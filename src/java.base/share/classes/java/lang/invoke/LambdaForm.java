@@ -1,1045 +1,1045 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import java.lang.annotation.*;
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.List;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import sun.invoke.util.Wrapper;
-import java.lang.reflect.Field;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import sun.invoke.util.Wrbpper;
+import jbvb.lbng.reflect.Field;
 
-import static java.lang.invoke.LambdaForm.BasicType.*;
-import static java.lang.invoke.MethodHandleStatics.*;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
+import stbtic jbvb.lbng.invoke.LbmbdbForm.BbsicType.*;
+import stbtic jbvb.lbng.invoke.MethodHbndleStbtics.*;
+import stbtic jbvb.lbng.invoke.MethodHbndleNbtives.Constbnts.*;
 
 /**
- * The symbolic, non-executable form of a method handle's invocation semantics.
- * It consists of a series of names.
- * The first N (N=arity) names are parameters,
- * while any remaining names are temporary values.
- * Each temporary specifies the application of a function to some arguments.
- * The functions are method handles, while the arguments are mixes of
- * constant values and local names.
- * The result of the lambda is defined as one of the names, often the last one.
+ * The symbolic, non-executbble form of b method hbndle's invocbtion sembntics.
+ * It consists of b series of nbmes.
+ * The first N (N=brity) nbmes bre pbrbmeters,
+ * while bny rembining nbmes bre temporbry vblues.
+ * Ebch temporbry specifies the bpplicbtion of b function to some brguments.
+ * The functions bre method hbndles, while the brguments bre mixes of
+ * constbnt vblues bnd locbl nbmes.
+ * The result of the lbmbdb is defined bs one of the nbmes, often the lbst one.
  * <p>
- * Here is an approximate grammar:
+ * Here is bn bpproximbte grbmmbr:
  * <blockquote><pre>{@code
- * LambdaForm = "(" ArgName* ")=>{" TempName* Result "}"
- * ArgName = "a" N ":" T
- * TempName = "t" N ":" T "=" Function "(" Argument* ");"
- * Function = ConstantValue
- * Argument = NameRef | ConstantValue
- * Result = NameRef | "void"
- * NameRef = "a" N | "t" N
- * N = (any whole number)
+ * LbmbdbForm = "(" ArgNbme* ")=>{" TempNbme* Result "}"
+ * ArgNbme = "b" N ":" T
+ * TempNbme = "t" N ":" T "=" Function "(" Argument* ");"
+ * Function = ConstbntVblue
+ * Argument = NbmeRef | ConstbntVblue
+ * Result = NbmeRef | "void"
+ * NbmeRef = "b" N | "t" N
+ * N = (bny whole number)
  * T = "L" | "I" | "J" | "F" | "D" | "V"
  * }</pre></blockquote>
- * Names are numbered consecutively from left to right starting at zero.
- * (The letters are merely a taste of syntax sugar.)
- * Thus, the first temporary (if any) is always numbered N (where N=arity).
- * Every occurrence of a name reference in an argument list must refer to
- * a name previously defined within the same lambda.
- * A lambda has a void result if and only if its result index is -1.
- * If a temporary has the type "V", it cannot be the subject of a NameRef,
- * even though possesses a number.
- * Note that all reference types are erased to "L", which stands for {@code Object}.
- * All subword types (boolean, byte, short, char) are erased to "I" which is {@code int}.
- * The other types stand for the usual primitive types.
+ * Nbmes bre numbered consecutively from left to right stbrting bt zero.
+ * (The letters bre merely b tbste of syntbx sugbr.)
+ * Thus, the first temporbry (if bny) is blwbys numbered N (where N=brity).
+ * Every occurrence of b nbme reference in bn brgument list must refer to
+ * b nbme previously defined within the sbme lbmbdb.
+ * A lbmbdb hbs b void result if bnd only if its result index is -1.
+ * If b temporbry hbs the type "V", it cbnnot be the subject of b NbmeRef,
+ * even though possesses b number.
+ * Note thbt bll reference types bre erbsed to "L", which stbnds for {@code Object}.
+ * All subword types (boolebn, byte, short, chbr) bre erbsed to "I" which is {@code int}.
+ * The other types stbnd for the usubl primitive types.
  * <p>
- * Function invocation closely follows the static rules of the Java verifier.
- * Arguments and return values must exactly match when their "Name" types are
+ * Function invocbtion closely follows the stbtic rules of the Jbvb verifier.
+ * Arguments bnd return vblues must exbctly mbtch when their "Nbme" types bre
  * considered.
- * Conversions are allowed only if they do not change the erased type.
+ * Conversions bre bllowed only if they do not chbnge the erbsed type.
  * <ul>
- * <li>L = Object: casts are used freely to convert into and out of reference types
- * <li>I = int: subword types are forcibly narrowed when passed as arguments (see {@code explicitCastArguments})
+ * <li>L = Object: cbsts bre used freely to convert into bnd out of reference types
+ * <li>I = int: subword types bre forcibly nbrrowed when pbssed bs brguments (see {@code explicitCbstArguments})
  * <li>J = long: no implicit conversions
- * <li>F = float: no implicit conversions
+ * <li>F = flobt: no implicit conversions
  * <li>D = double: no implicit conversions
- * <li>V = void: a function result may be void if and only if its Name is of type "V"
+ * <li>V = void: b function result mby be void if bnd only if its Nbme is of type "V"
  * </ul>
- * Although implicit conversions are not allowed, explicit ones can easily be
- * encoded by using temporary expressions which call type-transformed identity functions.
+ * Although implicit conversions bre not bllowed, explicit ones cbn ebsily be
+ * encoded by using temporbry expressions which cbll type-trbnsformed identity functions.
  * <p>
- * Examples:
+ * Exbmples:
  * <blockquote><pre>{@code
- * (a0:J)=>{ a0 }
+ * (b0:J)=>{ b0 }
  *     == identity(long)
- * (a0:I)=>{ t1:V = System.out#println(a0); void }
+ * (b0:I)=>{ t1:V = System.out#println(b0); void }
  *     == System.out#println(int)
- * (a0:L)=>{ t1:V = System.out#println(a0); a0 }
+ * (b0:L)=>{ t1:V = System.out#println(b0); b0 }
  *     == identity, with printing side-effect
- * (a0:L, a1:L)=>{ t2:L = BoundMethodHandle#argument(a0);
- *                 t3:L = BoundMethodHandle#target(a0);
- *                 t4:L = MethodHandle#invoke(t3, t2, a1); t4 }
- *     == general invoker for unary insertArgument combination
- * (a0:L, a1:L)=>{ t2:L = FilterMethodHandle#filter(a0);
- *                 t3:L = MethodHandle#invoke(t2, a1);
- *                 t4:L = FilterMethodHandle#target(a0);
- *                 t5:L = MethodHandle#invoke(t4, t3); t5 }
- *     == general invoker for unary filterArgument combination
- * (a0:L, a1:L)=>{ ...(same as previous example)...
- *                 t5:L = MethodHandle#invoke(t4, t3, a1); t5 }
- *     == general invoker for unary/unary foldArgument combination
- * (a0:L, a1:I)=>{ t2:I = identity(long).asType((int)->long)(a1); t2 }
- *     == invoker for identity method handle which performs i2l
- * (a0:L, a1:L)=>{ t2:L = BoundMethodHandle#argument(a0);
- *                 t3:L = Class#cast(t2,a1); t3 }
- *     == invoker for identity method handle which performs cast
+ * (b0:L, b1:L)=>{ t2:L = BoundMethodHbndle#brgument(b0);
+ *                 t3:L = BoundMethodHbndle#tbrget(b0);
+ *                 t4:L = MethodHbndle#invoke(t3, t2, b1); t4 }
+ *     == generbl invoker for unbry insertArgument combinbtion
+ * (b0:L, b1:L)=>{ t2:L = FilterMethodHbndle#filter(b0);
+ *                 t3:L = MethodHbndle#invoke(t2, b1);
+ *                 t4:L = FilterMethodHbndle#tbrget(b0);
+ *                 t5:L = MethodHbndle#invoke(t4, t3); t5 }
+ *     == generbl invoker for unbry filterArgument combinbtion
+ * (b0:L, b1:L)=>{ ...(sbme bs previous exbmple)...
+ *                 t5:L = MethodHbndle#invoke(t4, t3, b1); t5 }
+ *     == generbl invoker for unbry/unbry foldArgument combinbtion
+ * (b0:L, b1:I)=>{ t2:I = identity(long).bsType((int)->long)(b1); t2 }
+ *     == invoker for identity method hbndle which performs i2l
+ * (b0:L, b1:L)=>{ t2:L = BoundMethodHbndle#brgument(b0);
+ *                 t3:L = Clbss#cbst(t2,b1); t3 }
+ *     == invoker for identity method hbndle which performs cbst
  * }</pre></blockquote>
  * <p>
- * @author John Rose, JSR 292 EG
+ * @buthor John Rose, JSR 292 EG
  */
-class LambdaForm {
-    final int arity;
-    final int result;
-    @Stable final Name[] names;
-    final String debugName;
-    MemberName vmentry;   // low-level behavior, or null if not yet prepared
-    private boolean isCompiled;
+clbss LbmbdbForm {
+    finbl int brity;
+    finbl int result;
+    @Stbble finbl Nbme[] nbmes;
+    finbl String debugNbme;
+    MemberNbme vmentry;   // low-level behbvior, or null if not yet prepbred
+    privbte boolebn isCompiled;
 
-    // Caches for common structural transforms:
-    LambdaForm[] bindCache;
+    // Cbches for common structurbl trbnsforms:
+    LbmbdbForm[] bindCbche;
 
-    public static final int VOID_RESULT = -1, LAST_RESULT = -2;
+    public stbtic finbl int VOID_RESULT = -1, LAST_RESULT = -2;
 
-    enum BasicType {
-        L_TYPE('L', Object.class, Wrapper.OBJECT),  // all reference types
-        I_TYPE('I', int.class,    Wrapper.INT),
-        J_TYPE('J', long.class,   Wrapper.LONG),
-        F_TYPE('F', float.class,  Wrapper.FLOAT),
-        D_TYPE('D', double.class, Wrapper.DOUBLE),  // all primitive types
-        V_TYPE('V', void.class,   Wrapper.VOID);    // not valid in all contexts
+    enum BbsicType {
+        L_TYPE('L', Object.clbss, Wrbpper.OBJECT),  // bll reference types
+        I_TYPE('I', int.clbss,    Wrbpper.INT),
+        J_TYPE('J', long.clbss,   Wrbpper.LONG),
+        F_TYPE('F', flobt.clbss,  Wrbpper.FLOAT),
+        D_TYPE('D', double.clbss, Wrbpper.DOUBLE),  // bll primitive types
+        V_TYPE('V', void.clbss,   Wrbpper.VOID);    // not vblid in bll contexts
 
-        static final BasicType[] ALL_TYPES = BasicType.values();
-        static final BasicType[] ARG_TYPES = Arrays.copyOf(ALL_TYPES, ALL_TYPES.length-1);
+        stbtic finbl BbsicType[] ALL_TYPES = BbsicType.vblues();
+        stbtic finbl BbsicType[] ARG_TYPES = Arrbys.copyOf(ALL_TYPES, ALL_TYPES.length-1);
 
-        static final int ARG_TYPE_LIMIT = ARG_TYPES.length;
-        static final int TYPE_LIMIT = ALL_TYPES.length;
+        stbtic finbl int ARG_TYPE_LIMIT = ARG_TYPES.length;
+        stbtic finbl int TYPE_LIMIT = ALL_TYPES.length;
 
-        private final char btChar;
-        private final Class<?> btClass;
-        private final Wrapper btWrapper;
+        privbte finbl chbr btChbr;
+        privbte finbl Clbss<?> btClbss;
+        privbte finbl Wrbpper btWrbpper;
 
-        private BasicType(char btChar, Class<?> btClass, Wrapper wrapper) {
-            this.btChar = btChar;
-            this.btClass = btClass;
-            this.btWrapper = wrapper;
+        privbte BbsicType(chbr btChbr, Clbss<?> btClbss, Wrbpper wrbpper) {
+            this.btChbr = btChbr;
+            this.btClbss = btClbss;
+            this.btWrbpper = wrbpper;
         }
 
-        char basicTypeChar() {
-            return btChar;
+        chbr bbsicTypeChbr() {
+            return btChbr;
         }
-        Class<?> basicTypeClass() {
-            return btClass;
+        Clbss<?> bbsicTypeClbss() {
+            return btClbss;
         }
-        Wrapper basicTypeWrapper() {
-            return btWrapper;
+        Wrbpper bbsicTypeWrbpper() {
+            return btWrbpper;
         }
-        int basicTypeSlots() {
-            return btWrapper.stackSlots();
+        int bbsicTypeSlots() {
+            return btWrbpper.stbckSlots();
         }
 
-        static BasicType basicType(byte type) {
+        stbtic BbsicType bbsicType(byte type) {
             return ALL_TYPES[type];
         }
-        static BasicType basicType(char type) {
+        stbtic BbsicType bbsicType(chbr type) {
             switch (type) {
-                case 'L': return L_TYPE;
-                case 'I': return I_TYPE;
-                case 'J': return J_TYPE;
-                case 'F': return F_TYPE;
-                case 'D': return D_TYPE;
-                case 'V': return V_TYPE;
-                // all subword types are represented as ints
-                case 'Z':
-                case 'B':
-                case 'S':
-                case 'C':
+                cbse 'L': return L_TYPE;
+                cbse 'I': return I_TYPE;
+                cbse 'J': return J_TYPE;
+                cbse 'F': return F_TYPE;
+                cbse 'D': return D_TYPE;
+                cbse 'V': return V_TYPE;
+                // bll subword types bre represented bs ints
+                cbse 'Z':
+                cbse 'B':
+                cbse 'S':
+                cbse 'C':
                     return I_TYPE;
-                default:
-                    throw newInternalError("Unknown type char: '"+type+"'");
+                defbult:
+                    throw newInternblError("Unknown type chbr: '"+type+"'");
             }
         }
-        static BasicType basicType(Wrapper type) {
-            char c = type.basicTypeChar();
-            return basicType(c);
+        stbtic BbsicType bbsicType(Wrbpper type) {
+            chbr c = type.bbsicTypeChbr();
+            return bbsicType(c);
         }
-        static BasicType basicType(Class<?> type) {
+        stbtic BbsicType bbsicType(Clbss<?> type) {
             if (!type.isPrimitive())  return L_TYPE;
-            return basicType(Wrapper.forPrimitiveType(type));
+            return bbsicType(Wrbpper.forPrimitiveType(type));
         }
 
-        static char basicTypeChar(Class<?> type) {
-            return basicType(type).btChar;
+        stbtic chbr bbsicTypeChbr(Clbss<?> type) {
+            return bbsicType(type).btChbr;
         }
-        static BasicType[] basicTypes(List<Class<?>> types) {
-            BasicType[] btypes = new BasicType[types.size()];
+        stbtic BbsicType[] bbsicTypes(List<Clbss<?>> types) {
+            BbsicType[] btypes = new BbsicType[types.size()];
             for (int i = 0; i < btypes.length; i++) {
-                btypes[i] = basicType(types.get(i));
+                btypes[i] = bbsicType(types.get(i));
             }
             return btypes;
         }
-        static BasicType[] basicTypes(String types) {
-            BasicType[] btypes = new BasicType[types.length()];
+        stbtic BbsicType[] bbsicTypes(String types) {
+            BbsicType[] btypes = new BbsicType[types.length()];
             for (int i = 0; i < btypes.length; i++) {
-                btypes[i] = basicType(types.charAt(i));
+                btypes[i] = bbsicType(types.chbrAt(i));
             }
             return btypes;
         }
-        static boolean isBasicTypeChar(char c) {
+        stbtic boolebn isBbsicTypeChbr(chbr c) {
             return "LIJFDV".indexOf(c) >= 0;
         }
-        static boolean isArgBasicTypeChar(char c) {
+        stbtic boolebn isArgBbsicTypeChbr(chbr c) {
             return "LIJFD".indexOf(c) >= 0;
         }
 
-        static { assert(checkBasicType()); }
-        private static boolean checkBasicType() {
+        stbtic { bssert(checkBbsicType()); }
+        privbte stbtic boolebn checkBbsicType() {
             for (int i = 0; i < ARG_TYPE_LIMIT; i++) {
-                assert ARG_TYPES[i].ordinal() == i;
-                assert ARG_TYPES[i] == ALL_TYPES[i];
+                bssert ARG_TYPES[i].ordinbl() == i;
+                bssert ARG_TYPES[i] == ALL_TYPES[i];
             }
             for (int i = 0; i < TYPE_LIMIT; i++) {
-                assert ALL_TYPES[i].ordinal() == i;
+                bssert ALL_TYPES[i].ordinbl() == i;
             }
-            assert ALL_TYPES[TYPE_LIMIT - 1] == V_TYPE;
-            assert !Arrays.asList(ARG_TYPES).contains(V_TYPE);
+            bssert ALL_TYPES[TYPE_LIMIT - 1] == V_TYPE;
+            bssert !Arrbys.bsList(ARG_TYPES).contbins(V_TYPE);
             return true;
         }
     }
 
-    LambdaForm(String debugName,
-               int arity, Name[] names, int result) {
-        assert(namesOK(arity, names));
-        this.arity = arity;
-        this.result = fixResult(result, names);
-        this.names = names.clone();
-        this.debugName = fixDebugName(debugName);
-        normalize();
+    LbmbdbForm(String debugNbme,
+               int brity, Nbme[] nbmes, int result) {
+        bssert(nbmesOK(brity, nbmes));
+        this.brity = brity;
+        this.result = fixResult(result, nbmes);
+        this.nbmes = nbmes.clone();
+        this.debugNbme = fixDebugNbme(debugNbme);
+        normblize();
     }
 
-    LambdaForm(String debugName,
-               int arity, Name[] names) {
-        this(debugName,
-             arity, names, LAST_RESULT);
+    LbmbdbForm(String debugNbme,
+               int brity, Nbme[] nbmes) {
+        this(debugNbme,
+             brity, nbmes, LAST_RESULT);
     }
 
-    LambdaForm(String debugName,
-               Name[] formals, Name[] temps, Name result) {
-        this(debugName,
-             formals.length, buildNames(formals, temps, result), LAST_RESULT);
+    LbmbdbForm(String debugNbme,
+               Nbme[] formbls, Nbme[] temps, Nbme result) {
+        this(debugNbme,
+             formbls.length, buildNbmes(formbls, temps, result), LAST_RESULT);
     }
 
-    private static Name[] buildNames(Name[] formals, Name[] temps, Name result) {
-        int arity = formals.length;
-        int length = arity + temps.length + (result == null ? 0 : 1);
-        Name[] names = Arrays.copyOf(formals, length);
-        System.arraycopy(temps, 0, names, arity, temps.length);
+    privbte stbtic Nbme[] buildNbmes(Nbme[] formbls, Nbme[] temps, Nbme result) {
+        int brity = formbls.length;
+        int length = brity + temps.length + (result == null ? 0 : 1);
+        Nbme[] nbmes = Arrbys.copyOf(formbls, length);
+        System.brrbycopy(temps, 0, nbmes, brity, temps.length);
         if (result != null)
-            names[length - 1] = result;
-        return names;
+            nbmes[length - 1] = result;
+        return nbmes;
     }
 
-    private LambdaForm(String sig) {
-        // Make a blank lambda form, which returns a constant zero or null.
-        // It is used as a template for managing the invocation of similar forms that are non-empty.
-        // Called only from getPreparedForm.
-        assert(isValidSignature(sig));
-        this.arity = signatureArity(sig);
-        this.result = (signatureReturn(sig) == V_TYPE ? -1 : arity);
-        this.names = buildEmptyNames(arity, sig);
-        this.debugName = "LF.zero";
-        assert(nameRefsAreLegal());
-        assert(isEmpty());
-        assert(sig.equals(basicTypeSignature())) : sig + " != " + basicTypeSignature();
+    privbte LbmbdbForm(String sig) {
+        // Mbke b blbnk lbmbdb form, which returns b constbnt zero or null.
+        // It is used bs b templbte for mbnbging the invocbtion of similbr forms thbt bre non-empty.
+        // Cblled only from getPrepbredForm.
+        bssert(isVblidSignbture(sig));
+        this.brity = signbtureArity(sig);
+        this.result = (signbtureReturn(sig) == V_TYPE ? -1 : brity);
+        this.nbmes = buildEmptyNbmes(brity, sig);
+        this.debugNbme = "LF.zero";
+        bssert(nbmeRefsAreLegbl());
+        bssert(isEmpty());
+        bssert(sig.equbls(bbsicTypeSignbture())) : sig + " != " + bbsicTypeSignbture();
     }
 
-    private static Name[] buildEmptyNames(int arity, String basicTypeSignature) {
-        assert(isValidSignature(basicTypeSignature));
-        int resultPos = arity + 1;  // skip '_'
-        if (arity < 0 || basicTypeSignature.length() != resultPos+1)
-            throw new IllegalArgumentException("bad arity for "+basicTypeSignature);
-        int numRes = (basicType(basicTypeSignature.charAt(resultPos)) == V_TYPE ? 0 : 1);
-        Name[] names = arguments(numRes, basicTypeSignature.substring(0, arity));
+    privbte stbtic Nbme[] buildEmptyNbmes(int brity, String bbsicTypeSignbture) {
+        bssert(isVblidSignbture(bbsicTypeSignbture));
+        int resultPos = brity + 1;  // skip '_'
+        if (brity < 0 || bbsicTypeSignbture.length() != resultPos+1)
+            throw new IllegblArgumentException("bbd brity for "+bbsicTypeSignbture);
+        int numRes = (bbsicType(bbsicTypeSignbture.chbrAt(resultPos)) == V_TYPE ? 0 : 1);
+        Nbme[] nbmes = brguments(numRes, bbsicTypeSignbture.substring(0, brity));
         for (int i = 0; i < numRes; i++) {
-            Name zero = new Name(constantZero(basicType(basicTypeSignature.charAt(resultPos + i))));
-            names[arity + i] = zero.newIndex(arity + i);
+            Nbme zero = new Nbme(constbntZero(bbsicType(bbsicTypeSignbture.chbrAt(resultPos + i))));
+            nbmes[brity + i] = zero.newIndex(brity + i);
         }
-        return names;
+        return nbmes;
     }
 
-    private static int fixResult(int result, Name[] names) {
+    privbte stbtic int fixResult(int result, Nbme[] nbmes) {
         if (result == LAST_RESULT)
-            result = names.length - 1;  // might still be void
-        if (result >= 0 && names[result].type == V_TYPE)
+            result = nbmes.length - 1;  // might still be void
+        if (result >= 0 && nbmes[result].type == V_TYPE)
             result = VOID_RESULT;
         return result;
     }
 
-    private static String fixDebugName(String debugName) {
+    privbte stbtic String fixDebugNbme(String debugNbme) {
         if (DEBUG_NAME_COUNTERS != null) {
-            int under = debugName.indexOf('_');
-            int length = debugName.length();
+            int under = debugNbme.indexOf('_');
+            int length = debugNbme.length();
             if (under < 0)  under = length;
-            String debugNameStem = debugName.substring(0, under);
+            String debugNbmeStem = debugNbme.substring(0, under);
             Integer ctr;
             synchronized (DEBUG_NAME_COUNTERS) {
-                ctr = DEBUG_NAME_COUNTERS.get(debugNameStem);
+                ctr = DEBUG_NAME_COUNTERS.get(debugNbmeStem);
                 if (ctr == null)  ctr = 0;
-                DEBUG_NAME_COUNTERS.put(debugNameStem, ctr+1);
+                DEBUG_NAME_COUNTERS.put(debugNbmeStem, ctr+1);
             }
-            StringBuilder buf = new StringBuilder(debugNameStem);
-            buf.append('_');
-            int leadingZero = buf.length();
-            buf.append((int) ctr);
-            for (int i = buf.length() - leadingZero; i < 3; i++)
-                buf.insert(leadingZero, '0');
+            StringBuilder buf = new StringBuilder(debugNbmeStem);
+            buf.bppend('_');
+            int lebdingZero = buf.length();
+            buf.bppend((int) ctr);
+            for (int i = buf.length() - lebdingZero; i < 3; i++)
+                buf.insert(lebdingZero, '0');
             if (under < length) {
                 ++under;    // skip "_"
-                while (under < length && Character.isDigit(debugName.charAt(under))) {
+                while (under < length && Chbrbcter.isDigit(debugNbme.chbrAt(under))) {
                     ++under;
                 }
-                if (under < length && debugName.charAt(under) == '_')  ++under;
+                if (under < length && debugNbme.chbrAt(under) == '_')  ++under;
                 if (under < length)
-                    buf.append('_').append(debugName, under, length);
+                    buf.bppend('_').bppend(debugNbme, under, length);
             }
             return buf.toString();
         }
-        return debugName;
+        return debugNbme;
     }
 
-    private static boolean namesOK(int arity, Name[] names) {
-        for (int i = 0; i < names.length; i++) {
-            Name n = names[i];
-            assert(n != null) : "n is null";
-            if (i < arity)
-                assert( n.isParam()) : n + " is not param at " + i;
+    privbte stbtic boolebn nbmesOK(int brity, Nbme[] nbmes) {
+        for (int i = 0; i < nbmes.length; i++) {
+            Nbme n = nbmes[i];
+            bssert(n != null) : "n is null";
+            if (i < brity)
+                bssert( n.isPbrbm()) : n + " is not pbrbm bt " + i;
             else
-                assert(!n.isParam()) : n + " is param at " + i;
+                bssert(!n.isPbrbm()) : n + " is pbrbm bt " + i;
         }
         return true;
     }
 
-    /** Renumber and/or replace params so that they are interned and canonically numbered. */
-    private void normalize() {
-        Name[] oldNames = null;
-        int changesStart = 0;
-        for (int i = 0; i < names.length; i++) {
-            Name n = names[i];
+    /** Renumber bnd/or replbce pbrbms so thbt they bre interned bnd cbnonicblly numbered. */
+    privbte void normblize() {
+        Nbme[] oldNbmes = null;
+        int chbngesStbrt = 0;
+        for (int i = 0; i < nbmes.length; i++) {
+            Nbme n = nbmes[i];
             if (!n.initIndex(i)) {
-                if (oldNames == null) {
-                    oldNames = names.clone();
-                    changesStart = i;
+                if (oldNbmes == null) {
+                    oldNbmes = nbmes.clone();
+                    chbngesStbrt = i;
                 }
-                names[i] = n.cloneWithIndex(i);
+                nbmes[i] = n.cloneWithIndex(i);
             }
         }
-        if (oldNames != null) {
-            int startFixing = arity;
-            if (startFixing <= changesStart)
-                startFixing = changesStart+1;
-            for (int i = startFixing; i < names.length; i++) {
-                Name fixed = names[i].replaceNames(oldNames, names, changesStart, i);
-                names[i] = fixed.newIndex(i);
+        if (oldNbmes != null) {
+            int stbrtFixing = brity;
+            if (stbrtFixing <= chbngesStbrt)
+                stbrtFixing = chbngesStbrt+1;
+            for (int i = stbrtFixing; i < nbmes.length; i++) {
+                Nbme fixed = nbmes[i].replbceNbmes(oldNbmes, nbmes, chbngesStbrt, i);
+                nbmes[i] = fixed.newIndex(i);
             }
         }
-        assert(nameRefsAreLegal());
-        int maxInterned = Math.min(arity, INTERNED_ARGUMENT_LIMIT);
-        boolean needIntern = false;
-        for (int i = 0; i < maxInterned; i++) {
-            Name n = names[i], n2 = internArgument(n);
+        bssert(nbmeRefsAreLegbl());
+        int mbxInterned = Mbth.min(brity, INTERNED_ARGUMENT_LIMIT);
+        boolebn needIntern = fblse;
+        for (int i = 0; i < mbxInterned; i++) {
+            Nbme n = nbmes[i], n2 = internArgument(n);
             if (n != n2) {
-                names[i] = n2;
+                nbmes[i] = n2;
                 needIntern = true;
             }
         }
         if (needIntern) {
-            for (int i = arity; i < names.length; i++) {
-                names[i].internArguments();
+            for (int i = brity; i < nbmes.length; i++) {
+                nbmes[i].internArguments();
             }
-            assert(nameRefsAreLegal());
+            bssert(nbmeRefsAreLegbl());
         }
     }
 
     /**
-     * Check that all embedded Name references are localizable to this lambda,
-     * and are properly ordered after their corresponding definitions.
+     * Check thbt bll embedded Nbme references bre locblizbble to this lbmbdb,
+     * bnd bre properly ordered bfter their corresponding definitions.
      * <p>
-     * Note that a Name can be local to multiple lambdas, as long as
-     * it possesses the same index in each use site.
-     * This allows Name references to be freely reused to construct
-     * fresh lambdas, without confusion.
+     * Note thbt b Nbme cbn be locbl to multiple lbmbdbs, bs long bs
+     * it possesses the sbme index in ebch use site.
+     * This bllows Nbme references to be freely reused to construct
+     * fresh lbmbdbs, without confusion.
      */
-    private boolean nameRefsAreLegal() {
-        assert(arity >= 0 && arity <= names.length);
-        assert(result >= -1 && result < names.length);
-        // Do all names possess an index consistent with their local definition order?
-        for (int i = 0; i < arity; i++) {
-            Name n = names[i];
-            assert(n.index() == i) : Arrays.asList(n.index(), i);
-            assert(n.isParam());
+    privbte boolebn nbmeRefsAreLegbl() {
+        bssert(brity >= 0 && brity <= nbmes.length);
+        bssert(result >= -1 && result < nbmes.length);
+        // Do bll nbmes possess bn index consistent with their locbl definition order?
+        for (int i = 0; i < brity; i++) {
+            Nbme n = nbmes[i];
+            bssert(n.index() == i) : Arrbys.bsList(n.index(), i);
+            bssert(n.isPbrbm());
         }
-        // Also, do all local name references
-        for (int i = arity; i < names.length; i++) {
-            Name n = names[i];
-            assert(n.index() == i);
-            for (Object arg : n.arguments) {
-                if (arg instanceof Name) {
-                    Name n2 = (Name) arg;
+        // Also, do bll locbl nbme references
+        for (int i = brity; i < nbmes.length; i++) {
+            Nbme n = nbmes[i];
+            bssert(n.index() == i);
+            for (Object brg : n.brguments) {
+                if (brg instbnceof Nbme) {
+                    Nbme n2 = (Nbme) brg;
                     int i2 = n2.index;
-                    assert(0 <= i2 && i2 < names.length) : n.debugString() + ": 0 <= i2 && i2 < names.length: 0 <= " + i2 + " < " + names.length;
-                    assert(names[i2] == n2) : Arrays.asList("-1-", i, "-2-", n.debugString(), "-3-", i2, "-4-", n2.debugString(), "-5-", names[i2].debugString(), "-6-", this);
-                    assert(i2 < i);  // ref must come after def!
+                    bssert(0 <= i2 && i2 < nbmes.length) : n.debugString() + ": 0 <= i2 && i2 < nbmes.length: 0 <= " + i2 + " < " + nbmes.length;
+                    bssert(nbmes[i2] == n2) : Arrbys.bsList("-1-", i, "-2-", n.debugString(), "-3-", i2, "-4-", n2.debugString(), "-5-", nbmes[i2].debugString(), "-6-", this);
+                    bssert(i2 < i);  // ref must come bfter def!
                 }
             }
         }
         return true;
     }
 
-    /** Invoke this form on the given arguments. */
-    // final Object invoke(Object... args) throws Throwable {
-    //     // NYI: fit this into the fast path?
-    //     return interpretWithArguments(args);
+    /** Invoke this form on the given brguments. */
+    // finbl Object invoke(Object... brgs) throws Throwbble {
+    //     // NYI: fit this into the fbst pbth?
+    //     return interpretWithArguments(brgs);
     // }
 
     /** Report the return type. */
-    BasicType returnType() {
+    BbsicType returnType() {
         if (result < 0)  return V_TYPE;
-        Name n = names[result];
+        Nbme n = nbmes[result];
         return n.type;
     }
 
-    /** Report the N-th argument type. */
-    BasicType parameterType(int n) {
-        assert(n < arity);
-        return names[n].type;
+    /** Report the N-th brgument type. */
+    BbsicType pbrbmeterType(int n) {
+        bssert(n < brity);
+        return nbmes[n].type;
     }
 
-    /** Report the arity. */
-    int arity() {
-        return arity;
+    /** Report the brity. */
+    int brity() {
+        return brity;
     }
 
-    /** Return the method type corresponding to my basic type signature. */
+    /** Return the method type corresponding to my bbsic type signbture. */
     MethodType methodType() {
-        return signatureType(basicTypeSignature());
+        return signbtureType(bbsicTypeSignbture());
     }
-    /** Return ABC_Z, where the ABC are parameter type characters, and Z is the return type character. */
-    final String basicTypeSignature() {
-        StringBuilder buf = new StringBuilder(arity() + 3);
-        for (int i = 0, a = arity(); i < a; i++)
-            buf.append(parameterType(i).basicTypeChar());
-        return buf.append('_').append(returnType().basicTypeChar()).toString();
+    /** Return ABC_Z, where the ABC bre pbrbmeter type chbrbcters, bnd Z is the return type chbrbcter. */
+    finbl String bbsicTypeSignbture() {
+        StringBuilder buf = new StringBuilder(brity() + 3);
+        for (int i = 0, b = brity(); i < b; i++)
+            buf.bppend(pbrbmeterType(i).bbsicTypeChbr());
+        return buf.bppend('_').bppend(returnType().bbsicTypeChbr()).toString();
     }
-    static int signatureArity(String sig) {
-        assert(isValidSignature(sig));
+    stbtic int signbtureArity(String sig) {
+        bssert(isVblidSignbture(sig));
         return sig.indexOf('_');
     }
-    static BasicType signatureReturn(String sig) {
-        return basicType(sig.charAt(signatureArity(sig)+1));
+    stbtic BbsicType signbtureReturn(String sig) {
+        return bbsicType(sig.chbrAt(signbtureArity(sig)+1));
     }
-    static boolean isValidSignature(String sig) {
-        int arity = sig.indexOf('_');
-        if (arity < 0)  return false;  // must be of the form *_*
+    stbtic boolebn isVblidSignbture(String sig) {
+        int brity = sig.indexOf('_');
+        if (brity < 0)  return fblse;  // must be of the form *_*
         int siglen = sig.length();
-        if (siglen != arity + 2)  return false;  // *_X
+        if (siglen != brity + 2)  return fblse;  // *_X
         for (int i = 0; i < siglen; i++) {
-            if (i == arity)  continue;  // skip '_'
-            char c = sig.charAt(i);
+            if (i == brity)  continue;  // skip '_'
+            chbr c = sig.chbrAt(i);
             if (c == 'V')
-                return (i == siglen - 1 && arity == siglen - 2);
-            if (!isArgBasicTypeChar(c))  return false; // must be [LIJFD]
+                return (i == siglen - 1 && brity == siglen - 2);
+            if (!isArgBbsicTypeChbr(c))  return fblse; // must be [LIJFD]
         }
         return true;  // [LIJFD]*_[LIJFDV]
     }
-    static MethodType signatureType(String sig) {
-        Class<?>[] ptypes = new Class<?>[signatureArity(sig)];
+    stbtic MethodType signbtureType(String sig) {
+        Clbss<?>[] ptypes = new Clbss<?>[signbtureArity(sig)];
         for (int i = 0; i < ptypes.length; i++)
-            ptypes[i] = basicType(sig.charAt(i)).btClass;
-        Class<?> rtype = signatureReturn(sig).btClass;
+            ptypes[i] = bbsicType(sig.chbrAt(i)).btClbss;
+        Clbss<?> rtype = signbtureReturn(sig).btClbss;
         return MethodType.methodType(rtype, ptypes);
     }
 
     /*
-     * Code generation issues:
+     * Code generbtion issues:
      *
-     * Compiled LFs should be reusable in general.
-     * The biggest issue is how to decide when to pull a name into
-     * the bytecode, versus loading a reified form from the MH data.
+     * Compiled LFs should be reusbble in generbl.
+     * The biggest issue is how to decide when to pull b nbme into
+     * the bytecode, versus lobding b reified form from the MH dbtb.
      *
-     * For example, an asType wrapper may require execution of a cast
-     * after a call to a MH.  The target type of the cast can be placed
-     * as a constant in the LF itself.  This will force the cast type
-     * to be compiled into the bytecodes and native code for the MH.
-     * Or, the target type of the cast can be erased in the LF, and
-     * loaded from the MH data.  (Later on, if the MH as a whole is
-     * inlined, the data will flow into the inlined instance of the LF,
-     * as a constant, and the end result will be an optimal cast.)
+     * For exbmple, bn bsType wrbpper mby require execution of b cbst
+     * bfter b cbll to b MH.  The tbrget type of the cbst cbn be plbced
+     * bs b constbnt in the LF itself.  This will force the cbst type
+     * to be compiled into the bytecodes bnd nbtive code for the MH.
+     * Or, the tbrget type of the cbst cbn be erbsed in the LF, bnd
+     * lobded from the MH dbtb.  (Lbter on, if the MH bs b whole is
+     * inlined, the dbtb will flow into the inlined instbnce of the LF,
+     * bs b constbnt, bnd the end result will be bn optimbl cbst.)
      *
-     * This erasure of cast types can be done with any use of
-     * reference types.  It can also be done with whole method
-     * handles.  Erasing a method handle might leave behind
-     * LF code that executes correctly for any MH of a given
-     * type, and load the required MH from the enclosing MH's data.
-     * Or, the erasure might even erase the expected MT.
+     * This erbsure of cbst types cbn be done with bny use of
+     * reference types.  It cbn blso be done with whole method
+     * hbndles.  Erbsing b method hbndle might lebve behind
+     * LF code thbt executes correctly for bny MH of b given
+     * type, bnd lobd the required MH from the enclosing MH's dbtb.
+     * Or, the erbsure might even erbse the expected MT.
      *
-     * Also, for direct MHs, the MemberName of the target
-     * could be erased, and loaded from the containing direct MH.
-     * As a simple case, a LF for all int-valued non-static
-     * field getters would perform a cast on its input argument
-     * (to non-constant base type derived from the MemberName)
-     * and load an integer value from the input object
-     * (at a non-constant offset also derived from the MemberName).
-     * Such MN-erased LFs would be inlinable back to optimized
-     * code, whenever a constant enclosing DMH is available
-     * to supply a constant MN from its data.
+     * Also, for direct MHs, the MemberNbme of the tbrget
+     * could be erbsed, bnd lobded from the contbining direct MH.
+     * As b simple cbse, b LF for bll int-vblued non-stbtic
+     * field getters would perform b cbst on its input brgument
+     * (to non-constbnt bbse type derived from the MemberNbme)
+     * bnd lobd bn integer vblue from the input object
+     * (bt b non-constbnt offset blso derived from the MemberNbme).
+     * Such MN-erbsed LFs would be inlinbble bbck to optimized
+     * code, whenever b constbnt enclosing DMH is bvbilbble
+     * to supply b constbnt MN from its dbtb.
      *
-     * The main problem here is to keep LFs reasonably generic,
-     * while ensuring that hot spots will inline good instances.
-     * "Reasonably generic" means that we don't end up with
-     * repeated versions of bytecode or machine code that do
-     * not differ in their optimized form.  Repeated versions
-     * of machine would have the undesirable overheads of
-     * (a) redundant compilation work and (b) extra I$ pressure.
-     * To control repeated versions, we need to be ready to
-     * erase details from LFs and move them into MH data,
-     * whevener those details are not relevant to significant
-     * optimization.  "Significant" means optimization of
-     * code that is actually hot.
+     * The mbin problem here is to keep LFs rebsonbbly generic,
+     * while ensuring thbt hot spots will inline good instbnces.
+     * "Rebsonbbly generic" mebns thbt we don't end up with
+     * repebted versions of bytecode or mbchine code thbt do
+     * not differ in their optimized form.  Repebted versions
+     * of mbchine would hbve the undesirbble overhebds of
+     * (b) redundbnt compilbtion work bnd (b) extrb I$ pressure.
+     * To control repebted versions, we need to be rebdy to
+     * erbse detbils from LFs bnd move them into MH dbtb,
+     * whevener those detbils bre not relevbnt to significbnt
+     * optimizbtion.  "Significbnt" mebns optimizbtion of
+     * code thbt is bctublly hot.
      *
-     * Achieving this may require dynamic splitting of MHs, by replacing
-     * a generic LF with a more specialized one, on the same MH,
-     * if (a) the MH is frequently executed and (b) the MH cannot
-     * be inlined into a containing caller, such as an invokedynamic.
+     * Achieving this mby require dynbmic splitting of MHs, by replbcing
+     * b generic LF with b more speciblized one, on the sbme MH,
+     * if (b) the MH is frequently executed bnd (b) the MH cbnnot
+     * be inlined into b contbining cbller, such bs bn invokedynbmic.
      *
-     * Compiled LFs that are no longer used should be GC-able.
-     * If they contain non-BCP references, they should be properly
-     * interlinked with the class loader(s) that their embedded types
-     * depend on.  This probably means that reusable compiled LFs
-     * will be tabulated (indexed) on relevant class loaders,
-     * or else that the tables that cache them will have weak links.
+     * Compiled LFs thbt bre no longer used should be GC-bble.
+     * If they contbin non-BCP references, they should be properly
+     * interlinked with the clbss lobder(s) thbt their embedded types
+     * depend on.  This probbbly mebns thbt reusbble compiled LFs
+     * will be tbbulbted (indexed) on relevbnt clbss lobders,
+     * or else thbt the tbbles thbt cbche them will hbve webk links.
      */
 
     /**
-     * Make this LF directly executable, as part of a MethodHandle.
-     * Invariant:  Every MH which is invoked must prepare its LF
-     * before invocation.
-     * (In principle, the JVM could do this very lazily,
-     * as a sort of pre-invocation linkage step.)
+     * Mbke this LF directly executbble, bs pbrt of b MethodHbndle.
+     * Invbribnt:  Every MH which is invoked must prepbre its LF
+     * before invocbtion.
+     * (In principle, the JVM could do this very lbzily,
+     * bs b sort of pre-invocbtion linkbge step.)
      */
-    public void prepare() {
+    public void prepbre() {
         if (COMPILE_THRESHOLD == 0) {
             compileToBytecode();
         }
         if (this.vmentry != null) {
-            // already prepared (e.g., a primitive DMH invoker form)
+            // blrebdy prepbred (e.g., b primitive DMH invoker form)
             return;
         }
-        LambdaForm prep = getPreparedForm(basicTypeSignature());
+        LbmbdbForm prep = getPrepbredForm(bbsicTypeSignbture());
         this.vmentry = prep.vmentry;
-        // TO DO: Maybe add invokeGeneric, invokeWithArguments
+        // TO DO: Mbybe bdd invokeGeneric, invokeWithArguments
     }
 
-    /** Generate optimizable bytecode for this form. */
-    MemberName compileToBytecode() {
+    /** Generbte optimizbble bytecode for this form. */
+    MemberNbme compileToBytecode() {
         MethodType invokerType = methodType();
-        assert(vmentry == null || vmentry.getMethodType().basicType().equals(invokerType));
+        bssert(vmentry == null || vmentry.getMethodType().bbsicType().equbls(invokerType));
         if (vmentry != null && isCompiled) {
-            return vmentry;  // already compiled somehow
+            return vmentry;  // blrebdy compiled somehow
         }
         try {
-            vmentry = InvokerBytecodeGenerator.generateCustomizedCode(this, invokerType);
+            vmentry = InvokerBytecodeGenerbtor.generbteCustomizedCode(this, invokerType);
             if (TRACE_INTERPRETER)
-                traceInterpreter("compileToBytecode", this);
+                trbceInterpreter("compileToBytecode", this);
             isCompiled = true;
             return vmentry;
-        } catch (Error | Exception ex) {
-            throw newInternalError("compileToBytecode", ex);
+        } cbtch (Error | Exception ex) {
+            throw newInternblError("compileToBytecode", ex);
         }
     }
 
-    private static final ConcurrentHashMap<String,LambdaForm> PREPARED_FORMS;
-    static {
-        int   capacity   = 512;    // expect many distinct signatures over time
-        float loadFactor = 0.75f;  // normal default
+    privbte stbtic finbl ConcurrentHbshMbp<String,LbmbdbForm> PREPARED_FORMS;
+    stbtic {
+        int   cbpbcity   = 512;    // expect mbny distinct signbtures over time
+        flobt lobdFbctor = 0.75f;  // normbl defbult
         int   writers    = 1;
-        PREPARED_FORMS = new ConcurrentHashMap<>(capacity, loadFactor, writers);
+        PREPARED_FORMS = new ConcurrentHbshMbp<>(cbpbcity, lobdFbctor, writers);
     }
 
-    private static Map<String,LambdaForm> computeInitialPreparedForms() {
-        // Find all predefined invokers and associate them with canonical empty lambda forms.
-        HashMap<String,LambdaForm> forms = new HashMap<>();
-        for (MemberName m : MemberName.getFactory().getMethods(LambdaForm.class, false, null, null, null)) {
-            if (!m.isStatic() || !m.isPackage())  continue;
+    privbte stbtic Mbp<String,LbmbdbForm> computeInitiblPrepbredForms() {
+        // Find bll predefined invokers bnd bssocibte them with cbnonicbl empty lbmbdb forms.
+        HbshMbp<String,LbmbdbForm> forms = new HbshMbp<>();
+        for (MemberNbme m : MemberNbme.getFbctory().getMethods(LbmbdbForm.clbss, fblse, null, null, null)) {
+            if (!m.isStbtic() || !m.isPbckbge())  continue;
             MethodType mt = m.getMethodType();
-            if (mt.parameterCount() > 0 &&
-                mt.parameterType(0) == MethodHandle.class &&
-                m.getName().startsWith("interpret_")) {
-                String sig = basicTypeSignature(mt);
-                assert(m.getName().equals("interpret" + sig.substring(sig.indexOf('_'))));
-                LambdaForm form = new LambdaForm(sig);
+            if (mt.pbrbmeterCount() > 0 &&
+                mt.pbrbmeterType(0) == MethodHbndle.clbss &&
+                m.getNbme().stbrtsWith("interpret_")) {
+                String sig = bbsicTypeSignbture(mt);
+                bssert(m.getNbme().equbls("interpret" + sig.substring(sig.indexOf('_'))));
+                LbmbdbForm form = new LbmbdbForm(sig);
                 form.vmentry = m;
-                form = mt.form().setCachedLambdaForm(MethodTypeForm.LF_COUNTER, form);
-                // FIXME: get rid of PREPARED_FORMS; use MethodTypeForm cache only
+                form = mt.form().setCbchedLbmbdbForm(MethodTypeForm.LF_COUNTER, form);
+                // FIXME: get rid of PREPARED_FORMS; use MethodTypeForm cbche only
                 forms.put(sig, form);
             }
         }
-        //System.out.println("computeInitialPreparedForms => "+forms);
+        //System.out.println("computeInitiblPrepbredForms => "+forms);
         return forms;
     }
 
-    // Set this false to disable use of the interpret_L methods defined in this file.
-    private static final boolean USE_PREDEFINED_INTERPRET_METHODS = true;
+    // Set this fblse to disbble use of the interpret_L methods defined in this file.
+    privbte stbtic finbl boolebn USE_PREDEFINED_INTERPRET_METHODS = true;
 
-    // The following are predefined exact invokers.  The system must build
-    // a separate invoker for each distinct signature.
-    static Object interpret_L(MethodHandle mh) throws Throwable {
-        Object[] av = {mh};
+    // The following bre predefined exbct invokers.  The system must build
+    // b sepbrbte invoker for ebch distinct signbture.
+    stbtic Object interpret_L(MethodHbndle mh) throws Throwbble {
+        Object[] bv = {mh};
         String sig = null;
-        assert(argumentTypesMatch(sig = "L_L", av));
-        Object res = mh.form.interpretWithArguments(av);
-        assert(returnTypesMatch(sig, av, res));
+        bssert(brgumentTypesMbtch(sig = "L_L", bv));
+        Object res = mh.form.interpretWithArguments(bv);
+        bssert(returnTypesMbtch(sig, bv, res));
         return res;
     }
-    static Object interpret_L(MethodHandle mh, Object x1) throws Throwable {
-        Object[] av = {mh, x1};
+    stbtic Object interpret_L(MethodHbndle mh, Object x1) throws Throwbble {
+        Object[] bv = {mh, x1};
         String sig = null;
-        assert(argumentTypesMatch(sig = "LL_L", av));
-        Object res = mh.form.interpretWithArguments(av);
-        assert(returnTypesMatch(sig, av, res));
+        bssert(brgumentTypesMbtch(sig = "LL_L", bv));
+        Object res = mh.form.interpretWithArguments(bv);
+        bssert(returnTypesMbtch(sig, bv, res));
         return res;
     }
-    static Object interpret_L(MethodHandle mh, Object x1, Object x2) throws Throwable {
-        Object[] av = {mh, x1, x2};
+    stbtic Object interpret_L(MethodHbndle mh, Object x1, Object x2) throws Throwbble {
+        Object[] bv = {mh, x1, x2};
         String sig = null;
-        assert(argumentTypesMatch(sig = "LLL_L", av));
-        Object res = mh.form.interpretWithArguments(av);
-        assert(returnTypesMatch(sig, av, res));
+        bssert(brgumentTypesMbtch(sig = "LLL_L", bv));
+        Object res = mh.form.interpretWithArguments(bv);
+        bssert(returnTypesMbtch(sig, bv, res));
         return res;
     }
-    private static LambdaForm getPreparedForm(String sig) {
-        MethodType mtype = signatureType(sig);
-        //LambdaForm prep = PREPARED_FORMS.get(sig);
-        LambdaForm prep =  mtype.form().cachedLambdaForm(MethodTypeForm.LF_INTERPRET);
+    privbte stbtic LbmbdbForm getPrepbredForm(String sig) {
+        MethodType mtype = signbtureType(sig);
+        //LbmbdbForm prep = PREPARED_FORMS.get(sig);
+        LbmbdbForm prep =  mtype.form().cbchedLbmbdbForm(MethodTypeForm.LF_INTERPRET);
         if (prep != null)  return prep;
-        assert(isValidSignature(sig));
-        prep = new LambdaForm(sig);
-        prep.vmentry = InvokerBytecodeGenerator.generateLambdaFormInterpreterEntryPoint(sig);
-        //LambdaForm prep2 = PREPARED_FORMS.putIfAbsent(sig.intern(), prep);
-        return mtype.form().setCachedLambdaForm(MethodTypeForm.LF_INTERPRET, prep);
+        bssert(isVblidSignbture(sig));
+        prep = new LbmbdbForm(sig);
+        prep.vmentry = InvokerBytecodeGenerbtor.generbteLbmbdbFormInterpreterEntryPoint(sig);
+        //LbmbdbForm prep2 = PREPARED_FORMS.putIfAbsent(sig.intern(), prep);
+        return mtype.form().setCbchedLbmbdbForm(MethodTypeForm.LF_INTERPRET, prep);
     }
 
-    // The next few routines are called only from assert expressions
-    // They verify that the built-in invokers process the correct raw data types.
-    private static boolean argumentTypesMatch(String sig, Object[] av) {
-        int arity = signatureArity(sig);
-        assert(av.length == arity) : "av.length == arity: av.length=" + av.length + ", arity=" + arity;
-        assert(av[0] instanceof MethodHandle) : "av[0] not instace of MethodHandle: " + av[0];
-        MethodHandle mh = (MethodHandle) av[0];
+    // The next few routines bre cblled only from bssert expressions
+    // They verify thbt the built-in invokers process the correct rbw dbtb types.
+    privbte stbtic boolebn brgumentTypesMbtch(String sig, Object[] bv) {
+        int brity = signbtureArity(sig);
+        bssert(bv.length == brity) : "bv.length == brity: bv.length=" + bv.length + ", brity=" + brity;
+        bssert(bv[0] instbnceof MethodHbndle) : "bv[0] not instbce of MethodHbndle: " + bv[0];
+        MethodHbndle mh = (MethodHbndle) bv[0];
         MethodType mt = mh.type();
-        assert(mt.parameterCount() == arity-1);
-        for (int i = 0; i < av.length; i++) {
-            Class<?> pt = (i == 0 ? MethodHandle.class : mt.parameterType(i-1));
-            assert(valueMatches(basicType(sig.charAt(i)), pt, av[i]));
+        bssert(mt.pbrbmeterCount() == brity-1);
+        for (int i = 0; i < bv.length; i++) {
+            Clbss<?> pt = (i == 0 ? MethodHbndle.clbss : mt.pbrbmeterType(i-1));
+            bssert(vblueMbtches(bbsicType(sig.chbrAt(i)), pt, bv[i]));
         }
         return true;
     }
-    private static boolean valueMatches(BasicType tc, Class<?> type, Object x) {
-        // The following line is needed because (...)void method handles can use non-void invokers
-        if (type == void.class)  tc = V_TYPE;   // can drop any kind of value
-        assert tc == basicType(type) : tc + " == basicType(" + type + ")=" + basicType(type);
+    privbte stbtic boolebn vblueMbtches(BbsicType tc, Clbss<?> type, Object x) {
+        // The following line is needed becbuse (...)void method hbndles cbn use non-void invokers
+        if (type == void.clbss)  tc = V_TYPE;   // cbn drop bny kind of vblue
+        bssert tc == bbsicType(type) : tc + " == bbsicType(" + type + ")=" + bbsicType(type);
         switch (tc) {
-        case I_TYPE: assert checkInt(type, x)   : "checkInt(" + type + "," + x +")";   break;
-        case J_TYPE: assert x instanceof Long   : "instanceof Long: " + x;             break;
-        case F_TYPE: assert x instanceof Float  : "instanceof Float: " + x;            break;
-        case D_TYPE: assert x instanceof Double : "instanceof Double: " + x;           break;
-        case L_TYPE: assert checkRef(type, x)   : "checkRef(" + type + "," + x + ")";  break;
-        case V_TYPE: break;  // allow anything here; will be dropped
-        default:  assert(false);
+        cbse I_TYPE: bssert checkInt(type, x)   : "checkInt(" + type + "," + x +")";   brebk;
+        cbse J_TYPE: bssert x instbnceof Long   : "instbnceof Long: " + x;             brebk;
+        cbse F_TYPE: bssert x instbnceof Flobt  : "instbnceof Flobt: " + x;            brebk;
+        cbse D_TYPE: bssert x instbnceof Double : "instbnceof Double: " + x;           brebk;
+        cbse L_TYPE: bssert checkRef(type, x)   : "checkRef(" + type + "," + x + ")";  brebk;
+        cbse V_TYPE: brebk;  // bllow bnything here; will be dropped
+        defbult:  bssert(fblse);
         }
         return true;
     }
-    private static boolean returnTypesMatch(String sig, Object[] av, Object res) {
-        MethodHandle mh = (MethodHandle) av[0];
-        return valueMatches(signatureReturn(sig), mh.type().returnType(), res);
+    privbte stbtic boolebn returnTypesMbtch(String sig, Object[] bv, Object res) {
+        MethodHbndle mh = (MethodHbndle) bv[0];
+        return vblueMbtches(signbtureReturn(sig), mh.type().returnType(), res);
     }
-    private static boolean checkInt(Class<?> type, Object x) {
-        assert(x instanceof Integer);
-        if (type == int.class)  return true;
-        Wrapper w = Wrapper.forBasicType(type);
-        assert(w.isSubwordOrInt());
-        Object x1 = Wrapper.INT.wrap(w.wrap(x));
-        return x.equals(x1);
+    privbte stbtic boolebn checkInt(Clbss<?> type, Object x) {
+        bssert(x instbnceof Integer);
+        if (type == int.clbss)  return true;
+        Wrbpper w = Wrbpper.forBbsicType(type);
+        bssert(w.isSubwordOrInt());
+        Object x1 = Wrbpper.INT.wrbp(w.wrbp(x));
+        return x.equbls(x1);
     }
-    private static boolean checkRef(Class<?> type, Object x) {
-        assert(!type.isPrimitive());
+    privbte stbtic boolebn checkRef(Clbss<?> type, Object x) {
+        bssert(!type.isPrimitive());
         if (x == null)  return true;
-        if (type.isInterface())  return true;
-        return type.isInstance(x);
+        if (type.isInterfbce())  return true;
+        return type.isInstbnce(x);
     }
 
-    /** If the invocation count hits the threshold we spin bytecodes and call that subsequently. */
-    private static final int COMPILE_THRESHOLD;
-    static {
-        if (MethodHandleStatics.COMPILE_THRESHOLD != null)
-            COMPILE_THRESHOLD = MethodHandleStatics.COMPILE_THRESHOLD;
+    /** If the invocbtion count hits the threshold we spin bytecodes bnd cbll thbt subsequently. */
+    privbte stbtic finbl int COMPILE_THRESHOLD;
+    stbtic {
+        if (MethodHbndleStbtics.COMPILE_THRESHOLD != null)
+            COMPILE_THRESHOLD = MethodHbndleStbtics.COMPILE_THRESHOLD;
         else
-            COMPILE_THRESHOLD = 30;  // default value
+            COMPILE_THRESHOLD = 30;  // defbult vblue
     }
-    private int invocationCounter = 0;
+    privbte int invocbtionCounter = 0;
 
     @Hidden
     @DontInline
-    /** Interpretively invoke this form on the given arguments. */
-    Object interpretWithArguments(Object... argumentValues) throws Throwable {
+    /** Interpretively invoke this form on the given brguments. */
+    Object interpretWithArguments(Object... brgumentVblues) throws Throwbble {
         if (TRACE_INTERPRETER)
-            return interpretWithArgumentsTracing(argumentValues);
-        checkInvocationCounter();
-        assert(arityCheck(argumentValues));
-        Object[] values = Arrays.copyOf(argumentValues, names.length);
-        for (int i = argumentValues.length; i < values.length; i++) {
-            values[i] = interpretName(names[i], values);
+            return interpretWithArgumentsTrbcing(brgumentVblues);
+        checkInvocbtionCounter();
+        bssert(brityCheck(brgumentVblues));
+        Object[] vblues = Arrbys.copyOf(brgumentVblues, nbmes.length);
+        for (int i = brgumentVblues.length; i < vblues.length; i++) {
+            vblues[i] = interpretNbme(nbmes[i], vblues);
         }
-        return (result < 0) ? null : values[result];
+        return (result < 0) ? null : vblues[result];
     }
 
     @Hidden
     @DontInline
-    /** Evaluate a single Name within this form, applying its function to its arguments. */
-    Object interpretName(Name name, Object[] values) throws Throwable {
+    /** Evblubte b single Nbme within this form, bpplying its function to its brguments. */
+    Object interpretNbme(Nbme nbme, Object[] vblues) throws Throwbble {
         if (TRACE_INTERPRETER)
-            traceInterpreter("| interpretName", name.debugString(), (Object[]) null);
-        Object[] arguments = Arrays.copyOf(name.arguments, name.arguments.length, Object[].class);
-        for (int i = 0; i < arguments.length; i++) {
-            Object a = arguments[i];
-            if (a instanceof Name) {
-                int i2 = ((Name)a).index();
-                assert(names[i2] == a);
-                a = values[i2];
-                arguments[i] = a;
+            trbceInterpreter("| interpretNbme", nbme.debugString(), (Object[]) null);
+        Object[] brguments = Arrbys.copyOf(nbme.brguments, nbme.brguments.length, Object[].clbss);
+        for (int i = 0; i < brguments.length; i++) {
+            Object b = brguments[i];
+            if (b instbnceof Nbme) {
+                int i2 = ((Nbme)b).index();
+                bssert(nbmes[i2] == b);
+                b = vblues[i2];
+                brguments[i] = b;
             }
         }
-        return name.function.invokeWithArguments(arguments);
+        return nbme.function.invokeWithArguments(brguments);
     }
 
-    private void checkInvocationCounter() {
+    privbte void checkInvocbtionCounter() {
         if (COMPILE_THRESHOLD != 0 &&
-            invocationCounter < COMPILE_THRESHOLD) {
-            invocationCounter++;  // benign race
-            if (invocationCounter >= COMPILE_THRESHOLD) {
-                // Replace vmentry with a bytecode version of this LF.
+            invocbtionCounter < COMPILE_THRESHOLD) {
+            invocbtionCounter++;  // benign rbce
+            if (invocbtionCounter >= COMPILE_THRESHOLD) {
+                // Replbce vmentry with b bytecode version of this LF.
                 compileToBytecode();
             }
         }
     }
-    Object interpretWithArgumentsTracing(Object... argumentValues) throws Throwable {
-        traceInterpreter("[ interpretWithArguments", this, argumentValues);
-        if (invocationCounter < COMPILE_THRESHOLD) {
-            int ctr = invocationCounter++;  // benign race
-            traceInterpreter("| invocationCounter", ctr);
-            if (invocationCounter >= COMPILE_THRESHOLD) {
+    Object interpretWithArgumentsTrbcing(Object... brgumentVblues) throws Throwbble {
+        trbceInterpreter("[ interpretWithArguments", this, brgumentVblues);
+        if (invocbtionCounter < COMPILE_THRESHOLD) {
+            int ctr = invocbtionCounter++;  // benign rbce
+            trbceInterpreter("| invocbtionCounter", ctr);
+            if (invocbtionCounter >= COMPILE_THRESHOLD) {
                 compileToBytecode();
             }
         }
-        Object rval;
+        Object rvbl;
         try {
-            assert(arityCheck(argumentValues));
-            Object[] values = Arrays.copyOf(argumentValues, names.length);
-            for (int i = argumentValues.length; i < values.length; i++) {
-                values[i] = interpretName(names[i], values);
+            bssert(brityCheck(brgumentVblues));
+            Object[] vblues = Arrbys.copyOf(brgumentVblues, nbmes.length);
+            for (int i = brgumentVblues.length; i < vblues.length; i++) {
+                vblues[i] = interpretNbme(nbmes[i], vblues);
             }
-            rval = (result < 0) ? null : values[result];
-        } catch (Throwable ex) {
-            traceInterpreter("] throw =>", ex);
+            rvbl = (result < 0) ? null : vblues[result];
+        } cbtch (Throwbble ex) {
+            trbceInterpreter("] throw =>", ex);
             throw ex;
         }
-        traceInterpreter("] return =>", rval);
-        return rval;
+        trbceInterpreter("] return =>", rvbl);
+        return rvbl;
     }
 
-    //** This transform is applied (statically) to every name.function. */
+    //** This trbnsform is bpplied (stbticblly) to every nbme.function. */
     /*
-    private static MethodHandle eraseSubwordTypes(MethodHandle mh) {
+    privbte stbtic MethodHbndle erbseSubwordTypes(MethodHbndle mh) {
         MethodType mt = mh.type();
-        if (mt.hasPrimitives()) {
-            mt = mt.changeReturnType(eraseSubwordType(mt.returnType()));
-            for (int i = 0; i < mt.parameterCount(); i++) {
-                mt = mt.changeParameterType(i, eraseSubwordType(mt.parameterType(i)));
+        if (mt.hbsPrimitives()) {
+            mt = mt.chbngeReturnType(erbseSubwordType(mt.returnType()));
+            for (int i = 0; i < mt.pbrbmeterCount(); i++) {
+                mt = mt.chbngePbrbmeterType(i, erbseSubwordType(mt.pbrbmeterType(i)));
             }
-            mh = MethodHandles.explicitCastArguments(mh, mt);
+            mh = MethodHbndles.explicitCbstArguments(mh, mt);
         }
         return mh;
     }
-    private static Class<?> eraseSubwordType(Class<?> type) {
+    privbte stbtic Clbss<?> erbseSubwordType(Clbss<?> type) {
         if (!type.isPrimitive())  return type;
-        if (type == int.class)  return type;
-        Wrapper w = Wrapper.forPrimitiveType(type);
-        if (w.isSubwordOrInt())  return int.class;
+        if (type == int.clbss)  return type;
+        Wrbpper w = Wrbpper.forPrimitiveType(type);
+        if (w.isSubwordOrInt())  return int.clbss;
         return type;
     }
     */
 
-    static void traceInterpreter(String event, Object obj, Object... args) {
+    stbtic void trbceInterpreter(String event, Object obj, Object... brgs) {
         if (TRACE_INTERPRETER) {
-            System.out.println("LFI: "+event+" "+(obj != null ? obj : "")+(args != null && args.length != 0 ? Arrays.asList(args) : ""));
+            System.out.println("LFI: "+event+" "+(obj != null ? obj : "")+(brgs != null && brgs.length != 0 ? Arrbys.bsList(brgs) : ""));
         }
     }
-    static void traceInterpreter(String event, Object obj) {
-        traceInterpreter(event, obj, (Object[])null);
+    stbtic void trbceInterpreter(String event, Object obj) {
+        trbceInterpreter(event, obj, (Object[])null);
     }
-    private boolean arityCheck(Object[] argumentValues) {
-        assert(argumentValues.length == arity) : arity+"!="+Arrays.asList(argumentValues)+".length";
-        // also check that the leading (receiver) argument is somehow bound to this LF:
-        assert(argumentValues[0] instanceof MethodHandle) : "not MH: " + argumentValues[0];
-        assert(((MethodHandle)argumentValues[0]).internalForm() == this);
-        // note:  argument #0 could also be an interface wrapper, in the future
+    privbte boolebn brityCheck(Object[] brgumentVblues) {
+        bssert(brgumentVblues.length == brity) : brity+"!="+Arrbys.bsList(brgumentVblues)+".length";
+        // blso check thbt the lebding (receiver) brgument is somehow bound to this LF:
+        bssert(brgumentVblues[0] instbnceof MethodHbndle) : "not MH: " + brgumentVblues[0];
+        bssert(((MethodHbndle)brgumentVblues[0]).internblForm() == this);
+        // note:  brgument #0 could blso be bn interfbce wrbpper, in the future
         return true;
     }
 
-    private boolean isEmpty() {
+    privbte boolebn isEmpty() {
         if (result < 0)
-            return (names.length == arity);
-        else if (result == arity && names.length == arity + 1)
-            return names[arity].isConstantZero();
+            return (nbmes.length == brity);
+        else if (result == brity && nbmes.length == brity + 1)
+            return nbmes[brity].isConstbntZero();
         else
-            return false;
+            return fblse;
     }
 
     public String toString() {
-        StringBuilder buf = new StringBuilder(debugName+"=Lambda(");
-        for (int i = 0; i < names.length; i++) {
-            if (i == arity)  buf.append(")=>{");
-            Name n = names[i];
-            if (i >= arity)  buf.append("\n    ");
-            buf.append(n);
-            if (i < arity) {
-                if (i+1 < arity)  buf.append(",");
+        StringBuilder buf = new StringBuilder(debugNbme+"=Lbmbdb(");
+        for (int i = 0; i < nbmes.length; i++) {
+            if (i == brity)  buf.bppend(")=>{");
+            Nbme n = nbmes[i];
+            if (i >= brity)  buf.bppend("\n    ");
+            buf.bppend(n);
+            if (i < brity) {
+                if (i+1 < brity)  buf.bppend(",");
                 continue;
             }
-            buf.append("=").append(n.exprString());
-            buf.append(";");
+            buf.bppend("=").bppend(n.exprString());
+            buf.bppend(";");
         }
-        buf.append(result < 0 ? "void" : names[result]).append("}");
+        buf.bppend(result < 0 ? "void" : nbmes[result]).bppend("}");
         if (TRACE_INTERPRETER) {
-            // Extra verbosity:
-            buf.append(":").append(basicTypeSignature());
-            buf.append("/").append(vmentry);
+            // Extrb verbosity:
+            buf.bppend(":").bppend(bbsicTypeSignbture());
+            buf.bppend("/").bppend(vmentry);
         }
         return buf.toString();
     }
 
     /**
-     * Apply immediate binding for a Name in this form indicated by its position relative to the form.
-     * The first parameter to a LambdaForm, a0:L, always represents the form's method handle, so 0 is not
-     * accepted as valid.
+     * Apply immedibte binding for b Nbme in this form indicbted by its position relbtive to the form.
+     * The first pbrbmeter to b LbmbdbForm, b0:L, blwbys represents the form's method hbndle, so 0 is not
+     * bccepted bs vblid.
      */
-    LambdaForm bindImmediate(int pos, BasicType basicType, Object value) {
-        // must be an argument, and the types must match
-        assert pos > 0 && pos < arity && names[pos].type == basicType && Name.typesMatch(basicType, value);
+    LbmbdbForm bindImmedibte(int pos, BbsicType bbsicType, Object vblue) {
+        // must be bn brgument, bnd the types must mbtch
+        bssert pos > 0 && pos < brity && nbmes[pos].type == bbsicType && Nbme.typesMbtch(bbsicType, vblue);
 
-        int arity2 = arity - 1;
-        Name[] names2 = new Name[names.length - 1];
-        for (int r = 0, w = 0; r < names.length; ++r, ++w) { // (r)ead from names, (w)rite to names2
-            Name n = names[r];
-            if (n.isParam()) {
+        int brity2 = brity - 1;
+        Nbme[] nbmes2 = new Nbme[nbmes.length - 1];
+        for (int r = 0, w = 0; r < nbmes.length; ++r, ++w) { // (r)ebd from nbmes, (w)rite to nbmes2
+            Nbme n = nbmes[r];
+            if (n.isPbrbm()) {
                 if (n.index == pos) {
-                    // do not copy over the argument that is to be replaced with a literal,
-                    // but adjust the write index
+                    // do not copy over the brgument thbt is to be replbced with b literbl,
+                    // but bdjust the write index
                     --w;
                 } else {
-                    names2[w] = new Name(w, n.type);
+                    nbmes2[w] = new Nbme(w, n.type);
                 }
             } else {
-                Object[] arguments2 = new Object[n.arguments.length];
-                for (int i = 0; i < n.arguments.length; ++i) {
-                    Object arg = n.arguments[i];
-                    if (arg instanceof Name) {
-                        int ni = ((Name) arg).index;
+                Object[] brguments2 = new Object[n.brguments.length];
+                for (int i = 0; i < n.brguments.length; ++i) {
+                    Object brg = n.brguments[i];
+                    if (brg instbnceof Nbme) {
+                        int ni = ((Nbme) brg).index;
                         if (ni == pos) {
-                            arguments2[i] = value;
+                            brguments2[i] = vblue;
                         } else if (ni < pos) {
-                            // replacement position not yet passed
-                            arguments2[i] = names2[ni];
+                            // replbcement position not yet pbssed
+                            brguments2[i] = nbmes2[ni];
                         } else {
-                            // replacement position passed
-                            arguments2[i] = names2[ni - 1];
+                            // replbcement position pbssed
+                            brguments2[i] = nbmes2[ni - 1];
                         }
                     } else {
-                        arguments2[i] = arg;
+                        brguments2[i] = brg;
                     }
                 }
-                names2[w] = new Name(n.function, arguments2);
-                names2[w].initIndex(w);
+                nbmes2[w] = new Nbme(n.function, brguments2);
+                nbmes2[w].initIndex(w);
             }
         }
 
         int result2 = result == -1 ? -1 : result - 1;
-        return new LambdaForm(debugName, arity2, names2, result2);
+        return new LbmbdbForm(debugNbme, brity2, nbmes2, result2);
     }
 
-    LambdaForm bind(int namePos, BoundMethodHandle.SpeciesData oldData) {
-        Name name = names[namePos];
-        BoundMethodHandle.SpeciesData newData = oldData.extendWith(name.type);
-        return bind(name, new Name(newData.getterFunction(oldData.fieldCount()), names[0]), oldData, newData);
+    LbmbdbForm bind(int nbmePos, BoundMethodHbndle.SpeciesDbtb oldDbtb) {
+        Nbme nbme = nbmes[nbmePos];
+        BoundMethodHbndle.SpeciesDbtb newDbtb = oldDbtb.extendWith(nbme.type);
+        return bind(nbme, new Nbme(newDbtb.getterFunction(oldDbtb.fieldCount()), nbmes[0]), oldDbtb, newDbtb);
     }
-    LambdaForm bind(Name name, Name binding,
-                    BoundMethodHandle.SpeciesData oldData,
-                    BoundMethodHandle.SpeciesData newData) {
-        int pos = name.index;
-        assert(name.isParam());
-        assert(!binding.isParam());
-        assert(name.type == binding.type);
-        assert(0 <= pos && pos < arity && names[pos] == name);
-        assert(binding.function.memberDeclaringClassOrNull() == newData.clazz);
-        assert(oldData.getters.length == newData.getters.length-1);
-        if (bindCache != null) {
-            LambdaForm form = bindCache[pos];
+    LbmbdbForm bind(Nbme nbme, Nbme binding,
+                    BoundMethodHbndle.SpeciesDbtb oldDbtb,
+                    BoundMethodHbndle.SpeciesDbtb newDbtb) {
+        int pos = nbme.index;
+        bssert(nbme.isPbrbm());
+        bssert(!binding.isPbrbm());
+        bssert(nbme.type == binding.type);
+        bssert(0 <= pos && pos < brity && nbmes[pos] == nbme);
+        bssert(binding.function.memberDeclbringClbssOrNull() == newDbtb.clbzz);
+        bssert(oldDbtb.getters.length == newDbtb.getters.length-1);
+        if (bindCbche != null) {
+            LbmbdbForm form = bindCbche[pos];
             if (form != null) {
-                assert(form.contains(binding)) : "form << " + form + " >> does not contain binding << " + binding + " >>";
+                bssert(form.contbins(binding)) : "form << " + form + " >> does not contbin binding << " + binding + " >>";
                 return form;
             }
         } else {
-            bindCache = new LambdaForm[arity];
+            bindCbche = new LbmbdbForm[brity];
         }
-        assert(nameRefsAreLegal());
-        int arity2 = arity-1;
-        Name[] names2 = names.clone();
-        names2[pos] = binding;  // we might move this in a moment
+        bssert(nbmeRefsAreLegbl());
+        int brity2 = brity-1;
+        Nbme[] nbmes2 = nbmes.clone();
+        nbmes2[pos] = binding;  // we might move this in b moment
 
-        // The newly created LF will run with a different BMH.
-        // Switch over any pre-existing BMH field references to the new BMH class.
+        // The newly crebted LF will run with b different BMH.
+        // Switch over bny pre-existing BMH field references to the new BMH clbss.
         int firstOldRef = -1;
-        for (int i = 0; i < names2.length; i++) {
-            Name n = names[i];
+        for (int i = 0; i < nbmes2.length; i++) {
+            Nbme n = nbmes[i];
             if (n.function != null &&
-                n.function.memberDeclaringClassOrNull() == oldData.clazz) {
-                MethodHandle oldGetter = n.function.resolvedHandle;
-                MethodHandle newGetter = null;
-                for (int j = 0; j < oldData.getters.length; j++) {
-                    if (oldGetter == oldData.getters[j])
-                        newGetter =  newData.getters[j];
+                n.function.memberDeclbringClbssOrNull() == oldDbtb.clbzz) {
+                MethodHbndle oldGetter = n.function.resolvedHbndle;
+                MethodHbndle newGetter = null;
+                for (int j = 0; j < oldDbtb.getters.length; j++) {
+                    if (oldGetter == oldDbtb.getters[j])
+                        newGetter =  newDbtb.getters[j];
                 }
                 if (newGetter != null) {
                     if (firstOldRef < 0)  firstOldRef = i;
-                    Name n2 = new Name(newGetter, n.arguments);
-                    names2[i] = n2;
+                    Nbme n2 = new Nbme(newGetter, n.brguments);
+                    nbmes2[i] = n2;
                 }
             }
         }
 
-        // Walk over the new list of names once, in forward order.
-        // Replace references to 'name' with 'binding'.
-        // Replace data structure references to the old BMH species with the new.
-        // This might cause a ripple effect, but it will settle in one pass.
-        assert(firstOldRef < 0 || firstOldRef > pos);
-        for (int i = pos+1; i < names2.length; i++) {
-            if (i <= arity2)  continue;
-            names2[i] = names2[i].replaceNames(names, names2, pos, i);
+        // Wblk over the new list of nbmes once, in forwbrd order.
+        // Replbce references to 'nbme' with 'binding'.
+        // Replbce dbtb structure references to the old BMH species with the new.
+        // This might cbuse b ripple effect, but it will settle in one pbss.
+        bssert(firstOldRef < 0 || firstOldRef > pos);
+        for (int i = pos+1; i < nbmes2.length; i++) {
+            if (i <= brity2)  continue;
+            nbmes2[i] = nbmes2[i].replbceNbmes(nbmes, nbmes2, pos, i);
         }
 
-        //  (a0, a1, name=a2, a3, a4)  =>  (a0, a1, a3, a4, binding)
+        //  (b0, b1, nbme=b2, b3, b4)  =>  (b0, b1, b3, b4, binding)
         int insPos = pos;
-        for (; insPos+1 < names2.length; insPos++) {
-            Name n = names2[insPos+1];
+        for (; insPos+1 < nbmes2.length; insPos++) {
+            Nbme n = nbmes2[insPos+1];
             if (n.isSiblingBindingBefore(binding)) {
-                names2[insPos] = n;
+                nbmes2[insPos] = n;
             } else {
-                break;
+                brebk;
             }
         }
-        names2[insPos] = binding;
+        nbmes2[insPos] = binding;
 
-        // Since we moved some stuff, maybe update the result reference:
+        // Since we moved some stuff, mbybe updbte the result reference:
         int result2 = result;
         if (result2 == pos)
             result2 = insPos;
         else if (result2 > pos && result2 <= insPos)
             result2 -= 1;
 
-        return bindCache[pos] = new LambdaForm(debugName, arity2, names2, result2);
+        return bindCbche[pos] = new LbmbdbForm(debugNbme, brity2, nbmes2, result2);
     }
 
-    boolean contains(Name name) {
-        int pos = name.index();
+    boolebn contbins(Nbme nbme) {
+        int pos = nbme.index();
         if (pos >= 0) {
-            return pos < names.length && name.equals(names[pos]);
+            return pos < nbmes.length && nbme.equbls(nbmes[pos]);
         }
-        for (int i = arity; i < names.length; i++) {
-            if (name.equals(names[i]))
+        for (int i = brity; i < nbmes.length; i++) {
+            if (nbme.equbls(nbmes[i]))
                 return true;
         }
-        return false;
+        return fblse;
     }
 
-    LambdaForm addArguments(int pos, BasicType... types) {
-        assert(pos <= arity);
-        int length = names.length;
+    LbmbdbForm bddArguments(int pos, BbsicType... types) {
+        bssert(pos <= brity);
+        int length = nbmes.length;
         int inTypes = types.length;
-        Name[] names2 = Arrays.copyOf(names, length + inTypes);
-        int arity2 = arity + inTypes;
+        Nbme[] nbmes2 = Arrbys.copyOf(nbmes, length + inTypes);
+        int brity2 = brity + inTypes;
         int result2 = result;
-        if (result2 >= arity)
+        if (result2 >= brity)
             result2 += inTypes;
-        // names array has MH in slot 0; skip it.
-        int argpos = pos + 1;
-        // Note:  The LF constructor will rename names2[argpos...].
-        // Make space for new arguments (shift temporaries).
-        System.arraycopy(names, argpos, names2, argpos + inTypes, length - argpos);
+        // nbmes brrby hbs MH in slot 0; skip it.
+        int brgpos = pos + 1;
+        // Note:  The LF constructor will renbme nbmes2[brgpos...].
+        // Mbke spbce for new brguments (shift temporbries).
+        System.brrbycopy(nbmes, brgpos, nbmes2, brgpos + inTypes, length - brgpos);
         for (int i = 0; i < inTypes; i++) {
-            names2[argpos + i] = new Name(types[i]);
+            nbmes2[brgpos + i] = new Nbme(types[i]);
         }
-        return new LambdaForm(debugName, arity2, names2, result2);
+        return new LbmbdbForm(debugNbme, brity2, nbmes2, result2);
     }
 
-    LambdaForm addArguments(int pos, List<Class<?>> types) {
-        return addArguments(pos, basicTypes(types));
+    LbmbdbForm bddArguments(int pos, List<Clbss<?>> types) {
+        return bddArguments(pos, bbsicTypes(types));
     }
 
-    LambdaForm permuteArguments(int skip, int[] reorder, BasicType[] types) {
-        // Note:  When inArg = reorder[outArg], outArg is fed by a copy of inArg.
-        // The types are the types of the new (incoming) arguments.
-        int length = names.length;
+    LbmbdbForm permuteArguments(int skip, int[] reorder, BbsicType[] types) {
+        // Note:  When inArg = reorder[outArg], outArg is fed by b copy of inArg.
+        // The types bre the types of the new (incoming) brguments.
+        int length = nbmes.length;
         int inTypes = types.length;
         int outArgs = reorder.length;
-        assert(skip+outArgs == arity);
-        assert(permutedTypesMatch(reorder, types, names, skip));
+        bssert(skip+outArgs == brity);
+        bssert(permutedTypesMbtch(reorder, types, nbmes, skip));
         int pos = 0;
-        // skip trivial first part of reordering:
+        // skip trivibl first pbrt of reordering:
         while (pos < outArgs && reorder[pos] == pos)  pos += 1;
-        Name[] names2 = new Name[length - outArgs + inTypes];
-        System.arraycopy(names, 0, names2, 0, skip+pos);
+        Nbme[] nbmes2 = new Nbme[length - outArgs + inTypes];
+        System.brrbycopy(nbmes, 0, nbmes2, 0, skip+pos);
         // copy the body:
-        int bodyLength = length - arity;
-        System.arraycopy(names, skip+outArgs, names2, skip+inTypes, bodyLength);
-        int arity2 = names2.length - bodyLength;
+        int bodyLength = length - brity;
+        System.brrbycopy(nbmes, skip+outArgs, nbmes2, skip+inTypes, bodyLength);
+        int brity2 = nbmes2.length - bodyLength;
         int result2 = result;
         if (result2 >= 0) {
             if (result2 < skip+outArgs) {
@@ -1049,411 +1049,411 @@ class LambdaForm {
                 result2 = result2 - outArgs + inTypes;
             }
         }
-        // rework names in the body:
+        // rework nbmes in the body:
         for (int j = pos; j < outArgs; j++) {
-            Name n = names[skip+j];
+            Nbme n = nbmes[skip+j];
             int i = reorder[j];
-            // replace names[skip+j] by names2[skip+i]
-            Name n2 = names2[skip+i];
+            // replbce nbmes[skip+j] by nbmes2[skip+i]
+            Nbme n2 = nbmes2[skip+i];
             if (n2 == null)
-                names2[skip+i] = n2 = new Name(types[i]);
+                nbmes2[skip+i] = n2 = new Nbme(types[i]);
             else
-                assert(n2.type == types[i]);
-            for (int k = arity2; k < names2.length; k++) {
-                names2[k] = names2[k].replaceName(n, n2);
+                bssert(n2.type == types[i]);
+            for (int k = brity2; k < nbmes2.length; k++) {
+                nbmes2[k] = nbmes2[k].replbceNbme(n, n2);
             }
         }
-        // some names are unused, but must be filled in
-        for (int i = skip+pos; i < arity2; i++) {
-            if (names2[i] == null)
-                names2[i] = argument(i, types[i - skip]);
+        // some nbmes bre unused, but must be filled in
+        for (int i = skip+pos; i < brity2; i++) {
+            if (nbmes2[i] == null)
+                nbmes2[i] = brgument(i, types[i - skip]);
         }
-        for (int j = arity; j < names.length; j++) {
-            int i = j - arity + arity2;
-            // replace names2[i] by names[j]
-            Name n = names[j];
-            Name n2 = names2[i];
+        for (int j = brity; j < nbmes.length; j++) {
+            int i = j - brity + brity2;
+            // replbce nbmes2[i] by nbmes[j]
+            Nbme n = nbmes[j];
+            Nbme n2 = nbmes2[i];
             if (n != n2) {
-                for (int k = i+1; k < names2.length; k++) {
-                    names2[k] = names2[k].replaceName(n, n2);
+                for (int k = i+1; k < nbmes2.length; k++) {
+                    nbmes2[k] = nbmes2[k].replbceNbme(n, n2);
                 }
             }
         }
-        return new LambdaForm(debugName, arity2, names2, result2);
+        return new LbmbdbForm(debugNbme, brity2, nbmes2, result2);
     }
 
-    static boolean permutedTypesMatch(int[] reorder, BasicType[] types, Name[] names, int skip) {
+    stbtic boolebn permutedTypesMbtch(int[] reorder, BbsicType[] types, Nbme[] nbmes, int skip) {
         int inTypes = types.length;
         int outArgs = reorder.length;
         for (int i = 0; i < outArgs; i++) {
-            assert(names[skip+i].isParam());
-            assert(names[skip+i].type == types[reorder[i]]);
+            bssert(nbmes[skip+i].isPbrbm());
+            bssert(nbmes[skip+i].type == types[reorder[i]]);
         }
         return true;
     }
 
-    static class NamedFunction {
-        final MemberName member;
-        @Stable MethodHandle resolvedHandle;
-        @Stable MethodHandle invoker;
+    stbtic clbss NbmedFunction {
+        finbl MemberNbme member;
+        @Stbble MethodHbndle resolvedHbndle;
+        @Stbble MethodHbndle invoker;
 
-        NamedFunction(MethodHandle resolvedHandle) {
-            this(resolvedHandle.internalMemberName(), resolvedHandle);
+        NbmedFunction(MethodHbndle resolvedHbndle) {
+            this(resolvedHbndle.internblMemberNbme(), resolvedHbndle);
         }
-        NamedFunction(MemberName member, MethodHandle resolvedHandle) {
+        NbmedFunction(MemberNbme member, MethodHbndle resolvedHbndle) {
             this.member = member;
-            //resolvedHandle = eraseSubwordTypes(resolvedHandle);
-            this.resolvedHandle = resolvedHandle;
+            //resolvedHbndle = erbseSubwordTypes(resolvedHbndle);
+            this.resolvedHbndle = resolvedHbndle;
         }
-        NamedFunction(MethodType basicInvokerType) {
-            assert(basicInvokerType == basicInvokerType.basicType()) : basicInvokerType;
-            if (basicInvokerType.parameterSlotCount() < MethodType.MAX_MH_INVOKER_ARITY) {
-                this.resolvedHandle = basicInvokerType.invokers().basicInvoker();
-                this.member = resolvedHandle.internalMemberName();
+        NbmedFunction(MethodType bbsicInvokerType) {
+            bssert(bbsicInvokerType == bbsicInvokerType.bbsicType()) : bbsicInvokerType;
+            if (bbsicInvokerType.pbrbmeterSlotCount() < MethodType.MAX_MH_INVOKER_ARITY) {
+                this.resolvedHbndle = bbsicInvokerType.invokers().bbsicInvoker();
+                this.member = resolvedHbndle.internblMemberNbme();
             } else {
-                // necessary to pass BigArityTest
-                this.member = Invokers.invokeBasicMethod(basicInvokerType);
+                // necessbry to pbss BigArityTest
+                this.member = Invokers.invokeBbsicMethod(bbsicInvokerType);
             }
         }
 
-        // The next 3 constructors are used to break circular dependencies on MH.invokeStatic, etc.
-        // Any LambdaForm containing such a member is not interpretable.
-        // This is OK, since all such LFs are prepared with special primitive vmentry points.
-        // And even without the resolvedHandle, the name can still be compiled and optimized.
-        NamedFunction(Method method) {
-            this(new MemberName(method));
+        // The next 3 constructors bre used to brebk circulbr dependencies on MH.invokeStbtic, etc.
+        // Any LbmbdbForm contbining such b member is not interpretbble.
+        // This is OK, since bll such LFs bre prepbred with specibl primitive vmentry points.
+        // And even without the resolvedHbndle, the nbme cbn still be compiled bnd optimized.
+        NbmedFunction(Method method) {
+            this(new MemberNbme(method));
         }
-        NamedFunction(Field field) {
-            this(new MemberName(field));
+        NbmedFunction(Field field) {
+            this(new MemberNbme(field));
         }
-        NamedFunction(MemberName member) {
+        NbmedFunction(MemberNbme member) {
             this.member = member;
-            this.resolvedHandle = null;
+            this.resolvedHbndle = null;
         }
 
-        MethodHandle resolvedHandle() {
-            if (resolvedHandle == null)  resolve();
-            return resolvedHandle;
+        MethodHbndle resolvedHbndle() {
+            if (resolvedHbndle == null)  resolve();
+            return resolvedHbndle;
         }
 
         void resolve() {
-            resolvedHandle = DirectMethodHandle.make(member);
+            resolvedHbndle = DirectMethodHbndle.mbke(member);
         }
 
         @Override
-        public boolean equals(Object other) {
+        public boolebn equbls(Object other) {
             if (this == other) return true;
-            if (other == null) return false;
-            if (!(other instanceof NamedFunction)) return false;
-            NamedFunction that = (NamedFunction) other;
-            return this.member != null && this.member.equals(that.member);
+            if (other == null) return fblse;
+            if (!(other instbnceof NbmedFunction)) return fblse;
+            NbmedFunction thbt = (NbmedFunction) other;
+            return this.member != null && this.member.equbls(thbt.member);
         }
 
         @Override
-        public int hashCode() {
+        public int hbshCode() {
             if (member != null)
-                return member.hashCode();
-            return super.hashCode();
+                return member.hbshCode();
+            return super.hbshCode();
         }
 
-        // Put the predefined NamedFunction invokers into the table.
-        static void initializeInvokers() {
-            for (MemberName m : MemberName.getFactory().getMethods(NamedFunction.class, false, null, null, null)) {
-                if (!m.isStatic() || !m.isPackage())  continue;
+        // Put the predefined NbmedFunction invokers into the tbble.
+        stbtic void initiblizeInvokers() {
+            for (MemberNbme m : MemberNbme.getFbctory().getMethods(NbmedFunction.clbss, fblse, null, null, null)) {
+                if (!m.isStbtic() || !m.isPbckbge())  continue;
                 MethodType type = m.getMethodType();
-                if (type.equals(INVOKER_METHOD_TYPE) &&
-                    m.getName().startsWith("invoke_")) {
-                    String sig = m.getName().substring("invoke_".length());
-                    int arity = LambdaForm.signatureArity(sig);
-                    MethodType srcType = MethodType.genericMethodType(arity);
-                    if (LambdaForm.signatureReturn(sig) == V_TYPE)
-                        srcType = srcType.changeReturnType(void.class);
+                if (type.equbls(INVOKER_METHOD_TYPE) &&
+                    m.getNbme().stbrtsWith("invoke_")) {
+                    String sig = m.getNbme().substring("invoke_".length());
+                    int brity = LbmbdbForm.signbtureArity(sig);
+                    MethodType srcType = MethodType.genericMethodType(brity);
+                    if (LbmbdbForm.signbtureReturn(sig) == V_TYPE)
+                        srcType = srcType.chbngeReturnType(void.clbss);
                     MethodTypeForm typeForm = srcType.form();
-                    typeForm.namedFunctionInvoker = DirectMethodHandle.make(m);
+                    typeForm.nbmedFunctionInvoker = DirectMethodHbndle.mbke(m);
                 }
             }
         }
 
-        // The following are predefined NamedFunction invokers.  The system must build
-        // a separate invoker for each distinct signature.
+        // The following bre predefined NbmedFunction invokers.  The system must build
+        // b sepbrbte invoker for ebch distinct signbture.
         /** void return type invokers. */
         @Hidden
-        static Object invoke__V(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 0);
-            mh.invokeBasic();
+        stbtic Object invoke__V(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 0);
+            mh.invokeBbsic();
             return null;
         }
         @Hidden
-        static Object invoke_L_V(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 1);
-            mh.invokeBasic(a[0]);
+        stbtic Object invoke_L_V(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 1);
+            mh.invokeBbsic(b[0]);
             return null;
         }
         @Hidden
-        static Object invoke_LL_V(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 2);
-            mh.invokeBasic(a[0], a[1]);
+        stbtic Object invoke_LL_V(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 2);
+            mh.invokeBbsic(b[0], b[1]);
             return null;
         }
         @Hidden
-        static Object invoke_LLL_V(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 3);
-            mh.invokeBasic(a[0], a[1], a[2]);
+        stbtic Object invoke_LLL_V(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 3);
+            mh.invokeBbsic(b[0], b[1], b[2]);
             return null;
         }
         @Hidden
-        static Object invoke_LLLL_V(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 4);
-            mh.invokeBasic(a[0], a[1], a[2], a[3]);
+        stbtic Object invoke_LLLL_V(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 4);
+            mh.invokeBbsic(b[0], b[1], b[2], b[3]);
             return null;
         }
         @Hidden
-        static Object invoke_LLLLL_V(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 5);
-            mh.invokeBasic(a[0], a[1], a[2], a[3], a[4]);
+        stbtic Object invoke_LLLLL_V(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 5);
+            mh.invokeBbsic(b[0], b[1], b[2], b[3], b[4]);
             return null;
         }
         /** Object return type invokers. */
         @Hidden
-        static Object invoke__L(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 0);
-            return mh.invokeBasic();
+        stbtic Object invoke__L(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 0);
+            return mh.invokeBbsic();
         }
         @Hidden
-        static Object invoke_L_L(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 1);
-            return mh.invokeBasic(a[0]);
+        stbtic Object invoke_L_L(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 1);
+            return mh.invokeBbsic(b[0]);
         }
         @Hidden
-        static Object invoke_LL_L(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 2);
-            return mh.invokeBasic(a[0], a[1]);
+        stbtic Object invoke_LL_L(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 2);
+            return mh.invokeBbsic(b[0], b[1]);
         }
         @Hidden
-        static Object invoke_LLL_L(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 3);
-            return mh.invokeBasic(a[0], a[1], a[2]);
+        stbtic Object invoke_LLL_L(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 3);
+            return mh.invokeBbsic(b[0], b[1], b[2]);
         }
         @Hidden
-        static Object invoke_LLLL_L(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 4);
-            return mh.invokeBasic(a[0], a[1], a[2], a[3]);
+        stbtic Object invoke_LLLL_L(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 4);
+            return mh.invokeBbsic(b[0], b[1], b[2], b[3]);
         }
         @Hidden
-        static Object invoke_LLLLL_L(MethodHandle mh, Object[] a) throws Throwable {
-            assert(a.length == 5);
-            return mh.invokeBasic(a[0], a[1], a[2], a[3], a[4]);
+        stbtic Object invoke_LLLLL_L(MethodHbndle mh, Object[] b) throws Throwbble {
+            bssert(b.length == 5);
+            return mh.invokeBbsic(b[0], b[1], b[2], b[3], b[4]);
         }
 
-        static final MethodType INVOKER_METHOD_TYPE =
-            MethodType.methodType(Object.class, MethodHandle.class, Object[].class);
+        stbtic finbl MethodType INVOKER_METHOD_TYPE =
+            MethodType.methodType(Object.clbss, MethodHbndle.clbss, Object[].clbss);
 
-        private static MethodHandle computeInvoker(MethodTypeForm typeForm) {
-            MethodHandle mh = typeForm.namedFunctionInvoker;
+        privbte stbtic MethodHbndle computeInvoker(MethodTypeForm typeForm) {
+            MethodHbndle mh = typeForm.nbmedFunctionInvoker;
             if (mh != null)  return mh;
-            MemberName invoker = InvokerBytecodeGenerator.generateNamedFunctionInvoker(typeForm);  // this could take a while
-            mh = DirectMethodHandle.make(invoker);
-            MethodHandle mh2 = typeForm.namedFunctionInvoker;
-            if (mh2 != null)  return mh2;  // benign race
-            if (!mh.type().equals(INVOKER_METHOD_TYPE))
-                throw newInternalError(mh.debugString());
-            return typeForm.namedFunctionInvoker = mh;
+            MemberNbme invoker = InvokerBytecodeGenerbtor.generbteNbmedFunctionInvoker(typeForm);  // this could tbke b while
+            mh = DirectMethodHbndle.mbke(invoker);
+            MethodHbndle mh2 = typeForm.nbmedFunctionInvoker;
+            if (mh2 != null)  return mh2;  // benign rbce
+            if (!mh.type().equbls(INVOKER_METHOD_TYPE))
+                throw newInternblError(mh.debugString());
+            return typeForm.nbmedFunctionInvoker = mh;
         }
 
         @Hidden
-        Object invokeWithArguments(Object... arguments) throws Throwable {
-            // If we have a cached invoker, call it right away.
-            // NOTE: The invoker always returns a reference value.
-            if (TRACE_INTERPRETER)  return invokeWithArgumentsTracing(arguments);
-            assert(checkArgumentTypes(arguments, methodType()));
-            return invoker().invokeBasic(resolvedHandle(), arguments);
+        Object invokeWithArguments(Object... brguments) throws Throwbble {
+            // If we hbve b cbched invoker, cbll it right bwby.
+            // NOTE: The invoker blwbys returns b reference vblue.
+            if (TRACE_INTERPRETER)  return invokeWithArgumentsTrbcing(brguments);
+            bssert(checkArgumentTypes(brguments, methodType()));
+            return invoker().invokeBbsic(resolvedHbndle(), brguments);
         }
 
         @Hidden
-        Object invokeWithArgumentsTracing(Object[] arguments) throws Throwable {
-            Object rval;
+        Object invokeWithArgumentsTrbcing(Object[] brguments) throws Throwbble {
+            Object rvbl;
             try {
-                traceInterpreter("[ call", this, arguments);
+                trbceInterpreter("[ cbll", this, brguments);
                 if (invoker == null) {
-                    traceInterpreter("| getInvoker", this);
+                    trbceInterpreter("| getInvoker", this);
                     invoker();
                 }
-                if (resolvedHandle == null) {
-                    traceInterpreter("| resolve", this);
-                    resolvedHandle();
+                if (resolvedHbndle == null) {
+                    trbceInterpreter("| resolve", this);
+                    resolvedHbndle();
                 }
-                assert(checkArgumentTypes(arguments, methodType()));
-                rval = invoker().invokeBasic(resolvedHandle(), arguments);
-            } catch (Throwable ex) {
-                traceInterpreter("] throw =>", ex);
+                bssert(checkArgumentTypes(brguments, methodType()));
+                rvbl = invoker().invokeBbsic(resolvedHbndle(), brguments);
+            } cbtch (Throwbble ex) {
+                trbceInterpreter("] throw =>", ex);
                 throw ex;
             }
-            traceInterpreter("] return =>", rval);
-            return rval;
+            trbceInterpreter("] return =>", rvbl);
+            return rvbl;
         }
 
-        private MethodHandle invoker() {
+        privbte MethodHbndle invoker() {
             if (invoker != null)  return invoker;
-            // Get an invoker and cache it.
+            // Get bn invoker bnd cbche it.
             return invoker = computeInvoker(methodType().form());
         }
 
-        private static boolean checkArgumentTypes(Object[] arguments, MethodType methodType) {
+        privbte stbtic boolebn checkArgumentTypes(Object[] brguments, MethodType methodType) {
             if (true)  return true;  // FIXME
-            MethodType dstType = methodType.form().erasedType();
-            MethodType srcType = dstType.basicType().wrap();
-            Class<?>[] ptypes = new Class<?>[arguments.length];
-            for (int i = 0; i < arguments.length; i++) {
-                Object arg = arguments[i];
-                Class<?> ptype = arg == null ? Object.class : arg.getClass();
-                // If the dest. type is a primitive we keep the
-                // argument type.
-                ptypes[i] = dstType.parameterType(i).isPrimitive() ? ptype : Object.class;
+            MethodType dstType = methodType.form().erbsedType();
+            MethodType srcType = dstType.bbsicType().wrbp();
+            Clbss<?>[] ptypes = new Clbss<?>[brguments.length];
+            for (int i = 0; i < brguments.length; i++) {
+                Object brg = brguments[i];
+                Clbss<?> ptype = brg == null ? Object.clbss : brg.getClbss();
+                // If the dest. type is b primitive we keep the
+                // brgument type.
+                ptypes[i] = dstType.pbrbmeterType(i).isPrimitive() ? ptype : Object.clbss;
             }
-            MethodType argType = MethodType.methodType(srcType.returnType(), ptypes).wrap();
-            assert(argType.isConvertibleTo(srcType)) : "wrong argument types: cannot convert " + argType + " to " + srcType;
+            MethodType brgType = MethodType.methodType(srcType.returnType(), ptypes).wrbp();
+            bssert(brgType.isConvertibleTo(srcType)) : "wrong brgument types: cbnnot convert " + brgType + " to " + srcType;
             return true;
         }
 
         MethodType methodType() {
-            if (resolvedHandle != null)
-                return resolvedHandle.type();
+            if (resolvedHbndle != null)
+                return resolvedHbndle.type();
             else
-                // only for certain internal LFs during bootstrapping
-                return member.getInvocationType();
+                // only for certbin internbl LFs during bootstrbpping
+                return member.getInvocbtionType();
         }
 
-        MemberName member() {
-            assert(assertMemberIsConsistent());
+        MemberNbme member() {
+            bssert(bssertMemberIsConsistent());
             return member;
         }
 
-        // Called only from assert.
-        private boolean assertMemberIsConsistent() {
-            if (resolvedHandle instanceof DirectMethodHandle) {
-                MemberName m = resolvedHandle.internalMemberName();
-                assert(m.equals(member));
+        // Cblled only from bssert.
+        privbte boolebn bssertMemberIsConsistent() {
+            if (resolvedHbndle instbnceof DirectMethodHbndle) {
+                MemberNbme m = resolvedHbndle.internblMemberNbme();
+                bssert(m.equbls(member));
             }
             return true;
         }
 
-        Class<?> memberDeclaringClassOrNull() {
-            return (member == null) ? null : member.getDeclaringClass();
+        Clbss<?> memberDeclbringClbssOrNull() {
+            return (member == null) ? null : member.getDeclbringClbss();
         }
 
-        BasicType returnType() {
-            return basicType(methodType().returnType());
+        BbsicType returnType() {
+            return bbsicType(methodType().returnType());
         }
 
-        BasicType parameterType(int n) {
-            return basicType(methodType().parameterType(n));
+        BbsicType pbrbmeterType(int n) {
+            return bbsicType(methodType().pbrbmeterType(n));
         }
 
-        int arity() {
-            return methodType().parameterCount();
+        int brity() {
+            return methodType().pbrbmeterCount();
         }
 
         public String toString() {
-            if (member == null)  return String.valueOf(resolvedHandle);
-            return member.getDeclaringClass().getSimpleName()+"."+member.getName();
+            if (member == null)  return String.vblueOf(resolvedHbndle);
+            return member.getDeclbringClbss().getSimpleNbme()+"."+member.getNbme();
         }
 
-        public boolean isIdentity() {
-            return this.equals(identity(returnType()));
+        public boolebn isIdentity() {
+            return this.equbls(identity(returnType()));
         }
 
-        public boolean isConstantZero() {
-            return this.equals(constantZero(returnType()));
+        public boolebn isConstbntZero() {
+            return this.equbls(constbntZero(returnType()));
         }
     }
 
-    public static String basicTypeSignature(MethodType type) {
-        char[] sig = new char[type.parameterCount() + 2];
+    public stbtic String bbsicTypeSignbture(MethodType type) {
+        chbr[] sig = new chbr[type.pbrbmeterCount() + 2];
         int sigp = 0;
-        for (Class<?> pt : type.parameterList()) {
-            sig[sigp++] = basicTypeChar(pt);
+        for (Clbss<?> pt : type.pbrbmeterList()) {
+            sig[sigp++] = bbsicTypeChbr(pt);
         }
         sig[sigp++] = '_';
-        sig[sigp++] = basicTypeChar(type.returnType());
-        assert(sigp == sig.length);
-        return String.valueOf(sig);
+        sig[sigp++] = bbsicTypeChbr(type.returnType());
+        bssert(sigp == sig.length);
+        return String.vblueOf(sig);
     }
-    public static String shortenSignature(String signature) {
-        // Hack to make signatures more readable when they show up in method names.
-        final int NO_CHAR = -1, MIN_RUN = 3;
+    public stbtic String shortenSignbture(String signbture) {
+        // Hbck to mbke signbtures more rebdbble when they show up in method nbmes.
+        finbl int NO_CHAR = -1, MIN_RUN = 3;
         int c0, c1 = NO_CHAR, c1reps = 0;
         StringBuilder buf = null;
-        int len = signature.length();
-        if (len < MIN_RUN)  return signature;
+        int len = signbture.length();
+        if (len < MIN_RUN)  return signbture;
         for (int i = 0; i <= len; i++) {
-            // shift in the next char:
-            c0 = c1; c1 = (i == len ? NO_CHAR : signature.charAt(i));
+            // shift in the next chbr:
+            c0 = c1; c1 = (i == len ? NO_CHAR : signbture.chbrAt(i));
             if (c1 == c0) { ++c1reps; continue; }
             // shift in the next count:
             int c0reps = c1reps; c1reps = 1;
-            // end of a  character run
+            // end of b  chbrbcter run
             if (c0reps < MIN_RUN) {
                 if (buf != null) {
                     while (--c0reps >= 0)
-                        buf.append((char)c0);
+                        buf.bppend((chbr)c0);
                 }
                 continue;
             }
-            // found three or more in a row
+            // found three or more in b row
             if (buf == null)
-                buf = new StringBuilder().append(signature, 0, i - c0reps);
-            buf.append((char)c0).append(c0reps);
+                buf = new StringBuilder().bppend(signbture, 0, i - c0reps);
+            buf.bppend((chbr)c0).bppend(c0reps);
         }
-        return (buf == null) ? signature : buf.toString();
+        return (buf == null) ? signbture : buf.toString();
     }
 
-    static final class Name {
-        final BasicType type;
-        private short index;
-        final NamedFunction function;
-        @Stable final Object[] arguments;
+    stbtic finbl clbss Nbme {
+        finbl BbsicType type;
+        privbte short index;
+        finbl NbmedFunction function;
+        @Stbble finbl Object[] brguments;
 
-        private Name(int index, BasicType type, NamedFunction function, Object[] arguments) {
+        privbte Nbme(int index, BbsicType type, NbmedFunction function, Object[] brguments) {
             this.index = (short)index;
             this.type = type;
             this.function = function;
-            this.arguments = arguments;
-            assert(this.index == index);
+            this.brguments = brguments;
+            bssert(this.index == index);
         }
-        Name(MethodHandle function, Object... arguments) {
-            this(new NamedFunction(function), arguments);
+        Nbme(MethodHbndle function, Object... brguments) {
+            this(new NbmedFunction(function), brguments);
         }
-        Name(MethodType functionType, Object... arguments) {
-            this(new NamedFunction(functionType), arguments);
-            assert(arguments[0] instanceof Name && ((Name)arguments[0]).type == L_TYPE);
+        Nbme(MethodType functionType, Object... brguments) {
+            this(new NbmedFunction(functionType), brguments);
+            bssert(brguments[0] instbnceof Nbme && ((Nbme)brguments[0]).type == L_TYPE);
         }
-        Name(MemberName function, Object... arguments) {
-            this(new NamedFunction(function), arguments);
+        Nbme(MemberNbme function, Object... brguments) {
+            this(new NbmedFunction(function), brguments);
         }
-        Name(NamedFunction function, Object... arguments) {
-            this(-1, function.returnType(), function, arguments = arguments.clone());
-            assert(arguments.length == function.arity()) : "arity mismatch: arguments.length=" + arguments.length + " == function.arity()=" + function.arity() + " in " + debugString();
-            for (int i = 0; i < arguments.length; i++)
-                assert(typesMatch(function.parameterType(i), arguments[i])) : "types don't match: function.parameterType(" + i + ")=" + function.parameterType(i) + ", arguments[" + i + "]=" + arguments[i] + " in " + debugString();
+        Nbme(NbmedFunction function, Object... brguments) {
+            this(-1, function.returnType(), function, brguments = brguments.clone());
+            bssert(brguments.length == function.brity()) : "brity mismbtch: brguments.length=" + brguments.length + " == function.brity()=" + function.brity() + " in " + debugString();
+            for (int i = 0; i < brguments.length; i++)
+                bssert(typesMbtch(function.pbrbmeterType(i), brguments[i])) : "types don't mbtch: function.pbrbmeterType(" + i + ")=" + function.pbrbmeterType(i) + ", brguments[" + i + "]=" + brguments[i] + " in " + debugString();
         }
-        /** Create a raw parameter of the given type, with an expected index. */
-        Name(int index, BasicType type) {
+        /** Crebte b rbw pbrbmeter of the given type, with bn expected index. */
+        Nbme(int index, BbsicType type) {
             this(index, type, null, null);
         }
-        /** Create a raw parameter of the given type. */
-        Name(BasicType type) { this(-1, type); }
+        /** Crebte b rbw pbrbmeter of the given type. */
+        Nbme(BbsicType type) { this(-1, type); }
 
-        BasicType type() { return type; }
+        BbsicType type() { return type; }
         int index() { return index; }
-        boolean initIndex(int i) {
+        boolebn initIndex(int i) {
             if (index != i) {
-                if (index != -1)  return false;
+                if (index != -1)  return fblse;
                 index = (short)i;
             }
             return true;
         }
-        char typeChar() {
-            return type.btChar;
+        chbr typeChbr() {
+            return type.btChbr;
         }
 
         void resolve() {
@@ -1461,82 +1461,82 @@ class LambdaForm {
                 function.resolve();
         }
 
-        Name newIndex(int i) {
+        Nbme newIndex(int i) {
             if (initIndex(i))  return this;
             return cloneWithIndex(i);
         }
-        Name cloneWithIndex(int i) {
-            Object[] newArguments = (arguments == null) ? null : arguments.clone();
-            return new Name(i, type, function, newArguments);
+        Nbme cloneWithIndex(int i) {
+            Object[] newArguments = (brguments == null) ? null : brguments.clone();
+            return new Nbme(i, type, function, newArguments);
         }
-        Name replaceName(Name oldName, Name newName) {  // FIXME: use replaceNames uniformly
-            if (oldName == newName)  return this;
-            @SuppressWarnings("LocalVariableHidesMemberVariable")
-            Object[] arguments = this.arguments;
-            if (arguments == null)  return this;
-            boolean replaced = false;
-            for (int j = 0; j < arguments.length; j++) {
-                if (arguments[j] == oldName) {
-                    if (!replaced) {
-                        replaced = true;
-                        arguments = arguments.clone();
+        Nbme replbceNbme(Nbme oldNbme, Nbme newNbme) {  // FIXME: use replbceNbmes uniformly
+            if (oldNbme == newNbme)  return this;
+            @SuppressWbrnings("LocblVbribbleHidesMemberVbribble")
+            Object[] brguments = this.brguments;
+            if (brguments == null)  return this;
+            boolebn replbced = fblse;
+            for (int j = 0; j < brguments.length; j++) {
+                if (brguments[j] == oldNbme) {
+                    if (!replbced) {
+                        replbced = true;
+                        brguments = brguments.clone();
                     }
-                    arguments[j] = newName;
+                    brguments[j] = newNbme;
                 }
             }
-            if (!replaced)  return this;
-            return new Name(function, arguments);
+            if (!replbced)  return this;
+            return new Nbme(function, brguments);
         }
-        Name replaceNames(Name[] oldNames, Name[] newNames, int start, int end) {
-            @SuppressWarnings("LocalVariableHidesMemberVariable")
-            Object[] arguments = this.arguments;
-            boolean replaced = false;
-        eachArg:
-            for (int j = 0; j < arguments.length; j++) {
-                if (arguments[j] instanceof Name) {
-                    Name n = (Name) arguments[j];
+        Nbme replbceNbmes(Nbme[] oldNbmes, Nbme[] newNbmes, int stbrt, int end) {
+            @SuppressWbrnings("LocblVbribbleHidesMemberVbribble")
+            Object[] brguments = this.brguments;
+            boolebn replbced = fblse;
+        ebchArg:
+            for (int j = 0; j < brguments.length; j++) {
+                if (brguments[j] instbnceof Nbme) {
+                    Nbme n = (Nbme) brguments[j];
                     int check = n.index;
-                    // harmless check to see if the thing is already in newNames:
-                    if (check >= 0 && check < newNames.length && n == newNames[check])
-                        continue eachArg;
-                    // n might not have the correct index: n != oldNames[n.index].
-                    for (int i = start; i < end; i++) {
-                        if (n == oldNames[i]) {
-                            if (n == newNames[i])
-                                continue eachArg;
-                            if (!replaced) {
-                                replaced = true;
-                                arguments = arguments.clone();
+                    // hbrmless check to see if the thing is blrebdy in newNbmes:
+                    if (check >= 0 && check < newNbmes.length && n == newNbmes[check])
+                        continue ebchArg;
+                    // n might not hbve the correct index: n != oldNbmes[n.index].
+                    for (int i = stbrt; i < end; i++) {
+                        if (n == oldNbmes[i]) {
+                            if (n == newNbmes[i])
+                                continue ebchArg;
+                            if (!replbced) {
+                                replbced = true;
+                                brguments = brguments.clone();
                             }
-                            arguments[j] = newNames[i];
-                            continue eachArg;
+                            brguments[j] = newNbmes[i];
+                            continue ebchArg;
                         }
                     }
                 }
             }
-            if (!replaced)  return this;
-            return new Name(function, arguments);
+            if (!replbced)  return this;
+            return new Nbme(function, brguments);
         }
         void internArguments() {
-            @SuppressWarnings("LocalVariableHidesMemberVariable")
-            Object[] arguments = this.arguments;
-            for (int j = 0; j < arguments.length; j++) {
-                if (arguments[j] instanceof Name) {
-                    Name n = (Name) arguments[j];
-                    if (n.isParam() && n.index < INTERNED_ARGUMENT_LIMIT)
-                        arguments[j] = internArgument(n);
+            @SuppressWbrnings("LocblVbribbleHidesMemberVbribble")
+            Object[] brguments = this.brguments;
+            for (int j = 0; j < brguments.length; j++) {
+                if (brguments[j] instbnceof Nbme) {
+                    Nbme n = (Nbme) brguments[j];
+                    if (n.isPbrbm() && n.index < INTERNED_ARGUMENT_LIMIT)
+                        brguments[j] = internArgument(n);
                 }
             }
         }
-        boolean isParam() {
+        boolebn isPbrbm() {
             return function == null;
         }
-        boolean isConstantZero() {
-            return !isParam() && arguments.length == 0 && function.isConstantZero();
+        boolebn isConstbntZero() {
+            return !isPbrbm() && brguments.length == 0 && function.isConstbntZero();
         }
 
         public String toString() {
-            return (isParam()?"a":"t")+(index >= 0 ? index : System.identityHashCode(this))+":"+typeChar();
+            return (isPbrbm()?"b":"t")+(index >= 0 ? index : System.identityHbshCode(this))+":"+typeChbr();
         }
         public String debugString() {
             String s = toString();
@@ -1545,371 +1545,371 @@ class LambdaForm {
         public String exprString() {
             if (function == null)  return toString();
             StringBuilder buf = new StringBuilder(function.toString());
-            buf.append("(");
-            String cma = "";
-            for (Object a : arguments) {
-                buf.append(cma); cma = ",";
-                if (a instanceof Name || a instanceof Integer)
-                    buf.append(a);
+            buf.bppend("(");
+            String cmb = "";
+            for (Object b : brguments) {
+                buf.bppend(cmb); cmb = ",";
+                if (b instbnceof Nbme || b instbnceof Integer)
+                    buf.bppend(b);
                 else
-                    buf.append("(").append(a).append(")");
+                    buf.bppend("(").bppend(b).bppend(")");
             }
-            buf.append(")");
+            buf.bppend(")");
             return buf.toString();
         }
 
-        static boolean typesMatch(BasicType parameterType, Object object) {
-            if (object instanceof Name) {
-                return ((Name)object).type == parameterType;
+        stbtic boolebn typesMbtch(BbsicType pbrbmeterType, Object object) {
+            if (object instbnceof Nbme) {
+                return ((Nbme)object).type == pbrbmeterType;
             }
-            switch (parameterType) {
-                case I_TYPE:  return object instanceof Integer;
-                case J_TYPE:  return object instanceof Long;
-                case F_TYPE:  return object instanceof Float;
-                case D_TYPE:  return object instanceof Double;
+            switch (pbrbmeterType) {
+                cbse I_TYPE:  return object instbnceof Integer;
+                cbse J_TYPE:  return object instbnceof Long;
+                cbse F_TYPE:  return object instbnceof Flobt;
+                cbse D_TYPE:  return object instbnceof Double;
             }
-            assert(parameterType == L_TYPE);
+            bssert(pbrbmeterType == L_TYPE);
             return true;
         }
 
         /**
-         * Does this Name precede the given binding node in some canonical order?
-         * This predicate is used to order data bindings (via insertion sort)
-         * with some stability.
+         * Does this Nbme precede the given binding node in some cbnonicbl order?
+         * This predicbte is used to order dbtb bindings (vib insertion sort)
+         * with some stbbility.
          */
-        boolean isSiblingBindingBefore(Name binding) {
-            assert(!binding.isParam());
-            if (isParam())  return true;
-            if (function.equals(binding.function) &&
-                arguments.length == binding.arguments.length) {
-                boolean sawInt = false;
-                for (int i = 0; i < arguments.length; i++) {
-                    Object a1 = arguments[i];
-                    Object a2 = binding.arguments[i];
-                    if (!a1.equals(a2)) {
-                        if (a1 instanceof Integer && a2 instanceof Integer) {
-                            if (sawInt)  continue;
-                            sawInt = true;
-                            if ((int)a1 < (int)a2)  continue;  // still might be true
+        boolebn isSiblingBindingBefore(Nbme binding) {
+            bssert(!binding.isPbrbm());
+            if (isPbrbm())  return true;
+            if (function.equbls(binding.function) &&
+                brguments.length == binding.brguments.length) {
+                boolebn sbwInt = fblse;
+                for (int i = 0; i < brguments.length; i++) {
+                    Object b1 = brguments[i];
+                    Object b2 = binding.brguments[i];
+                    if (!b1.equbls(b2)) {
+                        if (b1 instbnceof Integer && b2 instbnceof Integer) {
+                            if (sbwInt)  continue;
+                            sbwInt = true;
+                            if ((int)b1 < (int)b2)  continue;  // still might be true
                         }
-                        return false;
+                        return fblse;
                     }
                 }
-                return sawInt;
+                return sbwInt;
             }
-            return false;
+            return fblse;
         }
 
-        /** Return the index of the last occurrence of n in the argument array.
-         *  Return -1 if the name is not used.
+        /** Return the index of the lbst occurrence of n in the brgument brrby.
+         *  Return -1 if the nbme is not used.
          */
-        int lastUseIndex(Name n) {
-            if (arguments == null)  return -1;
-            for (int i = arguments.length; --i >= 0; ) {
-                if (arguments[i] == n)  return i;
+        int lbstUseIndex(Nbme n) {
+            if (brguments == null)  return -1;
+            for (int i = brguments.length; --i >= 0; ) {
+                if (brguments[i] == n)  return i;
             }
             return -1;
         }
 
-        /** Return the number of occurrences of n in the argument array.
-         *  Return 0 if the name is not used.
+        /** Return the number of occurrences of n in the brgument brrby.
+         *  Return 0 if the nbme is not used.
          */
-        int useCount(Name n) {
-            if (arguments == null)  return 0;
+        int useCount(Nbme n) {
+            if (brguments == null)  return 0;
             int count = 0;
-            for (int i = arguments.length; --i >= 0; ) {
-                if (arguments[i] == n)  ++count;
+            for (int i = brguments.length; --i >= 0; ) {
+                if (brguments[i] == n)  ++count;
             }
             return count;
         }
 
-        boolean contains(Name n) {
-            return this == n || lastUseIndex(n) >= 0;
+        boolebn contbins(Nbme n) {
+            return this == n || lbstUseIndex(n) >= 0;
         }
 
-        public boolean equals(Name that) {
-            if (this == that)  return true;
-            if (isParam())
-                // each parameter is a unique atom
-                return false;  // this != that
+        public boolebn equbls(Nbme thbt) {
+            if (this == thbt)  return true;
+            if (isPbrbm())
+                // ebch pbrbmeter is b unique btom
+                return fblse;  // this != thbt
             return
-                //this.index == that.index &&
-                this.type == that.type &&
-                this.function.equals(that.function) &&
-                Arrays.equals(this.arguments, that.arguments);
+                //this.index == thbt.index &&
+                this.type == thbt.type &&
+                this.function.equbls(thbt.function) &&
+                Arrbys.equbls(this.brguments, thbt.brguments);
         }
         @Override
-        public boolean equals(Object x) {
-            return x instanceof Name && equals((Name)x);
+        public boolebn equbls(Object x) {
+            return x instbnceof Nbme && equbls((Nbme)x);
         }
         @Override
-        public int hashCode() {
-            if (isParam())
-                return index | (type.ordinal() << 8);
-            return function.hashCode() ^ Arrays.hashCode(arguments);
+        public int hbshCode() {
+            if (isPbrbm())
+                return index | (type.ordinbl() << 8);
+            return function.hbshCode() ^ Arrbys.hbshCode(brguments);
         }
     }
 
-    /** Return the index of the last name which contains n as an argument.
-     *  Return -1 if the name is not used.  Return names.length if it is the return value.
+    /** Return the index of the lbst nbme which contbins n bs bn brgument.
+     *  Return -1 if the nbme is not used.  Return nbmes.length if it is the return vblue.
      */
-    int lastUseIndex(Name n) {
-        int ni = n.index, nmax = names.length;
-        assert(names[ni] == n);
-        if (result == ni)  return nmax;  // live all the way beyond the end
-        for (int i = nmax; --i > ni; ) {
-            if (names[i].lastUseIndex(n) >= 0)
+    int lbstUseIndex(Nbme n) {
+        int ni = n.index, nmbx = nbmes.length;
+        bssert(nbmes[ni] == n);
+        if (result == ni)  return nmbx;  // live bll the wby beyond the end
+        for (int i = nmbx; --i > ni; ) {
+            if (nbmes[i].lbstUseIndex(n) >= 0)
                 return i;
         }
         return -1;
     }
 
-    /** Return the number of times n is used as an argument or return value. */
-    int useCount(Name n) {
-        int ni = n.index, nmax = names.length;
-        int end = lastUseIndex(n);
+    /** Return the number of times n is used bs bn brgument or return vblue. */
+    int useCount(Nbme n) {
+        int ni = n.index, nmbx = nbmes.length;
+        int end = lbstUseIndex(n);
         if (end < 0)  return 0;
         int count = 0;
-        if (end == nmax) { count++; end--; }
+        if (end == nmbx) { count++; end--; }
         int beg = n.index() + 1;
-        if (beg < arity)  beg = arity;
+        if (beg < brity)  beg = brity;
         for (int i = beg; i <= end; i++) {
-            count += names[i].useCount(n);
+            count += nbmes[i].useCount(n);
         }
         return count;
     }
 
-    static Name argument(int which, char type) {
-        return argument(which, basicType(type));
+    stbtic Nbme brgument(int which, chbr type) {
+        return brgument(which, bbsicType(type));
     }
-    static Name argument(int which, BasicType type) {
+    stbtic Nbme brgument(int which, BbsicType type) {
         if (which >= INTERNED_ARGUMENT_LIMIT)
-            return new Name(which, type);
-        return INTERNED_ARGUMENTS[type.ordinal()][which];
+            return new Nbme(which, type);
+        return INTERNED_ARGUMENTS[type.ordinbl()][which];
     }
-    static Name internArgument(Name n) {
-        assert(n.isParam()) : "not param: " + n;
-        assert(n.index < INTERNED_ARGUMENT_LIMIT);
-        return argument(n.index, n.type);
+    stbtic Nbme internArgument(Nbme n) {
+        bssert(n.isPbrbm()) : "not pbrbm: " + n;
+        bssert(n.index < INTERNED_ARGUMENT_LIMIT);
+        return brgument(n.index, n.type);
     }
-    static Name[] arguments(int extra, String types) {
+    stbtic Nbme[] brguments(int extrb, String types) {
         int length = types.length();
-        Name[] names = new Name[length + extra];
+        Nbme[] nbmes = new Nbme[length + extrb];
         for (int i = 0; i < length; i++)
-            names[i] = argument(i, types.charAt(i));
-        return names;
+            nbmes[i] = brgument(i, types.chbrAt(i));
+        return nbmes;
     }
-    static Name[] arguments(int extra, char... types) {
+    stbtic Nbme[] brguments(int extrb, chbr... types) {
         int length = types.length;
-        Name[] names = new Name[length + extra];
+        Nbme[] nbmes = new Nbme[length + extrb];
         for (int i = 0; i < length; i++)
-            names[i] = argument(i, types[i]);
-        return names;
+            nbmes[i] = brgument(i, types[i]);
+        return nbmes;
     }
-    static Name[] arguments(int extra, List<Class<?>> types) {
+    stbtic Nbme[] brguments(int extrb, List<Clbss<?>> types) {
         int length = types.size();
-        Name[] names = new Name[length + extra];
+        Nbme[] nbmes = new Nbme[length + extrb];
         for (int i = 0; i < length; i++)
-            names[i] = argument(i, basicType(types.get(i)));
-        return names;
+            nbmes[i] = brgument(i, bbsicType(types.get(i)));
+        return nbmes;
     }
-    static Name[] arguments(int extra, Class<?>... types) {
+    stbtic Nbme[] brguments(int extrb, Clbss<?>... types) {
         int length = types.length;
-        Name[] names = new Name[length + extra];
+        Nbme[] nbmes = new Nbme[length + extrb];
         for (int i = 0; i < length; i++)
-            names[i] = argument(i, basicType(types[i]));
-        return names;
+            nbmes[i] = brgument(i, bbsicType(types[i]));
+        return nbmes;
     }
-    static Name[] arguments(int extra, MethodType types) {
-        int length = types.parameterCount();
-        Name[] names = new Name[length + extra];
+    stbtic Nbme[] brguments(int extrb, MethodType types) {
+        int length = types.pbrbmeterCount();
+        Nbme[] nbmes = new Nbme[length + extrb];
         for (int i = 0; i < length; i++)
-            names[i] = argument(i, basicType(types.parameterType(i)));
-        return names;
+            nbmes[i] = brgument(i, bbsicType(types.pbrbmeterType(i)));
+        return nbmes;
     }
-    static final int INTERNED_ARGUMENT_LIMIT = 10;
-    private static final Name[][] INTERNED_ARGUMENTS
-            = new Name[ARG_TYPE_LIMIT][INTERNED_ARGUMENT_LIMIT];
-    static {
-        for (BasicType type : BasicType.ARG_TYPES) {
-            int ord = type.ordinal();
+    stbtic finbl int INTERNED_ARGUMENT_LIMIT = 10;
+    privbte stbtic finbl Nbme[][] INTERNED_ARGUMENTS
+            = new Nbme[ARG_TYPE_LIMIT][INTERNED_ARGUMENT_LIMIT];
+    stbtic {
+        for (BbsicType type : BbsicType.ARG_TYPES) {
+            int ord = type.ordinbl();
             for (int i = 0; i < INTERNED_ARGUMENTS[ord].length; i++) {
-                INTERNED_ARGUMENTS[ord][i] = new Name(i, type);
+                INTERNED_ARGUMENTS[ord][i] = new Nbme(i, type);
             }
         }
     }
 
-    private static final MemberName.Factory IMPL_NAMES = MemberName.getFactory();
+    privbte stbtic finbl MemberNbme.Fbctory IMPL_NAMES = MemberNbme.getFbctory();
 
-    static LambdaForm identityForm(BasicType type) {
-        return LF_identityForm[type.ordinal()];
+    stbtic LbmbdbForm identityForm(BbsicType type) {
+        return LF_identityForm[type.ordinbl()];
     }
-    static LambdaForm zeroForm(BasicType type) {
-        return LF_zeroForm[type.ordinal()];
+    stbtic LbmbdbForm zeroForm(BbsicType type) {
+        return LF_zeroForm[type.ordinbl()];
     }
-    static NamedFunction identity(BasicType type) {
-        return NF_identity[type.ordinal()];
+    stbtic NbmedFunction identity(BbsicType type) {
+        return NF_identity[type.ordinbl()];
     }
-    static NamedFunction constantZero(BasicType type) {
-        return NF_zero[type.ordinal()];
+    stbtic NbmedFunction constbntZero(BbsicType type) {
+        return NF_zero[type.ordinbl()];
     }
-    private static final LambdaForm[] LF_identityForm = new LambdaForm[TYPE_LIMIT];
-    private static final LambdaForm[] LF_zeroForm = new LambdaForm[TYPE_LIMIT];
-    private static final NamedFunction[] NF_identity = new NamedFunction[TYPE_LIMIT];
-    private static final NamedFunction[] NF_zero = new NamedFunction[TYPE_LIMIT];
-    private static void createIdentityForms() {
-        for (BasicType type : BasicType.ALL_TYPES) {
-            int ord = type.ordinal();
-            char btChar = type.basicTypeChar();
-            boolean isVoid = (type == V_TYPE);
-            Class<?> btClass = type.btClass;
-            MethodType zeType = MethodType.methodType(btClass);
-            MethodType idType = isVoid ? zeType : zeType.appendParameterTypes(btClass);
+    privbte stbtic finbl LbmbdbForm[] LF_identityForm = new LbmbdbForm[TYPE_LIMIT];
+    privbte stbtic finbl LbmbdbForm[] LF_zeroForm = new LbmbdbForm[TYPE_LIMIT];
+    privbte stbtic finbl NbmedFunction[] NF_identity = new NbmedFunction[TYPE_LIMIT];
+    privbte stbtic finbl NbmedFunction[] NF_zero = new NbmedFunction[TYPE_LIMIT];
+    privbte stbtic void crebteIdentityForms() {
+        for (BbsicType type : BbsicType.ALL_TYPES) {
+            int ord = type.ordinbl();
+            chbr btChbr = type.bbsicTypeChbr();
+            boolebn isVoid = (type == V_TYPE);
+            Clbss<?> btClbss = type.btClbss;
+            MethodType zeType = MethodType.methodType(btClbss);
+            MethodType idType = isVoid ? zeType : zeType.bppendPbrbmeterTypes(btClbss);
 
-            // Look up some symbolic names.  It might not be necessary to have these,
+            // Look up some symbolic nbmes.  It might not be necessbry to hbve these,
             // but if we need to emit direct references to bytecodes, it helps.
-            // Zero is built from a call to an identity function with a constant zero input.
-            MemberName idMem = new MemberName(LambdaForm.class, "identity_"+btChar, idType, REF_invokeStatic);
-            MemberName zeMem = new MemberName(LambdaForm.class, "zero_"+btChar, zeType, REF_invokeStatic);
+            // Zero is built from b cbll to bn identity function with b constbnt zero input.
+            MemberNbme idMem = new MemberNbme(LbmbdbForm.clbss, "identity_"+btChbr, idType, REF_invokeStbtic);
+            MemberNbme zeMem = new MemberNbme(LbmbdbForm.clbss, "zero_"+btChbr, zeType, REF_invokeStbtic);
             try {
-                zeMem = IMPL_NAMES.resolveOrFail(REF_invokeStatic, zeMem, null, NoSuchMethodException.class);
-                idMem = IMPL_NAMES.resolveOrFail(REF_invokeStatic, idMem, null, NoSuchMethodException.class);
-            } catch (IllegalAccessException|NoSuchMethodException ex) {
-                throw newInternalError(ex);
+                zeMem = IMPL_NAMES.resolveOrFbil(REF_invokeStbtic, zeMem, null, NoSuchMethodException.clbss);
+                idMem = IMPL_NAMES.resolveOrFbil(REF_invokeStbtic, idMem, null, NoSuchMethodException.clbss);
+            } cbtch (IllegblAccessException|NoSuchMethodException ex) {
+                throw newInternblError(ex);
             }
 
-            NamedFunction idFun = new NamedFunction(idMem);
-            LambdaForm idForm;
+            NbmedFunction idFun = new NbmedFunction(idMem);
+            LbmbdbForm idForm;
             if (isVoid) {
-                Name[] idNames = new Name[] { argument(0, L_TYPE) };
-                idForm = new LambdaForm(idMem.getName(), 1, idNames, VOID_RESULT);
+                Nbme[] idNbmes = new Nbme[] { brgument(0, L_TYPE) };
+                idForm = new LbmbdbForm(idMem.getNbme(), 1, idNbmes, VOID_RESULT);
             } else {
-                Name[] idNames = new Name[] { argument(0, L_TYPE), argument(1, type) };
-                idForm = new LambdaForm(idMem.getName(), 2, idNames, 1);
+                Nbme[] idNbmes = new Nbme[] { brgument(0, L_TYPE), brgument(1, type) };
+                idForm = new LbmbdbForm(idMem.getNbme(), 2, idNbmes, 1);
             }
             LF_identityForm[ord] = idForm;
             NF_identity[ord] = idFun;
 
-            NamedFunction zeFun = new NamedFunction(zeMem);
-            LambdaForm zeForm;
+            NbmedFunction zeFun = new NbmedFunction(zeMem);
+            LbmbdbForm zeForm;
             if (isVoid) {
                 zeForm = idForm;
             } else {
-                Object zeValue = Wrapper.forBasicType(btChar).zero();
-                Name[] zeNames = new Name[] { argument(0, L_TYPE), new Name(idFun, zeValue) };
-                zeForm = new LambdaForm(zeMem.getName(), 1, zeNames, 1);
+                Object zeVblue = Wrbpper.forBbsicType(btChbr).zero();
+                Nbme[] zeNbmes = new Nbme[] { brgument(0, L_TYPE), new Nbme(idFun, zeVblue) };
+                zeForm = new LbmbdbForm(zeMem.getNbme(), 1, zeNbmes, 1);
             }
             LF_zeroForm[ord] = zeForm;
             NF_zero[ord] = zeFun;
 
-            assert(idFun.isIdentity());
-            assert(zeFun.isConstantZero());
-            assert(new Name(zeFun).isConstantZero());
+            bssert(idFun.isIdentity());
+            bssert(zeFun.isConstbntZero());
+            bssert(new Nbme(zeFun).isConstbntZero());
         }
 
-        // Do this in a separate pass, so that SimpleMethodHandle.make can see the tables.
-        for (BasicType type : BasicType.ALL_TYPES) {
-            int ord = type.ordinal();
-            NamedFunction idFun = NF_identity[ord];
-            LambdaForm idForm = LF_identityForm[ord];
-            MemberName idMem = idFun.member;
-            idFun.resolvedHandle = SimpleMethodHandle.make(idMem.getInvocationType(), idForm);
+        // Do this in b sepbrbte pbss, so thbt SimpleMethodHbndle.mbke cbn see the tbbles.
+        for (BbsicType type : BbsicType.ALL_TYPES) {
+            int ord = type.ordinbl();
+            NbmedFunction idFun = NF_identity[ord];
+            LbmbdbForm idForm = LF_identityForm[ord];
+            MemberNbme idMem = idFun.member;
+            idFun.resolvedHbndle = SimpleMethodHbndle.mbke(idMem.getInvocbtionType(), idForm);
 
-            NamedFunction zeFun = NF_zero[ord];
-            LambdaForm zeForm = LF_zeroForm[ord];
-            MemberName zeMem = zeFun.member;
-            zeFun.resolvedHandle = SimpleMethodHandle.make(zeMem.getInvocationType(), zeForm);
+            NbmedFunction zeFun = NF_zero[ord];
+            LbmbdbForm zeForm = LF_zeroForm[ord];
+            MemberNbme zeMem = zeFun.member;
+            zeFun.resolvedHbndle = SimpleMethodHbndle.mbke(zeMem.getInvocbtionType(), zeForm);
 
-            assert(idFun.isIdentity());
-            assert(zeFun.isConstantZero());
-            assert(new Name(zeFun).isConstantZero());
+            bssert(idFun.isIdentity());
+            bssert(zeFun.isConstbntZero());
+            bssert(new Nbme(zeFun).isConstbntZero());
         }
     }
 
-    // Avoid appealing to ValueConversions at bootstrap time:
-    private static int identity_I(int x) { return x; }
-    private static long identity_J(long x) { return x; }
-    private static float identity_F(float x) { return x; }
-    private static double identity_D(double x) { return x; }
-    private static Object identity_L(Object x) { return x; }
-    private static void identity_V() { return; }  // same as zeroV, but that's OK
-    private static int zero_I() { return 0; }
-    private static long zero_J() { return 0; }
-    private static float zero_F() { return 0; }
-    private static double zero_D() { return 0; }
-    private static Object zero_L() { return null; }
-    private static void zero_V() { return; }
+    // Avoid bppebling to VblueConversions bt bootstrbp time:
+    privbte stbtic int identity_I(int x) { return x; }
+    privbte stbtic long identity_J(long x) { return x; }
+    privbte stbtic flobt identity_F(flobt x) { return x; }
+    privbte stbtic double identity_D(double x) { return x; }
+    privbte stbtic Object identity_L(Object x) { return x; }
+    privbte stbtic void identity_V() { return; }  // sbme bs zeroV, but thbt's OK
+    privbte stbtic int zero_I() { return 0; }
+    privbte stbtic long zero_J() { return 0; }
+    privbte stbtic flobt zero_F() { return 0; }
+    privbte stbtic double zero_D() { return 0; }
+    privbte stbtic Object zero_L() { return null; }
+    privbte stbtic void zero_V() { return; }
 
     /**
-     * Internal marker for byte-compiled LambdaForms.
+     * Internbl mbrker for byte-compiled LbmbdbForms.
      */
     /*non-public*/
-    @Target(ElementType.METHOD)
+    @Tbrget(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
-    @interface Compiled {
+    @interfbce Compiled {
     }
 
     /**
-     * Internal marker for LambdaForm interpreter frames.
+     * Internbl mbrker for LbmbdbForm interpreter frbmes.
      */
     /*non-public*/
-    @Target(ElementType.METHOD)
+    @Tbrget(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
-    @interface Hidden {
+    @interfbce Hidden {
     }
 
 
 /*
     // Smoke-test for the invokers used in this file.
-    static void testMethodHandleLinkers() throws Throwable {
-        MemberName.Factory lookup = MemberName.getFactory();
-        MemberName asList_MN = new MemberName(Arrays.class, "asList",
-                                              MethodType.methodType(List.class, Object[].class),
-                                              REF_invokeStatic);
-        //MethodHandleNatives.resolve(asList_MN, null);
-        asList_MN = lookup.resolveOrFail(asList_MN, REF_invokeStatic, null, NoSuchMethodException.class);
-        System.out.println("about to call "+asList_MN);
-        Object[] abc = { "a", "bc" };
-        List<?> lst = (List<?>) MethodHandle.linkToStatic(abc, asList_MN);
+    stbtic void testMethodHbndleLinkers() throws Throwbble {
+        MemberNbme.Fbctory lookup = MemberNbme.getFbctory();
+        MemberNbme bsList_MN = new MemberNbme(Arrbys.clbss, "bsList",
+                                              MethodType.methodType(List.clbss, Object[].clbss),
+                                              REF_invokeStbtic);
+        //MethodHbndleNbtives.resolve(bsList_MN, null);
+        bsList_MN = lookup.resolveOrFbil(bsList_MN, REF_invokeStbtic, null, NoSuchMethodException.clbss);
+        System.out.println("bbout to cbll "+bsList_MN);
+        Object[] bbc = { "b", "bc" };
+        List<?> lst = (List<?>) MethodHbndle.linkToStbtic(bbc, bsList_MN);
         System.out.println("lst="+lst);
-        MemberName toString_MN = new MemberName(Object.class.getMethod("toString"));
-        String s1 = (String) MethodHandle.linkToVirtual(lst, toString_MN);
-        toString_MN = new MemberName(Object.class.getMethod("toString"), true);
-        String s2 = (String) MethodHandle.linkToSpecial(lst, toString_MN);
-        System.out.println("[s1,s2,lst]="+Arrays.asList(s1, s2, lst.toString()));
-        MemberName toArray_MN = new MemberName(List.class.getMethod("toArray"));
-        Object[] arr = (Object[]) MethodHandle.linkToInterface(lst, toArray_MN);
-        System.out.println("toArray="+Arrays.toString(arr));
+        MemberNbme toString_MN = new MemberNbme(Object.clbss.getMethod("toString"));
+        String s1 = (String) MethodHbndle.linkToVirtubl(lst, toString_MN);
+        toString_MN = new MemberNbme(Object.clbss.getMethod("toString"), true);
+        String s2 = (String) MethodHbndle.linkToSpecibl(lst, toString_MN);
+        System.out.println("[s1,s2,lst]="+Arrbys.bsList(s1, s2, lst.toString()));
+        MemberNbme toArrby_MN = new MemberNbme(List.clbss.getMethod("toArrby"));
+        Object[] brr = (Object[]) MethodHbndle.linkToInterfbce(lst, toArrby_MN);
+        System.out.println("toArrby="+Arrbys.toString(brr));
     }
-    static { try { testMethodHandleLinkers(); } catch (Throwable ex) { throw new RuntimeException(ex); } }
-    // Requires these definitions in MethodHandle:
-    static final native Object linkToStatic(Object x1, MemberName mn) throws Throwable;
-    static final native Object linkToVirtual(Object x1, MemberName mn) throws Throwable;
-    static final native Object linkToSpecial(Object x1, MemberName mn) throws Throwable;
-    static final native Object linkToInterface(Object x1, MemberName mn) throws Throwable;
+    stbtic { try { testMethodHbndleLinkers(); } cbtch (Throwbble ex) { throw new RuntimeException(ex); } }
+    // Requires these definitions in MethodHbndle:
+    stbtic finbl nbtive Object linkToStbtic(Object x1, MemberNbme mn) throws Throwbble;
+    stbtic finbl nbtive Object linkToVirtubl(Object x1, MemberNbme mn) throws Throwbble;
+    stbtic finbl nbtive Object linkToSpecibl(Object x1, MemberNbme mn) throws Throwbble;
+    stbtic finbl nbtive Object linkToInterfbce(Object x1, MemberNbme mn) throws Throwbble;
  */
 
-    private static final HashMap<String,Integer> DEBUG_NAME_COUNTERS;
-    static {
-        if (debugEnabled())
-            DEBUG_NAME_COUNTERS = new HashMap<>();
+    privbte stbtic finbl HbshMbp<String,Integer> DEBUG_NAME_COUNTERS;
+    stbtic {
+        if (debugEnbbled())
+            DEBUG_NAME_COUNTERS = new HbshMbp<>();
         else
             DEBUG_NAME_COUNTERS = null;
     }
 
-    // Put this last, so that previous static inits can run before.
-    static {
-        createIdentityForms();
+    // Put this lbst, so thbt previous stbtic inits cbn run before.
+    stbtic {
+        crebteIdentityForms();
         if (USE_PREDEFINED_INTERPRET_METHODS)
-            PREPARED_FORMS.putAll(computeInitialPreparedForms());
-        NamedFunction.initializeInvokers();
+            PREPARED_FORMS.putAll(computeInitiblPrepbredForms());
+        NbmedFunction.initiblizeInvokers();
     }
 
-    // The following hack is necessary in order to suppress TRACE_INTERPRETER
-    // during execution of the static initializes of this class.
-    // Turning on TRACE_INTERPRETER too early will cause
-    // stack overflows and other misbehavior during attempts to trace events
-    // that occur during LambdaForm.<clinit>.
-    // Therefore, do not move this line higher in this file, and do not remove.
-    private static final boolean TRACE_INTERPRETER = MethodHandleStatics.TRACE_INTERPRETER;
+    // The following hbck is necessbry in order to suppress TRACE_INTERPRETER
+    // during execution of the stbtic initiblizes of this clbss.
+    // Turning on TRACE_INTERPRETER too ebrly will cbuse
+    // stbck overflows bnd other misbehbvior during bttempts to trbce events
+    // thbt occur during LbmbdbForm.<clinit>.
+    // Therefore, do not move this line higher in this file, bnd do not remove.
+    privbte stbtic finbl boolebn TRACE_INTERPRETER = MethodHbndleStbtics.TRACE_INTERPRETER;
 }

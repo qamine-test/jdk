@@ -1,50 +1,50 @@
 '\" t
-.\" Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\" Title: servertool
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Java IDLおよびRMI-IIOPツール
-.\" Software: JDK 8
+.\" Lbngubge: English
+.\" Dbte: 2013年11月21日
+.\" SectDesc: Jbvb IDLおよびRMI-IIOPツール
+.\" Softwbre: JDK 8
 .\" Arch: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "servertool" "1" "2013年11月21日" "JDK 8" "Java IDLおよびRMI-IIOPツール"
+.TH "servertool" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
@@ -56,7 +56,7 @@ servertool \- 開発者が永続サーバーを登録、登録解除、起動、停止するための使いやす
 .RS 4
 .\}
 .nf
-\fIservertool\fR \-ORBInitialPort \fInameserverport\fR [ \fIoptions\fR ] [ \fIcommands \fR]
+\fIservertool\fR \-ORBInitiblPort \fInbmeserverport\fR [ \fIoptions\fR ] [ \fIcommbnds \fR]
 .fi
 .if n \{\
 .RE
@@ -67,7 +67,7 @@ servertool \- 開発者が永続サーバーを登録、登録解除、起動、停止するための使いやす
 コマンドライン・オプション。オプションを参照してください。
 .RE
 .PP
-commands
+commbnds
 .RS 4
 コマンドライン・コマンド。コマンドを参照してください。
 .RE
@@ -78,17 +78,17 @@ commands
 \fIservertool\fRコマンドは、開発者が永続サーバーを登録、登録解除、起動、停止するためのコマンドライン・インタフェースを提供します。コマンドライン・コマンドを使用すると、サーバーに関する様々な統計情報を取得できます。コマンドを参照してください。
 .SH "オプション"
 .PP
-\-ORBInitialHost \fInameserverhost\fR
+\-ORBInitiblHost \fInbmeserverhost\fR
 .RS 4
-このオプションは必須です。ネーム・サーバーが実行され、着信リクエストをリスニングするホスト・マシンを指定します。\fInameserverhost\fR値は、\fIorb\fRが実行され、リクエストをリスニングしているポートを指定する必要があります。このオプションを指定しない場合、値はデフォルトで\fIlocalhost\fRに設定されます。\fIorbd\fRと\fIservertool\fRが異なるマシン上で実行されている場合は、\fIorbd\fRが実行されているホストの名前またはIPアドレスを指定する必要があります。
+このオプションは必須です。ネーム・サーバーが実行され、着信リクエストをリスニングするホスト・マシンを指定します。\fInbmeserverhost\fR値は、\fIorb\fRが実行され、リクエストをリスニングしているポートを指定する必要があります。このオプションを指定しない場合、値はデフォルトで\fIlocblhost\fRに設定されます。\fIorbd\fRと\fIservertool\fRが異なるマシン上で実行されている場合は、\fIorbd\fRが実行されているホストの名前またはIPアドレスを指定する必要があります。
 .sp
 \fB注意:\fR
-Oracle Solarisでは、1024より小さいポート上でプロセスを開始するには、rootユーザーになる必要があります。\fInameserverport\fR値には、1024以上のポート番号を使用することをお薦めします。
+Orbcle Solbrisでは、1024より小さいポート上でプロセスを開始するには、rootユーザーになる必要があります。\fInbmeserverport\fR値には、1024以上のポート番号を使用することをお薦めします。
 .RE
 .PP
 \-J\fIoption\fR
 .RS 4
-Java仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Javaアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。java(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
 .RE
 .SH "コマンド"
 .PP
@@ -114,23 +114,23 @@ Java仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Javaアプリケーション起
 .sp -1
 .IP \(bu 2.3
 .\}
-\fIservertool\fRの起動時にコマンドを指定した場合、Java IDL Server Toolが起動してコマンドを実行し、終了します。
+\fIservertool\fRの起動時にコマンドを指定した場合、Jbvb IDL Server Toolが起動してコマンドを実行し、終了します。
 .RE
 .PP
-register \-server \fIserver\-class\-name\fR \-classpath \fIclasspath\-to\-server\fR [ \-applicationName \fIapplication\-name\fR \-args \fIargs\-to\-server\fR \-vmargs \fIflags\-for\-JVM\fR ]
+register \-server \fIserver\-clbss\-nbme\fR \-clbsspbth \fIclbsspbth\-to\-server\fR [ \-bpplicbtionNbme \fIbpplicbtion\-nbme\fR \-brgs \fIbrgs\-to\-server\fR \-vmbrgs \fIflbgs\-for\-JVM\fR ]
 .RS 4
-Object Request Broker Daemon (ORBD)に新規永続サーバーを登録します。サーバーが未登録の場合、登録してアクティブ化します。このコマンドによって、\fI\-server\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でインストール・メソッドが呼び出されます。このインストール・メソッドは、\fIpublic static void install(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。インストール・メソッドはオプションであり、開発者はデータベース・スキーマの作成など独自のサーバー・インストール動作を指定できます。
+Object Request Broker Dbemon (ORBD)に新規永続サーバーを登録します。サーバーが未登録の場合、登録してアクティブ化します。このコマンドによって、\fI\-server\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でインストール・メソッドが呼び出されます。このインストール・メソッドは、\fIpublic stbtic void instbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。インストール・メソッドはオプションであり、開発者はデータベース・スキーマの作成など独自のサーバー・インストール動作を指定できます。
 .RE
 .PP
-unregister \-serverid \fIserver\-id\fR | \-applicationName \fIapplication\-name\fR
+unregister \-serverid \fIserver\-id\fR | \-bpplicbtionNbme \fIbpplicbtion\-nbme\fR
 .RS 4
 サーバーIDまたはアプリケーション名で、サーバーをORBDから登録解除します。このコマンドによって、\fI\-server\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でアンインストール・メソッドが呼び出されます。
-\fIuninstall\fRメソッドは、\fIpublic static void uninstall(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。\fIuninstall\fRメソッドはオプションであり、開発者は\fIinstall\fRメソッドの動作の取消など、独自のサーバー・アンインストール動作を指定できます。
+\fIuninstbll\fRメソッドは、\fIpublic stbtic void uninstbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。\fIuninstbll\fRメソッドはオプションであり、開発者は\fIinstbll\fRメソッドの動作の取消など、独自のサーバー・アンインストール動作を指定できます。
 .RE
 .PP
-getserverid \-applicationName \fIapplication\-name\fR
+getserverid \-bpplicbtionNbme \fIbpplicbtion\-nbme\fR
 .RS 4
-\fIapplication\-name\fR値に対応するサーバーIDを返します。
+\fIbpplicbtion\-nbme\fR値に対応するサーバーIDを返します。
 .RE
 .PP
 list
@@ -138,37 +138,37 @@ list
 ORBDに登録されているすべての永続サーバーに関する情報を一覧表示します。
 .RE
 .PP
-listappnames
+listbppnbmes
 .RS 4
 現在ORBDに登録されているすべてのサーバーのアプリケーション名を一覧表示します。
 .RE
 .PP
-listactive
+listbctive
 .RS 4
 ORBDによって起動され、現在実行されているすべての永続サーバーに関する情報を一覧表示します。
 .RE
 .PP
-locate \-serverid \fIserver\-id\fR | \-applicationName \fIapplication\-name\fR [ \-endpointType \fIendpointType\fR ]
+locbte \-serverid \fIserver\-id\fR | \-bpplicbtionNbme \fIbpplicbtion\-nbme\fR [ \-endpointType \fIendpointType\fR ]
 .RS 4
-登録されたサーバーで作成したすべてのORBの特定のタイプについてエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIendpointType\fR値が指定されていない場合、サーバーのORBごとに関連付けられているplainタイプまたはnon\-protectedタイプのエンドポイントが返されます。
+登録されたサーバーで作成したすべてのORBの特定のタイプについてエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIendpointType\fR値が指定されていない場合、サーバーのORBごとに関連付けられているplbinタイプまたはnon\-protectedタイプのエンドポイントが返されます。
 .RE
 .PP
-locateperorb \-serverid \fIserver\-id\fR | \-applicationName \fIapplication\-name\fR [ \-orbid \fIORB\-name\fR ]
+locbteperorb \-serverid \fIserver\-id\fR | \-bpplicbtionNbme \fIbpplicbtion\-nbme\fR [ \-orbid \fIORB\-nbme\fR ]
 .RS 4
 登録されたサーバーの特定のObject Request Broker (ORB)で登録されたエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIorbid\fRが指定されていない場合、デフォルト値の\fI""\fRが\fIorbid\fRに割り当てられます。ORBが空文字列の\fIorbid\fRで作成されている場合、登録したポートがすべて返されます。
 .RE
 .PP
-orblist \-serverid \fIserver\-id\fR | \-applicationName \fIapplication\-name\fR
+orblist \-serverid \fIserver\-id\fR | \-bpplicbtionNbme \fIbpplicbtion\-nbme\fR
 .RS 4
 サーバー上に定義されたORBの\fIORBId\fRを一覧表示します。\fIORBId\fRはサーバーで作成されたORBの文字列名です。サーバーが実行されていない場合、アクティブ化されます。
 .RE
 .PP
-shutdown \-serverid \fIserver\-id\fR | \-applicationName application\-name
+shutdown \-serverid \fIserver\-id\fR | \-bpplicbtionNbme bpplicbtion\-nbme
 .RS 4
-ORBDに登録されたアクティブなサーバーを停止します。このコマンドの実行中に、\fI\-serverid\fRパラメータまたは\fI\-applicationName\fRパラメータで指定されたクラス内に定義された\fIshutdown\fRメソッドも呼び出されてサーバー・プロセスを停止します。
+ORBDに登録されたアクティブなサーバーを停止します。このコマンドの実行中に、\fI\-serverid\fRパラメータまたは\fI\-bpplicbtionNbme\fRパラメータで指定されたクラス内に定義された\fIshutdown\fRメソッドも呼び出されてサーバー・プロセスを停止します。
 .RE
 .PP
-startup \-serverid \fIserver\-id\fR | \-applicationName application\-name
+stbrtup \-serverid \fIserver\-id\fR | \-bpplicbtionNbme bpplicbtion\-nbme
 .RS 4
 ORBDに登録されたサーバーを起動またはアクティブ化します。サーバーが実行されていない場合、このコマンドがサーバーを起動します。サーバーがすでに実行されている場合は、エラー・メッセージが表示されます。
 .RE

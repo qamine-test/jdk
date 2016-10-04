@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jca;
+pbckbge sun.security.jcb;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.Provider.Service;
+import jbvb.security.*;
+import jbvb.security.Provider.Service;
 
 /**
- * Collection of utility methods to facilitate implementing getInstance()
- * methods in the JCA/JCE/JSSE/... framework.
+ * Collection of utility methods to fbcilitbte implementing getInstbnce()
+ * methods in the JCA/JCE/JSSE/... frbmework.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-public class GetInstance {
+public clbss GetInstbnce {
 
-    private GetInstance() {
+    privbte GetInstbnce() {
         // empty
     }
 
     /**
-     * Static inner class representing a newly created instance.
+     * Stbtic inner clbss representing b newly crebted instbnce.
      */
-    public static final class Instance {
-        // public final fields, access directly without accessors
-        public final Provider provider;
-        public final Object impl;
-        private Instance(Provider provider, Object impl) {
+    public stbtic finbl clbss Instbnce {
+        // public finbl fields, bccess directly without bccessors
+        public finbl Provider provider;
+        public finbl Object impl;
+        privbte Instbnce(Provider provider, Object impl) {
             this.provider = provider;
             this.impl = impl;
         }
-        // Return Provider and implementation as an array as used in the
+        // Return Provider bnd implementbtion bs bn brrby bs used in the
         // old Security.getImpl() methods.
-        public Object[] toArray() {
+        public Object[] toArrby() {
             return new Object[] {impl, provider};
         }
     }
 
-    public static Service getService(String type, String algorithm)
+    public stbtic Service getService(String type, String blgorithm)
             throws NoSuchAlgorithmException {
         ProviderList list = Providers.getProviderList();
-        Service s = list.getService(type, algorithm);
+        Service s = list.getService(type, blgorithm);
         if (s == null) {
             throw new NoSuchAlgorithmException
-                    (algorithm + " " + type + " not available");
+                    (blgorithm + " " + type + " not bvbilbble");
         }
         return s;
     }
 
-    public static Service getService(String type, String algorithm,
+    public stbtic Service getService(String type, String blgorithm,
             String provider) throws NoSuchAlgorithmException,
             NoSuchProviderException {
         if ((provider == null) || (provider.length() == 0)) {
-            throw new IllegalArgumentException("missing provider");
+            throw new IllegblArgumentException("missing provider");
         }
         Provider p = Providers.getProviderList().getProvider(provider);
         if (p == null) {
             throw new NoSuchProviderException("no such provider: " + provider);
         }
-        Service s = p.getService(type, algorithm);
+        Service s = p.getService(type, blgorithm);
         if (s == null) {
-            throw new NoSuchAlgorithmException("no such algorithm: "
-                + algorithm + " for provider " + provider);
+            throw new NoSuchAlgorithmException("no such blgorithm: "
+                + blgorithm + " for provider " + provider);
         }
         return s;
     }
 
-    public static Service getService(String type, String algorithm,
+    public stbtic Service getService(String type, String blgorithm,
             Provider provider) throws NoSuchAlgorithmException {
         if (provider == null) {
-            throw new IllegalArgumentException("missing provider");
+            throw new IllegblArgumentException("missing provider");
         }
-        Service s = provider.getService(type, algorithm);
+        Service s = provider.getService(type, blgorithm);
         if (s == null) {
-            throw new NoSuchAlgorithmException("no such algorithm: "
-                + algorithm + " for provider " + provider.getName());
+            throw new NoSuchAlgorithmException("no such blgorithm: "
+                + blgorithm + " for provider " + provider.getNbme());
         }
         return s;
     }
 
     /**
-     * Return a List of all the available Services that implement
-     * (type, algorithm). Note that the list is initialized lazily
-     * and Provider loading and lookup is only trigered when
-     * necessary.
+     * Return b List of bll the bvbilbble Services thbt implement
+     * (type, blgorithm). Note thbt the list is initiblized lbzily
+     * bnd Provider lobding bnd lookup is only trigered when
+     * necessbry.
      */
-    public static List<Service> getServices(String type, String algorithm) {
+    public stbtic List<Service> getServices(String type, String blgorithm) {
         ProviderList list = Providers.getProviderList();
-        return list.getServices(type, algorithm);
+        return list.getServices(type, blgorithm);
     }
 
     /**
-     * This method exists for compatibility with JCE only. It will be removed
-     * once JCE has been changed to use the replacement method.
-     * @deprecated use getServices(List<ServiceId>) instead
+     * This method exists for compbtibility with JCE only. It will be removed
+     * once JCE hbs been chbnged to use the replbcement method.
+     * @deprecbted use getServices(List<ServiceId>) instebd
      */
-    @Deprecated
-    public static List<Service> getServices(String type,
-            List<String> algorithms) {
+    @Deprecbted
+    public stbtic List<Service> getServices(String type,
+            List<String> blgorithms) {
         ProviderList list = Providers.getProviderList();
-        return list.getServices(type, algorithms);
+        return list.getServices(type, blgorithms);
     }
 
     /**
-     * Return a List of all the available Services that implement any of
-     * the specified algorithms. See getServices(String, String) for detals.
+     * Return b List of bll the bvbilbble Services thbt implement bny of
+     * the specified blgorithms. See getServices(String, String) for detbls.
      */
-    public static List<Service> getServices(List<ServiceId> ids) {
+    public stbtic List<Service> getServices(List<ServiceId> ids) {
         ProviderList list = Providers.getProviderList();
         return list.getServices(ids);
     }
 
     /*
-     * For all the getInstance() methods below:
-     * @param type the type of engine (e.g. MessageDigest)
-     * @param clazz the Spi class that the implementation must subclass
-     *   (e.g. MessageDigestSpi.class) or null if no superclass check
+     * For bll the getInstbnce() methods below:
+     * @pbrbm type the type of engine (e.g. MessbgeDigest)
+     * @pbrbm clbzz the Spi clbss thbt the implementbtion must subclbss
+     *   (e.g. MessbgeDigestSpi.clbss) or null if no superclbss check
      *   is required
-     * @param algorithm the name of the algorithm (or alias), e.g. MD5
-     * @param provider the provider (String or Provider object)
-     * @param param the parameter to pass to the Spi constructor
+     * @pbrbm blgorithm the nbme of the blgorithm (or blibs), e.g. MD5
+     * @pbrbm provider the provider (String or Provider object)
+     * @pbrbm pbrbm the pbrbmeter to pbss to the Spi constructor
      *   (for CertStores)
      *
-     * There are overloaded methods for all the permutations.
+     * There bre overlobded methods for bll the permutbtions.
      */
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm) throws NoSuchAlgorithmException {
-        // in the almost all cases, the first service will work
-        // avoid taking long path if so
+    public stbtic Instbnce getInstbnce(String type, Clbss<?> clbzz,
+            String blgorithm) throws NoSuchAlgorithmException {
+        // in the blmost bll cbses, the first service will work
+        // bvoid tbking long pbth if so
         ProviderList list = Providers.getProviderList();
-        Service firstService = list.getService(type, algorithm);
+        Service firstService = list.getService(type, blgorithm);
         if (firstService == null) {
             throw new NoSuchAlgorithmException
-                    (algorithm + " " + type + " not available");
+                    (blgorithm + " " + type + " not bvbilbble");
         }
-        NoSuchAlgorithmException failure;
+        NoSuchAlgorithmException fbilure;
         try {
-            return getInstance(firstService, clazz);
-        } catch (NoSuchAlgorithmException e) {
-            failure = e;
+            return getInstbnce(firstService, clbzz);
+        } cbtch (NoSuchAlgorithmException e) {
+            fbilure = e;
         }
-        // if we cannot get the service from the preferred provider,
-        // fail over to the next
-        for (Service s : list.getServices(type, algorithm)) {
+        // if we cbnnot get the service from the preferred provider,
+        // fbil over to the next
+        for (Service s : list.getServices(type, blgorithm)) {
             if (s == firstService) {
-                // do not retry initial failed service
+                // do not retry initibl fbiled service
                 continue;
             }
             try {
-                return getInstance(s, clazz);
-            } catch (NoSuchAlgorithmException e) {
-                failure = e;
+                return getInstbnce(s, clbzz);
+            } cbtch (NoSuchAlgorithmException e) {
+                fbilure = e;
             }
         }
-        throw failure;
+        throw fbilure;
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, Object param) throws NoSuchAlgorithmException {
-        List<Service> services = getServices(type, algorithm);
-        NoSuchAlgorithmException failure = null;
+    public stbtic Instbnce getInstbnce(String type, Clbss<?> clbzz,
+            String blgorithm, Object pbrbm) throws NoSuchAlgorithmException {
+        List<Service> services = getServices(type, blgorithm);
+        NoSuchAlgorithmException fbilure = null;
         for (Service s : services) {
             try {
-                return getInstance(s, clazz, param);
-            } catch (NoSuchAlgorithmException e) {
-                failure = e;
+                return getInstbnce(s, clbzz, pbrbm);
+            } cbtch (NoSuchAlgorithmException e) {
+                fbilure = e;
             }
         }
-        if (failure != null) {
-            throw failure;
+        if (fbilure != null) {
+            throw fbilure;
         } else {
             throw new NoSuchAlgorithmException
-                    (algorithm + " " + type + " not available");
+                    (blgorithm + " " + type + " not bvbilbble");
         }
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, String provider) throws NoSuchAlgorithmException,
+    public stbtic Instbnce getInstbnce(String type, Clbss<?> clbzz,
+            String blgorithm, String provider) throws NoSuchAlgorithmException,
             NoSuchProviderException {
-        return getInstance(getService(type, algorithm, provider), clazz);
+        return getInstbnce(getService(type, blgorithm, provider), clbzz);
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, Object param, String provider)
+    public stbtic Instbnce getInstbnce(String type, Clbss<?> clbzz,
+            String blgorithm, Object pbrbm, String provider)
             throws NoSuchAlgorithmException, NoSuchProviderException {
-        return getInstance(getService(type, algorithm, provider), clazz, param);
+        return getInstbnce(getService(type, blgorithm, provider), clbzz, pbrbm);
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, Provider provider)
+    public stbtic Instbnce getInstbnce(String type, Clbss<?> clbzz,
+            String blgorithm, Provider provider)
             throws NoSuchAlgorithmException {
-        return getInstance(getService(type, algorithm, provider), clazz);
+        return getInstbnce(getService(type, blgorithm, provider), clbzz);
     }
 
-    public static Instance getInstance(String type, Class<?> clazz,
-            String algorithm, Object param, Provider provider)
+    public stbtic Instbnce getInstbnce(String type, Clbss<?> clbzz,
+            String blgorithm, Object pbrbm, Provider provider)
             throws NoSuchAlgorithmException {
-        return getInstance(getService(type, algorithm, provider), clazz, param);
+        return getInstbnce(getService(type, blgorithm, provider), clbzz, pbrbm);
     }
 
     /*
-     * The two getInstance() methods below take a service. They are
-     * intended for classes that cannot use the standard methods, e.g.
-     * because they implement delayed provider selection like the
-     * Signature class.
+     * The two getInstbnce() methods below tbke b service. They bre
+     * intended for clbsses thbt cbnnot use the stbndbrd methods, e.g.
+     * becbuse they implement delbyed provider selection like the
+     * Signbture clbss.
      */
 
-    public static Instance getInstance(Service s, Class<?> clazz)
+    public stbtic Instbnce getInstbnce(Service s, Clbss<?> clbzz)
             throws NoSuchAlgorithmException {
-        Object instance = s.newInstance(null);
-        checkSuperClass(s, instance.getClass(), clazz);
-        return new Instance(s.getProvider(), instance);
+        Object instbnce = s.newInstbnce(null);
+        checkSuperClbss(s, instbnce.getClbss(), clbzz);
+        return new Instbnce(s.getProvider(), instbnce);
     }
 
-    public static Instance getInstance(Service s, Class<?> clazz,
-            Object param) throws NoSuchAlgorithmException {
-        Object instance = s.newInstance(param);
-        checkSuperClass(s, instance.getClass(), clazz);
-        return new Instance(s.getProvider(), instance);
+    public stbtic Instbnce getInstbnce(Service s, Clbss<?> clbzz,
+            Object pbrbm) throws NoSuchAlgorithmException {
+        Object instbnce = s.newInstbnce(pbrbm);
+        checkSuperClbss(s, instbnce.getClbss(), clbzz);
+        return new Instbnce(s.getProvider(), instbnce);
     }
 
     /**
-     * Check is subClass is a subclass of superClass. If not,
-     * throw a NoSuchAlgorithmException.
+     * Check is subClbss is b subclbss of superClbss. If not,
+     * throw b NoSuchAlgorithmException.
      */
-    public static void checkSuperClass(Service s, Class<?> subClass,
-            Class<?> superClass) throws NoSuchAlgorithmException {
-        if (superClass == null) {
+    public stbtic void checkSuperClbss(Service s, Clbss<?> subClbss,
+            Clbss<?> superClbss) throws NoSuchAlgorithmException {
+        if (superClbss == null) {
             return;
         }
-        if (superClass.isAssignableFrom(subClass) == false) {
+        if (superClbss.isAssignbbleFrom(subClbss) == fblse) {
             throw new NoSuchAlgorithmException
-                ("class configured for " + s.getType() + ": "
-                + s.getClassName() + " not a " + s.getType());
+                ("clbss configured for " + s.getType() + ": "
+                + s.getClbssNbme() + " not b " + s.getType());
         }
     }
 

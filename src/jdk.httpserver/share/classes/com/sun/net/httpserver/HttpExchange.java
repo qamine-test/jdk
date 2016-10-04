@@ -1,266 +1,266 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.httpserver;
+pbckbge com.sun.net.httpserver;
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.net.*;
-import javax.net.ssl.*;
-import java.util.*;
-import sun.net.www.MessageHeader;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.*;
+import jbvbx.net.ssl.*;
+import jbvb.util.*;
+import sun.net.www.MessbgeHebder;
 
 /**
- * This class encapsulates a HTTP request received and a
- * response to be generated in one exchange. It provides methods
- * for examining the request from the client, and for building and
+ * This clbss encbpsulbtes b HTTP request received bnd b
+ * response to be generbted in one exchbnge. It provides methods
+ * for exbmining the request from the client, bnd for building bnd
  * sending the response.
  * <p>
- * The typical life-cycle of a HttpExchange is shown in the sequence
+ * The typicbl life-cycle of b HttpExchbnge is shown in the sequence
  * below.
- * <ol><li>{@link #getRequestMethod()} to determine the command
- * <li>{@link #getRequestHeaders()} to examine the request headers (if needed)
- * <li>{@link #getRequestBody()} returns a {@link java.io.InputStream} for reading the request body.
- *     After reading the request body, the stream is close.
- * <li>{@link #getResponseHeaders()} to set any response headers, except content-length
- * <li>{@link #sendResponseHeaders(int,long)} to send the response headers. Must be called before
+ * <ol><li>{@link #getRequestMethod()} to determine the commbnd
+ * <li>{@link #getRequestHebders()} to exbmine the request hebders (if needed)
+ * <li>{@link #getRequestBody()} returns b {@link jbvb.io.InputStrebm} for rebding the request body.
+ *     After rebding the request body, the strebm is close.
+ * <li>{@link #getResponseHebders()} to set bny response hebders, except content-length
+ * <li>{@link #sendResponseHebders(int,long)} to send the response hebders. Must be cblled before
  * next step.
- * <li>{@link #getResponseBody()} to get a {@link java.io.OutputStream} to send the response body.
- *      When the response body has been written, the stream must be closed to terminate the exchange.
+ * <li>{@link #getResponseBody()} to get b {@link jbvb.io.OutputStrebm} to send the response body.
+ *      When the response body hbs been written, the strebm must be closed to terminbte the exchbnge.
  * </ol>
- * <b>Terminating exchanges</b>
+ * <b>Terminbting exchbnges</b>
  * <br>
- * Exchanges are terminated when both the request InputStream and response OutputStream are closed.
- * Closing the OutputStream, implicitly closes the InputStream (if it is not already closed).
+ * Exchbnges bre terminbted when both the request InputStrebm bnd response OutputStrebm bre closed.
+ * Closing the OutputStrebm, implicitly closes the InputStrebm (if it is not blrebdy closed).
  * However, it is recommended
- * to consume all the data from the InputStream before closing it.
- * The convenience method {@link #close()} does all of these tasks.
- * Closing an exchange without consuming all of the request body is not an error
- * but may make the underlying TCP connection unusable for following exchanges.
- * The effect of failing to terminate an exchange is undefined, but will typically
- * result in resources failing to be freed/reused.
+ * to consume bll the dbtb from the InputStrebm before closing it.
+ * The convenience method {@link #close()} does bll of these tbsks.
+ * Closing bn exchbnge without consuming bll of the request body is not bn error
+ * but mby mbke the underlying TCP connection unusbble for following exchbnges.
+ * The effect of fbiling to terminbte bn exchbnge is undefined, but will typicblly
+ * result in resources fbiling to be freed/reused.
  * @since 1.6
  */
 
 @jdk.Exported
-public abstract class HttpExchange {
+public bbstrbct clbss HttpExchbnge {
 
-    protected HttpExchange () {
+    protected HttpExchbnge () {
     }
 
     /**
-     * Returns an immutable Map containing the HTTP headers that were
-     * included with this request. The keys in this Map will be the header
-     * names, while the values will be a List of Strings containing each value
-     * that was included (either for a header that was listed several times,
-     * or one that accepts a comma-delimited list of values on a single line).
-     * In either of these cases, the values for the header name will be
-     * presented in the order that they were included in the request.
+     * Returns bn immutbble Mbp contbining the HTTP hebders thbt were
+     * included with this request. The keys in this Mbp will be the hebder
+     * nbmes, while the vblues will be b List of Strings contbining ebch vblue
+     * thbt wbs included (either for b hebder thbt wbs listed severbl times,
+     * or one thbt bccepts b commb-delimited list of vblues on b single line).
+     * In either of these cbses, the vblues for the hebder nbme will be
+     * presented in the order thbt they were included in the request.
      * <p>
-     * The keys in Map are case-insensitive.
-     * @return a read-only Map which can be used to access request headers
+     * The keys in Mbp bre cbse-insensitive.
+     * @return b rebd-only Mbp which cbn be used to bccess request hebders
      */
-    public abstract Headers getRequestHeaders () ;
+    public bbstrbct Hebders getRequestHebders () ;
 
     /**
-     * Returns a mutable Map into which the HTTP response headers can be stored
-     * and which will be transmitted as part of this response. The keys in the
-     * Map will be the header names, while the values must be a List of Strings
-     * containing each value that should be included multiple times
-     * (in the order that they should be included).
+     * Returns b mutbble Mbp into which the HTTP response hebders cbn be stored
+     * bnd which will be trbnsmitted bs pbrt of this response. The keys in the
+     * Mbp will be the hebder nbmes, while the vblues must be b List of Strings
+     * contbining ebch vblue thbt should be included multiple times
+     * (in the order thbt they should be included).
      * <p>
-     * The keys in Map are case-insensitive.
-     * @return a writable Map which can be used to set response headers.
+     * The keys in Mbp bre cbse-insensitive.
+     * @return b writbble Mbp which cbn be used to set response hebders.
      */
-    public abstract Headers getResponseHeaders () ;
+    public bbstrbct Hebders getResponseHebders () ;
 
     /**
      * Get the request URI
      *
      * @return the request URI
      */
-    public abstract URI getRequestURI () ;
+    public bbstrbct URI getRequestURI () ;
 
     /**
      * Get the request method
      * @return the request method
      */
-    public abstract String getRequestMethod ();
+    public bbstrbct String getRequestMethod ();
 
     /**
-     * Get the HttpContext for this exchange
+     * Get the HttpContext for this exchbnge
      * @return the HttpContext
      */
-    public abstract HttpContext getHttpContext ();
+    public bbstrbct HttpContext getHttpContext ();
 
     /**
-     * Ends this exchange by doing the following in sequence:<p><ol>
-     * <li>close the request InputStream, if not already closed<p></li>
-     * <li>close the response OutputStream, if not already closed. </li>
+     * Ends this exchbnge by doing the following in sequence:<p><ol>
+     * <li>close the request InputStrebm, if not blrebdy closed<p></li>
+     * <li>close the response OutputStrebm, if not blrebdy closed. </li>
      * </ol>
      */
-    public abstract void close () ;
+    public bbstrbct void close () ;
 
     /**
-     * returns a stream from which the request body can be read.
-     * Multiple calls to this method will return the same stream.
-     * It is recommended that applications should consume (read) all of the
-     * data from this stream before closing it. If a stream is closed
-     * before all data has been read, then the close() call will
-     * read and discard remaining data (up to an implementation specific
+     * returns b strebm from which the request body cbn be rebd.
+     * Multiple cblls to this method will return the sbme strebm.
+     * It is recommended thbt bpplicbtions should consume (rebd) bll of the
+     * dbtb from this strebm before closing it. If b strebm is closed
+     * before bll dbtb hbs been rebd, then the close() cbll will
+     * rebd bnd discbrd rembining dbtb (up to bn implementbtion specific
      * number of bytes).
-     * @return the stream from which the request body can be read.
+     * @return the strebm from which the request body cbn be rebd.
      */
-    public abstract InputStream getRequestBody () ;
+    public bbstrbct InputStrebm getRequestBody () ;
 
     /**
-     * returns a stream to which the response body must be
-     * written. {@link #sendResponseHeaders(int,long)}) must be called prior to calling
-     * this method. Multiple calls to this method (for the same exchange)
-     * will return the same stream. In order to correctly terminate
-     * each exchange, the output stream must be closed, even if no
+     * returns b strebm to which the response body must be
+     * written. {@link #sendResponseHebders(int,long)}) must be cblled prior to cblling
+     * this method. Multiple cblls to this method (for the sbme exchbnge)
+     * will return the sbme strebm. In order to correctly terminbte
+     * ebch exchbnge, the output strebm must be closed, even if no
      * response body is being sent.
      * <p>
-     * Closing this stream implicitly
-     * closes the InputStream returned from {@link #getRequestBody()}
-     * (if it is not already closed).
+     * Closing this strebm implicitly
+     * closes the InputStrebm returned from {@link #getRequestBody()}
+     * (if it is not blrebdy closed).
      * <P>
-     * If the call to sendResponseHeaders() specified a fixed response
-     * body length, then the exact number of bytes specified in that
-     * call must be written to this stream. If too many bytes are written,
-     * then write() will throw an IOException. If too few bytes are written
-     * then the stream close() will throw an IOException. In both cases,
-     * the exchange is aborted and the underlying TCP connection closed.
-     * @return the stream to which the response body is written
+     * If the cbll to sendResponseHebders() specified b fixed response
+     * body length, then the exbct number of bytes specified in thbt
+     * cbll must be written to this strebm. If too mbny bytes bre written,
+     * then write() will throw bn IOException. If too few bytes bre written
+     * then the strebm close() will throw bn IOException. In both cbses,
+     * the exchbnge is bborted bnd the underlying TCP connection closed.
+     * @return the strebm to which the response body is written
      */
-    public abstract OutputStream getResponseBody () ;
+    public bbstrbct OutputStrebm getResponseBody () ;
 
 
     /**
-     * Starts sending the response back to the client using the current set of response headers
-     * and the numeric response code as specified in this method. The response body length is also specified
-     * as follows. If the response length parameter is greater than zero, this specifies an exact
-     * number of bytes to send and the application must send that exact amount of data.
-     * If the response length parameter is <code>zero</code>, then chunked transfer encoding is
-     * used and an arbitrary amount of data may be sent. The application terminates the
-     * response body by closing the OutputStream. If response length has the value <code>-1</code>
+     * Stbrts sending the response bbck to the client using the current set of response hebders
+     * bnd the numeric response code bs specified in this method. The response body length is blso specified
+     * bs follows. If the response length pbrbmeter is grebter thbn zero, this specifies bn exbct
+     * number of bytes to send bnd the bpplicbtion must send thbt exbct bmount of dbtb.
+     * If the response length pbrbmeter is <code>zero</code>, then chunked trbnsfer encoding is
+     * used bnd bn brbitrbry bmount of dbtb mby be sent. The bpplicbtion terminbtes the
+     * response body by closing the OutputStrebm. If response length hbs the vblue <code>-1</code>
      * then no response body is being sent.
      * <p>
-     * If the content-length response header has not already been set then
-     * this is set to the appropriate value depending on the response length parameter.
+     * If the content-length response hebder hbs not blrebdy been set then
+     * this is set to the bppropribte vblue depending on the response length pbrbmeter.
      * <p>
-     * This method must be called prior to calling {@link #getResponseBody()}.
-     * @param rCode the response code to send
-     * @param responseLength if > 0, specifies a fixed response body length
-     *        and that exact number of bytes must be written
-     *        to the stream acquired from getResponseBody(), or else
-     *        if equal to 0, then chunked encoding is used,
-     *        and an arbitrary number of bytes may be written.
-     *        if <= -1, then no response body length is specified and
-     *        no response body may be written.
-     * @see HttpExchange#getResponseBody()
+     * This method must be cblled prior to cblling {@link #getResponseBody()}.
+     * @pbrbm rCode the response code to send
+     * @pbrbm responseLength if > 0, specifies b fixed response body length
+     *        bnd thbt exbct number of bytes must be written
+     *        to the strebm bcquired from getResponseBody(), or else
+     *        if equbl to 0, then chunked encoding is used,
+     *        bnd bn brbitrbry number of bytes mby be written.
+     *        if <= -1, then no response body length is specified bnd
+     *        no response body mby be written.
+     * @see HttpExchbnge#getResponseBody()
      */
-    public abstract void sendResponseHeaders (int rCode, long responseLength) throws IOException ;
+    public bbstrbct void sendResponseHebders (int rCode, long responseLength) throws IOException ;
 
     /**
-     * Returns the address of the remote entity invoking this request
-     * @return the InetSocketAddress of the caller
+     * Returns the bddress of the remote entity invoking this request
+     * @return the InetSocketAddress of the cbller
      */
-    public abstract InetSocketAddress getRemoteAddress ();
+    public bbstrbct InetSocketAddress getRemoteAddress ();
 
     /**
-     * Returns the response code, if it has already been set
-     * @return the response code, if available. <code>-1</code> if not available yet.
+     * Returns the response code, if it hbs blrebdy been set
+     * @return the response code, if bvbilbble. <code>-1</code> if not bvbilbble yet.
      */
-    public abstract int getResponseCode ();
+    public bbstrbct int getResponseCode ();
 
     /**
-     * Returns the local address on which the request was received
-     * @return the InetSocketAddress of the local interface
+     * Returns the locbl bddress on which the request wbs received
+     * @return the InetSocketAddress of the locbl interfbce
      */
-    public abstract InetSocketAddress getLocalAddress ();
+    public bbstrbct InetSocketAddress getLocblAddress ();
 
     /**
      * Returns the protocol string from the request in the form
-     * <i>protocol/majorVersion.minorVersion</i>. For example,
+     * <i>protocol/mbjorVersion.minorVersion</i>. For exbmple,
      * "HTTP/1.1"
      * @return the protocol string from the request
      */
-    public abstract String getProtocol ();
+    public bbstrbct String getProtocol ();
 
     /**
-     * Filter modules may store arbitrary objects with HttpExchange
-     * instances as an out-of-band communication mechanism. Other Filters
-     * or the exchange handler may then access these objects.
+     * Filter modules mby store brbitrbry objects with HttpExchbnge
+     * instbnces bs bn out-of-bbnd communicbtion mechbnism. Other Filters
+     * or the exchbnge hbndler mby then bccess these objects.
      * <p>
-     * Each Filter class will document the attributes which they make
-     * available.
-     * @param name the name of the attribute to retrieve
-     * @return the attribute object, or null if it does not exist
-     * @throws NullPointerException if name is <code>null</code>
+     * Ebch Filter clbss will document the bttributes which they mbke
+     * bvbilbble.
+     * @pbrbm nbme the nbme of the bttribute to retrieve
+     * @return the bttribute object, or null if it does not exist
+     * @throws NullPointerException if nbme is <code>null</code>
      */
-    public abstract Object getAttribute (String name) ;
+    public bbstrbct Object getAttribute (String nbme) ;
 
     /**
-     * Filter modules may store arbitrary objects with HttpExchange
-     * instances as an out-of-band communication mechanism. Other Filters
-     * or the exchange handler may then access these objects.
+     * Filter modules mby store brbitrbry objects with HttpExchbnge
+     * instbnces bs bn out-of-bbnd communicbtion mechbnism. Other Filters
+     * or the exchbnge hbndler mby then bccess these objects.
      * <p>
-     * Each Filter class will document the attributes which they make
-     * available.
-     * @param name the name to associate with the attribute value
-     * @param value the object to store as the attribute value. <code>null</code>
-     * value is permitted.
-     * @throws NullPointerException if name is <code>null</code>
+     * Ebch Filter clbss will document the bttributes which they mbke
+     * bvbilbble.
+     * @pbrbm nbme the nbme to bssocibte with the bttribute vblue
+     * @pbrbm vblue the object to store bs the bttribute vblue. <code>null</code>
+     * vblue is permitted.
+     * @throws NullPointerException if nbme is <code>null</code>
      */
-    public abstract void setAttribute (String name, Object value) ;
+    public bbstrbct void setAttribute (String nbme, Object vblue) ;
 
     /**
-     * Used by Filters to wrap either (or both) of this exchange's InputStream
-     * and OutputStream, with the given filtered streams so
-     * that subsequent calls to {@link #getRequestBody()} will
-     * return the given {@link java.io.InputStream}, and calls to
+     * Used by Filters to wrbp either (or both) of this exchbnge's InputStrebm
+     * bnd OutputStrebm, with the given filtered strebms so
+     * thbt subsequent cblls to {@link #getRequestBody()} will
+     * return the given {@link jbvb.io.InputStrebm}, bnd cblls to
      * {@link #getResponseBody()} will return the given
-     * {@link java.io.OutputStream}. The streams provided to this
-     * call must wrap the original streams, and may be (but are not
-     * required to be) sub-classes of {@link java.io.FilterInputStream}
-     * and {@link java.io.FilterOutputStream}.
-     * @param i the filtered input stream to set as this object's inputstream,
-     *          or <code>null</code> if no change.
-     * @param o the filtered output stream to set as this object's outputstream,
-     *          or <code>null</code> if no change.
+     * {@link jbvb.io.OutputStrebm}. The strebms provided to this
+     * cbll must wrbp the originbl strebms, bnd mby be (but bre not
+     * required to be) sub-clbsses of {@link jbvb.io.FilterInputStrebm}
+     * bnd {@link jbvb.io.FilterOutputStrebm}.
+     * @pbrbm i the filtered input strebm to set bs this object's inputstrebm,
+     *          or <code>null</code> if no chbnge.
+     * @pbrbm o the filtered output strebm to set bs this object's outputstrebm,
+     *          or <code>null</code> if no chbnge.
      */
-    public abstract void setStreams (InputStream i, OutputStream o);
+    public bbstrbct void setStrebms (InputStrebm i, OutputStrebm o);
 
 
     /**
-     * If an authenticator is set on the HttpContext that owns this exchange,
-     * then this method will return the {@link HttpPrincipal} that represents
-     * the authenticated user for this HttpExchange.
-     * @return the HttpPrincipal, or <code>null</code> if no authenticator is set.
+     * If bn buthenticbtor is set on the HttpContext thbt owns this exchbnge,
+     * then this method will return the {@link HttpPrincipbl} thbt represents
+     * the buthenticbted user for this HttpExchbnge.
+     * @return the HttpPrincipbl, or <code>null</code> if no buthenticbtor is set.
      */
-    public abstract HttpPrincipal getPrincipal ();
+    public bbstrbct HttpPrincipbl getPrincipbl ();
 }

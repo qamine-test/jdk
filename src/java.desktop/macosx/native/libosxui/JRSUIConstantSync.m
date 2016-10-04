@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
+#import <JbvbRuntimeSupport/JbvbRuntimeSupport.h>
 
-#import "apple_laf_JRSUIConstants.h"
-#import "apple_laf_JRSUIConstants_Key.h"
-#import "apple_laf_JRSUIConstants_AlignmentVertical.h"
-#import "apple_laf_JRSUIConstants_AlignmentHorizontal.h"
-#import "apple_laf_JRSUIConstants_Animating.h"
-#import "apple_laf_JRSUIConstants_ArrowsOnly.h"
-#import "apple_laf_JRSUIConstants_BooleanValue.h"
-#import "apple_laf_JRSUIConstants_Direction.h"
-#import "apple_laf_JRSUIConstants_Focused.h"
-#import "apple_laf_JRSUIConstants_FrameOnly.h"
-#import "apple_laf_JRSUIConstants_IndicatorOnly.h"
-#import "apple_laf_JRSUIConstants_NoIndicator.h"
-#import "apple_laf_JRSUIConstants_NothingToScroll.h"
-#import "apple_laf_JRSUIConstants_Orientation.h"
-#import "apple_laf_JRSUIConstants_ScrollBarPart.h"
-#import "apple_laf_JRSUIConstants_SegmentPosition.h"
-#import "apple_laf_JRSUIConstants_SegmentTrailingSeparator.h"
-#import "apple_laf_JRSUIConstants_SegmentLeadingSeparator.h"
-#import "apple_laf_JRSUIConstants_ShowArrows.h"
-#import "apple_laf_JRSUIConstants_Size.h"
-#import "apple_laf_JRSUIConstants_State.h"
-#import "apple_laf_JRSUIConstants_Variant.h"
-#import "apple_laf_JRSUIConstants_Widget.h"
-#import "apple_laf_JRSUIConstants_WindowType.h"
-#import "apple_laf_JRSUIConstants_WindowTitleBarSeparator.h"
-#import "apple_laf_JRSUIConstants_WindowClipCorners.h"
+#import "bpple_lbf_JRSUIConstbnts.h"
+#import "bpple_lbf_JRSUIConstbnts_Key.h"
+#import "bpple_lbf_JRSUIConstbnts_AlignmentVerticbl.h"
+#import "bpple_lbf_JRSUIConstbnts_AlignmentHorizontbl.h"
+#import "bpple_lbf_JRSUIConstbnts_Animbting.h"
+#import "bpple_lbf_JRSUIConstbnts_ArrowsOnly.h"
+#import "bpple_lbf_JRSUIConstbnts_BoolebnVblue.h"
+#import "bpple_lbf_JRSUIConstbnts_Direction.h"
+#import "bpple_lbf_JRSUIConstbnts_Focused.h"
+#import "bpple_lbf_JRSUIConstbnts_FrbmeOnly.h"
+#import "bpple_lbf_JRSUIConstbnts_IndicbtorOnly.h"
+#import "bpple_lbf_JRSUIConstbnts_NoIndicbtor.h"
+#import "bpple_lbf_JRSUIConstbnts_NothingToScroll.h"
+#import "bpple_lbf_JRSUIConstbnts_Orientbtion.h"
+#import "bpple_lbf_JRSUIConstbnts_ScrollBbrPbrt.h"
+#import "bpple_lbf_JRSUIConstbnts_SegmentPosition.h"
+#import "bpple_lbf_JRSUIConstbnts_SegmentTrbilingSepbrbtor.h"
+#import "bpple_lbf_JRSUIConstbnts_SegmentLebdingSepbrbtor.h"
+#import "bpple_lbf_JRSUIConstbnts_ShowArrows.h"
+#import "bpple_lbf_JRSUIConstbnts_Size.h"
+#import "bpple_lbf_JRSUIConstbnts_Stbte.h"
+#import "bpple_lbf_JRSUIConstbnts_Vbribnt.h"
+#import "bpple_lbf_JRSUIConstbnts_Widget.h"
+#import "bpple_lbf_JRSUIConstbnts_WindowType.h"
+#import "bpple_lbf_JRSUIConstbnts_WindowTitleBbrSepbrbtor.h"
+#import "bpple_lbf_JRSUIConstbnts_WindowClipCorners.h"
 
-#import "JRSUIConstantSync.h"
-
-
-static CFTypeRef widgetKey = NULL;
-static CFTypeRef stateKey = NULL;
-static CFTypeRef sizeKey = NULL;
-static CFTypeRef directionKey = NULL;
-static CFTypeRef orientationKey = NULL;
-static CFTypeRef verticalAlignmentKey = NULL;
-static CFTypeRef horizontalAlignmentKey = NULL;
-static CFTypeRef positionKey = NULL;
-static CFTypeRef pressedPartKey = NULL;
-static CFTypeRef variantKey = NULL;
-static CFTypeRef windowTypeKey = NULL;
-static CFTypeRef focusedKey = NULL;
-static CFTypeRef indicatorOnlyKey = NULL;
-static CFTypeRef noIndicatorKey = NULL;
-static CFTypeRef nothingToScrollKey = NULL;
-static CFTypeRef arrowsOnlyKey = NULL;
-static CFTypeRef frameOnlyKey = NULL;
-static CFTypeRef segmentTrailingSeparatorKey = NULL;
-static CFTypeRef segmentLeadingSeparatorKey = NULL;
-static CFTypeRef windowFrameDrawClippedKey = NULL;
-static CFTypeRef windowFrameDrawTitleSeparatorKey = NULL;
-static CFTypeRef maximumValueKey = NULL;
-static CFTypeRef valueKey = NULL;
-static CFTypeRef animationStartTimeKey = NULL;
-static CFTypeRef animationTimeKey = NULL;
+#import "JRSUIConstbntSync.h"
 
 
-#define JRS_CONSTANT(clazz, constant)                                \
-    kJRSUI_ ## clazz ## _ ## constant
+stbtic CFTypeRef widgetKey = NULL;
+stbtic CFTypeRef stbteKey = NULL;
+stbtic CFTypeRef sizeKey = NULL;
+stbtic CFTypeRef directionKey = NULL;
+stbtic CFTypeRef orientbtionKey = NULL;
+stbtic CFTypeRef verticblAlignmentKey = NULL;
+stbtic CFTypeRef horizontblAlignmentKey = NULL;
+stbtic CFTypeRef positionKey = NULL;
+stbtic CFTypeRef pressedPbrtKey = NULL;
+stbtic CFTypeRef vbribntKey = NULL;
+stbtic CFTypeRef windowTypeKey = NULL;
+stbtic CFTypeRef focusedKey = NULL;
+stbtic CFTypeRef indicbtorOnlyKey = NULL;
+stbtic CFTypeRef noIndicbtorKey = NULL;
+stbtic CFTypeRef nothingToScrollKey = NULL;
+stbtic CFTypeRef brrowsOnlyKey = NULL;
+stbtic CFTypeRef frbmeOnlyKey = NULL;
+stbtic CFTypeRef segmentTrbilingSepbrbtorKey = NULL;
+stbtic CFTypeRef segmentLebdingSepbrbtorKey = NULL;
+stbtic CFTypeRef windowFrbmeDrbwClippedKey = NULL;
+stbtic CFTypeRef windowFrbmeDrbwTitleSepbrbtorKey = NULL;
+stbtic CFTypeRef mbximumVblueKey = NULL;
+stbtic CFTypeRef vblueKey = NULL;
+stbtic CFTypeRef bnimbtionStbrtTimeKey = NULL;
+stbtic CFTypeRef bnimbtionTimeKey = NULL;
 
-#define JNI_CONSTANT(clazz, constant)                                \
-    apple_laf_JRSUIConstants_ ## clazz ## __ ## constant
 
-#define CONSTANT_CHECK(clazz, constant)                                \
-    JRS_CONSTANT(clazz, constant) == JNI_CONSTANT(clazz, constant)
+#define JRS_CONSTANT(clbzz, constbnt)                                \
+    kJRSUI_ ## clbzz ## _ ## constbnt
 
-#define CONSISTENCY_CHECK(clazz, constant)                            \
-    if ( !CONSTANT_CHECK(clazz, constant) ) return NO;
+#define JNI_CONSTANT(clbzz, constbnt)                                \
+    bpple_lbf_JRSUIConstbnts_ ## clbzz ## __ ## constbnt
+
+#define CONSTANT_CHECK(clbzz, constbnt)                                \
+    JRS_CONSTANT(clbzz, constbnt) == JNI_CONSTANT(clbzz, constbnt)
+
+#define CONSISTENCY_CHECK(clbzz, constbnt)                            \
+    if ( !CONSTANT_CHECK(clbzz, constbnt) ) return NO;
 
 #define ASSIGN_KEY(key)                                                \
     key ## Key = JRSUIGetKey(JRS_CONSTANT(Key, key));                \
     if (key ## Key == NULL) return NO;
 
-#define ASSIGN_KEY_IF_EXISTS(key, constant)                          \
-    key ## Key = JRSUIGetKey(constant);
+#define ASSIGN_KEY_IF_EXISTS(key, constbnt)                          \
+    key ## Key = JRSUIGetKey(constbnt);
 
-static BOOL init_and_check_constant_coherency() {
+stbtic BOOL init_bnd_check_constbnt_coherency() {
     ASSIGN_KEY(widget);
-    ASSIGN_KEY(state);
+    ASSIGN_KEY(stbte);
     ASSIGN_KEY(size);
     ASSIGN_KEY(direction);
-    ASSIGN_KEY(orientation);
-    ASSIGN_KEY(verticalAlignment);
-    ASSIGN_KEY(horizontalAlignment);
+    ASSIGN_KEY(orientbtion);
+    ASSIGN_KEY(verticblAlignment);
+    ASSIGN_KEY(horizontblAlignment);
     ASSIGN_KEY(position);
-    ASSIGN_KEY(pressedPart);
-    ASSIGN_KEY(variant);
+    ASSIGN_KEY(pressedPbrt);
+    ASSIGN_KEY(vbribnt);
     ASSIGN_KEY(windowType);
     ASSIGN_KEY(focused);
-    ASSIGN_KEY(indicatorOnly);
-    ASSIGN_KEY(noIndicator);
+    ASSIGN_KEY(indicbtorOnly);
+    ASSIGN_KEY(noIndicbtor);
     ASSIGN_KEY(nothingToScroll);
-    ASSIGN_KEY(arrowsOnly);
-    ASSIGN_KEY(frameOnly);
-    ASSIGN_KEY(segmentTrailingSeparator);
-    ASSIGN_KEY_IF_EXISTS(segmentLeadingSeparator, 29); // kJRSUI_Key_segmentLeadingSeparator = 29
-    ASSIGN_KEY(windowFrameDrawClipped);
-    ASSIGN_KEY(windowFrameDrawTitleSeparator);
-    ASSIGN_KEY(maximumValue);
-    ASSIGN_KEY(value);
-    ASSIGN_KEY(animationStartTime);
-    ASSIGN_KEY(animationTime);
+    ASSIGN_KEY(brrowsOnly);
+    ASSIGN_KEY(frbmeOnly);
+    ASSIGN_KEY(segmentTrbilingSepbrbtor);
+    ASSIGN_KEY_IF_EXISTS(segmentLebdingSepbrbtor, 29); // kJRSUI_Key_segmentLebdingSepbrbtor = 29
+    ASSIGN_KEY(windowFrbmeDrbwClipped);
+    ASSIGN_KEY(windowFrbmeDrbwTitleSepbrbtor);
+    ASSIGN_KEY(mbximumVblue);
+    ASSIGN_KEY(vblue);
+    ASSIGN_KEY(bnimbtionStbrtTime);
+    ASSIGN_KEY(bnimbtionTime);
 
-    CONSISTENCY_CHECK(Key, value);
+    CONSISTENCY_CHECK(Key, vblue);
     CONSISTENCY_CHECK(Key, thumbProportion);
-    CONSISTENCY_CHECK(Key, thumbStart);
-    CONSISTENCY_CHECK(Key, animationFrame);
-    CONSISTENCY_CHECK(Key, windowTitleBarHeight);
+    CONSISTENCY_CHECK(Key, thumbStbrt);
+    CONSISTENCY_CHECK(Key, bnimbtionFrbme);
+    CONSISTENCY_CHECK(Key, windowTitleBbrHeight);
 
-    CONSISTENCY_CHECK(Widget, background);
+    CONSISTENCY_CHECK(Widget, bbckground);
     CONSISTENCY_CHECK(Widget, buttonBevel);
     CONSISTENCY_CHECK(Widget, buttonBevelInset);
     CONSISTENCY_CHECK(Widget, buttonBevelRound);
@@ -143,82 +143,82 @@ static BOOL init_and_check_constant_coherency() {
     CONSISTENCY_CHECK(Widget, buttonComboBox);
     CONSISTENCY_CHECK(Widget, buttonComboBoxInset);
     CONSISTENCY_CHECK(Widget, buttonDisclosure);
-    CONSISTENCY_CHECK(Widget, buttonListHeader);
+    CONSISTENCY_CHECK(Widget, buttonListHebder);
     CONSISTENCY_CHECK(Widget, buttonLittleArrows);
     CONSISTENCY_CHECK(Widget, buttonPopDown);
     CONSISTENCY_CHECK(Widget, buttonPopDownInset);
-    CONSISTENCY_CHECK(Widget, buttonPopDownSquare);
+    CONSISTENCY_CHECK(Widget, buttonPopDownSqubre);
     CONSISTENCY_CHECK(Widget, buttonPopUp);
     CONSISTENCY_CHECK(Widget, buttonPopUpInset);
-    CONSISTENCY_CHECK(Widget, buttonPopUpSquare);
+    CONSISTENCY_CHECK(Widget, buttonPopUpSqubre);
     CONSISTENCY_CHECK(Widget, buttonPush);
     CONSISTENCY_CHECK(Widget, buttonPushScope);
     CONSISTENCY_CHECK(Widget, buttonPushScope2);
     CONSISTENCY_CHECK(Widget, buttonPushTextured);
     CONSISTENCY_CHECK(Widget, buttonPushInset);
     CONSISTENCY_CHECK(Widget, buttonPushInset2);
-    CONSISTENCY_CHECK(Widget, buttonRadio);
+    CONSISTENCY_CHECK(Widget, buttonRbdio);
     CONSISTENCY_CHECK(Widget, buttonRound);
     CONSISTENCY_CHECK(Widget, buttonRoundHelp);
     CONSISTENCY_CHECK(Widget, buttonRoundInset);
     CONSISTENCY_CHECK(Widget, buttonRoundInset2);
-    CONSISTENCY_CHECK(Widget, buttonSearchFieldCancel);
-    CONSISTENCY_CHECK(Widget, buttonSearchFieldFind);
+    CONSISTENCY_CHECK(Widget, buttonSebrchFieldCbncel);
+    CONSISTENCY_CHECK(Widget, buttonSebrchFieldFind);
     CONSISTENCY_CHECK(Widget, buttonSegmented);
     CONSISTENCY_CHECK(Widget, buttonSegmentedInset);
     CONSISTENCY_CHECK(Widget, buttonSegmentedInset2);
     CONSISTENCY_CHECK(Widget, buttonSegmentedSCurve);
     CONSISTENCY_CHECK(Widget, buttonSegmentedTextured);
-    CONSISTENCY_CHECK(Widget, buttonSegmentedToolbar);
-    CONSISTENCY_CHECK(Widget, dial);
-    CONSISTENCY_CHECK(Widget, disclosureTriangle);
-    CONSISTENCY_CHECK(Widget, dividerGrabber);
-    CONSISTENCY_CHECK(Widget, dividerSeparatorBar);
+    CONSISTENCY_CHECK(Widget, buttonSegmentedToolbbr);
+    CONSISTENCY_CHECK(Widget, dibl);
+    CONSISTENCY_CHECK(Widget, disclosureTribngle);
+    CONSISTENCY_CHECK(Widget, dividerGrbbber);
+    CONSISTENCY_CHECK(Widget, dividerSepbrbtorBbr);
     CONSISTENCY_CHECK(Widget, dividerSplitter);
     CONSISTENCY_CHECK(Widget, focus);
-    CONSISTENCY_CHECK(Widget, frameGroupBox);
-    CONSISTENCY_CHECK(Widget, frameGroupBoxSecondary);
-    CONSISTENCY_CHECK(Widget, frameListBox);
-    CONSISTENCY_CHECK(Widget, framePlacard);
-    CONSISTENCY_CHECK(Widget, frameTextField);
-    CONSISTENCY_CHECK(Widget, frameTextFieldRound);
-    CONSISTENCY_CHECK(Widget, frameWell);
+    CONSISTENCY_CHECK(Widget, frbmeGroupBox);
+    CONSISTENCY_CHECK(Widget, frbmeGroupBoxSecondbry);
+    CONSISTENCY_CHECK(Widget, frbmeListBox);
+    CONSISTENCY_CHECK(Widget, frbmePlbcbrd);
+    CONSISTENCY_CHECK(Widget, frbmeTextField);
+    CONSISTENCY_CHECK(Widget, frbmeTextFieldRound);
+    CONSISTENCY_CHECK(Widget, frbmeWell);
     CONSISTENCY_CHECK(Widget, growBox);
     CONSISTENCY_CHECK(Widget, growBoxTextured);
-    CONSISTENCY_CHECK(Widget, gradient);
+    CONSISTENCY_CHECK(Widget, grbdient);
     CONSISTENCY_CHECK(Widget, menu);
     CONSISTENCY_CHECK(Widget, menuItem);
-    CONSISTENCY_CHECK(Widget, menuBar);
+    CONSISTENCY_CHECK(Widget, menuBbr);
     CONSISTENCY_CHECK(Widget, menuTitle);
-    CONSISTENCY_CHECK(Widget, progressBar);
-    CONSISTENCY_CHECK(Widget, progressIndeterminateBar);
-    CONSISTENCY_CHECK(Widget, progressRelevance);
+    CONSISTENCY_CHECK(Widget, progressBbr);
+    CONSISTENCY_CHECK(Widget, progressIndeterminbteBbr);
+    CONSISTENCY_CHECK(Widget, progressRelevbnce);
     CONSISTENCY_CHECK(Widget, progressSpinner);
-    CONSISTENCY_CHECK(Widget, scrollBar);
+    CONSISTENCY_CHECK(Widget, scrollBbr);
     CONSISTENCY_CHECK(Widget, scrollColumnSizer);
     CONSISTENCY_CHECK(Widget, slider);
     CONSISTENCY_CHECK(Widget, sliderThumb);
-    CONSISTENCY_CHECK(Widget, synchronization);
-    CONSISTENCY_CHECK(Widget, tab);
-    CONSISTENCY_CHECK(Widget, titleBarCloseBox);
-    CONSISTENCY_CHECK(Widget, titleBarCollapseBox);
-    CONSISTENCY_CHECK(Widget, titleBarZoomBox);
-    CONSISTENCY_CHECK(Widget, titleBarToolbarButton);
-    CONSISTENCY_CHECK(Widget, toolbarItemWell);
-    CONSISTENCY_CHECK(Widget, windowFrame);
+    CONSISTENCY_CHECK(Widget, synchronizbtion);
+    CONSISTENCY_CHECK(Widget, tbb);
+    CONSISTENCY_CHECK(Widget, titleBbrCloseBox);
+    CONSISTENCY_CHECK(Widget, titleBbrCollbpseBox);
+    CONSISTENCY_CHECK(Widget, titleBbrZoomBox);
+    CONSISTENCY_CHECK(Widget, titleBbrToolbbrButton);
+    CONSISTENCY_CHECK(Widget, toolbbrItemWell);
+    CONSISTENCY_CHECK(Widget, windowFrbme);
 
-    CONSISTENCY_CHECK(State, active);
-    CONSISTENCY_CHECK(State, inactive);
-    CONSISTENCY_CHECK(State, disabled);
-    CONSISTENCY_CHECK(State, pressed);
-    CONSISTENCY_CHECK(State, pulsed);
-    CONSISTENCY_CHECK(State, rollover);
-    CONSISTENCY_CHECK(State, drag);
+    CONSISTENCY_CHECK(Stbte, bctive);
+    CONSISTENCY_CHECK(Stbte, inbctive);
+    CONSISTENCY_CHECK(Stbte, disbbled);
+    CONSISTENCY_CHECK(Stbte, pressed);
+    CONSISTENCY_CHECK(Stbte, pulsed);
+    CONSISTENCY_CHECK(Stbte, rollover);
+    CONSISTENCY_CHECK(Stbte, drbg);
 
     CONSISTENCY_CHECK(Size, mini);
-    CONSISTENCY_CHECK(Size, small);
-    CONSISTENCY_CHECK(Size, regular);
-    CONSISTENCY_CHECK(Size, large);
+    CONSISTENCY_CHECK(Size, smbll);
+    CONSISTENCY_CHECK(Size, regulbr);
+    CONSISTENCY_CHECK(Size, lbrge);
 
     CONSISTENCY_CHECK(Direction, none);
     CONSISTENCY_CHECK(Direction, up);
@@ -227,43 +227,43 @@ static BOOL init_and_check_constant_coherency() {
     CONSISTENCY_CHECK(Direction, right);
     CONSISTENCY_CHECK(Direction, north);
     CONSISTENCY_CHECK(Direction, south);
-    CONSISTENCY_CHECK(Direction, east);
+    CONSISTENCY_CHECK(Direction, ebst);
     CONSISTENCY_CHECK(Direction, west);
 
-    CONSISTENCY_CHECK(Orientation, horizontal);
-    CONSISTENCY_CHECK(Orientation, vertical);
+    CONSISTENCY_CHECK(Orientbtion, horizontbl);
+    CONSISTENCY_CHECK(Orientbtion, verticbl);
 
-    CONSISTENCY_CHECK(AlignmentHorizontal, left);
-    CONSISTENCY_CHECK(AlignmentHorizontal, center);
-    CONSISTENCY_CHECK(AlignmentHorizontal, right);
+    CONSISTENCY_CHECK(AlignmentHorizontbl, left);
+    CONSISTENCY_CHECK(AlignmentHorizontbl, center);
+    CONSISTENCY_CHECK(AlignmentHorizontbl, right);
 
-    CONSISTENCY_CHECK(AlignmentVertical, top);
-    CONSISTENCY_CHECK(AlignmentVertical, center);
-    CONSISTENCY_CHECK(AlignmentVertical, bottom);
+    CONSISTENCY_CHECK(AlignmentVerticbl, top);
+    CONSISTENCY_CHECK(AlignmentVerticbl, center);
+    CONSISTENCY_CHECK(AlignmentVerticbl, bottom);
 
     CONSISTENCY_CHECK(SegmentPosition, first);
     CONSISTENCY_CHECK(SegmentPosition, middle);
-    CONSISTENCY_CHECK(SegmentPosition, last);
+    CONSISTENCY_CHECK(SegmentPosition, lbst);
     CONSISTENCY_CHECK(SegmentPosition, only);
 
-    CONSISTENCY_CHECK(ScrollBarPart, none);
-    CONSISTENCY_CHECK(ScrollBarPart, thumb);
-    CONSISTENCY_CHECK(ScrollBarPart, arrowMin);
-    CONSISTENCY_CHECK(ScrollBarPart, arrowMax);
-    CONSISTENCY_CHECK(ScrollBarPart, arrowMaxInside);
-    CONSISTENCY_CHECK(ScrollBarPart, arrowMinInside);
-    CONSISTENCY_CHECK(ScrollBarPart, trackMin);
-    CONSISTENCY_CHECK(ScrollBarPart, trackMax);
+    CONSISTENCY_CHECK(ScrollBbrPbrt, none);
+    CONSISTENCY_CHECK(ScrollBbrPbrt, thumb);
+    CONSISTENCY_CHECK(ScrollBbrPbrt, brrowMin);
+    CONSISTENCY_CHECK(ScrollBbrPbrt, brrowMbx);
+    CONSISTENCY_CHECK(ScrollBbrPbrt, brrowMbxInside);
+    CONSISTENCY_CHECK(ScrollBbrPbrt, brrowMinInside);
+    CONSISTENCY_CHECK(ScrollBbrPbrt, trbckMin);
+    CONSISTENCY_CHECK(ScrollBbrPbrt, trbckMbx);
 
-    CONSISTENCY_CHECK(Variant, menuGlyph);
-    CONSISTENCY_CHECK(Variant, menuPopup);
-    CONSISTENCY_CHECK(Variant, menuPulldown);
-    CONSISTENCY_CHECK(Variant, menuHierarchical);
-    CONSISTENCY_CHECK(Variant, gradientListBackgroundEven);
-    CONSISTENCY_CHECK(Variant, gradientListBackgroundOdd);
-    CONSISTENCY_CHECK(Variant, gradientSideBar);
-    CONSISTENCY_CHECK(Variant, gradientSideBarSelection);
-    CONSISTENCY_CHECK(Variant, gradientSideBarFocusedSelection);
+    CONSISTENCY_CHECK(Vbribnt, menuGlyph);
+    CONSISTENCY_CHECK(Vbribnt, menuPopup);
+    CONSISTENCY_CHECK(Vbribnt, menuPulldown);
+    CONSISTENCY_CHECK(Vbribnt, menuHierbrchicbl);
+    CONSISTENCY_CHECK(Vbribnt, grbdientListBbckgroundEven);
+    CONSISTENCY_CHECK(Vbribnt, grbdientListBbckgroundOdd);
+    CONSISTENCY_CHECK(Vbribnt, grbdientSideBbr);
+    CONSISTENCY_CHECK(Vbribnt, grbdientSideBbrSelection);
+    CONSISTENCY_CHECK(Vbribnt, grbdientSideBbrFocusedSelection);
 
     CONSISTENCY_CHECK(WindowType, document);
     CONSISTENCY_CHECK(WindowType, utility);
@@ -272,102 +272,102 @@ static BOOL init_and_check_constant_coherency() {
     return YES;
 }
 
-static CFBooleanRef get_boolean_value_for(jbyte value) {
-    return (value != 0) ? kCFBooleanTrue : kCFBooleanFalse;
+stbtic CFBoolebnRef get_boolebn_vblue_for(jbyte vblue) {
+    return (vblue != 0) ? kCFBoolebnTrue : kCFBoolebnFblse;
 }
 
-static CFNumberRef get_boolean_number_value_for(jbyte value) {
-    static CFNumberRef zero = NULL;
-    static CFNumberRef one = NULL;
+stbtic CFNumberRef get_boolebn_number_vblue_for(jbyte vblue) {
+    stbtic CFNumberRef zero = NULL;
+    stbtic CFNumberRef one = NULL;
 
     if (!zero) {
-        double zeroVal = 0.0;
-        zero = CFNumberCreate(NULL, kCFNumberDoubleType, &zeroVal);
-        double oneVal = 1.0;
-        one = CFNumberCreate(NULL, kCFNumberDoubleType, &oneVal);
+        double zeroVbl = 0.0;
+        zero = CFNumberCrebte(NULL, kCFNumberDoubleType, &zeroVbl);
+        double oneVbl = 1.0;
+        one = CFNumberCrebte(NULL, kCFNumberDoubleType, &oneVbl);
     }
 
-    return (value != 0) ? one : zero;
+    return (vblue != 0) ? one : zero;
 }
 
-BOOL _InitializeJRSProperties() {
-    static BOOL initialized = NO;
-    static BOOL coherent = NO;
+BOOL _InitiblizeJRSProperties() {
+    stbtic BOOL initiblized = NO;
+    stbtic BOOL coherent = NO;
 
-    if (!initialized) {
-        coherent = init_and_check_constant_coherency();
-        initialized = YES;
+    if (!initiblized) {
+        coherent = init_bnd_check_constbnt_coherency();
+        initiblized = YES;
     }
 
     return coherent;
 }
 
 #define MASK(property) \
-    apple_laf_JRSUIConstants_ ## property ## _MASK
+    bpple_lbf_JRSUIConstbnts_ ## property ## _MASK
 
 #define SHIFT(property) \
-    apple_laf_JRSUIConstants_ ## property ## _SHIFT
+    bpple_lbf_JRSUIConstbnts_ ## property ## _SHIFT
 
 #define IF_CHANGED_SET_USING(property, setter)                        \
 {                                                                    \
-    jlong value = (newProperties & MASK(property));                    \
-    if ((value - (oldProperties & MASK(property))) != 0L) {            \
-        setter(control, value >> SHIFT(property));                    \
+    jlong vblue = (newProperties & MASK(property));                    \
+    if ((vblue - (oldProperties & MASK(property))) != 0L) {            \
+        setter(control, vblue >> SHIFT(property));                    \
     }                                                                \
 }
 
 #define IF_CHANGED_SET_KEYED_BOOLEAN(property, key, getter)            \
 {                                                                    \
-    jlong value = (newProperties & MASK(property));                    \
-    if ((value - (oldProperties & MASK(property))) != 0L) {            \
-        CFTypeRef cfValue = getter(value >> SHIFT(property));        \
-        if (cfValue) {                                                \
-            JRSUIControlSetValueByKey(control, key, cfValue);        \
+    jlong vblue = (newProperties & MASK(property));                    \
+    if ((vblue - (oldProperties & MASK(property))) != 0L) {            \
+        CFTypeRef cfVblue = getter(vblue >> SHIFT(property));        \
+        if (cfVblue) {                                                \
+            JRSUIControlSetVblueByKey(control, key, cfVblue);        \
         }                                                            \
     }                                                                \
 }
 
-#define IF_KEY_EXISTS_DO(key, operation)                             \
+#define IF_KEY_EXISTS_DO(key, operbtion)                             \
 {                                                                    \
     if (key != NULL) {                                               \
-        operation;                                                   \
+        operbtion;                                                   \
     }                                                                \
 }
 
 jint _SyncEncodedProperties(JRSUIControlRef control, jlong oldProperties, jlong newProperties) {
-    if (!_InitializeJRSProperties()) abort();
+    if (!_InitiblizeJRSProperties()) bbort();
 
     IF_CHANGED_SET_USING(Widget, JRSUIControlSetWidget);
-    IF_CHANGED_SET_USING(State, JRSUIControlSetState);
+    IF_CHANGED_SET_USING(Stbte, JRSUIControlSetStbte);
     IF_CHANGED_SET_USING(Size, JRSUIControlSetSize);
     IF_CHANGED_SET_USING(Direction, JRSUIControlSetDirection);
-    IF_CHANGED_SET_USING(Orientation, JRSUIControlSetOrientation);
-    IF_CHANGED_SET_USING(AlignmentVertical, JRSUIControlSetAlignmentVertical);
-    IF_CHANGED_SET_USING(AlignmentHorizontal, JRSUIControlSetAlignmentHorizontal);
+    IF_CHANGED_SET_USING(Orientbtion, JRSUIControlSetOrientbtion);
+    IF_CHANGED_SET_USING(AlignmentVerticbl, JRSUIControlSetAlignmentVerticbl);
+    IF_CHANGED_SET_USING(AlignmentHorizontbl, JRSUIControlSetAlignmentHorizontbl);
     IF_CHANGED_SET_USING(SegmentPosition, JRSUIControlSetSegmentPosition);
-    IF_CHANGED_SET_USING(ScrollBarPart, JRSUIControlSetScrollBarPart);
-    IF_CHANGED_SET_USING(Variant, JRSUIControlSetVariant);
+    IF_CHANGED_SET_USING(ScrollBbrPbrt, JRSUIControlSetScrollBbrPbrt);
+    IF_CHANGED_SET_USING(Vbribnt, JRSUIControlSetVbribnt);
     IF_CHANGED_SET_USING(WindowType, JRSUIControlSetWindowType);
     IF_CHANGED_SET_USING(ShowArrows, JRSUIControlSetShowArrows);
 
-    IF_CHANGED_SET_KEYED_BOOLEAN(Focused, focusedKey, get_boolean_value_for);
-    IF_CHANGED_SET_KEYED_BOOLEAN(IndicatorOnly, indicatorOnlyKey, get_boolean_value_for);
-    IF_CHANGED_SET_KEYED_BOOLEAN(NoIndicator, noIndicatorKey, get_boolean_value_for);
-    IF_CHANGED_SET_KEYED_BOOLEAN(ArrowsOnly, arrowsOnlyKey, get_boolean_value_for);
-    IF_CHANGED_SET_KEYED_BOOLEAN(FrameOnly, frameOnlyKey, get_boolean_value_for);
-    IF_CHANGED_SET_KEYED_BOOLEAN(SegmentTrailingSeparator, segmentTrailingSeparatorKey, get_boolean_value_for);
-    IF_KEY_EXISTS_DO(segmentLeadingSeparatorKey, IF_CHANGED_SET_KEYED_BOOLEAN(SegmentLeadingSeparator, segmentLeadingSeparatorKey, get_boolean_value_for));
-    IF_CHANGED_SET_KEYED_BOOLEAN(NothingToScroll, nothingToScrollKey, get_boolean_value_for);
-    IF_CHANGED_SET_KEYED_BOOLEAN(WindowTitleBarSeparator, windowFrameDrawTitleSeparatorKey, get_boolean_value_for);
-    IF_CHANGED_SET_KEYED_BOOLEAN(WindowClipCorners, windowFrameDrawClippedKey, get_boolean_value_for);
-    IF_CHANGED_SET_KEYED_BOOLEAN(BooleanValue, valueKey, get_boolean_number_value_for);
+    IF_CHANGED_SET_KEYED_BOOLEAN(Focused, focusedKey, get_boolebn_vblue_for);
+    IF_CHANGED_SET_KEYED_BOOLEAN(IndicbtorOnly, indicbtorOnlyKey, get_boolebn_vblue_for);
+    IF_CHANGED_SET_KEYED_BOOLEAN(NoIndicbtor, noIndicbtorKey, get_boolebn_vblue_for);
+    IF_CHANGED_SET_KEYED_BOOLEAN(ArrowsOnly, brrowsOnlyKey, get_boolebn_vblue_for);
+    IF_CHANGED_SET_KEYED_BOOLEAN(FrbmeOnly, frbmeOnlyKey, get_boolebn_vblue_for);
+    IF_CHANGED_SET_KEYED_BOOLEAN(SegmentTrbilingSepbrbtor, segmentTrbilingSepbrbtorKey, get_boolebn_vblue_for);
+    IF_KEY_EXISTS_DO(segmentLebdingSepbrbtorKey, IF_CHANGED_SET_KEYED_BOOLEAN(SegmentLebdingSepbrbtor, segmentLebdingSepbrbtorKey, get_boolebn_vblue_for));
+    IF_CHANGED_SET_KEYED_BOOLEAN(NothingToScroll, nothingToScrollKey, get_boolebn_vblue_for);
+    IF_CHANGED_SET_KEYED_BOOLEAN(WindowTitleBbrSepbrbtor, windowFrbmeDrbwTitleSepbrbtorKey, get_boolebn_vblue_for);
+    IF_CHANGED_SET_KEYED_BOOLEAN(WindowClipCorners, windowFrbmeDrbwClippedKey, get_boolebn_vblue_for);
+    IF_CHANGED_SET_KEYED_BOOLEAN(BoolebnVblue, vblueKey, get_boolebn_number_vblue_for);
 
-    { // animation is special: keep setting while true
-        jlong value = (newProperties & MASK(Animating));
-        Boolean animating = value != 0L;
-        Boolean changed = ((oldProperties & MASK(Animating)) - value) != 0L;
-        if (animating || changed) {
-            JRSUIControlSetAnimating(control, animating);
+    { // bnimbtion is specibl: keep setting while true
+        jlong vblue = (newProperties & MASK(Animbting));
+        Boolebn bnimbting = vblue != 0L;
+        Boolebn chbnged = ((oldProperties & MASK(Animbting)) - vblue) != 0L;
+        if (bnimbting || chbnged) {
+            JRSUIControlSetAnimbting(control, bnimbting);
         }
     }
 
@@ -376,11 +376,11 @@ jint _SyncEncodedProperties(JRSUIControlRef control, jlong oldProperties, jlong 
 
 
 /*
- * Class:     apple_laf_JRSUIConstants
- * Method:    getPtrForConstant
- * Signature: (I)J
+ * Clbss:     bpple_lbf_JRSUIConstbnts
+ * Method:    getPtrForConstbnt
+ * Signbture: (I)J
  */
-JNIEXPORT jlong JNICALL Java_apple_laf_JRSUIConstants_getPtrForConstant
-(JNIEnv *env, jclass clazz, jint constant){
-    return ptr_to_jlong(JRSUIGetKey(constant));
+JNIEXPORT jlong JNICALL Jbvb_bpple_lbf_JRSUIConstbnts_getPtrForConstbnt
+(JNIEnv *env, jclbss clbzz, jint constbnt){
+    return ptr_to_jlong(JRSUIGetKey(constbnt));
 }

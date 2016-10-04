@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote;
+pbckbge jbvbx.mbnbgement.remote;
 
-import java.security.BasicPermission;
+import jbvb.security.BbsicPermission;
 
 /**
- * <p>Permission required by an authentication identity to perform
- * operations on behalf of an authorization identity.</p>
+ * <p>Permission required by bn buthenticbtion identity to perform
+ * operbtions on behblf of bn buthorizbtion identity.</p>
  *
- * <p>A SubjectDelegationPermission contains a name (also referred
- * to as a "target name") but no actions list; you either have the
- * named permission or you don't.</p>
+ * <p>A SubjectDelegbtionPermission contbins b nbme (blso referred
+ * to bs b "tbrget nbme") but no bctions list; you either hbve the
+ * nbmed permission or you don't.</p>
  *
- * <p>The target name is the name of the authorization principal
- * classname followed by a period and the authorization principal
- * name, that is
- * <code>"<em>PrincipalClassName</em>.<em>PrincipalName</em>"</code>.</p>
+ * <p>The tbrget nbme is the nbme of the buthorizbtion principbl
+ * clbssnbme followed by b period bnd the buthorizbtion principbl
+ * nbme, thbt is
+ * <code>"<em>PrincipblClbssNbme</em>.<em>PrincipblNbme</em>"</code>.</p>
  *
- * <p>An asterisk may appear by itself, or if immediately preceded
- * by a "." may appear at the end of the target name, to signify a
- * wildcard match.</p>
+ * <p>An bsterisk mby bppebr by itself, or if immedibtely preceded
+ * by b "." mby bppebr bt the end of the tbrget nbme, to signify b
+ * wildcbrd mbtch.</p>
  *
- * <p>For example, "*", "javax.management.remote.JMXPrincipal.*" and
- * "javax.management.remote.JMXPrincipal.delegate" are valid target
- * names. The first one denotes any principal name from any principal
- * class, the second one denotes any principal name of the concrete
- * principal class <code>javax.management.remote.JMXPrincipal</code>
- * and the third one denotes a concrete principal name
- * <code>delegate</code> of the concrete principal class
- * <code>javax.management.remote.JMXPrincipal</code>.</p>
+ * <p>For exbmple, "*", "jbvbx.mbnbgement.remote.JMXPrincipbl.*" bnd
+ * "jbvbx.mbnbgement.remote.JMXPrincipbl.delegbte" bre vblid tbrget
+ * nbmes. The first one denotes bny principbl nbme from bny principbl
+ * clbss, the second one denotes bny principbl nbme of the concrete
+ * principbl clbss <code>jbvbx.mbnbgement.remote.JMXPrincipbl</code>
+ * bnd the third one denotes b concrete principbl nbme
+ * <code>delegbte</code> of the concrete principbl clbss
+ * <code>jbvbx.mbnbgement.remote.JMXPrincipbl</code>.</p>
  *
  * @since 1.5
  */
-public final class SubjectDelegationPermission extends BasicPermission {
+public finbl clbss SubjectDelegbtionPermission extends BbsicPermission {
 
-    private static final long serialVersionUID = 1481618113008682343L;
+    privbte stbtic finbl long seriblVersionUID = 1481618113008682343L;
 
     /**
-     * Creates a new SubjectDelegationPermission with the specified name.
-     * The name is the symbolic name of the SubjectDelegationPermission.
+     * Crebtes b new SubjectDelegbtionPermission with the specified nbme.
+     * The nbme is the symbolic nbme of the SubjectDelegbtionPermission.
      *
-     * @param name the name of the SubjectDelegationPermission
+     * @pbrbm nbme the nbme of the SubjectDelegbtionPermission
      *
-     * @throws NullPointerException if <code>name</code> is
+     * @throws NullPointerException if <code>nbme</code> is
      * <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty.
      */
-    public SubjectDelegationPermission(String name) {
-        super(name);
+    public SubjectDelegbtionPermission(String nbme) {
+        super(nbme);
     }
 
     /**
-     * Creates a new SubjectDelegationPermission object with the
-     * specified name.  The name is the symbolic name of the
-     * SubjectDelegationPermission, and the actions String is
-     * currently unused and must be null.
+     * Crebtes b new SubjectDelegbtionPermission object with the
+     * specified nbme.  The nbme is the symbolic nbme of the
+     * SubjectDelegbtionPermission, bnd the bctions String is
+     * currently unused bnd must be null.
      *
-     * @param name the name of the SubjectDelegationPermission
-     * @param actions must be null.
+     * @pbrbm nbme the nbme of the SubjectDelegbtionPermission
+     * @pbrbm bctions must be null.
      *
-     * @throws NullPointerException if <code>name</code> is
+     * @throws NullPointerException if <code>nbme</code> is
      * <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty
-     * or <code>actions</code> is not null.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty
+     * or <code>bctions</code> is not null.
      */
-    public SubjectDelegationPermission(String name, String actions) {
-        super(name, actions);
+    public SubjectDelegbtionPermission(String nbme, String bctions) {
+        super(nbme, bctions);
 
-        if (actions != null)
-            throw new IllegalArgumentException("Non-null actions");
+        if (bctions != null)
+            throw new IllegblArgumentException("Non-null bctions");
     }
 }

@@ -1,403 +1,403 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
-<head>
-<title>javax.print.attribute package</title>
+<hebd>
+<title>jbvbx.print.bttribute pbckbge</title>
 <!--
-Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-</head>
+</hebd>
 <body bgcolor="white">
-Provides classes and interfaces
-that describe the types of Java<sup><font size="-2">TM</font></sup> Print
-Service attributes and how they can be collected into attribute sets.
-<H3>What is an Attribute?</H3>
-When setting up a print job,
-a client specifies two things:
-<B>print data</B> and <B>processing instructions.</B>
-The print data is the actual content to be printed.
-The processing instructions tell the printer how to print the print data,
-such as: what media to use, how many copies to print, and 
-whether to print on one or both sides of a sheet.  The client specifies
-these processing instructions with the attribute definitions of the Java 
+Provides clbsses bnd interfbces
+thbt describe the types of Jbvb<sup><font size="-2">TM</font></sup> Print
+Service bttributes bnd how they cbn be collected into bttribute sets.
+<H3>Whbt is bn Attribute?</H3>
+When setting up b print job,
+b client specifies two things:
+<B>print dbtb</B> bnd <B>processing instructions.</B>
+The print dbtb is the bctubl content to be printed.
+The processing instructions tell the printer how to print the print dbtb,
+such bs: whbt medib to use, how mbny copies to print, bnd 
+whether to print on one or both sides of b sheet.  The client specifies
+these processing instructions with the bttribute definitions of the Jbvb 
 Print Service API.
 <P>
-The print data and the processing instructions
-are separate entities.  This means that:
+The print dbtb bnd the processing instructions
+bre sepbrbte entities.  This mebns thbt:
 <ul>
-<li>You can print the same print data
-at different times using different processing instructions.
+<li>You cbn print the sbme print dbtb
+bt different times using different processing instructions.
 <br>
-For example, you can print a slide presentation
-on US letter-sized white paper,
-double-sided, stapled, 20 copies
-to make handouts for a talk;
-and you could print the same slide presentation
-on US letter-sized transparencies,
+For exbmple, you cbn print b slide presentbtion
+on US letter-sized white pbper,
+double-sided, stbpled, 20 copies
+to mbke hbndouts for b tblk;
+bnd you could print the sbme slide presentbtion
+on US letter-sized trbnspbrencies,
 single-sided, one copy
-to make the actual slides for the talk.
-<li>You can use the same processing instructions
-at different times to print different data.
-For example, you could set your default processing 
-instructions to: US letter-sized paper, double sided, stapled.
-Whenever you print a job, it prints with these settings,
+to mbke the bctubl slides for the tblk.
+<li>You cbn use the sbme processing instructions
+bt different times to print different dbtb.
+For exbmple, you could set your defbult processing 
+instructions to: US letter-sized pbper, double sided, stbpled.
+Whenever you print b job, it prints with these settings,
 unless you explicitly override them.
 </ul>
 <P>
 
 The processing instruction does not specify how the print job 
-processes the request; each processing instruction is only a description 
-of the results of a print job.  The print job determines the manner in
-which it achieves the results specified by the processing instructions.
-Representing processing instructions as descriptive items
+processes the request; ebch processing instruction is only b description 
+of the results of b print job.  The print job determines the mbnner in
+which it bchieves the results specified by the processing instructions.
+Representing processing instructions bs descriptive items
 provides more flexibility for implementing print jobs.
-<h4>Attribute Categories and Values</h4>
-Each printer has a set of capabilities, such as the ability to print on
-different paper sizes or the ability to print more than one copy.  Each of 
-the capabilities has a range of values.  For example, a printer's orientation 
-capability might have this range of values: [landscape, portrait]. 
-For each print request, the capability is set to one of these values.  The 
-Java Print Service API uses the term <b>attribute category</b> to refer to
-a printer capability and the term <b>attribute value</b> to refer to the value
-of the capability.
+<h4>Attribute Cbtegories bnd Vblues</h4>
+Ebch printer hbs b set of cbpbbilities, such bs the bbility to print on
+different pbper sizes or the bbility to print more thbn one copy.  Ebch of 
+the cbpbbilities hbs b rbnge of vblues.  For exbmple, b printer's orientbtion 
+cbpbbility might hbve this rbnge of vblues: [lbndscbpe, portrbit]. 
+For ebch print request, the cbpbbility is set to one of these vblues.  The 
+Jbvb Print Service API uses the term <b>bttribute cbtegory</b> to refer to
+b printer cbpbbility bnd the term <b>bttribute vblue</b> to refer to the vblue
+of the cbpbbility.
 <p>
-In the Java Print Service API, an attribute category is represented by a Java 
-class implementing the <a href="Attribute.html">Attribute</a> interface.  
-Attribute values are instances of such a class or 
-one of its subclasses.  For example, to specify the number of copies, an 
-application constructs an instance of the 
-<a href="standard/Copies.html">Copies</a> class with the 
-number of desired copies and uses the <code>Copies</code> instance as part of 
-the print request.  In this case, the <code>Copies</code> class represents the 
-attribute category, and the <code>Copies</code> instance represents the 
-attribute value.
+In the Jbvb Print Service API, bn bttribute cbtegory is represented by b Jbvb 
+clbss implementing the <b href="Attribute.html">Attribute</b> interfbce.  
+Attribute vblues bre instbnces of such b clbss or 
+one of its subclbsses.  For exbmple, to specify the number of copies, bn 
+bpplicbtion constructs bn instbnce of the 
+<b href="stbndbrd/Copies.html">Copies</b> clbss with the 
+number of desired copies bnd uses the <code>Copies</code> instbnce bs pbrt of 
+the print request.  In this cbse, the <code>Copies</code> clbss represents the 
+bttribute cbtegory, bnd the <code>Copies</code> instbnce represents the 
+bttribute vblue.
 
-<h4><a name="role"></a>Attribute Roles</h4>
+<h4><b nbme="role"></b>Attribute Roles</h4>
 
-When submitting a print job to a printer, the client provides the
-attributes describing the characteristics of the print data, such as
-the document name, and how the print data should be printed, such as
-double-sided, five copies.  If a print job consists of multiple
-pieces of print data, different pieces might have different processing
-instructions, such as 8 x 11 inch media for the first document, and
-11 x 17 inch media for another document.
+When submitting b print job to b printer, the client provides the
+bttributes describing the chbrbcteristics of the print dbtb, such bs
+the document nbme, bnd how the print dbtb should be printed, such bs
+double-sided, five copies.  If b print job consists of multiple
+pieces of print dbtb, different pieces might hbve different processing
+instructions, such bs 8 x 11 inch medib for the first document, bnd
+11 x 17 inch medib for bnother document.
 <p>
-Once the printer starts processing the print job,
-additional information about the job becomes available, which might include:
-the job state (such as <i>completed</i> or <i>queued</i>) and
-the number of pages printed so far.  These pieces of information are also
-attributes.  Attributes can also describe the printer itself, such as:
-the printer name, the printer location, and the number of jobs queued. 
+Once the printer stbrts processing the print job,
+bdditionbl informbtion bbout the job becomes bvbilbble, which might include:
+the job stbte (such bs <i>completed</i> or <i>queued</i>) bnd
+the number of pbges printed so fbr.  These pieces of informbtion bre blso
+bttributes.  Attributes cbn blso describe the printer itself, such bs:
+the printer nbme, the printer locbtion, bnd the number of jobs queued. 
 <p>
 
-The Java Print Service API defines these different kinds of attributes 
-with five subinterfaces of <code>Attribute</code>: 
+The Jbvb Print Service API defines these different kinds of bttributes 
+with five subinterfbces of <code>Attribute</code>: 
 <ul>
-<li><A HREF="DocAttribute.html">DocAttribute</A> specifies a characteristic
-of an individual document and the print job settings to be applied to an
-individual document.
+<li><A HREF="DocAttribute.html">DocAttribute</A> specifies b chbrbcteristic
+of bn individubl document bnd the print job settings to be bpplied to bn
+individubl document.
 <li><A HREF="PrintRequestAttribute.html">PrintRequestAttribute</A> specifies 
-a setting applied to a whole print job and to all the documents in 
+b setting bpplied to b whole print job bnd to bll the documents in 
 the print job. 
-<li><A HREF="PrintJobAttribute.html">PrintJobAttribute</A> reports the status
-of a print job.
+<li><A HREF="PrintJobAttribute.html">PrintJobAttribute</A> reports the stbtus
+of b print job.
 <li><A HREF="PrintServiceAttribute.html">PrintServiceAttribute</A> reports the
-status of a print service.
-<li><A HREF="SupportedValuesAttribute.html">SupportedValuesAttribute</A> gives
-the supported values for another attribute.
+stbtus of b print service.
+<li><A HREF="SupportedVbluesAttribute.html">SupportedVbluesAttribute</A> gives
+the supported vblues for bnother bttribute.
 </ul>
-Each attribute class
-implements one or more of these tagging subinterfaces
-to indicate where the attribute can be used in the API.
-If an attribute class implements multiple tagging subinterfaces,
-the attribute can be used in multiple contexts.  For example, the media
-attribute can apply to one document in a print job as a <code>DocAttribute</code>
-or to an entire print job as a <code>PrintRequestAttribute</code>.
-Certain low-level attributes
-are never used on their own
-but are always aggregated into higher-level attributes.
-These low-level attribute classes only
-implement interface <A HREF="Attribute.html">Attribute</A>,
-not any of the tagging subinterfaces.
+Ebch bttribute clbss
+implements one or more of these tbgging subinterfbces
+to indicbte where the bttribute cbn be used in the API.
+If bn bttribute clbss implements multiple tbgging subinterfbces,
+the bttribute cbn be used in multiple contexts.  For exbmple, the medib
+bttribute cbn bpply to one document in b print job bs b <code>DocAttribute</code>
+or to bn entire print job bs b <code>PrintRequestAttribute</code>.
+Certbin low-level bttributes
+bre never used on their own
+but bre blwbys bggregbted into higher-level bttributes.
+These low-level bttribute clbsses only
+implement interfbce <A HREF="Attribute.html">Attribute</A>,
+not bny of the tbgging subinterfbces.
 <P>
-The Java Print Service API defines a group of
-standard attribute classes modeled upon the attributes in
+The Jbvb Print Service API defines b group of
+stbndbrd bttribute clbsses modeled upon the bttributes in
 the Internet Printing Protocol (IPP) version 1.1. The
-standard attribute classes are in the subpackage
-javax.print.attribute.standard to keep the actual
-attribute classes conceptually separate from the generic
-apparatus defined in package javax.print.attribute. 
+stbndbrd bttribute clbsses bre in the subpbckbge
+jbvbx.print.bttribute.stbndbrd to keep the bctubl
+bttribute clbsses conceptublly sepbrbte from the generic
+bppbrbtus defined in pbckbge jbvbx.print.bttribute. 
 
 <H3>Attribute Sets</H3>
-A client usually needs to provide more than one processing 
-instruction when submitting a print job.  For example, the client might need to
-specify a media size of A4 and a landscape orientation.  To send more than one
-processing instruction, the client collects the attributes into an 
-attribute set, which the Java Print Service API represents with the 
-<a href="AttributeSet.html">AttributeSet</a>
- interface.
+A client usublly needs to provide more thbn one processing 
+instruction when submitting b print job.  For exbmple, the client might need to
+specify b medib size of A4 bnd b lbndscbpe orientbtion.  To send more thbn one
+processing instruction, the client collects the bttributes into bn 
+bttribute set, which the Jbvb Print Service API represents with the 
+<b href="AttributeSet.html">AttributeSet</b>
+ interfbce.
 <p>
-The <code>AttributeSet</code> interface is similar to the 
-<a href="../../../java/util/Map.html">Map</a> interface: it provides a map of 
-key to values, in which each key is unique and can contain no more than one 
-value.  However, the <code>AttributeSet</code> interface is designed to 
-specifically support the needs of the Java Print Service API.  An 
-<code>AttributeSet</code> requires that:
+The <code>AttributeSet</code> interfbce is similbr to the 
+<b href="../../../jbvb/util/Mbp.html">Mbp</b> interfbce: it provides b mbp of 
+key to vblues, in which ebch key is unique bnd cbn contbin no more thbn one 
+vblue.  However, the <code>AttributeSet</code> interfbce is designed to 
+specificblly support the needs of the Jbvb Print Service API.  An 
+<code>AttributeSet</code> requires thbt:
 <OL TYPE=1>
-<LI>Each key in an <code>AttributeSet</code> corresponds to a category, and
-the value of the key can only be one of the attribute values that belong
-to the category represented by the key.  Thus, unlike a <code>Map</code>, an 
-<code>AttributeSet</code> restricts the possible values of a key: an 
-attribute category cannot be set to an attribute value that does not belong to
-that category.
-<LI>No two attributes from the same category can exist in the same set.
-For example, an attribute collection
-must not contain both a "one-sided" attribute and a "two-sided" attribute
-because these two attributes give the printer conflicting instructions.
-<LI>Only attributes implementing the <code>Attribute</code> interface can
-be added to the set.
+<LI>Ebch key in bn <code>AttributeSet</code> corresponds to b cbtegory, bnd
+the vblue of the key cbn only be one of the bttribute vblues thbt belong
+to the cbtegory represented by the key.  Thus, unlike b <code>Mbp</code>, bn 
+<code>AttributeSet</code> restricts the possible vblues of b key: bn 
+bttribute cbtegory cbnnot be set to bn bttribute vblue thbt does not belong to
+thbt cbtegory.
+<LI>No two bttributes from the sbme cbtegory cbn exist in the sbme set.
+For exbmple, bn bttribute collection
+must not contbin both b "one-sided" bttribute bnd b "two-sided" bttribute
+becbuse these two bttributes give the printer conflicting instructions.
+<LI>Only bttributes implementing the <code>Attribute</code> interfbce cbn
+be bdded to the set.
 </OL>
 
 <P>
-The javax.print.attribute package includes 
-<A HREF="HashAttributeSet.html">HashAttributeSet</A>
-as a concrete implementation of the attribute set interface.
-<code>HashAttributeSet</code> provides an attribute set based on a hash map.
-You can use this implementation or provide your own implementation
-of interface <code>AttributeSet</code>.
+The jbvbx.print.bttribute pbckbge includes 
+<A HREF="HbshAttributeSet.html">HbshAttributeSet</A>
+bs b concrete implementbtion of the bttribute set interfbce.
+<code>HbshAttributeSet</code> provides bn bttribute set bbsed on b hbsh mbp.
+You cbn use this implementbtion or provide your own implementbtion
+of interfbce <code>AttributeSet</code>.
 <p>
-The Java Print Service API provides four specializations of an attribute set 
-that are restricted to contain just one of the four kinds of attributes, 
-as discussed in the <a href="#role">Attribute Roles</a> section:
+The Jbvb Print Service API provides four speciblizbtions of bn bttribute set 
+thbt bre restricted to contbin just one of the four kinds of bttributes, 
+bs discussed in the <b href="#role">Attribute Roles</b> section:
 <ul>
 <li><A HREF="DocAttributeSet.html">DocAttributeSet</A>
 <li><A HREF="PrintRequestAttributeSet.html">PrintRequestAttributeSet</A>
 <li><A HREF="PrintJobAttributeSet.html">PrintJobAttributeSet</A>
 <li><A HREF="PrintServiceAttributeSet.html">PrintServiceAttributeSet</A>
 </ul>
-Notice that only four kinds of attribute sets are listed here, but there are
-five kinds of attributes.  Interface 
-<A HREF="SupportedValuesAttribute.html">SupportedValuesAttribute</A>
-denotes an attribute that gives the supported values for another attribute.
-Supported-values attributes are never aggregated into attribute sets,
-so there is no attribute set subinterface defined for them.
+Notice thbt only four kinds of bttribute sets bre listed here, but there bre
+five kinds of bttributes.  Interfbce 
+<A HREF="SupportedVbluesAttribute.html">SupportedVbluesAttribute</A>
+denotes bn bttribute thbt gives the supported vblues for bnother bttribute.
+Supported-vblues bttributes bre never bggregbted into bttribute sets,
+so there is no bttribute set subinterfbce defined for them.
 
 <P>
-In some contexts, an attribute set is read-only, which means that the 
-client is only allowed to examine an attribute set's 
-contents but not change them. In other contexts, the attribute set is read-write,
-which means that the client is allowed both to examine and to change an 
-attribute set's contents. For a read-only attribute set, calling a mutating 
-operation throws an <code>UnmodifiableSetException</code>. 
+In some contexts, bn bttribute set is rebd-only, which mebns thbt the 
+client is only bllowed to exbmine bn bttribute set's 
+contents but not chbnge them. In other contexts, the bttribute set is rebd-write,
+which mebns thbt the client is bllowed both to exbmine bnd to chbnge bn 
+bttribute set's contents. For b rebd-only bttribute set, cblling b mutbting 
+operbtion throws bn <code>UnmodifibbleSetException</code>. 
 <P>
-Package javax.print.attribute includes
-one concrete implementation of each of the attribute set subinterfaces:
+Pbckbge jbvbx.print.bttribute includes
+one concrete implementbtion of ebch of the bttribute set subinterfbces:
 <ul>
-<li><A HREF="HashDocAttributeSet.html">HashDocAttributeSet</A>
-<li><A HREF="HashPrintRequestAttributeSet.html">HashPrintRequestAttributeSet</A>,
-<li><A HREF="HashPrintJobAttributeSet.html">HashPrintJobAttributeSet</A>,
-<li><A HREF="HashPrintServiceAttributeSet.html">HashPrintServiceAttributeSet</A>.
+<li><A HREF="HbshDocAttributeSet.html">HbshDocAttributeSet</A>
+<li><A HREF="HbshPrintRequestAttributeSet.html">HbshPrintRequestAttributeSet</A>,
+<li><A HREF="HbshPrintJobAttributeSet.html">HbshPrintJobAttributeSet</A>,
+<li><A HREF="HbshPrintServiceAttributeSet.html">HbshPrintServiceAttributeSet</A>.
 </ul>
-All of these classes extend <A HREF="HashAttributeSet.html">HashAttributeSet</A>
-and enforce the restriction that the attribute set is only allowed to contain
-the corresponding kind of attribute.
-<H3>Attribute Class Design</H3>
-An attribute value is a small, atomic data item,
-such as an integer or an enumerated value.  The Java Print Service API 
-does not use primitive data types, such as int, to represent attribute 
-values for these reasons:
+All of these clbsses extend <A HREF="HbshAttributeSet.html">HbshAttributeSet</A>
+bnd enforce the restriction thbt the bttribute set is only bllowed to contbin
+the corresponding kind of bttribute.
+<H3>Attribute Clbss Design</H3>
+An bttribute vblue is b smbll, btomic dbtb item,
+such bs bn integer or bn enumerbted vblue.  The Jbvb Print Service API 
+does not use primitive dbtb types, such bs int, to represent bttribute 
+vblues for these rebsons:
 <ul>
-<li>Primitive data types are not type-safe.  For example, a compiler
-should not allow a "copies" attribute value to 
-be used for a "sides" attribute. 
-<li>Some attributes must be represented as a record of several
-values.  One example is printer resolution, which requires two 
-numbers, such as 600 and 300 representing 600 x 300 dpi.
+<li>Primitive dbtb types bre not type-sbfe.  For exbmple, b compiler
+should not bllow b "copies" bttribute vblue to 
+be used for b "sides" bttribute. 
+<li>Some bttributes must be represented bs b record of severbl
+vblues.  One exbmple is printer resolution, which requires two 
+numbers, such bs 600 bnd 300 representing 600 x 300 dpi.
 </ul>
-For type-safety and to represent all attributes uniformly, the Java 
-Print Service API defines each attribute category as a class, such as 
-class <code>Copies</code>, class <a href="standard/Sides.html">Sides</a>, and class 
-<a href="standard/PrinterResolution.html">PrinterResolution</a>.  Each 
-attribute class wraps one or more primitive data items containing the 
-attribute's value.  Attribute set operations perform frequent
-comparisons between attribute category objects when adding attributes,
-finding existing attributes in the same category, and looking
-up an attribute given its category.  Because an attribute category is 
-represented by a class, fast attribute-value comparisons can be performed 
-with the <code>Class.equals</code> method.
+For type-sbfety bnd to represent bll bttributes uniformly, the Jbvb 
+Print Service API defines ebch bttribute cbtegory bs b clbss, such bs 
+clbss <code>Copies</code>, clbss <b href="stbndbrd/Sides.html">Sides</b>, bnd clbss 
+<b href="stbndbrd/PrinterResolution.html">PrinterResolution</b>.  Ebch 
+bttribute clbss wrbps one or more primitive dbtb items contbining the 
+bttribute's vblue.  Attribute set operbtions perform frequent
+compbrisons between bttribute cbtegory objects when bdding bttributes,
+finding existing bttributes in the sbme cbtegory, bnd looking
+up bn bttribute given its cbtegory.  Becbuse bn bttribute cbtegory is 
+represented by b clbss, fbst bttribute-vblue compbrisons cbn be performed 
+with the <code>Clbss.equbls</code> method.
 <p>
-Even though the Java Print Service API includes a large number of
-different attribute categories, there are only a few different types
-of attribute values.  Most attributes can be represented by a small
-number of data types, such as: integer values, integer ranges, text,
-or an enumeration of integer values.  The type of the attribute value that
-a category accepts is called the attribute's abstract syntax.  To
-provide consistency and reduce code duplication, the Java Print Service
-API defines abstract syntax classes to represent each 
-abstract syntax, and these classes are used as the parent of standard
-attributes whenever possible.  The abstract syntax classes are:
+Even though the Jbvb Print Service API includes b lbrge number of
+different bttribute cbtegories, there bre only b few different types
+of bttribute vblues.  Most bttributes cbn be represented by b smbll
+number of dbtb types, such bs: integer vblues, integer rbnges, text,
+or bn enumerbtion of integer vblues.  The type of the bttribute vblue thbt
+b cbtegory bccepts is cblled the bttribute's bbstrbct syntbx.  To
+provide consistency bnd reduce code duplicbtion, the Jbvb Print Service
+API defines bbstrbct syntbx clbsses to represent ebch 
+bbstrbct syntbx, bnd these clbsses bre used bs the pbrent of stbndbrd
+bttributes whenever possible.  The bbstrbct syntbx clbsses bre:
 <ul>
-<li><a href="EnumSyntax.html">EnumSyntax</a> 
-provides a type-safe enumeration in which enumerated
-values are represented as singleton objects.  Each enumeration 
-singleton is an instance of the enumeration class that wraps a hidden
-int value.
-<li><a href="IntegerSyntax.html">IntegerSyntax</a>
- is the abstract syntax for integer-valued attributes.
-<li><a href="TextSyntax.html">TextSyntax</a> is 
-the abstract syntax for text-valued attributes, and
-includes a locale giving the text string's natural language.
-<li><a href="SetOfIntegerSyntax.html">SetOfIntegerSyntax</a>
- is the abstract syntax for attributes 
-representing a range or set of integers
-<li><a href="ResolutionSyntax.html">ResolutionSyntax</a>
- is the abstract syntax for attributes representing
- resolution values, such as 600x300 dpi.
-<li><a href="Size2DSyntax.html">Size2DSyntax</a>
- is the abstract syntax for attributes representing a 
-two-dimensional size, such as a paper size of 8.5 x 11 inches.
-<li><a href="DateTimeSyntax.html">DateTimeSyntax</a>
- is the abstract syntax for attributes whose value is a date and time.
-<li><a href="URISyntax.html">URISyntax</a> is the 
-abstract syntax for attributes whose value is a Uniform Resource
-Indicator.
+<li><b href="EnumSyntbx.html">EnumSyntbx</b> 
+provides b type-sbfe enumerbtion in which enumerbted
+vblues bre represented bs singleton objects.  Ebch enumerbtion 
+singleton is bn instbnce of the enumerbtion clbss thbt wrbps b hidden
+int vblue.
+<li><b href="IntegerSyntbx.html">IntegerSyntbx</b>
+ is the bbstrbct syntbx for integer-vblued bttributes.
+<li><b href="TextSyntbx.html">TextSyntbx</b> is 
+the bbstrbct syntbx for text-vblued bttributes, bnd
+includes b locble giving the text string's nbturbl lbngubge.
+<li><b href="SetOfIntegerSyntbx.html">SetOfIntegerSyntbx</b>
+ is the bbstrbct syntbx for bttributes 
+representing b rbnge or set of integers
+<li><b href="ResolutionSyntbx.html">ResolutionSyntbx</b>
+ is the bbstrbct syntbx for bttributes representing
+ resolution vblues, such bs 600x300 dpi.
+<li><b href="Size2DSyntbx.html">Size2DSyntbx</b>
+ is the bbstrbct syntbx for bttributes representing b 
+two-dimensionbl size, such bs b pbper size of 8.5 x 11 inches.
+<li><b href="DbteTimeSyntbx.html">DbteTimeSyntbx</b>
+ is the bbstrbct syntbx for bttributes whose vblue is b dbte bnd time.
+<li><b href="URISyntbx.html">URISyntbx</b> is the 
+bbstrbct syntbx for bttributes whose vblue is b Uniform Resource
+Indicbtor.
 </ul>
-The abstract syntax classes are independent of the attributes that
-use them.  In fact, applications that have nothing to do with
-printing can use the abstract syntax classes.  Although most of the
-standard attribute classes extend one of the abstract syntax classes, 
-no attribute class is required to extend one of these classes.  The 
-abstract syntax classes merely provide a convenient implementation that
-can be shared by many attribute classes.
+The bbstrbct syntbx clbsses bre independent of the bttributes thbt
+use them.  In fbct, bpplicbtions thbt hbve nothing to do with
+printing cbn use the bbstrbct syntbx clbsses.  Although most of the
+stbndbrd bttribute clbsses extend one of the bbstrbct syntbx clbsses, 
+no bttribute clbss is required to extend one of these clbsses.  The 
+bbstrbct syntbx clbsses merely provide b convenient implementbtion thbt
+cbn be shbred by mbny bttribute clbsses.
 <p>
-Each attribute class implements the <code>Attribute</code> interface, either
-directly or indirectly, to mark it as a printing attribute.  An
-attribute class that can appear in restricted attribute sets in
-certain contexts also implements one or more subinterfaces of 
-<code>Attribute</code>.  Most attribute classes also extend the appropriate 
-abstract syntax class to get the implementation.  Consider the 
-<code>Sides</code> attribute class:
+Ebch bttribute clbss implements the <code>Attribute</code> interfbce, either
+directly or indirectly, to mbrk it bs b printing bttribute.  An
+bttribute clbss thbt cbn bppebr in restricted bttribute sets in
+certbin contexts blso implements one or more subinterfbces of 
+<code>Attribute</code>.  Most bttribute clbsses blso extend the bppropribte 
+bbstrbct syntbx clbss to get the implementbtion.  Consider the 
+<code>Sides</code> bttribute clbss:
 <blockquote>
 <pre>
-public class Sides
-  extends EnumSyntax
+public clbss Sides
+  extends EnumSyntbx
   implements DocAttribute, PrintRequestAttribute, PrintJobAttribute
   {
-  public final Object getCategory()
+  public finbl Object getCbtegory()
     {
-    return Sides.class;
+    return Sides.clbss;
     }
   ...
   }
 </pre>
 </blockquote>  
 <p>
-Since every attribute class implements <code>Attribute</code>, every attribute
-class must provide an implementation for the 
-{@link javax.print.attribute.Attribute#getCategory() getCategory} method,
-which returns the attribute category.  In the case of <code>Sides</code>, the
-<code>getCategory</code> method returns <code>Sides.class</code>.  The 
-<code>getCategory</code> method is final to ensure that any vendor-defined 
-subclasses of a standard attribute class appear in the same category.  
-Every attribute object is immutable once constructed so that attribute object 
-references can be passed around freely.  To get a different attribute 
-value, construct a different attribute object.  
+Since every bttribute clbss implements <code>Attribute</code>, every bttribute
+clbss must provide bn implementbtion for the 
+{@link jbvbx.print.bttribute.Attribute#getCbtegory() getCbtegory} method,
+which returns the bttribute cbtegory.  In the cbse of <code>Sides</code>, the
+<code>getCbtegory</code> method returns <code>Sides.clbss</code>.  The 
+<code>getCbtegory</code> method is finbl to ensure thbt bny vendor-defined 
+subclbsses of b stbndbrd bttribute clbss bppebr in the sbme cbtegory.  
+Every bttribute object is immutbble once constructed so thbt bttribute object 
+references cbn be pbssed bround freely.  To get b different bttribute 
+vblue, construct b different bttribute object.  
 
 <h3>Attribute Vendors</h3>
 
-The Java Print Service API is designed so that vendors can:
+The Jbvb Print Service API is designed so thbt vendors cbn:
 <ul>
-<li>define new vendor-specific values for any standard attribute 
-defined in <a href="standard/package-summary.html">
-javax.print.attribute.standard</a>.
-<li>define new attribute categories representing the vendor printer's
-proprietary capabilities not already supported by the standard
-attributes.
+<li>define new vendor-specific vblues for bny stbndbrd bttribute 
+defined in <b href="stbndbrd/pbckbge-summbry.html">
+jbvbx.print.bttribute.stbndbrd</b>.
+<li>define new bttribute cbtegories representing the vendor printer's
+proprietbry cbpbbilities not blrebdy supported by the stbndbrd
+bttributes.
 </ul>
-To define a new value for an attribute, a client can construct 
-instances of such attributes with arbitrary values at runtime.
-However, an enumerated attribute using an abstract syntax class
-of <code>EnumSyntax</code> specifies all the possible attribute values 
-at compile time as singleton instances of the attribute class.  This 
-means that new enumerated values cannot be constructed at run time.  
-To define new vendor-specific values for a standard enumerated 
-attribute, the vendor must define a new attribute class specifying 
-the new singleton instances.  To ensure that the new attribute values 
-fall in the same category as the standard attribute values, the new 
-attribute class must be a subclass of the standard attribute class.
+To define b new vblue for bn bttribute, b client cbn construct 
+instbnces of such bttributes with brbitrbry vblues bt runtime.
+However, bn enumerbted bttribute using bn bbstrbct syntbx clbss
+of <code>EnumSyntbx</code> specifies bll the possible bttribute vblues 
+bt compile time bs singleton instbnces of the bttribute clbss.  This 
+mebns thbt new enumerbted vblues cbnnot be constructed bt run time.  
+To define new vendor-specific vblues for b stbndbrd enumerbted 
+bttribute, the vendor must define b new bttribute clbss specifying 
+the new singleton instbnces.  To ensure thbt the new bttribute vblues 
+fbll in the sbme cbtegory bs the stbndbrd bttribute vblues, the new 
+bttribute clbss must be b subclbss of the stbndbrd bttribute clbss.
 <p>
-To define a new attribute category, a vendor defines a new attribute
-class.  This attribute class, like the standard attribute classes, 
-implements <code>Attribute</code> or one of its subinterfaces and extends an
-abstract syntax class.  The vendor can either use an existing 
-abstract syntax class or define a new one.  The new vendor-defined
-attribute can be used wherever an <code>Attribute</code> is used, such as in an
+To define b new bttribute cbtegory, b vendor defines b new bttribute
+clbss.  This bttribute clbss, like the stbndbrd bttribute clbsses, 
+implements <code>Attribute</code> or one of its subinterfbces bnd extends bn
+bbstrbct syntbx clbss.  The vendor cbn either use bn existing 
+bbstrbct syntbx clbss or define b new one.  The new vendor-defined
+bttribute cbn be used wherever bn <code>Attribute</code> is used, such bs in bn
 <code>AttributeSet</code>.
 
 <h3>Using Attributes</h3>
 
-A typical printing application uses the <code>PrintRequestAttributeSet</code>
-because print-request attributes are the types of attributes that
-client usually specifies.  This example demonstrates creating an attribute
-set of print-request attributes and locating a printer that can
-print the document according to the specified attributes:
+A typicbl printing bpplicbtion uses the <code>PrintRequestAttributeSet</code>
+becbuse print-request bttributes bre the types of bttributes thbt
+client usublly specifies.  This exbmple demonstrbtes crebting bn bttribute
+set of print-request bttributes bnd locbting b printer thbt cbn
+print the document bccording to the specified bttributes:
 <blockquote>
 <pre>
 
-FileInputStream psStream;
+FileInputStrebm psStrebm;
 try {
-   psstream = new FileInputStream("file.ps");
-} catch (FileNotFoundException ffne) {
+   psstrebm = new FileInputStrebm("file.ps");
+} cbtch (FileNotFoundException ffne) {
 }
-if (psstream == null) {
+if (psstrebm == null) {
     return;
 }
-//Set the document type.  See the DocFlavor documentation for
-//more information.
-DocFlavor psInFormat = DocFlavor.INPUT_STREAM.POSTSCRIPT;
-Doc myDoc = new SimpleDoc(pstream, psInFormat, null);  
-PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-aset.add(new Copies(5));
-aset.add(MediaSize.A4);
-aset.add(Sides.DUPLEX);
+//Set the document type.  See the DocFlbvor documentbtion for
+//more informbtion.
+DocFlbvor psInFormbt = DocFlbvor.INPUT_STREAM.POSTSCRIPT;
+Doc myDoc = new SimpleDoc(pstrebm, psInFormbt, null);  
+PrintRequestAttributeSet bset = new HbshPrintRequestAttributeSet();
+bset.bdd(new Copies(5));
+bset.bdd(MedibSize.A4);
+bset.bdd(Sides.DUPLEX);
 
 PrintService[] services = 
-		PrintServiceLookup.lookupPrintServices(psInFormat, aset);
+		PrintServiceLookup.lookupPrintServices(psInFormbt, bset);
 if (services.length > 0) {
-   DocPrintJob job = services[0].createPrintJob();
+   DocPrintJob job = services[0].crebtePrintJob();
    try {
-	job.print(myDoc, aset);
-   } catch (PrintException pe) {}
+	job.print(myDoc, bset);
+   } cbtch (PrintException pe) {}
 }
 </pre>
 </blockquote>
 <P>
-Please note: In the javax.print APIs, a null reference parameter to methods 
-is incorrect unless explicitly documented on the method as having a meaningful
-interpretation. Usage to the contrary is incorrect coding and may result
-in a run time exception either immediately or at some later time.
-IllegalArgumentException and NullPointerException are examples of
-typical and acceptable run time exceptions for such cases.
+Plebse note: In the jbvbx.print APIs, b null reference pbrbmeter to methods 
+is incorrect unless explicitly documented on the method bs hbving b mebningful
+interpretbtion. Usbge to the contrbry is incorrect coding bnd mby result
+in b run time exception either immedibtely or bt some lbter time.
+IllegblArgumentException bnd NullPointerException bre exbmples of
+typicbl bnd bcceptbble run time exceptions for such cbses.
 
 @since 1.4
 </body>

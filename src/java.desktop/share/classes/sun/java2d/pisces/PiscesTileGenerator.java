@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pisces;
+pbckbge sun.jbvb2d.pisces;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.util.Mbp;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
 
-import sun.java2d.pipe.AATileGenerator;
+import sun.jbvb2d.pipe.AATileGenerbtor;
 
-final class PiscesTileGenerator implements AATileGenerator {
-    public static final int TILE_SIZE = PiscesCache.TILE_SIZE;
+finbl clbss PiscesTileGenerbtor implements AATileGenerbtor {
+    public stbtic finbl int TILE_SIZE = PiscesCbche.TILE_SIZE;
 
-    // perhaps we should be using weak references here, but right now
-    // that's not necessary. The way the renderer is, this map will
-    // never contain more than one element - the one with key 64, since
-    // we only do 8x8 supersampling.
-    private static final Map<Integer, byte[]> alphaMapsCache = new
-                   ConcurrentHashMap<Integer, byte[]>();
+    // perhbps we should be using webk references here, but right now
+    // thbt's not necessbry. The wby the renderer is, this mbp will
+    // never contbin more thbn one element - the one with key 64, since
+    // we only do 8x8 supersbmpling.
+    privbte stbtic finbl Mbp<Integer, byte[]> blphbMbpsCbche = new
+                   ConcurrentHbshMbp<Integer, byte[]>();
 
-    PiscesCache cache;
+    PiscesCbche cbche;
     int x, y;
-    final int maxalpha;
-    private final int maxTileAlphaSum;
+    finbl int mbxblphb;
+    privbte finbl int mbxTileAlphbSum;
 
-    // The alpha map used by this object (taken out of our map cache) to convert
-    // pixel coverage counts gotten from PiscesCache (which are in the range
-    // [0, maxalpha]) into alpha values, which are in [0,256).
-    byte alphaMap[];
+    // The blphb mbp used by this object (tbken out of our mbp cbche) to convert
+    // pixel coverbge counts gotten from PiscesCbche (which bre in the rbnge
+    // [0, mbxblphb]) into blphb vblues, which bre in [0,256).
+    byte blphbMbp[];
 
-    public PiscesTileGenerator(Renderer r, int maxalpha) {
-        this.cache = r.getCache();
-        this.x = cache.bboxX0;
-        this.y = cache.bboxY0;
-        this.alphaMap = getAlphaMap(maxalpha);
-        this.maxalpha = maxalpha;
-        this.maxTileAlphaSum = TILE_SIZE*TILE_SIZE*maxalpha;
+    public PiscesTileGenerbtor(Renderer r, int mbxblphb) {
+        this.cbche = r.getCbche();
+        this.x = cbche.bboxX0;
+        this.y = cbche.bboxY0;
+        this.blphbMbp = getAlphbMbp(mbxblphb);
+        this.mbxblphb = mbxblphb;
+        this.mbxTileAlphbSum = TILE_SIZE*TILE_SIZE*mbxblphb;
     }
 
-    private static byte[] buildAlphaMap(int maxalpha) {
-        byte[] alMap = new byte[maxalpha+1];
-        int halfmaxalpha = maxalpha>>2;
-        for (int i = 0; i <= maxalpha; i++) {
-            alMap[i] = (byte) ((i * 255 + halfmaxalpha) / maxalpha);
+    privbte stbtic byte[] buildAlphbMbp(int mbxblphb) {
+        byte[] blMbp = new byte[mbxblphb+1];
+        int hblfmbxblphb = mbxblphb>>2;
+        for (int i = 0; i <= mbxblphb; i++) {
+            blMbp[i] = (byte) ((i * 255 + hblfmbxblphb) / mbxblphb);
         }
-        return alMap;
+        return blMbp;
     }
 
-    public static byte[] getAlphaMap(int maxalpha) {
-        if (!alphaMapsCache.containsKey(maxalpha)) {
-            alphaMapsCache.put(maxalpha, buildAlphaMap(maxalpha));
+    public stbtic byte[] getAlphbMbp(int mbxblphb) {
+        if (!blphbMbpsCbche.contbinsKey(mbxblphb)) {
+            blphbMbpsCbche.put(mbxblphb, buildAlphbMbp(mbxblphb));
         }
-        return alphaMapsCache.get(maxalpha);
+        return blphbMbpsCbche.get(mbxblphb);
     }
 
     public void getBbox(int bbox[]) {
-        bbox[0] = cache.bboxX0;
-        bbox[1] = cache.bboxY0;
-        bbox[2] = cache.bboxX1;
-        bbox[3] = cache.bboxY1;
+        bbox[0] = cbche.bboxX0;
+        bbox[1] = cbche.bboxY0;
+        bbox[2] = cbche.bboxX1;
+        bbox[3] = cbche.bboxY1;
         //System.out.println("bbox["+bbox[0]+", "+bbox[1]+" => "+bbox[2]+", "+bbox[3]+"]");
     }
 
     /**
-     * Gets the width of the tiles that the generator batches output into.
-     * @return the width of the standard alpha tile
+     * Gets the width of the tiles thbt the generbtor bbtches output into.
+     * @return the width of the stbndbrd blphb tile
      */
     public int getTileWidth() {
         return TILE_SIZE;
     }
 
     /**
-     * Gets the height of the tiles that the generator batches output into.
-     * @return the height of the standard alpha tile
+     * Gets the height of the tiles thbt the generbtor bbtches output into.
+     * @return the height of the stbndbrd blphb tile
      */
     public int getTileHeight() {
         return TILE_SIZE;
     }
 
     /**
-     * Gets the typical alpha value that will characterize the current
+     * Gets the typicbl blphb vblue thbt will chbrbcterize the current
      * tile.
-     * The answer may be 0x00 to indicate that the current tile has
-     * no coverage in any of its pixels, or it may be 0xff to indicate
-     * that the current tile is completely covered by the path, or any
-     * other value to indicate non-trivial coverage cases.
-     * @return 0x00 for no coverage, 0xff for total coverage, or any other
-     *         value for partial coverage of the tile
+     * The bnswer mby be 0x00 to indicbte thbt the current tile hbs
+     * no coverbge in bny of its pixels, or it mby be 0xff to indicbte
+     * thbt the current tile is completely covered by the pbth, or bny
+     * other vblue to indicbte non-trivibl coverbge cbses.
+     * @return 0x00 for no coverbge, 0xff for totbl coverbge, or bny other
+     *         vblue for pbrtibl coverbge of the tile
      */
-    public int getTypicalAlpha() {
-        int al = cache.alphaSumInTile(x, y);
-        // Note: if we have a filled rectangle that doesn't end on a tile
-        // border, we could still return 0xff, even though al!=maxTileAlphaSum
-        // This is because if we return 0xff, our users will fill a rectangle
-        // starting at x,y that has width = Math.min(TILE_SIZE, bboxX1-x),
-        // and height min(TILE_SIZE,bboxY1-y), which is what should happen.
-        // However, to support this, we would have to use 2 Math.min's
-        // and 2 multiplications per tile, instead of just 2 multiplications
-        // to compute maxTileAlphaSum. The savings offered would probably
-        // not be worth it, considering how rare this case is.
-        // Note: I have not tested this, so in the future if it is determined
-        // that it is worth it, it should be implemented. Perhaps this method's
-        // interface should be changed to take arguments the width and height
-        // of the current tile. This would eliminate the 2 Math.min calls that
-        // would be needed here, since our caller needs to compute these 2
-        // values anyway.
-        return (al == 0x00 ? 0x00 :
-            (al == maxTileAlphaSum ? 0xff : 0x80));
+    public int getTypicblAlphb() {
+        int bl = cbche.blphbSumInTile(x, y);
+        // Note: if we hbve b filled rectbngle thbt doesn't end on b tile
+        // border, we could still return 0xff, even though bl!=mbxTileAlphbSum
+        // This is becbuse if we return 0xff, our users will fill b rectbngle
+        // stbrting bt x,y thbt hbs width = Mbth.min(TILE_SIZE, bboxX1-x),
+        // bnd height min(TILE_SIZE,bboxY1-y), which is whbt should hbppen.
+        // However, to support this, we would hbve to use 2 Mbth.min's
+        // bnd 2 multiplicbtions per tile, instebd of just 2 multiplicbtions
+        // to compute mbxTileAlphbSum. The sbvings offered would probbbly
+        // not be worth it, considering how rbre this cbse is.
+        // Note: I hbve not tested this, so in the future if it is determined
+        // thbt it is worth it, it should be implemented. Perhbps this method's
+        // interfbce should be chbnged to tbke brguments the width bnd height
+        // of the current tile. This would eliminbte the 2 Mbth.min cblls thbt
+        // would be needed here, since our cbller needs to compute these 2
+        // vblues bnywby.
+        return (bl == 0x00 ? 0x00 :
+            (bl == mbxTileAlphbSum ? 0xff : 0x80));
     }
 
     /**
-     * Skips the current tile and moves on to the next tile.
-     * Either this method, or the getAlpha() method should be called
+     * Skips the current tile bnd moves on to the next tile.
+     * Either this method, or the getAlphb() method should be cblled
      * once per tile, but not both.
      */
     public void nextTile() {
-        if ((x += TILE_SIZE) >= cache.bboxX1) {
-            x = cache.bboxX0;
+        if ((x += TILE_SIZE) >= cbche.bboxX1) {
+            x = cbche.bboxX0;
             y += TILE_SIZE;
         }
     }
 
     /**
-     * Gets the alpha coverage values for the current tile.
-     * Either this method, or the nextTile() method should be called
+     * Gets the blphb coverbge vblues for the current tile.
+     * Either this method, or the nextTile() method should be cblled
      * once per tile, but not both.
      */
-    public void getAlpha(byte tile[], int offset, int rowstride) {
-        // Decode run-length encoded alpha mask data
-        // The data for row j begins at cache.rowOffsetsRLE[j]
-        // and is encoded as a set of 2-byte pairs (val, runLen)
-        // terminated by a (0, 0) pair.
+    public void getAlphb(byte tile[], int offset, int rowstride) {
+        // Decode run-length encoded blphb mbsk dbtb
+        // The dbtb for row j begins bt cbche.rowOffsetsRLE[j]
+        // bnd is encoded bs b set of 2-byte pbirs (vbl, runLen)
+        // terminbted by b (0, 0) pbir.
 
         int x0 = this.x;
         int x1 = x0 + TILE_SIZE;
         int y0 = this.y;
         int y1 = y0 + TILE_SIZE;
-        if (x1 > cache.bboxX1) x1 = cache.bboxX1;
-        if (y1 > cache.bboxY1) y1 = cache.bboxY1;
-        y0 -= cache.bboxY0;
-        y1 -= cache.bboxY0;
+        if (x1 > cbche.bboxX1) x1 = cbche.bboxX1;
+        if (y1 > cbche.bboxY1) y1 = cbche.bboxY1;
+        y0 -= cbche.bboxY0;
+        y1 -= cbche.bboxY0;
 
         int idx = offset;
         for (int cy = y0; cy < y1; cy++) {
-            int[] row = cache.rowAARLE[cy];
-            assert row != null;
-            int cx = cache.minTouched(cy);
+            int[] row = cbche.rowAARLE[cy];
+            bssert row != null;
+            int cx = cbche.minTouched(cy);
             if (cx > x1) cx = x1;
 
             for (int i = x0; i < cx; i++) {
@@ -175,22 +175,22 @@ final class PiscesTileGenerator implements AATileGenerator {
 
             int pos = 2;
             while (cx < x1 && pos < row[1]) {
-                byte val;
+                byte vbl;
                 int runLen = 0;
-                assert row[1] > 2;
+                bssert row[1] > 2;
                 try {
-                    val = alphaMap[row[pos]];
+                    vbl = blphbMbp[row[pos]];
                     runLen = row[pos + 1];
-                    assert runLen > 0;
-                } catch (RuntimeException e0) {
-                    System.out.println("maxalpha = "+maxalpha);
+                    bssert runLen > 0;
+                } cbtch (RuntimeException e0) {
+                    System.out.println("mbxblphb = "+mbxblphb);
                     System.out.println("tile["+x0+", "+y0+
                                        " => "+x1+", "+y1+"]");
                     System.out.println("cx = "+cx+", cy = "+cy);
                     System.out.println("idx = "+idx+", pos = "+pos);
                     System.out.println("len = "+runLen);
-                    System.out.print(cache.toString());
-                    e0.printStackTrace();
+                    System.out.print(cbche.toString());
+                    e0.printStbckTrbce();
                     throw e0;
                 }
 
@@ -203,17 +203,17 @@ final class PiscesTileGenerator implements AATileGenerator {
                 //System.out.println("M["+runLen+"]");
                 while (--runLen >= 0) {
                     try {
-                        tile[idx++] = val;
-                    } catch (RuntimeException e) {
-                        System.out.println("maxalpha = "+maxalpha);
+                        tile[idx++] = vbl;
+                    } cbtch (RuntimeException e) {
+                        System.out.println("mbxblphb = "+mbxblphb);
                         System.out.println("tile["+x0+", "+y0+
                                            " => "+x1+", "+y1+"]");
                         System.out.println("cx = "+cx+", cy = "+cy);
                         System.out.println("idx = "+idx+", pos = "+pos);
                         System.out.println("rx0 = "+rx0+", rx1 = "+rx1);
                         System.out.println("len = "+runLen);
-                        System.out.print(cache.toString());
-                        e.printStackTrace();
+                        System.out.print(cbche.toString());
+                        e.printStbckTrbce();
                         throw e;
                     }
                 }
@@ -235,7 +235,7 @@ final class PiscesTileGenerator implements AATileGenerator {
         nextTile();
     }
 
-    static String hex(int v, int d) {
+    stbtic String hex(int v, int d) {
         String s = Integer.toHexString(v);
         while (s.length() < d) {
             s = "0"+s;
@@ -244,8 +244,8 @@ final class PiscesTileGenerator implements AATileGenerator {
     }
 
     /**
-     * Disposes this tile generator.
-     * No further calls will be made on this instance.
+     * Disposes this tile generbtor.
+     * No further cblls will be mbde on this instbnce.
      */
     public void dispose() {}
 }

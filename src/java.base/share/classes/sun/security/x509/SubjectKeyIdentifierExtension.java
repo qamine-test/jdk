@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
  * Represent the Subject Key Identifier Extension.
  *
- * This extension, if present, provides a means of identifying the particular
- * public key used in an application.  This extension by default is marked
- * non-critical.
+ * This extension, if present, provides b mebns of identifying the pbrticulbr
+ * public key used in bn bpplicbtion.  This extension by defbult is mbrked
+ * non-criticbl.
  *
- * <p>Extensions are addiitonal attributes which can be inserted in a X509
- * v3 certificate. For example a "Driving License Certificate" could have
- * the driving license number as a extension.
+ * <p>Extensions bre bddiitonbl bttributes which cbn be inserted in b X509
+ * v3 certificbte. For exbmple b "Driving License Certificbte" could hbve
+ * the driving license number bs b extension.
  *
- * <p>Extensions are represented as a sequence of the extension identifier
- * (Object Identifier), a boolean flag stating whether the extension is to
- * be treated as being critical and the extension value itself (this is again
- * a DER encoding of the extension value).
+ * <p>Extensions bre represented bs b sequence of the extension identifier
+ * (Object Identifier), b boolebn flbg stbting whether the extension is to
+ * be trebted bs being criticbl bnd the extension vblue itself (this is bgbin
+ * b DER encoding of the extension vblue).
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see Extension
  * @see CertAttrSet
  */
-public class SubjectKeyIdentifierExtension extends Extension
+public clbss SubjectKeyIdentifierExtension extends Extension
 implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT =
+    public stbtic finbl String IDENT =
                          "x509.info.extensions.SubjectKeyIdentifier";
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "SubjectKeyIdentifier";
-    public static final String KEY_ID = "key_id";
+    public stbtic finbl String NAME = "SubjectKeyIdentifier";
+    public stbtic finbl String KEY_ID = "key_id";
 
-    // Private data member
-    private KeyIdentifier id = null;
+    // Privbte dbtb member
+    privbte KeyIdentifier id = null;
 
-    // Encode this extension value
-    private void encodeThis() throws IOException {
+    // Encode this extension vblue
+    privbte void encodeThis() throws IOException {
         if (id == null) {
-            this.extensionValue = null;
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream os = new DerOutputStream();
+        DerOutputStrebm os = new DerOutputStrebm();
         id.encode(os);
-        this.extensionValue = os.toByteArray();
+        this.extensionVblue = os.toByteArrby();
     }
 
     /**
-     * Create a SubjectKeyIdentifierExtension with the passed octet string.
-     * The criticality is set to False.
-     * @param octetString the octet string identifying the key identifier.
+     * Crebte b SubjectKeyIdentifierExtension with the pbssed octet string.
+     * The criticblity is set to Fblse.
+     * @pbrbm octetString the octet string identifying the key identifier.
      */
     public SubjectKeyIdentifierExtension(byte[] octetString)
     throws IOException {
         id = new KeyIdentifier(octetString);
 
         this.extensionId = PKIXExtensions.SubjectKey_Id;
-        this.critical = false;
+        this.criticbl = fblse;
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value.
+     * Crebte the extension from the pbssed DER encoded vblue.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public SubjectKeyIdentifierExtension(Boolean critical, Object value)
+    public SubjectKeyIdentifierExtension(Boolebn criticbl, Object vblue)
     throws IOException {
         this.extensionId = PKIXExtensions.SubjectKey_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        this.id = new KeyIdentifier(val);
+        this.criticbl = criticbl.boolebnVblue();
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        this.id = new KeyIdentifier(vbl);
     }
 
     /**
-     * Returns a printable representation.
+     * Returns b printbble representbtion.
      */
     public String toString() {
         return super.toString() + "SubjectKeyIdentifier [\n"
-                + String.valueOf(id) + "]\n";
+                + String.vblueOf(id) + "]\n";
     }
 
     /**
-     * Write the extension to the OutputStream.
+     * Write the extension to the OutputStrebm.
      *
-     * @param out the OutputStream to write the extension to.
+     * @pbrbm out the OutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (extensionVblue == null) {
             extensionId = PKIXExtensions.SubjectKey_Id;
-            critical = false;
+            criticbl = fblse;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(KEY_ID)) {
-            if (!(obj instanceof KeyIdentifier)) {
-              throw new IOException("Attribute value should be of" +
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(KEY_ID)) {
+            if (!(obj instbnceof KeyIdentifier)) {
+              throw new IOException("Attribute vblue should be of" +
                                     " type KeyIdentifier.");
             }
             id = (KeyIdentifier)obj;
         } else {
-          throw new IOException("Attribute name not recognized by " +
+          throw new IOException("Attribute nbme not recognized by " +
                 "CertAttrSet:SubjectKeyIdentifierExtension.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public KeyIdentifier get(String name) throws IOException {
-        if (name.equalsIgnoreCase(KEY_ID)) {
+    public KeyIdentifier get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(KEY_ID)) {
             return (id);
         } else {
-          throw new IOException("Attribute name not recognized by " +
+          throw new IOException("Attribute nbme not recognized by " +
                 "CertAttrSet:SubjectKeyIdentifierExtension.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(KEY_ID)) {
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(KEY_ID)) {
             id = null;
         } else {
-          throw new IOException("Attribute name not recognized by " +
+          throw new IOException("Attribute nbme not recognized by " +
                 "CertAttrSet:SubjectKeyIdentifierExtension.");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(KEY_ID);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(KEY_ID);
 
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 }

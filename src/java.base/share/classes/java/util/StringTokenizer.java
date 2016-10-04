@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.lang.*;
+import jbvb.lbng.*;
 
 /**
- * The string tokenizer class allows an application to break a
- * string into tokens. The tokenization method is much simpler than
- * the one used by the <code>StreamTokenizer</code> class. The
- * <code>StringTokenizer</code> methods do not distinguish among
- * identifiers, numbers, and quoted strings, nor do they recognize
- * and skip comments.
+ * The string tokenizer clbss bllows bn bpplicbtion to brebk b
+ * string into tokens. The tokenizbtion method is much simpler thbn
+ * the one used by the <code>StrebmTokenizer</code> clbss. The
+ * <code>StringTokenizer</code> methods do not distinguish bmong
+ * identifiers, numbers, bnd quoted strings, nor do they recognize
+ * bnd skip comments.
  * <p>
- * The set of delimiters (the characters that separate tokens) may
- * be specified either at creation time or on a per-token basis.
+ * The set of delimiters (the chbrbcters thbt sepbrbte tokens) mby
+ * be specified either bt crebtion time or on b per-token bbsis.
  * <p>
- * An instance of <code>StringTokenizer</code> behaves in one of two
- * ways, depending on whether it was created with the
- * <code>returnDelims</code> flag having the value <code>true</code>
- * or <code>false</code>:
+ * An instbnce of <code>StringTokenizer</code> behbves in one of two
+ * wbys, depending on whether it wbs crebted with the
+ * <code>returnDelims</code> flbg hbving the vblue <code>true</code>
+ * or <code>fblse</code>:
  * <ul>
- * <li>If the flag is <code>false</code>, delimiter characters serve to
- *     separate tokens. A token is a maximal sequence of consecutive
- *     characters that are not delimiters.
- * <li>If the flag is <code>true</code>, delimiter characters are themselves
+ * <li>If the flbg is <code>fblse</code>, delimiter chbrbcters serve to
+ *     sepbrbte tokens. A token is b mbximbl sequence of consecutive
+ *     chbrbcters thbt bre not delimiters.
+ * <li>If the flbg is <code>true</code>, delimiter chbrbcters bre themselves
  *     considered to be tokens. A token is thus either one delimiter
- *     character, or a maximal sequence of consecutive characters that are
+ *     chbrbcter, or b mbximbl sequence of consecutive chbrbcters thbt bre
  *     not delimiters.
  * </ul><p>
- * A <tt>StringTokenizer</tt> object internally maintains a current
- * position within the string to be tokenized. Some operations advance this
- * current position past the characters processed.<p>
- * A token is returned by taking a substring of the string that was used to
- * create the <tt>StringTokenizer</tt> object.
+ * A <tt>StringTokenizer</tt> object internblly mbintbins b current
+ * position within the string to be tokenized. Some operbtions bdvbnce this
+ * current position pbst the chbrbcters processed.<p>
+ * A token is returned by tbking b substring of the string thbt wbs used to
+ * crebte the <tt>StringTokenizer</tt> object.
  * <p>
- * The following is one example of the use of the tokenizer. The code:
+ * The following is one exbmple of the use of the tokenizer. The code:
  * <blockquote><pre>
- *     StringTokenizer st = new StringTokenizer("this is a test");
- *     while (st.hasMoreTokens()) {
+ *     StringTokenizer st = new StringTokenizer("this is b test");
+ *     while (st.hbsMoreTokens()) {
  *         System.out.println(st.nextToken());
  *     }
  * </pre></blockquote>
@@ -69,20 +69,20 @@ import java.lang.*;
  * <blockquote><pre>
  *     this
  *     is
- *     a
+ *     b
  *     test
  * </pre></blockquote>
  *
  * <p>
- * <tt>StringTokenizer</tt> is a legacy class that is retained for
- * compatibility reasons although its use is discouraged in new code. It is
- * recommended that anyone seeking this functionality use the <tt>split</tt>
- * method of <tt>String</tt> or the java.util.regex package instead.
+ * <tt>StringTokenizer</tt> is b legbcy clbss thbt is retbined for
+ * compbtibility rebsons blthough its use is discourbged in new code. It is
+ * recommended thbt bnyone seeking this functionblity use the <tt>split</tt>
+ * method of <tt>String</tt> or the jbvb.util.regex pbckbge instebd.
  * <p>
- * The following example illustrates how the <tt>String.split</tt>
- * method can be used to break up a string into its basic tokens:
+ * The following exbmple illustrbtes how the <tt>String.split</tt>
+ * method cbn be used to brebk up b string into its bbsic tokens:
  * <blockquote><pre>
- *     String[] result = "this is a test".split("\\s");
+ *     String[] result = "this is b test".split("\\s");
  *     for (int x=0; x&lt;result.length; x++)
  *         System.out.println(result[x]);
  * </pre></blockquote>
@@ -91,78 +91,78 @@ import java.lang.*;
  * <blockquote><pre>
  *     this
  *     is
- *     a
+ *     b
  *     test
  * </pre></blockquote>
  *
- * @author  unascribed
- * @see     java.io.StreamTokenizer
+ * @buthor  unbscribed
+ * @see     jbvb.io.StrebmTokenizer
  * @since   1.0
  */
 public
-class StringTokenizer implements Enumeration<Object> {
-    private int currentPosition;
-    private int newPosition;
-    private int maxPosition;
-    private String str;
-    private String delimiters;
-    private boolean retDelims;
-    private boolean delimsChanged;
+clbss StringTokenizer implements Enumerbtion<Object> {
+    privbte int currentPosition;
+    privbte int newPosition;
+    privbte int mbxPosition;
+    privbte String str;
+    privbte String delimiters;
+    privbte boolebn retDelims;
+    privbte boolebn delimsChbnged;
 
     /**
-     * maxDelimCodePoint stores the value of the delimiter character with the
-     * highest value. It is used to optimize the detection of delimiter
-     * characters.
+     * mbxDelimCodePoint stores the vblue of the delimiter chbrbcter with the
+     * highest vblue. It is used to optimize the detection of delimiter
+     * chbrbcters.
      *
-     * It is unlikely to provide any optimization benefit in the
-     * hasSurrogates case because most string characters will be
-     * smaller than the limit, but we keep it so that the two code
-     * paths remain similar.
+     * It is unlikely to provide bny optimizbtion benefit in the
+     * hbsSurrogbtes cbse becbuse most string chbrbcters will be
+     * smbller thbn the limit, but we keep it so thbt the two code
+     * pbths rembin similbr.
      */
-    private int maxDelimCodePoint;
+    privbte int mbxDelimCodePoint;
 
     /**
-     * If delimiters include any surrogates (including surrogate
-     * pairs), hasSurrogates is true and the tokenizer uses the
-     * different code path. This is because String.indexOf(int)
-     * doesn't handle unpaired surrogates as a single character.
+     * If delimiters include bny surrogbtes (including surrogbte
+     * pbirs), hbsSurrogbtes is true bnd the tokenizer uses the
+     * different code pbth. This is becbuse String.indexOf(int)
+     * doesn't hbndle unpbired surrogbtes bs b single chbrbcter.
      */
-    private boolean hasSurrogates = false;
+    privbte boolebn hbsSurrogbtes = fblse;
 
     /**
-     * When hasSurrogates is true, delimiters are converted to code
-     * points and isDelimiter(int) is used to determine if the given
-     * codepoint is a delimiter.
+     * When hbsSurrogbtes is true, delimiters bre converted to code
+     * points bnd isDelimiter(int) is used to determine if the given
+     * codepoint is b delimiter.
      */
-    private int[] delimiterCodePoints;
+    privbte int[] delimiterCodePoints;
 
     /**
-     * Set maxDelimCodePoint to the highest char in the delimiter set.
+     * Set mbxDelimCodePoint to the highest chbr in the delimiter set.
      */
-    private void setMaxDelimCodePoint() {
+    privbte void setMbxDelimCodePoint() {
         if (delimiters == null) {
-            maxDelimCodePoint = 0;
+            mbxDelimCodePoint = 0;
             return;
         }
 
         int m = 0;
         int c;
         int count = 0;
-        for (int i = 0; i < delimiters.length(); i += Character.charCount(c)) {
-            c = delimiters.charAt(i);
-            if (c >= Character.MIN_HIGH_SURROGATE && c <= Character.MAX_LOW_SURROGATE) {
+        for (int i = 0; i < delimiters.length(); i += Chbrbcter.chbrCount(c)) {
+            c = delimiters.chbrAt(i);
+            if (c >= Chbrbcter.MIN_HIGH_SURROGATE && c <= Chbrbcter.MAX_LOW_SURROGATE) {
                 c = delimiters.codePointAt(i);
-                hasSurrogates = true;
+                hbsSurrogbtes = true;
             }
             if (m < c)
                 m = c;
             count++;
         }
-        maxDelimCodePoint = m;
+        mbxDelimCodePoint = m;
 
-        if (hasSurrogates) {
+        if (hbsSurrogbtes) {
             delimiterCodePoints = new int[count];
-            for (int i = 0, j = 0; i < count; i++, j += Character.charCount(c)) {
+            for (int i = 0, j = 0; i < count; i++, j += Chbrbcter.chbrCount(c)) {
                 c = delimiters.codePointAt(j);
                 delimiterCodePoints[i] = c;
             }
@@ -170,260 +170,260 @@ class StringTokenizer implements Enumeration<Object> {
     }
 
     /**
-     * Constructs a string tokenizer for the specified string. All
-     * characters in the <code>delim</code> argument are the delimiters
-     * for separating tokens.
+     * Constructs b string tokenizer for the specified string. All
+     * chbrbcters in the <code>delim</code> brgument bre the delimiters
+     * for sepbrbting tokens.
      * <p>
-     * If the <code>returnDelims</code> flag is <code>true</code>, then
-     * the delimiter characters are also returned as tokens. Each
-     * delimiter is returned as a string of length one. If the flag is
-     * <code>false</code>, the delimiter characters are skipped and only
-     * serve as separators between tokens.
+     * If the <code>returnDelims</code> flbg is <code>true</code>, then
+     * the delimiter chbrbcters bre blso returned bs tokens. Ebch
+     * delimiter is returned bs b string of length one. If the flbg is
+     * <code>fblse</code>, the delimiter chbrbcters bre skipped bnd only
+     * serve bs sepbrbtors between tokens.
      * <p>
-     * Note that if <tt>delim</tt> is <tt>null</tt>, this constructor does
-     * not throw an exception. However, trying to invoke other methods on the
-     * resulting <tt>StringTokenizer</tt> may result in a
+     * Note thbt if <tt>delim</tt> is <tt>null</tt>, this constructor does
+     * not throw bn exception. However, trying to invoke other methods on the
+     * resulting <tt>StringTokenizer</tt> mby result in b
      * <tt>NullPointerException</tt>.
      *
-     * @param   str            a string to be parsed.
-     * @param   delim          the delimiters.
-     * @param   returnDelims   flag indicating whether to return the delimiters
-     *                         as tokens.
+     * @pbrbm   str            b string to be pbrsed.
+     * @pbrbm   delim          the delimiters.
+     * @pbrbm   returnDelims   flbg indicbting whether to return the delimiters
+     *                         bs tokens.
      * @exception NullPointerException if str is <CODE>null</CODE>
      */
-    public StringTokenizer(String str, String delim, boolean returnDelims) {
+    public StringTokenizer(String str, String delim, boolebn returnDelims) {
         currentPosition = 0;
         newPosition = -1;
-        delimsChanged = false;
+        delimsChbnged = fblse;
         this.str = str;
-        maxPosition = str.length();
+        mbxPosition = str.length();
         delimiters = delim;
         retDelims = returnDelims;
-        setMaxDelimCodePoint();
+        setMbxDelimCodePoint();
     }
 
     /**
-     * Constructs a string tokenizer for the specified string. The
-     * characters in the <code>delim</code> argument are the delimiters
-     * for separating tokens. Delimiter characters themselves will not
-     * be treated as tokens.
+     * Constructs b string tokenizer for the specified string. The
+     * chbrbcters in the <code>delim</code> brgument bre the delimiters
+     * for sepbrbting tokens. Delimiter chbrbcters themselves will not
+     * be trebted bs tokens.
      * <p>
-     * Note that if <tt>delim</tt> is <tt>null</tt>, this constructor does
-     * not throw an exception. However, trying to invoke other methods on the
-     * resulting <tt>StringTokenizer</tt> may result in a
+     * Note thbt if <tt>delim</tt> is <tt>null</tt>, this constructor does
+     * not throw bn exception. However, trying to invoke other methods on the
+     * resulting <tt>StringTokenizer</tt> mby result in b
      * <tt>NullPointerException</tt>.
      *
-     * @param   str     a string to be parsed.
-     * @param   delim   the delimiters.
+     * @pbrbm   str     b string to be pbrsed.
+     * @pbrbm   delim   the delimiters.
      * @exception NullPointerException if str is <CODE>null</CODE>
      */
     public StringTokenizer(String str, String delim) {
-        this(str, delim, false);
+        this(str, delim, fblse);
     }
 
     /**
-     * Constructs a string tokenizer for the specified string. The
-     * tokenizer uses the default delimiter set, which is
-     * <code>"&nbsp;&#92;t&#92;n&#92;r&#92;f"</code>: the space character,
-     * the tab character, the newline character, the carriage-return character,
-     * and the form-feed character. Delimiter characters themselves will
-     * not be treated as tokens.
+     * Constructs b string tokenizer for the specified string. The
+     * tokenizer uses the defbult delimiter set, which is
+     * <code>"&nbsp;&#92;t&#92;n&#92;r&#92;f"</code>: the spbce chbrbcter,
+     * the tbb chbrbcter, the newline chbrbcter, the cbrribge-return chbrbcter,
+     * bnd the form-feed chbrbcter. Delimiter chbrbcters themselves will
+     * not be trebted bs tokens.
      *
-     * @param   str   a string to be parsed.
+     * @pbrbm   str   b string to be pbrsed.
      * @exception NullPointerException if str is <CODE>null</CODE>
      */
     public StringTokenizer(String str) {
-        this(str, " \t\n\r\f", false);
+        this(str, " \t\n\r\f", fblse);
     }
 
     /**
-     * Skips delimiters starting from the specified position. If retDelims
-     * is false, returns the index of the first non-delimiter character at or
-     * after startPos. If retDelims is true, startPos is returned.
+     * Skips delimiters stbrting from the specified position. If retDelims
+     * is fblse, returns the index of the first non-delimiter chbrbcter bt or
+     * bfter stbrtPos. If retDelims is true, stbrtPos is returned.
      */
-    private int skipDelimiters(int startPos) {
+    privbte int skipDelimiters(int stbrtPos) {
         if (delimiters == null)
             throw new NullPointerException();
 
-        int position = startPos;
-        while (!retDelims && position < maxPosition) {
-            if (!hasSurrogates) {
-                char c = str.charAt(position);
-                if ((c > maxDelimCodePoint) || (delimiters.indexOf(c) < 0))
-                    break;
+        int position = stbrtPos;
+        while (!retDelims && position < mbxPosition) {
+            if (!hbsSurrogbtes) {
+                chbr c = str.chbrAt(position);
+                if ((c > mbxDelimCodePoint) || (delimiters.indexOf(c) < 0))
+                    brebk;
                 position++;
             } else {
                 int c = str.codePointAt(position);
-                if ((c > maxDelimCodePoint) || !isDelimiter(c)) {
-                    break;
+                if ((c > mbxDelimCodePoint) || !isDelimiter(c)) {
+                    brebk;
                 }
-                position += Character.charCount(c);
+                position += Chbrbcter.chbrCount(c);
             }
         }
         return position;
     }
 
     /**
-     * Skips ahead from startPos and returns the index of the next delimiter
-     * character encountered, or maxPosition if no such delimiter is found.
+     * Skips bhebd from stbrtPos bnd returns the index of the next delimiter
+     * chbrbcter encountered, or mbxPosition if no such delimiter is found.
      */
-    private int scanToken(int startPos) {
-        int position = startPos;
-        while (position < maxPosition) {
-            if (!hasSurrogates) {
-                char c = str.charAt(position);
-                if ((c <= maxDelimCodePoint) && (delimiters.indexOf(c) >= 0))
-                    break;
+    privbte int scbnToken(int stbrtPos) {
+        int position = stbrtPos;
+        while (position < mbxPosition) {
+            if (!hbsSurrogbtes) {
+                chbr c = str.chbrAt(position);
+                if ((c <= mbxDelimCodePoint) && (delimiters.indexOf(c) >= 0))
+                    brebk;
                 position++;
             } else {
                 int c = str.codePointAt(position);
-                if ((c <= maxDelimCodePoint) && isDelimiter(c))
-                    break;
-                position += Character.charCount(c);
+                if ((c <= mbxDelimCodePoint) && isDelimiter(c))
+                    brebk;
+                position += Chbrbcter.chbrCount(c);
             }
         }
-        if (retDelims && (startPos == position)) {
-            if (!hasSurrogates) {
-                char c = str.charAt(position);
-                if ((c <= maxDelimCodePoint) && (delimiters.indexOf(c) >= 0))
+        if (retDelims && (stbrtPos == position)) {
+            if (!hbsSurrogbtes) {
+                chbr c = str.chbrAt(position);
+                if ((c <= mbxDelimCodePoint) && (delimiters.indexOf(c) >= 0))
                     position++;
             } else {
                 int c = str.codePointAt(position);
-                if ((c <= maxDelimCodePoint) && isDelimiter(c))
-                    position += Character.charCount(c);
+                if ((c <= mbxDelimCodePoint) && isDelimiter(c))
+                    position += Chbrbcter.chbrCount(c);
             }
         }
         return position;
     }
 
-    private boolean isDelimiter(int codePoint) {
+    privbte boolebn isDelimiter(int codePoint) {
         for (int delimiterCodePoint : delimiterCodePoints) {
             if (delimiterCodePoint == codePoint) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Tests if there are more tokens available from this tokenizer's string.
-     * If this method returns <tt>true</tt>, then a subsequent call to
-     * <tt>nextToken</tt> with no argument will successfully return a token.
+     * Tests if there bre more tokens bvbilbble from this tokenizer's string.
+     * If this method returns <tt>true</tt>, then b subsequent cbll to
+     * <tt>nextToken</tt> with no brgument will successfully return b token.
      *
-     * @return  <code>true</code> if and only if there is at least one token
-     *          in the string after the current position; <code>false</code>
+     * @return  <code>true</code> if bnd only if there is bt lebst one token
+     *          in the string bfter the current position; <code>fblse</code>
      *          otherwise.
      */
-    public boolean hasMoreTokens() {
+    public boolebn hbsMoreTokens() {
         /*
-         * Temporarily store this position and use it in the following
-         * nextToken() method only if the delimiters haven't been changed in
-         * that nextToken() invocation.
+         * Temporbrily store this position bnd use it in the following
+         * nextToken() method only if the delimiters hbven't been chbnged in
+         * thbt nextToken() invocbtion.
          */
         newPosition = skipDelimiters(currentPosition);
-        return (newPosition < maxPosition);
+        return (newPosition < mbxPosition);
     }
 
     /**
      * Returns the next token from this string tokenizer.
      *
      * @return     the next token from this string tokenizer.
-     * @exception  NoSuchElementException  if there are no more tokens in this
+     * @exception  NoSuchElementException  if there bre no more tokens in this
      *               tokenizer's string.
      */
     public String nextToken() {
         /*
-         * If next position already computed in hasMoreElements() and
-         * delimiters have changed between the computation and this invocation,
-         * then use the computed value.
+         * If next position blrebdy computed in hbsMoreElements() bnd
+         * delimiters hbve chbnged between the computbtion bnd this invocbtion,
+         * then use the computed vblue.
          */
 
-        currentPosition = (newPosition >= 0 && !delimsChanged) ?
+        currentPosition = (newPosition >= 0 && !delimsChbnged) ?
             newPosition : skipDelimiters(currentPosition);
 
-        /* Reset these anyway */
-        delimsChanged = false;
+        /* Reset these bnywby */
+        delimsChbnged = fblse;
         newPosition = -1;
 
-        if (currentPosition >= maxPosition)
+        if (currentPosition >= mbxPosition)
             throw new NoSuchElementException();
-        int start = currentPosition;
-        currentPosition = scanToken(currentPosition);
-        return str.substring(start, currentPosition);
+        int stbrt = currentPosition;
+        currentPosition = scbnToken(currentPosition);
+        return str.substring(stbrt, currentPosition);
     }
 
     /**
      * Returns the next token in this string tokenizer's string. First,
-     * the set of characters considered to be delimiters by this
-     * <tt>StringTokenizer</tt> object is changed to be the characters in
+     * the set of chbrbcters considered to be delimiters by this
+     * <tt>StringTokenizer</tt> object is chbnged to be the chbrbcters in
      * the string <tt>delim</tt>. Then the next token in the string
-     * after the current position is returned. The current position is
-     * advanced beyond the recognized token.  The new delimiter set
-     * remains the default after this call.
+     * bfter the current position is returned. The current position is
+     * bdvbnced beyond the recognized token.  The new delimiter set
+     * rembins the defbult bfter this cbll.
      *
-     * @param      delim   the new delimiters.
-     * @return     the next token, after switching to the new delimiter set.
-     * @exception  NoSuchElementException  if there are no more tokens in this
+     * @pbrbm      delim   the new delimiters.
+     * @return     the next token, bfter switching to the new delimiter set.
+     * @exception  NoSuchElementException  if there bre no more tokens in this
      *               tokenizer's string.
      * @exception NullPointerException if delim is <CODE>null</CODE>
      */
     public String nextToken(String delim) {
         delimiters = delim;
 
-        /* delimiter string specified, so set the appropriate flag. */
-        delimsChanged = true;
+        /* delimiter string specified, so set the bppropribte flbg. */
+        delimsChbnged = true;
 
-        setMaxDelimCodePoint();
+        setMbxDelimCodePoint();
         return nextToken();
     }
 
     /**
-     * Returns the same value as the <code>hasMoreTokens</code>
-     * method. It exists so that this class can implement the
-     * <code>Enumeration</code> interface.
+     * Returns the sbme vblue bs the <code>hbsMoreTokens</code>
+     * method. It exists so thbt this clbss cbn implement the
+     * <code>Enumerbtion</code> interfbce.
      *
-     * @return  <code>true</code> if there are more tokens;
-     *          <code>false</code> otherwise.
-     * @see     java.util.Enumeration
-     * @see     java.util.StringTokenizer#hasMoreTokens()
+     * @return  <code>true</code> if there bre more tokens;
+     *          <code>fblse</code> otherwise.
+     * @see     jbvb.util.Enumerbtion
+     * @see     jbvb.util.StringTokenizer#hbsMoreTokens()
      */
-    public boolean hasMoreElements() {
-        return hasMoreTokens();
+    public boolebn hbsMoreElements() {
+        return hbsMoreTokens();
     }
 
     /**
-     * Returns the same value as the <code>nextToken</code> method,
-     * except that its declared return value is <code>Object</code> rather than
-     * <code>String</code>. It exists so that this class can implement the
-     * <code>Enumeration</code> interface.
+     * Returns the sbme vblue bs the <code>nextToken</code> method,
+     * except thbt its declbred return vblue is <code>Object</code> rbther thbn
+     * <code>String</code>. It exists so thbt this clbss cbn implement the
+     * <code>Enumerbtion</code> interfbce.
      *
      * @return     the next token in the string.
-     * @exception  NoSuchElementException  if there are no more tokens in this
+     * @exception  NoSuchElementException  if there bre no more tokens in this
      *               tokenizer's string.
-     * @see        java.util.Enumeration
-     * @see        java.util.StringTokenizer#nextToken()
+     * @see        jbvb.util.Enumerbtion
+     * @see        jbvb.util.StringTokenizer#nextToken()
      */
     public Object nextElement() {
         return nextToken();
     }
 
     /**
-     * Calculates the number of times that this tokenizer's
-     * <code>nextToken</code> method can be called before it generates an
-     * exception. The current position is not advanced.
+     * Cblculbtes the number of times thbt this tokenizer's
+     * <code>nextToken</code> method cbn be cblled before it generbtes bn
+     * exception. The current position is not bdvbnced.
      *
-     * @return  the number of tokens remaining in the string using the current
+     * @return  the number of tokens rembining in the string using the current
      *          delimiter set.
-     * @see     java.util.StringTokenizer#nextToken()
+     * @see     jbvb.util.StringTokenizer#nextToken()
      */
     public int countTokens() {
         int count = 0;
         int currpos = currentPosition;
-        while (currpos < maxPosition) {
+        while (currpos < mbxPosition) {
             currpos = skipDelimiters(currpos);
-            if (currpos >= maxPosition)
-                break;
-            currpos = scanToken(currpos);
+            if (currpos >= mbxPosition)
+                brebk;
+            currpos = scbnToken(currpos);
             count++;
         }
         return count;

@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.RootPaneContainer;
+import jbvbx.swing.RootPbneContbiner;
 
-import sun.lwawt.macosx.*;
+import sun.lwbwt.mbcosx.*;
 
-import com.apple.eawt.event.GestureUtilities;
+import com.bpple.ebwt.event.GestureUtilities;
 
 /**
- * Utility class perform animated full screen actions to top-level {@link Window}s.
+ * Utility clbss perform bnimbted full screen bctions to top-level {@link Window}s.
  *
- * This class manages the relationship between {@link Windows}s and the {@link FullScreenListener}s
- * attached to them. It's design is similar to the Java SE 6u10 {@link com.sun.awt.AWTUtilities}
- * class which adds additional functionality to AWT Windows, without adding new API to the
- * {@link java.awt.Window} class.
+ * This clbss mbnbges the relbtionship between {@link Windows}s bnd the {@link FullScreenListener}s
+ * bttbched to them. It's design is similbr to the Jbvb SE 6u10 {@link com.sun.bwt.AWTUtilities}
+ * clbss which bdds bdditionbl functionblity to AWT Windows, without bdding new API to the
+ * {@link jbvb.bwt.Window} clbss.
  *
- * Full screen operations can only be performed on top-level {@link Window}s that are also {@link RootPaneContainer}s.
+ * Full screen operbtions cbn only be performed on top-level {@link Window}s thbt bre blso {@link RootPbneContbiner}s.
  *
- * @see FullScreenAdapter
+ * @see FullScreenAdbpter
  * @see GestureUtilities
- * @see com.sun.awt.AWTUtilities
+ * @see com.sun.bwt.AWTUtilities
  *
- * @since Java for Mac OS X 10.7 Update 1
+ * @since Jbvb for Mbc OS X 10.7 Updbte 1
  */
-public final class FullScreenUtilities {
+public finbl clbss FullScreenUtilities {
     FullScreenUtilities() {
-        // package private
+        // pbckbge privbte
     }
 
     /**
-     * Marks a {@link Window} as able to animate into or out of full screen mode.
+     * Mbrks b {@link Window} bs bble to bnimbte into or out of full screen mode.
      *
-     * Only top-level {@link Window}s which are {@link RootPaneContainer}s are able to be animated into and out of full screen mode.
-     * The {@link Window} must be marked as full screen-able before the native peer is created with {@link Component#addNotify()}.
+     * Only top-level {@link Window}s which bre {@link RootPbneContbiner}s bre bble to be bnimbted into bnd out of full screen mode.
+     * The {@link Window} must be mbrked bs full screen-bble before the nbtive peer is crebted with {@link Component#bddNotify()}.
      *
-     * @param window
-     * @param canFullScreen
-     * @throws IllegalArgumentException if window is not a {@link RootPaneContainer}
+     * @pbrbm window
+     * @pbrbm cbnFullScreen
+     * @throws IllegblArgumentException if window is not b {@link RootPbneContbiner}
      */
-    public static void setWindowCanFullScreen(final Window window, final boolean canFullScreen) {
-        if (!(window instanceof RootPaneContainer)) throw new IllegalArgumentException("Can't mark a non-RootPaneContainer as full screen-able");
-        final RootPaneContainer rpc = (RootPaneContainer)window;
-        rpc.getRootPane().putClientProperty(CPlatformWindow.WINDOW_FULLSCREENABLE, Boolean.valueOf(canFullScreen));
+    public stbtic void setWindowCbnFullScreen(finbl Window window, finbl boolebn cbnFullScreen) {
+        if (!(window instbnceof RootPbneContbiner)) throw new IllegblArgumentException("Cbn't mbrk b non-RootPbneContbiner bs full screen-bble");
+        finbl RootPbneContbiner rpc = (RootPbneContbiner)window;
+        rpc.getRootPbne().putClientProperty(CPlbtformWindow.WINDOW_FULLSCREENABLE, Boolebn.vblueOf(cbnFullScreen));
     }
 
     /**
-     * Attaches a {@link FullScreenListener} to the specified top-level {@link Window}.
-     * @param window to attach the {@link FullScreenListener} to
-     * @param listener to be notified when a full screen event occurs
-     * @throws IllegalArgumentException if window is not a {@link RootPaneContainer}
+     * Attbches b {@link FullScreenListener} to the specified top-level {@link Window}.
+     * @pbrbm window to bttbch the {@link FullScreenListener} to
+     * @pbrbm listener to be notified when b full screen event occurs
+     * @throws IllegblArgumentException if window is not b {@link RootPbneContbiner}
      */
-    public static void addFullScreenListenerTo(final Window window, final FullScreenListener listener) {
-        if (!(window instanceof RootPaneContainer)) throw new IllegalArgumentException("Can't attach FullScreenListener to a non-RootPaneContainer");
+    public stbtic void bddFullScreenListenerTo(finbl Window window, finbl FullScreenListener listener) {
+        if (!(window instbnceof RootPbneContbiner)) throw new IllegblArgumentException("Cbn't bttbch FullScreenListener to b non-RootPbneContbiner");
         if (listener == null) throw new NullPointerException();
-        FullScreenHandler.addFullScreenListenerTo((RootPaneContainer)window, listener);
+        FullScreenHbndler.bddFullScreenListenerTo((RootPbneContbiner)window, listener);
     }
 
     /**
-     * Removes a {@link FullScreenListener} from the specified top-level {@link Window}.
-     * @param window to remove the {@link FullScreenListener} from
-     * @param listener to be removed
-     * @throws IllegalArgumentException if window is not a {@link RootPaneContainer}
+     * Removes b {@link FullScreenListener} from the specified top-level {@link Window}.
+     * @pbrbm window to remove the {@link FullScreenListener} from
+     * @pbrbm listener to be removed
+     * @throws IllegblArgumentException if window is not b {@link RootPbneContbiner}
      */
-    public static void removeFullScreenListenerFrom(final Window window, final FullScreenListener listener) {
-        if (!(window instanceof RootPaneContainer)) throw new IllegalArgumentException("Can't remove FullScreenListener from non-RootPaneContainer");
+    public stbtic void removeFullScreenListenerFrom(finbl Window window, finbl FullScreenListener listener) {
+        if (!(window instbnceof RootPbneContbiner)) throw new IllegblArgumentException("Cbn't remove FullScreenListener from non-RootPbneContbiner");
         if (listener == null) throw new NullPointerException();
-        FullScreenHandler.removeFullScreenListenerFrom((RootPaneContainer)window, listener);
+        FullScreenHbndler.removeFullScreenListenerFrom((RootPbneContbiner)window, listener);
     }
 }

@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbckbge com.sun.jmx.snmp.IPAcl;
 
 
 
-import java.util.Vector;
-import java.io.Serializable;
+import jbvb.util.Vector;
+import jbvb.io.Seriblizbble;
 
-import java.security.Principal;
-import java.security.acl.Owner;
-import java.security.acl.LastOwnerException;
-import java.security.acl.NotOwnerException;
+import jbvb.security.Principbl;
+import jbvb.security.bcl.Owner;
+import jbvb.security.bcl.LbstOwnerException;
+import jbvb.security.bcl.NotOwnerException;
 
 
 /**
  * Owner of Access Control Lists (ACLs).
- * The initial owner Principal should be specified as an
- * argument to the constructor of the class AclImpl.
+ * The initibl owner Principbl should be specified bs bn
+ * brgument to the constructor of the clbss AclImpl.
  *
- * @see java.security.acl.Owner
+ * @see jbvb.security.bcl.Owner
  */
 
-class OwnerImpl implements Owner, Serializable {
-  private static final long serialVersionUID = -576066072046319874L;
+clbss OwnerImpl implements Owner, Seriblizbble {
+  privbte stbtic finbl long seriblVersionUID = -576066072046319874L;
 
-  private Vector<Principal> ownerList = null;
+  privbte Vector<Principbl> ownerList = null;
 
   /**
-   * Constructs an empty list of owner.
+   * Constructs bn empty list of owner.
    */
   public OwnerImpl (){
-        ownerList = new Vector<Principal>();
+        ownerList = new Vector<Principbl>();
   }
 
   /**
-   * Constructs a list of owner with the specified principal as first element.
+   * Constructs b list of owner with the specified principbl bs first element.
    *
-   * @param owner the principal added to the owner list.
+   * @pbrbm owner the principbl bdded to the owner list.
    */
-  public OwnerImpl (PrincipalImpl owner){
-        ownerList = new Vector<Principal>();
-        ownerList.addElement(owner);
+  public OwnerImpl (PrincipblImpl owner){
+        ownerList = new Vector<Principbl>();
+        ownerList.bddElement(owner);
   }
 
   /**
-   * Adds an owner. Only owners can modify ACL contents. The caller principal
-   * must be an owner of the ACL in order to invoke this method. That is, only
-   * an owner can add another owner. The initial owner is configured at
+   * Adds bn owner. Only owners cbn modify ACL contents. The cbller principbl
+   * must be bn owner of the ACL in order to invoke this method. Thbt is, only
+   * bn owner cbn bdd bnother owner. The initibl owner is configured bt
    * ACL construction time.
    *
-   * @param caller the principal invoking this method.
-   *        It must be an owner of the ACL.
-   * @param owner the owner that should be added to the list of owners.
-   * @return true if successful, false if owner is already an owner.
-   * @exception NotOwnerException if the caller principal is not an owner
+   * @pbrbm cbller the principbl invoking this method.
+   *        It must be bn owner of the ACL.
+   * @pbrbm owner the owner thbt should be bdded to the list of owners.
+   * @return true if successful, fblse if owner is blrebdy bn owner.
+   * @exception NotOwnerException if the cbller principbl is not bn owner
    *    of the ACL.
    */
-  public boolean addOwner(Principal caller, Principal owner)
+  public boolebn bddOwner(Principbl cbller, Principbl owner)
         throws NotOwnerException {
-        if (!ownerList.contains(caller))
+        if (!ownerList.contbins(cbller))
           throw new NotOwnerException();
 
-        if (ownerList.contains(owner)) {
-          return false;
+        if (ownerList.contbins(owner)) {
+          return fblse;
         } else {
-          ownerList.addElement(owner);
+          ownerList.bddElement(owner);
           return true;
         }
   }
 
   /**
-   * Deletes an owner. If this is the last owner in the ACL, an exception is raised.
+   * Deletes bn owner. If this is the lbst owner in the ACL, bn exception is rbised.
    *<P>
-   * The caller principal must be an owner of the ACL in order to invoke this method.
+   * The cbller principbl must be bn owner of the ACL in order to invoke this method.
    *
-   * @param caller the principal invoking this method. It must be an owner
+   * @pbrbm cbller the principbl invoking this method. It must be bn owner
    *   of the ACL.
-   * @param owner the owner to be removed from the list of owners.
-   * @return true if successful, false if owner is already an owner.
-   * @exception NotOwnerException if the caller principal is not an owner
+   * @pbrbm owner the owner to be removed from the list of owners.
+   * @return true if successful, fblse if owner is blrebdy bn owner.
+   * @exception NotOwnerException if the cbller principbl is not bn owner
    *   of the ACL.
-   * @exception LastOwnerException if there is only one owner left, so that
-   *   deleteOwner would leave the ACL owner-less.
+   * @exception LbstOwnerException if there is only one owner left, so thbt
+   *   deleteOwner would lebve the ACL owner-less.
    */
-  public boolean deleteOwner(Principal caller, Principal owner)
-                throws NotOwnerException,LastOwnerException {
+  public boolebn deleteOwner(Principbl cbller, Principbl owner)
+                throws NotOwnerException,LbstOwnerException {
 
-        if (!ownerList.contains(caller))
+        if (!ownerList.contbins(cbller))
           throw new NotOwnerException();
 
-        if (!ownerList.contains(owner)){
-          return false;
+        if (!ownerList.contbins(owner)){
+          return fblse;
         } else {
           if (ownerList.size() == 1)
-                throw new LastOwnerException();
+                throw new LbstOwnerException();
 
           ownerList.removeElement(owner);
           return true;
@@ -125,13 +125,13 @@ class OwnerImpl implements Owner, Serializable {
   }
 
   /**
-   * Returns true if the given principal is an owner of the ACL.
+   * Returns true if the given principbl is bn owner of the ACL.
    *
-   * @param owner the principal to be checked to determine whether or
-   *        not it is an owner.
-   * @return true if the given principal is an owner of the ACL.
+   * @pbrbm owner the principbl to be checked to determine whether or
+   *        not it is bn owner.
+   * @return true if the given principbl is bn owner of the ACL.
    */
-  public boolean isOwner(Principal owner){
-        return ownerList.contains(owner);
+  public boolebn isOwner(Principbl owner){
+        return ownerList.contbins(owner);
   }
 }

@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
-import java.util.Vector;
+import jbvb.util.Vector;
 
 
 /**
- * This class implements of the {@link javax.management.NotificationFilter NotificationFilter}
- * interface for the {@link javax.management.AttributeChangeNotification attribute change notification}.
- * The filtering is performed on the name of the observed attribute.
+ * This clbss implements of the {@link jbvbx.mbnbgement.NotificbtionFilter NotificbtionFilter}
+ * interfbce for the {@link jbvbx.mbnbgement.AttributeChbngeNotificbtion bttribute chbnge notificbtion}.
+ * The filtering is performed on the nbme of the observed bttribute.
  * <P>
- * It manages a list of enabled attribute names.
- * A method allows users to enable/disable as many attribute names as required.
+ * It mbnbges b list of enbbled bttribute nbmes.
+ * A method bllows users to enbble/disbble bs mbny bttribute nbmes bs required.
  *
  * @since 1.5
  */
-public class AttributeChangeNotificationFilter implements NotificationFilter {
+public clbss AttributeChbngeNotificbtionFilter implements NotificbtionFilter {
 
-    /* Serial version */
-    private static final long serialVersionUID = -6347317584796410029L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -6347317584796410029L;
 
     /**
-     * @serial {@link Vector} that contains the enabled attribute names.
-     *         The default value is an empty vector.
+     * @seribl {@link Vector} thbt contbins the enbbled bttribute nbmes.
+     *         The defbult vblue is bn empty vector.
      */
-    private Vector<String> enabledAttributes = new Vector<String>();
+    privbte Vector<String> enbbledAttributes = new Vector<String>();
 
 
     /**
-     * Invoked before sending the specified notification to the listener.
-     * <BR>This filter compares the attribute name of the specified attribute change notification
-     * with each enabled attribute name.
-     * If the attribute name equals one of the enabled attribute names,
-     * the notification must be sent to the listener and this method returns <CODE>true</CODE>.
+     * Invoked before sending the specified notificbtion to the listener.
+     * <BR>This filter compbres the bttribute nbme of the specified bttribute chbnge notificbtion
+     * with ebch enbbled bttribute nbme.
+     * If the bttribute nbme equbls one of the enbbled bttribute nbmes,
+     * the notificbtion must be sent to the listener bnd this method returns <CODE>true</CODE>.
      *
-     * @param notification The attribute change notification to be sent.
-     * @return <CODE>true</CODE> if the notification has to be sent to the listener, <CODE>false</CODE> otherwise.
+     * @pbrbm notificbtion The bttribute chbnge notificbtion to be sent.
+     * @return <CODE>true</CODE> if the notificbtion hbs to be sent to the listener, <CODE>fblse</CODE> otherwise.
      */
-    public synchronized boolean isNotificationEnabled(Notification notification) {
+    public synchronized boolebn isNotificbtionEnbbled(Notificbtion notificbtion) {
 
-        String type = notification.getType();
+        String type = notificbtion.getType();
 
         if ((type == null) ||
-            (type.equals(AttributeChangeNotification.ATTRIBUTE_CHANGE) == false) ||
-            (!(notification instanceof AttributeChangeNotification))) {
-            return false;
+            (type.equbls(AttributeChbngeNotificbtion.ATTRIBUTE_CHANGE) == fblse) ||
+            (!(notificbtion instbnceof AttributeChbngeNotificbtion))) {
+            return fblse;
         }
 
-        String attributeName =
-          ((AttributeChangeNotification)notification).getAttributeName();
-        return enabledAttributes.contains(attributeName);
+        String bttributeNbme =
+          ((AttributeChbngeNotificbtion)notificbtion).getAttributeNbme();
+        return enbbledAttributes.contbins(bttributeNbme);
     }
 
     /**
-     * Enables all the attribute change notifications the attribute name of which equals
-     * the specified name to be sent to the listener.
-     * <BR>If the specified name is already in the list of enabled attribute names,
-     * this method has no effect.
+     * Enbbles bll the bttribute chbnge notificbtions the bttribute nbme of which equbls
+     * the specified nbme to be sent to the listener.
+     * <BR>If the specified nbme is blrebdy in the list of enbbled bttribute nbmes,
+     * this method hbs no effect.
      *
-     * @param name The attribute name.
-     * @exception java.lang.IllegalArgumentException The attribute name parameter is null.
+     * @pbrbm nbme The bttribute nbme.
+     * @exception jbvb.lbng.IllegblArgumentException The bttribute nbme pbrbmeter is null.
      */
-    public synchronized void enableAttribute(String name) throws java.lang.IllegalArgumentException {
+    public synchronized void enbbleAttribute(String nbme) throws jbvb.lbng.IllegblArgumentException {
 
-        if (name == null) {
-            throw new java.lang.IllegalArgumentException("The name cannot be null.");
+        if (nbme == null) {
+            throw new jbvb.lbng.IllegblArgumentException("The nbme cbnnot be null.");
         }
-        if (!enabledAttributes.contains(name)) {
-            enabledAttributes.addElement(name);
+        if (!enbbledAttributes.contbins(nbme)) {
+            enbbledAttributes.bddElement(nbme);
         }
     }
 
     /**
-     * Disables all the attribute change notifications the attribute name of which equals
-     * the specified attribute name to be sent to the listener.
-     * <BR>If the specified name is not in the list of enabled attribute names,
-     * this method has no effect.
+     * Disbbles bll the bttribute chbnge notificbtions the bttribute nbme of which equbls
+     * the specified bttribute nbme to be sent to the listener.
+     * <BR>If the specified nbme is not in the list of enbbled bttribute nbmes,
+     * this method hbs no effect.
      *
-     * @param name The attribute name.
+     * @pbrbm nbme The bttribute nbme.
      */
-    public synchronized void disableAttribute(String name) {
-        enabledAttributes.removeElement(name);
+    public synchronized void disbbleAttribute(String nbme) {
+        enbbledAttributes.removeElement(nbme);
     }
 
     /**
-     * Disables all the attribute names.
+     * Disbbles bll the bttribute nbmes.
      */
-    public synchronized void disableAllAttributes() {
-        enabledAttributes.removeAllElements();
+    public synchronized void disbbleAllAttributes() {
+        enbbledAttributes.removeAllElements();
     }
 
     /**
-     * Gets all the enabled attribute names for this filter.
+     * Gets bll the enbbled bttribute nbmes for this filter.
      *
-     * @return The list containing all the enabled attribute names.
+     * @return The list contbining bll the enbbled bttribute nbmes.
      */
-    public synchronized Vector<String> getEnabledAttributes() {
-        return enabledAttributes;
+    public synchronized Vector<String> getEnbbledAttributes() {
+        return enbbledAttributes;
     }
 
 }

@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.util.*;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.*;
 
-import sun.java2d.Disposer;
-import sun.java2d.pipe.BufferedContext;
-import sun.java2d.pipe.RenderQueue;
-import sun.java2d.pipe.hw.AccelGraphicsConfig;
-import sun.misc.Unsafe;
+import sun.jbvb2d.Disposer;
+import sun.jbvb2d.pipe.BufferedContext;
+import sun.jbvb2d.pipe.RenderQueue;
+import sun.jbvb2d.pipe.hw.AccelGrbphicsConfig;
+import sun.misc.Unsbfe;
 
 /**
 
-A FontStrike is the keeper of scaled glyph image data which is expensive
-to compute so needs to be cached.
-So long as that data may be being used it cannot be invalidated.
-Yet we also need to limit the amount of native memory and number of
+A FontStrike is the keeper of scbled glyph imbge dbtb which is expensive
+to compute so needs to be cbched.
+So long bs thbt dbtb mby be being used it cbnnot be invblidbted.
+Yet we blso need to limit the bmount of nbtive memory bnd number of
 strike objects in use.
-For scaleability and ease of use, a key goal is multi-threaded read
-access to a strike, so that it may be shared by multiple client objects,
-potentially executing on different threads, with no special reference
-counting or "check-out/check-in" requirements which would pass on the
-burden of keeping track of strike references to the SG2D and other clients.
+For scblebbility bnd ebse of use, b key gobl is multi-threbded rebd
+bccess to b strike, so thbt it mby be shbred by multiple client objects,
+potentiblly executing on different threbds, with no specibl reference
+counting or "check-out/check-in" requirements which would pbss on the
+burden of keeping trbck of strike references to the SG2D bnd other clients.
 
-A cache of strikes is maintained via Reference objects.
-This helps in two ways :
-1. The VM will free references when memory is low or they have not been
-used in a long time.
-2. Reference queues provide a way to get notification of this so we can
-free native memory resources.
+A cbche of strikes is mbintbined vib Reference objects.
+This helps in two wbys :
+1. The VM will free references when memory is low or they hbve not been
+used in b long time.
+2. Reference queues provide b wby to get notificbtion of this so we cbn
+free nbtive memory resources.
 
  */
 
-public final class StrikeCache {
+public finbl clbss StrikeCbche {
 
-    static final Unsafe unsafe = Unsafe.getUnsafe();
+    stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    static ReferenceQueue<Object> refQueue = Disposer.getQueue();
+    stbtic ReferenceQueue<Object> refQueue = Disposer.getQueue();
 
-    static ArrayList<GlyphDisposedListener> disposeListeners = new ArrayList<GlyphDisposedListener>(1);
+    stbtic ArrbyList<GlyphDisposedListener> disposeListeners = new ArrbyList<GlyphDisposedListener>(1);
 
 
-    /* Reference objects may have their referents cleared when GC chooses.
-     * During application client start-up there is typically at least one
-     * GC which causes the hotspot VM to clear soft (not just weak) references
-     * Thus not only is there a GC pause, but the work done do rasterise
-     * glyphs that are fairly certain to be needed again almost immediately
-     * is thrown away. So for performance reasons a simple optimisation is to
-     * keep up to 8 strong references to strikes to reduce the chance of
-     * GC'ing strikes that have been used recently. Note that this may not
-     * suffice in Solaris UTF-8 locales where a single composite strike may be
-     * composed of 15 individual strikes, plus the composite strike.
-     * And this assumes the new architecture doesn't maintain strikes for
-     * natively accessed bitmaps. It may be worth "tuning" the number of
-     * strikes kept around for the platform or locale.
-     * Since no attempt is made to ensure uniqueness or ensure synchronized
-     * access there is no guarantee that this cache will ensure that unique
-     * strikes are cached. Every time a strike is looked up it is added
-     * to the current index in this cache. All this cache has to do to be
-     * worthwhile is prevent excessive cache flushing of strikes that are
-     * referenced frequently. The logic that adds references here could be
-     * tweaked to keep only strikes  that represent untransformed, screen
-     * sizes as that's the typical performance case.
+    /* Reference objects mby hbve their referents clebred when GC chooses.
+     * During bpplicbtion client stbrt-up there is typicblly bt lebst one
+     * GC which cbuses the hotspot VM to clebr soft (not just webk) references
+     * Thus not only is there b GC pbuse, but the work done do rbsterise
+     * glyphs thbt bre fbirly certbin to be needed bgbin blmost immedibtely
+     * is thrown bwby. So for performbnce rebsons b simple optimisbtion is to
+     * keep up to 8 strong references to strikes to reduce the chbnce of
+     * GC'ing strikes thbt hbve been used recently. Note thbt this mby not
+     * suffice in Solbris UTF-8 locbles where b single composite strike mby be
+     * composed of 15 individubl strikes, plus the composite strike.
+     * And this bssumes the new brchitecture doesn't mbintbin strikes for
+     * nbtively bccessed bitmbps. It mby be worth "tuning" the number of
+     * strikes kept bround for the plbtform or locble.
+     * Since no bttempt is mbde to ensure uniqueness or ensure synchronized
+     * bccess there is no gubrbntee thbt this cbche will ensure thbt unique
+     * strikes bre cbched. Every time b strike is looked up it is bdded
+     * to the current index in this cbche. All this cbche hbs to do to be
+     * worthwhile is prevent excessive cbche flushing of strikes thbt bre
+     * referenced frequently. The logic thbt bdds references here could be
+     * twebked to keep only strikes  thbt represent untrbnsformed, screen
+     * sizes bs thbt's the typicbl performbnce cbse.
      */
-    static int MINSTRIKES = 8; // can be overridden by property
-    static int recentStrikeIndex = 0;
-    static FontStrike[] recentStrikes;
-    static boolean cacheRefTypeWeak;
+    stbtic int MINSTRIKES = 8; // cbn be overridden by property
+    stbtic int recentStrikeIndex = 0;
+    stbtic FontStrike[] recentStrikes;
+    stbtic boolebn cbcheRefTypeWebk;
 
     /*
-     * Native sizes and offsets for glyph cache
-     * There are 10 values.
+     * Nbtive sizes bnd offsets for glyph cbche
+     * There bre 10 vblues.
      */
-    static int nativeAddressSize;
-    static int glyphInfoSize;
-    static int xAdvanceOffset;
-    static int yAdvanceOffset;
-    static int boundsOffset;
-    static int widthOffset;
-    static int heightOffset;
-    static int rowBytesOffset;
-    static int topLeftXOffset;
-    static int topLeftYOffset;
-    static int pixelDataOffset;
-    static int cacheCellOffset;
-    static int managedOffset;
-    static long invisibleGlyphPtr;
+    stbtic int nbtiveAddressSize;
+    stbtic int glyphInfoSize;
+    stbtic int xAdvbnceOffset;
+    stbtic int yAdvbnceOffset;
+    stbtic int boundsOffset;
+    stbtic int widthOffset;
+    stbtic int heightOffset;
+    stbtic int rowBytesOffset;
+    stbtic int topLeftXOffset;
+    stbtic int topLeftYOffset;
+    stbtic int pixelDbtbOffset;
+    stbtic int cbcheCellOffset;
+    stbtic int mbnbgedOffset;
+    stbtic long invisibleGlyphPtr;
 
-    /* Native method used to return information used for unsafe
-     * access to native data.
-     * return values as follows:-
-     * arr[0] = size of an address/pointer.
-     * arr[1] = size of a GlyphInfo
-     * arr[2] = offset of advanceX
-     * arr[3] = offset of advanceY
-     * arr[4] = offset of width
-     * arr[5] = offset of height
-     * arr[6] = offset of rowBytes
-     * arr[7] = offset of topLeftX
-     * arr[8] = offset of topLeftY
-     * arr[9] = offset of pixel data.
-     * arr[10] = address of a GlyphImageRef representing the invisible glyph
+    /* Nbtive method used to return informbtion used for unsbfe
+     * bccess to nbtive dbtb.
+     * return vblues bs follows:-
+     * brr[0] = size of bn bddress/pointer.
+     * brr[1] = size of b GlyphInfo
+     * brr[2] = offset of bdvbnceX
+     * brr[3] = offset of bdvbnceY
+     * brr[4] = offset of width
+     * brr[5] = offset of height
+     * brr[6] = offset of rowBytes
+     * brr[7] = offset of topLeftX
+     * brr[8] = offset of topLeftY
+     * brr[9] = offset of pixel dbtb.
+     * brr[10] = bddress of b GlyphImbgeRef representing the invisible glyph
      */
-    static native void getGlyphCacheDescription(long[] infoArray);
+    stbtic nbtive void getGlyphCbcheDescription(long[] infoArrby);
 
-    static {
+    stbtic {
 
-        long[] nativeInfo = new long[13];
-        getGlyphCacheDescription(nativeInfo);
-        //Can also get address size from Unsafe class :-
-        //nativeAddressSize = unsafe.addressSize();
-        nativeAddressSize = (int)nativeInfo[0];
-        glyphInfoSize     = (int)nativeInfo[1];
-        xAdvanceOffset    = (int)nativeInfo[2];
-        yAdvanceOffset    = (int)nativeInfo[3];
-        widthOffset       = (int)nativeInfo[4];
-        heightOffset      = (int)nativeInfo[5];
-        rowBytesOffset    = (int)nativeInfo[6];
-        topLeftXOffset    = (int)nativeInfo[7];
-        topLeftYOffset    = (int)nativeInfo[8];
-        pixelDataOffset   = (int)nativeInfo[9];
-        invisibleGlyphPtr = nativeInfo[10];
-        cacheCellOffset = (int) nativeInfo[11];
-        managedOffset = (int) nativeInfo[12];
+        long[] nbtiveInfo = new long[13];
+        getGlyphCbcheDescription(nbtiveInfo);
+        //Cbn blso get bddress size from Unsbfe clbss :-
+        //nbtiveAddressSize = unsbfe.bddressSize();
+        nbtiveAddressSize = (int)nbtiveInfo[0];
+        glyphInfoSize     = (int)nbtiveInfo[1];
+        xAdvbnceOffset    = (int)nbtiveInfo[2];
+        yAdvbnceOffset    = (int)nbtiveInfo[3];
+        widthOffset       = (int)nbtiveInfo[4];
+        heightOffset      = (int)nbtiveInfo[5];
+        rowBytesOffset    = (int)nbtiveInfo[6];
+        topLeftXOffset    = (int)nbtiveInfo[7];
+        topLeftYOffset    = (int)nbtiveInfo[8];
+        pixelDbtbOffset   = (int)nbtiveInfo[9];
+        invisibleGlyphPtr = nbtiveInfo[10];
+        cbcheCellOffset = (int) nbtiveInfo[11];
+        mbnbgedOffset = (int) nbtiveInfo[12];
 
-        if (nativeAddressSize < 4) {
-            throw new InternalError("Unexpected address size for font data: " +
-                                    nativeAddressSize);
+        if (nbtiveAddressSize < 4) {
+            throw new InternblError("Unexpected bddress size for font dbtb: " +
+                                    nbtiveAddressSize);
         }
 
-        java.security.AccessController.doPrivileged(
-                                    new java.security.PrivilegedAction<Object>() {
+        jbvb.security.AccessController.doPrivileged(
+                                    new jbvb.security.PrivilegedAction<Object>() {
             public Object run() {
 
-               /* Allow a client to override the reference type used to
-                * cache strikes. The default is "soft" which hints to keep
-                * the strikes around. This property allows the client to
-                * override this to "weak" which hint to the GC to free
-                * memory more aggressively.
+               /* Allow b client to override the reference type used to
+                * cbche strikes. The defbult is "soft" which hints to keep
+                * the strikes bround. This property bllows the client to
+                * override this to "webk" which hint to the GC to free
+                * memory more bggressively.
                 */
                String refType =
-                   System.getProperty("sun.java2d.font.reftype", "soft");
-               cacheRefTypeWeak = refType.equals("weak");
+                   System.getProperty("sun.jbvb2d.font.reftype", "soft");
+               cbcheRefTypeWebk = refType.equbls("webk");
 
                 String minStrikesStr =
-                    System.getProperty("sun.java2d.font.minstrikes");
+                    System.getProperty("sun.jbvb2d.font.minstrikes");
                 if (minStrikesStr != null) {
                     try {
-                        MINSTRIKES = Integer.parseInt(minStrikesStr);
+                        MINSTRIKES = Integer.pbrseInt(minStrikesStr);
                         if (MINSTRIKES <= 0) {
                             MINSTRIKES = 1;
                         }
-                    } catch (NumberFormatException e) {
+                    } cbtch (NumberFormbtException e) {
                     }
                 }
 
@@ -192,7 +192,7 @@ public final class StrikeCache {
     }
 
 
-    static void refStrike(FontStrike strike) {
+    stbtic void refStrike(FontStrike strike) {
         int index = recentStrikeIndex;
         recentStrikes[index] = strike;
         index++;
@@ -202,75 +202,75 @@ public final class StrikeCache {
         recentStrikeIndex = index;
     }
 
-    private static final void doDispose(FontStrikeDisposer disposer) {
-        if (disposer.intGlyphImages != null) {
-            freeCachedIntMemory(disposer.intGlyphImages,
-                    disposer.pScalerContext);
-        } else if (disposer.longGlyphImages != null) {
-            freeCachedLongMemory(disposer.longGlyphImages,
-                    disposer.pScalerContext);
-        } else if (disposer.segIntGlyphImages != null) {
-            /* NB Now making multiple JNI calls in this case.
-             * But assuming that there's a reasonable amount of locality
-             * rather than sparse references then it should be OK.
+    privbte stbtic finbl void doDispose(FontStrikeDisposer disposer) {
+        if (disposer.intGlyphImbges != null) {
+            freeCbchedIntMemory(disposer.intGlyphImbges,
+                    disposer.pScblerContext);
+        } else if (disposer.longGlyphImbges != null) {
+            freeCbchedLongMemory(disposer.longGlyphImbges,
+                    disposer.pScblerContext);
+        } else if (disposer.segIntGlyphImbges != null) {
+            /* NB Now mbking multiple JNI cblls in this cbse.
+             * But bssuming thbt there's b rebsonbble bmount of locblity
+             * rbther thbn spbrse references then it should be OK.
              */
-            for (int i=0; i<disposer.segIntGlyphImages.length; i++) {
-                if (disposer.segIntGlyphImages[i] != null) {
-                    freeCachedIntMemory(disposer.segIntGlyphImages[i],
-                            disposer.pScalerContext);
-                    /* native will only free the scaler context once */
-                    disposer.pScalerContext = 0L;
-                    disposer.segIntGlyphImages[i] = null;
+            for (int i=0; i<disposer.segIntGlyphImbges.length; i++) {
+                if (disposer.segIntGlyphImbges[i] != null) {
+                    freeCbchedIntMemory(disposer.segIntGlyphImbges[i],
+                            disposer.pScblerContext);
+                    /* nbtive will only free the scbler context once */
+                    disposer.pScblerContext = 0L;
+                    disposer.segIntGlyphImbges[i] = null;
                 }
             }
-            /* This may appear inefficient but it should only be invoked
-             * for a strike that never was asked to rasterise a glyph.
+            /* This mby bppebr inefficient but it should only be invoked
+             * for b strike thbt never wbs bsked to rbsterise b glyph.
              */
-            if (disposer.pScalerContext != 0L) {
-                freeCachedIntMemory(new int[0], disposer.pScalerContext);
+            if (disposer.pScblerContext != 0L) {
+                freeCbchedIntMemory(new int[0], disposer.pScblerContext);
             }
-        } else if (disposer.segLongGlyphImages != null) {
-            for (int i=0; i<disposer.segLongGlyphImages.length; i++) {
-                if (disposer.segLongGlyphImages[i] != null) {
-                    freeCachedLongMemory(disposer.segLongGlyphImages[i],
-                            disposer.pScalerContext);
-                    disposer.pScalerContext = 0L;
-                    disposer.segLongGlyphImages[i] = null;
+        } else if (disposer.segLongGlyphImbges != null) {
+            for (int i=0; i<disposer.segLongGlyphImbges.length; i++) {
+                if (disposer.segLongGlyphImbges[i] != null) {
+                    freeCbchedLongMemory(disposer.segLongGlyphImbges[i],
+                            disposer.pScblerContext);
+                    disposer.pScblerContext = 0L;
+                    disposer.segLongGlyphImbges[i] = null;
                 }
             }
-            if (disposer.pScalerContext != 0L) {
-                freeCachedLongMemory(new long[0], disposer.pScalerContext);
+            if (disposer.pScblerContext != 0L) {
+                freeCbchedLongMemory(new long[0], disposer.pScblerContext);
             }
-        } else if (disposer.pScalerContext != 0L) {
-            /* Rarely a strike may have been created that never cached
-             * any glyphs. In this case we still want to free the scaler
+        } else if (disposer.pScblerContext != 0L) {
+            /* Rbrely b strike mby hbve been crebted thbt never cbched
+             * bny glyphs. In this cbse we still wbnt to free the scbler
              * context.
              */
             if (longAddresses()) {
-                freeCachedLongMemory(new long[0], disposer.pScalerContext);
+                freeCbchedLongMemory(new long[0], disposer.pScblerContext);
             } else {
-                freeCachedIntMemory(new int[0], disposer.pScalerContext);
+                freeCbchedIntMemory(new int[0], disposer.pScblerContext);
             }
         }
     }
 
-    private static boolean longAddresses() {
-        return nativeAddressSize == 8;
+    privbte stbtic boolebn longAddresses() {
+        return nbtiveAddressSize == 8;
     }
 
-    static void disposeStrike(final FontStrikeDisposer disposer) {
-        // we need to execute the strike disposal on the rendering thread
-        // because they may be accessed on that thread at the time of the
-        // disposal (for example, when the accel. cache is invalidated)
+    stbtic void disposeStrike(finbl FontStrikeDisposer disposer) {
+        // we need to execute the strike disposbl on the rendering threbd
+        // becbuse they mby be bccessed on thbt threbd bt the time of the
+        // disposbl (for exbmple, when the bccel. cbche is invblidbted)
 
-        // Whilst this is a bit heavyweight, in most applications
-        // strike disposal is a relatively infrequent operation, so it
-        // doesn't matter. But in some tests that use vast numbers
-        // of strikes, the switching back and forth is measurable.
-        // So the "pollRemove" call is added to batch up the work.
-        // If we are polling we know we've already been called back
-        // and can directly dispose the record.
-        // Also worrisome is the necessity of getting a GC here.
+        // Whilst this is b bit hebvyweight, in most bpplicbtions
+        // strike disposbl is b relbtively infrequent operbtion, so it
+        // doesn't mbtter. But in some tests thbt use vbst numbers
+        // of strikes, the switching bbck bnd forth is mebsurbble.
+        // So the "pollRemove" cbll is bdded to bbtch up the work.
+        // If we bre polling we know we've blrebdy been cblled bbck
+        // bnd cbn directly dispose the record.
+        // Also worrisome is the necessity of getting b GC here.
 
         if (Disposer.pollingQueue) {
             doDispose(disposer);
@@ -278,14 +278,14 @@ public final class StrikeCache {
         }
 
         RenderQueue rq = null;
-        GraphicsEnvironment ge =
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
-        if (!GraphicsEnvironment.isHeadless()) {
-            GraphicsConfiguration gc =
-                ge.getDefaultScreenDevice().getDefaultConfiguration();
-            if (gc instanceof AccelGraphicsConfig) {
-                AccelGraphicsConfig agc = (AccelGraphicsConfig)gc;
-                BufferedContext bc = agc.getContext();
+        GrbphicsEnvironment ge =
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        if (!GrbphicsEnvironment.isHebdless()) {
+            GrbphicsConfigurbtion gc =
+                ge.getDefbultScreenDevice().getDefbultConfigurbtion();
+            if (gc instbnceof AccelGrbphicsConfig) {
+                AccelGrbphicsConfig bgc = (AccelGrbphicsConfig)gc;
+                BufferedContext bc = bgc.getContext();
                 if (bc != null) {
                     rq = bc.getRenderQueue();
                 }
@@ -294,13 +294,13 @@ public final class StrikeCache {
         if (rq != null) {
             rq.lock();
             try {
-                rq.flushAndInvokeNow(new Runnable() {
+                rq.flushAndInvokeNow(new Runnbble() {
                     public void run() {
                         doDispose(disposer);
                         Disposer.pollRemove();
                     }
                 });
-            } finally {
+            } finblly {
                 rq.unlock();
             }
         } else {
@@ -308,28 +308,28 @@ public final class StrikeCache {
         }
     }
 
-    static native void freeIntPointer(int ptr);
-    static native void freeLongPointer(long ptr);
-    private static native void freeIntMemory(int[] glyphPtrs, long pContext);
-    private static native void freeLongMemory(long[] glyphPtrs, long pContext);
+    stbtic nbtive void freeIntPointer(int ptr);
+    stbtic nbtive void freeLongPointer(long ptr);
+    privbte stbtic nbtive void freeIntMemory(int[] glyphPtrs, long pContext);
+    privbte stbtic nbtive void freeLongMemory(long[] glyphPtrs, long pContext);
 
-    private static void freeCachedIntMemory(int[] glyphPtrs, long pContext) {
+    privbte stbtic void freeCbchedIntMemory(int[] glyphPtrs, long pContext) {
         synchronized(disposeListeners) {
             if (disposeListeners.size() > 0) {
-                ArrayList<Long> gids = null;
+                ArrbyList<Long> gids = null;
 
                 for (int i = 0; i < glyphPtrs.length; i++) {
-                    if (glyphPtrs[i] != 0 && unsafe.getByte(glyphPtrs[i] + managedOffset) == 0) {
+                    if (glyphPtrs[i] != 0 && unsbfe.getByte(glyphPtrs[i] + mbnbgedOffset) == 0) {
 
                         if (gids == null) {
-                            gids = new ArrayList<Long>();
+                            gids = new ArrbyList<Long>();
                         }
-                        gids.add((long) glyphPtrs[i]);
+                        gids.bdd((long) glyphPtrs[i]);
                     }
                 }
 
                 if (gids != null) {
-                    // Any reference by the disposers to the native glyph ptrs
+                    // Any reference by the disposers to the nbtive glyph ptrs
                     // must be done before this returns.
                     notifyDisposeListeners(gids);
                 }
@@ -339,24 +339,24 @@ public final class StrikeCache {
         freeIntMemory(glyphPtrs, pContext);
     }
 
-    private static void  freeCachedLongMemory(long[] glyphPtrs, long pContext) {
+    privbte stbtic void  freeCbchedLongMemory(long[] glyphPtrs, long pContext) {
         synchronized(disposeListeners) {
         if (disposeListeners.size() > 0)  {
-                ArrayList<Long> gids = null;
+                ArrbyList<Long> gids = null;
 
                 for (int i=0; i < glyphPtrs.length; i++) {
                     if (glyphPtrs[i] != 0
-                            && unsafe.getByte(glyphPtrs[i] + managedOffset) == 0) {
+                            && unsbfe.getByte(glyphPtrs[i] + mbnbgedOffset) == 0) {
 
                         if (gids == null) {
-                            gids = new ArrayList<Long>();
+                            gids = new ArrbyList<Long>();
                         }
-                        gids.add(glyphPtrs[i]);
+                        gids.bdd(glyphPtrs[i]);
                     }
                 }
 
                 if (gids != null) {
-                    // Any reference by the disposers to the native glyph ptrs
+                    // Any reference by the disposers to the nbtive glyph ptrs
                     // must be done before this returns.
                     notifyDisposeListeners(gids);
                 }
@@ -366,80 +366,80 @@ public final class StrikeCache {
         freeLongMemory(glyphPtrs, pContext);
     }
 
-    public static void addGlyphDisposedListener(GlyphDisposedListener listener) {
+    public stbtic void bddGlyphDisposedListener(GlyphDisposedListener listener) {
         synchronized(disposeListeners) {
-            disposeListeners.add(listener);
+            disposeListeners.bdd(listener);
         }
     }
 
-    private static void notifyDisposeListeners(ArrayList<Long> glyphs) {
+    privbte stbtic void notifyDisposeListeners(ArrbyList<Long> glyphs) {
         for (GlyphDisposedListener listener : disposeListeners) {
             listener.glyphDisposed(glyphs);
         }
     }
 
-    public static Reference<FontStrike> getStrikeRef(FontStrike strike) {
-        return getStrikeRef(strike, cacheRefTypeWeak);
+    public stbtic Reference<FontStrike> getStrikeRef(FontStrike strike) {
+        return getStrikeRef(strike, cbcheRefTypeWebk);
     }
 
-    public static Reference<FontStrike> getStrikeRef(FontStrike strike, boolean weak) {
-        /* Some strikes may have no disposer as there's nothing
-         * for them to free, as they allocated no native resource
-         * eg, if they did not allocate resources because of a problem,
-         * or they never hold native resources. So they create no disposer.
-         * But any strike that reaches here that has a null disposer is
-         * a potential memory leak.
+    public stbtic Reference<FontStrike> getStrikeRef(FontStrike strike, boolebn webk) {
+        /* Some strikes mby hbve no disposer bs there's nothing
+         * for them to free, bs they bllocbted no nbtive resource
+         * eg, if they did not bllocbte resources becbuse of b problem,
+         * or they never hold nbtive resources. So they crebte no disposer.
+         * But bny strike thbt rebches here thbt hbs b null disposer is
+         * b potentibl memory lebk.
          */
         if (strike.disposer == null) {
-            if (weak) {
-                return new WeakReference<>(strike);
+            if (webk) {
+                return new WebkReference<>(strike);
             } else {
                 return new SoftReference<>(strike);
             }
         }
 
-        if (weak) {
-            return new WeakDisposerRef(strike);
+        if (webk) {
+            return new WebkDisposerRef(strike);
         } else {
             return new SoftDisposerRef(strike);
         }
     }
 
-    static interface DisposableStrike {
+    stbtic interfbce DisposbbleStrike {
         FontStrikeDisposer getDisposer();
     }
 
-    static class SoftDisposerRef
-        extends SoftReference<FontStrike> implements DisposableStrike {
+    stbtic clbss SoftDisposerRef
+        extends SoftReference<FontStrike> implements DisposbbleStrike {
 
-        private FontStrikeDisposer disposer;
+        privbte FontStrikeDisposer disposer;
 
         public FontStrikeDisposer getDisposer() {
             return disposer;
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         SoftDisposerRef(FontStrike strike) {
-            super(strike, StrikeCache.refQueue);
+            super(strike, StrikeCbche.refQueue);
             disposer = strike.disposer;
-            Disposer.addReference((Reference<Object>)(Reference)this, disposer);
+            Disposer.bddReference((Reference<Object>)(Reference)this, disposer);
         }
     }
 
-    static class WeakDisposerRef
-        extends WeakReference<FontStrike> implements DisposableStrike {
+    stbtic clbss WebkDisposerRef
+        extends WebkReference<FontStrike> implements DisposbbleStrike {
 
-        private FontStrikeDisposer disposer;
+        privbte FontStrikeDisposer disposer;
 
         public FontStrikeDisposer getDisposer() {
             return disposer;
         }
 
-        @SuppressWarnings("unchecked")
-        WeakDisposerRef(FontStrike strike) {
-            super(strike, StrikeCache.refQueue);
+        @SuppressWbrnings("unchecked")
+        WebkDisposerRef(FontStrike strike) {
+            super(strike, StrikeCbche.refQueue);
             disposer = strike.disposer;
-            Disposer.addReference((Reference<Object>)(Reference)this, disposer);
+            Disposer.bddReference((Reference<Object>)(Reference)this, disposer);
         }
     }
 

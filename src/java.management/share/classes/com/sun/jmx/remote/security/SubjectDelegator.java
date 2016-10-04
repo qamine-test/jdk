@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.security;
+pbckbge com.sun.jmx.remote.security;
 
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.Permission;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import javax.security.auth.Subject;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvb.security.Permission;
+import jbvb.security.Principbl;
+import jbvb.security.PrivilegedAction;
+import jbvbx.security.buth.Subject;
 
-import javax.management.remote.SubjectDelegationPermission;
+import jbvbx.mbnbgement.remote.SubjectDelegbtionPermission;
 
-import java.util.*;
+import jbvb.util.*;
 
-public class SubjectDelegator {
-    /* Return the AccessControlContext appropriate to execute an
-       operation on behalf of the delegatedSubject.  If the
-       authenticatedAccessControlContext does not have permission to
-       delegate to that subject, throw SecurityException.  */
+public clbss SubjectDelegbtor {
+    /* Return the AccessControlContext bppropribte to execute bn
+       operbtion on behblf of the delegbtedSubject.  If the
+       buthenticbtedAccessControlContext does not hbve permission to
+       delegbte to thbt subject, throw SecurityException.  */
     public AccessControlContext
-        delegatedContext(AccessControlContext authenticatedACC,
-                         Subject delegatedSubject,
-                         boolean removeCallerContext)
+        delegbtedContext(AccessControlContext buthenticbtedACC,
+                         Subject delegbtedSubject,
+                         boolebn removeCbllerContext)
             throws SecurityException {
 
-        if (System.getSecurityManager() != null && authenticatedACC == null) {
-            throw new SecurityException("Illegal AccessControlContext: null");
+        if (System.getSecurityMbnbger() != null && buthenticbtedACC == null) {
+            throw new SecurityException("Illegbl AccessControlContext: null");
         }
 
-        // Check if the subject delegation permission allows the
-        // authenticated subject to assume the identity of each
-        // principal in the delegated subject
+        // Check if the subject delegbtion permission bllows the
+        // buthenticbted subject to bssume the identity of ebch
+        // principbl in the delegbted subject
         //
-        Collection<Principal> ps = getSubjectPrincipals(delegatedSubject);
-        final Collection<Permission> permissions = new ArrayList<>(ps.size());
-        for(Principal p : ps) {
-            final String pname = p.getClass().getName() + "." + p.getName();
-            permissions.add(new SubjectDelegationPermission(pname));
+        Collection<Principbl> ps = getSubjectPrincipbls(delegbtedSubject);
+        finbl Collection<Permission> permissions = new ArrbyList<>(ps.size());
+        for(Principbl p : ps) {
+            finbl String pnbme = p.getClbss().getNbme() + "." + p.getNbme();
+            permissions.bdd(new SubjectDelegbtionPermission(pnbme));
         }
-        PrivilegedAction<Void> action =
+        PrivilegedAction<Void> bction =
             new PrivilegedAction<Void>() {
                 public Void run() {
                     for (Permission sdp : permissions) {
@@ -70,56 +70,56 @@ public class SubjectDelegator {
                     return null;
                 }
             };
-        AccessController.doPrivileged(action, authenticatedACC);
+        AccessController.doPrivileged(bction, buthenticbtedACC);
 
-        return getDelegatedAcc(delegatedSubject, removeCallerContext);
+        return getDelegbtedAcc(delegbtedSubject, removeCbllerContext);
     }
 
-    private AccessControlContext getDelegatedAcc(Subject delegatedSubject, boolean removeCallerContext) {
-        if (removeCallerContext) {
-            return JMXSubjectDomainCombiner.getDomainCombinerContext(delegatedSubject);
+    privbte AccessControlContext getDelegbtedAcc(Subject delegbtedSubject, boolebn removeCbllerContext) {
+        if (removeCbllerContext) {
+            return JMXSubjectDombinCombiner.getDombinCombinerContext(delegbtedSubject);
         } else {
-            return JMXSubjectDomainCombiner.getContext(delegatedSubject);
+            return JMXSubjectDombinCombiner.getContext(delegbtedSubject);
         }
     }
 
     /**
-     * Check if the connector server creator can assume the identity of each
-     * principal in the authenticated subject, i.e. check if the connector
-     * server creator codebase contains a subject delegation permission for
-     * each principal present in the authenticated subject.
+     * Check if the connector server crebtor cbn bssume the identity of ebch
+     * principbl in the buthenticbted subject, i.e. check if the connector
+     * server crebtor codebbse contbins b subject delegbtion permission for
+     * ebch principbl present in the buthenticbted subject.
      *
-     * @return {@code true} if the connector server creator can delegate to all
-     * the authenticated principals in the subject. Otherwise, {@code false}.
+     * @return {@code true} if the connector server crebtor cbn delegbte to bll
+     * the buthenticbted principbls in the subject. Otherwise, {@code fblse}.
      */
-    public static synchronized boolean
-        checkRemoveCallerContext(Subject subject) {
+    public stbtic synchronized boolebn
+        checkRemoveCbllerContext(Subject subject) {
         try {
-            for (Principal p : getSubjectPrincipals(subject)) {
-                final String pname =
-                    p.getClass().getName() + "." + p.getName();
-                final Permission sdp =
-                    new SubjectDelegationPermission(pname);
+            for (Principbl p : getSubjectPrincipbls(subject)) {
+                finbl String pnbme =
+                    p.getClbss().getNbme() + "." + p.getNbme();
+                finbl Permission sdp =
+                    new SubjectDelegbtionPermission(pnbme);
                 AccessController.checkPermission(sdp);
             }
-        } catch (SecurityException e) {
-            return false;
+        } cbtch (SecurityException e) {
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Retrieves the {@linkplain Subject} principals
-     * @param subject The subject
-     * @return If the {@code Subject} is immutable it will return the principals directly.
-     *         If the {@code Subject} is mutable it will create an unmodifiable copy.
+     * Retrieves the {@linkplbin Subject} principbls
+     * @pbrbm subject The subject
+     * @return If the {@code Subject} is immutbble it will return the principbls directly.
+     *         If the {@code Subject} is mutbble it will crebte bn unmodifibble copy.
      */
-    private static Collection<Principal> getSubjectPrincipals(Subject subject) {
-        if (subject.isReadOnly()) {
-            return subject.getPrincipals();
+    privbte stbtic Collection<Principbl> getSubjectPrincipbls(Subject subject) {
+        if (subject.isRebdOnly()) {
+            return subject.getPrincipbls();
         }
 
-        List<Principal> principals = Arrays.asList(subject.getPrincipals().toArray(new Principal[0]));
-        return Collections.unmodifiableList(principals);
+        List<Principbl> principbls = Arrbys.bsList(subject.getPrincipbls().toArrby(new Principbl[0]));
+        return Collections.unmodifibbleList(principbls);
     }
 }

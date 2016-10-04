@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,228 +30,228 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import com.sun.jmx.examples.scandir.config.ResultRecord;
-import java.io.IOException;
-import javax.management.InstanceNotFoundException;
+import com.sun.jmx.exbmples.scbndir.config.ResultRecord;
+import jbvb.io.IOException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
 
 /**
- * The <code>ResultLogManagerMXBean</code> is in charge of managing result logs.
- * {@link DirectoryScanner DirectoryScanners} can be configured to log a
- * {@link ResultRecord} whenever they take action upon a file that
- * matches their set of matching criteria.
- * The <code>ResultLogManagerMXBean</code> is responsible for storing these
+ * The <code>ResultLogMbnbgerMXBebn</code> is in chbrge of mbnbging result logs.
+ * {@link DirectoryScbnner DirectoryScbnners} cbn be configured to log b
+ * {@link ResultRecord} whenever they tbke bction upon b file thbt
+ * mbtches their set of mbtching criterib.
+ * The <code>ResultLogMbnbgerMXBebn</code> is responsible for storing these
  * results in its result logs.
- * <p>The <code>ResultLogManagerMXBean</code>
- * will let you interactively clear these result logs, change their
- * capacity, and decide where (memory or file or both) the
+ * <p>The <code>ResultLogMbnbgerMXBebn</code>
+ * will let you interbctively clebr these result logs, chbnge their
+ * cbpbcity, bnd decide where (memory or file or both) the
  * {@link ResultRecord ResultRecords} should be stored.
- * <p>The memory log is useful in so far that its content can be interactively
- * returned by the <code>ResultLogManagerMXBean</code>.
- * The file log doesn't have this facility.
- * <p>The result logs are intended to be used by e.g. an offline program that
- * would take some actions on the files that were matched by the scanners
- * criteria:
- * <p>The <i>scandir</i> application could be configured to only produce logs
- * (i.e. takes no action but logging the matching files), and the real
- * action (e.g. mail the result log to the engineer which maintains the lab,
- * or parse the log and prepare and send a single mail to the matching
- * files owners, containing the list of file he/she should consider deleting)
- * could be performed by such another program/module.
+ * <p>The memory log is useful in so fbr thbt its content cbn be interbctively
+ * returned by the <code>ResultLogMbnbgerMXBebn</code>.
+ * The file log doesn't hbve this fbcility.
+ * <p>The result logs bre intended to be used by e.g. bn offline progrbm thbt
+ * would tbke some bctions on the files thbt were mbtched by the scbnners
+ * criterib:
+ * <p>The <i>scbndir</i> bpplicbtion could be configured to only produce logs
+ * (i.e. tbkes no bction but logging the mbtching files), bnd the rebl
+ * bction (e.g. mbil the result log to the engineer which mbintbins the lbb,
+ * or pbrse the log bnd prepbre bnd send b single mbil to the mbtching
+ * files owners, contbining the list of file he/she should consider deleting)
+ * could be performed by such bnother progrbm/module.
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public interface ResultLogManagerMXBean {
+public interfbce ResultLogMbnbgerMXBebn {
 
     /**
-     * Creates a new log file in which to store results.
-     * <p>When this method is called, the {@link ResultLogManager} will stop
-     * logging in its current log file and use the new specified file instead.
-     * If that file already exists, it will be renamed by appending a '~' to
-     * its name, and a new empty file with the name specified by
-     * <var>basename</var> will be created.
+     * Crebtes b new log file in which to store results.
+     * <p>When this method is cblled, the {@link ResultLogMbnbger} will stop
+     * logging in its current log file bnd use the new specified file instebd.
+     * If thbt file blrebdy exists, it will be renbmed by bppending b '~' to
+     * its nbme, bnd b new empty file with the nbme specified by
+     * <vbr>bbsenbme</vbr> will be crebted.
      * </p>
-     * <p>Calling this method has no side effect on the {@link
-     * com.sun.jmx.examples.scandir.config.ScanManagerConfig#getInitialResultLogConfig
-     * InitialResultLogConfig} held in the {@link ScanDirConfigMXBean}
-     * configuration. To apply these new values to the
-     * {@link ScanDirConfigMXBean}
-     * configuration, you must call {@link
-     * ScanManagerMXBean#applyCurrentResultLogConfig
-     * ScanManagerMXBean.applyCurrentResultLogConfig}.
+     * <p>Cblling this method hbs no side effect on the {@link
+     * com.sun.jmx.exbmples.scbndir.config.ScbnMbnbgerConfig#getInitiblResultLogConfig
+     * InitiblResultLogConfig} held in the {@link ScbnDirConfigMXBebn}
+     * configurbtion. To bpply these new vblues to the
+     * {@link ScbnDirConfigMXBebn}
+     * configurbtion, you must cbll {@link
+     * ScbnMbnbgerMXBebn#bpplyCurrentResultLogConfig
+     * ScbnMbnbgerMXBebn.bpplyCurrentResultLogConfig}.
      *<p>
-     * @param basename The name of the new log file. This will be the
-     *        new name returned by {@link #getLogFileName}.
-     * @param maxRecord maximum number of records to log in the specified file
-     *        before creating a new file. <var>maxRecord</var> will be the
-     *        new value returned by {@link #getLogFileCapacity}.
-     *        When that maximum number of
-     *        records is reached the {@link ResultLogManager} will rename
-     *        the file by appending a '~' to its name, and a new empty
-     *        log file will be created.
-     * @throws IOException A connection problem occurred when accessing
+     * @pbrbm bbsenbme The nbme of the new log file. This will be the
+     *        new nbme returned by {@link #getLogFileNbme}.
+     * @pbrbm mbxRecord mbximum number of records to log in the specified file
+     *        before crebting b new file. <vbr>mbxRecord</vbr> will be the
+     *        new vblue returned by {@link #getLogFileCbpbcity}.
+     *        When thbt mbximum number of
+     *        records is rebched the {@link ResultLogMbnbger} will renbme
+     *        the file by bppending b '~' to its nbme, bnd b new empty
+     *        log file will be crebted.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public void newLogFile(String basename, long maxRecord)
-        throws IOException, InstanceNotFoundException;
+    public void newLogFile(String bbsenbme, long mbxRecord)
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Logs a result record to the active result logs (memory,file,both,or none)
-     * depending on how this MBean is currently configured.
-     * @see #getLogFileName()
-     * @see #getMemoryLogCapacity()
-     * @param record The result record to log.
-     * @throws IOException A connection problem occurred when accessing
+     * Logs b result record to the bctive result logs (memory,file,both,or none)
+     * depending on how this MBebn is currently configured.
+     * @see #getLogFileNbme()
+     * @see #getMemoryLogCbpbcity()
+     * @pbrbm record The result record to log.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      */
     public void log(ResultRecord record)
-        throws IOException, InstanceNotFoundException;
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets the name of the current result log file.
-     * <p><code>null</code> means that no log file is configured: logging
-     * to file is disabled.
+     * Gets the nbme of the current result log file.
+     * <p><code>null</code> mebns thbt no log file is configured: logging
+     * to file is disbbled.
      * </p>
-     * @return The name of the current result log file, or <code>null</code>
-     *         if logging to file is disabled.
-     * @throws IOException A connection problem occurred when accessing
+     * @return The nbme of the current result log file, or <code>null</code>
+     *         if logging to file is disbbled.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public String getLogFileName()
-        throws IOException, InstanceNotFoundException;
+    public String getLogFileNbme()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets the whole content of the memory log. This cannot exceed
-     * {@link #getMemoryLogCapacity} records.
+     * Gets the whole content of the memory log. This cbnnot exceed
+     * {@link #getMemoryLogCbpbcity} records.
      *
      * @return the whole content of the memory log.
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
     public ResultRecord[] getMemoryLog()
-        throws IOException, InstanceNotFoundException;
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets the maximum number of records that can be logged in the
+     * Gets the mbximum number of records thbt cbn be logged in the
      * memory log.
      * <p>
-     * A non positive value - <code>0</code> or negative - means that
-     * logging in memory is disabled.
+     * A non positive vblue - <code>0</code> or negbtive - mebns thbt
+     * logging in memory is disbbled.
      * </p>
-     * <p>The memory log is a FIFO: when its maximum capacity is reached, its
-     *    head element is removed to make place for a new element at its tail.
+     * <p>The memory log is b FIFO: when its mbximum cbpbcity is rebched, its
+     *    hebd element is removed to mbke plbce for b new element bt its tbil.
      * </p>
-     * @return The maximum number of records that can be logged in the
-     * memory log. A value {@code <= 0} means that logging in memory is
-     * disabled.
-     * @throws IOException A connection problem occurred when accessing
+     * @return The mbximum number of records thbt cbn be logged in the
+     * memory log. A vblue {@code <= 0} mebns thbt logging in memory is
+     * disbbled.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public int getMemoryLogCapacity()
-        throws IOException, InstanceNotFoundException;
+    public int getMemoryLogCbpbcity()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Sets the maximum number of records that can be logged in the
+     * Sets the mbximum number of records thbt cbn be logged in the
      * memory log.
-     * <p>The memory log is a FIFO: when its maximum capacity is reached, its
-     *    head element is removed to make place for a new element at its tail.
+     * <p>The memory log is b FIFO: when its mbximum cbpbcity is rebched, its
+     *    hebd element is removed to mbke plbce for b new element bt its tbil.
      * </p>
-     * @param size The maximum number of result records that can be logged in the memory log.  <p>
-     * A non positive value - <code>0</code> or negative - means that
-     * logging in memory is disabled. It will also have the side
-     * effect of clearing the memory log.
+     * @pbrbm size The mbximum number of result records thbt cbn be logged in the memory log.  <p>
+     * A non positive vblue - <code>0</code> or negbtive - mebns thbt
+     * logging in memory is disbbled. It will blso hbve the side
+     * effect of clebring the memory log.
      * </p>
      *
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      */
-    public void setMemoryLogCapacity(int size)
-        throws IOException, InstanceNotFoundException;
+    public void setMemoryLogCbpbcity(int size)
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Sets the maximum number of records that can be logged in the result log
+     * Sets the mbximum number of records thbt cbn be logged in the result log
      * file.
-     * <p>When that maximum number of
-     * records is reached the {@link ResultLogManager} will rename
-     * the result log file by appending a '~' to its name, and a new empty
-     * log file will be created.
+     * <p>When thbt mbximum number of
+     * records is rebched the {@link ResultLogMbnbger} will renbme
+     * the result log file by bppending b '~' to its nbme, bnd b new empty
+     * log file will be crebted.
      * </p>
-     * <p>If logging to file is disabled calling this method
-     *    is irrelevant.
+     * <p>If logging to file is disbbled cblling this method
+     *    is irrelevbnt.
      * </p>
-     * @param maxRecord maximum number of records to log in the result log file.
-     * @see #getLogFileName()
-     * @throws IOException A connection problem occurred when accessing
+     * @pbrbm mbxRecord mbximum number of records to log in the result log file.
+     * @see #getLogFileNbme()
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public void setLogFileCapacity(long maxRecord)
-        throws IOException, InstanceNotFoundException;
+    public void setLogFileCbpbcity(long mbxRecord)
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets the maximum number of records that can be logged in the result log
+     * Gets the mbximum number of records thbt cbn be logged in the result log
      * file.
-     * <p>When that maximum number of
-     * records is reached the {@link ResultLogManager} will rename
-     * the result log file by appending a '~' to its name, and a new empty
-     * log file will be created.
+     * <p>When thbt mbximum number of
+     * records is rebched the {@link ResultLogMbnbger} will renbme
+     * the result log file by bppending b '~' to its nbme, bnd b new empty
+     * log file will be crebted.
      * </p>
-     * @see #getLogFileName()
-     * @return The maximum number of records that can be logged in the result
+     * @see #getLogFileNbme()
+     * @return The mbximum number of records thbt cbn be logged in the result
      *         log file.
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public long getLogFileCapacity()
-        throws IOException, InstanceNotFoundException;
+    public long getLogFileCbpbcity()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets The number of records that have been logged in the
-     * current result log file. This will always be less than
-     * {@link #getLogFileCapacity()}.
+     * Gets The number of records thbt hbve been logged in the
+     * current result log file. This will blwbys be less thbn
+     * {@link #getLogFileCbpbcity()}.
      * @return The number of records in the
      *         current result log file.
      *
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
     public long getLoggedCount()
-        throws IOException, InstanceNotFoundException;
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Clears the memory log and result log file.
+     * Clebrs the memory log bnd result log file.
      *
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public void clearLogs()
-        throws IOException, InstanceNotFoundException;
+    public void clebrLogs()
+        throws IOException, InstbnceNotFoundException;
 }

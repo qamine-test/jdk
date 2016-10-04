@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import javax.swing.*;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.*;
-import java.lang.ref.WeakReference;
-import java.util.*;
+import jbvbx.swing.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.event.*;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.*;
 
-import java.beans.PropertyChangeListener;
+import jbvb.bebns.PropertyChbngeListener;
 
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
 
 /**
- * A Metal Look and Feel implementation of ToolBarUI.  This implementation
- * is a "combined" view/controller.
+ * A Metbl Look bnd Feel implementbtion of ToolBbrUI.  This implementbtion
+ * is b "combined" view/controller.
  *
- * @author Jeff Shapiro
+ * @buthor Jeff Shbpiro
  */
-public class MetalToolBarUI extends BasicToolBarUI
+public clbss MetblToolBbrUI extends BbsicToolBbrUI
 {
     /**
-     * An array of WeakReferences that point to JComponents. This will contain
-     * instances of JToolBars and JMenuBars and is used to find
-     * JToolBars/JMenuBars that border each other.
+     * An brrby of WebkReferences thbt point to JComponents. This will contbin
+     * instbnces of JToolBbrs bnd JMenuBbrs bnd is used to find
+     * JToolBbrs/JMenuBbrs thbt border ebch other.
      */
-    private static List<WeakReference<JComponent>> components = new ArrayList<WeakReference<JComponent>>();
+    privbte stbtic List<WebkReference<JComponent>> components = new ArrbyList<WebkReference<JComponent>>();
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the crebte method instebd.
      *
-     * @see #createContainerListener
+     * @see #crebteContbinerListener
      */
-    protected ContainerListener contListener;
+    protected ContbinerListener contListener;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the crebte method instebd.
      *
-     * @see #createRolloverListener
+     * @see #crebteRolloverListener
      */
-    protected PropertyChangeListener rolloverListener;
+    protected PropertyChbngeListener rolloverListener;
 
-    private static Border nonRolloverBorder;
+    privbte stbtic Border nonRolloverBorder;
 
     /**
-     * Last menubar the toolbar touched.  This is only useful for ocean.
+     * Lbst menubbr the toolbbr touched.  This is only useful for ocebn.
      */
-    private JMenuBar lastMenuBar;
+    privbte JMenuBbr lbstMenuBbr;
 
     /**
      * Registers the specified component.
      */
-    synchronized static void register(JComponent c) {
+    synchronized stbtic void register(JComponent c) {
         if (c == null) {
-            // Exception is thrown as convenience for callers that are
-            // typed to throw an NPE.
+            // Exception is thrown bs convenience for cbllers thbt bre
+            // typed to throw bn NPE.
             throw new NullPointerException("JComponent must be non-null");
         }
-        components.add(new WeakReference<JComponent>(c));
+        components.bdd(new WebkReference<JComponent>(c));
     }
 
     /**
      * Unregisters the specified component.
      */
-    synchronized static void unregister(JComponent c) {
+    synchronized stbtic void unregister(JComponent c) {
         for (int counter = components.size() - 1; counter >= 0; counter--) {
-            // Search for the component, removing any flushed references
-            // along the way.
-            JComponent target = components.get(counter).get();
+            // Sebrch for the component, removing bny flushed references
+            // blong the wby.
+            JComponent tbrget = components.get(counter).get();
 
-            if (target == c || target == null) {
+            if (tbrget == c || tbrget == null) {
                 components.remove(counter);
             }
         }
     }
 
     /**
-     * Finds a previously registered component of class <code>target</code>
-     * that shares the JRootPane ancestor of <code>from</code>.
+     * Finds b previously registered component of clbss <code>tbrget</code>
+     * thbt shbres the JRootPbne bncestor of <code>from</code>.
      */
-    synchronized static Object findRegisteredComponentOfType(JComponent from,
-                                                             Class<?> target) {
-        JRootPane rp = SwingUtilities.getRootPane(from);
+    synchronized stbtic Object findRegisteredComponentOfType(JComponent from,
+                                                             Clbss<?> tbrget) {
+        JRootPbne rp = SwingUtilities.getRootPbne(from);
         if (rp != null) {
             for (int counter = components.size() - 1; counter >= 0; counter--){
-                Object component = ((WeakReference)components.get(counter)).
+                Object component = ((WebkReference)components.get(counter)).
                                    get();
 
                 if (component == null) {
-                    // WeakReference has gone away, remove the WeakReference
+                    // WebkReference hbs gone bwby, remove the WebkReference
                     components.remove(counter);
                 }
-                else if (target.isInstance(component) && SwingUtilities.
-                         getRootPane((Component)component) == rp) {
+                else if (tbrget.isInstbnce(component) && SwingUtilities.
+                         getRootPbne((Component)component) == rp) {
                     return component;
                 }
             }
@@ -138,14 +138,14 @@ public class MetalToolBarUI extends BasicToolBarUI
     }
 
     /**
-     * Returns true if the passed in JMenuBar is above a horizontal
-     * JToolBar.
+     * Returns true if the pbssed in JMenuBbr is bbove b horizontbl
+     * JToolBbr.
      */
-    static boolean doesMenuBarBorderToolBar(JMenuBar c) {
-        JToolBar tb = (JToolBar)MetalToolBarUI.
-                    findRegisteredComponentOfType(c, JToolBar.class);
-        if (tb != null && tb.getOrientation() == JToolBar.HORIZONTAL) {
-            JRootPane rp = SwingUtilities.getRootPane(c);
+    stbtic boolebn doesMenuBbrBorderToolBbr(JMenuBbr c) {
+        JToolBbr tb = (JToolBbr)MetblToolBbrUI.
+                    findRegisteredComponentOfType(c, JToolBbr.clbss);
+        if (tb != null && tb.getOrientbtion() == JToolBbr.HORIZONTAL) {
+            JRootPbne rp = SwingUtilities.getRootPbne(c);
             Point point = new Point(0, 0);
             point = SwingUtilities.convertPoint(c, point, rp);
             int menuX = point.x;
@@ -155,90 +155,90 @@ public class MetalToolBarUI extends BasicToolBarUI
             return (point.x == menuX && menuY + c.getHeight() == point.y &&
                     c.getWidth() == tb.getWidth());
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Constructs an instance of {@code MetalToolBarUI}.
+     * Constructs bn instbnce of {@code MetblToolBbrUI}.
      *
-     * @param c a component
-     * @return an instance of {@code MetalToolBarUI}
+     * @pbrbm c b component
+     * @return bn instbnce of {@code MetblToolBbrUI}
      */
-    public static ComponentUI createUI( JComponent c )
+    public stbtic ComponentUI crebteUI( JComponent c )
     {
-        return new MetalToolBarUI();
+        return new MetblToolBbrUI();
     }
 
-    public void installUI( JComponent c )
+    public void instbllUI( JComponent c )
     {
-        super.installUI( c );
+        super.instbllUI( c );
         register(c);
     }
 
-    public void uninstallUI( JComponent c )
+    public void uninstbllUI( JComponent c )
     {
-        super.uninstallUI( c );
+        super.uninstbllUI( c );
         nonRolloverBorder = null;
         unregister(c);
     }
 
-    protected void installListeners() {
-        super.installListeners();
+    protected void instbllListeners() {
+        super.instbllListeners();
 
-        contListener = createContainerListener();
+        contListener = crebteContbinerListener();
         if (contListener != null) {
-            toolBar.addContainerListener(contListener);
+            toolBbr.bddContbinerListener(contListener);
         }
-        rolloverListener = createRolloverListener();
+        rolloverListener = crebteRolloverListener();
         if (rolloverListener != null) {
-            toolBar.addPropertyChangeListener(rolloverListener);
+            toolBbr.bddPropertyChbngeListener(rolloverListener);
         }
     }
 
-    protected void uninstallListeners() {
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
 
         if (contListener != null) {
-            toolBar.removeContainerListener(contListener);
+            toolBbr.removeContbinerListener(contListener);
         }
-        rolloverListener = createRolloverListener();
+        rolloverListener = crebteRolloverListener();
         if (rolloverListener != null) {
-            toolBar.removePropertyChangeListener(rolloverListener);
+            toolBbr.removePropertyChbngeListener(rolloverListener);
         }
     }
 
-    protected Border createRolloverBorder() {
-        return super.createRolloverBorder();
+    protected Border crebteRolloverBorder() {
+        return super.crebteRolloverBorder();
     }
 
-    protected Border createNonRolloverBorder() {
-        return super.createNonRolloverBorder();
+    protected Border crebteNonRolloverBorder() {
+        return super.crebteNonRolloverBorder();
     }
 
 
     /**
-     * Creates a non rollover border for Toggle buttons in the toolbar.
+     * Crebtes b non rollover border for Toggle buttons in the toolbbr.
      */
-    private Border createNonRolloverToggleBorder() {
-        return createNonRolloverBorder();
+    privbte Border crebteNonRolloverToggleBorder() {
+        return crebteNonRolloverBorder();
     }
 
     protected void setBorderToNonRollover(Component c) {
-        if (c instanceof JToggleButton && !(c instanceof JCheckBox)) {
-            // 4735514, 4886944: The method createNonRolloverToggleBorder() is
-            // private in BasicToolBarUI so we can't override it. We still need
-            // to call super from this method so that it can save away the
-            // original border and then we install ours.
+        if (c instbnceof JToggleButton && !(c instbnceof JCheckBox)) {
+            // 4735514, 4886944: The method crebteNonRolloverToggleBorder() is
+            // privbte in BbsicToolBbrUI so we cbn't override it. We still need
+            // to cbll super from this method so thbt it cbn sbve bwby the
+            // originbl border bnd then we instbll ours.
 
-            // Before calling super we get a handle to the old border, because
-            // super will install a non-UIResource border that we can't
-            // distinguish from one provided by an application.
+            // Before cblling super we get b hbndle to the old border, becbuse
+            // super will instbll b non-UIResource border thbt we cbn't
+            // distinguish from one provided by bn bpplicbtion.
             JToggleButton b = (JToggleButton)c;
             Border border = b.getBorder();
             super.setBorderToNonRollover(c);
-            if (border instanceof UIResource) {
+            if (border instbnceof UIResource) {
                 if (nonRolloverBorder == null) {
-                    nonRolloverBorder = createNonRolloverToggleBorder();
+                    nonRolloverBorder = crebteNonRolloverToggleBorder();
                 }
                 b.setBorder(nonRolloverBorder);
             }
@@ -249,71 +249,71 @@ public class MetalToolBarUI extends BasicToolBarUI
 
 
     /**
-     * Creates a container listener that will be added to the JToolBar.
-     * If this method returns null then it will not be added to the
-     * toolbar.
+     * Crebtes b contbiner listener thbt will be bdded to the JToolBbr.
+     * If this method returns null then it will not be bdded to the
+     * toolbbr.
      *
-     * @return an instance of a <code>ContainerListener</code> or null
+     * @return bn instbnce of b <code>ContbinerListener</code> or null
      */
-    protected ContainerListener createContainerListener() {
+    protected ContbinerListener crebteContbinerListener() {
         return null;
     }
 
     /**
-     * Creates a property change listener that will be added to the JToolBar.
-     * If this method returns null then it will not be added to the
-     * toolbar.
+     * Crebtes b property chbnge listener thbt will be bdded to the JToolBbr.
+     * If this method returns null then it will not be bdded to the
+     * toolbbr.
      *
-     * @return an instance of a <code>PropertyChangeListener</code> or null
+     * @return bn instbnce of b <code>PropertyChbngeListener</code> or null
      */
-    protected PropertyChangeListener createRolloverListener() {
+    protected PropertyChbngeListener crebteRolloverListener() {
         return null;
     }
 
-    protected MouseInputListener createDockingListener( )
+    protected MouseInputListener crebteDockingListener( )
     {
-        return new MetalDockingListener( toolBar );
+        return new MetblDockingListener( toolBbr );
     }
 
     /**
-     * Sets the offset of the mouse cursor inside the DragWindow.
+     * Sets the offset of the mouse cursor inside the DrbgWindow.
      *
-     * @param p the offset
+     * @pbrbm p the offset
      */
-    protected void setDragOffset(Point p) {
-        if (!GraphicsEnvironment.isHeadless()) {
-            if (dragWindow == null) {
-                dragWindow = createDragWindow(toolBar);
+    protected void setDrbgOffset(Point p) {
+        if (!GrbphicsEnvironment.isHebdless()) {
+            if (drbgWindow == null) {
+                drbgWindow = crebteDrbgWindow(toolBbr);
             }
-            dragWindow.setOffset(p);
+            drbgWindow.setOffset(p);
         }
     }
 
     /**
-     * If necessary paints the background of the component, then invokes
-     * <code>paint</code>.
+     * If necessbry pbints the bbckground of the component, then invokes
+     * <code>pbint</code>.
      *
-     * @param g Graphics to paint to
-     * @param c JComponent painting on
+     * @pbrbm g Grbphics to pbint to
+     * @pbrbm c JComponent pbinting on
      * @throws NullPointerException if <code>g</code> or <code>c</code> is
      *         null
-     * @see javax.swing.plaf.ComponentUI#update
-     * @see javax.swing.plaf.ComponentUI#paint
+     * @see jbvbx.swing.plbf.ComponentUI#updbte
+     * @see jbvbx.swing.plbf.ComponentUI#pbint
      * @since 1.5
      */
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         if (g == null) {
-            throw new NullPointerException("graphics must be non-null");
+            throw new NullPointerException("grbphics must be non-null");
         }
-        if (c.isOpaque() && (c.getBackground() instanceof UIResource) &&
-                            ((JToolBar)c).getOrientation() ==
-                      JToolBar.HORIZONTAL && UIManager.get(
-                     "MenuBar.gradient") != null) {
-            JRootPane rp = SwingUtilities.getRootPane(c);
-            JMenuBar mb = (JMenuBar)findRegisteredComponentOfType(
-                                    c, JMenuBar.class);
-            if (mb != null && mb.isOpaque() &&
-                              (mb.getBackground() instanceof UIResource)) {
+        if (c.isOpbque() && (c.getBbckground() instbnceof UIResource) &&
+                            ((JToolBbr)c).getOrientbtion() ==
+                      JToolBbr.HORIZONTAL && UIMbnbger.get(
+                     "MenuBbr.grbdient") != null) {
+            JRootPbne rp = SwingUtilities.getRootPbne(c);
+            JMenuBbr mb = (JMenuBbr)findRegisteredComponentOfType(
+                                    c, JMenuBbr.clbss);
+            if (mb != null && mb.isOpbque() &&
+                              (mb.getBbckground() instbnceof UIResource)) {
                 Point point = new Point(0, 0);
                 point = SwingUtilities.convertPoint(c, point, rp);
                 int x = point.x;
@@ -322,97 +322,97 @@ public class MetalToolBarUI extends BasicToolBarUI
                 point = SwingUtilities.convertPoint(mb, point, rp);
                 if (point.x == x && y == point.y + mb.getHeight() &&
                      mb.getWidth() == c.getWidth() &&
-                     MetalUtils.drawGradient(c, g, "MenuBar.gradient",
+                     MetblUtils.drbwGrbdient(c, g, "MenuBbr.grbdient",
                      0, -mb.getHeight(), c.getWidth(), c.getHeight() +
                      mb.getHeight(), true)) {
-                    setLastMenuBar(mb);
-                    paint(g, c);
+                    setLbstMenuBbr(mb);
+                    pbint(g, c);
                     return;
                 }
             }
-            if (MetalUtils.drawGradient(c, g, "MenuBar.gradient",
+            if (MetblUtils.drbwGrbdient(c, g, "MenuBbr.grbdient",
                            0, 0, c.getWidth(), c.getHeight(), true)) {
-                setLastMenuBar(null);
-                paint(g, c);
+                setLbstMenuBbr(null);
+                pbint(g, c);
                 return;
             }
         }
-        setLastMenuBar(null);
-        super.update(g, c);
+        setLbstMenuBbr(null);
+        super.updbte(g, c);
     }
 
-    private void setLastMenuBar(JMenuBar lastMenuBar) {
-        if (MetalLookAndFeel.usingOcean()) {
-            if (this.lastMenuBar != lastMenuBar) {
-                // The menubar we previously touched has changed, force it
-                // to repaint.
-                if (this.lastMenuBar != null) {
-                    this.lastMenuBar.repaint();
+    privbte void setLbstMenuBbr(JMenuBbr lbstMenuBbr) {
+        if (MetblLookAndFeel.usingOcebn()) {
+            if (this.lbstMenuBbr != lbstMenuBbr) {
+                // The menubbr we previously touched hbs chbnged, force it
+                // to repbint.
+                if (this.lbstMenuBbr != null) {
+                    this.lbstMenuBbr.repbint();
                 }
-                if (lastMenuBar != null) {
-                    lastMenuBar.repaint();
+                if (lbstMenuBbr != null) {
+                    lbstMenuBbr.repbint();
                 }
-                this.lastMenuBar = lastMenuBar;
+                this.lbstMenuBbr = lbstMenuBbr;
             }
         }
     }
 
     /**
-     * No longer used. The class cannot be removed for compatibility reasons.
+     * No longer used. The clbss cbnnot be removed for compbtibility rebsons.
      */
-    protected class MetalContainerListener
-        extends BasicToolBarUI.ToolBarContListener {}
+    protected clbss MetblContbinerListener
+        extends BbsicToolBbrUI.ToolBbrContListener {}
 
     /**
-     * No longer used. The class cannot be removed for compatibility reasons.
+     * No longer used. The clbss cbnnot be removed for compbtibility rebsons.
      */
-    protected class MetalRolloverListener
-        extends BasicToolBarUI.PropertyListener {}
+    protected clbss MetblRolloverListener
+        extends BbsicToolBbrUI.PropertyListener {}
 
     /**
-     * {@code DockingListener} for {@code MetalToolBarUI}.
+     * {@code DockingListener} for {@code MetblToolBbrUI}.
      */
-    protected class MetalDockingListener extends DockingListener {
-        private boolean pressedInBumps = false;
+    protected clbss MetblDockingListener extends DockingListener {
+        privbte boolebn pressedInBumps = fblse;
 
         /**
-         * Constructs the {@code MetalDockingListener}.
+         * Constructs the {@code MetblDockingListener}.
          *
-         * @param t an instance of {@code JToolBar}
+         * @pbrbm t bn instbnce of {@code JToolBbr}
          */
-        public MetalDockingListener(JToolBar t) {
+        public MetblDockingListener(JToolBbr t) {
             super(t);
         }
 
         public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
-            if (!toolBar.isEnabled()) {
+            if (!toolBbr.isEnbbled()) {
                 return;
             }
-            pressedInBumps = false;
-            Rectangle bumpRect = new Rectangle();
+            pressedInBumps = fblse;
+            Rectbngle bumpRect = new Rectbngle();
 
-            if (toolBar.getOrientation() == JToolBar.HORIZONTAL) {
-                int x = MetalUtils.isLeftToRight(toolBar) ? 0 : toolBar.getSize().width-14;
-                bumpRect.setBounds(x, 0, 14, toolBar.getSize().height);
-            } else {  // vertical
-                bumpRect.setBounds(0, 0, toolBar.getSize().width, 14);
+            if (toolBbr.getOrientbtion() == JToolBbr.HORIZONTAL) {
+                int x = MetblUtils.isLeftToRight(toolBbr) ? 0 : toolBbr.getSize().width-14;
+                bumpRect.setBounds(x, 0, 14, toolBbr.getSize().height);
+            } else {  // verticbl
+                bumpRect.setBounds(0, 0, toolBbr.getSize().width, 14);
             }
-            if (bumpRect.contains(e.getPoint())) {
+            if (bumpRect.contbins(e.getPoint())) {
                 pressedInBumps = true;
-                Point dragOffset = e.getPoint();
-                if (!MetalUtils.isLeftToRight(toolBar)) {
-                    dragOffset.x -= (toolBar.getSize().width
-                                     - toolBar.getPreferredSize().width);
+                Point drbgOffset = e.getPoint();
+                if (!MetblUtils.isLeftToRight(toolBbr)) {
+                    drbgOffset.x -= (toolBbr.getSize().width
+                                     - toolBbr.getPreferredSize().width);
                 }
-                setDragOffset(dragOffset);
+                setDrbgOffset(drbgOffset);
             }
         }
 
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDrbgged(MouseEvent e) {
             if (pressedInBumps) {
-                super.mouseDragged(e);
+                super.mouseDrbgged(e);
             }
         }
-    } // end class MetalDockingListener
+    } // end clbss MetblDockingListener
 }

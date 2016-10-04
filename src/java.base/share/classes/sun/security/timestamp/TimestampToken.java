@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.timestamp;
+pbckbge sun.security.timestbmp;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.Date;
-import sun.security.util.DerValue;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Dbte;
+import sun.security.util.DerVblue;
 import sun.security.util.ObjectIdentifier;
 import sun.security.x509.AlgorithmId;
 
 /**
- * This class provides the timestamp token info resulting from a successful
- * timestamp request, as defined in
- * <a href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</a>.
+ * This clbss provides the timestbmp token info resulting from b successful
+ * timestbmp request, bs defined in
+ * <b href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</b>.
  *
- * The timestampTokenInfo ASN.1 type has the following definition:
+ * The timestbmpTokenInfo ASN.1 type hbs the following definition:
  * <pre>
  *
  *     TSTInfo ::= SEQUENCE {
  *         version                INTEGER  { v1(1) },
  *         policy                 TSAPolicyId,
- *         messageImprint         MessageImprint,
- *           -- MUST have the same value as the similar field in
- *           -- TimeStampReq
- *         serialNumber           INTEGER,
- *          -- Time-Stamping users MUST be ready to accommodate integers
+ *         messbgeImprint         MessbgeImprint,
+ *           -- MUST hbve the sbme vblue bs the similbr field in
+ *           -- TimeStbmpReq
+ *         seriblNumber           INTEGER,
+ *          -- Time-Stbmping users MUST be rebdy to bccommodbte integers
  *          -- up to 160 bits.
- *         genTime                GeneralizedTime,
- *         accuracy               Accuracy                 OPTIONAL,
+ *         genTime                GenerblizedTime,
+ *         bccurbcy               Accurbcy                 OPTIONAL,
  *         ordering               BOOLEAN             DEFAULT FALSE,
  *         nonce                  INTEGER                  OPTIONAL,
- *           -- MUST be present if the similar field was present
- *           -- in TimeStampReq.  In that case it MUST have the same value.
- *         tsa                    [0] GeneralName          OPTIONAL,
+ *           -- MUST be present if the similbr field wbs present
+ *           -- in TimeStbmpReq.  In thbt cbse it MUST hbve the sbme vblue.
+ *         tsb                    [0] GenerblNbme          OPTIONAL,
  *         extensions             [1] IMPLICIT Extensions  OPTIONAL }
  *
- *     Accuracy ::= SEQUENCE {
+ *     Accurbcy ::= SEQUENCE {
  *         seconds        INTEGER           OPTIONAL,
  *         millis     [0] INTEGER  (1..999) OPTIONAL,
  *         micros     [1] INTEGER  (1..999) OPTIONAL  }
@@ -66,49 +66,49 @@ import sun.security.x509.AlgorithmId;
  * </pre>
  *
  * @since 1.5
- * @see Timestamper
- * @author Vincent Ryan
+ * @see Timestbmper
+ * @buthor Vincent Rybn
  */
 
-public class TimestampToken {
+public clbss TimestbmpToken {
 
-    private int version;
-    private ObjectIdentifier policy;
-    private BigInteger serialNumber;
-    private AlgorithmId hashAlgorithm;
-    private byte[] hashedMessage;
-    private Date genTime;
-    private BigInteger nonce;
+    privbte int version;
+    privbte ObjectIdentifier policy;
+    privbte BigInteger seriblNumber;
+    privbte AlgorithmId hbshAlgorithm;
+    privbte byte[] hbshedMessbge;
+    privbte Dbte genTime;
+    privbte BigInteger nonce;
 
     /**
-     * Constructs an object to store a timestamp token.
+     * Constructs bn object to store b timestbmp token.
      *
-     * @param status A buffer containing the ASN.1 BER encoding of the
+     * @pbrbm stbtus A buffer contbining the ASN.1 BER encoding of the
      *               TSTInfo element defined in RFC 3161.
      */
-    public TimestampToken(byte[] timestampTokenInfo) throws IOException {
-        if (timestampTokenInfo == null) {
-            throw new IOException("No timestamp token info");
+    public TimestbmpToken(byte[] timestbmpTokenInfo) throws IOException {
+        if (timestbmpTokenInfo == null) {
+            throw new IOException("No timestbmp token info");
         }
-        parse(timestampTokenInfo);
+        pbrse(timestbmpTokenInfo);
     }
 
     /**
-     * Extract the date and time from the timestamp token.
+     * Extrbct the dbte bnd time from the timestbmp token.
      *
-     * @return The date and time when the timestamp was generated.
+     * @return The dbte bnd time when the timestbmp wbs generbted.
      */
-    public Date getDate() {
+    public Dbte getDbte() {
         return genTime;
     }
 
-    public AlgorithmId getHashAlgorithm() {
-        return hashAlgorithm;
+    public AlgorithmId getHbshAlgorithm() {
+        return hbshAlgorithm;
     }
 
-    // should only be used internally, otherwise return a clone
-    public byte[] getHashedMessage() {
-        return hashedMessage;
+    // should only be used internblly, otherwise return b clone
+    public byte[] getHbshedMessbge() {
+        return hbshedMessbge;
     }
 
     public BigInteger getNonce() {
@@ -119,54 +119,54 @@ public class TimestampToken {
         return policy.toString();
     }
 
-    public BigInteger getSerialNumber() {
-        return serialNumber;
+    public BigInteger getSeriblNumber() {
+        return seriblNumber;
     }
 
     /*
-     * Parses the timestamp token info.
+     * Pbrses the timestbmp token info.
      *
-     * @param timestampTokenInfo A buffer containing an ASN.1 BER encoded
+     * @pbrbm timestbmpTokenInfo A buffer contbining bn ASN.1 BER encoded
      *                           TSTInfo.
-     * @throws IOException The exception is thrown if a problem is encountered
-     *         while parsing.
+     * @throws IOException The exception is thrown if b problem is encountered
+     *         while pbrsing.
      */
-    private void parse(byte[] timestampTokenInfo) throws IOException {
+    privbte void pbrse(byte[] timestbmpTokenInfo) throws IOException {
 
-        DerValue tstInfo = new DerValue(timestampTokenInfo);
-        if (tstInfo.tag != DerValue.tag_Sequence) {
-            throw new IOException("Bad encoding for timestamp token info");
+        DerVblue tstInfo = new DerVblue(timestbmpTokenInfo);
+        if (tstInfo.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Bbd encoding for timestbmp token info");
         }
-        // Parse version
-        version = tstInfo.data.getInteger();
+        // Pbrse version
+        version = tstInfo.dbtb.getInteger();
 
-        // Parse policy
-        policy = tstInfo.data.getOID();
+        // Pbrse policy
+        policy = tstInfo.dbtb.getOID();
 
-        // Parse messageImprint
-        DerValue messageImprint = tstInfo.data.getDerValue();
-        hashAlgorithm = AlgorithmId.parse(messageImprint.data.getDerValue());
-        hashedMessage = messageImprint.data.getOctetString();
+        // Pbrse messbgeImprint
+        DerVblue messbgeImprint = tstInfo.dbtb.getDerVblue();
+        hbshAlgorithm = AlgorithmId.pbrse(messbgeImprint.dbtb.getDerVblue());
+        hbshedMessbge = messbgeImprint.dbtb.getOctetString();
 
-        // Parse serialNumber
-        serialNumber = tstInfo.data.getBigInteger();
+        // Pbrse seriblNumber
+        seriblNumber = tstInfo.dbtb.getBigInteger();
 
-        // Parse genTime
-        genTime = tstInfo.data.getGeneralizedTime();
+        // Pbrse genTime
+        genTime = tstInfo.dbtb.getGenerblizedTime();
 
-        // Parse optional elements, if present
-        while (tstInfo.data.available() > 0) {
-            DerValue d = tstInfo.data.getDerValue();
-            if (d.tag == DerValue.tag_Integer) {    // must be the nonce
+        // Pbrse optionbl elements, if present
+        while (tstInfo.dbtb.bvbilbble() > 0) {
+            DerVblue d = tstInfo.dbtb.getDerVblue();
+            if (d.tbg == DerVblue.tbg_Integer) {    // must be the nonce
                 nonce = d.getBigInteger();
-                break;
+                brebk;
             }
 
-            // Additional fields:
-            // Parse accuracy
-            // Parse ordering
-            // Parse tsa
-            // Parse extensions
+            // Additionbl fields:
+            // Pbrse bccurbcy
+            // Pbrse ordering
+            // Pbrse tsb
+            // Pbrse extensions
         }
     }
 }

@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: Transform.java,v 1.5 2005/05/10 16:03:48 mullan Exp $
+ * $Id: Trbnsform.jbvb,v 1.5 2005/05/10 16:03:48 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbckbge jbvbx.xml.crypto.dsig;
 
-import java.io.OutputStream;
-import java.security.spec.AlgorithmParameterSpec;
-import javax.xml.crypto.AlgorithmMethod;
-import javax.xml.crypto.Data;
-import javax.xml.crypto.OctetStreamData;
-import javax.xml.crypto.XMLCryptoContext;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import jbvb.io.OutputStrebm;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvbx.xml.crypto.AlgorithmMethod;
+import jbvbx.xml.crypto.Dbtb;
+import jbvbx.xml.crypto.OctetStrebmDbtb;
+import jbvbx.xml.crypto.XMLCryptoContext;
+import jbvbx.xml.crypto.XMLStructure;
+import jbvbx.xml.crypto.dsig.spec.TrbnsformPbrbmeterSpec;
 
 /**
- * A representation of the XML <code>Transform</code> element as
- * defined in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * The XML Schema Definition is defined as:
+ * A representbtion of the XML <code>Trbnsform</code> element bs
+ * defined in the <b href="http://www.w3.org/TR/xmldsig-core/">
+ * W3C Recommendbtion for XML-Signbture Syntbx bnd Processing</b>.
+ * The XML Schemb Definition is defined bs:
  *
  * <pre>
- * &lt;element name="Transform" type="ds:TransformType"/&gt;
- *   &lt;complexType name="TransformType" mixed="true"&gt;
- *     &lt;choice minOccurs="0" maxOccurs="unbounded"&gt;
- *       &lt;any namespace="##other" processContents="lax"/&gt;
- *       &lt;!-- (1,1) elements from (0,unbounded) namespaces --&gt;
- *       &lt;element name="XPath" type="string"/&gt;
+ * &lt;element nbme="Trbnsform" type="ds:TrbnsformType"/&gt;
+ *   &lt;complexType nbme="TrbnsformType" mixed="true"&gt;
+ *     &lt;choice minOccurs="0" mbxOccurs="unbounded"&gt;
+ *       &lt;bny nbmespbce="##other" processContents="lbx"/&gt;
+ *       &lt;!-- (1,1) elements from (0,unbounded) nbmespbces --&gt;
+ *       &lt;element nbme="XPbth" type="string"/&gt;
  *     &lt;/choice&gt;
- *     &lt;attribute name="Algorithm" type="anyURI" use="required"/&gt;
+ *     &lt;bttribute nbme="Algorithm" type="bnyURI" use="required"/&gt;
  *   &lt;/complexType&gt;
  * </pre>
  *
- * A <code>Transform</code> instance may be created by invoking the
- * {@link XMLSignatureFactory#newTransform newTransform} method
- * of the {@link XMLSignatureFactory} class.
+ * A <code>Trbnsform</code> instbnce mby be crebted by invoking the
+ * {@link XMLSignbtureFbctory#newTrbnsform newTrbnsform} method
+ * of the {@link XMLSignbtureFbctory} clbss.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see XMLSignatureFactory#newTransform(String, TransformParameterSpec)
+ * @see XMLSignbtureFbctory#newTrbnsform(String, TrbnsformPbrbmeterSpec)
  */
-public interface Transform extends XMLStructure, AlgorithmMethod {
+public interfbce Trbnsform extends XMLStructure, AlgorithmMethod {
 
     /**
-     * The <a href="http://www.w3.org/2000/09/xmldsig#base64">Base64</a>
-     * transform algorithm URI.
+     * The <b href="http://www.w3.org/2000/09/xmldsig#bbse64">Bbse64</b>
+     * trbnsform blgorithm URI.
      */
-    final static String BASE64 = "http://www.w3.org/2000/09/xmldsig#base64";
+    finbl stbtic String BASE64 = "http://www.w3.org/2000/09/xmldsig#bbse64";
 
     /**
-     * The <a href="http://www.w3.org/2000/09/xmldsig#enveloped-signature">
-     * Enveloped Signature</a> transform algorithm URI.
+     * The <b href="http://www.w3.org/2000/09/xmldsig#enveloped-signbture">
+     * Enveloped Signbture</b> trbnsform blgorithm URI.
      */
-    final static String ENVELOPED =
-        "http://www.w3.org/2000/09/xmldsig#enveloped-signature";
+    finbl stbtic String ENVELOPED =
+        "http://www.w3.org/2000/09/xmldsig#enveloped-signbture";
 
     /**
-     * The <a href="http://www.w3.org/TR/1999/REC-xpath-19991116">XPath</a>
-     * transform algorithm URI.
+     * The <b href="http://www.w3.org/TR/1999/REC-xpbth-19991116">XPbth</b>
+     * trbnsform blgorithm URI.
      */
-    final static String XPATH = "http://www.w3.org/TR/1999/REC-xpath-19991116";
+    finbl stbtic String XPATH = "http://www.w3.org/TR/1999/REC-xpbth-19991116";
 
     /**
-     * The <a href="http://www.w3.org/2002/06/xmldsig-filter2">
-     * XPath Filter 2</a> transform algorithm URI.
+     * The <b href="http://www.w3.org/2002/06/xmldsig-filter2">
+     * XPbth Filter 2</b> trbnsform blgorithm URI.
      */
-    final static String XPATH2 = "http://www.w3.org/2002/06/xmldsig-filter2";
+    finbl stbtic String XPATH2 = "http://www.w3.org/2002/06/xmldsig-filter2";
 
     /**
-     * The <a href="http://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</a>
-     * transform algorithm URI.
+     * The <b href="http://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</b>
+     * trbnsform blgorithm URI.
      */
-    final static String XSLT = "http://www.w3.org/TR/1999/REC-xslt-19991116";
+    finbl stbtic String XSLT = "http://www.w3.org/TR/1999/REC-xslt-19991116";
 
     /**
-     * Returns the algorithm-specific input parameters associated with this
-     * <code>Transform</code>.
+     * Returns the blgorithm-specific input pbrbmeters bssocibted with this
+     * <code>Trbnsform</code>.
      * <p>
-     * The returned parameters can be typecast to a
-     * {@link TransformParameterSpec} object.
+     * The returned pbrbmeters cbn be typecbst to b
+     * {@link TrbnsformPbrbmeterSpec} object.
      *
-     * @return the algorithm-specific input parameters (may be <code>null</code>
+     * @return the blgorithm-specific input pbrbmeters (mby be <code>null</code>
      *    if not specified)
      */
-    AlgorithmParameterSpec getParameterSpec();
+    AlgorithmPbrbmeterSpec getPbrbmeterSpec();
 
     /**
-     * Transforms the specified data using the underlying transform algorithm.
+     * Trbnsforms the specified dbtb using the underlying trbnsform blgorithm.
      *
-     * @param data the data to be transformed
-     * @param context the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @return the transformed data
-     * @throws NullPointerException if <code>data</code> is <code>null</code>
-     * @throws TransformException if an error occurs while executing the
-     *    transform
+     * @pbrbm dbtb the dbtb to be trbnsformed
+     * @pbrbm context the <code>XMLCryptoContext</code> contbining
+     *    bdditionbl context (mby be <code>null</code> if not bpplicbble)
+     * @return the trbnsformed dbtb
+     * @throws NullPointerException if <code>dbtb</code> is <code>null</code>
+     * @throws TrbnsformException if bn error occurs while executing the
+     *    trbnsform
      */
-    public abstract Data transform(Data data, XMLCryptoContext context)
-        throws TransformException;
+    public bbstrbct Dbtb trbnsform(Dbtb dbtb, XMLCryptoContext context)
+        throws TrbnsformException;
 
     /**
-     * Transforms the specified data using the underlying transform algorithm.
-     * If the output of this transform is an <code>OctetStreamData</code>, then
-     * this method returns <code>null</code> and the bytes are written to the
-     * specified <code>OutputStream</code>. Otherwise, the
-     * <code>OutputStream</code> is ignored and the method behaves as if
-     * {@link #transform(Data, XMLCryptoContext)} were invoked.
+     * Trbnsforms the specified dbtb using the underlying trbnsform blgorithm.
+     * If the output of this trbnsform is bn <code>OctetStrebmDbtb</code>, then
+     * this method returns <code>null</code> bnd the bytes bre written to the
+     * specified <code>OutputStrebm</code>. Otherwise, the
+     * <code>OutputStrebm</code> is ignored bnd the method behbves bs if
+     * {@link #trbnsform(Dbtb, XMLCryptoContext)} were invoked.
      *
-     * @param data the data to be transformed
-     * @param context the <code>XMLCryptoContext</code> containing
-     *    additional context (may be <code>null</code> if not applicable)
-     * @param os the <code>OutputStream</code> that should be used to write
-     *    the transformed data to
-     * @return the transformed data (or <code>null</code> if the data was
-     *    written to the <code>OutputStream</code> parameter)
-     * @throws NullPointerException if <code>data</code> or <code>os</code>
+     * @pbrbm dbtb the dbtb to be trbnsformed
+     * @pbrbm context the <code>XMLCryptoContext</code> contbining
+     *    bdditionbl context (mby be <code>null</code> if not bpplicbble)
+     * @pbrbm os the <code>OutputStrebm</code> thbt should be used to write
+     *    the trbnsformed dbtb to
+     * @return the trbnsformed dbtb (or <code>null</code> if the dbtb wbs
+     *    written to the <code>OutputStrebm</code> pbrbmeter)
+     * @throws NullPointerException if <code>dbtb</code> or <code>os</code>
      *    is <code>null</code>
-     * @throws TransformException if an error occurs while executing the
-     *    transform
+     * @throws TrbnsformException if bn error occurs while executing the
+     *    trbnsform
      */
-    public abstract Data transform
-        (Data data, XMLCryptoContext context, OutputStream os)
-        throws TransformException;
+    public bbstrbct Dbtb trbnsform
+        (Dbtb dbtb, XMLCryptoContext context, OutputStrebm os)
+        throws TrbnsformException;
 }

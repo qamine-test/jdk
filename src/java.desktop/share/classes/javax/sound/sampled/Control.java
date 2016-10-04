@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
 /**
- * {@link Line Lines} often have a set of controls, such as gain and pan, that
- * affect the audio signal passing through the line. Java Sound's {@code Line}
- * objects let you obtain a particular control object by passing its class as
- * the argument to a {@link Line#getControl(Control.Type) getControl} method.
+ * {@link Line Lines} often hbve b set of controls, such bs gbin bnd pbn, thbt
+ * bffect the budio signbl pbssing through the line. Jbvb Sound's {@code Line}
+ * objects let you obtbin b pbrticulbr control object by pbssing its clbss bs
+ * the brgument to b {@link Line#getControl(Control.Type) getControl} method.
  * <p>
- * Because the various types of controls have different purposes and features,
- * all of their functionality is accessed from the subclasses that define each
+ * Becbuse the vbrious types of controls hbve different purposes bnd febtures,
+ * bll of their functionblity is bccessed from the subclbsses thbt define ebch
  * kind of control.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @see Line#getControls
  * @see Line#isControlSupported
  * @since 1.3
  */
-public abstract class Control {
+public bbstrbct clbss Control {
 
     /**
      * The control type.
      */
-    private final Type type;
+    privbte finbl Type type;
 
     /**
-     * Constructs a Control with the specified type.
+     * Constructs b Control with the specified type.
      *
-     * @param  type the kind of control desired
+     * @pbrbm  type the kind of control desired
      */
     protected Control(Type type) {
         this.type = type;
     }
 
     /**
-     * Obtains the control's type.
+     * Obtbins the control's type.
      *
      * @return the control's type
      */
@@ -66,9 +66,9 @@ public abstract class Control {
     }
 
     /**
-     * Obtains a String describing the control type and its current state.
+     * Obtbins b String describing the control type bnd its current stbte.
      *
-     * @return a String representation of the Control
+     * @return b String representbtion of the Control
      */
     @Override
     public String toString() {
@@ -76,52 +76,52 @@ public abstract class Control {
     }
 
     /**
-     * An instance of the {@code Type} class represents the type of the control.
-     * Static instances are provided for the common types.
+     * An instbnce of the {@code Type} clbss represents the type of the control.
+     * Stbtic instbnces bre provided for the common types.
      */
-    public static class Type {
+    public stbtic clbss Type {
 
         /**
-         * Type name.
+         * Type nbme.
          */
-        private String name;
+        privbte String nbme;
 
         /**
-         * Constructs a new control type with the name specified. The name
-         * should be a descriptive string appropriate for labelling the control
-         * in an application, such as "Gain" or "Balance".
+         * Constructs b new control type with the nbme specified. The nbme
+         * should be b descriptive string bppropribte for lbbelling the control
+         * in bn bpplicbtion, such bs "Gbin" or "Bblbnce".
          *
-         * @param  name the name of the new control type
+         * @pbrbm  nbme the nbme of the new control type
          */
-        protected Type(String name) {
-            this.name = name;
+        protected Type(String nbme) {
+            this.nbme = nbme;
         }
 
         /**
-         * Finalizes the equals method.
-         */
-        @Override
-        public final boolean equals(Object obj) {
-            return super.equals(obj);
-        }
-
-        /**
-         * Finalizes the hashCode method.
+         * Finblizes the equbls method.
          */
         @Override
-        public final int hashCode() {
-            return super.hashCode();
+        public finbl boolebn equbls(Object obj) {
+            return super.equbls(obj);
         }
 
         /**
-         * Provides the {@code String} representation of the control type. This
-         * {@code String} is the same name that was passed to the constructor.
+         * Finblizes the hbshCode method.
+         */
+        @Override
+        public finbl int hbshCode() {
+            return super.hbshCode();
+        }
+
+        /**
+         * Provides the {@code String} representbtion of the control type. This
+         * {@code String} is the sbme nbme thbt wbs pbssed to the constructor.
          *
-         * @return the control type name
+         * @return the control type nbme
          */
         @Override
-        public final String toString() {
-            return name;
+        public finbl String toString() {
+            return nbme;
         }
     }
 }

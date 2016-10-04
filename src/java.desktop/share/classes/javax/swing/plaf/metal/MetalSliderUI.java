@@ -1,302 +1,302 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import javax.swing.plaf.basic.BasicSliderUI;
+import jbvbx.swing.plbf.bbsic.BbsicSliderUI;
 
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Color;
-import java.beans.*;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Color;
+import jbvb.bebns.*;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * A Java L&amp;F implementation of SliderUI.
+ * A Jbvb L&bmp;F implementbtion of SliderUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Tom Santos
+ * @buthor Tom Sbntos
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalSliderUI extends BasicSliderUI {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MetblSliderUI extends BbsicSliderUI {
 
     /**
-     * The buffer of a tick.
+     * The buffer of b tick.
      */
-    protected final int TICK_BUFFER = 4;
+    protected finbl int TICK_BUFFER = 4;
 
     /**
-     * The value of the property {@code JSlider.isFilled}.
-     * By default, {@code false} if the property is not set,
-     * {@code true} for Ocean theme.
+     * The vblue of the property {@code JSlider.isFilled}.
+     * By defbult, {@code fblse} if the property is not set,
+     * {@code true} for Ocebn theme.
      */
-    protected boolean filledSlider = false;
+    protected boolebn filledSlider = fblse;
 
-    // NOTE: these next five variables are currently unused.
+    // NOTE: these next five vbribbles bre currently unused.
     /**
-     * The color of a thumb
+     * The color of b thumb
      */
-    protected static Color thumbColor;
+    protected stbtic Color thumbColor;
 
     /**
      * The color of highlighting.
      */
-    protected static Color highlightColor;
+    protected stbtic Color highlightColor;
 
     /**
-     * The color of dark shadow.
+     * The color of dbrk shbdow.
      */
-    protected static Color darkShadowColor;
+    protected stbtic Color dbrkShbdowColor;
 
     /**
-     * The width of a track.
+     * The width of b trbck.
      */
-    protected static int trackWidth;
+    protected stbtic int trbckWidth;
 
     /**
-     * The length of a tick.
+     * The length of b tick.
      */
-    protected static int tickLength;
-    private int safeLength;
+    protected stbtic int tickLength;
+    privbte int sbfeLength;
 
    /**
-    * A default horizontal thumb <code>Icon</code>. This field might not be
-    * used. To change the <code>Icon</code> used by this delegate directly set it
-    * using the <code>Slider.horizontalThumbIcon</code> UIManager property.
+    * A defbult horizontbl thumb <code>Icon</code>. This field might not be
+    * used. To chbnge the <code>Icon</code> used by this delegbte directly set it
+    * using the <code>Slider.horizontblThumbIcon</code> UIMbnbger property.
     */
-    protected static Icon horizThumbIcon;
+    protected stbtic Icon horizThumbIcon;
 
    /**
-    * A default vertical thumb <code>Icon</code>. This field might not be
-    * used. To change the <code>Icon</code> used by this delegate directly set it
-    * using the <code>Slider.verticalThumbIcon</code> UIManager property.
+    * A defbult verticbl thumb <code>Icon</code>. This field might not be
+    * used. To chbnge the <code>Icon</code> used by this delegbte directly set it
+    * using the <code>Slider.verticblThumbIcon</code> UIMbnbger property.
     */
-    protected static Icon vertThumbIcon;
+    protected stbtic Icon vertThumbIcon;
 
-    private static Icon SAFE_HORIZ_THUMB_ICON;
-    private static Icon SAFE_VERT_THUMB_ICON;
+    privbte stbtic Icon SAFE_HORIZ_THUMB_ICON;
+    privbte stbtic Icon SAFE_VERT_THUMB_ICON;
 
     /**
      * Property for {@code JSlider.isFilled}.
      */
-    protected final String SLIDER_FILL = "JSlider.isFilled";
+    protected finbl String SLIDER_FILL = "JSlider.isFilled";
 
     /**
-     * Constructs a {@code MetalSliderUI} instance.
+     * Constructs b {@code MetblSliderUI} instbnce.
      *
-     * @param c a component
-     * @return a {@code MetalSliderUI} instance
+     * @pbrbm c b component
+     * @return b {@code MetblSliderUI} instbnce
      */
-    public static ComponentUI createUI(JComponent c)    {
-        return new MetalSliderUI();
+    public stbtic ComponentUI crebteUI(JComponent c)    {
+        return new MetblSliderUI();
     }
 
     /**
-     * Constructs a {@code MetalSliderUI} instance.
+     * Constructs b {@code MetblSliderUI} instbnce.
      */
-    public MetalSliderUI() {
+    public MetblSliderUI() {
         super( null );
     }
 
-    private static Icon getHorizThumbIcon() {
-        if (System.getSecurityManager() != null) {
+    privbte stbtic Icon getHorizThumbIcon() {
+        if (System.getSecurityMbnbger() != null) {
             return SAFE_HORIZ_THUMB_ICON;
         } else {
             return horizThumbIcon;
         }
     }
 
-    private static Icon getVertThumbIcon() {
-        if (System.getSecurityManager() != null) {
+    privbte stbtic Icon getVertThumbIcon() {
+        if (System.getSecurityMbnbger() != null) {
             return SAFE_VERT_THUMB_ICON;
         } else {
             return vertThumbIcon;
         }
     }
 
-    public void installUI( JComponent c ) {
-        trackWidth = ((Integer)UIManager.get( "Slider.trackWidth" )).intValue();
-        tickLength = safeLength = ((Integer)UIManager.get( "Slider.majorTickLength" )).intValue();
+    public void instbllUI( JComponent c ) {
+        trbckWidth = ((Integer)UIMbnbger.get( "Slider.trbckWidth" )).intVblue();
+        tickLength = sbfeLength = ((Integer)UIMbnbger.get( "Slider.mbjorTickLength" )).intVblue();
         horizThumbIcon = SAFE_HORIZ_THUMB_ICON =
-                UIManager.getIcon( "Slider.horizontalThumbIcon" );
+                UIMbnbger.getIcon( "Slider.horizontblThumbIcon" );
         vertThumbIcon = SAFE_VERT_THUMB_ICON =
-                UIManager.getIcon( "Slider.verticalThumbIcon" );
+                UIMbnbger.getIcon( "Slider.verticblThumbIcon" );
 
-        super.installUI( c );
+        super.instbllUI( c );
 
-        thumbColor = UIManager.getColor("Slider.thumb");
-        highlightColor = UIManager.getColor("Slider.highlight");
-        darkShadowColor = UIManager.getColor("Slider.darkShadow");
+        thumbColor = UIMbnbger.getColor("Slider.thumb");
+        highlightColor = UIMbnbger.getColor("Slider.highlight");
+        dbrkShbdowColor = UIMbnbger.getColor("Slider.dbrkShbdow");
 
-        scrollListener.setScrollByBlock( false );
+        scrollListener.setScrollByBlock( fblse );
 
-        prepareFilledSliderField();
+        prepbreFilledSliderField();
     }
 
     /**
-     * Constructs {@code MetalPropertyListener}.
+     * Constructs {@code MetblPropertyListener}.
      *
-     * @param slider a {@code JSlider}
-     * @return the {@code MetalPropertyListener}
+     * @pbrbm slider b {@code JSlider}
+     * @return the {@code MetblPropertyListener}
      */
-    protected PropertyChangeListener createPropertyChangeListener( JSlider slider ) {
-        return new MetalPropertyListener();
+    protected PropertyChbngeListener crebtePropertyChbngeListener( JSlider slider ) {
+        return new MetblPropertyListener();
     }
 
     /**
      * {@code PropertyListener} for {@code JSlider.isFilled}.
      */
-    protected class MetalPropertyListener extends BasicSliderUI.PropertyChangeHandler {
-        public void propertyChange( PropertyChangeEvent e ) {  // listen for slider fill
-            super.propertyChange( e );
+    protected clbss MetblPropertyListener extends BbsicSliderUI.PropertyChbngeHbndler {
+        public void propertyChbnge( PropertyChbngeEvent e ) {  // listen for slider fill
+            super.propertyChbnge( e );
 
-            if (e.getPropertyName().equals(SLIDER_FILL)) {
-                prepareFilledSliderField();
+            if (e.getPropertyNbme().equbls(SLIDER_FILL)) {
+                prepbreFilledSliderField();
             }
         }
     }
 
-    private void prepareFilledSliderField() {
-        // Use true for Ocean theme
-        filledSlider = MetalLookAndFeel.usingOcean();
+    privbte void prepbreFilledSliderField() {
+        // Use true for Ocebn theme
+        filledSlider = MetblLookAndFeel.usingOcebn();
 
         Object sliderFillProp = slider.getClientProperty(SLIDER_FILL);
 
         if (sliderFillProp != null) {
-            filledSlider = ((Boolean) sliderFillProp).booleanValue();
+            filledSlider = ((Boolebn) sliderFillProp).boolebnVblue();
         }
     }
 
-    public void paintThumb(Graphics g)  {
-        Rectangle knobBounds = thumbRect;
+    public void pbintThumb(Grbphics g)  {
+        Rectbngle knobBounds = thumbRect;
 
-        g.translate( knobBounds.x, knobBounds.y );
+        g.trbnslbte( knobBounds.x, knobBounds.y );
 
-        if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-            getHorizThumbIcon().paintIcon( slider, g, 0, 0 );
+        if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+            getHorizThumbIcon().pbintIcon( slider, g, 0, 0 );
         }
         else {
-            getVertThumbIcon().paintIcon( slider, g, 0, 0 );
+            getVertThumbIcon().pbintIcon( slider, g, 0, 0 );
         }
 
-        g.translate( -knobBounds.x, -knobBounds.y );
+        g.trbnslbte( -knobBounds.x, -knobBounds.y );
     }
 
     /**
-     * Returns a rectangle enclosing the track that will be painted.
+     * Returns b rectbngle enclosing the trbck thbt will be pbinted.
      */
-    private Rectangle getPaintTrackRect() {
-        int trackLeft = 0, trackRight, trackTop = 0, trackBottom;
-        if (slider.getOrientation() == JSlider.HORIZONTAL) {
-            trackBottom = (trackRect.height - 1) - getThumbOverhang();
-            trackTop = trackBottom - (getTrackWidth() - 1);
-            trackRight = trackRect.width - 1;
+    privbte Rectbngle getPbintTrbckRect() {
+        int trbckLeft = 0, trbckRight, trbckTop = 0, trbckBottom;
+        if (slider.getOrientbtion() == JSlider.HORIZONTAL) {
+            trbckBottom = (trbckRect.height - 1) - getThumbOverhbng();
+            trbckTop = trbckBottom - (getTrbckWidth() - 1);
+            trbckRight = trbckRect.width - 1;
         }
         else {
-            if (MetalUtils.isLeftToRight(slider)) {
-                trackLeft = (trackRect.width - getThumbOverhang()) -
-                                                         getTrackWidth();
-                trackRight = (trackRect.width - getThumbOverhang()) - 1;
+            if (MetblUtils.isLeftToRight(slider)) {
+                trbckLeft = (trbckRect.width - getThumbOverhbng()) -
+                                                         getTrbckWidth();
+                trbckRight = (trbckRect.width - getThumbOverhbng()) - 1;
             }
             else {
-                trackLeft = getThumbOverhang();
-                trackRight = getThumbOverhang() + getTrackWidth() - 1;
+                trbckLeft = getThumbOverhbng();
+                trbckRight = getThumbOverhbng() + getTrbckWidth() - 1;
             }
-            trackBottom = trackRect.height - 1;
+            trbckBottom = trbckRect.height - 1;
         }
-        return new Rectangle(trackRect.x + trackLeft, trackRect.y + trackTop,
-                             trackRight - trackLeft, trackBottom - trackTop);
+        return new Rectbngle(trbckRect.x + trbckLeft, trbckRect.y + trbckTop,
+                             trbckRight - trbckLeft, trbckBottom - trbckTop);
     }
 
-    public void paintTrack(Graphics g)  {
-        if (MetalLookAndFeel.usingOcean()) {
-            oceanPaintTrack(g);
+    public void pbintTrbck(Grbphics g)  {
+        if (MetblLookAndFeel.usingOcebn()) {
+            ocebnPbintTrbck(g);
             return;
         }
-        Color trackColor = !slider.isEnabled() ? MetalLookAndFeel.getControlShadow() :
+        Color trbckColor = !slider.isEnbbled() ? MetblLookAndFeel.getControlShbdow() :
                            slider.getForeground();
 
-        boolean leftToRight = MetalUtils.isLeftToRight(slider);
+        boolebn leftToRight = MetblUtils.isLeftToRight(slider);
 
-        g.translate( trackRect.x, trackRect.y );
+        g.trbnslbte( trbckRect.x, trbckRect.y );
 
-        int trackLeft = 0;
-        int trackTop = 0;
-        int trackRight;
-        int trackBottom;
+        int trbckLeft = 0;
+        int trbckTop = 0;
+        int trbckRight;
+        int trbckBottom;
 
-        // Draw the track
-        if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-            trackBottom = (trackRect.height - 1) - getThumbOverhang();
-            trackTop = trackBottom - (getTrackWidth() - 1);
-            trackRight = trackRect.width - 1;
+        // Drbw the trbck
+        if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+            trbckBottom = (trbckRect.height - 1) - getThumbOverhbng();
+            trbckTop = trbckBottom - (getTrbckWidth() - 1);
+            trbckRight = trbckRect.width - 1;
         }
         else {
             if (leftToRight) {
-                trackLeft = (trackRect.width - getThumbOverhang()) -
-                                                         getTrackWidth();
-                trackRight = (trackRect.width - getThumbOverhang()) - 1;
+                trbckLeft = (trbckRect.width - getThumbOverhbng()) -
+                                                         getTrbckWidth();
+                trbckRight = (trbckRect.width - getThumbOverhbng()) - 1;
             }
             else {
-                trackLeft = getThumbOverhang();
-                trackRight = getThumbOverhang() + getTrackWidth() - 1;
+                trbckLeft = getThumbOverhbng();
+                trbckRight = getThumbOverhbng() + getTrbckWidth() - 1;
             }
-            trackBottom = trackRect.height - 1;
+            trbckBottom = trbckRect.height - 1;
         }
 
-        if ( slider.isEnabled() ) {
-            g.setColor( MetalLookAndFeel.getControlDarkShadow() );
-            g.drawRect( trackLeft, trackTop,
-                        (trackRight - trackLeft) - 1, (trackBottom - trackTop) - 1 );
+        if ( slider.isEnbbled() ) {
+            g.setColor( MetblLookAndFeel.getControlDbrkShbdow() );
+            g.drbwRect( trbckLeft, trbckTop,
+                        (trbckRight - trbckLeft) - 1, (trbckBottom - trbckTop) - 1 );
 
-            g.setColor( MetalLookAndFeel.getControlHighlight() );
-            g.drawLine( trackLeft + 1, trackBottom, trackRight, trackBottom );
-            g.drawLine( trackRight, trackTop + 1, trackRight, trackBottom );
+            g.setColor( MetblLookAndFeel.getControlHighlight() );
+            g.drbwLine( trbckLeft + 1, trbckBottom, trbckRight, trbckBottom );
+            g.drbwLine( trbckRight, trbckTop + 1, trbckRight, trbckBottom );
 
-            g.setColor( MetalLookAndFeel.getControlShadow() );
-            g.drawLine( trackLeft + 1, trackTop + 1, trackRight - 2, trackTop + 1 );
-            g.drawLine( trackLeft + 1, trackTop + 1, trackLeft + 1, trackBottom - 2 );
+            g.setColor( MetblLookAndFeel.getControlShbdow() );
+            g.drbwLine( trbckLeft + 1, trbckTop + 1, trbckRight - 2, trbckTop + 1 );
+            g.drbwLine( trbckLeft + 1, trbckTop + 1, trbckLeft + 1, trbckBottom - 2 );
         }
         else {
-            g.setColor( MetalLookAndFeel.getControlShadow() );
-            g.drawRect( trackLeft, trackTop,
-                        (trackRight - trackLeft) - 1, (trackBottom - trackTop) - 1 );
+            g.setColor( MetblLookAndFeel.getControlShbdow() );
+            g.drbwRect( trbckLeft, trbckTop,
+                        (trbckRight - trbckLeft) - 1, (trbckBottom - trbckTop) - 1 );
         }
 
-        // Draw the fill
+        // Drbw the fill
         if ( filledSlider ) {
             int middleOfThumb;
             int fillTop;
@@ -304,213 +304,213 @@ public class MetalSliderUI extends BasicSliderUI {
             int fillBottom;
             int fillRight;
 
-            if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
+            if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
                 middleOfThumb = thumbRect.x + (thumbRect.width / 2);
-                middleOfThumb -= trackRect.x; // To compensate for the g.translate()
-                fillTop = !slider.isEnabled() ? trackTop : trackTop + 1;
-                fillBottom = !slider.isEnabled() ? trackBottom - 1 : trackBottom - 2;
+                middleOfThumb -= trbckRect.x; // To compensbte for the g.trbnslbte()
+                fillTop = !slider.isEnbbled() ? trbckTop : trbckTop + 1;
+                fillBottom = !slider.isEnbbled() ? trbckBottom - 1 : trbckBottom - 2;
 
-                if ( !drawInverted() ) {
-                    fillLeft = !slider.isEnabled() ? trackLeft : trackLeft + 1;
+                if ( !drbwInverted() ) {
+                    fillLeft = !slider.isEnbbled() ? trbckLeft : trbckLeft + 1;
                     fillRight = middleOfThumb;
                 }
                 else {
                     fillLeft = middleOfThumb;
-                    fillRight = !slider.isEnabled() ? trackRight - 1 : trackRight - 2;
+                    fillRight = !slider.isEnbbled() ? trbckRight - 1 : trbckRight - 2;
                 }
             }
             else {
                 middleOfThumb = thumbRect.y + (thumbRect.height / 2);
-                middleOfThumb -= trackRect.y; // To compensate for the g.translate()
-                fillLeft = !slider.isEnabled() ? trackLeft : trackLeft + 1;
-                fillRight = !slider.isEnabled() ? trackRight - 1 : trackRight - 2;
+                middleOfThumb -= trbckRect.y; // To compensbte for the g.trbnslbte()
+                fillLeft = !slider.isEnbbled() ? trbckLeft : trbckLeft + 1;
+                fillRight = !slider.isEnbbled() ? trbckRight - 1 : trbckRight - 2;
 
-                if ( !drawInverted() ) {
+                if ( !drbwInverted() ) {
                     fillTop = middleOfThumb;
-                    fillBottom = !slider.isEnabled() ? trackBottom - 1 : trackBottom - 2;
+                    fillBottom = !slider.isEnbbled() ? trbckBottom - 1 : trbckBottom - 2;
                 }
                 else {
-                    fillTop = !slider.isEnabled() ? trackTop : trackTop + 1;
+                    fillTop = !slider.isEnbbled() ? trbckTop : trbckTop + 1;
                     fillBottom = middleOfThumb;
                 }
             }
 
-            if ( slider.isEnabled() ) {
-                g.setColor( slider.getBackground() );
-                g.drawLine( fillLeft, fillTop, fillRight, fillTop );
-                g.drawLine( fillLeft, fillTop, fillLeft, fillBottom );
+            if ( slider.isEnbbled() ) {
+                g.setColor( slider.getBbckground() );
+                g.drbwLine( fillLeft, fillTop, fillRight, fillTop );
+                g.drbwLine( fillLeft, fillTop, fillLeft, fillBottom );
 
-                g.setColor( MetalLookAndFeel.getControlShadow() );
+                g.setColor( MetblLookAndFeel.getControlShbdow() );
                 g.fillRect( fillLeft + 1, fillTop + 1,
                             fillRight - fillLeft, fillBottom - fillTop );
             }
             else {
-                g.setColor( MetalLookAndFeel.getControlShadow() );
+                g.setColor( MetblLookAndFeel.getControlShbdow() );
                 g.fillRect(fillLeft, fillTop, fillRight - fillLeft, fillBottom - fillTop);
             }
         }
 
-        g.translate( -trackRect.x, -trackRect.y );
+        g.trbnslbte( -trbckRect.x, -trbckRect.y );
     }
 
-    private void oceanPaintTrack(Graphics g)  {
-        boolean leftToRight = MetalUtils.isLeftToRight(slider);
-        boolean drawInverted = drawInverted();
-        Color sliderAltTrackColor = (Color)UIManager.get(
-                                    "Slider.altTrackColor");
+    privbte void ocebnPbintTrbck(Grbphics g)  {
+        boolebn leftToRight = MetblUtils.isLeftToRight(slider);
+        boolebn drbwInverted = drbwInverted();
+        Color sliderAltTrbckColor = (Color)UIMbnbger.get(
+                                    "Slider.bltTrbckColor");
 
-        // Translate to the origin of the painting rectangle
-        Rectangle paintRect = getPaintTrackRect();
-        g.translate(paintRect.x, paintRect.y);
+        // Trbnslbte to the origin of the pbinting rectbngle
+        Rectbngle pbintRect = getPbintTrbckRect();
+        g.trbnslbte(pbintRect.x, pbintRect.y);
 
-        // Width and height of the painting rectangle.
-        int w = paintRect.width;
-        int h = paintRect.height;
+        // Width bnd height of the pbinting rectbngle.
+        int w = pbintRect.width;
+        int h = pbintRect.height;
 
-        if (slider.getOrientation() == JSlider.HORIZONTAL) {
-            int middleOfThumb = thumbRect.x + thumbRect.width / 2 - paintRect.x;
+        if (slider.getOrientbtion() == JSlider.HORIZONTAL) {
+            int middleOfThumb = thumbRect.x + thumbRect.width / 2 - pbintRect.x;
 
-            if (slider.isEnabled()) {
+            if (slider.isEnbbled()) {
                 int fillMinX;
-                int fillMaxX;
+                int fillMbxX;
 
                 if (middleOfThumb > 0) {
-                    g.setColor(drawInverted ? MetalLookAndFeel.getControlDarkShadow() :
-                            MetalLookAndFeel.getPrimaryControlDarkShadow());
+                    g.setColor(drbwInverted ? MetblLookAndFeel.getControlDbrkShbdow() :
+                            MetblLookAndFeel.getPrimbryControlDbrkShbdow());
 
-                    g.drawRect(0, 0, middleOfThumb - 1, h - 1);
+                    g.drbwRect(0, 0, middleOfThumb - 1, h - 1);
                 }
 
                 if (middleOfThumb < w) {
-                    g.setColor(drawInverted ? MetalLookAndFeel.getPrimaryControlDarkShadow() :
-                            MetalLookAndFeel.getControlDarkShadow());
+                    g.setColor(drbwInverted ? MetblLookAndFeel.getPrimbryControlDbrkShbdow() :
+                            MetblLookAndFeel.getControlDbrkShbdow());
 
-                    g.drawRect(middleOfThumb, 0, w - middleOfThumb - 1, h - 1);
+                    g.drbwRect(middleOfThumb, 0, w - middleOfThumb - 1, h - 1);
                 }
 
                 if (filledSlider) {
-                    g.setColor(MetalLookAndFeel.getPrimaryControlShadow());
-                    if (drawInverted) {
+                    g.setColor(MetblLookAndFeel.getPrimbryControlShbdow());
+                    if (drbwInverted) {
                         fillMinX = middleOfThumb;
-                        fillMaxX = w - 2;
-                        g.drawLine(1, 1, middleOfThumb, 1);
+                        fillMbxX = w - 2;
+                        g.drbwLine(1, 1, middleOfThumb, 1);
                     } else {
                         fillMinX = 1;
-                        fillMaxX = middleOfThumb;
-                        g.drawLine(middleOfThumb, 1, w - 1, 1);
+                        fillMbxX = middleOfThumb;
+                        g.drbwLine(middleOfThumb, 1, w - 1, 1);
                     }
                     if (h == 6) {
-                        g.setColor(MetalLookAndFeel.getWhite());
-                        g.drawLine(fillMinX, 1, fillMaxX, 1);
-                        g.setColor(sliderAltTrackColor);
-                        g.drawLine(fillMinX, 2, fillMaxX, 2);
-                        g.setColor(MetalLookAndFeel.getControlShadow());
-                        g.drawLine(fillMinX, 3, fillMaxX, 3);
-                        g.setColor(MetalLookAndFeel.getPrimaryControlShadow());
-                        g.drawLine(fillMinX, 4, fillMaxX, 4);
+                        g.setColor(MetblLookAndFeel.getWhite());
+                        g.drbwLine(fillMinX, 1, fillMbxX, 1);
+                        g.setColor(sliderAltTrbckColor);
+                        g.drbwLine(fillMinX, 2, fillMbxX, 2);
+                        g.setColor(MetblLookAndFeel.getControlShbdow());
+                        g.drbwLine(fillMinX, 3, fillMbxX, 3);
+                        g.setColor(MetblLookAndFeel.getPrimbryControlShbdow());
+                        g.drbwLine(fillMinX, 4, fillMbxX, 4);
                     }
                 }
             } else {
-                g.setColor(MetalLookAndFeel.getControlShadow());
+                g.setColor(MetblLookAndFeel.getControlShbdow());
 
                 if (middleOfThumb > 0) {
-                    if (!drawInverted && filledSlider) {
+                    if (!drbwInverted && filledSlider) {
                         g.fillRect(0, 0, middleOfThumb - 1, h - 1);
                     } else {
-                        g.drawRect(0, 0, middleOfThumb - 1, h - 1);
+                        g.drbwRect(0, 0, middleOfThumb - 1, h - 1);
                     }
                 }
 
                 if (middleOfThumb < w) {
-                    if (drawInverted && filledSlider) {
+                    if (drbwInverted && filledSlider) {
                         g.fillRect(middleOfThumb, 0, w - middleOfThumb - 1, h - 1);
                     } else {
-                        g.drawRect(middleOfThumb, 0, w - middleOfThumb - 1, h - 1);
+                        g.drbwRect(middleOfThumb, 0, w - middleOfThumb - 1, h - 1);
                     }
                 }
             }
         } else {
-            int middleOfThumb = thumbRect.y + (thumbRect.height / 2) - paintRect.y;
+            int middleOfThumb = thumbRect.y + (thumbRect.height / 2) - pbintRect.y;
 
-            if (slider.isEnabled()) {
+            if (slider.isEnbbled()) {
                 int fillMinY;
-                int fillMaxY;
+                int fillMbxY;
 
                 if (middleOfThumb > 0) {
-                    g.setColor(drawInverted ? MetalLookAndFeel.getPrimaryControlDarkShadow() :
-                            MetalLookAndFeel.getControlDarkShadow());
+                    g.setColor(drbwInverted ? MetblLookAndFeel.getPrimbryControlDbrkShbdow() :
+                            MetblLookAndFeel.getControlDbrkShbdow());
 
-                    g.drawRect(0, 0, w - 1, middleOfThumb - 1);
+                    g.drbwRect(0, 0, w - 1, middleOfThumb - 1);
                 }
 
                 if (middleOfThumb < h) {
-                    g.setColor(drawInverted ? MetalLookAndFeel.getControlDarkShadow() :
-                            MetalLookAndFeel.getPrimaryControlDarkShadow());
+                    g.setColor(drbwInverted ? MetblLookAndFeel.getControlDbrkShbdow() :
+                            MetblLookAndFeel.getPrimbryControlDbrkShbdow());
 
-                    g.drawRect(0, middleOfThumb, w - 1, h - middleOfThumb - 1);
+                    g.drbwRect(0, middleOfThumb, w - 1, h - middleOfThumb - 1);
                 }
 
                 if (filledSlider) {
-                    g.setColor(MetalLookAndFeel.getPrimaryControlShadow());
-                    if (drawInverted()) {
+                    g.setColor(MetblLookAndFeel.getPrimbryControlShbdow());
+                    if (drbwInverted()) {
                         fillMinY = 1;
-                        fillMaxY = middleOfThumb;
+                        fillMbxY = middleOfThumb;
                         if (leftToRight) {
-                            g.drawLine(1, middleOfThumb, 1, h - 1);
+                            g.drbwLine(1, middleOfThumb, 1, h - 1);
                         } else {
-                            g.drawLine(w - 2, middleOfThumb, w - 2, h - 1);
+                            g.drbwLine(w - 2, middleOfThumb, w - 2, h - 1);
                         }
                     } else {
                         fillMinY = middleOfThumb;
-                        fillMaxY = h - 2;
+                        fillMbxY = h - 2;
                         if (leftToRight) {
-                            g.drawLine(1, 1, 1, middleOfThumb);
+                            g.drbwLine(1, 1, 1, middleOfThumb);
                         } else {
-                            g.drawLine(w - 2, 1, w - 2, middleOfThumb);
+                            g.drbwLine(w - 2, 1, w - 2, middleOfThumb);
                         }
                     }
                     if (w == 6) {
-                        g.setColor(leftToRight ? MetalLookAndFeel.getWhite() : MetalLookAndFeel.getPrimaryControlShadow());
-                        g.drawLine(1, fillMinY, 1, fillMaxY);
-                        g.setColor(leftToRight ? sliderAltTrackColor : MetalLookAndFeel.getControlShadow());
-                        g.drawLine(2, fillMinY, 2, fillMaxY);
-                        g.setColor(leftToRight ? MetalLookAndFeel.getControlShadow() : sliderAltTrackColor);
-                        g.drawLine(3, fillMinY, 3, fillMaxY);
-                        g.setColor(leftToRight ? MetalLookAndFeel.getPrimaryControlShadow() : MetalLookAndFeel.getWhite());
-                        g.drawLine(4, fillMinY, 4, fillMaxY);
+                        g.setColor(leftToRight ? MetblLookAndFeel.getWhite() : MetblLookAndFeel.getPrimbryControlShbdow());
+                        g.drbwLine(1, fillMinY, 1, fillMbxY);
+                        g.setColor(leftToRight ? sliderAltTrbckColor : MetblLookAndFeel.getControlShbdow());
+                        g.drbwLine(2, fillMinY, 2, fillMbxY);
+                        g.setColor(leftToRight ? MetblLookAndFeel.getControlShbdow() : sliderAltTrbckColor);
+                        g.drbwLine(3, fillMinY, 3, fillMbxY);
+                        g.setColor(leftToRight ? MetblLookAndFeel.getPrimbryControlShbdow() : MetblLookAndFeel.getWhite());
+                        g.drbwLine(4, fillMinY, 4, fillMbxY);
                     }
                 }
             } else {
-                g.setColor(MetalLookAndFeel.getControlShadow());
+                g.setColor(MetblLookAndFeel.getControlShbdow());
 
                 if (middleOfThumb > 0) {
-                    if (drawInverted && filledSlider) {
+                    if (drbwInverted && filledSlider) {
                         g.fillRect(0, 0, w - 1, middleOfThumb - 1);
                     } else {
-                        g.drawRect(0, 0, w - 1, middleOfThumb - 1);
+                        g.drbwRect(0, 0, w - 1, middleOfThumb - 1);
                     }
                 }
 
                 if (middleOfThumb < h) {
-                    if (!drawInverted && filledSlider) {
+                    if (!drbwInverted && filledSlider) {
                         g.fillRect(0, middleOfThumb, w - 1, h - middleOfThumb - 1);
                     } else {
-                        g.drawRect(0, middleOfThumb, w - 1, h - middleOfThumb - 1);
+                        g.drbwRect(0, middleOfThumb, w - 1, h - middleOfThumb - 1);
                     }
                 }
             }
         }
 
-        g.translate(-paintRect.x, -paintRect.y);
+        g.trbnslbte(-pbintRect.x, -pbintRect.y);
     }
 
-    public void paintFocus(Graphics g)  {
+    public void pbintFocus(Grbphics g)  {
     }
 
     protected Dimension getThumbSize() {
         Dimension size = new Dimension();
 
-        if ( slider.getOrientation() == JSlider.VERTICAL ) {
+        if ( slider.getOrientbtion() == JSlider.VERTICAL ) {
             size.width = getVertThumbIcon().getIconWidth();
             size.height = getVertThumbIcon().getIconHeight();
         }
@@ -523,90 +523,90 @@ public class MetalSliderUI extends BasicSliderUI {
     }
 
     /**
-     * Gets the height of the tick area for horizontal sliders and the width of the
-     * tick area for vertical sliders.  BasicSliderUI uses the returned value to
-     * determine the tick area rectangle.
+     * Gets the height of the tick breb for horizontbl sliders bnd the width of the
+     * tick breb for verticbl sliders.  BbsicSliderUI uses the returned vblue to
+     * determine the tick breb rectbngle.
      */
     public int getTickLength() {
-        return slider.getOrientation() == JSlider.HORIZONTAL ? safeLength + TICK_BUFFER + 1 :
-        safeLength + TICK_BUFFER + 3;
+        return slider.getOrientbtion() == JSlider.HORIZONTAL ? sbfeLength + TICK_BUFFER + 1 :
+        sbfeLength + TICK_BUFFER + 3;
     }
 
     /**
-     * Returns the shorter dimension of the track.
+     * Returns the shorter dimension of the trbck.
      *
-     * @return the shorter dimension of the track
+     * @return the shorter dimension of the trbck
      */
-    protected int getTrackWidth() {
-        // This strange calculation is here to keep the
-        // track in proportion to the thumb.
-        final double kIdealTrackWidth = 7.0;
-        final double kIdealThumbHeight = 16.0;
-        final double kWidthScalar = kIdealTrackWidth / kIdealThumbHeight;
+    protected int getTrbckWidth() {
+        // This strbnge cblculbtion is here to keep the
+        // trbck in proportion to the thumb.
+        finbl double kIdeblTrbckWidth = 7.0;
+        finbl double kIdeblThumbHeight = 16.0;
+        finbl double kWidthScblbr = kIdeblTrbckWidth / kIdeblThumbHeight;
 
-        if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-            return (int)(kWidthScalar * thumbRect.height);
+        if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+            return (int)(kWidthScblbr * thumbRect.height);
         }
         else {
-            return (int)(kWidthScalar * thumbRect.width);
+            return (int)(kWidthScblbr * thumbRect.width);
         }
     }
 
     /**
-     * Returns the longer dimension of the slide bar.  (The slide bar is only the
-     * part that runs directly under the thumb)
+     * Returns the longer dimension of the slide bbr.  (The slide bbr is only the
+     * pbrt thbt runs directly under the thumb)
      *
-     * @return the longer dimension of the slide bar
+     * @return the longer dimension of the slide bbr
      */
-    protected int getTrackLength() {
-        if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-            return trackRect.width;
+    protected int getTrbckLength() {
+        if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+            return trbckRect.width;
         }
-        return trackRect.height;
+        return trbckRect.height;
     }
 
     /**
-     * Returns the amount that the thumb goes past the slide bar.
+     * Returns the bmount thbt the thumb goes pbst the slide bbr.
      *
-     * @return the amount that the thumb goes past the slide bar
+     * @return the bmount thbt the thumb goes pbst the slide bbr
      */
-    protected int getThumbOverhang() {
-        return (int)(getThumbSize().getHeight()-getTrackWidth())/2;
+    protected int getThumbOverhbng() {
+        return (int)(getThumbSize().getHeight()-getTrbckWidth())/2;
     }
 
-    protected void scrollDueToClickInTrack( int dir ) {
+    protected void scrollDueToClickInTrbck( int dir ) {
         scrollByUnit( dir );
     }
 
-    protected void paintMinorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x ) {
-        g.setColor( slider.isEnabled() ? slider.getForeground() : MetalLookAndFeel.getControlShadow() );
-        g.drawLine( x, TICK_BUFFER, x, TICK_BUFFER + (safeLength / 2) );
+    protected void pbintMinorTickForHorizSlider( Grbphics g, Rectbngle tickBounds, int x ) {
+        g.setColor( slider.isEnbbled() ? slider.getForeground() : MetblLookAndFeel.getControlShbdow() );
+        g.drbwLine( x, TICK_BUFFER, x, TICK_BUFFER + (sbfeLength / 2) );
     }
 
-    protected void paintMajorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x ) {
-        g.setColor( slider.isEnabled() ? slider.getForeground() : MetalLookAndFeel.getControlShadow() );
-        g.drawLine( x, TICK_BUFFER , x, TICK_BUFFER + (safeLength - 1) );
+    protected void pbintMbjorTickForHorizSlider( Grbphics g, Rectbngle tickBounds, int x ) {
+        g.setColor( slider.isEnbbled() ? slider.getForeground() : MetblLookAndFeel.getControlShbdow() );
+        g.drbwLine( x, TICK_BUFFER , x, TICK_BUFFER + (sbfeLength - 1) );
     }
 
-    protected void paintMinorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
-        g.setColor( slider.isEnabled() ? slider.getForeground() : MetalLookAndFeel.getControlShadow() );
+    protected void pbintMinorTickForVertSlider( Grbphics g, Rectbngle tickBounds, int y ) {
+        g.setColor( slider.isEnbbled() ? slider.getForeground() : MetblLookAndFeel.getControlShbdow() );
 
-        if (MetalUtils.isLeftToRight(slider)) {
-            g.drawLine( TICK_BUFFER, y, TICK_BUFFER + (safeLength / 2), y );
+        if (MetblUtils.isLeftToRight(slider)) {
+            g.drbwLine( TICK_BUFFER, y, TICK_BUFFER + (sbfeLength / 2), y );
         }
         else {
-            g.drawLine( 0, y, safeLength/2, y );
+            g.drbwLine( 0, y, sbfeLength/2, y );
         }
     }
 
-    protected void paintMajorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
-        g.setColor( slider.isEnabled() ? slider.getForeground() : MetalLookAndFeel.getControlShadow() );
+    protected void pbintMbjorTickForVertSlider( Grbphics g, Rectbngle tickBounds, int y ) {
+        g.setColor( slider.isEnbbled() ? slider.getForeground() : MetblLookAndFeel.getControlShbdow() );
 
-        if (MetalUtils.isLeftToRight(slider)) {
-            g.drawLine( TICK_BUFFER, y, TICK_BUFFER + safeLength, y );
+        if (MetblUtils.isLeftToRight(slider)) {
+            g.drbwLine( TICK_BUFFER, y, TICK_BUFFER + sbfeLength, y );
         }
         else {
-            g.drawLine( 0, y, safeLength, y );
+            g.drbwLine( 0, y, sbfeLength, y );
         }
     }
 }

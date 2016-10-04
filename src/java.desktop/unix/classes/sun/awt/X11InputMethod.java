@@ -1,442 +1,442 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Map;
-import java.util.HashMap;
-import java.awt.AWTEvent;
-import java.awt.AWTException;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.EventQueue;
-import java.awt.Window;
-import java.awt.im.InputContext;
-import java.awt.im.InputMethodHighlight;
-import java.awt.im.spi.InputMethodContext;
-import sun.awt.im.InputMethodAdapter;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.InputMethodEvent;
-import java.awt.font.TextAttribute;
-import java.awt.font.TextHitInfo;
-import java.awt.peer.ComponentPeer;
-import java.lang.Character.Subset;
-import java.text.AttributedString;
-import java.text.AttributedCharacterIterator;
+import jbvb.util.Collections;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.bwt.AWTEvent;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.EventQueue;
+import jbvb.bwt.Window;
+import jbvb.bwt.im.InputContext;
+import jbvb.bwt.im.InputMethodHighlight;
+import jbvb.bwt.im.spi.InputMethodContext;
+import sun.bwt.im.InputMethodAdbpter;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.event.ComponentEvent;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.event.InputMethodEvent;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.bwt.font.TextHitInfo;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.lbng.Chbrbcter.Subset;
+import jbvb.text.AttributedString;
+import jbvb.text.AttributedChbrbcterIterbtor;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import sun.util.logging.PlatformLogger;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
+import jbvb.io.File;
+import jbvb.io.FileRebder;
+import jbvb.io.BufferedRebder;
+import jbvb.io.IOException;
+import jbvb.lbng.ref.WebkReference;
+import sun.util.logging.PlbtformLogger;
+import jbvb.util.StringTokenizer;
+import jbvb.util.regex.Pbttern;
 
 
 /**
- * Input Method Adapter for XIM
+ * Input Method Adbpter for XIM
  *
- * @author JavaSoft International
+ * @buthor JbvbSoft Internbtionbl
  */
-public abstract class X11InputMethod extends InputMethodAdapter {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11InputMethod");
+public bbstrbct clbss X11InputMethod extends InputMethodAdbpter {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11InputMethod");
     /*
-     * The following XIM* values must be the same as those defined in
+     * The following XIM* vblues must be the sbme bs those defined in
      * Xlib.h
      */
-    private static final int XIMReverse = (1<<0);
-    private static final int XIMUnderline = (1<<1);
-    private static final int XIMHighlight = (1<<2);
-    private static final int XIMPrimary = (1<<5);
-    private static final int XIMSecondary = (1<<6);
-    private static final int XIMTertiary = (1<<7);
+    privbte stbtic finbl int XIMReverse = (1<<0);
+    privbte stbtic finbl int XIMUnderline = (1<<1);
+    privbte stbtic finbl int XIMHighlight = (1<<2);
+    privbte stbtic finbl int XIMPrimbry = (1<<5);
+    privbte stbtic finbl int XIMSecondbry = (1<<6);
+    privbte stbtic finbl int XIMTertibry = (1<<7);
 
     /*
-     * visible position values
+     * visible position vblues
      */
-    private static final int XIMVisibleToForward = (1<<8);
-    private static final int XIMVisibleToBackward = (1<<9);
-    private static final int XIMVisibleCenter = (1<<10);
-    private static final int XIMVisibleMask = (XIMVisibleToForward|
-                                               XIMVisibleToBackward|
+    privbte stbtic finbl int XIMVisibleToForwbrd = (1<<8);
+    privbte stbtic finbl int XIMVisibleToBbckwbrd = (1<<9);
+    privbte stbtic finbl int XIMVisibleCenter = (1<<10);
+    privbte stbtic finbl int XIMVisibleMbsk = (XIMVisibleToForwbrd|
+                                               XIMVisibleToBbckwbrd|
                                                XIMVisibleCenter);
 
-    private Locale locale;
-    private static boolean isXIMOpened = false;
-    protected Container clientComponentWindow = null;
-    private Component awtFocussedComponent = null;
-    private Component lastXICFocussedComponent = null;
-    private boolean   isLastXICActive = false;
-    private boolean   isLastTemporary = false;
-    private boolean   isActive = false;
-    private boolean   isActiveClient = false;
-    private static Map<TextAttribute, ?>[] highlightStyles;
-    private boolean disposed = false;
+    privbte Locble locble;
+    privbte stbtic boolebn isXIMOpened = fblse;
+    protected Contbiner clientComponentWindow = null;
+    privbte Component bwtFocussedComponent = null;
+    privbte Component lbstXICFocussedComponent = null;
+    privbte boolebn   isLbstXICActive = fblse;
+    privbte boolebn   isLbstTemporbry = fblse;
+    privbte boolebn   isActive = fblse;
+    privbte boolebn   isActiveClient = fblse;
+    privbte stbtic Mbp<TextAttribute, ?>[] highlightStyles;
+    privbte boolebn disposed = fblse;
 
-    //reset the XIC if necessary
-    private boolean   needResetXIC = false;
-    private WeakReference<Component> needResetXICClient = new WeakReference<>(null);
+    //reset the XIC if necessbry
+    privbte boolebn   needResetXIC = fblse;
+    privbte WebkReference<Component> needResetXICClient = new WebkReference<>(null);
 
-    // The use of compositionEnableSupported is to reduce unnecessary
-    // native calls if set/isCompositionEnabled
-    // throws UnsupportedOperationException.
-    // It is set to false if that exception is thrown first time
-    // either of the two methods are called.
-    private boolean compositionEnableSupported = true;
-    // The savedCompositionState indicates the composition mode when
-    // endComposition or setCompositionEnabled is called. It doesn't always
-    // reflect the actual composition state because it doesn't get updated
-    // when the user changes the composition state through direct interaction
-    // with the input method. It is used to save the composition mode when
-    // focus is traversed across different client components sharing the
-    // same java input context. Also if set/isCompositionEnabled are not
-    // supported, it remains false.
-    private boolean savedCompositionState = false;
+    // The use of compositionEnbbleSupported is to reduce unnecessbry
+    // nbtive cblls if set/isCompositionEnbbled
+    // throws UnsupportedOperbtionException.
+    // It is set to fblse if thbt exception is thrown first time
+    // either of the two methods bre cblled.
+    privbte boolebn compositionEnbbleSupported = true;
+    // The sbvedCompositionStbte indicbtes the composition mode when
+    // endComposition or setCompositionEnbbled is cblled. It doesn't blwbys
+    // reflect the bctubl composition stbte becbuse it doesn't get updbted
+    // when the user chbnges the composition stbte through direct interbction
+    // with the input method. It is used to sbve the composition mode when
+    // focus is trbversed bcross different client components shbring the
+    // sbme jbvb input context. Also if set/isCompositionEnbbled bre not
+    // supported, it rembins fblse.
+    privbte boolebn sbvedCompositionStbte = fblse;
 
-    // variables to keep track of preedit context.
-    // these variables need to be accessed within AWT_LOCK/UNLOCK
-    private String committedText = null;
-    private StringBuffer composedText = null;
-    private IntBuffer rawFeedbacks;
+    // vbribbles to keep trbck of preedit context.
+    // these vbribbles need to be bccessed within AWT_LOCK/UNLOCK
+    privbte String committedText = null;
+    privbte StringBuffer composedText = null;
+    privbte IntBuffer rbwFeedbbcks;
 
-    // private data (X11InputMethodData structure defined in
-    // awt_InputMethod.c) for native methods
-    // this structure needs to be accessed within AWT_LOCK/UNLOCK
-    transient private long pData = 0; // accessed by native
+    // privbte dbtb (X11InputMethodDbtb structure defined in
+    // bwt_InputMethod.c) for nbtive methods
+    // this structure needs to be bccessed within AWT_LOCK/UNLOCK
+    trbnsient privbte long pDbtb = 0; // bccessed by nbtive
 
-    // Initialize highlight mapping table
-    static {
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        Map<TextAttribute, ?> styles[] = new Map[4];
-        HashMap<TextAttribute, Object> map;
+    // Initiblize highlight mbpping tbble
+    stbtic {
+        @SuppressWbrnings({"unchecked", "rbwtypes"})
+        Mbp<TextAttribute, ?> styles[] = new Mbp[4];
+        HbshMbp<TextAttribute, Object> mbp;
 
         // UNSELECTED_RAW_TEXT_HIGHLIGHT
-        map = new HashMap<>(1);
-        map.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-        styles[0] = Collections.unmodifiableMap(map);
+        mbp = new HbshMbp<>(1);
+        mbp.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+        styles[0] = Collections.unmodifibbleMbp(mbp);
 
         // SELECTED_RAW_TEXT_HIGHLIGHT
-        map = new HashMap<>(1);
-        map.put(TextAttribute.SWAP_COLORS, TextAttribute.SWAP_COLORS_ON);
-        styles[1] = Collections.unmodifiableMap(map);
+        mbp = new HbshMbp<>(1);
+        mbp.put(TextAttribute.SWAP_COLORS, TextAttribute.SWAP_COLORS_ON);
+        styles[1] = Collections.unmodifibbleMbp(mbp);
 
         // UNSELECTED_CONVERTED_TEXT_HIGHLIGHT
-        map = new HashMap<>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE,
+        mbp = new HbshMbp<>(1);
+        mbp.put(TextAttribute.INPUT_METHOD_UNDERLINE,
                 TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-        styles[2] = Collections.unmodifiableMap(map);
+        styles[2] = Collections.unmodifibbleMbp(mbp);
 
         // SELECTED_CONVERTED_TEXT_HIGHLIGHT
-        map = new HashMap<>(1);
-        map.put(TextAttribute.SWAP_COLORS, TextAttribute.SWAP_COLORS_ON);
-        styles[3] = Collections.unmodifiableMap(map);
+        mbp = new HbshMbp<>(1);
+        mbp.put(TextAttribute.SWAP_COLORS, TextAttribute.SWAP_COLORS_ON);
+        styles[3] = Collections.unmodifibbleMbp(mbp);
 
         highlightStyles = styles;
     }
 
-    static {
+    stbtic {
         initIDs();
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-       accessed from C.
+     * Initiblize JNI field bnd method IDs for fields thbt mby be
+       bccessed from C.
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
     /**
-     * Constructs an X11InputMethod instance. It initializes the XIM
+     * Constructs bn X11InputMethod instbnce. It initiblizes the XIM
      * environment if it's not done yet.
      *
-     * @exception AWTException if XOpenIM() failed.
+     * @exception AWTException if XOpenIM() fbiled.
      */
     public X11InputMethod() throws AWTException {
-        // supports only the locale in which the VM is started
-        locale = X11InputMethodDescriptor.getSupportedLocale();
-        if (initXIM() == false) {
-            throw new AWTException("Cannot open X Input Method");
+        // supports only the locble in which the VM is stbrted
+        locble = X11InputMethodDescriptor.getSupportedLocble();
+        if (initXIM() == fblse) {
+            throw new AWTException("Cbnnot open X Input Method");
         }
     }
 
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         dispose();
-        super.finalize();
+        super.finblize();
     }
 
     /**
-     * Invokes openIM() that invokes XOpenIM() if it's not opened yet.
-     * @return  true if openXIM() is successful or it's already been opened.
+     * Invokes openIM() thbt invokes XOpenIM() if it's not opened yet.
+     * @return  true if openXIM() is successful or it's blrebdy been opened.
      */
-    private synchronized boolean initXIM() {
-        if (isXIMOpened == false)
+    privbte synchronized boolebn initXIM() {
+        if (isXIMOpened == fblse)
             isXIMOpened = openXIM();
         return isXIMOpened;
     }
 
-    protected abstract boolean openXIM();
+    protected bbstrbct boolebn openXIM();
 
-    protected boolean isDisposed() {
+    protected boolebn isDisposed() {
         return disposed;
     }
 
-    protected abstract void setXICFocus(ComponentPeer peer,
-                                    boolean value, boolean active);
+    protected bbstrbct void setXICFocus(ComponentPeer peer,
+                                    boolebn vblue, boolebn bctive);
 
     /**
-     * Does nothing - this adapter doesn't use the input method context.
+     * Does nothing - this bdbpter doesn't use the input method context.
      *
-     * @see java.awt.im.spi.InputMethod#setInputMethodContext
+     * @see jbvb.bwt.im.spi.InputMethod#setInputMethodContext
      */
     public void setInputMethodContext(InputMethodContext context) {
     }
 
     /**
-     * Set locale to input. If input method doesn't support specified locale,
-     * false will be returned and its behavior is not changed.
+     * Set locble to input. If input method doesn't support specified locble,
+     * fblse will be returned bnd its behbvior is not chbnged.
      *
-     * @param lang locale to input
-     * @return the true is returned when specified locale is supported.
+     * @pbrbm lbng locble to input
+     * @return the true is returned when specified locble is supported.
      */
-    public boolean setLocale(Locale lang) {
-        if (lang.equals(locale)) {
+    public boolebn setLocble(Locble lbng) {
+        if (lbng.equbls(locble)) {
             return true;
         }
-        // special compatibility rule for Japanese and Korean
-        if (locale.equals(Locale.JAPAN) && lang.equals(Locale.JAPANESE) ||
-                locale.equals(Locale.KOREA) && lang.equals(Locale.KOREAN)) {
+        // specibl compbtibility rule for Jbpbnese bnd Korebn
+        if (locble.equbls(Locble.JAPAN) && lbng.equbls(Locble.JAPANESE) ||
+                locble.equbls(Locble.KOREA) && lbng.equbls(Locble.KOREAN)) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns current input locale.
+     * Returns current input locble.
      */
-    public Locale getLocale() {
-        return locale;
+    public Locble getLocble() {
+        return locble;
     }
 
     /**
-     * Does nothing - XIM doesn't let you specify which characters you expect.
+     * Does nothing - XIM doesn't let you specify which chbrbcters you expect.
      *
-     * @see java.awt.im.spi.InputMethod#setCharacterSubsets
+     * @see jbvb.bwt.im.spi.InputMethod#setChbrbcterSubsets
      */
-    public void setCharacterSubsets(Subset[] subsets) {
+    public void setChbrbcterSubsets(Subset[] subsets) {
     }
 
     /**
-     * Dispatch event to input method. InputContext dispatch event with this
-     * method. Input method set consume flag if event is consumed in
+     * Dispbtch event to input method. InputContext dispbtch event with this
+     * method. Input method set consume flbg if event is consumed in
      * input method.
      *
-     * @param e event
+     * @pbrbm e event
      */
-    public void dispatchEvent(AWTEvent e) {
+    public void dispbtchEvent(AWTEvent e) {
     }
 
 
-    protected final void resetXICifneeded(){
-        /* needResetXIC is used to indicate whether to call
-           resetXIC on the active client. resetXIC will always be
-           called on the passive client when endComposition is called.
+    protected finbl void resetXICifneeded(){
+        /* needResetXIC is used to indicbte whether to cbll
+           resetXIC on the bctive client. resetXIC will blwbys be
+           cblled on the pbssive client when endComposition is cblled.
         */
-        if (needResetXIC && haveActiveClient() &&
+        if (needResetXIC && hbveActiveClient() &&
             getClientComponent() != needResetXICClient.get()){
             resetXIC();
 
-            // needs to reset the last xic focussed component.
-            lastXICFocussedComponent = null;
-            isLastXICActive = false;
+            // needs to reset the lbst xic focussed component.
+            lbstXICFocussedComponent = null;
+            isLbstXICActive = fblse;
 
-            needResetXICClient.clear();
-            needResetXIC = false;
+            needResetXICClient.clebr();
+            needResetXIC = fblse;
         }
     }
 
     /**
-     * Reset the composition state to the current composition state.
+     * Reset the composition stbte to the current composition stbte.
      */
-    private void resetCompositionState() {
-        if (compositionEnableSupported) {
+    privbte void resetCompositionStbte() {
+        if (compositionEnbbleSupported) {
             try {
-                /* Restore the composition mode to the last saved composition
+                /* Restore the composition mode to the lbst sbved composition
                    mode. */
-                setCompositionEnabled(savedCompositionState);
-            } catch (UnsupportedOperationException e) {
-                compositionEnableSupported = false;
+                setCompositionEnbbled(sbvedCompositionStbte);
+            } cbtch (UnsupportedOperbtionException e) {
+                compositionEnbbleSupported = fblse;
             }
         }
     }
 
     /**
-     * Query and then return the current composition state.
-     * @returns the composition state if isCompositionEnabled call
-     * is successful. Otherwise, it returns false.
+     * Query bnd then return the current composition stbte.
+     * @returns the composition stbte if isCompositionEnbbled cbll
+     * is successful. Otherwise, it returns fblse.
      */
-    private boolean getCompositionState() {
-        boolean compositionState = false;
-        if (compositionEnableSupported) {
+    privbte boolebn getCompositionStbte() {
+        boolebn compositionStbte = fblse;
+        if (compositionEnbbleSupported) {
             try {
-                compositionState = isCompositionEnabled();
-            } catch (UnsupportedOperationException e) {
-                compositionEnableSupported = false;
+                compositionStbte = isCompositionEnbbled();
+            } cbtch (UnsupportedOperbtionException e) {
+                compositionEnbbleSupported = fblse;
             }
         }
-        return compositionState;
+        return compositionStbte;
     }
 
     /**
-     * Activate input method.
+     * Activbte input method.
      */
-    public synchronized void activate() {
+    public synchronized void bctivbte() {
         clientComponentWindow = getClientComponentWindow();
         if (clientComponentWindow == null)
             return;
 
-        if (lastXICFocussedComponent != null){
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (lbstXICFocussedComponent != null){
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                 log.fine("XICFocused {0}, AWTFocused {1}",
-                         lastXICFocussedComponent, awtFocussedComponent);
+                         lbstXICFocussedComponent, bwtFocussedComponent);
             }
         }
 
-        if (pData == 0) {
-            if (!createXIC()) {
+        if (pDbtb == 0) {
+            if (!crebteXIC()) {
                 return;
             }
-            disposed = false;
+            disposed = fblse;
         }
 
-        /*  reset input context if necessary and set the XIC focus
+        /*  reset input context if necessbry bnd set the XIC focus
         */
         resetXICifneeded();
-        ComponentPeer lastXICFocussedComponentPeer = null;
-        ComponentPeer awtFocussedComponentPeer = getPeer(awtFocussedComponent);
+        ComponentPeer lbstXICFocussedComponentPeer = null;
+        ComponentPeer bwtFocussedComponentPeer = getPeer(bwtFocussedComponent);
 
-        if (lastXICFocussedComponent != null) {
-           lastXICFocussedComponentPeer = getPeer(lastXICFocussedComponent);
+        if (lbstXICFocussedComponent != null) {
+           lbstXICFocussedComponentPeer = getPeer(lbstXICFocussedComponent);
         }
 
-        /* If the last XIC focussed component has a different peer as the
-           current focussed component, change the XIC focus to the newly
+        /* If the lbst XIC focussed component hbs b different peer bs the
+           current focussed component, chbnge the XIC focus to the newly
            focussed component.
         */
-        if (isLastTemporary || lastXICFocussedComponentPeer != awtFocussedComponentPeer ||
-            isLastXICActive != haveActiveClient()) {
-            if (lastXICFocussedComponentPeer != null) {
-                setXICFocus(lastXICFocussedComponentPeer, false, isLastXICActive);
+        if (isLbstTemporbry || lbstXICFocussedComponentPeer != bwtFocussedComponentPeer ||
+            isLbstXICActive != hbveActiveClient()) {
+            if (lbstXICFocussedComponentPeer != null) {
+                setXICFocus(lbstXICFocussedComponentPeer, fblse, isLbstXICActive);
             }
-            if (awtFocussedComponentPeer != null) {
-                setXICFocus(awtFocussedComponentPeer, true, haveActiveClient());
+            if (bwtFocussedComponentPeer != null) {
+                setXICFocus(bwtFocussedComponentPeer, true, hbveActiveClient());
             }
-            lastXICFocussedComponent = awtFocussedComponent;
-            isLastXICActive = haveActiveClient();
+            lbstXICFocussedComponent = bwtFocussedComponent;
+            isLbstXICActive = hbveActiveClient();
         }
-        resetCompositionState();
+        resetCompositionStbte();
         isActive = true;
     }
 
-    protected abstract boolean createXIC();
+    protected bbstrbct boolebn crebteXIC();
 
     /**
-     * Deactivate input method.
+     * Debctivbte input method.
      */
-    public synchronized void deactivate(boolean isTemporary) {
-        boolean   isAc =  haveActiveClient();
-        /* Usually as the client component, let's call it component A,
-           loses the focus, this method is called. Then when another client
-           component, let's call it component B,  gets the focus, activate is first called on
-           the previous focused compoent which is A, then endComposition is called on A,
-           deactivate is called on A again. And finally activate is called on the newly
-           focused component B. Here is the call sequence.
+    public synchronized void debctivbte(boolebn isTemporbry) {
+        boolebn   isAc =  hbveActiveClient();
+        /* Usublly bs the client component, let's cbll it component A,
+           loses the focus, this method is cblled. Then when bnother client
+           component, let's cbll it component B,  gets the focus, bctivbte is first cblled on
+           the previous focused compoent which is A, then endComposition is cblled on A,
+           debctivbte is cblled on A bgbin. And finblly bctivbte is cblled on the newly
+           focused component B. Here is the cbll sequence.
 
-           A loses focus               B gains focus
-           -------------> deactivate A -------------> activate A -> endComposition A ->
-           deactivate A -> activate B ----....
+           A loses focus               B gbins focus
+           -------------> debctivbte A -------------> bctivbte A -> endComposition A ->
+           debctivbte A -> bctivbte B ----....
 
-           So in order to carry the composition mode across the components sharing the same
-           input context, we save it when deactivate is called so that when activate is
-           called, it can be restored correctly till activate is called on the newly focused
-           component. (See also sun/awt/im/InputContext and bug 6184471).
-           Last note, getCompositionState should be called before setXICFocus since
+           So in order to cbrry the composition mode bcross the components shbring the sbme
+           input context, we sbve it when debctivbte is cblled so thbt when bctivbte is
+           cblled, it cbn be restored correctly till bctivbte is cblled on the newly focused
+           component. (See blso sun/bwt/im/InputContext bnd bug 6184471).
+           Lbst note, getCompositionStbte should be cblled before setXICFocus since
            setXICFocus here sets the XIC to 0.
         */
-        savedCompositionState = getCompositionState();
+        sbvedCompositionStbte = getCompositionStbte();
 
-        if (isTemporary){
-            //turn the status window off...
-            turnoffStatusWindow();
+        if (isTemporbry){
+            //turn the stbtus window off...
+            turnoffStbtusWindow();
         }
 
-        /* Delay resetting the XIC focus until activate is called and the newly
-           focussed component has a different peer as the last focussed component.
+        /* Delby resetting the XIC focus until bctivbte is cblled bnd the newly
+           focussed component hbs b different peer bs the lbst focussed component.
         */
-        lastXICFocussedComponent = awtFocussedComponent;
-        isLastXICActive = isAc;
-        isLastTemporary = isTemporary;
-        isActive = false;
+        lbstXICFocussedComponent = bwtFocussedComponent;
+        isLbstXICActive = isAc;
+        isLbstTemporbry = isTemporbry;
+        isActive = fblse;
     }
 
     /**
-     * Explicitly disable the native IME. Native IME is not disabled when
-     * deactivate is called.
+     * Explicitly disbble the nbtive IME. Nbtive IME is not disbbled when
+     * debctivbte is cblled.
      */
-    public void disableInputMethod() {
-        if (lastXICFocussedComponent != null) {
-            setXICFocus(getPeer(lastXICFocussedComponent), false, isLastXICActive);
-            lastXICFocussedComponent = null;
-            isLastXICActive = false;
+    public void disbbleInputMethod() {
+        if (lbstXICFocussedComponent != null) {
+            setXICFocus(getPeer(lbstXICFocussedComponent), fblse, isLbstXICActive);
+            lbstXICFocussedComponent = null;
+            isLbstXICActive = fblse;
 
             resetXIC();
-            needResetXICClient.clear();
-            needResetXIC = false;
+            needResetXICClient.clebr();
+            needResetXIC = fblse;
         }
     }
 
-    // implements java.awt.im.spi.InputMethod.hideWindows
+    // implements jbvb.bwt.im.spi.InputMethod.hideWindows
     public void hideWindows() {
-        // ??? need real implementation
+        // ??? need rebl implementbtion
     }
 
     /**
-     * @see java.awt.Toolkit#mapInputMethodHighlight
+     * @see jbvb.bwt.Toolkit#mbpInputMethodHighlight
      */
-    public static Map<TextAttribute, ?> mapInputMethodHighlight(InputMethodHighlight highlight) {
+    public stbtic Mbp<TextAttribute, ?> mbpInputMethodHighlight(InputMethodHighlight highlight) {
         int index;
-        int state = highlight.getState();
-        if (state == InputMethodHighlight.RAW_TEXT) {
+        int stbte = highlight.getStbte();
+        if (stbte == InputMethodHighlight.RAW_TEXT) {
             index = 0;
-        } else if (state == InputMethodHighlight.CONVERTED_TEXT) {
+        } else if (stbte == InputMethodHighlight.CONVERTED_TEXT) {
             index = 2;
         } else {
             return null;
@@ -448,189 +448,189 @@ public abstract class X11InputMethod extends InputMethodAdapter {
     }
 
     /**
-     * @see sun.awt.im.InputMethodAdapter#setAWTFocussedComponent
+     * @see sun.bwt.im.InputMethodAdbpter#setAWTFocussedComponent
      */
     protected void setAWTFocussedComponent(Component component) {
         if (component == null) {
             return;
         }
         if (isActive) {
-            // deactivate/activate are being suppressed during a focus change -
-            // this may happen when an input method window is made visible
-            boolean ac = haveActiveClient();
-            setXICFocus(getPeer(awtFocussedComponent), false, ac);
-            setXICFocus(getPeer(component), true, ac);
+            // debctivbte/bctivbte bre being suppressed during b focus chbnge -
+            // this mby hbppen when bn input method window is mbde visible
+            boolebn bc = hbveActiveClient();
+            setXICFocus(getPeer(bwtFocussedComponent), fblse, bc);
+            setXICFocus(getPeer(component), true, bc);
         }
-        awtFocussedComponent = component;
+        bwtFocussedComponent = component;
     }
 
     /**
-     * @see sun.awt.im.InputMethodAdapter#stopListening
+     * @see sun.bwt.im.InputMethodAdbpter#stopListening
      */
     protected void stopListening() {
-        // It is desirable to disable XIM by calling XSetICValues with
-        // XNPreeditState == XIMPreeditDisable.  But Solaris 2.6 and
-        // Solaris 7 do not implement this correctly without a patch,
-        // so just call resetXIC here.  Prior endComposition call commits
+        // It is desirbble to disbble XIM by cblling XSetICVblues with
+        // XNPreeditStbte == XIMPreeditDisbble.  But Solbris 2.6 bnd
+        // Solbris 7 do not implement this correctly without b pbtch,
+        // so just cbll resetXIC here.  Prior endComposition cbll commits
         // the existing composed text.
         endComposition();
-        // disable the native input method so that the other input
+        // disbble the nbtive input method so thbt the other input
         // method could get the input focus.
-        disableInputMethod();
+        disbbleInputMethod();
         if (needResetXIC) {
             resetXIC();
-            needResetXICClient.clear();
-            needResetXIC = false;
+            needResetXICClient.clebr();
+            needResetXIC = fblse;
         }
     }
 
     /**
-     * Returns the Window instance in which the client component is
-     * contained. If not found, null is returned. (IS THIS POSSIBLE?)
+     * Returns the Window instbnce in which the client component is
+     * contbined. If not found, null is returned. (IS THIS POSSIBLE?)
      */
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: This method mby be cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    private Window getClientComponentWindow() {
+    privbte Window getClientComponentWindow() {
         Component client = getClientComponent();
-        Container container;
+        Contbiner contbiner;
 
-        if (client instanceof Container) {
-            container = (Container) client;
+        if (client instbnceof Contbiner) {
+            contbiner = (Contbiner) client;
         } else {
-            container = getParent(client);
+            contbiner = getPbrent(client);
         }
 
-        while (container != null && !(container instanceof java.awt.Window)) {
-            container = getParent(container);
+        while (contbiner != null && !(contbiner instbnceof jbvb.bwt.Window)) {
+            contbiner = getPbrent(contbiner);
         }
-        return (Window) container;
+        return (Window) contbiner;
     }
 
-    protected abstract Container getParent(Component client);
+    protected bbstrbct Contbiner getPbrent(Component client);
 
     /**
      * Returns peer of the given client component. If the given client component
-     * doesn't have peer, peer of the native container of the client is returned.
+     * doesn't hbve peer, peer of the nbtive contbiner of the client is returned.
      */
-    protected abstract ComponentPeer getPeer(Component client);
+    protected bbstrbct ComponentPeer getPeer(Component client);
 
     /**
-     * Used to protect preedit data
+     * Used to protect preedit dbtb
      */
-    protected abstract void awtLock();
-    protected abstract void awtUnlock();
+    protected bbstrbct void bwtLock();
+    protected bbstrbct void bwtUnlock();
 
     /**
-     * Creates an input method event from the arguments given
-     * and posts it on the AWT event queue. For arguments,
-     * see InputMethodEvent. Called by input method.
+     * Crebtes bn input method event from the brguments given
+     * bnd posts it on the AWT event queue. For brguments,
+     * see InputMethodEvent. Cblled by input method.
      *
-     * @see java.awt.event.InputMethodEvent#InputMethodEvent
+     * @see jbvb.bwt.event.InputMethodEvent#InputMethodEvent
      */
-    private void postInputMethodEvent(int id,
-                                      AttributedCharacterIterator text,
-                                      int committedCharacterCount,
-                                      TextHitInfo caret,
+    privbte void postInputMethodEvent(int id,
+                                      AttributedChbrbcterIterbtor text,
+                                      int committedChbrbcterCount,
+                                      TextHitInfo cbret,
                                       TextHitInfo visiblePosition,
                                       long when) {
         Component source = getClientComponent();
         if (source != null) {
             InputMethodEvent event = new InputMethodEvent(source,
-                id, when, text, committedCharacterCount, caret, visiblePosition);
-            SunToolkit.postEvent(SunToolkit.targetToAppContext(source), (AWTEvent)event);
+                id, when, text, committedChbrbcterCount, cbret, visiblePosition);
+            SunToolkit.postEvent(SunToolkit.tbrgetToAppContext(source), (AWTEvent)event);
         }
     }
 
-    private void postInputMethodEvent(int id,
-                                      AttributedCharacterIterator text,
-                                      int committedCharacterCount,
-                                      TextHitInfo caret,
+    privbte void postInputMethodEvent(int id,
+                                      AttributedChbrbcterIterbtor text,
+                                      int committedChbrbcterCount,
+                                      TextHitInfo cbret,
                                       TextHitInfo visiblePosition) {
-        postInputMethodEvent(id, text, committedCharacterCount,
-                             caret, visiblePosition, EventQueue.getMostRecentEventTime());
+        postInputMethodEvent(id, text, committedChbrbcterCount,
+                             cbret, visiblePosition, EventQueue.getMostRecentEventTime());
     }
 
     /**
-     * Dispatches committed text from XIM to the awt event queue. This
-     * method is invoked from the event handler in canvas.c in the
-     * AWT Toolkit thread context and thus inside the AWT Lock.
-     * @param   str     committed text
-     * @param   long    when
+     * Dispbtches committed text from XIM to the bwt event queue. This
+     * method is invoked from the event hbndler in cbnvbs.c in the
+     * AWT Toolkit threbd context bnd thus inside the AWT Lock.
+     * @pbrbm   str     committed text
+     * @pbrbm   long    when
      */
-    // NOTE: This method may be called by privileged threads.
-    //       This functionality is implemented in a package-private method
-    //       to insure that it cannot be overridden by client subclasses.
+    // NOTE: This method mby be cblled by privileged threbds.
+    //       This functionblity is implemented in b pbckbge-privbte method
+    //       to insure thbt it cbnnot be overridden by client subclbsses.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    void dispatchCommittedText(String str, long when) {
+    void dispbtchCommittedText(String str, long when) {
         if (str == null)
             return;
 
         if (composedText == null) {
-            AttributedString attrstr = new AttributedString(str);
+            AttributedString bttrstr = new AttributedString(str);
             postInputMethodEvent(InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                                 attrstr.getIterator(),
+                                 bttrstr.getIterbtor(),
                                  str.length(),
                                  null,
                                  null,
                                  when);
         } else {
-            // if there is composed text, wait until the preedit
-            // callback is invoked.
+            // if there is composed text, wbit until the preedit
+            // cbllbbck is invoked.
             committedText = str;
         }
     }
 
-    private void dispatchCommittedText(String str) {
-        dispatchCommittedText(str, EventQueue.getMostRecentEventTime());
+    privbte void dispbtchCommittedText(String str) {
+        dispbtchCommittedText(str, EventQueue.getMostRecentEventTime());
     }
 
     /**
-     * Updates composed text with XIM preedit information and
-     * posts composed text to the awt event queue. The args of
-     * this method correspond to the XIM preedit callback
-     * information. The XIM highlight attributes are translated via
-     * fixed mapping (i.e., independent from any underlying input
+     * Updbtes composed text with XIM preedit informbtion bnd
+     * posts composed text to the bwt event queue. The brgs of
+     * this method correspond to the XIM preedit cbllbbck
+     * informbtion. The XIM highlight bttributes bre trbnslbted vib
+     * fixed mbpping (i.e., independent from bny underlying input
      * method engine). This method is invoked in the AWT Toolkit
-     * (X event loop) thread context and thus inside the AWT Lock.
+     * (X event loop) threbd context bnd thus inside the AWT Lock.
      */
-    // NOTE: This method may be called by privileged threads.
-    //       This functionality is implemented in a package-private method
-    //       to insure that it cannot be overridden by client subclasses.
+    // NOTE: This method mby be cblled by privileged threbds.
+    //       This functionblity is implemented in b pbckbge-privbte method
+    //       to insure thbt it cbnnot be overridden by client subclbsses.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    void dispatchComposedText(String chgText,
+    void dispbtchComposedText(String chgText,
                                            int chgStyles[],
                                            int chgOffset,
                                            int chgLength,
-                                           int caretPosition,
+                                           int cbretPosition,
                                            long when) {
         if (disposed) {
             return;
         }
 
-        //Workaround for deadlock bug on solaris2.6_zh bug#4170760
+        //Workbround for debdlock bug on solbris2.6_zh bug#4170760
         if (chgText == null
             && chgStyles == null
             && chgOffset == 0
             && chgLength == 0
-            && caretPosition == 0
+            && cbretPosition == 0
             && composedText == null
             && committedText == null)
             return;
 
         if (composedText == null) {
-            // TODO: avoid reallocation of those buffers
+            // TODO: bvoid rebllocbtion of those buffers
             composedText = new StringBuffer(INITIAL_SIZE);
-            rawFeedbacks = new IntBuffer(INITIAL_SIZE);
+            rbwFeedbbcks = new IntBuffer(INITIAL_SIZE);
         }
         if (chgLength > 0) {
             if (chgText == null && chgStyles != null) {
-                rawFeedbacks.replace(chgOffset, chgStyles);
+                rbwFeedbbcks.replbce(chgOffset, chgStyles);
             } else {
                 if (chgLength == composedText.length()) {
-                    // optimization for the special case to replace the
+                    // optimizbtion for the specibl cbse to replbce the
                     // entire previous text
                     composedText = new StringBuffer(INITIAL_SIZE);
-                    rawFeedbacks = new IntBuffer(INITIAL_SIZE);
+                    rbwFeedbbcks = new IntBuffer(INITIAL_SIZE);
                 } else {
                     if (composedText.length() > 0) {
                         if (chgOffset+chgLength < composedText.length()) {
@@ -638,13 +638,13 @@ public abstract class X11InputMethod extends InputMethodAdapter {
                             text = composedText.toString().substring(chgOffset+chgLength,
                                                                      composedText.length());
                             composedText.setLength(chgOffset);
-                            composedText.append(text);
+                            composedText.bppend(text);
                         } else {
-                            // in case to remove substring from chgOffset
+                            // in cbse to remove substring from chgOffset
                             // to the end
                             composedText.setLength(chgOffset);
                         }
-                        rawFeedbacks.remove(chgOffset, chgLength);
+                        rbwFeedbbcks.remove(chgOffset, chgLength);
                     }
                 }
             }
@@ -652,18 +652,18 @@ public abstract class X11InputMethod extends InputMethodAdapter {
         if (chgText != null) {
             composedText.insert(chgOffset, chgText);
             if (chgStyles != null)
-                rawFeedbacks.insert(chgOffset, chgStyles);
+                rbwFeedbbcks.insert(chgOffset, chgStyles);
         }
 
         if (composedText.length() == 0) {
             composedText = null;
-            rawFeedbacks = null;
+            rbwFeedbbcks = null;
 
-            // if there is any outstanding committed text stored by
-            // dispatchCommittedText(), it has to be sent to the
+            // if there is bny outstbnding committed text stored by
+            // dispbtchCommittedText(), it hbs to be sent to the
             // client component.
             if (committedText != null) {
-                dispatchCommittedText(committedText, when);
+                dispbtchCommittedText(committedText, when);
                 committedText = null;
                 return;
             }
@@ -684,7 +684,7 @@ public abstract class X11InputMethod extends InputMethodAdapter {
         int composedOffset;
         AttributedString inputText;
 
-        // if there is any partially committed text, concatenate it to
+        // if there is bny pbrtiblly committed text, concbtenbte it to
         // the composed text.
         if (committedText != null) {
             composedOffset = committedText.length();
@@ -695,64 +695,64 @@ public abstract class X11InputMethod extends InputMethodAdapter {
             inputText = new AttributedString(composedText.toString());
         }
 
-        int currentFeedback;
-        int nextFeedback;
-        int startOffset = 0;
+        int currentFeedbbck;
+        int nextFeedbbck;
+        int stbrtOffset = 0;
         int currentOffset;
         int visiblePosition = 0;
         TextHitInfo visiblePositionInfo = null;
 
-        rawFeedbacks.rewind();
-        currentFeedback = rawFeedbacks.getNext();
-        rawFeedbacks.unget();
-        while ((nextFeedback = rawFeedbacks.getNext()) != -1) {
+        rbwFeedbbcks.rewind();
+        currentFeedbbck = rbwFeedbbcks.getNext();
+        rbwFeedbbcks.unget();
+        while ((nextFeedbbck = rbwFeedbbcks.getNext()) != -1) {
             if (visiblePosition == 0) {
-                visiblePosition = nextFeedback & XIMVisibleMask;
+                visiblePosition = nextFeedbbck & XIMVisibleMbsk;
                 if (visiblePosition != 0) {
-                    int index = rawFeedbacks.getOffset() - 1;
+                    int index = rbwFeedbbcks.getOffset() - 1;
 
-                    if (visiblePosition == XIMVisibleToBackward)
-                        visiblePositionInfo = TextHitInfo.leading(index);
+                    if (visiblePosition == XIMVisibleToBbckwbrd)
+                        visiblePositionInfo = TextHitInfo.lebding(index);
                     else
-                        visiblePositionInfo = TextHitInfo.trailing(index);
+                        visiblePositionInfo = TextHitInfo.trbiling(index);
                 }
             }
-            nextFeedback &= ~XIMVisibleMask;
-            if (currentFeedback != nextFeedback) {
-                rawFeedbacks.unget();
-                currentOffset = rawFeedbacks.getOffset();
-                inputText.addAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT,
-                                       convertVisualFeedbackToHighlight(currentFeedback),
-                                       composedOffset + startOffset,
+            nextFeedbbck &= ~XIMVisibleMbsk;
+            if (currentFeedbbck != nextFeedbbck) {
+                rbwFeedbbcks.unget();
+                currentOffset = rbwFeedbbcks.getOffset();
+                inputText.bddAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT,
+                                       convertVisublFeedbbckToHighlight(currentFeedbbck),
+                                       composedOffset + stbrtOffset,
                                        composedOffset + currentOffset);
-                startOffset = currentOffset;
-                currentFeedback = nextFeedback;
+                stbrtOffset = currentOffset;
+                currentFeedbbck = nextFeedbbck;
             }
         }
-        currentOffset = rawFeedbacks.getOffset();
+        currentOffset = rbwFeedbbcks.getOffset();
         if (currentOffset >= 0) {
-            inputText.addAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT,
-                                   convertVisualFeedbackToHighlight(currentFeedback),
-                                   composedOffset + startOffset,
+            inputText.bddAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT,
+                                   convertVisublFeedbbckToHighlight(currentFeedbbck),
+                                   composedOffset + stbrtOffset,
                                    composedOffset + currentOffset);
         }
 
         postInputMethodEvent(InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                             inputText.getIterator(),
+                             inputText.getIterbtor(),
                              composedOffset,
-                             TextHitInfo.leading(caretPosition),
+                             TextHitInfo.lebding(cbretPosition),
                              visiblePositionInfo,
                              when);
     }
 
     /**
-     * Flushes composed and committed text held in this context.
-     * This method is invoked in the AWT Toolkit (X event loop) thread context
-     * and thus inside the AWT Lock.
+     * Flushes composed bnd committed text held in this context.
+     * This method is invoked in the AWT Toolkit (X event loop) threbd context
+     * bnd thus inside the AWT Lock.
      */
-    // NOTE: This method may be called by privileged threads.
-    //       This functionality is implemented in a package-private method
-    //       to insure that it cannot be overridden by client subclasses.
+    // NOTE: This method mby be cblled by privileged threbds.
+    //       This functionblity is implemented in b pbckbge-privbte method
+    //       to insure thbt it cbnnot be overridden by client subclbsses.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
     void flushText() {
         String flush = (committedText != null ? committedText : "");
@@ -760,10 +760,10 @@ public abstract class X11InputMethod extends InputMethodAdapter {
             flush += composedText.toString();
         }
 
-        if (!flush.equals("")) {
-            AttributedString attrstr = new AttributedString(flush);
+        if (!flush.equbls("")) {
+            AttributedString bttrstr = new AttributedString(flush);
             postInputMethodEvent(InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                                 attrstr.getIterator(),
+                                 bttrstr.getIterbtor(),
                                  flush.length(),
                                  null,
                                  null,
@@ -774,37 +774,37 @@ public abstract class X11InputMethod extends InputMethodAdapter {
     }
 
     /*
-     * Subclasses should override disposeImpl() instead of dispose(). Client
-     * code should always invoke dispose(), never disposeImpl().
+     * Subclbsses should override disposeImpl() instebd of dispose(). Client
+     * code should blwbys invoke dispose(), never disposeImpl().
      */
     protected synchronized void disposeImpl() {
         disposeXIC();
-        awtLock();
+        bwtLock();
         composedText = null;
         committedText = null;
-        rawFeedbacks = null;
-        awtUnlock();
-        awtFocussedComponent = null;
-        lastXICFocussedComponent = null;
+        rbwFeedbbcks = null;
+        bwtUnlock();
+        bwtFocussedComponent = null;
+        lbstXICFocussedComponent = null;
     }
 
     /**
-     * Frees all X Window resources associated with this object.
+     * Frees bll X Window resources bssocibted with this object.
      *
-     * @see java.awt.im.spi.InputMethod#dispose
+     * @see jbvb.bwt.im.spi.InputMethod#dispose
      */
-    public final void dispose() {
-        boolean call_disposeImpl = false;
+    public finbl void dispose() {
+        boolebn cbll_disposeImpl = fblse;
 
         if (!disposed) {
             synchronized (this) {
                 if (!disposed) {
-                    disposed = call_disposeImpl = true;
+                    disposed = cbll_disposeImpl = true;
                 }
             }
         }
 
-        if (call_disposeImpl) {
+        if (cbll_disposeImpl) {
             disposeImpl();
         }
     }
@@ -812,59 +812,59 @@ public abstract class X11InputMethod extends InputMethodAdapter {
     /**
      * Returns null.
      *
-     * @see java.awt.im.spi.InputMethod#getControlObject
+     * @see jbvb.bwt.im.spi.InputMethod#getControlObject
      */
     public Object getControlObject() {
         return null;
     }
 
     /**
-     * @see java.awt.im.spi.InputMethod#removeNotify
+     * @see jbvb.bwt.im.spi.InputMethod#removeNotify
      */
     public synchronized void removeNotify() {
         dispose();
     }
 
     /**
-     * @see java.awt.im.spi.InputMethod#setCompositionEnabled(boolean)
+     * @see jbvb.bwt.im.spi.InputMethod#setCompositionEnbbled(boolebn)
      */
-    public void setCompositionEnabled(boolean enable) {
-        /* If the composition state is successfully changed, set
-           the savedCompositionState to 'enable'. Otherwise, simply
+    public void setCompositionEnbbled(boolebn enbble) {
+        /* If the composition stbte is successfully chbnged, set
+           the sbvedCompositionStbte to 'enbble'. Otherwise, simply
            return.
-           setCompositionEnabledNative may throw UnsupportedOperationException.
-           Don't try to catch it since the method may be called by clients.
-           Use package private mthod 'resetCompositionState' if you want the
-           exception to be caught.
+           setCompositionEnbbledNbtive mby throw UnsupportedOperbtionException.
+           Don't try to cbtch it since the method mby be cblled by clients.
+           Use pbckbge privbte mthod 'resetCompositionStbte' if you wbnt the
+           exception to be cbught.
         */
-        if (setCompositionEnabledNative(enable)) {
-            savedCompositionState = enable;
+        if (setCompositionEnbbledNbtive(enbble)) {
+            sbvedCompositionStbte = enbble;
         }
     }
 
     /**
-     * @see java.awt.im.spi.InputMethod#isCompositionEnabled
+     * @see jbvb.bwt.im.spi.InputMethod#isCompositionEnbbled
      */
-    public boolean isCompositionEnabled() {
-        /* isCompositionEnabledNative may throw UnsupportedOperationException.
-           Don't try to catch it since this method may be called by clients.
-           Use package private method 'getCompositionState' if you want the
-           exception to be caught.
+    public boolebn isCompositionEnbbled() {
+        /* isCompositionEnbbledNbtive mby throw UnsupportedOperbtionException.
+           Don't try to cbtch it since this method mby be cblled by clients.
+           Use pbckbge privbte method 'getCompositionStbte' if you wbnt the
+           exception to be cbught.
         */
-        return isCompositionEnabledNative();
+        return isCompositionEnbbledNbtive();
     }
 
     /**
-     * Ends any input composition that may currently be going on in this
-     * context. Depending on the platform and possibly user preferences,
-     * this may commit or delete uncommitted text. Any changes to the text
-     * are communicated to the active component using an input method event.
+     * Ends bny input composition thbt mby currently be going on in this
+     * context. Depending on the plbtform bnd possibly user preferences,
+     * this mby commit or delete uncommitted text. Any chbnges to the text
+     * bre communicbted to the bctive component using bn input method event.
      *
      * <p>
-     * A text editing component may call this in a variety of situations,
-     * for example, when the user moves the insertion point within the text
+     * A text editing component mby cbll this in b vbriety of situbtions,
+     * for exbmple, when the user moves the insertion point within the text
      * (but outside the composed text), or when the component's text is
-     * saved to a file or copied to the clipboard.
+     * sbved to b file or copied to the clipbobrd.
      *
      */
     public void endComposition() {
@@ -872,30 +872,30 @@ public abstract class X11InputMethod extends InputMethodAdapter {
             return;
         }
 
-        /* Before calling resetXIC, record the current composition mode
-           so that it can be restored later. */
-        savedCompositionState = getCompositionState();
-        boolean active = haveActiveClient();
-        if (active && composedText == null && committedText == null){
+        /* Before cblling resetXIC, record the current composition mode
+           so thbt it cbn be restored lbter. */
+        sbvedCompositionStbte = getCompositionStbte();
+        boolebn bctive = hbveActiveClient();
+        if (bctive && composedText == null && committedText == null){
             needResetXIC = true;
-            needResetXICClient = new WeakReference<>(getClientComponent());
+            needResetXICClient = new WebkReference<>(getClientComponent());
             return;
         }
 
         String text = resetXIC();
-        /* needResetXIC is only set to true for active client. So passive
-           client should not reset the flag to false. */
-        if (active) {
-            needResetXIC = false;
+        /* needResetXIC is only set to true for bctive client. So pbssive
+           client should not reset the flbg to fblse. */
+        if (bctive) {
+            needResetXIC = fblse;
         }
 
-        // Remove any existing composed text by posting an InputMethodEvent
-        // with null composed text.  It would be desirable to wait for a
-        // dispatchComposedText call from X input method engine, but some
-        // input method does not conform to the XIM specification and does
-        // not call the preedit callback to erase preedit text on calling
-        // XmbResetIC.  To work around this problem, do it here by ourselves.
-        awtLock();
+        // Remove bny existing composed text by posting bn InputMethodEvent
+        // with null composed text.  It would be desirbble to wbit for b
+        // dispbtchComposedText cbll from X input method engine, but some
+        // input method does not conform to the XIM specificbtion bnd does
+        // not cbll the preedit cbllbbck to erbse preedit text on cblling
+        // XmbResetIC.  To work bround this problem, do it here by ourselves.
+        bwtLock();
         composedText = null;
         postInputMethodEvent(InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
                              null,
@@ -904,72 +904,72 @@ public abstract class X11InputMethod extends InputMethodAdapter {
                              null);
 
         if (text != null && text.length() > 0) {
-            dispatchCommittedText(text);
+            dispbtchCommittedText(text);
         }
-        awtUnlock();
+        bwtUnlock();
 
-        // Restore the preedit state if it was enabled
-        if (savedCompositionState) {
-            resetCompositionState();
+        // Restore the preedit stbte if it wbs enbbled
+        if (sbvedCompositionStbte) {
+            resetCompositionStbte();
         }
     }
 
     /**
-     * Returns a string with information about the current input method server, or null.
-     * On both Linux & SunOS, the value of environment variable XMODIFIERS is
-     * returned if set. Otherwise, on SunOS, $HOME/.dtprofile will be parsed
-     * to find out the language service engine (atok or wnn) since there is
-     * no API in Xlib which returns the information of native
-     * IM server or language service and we want to try our best to return as much
-     * information as possible.
+     * Returns b string with informbtion bbout the current input method server, or null.
+     * On both Linux & SunOS, the vblue of environment vbribble XMODIFIERS is
+     * returned if set. Otherwise, on SunOS, $HOME/.dtprofile will be pbrsed
+     * to find out the lbngubge service engine (btok or wnn) since there is
+     * no API in Xlib which returns the informbtion of nbtive
+     * IM server or lbngubge service bnd we wbnt to try our best to return bs much
+     * informbtion bs possible.
      *
      * Note: This method could return null on Linux if XMODIFIERS is not set properly or
-     * if any IOException is thrown.
-     * See man page of XSetLocaleModifiers(3X11) for the usgae of XMODIFIERS,
-     * atok12setup(1) and wnn6setup(1) for the information written to
-     * $HOME/.dtprofile when you run these two commands.
+     * if bny IOException is thrown.
+     * See mbn pbge of XSetLocbleModifiers(3X11) for the usgbe of XMODIFIERS,
+     * btok12setup(1) bnd wnn6setup(1) for the informbtion written to
+     * $HOME/.dtprofile when you run these two commbnds.
      *
      */
-    public String getNativeInputMethodInfo() {
+    public String getNbtiveInputMethodInfo() {
         String xmodifiers = System.getenv("XMODIFIERS");
         String imInfo = null;
 
-        // If XMODIFIERS is set, return the value
+        // If XMODIFIERS is set, return the vblue
         if (xmodifiers != null) {
             int imIndex = xmodifiers.indexOf("@im=");
             if (imIndex != -1) {
                 imInfo = xmodifiers.substring(imIndex + 4);
             }
-        } else if (System.getProperty("os.name").startsWith("SunOS")) {
+        } else if (System.getProperty("os.nbme").stbrtsWith("SunOS")) {
             File dtprofile = new File(System.getProperty("user.home") +
                                       "/.dtprofile");
-            String languageEngineInfo = null;
+            String lbngubgeEngineInfo = null;
             try {
-                BufferedReader br = new BufferedReader(new FileReader(dtprofile));
+                BufferedRebder br = new BufferedRebder(new FileRebder(dtprofile));
                 String line = null;
 
-                while ( languageEngineInfo == null && (line = br.readLine()) != null) {
-                    if (line.contains("atok") || line.contains("wnn")) {
+                while ( lbngubgeEngineInfo == null && (line = br.rebdLine()) != null) {
+                    if (line.contbins("btok") || line.contbins("wnn")) {
                         StringTokenizer tokens =  new StringTokenizer(line);
-                        while (tokens.hasMoreTokens()) {
+                        while (tokens.hbsMoreTokens()) {
                             String token = tokens.nextToken();
-                            if (Pattern.matches("atok.*setup", token) ||
-                                Pattern.matches("wnn.*setup", token)){
-                                languageEngineInfo = token.substring(0, token.indexOf("setup"));
-                                break;
+                            if (Pbttern.mbtches("btok.*setup", token) ||
+                                Pbttern.mbtches("wnn.*setup", token)){
+                                lbngubgeEngineInfo = token.substring(0, token.indexOf("setup"));
+                                brebk;
                             }
                         }
                     }
                 }
 
                 br.close();
-            } catch(IOException ioex) {
-                // Since this method is provided for internal testing only,
-                // we dump the stack trace for the ease of debugging.
-                ioex.printStackTrace();
+            } cbtch(IOException ioex) {
+                // Since this method is provided for internbl testing only,
+                // we dump the stbck trbce for the ebse of debugging.
+                ioex.printStbckTrbce();
             }
 
-            imInfo = "htt " + languageEngineInfo;
+            imInfo = "htt " + lbngubgeEngineInfo;
         }
 
         return imInfo;
@@ -977,84 +977,84 @@ public abstract class X11InputMethod extends InputMethodAdapter {
 
 
     /**
-     * Performs mapping from an XIM visible feedback value to Java IM highlight.
-     * @return Java input method highlight
+     * Performs mbpping from bn XIM visible feedbbck vblue to Jbvb IM highlight.
+     * @return Jbvb input method highlight
      */
-    private InputMethodHighlight convertVisualFeedbackToHighlight(int feedback) {
+    privbte InputMethodHighlight convertVisublFeedbbckToHighlight(int feedbbck) {
         InputMethodHighlight highlight;
 
-        switch (feedback) {
-        case XIMUnderline:
+        switch (feedbbck) {
+        cbse XIMUnderline:
             highlight = InputMethodHighlight.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
-            break;
-        case XIMReverse:
+            brebk;
+        cbse XIMReverse:
             highlight = InputMethodHighlight.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
-            break;
-        case XIMHighlight:
+            brebk;
+        cbse XIMHighlight:
             highlight = InputMethodHighlight.SELECTED_RAW_TEXT_HIGHLIGHT;
-            break;
-        case XIMPrimary:
+            brebk;
+        cbse XIMPrimbry:
             highlight = InputMethodHighlight.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
-            break;
-        case XIMSecondary:
+            brebk;
+        cbse XIMSecondbry:
             highlight = InputMethodHighlight.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
-            break;
-        case XIMTertiary:
+            brebk;
+        cbse XIMTertibry:
             highlight = InputMethodHighlight.SELECTED_RAW_TEXT_HIGHLIGHT;
-            break;
-        default:
+            brebk;
+        defbult:
             highlight = InputMethodHighlight.SELECTED_RAW_TEXT_HIGHLIGHT;
-            break;
+            brebk;
         }
         return highlight;
     }
 
-    // initial capacity size for string buffer, etc.
-    private static final int INITIAL_SIZE = 64;
+    // initibl cbpbcity size for string buffer, etc.
+    privbte stbtic finbl int INITIAL_SIZE = 64;
 
     /**
-     * IntBuffer is an inner class that manipulates an int array and
-     * provides UNIX file io stream-like programming interfaces to
-     * access it. (An alternative would be to use ArrayList which may
+     * IntBuffer is bn inner clbss thbt mbnipulbtes bn int brrby bnd
+     * provides UNIX file io strebm-like progrbmming interfbces to
+     * bccess it. (An blternbtive would be to use ArrbyList which mby
      * be too expensive for the work.)
      */
-    private final class IntBuffer {
-        private int[] intArray;
-        private int size;
-        private int index;
+    privbte finbl clbss IntBuffer {
+        privbte int[] intArrby;
+        privbte int size;
+        privbte int index;
 
-        IntBuffer(int initialCapacity) {
-            intArray = new int[initialCapacity];
+        IntBuffer(int initiblCbpbcity) {
+            intArrby = new int[initiblCbpbcity];
             size = 0;
             index = 0;
         }
 
-        void insert(int offset, int[] values) {
-            int newSize = size + values.length;
-            if (intArray.length < newSize) {
-                int[] newIntArray = new int[newSize * 2];
-                System.arraycopy(intArray, 0, newIntArray, 0, size);
-                intArray = newIntArray;
+        void insert(int offset, int[] vblues) {
+            int newSize = size + vblues.length;
+            if (intArrby.length < newSize) {
+                int[] newIntArrby = new int[newSize * 2];
+                System.brrbycopy(intArrby, 0, newIntArrby, 0, size);
+                intArrby = newIntArrby;
             }
-            System.arraycopy(intArray, offset, intArray, offset+values.length,
+            System.brrbycopy(intArrby, offset, intArrby, offset+vblues.length,
                              size - offset);
-            System.arraycopy(values, 0, intArray, offset, values.length);
-            size += values.length;
+            System.brrbycopy(vblues, 0, intArrby, offset, vblues.length);
+            size += vblues.length;
             if (index > offset)
                 index = offset;
         }
 
         void remove(int offset, int length) {
             if (offset + length != size)
-                System.arraycopy(intArray, offset+length, intArray, offset,
+                System.brrbycopy(intArrby, offset+length, intArrby, offset,
                                  size - offset - length);
             size -= length;
             if (index > offset)
                 index = offset;
         }
 
-        void replace(int offset, int[] values) {
-            System.arraycopy(values, 0, intArray, offset, values.length);
+        void replbce(int offset, int[] vblues) {
+            System.brrbycopy(vblues, 0, intArrby, offset, vblues.length);
         }
 
         void removeAll() {
@@ -1069,7 +1069,7 @@ public abstract class X11InputMethod extends InputMethodAdapter {
         int getNext() {
             if (index == size)
                 return -1;
-            return intArray[index++];
+            return intArrby[index++];
         }
 
         void unget() {
@@ -1084,20 +1084,20 @@ public abstract class X11InputMethod extends InputMethodAdapter {
         public String toString() {
             StringBuffer s = new StringBuffer();
             for (int i = 0; i < size;) {
-                s.append(intArray[i++]);
+                s.bppend(intArrby[i++]);
                 if (i < size)
-                    s.append(",");
+                    s.bppend(",");
             }
             return s.toString();
         }
     }
 
     /*
-     * Native methods
+     * Nbtive methods
      */
-    protected native String resetXIC();
-    private native void disposeXIC();
-    private native boolean setCompositionEnabledNative(boolean enable);
-    private native boolean isCompositionEnabledNative();
-    private native void turnoffStatusWindow();
+    protected nbtive String resetXIC();
+    privbte nbtive void disposeXIC();
+    privbte nbtive boolebn setCompositionEnbbledNbtive(boolebn enbble);
+    privbte nbtive boolebn isCompositionEnbbledNbtive();
+    privbte nbtive void turnoffStbtusWindow();
 }

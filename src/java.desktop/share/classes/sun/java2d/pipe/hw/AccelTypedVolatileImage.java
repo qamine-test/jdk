@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe.hw;
+pbckbge sun.jbvb2d.pipe.hw;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import sun.awt.image.SunVolatileImage;
-import static sun.java2d.pipe.hw.AccelSurface.*;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import sun.bwt.imbge.SunVolbtileImbge;
+import stbtic sun.jbvb2d.pipe.hw.AccelSurfbce.*;
 
 /**
- * This is an image with forced type of the accelerated surface.
+ * This is bn imbge with forced type of the bccelerbted surfbce.
  */
-public class AccelTypedVolatileImage extends SunVolatileImage {
+public clbss AccelTypedVolbtileImbge extends SunVolbtileImbge {
 
     /**
-     * Creates a volatile image with specified type of accelerated surface.
+     * Crebtes b volbtile imbge with specified type of bccelerbted surfbce.
      *
-     * @param graphicsConfig a GraphicsConfiguration for which this image should
-     *        be created.
-     * @param width width
-     * @param height width
-     * @param transparency type of {@link java.awt.Transparency transparency}
-     *        requested for the image
-     * @param accType type of the desired accelerated surface as defined in
-     *        AccelSurface interface
-     * @see sun.java2d.pipe.hw.AccelSurface
+     * @pbrbm grbphicsConfig b GrbphicsConfigurbtion for which this imbge should
+     *        be crebted.
+     * @pbrbm width width
+     * @pbrbm height width
+     * @pbrbm trbnspbrency type of {@link jbvb.bwt.Trbnspbrency trbnspbrency}
+     *        requested for the imbge
+     * @pbrbm bccType type of the desired bccelerbted surfbce bs defined in
+     *        AccelSurfbce interfbce
+     * @see sun.jbvb2d.pipe.hw.AccelSurfbce
      */
-    public AccelTypedVolatileImage(GraphicsConfiguration graphicsConfig,
-                                   int width, int height, int transparency,
-                                   int accType)
+    public AccelTypedVolbtileImbge(GrbphicsConfigurbtion grbphicsConfig,
+                                   int width, int height, int trbnspbrency,
+                                   int bccType)
     {
-        super(null, graphicsConfig, width, height, null, transparency,
-              null, accType);
+        super(null, grbphicsConfig, width, height, null, trbnspbrency,
+              null, bccType);
     }
 
     /**
      * {@inheritDoc}
      *
-     * This method will throw {@code UnsupportedOperationException} if it this
-     * image's destination surface can not be rendered to.
+     * This method will throw {@code UnsupportedOperbtionException} if it this
+     * imbge's destinbtion surfbce cbn not be rendered to.
      */
     @Override
-    public Graphics2D createGraphics() {
-        if (getForcedAccelSurfaceType() == TEXTURE) {
-            throw new UnsupportedOperationException("Can't render " +
-                                                    "to a non-RT Texture");
+    public Grbphics2D crebteGrbphics() {
+        if (getForcedAccelSurfbceType() == TEXTURE) {
+            throw new UnsupportedOperbtionException("Cbn't render " +
+                                                    "to b non-RT Texture");
         }
-        return super.createGraphics();
+        return super.crebteGrbphics();
     }
 }

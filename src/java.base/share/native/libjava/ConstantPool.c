@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "jvm.h"
-#include "sun_reflect_ConstantPool.h"
+#include "sun_reflect_ConstbntPool.h"
 
-JNIEXPORT jint JNICALL Java_sun_reflect_ConstantPool_getSize0
+JNIEXPORT jint JNICALL Jbvb_sun_reflect_ConstbntPool_getSize0
 (JNIEnv *env, jobject unused, jobject jcpool)
 {
-  return JVM_ConstantPoolGetSize(env, unused, jcpool);
+  return JVM_ConstbntPoolGetSize(env, unused, jcpool);
 }
 
-JNIEXPORT jclass JNICALL Java_sun_reflect_ConstantPool_getClassAt0
+JNIEXPORT jclbss JNICALL Jbvb_sun_reflect_ConstbntPool_getClbssAt0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetClassAt(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetClbssAt(env, unused, jcpool, index);
 }
 
-JNIEXPORT jclass JNICALL Java_sun_reflect_ConstantPool_getClassAtIfLoaded0
+JNIEXPORT jclbss JNICALL Jbvb_sun_reflect_ConstbntPool_getClbssAtIfLobded0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetClassAtIfLoaded(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetClbssAtIfLobded(env, unused, jcpool, index);
 }
 
-JNIEXPORT jobject JNICALL Java_sun_reflect_ConstantPool_getMethodAt0
+JNIEXPORT jobject JNICALL Jbvb_sun_reflect_ConstbntPool_getMethodAt0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetMethodAt(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetMethodAt(env, unused, jcpool, index);
 }
 
-JNIEXPORT jobject JNICALL Java_sun_reflect_ConstantPool_getMethodAtIfLoaded0
+JNIEXPORT jobject JNICALL Jbvb_sun_reflect_ConstbntPool_getMethodAtIfLobded0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetMethodAtIfLoaded(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetMethodAtIfLobded(env, unused, jcpool, index);
 }
 
-JNIEXPORT jobject JNICALL Java_sun_reflect_ConstantPool_getFieldAt0
+JNIEXPORT jobject JNICALL Jbvb_sun_reflect_ConstbntPool_getFieldAt0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetFieldAt(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetFieldAt(env, unused, jcpool, index);
 }
 
-JNIEXPORT jobject JNICALL Java_sun_reflect_ConstantPool_getFieldAtIfLoaded0
+JNIEXPORT jobject JNICALL Jbvb_sun_reflect_ConstbntPool_getFieldAtIfLobded0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetFieldAtIfLoaded(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetFieldAtIfLobded(env, unused, jcpool, index);
 }
 
-JNIEXPORT jobjectArray JNICALL Java_sun_reflect_ConstantPool_getMemberRefInfoAt0
+JNIEXPORT jobjectArrby JNICALL Jbvb_sun_reflect_ConstbntPool_getMemberRefInfoAt0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetMemberRefInfoAt(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetMemberRefInfoAt(env, unused, jcpool, index);
 }
 
-JNIEXPORT jint JNICALL Java_sun_reflect_ConstantPool_getIntAt0
+JNIEXPORT jint JNICALL Jbvb_sun_reflect_ConstbntPool_getIntAt0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetIntAt(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetIntAt(env, unused, jcpool, index);
 }
 
-JNIEXPORT jlong JNICALL Java_sun_reflect_ConstantPool_getLongAt0
+JNIEXPORT jlong JNICALL Jbvb_sun_reflect_ConstbntPool_getLongAt0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetLongAt(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetLongAt(env, unused, jcpool, index);
 }
 
-JNIEXPORT jfloat JNICALL Java_sun_reflect_ConstantPool_getFloatAt0
+JNIEXPORT jflobt JNICALL Jbvb_sun_reflect_ConstbntPool_getFlobtAt0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetFloatAt(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetFlobtAt(env, unused, jcpool, index);
 }
 
-JNIEXPORT jdouble JNICALL Java_sun_reflect_ConstantPool_getDoubleAt0
+JNIEXPORT jdouble JNICALL Jbvb_sun_reflect_ConstbntPool_getDoubleAt0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetDoubleAt(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetDoubleAt(env, unused, jcpool, index);
 }
 
-JNIEXPORT jstring JNICALL Java_sun_reflect_ConstantPool_getStringAt0
+JNIEXPORT jstring JNICALL Jbvb_sun_reflect_ConstbntPool_getStringAt0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetStringAt(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetStringAt(env, unused, jcpool, index);
 }
 
-JNIEXPORT jstring JNICALL Java_sun_reflect_ConstantPool_getUTF8At0
+JNIEXPORT jstring JNICALL Jbvb_sun_reflect_ConstbntPool_getUTF8At0
 (JNIEnv *env, jobject unused, jobject jcpool, jint index)
 {
-  return JVM_ConstantPoolGetUTF8At(env, unused, jcpool, index);
+  return JVM_ConstbntPoolGetUTF8At(env, unused, jcpool, index);
 }

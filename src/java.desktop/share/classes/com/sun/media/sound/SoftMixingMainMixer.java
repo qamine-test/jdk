@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
 
 /**
- * Main mixer for SoftMixingMixer.
+ * Mbin mixer for SoftMixingMixer.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftMixingMainMixer {
+public finbl clbss SoftMixingMbinMixer {
 
-    public final static int CHANNEL_LEFT = 0;
+    public finbl stbtic int CHANNEL_LEFT = 0;
 
-    public final static int CHANNEL_RIGHT = 1;
+    public finbl stbtic int CHANNEL_RIGHT = 1;
 
-    public final static int CHANNEL_EFFECT1 = 2;
+    public finbl stbtic int CHANNEL_EFFECT1 = 2;
 
-    public final static int CHANNEL_EFFECT2 = 3;
+    public finbl stbtic int CHANNEL_EFFECT2 = 3;
 
-    public final static int CHANNEL_EFFECT3 = 4;
+    public finbl stbtic int CHANNEL_EFFECT3 = 4;
 
-    public final static int CHANNEL_EFFECT4 = 5;
+    public finbl stbtic int CHANNEL_EFFECT4 = 5;
 
-    public final static int CHANNEL_LEFT_DRY = 10;
+    public finbl stbtic int CHANNEL_LEFT_DRY = 10;
 
-    public final static int CHANNEL_RIGHT_DRY = 11;
+    public finbl stbtic int CHANNEL_RIGHT_DRY = 11;
 
-    public final static int CHANNEL_SCRATCH1 = 12;
+    public finbl stbtic int CHANNEL_SCRATCH1 = 12;
 
-    public final static int CHANNEL_SCRATCH2 = 13;
+    public finbl stbtic int CHANNEL_SCRATCH2 = 13;
 
-    public final static int CHANNEL_CHANNELMIXER_LEFT = 14;
+    public finbl stbtic int CHANNEL_CHANNELMIXER_LEFT = 14;
 
-    public final static int CHANNEL_CHANNELMIXER_RIGHT = 15;
+    public finbl stbtic int CHANNEL_CHANNELMIXER_RIGHT = 15;
 
-    private final SoftMixingMixer mixer;
+    privbte finbl SoftMixingMixer mixer;
 
-    private final AudioInputStream ais;
+    privbte finbl AudioInputStrebm bis;
 
-    private final SoftAudioBuffer[] buffers;
+    privbte finbl SoftAudioBuffer[] buffers;
 
-    private final SoftAudioProcessor reverb;
+    privbte finbl SoftAudioProcessor reverb;
 
-    private final SoftAudioProcessor chorus;
+    privbte finbl SoftAudioProcessor chorus;
 
-    private final SoftAudioProcessor agc;
+    privbte finbl SoftAudioProcessor bgc;
 
-    private final int nrofchannels;
+    privbte finbl int nrofchbnnels;
 
-    private final Object control_mutex;
+    privbte finbl Object control_mutex;
 
-    private final List<SoftMixingDataLine> openLinesList = new ArrayList<SoftMixingDataLine>();
+    privbte finbl List<SoftMixingDbtbLine> openLinesList = new ArrbyList<SoftMixingDbtbLine>();
 
-    private SoftMixingDataLine[] openLines = new SoftMixingDataLine[0];
+    privbte SoftMixingDbtbLine[] openLines = new SoftMixingDbtbLine[0];
 
-    public AudioInputStream getInputStream() {
-        return ais;
+    public AudioInputStrebm getInputStrebm() {
+        return bis;
     }
 
     void processAudioBuffers() {
         for (int i = 0; i < buffers.length; i++) {
-            buffers[i].clear();
+            buffers[i].clebr();
         }
 
-        SoftMixingDataLine[] openLines;
+        SoftMixingDbtbLine[] openLines;
         synchronized (control_mutex) {
             openLines = this.openLines;
             for (int i = 0; i < openLines.length; i++) {
@@ -100,7 +100,7 @@ public final class SoftMixingMainMixer {
             }
             chorus.processControlLogic();
             reverb.processControlLogic();
-            agc.processControlLogic();
+            bgc.processControlLogic();
         }
         for (int i = 0; i < openLines.length; i++) {
             openLines[i].processAudioLogic(buffers);
@@ -109,87 +109,87 @@ public final class SoftMixingMainMixer {
         chorus.processAudio();
         reverb.processAudio();
 
-        agc.processAudio();
+        bgc.processAudio();
 
     }
 
-    public SoftMixingMainMixer(SoftMixingMixer mixer) {
+    public SoftMixingMbinMixer(SoftMixingMixer mixer) {
         this.mixer = mixer;
 
-        nrofchannels = mixer.getFormat().getChannels();
+        nrofchbnnels = mixer.getFormbt().getChbnnels();
 
-        int buffersize = (int) (mixer.getFormat().getSampleRate() / mixer
-                .getControlRate());
+        int buffersize = (int) (mixer.getFormbt().getSbmpleRbte() / mixer
+                .getControlRbte());
 
         control_mutex = mixer.control_mutex;
         buffers = new SoftAudioBuffer[16];
         for (int i = 0; i < buffers.length; i++) {
-            buffers[i] = new SoftAudioBuffer(buffersize, mixer.getFormat());
+            buffers[i] = new SoftAudioBuffer(buffersize, mixer.getFormbt());
 
         }
 
         reverb = new SoftReverb();
         chorus = new SoftChorus();
-        agc = new SoftLimiter();
+        bgc = new SoftLimiter();
 
-        float samplerate = mixer.getFormat().getSampleRate();
-        float controlrate = mixer.getControlRate();
-        reverb.init(samplerate, controlrate);
-        chorus.init(samplerate, controlrate);
-        agc.init(samplerate, controlrate);
+        flobt sbmplerbte = mixer.getFormbt().getSbmpleRbte();
+        flobt controlrbte = mixer.getControlRbte();
+        reverb.init(sbmplerbte, controlrbte);
+        chorus.init(sbmplerbte, controlrbte);
+        bgc.init(sbmplerbte, controlrbte);
 
         reverb.setMixMode(true);
         chorus.setMixMode(true);
-        agc.setMixMode(false);
+        bgc.setMixMode(fblse);
 
         chorus.setInput(0, buffers[CHANNEL_EFFECT2]);
         chorus.setOutput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
+        if (nrofchbnnels != 1)
             chorus.setOutput(1, buffers[CHANNEL_RIGHT]);
         chorus.setOutput(2, buffers[CHANNEL_EFFECT1]);
 
         reverb.setInput(0, buffers[CHANNEL_EFFECT1]);
         reverb.setOutput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
+        if (nrofchbnnels != 1)
             reverb.setOutput(1, buffers[CHANNEL_RIGHT]);
 
-        agc.setInput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
-            agc.setInput(1, buffers[CHANNEL_RIGHT]);
-        agc.setOutput(0, buffers[CHANNEL_LEFT]);
-        if (nrofchannels != 1)
-            agc.setOutput(1, buffers[CHANNEL_RIGHT]);
+        bgc.setInput(0, buffers[CHANNEL_LEFT]);
+        if (nrofchbnnels != 1)
+            bgc.setInput(1, buffers[CHANNEL_RIGHT]);
+        bgc.setOutput(0, buffers[CHANNEL_LEFT]);
+        if (nrofchbnnels != 1)
+            bgc.setOutput(1, buffers[CHANNEL_RIGHT]);
 
-        InputStream in = new InputStream() {
+        InputStrebm in = new InputStrebm() {
 
-            private final SoftAudioBuffer[] buffers = SoftMixingMainMixer.this.buffers;
+            privbte finbl SoftAudioBuffer[] buffers = SoftMixingMbinMixer.this.buffers;
 
-            private final int nrofchannels = SoftMixingMainMixer.this.mixer
-                    .getFormat().getChannels();
+            privbte finbl int nrofchbnnels = SoftMixingMbinMixer.this.mixer
+                    .getFormbt().getChbnnels();
 
-            private final int buffersize = buffers[0].getSize();
+            privbte finbl int buffersize = buffers[0].getSize();
 
-            private final byte[] bbuffer = new byte[buffersize
-                    * (SoftMixingMainMixer.this.mixer.getFormat()
-                            .getSampleSizeInBits() / 8) * nrofchannels];
+            privbte finbl byte[] bbuffer = new byte[buffersize
+                    * (SoftMixingMbinMixer.this.mixer.getFormbt()
+                            .getSbmpleSizeInBits() / 8) * nrofchbnnels];
 
-            private int bbuffer_pos = 0;
+            privbte int bbuffer_pos = 0;
 
-            private final byte[] single = new byte[1];
+            privbte finbl byte[] single = new byte[1];
 
             public void fillBuffer() {
                 processAudioBuffers();
-                for (int i = 0; i < nrofchannels; i++)
+                for (int i = 0; i < nrofchbnnels; i++)
                     buffers[i].get(bbuffer, i);
                 bbuffer_pos = 0;
             }
 
-            public int read(byte[] b, int off, int len) {
+            public int rebd(byte[] b, int off, int len) {
                 int bbuffer_len = bbuffer.length;
                 int offlen = off + len;
                 byte[] bbuffer = this.bbuffer;
                 while (off < offlen)
-                    if (available() == 0)
+                    if (bvbilbble() == 0)
                         fillBuffer();
                     else {
                         int bbuffer_pos = this.bbuffer_pos;
@@ -200,41 +200,41 @@ public final class SoftMixingMainMixer {
                 return len;
             }
 
-            public int read() throws IOException {
-                int ret = read(single);
+            public int rebd() throws IOException {
+                int ret = rebd(single);
                 if (ret == -1)
                     return -1;
                 return single[0] & 0xFF;
             }
 
-            public int available() {
+            public int bvbilbble() {
                 return bbuffer.length - bbuffer_pos;
             }
 
             public void close() {
-                SoftMixingMainMixer.this.mixer.close();
+                SoftMixingMbinMixer.this.mixer.close();
             }
 
         };
 
-        ais = new AudioInputStream(in, mixer.getFormat(),
+        bis = new AudioInputStrebm(in, mixer.getFormbt(),
                 AudioSystem.NOT_SPECIFIED);
 
     }
 
-    public void openLine(SoftMixingDataLine line) {
+    public void openLine(SoftMixingDbtbLine line) {
         synchronized (control_mutex) {
-            openLinesList.add(line);
+            openLinesList.bdd(line);
             openLines = openLinesList
-                    .toArray(new SoftMixingDataLine[openLinesList.size()]);
+                    .toArrby(new SoftMixingDbtbLine[openLinesList.size()]);
         }
     }
 
-    public void closeLine(SoftMixingDataLine line) {
+    public void closeLine(SoftMixingDbtbLine line) {
         synchronized (control_mutex) {
             openLinesList.remove(line);
             openLines = openLinesList
-                    .toArray(new SoftMixingDataLine[openLinesList.size()]);
+                    .toArrby(new SoftMixingDbtbLine[openLinesList.size()]);
             if (openLines.length == 0)
                 if (mixer.implicitOpen)
                     mixer.close();
@@ -242,7 +242,7 @@ public final class SoftMixingMainMixer {
 
     }
 
-    public SoftMixingDataLine[] getOpenLines() {
+    public SoftMixingDbtbLine[] getOpenLines() {
         synchronized (control_mutex) {
             return openLines;
         }
@@ -250,7 +250,7 @@ public final class SoftMixingMainMixer {
     }
 
     public void close() {
-        SoftMixingDataLine[] openLines = this.openLines;
+        SoftMixingDbtbLine[] openLines = this.openLines;
         for (int i = 0; i < openLines.length; i++) {
             openLines[i].close();
         }

@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for javax.security.auth and sun.security.
+ * <p> This clbss represents the <code>ResourceBundle</code>
+ * for jbvbx.security.buth bnd sun.security.
  *
  */
-public class Resources extends java.util.ListResourceBundle {
+public clbss Resources extends jbvb.util.ListResourceBundle {
 
-    private static final Object[][] contents = {
+    privbte stbtic finbl Object[][] contents = {
 
-        // javax.security.auth.PrivateCredentialPermission
-        {"invalid.null.input.s.", "invalid null input(s)"},
-        {"actions.can.only.be.read.", "actions can only be 'read'"},
-        {"permission.name.name.syntax.invalid.",
-                "permission name [{0}] syntax invalid: "},
-        {"Credential.Class.not.followed.by.a.Principal.Class.and.Name",
-                "Credential Class not followed by a Principal Class and Name"},
-        {"Principal.Class.not.followed.by.a.Principal.Name",
-                "Principal Class not followed by a Principal Name"},
-        {"Principal.Name.must.be.surrounded.by.quotes",
-                "Principal Name must be surrounded by quotes"},
-        {"Principal.Name.missing.end.quote",
-                "Principal Name missing end quote"},
-        {"PrivateCredentialPermission.Principal.Class.can.not.be.a.wildcard.value.if.Principal.Name.is.not.a.wildcard.value",
-                "PrivateCredentialPermission Principal Class can not be a wildcard (*) value if Principal Name is not a wildcard (*) value"},
-        {"CredOwner.Principal.Class.class.Principal.Name.name",
-                "CredOwner:\n\tPrincipal Class = {0}\n\tPrincipal Name = {1}"},
+        // jbvbx.security.buth.PrivbteCredentiblPermission
+        {"invblid.null.input.s.", "invblid null input(s)"},
+        {"bctions.cbn.only.be.rebd.", "bctions cbn only be 'rebd'"},
+        {"permission.nbme.nbme.syntbx.invblid.",
+                "permission nbme [{0}] syntbx invblid: "},
+        {"Credentibl.Clbss.not.followed.by.b.Principbl.Clbss.bnd.Nbme",
+                "Credentibl Clbss not followed by b Principbl Clbss bnd Nbme"},
+        {"Principbl.Clbss.not.followed.by.b.Principbl.Nbme",
+                "Principbl Clbss not followed by b Principbl Nbme"},
+        {"Principbl.Nbme.must.be.surrounded.by.quotes",
+                "Principbl Nbme must be surrounded by quotes"},
+        {"Principbl.Nbme.missing.end.quote",
+                "Principbl Nbme missing end quote"},
+        {"PrivbteCredentiblPermission.Principbl.Clbss.cbn.not.be.b.wildcbrd.vblue.if.Principbl.Nbme.is.not.b.wildcbrd.vblue",
+                "PrivbteCredentiblPermission Principbl Clbss cbn not be b wildcbrd (*) vblue if Principbl Nbme is not b wildcbrd (*) vblue"},
+        {"CredOwner.Principbl.Clbss.clbss.Principbl.Nbme.nbme",
+                "CredOwner:\n\tPrincipbl Clbss = {0}\n\tPrincipbl Nbme = {1}"},
 
-        // javax.security.auth.x500
-        {"provided.null.name", "provided null name"},
-        {"provided.null.keyword.map", "provided null keyword map"},
-        {"provided.null.OID.map", "provided null OID map"},
+        // jbvbx.security.buth.x500
+        {"provided.null.nbme", "provided null nbme"},
+        {"provided.null.keyword.mbp", "provided null keyword mbp"},
+        {"provided.null.OID.mbp", "provided null OID mbp"},
 
-        // javax.security.auth.Subject
+        // jbvbx.security.buth.Subject
         {"NEWLINE", "\n"},
-        {"invalid.null.AccessControlContext.provided",
-                "invalid null AccessControlContext provided"},
-        {"invalid.null.action.provided", "invalid null action provided"},
-        {"invalid.null.Class.provided", "invalid null Class provided"},
+        {"invblid.null.AccessControlContext.provided",
+                "invblid null AccessControlContext provided"},
+        {"invblid.null.bction.provided", "invblid null bction provided"},
+        {"invblid.null.Clbss.provided", "invblid null Clbss provided"},
         {"Subject.", "Subject:\n"},
-        {".Principal.", "\tPrincipal: "},
-        {".Public.Credential.", "\tPublic Credential: "},
-        {".Private.Credentials.inaccessible.",
-                "\tPrivate Credentials inaccessible\n"},
-        {".Private.Credential.", "\tPrivate Credential: "},
-        {".Private.Credential.inaccessible.",
-                "\tPrivate Credential inaccessible\n"},
-        {"Subject.is.read.only", "Subject is read-only"},
-        {"attempting.to.add.an.object.which.is.not.an.instance.of.java.security.Principal.to.a.Subject.s.Principal.Set",
-                "attempting to add an object which is not an instance of java.security.Principal to a Subject's Principal Set"},
-        {"attempting.to.add.an.object.which.is.not.an.instance.of.class",
-                "attempting to add an object which is not an instance of {0}"},
+        {".Principbl.", "\tPrincipbl: "},
+        {".Public.Credentibl.", "\tPublic Credentibl: "},
+        {".Privbte.Credentibls.inbccessible.",
+                "\tPrivbte Credentibls inbccessible\n"},
+        {".Privbte.Credentibl.", "\tPrivbte Credentibl: "},
+        {".Privbte.Credentibl.inbccessible.",
+                "\tPrivbte Credentibl inbccessible\n"},
+        {"Subject.is.rebd.only", "Subject is rebd-only"},
+        {"bttempting.to.bdd.bn.object.which.is.not.bn.instbnce.of.jbvb.security.Principbl.to.b.Subject.s.Principbl.Set",
+                "bttempting to bdd bn object which is not bn instbnce of jbvb.security.Principbl to b Subject's Principbl Set"},
+        {"bttempting.to.bdd.bn.object.which.is.not.bn.instbnce.of.clbss",
+                "bttempting to bdd bn object which is not bn instbnce of {0}"},
 
-        // javax.security.auth.login.AppConfigurationEntry
-        {"LoginModuleControlFlag.", "LoginModuleControlFlag: "},
+        // jbvbx.security.buth.login.AppConfigurbtionEntry
+        {"LoginModuleControlFlbg.", "LoginModuleControlFlbg: "},
 
-        // javax.security.auth.login.LoginContext
-        {"Invalid.null.input.name", "Invalid null input: name"},
-        {"No.LoginModules.configured.for.name",
+        // jbvbx.security.buth.login.LoginContext
+        {"Invblid.null.input.nbme", "Invblid null input: nbme"},
+        {"No.LoginModules.configured.for.nbme",
          "No LoginModules configured for {0}"},
-        {"invalid.null.Subject.provided", "invalid null Subject provided"},
-        {"invalid.null.CallbackHandler.provided",
-                "invalid null CallbackHandler provided"},
-        {"null.subject.logout.called.before.login",
-                "null subject - logout called before login"},
-        {"unable.to.instantiate.LoginModule.module.because.it.does.not.provide.a.no.argument.constructor",
-                "unable to instantiate LoginModule, {0}, because it does not provide a no-argument constructor"},
-        {"unable.to.instantiate.LoginModule",
-                "unable to instantiate LoginModule"},
-        {"unable.to.instantiate.LoginModule.",
-                "unable to instantiate LoginModule: "},
-        {"unable.to.find.LoginModule.class.",
-                "unable to find LoginModule class: "},
-        {"unable.to.access.LoginModule.",
-                "unable to access LoginModule: "},
-        {"Login.Failure.all.modules.ignored",
-                "Login Failure: all modules ignored"},
+        {"invblid.null.Subject.provided", "invblid null Subject provided"},
+        {"invblid.null.CbllbbckHbndler.provided",
+                "invblid null CbllbbckHbndler provided"},
+        {"null.subject.logout.cblled.before.login",
+                "null subject - logout cblled before login"},
+        {"unbble.to.instbntibte.LoginModule.module.becbuse.it.does.not.provide.b.no.brgument.constructor",
+                "unbble to instbntibte LoginModule, {0}, becbuse it does not provide b no-brgument constructor"},
+        {"unbble.to.instbntibte.LoginModule",
+                "unbble to instbntibte LoginModule"},
+        {"unbble.to.instbntibte.LoginModule.",
+                "unbble to instbntibte LoginModule: "},
+        {"unbble.to.find.LoginModule.clbss.",
+                "unbble to find LoginModule clbss: "},
+        {"unbble.to.bccess.LoginModule.",
+                "unbble to bccess LoginModule: "},
+        {"Login.Fbilure.bll.modules.ignored",
+                "Login Fbilure: bll modules ignored"},
 
         // sun.security.provider.PolicyFile
 
-        {"java.security.policy.error.parsing.policy.message",
-                "java.security.policy: error parsing {0}:\n\t{1}"},
-        {"java.security.policy.error.adding.Permission.perm.message",
-                "java.security.policy: error adding Permission, {0}:\n\t{1}"},
-        {"java.security.policy.error.adding.Entry.message",
-                "java.security.policy: error adding Entry:\n\t{0}"},
-        {"alias.name.not.provided.pe.name.", "alias name not provided ({0})"},
-        {"unable.to.perform.substitution.on.alias.suffix",
-                "unable to perform substitution on alias, {0}"},
-        {"substitution.value.prefix.unsupported",
-                "substitution value, {0}, unsupported"},
+        {"jbvb.security.policy.error.pbrsing.policy.messbge",
+                "jbvb.security.policy: error pbrsing {0}:\n\t{1}"},
+        {"jbvb.security.policy.error.bdding.Permission.perm.messbge",
+                "jbvb.security.policy: error bdding Permission, {0}:\n\t{1}"},
+        {"jbvb.security.policy.error.bdding.Entry.messbge",
+                "jbvb.security.policy: error bdding Entry:\n\t{0}"},
+        {"blibs.nbme.not.provided.pe.nbme.", "blibs nbme not provided ({0})"},
+        {"unbble.to.perform.substitution.on.blibs.suffix",
+                "unbble to perform substitution on blibs, {0}"},
+        {"substitution.vblue.prefix.unsupported",
+                "substitution vblue, {0}, unsupported"},
         {"LPARAM", "("},
         {"RPARAM", ")"},
-        {"type.can.t.be.null","type can't be null"},
+        {"type.cbn.t.be.null","type cbn't be null"},
 
-        // sun.security.provider.PolicyParser
-        {"keystorePasswordURL.can.not.be.specified.without.also.specifying.keystore",
-                "keystorePasswordURL can not be specified without also specifying keystore"},
+        // sun.security.provider.PolicyPbrser
+        {"keystorePbsswordURL.cbn.not.be.specified.without.blso.specifying.keystore",
+                "keystorePbsswordURL cbn not be specified without blso specifying keystore"},
         {"expected.keystore.type", "expected keystore type"},
         {"expected.keystore.provider", "expected keystore provider"},
-        {"multiple.Codebase.expressions",
-                "multiple Codebase expressions"},
+        {"multiple.Codebbse.expressions",
+                "multiple Codebbse expressions"},
         {"multiple.SignedBy.expressions","multiple SignedBy expressions"},
-        {"duplicate.keystore.domain.name","duplicate keystore domain name: {0}"},
-        {"duplicate.keystore.name","duplicate keystore name: {0}"},
-        {"SignedBy.has.empty.alias","SignedBy has empty alias"},
-        {"can.not.specify.Principal.with.a.wildcard.class.without.a.wildcard.name",
-                "can not specify Principal with a wildcard class without a wildcard name"},
-        {"expected.codeBase.or.SignedBy.or.Principal",
-                "expected codeBase or SignedBy or Principal"},
+        {"duplicbte.keystore.dombin.nbme","duplicbte keystore dombin nbme: {0}"},
+        {"duplicbte.keystore.nbme","duplicbte keystore nbme: {0}"},
+        {"SignedBy.hbs.empty.blibs","SignedBy hbs empty blibs"},
+        {"cbn.not.specify.Principbl.with.b.wildcbrd.clbss.without.b.wildcbrd.nbme",
+                "cbn not specify Principbl with b wildcbrd clbss without b wildcbrd nbme"},
+        {"expected.codeBbse.or.SignedBy.or.Principbl",
+                "expected codeBbse or SignedBy or Principbl"},
         {"expected.permission.entry", "expected permission entry"},
         {"number.", "number "},
-        {"expected.expect.read.end.of.file.",
-                "expected [{0}], read [end of file]"},
-        {"expected.read.end.of.file.",
-                "expected [;], read [end of file]"},
+        {"expected.expect.rebd.end.of.file.",
+                "expected [{0}], rebd [end of file]"},
+        {"expected.rebd.end.of.file.",
+                "expected [;], rebd [end of file]"},
         {"line.number.msg", "line {0}: {1}"},
-        {"line.number.expected.expect.found.actual.",
+        {"line.number.expected.expect.found.bctubl.",
                 "line {0}: expected [{1}], found [{2}]"},
-        {"null.principalClass.or.principalName",
-                "null principalClass or principalName"},
+        {"null.principblClbss.or.principblNbme",
+                "null principblClbss or principblNbme"},
 
         // sun.security.pkcs11.SunPKCS11
-        {"PKCS11.Token.providerName.Password.",
-                "PKCS11 Token [{0}] Password: "},
+        {"PKCS11.Token.providerNbme.Pbssword.",
+                "PKCS11 Token [{0}] Pbssword: "},
 
         /* --- DEPRECATED --- */
-        // javax.security.auth.Policy
-        {"unable.to.instantiate.Subject.based.policy",
-                "unable to instantiate Subject-based policy"}
+        // jbvbx.security.buth.Policy
+        {"unbble.to.instbntibte.Subject.bbsed.policy",
+                "unbble to instbntibte Subject-bbsed policy"}
     };
 
 

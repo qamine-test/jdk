@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.dns;
+pbckbge com.sun.jndi.dns;
 
-import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.security.SecureRandom;
-import javax.naming.*;
+import jbvb.io.IOException;
+import jbvb.net.DbtbgrbmSocket;
+import jbvb.net.DbtbgrbmPbcket;
+import jbvb.net.InetAddress;
+import jbvb.net.Socket;
+import jbvb.security.SecureRbndom;
+import jbvbx.nbming.*;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.HashMap;
+import jbvb.util.Collections;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
 
-import sun.security.jca.JCAUtil;
+import sun.security.jcb.JCAUtil;
 
-// Some of this code began life as part of sun.javaos.net.DnsClient
-// originally by sritchie@eng 1/96.  It was first hacked up for JNDI
-// use by caveh@eng 6/97.
+// Some of this code begbn life bs pbrt of sun.jbvbos.net.DnsClient
+// originblly by sritchie@eng 1/96.  It wbs first hbcked up for JNDI
+// use by cbveh@eng 6/97.
 
 
 /**
- * The DnsClient class performs DNS client operations in support of DnsContext.
+ * The DnsClient clbss performs DNS client operbtions in support of DnsContext.
  *
  */
 
-public class DnsClient {
+public clbss DnsClient {
 
-    // DNS packet header field offsets
-    private static final int IDENT_OFFSET = 0;
-    private static final int FLAGS_OFFSET = 2;
-    private static final int NUMQ_OFFSET  = 4;
-    private static final int NUMANS_OFFSET = 6;
-    private static final int NUMAUTH_OFFSET = 8;
-    private static final int NUMADD_OFFSET = 10;
-    private static final int DNS_HDR_SIZE = 12;
+    // DNS pbcket hebder field offsets
+    privbte stbtic finbl int IDENT_OFFSET = 0;
+    privbte stbtic finbl int FLAGS_OFFSET = 2;
+    privbte stbtic finbl int NUMQ_OFFSET  = 4;
+    privbte stbtic finbl int NUMANS_OFFSET = 6;
+    privbte stbtic finbl int NUMAUTH_OFFSET = 8;
+    privbte stbtic finbl int NUMADD_OFFSET = 10;
+    privbte stbtic finbl int DNS_HDR_SIZE = 12;
 
     // DNS response codes
-    private static final int NO_ERROR       = 0;
-    private static final int FORMAT_ERROR   = 1;
-    private static final int SERVER_FAILURE = 2;
-    private static final int NAME_ERROR     = 3;
-    private static final int NOT_IMPL       = 4;
-    private static final int REFUSED        = 5;
+    privbte stbtic finbl int NO_ERROR       = 0;
+    privbte stbtic finbl int FORMAT_ERROR   = 1;
+    privbte stbtic finbl int SERVER_FAILURE = 2;
+    privbte stbtic finbl int NAME_ERROR     = 3;
+    privbte stbtic finbl int NOT_IMPL       = 4;
+    privbte stbtic finbl int REFUSED        = 5;
 
-    private static final String[] rcodeDescription = {
+    privbte stbtic finbl String[] rcodeDescription = {
         "No error",
-        "DNS format error",
-        "DNS server failure",
-        "DNS name not found",
-        "DNS operation not supported",
+        "DNS formbt error",
+        "DNS server fbilure",
+        "DNS nbme not found",
+        "DNS operbtion not supported",
         "DNS service refused"
     };
 
-    private static final int DEFAULT_PORT = 53;
-    private static final int TRANSACTION_ID_BOUND = 0x10000;
-    private static final SecureRandom random = JCAUtil.getSecureRandom();
-    private InetAddress[] servers;
-    private int[] serverPorts;
-    private int timeout;                // initial timeout on UDP queries in ms
-    private int retries;                // number of UDP retries
+    privbte stbtic finbl int DEFAULT_PORT = 53;
+    privbte stbtic finbl int TRANSACTION_ID_BOUND = 0x10000;
+    privbte stbtic finbl SecureRbndom rbndom = JCAUtil.getSecureRbndom();
+    privbte InetAddress[] servers;
+    privbte int[] serverPorts;
+    privbte int timeout;                // initibl timeout on UDP queries in ms
+    privbte int retries;                // number of UDP retries
 
-    private DatagramSocket udpSocket;
+    privbte DbtbgrbmSocket udpSocket;
 
     // Requests sent
-    private Map<Integer, ResourceRecord> reqs;
+    privbte Mbp<Integer, ResourceRecord> reqs;
 
     // Responses received
-    private Map<Integer, byte[]> resps;
+    privbte Mbp<Integer, byte[]> resps;
 
     //-------------------------------------------------------------------------
 
     /*
-     * Each server is of the form "server[:port]".  IPv6 literal host names
-     * include delimiting brackets.
-     * "timeout" is the initial timeout interval (in ms) for UDP queries,
-     * and "retries" gives the number of retries per server.
+     * Ebch server is of the form "server[:port]".  IPv6 literbl host nbmes
+     * include delimiting brbckets.
+     * "timeout" is the initibl timeout intervbl (in ms) for UDP queries,
+     * bnd "retries" gives the number of retries per server.
      */
     public DnsClient(String[] servers, int timeout, int retries)
-            throws NamingException {
+            throws NbmingException {
         this.timeout = timeout;
         this.retries = retries;
         try {
-            udpSocket = new DatagramSocket();
-        } catch (java.net.SocketException e) {
-            NamingException ne = new ConfigurationException();
-            ne.setRootCause(e);
+            udpSocket = new DbtbgrbmSocket();
+        } cbtch (jbvb.net.SocketException e) {
+            NbmingException ne = new ConfigurbtionException();
+            ne.setRootCbuse(e);
             throw ne;
         }
 
@@ -118,86 +118,86 @@ public class DnsClient {
 
         for (int i = 0; i < servers.length; i++) {
 
-            // Is optional port given?
+            // Is optionbl port given?
             int colon = servers[i].indexOf(':',
                                            servers[i].indexOf(']') + 1);
 
             serverPorts[i] = (colon < 0)
                 ? DEFAULT_PORT
-                : Integer.parseInt(servers[i].substring(colon + 1));
+                : Integer.pbrseInt(servers[i].substring(colon + 1));
             String server = (colon < 0)
                 ? servers[i]
                 : servers[i].substring(0, colon);
             try {
-                this.servers[i] = InetAddress.getByName(server);
-            } catch (java.net.UnknownHostException e) {
-                NamingException ne = new ConfigurationException(
+                this.servers[i] = InetAddress.getByNbme(server);
+            } cbtch (jbvb.net.UnknownHostException e) {
+                NbmingException ne = new ConfigurbtionException(
                         "Unknown DNS server: " + server);
-                ne.setRootCause(e);
+                ne.setRootCbuse(e);
                 throw ne;
             }
         }
-        reqs = Collections.synchronizedMap(
-            new HashMap<Integer, ResourceRecord>());
-        resps = Collections.synchronizedMap(new HashMap<Integer, byte[]>());
+        reqs = Collections.synchronizedMbp(
+            new HbshMbp<Integer, ResourceRecord>());
+        resps = Collections.synchronizedMbp(new HbshMbp<Integer, byte[]>());
     }
 
-    protected void finalize() {
+    protected void finblize() {
         close();
     }
 
-    // A lock to access the request and response queues in tandem.
-    private Object queuesLock = new Object();
+    // A lock to bccess the request bnd response queues in tbndem.
+    privbte Object queuesLock = new Object();
 
     public void close() {
         udpSocket.close();
         synchronized (queuesLock) {
-            reqs.clear();
-            resps.clear();
+            reqs.clebr();
+            resps.clebr();
         }
     }
 
     /*
      * If recursion is true, recursion is requested on the query.
-     * If auth is true, only authoritative responses are accepted; other
-     * responses throw NameNotFoundException.
+     * If buth is true, only buthoritbtive responses bre bccepted; other
+     * responses throw NbmeNotFoundException.
      */
-    ResourceRecords query(DnsName fqdn, int qclass, int qtype,
-                          boolean recursion, boolean auth)
-            throws NamingException {
+    ResourceRecords query(DnsNbme fqdn, int qclbss, int qtype,
+                          boolebn recursion, boolebn buth)
+            throws NbmingException {
 
         int xid;
-        Packet pkt;
+        Pbcket pkt;
         ResourceRecord collision;
 
         do {
-            // Generate a random transaction ID
-            xid = random.nextInt(TRANSACTION_ID_BOUND);
-            pkt = makeQueryPacket(fqdn, xid, qclass, qtype, recursion);
+            // Generbte b rbndom trbnsbction ID
+            xid = rbndom.nextInt(TRANSACTION_ID_BOUND);
+            pkt = mbkeQueryPbcket(fqdn, xid, qclbss, qtype, recursion);
 
-            // enqueue the outstanding request
-            collision = reqs.putIfAbsent(xid, new ResourceRecord(pkt.getData(),
-                pkt.length(), Header.HEADER_SIZE, true, false));
+            // enqueue the outstbnding request
+            collision = reqs.putIfAbsent(xid, new ResourceRecord(pkt.getDbtb(),
+                pkt.length(), Hebder.HEADER_SIZE, true, fblse));
 
         } while (collision != null);
 
-        Exception caughtException = null;
-        boolean[] doNotRetry = new boolean[servers.length];
+        Exception cbughtException = null;
+        boolebn[] doNotRetry = new boolebn[servers.length];
 
         //
-        // The UDP retry strategy is to try the 1st server, and then
-        // each server in order. If no answer, double the timeout
-        // and try each server again.
+        // The UDP retry strbtegy is to try the 1st server, bnd then
+        // ebch server in order. If no bnswer, double the timeout
+        // bnd try ebch server bgbin.
         //
         for (int retry = 0; retry < retries; retry++) {
 
-            // Try each name server.
+            // Try ebch nbme server.
             for (int i = 0; i < servers.length; i++) {
                 if (doNotRetry[i]) {
                     continue;
                 }
 
-                // send the request packet and wait for a response.
+                // send the request pbcket bnd wbit for b response.
                 try {
                     if (debug) {
                         dprint("SEND ID (" + (retry + 1) + "): " + xid);
@@ -207,9 +207,9 @@ public class DnsClient {
                     msg = doUdpQuery(pkt, servers[i], serverPorts[i],
                                         retry, xid);
                     //
-                    // If the matching response is not got within the
-                    // given timeout, check if the response was enqueued
-                    // by some other thread, if not proceed with the next
+                    // If the mbtching response is not got within the
+                    // given timeout, check if the response wbs enqueued
+                    // by some other threbd, if not proceed with the next
                     // server or retry.
                     //
                     if (msg == null) {
@@ -220,18 +220,18 @@ public class DnsClient {
                             continue;
                         }
                     }
-                    Header hdr = new Header(msg, msg.length);
+                    Hebder hdr = new Hebder(msg, msg.length);
 
-                    if (auth && !hdr.authoritative) {
-                        caughtException = new NameNotFoundException(
-                                "DNS response not authoritative");
+                    if (buth && !hdr.buthoritbtive) {
+                        cbughtException = new NbmeNotFoundException(
+                                "DNS response not buthoritbtive");
                         doNotRetry[i] = true;
                         continue;
                     }
-                    if (hdr.truncated) {    // message is truncated -- try TCP
+                    if (hdr.truncbted) {    // messbge is truncbted -- try TCP
 
-                        // Try each server, starting with the one that just
-                        // provided the truncated message.
+                        // Try ebch server, stbrting with the one thbt just
+                        // provided the truncbted messbge.
                         for (int j = 0; j < servers.length; j++) {
                             int ij = (i + j) % servers.length;
                             if (doNotRetry[ij]) {
@@ -243,53 +243,53 @@ public class DnsClient {
                                 byte[] msg2;
                                 try {
                                     msg2 = doTcpQuery(tcp, pkt);
-                                } finally {
+                                } finblly {
                                     tcp.close();
                                 }
-                                Header hdr2 = new Header(msg2, msg2.length);
+                                Hebder hdr2 = new Hebder(msg2, msg2.length);
                                 if (hdr2.query) {
-                                    throw new CommunicationException(
+                                    throw new CommunicbtionException(
                                         "DNS error: expecting response");
                                 }
                                 checkResponseCode(hdr2);
 
-                                if (!auth || hdr2.authoritative) {
-                                    // Got a valid response
+                                if (!buth || hdr2.buthoritbtive) {
+                                    // Got b vblid response
                                     hdr = hdr2;
                                     msg = msg2;
-                                    break;
+                                    brebk;
                                 } else {
                                     doNotRetry[ij] = true;
                                 }
-                            } catch (Exception e) {
+                            } cbtch (Exception e) {
                                 // Try next server, or use UDP response
                             }
                         } // servers
                     }
-                    return new ResourceRecords(msg, msg.length, hdr, false);
+                    return new ResourceRecords(msg, msg.length, hdr, fblse);
 
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                     if (debug) {
-                        dprint("Caught IOException:" + e);
+                        dprint("Cbught IOException:" + e);
                     }
-                    if (caughtException == null) {
-                        caughtException = e;
+                    if (cbughtException == null) {
+                        cbughtException = e;
                     }
-                    // Use reflection to allow pre-1.4 compilation.
+                    // Use reflection to bllow pre-1.4 compilbtion.
                     // This won't be needed much longer.
-                    if (e.getClass().getName().equals(
-                            "java.net.PortUnreachableException")) {
+                    if (e.getClbss().getNbme().equbls(
+                            "jbvb.net.PortUnrebchbbleException")) {
                         doNotRetry[i] = true;
                     }
-                } catch (NameNotFoundException e) {
+                } cbtch (NbmeNotFoundException e) {
                     throw e;
-                } catch (CommunicationException e) {
-                    if (caughtException == null) {
-                        caughtException = e;
+                } cbtch (CommunicbtionException e) {
+                    if (cbughtException == null) {
+                        cbughtException = e;
                     }
-                } catch (NamingException e) {
-                    if (caughtException == null) {
-                        caughtException = e;
+                } cbtch (NbmingException e) {
+                    if (cbughtException == null) {
+                        cbughtException = e;
                     }
                     doNotRetry[i] = true;
                 }
@@ -297,107 +297,107 @@ public class DnsClient {
         } // retries
 
         reqs.remove(xid);
-        if (caughtException instanceof NamingException) {
-            throw (NamingException) caughtException;
+        if (cbughtException instbnceof NbmingException) {
+            throw (NbmingException) cbughtException;
         }
         // A network timeout or other error occurred.
-        NamingException ne = new CommunicationException("DNS error");
-        ne.setRootCause(caughtException);
+        NbmingException ne = new CommunicbtionException("DNS error");
+        ne.setRootCbuse(cbughtException);
         throw ne;
     }
 
-    ResourceRecords queryZone(DnsName zone, int qclass, boolean recursion)
-            throws NamingException {
+    ResourceRecords queryZone(DnsNbme zone, int qclbss, boolebn recursion)
+            throws NbmingException {
 
-        int xid = random.nextInt(TRANSACTION_ID_BOUND);
+        int xid = rbndom.nextInt(TRANSACTION_ID_BOUND);
 
-        Packet pkt = makeQueryPacket(zone, xid, qclass,
+        Pbcket pkt = mbkeQueryPbcket(zone, xid, qclbss,
                                      ResourceRecord.QTYPE_AXFR, recursion);
-        Exception caughtException = null;
+        Exception cbughtException = null;
 
-        // Try each name server.
+        // Try ebch nbme server.
         for (int i = 0; i < servers.length; i++) {
             try {
                 Tcp tcp = new Tcp(servers[i], serverPorts[i]);
                 byte[] msg;
                 try {
                     msg = doTcpQuery(tcp, pkt);
-                    Header hdr = new Header(msg, msg.length);
-                    // Check only rcode as per
-                    // draft-ietf-dnsext-axfr-clarify-04
+                    Hebder hdr = new Hebder(msg, msg.length);
+                    // Check only rcode bs per
+                    // drbft-ietf-dnsext-bxfr-clbrify-04
                     checkResponseCode(hdr);
                     ResourceRecords rrs =
                         new ResourceRecords(msg, msg.length, hdr, true);
                     if (rrs.getFirstAnsType() != ResourceRecord.TYPE_SOA) {
-                        throw new CommunicationException(
+                        throw new CommunicbtionException(
                                 "DNS error: zone xfer doesn't begin with SOA");
                     }
 
-                    if (rrs.answer.size() == 1 ||
-                            rrs.getLastAnsType() != ResourceRecord.TYPE_SOA) {
-                        // The response is split into multiple DNS messages.
+                    if (rrs.bnswer.size() == 1 ||
+                            rrs.getLbstAnsType() != ResourceRecord.TYPE_SOA) {
+                        // The response is split into multiple DNS messbges.
                         do {
                             msg = continueTcpQuery(tcp);
                             if (msg == null) {
-                                throw new CommunicationException(
-                                        "DNS error: incomplete zone transfer");
+                                throw new CommunicbtionException(
+                                        "DNS error: incomplete zone trbnsfer");
                             }
-                            hdr = new Header(msg, msg.length);
+                            hdr = new Hebder(msg, msg.length);
                             checkResponseCode(hdr);
-                            rrs.add(msg, msg.length, hdr);
-                        } while (rrs.getLastAnsType() !=
+                            rrs.bdd(msg, msg.length, hdr);
+                        } while (rrs.getLbstAnsType() !=
                                  ResourceRecord.TYPE_SOA);
                     }
 
-                    // Delete the duplicate SOA record.
-                    rrs.answer.removeElementAt(rrs.answer.size() - 1);
+                    // Delete the duplicbte SOA record.
+                    rrs.bnswer.removeElementAt(rrs.bnswer.size() - 1);
                     return rrs;
 
-                } finally {
+                } finblly {
                     tcp.close();
                 }
 
-            } catch (IOException e) {
-                caughtException = e;
-            } catch (NameNotFoundException e) {
+            } cbtch (IOException e) {
+                cbughtException = e;
+            } cbtch (NbmeNotFoundException e) {
                 throw e;
-            } catch (NamingException e) {
-                caughtException = e;
+            } cbtch (NbmingException e) {
+                cbughtException = e;
             }
         }
-        if (caughtException instanceof NamingException) {
-            throw (NamingException) caughtException;
+        if (cbughtException instbnceof NbmingException) {
+            throw (NbmingException) cbughtException;
         }
-        NamingException ne = new CommunicationException(
-                "DNS error during zone transfer");
-        ne.setRootCause(caughtException);
+        NbmingException ne = new CommunicbtionException(
+                "DNS error during zone trbnsfer");
+        ne.setRootCbuse(cbughtException);
         throw ne;
     }
 
 
     /**
-     * Tries to retrieve a UDP packet matching the given xid
+     * Tries to retrieve b UDP pbcket mbtching the given xid
      * received within the timeout.
-     * If a packet with different xid is received, the received packet
+     * If b pbcket with different xid is received, the received pbcket
      * is enqueued with the corresponding xid in 'resps'.
      */
-    private byte[] doUdpQuery(Packet pkt, InetAddress server,
+    privbte byte[] doUdpQuery(Pbcket pkt, InetAddress server,
                                      int port, int retry, int xid)
-            throws IOException, NamingException {
+            throws IOException, NbmingException {
 
-        int minTimeout = 50; // msec after which there are no retries.
+        int minTimeout = 50; // msec bfter which there bre no retries.
 
         synchronized (udpSocket) {
-            DatagramPacket opkt = new DatagramPacket(
-                    pkt.getData(), pkt.length(), server, port);
-            DatagramPacket ipkt = new DatagramPacket(new byte[8000], 8000);
-            // Packets may only be sent to or received from this server address
+            DbtbgrbmPbcket opkt = new DbtbgrbmPbcket(
+                    pkt.getDbtb(), pkt.length(), server, port);
+            DbtbgrbmPbcket ipkt = new DbtbgrbmPbcket(new byte[8000], 8000);
+            // Pbckets mby only be sent to or received from this server bddress
             udpSocket.connect(server, port);
             int pktTimeout = (timeout * (1 << retry));
             try {
                 udpSocket.send(opkt);
 
-                // timeout remaining after successive 'receive()'
+                // timeout rembining bfter successive 'receive()'
                 int timeoutLeft = pktTimeout;
                 int cnt = 0;
                 do {
@@ -409,34 +409,34 @@ public class DnsClient {
                                 timeoutLeft + " ms.");
                     }
                     udpSocket.setSoTimeout(timeoutLeft);
-                    long start = System.currentTimeMillis();
+                    long stbrt = System.currentTimeMillis();
                     udpSocket.receive(ipkt);
                     long end = System.currentTimeMillis();
 
-                    byte[] data = ipkt.getData();
-                    if (isMatchResponse(data, xid)) {
-                        return data;
+                    byte[] dbtb = ipkt.getDbtb();
+                    if (isMbtchResponse(dbtb, xid)) {
+                        return dbtb;
                     }
-                    timeoutLeft = pktTimeout - ((int) (end - start));
+                    timeoutLeft = pktTimeout - ((int) (end - stbrt));
                 } while (timeoutLeft > minTimeout);
 
-            } finally {
+            } finblly {
                 udpSocket.disconnect();
             }
-            return null; // no matching packet received within the timeout
+            return null; // no mbtching pbcket received within the timeout
         }
     }
 
     /*
-     * Sends a TCP query, and returns the first DNS message in the response.
+     * Sends b TCP query, bnd returns the first DNS messbge in the response.
      */
-    private byte[] doTcpQuery(Tcp tcp, Packet pkt) throws IOException {
+    privbte byte[] doTcpQuery(Tcp tcp, Pbcket pkt) throws IOException {
 
         int len = pkt.length();
-        // Send 2-byte message length, then send message.
+        // Send 2-byte messbge length, then send messbge.
         tcp.out.write(len >> 8);
         tcp.out.write(len);
-        tcp.out.write(pkt.getData(), 0, len);
+        tcp.out.write(pkt.getDbtb(), 0, len);
         tcp.out.flush();
 
         byte[] msg = continueTcpQuery(tcp);
@@ -447,26 +447,26 @@ public class DnsClient {
     }
 
     /*
-     * Returns the next DNS message from the TCP socket, or null on EOF.
+     * Returns the next DNS messbge from the TCP socket, or null on EOF.
      */
-    private byte[] continueTcpQuery(Tcp tcp) throws IOException {
+    privbte byte[] continueTcpQuery(Tcp tcp) throws IOException {
 
-        int lenHi = tcp.in.read();      // high-order byte of response length
+        int lenHi = tcp.in.rebd();      // high-order byte of response length
         if (lenHi == -1) {
             return null;        // EOF
         }
-        int lenLo = tcp.in.read();      // low-order byte of response length
+        int lenLo = tcp.in.rebd();      // low-order byte of response length
         if (lenLo == -1) {
-            throw new IOException("Corrupted DNS response: bad length");
+            throw new IOException("Corrupted DNS response: bbd length");
         }
         int len = (lenHi << 8) | lenLo;
         byte[] msg = new byte[len];
         int pos = 0;                    // next unfilled position in msg
         while (len > 0) {
-            int n = tcp.in.read(msg, pos, len);
+            int n = tcp.in.rebd(msg, pos, len);
             if (n == -1) {
                 throw new IOException(
-                        "Corrupted DNS response: too little data");
+                        "Corrupted DNS response: too little dbtb");
             }
             len -= n;
             pos += n;
@@ -474,50 +474,50 @@ public class DnsClient {
         return msg;
     }
 
-    private Packet makeQueryPacket(DnsName fqdn, int xid,
-                                   int qclass, int qtype, boolean recursion) {
-        int qnameLen = fqdn.getOctets();
-        int pktLen = DNS_HDR_SIZE + qnameLen + 4;
-        Packet pkt = new Packet(pktLen);
+    privbte Pbcket mbkeQueryPbcket(DnsNbme fqdn, int xid,
+                                   int qclbss, int qtype, boolebn recursion) {
+        int qnbmeLen = fqdn.getOctets();
+        int pktLen = DNS_HDR_SIZE + qnbmeLen + 4;
+        Pbcket pkt = new Pbcket(pktLen);
 
-        short flags = recursion ? Header.RD_BIT : 0;
+        short flbgs = recursion ? Hebder.RD_BIT : 0;
 
         pkt.putShort(xid, IDENT_OFFSET);
-        pkt.putShort(flags, FLAGS_OFFSET);
+        pkt.putShort(flbgs, FLAGS_OFFSET);
         pkt.putShort(1, NUMQ_OFFSET);
         pkt.putShort(0, NUMANS_OFFSET);
         pkt.putInt(0, NUMAUTH_OFFSET);
 
-        makeQueryName(fqdn, pkt, DNS_HDR_SIZE);
-        pkt.putShort(qtype, DNS_HDR_SIZE + qnameLen);
-        pkt.putShort(qclass, DNS_HDR_SIZE + qnameLen + 2);
+        mbkeQueryNbme(fqdn, pkt, DNS_HDR_SIZE);
+        pkt.putShort(qtype, DNS_HDR_SIZE + qnbmeLen);
+        pkt.putShort(qclbss, DNS_HDR_SIZE + qnbmeLen + 2);
 
         return pkt;
     }
 
-    // Builds a query name in pkt according to the RFC spec.
-    private void makeQueryName(DnsName fqdn, Packet pkt, int off) {
+    // Builds b query nbme in pkt bccording to the RFC spec.
+    privbte void mbkeQueryNbme(DnsNbme fqdn, Pbcket pkt, int off) {
 
-        // Loop through labels, least-significant first.
+        // Loop through lbbels, lebst-significbnt first.
         for (int i = fqdn.size() - 1; i >= 0; i--) {
-            String label = fqdn.get(i);
-            int len = label.length();
+            String lbbel = fqdn.get(i);
+            int len = lbbel.length();
 
             pkt.putByte(len, off++);
             for (int j = 0; j < len; j++) {
-                pkt.putByte(label.charAt(j), off++);
+                pkt.putByte(lbbel.chbrAt(j), off++);
             }
         }
-        if (!fqdn.hasRootLabel()) {
+        if (!fqdn.hbsRootLbbel()) {
             pkt.putByte(0, off);
         }
     }
 
     //-------------------------------------------------------------------------
 
-    private byte[] lookupResponse(Integer xid) throws NamingException {
+    privbte byte[] lookupResponse(Integer xid) throws NbmingException {
         //
-        // Check the queued responses: some other thread in between
+        // Check the queued responses: some other threbd in between
         // received the response for this request.
         //
         if (debug) {
@@ -526,14 +526,14 @@ public class DnsClient {
         }
         byte[] pkt;
         if ((pkt = resps.get(xid)) != null) {
-            checkResponseCode(new Header(pkt, pkt.length));
+            checkResponseCode(new Hebder(pkt, pkt.length));
             synchronized (queuesLock) {
                 resps.remove(xid);
                 reqs.remove(xid);
             }
 
             if (debug) {
-                dprint("FOUND (" + Thread.currentThread() +
+                dprint("FOUND (" + Threbd.currentThrebd() +
                     ") for:" + xid);
             }
         }
@@ -541,26 +541,26 @@ public class DnsClient {
     }
 
     /*
-     * Checks the header of an incoming DNS response.
-     * Returns true if it matches the given xid and throws a naming
-     * exception, if appropriate, based on the response code.
+     * Checks the hebder of bn incoming DNS response.
+     * Returns true if it mbtches the given xid bnd throws b nbming
+     * exception, if bppropribte, bbsed on the response code.
      *
-     * Also checks that the domain name, type and class in the response
-     * match those in the original query.
+     * Also checks thbt the dombin nbme, type bnd clbss in the response
+     * mbtch those in the originbl query.
      */
-    private boolean isMatchResponse(byte[] pkt, int xid)
-                throws NamingException {
+    privbte boolebn isMbtchResponse(byte[] pkt, int xid)
+                throws NbmingException {
 
-        Header hdr = new Header(pkt, pkt.length);
+        Hebder hdr = new Hebder(pkt, pkt.length);
         if (hdr.query) {
-            throw new CommunicationException("DNS error: expecting response");
+            throw new CommunicbtionException("DNS error: expecting response");
         }
 
-        if (!reqs.containsKey(xid)) { // already received, ignore the response
-            return false;
+        if (!reqs.contbinsKey(xid)) { // blrebdy received, ignore the response
+            return fblse;
         }
 
-        // common case- the request sent matches the subsequent response read
+        // common cbse- the request sent mbtches the subsequent response rebd
         if (hdr.xid == xid) {
             if (debug) {
                 dprint("XID MATCH:" + xid);
@@ -569,29 +569,29 @@ public class DnsClient {
             if (!hdr.query && hdr.numQuestions == 1) {
 
                 ResourceRecord rr = new ResourceRecord(pkt, pkt.length,
-                    Header.HEADER_SIZE, true, false);
+                    Hebder.HEADER_SIZE, true, fblse);
 
-                // Retrieve the original query
+                // Retrieve the originbl query
                 ResourceRecord query = reqs.get(xid);
                 int qtype = query.getType();
-                int qclass = query.getRrclass();
-                DnsName qname = query.getName();
+                int qclbss = query.getRrclbss();
+                DnsNbme qnbme = query.getNbme();
 
-                // Check that the type/class/name in the query section of the
-                // response match those in the original query
+                // Check thbt the type/clbss/nbme in the query section of the
+                // response mbtch those in the originbl query
                 if ((qtype == ResourceRecord.QTYPE_STAR ||
                     qtype == rr.getType()) &&
-                    (qclass == ResourceRecord.QCLASS_STAR ||
-                    qclass == rr.getRrclass()) &&
-                    qname.equals(rr.getName())) {
+                    (qclbss == ResourceRecord.QCLASS_STAR ||
+                    qclbss == rr.getRrclbss()) &&
+                    qnbme.equbls(rr.getNbme())) {
 
                     if (debug) {
-                        dprint("MATCH NAME:" + qname + " QTYPE:" + qtype +
-                            " QCLASS:" + qclass);
+                        dprint("MATCH NAME:" + qnbme + " QTYPE:" + qtype +
+                            " QCLASS:" + qclbss);
                     }
 
                     // Remove the response for the xid if received by some other
-                    // thread.
+                    // threbd.
                     synchronized (queuesLock) {
                         resps.remove(xid);
                         reqs.remove(xid);
@@ -600,21 +600,21 @@ public class DnsClient {
 
                 } else {
                     if (debug) {
-                        dprint("NO-MATCH NAME:" + qname + " QTYPE:" + qtype +
-                            " QCLASS:" + qclass);
+                        dprint("NO-MATCH NAME:" + qnbme + " QTYPE:" + qtype +
+                            " QCLASS:" + qclbss);
                     }
                 }
             }
-            return false;
+            return fblse;
         }
 
         //
-        // xid mis-match: enqueue the response, it may belong to some other
-        // thread that has not yet had a chance to read its response.
-        // enqueue only the first response, responses for retries are ignored.
+        // xid mis-mbtch: enqueue the response, it mby belong to some other
+        // threbd thbt hbs not yet hbd b chbnce to rebd its response.
+        // enqueue only the first response, responses for retries bre ignored.
         //
         synchronized (queuesLock) {
-            if (reqs.containsKey(hdr.xid)) { // enqueue only the first response
+            if (reqs.contbinsKey(hdr.xid)) { // enqueue only the first response
                 resps.put(hdr.xid, pkt);
             }
         }
@@ -625,14 +625,14 @@ public class DnsClient {
                                 "    Response Q:" + resps +
                                 "    Reqs size:" + reqs.size());
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Throws an exception if appropriate for the response code of a
-     * given header.
+     * Throws bn exception if bppropribte for the response code of b
+     * given hebder.
      */
-    private void checkResponseCode(Header hdr) throws NamingException {
+    privbte void checkResponseCode(Hebder hdr) throws NbmingException {
 
         int rcode = hdr.rcode;
         if (rcode == NO_ERROR) {
@@ -644,24 +644,24 @@ public class DnsClient {
         msg += " [response code " + rcode + "]";
 
         switch (rcode) {
-        case SERVER_FAILURE:
-            throw new ServiceUnavailableException(msg);
-        case NAME_ERROR:
-            throw new NameNotFoundException(msg);
-        case NOT_IMPL:
-        case REFUSED:
-            throw new OperationNotSupportedException(msg);
-        case FORMAT_ERROR:
-        default:
-            throw new NamingException(msg);
+        cbse SERVER_FAILURE:
+            throw new ServiceUnbvbilbbleException(msg);
+        cbse NAME_ERROR:
+            throw new NbmeNotFoundException(msg);
+        cbse NOT_IMPL:
+        cbse REFUSED:
+            throw new OperbtionNotSupportedException(msg);
+        cbse FORMAT_ERROR:
+        defbult:
+            throw new NbmingException(msg);
         }
     }
 
     //-------------------------------------------------------------------------
 
-    private static final boolean debug = false;
+    privbte stbtic finbl boolebn debug = fblse;
 
-    private static void dprint(String mess) {
+    privbte stbtic void dprint(String mess) {
         if (debug) {
             System.err.println("DNS: " + mess);
         }
@@ -669,17 +669,17 @@ public class DnsClient {
 
 }
 
-class Tcp {
+clbss Tcp {
 
-    private Socket sock;
-    java.io.InputStream in;
-    java.io.OutputStream out;
+    privbte Socket sock;
+    jbvb.io.InputStrebm in;
+    jbvb.io.OutputStrebm out;
 
     Tcp(InetAddress server, int port) throws IOException {
         sock = new Socket(server, port);
-        sock.setTcpNoDelay(true);
-        out = new java.io.BufferedOutputStream(sock.getOutputStream());
-        in = new java.io.BufferedInputStream(sock.getInputStream());
+        sock.setTcpNoDelby(true);
+        out = new jbvb.io.BufferedOutputStrebm(sock.getOutputStrebm());
+        in = new jbvb.io.BufferedInputStrebm(sock.getInputStrebm());
     }
 
     void close() throws IOException {
@@ -688,18 +688,18 @@ class Tcp {
 }
 
 /*
- * javaos emulation -cj
+ * jbvbos emulbtion -cj
  */
-class Packet {
+clbss Pbcket {
         byte buf[];
 
-        Packet(int len) {
+        Pbcket(int len) {
                 buf = new byte[len];
         }
 
-        Packet(byte data[], int len) {
+        Pbcket(byte dbtb[], int len) {
                 buf = new byte[len];
-                System.arraycopy(data, 0, buf, 0, len);
+                System.brrbycopy(dbtb, 0, buf, 0, len);
         }
 
         void putInt(int x, int off) {
@@ -719,14 +719,14 @@ class Packet {
         }
 
         void putBytes(byte src[], int src_offset, int dst_offset, int len) {
-                System.arraycopy(src, src_offset, buf, dst_offset, len);
+                System.brrbycopy(src, src_offset, buf, dst_offset, len);
         }
 
         int length() {
                 return buf.length;
         }
 
-        byte[] getData() {
+        byte[] getDbtb() {
                 return buf;
         }
 }

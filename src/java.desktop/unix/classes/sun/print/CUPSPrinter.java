@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
+import jbvb.net.URL;
+import jbvb.net.HttpURLConnection;
+import jbvb.io.OutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
 import sun.print.IPPPrintService;
-import sun.print.CustomMediaSizeName;
-import sun.print.CustomMediaTray;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaTray;
-import javax.print.attribute.standard.MediaPrintableArea;
-import javax.print.attribute.standard.PrinterResolution;
-import javax.print.attribute.Size2DSyntax;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.standard.PrinterName;
+import sun.print.CustomMedibSizeNbme;
+import sun.print.CustomMedibTrby;
+import jbvbx.print.bttribute.stbndbrd.Medib;
+import jbvbx.print.bttribute.stbndbrd.MedibSizeNbme;
+import jbvbx.print.bttribute.stbndbrd.MedibSize;
+import jbvbx.print.bttribute.stbndbrd.MedibTrby;
+import jbvbx.print.bttribute.stbndbrd.MedibPrintbbleAreb;
+import jbvbx.print.bttribute.stbndbrd.PrinterResolution;
+import jbvbx.print.bttribute.Size2DSyntbx;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.stbndbrd.PrinterNbme;
 
 
-public class CUPSPrinter  {
-    private static final String debugPrefix = "CUPSPrinter>> ";
-    private static final double PRINTER_DPI = 72.0;
-    private boolean initialized;
-    private static native String getCupsServer();
-    private static native int getCupsPort();
-    private static native boolean canConnect(String server, int port);
-    private static native boolean initIDs();
-    // These functions need to be synchronized as
-    // CUPS does not support multi-threading.
-    private static synchronized native String[] getMedia(String printer);
-    private static synchronized native float[] getPageSizes(String printer);
-    private static synchronized native void
-        getResolutions(String printer, ArrayList<Integer> resolutionList);
-    //public static boolean useIPPMedia = false; will be used later
+public clbss CUPSPrinter  {
+    privbte stbtic finbl String debugPrefix = "CUPSPrinter>> ";
+    privbte stbtic finbl double PRINTER_DPI = 72.0;
+    privbte boolebn initiblized;
+    privbte stbtic nbtive String getCupsServer();
+    privbte stbtic nbtive int getCupsPort();
+    privbte stbtic nbtive boolebn cbnConnect(String server, int port);
+    privbte stbtic nbtive boolebn initIDs();
+    // These functions need to be synchronized bs
+    // CUPS does not support multi-threbding.
+    privbte stbtic synchronized nbtive String[] getMedib(String printer);
+    privbte stbtic synchronized nbtive flobt[] getPbgeSizes(String printer);
+    privbte stbtic synchronized nbtive void
+        getResolutions(String printer, ArrbyList<Integer> resolutionList);
+    //public stbtic boolebn useIPPMedib = fblse; will be used lbter
 
-    private MediaPrintableArea[] cupsMediaPrintables;
-    private MediaSizeName[] cupsMediaSNames;
-    private CustomMediaSizeName[] cupsCustomMediaSNames;
-    private MediaTray[] cupsMediaTrays;
+    privbte MedibPrintbbleAreb[] cupsMedibPrintbbles;
+    privbte MedibSizeNbme[] cupsMedibSNbmes;
+    privbte CustomMedibSizeNbme[] cupsCustomMedibSNbmes;
+    privbte MedibTrby[] cupsMedibTrbys;
 
-    public  int nPageSizes = 0;
-    public  int nTrays = 0;
-    private  String[] media;
-    private  float[] pageSizes;
-    int[]   resolutionsArray;
-    private String printer;
+    public  int nPbgeSizes = 0;
+    public  int nTrbys = 0;
+    privbte  String[] medib;
+    privbte  flobt[] pbgeSizes;
+    int[]   resolutionsArrby;
+    privbte String printer;
 
-    private static boolean libFound;
-    private static String cupsServer = null;
-    private static int cupsPort = 0;
+    privbte stbtic boolebn libFound;
+    privbte stbtic String cupsServer = null;
+    privbte stbtic int cupsPort = 0;
 
-    static {
-        // load awt library to access native code
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        // lobd bwt librbry to bccess nbtive code
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("awt");
+                    System.lobdLibrbry("bwt");
                     return null;
                 }
             });
@@ -95,189 +95,189 @@ public class CUPSPrinter  {
     }
 
 
-    CUPSPrinter (String printerName) {
-        if (printerName == null) {
-            throw new IllegalArgumentException("null printer name");
+    CUPSPrinter (String printerNbme) {
+        if (printerNbme == null) {
+            throw new IllegblArgumentException("null printer nbme");
         }
-        printer = printerName;
-        cupsMediaSNames = null;
-        cupsMediaPrintables = null;
-        cupsMediaTrays = null;
-        initialized = false;
+        printer = printerNbme;
+        cupsMedibSNbmes = null;
+        cupsMedibPrintbbles = null;
+        cupsMedibTrbys = null;
+        initiblized = fblse;
 
         if (!libFound) {
             throw new RuntimeException("cups lib not found");
         } else {
-            // get page + tray names
-            media =  getMedia(printer);
-            if (media == null) {
+            // get pbge + trby nbmes
+            medib =  getMedib(printer);
+            if (medib == null) {
                 // either PPD file is not found or printer is unknown
                 throw new RuntimeException("error getting PPD");
             }
 
             // get sizes
-            pageSizes = getPageSizes(printer);
-            if (pageSizes != null) {
-                nPageSizes = pageSizes.length/6;
+            pbgeSizes = getPbgeSizes(printer);
+            if (pbgeSizes != null) {
+                nPbgeSizes = pbgeSizes.length/6;
 
-                nTrays = media.length/2-nPageSizes;
-                assert (nTrays >= 0);
+                nTrbys = medib.length/2-nPbgeSizes;
+                bssert (nTrbys >= 0);
             }
-            ArrayList<Integer> resolutionList = new ArrayList<>();
+            ArrbyList<Integer> resolutionList = new ArrbyList<>();
             getResolutions(printer, resolutionList);
-            resolutionsArray = new int[resolutionList.size()];
+            resolutionsArrby = new int[resolutionList.size()];
             for (int i=0; i < resolutionList.size(); i++) {
-                resolutionsArray[i] = resolutionList.get(i);
+                resolutionsArrby[i] = resolutionList.get(i);
             }
         }
     }
 
 
     /**
-     * Returns array of MediaSizeNames derived from PPD.
+     * Returns brrby of MedibSizeNbmes derived from PPD.
      */
-    public MediaSizeName[] getMediaSizeNames() {
-        initMedia();
-        return cupsMediaSNames;
+    public MedibSizeNbme[] getMedibSizeNbmes() {
+        initMedib();
+        return cupsMedibSNbmes;
     }
 
 
     /**
-     * Returns array of Custom MediaSizeNames derived from PPD.
+     * Returns brrby of Custom MedibSizeNbmes derived from PPD.
      */
-    public CustomMediaSizeName[] getCustomMediaSizeNames() {
-        initMedia();
-        return cupsCustomMediaSNames;
+    public CustomMedibSizeNbme[] getCustomMedibSizeNbmes() {
+        initMedib();
+        return cupsCustomMedibSNbmes;
     }
 
-    public int getDefaultMediaIndex() {
-        return ((pageSizes.length >1) ? (int)(pageSizes[pageSizes.length -1]) : 0);
-    }
-
-    /**
-     * Returns array of MediaPrintableArea derived from PPD.
-     */
-    public MediaPrintableArea[] getMediaPrintableArea() {
-        initMedia();
-        return cupsMediaPrintables;
+    public int getDefbultMedibIndex() {
+        return ((pbgeSizes.length >1) ? (int)(pbgeSizes[pbgeSizes.length -1]) : 0);
     }
 
     /**
-     * Returns array of MediaTrays derived from PPD.
+     * Returns brrby of MedibPrintbbleAreb derived from PPD.
      */
-    public MediaTray[] getMediaTrays() {
-        initMedia();
-        return cupsMediaTrays;
+    public MedibPrintbbleAreb[] getMedibPrintbbleAreb() {
+        initMedib();
+        return cupsMedibPrintbbles;
     }
 
     /**
-     * return the raw packed array of supported printer resolutions.
+     * Returns brrby of MedibTrbys derived from PPD.
      */
-    int[] getRawResolutions() {
-        return resolutionsArray;
+    public MedibTrby[] getMedibTrbys() {
+        initMedib();
+        return cupsMedibTrbys;
     }
 
     /**
-     * Initialize media by translating PPD info to PrintService attributes.
+     * return the rbw pbcked brrby of supported printer resolutions.
      */
-    private synchronized void initMedia() {
-        if (initialized) {
+    int[] getRbwResolutions() {
+        return resolutionsArrby;
+    }
+
+    /**
+     * Initiblize medib by trbnslbting PPD info to PrintService bttributes.
+     */
+    privbte synchronized void initMedib() {
+        if (initiblized) {
             return;
         } else {
-            initialized = true;
+            initiblized = true;
         }
 
-        if (pageSizes == null) {
+        if (pbgeSizes == null) {
             return;
         }
 
-        cupsMediaPrintables = new MediaPrintableArea[nPageSizes];
-        cupsMediaSNames = new MediaSizeName[nPageSizes];
-        cupsCustomMediaSNames = new CustomMediaSizeName[nPageSizes];
+        cupsMedibPrintbbles = new MedibPrintbbleAreb[nPbgeSizes];
+        cupsMedibSNbmes = new MedibSizeNbme[nPbgeSizes];
+        cupsCustomMedibSNbmes = new CustomMedibSizeNbme[nPbgeSizes];
 
-        CustomMediaSizeName msn;
-        MediaPrintableArea mpa;
-        float length, width, x, y, w, h;
+        CustomMedibSizeNbme msn;
+        MedibPrintbbleAreb mpb;
+        flobt length, width, x, y, w, h;
 
-        // initialize names and printables
-        for (int i=0; i<nPageSizes; i++) {
-            // media width and length
-            width = (float)(pageSizes[i*6]/PRINTER_DPI);
-            length = (float)(pageSizes[i*6+1]/PRINTER_DPI);
-            // media printable area
-            x = (float)(pageSizes[i*6+2]/PRINTER_DPI);
-            h = (float)(pageSizes[i*6+3]/PRINTER_DPI);
-            w = (float)(pageSizes[i*6+4]/PRINTER_DPI);
-            y = (float)(pageSizes[i*6+5]/PRINTER_DPI);
+        // initiblize nbmes bnd printbbles
+        for (int i=0; i<nPbgeSizes; i++) {
+            // medib width bnd length
+            width = (flobt)(pbgeSizes[i*6]/PRINTER_DPI);
+            length = (flobt)(pbgeSizes[i*6+1]/PRINTER_DPI);
+            // medib printbble breb
+            x = (flobt)(pbgeSizes[i*6+2]/PRINTER_DPI);
+            h = (flobt)(pbgeSizes[i*6+3]/PRINTER_DPI);
+            w = (flobt)(pbgeSizes[i*6+4]/PRINTER_DPI);
+            y = (flobt)(pbgeSizes[i*6+5]/PRINTER_DPI);
 
-            msn = new CustomMediaSizeName(media[i*2], media[i*2+1],
+            msn = new CustomMedibSizeNbme(medib[i*2], medib[i*2+1],
                                           width, length);
 
-            // add to list of standard MediaSizeNames
-            if ((cupsMediaSNames[i] = msn.getStandardMedia()) == null) {
-                // add custom if no matching standard media
-                cupsMediaSNames[i] = msn;
+            // bdd to list of stbndbrd MedibSizeNbmes
+            if ((cupsMedibSNbmes[i] = msn.getStbndbrdMedib()) == null) {
+                // bdd custom if no mbtching stbndbrd medib
+                cupsMedibSNbmes[i] = msn;
 
-                // add this new custom msn to MediaSize array
+                // bdd this new custom msn to MedibSize brrby
                 if ((width > 0.0) && (length > 0.0)) {
                     try {
-                    new MediaSize(width, length,
-                                  Size2DSyntax.INCH, msn);
-                    } catch (IllegalArgumentException e) {
-                        /* PDF printer in Linux for Ledger paper causes
-                        "IllegalArgumentException: X dimension > Y dimension".
-                        We rotate based on IPP spec. */
-                        new MediaSize(length, width, Size2DSyntax.INCH, msn);
+                    new MedibSize(width, length,
+                                  Size2DSyntbx.INCH, msn);
+                    } cbtch (IllegblArgumentException e) {
+                        /* PDF printer in Linux for Ledger pbper cbuses
+                        "IllegblArgumentException: X dimension > Y dimension".
+                        We rotbte bbsed on IPP spec. */
+                        new MedibSize(length, width, Size2DSyntbx.INCH, msn);
                     }
                 }
             }
 
-            // add to list of custom MediaSizeName
-            // for internal use of IPPPrintService
-            cupsCustomMediaSNames[i] = msn;
+            // bdd to list of custom MedibSizeNbme
+            // for internbl use of IPPPrintService
+            cupsCustomMedibSNbmes[i] = msn;
 
-            mpa = null;
+            mpb = null;
             try {
-                mpa = new MediaPrintableArea(x, y, w, h,
-                                             MediaPrintableArea.INCH);
-            } catch (IllegalArgumentException e) {
+                mpb = new MedibPrintbbleAreb(x, y, w, h,
+                                             MedibPrintbbleAreb.INCH);
+            } cbtch (IllegblArgumentException e) {
                 if (width > 0 && length > 0) {
-                    mpa = new MediaPrintableArea(0, 0, width, length,
-                                             MediaPrintableArea.INCH);
+                    mpb = new MedibPrintbbleAreb(0, 0, width, length,
+                                             MedibPrintbbleAreb.INCH);
                 }
             }
-            cupsMediaPrintables[i] = mpa;
+            cupsMedibPrintbbles[i] = mpb;
         }
 
-        // initialize trays
-        cupsMediaTrays = new MediaTray[nTrays];
+        // initiblize trbys
+        cupsMedibTrbys = new MedibTrby[nTrbys];
 
-        MediaTray mt;
-        for (int i=0; i<nTrays; i++) {
-            mt = new CustomMediaTray(media[(nPageSizes+i)*2],
-                                     media[(nPageSizes+i)*2+1]);
-            cupsMediaTrays[i] = mt;
+        MedibTrby mt;
+        for (int i=0; i<nTrbys; i++) {
+            mt = new CustomMedibTrby(medib[(nPbgeSizes+i)*2],
+                                     medib[(nPbgeSizes+i)*2+1]);
+            cupsMedibTrbys[i] = mt;
         }
 
     }
 
     /**
-     * Get CUPS default printer using IPP.
-     * Returns 2 values - index 0 is printer name, index 1 is the uri.
+     * Get CUPS defbult printer using IPP.
+     * Returns 2 vblues - index 0 is printer nbme, index 1 is the uri.
      */
-    static String[] getDefaultPrinter() {
+    stbtic String[] getDefbultPrinter() {
         try {
             URL url = new URL("http", getServer(), getPort(), "");
-            final HttpURLConnection urlConnection =
+            finbl HttpURLConnection urlConnection =
                 IPPPrintService.getIPPConnection(url);
 
             if (urlConnection != null) {
-                OutputStream os = java.security.AccessController.
-                    doPrivileged(new java.security.PrivilegedAction<OutputStream>() {
-                        public OutputStream run() {
+                OutputStrebm os = jbvb.security.AccessController.
+                    doPrivileged(new jbvb.security.PrivilegedAction<OutputStrebm>() {
+                        public OutputStrebm run() {
                             try {
-                                return urlConnection.getOutputStream();
-                            } catch (Exception e) {
+                                return urlConnection.getOutputStrebm();
+                            } cbtch (Exception e) {
                                IPPPrintService.debug_println(debugPrefix+e);
                             }
                             return null;
@@ -288,45 +288,45 @@ public class CUPSPrinter  {
                     return null;
                 }
 
-                AttributeClass attCl[] = {
-                    AttributeClass.ATTRIBUTES_CHARSET,
-                    AttributeClass.ATTRIBUTES_NATURAL_LANGUAGE,
-                    new AttributeClass("requested-attributes",
-                                       AttributeClass.TAG_URI,
+                AttributeClbss bttCl[] = {
+                    AttributeClbss.ATTRIBUTES_CHARSET,
+                    AttributeClbss.ATTRIBUTES_NATURAL_LANGUAGE,
+                    new AttributeClbss("requested-bttributes",
+                                       AttributeClbss.TAG_URI,
                                        "printer-uri")
                 };
 
                 if (IPPPrintService.writeIPPRequest(os,
                                         IPPPrintService.OP_CUPS_GET_DEFAULT,
-                                        attCl)) {
+                                        bttCl)) {
 
-                    HashMap<String, AttributeClass> defaultMap = null;
+                    HbshMbp<String, AttributeClbss> defbultMbp = null;
                     String[] printerInfo = new String[2];
-                    InputStream is = urlConnection.getInputStream();
-                    HashMap<String, AttributeClass>[] responseMap = IPPPrintService.readIPPResponse(
+                    InputStrebm is = urlConnection.getInputStrebm();
+                    HbshMbp<String, AttributeClbss>[] responseMbp = IPPPrintService.rebdIPPResponse(
                                          is);
                     is.close();
 
-                    if (responseMap != null && responseMap.length > 0) {
-                        defaultMap = responseMap[0];
+                    if (responseMbp != null && responseMbp.length > 0) {
+                        defbultMbp = responseMbp[0];
                     } else {
                        IPPPrintService.debug_println(debugPrefix+
-                           " empty response map for GET_DEFAULT.");
+                           " empty response mbp for GET_DEFAULT.");
                     }
 
-                    if (defaultMap == null) {
+                    if (defbultMbp == null) {
                         os.close();
                         urlConnection.disconnect();
 
-                        /* CUPS on OS X, as initially configured, considers the
-                         * default printer to be the last one used that's
-                         * presently available. So if no default was
-                         * reported, exec lpstat -d which has all the Apple
-                         * special behaviour for this built in.
+                        /* CUPS on OS X, bs initiblly configured, considers the
+                         * defbult printer to be the lbst one used thbt's
+                         * presently bvbilbble. So if no defbult wbs
+                         * reported, exec lpstbt -d which hbs bll the Apple
+                         * specibl behbviour for this built in.
                          */
-                         if (UnixPrintServiceLookup.isMac()) {
+                         if (UnixPrintServiceLookup.isMbc()) {
                              printerInfo[0] = UnixPrintServiceLookup.
-                                                   getDefaultPrinterNameSysV();
+                                                   getDefbultPrinterNbmeSysV();
                              printerInfo[1] = null;
                              return printerInfo.clone();
                          } else {
@@ -335,15 +335,15 @@ public class CUPSPrinter  {
                     }
 
 
-                    AttributeClass attribClass = defaultMap.get("printer-name");
+                    AttributeClbss bttribClbss = defbultMbp.get("printer-nbme");
 
-                    if (attribClass != null) {
-                        printerInfo[0] = attribClass.getStringValue();
-                        attribClass = defaultMap.get("printer-uri-supported");
+                    if (bttribClbss != null) {
+                        printerInfo[0] = bttribClbss.getStringVblue();
+                        bttribClbss = defbultMbp.get("printer-uri-supported");
                         IPPPrintService.debug_println(debugPrefix+
-                          "printer-uri-supported="+attribClass);
-                        if (attribClass != null) {
-                            printerInfo[1] = attribClass.getStringValue();
+                          "printer-uri-supported="+bttribClbss);
+                        if (bttribClbss != null) {
+                            printerInfo[1] = bttribClbss.getStringVblue();
                         } else {
                             printerInfo[1] = null;
                         }
@@ -355,29 +355,29 @@ public class CUPSPrinter  {
                 os.close();
                 urlConnection.disconnect();
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
         }
         return null;
     }
 
 
     /**
-     * Get list of all CUPS printers using IPP.
+     * Get list of bll CUPS printers using IPP.
      */
-    static String[] getAllPrinters() {
+    stbtic String[] getAllPrinters() {
         try {
             URL url = new URL("http", getServer(), getPort(), "");
 
-            final HttpURLConnection urlConnection =
+            finbl HttpURLConnection urlConnection =
                 IPPPrintService.getIPPConnection(url);
 
             if (urlConnection != null) {
-                OutputStream os = java.security.AccessController.
-                    doPrivileged(new java.security.PrivilegedAction<OutputStream>() {
-                        public OutputStream run() {
+                OutputStrebm os = jbvb.security.AccessController.
+                    doPrivileged(new jbvb.security.PrivilegedAction<OutputStrebm>() {
+                        public OutputStrebm run() {
                             try {
-                                return urlConnection.getOutputStream();
-                            } catch (Exception e) {
+                                return urlConnection.getOutputStrebm();
+                            } cbtch (Exception e) {
                             }
                             return null;
                         }
@@ -387,77 +387,77 @@ public class CUPSPrinter  {
                     return null;
                 }
 
-                AttributeClass attCl[] = {
-                    AttributeClass.ATTRIBUTES_CHARSET,
-                    AttributeClass.ATTRIBUTES_NATURAL_LANGUAGE,
-                    new AttributeClass("requested-attributes",
-                                       AttributeClass.TAG_KEYWORD,
+                AttributeClbss bttCl[] = {
+                    AttributeClbss.ATTRIBUTES_CHARSET,
+                    AttributeClbss.ATTRIBUTES_NATURAL_LANGUAGE,
+                    new AttributeClbss("requested-bttributes",
+                                       AttributeClbss.TAG_KEYWORD,
                                        "printer-uri-supported")
                 };
 
                 if (IPPPrintService.writeIPPRequest(os,
-                                IPPPrintService.OP_CUPS_GET_PRINTERS, attCl)) {
+                                IPPPrintService.OP_CUPS_GET_PRINTERS, bttCl)) {
 
-                    InputStream is = urlConnection.getInputStream();
-                    HashMap<String, AttributeClass>[] responseMap =
-                        IPPPrintService.readIPPResponse(is);
+                    InputStrebm is = urlConnection.getInputStrebm();
+                    HbshMbp<String, AttributeClbss>[] responseMbp =
+                        IPPPrintService.rebdIPPResponse(is);
 
                     is.close();
                     os.close();
                     urlConnection.disconnect();
 
-                    if (responseMap == null || responseMap.length == 0) {
+                    if (responseMbp == null || responseMbp.length == 0) {
                         return null;
                     }
 
-                    ArrayList<String> printerNames = new ArrayList<>();
-                    for (int i=0; i< responseMap.length; i++) {
-                        AttributeClass attribClass =
-                            responseMap[i].get("printer-uri-supported");
+                    ArrbyList<String> printerNbmes = new ArrbyList<>();
+                    for (int i=0; i< responseMbp.length; i++) {
+                        AttributeClbss bttribClbss =
+                            responseMbp[i].get("printer-uri-supported");
 
-                        if (attribClass != null) {
-                            String nameStr = attribClass.getStringValue();
-                            printerNames.add(nameStr);
+                        if (bttribClbss != null) {
+                            String nbmeStr = bttribClbss.getStringVblue();
+                            printerNbmes.bdd(nbmeStr);
                         }
                     }
-                    return printerNames.toArray(new String[] {});
+                    return printerNbmes.toArrby(new String[] {});
                 } else {
                     os.close();
                     urlConnection.disconnect();
                 }
             }
 
-        } catch (Exception e) {
+        } cbtch (Exception e) {
         }
         return null;
 
     }
 
     /**
-     * Returns CUPS server name.
+     * Returns CUPS server nbme.
      */
-    public static String getServer() {
+    public stbtic String getServer() {
         return cupsServer;
     }
 
     /**
      * Returns CUPS port number.
      */
-    public static int getPort() {
+    public stbtic int getPort() {
         return cupsPort;
     }
 
     /**
      * Detects if CUPS is running.
      */
-    public static boolean isCupsRunning() {
+    public stbtic boolebn isCupsRunning() {
         IPPPrintService.debug_println(debugPrefix+"libFound "+libFound);
         if (libFound) {
             IPPPrintService.debug_println(debugPrefix+"CUPS server "+getServer()+
                                           " port "+getPort());
-            return canConnect(getServer(), getPort());
+            return cbnConnect(getServer(), getPort());
         } else {
-            return false;
+            return fblse;
         }
     }
 

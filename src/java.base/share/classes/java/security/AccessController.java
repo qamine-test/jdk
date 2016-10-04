@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
 import sun.security.util.Debug;
-import sun.reflect.CallerSensitive;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 
 /**
- * <p> The AccessController class is used for access control operations
- * and decisions.
+ * <p> The AccessController clbss is used for bccess control operbtions
+ * bnd decisions.
  *
- * <p> More specifically, the AccessController class is used for
+ * <p> More specificblly, the AccessController clbss is used for
  * three purposes:
  *
  * <ul>
- * <li> to decide whether an access to a critical system
- * resource is to be allowed or denied, based on the security policy
+ * <li> to decide whether bn bccess to b criticbl system
+ * resource is to be bllowed or denied, bbsed on the security policy
  * currently in effect,
- * <li>to mark code as being "privileged", thus affecting subsequent
- * access determinations, and
- * <li>to obtain a "snapshot" of the current calling context so
- * access-control decisions from a different context can be made with
- * respect to the saved context. </ul>
+ * <li>to mbrk code bs being "privileged", thus bffecting subsequent
+ * bccess determinbtions, bnd
+ * <li>to obtbin b "snbpshot" of the current cblling context so
+ * bccess-control decisions from b different context cbn be mbde with
+ * respect to the sbved context. </ul>
  *
  * <p> The {@link #checkPermission(Permission) checkPermission} method
- * determines whether the access request indicated by a specified
- * permission should be granted or denied. A sample call appears
- * below. In this example, {@code checkPermission} will determine
- * whether or not to grant "read" access to the file named "testFile" in
+ * determines whether the bccess request indicbted by b specified
+ * permission should be grbnted or denied. A sbmple cbll bppebrs
+ * below. In this exbmple, {@code checkPermission} will determine
+ * whether or not to grbnt "rebd" bccess to the file nbmed "testFile" in
  * the "/temp" directory.
  *
  * <pre>
  *
- * FilePermission perm = new FilePermission("/temp/testFile", "read");
+ * FilePermission perm = new FilePermission("/temp/testFile", "rebd");
  * AccessController.checkPermission(perm);
  *
  * </pre>
  *
- * <p> If a requested access is allowed,
- * {@code checkPermission} returns quietly. If denied, an
+ * <p> If b requested bccess is bllowed,
+ * {@code checkPermission} returns quietly. If denied, bn
  * AccessControlException is
- * thrown. AccessControlException can also be thrown if the requested
- * permission is of an incorrect type or contains an invalid value.
- * Such information is given whenever possible.
+ * thrown. AccessControlException cbn blso be thrown if the requested
+ * permission is of bn incorrect type or contbins bn invblid vblue.
+ * Such informbtion is given whenever possible.
  *
- * Suppose the current thread traversed m callers, in the order of caller 1
- * to caller 2 to caller m. Then caller m invoked the
+ * Suppose the current threbd trbversed m cbllers, in the order of cbller 1
+ * to cbller 2 to cbller m. Then cbller m invoked the
  * {@code checkPermission} method.
- * The {@code checkPermission} method determines whether access
- * is granted or denied based on the following algorithm:
+ * The {@code checkPermission} method determines whether bccess
+ * is grbnted or denied bbsed on the following blgorithm:
  *
  *  <pre> {@code
  * for (int i = m; i > 0; i--) {
  *
- *     if (caller i's domain does not have the permission)
+ *     if (cbller i's dombin does not hbve the permission)
  *         throw AccessControlException
  *
- *     else if (caller i is marked as privileged) {
- *         if (a context was specified in the call to doPrivileged)
+ *     else if (cbller i is mbrked bs privileged) {
+ *         if (b context wbs specified in the cbll to doPrivileged)
  *             context.checkPermission(permission)
- *         if (limited permissions were specified in the call to doPrivileged) {
- *             for (each limited permission) {
+ *         if (limited permissions were specified in the cbll to doPrivileged) {
+ *             for (ebch limited permission) {
  *                 if (the limited permission implies the requested permission)
  *                     return;
  *             }
@@ -92,323 +92,323 @@ import sun.reflect.Reflection;
  *     }
  * }
  *
- * // Next, check the context inherited when the thread was created.
- * // Whenever a new thread is created, the AccessControlContext at
- * // that time is stored and associated with the new thread, as the
+ * // Next, check the context inherited when the threbd wbs crebted.
+ * // Whenever b new threbd is crebted, the AccessControlContext bt
+ * // thbt time is stored bnd bssocibted with the new threbd, bs the
  * // "inherited" context.
  *
  * inheritedContext.checkPermission(permission);
  * }</pre>
  *
- * <p> A caller can be marked as being "privileged"
- * (see {@link #doPrivileged(PrivilegedAction) doPrivileged} and below).
- * When making access control decisions, the {@code checkPermission}
- * method stops checking if it reaches a caller that
- * was marked as "privileged" via a {@code doPrivileged}
- * call without a context argument (see below for information about a
- * context argument). If that caller's domain has the
- * specified permission and at least one limiting permission argument (if any)
- * implies the requested permission, no further checking is done and
+ * <p> A cbller cbn be mbrked bs being "privileged"
+ * (see {@link #doPrivileged(PrivilegedAction) doPrivileged} bnd below).
+ * When mbking bccess control decisions, the {@code checkPermission}
+ * method stops checking if it rebches b cbller thbt
+ * wbs mbrked bs "privileged" vib b {@code doPrivileged}
+ * cbll without b context brgument (see below for informbtion bbout b
+ * context brgument). If thbt cbller's dombin hbs the
+ * specified permission bnd bt lebst one limiting permission brgument (if bny)
+ * implies the requested permission, no further checking is done bnd
  * {@code checkPermission}
- * returns quietly, indicating that the requested access is allowed.
- * If that domain does not have the specified permission, an exception
- * is thrown, as usual. If the caller's domain had the specified permission
- * but it was not implied by any limiting permission arguments given in the call
+ * returns quietly, indicbting thbt the requested bccess is bllowed.
+ * If thbt dombin does not hbve the specified permission, bn exception
+ * is thrown, bs usubl. If the cbller's dombin hbd the specified permission
+ * but it wbs not implied by bny limiting permission brguments given in the cbll
  * to {@code doPrivileged} then the permission checking continues
- * until there are no more callers or another {@code doPrivileged}
- * call matches the requested permission and returns normally.
+ * until there bre no more cbllers or bnother {@code doPrivileged}
+ * cbll mbtches the requested permission bnd returns normblly.
  *
- * <p> The normal use of the "privileged" feature is as follows. If you
- * don't need to return a value from within the "privileged" block, do
+ * <p> The normbl use of the "privileged" febture is bs follows. If you
+ * don't need to return b vblue from within the "privileged" block, do
  * the following:
  *
  *  <pre> {@code
  * somemethod() {
- *     ...normal code here...
+ *     ...normbl code here...
  *     AccessController.doPrivileged(new PrivilegedAction<Void>() {
  *         public Void run() {
- *             // privileged code goes here, for example:
- *             System.loadLibrary("awt");
+ *             // privileged code goes here, for exbmple:
+ *             System.lobdLibrbry("bwt");
  *             return null; // nothing to return
  *         }
  *     });
- *     ...normal code here...
+ *     ...normbl code here...
  * }}</pre>
  *
  * <p>
- * PrivilegedAction is an interface with a single method, named
+ * PrivilegedAction is bn interfbce with b single method, nbmed
  * {@code run}.
- * The above example shows creation of an implementation
- * of that interface; a concrete implementation of the
+ * The bbove exbmple shows crebtion of bn implementbtion
+ * of thbt interfbce; b concrete implementbtion of the
  * {@code run} method is supplied.
- * When the call to {@code doPrivileged} is made, an
- * instance of the PrivilegedAction implementation is passed
- * to it. The {@code doPrivileged} method calls the
+ * When the cbll to {@code doPrivileged} is mbde, bn
+ * instbnce of the PrivilegedAction implementbtion is pbssed
+ * to it. The {@code doPrivileged} method cblls the
  * {@code run} method from the PrivilegedAction
- * implementation after enabling privileges, and returns the
- * {@code run} method's return value as the
- * {@code doPrivileged} return value (which is
- * ignored in this example).
+ * implementbtion bfter enbbling privileges, bnd returns the
+ * {@code run} method's return vblue bs the
+ * {@code doPrivileged} return vblue (which is
+ * ignored in this exbmple).
  *
- * <p> If you need to return a value, you can do something like the following:
+ * <p> If you need to return b vblue, you cbn do something like the following:
  *
  *  <pre> {@code
  * somemethod() {
- *     ...normal code here...
+ *     ...normbl code here...
  *     String user = AccessController.doPrivileged(
  *         new PrivilegedAction<String>() {
  *         public String run() {
- *             return System.getProperty("user.name");
+ *             return System.getProperty("user.nbme");
  *             }
  *         });
- *     ...normal code here...
+ *     ...normbl code here...
  * }}</pre>
  *
- * <p>If the action performed in your {@code run} method could
- * throw a "checked" exception (those listed in the {@code throws} clause
- * of a method), then you need to use the
- * {@code PrivilegedExceptionAction} interface instead of the
- * {@code PrivilegedAction} interface:
+ * <p>If the bction performed in your {@code run} method could
+ * throw b "checked" exception (those listed in the {@code throws} clbuse
+ * of b method), then you need to use the
+ * {@code PrivilegedExceptionAction} interfbce instebd of the
+ * {@code PrivilegedAction} interfbce:
  *
  *  <pre> {@code
  * somemethod() throws FileNotFoundException {
- *     ...normal code here...
+ *     ...normbl code here...
  *     try {
- *         FileInputStream fis = AccessController.doPrivileged(
- *         new PrivilegedExceptionAction<FileInputStream>() {
- *             public FileInputStream run() throws FileNotFoundException {
- *                 return new FileInputStream("someFile");
+ *         FileInputStrebm fis = AccessController.doPrivileged(
+ *         new PrivilegedExceptionAction<FileInputStrebm>() {
+ *             public FileInputStrebm run() throws FileNotFoundException {
+ *                 return new FileInputStrebm("someFile");
  *             }
  *         });
- *     } catch (PrivilegedActionException e) {
- *         // e.getException() should be an instance of FileNotFoundException,
- *         // as only "checked" exceptions will be "wrapped" in a
+ *     } cbtch (PrivilegedActionException e) {
+ *         // e.getException() should be bn instbnce of FileNotFoundException,
+ *         // bs only "checked" exceptions will be "wrbpped" in b
  *         // PrivilegedActionException.
  *         throw (FileNotFoundException) e.getException();
  *     }
- *     ...normal code here...
+ *     ...normbl code here...
  *  }}</pre>
  *
- * <p> Be *very* careful in your use of the "privileged" construct, and
- * always remember to make the privileged code section as small as possible.
- * You can pass {@code Permission} arguments to further limit the
+ * <p> Be *very* cbreful in your use of the "privileged" construct, bnd
+ * blwbys remember to mbke the privileged code section bs smbll bs possible.
+ * You cbn pbss {@code Permission} brguments to further limit the
  * scope of the "privilege" (see below).
  *
  *
- * <p> Note that {@code checkPermission} always performs security checks
- * within the context of the currently executing thread.
- * Sometimes a security check that should be made within a given context
- * will actually need to be done from within a
- * <i>different</i> context (for example, from within a worker thread).
- * The {@link #getContext() getContext} method and
- * AccessControlContext class are provided
- * for this situation. The {@code getContext} method takes a "snapshot"
- * of the current calling context, and places
- * it in an AccessControlContext object, which it returns. A sample call is
+ * <p> Note thbt {@code checkPermission} blwbys performs security checks
+ * within the context of the currently executing threbd.
+ * Sometimes b security check thbt should be mbde within b given context
+ * will bctublly need to be done from within b
+ * <i>different</i> context (for exbmple, from within b worker threbd).
+ * The {@link #getContext() getContext} method bnd
+ * AccessControlContext clbss bre provided
+ * for this situbtion. The {@code getContext} method tbkes b "snbpshot"
+ * of the current cblling context, bnd plbces
+ * it in bn AccessControlContext object, which it returns. A sbmple cbll is
  * the following:
  *
  * <pre>
  *
- * AccessControlContext acc = AccessController.getContext()
+ * AccessControlContext bcc = AccessController.getContext()
  *
  * </pre>
  *
  * <p>
- * AccessControlContext itself has a {@code checkPermission} method
- * that makes access decisions based on the context <i>it</i> encapsulates,
- * rather than that of the current execution thread.
- * Code within a different context can thus call that method on the
- * previously-saved AccessControlContext object. A sample call is the
+ * AccessControlContext itself hbs b {@code checkPermission} method
+ * thbt mbkes bccess decisions bbsed on the context <i>it</i> encbpsulbtes,
+ * rbther thbn thbt of the current execution threbd.
+ * Code within b different context cbn thus cbll thbt method on the
+ * previously-sbved AccessControlContext object. A sbmple cbll is the
  * following:
  *
  * <pre>
  *
- * acc.checkPermission(permission)
+ * bcc.checkPermission(permission)
  *
  * </pre>
  *
- * <p> There are also times where you don't know a priori which permissions
- * to check the context against. In these cases you can use the
- * doPrivileged method that takes a context. You can also limit the scope
- * of the privileged code by passing additional {@code Permission}
- * parameters.
+ * <p> There bre blso times where you don't know b priori which permissions
+ * to check the context bgbinst. In these cbses you cbn use the
+ * doPrivileged method thbt tbkes b context. You cbn blso limit the scope
+ * of the privileged code by pbssing bdditionbl {@code Permission}
+ * pbrbmeters.
  *
  *  <pre> {@code
  * somemethod() {
  *     AccessController.doPrivileged(new PrivilegedAction<Object>() {
  *         public Object run() {
  *             // Code goes here. Any permission checks within this
- *             // run method will require that the intersection of the
- *             // caller's protection domain and the snapshot's
- *             // context have the desired permission. If a requested
+ *             // run method will require thbt the intersection of the
+ *             // cbller's protection dombin bnd the snbpshot's
+ *             // context hbve the desired permission. If b requested
  *             // permission is not implied by the limiting FilePermission
- *             // argument then checking of the thread continues beyond the
- *             // caller of doPrivileged.
+ *             // brgument then checking of the threbd continues beyond the
+ *             // cbller of doPrivileged.
  *         }
- *     }, acc, new FilePermission("/temp/*", read));
- *     ...normal code here...
+ *     }, bcc, new FilePermission("/temp/*", rebd));
+ *     ...normbl code here...
  * }}</pre>
- * <p> Passing a limiting {@code Permission} argument of an instance of
- * {@code AllPermission} is equivalent to calling the equivalent
+ * <p> Pbssing b limiting {@code Permission} brgument of bn instbnce of
+ * {@code AllPermission} is equivblent to cblling the equivblent
  * {@code doPrivileged} method without limiting {@code Permission}
- * arguments. Passing a zero length array of {@code Permission} disables
- * the code privileges so that checking always continues beyond the caller of
- * that {@code doPrivileged} method.
+ * brguments. Pbssing b zero length brrby of {@code Permission} disbbles
+ * the code privileges so thbt checking blwbys continues beyond the cbller of
+ * thbt {@code doPrivileged} method.
  *
  * @see AccessControlContext
  *
- * @author Li Gong
- * @author Roland Schemers
+ * @buthor Li Gong
+ * @buthor Rolbnd Schemers
  */
 
-public final class AccessController {
+public finbl clbss AccessController {
 
     /**
-     * Don't allow anyone to instantiate an AccessController
+     * Don't bllow bnyone to instbntibte bn AccessController
      */
-    private AccessController() { }
+    privbte AccessController() { }
 
     /**
      * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled. The action is performed with <i>all</i> of the permissions
-     * possessed by the caller's protection domain.
+     * enbbled. The bction is performed with <i>bll</i> of the permissions
+     * possessed by the cbller's protection dombin.
      *
-     * <p> If the action's {@code run} method throws an (unchecked)
-     * exception, it will propagate through this method.
+     * <p> If the bction's {@code run} method throws bn (unchecked)
+     * exception, it will propbgbte through this method.
      *
-     * <p> Note that any DomainCombiner associated with the current
-     * AccessControlContext will be ignored while the action is performed.
+     * <p> Note thbt bny DombinCombiner bssocibted with the current
+     * AccessControlContext will be ignored while the bction is performed.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
+     * @pbrbm <T> the type of the vblue returned by the PrivilegedAction's
      *                  {@code run} method.
      *
-     * @param action the action to be performed.
+     * @pbrbm bction the bction to be performed.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @return the vblue returned by the bction's {@code run} method.
      *
-     * @exception NullPointerException if the action is {@code null}
+     * @exception NullPointerException if the bction is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction,AccessControlContext)
      * @see #doPrivileged(PrivilegedExceptionAction)
      * @see #doPrivilegedWithCombiner(PrivilegedAction)
-     * @see java.security.DomainCombiner
+     * @see jbvb.security.DombinCombiner
      */
 
-    @CallerSensitive
-    public static native <T> T doPrivileged(PrivilegedAction<T> action);
+    @CbllerSensitive
+    public stbtic nbtive <T> T doPrivileged(PrivilegedAction<T> bction);
 
     /**
      * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled. The action is performed with <i>all</i> of the permissions
-     * possessed by the caller's protection domain.
+     * enbbled. The bction is performed with <i>bll</i> of the permissions
+     * possessed by the cbller's protection dombin.
      *
-     * <p> If the action's {@code run} method throws an (unchecked)
-     * exception, it will propagate through this method.
+     * <p> If the bction's {@code run} method throws bn (unchecked)
+     * exception, it will propbgbte through this method.
      *
      * <p> This method preserves the current AccessControlContext's
-     * DomainCombiner (which may be null) while the action is performed.
+     * DombinCombiner (which mby be null) while the bction is performed.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
+     * @pbrbm <T> the type of the vblue returned by the PrivilegedAction's
      *                  {@code run} method.
      *
-     * @param action the action to be performed.
+     * @pbrbm bction the bction to be performed.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @return the vblue returned by the bction's {@code run} method.
      *
-     * @exception NullPointerException if the action is {@code null}
+     * @exception NullPointerException if the bction is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction)
-     * @see java.security.DomainCombiner
+     * @see jbvb.security.DombinCombiner
      *
      * @since 1.6
      */
-    @CallerSensitive
-    public static <T> T doPrivilegedWithCombiner(PrivilegedAction<T> action) {
-        AccessControlContext acc = getStackAccessControlContext();
-        if (acc == null) {
-            return AccessController.doPrivileged(action);
+    @CbllerSensitive
+    public stbtic <T> T doPrivilegedWithCombiner(PrivilegedAction<T> bction) {
+        AccessControlContext bcc = getStbckAccessControlContext();
+        if (bcc == null) {
+            return AccessController.doPrivileged(bction);
         }
-        DomainCombiner dc = acc.getAssignedCombiner();
-        return AccessController.doPrivileged(action,
-                                             preserveCombiner(dc, Reflection.getCallerClass()));
+        DombinCombiner dc = bcc.getAssignedCombiner();
+        return AccessController.doPrivileged(bction,
+                                             preserveCombiner(dc, Reflection.getCbllerClbss()));
     }
 
 
     /**
      * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled and restricted by the specified {@code AccessControlContext}.
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified {@code AccessControlContext}.
+     * enbbled bnd restricted by the specified {@code AccessControlContext}.
+     * The bction is performed with the intersection of the permissions
+     * possessed by the cbller's protection dombin, bnd those possessed
+     * by the dombins represented by the specified {@code AccessControlContext}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If the bction's {@code run} method throws bn (unchecked) exception,
+     * it will propbgbte through this method.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
+     * If b security mbnbger is instblled bnd the specified
+     * {@code AccessControlContext} wbs not crebted by system code bnd the
+     * cbller's {@code ProtectionDombin} hbs not been grbnted the
+     * {@literbl "crebteAccessControlContext"}
+     * {@link jbvb.security.SecurityPermission}, then the bction is performed
      * with no permissions.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
+     * @pbrbm <T> the type of the vblue returned by the PrivilegedAction's
      *                  {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
-     *                {@code null}, then no additional restriction is applied.
+     * @pbrbm bction the bction to be performed.
+     * @pbrbm context bn <i>bccess control context</i>
+     *                representing the restriction to be bpplied to the
+     *                cbller's dombin's privileges before performing
+     *                the specified bction.  If the context is
+     *                {@code null}, then no bdditionbl restriction is bpplied.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @return the vblue returned by the bction's {@code run} method.
      *
-     * @exception NullPointerException if the action is {@code null}
+     * @exception NullPointerException if the bction is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction)
      * @see #doPrivileged(PrivilegedExceptionAction,AccessControlContext)
      */
-    @CallerSensitive
-    public static native <T> T doPrivileged(PrivilegedAction<T> action,
+    @CbllerSensitive
+    public stbtic nbtive <T> T doPrivileged(PrivilegedAction<T> bction,
                                             AccessControlContext context);
 
 
     /**
      * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled and restricted by the specified
-     * {@code AccessControlContext} and with a privilege scope limited
-     * by specified {@code Permission} arguments.
+     * enbbled bnd restricted by the specified
+     * {@code AccessControlContext} bnd with b privilege scope limited
+     * by specified {@code Permission} brguments.
      *
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified
+     * The bction is performed with the intersection of the permissions
+     * possessed by the cbller's protection dombin, bnd those possessed
+     * by the dombins represented by the specified
      * {@code AccessControlContext}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If the bction's {@code run} method throws bn (unchecked) exception,
+     * it will propbgbte through this method.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
+     * If b security mbnbger is instblled bnd the specified
+     * {@code AccessControlContext} wbs not crebted by system code bnd the
+     * cbller's {@code ProtectionDombin} hbs not been grbnted the
+     * {@literbl "crebteAccessControlContext"}
+     * {@link jbvb.security.SecurityPermission}, then the bction is performed
      * with no permissions.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
+     * @pbrbm <T> the type of the vblue returned by the PrivilegedAction's
      *                  {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
+     * @pbrbm bction the bction to be performed.
+     * @pbrbm context bn <i>bccess control context</i>
+     *                representing the restriction to be bpplied to the
+     *                cbller's dombin's privileges before performing
+     *                the specified bction.  If the context is
      *                {@code null},
-     *                then no additional restriction is applied.
-     * @param perms the {@code Permission} arguments which limit the
-     *              scope of the caller's privileges. The number of arguments
-     *              is variable.
+     *                then no bdditionbl restriction is bpplied.
+     * @pbrbm perms the {@code Permission} brguments which limit the
+     *              scope of the cbller's privileges. The number of brguments
+     *              is vbribble.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @return the vblue returned by the bction's {@code run} method.
      *
-     * @throws NullPointerException if action or perms or any element of
+     * @throws NullPointerException if bction or perms or bny element of
      *         perms is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction)
@@ -416,293 +416,293 @@ public final class AccessController {
      *
      * @since 1.8
      */
-    @CallerSensitive
-    public static <T> T doPrivileged(PrivilegedAction<T> action,
+    @CbllerSensitive
+    public stbtic <T> T doPrivileged(PrivilegedAction<T> bction,
         AccessControlContext context, Permission... perms) {
 
-        AccessControlContext parent = getContext();
+        AccessControlContext pbrent = getContext();
         if (perms == null) {
-            throw new NullPointerException("null permissions parameter");
+            throw new NullPointerException("null permissions pbrbmeter");
         }
-        Class <?> caller = Reflection.getCallerClass();
-        return AccessController.doPrivileged(action, createWrapper(null,
-            caller, parent, context, perms));
+        Clbss <?> cbller = Reflection.getCbllerClbss();
+        return AccessController.doPrivileged(bction, crebteWrbpper(null,
+            cbller, pbrent, context, perms));
     }
 
 
     /**
      * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled and restricted by the specified
-     * {@code AccessControlContext} and with a privilege scope limited
-     * by specified {@code Permission} arguments.
+     * enbbled bnd restricted by the specified
+     * {@code AccessControlContext} bnd with b privilege scope limited
+     * by specified {@code Permission} brguments.
      *
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified
+     * The bction is performed with the intersection of the permissions
+     * possessed by the cbller's protection dombin, bnd those possessed
+     * by the dombins represented by the specified
      * {@code AccessControlContext}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If the bction's {@code run} method throws bn (unchecked) exception,
+     * it will propbgbte through this method.
      *
      * <p> This method preserves the current AccessControlContext's
-     * DomainCombiner (which may be null) while the action is performed.
+     * DombinCombiner (which mby be null) while the bction is performed.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
+     * If b security mbnbger is instblled bnd the specified
+     * {@code AccessControlContext} wbs not crebted by system code bnd the
+     * cbller's {@code ProtectionDombin} hbs not been grbnted the
+     * {@literbl "crebteAccessControlContext"}
+     * {@link jbvb.security.SecurityPermission}, then the bction is performed
      * with no permissions.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
+     * @pbrbm <T> the type of the vblue returned by the PrivilegedAction's
      *                  {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
+     * @pbrbm bction the bction to be performed.
+     * @pbrbm context bn <i>bccess control context</i>
+     *                representing the restriction to be bpplied to the
+     *                cbller's dombin's privileges before performing
+     *                the specified bction.  If the context is
      *                {@code null},
-     *                then no additional restriction is applied.
-     * @param perms the {@code Permission} arguments which limit the
-     *              scope of the caller's privileges. The number of arguments
-     *              is variable.
+     *                then no bdditionbl restriction is bpplied.
+     * @pbrbm perms the {@code Permission} brguments which limit the
+     *              scope of the cbller's privileges. The number of brguments
+     *              is vbribble.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @return the vblue returned by the bction's {@code run} method.
      *
-     * @throws NullPointerException if action or perms or any element of
+     * @throws NullPointerException if bction or perms or bny element of
      *         perms is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction)
      * @see #doPrivileged(PrivilegedExceptionAction,AccessControlContext)
-     * @see java.security.DomainCombiner
+     * @see jbvb.security.DombinCombiner
      *
      * @since 1.8
      */
-    @CallerSensitive
-    public static <T> T doPrivilegedWithCombiner(PrivilegedAction<T> action,
+    @CbllerSensitive
+    public stbtic <T> T doPrivilegedWithCombiner(PrivilegedAction<T> bction,
         AccessControlContext context, Permission... perms) {
 
-        AccessControlContext parent = getContext();
-        DomainCombiner dc = parent.getCombiner();
+        AccessControlContext pbrent = getContext();
+        DombinCombiner dc = pbrent.getCombiner();
         if (dc == null && context != null) {
             dc = context.getCombiner();
         }
         if (perms == null) {
-            throw new NullPointerException("null permissions parameter");
+            throw new NullPointerException("null permissions pbrbmeter");
         }
-        Class <?> caller = Reflection.getCallerClass();
-        return AccessController.doPrivileged(action, createWrapper(dc, caller,
-            parent, context, perms));
+        Clbss <?> cbller = Reflection.getCbllerClbss();
+        return AccessController.doPrivileged(bction, crebteWrbpper(dc, cbller,
+            pbrent, context, perms));
     }
 
     /**
      * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled.  The action is performed with <i>all</i> of the
-     * permissions possessed by the caller's protection domain.
+     * privileges enbbled.  The bction is performed with <i>bll</i> of the
+     * permissions possessed by the cbller's protection dombin.
      *
-     * <p> If the action's {@code run} method throws an <i>unchecked</i>
-     * exception, it will propagate through this method.
+     * <p> If the bction's {@code run} method throws bn <i>unchecked</i>
+     * exception, it will propbgbte through this method.
      *
-     * <p> Note that any DomainCombiner associated with the current
-     * AccessControlContext will be ignored while the action is performed.
+     * <p> Note thbt bny DombinCombiner bssocibted with the current
+     * AccessControlContext will be ignored while the bction is performed.
      *
-     * @param <T> the type of the value returned by the
+     * @pbrbm <T> the type of the vblue returned by the
      *                  PrivilegedExceptionAction's {@code run} method.
      *
-     * @param action the action to be performed
+     * @pbrbm bction the bction to be performed
      *
-     * @return the value returned by the action's {@code run} method
+     * @return the vblue returned by the bction's {@code run} method
      *
-     * @exception PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @exception NullPointerException if the action is {@code null}
+     * @exception PrivilegedActionException if the specified bction's
+     *         {@code run} method threw b <i>checked</i> exception
+     * @exception NullPointerException if the bction is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction)
      * @see #doPrivileged(PrivilegedExceptionAction,AccessControlContext)
      * @see #doPrivilegedWithCombiner(PrivilegedExceptionAction)
-     * @see java.security.DomainCombiner
+     * @see jbvb.security.DombinCombiner
      */
-    @CallerSensitive
-    public static native <T> T
-        doPrivileged(PrivilegedExceptionAction<T> action)
+    @CbllerSensitive
+    public stbtic nbtive <T> T
+        doPrivileged(PrivilegedExceptionAction<T> bction)
         throws PrivilegedActionException;
 
 
     /**
      * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled.  The action is performed with <i>all</i> of the
-     * permissions possessed by the caller's protection domain.
+     * privileges enbbled.  The bction is performed with <i>bll</i> of the
+     * permissions possessed by the cbller's protection dombin.
      *
-     * <p> If the action's {@code run} method throws an <i>unchecked</i>
-     * exception, it will propagate through this method.
+     * <p> If the bction's {@code run} method throws bn <i>unchecked</i>
+     * exception, it will propbgbte through this method.
      *
      * <p> This method preserves the current AccessControlContext's
-     * DomainCombiner (which may be null) while the action is performed.
+     * DombinCombiner (which mby be null) while the bction is performed.
      *
-     * @param <T> the type of the value returned by the
+     * @pbrbm <T> the type of the vblue returned by the
      *                  PrivilegedExceptionAction's {@code run} method.
      *
-     * @param action the action to be performed.
+     * @pbrbm bction the bction to be performed.
      *
-     * @return the value returned by the action's {@code run} method
+     * @return the vblue returned by the bction's {@code run} method
      *
-     * @exception PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @exception NullPointerException if the action is {@code null}
+     * @exception PrivilegedActionException if the specified bction's
+     *         {@code run} method threw b <i>checked</i> exception
+     * @exception NullPointerException if the bction is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction)
      * @see #doPrivileged(PrivilegedExceptionAction,AccessControlContext)
-     * @see java.security.DomainCombiner
+     * @see jbvb.security.DombinCombiner
      *
      * @since 1.6
      */
-    @CallerSensitive
-    public static <T> T doPrivilegedWithCombiner(PrivilegedExceptionAction<T> action)
+    @CbllerSensitive
+    public stbtic <T> T doPrivilegedWithCombiner(PrivilegedExceptionAction<T> bction)
         throws PrivilegedActionException
     {
-        AccessControlContext acc = getStackAccessControlContext();
-        if (acc == null) {
-            return AccessController.doPrivileged(action);
+        AccessControlContext bcc = getStbckAccessControlContext();
+        if (bcc == null) {
+            return AccessController.doPrivileged(bction);
         }
-        DomainCombiner dc = acc.getAssignedCombiner();
-        return AccessController.doPrivileged(action,
-                                             preserveCombiner(dc, Reflection.getCallerClass()));
+        DombinCombiner dc = bcc.getAssignedCombiner();
+        return AccessController.doPrivileged(bction,
+                                             preserveCombiner(dc, Reflection.getCbllerClbss()));
     }
 
     /**
-     * preserve the combiner across the doPrivileged call
+     * preserve the combiner bcross the doPrivileged cbll
      */
-    private static AccessControlContext preserveCombiner(DomainCombiner combiner,
-                                                         Class<?> caller)
+    privbte stbtic AccessControlContext preserveCombiner(DombinCombiner combiner,
+                                                         Clbss<?> cbller)
     {
-        return createWrapper(combiner, caller, null, null, null);
+        return crebteWrbpper(combiner, cbller, null, null, null);
     }
 
     /**
-     * Create a wrapper to contain the limited privilege scope data.
+     * Crebte b wrbpper to contbin the limited privilege scope dbtb.
      */
-    private static AccessControlContext
-        createWrapper(DomainCombiner combiner, Class<?> caller,
-                      AccessControlContext parent, AccessControlContext context,
+    privbte stbtic AccessControlContext
+        crebteWrbpper(DombinCombiner combiner, Clbss<?> cbller,
+                      AccessControlContext pbrent, AccessControlContext context,
                       Permission[] perms)
     {
-        ProtectionDomain callerPD = getCallerPD(caller);
-        // check if caller is authorized to create context
+        ProtectionDombin cbllerPD = getCbllerPD(cbller);
+        // check if cbller is buthorized to crebte context
         if (context != null && !context.isAuthorized() &&
-            System.getSecurityManager() != null &&
-            !callerPD.impliesCreateAccessControlContext())
+            System.getSecurityMbnbger() != null &&
+            !cbllerPD.impliesCrebteAccessControlContext())
         {
             return getInnocuousAcc();
         } else {
-            return new AccessControlContext(callerPD, combiner, parent,
+            return new AccessControlContext(cbllerPD, combiner, pbrent,
                                             context, perms);
         }
     }
 
-    private static class AccHolder {
-        // An AccessControlContext with no granted permissions.
-        // Only initialized on demand when getInnocuousAcc() is called.
-        static final AccessControlContext innocuousAcc =
-            new AccessControlContext(new ProtectionDomain[] {
-                                     new ProtectionDomain(null, null) });
+    privbte stbtic clbss AccHolder {
+        // An AccessControlContext with no grbnted permissions.
+        // Only initiblized on dembnd when getInnocuousAcc() is cblled.
+        stbtic finbl AccessControlContext innocuousAcc =
+            new AccessControlContext(new ProtectionDombin[] {
+                                     new ProtectionDombin(null, null) });
     }
-    private static AccessControlContext getInnocuousAcc() {
+    privbte stbtic AccessControlContext getInnocuousAcc() {
         return AccHolder.innocuousAcc;
     }
 
-    private static ProtectionDomain getCallerPD(final Class <?> caller) {
-        ProtectionDomain callerPd = doPrivileged
-            (new PrivilegedAction<ProtectionDomain>() {
-            public ProtectionDomain run() {
-                return caller.getProtectionDomain();
+    privbte stbtic ProtectionDombin getCbllerPD(finbl Clbss <?> cbller) {
+        ProtectionDombin cbllerPd = doPrivileged
+            (new PrivilegedAction<ProtectionDombin>() {
+            public ProtectionDombin run() {
+                return cbller.getProtectionDombin();
             }
         });
 
-        return callerPd;
+        return cbllerPd;
     }
 
     /**
      * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled and restricted by the specified
-     * {@code AccessControlContext}.  The action is performed with the
-     * intersection of the permissions possessed by the caller's
-     * protection domain, and those possessed by the domains represented by the
+     * privileges enbbled bnd restricted by the specified
+     * {@code AccessControlContext}.  The bction is performed with the
+     * intersection of the permissions possessed by the cbller's
+     * protection dombin, bnd those possessed by the dombins represented by the
      * specified {@code AccessControlContext}.
      * <p>
-     * If the action's {@code run} method throws an <i>unchecked</i>
-     * exception, it will propagate through this method.
+     * If the bction's {@code run} method throws bn <i>unchecked</i>
+     * exception, it will propbgbte through this method.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
+     * If b security mbnbger is instblled bnd the specified
+     * {@code AccessControlContext} wbs not crebted by system code bnd the
+     * cbller's {@code ProtectionDombin} hbs not been grbnted the
+     * {@literbl "crebteAccessControlContext"}
+     * {@link jbvb.security.SecurityPermission}, then the bction is performed
      * with no permissions.
      *
-     * @param <T> the type of the value returned by the
+     * @pbrbm <T> the type of the vblue returned by the
      *                  PrivilegedExceptionAction's {@code run} method.
-     * @param action the action to be performed
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
-     *                {@code null}, then no additional restriction is applied.
+     * @pbrbm bction the bction to be performed
+     * @pbrbm context bn <i>bccess control context</i>
+     *                representing the restriction to be bpplied to the
+     *                cbller's dombin's privileges before performing
+     *                the specified bction.  If the context is
+     *                {@code null}, then no bdditionbl restriction is bpplied.
      *
-     * @return the value returned by the action's {@code run} method
+     * @return the vblue returned by the bction's {@code run} method
      *
-     * @exception PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @exception NullPointerException if the action is {@code null}
+     * @exception PrivilegedActionException if the specified bction's
+     *         {@code run} method threw b <i>checked</i> exception
+     * @exception NullPointerException if the bction is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction)
      * @see #doPrivileged(PrivilegedAction,AccessControlContext)
      */
-    @CallerSensitive
-    public static native <T> T
-        doPrivileged(PrivilegedExceptionAction<T> action,
+    @CbllerSensitive
+    public stbtic nbtive <T> T
+        doPrivileged(PrivilegedExceptionAction<T> bction,
                      AccessControlContext context)
         throws PrivilegedActionException;
 
 
     /**
      * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled and restricted by the specified
-     * {@code AccessControlContext} and with a privilege scope limited by
-     * specified {@code Permission} arguments.
+     * privileges enbbled bnd restricted by the specified
+     * {@code AccessControlContext} bnd with b privilege scope limited by
+     * specified {@code Permission} brguments.
      *
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified
+     * The bction is performed with the intersection of the permissions
+     * possessed by the cbller's protection dombin, bnd those possessed
+     * by the dombins represented by the specified
      * {@code AccessControlContext}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If the bction's {@code run} method throws bn (unchecked) exception,
+     * it will propbgbte through this method.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
+     * If b security mbnbger is instblled bnd the specified
+     * {@code AccessControlContext} wbs not crebted by system code bnd the
+     * cbller's {@code ProtectionDombin} hbs not been grbnted the
+     * {@literbl "crebteAccessControlContext"}
+     * {@link jbvb.security.SecurityPermission}, then the bction is performed
      * with no permissions.
      *
-     * @param <T> the type of the value returned by the
+     * @pbrbm <T> the type of the vblue returned by the
      *                  PrivilegedExceptionAction's {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
+     * @pbrbm bction the bction to be performed.
+     * @pbrbm context bn <i>bccess control context</i>
+     *                representing the restriction to be bpplied to the
+     *                cbller's dombin's privileges before performing
+     *                the specified bction.  If the context is
      *                {@code null},
-     *                then no additional restriction is applied.
-     * @param perms the {@code Permission} arguments which limit the
-     *              scope of the caller's privileges. The number of arguments
-     *              is variable.
+     *                then no bdditionbl restriction is bpplied.
+     * @pbrbm perms the {@code Permission} brguments which limit the
+     *              scope of the cbller's privileges. The number of brguments
+     *              is vbribble.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @return the vblue returned by the bction's {@code run} method.
      *
-     * @throws PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @throws NullPointerException if action or perms or any element of
+     * @throws PrivilegedActionException if the specified bction's
+     *         {@code run} method threw b <i>checked</i> exception
+     * @throws NullPointerException if bction or perms or bny element of
      *         perms is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction)
@@ -710,187 +710,187 @@ public final class AccessController {
      *
      * @since 1.8
      */
-    @CallerSensitive
-    public static <T> T doPrivileged(PrivilegedExceptionAction<T> action,
+    @CbllerSensitive
+    public stbtic <T> T doPrivileged(PrivilegedExceptionAction<T> bction,
                                      AccessControlContext context, Permission... perms)
         throws PrivilegedActionException
     {
-        AccessControlContext parent = getContext();
+        AccessControlContext pbrent = getContext();
         if (perms == null) {
-            throw new NullPointerException("null permissions parameter");
+            throw new NullPointerException("null permissions pbrbmeter");
         }
-        Class <?> caller = Reflection.getCallerClass();
-        return AccessController.doPrivileged(action, createWrapper(null, caller, parent, context, perms));
+        Clbss <?> cbller = Reflection.getCbllerClbss();
+        return AccessController.doPrivileged(bction, crebteWrbpper(null, cbller, pbrent, context, perms));
     }
 
 
     /**
      * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled and restricted by the specified
-     * {@code AccessControlContext} and with a privilege scope limited by
-     * specified {@code Permission} arguments.
+     * privileges enbbled bnd restricted by the specified
+     * {@code AccessControlContext} bnd with b privilege scope limited by
+     * specified {@code Permission} brguments.
      *
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified
+     * The bction is performed with the intersection of the permissions
+     * possessed by the cbller's protection dombin, bnd those possessed
+     * by the dombins represented by the specified
      * {@code AccessControlContext}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If the bction's {@code run} method throws bn (unchecked) exception,
+     * it will propbgbte through this method.
      *
      * <p> This method preserves the current AccessControlContext's
-     * DomainCombiner (which may be null) while the action is performed.
+     * DombinCombiner (which mby be null) while the bction is performed.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
+     * If b security mbnbger is instblled bnd the specified
+     * {@code AccessControlContext} wbs not crebted by system code bnd the
+     * cbller's {@code ProtectionDombin} hbs not been grbnted the
+     * {@literbl "crebteAccessControlContext"}
+     * {@link jbvb.security.SecurityPermission}, then the bction is performed
      * with no permissions.
      *
-     * @param <T> the type of the value returned by the
+     * @pbrbm <T> the type of the vblue returned by the
      *                  PrivilegedExceptionAction's {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
+     * @pbrbm bction the bction to be performed.
+     * @pbrbm context bn <i>bccess control context</i>
+     *                representing the restriction to be bpplied to the
+     *                cbller's dombin's privileges before performing
+     *                the specified bction.  If the context is
      *                {@code null},
-     *                then no additional restriction is applied.
-     * @param perms the {@code Permission} arguments which limit the
-     *              scope of the caller's privileges. The number of arguments
-     *              is variable.
+     *                then no bdditionbl restriction is bpplied.
+     * @pbrbm perms the {@code Permission} brguments which limit the
+     *              scope of the cbller's privileges. The number of brguments
+     *              is vbribble.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @return the vblue returned by the bction's {@code run} method.
      *
-     * @throws PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @throws NullPointerException if action or perms or any element of
+     * @throws PrivilegedActionException if the specified bction's
+     *         {@code run} method threw b <i>checked</i> exception
+     * @throws NullPointerException if bction or perms or bny element of
      *         perms is {@code null}
      *
      * @see #doPrivileged(PrivilegedAction)
      * @see #doPrivileged(PrivilegedAction,AccessControlContext)
-     * @see java.security.DomainCombiner
+     * @see jbvb.security.DombinCombiner
      *
      * @since 1.8
      */
-    @CallerSensitive
-    public static <T> T doPrivilegedWithCombiner(PrivilegedExceptionAction<T> action,
+    @CbllerSensitive
+    public stbtic <T> T doPrivilegedWithCombiner(PrivilegedExceptionAction<T> bction,
                                                  AccessControlContext context,
                                                  Permission... perms)
         throws PrivilegedActionException
     {
-        AccessControlContext parent = getContext();
-        DomainCombiner dc = parent.getCombiner();
+        AccessControlContext pbrent = getContext();
+        DombinCombiner dc = pbrent.getCombiner();
         if (dc == null && context != null) {
             dc = context.getCombiner();
         }
         if (perms == null) {
-            throw new NullPointerException("null permissions parameter");
+            throw new NullPointerException("null permissions pbrbmeter");
         }
-        Class <?> caller = Reflection.getCallerClass();
-        return AccessController.doPrivileged(action, createWrapper(dc, caller,
-            parent, context, perms));
+        Clbss <?> cbller = Reflection.getCbllerClbss();
+        return AccessController.doPrivileged(bction, crebteWrbpper(dc, cbller,
+            pbrent, context, perms));
     }
 
     /**
      * Returns the AccessControl context. i.e., it gets
-     * the protection domains of all the callers on the stack,
-     * starting at the first class with a non-null
-     * ProtectionDomain.
+     * the protection dombins of bll the cbllers on the stbck,
+     * stbrting bt the first clbss with b non-null
+     * ProtectionDombin.
      *
-     * @return the access control context based on the current stack or
-     *         null if there was only privileged system code.
+     * @return the bccess control context bbsed on the current stbck or
+     *         null if there wbs only privileged system code.
      */
 
-    private static native AccessControlContext getStackAccessControlContext();
+    privbte stbtic nbtive AccessControlContext getStbckAccessControlContext();
 
 
     /**
      * Returns the "inherited" AccessControl context. This is the context
-     * that existed when the thread was created. Package private so
-     * AccessControlContext can use it.
+     * thbt existed when the threbd wbs crebted. Pbckbge privbte so
+     * AccessControlContext cbn use it.
      */
 
-    static native AccessControlContext getInheritedAccessControlContext();
+    stbtic nbtive AccessControlContext getInheritedAccessControlContext();
 
     /**
-     * This method takes a "snapshot" of the current calling context, which
-     * includes the current Thread's inherited AccessControlContext and any
-     * limited privilege scope, and places it in an AccessControlContext object.
-     * This context may then be checked at a later point, possibly in another thread.
+     * This method tbkes b "snbpshot" of the current cblling context, which
+     * includes the current Threbd's inherited AccessControlContext bnd bny
+     * limited privilege scope, bnd plbces it in bn AccessControlContext object.
+     * This context mby then be checked bt b lbter point, possibly in bnother threbd.
      *
      * @see AccessControlContext
      *
-     * @return the AccessControlContext based on the current context.
+     * @return the AccessControlContext bbsed on the current context.
      */
 
-    public static AccessControlContext getContext()
+    public stbtic AccessControlContext getContext()
     {
-        AccessControlContext acc = getStackAccessControlContext();
-        if (acc == null) {
-            // all we had was privileged system code. We don't want
-            // to return null though, so we construct a real ACC.
+        AccessControlContext bcc = getStbckAccessControlContext();
+        if (bcc == null) {
+            // bll we hbd wbs privileged system code. We don't wbnt
+            // to return null though, so we construct b rebl ACC.
             return new AccessControlContext(null, true);
         } else {
-            return acc.optimize();
+            return bcc.optimize();
         }
     }
 
     /**
-     * Determines whether the access request indicated by the
-     * specified permission should be allowed or denied, based on
-     * the current AccessControlContext and security policy.
-     * This method quietly returns if the access request
-     * is permitted, or throws an AccessControlException otherwise. The
+     * Determines whether the bccess request indicbted by the
+     * specified permission should be bllowed or denied, bbsed on
+     * the current AccessControlContext bnd security policy.
+     * This method quietly returns if the bccess request
+     * is permitted, or throws bn AccessControlException otherwise. The
      * getPermission method of the AccessControlException returns the
-     * {@code perm} Permission object instance.
+     * {@code perm} Permission object instbnce.
      *
-     * @param perm the requested permission.
+     * @pbrbm perm the requested permission.
      *
      * @exception AccessControlException if the specified permission
-     *            is not permitted, based on the current security policy.
+     *            is not permitted, bbsed on the current security policy.
      * @exception NullPointerException if the specified permission
-     *            is {@code null} and is checked based on the
+     *            is {@code null} bnd is checked bbsed on the
      *            security policy currently in effect.
      */
 
-    public static void checkPermission(Permission perm)
+    public stbtic void checkPermission(Permission perm)
         throws AccessControlException
     {
         //System.err.println("checkPermission "+perm);
-        //Thread.currentThread().dumpStack();
+        //Threbd.currentThrebd().dumpStbck();
 
         if (perm == null) {
-            throw new NullPointerException("permission can't be null");
+            throw new NullPointerException("permission cbn't be null");
         }
 
-        AccessControlContext stack = getStackAccessControlContext();
-        // if context is null, we had privileged system code on the stack.
-        if (stack == null) {
+        AccessControlContext stbck = getStbckAccessControlContext();
+        // if context is null, we hbd privileged system code on the stbck.
+        if (stbck == null) {
             Debug debug = AccessControlContext.getDebug();
-            boolean dumpDebug = false;
+            boolebn dumpDebug = fblse;
             if (debug != null) {
-                dumpDebug = !Debug.isOn("codebase=");
+                dumpDebug = !Debug.isOn("codebbse=");
                 dumpDebug &= !Debug.isOn("permission=") ||
-                    Debug.isOn("permission=" + perm.getClass().getCanonicalName());
+                    Debug.isOn("permission=" + perm.getClbss().getCbnonicblNbme());
             }
 
-            if (dumpDebug && Debug.isOn("stack")) {
-                Thread.dumpStack();
+            if (dumpDebug && Debug.isOn("stbck")) {
+                Threbd.dumpStbck();
             }
 
-            if (dumpDebug && Debug.isOn("domain")) {
-                debug.println("domain (context is null)");
+            if (dumpDebug && Debug.isOn("dombin")) {
+                debug.println("dombin (context is null)");
             }
 
             if (dumpDebug) {
-                debug.println("access allowed "+perm);
+                debug.println("bccess bllowed "+perm);
             }
             return;
         }
 
-        AccessControlContext acc = stack.optimize();
-        acc.checkPermission(perm);
+        AccessControlContext bcc = stbck.optimize();
+        bcc.checkPermission(perm);
     }
 }

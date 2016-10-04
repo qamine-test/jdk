@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.Vector;
-import java.awt.*;
-import javax.swing.plaf.*;
-import javax.swing.*;
+import jbvb.util.Vector;
+import jbvb.bwt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
 
 /**
- * Implements the Highlighter interfaces.  Implements a simple highlight
- * painter that renders in a solid color.
+ * Implements the Highlighter interfbces.  Implements b simple highlight
+ * pbinter thbt renders in b solid color.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @see     Highlighter
  */
-public class DefaultHighlighter extends LayeredHighlighter {
+public clbss DefbultHighlighter extends LbyeredHighlighter {
 
     /**
-     * Creates a new DefaultHighlighther object.
+     * Crebtes b new DefbultHighlighther object.
      */
-    public DefaultHighlighter() {
-        drawsLayeredHighlights = true;
+    public DefbultHighlighter() {
+        drbwsLbyeredHighlights = true;
     }
 
     // ---- Highlighter methods ----------------------------------------------
@@ -50,27 +50,27 @@ public class DefaultHighlighter extends LayeredHighlighter {
     /**
      * Renders the highlights.
      *
-     * @param g the graphics context
+     * @pbrbm g the grbphics context
      */
-    public void paint(Graphics g) {
-        // PENDING(prinz) - should cull ranges not visible
+    public void pbint(Grbphics g) {
+        // PENDING(prinz) - should cull rbnges not visible
         int len = highlights.size();
         for (int i = 0; i < len; i++) {
             HighlightInfo info = highlights.elementAt(i);
-            if (!(info instanceof LayeredHighlightInfo)) {
-                // Avoid allocing unless we need it.
-                Rectangle a = component.getBounds();
+            if (!(info instbnceof LbyeredHighlightInfo)) {
+                // Avoid bllocing unless we need it.
+                Rectbngle b = component.getBounds();
                 Insets insets = component.getInsets();
-                a.x = insets.left;
-                a.y = insets.top;
-                a.width -= insets.left + insets.right;
-                a.height -= insets.top + insets.bottom;
+                b.x = insets.left;
+                b.y = insets.top;
+                b.width -= insets.left + insets.right;
+                b.height -= insets.top + insets.bottom;
                 for (; i < len; i++) {
                     info = highlights.elementAt(i);
-                    if (!(info instanceof LayeredHighlightInfo)) {
-                        Highlighter.HighlightPainter p = info.getPainter();
-                        p.paint(g, info.getStartOffset(), info.getEndOffset(),
-                                a, component);
+                    if (!(info instbnceof LbyeredHighlightInfo)) {
+                        Highlighter.HighlightPbinter p = info.getPbinter();
+                        p.pbint(g, info.getStbrtOffset(), info.getEndOffset(),
+                                b, component);
                     }
                 }
             }
@@ -78,102 +78,102 @@ public class DefaultHighlighter extends LayeredHighlighter {
     }
 
     /**
-     * Called when the UI is being installed into the
-     * interface of a JTextComponent.  Installs the editor, and
-     * removes any existing highlights.
+     * Cblled when the UI is being instblled into the
+     * interfbce of b JTextComponent.  Instblls the editor, bnd
+     * removes bny existing highlights.
      *
-     * @param c the editor component
-     * @see Highlighter#install
+     * @pbrbm c the editor component
+     * @see Highlighter#instbll
      */
-    public void install(JTextComponent c) {
+    public void instbll(JTextComponent c) {
         component = c;
         removeAllHighlights();
     }
 
     /**
-     * Called when the UI is being removed from the interface of
-     * a JTextComponent.
+     * Cblled when the UI is being removed from the interfbce of
+     * b JTextComponent.
      *
-     * @param c the component
-     * @see Highlighter#deinstall
+     * @pbrbm c the component
+     * @see Highlighter#deinstbll
      */
-    public void deinstall(JTextComponent c) {
+    public void deinstbll(JTextComponent c) {
         component = null;
     }
 
     /**
-     * Adds a highlight to the view.  Returns a tag that can be used
+     * Adds b highlight to the view.  Returns b tbg thbt cbn be used
      * to refer to the highlight.
      *
-     * @param p0   the start offset of the range to highlight &gt;= 0
-     * @param p1   the end offset of the range to highlight &gt;= p0
-     * @param p    the painter to use to actually render the highlight
-     * @return     an object that can be used as a tag
+     * @pbrbm p0   the stbrt offset of the rbnge to highlight &gt;= 0
+     * @pbrbm p1   the end offset of the rbnge to highlight &gt;= p0
+     * @pbrbm p    the pbinter to use to bctublly render the highlight
+     * @return     bn object thbt cbn be used bs b tbg
      *   to refer to the highlight
-     * @exception BadLocationException if the specified location is invalid
+     * @exception BbdLocbtionException if the specified locbtion is invblid
      */
-    public Object addHighlight(int p0, int p1, Highlighter.HighlightPainter p) throws BadLocationException {
+    public Object bddHighlight(int p0, int p1, Highlighter.HighlightPbinter p) throws BbdLocbtionException {
         if (p0 < 0) {
-            throw new BadLocationException("Invalid start offset", p0);
+            throw new BbdLocbtionException("Invblid stbrt offset", p0);
         }
 
         if (p1 < p0) {
-            throw new BadLocationException("Invalid end offset", p1);
+            throw new BbdLocbtionException("Invblid end offset", p1);
         }
 
         Document doc = component.getDocument();
-        HighlightInfo i = (getDrawsLayeredHighlights() &&
-                           (p instanceof LayeredHighlighter.LayerPainter)) ?
-                          new LayeredHighlightInfo() : new HighlightInfo();
-        i.painter = p;
-        i.p0 = doc.createPosition(p0);
-        i.p1 = doc.createPosition(p1);
-        highlights.addElement(i);
-        safeDamageRange(p0, p1);
+        HighlightInfo i = (getDrbwsLbyeredHighlights() &&
+                           (p instbnceof LbyeredHighlighter.LbyerPbinter)) ?
+                          new LbyeredHighlightInfo() : new HighlightInfo();
+        i.pbinter = p;
+        i.p0 = doc.crebtePosition(p0);
+        i.p1 = doc.crebtePosition(p1);
+        highlights.bddElement(i);
+        sbfeDbmbgeRbnge(p0, p1);
         return i;
     }
 
     /**
-     * Removes a highlight from the view.
+     * Removes b highlight from the view.
      *
-     * @param tag the reference to the highlight
+     * @pbrbm tbg the reference to the highlight
      */
-    public void removeHighlight(Object tag) {
-        if (tag instanceof LayeredHighlightInfo) {
-            LayeredHighlightInfo lhi = (LayeredHighlightInfo)tag;
+    public void removeHighlight(Object tbg) {
+        if (tbg instbnceof LbyeredHighlightInfo) {
+            LbyeredHighlightInfo lhi = (LbyeredHighlightInfo)tbg;
             if (lhi.width > 0 && lhi.height > 0) {
-                component.repaint(lhi.x, lhi.y, lhi.width, lhi.height);
+                component.repbint(lhi.x, lhi.y, lhi.width, lhi.height);
             }
         }
         else {
-            HighlightInfo info = (HighlightInfo) tag;
-            safeDamageRange(info.p0, info.p1);
+            HighlightInfo info = (HighlightInfo) tbg;
+            sbfeDbmbgeRbnge(info.p0, info.p1);
         }
-        highlights.removeElement(tag);
+        highlights.removeElement(tbg);
     }
 
     /**
-     * Removes all highlights.
+     * Removes bll highlights.
      */
     public void removeAllHighlights() {
-        TextUI mapper = component.getUI();
-        if (getDrawsLayeredHighlights()) {
+        TextUI mbpper = component.getUI();
+        if (getDrbwsLbyeredHighlights()) {
             int len = highlights.size();
             if (len != 0) {
                 int minX = 0;
                 int minY = 0;
-                int maxX = 0;
-                int maxY = 0;
+                int mbxX = 0;
+                int mbxY = 0;
                 int p0 = -1;
                 int p1 = -1;
                 for (int i = 0; i < len; i++) {
                     HighlightInfo hi = highlights.elementAt(i);
-                    if (hi instanceof LayeredHighlightInfo) {
-                        LayeredHighlightInfo info = (LayeredHighlightInfo)hi;
-                        minX = Math.min(minX, info.x);
-                        minY = Math.min(minY, info.y);
-                        maxX = Math.max(maxX, info.x + info.width);
-                        maxY = Math.max(maxY, info.y + info.height);
+                    if (hi instbnceof LbyeredHighlightInfo) {
+                        LbyeredHighlightInfo info = (LbyeredHighlightInfo)hi;
+                        minX = Mbth.min(minX, info.x);
+                        minY = Mbth.min(minY, info.y);
+                        mbxX = Mbth.mbx(mbxX, info.x + info.width);
+                        mbxY = Mbth.mbx(mbxY, info.y + info.height);
                     }
                     else {
                         if (p0 == -1) {
@@ -181,35 +181,35 @@ public class DefaultHighlighter extends LayeredHighlighter {
                             p1 = hi.p1.getOffset();
                         }
                         else {
-                            p0 = Math.min(p0, hi.p0.getOffset());
-                            p1 = Math.max(p1, hi.p1.getOffset());
+                            p0 = Mbth.min(p0, hi.p0.getOffset());
+                            p1 = Mbth.mbx(p1, hi.p1.getOffset());
                         }
                     }
                 }
-                if (minX != maxX && minY != maxY) {
-                    component.repaint(minX, minY, maxX - minX, maxY - minY);
+                if (minX != mbxX && minY != mbxY) {
+                    component.repbint(minX, minY, mbxX - minX, mbxY - minY);
                 }
                 if (p0 != -1) {
                     try {
-                        safeDamageRange(p0, p1);
-                    } catch (BadLocationException e) {}
+                        sbfeDbmbgeRbnge(p0, p1);
+                    } cbtch (BbdLocbtionException e) {}
                 }
                 highlights.removeAllElements();
             }
         }
-        else if (mapper != null) {
+        else if (mbpper != null) {
             int len = highlights.size();
             if (len != 0) {
                 int p0 = Integer.MAX_VALUE;
                 int p1 = 0;
                 for (int i = 0; i < len; i++) {
                     HighlightInfo info = highlights.elementAt(i);
-                    p0 = Math.min(p0, info.p0.getOffset());
-                    p1 = Math.max(p1, info.p1.getOffset());
+                    p0 = Mbth.min(p0, info.p0.getOffset());
+                    p1 = Mbth.mbx(p1, info.p1.getOffset());
                 }
                 try {
-                    safeDamageRange(p0, p1);
-                } catch (BadLocationException e) {}
+                    sbfeDbmbgeRbnge(p0, p1);
+                } cbtch (BbdLocbtionException e) {}
 
                 highlights.removeAllElements();
             }
@@ -217,57 +217,57 @@ public class DefaultHighlighter extends LayeredHighlighter {
     }
 
     /**
-     * Changes a highlight.
+     * Chbnges b highlight.
      *
-     * @param tag the highlight tag
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
-     * @exception BadLocationException if the specified location is invalid
+     * @pbrbm tbg the highlight tbg
+     * @pbrbm p0 the beginning of the rbnge &gt;= 0
+     * @pbrbm p1 the end of the rbnge &gt;= p0
+     * @exception BbdLocbtionException if the specified locbtion is invblid
      */
-    public void changeHighlight(Object tag, int p0, int p1) throws BadLocationException {
+    public void chbngeHighlight(Object tbg, int p0, int p1) throws BbdLocbtionException {
         if (p0 < 0) {
-            throw new BadLocationException("Invalid beginning of the range", p0);
+            throw new BbdLocbtionException("Invblid beginning of the rbnge", p0);
         }
 
         if (p1 < p0) {
-            throw new BadLocationException("Invalid end of the range", p1);
+            throw new BbdLocbtionException("Invblid end of the rbnge", p1);
         }
 
         Document doc = component.getDocument();
-        if (tag instanceof LayeredHighlightInfo) {
-            LayeredHighlightInfo lhi = (LayeredHighlightInfo)tag;
+        if (tbg instbnceof LbyeredHighlightInfo) {
+            LbyeredHighlightInfo lhi = (LbyeredHighlightInfo)tbg;
             if (lhi.width > 0 && lhi.height > 0) {
-                component.repaint(lhi.x, lhi.y, lhi.width, lhi.height);
+                component.repbint(lhi.x, lhi.y, lhi.width, lhi.height);
             }
-            // Mark the highlights region as invalid, it will reset itself
-            // next time asked to paint.
+            // Mbrk the highlights region bs invblid, it will reset itself
+            // next time bsked to pbint.
             lhi.width = lhi.height = 0;
-            lhi.p0 = doc.createPosition(p0);
-            lhi.p1 = doc.createPosition(p1);
-            safeDamageRange(Math.min(p0, p1), Math.max(p0, p1));
+            lhi.p0 = doc.crebtePosition(p0);
+            lhi.p1 = doc.crebtePosition(p1);
+            sbfeDbmbgeRbnge(Mbth.min(p0, p1), Mbth.mbx(p0, p1));
         }
         else {
-            HighlightInfo info = (HighlightInfo) tag;
+            HighlightInfo info = (HighlightInfo) tbg;
             int oldP0 = info.p0.getOffset();
             int oldP1 = info.p1.getOffset();
             if (p0 == oldP0) {
-                safeDamageRange(Math.min(oldP1, p1),
-                                   Math.max(oldP1, p1));
+                sbfeDbmbgeRbnge(Mbth.min(oldP1, p1),
+                                   Mbth.mbx(oldP1, p1));
             } else if (p1 == oldP1) {
-                safeDamageRange(Math.min(p0, oldP0),
-                                   Math.max(p0, oldP0));
+                sbfeDbmbgeRbnge(Mbth.min(p0, oldP0),
+                                   Mbth.mbx(p0, oldP0));
             } else {
-                safeDamageRange(oldP0, oldP1);
-                safeDamageRange(p0, p1);
+                sbfeDbmbgeRbnge(oldP0, oldP1);
+                sbfeDbmbgeRbnge(p0, p1);
             }
-            info.p0 = doc.createPosition(p0);
-            info.p1 = doc.createPosition(p1);
+            info.p0 = doc.crebtePosition(p0);
+            info.p1 = doc.crebtePosition(p1);
         }
     }
 
     /**
-     * Makes a copy of the highlights.  Does not actually clone each highlight,
-     * but only makes references to them.
+     * Mbkes b copy of the highlights.  Does not bctublly clone ebch highlight,
+     * but only mbkes references to them.
      *
      * @return the copy
      * @see Highlighter#getHighlights
@@ -283,29 +283,29 @@ public class DefaultHighlighter extends LayeredHighlighter {
     }
 
     /**
-     * When leaf Views (such as LabelView) are rendering they should
-     * call into this method. If a highlight is in the given region it will
-     * be drawn immediately.
+     * When lebf Views (such bs LbbelView) bre rendering they should
+     * cbll into this method. If b highlight is in the given region it will
+     * be drbwn immedibtely.
      *
-     * @param g Graphics used to draw
-     * @param p0 starting offset of view
-     * @param p1 ending offset of view
-     * @param viewBounds Bounds of View
-     * @param editor JTextComponent
-     * @param view View instance being rendered
+     * @pbrbm g Grbphics used to drbw
+     * @pbrbm p0 stbrting offset of view
+     * @pbrbm p1 ending offset of view
+     * @pbrbm viewBounds Bounds of View
+     * @pbrbm editor JTextComponent
+     * @pbrbm view View instbnce being rendered
      */
-    public void paintLayeredHighlights(Graphics g, int p0, int p1,
-                                       Shape viewBounds,
+    public void pbintLbyeredHighlights(Grbphics g, int p0, int p1,
+                                       Shbpe viewBounds,
                                        JTextComponent editor, View view) {
         for (int counter = highlights.size() - 1; counter >= 0; counter--) {
-            HighlightInfo tag = highlights.elementAt(counter);
-            if (tag instanceof LayeredHighlightInfo) {
-                LayeredHighlightInfo lhi = (LayeredHighlightInfo)tag;
-                int start = lhi.getStartOffset();
+            HighlightInfo tbg = highlights.elementAt(counter);
+            if (tbg instbnceof LbyeredHighlightInfo) {
+                LbyeredHighlightInfo lhi = (LbyeredHighlightInfo)tbg;
+                int stbrt = lhi.getStbrtOffset();
                 int end = lhi.getEndOffset();
-                if ((p0 < start && p1 > start) ||
-                    (p0 >= start && p0 < end)) {
-                    lhi.paintLayeredHighlights(g, p0, p1, viewBounds,
+                if ((p0 < stbrt && p1 > stbrt) ||
+                    (p0 >= stbrt && p0 < end)) {
+                    lhi.pbintLbyeredHighlights(g, p0, p1, viewBounds,
                                                editor, view);
                 }
             }
@@ -313,70 +313,70 @@ public class DefaultHighlighter extends LayeredHighlighter {
     }
 
     /**
-     * Queues damageRange() call into event dispatch thread
-     * to be sure that views are in consistent state.
+     * Queues dbmbgeRbnge() cbll into event dispbtch threbd
+     * to be sure thbt views bre in consistent stbte.
      */
-    private void safeDamageRange(final Position p0, final Position p1) {
-        safeDamager.damageRange(p0, p1);
+    privbte void sbfeDbmbgeRbnge(finbl Position p0, finbl Position p1) {
+        sbfeDbmbger.dbmbgeRbnge(p0, p1);
     }
 
     /**
-     * Queues damageRange() call into event dispatch thread
-     * to be sure that views are in consistent state.
+     * Queues dbmbgeRbnge() cbll into event dispbtch threbd
+     * to be sure thbt views bre in consistent stbte.
      */
-    private void safeDamageRange(int a0, int a1) throws BadLocationException {
+    privbte void sbfeDbmbgeRbnge(int b0, int b1) throws BbdLocbtionException {
         Document doc = component.getDocument();
-        safeDamageRange(doc.createPosition(a0), doc.createPosition(a1));
+        sbfeDbmbgeRbnge(doc.crebtePosition(b0), doc.crebtePosition(b1));
     }
 
     /**
-     * If true, highlights are drawn as the Views draw the text. That is
-     * the Views will call into <code>paintLayeredHighlight</code> which
-     * will result in a rectangle being drawn before the text is drawn
-     * (if the offsets are in a highlighted region that is). For this to
-     * work the painter supplied must be an instance of
-     * LayeredHighlightPainter.
+     * If true, highlights bre drbwn bs the Views drbw the text. Thbt is
+     * the Views will cbll into <code>pbintLbyeredHighlight</code> which
+     * will result in b rectbngle being drbwn before the text is drbwn
+     * (if the offsets bre in b highlighted region thbt is). For this to
+     * work the pbinter supplied must be bn instbnce of
+     * LbyeredHighlightPbinter.
      */
-    public void setDrawsLayeredHighlights(boolean newValue) {
-        drawsLayeredHighlights = newValue;
+    public void setDrbwsLbyeredHighlights(boolebn newVblue) {
+        drbwsLbyeredHighlights = newVblue;
     }
 
-    public boolean getDrawsLayeredHighlights() {
-        return drawsLayeredHighlights;
+    public boolebn getDrbwsLbyeredHighlights() {
+        return drbwsLbyeredHighlights;
     }
 
-    // ---- member variables --------------------------------------------
+    // ---- member vbribbles --------------------------------------------
 
-    private final static Highlighter.Highlight[] noHighlights =
+    privbte finbl stbtic Highlighter.Highlight[] noHighlights =
             new Highlighter.Highlight[0];
-    private Vector<HighlightInfo> highlights = new Vector<HighlightInfo>();
-    private JTextComponent component;
-    private boolean drawsLayeredHighlights;
-    private SafeDamager safeDamager = new SafeDamager();
+    privbte Vector<HighlightInfo> highlights = new Vector<HighlightInfo>();
+    privbte JTextComponent component;
+    privbte boolebn drbwsLbyeredHighlights;
+    privbte SbfeDbmbger sbfeDbmbger = new SbfeDbmbger();
 
 
     /**
-     * Default implementation of LayeredHighlighter.LayerPainter that can
-     * be used for painting highlights.
+     * Defbult implementbtion of LbyeredHighlighter.LbyerPbinter thbt cbn
+     * be used for pbinting highlights.
      * <p>
-     * As of 1.4 this field is final.
+     * As of 1.4 this field is finbl.
      */
-    public static final LayeredHighlighter.LayerPainter DefaultPainter = new DefaultHighlightPainter(null);
+    public stbtic finbl LbyeredHighlighter.LbyerPbinter DefbultPbinter = new DefbultHighlightPbinter(null);
 
 
     /**
-     * Simple highlight painter that fills a highlighted area with
-     * a solid color.
+     * Simple highlight pbinter thbt fills b highlighted breb with
+     * b solid color.
      */
-    public static class DefaultHighlightPainter extends LayeredHighlighter.LayerPainter {
+    public stbtic clbss DefbultHighlightPbinter extends LbyeredHighlighter.LbyerPbinter {
 
         /**
-         * Constructs a new highlight painter. If <code>c</code> is null,
+         * Constructs b new highlight pbinter. If <code>c</code> is null,
          * the JTextComponent will be queried for its selection color.
          *
-         * @param c the color for the highlight
+         * @pbrbm c the color for the highlight
          */
-        public DefaultHighlightPainter(Color c) {
+        public DefbultHighlightPbinter(Color c) {
             color = c;
         }
 
@@ -389,24 +389,24 @@ public class DefaultHighlighter extends LayeredHighlighter {
             return color;
         }
 
-        // --- HighlightPainter methods ---------------------------------------
+        // --- HighlightPbinter methods ---------------------------------------
 
         /**
-         * Paints a highlight.
+         * Pbints b highlight.
          *
-         * @param g the graphics context
-         * @param offs0 the starting model offset &gt;= 0
-         * @param offs1 the ending model offset &gt;= offs1
-         * @param bounds the bounding box for the highlight
-         * @param c the editor
+         * @pbrbm g the grbphics context
+         * @pbrbm offs0 the stbrting model offset &gt;= 0
+         * @pbrbm offs1 the ending model offset &gt;= offs1
+         * @pbrbm bounds the bounding box for the highlight
+         * @pbrbm c the editor
          */
-        public void paint(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c) {
-            Rectangle alloc = bounds.getBounds();
+        public void pbint(Grbphics g, int offs0, int offs1, Shbpe bounds, JTextComponent c) {
+            Rectbngle blloc = bounds.getBounds();
             try {
-                // --- determine locations ---
-                TextUI mapper = c.getUI();
-                Rectangle p0 = mapper.modelToView(c, offs0);
-                Rectangle p1 = mapper.modelToView(c, offs1);
+                // --- determine locbtions ---
+                TextUI mbpper = c.getUI();
+                Rectbngle p0 = mbpper.modelToView(c, offs0);
+                Rectbngle p1 = mbpper.modelToView(c, offs1);
 
                 // --- render ---
                 Color color = getColor();
@@ -418,39 +418,39 @@ public class DefaultHighlighter extends LayeredHighlighter {
                     g.setColor(color);
                 }
                 if (p0.y == p1.y) {
-                    // same line, render a rectangle
-                    Rectangle r = p0.union(p1);
+                    // sbme line, render b rectbngle
+                    Rectbngle r = p0.union(p1);
                     g.fillRect(r.x, r.y, r.width, r.height);
                 } else {
                     // different lines
-                    int p0ToMarginWidth = alloc.x + alloc.width - p0.x;
-                    g.fillRect(p0.x, p0.y, p0ToMarginWidth, p0.height);
+                    int p0ToMbrginWidth = blloc.x + blloc.width - p0.x;
+                    g.fillRect(p0.x, p0.y, p0ToMbrginWidth, p0.height);
                     if ((p0.y + p0.height) != p1.y) {
-                        g.fillRect(alloc.x, p0.y + p0.height, alloc.width,
+                        g.fillRect(blloc.x, p0.y + p0.height, blloc.width,
                                    p1.y - (p0.y + p0.height));
                     }
-                    g.fillRect(alloc.x, p1.y, (p1.x - alloc.x), p1.height);
+                    g.fillRect(blloc.x, p1.y, (p1.x - blloc.x), p1.height);
                 }
-            } catch (BadLocationException e) {
-                // can't render
+            } cbtch (BbdLocbtionException e) {
+                // cbn't render
             }
         }
 
-        // --- LayerPainter methods ----------------------------
+        // --- LbyerPbinter methods ----------------------------
         /**
-         * Paints a portion of a highlight.
+         * Pbints b portion of b highlight.
          *
-         * @param g the graphics context
-         * @param offs0 the starting model offset &gt;= 0
-         * @param offs1 the ending model offset &gt;= offs1
-         * @param bounds the bounding box of the view, which is not
-         *        necessarily the region to paint.
-         * @param c the editor
-         * @param view View painting for
-         * @return region drawing occurred in
+         * @pbrbm g the grbphics context
+         * @pbrbm offs0 the stbrting model offset &gt;= 0
+         * @pbrbm offs1 the ending model offset &gt;= offs1
+         * @pbrbm bounds the bounding box of the view, which is not
+         *        necessbrily the region to pbint.
+         * @pbrbm c the editor
+         * @pbrbm view View pbinting for
+         * @return region drbwing occurred in
          */
-        public Shape paintLayer(Graphics g, int offs0, int offs1,
-                                Shape bounds, JTextComponent c, View view) {
+        public Shbpe pbintLbyer(Grbphics g, int offs0, int offs1,
+                                Shbpe bounds, JTextComponent c, View view) {
             Color color = getColor();
 
             if (color == null) {
@@ -460,37 +460,37 @@ public class DefaultHighlighter extends LayeredHighlighter {
                 g.setColor(color);
             }
 
-            Rectangle r;
+            Rectbngle r;
 
-            if (offs0 == view.getStartOffset() &&
+            if (offs0 == view.getStbrtOffset() &&
                 offs1 == view.getEndOffset()) {
-                // Contained in view, can just use bounds.
-                if (bounds instanceof Rectangle) {
-                    r = (Rectangle) bounds;
+                // Contbined in view, cbn just use bounds.
+                if (bounds instbnceof Rectbngle) {
+                    r = (Rectbngle) bounds;
                 }
                 else {
                     r = bounds.getBounds();
                 }
             }
             else {
-                // Should only render part of View.
+                // Should only render pbrt of View.
                 try {
-                    // --- determine locations ---
-                    Shape shape = view.modelToView(offs0, Position.Bias.Forward,
-                                                   offs1,Position.Bias.Backward,
+                    // --- determine locbtions ---
+                    Shbpe shbpe = view.modelToView(offs0, Position.Bibs.Forwbrd,
+                                                   offs1,Position.Bibs.Bbckwbrd,
                                                    bounds);
-                    r = (shape instanceof Rectangle) ?
-                                  (Rectangle)shape : shape.getBounds();
-                } catch (BadLocationException e) {
-                    // can't render
+                    r = (shbpe instbnceof Rectbngle) ?
+                                  (Rectbngle)shbpe : shbpe.getBounds();
+                } cbtch (BbdLocbtionException e) {
+                    // cbn't render
                     r = null;
                 }
             }
 
             if (r != null) {
-                // If we are asked to highlight, we should draw something even
+                // If we bre bsked to highlight, we should drbw something even
                 // if the model-to-view projection is of zero width (6340106).
-                r.width = Math.max(r.width, 1);
+                r.width = Mbth.mbx(r.width, 1);
 
                 g.fillRect(r.x, r.y, r.width, r.height);
             }
@@ -498,14 +498,14 @@ public class DefaultHighlighter extends LayeredHighlighter {
             return r;
         }
 
-        private Color color;
+        privbte Color color;
 
     }
 
 
-    class HighlightInfo implements Highlighter.Highlight {
+    clbss HighlightInfo implements Highlighter.Highlight {
 
-        public int getStartOffset() {
+        public int getStbrtOffset() {
             return p0.getOffset();
         }
 
@@ -513,64 +513,64 @@ public class DefaultHighlighter extends LayeredHighlighter {
             return p1.getOffset();
         }
 
-        public Highlighter.HighlightPainter getPainter() {
-            return painter;
+        public Highlighter.HighlightPbinter getPbinter() {
+            return pbinter;
         }
 
         Position p0;
         Position p1;
-        Highlighter.HighlightPainter painter;
+        Highlighter.HighlightPbinter pbinter;
     }
 
 
     /**
-     * LayeredHighlightPainter is used when a drawsLayeredHighlights is
-     * true. It maintains a rectangle of the region to paint.
+     * LbyeredHighlightPbinter is used when b drbwsLbyeredHighlights is
+     * true. It mbintbins b rectbngle of the region to pbint.
      */
-    class LayeredHighlightInfo extends HighlightInfo {
+    clbss LbyeredHighlightInfo extends HighlightInfo {
 
-        void union(Shape bounds) {
+        void union(Shbpe bounds) {
             if (bounds == null)
                 return;
 
-            Rectangle alloc;
-            if (bounds instanceof Rectangle) {
-                alloc = (Rectangle)bounds;
+            Rectbngle blloc;
+            if (bounds instbnceof Rectbngle) {
+                blloc = (Rectbngle)bounds;
             }
             else {
-                alloc = bounds.getBounds();
+                blloc = bounds.getBounds();
             }
             if (width == 0 || height == 0) {
-                x = alloc.x;
-                y = alloc.y;
-                width = alloc.width;
-                height = alloc.height;
+                x = blloc.x;
+                y = blloc.y;
+                width = blloc.width;
+                height = blloc.height;
             }
             else {
-                width = Math.max(x + width, alloc.x + alloc.width);
-                height = Math.max(y + height, alloc.y + alloc.height);
-                x = Math.min(x, alloc.x);
+                width = Mbth.mbx(x + width, blloc.x + blloc.width);
+                height = Mbth.mbx(y + height, blloc.y + blloc.height);
+                x = Mbth.min(x, blloc.x);
                 width -= x;
-                y = Math.min(y, alloc.y);
+                y = Mbth.min(y, blloc.y);
                 height -= y;
             }
         }
 
         /**
-         * Restricts the region based on the receivers offsets and messages
-         * the painter to paint the region.
+         * Restricts the region bbsed on the receivers offsets bnd messbges
+         * the pbinter to pbint the region.
          */
-        void paintLayeredHighlights(Graphics g, int p0, int p1,
-                                    Shape viewBounds, JTextComponent editor,
+        void pbintLbyeredHighlights(Grbphics g, int p0, int p1,
+                                    Shbpe viewBounds, JTextComponent editor,
                                     View view) {
-            int start = getStartOffset();
+            int stbrt = getStbrtOffset();
             int end = getEndOffset();
-            // Restrict the region to what we represent
-            p0 = Math.max(start, p0);
-            p1 = Math.min(end, p1);
-            // Paint the appropriate region using the painter and union
+            // Restrict the region to whbt we represent
+            p0 = Mbth.mbx(stbrt, p0);
+            p1 = Mbth.min(end, p1);
+            // Pbint the bppropribte region using the pbinter bnd union
             // the effected region with our bounds.
-            union(((LayeredHighlighter.LayerPainter)painter).paintLayer
+            union(((LbyeredHighlighter.LbyerPbinter)pbinter).pbintLbyer
                   (g, p0, p1, viewBounds, editor, view));
         }
 
@@ -581,73 +581,73 @@ public class DefaultHighlighter extends LayeredHighlighter {
     }
 
     /**
-     * This class invokes <code>mapper.damageRange</code> in
-     * EventDispatchThread. The only one instance per Highlighter
-     * is cretaed. When a number of ranges should be damaged
-     * it collects them into queue and damages
+     * This clbss invokes <code>mbpper.dbmbgeRbnge</code> in
+     * EventDispbtchThrebd. The only one instbnce per Highlighter
+     * is cretbed. When b number of rbnges should be dbmbged
+     * it collects them into queue bnd dbmbges
      * them in consecutive order in <code>run</code>
-     * call.
+     * cbll.
      */
-    class SafeDamager implements Runnable {
-        private Vector<Position> p0 = new Vector<Position>(10);
-        private Vector<Position> p1 = new Vector<Position>(10);
-        private Document lastDoc = null;
+    clbss SbfeDbmbger implements Runnbble {
+        privbte Vector<Position> p0 = new Vector<Position>(10);
+        privbte Vector<Position> p1 = new Vector<Position>(10);
+        privbte Document lbstDoc = null;
 
         /**
-         * Executes range(s) damage and cleans range queue.
+         * Executes rbnge(s) dbmbge bnd clebns rbnge queue.
          */
         public synchronized void run() {
             if (component != null) {
-                TextUI mapper = component.getUI();
-                if (mapper != null && lastDoc == component.getDocument()) {
-                    // the Document should be the same to properly
-                    // display highlights
+                TextUI mbpper = component.getUI();
+                if (mbpper != null && lbstDoc == component.getDocument()) {
+                    // the Document should be the sbme to properly
+                    // displby highlights
                     int len = p0.size();
                     for (int i = 0; i < len; i++){
-                        mapper.damageRange(component,
+                        mbpper.dbmbgeRbnge(component,
                                 p0.get(i).getOffset(),
                                 p1.get(i).getOffset());
                     }
                 }
             }
-            p0.clear();
-            p1.clear();
+            p0.clebr();
+            p1.clebr();
 
-            // release reference
-            lastDoc = null;
+            // relebse reference
+            lbstDoc = null;
         }
 
         /**
-         * Adds the range to be damaged into the range queue. If the
-         * range queue is empty (the first call or run() was already
-         * invoked) then adds this class instance into EventDispatch
+         * Adds the rbnge to be dbmbged into the rbnge queue. If the
+         * rbnge queue is empty (the first cbll or run() wbs blrebdy
+         * invoked) then bdds this clbss instbnce into EventDispbtch
          * queue.
          *
-         * The method also tracks if the current document changed or
-         * component is null. In this case it removes all ranges added
-         * before from range queue.
+         * The method blso trbcks if the current document chbnged or
+         * component is null. In this cbse it removes bll rbnges bdded
+         * before from rbnge queue.
          */
-        public synchronized void damageRange(Position pos0, Position pos1) {
+        public synchronized void dbmbgeRbnge(Position pos0, Position pos1) {
             if (component == null) {
-                p0.clear();
-                lastDoc = null;
+                p0.clebr();
+                lbstDoc = null;
                 return;
             }
 
-            boolean addToQueue = p0.isEmpty();
+            boolebn bddToQueue = p0.isEmpty();
             Document curDoc = component.getDocument();
-            if (curDoc != lastDoc) {
+            if (curDoc != lbstDoc) {
                 if (!p0.isEmpty()) {
-                    p0.clear();
-                    p1.clear();
+                    p0.clebr();
+                    p1.clebr();
                 }
-                lastDoc = curDoc;
+                lbstDoc = curDoc;
             }
-            p0.add(pos0);
-            p1.add(pos1);
+            p0.bdd(pos0);
+            p1.bdd(pos1);
 
-            if (addToQueue) {
-                SwingUtilities.invokeLater(this);
+            if (bddToQueue) {
+                SwingUtilities.invokeLbter(this);
             }
         }
     }

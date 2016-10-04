@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
@@ -44,19 +44,19 @@
  * Copyright (C) 1991-2012 Unicode, Inc. All rights reserved. Distributed under
  * the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of the Unicode data files and any associated documentation (the "Data
- * Files") or Unicode software and any associated documentation (the
- * "Software") to deal in the Data Files or Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, and/or sell copies of the Data Files or Software, and
- * to permit persons to whom the Data Files or Software are furnished to do so,
- * provided that (a) the above copyright notice(s) and this permission notice
- * appear with all copies of the Data Files or Software, (b) both the above
- * copyright notice(s) and this permission notice appear in associated
- * documentation, and (c) there is clear notice in each modified Data File or
- * in the Software as well as in the documentation associated with the Data
- * File(s) or Software that the data or software has been modified.
+ * Permission is hereby grbnted, free of chbrge, to bny person obtbining b copy
+ * of the Unicode dbtb files bnd bny bssocibted documentbtion (the "Dbtb
+ * Files") or Unicode softwbre bnd bny bssocibted documentbtion (the
+ * "Softwbre") to debl in the Dbtb Files or Softwbre without restriction,
+ * including without limitbtion the rights to use, copy, modify, merge,
+ * publish, distribute, bnd/or sell copies of the Dbtb Files or Softwbre, bnd
+ * to permit persons to whom the Dbtb Files or Softwbre bre furnished to do so,
+ * provided thbt (b) the bbove copyright notice(s) bnd this permission notice
+ * bppebr with bll copies of the Dbtb Files or Softwbre, (b) both the bbove
+ * copyright notice(s) bnd this permission notice bppebr in bssocibted
+ * documentbtion, bnd (c) there is clebr notice in ebch modified Dbtb File or
+ * in the Softwbre bs well bs in the documentbtion bssocibted with the Dbtb
+ * File(s) or Softwbre thbt the dbtb or softwbre hbs been modified.
  *
  * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -68,108 +68,91 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THE DATA FILES OR SOFTWARE.
  *
- * Except as contained in this notice, the name of a copyright holder shall not
- * be used in advertising or otherwise to promote the sale, use or other
- * dealings in these Data Files or Software without prior written authorization
+ * Except bs contbined in this notice, the nbme of b copyright holder shbll not
+ * be used in bdvertising or otherwise to promote the sble, use or other
+ * deblings in these Dbtb Files or Softwbre without prior written buthorizbtion
  * of the copyright holder.
  */
 
-package sun.text.resources.ru;
+pbckbge sun.text.resources.ru;
 
-import sun.util.resources.ParallelListResourceBundle;
+import sun.util.resources.PbrbllelListResourceBundle;
 
-public class FormatData_ru extends ParallelListResourceBundle {
+public clbss FormbtDbtb_ru extends PbrbllelListResourceBundle {
     /**
-     * Overrides ParallelListResourceBundle
+     * Overrides PbrbllelListResourceBundle
      */
-    protected final Object[][] getContents() {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
-            {"MonthNames",
+            {"MonthNbmes",
                 new String[] {
-                    "\u044f\u043d\u0432\u0430\u0440\u044f",             // january
-                    "\u0444\u0435\u0432\u0440\u0430\u043b\u044f",       // february
-                    "\u043c\u0430\u0440\u0442\u0430",                   // march
-                    "\u0430\u043f\u0440\u0435\u043b\u044f",             // april
-                    "\u043c\u0430\u044f",                               // may
+                    "\u044f\u043d\u0432\u0430\u0440\u044f",             // jbnubry
+                    "\u0444\u0435\u0432\u0440\u0430\u043b\u044f",       // februbry
+                    "\u043c\u0430\u0440\u0442\u0430",                   // mbrch
+                    "\u0430\u043f\u0440\u0435\u043b\u044f",             // bpril
+                    "\u043c\u0430\u044f",                               // mby
                     "\u0438\u044e\u043d\u044f",                         // june
                     "\u0438\u044e\u043b\u044f",                         // july
-                    "\u0430\u0432\u0433\u0443\u0441\u0442\u0430",       // august
+                    "\u0430\u0432\u0433\u0443\u0441\u0442\u0430",       // bugust
                     "\u0441\u0435\u043d\u0442\u044f\u0431\u0440\u044f", // september
-                    "\u043e\u043a\u0442\u044f\u0431\u0440\u044f",       // october
+                    "\u043e\u043b\u0442\u044f\u0431\u0440\u044f",       // october
                     "\u043d\u043e\u044f\u0431\u0440\u044f",             // november
-                    "\u0434\u0435\u043a\u0430\u0431\u0440\u044f",       // december
-                    "", // month 13 if applicable
+                    "\u0434\u0435\u043b\u0430\u0431\u0440\u044f",       // december
+                    "", // month 13 if bpplicbble
                 }
             },
-            { "standalone.MonthNames",
+            { "stbndblone.MonthNbmes",
                 new String[] {
-                    "\u042f\u043d\u0432\u0430\u0440\u044c",             // january
-                    "\u0424\u0435\u0432\u0440\u0430\u043b\u044c",       // february
-                    "\u041c\u0430\u0440\u0442",                         // march
-                    "\u0410\u043f\u0440\u0435\u043b\u044c",             // april
-                    "\u041c\u0430\u0439",                               // may
+                    "\u042f\u043d\u0432\u0430\u0440\u044c",             // jbnubry
+                    "\u0424\u0435\u0432\u0440\u0430\u043b\u044c",       // februbry
+                    "\u041c\u0430\u0440\u0442",                         // mbrch
+                    "\u0410\u043f\u0440\u0435\u043b\u044c",             // bpril
+                    "\u041c\u0430\u0439",                               // mby
                     "\u0418\u044e\u043d\u044c",                         // june
                     "\u0418\u044e\u043b\u044c",                         // july
-                    "\u0410\u0432\u0433\u0443\u0441\u0442",             // august
+                    "\u0410\u0432\u0433\u0443\u0441\u0442",             // bugust
                     "\u0421\u0435\u043d\u0442\u044f\u0431\u0440\u044c", // september
-                    "\u041e\u043a\u0442\u044f\u0431\u0440\u044c",       // october
+                    "\u041e\u043b\u0442\u044f\u0431\u0440\u044c",       // october
                     "\u041d\u043e\u044f\u0431\u0440\u044c",             // november
-                    "\u0414\u0435\u043a\u0430\u0431\u0440\u044c",       // december
-                    "", // month 13 if applicable
+                    "\u0414\u0435\u043b\u0430\u0431\u0440\u044c",       // december
+                    "", // month 13 if bpplicbble
                 }
             },
-            { "MonthAbbreviations",
+            { "MonthAbbrevibtions",
                 new String[] {
-                    "\u044f\u043d\u0432", // abb january
-                    "\u0444\u0435\u0432", // abb february
-                    "\u043c\u0430\u0440", // abb march
-                    "\u0430\u043f\u0440", // abb april
-                    "\u043c\u0430\u044f", // abb may
-                    "\u0438\u044e\u043d", // abb june
-                    "\u0438\u044e\u043b", // abb july
-                    "\u0430\u0432\u0433", // abb august
-                    "\u0441\u0435\u043d", // abb september
-                    "\u043e\u043a\u0442", // abb october
-                    "\u043d\u043e\u044f", // abb november
-                    "\u0434\u0435\u043a", // abb december
-                    "", // month 13 if applicable
+                    "\u044f\u043d\u0432", // bbb jbnubry
+                    "\u0444\u0435\u0432", // bbb februbry
+                    "\u043c\u0430\u0440", // bbb mbrch
+                    "\u0430\u043f\u0440", // bbb bpril
+                    "\u043c\u0430\u044f", // bbb mby
+                    "\u0438\u044e\u043d", // bbb june
+                    "\u0438\u044e\u043b", // bbb july
+                    "\u0430\u0432\u0433", // bbb bugust
+                    "\u0441\u0435\u043d", // bbb september
+                    "\u043e\u043b\u0442", // bbb october
+                    "\u043d\u043e\u044f", // bbb november
+                    "\u0434\u0435\u043b", // bbb december
+                    "", // month 13 if bpplicbble
                 }
             },
-            { "standalone.MonthAbbreviations",
+            { "stbndblone.MonthAbbrevibtions",
                 new String[] {
-                    "\u042f\u043d\u0432.",       // abb january
-                    "\u0424\u0435\u0432\u0440.", // abb february
-                    "\u041c\u0430\u0440\u0442",  // abb march
-                    "\u0410\u043f\u0440.",       // abb april
-                    "\u041c\u0430\u0439",        // abb may
-                    "\u0418\u044e\u043d\u044c",  // abb june
-                    "\u0418\u044e\u043b\u044c",  // abb july
-                    "\u0410\u0432\u0433.",       // abb august
-                    "\u0421\u0435\u043d\u0442.", // abb september
-                    "\u041e\u043a\u0442.",       // abb october
-                    "\u041d\u043e\u044f\u0431.", // abb november
-                    "\u0414\u0435\u043a.",       // abb december
-                    "", // month 13 if applicable
+                    "\u042f\u043d\u0432.",       // bbb jbnubry
+                    "\u0424\u0435\u0432\u0440.", // bbb februbry
+                    "\u041c\u0430\u0440\u0442",  // bbb mbrch
+                    "\u0410\u043f\u0440.",       // bbb bpril
+                    "\u041c\u0430\u0439",        // bbb mby
+                    "\u0418\u044e\u043d\u044c",  // bbb june
+                    "\u0418\u044e\u043b\u044c",  // bbb july
+                    "\u0410\u0432\u0433.",       // bbb bugust
+                    "\u0421\u0435\u043d\u0442.", // bbb september
+                    "\u041e\u043b\u0442.",       // bbb october
+                    "\u041d\u043e\u044f\u0431.", // bbb november
+                    "\u0414\u0435\u043b.",       // bbb december
+                    "", // month 13 if bpplicbble
                 }
             },
-            { "MonthNarrows",
-                new String[] {
-                    "\u042f",
-                    "\u0424",
-                    "\u041c",
-                    "\u0410",
-                    "\u041c",
-                    "\u0418",
-                    "\u0418",
-                    "\u0410",
-                    "\u0421",
-                    "\u041e",
-                    "\u041d",
-                    "\u0414",
-                    "",
-                }
-            },
-            { "standalone.MonthNarrows",
+            { "MonthNbrrows",
                 new String[] {
                     "\u042f",
                     "\u0424",
@@ -186,40 +169,57 @@ public class FormatData_ru extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "DayNames",
+            { "stbndblone.MonthNbrrows",
                 new String[] {
-                    "\u0432\u043e\u0441\u043a\u0440\u0435\u0441\u0435\u043d\u044c\u0435", // Sunday
-                    "\u043f\u043e\u043d\u0435\u0434\u0435\u043b\u044c\u043d\u0438\u043a", // Monday
-                    "\u0432\u0442\u043e\u0440\u043d\u0438\u043a", // Tuesday
-                    "\u0441\u0440\u0435\u0434\u0430", // Wednesday
-                    "\u0447\u0435\u0442\u0432\u0435\u0440\u0433", // Thursday
-                    "\u043f\u044f\u0442\u043d\u0438\u0446\u0430", // Friday
-                    "\u0441\u0443\u0431\u0431\u043e\u0442\u0430" // Saturday
+                    "\u042f",
+                    "\u0424",
+                    "\u041c",
+                    "\u0410",
+                    "\u041c",
+                    "\u0418",
+                    "\u0418",
+                    "\u0410",
+                    "\u0421",
+                    "\u041e",
+                    "\u041d",
+                    "\u0414",
+                    "",
                 }
             },
-            { "standalone.DayNames",
+            { "DbyNbmes",
                 new String[] {
-                    "\u0412\u043e\u0441\u043a\u0440\u0435\u0441\u0435\u043d\u044c\u0435",
-                    "\u041f\u043e\u043d\u0435\u0434\u0435\u043b\u044c\u043d\u0438\u043a",
-                    "\u0412\u0442\u043e\u0440\u043d\u0438\u043a",
+                    "\u0432\u043e\u0441\u043b\u0440\u0435\u0441\u0435\u043d\u044c\u0435", // Sundby
+                    "\u043f\u043e\u043d\u0435\u0434\u0435\u043b\u044c\u043d\u0438\u043b", // Mondby
+                    "\u0432\u0442\u043e\u0440\u043d\u0438\u043b", // Tuesdby
+                    "\u0441\u0440\u0435\u0434\u0430", // Wednesdby
+                    "\u0447\u0435\u0442\u0432\u0435\u0440\u0433", // Thursdby
+                    "\u043f\u044f\u0442\u043d\u0438\u0446\u0430", // Fridby
+                    "\u0441\u0443\u0431\u0431\u043e\u0442\u0430" // Sbturdby
+                }
+            },
+            { "stbndblone.DbyNbmes",
+                new String[] {
+                    "\u0412\u043e\u0441\u043b\u0440\u0435\u0441\u0435\u043d\u044c\u0435",
+                    "\u041f\u043e\u043d\u0435\u0434\u0435\u043b\u044c\u043d\u0438\u043b",
+                    "\u0412\u0442\u043e\u0440\u043d\u0438\u043b",
                     "\u0421\u0440\u0435\u0434\u0430",
                     "\u0427\u0435\u0442\u0432\u0435\u0440\u0433",
                     "\u041f\u044f\u0442\u043d\u0438\u0446\u0430",
                     "\u0421\u0443\u0431\u0431\u043e\u0442\u0430",
                 }
             },
-            { "DayAbbreviations",
+            { "DbyAbbrevibtions",
                 new String[] {
-                    "\u0412\u0441", // abb Sunday
-                    "\u041f\u043d", // abb Monday
-                    "\u0412\u0442", // abb Tuesday
-                    "\u0421\u0440", // abb Wednesday
-                    "\u0427\u0442", // abb Thursday
-                    "\u041f\u0442", // abb Friday
-                    "\u0421\u0431" // abb Saturday
+                    "\u0412\u0441", // bbb Sundby
+                    "\u041f\u043d", // bbb Mondby
+                    "\u0412\u0442", // bbb Tuesdby
+                    "\u0421\u0440", // bbb Wednesdby
+                    "\u0427\u0442", // bbb Thursdby
+                    "\u041f\u0442", // bbb Fridby
+                    "\u0421\u0431" // bbb Sbturdby
                 }
             },
-            { "standalone.DayAbbreviations",
+            { "stbndblone.DbyAbbrevibtions",
                 new String[] {
                     "\u0412\u0441",
                     "\u041f\u043d",
@@ -230,7 +230,7 @@ public class FormatData_ru extends ParallelListResourceBundle {
                     "\u0421\u0431",
                 }
             },
-            { "DayNarrows",
+            { "DbyNbrrows",
                 new String[] {
                     "\u0412",
                     "\u041f\u043d",
@@ -241,7 +241,7 @@ public class FormatData_ru extends ParallelListResourceBundle {
                     "\u0421", // contributed item in CLDR
                 }
             },
-            { "standalone.DayNarrows",
+            { "stbndblone.DbyNbrrows",
                 new String[] {
                     "\u0412",
                     "\u041f",
@@ -252,49 +252,49 @@ public class FormatData_ru extends ParallelListResourceBundle {
                     "\u0421",
                 }
             },
-            { "Eras",
-                new String[] { // era strings
+            { "Erbs",
+                new String[] { // erb strings
                     "\u0434\u043e \u043d.\u044d.",
                     "\u043d.\u044d."
                 }
             },
             { "NumberElements",
                 new String[] {
-                    ",", // decimal separator
-                    "\u00a0", // group (thousands) separator
-                    ";", // list separator
+                    ",", // decimbl sepbrbtor
+                    "\u00b0", // group (thousbnds) sepbrbtor
+                    ";", // list sepbrbtor
                     "%", // percent sign
-                    "0", // native 0 digit
-                    "#", // pattern digit
+                    "0", // nbtive 0 digit
+                    "#", // pbttern digit
                     "-", // minus sign
-                    "E", // exponential
+                    "E", // exponentibl
                     "\u2030", // per mille
                     "\u221e", // infinity
-                    "\ufffd" // NaN
+                    "\ufffd" // NbN
                 }
             },
-            { "TimePatterns",
+            { "TimePbtterns",
                 new String[] {
-                    "H:mm:ss z", // full time pattern
-                    "H:mm:ss z", // long time pattern
-                    "H:mm:ss", // medium time pattern
-                    "H:mm", // short time pattern
+                    "H:mm:ss z", // full time pbttern
+                    "H:mm:ss z", // long time pbttern
+                    "H:mm:ss", // medium time pbttern
+                    "H:mm", // short time pbttern
                 }
             },
-            { "DatePatterns",
+            { "DbtePbtterns",
                 new String[] {
-                    "d MMMM yyyy '\u0433.'", // full date pattern
-                    "d MMMM yyyy '\u0433.'", // long date pattern
-                    "dd.MM.yyyy", // medium date pattern
-                    "dd.MM.yy", // short date pattern
+                    "d MMMM yyyy '\u0433.'", // full dbte pbttern
+                    "d MMMM yyyy '\u0433.'", // long dbte pbttern
+                    "dd.MM.yyyy", // medium dbte pbttern
+                    "dd.MM.yy", // short dbte pbttern
                 }
             },
-            { "DateTimePatterns",
+            { "DbteTimePbtterns",
                 new String[] {
-                    "{1} {0}" // date-time pattern
+                    "{1} {0}" // dbte-time pbttern
                 }
             },
-            { "DateTimePatternChars", "GanjkHmsSEDFwWxhKzZ" },
+            { "DbteTimePbtternChbrs", "GbnjkHmsSEDFwWxhKzZ" },
         };
     }
 }

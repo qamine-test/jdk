@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net.ftp;
+pbckbge sun.net.ftp;
 
-import java.util.Date;
-import java.util.HashMap;
+import jbvb.util.Dbte;
+import jbvb.util.HbshMbp;
 
 /**
- * A {@code FtpDirEntry} is a class agregating all the information that the FTP client
- * can gather from the server by doing a {@code LST} (or {@code NLST}) command and
- * parsing the output. It will typically contain the name, type, size, last modification
- * time, owner and group of the file, although some of these could be unavailable
- * due to specific FTP server limitations.
+ * A {@code FtpDirEntry} is b clbss bgregbting bll the informbtion thbt the FTP client
+ * cbn gbther from the server by doing b {@code LST} (or {@code NLST}) commbnd bnd
+ * pbrsing the output. It will typicblly contbin the nbme, type, size, lbst modificbtion
+ * time, owner bnd group of the file, blthough some of these could be unbvbilbble
+ * due to specific FTP server limitbtions.
  *
- * @see sun.net.ftp.FtpDirParser
+ * @see sun.net.ftp.FtpDirPbrser
  * @since 1.7
  */
-public class FtpDirEntry {
+public clbss FtpDirEntry {
 
     public enum Type {
 
@@ -47,61 +47,61 @@ public class FtpDirEntry {
     public enum Permission {
 
         USER(0), GROUP(1), OTHERS(2);
-        int value;
+        int vblue;
 
         Permission(int v) {
-            value = v;
+            vblue = v;
         }
     };
-    private final String name;
-    private String user = null;
-    private String group = null;
-    private long size = -1;
-    private java.util.Date created = null;
-    private java.util.Date lastModified = null;
-    private Type type = Type.FILE;
-    private boolean[][] permissions = null;
-    private HashMap<String, String> facts = new HashMap<String, String>();
+    privbte finbl String nbme;
+    privbte String user = null;
+    privbte String group = null;
+    privbte long size = -1;
+    privbte jbvb.util.Dbte crebted = null;
+    privbte jbvb.util.Dbte lbstModified = null;
+    privbte Type type = Type.FILE;
+    privbte boolebn[][] permissions = null;
+    privbte HbshMbp<String, String> fbcts = new HbshMbp<String, String>();
 
-    private FtpDirEntry() {
-        name = null;
+    privbte FtpDirEntry() {
+        nbme = null;
     }
 
     /**
-     * Creates an FtpDirEntry instance with only the name being set.
+     * Crebtes bn FtpDirEntry instbnce with only the nbme being set.
      *
-     * @param name The name of the file
+     * @pbrbm nbme The nbme of the file
      */
-    public FtpDirEntry(String name) {
-        this.name = name;
+    public FtpDirEntry(String nbme) {
+        this.nbme = nbme;
     }
 
     /**
-     * Returns the name of the remote file.
+     * Returns the nbme of the remote file.
      *
-     * @return a {@code String} containing the name of the remote file.
+     * @return b {@code String} contbining the nbme of the remote file.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns the user name of the owner of the file as returned by the FTP
-     * server, if provided. This could be a name or a user id (number).
+     * Returns the user nbme of the owner of the file bs returned by the FTP
+     * server, if provided. This could be b nbme or b user id (number).
      *
-     * @return a {@code String} containing the user name or
-     *         {@code null} if that information is not available.
+     * @return b {@code String} contbining the user nbme or
+     *         {@code null} if thbt informbtion is not bvbilbble.
      */
     public String getUser() {
         return user;
     }
 
     /**
-     * Sets the user name of the owner of the file. Intended mostly to be
-     * used from inside a {@link java.net.FtpDirParser} implementation.
+     * Sets the user nbme of the owner of the file. Intended mostly to be
+     * used from inside b {@link jbvb.net.FtpDirPbrser} implementbtion.
      *
-     * @param user The user name of the owner of the file, or {@code null}
-     * if that information is not available.
+     * @pbrbm user The user nbme of the owner of the file, or {@code null}
+     * if thbt informbtion is not bvbilbble.
      * @return this FtpDirEntry
      */
     public FtpDirEntry setUser(String user) {
@@ -110,22 +110,22 @@ public class FtpDirEntry {
     }
 
     /**
-     * Returns the group name of the file as returned by the FTP
-     * server, if provided. This could be a name or a group id (number).
+     * Returns the group nbme of the file bs returned by the FTP
+     * server, if provided. This could be b nbme or b group id (number).
      *
-     * @return a {@code String} containing the group name or
-     *         {@code null} if that information is not available.
+     * @return b {@code String} contbining the group nbme or
+     *         {@code null} if thbt informbtion is not bvbilbble.
      */
     public String getGroup() {
         return group;
     }
 
     /**
-     * Sets the name of the group to which the file belong. Intended mostly to be
-     * used from inside a {@link java.net.FtpDirParser} implementation.
+     * Sets the nbme of the group to which the file belong. Intended mostly to be
+     * used from inside b {@link jbvb.net.FtpDirPbrser} implementbtion.
      *
-     * @param group The name of the group to which the file belong, or {@code null}
-     * if that information is not available.
+     * @pbrbm group The nbme of the group to which the file belong, or {@code null}
+     * if thbt informbtion is not bvbilbble.
      * @return this FtpDirEntry
      */
     public FtpDirEntry setGroup(String group) {
@@ -134,20 +134,20 @@ public class FtpDirEntry {
     }
 
     /**
-     * Returns the size of the remote file as it was returned by the FTP
+     * Returns the size of the remote file bs it wbs returned by the FTP
      * server, if provided.
      *
-     * @return the size of the file or -1 if that information is not available.
+     * @return the size of the file or -1 if thbt informbtion is not bvbilbble.
      */
     public long getSize() {
         return size;
     }
 
     /**
-     * Sets the size of that file. Intended mostly to be used from inside an
-     * {@link java.net.FtpDirParser} implementation.
+     * Sets the size of thbt file. Intended mostly to be used from inside bn
+     * {@link jbvb.net.FtpDirPbrser} implementbtion.
      *
-     * @param size The size, in bytes, of that file. or -1 if unknown.
+     * @pbrbm size The size, in bytes, of thbt file. or -1 if unknown.
      * @return this FtpDirEntry
      */
     public FtpDirEntry setSize(long size) {
@@ -156,26 +156,26 @@ public class FtpDirEntry {
     }
 
     /**
-     * Returns the type of the remote file as it was returned by the FTP
+     * Returns the type of the remote file bs it wbs returned by the FTP
      * server, if provided.
-     * It returns a FtpDirEntry.Type enum and the values can be:
-     * - FtpDirEntry.Type.FILE for a normal file
-     * - FtpDirEntry.Type.DIR for a directory
-     * - FtpDirEntry.Type.LINK for a symbolic link
+     * It returns b FtpDirEntry.Type enum bnd the vblues cbn be:
+     * - FtpDirEntry.Type.FILE for b normbl file
+     * - FtpDirEntry.Type.DIR for b directory
+     * - FtpDirEntry.Type.LINK for b symbolic link
      *
-     * @return a {@code FtpDirEntry.Type} describing the type of the file
-     *         or {@code null} if that information is not available.
+     * @return b {@code FtpDirEntry.Type} describing the type of the file
+     *         or {@code null} if thbt informbtion is not bvbilbble.
      */
     public Type getType() {
         return type;
     }
 
     /**
-     * Sets the type of the file. Intended mostly to be used from inside an
-     * {@link java.net.FtpDirParser} implementation.
+     * Sets the type of the file. Intended mostly to be used from inside bn
+     * {@link jbvb.net.FtpDirPbrser} implementbtion.
      *
-     * @param type the type of this file or {@code null} if that information
-     * is not available.
+     * @pbrbm type the type of this file or {@code null} if thbt informbtion
+     * is not bvbilbble.
      * @return this FtpDirEntry
      */
     public FtpDirEntry setType(Type type) {
@@ -184,148 +184,148 @@ public class FtpDirEntry {
     }
 
     /**
-     * Returns the last modification time of the remote file as it was returned
+     * Returns the lbst modificbtion time of the remote file bs it wbs returned
      * by the FTP server, if provided, {@code null} otherwise.
      *
-     * @return a <code>Date</code> representing the last time the file was
-     *         modified on the server, or {@code null} if that
-     *         information is not available.
+     * @return b <code>Dbte</code> representing the lbst time the file wbs
+     *         modified on the server, or {@code null} if thbt
+     *         informbtion is not bvbilbble.
      */
-    public java.util.Date getLastModified() {
-        return this.lastModified;
+    public jbvb.util.Dbte getLbstModified() {
+        return this.lbstModified;
     }
 
     /**
-     * Sets the last modification time of the file. Intended mostly to be used
-     * from inside an {@link java.net.FtpDirParser} implementation.
+     * Sets the lbst modificbtion time of the file. Intended mostly to be used
+     * from inside bn {@link jbvb.net.FtpDirPbrser} implementbtion.
      *
-     * @param lastModified The Date representing the last modification time, or
-     * {@code null} if that information is not available.
+     * @pbrbm lbstModified The Dbte representing the lbst modificbtion time, or
+     * {@code null} if thbt informbtion is not bvbilbble.
      * @return this FtpDirEntry
      */
-    public FtpDirEntry setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
+    public FtpDirEntry setLbstModified(Dbte lbstModified) {
+        this.lbstModified = lbstModified;
         return this;
     }
 
     /**
-     * Returns whether read access is granted for a specific permission.
+     * Returns whether rebd bccess is grbnted for b specific permission.
      *
-     * @param p the Permission (user, group, others) to check.
-     * @return {@code true} if read access is granted.
+     * @pbrbm p the Permission (user, group, others) to check.
+     * @return {@code true} if rebd bccess is grbnted.
      */
-    public boolean canRead(Permission p) {
+    public boolebn cbnRebd(Permission p) {
         if (permissions != null) {
-            return permissions[p.value][0];
+            return permissions[p.vblue][0];
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns whether write access is granted for a specific permission.
+     * Returns whether write bccess is grbnted for b specific permission.
      *
-     * @param p the Permission (user, group, others) to check.
-     * @return {@code true} if write access is granted.
+     * @pbrbm p the Permission (user, group, others) to check.
+     * @return {@code true} if write bccess is grbnted.
      */
-    public boolean canWrite(Permission p) {
+    public boolebn cbnWrite(Permission p) {
         if (permissions != null) {
-            return permissions[p.value][1];
+            return permissions[p.vblue][1];
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns whether execute access is granted for a specific permission.
+     * Returns whether execute bccess is grbnted for b specific permission.
      *
-     * @param p the Permission (user, group, others) to check.
-     * @return {@code true} if execute access is granted.
+     * @pbrbm p the Permission (user, group, others) to check.
+     * @return {@code true} if execute bccess is grbnted.
      */
-    public boolean canExexcute(Permission p) {
+    public boolebn cbnExexcute(Permission p) {
         if (permissions != null) {
-            return permissions[p.value][2];
+            return permissions[p.vblue][2];
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Sets the permissions for that file. Intended mostly to be used
-     * from inside an {@link java.net.FtpDirParser} implementation.
-     * The permissions array is a 3x3 {@code boolean} array, the first index being
-     * the User, group or owner (0, 1 and 2 respectively) while the second
-     * index is read, write or execute (0, 1 and 2 respectively again).
+     * Sets the permissions for thbt file. Intended mostly to be used
+     * from inside bn {@link jbvb.net.FtpDirPbrser} implementbtion.
+     * The permissions brrby is b 3x3 {@code boolebn} brrby, the first index being
+     * the User, group or owner (0, 1 bnd 2 respectively) while the second
+     * index is rebd, write or execute (0, 1 bnd 2 respectively bgbin).
      * <p>E.G.: {@code permissions[1][2]} is the group/execute permission.</p>
      *
-     * @param permissions a 3x3 {@code boolean} array
+     * @pbrbm permissions b 3x3 {@code boolebn} brrby
      * @return this {@code FtpDirEntry}
      */
-    public FtpDirEntry setPermissions(boolean[][] permissions) {
+    public FtpDirEntry setPermissions(boolebn[][] permissions) {
         this.permissions = permissions;
         return this;
     }
 
     /**
-     * Adds a 'fact', as defined in RFC 3659, to the list of facts of this file.
-     * Intended mostly to be used from inside a {@link java.net.FtpDirParser}
-     * implementation.
+     * Adds b 'fbct', bs defined in RFC 3659, to the list of fbcts of this file.
+     * Intended mostly to be used from inside b {@link jbvb.net.FtpDirPbrser}
+     * implementbtion.
      *
-     * @param fact the name of the fact (e.g. "Media-Type"). It is not case-sensitive.
-     * @param value the value associated with this fact.
+     * @pbrbm fbct the nbme of the fbct (e.g. "Medib-Type"). It is not cbse-sensitive.
+     * @pbrbm vblue the vblue bssocibted with this fbct.
      * @return this {@code FtpDirEntry}
      */
-    public FtpDirEntry addFact(String fact, String value) {
-        facts.put(fact.toLowerCase(), value);
+    public FtpDirEntry bddFbct(String fbct, String vblue) {
+        fbcts.put(fbct.toLowerCbse(), vblue);
         return this;
     }
 
     /**
-     * Returns the requested 'fact', as defined in RFC 3659, if available.
+     * Returns the requested 'fbct', bs defined in RFC 3659, if bvbilbble.
      *
-     * @param fact The name of the fact *e.g. "Media-Type"). It is not case sensitive.
-     * @return The value of the fact or, {@code null} if that fact wasn't
+     * @pbrbm fbct The nbme of the fbct *e.g. "Medib-Type"). It is not cbse sensitive.
+     * @return The vblue of the fbct or, {@code null} if thbt fbct wbsn't
      * provided by the server.
      */
-    public String getFact(String fact) {
-        return facts.get(fact.toLowerCase());
+    public String getFbct(String fbct) {
+        return fbcts.get(fbct.toLowerCbse());
     }
 
     /**
-     * Returns the creation time of the file, when provided by the server.
+     * Returns the crebtion time of the file, when provided by the server.
      *
-     * @return The Date representing the creation time, or {@code null}
-     * if the server didn't provide that information.
+     * @return The Dbte representing the crebtion time, or {@code null}
+     * if the server didn't provide thbt informbtion.
      */
-    public Date getCreated() {
-        return created;
+    public Dbte getCrebted() {
+        return crebted;
     }
 
     /**
-     * Sets the creation time for that file. Intended mostly to be used from
-     * inside a {@link java.net.FtpDirParser} implementation.
+     * Sets the crebtion time for thbt file. Intended mostly to be used from
+     * inside b {@link jbvb.net.FtpDirPbrser} implementbtion.
      *
-     * @param created the Date representing the creation time for that file, or
-     * {@code null} if that information is not available.
+     * @pbrbm crebted the Dbte representing the crebtion time for thbt file, or
+     * {@code null} if thbt informbtion is not bvbilbble.
      * @return this FtpDirEntry
      */
-    public FtpDirEntry setCreated(Date created) {
-        this.created = created;
+    public FtpDirEntry setCrebted(Dbte crebted) {
+        this.crebted = crebted;
         return this;
     }
 
     /**
-     * Returns a string representation of the object.
-     * The {@code toString} method for class {@code FtpDirEntry}
-     * returns a string consisting of the name of the file, followed by its
-     * type between brackets, followed by the user and group between
-     * parenthesis, then size between '{', and, finally, the lastModified of last
-     * modification if it's available.
+     * Returns b string representbtion of the object.
+     * The {@code toString} method for clbss {@code FtpDirEntry}
+     * returns b string consisting of the nbme of the file, followed by its
+     * type between brbckets, followed by the user bnd group between
+     * pbrenthesis, then size between '{', bnd, finblly, the lbstModified of lbst
+     * modificbtion if it's bvbilbble.
      *
-     * @return  a string representation of the object.
+     * @return  b string representbtion of the object.
      */
     @Override
     public String toString() {
-        if (lastModified == null) {
-            return name + " [" + type + "] (" + user + " / " + group + ") " + size;
+        if (lbstModified == null) {
+            return nbme + " [" + type + "] (" + user + " / " + group + ") " + size;
         }
-        return name + " [" + type + "] (" + user + " / " + group + ") {" + size + "} " + java.text.DateFormat.getDateInstance().format(lastModified);
+        return nbme + " [" + type + "] (" + user + " / " + group + ") {" + size + "} " + jbvb.text.DbteFormbt.getDbteInstbnce().formbt(lbstModified);
     }
 }

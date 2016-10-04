@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,333 +59,333 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import java.time.DateTimeException;
-import java.time.chrono.Chronology;
-import java.time.format.ResolverStyle;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
+import jbvb.time.DbteTimeException;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.formbt.ResolverStyle;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
 
 /**
- * A field of date-time, such as month-of-year or hour-of-minute.
+ * A field of dbte-time, such bs month-of-yebr or hour-of-minute.
  * <p>
- * Date and time is expressed using fields which partition the time-line into something
- * meaningful for humans. Implementations of this interface represent those fields.
+ * Dbte bnd time is expressed using fields which pbrtition the time-line into something
+ * mebningful for humbns. Implementbtions of this interfbce represent those fields.
  * <p>
- * The most commonly used units are defined in {@link ChronoField}.
- * Further fields are supplied in {@link IsoFields}, {@link WeekFields} and {@link JulianFields}.
- * Fields can also be written by application code by implementing this interface.
+ * The most commonly used units bre defined in {@link ChronoField}.
+ * Further fields bre supplied in {@link IsoFields}, {@link WeekFields} bnd {@link JulibnFields}.
+ * Fields cbn blso be written by bpplicbtion code by implementing this interfbce.
  * <p>
- * The field works using double dispatch. Client code calls methods on a date-time like
- * {@code LocalDateTime} which check if the field is a {@code ChronoField}.
- * If it is, then the date-time must handle it.
- * Otherwise, the method call is re-dispatched to the matching method in this interface.
+ * The field works using double dispbtch. Client code cblls methods on b dbte-time like
+ * {@code LocblDbteTime} which check if the field is b {@code ChronoField}.
+ * If it is, then the dbte-time must hbndle it.
+ * Otherwise, the method cbll is re-dispbtched to the mbtching method in this interfbce.
  *
  * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Implementations should be {@code Serializable} where possible.
- * An enum is as effective implementation choice.
+ * This interfbce must be implemented with cbre to ensure other clbsses operbte correctly.
+ * All implementbtions thbt cbn be instbntibted must be finbl, immutbble bnd threbd-sbfe.
+ * Implementbtions should be {@code Seriblizbble} where possible.
+ * An enum is bs effective implementbtion choice.
  *
  * @since 1.8
  */
-public interface TemporalField {
+public interfbce TemporblField {
 
     /**
-     * Gets the display name for the field in the requested locale.
+     * Gets the displby nbme for the field in the requested locble.
      * <p>
-     * If there is no display name for the locale then a suitable default must be returned.
+     * If there is no displby nbme for the locble then b suitbble defbult must be returned.
      * <p>
-     * The default implementation must check the locale is not null
-     * and return {@code toString()}.
+     * The defbult implementbtion must check the locble is not null
+     * bnd return {@code toString()}.
      *
-     * @param locale  the locale to use, not null
-     * @return the display name for the locale or a suitable default, not null
+     * @pbrbm locble  the locble to use, not null
+     * @return the displby nbme for the locble or b suitbble defbult, not null
      */
-    default String getDisplayName(Locale locale) {
-        Objects.requireNonNull(locale, "locale");
+    defbult String getDisplbyNbme(Locble locble) {
+        Objects.requireNonNull(locble, "locble");
         return toString();
     }
 
     /**
-     * Gets the unit that the field is measured in.
+     * Gets the unit thbt the field is mebsured in.
      * <p>
-     * The unit of the field is the period that varies within the range.
-     * For example, in the field 'MonthOfYear', the unit is 'Months'.
-     * See also {@link #getRangeUnit()}.
+     * The unit of the field is the period thbt vbries within the rbnge.
+     * For exbmple, in the field 'MonthOfYebr', the unit is 'Months'.
+     * See blso {@link #getRbngeUnit()}.
      *
-     * @return the unit defining the base unit of the field, not null
+     * @return the unit defining the bbse unit of the field, not null
      */
-    TemporalUnit getBaseUnit();
+    TemporblUnit getBbseUnit();
 
     /**
-     * Gets the range that the field is bound by.
+     * Gets the rbnge thbt the field is bound by.
      * <p>
-     * The range of the field is the period that the field varies within.
-     * For example, in the field 'MonthOfYear', the range is 'Years'.
-     * See also {@link #getBaseUnit()}.
+     * The rbnge of the field is the period thbt the field vbries within.
+     * For exbmple, in the field 'MonthOfYebr', the rbnge is 'Yebrs'.
+     * See blso {@link #getBbseUnit()}.
      * <p>
-     * The range is never null. For example, the 'Year' field is shorthand for
-     * 'YearOfForever'. It therefore has a unit of 'Years' and a range of 'Forever'.
+     * The rbnge is never null. For exbmple, the 'Yebr' field is shorthbnd for
+     * 'YebrOfForever'. It therefore hbs b unit of 'Yebrs' bnd b rbnge of 'Forever'.
      *
-     * @return the unit defining the range of the field, not null
+     * @return the unit defining the rbnge of the field, not null
      */
-    TemporalUnit getRangeUnit();
+    TemporblUnit getRbngeUnit();
 
     /**
-     * Gets the range of valid values for the field.
+     * Gets the rbnge of vblid vblues for the field.
      * <p>
-     * All fields can be expressed as a {@code long} integer.
-     * This method returns an object that describes the valid range for that value.
-     * This method is generally only applicable to the ISO-8601 calendar system.
+     * All fields cbn be expressed bs b {@code long} integer.
+     * This method returns bn object thbt describes the vblid rbnge for thbt vblue.
+     * This method is generblly only bpplicbble to the ISO-8601 cblendbr system.
      * <p>
-     * Note that the result only describes the minimum and maximum valid values
-     * and it is important not to read too much into them. For example, there
-     * could be values within the range that are invalid for the field.
+     * Note thbt the result only describes the minimum bnd mbximum vblid vblues
+     * bnd it is importbnt not to rebd too much into them. For exbmple, there
+     * could be vblues within the rbnge thbt bre invblid for the field.
      *
-     * @return the range of valid values for the field, not null
+     * @return the rbnge of vblid vblues for the field, not null
      */
-    ValueRange range();
+    VblueRbnge rbnge();
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this field represents a component of a date.
+     * Checks if this field represents b component of b dbte.
      * <p>
-     * A field is date-based if it can be derived from
+     * A field is dbte-bbsed if it cbn be derived from
      * {@link ChronoField#EPOCH_DAY EPOCH_DAY}.
-     * Note that it is valid for both {@code isDateBased()} and {@code isTimeBased()}
-     * to return false, such as when representing a field like minute-of-week.
+     * Note thbt it is vblid for both {@code isDbteBbsed()} bnd {@code isTimeBbsed()}
+     * to return fblse, such bs when representing b field like minute-of-week.
      *
-     * @return true if this field is a component of a date
+     * @return true if this field is b component of b dbte
      */
-    boolean isDateBased();
+    boolebn isDbteBbsed();
 
     /**
-     * Checks if this field represents a component of a time.
+     * Checks if this field represents b component of b time.
      * <p>
-     * A field is time-based if it can be derived from
+     * A field is time-bbsed if it cbn be derived from
      * {@link ChronoField#NANO_OF_DAY NANO_OF_DAY}.
-     * Note that it is valid for both {@code isDateBased()} and {@code isTimeBased()}
-     * to return false, such as when representing a field like minute-of-week.
+     * Note thbt it is vblid for both {@code isDbteBbsed()} bnd {@code isTimeBbsed()}
+     * to return fblse, such bs when representing b field like minute-of-week.
      *
-     * @return true if this field is a component of a time
+     * @return true if this field is b component of b time
      */
-    boolean isTimeBased();
+    boolebn isTimeBbsed();
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this field is supported by the temporal object.
+     * Checks if this field is supported by the temporbl object.
      * <p>
-     * This determines whether the temporal accessor supports this field.
-     * If this returns false, then the temporal cannot be queried for this field.
+     * This determines whether the temporbl bccessor supports this field.
+     * If this returns fblse, then the temporbl cbnnot be queried for this field.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link TemporalAccessor#isSupported(TemporalField)}:
+     * The second is to use {@link TemporblAccessor#isSupported(TemporblField)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisField.isSupportedBy(temporal);
-     *   temporal = temporal.isSupported(thisField);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisField.isSupportedBy(temporbl);
+     *   temporbl = temporbl.isSupported(thisField);
      * </pre>
-     * It is recommended to use the second approach, {@code isSupported(TemporalField)},
-     * as it is a lot clearer to read in code.
+     * It is recommended to use the second bpprobch, {@code isSupported(TemporblField)},
+     * bs it is b lot clebrer to rebd in code.
      * <p>
-     * Implementations should determine whether they are supported using the fields
-     * available in {@link ChronoField}.
+     * Implementbtions should determine whether they bre supported using the fields
+     * bvbilbble in {@link ChronoField}.
      *
-     * @param temporal  the temporal object to query, not null
-     * @return true if the date-time can be queried for this field, false if not
+     * @pbrbm temporbl  the temporbl object to query, not null
+     * @return true if the dbte-time cbn be queried for this field, fblse if not
      */
-    boolean isSupportedBy(TemporalAccessor temporal);
+    boolebn isSupportedBy(TemporblAccessor temporbl);
 
     /**
-     * Get the range of valid values for this field using the temporal object to
+     * Get the rbnge of vblid vblues for this field using the temporbl object to
      * refine the result.
      * <p>
-     * This uses the temporal object to find the range of valid values for the field.
-     * This is similar to {@link #range()}, however this method refines the result
-     * using the temporal. For example, if the field is {@code DAY_OF_MONTH} the
-     * {@code range} method is not accurate as there are four possible month lengths,
-     * 28, 29, 30 and 31 days. Using this method with a date allows the range to be
-     * accurate, returning just one of those four options.
+     * This uses the temporbl object to find the rbnge of vblid vblues for the field.
+     * This is similbr to {@link #rbnge()}, however this method refines the result
+     * using the temporbl. For exbmple, if the field is {@code DAY_OF_MONTH} the
+     * {@code rbnge} method is not bccurbte bs there bre four possible month lengths,
+     * 28, 29, 30 bnd 31 dbys. Using this method with b dbte bllows the rbnge to be
+     * bccurbte, returning just one of those four options.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link TemporalAccessor#range(TemporalField)}:
+     * The second is to use {@link TemporblAccessor#rbnge(TemporblField)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisField.rangeRefinedBy(temporal);
-     *   temporal = temporal.range(thisField);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisField.rbngeRefinedBy(temporbl);
+     *   temporbl = temporbl.rbnge(thisField);
      * </pre>
-     * It is recommended to use the second approach, {@code range(TemporalField)},
-     * as it is a lot clearer to read in code.
+     * It is recommended to use the second bpprobch, {@code rbnge(TemporblField)},
+     * bs it is b lot clebrer to rebd in code.
      * <p>
-     * Implementations should perform any queries or calculations using the fields
-     * available in {@link ChronoField}.
-     * If the field is not supported an {@code UnsupportedTemporalTypeException} must be thrown.
+     * Implementbtions should perform bny queries or cblculbtions using the fields
+     * bvbilbble in {@link ChronoField}.
+     * If the field is not supported bn {@code UnsupportedTemporblTypeException} must be thrown.
      *
-     * @param temporal  the temporal object used to refine the result, not null
-     * @return the range of valid values for this field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported by the temporal
+     * @pbrbm temporbl  the temporbl object used to refine the result, not null
+     * @return the rbnge of vblid vblues for this field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported by the temporbl
      */
-    ValueRange rangeRefinedBy(TemporalAccessor temporal);
+    VblueRbnge rbngeRefinedBy(TemporblAccessor temporbl);
 
     /**
-     * Gets the value of this field from the specified temporal object.
+     * Gets the vblue of this field from the specified temporbl object.
      * <p>
-     * This queries the temporal object for the value of this field.
+     * This queries the temporbl object for the vblue of this field.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link TemporalAccessor#getLong(TemporalField)}
-     * (or {@link TemporalAccessor#get(TemporalField)}):
+     * The second is to use {@link TemporblAccessor#getLong(TemporblField)}
+     * (or {@link TemporblAccessor#get(TemporblField)}):
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisField.getFrom(temporal);
-     *   temporal = temporal.getLong(thisField);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisField.getFrom(temporbl);
+     *   temporbl = temporbl.getLong(thisField);
      * </pre>
-     * It is recommended to use the second approach, {@code getLong(TemporalField)},
-     * as it is a lot clearer to read in code.
+     * It is recommended to use the second bpprobch, {@code getLong(TemporblField)},
+     * bs it is b lot clebrer to rebd in code.
      * <p>
-     * Implementations should perform any queries or calculations using the fields
-     * available in {@link ChronoField}.
-     * If the field is not supported an {@code UnsupportedTemporalTypeException} must be thrown.
+     * Implementbtions should perform bny queries or cblculbtions using the fields
+     * bvbilbble in {@link ChronoField}.
+     * If the field is not supported bn {@code UnsupportedTemporblTypeException} must be thrown.
      *
-     * @param temporal  the temporal object to query, not null
-     * @return the value of this field, not null
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported by the temporal
+     * @pbrbm temporbl  the temporbl object to query, not null
+     * @return the vblue of this field, not null
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported by the temporbl
      * @throws ArithmeticException if numeric overflow occurs
      */
-    long getFrom(TemporalAccessor temporal);
+    long getFrom(TemporblAccessor temporbl);
 
     /**
-     * Returns a copy of the specified temporal object with the value of this field set.
+     * Returns b copy of the specified temporbl object with the vblue of this field set.
      * <p>
-     * This returns a new temporal object based on the specified one with the value for
-     * this field changed. For example, on a {@code LocalDate}, this could be used to
-     * set the year, month or day-of-month.
-     * The returned object has the same observable type as the specified object.
+     * This returns b new temporbl object bbsed on the specified one with the vblue for
+     * this field chbnged. For exbmple, on b {@code LocblDbte}, this could be used to
+     * set the yebr, month or dby-of-month.
+     * The returned object hbs the sbme observbble type bs the specified object.
      * <p>
-     * In some cases, changing a field is not fully defined. For example, if the target object is
-     * a date representing the 31st January, then changing the month to February would be unclear.
-     * In cases like this, the implementation is responsible for resolving the result.
-     * Typically it will choose the previous valid date, which would be the last valid
-     * day of February in this example.
+     * In some cbses, chbnging b field is not fully defined. For exbmple, if the tbrget object is
+     * b dbte representing the 31st Jbnubry, then chbnging the month to Februbry would be unclebr.
+     * In cbses like this, the implementbtion is responsible for resolving the result.
+     * Typicblly it will choose the previous vblid dbte, which would be the lbst vblid
+     * dby of Februbry in this exbmple.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#with(TemporalField, long)}:
+     * The second is to use {@link Temporbl#with(TemporblField, long)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisField.adjustInto(temporal);
-     *   temporal = temporal.with(thisField);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisField.bdjustInto(temporbl);
+     *   temporbl = temporbl.with(thisField);
      * </pre>
-     * It is recommended to use the second approach, {@code with(TemporalField)},
-     * as it is a lot clearer to read in code.
+     * It is recommended to use the second bpprobch, {@code with(TemporblField)},
+     * bs it is b lot clebrer to rebd in code.
      * <p>
-     * Implementations should perform any queries or calculations using the fields
-     * available in {@link ChronoField}.
-     * If the field is not supported an {@code UnsupportedTemporalTypeException} must be thrown.
+     * Implementbtions should perform bny queries or cblculbtions using the fields
+     * bvbilbble in {@link ChronoField}.
+     * If the field is not supported bn {@code UnsupportedTemporblTypeException} must be thrown.
      * <p>
-     * Implementations must not alter the specified temporal object.
-     * Instead, an adjusted copy of the original must be returned.
-     * This provides equivalent, safe behavior for immutable and mutable implementations.
+     * Implementbtions must not blter the specified temporbl object.
+     * Instebd, bn bdjusted copy of the originbl must be returned.
+     * This provides equivblent, sbfe behbvior for immutbble bnd mutbble implementbtions.
      *
-     * @param <R>  the type of the Temporal object
-     * @param temporal the temporal object to adjust, not null
-     * @param newValue the new value of the field
-     * @return the adjusted temporal object, not null
-     * @throws DateTimeException if the field cannot be set
-     * @throws UnsupportedTemporalTypeException if the field is not supported by the temporal
+     * @pbrbm <R>  the type of the Temporbl object
+     * @pbrbm temporbl the temporbl object to bdjust, not null
+     * @pbrbm newVblue the new vblue of the field
+     * @return the bdjusted temporbl object, not null
+     * @throws DbteTimeException if the field cbnnot be set
+     * @throws UnsupportedTemporblTypeException if the field is not supported by the temporbl
      * @throws ArithmeticException if numeric overflow occurs
      */
-    <R extends Temporal> R adjustInto(R temporal, long newValue);
+    <R extends Temporbl> R bdjustInto(R temporbl, long newVblue);
 
     /**
-     * Resolves this field to provide a simpler alternative or a date.
+     * Resolves this field to provide b simpler blternbtive or b dbte.
      * <p>
-     * This method is invoked during the resolve phase of parsing.
-     * It is designed to allow application defined fields to be simplified into
-     * more standard fields, such as those on {@code ChronoField}, or into a date.
+     * This method is invoked during the resolve phbse of pbrsing.
+     * It is designed to bllow bpplicbtion defined fields to be simplified into
+     * more stbndbrd fields, such bs those on {@code ChronoField}, or into b dbte.
      * <p>
-     * Applications should not normally invoke this method directly.
+     * Applicbtions should not normblly invoke this method directly.
      *
      * @implSpec
-     * If an implementation represents a field that can be simplified, or
+     * If bn implementbtion represents b field thbt cbn be simplified, or
      * combined with others, then this method must be implemented.
      * <p>
-     * The specified map contains the current state of the parse.
-     * The map is mutable and must be mutated to resolve the field and
-     * any related fields. This method will only be invoked during parsing
-     * if the map contains this field, and implementations should therefore
-     * assume this field is present.
+     * The specified mbp contbins the current stbte of the pbrse.
+     * The mbp is mutbble bnd must be mutbted to resolve the field bnd
+     * bny relbted fields. This method will only be invoked during pbrsing
+     * if the mbp contbins this field, bnd implementbtions should therefore
+     * bssume this field is present.
      * <p>
-     * Resolving a field will consist of looking at the value of this field,
-     * and potentially other fields, and either updating the map with a
-     * simpler value, such as a {@code ChronoField}, or returning a
-     * complete {@code ChronoLocalDate}. If a resolve is successful,
-     * the code must remove all the fields that were resolved from the map,
+     * Resolving b field will consist of looking bt the vblue of this field,
+     * bnd potentiblly other fields, bnd either updbting the mbp with b
+     * simpler vblue, such bs b {@code ChronoField}, or returning b
+     * complete {@code ChronoLocblDbte}. If b resolve is successful,
+     * the code must remove bll the fields thbt were resolved from the mbp,
      * including this field.
      * <p>
-     * For example, the {@code IsoFields} class contains the quarter-of-year
-     * and day-of-quarter fields. The implementation of this method in that class
-     * resolves the two fields plus the {@link ChronoField#YEAR YEAR} into a
-     * complete {@code LocalDate}. The resolve method will remove all three
-     * fields from the map before returning the {@code LocalDate}.
+     * For exbmple, the {@code IsoFields} clbss contbins the qubrter-of-yebr
+     * bnd dby-of-qubrter fields. The implementbtion of this method in thbt clbss
+     * resolves the two fields plus the {@link ChronoField#YEAR YEAR} into b
+     * complete {@code LocblDbte}. The resolve method will remove bll three
+     * fields from the mbp before returning the {@code LocblDbte}.
      * <p>
-     * A partially complete temporal is used to allow the chronology and zone
-     * to be queried. In general, only the chronology will be needed.
-     * Querying items other than the zone or chronology is undefined and
+     * A pbrtiblly complete temporbl is used to bllow the chronology bnd zone
+     * to be queried. In generbl, only the chronology will be needed.
+     * Querying items other thbn the zone or chronology is undefined bnd
      * must not be relied on.
-     * The behavior of other methods such as {@code get}, {@code getLong},
-     * {@code range} and {@code isSupported} is unpredictable and the results undefined.
+     * The behbvior of other methods such bs {@code get}, {@code getLong},
+     * {@code rbnge} bnd {@code isSupported} is unpredictbble bnd the results undefined.
      * <p>
-     * If resolution should be possible, but the data is invalid, the resolver
-     * style should be used to determine an appropriate level of leniency, which
-     * may require throwing a {@code DateTimeException} or {@code ArithmeticException}.
+     * If resolution should be possible, but the dbtb is invblid, the resolver
+     * style should be used to determine bn bppropribte level of leniency, which
+     * mby require throwing b {@code DbteTimeException} or {@code ArithmeticException}.
      * If no resolution is possible, the resolve method must return null.
      * <p>
-     * When resolving time fields, the map will be altered and null returned.
-     * When resolving date fields, the date is normally returned from the method,
-     * with the map altered to remove the resolved fields. However, it would also
-     * be acceptable for the date fields to be resolved into other {@code ChronoField}
-     * instances that can produce a date, such as {@code EPOCH_DAY}.
+     * When resolving time fields, the mbp will be bltered bnd null returned.
+     * When resolving dbte fields, the dbte is normblly returned from the method,
+     * with the mbp bltered to remove the resolved fields. However, it would blso
+     * be bcceptbble for the dbte fields to be resolved into other {@code ChronoField}
+     * instbnces thbt cbn produce b dbte, such bs {@code EPOCH_DAY}.
      * <p>
-     * Not all {@code TemporalAccessor} implementations are accepted as return values.
-     * Implementations that call this method must accept {@code ChronoLocalDate},
-     * {@code ChronoLocalDateTime}, {@code ChronoZonedDateTime} and {@code LocalTime}.
+     * Not bll {@code TemporblAccessor} implementbtions bre bccepted bs return vblues.
+     * Implementbtions thbt cbll this method must bccept {@code ChronoLocblDbte},
+     * {@code ChronoLocblDbteTime}, {@code ChronoZonedDbteTime} bnd {@code LocblTime}.
      * <p>
-     * The default implementation must return null.
+     * The defbult implementbtion must return null.
      *
-     * @param fieldValues  the map of fields to values, which can be updated, not null
-     * @param partialTemporal  the partially complete temporal to query for zone and
-     *  chronology; querying for other things is undefined and not recommended, not null
-     * @param resolverStyle  the requested type of resolve, not null
-     * @return the resolved temporal object; null if resolving only
-     *  changed the map, or no resolve occurred
+     * @pbrbm fieldVblues  the mbp of fields to vblues, which cbn be updbted, not null
+     * @pbrbm pbrtiblTemporbl  the pbrtiblly complete temporbl to query for zone bnd
+     *  chronology; querying for other things is undefined bnd not recommended, not null
+     * @pbrbm resolverStyle  the requested type of resolve, not null
+     * @return the resolved temporbl object; null if resolving only
+     *  chbnged the mbp, or no resolve occurred
      * @throws ArithmeticException if numeric overflow occurs
-     * @throws DateTimeException if resolving results in an error. This must not be thrown
-     *  by querying a field on the temporal without first checking if it is supported
+     * @throws DbteTimeException if resolving results in bn error. This must not be thrown
+     *  by querying b field on the temporbl without first checking if it is supported
      */
-    default TemporalAccessor resolve(
-            Map<TemporalField, Long> fieldValues,
-            TemporalAccessor partialTemporal,
+    defbult TemporblAccessor resolve(
+            Mbp<TemporblField, Long> fieldVblues,
+            TemporblAccessor pbrtiblTemporbl,
             ResolverStyle resolverStyle) {
         return null;
     }
 
     /**
-     * Gets a descriptive name for the field.
+     * Gets b descriptive nbme for the field.
      * <p>
-     * The should be of the format 'BaseOfRange', such as 'MonthOfYear',
-     * unless the field has a range of {@code FOREVER}, when only
-     * the base unit is mentioned, such as 'Year' or 'Era'.
+     * The should be of the formbt 'BbseOfRbnge', such bs 'MonthOfYebr',
+     * unless the field hbs b rbnge of {@code FOREVER}, when only
+     * the bbse unit is mentioned, such bs 'Yebr' or 'Erb'.
      *
-     * @return the name of the field, not null
+     * @return the nbme of the field, not null
      */
     @Override
     String toString();

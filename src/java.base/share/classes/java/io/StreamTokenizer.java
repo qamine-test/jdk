@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * The {@code StreamTokenizer} class takes an input stream and
- * parses it into "tokens", allowing the tokens to be
- * read one at a time. The parsing process is controlled by a table
- * and a number of flags that can be set to various states. The
- * stream tokenizer can recognize identifiers, numbers, quoted
- * strings, and various comment styles.
+ * The {@code StrebmTokenizer} clbss tbkes bn input strebm bnd
+ * pbrses it into "tokens", bllowing the tokens to be
+ * rebd one bt b time. The pbrsing process is controlled by b tbble
+ * bnd b number of flbgs thbt cbn be set to vbrious stbtes. The
+ * strebm tokenizer cbn recognize identifiers, numbers, quoted
+ * strings, bnd vbrious comment styles.
  * <p>
- * Each byte read from the input stream is regarded as a character
- * in the range {@code '\u005Cu0000'} through {@code '\u005Cu00FF'}.
- * The character value is used to look up five possible attributes of
- * the character: <i>white space</i>, <i>alphabetic</i>,
- * <i>numeric</i>, <i>string quote</i>, and <i>comment character</i>.
- * Each character can have zero or more of these attributes.
+ * Ebch byte rebd from the input strebm is regbrded bs b chbrbcter
+ * in the rbnge {@code '\u005Cu0000'} through {@code '\u005Cu00FF'}.
+ * The chbrbcter vblue is used to look up five possible bttributes of
+ * the chbrbcter: <i>white spbce</i>, <i>blphbbetic</i>,
+ * <i>numeric</i>, <i>string quote</i>, bnd <i>comment chbrbcter</i>.
+ * Ebch chbrbcter cbn hbve zero or more of these bttributes.
  * <p>
- * In addition, an instance has four flags. These flags indicate:
+ * In bddition, bn instbnce hbs four flbgs. These flbgs indicbte:
  * <ul>
- * <li>Whether line terminators are to be returned as tokens or treated
- *     as white space that merely separates tokens.
- * <li>Whether C-style comments are to be recognized and skipped.
- * <li>Whether C++-style comments are to be recognized and skipped.
- * <li>Whether the characters of identifiers are converted to lowercase.
+ * <li>Whether line terminbtors bre to be returned bs tokens or trebted
+ *     bs white spbce thbt merely sepbrbtes tokens.
+ * <li>Whether C-style comments bre to be recognized bnd skipped.
+ * <li>Whether C++-style comments bre to be recognized bnd skipped.
+ * <li>Whether the chbrbcters of identifiers bre converted to lowercbse.
  * </ul>
  * <p>
- * A typical application first constructs an instance of this class,
- * sets up the syntax tables, and then repeatedly loops calling the
- * {@code nextToken} method in each iteration of the loop until
- * it returns the value {@code TT_EOF}.
+ * A typicbl bpplicbtion first constructs bn instbnce of this clbss,
+ * sets up the syntbx tbbles, bnd then repebtedly loops cblling the
+ * {@code nextToken} method in ebch iterbtion of the loop until
+ * it returns the vblue {@code TT_EOF}.
  *
- * @author  James Gosling
- * @see     java.io.StreamTokenizer#nextToken()
- * @see     java.io.StreamTokenizer#TT_EOF
+ * @buthor  Jbmes Gosling
+ * @see     jbvb.io.StrebmTokenizer#nextToken()
+ * @see     jbvb.io.StrebmTokenizer#TT_EOF
  * @since   1.0
  */
 
-public class StreamTokenizer {
+public clbss StrebmTokenizer {
 
     /* Only one of these will be non-null */
-    private Reader reader = null;
-    private InputStream input = null;
+    privbte Rebder rebder = null;
+    privbte InputStrebm input = null;
 
-    private char buf[] = new char[20];
+    privbte chbr buf[] = new chbr[20];
 
     /**
-     * The next character to be considered by the nextToken method.  May also
-     * be NEED_CHAR to indicate that a new character should be read, or SKIP_LF
-     * to indicate that a new character should be read and, if it is a '\n'
-     * character, it should be discarded and a second new character should be
-     * read.
+     * The next chbrbcter to be considered by the nextToken method.  Mby blso
+     * be NEED_CHAR to indicbte thbt b new chbrbcter should be rebd, or SKIP_LF
+     * to indicbte thbt b new chbrbcter should be rebd bnd, if it is b '\n'
+     * chbrbcter, it should be discbrded bnd b second new chbrbcter should be
+     * rebd.
      */
-    private int peekc = NEED_CHAR;
+    privbte int peekc = NEED_CHAR;
 
-    private static final int NEED_CHAR = Integer.MAX_VALUE;
-    private static final int SKIP_LF = Integer.MAX_VALUE - 1;
+    privbte stbtic finbl int NEED_CHAR = Integer.MAX_VALUE;
+    privbte stbtic finbl int SKIP_LF = Integer.MAX_VALUE - 1;
 
-    private boolean pushedBack;
-    private boolean forceLower;
-    /** The line number of the last token read */
-    private int LINENO = 1;
+    privbte boolebn pushedBbck;
+    privbte boolebn forceLower;
+    /** The line number of the lbst token rebd */
+    privbte int LINENO = 1;
 
-    private boolean eolIsSignificantP = false;
-    private boolean slashSlashCommentsP = false;
-    private boolean slashStarCommentsP = false;
+    privbte boolebn eolIsSignificbntP = fblse;
+    privbte boolebn slbshSlbshCommentsP = fblse;
+    privbte boolebn slbshStbrCommentsP = fblse;
 
-    private byte ctype[] = new byte[256];
-    private static final byte CT_WHITESPACE = 1;
-    private static final byte CT_DIGIT = 2;
-    private static final byte CT_ALPHA = 4;
-    private static final byte CT_QUOTE = 8;
-    private static final byte CT_COMMENT = 16;
+    privbte byte ctype[] = new byte[256];
+    privbte stbtic finbl byte CT_WHITESPACE = 1;
+    privbte stbtic finbl byte CT_DIGIT = 2;
+    privbte stbtic finbl byte CT_ALPHA = 4;
+    privbte stbtic finbl byte CT_QUOTE = 8;
+    privbte stbtic finbl byte CT_COMMENT = 16;
 
     /**
-     * After a call to the {@code nextToken} method, this field
-     * contains the type of the token just read. For a single character
-     * token, its value is the single character, converted to an integer.
-     * For a quoted string token, its value is the quote character.
-     * Otherwise, its value is one of the following:
+     * After b cbll to the {@code nextToken} method, this field
+     * contbins the type of the token just rebd. For b single chbrbcter
+     * token, its vblue is the single chbrbcter, converted to bn integer.
+     * For b quoted string token, its vblue is the quote chbrbcter.
+     * Otherwise, its vblue is one of the following:
      * <ul>
-     * <li>{@code TT_WORD} indicates that the token is a word.
-     * <li>{@code TT_NUMBER} indicates that the token is a number.
-     * <li>{@code TT_EOL} indicates that the end of line has been read.
-     *     The field can only have this value if the
-     *     {@code eolIsSignificant} method has been called with the
-     *     argument {@code true}.
-     * <li>{@code TT_EOF} indicates that the end of the input stream
-     *     has been reached.
+     * <li>{@code TT_WORD} indicbtes thbt the token is b word.
+     * <li>{@code TT_NUMBER} indicbtes thbt the token is b number.
+     * <li>{@code TT_EOL} indicbtes thbt the end of line hbs been rebd.
+     *     The field cbn only hbve this vblue if the
+     *     {@code eolIsSignificbnt} method hbs been cblled with the
+     *     brgument {@code true}.
+     * <li>{@code TT_EOF} indicbtes thbt the end of the input strebm
+     *     hbs been rebched.
      * </ul>
      * <p>
-     * The initial value of this field is -4.
+     * The initibl vblue of this field is -4.
      *
-     * @see     java.io.StreamTokenizer#eolIsSignificant(boolean)
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#quoteChar(int)
-     * @see     java.io.StreamTokenizer#TT_EOF
-     * @see     java.io.StreamTokenizer#TT_EOL
-     * @see     java.io.StreamTokenizer#TT_NUMBER
-     * @see     java.io.StreamTokenizer#TT_WORD
+     * @see     jbvb.io.StrebmTokenizer#eolIsSignificbnt(boolebn)
+     * @see     jbvb.io.StrebmTokenizer#nextToken()
+     * @see     jbvb.io.StrebmTokenizer#quoteChbr(int)
+     * @see     jbvb.io.StrebmTokenizer#TT_EOF
+     * @see     jbvb.io.StrebmTokenizer#TT_EOL
+     * @see     jbvb.io.StrebmTokenizer#TT_NUMBER
+     * @see     jbvb.io.StrebmTokenizer#TT_WORD
      */
     public int ttype = TT_NOTHING;
 
     /**
-     * A constant indicating that the end of the stream has been read.
+     * A constbnt indicbting thbt the end of the strebm hbs been rebd.
      */
-    public static final int TT_EOF = -1;
+    public stbtic finbl int TT_EOF = -1;
 
     /**
-     * A constant indicating that the end of the line has been read.
+     * A constbnt indicbting thbt the end of the line hbs been rebd.
      */
-    public static final int TT_EOL = '\n';
+    public stbtic finbl int TT_EOL = '\n';
 
     /**
-     * A constant indicating that a number token has been read.
+     * A constbnt indicbting thbt b number token hbs been rebd.
      */
-    public static final int TT_NUMBER = -2;
+    public stbtic finbl int TT_NUMBER = -2;
 
     /**
-     * A constant indicating that a word token has been read.
+     * A constbnt indicbting thbt b word token hbs been rebd.
      */
-    public static final int TT_WORD = -3;
+    public stbtic finbl int TT_WORD = -3;
 
-    /* A constant indicating that no token has been read, used for
-     * initializing ttype.  FIXME This could be made public and
-     * made available as the part of the API in a future release.
+    /* A constbnt indicbting thbt no token hbs been rebd, used for
+     * initiblizing ttype.  FIXME This could be mbde public bnd
+     * mbde bvbilbble bs the pbrt of the API in b future relebse.
      */
-    private static final int TT_NOTHING = -4;
+    privbte stbtic finbl int TT_NOTHING = -4;
 
     /**
-     * If the current token is a word token, this field contains a
-     * string giving the characters of the word token. When the current
-     * token is a quoted string token, this field contains the body of
+     * If the current token is b word token, this field contbins b
+     * string giving the chbrbcters of the word token. When the current
+     * token is b quoted string token, this field contbins the body of
      * the string.
      * <p>
-     * The current token is a word when the value of the
+     * The current token is b word when the vblue of the
      * {@code ttype} field is {@code TT_WORD}. The current token is
-     * a quoted string token when the value of the {@code ttype} field is
-     * a quote character.
+     * b quoted string token when the vblue of the {@code ttype} field is
+     * b quote chbrbcter.
      * <p>
-     * The initial value of this field is null.
+     * The initibl vblue of this field is null.
      *
-     * @see     java.io.StreamTokenizer#quoteChar(int)
-     * @see     java.io.StreamTokenizer#TT_WORD
-     * @see     java.io.StreamTokenizer#ttype
+     * @see     jbvb.io.StrebmTokenizer#quoteChbr(int)
+     * @see     jbvb.io.StrebmTokenizer#TT_WORD
+     * @see     jbvb.io.StrebmTokenizer#ttype
      */
-    public String sval;
+    public String svbl;
 
     /**
-     * If the current token is a number, this field contains the value
-     * of that number. The current token is a number when the value of
+     * If the current token is b number, this field contbins the vblue
+     * of thbt number. The current token is b number when the vblue of
      * the {@code ttype} field is {@code TT_NUMBER}.
      * <p>
-     * The initial value of this field is 0.0.
+     * The initibl vblue of this field is 0.0.
      *
-     * @see     java.io.StreamTokenizer#TT_NUMBER
-     * @see     java.io.StreamTokenizer#ttype
+     * @see     jbvb.io.StrebmTokenizer#TT_NUMBER
+     * @see     jbvb.io.StrebmTokenizer#ttype
      */
-    public double nval;
+    public double nvbl;
 
-    /** Private constructor that initializes everything except the streams. */
-    private StreamTokenizer() {
-        wordChars('a', 'z');
-        wordChars('A', 'Z');
-        wordChars(128 + 32, 255);
-        whitespaceChars(0, ' ');
-        commentChar('/');
-        quoteChar('"');
-        quoteChar('\'');
-        parseNumbers();
+    /** Privbte constructor thbt initiblizes everything except the strebms. */
+    privbte StrebmTokenizer() {
+        wordChbrs('b', 'z');
+        wordChbrs('A', 'Z');
+        wordChbrs(128 + 32, 255);
+        whitespbceChbrs(0, ' ');
+        commentChbr('/');
+        quoteChbr('"');
+        quoteChbr('\'');
+        pbrseNumbers();
     }
 
     /**
-     * Creates a stream tokenizer that parses the specified input
-     * stream. The stream tokenizer is initialized to the following
-     * default state:
+     * Crebtes b strebm tokenizer thbt pbrses the specified input
+     * strebm. The strebm tokenizer is initiblized to the following
+     * defbult stbte:
      * <ul>
-     * <li>All byte values {@code 'A'} through {@code 'Z'},
-     *     {@code 'a'} through {@code 'z'}, and
-     *     {@code '\u005Cu00A0'} through {@code '\u005Cu00FF'} are
-     *     considered to be alphabetic.
-     * <li>All byte values {@code '\u005Cu0000'} through
-     *     {@code '\u005Cu0020'} are considered to be white space.
-     * <li>{@code '/'} is a comment character.
-     * <li>Single quote {@code '\u005C''} and double quote {@code '"'}
-     *     are string quote characters.
-     * <li>Numbers are parsed.
-     * <li>Ends of lines are treated as white space, not as separate tokens.
-     * <li>C-style and C++-style comments are not recognized.
+     * <li>All byte vblues {@code 'A'} through {@code 'Z'},
+     *     {@code 'b'} through {@code 'z'}, bnd
+     *     {@code '\u005Cu00A0'} through {@code '\u005Cu00FF'} bre
+     *     considered to be blphbbetic.
+     * <li>All byte vblues {@code '\u005Cu0000'} through
+     *     {@code '\u005Cu0020'} bre considered to be white spbce.
+     * <li>{@code '/'} is b comment chbrbcter.
+     * <li>Single quote {@code '\u005C''} bnd double quote {@code '"'}
+     *     bre string quote chbrbcters.
+     * <li>Numbers bre pbrsed.
+     * <li>Ends of lines bre trebted bs white spbce, not bs sepbrbte tokens.
+     * <li>C-style bnd C++-style comments bre not recognized.
      * </ul>
      *
-     * @deprecated As of JDK version 1.1, the preferred way to tokenize an
-     * input stream is to convert it into a character stream, for example:
+     * @deprecbted As of JDK version 1.1, the preferred wby to tokenize bn
+     * input strebm is to convert it into b chbrbcter strebm, for exbmple:
      * <blockquote><pre>
-     *   Reader r = new BufferedReader(new InputStreamReader(is));
-     *   StreamTokenizer st = new StreamTokenizer(r);
+     *   Rebder r = new BufferedRebder(new InputStrebmRebder(is));
+     *   StrebmTokenizer st = new StrebmTokenizer(r);
      * </pre></blockquote>
      *
-     * @param      is        an input stream.
-     * @see        java.io.BufferedReader
-     * @see        java.io.InputStreamReader
-     * @see        java.io.StreamTokenizer#StreamTokenizer(java.io.Reader)
+     * @pbrbm      is        bn input strebm.
+     * @see        jbvb.io.BufferedRebder
+     * @see        jbvb.io.InputStrebmRebder
+     * @see        jbvb.io.StrebmTokenizer#StrebmTokenizer(jbvb.io.Rebder)
      */
-    @Deprecated
-    public StreamTokenizer(InputStream is) {
+    @Deprecbted
+    public StrebmTokenizer(InputStrebm is) {
         this();
         if (is == null) {
             throw new NullPointerException();
@@ -237,41 +237,41 @@ public class StreamTokenizer {
     }
 
     /**
-     * Create a tokenizer that parses the given character stream.
+     * Crebte b tokenizer thbt pbrses the given chbrbcter strebm.
      *
-     * @param r  a Reader object providing the input stream.
+     * @pbrbm r  b Rebder object providing the input strebm.
      * @since   1.1
      */
-    public StreamTokenizer(Reader r) {
+    public StrebmTokenizer(Rebder r) {
         this();
         if (r == null) {
             throw new NullPointerException();
         }
-        reader = r;
+        rebder = r;
     }
 
     /**
-     * Resets this tokenizer's syntax table so that all characters are
-     * "ordinary." See the {@code ordinaryChar} method
-     * for more information on a character being ordinary.
+     * Resets this tokenizer's syntbx tbble so thbt bll chbrbcters bre
+     * "ordinbry." See the {@code ordinbryChbr} method
+     * for more informbtion on b chbrbcter being ordinbry.
      *
-     * @see     java.io.StreamTokenizer#ordinaryChar(int)
+     * @see     jbvb.io.StrebmTokenizer#ordinbryChbr(int)
      */
-    public void resetSyntax() {
+    public void resetSyntbx() {
         for (int i = ctype.length; --i >= 0;)
             ctype[i] = 0;
     }
 
     /**
-     * Specifies that all characters <i>c</i> in the range
+     * Specifies thbt bll chbrbcters <i>c</i> in the rbnge
      * <code>low&nbsp;&lt;=&nbsp;<i>c</i>&nbsp;&lt;=&nbsp;high</code>
-     * are word constituents. A word token consists of a word constituent
+     * bre word constituents. A word token consists of b word constituent
      * followed by zero or more word constituents or number constituents.
      *
-     * @param   low   the low end of the range.
-     * @param   hi    the high end of the range.
+     * @pbrbm   low   the low end of the rbnge.
+     * @pbrbm   hi    the high end of the rbnge.
      */
-    public void wordChars(int low, int hi) {
+    public void wordChbrs(int low, int hi) {
         if (low < 0)
             low = 0;
         if (hi >= ctype.length)
@@ -281,18 +281,18 @@ public class StreamTokenizer {
     }
 
     /**
-     * Specifies that all characters <i>c</i> in the range
+     * Specifies thbt bll chbrbcters <i>c</i> in the rbnge
      * <code>low&nbsp;&lt;=&nbsp;<i>c</i>&nbsp;&lt;=&nbsp;high</code>
-     * are white space characters. White space characters serve only to
-     * separate tokens in the input stream.
+     * bre white spbce chbrbcters. White spbce chbrbcters serve only to
+     * sepbrbte tokens in the input strebm.
      *
-     * <p>Any other attribute settings for the characters in the specified
-     * range are cleared.
+     * <p>Any other bttribute settings for the chbrbcters in the specified
+     * rbnge bre clebred.
      *
-     * @param   low   the low end of the range.
-     * @param   hi    the high end of the range.
+     * @pbrbm   low   the low end of the rbnge.
+     * @pbrbm   hi    the high end of the rbnge.
      */
-    public void whitespaceChars(int low, int hi) {
+    public void whitespbceChbrs(int low, int hi) {
         if (low < 0)
             low = 0;
         if (hi >= ctype.length)
@@ -302,17 +302,17 @@ public class StreamTokenizer {
     }
 
     /**
-     * Specifies that all characters <i>c</i> in the range
+     * Specifies thbt bll chbrbcters <i>c</i> in the rbnge
      * <code>low&nbsp;&lt;=&nbsp;<i>c</i>&nbsp;&lt;=&nbsp;high</code>
-     * are "ordinary" in this tokenizer. See the
-     * {@code ordinaryChar} method for more information on a
-     * character being ordinary.
+     * bre "ordinbry" in this tokenizer. See the
+     * {@code ordinbryChbr} method for more informbtion on b
+     * chbrbcter being ordinbry.
      *
-     * @param   low   the low end of the range.
-     * @param   hi    the high end of the range.
-     * @see     java.io.StreamTokenizer#ordinaryChar(int)
+     * @pbrbm   low   the low end of the rbnge.
+     * @pbrbm   hi    the high end of the rbnge.
+     * @see     jbvb.io.StrebmTokenizer#ordinbryChbr(int)
      */
-    public void ordinaryChars(int low, int hi) {
+    public void ordinbryChbrs(int low, int hi) {
         if (low < 0)
             low = 0;
         if (hi >= ctype.length)
@@ -322,91 +322,91 @@ public class StreamTokenizer {
     }
 
     /**
-     * Specifies that the character argument is "ordinary"
-     * in this tokenizer. It removes any special significance the
-     * character has as a comment character, word component, string
-     * delimiter, white space, or number character. When such a character
-     * is encountered by the parser, the parser treats it as a
-     * single-character token and sets {@code ttype} field to the
-     * character value.
+     * Specifies thbt the chbrbcter brgument is "ordinbry"
+     * in this tokenizer. It removes bny specibl significbnce the
+     * chbrbcter hbs bs b comment chbrbcter, word component, string
+     * delimiter, white spbce, or number chbrbcter. When such b chbrbcter
+     * is encountered by the pbrser, the pbrser trebts it bs b
+     * single-chbrbcter token bnd sets {@code ttype} field to the
+     * chbrbcter vblue.
      *
-     * <p>Making a line terminator character "ordinary" may interfere
-     * with the ability of a {@code StreamTokenizer} to count
-     * lines. The {@code lineno} method may no longer reflect
-     * the presence of such terminator characters in its line count.
+     * <p>Mbking b line terminbtor chbrbcter "ordinbry" mby interfere
+     * with the bbility of b {@code StrebmTokenizer} to count
+     * lines. The {@code lineno} method mby no longer reflect
+     * the presence of such terminbtor chbrbcters in its line count.
      *
-     * @param   ch   the character.
-     * @see     java.io.StreamTokenizer#ttype
+     * @pbrbm   ch   the chbrbcter.
+     * @see     jbvb.io.StrebmTokenizer#ttype
      */
-    public void ordinaryChar(int ch) {
+    public void ordinbryChbr(int ch) {
         if (ch >= 0 && ch < ctype.length)
             ctype[ch] = 0;
     }
 
     /**
-     * Specified that the character argument starts a single-line
-     * comment. All characters from the comment character to the end of
-     * the line are ignored by this stream tokenizer.
+     * Specified thbt the chbrbcter brgument stbrts b single-line
+     * comment. All chbrbcters from the comment chbrbcter to the end of
+     * the line bre ignored by this strebm tokenizer.
      *
-     * <p>Any other attribute settings for the specified character are cleared.
+     * <p>Any other bttribute settings for the specified chbrbcter bre clebred.
      *
-     * @param   ch   the character.
+     * @pbrbm   ch   the chbrbcter.
      */
-    public void commentChar(int ch) {
+    public void commentChbr(int ch) {
         if (ch >= 0 && ch < ctype.length)
             ctype[ch] = CT_COMMENT;
     }
 
     /**
-     * Specifies that matching pairs of this character delimit string
-     * constants in this tokenizer.
+     * Specifies thbt mbtching pbirs of this chbrbcter delimit string
+     * constbnts in this tokenizer.
      * <p>
-     * When the {@code nextToken} method encounters a string
-     * constant, the {@code ttype} field is set to the string
-     * delimiter and the {@code sval} field is set to the body of
+     * When the {@code nextToken} method encounters b string
+     * constbnt, the {@code ttype} field is set to the string
+     * delimiter bnd the {@code svbl} field is set to the body of
      * the string.
      * <p>
-     * If a string quote character is encountered, then a string is
-     * recognized, consisting of all characters after (but not including)
-     * the string quote character, up to (but not including) the next
-     * occurrence of that same string quote character, or a line
-     * terminator, or end of file. The usual escape sequences such as
-     * {@code "\u005Cn"} and {@code "\u005Ct"} are recognized and
-     * converted to single characters as the string is parsed.
+     * If b string quote chbrbcter is encountered, then b string is
+     * recognized, consisting of bll chbrbcters bfter (but not including)
+     * the string quote chbrbcter, up to (but not including) the next
+     * occurrence of thbt sbme string quote chbrbcter, or b line
+     * terminbtor, or end of file. The usubl escbpe sequences such bs
+     * {@code "\u005Cn"} bnd {@code "\u005Ct"} bre recognized bnd
+     * converted to single chbrbcters bs the string is pbrsed.
      *
-     * <p>Any other attribute settings for the specified character are cleared.
+     * <p>Any other bttribute settings for the specified chbrbcter bre clebred.
      *
-     * @param   ch   the character.
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#sval
-     * @see     java.io.StreamTokenizer#ttype
+     * @pbrbm   ch   the chbrbcter.
+     * @see     jbvb.io.StrebmTokenizer#nextToken()
+     * @see     jbvb.io.StrebmTokenizer#svbl
+     * @see     jbvb.io.StrebmTokenizer#ttype
      */
-    public void quoteChar(int ch) {
+    public void quoteChbr(int ch) {
         if (ch >= 0 && ch < ctype.length)
             ctype[ch] = CT_QUOTE;
     }
 
     /**
-     * Specifies that numbers should be parsed by this tokenizer. The
-     * syntax table of this tokenizer is modified so that each of the twelve
-     * characters:
+     * Specifies thbt numbers should be pbrsed by this tokenizer. The
+     * syntbx tbble of this tokenizer is modified so thbt ebch of the twelve
+     * chbrbcters:
      * <blockquote><pre>
      *      0 1 2 3 4 5 6 7 8 9 . -
      * </pre></blockquote>
      * <p>
-     * has the "numeric" attribute.
+     * hbs the "numeric" bttribute.
      * <p>
-     * When the parser encounters a word token that has the format of a
-     * double precision floating-point number, it treats the token as a
-     * number rather than a word, by setting the {@code ttype}
-     * field to the value {@code TT_NUMBER} and putting the numeric
-     * value of the token into the {@code nval} field.
+     * When the pbrser encounters b word token thbt hbs the formbt of b
+     * double precision flobting-point number, it trebts the token bs b
+     * number rbther thbn b word, by setting the {@code ttype}
+     * field to the vblue {@code TT_NUMBER} bnd putting the numeric
+     * vblue of the token into the {@code nvbl} field.
      *
-     * @see     java.io.StreamTokenizer#nval
-     * @see     java.io.StreamTokenizer#TT_NUMBER
-     * @see     java.io.StreamTokenizer#ttype
+     * @see     jbvb.io.StrebmTokenizer#nvbl
+     * @see     jbvb.io.StrebmTokenizer#TT_NUMBER
+     * @see     jbvb.io.StrebmTokenizer#ttype
      */
-    public void parseNumbers() {
+    public void pbrseNumbers() {
         for (int i = '0'; i <= '9'; i++)
             ctype[i] |= CT_DIGIT;
         ctype['.'] |= CT_DIGIT;
@@ -414,141 +414,141 @@ public class StreamTokenizer {
     }
 
     /**
-     * Determines whether or not ends of line are treated as tokens.
-     * If the flag argument is true, this tokenizer treats end of lines
-     * as tokens; the {@code nextToken} method returns
-     * {@code TT_EOL} and also sets the {@code ttype} field to
-     * this value when an end of line is read.
+     * Determines whether or not ends of line bre trebted bs tokens.
+     * If the flbg brgument is true, this tokenizer trebts end of lines
+     * bs tokens; the {@code nextToken} method returns
+     * {@code TT_EOL} bnd blso sets the {@code ttype} field to
+     * this vblue when bn end of line is rebd.
      * <p>
-     * A line is a sequence of characters ending with either a
-     * carriage-return character ({@code '\u005Cr'}) or a newline
-     * character ({@code '\u005Cn'}). In addition, a carriage-return
-     * character followed immediately by a newline character is treated
-     * as a single end-of-line token.
+     * A line is b sequence of chbrbcters ending with either b
+     * cbrribge-return chbrbcter ({@code '\u005Cr'}) or b newline
+     * chbrbcter ({@code '\u005Cn'}). In bddition, b cbrribge-return
+     * chbrbcter followed immedibtely by b newline chbrbcter is trebted
+     * bs b single end-of-line token.
      * <p>
-     * If the {@code flag} is false, end-of-line characters are
-     * treated as white space and serve only to separate tokens.
+     * If the {@code flbg} is fblse, end-of-line chbrbcters bre
+     * trebted bs white spbce bnd serve only to sepbrbte tokens.
      *
-     * @param   flag   {@code true} indicates that end-of-line characters
-     *                 are separate tokens; {@code false} indicates that
-     *                 end-of-line characters are white space.
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#ttype
-     * @see     java.io.StreamTokenizer#TT_EOL
+     * @pbrbm   flbg   {@code true} indicbtes thbt end-of-line chbrbcters
+     *                 bre sepbrbte tokens; {@code fblse} indicbtes thbt
+     *                 end-of-line chbrbcters bre white spbce.
+     * @see     jbvb.io.StrebmTokenizer#nextToken()
+     * @see     jbvb.io.StrebmTokenizer#ttype
+     * @see     jbvb.io.StrebmTokenizer#TT_EOL
      */
-    public void eolIsSignificant(boolean flag) {
-        eolIsSignificantP = flag;
+    public void eolIsSignificbnt(boolebn flbg) {
+        eolIsSignificbntP = flbg;
     }
 
     /**
      * Determines whether or not the tokenizer recognizes C-style comments.
-     * If the flag argument is {@code true}, this stream tokenizer
+     * If the flbg brgument is {@code true}, this strebm tokenizer
      * recognizes C-style comments. All text between successive
-     * occurrences of {@code /*} and <code>*&#47;</code> are discarded.
+     * occurrences of {@code /*} bnd <code>*&#47;</code> bre discbrded.
      * <p>
-     * If the flag argument is {@code false}, then C-style comments
-     * are not treated specially.
+     * If the flbg brgument is {@code fblse}, then C-style comments
+     * bre not trebted speciblly.
      *
-     * @param   flag   {@code true} indicates to recognize and ignore
+     * @pbrbm   flbg   {@code true} indicbtes to recognize bnd ignore
      *                 C-style comments.
      */
-    public void slashStarComments(boolean flag) {
-        slashStarCommentsP = flag;
+    public void slbshStbrComments(boolebn flbg) {
+        slbshStbrCommentsP = flbg;
     }
 
     /**
      * Determines whether or not the tokenizer recognizes C++-style comments.
-     * If the flag argument is {@code true}, this stream tokenizer
+     * If the flbg brgument is {@code true}, this strebm tokenizer
      * recognizes C++-style comments. Any occurrence of two consecutive
-     * slash characters ({@code '/'}) is treated as the beginning of
-     * a comment that extends to the end of the line.
+     * slbsh chbrbcters ({@code '/'}) is trebted bs the beginning of
+     * b comment thbt extends to the end of the line.
      * <p>
-     * If the flag argument is {@code false}, then C++-style
-     * comments are not treated specially.
+     * If the flbg brgument is {@code fblse}, then C++-style
+     * comments bre not trebted speciblly.
      *
-     * @param   flag   {@code true} indicates to recognize and ignore
+     * @pbrbm   flbg   {@code true} indicbtes to recognize bnd ignore
      *                 C++-style comments.
      */
-    public void slashSlashComments(boolean flag) {
-        slashSlashCommentsP = flag;
+    public void slbshSlbshComments(boolebn flbg) {
+        slbshSlbshCommentsP = flbg;
     }
 
     /**
-     * Determines whether or not word token are automatically lowercased.
-     * If the flag argument is {@code true}, then the value in the
-     * {@code sval} field is lowercased whenever a word token is
-     * returned (the {@code ttype} field has the
-     * value {@code TT_WORD} by the {@code nextToken} method
+     * Determines whether or not word token bre butombticblly lowercbsed.
+     * If the flbg brgument is {@code true}, then the vblue in the
+     * {@code svbl} field is lowercbsed whenever b word token is
+     * returned (the {@code ttype} field hbs the
+     * vblue {@code TT_WORD} by the {@code nextToken} method
      * of this tokenizer.
      * <p>
-     * If the flag argument is {@code false}, then the
-     * {@code sval} field is not modified.
+     * If the flbg brgument is {@code fblse}, then the
+     * {@code svbl} field is not modified.
      *
-     * @param   fl   {@code true} indicates that all word tokens should
-     *               be lowercased.
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#ttype
-     * @see     java.io.StreamTokenizer#TT_WORD
+     * @pbrbm   fl   {@code true} indicbtes thbt bll word tokens should
+     *               be lowercbsed.
+     * @see     jbvb.io.StrebmTokenizer#nextToken()
+     * @see     jbvb.io.StrebmTokenizer#ttype
+     * @see     jbvb.io.StrebmTokenizer#TT_WORD
      */
-    public void lowerCaseMode(boolean fl) {
+    public void lowerCbseMode(boolebn fl) {
         forceLower = fl;
     }
 
-    /** Read the next character */
-    private int read() throws IOException {
-        if (reader != null)
-            return reader.read();
+    /** Rebd the next chbrbcter */
+    privbte int rebd() throws IOException {
+        if (rebder != null)
+            return rebder.rebd();
         else if (input != null)
-            return input.read();
+            return input.rebd();
         else
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
     }
 
     /**
-     * Parses the next token from the input stream of this tokenizer.
+     * Pbrses the next token from the input strebm of this tokenizer.
      * The type of the next token is returned in the {@code ttype}
-     * field. Additional information about the token may be in the
-     * {@code nval} field or the {@code sval} field of this
+     * field. Additionbl informbtion bbout the token mby be in the
+     * {@code nvbl} field or the {@code svbl} field of this
      * tokenizer.
      * <p>
-     * Typical clients of this
-     * class first set up the syntax tables and then sit in a loop
-     * calling nextToken to parse successive tokens until TT_EOF
+     * Typicbl clients of this
+     * clbss first set up the syntbx tbbles bnd then sit in b loop
+     * cblling nextToken to pbrse successive tokens until TT_EOF
      * is returned.
      *
-     * @return     the value of the {@code ttype} field.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.StreamTokenizer#nval
-     * @see        java.io.StreamTokenizer#sval
-     * @see        java.io.StreamTokenizer#ttype
+     * @return     the vblue of the {@code ttype} field.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.StrebmTokenizer#nvbl
+     * @see        jbvb.io.StrebmTokenizer#svbl
+     * @see        jbvb.io.StrebmTokenizer#ttype
      */
     public int nextToken() throws IOException {
-        if (pushedBack) {
-            pushedBack = false;
+        if (pushedBbck) {
+            pushedBbck = fblse;
             return ttype;
         }
         byte ct[] = ctype;
-        sval = null;
+        svbl = null;
 
         int c = peekc;
         if (c < 0)
             c = NEED_CHAR;
         if (c == SKIP_LF) {
-            c = read();
+            c = rebd();
             if (c < 0)
                 return ttype = TT_EOF;
             if (c == '\n')
                 c = NEED_CHAR;
         }
         if (c == NEED_CHAR) {
-            c = read();
+            c = rebd();
             if (c < 0)
                 return ttype = TT_EOF;
         }
-        ttype = c;              /* Just to be safe */
+        ttype = c;              /* Just to be sbfe */
 
-        /* Set peekc so that the next invocation of nextToken will read
-         * another character unless peekc is reset in this invocation
+        /* Set peekc so thbt the next invocbtion of nextToken will rebd
+         * bnother chbrbcter unless peekc is reset in this invocbtion
          */
         peekc = NEED_CHAR;
 
@@ -556,21 +556,21 @@ public class StreamTokenizer {
         while ((ctype & CT_WHITESPACE) != 0) {
             if (c == '\r') {
                 LINENO++;
-                if (eolIsSignificantP) {
+                if (eolIsSignificbntP) {
                     peekc = SKIP_LF;
                     return ttype = TT_EOL;
                 }
-                c = read();
+                c = rebd();
                 if (c == '\n')
-                    c = read();
+                    c = rebd();
             } else {
                 if (c == '\n') {
                     LINENO++;
-                    if (eolIsSignificantP) {
+                    if (eolIsSignificbntP) {
                         return ttype = TT_EOL;
                     }
                 }
-                c = read();
+                c = rebd();
             }
             if (c < 0)
                 return ttype = TT_EOF;
@@ -578,9 +578,9 @@ public class StreamTokenizer {
         }
 
         if ((ctype & CT_DIGIT) != 0) {
-            boolean neg = false;
+            boolebn neg = fblse;
             if (c == '-') {
-                c = read();
+                c = rebd();
                 if (c != '.' && (c < '0' || c > '9')) {
                     peekc = c;
                     return ttype = '-';
@@ -597,8 +597,8 @@ public class StreamTokenizer {
                     v = v * 10 + (c - '0');
                     decexp += seendot;
                 } else
-                    break;
-                c = read();
+                    brebk;
+                c = rebd();
             }
             peekc = c;
             if (decexp != 0) {
@@ -608,10 +608,10 @@ public class StreamTokenizer {
                     denom *= 10;
                     decexp--;
                 }
-                /* Do one division of a likely-to-be-more-accurate number */
+                /* Do one division of b likely-to-be-more-bccurbte number */
                 v = v / denom;
             }
-            nval = neg ? -v : v;
+            nvbl = neg ? -v : v;
             return ttype = TT_NUMBER;
         }
 
@@ -619,105 +619,105 @@ public class StreamTokenizer {
             int i = 0;
             do {
                 if (i >= buf.length) {
-                    buf = Arrays.copyOf(buf, buf.length * 2);
+                    buf = Arrbys.copyOf(buf, buf.length * 2);
                 }
-                buf[i++] = (char) c;
-                c = read();
+                buf[i++] = (chbr) c;
+                c = rebd();
                 ctype = c < 0 ? CT_WHITESPACE : c < 256 ? ct[c] : CT_ALPHA;
             } while ((ctype & (CT_ALPHA | CT_DIGIT)) != 0);
             peekc = c;
-            sval = String.copyValueOf(buf, 0, i);
+            svbl = String.copyVblueOf(buf, 0, i);
             if (forceLower)
-                sval = sval.toLowerCase();
+                svbl = svbl.toLowerCbse();
             return ttype = TT_WORD;
         }
 
         if ((ctype & CT_QUOTE) != 0) {
             ttype = c;
             int i = 0;
-            /* Invariants (because \Octal needs a lookahead):
-             *   (i)  c contains char value
-             *   (ii) d contains the lookahead
+            /* Invbribnts (becbuse \Octbl needs b lookbhebd):
+             *   (i)  c contbins chbr vblue
+             *   (ii) d contbins the lookbhebd
              */
-            int d = read();
+            int d = rebd();
             while (d >= 0 && d != ttype && d != '\n' && d != '\r') {
                 if (d == '\\') {
-                    c = read();
-                    int first = c;   /* To allow \377, but not \477 */
+                    c = rebd();
+                    int first = c;   /* To bllow \377, but not \477 */
                     if (c >= '0' && c <= '7') {
                         c = c - '0';
-                        int c2 = read();
+                        int c2 = rebd();
                         if ('0' <= c2 && c2 <= '7') {
                             c = (c << 3) + (c2 - '0');
-                            c2 = read();
+                            c2 = rebd();
                             if ('0' <= c2 && c2 <= '7' && first <= '3') {
                                 c = (c << 3) + (c2 - '0');
-                                d = read();
+                                d = rebd();
                             } else
                                 d = c2;
                         } else
                           d = c2;
                     } else {
                         switch (c) {
-                        case 'a':
+                        cbse 'b':
                             c = 0x7;
-                            break;
-                        case 'b':
+                            brebk;
+                        cbse 'b':
                             c = '\b';
-                            break;
-                        case 'f':
+                            brebk;
+                        cbse 'f':
                             c = 0xC;
-                            break;
-                        case 'n':
+                            brebk;
+                        cbse 'n':
                             c = '\n';
-                            break;
-                        case 'r':
+                            brebk;
+                        cbse 'r':
                             c = '\r';
-                            break;
-                        case 't':
+                            brebk;
+                        cbse 't':
                             c = '\t';
-                            break;
-                        case 'v':
+                            brebk;
+                        cbse 'v':
                             c = 0xB;
-                            break;
+                            brebk;
                         }
-                        d = read();
+                        d = rebd();
                     }
                 } else {
                     c = d;
-                    d = read();
+                    d = rebd();
                 }
                 if (i >= buf.length) {
-                    buf = Arrays.copyOf(buf, buf.length * 2);
+                    buf = Arrbys.copyOf(buf, buf.length * 2);
                 }
-                buf[i++] = (char)c;
+                buf[i++] = (chbr)c;
             }
 
-            /* If we broke out of the loop because we found a matching quote
-             * character then arrange to read a new character next time
-             * around; otherwise, save the character.
+            /* If we broke out of the loop becbuse we found b mbtching quote
+             * chbrbcter then brrbnge to rebd b new chbrbcter next time
+             * bround; otherwise, sbve the chbrbcter.
              */
             peekc = (d == ttype) ? NEED_CHAR : d;
 
-            sval = String.copyValueOf(buf, 0, i);
+            svbl = String.copyVblueOf(buf, 0, i);
             return ttype;
         }
 
-        if (c == '/' && (slashSlashCommentsP || slashStarCommentsP)) {
-            c = read();
-            if (c == '*' && slashStarCommentsP) {
+        if (c == '/' && (slbshSlbshCommentsP || slbshStbrCommentsP)) {
+            c = rebd();
+            if (c == '*' && slbshStbrCommentsP) {
                 int prevc = 0;
-                while ((c = read()) != '/' || prevc != '*') {
+                while ((c = rebd()) != '/' || prevc != '*') {
                     if (c == '\r') {
                         LINENO++;
-                        c = read();
+                        c = rebd();
                         if (c == '\n') {
-                            c = read();
+                            c = rebd();
                         }
                     } else {
                         if (c == '\n') {
                             LINENO++;
-                            c = read();
+                            c = rebd();
                         }
                     }
                     if (c < 0)
@@ -725,14 +725,14 @@ public class StreamTokenizer {
                     prevc = c;
                 }
                 return nextToken();
-            } else if (c == '/' && slashSlashCommentsP) {
-                while ((c = read()) != '\n' && c != '\r' && c >= 0);
+            } else if (c == '/' && slbshSlbshCommentsP) {
+                while ((c = rebd()) != '\n' && c != '\r' && c >= 0);
                 peekc = c;
                 return nextToken();
             } else {
-                /* Now see if it is still a single line comment */
+                /* Now see if it is still b single line comment */
                 if ((ct['/'] & CT_COMMENT) != 0) {
-                    while ((c = read()) != '\n' && c != '\r' && c >= 0);
+                    while ((c = rebd()) != '\n' && c != '\r' && c >= 0);
                     peekc = c;
                     return nextToken();
                 } else {
@@ -743,7 +743,7 @@ public class StreamTokenizer {
         }
 
         if ((ctype & CT_COMMENT) != 0) {
-            while ((c = read()) != '\n' && c != '\r' && c >= 0);
+            while ((c = rebd()) != '\n' && c != '\r' && c >= 0);
             peekc = c;
             return nextToken();
         }
@@ -752,80 +752,80 @@ public class StreamTokenizer {
     }
 
     /**
-     * Causes the next call to the {@code nextToken} method of this
-     * tokenizer to return the current value in the {@code ttype}
-     * field, and not to modify the value in the {@code nval} or
-     * {@code sval} field.
+     * Cbuses the next cbll to the {@code nextToken} method of this
+     * tokenizer to return the current vblue in the {@code ttype}
+     * field, bnd not to modify the vblue in the {@code nvbl} or
+     * {@code svbl} field.
      *
-     * @see     java.io.StreamTokenizer#nextToken()
-     * @see     java.io.StreamTokenizer#nval
-     * @see     java.io.StreamTokenizer#sval
-     * @see     java.io.StreamTokenizer#ttype
+     * @see     jbvb.io.StrebmTokenizer#nextToken()
+     * @see     jbvb.io.StrebmTokenizer#nvbl
+     * @see     jbvb.io.StrebmTokenizer#svbl
+     * @see     jbvb.io.StrebmTokenizer#ttype
      */
-    public void pushBack() {
-        if (ttype != TT_NOTHING)   /* No-op if nextToken() not called */
-            pushedBack = true;
+    public void pushBbck() {
+        if (ttype != TT_NOTHING)   /* No-op if nextToken() not cblled */
+            pushedBbck = true;
     }
 
     /**
      * Return the current line number.
      *
-     * @return  the current line number of this stream tokenizer.
+     * @return  the current line number of this strebm tokenizer.
      */
     public int lineno() {
         return LINENO;
     }
 
     /**
-     * Returns the string representation of the current stream token and
+     * Returns the string representbtion of the current strebm token bnd
      * the line number it occurs on.
      *
-     * <p>The precise string returned is unspecified, although the following
-     * example can be considered typical:
+     * <p>The precise string returned is unspecified, blthough the following
+     * exbmple cbn be considered typicbl:
      *
-     * <blockquote><pre>Token['a'], line 10</pre></blockquote>
+     * <blockquote><pre>Token['b'], line 10</pre></blockquote>
      *
-     * @return  a string representation of the token
-     * @see     java.io.StreamTokenizer#nval
-     * @see     java.io.StreamTokenizer#sval
-     * @see     java.io.StreamTokenizer#ttype
+     * @return  b string representbtion of the token
+     * @see     jbvb.io.StrebmTokenizer#nvbl
+     * @see     jbvb.io.StrebmTokenizer#svbl
+     * @see     jbvb.io.StrebmTokenizer#ttype
      */
     public String toString() {
         String ret;
         switch (ttype) {
-          case TT_EOF:
+          cbse TT_EOF:
             ret = "EOF";
-            break;
-          case TT_EOL:
+            brebk;
+          cbse TT_EOL:
             ret = "EOL";
-            break;
-          case TT_WORD:
-            ret = sval;
-            break;
-          case TT_NUMBER:
-            ret = "n=" + nval;
-            break;
-          case TT_NOTHING:
+            brebk;
+          cbse TT_WORD:
+            ret = svbl;
+            brebk;
+          cbse TT_NUMBER:
+            ret = "n=" + nvbl;
+            brebk;
+          cbse TT_NOTHING:
             ret = "NOTHING";
-            break;
-          default: {
+            brebk;
+          defbult: {
                 /*
-                 * ttype is the first character of either a quoted string or
-                 * is an ordinary character. ttype can definitely not be less
-                 * than 0, since those are reserved values used in the previous
-                 * case statements
+                 * ttype is the first chbrbcter of either b quoted string or
+                 * is bn ordinbry chbrbcter. ttype cbn definitely not be less
+                 * thbn 0, since those bre reserved vblues used in the previous
+                 * cbse stbtements
                  */
                 if (ttype < 256 &&
                     ((ctype[ttype] & CT_QUOTE) != 0)) {
-                    ret = sval;
-                    break;
+                    ret = svbl;
+                    brebk;
                 }
 
-                char s[] = new char[3];
+                chbr s[] = new chbr[3];
                 s[0] = s[2] = '\'';
-                s[1] = (char) ttype;
+                s[1] = (chbr) ttype;
                 ret = new String(s);
-                break;
+                brebk;
             }
         }
         return "Token[" + ret + "], line " + LINENO;

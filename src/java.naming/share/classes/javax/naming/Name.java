@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
-import java.util.Enumeration;
+import jbvb.util.Enumerbtion;
 
 /**
- * The <tt>Name</tt> interface represents a generic name -- an ordered
- * sequence of components.  It can be a composite name (names that
- * span multiple namespaces), or a compound name (names that are
- * used within individual hierarchical naming systems).
+ * The <tt>Nbme</tt> interfbce represents b generic nbme -- bn ordered
+ * sequence of components.  It cbn be b composite nbme (nbmes thbt
+ * spbn multiple nbmespbces), or b compound nbme (nbmes thbt bre
+ * used within individubl hierbrchicbl nbming systems).
  *
- * <p> There can be different implementations of <tt>Name</tt>; for example,
- * composite names, URLs, or namespace-specific compound names.
+ * <p> There cbn be different implementbtions of <tt>Nbme</tt>; for exbmple,
+ * composite nbmes, URLs, or nbmespbce-specific compound nbmes.
  *
- * <p> The components of a name are numbered.  The indexes of a name
- * with N components range from 0 up to, but not including, N.  This
- * range may be written as [0,N).
- * The most significant component is at index 0.
- * An empty name has no components.
+ * <p> The components of b nbme bre numbered.  The indexes of b nbme
+ * with N components rbnge from 0 up to, but not including, N.  This
+ * rbnge mby be written bs [0,N).
+ * The most significbnt component is bt index 0.
+ * An empty nbme hbs no components.
  *
- * <p> None of the methods in this interface accept null as a valid
- * value for a parameter that is a name or a name component.
- * Likewise, methods that return a name or name component never return null.
+ * <p> None of the methods in this interfbce bccept null bs b vblid
+ * vblue for b pbrbmeter thbt is b nbme or b nbme component.
+ * Likewise, methods thbt return b nbme or nbme component never return null.
  *
- * <p> An instance of a <tt>Name</tt> may not be synchronized against
- * concurrent multithreaded access if that access is not read-only.
+ * <p> An instbnce of b <tt>Nbme</tt> mby not be synchronized bgbinst
+ * concurrent multithrebded bccess if thbt bccess is not rebd-only.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @author R. Vasudevan
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
+ * @buthor R. Vbsudevbn
  * @since 1.3
  */
 
-public interface Name
-    extends Cloneable, java.io.Serializable, Comparable<Object>
+public interfbce Nbme
+    extends Clonebble, jbvb.io.Seriblizbble, Compbrbble<Object>
 {
 
    /**
-    * The class fingerprint that is set to indicate
-    * serialization compatibility with a previous
-    * version of the class.
+    * The clbss fingerprint thbt is set to indicbte
+    * seriblizbtion compbtibility with b previous
+    * version of the clbss.
     */
-    static final long serialVersionUID = -3617482732056931635L;
+    stbtic finbl long seriblVersionUID = -3617482732056931635L;
 
     /**
-     * Generates a new copy of this name.
-     * Subsequent changes to the components of this name will not
-     * affect the new copy, and vice versa.
+     * Generbtes b new copy of this nbme.
+     * Subsequent chbnges to the components of this nbme will not
+     * bffect the new copy, bnd vice versb.
      *
-     * @return  a copy of this name
+     * @return  b copy of this nbme
      *
      * @see Object#clone()
      */
     public Object clone();
 
     /**
-     * Compares this name with another name for order.
-     * Returns a negative integer, zero, or a positive integer as this
-     * name is less than, equal to, or greater than the given name.
+     * Compbres this nbme with bnother nbme for order.
+     * Returns b negbtive integer, zero, or b positive integer bs this
+     * nbme is less thbn, equbl to, or grebter thbn the given nbme.
      *
-     * <p> As with <tt>Object.equals()</tt>, the notion of ordering for names
-     * depends on the class that implements this interface.
-     * For example, the ordering may be
-     * based on lexicographical ordering of the name components.
-     * Specific attributes of the name, such as how it treats case,
-     * may affect the ordering.  In general, two names of different
-     * classes may not be compared.
+     * <p> As with <tt>Object.equbls()</tt>, the notion of ordering for nbmes
+     * depends on the clbss thbt implements this interfbce.
+     * For exbmple, the ordering mby be
+     * bbsed on lexicogrbphicbl ordering of the nbme components.
+     * Specific bttributes of the nbme, such bs how it trebts cbse,
+     * mby bffect the ordering.  In generbl, two nbmes of different
+     * clbsses mby not be compbred.
      *
-     * @param   obj the non-null object to compare against.
-     * @return  a negative integer, zero, or a positive integer as this name
-     *          is less than, equal to, or greater than the given name
-     * @throws  ClassCastException if obj is not a <tt>Name</tt> of a
-     *          type that may be compared with this name
+     * @pbrbm   obj the non-null object to compbre bgbinst.
+     * @return  b negbtive integer, zero, or b positive integer bs this nbme
+     *          is less thbn, equbl to, or grebter thbn the given nbme
+     * @throws  ClbssCbstException if obj is not b <tt>Nbme</tt> of b
+     *          type thbt mby be compbred with this nbme
      *
-     * @see Comparable#compareTo(Object)
+     * @see Compbrbble#compbreTo(Object)
      */
-    public int compareTo(Object obj);
+    public int compbreTo(Object obj);
 
     /**
-     * Returns the number of components in this name.
+     * Returns the number of components in this nbme.
      *
-     * @return  the number of components in this name
+     * @return  the number of components in this nbme
      */
     public int size();
 
     /**
-     * Determines whether this name is empty.
-     * An empty name is one with zero components.
+     * Determines whether this nbme is empty.
+     * An empty nbme is one with zero components.
      *
-     * @return  true if this name is empty, false otherwise
+     * @return  true if this nbme is empty, fblse otherwise
      */
-    public boolean isEmpty();
+    public boolebn isEmpty();
 
     /**
-     * Retrieves the components of this name as an enumeration
-     * of strings.  The effect on the enumeration of updates to
-     * this name is undefined.  If the name has zero components,
-     * an empty (non-null) enumeration is returned.
+     * Retrieves the components of this nbme bs bn enumerbtion
+     * of strings.  The effect on the enumerbtion of updbtes to
+     * this nbme is undefined.  If the nbme hbs zero components,
+     * bn empty (non-null) enumerbtion is returned.
      *
-     * @return  an enumeration of the components of this name, each a string
+     * @return  bn enumerbtion of the components of this nbme, ebch b string
      */
-    public Enumeration<String> getAll();
+    public Enumerbtion<String> getAll();
 
     /**
-     * Retrieves a component of this name.
+     * Retrieves b component of this nbme.
      *
-     * @param posn
-     *          the 0-based index of the component to retrieve.
-     *          Must be in the range [0,size()).
-     * @return  the component at index posn
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
+     * @pbrbm posn
+     *          the 0-bbsed index of the component to retrieve.
+     *          Must be in the rbnge [0,size()).
+     * @return  the component bt index posn
+     * @throws  ArrbyIndexOutOfBoundsException
+     *          if posn is outside the specified rbnge
      */
     public String get(int posn);
 
     /**
-     * Creates a name whose components consist of a prefix of the
-     * components of this name.  Subsequent changes to
-     * this name will not affect the name that is returned and vice versa.
+     * Crebtes b nbme whose components consist of b prefix of the
+     * components of this nbme.  Subsequent chbnges to
+     * this nbme will not bffect the nbme thbt is returned bnd vice versb.
      *
-     * @param posn
-     *          the 0-based index of the component at which to stop.
-     *          Must be in the range [0,size()].
-     * @return  a name consisting of the components at indexes in
-     *          the range [0,posn).
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
+     * @pbrbm posn
+     *          the 0-bbsed index of the component bt which to stop.
+     *          Must be in the rbnge [0,size()].
+     * @return  b nbme consisting of the components bt indexes in
+     *          the rbnge [0,posn).
+     * @throws  ArrbyIndexOutOfBoundsException
+     *          if posn is outside the specified rbnge
      */
-    public Name getPrefix(int posn);
+    public Nbme getPrefix(int posn);
 
     /**
-     * Creates a name whose components consist of a suffix of the
-     * components in this name.  Subsequent changes to
-     * this name do not affect the name that is returned and vice versa.
+     * Crebtes b nbme whose components consist of b suffix of the
+     * components in this nbme.  Subsequent chbnges to
+     * this nbme do not bffect the nbme thbt is returned bnd vice versb.
      *
-     * @param posn
-     *          the 0-based index of the component at which to start.
-     *          Must be in the range [0,size()].
-     * @return  a name consisting of the components at indexes in
-     *          the range [posn,size()).  If posn is equal to
-     *          size(), an empty name is returned.
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
+     * @pbrbm posn
+     *          the 0-bbsed index of the component bt which to stbrt.
+     *          Must be in the rbnge [0,size()].
+     * @return  b nbme consisting of the components bt indexes in
+     *          the rbnge [posn,size()).  If posn is equbl to
+     *          size(), bn empty nbme is returned.
+     * @throws  ArrbyIndexOutOfBoundsException
+     *          if posn is outside the specified rbnge
      */
-    public Name getSuffix(int posn);
+    public Nbme getSuffix(int posn);
 
     /**
-     * Determines whether this name starts with a specified prefix.
-     * A name <tt>n</tt> is a prefix if it is equal to
+     * Determines whether this nbme stbrts with b specified prefix.
+     * A nbme <tt>n</tt> is b prefix if it is equbl to
      * <tt>getPrefix(n.size())</tt>.
      *
-     * @param n
-     *          the name to check
-     * @return  true if <tt>n</tt> is a prefix of this name, false otherwise
+     * @pbrbm n
+     *          the nbme to check
+     * @return  true if <tt>n</tt> is b prefix of this nbme, fblse otherwise
      */
-    public boolean startsWith(Name n);
+    public boolebn stbrtsWith(Nbme n);
 
     /**
-     * Determines whether this name ends with a specified suffix.
-     * A name <tt>n</tt> is a suffix if it is equal to
+     * Determines whether this nbme ends with b specified suffix.
+     * A nbme <tt>n</tt> is b suffix if it is equbl to
      * <tt>getSuffix(size()-n.size())</tt>.
      *
-     * @param n
-     *          the name to check
-     * @return  true if <tt>n</tt> is a suffix of this name, false otherwise
+     * @pbrbm n
+     *          the nbme to check
+     * @return  true if <tt>n</tt> is b suffix of this nbme, fblse otherwise
      */
-    public boolean endsWith(Name n);
+    public boolebn endsWith(Nbme n);
 
     /**
-     * Adds the components of a name -- in order -- to the end of this name.
+     * Adds the components of b nbme -- in order -- to the end of this nbme.
      *
-     * @param suffix
-     *          the components to add
-     * @return  the updated name (not a new one)
+     * @pbrbm suffix
+     *          the components to bdd
+     * @return  the updbted nbme (not b new one)
      *
-     * @throws  InvalidNameException if <tt>suffix</tt> is not a valid name,
-     *          or if the addition of the components would violate the syntax
-     *          rules of this name
+     * @throws  InvblidNbmeException if <tt>suffix</tt> is not b vblid nbme,
+     *          or if the bddition of the components would violbte the syntbx
+     *          rules of this nbme
      */
-    public Name addAll(Name suffix) throws InvalidNameException;
+    public Nbme bddAll(Nbme suffix) throws InvblidNbmeException;
 
     /**
-     * Adds the components of a name -- in order -- at a specified position
-     * within this name.
-     * Components of this name at or after the index of the first new
-     * component are shifted up (away from 0) to accommodate the new
+     * Adds the components of b nbme -- in order -- bt b specified position
+     * within this nbme.
+     * Components of this nbme bt or bfter the index of the first new
+     * component bre shifted up (bwby from 0) to bccommodbte the new
      * components.
      *
-     * @param n
-     *          the components to add
-     * @param posn
-     *          the index in this name at which to add the new
-     *          components.  Must be in the range [0,size()].
-     * @return  the updated name (not a new one)
+     * @pbrbm n
+     *          the components to bdd
+     * @pbrbm posn
+     *          the index in this nbme bt which to bdd the new
+     *          components.  Must be in the rbnge [0,size()].
+     * @return  the updbted nbme (not b new one)
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
-     * @throws  InvalidNameException if <tt>n</tt> is not a valid name,
-     *          or if the addition of the components would violate the syntax
-     *          rules of this name
+     * @throws  ArrbyIndexOutOfBoundsException
+     *          if posn is outside the specified rbnge
+     * @throws  InvblidNbmeException if <tt>n</tt> is not b vblid nbme,
+     *          or if the bddition of the components would violbte the syntbx
+     *          rules of this nbme
      */
-    public Name addAll(int posn, Name n) throws InvalidNameException;
+    public Nbme bddAll(int posn, Nbme n) throws InvblidNbmeException;
 
     /**
-     * Adds a single component to the end of this name.
+     * Adds b single component to the end of this nbme.
      *
-     * @param comp
-     *          the component to add
-     * @return  the updated name (not a new one)
+     * @pbrbm comp
+     *          the component to bdd
+     * @return  the updbted nbme (not b new one)
      *
-     * @throws  InvalidNameException if adding <tt>comp</tt> would violate
-     *          the syntax rules of this name
+     * @throws  InvblidNbmeException if bdding <tt>comp</tt> would violbte
+     *          the syntbx rules of this nbme
      */
-    public Name add(String comp) throws InvalidNameException;
+    public Nbme bdd(String comp) throws InvblidNbmeException;
 
     /**
-     * Adds a single component at a specified position within this name.
-     * Components of this name at or after the index of the new component
-     * are shifted up by one (away from index 0) to accommodate the new
+     * Adds b single component bt b specified position within this nbme.
+     * Components of this nbme bt or bfter the index of the new component
+     * bre shifted up by one (bwby from index 0) to bccommodbte the new
      * component.
      *
-     * @param comp
-     *          the component to add
-     * @param posn
-     *          the index at which to add the new component.
-     *          Must be in the range [0,size()].
-     * @return  the updated name (not a new one)
+     * @pbrbm comp
+     *          the component to bdd
+     * @pbrbm posn
+     *          the index bt which to bdd the new component.
+     *          Must be in the rbnge [0,size()].
+     * @return  the updbted nbme (not b new one)
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
-     * @throws  InvalidNameException if adding <tt>comp</tt> would violate
-     *          the syntax rules of this name
+     * @throws  ArrbyIndexOutOfBoundsException
+     *          if posn is outside the specified rbnge
+     * @throws  InvblidNbmeException if bdding <tt>comp</tt> would violbte
+     *          the syntbx rules of this nbme
      */
-    public Name add(int posn, String comp) throws InvalidNameException;
+    public Nbme bdd(int posn, String comp) throws InvblidNbmeException;
 
     /**
-     * Removes a component from this name.
-     * The component of this name at the specified position is removed.
-     * Components with indexes greater than this position
-     * are shifted down (toward index 0) by one.
+     * Removes b component from this nbme.
+     * The component of this nbme bt the specified position is removed.
+     * Components with indexes grebter thbn this position
+     * bre shifted down (towbrd index 0) by one.
      *
-     * @param posn
+     * @pbrbm posn
      *          the index of the component to remove.
-     *          Must be in the range [0,size()).
-     * @return  the component removed (a String)
+     *          Must be in the rbnge [0,size()).
+     * @return  the component removed (b String)
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
-     * @throws  InvalidNameException if deleting the component
-     *          would violate the syntax rules of the name
+     * @throws  ArrbyIndexOutOfBoundsException
+     *          if posn is outside the specified rbnge
+     * @throws  InvblidNbmeException if deleting the component
+     *          would violbte the syntbx rules of the nbme
      */
-    public Object remove(int posn) throws InvalidNameException;
+    public Object remove(int posn) throws InvblidNbmeException;
 }

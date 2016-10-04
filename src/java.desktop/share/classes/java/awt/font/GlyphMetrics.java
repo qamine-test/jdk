@@ -1,324 +1,324 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.geom.Rectbngle2D;
 
 /**
- * The <code>GlyphMetrics</code> class represents information for a
- * single glyph.   A glyph is the visual representation of one or more
- * characters.  Many different glyphs can be used to represent a single
- * character or combination of characters.  <code>GlyphMetrics</code>
- * instances are produced by {@link java.awt.Font Font} and are applicable
- * to a specific glyph in a particular <code>Font</code>.
+ * The <code>GlyphMetrics</code> clbss represents informbtion for b
+ * single glyph.   A glyph is the visubl representbtion of one or more
+ * chbrbcters.  Mbny different glyphs cbn be used to represent b single
+ * chbrbcter or combinbtion of chbrbcters.  <code>GlyphMetrics</code>
+ * instbnces bre produced by {@link jbvb.bwt.Font Font} bnd bre bpplicbble
+ * to b specific glyph in b pbrticulbr <code>Font</code>.
  * <p>
- * Glyphs are either STANDARD, LIGATURE, COMBINING, or COMPONENT.
+ * Glyphs bre either STANDARD, LIGATURE, COMBINING, or COMPONENT.
  * <ul>
- * <li>STANDARD glyphs are commonly used to represent single characters.
- * <li>LIGATURE glyphs are used to represent sequences of characters.
- * <li>COMPONENT glyphs in a {@link GlyphVector} do not correspond to a
- * particular character in a text model. Instead, COMPONENT glyphs are
- * added for typographical reasons, such as Arabic justification.
+ * <li>STANDARD glyphs bre commonly used to represent single chbrbcters.
+ * <li>LIGATURE glyphs bre used to represent sequences of chbrbcters.
+ * <li>COMPONENT glyphs in b {@link GlyphVector} do not correspond to b
+ * pbrticulbr chbrbcter in b text model. Instebd, COMPONENT glyphs bre
+ * bdded for typogrbphicbl rebsons, such bs Arbbic justificbtion.
  * <li>COMBINING glyphs embellish STANDARD or LIGATURE glyphs, such
- * as accent marks.  Carets do not appear before COMBINING glyphs.
+ * bs bccent mbrks.  Cbrets do not bppebr before COMBINING glyphs.
  * </ul>
  * <p>
- * Other metrics available through <code>GlyphMetrics</code> are the
- * components of the advance, the visual bounds, and the left and right
- * side bearings.
+ * Other metrics bvbilbble through <code>GlyphMetrics</code> bre the
+ * components of the bdvbnce, the visubl bounds, bnd the left bnd right
+ * side bebrings.
  * <p>
- * Glyphs for a rotated font, or obtained from a <code>GlyphVector</code>
- * which has applied a rotation to the glyph, can have advances that
- * contain both X and Y components.  Usually the advance only has one
+ * Glyphs for b rotbted font, or obtbined from b <code>GlyphVector</code>
+ * which hbs bpplied b rotbtion to the glyph, cbn hbve bdvbnces thbt
+ * contbin both X bnd Y components.  Usublly the bdvbnce only hbs one
  * component.
  * <p>
- * The advance of a glyph is the distance from the glyph's origin to the
- * origin of the next glyph along the baseline, which is either vertical
- * or horizontal.  Note that, in a <code>GlyphVector</code>,
- * the distance from a glyph to its following glyph might not be the
- * glyph's advance, because of kerning or other positioning adjustments.
+ * The bdvbnce of b glyph is the distbnce from the glyph's origin to the
+ * origin of the next glyph blong the bbseline, which is either verticbl
+ * or horizontbl.  Note thbt, in b <code>GlyphVector</code>,
+ * the distbnce from b glyph to its following glyph might not be the
+ * glyph's bdvbnce, becbuse of kerning or other positioning bdjustments.
  * <p>
- * The bounds is the smallest rectangle that completely contains the
- * outline of the glyph.  The bounds rectangle is relative to the
- * glyph's origin.  The left-side bearing is the distance from the glyph
- * origin to the left of its bounds rectangle. If the left-side bearing is
- * negative, part of the glyph is drawn to the left of its origin.  The
- * right-side bearing is the distance from the right side of the bounds
- * rectangle to the next glyph origin (the origin plus the advance).  If
- * negative, part of the glyph is drawn to the right of the next glyph's
- * origin.  Note that the bounds does not necessarily enclose all the pixels
- * affected when rendering the glyph, because of rasterization and pixel
- * adjustment effects.
+ * The bounds is the smbllest rectbngle thbt completely contbins the
+ * outline of the glyph.  The bounds rectbngle is relbtive to the
+ * glyph's origin.  The left-side bebring is the distbnce from the glyph
+ * origin to the left of its bounds rectbngle. If the left-side bebring is
+ * negbtive, pbrt of the glyph is drbwn to the left of its origin.  The
+ * right-side bebring is the distbnce from the right side of the bounds
+ * rectbngle to the next glyph origin (the origin plus the bdvbnce).  If
+ * negbtive, pbrt of the glyph is drbwn to the right of the next glyph's
+ * origin.  Note thbt the bounds does not necessbrily enclose bll the pixels
+ * bffected when rendering the glyph, becbuse of rbsterizbtion bnd pixel
+ * bdjustment effects.
  * <p>
- * Although instances of <code>GlyphMetrics</code> can be directly
- * constructed, they are almost always obtained from a
+ * Although instbnces of <code>GlyphMetrics</code> cbn be directly
+ * constructed, they bre blmost blwbys obtbined from b
  * <code>GlyphVector</code>.  Once constructed, <code>GlyphMetrics</code>
- * objects are immutable.
+ * objects bre immutbble.
  * <p>
- * <strong>Example</strong>:<p>
- * Querying a <code>Font</code> for glyph information
+ * <strong>Exbmple</strong>:<p>
+ * Querying b <code>Font</code> for glyph informbtion
  * <blockquote><pre>
  * Font font = ...;
  * int glyphIndex = ...;
  * GlyphMetrics metrics = GlyphVector.getGlyphMetrics(glyphIndex);
- * int isStandard = metrics.isStandard();
- * float glyphAdvance = metrics.getAdvance();
+ * int isStbndbrd = metrics.isStbndbrd();
+ * flobt glyphAdvbnce = metrics.getAdvbnce();
  * </pre></blockquote>
- * @see java.awt.Font
+ * @see jbvb.bwt.Font
  * @see GlyphVector
  */
 
-public final class GlyphMetrics {
+public finbl clbss GlyphMetrics {
     /**
-     * Indicates whether the metrics are for a horizontal or vertical baseline.
+     * Indicbtes whether the metrics bre for b horizontbl or verticbl bbseline.
      */
-    private boolean horizontal;
+    privbte boolebn horizontbl;
 
     /**
-     * The x-component of the advance.
+     * The x-component of the bdvbnce.
      */
-    private float advanceX;
+    privbte flobt bdvbnceX;
 
     /**
-     * The y-component of the advance.
+     * The y-component of the bdvbnce.
      */
-    private float advanceY;
+    privbte flobt bdvbnceY;
 
     /**
-     * The bounds of the associated glyph.
+     * The bounds of the bssocibted glyph.
      */
-    private Rectangle2D.Float bounds;
+    privbte Rectbngle2D.Flobt bounds;
 
     /**
-     * Additional information about the glyph encoded as a byte.
+     * Additionbl informbtion bbout the glyph encoded bs b byte.
      */
-    private byte glyphType;
+    privbte byte glyphType;
 
     /**
-     * Indicates a glyph that represents a single standard
-     * character.
+     * Indicbtes b glyph thbt represents b single stbndbrd
+     * chbrbcter.
      */
-    public static final byte STANDARD = 0;
+    public stbtic finbl byte STANDARD = 0;
 
     /**
-     * Indicates a glyph that represents multiple characters
-     * as a ligature, for example 'fi' or 'ffi'.  It is followed by
-     * filler glyphs for the remaining characters. Filler and combining
-     * glyphs can be intermixed to control positioning of accent marks
-     * on the logically preceding ligature.
+     * Indicbtes b glyph thbt represents multiple chbrbcters
+     * bs b ligbture, for exbmple 'fi' or 'ffi'.  It is followed by
+     * filler glyphs for the rembining chbrbcters. Filler bnd combining
+     * glyphs cbn be intermixed to control positioning of bccent mbrks
+     * on the logicblly preceding ligbture.
      */
-    public static final byte LIGATURE = 1;
+    public stbtic finbl byte LIGATURE = 1;
 
     /**
-     * Indicates a glyph that represents a combining character,
-     * such as an umlaut.  There is no caret position between this glyph
-     * and the preceding glyph.
+     * Indicbtes b glyph thbt represents b combining chbrbcter,
+     * such bs bn umlbut.  There is no cbret position between this glyph
+     * bnd the preceding glyph.
      */
-    public static final byte COMBINING = 2;
+    public stbtic finbl byte COMBINING = 2;
 
     /**
-     * Indicates a glyph with no corresponding character in the
-     * backing store.  The glyph is associated with the character
-     * represented by the logically preceding non-component glyph.  This
-     * is used for kashida justification or other visual modifications to
-     * existing glyphs.  There is no caret position between this glyph
-     * and the preceding glyph.
+     * Indicbtes b glyph with no corresponding chbrbcter in the
+     * bbcking store.  The glyph is bssocibted with the chbrbcter
+     * represented by the logicblly preceding non-component glyph.  This
+     * is used for kbshidb justificbtion or other visubl modificbtions to
+     * existing glyphs.  There is no cbret position between this glyph
+     * bnd the preceding glyph.
      */
-    public static final byte COMPONENT = 3;
+    public stbtic finbl byte COMPONENT = 3;
 
     /**
-     * Indicates a glyph with no visual representation. It can
-     * be added to the other code values to indicate an invisible glyph.
+     * Indicbtes b glyph with no visubl representbtion. It cbn
+     * be bdded to the other code vblues to indicbte bn invisible glyph.
      */
-    public static final byte WHITESPACE = 4;
+    public stbtic finbl byte WHITESPACE = 4;
 
     /**
-     * Constructs a <code>GlyphMetrics</code> object.
-     * @param advance the advance width of the glyph
-     * @param bounds the black box bounds of the glyph
-     * @param glyphType the type of the glyph
+     * Constructs b <code>GlyphMetrics</code> object.
+     * @pbrbm bdvbnce the bdvbnce width of the glyph
+     * @pbrbm bounds the blbck box bounds of the glyph
+     * @pbrbm glyphType the type of the glyph
      */
-    public GlyphMetrics(float advance, Rectangle2D bounds, byte glyphType) {
-        this.horizontal = true;
-        this.advanceX = advance;
-        this.advanceY = 0;
-        this.bounds = new Rectangle2D.Float();
+    public GlyphMetrics(flobt bdvbnce, Rectbngle2D bounds, byte glyphType) {
+        this.horizontbl = true;
+        this.bdvbnceX = bdvbnce;
+        this.bdvbnceY = 0;
+        this.bounds = new Rectbngle2D.Flobt();
         this.bounds.setRect(bounds);
         this.glyphType = glyphType;
     }
 
     /**
-     * Constructs a <code>GlyphMetrics</code> object.
-     * @param horizontal if true, metrics are for a horizontal baseline,
-     *   otherwise they are for a vertical baseline
-     * @param advanceX the X-component of the glyph's advance
-     * @param advanceY the Y-component of the glyph's advance
-     * @param bounds the visual bounds of the glyph
-     * @param glyphType the type of the glyph
+     * Constructs b <code>GlyphMetrics</code> object.
+     * @pbrbm horizontbl if true, metrics bre for b horizontbl bbseline,
+     *   otherwise they bre for b verticbl bbseline
+     * @pbrbm bdvbnceX the X-component of the glyph's bdvbnce
+     * @pbrbm bdvbnceY the Y-component of the glyph's bdvbnce
+     * @pbrbm bounds the visubl bounds of the glyph
+     * @pbrbm glyphType the type of the glyph
      * @since 1.4
      */
-    public GlyphMetrics(boolean horizontal, float advanceX, float advanceY,
-                        Rectangle2D bounds, byte glyphType) {
+    public GlyphMetrics(boolebn horizontbl, flobt bdvbnceX, flobt bdvbnceY,
+                        Rectbngle2D bounds, byte glyphType) {
 
-        this.horizontal = horizontal;
-        this.advanceX = advanceX;
-        this.advanceY = advanceY;
-        this.bounds = new Rectangle2D.Float();
+        this.horizontbl = horizontbl;
+        this.bdvbnceX = bdvbnceX;
+        this.bdvbnceY = bdvbnceY;
+        this.bounds = new Rectbngle2D.Flobt();
         this.bounds.setRect(bounds);
         this.glyphType = glyphType;
     }
 
     /**
-     * Returns the advance of the glyph along the baseline (either
-     * horizontal or vertical).
-     * @return the advance of the glyph
+     * Returns the bdvbnce of the glyph blong the bbseline (either
+     * horizontbl or verticbl).
+     * @return the bdvbnce of the glyph
      */
-    public float getAdvance() {
-        return horizontal ? advanceX : advanceY;
+    public flobt getAdvbnce() {
+        return horizontbl ? bdvbnceX : bdvbnceY;
     }
 
     /**
-     * Returns the x-component of the advance of the glyph.
-     * @return the x-component of the advance of the glyph
+     * Returns the x-component of the bdvbnce of the glyph.
+     * @return the x-component of the bdvbnce of the glyph
      * @since 1.4
      */
-    public float getAdvanceX() {
-        return advanceX;
+    public flobt getAdvbnceX() {
+        return bdvbnceX;
     }
 
     /**
-     * Returns the y-component of the advance of the glyph.
-     * @return the y-component of the advance of the glyph
+     * Returns the y-component of the bdvbnce of the glyph.
+     * @return the y-component of the bdvbnce of the glyph
      * @since 1.4
      */
-    public float getAdvanceY() {
-        return advanceY;
+    public flobt getAdvbnceY() {
+        return bdvbnceY;
     }
 
     /**
      * Returns the bounds of the glyph. This is the bounding box of the glyph outline.
-     * Because of rasterization and pixel alignment effects, it does not necessarily
-     * enclose the pixels that are affected when rendering the glyph.
-     * @return a {@link Rectangle2D} that is the bounds of the glyph.
+     * Becbuse of rbsterizbtion bnd pixel blignment effects, it does not necessbrily
+     * enclose the pixels thbt bre bffected when rendering the glyph.
+     * @return b {@link Rectbngle2D} thbt is the bounds of the glyph.
      */
-    public Rectangle2D getBounds2D() {
-        return new Rectangle2D.Float(bounds.x, bounds.y, bounds.width, bounds.height);
+    public Rectbngle2D getBounds2D() {
+        return new Rectbngle2D.Flobt(bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
     /**
-     * Returns the left (top) side bearing of the glyph.
+     * Returns the left (top) side bebring of the glyph.
      * <p>
-     * This is the distance from 0,&nbsp;0 to the left (top) of the glyph
-     * bounds.  If the bounds of the glyph is to the left of (above) the
-     * origin, the LSB is negative.
-     * @return the left side bearing of the glyph.
+     * This is the distbnce from 0,&nbsp;0 to the left (top) of the glyph
+     * bounds.  If the bounds of the glyph is to the left of (bbove) the
+     * origin, the LSB is negbtive.
+     * @return the left side bebring of the glyph.
      */
-    public float getLSB() {
-        return horizontal ? bounds.x : bounds.y;
+    public flobt getLSB() {
+        return horizontbl ? bounds.x : bounds.y;
     }
 
     /**
-     * Returns the right (bottom) side bearing of the glyph.
+     * Returns the right (bottom) side bebring of the glyph.
      * <p>
-     * This is the distance from the right (bottom) of the glyph bounds to
-     * the advance. If the bounds of the glyph is to the right of (below)
-     * the advance, the RSB is negative.
-     * @return the right side bearing of the glyph.
+     * This is the distbnce from the right (bottom) of the glyph bounds to
+     * the bdvbnce. If the bounds of the glyph is to the right of (below)
+     * the bdvbnce, the RSB is negbtive.
+     * @return the right side bebring of the glyph.
      */
-    public float getRSB() {
-        return horizontal ?
-            advanceX - bounds.x - bounds.width :
-            advanceY - bounds.y - bounds.height;
+    public flobt getRSB() {
+        return horizontbl ?
+            bdvbnceX - bounds.x - bounds.width :
+            bdvbnceY - bounds.y - bounds.height;
     }
 
     /**
-     * Returns the raw glyph type code.
-     * @return the raw glyph type code.
+     * Returns the rbw glyph type code.
+     * @return the rbw glyph type code.
      */
     public int getType() {
         return glyphType;
     }
 
     /**
-     * Returns <code>true</code> if this is a standard glyph.
-     * @return <code>true</code> if this is a standard glyph;
-     *          <code>false</code> otherwise.
+     * Returns <code>true</code> if this is b stbndbrd glyph.
+     * @return <code>true</code> if this is b stbndbrd glyph;
+     *          <code>fblse</code> otherwise.
      */
-    public boolean isStandard() {
+    public boolebn isStbndbrd() {
         return (glyphType & 0x3) == STANDARD;
     }
 
     /**
-     * Returns <code>true</code> if this is a ligature glyph.
-     * @return <code>true</code> if this is a ligature glyph;
-     *          <code>false</code> otherwise.
+     * Returns <code>true</code> if this is b ligbture glyph.
+     * @return <code>true</code> if this is b ligbture glyph;
+     *          <code>fblse</code> otherwise.
      */
-    public boolean isLigature() {
+    public boolebn isLigbture() {
         return (glyphType & 0x3) == LIGATURE;
     }
 
     /**
-     * Returns <code>true</code> if this is a combining glyph.
-     * @return <code>true</code> if this is a combining glyph;
-     *          <code>false</code> otherwise.
+     * Returns <code>true</code> if this is b combining glyph.
+     * @return <code>true</code> if this is b combining glyph;
+     *          <code>fblse</code> otherwise.
      */
-    public boolean isCombining() {
+    public boolebn isCombining() {
         return (glyphType & 0x3) == COMBINING;
     }
 
     /**
-     * Returns <code>true</code> if this is a component glyph.
-     * @return <code>true</code> if this is a component glyph;
-     *          <code>false</code> otherwise.
+     * Returns <code>true</code> if this is b component glyph.
+     * @return <code>true</code> if this is b component glyph;
+     *          <code>fblse</code> otherwise.
      */
-    public boolean isComponent() {
+    public boolebn isComponent() {
         return (glyphType & 0x3) == COMPONENT;
     }
 
     /**
-     * Returns <code>true</code> if this is a whitespace glyph.
-     * @return <code>true</code> if this is a whitespace glyph;
-     *          <code>false</code> otherwise.
+     * Returns <code>true</code> if this is b whitespbce glyph.
+     * @return <code>true</code> if this is b whitespbce glyph;
+     *          <code>fblse</code> otherwise.
      */
-    public boolean isWhitespace() {
+    public boolebn isWhitespbce() {
         return (glyphType & 0x4) == WHITESPACE;
     }
 }

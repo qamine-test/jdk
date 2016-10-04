@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.server;
+pbckbge jbvb.rmi.server;
 
-import java.io.*;
-import java.net.*;
+import jbvb.io.*;
+import jbvb.net.*;
 
 /**
- * An <code>RMIClientSocketFactory</code> instance is used by the RMI runtime
- * in order to obtain client sockets for RMI calls.  A remote object can be
- * associated with an <code>RMIClientSocketFactory</code> when it is
- * created/exported via the constructors or <code>exportObject</code> methods
- * of <code>java.rmi.server.UnicastRemoteObject</code> and
- * <code>java.rmi.activation.Activatable</code> .
+ * An <code>RMIClientSocketFbctory</code> instbnce is used by the RMI runtime
+ * in order to obtbin client sockets for RMI cblls.  A remote object cbn be
+ * bssocibted with bn <code>RMIClientSocketFbctory</code> when it is
+ * crebted/exported vib the constructors or <code>exportObject</code> methods
+ * of <code>jbvb.rmi.server.UnicbstRemoteObject</code> bnd
+ * <code>jbvb.rmi.bctivbtion.Activbtbble</code> .
  *
- * <p>An <code>RMIClientSocketFactory</code> instance associated with a remote
- * object will be downloaded to clients when the remote object's reference is
- * transmitted in an RMI call.  This <code>RMIClientSocketFactory</code> will
- * be used to create connections to the remote object for remote method calls.
+ * <p>An <code>RMIClientSocketFbctory</code> instbnce bssocibted with b remote
+ * object will be downlobded to clients when the remote object's reference is
+ * trbnsmitted in bn RMI cbll.  This <code>RMIClientSocketFbctory</code> will
+ * be used to crebte connections to the remote object for remote method cblls.
  *
- * <p>An <code>RMIClientSocketFactory</code> instance can also be associated
- * with a remote object registry so that clients can use custom socket
- * communication with a remote object registry.
+ * <p>An <code>RMIClientSocketFbctory</code> instbnce cbn blso be bssocibted
+ * with b remote object registry so thbt clients cbn use custom socket
+ * communicbtion with b remote object registry.
  *
- * <p>An implementation of this interface should be serializable and
- * should implement {@link Object#equals} to return <code>true</code> when
- * passed an instance that represents the same (functionally equivalent)
- * client socket factory, and <code>false</code> otherwise (and it should also
- * implement {@link Object#hashCode} consistently with its
- * <code>Object.equals</code> implementation).
+ * <p>An implementbtion of this interfbce should be seriblizbble bnd
+ * should implement {@link Object#equbls} to return <code>true</code> when
+ * pbssed bn instbnce thbt represents the sbme (functionblly equivblent)
+ * client socket fbctory, bnd <code>fblse</code> otherwise (bnd it should blso
+ * implement {@link Object#hbshCode} consistently with its
+ * <code>Object.equbls</code> implementbtion).
  *
- * @author  Ann Wollrath
- * @author  Peter Jones
+ * @buthor  Ann Wollrbth
+ * @buthor  Peter Jones
  * @since   1.2
- * @see     java.rmi.server.UnicastRemoteObject
- * @see     java.rmi.activation.Activatable
- * @see     java.rmi.registry.LocateRegistry
+ * @see     jbvb.rmi.server.UnicbstRemoteObject
+ * @see     jbvb.rmi.bctivbtion.Activbtbble
+ * @see     jbvb.rmi.registry.LocbteRegistry
  */
-public interface RMIClientSocketFactory {
+public interfbce RMIClientSocketFbctory {
 
     /**
-     * Create a client socket connected to the specified host and port.
-     * @param  host   the host name
-     * @param  port   the port number
-     * @return a socket connected to the specified host and port.
-     * @exception IOException if an I/O error occurs during socket creation
+     * Crebte b client socket connected to the specified host bnd port.
+     * @pbrbm  host   the host nbme
+     * @pbrbm  port   the port number
+     * @return b socket connected to the specified host bnd port.
+     * @exception IOException if bn I/O error occurs during socket crebtion
      * @since 1.2
      */
-    public Socket createSocket(String host, int port)
+    public Socket crebteSocket(String host, int port)
         throws IOException;
 }

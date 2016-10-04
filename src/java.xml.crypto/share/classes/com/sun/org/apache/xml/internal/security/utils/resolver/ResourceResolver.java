@@ -3,124 +3,124 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils.resolver;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils.resolver;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.resolver.implementations.ResolverDirectHTTP;
-import com.sun.org.apache.xml.internal.security.utils.resolver.implementations.ResolverFragment;
-import com.sun.org.apache.xml.internal.security.utils.resolver.implementations.ResolverLocalFilesystem;
-import com.sun.org.apache.xml.internal.security.utils.resolver.implementations.ResolverXPointer;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.implementbtions.ResolverDirectHTTP;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.implementbtions.ResolverFrbgment;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.implementbtions.ResolverLocblFilesystem;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.implementbtions.ResolverXPointer;
 import org.w3c.dom.Attr;
 
 /**
- * During reference validation, we have to retrieve resources from somewhere.
- * This is done by retrieving a Resolver. The resolver needs two arguments: The
- * URI in which the link to the new resource is defined and the baseURI of the
- * file/entity in which the URI occurs (the baseURI is the same as the SystemId).
+ * During reference vblidbtion, we hbve to retrieve resources from somewhere.
+ * This is done by retrieving b Resolver. The resolver needs two brguments: The
+ * URI in which the link to the new resource is defined bnd the bbseURI of the
+ * file/entity in which the URI occurs (the bbseURI is the sbme bs the SystemId).
  */
-public class ResourceResolver {
+public clbss ResourceResolver {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ResourceResolver.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(ResourceResolver.clbss.getNbme());
 
-    /** these are the system-wide resolvers */
-    private static List<ResourceResolver> resolverList = new ArrayList<ResourceResolver>();
+    /** these bre the system-wide resolvers */
+    privbte stbtic List<ResourceResolver> resolverList = new ArrbyList<ResourceResolver>();
 
     /** Field resolverSpi */
-    private final ResourceResolverSpi resolverSpi;
+    privbte finbl ResourceResolverSpi resolverSpi;
 
     /**
      * Constructor ResourceResolver
      *
-     * @param resourceResolver
+     * @pbrbm resourceResolver
      */
     public ResourceResolver(ResourceResolverSpi resourceResolver) {
         this.resolverSpi = resourceResolver;
     }
 
     /**
-     * Method getInstance
+     * Method getInstbnce
      *
-     * @param uri
-     * @param baseURI
-     * @return the instance
+     * @pbrbm uri
+     * @pbrbm bbseURI
+     * @return the instbnce
      *
      * @throws ResourceResolverException
      */
-    public static final ResourceResolver getInstance(Attr uri, String baseURI)
+    public stbtic finbl ResourceResolver getInstbnce(Attr uri, String bbseURI)
         throws ResourceResolverException {
-        return getInstance(uri, baseURI, false);
+        return getInstbnce(uri, bbseURI, fblse);
     }
 
     /**
-     * Method getInstance
+     * Method getInstbnce
      *
-     * @param uri
-     * @param baseURI
-     * @param secureValidation
-     * @return the instance
+     * @pbrbm uri
+     * @pbrbm bbseURI
+     * @pbrbm secureVblidbtion
+     * @return the instbnce
      *
      * @throws ResourceResolverException
      */
-    public static final ResourceResolver getInstance(
-        Attr uriAttr, String baseURI, boolean secureValidation
+    public stbtic finbl ResourceResolver getInstbnce(
+        Attr uriAttr, String bbseURI, boolebn secureVblidbtion
     ) throws ResourceResolverException {
-        ResourceResolverContext context = new ResourceResolverContext(uriAttr, baseURI, secureValidation);
-        return internalGetInstance(context);
+        ResourceResolverContext context = new ResourceResolverContext(uriAttr, bbseURI, secureVblidbtion);
+        return internblGetInstbnce(context);
     }
 
-    private static <N> ResourceResolver internalGetInstance(ResourceResolverContext context)
+    privbte stbtic <N> ResourceResolver internblGetInstbnce(ResourceResolverContext context)
             throws ResourceResolverException {
         synchronized (resolverList) {
             for (ResourceResolver resolver : resolverList) {
                 ResourceResolver resolverTmp = resolver;
-                if (!resolver.resolverSpi.engineIsThreadSafe()) {
+                if (!resolver.resolverSpi.engineIsThrebdSbfe()) {
                     try {
                         resolverTmp =
-                            new ResourceResolver(resolver.resolverSpi.getClass().newInstance());
-                    } catch (InstantiationException e) {
-                        throw new ResourceResolverException("", e, context.attr, context.baseUri);
-                    } catch (IllegalAccessException e) {
-                        throw new ResourceResolverException("", e, context.attr, context.baseUri);
+                            new ResourceResolver(resolver.resolverSpi.getClbss().newInstbnce());
+                    } cbtch (InstbntibtionException e) {
+                        throw new ResourceResolverException("", e, context.bttr, context.bbseUri);
+                    } cbtch (IllegblAccessException e) {
+                        throw new ResourceResolverException("", e, context.bttr, context.bbseUri);
                     }
                 }
 
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE,
-                        "check resolvability by class " + resolverTmp.getClass().getName()
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE,
+                        "check resolvbbility by clbss " + resolverTmp.getClbss().getNbme()
                     );
                 }
 
-                if ((resolverTmp != null) && resolverTmp.canResolve(context)) {
-                    // Check to see whether the Resolver is allowed
-                    if (context.secureValidation
-                        && (resolverTmp.resolverSpi instanceof ResolverLocalFilesystem
-                            || resolverTmp.resolverSpi instanceof ResolverDirectHTTP)) {
-                        Object exArgs[] = { resolverTmp.resolverSpi.getClass().getName() };
+                if ((resolverTmp != null) && resolverTmp.cbnResolve(context)) {
+                    // Check to see whether the Resolver is bllowed
+                    if (context.secureVblidbtion
+                        && (resolverTmp.resolverSpi instbnceof ResolverLocblFilesystem
+                            || resolverTmp.resolverSpi instbnceof ResolverDirectHTTP)) {
+                        Object exArgs[] = { resolverTmp.resolverSpi.getClbss().getNbme() };
                         throw new ResourceResolverException(
-                            "signature.Reference.ForbiddenResolver", exArgs, context.attr, context.baseUri
+                            "signbture.Reference.ForbiddenResolver", exArgs, context.bttr, context.bbseUri
                         );
                     }
                     return resolverTmp;
@@ -129,233 +129,233 @@ public class ResourceResolver {
         }
 
         Object exArgs[] = { ((context.uriToResolve != null)
-                ? context.uriToResolve : "null"), context.baseUri };
+                ? context.uriToResolve : "null"), context.bbseUri };
 
-        throw new ResourceResolverException("utils.resolver.noClass", exArgs, context.attr, context.baseUri);
+        throw new ResourceResolverException("utils.resolver.noClbss", exArgs, context.bttr, context.bbseUri);
     }
 
     /**
-     * Method getInstance
+     * Method getInstbnce
      *
-     * @param uri
-     * @param baseURI
-     * @param individualResolvers
-     * @return the instance
+     * @pbrbm uri
+     * @pbrbm bbseURI
+     * @pbrbm individublResolvers
+     * @return the instbnce
      *
      * @throws ResourceResolverException
      */
-    public static ResourceResolver getInstance(
-        Attr uri, String baseURI, List<ResourceResolver> individualResolvers
+    public stbtic ResourceResolver getInstbnce(
+        Attr uri, String bbseURI, List<ResourceResolver> individublResolvers
     ) throws ResourceResolverException {
-        return getInstance(uri, baseURI, individualResolvers, false);
+        return getInstbnce(uri, bbseURI, individublResolvers, fblse);
     }
 
     /**
-     * Method getInstance
+     * Method getInstbnce
      *
-     * @param uri
-     * @param baseURI
-     * @param individualResolvers
-     * @param secureValidation
-     * @return the instance
+     * @pbrbm uri
+     * @pbrbm bbseURI
+     * @pbrbm individublResolvers
+     * @pbrbm secureVblidbtion
+     * @return the instbnce
      *
      * @throws ResourceResolverException
      */
-    public static ResourceResolver getInstance(
-        Attr uri, String baseURI, List<ResourceResolver> individualResolvers, boolean secureValidation
+    public stbtic ResourceResolver getInstbnce(
+        Attr uri, String bbseURI, List<ResourceResolver> individublResolvers, boolebn secureVblidbtion
     ) throws ResourceResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE,
-                "I was asked to create a ResourceResolver and got "
-                + (individualResolvers == null ? 0 : individualResolvers.size())
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE,
+                "I wbs bsked to crebte b ResourceResolver bnd got "
+                + (individublResolvers == null ? 0 : individublResolvers.size())
             );
         }
 
-        ResourceResolverContext context = new ResourceResolverContext(uri, baseURI, secureValidation);
+        ResourceResolverContext context = new ResourceResolverContext(uri, bbseURI, secureVblidbtion);
 
-        // first check the individual Resolvers
-        if (individualResolvers != null) {
-            for (int i = 0; i < individualResolvers.size(); i++) {
-                ResourceResolver resolver = individualResolvers.get(i);
+        // first check the individubl Resolvers
+        if (individublResolvers != null) {
+            for (int i = 0; i < individublResolvers.size(); i++) {
+                ResourceResolver resolver = individublResolvers.get(i);
 
                 if (resolver != null) {
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        String currentClass = resolver.resolverSpi.getClass().getName();
-                        log.log(java.util.logging.Level.FINE, "check resolvability by class " + currentClass);
+                    if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                        String currentClbss = resolver.resolverSpi.getClbss().getNbme();
+                        log.log(jbvb.util.logging.Level.FINE, "check resolvbbility by clbss " + currentClbss);
                     }
 
-                    if (resolver.canResolve(context)) {
+                    if (resolver.cbnResolve(context)) {
                         return resolver;
                     }
                 }
             }
         }
 
-        return internalGetInstance(context);
+        return internblGetInstbnce(context);
     }
 
     /**
-     * Registers a ResourceResolverSpi class. This method logs a warning if
-     * the class cannot be registered.
+     * Registers b ResourceResolverSpi clbss. This method logs b wbrning if
+     * the clbss cbnnot be registered.
      *
-     * @param className the name of the ResourceResolverSpi class to be registered
+     * @pbrbm clbssNbme the nbme of the ResourceResolverSpi clbss to be registered
      */
-    @SuppressWarnings("unchecked")
-    public static void register(String className) {
+    @SuppressWbrnings("unchecked")
+    public stbtic void register(String clbssNbme) {
         try {
-            Class<ResourceResolverSpi> resourceResolverClass =
-                (Class<ResourceResolverSpi>) Class.forName(className);
-            register(resourceResolverClass, false);
-        } catch (ClassNotFoundException e) {
-            log.log(java.util.logging.Level.WARNING, "Error loading resolver " + className + " disabling it");
+            Clbss<ResourceResolverSpi> resourceResolverClbss =
+                (Clbss<ResourceResolverSpi>) Clbss.forNbme(clbssNbme);
+            register(resourceResolverClbss, fblse);
+        } cbtch (ClbssNotFoundException e) {
+            log.log(jbvb.util.logging.Level.WARNING, "Error lobding resolver " + clbssNbme + " disbbling it");
         }
     }
 
     /**
-     * Registers a ResourceResolverSpi class at the beginning of the provider
-     * list. This method logs a warning if the class cannot be registered.
+     * Registers b ResourceResolverSpi clbss bt the beginning of the provider
+     * list. This method logs b wbrning if the clbss cbnnot be registered.
      *
-     * @param className the name of the ResourceResolverSpi class to be registered
+     * @pbrbm clbssNbme the nbme of the ResourceResolverSpi clbss to be registered
      */
-    @SuppressWarnings("unchecked")
-    public static void registerAtStart(String className) {
+    @SuppressWbrnings("unchecked")
+    public stbtic void registerAtStbrt(String clbssNbme) {
         try {
-            Class<ResourceResolverSpi> resourceResolverClass =
-                (Class<ResourceResolverSpi>) Class.forName(className);
-            register(resourceResolverClass, true);
-        } catch (ClassNotFoundException e) {
-            log.log(java.util.logging.Level.WARNING, "Error loading resolver " + className + " disabling it");
+            Clbss<ResourceResolverSpi> resourceResolverClbss =
+                (Clbss<ResourceResolverSpi>) Clbss.forNbme(clbssNbme);
+            register(resourceResolverClbss, true);
+        } cbtch (ClbssNotFoundException e) {
+            log.log(jbvb.util.logging.Level.WARNING, "Error lobding resolver " + clbssNbme + " disbbling it");
         }
     }
 
     /**
-     * Registers a ResourceResolverSpi class. This method logs a warning if the class
-     * cannot be registered.
-     * @param className
-     * @param start
+     * Registers b ResourceResolverSpi clbss. This method logs b wbrning if the clbss
+     * cbnnot be registered.
+     * @pbrbm clbssNbme
+     * @pbrbm stbrt
      */
-    public static void register(Class<? extends ResourceResolverSpi> className, boolean start) {
+    public stbtic void register(Clbss<? extends ResourceResolverSpi> clbssNbme, boolebn stbrt) {
         try {
-            ResourceResolverSpi resourceResolverSpi = className.newInstance();
-            register(resourceResolverSpi, start);
-        } catch (IllegalAccessException e) {
-            log.log(java.util.logging.Level.WARNING, "Error loading resolver " + className + " disabling it");
-        } catch (InstantiationException e) {
-            log.log(java.util.logging.Level.WARNING, "Error loading resolver " + className + " disabling it");
+            ResourceResolverSpi resourceResolverSpi = clbssNbme.newInstbnce();
+            register(resourceResolverSpi, stbrt);
+        } cbtch (IllegblAccessException e) {
+            log.log(jbvb.util.logging.Level.WARNING, "Error lobding resolver " + clbssNbme + " disbbling it");
+        } cbtch (InstbntibtionException e) {
+            log.log(jbvb.util.logging.Level.WARNING, "Error lobding resolver " + clbssNbme + " disbbling it");
         }
     }
 
     /**
-     * Registers a ResourceResolverSpi instance. This method logs a warning if the class
-     * cannot be registered.
-     * @param resourceResolverSpi
-     * @param start
+     * Registers b ResourceResolverSpi instbnce. This method logs b wbrning if the clbss
+     * cbnnot be registered.
+     * @pbrbm resourceResolverSpi
+     * @pbrbm stbrt
      */
-    public static void register(ResourceResolverSpi resourceResolverSpi, boolean start) {
+    public stbtic void register(ResourceResolverSpi resourceResolverSpi, boolebn stbrt) {
         synchronized(resolverList) {
-            if (start) {
-                resolverList.add(0, new ResourceResolver(resourceResolverSpi));
+            if (stbrt) {
+                resolverList.bdd(0, new ResourceResolver(resourceResolverSpi));
             } else {
-                resolverList.add(new ResourceResolver(resourceResolverSpi));
+                resolverList.bdd(new ResourceResolver(resourceResolverSpi));
             }
         }
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Registered resolver: " + resourceResolverSpi.toString());
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Registered resolver: " + resourceResolverSpi.toString());
         }
     }
 
     /**
-     * This method registers the default resolvers.
+     * This method registers the defbult resolvers.
      */
-    public static void registerDefaultResolvers() {
+    public stbtic void registerDefbultResolvers() {
         synchronized(resolverList) {
-            resolverList.add(new ResourceResolver(new ResolverFragment()));
-            resolverList.add(new ResourceResolver(new ResolverLocalFilesystem()));
-            resolverList.add(new ResourceResolver(new ResolverXPointer()));
-            resolverList.add(new ResourceResolver(new ResolverDirectHTTP()));
+            resolverList.bdd(new ResourceResolver(new ResolverFrbgment()));
+            resolverList.bdd(new ResourceResolver(new ResolverLocblFilesystem()));
+            resolverList.bdd(new ResourceResolver(new ResolverXPointer()));
+            resolverList.bdd(new ResourceResolver(new ResolverDirectHTTP()));
         }
     }
 
     /**
-     * @deprecated New clients should use {@link #resolve(Attr, String, boolean)}
+     * @deprecbted New clients should use {@link #resolve(Attr, String, boolebn)}
      */
-    @Deprecated
-    public XMLSignatureInput resolve(Attr uri, String baseURI)
+    @Deprecbted
+    public XMLSignbtureInput resolve(Attr uri, String bbseURI)
         throws ResourceResolverException {
-        return resolve(uri, baseURI, true);
+        return resolve(uri, bbseURI, true);
     }
 
     /**
      * Method resolve
      *
-     * @param uri
-     * @param baseURI
+     * @pbrbm uri
+     * @pbrbm bbseURI
      * @return the resource
      *
      * @throws ResourceResolverException
      */
-    public XMLSignatureInput resolve(Attr uri, String baseURI, boolean secureValidation)
+    public XMLSignbtureInput resolve(Attr uri, String bbseURI, boolebn secureVblidbtion)
         throws ResourceResolverException {
-        ResourceResolverContext context = new ResourceResolverContext(uri, baseURI, secureValidation);
+        ResourceResolverContext context = new ResourceResolverContext(uri, bbseURI, secureVblidbtion);
         return resolverSpi.engineResolveURI(context);
     }
 
     /**
      * Method setProperty
      *
-     * @param key
-     * @param value
+     * @pbrbm key
+     * @pbrbm vblue
      */
-    public void setProperty(String key, String value) {
-        resolverSpi.engineSetProperty(key, value);
+    public void setProperty(String key, String vblue) {
+        resolverSpi.engineSetProperty(key, vblue);
     }
 
     /**
      * Method getProperty
      *
-     * @param key
-     * @return the value of the property
+     * @pbrbm key
+     * @return the vblue of the property
      */
     public String getProperty(String key) {
         return resolverSpi.engineGetProperty(key);
     }
 
     /**
-     * Method addProperties
+     * Method bddProperties
      *
-     * @param properties
+     * @pbrbm properties
      */
-    public void addProperties(Map<String, String> properties) {
+    public void bddProperties(Mbp<String, String> properties) {
         resolverSpi.engineAddProperies(properties);
     }
 
     /**
      * Method getPropertyKeys
      *
-     * @return all property keys.
+     * @return bll property keys.
      */
     public String[] getPropertyKeys() {
         return resolverSpi.engineGetPropertyKeys();
     }
 
     /**
-     * Method understandsProperty
+     * Method understbndsProperty
      *
-     * @param propertyToTest
-     * @return true if the resolver understands the property
+     * @pbrbm propertyToTest
+     * @return true if the resolver understbnds the property
      */
-    public boolean understandsProperty(String propertyToTest) {
-        return resolverSpi.understandsProperty(propertyToTest);
+    public boolebn understbndsProperty(String propertyToTest) {
+        return resolverSpi.understbndsProperty(propertyToTest);
     }
 
     /**
-     * Method canResolve
+     * Method cbnResolve
      *
-     * @param uri
-     * @param baseURI
-     * @return true if it can resolve the uri
+     * @pbrbm uri
+     * @pbrbm bbseURI
+     * @return true if it cbn resolve the uri
      */
-    private boolean canResolve(ResourceResolverContext context) {
-        return this.resolverSpi.engineCanResolveURI(context);
+    privbte boolebn cbnResolve(ResourceResolverContext context) {
+        return this.resolverSpi.engineCbnResolveURI(context);
     }
 }

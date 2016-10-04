@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.util.concurrent.*;
-import java.io.IOException;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.concurrent.*;
+import jbvb.io.IOException;
 
 /**
- * A Future for a pending I/O operation. A PendingFuture allows for the
- * attachment of an additional arbitrary context object and a timer task.
+ * A Future for b pending I/O operbtion. A PendingFuture bllows for the
+ * bttbchment of bn bdditionbl brbitrbry context object bnd b timer tbsk.
  */
 
-final class PendingFuture<V,A> implements Future<V> {
+finbl clbss PendingFuture<V,A> implements Future<V> {
 
-    private final AsynchronousChannel channel;
-    private final CompletionHandler<V,? super A> handler;
-    private final A attachment;
+    privbte finbl AsynchronousChbnnel chbnnel;
+    privbte finbl CompletionHbndler<V,? super A> hbndler;
+    privbte finbl A bttbchment;
 
-    // true if result (or exception) is available
-    private volatile boolean haveResult;
-    private volatile V result;
-    private volatile Throwable exc;
+    // true if result (or exception) is bvbilbble
+    privbte volbtile boolebn hbveResult;
+    privbte volbtile V result;
+    privbte volbtile Throwbble exc;
 
-    // latch for waiting (created lazily if needed)
-    private CountDownLatch latch;
+    // lbtch for wbiting (crebted lbzily if needed)
+    privbte CountDownLbtch lbtch;
 
-    // optional timer task that is cancelled when result becomes available
-    private Future<?> timeoutTask;
+    // optionbl timer tbsk thbt is cbncelled when result becomes bvbilbble
+    privbte Future<?> timeoutTbsk;
 
-    // optional context object
-    private volatile Object context;
+    // optionbl context object
+    privbte volbtile Object context;
 
-    PendingFuture(AsynchronousChannel channel,
-                  CompletionHandler<V,? super A> handler,
-                  A attachment,
+    PendingFuture(AsynchronousChbnnel chbnnel,
+                  CompletionHbndler<V,? super A> hbndler,
+                  A bttbchment,
                   Object context)
     {
-        this.channel = channel;
-        this.handler = handler;
-        this.attachment = attachment;
+        this.chbnnel = chbnnel;
+        this.hbndler = hbndler;
+        this.bttbchment = bttbchment;
         this.context = context;
     }
 
-    PendingFuture(AsynchronousChannel channel,
-                  CompletionHandler<V,? super A> handler,
-                  A attachment)
+    PendingFuture(AsynchronousChbnnel chbnnel,
+                  CompletionHbndler<V,? super A> hbndler,
+                  A bttbchment)
     {
-        this.channel = channel;
-        this.handler = handler;
-        this.attachment = attachment;
+        this.chbnnel = chbnnel;
+        this.hbndler = hbndler;
+        this.bttbchment = bttbchment;
     }
 
-    PendingFuture(AsynchronousChannel channel) {
-        this(channel, null, null);
+    PendingFuture(AsynchronousChbnnel chbnnel) {
+        this(chbnnel, null, null);
     }
 
-    PendingFuture(AsynchronousChannel channel, Object context) {
-        this(channel, null, null, context);
+    PendingFuture(AsynchronousChbnnel chbnnel, Object context) {
+        this(chbnnel, null, null, context);
     }
 
-    AsynchronousChannel channel() {
-        return channel;
+    AsynchronousChbnnel chbnnel() {
+        return chbnnel;
     }
 
-    CompletionHandler<V,? super A> handler() {
-        return handler;
+    CompletionHbndler<V,? super A> hbndler() {
+        return hbndler;
     }
 
-    A attachment() {
-        return attachment;
+    A bttbchment() {
+        return bttbchment;
     }
 
     void setContext(Object context) {
@@ -102,84 +102,84 @@ final class PendingFuture<V,A> implements Future<V> {
         return context;
     }
 
-    void setTimeoutTask(Future<?> task) {
+    void setTimeoutTbsk(Future<?> tbsk) {
         synchronized (this) {
-            if (haveResult) {
-                task.cancel(false);
+            if (hbveResult) {
+                tbsk.cbncel(fblse);
             } else {
-                this.timeoutTask = task;
+                this.timeoutTbsk = tbsk;
             }
         }
     }
 
-    // creates latch if required; return true if caller needs to wait
-    private boolean prepareForWait() {
+    // crebtes lbtch if required; return true if cbller needs to wbit
+    privbte boolebn prepbreForWbit() {
         synchronized (this) {
-            if (haveResult) {
-                return false;
+            if (hbveResult) {
+                return fblse;
             } else {
-                if (latch == null)
-                    latch = new CountDownLatch(1);
+                if (lbtch == null)
+                    lbtch = new CountDownLbtch(1);
                 return true;
             }
         }
     }
 
     /**
-     * Sets the result, or a no-op if the result or exception is already set.
+     * Sets the result, or b no-op if the result or exception is blrebdy set.
      */
     void setResult(V res) {
         synchronized (this) {
-            if (haveResult)
+            if (hbveResult)
                 return;
             result = res;
-            haveResult = true;
-            if (timeoutTask != null)
-                timeoutTask.cancel(false);
-            if (latch != null)
-                latch.countDown();
+            hbveResult = true;
+            if (timeoutTbsk != null)
+                timeoutTbsk.cbncel(fblse);
+            if (lbtch != null)
+                lbtch.countDown();
         }
     }
 
     /**
-     * Sets the result, or a no-op if the result or exception is already set.
+     * Sets the result, or b no-op if the result or exception is blrebdy set.
      */
-    void setFailure(Throwable x) {
-        if (!(x instanceof IOException) && !(x instanceof SecurityException))
+    void setFbilure(Throwbble x) {
+        if (!(x instbnceof IOException) && !(x instbnceof SecurityException))
             x = new IOException(x);
         synchronized (this) {
-            if (haveResult)
+            if (hbveResult)
                 return;
             exc = x;
-            haveResult = true;
-            if (timeoutTask != null)
-                timeoutTask.cancel(false);
-            if (latch != null)
-                latch.countDown();
+            hbveResult = true;
+            if (timeoutTbsk != null)
+                timeoutTbsk.cbncel(fblse);
+            if (lbtch != null)
+                lbtch.countDown();
         }
     }
 
     /**
      * Sets the result
      */
-    void setResult(V res, Throwable x) {
+    void setResult(V res, Throwbble x) {
         if (x == null) {
             setResult(res);
         } else {
-            setFailure(x);
+            setFbilure(x);
         }
     }
 
     @Override
     public V get() throws ExecutionException, InterruptedException {
-        if (!haveResult) {
-            boolean needToWait = prepareForWait();
-            if (needToWait)
-                latch.await();
+        if (!hbveResult) {
+            boolebn needToWbit = prepbreForWbit();
+            if (needToWbit)
+                lbtch.bwbit();
         }
         if (exc != null) {
-            if (exc instanceof CancellationException)
-                throw new CancellationException();
+            if (exc instbnceof CbncellbtionException)
+                throw new CbncellbtionException();
             throw new ExecutionException(exc);
         }
         return result;
@@ -189,64 +189,64 @@ final class PendingFuture<V,A> implements Future<V> {
     public V get(long timeout, TimeUnit unit)
         throws ExecutionException, InterruptedException, TimeoutException
     {
-        if (!haveResult) {
-            boolean needToWait = prepareForWait();
-            if (needToWait)
-                if (!latch.await(timeout, unit)) throw new TimeoutException();
+        if (!hbveResult) {
+            boolebn needToWbit = prepbreForWbit();
+            if (needToWbit)
+                if (!lbtch.bwbit(timeout, unit)) throw new TimeoutException();
         }
         if (exc != null) {
-            if (exc instanceof CancellationException)
-                throw new CancellationException();
+            if (exc instbnceof CbncellbtionException)
+                throw new CbncellbtionException();
             throw new ExecutionException(exc);
         }
         return result;
     }
 
-    Throwable exception() {
-        return (exc instanceof CancellationException) ? null : exc;
+    Throwbble exception() {
+        return (exc instbnceof CbncellbtionException) ? null : exc;
     }
 
-    V value() {
+    V vblue() {
         return result;
     }
 
     @Override
-    public boolean isCancelled() {
-        return (exc instanceof CancellationException);
+    public boolebn isCbncelled() {
+        return (exc instbnceof CbncellbtionException);
     }
 
     @Override
-    public boolean isDone() {
-        return haveResult;
+    public boolebn isDone() {
+        return hbveResult;
     }
 
     @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
+    public boolebn cbncel(boolebn mbyInterruptIfRunning) {
         synchronized (this) {
-            if (haveResult)
-                return false;    // already completed
+            if (hbveResult)
+                return fblse;    // blrebdy completed
 
-            // notify channel
-            if (channel() instanceof Cancellable)
-                ((Cancellable)channel()).onCancel(this);
+            // notify chbnnel
+            if (chbnnel() instbnceof Cbncellbble)
+                ((Cbncellbble)chbnnel()).onCbncel(this);
 
-            // set result and cancel timer
-            exc = new CancellationException();
-            haveResult = true;
-            if (timeoutTask != null)
-                timeoutTask.cancel(false);
+            // set result bnd cbncel timer
+            exc = new CbncellbtionException();
+            hbveResult = true;
+            if (timeoutTbsk != null)
+                timeoutTbsk.cbncel(fblse);
         }
 
-        // close channel if forceful cancel
-        if (mayInterruptIfRunning) {
+        // close chbnnel if forceful cbncel
+        if (mbyInterruptIfRunning) {
             try {
-                channel().close();
-            } catch (IOException ignore) { }
+                chbnnel().close();
+            } cbtch (IOException ignore) { }
         }
 
-        // release waiters
-        if (latch != null)
-            latch.countDown();
+        // relebse wbiters
+        if (lbtch != null)
+            lbtch.countDown();
         return true;
     }
 }

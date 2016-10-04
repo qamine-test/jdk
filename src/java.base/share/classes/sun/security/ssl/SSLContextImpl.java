@@ -1,371 +1,371 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.net.Socket;
+import jbvb.net.Socket;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.*;
+import jbvb.security.cert.*;
+import jbvb.security.cert.Certificbte;
 
-import javax.net.ssl.*;
+import jbvbx.net.ssl.*;
 
-import sun.security.provider.certpath.AlgorithmChecker;
-import sun.security.action.GetPropertyAction;
+import sun.security.provider.certpbth.AlgorithmChecker;
+import sun.security.bction.GetPropertyAction;
 
-public abstract class SSLContextImpl extends SSLContextSpi {
+public bbstrbct clbss SSLContextImpl extends SSLContextSpi {
 
-    private static final Debug debug = Debug.getInstance("ssl");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
-    private final EphemeralKeyManager ephemeralKeyManager;
-    private final SSLSessionContextImpl clientCache;
-    private final SSLSessionContextImpl serverCache;
+    privbte finbl EphemerblKeyMbnbger ephemerblKeyMbnbger;
+    privbte finbl SSLSessionContextImpl clientCbche;
+    privbte finbl SSLSessionContextImpl serverCbche;
 
-    private boolean isInitialized;
+    privbte boolebn isInitiblized;
 
-    private X509ExtendedKeyManager keyManager;
-    private X509TrustManager trustManager;
-    private SecureRandom secureRandom;
+    privbte X509ExtendedKeyMbnbger keyMbnbger;
+    privbte X509TrustMbnbger trustMbnbger;
+    privbte SecureRbndom secureRbndom;
 
-    // The default algrithm constraints
-    private AlgorithmConstraints defaultAlgorithmConstraints =
-                                 new SSLAlgorithmConstraints(null);
+    // The defbult blgrithm constrbints
+    privbte AlgorithmConstrbints defbultAlgorithmConstrbints =
+                                 new SSLAlgorithmConstrbints(null);
 
-    // supported and default protocols
-    private ProtocolList defaultServerProtocolList;
-    private ProtocolList defaultClientProtocolList;
-    private ProtocolList supportedProtocolList;
+    // supported bnd defbult protocols
+    privbte ProtocolList defbultServerProtocolList;
+    privbte ProtocolList defbultClientProtocolList;
+    privbte ProtocolList supportedProtocolList;
 
-    // supported and default cipher suites
-    private CipherSuiteList defaultServerCipherSuiteList;
-    private CipherSuiteList defaultClientCipherSuiteList;
-    private CipherSuiteList supportedCipherSuiteList;
+    // supported bnd defbult cipher suites
+    privbte CipherSuiteList defbultServerCipherSuiteList;
+    privbte CipherSuiteList defbultClientCipherSuiteList;
+    privbte CipherSuiteList supportedCipherSuiteList;
 
     SSLContextImpl() {
-        ephemeralKeyManager = new EphemeralKeyManager();
-        clientCache = new SSLSessionContextImpl();
-        serverCache = new SSLSessionContextImpl();
+        ephemerblKeyMbnbger = new EphemerblKeyMbnbger();
+        clientCbche = new SSLSessionContextImpl();
+        serverCbche = new SSLSessionContextImpl();
     }
 
     @Override
-    protected void engineInit(KeyManager[] km, TrustManager[] tm,
-                                SecureRandom sr) throws KeyManagementException {
-        isInitialized = false;
-        keyManager = chooseKeyManager(km);
+    protected void engineInit(KeyMbnbger[] km, TrustMbnbger[] tm,
+                                SecureRbndom sr) throws KeyMbnbgementException {
+        isInitiblized = fblse;
+        keyMbnbger = chooseKeyMbnbger(km);
 
         if (tm == null) {
             try {
-                TrustManagerFactory tmf = TrustManagerFactory.getInstance(
-                        TrustManagerFactory.getDefaultAlgorithm());
+                TrustMbnbgerFbctory tmf = TrustMbnbgerFbctory.getInstbnce(
+                        TrustMbnbgerFbctory.getDefbultAlgorithm());
                 tmf.init((KeyStore)null);
-                tm = tmf.getTrustManagers();
-            } catch (Exception e) {
-                // eat
+                tm = tmf.getTrustMbnbgers();
+            } cbtch (Exception e) {
+                // ebt
             }
         }
-        trustManager = chooseTrustManager(tm);
+        trustMbnbger = chooseTrustMbnbger(tm);
 
         if (sr == null) {
-            secureRandom = JsseJce.getSecureRandom();
+            secureRbndom = JsseJce.getSecureRbndom();
         } else {
             if (SunJSSE.isFIPS() &&
                         (sr.getProvider() != SunJSSE.cryptoProvider)) {
-                throw new KeyManagementException
-                    ("FIPS mode: SecureRandom must be from provider "
-                    + SunJSSE.cryptoProvider.getName());
+                throw new KeyMbnbgementException
+                    ("FIPS mode: SecureRbndom must be from provider "
+                    + SunJSSE.cryptoProvider.getNbme());
             }
-            secureRandom = sr;
+            secureRbndom = sr;
         }
 
         /*
-         * The initial delay of seeding the random number generator
-         * could be long enough to cause the initial handshake on our
-         * first connection to timeout and fail. Make sure it is
-         * primed and ready by getting some initial output from it.
+         * The initibl delby of seeding the rbndom number generbtor
+         * could be long enough to cbuse the initibl hbndshbke on our
+         * first connection to timeout bnd fbil. Mbke sure it is
+         * primed bnd rebdy by getting some initibl output from it.
          */
         if (debug != null && Debug.isOn("sslctx")) {
-            System.out.println("trigger seeding of SecureRandom");
+            System.out.println("trigger seeding of SecureRbndom");
         }
-        secureRandom.nextInt();
+        secureRbndom.nextInt();
         if (debug != null && Debug.isOn("sslctx")) {
-            System.out.println("done seeding SecureRandom");
+            System.out.println("done seeding SecureRbndom");
         }
-        isInitialized = true;
+        isInitiblized = true;
     }
 
-    private X509TrustManager chooseTrustManager(TrustManager[] tm)
-            throws KeyManagementException {
-        // We only use the first instance of X509TrustManager passed to us.
+    privbte X509TrustMbnbger chooseTrustMbnbger(TrustMbnbger[] tm)
+            throws KeyMbnbgementException {
+        // We only use the first instbnce of X509TrustMbnbger pbssed to us.
         for (int i = 0; tm != null && i < tm.length; i++) {
-            if (tm[i] instanceof X509TrustManager) {
+            if (tm[i] instbnceof X509TrustMbnbger) {
                 if (SunJSSE.isFIPS() &&
-                        !(tm[i] instanceof X509TrustManagerImpl)) {
-                    throw new KeyManagementException
-                        ("FIPS mode: only SunJSSE TrustManagers may be used");
+                        !(tm[i] instbnceof X509TrustMbnbgerImpl)) {
+                    throw new KeyMbnbgementException
+                        ("FIPS mode: only SunJSSE TrustMbnbgers mby be used");
                 }
 
-                if (tm[i] instanceof X509ExtendedTrustManager) {
-                    return (X509TrustManager)tm[i];
+                if (tm[i] instbnceof X509ExtendedTrustMbnbger) {
+                    return (X509TrustMbnbger)tm[i];
                 } else {
-                    return new AbstractTrustManagerWrapper(
-                                        (X509TrustManager)tm[i]);
+                    return new AbstrbctTrustMbnbgerWrbpper(
+                                        (X509TrustMbnbger)tm[i]);
                 }
             }
         }
 
-        // nothing found, return a dummy X509TrustManager.
-        return DummyX509TrustManager.INSTANCE;
+        // nothing found, return b dummy X509TrustMbnbger.
+        return DummyX509TrustMbnbger.INSTANCE;
     }
 
-    private X509ExtendedKeyManager chooseKeyManager(KeyManager[] kms)
-            throws KeyManagementException {
+    privbte X509ExtendedKeyMbnbger chooseKeyMbnbger(KeyMbnbger[] kms)
+            throws KeyMbnbgementException {
         for (int i = 0; kms != null && i < kms.length; i++) {
-            KeyManager km = kms[i];
-            if (!(km instanceof X509KeyManager)) {
+            KeyMbnbger km = kms[i];
+            if (!(km instbnceof X509KeyMbnbger)) {
                 continue;
             }
             if (SunJSSE.isFIPS()) {
-                // In FIPS mode, require that one of SunJSSE's own keymanagers
-                // is used. Otherwise, we cannot be sure that only keys from
-                // the FIPS token are used.
-                if ((km instanceof X509KeyManagerImpl)
-                            || (km instanceof SunX509KeyManagerImpl)) {
-                    return (X509ExtendedKeyManager)km;
+                // In FIPS mode, require thbt one of SunJSSE's own keymbnbgers
+                // is used. Otherwise, we cbnnot be sure thbt only keys from
+                // the FIPS token bre used.
+                if ((km instbnceof X509KeyMbnbgerImpl)
+                            || (km instbnceof SunX509KeyMbnbgerImpl)) {
+                    return (X509ExtendedKeyMbnbger)km;
                 } else {
-                    // throw exception, we don't want to silently use the
-                    // dummy keymanager without telling the user.
-                    throw new KeyManagementException
-                        ("FIPS mode: only SunJSSE KeyManagers may be used");
+                    // throw exception, we don't wbnt to silently use the
+                    // dummy keymbnbger without telling the user.
+                    throw new KeyMbnbgementException
+                        ("FIPS mode: only SunJSSE KeyMbnbgers mby be used");
                 }
             }
-            if (km instanceof X509ExtendedKeyManager) {
-                return (X509ExtendedKeyManager)km;
+            if (km instbnceof X509ExtendedKeyMbnbger) {
+                return (X509ExtendedKeyMbnbger)km;
             }
             if (debug != null && Debug.isOn("sslctx")) {
                 System.out.println(
-                    "X509KeyManager passed to " +
-                    "SSLContext.init():  need an " +
-                    "X509ExtendedKeyManager for SSLEngine use");
+                    "X509KeyMbnbger pbssed to " +
+                    "SSLContext.init():  need bn " +
+                    "X509ExtendedKeyMbnbger for SSLEngine use");
             }
-            return new AbstractKeyManagerWrapper((X509KeyManager)km);
+            return new AbstrbctKeyMbnbgerWrbpper((X509KeyMbnbger)km);
         }
 
-        // nothing found, return a dummy X509ExtendedKeyManager
-        return DummyX509KeyManager.INSTANCE;
+        // nothing found, return b dummy X509ExtendedKeyMbnbger
+        return DummyX509KeyMbnbger.INSTANCE;
     }
 
     @Override
-    protected SSLSocketFactory engineGetSocketFactory() {
-        if (!isInitialized) {
-            throw new IllegalStateException(
-                "SSLContextImpl is not initialized");
+    protected SSLSocketFbctory engineGetSocketFbctory() {
+        if (!isInitiblized) {
+            throw new IllegblStbteException(
+                "SSLContextImpl is not initiblized");
         }
-       return new SSLSocketFactoryImpl(this);
+       return new SSLSocketFbctoryImpl(this);
     }
 
     @Override
-    protected SSLServerSocketFactory engineGetServerSocketFactory() {
-        if (!isInitialized) {
-            throw new IllegalStateException("SSLContext is not initialized");
+    protected SSLServerSocketFbctory engineGetServerSocketFbctory() {
+        if (!isInitiblized) {
+            throw new IllegblStbteException("SSLContext is not initiblized");
         }
-        return new SSLServerSocketFactoryImpl(this);
+        return new SSLServerSocketFbctoryImpl(this);
     }
 
     @Override
-    protected SSLEngine engineCreateSSLEngine() {
-        if (!isInitialized) {
-            throw new IllegalStateException(
-                "SSLContextImpl is not initialized");
+    protected SSLEngine engineCrebteSSLEngine() {
+        if (!isInitiblized) {
+            throw new IllegblStbteException(
+                "SSLContextImpl is not initiblized");
         }
         return new SSLEngineImpl(this);
     }
 
     @Override
-    protected SSLEngine engineCreateSSLEngine(String host, int port) {
-        if (!isInitialized) {
-            throw new IllegalStateException(
-                "SSLContextImpl is not initialized");
+    protected SSLEngine engineCrebteSSLEngine(String host, int port) {
+        if (!isInitiblized) {
+            throw new IllegblStbteException(
+                "SSLContextImpl is not initiblized");
         }
         return new SSLEngineImpl(this, host, port);
     }
 
     @Override
     protected SSLSessionContext engineGetClientSessionContext() {
-        return clientCache;
+        return clientCbche;
     }
 
     @Override
     protected SSLSessionContext engineGetServerSessionContext() {
-        return serverCache;
+        return serverCbche;
     }
 
-    SecureRandom getSecureRandom() {
-        return secureRandom;
+    SecureRbndom getSecureRbndom() {
+        return secureRbndom;
     }
 
-    X509ExtendedKeyManager getX509KeyManager() {
-        return keyManager;
+    X509ExtendedKeyMbnbger getX509KeyMbnbger() {
+        return keyMbnbger;
     }
 
-    X509TrustManager getX509TrustManager() {
-        return trustManager;
+    X509TrustMbnbger getX509TrustMbnbger() {
+        return trustMbnbger;
     }
 
-    EphemeralKeyManager getEphemeralKeyManager() {
-        return ephemeralKeyManager;
+    EphemerblKeyMbnbger getEphemerblKeyMbnbger() {
+        return ephemerblKeyMbnbger;
     }
 
-    abstract SSLParameters getDefaultServerSSLParams();
-    abstract SSLParameters getDefaultClientSSLParams();
-    abstract SSLParameters getSupportedSSLParams();
+    bbstrbct SSLPbrbmeters getDefbultServerSSLPbrbms();
+    bbstrbct SSLPbrbmeters getDefbultClientSSLPbrbms();
+    bbstrbct SSLPbrbmeters getSupportedSSLPbrbms();
 
     // Get supported ProtocolList.
     ProtocolList getSuportedProtocolList() {
         if (supportedProtocolList == null) {
             supportedProtocolList =
-                new ProtocolList(getSupportedSSLParams().getProtocols());
+                new ProtocolList(getSupportedSSLPbrbms().getProtocols());
         }
 
         return supportedProtocolList;
     }
 
-    // Get default ProtocolList.
-    ProtocolList getDefaultProtocolList(boolean roleIsServer) {
+    // Get defbult ProtocolList.
+    ProtocolList getDefbultProtocolList(boolebn roleIsServer) {
         if (roleIsServer) {
-            if (defaultServerProtocolList == null) {
-                defaultServerProtocolList = new ProtocolList(
-                        getDefaultServerSSLParams().getProtocols());
+            if (defbultServerProtocolList == null) {
+                defbultServerProtocolList = new ProtocolList(
+                        getDefbultServerSSLPbrbms().getProtocols());
             }
 
-            return defaultServerProtocolList;
+            return defbultServerProtocolList;
         } else {
-            if (defaultClientProtocolList == null) {
-                defaultClientProtocolList = new ProtocolList(
-                        getDefaultClientSSLParams().getProtocols());
+            if (defbultClientProtocolList == null) {
+                defbultClientProtocolList = new ProtocolList(
+                        getDefbultClientSSLPbrbms().getProtocols());
             }
 
-            return defaultClientProtocolList;
+            return defbultClientProtocolList;
         }
     }
 
     // Get supported CipherSuiteList.
     CipherSuiteList getSupportedCipherSuiteList() {
-        // The maintenance of cipher suites needs to be synchronized.
+        // The mbintenbnce of cipher suites needs to be synchronized.
         synchronized (this) {
-            // Clear cache of available ciphersuites.
-            clearAvailableCache();
+            // Clebr cbche of bvbilbble ciphersuites.
+            clebrAvbilbbleCbche();
 
             if (supportedCipherSuiteList == null) {
-                supportedCipherSuiteList = getApplicableCipherSuiteList(
-                        getSuportedProtocolList(), false);
+                supportedCipherSuiteList = getApplicbbleCipherSuiteList(
+                        getSuportedProtocolList(), fblse);
             }
 
             return supportedCipherSuiteList;
         }
     }
 
-    // Get default CipherSuiteList.
-    CipherSuiteList getDefaultCipherSuiteList(boolean roleIsServer) {
-        // The maintenance of cipher suites needs to be synchronized.
+    // Get defbult CipherSuiteList.
+    CipherSuiteList getDefbultCipherSuiteList(boolebn roleIsServer) {
+        // The mbintenbnce of cipher suites needs to be synchronized.
         synchronized (this) {
-            // Clear cache of available ciphersuites.
-            clearAvailableCache();
+            // Clebr cbche of bvbilbble ciphersuites.
+            clebrAvbilbbleCbche();
 
             if (roleIsServer) {
-                if (defaultServerCipherSuiteList == null) {
-                    defaultServerCipherSuiteList = getApplicableCipherSuiteList(
-                        getDefaultProtocolList(true), true);
+                if (defbultServerCipherSuiteList == null) {
+                    defbultServerCipherSuiteList = getApplicbbleCipherSuiteList(
+                        getDefbultProtocolList(true), true);
                 }
 
-                return defaultServerCipherSuiteList;
+                return defbultServerCipherSuiteList;
             } else {
-                if (defaultClientCipherSuiteList == null) {
-                    defaultClientCipherSuiteList = getApplicableCipherSuiteList(
-                        getDefaultProtocolList(false), true);
+                if (defbultClientCipherSuiteList == null) {
+                    defbultClientCipherSuiteList = getApplicbbleCipherSuiteList(
+                        getDefbultProtocolList(fblse), true);
                 }
 
-                return defaultClientCipherSuiteList;
+                return defbultClientCipherSuiteList;
             }
         }
     }
 
     /**
-     * Return whether a protocol list is the original default enabled
-     * protocols.  See: SSLSocket/SSLEngine.setEnabledProtocols()
+     * Return whether b protocol list is the originbl defbult enbbled
+     * protocols.  See: SSLSocket/SSLEngine.setEnbbledProtocols()
      */
-    boolean isDefaultProtocolList(ProtocolList protocols) {
-        return (protocols == defaultServerProtocolList) ||
-               (protocols == defaultClientProtocolList);
+    boolebn isDefbultProtocolList(ProtocolList protocols) {
+        return (protocols == defbultServerProtocolList) ||
+               (protocols == defbultClientProtocolList);
     }
 
 
     /*
-     * Return the list of all available CipherSuites with a priority of
-     * minPriority or above.
+     * Return the list of bll bvbilbble CipherSuites with b priority of
+     * minPriority or bbove.
      */
-    private CipherSuiteList getApplicableCipherSuiteList(
-            ProtocolList protocols, boolean onlyEnabled) {
+    privbte CipherSuiteList getApplicbbleCipherSuiteList(
+            ProtocolList protocols, boolebn onlyEnbbled) {
 
         int minPriority = CipherSuite.SUPPORTED_SUITES_PRIORITY;
-        if (onlyEnabled) {
+        if (onlyEnbbled) {
             minPriority = CipherSuite.DEFAULT_SUITES_PRIORITY;
         }
 
-        Collection<CipherSuite> allowedCipherSuites =
-                                    CipherSuite.allowedCipherSuites();
+        Collection<CipherSuite> bllowedCipherSuites =
+                                    CipherSuite.bllowedCipherSuites();
 
         TreeSet<CipherSuite> suites = new TreeSet<>();
         if (!(protocols.collection().isEmpty()) &&
                 protocols.min.v != ProtocolVersion.NONE.v) {
-            for (CipherSuite suite : allowedCipherSuites) {
-                if (!suite.allowed || suite.priority < minPriority) {
+            for (CipherSuite suite : bllowedCipherSuites) {
+                if (!suite.bllowed || suite.priority < minPriority) {
                     continue;
                 }
 
-                if (suite.isAvailable() &&
+                if (suite.isAvbilbble() &&
                         suite.obsoleted > protocols.min.v &&
-                        suite.supported <= protocols.max.v) {
-                    if (defaultAlgorithmConstraints.permits(
+                        suite.supported <= protocols.mbx.v) {
+                    if (defbultAlgorithmConstrbints.permits(
                             EnumSet.of(CryptoPrimitive.KEY_AGREEMENT),
-                            suite.name, null)) {
-                        suites.add(suite);
+                            suite.nbme, null)) {
+                        suites.bdd(suite);
                     }
                 } else if (debug != null &&
                         Debug.isOn("sslctx") && Debug.isOn("verbose")) {
                     if (suite.obsoleted <= protocols.min.v) {
                         System.out.println(
                             "Ignoring obsoleted cipher suite: " + suite);
-                    } else if (suite.supported > protocols.max.v) {
+                    } else if (suite.supported > protocols.mbx.v) {
                         System.out.println(
                             "Ignoring unsupported cipher suite: " + suite);
                     } else {
                         System.out.println(
-                            "Ignoring unavailable cipher suite: " + suite);
+                            "Ignoring unbvbilbble cipher suite: " + suite);
                     }
                 }
             }
@@ -375,262 +375,262 @@ public abstract class SSLContextImpl extends SSLContextSpi {
     }
 
     /**
-     * Clear cache of available ciphersuites. If we support all ciphers
-     * internally, there is no need to clear the cache and calling this
-     * method has no effect.
+     * Clebr cbche of bvbilbble ciphersuites. If we support bll ciphers
+     * internblly, there is no need to clebr the cbche bnd cblling this
+     * method hbs no effect.
      *
-     * Note that every call to clearAvailableCache() and the maintenance of
-     * cipher suites need to be synchronized with this instance.
+     * Note thbt every cbll to clebrAvbilbbleCbche() bnd the mbintenbnce of
+     * cipher suites need to be synchronized with this instbnce.
      */
-    private void clearAvailableCache() {
+    privbte void clebrAvbilbbleCbche() {
         if (CipherSuite.DYNAMIC_AVAILABILITY) {
             supportedCipherSuiteList = null;
-            defaultServerCipherSuiteList = null;
-            defaultClientCipherSuiteList = null;
-            CipherSuite.BulkCipher.clearAvailableCache();
-            JsseJce.clearEcAvailable();
+            defbultServerCipherSuiteList = null;
+            defbultClientCipherSuiteList = null;
+            CipherSuite.BulkCipher.clebrAvbilbbleCbche();
+            JsseJce.clebrEcAvbilbble();
         }
     }
 
     /*
-     * The SSLContext implementation for TLS/SSL algorithm
+     * The SSLContext implementbtion for TLS/SSL blgorithm
      *
-     * SSL/TLS protocols specify the forward compatibility and version
-     * roll-back attack protections, however, a number of SSL/TLS server
-     * vendors did not implement these aspects properly, and some current
-     * SSL/TLS servers may refuse to talk to a TLS 1.1 or later client.
+     * SSL/TLS protocols specify the forwbrd compbtibility bnd version
+     * roll-bbck bttbck protections, however, b number of SSL/TLS server
+     * vendors did not implement these bspects properly, bnd some current
+     * SSL/TLS servers mby refuse to tblk to b TLS 1.1 or lbter client.
      *
-     * Considering above interoperability issues, SunJSSE will not set
-     * TLS 1.1 and TLS 1.2 as the enabled protocols for client by default.
+     * Considering bbove interoperbbility issues, SunJSSE will not set
+     * TLS 1.1 bnd TLS 1.2 bs the enbbled protocols for client by defbult.
      *
-     * For SSL/TLS servers, there is no such interoperability issues as
-     * SSL/TLS clients. In SunJSSE, TLS 1.1 or later version will be the
-     * enabled protocols for server by default.
+     * For SSL/TLS servers, there is no such interoperbbility issues bs
+     * SSL/TLS clients. In SunJSSE, TLS 1.1 or lbter version will be the
+     * enbbled protocols for server by defbult.
      *
-     * We may change the behavior when popular TLS/SSL vendors support TLS
-     * forward compatibility properly.
+     * We mby chbnge the behbvior when populbr TLS/SSL vendors support TLS
+     * forwbrd compbtibility properly.
      *
-     * SSLv2Hello is no longer necessary.  This interoperability option was
-     * put in place in the late 90's when SSLv3/TLS1.0 were relatively new
-     * and there were a fair number of SSLv2-only servers deployed.  Because
-     * of the security issues in SSLv2, it is rarely (if ever) used, as
-     * deployments should now be using SSLv3 and TLSv1.
+     * SSLv2Hello is no longer necessbry.  This interoperbbility option wbs
+     * put in plbce in the lbte 90's when SSLv3/TLS1.0 were relbtively new
+     * bnd there were b fbir number of SSLv2-only servers deployed.  Becbuse
+     * of the security issues in SSLv2, it is rbrely (if ever) used, bs
+     * deployments should now be using SSLv3 bnd TLSv1.
      *
-     * Considering the issues of SSLv2Hello, we should not enable SSLv2Hello
-     * by default. Applications still can use it by enabling SSLv2Hello with
-     * the series of setEnabledProtocols APIs.
+     * Considering the issues of SSLv2Hello, we should not enbble SSLv2Hello
+     * by defbult. Applicbtions still cbn use it by enbbling SSLv2Hello with
+     * the series of setEnbbledProtocols APIs.
      */
 
     /*
-     * The base abstract SSLContext implementation.
+     * The bbse bbstrbct SSLContext implementbtion.
      *
-     * This abstract class encapsulates supported and the default server
-     * SSL parameters.
+     * This bbstrbct clbss encbpsulbtes supported bnd the defbult server
+     * SSL pbrbmeters.
      *
      * @see SSLContext
      */
-    private abstract static class AbstractSSLContext extends SSLContextImpl {
-        // parameters
-        private final static SSLParameters defaultServerSSLParams;
-        private final static SSLParameters supportedSSLParams;
+    privbte bbstrbct stbtic clbss AbstrbctSSLContext extends SSLContextImpl {
+        // pbrbmeters
+        privbte finbl stbtic SSLPbrbmeters defbultServerSSLPbrbms;
+        privbte finbl stbtic SSLPbrbmeters supportedSSLPbrbms;
 
-        static {
-            supportedSSLParams = new SSLParameters();
+        stbtic {
+            supportedSSLPbrbms = new SSLPbrbmeters();
             if (SunJSSE.isFIPS()) {
-                supportedSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name,
-                    ProtocolVersion.TLS12.name
+                supportedSSLPbrbms.setProtocols(new String[] {
+                    ProtocolVersion.TLS10.nbme,
+                    ProtocolVersion.TLS11.nbme,
+                    ProtocolVersion.TLS12.nbme
                 });
 
-                defaultServerSSLParams = supportedSSLParams;
+                defbultServerSSLPbrbms = supportedSSLPbrbms;
             } else {
-                supportedSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.SSL20Hello.name,
-                    ProtocolVersion.SSL30.name,
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name,
-                    ProtocolVersion.TLS12.name
+                supportedSSLPbrbms.setProtocols(new String[] {
+                    ProtocolVersion.SSL20Hello.nbme,
+                    ProtocolVersion.SSL30.nbme,
+                    ProtocolVersion.TLS10.nbme,
+                    ProtocolVersion.TLS11.nbme,
+                    ProtocolVersion.TLS12.nbme
                 });
 
-                defaultServerSSLParams = supportedSSLParams;
+                defbultServerSSLPbrbms = supportedSSLPbrbms;
             }
         }
 
         @Override
-        SSLParameters getDefaultServerSSLParams() {
-            return defaultServerSSLParams;
+        SSLPbrbmeters getDefbultServerSSLPbrbms() {
+            return defbultServerSSLPbrbms;
         }
 
         @Override
-        SSLParameters getSupportedSSLParams() {
-            return supportedSSLParams;
+        SSLPbrbmeters getSupportedSSLPbrbms() {
+            return supportedSSLPbrbms;
         }
     }
 
     /*
-     * The SSLContext implementation for SSLv3 and TLS10 algorithm
+     * The SSLContext implementbtion for SSLv3 bnd TLS10 blgorithm
      *
      * @see SSLContext
      */
-    public static final class TLS10Context extends AbstractSSLContext {
-        private final static SSLParameters defaultClientSSLParams;
+    public stbtic finbl clbss TLS10Context extends AbstrbctSSLContext {
+        privbte finbl stbtic SSLPbrbmeters defbultClientSSLPbrbms;
 
-        static {
-            defaultClientSSLParams = new SSLParameters();
+        stbtic {
+            defbultClientSSLPbrbms = new SSLPbrbmeters();
             if (SunJSSE.isFIPS()) {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.TLS10.name
+                defbultClientSSLPbrbms.setProtocols(new String[] {
+                    ProtocolVersion.TLS10.nbme
                 });
 
             } else {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.SSL30.name,
-                    ProtocolVersion.TLS10.name
-                });
-            }
-        }
-
-        @Override
-        SSLParameters getDefaultClientSSLParams() {
-            return defaultClientSSLParams;
-        }
-    }
-
-    /*
-     * The SSLContext implementation for TLS11 algorithm
-     *
-     * @see SSLContext
-     */
-    public static final class TLS11Context extends AbstractSSLContext {
-        private final static SSLParameters defaultClientSSLParams;
-
-        static {
-            defaultClientSSLParams = new SSLParameters();
-            if (SunJSSE.isFIPS()) {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name
-                });
-
-            } else {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.SSL30.name,
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name
+                defbultClientSSLPbrbms.setProtocols(new String[] {
+                    ProtocolVersion.SSL30.nbme,
+                    ProtocolVersion.TLS10.nbme
                 });
             }
         }
 
         @Override
-        SSLParameters getDefaultClientSSLParams() {
-            return defaultClientSSLParams;
+        SSLPbrbmeters getDefbultClientSSLPbrbms() {
+            return defbultClientSSLPbrbms;
         }
     }
 
     /*
-     * The SSLContext implementation for TLS12 algorithm
+     * The SSLContext implementbtion for TLS11 blgorithm
      *
      * @see SSLContext
      */
-    public static final class TLS12Context extends AbstractSSLContext {
-        private final static SSLParameters defaultClientSSLParams;
+    public stbtic finbl clbss TLS11Context extends AbstrbctSSLContext {
+        privbte finbl stbtic SSLPbrbmeters defbultClientSSLPbrbms;
 
-        static {
-            defaultClientSSLParams = new SSLParameters();
+        stbtic {
+            defbultClientSSLPbrbms = new SSLPbrbmeters();
             if (SunJSSE.isFIPS()) {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name,
-                    ProtocolVersion.TLS12.name
+                defbultClientSSLPbrbms.setProtocols(new String[] {
+                    ProtocolVersion.TLS10.nbme,
+                    ProtocolVersion.TLS11.nbme
                 });
 
             } else {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.SSL30.name,
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name,
-                    ProtocolVersion.TLS12.name
+                defbultClientSSLPbrbms.setProtocols(new String[] {
+                    ProtocolVersion.SSL30.nbme,
+                    ProtocolVersion.TLS10.nbme,
+                    ProtocolVersion.TLS11.nbme
                 });
             }
         }
 
         @Override
-        SSLParameters getDefaultClientSSLParams() {
-            return defaultClientSSLParams;
+        SSLPbrbmeters getDefbultClientSSLPbrbms() {
+            return defbultClientSSLPbrbms;
         }
     }
 
     /*
-     * The SSLContext implementation for customized TLS protocols
+     * The SSLContext implementbtion for TLS12 blgorithm
      *
      * @see SSLContext
      */
-    private static class CustomizedSSLContext extends AbstractSSLContext {
-        private final static String PROPERTY_NAME = "jdk.tls.client.protocols";
-        private final static SSLParameters defaultClientSSLParams;
-        private static IllegalArgumentException reservedException = null;
+    public stbtic finbl clbss TLS12Context extends AbstrbctSSLContext {
+        privbte finbl stbtic SSLPbrbmeters defbultClientSSLPbrbms;
 
-        // Don't want a java.lang.LinkageError for illegal system property.
+        stbtic {
+            defbultClientSSLPbrbms = new SSLPbrbmeters();
+            if (SunJSSE.isFIPS()) {
+                defbultClientSSLPbrbms.setProtocols(new String[] {
+                    ProtocolVersion.TLS10.nbme,
+                    ProtocolVersion.TLS11.nbme,
+                    ProtocolVersion.TLS12.nbme
+                });
+
+            } else {
+                defbultClientSSLPbrbms.setProtocols(new String[] {
+                    ProtocolVersion.SSL30.nbme,
+                    ProtocolVersion.TLS10.nbme,
+                    ProtocolVersion.TLS11.nbme,
+                    ProtocolVersion.TLS12.nbme
+                });
+            }
+        }
+
+        @Override
+        SSLPbrbmeters getDefbultClientSSLPbrbms() {
+            return defbultClientSSLPbrbms;
+        }
+    }
+
+    /*
+     * The SSLContext implementbtion for customized TLS protocols
+     *
+     * @see SSLContext
+     */
+    privbte stbtic clbss CustomizedSSLContext extends AbstrbctSSLContext {
+        privbte finbl stbtic String PROPERTY_NAME = "jdk.tls.client.protocols";
+        privbte finbl stbtic SSLPbrbmeters defbultClientSSLPbrbms;
+        privbte stbtic IllegblArgumentException reservedException = null;
+
+        // Don't wbnt b jbvb.lbng.LinkbgeError for illegbl system property.
         //
-        // Please don't throw exception in this static block.  Otherwise,
-        // java.lang.LinkageError may be thrown during the instantiation of
-        // the provider service. Instead, let's handle the initialization
+        // Plebse don't throw exception in this stbtic block.  Otherwise,
+        // jbvb.lbng.LinkbgeError mby be thrown during the instbntibtion of
+        // the provider service. Instebd, let's hbndle the initiblizbtion
         // exception in constructor.
-        static {
+        stbtic {
             String property = AccessController.doPrivileged(
                     new GetPropertyAction(PROPERTY_NAME));
-            defaultClientSSLParams = new SSLParameters();
+            defbultClientSSLPbrbms = new SSLPbrbmeters();
             if (property == null || property.length() == 0) {
-                // the default enabled client TLS protocols
+                // the defbult enbbled client TLS protocols
                 if (SunJSSE.isFIPS()) {
-                    defaultClientSSLParams.setProtocols(new String[] {
-                        ProtocolVersion.TLS10.name,
-                        ProtocolVersion.TLS11.name,
-                        ProtocolVersion.TLS12.name
+                    defbultClientSSLPbrbms.setProtocols(new String[] {
+                        ProtocolVersion.TLS10.nbme,
+                        ProtocolVersion.TLS11.nbme,
+                        ProtocolVersion.TLS12.nbme
                     });
 
                 } else {
-                    defaultClientSSLParams.setProtocols(new String[] {
-                        ProtocolVersion.SSL30.name,
-                        ProtocolVersion.TLS10.name,
-                        ProtocolVersion.TLS11.name,
-                        ProtocolVersion.TLS12.name
+                    defbultClientSSLPbrbms.setProtocols(new String[] {
+                        ProtocolVersion.SSL30.nbme,
+                        ProtocolVersion.TLS10.nbme,
+                        ProtocolVersion.TLS11.nbme,
+                        ProtocolVersion.TLS12.nbme
                     });
                 }
             } else {
-                // remove double quote marks from beginning/end of the property
-                if (property.charAt(0) == '"' &&
-                        property.charAt(property.length() - 1) == '"') {
+                // remove double quote mbrks from beginning/end of the property
+                if (property.chbrAt(0) == '"' &&
+                        property.chbrAt(property.length() - 1) == '"') {
                     property = property.substring(1, property.length() - 1);
                 }
 
                 String[] protocols = property.split(",");
                 for (int i = 0; i < protocols.length; i++) {
                     protocols[i] = protocols[i].trim();
-                    // Is it a supported protocol name?
+                    // Is it b supported protocol nbme?
                     try {
-                        ProtocolVersion.valueOf(protocols[i]);
-                    } catch (IllegalArgumentException iae) {
-                        reservedException = new IllegalArgumentException(
+                        ProtocolVersion.vblueOf(protocols[i]);
+                    } cbtch (IllegblArgumentException ibe) {
+                        reservedException = new IllegblArgumentException(
                                 PROPERTY_NAME + ": " + protocols[i] +
-                                " is not a standard SSL protocol name", iae);
+                                " is not b stbndbrd SSL protocol nbme", ibe);
                     }
                 }
 
                 if ((reservedException == null) && SunJSSE.isFIPS()) {
                     for (String protocol : protocols) {
-                        if (ProtocolVersion.SSL20Hello.name.equals(protocol) ||
-                                ProtocolVersion.SSL30.name.equals(protocol)) {
-                            reservedException = new IllegalArgumentException(
+                        if (ProtocolVersion.SSL20Hello.nbme.equbls(protocol) ||
+                                ProtocolVersion.SSL30.nbme.equbls(protocol)) {
+                            reservedException = new IllegblArgumentException(
                                     PROPERTY_NAME + ": " + protocol +
-                                    " is not FIPS compliant");
+                                    " is not FIPS complibnt");
                         }
                     }
                 }
 
                 if (reservedException == null) {
-                    defaultClientSSLParams.setProtocols(protocols);
+                    defbultClientSSLPbrbms.setProtocols(protocols);
                }
             }
         }
@@ -642,159 +642,159 @@ public abstract class SSLContextImpl extends SSLContextSpi {
         }
 
         @Override
-        SSLParameters getDefaultClientSSLParams() {
-            return defaultClientSSLParams;
+        SSLPbrbmeters getDefbultClientSSLPbrbms() {
+            return defbultClientSSLPbrbms;
         }
     }
 
     /*
-     * The SSLContext implementation for default "TLS" algorithm
+     * The SSLContext implementbtion for defbult "TLS" blgorithm
      *
      * @see SSLContext
      */
-    public static final class TLSContext extends CustomizedSSLContext {
-        // use the default constructor and methods
+    public stbtic finbl clbss TLSContext extends CustomizedSSLContext {
+        // use the defbult constructor bnd methods
     }
 
     /*
-     * The SSLContext implementation for default "Default" algorithm
+     * The SSLContext implementbtion for defbult "Defbult" blgorithm
      *
      * @see SSLContext
      */
-    public static final class DefaultSSLContext extends CustomizedSSLContext {
-        private static final String NONE = "NONE";
-        private static final String P11KEYSTORE = "PKCS11";
+    public stbtic finbl clbss DefbultSSLContext extends CustomizedSSLContext {
+        privbte stbtic finbl String NONE = "NONE";
+        privbte stbtic finbl String P11KEYSTORE = "PKCS11";
 
-        private static volatile SSLContextImpl defaultImpl;
+        privbte stbtic volbtile SSLContextImpl defbultImpl;
 
-        private static TrustManager[] defaultTrustManagers;
-        private static KeyManager[] defaultKeyManagers;
+        privbte stbtic TrustMbnbger[] defbultTrustMbnbgers;
+        privbte stbtic KeyMbnbger[] defbultKeyMbnbgers;
 
-        public DefaultSSLContext() throws Exception {
+        public DefbultSSLContext() throws Exception {
             try {
-                super.engineInit(getDefaultKeyManager(),
-                        getDefaultTrustManager(), null);
-            } catch (Exception e) {
-                if (debug != null && Debug.isOn("defaultctx")) {
-                    System.out.println("default context init failed: " + e);
+                super.engineInit(getDefbultKeyMbnbger(),
+                        getDefbultTrustMbnbger(), null);
+            } cbtch (Exception e) {
+                if (debug != null && Debug.isOn("defbultctx")) {
+                    System.out.println("defbult context init fbiled: " + e);
                 }
                 throw e;
             }
 
-            if (defaultImpl == null) {
-                defaultImpl = this;
+            if (defbultImpl == null) {
+                defbultImpl = this;
             }
         }
 
         @Override
-        protected void engineInit(KeyManager[] km, TrustManager[] tm,
-            SecureRandom sr) throws KeyManagementException {
-            throw new KeyManagementException
-                ("Default SSLContext is initialized automatically");
+        protected void engineInit(KeyMbnbger[] km, TrustMbnbger[] tm,
+            SecureRbndom sr) throws KeyMbnbgementException {
+            throw new KeyMbnbgementException
+                ("Defbult SSLContext is initiblized butombticblly");
         }
 
-        static synchronized SSLContextImpl getDefaultImpl() throws Exception {
-            if (defaultImpl == null) {
-                new DefaultSSLContext();
+        stbtic synchronized SSLContextImpl getDefbultImpl() throws Exception {
+            if (defbultImpl == null) {
+                new DefbultSSLContext();
             }
-            return defaultImpl;
+            return defbultImpl;
         }
 
-        private static synchronized TrustManager[] getDefaultTrustManager()
+        privbte stbtic synchronized TrustMbnbger[] getDefbultTrustMbnbger()
                 throws Exception {
-            if (defaultTrustManagers != null) {
-                return defaultTrustManagers;
+            if (defbultTrustMbnbgers != null) {
+                return defbultTrustMbnbgers;
             }
 
             KeyStore ks =
-                TrustManagerFactoryImpl.getCacertsKeyStore("defaultctx");
+                TrustMbnbgerFbctoryImpl.getCbcertsKeyStore("defbultctx");
 
-            TrustManagerFactory tmf = TrustManagerFactory.getInstance(
-                TrustManagerFactory.getDefaultAlgorithm());
+            TrustMbnbgerFbctory tmf = TrustMbnbgerFbctory.getInstbnce(
+                TrustMbnbgerFbctory.getDefbultAlgorithm());
             tmf.init(ks);
-            defaultTrustManagers = tmf.getTrustManagers();
-            return defaultTrustManagers;
+            defbultTrustMbnbgers = tmf.getTrustMbnbgers();
+            return defbultTrustMbnbgers;
         }
 
-        private static synchronized KeyManager[] getDefaultKeyManager()
+        privbte stbtic synchronized KeyMbnbger[] getDefbultKeyMbnbger()
                 throws Exception {
-            if (defaultKeyManagers != null) {
-                return defaultKeyManagers;
+            if (defbultKeyMbnbgers != null) {
+                return defbultKeyMbnbgers;
             }
 
-            final Map<String,String> props = new HashMap<>();
+            finbl Mbp<String,String> props = new HbshMbp<>();
             AccessController.doPrivileged(
                         new PrivilegedExceptionAction<Object>() {
                 @Override
                 public Object run() throws Exception {
                     props.put("keyStore",  System.getProperty(
-                                "javax.net.ssl.keyStore", ""));
+                                "jbvbx.net.ssl.keyStore", ""));
                     props.put("keyStoreType", System.getProperty(
-                                "javax.net.ssl.keyStoreType",
-                                KeyStore.getDefaultType()));
+                                "jbvbx.net.ssl.keyStoreType",
+                                KeyStore.getDefbultType()));
                     props.put("keyStoreProvider", System.getProperty(
-                                "javax.net.ssl.keyStoreProvider", ""));
-                    props.put("keyStorePasswd", System.getProperty(
-                                "javax.net.ssl.keyStorePassword", ""));
+                                "jbvbx.net.ssl.keyStoreProvider", ""));
+                    props.put("keyStorePbsswd", System.getProperty(
+                                "jbvbx.net.ssl.keyStorePbssword", ""));
                     return null;
                 }
             });
 
-            final String defaultKeyStore = props.get("keyStore");
-            String defaultKeyStoreType = props.get("keyStoreType");
-            String defaultKeyStoreProvider = props.get("keyStoreProvider");
-            if (debug != null && Debug.isOn("defaultctx")) {
-                System.out.println("keyStore is : " + defaultKeyStore);
+            finbl String defbultKeyStore = props.get("keyStore");
+            String defbultKeyStoreType = props.get("keyStoreType");
+            String defbultKeyStoreProvider = props.get("keyStoreProvider");
+            if (debug != null && Debug.isOn("defbultctx")) {
+                System.out.println("keyStore is : " + defbultKeyStore);
                 System.out.println("keyStore type is : " +
-                                        defaultKeyStoreType);
+                                        defbultKeyStoreType);
                 System.out.println("keyStore provider is : " +
-                                        defaultKeyStoreProvider);
+                                        defbultKeyStoreProvider);
             }
 
-            if (P11KEYSTORE.equals(defaultKeyStoreType) &&
-                    !NONE.equals(defaultKeyStore)) {
-                throw new IllegalArgumentException("if keyStoreType is "
+            if (P11KEYSTORE.equbls(defbultKeyStoreType) &&
+                    !NONE.equbls(defbultKeyStore)) {
+                throw new IllegblArgumentException("if keyStoreType is "
                     + P11KEYSTORE + ", then keyStore must be " + NONE);
             }
 
-            FileInputStream fs = null;
+            FileInputStrebm fs = null;
             KeyStore ks = null;
-            char[] passwd = null;
+            chbr[] pbsswd = null;
             try {
-                if (defaultKeyStore.length() != 0 &&
-                        !NONE.equals(defaultKeyStore)) {
+                if (defbultKeyStore.length() != 0 &&
+                        !NONE.equbls(defbultKeyStore)) {
                     fs = AccessController.doPrivileged(
-                            new PrivilegedExceptionAction<FileInputStream>() {
+                            new PrivilegedExceptionAction<FileInputStrebm>() {
                         @Override
-                        public FileInputStream run() throws Exception {
-                            return new FileInputStream(defaultKeyStore);
+                        public FileInputStrebm run() throws Exception {
+                            return new FileInputStrebm(defbultKeyStore);
                         }
                     });
                 }
 
-                String defaultKeyStorePassword = props.get("keyStorePasswd");
-                if (defaultKeyStorePassword.length() != 0) {
-                    passwd = defaultKeyStorePassword.toCharArray();
+                String defbultKeyStorePbssword = props.get("keyStorePbsswd");
+                if (defbultKeyStorePbssword.length() != 0) {
+                    pbsswd = defbultKeyStorePbssword.toChbrArrby();
                 }
 
                 /**
-                 * Try to initialize key store.
+                 * Try to initiblize key store.
                  */
-                if ((defaultKeyStoreType.length()) != 0) {
-                    if (debug != null && Debug.isOn("defaultctx")) {
+                if ((defbultKeyStoreType.length()) != 0) {
+                    if (debug != null && Debug.isOn("defbultctx")) {
                         System.out.println("init keystore");
                     }
-                    if (defaultKeyStoreProvider.length() == 0) {
-                        ks = KeyStore.getInstance(defaultKeyStoreType);
+                    if (defbultKeyStoreProvider.length() == 0) {
+                        ks = KeyStore.getInstbnce(defbultKeyStoreType);
                     } else {
-                        ks = KeyStore.getInstance(defaultKeyStoreType,
-                                            defaultKeyStoreProvider);
+                        ks = KeyStore.getInstbnce(defbultKeyStoreType,
+                                            defbultKeyStoreProvider);
                     }
 
-                    // if defaultKeyStore is NONE, fs will be null
-                    ks.load(fs, passwd);
+                    // if defbultKeyStore is NONE, fs will be null
+                    ks.lobd(fs, pbsswd);
                 }
-            } finally {
+            } finblly {
                 if (fs != null) {
                     fs.close();
                     fs = null;
@@ -802,427 +802,427 @@ public abstract class SSLContextImpl extends SSLContextSpi {
             }
 
             /*
-             * Try to initialize key manager.
+             * Try to initiblize key mbnbger.
              */
-            if (debug != null && Debug.isOn("defaultctx")) {
-                System.out.println("init keymanager of type " +
-                    KeyManagerFactory.getDefaultAlgorithm());
+            if (debug != null && Debug.isOn("defbultctx")) {
+                System.out.println("init keymbnbger of type " +
+                    KeyMbnbgerFbctory.getDefbultAlgorithm());
             }
-            KeyManagerFactory kmf = KeyManagerFactory.getInstance(
-                KeyManagerFactory.getDefaultAlgorithm());
+            KeyMbnbgerFbctory kmf = KeyMbnbgerFbctory.getInstbnce(
+                KeyMbnbgerFbctory.getDefbultAlgorithm());
 
-            if (P11KEYSTORE.equals(defaultKeyStoreType)) {
-                kmf.init(ks, null); // do not pass key passwd if using token
+            if (P11KEYSTORE.equbls(defbultKeyStoreType)) {
+                kmf.init(ks, null); // do not pbss key pbsswd if using token
             } else {
-                kmf.init(ks, passwd);
+                kmf.init(ks, pbsswd);
             }
 
-            defaultKeyManagers = kmf.getKeyManagers();
-            return defaultKeyManagers;
+            defbultKeyMbnbgers = kmf.getKeyMbnbgers();
+            return defbultKeyMbnbgers;
         }
     }
 
 }
 
 
-final class AbstractTrustManagerWrapper extends X509ExtendedTrustManager
-            implements X509TrustManager {
+finbl clbss AbstrbctTrustMbnbgerWrbpper extends X509ExtendedTrustMbnbger
+            implements X509TrustMbnbger {
 
-    // the delegated trust manager
-    private final X509TrustManager tm;
+    // the delegbted trust mbnbger
+    privbte finbl X509TrustMbnbger tm;
 
-    AbstractTrustManagerWrapper(X509TrustManager tm) {
+    AbstrbctTrustMbnbgerWrbpper(X509TrustMbnbger tm) {
         this.tm = tm;
     }
 
     @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {
-        tm.checkClientTrusted(chain, authType);
+    public void checkClientTrusted(X509Certificbte[] chbin, String buthType)
+        throws CertificbteException {
+        tm.checkClientTrusted(chbin, buthType);
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {
-        tm.checkServerTrusted(chain, authType);
+    public void checkServerTrusted(X509Certificbte[] chbin, String buthType)
+        throws CertificbteException {
+        tm.checkServerTrusted(chbin, buthType);
     }
 
     @Override
-    public X509Certificate[] getAcceptedIssuers() {
+    public X509Certificbte[] getAcceptedIssuers() {
         return tm.getAcceptedIssuers();
     }
 
     @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-                Socket socket) throws CertificateException {
-        tm.checkClientTrusted(chain, authType);
-        checkAdditionalTrust(chain, authType, socket, true);
+    public void checkClientTrusted(X509Certificbte[] chbin, String buthType,
+                Socket socket) throws CertificbteException {
+        tm.checkClientTrusted(chbin, buthType);
+        checkAdditionblTrust(chbin, buthType, socket, true);
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            Socket socket) throws CertificateException {
-        tm.checkServerTrusted(chain, authType);
-        checkAdditionalTrust(chain, authType, socket, false);
+    public void checkServerTrusted(X509Certificbte[] chbin, String buthType,
+            Socket socket) throws CertificbteException {
+        tm.checkServerTrusted(chbin, buthType);
+        checkAdditionblTrust(chbin, buthType, socket, fblse);
     }
 
     @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        tm.checkClientTrusted(chain, authType);
-        checkAdditionalTrust(chain, authType, engine, true);
+    public void checkClientTrusted(X509Certificbte[] chbin, String buthType,
+            SSLEngine engine) throws CertificbteException {
+        tm.checkClientTrusted(chbin, buthType);
+        checkAdditionblTrust(chbin, buthType, engine, true);
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        tm.checkServerTrusted(chain, authType);
-        checkAdditionalTrust(chain, authType, engine, false);
+    public void checkServerTrusted(X509Certificbte[] chbin, String buthType,
+            SSLEngine engine) throws CertificbteException {
+        tm.checkServerTrusted(chbin, buthType);
+        checkAdditionblTrust(chbin, buthType, engine, fblse);
     }
 
-    private void checkAdditionalTrust(X509Certificate[] chain, String authType,
-                Socket socket, boolean isClient) throws CertificateException {
+    privbte void checkAdditionblTrust(X509Certificbte[] chbin, String buthType,
+                Socket socket, boolebn isClient) throws CertificbteException {
         if (socket != null && socket.isConnected() &&
-                                    socket instanceof SSLSocket) {
+                                    socket instbnceof SSLSocket) {
 
             SSLSocket sslSocket = (SSLSocket)socket;
-            SSLSession session = sslSocket.getHandshakeSession();
+            SSLSession session = sslSocket.getHbndshbkeSession();
             if (session == null) {
-                throw new CertificateException("No handshake session");
+                throw new CertificbteException("No hbndshbke session");
             }
 
             // check endpoint identity
-            String identityAlg = sslSocket.getSSLParameters().
-                                        getEndpointIdentificationAlgorithm();
+            String identityAlg = sslSocket.getSSLPbrbmeters().
+                                        getEndpointIdentificbtionAlgorithm();
             if (identityAlg != null && identityAlg.length() != 0) {
-                String hostname = session.getPeerHost();
-                X509TrustManagerImpl.checkIdentity(
-                                    hostname, chain[0], identityAlg);
+                String hostnbme = session.getPeerHost();
+                X509TrustMbnbgerImpl.checkIdentity(
+                                    hostnbme, chbin[0], identityAlg);
             }
 
-            // try the best to check the algorithm constraints
+            // try the best to check the blgorithm constrbints
             ProtocolVersion protocolVersion =
-                ProtocolVersion.valueOf(session.getProtocol());
-            AlgorithmConstraints constraints = null;
+                ProtocolVersion.vblueOf(session.getProtocol());
+            AlgorithmConstrbints constrbints = null;
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                if (session instanceof ExtendedSSLSession) {
+                if (session instbnceof ExtendedSSLSession) {
                     ExtendedSSLSession extSession =
                                     (ExtendedSSLSession)session;
                     String[] peerSupportedSignAlgs =
-                            extSession.getLocalSupportedSignatureAlgorithms();
+                            extSession.getLocblSupportedSignbtureAlgorithms();
 
-                    constraints = new SSLAlgorithmConstraints(
+                    constrbints = new SSLAlgorithmConstrbints(
                                     sslSocket, peerSupportedSignAlgs, true);
                 } else {
-                    constraints =
-                            new SSLAlgorithmConstraints(sslSocket, true);
+                    constrbints =
+                            new SSLAlgorithmConstrbints(sslSocket, true);
                 }
             } else {
-                constraints = new SSLAlgorithmConstraints(sslSocket, true);
+                constrbints = new SSLAlgorithmConstrbints(sslSocket, true);
             }
 
-            checkAlgorithmConstraints(chain, constraints);
+            checkAlgorithmConstrbints(chbin, constrbints);
         }
     }
 
-    private void checkAdditionalTrust(X509Certificate[] chain, String authType,
-            SSLEngine engine, boolean isClient) throws CertificateException {
+    privbte void checkAdditionblTrust(X509Certificbte[] chbin, String buthType,
+            SSLEngine engine, boolebn isClient) throws CertificbteException {
         if (engine != null) {
-            SSLSession session = engine.getHandshakeSession();
+            SSLSession session = engine.getHbndshbkeSession();
             if (session == null) {
-                throw new CertificateException("No handshake session");
+                throw new CertificbteException("No hbndshbke session");
             }
 
             // check endpoint identity
-            String identityAlg = engine.getSSLParameters().
-                                        getEndpointIdentificationAlgorithm();
+            String identityAlg = engine.getSSLPbrbmeters().
+                                        getEndpointIdentificbtionAlgorithm();
             if (identityAlg != null && identityAlg.length() != 0) {
-                String hostname = session.getPeerHost();
-                X509TrustManagerImpl.checkIdentity(
-                                    hostname, chain[0], identityAlg);
+                String hostnbme = session.getPeerHost();
+                X509TrustMbnbgerImpl.checkIdentity(
+                                    hostnbme, chbin[0], identityAlg);
             }
 
-            // try the best to check the algorithm constraints
+            // try the best to check the blgorithm constrbints
             ProtocolVersion protocolVersion =
-                ProtocolVersion.valueOf(session.getProtocol());
-            AlgorithmConstraints constraints = null;
+                ProtocolVersion.vblueOf(session.getProtocol());
+            AlgorithmConstrbints constrbints = null;
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                if (session instanceof ExtendedSSLSession) {
+                if (session instbnceof ExtendedSSLSession) {
                     ExtendedSSLSession extSession =
                                     (ExtendedSSLSession)session;
                     String[] peerSupportedSignAlgs =
-                            extSession.getLocalSupportedSignatureAlgorithms();
+                            extSession.getLocblSupportedSignbtureAlgorithms();
 
-                    constraints = new SSLAlgorithmConstraints(
+                    constrbints = new SSLAlgorithmConstrbints(
                                     engine, peerSupportedSignAlgs, true);
                 } else {
-                    constraints =
-                            new SSLAlgorithmConstraints(engine, true);
+                    constrbints =
+                            new SSLAlgorithmConstrbints(engine, true);
                 }
             } else {
-                constraints = new SSLAlgorithmConstraints(engine, true);
+                constrbints = new SSLAlgorithmConstrbints(engine, true);
             }
 
-            checkAlgorithmConstraints(chain, constraints);
+            checkAlgorithmConstrbints(chbin, constrbints);
         }
     }
 
-    private void checkAlgorithmConstraints(X509Certificate[] chain,
-            AlgorithmConstraints constraints) throws CertificateException {
+    privbte void checkAlgorithmConstrbints(X509Certificbte[] chbin,
+            AlgorithmConstrbints constrbints) throws CertificbteException {
 
         try {
-            // Does the certificate chain end with a trusted certificate?
-            int checkedLength = chain.length - 1;
+            // Does the certificbte chbin end with b trusted certificbte?
+            int checkedLength = chbin.length - 1;
 
-            Collection<X509Certificate> trustedCerts = new HashSet<>();
-            X509Certificate[] certs = tm.getAcceptedIssuers();
+            Collection<X509Certificbte> trustedCerts = new HbshSet<>();
+            X509Certificbte[] certs = tm.getAcceptedIssuers();
             if ((certs != null) && (certs.length > 0)){
-                Collections.addAll(trustedCerts, certs);
+                Collections.bddAll(trustedCerts, certs);
             }
 
-            if (trustedCerts.contains(chain[checkedLength])) {
+            if (trustedCerts.contbins(chbin[checkedLength])) {
                     checkedLength--;
             }
 
-            // A forward checker, need to check from trust to target
+            // A forwbrd checker, need to check from trust to tbrget
             if (checkedLength >= 0) {
-                AlgorithmChecker checker = new AlgorithmChecker(constraints);
-                checker.init(false);
+                AlgorithmChecker checker = new AlgorithmChecker(constrbints);
+                checker.init(fblse);
                 for (int i = checkedLength; i >= 0; i--) {
-                    Certificate cert = chain[i];
-                    // We don't care about the unresolved critical extensions.
+                    Certificbte cert = chbin[i];
+                    // We don't cbre bbout the unresolved criticbl extensions.
                     checker.check(cert, Collections.<String>emptySet());
                 }
             }
-        } catch (CertPathValidatorException cpve) {
-            throw new CertificateException(
-                "Certificates does not conform to algorithm constraints");
+        } cbtch (CertPbthVblidbtorException cpve) {
+            throw new CertificbteException(
+                "Certificbtes does not conform to blgorithm constrbints");
         }
     }
 }
 
-// Dummy X509TrustManager implementation, rejects all peer certificates.
-// Used if the application did not specify a proper X509TrustManager.
-final class DummyX509TrustManager extends X509ExtendedTrustManager
-            implements X509TrustManager {
+// Dummy X509TrustMbnbger implementbtion, rejects bll peer certificbtes.
+// Used if the bpplicbtion did not specify b proper X509TrustMbnbger.
+finbl clbss DummyX509TrustMbnbger extends X509ExtendedTrustMbnbger
+            implements X509TrustMbnbger {
 
-    static final X509TrustManager INSTANCE = new DummyX509TrustManager();
+    stbtic finbl X509TrustMbnbger INSTANCE = new DummyX509TrustMbnbger();
 
-    private DummyX509TrustManager() {
+    privbte DummyX509TrustMbnbger() {
         // empty
     }
 
     /*
-     * Given the partial or complete certificate chain
-     * provided by the peer, build a certificate path
-     * to a trusted root and return if it can be
-     * validated and is trusted for client SSL authentication.
-     * If not, it throws an exception.
+     * Given the pbrtibl or complete certificbte chbin
+     * provided by the peer, build b certificbte pbth
+     * to b trusted root bnd return if it cbn be
+     * vblidbted bnd is trusted for client SSL buthenticbtion.
+     * If not, it throws bn exception.
      */
     @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation avaiable");
+    public void checkClientTrusted(X509Certificbte[] chbin, String buthType)
+        throws CertificbteException {
+        throw new CertificbteException(
+            "No X509TrustMbnbger implementbtion bvbibble");
     }
 
     /*
-     * Given the partial or complete certificate chain
-     * provided by the peer, build a certificate path
-     * to a trusted root and return if it can be
-     * validated and is trusted for server SSL authentication.
-     * If not, it throws an exception.
+     * Given the pbrtibl or complete certificbte chbin
+     * provided by the peer, build b certificbte pbth
+     * to b trusted root bnd return if it cbn be
+     * vblidbted bnd is trusted for server SSL buthenticbtion.
+     * If not, it throws bn exception.
      */
     @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    public void checkServerTrusted(X509Certificbte[] chbin, String buthType)
+        throws CertificbteException {
+        throw new CertificbteException(
+            "No X509TrustMbnbger implementbtion bvbilbble");
     }
 
     /*
-     * Return an array of issuer certificates which are trusted
-     * for authenticating peers.
+     * Return bn brrby of issuer certificbtes which bre trusted
+     * for buthenticbting peers.
      */
     @Override
-    public X509Certificate[] getAcceptedIssuers() {
-        return new X509Certificate[0];
+    public X509Certificbte[] getAcceptedIssuers() {
+        return new X509Certificbte[0];
     }
 
     @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-                Socket socket) throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    public void checkClientTrusted(X509Certificbte[] chbin, String buthType,
+                Socket socket) throws CertificbteException {
+        throw new CertificbteException(
+            "No X509TrustMbnbger implementbtion bvbilbble");
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            Socket socket) throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    public void checkServerTrusted(X509Certificbte[] chbin, String buthType,
+            Socket socket) throws CertificbteException {
+        throw new CertificbteException(
+            "No X509TrustMbnbger implementbtion bvbilbble");
     }
 
     @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    public void checkClientTrusted(X509Certificbte[] chbin, String buthType,
+            SSLEngine engine) throws CertificbteException {
+        throw new CertificbteException(
+            "No X509TrustMbnbger implementbtion bvbilbble");
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    public void checkServerTrusted(X509Certificbte[] chbin, String buthType,
+            SSLEngine engine) throws CertificbteException {
+        throw new CertificbteException(
+            "No X509TrustMbnbger implementbtion bvbilbble");
     }
 }
 
 /*
- * A wrapper class to turn a X509KeyManager into an X509ExtendedKeyManager
+ * A wrbpper clbss to turn b X509KeyMbnbger into bn X509ExtendedKeyMbnbger
  */
-final class AbstractKeyManagerWrapper extends X509ExtendedKeyManager {
+finbl clbss AbstrbctKeyMbnbgerWrbpper extends X509ExtendedKeyMbnbger {
 
-    private final X509KeyManager km;
+    privbte finbl X509KeyMbnbger km;
 
-    AbstractKeyManagerWrapper(X509KeyManager km) {
+    AbstrbctKeyMbnbgerWrbpper(X509KeyMbnbger km) {
         this.km = km;
     }
 
     @Override
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        return km.getClientAliases(keyType, issuers);
+    public String[] getClientAlibses(String keyType, Principbl[] issuers) {
+        return km.getClientAlibses(keyType, issuers);
     }
 
     @Override
-    public String chooseClientAlias(String[] keyType, Principal[] issuers,
+    public String chooseClientAlibs(String[] keyType, Principbl[] issuers,
             Socket socket) {
-        return km.chooseClientAlias(keyType, issuers, socket);
+        return km.chooseClientAlibs(keyType, issuers, socket);
     }
 
     @Override
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        return km.getServerAliases(keyType, issuers);
+    public String[] getServerAlibses(String keyType, Principbl[] issuers) {
+        return km.getServerAlibses(keyType, issuers);
     }
 
     @Override
-    public String chooseServerAlias(String keyType, Principal[] issuers,
+    public String chooseServerAlibs(String keyType, Principbl[] issuers,
             Socket socket) {
-        return km.chooseServerAlias(keyType, issuers, socket);
+        return km.chooseServerAlibs(keyType, issuers, socket);
     }
 
     @Override
-    public X509Certificate[] getCertificateChain(String alias) {
-        return km.getCertificateChain(alias);
+    public X509Certificbte[] getCertificbteChbin(String blibs) {
+        return km.getCertificbteChbin(blibs);
     }
 
     @Override
-    public PrivateKey getPrivateKey(String alias) {
-        return km.getPrivateKey(alias);
+    public PrivbteKey getPrivbteKey(String blibs) {
+        return km.getPrivbteKey(blibs);
     }
 
-    // Inherit chooseEngineClientAlias() and chooseEngineServerAlias() from
-    // X509ExtendedKeymanager. It defines them to return null;
+    // Inherit chooseEngineClientAlibs() bnd chooseEngineServerAlibs() from
+    // X509ExtendedKeymbnbger. It defines them to return null;
 }
 
 
-// Dummy X509KeyManager implementation, never returns any certificates/keys.
-// Used if the application did not specify a proper X509TrustManager.
-final class DummyX509KeyManager extends X509ExtendedKeyManager {
+// Dummy X509KeyMbnbger implementbtion, never returns bny certificbtes/keys.
+// Used if the bpplicbtion did not specify b proper X509TrustMbnbger.
+finbl clbss DummyX509KeyMbnbger extends X509ExtendedKeyMbnbger {
 
-    static final X509ExtendedKeyManager INSTANCE = new DummyX509KeyManager();
+    stbtic finbl X509ExtendedKeyMbnbger INSTANCE = new DummyX509KeyMbnbger();
 
-    private DummyX509KeyManager() {
+    privbte DummyX509KeyMbnbger() {
         // empty
     }
 
     /*
-     * Get the matching aliases for authenticating the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Get the mbtching blibses for buthenticbting the client side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
+    public String[] getClientAlibses(String keyType, Principbl[] issuers) {
         return null;
     }
 
     /*
-     * Choose an alias to authenticate the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Choose bn blibs to buthenticbte the client side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String chooseClientAlias(String[] keyTypes, Principal[] issuers,
+    public String chooseClientAlibs(String[] keyTypes, Principbl[] issuers,
             Socket socket) {
         return null;
     }
 
     /*
-     * Choose an alias to authenticate the client side of an
-     * engine given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Choose bn blibs to buthenticbte the client side of bn
+     * engine given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String chooseEngineClientAlias(
-            String[] keyTypes, Principal[] issuers, SSLEngine engine) {
+    public String chooseEngineClientAlibs(
+            String[] keyTypes, Principbl[] issuers, SSLEngine engine) {
         return null;
     }
 
     /*
-     * Get the matching aliases for authenticating the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Get the mbtching blibses for buthenticbting the server side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
+    public String[] getServerAlibses(String keyType, Principbl[] issuers) {
         return null;
     }
 
     /*
-     * Choose an alias to authenticate the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Choose bn blibs to buthenticbte the server side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String chooseServerAlias(String keyType, Principal[] issuers,
+    public String chooseServerAlibs(String keyType, Principbl[] issuers,
             Socket socket) {
         return null;
     }
 
     /*
-     * Choose an alias to authenticate the server side of an engine
-     * given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Choose bn blibs to buthenticbte the server side of bn engine
+     * given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String chooseEngineServerAlias(
-            String keyType, Principal[] issuers, SSLEngine engine) {
+    public String chooseEngineServerAlibs(
+            String keyType, Principbl[] issuers, SSLEngine engine) {
         return null;
     }
 
     /**
-     * Returns the certificate chain associated with the given alias.
+     * Returns the certificbte chbin bssocibted with the given blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the certificate chain (ordered with the user's certificate first
-     * and the root certificate authority last)
+     * @return the certificbte chbin (ordered with the user's certificbte first
+     * bnd the root certificbte buthority lbst)
      */
     @Override
-    public X509Certificate[] getCertificateChain(String alias) {
+    public X509Certificbte[] getCertificbteChbin(String blibs) {
         return null;
     }
 
     /*
-     * Returns the key associated with the given alias, using the given
-     * password to recover it.
+     * Returns the key bssocibted with the given blibs, using the given
+     * pbssword to recover it.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
      * @return the requested key
      */
     @Override
-    public PrivateKey getPrivateKey(String alias) {
+    public PrivbteKey getPrivbteKey(String blibs) {
         return null;
     }
 }

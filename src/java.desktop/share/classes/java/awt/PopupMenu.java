@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.PopupMenuPeer;
-import javax.accessibility.*;
+import jbvb.bwt.peer.PopupMenuPeer;
+import jbvbx.bccessibility.*;
 
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
 /**
- * A class that implements a menu which can be dynamically popped up
- * at a specified position within a component.
+ * A clbss thbt implements b menu which cbn be dynbmicblly popped up
+ * bt b specified position within b component.
  * <p>
- * As the inheritance hierarchy implies, a <code>PopupMenu</code>
- *  can be used anywhere a <code>Menu</code> can be used.
- * However, if you use a <code>PopupMenu</code> like a <code>Menu</code>
- * (e.g., you add it to a <code>MenuBar</code>), then you <b>cannot</b>
- * call <code>show</code> on that <code>PopupMenu</code>.
+ * As the inheritbnce hierbrchy implies, b <code>PopupMenu</code>
+ *  cbn be used bnywhere b <code>Menu</code> cbn be used.
+ * However, if you use b <code>PopupMenu</code> like b <code>Menu</code>
+ * (e.g., you bdd it to b <code>MenuBbr</code>), then you <b>cbnnot</b>
+ * cbll <code>show</code> on thbt <code>PopupMenu</code>.
  *
- * @author      Amy Fowler
+ * @buthor      Amy Fowler
  */
-public class PopupMenu extends Menu {
+public clbss PopupMenu extends Menu {
 
-    private static final String base = "popup";
-    static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "popup";
+    stbtic int nbmeCounter = 0;
 
-    transient boolean isTrayIconPopup = false;
+    trbnsient boolebn isTrbyIconPopup = fblse;
 
-    static {
+    stbtic {
         AWTAccessor.setPopupMenuAccessor(
             new AWTAccessor.PopupMenuAccessor() {
-                public boolean isTrayIconPopup(PopupMenu popupMenu) {
-                    return popupMenu.isTrayIconPopup;
+                public boolebn isTrbyIconPopup(PopupMenu popupMenu) {
+                    return popupMenu.isTrbyIconPopup;
                 }
             });
     }
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -4620452533522760060L;
+    privbte stbtic finbl long seriblVersionUID = -4620452533522760060L;
 
     /**
-     * Creates a new popup menu with an empty name.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes b new popup menu with bn empty nbme.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public PopupMenu() throws HeadlessException {
+    public PopupMenu() throws HebdlessException {
         this("");
     }
 
     /**
-     * Creates a new popup menu with the specified name.
+     * Crebtes b new popup menu with the specified nbme.
      *
-     * @param label a non-<code>null</code> string specifying
-     *                the popup menu's label
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm lbbel b non-<code>null</code> string specifying
+     *                the popup menu's lbbel
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public PopupMenu(String label) throws HeadlessException {
-        super(label);
+    public PopupMenu(String lbbel) throws HebdlessException {
+        super(lbbel);
     }
 
     /**
      * {@inheritDoc}
      */
-    public MenuContainer getParent() {
-        if (isTrayIconPopup) {
+    public MenuContbiner getPbrent() {
+        if (isTrbyIconPopup) {
             return null;
         }
-        return super.getParent();
+        return super.getPbrent();
     }
 
     /**
-     * Constructs a name for this <code>MenuComponent</code>.
-     * Called by <code>getName</code> when the name is <code>null</code>.
+     * Constructs b nbme for this <code>MenuComponent</code>.
+     * Cblled by <code>getNbme</code> when the nbme is <code>null</code>.
      */
-    String constructComponentName() {
-        synchronized (PopupMenu.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (PopupMenu.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the popup menu's peer.
-     * The peer allows us to change the appearance of the popup menu without
-     * changing any of the popup menu's functionality.
+     * Crebtes the popup menu's peer.
+     * The peer bllows us to chbnge the bppebrbnce of the popup menu without
+     * chbnging bny of the popup menu's functionblity.
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
-            // If our parent is not a Component, then this PopupMenu is
-            // really just a plain, old Menu.
-            if (parent != null && !(parent instanceof Component)) {
-                super.addNotify();
+            // If our pbrent is not b Component, then this PopupMenu is
+            // reblly just b plbin, old Menu.
+            if (pbrent != null && !(pbrent instbnceof Component)) {
+                super.bddNotify();
             }
             else {
                 if (peer == null)
-                    peer = Toolkit.getDefaultToolkit().createPopupMenu(this);
+                    peer = Toolkit.getDefbultToolkit().crebtePopupMenu(this);
                 int nitems = getItemCount();
                 for (int i = 0 ; i < nitems ; i++) {
                     MenuItem mi = getItem(i);
-                    mi.parent = this;
-                    mi.addNotify();
+                    mi.pbrent = this;
+                    mi.bddNotify();
                 }
             }
         }
     }
 
    /**
-     * Shows the popup menu at the x, y position relative to an origin
+     * Shows the popup menu bt the x, y position relbtive to bn origin
      * component.
-     * The origin component must be contained within the component
-     * hierarchy of the popup menu's parent.  Both the origin and the parent
-     * must be showing on the screen for this method to be valid.
+     * The origin component must be contbined within the component
+     * hierbrchy of the popup menu's pbrent.  Both the origin bnd the pbrent
+     * must be showing on the screen for this method to be vblid.
      * <p>
-     * If this <code>PopupMenu</code> is being used as a <code>Menu</code>
-     * (i.e., it has a non-<code>Component</code> parent),
-     * then you cannot call this method on the <code>PopupMenu</code>.
+     * If this <code>PopupMenu</code> is being used bs b <code>Menu</code>
+     * (i.e., it hbs b non-<code>Component</code> pbrent),
+     * then you cbnnot cbll this method on the <code>PopupMenu</code>.
      *
-     * @param origin the component which defines the coordinate space
-     * @param x the x coordinate position to popup the menu
-     * @param y the y coordinate position to popup the menu
-     * @exception NullPointerException  if the parent is <code>null</code>
-     * @exception IllegalArgumentException  if this <code>PopupMenu</code>
-     *                has a non-<code>Component</code> parent
-     * @exception IllegalArgumentException if the origin is not in the
-     *                parent's hierarchy
-     * @exception RuntimeException if the parent is not showing on screen
+     * @pbrbm origin the component which defines the coordinbte spbce
+     * @pbrbm x the x coordinbte position to popup the menu
+     * @pbrbm y the y coordinbte position to popup the menu
+     * @exception NullPointerException  if the pbrent is <code>null</code>
+     * @exception IllegblArgumentException  if this <code>PopupMenu</code>
+     *                hbs b non-<code>Component</code> pbrent
+     * @exception IllegblArgumentException if the origin is not in the
+     *                pbrent's hierbrchy
+     * @exception RuntimeException if the pbrent is not showing on screen
      */
     public void show(Component origin, int x, int y) {
-        // Use localParent for thread safety.
-        MenuContainer localParent = parent;
-        if (localParent == null) {
-            throw new NullPointerException("parent is null");
+        // Use locblPbrent for threbd sbfety.
+        MenuContbiner locblPbrent = pbrent;
+        if (locblPbrent == null) {
+            throw new NullPointerException("pbrent is null");
         }
-        if (!(localParent instanceof Component)) {
-            throw new IllegalArgumentException(
-                "PopupMenus with non-Component parents cannot be shown");
+        if (!(locblPbrent instbnceof Component)) {
+            throw new IllegblArgumentException(
+                "PopupMenus with non-Component pbrents cbnnot be shown");
         }
-        Component compParent = (Component)localParent;
+        Component compPbrent = (Component)locblPbrent;
         //Fixed 6278745: Incorrect exception throwing in PopupMenu.show() method
-        //Exception was not thrown if compParent was not equal to origin and
-        //was not Container
-        if (compParent != origin) {
-            if (compParent instanceof Container) {
-                if (!((Container)compParent).isAncestorOf(origin)) {
-                    throw new IllegalArgumentException("origin not in parent's hierarchy");
+        //Exception wbs not thrown if compPbrent wbs not equbl to origin bnd
+        //wbs not Contbiner
+        if (compPbrent != origin) {
+            if (compPbrent instbnceof Contbiner) {
+                if (!((Contbiner)compPbrent).isAncestorOf(origin)) {
+                    throw new IllegblArgumentException("origin not in pbrent's hierbrchy");
                 }
             } else {
-                throw new IllegalArgumentException("origin not in parent's hierarchy");
+                throw new IllegblArgumentException("origin not in pbrent's hierbrchy");
             }
         }
-        if (compParent.getPeer() == null || !compParent.isShowing()) {
-            throw new RuntimeException("parent not showing on screen");
+        if (compPbrent.getPeer() == null || !compPbrent.isShowing()) {
+            throw new RuntimeException("pbrent not showing on screen");
         }
         if (peer == null) {
-            addNotify();
+            bddNotify();
         }
         synchronized (getTreeLock()) {
             if (peer != null) {
@@ -196,7 +196,7 @@ public class PopupMenu extends Menu {
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
+     * Gets the <code>AccessibleContext</code> bssocibted with this
      * <code>PopupMenu</code>.
      *
      * @return the <code>AccessibleContext</code> of this
@@ -204,38 +204,38 @@ public class PopupMenu extends Menu {
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTPopupMenu();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTPopupMenu();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * Inner class of PopupMenu used to provide default support for
-     * accessibility.  This class is not meant to be used directly by
-     * application developers, but is instead meant only to be
-     * subclassed by menu component developers.
+     * Inner clbss of PopupMenu used to provide defbult support for
+     * bccessibility.  This clbss is not mebnt to be used directly by
+     * bpplicbtion developers, but is instebd mebnt only to be
+     * subclbssed by menu component developers.
      * <p>
-     * The class used to obtain the accessible role for this object.
+     * The clbss used to obtbin the bccessible role for this object.
      * @since 1.3
      */
-    protected class AccessibleAWTPopupMenu extends AccessibleAWTMenu
+    protected clbss AccessibleAWTPopupMenu extends AccessibleAWTMenu
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = -4282044795947239955L;
+        privbte stbtic finbl long seriblVersionUID = -4282044795947239955L;
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.POPUP_MENU;
         }
 
-    } // class AccessibleAWTPopupMenu
+    } // clbss AccessibleAWTPopupMenu
 
 }

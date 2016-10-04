@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * The mapping in the Java programming language of an SQL <code>REF</code>
- * value, which is a reference to an SQL structured type value in the database.
+ * The mbpping in the Jbvb progrbmming lbngubge of bn SQL <code>REF</code>
+ * vblue, which is b reference to bn SQL structured type vblue in the dbtbbbse.
  * <P>
- * SQL <code>REF</code> values are stored in a table that contains
- * instances of a referenceable SQL structured type, and each <code>REF</code>
- * value is a unique identifier for one instance in that table.
- * An SQL <code>REF</code> value may be used in place of the
- * SQL structured type it references, either as a column value in a
- * table or an attribute value in a structured type.
+ * SQL <code>REF</code> vblues bre stored in b tbble thbt contbins
+ * instbnces of b referencebble SQL structured type, bnd ebch <code>REF</code>
+ * vblue is b unique identifier for one instbnce in thbt tbble.
+ * An SQL <code>REF</code> vblue mby be used in plbce of the
+ * SQL structured type it references, either bs b column vblue in b
+ * tbble or bn bttribute vblue in b structured type.
  * <P>
- * Because an SQL <code>REF</code> value is a logical pointer to an
- * SQL structured type, a <code>Ref</code> object is by default also a logical
- * pointer. Thus, retrieving an SQL <code>REF</code> value as
- * a <code>Ref</code> object does not materialize
- * the attributes of the structured type on the client.
+ * Becbuse bn SQL <code>REF</code> vblue is b logicbl pointer to bn
+ * SQL structured type, b <code>Ref</code> object is by defbult blso b logicbl
+ * pointer. Thus, retrieving bn SQL <code>REF</code> vblue bs
+ * b <code>Ref</code> object does not mbteriblize
+ * the bttributes of the structured type on the client.
  * <P>
- * A <code>Ref</code> object can be stored in the database using the
- * <code>PreparedStatement.setRef</code> method.
+ * A <code>Ref</code> object cbn be stored in the dbtbbbse using the
+ * <code>PrepbredStbtement.setRef</code> method.
   * <p>
- * All methods on the <code>Ref</code> interface must be fully implemented if the
- * JDBC driver supports the data type.
+ * All methods on the <code>Ref</code> interfbce must be fully implemented if the
+ * JDBC driver supports the dbtb type.
  *
  * @see Struct
  * @since 1.2
  */
-public interface Ref {
+public interfbce Ref {
 
     /**
-     * Retrieves the fully-qualified SQL name of the SQL structured type that
+     * Retrieves the fully-qublified SQL nbme of the SQL structured type thbt
      * this <code>Ref</code> object references.
      *
-     * @return the fully-qualified SQL name of the referenced SQL structured type
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return the fully-qublified SQL nbme of the referenced SQL structured type
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
      */
-    String getBaseTypeName() throws SQLException;
+    String getBbseTypeNbme() throws SQLException;
 
     /**
-     * Retrieves the referenced object and maps it to a Java type
-     * using the given type map.
+     * Retrieves the referenced object bnd mbps it to b Jbvb type
+     * using the given type mbp.
      *
-     * @param map a <code>java.util.Map</code> object that contains
-     *        the mapping to use (the fully-qualified name of the SQL
-     *        structured type being referenced and the class object for
-     *        <code>SQLData</code> implementation to which the SQL
-     *        structured type will be mapped)
-     * @return  a Java <code>Object</code> that is the custom mapping for
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object thbt contbins
+     *        the mbpping to use (the fully-qublified nbme of the SQL
+     *        structured type being referenced bnd the clbss object for
+     *        <code>SQLDbtb</code> implementbtion to which the SQL
+     *        structured type will be mbpped)
+     * @return  b Jbvb <code>Object</code> thbt is the custom mbpping for
      *          the SQL structured type to which this <code>Ref</code>
      *          object refers
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      * @see #setObject
      */
-    Object getObject(java.util.Map<String,Class<?>> map) throws SQLException;
+    Object getObject(jbvb.util.Mbp<String,Clbss<?>> mbp) throws SQLException;
 
 
     /**
-     * Retrieves the SQL structured type instance referenced by
-     * this <code>Ref</code> object.  If the connection's type map has an entry
-     * for the structured type, the instance will be custom mapped to
-     * the Java class indicated in the type map.  Otherwise, the
-     * structured type instance will be mapped to a <code>Struct</code> object.
+     * Retrieves the SQL structured type instbnce referenced by
+     * this <code>Ref</code> object.  If the connection's type mbp hbs bn entry
+     * for the structured type, the instbnce will be custom mbpped to
+     * the Jbvb clbss indicbted in the type mbp.  Otherwise, the
+     * structured type instbnce will be mbpped to b <code>Struct</code> object.
      *
-     * @return  a Java <code>Object</code> that is the mapping for
+     * @return  b Jbvb <code>Object</code> thbt is the mbpping for
      *          the SQL structured type to which this <code>Ref</code>
      *          object refers
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      * @see #setObject
@@ -105,23 +105,23 @@ public interface Ref {
     Object getObject() throws SQLException;
 
     /**
-     * Sets the structured type value that this <code>Ref</code>
-     * object references to the given instance of <code>Object</code>.
-     * The driver converts this to an SQL structured type when it
-     * sends it to the database.
+     * Sets the structured type vblue thbt this <code>Ref</code>
+     * object references to the given instbnce of <code>Object</code>.
+     * The driver converts this to bn SQL structured type when it
+     * sends it to the dbtbbbse.
      *
-     * @param value an <code>Object</code> representing the SQL
-     *        structured type instance that this
+     * @pbrbm vblue bn <code>Object</code> representing the SQL
+     *        structured type instbnce thbt this
      *        <code>Ref</code> object will reference
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      * @see #getObject()
-     * @see #getObject(Map)
-     * @see PreparedStatement#setObject(int, Object)
-     * @see CallableStatement#setObject(String, Object)
+     * @see #getObject(Mbp)
+     * @see PrepbredStbtement#setObject(int, Object)
+     * @see CbllbbleStbtement#setObject(String, Object)
      */
-    void setObject(Object value) throws SQLException;
+    void setObject(Object vblue) throws SQLException;
 
 }

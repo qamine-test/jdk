@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * <p>These classes are designed to be used while the
- * corresponding <code>LookAndFeel</code> class has been installed
- * (<code>UIManager.setLookAndFeel(new <i>XXX</i>LookAndFeel())</code>).
- * Using them while a different <code>LookAndFeel</code> is installed
- * may produce unexpected results, including exceptions.
- * Additionally, changing the <code>LookAndFeel</code>
- * maintained by the <code>UIManager</code> without updating the
- * corresponding <code>ComponentUI</code> of any
- * <code>JComponent</code>s may also produce unexpected results,
- * such as the wrong colors showing up, and is generally not
- * encouraged.
+ * <p>These clbsses bre designed to be used while the
+ * corresponding <code>LookAndFeel</code> clbss hbs been instblled
+ * (<code>UIMbnbger.setLookAndFeel(new <i>XXX</i>LookAndFeel())</code>).
+ * Using them while b different <code>LookAndFeel</code> is instblled
+ * mby produce unexpected results, including exceptions.
+ * Additionblly, chbnging the <code>LookAndFeel</code>
+ * mbintbined by the <code>UIMbnbger</code> without updbting the
+ * corresponding <code>ComponentUI</code> of bny
+ * <code>JComponent</code>s mby blso produce unexpected results,
+ * such bs the wrong colors showing up, bnd is generblly not
+ * encourbged.
  *
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import sun.awt.windows.ThemeReader;
+import sun.bwt.windows.ThemeRebder;
 
 /**
- * Implements Windows Parts and their States and Properties for the Windows Look and Feel.
+ * Implements Windows Pbrts bnd their Stbtes bnd Properties for the Windows Look bnd Feel.
  *
- * See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/shellcc/platform/commctls/userex/topics/partsandstates.asp
- * See tmschema.h (or vssym32.h & vsstyle.h for MS Vista)
+ * See http://msdn.microsoft.com/librbry/defbult.bsp?url=/librbry/en-us/shellcc/plbtform/commctls/userex/topics/pbrtsbndstbtes.bsp
+ * See tmschemb.h (or vssym32.h & vsstyle.h for MS Vistb)
  *
- * @author Leif Samuelsson
+ * @buthor Leif Sbmuelsson
  */
-class TMSchema {
+clbss TMSchemb {
 
     /**
-     * An enumeration of the various Windows controls (also known as
-     * components, or top-level parts)
+     * An enumerbtion of the vbrious Windows controls (blso known bs
+     * components, or top-level pbrts)
      */
-    public static enum Control {
+    public stbtic enum Control {
         BUTTON,
         COMBOBOX,
         EDIT,
@@ -82,10 +82,10 @@ class TMSchema {
 
 
     /**
-     * An enumeration of the Windows compoent parts
+     * An enumerbtion of the Windows compoent pbrts
      */
-    public static enum Part {
-        MENU (Control.MENU, 0), // Special case, not in native
+    public stbtic enum Pbrt {
+        MENU (Control.MENU, 0), // Specibl cbse, not in nbtive
         MP_BARBACKGROUND   (Control.MENU, 7),
         MP_BARITEM         (Control.MENU, 8),
         MP_POPUPBACKGROUND (Control.MENU, 9),
@@ -188,40 +188,40 @@ class TMSchema {
         WP_RESTOREBUTTON   (Control.WINDOW, 21),
         WP_MDIRESTOREBUTTON(Control.WINDOW, 22);
 
-        private final Control control;
-        private final int value;
+        privbte finbl Control control;
+        privbte finbl int vblue;
 
-        private Part(Control control, int value) {
+        privbte Pbrt(Control control, int vblue) {
             this.control = control;
-            this.value = value;
+            this.vblue = vblue;
         }
 
-        public int getValue() {
-            return value;
+        public int getVblue() {
+            return vblue;
         }
 
-        public String getControlName(Component component) {
+        public String getControlNbme(Component component) {
             String str = "";
-            if (component instanceof JComponent) {
+            if (component instbnceof JComponent) {
                 JComponent c = (JComponent)component;
-                String subAppName = (String)c.getClientProperty("XPStyle.subAppName");
-                if (subAppName != null) {
-                    str = subAppName + "::";
+                String subAppNbme = (String)c.getClientProperty("XPStyle.subAppNbme");
+                if (subAppNbme != null) {
+                    str = subAppNbme + "::";
                 }
             }
             return str + control.toString();
         }
 
         public String toString() {
-            return control.toString()+"."+name();
+            return control.toString()+"."+nbme();
         }
     }
 
 
     /**
-     * An enumeration of the possible component states
+     * An enumerbtion of the possible component stbtes
      */
-    public static enum State {
+    public stbtic enum Stbte {
         ACTIVE,
         ASSIST,
         BITMAP,
@@ -296,62 +296,62 @@ class TMSchema {
 
 
         /**
-         * A map of allowed states for each Part
+         * A mbp of bllowed stbtes for ebch Pbrt
          */
-        private static EnumMap<Part, State[]> stateMap;
+        privbte stbtic EnumMbp<Pbrt, Stbte[]> stbteMbp;
 
-        private static synchronized void initStates() {
-            stateMap = new EnumMap<Part, State[]>(Part.class);
+        privbte stbtic synchronized void initStbtes() {
+            stbteMbp = new EnumMbp<Pbrt, Stbte[]>(Pbrt.clbss);
 
-            stateMap.put(Part.EP_EDITTEXT,
-                       new State[] {
+            stbteMbp.put(Pbrt.EP_EDITTEXT,
+                       new Stbte[] {
                         NORMAL, HOT, SELECTED, DISABLED, FOCUSED, READONLY, ASSIST
             });
 
-            stateMap.put(Part.BP_PUSHBUTTON,
-                       new State[] { NORMAL, HOT, PRESSED, DISABLED, DEFAULTED });
+            stbteMbp.put(Pbrt.BP_PUSHBUTTON,
+                       new Stbte[] { NORMAL, HOT, PRESSED, DISABLED, DEFAULTED });
 
-            stateMap.put(Part.BP_RADIOBUTTON,
-                       new State[] {
+            stbteMbp.put(Pbrt.BP_RADIOBUTTON,
+                       new Stbte[] {
                         UNCHECKEDNORMAL, UNCHECKEDHOT, UNCHECKEDPRESSED, UNCHECKEDDISABLED,
                         CHECKEDNORMAL,   CHECKEDHOT,   CHECKEDPRESSED,   CHECKEDDISABLED
             });
 
-            stateMap.put(Part.BP_CHECKBOX,
-                       new State[] {
+            stbteMbp.put(Pbrt.BP_CHECKBOX,
+                       new Stbte[] {
                         UNCHECKEDNORMAL, UNCHECKEDHOT, UNCHECKEDPRESSED, UNCHECKEDDISABLED,
                         CHECKEDNORMAL,   CHECKEDHOT,   CHECKEDPRESSED,   CHECKEDDISABLED,
                         MIXEDNORMAL,     MIXEDHOT,     MIXEDPRESSED,     MIXEDDISABLED
             });
 
-            State[] comboBoxStates = new State[] { NORMAL, HOT, PRESSED, DISABLED };
-            stateMap.put(Part.CP_COMBOBOX, comboBoxStates);
-            stateMap.put(Part.CP_DROPDOWNBUTTON, comboBoxStates);
-            stateMap.put(Part.CP_BACKGROUND, comboBoxStates);
-            stateMap.put(Part.CP_TRANSPARENTBACKGROUND, comboBoxStates);
-            stateMap.put(Part.CP_BORDER, comboBoxStates);
-            stateMap.put(Part.CP_READONLY, comboBoxStates);
-            stateMap.put(Part.CP_DROPDOWNBUTTONRIGHT, comboBoxStates);
-            stateMap.put(Part.CP_DROPDOWNBUTTONLEFT, comboBoxStates);
-            stateMap.put(Part.CP_CUEBANNER, comboBoxStates);
+            Stbte[] comboBoxStbtes = new Stbte[] { NORMAL, HOT, PRESSED, DISABLED };
+            stbteMbp.put(Pbrt.CP_COMBOBOX, comboBoxStbtes);
+            stbteMbp.put(Pbrt.CP_DROPDOWNBUTTON, comboBoxStbtes);
+            stbteMbp.put(Pbrt.CP_BACKGROUND, comboBoxStbtes);
+            stbteMbp.put(Pbrt.CP_TRANSPARENTBACKGROUND, comboBoxStbtes);
+            stbteMbp.put(Pbrt.CP_BORDER, comboBoxStbtes);
+            stbteMbp.put(Pbrt.CP_READONLY, comboBoxStbtes);
+            stbteMbp.put(Pbrt.CP_DROPDOWNBUTTONRIGHT, comboBoxStbtes);
+            stbteMbp.put(Pbrt.CP_DROPDOWNBUTTONLEFT, comboBoxStbtes);
+            stbteMbp.put(Pbrt.CP_CUEBANNER, comboBoxStbtes);
 
-            stateMap.put(Part.HP_HEADERITEM, new State[] { NORMAL, HOT, PRESSED,
+            stbteMbp.put(Pbrt.HP_HEADERITEM, new Stbte[] { NORMAL, HOT, PRESSED,
                           SORTEDNORMAL, SORTEDHOT, SORTEDPRESSED,
                           ICONNORMAL, ICONHOT, ICONPRESSED,
                           ICONSORTEDNORMAL, ICONSORTEDHOT, ICONSORTEDPRESSED });
 
-            stateMap.put(Part.HP_HEADERSORTARROW,
-                         new State[] {SORTEDDOWN, SORTEDUP});
+            stbteMbp.put(Pbrt.HP_HEADERSORTARROW,
+                         new Stbte[] {SORTEDDOWN, SORTEDUP});
 
-            State[] scrollBarStates = new State[] { NORMAL, HOT, PRESSED, DISABLED, HOVER };
-            stateMap.put(Part.SBP_SCROLLBAR,    scrollBarStates);
-            stateMap.put(Part.SBP_THUMBBTNVERT, scrollBarStates);
-            stateMap.put(Part.SBP_THUMBBTNHORZ, scrollBarStates);
-            stateMap.put(Part.SBP_GRIPPERVERT,  scrollBarStates);
-            stateMap.put(Part.SBP_GRIPPERHORZ,  scrollBarStates);
+            Stbte[] scrollBbrStbtes = new Stbte[] { NORMAL, HOT, PRESSED, DISABLED, HOVER };
+            stbteMbp.put(Pbrt.SBP_SCROLLBAR,    scrollBbrStbtes);
+            stbteMbp.put(Pbrt.SBP_THUMBBTNVERT, scrollBbrStbtes);
+            stbteMbp.put(Pbrt.SBP_THUMBBTNHORZ, scrollBbrStbtes);
+            stbteMbp.put(Pbrt.SBP_GRIPPERVERT,  scrollBbrStbtes);
+            stbteMbp.put(Pbrt.SBP_GRIPPERHORZ,  scrollBbrStbtes);
 
-            stateMap.put(Part.SBP_ARROWBTN,
-                       new State[] {
+            stbteMbp.put(Pbrt.SBP_ARROWBTN,
+                       new Stbte[] {
                 UPNORMAL,    UPHOT,     UPPRESSED,    UPDISABLED,
                 DOWNNORMAL,  DOWNHOT,   DOWNPRESSED,  DOWNDISABLED,
                 LEFTNORMAL,  LEFTHOT,   LEFTPRESSED,  LEFTDISABLED,
@@ -360,102 +360,102 @@ class TMSchema {
             });
 
 
-            State[] spinnerStates = new State[] { NORMAL, HOT, PRESSED, DISABLED };
-            stateMap.put(Part.SPNP_UP,   spinnerStates);
-            stateMap.put(Part.SPNP_DOWN, spinnerStates);
+            Stbte[] spinnerStbtes = new Stbte[] { NORMAL, HOT, PRESSED, DISABLED };
+            stbteMbp.put(Pbrt.SPNP_UP,   spinnerStbtes);
+            stbteMbp.put(Pbrt.SPNP_DOWN, spinnerStbtes);
 
-            stateMap.put(Part.TVP_GLYPH, new State[] { CLOSED, OPENED });
+            stbteMbp.put(Pbrt.TVP_GLYPH, new Stbte[] { CLOSED, OPENED });
 
-            State[] frameButtonStates = new State[] {
+            Stbte[] frbmeButtonStbtes = new Stbte[] {
                         NORMAL,         HOT,         PUSHED,         DISABLED,  // See note 1
                         INACTIVENORMAL, INACTIVEHOT, INACTIVEPUSHED, INACTIVEDISABLED,
             };
-            // Note 1: The INACTIVE frame button states apply when the frame
-            //         is inactive. They are not defined in tmschema.h
+            // Note 1: The INACTIVE frbme button stbtes bpply when the frbme
+            //         is inbctive. They bre not defined in tmschemb.h
 
-            // Fix for 6316538: Vista has five frame button states
-            if (ThemeReader.getInt(Control.WINDOW.toString(),
-                                   Part.WP_CLOSEBUTTON.getValue(), 1,
-                                   Prop.IMAGECOUNT.getValue()) == 10) {
-                frameButtonStates = new State[] {
+            // Fix for 6316538: Vistb hbs five frbme button stbtes
+            if (ThemeRebder.getInt(Control.WINDOW.toString(),
+                                   Pbrt.WP_CLOSEBUTTON.getVblue(), 1,
+                                   Prop.IMAGECOUNT.getVblue()) == 10) {
+                frbmeButtonStbtes = new Stbte[] {
                         NORMAL,         HOT,         PUSHED,         DISABLED,         null,
                         INACTIVENORMAL, INACTIVEHOT, INACTIVEPUSHED, INACTIVEDISABLED, null
                 };
             }
 
-            stateMap.put(Part.WP_MINBUTTON,     frameButtonStates);
-            stateMap.put(Part.WP_MAXBUTTON,     frameButtonStates);
-            stateMap.put(Part.WP_RESTOREBUTTON, frameButtonStates);
-            stateMap.put(Part.WP_CLOSEBUTTON,   frameButtonStates);
+            stbteMbp.put(Pbrt.WP_MINBUTTON,     frbmeButtonStbtes);
+            stbteMbp.put(Pbrt.WP_MAXBUTTON,     frbmeButtonStbtes);
+            stbteMbp.put(Pbrt.WP_RESTOREBUTTON, frbmeButtonStbtes);
+            stbteMbp.put(Pbrt.WP_CLOSEBUTTON,   frbmeButtonStbtes);
 
-            // States for Slider (trackbar)
-            stateMap.put(Part.TKP_TRACK,     new State[] { NORMAL });
-            stateMap.put(Part.TKP_TRACKVERT, new State[] { NORMAL });
+            // Stbtes for Slider (trbckbbr)
+            stbteMbp.put(Pbrt.TKP_TRACK,     new Stbte[] { NORMAL });
+            stbteMbp.put(Pbrt.TKP_TRACKVERT, new Stbte[] { NORMAL });
 
-            State[] sliderThumbStates =
-                new State[] { NORMAL, HOT, PRESSED, FOCUSED, DISABLED };
-            stateMap.put(Part.TKP_THUMB,       sliderThumbStates);
-            stateMap.put(Part.TKP_THUMBBOTTOM, sliderThumbStates);
-            stateMap.put(Part.TKP_THUMBTOP,    sliderThumbStates);
-            stateMap.put(Part.TKP_THUMBVERT,   sliderThumbStates);
-            stateMap.put(Part.TKP_THUMBRIGHT,  sliderThumbStates);
+            Stbte[] sliderThumbStbtes =
+                new Stbte[] { NORMAL, HOT, PRESSED, FOCUSED, DISABLED };
+            stbteMbp.put(Pbrt.TKP_THUMB,       sliderThumbStbtes);
+            stbteMbp.put(Pbrt.TKP_THUMBBOTTOM, sliderThumbStbtes);
+            stbteMbp.put(Pbrt.TKP_THUMBTOP,    sliderThumbStbtes);
+            stbteMbp.put(Pbrt.TKP_THUMBVERT,   sliderThumbStbtes);
+            stbteMbp.put(Pbrt.TKP_THUMBRIGHT,  sliderThumbStbtes);
 
-            // States for Tabs
-            State[] tabStates = new State[] { NORMAL, HOT, SELECTED, DISABLED, FOCUSED };
-            stateMap.put(Part.TABP_TABITEM,          tabStates);
-            stateMap.put(Part.TABP_TABITEMLEFTEDGE,  tabStates);
-            stateMap.put(Part.TABP_TABITEMRIGHTEDGE, tabStates);
+            // Stbtes for Tbbs
+            Stbte[] tbbStbtes = new Stbte[] { NORMAL, HOT, SELECTED, DISABLED, FOCUSED };
+            stbteMbp.put(Pbrt.TABP_TABITEM,          tbbStbtes);
+            stbteMbp.put(Pbrt.TABP_TABITEMLEFTEDGE,  tbbStbtes);
+            stbteMbp.put(Pbrt.TABP_TABITEMRIGHTEDGE, tbbStbtes);
 
 
-            stateMap.put(Part.TP_BUTTON,
-                       new State[] {
+            stbteMbp.put(Pbrt.TP_BUTTON,
+                       new Stbte[] {
                         NORMAL, HOT, PRESSED, DISABLED, CHECKED, HOTCHECKED
             });
 
-            State[] frameStates = new State[] { ACTIVE, INACTIVE };
-            stateMap.put(Part.WP_WINDOW,      frameStates);
-            stateMap.put(Part.WP_FRAMELEFT,   frameStates);
-            stateMap.put(Part.WP_FRAMERIGHT,  frameStates);
-            stateMap.put(Part.WP_FRAMEBOTTOM, frameStates);
+            Stbte[] frbmeStbtes = new Stbte[] { ACTIVE, INACTIVE };
+            stbteMbp.put(Pbrt.WP_WINDOW,      frbmeStbtes);
+            stbteMbp.put(Pbrt.WP_FRAMELEFT,   frbmeStbtes);
+            stbteMbp.put(Pbrt.WP_FRAMERIGHT,  frbmeStbtes);
+            stbteMbp.put(Pbrt.WP_FRAMEBOTTOM, frbmeStbtes);
 
-            State[] captionStates = new State[] { ACTIVE, INACTIVE, DISABLED };
-            stateMap.put(Part.WP_CAPTION,    captionStates);
-            stateMap.put(Part.WP_MINCAPTION, captionStates);
-            stateMap.put(Part.WP_MAXCAPTION, captionStates);
+            Stbte[] cbptionStbtes = new Stbte[] { ACTIVE, INACTIVE, DISABLED };
+            stbteMbp.put(Pbrt.WP_CAPTION,    cbptionStbtes);
+            stbteMbp.put(Pbrt.WP_MINCAPTION, cbptionStbtes);
+            stbteMbp.put(Pbrt.WP_MAXCAPTION, cbptionStbtes);
 
-            stateMap.put(Part.MP_BARBACKGROUND,
-                         new State[] { ACTIVE, INACTIVE });
-            stateMap.put(Part.MP_BARITEM,
-                         new State[] { NORMAL, HOT, PUSHED,
+            stbteMbp.put(Pbrt.MP_BARBACKGROUND,
+                         new Stbte[] { ACTIVE, INACTIVE });
+            stbteMbp.put(Pbrt.MP_BARITEM,
+                         new Stbte[] { NORMAL, HOT, PUSHED,
                                        DISABLED, DISABLEDHOT, DISABLEDPUSHED });
-            stateMap.put(Part.MP_POPUPCHECK,
-                         new State[] { CHECKMARKNORMAL, CHECKMARKDISABLED,
+            stbteMbp.put(Pbrt.MP_POPUPCHECK,
+                         new Stbte[] { CHECKMARKNORMAL, CHECKMARKDISABLED,
                                        BULLETNORMAL, BULLETDISABLED });
-            stateMap.put(Part.MP_POPUPCHECKBACKGROUND,
-                         new State[] { DISABLEDPUSHED, NORMAL, BITMAP });
-            stateMap.put(Part.MP_POPUPITEM,
-                         new State[] { NORMAL, HOT, DISABLED, DISABLEDHOT });
-            stateMap.put(Part.MP_POPUPSUBMENU,
-                         new State[] { NORMAL, DISABLED });
+            stbteMbp.put(Pbrt.MP_POPUPCHECKBACKGROUND,
+                         new Stbte[] { DISABLEDPUSHED, NORMAL, BITMAP });
+            stbteMbp.put(Pbrt.MP_POPUPITEM,
+                         new Stbte[] { NORMAL, HOT, DISABLED, DISABLEDHOT });
+            stbteMbp.put(Pbrt.MP_POPUPSUBMENU,
+                         new Stbte[] { NORMAL, DISABLED });
 
         }
 
 
-        public static synchronized int getValue(Part part, State state) {
-            if (stateMap == null) {
-                initStates();
+        public stbtic synchronized int getVblue(Pbrt pbrt, Stbte stbte) {
+            if (stbteMbp == null) {
+                initStbtes();
             }
 
-            Enum<?>[] states = stateMap.get(part);
-            if (states != null) {
-                for (int i = 0; i < states.length; i++) {
-                    if (state == states[i]) {
+            Enum<?>[] stbtes = stbteMbp.get(pbrt);
+            if (stbtes != null) {
+                for (int i = 0; i < stbtes.length; i++) {
+                    if (stbte == stbtes[i]) {
                         return i + 1;
                     }
                 }
             }
 
-            if (state == null || state == State.NORMAL) {
+            if (stbte == null || stbte == Stbte.NORMAL) {
                 return 1;
             }
 
@@ -466,67 +466,67 @@ class TMSchema {
 
 
     /**
-     * An enumeration of the possible component attributes and the
-     * corresponding value type
+     * An enumerbtion of the possible component bttributes bnd the
+     * corresponding vblue type
      */
-    public static enum Prop {
-        COLOR(Color.class,                204),
-        SIZE(Dimension.class,             207),
+    public stbtic enum Prop {
+        COLOR(Color.clbss,                204),
+        SIZE(Dimension.clbss,             207),
 
-        FLATMENUS(Boolean.class,         1001),
+        FLATMENUS(Boolebn.clbss,         1001),
 
-        BORDERONLY(Boolean.class,        2203), // only draw the border area of the image
+        BORDERONLY(Boolebn.clbss,        2203), // only drbw the border breb of the imbge
 
-        IMAGECOUNT(Integer.class,        2401), // the number of state images in an imagefile
-        BORDERSIZE(Integer.class,        2403), // the size of the border line for bgtype=BorderFill
+        IMAGECOUNT(Integer.clbss,        2401), // the number of stbte imbges in bn imbgefile
+        BORDERSIZE(Integer.clbss,        2403), // the size of the border line for bgtype=BorderFill
 
-        PROGRESSCHUNKSIZE(Integer.class, 2411), // size of progress control chunks
-        PROGRESSSPACESIZE(Integer.class, 2412), // size of progress control spaces
+        PROGRESSCHUNKSIZE(Integer.clbss, 2411), // size of progress control chunks
+        PROGRESSSPACESIZE(Integer.clbss, 2412), // size of progress control spbces
 
-        TEXTSHADOWOFFSET(Point.class,    3402), // where char shadows are drawn, relative to orig. chars
+        TEXTSHADOWOFFSET(Point.clbss,    3402), // where chbr shbdows bre drbwn, relbtive to orig. chbrs
 
-        NORMALSIZE(Dimension.class,      3409), // size of dest rect that exactly source
+        NORMALSIZE(Dimension.clbss,      3409), // size of dest rect thbt exbctly source
 
 
-        SIZINGMARGINS ( Insets.class,    3601), // margins used for 9-grid sizing
-        CONTENTMARGINS(Insets.class,     3602), // margins that define where content can be placed
-        CAPTIONMARGINS(Insets.class,     3603), // margins that define where caption text can be placed
+        SIZINGMARGINS ( Insets.clbss,    3601), // mbrgins used for 9-grid sizing
+        CONTENTMARGINS(Insets.clbss,     3602), // mbrgins thbt define where content cbn be plbced
+        CAPTIONMARGINS(Insets.clbss,     3603), // mbrgins thbt define where cbption text cbn be plbced
 
-        BORDERCOLOR(Color.class,         3801), // color of borders for BorderFill
-        FILLCOLOR  (  Color.class,       3802), // color of bg fill
-        TEXTCOLOR  (  Color.class,       3803), // color text is drawn in
+        BORDERCOLOR(Color.clbss,         3801), // color of borders for BorderFill
+        FILLCOLOR  (  Color.clbss,       3802), // color of bg fill
+        TEXTCOLOR  (  Color.clbss,       3803), // color text is drbwn in
 
-        TEXTSHADOWCOLOR(Color.class,     3818), // color of text shadow
+        TEXTSHADOWCOLOR(Color.clbss,     3818), // color of text shbdow
 
-        BGTYPE(Integer.class,            4001), // basic drawing type for each part
+        BGTYPE(Integer.clbss,            4001), // bbsic drbwing type for ebch pbrt
 
-        TEXTSHADOWTYPE(Integer.class,    4010), // type of shadow to draw with text
+        TEXTSHADOWTYPE(Integer.clbss,    4010), // type of shbdow to drbw with text
 
-        TRANSITIONDURATIONS(Integer.class, 6000);
+        TRANSITIONDURATIONS(Integer.clbss, 6000);
 
-        private final Class<?> type;
-        private final int value;
+        privbte finbl Clbss<?> type;
+        privbte finbl int vblue;
 
-        private Prop(Class<?> type, int value) {
+        privbte Prop(Clbss<?> type, int vblue) {
             this.type     = type;
-            this.value    = value;
+            this.vblue    = vblue;
         }
 
-        public int getValue() {
-            return value;
+        public int getVblue() {
+            return vblue;
         }
 
         public String toString() {
-            return name()+"["+type.getName()+"] = "+value;
+            return nbme()+"["+type.getNbme()+"] = "+vblue;
         }
     }
 
 
     /**
-     * An enumeration of attribute values for some Props
+     * An enumerbtion of bttribute vblues for some Props
      */
-    public static enum TypeEnum {
-        BT_IMAGEFILE (Prop.BGTYPE, "imagefile",  0),
+    public stbtic enum TypeEnum {
+        BT_IMAGEFILE (Prop.BGTYPE, "imbgefile",  0),
         BT_BORDERFILL(Prop.BGTYPE, "borderfill", 1),
 
         TST_NONE(Prop.TEXTSHADOWTYPE, "none", 0),
@@ -534,28 +534,28 @@ class TMSchema {
         TST_CONTINUOUS(Prop.TEXTSHADOWTYPE, "continuous", 2);
 
 
-        private TypeEnum(Prop prop, String enumName, int value) {
+        privbte TypeEnum(Prop prop, String enumNbme, int vblue) {
             this.prop = prop;
-            this.enumName = enumName;
-            this.value = value;
+            this.enumNbme = enumNbme;
+            this.vblue = vblue;
         }
 
-        private final Prop prop;
-        private final String enumName;
-        private final int value;
+        privbte finbl Prop prop;
+        privbte finbl String enumNbme;
+        privbte finbl int vblue;
 
         public String toString() {
-            return prop+"="+enumName+"="+value;
+            return prop+"="+enumNbme+"="+vblue;
         }
 
-        String getName() {
-            return enumName;
+        String getNbme() {
+            return enumNbme;
         }
 
 
-        static TypeEnum getTypeEnum(Prop prop, int enumval) {
-            for (TypeEnum e : TypeEnum.values()) {
-                if (e.prop == prop && e.value == enumval) {
+        stbtic TypeEnum getTypeEnum(Prop prop, int enumvbl) {
+            for (TypeEnum e : TypeEnum.vblues()) {
+                if (e.prop == prop && e.vblue == enumvbl) {
                     return e;
                 }
             }

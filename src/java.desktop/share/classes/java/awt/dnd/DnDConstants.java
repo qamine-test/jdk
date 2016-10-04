@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * This class contains constant values representing
- * the type of action(s) to be performed by a Drag and Drop operation.
+ * This clbss contbins constbnt vblues representing
+ * the type of bction(s) to be performed by b Drbg bnd Drop operbtion.
  * @since 1.2
  */
-public final class DnDConstants {
+public finbl clbss DnDConstbnts {
 
-    private DnDConstants() {} // define null private constructor.
+    privbte DnDConstbnts() {} // define null privbte constructor.
 
     /**
-     * An <code>int</code> representing no action.
+     * An <code>int</code> representing no bction.
      */
-    @Native public static final int ACTION_NONE         = 0x0;
+    @Nbtive public stbtic finbl int ACTION_NONE         = 0x0;
 
     /**
-     * An <code>int</code> representing a &quot;copy&quot; action.
+     * An <code>int</code> representing b &quot;copy&quot; bction.
      */
-    @Native public static final int ACTION_COPY         = 0x1;
+    @Nbtive public stbtic finbl int ACTION_COPY         = 0x1;
 
     /**
-     * An <code>int</code> representing a &quot;move&quot; action.
+     * An <code>int</code> representing b &quot;move&quot; bction.
      */
-    @Native public static final int ACTION_MOVE         = 0x2;
+    @Nbtive public stbtic finbl int ACTION_MOVE         = 0x2;
 
     /**
-     * An <code>int</code> representing a &quot;copy&quot; or
-     * &quot;move&quot; action.
+     * An <code>int</code> representing b &quot;copy&quot; or
+     * &quot;move&quot; bction.
      */
-    @Native public static final int ACTION_COPY_OR_MOVE = ACTION_COPY | ACTION_MOVE;
+    @Nbtive public stbtic finbl int ACTION_COPY_OR_MOVE = ACTION_COPY | ACTION_MOVE;
 
     /**
-     * An <code>int</code> representing a &quot;link&quot; action.
+     * An <code>int</code> representing b &quot;link&quot; bction.
      *
-     * The link verb is found in many, if not all native DnD platforms, and the
-     * actual interpretation of LINK semantics is both platform
-     * and application dependent. Broadly speaking, the
-     * semantic is "do not copy, or move the operand, but create a reference
-     * to it". Defining the meaning of "reference" is where ambiguity is
+     * The link verb is found in mbny, if not bll nbtive DnD plbtforms, bnd the
+     * bctubl interpretbtion of LINK sembntics is both plbtform
+     * bnd bpplicbtion dependent. Brobdly spebking, the
+     * sembntic is "do not copy, or move the operbnd, but crebte b reference
+     * to it". Defining the mebning of "reference" is where bmbiguity is
      * introduced.
      *
      * The verb is provided for completeness, but its use is not recommended
-     * for DnD operations between logically distinct applications where
-     * misinterpretation of the operations semantics could lead to confusing
+     * for DnD operbtions between logicblly distinct bpplicbtions where
+     * misinterpretbtion of the operbtions sembntics could lebd to confusing
      * results for the user.
      */
 
-    @Native public static final int ACTION_LINK         = 0x40000000;
+    @Nbtive public stbtic finbl int ACTION_LINK         = 0x40000000;
 
     /**
-     * An <code>int</code> representing a &quot;reference&quot;
-     * action (synonym for ACTION_LINK).
+     * An <code>int</code> representing b &quot;reference&quot;
+     * bction (synonym for ACTION_LINK).
      */
-    @Native public static final int ACTION_REFERENCE    = ACTION_LINK;
+    @Nbtive public stbtic finbl int ACTION_REFERENCE    = ACTION_LINK;
 
 }

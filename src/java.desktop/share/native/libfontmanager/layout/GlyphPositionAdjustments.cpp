@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -31,14 +31,14 @@
 
 #include "LETypes.h"
 #include "GlyphPositionAdjustments.h"
-#include "LEGlyphStorage.h"
-#include "LEFontInstance.h"
+#include "LEGlyphStorbge.h"
+#include "LEFontInstbnce.h"
 
 U_NAMESPACE_BEGIN
 
-#define CHECK_ALLOCATE_ARRAY(array, type, size) \
-    if (array == NULL) { \
-        array = (type *) new type[size]; \
+#define CHECK_ALLOCATE_ARRAY(brrby, type, size) \
+    if (brrby == NULL) { \
+        brrby = (type *) new type[size]; \
     }
 
 GlyphPositionAdjustments::GlyphPositionAdjustments(le_int32 glyphCount)
@@ -71,102 +71,102 @@ const LEPoint *GlyphPositionAdjustments::getExitPoint(le_int32 index, LEPoint &e
     return fEntryExitPoints[index].getExitPoint(exitPoint);
 }
 
-void GlyphPositionAdjustments::clearEntryPoint(le_int32 index)
+void GlyphPositionAdjustments::clebrEntryPoint(le_int32 index)
 {
     CHECK_ALLOCATE_ARRAY(fEntryExitPoints, EntryExitPoint, fGlyphCount);
 
-    fEntryExitPoints[index].clearEntryPoint();
+    fEntryExitPoints[index].clebrEntryPoint();
 }
 
-void GlyphPositionAdjustments::clearExitPoint(le_int32 index)
+void GlyphPositionAdjustments::clebrExitPoint(le_int32 index)
 {
     CHECK_ALLOCATE_ARRAY(fEntryExitPoints, EntryExitPoint, fGlyphCount);
 
-    fEntryExitPoints[index].clearExitPoint();
+    fEntryExitPoints[index].clebrExitPoint();
 }
 
-void GlyphPositionAdjustments::setEntryPoint(le_int32 index, LEPoint &newEntryPoint, le_bool baselineIsLogicalEnd)
+void GlyphPositionAdjustments::setEntryPoint(le_int32 index, LEPoint &newEntryPoint, le_bool bbselineIsLogicblEnd)
 {
     CHECK_ALLOCATE_ARRAY(fEntryExitPoints, EntryExitPoint, fGlyphCount);
 
-    fEntryExitPoints[index].setEntryPoint(newEntryPoint, baselineIsLogicalEnd);
+    fEntryExitPoints[index].setEntryPoint(newEntryPoint, bbselineIsLogicblEnd);
 }
 
-void GlyphPositionAdjustments::setExitPoint(le_int32 index, LEPoint &newExitPoint, le_bool baselineIsLogicalEnd)
+void GlyphPositionAdjustments::setExitPoint(le_int32 index, LEPoint &newExitPoint, le_bool bbselineIsLogicblEnd)
 {
     CHECK_ALLOCATE_ARRAY(fEntryExitPoints, EntryExitPoint, fGlyphCount);
 
-    fEntryExitPoints[index].setExitPoint(newExitPoint, baselineIsLogicalEnd);
+    fEntryExitPoints[index].setExitPoint(newExitPoint, bbselineIsLogicblEnd);
 }
 
-void GlyphPositionAdjustments::setCursiveGlyph(le_int32 index, le_bool baselineIsLogicalEnd)
+void GlyphPositionAdjustments::setCursiveGlyph(le_int32 index, le_bool bbselineIsLogicblEnd)
 {
     CHECK_ALLOCATE_ARRAY(fEntryExitPoints, EntryExitPoint, fGlyphCount);
 
-    fEntryExitPoints[index].setCursiveGlyph(baselineIsLogicalEnd);
+    fEntryExitPoints[index].setCursiveGlyph(bbselineIsLogicblEnd);
 }
 
-void GlyphPositionAdjustments::applyCursiveAdjustments(LEGlyphStorage &glyphStorage, le_bool rightToLeft, const LEFontInstance *fontInstance)
+void GlyphPositionAdjustments::bpplyCursiveAdjustments(LEGlyphStorbge &glyphStorbge, le_bool rightToLeft, const LEFontInstbnce *fontInstbnce)
 {
-    if (! hasCursiveGlyphs()) {
+    if (! hbsCursiveGlyphs()) {
         return;
     }
 
-    le_int32 start = 0, end = fGlyphCount, dir = 1;
-    le_int32 firstExitPoint = -1, lastExitPoint = -1;
+    le_int32 stbrt = 0, end = fGlyphCount, dir = 1;
+    le_int32 firstExitPoint = -1, lbstExitPoint = -1;
     LEPoint entryAnchor, exitAnchor, pixels;
-    LEGlyphID lastExitGlyphID = 0;
-    float baselineAdjustment = 0;
+    LEGlyphID lbstExitGlyphID = 0;
+    flobt bbselineAdjustment = 0;
 
-    // This removes a possible warning about
-    // using exitAnchor before it's been initialized.
+    // This removes b possible wbrning bbout
+    // using exitAnchor before it's been initiblized.
     exitAnchor.fX = exitAnchor.fY = 0;
 
     if (rightToLeft) {
-        start = fGlyphCount - 1;
+        stbrt = fGlyphCount - 1;
         end = -1;
         dir = -1;
     }
 
-    for (le_int32 i = start; i != end; i += dir) {
-        LEGlyphID glyphID = glyphStorage[i];
+    for (le_int32 i = stbrt; i != end; i += dir) {
+        LEGlyphID glyphID = glyphStorbge[i];
 
         if (isCursiveGlyph(i)) {
-            if (lastExitPoint >= 0 && getEntryPoint(i, entryAnchor) != NULL) {
-                float anchorDiffX = exitAnchor.fX - entryAnchor.fX;
-                float anchorDiffY = exitAnchor.fY - entryAnchor.fY;
+            if (lbstExitPoint >= 0 && getEntryPoint(i, entryAnchor) != NULL) {
+                flobt bnchorDiffX = exitAnchor.fX - entryAnchor.fX;
+                flobt bnchorDiffY = exitAnchor.fY - entryAnchor.fY;
 
-                baselineAdjustment += anchorDiffY;
-                adjustYPlacement(i, baselineAdjustment);
+                bbselineAdjustment += bnchorDiffY;
+                bdjustYPlbcement(i, bbselineAdjustment);
 
                 if (rightToLeft) {
-                    LEPoint secondAdvance;
+                    LEPoint secondAdvbnce;
 
-                    fontInstance->getGlyphAdvance(glyphID, pixels);
-                    fontInstance->pixelsToUnits(pixels, secondAdvance);
+                    fontInstbnce->getGlyphAdvbnce(glyphID, pixels);
+                    fontInstbnce->pixelsToUnits(pixels, secondAdvbnce);
 
-                    adjustXAdvance(i, -(anchorDiffX + secondAdvance.fX));
+                    bdjustXAdvbnce(i, -(bnchorDiffX + secondAdvbnce.fX));
                 } else {
-                    LEPoint firstAdvance;
+                    LEPoint firstAdvbnce;
 
-                    fontInstance->getGlyphAdvance(lastExitGlyphID, pixels);
-                    fontInstance->pixelsToUnits(pixels, firstAdvance);
+                    fontInstbnce->getGlyphAdvbnce(lbstExitGlyphID, pixels);
+                    fontInstbnce->pixelsToUnits(pixels, firstAdvbnce);
 
-                    adjustXAdvance(lastExitPoint, anchorDiffX - firstAdvance.fX);
+                    bdjustXAdvbnce(lbstExitPoint, bnchorDiffX - firstAdvbnce.fX);
                 }
             }
 
-            lastExitPoint = i;
+            lbstExitPoint = i;
 
             if (getExitPoint(i, exitAnchor) != NULL) {
                 if (firstExitPoint < 0) {
                     firstExitPoint = i;
                 }
 
-                lastExitGlyphID = glyphID;
+                lbstExitGlyphID = glyphID;
             } else {
-                if (baselineIsLogicalEnd(i) && firstExitPoint >= 0 && lastExitPoint >= 0) {
-                    le_int32 limit = lastExitPoint /*+ dir*/;
+                if (bbselineIsLogicblEnd(i) && firstExitPoint >= 0 && lbstExitPoint >= 0) {
+                    le_int32 limit = lbstExitPoint /*+ dir*/;
                     LEPoint dummyAnchor;
 
                     if (getEntryPoint(i, dummyAnchor) != NULL) {
@@ -175,13 +175,13 @@ void GlyphPositionAdjustments::applyCursiveAdjustments(LEGlyphStorage &glyphStor
 
                     for (le_int32 j = firstExitPoint; j != limit; j += dir) {
                         if (isCursiveGlyph(j)) {
-                            adjustYPlacement(j, -baselineAdjustment);
+                            bdjustYPlbcement(j, -bbselineAdjustment);
                         }
                     }
                 }
 
-                firstExitPoint = lastExitPoint = -1;
-                baselineAdjustment = 0;
+                firstExitPoint = lbstExitPoint = -1;
+                bbselineAdjustment = 0;
             }
         }
     }
@@ -189,7 +189,7 @@ void GlyphPositionAdjustments::applyCursiveAdjustments(LEGlyphStorage &glyphStor
 
 LEPoint *GlyphPositionAdjustments::EntryExitPoint::getEntryPoint(LEPoint &entryPoint) const
 {
-    if (fFlags & EEF_HAS_ENTRY_POINT) {
+    if (fFlbgs & EEF_HAS_ENTRY_POINT) {
         entryPoint = fEntryPoint;
         return &entryPoint;
     }
@@ -199,7 +199,7 @@ LEPoint *GlyphPositionAdjustments::EntryExitPoint::getEntryPoint(LEPoint &entryP
 
 LEPoint *GlyphPositionAdjustments::EntryExitPoint::getExitPoint(LEPoint &exitPoint) const
 {
-    if (fFlags & EEF_HAS_EXIT_POINT) {
+    if (fFlbgs & EEF_HAS_EXIT_POINT) {
         exitPoint = fExitPoint;
         return &exitPoint;
     }

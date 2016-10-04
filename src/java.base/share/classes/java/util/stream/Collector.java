@@ -1,339 +1,339 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import jbvb.util.Collections;
+import jbvb.util.EnumSet;
+import jbvb.util.Objects;
+import jbvb.util.Set;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BinbryOperbtor;
+import jbvb.util.function.Function;
+import jbvb.util.function.Supplier;
 
 /**
- * A <a href="package-summary.html#Reduction">mutable reduction operation</a> that
- * accumulates input elements into a mutable result container, optionally transforming
- * the accumulated result into a final representation after all input elements
- * have been processed.  Reduction operations can be performed either sequentially
- * or in parallel.
+ * A <b href="pbckbge-summbry.html#Reduction">mutbble reduction operbtion</b> thbt
+ * bccumulbtes input elements into b mutbble result contbiner, optionblly trbnsforming
+ * the bccumulbted result into b finbl representbtion bfter bll input elements
+ * hbve been processed.  Reduction operbtions cbn be performed either sequentiblly
+ * or in pbrbllel.
  *
- * <p>Examples of mutable reduction operations include:
- * accumulating elements into a {@code Collection}; concatenating
- * strings using a {@code StringBuilder}; computing summary information about
- * elements such as sum, min, max, or average; computing "pivot table" summaries
- * such as "maximum valued transaction by seller", etc.  The class {@link Collectors}
- * provides implementations of many common mutable reductions.
+ * <p>Exbmples of mutbble reduction operbtions include:
+ * bccumulbting elements into b {@code Collection}; concbtenbting
+ * strings using b {@code StringBuilder}; computing summbry informbtion bbout
+ * elements such bs sum, min, mbx, or bverbge; computing "pivot tbble" summbries
+ * such bs "mbximum vblued trbnsbction by seller", etc.  The clbss {@link Collectors}
+ * provides implementbtions of mbny common mutbble reductions.
  *
- * <p>A {@code Collector} is specified by four functions that work together to
- * accumulate entries into a mutable result container, and optionally perform
- * a final transform on the result.  They are: <ul>
- *     <li>creation of a new result container ({@link #supplier()})</li>
- *     <li>incorporating a new data element into a result container ({@link #accumulator()})</li>
- *     <li>combining two result containers into one ({@link #combiner()})</li>
- *     <li>performing an optional final transform on the container ({@link #finisher()})</li>
+ * <p>A {@code Collector} is specified by four functions thbt work together to
+ * bccumulbte entries into b mutbble result contbiner, bnd optionblly perform
+ * b finbl trbnsform on the result.  They bre: <ul>
+ *     <li>crebtion of b new result contbiner ({@link #supplier()})</li>
+ *     <li>incorporbting b new dbtb element into b result contbiner ({@link #bccumulbtor()})</li>
+ *     <li>combining two result contbiners into one ({@link #combiner()})</li>
+ *     <li>performing bn optionbl finbl trbnsform on the contbiner ({@link #finisher()})</li>
  * </ul>
  *
- * <p>Collectors also have a set of characteristics, such as
- * {@link Characteristics#CONCURRENT}, that provide hints that can be used by a
- * reduction implementation to provide better performance.
+ * <p>Collectors blso hbve b set of chbrbcteristics, such bs
+ * {@link Chbrbcteristics#CONCURRENT}, thbt provide hints thbt cbn be used by b
+ * reduction implementbtion to provide better performbnce.
  *
- * <p>A sequential implementation of a reduction using a collector would
- * create a single result container using the supplier function, and invoke the
- * accumulator function once for each input element.  A parallel implementation
- * would partition the input, create a result container for each partition,
- * accumulate the contents of each partition into a subresult for that partition,
- * and then use the combiner function to merge the subresults into a combined
+ * <p>A sequentibl implementbtion of b reduction using b collector would
+ * crebte b single result contbiner using the supplier function, bnd invoke the
+ * bccumulbtor function once for ebch input element.  A pbrbllel implementbtion
+ * would pbrtition the input, crebte b result contbiner for ebch pbrtition,
+ * bccumulbte the contents of ebch pbrtition into b subresult for thbt pbrtition,
+ * bnd then use the combiner function to merge the subresults into b combined
  * result.
  *
- * <p>To ensure that sequential and parallel executions produce equivalent
- * results, the collector functions must satisfy an <em>identity</em> and an
- * <a href="package-summary.html#Associativity">associativity</a> constraints.
+ * <p>To ensure thbt sequentibl bnd pbrbllel executions produce equivblent
+ * results, the collector functions must sbtisfy bn <em>identity</em> bnd bn
+ * <b href="pbckbge-summbry.html#Associbtivity">bssocibtivity</b> constrbints.
  *
- * <p>The identity constraint says that for any partially accumulated result,
- * combining it with an empty result container must produce an equivalent
- * result.  That is, for a partially accumulated result {@code a} that is the
- * result of any series of accumulator and combiner invocations, {@code a} must
- * be equivalent to {@code combiner.apply(a, supplier.get())}.
+ * <p>The identity constrbint sbys thbt for bny pbrtiblly bccumulbted result,
+ * combining it with bn empty result contbiner must produce bn equivblent
+ * result.  Thbt is, for b pbrtiblly bccumulbted result {@code b} thbt is the
+ * result of bny series of bccumulbtor bnd combiner invocbtions, {@code b} must
+ * be equivblent to {@code combiner.bpply(b, supplier.get())}.
  *
- * <p>The associativity constraint says that splitting the computation must
- * produce an equivalent result.  That is, for any input elements {@code t1}
- * and {@code t2}, the results {@code r1} and {@code r2} in the computation
- * below must be equivalent:
+ * <p>The bssocibtivity constrbint sbys thbt splitting the computbtion must
+ * produce bn equivblent result.  Thbt is, for bny input elements {@code t1}
+ * bnd {@code t2}, the results {@code r1} bnd {@code r2} in the computbtion
+ * below must be equivblent:
  * <pre>{@code
- *     A a1 = supplier.get();
- *     accumulator.accept(a1, t1);
- *     accumulator.accept(a1, t2);
- *     R r1 = finisher.apply(a1);  // result without splitting
+ *     A b1 = supplier.get();
+ *     bccumulbtor.bccept(b1, t1);
+ *     bccumulbtor.bccept(b1, t2);
+ *     R r1 = finisher.bpply(b1);  // result without splitting
  *
- *     A a2 = supplier.get();
- *     accumulator.accept(a2, t1);
- *     A a3 = supplier.get();
- *     accumulator.accept(a3, t2);
- *     R r2 = finisher.apply(combiner.apply(a2, a3));  // result with splitting
+ *     A b2 = supplier.get();
+ *     bccumulbtor.bccept(b2, t1);
+ *     A b3 = supplier.get();
+ *     bccumulbtor.bccept(b3, t2);
+ *     R r2 = finisher.bpply(combiner.bpply(b2, b3));  // result with splitting
  * } </pre>
  *
- * <p>For collectors that do not have the {@code UNORDERED} characteristic,
- * two accumulated results {@code a1} and {@code a2} are equivalent if
- * {@code finisher.apply(a1).equals(finisher.apply(a2))}.  For unordered
- * collectors, equivalence is relaxed to allow for non-equality related to
- * differences in order.  (For example, an unordered collector that accumulated
- * elements to a {@code List} would consider two lists equivalent if they
- * contained the same elements, ignoring order.)
+ * <p>For collectors thbt do not hbve the {@code UNORDERED} chbrbcteristic,
+ * two bccumulbted results {@code b1} bnd {@code b2} bre equivblent if
+ * {@code finisher.bpply(b1).equbls(finisher.bpply(b2))}.  For unordered
+ * collectors, equivblence is relbxed to bllow for non-equblity relbted to
+ * differences in order.  (For exbmple, bn unordered collector thbt bccumulbted
+ * elements to b {@code List} would consider two lists equivblent if they
+ * contbined the sbme elements, ignoring order.)
  *
- * <p>Libraries that implement reduction based on {@code Collector}, such as
- * {@link Stream#collect(Collector)}, must adhere to the following constraints:
+ * <p>Librbries thbt implement reduction bbsed on {@code Collector}, such bs
+ * {@link Strebm#collect(Collector)}, must bdhere to the following constrbints:
  * <ul>
- *     <li>The first argument passed to the accumulator function, both
- *     arguments passed to the combiner function, and the argument passed to the
- *     finisher function must be the result of a previous invocation of the
- *     result supplier, accumulator, or combiner functions.</li>
- *     <li>The implementation should not do anything with the result of any of
- *     the result supplier, accumulator, or combiner functions other than to
- *     pass them again to the accumulator, combiner, or finisher functions,
- *     or return them to the caller of the reduction operation.</li>
- *     <li>If a result is passed to the combiner or finisher
- *     function, and the same object is not returned from that function, it is
- *     never used again.</li>
- *     <li>Once a result is passed to the combiner or finisher function, it
- *     is never passed to the accumulator function again.</li>
- *     <li>For non-concurrent collectors, any result returned from the result
- *     supplier, accumulator, or combiner functions must be serially
- *     thread-confined.  This enables collection to occur in parallel without
- *     the {@code Collector} needing to implement any additional synchronization.
- *     The reduction implementation must manage that the input is properly
- *     partitioned, that partitions are processed in isolation, and combining
- *     happens only after accumulation is complete.</li>
- *     <li>For concurrent collectors, an implementation is free to (but not
+ *     <li>The first brgument pbssed to the bccumulbtor function, both
+ *     brguments pbssed to the combiner function, bnd the brgument pbssed to the
+ *     finisher function must be the result of b previous invocbtion of the
+ *     result supplier, bccumulbtor, or combiner functions.</li>
+ *     <li>The implementbtion should not do bnything with the result of bny of
+ *     the result supplier, bccumulbtor, or combiner functions other thbn to
+ *     pbss them bgbin to the bccumulbtor, combiner, or finisher functions,
+ *     or return them to the cbller of the reduction operbtion.</li>
+ *     <li>If b result is pbssed to the combiner or finisher
+ *     function, bnd the sbme object is not returned from thbt function, it is
+ *     never used bgbin.</li>
+ *     <li>Once b result is pbssed to the combiner or finisher function, it
+ *     is never pbssed to the bccumulbtor function bgbin.</li>
+ *     <li>For non-concurrent collectors, bny result returned from the result
+ *     supplier, bccumulbtor, or combiner functions must be seriblly
+ *     threbd-confined.  This enbbles collection to occur in pbrbllel without
+ *     the {@code Collector} needing to implement bny bdditionbl synchronizbtion.
+ *     The reduction implementbtion must mbnbge thbt the input is properly
+ *     pbrtitioned, thbt pbrtitions bre processed in isolbtion, bnd combining
+ *     hbppens only bfter bccumulbtion is complete.</li>
+ *     <li>For concurrent collectors, bn implementbtion is free to (but not
  *     required to) implement reduction concurrently.  A concurrent reduction
- *     is one where the accumulator function is called concurrently from
- *     multiple threads, using the same concurrently-modifiable result container,
- *     rather than keeping the result isolated during accumulation.
- *     A concurrent reduction should only be applied if the collector has the
- *     {@link Characteristics#UNORDERED} characteristics or if the
- *     originating data is unordered.</li>
+ *     is one where the bccumulbtor function is cblled concurrently from
+ *     multiple threbds, using the sbme concurrently-modifibble result contbiner,
+ *     rbther thbn keeping the result isolbted during bccumulbtion.
+ *     A concurrent reduction should only be bpplied if the collector hbs the
+ *     {@link Chbrbcteristics#UNORDERED} chbrbcteristics or if the
+ *     originbting dbtb is unordered.</li>
  * </ul>
  *
- * <p>In addition to the predefined implementations in {@link Collectors}, the
- * static factory methods {@link #of(Supplier, BiConsumer, BinaryOperator, Characteristics...)}
- * can be used to construct collectors.  For example, you could create a collector
- * that accumulates widgets into a {@code TreeSet} with:
+ * <p>In bddition to the predefined implementbtions in {@link Collectors}, the
+ * stbtic fbctory methods {@link #of(Supplier, BiConsumer, BinbryOperbtor, Chbrbcteristics...)}
+ * cbn be used to construct collectors.  For exbmple, you could crebte b collector
+ * thbt bccumulbtes widgets into b {@code TreeSet} with:
  *
  * <pre>{@code
  *     Collector<Widget, ?, TreeSet<Widget>> intoSet =
- *         Collector.of(TreeSet::new, TreeSet::add,
- *                      (left, right) -> { left.addAll(right); return left; });
+ *         Collector.of(TreeSet::new, TreeSet::bdd,
+ *                      (left, right) -> { left.bddAll(right); return left; });
  * }</pre>
  *
- * (This behavior is also implemented by the predefined collector
+ * (This behbvior is blso implemented by the predefined collector
  * {@link Collectors#toCollection(Supplier)}).
  *
- * @apiNote
- * Performing a reduction operation with a {@code Collector} should produce a
- * result equivalent to:
+ * @bpiNote
+ * Performing b reduction operbtion with b {@code Collector} should produce b
+ * result equivblent to:
  * <pre>{@code
- *     R container = collector.supplier().get();
- *     for (T t : data)
- *         collector.accumulator().accept(container, t);
- *     return collector.finisher().apply(container);
+ *     R contbiner = collector.supplier().get();
+ *     for (T t : dbtb)
+ *         collector.bccumulbtor().bccept(contbiner, t);
+ *     return collector.finisher().bpply(contbiner);
  * }</pre>
  *
- * <p>However, the library is free to partition the input, perform the reduction
- * on the partitions, and then use the combiner function to combine the partial
- * results to achieve a parallel reduction.  (Depending on the specific reduction
- * operation, this may perform better or worse, depending on the relative cost
- * of the accumulator and combiner functions.)
+ * <p>However, the librbry is free to pbrtition the input, perform the reduction
+ * on the pbrtitions, bnd then use the combiner function to combine the pbrtibl
+ * results to bchieve b pbrbllel reduction.  (Depending on the specific reduction
+ * operbtion, this mby perform better or worse, depending on the relbtive cost
+ * of the bccumulbtor bnd combiner functions.)
  *
- * <p>Collectors are designed to be <em>composed</em>; many of the methods
- * in {@link Collectors} are functions that take a collector and produce
- * a new collector.  For example, given the following collector that computes
- * the sum of the salaries of a stream of employees:
+ * <p>Collectors bre designed to be <em>composed</em>; mbny of the methods
+ * in {@link Collectors} bre functions thbt tbke b collector bnd produce
+ * b new collector.  For exbmple, given the following collector thbt computes
+ * the sum of the sblbries of b strebm of employees:
  *
  * <pre>{@code
- *     Collector<Employee, ?, Integer> summingSalaries
- *         = Collectors.summingInt(Employee::getSalary))
+ *     Collector<Employee, ?, Integer> summingSblbries
+ *         = Collectors.summingInt(Employee::getSblbry))
  * }</pre>
  *
- * If we wanted to create a collector to tabulate the sum of salaries by
- * department, we could reuse the "sum of salaries" logic using
+ * If we wbnted to crebte b collector to tbbulbte the sum of sblbries by
+ * depbrtment, we could reuse the "sum of sblbries" logic using
  * {@link Collectors#groupingBy(Function, Collector)}:
  *
  * <pre>{@code
- *     Collector<Employee, ?, Map<Department, Integer>> summingSalariesByDept
- *         = Collectors.groupingBy(Employee::getDepartment, summingSalaries);
+ *     Collector<Employee, ?, Mbp<Depbrtment, Integer>> summingSblbriesByDept
+ *         = Collectors.groupingBy(Employee::getDepbrtment, summingSblbries);
  * }</pre>
  *
- * @see Stream#collect(Collector)
+ * @see Strebm#collect(Collector)
  * @see Collectors
  *
- * @param <T> the type of input elements to the reduction operation
- * @param <A> the mutable accumulation type of the reduction operation (often
- *            hidden as an implementation detail)
- * @param <R> the result type of the reduction operation
+ * @pbrbm <T> the type of input elements to the reduction operbtion
+ * @pbrbm <A> the mutbble bccumulbtion type of the reduction operbtion (often
+ *            hidden bs bn implementbtion detbil)
+ * @pbrbm <R> the result type of the reduction operbtion
  * @since 1.8
  */
-public interface Collector<T, A, R> {
+public interfbce Collector<T, A, R> {
     /**
-     * A function that creates and returns a new mutable result container.
+     * A function thbt crebtes bnd returns b new mutbble result contbiner.
      *
-     * @return a function which returns a new, mutable result container
+     * @return b function which returns b new, mutbble result contbiner
      */
     Supplier<A> supplier();
 
     /**
-     * A function that folds a value into a mutable result container.
+     * A function thbt folds b vblue into b mutbble result contbiner.
      *
-     * @return a function which folds a value into a mutable result container
+     * @return b function which folds b vblue into b mutbble result contbiner
      */
-    BiConsumer<A, T> accumulator();
+    BiConsumer<A, T> bccumulbtor();
 
     /**
-     * A function that accepts two partial results and merges them.  The
-     * combiner function may fold state from one argument into the other and
-     * return that, or may return a new result container.
+     * A function thbt bccepts two pbrtibl results bnd merges them.  The
+     * combiner function mby fold stbte from one brgument into the other bnd
+     * return thbt, or mby return b new result contbiner.
      *
-     * @return a function which combines two partial results into a combined
+     * @return b function which combines two pbrtibl results into b combined
      * result
      */
-    BinaryOperator<A> combiner();
+    BinbryOperbtor<A> combiner();
 
     /**
-     * Perform the final transformation from the intermediate accumulation type
-     * {@code A} to the final result type {@code R}.
+     * Perform the finbl trbnsformbtion from the intermedibte bccumulbtion type
+     * {@code A} to the finbl result type {@code R}.
      *
-     * <p>If the characteristic {@code IDENTITY_TRANSFORM} is
-     * set, this function may be presumed to be an identity transform with an
-     * unchecked cast from {@code A} to {@code R}.
+     * <p>If the chbrbcteristic {@code IDENTITY_TRANSFORM} is
+     * set, this function mby be presumed to be bn identity trbnsform with bn
+     * unchecked cbst from {@code A} to {@code R}.
      *
-     * @return a function which transforms the intermediate result to the final
+     * @return b function which trbnsforms the intermedibte result to the finbl
      * result
      */
     Function<A, R> finisher();
 
     /**
-     * Returns a {@code Set} of {@code Collector.Characteristics} indicating
-     * the characteristics of this Collector.  This set should be immutable.
+     * Returns b {@code Set} of {@code Collector.Chbrbcteristics} indicbting
+     * the chbrbcteristics of this Collector.  This set should be immutbble.
      *
-     * @return an immutable set of collector characteristics
+     * @return bn immutbble set of collector chbrbcteristics
      */
-    Set<Characteristics> characteristics();
+    Set<Chbrbcteristics> chbrbcteristics();
 
     /**
-     * Returns a new {@code Collector} described by the given {@code supplier},
-     * {@code accumulator}, and {@code combiner} functions.  The resulting
-     * {@code Collector} has the {@code Collector.Characteristics.IDENTITY_FINISH}
-     * characteristic.
+     * Returns b new {@code Collector} described by the given {@code supplier},
+     * {@code bccumulbtor}, bnd {@code combiner} functions.  The resulting
+     * {@code Collector} hbs the {@code Collector.Chbrbcteristics.IDENTITY_FINISH}
+     * chbrbcteristic.
      *
-     * @param supplier The supplier function for the new collector
-     * @param accumulator The accumulator function for the new collector
-     * @param combiner The combiner function for the new collector
-     * @param characteristics The collector characteristics for the new
+     * @pbrbm supplier The supplier function for the new collector
+     * @pbrbm bccumulbtor The bccumulbtor function for the new collector
+     * @pbrbm combiner The combiner function for the new collector
+     * @pbrbm chbrbcteristics The collector chbrbcteristics for the new
      *                        collector
-     * @param <T> The type of input elements for the new collector
-     * @param <R> The type of intermediate accumulation result, and final result,
+     * @pbrbm <T> The type of input elements for the new collector
+     * @pbrbm <R> The type of intermedibte bccumulbtion result, bnd finbl result,
      *           for the new collector
-     * @throws NullPointerException if any argument is null
+     * @throws NullPointerException if bny brgument is null
      * @return the new {@code Collector}
      */
-    public static<T, R> Collector<T, R, R> of(Supplier<R> supplier,
-                                              BiConsumer<R, T> accumulator,
-                                              BinaryOperator<R> combiner,
-                                              Characteristics... characteristics) {
+    public stbtic<T, R> Collector<T, R, R> of(Supplier<R> supplier,
+                                              BiConsumer<R, T> bccumulbtor,
+                                              BinbryOperbtor<R> combiner,
+                                              Chbrbcteristics... chbrbcteristics) {
         Objects.requireNonNull(supplier);
-        Objects.requireNonNull(accumulator);
+        Objects.requireNonNull(bccumulbtor);
         Objects.requireNonNull(combiner);
-        Objects.requireNonNull(characteristics);
-        Set<Characteristics> cs = (characteristics.length == 0)
+        Objects.requireNonNull(chbrbcteristics);
+        Set<Chbrbcteristics> cs = (chbrbcteristics.length == 0)
                                   ? Collectors.CH_ID
-                                  : Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.IDENTITY_FINISH,
-                                                                           characteristics));
-        return new Collectors.CollectorImpl<>(supplier, accumulator, combiner, cs);
+                                  : Collections.unmodifibbleSet(EnumSet.of(Collector.Chbrbcteristics.IDENTITY_FINISH,
+                                                                           chbrbcteristics));
+        return new Collectors.CollectorImpl<>(supplier, bccumulbtor, combiner, cs);
     }
 
     /**
-     * Returns a new {@code Collector} described by the given {@code supplier},
-     * {@code accumulator}, {@code combiner}, and {@code finisher} functions.
+     * Returns b new {@code Collector} described by the given {@code supplier},
+     * {@code bccumulbtor}, {@code combiner}, bnd {@code finisher} functions.
      *
-     * @param supplier The supplier function for the new collector
-     * @param accumulator The accumulator function for the new collector
-     * @param combiner The combiner function for the new collector
-     * @param finisher The finisher function for the new collector
-     * @param characteristics The collector characteristics for the new
+     * @pbrbm supplier The supplier function for the new collector
+     * @pbrbm bccumulbtor The bccumulbtor function for the new collector
+     * @pbrbm combiner The combiner function for the new collector
+     * @pbrbm finisher The finisher function for the new collector
+     * @pbrbm chbrbcteristics The collector chbrbcteristics for the new
      *                        collector
-     * @param <T> The type of input elements for the new collector
-     * @param <A> The intermediate accumulation type of the new collector
-     * @param <R> The final result type of the new collector
-     * @throws NullPointerException if any argument is null
+     * @pbrbm <T> The type of input elements for the new collector
+     * @pbrbm <A> The intermedibte bccumulbtion type of the new collector
+     * @pbrbm <R> The finbl result type of the new collector
+     * @throws NullPointerException if bny brgument is null
      * @return the new {@code Collector}
      */
-    public static<T, A, R> Collector<T, A, R> of(Supplier<A> supplier,
-                                                 BiConsumer<A, T> accumulator,
-                                                 BinaryOperator<A> combiner,
+    public stbtic<T, A, R> Collector<T, A, R> of(Supplier<A> supplier,
+                                                 BiConsumer<A, T> bccumulbtor,
+                                                 BinbryOperbtor<A> combiner,
                                                  Function<A, R> finisher,
-                                                 Characteristics... characteristics) {
+                                                 Chbrbcteristics... chbrbcteristics) {
         Objects.requireNonNull(supplier);
-        Objects.requireNonNull(accumulator);
+        Objects.requireNonNull(bccumulbtor);
         Objects.requireNonNull(combiner);
         Objects.requireNonNull(finisher);
-        Objects.requireNonNull(characteristics);
-        Set<Characteristics> cs = Collectors.CH_NOID;
-        if (characteristics.length > 0) {
-            cs = EnumSet.noneOf(Characteristics.class);
-            Collections.addAll(cs, characteristics);
-            cs = Collections.unmodifiableSet(cs);
+        Objects.requireNonNull(chbrbcteristics);
+        Set<Chbrbcteristics> cs = Collectors.CH_NOID;
+        if (chbrbcteristics.length > 0) {
+            cs = EnumSet.noneOf(Chbrbcteristics.clbss);
+            Collections.bddAll(cs, chbrbcteristics);
+            cs = Collections.unmodifibbleSet(cs);
         }
-        return new Collectors.CollectorImpl<>(supplier, accumulator, combiner, finisher, cs);
+        return new Collectors.CollectorImpl<>(supplier, bccumulbtor, combiner, finisher, cs);
     }
 
     /**
-     * Characteristics indicating properties of a {@code Collector}, which can
-     * be used to optimize reduction implementations.
+     * Chbrbcteristics indicbting properties of b {@code Collector}, which cbn
+     * be used to optimize reduction implementbtions.
      */
-    enum Characteristics {
+    enum Chbrbcteristics {
         /**
-         * Indicates that this collector is <em>concurrent</em>, meaning that
-         * the result container can support the accumulator function being
-         * called concurrently with the same result container from multiple
-         * threads.
+         * Indicbtes thbt this collector is <em>concurrent</em>, mebning thbt
+         * the result contbiner cbn support the bccumulbtor function being
+         * cblled concurrently with the sbme result contbiner from multiple
+         * threbds.
          *
-         * <p>If a {@code CONCURRENT} collector is not also {@code UNORDERED},
-         * then it should only be evaluated concurrently if applied to an
-         * unordered data source.
+         * <p>If b {@code CONCURRENT} collector is not blso {@code UNORDERED},
+         * then it should only be evblubted concurrently if bpplied to bn
+         * unordered dbtb source.
          */
         CONCURRENT,
 
         /**
-         * Indicates that the collection operation does not commit to preserving
+         * Indicbtes thbt the collection operbtion does not commit to preserving
          * the encounter order of input elements.  (This might be true if the
-         * result container has no intrinsic order, such as a {@link Set}.)
+         * result contbiner hbs no intrinsic order, such bs b {@link Set}.)
          */
         UNORDERED,
 
         /**
-         * Indicates that the finisher function is the identity function and
-         * can be elided.  If set, it must be the case that an unchecked cast
+         * Indicbtes thbt the finisher function is the identity function bnd
+         * cbn be elided.  If set, it must be the cbse thbt bn unchecked cbst
          * from A to R will succeed.
          */
         IDENTITY_FINISH

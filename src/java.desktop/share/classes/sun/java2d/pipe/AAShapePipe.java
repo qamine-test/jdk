@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.BasicStroke;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.PathIterator;
-import sun.awt.SunHints;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.PbthIterbtor;
+import sun.bwt.SunHints;
+import sun.jbvb2d.SunGrbphics2D;
 
 /**
- * This class is used to convert raw geometry into 8-bit alpha tiles
- * using an AATileGenerator for application by the next stage of
+ * This clbss is used to convert rbw geometry into 8-bit blphb tiles
+ * using bn AATileGenerbtor for bpplicbtion by the next stbge of
  * the pipeline.
- * This class sets up the Generator and computes the alpha tiles
- * and then passes them on to a CompositePipe object for painting.
+ * This clbss sets up the Generbtor bnd computes the blphb tiles
+ * bnd then pbsses them on to b CompositePipe object for pbinting.
  */
-public class AAShapePipe
-    implements ShapeDrawPipe, ParallelogramPipe
+public clbss AAShbpePipe
+    implements ShbpeDrbwPipe, PbrbllelogrbmPipe
 {
-    static RenderingEngine renderengine = RenderingEngine.getInstance();
+    stbtic RenderingEngine renderengine = RenderingEngine.getInstbnce();
 
     CompositePipe outpipe;
 
-    public AAShapePipe(CompositePipe pipe) {
+    public AAShbpePipe(CompositePipe pipe) {
         outpipe = pipe;
     }
 
-    public void draw(SunGraphics2D sg, Shape s) {
-        BasicStroke bs;
+    public void drbw(SunGrbphics2D sg, Shbpe s) {
+        BbsicStroke bs;
 
-        if (sg.stroke instanceof BasicStroke) {
-            bs = (BasicStroke) sg.stroke;
+        if (sg.stroke instbnceof BbsicStroke) {
+            bs = (BbsicStroke) sg.stroke;
         } else {
-            s = sg.stroke.createStrokedShape(s);
+            s = sg.stroke.crebteStrokedShbpe(s);
             bs = null;
         }
 
-        renderPath(sg, s, bs);
+        renderPbth(sg, s, bs);
     }
 
-    public void fill(SunGraphics2D sg, Shape s) {
-        renderPath(sg, s, null);
+    public void fill(SunGrbphics2D sg, Shbpe s) {
+        renderPbth(sg, s, null);
     }
 
-    private static Rectangle2D computeBBox(double ux1, double uy1,
+    privbte stbtic Rectbngle2D computeBBox(double ux1, double uy1,
                                            double ux2, double uy2)
     {
         if ((ux2 -= ux1) < 0) {
@@ -79,10 +79,10 @@ public class AAShapePipe
             uy1 += uy2;
             uy2 = -uy2;
         }
-        return new Rectangle2D.Double(ux1, uy1, ux2, uy2);
+        return new Rectbngle2D.Double(ux1, uy1, ux2, uy2);
     }
 
-    public void fillParallelogram(SunGraphics2D sg,
+    public void fillPbrbllelogrbm(SunGrbphics2D sg,
                                   double ux1, double uy1,
                                   double ux2, double uy2,
                                   double x, double y,
@@ -90,19 +90,19 @@ public class AAShapePipe
                                   double dx2, double dy2)
     {
         Region clip = sg.getCompClip();
-        int abox[] = new int[4];
-        AATileGenerator aatg =
-            renderengine.getAATileGenerator(x, y, dx1, dy1, dx2, dy2, 0, 0,
-                                            clip, abox);
-        if (aatg == null) {
+        int bbox[] = new int[4];
+        AATileGenerbtor bbtg =
+            renderengine.getAATileGenerbtor(x, y, dx1, dy1, dx2, dy2, 0, 0,
+                                            clip, bbox);
+        if (bbtg == null) {
             // Nothing to render
             return;
         }
 
-        renderTiles(sg, computeBBox(ux1, uy1, ux2, uy2), aatg, abox);
+        renderTiles(sg, computeBBox(ux1, uy1, ux2, uy2), bbtg, bbox);
     }
 
-    public void drawParallelogram(SunGraphics2D sg,
+    public void drbwPbrbllelogrbm(SunGrbphics2D sg,
                                   double ux1, double uy1,
                                   double ux2, double uy2,
                                   double x, double y,
@@ -111,23 +111,23 @@ public class AAShapePipe
                                   double lw1, double lw2)
     {
         Region clip = sg.getCompClip();
-        int abox[] = new int[4];
-        AATileGenerator aatg =
-            renderengine.getAATileGenerator(x, y, dx1, dy1, dx2, dy2, lw1, lw2,
-                                            clip, abox);
-        if (aatg == null) {
+        int bbox[] = new int[4];
+        AATileGenerbtor bbtg =
+            renderengine.getAATileGenerbtor(x, y, dx1, dy1, dx2, dy2, lw1, lw2,
+                                            clip, bbox);
+        if (bbtg == null) {
             // Nothing to render
             return;
         }
 
-        // Note that bbox is of the original shape, not the wide path.
-        // This is appropriate for handing to Paint methods...
-        renderTiles(sg, computeBBox(ux1, uy1, ux2, uy2), aatg, abox);
+        // Note thbt bbox is of the originbl shbpe, not the wide pbth.
+        // This is bppropribte for hbnding to Pbint methods...
+        renderTiles(sg, computeBBox(ux1, uy1, ux2, uy2), bbtg, bbox);
     }
 
-    private static byte[] theTile;
+    privbte stbtic byte[] theTile;
 
-    private synchronized static byte[] getAlphaTile(int len) {
+    privbte synchronized stbtic byte[] getAlphbTile(int len) {
         byte[] t = theTile;
         if (t == null || t.length < len) {
             t = new byte[len];
@@ -137,78 +137,78 @@ public class AAShapePipe
         return t;
     }
 
-    private synchronized static void dropAlphaTile(byte[] t) {
+    privbte synchronized stbtic void dropAlphbTile(byte[] t) {
         theTile = t;
     }
 
-    public void renderPath(SunGraphics2D sg, Shape s, BasicStroke bs) {
-        boolean adjust = (bs != null &&
+    public void renderPbth(SunGrbphics2D sg, Shbpe s, BbsicStroke bs) {
+        boolebn bdjust = (bs != null &&
                           sg.strokeHint != SunHints.INTVAL_STROKE_PURE);
-        boolean thin = (sg.strokeState <= SunGraphics2D.STROKE_THINDASHED);
+        boolebn thin = (sg.strokeStbte <= SunGrbphics2D.STROKE_THINDASHED);
 
         Region clip = sg.getCompClip();
-        int abox[] = new int[4];
-        AATileGenerator aatg =
-            renderengine.getAATileGenerator(s, sg.transform, clip,
-                                            bs, thin, adjust, abox);
-        if (aatg == null) {
+        int bbox[] = new int[4];
+        AATileGenerbtor bbtg =
+            renderengine.getAATileGenerbtor(s, sg.trbnsform, clip,
+                                            bs, thin, bdjust, bbox);
+        if (bbtg == null) {
             // Nothing to render
             return;
         }
 
-        renderTiles(sg, s, aatg, abox);
+        renderTiles(sg, s, bbtg, bbox);
     }
 
-    public void renderTiles(SunGraphics2D sg, Shape s,
-                            AATileGenerator aatg, int abox[])
+    public void renderTiles(SunGrbphics2D sg, Shbpe s,
+                            AATileGenerbtor bbtg, int bbox[])
     {
         Object context = null;
-        byte alpha[] = null;
+        byte blphb[] = null;
         try {
-            context = outpipe.startSequence(sg, s,
-                                            new Rectangle(abox[0], abox[1],
-                                                          abox[2] - abox[0],
-                                                          abox[3] - abox[1]),
-                                            abox);
+            context = outpipe.stbrtSequence(sg, s,
+                                            new Rectbngle(bbox[0], bbox[1],
+                                                          bbox[2] - bbox[0],
+                                                          bbox[3] - bbox[1]),
+                                            bbox);
 
-            int tw = aatg.getTileWidth();
-            int th = aatg.getTileHeight();
-            alpha = getAlphaTile(tw * th);
+            int tw = bbtg.getTileWidth();
+            int th = bbtg.getTileHeight();
+            blphb = getAlphbTile(tw * th);
 
-            byte[] atile;
+            byte[] btile;
 
-            for (int y = abox[1]; y < abox[3]; y += th) {
-                for (int x = abox[0]; x < abox[2]; x += tw) {
-                    int w = Math.min(tw, abox[2] - x);
-                    int h = Math.min(th, abox[3] - y);
+            for (int y = bbox[1]; y < bbox[3]; y += th) {
+                for (int x = bbox[0]; x < bbox[2]; x += tw) {
+                    int w = Mbth.min(tw, bbox[2] - x);
+                    int h = Mbth.min(th, bbox[3] - y);
 
-                    int a = aatg.getTypicalAlpha();
-                    if (a == 0x00 ||
-                        outpipe.needTile(context, x, y, w, h) == false)
+                    int b = bbtg.getTypicblAlphb();
+                    if (b == 0x00 ||
+                        outpipe.needTile(context, x, y, w, h) == fblse)
                     {
-                        aatg.nextTile();
+                        bbtg.nextTile();
                         outpipe.skipTile(context, x, y);
                         continue;
                     }
-                    if (a == 0xff) {
-                        atile = null;
-                        aatg.nextTile();
+                    if (b == 0xff) {
+                        btile = null;
+                        bbtg.nextTile();
                     } else {
-                        atile = alpha;
-                        aatg.getAlpha(alpha, 0, tw);
+                        btile = blphb;
+                        bbtg.getAlphb(blphb, 0, tw);
                     }
 
-                    outpipe.renderPathTile(context, atile, 0, tw,
+                    outpipe.renderPbthTile(context, btile, 0, tw,
                                            x, y, w, h);
                 }
             }
-        } finally {
-            aatg.dispose();
+        } finblly {
+            bbtg.dispose();
             if (context != null) {
                 outpipe.endSequence(context);
             }
-            if (alpha != null) {
-                dropAlphaTile(alpha);
+            if (blphb != null) {
+                dropAlphbTile(blphb);
             }
         }
     }

@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URL;
+import jbvb.io.File;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.net.URL;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
-import java.util.ArrayList;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Set;
+import jbvb.util.Vector;
+import jbvb.util.ArrbyList;
 
-import javax.sound.sampled.spi.AudioFileWriter;
-import javax.sound.sampled.spi.AudioFileReader;
-import javax.sound.sampled.spi.FormatConversionProvider;
-import javax.sound.sampled.spi.MixerProvider;
+import jbvbx.sound.sbmpled.spi.AudioFileWriter;
+import jbvbx.sound.sbmpled.spi.AudioFileRebder;
+import jbvbx.sound.sbmpled.spi.FormbtConversionProvider;
+import jbvbx.sound.sbmpled.spi.MixerProvider;
 
-import com.sun.media.sound.JDK13Services;
+import com.sun.medib.sound.JDK13Services;
 
 /* $fb TODO:
- * - consistent usage of (typed) collections
+ * - consistent usbge of (typed) collections
  */
 
 
 /**
- * The {@code AudioSystem} class acts as the entry point to the sampled-audio
- * system resources. This class lets you query and access the mixers that are
- * installed on the system. {@code AudioSystem} includes a number of methods for
- * converting audio data between different formats, and for translating between
- * audio files and streams. It also provides a method for obtaining a
- * {@link Line} directly from the {@code AudioSystem} without dealing explicitly
+ * The {@code AudioSystem} clbss bcts bs the entry point to the sbmpled-budio
+ * system resources. This clbss lets you query bnd bccess the mixers thbt bre
+ * instblled on the system. {@code AudioSystem} includes b number of methods for
+ * converting budio dbtb between different formbts, bnd for trbnslbting between
+ * budio files bnd strebms. It blso provides b method for obtbining b
+ * {@link Line} directly from the {@code AudioSystem} without debling explicitly
  * with mixers.
  * <p>
- * Properties can be used to specify the default mixer for specific line types.
- * Both system properties and a properties file are considered. The
- * {@code sound.properties} properties file is read from an
- * implementation-specific location (typically it is the {@code lib} directory
- * in the Java installation directory). If a property exists both as a system
- * property and in the properties file, the system property takes precedence.
- * If none is specified, a suitable default is chosen among the available
- * devices. The syntax of the properties file is specified in
- * {@link java.util.Properties#load(InputStream) Properties.load}. The following
- * table lists the available property keys and which methods consider them:
+ * Properties cbn be used to specify the defbult mixer for specific line types.
+ * Both system properties bnd b properties file bre considered. The
+ * {@code sound.properties} properties file is rebd from bn
+ * implementbtion-specific locbtion (typicblly it is the {@code lib} directory
+ * in the Jbvb instbllbtion directory). If b property exists both bs b system
+ * property bnd in the properties file, the system property tbkes precedence.
+ * If none is specified, b suitbble defbult is chosen bmong the bvbilbble
+ * devices. The syntbx of the properties file is specified in
+ * {@link jbvb.util.Properties#lobd(InputStrebm) Properties.lobd}. The following
+ * tbble lists the bvbilbble property keys bnd which methods consider them:
  *
- * <table border=0>
- *  <caption>Audio System Property Keys</caption>
+ * <tbble border=0>
+ *  <cbption>Audio System Property Keys</cbption>
  *  <tr>
  *   <th>Property Key</th>
- *   <th>Interface</th>
+ *   <th>Interfbce</th>
  *   <th>Affected Method(s)</th>
  *  </tr>
  *  <tr>
- *   <td>{@code javax.sound.sampled.Clip}</td>
+ *   <td>{@code jbvbx.sound.sbmpled.Clip}</td>
  *   <td>{@link Clip}</td>
  *   <td>{@link #getLine}, {@link #getClip}</td>
  *  </tr>
  *  <tr>
- *   <td>{@code javax.sound.sampled.Port}</td>
+ *   <td>{@code jbvbx.sound.sbmpled.Port}</td>
  *   <td>{@link Port}</td>
  *   <td>{@link #getLine}</td>
  *  </tr>
  *  <tr>
- *   <td>{@code javax.sound.sampled.SourceDataLine}</td>
- *   <td>{@link SourceDataLine}</td>
- *   <td>{@link #getLine}, {@link #getSourceDataLine}</td>
+ *   <td>{@code jbvbx.sound.sbmpled.SourceDbtbLine}</td>
+ *   <td>{@link SourceDbtbLine}</td>
+ *   <td>{@link #getLine}, {@link #getSourceDbtbLine}</td>
  *  </tr>
  *  <tr>
- *   <td>{@code javax.sound.sampled.TargetDataLine}</td>
- *   <td>{@link TargetDataLine}</td>
- *   <td>{@link #getLine}, {@link #getTargetDataLine}</td>
+ *   <td>{@code jbvbx.sound.sbmpled.TbrgetDbtbLine}</td>
+ *   <td>{@link TbrgetDbtbLine}</td>
+ *   <td>{@link #getLine}, {@link #getTbrgetDbtbLine}</td>
  *  </tr>
- * </table>
+ * </tbble>
  *
- * The property value consists of the provider class name and the mixer name,
- * separated by the hash mark (&quot;#&quot;). The provider class name is the
- * fully-qualified name of a concrete
- * {@link javax.sound.sampled.spi.MixerProvider mixer provider} class. The mixer
- * name is matched against the {@code String} returned by the {@code getName}
- * method of {@code Mixer.Info}. Either the class name, or the mixer name may be
- * omitted. If only the class name is specified, the trailing hash mark is
- * optional.
+ * The property vblue consists of the provider clbss nbme bnd the mixer nbme,
+ * sepbrbted by the hbsh mbrk (&quot;#&quot;). The provider clbss nbme is the
+ * fully-qublified nbme of b concrete
+ * {@link jbvbx.sound.sbmpled.spi.MixerProvider mixer provider} clbss. The mixer
+ * nbme is mbtched bgbinst the {@code String} returned by the {@code getNbme}
+ * method of {@code Mixer.Info}. Either the clbss nbme, or the mixer nbme mby be
+ * omitted. If only the clbss nbme is specified, the trbiling hbsh mbrk is
+ * optionbl.
  * <p>
- * If the provider class is specified, and it can be successfully retrieved from
- * the installed providers, the list of {@code Mixer.Info} objects is retrieved
- * from the provider. Otherwise, or when these mixers do not provide a
- * subsequent match, the list is retrieved from {@link #getMixerInfo} to contain
- * all available {@code Mixer.Info} objects.
+ * If the provider clbss is specified, bnd it cbn be successfully retrieved from
+ * the instblled providers, the list of {@code Mixer.Info} objects is retrieved
+ * from the provider. Otherwise, or when these mixers do not provide b
+ * subsequent mbtch, the list is retrieved from {@link #getMixerInfo} to contbin
+ * bll bvbilbble {@code Mixer.Info} objects.
  * <p>
- * If a mixer name is specified, the resulting list of {@code Mixer.Info}
- * objects is searched: the first one with a matching name, and whose
- * {@code Mixer} provides the respective line interface, will be returned. If no
- * matching {@code Mixer.Info} object is found, or the mixer name is not
+ * If b mixer nbme is specified, the resulting list of {@code Mixer.Info}
+ * objects is sebrched: the first one with b mbtching nbme, bnd whose
+ * {@code Mixer} provides the respective line interfbce, will be returned. If no
+ * mbtching {@code Mixer.Info} object is found, or the mixer nbme is not
  * specified, the first mixer from the resulting list, which provides the
- * respective line interface, will be returned.
+ * respective line interfbce, will be returned.
  *
- * For example, the property {@code javax.sound.sampled.Clip} with a value
- * {@code "com.sun.media.sound.MixerProvider#SunClip"}
- * will have the following consequences when {@code getLine} is called
- * requesting a {@code Clip} instance: if the class
- * {@code com.sun.media.sound.MixerProvider} exists in the list of installed
- * mixer providers, the first {@code Clip} from the first mixer with name
- * {@code "SunClip"} will be returned. If it cannot be found, the
+ * For exbmple, the property {@code jbvbx.sound.sbmpled.Clip} with b vblue
+ * {@code "com.sun.medib.sound.MixerProvider#SunClip"}
+ * will hbve the following consequences when {@code getLine} is cblled
+ * requesting b {@code Clip} instbnce: if the clbss
+ * {@code com.sun.medib.sound.MixerProvider} exists in the list of instblled
+ * mixer providers, the first {@code Clip} from the first mixer with nbme
+ * {@code "SunClip"} will be returned. If it cbnnot be found, the
  * first {@code Clip} from the first mixer of the specified provider will be
- * returned, regardless of name. If there is none, the first {@code Clip} from
- * the first {@code Mixer} with name {@code "SunClip"} in the list of
- * all mixers (as returned by {@code getMixerInfo}) will be returned, or, if not
- * found, the first {@code Clip} of the first {@code Mixer} that can be found in
- * the list of all mixers is returned. If that fails, too, an
- * {@code IllegalArgumentException} is thrown.
+ * returned, regbrdless of nbme. If there is none, the first {@code Clip} from
+ * the first {@code Mixer} with nbme {@code "SunClip"} in the list of
+ * bll mixers (bs returned by {@code getMixerInfo}) will be returned, or, if not
+ * found, the first {@code Clip} of the first {@code Mixer} thbt cbn be found in
+ * the list of bll mixers is returned. If thbt fbils, too, bn
+ * {@code IllegblArgumentException} is thrown.
  *
- * @author Kara Kytle
- * @author Florian Bomers
- * @author Matthias Pfisterer
- * @author Kevin P. Smith
- * @see AudioFormat
- * @see AudioInputStream
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
+ * @buthor Mbtthibs Pfisterer
+ * @buthor Kevin P. Smith
+ * @see AudioFormbt
+ * @see AudioInputStrebm
  * @see Mixer
  * @see Line
  * @see Line.Info
  * @since 1.3
  */
-public class AudioSystem {
+public clbss AudioSystem {
 
     /**
-     * An integer that stands for an unknown numeric value. This value is
-     * appropriate only for signed quantities that do not normally take negative
-     * values. Examples include file sizes, frame sizes, buffer sizes, and
-     * sample rates. A number of Java Sound constructors accept a value of
-     * {@code NOT_SPECIFIED} for such parameters. Other methods may also accept
-     * or return this value, as documented.
+     * An integer thbt stbnds for bn unknown numeric vblue. This vblue is
+     * bppropribte only for signed qubntities thbt do not normblly tbke negbtive
+     * vblues. Exbmples include file sizes, frbme sizes, buffer sizes, bnd
+     * sbmple rbtes. A number of Jbvb Sound constructors bccept b vblue of
+     * {@code NOT_SPECIFIED} for such pbrbmeters. Other methods mby blso bccept
+     * or return this vblue, bs documented.
      */
-    public static final int NOT_SPECIFIED = -1;
+    public stbtic finbl int NOT_SPECIFIED = -1;
 
     /**
-     * Private no-args constructor for ensuring against instantiation.
+     * Privbte no-brgs constructor for ensuring bgbinst instbntibtion.
      */
-    private AudioSystem() {
+    privbte AudioSystem() {
     }
 
     /**
-     * Obtains an array of mixer info objects that represents the set of audio
-     * mixers that are currently installed on the system.
+     * Obtbins bn brrby of mixer info objects thbt represents the set of budio
+     * mixers thbt bre currently instblled on the system.
      *
-     * @return an array of info objects for the currently installed mixers. If
-     *         no mixers are available on the system, an array of length 0 is
+     * @return bn brrby of info objects for the currently instblled mixers. If
+     *         no mixers bre bvbilbble on the system, bn brrby of length 0 is
      *         returned.
      * @see #getMixer
      */
-    public static Mixer.Info[] getMixerInfo() {
+    public stbtic Mixer.Info[] getMixerInfo() {
 
         List<Mixer.Info> infos = getMixerInfoList();
-        Mixer.Info[] allInfos = infos.toArray(new Mixer.Info[infos.size()]);
-        return allInfos;
+        Mixer.Info[] bllInfos = infos.toArrby(new Mixer.Info[infos.size()]);
+        return bllInfos;
     }
 
     /**
-     * Obtains the requested audio mixer.
+     * Obtbins the requested budio mixer.
      *
-     * @param  info a {@code Mixer.Info} object representing the desired mixer,
-     *         or {@code null} for the system default mixer
+     * @pbrbm  info b {@code Mixer.Info} object representing the desired mixer,
+     *         or {@code null} for the system defbult mixer
      * @return the requested mixer
-     * @throws SecurityException if the requested mixer is unavailable because
+     * @throws SecurityException if the requested mixer is unbvbilbble becbuse
      *         of security restrictions
-     * @throws IllegalArgumentException if the info object does not represent a
-     *         mixer installed on the system
+     * @throws IllegblArgumentException if the info object does not represent b
+     *         mixer instblled on the system
      * @see #getMixerInfo
      */
-    public static Mixer getMixer(Mixer.Info info) {
+    public stbtic Mixer getMixer(Mixer.Info info) {
 
         Mixer mixer = null;
         List<MixerProvider> providers = getMixerProviders();
@@ -202,204 +202,204 @@ public class AudioSystem {
             try {
                 return providers.get(i).getMixer(info);
 
-            } catch (IllegalArgumentException e) {
-            } catch (NullPointerException e) {
-                // $$jb 08.20.99:  If the strings in the info object aren't
-                // set, then Netscape (using jdk1.1.5) tends to throw
-                // NPE's when doing some string manipulation.  This is
-                // probably not the best fix, but is solves the problem
-                // of the NPE in Netscape using local classes
-                // $$jb 11.01.99: Replacing this patch.
+            } cbtch (IllegblArgumentException e) {
+            } cbtch (NullPointerException e) {
+                // $$jb 08.20.99:  If the strings in the info object bren't
+                // set, then Netscbpe (using jdk1.1.5) tends to throw
+                // NPE's when doing some string mbnipulbtion.  This is
+                // probbbly not the best fix, but is solves the problem
+                // of the NPE in Netscbpe using locbl clbsses
+                // $$jb 11.01.99: Replbcing this pbtch.
             }
         }
 
-        //$$fb if looking for default mixer, and not found yet, add a round of looking
+        //$$fb if looking for defbult mixer, bnd not found yet, bdd b round of looking
         if (info == null) {
             for(int i = 0; i < providers.size(); i++ ) {
                 try {
                     MixerProvider provider = providers.get(i);
                     Mixer.Info[] infos = provider.getMixerInfo();
-                    // start from 0 to last device (do not reverse this order)
+                    // stbrt from 0 to lbst device (do not reverse this order)
                     for (int ii = 0; ii < infos.length; ii++) {
                         try {
                             return provider.getMixer(infos[ii]);
-                        } catch (IllegalArgumentException e) {
-                            // this is not a good default device :)
+                        } cbtch (IllegblArgumentException e) {
+                            // this is not b good defbult device :)
                         }
                     }
-                } catch (IllegalArgumentException e) {
-                } catch (NullPointerException e) {
+                } cbtch (IllegblArgumentException e) {
+                } cbtch (NullPointerException e) {
                 }
             }
         }
 
 
-        throw new IllegalArgumentException("Mixer not supported: "
+        throw new IllegblArgumentException("Mixer not supported: "
                                            + (info!=null?info.toString():"null"));
     }
 
-    //$$fb 2002-11-26: fix for 4757930: DOC: AudioSystem.getTarget/SourceLineInfo() is ambiguous
+    //$$fb 2002-11-26: fix for 4757930: DOC: AudioSystem.getTbrget/SourceLineInfo() is bmbiguous
 
     /**
-     * Obtains information about all source lines of a particular type that are
-     * supported by the installed mixers.
+     * Obtbins informbtion bbout bll source lines of b pbrticulbr type thbt bre
+     * supported by the instblled mixers.
      *
-     * @param  info a {@code Line.Info} object that specifies the kind of lines
-     *         about which information is requested
-     * @return an array of {@code Line.Info} objects describing source lines
-     *         matching the type requested. If no matching source lines are
-     *         supported, an array of length 0 is returned.
+     * @pbrbm  info b {@code Line.Info} object thbt specifies the kind of lines
+     *         bbout which informbtion is requested
+     * @return bn brrby of {@code Line.Info} objects describing source lines
+     *         mbtching the type requested. If no mbtching source lines bre
+     *         supported, bn brrby of length 0 is returned.
      * @see Mixer#getSourceLineInfo(Line.Info)
      */
-    public static Line.Info[] getSourceLineInfo(Line.Info info) {
+    public stbtic Line.Info[] getSourceLineInfo(Line.Info info) {
 
         Vector<Line.Info> vector = new Vector<>();
-        Line.Info[] currentInfoArray;
+        Line.Info[] currentInfoArrby;
 
         Mixer mixer;
         Line.Info fullInfo = null;
-        Mixer.Info[] infoArray = getMixerInfo();
+        Mixer.Info[] infoArrby = getMixerInfo();
 
-        for (int i = 0; i < infoArray.length; i++) {
+        for (int i = 0; i < infoArrby.length; i++) {
 
-            mixer = getMixer(infoArray[i]);
+            mixer = getMixer(infoArrby[i]);
 
-            currentInfoArray = mixer.getSourceLineInfo(info);
-            for (int j = 0; j < currentInfoArray.length; j++) {
-                vector.addElement(currentInfoArray[j]);
+            currentInfoArrby = mixer.getSourceLineInfo(info);
+            for (int j = 0; j < currentInfoArrby.length; j++) {
+                vector.bddElement(currentInfoArrby[j]);
             }
         }
 
-        Line.Info[] returnedArray = new Line.Info[vector.size()];
+        Line.Info[] returnedArrby = new Line.Info[vector.size()];
 
-        for (int i = 0; i < returnedArray.length; i++) {
-            returnedArray[i] = vector.get(i);
+        for (int i = 0; i < returnedArrby.length; i++) {
+            returnedArrby[i] = vector.get(i);
         }
 
-        return returnedArray;
+        return returnedArrby;
     }
 
     /**
-     * Obtains information about all target lines of a particular type that are
-     * supported by the installed mixers.
+     * Obtbins informbtion bbout bll tbrget lines of b pbrticulbr type thbt bre
+     * supported by the instblled mixers.
      *
-     * @param  info a {@code Line.Info} object that specifies the kind of lines
-     *         about which information is requested
-     * @return an array of {@code Line.Info} objects describing target lines
-     *         matching the type requested. If no matching target lines are
-     *         supported, an array of length 0 is returned.
-     * @see Mixer#getTargetLineInfo(Line.Info)
+     * @pbrbm  info b {@code Line.Info} object thbt specifies the kind of lines
+     *         bbout which informbtion is requested
+     * @return bn brrby of {@code Line.Info} objects describing tbrget lines
+     *         mbtching the type requested. If no mbtching tbrget lines bre
+     *         supported, bn brrby of length 0 is returned.
+     * @see Mixer#getTbrgetLineInfo(Line.Info)
      */
-    public static Line.Info[] getTargetLineInfo(Line.Info info) {
+    public stbtic Line.Info[] getTbrgetLineInfo(Line.Info info) {
 
         Vector<Line.Info> vector = new Vector<>();
-        Line.Info[] currentInfoArray;
+        Line.Info[] currentInfoArrby;
 
         Mixer mixer;
         Line.Info fullInfo = null;
-        Mixer.Info[] infoArray = getMixerInfo();
+        Mixer.Info[] infoArrby = getMixerInfo();
 
-        for (int i = 0; i < infoArray.length; i++) {
+        for (int i = 0; i < infoArrby.length; i++) {
 
-            mixer = getMixer(infoArray[i]);
+            mixer = getMixer(infoArrby[i]);
 
-            currentInfoArray = mixer.getTargetLineInfo(info);
-            for (int j = 0; j < currentInfoArray.length; j++) {
-                vector.addElement(currentInfoArray[j]);
+            currentInfoArrby = mixer.getTbrgetLineInfo(info);
+            for (int j = 0; j < currentInfoArrby.length; j++) {
+                vector.bddElement(currentInfoArrby[j]);
             }
         }
 
-        Line.Info[] returnedArray = new Line.Info[vector.size()];
+        Line.Info[] returnedArrby = new Line.Info[vector.size()];
 
-        for (int i = 0; i < returnedArray.length; i++) {
-            returnedArray[i] = vector.get(i);
+        for (int i = 0; i < returnedArrby.length; i++) {
+            returnedArrby[i] = vector.get(i);
         }
 
-        return returnedArray;
+        return returnedArrby;
     }
 
     /**
-     * Indicates whether the system supports any lines that match the specified
-     * {@code Line.Info} object. A line is supported if any installed mixer
+     * Indicbtes whether the system supports bny lines thbt mbtch the specified
+     * {@code Line.Info} object. A line is supported if bny instblled mixer
      * supports it.
      *
-     * @param  info a {@code Line.Info} object describing the line for which
+     * @pbrbm  info b {@code Line.Info} object describing the line for which
      *         support is queried
-     * @return {@code true} if at least one matching line is supported,
-     *         otherwise {@code false}
+     * @return {@code true} if bt lebst one mbtching line is supported,
+     *         otherwise {@code fblse}
      * @see Mixer#isLineSupported(Line.Info)
      */
-    public static boolean isLineSupported(Line.Info info) {
+    public stbtic boolebn isLineSupported(Line.Info info) {
 
         Mixer mixer;
-        Mixer.Info[] infoArray = getMixerInfo();
+        Mixer.Info[] infoArrby = getMixerInfo();
 
-        for (int i = 0; i < infoArray.length; i++) {
+        for (int i = 0; i < infoArrby.length; i++) {
 
-            if( infoArray[i] != null ) {
-                mixer = getMixer(infoArray[i]);
+            if( infoArrby[i] != null ) {
+                mixer = getMixer(infoArrby[i]);
                 if (mixer.isLineSupported(info)) {
                     return true;
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Obtains a line that matches the description in the specified
+     * Obtbins b line thbt mbtches the description in the specified
      * {@code Line.Info} object.
      * <p>
-     * If a {@code DataLine} is requested, and {@code info} is an instance of
-     * {@code DataLine.Info} specifying at least one fully qualified audio
-     * format, the last one will be used as the default format of the returned
-     * {@code DataLine}.
+     * If b {@code DbtbLine} is requested, bnd {@code info} is bn instbnce of
+     * {@code DbtbLine.Info} specifying bt lebst one fully qublified budio
+     * formbt, the lbst one will be used bs the defbult formbt of the returned
+     * {@code DbtbLine}.
      * <p>
      * If system properties
-     * {@code javax.sound.sampled.Clip},
-     * {@code javax.sound.sampled.Port},
-     * {@code javax.sound.sampled.SourceDataLine} and
-     * {@code javax.sound.sampled.TargetDataLine} are defined or they are
-     * defined in the file "sound.properties", they are used to retrieve default
-     * lines. For details, refer to the {@link AudioSystem class description}.
+     * {@code jbvbx.sound.sbmpled.Clip},
+     * {@code jbvbx.sound.sbmpled.Port},
+     * {@code jbvbx.sound.sbmpled.SourceDbtbLine} bnd
+     * {@code jbvbx.sound.sbmpled.TbrgetDbtbLine} bre defined or they bre
+     * defined in the file "sound.properties", they bre used to retrieve defbult
+     * lines. For detbils, refer to the {@link AudioSystem clbss description}.
      *
      * If the respective property is not set, or the mixer requested in the
-     * property is not installed or does not provide the requested line, all
-     * installed mixers are queried for the requested line type. A Line will be
+     * property is not instblled or does not provide the requested line, bll
+     * instblled mixers bre queried for the requested line type. A Line will be
      * returned from the first mixer providing the requested line type.
      *
-     * @param  info a {@code Line.Info} object describing the desired kind of
+     * @pbrbm  info b {@code Line.Info} object describing the desired kind of
      *         line
-     * @return a line of the requested kind
-     * @throws LineUnavailableException if a matching line is not available due
+     * @return b line of the requested kind
+     * @throws LineUnbvbilbbleException if b mbtching line is not bvbilbble due
      *         to resource restrictions
-     * @throws SecurityException if a matching line is not available due to
+     * @throws SecurityException if b mbtching line is not bvbilbble due to
      *         security restrictions
-     * @throws IllegalArgumentException if the system does not support at least
-     *         one line matching the specified {@code Line.Info} object through
-     *         any installed mixer
+     * @throws IllegblArgumentException if the system does not support bt lebst
+     *         one line mbtching the specified {@code Line.Info} object through
+     *         bny instblled mixer
      */
-    public static Line getLine(Line.Info info) throws LineUnavailableException {
-        LineUnavailableException lue = null;
+    public stbtic Line getLine(Line.Info info) throws LineUnbvbilbbleException {
+        LineUnbvbilbbleException lue = null;
         List<MixerProvider> providers = getMixerProviders();
 
 
-        // 1: try from default mixer for this line class
+        // 1: try from defbult mixer for this line clbss
         try {
-            Mixer mixer = getDefaultMixer(providers, info);
+            Mixer mixer = getDefbultMixer(providers, info);
             if (mixer != null && mixer.isLineSupported(info)) {
                 return mixer.getLine(info);
             }
-        } catch (LineUnavailableException e) {
+        } cbtch (LineUnbvbilbbleException e) {
             lue = e;
-        } catch (IllegalArgumentException iae) {
-            // must not happen... but better to catch it here,
-            // if plug-ins are badly written
+        } cbtch (IllegblArgumentException ibe) {
+            // must not hbppen... but better to cbtch it here,
+            // if plug-ins bre bbdly written
         }
 
 
-        // 2: if that doesn't work, try to find any mixing mixer
+        // 2: if thbt doesn't work, try to find bny mixing mixer
         for(int i = 0; i < providers.size(); i++) {
             MixerProvider provider = providers.get(i);
             Mixer.Info[] infos = provider.getMixerInfo();
@@ -407,352 +407,352 @@ public class AudioSystem {
             for (int j = 0; j < infos.length; j++) {
                 try {
                     Mixer mixer = provider.getMixer(infos[j]);
-                    // see if this is an appropriate mixer which can mix
-                    if (isAppropriateMixer(mixer, info, true)) {
+                    // see if this is bn bppropribte mixer which cbn mix
+                    if (isAppropribteMixer(mixer, info, true)) {
                         return mixer.getLine(info);
                     }
-                } catch (LineUnavailableException e) {
+                } cbtch (LineUnbvbilbbleException e) {
                     lue = e;
-                } catch (IllegalArgumentException iae) {
-                    // must not happen... but better to catch it here,
-                    // if plug-ins are badly written
+                } cbtch (IllegblArgumentException ibe) {
+                    // must not hbppen... but better to cbtch it here,
+                    // if plug-ins bre bbdly written
                 }
             }
         }
 
 
-        // 3: if that didn't work, try to find any non-mixing mixer
+        // 3: if thbt didn't work, try to find bny non-mixing mixer
         for(int i = 0; i < providers.size(); i++) {
             MixerProvider provider = providers.get(i);
             Mixer.Info[] infos = provider.getMixerInfo();
             for (int j = 0; j < infos.length; j++) {
                 try {
                     Mixer mixer = provider.getMixer(infos[j]);
-                    // see if this is an appropriate mixer which can mix
-                    if (isAppropriateMixer(mixer, info, false)) {
+                    // see if this is bn bppropribte mixer which cbn mix
+                    if (isAppropribteMixer(mixer, info, fblse)) {
                         return mixer.getLine(info);
                     }
-                } catch (LineUnavailableException e) {
+                } cbtch (LineUnbvbilbbleException e) {
                     lue = e;
-                } catch (IllegalArgumentException iae) {
-                    // must not happen... but better to catch it here,
-                    // if plug-ins are badly written
+                } cbtch (IllegblArgumentException ibe) {
+                    // must not hbppen... but better to cbtch it here,
+                    // if plug-ins bre bbdly written
                 }
             }
         }
 
-        // if this line was supported but was not available, throw the last
-        // LineUnavailableException we got (??).
+        // if this line wbs supported but wbs not bvbilbble, throw the lbst
+        // LineUnbvbilbbleException we got (??).
         if (lue != null) {
             throw lue;
         }
 
-        // otherwise, the requested line was not supported, so throw
-        // an Illegal argument exception
-        throw new IllegalArgumentException("No line matching " +
+        // otherwise, the requested line wbs not supported, so throw
+        // bn Illegbl brgument exception
+        throw new IllegblArgumentException("No line mbtching " +
                                            info.toString() + " is supported.");
     }
 
     /**
-     * Obtains a clip that can be used for playing back an audio file or an
-     * audio stream. The returned clip will be provided by the default system
-     * mixer, or, if not possible, by any other mixer installed in the system
-     * that supports a {@code Clip} object.
+     * Obtbins b clip thbt cbn be used for plbying bbck bn budio file or bn
+     * budio strebm. The returned clip will be provided by the defbult system
+     * mixer, or, if not possible, by bny other mixer instblled in the system
+     * thbt supports b {@code Clip} object.
      * <p>
-     * The returned clip must be opened with the {@code open(AudioFormat)} or
-     * {@code open(AudioInputStream)} method.
+     * The returned clip must be opened with the {@code open(AudioFormbt)} or
+     * {@code open(AudioInputStrebm)} method.
      * <p>
-     * This is a high-level method that uses {@code getMixer} and
-     * {@code getLine} internally.
+     * This is b high-level method thbt uses {@code getMixer} bnd
+     * {@code getLine} internblly.
      * <p>
-     * If the system property {@code javax.sound.sampled.Clip} is defined or it
+     * If the system property {@code jbvbx.sound.sbmpled.Clip} is defined or it
      * is defined in the file "sound.properties", it is used to retrieve the
-     * default clip. For details, refer to the
-     * {@link AudioSystem class description}.
+     * defbult clip. For detbils, refer to the
+     * {@link AudioSystem clbss description}.
      *
      * @return the desired clip object
-     * @throws LineUnavailableException if a clip object is not available due to
+     * @throws LineUnbvbilbbleException if b clip object is not bvbilbble due to
      *         resource restrictions
-     * @throws SecurityException if a clip object is not available due to
+     * @throws SecurityException if b clip object is not bvbilbble due to
      *         security restrictions
-     * @throws IllegalArgumentException if the system does not support at least
-     *         one clip instance through any installed mixer
+     * @throws IllegblArgumentException if the system does not support bt lebst
+     *         one clip instbnce through bny instblled mixer
      * @see #getClip(Mixer.Info)
      * @since 1.5
      */
-    public static Clip getClip() throws LineUnavailableException{
-        AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
+    public stbtic Clip getClip() throws LineUnbvbilbbleException{
+        AudioFormbt formbt = new AudioFormbt(AudioFormbt.Encoding.PCM_SIGNED,
                                              AudioSystem.NOT_SPECIFIED,
                                              16, 2, 4,
                                              AudioSystem.NOT_SPECIFIED, true);
-        DataLine.Info info = new DataLine.Info(Clip.class, format);
+        DbtbLine.Info info = new DbtbLine.Info(Clip.clbss, formbt);
         return (Clip) AudioSystem.getLine(info);
     }
 
     /**
-     * Obtains a clip from the specified mixer that can be used for playing back
-     * an audio file or an audio stream.
+     * Obtbins b clip from the specified mixer thbt cbn be used for plbying bbck
+     * bn budio file or bn budio strebm.
      * <p>
-     * The returned clip must be opened with the {@code open(AudioFormat)} or
-     * {@code open(AudioInputStream)} method.
+     * The returned clip must be opened with the {@code open(AudioFormbt)} or
+     * {@code open(AudioInputStrebm)} method.
      * <p>
-     * This is a high-level method that uses {@code getMixer} and
-     * {@code getLine} internally.
+     * This is b high-level method thbt uses {@code getMixer} bnd
+     * {@code getLine} internblly.
      *
-     * @param  mixerInfo a {@code Mixer.Info} object representing the desired
-     *         mixer, or {@code null} for the system default mixer
-     * @return a clip object from the specified mixer
+     * @pbrbm  mixerInfo b {@code Mixer.Info} object representing the desired
+     *         mixer, or {@code null} for the system defbult mixer
+     * @return b clip object from the specified mixer
      *
-     * @throws LineUnavailableException if a clip is not available from this
+     * @throws LineUnbvbilbbleException if b clip is not bvbilbble from this
      *         mixer due to resource restrictions
-     * @throws SecurityException if a clip is not available from this mixer due
+     * @throws SecurityException if b clip is not bvbilbble from this mixer due
      *         to security restrictions
-     * @throws IllegalArgumentException if the system does not support at least
+     * @throws IllegblArgumentException if the system does not support bt lebst
      *         one clip through the specified mixer
      * @see #getClip()
      * @since 1.5
      */
-    public static Clip getClip(Mixer.Info mixerInfo) throws LineUnavailableException{
-        AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
+    public stbtic Clip getClip(Mixer.Info mixerInfo) throws LineUnbvbilbbleException{
+        AudioFormbt formbt = new AudioFormbt(AudioFormbt.Encoding.PCM_SIGNED,
                                              AudioSystem.NOT_SPECIFIED,
                                              16, 2, 4,
                                              AudioSystem.NOT_SPECIFIED, true);
-        DataLine.Info info = new DataLine.Info(Clip.class, format);
+        DbtbLine.Info info = new DbtbLine.Info(Clip.clbss, formbt);
         Mixer mixer = AudioSystem.getMixer(mixerInfo);
         return (Clip) mixer.getLine(info);
     }
 
     /**
-     * Obtains a source data line that can be used for playing back audio data
-     * in the format specified by the {@code AudioFormat} object. The returned
-     * line will be provided by the default system mixer, or, if not possible,
-     * by any other mixer installed in the system that supports a matching
-     * {@code SourceDataLine} object.
+     * Obtbins b source dbtb line thbt cbn be used for plbying bbck budio dbtb
+     * in the formbt specified by the {@code AudioFormbt} object. The returned
+     * line will be provided by the defbult system mixer, or, if not possible,
+     * by bny other mixer instblled in the system thbt supports b mbtching
+     * {@code SourceDbtbLine} object.
      * <p>
-     * The returned line should be opened with the {@code open(AudioFormat)} or
-     * {@code open(AudioFormat, int)} method.
+     * The returned line should be opened with the {@code open(AudioFormbt)} or
+     * {@code open(AudioFormbt, int)} method.
      * <p>
-     * This is a high-level method that uses {@code getMixer} and
-     * {@code getLine} internally.
+     * This is b high-level method thbt uses {@code getMixer} bnd
+     * {@code getLine} internblly.
      * <p>
-     * The returned {@code SourceDataLine}'s default audio format will be
-     * initialized with {@code format}.
+     * The returned {@code SourceDbtbLine}'s defbult budio formbt will be
+     * initiblized with {@code formbt}.
      * <p>
-     * If the system property {@code javax.sound.sampled.SourceDataLine} is
+     * If the system property {@code jbvbx.sound.sbmpled.SourceDbtbLine} is
      * defined or it is defined in the file "sound.properties", it is used to
-     * retrieve the default source data line. For details, refer to the
-     * {@link AudioSystem class description}.
+     * retrieve the defbult source dbtb line. For detbils, refer to the
+     * {@link AudioSystem clbss description}.
      *
-     * @param  format an {@code AudioFormat} object specifying the supported
-     *         audio format of the returned line, or {@code null} for any audio
-     *         format
-     * @return the desired {@code SourceDataLine} object
-     * @throws LineUnavailableException if a matching source data line is not
-     *         available due to resource restrictions
-     * @throws SecurityException if a matching source data line is not available
+     * @pbrbm  formbt bn {@code AudioFormbt} object specifying the supported
+     *         budio formbt of the returned line, or {@code null} for bny budio
+     *         formbt
+     * @return the desired {@code SourceDbtbLine} object
+     * @throws LineUnbvbilbbleException if b mbtching source dbtb line is not
+     *         bvbilbble due to resource restrictions
+     * @throws SecurityException if b mbtching source dbtb line is not bvbilbble
      *         due to security restrictions
-     * @throws IllegalArgumentException if the system does not support at least
-     *         one source data line supporting the specified audio format
-     *         through any installed mixer
-     * @see #getSourceDataLine(AudioFormat, Mixer.Info)
+     * @throws IllegblArgumentException if the system does not support bt lebst
+     *         one source dbtb line supporting the specified budio formbt
+     *         through bny instblled mixer
+     * @see #getSourceDbtbLine(AudioFormbt, Mixer.Info)
      * @since 1.5
      */
-    public static SourceDataLine getSourceDataLine(AudioFormat format)
-        throws LineUnavailableException{
-        DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
-        return (SourceDataLine) AudioSystem.getLine(info);
+    public stbtic SourceDbtbLine getSourceDbtbLine(AudioFormbt formbt)
+        throws LineUnbvbilbbleException{
+        DbtbLine.Info info = new DbtbLine.Info(SourceDbtbLine.clbss, formbt);
+        return (SourceDbtbLine) AudioSystem.getLine(info);
     }
 
     /**
-     * Obtains a source data line that can be used for playing back audio data
-     * in the format specified by the {@code AudioFormat} object, provided by
+     * Obtbins b source dbtb line thbt cbn be used for plbying bbck budio dbtb
+     * in the formbt specified by the {@code AudioFormbt} object, provided by
      * the mixer specified by the {@code Mixer.Info} object.
      * <p>
-     * The returned line should be opened with the {@code open(AudioFormat)} or
-     * {@code open(AudioFormat, int)} method.
+     * The returned line should be opened with the {@code open(AudioFormbt)} or
+     * {@code open(AudioFormbt, int)} method.
      * <p>
-     * This is a high-level method that uses {@code getMixer} and
-     * {@code getLine} internally.
+     * This is b high-level method thbt uses {@code getMixer} bnd
+     * {@code getLine} internblly.
      * <p>
-     * The returned {@code SourceDataLine}'s default audio format will be
-     * initialized with {@code format}.
+     * The returned {@code SourceDbtbLine}'s defbult budio formbt will be
+     * initiblized with {@code formbt}.
      *
-     * @param  format an {@code AudioFormat} object specifying the supported
-     *         audio format of the returned line, or {@code null} for any audio
-     *         format
-     * @param  mixerinfo a {@code Mixer.Info} object representing the desired
-     *         mixer, or {@code null} for the system default mixer
-     * @return the desired {@code SourceDataLine} object
-     * @throws LineUnavailableException if a matching source data line is not
-     *         available from the specified mixer due to resource restrictions
-     * @throws SecurityException if a matching source data line is not available
+     * @pbrbm  formbt bn {@code AudioFormbt} object specifying the supported
+     *         budio formbt of the returned line, or {@code null} for bny budio
+     *         formbt
+     * @pbrbm  mixerinfo b {@code Mixer.Info} object representing the desired
+     *         mixer, or {@code null} for the system defbult mixer
+     * @return the desired {@code SourceDbtbLine} object
+     * @throws LineUnbvbilbbleException if b mbtching source dbtb line is not
+     *         bvbilbble from the specified mixer due to resource restrictions
+     * @throws SecurityException if b mbtching source dbtb line is not bvbilbble
      *         from the specified mixer due to security restrictions
-     * @throws IllegalArgumentException if the specified mixer does not support
-     *         at least one source data line supporting the specified audio
-     *         format
-     * @see #getSourceDataLine(AudioFormat)
+     * @throws IllegblArgumentException if the specified mixer does not support
+     *         bt lebst one source dbtb line supporting the specified budio
+     *         formbt
+     * @see #getSourceDbtbLine(AudioFormbt)
      * @since 1.5
      */
-    public static SourceDataLine getSourceDataLine(AudioFormat format,
+    public stbtic SourceDbtbLine getSourceDbtbLine(AudioFormbt formbt,
                                                    Mixer.Info mixerinfo)
-        throws LineUnavailableException{
-        DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
+        throws LineUnbvbilbbleException{
+        DbtbLine.Info info = new DbtbLine.Info(SourceDbtbLine.clbss, formbt);
         Mixer mixer = AudioSystem.getMixer(mixerinfo);
-        return (SourceDataLine) mixer.getLine(info);
+        return (SourceDbtbLine) mixer.getLine(info);
     }
 
     /**
-     * Obtains a target data line that can be used for recording audio data in
-     * the format specified by the {@code AudioFormat} object. The returned line
-     * will be provided by the default system mixer, or, if not possible, by any
-     * other mixer installed in the system that supports a matching
-     * {@code TargetDataLine} object.
+     * Obtbins b tbrget dbtb line thbt cbn be used for recording budio dbtb in
+     * the formbt specified by the {@code AudioFormbt} object. The returned line
+     * will be provided by the defbult system mixer, or, if not possible, by bny
+     * other mixer instblled in the system thbt supports b mbtching
+     * {@code TbrgetDbtbLine} object.
      * <p>
-     * The returned line should be opened with the {@code open(AudioFormat)} or
-     * {@code open(AudioFormat, int)} method.
+     * The returned line should be opened with the {@code open(AudioFormbt)} or
+     * {@code open(AudioFormbt, int)} method.
      * <p>
-     * This is a high-level method that uses {@code getMixer} and
-     * {@code getLine} internally.
+     * This is b high-level method thbt uses {@code getMixer} bnd
+     * {@code getLine} internblly.
      * <p>
-     * The returned {@code TargetDataLine}'s default audio format will be
-     * initialized with {@code format}.
+     * The returned {@code TbrgetDbtbLine}'s defbult budio formbt will be
+     * initiblized with {@code formbt}.
      * <p>
-     * If the system property {@code javax.sound.sampled.TargetDataLine} is
+     * If the system property {@code jbvbx.sound.sbmpled.TbrgetDbtbLine} is
      * defined or it is defined in the file "sound.properties", it is used to
-     * retrieve the default target data line. For details, refer to the
-     * {@link AudioSystem class description}.
+     * retrieve the defbult tbrget dbtb line. For detbils, refer to the
+     * {@link AudioSystem clbss description}.
      *
-     * @param  format an {@code AudioFormat} object specifying the supported
-     *         audio format of the returned line, or {@code null} for any audio
-     *         format
-     * @return the desired {@code TargetDataLine} object
-     * @throws LineUnavailableException if a matching target data line is not
-     *         available due to resource restrictions
-     * @throws SecurityException if a matching target data line is not available
+     * @pbrbm  formbt bn {@code AudioFormbt} object specifying the supported
+     *         budio formbt of the returned line, or {@code null} for bny budio
+     *         formbt
+     * @return the desired {@code TbrgetDbtbLine} object
+     * @throws LineUnbvbilbbleException if b mbtching tbrget dbtb line is not
+     *         bvbilbble due to resource restrictions
+     * @throws SecurityException if b mbtching tbrget dbtb line is not bvbilbble
      *         due to security restrictions
-     * @throws IllegalArgumentException if the system does not support at least
-     *         one target data line supporting the specified audio format
-     *         through any installed mixer
-     * @see #getTargetDataLine(AudioFormat, Mixer.Info)
+     * @throws IllegblArgumentException if the system does not support bt lebst
+     *         one tbrget dbtb line supporting the specified budio formbt
+     *         through bny instblled mixer
+     * @see #getTbrgetDbtbLine(AudioFormbt, Mixer.Info)
      * @see AudioPermission
      * @since 1.5
      */
-    public static TargetDataLine getTargetDataLine(AudioFormat format)
-        throws LineUnavailableException{
+    public stbtic TbrgetDbtbLine getTbrgetDbtbLine(AudioFormbt formbt)
+        throws LineUnbvbilbbleException{
 
-        DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-        return (TargetDataLine) AudioSystem.getLine(info);
+        DbtbLine.Info info = new DbtbLine.Info(TbrgetDbtbLine.clbss, formbt);
+        return (TbrgetDbtbLine) AudioSystem.getLine(info);
     }
 
     /**
-     * Obtains a target data line that can be used for recording audio data in
-     * the format specified by the {@code AudioFormat} object, provided by the
+     * Obtbins b tbrget dbtb line thbt cbn be used for recording budio dbtb in
+     * the formbt specified by the {@code AudioFormbt} object, provided by the
      * mixer specified by the {@code Mixer.Info} object.
      * <p>
-     * The returned line should be opened with the {@code open(AudioFormat)} or
-     * {@code open(AudioFormat, int)} method.
+     * The returned line should be opened with the {@code open(AudioFormbt)} or
+     * {@code open(AudioFormbt, int)} method.
      * <p>
-     * This is a high-level method that uses {@code getMixer} and
-     * {@code getLine} internally.
+     * This is b high-level method thbt uses {@code getMixer} bnd
+     * {@code getLine} internblly.
      * <p>
-     * The returned {@code TargetDataLine}'s default audio format will be
-     * initialized with {@code format}.
+     * The returned {@code TbrgetDbtbLine}'s defbult budio formbt will be
+     * initiblized with {@code formbt}.
      *
-     * @param  format an {@code AudioFormat} object specifying the supported
-     *         audio format of the returned line, or {@code null} for any audio
-     *         format
-     * @param  mixerinfo a {@code Mixer.Info} object representing the desired
-     *         mixer, or {@code null} for the system default mixer
-     * @return the desired {@code TargetDataLine} object
-     * @throws LineUnavailableException if a matching target data line is not
-     *         available from the specified mixer due to resource restrictions
-     * @throws SecurityException if a matching target data line is not available
+     * @pbrbm  formbt bn {@code AudioFormbt} object specifying the supported
+     *         budio formbt of the returned line, or {@code null} for bny budio
+     *         formbt
+     * @pbrbm  mixerinfo b {@code Mixer.Info} object representing the desired
+     *         mixer, or {@code null} for the system defbult mixer
+     * @return the desired {@code TbrgetDbtbLine} object
+     * @throws LineUnbvbilbbleException if b mbtching tbrget dbtb line is not
+     *         bvbilbble from the specified mixer due to resource restrictions
+     * @throws SecurityException if b mbtching tbrget dbtb line is not bvbilbble
      *         from the specified mixer due to security restrictions
-     * @throws IllegalArgumentException if the specified mixer does not support
-     *         at least one target data line supporting the specified audio
-     *         format
-     * @see #getTargetDataLine(AudioFormat)
+     * @throws IllegblArgumentException if the specified mixer does not support
+     *         bt lebst one tbrget dbtb line supporting the specified budio
+     *         formbt
+     * @see #getTbrgetDbtbLine(AudioFormbt)
      * @see AudioPermission
      * @since 1.5
      */
-    public static TargetDataLine getTargetDataLine(AudioFormat format,
+    public stbtic TbrgetDbtbLine getTbrgetDbtbLine(AudioFormbt formbt,
                                                    Mixer.Info mixerinfo)
-        throws LineUnavailableException {
+        throws LineUnbvbilbbleException {
 
-        DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+        DbtbLine.Info info = new DbtbLine.Info(TbrgetDbtbLine.clbss, formbt);
         Mixer mixer = AudioSystem.getMixer(mixerinfo);
-        return (TargetDataLine) mixer.getLine(info);
+        return (TbrgetDbtbLine) mixer.getLine(info);
     }
 
-    // $$fb 2002-04-12: fix for 4662082: behavior of AudioSystem.getTargetEncodings() methods doesn't match the spec
+    // $$fb 2002-04-12: fix for 4662082: behbvior of AudioSystem.getTbrgetEncodings() methods doesn't mbtch the spec
 
     /**
-     * Obtains the encodings that the system can obtain from an audio input
-     * stream with the specified encoding using the set of installed format
+     * Obtbins the encodings thbt the system cbn obtbin from bn budio input
+     * strebm with the specified encoding using the set of instblled formbt
      * converters.
      *
-     * @param  sourceEncoding the encoding for which conversion support is
+     * @pbrbm  sourceEncoding the encoding for which conversion support is
      *         queried
-     * @return array of encodings. If {@code sourceEncoding}is not supported, an
-     *         array of length 0 is returned. Otherwise, the array will have a
-     *         length of at least 1, representing {@code sourceEncoding}
+     * @return brrby of encodings. If {@code sourceEncoding}is not supported, bn
+     *         brrby of length 0 is returned. Otherwise, the brrby will hbve b
+     *         length of bt lebst 1, representing {@code sourceEncoding}
      *         (no conversion).
      */
-    public static AudioFormat.Encoding[] getTargetEncodings(AudioFormat.Encoding sourceEncoding) {
+    public stbtic AudioFormbt.Encoding[] getTbrgetEncodings(AudioFormbt.Encoding sourceEncoding) {
 
-        List<FormatConversionProvider> codecs = getFormatConversionProviders();
-        Vector<AudioFormat.Encoding> encodings = new Vector<>();
+        List<FormbtConversionProvider> codecs = getFormbtConversionProviders();
+        Vector<AudioFormbt.Encoding> encodings = new Vector<>();
 
-        AudioFormat.Encoding encs[] = null;
+        AudioFormbt.Encoding encs[] = null;
 
-        // gather from all the codecs
+        // gbther from bll the codecs
         for(int i=0; i<codecs.size(); i++ ) {
-            FormatConversionProvider codec = codecs.get(i);
+            FormbtConversionProvider codec = codecs.get(i);
             if( codec.isSourceEncodingSupported( sourceEncoding ) ) {
-                encs = codec.getTargetEncodings();
+                encs = codec.getTbrgetEncodings();
                 for (int j = 0; j < encs.length; j++) {
-                    encodings.addElement( encs[j] );
+                    encodings.bddElement( encs[j] );
                 }
             }
         }
-        AudioFormat.Encoding encs2[] = encodings.toArray(new AudioFormat.Encoding[0]);
+        AudioFormbt.Encoding encs2[] = encodings.toArrby(new AudioFormbt.Encoding[0]);
         return encs2;
     }
 
-    // $$fb 2002-04-12: fix for 4662082: behavior of AudioSystem.getTargetEncodings() methods doesn't match the spec
+    // $$fb 2002-04-12: fix for 4662082: behbvior of AudioSystem.getTbrgetEncodings() methods doesn't mbtch the spec
 
     /**
-     * Obtains the encodings that the system can obtain from an audio input
-     * stream with the specified format using the set of installed format
+     * Obtbins the encodings thbt the system cbn obtbin from bn budio input
+     * strebm with the specified formbt using the set of instblled formbt
      * converters.
      *
-     * @param  sourceFormat the audio format for which conversion is queried
-     * @return array of encodings. If {@code sourceFormat}is not supported, an
-     *         array of length 0 is returned. Otherwise, the array will have a
-     *         length of at least 1, representing the encoding of
-     *         {@code sourceFormat} (no conversion).
+     * @pbrbm  sourceFormbt the budio formbt for which conversion is queried
+     * @return brrby of encodings. If {@code sourceFormbt}is not supported, bn
+     *         brrby of length 0 is returned. Otherwise, the brrby will hbve b
+     *         length of bt lebst 1, representing the encoding of
+     *         {@code sourceFormbt} (no conversion).
      */
-    public static AudioFormat.Encoding[] getTargetEncodings(AudioFormat sourceFormat) {
+    public stbtic AudioFormbt.Encoding[] getTbrgetEncodings(AudioFormbt sourceFormbt) {
 
 
-        List<FormatConversionProvider> codecs = getFormatConversionProviders();
-        Vector<AudioFormat.Encoding[]> encodings = new Vector<>();
+        List<FormbtConversionProvider> codecs = getFormbtConversionProviders();
+        Vector<AudioFormbt.Encoding[]> encodings = new Vector<>();
 
         int size = 0;
         int index = 0;
-        AudioFormat.Encoding encs[] = null;
+        AudioFormbt.Encoding encs[] = null;
 
-        // gather from all the codecs
+        // gbther from bll the codecs
 
         for(int i=0; i<codecs.size(); i++ ) {
-            encs = codecs.get(i).getTargetEncodings(sourceFormat);
+            encs = codecs.get(i).getTbrgetEncodings(sourceFormbt);
             size += encs.length;
-            encodings.addElement( encs );
+            encodings.bddElement( encs );
         }
 
-        // now build a new array
+        // now build b new brrby
 
-        AudioFormat.Encoding encs2[] = new AudioFormat.Encoding[size];
+        AudioFormbt.Encoding encs2[] = new AudioFormbt.Encoding[size];
         for(int i=0; i<encodings.size(); i++ ) {
             encs = encodings.get(i);
             for(int j=0; j<encs.length; j++ ) {
@@ -763,89 +763,89 @@ public class AudioSystem {
     }
 
     /**
-     * Indicates whether an audio input stream of the specified encoding can be
-     * obtained from an audio input stream that has the specified format.
+     * Indicbtes whether bn budio input strebm of the specified encoding cbn be
+     * obtbined from bn budio input strebm thbt hbs the specified formbt.
      *
-     * @param  targetEncoding the desired encoding after conversion
-     * @param  sourceFormat the audio format before conversion
+     * @pbrbm  tbrgetEncoding the desired encoding bfter conversion
+     * @pbrbm  sourceFormbt the budio formbt before conversion
      * @return {@code true} if the conversion is supported, otherwise
-     *         {@code false}
+     *         {@code fblse}
      */
-    public static boolean isConversionSupported(AudioFormat.Encoding targetEncoding, AudioFormat sourceFormat) {
+    public stbtic boolebn isConversionSupported(AudioFormbt.Encoding tbrgetEncoding, AudioFormbt sourceFormbt) {
 
 
-        List<FormatConversionProvider> codecs = getFormatConversionProviders();
+        List<FormbtConversionProvider> codecs = getFormbtConversionProviders();
 
         for(int i=0; i<codecs.size(); i++ ) {
-            FormatConversionProvider codec = codecs.get(i);
-            if(codec.isConversionSupported(targetEncoding,sourceFormat) ) {
+            FormbtConversionProvider codec = codecs.get(i);
+            if(codec.isConversionSupported(tbrgetEncoding,sourceFormbt) ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Obtains an audio input stream of the indicated encoding, by converting
-     * the provided audio input stream.
+     * Obtbins bn budio input strebm of the indicbted encoding, by converting
+     * the provided budio input strebm.
      *
-     * @param  targetEncoding the desired encoding after conversion
-     * @param  sourceStream the stream to be converted
-     * @return an audio input stream of the indicated encoding
-     * @throws IllegalArgumentException if the conversion is not supported
-     * @see #getTargetEncodings(AudioFormat.Encoding)
-     * @see #getTargetEncodings(AudioFormat)
-     * @see #isConversionSupported(AudioFormat.Encoding, AudioFormat)
-     * @see #getAudioInputStream(AudioFormat, AudioInputStream)
+     * @pbrbm  tbrgetEncoding the desired encoding bfter conversion
+     * @pbrbm  sourceStrebm the strebm to be converted
+     * @return bn budio input strebm of the indicbted encoding
+     * @throws IllegblArgumentException if the conversion is not supported
+     * @see #getTbrgetEncodings(AudioFormbt.Encoding)
+     * @see #getTbrgetEncodings(AudioFormbt)
+     * @see #isConversionSupported(AudioFormbt.Encoding, AudioFormbt)
+     * @see #getAudioInputStrebm(AudioFormbt, AudioInputStrebm)
      */
-    public static AudioInputStream getAudioInputStream(AudioFormat.Encoding targetEncoding,
-                                                       AudioInputStream sourceStream) {
+    public stbtic AudioInputStrebm getAudioInputStrebm(AudioFormbt.Encoding tbrgetEncoding,
+                                                       AudioInputStrebm sourceStrebm) {
 
-        List<FormatConversionProvider> codecs = getFormatConversionProviders();
+        List<FormbtConversionProvider> codecs = getFormbtConversionProviders();
 
         for(int i = 0; i < codecs.size(); i++) {
-            FormatConversionProvider codec = codecs.get(i);
-            if( codec.isConversionSupported( targetEncoding, sourceStream.getFormat() ) ) {
-                return codec.getAudioInputStream( targetEncoding, sourceStream );
+            FormbtConversionProvider codec = codecs.get(i);
+            if( codec.isConversionSupported( tbrgetEncoding, sourceStrebm.getFormbt() ) ) {
+                return codec.getAudioInputStrebm( tbrgetEncoding, sourceStrebm );
             }
         }
-        // we ran out of options, throw an exception
-        throw new IllegalArgumentException("Unsupported conversion: " + targetEncoding + " from " + sourceStream.getFormat());
+        // we rbn out of options, throw bn exception
+        throw new IllegblArgumentException("Unsupported conversion: " + tbrgetEncoding + " from " + sourceStrebm.getFormbt());
     }
 
     /**
-     * Obtains the formats that have a particular encoding and that the system
-     * can obtain from a stream of the specified format using the set of
-     * installed format converters.
+     * Obtbins the formbts thbt hbve b pbrticulbr encoding bnd thbt the system
+     * cbn obtbin from b strebm of the specified formbt using the set of
+     * instblled formbt converters.
      *
-     * @param  targetEncoding the desired encoding after conversion
-     * @param  sourceFormat the audio format before conversion
-     * @return array of formats. If no formats of the specified encoding are
-     *         supported, an array of length 0 is returned.
+     * @pbrbm  tbrgetEncoding the desired encoding bfter conversion
+     * @pbrbm  sourceFormbt the budio formbt before conversion
+     * @return brrby of formbts. If no formbts of the specified encoding bre
+     *         supported, bn brrby of length 0 is returned.
      */
-    public static AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding, AudioFormat sourceFormat) {
+    public stbtic AudioFormbt[] getTbrgetFormbts(AudioFormbt.Encoding tbrgetEncoding, AudioFormbt sourceFormbt) {
 
-        List<FormatConversionProvider> codecs = getFormatConversionProviders();
-        Vector<AudioFormat[]> formats = new Vector<>();
+        List<FormbtConversionProvider> codecs = getFormbtConversionProviders();
+        Vector<AudioFormbt[]> formbts = new Vector<>();
 
         int size = 0;
         int index = 0;
-        AudioFormat fmts[] = null;
+        AudioFormbt fmts[] = null;
 
-        // gather from all the codecs
+        // gbther from bll the codecs
 
         for(int i=0; i<codecs.size(); i++ ) {
-            FormatConversionProvider codec = codecs.get(i);
-            fmts = codec.getTargetFormats(targetEncoding, sourceFormat);
+            FormbtConversionProvider codec = codecs.get(i);
+            fmts = codec.getTbrgetFormbts(tbrgetEncoding, sourceFormbt);
             size += fmts.length;
-            formats.addElement( fmts );
+            formbts.bddElement( fmts );
         }
 
-        // now build a new array
+        // now build b new brrby
 
-        AudioFormat fmts2[] = new AudioFormat[size];
-        for(int i=0; i<formats.size(); i++ ) {
-            fmts = formats.get(i);
+        AudioFormbt fmts2[] = new AudioFormbt[size];
+        for(int i=0; i<formbts.size(); i++ ) {
+            fmts = formbts.get(i);
             for(int j=0; j<fmts.length; j++ ) {
                 fmts2[index++] = fmts[j];
             }
@@ -854,318 +854,318 @@ public class AudioSystem {
     }
 
     /**
-     * Indicates whether an audio input stream of a specified format can be
-     * obtained from an audio input stream of another specified format.
+     * Indicbtes whether bn budio input strebm of b specified formbt cbn be
+     * obtbined from bn budio input strebm of bnother specified formbt.
      *
-     * @param  targetFormat the desired audio format after conversion
-     * @param  sourceFormat the audio format before conversion
+     * @pbrbm  tbrgetFormbt the desired budio formbt bfter conversion
+     * @pbrbm  sourceFormbt the budio formbt before conversion
      * @return {@code true} if the conversion is supported, otherwise
-     *         {@code false}
+     *         {@code fblse}
      */
-    public static boolean isConversionSupported(AudioFormat targetFormat, AudioFormat sourceFormat) {
+    public stbtic boolebn isConversionSupported(AudioFormbt tbrgetFormbt, AudioFormbt sourceFormbt) {
 
-        List<FormatConversionProvider> codecs = getFormatConversionProviders();
+        List<FormbtConversionProvider> codecs = getFormbtConversionProviders();
 
         for(int i=0; i<codecs.size(); i++ ) {
-            FormatConversionProvider codec = codecs.get(i);
-            if(codec.isConversionSupported(targetFormat, sourceFormat) ) {
+            FormbtConversionProvider codec = codecs.get(i);
+            if(codec.isConversionSupported(tbrgetFormbt, sourceFormbt) ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Obtains an audio input stream of the indicated format, by converting the
-     * provided audio input stream.
+     * Obtbins bn budio input strebm of the indicbted formbt, by converting the
+     * provided budio input strebm.
      *
-     * @param  targetFormat the desired audio format after conversion
-     * @param  sourceStream the stream to be converted
-     * @return an audio input stream of the indicated format
-     * @throws IllegalArgumentException if the conversion is not supported
-     * @see #getTargetEncodings(AudioFormat)
-     * @see #getTargetFormats(AudioFormat.Encoding, AudioFormat)
-     * @see #isConversionSupported(AudioFormat, AudioFormat)
-     * @see #getAudioInputStream(AudioFormat.Encoding, AudioInputStream)
+     * @pbrbm  tbrgetFormbt the desired budio formbt bfter conversion
+     * @pbrbm  sourceStrebm the strebm to be converted
+     * @return bn budio input strebm of the indicbted formbt
+     * @throws IllegblArgumentException if the conversion is not supported
+     * @see #getTbrgetEncodings(AudioFormbt)
+     * @see #getTbrgetFormbts(AudioFormbt.Encoding, AudioFormbt)
+     * @see #isConversionSupported(AudioFormbt, AudioFormbt)
+     * @see #getAudioInputStrebm(AudioFormbt.Encoding, AudioInputStrebm)
      */
-    public static AudioInputStream getAudioInputStream(AudioFormat targetFormat,
-                                                       AudioInputStream sourceStream) {
+    public stbtic AudioInputStrebm getAudioInputStrebm(AudioFormbt tbrgetFormbt,
+                                                       AudioInputStrebm sourceStrebm) {
 
-        if (sourceStream.getFormat().matches(targetFormat)) {
-            return sourceStream;
+        if (sourceStrebm.getFormbt().mbtches(tbrgetFormbt)) {
+            return sourceStrebm;
         }
 
-        List<FormatConversionProvider> codecs = getFormatConversionProviders();
+        List<FormbtConversionProvider> codecs = getFormbtConversionProviders();
 
         for(int i = 0; i < codecs.size(); i++) {
-            FormatConversionProvider codec = codecs.get(i);
-            if(codec.isConversionSupported(targetFormat,sourceStream.getFormat()) ) {
-                return codec.getAudioInputStream(targetFormat,sourceStream);
+            FormbtConversionProvider codec = codecs.get(i);
+            if(codec.isConversionSupported(tbrgetFormbt,sourceStrebm.getFormbt()) ) {
+                return codec.getAudioInputStrebm(tbrgetFormbt,sourceStrebm);
             }
         }
 
-        // we ran out of options...
-        throw new IllegalArgumentException("Unsupported conversion: " + targetFormat + " from " + sourceStream.getFormat());
+        // we rbn out of options...
+        throw new IllegblArgumentException("Unsupported conversion: " + tbrgetFormbt + " from " + sourceStrebm.getFormbt());
     }
 
     /**
-     * Obtains the audio file format of the provided input stream. The stream
-     * must point to valid audio file data. The implementation of this method
-     * may require multiple parsers to examine the stream to determine whether
-     * they support it. These parsers must be able to mark the stream, read
-     * enough data to determine whether they support the stream, and, if not,
-     * reset the stream's read pointer to its original position. If the input
-     * stream does not support these operations, this method may fail with an
+     * Obtbins the budio file formbt of the provided input strebm. The strebm
+     * must point to vblid budio file dbtb. The implementbtion of this method
+     * mby require multiple pbrsers to exbmine the strebm to determine whether
+     * they support it. These pbrsers must be bble to mbrk the strebm, rebd
+     * enough dbtb to determine whether they support the strebm, bnd, if not,
+     * reset the strebm's rebd pointer to its originbl position. If the input
+     * strebm does not support these operbtions, this method mby fbil with bn
      * {@code IOException}.
      *
-     * @param  stream the input stream from which file format information should
-     *         be extracted
-     * @return an {@code AudioFileFormat} object describing the stream's audio
-     *         file format
-     * @throws UnsupportedAudioFileException if the stream does not point to
-     *         valid audio file data recognized by the system
-     * @throws IOException if an input/output exception occurs
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * @pbrbm  strebm the input strebm from which file formbt informbtion should
+     *         be extrbcted
+     * @return bn {@code AudioFileFormbt} object describing the strebm's budio
+     *         file formbt
+     * @throws UnsupportedAudioFileException if the strebm does not point to
+     *         vblid budio file dbtb recognized by the system
+     * @throws IOException if bn input/output exception occurs
+     * @see InputStrebm#mbrkSupported
+     * @see InputStrebm#mbrk
      */
-    public static AudioFileFormat getAudioFileFormat(InputStream stream)
+    public stbtic AudioFileFormbt getAudioFileFormbt(InputStrebm strebm)
         throws UnsupportedAudioFileException, IOException {
 
-        List<AudioFileReader> providers = getAudioFileReaders();
-        AudioFileFormat format = null;
+        List<AudioFileRebder> providers = getAudioFileRebders();
+        AudioFileFormbt formbt = null;
 
         for(int i = 0; i < providers.size(); i++ ) {
-            AudioFileReader reader = providers.get(i);
+            AudioFileRebder rebder = providers.get(i);
             try {
-                format = reader.getAudioFileFormat( stream ); // throws IOException
-                break;
-            } catch (UnsupportedAudioFileException e) {
+                formbt = rebder.getAudioFileFormbt( strebm ); // throws IOException
+                brebk;
+            } cbtch (UnsupportedAudioFileException e) {
                 continue;
             }
         }
 
-        if( format==null ) {
-            throw new UnsupportedAudioFileException("file is not a supported file type");
+        if( formbt==null ) {
+            throw new UnsupportedAudioFileException("file is not b supported file type");
         } else {
-            return format;
+            return formbt;
         }
     }
 
     /**
-     * Obtains the audio file format of the specified URL. The URL must point to
-     * valid audio file data.
+     * Obtbins the budio file formbt of the specified URL. The URL must point to
+     * vblid budio file dbtb.
      *
-     * @param  url the URL from which file format information should be
-     *         extracted
-     * @return an {@code AudioFileFormat} object describing the audio file
-     *         format
-     * @throws UnsupportedAudioFileException if the URL does not point to valid
-     *         audio file data recognized by the system
-     * @throws IOException if an input/output exception occurs
+     * @pbrbm  url the URL from which file formbt informbtion should be
+     *         extrbcted
+     * @return bn {@code AudioFileFormbt} object describing the budio file
+     *         formbt
+     * @throws UnsupportedAudioFileException if the URL does not point to vblid
+     *         budio file dbtb recognized by the system
+     * @throws IOException if bn input/output exception occurs
      */
-    public static AudioFileFormat getAudioFileFormat(URL url)
+    public stbtic AudioFileFormbt getAudioFileFormbt(URL url)
         throws UnsupportedAudioFileException, IOException {
 
-        List<AudioFileReader> providers = getAudioFileReaders();
-        AudioFileFormat format = null;
+        List<AudioFileRebder> providers = getAudioFileRebders();
+        AudioFileFormbt formbt = null;
 
         for(int i = 0; i < providers.size(); i++ ) {
-            AudioFileReader reader = providers.get(i);
+            AudioFileRebder rebder = providers.get(i);
             try {
-                format = reader.getAudioFileFormat( url ); // throws IOException
-                break;
-            } catch (UnsupportedAudioFileException e) {
+                formbt = rebder.getAudioFileFormbt( url ); // throws IOException
+                brebk;
+            } cbtch (UnsupportedAudioFileException e) {
                 continue;
             }
         }
 
-        if( format==null ) {
-            throw new UnsupportedAudioFileException("file is not a supported file type");
+        if( formbt==null ) {
+            throw new UnsupportedAudioFileException("file is not b supported file type");
         } else {
-            return format;
+            return formbt;
         }
     }
 
     /**
-     * Obtains the audio file format of the specified {@code File}. The
-     * {@code File} must point to valid audio file data.
+     * Obtbins the budio file formbt of the specified {@code File}. The
+     * {@code File} must point to vblid budio file dbtb.
      *
-     * @param  file the {@code File} from which file format information should
-     *         be extracted
-     * @return an {@code AudioFileFormat} object describing the audio file
-     *         format
+     * @pbrbm  file the {@code File} from which file formbt informbtion should
+     *         be extrbcted
+     * @return bn {@code AudioFileFormbt} object describing the budio file
+     *         formbt
      * @throws UnsupportedAudioFileException if the {@code File} does not point
-     *         to valid audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     *         to vblid budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public static AudioFileFormat getAudioFileFormat(File file)
+    public stbtic AudioFileFormbt getAudioFileFormbt(File file)
         throws UnsupportedAudioFileException, IOException {
 
-        List<AudioFileReader> providers = getAudioFileReaders();
-        AudioFileFormat format = null;
+        List<AudioFileRebder> providers = getAudioFileRebders();
+        AudioFileFormbt formbt = null;
 
         for(int i = 0; i < providers.size(); i++ ) {
-            AudioFileReader reader = providers.get(i);
+            AudioFileRebder rebder = providers.get(i);
             try {
-                format = reader.getAudioFileFormat( file ); // throws IOException
-                break;
-            } catch (UnsupportedAudioFileException e) {
+                formbt = rebder.getAudioFileFormbt( file ); // throws IOException
+                brebk;
+            } cbtch (UnsupportedAudioFileException e) {
                 continue;
             }
         }
 
-        if( format==null ) {
-            throw new UnsupportedAudioFileException("file is not a supported file type");
+        if( formbt==null ) {
+            throw new UnsupportedAudioFileException("file is not b supported file type");
         } else {
-            return format;
+            return formbt;
         }
     }
 
     /**
-     * Obtains an audio input stream from the provided input stream. The stream
-     * must point to valid audio file data. The implementation of this method
-     * may require multiple parsers to examine the stream to determine whether
-     * they support it. These parsers must be able to mark the stream, read
-     * enough data to determine whether they support the stream, and, if not,
-     * reset the stream's read pointer to its original position. If the input
-     * stream does not support these operation, this method may fail with an
+     * Obtbins bn budio input strebm from the provided input strebm. The strebm
+     * must point to vblid budio file dbtb. The implementbtion of this method
+     * mby require multiple pbrsers to exbmine the strebm to determine whether
+     * they support it. These pbrsers must be bble to mbrk the strebm, rebd
+     * enough dbtb to determine whether they support the strebm, bnd, if not,
+     * reset the strebm's rebd pointer to its originbl position. If the input
+     * strebm does not support these operbtion, this method mby fbil with bn
      * {@code IOException}.
      *
-     * @param  stream the input stream from which the {@code AudioInputStream}
+     * @pbrbm  strebm the input strebm from which the {@code AudioInputStrebm}
      *         should be constructed
-     * @return an {@code AudioInputStream} object based on the audio file data
-     *         contained in the input stream
-     * @throws UnsupportedAudioFileException if the stream does not point to
-     *         valid audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * @return bn {@code AudioInputStrebm} object bbsed on the budio file dbtb
+     *         contbined in the input strebm
+     * @throws UnsupportedAudioFileException if the strebm does not point to
+     *         vblid budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
+     * @see InputStrebm#mbrkSupported
+     * @see InputStrebm#mbrk
      */
-    public static AudioInputStream getAudioInputStream(InputStream stream)
+    public stbtic AudioInputStrebm getAudioInputStrebm(InputStrebm strebm)
         throws UnsupportedAudioFileException, IOException {
 
-        List<AudioFileReader> providers = getAudioFileReaders();
-        AudioInputStream audioStream = null;
+        List<AudioFileRebder> providers = getAudioFileRebders();
+        AudioInputStrebm budioStrebm = null;
 
         for(int i = 0; i < providers.size(); i++ ) {
-            AudioFileReader reader = providers.get(i);
+            AudioFileRebder rebder = providers.get(i);
             try {
-                audioStream = reader.getAudioInputStream( stream ); // throws IOException
-                break;
-            } catch (UnsupportedAudioFileException e) {
+                budioStrebm = rebder.getAudioInputStrebm( strebm ); // throws IOException
+                brebk;
+            } cbtch (UnsupportedAudioFileException e) {
                 continue;
             }
         }
 
-        if( audioStream==null ) {
-            throw new UnsupportedAudioFileException("could not get audio input stream from input stream");
+        if( budioStrebm==null ) {
+            throw new UnsupportedAudioFileException("could not get budio input strebm from input strebm");
         } else {
-            return audioStream;
+            return budioStrebm;
         }
     }
 
     /**
-     * Obtains an audio input stream from the URL provided. The URL must point
-     * to valid audio file data.
+     * Obtbins bn budio input strebm from the URL provided. The URL must point
+     * to vblid budio file dbtb.
      *
-     * @param  url the URL for which the {@code AudioInputStream} should be
+     * @pbrbm  url the URL for which the {@code AudioInputStrebm} should be
      *         constructed
-     * @return an {@code AudioInputStream} object based on the audio file data
+     * @return bn {@code AudioInputStrebm} object bbsed on the budio file dbtb
      *         pointed to by the URL
-     * @throws UnsupportedAudioFileException if the URL does not point to valid
-     *         audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * @throws UnsupportedAudioFileException if the URL does not point to vblid
+     *         budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public static AudioInputStream getAudioInputStream(URL url)
+    public stbtic AudioInputStrebm getAudioInputStrebm(URL url)
         throws UnsupportedAudioFileException, IOException {
 
-        List<AudioFileReader> providers = getAudioFileReaders();
-        AudioInputStream audioStream = null;
+        List<AudioFileRebder> providers = getAudioFileRebders();
+        AudioInputStrebm budioStrebm = null;
 
         for(int i = 0; i < providers.size(); i++ ) {
-            AudioFileReader reader = providers.get(i);
+            AudioFileRebder rebder = providers.get(i);
             try {
-                audioStream = reader.getAudioInputStream( url ); // throws IOException
-                break;
-            } catch (UnsupportedAudioFileException e) {
+                budioStrebm = rebder.getAudioInputStrebm( url ); // throws IOException
+                brebk;
+            } cbtch (UnsupportedAudioFileException e) {
                 continue;
             }
         }
 
-        if( audioStream==null ) {
-            throw new UnsupportedAudioFileException("could not get audio input stream from input URL");
+        if( budioStrebm==null ) {
+            throw new UnsupportedAudioFileException("could not get budio input strebm from input URL");
         } else {
-            return audioStream;
+            return budioStrebm;
         }
     }
 
     /**
-     * Obtains an audio input stream from the provided {@code File}. The
-     * {@code File} must point to valid audio file data.
+     * Obtbins bn budio input strebm from the provided {@code File}. The
+     * {@code File} must point to vblid budio file dbtb.
      *
-     * @param  file the {@code File} for which the {@code AudioInputStream}
+     * @pbrbm  file the {@code File} for which the {@code AudioInputStrebm}
      *         should be constructed
-     * @return an {@code AudioInputStream} object based on the audio file data
+     * @return bn {@code AudioInputStrebm} object bbsed on the budio file dbtb
      *         pointed to by the {@code File}
      * @throws UnsupportedAudioFileException if the {@code File} does not point
-     *         to valid audio file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     *         to vblid budio file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public static AudioInputStream getAudioInputStream(File file)
+    public stbtic AudioInputStrebm getAudioInputStrebm(File file)
         throws UnsupportedAudioFileException, IOException {
 
-        List<AudioFileReader> providers = getAudioFileReaders();
-        AudioInputStream audioStream = null;
+        List<AudioFileRebder> providers = getAudioFileRebders();
+        AudioInputStrebm budioStrebm = null;
 
         for(int i = 0; i < providers.size(); i++ ) {
-            AudioFileReader reader = providers.get(i);
+            AudioFileRebder rebder = providers.get(i);
             try {
-                audioStream = reader.getAudioInputStream( file ); // throws IOException
-                break;
-            } catch (UnsupportedAudioFileException e) {
+                budioStrebm = rebder.getAudioInputStrebm( file ); // throws IOException
+                brebk;
+            } cbtch (UnsupportedAudioFileException e) {
                 continue;
             }
         }
 
-        if( audioStream==null ) {
-            throw new UnsupportedAudioFileException("could not get audio input stream from input file");
+        if( budioStrebm==null ) {
+            throw new UnsupportedAudioFileException("could not get budio input strebm from input file");
         } else {
-            return audioStream;
+            return budioStrebm;
         }
     }
 
     /**
-     * Obtains the file types for which file writing support is provided by the
+     * Obtbins the file types for which file writing support is provided by the
      * system.
      *
-     * @return array of unique file types. If no file types are supported, an
-     *         array of length 0 is returned.
+     * @return brrby of unique file types. If no file types bre supported, bn
+     *         brrby of length 0 is returned.
      */
-    public static AudioFileFormat.Type[] getAudioFileTypes() {
+    public stbtic AudioFileFormbt.Type[] getAudioFileTypes() {
         List<AudioFileWriter> providers = getAudioFileWriters();
-        Set<AudioFileFormat.Type> returnTypesSet = new HashSet<>();
+        Set<AudioFileFormbt.Type> returnTypesSet = new HbshSet<>();
 
         for(int i=0; i < providers.size(); i++) {
             AudioFileWriter writer = providers.get(i);
-            AudioFileFormat.Type[] fileTypes = writer.getAudioFileTypes();
+            AudioFileFormbt.Type[] fileTypes = writer.getAudioFileTypes();
             for(int j=0; j < fileTypes.length; j++) {
-                returnTypesSet.add(fileTypes[j]);
+                returnTypesSet.bdd(fileTypes[j]);
             }
         }
-        AudioFileFormat.Type returnTypes[] =
-            returnTypesSet.toArray(new AudioFileFormat.Type[0]);
+        AudioFileFormbt.Type returnTypes[] =
+            returnTypesSet.toArrby(new AudioFileFormbt.Type[0]);
         return returnTypes;
     }
 
     /**
-     * Indicates whether file writing support for the specified file type is
+     * Indicbtes whether file writing support for the specified file type is
      * provided by the system.
      *
-     * @param  fileType the file type for which write capabilities are queried
+     * @pbrbm  fileType the file type for which write cbpbbilities bre queried
      * @return {@code true} if the file type is supported, otherwise
-     *         {@code false}
+     *         {@code fblse}
      */
-    public static boolean isFileTypeSupported(AudioFileFormat.Type fileType) {
+    public stbtic boolebn isFileTypeSupported(AudioFileFormbt.Type fileType) {
 
         List<AudioFileWriter> providers = getAudioFileWriters();
 
@@ -1175,136 +1175,136 @@ public class AudioSystem {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Obtains the file types that the system can write from the audio input
-     * stream specified.
+     * Obtbins the file types thbt the system cbn write from the budio input
+     * strebm specified.
      *
-     * @param  stream the audio input stream for which audio file type
+     * @pbrbm  strebm the budio input strebm for which budio file type
      *         support is queried
-     * @return array of file types. If no file types are supported, an array of
+     * @return brrby of file types. If no file types bre supported, bn brrby of
      *         length 0 is returned.
      */
-    public static AudioFileFormat.Type[] getAudioFileTypes(AudioInputStream stream) {
+    public stbtic AudioFileFormbt.Type[] getAudioFileTypes(AudioInputStrebm strebm) {
         List<AudioFileWriter> providers = getAudioFileWriters();
-        Set<AudioFileFormat.Type> returnTypesSet = new HashSet<>();
+        Set<AudioFileFormbt.Type> returnTypesSet = new HbshSet<>();
 
         for(int i=0; i < providers.size(); i++) {
             AudioFileWriter writer = providers.get(i);
-            AudioFileFormat.Type[] fileTypes = writer.getAudioFileTypes(stream);
+            AudioFileFormbt.Type[] fileTypes = writer.getAudioFileTypes(strebm);
             for(int j=0; j < fileTypes.length; j++) {
-                returnTypesSet.add(fileTypes[j]);
+                returnTypesSet.bdd(fileTypes[j]);
             }
         }
-        AudioFileFormat.Type returnTypes[] =
-            returnTypesSet.toArray(new AudioFileFormat.Type[0]);
+        AudioFileFormbt.Type returnTypes[] =
+            returnTypesSet.toArrby(new AudioFileFormbt.Type[0]);
         return returnTypes;
     }
 
     /**
-     * Indicates whether an audio file of the specified file type can be written
-     * from the indicated audio input stream.
+     * Indicbtes whether bn budio file of the specified file type cbn be written
+     * from the indicbted budio input strebm.
      *
-     * @param  fileType the file type for which write capabilities are queried
-     * @param  stream the stream for which file-writing support is queried
-     * @return {@code true} if the file type is supported for this audio input
-     *         stream, otherwise {@code false}
+     * @pbrbm  fileType the file type for which write cbpbbilities bre queried
+     * @pbrbm  strebm the strebm for which file-writing support is queried
+     * @return {@code true} if the file type is supported for this budio input
+     *         strebm, otherwise {@code fblse}
      */
-    public static boolean isFileTypeSupported(AudioFileFormat.Type fileType,
-                                              AudioInputStream stream) {
+    public stbtic boolebn isFileTypeSupported(AudioFileFormbt.Type fileType,
+                                              AudioInputStrebm strebm) {
 
         List<AudioFileWriter> providers = getAudioFileWriters();
 
         for(int i=0; i < providers.size(); i++) {
             AudioFileWriter writer = providers.get(i);
-            if(writer.isFileTypeSupported(fileType, stream)) {
+            if(writer.isFileTypeSupported(fileType, strebm)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Writes a stream of bytes representing an audio file of the specified file
-     * type to the output stream provided. Some file types require that the
-     * length be written into the file header; such files cannot be written from
-     * start to finish unless the length is known in advance. An attempt to
-     * write a file of such a type will fail with an IOException if the length
-     * in the audio file type is {@code AudioSystem.NOT_SPECIFIED}.
+     * Writes b strebm of bytes representing bn budio file of the specified file
+     * type to the output strebm provided. Some file types require thbt the
+     * length be written into the file hebder; such files cbnnot be written from
+     * stbrt to finish unless the length is known in bdvbnce. An bttempt to
+     * write b file of such b type will fbil with bn IOException if the length
+     * in the budio file type is {@code AudioSystem.NOT_SPECIFIED}.
      *
-     * @param  stream the audio input stream containing audio data to be written
+     * @pbrbm  strebm the budio input strebm contbining budio dbtb to be written
      *         to the file
-     * @param  fileType the kind of audio file to write
-     * @param  out the stream to which the file data should be written
-     * @return the number of bytes written to the output stream
-     * @throws IOException if an input/output exception occurs
-     * @throws IllegalArgumentException if the file type is not supported by the
+     * @pbrbm  fileType the kind of budio file to write
+     * @pbrbm  out the strebm to which the file dbtb should be written
+     * @return the number of bytes written to the output strebm
+     * @throws IOException if bn input/output exception occurs
+     * @throws IllegblArgumentException if the file type is not supported by the
      *         system
      * @see #isFileTypeSupported
      * @see #getAudioFileTypes
      */
-    public static int write(AudioInputStream stream, AudioFileFormat.Type fileType,
-                            OutputStream out) throws IOException {
+    public stbtic int write(AudioInputStrebm strebm, AudioFileFormbt.Type fileType,
+                            OutputStrebm out) throws IOException {
 
         List<AudioFileWriter> providers = getAudioFileWriters();
         int bytesWritten = 0;
-        boolean flag = false;
+        boolebn flbg = fblse;
 
         for(int i=0; i < providers.size(); i++) {
             AudioFileWriter writer = providers.get(i);
             try {
-                bytesWritten = writer.write( stream, fileType, out ); // throws IOException
-                flag = true;
-                break;
-            } catch (IllegalArgumentException e) {
-                // thrown if this provider cannot write the sequence, try the next
+                bytesWritten = writer.write( strebm, fileType, out ); // throws IOException
+                flbg = true;
+                brebk;
+            } cbtch (IllegblArgumentException e) {
+                // thrown if this provider cbnnot write the sequence, try the next
                 continue;
             }
         }
-        if(!flag) {
-            throw new IllegalArgumentException("could not write audio file: file type not supported: " + fileType);
+        if(!flbg) {
+            throw new IllegblArgumentException("could not write budio file: file type not supported: " + fileType);
         } else {
             return bytesWritten;
         }
     }
 
     /**
-     * Writes a stream of bytes representing an audio file of the specified file
-     * type to the external file provided.
+     * Writes b strebm of bytes representing bn budio file of the specified file
+     * type to the externbl file provided.
      *
-     * @param  stream the audio input stream containing audio data to be written
+     * @pbrbm  strebm the budio input strebm contbining budio dbtb to be written
      *         to the file
-     * @param  fileType the kind of audio file to write
-     * @param  out the external file to which the file data should be written
+     * @pbrbm  fileType the kind of budio file to write
+     * @pbrbm  out the externbl file to which the file dbtb should be written
      * @return the number of bytes written to the file
-     * @throws IOException if an I/O exception occurs
-     * @throws IllegalArgumentException if the file type is not supported by the
+     * @throws IOException if bn I/O exception occurs
+     * @throws IllegblArgumentException if the file type is not supported by the
      *         system
      * @see #isFileTypeSupported
      * @see #getAudioFileTypes
      */
-    public static int write(AudioInputStream stream, AudioFileFormat.Type fileType,
+    public stbtic int write(AudioInputStrebm strebm, AudioFileFormbt.Type fileType,
                             File out) throws IOException {
 
         List<AudioFileWriter> providers = getAudioFileWriters();
         int bytesWritten = 0;
-        boolean flag = false;
+        boolebn flbg = fblse;
 
         for(int i=0; i < providers.size(); i++) {
             AudioFileWriter writer = providers.get(i);
             try {
-                bytesWritten = writer.write( stream, fileType, out ); // throws IOException
-                flag = true;
-                break;
-            } catch (IllegalArgumentException e) {
-                // thrown if this provider cannot write the sequence, try the next
+                bytesWritten = writer.write( strebm, fileType, out ); // throws IOException
+                flbg = true;
+                brebk;
+            } cbtch (IllegblArgumentException e) {
+                // thrown if this provider cbnnot write the sequence, try the next
                 continue;
             }
         }
-        if (!flag) {
-            throw new IllegalArgumentException("could not write audio file: file type not supported: " + fileType);
+        if (!flbg) {
+            throw new IllegblArgumentException("could not write budio file: file type not supported: " + fileType);
         } else {
             return bytesWritten;
         }
@@ -1313,82 +1313,82 @@ public class AudioSystem {
     // METHODS FOR INTERNAL IMPLEMENTATION USE
 
     /**
-     * Obtains the set of MixerProviders on the system.
+     * Obtbins the set of MixerProviders on the system.
      */
-    @SuppressWarnings("unchecked")
-    private static List<MixerProvider> getMixerProviders() {
-        return (List<MixerProvider>) getProviders(MixerProvider.class);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic List<MixerProvider> getMixerProviders() {
+        return (List<MixerProvider>) getProviders(MixerProvider.clbss);
     }
 
     /**
-     * Obtains the set of format converters (codecs, transcoders, etc.) that are
-     * currently installed on the system.
+     * Obtbins the set of formbt converters (codecs, trbnscoders, etc.) thbt bre
+     * currently instblled on the system.
      *
-     * @return an array of {@link javax.sound.sampled.spi.FormatConversionProvider
-     *         FormatConversionProvider} objects representing the available
-     *         format converters. If no format converters readers are available
-     *         on the system, an array of length 0 is returned.
+     * @return bn brrby of {@link jbvbx.sound.sbmpled.spi.FormbtConversionProvider
+     *         FormbtConversionProvider} objects representing the bvbilbble
+     *         formbt converters. If no formbt converters rebders bre bvbilbble
+     *         on the system, bn brrby of length 0 is returned.
      */
-    @SuppressWarnings("unchecked")
-    private static List<FormatConversionProvider> getFormatConversionProviders() {
-        return (List<FormatConversionProvider>) getProviders(FormatConversionProvider.class);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic List<FormbtConversionProvider> getFormbtConversionProviders() {
+        return (List<FormbtConversionProvider>) getProviders(FormbtConversionProvider.clbss);
     }
 
     /**
-     * Obtains the set of audio file readers that are currently installed on the
+     * Obtbins the set of budio file rebders thbt bre currently instblled on the
      * system.
      *
-     * @return a List of {@link javax.sound.sampled.spi.AudioFileReader
-     *         AudioFileReader} objects representing the installed audio file
-     *         readers. If no audio file readers are available on the system, an
+     * @return b List of {@link jbvbx.sound.sbmpled.spi.AudioFileRebder
+     *         AudioFileRebder} objects representing the instblled budio file
+     *         rebders. If no budio file rebders bre bvbilbble on the system, bn
      *         empty List is returned.
      */
-    @SuppressWarnings("unchecked")
-    private static List<AudioFileReader> getAudioFileReaders() {
-        return (List<AudioFileReader>)getProviders(AudioFileReader.class);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic List<AudioFileRebder> getAudioFileRebders() {
+        return (List<AudioFileRebder>)getProviders(AudioFileRebder.clbss);
     }
 
     /**
-     * Obtains the set of audio file writers that are currently installed on the
+     * Obtbins the set of budio file writers thbt bre currently instblled on the
      * system.
      *
-     * @return a List of {@link javax.sound.sampled.spi.AudioFileWriter
-     *         AudioFileWriter} objects representing the available audio file
-     *         writers. If no audio file writers are available on the system, an
+     * @return b List of {@link jbvbx.sound.sbmpled.spi.AudioFileWriter
+     *         AudioFileWriter} objects representing the bvbilbble budio file
+     *         writers. If no budio file writers bre bvbilbble on the system, bn
      *         empty List is returned.
      */
-    @SuppressWarnings("unchecked")
-    private static List<AudioFileWriter> getAudioFileWriters() {
-        return (List<AudioFileWriter>)getProviders(AudioFileWriter.class);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic List<AudioFileWriter> getAudioFileWriters() {
+        return (List<AudioFileWriter>)getProviders(AudioFileWriter.clbss);
     }
 
     /**
-     * Attempts to locate and return a default Mixer that provides lines of the
+     * Attempts to locbte bnd return b defbult Mixer thbt provides lines of the
      * specified type.
      *
-     * @param  providers the installed mixer providers
-     * @param  info The requested line type TargetDataLine.class, Clip.class or
-     *         Port.class
-     * @return a Mixer that matches the requirements, or null if no default
+     * @pbrbm  providers the instblled mixer providers
+     * @pbrbm  info The requested line type TbrgetDbtbLine.clbss, Clip.clbss or
+     *         Port.clbss
+     * @return b Mixer thbt mbtches the requirements, or null if no defbult
      *         mixer found
      */
-    private static Mixer getDefaultMixer(List<MixerProvider> providers, Line.Info info) {
-        Class<?> lineClass = info.getLineClass();
-        String providerClassName = JDK13Services.getDefaultProviderClassName(lineClass);
-        String instanceName = JDK13Services.getDefaultInstanceName(lineClass);
+    privbte stbtic Mixer getDefbultMixer(List<MixerProvider> providers, Line.Info info) {
+        Clbss<?> lineClbss = info.getLineClbss();
+        String providerClbssNbme = JDK13Services.getDefbultProviderClbssNbme(lineClbss);
+        String instbnceNbme = JDK13Services.getDefbultInstbnceNbme(lineClbss);
         Mixer mixer;
 
-        if (providerClassName != null) {
-            MixerProvider defaultProvider = getNamedProvider(providerClassName, providers);
-            if (defaultProvider != null) {
-                if (instanceName != null) {
-                    mixer = getNamedMixer(instanceName, defaultProvider, info);
+        if (providerClbssNbme != null) {
+            MixerProvider defbultProvider = getNbmedProvider(providerClbssNbme, providers);
+            if (defbultProvider != null) {
+                if (instbnceNbme != null) {
+                    mixer = getNbmedMixer(instbnceNbme, defbultProvider, info);
                     if (mixer != null) {
                         return mixer;
                     }
                 } else {
-                    mixer = getFirstMixer(defaultProvider, info,
-                                          false /* mixing not required*/);
+                    mixer = getFirstMixer(defbultProvider, info,
+                                          fblse /* mixing not required*/);
                     if (mixer != null) {
                         return mixer;
                     }
@@ -1397,35 +1397,35 @@ public class AudioSystem {
             }
         }
 
-        /* Provider class not specified or
-           provider class cannot be found, or
-           provider class and instance specified and instance cannot be found or is not appropriate */
-        if (instanceName != null) {
-            mixer = getNamedMixer(instanceName, providers, info);
+        /* Provider clbss not specified or
+           provider clbss cbnnot be found, or
+           provider clbss bnd instbnce specified bnd instbnce cbnnot be found or is not bppropribte */
+        if (instbnceNbme != null) {
+            mixer = getNbmedMixer(instbnceNbme, providers, info);
             if (mixer != null) {
                 return mixer;
             }
         }
 
 
-        /* No default are specified, or if something is specified, everything
-           failed. */
+        /* No defbult bre specified, or if something is specified, everything
+           fbiled. */
         return null;
     }
 
     /**
-     * Return a MixerProvider of a given class from the list of MixerProviders.
+     * Return b MixerProvider of b given clbss from the list of MixerProviders.
      * This method never requires the returned Mixer to do mixing.
      *
-     * @param  providerClassName The class name of the provider to be returned
-     * @param  providers The list of MixerProviders that is searched
-     * @return A MixerProvider of the requested class, or null if none is found
+     * @pbrbm  providerClbssNbme The clbss nbme of the provider to be returned
+     * @pbrbm  providers The list of MixerProviders thbt is sebrched
+     * @return A MixerProvider of the requested clbss, or null if none is found
      */
-    private static MixerProvider getNamedProvider(String providerClassName,
+    privbte stbtic MixerProvider getNbmedProvider(String providerClbssNbme,
                                                   List<MixerProvider> providers) {
         for(int i = 0; i < providers.size(); i++) {
             MixerProvider provider = providers.get(i);
-            if (provider.getClass().getName().equals(providerClassName)) {
+            if (provider.getClbss().getNbme().equbls(providerClbssNbme)) {
                 return provider;
             }
         }
@@ -1433,22 +1433,22 @@ public class AudioSystem {
     }
 
     /**
-     * Return a Mixer with a given name from a given MixerProvider. This method
+     * Return b Mixer with b given nbme from b given MixerProvider. This method
      * never requires the returned Mixer to do mixing.
      *
-     * @param  mixerName The name of the Mixer to be returned
-     * @param  provider The MixerProvider to check for Mixers
-     * @param  info The type of line the returned Mixer is required to support
-     * @return A Mixer matching the requirements, or null if none is found
+     * @pbrbm  mixerNbme The nbme of the Mixer to be returned
+     * @pbrbm  provider The MixerProvider to check for Mixers
+     * @pbrbm  info The type of line the returned Mixer is required to support
+     * @return A Mixer mbtching the requirements, or null if none is found
      */
-    private static Mixer getNamedMixer(String mixerName,
+    privbte stbtic Mixer getNbmedMixer(String mixerNbme,
                                        MixerProvider provider,
                                        Line.Info info) {
         Mixer.Info[] infos = provider.getMixerInfo();
         for (int i = 0; i < infos.length; i++) {
-            if (infos[i].getName().equals(mixerName)) {
+            if (infos[i].getNbme().equbls(mixerNbme)) {
                 Mixer mixer = provider.getMixer(infos[i]);
-                if (isAppropriateMixer(mixer, info, false)) {
+                if (isAppropribteMixer(mixer, info, fblse)) {
                     return mixer;
                 }
             }
@@ -1457,20 +1457,20 @@ public class AudioSystem {
     }
 
     /**
-     * From a List of MixerProviders, return a Mixer with a given name. This
+     * From b List of MixerProviders, return b Mixer with b given nbme. This
      * method never requires the returned Mixer to do mixing.
      *
-     * @param  mixerName The name of the Mixer to be returned
-     * @param  providers The List of MixerProviders to check for Mixers
-     * @param  info The type of line the returned Mixer is required to support
-     * @return A Mixer matching the requirements, or null if none is found
+     * @pbrbm  mixerNbme The nbme of the Mixer to be returned
+     * @pbrbm  providers The List of MixerProviders to check for Mixers
+     * @pbrbm  info The type of line the returned Mixer is required to support
+     * @return A Mixer mbtching the requirements, or null if none is found
      */
-    private static Mixer getNamedMixer(String mixerName,
+    privbte stbtic Mixer getNbmedMixer(String mixerNbme,
                                        List<MixerProvider> providers,
                                        Line.Info info) {
         for(int i = 0; i < providers.size(); i++) {
             MixerProvider provider = providers.get(i);
-            Mixer mixer = getNamedMixer(mixerName, provider, info);
+            Mixer mixer = getNbmedMixer(mixerNbme, provider, info);
             if (mixer != null) {
                 return mixer;
             }
@@ -1479,21 +1479,21 @@ public class AudioSystem {
     }
 
     /**
-     * From a given MixerProvider, return the first appropriate Mixer.
+     * From b given MixerProvider, return the first bppropribte Mixer.
      *
-     * @param  provider The MixerProvider to check for Mixers
-     * @param  info The type of line the returned Mixer is required to support
-     * @param  isMixingRequired If true, only Mixers that support mixing are
-     *         returned for line types of SourceDataLine and Clip
-     * @return A Mixer that is considered appropriate, or null if none is found
+     * @pbrbm  provider The MixerProvider to check for Mixers
+     * @pbrbm  info The type of line the returned Mixer is required to support
+     * @pbrbm  isMixingRequired If true, only Mixers thbt support mixing bre
+     *         returned for line types of SourceDbtbLine bnd Clip
+     * @return A Mixer thbt is considered bppropribte, or null if none is found
      */
-    private static Mixer getFirstMixer(MixerProvider provider,
+    privbte stbtic Mixer getFirstMixer(MixerProvider provider,
                                        Line.Info info,
-                                       boolean isMixingRequired) {
+                                       boolebn isMixingRequired) {
         Mixer.Info[] infos = provider.getMixerInfo();
         for (int j = 0; j < infos.length; j++) {
             Mixer mixer = provider.getMixer(infos[j]);
-            if (isAppropriateMixer(mixer, info, isMixingRequired)) {
+            if (isAppropribteMixer(mixer, info, isMixingRequired)) {
                 return mixer;
             }
         }
@@ -1501,26 +1501,26 @@ public class AudioSystem {
     }
 
     /**
-     * Checks if a Mixer is appropriate. A Mixer is considered appropriate if it
-     * support the given line type. If isMixingRequired is true and the line
-     * type is an output one (SourceDataLine, Clip), the mixer is appropriate if
-     * it supports at least 2 (concurrent) lines of the given type.
+     * Checks if b Mixer is bppropribte. A Mixer is considered bppropribte if it
+     * support the given line type. If isMixingRequired is true bnd the line
+     * type is bn output one (SourceDbtbLine, Clip), the mixer is bppropribte if
+     * it supports bt lebst 2 (concurrent) lines of the given type.
      *
-     * @return {@code true} if the mixer is considered appropriate according to
-     *         the rules given above, {@code false} otherwise
+     * @return {@code true} if the mixer is considered bppropribte bccording to
+     *         the rules given bbove, {@code fblse} otherwise
      */
-    private static boolean isAppropriateMixer(Mixer mixer,
+    privbte stbtic boolebn isAppropribteMixer(Mixer mixer,
                                               Line.Info lineInfo,
-                                              boolean isMixingRequired) {
+                                              boolebn isMixingRequired) {
         if (! mixer.isLineSupported(lineInfo)) {
-            return false;
+            return fblse;
         }
-        Class<?> lineClass = lineInfo.getLineClass();
+        Clbss<?> lineClbss = lineInfo.getLineClbss();
         if (isMixingRequired
-            && (SourceDataLine.class.isAssignableFrom(lineClass) ||
-                Clip.class.isAssignableFrom(lineClass))) {
-            int maxLines = mixer.getMaxLines(lineInfo);
-            return ((maxLines == NOT_SPECIFIED) || (maxLines > 1));
+            && (SourceDbtbLine.clbss.isAssignbbleFrom(lineClbss) ||
+                Clip.clbss.isAssignbbleFrom(lineClbss))) {
+            int mbxLines = mixer.getMbxLines(lineInfo);
+            return ((mbxLines == NOT_SPECIFIED) || (mbxLines > 1));
         }
         return true;
     }
@@ -1528,7 +1528,7 @@ public class AudioSystem {
     /**
      * Like getMixerInfo, but return List.
      */
-    private static List<Mixer.Info> getMixerInfoList() {
+    privbte stbtic List<Mixer.Info> getMixerInfoList() {
         List<MixerProvider> providers = getMixerProviders();
         return getMixerInfoList(providers);
     }
@@ -1536,17 +1536,17 @@ public class AudioSystem {
     /**
      * Like getMixerInfo, but return List.
      */
-    private static List<Mixer.Info> getMixerInfoList(List<MixerProvider> providers) {
-        List<Mixer.Info> infos = new ArrayList<>();
+    privbte stbtic List<Mixer.Info> getMixerInfoList(List<MixerProvider> providers) {
+        List<Mixer.Info> infos = new ArrbyList<>();
 
         Mixer.Info[] someInfos; // per-mixer
-        Mixer.Info[] allInfos;  // for all mixers
+        Mixer.Info[] bllInfos;  // for bll mixers
 
         for(int i = 0; i < providers.size(); i++ ) {
             someInfos = providers.get(i).getMixerInfo();
 
             for (int j = 0; j < someInfos.length; j++) {
-                infos.add(someInfos[j]);
+                infos.bdd(someInfos[j]);
             }
         }
 
@@ -1554,13 +1554,13 @@ public class AudioSystem {
     }
 
     /**
-     * Obtains the set of services currently installed on the system using the
-     * SPI mechanism in 1.3.
+     * Obtbins the set of services currently instblled on the system using the
+     * SPI mechbnism in 1.3.
      *
-     * @return a List of instances of providers for the requested service. If no
-     *         providers are available, a vector of length 0 will be returned.
+     * @return b List of instbnces of providers for the requested service. If no
+     *         providers bre bvbilbble, b vector of length 0 will be returned.
      */
-    private static List<?> getProviders(Class<?> providerClass) {
-        return JDK13Services.getProviders(providerClass);
+    privbte stbtic List<?> getProviders(Clbss<?> providerClbss) {
+        return JDK13Services.getProviders(providerClbss);
     }
 }

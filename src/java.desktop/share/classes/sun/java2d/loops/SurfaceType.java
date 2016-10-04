@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import sun.awt.image.PixelConverter;
-import java.util.HashMap;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import sun.bwt.imbge.PixelConverter;
+import jbvb.util.HbshMbp;
 
 /**
- * A SurfaceType object provides a chained description of a type of
- * drawing surface.  The object will provide a single String constant
- * descriptor which is one way of viewing or accessing a particular
- * drawing surface as well as a pointer to another SurfaceType which
- * describes the same drawing surface in a different (typically more
- * generalized) way.
+ * A SurfbceType object provides b chbined description of b type of
+ * drbwing surfbce.  The object will provide b single String constbnt
+ * descriptor which is one wby of viewing or bccessing b pbrticulbr
+ * drbwing surfbce bs well bs b pointer to bnother SurfbceType which
+ * describes the sbme drbwing surfbce in b different (typicblly more
+ * generblized) wby.
  * <p>
- * A more specific description of a surface is considered a "subtype"
- * and a more general description is considered a "supertype".  Thus,
- * the deriveSubType method provides a way to create a new SurfaceType
- * that is related to but more specific than an existing SurfaceType and
- * the getSuperType method provides a way to ask a given SurfaceType
- * for a more general way to describe the same surface.
+ * A more specific description of b surfbce is considered b "subtype"
+ * bnd b more generbl description is considered b "supertype".  Thus,
+ * the deriveSubType method provides b wby to crebte b new SurfbceType
+ * thbt is relbted to but more specific thbn bn existing SurfbceType bnd
+ * the getSuperType method provides b wby to bsk b given SurfbceType
+ * for b more generbl wby to describe the sbme surfbce.
  * <p>
- * Note that you cannot construct a brand new root for a chain since
- * the constructor is private.  Every chain of types must at some point
+ * Note thbt you cbnnot construct b brbnd new root for b chbin since
+ * the constructor is privbte.  Every chbin of types must bt some point
  * derive from the Any node provided here using the deriveSubType()
- * method.  The presence of this common Any node on every chain
- * ensures that all chains end with the DESC_ANY descriptor so that
- * a suitable General GraphicsPrimitive object can be obtained for
- * the indicated surface if all of the more specific searches fail.
+ * method.  The presence of this common Any node on every chbin
+ * ensures thbt bll chbins end with the DESC_ANY descriptor so thbt
+ * b suitbble Generbl GrbphicsPrimitive object cbn be obtbined for
+ * the indicbted surfbce if bll of the more specific sebrches fbil.
  */
-public final class SurfaceType {
+public finbl clbss SurfbceType {
 
-    private static int unusedUID = 1;
-    private static HashMap<String, Integer> surfaceUIDMap = new HashMap<>(100);
+    privbte stbtic int unusedUID = 1;
+    privbte stbtic HbshMbp<String, Integer> surfbceUIDMbp = new HbshMbp<>(100);
 
     /*
      * CONSTANTS USED BY ALL PRIMITIVES TO DESCRIBE THE SURFACES
@@ -64,153 +64,153 @@ public final class SurfaceType {
      */
 
     /**
-     * surface is unknown color model or sample model.
+     * surfbce is unknown color model or sbmple model.
      */
-    public static final String
-        DESC_ANY            = "Any Surface";
+    public stbtic finbl String
+        DESC_ANY            = "Any Surfbce";
 
     /**
-     * common surface formats defined in BufferedImage
+     * common surfbce formbts defined in BufferedImbge
      */
-    public static final String
+    public stbtic finbl String
         DESC_INT_RGB        = "Integer RGB";
-    public static final String
+    public stbtic finbl String
         DESC_INT_ARGB       = "Integer ARGB";
-    public static final String
+    public stbtic finbl String
         DESC_INT_ARGB_PRE   = "Integer ARGB Premultiplied";
-    public static final String
+    public stbtic finbl String
         DESC_INT_BGR        = "Integer BGR";
-    public static final String
+    public stbtic finbl String
         DESC_3BYTE_BGR      = "3 Byte BGR";
-    public static final String
+    public stbtic finbl String
         DESC_4BYTE_ABGR     = "4 Byte ABGR";
-    public static final String
+    public stbtic finbl String
         DESC_4BYTE_ABGR_PRE = "4 Byte ABGR Premultiplied";
-    public static final String
+    public stbtic finbl String
         DESC_USHORT_565_RGB = "Short 565 RGB";
-    public static final String
+    public stbtic finbl String
         DESC_USHORT_555_RGB = "Short 555 RGB";
-    public static final String
+    public stbtic finbl String
         DESC_USHORT_555_RGBx= "Short 555 RGBx";
-    public static final String
+    public stbtic finbl String
         DESC_USHORT_4444_ARGB= "Short 4444 ARGB";
-    public static final String
-        DESC_BYTE_GRAY      = "8-bit Gray";
-    public static final String
+    public stbtic finbl String
+        DESC_BYTE_GRAY      = "8-bit Grby";
+    public stbtic finbl String
         DESC_USHORT_INDEXED = "16-bit Indexed";
-    public static final String
-        DESC_USHORT_GRAY    = "16-bit Gray";
-    public static final String
-        DESC_BYTE_BINARY    = "Packed Binary Bitmap";
-    public static final String
+    public stbtic finbl String
+        DESC_USHORT_GRAY    = "16-bit Grby";
+    public stbtic finbl String
+        DESC_BYTE_BINARY    = "Pbcked Binbry Bitmbp";
+    public stbtic finbl String
         DESC_BYTE_INDEXED   = "8-bit Indexed";
 
     /**
-     * wildcard format which indicates that the GraphicsPrimitive
-     * is independent of the color model on an IntegerComponent
-     * sample model surface
+     * wildcbrd formbt which indicbtes thbt the GrbphicsPrimitive
+     * is independent of the color model on bn IntegerComponent
+     * sbmple model surfbce
      */
-    public static final String DESC_ANY_INT = "Any Discrete Integer";
+    public stbtic finbl String DESC_ANY_INT = "Any Discrete Integer";
 
     /**
-     * wildcard format which indicates that the GraphicsPrimitive
-     * is independent of the color model on a ShortComponent
-     * sample model surface
+     * wildcbrd formbt which indicbtes thbt the GrbphicsPrimitive
+     * is independent of the color model on b ShortComponent
+     * sbmple model surfbce
      */
-    public static final String DESC_ANY_SHORT = "Any Discrete Short";
+    public stbtic finbl String DESC_ANY_SHORT = "Any Discrete Short";
 
     /**
-     * wildcard format which indicates that the GraphicsPrimitive
-     * is independent of the color model on a ByteComponent
-     * sample model surface
+     * wildcbrd formbt which indicbtes thbt the GrbphicsPrimitive
+     * is independent of the color model on b ByteComponent
+     * sbmple model surfbce
      */
-    public static final String DESC_ANY_BYTE = "Any Discrete Byte";
+    public stbtic finbl String DESC_ANY_BYTE = "Any Discrete Byte";
 
     /**
-     * wildcard format which indicates that the GraphicsPrimitive
-     * operates on a surface with 3 component interleaved Raster and
-     * sample model and a ComponentColorModel with an arbitrary ordering
-     * of the RGB channels
+     * wildcbrd formbt which indicbtes thbt the GrbphicsPrimitive
+     * operbtes on b surfbce with 3 component interlebved Rbster bnd
+     * sbmple model bnd b ComponentColorModel with bn brbitrbry ordering
+     * of the RGB chbnnels
      */
-    public static final String DESC_ANY_3BYTE = "Any 3 Byte Component";
+    public stbtic finbl String DESC_ANY_3BYTE = "Any 3 Byte Component";
 
     /**
-     * wildcard format which indicates that the GraphicsPrimitive
-     * operates on a surface with 4 component interleaved Raster and
-     * sample model and a ComponentColorModel with an arbitrary ordering
-     * of the ARGB channels
+     * wildcbrd formbt which indicbtes thbt the GrbphicsPrimitive
+     * operbtes on b surfbce with 4 component interlebved Rbster bnd
+     * sbmple model bnd b ComponentColorModel with bn brbitrbry ordering
+     * of the ARGB chbnnels
      */
-    public static final String DESC_ANY_4BYTE = "Any 4 Byte Component";
+    public stbtic finbl String DESC_ANY_4BYTE = "Any 4 Byte Component";
 
     /**
-     * wildcard format which indicates that the GraphicsPrimitive
-     * operates on a surface with a single component IntegerComponent
-     * sample model and a DirectColorModel with an arbitrary ordering
-     * of the RGB channels
+     * wildcbrd formbt which indicbtes thbt the GrbphicsPrimitive
+     * operbtes on b surfbce with b single component IntegerComponent
+     * sbmple model bnd b DirectColorModel with bn brbitrbry ordering
+     * of the RGB chbnnels
      */
-    public static final String DESC_ANY_INT_DCM = "Any Integer DCM";
+    public stbtic finbl String DESC_ANY_INT_DCM = "Any Integer DCM";
 
     /**
-     * additional IntegerComponent types common on Windows
+     * bdditionbl IntegerComponent types common on Windows
      */
-    public static final String DESC_INT_RGBx = "Integer RGBx";
-    public static final String DESC_INT_BGRx = "Integer BGRx";
+    public stbtic finbl String DESC_INT_RGBx = "Integer RGBx";
+    public stbtic finbl String DESC_INT_BGRx = "Integer BGRx";
 
     /**
-     * additional 3 byte format common on Windows
+     * bdditionbl 3 byte formbt common on Windows
      */
-    public static final String DESC_3BYTE_RGB = "3 Byte RGB";
+    public stbtic finbl String DESC_3BYTE_RGB = "3 Byte RGB";
 
     /**
-     * common formats for BITMASK transparency.
+     * common formbts for BITMASK trbnspbrency.
      */
-    public static final String DESC_INT_ARGB_BM     = "Int ARGB (Bitmask)";
-    public static final String DESC_BYTE_INDEXED_BM = "8-bit Indexed (Bitmask)";
+    public stbtic finbl String DESC_INT_ARGB_BM     = "Int ARGB (Bitmbsk)";
+    public stbtic finbl String DESC_BYTE_INDEXED_BM = "8-bit Indexed (Bitmbsk)";
 
     /**
-     * Opaque 8-bit indexed images
+     * Opbque 8-bit indexed imbges
      */
-    public static final String
-        DESC_BYTE_INDEXED_OPAQUE = "8-bit Indexed (Opaque)";
+    public stbtic finbl String
+        DESC_BYTE_INDEXED_OPAQUE = "8-bit Indexed (Opbque)";
 
     /**
-     * Special Gray Scale types for rendering loops.  Really indexed
-     * types, but colormap has all gray values.
+     * Specibl Grby Scble types for rendering loops.  Reblly indexed
+     * types, but colormbp hbs bll grby vblues.
      */
-    public static final String DESC_INDEX8_GRAY  = "8-bit Palettized Gray";
-    public static final String DESC_INDEX12_GRAY = "12-bit Palettized Gray";
+    public stbtic finbl String DESC_INDEX8_GRAY  = "8-bit Pblettized Grby";
+    public stbtic finbl String DESC_INDEX12_GRAY = "12-bit Pblettized Grby";
 
-    public static final String
-        DESC_BYTE_BINARY_1BIT = "Packed Binary 1-bit Bitmap";
-    public static final String
-        DESC_BYTE_BINARY_2BIT = "Packed Binary 2-bit Bitmap";
-    public static final String
-        DESC_BYTE_BINARY_4BIT = "Packed Binary 4-bit Bitmap";
+    public stbtic finbl String
+        DESC_BYTE_BINARY_1BIT = "Pbcked Binbry 1-bit Bitmbp";
+    public stbtic finbl String
+        DESC_BYTE_BINARY_2BIT = "Pbcked Binbry 2-bit Bitmbp";
+    public stbtic finbl String
+        DESC_BYTE_BINARY_4BIT = "Pbcked Binbry 4-bit Bitmbp";
 
     /**
-     * Special type for describing the sources of loops that render the
-     * current foreground color or paint instead of copying colors from
-     * a source surface.
+     * Specibl type for describing the sources of loops thbt render the
+     * current foreground color or pbint instebd of copying colors from
+     * b source surfbce.
      */
-    public static final String DESC_ANY_PAINT      = "Paint Object";
-    public static final String DESC_ANY_COLOR      = "Single Color";
-    public static final String DESC_OPAQUE_COLOR   = "Opaque Color";
-    public static final String
-        DESC_GRADIENT_PAINT        = "Gradient Paint";
-    public static final String
-        DESC_OPAQUE_GRADIENT_PAINT = "Opaque Gradient Paint";
-    public static final String
-        DESC_TEXTURE_PAINT         = "Texture Paint";
-    public static final String
-        DESC_OPAQUE_TEXTURE_PAINT  = "Opaque Texture Paint";
-    public static final String
-        DESC_LINEAR_GRADIENT_PAINT        = "Linear Gradient Paint";
-    public static final String
-        DESC_OPAQUE_LINEAR_GRADIENT_PAINT = "Opaque Linear Gradient Paint";
-    public static final String
-        DESC_RADIAL_GRADIENT_PAINT        = "Radial Gradient Paint";
-    public static final String
-        DESC_OPAQUE_RADIAL_GRADIENT_PAINT = "Opaque Radial Gradient Paint";
+    public stbtic finbl String DESC_ANY_PAINT      = "Pbint Object";
+    public stbtic finbl String DESC_ANY_COLOR      = "Single Color";
+    public stbtic finbl String DESC_OPAQUE_COLOR   = "Opbque Color";
+    public stbtic finbl String
+        DESC_GRADIENT_PAINT        = "Grbdient Pbint";
+    public stbtic finbl String
+        DESC_OPAQUE_GRADIENT_PAINT = "Opbque Grbdient Pbint";
+    public stbtic finbl String
+        DESC_TEXTURE_PAINT         = "Texture Pbint";
+    public stbtic finbl String
+        DESC_OPAQUE_TEXTURE_PAINT  = "Opbque Texture Pbint";
+    public stbtic finbl String
+        DESC_LINEAR_GRADIENT_PAINT        = "Linebr Grbdient Pbint";
+    public stbtic finbl String
+        DESC_OPAQUE_LINEAR_GRADIENT_PAINT = "Opbque Linebr Grbdient Pbint";
+    public stbtic finbl String
+        DESC_RADIAL_GRADIENT_PAINT        = "Rbdibl Grbdient Pbint";
+    public stbtic finbl String
+        DESC_OPAQUE_RADIAL_GRADIENT_PAINT = "Opbque Rbdibl Grbdient Pbint";
 
     /*
      * END OF SURFACE TYPE CONSTANTS
@@ -218,200 +218,200 @@ public final class SurfaceType {
 
 
     /**
-     * The root SurfaceType object for all chains of surface descriptions.
-     * The root uses the default PixelConverter object, which uses a given
-     * ColorModel object to calculate its pixelFor() values when asked.
-     * Any SurfaceType objects that are not created with a specific
-     * PixelConverter object will inherit this behavior from the root.
+     * The root SurfbceType object for bll chbins of surfbce descriptions.
+     * The root uses the defbult PixelConverter object, which uses b given
+     * ColorModel object to cblculbte its pixelFor() vblues when bsked.
+     * Any SurfbceType objects thbt bre not crebted with b specific
+     * PixelConverter object will inherit this behbvior from the root.
      */
-    public static final SurfaceType Any =
-        new SurfaceType(null, DESC_ANY, PixelConverter.instance);
+    public stbtic finbl SurfbceType Any =
+        new SurfbceType(null, DESC_ANY, PixelConverter.instbnce);
 
     /*
-     * START OF SurfaceType OBJECTS FOR THE VARIOUS CONSTANTS
+     * START OF SurfbceType OBJECTS FOR THE VARIOUS CONSTANTS
      */
 
-    public static final SurfaceType
+    public stbtic finbl SurfbceType
         AnyInt            = Any.deriveSubType(DESC_ANY_INT);
-    public static final SurfaceType
+    public stbtic finbl SurfbceType
         AnyShort          = Any.deriveSubType(DESC_ANY_SHORT);
-    public static final SurfaceType
+    public stbtic finbl SurfbceType
         AnyByte           = Any.deriveSubType(DESC_ANY_BYTE);
-    public static final SurfaceType
-        AnyByteBinary     = Any.deriveSubType(DESC_BYTE_BINARY);
-    public static final SurfaceType
+    public stbtic finbl SurfbceType
+        AnyByteBinbry     = Any.deriveSubType(DESC_BYTE_BINARY);
+    public stbtic finbl SurfbceType
         Any3Byte          = Any.deriveSubType(DESC_ANY_3BYTE);
-    public static final SurfaceType
+    public stbtic finbl SurfbceType
         Any4Byte          = Any.deriveSubType(DESC_ANY_4BYTE);
-    public static final SurfaceType
+    public stbtic finbl SurfbceType
         AnyDcm            = AnyInt.deriveSubType(DESC_ANY_INT_DCM);
 
-    public static final SurfaceType
+    public stbtic finbl SurfbceType
         Custom            = Any;
-    public static final SurfaceType IntRgb =
-        AnyDcm.deriveSubType(DESC_INT_RGB, PixelConverter.Xrgb.instance);
+    public stbtic finbl SurfbceType IntRgb =
+        AnyDcm.deriveSubType(DESC_INT_RGB, PixelConverter.Xrgb.instbnce);
 
-    public static final SurfaceType IntArgb =
-        AnyDcm.deriveSubType(DESC_INT_ARGB, PixelConverter.Argb.instance);
+    public stbtic finbl SurfbceType IntArgb =
+        AnyDcm.deriveSubType(DESC_INT_ARGB, PixelConverter.Argb.instbnce);
 
-    public static final SurfaceType IntArgbPre =
+    public stbtic finbl SurfbceType IntArgbPre =
         AnyDcm.deriveSubType(DESC_INT_ARGB_PRE,
-                             PixelConverter.ArgbPre.instance);
+                             PixelConverter.ArgbPre.instbnce);
 
-    public static final SurfaceType IntBgr =
-        AnyDcm.deriveSubType(DESC_INT_BGR, PixelConverter.Xbgr.instance);
+    public stbtic finbl SurfbceType IntBgr =
+        AnyDcm.deriveSubType(DESC_INT_BGR, PixelConverter.Xbgr.instbnce);
 
-    public static final SurfaceType ThreeByteBgr =
-        Any3Byte.deriveSubType(DESC_3BYTE_BGR, PixelConverter.Xrgb.instance);
+    public stbtic finbl SurfbceType ThreeByteBgr =
+        Any3Byte.deriveSubType(DESC_3BYTE_BGR, PixelConverter.Xrgb.instbnce);
 
-    public static final SurfaceType FourByteAbgr =
-        Any4Byte.deriveSubType(DESC_4BYTE_ABGR, PixelConverter.Rgba.instance);
+    public stbtic finbl SurfbceType FourByteAbgr =
+        Any4Byte.deriveSubType(DESC_4BYTE_ABGR, PixelConverter.Rgbb.instbnce);
 
-    public static final SurfaceType FourByteAbgrPre =
+    public stbtic finbl SurfbceType FourByteAbgrPre =
         Any4Byte.deriveSubType(DESC_4BYTE_ABGR_PRE,
-                               PixelConverter.RgbaPre.instance);
+                               PixelConverter.RgbbPre.instbnce);
 
-    public static final SurfaceType Ushort565Rgb =
+    public stbtic finbl SurfbceType Ushort565Rgb =
         AnyShort.deriveSubType(DESC_USHORT_565_RGB,
-                               PixelConverter.Ushort565Rgb.instance);
+                               PixelConverter.Ushort565Rgb.instbnce);
 
-    public static final SurfaceType Ushort555Rgb =
+    public stbtic finbl SurfbceType Ushort555Rgb =
         AnyShort.deriveSubType(DESC_USHORT_555_RGB,
-                               PixelConverter.Ushort555Rgb.instance);
+                               PixelConverter.Ushort555Rgb.instbnce);
 
-    public static final SurfaceType Ushort555Rgbx =
+    public stbtic finbl SurfbceType Ushort555Rgbx =
         AnyShort.deriveSubType(DESC_USHORT_555_RGBx,
-                               PixelConverter.Ushort555Rgbx.instance);
+                               PixelConverter.Ushort555Rgbx.instbnce);
 
-    public static final SurfaceType Ushort4444Argb =
+    public stbtic finbl SurfbceType Ushort4444Argb =
         AnyShort.deriveSubType(DESC_USHORT_4444_ARGB,
-                               PixelConverter.Ushort4444Argb.instance);
+                               PixelConverter.Ushort4444Argb.instbnce);
 
-    public static final SurfaceType UshortIndexed =
+    public stbtic finbl SurfbceType UshortIndexed =
         AnyShort.deriveSubType(DESC_USHORT_INDEXED);
 
-    public static final SurfaceType ByteGray =
+    public stbtic finbl SurfbceType ByteGrby =
         AnyByte.deriveSubType(DESC_BYTE_GRAY,
-                              PixelConverter.ByteGray.instance);
+                              PixelConverter.ByteGrby.instbnce);
 
-    public static final SurfaceType UshortGray =
+    public stbtic finbl SurfbceType UshortGrby =
         AnyShort.deriveSubType(DESC_USHORT_GRAY,
-                               PixelConverter.UshortGray.instance);
+                               PixelConverter.UshortGrby.instbnce);
 
-    public static final SurfaceType ByteBinary1Bit =
-        AnyByteBinary.deriveSubType(DESC_BYTE_BINARY_1BIT);
-    public static final SurfaceType ByteBinary2Bit =
-        AnyByteBinary.deriveSubType(DESC_BYTE_BINARY_2BIT);
-    public static final SurfaceType ByteBinary4Bit =
-        AnyByteBinary.deriveSubType(DESC_BYTE_BINARY_4BIT);
+    public stbtic finbl SurfbceType ByteBinbry1Bit =
+        AnyByteBinbry.deriveSubType(DESC_BYTE_BINARY_1BIT);
+    public stbtic finbl SurfbceType ByteBinbry2Bit =
+        AnyByteBinbry.deriveSubType(DESC_BYTE_BINARY_2BIT);
+    public stbtic finbl SurfbceType ByteBinbry4Bit =
+        AnyByteBinbry.deriveSubType(DESC_BYTE_BINARY_4BIT);
 
-    public static final SurfaceType ByteIndexed =
+    public stbtic finbl SurfbceType ByteIndexed =
         AnyByte.deriveSubType(DESC_BYTE_INDEXED);
 
-    public static final SurfaceType IntRgbx =
-        AnyDcm.deriveSubType(DESC_INT_RGBx, PixelConverter.Rgbx.instance);
+    public stbtic finbl SurfbceType IntRgbx =
+        AnyDcm.deriveSubType(DESC_INT_RGBx, PixelConverter.Rgbx.instbnce);
 
-    public static final SurfaceType IntBgrx =
-        AnyDcm.deriveSubType(DESC_INT_BGRx, PixelConverter.Bgrx.instance);
+    public stbtic finbl SurfbceType IntBgrx =
+        AnyDcm.deriveSubType(DESC_INT_BGRx, PixelConverter.Bgrx.instbnce);
 
-    public static final SurfaceType ThreeByteRgb =
-        Any3Byte.deriveSubType(DESC_3BYTE_RGB, PixelConverter.Xbgr.instance);
+    public stbtic finbl SurfbceType ThreeByteRgb =
+        Any3Byte.deriveSubType(DESC_3BYTE_RGB, PixelConverter.Xbgr.instbnce);
 
-    public static final SurfaceType IntArgbBm =
-        AnyDcm.deriveSubType(DESC_INT_ARGB_BM, PixelConverter.ArgbBm.instance);
+    public stbtic finbl SurfbceType IntArgbBm =
+        AnyDcm.deriveSubType(DESC_INT_ARGB_BM, PixelConverter.ArgbBm.instbnce);
 
-    public static final SurfaceType ByteIndexedBm =
+    public stbtic finbl SurfbceType ByteIndexedBm =
         ByteIndexed.deriveSubType(DESC_BYTE_INDEXED_BM);
 
-    public static final SurfaceType ByteIndexedOpaque =
+    public stbtic finbl SurfbceType ByteIndexedOpbque =
         ByteIndexedBm.deriveSubType(DESC_BYTE_INDEXED_OPAQUE);
 
-    public static final SurfaceType Index8Gray =
-        ByteIndexedOpaque.deriveSubType(DESC_INDEX8_GRAY);
+    public stbtic finbl SurfbceType Index8Grby =
+        ByteIndexedOpbque.deriveSubType(DESC_INDEX8_GRAY);
 
-    public static final SurfaceType Index12Gray =
+    public stbtic finbl SurfbceType Index12Grby =
         Any.deriveSubType(DESC_INDEX12_GRAY);
 
-    public static final SurfaceType AnyPaint =
+    public stbtic finbl SurfbceType AnyPbint =
         Any.deriveSubType(DESC_ANY_PAINT);
 
-    public static final SurfaceType AnyColor =
-        AnyPaint.deriveSubType(DESC_ANY_COLOR);
+    public stbtic finbl SurfbceType AnyColor =
+        AnyPbint.deriveSubType(DESC_ANY_COLOR);
 
-    public static final SurfaceType OpaqueColor =
+    public stbtic finbl SurfbceType OpbqueColor =
         AnyColor.deriveSubType(DESC_OPAQUE_COLOR);
 
-    public static final SurfaceType GradientPaint =
-        AnyPaint.deriveSubType(DESC_GRADIENT_PAINT);
-    public static final SurfaceType OpaqueGradientPaint =
-        GradientPaint.deriveSubType(DESC_OPAQUE_GRADIENT_PAINT);
+    public stbtic finbl SurfbceType GrbdientPbint =
+        AnyPbint.deriveSubType(DESC_GRADIENT_PAINT);
+    public stbtic finbl SurfbceType OpbqueGrbdientPbint =
+        GrbdientPbint.deriveSubType(DESC_OPAQUE_GRADIENT_PAINT);
 
-    public static final SurfaceType LinearGradientPaint =
-        AnyPaint.deriveSubType(DESC_LINEAR_GRADIENT_PAINT);
-    public static final SurfaceType OpaqueLinearGradientPaint =
-        LinearGradientPaint.deriveSubType(DESC_OPAQUE_LINEAR_GRADIENT_PAINT);
+    public stbtic finbl SurfbceType LinebrGrbdientPbint =
+        AnyPbint.deriveSubType(DESC_LINEAR_GRADIENT_PAINT);
+    public stbtic finbl SurfbceType OpbqueLinebrGrbdientPbint =
+        LinebrGrbdientPbint.deriveSubType(DESC_OPAQUE_LINEAR_GRADIENT_PAINT);
 
-    public static final SurfaceType RadialGradientPaint =
-        AnyPaint.deriveSubType(DESC_RADIAL_GRADIENT_PAINT);
-    public static final SurfaceType OpaqueRadialGradientPaint =
-        RadialGradientPaint.deriveSubType(DESC_OPAQUE_RADIAL_GRADIENT_PAINT);
+    public stbtic finbl SurfbceType RbdiblGrbdientPbint =
+        AnyPbint.deriveSubType(DESC_RADIAL_GRADIENT_PAINT);
+    public stbtic finbl SurfbceType OpbqueRbdiblGrbdientPbint =
+        RbdiblGrbdientPbint.deriveSubType(DESC_OPAQUE_RADIAL_GRADIENT_PAINT);
 
-    public static final SurfaceType TexturePaint =
-        AnyPaint.deriveSubType(DESC_TEXTURE_PAINT);
-    public static final SurfaceType OpaqueTexturePaint =
-        TexturePaint.deriveSubType(DESC_OPAQUE_TEXTURE_PAINT);
+    public stbtic finbl SurfbceType TexturePbint =
+        AnyPbint.deriveSubType(DESC_TEXTURE_PAINT);
+    public stbtic finbl SurfbceType OpbqueTexturePbint =
+        TexturePbint.deriveSubType(DESC_OPAQUE_TEXTURE_PAINT);
 
     /*
-     * END OF SurfaceType OBJECTS FOR THE VARIOUS CONSTANTS
+     * END OF SurfbceType OBJECTS FOR THE VARIOUS CONSTANTS
      */
 
     /**
-     * Return a new SurfaceType object which uses this object as its
-     * more general "supertype" descriptor.  If no operation can be
-     * found that manipulates the type of surface described more exactly
-     * by desc, then this object will define the more relaxed specification
-     * of the surface that can be used to find a more general operator.
+     * Return b new SurfbceType object which uses this object bs its
+     * more generbl "supertype" descriptor.  If no operbtion cbn be
+     * found thbt mbnipulbtes the type of surfbce described more exbctly
+     * by desc, then this object will define the more relbxed specificbtion
+     * of the surfbce thbt cbn be used to find b more generbl operbtor.
      */
-    public SurfaceType deriveSubType(String desc) {
-        return new SurfaceType(this, desc);
+    public SurfbceType deriveSubType(String desc) {
+        return new SurfbceType(this, desc);
     }
 
-    public SurfaceType deriveSubType(String desc,
+    public SurfbceType deriveSubType(String desc,
                                      PixelConverter pixelConverter) {
-        return new SurfaceType(this, desc, pixelConverter);
+        return new SurfbceType(this, desc, pixelConverter);
     }
 
-    private int uniqueID;
-    private String desc;
-    private SurfaceType next;
+    privbte int uniqueID;
+    privbte String desc;
+    privbte SurfbceType next;
     protected PixelConverter pixelConverter;
 
-    private SurfaceType(SurfaceType parent, String desc,
+    privbte SurfbceType(SurfbceType pbrent, String desc,
                         PixelConverter pixelConverter) {
-        next = parent;
+        next = pbrent;
         this.desc = desc;
-        this.uniqueID = makeUniqueID(desc);
+        this.uniqueID = mbkeUniqueID(desc);
         this.pixelConverter = pixelConverter;
     }
 
-    private SurfaceType(SurfaceType parent, String desc) {
-        next = parent;
+    privbte SurfbceType(SurfbceType pbrent, String desc) {
+        next = pbrent;
         this.desc = desc;
-        this.uniqueID = makeUniqueID(desc);
-        this.pixelConverter = parent.pixelConverter;
+        this.uniqueID = mbkeUniqueID(desc);
+        this.pixelConverter = pbrent.pixelConverter;
     }
 
-    public synchronized static final int makeUniqueID(String desc) {
-        Integer i = surfaceUIDMap.get(desc);
+    public synchronized stbtic finbl int mbkeUniqueID(String desc) {
+        Integer i = surfbceUIDMbp.get(desc);
 
         if (i == null) {
             if (unusedUID > 255) {
-                throw new InternalError("surface type id overflow");
+                throw new InternblError("surfbce type id overflow");
             }
-            i = Integer.valueOf(unusedUID++);
-            surfaceUIDMap.put(desc, i);
+            i = Integer.vblueOf(unusedUID++);
+            surfbceUIDMbp.put(desc, i);
         }
-        return i.intValue();
+        return i.intVblue();
     }
 
     public int getUniqueID() {
@@ -422,7 +422,7 @@ public final class SurfaceType {
         return desc;
     }
 
-    public SurfaceType getSuperType() {
+    public SurfbceType getSuperType() {
         return next;
     }
 
@@ -438,19 +438,19 @@ public final class SurfaceType {
         return pixelConverter.pixelToRgb(pixel, cm);
     }
 
-    public int getAlphaMask() {
-        return pixelConverter.getAlphaMask();
+    public int getAlphbMbsk() {
+        return pixelConverter.getAlphbMbsk();
     }
 
-    public int hashCode() {
-        return desc.hashCode();
+    public int hbshCode() {
+        return desc.hbshCode();
     }
 
-    public boolean equals(Object o) {
-        if (o instanceof SurfaceType) {
-            return (((SurfaceType) o).uniqueID == this.uniqueID);
+    public boolebn equbls(Object o) {
+        if (o instbnceof SurfbceType) {
+            return (((SurfbceType) o).uniqueID == this.uniqueID);
         }
-        return false;
+        return fblse;
     }
 
     public String toString() {

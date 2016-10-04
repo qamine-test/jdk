@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,87 +30,87 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbckbge com.sun.jmx.exbmples.scbndir.config;
 
-import junit.framework.*;
-import java.io.File;
+import junit.frbmework.*;
+import jbvb.io.File;
 
 /**
  * Unit tests for {@code XmlConfigUtils}
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public class XmlConfigUtilsTest extends TestCase {
+public clbss XmlConfigUtilsTest extends TestCbse {
 
-    public XmlConfigUtilsTest(String testName) {
-        super(testName);
+    public XmlConfigUtilsTest(String testNbme) {
+        super(testNbme);
     }
 
     protected void setUp() throws Exception {
     }
 
-    protected void tearDown() throws Exception {
+    protected void tebrDown() throws Exception {
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(XmlConfigUtilsTest.class);
+    public stbtic Test suite() {
+        TestSuite suite = new TestSuite(XmlConfigUtilsTest.clbss);
 
         return suite;
     }
 
 
     /**
-     * Test of writeToFile method, of class XmlConfigUtils.
+     * Test of writeToFile method, of clbss XmlConfigUtils.
      */
     public void testWriteToFile() throws Exception {
         System.out.println("writeToFile");
 
-        final File file = File.createTempFile("test",".xml");
+        finbl File file = File.crebteTempFile("test",".xml");
         file.deleteOnExit();
 
-        final String tmp = System.getProperty("java.io.tmpdir");
+        finbl String tmp = System.getProperty("jbvb.io.tmpdir");
 
-        DirectoryScannerConfig dir1 =
-                new DirectoryScannerConfig("scan2");
+        DirectoryScbnnerConfig dir1 =
+                new DirectoryScbnnerConfig("scbn2");
         dir1.setRootDirectory(tmp);
-        ScanManagerConfig bean = new ScanManagerConfig("session2");
-        bean.putScan(dir1);
-        XmlConfigUtils instance = new XmlConfigUtils(file.getPath());
+        ScbnMbnbgerConfig bebn = new ScbnMbnbgerConfig("session2");
+        bebn.putScbn(dir1);
+        XmlConfigUtils instbnce = new XmlConfigUtils(file.getPbth());
 
-        instance.writeToFile(bean);
+        instbnce.writeToFile(bebn);
     }
 
     /**
-     * Test of readFromFile method, of class com.sun.jmx.examples.scandir.config.XmlConfigUtils.
+     * Test of rebdFromFile method, of clbss com.sun.jmx.exbmples.scbndir.config.XmlConfigUtils.
      */
-    public void testReadFromFile() throws Exception {
-        System.out.println("readFromFile");
+    public void testRebdFromFile() throws Exception {
+        System.out.println("rebdFromFile");
 
-        final String tmp = System.getProperty("java.io.tmpdir");
-        final File file = File.createTempFile("test",".xml");
+        finbl String tmp = System.getProperty("jbvb.io.tmpdir");
+        finbl File file = File.crebteTempFile("test",".xml");
         file.deleteOnExit();
 
-        DirectoryScannerConfig dir1 =
-                new DirectoryScannerConfig("scan1");
+        DirectoryScbnnerConfig dir1 =
+                new DirectoryScbnnerConfig("scbn1");
         dir1.setRootDirectory(tmp);
-        ScanManagerConfig bean = new ScanManagerConfig("session1");
-        bean.putScan(dir1);
-        XmlConfigUtils instance = new XmlConfigUtils(file.getPath());
+        ScbnMbnbgerConfig bebn = new ScbnMbnbgerConfig("session1");
+        bebn.putScbn(dir1);
+        XmlConfigUtils instbnce = new XmlConfigUtils(file.getPbth());
 
-        instance.writeToFile(bean);
+        instbnce.writeToFile(bebn);
 
-        ScanManagerConfig expResult = bean;
-        ScanManagerConfig result = instance.readFromFile();
+        ScbnMbnbgerConfig expResult = bebn;
+        ScbnMbnbgerConfig result = instbnce.rebdFromFile();
         System.out.println(result);
-        assertEquals(expResult, result);
+        bssertEqubls(expResult, result);
 
 
     }

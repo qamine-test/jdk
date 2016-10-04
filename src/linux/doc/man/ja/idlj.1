@@ -1,55 +1,55 @@
 '\" t
-.\" Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\" Title: idlj
-.\" Language: English
-.\" Date: 2013Ç¯11·î21Æü
-.\" SectDesc: Java IDL¤ª¤è¤ÓRMI-IIOP¥Ä¡¼¥ë
-.\" Software: JDK 8
+.\" Lbngubge: English
+.\" Dbte: 2013Ç¯11·î21Æü
+.\" SectDesc: Jbvb IDL¤ª¤è¤ÓRMI-IIOP¥Ä¡¼¥ë
+.\" Softwbre: JDK 8
 .\" Arch: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "idlj" "1" "2013Ç¯11·î21Æü" "JDK 8" "Java IDL¤ª¤è¤ÓRMI-IIOP¥Ä¡¼¥ë"
+.TH "idlj" "1" "2013Ç¯11·î21Æü" "JDK 8" "Jbvb IDL¤ª¤è¤ÓRMI-IIOP¥Ä¡¼¥ë"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-idlj \- »ØÄê¤µ¤ì¤¿¥¤¥ó¥¿¥Õ¥§¡¼¥¹ÄêµÁ¸À¸ì(IDL)¥Õ¥¡¥¤¥ë¤ËÂÐ¤·¤ÆJava¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÀ¸À®¤·¤Þ¤¹¡£
+idlj \- »ØÄê¤µ¤ì¤¿¥¤¥ó¥¿¥Õ¥§¡¼¥¹ÄêµÁ¸À¸ì(IDL)¥Õ¥¡¥¤¥ë¤ËÂÐ¤·¤ÆJbvb¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÀ¸À®¤·¤Þ¤¹¡£
 .SH "³µÍ×"
 .sp
 .if n \{\
@@ -73,10 +73,10 @@ idlj \- »ØÄê¤µ¤ì¤¿¥¤¥ó¥¿¥Õ¥§¡¼¥¹ÄêµÁ¸À¸ì(IDL)¥Õ¥¡¥¤¥ë¤ËÂÐ¤·¤ÆJava¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤
 .RE
 .SH "ÀâÌÀ"
 .PP
-IDL\-to\-Java¥³¥ó¥Ñ¥¤¥é¤Ï¡¢»ØÄê¤µ¤ì¤¿IDL¥Õ¥¡¥¤¥ë¤ËÂÐ¤·¤ÆJava¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÀ¸À®¤·¤Þ¤¹¡£¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Î¾ÜºÙ¤Ï¡¢http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/mapping/jidlMapping\&.html¤Ë¤¢¤ë
-Java IDL: Java¸À¸ì¥Þ¥Ã¥Ô¥ó¥°¤Ø¤ÎIDL¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
+IDL\-to\-Jbvb¥³¥ó¥Ñ¥¤¥é¤Ï¡¢»ØÄê¤µ¤ì¤¿IDL¥Õ¥¡¥¤¥ë¤ËÂÐ¤·¤ÆJbvb¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÀ¸À®¤·¤Þ¤¹¡£¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Î¾ÜºÙ¤Ï¡¢http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/mbpping/jidlMbpping\&.html¤Ë¤¢¤ë
+Jbvb IDL: Jbvb¸À¸ì¥Þ¥Ã¥Ô¥ó¥°¤Ø¤ÎIDL¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .PP
-IDL\-to\-Java¥³¥ó¥Ñ¥¤¥é¤Î°ÊÁ°¤Î¥ê¥ê¡¼¥¹¤ÎÃæ¤Ë¤Ï¡¢\fIidltojava\fR¤È¤¤¤¦Ì¾Á°¤À¤Ã¤¿¤â¤Î¤¬¤¢¤ê¤Þ¤¹¡£
+IDL\-to\-Jbvb¥³¥ó¥Ñ¥¤¥é¤Î°ÊÁ°¤Î¥ê¥ê¡¼¥¹¤ÎÃæ¤Ë¤Ï¡¢\fIidltojbvb\fR¤È¤¤¤¦Ì¾Á°¤À¤Ã¤¿¤â¤Î¤¬¤¢¤ê¤Þ¤¹¡£
 .SS "¥¯¥é¥¤¥¢¥ó¥È¡¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤ª¤è¤Ó¥µ¡¼¥Ð¡¼¡¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤ÎÈ¯¹Ô"
 .PP
 ¼¡¤Î\fIidlj\fR¥³¥Þ¥ó¥É¤Ï¡¢¥¯¥é¥¤¥¢¥ó¥ÈÂ¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤ò´Þ¤à\fIMy\&.idl\fR¤È¤¤¤¦Ì¾Á°¤ÎIDL¥Õ¥¡¥¤¥ë¤òÀ¸À®¤·¤Þ¤¹¡£
@@ -122,7 +122,7 @@ idlg \-fserver My\&.idl
 .\}
 .nf
 idlj \-fclient \-fserver My\&.idl
-idlj \-fall My\&.idl
+idlj \-fbll My\&.idl
 .fi
 .if n \{\
 .RE
@@ -133,26 +133,26 @@ idlj \-fall My\&.idl
 .sp
 .\}
 .RS 4
-.it 1 an-trap
-.nr an-no-space-flag 1
-.nr an-break-flag 1
+.it 1 bn-trbp
+.nr bn-no-spbce-flbg 1
+.nr bn-brebk-flbg 1
 .br
 .ps +1
 \fB°Ü¿£²ÄÇ½¥µ¡¼¥Ð¥ó¥È·Ñ¾µ¥â¥Ç¥ë\fR
 .ps -1
 .br
 .PP
-¥Ç¥Õ¥©¥ë¥È¤Î¥µ¡¼¥Ð¡¼Â¦¤Î¥â¥Ç¥ë¤Ï¡¢°Ü¿£²ÄÇ½¥µ¡¼¥Ð¥ó¥È·Ñ¾µ¥â¥Ç¥ë¤Ç¤¹¡£\fIMy\&.idl\fRÆâ¤Ç\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤¬ÄêµÁ¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢\fIMyPOA\&.java\fR¤È¤¤¤¦¥Õ¥¡¥¤¥ë¤¬À¸À®¤µ¤ì¤Þ¤¹¡£\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¼ÂÁõ¤òÄó¶¡¤¹¤ëÉ¬Í×¤¬¤¢¤ê¡¢\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Ï\fIMyPOA\fR¥¯¥é¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£\fIMyPOA\&.java\fR¤Ï¡¢http://docs\&.oracle\&.com/javase/8/docs/api/org/omg/PortableServer/Servant\&.html¤Ë¤¢¤ë
-\fIorg\&.omg\&.PortableServer\&.Servant\fR¥¯¥é¥¹¤ò³ÈÄ¥¤¹¤ë¥¹¥È¥ê¡¼¥à¥Ù¡¼¥¹¤Î¥¹¥±¥ë¥È¥ó¤Ç¤¹¡£
+¥Ç¥Õ¥©¥ë¥È¤Î¥µ¡¼¥Ð¡¼Â¦¤Î¥â¥Ç¥ë¤Ï¡¢°Ü¿£²ÄÇ½¥µ¡¼¥Ð¥ó¥È·Ñ¾µ¥â¥Ç¥ë¤Ç¤¹¡£\fIMy\&.idl\fRÆâ¤Ç\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤¬ÄêµÁ¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢\fIMyPOA\&.jbvb\fR¤È¤¤¤¦¥Õ¥¡¥¤¥ë¤¬À¸À®¤µ¤ì¤Þ¤¹¡£\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¼ÂÁõ¤òÄó¶¡¤¹¤ëÉ¬Í×¤¬¤¢¤ê¡¢\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Ï\fIMyPOA\fR¥¯¥é¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£\fIMyPOA\&.jbvb\fR¤Ï¡¢http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/org/omg/PortbbleServer/Servbnt\&.html¤Ë¤¢¤ë
+\fIorg\&.omg\&.PortbbleServer\&.Servbnt\fR¥¯¥é¥¹¤ò³ÈÄ¥¤¹¤ë¥¹¥È¥ê¡¼¥à¥Ù¡¼¥¹¤Î¥¹¥±¥ë¥È¥ó¤Ç¤¹¡£
 .PP
-\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Ï¡¢¥¹¥±¥ë¥È¥ó¤¬¼ÂÁõ¤¹¤ëIDL¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Ë´ØÏ¢ÉÕ¤±¤é¤ì¤Æ¤¤¤ë\fIcallHandler\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤ÈÁàºî¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤ò¼ÂÁõ¤·¤Þ¤¹¡£
+\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Ï¡¢¥¹¥±¥ë¥È¥ó¤¬¼ÂÁõ¤¹¤ëIDL¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Ë´ØÏ¢ÉÕ¤±¤é¤ì¤Æ¤¤¤ë\fIcbllHbndler\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤ÈÁàºî¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤ò¼ÂÁõ¤·¤Þ¤¹¡£
 .PP
-¥Ý¡¼¥¿¥Ö¥ë¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥¢¥À¥×¥¿(POA)¤Î\fIPortableServer\fR¥â¥¸¥å¡¼¥ë¤Ï¡¢¥Í¥¤¥Æ¥£¥Ö¤Î\fIServant\fR·¿¤òÄêµÁ¤·¤Þ¤¹¡£http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/POA\&.html¤Ë¤¢¤ë
+¥Ý¡¼¥¿¥Ö¥ë¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥¢¥À¥×¥¿(POA)¤Î\fIPortbbleServer\fR¥â¥¸¥å¡¼¥ë¤Ï¡¢¥Í¥¤¥Æ¥£¥Ö¤Î\fIServbnt\fR·¿¤òÄêµÁ¤·¤Þ¤¹¡£http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/POA\&.html¤Ë¤¢¤ë
 ¥Ý¡¼¥¿¥Ö¥ë¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥¢¥À¥×¥¿(POA)¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .PP
-Java¥×¥í¥°¥é¥ß¥ó¥°¸À¸ì¤Ç¤Ï¡¢\fIServant\fR·¿¤ÏJava¤Î\fIorg\&.omg\&.PortableServer\&.Servant\fR¥¯¥é¥¹¤Ë¥Þ¥Ã¥×¤µ¤ì¤Þ¤¹¡£¤³¤ì¤Ï¡¢¤¹¤Ù¤Æ¤ÎPOA¥µ¡¼¥Ð¥ó¥È¼ÂÁõ¤Î¥Ù¡¼¥¹¡¦¥¯¥é¥¹¤È¤·¤Æµ¡Ç½¤·¡¢¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¡¦¥×¥í¥°¥é¥Þ¤¬¸Æ¤Ó½Ð¤¹¤³¤È¤Î¤Ç¤­¤ë¤¤¤¯¤Ä¤«¤Î¥á¥½¥Ã¥É¡¢¤ª¤è¤ÓPOA¤Ë¤è¤Ã¤Æ¸Æ¤Ó½Ð¤µ¤ì¡¢¥µ¡¼¥Ð¥ó¥È¤ÎÆ°ºî¤òÀ©¸æ¤¹¤ë¤¿¤á¤Ë¥æ¡¼¥¶¡¼¤¬¥ª¡¼¥Ð¡¼¥é¥¤¥É¤Ç¤­¤ë¥á¥½¥Ã¥É¤òÄó¶¡¤·¤Þ¤¹¡£
+Jbvb¥×¥í¥°¥é¥ß¥ó¥°¸À¸ì¤Ç¤Ï¡¢\fIServbnt\fR·¿¤ÏJbvb¤Î\fIorg\&.omg\&.PortbbleServer\&.Servbnt\fR¥¯¥é¥¹¤Ë¥Þ¥Ã¥×¤µ¤ì¤Þ¤¹¡£¤³¤ì¤Ï¡¢¤¹¤Ù¤Æ¤ÎPOA¥µ¡¼¥Ð¥ó¥È¼ÂÁõ¤Î¥Ù¡¼¥¹¡¦¥¯¥é¥¹¤È¤·¤Æµ¡Ç½¤·¡¢¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¡¦¥×¥í¥°¥é¥Þ¤¬¸Æ¤Ó½Ð¤¹¤³¤È¤Î¤Ç¤­¤ë¤¤¤¯¤Ä¤«¤Î¥á¥½¥Ã¥É¡¢¤ª¤è¤ÓPOA¤Ë¤è¤Ã¤Æ¸Æ¤Ó½Ð¤µ¤ì¡¢¥µ¡¼¥Ð¥ó¥È¤ÎÆ°ºî¤òÀ©¸æ¤¹¤ë¤¿¤á¤Ë¥æ¡¼¥¶¡¼¤¬¥ª¡¼¥Ð¡¼¥é¥¤¥É¤Ç¤­¤ë¥á¥½¥Ã¥É¤òÄó¶¡¤·¤Þ¤¹¡£
 .PP
-·Ñ¾µ¥â¥Ç¥ë¤Î¤â¤¦1¤Ä¤Î¥ª¥×¥·¥ç¥ó¤Ï¡¢\fI\-oldImplBase\fR¥Õ¥é¥°¤ò»ÈÍÑ¤·¤Æ¡¢Java SE 1\&.4¤è¤êÁ°¤Î¥ê¥ê¡¼¥¹¤ÎJava¥×¥í¥°¥é¥ß¥ó¥°¸À¸ì¤È¸ß´¹À­¤Î¤¢¤ë¥µ¡¼¥Ð¡¼Â¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÀ¸À®¤¹¤ë¤³¤È¤Ç¤¹¡£\-\fIoldImplBase\fR¥Õ¥é¥°¤ÏÈóÉ¸½à¤Ç¡¢¤³¤ì¤é¤ÎAPI¤ÏÈó¿ä¾©¤Ç¤¹¡£¤³¤Î¥Õ¥é¥°¤ò»ÈÍÑ¤¹¤ë¤Î¤Ï¡¢Java SE 1\&.3¤Çµ­½Ò¤µ¤ì¤¿´ûÂ¸¤Î¥µ¡¼¥Ð¡¼¤È¤Î¸ß´¹À­¤¬É¬Í×¤Ê¾ì¹ç¤Î¤ß¤Ç¤¹¡£¤½¤Î¾ì¹ç¡¢´ûÂ¸¤Îmake¥Õ¥¡¥¤¥ë¤òÊÑ¹¹¤·¤Æ¡¢\fI\-oldImplBase\fR¥Õ¥é¥°¤ò\fIidlj\fR¥³¥ó¥Ñ¥¤¥é¤ËÄÉ²Ã¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤½¤ì°Ê³°¤Î¾ì¹ç¡¢POA¥Ù¡¼¥¹¤Î¥µ¡¼¥Ð¡¼Â¦¥Þ¥Ã¥Ô¥ó¥°¤¬À¸À®¤µ¤ì¤Þ¤¹¡£²¼°Ì¸ß´¹À­¤Î¤¢¤ë¥µ¡¼¥Ð¡¼Â¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÀ¸À®¤¹¤ë¤Ë¤Ï¡¢¼¡¤ò¼Â¹Ô¤·¤Þ¤¹¡£
+·Ñ¾µ¥â¥Ç¥ë¤Î¤â¤¦1¤Ä¤Î¥ª¥×¥·¥ç¥ó¤Ï¡¢\fI\-oldImplBbse\fR¥Õ¥é¥°¤ò»ÈÍÑ¤·¤Æ¡¢Jbvb SE 1\&.4¤è¤êÁ°¤Î¥ê¥ê¡¼¥¹¤ÎJbvb¥×¥í¥°¥é¥ß¥ó¥°¸À¸ì¤È¸ß´¹À­¤Î¤¢¤ë¥µ¡¼¥Ð¡¼Â¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÀ¸À®¤¹¤ë¤³¤È¤Ç¤¹¡£\-\fIoldImplBbse\fR¥Õ¥é¥°¤ÏÈóÉ¸½à¤Ç¡¢¤³¤ì¤é¤ÎAPI¤ÏÈó¿ä¾©¤Ç¤¹¡£¤³¤Î¥Õ¥é¥°¤ò»ÈÍÑ¤¹¤ë¤Î¤Ï¡¢Jbvb SE 1\&.3¤Çµ­½Ò¤µ¤ì¤¿´ûÂ¸¤Î¥µ¡¼¥Ð¡¼¤È¤Î¸ß´¹À­¤¬É¬Í×¤Ê¾ì¹ç¤Î¤ß¤Ç¤¹¡£¤½¤Î¾ì¹ç¡¢´ûÂ¸¤Îmbke¥Õ¥¡¥¤¥ë¤òÊÑ¹¹¤·¤Æ¡¢\fI\-oldImplBbse\fR¥Õ¥é¥°¤ò\fIidlj\fR¥³¥ó¥Ñ¥¤¥é¤ËÄÉ²Ã¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤½¤ì°Ê³°¤Î¾ì¹ç¡¢POA¥Ù¡¼¥¹¤Î¥µ¡¼¥Ð¡¼Â¦¥Þ¥Ã¥Ô¥ó¥°¤¬À¸À®¤µ¤ì¤Þ¤¹¡£²¼°Ì¸ß´¹À­¤Î¤¢¤ë¥µ¡¼¥Ð¡¼Â¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÀ¸À®¤¹¤ë¤Ë¤Ï¡¢¼¡¤ò¼Â¹Ô¤·¤Þ¤¹¡£
 .sp .5v
 .RE
 .sp
@@ -160,21 +160,21 @@ Java¥×¥í¥°¥é¥ß¥ó¥°¸À¸ì¤Ç¤Ï¡¢\fIServant\fR·¿¤ÏJava¤Î\fIorg\&.omg\&.PortableServer
 .RS 4
 .\}
 .nf
-idlj \-fclient \-fserver \-oldImplBase My\&.idl
-idlj \-fall \-oldImplBase My\&.idl
+idlj \-fclient \-fserver \-oldImplBbse My\&.idl
+idlj \-fbll \-oldImplBbse My\&.idl
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIMy\&.idl\fRÆâ¤Ç\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤¬ÄêµÁ¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢\fI_MyImplBase\&.java\fR¤È¤¤¤¦¥Õ¥¡¥¤¥ë¤¬À¸À®¤µ¤ì¤Þ¤¹¡£\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¼ÂÁõ¤òÄó¶¡¤¹¤ëÉ¬Í×¤¬¤¢¤ê¡¢\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Ï\fI_MyImplBase\fR¥¯¥é¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
+\fIMy\&.idl\fRÆâ¤Ç\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤¬ÄêµÁ¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢\fI_MyImplBbse\&.jbvb\fR¤È¤¤¤¦¥Õ¥¡¥¤¥ë¤¬À¸À®¤µ¤ì¤Þ¤¹¡£\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¼ÂÁõ¤òÄó¶¡¤¹¤ëÉ¬Í×¤¬¤¢¤ê¡¢\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Ï\fI_MyImplBbse\fR¥¯¥é¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
 .if n \{\
 .sp
 .\}
 .RS 4
-.it 1 an-trap
-.nr an-no-space-flag 1
-.nr an-break-flag 1
+.it 1 bn-trbp
+.nr bn-no-spbce-flbg 1
+.nr bn-brebk-flbg 1
 .br
 .ps +1
 \fBTie°Ñ¾ù¥â¥Ç¥ë\fR
@@ -189,70 +189,70 @@ idlj \-fall \-oldImplBase My\&.idl
 .RS 4
 .\}
 .nf
-idlj \-fall My\&.idl
-idlj \-fallTIE My\&.idl
+idlj \-fbll My\&.idl
+idlj \-fbllTIE My\&.idl
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¾ì¹ç¡¢2ÈÖÌÜ¤Î¥³¥Þ¥ó¥É¤Ë¤è¤ê¡¢\fIMyPOATie\&.java\fR¤¬À¸À®¤µ¤ì¤Þ¤¹¡£\fIMyPOATie\fR¥¯¥é¥¹¤Ø¤Î¥³¥ó¥¹¥È¥é¥¯¥¿¤Ï¡¢delegate¤ò¼è¤ê¤Þ¤¹¡£¤³¤ÎÎã¤Ç¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤ÎPOA¥â¥Ç¥ë¤ò»ÈÍÑ¤·¤Æ¤¤¤ë¤¿¤á¡¢¥³¥ó¥¹¥È¥é¥¯¥¿¤Ë¤âPOA¤¬É¬Í×¤Ç¤¹¡£delegate¤ËÂÐ¤·¤Æ¼ÂÁõ¤òÄó¶¡¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¤¬¡¢¤³¤Î¼ÂÁõ¤Ï\fIMyOperations\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ë¤Î¤ß¤Ç¡¢¤½¤ÎÂ¾¤Î¥¯¥é¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤Ï¤¢¤ê¤Þ¤»¤ó¡£¤³¤ì¤òORB¤È°ì½ï¤Ë»ÈÍÑ¤¹¤ë¤Ë¤Ï¡¢¤¿¤È¤¨¤Ð¼¡¤Î¤è¤¦¤Ë\fIMyPOATie\fR¥¯¥é¥¹Æâ¤Ç¼ÂÁõ¤ò¥é¥Ã¥×¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
+\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¾ì¹ç¡¢2ÈÖÌÜ¤Î¥³¥Þ¥ó¥É¤Ë¤è¤ê¡¢\fIMyPOATie\&.jbvb\fR¤¬À¸À®¤µ¤ì¤Þ¤¹¡£\fIMyPOATie\fR¥¯¥é¥¹¤Ø¤Î¥³¥ó¥¹¥È¥é¥¯¥¿¤Ï¡¢delegbte¤ò¼è¤ê¤Þ¤¹¡£¤³¤ÎÎã¤Ç¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤ÎPOA¥â¥Ç¥ë¤ò»ÈÍÑ¤·¤Æ¤¤¤ë¤¿¤á¡¢¥³¥ó¥¹¥È¥é¥¯¥¿¤Ë¤âPOA¤¬É¬Í×¤Ç¤¹¡£delegbte¤ËÂÐ¤·¤Æ¼ÂÁõ¤òÄó¶¡¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¤¬¡¢¤³¤Î¼ÂÁõ¤Ï\fIMyOperbtions\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ë¤Î¤ß¤Ç¡¢¤½¤ÎÂ¾¤Î¥¯¥é¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤Ï¤¢¤ê¤Þ¤»¤ó¡£¤³¤ì¤òORB¤È°ì½ï¤Ë»ÈÍÑ¤¹¤ë¤Ë¤Ï¡¢¤¿¤È¤¨¤Ð¼¡¤Î¤è¤¦¤Ë\fIMyPOATie\fR¥¯¥é¥¹Æâ¤Ç¼ÂÁõ¤ò¥é¥Ã¥×¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-ORB orb = ORB\&.init(args, System\&.getProperties());
+ORB orb = ORB\&.init(brgs, System\&.getProperties());
  
-// Get reference to rootpoa & activate the POAManager
-POA rootpoa = (POA)orb\&.resolve_initial_references("RootPOA");
-rootpoa\&.the_POAManager()\&.activate();
+// Get reference to rootpob & bctivbte the POAMbnbger
+POA rootpob = (POA)orb\&.resolve_initibl_references("RootPOA");
+rootpob\&.the_POAMbnbger()\&.bctivbte();
  
-// create servant and register it with the ORB
-MyServant myDelegate = new MyServant();
-myDelegate\&.setORB(orb); 
+// crebte servbnt bnd register it with the ORB
+MyServbnt myDelegbte = new MyServbnt();
+myDelegbte\&.setORB(orb); 
  
-// create a tie, with servant being the delegate\&.
-MyPOATie tie = new MyPOATie(myDelegate, rootpoa);
+// crebte b tie, with servbnt being the delegbte\&.
+MyPOATie tie = new MyPOATie(myDelegbte, rootpob);
  
-// obtain the objectRef for the tie
+// obtbin the objectRef for the tie
 My ref = tie\&._this(orb);
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-Â¾¤Î¼ÂÁõ¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ë¾ì¹ç¡¢É¸½à¤Î·Ñ¾µ¥â¥Ç¥ë¤Ç¤Ï¤Ê¤¯Tie¥â¥Ç¥ë¤ò»ÈÍÑ¤¹¤ë¤³¤È¤â¤Ç¤­¤Þ¤¹¡£Java¤Î¾ì¹ç¤Ï¡¢¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î·Ñ¾µ¤Î¸Ä¿ô¤ËÀ©¸Â¤Ï¤¢¤ê¤Þ¤»¤ó¤¬¡¢¥¯¥é¥¹¤Î·Ñ¾µ¤Ë»ÈÍÑ¤Ç¤­¤ë¥¹¥í¥Ã¥È¤Ï1¤Ä¤Î¤ß¤Ç¤¹¡£·Ñ¾µ¥â¥Ç¥ë¤ò»ÈÍÑ¤·¤¿¾ì¹ç¤Ï¡¢¤½¤Î¥¹¥í¥Ã¥È¤¬ÀêÍ­¤µ¤ì¤Þ¤¹¡£Tie¥â¥Ç¥ë¤ò»ÈÍÑ¤¹¤ë¤È¡¢¤½¤Î¥¹¥í¥Ã¥È¤¬»ÈÍÑ¤µ¤ì¤º¡¢¥æ¡¼¥¶¡¼¤¬ÆÈ¼«¤ÎÌÜÅª¤Ç»ÈÍÑ¤Ç¤­¤Þ¤¹¡£¤³¤ÎÊýË¡¤Ë¤Ï¡¢´ÖÀÜÀ­¤Î¥ì¥Ù¥ë¤¬1¤ÄÆ³Æþ¤µ¤ì¤ë¤È¤¤¤¦Ã»½ê¤¬¤¢¤ê¤Þ¤¹¡£¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤¹¤È¤­¤Ë¡¢Í¾Ê¬¤Ê¥á¥½¥Ã¥É¸Æ½Ð¤·¤¬1²óÈ¯À¸¤·¤Þ¤¹¡£
+Â¾¤Î¼ÂÁõ¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ë¾ì¹ç¡¢É¸½à¤Î·Ñ¾µ¥â¥Ç¥ë¤Ç¤Ï¤Ê¤¯Tie¥â¥Ç¥ë¤ò»ÈÍÑ¤¹¤ë¤³¤È¤â¤Ç¤­¤Þ¤¹¡£Jbvb¤Î¾ì¹ç¤Ï¡¢¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î·Ñ¾µ¤Î¸Ä¿ô¤ËÀ©¸Â¤Ï¤¢¤ê¤Þ¤»¤ó¤¬¡¢¥¯¥é¥¹¤Î·Ñ¾µ¤Ë»ÈÍÑ¤Ç¤­¤ë¥¹¥í¥Ã¥È¤Ï1¤Ä¤Î¤ß¤Ç¤¹¡£·Ñ¾µ¥â¥Ç¥ë¤ò»ÈÍÑ¤·¤¿¾ì¹ç¤Ï¡¢¤½¤Î¥¹¥í¥Ã¥È¤¬ÀêÍ­¤µ¤ì¤Þ¤¹¡£Tie¥â¥Ç¥ë¤ò»ÈÍÑ¤¹¤ë¤È¡¢¤½¤Î¥¹¥í¥Ã¥È¤¬»ÈÍÑ¤µ¤ì¤º¡¢¥æ¡¼¥¶¡¼¤¬ÆÈ¼«¤ÎÌÜÅª¤Ç»ÈÍÑ¤Ç¤­¤Þ¤¹¡£¤³¤ÎÊýË¡¤Ë¤Ï¡¢´ÖÀÜÀ­¤Î¥ì¥Ù¥ë¤¬1¤ÄÆ³Æþ¤µ¤ì¤ë¤È¤¤¤¦Ã»½ê¤¬¤¢¤ê¤Þ¤¹¡£¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤¹¤È¤­¤Ë¡¢Í¾Ê¬¤Ê¥á¥½¥Ã¥É¸Æ½Ð¤·¤¬1²óÈ¯À¸¤·¤Þ¤¹¡£
 .PP
-¥µ¡¼¥Ð¡¼Â¦¤ÎÀ¸À®¤Î¾ì¹ç¡¢Java SE 1\&.4¤è¤êÁ°¤Î¥Ð¡¼¥¸¥ç¥ó¤ÎJava¸À¸ì¤Ë¥Þ¥Ã¥Ô¥ó¥°¤¹¤ëIDL¤Î¥Ð¡¼¥¸¥ç¥ó¤È¸ß´¹À­¤Î¤¢¤ë¡¢Tie¥â¥Ç¥ë¤Î¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Ç¤¹¡£
+¥µ¡¼¥Ð¡¼Â¦¤ÎÀ¸À®¤Î¾ì¹ç¡¢Jbvb SE 1\&.4¤è¤êÁ°¤Î¥Ð¡¼¥¸¥ç¥ó¤ÎJbvb¸À¸ì¤Ë¥Þ¥Ã¥Ô¥ó¥°¤¹¤ëIDL¤Î¥Ð¡¼¥¸¥ç¥ó¤È¸ß´¹À­¤Î¤¢¤ë¡¢Tie¥â¥Ç¥ë¤Î¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Ç¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-idlj \-oldImplBase \-fall My\&.idl
-idlj \-oldImplBase \-fallTIE My\&.idl
+idlj \-oldImplBbse \-fbll My\&.idl
+idlj \-oldImplBbse \-fbllTIE My\&.idl
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¾ì¹ç¡¢¤³¤ì¤Ë¤è¤ê¡¢\fIMy_Tie\&.java\fR¤¬À¸À®¤µ¤ì¤Þ¤¹¡£\fIMy_Tie\fR¥¯¥é¥¹¤Ø¤Î¥³¥ó¥¹¥È¥é¥¯¥¿¤Ï¡¢\fIimpl\fR¥ª¥Ö¥¸¥§¥¯¥È¤ò¼è¤ê¤Þ¤¹¡£\fIimpl\fR¤ËÂÐ¤·¤Æ¼ÂÁõ¤òÄó¶¡¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¤¬¡¢¤½¤Î¼ÂÁõ¤Ï\fIHelloOperations\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ë¤Î¤ß¤Ç¡¢¤½¤ÎÂ¾¤Î¥¯¥é¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤Ï¤¢¤ê¤Þ¤»¤ó¡£¤·¤«¤·¡¢¤³¤ì¤òORB¤È°ì½ï¤Ë»ÈÍÑ¤¹¤ë¤Ë¤Ï¡¢¤¿¤È¤¨¤Ð¼¡¤Î¤è¤¦¤Ë\fIMy_Tie\fRÆâ¤Ç¼ÂÁõ¤ò¥é¥Ã¥×¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
+\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¾ì¹ç¡¢¤³¤ì¤Ë¤è¤ê¡¢\fIMy_Tie\&.jbvb\fR¤¬À¸À®¤µ¤ì¤Þ¤¹¡£\fIMy_Tie\fR¥¯¥é¥¹¤Ø¤Î¥³¥ó¥¹¥È¥é¥¯¥¿¤Ï¡¢\fIimpl\fR¥ª¥Ö¥¸¥§¥¯¥È¤ò¼è¤ê¤Þ¤¹¡£\fIimpl\fR¤ËÂÐ¤·¤Æ¼ÂÁõ¤òÄó¶¡¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¤¬¡¢¤½¤Î¼ÂÁõ¤Ï\fIHelloOperbtions\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤¬¤¢¤ë¤Î¤ß¤Ç¡¢¤½¤ÎÂ¾¤Î¥¯¥é¥¹¤«¤é·Ñ¾µ¤¹¤ëÉ¬Í×¤Ï¤¢¤ê¤Þ¤»¤ó¡£¤·¤«¤·¡¢¤³¤ì¤òORB¤È°ì½ï¤Ë»ÈÍÑ¤¹¤ë¤Ë¤Ï¡¢¤¿¤È¤¨¤Ð¼¡¤Î¤è¤¦¤Ë\fIMy_Tie\fRÆâ¤Ç¼ÂÁõ¤ò¥é¥Ã¥×¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-ORB orb = ORB\&.init(args, System\&.getProperties());
+ORB orb = ORB\&.init(brgs, System\&.getProperties());
 
-// create servant and register it with the ORB
-MyServant myDelegate = new MyServant();
-myDelegate\&.setORB(orb); 
+// crebte servbnt bnd register it with the ORB
+MyServbnt myDelegbte = new MyServbnt();
+myDelegbte\&.setORB(orb); 
  
-// create a tie, with servant being the delegate\&.
-MyPOATie tie = new MyPOATie(myDelegate);
+// crebte b tie, with servbnt being the delegbte\&.
+MyPOATie tie = new MyPOATie(myDelegbte);
  
-// obtain the objectRef for the tie
+// obtbin the objectRef for the tie
 My ref = tie\&._this(orb);
 .fi
 .if n \{\
@@ -260,10 +260,10 @@ My ref = tie\&._this(orb);
 .\}
 .SS "È¯¹Ô¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤ÎÂåÂØ°ÌÃÖ¤Î»ØÄê"
 .PP
-È¯¹Ô¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤ò¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥ê°Ê³°¤Î¥Ç¥£¥ì¥¯¥È¥ê¤ËÃÖ¤¯¤Ë¤Ï¡¢\fIi\fR\fIdlj \-td /altdir My\&.idl\fR¤Î¥³¥Þ¥ó¥É¤Ç¥³¥ó¥Ñ¥¤¥é¤ò¸Æ¤Ó½Ð¤·¤Þ¤¹¡£
+È¯¹Ô¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤ò¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥ê°Ê³°¤Î¥Ç¥£¥ì¥¯¥È¥ê¤ËÃÖ¤¯¤Ë¤Ï¡¢\fIi\fR\fIdlj \-td /bltdir My\&.idl\fR¤Î¥³¥Þ¥ó¥É¤Ç¥³¥ó¥Ñ¥¤¥é¤ò¸Æ¤Ó½Ð¤·¤Þ¤¹¡£
 .PP
 
-\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¾ì¹ç¡¢¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Ï¡¢\fI\&./My\&.java\fR¤Ç¤Ï¤Ê¤¯¡¢\fI/altdir/My\&.java\fR¤Ê¤É¤ËÈ¯¹Ô¤µ¤ì¤Þ¤¹¡£
+\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¾ì¹ç¡¢¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Ï¡¢\fI\&./My\&.jbvb\fR¤Ç¤Ï¤Ê¤¯¡¢\fI/bltdir/My\&.jbvb\fR¤Ê¤É¤ËÈ¯¹Ô¤µ¤ì¤Þ¤¹¡£
 .SS "¥¤¥ó¥¯¥ë¡¼¥É¡¦¥Õ¥¡¥¤¥ë¤ÎÂåÂØ°ÌÃÖ¤Î»ØÄê"
 .PP
 \fIMy\&.idl\fR¥Õ¥¡¥¤¥ë¤¬ÊÌ¤Î\fIidl\fR¥Õ¥¡¥¤¥ë¤Ç¤¢¤ë\fIMyOther\&.idl\fR¤ò¥¤¥ó¥¯¥ë¡¼¥É¤¹¤ë¾ì¹ç¡¢¥³¥ó¥Ñ¥¤¥é¤Ç¤Ï¡¢\fIMyOther\&.idl\fR¥Õ¥¡¥¤¥ë¤¬¥í¡¼¥«¥ë¡¦¥Ç¥£¥ì¥¯¥È¥ê¤ËÂ¸ºß¤¹¤ë¤³¤È¤òÁ°Äó¤È¤·¤Æ¤¤¤Þ¤¹¡£¤¿¤È¤¨¤Ð¡¢¤½¤ì¤¬\fI/includes\fR¤Ë¤¢¤ë¾ì¹ç¤Ï¡¢¼¡¤Î¤è¤¦¤Ê¥³¥Þ¥ó¥É¤Ç¥³¥ó¥Ñ¥¤¥é¤ò¸Æ¤Ó½Ð¤·¤Þ¤¹¡£
@@ -305,7 +305,7 @@ includes=/includes;/moreIncludes
 ¥³¥ó¥Ñ¥¤¥é¤Ï¡¢¤³¤Î¥Õ¥¡¥¤¥ë¤ò¸¡º÷¤·¡¢¥¤¥ó¥¯¥ë¡¼¥É¡¦¥ê¥¹¥È¤òÆÉ¤ß¹þ¤ß¤Þ¤¹¡£¤³¤ÎÎã¤Ç¤Ï¡¢¥Ç¥£¥ì¥¯¥È¥ê¤Î´Ö¤Î¶èÀÚ¤êÊ¸»ú¤Ï¥»¥ß¥³¥í¥ó(;)¤Ë¤Ê¤Ã¤Æ¤¤¤Þ¤¹¡£¤³¤Î¶èÀÚ¤êÊ¸»ú¤Ï¡¢¥×¥é¥Ã¥È¥Õ¥©¡¼¥à¤Ë¤è¤Ã¤Æ°Û¤Ê¤ê¤Þ¤¹¡£Windows¥×¥é¥Ã¥È¥Õ¥©¡¼¥à¤Ç¤Ï¥»¥ß¥³¥í¥ó¤ò»ÈÍÑ¤·¡¢UNIX¥×¥é¥Ã¥È¥Õ¥©¡¼¥à¤Ç¤Ï¥³¥í¥ó¤ò»ÈÍÑ¤¹¤ë¤Ê¤É¤Ç¤¹¡£
 .SS "¥¤¥ó¥¯¥ë¡¼¥É¡¦¥Õ¥¡¥¤¥ë¤ËÂÐ¤¹¤ë¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤ÎÈ¯¹Ô"
 .PP
-¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ë»ØÄê¤·¤¿\fIidl\fR¥Õ¥¡¥¤¥ë¤ÇÄêµÁ¤µ¤ì¤Æ¤¤¤ë¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤ä¹½Â¤ÂÎ¤Ê¤É¤Ë¤Ä¤¤¤Æ¤Î¤ß¡¢Java¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤¬À¸À®¤µ¤ì¤Þ¤¹¡£¥¤¥ó¥¯¥ë¡¼¥É¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤ÇÄêµÁ¤µ¤ì¤Æ¤¤¤ë·¿¤Ë¤Ä¤¤¤Æ¤ÏÀ¸À®¤µ¤ì¤Þ¤»¤ó¡£¤¿¤È¤¨¤Ð¡¢¼¡¤Î2¤Ä¤Î\fIidl\fR¥Õ¥¡¥¤¥ë¤Ë¤Ä¤¤¤Æ¹Í¤¨¤Æ¤ß¤Þ¤¹¡£
+¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ë»ØÄê¤·¤¿\fIidl\fR¥Õ¥¡¥¤¥ë¤ÇÄêµÁ¤µ¤ì¤Æ¤¤¤ë¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤ä¹½Â¤ÂÎ¤Ê¤É¤Ë¤Ä¤¤¤Æ¤Î¤ß¡¢Jbvb¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤¬À¸À®¤µ¤ì¤Þ¤¹¡£¥¤¥ó¥¯¥ë¡¼¥É¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤ÇÄêµÁ¤µ¤ì¤Æ¤¤¤ë·¿¤Ë¤Ä¤¤¤Æ¤ÏÀ¸À®¤µ¤ì¤Þ¤»¤ó¡£¤¿¤È¤¨¤Ð¡¢¼¡¤Î2¤Ä¤Î\fIidl\fR¥Õ¥¡¥¤¥ë¤Ë¤Ä¤¤¤Æ¹Í¤¨¤Æ¤ß¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
@@ -314,13 +314,13 @@ includes=/includes;/moreIncludes
 My\&.idl file:
  
 #include <MyOther\&.idl>
-interface My
+interfbce My
 {
 };
  
 MyOther\&.idl file:
  
-interface MyOther
+interfbce MyOther
 {
 };
 .fi
@@ -328,7 +328,7 @@ interface MyOther
 .RE
 .\}
 .PP
-¥Ç¥Õ¥©¥ë¥È¤Î¥ë¡¼¥ë¤Ë´Ø¤·¤Æ·Ù¹ð¤¬¤¢¤ê¤Þ¤¹¡£¥°¥í¡¼¥Ð¥ë¡¦¥¹¥³¡¼¥×¤ËÉ½¼¨¤µ¤ì¤ë\fI#include\fRÊ¸¤Ï¡¢Á°½Ò¤Î¤È¤ª¤ê¤Ë½èÍý¤µ¤ì¤Þ¤¹¡£¤³¤ì¤é¤Î\fI#include\fRÊ¸¤Ï¡¢¥¤¥ó¥Ý¡¼¥ÈÊ¸¤È¸«¤Ê¤¹¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£°Ï¤Þ¤ì¤¿¥¹¥³¡¼¥×Æâ¤ËÉ½¼¨¤µ¤ì¤ë\fI#include\fRÊ¸¤Ï¡¢ËÜÅö¤Î°ÕÌ£¤Ç¤Î\fI#include\fRÊ¸¤È¤·¤Æ½èÍý¤µ¤ì¤Þ¤¹¡£¤Ä¤Þ¤ê¡¢¥¤¥ó¥¯¥ë¡¼¥É¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤Ë¤¢¤ë¥³¡¼¥É¤¬¡¢¸µ¤Î¥Õ¥¡¥¤¥ë¤Ë¤½¤Î¤Þ¤ÞÉ½¼¨¤µ¤ì¤Æ¤¤¤ë¤«¤Î¤è¤¦¤Ë½èÍý¤µ¤ì¡¢¤½¤ì¤ËÂÐ¤·¤ÆJava¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤¬È¯¹Ô¤µ¤ì¤Þ¤¹¡£¼¡¤Ï¤½¤ÎÎã¤Ç¤¹¡£
+¥Ç¥Õ¥©¥ë¥È¤Î¥ë¡¼¥ë¤Ë´Ø¤·¤Æ·Ù¹ð¤¬¤¢¤ê¤Þ¤¹¡£¥°¥í¡¼¥Ð¥ë¡¦¥¹¥³¡¼¥×¤ËÉ½¼¨¤µ¤ì¤ë\fI#include\fRÊ¸¤Ï¡¢Á°½Ò¤Î¤È¤ª¤ê¤Ë½èÍý¤µ¤ì¤Þ¤¹¡£¤³¤ì¤é¤Î\fI#include\fRÊ¸¤Ï¡¢¥¤¥ó¥Ý¡¼¥ÈÊ¸¤È¸«¤Ê¤¹¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£°Ï¤Þ¤ì¤¿¥¹¥³¡¼¥×Æâ¤ËÉ½¼¨¤µ¤ì¤ë\fI#include\fRÊ¸¤Ï¡¢ËÜÅö¤Î°ÕÌ£¤Ç¤Î\fI#include\fRÊ¸¤È¤·¤Æ½èÍý¤µ¤ì¤Þ¤¹¡£¤Ä¤Þ¤ê¡¢¥¤¥ó¥¯¥ë¡¼¥É¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤Ë¤¢¤ë¥³¡¼¥É¤¬¡¢¸µ¤Î¥Õ¥¡¥¤¥ë¤Ë¤½¤Î¤Þ¤ÞÉ½¼¨¤µ¤ì¤Æ¤¤¤ë¤«¤Î¤è¤¦¤Ë½èÍý¤µ¤ì¡¢¤½¤ì¤ËÂÐ¤·¤ÆJbvb¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤¬È¯¹Ô¤µ¤ì¤Þ¤¹¡£¼¡¤Ï¤½¤ÎÎã¤Ç¤¹¡£
 .sp
 .if n \{\
 .RS 4
@@ -337,14 +337,14 @@ interface MyOther
 My\&.idl file:
  
 #include <MyOther\&.idl>
-interface My
+interfbce My
 {
   #include <Embedded\&.idl>
 };
  
 MyOther\&.idl file:
  
-interface MyOther
+interfbce MyOther
 {
 };
  
@@ -356,20 +356,20 @@ enum E {one, two, three};
 .RE
 .\}
 .PP
-\fI idlj My\&.idl \fR¤ò¼Â¹Ô¤·¤Æ¡¢Java¥Õ¥¡¥¤¥ë¤Î¼¡¤Î¥ê¥¹¥È¤òÀ¸À®¤·¤Þ¤¹¡£¥¤¥ó¥Ý¡¼¥ÈÊ¸¤È¤ß¤Ê¤µ¤ì¤ë\fI#include\fR¤ËÄêµÁ¤µ¤ì¤Æ¤¤¤¿¤¿¤á¡¢\fIMyOther\&.java\fR¤ÏÀ¸À®¤µ¤ì¤Þ¤»¤ó¤Ç¤·¤¿¡£¤¿¤À¤·¡¢ËÜÅö¤Î°ÕÌ£¤Ç¤Î\fI#include\fR¤ÇÄêµÁ¤µ¤ì¤Æ¤¤¤¿¤¿¤á¡¢\fIE\&.java\fR¤ÏÀ¸À®¤µ¤ì¤Þ¤·¤¿¡£\fIEmbedded\&.idl\fR¥Õ¥¡¥¤¥ë¤¬\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¥¹¥³¡¼¥×Æâ¤Ë¥¤¥ó¥¯¥ë¡¼¥É¤µ¤ì¤Æ¤¤¤ë¤¿¤á¡¢\fIMy\fR¤Î¥¹¥³¡¼¥×Æâ(¤Ä¤Þ¤ê¡¢\fIMyPackage\fRÆâ)¤ËÀ¸À®¤µ¤ì¤Æ¤¤¤Þ¤¹¡£\fI\-emitAll\fR¥Õ¥é¥°¤ò»ÈÍÑ¤·¤¿¾ì¹ç¡¢¥¤¥ó¥¯¥ë¡¼¥É¤µ¤ì¤¿¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤Ë¤¢¤ë¤¹¤Ù¤Æ¤Î·¿¤¬È¯¹Ô¤µ¤ì¤Þ¤¹¡£
+\fI idlj My\&.idl \fR¤ò¼Â¹Ô¤·¤Æ¡¢Jbvb¥Õ¥¡¥¤¥ë¤Î¼¡¤Î¥ê¥¹¥È¤òÀ¸À®¤·¤Þ¤¹¡£¥¤¥ó¥Ý¡¼¥ÈÊ¸¤È¤ß¤Ê¤µ¤ì¤ë\fI#include\fR¤ËÄêµÁ¤µ¤ì¤Æ¤¤¤¿¤¿¤á¡¢\fIMyOther\&.jbvb\fR¤ÏÀ¸À®¤µ¤ì¤Þ¤»¤ó¤Ç¤·¤¿¡£¤¿¤À¤·¡¢ËÜÅö¤Î°ÕÌ£¤Ç¤Î\fI#include\fR¤ÇÄêµÁ¤µ¤ì¤Æ¤¤¤¿¤¿¤á¡¢\fIE\&.jbvb\fR¤ÏÀ¸À®¤µ¤ì¤Þ¤·¤¿¡£\fIEmbedded\&.idl\fR¥Õ¥¡¥¤¥ë¤¬\fIMy\fR¥¤¥ó¥¿¥Õ¥§¡¼¥¹¤Î¥¹¥³¡¼¥×Æâ¤Ë¥¤¥ó¥¯¥ë¡¼¥É¤µ¤ì¤Æ¤¤¤ë¤¿¤á¡¢\fIMy\fR¤Î¥¹¥³¡¼¥×Æâ(¤Ä¤Þ¤ê¡¢\fIMyPbckbge\fRÆâ)¤ËÀ¸À®¤µ¤ì¤Æ¤¤¤Þ¤¹¡£\fI\-emitAll\fR¥Õ¥é¥°¤ò»ÈÍÑ¤·¤¿¾ì¹ç¡¢¥¤¥ó¥¯¥ë¡¼¥É¤µ¤ì¤¿¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤Ë¤¢¤ë¤¹¤Ù¤Æ¤Î·¿¤¬È¯¹Ô¤µ¤ì¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\&./MyHolder\&.java
-\&./MyHelper\&.java
-\&./_MyStub\&.java
-\&./MyPackage
-\&./MyPackage/EHolder\&.java
-\&./MyPackage/EHelper\&.java
-\&./MyPackage/E\&.java
-\&./My\&.java
+\&./MyHolder\&.jbvb
+\&./MyHelper\&.jbvb
+\&./_MyStub\&.jbvb
+\&./MyPbckbge
+\&./MyPbckbge/EHolder\&.jbvb
+\&./MyPbckbge/EHelper\&.jbvb
+\&./MyPbckbge/E\&.jbvb
+\&./My\&.jbvb
 .fi
 .if n \{\
 .RE
@@ -386,43 +386,43 @@ Widgets\&.idl file:
  
 module Widgets
 {
-  interface W1 {\&.\&.\&.};
-  interface W2 {\&.\&.\&.};
+  interfbce W1 {\&.\&.\&.};
+  interfbce W2 {\&.\&.\&.};
 };
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-IDL\-to\-Java¥³¥ó¥Ñ¥¤¥é¤ò²ð¤·¤Æ¤³¤Î¥Õ¥¡¥¤¥ë¤ò¼Â¹Ô¤·¤¿¾ì¹ç¡¢W1¤ª¤è¤ÓW2¤ËÂÐ¤¹¤ëJava¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Ï¡¢\fIWidgets\fR¥Ñ¥Ã¥±¡¼¥¸Æâ¤Ë³ÊÇ¼¤µ¤ì¤Þ¤¹¡£¶È³¦¤Î´·Îã¤Ë¤è¤ë¤È¡¢²ñ¼Ò¤Î¥Ñ¥Ã¥±¡¼¥¸¤Ï¡¢\fIcom\&.<company name>\fR¤È¤¤¤¦Ì¾Á°¤Î¥Ñ¥Ã¥±¡¼¥¸Æâ¤ËÃÖ¤¯¤³¤È¤Ë¤Ê¤Ã¤Æ¤¤¤Þ¤¹¡£¤³¤Î´·Îã¤Ë½¾¤¦¤Ë¤Ï¡¢¥Ñ¥Ã¥±¡¼¥¸Ì¾¤ò\fIcom\&.abc\&.Widgets\fR¤Ë¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤³¤Î¥Ñ¥Ã¥±¡¼¥¸ÀÜÆ¬¼­¤òWidgets¥â¥¸¥å¡¼¥ë¤ËÉÕ²Ã¤¹¤ë¤Ë¤Ï¡¢¼¡¤Î¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤·¤Þ¤¹¡£
+IDL\-to\-Jbvb¥³¥ó¥Ñ¥¤¥é¤ò²ð¤·¤Æ¤³¤Î¥Õ¥¡¥¤¥ë¤ò¼Â¹Ô¤·¤¿¾ì¹ç¡¢W1¤ª¤è¤ÓW2¤ËÂÐ¤¹¤ëJbvb¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Ï¡¢\fIWidgets\fR¥Ñ¥Ã¥±¡¼¥¸Æâ¤Ë³ÊÇ¼¤µ¤ì¤Þ¤¹¡£¶È³¦¤Î´·Îã¤Ë¤è¤ë¤È¡¢²ñ¼Ò¤Î¥Ñ¥Ã¥±¡¼¥¸¤Ï¡¢\fIcom\&.<compbny nbme>\fR¤È¤¤¤¦Ì¾Á°¤Î¥Ñ¥Ã¥±¡¼¥¸Æâ¤ËÃÖ¤¯¤³¤È¤Ë¤Ê¤Ã¤Æ¤¤¤Þ¤¹¡£¤³¤Î´·Îã¤Ë½¾¤¦¤Ë¤Ï¡¢¥Ñ¥Ã¥±¡¼¥¸Ì¾¤ò\fIcom\&.bbc\&.Widgets\fR¤Ë¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤³¤Î¥Ñ¥Ã¥±¡¼¥¸ÀÜÆ¬¼­¤òWidgets¥â¥¸¥å¡¼¥ë¤ËÉÕ²Ã¤¹¤ë¤Ë¤Ï¡¢¼¡¤Î¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤·¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-idlj \-pkgPrefix Widgets com\&.abc Widgets\&.idl
+idlj \-pkgPrefix Widgets com\&.bbc Widgets\&.idl
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-Widgets\&.idl¤ò¥¤¥ó¥¯¥ë¡¼¥É¤·¤Æ¤¤¤ëIDL¥Õ¥¡¥¤¥ë¤¬¤¢¤ë¾ì¹ç¤Ï¡¢¤½¤Î¥³¥Þ¥ó¥É¤Ë¤â\fI\-pkgPrefix\fR¥Õ¥é¥°¤¬É¬Í×¤Ç¤¹¡£¤³¤Î¥Õ¥é¥°¤ò»ØÄê¤·¤Ê¤¤¤È¡¢¤½¤ÎIDL¥Õ¥¡¥¤¥ë¤Ï¡¢\fIcom\&.abc\&.Widgets\fR¥Ñ¥Ã¥±¡¼¥¸¤Ç¤Ï¤Ê¤¯¡¢\fIWidgets\fR¥Ñ¥Ã¥±¡¼¥¸¤ò¸¡º÷¤¹¤ë¤³¤È¤Ë¤Ê¤ê¤Þ¤¹¡£
+Widgets\&.idl¤ò¥¤¥ó¥¯¥ë¡¼¥É¤·¤Æ¤¤¤ëIDL¥Õ¥¡¥¤¥ë¤¬¤¢¤ë¾ì¹ç¤Ï¡¢¤½¤Î¥³¥Þ¥ó¥É¤Ë¤â\fI\-pkgPrefix\fR¥Õ¥é¥°¤¬É¬Í×¤Ç¤¹¡£¤³¤Î¥Õ¥é¥°¤ò»ØÄê¤·¤Ê¤¤¤È¡¢¤½¤ÎIDL¥Õ¥¡¥¤¥ë¤Ï¡¢\fIcom\&.bbc\&.Widgets\fR¥Ñ¥Ã¥±¡¼¥¸¤Ç¤Ï¤Ê¤¯¡¢\fIWidgets\fR¥Ñ¥Ã¥±¡¼¥¸¤ò¸¡º÷¤¹¤ë¤³¤È¤Ë¤Ê¤ê¤Þ¤¹¡£
 .PP
-ÀÜÆ¬¼­¤¬É¬Í×¤Ê¥Ñ¥Ã¥±¡¼¥¸¤¬¤¤¤¯¤Ä¤â¤¢¤ë¾ì¹ç¤Ï¡¢Á°½Ò¤Îidl\&.config¥Õ¥¡¥¤¥ë¤ÇÀÜÆ¬¼­¤ò»ØÄê¤¹¤ë¤Î¤¬´ÊÃ±¤Ç¤¹¡£¥Ñ¥Ã¥±¡¼¥¸ÀÜÆ¬¼­¤Î³Æ¹Ô¤Ï¡¢\fIPkgPrefix\&.<type>=<prefix>\fR¤Î·Á¼°¤Ç¤¢¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£Á°½Ò¤ÎÎã¤Î¹Ô¤Ç¤Ï¡¢\fIPkgPrefix\&.Widgets=com\&.abc\fR¤Ë¤Ê¤ê¤Þ¤¹¡£¤³¤Î¥ª¥×¥·¥ç¥ó¤Ï¡¢¥ê¥Ý¥¸¥È¥êID¤Ë¤Ï±Æ¶Á¤·¤Þ¤»¤ó¡£
+ÀÜÆ¬¼­¤¬É¬Í×¤Ê¥Ñ¥Ã¥±¡¼¥¸¤¬¤¤¤¯¤Ä¤â¤¢¤ë¾ì¹ç¤Ï¡¢Á°½Ò¤Îidl\&.config¥Õ¥¡¥¤¥ë¤ÇÀÜÆ¬¼­¤ò»ØÄê¤¹¤ë¤Î¤¬´ÊÃ±¤Ç¤¹¡£¥Ñ¥Ã¥±¡¼¥¸ÀÜÆ¬¼­¤Î³Æ¹Ô¤Ï¡¢\fIPkgPrefix\&.<type>=<prefix>\fR¤Î·Á¼°¤Ç¤¢¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£Á°½Ò¤ÎÎã¤Î¹Ô¤Ç¤Ï¡¢\fIPkgPrefix\&.Widgets=com\&.bbc\fR¤Ë¤Ê¤ê¤Þ¤¹¡£¤³¤Î¥ª¥×¥·¥ç¥ó¤Ï¡¢¥ê¥Ý¥¸¥È¥êID¤Ë¤Ï±Æ¶Á¤·¤Þ¤»¤ó¡£
 .SS "¥³¥ó¥Ñ¥¤¥ëÁ°¤Î¥·¥ó¥Ü¥ë¤ÎÄêµÁ"
 .PP
 ¥³¥ó¥Ñ¥¤¥ëÍÑ¤Î¥·¥ó¥Ü¥ë¤¬IDL¥Õ¥¡¥¤¥ëÆâ¤ÇÄêµÁ¤µ¤ì¤Æ¤¤¤Ê¤¤¾ì¹ç¤Ï¡¢¤½¤Î¥·¥ó¥Ü¥ë¤òÄêµÁ¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤³¤ì¤Ï¡¢¤¿¤È¤¨¤Ð¡¢¥Ð¥¤¥ó¥Ç¥£¥ó¥°Æâ¤Ë¥Ç¥Ð¥Ã¥°¡¦¥³¡¼¥É¤òÁÈ¤ßÆþ¤ì¤ë¤È¤­¤Ë»ÈÍÑ¤·¤Þ¤¹¡£¥³¥Þ¥ó¥É\fIidlj \-d MYDEF My\&.idl \fR¤Ï¡¢My\&.idlÆâ¤Ë¹Ô\fI#define MYDEF\fR¤òÇÛÃÖ¤·¤¿¾ì¹ç¤ÈÆ±Åù¤Ë¤Ê¤ê¤Þ¤¹¡£
 .SS "´ûÂ¸¤Î¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤ÎÊÝ»ý"
 .PP
-Java¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤¬¤¹¤Ç¤ËÂ¸ºß¤¹¤ë¾ì¹ç¤Ï¡¢\fI\-keep\fR¥Õ¥é¥°¤ò»ØÄê¤¹¤ë¤È¡¢¥³¥ó¥Ñ¥¤¥é¤Ë¤è¤ë¾å½ñ¤­¤ò²óÈò¤Ç¤­¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢¤¹¤Ç¤ËÂ¸ºß¤¹¤ë¤«¤É¤¦¤«¤Ë¤«¤«¤ï¤é¤º¡¢¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤¬À¸À®¤µ¤ì¤Þ¤¹¡£¤³¤ì¤é¤Î¥Õ¥¡¥¤¥ë¤ò¥«¥¹¥¿¥Þ¥¤¥º¤·¤¿¾ì¹ç(¤¿¤À¤·¡¢¤½¤ì¤é¤ÎÆâÍÆ¤¬Àµ³Î¤Ç¤¢¤ë¤È¤­°Ê³°¤Ï¥«¥¹¥¿¥Þ¥¤¥º¤ÏÈò¤±¤ë)¡¢\fI\-keep\fR¥ª¥×¥·¥ç¥ó¤ÏÍ­ÍÑ¤Ç¤¹¡£¥³¥Þ¥ó¥É\fIidlj \-keep My\&.idl\fR¤Ï¡¢¤¹¤Ç¤ËÂ¸ºß¤·¤Ê¤¤¤¹¤Ù¤Æ¤Î¥¯¥é¥¤¥¢¥ó¥ÈÂ¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÈ¯¹Ô¤·¤Þ¤¹¡£
+Jbvb¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤¬¤¹¤Ç¤ËÂ¸ºß¤¹¤ë¾ì¹ç¤Ï¡¢\fI\-keep\fR¥Õ¥é¥°¤ò»ØÄê¤¹¤ë¤È¡¢¥³¥ó¥Ñ¥¤¥é¤Ë¤è¤ë¾å½ñ¤­¤ò²óÈò¤Ç¤­¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢¤¹¤Ç¤ËÂ¸ºß¤¹¤ë¤«¤É¤¦¤«¤Ë¤«¤«¤ï¤é¤º¡¢¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤¬À¸À®¤µ¤ì¤Þ¤¹¡£¤³¤ì¤é¤Î¥Õ¥¡¥¤¥ë¤ò¥«¥¹¥¿¥Þ¥¤¥º¤·¤¿¾ì¹ç(¤¿¤À¤·¡¢¤½¤ì¤é¤ÎÆâÍÆ¤¬Àµ³Î¤Ç¤¢¤ë¤È¤­°Ê³°¤Ï¥«¥¹¥¿¥Þ¥¤¥º¤ÏÈò¤±¤ë)¡¢\fI\-keep\fR¥ª¥×¥·¥ç¥ó¤ÏÍ­ÍÑ¤Ç¤¹¡£¥³¥Þ¥ó¥É\fIidlj \-keep My\&.idl\fR¤Ï¡¢¤¹¤Ç¤ËÂ¸ºß¤·¤Ê¤¤¤¹¤Ù¤Æ¤Î¥¯¥é¥¤¥¢¥ó¥ÈÂ¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÈ¯¹Ô¤·¤Þ¤¹¡£
 .SS "¥³¥ó¥Ñ¥¤¥ë¤Î¿ÊÄ½¾õ¶·¤ÎÉ½¼¨"
 .PP
-IDL\-to\-Java¥³¥ó¥Ñ¥¤¥é¤Ï¡¢¼Â¹Ô¤Î³ÆÃÊ³¬¤Ç¾õÂÖ¥á¥Ã¥»¡¼¥¸¤òÀ¸À®¤·¤Þ¤¹¡£\fI\-v\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¡¢\fIidlj \-v My\&.idl\fR¤Î¤è¤¦¤Ê¾éÄ¹¥â¡¼¥É¤ò¥¢¥¯¥Æ¥£¥Ö²½¤·¤Þ¤¹¡£
+IDL\-to\-Jbvb¥³¥ó¥Ñ¥¤¥é¤Ï¡¢¼Â¹Ô¤Î³ÆÃÊ³¬¤Ç¾õÂÖ¥á¥Ã¥»¡¼¥¸¤òÀ¸À®¤·¤Þ¤¹¡£\fI\-v\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¡¢\fIidlj \-v My\&.idl\fR¤Î¤è¤¦¤Ê¾éÄ¹¥â¡¼¥É¤ò¥¢¥¯¥Æ¥£¥Ö²½¤·¤Þ¤¹¡£
 .PP
 ¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢¥³¥ó¥Ñ¥¤¥é¤Ï¾éÄ¹¥â¡¼¥É¤Ç¤Ï¼Â¹Ô¤µ¤ì¤Þ¤»¤ó¡£
 .SS "¥Ð¡¼¥¸¥ç¥ó¾ðÊó¤ÎÉ½¼¨"
 .PP
-IDL\-to\-Java¥³¥ó¥Ñ¥¤¥é¤Î¥Ó¥ë¥É¡¦¥Ð¡¼¥¸¥ç¥ó¤òÉ½¼¨¤¹¤ë¤Ë¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó\fIidlj \-version\fR¤Ç\fI\-version\fR¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤·¤Þ¤¹¡£
+IDL\-to\-Jbvb¥³¥ó¥Ñ¥¤¥é¤Î¥Ó¥ë¥É¡¦¥Ð¡¼¥¸¥ç¥ó¤òÉ½¼¨¤¹¤ë¤Ë¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó\fIidlj \-version\fR¤Ç\fI\-version\fR¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤·¤Þ¤¹¡£
 .PP
 ¥Ð¡¼¥¸¥ç¥ó¾ðÊó¤Ï¡¢¥³¥ó¥Ñ¥¤¥é¤Ë¤è¤Ã¤ÆÀ¸À®¤µ¤ì¤¿¥Ð¥¤¥ó¥Ç¥£¥ó¥°Æâ¤Ë¤â½ñ¤­¹þ¤Þ¤ì¤Æ¤¤¤Þ¤¹¡£¤³¤Î¥ª¥×¥·¥ç¥ó¤ò¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ë»ØÄê¤¹¤ë¤È¡¢¤½¤ì°Ê³°¤Î¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤·¤Æ¤â¡¢¤¹¤Ù¤ÆÌµ»ë¤µ¤ì¤Þ¤¹¡£
 .SH "¥ª¥×¥·¥ç¥ó"
@@ -449,10 +449,10 @@ IDL\-to\-Java¥³¥ó¥Ñ¥¤¥é¤Î¥Ó¥ë¥É¡¦¥Ð¡¼¥¸¥ç¥ó¤òÉ½¼¨¤¹¤ë¤Ë¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó\fIidlj
 .PP
 \-fside
 .RS 4
-È¯¹Ô¤¹¤ë¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÄêµÁ¤·¤Þ¤¹¡£\fIside\fR¥Ñ¥é¥á¡¼¥¿¤Ë¤Ï¡¢\fIclient\fR¡¢\fIserver\fR¡¢\fIserverTIE\fR¡¢\fIall\fR¤Þ¤¿¤Ï\fIallTIE\fR¤ò»ØÄê¤Ç¤­¤Þ¤¹¡£\fI\-fserverTIE\fR¤Þ¤¿¤Ï\fI\-fallTIE\fR¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤¹¤ë¤È¡¢°Ñ¾ù¥â¥Ç¥ë¡¦¥¹¥±¥ë¥È¥ó¤¬È¯¹Ô¤µ¤ì¤Þ¤¹¡£¥Õ¥é¥°¤ò»ØÄê¤·¤Ê¤¤¾ì¹ç¡¢\fI\-fclient\fR¤Ë¥Ç¥Õ¥©¥ë¥ÈÀßÄê¤µ¤ì¤Þ¤¹¡£
+È¯¹Ô¤¹¤ë¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÄêµÁ¤·¤Þ¤¹¡£\fIside\fR¥Ñ¥é¥á¡¼¥¿¤Ë¤Ï¡¢\fIclient\fR¡¢\fIserver\fR¡¢\fIserverTIE\fR¡¢\fIbll\fR¤Þ¤¿¤Ï\fIbllTIE\fR¤ò»ØÄê¤Ç¤­¤Þ¤¹¡£\fI\-fserverTIE\fR¤Þ¤¿¤Ï\fI\-fbllTIE\fR¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤¹¤ë¤È¡¢°Ñ¾ù¥â¥Ç¥ë¡¦¥¹¥±¥ë¥È¥ó¤¬È¯¹Ô¤µ¤ì¤Þ¤¹¡£¥Õ¥é¥°¤ò»ØÄê¤·¤Ê¤¤¾ì¹ç¡¢\fI\-fclient\fR¤Ë¥Ç¥Õ¥©¥ë¥ÈÀßÄê¤µ¤ì¤Þ¤¹¡£
 .RE
 .PP
-\-i \fIinclude\-path\fR
+\-i \fIinclude\-pbth\fR
 .RS 4
 ¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢¥¤¥ó¥¯¥ë¡¼¥É¡¦¥Õ¥¡¥¤¥ë¤Ï¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥ê¤«¤é¸¡º÷¤µ¤ì¤Þ¤¹¡£¤³¤Î¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤¹¤ë¤È¡¢Â¾¤Î¥Ç¥£¥ì¥¯¥È¥ê¤òÄÉ²Ã¤Ç¤­¤Þ¤¹¡£
 .RE
@@ -462,24 +462,24 @@ IDL\-to\-Java¥³¥ó¥Ñ¥¤¥é¤Î¥Ó¥ë¥É¡¦¥Ð¡¼¥¸¥ç¥ó¤òÉ½¼¨¤¹¤ë¤Ë¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó\fIidlj
 À¸À®¤µ¤ì¤ë¥Õ¥¡¥¤¥ë¤¬¤¹¤Ç¤ËÂ¸ºß¤·¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢¤½¤Î¥Õ¥¡¥¤¥ë¤¬¾å½ñ¤­¤µ¤ì¤Þ¤»¤ó¡£¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢¾å½ñ¤­¤µ¤ì¤Þ¤¹¡£
 .RE
 .PP
-\-noWarn
+\-noWbrn
 .RS 4
 ·Ù¹ð¥á¥Ã¥»¡¼¥¸¤òÉ½¼¨¤·¤Ê¤¤¤è¤¦¤Ë¤·¤Þ¤¹¡£
 .RE
 .PP
-\-oldImplBase
+\-oldImplBbse
 .RS 4
-1\&.4¤è¤êÁ°¤ÎJDK ORB¤È¸ß´¹À­¤Î¤¢¤ë¥¹¥±¥ë¥È¥ó¤òÀ¸À®¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢POA·Ñ¾µ¥â¥Ç¥ë¤Î¥µ¡¼¥Ð¡¼Â¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤¬À¸À®¤µ¤ì¤Þ¤¹¡£¤³¤Î¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤¹¤ë¤È¡¢\fIImplBase\fR·Ñ¾µ¥â¥Ç¥ë¤Î¥¯¥é¥¹¤Ç¤¢¤ë¥µ¡¼¥Ð¡¼Â¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤¬À¸À®¤µ¤ì¤ë¤Î¤Ç¡¢°ÊÁ°¤Î¥ê¥ê¡¼¥¹¤ÎJava¥×¥í¥°¥é¥ß¥ó¥°¸À¸ì¤È¤Î²¼°Ì¸ß´¹À­¤¬ÆÀ¤é¤ì¤Þ¤¹¡£
+1\&.4¤è¤êÁ°¤ÎJDK ORB¤È¸ß´¹À­¤Î¤¢¤ë¥¹¥±¥ë¥È¥ó¤òÀ¸À®¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï¡¢POA·Ñ¾µ¥â¥Ç¥ë¤Î¥µ¡¼¥Ð¡¼Â¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤¬À¸À®¤µ¤ì¤Þ¤¹¡£¤³¤Î¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤¹¤ë¤È¡¢\fIImplBbse\fR·Ñ¾µ¥â¥Ç¥ë¤Î¥¯¥é¥¹¤Ç¤¢¤ë¥µ¡¼¥Ð¡¼Â¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤¬À¸À®¤µ¤ì¤ë¤Î¤Ç¡¢°ÊÁ°¤Î¥ê¥ê¡¼¥¹¤ÎJbvb¥×¥í¥°¥é¥ß¥ó¥°¸À¸ì¤È¤Î²¼°Ì¸ß´¹À­¤¬ÆÀ¤é¤ì¤Þ¤¹¡£
 .RE
 .PP
 \-pkgPrefix \fItype\fR \fIprefix\fR
 .RS 4
-\fItype\fR¤¬¥Õ¥¡¥¤¥ë¡¦¥¹¥³¡¼¥×¤Ç¸¡½Ð¤µ¤ì¤¿¾ì¹ç¤Ï¡¢¤½¤Î·¿¤ËÂÐ¤·¤ÆÀ¸À®¤µ¤ì¤ë¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤Ë¤Ä¤¤¤Æ¡¢À¸À®¤µ¤ì¤ëJava¥Ñ¥Ã¥±¡¼¥¸Ì¾¤Ë\fIprefix\fR¤È¤¤¤¦ÀÜÆ¬¼­¤¬ÉÕ²Ã¤µ¤ì¤Þ¤¹¡£type¤Ï¡¢¥È¥Ã¥×¥ì¥Ù¥ë¡¦¥â¥¸¥å¡¼¥ë¤ÎÃ±½ãÌ¾¤«¡¢¤É¤Î¥â¥¸¥å¡¼¥ë¤è¤ê¤â³°Â¦¤ÇÄêµÁ¤µ¤ì¤¿IDL·¿¤ÎÃ±½ãÌ¾¤Î¤É¤Á¤é¤«¤Ç¤¹¡£
+\fItype\fR¤¬¥Õ¥¡¥¤¥ë¡¦¥¹¥³¡¼¥×¤Ç¸¡½Ð¤µ¤ì¤¿¾ì¹ç¤Ï¡¢¤½¤Î·¿¤ËÂÐ¤·¤ÆÀ¸À®¤µ¤ì¤ë¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤Ë¤Ä¤¤¤Æ¡¢À¸À®¤µ¤ì¤ëJbvb¥Ñ¥Ã¥±¡¼¥¸Ì¾¤Ë\fIprefix\fR¤È¤¤¤¦ÀÜÆ¬¼­¤¬ÉÕ²Ã¤µ¤ì¤Þ¤¹¡£type¤Ï¡¢¥È¥Ã¥×¥ì¥Ù¥ë¡¦¥â¥¸¥å¡¼¥ë¤ÎÃ±½ãÌ¾¤«¡¢¤É¤Î¥â¥¸¥å¡¼¥ë¤è¤ê¤â³°Â¦¤ÇÄêµÁ¤µ¤ì¤¿IDL·¿¤ÎÃ±½ãÌ¾¤Î¤É¤Á¤é¤«¤Ç¤¹¡£
 .RE
 .PP
-\-pkgTranslate \fItype\fR \fIpackage\fR
+\-pkgTrbnslbte \fItype\fR \fIpbckbge\fR
 .RS 4
-¼±ÊÌ»Ò¤ÎÃæ¤Ë¥â¥¸¥å¡¼¥ëÌ¾type¤¬¸¡½Ð¤µ¤ì¤ë¤È¡¢À¸À®¤µ¤ì¤ëJava¥Ñ¥Ã¥±¡¼¥¸Æâ¤Î¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤Ë¤Ä¤¤¤Æ¡¢¼±ÊÌ»Ò¤ÎÃæ¤Î¤½¤ÎÌ¾Á°¤¬package¤ÇÃÖ¤­´¹¤¨¤é¤ì¤Þ¤¹¡£ºÇ½é¤Ë\fIpkgPrefix\fR¤ÎÊÑ¹¹¤¬¹Ô¤ï¤ì¤Þ¤¹¡£type¤ÎÃÍ¤Ï¡¢¥È¥Ã¥×¥ì¥Ù¥ë¤Î¥â¥¸¥å¡¼¥ë¤ÎÃ±½ãÌ¾¡¢¤Þ¤¿¤Ï¤¹¤Ù¤Æ¤Î¥â¥¸¥å¡¼¥ë¤Î³°Éô¤ÇÄêµÁ¤µ¤ì¤¿IDL·¿¤ÎÃ±½ãÌ¾¤Ç¡¢´°Á´¤Ê¥Ñ¥Ã¥±¡¼¥¸Ì¾¤ËÀµ³Î¤Ë°ìÃ×¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
+¼±ÊÌ»Ò¤ÎÃæ¤Ë¥â¥¸¥å¡¼¥ëÌ¾type¤¬¸¡½Ð¤µ¤ì¤ë¤È¡¢À¸À®¤µ¤ì¤ëJbvb¥Ñ¥Ã¥±¡¼¥¸Æâ¤Î¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤Ë¤Ä¤¤¤Æ¡¢¼±ÊÌ»Ò¤ÎÃæ¤Î¤½¤ÎÌ¾Á°¤¬pbckbge¤ÇÃÖ¤­´¹¤¨¤é¤ì¤Þ¤¹¡£ºÇ½é¤Ë\fIpkgPrefix\fR¤ÎÊÑ¹¹¤¬¹Ô¤ï¤ì¤Þ¤¹¡£type¤ÎÃÍ¤Ï¡¢¥È¥Ã¥×¥ì¥Ù¥ë¤Î¥â¥¸¥å¡¼¥ë¤ÎÃ±½ãÌ¾¡¢¤Þ¤¿¤Ï¤¹¤Ù¤Æ¤Î¥â¥¸¥å¡¼¥ë¤Î³°Éô¤ÇÄêµÁ¤µ¤ì¤¿IDL·¿¤ÎÃ±½ãÌ¾¤Ç¡¢´°Á´¤Ê¥Ñ¥Ã¥±¡¼¥¸Ì¾¤ËÀµ³Î¤Ë°ìÃ×¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
 .sp
 Ê£¿ô¤ÎÊÑ´¹¤¬¼±ÊÌ»Ò¤Ë°ìÃ×¤¹¤ë¾ì¹ç¡¢¼¡¤ÎÎã¤Ë¼¨¤¹¤è¤¦¤Ë¡¢ºÇ¤âÄ¹¤¤°ìÃ×¤¬ÁªÂò¤µ¤ì¤Þ¤¹¡£
 .sp
@@ -489,7 +489,7 @@ IDL\-to\-Java¥³¥ó¥Ñ¥¤¥é¤Î¥Ó¥ë¥É¡¦¥Ð¡¼¥¸¥ç¥ó¤òÉ½¼¨¤¹¤ë¤Ë¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó\fIidlj
 .RS 4
 .\}
 .nf
-pkgTranslate type pkg \-pkgTranslate type2\&.baz pkg2\&.fizz
+pkgTrbnslbte type pkg \-pkgTrbnslbte type2\&.bbz pkg2\&.fizz
 .fi
 .if n \{\
 .RE
@@ -502,20 +502,20 @@ pkgTranslate type pkg \-pkgTranslate type2\&.baz pkg2\&.fizz
 .nf
 type => pkg
 type\&.ext => pkg\&.ext
-type\&.baz => pkg2\&.fizz
-type2\&.baz\&.pkg => pkg2\&.fizz\&.pkg
+type\&.bbz => pkg2\&.fizz
+type2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg
 .fi
 .if n \{\
 .RE
 .\}
-¥Ñ¥Ã¥±¡¼¥¸Ì¾\fIorg\fR¡¢\fIorg\fR\&.o\fImg\fR¡¢¤Þ¤¿¤Ï\fIorg\&.omg\fR¤Î¥µ¥Ö¥Ñ¥Ã¥±¡¼¥¸¤Ï¡¢ÊÑ´¹¤Ç¤­¤Þ¤»¤ó¡£¤³¤ì¤é¤Î¥Ñ¥Ã¥±¡¼¥¸Ì¾¤òÊÑ´¹¤·¤è¤¦¤È¤¹¤ë¤È¡¢¸ß´¹À­¤Î¤Ê¤¤¥³¡¼¥É¤¬À¸À®¤µ¤ì¡¢\fI\-pkgTranslate\fR¤Î¸å¤ÎºÇ½é¤Î°ú¿ô¤È¤·¤Æ¤½¤ì¤é¤Î¥Ñ¥Ã¥±¡¼¥¸¤ò»ÈÍÑ¤¹¤ë¤È¡¢¥¨¥é¡¼¤È¤·¤Æ°·¤ï¤ì¤Þ¤¹¡£
+¥Ñ¥Ã¥±¡¼¥¸Ì¾\fIorg\fR¡¢\fIorg\fR\&.o\fImg\fR¡¢¤Þ¤¿¤Ï\fIorg\&.omg\fR¤Î¥µ¥Ö¥Ñ¥Ã¥±¡¼¥¸¤Ï¡¢ÊÑ´¹¤Ç¤­¤Þ¤»¤ó¡£¤³¤ì¤é¤Î¥Ñ¥Ã¥±¡¼¥¸Ì¾¤òÊÑ´¹¤·¤è¤¦¤È¤¹¤ë¤È¡¢¸ß´¹À­¤Î¤Ê¤¤¥³¡¼¥É¤¬À¸À®¤µ¤ì¡¢\fI\-pkgTrbnslbte\fR¤Î¸å¤ÎºÇ½é¤Î°ú¿ô¤È¤·¤Æ¤½¤ì¤é¤Î¥Ñ¥Ã¥±¡¼¥¸¤ò»ÈÍÑ¤¹¤ë¤È¡¢¥¨¥é¡¼¤È¤·¤Æ°·¤ï¤ì¤Þ¤¹¡£
 .RE
 .PP
-\-skeletonName \fIxxx%yyy\fR
+\-skeletonNbme \fIxxx%yyy\fR
 .RS 4
 \fIxxx%yyy\fR¤¬¡¢¥¹¥±¥ë¥È¥ó¤ËÌ¾Á°¤òÉÕ¤±¤ë¥Ñ¥¿¡¼¥ó¤È¤·¤Æ»ÈÍÑ¤µ¤ì¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ï¼¡¤Î¤È¤ª¤ê¤Ç¤¹¡£\fIPOA\fR¥Ù¡¼¥¹¡¦¥¯¥é¥¹¤Î¾ì¹ç¤Ï\fI%POA\fR
-(\fI\-fserver\fR¤Þ¤¿¤Ï\fI\-fall\fR)¡¢\fIoldImplBase\fR¥¯¥é¥¹¤Î¾ì¹ç¤Ï\fI_%ImplBase\fR
-(\-\fIoldImplBase\fR)¤ª¤è¤Ó(\fI\-fserver\fR¤Þ¤¿¤Ï\fI\-fall\fR))¡£
+(\fI\-fserver\fR¤Þ¤¿¤Ï\fI\-fbll\fR)¡¢\fIoldImplBbse\fR¥¯¥é¥¹¤Î¾ì¹ç¤Ï\fI_%ImplBbse\fR
+(\-\fIoldImplBbse\fR)¤ª¤è¤Ó(\fI\-fserver\fR¤Þ¤¿¤Ï\fI\-fbll\fR))¡£
 .RE
 .PP
 \-td \fIdir\fR
@@ -523,15 +523,15 @@ type2\&.baz\&.pkg => pkg2\&.fizz\&.pkg
 ½ÐÎÏ¥Ç¥£¥ì¥¯¥È¥ê¤È¤·¤Æ¡¢¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ç¤Ï¤Ê¤¯¡¢\fIdir\fR¤¬»ÈÍÑ¤µ¤ì¤Þ¤¹¡£
 .RE
 .PP
-\-tieName \fIxxx%yyy\fR
+\-tieNbme \fIxxx%yyy\fR
 .RS 4
 ¥Ñ¥¿¡¼¥ó¤Ë½¾¤Ã¤Æ¡¢\fIxxx%yyy\fR¤ò»ÈÍÑ¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ï¼¡¤Î¤È¤ª¤ê¤Ç¤¹¡£\fIPOA\fR¥Ù¡¼¥¹¡¦¥¯¥é¥¹¤Î¾ì¹ç¤Ï\fI%POA\fR
-(\fI\-fserverTie¤Þ¤¿¤Ï\-fallTie\fR)¡¢\fIoldImplBase\fR
+(\fI\-fserverTie¤Þ¤¿¤Ï\-fbllTie\fR)¡¢\fIoldImplBbse\fR
 tie¥¯¥é¥¹¤Î¾ì¹ç¤Ï\fI_%Tie\fR
-(\-\fIoldImplBase\fR)¤ª¤è¤Ó(\fI\-fserverTie\fR¤Þ¤¿¤Ï\fI\-fallTie\fR))¡£
+(\-\fIoldImplBbse\fR)¤ª¤è¤Ó(\fI\-fserverTie\fR¤Þ¤¿¤Ï\fI\-fbllTie\fR))¡£
 .RE
 .PP
-\-nowarn¡¢\-verbose
+\-nowbrn¡¢\-verbose
 .RS 4
 ¥ê¥ê¡¼¥¹¾ðÊó¤òÉ½¼¨¤·¤Æ½ªÎ»¤·¤Þ¤¹¡£
 .RE
@@ -542,12 +542,12 @@ tie¥¯¥é¥¹¤Î¾ì¹ç¤Ï\fI_%Tie\fR
 .RE
 .SH "À©¸Â»ö¹à"
 .PP
-¥°¥í¡¼¥Ð¥ë¡¦¥¹¥³¡¼¥×Æâ¤Î¥¨¥¹¥±¡¼¥×¤µ¤ì¤¿¼±ÊÌ»Ò¤Ï¡¢IDL¥×¥ê¥ß¥Æ¥£¥Ö·¿¤Î\fIObject\fR¤Þ¤¿¤Ï\fIValueBase\fR¤ÈÆ±¤¸ÄÖ¤ê¤Ë¤·¤Ê¤¤¤Ç¤¯¤À¤µ¤¤¡£¤³¤ì¤Ï¡¢¥·¥ó¥Ü¥ëÉ½¤¬¤³¤ì¤é¤Î¼±ÊÌ»Ò¤Ç¥×¥ê¥í¡¼¥É¤µ¤ì¤Æ¤¤¤ë¤¿¤á¤Ç¤¹¡£¤³¤ì¤é¤ÎºÆÄêµÁ¤òµö²Ä¤¹¤ë¤È¡¢¸µ¤ÎÄêµÁ¤¬¾å½ñ¤­¤µ¤ì¤Þ¤¹¡£¤³¤ì¤Ï¡¢¤ª¤½¤é¤¯¹±µ×Åª¤ÊÀ©Ìó¤Ç¤¹¡£
+¥°¥í¡¼¥Ð¥ë¡¦¥¹¥³¡¼¥×Æâ¤Î¥¨¥¹¥±¡¼¥×¤µ¤ì¤¿¼±ÊÌ»Ò¤Ï¡¢IDL¥×¥ê¥ß¥Æ¥£¥Ö·¿¤Î\fIObject\fR¤Þ¤¿¤Ï\fIVblueBbse\fR¤ÈÆ±¤¸ÄÖ¤ê¤Ë¤·¤Ê¤¤¤Ç¤¯¤À¤µ¤¤¡£¤³¤ì¤Ï¡¢¥·¥ó¥Ü¥ëÉ½¤¬¤³¤ì¤é¤Î¼±ÊÌ»Ò¤Ç¥×¥ê¥í¡¼¥É¤µ¤ì¤Æ¤¤¤ë¤¿¤á¤Ç¤¹¡£¤³¤ì¤é¤ÎºÆÄêµÁ¤òµö²Ä¤¹¤ë¤È¡¢¸µ¤ÎÄêµÁ¤¬¾å½ñ¤­¤µ¤ì¤Þ¤¹¡£¤³¤ì¤Ï¡¢¤ª¤½¤é¤¯¹±µ×Åª¤ÊÀ©Ìó¤Ç¤¹¡£
 .PP
 \fIfixed\fR¤È¤¤¤¦IDL·¿¤Ï¥µ¥Ý¡¼¥È¤µ¤ì¤Æ¤¤¤Þ¤»¤ó¡£
 .SH "´ûÃÎ¤ÎÌäÂê"
 .PP
-¥°¥í¡¼¥Ð¥ë¼±ÊÌ»Ò¤Ë¤Ä¤¤¤Æ¥¤¥ó¥Ý¡¼¥È¤¬À¸À®¤µ¤ì¤Þ¤»¤ó¡£Í½´ü¤µ¤ì¤Ê¤¤¥í¡¼¥«¥ë\fIimpl\fR¥ª¥Ö¥¸¥§¥¯¥È¤ò¸Æ¤Ó½Ð¤¹¤È¡¢Îã³°¤ò¼õ¤±¼è¤ê¤Þ¤¹¡£¤·¤«¤·¡¢¤½¤Î¸¶°ø¤Ï¡¢\fIServerDelegate\fR
+¥°¥í¡¼¥Ð¥ë¼±ÊÌ»Ò¤Ë¤Ä¤¤¤Æ¥¤¥ó¥Ý¡¼¥È¤¬À¸À®¤µ¤ì¤Þ¤»¤ó¡£Í½´ü¤µ¤ì¤Ê¤¤¥í¡¼¥«¥ë\fIimpl\fR¥ª¥Ö¥¸¥§¥¯¥È¤ò¸Æ¤Ó½Ð¤¹¤È¡¢Îã³°¤ò¼õ¤±¼è¤ê¤Þ¤¹¡£¤·¤«¤·¡¢¤½¤Î¸¶°ø¤Ï¡¢\fIServerDelegbte\fR
 DSI¥³¡¼¥ÉÆâ¤Î\fINullPointerException\fR¤Ë¤¢¤ë¤è¤¦¤Ç¤¹¡£
 .br
 'pl 8.5i

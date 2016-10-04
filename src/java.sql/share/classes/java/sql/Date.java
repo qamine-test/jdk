@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
-import java.time.Instant;
-import java.time.LocalDate;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblDbte;
 
 /**
- * <P>A thin wrapper around a millisecond value that allows
- * JDBC to identify this as an SQL <code>DATE</code> value.  A
- * milliseconds value represents the number of milliseconds that
- * have passed since January 1, 1970 00:00:00.000 GMT.
+ * <P>A thin wrbpper bround b millisecond vblue thbt bllows
+ * JDBC to identify this bs bn SQL <code>DATE</code> vblue.  A
+ * milliseconds vblue represents the number of milliseconds thbt
+ * hbve pbssed since Jbnubry 1, 1970 00:00:00.000 GMT.
  * <p>
  * To conform with the definition of SQL <code>DATE</code>, the
- * millisecond values wrapped by a <code>java.sql.Date</code> instance
- * must be 'normalized' by setting the
- * hours, minutes, seconds, and milliseconds to zero in the particular
- * time zone with which the instance is associated.
+ * millisecond vblues wrbpped by b <code>jbvb.sql.Dbte</code> instbnce
+ * must be 'normblized' by setting the
+ * hours, minutes, seconds, bnd milliseconds to zero in the pbrticulbr
+ * time zone with which the instbnce is bssocibted.
  */
-public class Date extends java.util.Date {
+public clbss Dbte extends jbvb.util.Dbte {
 
     /**
-     * Constructs a <code>Date</code> object initialized with the given
-     * year, month, and day.
+     * Constructs b <code>Dbte</code> object initiblized with the given
+     * yebr, month, bnd dby.
      * <P>
-     * The result is undefined if a given argument is out of bounds.
+     * The result is undefined if b given brgument is out of bounds.
      *
-     * @param year the year minus 1900; must be 0 to 8099. (Note that
+     * @pbrbm yebr the yebr minus 1900; must be 0 to 8099. (Note thbt
      *        8099 is 9999 minus 1900.)
-     * @param month 0 to 11
-     * @param day 1 to 31
-     * @deprecated instead use the constructor <code>Date(long date)</code>
+     * @pbrbm month 0 to 11
+     * @pbrbm dby 1 to 31
+     * @deprecbted instebd use the constructor <code>Dbte(long dbte)</code>
      */
-    @Deprecated
-    public Date(int year, int month, int day) {
-        super(year, month, day);
+    @Deprecbted
+    public Dbte(int yebr, int month, int dby) {
+        super(yebr, month, dby);
     }
 
     /**
-     * Constructs a <code>Date</code> object using the given milliseconds
-     * time value.  If the given milliseconds value contains time
-     * information, the driver will set the time components to the
-     * time in the default time zone (the time zone of the Java virtual
-     * machine running the application) that corresponds to zero GMT.
+     * Constructs b <code>Dbte</code> object using the given milliseconds
+     * time vblue.  If the given milliseconds vblue contbins time
+     * informbtion, the driver will set the time components to the
+     * time in the defbult time zone (the time zone of the Jbvb virtubl
+     * mbchine running the bpplicbtion) thbt corresponds to zero GMT.
      *
-     * @param date milliseconds since January 1, 1970, 00:00:00 GMT not
-     *        to exceed the milliseconds representation for the year 8099.
-     *        A negative number indicates the number of milliseconds
-     *        before January 1, 1970, 00:00:00 GMT.
+     * @pbrbm dbte milliseconds since Jbnubry 1, 1970, 00:00:00 GMT not
+     *        to exceed the milliseconds representbtion for the yebr 8099.
+     *        A negbtive number indicbtes the number of milliseconds
+     *        before Jbnubry 1, 1970, 00:00:00 GMT.
      */
-    public Date(long date) {
-        // If the millisecond date value contains time info, mask it out.
-        super(date);
+    public Dbte(long dbte) {
+        // If the millisecond dbte vblue contbins time info, mbsk it out.
+        super(dbte);
 
     }
 
     /**
-     * Sets an existing <code>Date</code> object
-     * using the given milliseconds time value.
-     * If the given milliseconds value contains time information,
+     * Sets bn existing <code>Dbte</code> object
+     * using the given milliseconds time vblue.
+     * If the given milliseconds vblue contbins time informbtion,
      * the driver will set the time components to the
-     * time in the default time zone (the time zone of the Java virtual
-     * machine running the application) that corresponds to zero GMT.
+     * time in the defbult time zone (the time zone of the Jbvb virtubl
+     * mbchine running the bpplicbtion) thbt corresponds to zero GMT.
      *
-     * @param date milliseconds since January 1, 1970, 00:00:00 GMT not
-     *        to exceed the milliseconds representation for the year 8099.
-     *        A negative number indicates the number of milliseconds
-     *        before January 1, 1970, 00:00:00 GMT.
+     * @pbrbm dbte milliseconds since Jbnubry 1, 1970, 00:00:00 GMT not
+     *        to exceed the milliseconds representbtion for the yebr 8099.
+     *        A negbtive number indicbtes the number of milliseconds
+     *        before Jbnubry 1, 1970, 00:00:00 GMT.
      */
-    public void setTime(long date) {
-        // If the millisecond date value contains time info, mask it out.
-        super.setTime(date);
+    public void setTime(long dbte) {
+        // If the millisecond dbte vblue contbins time info, mbsk it out.
+        super.setTime(dbte);
     }
 
     /**
-     * Converts a string in JDBC date escape format to
-     * a <code>Date</code> value.
+     * Converts b string in JDBC dbte escbpe formbt to
+     * b <code>Dbte</code> vblue.
      *
-     * @param s a <code>String</code> object representing a date in
-     *        in the format "yyyy-[m]m-[d]d". The leading zero for <code>mm</code>
-     * and <code>dd</code> may also be omitted.
-     * @return a <code>java.sql.Date</code> object representing the
-     *         given date
-     * @throws IllegalArgumentException if the date given is not in the
-     *         JDBC date escape format (yyyy-[m]m-[d]d)
+     * @pbrbm s b <code>String</code> object representing b dbte in
+     *        in the formbt "yyyy-[m]m-[d]d". The lebding zero for <code>mm</code>
+     * bnd <code>dd</code> mby blso be omitted.
+     * @return b <code>jbvb.sql.Dbte</code> object representing the
+     *         given dbte
+     * @throws IllegblArgumentException if the dbte given is not in the
+     *         JDBC dbte escbpe formbt (yyyy-[m]m-[d]d)
      */
-    public static Date valueOf(String s) {
-        final int YEAR_LENGTH = 4;
-        final int MONTH_LENGTH = 2;
-        final int DAY_LENGTH = 2;
-        final int MAX_MONTH = 12;
-        final int MAX_DAY = 31;
-        int firstDash;
-        int secondDash;
-        Date d = null;
+    public stbtic Dbte vblueOf(String s) {
+        finbl int YEAR_LENGTH = 4;
+        finbl int MONTH_LENGTH = 2;
+        finbl int DAY_LENGTH = 2;
+        finbl int MAX_MONTH = 12;
+        finbl int MAX_DAY = 31;
+        int firstDbsh;
+        int secondDbsh;
+        Dbte d = null;
         if (s == null) {
-            throw new java.lang.IllegalArgumentException();
+            throw new jbvb.lbng.IllegblArgumentException();
         }
 
-        firstDash = s.indexOf('-');
-        secondDash = s.indexOf('-', firstDash + 1);
+        firstDbsh = s.indexOf('-');
+        secondDbsh = s.indexOf('-', firstDbsh + 1);
 
-        if ((firstDash > 0) && (secondDash > 0) && (secondDash < s.length() - 1)) {
-            String yyyy = s.substring(0, firstDash);
-            String mm = s.substring(firstDash + 1, secondDash);
-            String dd = s.substring(secondDash + 1);
+        if ((firstDbsh > 0) && (secondDbsh > 0) && (secondDbsh < s.length() - 1)) {
+            String yyyy = s.substring(0, firstDbsh);
+            String mm = s.substring(firstDbsh + 1, secondDbsh);
+            String dd = s.substring(secondDbsh + 1);
             if (yyyy.length() == YEAR_LENGTH &&
                     (mm.length() >= 1 && mm.length() <= MONTH_LENGTH) &&
                     (dd.length() >= 1 && dd.length() <= DAY_LENGTH)) {
-                int year = Integer.parseInt(yyyy);
-                int month = Integer.parseInt(mm);
-                int day = Integer.parseInt(dd);
+                int yebr = Integer.pbrseInt(yyyy);
+                int month = Integer.pbrseInt(mm);
+                int dby = Integer.pbrseInt(dd);
 
-                if ((month >= 1 && month <= MAX_MONTH) && (day >= 1 && day <= MAX_DAY)) {
-                    d = new Date(year - 1900, month - 1, day);
+                if ((month >= 1 && month <= MAX_MONTH) && (dby >= 1 && dby <= MAX_DAY)) {
+                    d = new Dbte(yebr - 1900, month - 1, dby);
                 }
             }
         }
         if (d == null) {
-            throw new java.lang.IllegalArgumentException();
+            throw new jbvb.lbng.IllegblArgumentException();
         }
 
         return d;
@@ -149,158 +149,158 @@ public class Date extends java.util.Date {
 
 
     /**
-     * Formats a date in the date escape format yyyy-mm-dd.
+     * Formbts b dbte in the dbte escbpe formbt yyyy-mm-dd.
      *
-     * @return a String in yyyy-mm-dd format
+     * @return b String in yyyy-mm-dd formbt
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public String toString () {
-        int year = super.getYear() + 1900;
+        int yebr = super.getYebr() + 1900;
         int month = super.getMonth() + 1;
-        int day = super.getDate();
+        int dby = super.getDbte();
 
-        char buf[] = "2000-00-00".toCharArray();
-        buf[0] = Character.forDigit(year/1000,10);
-        buf[1] = Character.forDigit((year/100)%10,10);
-        buf[2] = Character.forDigit((year/10)%10,10);
-        buf[3] = Character.forDigit(year%10,10);
-        buf[5] = Character.forDigit(month/10,10);
-        buf[6] = Character.forDigit(month%10,10);
-        buf[8] = Character.forDigit(day/10,10);
-        buf[9] = Character.forDigit(day%10,10);
+        chbr buf[] = "2000-00-00".toChbrArrby();
+        buf[0] = Chbrbcter.forDigit(yebr/1000,10);
+        buf[1] = Chbrbcter.forDigit((yebr/100)%10,10);
+        buf[2] = Chbrbcter.forDigit((yebr/10)%10,10);
+        buf[3] = Chbrbcter.forDigit(yebr%10,10);
+        buf[5] = Chbrbcter.forDigit(month/10,10);
+        buf[6] = Chbrbcter.forDigit(month%10,10);
+        buf[8] = Chbrbcter.forDigit(dby/10,10);
+        buf[9] = Chbrbcter.forDigit(dby%10,10);
 
         return new String(buf);
     }
 
-    // Override all the time operations inherited from java.util.Date;
+    // Override bll the time operbtions inherited from jbvb.util.Dbte;
 
    /**
-    * This method is deprecated and should not be used because SQL Date
-    * values do not have a time component.
+    * This method is deprecbted bnd should not be used becbuse SQL Dbte
+    * vblues do not hbve b time component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this method is invoked
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this method is invoked
     * @see #setHours
     */
-    @Deprecated
+    @Deprecbted
     public int getHours() {
-        throw new java.lang.IllegalArgumentException();
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL Date
-    * values do not have a time component.
+    * This method is deprecbted bnd should not be used becbuse SQL Dbte
+    * vblues do not hbve b time component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this method is invoked
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this method is invoked
     * @see #setMinutes
     */
-    @Deprecated
+    @Deprecbted
     public int getMinutes() {
-        throw new java.lang.IllegalArgumentException();
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL Date
-    * values do not have a time component.
+    * This method is deprecbted bnd should not be used becbuse SQL Dbte
+    * vblues do not hbve b time component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this method is invoked
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this method is invoked
     * @see #setSeconds
     */
-    @Deprecated
+    @Deprecbted
     public int getSeconds() {
-        throw new java.lang.IllegalArgumentException();
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL Date
-    * values do not have a time component.
+    * This method is deprecbted bnd should not be used becbuse SQL Dbte
+    * vblues do not hbve b time component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this method is invoked
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this method is invoked
     * @see #getHours
     */
-    @Deprecated
+    @Deprecbted
     public void setHours(int i) {
-        throw new java.lang.IllegalArgumentException();
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL Date
-    * values do not have a time component.
+    * This method is deprecbted bnd should not be used becbuse SQL Dbte
+    * vblues do not hbve b time component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this method is invoked
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this method is invoked
     * @see #getMinutes
     */
-    @Deprecated
+    @Deprecbted
     public void setMinutes(int i) {
-        throw new java.lang.IllegalArgumentException();
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL Date
-    * values do not have a time component.
+    * This method is deprecbted bnd should not be used becbuse SQL Dbte
+    * vblues do not hbve b time component.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this method is invoked
+    * @deprecbted
+    * @exception jbvb.lbng.IllegblArgumentException if this method is invoked
     * @see #getSeconds
     */
-    @Deprecated
+    @Deprecbted
     public void setSeconds(int i) {
-        throw new java.lang.IllegalArgumentException();
+        throw new jbvb.lbng.IllegblArgumentException();
     }
 
    /**
-    * Private serial version unique ID to ensure serialization
-    * compatibility.
+    * Privbte seribl version unique ID to ensure seriblizbtion
+    * compbtibility.
     */
-    static final long serialVersionUID = 1511598038487230103L;
+    stbtic finbl long seriblVersionUID = 1511598038487230103L;
 
     /**
-     * Obtains an instance of {@code Date} from a {@link LocalDate} object
-     * with the same year, month and day of month value as the given
-     * {@code LocalDate}.
+     * Obtbins bn instbnce of {@code Dbte} from b {@link LocblDbte} object
+     * with the sbme yebr, month bnd dby of month vblue bs the given
+     * {@code LocblDbte}.
      * <p>
-     * The provided {@code LocalDate} is interpreted as the local date
-     * in the local time zone.
+     * The provided {@code LocblDbte} is interpreted bs the locbl dbte
+     * in the locbl time zone.
      *
-     * @param date a {@code LocalDate} to convert
-     * @return a {@code Date} object
-     * @exception NullPointerException if {@code date} is null
+     * @pbrbm dbte b {@code LocblDbte} to convert
+     * @return b {@code Dbte} object
+     * @exception NullPointerException if {@code dbte} is null
      * @since 1.8
      */
-    @SuppressWarnings("deprecation")
-    public static Date valueOf(LocalDate date) {
-        return new Date(date.getYear() - 1900, date.getMonthValue() -1,
-                        date.getDayOfMonth());
+    @SuppressWbrnings("deprecbtion")
+    public stbtic Dbte vblueOf(LocblDbte dbte) {
+        return new Dbte(dbte.getYebr() - 1900, dbte.getMonthVblue() -1,
+                        dbte.getDbyOfMonth());
     }
 
     /**
-     * Converts this {@code Date} object to a {@code LocalDate}
+     * Converts this {@code Dbte} object to b {@code LocblDbte}
      * <p>
-     * The conversion creates a {@code LocalDate} that represents the same
-     * date value as this {@code Date} in local time zone
+     * The conversion crebtes b {@code LocblDbte} thbt represents the sbme
+     * dbte vblue bs this {@code Dbte} in locbl time zone
      *
-     * @return a {@code LocalDate} object representing the same date value
+     * @return b {@code LocblDbte} object representing the sbme dbte vblue
      *
      * @since 1.8
      */
-    @SuppressWarnings("deprecation")
-    public LocalDate toLocalDate() {
-        return LocalDate.of(getYear() + 1900, getMonth() + 1, getDate());
+    @SuppressWbrnings("deprecbtion")
+    public LocblDbte toLocblDbte() {
+        return LocblDbte.of(getYebr() + 1900, getMonth() + 1, getDbte());
     }
 
    /**
-    * This method always throws an UnsupportedOperationException and should
-    * not be used because SQL {@code Date} values do not have a time
+    * This method blwbys throws bn UnsupportedOperbtionException bnd should
+    * not be used becbuse SQL {@code Dbte} vblues do not hbve b time
     * component.
     *
-    * @exception java.lang.UnsupportedOperationException if this method is invoked
+    * @exception jbvb.lbng.UnsupportedOperbtionException if this method is invoked
     */
     @Override
-    public Instant toInstant() {
-        throw new java.lang.UnsupportedOperationException();
+    public Instbnt toInstbnt() {
+        throw new jbvb.lbng.UnsupportedOperbtionException();
     }
 }

@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.util;
+pbckbge com.sun.bebns.util;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.util.Objects;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.Objects;
 
 /**
- * Hash table based implementation of the cache,
- * which allows to use weak or soft references for keys and values.
- * An entry in a {@code Cache} will automatically be removed
- * when its key or value is no longer in ordinary use.
+ * Hbsh tbble bbsed implementbtion of the cbche,
+ * which bllows to use webk or soft references for keys bnd vblues.
+ * An entry in b {@code Cbche} will butombticblly be removed
+ * when its key or vblue is no longer in ordinbry use.
  *
- * @author Sergey Malenkov
+ * @buthor Sergey Mblenkov
  * @since 1.8
  */
-public abstract class Cache<K,V> {
-    private static final int MAXIMUM_CAPACITY = 1 << 30; // maximum capacity MUST be a power of two <= 1<<30
+public bbstrbct clbss Cbche<K,V> {
+    privbte stbtic finbl int MAXIMUM_CAPACITY = 1 << 30; // mbximum cbpbcity MUST be b power of two <= 1<<30
 
-    private final boolean identity; // defines whether the identity comparison is used
-    private final Kind keyKind; // a reference kind for the cache keys
-    private final Kind valueKind; // a reference kind for the cache values
+    privbte finbl boolebn identity; // defines whether the identity compbrison is used
+    privbte finbl Kind keyKind; // b reference kind for the cbche keys
+    privbte finbl Kind vblueKind; // b reference kind for the cbche vblues
 
-    private final ReferenceQueue<Object> queue = new ReferenceQueue<>(); // queue for references to remove
+    privbte finbl ReferenceQueue<Object> queue = new ReferenceQueue<>(); // queue for references to remove
 
-    private volatile CacheEntry<K,V>[] table = newTable(1 << 3); // table's length MUST be a power of two
-    private int threshold = 6; // the next size value at which to resize
-    private int size; // the number of key-value mappings contained in this map
-
-    /**
-     * Creates a corresponding value for the specified key.
-     *
-     * @param key a key that can be used to create a value
-     * @return a corresponding value for the specified key
-     */
-    public abstract V create(K key);
+    privbte volbtile CbcheEntry<K,V>[] tbble = newTbble(1 << 3); // tbble's length MUST be b power of two
+    privbte int threshold = 6; // the next size vblue bt which to resize
+    privbte int size; // the number of key-vblue mbppings contbined in this mbp
 
     /**
-     * Constructs an empty {@code Cache}.
-     * The default initial capacity is 8.
-     * The default load factor is 0.75.
+     * Crebtes b corresponding vblue for the specified key.
      *
-     * @param keyKind   a reference kind for keys
-     * @param valueKind a reference kind for values
-     *
-     * @throws NullPointerException if {@code keyKind} or {@code valueKind} are {@code null}
+     * @pbrbm key b key thbt cbn be used to crebte b vblue
+     * @return b corresponding vblue for the specified key
      */
-    public Cache(Kind keyKind, Kind valueKind) {
-        this(keyKind, valueKind, false);
+    public bbstrbct V crebte(K key);
+
+    /**
+     * Constructs bn empty {@code Cbche}.
+     * The defbult initibl cbpbcity is 8.
+     * The defbult lobd fbctor is 0.75.
+     *
+     * @pbrbm keyKind   b reference kind for keys
+     * @pbrbm vblueKind b reference kind for vblues
+     *
+     * @throws NullPointerException if {@code keyKind} or {@code vblueKind} bre {@code null}
+     */
+    public Cbche(Kind keyKind, Kind vblueKind) {
+        this(keyKind, vblueKind, fblse);
     }
 
     /**
-     * Constructs an empty {@code Cache}
-     * with the specified comparison method.
-     * The default initial capacity is 8.
-     * The default load factor is 0.75.
+     * Constructs bn empty {@code Cbche}
+     * with the specified compbrison method.
+     * The defbult initibl cbpbcity is 8.
+     * The defbult lobd fbctor is 0.75.
      *
-     * @param keyKind   a reference kind for keys
-     * @param valueKind a reference kind for values
-     * @param identity  defines whether reference-equality
-     *                  is used in place of object-equality
+     * @pbrbm keyKind   b reference kind for keys
+     * @pbrbm vblueKind b reference kind for vblues
+     * @pbrbm identity  defines whether reference-equblity
+     *                  is used in plbce of object-equblity
      *
-     * @throws NullPointerException if {@code keyKind} or {@code valueKind} are {@code null}
+     * @throws NullPointerException if {@code keyKind} or {@code vblueKind} bre {@code null}
      */
-    public Cache(Kind keyKind, Kind valueKind, boolean identity) {
+    public Cbche(Kind keyKind, Kind vblueKind, boolebn identity) {
         Objects.requireNonNull(keyKind, "keyKind");
-        Objects.requireNonNull(valueKind, "valueKind");
+        Objects.requireNonNull(vblueKind, "vblueKind");
         this.keyKind = keyKind;
-        this.valueKind = valueKind;
+        this.vblueKind = vblueKind;
         this.identity = identity;
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if there is no mapping for the key.
+     * Returns the vblue to which the specified key is mbpped,
+     * or {@code null} if there is no mbpping for the key.
      *
-     * @param key the key whose cached value is to be returned
-     * @return a value to which the specified key is mapped,
-     *         or {@code null} if there is no mapping for {@code key}
+     * @pbrbm key the key whose cbched vblue is to be returned
+     * @return b vblue to which the specified key is mbpped,
+     *         or {@code null} if there is no mbpping for {@code key}
      *
      * @throws NullPointerException if {@code key} is {@code null}
-     *                              or corresponding value is {@code null}
+     *                              or corresponding vblue is {@code null}
      */
-    public final V get(K key) {
+    public finbl V get(K key) {
         Objects.requireNonNull(key, "key");
-        removeStaleEntries();
-        int hash = hash(key);
-        // unsynchronized search improves performance
-        // the null value does not mean that there are no needed entry
-        CacheEntry<K,V>[] table = this.table; // unsynchronized access
-        V current = getEntryValue(key, hash, table[index(hash, table)]);
+        removeStbleEntries();
+        int hbsh = hbsh(key);
+        // unsynchronized sebrch improves performbnce
+        // the null vblue does not mebn thbt there bre no needed entry
+        CbcheEntry<K,V>[] tbble = this.tbble; // unsynchronized bccess
+        V current = getEntryVblue(key, hbsh, tbble[index(hbsh, tbble)]);
         if (current != null) {
             return current;
         }
         synchronized (this.queue) {
-            // synchronized search improves stability
-            // we must create and add new value if there are no needed entry
-            current = getEntryValue(key, hash, this.table[index(hash, this.table)]);
+            // synchronized sebrch improves stbbility
+            // we must crebte bnd bdd new vblue if there bre no needed entry
+            current = getEntryVblue(key, hbsh, this.tbble[index(hbsh, this.tbble)]);
             if (current != null) {
                 return current;
             }
-            V value = create(key);
-            Objects.requireNonNull(value, "value");
-            int index = index(hash, this.table);
-            this.table[index] = new CacheEntry<>(hash, key, value, this.table[index]);
+            V vblue = crebte(key);
+            Objects.requireNonNull(vblue, "vblue");
+            int index = index(hbsh, this.tbble);
+            this.tbble[index] = new CbcheEntry<>(hbsh, key, vblue, this.tbble[index]);
             if (++this.size >= this.threshold) {
-                if (this.table.length == MAXIMUM_CAPACITY) {
+                if (this.tbble.length == MAXIMUM_CAPACITY) {
                     this.threshold = Integer.MAX_VALUE;
                 } else {
-                    removeStaleEntries();
-                    table = newTable(this.table.length << 1);
-                    transfer(this.table, table);
-                    // If ignoring null elements and processing ref queue caused massive
-                    // shrinkage, then restore old table.  This should be rare, but avoids
-                    // unbounded expansion of garbage-filled tables.
+                    removeStbleEntries();
+                    tbble = newTbble(this.tbble.length << 1);
+                    trbnsfer(this.tbble, tbble);
+                    // If ignoring null elements bnd processing ref queue cbused mbssive
+                    // shrinkbge, then restore old tbble.  This should be rbre, but bvoids
+                    // unbounded expbnsion of gbrbbge-filled tbbles.
                     if (this.size >= this.threshold / 2) {
-                        this.table = table;
+                        this.tbble = tbble;
                         this.threshold <<= 1;
                     } else {
-                        transfer(table, this.table);
+                        trbnsfer(tbble, this.tbble);
                     }
-                    removeStaleEntries();
+                    removeStbleEntries();
                 }
             }
-            return value;
+            return vblue;
         }
     }
 
     /**
-     * Removes the cached value that corresponds to the specified key.
+     * Removes the cbched vblue thbt corresponds to the specified key.
      *
-     * @param key the key whose mapping is to be removed from this cache
+     * @pbrbm key the key whose mbpping is to be removed from this cbche
      */
-    public final void remove(K key) {
+    public finbl void remove(K key) {
         if (key != null) {
             synchronized (this.queue) {
-                removeStaleEntries();
-                int hash = hash(key);
-                int index = index(hash, this.table);
-                CacheEntry<K,V> prev = this.table[index];
-                CacheEntry<K,V> entry = prev;
+                removeStbleEntries();
+                int hbsh = hbsh(key);
+                int index = index(hbsh, this.tbble);
+                CbcheEntry<K,V> prev = this.tbble[index];
+                CbcheEntry<K,V> entry = prev;
                 while (entry != null) {
-                    CacheEntry<K,V> next = entry.next;
-                    if (entry.matches(hash, key)) {
+                    CbcheEntry<K,V> next = entry.next;
+                    if (entry.mbtches(hbsh, key)) {
                         if (entry == prev) {
-                            this.table[index] = next;
+                            this.tbble[index] = next;
                         } else {
                             prev.next = next;
                         }
                         entry.unlink();
-                        break;
+                        brebk;
                     }
                     prev = entry;
                     entry = next;
@@ -182,107 +182,107 @@ public abstract class Cache<K,V> {
     }
 
     /**
-     * Removes all of the mappings from this cache.
-     * It will be empty after this call returns.
+     * Removes bll of the mbppings from this cbche.
+     * It will be empty bfter this cbll returns.
      */
-    public final void clear() {
+    public finbl void clebr() {
         synchronized (this.queue) {
-            int index = this.table.length;
+            int index = this.tbble.length;
             while (0 < index--) {
-                CacheEntry<K,V> entry = this.table[index];
+                CbcheEntry<K,V> entry = this.tbble[index];
                 while (entry != null) {
-                    CacheEntry<K,V> next = entry.next;
+                    CbcheEntry<K,V> next = entry.next;
                     entry.unlink();
                     entry = next;
                 }
-                this.table[index] = null;
+                this.tbble[index] = null;
             }
             while (null != this.queue.poll()) {
-                // Clear out the reference queue.
+                // Clebr out the reference queue.
             }
         }
     }
 
     /**
-     * Retrieves object hash code and applies a supplemental hash function
-     * to the result hash, which defends against poor quality hash functions.
-     * This is critical because {@code Cache} uses power-of-two length hash tables,
-     * that otherwise encounter collisions for hashCodes that do not differ
+     * Retrieves object hbsh code bnd bpplies b supplementbl hbsh function
+     * to the result hbsh, which defends bgbinst poor qublity hbsh functions.
+     * This is criticbl becbuse {@code Cbche} uses power-of-two length hbsh tbbles,
+     * thbt otherwise encounter collisions for hbshCodes thbt do not differ
      * in lower bits.
      *
-     * @param key the object which hash code is to be calculated
-     * @return a hash code value for the specified object
+     * @pbrbm key the object which hbsh code is to be cblculbted
+     * @return b hbsh code vblue for the specified object
      */
-    private int hash(Object key) {
+    privbte int hbsh(Object key) {
         if (this.identity) {
-            int hash = System.identityHashCode(key);
-            return (hash << 1) - (hash << 8);
+            int hbsh = System.identityHbshCode(key);
+            return (hbsh << 1) - (hbsh << 8);
         }
-        int hash = key.hashCode();
-        // This function ensures that hashCodes that differ only by
-        // constant multiples at each bit position have a bounded
-        // number of collisions (approximately 8 at default load factor).
-        hash ^= (hash >>> 20) ^ (hash >>> 12);
-        return hash ^ (hash >>> 7) ^ (hash >>> 4);
+        int hbsh = key.hbshCode();
+        // This function ensures thbt hbshCodes thbt differ only by
+        // constbnt multiples bt ebch bit position hbve b bounded
+        // number of collisions (bpproximbtely 8 bt defbult lobd fbctor).
+        hbsh ^= (hbsh >>> 20) ^ (hbsh >>> 12);
+        return hbsh ^ (hbsh >>> 7) ^ (hbsh >>> 4);
     }
 
     /**
-     * Returns index of the specified hash code in the given table.
-     * Note that the table size must be a power of two.
+     * Returns index of the specified hbsh code in the given tbble.
+     * Note thbt the tbble size must be b power of two.
      *
-     * @param hash  the hash code
-     * @param table the table
-     * @return an index of the specified hash code in the given table
+     * @pbrbm hbsh  the hbsh code
+     * @pbrbm tbble the tbble
+     * @return bn index of the specified hbsh code in the given tbble
      */
-    private static int index(int hash, Object[] table) {
-        return hash & (table.length - 1);
+    privbte stbtic int index(int hbsh, Object[] tbble) {
+        return hbsh & (tbble.length - 1);
     }
 
     /**
-     * Creates a new array for the cache entries.
+     * Crebtes b new brrby for the cbche entries.
      *
-     * @param size requested capacity MUST be a power of two
-     * @return a new array for the cache entries
+     * @pbrbm size requested cbpbcity MUST be b power of two
+     * @return b new brrby for the cbche entries
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private CacheEntry<K,V>[] newTable(int size) {
-        return (CacheEntry<K,V>[]) new CacheEntry[size];
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    privbte CbcheEntry<K,V>[] newTbble(int size) {
+        return (CbcheEntry<K,V>[]) new CbcheEntry[size];
     }
 
-    private V getEntryValue(K key, int hash, CacheEntry<K,V> entry) {
+    privbte V getEntryVblue(K key, int hbsh, CbcheEntry<K,V> entry) {
         while (entry != null) {
-            if (entry.matches(hash, key)) {
-                return entry.value.getReferent();
+            if (entry.mbtches(hbsh, key)) {
+                return entry.vblue.getReferent();
             }
             entry = entry.next;
         }
         return null;
     }
 
-    private void removeStaleEntries() {
+    privbte void removeStbleEntries() {
         Object reference = this.queue.poll();
         if (reference != null) {
             synchronized (this.queue) {
                 do {
-                    if (reference instanceof Ref) {
-                        @SuppressWarnings("rawtypes")
+                    if (reference instbnceof Ref) {
+                        @SuppressWbrnings("rbwtypes")
                         Ref ref = (Ref) reference;
-                        @SuppressWarnings("unchecked")
-                        CacheEntry<K,V> owner = (CacheEntry<K,V>) ref.getOwner();
+                        @SuppressWbrnings("unchecked")
+                        CbcheEntry<K,V> owner = (CbcheEntry<K,V>) ref.getOwner();
                         if (owner != null) {
-                            int index = index(owner.hash, this.table);
-                            CacheEntry<K,V> prev = this.table[index];
-                            CacheEntry<K,V> entry = prev;
+                            int index = index(owner.hbsh, this.tbble);
+                            CbcheEntry<K,V> prev = this.tbble[index];
+                            CbcheEntry<K,V> entry = prev;
                             while (entry != null) {
-                                CacheEntry<K,V> next = entry.next;
+                                CbcheEntry<K,V> next = entry.next;
                                 if (entry == owner) {
                                     if (entry == prev) {
-                                        this.table[index] = next;
+                                        this.tbble[index] = next;
                                     } else {
                                         prev.next = next;
                                     }
                                     entry.unlink();
-                                    break;
+                                    brebk;
                                 }
                                 prev = entry;
                                 entry = next;
@@ -296,19 +296,19 @@ public abstract class Cache<K,V> {
         }
     }
 
-    private void transfer(CacheEntry<K,V>[] oldTable, CacheEntry<K,V>[] newTable) {
-        int oldIndex = oldTable.length;
+    privbte void trbnsfer(CbcheEntry<K,V>[] oldTbble, CbcheEntry<K,V>[] newTbble) {
+        int oldIndex = oldTbble.length;
         while (0 < oldIndex--) {
-            CacheEntry<K,V> entry = oldTable[oldIndex];
-            oldTable[oldIndex] = null;
+            CbcheEntry<K,V> entry = oldTbble[oldIndex];
+            oldTbble[oldIndex] = null;
             while (entry != null) {
-                CacheEntry<K,V> next = entry.next;
-                if (entry.key.isStale() || entry.value.isStale()) {
+                CbcheEntry<K,V> next = entry.next;
+                if (entry.key.isStble() || entry.vblue.isStble()) {
                     entry.unlink();
                 } else {
-                    int newIndex = index(entry.hash, newTable);
-                    entry.next = newTable[newIndex];
-                    newTable[newIndex] = entry;
+                    int newIndex = index(entry.hbsh, newTbble);
+                    entry.next = newTbble[newIndex];
+                    newTbble[newIndex] = entry;
                 }
                 entry = next;
             }
@@ -316,65 +316,65 @@ public abstract class Cache<K,V> {
     }
 
     /**
-     * Represents a cache entry (key-value pair).
+     * Represents b cbche entry (key-vblue pbir).
      */
-    private final class CacheEntry<K,V> {
-        private final int hash;
-        private final Ref<K> key;
-        private final Ref<V> value;
-        private volatile CacheEntry<K,V> next;
+    privbte finbl clbss CbcheEntry<K,V> {
+        privbte finbl int hbsh;
+        privbte finbl Ref<K> key;
+        privbte finbl Ref<V> vblue;
+        privbte volbtile CbcheEntry<K,V> next;
 
         /**
-         * Constructs an entry for the cache.
+         * Constructs bn entry for the cbche.
          *
-         * @param hash  the hash code calculated for the entry key
-         * @param key   the entry key
-         * @param value the initial value of the entry
-         * @param next  the next entry in a chain
+         * @pbrbm hbsh  the hbsh code cblculbted for the entry key
+         * @pbrbm key   the entry key
+         * @pbrbm vblue the initibl vblue of the entry
+         * @pbrbm next  the next entry in b chbin
          */
-        private CacheEntry(int hash, K key, V value, CacheEntry<K,V> next) {
-            this.hash = hash;
-            this.key = Cache.this.keyKind.create(this, key, Cache.this.queue);
-            this.value = Cache.this.valueKind.create(this, value, Cache.this.queue);
+        privbte CbcheEntry(int hbsh, K key, V vblue, CbcheEntry<K,V> next) {
+            this.hbsh = hbsh;
+            this.key = Cbche.this.keyKind.crebte(this, key, Cbche.this.queue);
+            this.vblue = Cbche.this.vblueKind.crebte(this, vblue, Cbche.this.queue);
             this.next = next;
         }
 
         /**
-         * Determines whether the entry has the given key with the given hash code.
+         * Determines whether the entry hbs the given key with the given hbsh code.
          *
-         * @param hash   an expected hash code
-         * @param object an object to be compared with the entry key
-         * @return {@code true} if the entry has the given key with the given hash code;
-         *         {@code false} otherwise
+         * @pbrbm hbsh   bn expected hbsh code
+         * @pbrbm object bn object to be compbred with the entry key
+         * @return {@code true} if the entry hbs the given key with the given hbsh code;
+         *         {@code fblse} otherwise
          */
-        private boolean matches(int hash, Object object) {
-            if (this.hash != hash) {
-                return false;
+        privbte boolebn mbtches(int hbsh, Object object) {
+            if (this.hbsh != hbsh) {
+                return fblse;
             }
             Object key = this.key.getReferent();
-            return (key == object) || !Cache.this.identity && (key != null) && key.equals(object);
+            return (key == object) || !Cbche.this.identity && (key != null) && key.equbls(object);
         }
 
         /**
-         * Marks the entry as actually removed from the cache.
+         * Mbrks the entry bs bctublly removed from the cbche.
          */
-        private void unlink() {
+        privbte void unlink() {
             this.next = null;
             this.key.removeOwner();
-            this.value.removeOwner();
-            Cache.this.size--;
+            this.vblue.removeOwner();
+            Cbche.this.size--;
         }
     }
 
     /**
-     * Basic interface for references.
-     * It defines the operations common for the all kind of references.
+     * Bbsic interfbce for references.
+     * It defines the operbtions common for the bll kind of references.
      *
-     * @param <T> the type of object to refer
+     * @pbrbm <T> the type of object to refer
      */
-    private static interface Ref<T> {
+    privbte stbtic interfbce Ref<T> {
         /**
-         * Returns the object that possesses information about the reference.
+         * Returns the object thbt possesses informbtion bbout the reference.
          *
          * @return the owner of the reference or {@code null} if the owner is unknown
          */
@@ -383,83 +383,83 @@ public abstract class Cache<K,V> {
         /**
          * Returns the object to refer.
          *
-         * @return the referred object or {@code null} if it was collected
+         * @return the referred object or {@code null} if it wbs collected
          */
         T getReferent();
 
         /**
-         * Determines whether the referred object was taken by the garbage collector or not.
+         * Determines whether the referred object wbs tbken by the gbrbbge collector or not.
          *
-         * @return {@code true} if the referred object was collected
+         * @return {@code true} if the referred object wbs collected
          */
-        boolean isStale();
+        boolebn isStble();
 
         /**
-         * Marks this reference as removed from the cache.
+         * Mbrks this reference bs removed from the cbche.
          */
         void removeOwner();
     }
 
     /**
-     * Represents a reference kind.
+     * Represents b reference kind.
      */
-    public static enum Kind {
+    public stbtic enum Kind {
         STRONG {
-            <T> Ref<T> create(Object owner, T value, ReferenceQueue<? super T> queue) {
-                return new Strong<>(owner, value);
+            <T> Ref<T> crebte(Object owner, T vblue, ReferenceQueue<? super T> queue) {
+                return new Strong<>(owner, vblue);
             }
         },
         SOFT {
-            <T> Ref<T> create(Object owner, T referent, ReferenceQueue<? super T> queue) {
+            <T> Ref<T> crebte(Object owner, T referent, ReferenceQueue<? super T> queue) {
                 return (referent == null)
                         ? new Strong<>(owner, referent)
                         : new Soft<>(owner, referent, queue);
             }
         },
         WEAK {
-            <T> Ref<T> create(Object owner, T referent, ReferenceQueue<? super T> queue) {
+            <T> Ref<T> crebte(Object owner, T referent, ReferenceQueue<? super T> queue) {
                 return (referent == null)
                         ? new Strong<>(owner, referent)
-                        : new Weak<>(owner, referent, queue);
+                        : new Webk<>(owner, referent, queue);
             }
         };
 
         /**
-         * Creates a reference to the specified object.
+         * Crebtes b reference to the specified object.
          *
-         * @param <T>      the type of object to refer
-         * @param owner    the owner of the reference, if needed
-         * @param referent the object to refer
-         * @param queue    the queue to register the reference with,
-         *                 or {@code null} if registration is not required
+         * @pbrbm <T>      the type of object to refer
+         * @pbrbm owner    the owner of the reference, if needed
+         * @pbrbm referent the object to refer
+         * @pbrbm queue    the queue to register the reference with,
+         *                 or {@code null} if registrbtion is not required
          * @return the reference to the specified object
          */
-        abstract <T> Ref<T> create(Object owner, T referent, ReferenceQueue<? super T> queue);
+        bbstrbct <T> Ref<T> crebte(Object owner, T referent, ReferenceQueue<? super T> queue);
 
         /**
-         * This is an implementation of the {@link Cache.Ref} interface
-         * that uses the strong references that prevent their referents
-         * from being made finalizable, finalized, and then reclaimed.
+         * This is bn implementbtion of the {@link Cbche.Ref} interfbce
+         * thbt uses the strong references thbt prevent their referents
+         * from being mbde finblizbble, finblized, bnd then reclbimed.
          *
-         * @param <T> the type of object to refer
+         * @pbrbm <T> the type of object to refer
          */
-        private static final class Strong<T> implements Ref<T> {
-            private Object owner;
-            private final T referent;
+        privbte stbtic finbl clbss Strong<T> implements Ref<T> {
+            privbte Object owner;
+            privbte finbl T referent;
 
             /**
-             * Creates a strong reference to the specified object.
+             * Crebtes b strong reference to the specified object.
              *
-             * @param owner    the owner of the reference, if needed
-             * @param referent the non-null object to refer
+             * @pbrbm owner    the owner of the reference, if needed
+             * @pbrbm referent the non-null object to refer
              */
-            private Strong(Object owner, T referent) {
+            privbte Strong(Object owner, T referent) {
                 this.owner = owner;
                 this.referent = referent;
             }
 
             /**
-             * Returns the object that possesses information about the reference.
+             * Returns the object thbt possesses informbtion bbout the reference.
              *
              * @return the owner of the reference or {@code null} if the owner is unknown
              */
@@ -477,16 +477,16 @@ public abstract class Cache<K,V> {
             }
 
             /**
-             * Determines whether the referred object was taken by the garbage collector or not.
+             * Determines whether the referred object wbs tbken by the gbrbbge collector or not.
              *
-             * @return {@code true} if the referred object was collected
+             * @return {@code true} if the referred object wbs collected
              */
-            public boolean isStale() {
-                return false;
+            public boolebn isStble() {
+                return fblse;
             }
 
             /**
-             * Marks this reference as removed from the cache.
+             * Mbrks this reference bs removed from the cbche.
              */
             public void removeOwner() {
                 this.owner = null;
@@ -494,31 +494,31 @@ public abstract class Cache<K,V> {
         }
 
         /**
-         * This is an implementation of the {@link Cache.Ref} interface
-         * that uses the soft references that are cleared at the discretion
-         * of the garbage collector in response to a memory request.
+         * This is bn implementbtion of the {@link Cbche.Ref} interfbce
+         * thbt uses the soft references thbt bre clebred bt the discretion
+         * of the gbrbbge collector in response to b memory request.
          *
-         * @param <T> the type of object to refer
-         * @see java.lang.ref.SoftReference
+         * @pbrbm <T> the type of object to refer
+         * @see jbvb.lbng.ref.SoftReference
          */
-        private static final class Soft<T> extends SoftReference<T> implements Ref<T> {
-            private Object owner;
+        privbte stbtic finbl clbss Soft<T> extends SoftReference<T> implements Ref<T> {
+            privbte Object owner;
 
             /**
-             * Creates a soft reference to the specified object.
+             * Crebtes b soft reference to the specified object.
              *
-             * @param owner    the owner of the reference, if needed
-             * @param referent the non-null object to refer
-             * @param queue    the queue to register the reference with,
-             *                 or {@code null} if registration is not required
+             * @pbrbm owner    the owner of the reference, if needed
+             * @pbrbm referent the non-null object to refer
+             * @pbrbm queue    the queue to register the reference with,
+             *                 or {@code null} if registrbtion is not required
              */
-            private Soft(Object owner, T referent, ReferenceQueue<? super T> queue) {
+            privbte Soft(Object owner, T referent, ReferenceQueue<? super T> queue) {
                 super(referent, queue);
                 this.owner = owner;
             }
 
             /**
-             * Returns the object that possesses information about the reference.
+             * Returns the object thbt possesses informbtion bbout the reference.
              *
              * @return the owner of the reference or {@code null} if the owner is unknown
              */
@@ -529,23 +529,23 @@ public abstract class Cache<K,V> {
             /**
              * Returns the object to refer.
              *
-             * @return the referred object or {@code null} if it was collected
+             * @return the referred object or {@code null} if it wbs collected
              */
             public T getReferent() {
                 return get();
             }
 
             /**
-             * Determines whether the referred object was taken by the garbage collector or not.
+             * Determines whether the referred object wbs tbken by the gbrbbge collector or not.
              *
-             * @return {@code true} if the referred object was collected
+             * @return {@code true} if the referred object wbs collected
              */
-            public boolean isStale() {
+            public boolebn isStble() {
                 return null == get();
             }
 
             /**
-             * Marks this reference as removed from the cache.
+             * Mbrks this reference bs removed from the cbche.
              */
             public void removeOwner() {
                 this.owner = null;
@@ -553,31 +553,31 @@ public abstract class Cache<K,V> {
         }
 
         /**
-         * This is an implementation of the {@link Cache.Ref} interface
-         * that uses the weak references that do not prevent their referents
-         * from being made finalizable, finalized, and then reclaimed.
+         * This is bn implementbtion of the {@link Cbche.Ref} interfbce
+         * thbt uses the webk references thbt do not prevent their referents
+         * from being mbde finblizbble, finblized, bnd then reclbimed.
          *
-         * @param <T> the type of object to refer
-         * @see java.lang.ref.WeakReference
+         * @pbrbm <T> the type of object to refer
+         * @see jbvb.lbng.ref.WebkReference
          */
-        private static final class Weak<T> extends WeakReference<T> implements Ref<T> {
-            private Object owner;
+        privbte stbtic finbl clbss Webk<T> extends WebkReference<T> implements Ref<T> {
+            privbte Object owner;
 
             /**
-             * Creates a weak reference to the specified object.
+             * Crebtes b webk reference to the specified object.
              *
-             * @param owner    the owner of the reference, if needed
-             * @param referent the non-null object to refer
-             * @param queue    the queue to register the reference with,
-             *                 or {@code null} if registration is not required
+             * @pbrbm owner    the owner of the reference, if needed
+             * @pbrbm referent the non-null object to refer
+             * @pbrbm queue    the queue to register the reference with,
+             *                 or {@code null} if registrbtion is not required
              */
-            private Weak(Object owner, T referent, ReferenceQueue<? super T> queue) {
+            privbte Webk(Object owner, T referent, ReferenceQueue<? super T> queue) {
                 super(referent, queue);
                 this.owner = owner;
             }
 
             /**
-             * Returns the object that possesses information about the reference.
+             * Returns the object thbt possesses informbtion bbout the reference.
              *
              * @return the owner of the reference or {@code null} if the owner is unknown
              */
@@ -588,23 +588,23 @@ public abstract class Cache<K,V> {
             /**
              * Returns the object to refer.
              *
-             * @return the referred object or {@code null} if it was collected
+             * @return the referred object or {@code null} if it wbs collected
              */
             public T getReferent() {
                 return get();
             }
 
             /**
-             * Determines whether the referred object was taken by the garbage collector or not.
+             * Determines whether the referred object wbs tbken by the gbrbbge collector or not.
              *
-             * @return {@code true} if the referred object was collected
+             * @return {@code true} if the referred object wbs collected
              */
-            public boolean isStale() {
+            public boolebn isStble() {
                 return null == get();
             }
 
             /**
-             * Marks this reference as removed from the cache.
+             * Mbrks this reference bs removed from the cbche.
              */
             public void removeOwner() {
                 this.owner = null;

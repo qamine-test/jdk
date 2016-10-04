@@ -1,55 +1,55 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* zlib.h -- interface of the 'zlib' general purpose compression library
+/* zlib.h -- interfbce of the 'zlib' generbl purpose compression librbry
   version 1.2.8, April 28th, 2013
 
-  Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler
+  Copyright (C) 1995-2013 Jebn-loup Gbilly bnd Mbrk Adler
 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any damages
-  arising from the use of this software.
+  This softwbre is provided 'bs-is', without bny express or implied
+  wbrrbnty.  In no event will the buthors be held libble for bny dbmbges
+  brising from the use of this softwbre.
 
-  Permission is granted to anyone to use this software for any purpose,
-  including commercial applications, and to alter it and redistribute it
+  Permission is grbnted to bnyone to use this softwbre for bny purpose,
+  including commercibl bpplicbtions, bnd to blter it bnd redistribute it
   freely, subject to the following restrictions:
 
-  1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
-  2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
-  3. This notice may not be removed or altered from any source distribution.
+  1. The origin of this softwbre must not be misrepresented; you must not
+     clbim thbt you wrote the originbl softwbre. If you use this softwbre
+     in b product, bn bcknowledgment in the product documentbtion would be
+     bpprecibted but is not required.
+  2. Altered source versions must be plbinly mbrked bs such, bnd must not be
+     misrepresented bs being the originbl softwbre.
+  3. This notice mby not be removed or bltered from bny source distribution.
 
-  Jean-loup Gailly        Mark Adler
-  jloup@gzip.org          madler@alumni.caltech.edu
+  Jebn-loup Gbilly        Mbrk Adler
+  jloup@gzip.org          mbdler@blumni.cbltech.edu
 
 
-  The data format used by the zlib library is described by RFCs (Request for
+  The dbtb formbt used by the zlib librbry is described by RFCs (Request for
   Comments) 1950 to 1952 in the files http://tools.ietf.org/html/rfc1950
-  (zlib format), rfc1951 (deflate format) and rfc1952 (gzip format).
+  (zlib formbt), rfc1951 (deflbte formbt) bnd rfc1952 (gzip formbt).
 */
 
 #ifndef ZLIB_H
@@ -69,121 +69,121 @@ extern "C" {
 #define ZLIB_VER_SUBREVISION 0
 
 /*
-    The 'zlib' compression library provides in-memory compression and
-  decompression functions, including integrity checks of the uncompressed data.
-  This version of the library supports only one compression method (deflation)
-  but other algorithms will be added later and will have the same stream
-  interface.
+    The 'zlib' compression librbry provides in-memory compression bnd
+  decompression functions, including integrity checks of the uncompressed dbtb.
+  This version of the librbry supports only one compression method (deflbtion)
+  but other blgorithms will be bdded lbter bnd will hbve the sbme strebm
+  interfbce.
 
-    Compression can be done in a single step if the buffers are large enough,
-  or can be done by repeated calls of the compression function.  In the latter
-  case, the application must provide more input and/or consume the output
-  (providing more output space) before each call.
+    Compression cbn be done in b single step if the buffers bre lbrge enough,
+  or cbn be done by repebted cblls of the compression function.  In the lbtter
+  cbse, the bpplicbtion must provide more input bnd/or consume the output
+  (providing more output spbce) before ebch cbll.
 
-    The compressed data format used by default by the in-memory functions is
-  the zlib format, which is a zlib wrapper documented in RFC 1950, wrapped
-  around a deflate stream, which is itself documented in RFC 1951.
+    The compressed dbtb formbt used by defbult by the in-memory functions is
+  the zlib formbt, which is b zlib wrbpper documented in RFC 1950, wrbpped
+  bround b deflbte strebm, which is itself documented in RFC 1951.
 
-    The library also supports reading and writing files in gzip (.gz) format
-  with an interface similar to that of stdio using the functions that start
-  with "gz".  The gzip format is different from the zlib format.  gzip is a
-  gzip wrapper, documented in RFC 1952, wrapped around a deflate stream.
+    The librbry blso supports rebding bnd writing files in gzip (.gz) formbt
+  with bn interfbce similbr to thbt of stdio using the functions thbt stbrt
+  with "gz".  The gzip formbt is different from the zlib formbt.  gzip is b
+  gzip wrbpper, documented in RFC 1952, wrbpped bround b deflbte strebm.
 
-    This library can optionally read and write gzip streams in memory as well.
+    This librbry cbn optionblly rebd bnd write gzip strebms in memory bs well.
 
-    The zlib format was designed to be compact and fast for use in memory
-  and on communications channels.  The gzip format was designed for single-
-  file compression on file systems, has a larger header than zlib to maintain
-  directory information, and uses a different, slower check method than zlib.
+    The zlib formbt wbs designed to be compbct bnd fbst for use in memory
+  bnd on communicbtions chbnnels.  The gzip formbt wbs designed for single-
+  file compression on file systems, hbs b lbrger hebder thbn zlib to mbintbin
+  directory informbtion, bnd uses b different, slower check method thbn zlib.
 
-    The library does not install any signal handler.  The decoder checks
-  the consistency of the compressed data, so the library should never crash
-  even in case of corrupted input.
+    The librbry does not instbll bny signbl hbndler.  The decoder checks
+  the consistency of the compressed dbtb, so the librbry should never crbsh
+  even in cbse of corrupted input.
 */
 
-typedef voidpf (*alloc_func) OF((voidpf opaque, uInt items, uInt size));
-typedef void   (*free_func)  OF((voidpf opaque, voidpf address));
+typedef voidpf (*blloc_func) OF((voidpf opbque, uInt items, uInt size));
+typedef void   (*free_func)  OF((voidpf opbque, voidpf bddress));
 
-struct internal_state;
+struct internbl_stbte;
 
-typedef struct z_stream_s {
+typedef struct z_strebm_s {
     z_const Bytef *next_in;     /* next input byte */
-    uInt     avail_in;  /* number of bytes available at next_in */
-    uLong    total_in;  /* total number of input bytes read so far */
+    uInt     bvbil_in;  /* number of bytes bvbilbble bt next_in */
+    uLong    totbl_in;  /* totbl number of input bytes rebd so fbr */
 
     Bytef    *next_out; /* next output byte should be put there */
-    uInt     avail_out; /* remaining free space at next_out */
-    uLong    total_out; /* total number of bytes output so far */
+    uInt     bvbil_out; /* rembining free spbce bt next_out */
+    uLong    totbl_out; /* totbl number of bytes output so fbr */
 
-    z_const char *msg;  /* last error message, NULL if no error */
-    struct internal_state FAR *state; /* not visible by applications */
+    z_const chbr *msg;  /* lbst error messbge, NULL if no error */
+    struct internbl_stbte FAR *stbte; /* not visible by bpplicbtions */
 
-    alloc_func zalloc;  /* used to allocate the internal state */
-    free_func  zfree;   /* used to free the internal state */
-    voidpf     opaque;  /* private data object passed to zalloc and zfree */
+    blloc_func zblloc;  /* used to bllocbte the internbl stbte */
+    free_func  zfree;   /* used to free the internbl stbte */
+    voidpf     opbque;  /* privbte dbtb object pbssed to zblloc bnd zfree */
 
-    int     data_type;  /* best guess about the data type: binary or text */
-    uLong   adler;      /* adler32 value of the uncompressed data */
+    int     dbtb_type;  /* best guess bbout the dbtb type: binbry or text */
+    uLong   bdler;      /* bdler32 vblue of the uncompressed dbtb */
     uLong   reserved;   /* reserved for future use */
-} z_stream;
+} z_strebm;
 
-typedef z_stream FAR *z_streamp;
+typedef z_strebm FAR *z_strebmp;
 
 /*
-     gzip header information passed to and from zlib routines.  See RFC 1952
-  for more details on the meanings of these fields.
+     gzip hebder informbtion pbssed to bnd from zlib routines.  See RFC 1952
+  for more detbils on the mebnings of these fields.
 */
-typedef struct gz_header_s {
-    int     text;       /* true if compressed data believed to be text */
-    uLong   time;       /* modification time */
-    int     xflags;     /* extra flags (not used when writing a gzip file) */
-    int     os;         /* operating system */
-    Bytef   *extra;     /* pointer to extra field or Z_NULL if none */
-    uInt    extra_len;  /* extra field length (valid if extra != Z_NULL) */
-    uInt    extra_max;  /* space at extra (only when reading header) */
-    Bytef   *name;      /* pointer to zero-terminated file name or Z_NULL */
-    uInt    name_max;   /* space at name (only when reading header) */
-    Bytef   *comment;   /* pointer to zero-terminated comment or Z_NULL */
-    uInt    comm_max;   /* space at comment (only when reading header) */
-    int     hcrc;       /* true if there was or will be a header crc */
-    int     done;       /* true when done reading gzip header (not used
-                           when writing a gzip file) */
-} gz_header;
+typedef struct gz_hebder_s {
+    int     text;       /* true if compressed dbtb believed to be text */
+    uLong   time;       /* modificbtion time */
+    int     xflbgs;     /* extrb flbgs (not used when writing b gzip file) */
+    int     os;         /* operbting system */
+    Bytef   *extrb;     /* pointer to extrb field or Z_NULL if none */
+    uInt    extrb_len;  /* extrb field length (vblid if extrb != Z_NULL) */
+    uInt    extrb_mbx;  /* spbce bt extrb (only when rebding hebder) */
+    Bytef   *nbme;      /* pointer to zero-terminbted file nbme or Z_NULL */
+    uInt    nbme_mbx;   /* spbce bt nbme (only when rebding hebder) */
+    Bytef   *comment;   /* pointer to zero-terminbted comment or Z_NULL */
+    uInt    comm_mbx;   /* spbce bt comment (only when rebding hebder) */
+    int     hcrc;       /* true if there wbs or will be b hebder crc */
+    int     done;       /* true when done rebding gzip hebder (not used
+                           when writing b gzip file) */
+} gz_hebder;
 
-typedef gz_header FAR *gz_headerp;
+typedef gz_hebder FAR *gz_hebderp;
 
 /*
-     The application must update next_in and avail_in when avail_in has dropped
-   to zero.  It must update next_out and avail_out when avail_out has dropped
-   to zero.  The application must initialize zalloc, zfree and opaque before
-   calling the init function.  All other fields are set by the compression
-   library and must not be updated by the application.
+     The bpplicbtion must updbte next_in bnd bvbil_in when bvbil_in hbs dropped
+   to zero.  It must updbte next_out bnd bvbil_out when bvbil_out hbs dropped
+   to zero.  The bpplicbtion must initiblize zblloc, zfree bnd opbque before
+   cblling the init function.  All other fields bre set by the compression
+   librbry bnd must not be updbted by the bpplicbtion.
 
-     The opaque value provided by the application will be passed as the first
-   parameter for calls of zalloc and zfree.  This can be useful for custom
-   memory management.  The compression library attaches no meaning to the
-   opaque value.
+     The opbque vblue provided by the bpplicbtion will be pbssed bs the first
+   pbrbmeter for cblls of zblloc bnd zfree.  This cbn be useful for custom
+   memory mbnbgement.  The compression librbry bttbches no mebning to the
+   opbque vblue.
 
-     zalloc must return Z_NULL if there is not enough memory for the object.
-   If zlib is used in a multi-threaded application, zalloc and zfree must be
-   thread safe.
+     zblloc must return Z_NULL if there is not enough memory for the object.
+   If zlib is used in b multi-threbded bpplicbtion, zblloc bnd zfree must be
+   threbd sbfe.
 
-     On 16-bit systems, the functions zalloc and zfree must be able to allocate
-   exactly 65536 bytes, but will not be required to allocate more than this if
+     On 16-bit systems, the functions zblloc bnd zfree must be bble to bllocbte
+   exbctly 65536 bytes, but will not be required to bllocbte more thbn this if
    the symbol MAXSEG_64K is defined (see zconf.h).  WARNING: On MSDOS, pointers
-   returned by zalloc for objects of exactly 65536 bytes *must* have their
-   offset normalized to zero.  The default allocation function provided by this
-   library ensures this (see zutil.c).  To reduce memory requirements and avoid
-   any allocation of 64K objects, at the expense of compression ratio, compile
-   the library with -DMAX_WBITS=14 (see zconf.h).
+   returned by zblloc for objects of exbctly 65536 bytes *must* hbve their
+   offset normblized to zero.  The defbult bllocbtion function provided by this
+   librbry ensures this (see zutil.c).  To reduce memory requirements bnd bvoid
+   bny bllocbtion of 64K objects, bt the expense of compression rbtio, compile
+   the librbry with -DMAX_WBITS=14 (see zconf.h).
 
-     The fields total_in and total_out can be used for statistics or progress
-   reports.  After compression, total_in holds the total size of the
-   uncompressed data and may be saved for use in the decompressor (particularly
-   if the decompressor wants to decompress everything in a single step).
+     The fields totbl_in bnd totbl_out cbn be used for stbtistics or progress
+   reports.  After compression, totbl_in holds the totbl size of the
+   uncompressed dbtb bnd mby be sbved for use in the decompressor (pbrticulbrly
+   if the decompressor wbnts to decompress everything in b single step).
 */
 
-                        /* constants */
+                        /* constbnts */
 
 #define Z_NO_FLUSH      0
 #define Z_PARTIAL_FLUSH 1
@@ -192,7 +192,7 @@ typedef gz_header FAR *gz_headerp;
 #define Z_FINISH        4
 #define Z_BLOCK         5
 #define Z_TREES         6
-/* Allowed flush values; see deflate() and inflate() below for details */
+/* Allowed flush vblues; see deflbte() bnd inflbte() below for detbils */
 
 #define Z_OK            0
 #define Z_STREAM_END    1
@@ -203,8 +203,8 @@ typedef gz_header FAR *gz_headerp;
 #define Z_MEM_ERROR    (-4)
 #define Z_BUF_ERROR    (-5)
 #define Z_VERSION_ERROR (-6)
-/* Return codes for the compression/decompression functions. Negative values
- * are errors, positive values are used for special but normal events.
+/* Return codes for the compression/decompression functions. Negbtive vblues
+ * bre errors, positive vblues bre used for specibl but normbl events.
  */
 
 #define Z_NO_COMPRESSION         0
@@ -218,954 +218,954 @@ typedef gz_header FAR *gz_headerp;
 #define Z_RLE                 3
 #define Z_FIXED               4
 #define Z_DEFAULT_STRATEGY    0
-/* compression strategy; see deflateInit2() below for details */
+/* compression strbtegy; see deflbteInit2() below for detbils */
 
 #define Z_BINARY   0
 #define Z_TEXT     1
-#define Z_ASCII    Z_TEXT   /* for compatibility with 1.2.2 and earlier */
+#define Z_ASCII    Z_TEXT   /* for compbtibility with 1.2.2 bnd ebrlier */
 #define Z_UNKNOWN  2
-/* Possible values of the data_type field (though see inflate()) */
+/* Possible vblues of the dbtb_type field (though see inflbte()) */
 
 #define Z_DEFLATED   8
-/* The deflate compression method (the only one supported in this version) */
+/* The deflbte compression method (the only one supported in this version) */
 
-#define Z_NULL  0  /* for initializing zalloc, zfree, opaque */
+#define Z_NULL  0  /* for initiblizing zblloc, zfree, opbque */
 
 #define zlib_version zlibVersion()
-/* for compatibility with versions < 1.0.2 */
+/* for compbtibility with versions < 1.0.2 */
 
 
-                        /* basic functions */
+                        /* bbsic functions */
 
-ZEXTERN const char * ZEXPORT zlibVersion OF((void));
-/* The application can compare zlibVersion and ZLIB_VERSION for consistency.
-   If the first character differs, the library code actually used is not
-   compatible with the zlib.h header file used by the application.  This check
-   is automatically made by deflateInit and inflateInit.
+ZEXTERN const chbr * ZEXPORT zlibVersion OF((void));
+/* The bpplicbtion cbn compbre zlibVersion bnd ZLIB_VERSION for consistency.
+   If the first chbrbcter differs, the librbry code bctublly used is not
+   compbtible with the zlib.h hebder file used by the bpplicbtion.  This check
+   is butombticblly mbde by deflbteInit bnd inflbteInit.
  */
 
 /*
-ZEXTERN int ZEXPORT deflateInit OF((z_streamp strm, int level));
+ZEXTERN int ZEXPORT deflbteInit OF((z_strebmp strm, int level));
 
-     Initializes the internal stream state for compression.  The fields
-   zalloc, zfree and opaque must be initialized before by the caller.  If
-   zalloc and zfree are set to Z_NULL, deflateInit updates them to use default
-   allocation functions.
+     Initiblizes the internbl strebm stbte for compression.  The fields
+   zblloc, zfree bnd opbque must be initiblized before by the cbller.  If
+   zblloc bnd zfree bre set to Z_NULL, deflbteInit updbtes them to use defbult
+   bllocbtion functions.
 
-     The compression level must be Z_DEFAULT_COMPRESSION, or between 0 and 9:
-   1 gives best speed, 9 gives best compression, 0 gives no compression at all
-   (the input data is simply copied a block at a time).  Z_DEFAULT_COMPRESSION
-   requests a default compromise between speed and compression (currently
-   equivalent to level 6).
+     The compression level must be Z_DEFAULT_COMPRESSION, or between 0 bnd 9:
+   1 gives best speed, 9 gives best compression, 0 gives no compression bt bll
+   (the input dbtb is simply copied b block bt b time).  Z_DEFAULT_COMPRESSION
+   requests b defbult compromise between speed bnd compression (currently
+   equivblent to level 6).
 
-     deflateInit returns Z_OK if success, Z_MEM_ERROR if there was not enough
-   memory, Z_STREAM_ERROR if level is not a valid compression level, or
-   Z_VERSION_ERROR if the zlib library version (zlib_version) is incompatible
-   with the version assumed by the caller (ZLIB_VERSION).  msg is set to null
-   if there is no error message.  deflateInit does not perform any compression:
-   this will be done by deflate().
+     deflbteInit returns Z_OK if success, Z_MEM_ERROR if there wbs not enough
+   memory, Z_STREAM_ERROR if level is not b vblid compression level, or
+   Z_VERSION_ERROR if the zlib librbry version (zlib_version) is incompbtible
+   with the version bssumed by the cbller (ZLIB_VERSION).  msg is set to null
+   if there is no error messbge.  deflbteInit does not perform bny compression:
+   this will be done by deflbte().
 */
 
 
-ZEXTERN int ZEXPORT deflate OF((z_streamp strm, int flush));
+ZEXTERN int ZEXPORT deflbte OF((z_strebmp strm, int flush));
 /*
-    deflate compresses as much data as possible, and stops when the input
-  buffer becomes empty or the output buffer becomes full.  It may introduce
-  some output latency (reading input without producing any output) except when
+    deflbte compresses bs much dbtb bs possible, bnd stops when the input
+  buffer becomes empty or the output buffer becomes full.  It mby introduce
+  some output lbtency (rebding input without producing bny output) except when
   forced to flush.
 
-    The detailed semantics are as follows.  deflate performs one or both of the
-  following actions:
+    The detbiled sembntics bre bs follows.  deflbte performs one or both of the
+  following bctions:
 
-  - Compress more input starting at next_in and update next_in and avail_in
-    accordingly.  If not all input can be processed (because there is not
-    enough room in the output buffer), next_in and avail_in are updated and
-    processing will resume at this point for the next call of deflate().
+  - Compress more input stbrting bt next_in bnd updbte next_in bnd bvbil_in
+    bccordingly.  If not bll input cbn be processed (becbuse there is not
+    enough room in the output buffer), next_in bnd bvbil_in bre updbted bnd
+    processing will resume bt this point for the next cbll of deflbte().
 
-  - Provide more output starting at next_out and update next_out and avail_out
-    accordingly.  This action is forced if the parameter flush is non zero.
-    Forcing flush frequently degrades the compression ratio, so this parameter
-    should be set only when necessary (in interactive applications).  Some
-    output may be provided even if flush is not set.
+  - Provide more output stbrting bt next_out bnd updbte next_out bnd bvbil_out
+    bccordingly.  This bction is forced if the pbrbmeter flush is non zero.
+    Forcing flush frequently degrbdes the compression rbtio, so this pbrbmeter
+    should be set only when necessbry (in interbctive bpplicbtions).  Some
+    output mby be provided even if flush is not set.
 
-    Before the call of deflate(), the application should ensure that at least
-  one of the actions is possible, by providing more input and/or consuming more
-  output, and updating avail_in or avail_out accordingly; avail_out should
-  never be zero before the call.  The application can consume the compressed
-  output when it wants, for example when the output buffer is full (avail_out
-  == 0), or after each call of deflate().  If deflate returns Z_OK and with
-  zero avail_out, it must be called again after making room in the output
-  buffer because there might be more output pending.
+    Before the cbll of deflbte(), the bpplicbtion should ensure thbt bt lebst
+  one of the bctions is possible, by providing more input bnd/or consuming more
+  output, bnd updbting bvbil_in or bvbil_out bccordingly; bvbil_out should
+  never be zero before the cbll.  The bpplicbtion cbn consume the compressed
+  output when it wbnts, for exbmple when the output buffer is full (bvbil_out
+  == 0), or bfter ebch cbll of deflbte().  If deflbte returns Z_OK bnd with
+  zero bvbil_out, it must be cblled bgbin bfter mbking room in the output
+  buffer becbuse there might be more output pending.
 
-    Normally the parameter flush is set to Z_NO_FLUSH, which allows deflate to
-  decide how much data to accumulate before producing output, in order to
-  maximize compression.
+    Normblly the pbrbmeter flush is set to Z_NO_FLUSH, which bllows deflbte to
+  decide how much dbtb to bccumulbte before producing output, in order to
+  mbximize compression.
 
-    If the parameter flush is set to Z_SYNC_FLUSH, all pending output is
-  flushed to the output buffer and the output is aligned on a byte boundary, so
-  that the decompressor can get all input data available so far.  (In
-  particular avail_in is zero after the call if enough output space has been
-  provided before the call.) Flushing may degrade compression for some
-  compression algorithms and so it should be used only when necessary.  This
-  completes the current deflate block and follows it with an empty stored block
-  that is three bits plus filler bits to the next byte, followed by four bytes
+    If the pbrbmeter flush is set to Z_SYNC_FLUSH, bll pending output is
+  flushed to the output buffer bnd the output is bligned on b byte boundbry, so
+  thbt the decompressor cbn get bll input dbtb bvbilbble so fbr.  (In
+  pbrticulbr bvbil_in is zero bfter the cbll if enough output spbce hbs been
+  provided before the cbll.) Flushing mby degrbde compression for some
+  compression blgorithms bnd so it should be used only when necessbry.  This
+  completes the current deflbte block bnd follows it with bn empty stored block
+  thbt is three bits plus filler bits to the next byte, followed by four bytes
   (00 00 ff ff).
 
-    If flush is set to Z_PARTIAL_FLUSH, all pending output is flushed to the
-  output buffer, but the output is not aligned to a byte boundary.  All of the
-  input data so far will be available to the decompressor, as for Z_SYNC_FLUSH.
-  This completes the current deflate block and follows it with an empty fixed
-  codes block that is 10 bits long.  This assures that enough bytes are output
+    If flush is set to Z_PARTIAL_FLUSH, bll pending output is flushed to the
+  output buffer, but the output is not bligned to b byte boundbry.  All of the
+  input dbtb so fbr will be bvbilbble to the decompressor, bs for Z_SYNC_FLUSH.
+  This completes the current deflbte block bnd follows it with bn empty fixed
+  codes block thbt is 10 bits long.  This bssures thbt enough bytes bre output
   in order for the decompressor to finish the block before the empty fixed code
   block.
 
-    If flush is set to Z_BLOCK, a deflate block is completed and emitted, as
-  for Z_SYNC_FLUSH, but the output is not aligned on a byte boundary, and up to
-  seven bits of the current block are held to be written as the next byte after
-  the next deflate block is completed.  In this case, the decompressor may not
-  be provided enough bits at this point in order to complete decompression of
-  the data provided so far to the compressor.  It may need to wait for the next
-  block to be emitted.  This is for advanced applications that need to control
-  the emission of deflate blocks.
+    If flush is set to Z_BLOCK, b deflbte block is completed bnd emitted, bs
+  for Z_SYNC_FLUSH, but the output is not bligned on b byte boundbry, bnd up to
+  seven bits of the current block bre held to be written bs the next byte bfter
+  the next deflbte block is completed.  In this cbse, the decompressor mby not
+  be provided enough bits bt this point in order to complete decompression of
+  the dbtb provided so fbr to the compressor.  It mby need to wbit for the next
+  block to be emitted.  This is for bdvbnced bpplicbtions thbt need to control
+  the emission of deflbte blocks.
 
-    If flush is set to Z_FULL_FLUSH, all output is flushed as with
-  Z_SYNC_FLUSH, and the compression state is reset so that decompression can
-  restart from this point if previous compressed data has been damaged or if
-  random access is desired.  Using Z_FULL_FLUSH too often can seriously degrade
+    If flush is set to Z_FULL_FLUSH, bll output is flushed bs with
+  Z_SYNC_FLUSH, bnd the compression stbte is reset so thbt decompression cbn
+  restbrt from this point if previous compressed dbtb hbs been dbmbged or if
+  rbndom bccess is desired.  Using Z_FULL_FLUSH too often cbn seriously degrbde
   compression.
 
-    If deflate returns with avail_out == 0, this function must be called again
-  with the same value of the flush parameter and more output space (updated
-  avail_out), until the flush is complete (deflate returns with non-zero
-  avail_out).  In the case of a Z_FULL_FLUSH or Z_SYNC_FLUSH, make sure that
-  avail_out is greater than six to avoid repeated flush markers due to
-  avail_out == 0 on return.
+    If deflbte returns with bvbil_out == 0, this function must be cblled bgbin
+  with the sbme vblue of the flush pbrbmeter bnd more output spbce (updbted
+  bvbil_out), until the flush is complete (deflbte returns with non-zero
+  bvbil_out).  In the cbse of b Z_FULL_FLUSH or Z_SYNC_FLUSH, mbke sure thbt
+  bvbil_out is grebter thbn six to bvoid repebted flush mbrkers due to
+  bvbil_out == 0 on return.
 
-    If the parameter flush is set to Z_FINISH, pending input is processed,
-  pending output is flushed and deflate returns with Z_STREAM_END if there was
-  enough output space; if deflate returns with Z_OK, this function must be
-  called again with Z_FINISH and more output space (updated avail_out) but no
-  more input data, until it returns with Z_STREAM_END or an error.  After
-  deflate has returned Z_STREAM_END, the only possible operations on the stream
-  are deflateReset or deflateEnd.
+    If the pbrbmeter flush is set to Z_FINISH, pending input is processed,
+  pending output is flushed bnd deflbte returns with Z_STREAM_END if there wbs
+  enough output spbce; if deflbte returns with Z_OK, this function must be
+  cblled bgbin with Z_FINISH bnd more output spbce (updbted bvbil_out) but no
+  more input dbtb, until it returns with Z_STREAM_END or bn error.  After
+  deflbte hbs returned Z_STREAM_END, the only possible operbtions on the strebm
+  bre deflbteReset or deflbteEnd.
 
-    Z_FINISH can be used immediately after deflateInit if all the compression
-  is to be done in a single step.  In this case, avail_out must be at least the
-  value returned by deflateBound (see below).  Then deflate is guaranteed to
-  return Z_STREAM_END.  If not enough output space is provided, deflate will
-  not return Z_STREAM_END, and it must be called again as described above.
+    Z_FINISH cbn be used immedibtely bfter deflbteInit if bll the compression
+  is to be done in b single step.  In this cbse, bvbil_out must be bt lebst the
+  vblue returned by deflbteBound (see below).  Then deflbte is gubrbnteed to
+  return Z_STREAM_END.  If not enough output spbce is provided, deflbte will
+  not return Z_STREAM_END, bnd it must be cblled bgbin bs described bbove.
 
-    deflate() sets strm->adler to the adler32 checksum of all input read
-  so far (that is, total_in bytes).
+    deflbte() sets strm->bdler to the bdler32 checksum of bll input rebd
+  so fbr (thbt is, totbl_in bytes).
 
-    deflate() may update strm->data_type if it can make a good guess about
-  the input data type (Z_BINARY or Z_TEXT).  In doubt, the data is considered
-  binary.  This field is only for information purposes and does not affect the
-  compression algorithm in any manner.
+    deflbte() mby updbte strm->dbtb_type if it cbn mbke b good guess bbout
+  the input dbtb type (Z_BINARY or Z_TEXT).  In doubt, the dbtb is considered
+  binbry.  This field is only for informbtion purposes bnd does not bffect the
+  compression blgorithm in bny mbnner.
 
-    deflate() returns Z_OK if some progress has been made (more input
-  processed or more output produced), Z_STREAM_END if all input has been
-  consumed and all output has been produced (only when flush is set to
-  Z_FINISH), Z_STREAM_ERROR if the stream state was inconsistent (for example
-  if next_in or next_out was Z_NULL), Z_BUF_ERROR if no progress is possible
-  (for example avail_in or avail_out was zero).  Note that Z_BUF_ERROR is not
-  fatal, and deflate() can be called again with more input and more output
-  space to continue compressing.
+    deflbte() returns Z_OK if some progress hbs been mbde (more input
+  processed or more output produced), Z_STREAM_END if bll input hbs been
+  consumed bnd bll output hbs been produced (only when flush is set to
+  Z_FINISH), Z_STREAM_ERROR if the strebm stbte wbs inconsistent (for exbmple
+  if next_in or next_out wbs Z_NULL), Z_BUF_ERROR if no progress is possible
+  (for exbmple bvbil_in or bvbil_out wbs zero).  Note thbt Z_BUF_ERROR is not
+  fbtbl, bnd deflbte() cbn be cblled bgbin with more input bnd more output
+  spbce to continue compressing.
 */
 
 
-ZEXTERN int ZEXPORT deflateEnd OF((z_streamp strm));
+ZEXTERN int ZEXPORT deflbteEnd OF((z_strebmp strm));
 /*
-     All dynamically allocated data structures for this stream are freed.
-   This function discards any unprocessed input and does not flush any pending
+     All dynbmicblly bllocbted dbtb structures for this strebm bre freed.
+   This function discbrds bny unprocessed input bnd does not flush bny pending
    output.
 
-     deflateEnd returns Z_OK if success, Z_STREAM_ERROR if the
-   stream state was inconsistent, Z_DATA_ERROR if the stream was freed
-   prematurely (some input or output was discarded).  In the error case, msg
-   may be set but then points to a static string (which must not be
-   deallocated).
+     deflbteEnd returns Z_OK if success, Z_STREAM_ERROR if the
+   strebm stbte wbs inconsistent, Z_DATA_ERROR if the strebm wbs freed
+   prembturely (some input or output wbs discbrded).  In the error cbse, msg
+   mby be set but then points to b stbtic string (which must not be
+   debllocbted).
 */
 
 
 /*
-ZEXTERN int ZEXPORT inflateInit OF((z_streamp strm));
+ZEXTERN int ZEXPORT inflbteInit OF((z_strebmp strm));
 
-     Initializes the internal stream state for decompression.  The fields
-   next_in, avail_in, zalloc, zfree and opaque must be initialized before by
-   the caller.  If next_in is not Z_NULL and avail_in is large enough (the
-   exact value depends on the compression method), inflateInit determines the
-   compression method from the zlib header and allocates all data structures
-   accordingly; otherwise the allocation will be deferred to the first call of
-   inflate.  If zalloc and zfree are set to Z_NULL, inflateInit updates them to
-   use default allocation functions.
+     Initiblizes the internbl strebm stbte for decompression.  The fields
+   next_in, bvbil_in, zblloc, zfree bnd opbque must be initiblized before by
+   the cbller.  If next_in is not Z_NULL bnd bvbil_in is lbrge enough (the
+   exbct vblue depends on the compression method), inflbteInit determines the
+   compression method from the zlib hebder bnd bllocbtes bll dbtb structures
+   bccordingly; otherwise the bllocbtion will be deferred to the first cbll of
+   inflbte.  If zblloc bnd zfree bre set to Z_NULL, inflbteInit updbtes them to
+   use defbult bllocbtion functions.
 
-     inflateInit returns Z_OK if success, Z_MEM_ERROR if there was not enough
-   memory, Z_VERSION_ERROR if the zlib library version is incompatible with the
-   version assumed by the caller, or Z_STREAM_ERROR if the parameters are
-   invalid, such as a null pointer to the structure.  msg is set to null if
-   there is no error message.  inflateInit does not perform any decompression
-   apart from possibly reading the zlib header if present: actual decompression
-   will be done by inflate().  (So next_in and avail_in may be modified, but
-   next_out and avail_out are unused and unchanged.) The current implementation
-   of inflateInit() does not process any header information -- that is deferred
-   until inflate() is called.
+     inflbteInit returns Z_OK if success, Z_MEM_ERROR if there wbs not enough
+   memory, Z_VERSION_ERROR if the zlib librbry version is incompbtible with the
+   version bssumed by the cbller, or Z_STREAM_ERROR if the pbrbmeters bre
+   invblid, such bs b null pointer to the structure.  msg is set to null if
+   there is no error messbge.  inflbteInit does not perform bny decompression
+   bpbrt from possibly rebding the zlib hebder if present: bctubl decompression
+   will be done by inflbte().  (So next_in bnd bvbil_in mby be modified, but
+   next_out bnd bvbil_out bre unused bnd unchbnged.) The current implementbtion
+   of inflbteInit() does not process bny hebder informbtion -- thbt is deferred
+   until inflbte() is cblled.
 */
 
 
-ZEXTERN int ZEXPORT inflate OF((z_streamp strm, int flush));
+ZEXTERN int ZEXPORT inflbte OF((z_strebmp strm, int flush));
 /*
-    inflate decompresses as much data as possible, and stops when the input
-  buffer becomes empty or the output buffer becomes full.  It may introduce
-  some output latency (reading input without producing any output) except when
+    inflbte decompresses bs much dbtb bs possible, bnd stops when the input
+  buffer becomes empty or the output buffer becomes full.  It mby introduce
+  some output lbtency (rebding input without producing bny output) except when
   forced to flush.
 
-  The detailed semantics are as follows.  inflate performs one or both of the
-  following actions:
+  The detbiled sembntics bre bs follows.  inflbte performs one or both of the
+  following bctions:
 
-  - Decompress more input starting at next_in and update next_in and avail_in
-    accordingly.  If not all input can be processed (because there is not
-    enough room in the output buffer), next_in is updated and processing will
-    resume at this point for the next call of inflate().
+  - Decompress more input stbrting bt next_in bnd updbte next_in bnd bvbil_in
+    bccordingly.  If not bll input cbn be processed (becbuse there is not
+    enough room in the output buffer), next_in is updbted bnd processing will
+    resume bt this point for the next cbll of inflbte().
 
-  - Provide more output starting at next_out and update next_out and avail_out
-    accordingly.  inflate() provides as much output as possible, until there is
-    no more input data or no more space in the output buffer (see below about
-    the flush parameter).
+  - Provide more output stbrting bt next_out bnd updbte next_out bnd bvbil_out
+    bccordingly.  inflbte() provides bs much output bs possible, until there is
+    no more input dbtb or no more spbce in the output buffer (see below bbout
+    the flush pbrbmeter).
 
-    Before the call of inflate(), the application should ensure that at least
-  one of the actions is possible, by providing more input and/or consuming more
-  output, and updating the next_* and avail_* values accordingly.  The
-  application can consume the uncompressed output when it wants, for example
-  when the output buffer is full (avail_out == 0), or after each call of
-  inflate().  If inflate returns Z_OK and with zero avail_out, it must be
-  called again after making room in the output buffer because there might be
+    Before the cbll of inflbte(), the bpplicbtion should ensure thbt bt lebst
+  one of the bctions is possible, by providing more input bnd/or consuming more
+  output, bnd updbting the next_* bnd bvbil_* vblues bccordingly.  The
+  bpplicbtion cbn consume the uncompressed output when it wbnts, for exbmple
+  when the output buffer is full (bvbil_out == 0), or bfter ebch cbll of
+  inflbte().  If inflbte returns Z_OK bnd with zero bvbil_out, it must be
+  cblled bgbin bfter mbking room in the output buffer becbuse there might be
   more output pending.
 
-    The flush parameter of inflate() can be Z_NO_FLUSH, Z_SYNC_FLUSH, Z_FINISH,
-  Z_BLOCK, or Z_TREES.  Z_SYNC_FLUSH requests that inflate() flush as much
-  output as possible to the output buffer.  Z_BLOCK requests that inflate()
-  stop if and when it gets to the next deflate block boundary.  When decoding
-  the zlib or gzip format, this will cause inflate() to return immediately
-  after the header and before the first block.  When doing a raw inflate,
-  inflate() will go ahead and process the first block, and will return when it
-  gets to the end of that block, or when it runs out of data.
+    The flush pbrbmeter of inflbte() cbn be Z_NO_FLUSH, Z_SYNC_FLUSH, Z_FINISH,
+  Z_BLOCK, or Z_TREES.  Z_SYNC_FLUSH requests thbt inflbte() flush bs much
+  output bs possible to the output buffer.  Z_BLOCK requests thbt inflbte()
+  stop if bnd when it gets to the next deflbte block boundbry.  When decoding
+  the zlib or gzip formbt, this will cbuse inflbte() to return immedibtely
+  bfter the hebder bnd before the first block.  When doing b rbw inflbte,
+  inflbte() will go bhebd bnd process the first block, bnd will return when it
+  gets to the end of thbt block, or when it runs out of dbtb.
 
-    The Z_BLOCK option assists in appending to or combining deflate streams.
-  Also to assist in this, on return inflate() will set strm->data_type to the
-  number of unused bits in the last byte taken from strm->next_in, plus 64 if
-  inflate() is currently decoding the last block in the deflate stream, plus
-  128 if inflate() returned immediately after decoding an end-of-block code or
-  decoding the complete header up to just before the first byte of the deflate
-  stream.  The end-of-block will not be indicated until all of the uncompressed
-  data from that block has been written to strm->next_out.  The number of
-  unused bits may in general be greater than seven, except when bit 7 of
-  data_type is set, in which case the number of unused bits will be less than
-  eight.  data_type is set as noted here every time inflate() returns for all
-  flush options, and so can be used to determine the amount of currently
+    The Z_BLOCK option bssists in bppending to or combining deflbte strebms.
+  Also to bssist in this, on return inflbte() will set strm->dbtb_type to the
+  number of unused bits in the lbst byte tbken from strm->next_in, plus 64 if
+  inflbte() is currently decoding the lbst block in the deflbte strebm, plus
+  128 if inflbte() returned immedibtely bfter decoding bn end-of-block code or
+  decoding the complete hebder up to just before the first byte of the deflbte
+  strebm.  The end-of-block will not be indicbted until bll of the uncompressed
+  dbtb from thbt block hbs been written to strm->next_out.  The number of
+  unused bits mby in generbl be grebter thbn seven, except when bit 7 of
+  dbtb_type is set, in which cbse the number of unused bits will be less thbn
+  eight.  dbtb_type is set bs noted here every time inflbte() returns for bll
+  flush options, bnd so cbn be used to determine the bmount of currently
   consumed input in bits.
 
-    The Z_TREES option behaves as Z_BLOCK does, but it also returns when the
-  end of each deflate block header is reached, before any actual data in that
-  block is decoded.  This allows the caller to determine the length of the
-  deflate block header for later use in random access within a deflate block.
-  256 is added to the value of strm->data_type when inflate() returns
-  immediately after reaching the end of the deflate block header.
+    The Z_TREES option behbves bs Z_BLOCK does, but it blso returns when the
+  end of ebch deflbte block hebder is rebched, before bny bctubl dbtb in thbt
+  block is decoded.  This bllows the cbller to determine the length of the
+  deflbte block hebder for lbter use in rbndom bccess within b deflbte block.
+  256 is bdded to the vblue of strm->dbtb_type when inflbte() returns
+  immedibtely bfter rebching the end of the deflbte block hebder.
 
-    inflate() should normally be called until it returns Z_STREAM_END or an
-  error.  However if all decompression is to be performed in a single step (a
-  single call of inflate), the parameter flush should be set to Z_FINISH.  In
-  this case all pending input is processed and all pending output is flushed;
-  avail_out must be large enough to hold all of the uncompressed data for the
-  operation to complete.  (The size of the uncompressed data may have been
-  saved by the compressor for this purpose.) The use of Z_FINISH is not
-  required to perform an inflation in one step.  However it may be used to
-  inform inflate that a faster approach can be used for the single inflate()
-  call.  Z_FINISH also informs inflate to not maintain a sliding window if the
-  stream completes, which reduces inflate's memory footprint.  If the stream
-  does not complete, either because not all of the stream is provided or not
-  enough output space is provided, then a sliding window will be allocated and
-  inflate() can be called again to continue the operation as if Z_NO_FLUSH had
+    inflbte() should normblly be cblled until it returns Z_STREAM_END or bn
+  error.  However if bll decompression is to be performed in b single step (b
+  single cbll of inflbte), the pbrbmeter flush should be set to Z_FINISH.  In
+  this cbse bll pending input is processed bnd bll pending output is flushed;
+  bvbil_out must be lbrge enough to hold bll of the uncompressed dbtb for the
+  operbtion to complete.  (The size of the uncompressed dbtb mby hbve been
+  sbved by the compressor for this purpose.) The use of Z_FINISH is not
+  required to perform bn inflbtion in one step.  However it mby be used to
+  inform inflbte thbt b fbster bpprobch cbn be used for the single inflbte()
+  cbll.  Z_FINISH blso informs inflbte to not mbintbin b sliding window if the
+  strebm completes, which reduces inflbte's memory footprint.  If the strebm
+  does not complete, either becbuse not bll of the strebm is provided or not
+  enough output spbce is provided, then b sliding window will be bllocbted bnd
+  inflbte() cbn be cblled bgbin to continue the operbtion bs if Z_NO_FLUSH hbd
   been used.
 
-     In this implementation, inflate() always flushes as much output as
-  possible to the output buffer, and always uses the faster approach on the
-  first call.  So the effects of the flush parameter in this implementation are
-  on the return value of inflate() as noted below, when inflate() returns early
-  when Z_BLOCK or Z_TREES is used, and when inflate() avoids the allocation of
-  memory for a sliding window when Z_FINISH is used.
+     In this implementbtion, inflbte() blwbys flushes bs much output bs
+  possible to the output buffer, bnd blwbys uses the fbster bpprobch on the
+  first cbll.  So the effects of the flush pbrbmeter in this implementbtion bre
+  on the return vblue of inflbte() bs noted below, when inflbte() returns ebrly
+  when Z_BLOCK or Z_TREES is used, bnd when inflbte() bvoids the bllocbtion of
+  memory for b sliding window when Z_FINISH is used.
 
-     If a preset dictionary is needed after this call (see inflateSetDictionary
-  below), inflate sets strm->adler to the Adler-32 checksum of the dictionary
-  chosen by the compressor and returns Z_NEED_DICT; otherwise it sets
-  strm->adler to the Adler-32 checksum of all output produced so far (that is,
-  total_out bytes) and returns Z_OK, Z_STREAM_END or an error code as described
-  below.  At the end of the stream, inflate() checks that its computed adler32
-  checksum is equal to that saved by the compressor and returns Z_STREAM_END
+     If b preset dictionbry is needed bfter this cbll (see inflbteSetDictionbry
+  below), inflbte sets strm->bdler to the Adler-32 checksum of the dictionbry
+  chosen by the compressor bnd returns Z_NEED_DICT; otherwise it sets
+  strm->bdler to the Adler-32 checksum of bll output produced so fbr (thbt is,
+  totbl_out bytes) bnd returns Z_OK, Z_STREAM_END or bn error code bs described
+  below.  At the end of the strebm, inflbte() checks thbt its computed bdler32
+  checksum is equbl to thbt sbved by the compressor bnd returns Z_STREAM_END
   only if the checksum is correct.
 
-    inflate() can decompress and check either zlib-wrapped or gzip-wrapped
-  deflate data.  The header type is detected automatically, if requested when
-  initializing with inflateInit2().  Any information contained in the gzip
-  header is not retained, so applications that need that information should
-  instead use raw inflate, see inflateInit2() below, or inflateBack() and
-  perform their own processing of the gzip header and trailer.  When processing
-  gzip-wrapped deflate data, strm->adler32 is set to the CRC-32 of the output
-  producted so far.  The CRC-32 is checked against the gzip trailer.
+    inflbte() cbn decompress bnd check either zlib-wrbpped or gzip-wrbpped
+  deflbte dbtb.  The hebder type is detected butombticblly, if requested when
+  initiblizing with inflbteInit2().  Any informbtion contbined in the gzip
+  hebder is not retbined, so bpplicbtions thbt need thbt informbtion should
+  instebd use rbw inflbte, see inflbteInit2() below, or inflbteBbck() bnd
+  perform their own processing of the gzip hebder bnd trbiler.  When processing
+  gzip-wrbpped deflbte dbtb, strm->bdler32 is set to the CRC-32 of the output
+  producted so fbr.  The CRC-32 is checked bgbinst the gzip trbiler.
 
-    inflate() returns Z_OK if some progress has been made (more input processed
-  or more output produced), Z_STREAM_END if the end of the compressed data has
-  been reached and all uncompressed output has been produced, Z_NEED_DICT if a
-  preset dictionary is needed at this point, Z_DATA_ERROR if the input data was
-  corrupted (input stream not conforming to the zlib format or incorrect check
-  value), Z_STREAM_ERROR if the stream structure was inconsistent (for example
-  next_in or next_out was Z_NULL), Z_MEM_ERROR if there was not enough memory,
-  Z_BUF_ERROR if no progress is possible or if there was not enough room in the
-  output buffer when Z_FINISH is used.  Note that Z_BUF_ERROR is not fatal, and
-  inflate() can be called again with more input and more output space to
-  continue decompressing.  If Z_DATA_ERROR is returned, the application may
-  then call inflateSync() to look for a good compression block if a partial
-  recovery of the data is desired.
+    inflbte() returns Z_OK if some progress hbs been mbde (more input processed
+  or more output produced), Z_STREAM_END if the end of the compressed dbtb hbs
+  been rebched bnd bll uncompressed output hbs been produced, Z_NEED_DICT if b
+  preset dictionbry is needed bt this point, Z_DATA_ERROR if the input dbtb wbs
+  corrupted (input strebm not conforming to the zlib formbt or incorrect check
+  vblue), Z_STREAM_ERROR if the strebm structure wbs inconsistent (for exbmple
+  next_in or next_out wbs Z_NULL), Z_MEM_ERROR if there wbs not enough memory,
+  Z_BUF_ERROR if no progress is possible or if there wbs not enough room in the
+  output buffer when Z_FINISH is used.  Note thbt Z_BUF_ERROR is not fbtbl, bnd
+  inflbte() cbn be cblled bgbin with more input bnd more output spbce to
+  continue decompressing.  If Z_DATA_ERROR is returned, the bpplicbtion mby
+  then cbll inflbteSync() to look for b good compression block if b pbrtibl
+  recovery of the dbtb is desired.
 */
 
 
-ZEXTERN int ZEXPORT inflateEnd OF((z_streamp strm));
+ZEXTERN int ZEXPORT inflbteEnd OF((z_strebmp strm));
 /*
-     All dynamically allocated data structures for this stream are freed.
-   This function discards any unprocessed input and does not flush any pending
+     All dynbmicblly bllocbted dbtb structures for this strebm bre freed.
+   This function discbrds bny unprocessed input bnd does not flush bny pending
    output.
 
-     inflateEnd returns Z_OK if success, Z_STREAM_ERROR if the stream state
-   was inconsistent.  In the error case, msg may be set but then points to a
-   static string (which must not be deallocated).
+     inflbteEnd returns Z_OK if success, Z_STREAM_ERROR if the strebm stbte
+   wbs inconsistent.  In the error cbse, msg mby be set but then points to b
+   stbtic string (which must not be debllocbted).
 */
 
 
-                        /* Advanced functions */
+                        /* Advbnced functions */
 
 /*
-    The following functions are needed only in some special applications.
+    The following functions bre needed only in some specibl bpplicbtions.
 */
 
 /*
-ZEXTERN int ZEXPORT deflateInit2 OF((z_streamp strm,
+ZEXTERN int ZEXPORT deflbteInit2 OF((z_strebmp strm,
                                      int  level,
                                      int  method,
                                      int  windowBits,
                                      int  memLevel,
-                                     int  strategy));
+                                     int  strbtegy));
 
-     This is another version of deflateInit with more compression options.  The
-   fields next_in, zalloc, zfree and opaque must be initialized before by the
-   caller.
+     This is bnother version of deflbteInit with more compression options.  The
+   fields next_in, zblloc, zfree bnd opbque must be initiblized before by the
+   cbller.
 
-     The method parameter is the compression method.  It must be Z_DEFLATED in
-   this version of the library.
+     The method pbrbmeter is the compression method.  It must be Z_DEFLATED in
+   this version of the librbry.
 
-     The windowBits parameter is the base two logarithm of the window size
-   (the size of the history buffer).  It should be in the range 8..15 for this
-   version of the library.  Larger values of this parameter result in better
-   compression at the expense of memory usage.  The default value is 15 if
-   deflateInit is used instead.
+     The windowBits pbrbmeter is the bbse two logbrithm of the window size
+   (the size of the history buffer).  It should be in the rbnge 8..15 for this
+   version of the librbry.  Lbrger vblues of this pbrbmeter result in better
+   compression bt the expense of memory usbge.  The defbult vblue is 15 if
+   deflbteInit is used instebd.
 
-     windowBits can also be -8..-15 for raw deflate.  In this case, -windowBits
-   determines the window size.  deflate() will then generate raw deflate data
-   with no zlib header or trailer, and will not compute an adler32 check value.
+     windowBits cbn blso be -8..-15 for rbw deflbte.  In this cbse, -windowBits
+   determines the window size.  deflbte() will then generbte rbw deflbte dbtb
+   with no zlib hebder or trbiler, bnd will not compute bn bdler32 check vblue.
 
-     windowBits can also be greater than 15 for optional gzip encoding.  Add
-   16 to windowBits to write a simple gzip header and trailer around the
-   compressed data instead of a zlib wrapper.  The gzip header will have no
-   file name, no extra data, no comment, no modification time (set to zero), no
-   header crc, and the operating system will be set to 255 (unknown).  If a
-   gzip stream is being written, strm->adler is a crc32 instead of an adler32.
+     windowBits cbn blso be grebter thbn 15 for optionbl gzip encoding.  Add
+   16 to windowBits to write b simple gzip hebder bnd trbiler bround the
+   compressed dbtb instebd of b zlib wrbpper.  The gzip hebder will hbve no
+   file nbme, no extrb dbtb, no comment, no modificbtion time (set to zero), no
+   hebder crc, bnd the operbting system will be set to 255 (unknown).  If b
+   gzip strebm is being written, strm->bdler is b crc32 instebd of bn bdler32.
 
-     The memLevel parameter specifies how much memory should be allocated
-   for the internal compression state.  memLevel=1 uses minimum memory but is
-   slow and reduces compression ratio; memLevel=9 uses maximum memory for
-   optimal speed.  The default value is 8.  See zconf.h for total memory usage
-   as a function of windowBits and memLevel.
+     The memLevel pbrbmeter specifies how much memory should be bllocbted
+   for the internbl compression stbte.  memLevel=1 uses minimum memory but is
+   slow bnd reduces compression rbtio; memLevel=9 uses mbximum memory for
+   optimbl speed.  The defbult vblue is 8.  See zconf.h for totbl memory usbge
+   bs b function of windowBits bnd memLevel.
 
-     The strategy parameter is used to tune the compression algorithm.  Use the
-   value Z_DEFAULT_STRATEGY for normal data, Z_FILTERED for data produced by a
-   filter (or predictor), Z_HUFFMAN_ONLY to force Huffman encoding only (no
-   string match), or Z_RLE to limit match distances to one (run-length
-   encoding).  Filtered data consists mostly of small values with a somewhat
-   random distribution.  In this case, the compression algorithm is tuned to
-   compress them better.  The effect of Z_FILTERED is to force more Huffman
-   coding and less string matching; it is somewhat intermediate between
-   Z_DEFAULT_STRATEGY and Z_HUFFMAN_ONLY.  Z_RLE is designed to be almost as
-   fast as Z_HUFFMAN_ONLY, but give better compression for PNG image data.  The
-   strategy parameter only affects the compression ratio but not the
-   correctness of the compressed output even if it is not set appropriately.
-   Z_FIXED prevents the use of dynamic Huffman codes, allowing for a simpler
-   decoder for special applications.
+     The strbtegy pbrbmeter is used to tune the compression blgorithm.  Use the
+   vblue Z_DEFAULT_STRATEGY for normbl dbtb, Z_FILTERED for dbtb produced by b
+   filter (or predictor), Z_HUFFMAN_ONLY to force Huffmbn encoding only (no
+   string mbtch), or Z_RLE to limit mbtch distbnces to one (run-length
+   encoding).  Filtered dbtb consists mostly of smbll vblues with b somewhbt
+   rbndom distribution.  In this cbse, the compression blgorithm is tuned to
+   compress them better.  The effect of Z_FILTERED is to force more Huffmbn
+   coding bnd less string mbtching; it is somewhbt intermedibte between
+   Z_DEFAULT_STRATEGY bnd Z_HUFFMAN_ONLY.  Z_RLE is designed to be blmost bs
+   fbst bs Z_HUFFMAN_ONLY, but give better compression for PNG imbge dbtb.  The
+   strbtegy pbrbmeter only bffects the compression rbtio but not the
+   correctness of the compressed output even if it is not set bppropribtely.
+   Z_FIXED prevents the use of dynbmic Huffmbn codes, bllowing for b simpler
+   decoder for specibl bpplicbtions.
 
-     deflateInit2 returns Z_OK if success, Z_MEM_ERROR if there was not enough
-   memory, Z_STREAM_ERROR if any parameter is invalid (such as an invalid
-   method), or Z_VERSION_ERROR if the zlib library version (zlib_version) is
-   incompatible with the version assumed by the caller (ZLIB_VERSION).  msg is
-   set to null if there is no error message.  deflateInit2 does not perform any
-   compression: this will be done by deflate().
+     deflbteInit2 returns Z_OK if success, Z_MEM_ERROR if there wbs not enough
+   memory, Z_STREAM_ERROR if bny pbrbmeter is invblid (such bs bn invblid
+   method), or Z_VERSION_ERROR if the zlib librbry version (zlib_version) is
+   incompbtible with the version bssumed by the cbller (ZLIB_VERSION).  msg is
+   set to null if there is no error messbge.  deflbteInit2 does not perform bny
+   compression: this will be done by deflbte().
 */
 
-ZEXTERN int ZEXPORT deflateSetDictionary OF((z_streamp strm,
-                                             const Bytef *dictionary,
+ZEXTERN int ZEXPORT deflbteSetDictionbry OF((z_strebmp strm,
+                                             const Bytef *dictionbry,
                                              uInt  dictLength));
 /*
-     Initializes the compression dictionary from the given byte sequence
-   without producing any compressed output.  When using the zlib format, this
-   function must be called immediately after deflateInit, deflateInit2 or
-   deflateReset, and before any call of deflate.  When doing raw deflate, this
-   function must be called either before any call of deflate, or immediately
-   after the completion of a deflate block, i.e. after all input has been
-   consumed and all output has been delivered when using any of the flush
+     Initiblizes the compression dictionbry from the given byte sequence
+   without producing bny compressed output.  When using the zlib formbt, this
+   function must be cblled immedibtely bfter deflbteInit, deflbteInit2 or
+   deflbteReset, bnd before bny cbll of deflbte.  When doing rbw deflbte, this
+   function must be cblled either before bny cbll of deflbte, or immedibtely
+   bfter the completion of b deflbte block, i.e. bfter bll input hbs been
+   consumed bnd bll output hbs been delivered when using bny of the flush
    options Z_BLOCK, Z_PARTIAL_FLUSH, Z_SYNC_FLUSH, or Z_FULL_FLUSH.  The
-   compressor and decompressor must use exactly the same dictionary (see
-   inflateSetDictionary).
+   compressor bnd decompressor must use exbctly the sbme dictionbry (see
+   inflbteSetDictionbry).
 
-     The dictionary should consist of strings (byte sequences) that are likely
-   to be encountered later in the data to be compressed, with the most commonly
-   used strings preferably put towards the end of the dictionary.  Using a
-   dictionary is most useful when the data to be compressed is short and can be
-   predicted with good accuracy; the data can then be compressed better than
-   with the default empty dictionary.
+     The dictionbry should consist of strings (byte sequences) thbt bre likely
+   to be encountered lbter in the dbtb to be compressed, with the most commonly
+   used strings preferbbly put towbrds the end of the dictionbry.  Using b
+   dictionbry is most useful when the dbtb to be compressed is short bnd cbn be
+   predicted with good bccurbcy; the dbtb cbn then be compressed better thbn
+   with the defbult empty dictionbry.
 
-     Depending on the size of the compression data structures selected by
-   deflateInit or deflateInit2, a part of the dictionary may in effect be
-   discarded, for example if the dictionary is larger than the window size
-   provided in deflateInit or deflateInit2.  Thus the strings most likely to be
-   useful should be put at the end of the dictionary, not at the front.  In
-   addition, the current implementation of deflate will use at most the window
-   size minus 262 bytes of the provided dictionary.
+     Depending on the size of the compression dbtb structures selected by
+   deflbteInit or deflbteInit2, b pbrt of the dictionbry mby in effect be
+   discbrded, for exbmple if the dictionbry is lbrger thbn the window size
+   provided in deflbteInit or deflbteInit2.  Thus the strings most likely to be
+   useful should be put bt the end of the dictionbry, not bt the front.  In
+   bddition, the current implementbtion of deflbte will use bt most the window
+   size minus 262 bytes of the provided dictionbry.
 
-     Upon return of this function, strm->adler is set to the adler32 value
-   of the dictionary; the decompressor may later use this value to determine
-   which dictionary has been used by the compressor.  (The adler32 value
-   applies to the whole dictionary even if only a subset of the dictionary is
-   actually used by the compressor.) If a raw deflate was requested, then the
-   adler32 value is not computed and strm->adler is not set.
+     Upon return of this function, strm->bdler is set to the bdler32 vblue
+   of the dictionbry; the decompressor mby lbter use this vblue to determine
+   which dictionbry hbs been used by the compressor.  (The bdler32 vblue
+   bpplies to the whole dictionbry even if only b subset of the dictionbry is
+   bctublly used by the compressor.) If b rbw deflbte wbs requested, then the
+   bdler32 vblue is not computed bnd strm->bdler is not set.
 
-     deflateSetDictionary returns Z_OK if success, or Z_STREAM_ERROR if a
-   parameter is invalid (e.g.  dictionary being Z_NULL) or the stream state is
-   inconsistent (for example if deflate has already been called for this stream
-   or if not at a block boundary for raw deflate).  deflateSetDictionary does
-   not perform any compression: this will be done by deflate().
+     deflbteSetDictionbry returns Z_OK if success, or Z_STREAM_ERROR if b
+   pbrbmeter is invblid (e.g.  dictionbry being Z_NULL) or the strebm stbte is
+   inconsistent (for exbmple if deflbte hbs blrebdy been cblled for this strebm
+   or if not bt b block boundbry for rbw deflbte).  deflbteSetDictionbry does
+   not perform bny compression: this will be done by deflbte().
 */
 
-ZEXTERN int ZEXPORT deflateCopy OF((z_streamp dest,
-                                    z_streamp source));
+ZEXTERN int ZEXPORT deflbteCopy OF((z_strebmp dest,
+                                    z_strebmp source));
 /*
-     Sets the destination stream as a complete copy of the source stream.
+     Sets the destinbtion strebm bs b complete copy of the source strebm.
 
-     This function can be useful when several compression strategies will be
-   tried, for example when there are several ways of pre-processing the input
-   data with a filter.  The streams that will be discarded should then be freed
-   by calling deflateEnd.  Note that deflateCopy duplicates the internal
-   compression state which can be quite large, so this strategy is slow and can
+     This function cbn be useful when severbl compression strbtegies will be
+   tried, for exbmple when there bre severbl wbys of pre-processing the input
+   dbtb with b filter.  The strebms thbt will be discbrded should then be freed
+   by cblling deflbteEnd.  Note thbt deflbteCopy duplicbtes the internbl
+   compression stbte which cbn be quite lbrge, so this strbtegy is slow bnd cbn
    consume lots of memory.
 
-     deflateCopy returns Z_OK if success, Z_MEM_ERROR if there was not
-   enough memory, Z_STREAM_ERROR if the source stream state was inconsistent
-   (such as zalloc being Z_NULL).  msg is left unchanged in both source and
-   destination.
+     deflbteCopy returns Z_OK if success, Z_MEM_ERROR if there wbs not
+   enough memory, Z_STREAM_ERROR if the source strebm stbte wbs inconsistent
+   (such bs zblloc being Z_NULL).  msg is left unchbnged in both source bnd
+   destinbtion.
 */
 
-ZEXTERN int ZEXPORT deflateReset OF((z_streamp strm));
+ZEXTERN int ZEXPORT deflbteReset OF((z_strebmp strm));
 /*
-     This function is equivalent to deflateEnd followed by deflateInit,
-   but does not free and reallocate all the internal compression state.  The
-   stream will keep the same compression level and any other attributes that
-   may have been set by deflateInit2.
+     This function is equivblent to deflbteEnd followed by deflbteInit,
+   but does not free bnd rebllocbte bll the internbl compression stbte.  The
+   strebm will keep the sbme compression level bnd bny other bttributes thbt
+   mby hbve been set by deflbteInit2.
 
-     deflateReset returns Z_OK if success, or Z_STREAM_ERROR if the source
-   stream state was inconsistent (such as zalloc or state being Z_NULL).
+     deflbteReset returns Z_OK if success, or Z_STREAM_ERROR if the source
+   strebm stbte wbs inconsistent (such bs zblloc or stbte being Z_NULL).
 */
 
-ZEXTERN int ZEXPORT deflateParams OF((z_streamp strm,
+ZEXTERN int ZEXPORT deflbtePbrbms OF((z_strebmp strm,
                                       int level,
-                                      int strategy));
+                                      int strbtegy));
 /*
-     Dynamically update the compression level and compression strategy.  The
-   interpretation of level and strategy is as in deflateInit2.  This can be
-   used to switch between compression and straight copy of the input data, or
-   to switch to a different kind of input data requiring a different strategy.
-   If the compression level is changed, the input available so far is
-   compressed with the old level (and may be flushed); the new level will take
-   effect only at the next call of deflate().
+     Dynbmicblly updbte the compression level bnd compression strbtegy.  The
+   interpretbtion of level bnd strbtegy is bs in deflbteInit2.  This cbn be
+   used to switch between compression bnd strbight copy of the input dbtb, or
+   to switch to b different kind of input dbtb requiring b different strbtegy.
+   If the compression level is chbnged, the input bvbilbble so fbr is
+   compressed with the old level (bnd mby be flushed); the new level will tbke
+   effect only bt the next cbll of deflbte().
 
-     Before the call of deflateParams, the stream state must be set as for
-   a call of deflate(), since the currently available input may have to be
-   compressed and flushed.  In particular, strm->avail_out must be non-zero.
+     Before the cbll of deflbtePbrbms, the strebm stbte must be set bs for
+   b cbll of deflbte(), since the currently bvbilbble input mby hbve to be
+   compressed bnd flushed.  In pbrticulbr, strm->bvbil_out must be non-zero.
 
-     deflateParams returns Z_OK if success, Z_STREAM_ERROR if the source
-   stream state was inconsistent or if a parameter was invalid, Z_BUF_ERROR if
-   strm->avail_out was zero.
+     deflbtePbrbms returns Z_OK if success, Z_STREAM_ERROR if the source
+   strebm stbte wbs inconsistent or if b pbrbmeter wbs invblid, Z_BUF_ERROR if
+   strm->bvbil_out wbs zero.
 */
 
-ZEXTERN int ZEXPORT deflateTune OF((z_streamp strm,
+ZEXTERN int ZEXPORT deflbteTune OF((z_strebmp strm,
                                     int good_length,
-                                    int max_lazy,
+                                    int mbx_lbzy,
                                     int nice_length,
-                                    int max_chain));
+                                    int mbx_chbin));
 /*
-     Fine tune deflate's internal compression parameters.  This should only be
-   used by someone who understands the algorithm used by zlib's deflate for
-   searching for the best matching string, and even then only by the most
-   fanatic optimizer trying to squeeze out the last compressed bit for their
-   specific input data.  Read the deflate.c source code for the meaning of the
-   max_lazy, good_length, nice_length, and max_chain parameters.
+     Fine tune deflbte's internbl compression pbrbmeters.  This should only be
+   used by someone who understbnds the blgorithm used by zlib's deflbte for
+   sebrching for the best mbtching string, bnd even then only by the most
+   fbnbtic optimizer trying to squeeze out the lbst compressed bit for their
+   specific input dbtb.  Rebd the deflbte.c source code for the mebning of the
+   mbx_lbzy, good_length, nice_length, bnd mbx_chbin pbrbmeters.
 
-     deflateTune() can be called after deflateInit() or deflateInit2(), and
-   returns Z_OK on success, or Z_STREAM_ERROR for an invalid deflate stream.
+     deflbteTune() cbn be cblled bfter deflbteInit() or deflbteInit2(), bnd
+   returns Z_OK on success, or Z_STREAM_ERROR for bn invblid deflbte strebm.
  */
 
-ZEXTERN uLong ZEXPORT deflateBound OF((z_streamp strm,
+ZEXTERN uLong ZEXPORT deflbteBound OF((z_strebmp strm,
                                        uLong sourceLen));
 /*
-     deflateBound() returns an upper bound on the compressed size after
-   deflation of sourceLen bytes.  It must be called after deflateInit() or
-   deflateInit2(), and after deflateSetHeader(), if used.  This would be used
-   to allocate an output buffer for deflation in a single pass, and so would be
-   called before deflate().  If that first deflate() call is provided the
-   sourceLen input bytes, an output buffer allocated to the size returned by
-   deflateBound(), and the flush value Z_FINISH, then deflate() is guaranteed
-   to return Z_STREAM_END.  Note that it is possible for the compressed size to
-   be larger than the value returned by deflateBound() if flush options other
-   than Z_FINISH or Z_NO_FLUSH are used.
+     deflbteBound() returns bn upper bound on the compressed size bfter
+   deflbtion of sourceLen bytes.  It must be cblled bfter deflbteInit() or
+   deflbteInit2(), bnd bfter deflbteSetHebder(), if used.  This would be used
+   to bllocbte bn output buffer for deflbtion in b single pbss, bnd so would be
+   cblled before deflbte().  If thbt first deflbte() cbll is provided the
+   sourceLen input bytes, bn output buffer bllocbted to the size returned by
+   deflbteBound(), bnd the flush vblue Z_FINISH, then deflbte() is gubrbnteed
+   to return Z_STREAM_END.  Note thbt it is possible for the compressed size to
+   be lbrger thbn the vblue returned by deflbteBound() if flush options other
+   thbn Z_FINISH or Z_NO_FLUSH bre used.
 */
 
-ZEXTERN int ZEXPORT deflatePending OF((z_streamp strm,
+ZEXTERN int ZEXPORT deflbtePending OF((z_strebmp strm,
                                        unsigned *pending,
                                        int *bits));
 /*
-     deflatePending() returns the number of bytes and bits of output that have
-   been generated, but not yet provided in the available output.  The bytes not
-   provided would be due to the available output space having being consumed.
-   The number of bits of output not provided are between 0 and 7, where they
-   await more bits to join them in order to fill out a full byte.  If pending
-   or bits are Z_NULL, then those values are not set.
+     deflbtePending() returns the number of bytes bnd bits of output thbt hbve
+   been generbted, but not yet provided in the bvbilbble output.  The bytes not
+   provided would be due to the bvbilbble output spbce hbving being consumed.
+   The number of bits of output not provided bre between 0 bnd 7, where they
+   bwbit more bits to join them in order to fill out b full byte.  If pending
+   or bits bre Z_NULL, then those vblues bre not set.
 
-     deflatePending returns Z_OK if success, or Z_STREAM_ERROR if the source
-   stream state was inconsistent.
+     deflbtePending returns Z_OK if success, or Z_STREAM_ERROR if the source
+   strebm stbte wbs inconsistent.
  */
 
-ZEXTERN int ZEXPORT deflatePrime OF((z_streamp strm,
+ZEXTERN int ZEXPORT deflbtePrime OF((z_strebmp strm,
                                      int bits,
-                                     int value));
+                                     int vblue));
 /*
-     deflatePrime() inserts bits in the deflate output stream.  The intent
-   is that this function is used to start off the deflate output with the bits
-   leftover from a previous deflate stream when appending to it.  As such, this
-   function can only be used for raw deflate, and must be used before the first
-   deflate() call after a deflateInit2() or deflateReset().  bits must be less
-   than or equal to 16, and that many of the least significant bits of value
+     deflbtePrime() inserts bits in the deflbte output strebm.  The intent
+   is thbt this function is used to stbrt off the deflbte output with the bits
+   leftover from b previous deflbte strebm when bppending to it.  As such, this
+   function cbn only be used for rbw deflbte, bnd must be used before the first
+   deflbte() cbll bfter b deflbteInit2() or deflbteReset().  bits must be less
+   thbn or equbl to 16, bnd thbt mbny of the lebst significbnt bits of vblue
    will be inserted in the output.
 
-     deflatePrime returns Z_OK if success, Z_BUF_ERROR if there was not enough
-   room in the internal buffer to insert the bits, or Z_STREAM_ERROR if the
-   source stream state was inconsistent.
+     deflbtePrime returns Z_OK if success, Z_BUF_ERROR if there wbs not enough
+   room in the internbl buffer to insert the bits, or Z_STREAM_ERROR if the
+   source strebm stbte wbs inconsistent.
 */
 
-ZEXTERN int ZEXPORT deflateSetHeader OF((z_streamp strm,
-                                         gz_headerp head));
+ZEXTERN int ZEXPORT deflbteSetHebder OF((z_strebmp strm,
+                                         gz_hebderp hebd));
 /*
-     deflateSetHeader() provides gzip header information for when a gzip
-   stream is requested by deflateInit2().  deflateSetHeader() may be called
-   after deflateInit2() or deflateReset() and before the first call of
-   deflate().  The text, time, os, extra field, name, and comment information
-   in the provided gz_header structure are written to the gzip header (xflag is
-   ignored -- the extra flags are set according to the compression level).  The
-   caller must assure that, if not Z_NULL, name and comment are terminated with
-   a zero byte, and that if extra is not Z_NULL, that extra_len bytes are
-   available there.  If hcrc is true, a gzip header crc is included.  Note that
-   the current versions of the command-line version of gzip (up through version
-   1.3.x) do not support header crc's, and will report that it is a "multi-part
-   gzip file" and give up.
+     deflbteSetHebder() provides gzip hebder informbtion for when b gzip
+   strebm is requested by deflbteInit2().  deflbteSetHebder() mby be cblled
+   bfter deflbteInit2() or deflbteReset() bnd before the first cbll of
+   deflbte().  The text, time, os, extrb field, nbme, bnd comment informbtion
+   in the provided gz_hebder structure bre written to the gzip hebder (xflbg is
+   ignored -- the extrb flbgs bre set bccording to the compression level).  The
+   cbller must bssure thbt, if not Z_NULL, nbme bnd comment bre terminbted with
+   b zero byte, bnd thbt if extrb is not Z_NULL, thbt extrb_len bytes bre
+   bvbilbble there.  If hcrc is true, b gzip hebder crc is included.  Note thbt
+   the current versions of the commbnd-line version of gzip (up through version
+   1.3.x) do not support hebder crc's, bnd will report thbt it is b "multi-pbrt
+   gzip file" bnd give up.
 
-     If deflateSetHeader is not used, the default gzip header has text false,
-   the time set to zero, and os set to 255, with no extra, name, or comment
-   fields.  The gzip header is returned to the default state by deflateReset().
+     If deflbteSetHebder is not used, the defbult gzip hebder hbs text fblse,
+   the time set to zero, bnd os set to 255, with no extrb, nbme, or comment
+   fields.  The gzip hebder is returned to the defbult stbte by deflbteReset().
 
-     deflateSetHeader returns Z_OK if success, or Z_STREAM_ERROR if the source
-   stream state was inconsistent.
+     deflbteSetHebder returns Z_OK if success, or Z_STREAM_ERROR if the source
+   strebm stbte wbs inconsistent.
 */
 
 /*
-ZEXTERN int ZEXPORT inflateInit2 OF((z_streamp strm,
+ZEXTERN int ZEXPORT inflbteInit2 OF((z_strebmp strm,
                                      int  windowBits));
 
-     This is another version of inflateInit with an extra parameter.  The
-   fields next_in, avail_in, zalloc, zfree and opaque must be initialized
-   before by the caller.
+     This is bnother version of inflbteInit with bn extrb pbrbmeter.  The
+   fields next_in, bvbil_in, zblloc, zfree bnd opbque must be initiblized
+   before by the cbller.
 
-     The windowBits parameter is the base two logarithm of the maximum window
-   size (the size of the history buffer).  It should be in the range 8..15 for
-   this version of the library.  The default value is 15 if inflateInit is used
-   instead.  windowBits must be greater than or equal to the windowBits value
-   provided to deflateInit2() while compressing, or it must be equal to 15 if
-   deflateInit2() was not used.  If a compressed stream with a larger window
-   size is given as input, inflate() will return with the error code
-   Z_DATA_ERROR instead of trying to allocate a larger window.
+     The windowBits pbrbmeter is the bbse two logbrithm of the mbximum window
+   size (the size of the history buffer).  It should be in the rbnge 8..15 for
+   this version of the librbry.  The defbult vblue is 15 if inflbteInit is used
+   instebd.  windowBits must be grebter thbn or equbl to the windowBits vblue
+   provided to deflbteInit2() while compressing, or it must be equbl to 15 if
+   deflbteInit2() wbs not used.  If b compressed strebm with b lbrger window
+   size is given bs input, inflbte() will return with the error code
+   Z_DATA_ERROR instebd of trying to bllocbte b lbrger window.
 
-     windowBits can also be zero to request that inflate use the window size in
-   the zlib header of the compressed stream.
+     windowBits cbn blso be zero to request thbt inflbte use the window size in
+   the zlib hebder of the compressed strebm.
 
-     windowBits can also be -8..-15 for raw inflate.  In this case, -windowBits
-   determines the window size.  inflate() will then process raw deflate data,
-   not looking for a zlib or gzip header, not generating a check value, and not
-   looking for any check values for comparison at the end of the stream.  This
-   is for use with other formats that use the deflate compressed data format
-   such as zip.  Those formats provide their own check values.  If a custom
-   format is developed using the raw deflate format for compressed data, it is
-   recommended that a check value such as an adler32 or a crc32 be applied to
-   the uncompressed data as is done in the zlib, gzip, and zip formats.  For
-   most applications, the zlib format should be used as is.  Note that comments
-   above on the use in deflateInit2() applies to the magnitude of windowBits.
+     windowBits cbn blso be -8..-15 for rbw inflbte.  In this cbse, -windowBits
+   determines the window size.  inflbte() will then process rbw deflbte dbtb,
+   not looking for b zlib or gzip hebder, not generbting b check vblue, bnd not
+   looking for bny check vblues for compbrison bt the end of the strebm.  This
+   is for use with other formbts thbt use the deflbte compressed dbtb formbt
+   such bs zip.  Those formbts provide their own check vblues.  If b custom
+   formbt is developed using the rbw deflbte formbt for compressed dbtb, it is
+   recommended thbt b check vblue such bs bn bdler32 or b crc32 be bpplied to
+   the uncompressed dbtb bs is done in the zlib, gzip, bnd zip formbts.  For
+   most bpplicbtions, the zlib formbt should be used bs is.  Note thbt comments
+   bbove on the use in deflbteInit2() bpplies to the mbgnitude of windowBits.
 
-     windowBits can also be greater than 15 for optional gzip decoding.  Add
-   32 to windowBits to enable zlib and gzip decoding with automatic header
-   detection, or add 16 to decode only the gzip format (the zlib format will
-   return a Z_DATA_ERROR).  If a gzip stream is being decoded, strm->adler is a
-   crc32 instead of an adler32.
+     windowBits cbn blso be grebter thbn 15 for optionbl gzip decoding.  Add
+   32 to windowBits to enbble zlib bnd gzip decoding with butombtic hebder
+   detection, or bdd 16 to decode only the gzip formbt (the zlib formbt will
+   return b Z_DATA_ERROR).  If b gzip strebm is being decoded, strm->bdler is b
+   crc32 instebd of bn bdler32.
 
-     inflateInit2 returns Z_OK if success, Z_MEM_ERROR if there was not enough
-   memory, Z_VERSION_ERROR if the zlib library version is incompatible with the
-   version assumed by the caller, or Z_STREAM_ERROR if the parameters are
-   invalid, such as a null pointer to the structure.  msg is set to null if
-   there is no error message.  inflateInit2 does not perform any decompression
-   apart from possibly reading the zlib header if present: actual decompression
-   will be done by inflate().  (So next_in and avail_in may be modified, but
-   next_out and avail_out are unused and unchanged.) The current implementation
-   of inflateInit2() does not process any header information -- that is
-   deferred until inflate() is called.
+     inflbteInit2 returns Z_OK if success, Z_MEM_ERROR if there wbs not enough
+   memory, Z_VERSION_ERROR if the zlib librbry version is incompbtible with the
+   version bssumed by the cbller, or Z_STREAM_ERROR if the pbrbmeters bre
+   invblid, such bs b null pointer to the structure.  msg is set to null if
+   there is no error messbge.  inflbteInit2 does not perform bny decompression
+   bpbrt from possibly rebding the zlib hebder if present: bctubl decompression
+   will be done by inflbte().  (So next_in bnd bvbil_in mby be modified, but
+   next_out bnd bvbil_out bre unused bnd unchbnged.) The current implementbtion
+   of inflbteInit2() does not process bny hebder informbtion -- thbt is
+   deferred until inflbte() is cblled.
 */
 
-ZEXTERN int ZEXPORT inflateSetDictionary OF((z_streamp strm,
-                                             const Bytef *dictionary,
+ZEXTERN int ZEXPORT inflbteSetDictionbry OF((z_strebmp strm,
+                                             const Bytef *dictionbry,
                                              uInt  dictLength));
 /*
-     Initializes the decompression dictionary from the given uncompressed byte
-   sequence.  This function must be called immediately after a call of inflate,
-   if that call returned Z_NEED_DICT.  The dictionary chosen by the compressor
-   can be determined from the adler32 value returned by that call of inflate.
-   The compressor and decompressor must use exactly the same dictionary (see
-   deflateSetDictionary).  For raw inflate, this function can be called at any
-   time to set the dictionary.  If the provided dictionary is smaller than the
-   window and there is already data in the window, then the provided dictionary
-   will amend what's there.  The application must insure that the dictionary
-   that was used for compression is provided.
+     Initiblizes the decompression dictionbry from the given uncompressed byte
+   sequence.  This function must be cblled immedibtely bfter b cbll of inflbte,
+   if thbt cbll returned Z_NEED_DICT.  The dictionbry chosen by the compressor
+   cbn be determined from the bdler32 vblue returned by thbt cbll of inflbte.
+   The compressor bnd decompressor must use exbctly the sbme dictionbry (see
+   deflbteSetDictionbry).  For rbw inflbte, this function cbn be cblled bt bny
+   time to set the dictionbry.  If the provided dictionbry is smbller thbn the
+   window bnd there is blrebdy dbtb in the window, then the provided dictionbry
+   will bmend whbt's there.  The bpplicbtion must insure thbt the dictionbry
+   thbt wbs used for compression is provided.
 
-     inflateSetDictionary returns Z_OK if success, Z_STREAM_ERROR if a
-   parameter is invalid (e.g.  dictionary being Z_NULL) or the stream state is
-   inconsistent, Z_DATA_ERROR if the given dictionary doesn't match the
-   expected one (incorrect adler32 value).  inflateSetDictionary does not
-   perform any decompression: this will be done by subsequent calls of
-   inflate().
+     inflbteSetDictionbry returns Z_OK if success, Z_STREAM_ERROR if b
+   pbrbmeter is invblid (e.g.  dictionbry being Z_NULL) or the strebm stbte is
+   inconsistent, Z_DATA_ERROR if the given dictionbry doesn't mbtch the
+   expected one (incorrect bdler32 vblue).  inflbteSetDictionbry does not
+   perform bny decompression: this will be done by subsequent cblls of
+   inflbte().
 */
 
-ZEXTERN int ZEXPORT inflateGetDictionary OF((z_streamp strm,
-                                             Bytef *dictionary,
+ZEXTERN int ZEXPORT inflbteGetDictionbry OF((z_strebmp strm,
+                                             Bytef *dictionbry,
                                              uInt  *dictLength));
 /*
-     Returns the sliding dictionary being maintained by inflate.  dictLength is
-   set to the number of bytes in the dictionary, and that many bytes are copied
-   to dictionary.  dictionary must have enough space, where 32768 bytes is
-   always enough.  If inflateGetDictionary() is called with dictionary equal to
-   Z_NULL, then only the dictionary length is returned, and nothing is copied.
-   Similary, if dictLength is Z_NULL, then it is not set.
+     Returns the sliding dictionbry being mbintbined by inflbte.  dictLength is
+   set to the number of bytes in the dictionbry, bnd thbt mbny bytes bre copied
+   to dictionbry.  dictionbry must hbve enough spbce, where 32768 bytes is
+   blwbys enough.  If inflbteGetDictionbry() is cblled with dictionbry equbl to
+   Z_NULL, then only the dictionbry length is returned, bnd nothing is copied.
+   Similbry, if dictLength is Z_NULL, then it is not set.
 
-     inflateGetDictionary returns Z_OK on success, or Z_STREAM_ERROR if the
-   stream state is inconsistent.
+     inflbteGetDictionbry returns Z_OK on success, or Z_STREAM_ERROR if the
+   strebm stbte is inconsistent.
 */
 
-ZEXTERN int ZEXPORT inflateSync OF((z_streamp strm));
+ZEXTERN int ZEXPORT inflbteSync OF((z_strebmp strm));
 /*
-     Skips invalid compressed data until a possible full flush point (see above
-   for the description of deflate with Z_FULL_FLUSH) can be found, or until all
-   available input is skipped.  No output is provided.
+     Skips invblid compressed dbtb until b possible full flush point (see bbove
+   for the description of deflbte with Z_FULL_FLUSH) cbn be found, or until bll
+   bvbilbble input is skipped.  No output is provided.
 
-     inflateSync searches for a 00 00 FF FF pattern in the compressed data.
-   All full flush points have this pattern, but not all occurrences of this
-   pattern are full flush points.
+     inflbteSync sebrches for b 00 00 FF FF pbttern in the compressed dbtb.
+   All full flush points hbve this pbttern, but not bll occurrences of this
+   pbttern bre full flush points.
 
-     inflateSync returns Z_OK if a possible full flush point has been found,
-   Z_BUF_ERROR if no more input was provided, Z_DATA_ERROR if no flush point
-   has been found, or Z_STREAM_ERROR if the stream structure was inconsistent.
-   In the success case, the application may save the current current value of
-   total_in which indicates where valid compressed data was found.  In the
-   error case, the application may repeatedly call inflateSync, providing more
-   input each time, until success or end of the input data.
+     inflbteSync returns Z_OK if b possible full flush point hbs been found,
+   Z_BUF_ERROR if no more input wbs provided, Z_DATA_ERROR if no flush point
+   hbs been found, or Z_STREAM_ERROR if the strebm structure wbs inconsistent.
+   In the success cbse, the bpplicbtion mby sbve the current current vblue of
+   totbl_in which indicbtes where vblid compressed dbtb wbs found.  In the
+   error cbse, the bpplicbtion mby repebtedly cbll inflbteSync, providing more
+   input ebch time, until success or end of the input dbtb.
 */
 
-ZEXTERN int ZEXPORT inflateCopy OF((z_streamp dest,
-                                    z_streamp source));
+ZEXTERN int ZEXPORT inflbteCopy OF((z_strebmp dest,
+                                    z_strebmp source));
 /*
-     Sets the destination stream as a complete copy of the source stream.
+     Sets the destinbtion strebm bs b complete copy of the source strebm.
 
-     This function can be useful when randomly accessing a large stream.  The
-   first pass through the stream can periodically record the inflate state,
-   allowing restarting inflate at those points when randomly accessing the
-   stream.
+     This function cbn be useful when rbndomly bccessing b lbrge strebm.  The
+   first pbss through the strebm cbn periodicblly record the inflbte stbte,
+   bllowing restbrting inflbte bt those points when rbndomly bccessing the
+   strebm.
 
-     inflateCopy returns Z_OK if success, Z_MEM_ERROR if there was not
-   enough memory, Z_STREAM_ERROR if the source stream state was inconsistent
-   (such as zalloc being Z_NULL).  msg is left unchanged in both source and
-   destination.
+     inflbteCopy returns Z_OK if success, Z_MEM_ERROR if there wbs not
+   enough memory, Z_STREAM_ERROR if the source strebm stbte wbs inconsistent
+   (such bs zblloc being Z_NULL).  msg is left unchbnged in both source bnd
+   destinbtion.
 */
 
-ZEXTERN int ZEXPORT inflateReset OF((z_streamp strm));
+ZEXTERN int ZEXPORT inflbteReset OF((z_strebmp strm));
 /*
-     This function is equivalent to inflateEnd followed by inflateInit,
-   but does not free and reallocate all the internal decompression state.  The
-   stream will keep attributes that may have been set by inflateInit2.
+     This function is equivblent to inflbteEnd followed by inflbteInit,
+   but does not free bnd rebllocbte bll the internbl decompression stbte.  The
+   strebm will keep bttributes thbt mby hbve been set by inflbteInit2.
 
-     inflateReset returns Z_OK if success, or Z_STREAM_ERROR if the source
-   stream state was inconsistent (such as zalloc or state being Z_NULL).
+     inflbteReset returns Z_OK if success, or Z_STREAM_ERROR if the source
+   strebm stbte wbs inconsistent (such bs zblloc or stbte being Z_NULL).
 */
 
-ZEXTERN int ZEXPORT inflateReset2 OF((z_streamp strm,
+ZEXTERN int ZEXPORT inflbteReset2 OF((z_strebmp strm,
                                       int windowBits));
 /*
-     This function is the same as inflateReset, but it also permits changing
-   the wrap and window size requests.  The windowBits parameter is interpreted
-   the same as it is for inflateInit2.
+     This function is the sbme bs inflbteReset, but it blso permits chbnging
+   the wrbp bnd window size requests.  The windowBits pbrbmeter is interpreted
+   the sbme bs it is for inflbteInit2.
 
-     inflateReset2 returns Z_OK if success, or Z_STREAM_ERROR if the source
-   stream state was inconsistent (such as zalloc or state being Z_NULL), or if
-   the windowBits parameter is invalid.
+     inflbteReset2 returns Z_OK if success, or Z_STREAM_ERROR if the source
+   strebm stbte wbs inconsistent (such bs zblloc or stbte being Z_NULL), or if
+   the windowBits pbrbmeter is invblid.
 */
 
-ZEXTERN int ZEXPORT inflatePrime OF((z_streamp strm,
+ZEXTERN int ZEXPORT inflbtePrime OF((z_strebmp strm,
                                      int bits,
-                                     int value));
+                                     int vblue));
 /*
-     This function inserts bits in the inflate input stream.  The intent is
-   that this function is used to start inflating at a bit position in the
-   middle of a byte.  The provided bits will be used before any bytes are used
-   from next_in.  This function should only be used with raw inflate, and
-   should be used before the first inflate() call after inflateInit2() or
-   inflateReset().  bits must be less than or equal to 16, and that many of the
-   least significant bits of value will be inserted in the input.
+     This function inserts bits in the inflbte input strebm.  The intent is
+   thbt this function is used to stbrt inflbting bt b bit position in the
+   middle of b byte.  The provided bits will be used before bny bytes bre used
+   from next_in.  This function should only be used with rbw inflbte, bnd
+   should be used before the first inflbte() cbll bfter inflbteInit2() or
+   inflbteReset().  bits must be less thbn or equbl to 16, bnd thbt mbny of the
+   lebst significbnt bits of vblue will be inserted in the input.
 
-     If bits is negative, then the input stream bit buffer is emptied.  Then
-   inflatePrime() can be called again to put bits in the buffer.  This is used
-   to clear out bits leftover after feeding inflate a block description prior
-   to feeding inflate codes.
+     If bits is negbtive, then the input strebm bit buffer is emptied.  Then
+   inflbtePrime() cbn be cblled bgbin to put bits in the buffer.  This is used
+   to clebr out bits leftover bfter feeding inflbte b block description prior
+   to feeding inflbte codes.
 
-     inflatePrime returns Z_OK if success, or Z_STREAM_ERROR if the source
-   stream state was inconsistent.
+     inflbtePrime returns Z_OK if success, or Z_STREAM_ERROR if the source
+   strebm stbte wbs inconsistent.
 */
 
-ZEXTERN long ZEXPORT inflateMark OF((z_streamp strm));
+ZEXTERN long ZEXPORT inflbteMbrk OF((z_strebmp strm));
 /*
-     This function returns two values, one in the lower 16 bits of the return
-   value, and the other in the remaining upper bits, obtained by shifting the
-   return value down 16 bits.  If the upper value is -1 and the lower value is
-   zero, then inflate() is currently decoding information outside of a block.
-   If the upper value is -1 and the lower value is non-zero, then inflate is in
-   the middle of a stored block, with the lower value equaling the number of
-   bytes from the input remaining to copy.  If the upper value is not -1, then
-   it is the number of bits back from the current bit position in the input of
-   the code (literal or length/distance pair) currently being processed.  In
-   that case the lower value is the number of bytes already emitted for that
+     This function returns two vblues, one in the lower 16 bits of the return
+   vblue, bnd the other in the rembining upper bits, obtbined by shifting the
+   return vblue down 16 bits.  If the upper vblue is -1 bnd the lower vblue is
+   zero, then inflbte() is currently decoding informbtion outside of b block.
+   If the upper vblue is -1 bnd the lower vblue is non-zero, then inflbte is in
+   the middle of b stored block, with the lower vblue equbling the number of
+   bytes from the input rembining to copy.  If the upper vblue is not -1, then
+   it is the number of bits bbck from the current bit position in the input of
+   the code (literbl or length/distbnce pbir) currently being processed.  In
+   thbt cbse the lower vblue is the number of bytes blrebdy emitted for thbt
    code.
 
-     A code is being processed if inflate is waiting for more input to complete
-   decoding of the code, or if it has completed decoding but is waiting for
-   more output space to write the literal or match data.
+     A code is being processed if inflbte is wbiting for more input to complete
+   decoding of the code, or if it hbs completed decoding but is wbiting for
+   more output spbce to write the literbl or mbtch dbtb.
 
-     inflateMark() is used to mark locations in the input data for random
-   access, which may be at bit positions, and to note those cases where the
-   output of a code may span boundaries of random access blocks.  The current
-   location in the input stream can be determined from avail_in and data_type
-   as noted in the description for the Z_BLOCK flush parameter for inflate.
+     inflbteMbrk() is used to mbrk locbtions in the input dbtb for rbndom
+   bccess, which mby be bt bit positions, bnd to note those cbses where the
+   output of b code mby spbn boundbries of rbndom bccess blocks.  The current
+   locbtion in the input strebm cbn be determined from bvbil_in bnd dbtb_type
+   bs noted in the description for the Z_BLOCK flush pbrbmeter for inflbte.
 
-     inflateMark returns the value noted above or -1 << 16 if the provided
-   source stream state was inconsistent.
+     inflbteMbrk returns the vblue noted bbove or -1 << 16 if the provided
+   source strebm stbte wbs inconsistent.
 */
 
-ZEXTERN int ZEXPORT inflateGetHeader OF((z_streamp strm,
-                                         gz_headerp head));
+ZEXTERN int ZEXPORT inflbteGetHebder OF((z_strebmp strm,
+                                         gz_hebderp hebd));
 /*
-     inflateGetHeader() requests that gzip header information be stored in the
-   provided gz_header structure.  inflateGetHeader() may be called after
-   inflateInit2() or inflateReset(), and before the first call of inflate().
-   As inflate() processes the gzip stream, head->done is zero until the header
-   is completed, at which time head->done is set to one.  If a zlib stream is
-   being decoded, then head->done is set to -1 to indicate that there will be
-   no gzip header information forthcoming.  Note that Z_BLOCK or Z_TREES can be
-   used to force inflate() to return immediately after header processing is
-   complete and before any actual data is decompressed.
+     inflbteGetHebder() requests thbt gzip hebder informbtion be stored in the
+   provided gz_hebder structure.  inflbteGetHebder() mby be cblled bfter
+   inflbteInit2() or inflbteReset(), bnd before the first cbll of inflbte().
+   As inflbte() processes the gzip strebm, hebd->done is zero until the hebder
+   is completed, bt which time hebd->done is set to one.  If b zlib strebm is
+   being decoded, then hebd->done is set to -1 to indicbte thbt there will be
+   no gzip hebder informbtion forthcoming.  Note thbt Z_BLOCK or Z_TREES cbn be
+   used to force inflbte() to return immedibtely bfter hebder processing is
+   complete bnd before bny bctubl dbtb is decompressed.
 
-     The text, time, xflags, and os fields are filled in with the gzip header
-   contents.  hcrc is set to true if there is a header CRC.  (The header CRC
-   was valid if done is set to one.) If extra is not Z_NULL, then extra_max
-   contains the maximum number of bytes to write to extra.  Once done is true,
-   extra_len contains the actual extra field length, and extra contains the
-   extra field, or that field truncated if extra_max is less than extra_len.
-   If name is not Z_NULL, then up to name_max characters are written there,
-   terminated with a zero unless the length is greater than name_max.  If
-   comment is not Z_NULL, then up to comm_max characters are written there,
-   terminated with a zero unless the length is greater than comm_max.  When any
-   of extra, name, or comment are not Z_NULL and the respective field is not
-   present in the header, then that field is set to Z_NULL to signal its
-   absence.  This allows the use of deflateSetHeader() with the returned
-   structure to duplicate the header.  However if those fields are set to
-   allocated memory, then the application will need to save those pointers
-   elsewhere so that they can be eventually freed.
+     The text, time, xflbgs, bnd os fields bre filled in with the gzip hebder
+   contents.  hcrc is set to true if there is b hebder CRC.  (The hebder CRC
+   wbs vblid if done is set to one.) If extrb is not Z_NULL, then extrb_mbx
+   contbins the mbximum number of bytes to write to extrb.  Once done is true,
+   extrb_len contbins the bctubl extrb field length, bnd extrb contbins the
+   extrb field, or thbt field truncbted if extrb_mbx is less thbn extrb_len.
+   If nbme is not Z_NULL, then up to nbme_mbx chbrbcters bre written there,
+   terminbted with b zero unless the length is grebter thbn nbme_mbx.  If
+   comment is not Z_NULL, then up to comm_mbx chbrbcters bre written there,
+   terminbted with b zero unless the length is grebter thbn comm_mbx.  When bny
+   of extrb, nbme, or comment bre not Z_NULL bnd the respective field is not
+   present in the hebder, then thbt field is set to Z_NULL to signbl its
+   bbsence.  This bllows the use of deflbteSetHebder() with the returned
+   structure to duplicbte the hebder.  However if those fields bre set to
+   bllocbted memory, then the bpplicbtion will need to sbve those pointers
+   elsewhere so thbt they cbn be eventublly freed.
 
-     If inflateGetHeader is not used, then the header information is simply
-   discarded.  The header is always checked for validity, including the header
-   CRC if present.  inflateReset() will reset the process to discard the header
-   information.  The application would need to call inflateGetHeader() again to
-   retrieve the header from the next gzip stream.
+     If inflbteGetHebder is not used, then the hebder informbtion is simply
+   discbrded.  The hebder is blwbys checked for vblidity, including the hebder
+   CRC if present.  inflbteReset() will reset the process to discbrd the hebder
+   informbtion.  The bpplicbtion would need to cbll inflbteGetHebder() bgbin to
+   retrieve the hebder from the next gzip strebm.
 
-     inflateGetHeader returns Z_OK if success, or Z_STREAM_ERROR if the source
-   stream state was inconsistent.
+     inflbteGetHebder returns Z_OK if success, or Z_STREAM_ERROR if the source
+   strebm stbte wbs inconsistent.
 */
 
 /*
-ZEXTERN int ZEXPORT inflateBackInit OF((z_streamp strm, int windowBits,
-                                        unsigned char FAR *window));
+ZEXTERN int ZEXPORT inflbteBbckInit OF((z_strebmp strm, int windowBits,
+                                        unsigned chbr FAR *window));
 
-     Initialize the internal stream state for decompression using inflateBack()
-   calls.  The fields zalloc, zfree and opaque in strm must be initialized
-   before the call.  If zalloc and zfree are Z_NULL, then the default library-
-   derived memory allocation routines are used.  windowBits is the base two
-   logarithm of the window size, in the range 8..15.  window is a caller
-   supplied buffer of that size.  Except for special applications where it is
-   assured that deflate was used with small window sizes, windowBits must be 15
-   and a 32K byte window must be supplied to be able to decompress general
-   deflate streams.
+     Initiblize the internbl strebm stbte for decompression using inflbteBbck()
+   cblls.  The fields zblloc, zfree bnd opbque in strm must be initiblized
+   before the cbll.  If zblloc bnd zfree bre Z_NULL, then the defbult librbry-
+   derived memory bllocbtion routines bre used.  windowBits is the bbse two
+   logbrithm of the window size, in the rbnge 8..15.  window is b cbller
+   supplied buffer of thbt size.  Except for specibl bpplicbtions where it is
+   bssured thbt deflbte wbs used with smbll window sizes, windowBits must be 15
+   bnd b 32K byte window must be supplied to be bble to decompress generbl
+   deflbte strebms.
 
-     See inflateBack() for the usage of these routines.
+     See inflbteBbck() for the usbge of these routines.
 
-     inflateBackInit will return Z_OK on success, Z_STREAM_ERROR if any of
-   the parameters are invalid, Z_MEM_ERROR if the internal state could not be
-   allocated, or Z_VERSION_ERROR if the version of the library does not match
-   the version of the header file.
+     inflbteBbckInit will return Z_OK on success, Z_STREAM_ERROR if bny of
+   the pbrbmeters bre invblid, Z_MEM_ERROR if the internbl stbte could not be
+   bllocbted, or Z_VERSION_ERROR if the version of the librbry does not mbtch
+   the version of the hebder file.
 */
 
 typedef unsigned (*in_func) OF((void FAR *,
-                                z_const unsigned char FAR * FAR *));
-typedef int (*out_func) OF((void FAR *, unsigned char FAR *, unsigned));
+                                z_const unsigned chbr FAR * FAR *));
+typedef int (*out_func) OF((void FAR *, unsigned chbr FAR *, unsigned));
 
-ZEXTERN int ZEXPORT inflateBack OF((z_streamp strm,
+ZEXTERN int ZEXPORT inflbteBbck OF((z_strebmp strm,
                                     in_func in, void FAR *in_desc,
                                     out_func out, void FAR *out_desc));
 /*
-     inflateBack() does a raw inflate with a single call using a call-back
-   interface for input and output.  This is potentially more efficient than
-   inflate() for file i/o applications, in that it avoids copying between the
-   output and the sliding window by simply making the window itself the output
-   buffer.  inflate() can be faster on modern CPUs when used with large
-   buffers.  inflateBack() trusts the application to not change the output
-   buffer passed by the output function, at least until inflateBack() returns.
+     inflbteBbck() does b rbw inflbte with b single cbll using b cbll-bbck
+   interfbce for input bnd output.  This is potentiblly more efficient thbn
+   inflbte() for file i/o bpplicbtions, in thbt it bvoids copying between the
+   output bnd the sliding window by simply mbking the window itself the output
+   buffer.  inflbte() cbn be fbster on modern CPUs when used with lbrge
+   buffers.  inflbteBbck() trusts the bpplicbtion to not chbnge the output
+   buffer pbssed by the output function, bt lebst until inflbteBbck() returns.
 
-     inflateBackInit() must be called first to allocate the internal state
-   and to initialize the state with the user-provided window buffer.
-   inflateBack() may then be used multiple times to inflate a complete, raw
-   deflate stream with each call.  inflateBackEnd() is then called to free the
-   allocated state.
+     inflbteBbckInit() must be cblled first to bllocbte the internbl stbte
+   bnd to initiblize the stbte with the user-provided window buffer.
+   inflbteBbck() mby then be used multiple times to inflbte b complete, rbw
+   deflbte strebm with ebch cbll.  inflbteBbckEnd() is then cblled to free the
+   bllocbted stbte.
 
-     A raw deflate stream is one with no zlib or gzip header or trailer.
-   This routine would normally be used in a utility that reads zip or gzip
-   files and writes out uncompressed files.  The utility would decode the
-   header and process the trailer on its own, hence this routine expects only
-   the raw deflate stream to decompress.  This is different from the normal
-   behavior of inflate(), which expects either a zlib or gzip header and
-   trailer around the deflate stream.
+     A rbw deflbte strebm is one with no zlib or gzip hebder or trbiler.
+   This routine would normblly be used in b utility thbt rebds zip or gzip
+   files bnd writes out uncompressed files.  The utility would decode the
+   hebder bnd process the trbiler on its own, hence this routine expects only
+   the rbw deflbte strebm to decompress.  This is different from the normbl
+   behbvior of inflbte(), which expects either b zlib or gzip hebder bnd
+   trbiler bround the deflbte strebm.
 
-     inflateBack() uses two subroutines supplied by the caller that are then
-   called by inflateBack() for input and output.  inflateBack() calls those
-   routines until it reads a complete deflate stream and writes out all of the
-   uncompressed data, or until it encounters an error.  The function's
-   parameters and return types are defined above in the in_func and out_func
-   typedefs.  inflateBack() will call in(in_desc, &buf) which should return the
-   number of bytes of provided input, and a pointer to that input in buf.  If
-   there is no input available, in() must return zero--buf is ignored in that
-   case--and inflateBack() will return a buffer error.  inflateBack() will call
-   out(out_desc, buf, len) to write the uncompressed data buf[0..len-1].  out()
-   should return zero on success, or non-zero on failure.  If out() returns
-   non-zero, inflateBack() will return with an error.  Neither in() nor out()
-   are permitted to change the contents of the window provided to
-   inflateBackInit(), which is also the buffer that out() uses to write from.
-   The length written by out() will be at most the window size.  Any non-zero
-   amount of input may be provided by in().
+     inflbteBbck() uses two subroutines supplied by the cbller thbt bre then
+   cblled by inflbteBbck() for input bnd output.  inflbteBbck() cblls those
+   routines until it rebds b complete deflbte strebm bnd writes out bll of the
+   uncompressed dbtb, or until it encounters bn error.  The function's
+   pbrbmeters bnd return types bre defined bbove in the in_func bnd out_func
+   typedefs.  inflbteBbck() will cbll in(in_desc, &buf) which should return the
+   number of bytes of provided input, bnd b pointer to thbt input in buf.  If
+   there is no input bvbilbble, in() must return zero--buf is ignored in thbt
+   cbse--bnd inflbteBbck() will return b buffer error.  inflbteBbck() will cbll
+   out(out_desc, buf, len) to write the uncompressed dbtb buf[0..len-1].  out()
+   should return zero on success, or non-zero on fbilure.  If out() returns
+   non-zero, inflbteBbck() will return with bn error.  Neither in() nor out()
+   bre permitted to chbnge the contents of the window provided to
+   inflbteBbckInit(), which is blso the buffer thbt out() uses to write from.
+   The length written by out() will be bt most the window size.  Any non-zero
+   bmount of input mby be provided by in().
 
-     For convenience, inflateBack() can be provided input on the first call by
-   setting strm->next_in and strm->avail_in.  If that input is exhausted, then
-   in() will be called.  Therefore strm->next_in must be initialized before
-   calling inflateBack().  If strm->next_in is Z_NULL, then in() will be called
-   immediately for input.  If strm->next_in is not Z_NULL, then strm->avail_in
-   must also be initialized, and then if strm->avail_in is not zero, input will
-   initially be taken from strm->next_in[0 ..  strm->avail_in - 1].
+     For convenience, inflbteBbck() cbn be provided input on the first cbll by
+   setting strm->next_in bnd strm->bvbil_in.  If thbt input is exhbusted, then
+   in() will be cblled.  Therefore strm->next_in must be initiblized before
+   cblling inflbteBbck().  If strm->next_in is Z_NULL, then in() will be cblled
+   immedibtely for input.  If strm->next_in is not Z_NULL, then strm->bvbil_in
+   must blso be initiblized, bnd then if strm->bvbil_in is not zero, input will
+   initiblly be tbken from strm->next_in[0 ..  strm->bvbil_in - 1].
 
-     The in_desc and out_desc parameters of inflateBack() is passed as the
-   first parameter of in() and out() respectively when they are called.  These
-   descriptors can be optionally used to pass any information that the caller-
-   supplied in() and out() functions need to do their job.
+     The in_desc bnd out_desc pbrbmeters of inflbteBbck() is pbssed bs the
+   first pbrbmeter of in() bnd out() respectively when they bre cblled.  These
+   descriptors cbn be optionblly used to pbss bny informbtion thbt the cbller-
+   supplied in() bnd out() functions need to do their job.
 
-     On return, inflateBack() will set strm->next_in and strm->avail_in to
-   pass back any unused input that was provided by the last in() call.  The
-   return values of inflateBack() can be Z_STREAM_END on success, Z_BUF_ERROR
-   if in() or out() returned an error, Z_DATA_ERROR if there was a format error
-   in the deflate stream (in which case strm->msg is set to indicate the nature
-   of the error), or Z_STREAM_ERROR if the stream was not properly initialized.
-   In the case of Z_BUF_ERROR, an input or output error can be distinguished
-   using strm->next_in which will be Z_NULL only if in() returned an error.  If
-   strm->next_in is not Z_NULL, then the Z_BUF_ERROR was due to out() returning
-   non-zero.  (in() will always be called before out(), so strm->next_in is
-   assured to be defined if out() returns non-zero.) Note that inflateBack()
-   cannot return Z_OK.
+     On return, inflbteBbck() will set strm->next_in bnd strm->bvbil_in to
+   pbss bbck bny unused input thbt wbs provided by the lbst in() cbll.  The
+   return vblues of inflbteBbck() cbn be Z_STREAM_END on success, Z_BUF_ERROR
+   if in() or out() returned bn error, Z_DATA_ERROR if there wbs b formbt error
+   in the deflbte strebm (in which cbse strm->msg is set to indicbte the nbture
+   of the error), or Z_STREAM_ERROR if the strebm wbs not properly initiblized.
+   In the cbse of Z_BUF_ERROR, bn input or output error cbn be distinguished
+   using strm->next_in which will be Z_NULL only if in() returned bn error.  If
+   strm->next_in is not Z_NULL, then the Z_BUF_ERROR wbs due to out() returning
+   non-zero.  (in() will blwbys be cblled before out(), so strm->next_in is
+   bssured to be defined if out() returns non-zero.) Note thbt inflbteBbck()
+   cbnnot return Z_OK.
 */
 
-ZEXTERN int ZEXPORT inflateBackEnd OF((z_streamp strm));
+ZEXTERN int ZEXPORT inflbteBbckEnd OF((z_strebmp strm));
 /*
-     All memory allocated by inflateBackInit() is freed.
+     All memory bllocbted by inflbteBbckInit() is freed.
 
-     inflateBackEnd() returns Z_OK on success, or Z_STREAM_ERROR if the stream
-   state was inconsistent.
+     inflbteBbckEnd() returns Z_OK on success, or Z_STREAM_ERROR if the strebm
+   stbte wbs inconsistent.
 */
 
-ZEXTERN uLong ZEXPORT zlibCompileFlags OF((void));
-/* Return flags indicating compile-time options.
+ZEXTERN uLong ZEXPORT zlibCompileFlbgs OF((void));
+/* Return flbgs indicbting compile-time options.
 
-    Type sizes, two bits each, 00 = 16 bits, 01 = 32, 10 = 64, 11 = other:
+    Type sizes, two bits ebch, 00 = 16 bits, 01 = 32, 10 = 64, 11 = other:
      1.0: size of uInt
      3.2: size of uLong
      5.4: size of voidpf (pointer)
      7.6: size of z_off_t
 
-    Compiler, assembler, and debug options:
+    Compiler, bssembler, bnd debug options:
      8: DEBUG
      9: ASMV or ASMINF -- use ASM code
-     10: ZLIB_WINAPI -- exported functions use the WINAPI calling convention
+     10: ZLIB_WINAPI -- exported functions use the WINAPI cblling convention
      11: 0 (reserved)
 
-    One-time table building (smaller code, but not thread-safe if true):
-     12: BUILDFIXED -- build static block decoding tables when needed
-     13: DYNAMIC_CRC_TABLE -- build CRC calculation tables when needed
+    One-time tbble building (smbller code, but not threbd-sbfe if true):
+     12: BUILDFIXED -- build stbtic block decoding tbbles when needed
+     13: DYNAMIC_CRC_TABLE -- build CRC cblculbtion tbbles when needed
      14,15: 0 (reserved)
 
-    Library content (indicates missing functionality):
-     16: NO_GZCOMPRESS -- gz* functions cannot compress (to avoid linking
-                          deflate code when not needed)
-     17: NO_GZIP -- deflate can't write gzip streams, and inflate can't detect
-                    and decode gzip streams (to avoid linking crc code)
+    Librbry content (indicbtes missing functionblity):
+     16: NO_GZCOMPRESS -- gz* functions cbnnot compress (to bvoid linking
+                          deflbte code when not needed)
+     17: NO_GZIP -- deflbte cbn't write gzip strebms, bnd inflbte cbn't detect
+                    bnd decode gzip strebms (to bvoid linking crc code)
      18-19: 0 (reserved)
 
-    Operation variations (changes in library functionality):
-     20: PKZIP_BUG_WORKAROUND -- slightly more permissive inflate
-     21: FASTEST -- deflate algorithm with only one, lowest compression level
+    Operbtion vbribtions (chbnges in librbry functionblity):
+     20: PKZIP_BUG_WORKAROUND -- slightly more permissive inflbte
+     21: FASTEST -- deflbte blgorithm with only one, lowest compression level
      22,23: 0 (reserved)
 
-    The sprintf variant used by gzprintf (zero is best):
-     24: 0 = vs*, 1 = s* -- 1 means limited to 20 arguments after the format
-     25: 0 = *nprintf, 1 = *printf -- 1 means gzprintf() not secure!
-     26: 0 = returns value, 1 = void -- 1 means inferred string length returned
+    The sprintf vbribnt used by gzprintf (zero is best):
+     24: 0 = vs*, 1 = s* -- 1 mebns limited to 20 brguments bfter the formbt
+     25: 0 = *nprintf, 1 = *printf -- 1 mebns gzprintf() not secure!
+     26: 0 = returns vblue, 1 = void -- 1 mebns inferred string length returned
 
-    Remainder:
+    Rembinder:
      27-31: 0 (reserved)
  */
 
@@ -1174,24 +1174,24 @@ ZEXTERN uLong ZEXPORT zlibCompileFlags OF((void));
                         /* utility functions */
 
 /*
-     The following utility functions are implemented on top of the basic
-   stream-oriented functions.  To simplify the interface, some default options
-   are assumed (compression level and memory usage, standard memory allocation
-   functions).  The source code of these utility functions can be modified if
-   you need special options.
+     The following utility functions bre implemented on top of the bbsic
+   strebm-oriented functions.  To simplify the interfbce, some defbult options
+   bre bssumed (compression level bnd memory usbge, stbndbrd memory bllocbtion
+   functions).  The source code of these utility functions cbn be modified if
+   you need specibl options.
 */
 
 ZEXTERN int ZEXPORT compress OF((Bytef *dest,   uLongf *destLen,
                                  const Bytef *source, uLong sourceLen));
 /*
-     Compresses the source buffer into the destination buffer.  sourceLen is
-   the byte length of the source buffer.  Upon entry, destLen is the total size
-   of the destination buffer, which must be at least the value returned by
-   compressBound(sourceLen).  Upon exit, destLen is the actual size of the
+     Compresses the source buffer into the destinbtion buffer.  sourceLen is
+   the byte length of the source buffer.  Upon entry, destLen is the totbl size
+   of the destinbtion buffer, which must be bt lebst the vblue returned by
+   compressBound(sourceLen).  Upon exit, destLen is the bctubl size of the
    compressed buffer.
 
-     compress returns Z_OK if success, Z_MEM_ERROR if there was not
-   enough memory, Z_BUF_ERROR if there was not enough room in the output
+     compress returns Z_OK if success, Z_MEM_ERROR if there wbs not
+   enough memory, Z_BUF_ERROR if there wbs not enough room in the output
    buffer.
 */
 
@@ -1199,166 +1199,166 @@ ZEXTERN int ZEXPORT compress2 OF((Bytef *dest,   uLongf *destLen,
                                   const Bytef *source, uLong sourceLen,
                                   int level));
 /*
-     Compresses the source buffer into the destination buffer.  The level
-   parameter has the same meaning as in deflateInit.  sourceLen is the byte
-   length of the source buffer.  Upon entry, destLen is the total size of the
-   destination buffer, which must be at least the value returned by
-   compressBound(sourceLen).  Upon exit, destLen is the actual size of the
+     Compresses the source buffer into the destinbtion buffer.  The level
+   pbrbmeter hbs the sbme mebning bs in deflbteInit.  sourceLen is the byte
+   length of the source buffer.  Upon entry, destLen is the totbl size of the
+   destinbtion buffer, which must be bt lebst the vblue returned by
+   compressBound(sourceLen).  Upon exit, destLen is the bctubl size of the
    compressed buffer.
 
-     compress2 returns Z_OK if success, Z_MEM_ERROR if there was not enough
-   memory, Z_BUF_ERROR if there was not enough room in the output buffer,
-   Z_STREAM_ERROR if the level parameter is invalid.
+     compress2 returns Z_OK if success, Z_MEM_ERROR if there wbs not enough
+   memory, Z_BUF_ERROR if there wbs not enough room in the output buffer,
+   Z_STREAM_ERROR if the level pbrbmeter is invblid.
 */
 
 ZEXTERN uLong ZEXPORT compressBound OF((uLong sourceLen));
 /*
-     compressBound() returns an upper bound on the compressed size after
-   compress() or compress2() on sourceLen bytes.  It would be used before a
-   compress() or compress2() call to allocate the destination buffer.
+     compressBound() returns bn upper bound on the compressed size bfter
+   compress() or compress2() on sourceLen bytes.  It would be used before b
+   compress() or compress2() cbll to bllocbte the destinbtion buffer.
 */
 
 ZEXTERN int ZEXPORT uncompress OF((Bytef *dest,   uLongf *destLen,
                                    const Bytef *source, uLong sourceLen));
 /*
-     Decompresses the source buffer into the destination buffer.  sourceLen is
-   the byte length of the source buffer.  Upon entry, destLen is the total size
-   of the destination buffer, which must be large enough to hold the entire
-   uncompressed data.  (The size of the uncompressed data must have been saved
-   previously by the compressor and transmitted to the decompressor by some
-   mechanism outside the scope of this compression library.) Upon exit, destLen
-   is the actual size of the uncompressed buffer.
+     Decompresses the source buffer into the destinbtion buffer.  sourceLen is
+   the byte length of the source buffer.  Upon entry, destLen is the totbl size
+   of the destinbtion buffer, which must be lbrge enough to hold the entire
+   uncompressed dbtb.  (The size of the uncompressed dbtb must hbve been sbved
+   previously by the compressor bnd trbnsmitted to the decompressor by some
+   mechbnism outside the scope of this compression librbry.) Upon exit, destLen
+   is the bctubl size of the uncompressed buffer.
 
-     uncompress returns Z_OK if success, Z_MEM_ERROR if there was not
-   enough memory, Z_BUF_ERROR if there was not enough room in the output
-   buffer, or Z_DATA_ERROR if the input data was corrupted or incomplete.  In
-   the case where there is not enough room, uncompress() will fill the output
-   buffer with the uncompressed data up to that point.
+     uncompress returns Z_OK if success, Z_MEM_ERROR if there wbs not
+   enough memory, Z_BUF_ERROR if there wbs not enough room in the output
+   buffer, or Z_DATA_ERROR if the input dbtb wbs corrupted or incomplete.  In
+   the cbse where there is not enough room, uncompress() will fill the output
+   buffer with the uncompressed dbtb up to thbt point.
 */
 
-                        /* gzip file access functions */
+                        /* gzip file bccess functions */
 
 /*
-     This library supports reading and writing files in gzip (.gz) format with
-   an interface similar to that of stdio, using the functions that start with
-   "gz".  The gzip format is different from the zlib format.  gzip is a gzip
-   wrapper, documented in RFC 1952, wrapped around a deflate stream.
+     This librbry supports rebding bnd writing files in gzip (.gz) formbt with
+   bn interfbce similbr to thbt of stdio, using the functions thbt stbrt with
+   "gz".  The gzip formbt is different from the zlib formbt.  gzip is b gzip
+   wrbpper, documented in RFC 1952, wrbpped bround b deflbte strebm.
 */
 
-typedef struct gzFile_s *gzFile;    /* semi-opaque gzip file descriptor */
+typedef struct gzFile_s *gzFile;    /* semi-opbque gzip file descriptor */
 
 /*
-ZEXTERN gzFile ZEXPORT gzopen OF((const char *path, const char *mode));
+ZEXTERN gzFile ZEXPORT gzopen OF((const chbr *pbth, const chbr *mode));
 
-     Opens a gzip (.gz) file for reading or writing.  The mode parameter is as
-   in fopen ("rb" or "wb") but can also include a compression level ("wb9") or
-   a strategy: 'f' for filtered data as in "wb6f", 'h' for Huffman-only
-   compression as in "wb1h", 'R' for run-length encoding as in "wb1R", or 'F'
-   for fixed code compression as in "wb9F".  (See the description of
-   deflateInit2 for more information about the strategy parameter.)  'T' will
-   request transparent writing or appending with no compression and not using
-   the gzip format.
+     Opens b gzip (.gz) file for rebding or writing.  The mode pbrbmeter is bs
+   in fopen ("rb" or "wb") but cbn blso include b compression level ("wb9") or
+   b strbtegy: 'f' for filtered dbtb bs in "wb6f", 'h' for Huffmbn-only
+   compression bs in "wb1h", 'R' for run-length encoding bs in "wb1R", or 'F'
+   for fixed code compression bs in "wb9F".  (See the description of
+   deflbteInit2 for more informbtion bbout the strbtegy pbrbmeter.)  'T' will
+   request trbnspbrent writing or bppending with no compression bnd not using
+   the gzip formbt.
 
-     "a" can be used instead of "w" to request that the gzip stream that will
-   be written be appended to the file.  "+" will result in an error, since
-   reading and writing to the same gzip file is not supported.  The addition of
-   "x" when writing will create the file exclusively, which fails if the file
-   already exists.  On systems that support it, the addition of "e" when
-   reading or writing will set the flag to close the file on an execve() call.
+     "b" cbn be used instebd of "w" to request thbt the gzip strebm thbt will
+   be written be bppended to the file.  "+" will result in bn error, since
+   rebding bnd writing to the sbme gzip file is not supported.  The bddition of
+   "x" when writing will crebte the file exclusively, which fbils if the file
+   blrebdy exists.  On systems thbt support it, the bddition of "e" when
+   rebding or writing will set the flbg to close the file on bn execve() cbll.
 
-     These functions, as well as gzip, will read and decode a sequence of gzip
-   streams in a file.  The append function of gzopen() can be used to create
-   such a file.  (Also see gzflush() for another way to do this.)  When
-   appending, gzopen does not test whether the file begins with a gzip stream,
-   nor does it look for the end of the gzip streams to begin appending.  gzopen
-   will simply append a gzip stream to the existing file.
+     These functions, bs well bs gzip, will rebd bnd decode b sequence of gzip
+   strebms in b file.  The bppend function of gzopen() cbn be used to crebte
+   such b file.  (Also see gzflush() for bnother wby to do this.)  When
+   bppending, gzopen does not test whether the file begins with b gzip strebm,
+   nor does it look for the end of the gzip strebms to begin bppending.  gzopen
+   will simply bppend b gzip strebm to the existing file.
 
-     gzopen can be used to read a file which is not in gzip format; in this
-   case gzread will directly read from the file without decompression.  When
-   reading, this will be detected automatically by looking for the magic two-
-   byte gzip header.
+     gzopen cbn be used to rebd b file which is not in gzip formbt; in this
+   cbse gzrebd will directly rebd from the file without decompression.  When
+   rebding, this will be detected butombticblly by looking for the mbgic two-
+   byte gzip hebder.
 
-     gzopen returns NULL if the file could not be opened, if there was
-   insufficient memory to allocate the gzFile state, or if an invalid mode was
-   specified (an 'r', 'w', or 'a' was not provided, or '+' was provided).
-   errno can be checked to determine if the reason gzopen failed was that the
+     gzopen returns NULL if the file could not be opened, if there wbs
+   insufficient memory to bllocbte the gzFile stbte, or if bn invblid mode wbs
+   specified (bn 'r', 'w', or 'b' wbs not provided, or '+' wbs provided).
+   errno cbn be checked to determine if the rebson gzopen fbiled wbs thbt the
    file could not be opened.
 */
 
-ZEXTERN gzFile ZEXPORT gzdopen OF((int fd, const char *mode));
+ZEXTERN gzFile ZEXPORT gzdopen OF((int fd, const chbr *mode));
 /*
-     gzdopen associates a gzFile with the file descriptor fd.  File descriptors
-   are obtained from calls like open, dup, creat, pipe or fileno (if the file
-   has been previously opened with fopen).  The mode parameter is as in gzopen.
+     gzdopen bssocibtes b gzFile with the file descriptor fd.  File descriptors
+   bre obtbined from cblls like open, dup, crebt, pipe or fileno (if the file
+   hbs been previously opened with fopen).  The mode pbrbmeter is bs in gzopen.
 
-     The next call of gzclose on the returned gzFile will also close the file
+     The next cbll of gzclose on the returned gzFile will blso close the file
    descriptor fd, just like fclose(fdopen(fd, mode)) closes the file descriptor
-   fd.  If you want to keep fd open, use fd = dup(fd_keep); gz = gzdopen(fd,
-   mode);.  The duplicated descriptor should be saved to avoid a leak, since
-   gzdopen does not close fd if it fails.  If you are using fileno() to get the
-   file descriptor from a FILE *, then you will have to use dup() to avoid
-   double-close()ing the file descriptor.  Both gzclose() and fclose() will
-   close the associated file descriptor, so they need to have different file
+   fd.  If you wbnt to keep fd open, use fd = dup(fd_keep); gz = gzdopen(fd,
+   mode);.  The duplicbted descriptor should be sbved to bvoid b lebk, since
+   gzdopen does not close fd if it fbils.  If you bre using fileno() to get the
+   file descriptor from b FILE *, then you will hbve to use dup() to bvoid
+   double-close()ing the file descriptor.  Both gzclose() bnd fclose() will
+   close the bssocibted file descriptor, so they need to hbve different file
    descriptors.
 
-     gzdopen returns NULL if there was insufficient memory to allocate the
-   gzFile state, if an invalid mode was specified (an 'r', 'w', or 'a' was not
-   provided, or '+' was provided), or if fd is -1.  The file descriptor is not
-   used until the next gz* read, write, seek, or close operation, so gzdopen
-   will not detect if fd is invalid (unless fd is -1).
+     gzdopen returns NULL if there wbs insufficient memory to bllocbte the
+   gzFile stbte, if bn invblid mode wbs specified (bn 'r', 'w', or 'b' wbs not
+   provided, or '+' wbs provided), or if fd is -1.  The file descriptor is not
+   used until the next gz* rebd, write, seek, or close operbtion, so gzdopen
+   will not detect if fd is invblid (unless fd is -1).
 */
 
 ZEXTERN int ZEXPORT gzbuffer OF((gzFile file, unsigned size));
 /*
-     Set the internal buffer size used by this library's functions.  The
-   default buffer size is 8192 bytes.  This function must be called after
-   gzopen() or gzdopen(), and before any other calls that read or write the
-   file.  The buffer memory allocation is always deferred to the first read or
-   write.  Two buffers are allocated, either both of the specified size when
-   writing, or one of the specified size and the other twice that size when
-   reading.  A larger buffer size of, for example, 64K or 128K bytes will
-   noticeably increase the speed of decompression (reading).
+     Set the internbl buffer size used by this librbry's functions.  The
+   defbult buffer size is 8192 bytes.  This function must be cblled bfter
+   gzopen() or gzdopen(), bnd before bny other cblls thbt rebd or write the
+   file.  The buffer memory bllocbtion is blwbys deferred to the first rebd or
+   write.  Two buffers bre bllocbted, either both of the specified size when
+   writing, or one of the specified size bnd the other twice thbt size when
+   rebding.  A lbrger buffer size of, for exbmple, 64K or 128K bytes will
+   noticebbly increbse the speed of decompression (rebding).
 
-     The new buffer size also affects the maximum length for gzprintf().
+     The new buffer size blso bffects the mbximum length for gzprintf().
 
-     gzbuffer() returns 0 on success, or -1 on failure, such as being called
-   too late.
+     gzbuffer() returns 0 on success, or -1 on fbilure, such bs being cblled
+   too lbte.
 */
 
-ZEXTERN int ZEXPORT gzsetparams OF((gzFile file, int level, int strategy));
+ZEXTERN int ZEXPORT gzsetpbrbms OF((gzFile file, int level, int strbtegy));
 /*
-     Dynamically update the compression level or strategy.  See the description
-   of deflateInit2 for the meaning of these parameters.
+     Dynbmicblly updbte the compression level or strbtegy.  See the description
+   of deflbteInit2 for the mebning of these pbrbmeters.
 
-     gzsetparams returns Z_OK if success, or Z_STREAM_ERROR if the file was not
+     gzsetpbrbms returns Z_OK if success, or Z_STREAM_ERROR if the file wbs not
    opened for writing.
 */
 
-ZEXTERN int ZEXPORT gzread OF((gzFile file, voidp buf, unsigned len));
+ZEXTERN int ZEXPORT gzrebd OF((gzFile file, voidp buf, unsigned len));
 /*
-     Reads the given number of uncompressed bytes from the compressed file.  If
-   the input file is not in gzip format, gzread copies the given number of
+     Rebds the given number of uncompressed bytes from the compressed file.  If
+   the input file is not in gzip formbt, gzrebd copies the given number of
    bytes into the buffer directly from the file.
 
-     After reaching the end of a gzip stream in the input, gzread will continue
-   to read, looking for another gzip stream.  Any number of gzip streams may be
-   concatenated in the input file, and will all be decompressed by gzread().
-   If something other than a gzip stream is encountered after a gzip stream,
-   that remaining trailing garbage is ignored (and no error is returned).
+     After rebching the end of b gzip strebm in the input, gzrebd will continue
+   to rebd, looking for bnother gzip strebm.  Any number of gzip strebms mby be
+   concbtenbted in the input file, bnd will bll be decompressed by gzrebd().
+   If something other thbn b gzip strebm is encountered bfter b gzip strebm,
+   thbt rembining trbiling gbrbbge is ignored (bnd no error is returned).
 
-     gzread can be used to read a gzip file that is being concurrently written.
-   Upon reaching the end of the input, gzread will return with the available
-   data.  If the error code returned by gzerror is Z_OK or Z_BUF_ERROR, then
-   gzclearerr can be used to clear the end of file indicator in order to permit
-   gzread to be tried again.  Z_OK indicates that a gzip stream was completed
-   on the last gzread.  Z_BUF_ERROR indicates that the input file ended in the
-   middle of a gzip stream.  Note that gzread does not return -1 in the event
-   of an incomplete gzip stream.  This error is deferred until gzclose(), which
-   will return Z_BUF_ERROR if the last gzread ended in the middle of a gzip
-   stream.  Alternatively, gzerror can be used before gzclose to detect this
-   case.
+     gzrebd cbn be used to rebd b gzip file thbt is being concurrently written.
+   Upon rebching the end of the input, gzrebd will return with the bvbilbble
+   dbtb.  If the error code returned by gzerror is Z_OK or Z_BUF_ERROR, then
+   gzclebrerr cbn be used to clebr the end of file indicbtor in order to permit
+   gzrebd to be tried bgbin.  Z_OK indicbtes thbt b gzip strebm wbs completed
+   on the lbst gzrebd.  Z_BUF_ERROR indicbtes thbt the input file ended in the
+   middle of b gzip strebm.  Note thbt gzrebd does not return -1 in the event
+   of bn incomplete gzip strebm.  This error is deferred until gzclose(), which
+   will return Z_BUF_ERROR if the lbst gzrebd ended in the middle of b gzip
+   strebm.  Alternbtively, gzerror cbn be used before gzclose to detect this
+   cbse.
 
-     gzread returns the number of uncompressed bytes actually read, less than
+     gzrebd returns the number of uncompressed bytes bctublly rebd, less thbn
    len for end of file, or -1 for error.
 */
 
@@ -1366,218 +1366,218 @@ ZEXTERN int ZEXPORT gzwrite OF((gzFile file,
                                 voidpc buf, unsigned len));
 /*
      Writes the given number of uncompressed bytes into the compressed file.
-   gzwrite returns the number of uncompressed bytes written or 0 in case of
+   gzwrite returns the number of uncompressed bytes written or 0 in cbse of
    error.
 */
 
-ZEXTERN int ZEXPORTVA gzprintf Z_ARG((gzFile file, const char *format, ...));
+ZEXTERN int ZEXPORTVA gzprintf Z_ARG((gzFile file, const chbr *formbt, ...));
 /*
-     Converts, formats, and writes the arguments to the compressed file under
-   control of the format string, as in fprintf.  gzprintf returns the number of
-   uncompressed bytes actually written, or 0 in case of error.  The number of
-   uncompressed bytes written is limited to 8191, or one less than the buffer
-   size given to gzbuffer().  The caller should assure that this limit is not
-   exceeded.  If it is exceeded, then gzprintf() will return an error (0) with
-   nothing written.  In this case, there may also be a buffer overflow with
-   unpredictable consequences, which is possible only if zlib was compiled with
-   the insecure functions sprintf() or vsprintf() because the secure snprintf()
-   or vsnprintf() functions were not available.  This can be determined using
-   zlibCompileFlags().
+     Converts, formbts, bnd writes the brguments to the compressed file under
+   control of the formbt string, bs in fprintf.  gzprintf returns the number of
+   uncompressed bytes bctublly written, or 0 in cbse of error.  The number of
+   uncompressed bytes written is limited to 8191, or one less thbn the buffer
+   size given to gzbuffer().  The cbller should bssure thbt this limit is not
+   exceeded.  If it is exceeded, then gzprintf() will return bn error (0) with
+   nothing written.  In this cbse, there mby blso be b buffer overflow with
+   unpredictbble consequences, which is possible only if zlib wbs compiled with
+   the insecure functions sprintf() or vsprintf() becbuse the secure snprintf()
+   or vsnprintf() functions were not bvbilbble.  This cbn be determined using
+   zlibCompileFlbgs().
 */
 
-ZEXTERN int ZEXPORT gzputs OF((gzFile file, const char *s));
+ZEXTERN int ZEXPORT gzputs OF((gzFile file, const chbr *s));
 /*
-     Writes the given null-terminated string to the compressed file, excluding
-   the terminating null character.
+     Writes the given null-terminbted string to the compressed file, excluding
+   the terminbting null chbrbcter.
 
-     gzputs returns the number of characters written, or -1 in case of error.
+     gzputs returns the number of chbrbcters written, or -1 in cbse of error.
 */
 
-ZEXTERN char * ZEXPORT gzgets OF((gzFile file, char *buf, int len));
+ZEXTERN chbr * ZEXPORT gzgets OF((gzFile file, chbr *buf, int len));
 /*
-     Reads bytes from the compressed file until len-1 characters are read, or a
-   newline character is read and transferred to buf, or an end-of-file
-   condition is encountered.  If any characters are read or if len == 1, the
-   string is terminated with a null character.  If no characters are read due
-   to an end-of-file or len < 1, then the buffer is left untouched.
+     Rebds bytes from the compressed file until len-1 chbrbcters bre rebd, or b
+   newline chbrbcter is rebd bnd trbnsferred to buf, or bn end-of-file
+   condition is encountered.  If bny chbrbcters bre rebd or if len == 1, the
+   string is terminbted with b null chbrbcter.  If no chbrbcters bre rebd due
+   to bn end-of-file or len < 1, then the buffer is left untouched.
 
-     gzgets returns buf which is a null-terminated string, or it returns NULL
-   for end-of-file or in case of error.  If there was an error, the contents at
-   buf are indeterminate.
+     gzgets returns buf which is b null-terminbted string, or it returns NULL
+   for end-of-file or in cbse of error.  If there wbs bn error, the contents bt
+   buf bre indeterminbte.
 */
 
 ZEXTERN int ZEXPORT gzputc OF((gzFile file, int c));
 /*
-     Writes c, converted to an unsigned char, into the compressed file.  gzputc
-   returns the value that was written, or -1 in case of error.
+     Writes c, converted to bn unsigned chbr, into the compressed file.  gzputc
+   returns the vblue thbt wbs written, or -1 in cbse of error.
 */
 
 ZEXTERN int ZEXPORT gzgetc OF((gzFile file));
 /*
-     Reads one byte from the compressed file.  gzgetc returns this byte or -1
-   in case of end of file or error.  This is implemented as a macro for speed.
-   As such, it does not do all of the checking the other functions do.  I.e.
+     Rebds one byte from the compressed file.  gzgetc returns this byte or -1
+   in cbse of end of file or error.  This is implemented bs b mbcro for speed.
+   As such, it does not do bll of the checking the other functions do.  I.e.
    it does not check to see if file is NULL, nor whether the structure file
-   points to has been clobbered or not.
+   points to hbs been clobbered or not.
 */
 
 ZEXTERN int ZEXPORT gzungetc OF((int c, gzFile file));
 /*
-     Push one character back onto the stream to be read as the first character
-   on the next read.  At least one character of push-back is allowed.
-   gzungetc() returns the character pushed, or -1 on failure.  gzungetc() will
-   fail if c is -1, and may fail if a character has been pushed but not read
-   yet.  If gzungetc is used immediately after gzopen or gzdopen, at least the
-   output buffer size of pushed characters is allowed.  (See gzbuffer above.)
-   The pushed character will be discarded if the stream is repositioned with
+     Push one chbrbcter bbck onto the strebm to be rebd bs the first chbrbcter
+   on the next rebd.  At lebst one chbrbcter of push-bbck is bllowed.
+   gzungetc() returns the chbrbcter pushed, or -1 on fbilure.  gzungetc() will
+   fbil if c is -1, bnd mby fbil if b chbrbcter hbs been pushed but not rebd
+   yet.  If gzungetc is used immedibtely bfter gzopen or gzdopen, bt lebst the
+   output buffer size of pushed chbrbcters is bllowed.  (See gzbuffer bbove.)
+   The pushed chbrbcter will be discbrded if the strebm is repositioned with
    gzseek() or gzrewind().
 */
 
 ZEXTERN int ZEXPORT gzflush OF((gzFile file, int flush));
 /*
-     Flushes all pending output into the compressed file.  The parameter flush
-   is as in the deflate() function.  The return value is the zlib error number
+     Flushes bll pending output into the compressed file.  The pbrbmeter flush
+   is bs in the deflbte() function.  The return vblue is the zlib error number
    (see function gzerror below).  gzflush is only permitted when writing.
 
-     If the flush parameter is Z_FINISH, the remaining data is written and the
-   gzip stream is completed in the output.  If gzwrite() is called again, a new
-   gzip stream will be started in the output.  gzread() is able to read such
-   concatented gzip streams.
+     If the flush pbrbmeter is Z_FINISH, the rembining dbtb is written bnd the
+   gzip strebm is completed in the output.  If gzwrite() is cblled bgbin, b new
+   gzip strebm will be stbrted in the output.  gzrebd() is bble to rebd such
+   concbtented gzip strebms.
 
-     gzflush should be called only when strictly necessary because it will
-   degrade compression if called too often.
+     gzflush should be cblled only when strictly necessbry becbuse it will
+   degrbde compression if cblled too often.
 */
 
 /*
 ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile file,
                                    z_off_t offset, int whence));
 
-     Sets the starting position for the next gzread or gzwrite on the given
-   compressed file.  The offset represents a number of bytes in the
-   uncompressed data stream.  The whence parameter is defined as in lseek(2);
-   the value SEEK_END is not supported.
+     Sets the stbrting position for the next gzrebd or gzwrite on the given
+   compressed file.  The offset represents b number of bytes in the
+   uncompressed dbtb strebm.  The whence pbrbmeter is defined bs in lseek(2);
+   the vblue SEEK_END is not supported.
 
-     If the file is opened for reading, this function is emulated but can be
-   extremely slow.  If the file is opened for writing, only forward seeks are
-   supported; gzseek then compresses a sequence of zeroes up to the new
-   starting position.
+     If the file is opened for rebding, this function is emulbted but cbn be
+   extremely slow.  If the file is opened for writing, only forwbrd seeks bre
+   supported; gzseek then compresses b sequence of zeroes up to the new
+   stbrting position.
 
-     gzseek returns the resulting offset location as measured in bytes from
-   the beginning of the uncompressed stream, or -1 in case of error, in
-   particular if the file is opened for writing and the new starting position
+     gzseek returns the resulting offset locbtion bs mebsured in bytes from
+   the beginning of the uncompressed strebm, or -1 in cbse of error, in
+   pbrticulbr if the file is opened for writing bnd the new stbrting position
    would be before the current position.
 */
 
 ZEXTERN int ZEXPORT    gzrewind OF((gzFile file));
 /*
-     Rewinds the given file. This function is supported only for reading.
+     Rewinds the given file. This function is supported only for rebding.
 
-     gzrewind(file) is equivalent to (int)gzseek(file, 0L, SEEK_SET)
+     gzrewind(file) is equivblent to (int)gzseek(file, 0L, SEEK_SET)
 */
 
 /*
 ZEXTERN z_off_t ZEXPORT    gztell OF((gzFile file));
 
-     Returns the starting position for the next gzread or gzwrite on the given
-   compressed file.  This position represents a number of bytes in the
-   uncompressed data stream, and is zero when starting, even if appending or
-   reading a gzip stream from the middle of a file using gzdopen().
+     Returns the stbrting position for the next gzrebd or gzwrite on the given
+   compressed file.  This position represents b number of bytes in the
+   uncompressed dbtb strebm, bnd is zero when stbrting, even if bppending or
+   rebding b gzip strebm from the middle of b file using gzdopen().
 
-     gztell(file) is equivalent to gzseek(file, 0L, SEEK_CUR)
+     gztell(file) is equivblent to gzseek(file, 0L, SEEK_CUR)
 */
 
 /*
 ZEXTERN z_off_t ZEXPORT gzoffset OF((gzFile file));
 
-     Returns the current offset in the file being read or written.  This offset
-   includes the count of bytes that precede the gzip stream, for example when
-   appending or when using gzdopen() for reading.  When reading, the offset
-   does not include as yet unused buffered input.  This information can be used
-   for a progress indicator.  On error, gzoffset() returns -1.
+     Returns the current offset in the file being rebd or written.  This offset
+   includes the count of bytes thbt precede the gzip strebm, for exbmple when
+   bppending or when using gzdopen() for rebding.  When rebding, the offset
+   does not include bs yet unused buffered input.  This informbtion cbn be used
+   for b progress indicbtor.  On error, gzoffset() returns -1.
 */
 
 ZEXTERN int ZEXPORT gzeof OF((gzFile file));
 /*
-     Returns true (1) if the end-of-file indicator has been set while reading,
-   false (0) otherwise.  Note that the end-of-file indicator is set only if the
-   read tried to go past the end of the input, but came up short.  Therefore,
-   just like feof(), gzeof() may return false even if there is no more data to
-   read, in the event that the last read request was for the exact number of
-   bytes remaining in the input file.  This will happen if the input file size
-   is an exact multiple of the buffer size.
+     Returns true (1) if the end-of-file indicbtor hbs been set while rebding,
+   fblse (0) otherwise.  Note thbt the end-of-file indicbtor is set only if the
+   rebd tried to go pbst the end of the input, but cbme up short.  Therefore,
+   just like feof(), gzeof() mby return fblse even if there is no more dbtb to
+   rebd, in the event thbt the lbst rebd request wbs for the exbct number of
+   bytes rembining in the input file.  This will hbppen if the input file size
+   is bn exbct multiple of the buffer size.
 
-     If gzeof() returns true, then the read functions will return no more data,
-   unless the end-of-file indicator is reset by gzclearerr() and the input file
-   has grown since the previous end of file was detected.
+     If gzeof() returns true, then the rebd functions will return no more dbtb,
+   unless the end-of-file indicbtor is reset by gzclebrerr() bnd the input file
+   hbs grown since the previous end of file wbs detected.
 */
 
 ZEXTERN int ZEXPORT gzdirect OF((gzFile file));
 /*
-     Returns true (1) if file is being copied directly while reading, or false
-   (0) if file is a gzip stream being decompressed.
+     Returns true (1) if file is being copied directly while rebding, or fblse
+   (0) if file is b gzip strebm being decompressed.
 
      If the input file is empty, gzdirect() will return true, since the input
-   does not contain a gzip stream.
+   does not contbin b gzip strebm.
 
-     If gzdirect() is used immediately after gzopen() or gzdopen() it will
-   cause buffers to be allocated to allow reading the file to determine if it
-   is a gzip file.  Therefore if gzbuffer() is used, it should be called before
+     If gzdirect() is used immedibtely bfter gzopen() or gzdopen() it will
+   cbuse buffers to be bllocbted to bllow rebding the file to determine if it
+   is b gzip file.  Therefore if gzbuffer() is used, it should be cblled before
    gzdirect().
 
-     When writing, gzdirect() returns true (1) if transparent writing was
-   requested ("wT" for the gzopen() mode), or false (0) otherwise.  (Note:
-   gzdirect() is not needed when writing.  Transparent writing must be
-   explicitly requested, so the application already knows the answer.  When
-   linking statically, using gzdirect() will include all of the zlib code for
-   gzip file reading and decompression, which may not be desired.)
+     When writing, gzdirect() returns true (1) if trbnspbrent writing wbs
+   requested ("wT" for the gzopen() mode), or fblse (0) otherwise.  (Note:
+   gzdirect() is not needed when writing.  Trbnspbrent writing must be
+   explicitly requested, so the bpplicbtion blrebdy knows the bnswer.  When
+   linking stbticblly, using gzdirect() will include bll of the zlib code for
+   gzip file rebding bnd decompression, which mby not be desired.)
 */
 
 ZEXTERN int ZEXPORT    gzclose OF((gzFile file));
 /*
-     Flushes all pending output if necessary, closes the compressed file and
-   deallocates the (de)compression state.  Note that once file is closed, you
-   cannot call gzerror with file, since its structures have been deallocated.
-   gzclose must not be called more than once on the same file, just as free
-   must not be called more than once on the same allocation.
+     Flushes bll pending output if necessbry, closes the compressed file bnd
+   debllocbtes the (de)compression stbte.  Note thbt once file is closed, you
+   cbnnot cbll gzerror with file, since its structures hbve been debllocbted.
+   gzclose must not be cblled more thbn once on the sbme file, just bs free
+   must not be cblled more thbn once on the sbme bllocbtion.
 
-     gzclose will return Z_STREAM_ERROR if file is not valid, Z_ERRNO on a
-   file operation error, Z_MEM_ERROR if out of memory, Z_BUF_ERROR if the
-   last read ended in the middle of a gzip stream, or Z_OK on success.
+     gzclose will return Z_STREAM_ERROR if file is not vblid, Z_ERRNO on b
+   file operbtion error, Z_MEM_ERROR if out of memory, Z_BUF_ERROR if the
+   lbst rebd ended in the middle of b gzip strebm, or Z_OK on success.
 */
 
 ZEXTERN int ZEXPORT gzclose_r OF((gzFile file));
 ZEXTERN int ZEXPORT gzclose_w OF((gzFile file));
 /*
-     Same as gzclose(), but gzclose_r() is only for use when reading, and
-   gzclose_w() is only for use when writing or appending.  The advantage to
-   using these instead of gzclose() is that they avoid linking in zlib
-   compression or decompression code that is not used when only reading or only
-   writing respectively.  If gzclose() is used, then both compression and
-   decompression code will be included the application when linking to a static
-   zlib library.
+     Sbme bs gzclose(), but gzclose_r() is only for use when rebding, bnd
+   gzclose_w() is only for use when writing or bppending.  The bdvbntbge to
+   using these instebd of gzclose() is thbt they bvoid linking in zlib
+   compression or decompression code thbt is not used when only rebding or only
+   writing respectively.  If gzclose() is used, then both compression bnd
+   decompression code will be included the bpplicbtion when linking to b stbtic
+   zlib librbry.
 */
 
-ZEXTERN const char * ZEXPORT gzerror OF((gzFile file, int *errnum));
+ZEXTERN const chbr * ZEXPORT gzerror OF((gzFile file, int *errnum));
 /*
-     Returns the error message for the last error which occurred on the given
-   compressed file.  errnum is set to zlib error number.  If an error occurred
-   in the file system and not in the compression library, errnum is set to
-   Z_ERRNO and the application may consult errno to get the exact error code.
+     Returns the error messbge for the lbst error which occurred on the given
+   compressed file.  errnum is set to zlib error number.  If bn error occurred
+   in the file system bnd not in the compression librbry, errnum is set to
+   Z_ERRNO bnd the bpplicbtion mby consult errno to get the exbct error code.
 
-     The application must not modify the returned string.  Future calls to
-   this function may invalidate the previously returned string.  If file is
+     The bpplicbtion must not modify the returned string.  Future cblls to
+   this function mby invblidbte the previously returned string.  If file is
    closed, then the string previously returned by gzerror will no longer be
-   available.
+   bvbilbble.
 
      gzerror() should be used to distinguish errors from end-of-file for those
-   functions above that do not distinguish those cases in their return values.
+   functions bbove thbt do not distinguish those cbses in their return vblues.
 */
 
-ZEXTERN void ZEXPORT gzclearerr OF((gzFile file));
+ZEXTERN void ZEXPORT gzclebrerr OF((gzFile file));
 /*
-     Clears the error and end-of-file flags for file.  This is analogous to the
-   clearerr() function in stdio.  This is useful for continuing to read a gzip
-   file that is being written concurrently.
+     Clebrs the error bnd end-of-file flbgs for file.  This is bnblogous to the
+   clebrerr() function in stdio.  This is useful for continuing to rebd b gzip
+   file thbt is being written concurrently.
 */
 
 #endif /* !Z_SOLO */
@@ -1585,139 +1585,139 @@ ZEXTERN void ZEXPORT gzclearerr OF((gzFile file));
                         /* checksum functions */
 
 /*
-     These functions are not related to compression but are exported
-   anyway because they might be useful in applications using the compression
-   library.
+     These functions bre not relbted to compression but bre exported
+   bnywby becbuse they might be useful in bpplicbtions using the compression
+   librbry.
 */
 
-ZEXTERN uLong ZEXPORT adler32 OF((uLong adler, const Bytef *buf, uInt len));
+ZEXTERN uLong ZEXPORT bdler32 OF((uLong bdler, const Bytef *buf, uInt len));
 /*
-     Update a running Adler-32 checksum with the bytes buf[0..len-1] and
-   return the updated checksum.  If buf is Z_NULL, this function returns the
-   required initial value for the checksum.
+     Updbte b running Adler-32 checksum with the bytes buf[0..len-1] bnd
+   return the updbted checksum.  If buf is Z_NULL, this function returns the
+   required initibl vblue for the checksum.
 
-     An Adler-32 checksum is almost as reliable as a CRC32 but can be computed
-   much faster.
+     An Adler-32 checksum is blmost bs relibble bs b CRC32 but cbn be computed
+   much fbster.
 
-   Usage example:
+   Usbge exbmple:
 
-     uLong adler = adler32(0L, Z_NULL, 0);
+     uLong bdler = bdler32(0L, Z_NULL, 0);
 
-     while (read_buffer(buffer, length) != EOF) {
-       adler = adler32(adler, buffer, length);
+     while (rebd_buffer(buffer, length) != EOF) {
+       bdler = bdler32(bdler, buffer, length);
      }
-     if (adler != original_adler) error();
+     if (bdler != originbl_bdler) error();
 */
 
 /*
-ZEXTERN uLong ZEXPORT adler32_combine OF((uLong adler1, uLong adler2,
+ZEXTERN uLong ZEXPORT bdler32_combine OF((uLong bdler1, uLong bdler2,
                                           z_off_t len2));
 
      Combine two Adler-32 checksums into one.  For two sequences of bytes, seq1
-   and seq2 with lengths len1 and len2, Adler-32 checksums were calculated for
-   each, adler1 and adler2.  adler32_combine() returns the Adler-32 checksum of
-   seq1 and seq2 concatenated, requiring only adler1, adler2, and len2.  Note
-   that the z_off_t type (like off_t) is a signed integer.  If len2 is
-   negative, the result has no meaning or utility.
+   bnd seq2 with lengths len1 bnd len2, Adler-32 checksums were cblculbted for
+   ebch, bdler1 bnd bdler2.  bdler32_combine() returns the Adler-32 checksum of
+   seq1 bnd seq2 concbtenbted, requiring only bdler1, bdler2, bnd len2.  Note
+   thbt the z_off_t type (like off_t) is b signed integer.  If len2 is
+   negbtive, the result hbs no mebning or utility.
 */
 
 ZEXTERN uLong ZEXPORT crc32   OF((uLong crc, const Bytef *buf, uInt len));
 /*
-     Update a running CRC-32 with the bytes buf[0..len-1] and return the
-   updated CRC-32.  If buf is Z_NULL, this function returns the required
-   initial value for the crc.  Pre- and post-conditioning (one's complement) is
-   performed within this function so it shouldn't be done by the application.
+     Updbte b running CRC-32 with the bytes buf[0..len-1] bnd return the
+   updbted CRC-32.  If buf is Z_NULL, this function returns the required
+   initibl vblue for the crc.  Pre- bnd post-conditioning (one's complement) is
+   performed within this function so it shouldn't be done by the bpplicbtion.
 
-   Usage example:
+   Usbge exbmple:
 
      uLong crc = crc32(0L, Z_NULL, 0);
 
-     while (read_buffer(buffer, length) != EOF) {
+     while (rebd_buffer(buffer, length) != EOF) {
        crc = crc32(crc, buffer, length);
      }
-     if (crc != original_crc) error();
+     if (crc != originbl_crc) error();
 */
 
 /*
 ZEXTERN uLong ZEXPORT crc32_combine OF((uLong crc1, uLong crc2, z_off_t len2));
 
-     Combine two CRC-32 check values into one.  For two sequences of bytes,
-   seq1 and seq2 with lengths len1 and len2, CRC-32 check values were
-   calculated for each, crc1 and crc2.  crc32_combine() returns the CRC-32
-   check value of seq1 and seq2 concatenated, requiring only crc1, crc2, and
+     Combine two CRC-32 check vblues into one.  For two sequences of bytes,
+   seq1 bnd seq2 with lengths len1 bnd len2, CRC-32 check vblues were
+   cblculbted for ebch, crc1 bnd crc2.  crc32_combine() returns the CRC-32
+   check vblue of seq1 bnd seq2 concbtenbted, requiring only crc1, crc2, bnd
    len2.
 */
 
 
-                        /* various hacks, don't look :) */
+                        /* vbrious hbcks, don't look :) */
 
-/* deflateInit and inflateInit are macros to allow checking the zlib version
- * and the compiler's view of z_stream:
+/* deflbteInit bnd inflbteInit bre mbcros to bllow checking the zlib version
+ * bnd the compiler's view of z_strebm:
  */
-ZEXTERN int ZEXPORT deflateInit_ OF((z_streamp strm, int level,
-                                     const char *version, int stream_size));
-ZEXTERN int ZEXPORT inflateInit_ OF((z_streamp strm,
-                                     const char *version, int stream_size));
-ZEXTERN int ZEXPORT deflateInit2_ OF((z_streamp strm, int  level, int  method,
+ZEXTERN int ZEXPORT deflbteInit_ OF((z_strebmp strm, int level,
+                                     const chbr *version, int strebm_size));
+ZEXTERN int ZEXPORT inflbteInit_ OF((z_strebmp strm,
+                                     const chbr *version, int strebm_size));
+ZEXTERN int ZEXPORT deflbteInit2_ OF((z_strebmp strm, int  level, int  method,
                                       int windowBits, int memLevel,
-                                      int strategy, const char *version,
-                                      int stream_size));
-ZEXTERN int ZEXPORT inflateInit2_ OF((z_streamp strm, int  windowBits,
-                                      const char *version, int stream_size));
-ZEXTERN int ZEXPORT inflateBackInit_ OF((z_streamp strm, int windowBits,
-                                         unsigned char FAR *window,
-                                         const char *version,
-                                         int stream_size));
-#define deflateInit(strm, level) \
-        deflateInit_((strm), (level), ZLIB_VERSION, (int)sizeof(z_stream))
-#define inflateInit(strm) \
-        inflateInit_((strm), ZLIB_VERSION, (int)sizeof(z_stream))
-#define deflateInit2(strm, level, method, windowBits, memLevel, strategy) \
-        deflateInit2_((strm),(level),(method),(windowBits),(memLevel),\
-                      (strategy), ZLIB_VERSION, (int)sizeof(z_stream))
-#define inflateInit2(strm, windowBits) \
-        inflateInit2_((strm), (windowBits), ZLIB_VERSION, \
-                      (int)sizeof(z_stream))
-#define inflateBackInit(strm, windowBits, window) \
-        inflateBackInit_((strm), (windowBits), (window), \
-                      ZLIB_VERSION, (int)sizeof(z_stream))
+                                      int strbtegy, const chbr *version,
+                                      int strebm_size));
+ZEXTERN int ZEXPORT inflbteInit2_ OF((z_strebmp strm, int  windowBits,
+                                      const chbr *version, int strebm_size));
+ZEXTERN int ZEXPORT inflbteBbckInit_ OF((z_strebmp strm, int windowBits,
+                                         unsigned chbr FAR *window,
+                                         const chbr *version,
+                                         int strebm_size));
+#define deflbteInit(strm, level) \
+        deflbteInit_((strm), (level), ZLIB_VERSION, (int)sizeof(z_strebm))
+#define inflbteInit(strm) \
+        inflbteInit_((strm), ZLIB_VERSION, (int)sizeof(z_strebm))
+#define deflbteInit2(strm, level, method, windowBits, memLevel, strbtegy) \
+        deflbteInit2_((strm),(level),(method),(windowBits),(memLevel),\
+                      (strbtegy), ZLIB_VERSION, (int)sizeof(z_strebm))
+#define inflbteInit2(strm, windowBits) \
+        inflbteInit2_((strm), (windowBits), ZLIB_VERSION, \
+                      (int)sizeof(z_strebm))
+#define inflbteBbckInit(strm, windowBits, window) \
+        inflbteBbckInit_((strm), (windowBits), (window), \
+                      ZLIB_VERSION, (int)sizeof(z_strebm))
 
 #ifndef Z_SOLO
 
-/* gzgetc() macro and its supporting function and exposed data structure.  Note
- * that the real internal state is much larger than the exposed structure.
- * This abbreviated structure exposes just enough for the gzgetc() macro.  The
- * user should not mess with these exposed elements, since their names or
- * behavior could change in the future, perhaps even capriciously.  They can
- * only be used by the gzgetc() macro.  You have been warned.
+/* gzgetc() mbcro bnd its supporting function bnd exposed dbtb structure.  Note
+ * thbt the rebl internbl stbte is much lbrger thbn the exposed structure.
+ * This bbbrevibted structure exposes just enough for the gzgetc() mbcro.  The
+ * user should not mess with these exposed elements, since their nbmes or
+ * behbvior could chbnge in the future, perhbps even cbpriciously.  They cbn
+ * only be used by the gzgetc() mbcro.  You hbve been wbrned.
  */
 struct gzFile_s {
-    unsigned have;
-    unsigned char *next;
+    unsigned hbve;
+    unsigned chbr *next;
     z_off64_t pos;
 };
-ZEXTERN int ZEXPORT gzgetc_ OF((gzFile file));  /* backward compatibility */
+ZEXTERN int ZEXPORT gzgetc_ OF((gzFile file));  /* bbckwbrd compbtibility */
 #ifdef Z_PREFIX_SET
 #  undef z_gzgetc
 #  define z_gzgetc(g) \
-          ((g)->have ? ((g)->have--, (g)->pos++, *((g)->next)++) : gzgetc(g))
+          ((g)->hbve ? ((g)->hbve--, (g)->pos++, *((g)->next)++) : gzgetc(g))
 #else
 #  define gzgetc(g) \
-          ((g)->have ? ((g)->have--, (g)->pos++, *((g)->next)++) : gzgetc(g))
+          ((g)->hbve ? ((g)->hbve--, (g)->pos++, *((g)->next)++) : gzgetc(g))
 #endif
 
-/* provide 64-bit offset functions if _LARGEFILE64_SOURCE defined, and/or
- * change the regular functions to 64 bits if _FILE_OFFSET_BITS is 64 (if
- * both are true, the application gets the *64 functions, and the regular
- * functions are changed to 64 bits) -- in case these are set on systems
- * without large file support, _LFS64_LARGEFILE must also be true
+/* provide 64-bit offset functions if _LARGEFILE64_SOURCE defined, bnd/or
+ * chbnge the regulbr functions to 64 bits if _FILE_OFFSET_BITS is 64 (if
+ * both bre true, the bpplicbtion gets the *64 functions, bnd the regulbr
+ * functions bre chbnged to 64 bits) -- in cbse these bre set on systems
+ * without lbrge file support, _LFS64_LARGEFILE must blso be true
  */
 #ifdef Z_LARGE64
-   ZEXTERN gzFile ZEXPORT gzopen64 OF((const char *, const char *));
+   ZEXTERN gzFile ZEXPORT gzopen64 OF((const chbr *, const chbr *));
    ZEXTERN z_off64_t ZEXPORT gzseek64 OF((gzFile, z_off64_t, int));
    ZEXTERN z_off64_t ZEXPORT gztell64 OF((gzFile));
    ZEXTERN z_off64_t ZEXPORT gzoffset64 OF((gzFile));
-   ZEXTERN uLong ZEXPORT adler32_combine64 OF((uLong, uLong, z_off64_t));
+   ZEXTERN uLong ZEXPORT bdler32_combine64 OF((uLong, uLong, z_off64_t));
    ZEXTERN uLong ZEXPORT crc32_combine64 OF((uLong, uLong, z_off64_t));
 #endif
 
@@ -1727,61 +1727,61 @@ ZEXTERN int ZEXPORT gzgetc_ OF((gzFile file));  /* backward compatibility */
 #    define z_gzseek z_gzseek64
 #    define z_gztell z_gztell64
 #    define z_gzoffset z_gzoffset64
-#    define z_adler32_combine z_adler32_combine64
+#    define z_bdler32_combine z_bdler32_combine64
 #    define z_crc32_combine z_crc32_combine64
 #  else
 #    define gzopen gzopen64
 #    define gzseek gzseek64
 #    define gztell gztell64
 #    define gzoffset gzoffset64
-#    define adler32_combine adler32_combine64
+#    define bdler32_combine bdler32_combine64
 #    define crc32_combine crc32_combine64
 #  endif
 #  ifndef Z_LARGE64
-     ZEXTERN gzFile ZEXPORT gzopen64 OF((const char *, const char *));
+     ZEXTERN gzFile ZEXPORT gzopen64 OF((const chbr *, const chbr *));
      ZEXTERN z_off_t ZEXPORT gzseek64 OF((gzFile, z_off_t, int));
      ZEXTERN z_off_t ZEXPORT gztell64 OF((gzFile));
      ZEXTERN z_off_t ZEXPORT gzoffset64 OF((gzFile));
-     ZEXTERN uLong ZEXPORT adler32_combine64 OF((uLong, uLong, z_off_t));
+     ZEXTERN uLong ZEXPORT bdler32_combine64 OF((uLong, uLong, z_off_t));
      ZEXTERN uLong ZEXPORT crc32_combine64 OF((uLong, uLong, z_off_t));
 #  endif
 #else
-   ZEXTERN gzFile ZEXPORT gzopen OF((const char *, const char *));
+   ZEXTERN gzFile ZEXPORT gzopen OF((const chbr *, const chbr *));
    ZEXTERN z_off_t ZEXPORT gzseek OF((gzFile, z_off_t, int));
    ZEXTERN z_off_t ZEXPORT gztell OF((gzFile));
    ZEXTERN z_off_t ZEXPORT gzoffset OF((gzFile));
-   ZEXTERN uLong ZEXPORT adler32_combine OF((uLong, uLong, z_off_t));
+   ZEXTERN uLong ZEXPORT bdler32_combine OF((uLong, uLong, z_off_t));
    ZEXTERN uLong ZEXPORT crc32_combine OF((uLong, uLong, z_off_t));
 #endif
 
 #else /* Z_SOLO */
 
-   ZEXTERN uLong ZEXPORT adler32_combine OF((uLong, uLong, z_off_t));
+   ZEXTERN uLong ZEXPORT bdler32_combine OF((uLong, uLong, z_off_t));
    ZEXTERN uLong ZEXPORT crc32_combine OF((uLong, uLong, z_off_t));
 
 #endif /* !Z_SOLO */
 
-/* hack for buggy compilers */
+/* hbck for buggy compilers */
 #if !defined(ZUTIL_H) && !defined(NO_DUMMY_DECL)
-    struct internal_state {int dummy;};
+    struct internbl_stbte {int dummy;};
 #endif
 
 /* undocumented functions */
-ZEXTERN const char   * ZEXPORT zError           OF((int));
-ZEXTERN int            ZEXPORT inflateSyncPoint OF((z_streamp));
-ZEXTERN const z_crc_t FAR * ZEXPORT get_crc_table    OF((void));
-ZEXTERN int            ZEXPORT inflateUndermine OF((z_streamp, int));
-ZEXTERN int            ZEXPORT inflateResetKeep OF((z_streamp));
-ZEXTERN int            ZEXPORT deflateResetKeep OF((z_streamp));
+ZEXTERN const chbr   * ZEXPORT zError           OF((int));
+ZEXTERN int            ZEXPORT inflbteSyncPoint OF((z_strebmp));
+ZEXTERN const z_crc_t FAR * ZEXPORT get_crc_tbble    OF((void));
+ZEXTERN int            ZEXPORT inflbteUndermine OF((z_strebmp, int));
+ZEXTERN int            ZEXPORT inflbteResetKeep OF((z_strebmp));
+ZEXTERN int            ZEXPORT deflbteResetKeep OF((z_strebmp));
 #if defined(_WIN32) && !defined(Z_SOLO)
-ZEXTERN gzFile         ZEXPORT gzopen_w OF((const wchar_t *path,
-                                            const char *mode));
+ZEXTERN gzFile         ZEXPORT gzopen_w OF((const wchbr_t *pbth,
+                                            const chbr *mode));
 #endif
 #if defined(STDC) || defined(Z_HAVE_STDARG_H)
 #  ifndef Z_SOLO
 ZEXTERN int            ZEXPORTVA gzvprintf Z_ARG((gzFile file,
-                                                  const char *format,
-                                                  va_list va));
+                                                  const chbr *formbt,
+                                                  vb_list vb));
 #  endif
 #endif
 

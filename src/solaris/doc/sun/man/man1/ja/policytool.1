@@ -1,50 +1,50 @@
 '\" t
-.\" Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\" Title: policytool
-.\" Language: English
-.\" Date: 2013Ç¯11·î21Æü
+.\" Lbngubge: English
+.\" Dbte: 2013Ç¯11·î21Æü
 .\" SectDesc: ¥»¥­¥å¥ê¥Æ¥£¡¦¥Ä¡¼¥ë
-.\" Software: JDK 8
+.\" Softwbre: JDK 8
 .\" Arch: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
 .TH "policytool" "1" "2013Ç¯11·î21Æü" "JDK 8" "¥»¥­¥å¥ê¥Æ¥£¡¦¥Ä¡¼¥ë"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
@@ -56,7 +56,7 @@ policytool \- ¥æ¡¼¥Æ¥£¥ê¥Æ¥£GUI·ÐÍ³¤Ç¼èÆÀ¤·¤¿¥æ¡¼¥¶¡¼ÆþÎÏ¤Ë´ð¤Å¤¤¤Æ¡¢¥×¥ì¡¼¥ó¡¦¥
 .RS 4
 .\}
 .nf
-\fIpolicytool\fR [ \fI\-file\fR ] [ \fIfilename\fR ] 
+\fIpolicytool\fR [ \fI\-file\fR ] [ \fIfilenbme\fR ] 
 .fi
 .if n \{\
 .RE
@@ -67,7 +67,7 @@ policytool \- ¥æ¡¼¥Æ¥£¥ê¥Æ¥£GUI·ÐÍ³¤Ç¼èÆÀ¤·¤¿¥æ¡¼¥¶¡¼ÆþÎÏ¤Ë´ð¤Å¤¤¤Æ¡¢¥×¥ì¡¼¥ó¡¦¥
 ¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤òÆÉ¤ß¹þ¤à¤è¤¦¤Ë\fIpolicytool\fR¤Ë»Ø¼¨¤·¤Þ¤¹¡£
 .RE
 .PP
-\fIfilename\fR
+\fIfilenbme\fR
 .RS 4
 ¥í¡¼¥É¤¹¤ë¥Õ¥¡¥¤¥ë¤ÎÌ¾Á°¡£
 .RE
@@ -99,8 +99,8 @@ policytool\-file mypolicyfile
 .\}
 .SH "ÀâÌÀ"
 .PP
-\fIpolicytool\fR¥³¥Þ¥ó¥É¤Ï¡¢´ÉÍý¼Ô¤ÎGUI¤ò¸Æ¤Ó½Ð¤·¤Þ¤¹¡£¤³¤ì¤Ë¤è¤ê¡¢¥·¥¹¥Æ¥à´ÉÍý¼Ô¤Ï¥í¡¼¥«¥ë¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ÎÆâÍÆ¤ò´ÉÍý¤Ç¤­¤ë¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤Ï\fI\&.policy\fR³ÈÄ¥»Ò¤ò»ý¤Ä¥×¥ì¡¼¥ó¥Æ¥­¥¹¥È¡¦¥Õ¥¡¥¤¥ë¤Ç¡¢¥É¥á¥¤¥óÊÌ¤Ë¥ê¥â¡¼¥È¡¦¥ê¥¯¥¨¥¹¥¿¤ò¸¢¸Â¥ª¥Ö¥¸¥§¥¯¥È¤Ë¥Þ¥Ã¥×¤·¤Þ¤¹¡£¾ÜºÙ¤Ï¡¢http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyFiles\&.html¤Ë¤¢¤ë
-¡ÖDefault Policy Implementation and Policy File Syntax¡×¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
+\fIpolicytool\fR¥³¥Þ¥ó¥É¤Ï¡¢´ÉÍý¼Ô¤ÎGUI¤ò¸Æ¤Ó½Ð¤·¤Þ¤¹¡£¤³¤ì¤Ë¤è¤ê¡¢¥·¥¹¥Æ¥à´ÉÍý¼Ô¤Ï¥í¡¼¥«¥ë¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ÎÆâÍÆ¤ò´ÉÍý¤Ç¤­¤ë¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤Ï\fI\&.policy\fR³ÈÄ¥»Ò¤ò»ý¤Ä¥×¥ì¡¼¥ó¥Æ¥­¥¹¥È¡¦¥Õ¥¡¥¤¥ë¤Ç¡¢¥É¥á¥¤¥óÊÌ¤Ë¥ê¥â¡¼¥È¡¦¥ê¥¯¥¨¥¹¥¿¤ò¸¢¸Â¥ª¥Ö¥¸¥§¥¯¥È¤Ë¥Þ¥Ã¥×¤·¤Þ¤¹¡£¾ÜºÙ¤Ï¡¢http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/PolicyFiles\&.html¤Ë¤¢¤ë
+¡ÖDefbult Policy Implementbtion bnd Policy File Syntbx¡×¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
 .SH "¥ª¥×¥·¥ç¥ó"
 .PP
 \-file
@@ -117,8 +117,8 @@ policytool\-file mypolicyfile
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖDefault Policy Implementation and Policy File Syntax¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyFiles\&.html)
+¡ÖDefbult Policy Implementbtion bnd Policy File Syntbx¡×
+(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/PolicyFiles\&.html)
 .RE
 .sp
 .RS 4
@@ -129,8 +129,8 @@ policytool\-file mypolicyfile
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖPolicy File Creation and Management¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyGuide\&.html)
+¡ÖPolicy File Crebtion bnd Mbnbgement¡×
+(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/PolicyGuide\&.html)
 .RE
 .sp
 .RS 4
@@ -141,8 +141,8 @@ policytool\-file mypolicyfile
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖPermissions in Java SE Development Kit (JDK)¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/permissions\&.html)
+¡ÖPermissions in Jbvb SE Development Kit (JDK)¡×
+(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/permissions\&.html)
 .RE
 .sp
 .RS 4
@@ -153,8 +153,8 @@ policytool\-file mypolicyfile
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖJava Security Overview¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/overview/jsoverview\&.html)
+¡ÖJbvb Security Overview¡×
+(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/overview/jsoverview\&.html)
 .RE
 .sp
 .RS 4
@@ -165,8 +165,8 @@ policytool\-file mypolicyfile
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖJava Cryptography Architecture (JCA) Reference Guide¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html)
+¡ÖJbvb Cryptogrbphy Architecture (JCA) Reference Guide¡×
+(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html)
 .RE
 .br
 'pl 8.5i

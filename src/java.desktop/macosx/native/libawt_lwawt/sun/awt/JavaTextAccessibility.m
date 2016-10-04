@@ -1,244 +1,244 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "JavaTextAccessibility.h"
-#import "JavaAccessibilityAction.h"
-#import "JavaAccessibilityUtilities.h"
-#import "ThreadUtilities.h"
+#import "JbvbTextAccessibility.h"
+#import "JbvbAccessibilityAction.h"
+#import "JbvbAccessibilityUtilities.h"
+#import "ThrebdUtilities.h"
 
 
-static JNF_CLASS_CACHE(sjc_CAccessibleText, "sun/lwawt/macosx/CAccessibleText");
-static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleText, sjc_CAccessibility, "getAccessibleText", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljavax/accessibility/AccessibleText;");
-static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleEditableText, sjc_CAccessibleText, "getAccessibleEditableText", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljavax/accessibility/AccessibleEditableText;");
-static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleName, sjc_CAccessibility, "getAccessibleName", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljava/lang/String;");
+stbtic JNF_CLASS_CACHE(sjc_CAccessibleText, "sun/lwbwt/mbcosx/CAccessibleText");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleText, sjc_CAccessibility, "getAccessibleText", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvbx/bccessibility/AccessibleText;");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleEditbbleText, sjc_CAccessibleText, "getAccessibleEditbbleText", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvbx/bccessibility/AccessibleEditbbleText;");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleNbme, sjc_CAccessibility, "getAccessibleNbme", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvb/lbng/String;");
 
 /*
- * Converts an int array to an NSRange wrapped inside an NSValue
- * takes [start, end] values and returns [start, end - start]
+ * Converts bn int brrby to bn NSRbnge wrbpped inside bn NSVblue
+ * tbkes [stbrt, end] vblues bnd returns [stbrt, end - stbrt]
  */
-NSValue *javaIntArrayToNSRangeValue(JNIEnv* env, jintArray array) {
-    jint *values = (*env)->GetIntArrayElements(env, array, 0);
-    if (values == NULL) {
-        // Note: Java will not be on the stack here so a java exception can't happen and no need to call ExceptionCheck.
-        NSLog(@"%s failed calling GetIntArrayElements", __FUNCTION__);
+NSVblue *jbvbIntArrbyToNSRbngeVblue(JNIEnv* env, jintArrby brrby) {
+    jint *vblues = (*env)->GetIntArrbyElements(env, brrby, 0);
+    if (vblues == NULL) {
+        // Note: Jbvb will not be on the stbck here so b jbvb exception cbn't hbppen bnd no need to cbll ExceptionCheck.
+        NSLog(@"%s fbiled cblling GetIntArrbyElements", __FUNCTION__);
         return nil;
     };
-    NSValue *value = [NSValue valueWithRange:NSMakeRange(values[0], values[1] - values[0])];
-    (*env)->ReleaseIntArrayElements(env, array, values, 0);
-    return value;
+    NSVblue *vblue = [NSVblue vblueWithRbnge:NSMbkeRbnge(vblues[0], vblues[1] - vblues[0])];
+    (*env)->RelebseIntArrbyElements(env, brrby, vblues, 0);
+    return vblue;
 }
 
-@implementation JavaTextAccessibility
+@implementbtion JbvbTextAccessibility
 
-// based strongly upon NSTextViewAccessibility:accessibilityAttributeNames
-- (NSArray *)initializeAttributeNamesWithEnv:(JNIEnv *)env
+// bbsed strongly upon NSTextViewAccessibility:bccessibilityAttributeNbmes
+- (NSArrby *)initiblizeAttributeNbmesWithEnv:(JNIEnv *)env
 {
-    static NSArray *attributes = nil;
+    stbtic NSArrby *bttributes = nil;
 
-    if (attributes == nil) {
+    if (bttributes == nil) {
         //APPKIT_LOCK;
-        if (attributes == nil) {
-            NSMutableArray *temp = [[super initializeAttributeNamesWithEnv:env] mutableCopy];
-            //[temp removeObject:NSAccessibilityTitleAttribute]; // title may have been set in the superclass implementation - some static text reports from java that it has a name
-            [temp addObjectsFromArray:[NSArray arrayWithObjects:
-                NSAccessibilityValueAttribute,
+        if (bttributes == nil) {
+            NSMutbbleArrby *temp = [[super initiblizeAttributeNbmesWithEnv:env] mutbbleCopy];
+            //[temp removeObject:NSAccessibilityTitleAttribute]; // title mby hbve been set in the superclbss implementbtion - some stbtic text reports from jbvb thbt it hbs b nbme
+            [temp bddObjectsFromArrby:[NSArrby brrbyWithObjects:
+                NSAccessibilityVblueAttribute,
                 NSAccessibilitySelectedTextAttribute,
-                NSAccessibilitySelectedTextRangeAttribute,
-                NSAccessibilityNumberOfCharactersAttribute,
-                NSAccessibilityVisibleCharacterRangeAttribute,
+                NSAccessibilitySelectedTextRbngeAttribute,
+                NSAccessibilityNumberOfChbrbctersAttribute,
+                NSAccessibilityVisibleChbrbcterRbngeAttribute,
                 NSAccessibilityInsertionPointLineNumberAttribute,
-                //    NSAccessibilitySharedTextUIElementsAttribute, // cmcnote: investigate what these two are for. currently unimplemented
-                //    NSAccessibilitySharedCharacterRangeAttribute,
+                //    NSAccessibilityShbredTextUIElementsAttribute, // cmcnote: investigbte whbt these two bre for. currently unimplemented
+                //    NSAccessibilityShbredChbrbcterRbngeAttribute,
                 nil]];
-            attributes = [[NSArray alloc] initWithArray:temp];
-            [temp release];
+            bttributes = [[NSArrby blloc] initWithArrby:temp];
+            [temp relebse];
         }
         //APPKIT_UNLOCK;
     }
-    return attributes;
+    return bttributes;
 }
 
 // copied from NSTextViewAccessibility.
-- (NSArray *)accessibilityParameterizedAttributeNames
+- (NSArrby *)bccessibilityPbrbmeterizedAttributeNbmes
 {
-    static NSArray *attributes = nil;
+    stbtic NSArrby *bttributes = nil;
 
-    if (attributes == nil) {
+    if (bttributes == nil) {
         //APPKIT_LOCK;
-        if (attributes == nil) {
-            attributes = [[NSArray alloc] initWithObjects:
-                NSAccessibilityLineForIndexParameterizedAttribute,
-                NSAccessibilityRangeForLineParameterizedAttribute,
-                NSAccessibilityStringForRangeParameterizedAttribute,
-                NSAccessibilityRangeForPositionParameterizedAttribute,
-                NSAccessibilityRangeForIndexParameterizedAttribute,
-                NSAccessibilityBoundsForRangeParameterizedAttribute,
-                //NSAccessibilityRTFForRangeParameterizedAttribute, // cmcnote: not sure when/how these three are used. Investigate. radr://3960026
-                //NSAccessibilityStyleRangeForIndexParameterizedAttribute,
-                //NSAccessibilityAttributedStringForRangeParameterizedAttribute,
+        if (bttributes == nil) {
+            bttributes = [[NSArrby blloc] initWithObjects:
+                NSAccessibilityLineForIndexPbrbmeterizedAttribute,
+                NSAccessibilityRbngeForLinePbrbmeterizedAttribute,
+                NSAccessibilityStringForRbngePbrbmeterizedAttribute,
+                NSAccessibilityRbngeForPositionPbrbmeterizedAttribute,
+                NSAccessibilityRbngeForIndexPbrbmeterizedAttribute,
+                NSAccessibilityBoundsForRbngePbrbmeterizedAttribute,
+                //NSAccessibilityRTFForRbngePbrbmeterizedAttribute, // cmcnote: not sure when/how these three bre used. Investigbte. rbdr://3960026
+                //NSAccessibilityStyleRbngeForIndexPbrbmeterizedAttribute,
+                //NSAccessibilityAttributedStringForRbngePbrbmeterizedAttribute,
                 nil];
         }
         //APPKIT_UNLOCK;
     }
-    return attributes;
+    return bttributes;
 }
 
-- (NSString *)accessibilityValueAttribute
+- (NSString *)bccessibilityVblueAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    if ([[self accessibilityRoleAttribute] isEqualToString:NSAccessibilityStaticTextRole]) {
-        // if it's static text, the AppKit AXValue is the java accessibleName
-        jobject axName = JNFCallStaticObjectMethod(env, sjm_getAccessibleName, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-        if (axName != NULL) {
-            return JNFJavaToNSString(env, axName);
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    if ([[self bccessibilityRoleAttribute] isEqublToString:NSAccessibilityStbticTextRole]) {
+        // if it's stbtic text, the AppKit AXVblue is the jbvb bccessibleNbme
+        jobject bxNbme = JNFCbllStbticObjectMethod(env, sjm_getAccessibleNbme, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+        if (bxNbme != NULL) {
+            return JNFJbvbToNSString(env, bxNbme);
         }
-        // value is still nil if no accessibleName for static text. Below, try to get the accessibleText.
+        // vblue is still nil if no bccessibleNbme for stbtic text. Below, try to get the bccessibleText.
     }
 
-    // cmcnote: inefficient to make three distinct JNI calls. Coalesce. radr://3951923
-    jobject axText = JNFCallStaticObjectMethod(env, sjm_getAccessibleText, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    if (axText == NULL) return nil;
+    // cmcnote: inefficient to mbke three distinct JNI cblls. Coblesce. rbdr://3951923
+    jobject bxText = JNFCbllStbticObjectMethod(env, sjm_getAccessibleText, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxText == NULL) return nil;
 
-    jobject axEditableText = JNFCallStaticObjectMethod(env, sjm_getAccessibleEditableText, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    if (axEditableText == NULL) return nil;
+    jobject bxEditbbleText = JNFCbllStbticObjectMethod(env, sjm_getAccessibleEditbbleText, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxEditbbleText == NULL) return nil;
 
-    static JNF_STATIC_MEMBER_CACHE(jm_getTextRange, sjc_CAccessibleText, "getTextRange", "(Ljavax/accessibility/AccessibleEditableText;IILjava/awt/Component;)Ljava/lang/String;");
-    NSString *string = JNFJavaToNSString(env, JNFCallStaticObjectMethod(env, jm_getTextRange, axEditableText, 0, getAxTextCharCount(env, axEditableText, fComponent), fComponent)); // AWT_THREADING Safe (AWTRunLoop)
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getTextRbnge, sjc_CAccessibleText, "getTextRbnge", "(Ljbvbx/bccessibility/AccessibleEditbbleText;IILjbvb/bwt/Component;)Ljbvb/lbng/String;");
+    NSString *string = JNFJbvbToNSString(env, JNFCbllStbticObjectMethod(env, jm_getTextRbnge, bxEditbbleText, 0, getAxTextChbrCount(env, bxEditbbleText, fComponent), fComponent)); // AWT_THREADING Sbfe (AWTRunLoop)
     if (string == nil) string = @"";
     return string;
 }
 
-- (BOOL)accessibilityIsValueAttributeSettable
+- (BOOL)bccessibilityIsVblueAttributeSettbble
 {
-    // if text is enabled and editable, it's settable (according to NSCellTextAttributesAccessibility)
-    BOOL isEnabled = [(NSNumber *)[self accessibilityEnabledAttribute] boolValue];
-    if (!isEnabled) return NO;
+    // if text is enbbled bnd editbble, it's settbble (bccording to NSCellTextAttributesAccessibility)
+    BOOL isEnbbled = [(NSNumber *)[self bccessibilityEnbbledAttribute] boolVblue];
+    if (!isEnbbled) return NO;
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    jobject axEditableText = JNFCallStaticObjectMethod(env, sjm_getAccessibleEditableText, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    if (axEditableText == NULL) return NO;
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    jobject bxEditbbleText = JNFCbllStbticObjectMethod(env, sjm_getAccessibleEditbbleText, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxEditbbleText == NULL) return NO;
     return YES;
 }
 
-- (void)accessibilitySetValueAttribute:(id)value
+- (void)bccessibilitySetVblueAttribute:(id)vblue
 {
-// cmcnote: should set the accessibleEditableText to the stringValue of value - AccessibleEditableText.setTextContents(String s)
+// cmcnote: should set the bccessibleEditbbleText to the stringVblue of vblue - AccessibleEditbbleText.setTextContents(String s)
 #ifdef JAVA_AX_DEBUG
-    NSLog(@"Not yet implemented: %s\n", __FUNCTION__); // radr://3954018
+    NSLog(@"Not yet implemented: %s\n", __FUNCTION__); // rbdr://3954018
 #endif
 }
 
 // Currently selected text (NSString)
-- (NSString *)accessibilitySelectedTextAttribute
+- (NSString *)bccessibilitySelectedTextAttribute
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getSelectedText, sjc_CAccessibleText, "getSelectedText", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljava/lang/String;");
-    jobject axText = JNFCallStaticObjectMethod(env, jm_getSelectedText, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    if (axText == NULL) return @"";
-    return JNFJavaToNSString(env, axText);
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getSelectedText, sjc_CAccessibleText, "getSelectedText", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvb/lbng/String;");
+    jobject bxText = JNFCbllStbticObjectMethod(env, jm_getSelectedText, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxText == NULL) return @"";
+    return JNFJbvbToNSString(env, bxText);
 }
 
-- (BOOL)accessibilityIsSelectedTextAttributeSettable
+- (BOOL)bccessibilityIsSelectedTextAttributeSettbble
 {
-    return YES; //cmcnote: for AXTextField that's selectable, it's settable. Investigate further.
+    return YES; //cmcnote: for AXTextField thbt's selectbble, it's settbble. Investigbte further.
 }
 
-- (void)accessibilitySetSelectedTextAttribute:(id)value
+- (void)bccessibilitySetSelectedTextAttribute:(id)vblue
 {
 #ifdef JAVA_AX_DEBUG_PARMS
-    if (![value isKindOfClass:[NSString class]]) {
-        JavaAccessibilityRaiseSetAttributeToIllegalTypeException(__FUNCTION__, self, NSAccessibilitySelectedTextAttribute, value);
+    if (![vblue isKindOfClbss:[NSString clbss]]) {
+        JbvbAccessibilityRbiseSetAttributeToIllegblTypeException(__FUNCTION__, self, NSAccessibilitySelectedTextAttribute, vblue);
         return;
     }
 #endif
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jstring jstringValue = JNFNSToJavaString(env, (NSString *)value);
-    static JNF_STATIC_MEMBER_CACHE(jm_setSelectedText, sjc_CAccessibleText, "setSelectedText", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;Ljava/lang/String;)V");
-    JNFCallStaticVoidMethod(env, jm_setSelectedText, fAccessible, fComponent, jstringValue); // AWT_THREADING Safe (AWTRunLoop)
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jstring jstringVblue = JNFNSToJbvbString(env, (NSString *)vblue);
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_setSelectedText, sjc_CAccessibleText, "setSelectedText", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;Ljbvb/lbng/String;)V");
+    JNFCbllStbticVoidMethod(env, jm_setSelectedText, fAccessible, fComponent, jstringVblue); // AWT_THREADING Sbfe (AWTRunLoop)
 }
 
-// Range of selected text (NSValue)
-- (NSValue *)accessibilitySelectedTextRangeAttribute
+// Rbnge of selected text (NSVblue)
+- (NSVblue *)bccessibilitySelectedTextRbngeAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getSelectedTextRange, sjc_CAccessibleText, "getSelectedTextRange", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)[I");
-    jintArray axTextRange = JNFCallStaticObjectMethod(env, jm_getSelectedTextRange, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    if (axTextRange == NULL) return nil;
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getSelectedTextRbnge, sjc_CAccessibleText, "getSelectedTextRbnge", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)[I");
+    jintArrby bxTextRbnge = JNFCbllStbticObjectMethod(env, jm_getSelectedTextRbnge, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxTextRbnge == NULL) return nil;
 
-    return javaIntArrayToNSRangeValue(env, axTextRange);
+    return jbvbIntArrbyToNSRbngeVblue(env, bxTextRbnge);
 }
 
-- (BOOL)accessibilityIsSelectedTextRangeAttributeSettable
+- (BOOL)bccessibilityIsSelectedTextRbngeAttributeSettbble
 {
-    return [(NSNumber *)[self accessibilityEnabledAttribute] boolValue]; // cmcnote: also may want to find out if isSelectable. Investigate.
+    return [(NSNumber *)[self bccessibilityEnbbledAttribute] boolVblue]; // cmcnote: blso mby wbnt to find out if isSelectbble. Investigbte.
 }
 
-- (void)accessibilitySetSelectedTextRangeAttribute:(id)value
+- (void)bccessibilitySetSelectedTextRbngeAttribute:(id)vblue
 {
 #ifdef JAVA_AX_DEBUG_PARMS
-    if (!([value isKindOfClass:[NSValue class]] && strcmp([(NSValue *)value objCType], @encode(NSRange)) == 0)) {
-        JavaAccessibilityRaiseSetAttributeToIllegalTypeException(__FUNCTION__, self, NSAccessibilitySelectedTextRangeAttribute, value);
+    if (!([vblue isKindOfClbss:[NSVblue clbss]] && strcmp([(NSVblue *)vblue objCType], @encode(NSRbnge)) == 0)) {
+        JbvbAccessibilityRbiseSetAttributeToIllegblTypeException(__FUNCTION__, self, NSAccessibilitySelectedTextRbngeAttribute, vblue);
         return;
     }
 #endif
 
-    NSRange range = [(NSValue *)value rangeValue];
-    jint startIndex = range.location;
-    jint endIndex = startIndex + range.length;
+    NSRbnge rbnge = [(NSVblue *)vblue rbngeVblue];
+    jint stbrtIndex = rbnge.locbtion;
+    jint endIndex = stbrtIndex + rbnge.length;
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_setSelectedTextRange, sjc_CAccessibleText, "setSelectedTextRange", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;II)V");
-    JNFCallStaticVoidMethod(env, jm_setSelectedTextRange, fAccessible, fComponent, startIndex, endIndex); // AWT_THREADING Safe (AWTRunLoop)
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_setSelectedTextRbnge, sjc_CAccessibleText, "setSelectedTextRbnge", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;II)V");
+    JNFCbllStbticVoidMethod(env, jm_setSelectedTextRbnge, fAccessible, fComponent, stbrtIndex, endIndex); // AWT_THREADING Sbfe (AWTRunLoop)
 }
 
-- (NSNumber *)accessibilityNumberOfCharactersAttribute
+- (NSNumber *)bccessibilityNumberOfChbrbctersAttribute
 {
-    // cmcnote: should coalesce these two calls - radr://3951923
-    // also, static text doesn't always have accessibleText. if axText is null, should get the charcount of the accessibleName instead
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject axText = JNFCallStaticObjectMethod(env, sjm_getAccessibleText, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    return [NSNumber numberWithInt:getAxTextCharCount(env, axText, fComponent)];
+    // cmcnote: should coblesce these two cblls - rbdr://3951923
+    // blso, stbtic text doesn't blwbys hbve bccessibleText. if bxText is null, should get the chbrcount of the bccessibleNbme instebd
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jobject bxText = JNFCbllStbticObjectMethod(env, sjm_getAccessibleText, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    return [NSNumber numberWithInt:getAxTextChbrCount(env, bxText, fComponent)];
 }
 
-- (BOOL)accessibilityIsNumberOfCharactersAttributeSettable
+- (BOOL)bccessibilityIsNumberOfChbrbctersAttributeSettbble
 {
-    return NO; // according to NSTextViewAccessibility.m and NSCellTextAttributesAccessibility.m
+    return NO; // bccording to NSTextViewAccessibility.m bnd NSCellTextAttributesAccessibility.m
 }
 
-- (NSValue *)accessibilityVisibleCharacterRangeAttribute
+- (NSVblue *)bccessibilityVisibleChbrbcterRbngeAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getVisibleCharacterRange, sjc_CAccessibleText, "getVisibleCharacterRange", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)[I");
-    jintArray axTextRange = JNFCallStaticObjectMethod(env, jm_getVisibleCharacterRange, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    if (axTextRange == NULL) return nil;
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getVisibleChbrbcterRbnge, sjc_CAccessibleText, "getVisibleChbrbcterRbnge", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)[I");
+    jintArrby bxTextRbnge = JNFCbllStbticObjectMethod(env, jm_getVisibleChbrbcterRbnge, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxTextRbnge == NULL) return nil;
 
-    return javaIntArrayToNSRangeValue(env, axTextRange);
+    return jbvbIntArrbyToNSRbngeVblue(env, bxTextRbnge);
 }
 
-- (BOOL)accessibilityIsVisibleCharacterRangeAttributeSettable
+- (BOOL)bccessibilityIsVisibleChbrbcterRbngeAttributeSettbble
 {
 #ifdef JAVA_AX_DEBUG
     NSLog(@"Not yet implemented: %s\n", __FUNCTION__);
@@ -246,16 +246,16 @@ NSValue *javaIntArrayToNSRangeValue(JNIEnv* env, jintArray array) {
     return NO;
 }
 
-- (NSValue *)accessibilityInsertionPointLineNumberAttribute
+- (NSVblue *)bccessibilityInsertionPointLineNumberAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getLineNumberForInsertionPoint, sjc_CAccessibleText, "getLineNumberForInsertionPoint", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)I");
-    jint row = JNFCallStaticIntMethod(env, jm_getLineNumberForInsertionPoint, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getLineNumberForInsertionPoint, sjc_CAccessibleText, "getLineNumberForInsertionPoint", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)I");
+    jint row = JNFCbllStbticIntMethod(env, jm_getLineNumberForInsertionPoint, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
     if (row < 0) return nil;
     return [NSNumber numberWithInt:row];
 }
 
-- (BOOL)accessibilityIsInsertionPointLineNumberAttributeSettable
+- (BOOL)bccessibilityIsInsertionPointLineNumberAttributeSettbble
 {
 #ifdef JAVA_AX_DEBUG
     NSLog(@"Not yet implemented: %s\n", __FUNCTION__);
@@ -263,158 +263,158 @@ NSValue *javaIntArrayToNSRangeValue(JNIEnv* env, jintArray array) {
     return NO;
 }
 
-// parameterized attributes
+// pbrbmeterized bttributes
 
 //
-// Usage of accessibilityBoundsForRangeAttributeForParameter:
+// Usbge of bccessibilityBoundsForRbngeAttributeForPbrbmeter:
 // ---
-// called by VoiceOver when interacting with text via ctrl-option-shift-downArrow.
-// Need to know bounding box for the character / word / line of interest in
-// order to draw VoiceOver cursor
+// cblled by VoiceOver when interbcting with text vib ctrl-option-shift-downArrow.
+// Need to know bounding box for the chbrbcter / word / line of interest in
+// order to drbw VoiceOver cursor
 //
-- (NSValue *)accessibilityBoundsForRangeAttributeForParameter:(id)parameter
+- (NSVblue *)bccessibilityBoundsForRbngeAttributeForPbrbmeter:(id)pbrbmeter
 {
 #ifdef JAVA_AX_DEBUG_PARMS
-    if (!([parameter isKindOfClass:[NSValue class]] && strcmp([(NSValue *)parameter objCType], @encode(NSRange)) == 0)) {
-        JavaAccessibilityRaiseIllegalParameterTypeException(__FUNCTION__, self, NSAccessibilityBoundsForRangeParameterizedAttribute, parameter);
+    if (!([pbrbmeter isKindOfClbss:[NSVblue clbss]] && strcmp([(NSVblue *)pbrbmeter objCType], @encode(NSRbnge)) == 0)) {
+        JbvbAccessibilityRbiseIllegblPbrbmeterTypeException(__FUNCTION__, self, NSAccessibilityBoundsForRbngePbrbmeterizedAttribute, pbrbmeter);
         return nil;
     }
 #endif
 
-    NSRange range = [(NSValue *)parameter rangeValue];
+    NSRbnge rbnge = [(NSVblue *)pbrbmeter rbngeVblue];
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getBoundsForRange, sjc_CAccessibleText, "getBoundsForRange", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;II)[D");
-    jdoubleArray axBounds = JNFCallStaticObjectMethod(env, jm_getBoundsForRange, fAccessible, fComponent, range.location, range.length); // AWT_THREADING Safe (AWTRunLoop)
-    if (axBounds == NULL) return nil;
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getBoundsForRbnge, sjc_CAccessibleText, "getBoundsForRbnge", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;II)[D");
+    jdoubleArrby bxBounds = JNFCbllStbticObjectMethod(env, jm_getBoundsForRbnge, fAccessible, fComponent, rbnge.locbtion, rbnge.length); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxBounds == NULL) return nil;
 
-    // We cheat because we know that the array is 4 elements long (x, y, width, height)
-    jdouble *values = (*env)->GetDoubleArrayElements(env, axBounds, 0);
-    if (values == NULL) {
-        // Note: Java will not be on the stack here so a java exception can't happen and no need to call ExceptionCheck.
-        NSLog(@"%s failed calling GetDoubleArrayElements", __FUNCTION__); 
+    // We chebt becbuse we know thbt the brrby is 4 elements long (x, y, width, height)
+    jdouble *vblues = (*env)->GetDoubleArrbyElements(env, bxBounds, 0);
+    if (vblues == NULL) {
+        // Note: Jbvb will not be on the stbck here so b jbvb exception cbn't hbppen bnd no need to cbll ExceptionCheck.
+        NSLog(@"%s fbiled cblling GetDoubleArrbyElements", __FUNCTION__); 
         return nil;
     };
     NSRect bounds;
-    bounds.origin.x = values[0];
-    bounds.origin.y = [[[[self view] window] screen] frame].size.height - values[1] - values[3]; //values[1] is y-coord from top-left of screen. Flip. Account for the height (values[3]) when flipping
-    bounds.size.width = values[2];
-    bounds.size.height = values[3];
-    NSValue *result = [NSValue valueWithRect:bounds];
-    (*env)->ReleaseDoubleArrayElements(env, axBounds, values, 0);
+    bounds.origin.x = vblues[0];
+    bounds.origin.y = [[[[self view] window] screen] frbme].size.height - vblues[1] - vblues[3]; //vblues[1] is y-coord from top-left of screen. Flip. Account for the height (vblues[3]) when flipping
+    bounds.size.width = vblues[2];
+    bounds.size.height = vblues[3];
+    NSVblue *result = [NSVblue vblueWithRect:bounds];
+    (*env)->RelebseDoubleArrbyElements(env, bxBounds, vblues, 0);
     return result;
 }
 
-- (NSNumber *)accessibilityLineForIndexAttributeForParameter:(id)parameter
+- (NSNumber *)bccessibilityLineForIndexAttributeForPbrbmeter:(id)pbrbmeter
 {
-    NSNumber *line = (NSNumber *) parameter;
+    NSNumber *line = (NSNumber *) pbrbmeter;
     if (line == nil) return nil;
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getLineNumberForIndex, sjc_CAccessibleText, "getLineNumberForIndex", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;I)I");
-    jint row = JNFCallStaticIntMethod(env, jm_getLineNumberForIndex, fAccessible, fComponent, [line intValue]); // AWT_THREADING Safe (AWTRunLoop)
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getLineNumberForIndex, sjc_CAccessibleText, "getLineNumberForIndex", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;I)I");
+    jint row = JNFCbllStbticIntMethod(env, jm_getLineNumberForIndex, fAccessible, fComponent, [line intVblue]); // AWT_THREADING Sbfe (AWTRunLoop)
     if (row < 0) return nil;
     return [NSNumber numberWithInt:row];
 }
 
-- (NSValue *)accessibilityRangeForLineAttributeForParameter:(id)parameter
+- (NSVblue *)bccessibilityRbngeForLineAttributeForPbrbmeter:(id)pbrbmeter
 {
-    NSNumber *line = (NSNumber *) parameter;
+    NSNumber *line = (NSNumber *) pbrbmeter;
     if (line == nil) return nil;
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getRangeForLine, sjc_CAccessibleText, "getRangeForLine", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;I)[I");
-    jintArray axTextRange = JNFCallStaticObjectMethod(env, jm_getRangeForLine, fAccessible, fComponent, [line intValue]); // AWT_THREADING Safe (AWTRunLoop)
-    if (axTextRange == NULL) return nil;
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getRbngeForLine, sjc_CAccessibleText, "getRbngeForLine", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;I)[I");
+    jintArrby bxTextRbnge = JNFCbllStbticObjectMethod(env, jm_getRbngeForLine, fAccessible, fComponent, [line intVblue]); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxTextRbnge == NULL) return nil;
 
-    return javaIntArrayToNSRangeValue(env,axTextRange);
+    return jbvbIntArrbyToNSRbngeVblue(env,bxTextRbnge);
 }
 
 //
-// Usage of accessibilityStringForRangeAttributeForParameter:
+// Usbge of bccessibilityStringForRbngeAttributeForPbrbmeter:
 // ---
-// called by VoiceOver when interacting with text via ctrl-option-shift-downArrow.
-// VO needs to know the particular string its currently dealing with so it can
-// speak the string
+// cblled by VoiceOver when interbcting with text vib ctrl-option-shift-downArrow.
+// VO needs to know the pbrticulbr string its currently debling with so it cbn
+// spebk the string
 //
-- (NSString *)accessibilityStringForRangeAttributeForParameter:(id)parameter
+- (NSString *)bccessibilityStringForRbngeAttributeForPbrbmeter:(id)pbrbmeter
 {
 #ifdef JAVA_AX_DEBUG_PARMS
-    if (!([parameter isKindOfClass:[NSValue class]] && strcmp([(NSValue *)parameter objCType], @encode(NSRange)) == 0)) {
-        JavaAccessibilityRaiseIllegalParameterTypeException(__FUNCTION__, self, NSAccessibilityBoundsForRangeParameterizedAttribute, parameter);
+    if (!([pbrbmeter isKindOfClbss:[NSVblue clbss]] && strcmp([(NSVblue *)pbrbmeter objCType], @encode(NSRbnge)) == 0)) {
+        JbvbAccessibilityRbiseIllegblPbrbmeterTypeException(__FUNCTION__, self, NSAccessibilityBoundsForRbngePbrbmeterizedAttribute, pbrbmeter);
         return nil;
     }
 #endif
 
-    NSRange range = [(NSValue *)parameter rangeValue];
+    NSRbnge rbnge = [(NSVblue *)pbrbmeter rbngeVblue];
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getStringForRange, sjc_CAccessibleText, "getStringForRange", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;II)Ljava/lang/String;");
-    jstring jstringForRange = JNFCallStaticObjectMethod(env, jm_getStringForRange, fAccessible, fComponent, range.location, range.length); // AWT_THREADING Safe (AWTRunLoop)
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getStringForRbnge, sjc_CAccessibleText, "getStringForRbnge", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;II)Ljbvb/lbng/String;");
+    jstring jstringForRbnge = JNFCbllStbticObjectMethod(env, jm_getStringForRbnge, fAccessible, fComponent, rbnge.locbtion, rbnge.length); // AWT_THREADING Sbfe (AWTRunLoop)
 
-    if (jstringForRange == NULL) return @"";
-    return JNFJavaToNSString(env, jstringForRange);
+    if (jstringForRbnge == NULL) return @"";
+    return JNFJbvbToNSString(env, jstringForRbnge);
 }
 
 //
-// Usage of accessibilityRangeForPositionAttributeForParameter:
+// Usbge of bccessibilityRbngeForPositionAttributeForPbrbmeter:
 // ---
-// cmcnote: I'm not sure when this is called / how it's used. Investigate.
-// probably could be used in a special text-only accessibilityHitTest to
+// cmcnote: I'm not sure when this is cblled / how it's used. Investigbte.
+// probbbly could be used in b specibl text-only bccessibilityHitTest to
 // find the index of the string under the mouse?
 //
-- (NSValue *)accessibilityRangeForPositionAttributeForParameter:(id)parameter
+- (NSVblue *)bccessibilityRbngeForPositionAttributeForPbrbmeter:(id)pbrbmeter
 {
 #ifdef JAVA_AX_DEBUG_PARMS
-    if (!([parameter isKindOfClass:[NSValue class]] && strcmp([(NSValue *)parameter objCType], @encode(NSPoint)) == 0)) {
-        JavaAccessibilityRaiseIllegalParameterTypeException(__FUNCTION__, self, NSAccessibilityRangeForPositionParameterizedAttribute, parameter);
+    if (!([pbrbmeter isKindOfClbss:[NSVblue clbss]] && strcmp([(NSVblue *)pbrbmeter objCType], @encode(NSPoint)) == 0)) {
+        JbvbAccessibilityRbiseIllegblPbrbmeterTypeException(__FUNCTION__, self, NSAccessibilityRbngeForPositionPbrbmeterizedAttribute, pbrbmeter);
         return nil;
     }
 #endif
 
-    NSPoint point = [(NSValue *)parameter pointValue]; // point is in screen coords
-    point.y = [[[[self view] window] screen] frame].size.height - point.y; // flip into java screen coords (0 is at upper-left corner of screen)
+    NSPoint point = [(NSVblue *)pbrbmeter pointVblue]; // point is in screen coords
+    point.y = [[[[self view] window] screen] frbme].size.height - point.y; // flip into jbvb screen coords (0 is bt upper-left corner of screen)
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getCharacterIndexAtPosition, sjc_CAccessibleText, "getCharacterIndexAtPosition", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;II)I");
-    jint charIndex = JNFCallStaticIntMethod(env, jm_getCharacterIndexAtPosition, fAccessible, fComponent, point.x, point.y); // AWT_THREADING Safe (AWTRunLoop)
-    if (charIndex == -1) return nil;
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getChbrbcterIndexAtPosition, sjc_CAccessibleText, "getChbrbcterIndexAtPosition", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;II)I");
+    jint chbrIndex = JNFCbllStbticIntMethod(env, jm_getChbrbcterIndexAtPosition, fAccessible, fComponent, point.x, point.y); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (chbrIndex == -1) return nil;
 
-    // AccessibleText.getIndexAtPoint returns -1 for an invalid point
-    NSRange range = NSMakeRange(charIndex, 1); //range's length is 1 - one-character range
-    return [NSValue valueWithRange:range];
+    // AccessibleText.getIndexAtPoint returns -1 for bn invblid point
+    NSRbnge rbnge = NSMbkeRbnge(chbrIndex, 1); //rbnge's length is 1 - one-chbrbcter rbnge
+    return [NSVblue vblueWithRbnge:rbnge];
 }
 
 //
-// Usage of accessibilityRangeForIndexAttributeForParameter:
+// Usbge of bccessibilityRbngeForIndexAttributeForPbrbmeter:
 // ---
-// cmcnote: I'm not sure when this is called / how it's used. Investigate.
-// AppKit version calls: [string rangeOfComposedCharacterSequenceAtIndex:index]
-// We call: CAccessibility.getRangeForIndex, which calls AccessibleText.getAtIndex(AccessibleText.WORD, index)
-// to determine the word closest to the given index. Then we find the length/location of this string.
+// cmcnote: I'm not sure when this is cblled / how it's used. Investigbte.
+// AppKit version cblls: [string rbngeOfComposedChbrbcterSequenceAtIndex:index]
+// We cbll: CAccessibility.getRbngeForIndex, which cblls AccessibleText.getAtIndex(AccessibleText.WORD, index)
+// to determine the word closest to the given index. Then we find the length/locbtion of this string.
 //
-- (NSValue *)accessibilityRangeForIndexAttributeForParameter:(id)parameter
+- (NSVblue *)bccessibilityRbngeForIndexAttributeForPbrbmeter:(id)pbrbmeter
 {
 #ifdef JAVA_AX_DEBUG_PARMS
-    if (![parameter isKindOfClass:[NSNumber class]]) {
-        JavaAccessibilityRaiseIllegalParameterTypeException(__FUNCTION__, self, NSAccessibilityRangeForIndexParameterizedAttribute, parameter);
+    if (![pbrbmeter isKindOfClbss:[NSNumber clbss]]) {
+        JbvbAccessibilityRbiseIllegblPbrbmeterTypeException(__FUNCTION__, self, NSAccessibilityRbngeForIndexPbrbmeterizedAttribute, pbrbmeter);
         return nil;
     }
 #endif
 
-    NSUInteger index = [(NSNumber *)parameter unsignedIntegerValue];
+    NSUInteger index = [(NSNumber *)pbrbmeter unsignedIntegerVblue];
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_STATIC_MEMBER_CACHE(jm_getRangeForIndex, sjc_CAccessibleText, "getRangeForIndex", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;I)[I");
-    jintArray axTextRange = JNFCallStaticObjectMethod(env, jm_getRangeForIndex, fAccessible, fComponent, index); // AWT_THREADING Safe (AWTRunLoop)
-    if (axTextRange == NULL) return nil;
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getRbngeForIndex, sjc_CAccessibleText, "getRbngeForIndex", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;I)[I");
+    jintArrby bxTextRbnge = JNFCbllStbticObjectMethod(env, jm_getRbngeForIndex, fAccessible, fComponent, index); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxTextRbnge == NULL) return nil;
 
-    return javaIntArrayToNSRangeValue(env, axTextRange);
+    return jbvbIntArrbyToNSRbngeVblue(env, bxTextRbnge);
 }
 
-- (NSDictionary *)getActions:(JNIEnv *)env {
-    // cmcnote: this isn't correct; text can have actions. Not yet implemented. radr://3941691
-    // Editable text has AXShowMenu. Textfields have AXConfirm. Static text has no actions.
+- (NSDictionbry *)getActions:(JNIEnv *)env {
+    // cmcnote: this isn't correct; text cbn hbve bctions. Not yet implemented. rbdr://3941691
+    // Editbble text hbs AXShowMenu. Textfields hbve AXConfirm. Stbtic text hbs no bctions.
 #ifdef JAVA_AX_DEBUG
     NSLog(@"Not yet implemented: %s\n", __FUNCTION__);
 #endif

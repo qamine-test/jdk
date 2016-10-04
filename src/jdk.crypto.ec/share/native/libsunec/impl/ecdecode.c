@@ -1,38 +1,38 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Elliptic Curve Cryptography library.
+ * The Originbl Code is the Elliptic Curve Cryptogrbphy librbry.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Dr Vipul Gupta <vipul.gupta@sun.com> and
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Dr Vipul Guptb <vipul.guptb@sun.com> bnd
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
@@ -42,7 +42,7 @@
 #if !defined(__linux__) && !defined(_ALLBSD_SOURCE)
 #include <sys/systm.h>
 #endif /* __linux__ || _ALLBSD_SOURCE */
-#include <sys/param.h>
+#include <sys/pbrbm.h>
 #endif /* _WIN32 */
 
 #ifdef _KERNEL
@@ -58,45 +58,45 @@
 #define SEC_ASN1_OBJECT_ID      0x06
 
 /*
- * Initializes a SECItem from a hexadecimal string
+ * Initiblizes b SECItem from b hexbdecimbl string
  *
- * Warning: This function ignores leading 00's, so any leading 00's
- * in the hexadecimal string must be optional.
+ * Wbrning: This function ignores lebding 00's, so bny lebding 00's
+ * in the hexbdecimbl string must be optionbl.
  */
-static SECItem *
-hexString2SECItem(PRArenaPool *arena, SECItem *item, const char *str,
-    int kmflag)
+stbtic SECItem *
+hexString2SECItem(PRArenbPool *brenb, SECItem *item, const chbr *str,
+    int kmflbg)
 {
     int i = 0;
-    int byteval = 0;
+    int bytevbl = 0;
     int tmp = (int)strlen(str);
 
     if ((tmp % 2) != 0) return NULL;
 
-    /* skip leading 00's unless the hex string is "00" */
+    /* skip lebding 00's unless the hex string is "00" */
     while ((tmp > 2) && (str[0] == '0') && (str[1] == '0')) {
         str += 2;
         tmp -= 2;
     }
 
-    item->data = (unsigned char *) PORT_ArenaAlloc(arena, tmp/2, kmflag);
-    if (item->data == NULL) return NULL;
+    item->dbtb = (unsigned chbr *) PORT_ArenbAlloc(brenb, tmp/2, kmflbg);
+    if (item->dbtb == NULL) return NULL;
     item->len = tmp/2;
 
     while (str[i]) {
         if ((str[i] >= '0') && (str[i] <= '9'))
             tmp = str[i] - '0';
-        else if ((str[i] >= 'a') && (str[i] <= 'f'))
-            tmp = str[i] - 'a' + 10;
+        else if ((str[i] >= 'b') && (str[i] <= 'f'))
+            tmp = str[i] - 'b' + 10;
         else if ((str[i] >= 'A') && (str[i] <= 'F'))
             tmp = str[i] - 'A' + 10;
         else
             return NULL;
 
-        byteval = byteval * 16 + tmp;
+        bytevbl = bytevbl * 16 + tmp;
         if ((i % 2) != 0) {
-            item->data[i/2] = byteval;
-            byteval = 0;
+            item->dbtb[i/2] = bytevbl;
+            bytevbl = 0;
         }
         i++;
     }
@@ -104,509 +104,509 @@ hexString2SECItem(PRArenaPool *arena, SECItem *item, const char *str,
     return item;
 }
 
-static SECStatus
-gf_populate_params(ECCurveName name, ECFieldType field_type, ECParams *params,
-    int kmflag)
+stbtic SECStbtus
+gf_populbte_pbrbms(ECCurveNbme nbme, ECFieldType field_type, ECPbrbms *pbrbms,
+    int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    const ECCurveParams *curveParams;
+    SECStbtus rv = SECFbilure;
+    const ECCurvePbrbms *curvePbrbms;
     /* 2 ['0'+'4'] + MAX_ECKEY_LEN * 2 [x,y] * 2 [hex string] + 1 ['\0'] */
-    char genenc[3 + 2 * 2 * MAX_ECKEY_LEN];
+    chbr genenc[3 + 2 * 2 * MAX_ECKEY_LEN];
 
-    if (((int)name < ECCurve_noName) || (name > ECCurve_pastLastCurve))
-        goto cleanup;
-    params->name = name;
-    curveParams = ecCurve_map[params->name];
-    CHECK_OK(curveParams);
-    params->fieldID.size = curveParams->size;
-    params->fieldID.type = field_type;
+    if (((int)nbme < ECCurve_noNbme) || (nbme > ECCurve_pbstLbstCurve))
+        goto clebnup;
+    pbrbms->nbme = nbme;
+    curvePbrbms = ecCurve_mbp[pbrbms->nbme];
+    CHECK_OK(curvePbrbms);
+    pbrbms->fieldID.size = curvePbrbms->size;
+    pbrbms->fieldID.type = field_type;
     if (field_type == ec_field_GFp) {
-        CHECK_OK(hexString2SECItem(NULL, &params->fieldID.u.prime,
-            curveParams->irr, kmflag));
+        CHECK_OK(hexString2SECItem(NULL, &pbrbms->fieldID.u.prime,
+            curvePbrbms->irr, kmflbg));
     } else {
-        CHECK_OK(hexString2SECItem(NULL, &params->fieldID.u.poly,
-            curveParams->irr, kmflag));
+        CHECK_OK(hexString2SECItem(NULL, &pbrbms->fieldID.u.poly,
+            curvePbrbms->irr, kmflbg));
     }
-    CHECK_OK(hexString2SECItem(NULL, &params->curve.a,
-        curveParams->curvea, kmflag));
-    CHECK_OK(hexString2SECItem(NULL, &params->curve.b,
-        curveParams->curveb, kmflag));
+    CHECK_OK(hexString2SECItem(NULL, &pbrbms->curve.b,
+        curvePbrbms->curveb, kmflbg));
+    CHECK_OK(hexString2SECItem(NULL, &pbrbms->curve.b,
+        curvePbrbms->curveb, kmflbg));
     genenc[0] = '0';
     genenc[1] = '4';
     genenc[2] = '\0';
-    strcat(genenc, curveParams->genx);
-    strcat(genenc, curveParams->geny);
-    CHECK_OK(hexString2SECItem(NULL, &params->base, genenc, kmflag));
-    CHECK_OK(hexString2SECItem(NULL, &params->order,
-        curveParams->order, kmflag));
-    params->cofactor = curveParams->cofactor;
+    strcbt(genenc, curvePbrbms->genx);
+    strcbt(genenc, curvePbrbms->geny);
+    CHECK_OK(hexString2SECItem(NULL, &pbrbms->bbse, genenc, kmflbg));
+    CHECK_OK(hexString2SECItem(NULL, &pbrbms->order,
+        curvePbrbms->order, kmflbg));
+    pbrbms->cofbctor = curvePbrbms->cofbctor;
 
     rv = SECSuccess;
 
-cleanup:
+clebnup:
     return rv;
 }
 
-ECCurveName SECOID_FindOIDTag(const SECItem *);
+ECCurveNbme SECOID_FindOIDTbg(const SECItem *);
 
-SECStatus
-EC_FillParams(PRArenaPool *arena, const SECItem *encodedParams,
-    ECParams *params, int kmflag)
+SECStbtus
+EC_FillPbrbms(PRArenbPool *brenb, const SECItem *encodedPbrbms,
+    ECPbrbms *pbrbms, int kmflbg)
 {
-    SECStatus rv = SECFailure;
-    ECCurveName tag;
+    SECStbtus rv = SECFbilure;
+    ECCurveNbme tbg;
     SECItem oid = { siBuffer, NULL, 0};
 
 #if EC_DEBUG
     int i;
 
-    printf("Encoded params in EC_DecodeParams: ");
-    for (i = 0; i < encodedParams->len; i++) {
-            printf("%02x:", encodedParams->data[i]);
+    printf("Encoded pbrbms in EC_DecodePbrbms: ");
+    for (i = 0; i < encodedPbrbms->len; i++) {
+            printf("%02x:", encodedPbrbms->dbtb[i]);
     }
     printf("\n");
 #endif
 
-    if ((encodedParams->len != ANSI_X962_CURVE_OID_TOTAL_LEN) &&
-        (encodedParams->len != SECG_CURVE_OID_TOTAL_LEN)) {
+    if ((encodedPbrbms->len != ANSI_X962_CURVE_OID_TOTAL_LEN) &&
+        (encodedPbrbms->len != SECG_CURVE_OID_TOTAL_LEN)) {
             PORT_SetError(SEC_ERROR_UNSUPPORTED_ELLIPTIC_CURVE);
-            return SECFailure;
+            return SECFbilure;
     };
 
-    oid.len = encodedParams->len - 2;
-    oid.data = encodedParams->data + 2;
-    if ((encodedParams->data[0] != SEC_ASN1_OBJECT_ID) ||
-        ((tag = SECOID_FindOIDTag(&oid)) == ECCurve_noName)) {
+    oid.len = encodedPbrbms->len - 2;
+    oid.dbtb = encodedPbrbms->dbtb + 2;
+    if ((encodedPbrbms->dbtb[0] != SEC_ASN1_OBJECT_ID) ||
+        ((tbg = SECOID_FindOIDTbg(&oid)) == ECCurve_noNbme)) {
             PORT_SetError(SEC_ERROR_UNSUPPORTED_ELLIPTIC_CURVE);
-            return SECFailure;
+            return SECFbilure;
     }
 
-    params->arena = arena;
-    params->cofactor = 0;
-    params->type = ec_params_named;
-    params->name = ECCurve_noName;
+    pbrbms->brenb = brenb;
+    pbrbms->cofbctor = 0;
+    pbrbms->type = ec_pbrbms_nbmed;
+    pbrbms->nbme = ECCurve_noNbme;
 
-    /* For named curves, fill out curveOID */
-    params->curveOID.len = oid.len;
-    params->curveOID.data = (unsigned char *) PORT_ArenaAlloc(NULL, oid.len,
-        kmflag);
-    if (params->curveOID.data == NULL) goto cleanup;
-    memcpy(params->curveOID.data, oid.data, oid.len);
+    /* For nbmed curves, fill out curveOID */
+    pbrbms->curveOID.len = oid.len;
+    pbrbms->curveOID.dbtb = (unsigned chbr *) PORT_ArenbAlloc(NULL, oid.len,
+        kmflbg);
+    if (pbrbms->curveOID.dbtb == NULL) goto clebnup;
+    memcpy(pbrbms->curveOID.dbtb, oid.dbtb, oid.len);
 
 #if EC_DEBUG
-#ifndef SECOID_FindOIDTagDescription
-    printf("Curve: %s\n", ecCurve_map[tag]->text);
+#ifndef SECOID_FindOIDTbgDescription
+    printf("Curve: %s\n", ecCurve_mbp[tbg]->text);
 #else
-    printf("Curve: %s\n", SECOID_FindOIDTagDescription(tag));
+    printf("Curve: %s\n", SECOID_FindOIDTbgDescription(tbg));
 #endif
 #endif
 
-    switch (tag) {
+    switch (tbg) {
 
-    /* Binary curves */
+    /* Binbry curves */
 
-    case ECCurve_X9_62_CHAR2_PNB163V1:
-        /* Populate params for c2pnb163v1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_PNB163V1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_PNB163V1:
+        /* Populbte pbrbms for c2pnb163v1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_PNB163V1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_PNB163V2:
-        /* Populate params for c2pnb163v2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_PNB163V2, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_PNB163V2:
+        /* Populbte pbrbms for c2pnb163v2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_PNB163V2, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_PNB163V3:
-        /* Populate params for c2pnb163v3 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_PNB163V3, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_PNB163V3:
+        /* Populbte pbrbms for c2pnb163v3 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_PNB163V3, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_PNB176V1:
-        /* Populate params for c2pnb176v1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_PNB176V1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_PNB176V1:
+        /* Populbte pbrbms for c2pnb176v1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_PNB176V1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_TNB191V1:
-        /* Populate params for c2tnb191v1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_TNB191V1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_TNB191V1:
+        /* Populbte pbrbms for c2tnb191v1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_TNB191V1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_TNB191V2:
-        /* Populate params for c2tnb191v2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_TNB191V2, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_TNB191V2:
+        /* Populbte pbrbms for c2tnb191v2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_TNB191V2, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_TNB191V3:
-        /* Populate params for c2tnb191v3 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_TNB191V3, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_TNB191V3:
+        /* Populbte pbrbms for c2tnb191v3 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_TNB191V3, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_PNB208W1:
-        /* Populate params for c2pnb208w1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_PNB208W1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_PNB208W1:
+        /* Populbte pbrbms for c2pnb208w1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_PNB208W1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_TNB239V1:
-        /* Populate params for c2tnb239v1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_TNB239V1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_TNB239V1:
+        /* Populbte pbrbms for c2tnb239v1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_TNB239V1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_TNB239V2:
-        /* Populate params for c2tnb239v2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_TNB239V2, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_TNB239V2:
+        /* Populbte pbrbms for c2tnb239v2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_TNB239V2, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_TNB239V3:
-        /* Populate params for c2tnb239v3 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_TNB239V3, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_TNB239V3:
+        /* Populbte pbrbms for c2tnb239v3 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_TNB239V3, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_PNB272W1:
-        /* Populate params for c2pnb272w1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_PNB272W1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_PNB272W1:
+        /* Populbte pbrbms for c2pnb272w1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_PNB272W1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_PNB304W1:
-        /* Populate params for c2pnb304w1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_PNB304W1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_PNB304W1:
+        /* Populbte pbrbms for c2pnb304w1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_PNB304W1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_TNB359V1:
-        /* Populate params for c2tnb359v1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_TNB359V1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_TNB359V1:
+        /* Populbte pbrbms for c2tnb359v1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_TNB359V1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_PNB368W1:
-        /* Populate params for c2pnb368w1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_PNB368W1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_PNB368W1:
+        /* Populbte pbrbms for c2pnb368w1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_PNB368W1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_CHAR2_TNB431R1:
-        /* Populate params for c2tnb431r1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_CHAR2_TNB431R1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_CHAR2_TNB431R1:
+        /* Populbte pbrbms for c2tnb431r1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_CHAR2_TNB431R1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_113R1:
-        /* Populate params for sect113r1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_113R1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_CHAR2_113R1:
+        /* Populbte pbrbms for sect113r1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_113R1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_113R2:
-        /* Populate params for sect113r2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_113R2, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_CHAR2_113R2:
+        /* Populbte pbrbms for sect113r2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_113R2, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_131R1:
-        /* Populate params for sect131r1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_131R1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_CHAR2_131R1:
+        /* Populbte pbrbms for sect131r1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_131R1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_131R2:
-        /* Populate params for sect131r2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_131R2, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_CHAR2_131R2:
+        /* Populbte pbrbms for sect131r2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_131R2, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_163K1:
-        /* Populate params for sect163k1
+    cbse ECCurve_SECG_CHAR2_163K1:
+        /* Populbte pbrbms for sect163k1
          * (the NIST K-163 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_163K1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_163K1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_163R1:
-        /* Populate params for sect163r1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_163R1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_CHAR2_163R1:
+        /* Populbte pbrbms for sect163r1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_163R1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_163R2:
-        /* Populate params for sect163r2
+    cbse ECCurve_SECG_CHAR2_163R2:
+        /* Populbte pbrbms for sect163r2
          * (the NIST B-163 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_163R2, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_163R2, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_193R1:
-        /* Populate params for sect193r1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_193R1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_CHAR2_193R1:
+        /* Populbte pbrbms for sect193r1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_193R1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_193R2:
-        /* Populate params for sect193r2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_193R2, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_CHAR2_193R2:
+        /* Populbte pbrbms for sect193r2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_193R2, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_233K1:
-        /* Populate params for sect233k1
+    cbse ECCurve_SECG_CHAR2_233K1:
+        /* Populbte pbrbms for sect233k1
          * (the NIST K-233 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_233K1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_233K1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_233R1:
-        /* Populate params for sect233r1
+    cbse ECCurve_SECG_CHAR2_233R1:
+        /* Populbte pbrbms for sect233r1
          * (the NIST B-233 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_233R1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_233R1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_239K1:
-        /* Populate params for sect239k1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_239K1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_CHAR2_239K1:
+        /* Populbte pbrbms for sect239k1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_239K1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_283K1:
-        /* Populate params for sect283k1
+    cbse ECCurve_SECG_CHAR2_283K1:
+        /* Populbte pbrbms for sect283k1
          * (the NIST K-283 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_283K1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_283K1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_283R1:
-        /* Populate params for sect283r1
+    cbse ECCurve_SECG_CHAR2_283R1:
+        /* Populbte pbrbms for sect283r1
          * (the NIST B-283 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_283R1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_283R1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_409K1:
-        /* Populate params for sect409k1
+    cbse ECCurve_SECG_CHAR2_409K1:
+        /* Populbte pbrbms for sect409k1
          * (the NIST K-409 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_409K1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_409K1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_409R1:
-        /* Populate params for sect409r1
+    cbse ECCurve_SECG_CHAR2_409R1:
+        /* Populbte pbrbms for sect409r1
          * (the NIST B-409 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_409R1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_409R1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_571K1:
-        /* Populate params for sect571k1
+    cbse ECCurve_SECG_CHAR2_571K1:
+        /* Populbte pbrbms for sect571k1
          * (the NIST K-571 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_571K1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_571K1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_CHAR2_571R1:
-        /* Populate params for sect571r1
+    cbse ECCurve_SECG_CHAR2_571R1:
+        /* Populbte pbrbms for sect571r1
          * (the NIST B-571 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_CHAR2_571R1, ec_field_GF2m,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_CHAR2_571R1, ec_field_GF2m,
+            pbrbms, kmflbg) );
+        brebk;
 
     /* Prime curves */
 
-    case ECCurve_X9_62_PRIME_192V1:
-        /* Populate params for prime192v1 aka secp192r1
+    cbse ECCurve_X9_62_PRIME_192V1:
+        /* Populbte pbrbms for prime192v1 bkb secp192r1
          * (the NIST P-192 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_PRIME_192V1, ec_field_GFp,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_PRIME_192V1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_PRIME_192V2:
-        /* Populate params for prime192v2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_PRIME_192V2, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_PRIME_192V2:
+        /* Populbte pbrbms for prime192v2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_PRIME_192V2, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_PRIME_192V3:
-        /* Populate params for prime192v3 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_PRIME_192V3, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_PRIME_192V3:
+        /* Populbte pbrbms for prime192v3 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_PRIME_192V3, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_PRIME_239V1:
-        /* Populate params for prime239v1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_PRIME_239V1, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_PRIME_239V1:
+        /* Populbte pbrbms for prime239v1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_PRIME_239V1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_PRIME_239V2:
-        /* Populate params for prime239v2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_PRIME_239V2, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_PRIME_239V2:
+        /* Populbte pbrbms for prime239v2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_PRIME_239V2, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_PRIME_239V3:
-        /* Populate params for prime239v3 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_PRIME_239V3, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_X9_62_PRIME_239V3:
+        /* Populbte pbrbms for prime239v3 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_PRIME_239V3, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_X9_62_PRIME_256V1:
-        /* Populate params for prime256v1 aka secp256r1
+    cbse ECCurve_X9_62_PRIME_256V1:
+        /* Populbte pbrbms for prime256v1 bkb secp256r1
          * (the NIST P-256 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_X9_62_PRIME_256V1, ec_field_GFp,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_X9_62_PRIME_256V1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_112R1:
-        /* Populate params for secp112r1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_112R1, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_112R1:
+        /* Populbte pbrbms for secp112r1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_112R1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_112R2:
-        /* Populate params for secp112r2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_112R2, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_112R2:
+        /* Populbte pbrbms for secp112r2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_112R2, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_128R1:
-        /* Populate params for secp128r1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_128R1, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_128R1:
+        /* Populbte pbrbms for secp128r1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_128R1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_128R2:
-        /* Populate params for secp128r2 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_128R2, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_128R2:
+        /* Populbte pbrbms for secp128r2 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_128R2, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_160K1:
-        /* Populate params for secp160k1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_160K1, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_160K1:
+        /* Populbte pbrbms for secp160k1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_160K1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_160R1:
-        /* Populate params for secp160r1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_160R1, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_160R1:
+        /* Populbte pbrbms for secp160r1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_160R1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_160R2:
-        /* Populate params for secp160r1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_160R2, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_160R2:
+        /* Populbte pbrbms for secp160r1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_160R2, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_192K1:
-        /* Populate params for secp192k1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_192K1, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_192K1:
+        /* Populbte pbrbms for secp192k1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_192K1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_224K1:
-        /* Populate params for secp224k1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_224K1, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_224K1:
+        /* Populbte pbrbms for secp224k1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_224K1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_224R1:
-        /* Populate params for secp224r1
+    cbse ECCurve_SECG_PRIME_224R1:
+        /* Populbte pbrbms for secp224r1
          * (the NIST P-224 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_224R1, ec_field_GFp,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_224R1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_256K1:
-        /* Populate params for secp256k1 */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_256K1, ec_field_GFp,
-            params, kmflag) );
-        break;
+    cbse ECCurve_SECG_PRIME_256K1:
+        /* Populbte pbrbms for secp256k1 */
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_256K1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_384R1:
-        /* Populate params for secp384r1
+    cbse ECCurve_SECG_PRIME_384R1:
+        /* Populbte pbrbms for secp384r1
          * (the NIST P-384 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_384R1, ec_field_GFp,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_384R1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    case ECCurve_SECG_PRIME_521R1:
-        /* Populate params for secp521r1
+    cbse ECCurve_SECG_PRIME_521R1:
+        /* Populbte pbrbms for secp521r1
          * (the NIST P-521 curve)
          */
-        CHECK_SEC_OK( gf_populate_params(ECCurve_SECG_PRIME_521R1, ec_field_GFp,
-            params, kmflag) );
-        break;
+        CHECK_SEC_OK( gf_populbte_pbrbms(ECCurve_SECG_PRIME_521R1, ec_field_GFp,
+            pbrbms, kmflbg) );
+        brebk;
 
-    default:
-        break;
+    defbult:
+        brebk;
     };
 
-cleanup:
-    if (!params->cofactor) {
+clebnup:
+    if (!pbrbms->cofbctor) {
         PORT_SetError(SEC_ERROR_UNSUPPORTED_ELLIPTIC_CURVE);
 #if EC_DEBUG
-        printf("Unrecognized curve, returning NULL params\n");
+        printf("Unrecognized curve, returning NULL pbrbms\n");
 #endif
     }
 
     return rv;
 }
 
-SECStatus
-EC_DecodeParams(const SECItem *encodedParams, ECParams **ecparams, int kmflag)
+SECStbtus
+EC_DecodePbrbms(const SECItem *encodedPbrbms, ECPbrbms **ecpbrbms, int kmflbg)
 {
-    PRArenaPool *arena;
-    ECParams *params;
-    SECStatus rv = SECFailure;
+    PRArenbPool *brenb;
+    ECPbrbms *pbrbms;
+    SECStbtus rv = SECFbilure;
 
-    /* Initialize an arena for the ECParams structure */
-    if (!(arena = PORT_NewArena(NSS_FREEBL_DEFAULT_CHUNKSIZE)))
-        return SECFailure;
+    /* Initiblize bn brenb for the ECPbrbms structure */
+    if (!(brenb = PORT_NewArenb(NSS_FREEBL_DEFAULT_CHUNKSIZE)))
+        return SECFbilure;
 
-    params = (ECParams *)PORT_ArenaZAlloc(NULL, sizeof(ECParams), kmflag);
-    if (!params) {
-        PORT_FreeArena(NULL, B_TRUE);
-        return SECFailure;
+    pbrbms = (ECPbrbms *)PORT_ArenbZAlloc(NULL, sizeof(ECPbrbms), kmflbg);
+    if (!pbrbms) {
+        PORT_FreeArenb(NULL, B_TRUE);
+        return SECFbilure;
     }
 
-    /* Copy the encoded params */
-    SECITEM_AllocItem(arena, &(params->DEREncoding), encodedParams->len,
-        kmflag);
-    memcpy(params->DEREncoding.data, encodedParams->data, encodedParams->len);
+    /* Copy the encoded pbrbms */
+    SECITEM_AllocItem(brenb, &(pbrbms->DEREncoding), encodedPbrbms->len,
+        kmflbg);
+    memcpy(pbrbms->DEREncoding.dbtb, encodedPbrbms->dbtb, encodedPbrbms->len);
 
-    /* Fill out the rest of the ECParams structure based on
-     * the encoded params
+    /* Fill out the rest of the ECPbrbms structure bbsed on
+     * the encoded pbrbms
      */
-    rv = EC_FillParams(NULL, encodedParams, params, kmflag);
-    if (rv == SECFailure) {
-        PORT_FreeArena(NULL, B_TRUE);
-        return SECFailure;
+    rv = EC_FillPbrbms(NULL, encodedPbrbms, pbrbms, kmflbg);
+    if (rv == SECFbilure) {
+        PORT_FreeArenb(NULL, B_TRUE);
+        return SECFbilure;
     } else {
-        *ecparams = params;;
+        *ecpbrbms = pbrbms;;
         return SECSuccess;
     }
 }

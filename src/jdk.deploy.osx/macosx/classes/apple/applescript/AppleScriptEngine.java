@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package apple.applescript;
+pbckbge bpple.bpplescript;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.*;
-import java.util.Map.Entry;
+import jbvb.io.*;
+import jbvb.nio.file.Files;
+import jbvb.util.*;
+import jbvb.util.Mbp.Entry;
 
-import javax.script.*;
+import jbvbx.script.*;
 
 /**
- * AppleScriptEngine implements JSR 223 for AppleScript on Mac OS X
+ * AppleScriptEngine implements JSR 223 for AppleScript on Mbc OS X
  */
-public class AppleScriptEngine implements ScriptEngine {
-    private static native void initNative();
+public clbss AppleScriptEngine implements ScriptEngine {
+    privbte stbtic nbtive void initNbtive();
 
-    private static native long createContextFrom(final Object object);
-    private static native Object createObjectFrom(final long context);
-    private static native void disposeContext(final long context);
+    privbte stbtic nbtive long crebteContextFrom(finbl Object object);
+    privbte stbtic nbtive Object crebteObjectFrom(finbl long context);
+    privbte stbtic nbtive void disposeContext(finbl long context);
 
-    private static native long evalScript(final String script, long contextptr);
-    private static native long evalScriptFromURL(final String filename, long contextptr);
+    privbte stbtic nbtive long evblScript(finbl String script, long contextptr);
+    privbte stbtic nbtive long evblScriptFromURL(finbl String filenbme, long contextptr);
 
-    static {
-        System.loadLibrary("AppleScriptEngine");
-        initNative();
-        TRACE("<static-init>");
+    stbtic {
+        System.lobdLibrbry("AppleScriptEngine");
+        initNbtive();
+        TRACE("<stbtic-init>");
     }
 
-    static void checkSecurity() {
-        final SecurityManager securityManager = System.getSecurityManager();
-        if (securityManager != null) securityManager.checkExec("/usr/bin/osascript");
+    stbtic void checkSecurity() {
+        finbl SecurityMbnbger securityMbnbger = System.getSecurityMbnbger();
+        if (securityMbnbger != null) securityMbnbger.checkExec("/usr/bin/osbscript");
     }
 
-    static void TRACE(final String str) {
-//        System.out.println(AppleScriptEngine.class.getName() + "." + str);
+    stbtic void TRACE(finbl String str) {
+//        System.out.println(AppleScriptEngine.clbss.getNbme() + "." + str);
     }
 
     /**
-     * Accessor for the ScriptEngine's long name variable
-     * @return the long name of the ScriptEngine
+     * Accessor for the ScriptEngine's long nbme vbribble
+     * @return the long nbme of the ScriptEngine
      */
-    protected static String getEngine() {
+    protected stbtic String getEngine() {
         TRACE("getEngine()");
-        return AppleScriptEngineFactory.ENGINE_NAME;
+        return AppleScriptEngineFbctory.ENGINE_NAME;
     }
 
     /**
      * Accessor for the ScriptEngine's version
      * @return the version of the ScriptEngine
      */
-    protected static String getEngineVersion() {
+    protected stbtic String getEngineVersion() {
         TRACE("getEngineVersion()");
-        return AppleScriptEngineFactory.ENGINE_VERSION;
+        return AppleScriptEngineFbctory.ENGINE_VERSION;
     }
 
     /**
-     * Accessor for the ScriptEngine's short name
-     * @return the short name of the ScriptEngine
+     * Accessor for the ScriptEngine's short nbme
+     * @return the short nbme of the ScriptEngine
      */
-    protected static String getName() {
-        TRACE("getName()");
-        return AppleScriptEngineFactory.ENGINE_SHORT_NAME;
+    protected stbtic String getNbme() {
+        TRACE("getNbme()");
+        return AppleScriptEngineFbctory.ENGINE_SHORT_NAME;
     }
 
     /**
-     * Accessor for the ScriptEngine's supported language name
-     * @return the language the ScriptEngine supports
+     * Accessor for the ScriptEngine's supported lbngubge nbme
+     * @return the lbngubge the ScriptEngine supports
      */
-    protected static String getLanguage() {
-        TRACE("getLanguage()");
-        return AppleScriptEngineFactory.LANGUAGE;
+    protected stbtic String getLbngubge() {
+        TRACE("getLbngubge()");
+        return AppleScriptEngineFbctory.LANGUAGE;
     }
 
     /**
-     * The no argument constructor sets up the object with default members,
-     * a factory for the engine and a fresh context.
-     * @see com.apple.applescript.AppleScriptEngine#init()
+     * The no brgument constructor sets up the object with defbult members,
+     * b fbctory for the engine bnd b fresh context.
+     * @see com.bpple.bpplescript.AppleScriptEngine#init()
      */
     public AppleScriptEngine() {
         TRACE("<ctor>()");
-        // set our parent factory to be a new factory
-        factory = AppleScriptEngineFactory.getFactory();
+        // set our pbrent fbctory to be b new fbctory
+        fbctory = AppleScriptEngineFbctory.getFbctory();
 
-        // set up our noarg bindings
+        // set up our nobrg bindings
         setContext(new SimpleScriptContext());
         put(ARGV, "");
 
@@ -114,26 +114,26 @@ public class AppleScriptEngine implements ScriptEngine {
     }
 
     /**
-     * All AppleScriptEngines share the same ScriptEngineFactory
+     * All AppleScriptEngines shbre the sbme ScriptEngineFbctory
      */
-    private final ScriptEngineFactory factory;
+    privbte finbl ScriptEngineFbctory fbctory;
 
     /**
-     * The local context for the AppleScriptEngine
+     * The locbl context for the AppleScriptEngine
      */
-    private ScriptContext context;
+    privbte ScriptContext context;
 
     /**
-     * The constructor taking a factory as an argument sets the parent factory for
-     * this engine to be the passed factory, and sets up the engine with a fresh context
-     * @param factory
-     * @see com.apple.applescript.AppleScriptEngine#init()
+     * The constructor tbking b fbctory bs bn brgument sets the pbrent fbctory for
+     * this engine to be the pbssed fbctory, bnd sets up the engine with b fresh context
+     * @pbrbm fbctory
+     * @see com.bpple.bpplescript.AppleScriptEngine#init()
      */
-    public AppleScriptEngine(final ScriptEngineFactory factory) {
-        // inherit the factory passed to us
-        this.factory = factory;
+    public AppleScriptEngine(finbl ScriptEngineFbctory fbctory) {
+        // inherit the fbctory pbssed to us
+        this.fbctory = fbctory;
 
-        // set up our noarg bindings
+        // set up our nobrg bindings
         setContext(new SimpleScriptContext());
         put(ARGV, "");
 
@@ -141,55 +141,55 @@ public class AppleScriptEngine implements ScriptEngine {
     }
 
     /**
-     * The initializer populates the local context with some useful predefined variables:
-     * <ul><li><code>javax_script_language_version</code> - the version of AppleScript that the AppleScriptEngine supports.</li>
-     * <li><code>javax_script_language</code> - "AppleScript" -- the language supported by the AppleScriptEngine.</li>
-     * <li><code>javax_script_engine</code> - "AppleScriptEngine" -- the name of the ScriptEngine.</li>
-     * <li><code>javax_script_engine_version</code> - the version of the AppleScriptEngine</li>
-     * <li><code>javax_script_argv</code> - "" -- AppleScript does not take arguments from the command line</li>
-     * <li><code>javax_script_filename</code> - "" -- the currently executing filename</li>
-     * <li><code>javax_script_name</code> - "AppleScriptEngine" -- the short name of the AppleScriptEngine</li>
-     * <li><code>THREADING</code> - null -- the AppleScriptEngine does not support concurrency, you will have to implement thread-safeness yourself.</li></ul>
+     * The initiblizer populbtes the locbl context with some useful predefined vbribbles:
+     * <ul><li><code>jbvbx_script_lbngubge_version</code> - the version of AppleScript thbt the AppleScriptEngine supports.</li>
+     * <li><code>jbvbx_script_lbngubge</code> - "AppleScript" -- the lbngubge supported by the AppleScriptEngine.</li>
+     * <li><code>jbvbx_script_engine</code> - "AppleScriptEngine" -- the nbme of the ScriptEngine.</li>
+     * <li><code>jbvbx_script_engine_version</code> - the version of the AppleScriptEngine</li>
+     * <li><code>jbvbx_script_brgv</code> - "" -- AppleScript does not tbke brguments from the commbnd line</li>
+     * <li><code>jbvbx_script_filenbme</code> - "" -- the currently executing filenbme</li>
+     * <li><code>jbvbx_script_nbme</code> - "AppleScriptEngine" -- the short nbme of the AppleScriptEngine</li>
+     * <li><code>THREADING</code> - null -- the AppleScriptEngine does not support concurrency, you will hbve to implement threbd-sbfeness yourself.</li></ul>
      */
-    private void init() {
+    privbte void init() {
         TRACE("init()");
         // set up our context
-/* TODO -- name of current executable?  bad java documentation at:
- * http://docs.oracle.com/javase/6/docs/api/javax/script/ScriptEngine.html#FILENAME */
+/* TODO -- nbme of current executbble?  bbd jbvb documentbtion bt:
+ * http://docs.orbcle.com/jbvbse/6/docs/bpi/jbvbx/script/ScriptEngine.html#FILENAME */
         put(ScriptEngine.FILENAME, "");
         put(ScriptEngine.ENGINE, getEngine());
         put(ScriptEngine.ENGINE_VERSION, getEngineVersion());
-        put(ScriptEngine.NAME, getName());
-        put(ScriptEngine.LANGUAGE, getLanguage());
-        put(ScriptEngine.LANGUAGE_VERSION, getLanguageVersion());
+        put(ScriptEngine.NAME, getNbme());
+        put(ScriptEngine.LANGUAGE, getLbngubge());
+        put(ScriptEngine.LANGUAGE_VERSION, getLbngubgeVersion());
 
-        // TODO -- for now, err on the side of caution and say that we are NOT thread-safe
+        // TODO -- for now, err on the side of cbution bnd sby thbt we bre NOT threbd-sbfe
         put("THREADING", null);
     }
 
     /**
-     * Uses the AppleScriptEngine to get the local AppleScript version
+     * Uses the AppleScriptEngine to get the locbl AppleScript version
      * @return the version of AppleScript running on the system
      */
-    protected String getLanguageVersion() {
-        TRACE("AppleScriptEngine.getLanguageVersion()");
+    protected String getLbngubgeVersion() {
+        TRACE("AppleScriptEngine.getLbngubgeVersion()");
         try {
-            final Object result = eval("get the version of AppleScript");
-            if (result instanceof String) return (String)result;
-        } catch (final ScriptException e) { e.printStackTrace(); }
+            finbl Object result = evbl("get the version of AppleScript");
+            if (result instbnceof String) return (String)result;
+        } cbtch (finbl ScriptException e) { e.printStbckTrbce(); }
         return "unknown";
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Returns the factory parent of this AppleScriptEngine
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Returns the fbctory pbrent of this AppleScriptEngine
      */
-    public ScriptEngineFactory getFactory() {
-        return factory;
+    public ScriptEngineFbctory getFbctory() {
+        return fbctory;
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
+     * Implementbtion required by ScriptEngine pbrent<br />
      * Return the engine's context
      * @return this ScriptEngine's context
      */
@@ -198,192 +198,192 @@ public class AppleScriptEngine implements ScriptEngine {
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Set a new context for the engine
-     * @param context the new context to install in the engine
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Set b new context for the engine
+     * @pbrbm context the new context to instbll in the engine
      */
-    public void setContext(final ScriptContext context) {
+    public void setContext(finbl ScriptContext context) {
         this.context = context;
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Create and return a new set of simple bindings.
-     * @return a new and empty set of bindings
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Crebte bnd return b new set of simple bindings.
+     * @return b new bnd empty set of bindings
      */
-    public Bindings createBindings() {
+    public Bindings crebteBindings() {
         return new SimpleBindings();
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Return the engines bindings for the context indicated by the argument.
-     * @param scope contextual scope to return.
-     * @return the bindings in the engine for the scope indicated by the parameter
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Return the engines bindings for the context indicbted by the brgument.
+     * @pbrbm scope contextubl scope to return.
+     * @return the bindings in the engine for the scope indicbted by the pbrbmeter
      */
-    public Bindings getBindings(final int scope) {
+    public Bindings getBindings(finbl int scope) {
         return context.getBindings(scope);
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Sets the bindings for the indicated scope
-     * @param bindings a set of bindings to assign to the engine
-     * @param scope the scope that the passed bindings should be assigned to
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Sets the bindings for the indicbted scope
+     * @pbrbm bindings b set of bindings to bssign to the engine
+     * @pbrbm scope the scope thbt the pbssed bindings should be bssigned to
      */
-    public void setBindings(final Bindings bindings, final int scope) {
+    public void setBindings(finbl Bindings bindings, finbl int scope) {
         context.setBindings(bindings, scope);
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Insert a key and value into the engine's bindings (scope: engine)
-     * @param key the key of the pair
-     * @param value the value of the pair
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Insert b key bnd vblue into the engine's bindings (scope: engine)
+     * @pbrbm key the key of the pbir
+     * @pbrbm vblue the vblue of the pbir
      */
-    public void put(final String key, final Object value) {
-        getBindings(ScriptContext.ENGINE_SCOPE).put(key, value);
+    public void put(finbl String key, finbl Object vblue) {
+        getBindings(ScriptContext.ENGINE_SCOPE).put(key, vblue);
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Get a value from the engine's bindings using a key (scope: engine)
-     * @param key the key of the pair
-     * @return the value of the pair
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Get b vblue from the engine's bindings using b key (scope: engine)
+     * @pbrbm key the key of the pbir
+     * @return the vblue of the pbir
      */
-    public Object get(final String key) {
+    public Object get(finbl String key) {
         return getBindings(ScriptContext.ENGINE_SCOPE).get(key);
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Passes the Reader argument, as well as the engine's context to a lower evaluation function.<br />
-     * Prefers FileReader or BufferedReader wrapping FileReader as argument.
-     * @param reader a Reader to AppleScript source or compiled AppleScript
-     * @return an Object corresponding to the return value of the script
-     * @see com.apple.applescript.AppleScriptEngine#eval(Reader, ScriptContext)
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Pbsses the Rebder brgument, bs well bs the engine's context to b lower evblubtion function.<br />
+     * Prefers FileRebder or BufferedRebder wrbpping FileRebder bs brgument.
+     * @pbrbm rebder b Rebder to AppleScript source or compiled AppleScript
+     * @return bn Object corresponding to the return vblue of the script
+     * @see com.bpple.bpplescript.AppleScriptEngine#evbl(Rebder, ScriptContext)
      */
-    public Object eval(final Reader reader) throws ScriptException {
-        return eval(reader, getContext());
+    public Object evbl(finbl Rebder rebder) throws ScriptException {
+        return evbl(rebder, getContext());
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Uses the passed bindings as the context for executing the passed script.
-     * @param reader a stream to AppleScript source or compiled AppleScript
-     * @param bindings a Bindings object representing the contexts to execute inside
-     * @return the return value of the script
-     * @see com.apple.applescript.AppleScriptEngine#eval(Reader, ScriptContext)
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Uses the pbssed bindings bs the context for executing the pbssed script.
+     * @pbrbm rebder b strebm to AppleScript source or compiled AppleScript
+     * @pbrbm bindings b Bindings object representing the contexts to execute inside
+     * @return the return vblue of the script
+     * @see com.bpple.bpplescript.AppleScriptEngine#evbl(Rebder, ScriptContext)
      */
-    public Object eval(final Reader reader, final Bindings bindings) throws ScriptException {
-        final Bindings tmp = getContext().getBindings(ScriptContext.ENGINE_SCOPE);
+    public Object evbl(finbl Rebder rebder, finbl Bindings bindings) throws ScriptException {
+        finbl Bindings tmp = getContext().getBindings(ScriptContext.ENGINE_SCOPE);
         getContext().setBindings(bindings, ScriptContext.ENGINE_SCOPE);
-        final Object retval = eval(reader);
+        finbl Object retvbl = evbl(rebder);
         getContext().setBindings(tmp, ScriptContext.ENGINE_SCOPE);
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * This function can execute either AppleScript source or compiled AppleScript and functions by writing the
-     * contents of the Reader to a temporary file and then executing it with the engine's context.
-     * @param reader
-     * @param scriptContext
-     * @return an Object corresponding to the return value of the script
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * This function cbn execute either AppleScript source or compiled AppleScript bnd functions by writing the
+     * contents of the Rebder to b temporbry file bnd then executing it with the engine's context.
+     * @pbrbm rebder
+     * @pbrbm scriptContext
+     * @return bn Object corresponding to the return vblue of the script
      */
-    public Object eval(final Reader reader, final ScriptContext context) throws ScriptException {
+    public Object evbl(finbl Rebder rebder, finbl ScriptContext context) throws ScriptException {
         checkSecurity();
 
-        // write our passed reader to a temporary file
+        // write our pbssed rebder to b temporbry file
         File tmpfile;
         FileWriter tmpwrite;
         try {
-            tmpfile = Files.createTempFile("AppleScriptEngine.", ".scpt").toFile();
+            tmpfile = Files.crebteTempFile("AppleScriptEngine.", ".scpt").toFile();
             tmpwrite = new FileWriter(tmpfile);
 
-            // read in our input and write directly to tmpfile
-            /* TODO -- this may or may not be avoidable for certain Readers,
-             * if a filename can be grabbed, it would be faster to get that and
-             * use the underlying file than writing a temp file.
+            // rebd in our input bnd write directly to tmpfile
+            /* TODO -- this mby or mby not be bvoidbble for certbin Rebders,
+             * if b filenbme cbn be grbbbed, it would be fbster to get thbt bnd
+             * use the underlying file thbn writing b temp file.
              */
-            int data;
-            while ((data = reader.read()) != -1) {
-                tmpwrite.write(data);
+            int dbtb;
+            while ((dbtb = rebder.rebd()) != -1) {
+                tmpwrite.write(dbtb);
             }
             tmpwrite.close();
 
             // set up our context business
-            final long contextptr = scriptContextToNSDictionary(context);
+            finbl long contextptr = scriptContextToNSDictionbry(context);
             try {
-                final long retCtx = evalScriptFromURL("file://" + tmpfile.getCanonicalPath(), contextptr);
-                Object retVal = (retCtx == 0) ? null : createObjectFrom(retCtx);
+                finbl long retCtx = evblScriptFromURL("file://" + tmpfile.getCbnonicblPbth(), contextptr);
+                Object retVbl = (retCtx == 0) ? null : crebteObjectFrom(retCtx);
                 disposeContext(retCtx);
-                return retVal;
-            } finally {
+                return retVbl;
+            } finblly {
                 disposeContext(contextptr);
                 tmpfile.delete();
             }
-        } catch (final IOException e) {
+        } cbtch (finbl IOException e) {
             throw new ScriptException(e);
         }
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Evaluate an AppleScript script passed as a source string. Using the engine's built in context.
-     * @param script the string to execute.
-     * @return an Object representing the return value of the script
-     * @see com.apple.applescript.AppleScriptEngine#eval(String, ScriptContext)
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Evblubte bn AppleScript script pbssed bs b source string. Using the engine's built in context.
+     * @pbrbm script the string to execute.
+     * @return bn Object representing the return vblue of the script
+     * @see com.bpple.bpplescript.AppleScriptEngine#evbl(String, ScriptContext)
      */
-    public Object eval(final String script) throws ScriptException {
-        return eval(script, getContext());
+    public Object evbl(finbl String script) throws ScriptException {
+        return evbl(script, getContext());
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Evaluate an AppleScript script passed as a source string with a custom ScriptContext.
-     * @param script the AppleScript source to compile and execute.
-     * @param scriptContext the context to execute the script under
-     * @see com.apple.applescript.AppleScriptEngine#eval(String, ScriptContext)
+     * Implementbtion required by ScriptEngine pbrent<br />
+     * Evblubte bn AppleScript script pbssed bs b source string with b custom ScriptContext.
+     * @pbrbm script the AppleScript source to compile bnd execute.
+     * @pbrbm scriptContext the context to execute the script under
+     * @see com.bpple.bpplescript.AppleScriptEngine#evbl(String, ScriptContext)
      */
-    public Object eval(final String script, final Bindings bindings) throws ScriptException {
-        final Bindings tmp = getContext().getBindings(ScriptContext.ENGINE_SCOPE);
+    public Object evbl(finbl String script, finbl Bindings bindings) throws ScriptException {
+        finbl Bindings tmp = getContext().getBindings(ScriptContext.ENGINE_SCOPE);
         getContext().setBindings(bindings, ScriptContext.ENGINE_SCOPE);
 
-        final Object retval = eval(script);
+        finbl Object retvbl = evbl(script);
         getContext().setBindings(tmp, ScriptContext.ENGINE_SCOPE);
 
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Implementation required by ScriptEngine parent
-     * @param script
-     * @param scriptContext
+     * Implementbtion required by ScriptEngine pbrent
+     * @pbrbm script
+     * @pbrbm scriptContext
      */
-    public Object eval(final String script, final ScriptContext context) throws ScriptException {
+    public Object evbl(finbl String script, finbl ScriptContext context) throws ScriptException {
         checkSecurity();
-        final long ctxPtr = scriptContextToNSDictionary(context);
+        finbl long ctxPtr = scriptContextToNSDictionbry(context);
         try {
-            final long retCtx = evalScript(script, ctxPtr);
-            Object retVal = (retCtx == 0) ? null : createObjectFrom(retCtx);
+            finbl long retCtx = evblScript(script, ctxPtr);
+            Object retVbl = (retCtx == 0) ? null : crebteObjectFrom(retCtx);
             disposeContext(retCtx);
-            return retVal;
-        } finally {
+            return retVbl;
+        } finblly {
             disposeContext(ctxPtr);
         }
     }
 
     /**
-     * Converts a ScriptContext into an NSDictionary
-     * @param context ScriptContext for the engine
-     * @return a pointer to an NSDictionary
+     * Converts b ScriptContext into bn NSDictionbry
+     * @pbrbm context ScriptContext for the engine
+     * @return b pointer to bn NSDictionbry
      */
-    private long scriptContextToNSDictionary(final ScriptContext context) throws ScriptException {
-        final Map<String, Object> contextAsMap = new HashMap<String, Object>();
-        for (final Entry<String, Object> e : context.getBindings(ScriptContext.ENGINE_SCOPE).entrySet()) {
-            contextAsMap.put(e.getKey().replaceAll("\\.", "_"), e.getValue());
+    privbte long scriptContextToNSDictionbry(finbl ScriptContext context) throws ScriptException {
+        finbl Mbp<String, Object> contextAsMbp = new HbshMbp<String, Object>();
+        for (finbl Entry<String, Object> e : context.getBindings(ScriptContext.ENGINE_SCOPE).entrySet()) {
+            contextAsMbp.put(e.getKey().replbceAll("\\.", "_"), e.getVblue());
         }
-        return createContextFrom(contextAsMap);
+        return crebteContextFrom(contextAsMbp);
     }
 }

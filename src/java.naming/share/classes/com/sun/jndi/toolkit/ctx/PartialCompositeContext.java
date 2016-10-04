@@ -1,485 +1,485 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.toolkit.ctx;
+pbckbge com.sun.jndi.toolkit.ctx;
 
-import java.util.Hashtable;
-import java.util.Enumeration;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
 
-import javax.naming.*;
-import javax.naming.spi.Resolver;
-import javax.naming.spi.ResolveResult;
-import javax.naming.spi.NamingManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.Resolver;
+import jbvbx.nbming.spi.ResolveResult;
+import jbvbx.nbming.spi.NbmingMbnbger;
 
 /**
-  * PartialCompositeContext implements Context operations on
-  * composite names using implementations of the p_ interfaces
-  * defined by its subclasses.
+  * PbrtiblCompositeContext implements Context operbtions on
+  * composite nbmes using implementbtions of the p_ interfbces
+  * defined by its subclbsses.
   *
-  * The main purpose provided by this class is that it deals with
-  * partial resolutions and continuations, so that callers of the
-  * Context operation don't have to.
+  * The mbin purpose provided by this clbss is thbt it debls with
+  * pbrtibl resolutions bnd continubtions, so thbt cbllers of the
+  * Context operbtion don't hbve to.
   *
-  * Types of clients that will be direct subclasses of
-  * PartialCompositeContext may be service providers that implement
-  * one of the JNDI protocols, but which do not deal with
-  * continuations.  Usually, service providers will be using
-  * one of the subclasses of PartialCompositeContext.
+  * Types of clients thbt will be direct subclbsses of
+  * PbrtiblCompositeContext mby be service providers thbt implement
+  * one of the JNDI protocols, but which do not debl with
+  * continubtions.  Usublly, service providers will be using
+  * one of the subclbsses of PbrtiblCompositeContext.
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
 
 
-public abstract class PartialCompositeContext implements Context, Resolver {
-    protected static final int _PARTIAL = 1;
-    protected static final int _COMPONENT = 2;
-    protected static final int _ATOMIC = 3;
+public bbstrbct clbss PbrtiblCompositeContext implements Context, Resolver {
+    protected stbtic finbl int _PARTIAL = 1;
+    protected stbtic finbl int _COMPONENT = 2;
+    protected stbtic finbl int _ATOMIC = 3;
 
     protected int _contextType = _PARTIAL;
 
-    static final CompositeName _EMPTY_NAME = new CompositeName();
-    static CompositeName _NNS_NAME;
+    stbtic finbl CompositeNbme _EMPTY_NAME = new CompositeNbme();
+    stbtic CompositeNbme _NNS_NAME;
 
-    static {
+    stbtic {
         try {
-            _NNS_NAME = new CompositeName("/");
-        } catch (InvalidNameException e) {
-            // Should never happen
+            _NNS_NAME = new CompositeNbme("/");
+        } cbtch (InvblidNbmeException e) {
+            // Should never hbppen
         }
     }
 
-    protected PartialCompositeContext() {
+    protected PbrtiblCompositeContext() {
     }
 
-// ------ Abstract methods whose implementations come from subclasses
+// ------ Abstrbct methods whose implementbtions come from subclbsses
 
-    /* Equivalent to method in  Resolver interface */
-    protected abstract ResolveResult p_resolveToClass(Name name,
-        Class<?> contextType, Continuation cont) throws NamingException;
+    /* Equivblent to method in  Resolver interfbce */
+    protected bbstrbct ResolveResult p_resolveToClbss(Nbme nbme,
+        Clbss<?> contextType, Continubtion cont) throws NbmingException;
 
-    /* Equivalent to methods in Context interface */
-    protected abstract Object p_lookup(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract Object p_lookupLink(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract NamingEnumeration<NameClassPair> p_list(Name name,
-        Continuation cont) throws NamingException;
-    protected abstract NamingEnumeration<Binding> p_listBindings(Name name,
-        Continuation cont) throws NamingException;
-    protected abstract void p_bind(Name name, Object obj, Continuation cont)
-        throws NamingException;
-    protected abstract void p_rebind(Name name, Object obj, Continuation cont)
-        throws NamingException;
-    protected abstract void p_unbind(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract void p_destroySubcontext(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract Context p_createSubcontext(Name name, Continuation cont)
-        throws NamingException;
-    protected abstract void p_rename(Name oldname, Name newname,
-                                     Continuation cont)
-        throws NamingException;
-    protected abstract NameParser p_getNameParser(Name name, Continuation cont)
-        throws NamingException;
+    /* Equivblent to methods in Context interfbce */
+    protected bbstrbct Object p_lookup(Nbme nbme, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct Object p_lookupLink(Nbme nbme, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct NbmingEnumerbtion<NbmeClbssPbir> p_list(Nbme nbme,
+        Continubtion cont) throws NbmingException;
+    protected bbstrbct NbmingEnumerbtion<Binding> p_listBindings(Nbme nbme,
+        Continubtion cont) throws NbmingException;
+    protected bbstrbct void p_bind(Nbme nbme, Object obj, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct void p_rebind(Nbme nbme, Object obj, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct void p_unbind(Nbme nbme, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct void p_destroySubcontext(Nbme nbme, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct Context p_crebteSubcontext(Nbme nbme, Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct void p_renbme(Nbme oldnbme, Nbme newnbme,
+                                     Continubtion cont)
+        throws NbmingException;
+    protected bbstrbct NbmePbrser p_getNbmePbrser(Nbme nbme, Continubtion cont)
+        throws NbmingException;
 
-// ------ should be overridden by subclass;
-// ------ not abstract only for backward compatibility
+// ------ should be overridden by subclbss;
+// ------ not bbstrbct only for bbckwbrd compbtibility
 
     /**
-     * A cheap way of getting the environment.
-     * Default implementation is NOT cheap because it simply calls
-     * getEnvironment(), which most implementations clone before returning.
-     * Subclass should ALWAYS override this with the cheapest possible way.
-     * The toolkit knows to clone when necessary.
+     * A chebp wby of getting the environment.
+     * Defbult implementbtion is NOT chebp becbuse it simply cblls
+     * getEnvironment(), which most implementbtions clone before returning.
+     * Subclbss should ALWAYS override this with the chebpest possible wby.
+     * The toolkit knows to clone when necessbry.
      * @return The possibly null environment of the context.
      */
-    protected Hashtable<?,?> p_getEnvironment() throws NamingException {
+    protected Hbshtbble<?,?> p_getEnvironment() throws NbmingException {
         return getEnvironment();
     }
 
 
-// ------ implementations of methods in Resolver and Context
-// ------ using corresponding p_ methods provided by subclass
+// ------ implementbtions of methods in Resolver bnd Context
+// ------ using corresponding p_ methods provided by subclbss
 
-    /* implementations for method in Resolver interface using p_ method */
+    /* implementbtions for method in Resolver interfbce using p_ method */
 
-    public ResolveResult resolveToClass(String name,
-                                        Class<? extends Context> contextType)
-        throws NamingException
+    public ResolveResult resolveToClbss(String nbme,
+                                        Clbss<? extends Context> contextType)
+        throws NbmingException
     {
-        return resolveToClass(new CompositeName(name), contextType);
+        return resolveToClbss(new CompositeNbme(nbme), contextType);
     }
 
-    public ResolveResult resolveToClass(Name name,
-                                        Class<? extends Context> contextType)
-        throws NamingException
+    public ResolveResult resolveToClbss(Nbme nbme,
+                                        Clbss<? extends Context> contextType)
+        throws NbmingException
     {
-        PartialCompositeContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        ResolveResult answer;
-        Name nm = name;
+        PbrtiblCompositeContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        ResolveResult bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_resolveToClass(nm, contextType, cont);
+            bnswer = ctx.p_resolveToClbss(nm, contextType, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
-                answer = ctx.p_resolveToClass(nm, contextType, cont);
+                bnswer = ctx.p_resolveToClbss(nm, contextType, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            if (!(cctx instanceof Resolver)) {
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            if (!(cctx instbnceof Resolver)) {
                 throw e;
             }
-            answer = ((Resolver)cctx).resolveToClass(e.getRemainingName(),
+            bnswer = ((Resolver)cctx).resolveToClbss(e.getRembiningNbme(),
                                                      contextType);
         }
-        return answer;
+        return bnswer;
     }
 
-    /* implementations for methods in Context interface using p_ methods */
+    /* implementbtions for methods in Context interfbce using p_ methods */
 
-    public Object lookup(String name) throws NamingException {
-        return lookup(new CompositeName(name));
+    public Object lookup(String nbme) throws NbmingException {
+        return lookup(new CompositeNbme(nbme));
     }
 
-    public Object lookup(Name name) throws NamingException {
-        PartialCompositeContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Object answer;
-        Name nm = name;
+    public Object lookup(Nbme nbme) throws NbmingException {
+        PbrtiblCompositeContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        Object bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_lookup(nm, cont);
+            bnswer = ctx.p_lookup(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
-                answer = ctx.p_lookup(nm, cont);
+                bnswer = ctx.p_lookup(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            answer = cctx.lookup(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            bnswer = cctx.lookup(e.getRembiningNbme());
         }
-        return answer;
+        return bnswer;
     }
 
-    public void bind(String name, Object newObj) throws NamingException {
-        bind(new CompositeName(name), newObj);
+    public void bind(String nbme, Object newObj) throws NbmingException {
+        bind(new CompositeNbme(nbme), newObj);
     }
 
-    public void bind(Name name, Object newObj) throws NamingException {
-        PartialCompositeContext ctx = this;
-        Name nm = name;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
+    public void bind(Nbme nbme, Object newObj) throws NbmingException {
+        PbrtiblCompositeContext ctx = this;
+        Nbme nm = nbme;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
 
         try {
             ctx.p_bind(nm, newObj, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
                 ctx.p_bind(nm, newObj, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            cctx.bind(e.getRemainingName(), newObj);
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            cctx.bind(e.getRembiningNbme(), newObj);
         }
     }
 
-    public void rebind(String name, Object newObj) throws NamingException {
-        rebind(new CompositeName(name), newObj);
+    public void rebind(String nbme, Object newObj) throws NbmingException {
+        rebind(new CompositeNbme(nbme), newObj);
     }
-    public void rebind(Name name, Object newObj) throws NamingException {
-        PartialCompositeContext ctx = this;
-        Name nm = name;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
+    public void rebind(Nbme nbme, Object newObj) throws NbmingException {
+        PbrtiblCompositeContext ctx = this;
+        Nbme nm = nbme;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
 
         try {
             ctx.p_rebind(nm, newObj, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
                 ctx.p_rebind(nm, newObj, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            cctx.rebind(e.getRemainingName(), newObj);
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            cctx.rebind(e.getRembiningNbme(), newObj);
         }
     }
 
-    public void unbind(String name) throws NamingException {
-        unbind(new CompositeName(name));
+    public void unbind(String nbme) throws NbmingException {
+        unbind(new CompositeNbme(nbme));
     }
-    public void unbind(Name name) throws NamingException {
-        PartialCompositeContext ctx = this;
-        Name nm = name;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
+    public void unbind(Nbme nbme) throws NbmingException {
+        PbrtiblCompositeContext ctx = this;
+        Nbme nm = nbme;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
 
         try {
             ctx.p_unbind(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
                 ctx.p_unbind(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            cctx.unbind(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            cctx.unbind(e.getRembiningNbme());
         }
     }
 
-    public void rename(String oldName, String newName) throws NamingException {
-        rename(new CompositeName(oldName), new CompositeName(newName));
+    public void renbme(String oldNbme, String newNbme) throws NbmingException {
+        renbme(new CompositeNbme(oldNbme), new CompositeNbme(newNbme));
     }
-    public void rename(Name oldName, Name newName)
-        throws NamingException
+    public void renbme(Nbme oldNbme, Nbme newNbme)
+        throws NbmingException
     {
-        PartialCompositeContext ctx = this;
-        Name nm = oldName;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(oldName, env);
+        PbrtiblCompositeContext ctx = this;
+        Nbme nm = oldNbme;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(oldNbme, env);
 
         try {
-            ctx.p_rename(nm, newName, cont);
+            ctx.p_renbme(nm, newNbme, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
-                ctx.p_rename(nm, newName, cont);
+                ctx.p_renbme(nm, newNbme, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            if (e.getRemainingNewName() != null) {
-                // %%% e.getRemainingNewName() should never be null
-                newName = e.getRemainingNewName();
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            if (e.getRembiningNewNbme() != null) {
+                // %%% e.getRembiningNewNbme() should never be null
+                newNbme = e.getRembiningNewNbme();
             }
-            cctx.rename(e.getRemainingName(), newName);
+            cctx.renbme(e.getRembiningNbme(), newNbme);
         }
     }
 
-    public NamingEnumeration<NameClassPair> list(String name)
-        throws NamingException
+    public NbmingEnumerbtion<NbmeClbssPbir> list(String nbme)
+        throws NbmingException
     {
-        return list(new CompositeName(name));
+        return list(new CompositeNbme(nbme));
     }
 
-    public NamingEnumeration<NameClassPair> list(Name name)
-        throws NamingException
+    public NbmingEnumerbtion<NbmeClbssPbir> list(Nbme nbme)
+        throws NbmingException
     {
-        PartialCompositeContext ctx = this;
-        Name nm = name;
-        NamingEnumeration<NameClassPair> answer;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
+        PbrtiblCompositeContext ctx = this;
+        Nbme nm = nbme;
+        NbmingEnumerbtion<NbmeClbssPbir> bnswer;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
 
         try {
-            answer = ctx.p_list(nm, cont);
+            bnswer = ctx.p_list(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
-                answer = ctx.p_list(nm, cont);
+                bnswer = ctx.p_list(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            answer = cctx.list(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            bnswer = cctx.list(e.getRembiningNbme());
         }
-        return answer;
+        return bnswer;
     }
 
-    public NamingEnumeration<Binding> listBindings(String name)
-        throws NamingException
+    public NbmingEnumerbtion<Binding> listBindings(String nbme)
+        throws NbmingException
     {
-        return listBindings(new CompositeName(name));
+        return listBindings(new CompositeNbme(nbme));
     }
 
-    public NamingEnumeration<Binding> listBindings(Name name)
-        throws NamingException
+    public NbmingEnumerbtion<Binding> listBindings(Nbme nbme)
+        throws NbmingException
     {
-        PartialCompositeContext ctx = this;
-        Name nm = name;
-        NamingEnumeration<Binding> answer;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
+        PbrtiblCompositeContext ctx = this;
+        Nbme nm = nbme;
+        NbmingEnumerbtion<Binding> bnswer;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
 
         try {
-            answer = ctx.p_listBindings(nm, cont);
+            bnswer = ctx.p_listBindings(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
-                answer = ctx.p_listBindings(nm, cont);
+                bnswer = ctx.p_listBindings(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            answer = cctx.listBindings(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            bnswer = cctx.listBindings(e.getRembiningNbme());
         }
-        return answer;
+        return bnswer;
     }
 
-    public void destroySubcontext(String name) throws NamingException {
-        destroySubcontext(new CompositeName(name));
+    public void destroySubcontext(String nbme) throws NbmingException {
+        destroySubcontext(new CompositeNbme(nbme));
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        PartialCompositeContext ctx = this;
-        Name nm = name;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
+    public void destroySubcontext(Nbme nbme) throws NbmingException {
+        PbrtiblCompositeContext ctx = this;
+        Nbme nm = nbme;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
 
         try {
             ctx.p_destroySubcontext(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
                 ctx.p_destroySubcontext(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            cctx.destroySubcontext(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            cctx.destroySubcontext(e.getRembiningNbme());
         }
     }
 
-    public Context createSubcontext(String name) throws NamingException {
-        return createSubcontext(new CompositeName(name));
+    public Context crebteSubcontext(String nbme) throws NbmingException {
+        return crebteSubcontext(new CompositeNbme(nbme));
     }
 
-    public Context createSubcontext(Name name) throws NamingException {
-        PartialCompositeContext ctx = this;
-        Name nm = name;
-        Context answer;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
+    public Context crebteSubcontext(Nbme nbme) throws NbmingException {
+        PbrtiblCompositeContext ctx = this;
+        Nbme nm = nbme;
+        Context bnswer;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
 
         try {
-            answer = ctx.p_createSubcontext(nm, cont);
+            bnswer = ctx.p_crebteSubcontext(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
-                answer = ctx.p_createSubcontext(nm, cont);
+                bnswer = ctx.p_crebteSubcontext(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            answer = cctx.createSubcontext(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            bnswer = cctx.crebteSubcontext(e.getRembiningNbme());
         }
-        return answer;
+        return bnswer;
     }
 
-    public Object lookupLink(String name) throws NamingException {
-        return lookupLink(new CompositeName(name));
+    public Object lookupLink(String nbme) throws NbmingException {
+        return lookupLink(new CompositeNbme(nbme));
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        PartialCompositeContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Object answer;
-        Name nm = name;
+    public Object lookupLink(Nbme nbme) throws NbmingException {
+        PbrtiblCompositeContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        Object bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_lookupLink(nm, cont);
+            bnswer = ctx.p_lookupLink(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
-                answer = ctx.p_lookupLink(nm, cont);
+                bnswer = ctx.p_lookupLink(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            answer = cctx.lookupLink(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            bnswer = cctx.lookupLink(e.getRembiningNbme());
         }
-        return answer;
+        return bnswer;
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        return getNameParser(new CompositeName(name));
+    public NbmePbrser getNbmePbrser(String nbme) throws NbmingException {
+        return getNbmePbrser(new CompositeNbme(nbme));
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        PartialCompositeContext ctx = this;
-        Name nm = name;
-        NameParser answer;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
+    public NbmePbrser getNbmePbrser(Nbme nbme) throws NbmingException {
+        PbrtiblCompositeContext ctx = this;
+        Nbme nm = nbme;
+        NbmePbrser bnswer;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
 
         try {
-            answer = ctx.p_getNameParser(nm, cont);
+            bnswer = ctx.p_getNbmePbrser(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCContext(cont);
-                answer = ctx.p_getNameParser(nm, cont);
+                bnswer = ctx.p_getNbmePbrser(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            Context cctx = NamingManager.getContinuationContext(e);
-            answer = cctx.getNameParser(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            Context cctx = NbmingMbnbger.getContinubtionContext(e);
+            bnswer = cctx.getNbmePbrser(e.getRembiningNbme());
         }
-        return answer;
+        return bnswer;
     }
 
-    public String composeName(String name, String prefix)
-            throws NamingException {
-        Name fullName = composeName(new CompositeName(name),
-                                    new CompositeName(prefix));
-        return fullName.toString();
+    public String composeNbme(String nbme, String prefix)
+            throws NbmingException {
+        Nbme fullNbme = composeNbme(new CompositeNbme(nbme),
+                                    new CompositeNbme(prefix));
+        return fullNbme.toString();
     }
 
     /**
-     * This default implementation simply concatenates the two names.
-     * There's one twist when the "java.naming.provider.compose.elideEmpty"
-     * environment setting is set to "true":  if each name contains a
-     * nonempty component, and if 'prefix' ends with an empty component or
-     * 'name' starts with one, then one empty component is dropped.
-     * For example:
+     * This defbult implementbtion simply concbtenbtes the two nbmes.
+     * There's one twist when the "jbvb.nbming.provider.compose.elideEmpty"
+     * environment setting is set to "true":  if ebch nbme contbins b
+     * nonempty component, bnd if 'prefix' ends with bn empty component or
+     * 'nbme' stbrts with one, then one empty component is dropped.
+     * For exbmple:
      * <pre>
-     *                            elideEmpty=false     elideEmpty=true
-     * {"a"} + {"b"}          =>  {"a", "b"}           {"a", "b"}
-     * {"a"} + {""}           =>  {"a", ""}            {"a", ""}
-     * {"a"} + {"", "b"}      =>  {"a", "", "b"}       {"a", "b"}
-     * {"a", ""} + {"b", ""}  =>  {"a", "", "b", ""}   {"a", "b", ""}
-     * {"a", ""} + {"", "b"}  =>  {"a", "", "", "b"}   {"a", "", "b"}
+     *                            elideEmpty=fblse     elideEmpty=true
+     * {"b"} + {"b"}          =>  {"b", "b"}           {"b", "b"}
+     * {"b"} + {""}           =>  {"b", ""}            {"b", ""}
+     * {"b"} + {"", "b"}      =>  {"b", "", "b"}       {"b", "b"}
+     * {"b", ""} + {"b", ""}  =>  {"b", "", "b", ""}   {"b", "b", ""}
+     * {"b", ""} + {"", "b"}  =>  {"b", "", "", "b"}   {"b", "", "b"}
      * </pre>
      */
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        Name res = (Name)prefix.clone();
-        if (name == null) {
+    public Nbme composeNbme(Nbme nbme, Nbme prefix) throws NbmingException {
+        Nbme res = (Nbme)prefix.clone();
+        if (nbme == null) {
             return res;
         }
-        res.addAll(name);
+        res.bddAll(nbme);
 
         String elide = (String)
-            p_getEnvironment().get("java.naming.provider.compose.elideEmpty");
-        if (elide == null || !elide.equalsIgnoreCase("true")) {
+            p_getEnvironment().get("jbvb.nbming.provider.compose.elideEmpty");
+        if (elide == null || !elide.equblsIgnoreCbse("true")) {
             return res;
         }
 
         int len = prefix.size();
 
-        if (!allEmpty(prefix) && !allEmpty(name)) {
-            if (res.get(len - 1).equals("")) {
+        if (!bllEmpty(prefix) && !bllEmpty(nbme)) {
+            if (res.get(len - 1).equbls("")) {
                 res.remove(len - 1);
-            } else if (res.get(len).equals("")) {
+            } else if (res.get(len).equbls("")) {
                 res.remove(len);
             }
         }
@@ -487,37 +487,37 @@ public abstract class PartialCompositeContext implements Context, Resolver {
     }
 
 
-// ------ internal methods used by PartialCompositeContext
+// ------ internbl methods used by PbrtiblCompositeContext
 
     /**
-     * Tests whether a name contains a nonempty component.
+     * Tests whether b nbme contbins b nonempty component.
      */
-    protected static boolean allEmpty(Name name) {
-        Enumeration<String> enum_ = name.getAll();
-        while (enum_.hasMoreElements()) {
+    protected stbtic boolebn bllEmpty(Nbme nbme) {
+        Enumerbtion<String> enum_ = nbme.getAll();
+        while (enum_.hbsMoreElements()) {
             if (!enum_.nextElement().isEmpty()) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Retrieves a PartialCompositeContext for the resolved object in
-     * cont.  Throws CannotProceedException if not successful.
+     * Retrieves b PbrtiblCompositeContext for the resolved object in
+     * cont.  Throws CbnnotProceedException if not successful.
      */
-    protected static PartialCompositeContext getPCContext(Continuation cont)
-            throws NamingException {
+    protected stbtic PbrtiblCompositeContext getPCContext(Continubtion cont)
+            throws NbmingException {
 
         Object obj = cont.getResolvedObj();
-        PartialCompositeContext pctx = null;
+        PbrtiblCompositeContext pctx = null;
 
-        if (obj instanceof PartialCompositeContext) {
-            // Just cast if octx already is PartialCompositeContext
+        if (obj instbnceof PbrtiblCompositeContext) {
+            // Just cbst if octx blrebdy is PbrtiblCompositeContext
             // %%% ignoring environment for now
-            return (PartialCompositeContext)obj;
+            return (PbrtiblCompositeContext)obj;
         } else {
-            throw cont.fillInException(new CannotProceedException());
+            throw cont.fillInException(new CbnnotProceedException());
         }
     }
 };

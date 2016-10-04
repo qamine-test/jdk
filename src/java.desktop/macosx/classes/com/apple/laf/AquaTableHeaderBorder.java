@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.UIResource;
 
-import apple.laf.JRSUIState;
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.JRSUIStbte;
+import bpple.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class AquaTableHeaderBorder extends AbstractBorder {
-    protected static final int SORT_NONE = 0;
-    protected static final int SORT_ASCENDING = 1;
-    protected static final int SORT_DECENDING = -1;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss AqubTbbleHebderBorder extends AbstrbctBorder {
+    protected stbtic finbl int SORT_NONE = 0;
+    protected stbtic finbl int SORT_ASCENDING = 1;
+    protected stbtic finbl int SORT_DECENDING = -1;
 
-    protected final Insets editorBorderInsets = new Insets(1, 3, 1, 3);
-    protected final AquaPainter<JRSUIState> painter = AquaPainter.create(JRSUIState.getInstance());
+    protected finbl Insets editorBorderInsets = new Insets(1, 3, 1, 3);
+    protected finbl AqubPbinter<JRSUIStbte> pbinter = AqubPbinter.crebte(JRSUIStbte.getInstbnce());
 
-    protected static AquaTableHeaderBorder getListHeaderBorder() {
-        // we don't want to share this, because the .setSelected() state
-        // would persist to all other JTable instances
-        return new AquaTableHeaderBorder();
+    protected stbtic AqubTbbleHebderBorder getListHebderBorder() {
+        // we don't wbnt to shbre this, becbuse the .setSelected() stbte
+        // would persist to bll other JTbble instbnces
+        return new AqubTbbleHebderBorder();
     }
 
-    protected AquaTableHeaderBorder() {
-        painter.state.set(AlignmentHorizontal.LEFT);
-        painter.state.set(AlignmentVertical.TOP);
+    protected AqubTbbleHebderBorder() {
+        pbinter.stbte.set(AlignmentHorizontbl.LEFT);
+        pbinter.stbte.set(AlignmentVerticbl.TOP);
     }
 
     /**
-     * Paints the border for the specified component with the specified
-     * position and size.
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * Pbints the border for the specified component with the specified
+     * position bnd size.
+     * @pbrbm c the component for which this border is being pbinted
+     * @pbrbm g the pbint grbphics
+     * @pbrbm x the x position of the pbinted border
+     * @pbrbm y the y position of the pbinted border
+     * @pbrbm width the width of the pbinted border
+     * @pbrbm height the height of the pbinted border
      */
-    protected boolean doPaint = true;
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-        if (!doPaint) return;
-        final JComponent jc = (JComponent)c;
+    protected boolebn doPbint = true;
+    public void pbintBorder(finbl Component c, finbl Grbphics g, finbl int x, finbl int y, finbl int width, finbl int height) {
+        if (!doPbint) return;
+        finbl JComponent jc = (JComponent)c;
 
-        // if the developer wants to set their own color, we should
-        // interpret this as "get out of the way", and don't draw aqua.
-        final Color componentBackground = jc.getBackground();
-        if (!(componentBackground instanceof UIResource)) {
-            doPaint = false;
-            jc.paint(g);
-            getAlternateBorder().paintBorder(jc, g, x, y, width, height);
-            doPaint = true;
+        // if the developer wbnts to set their own color, we should
+        // interpret this bs "get out of the wby", bnd don't drbw bqub.
+        finbl Color componentBbckground = jc.getBbckground();
+        if (!(componentBbckground instbnceof UIResource)) {
+            doPbint = fblse;
+            jc.pbint(g);
+            getAlternbteBorder().pbintBorder(jc, g, x, y, width, height);
+            doPbint = true;
             return;
         }
 
-        final State state = getState(jc);
-        painter.state.set(state);
-        painter.state.set(jc.hasFocus() ? Focused.YES : Focused.NO);
-        painter.state.set(height > 16 ? Widget.BUTTON_BEVEL : Widget.BUTTON_LIST_HEADER);
-        painter.state.set(selected ? BooleanValue.YES : BooleanValue.NO);
+        finbl Stbte stbte = getStbte(jc);
+        pbinter.stbte.set(stbte);
+        pbinter.stbte.set(jc.hbsFocus() ? Focused.YES : Focused.NO);
+        pbinter.stbte.set(height > 16 ? Widget.BUTTON_BEVEL : Widget.BUTTON_LIST_HEADER);
+        pbinter.stbte.set(selected ? BoolebnVblue.YES : BoolebnVblue.NO);
 
         switch (sortOrder) {
-            case SORT_ASCENDING:
-                painter.state.set(Direction.UP);
-                break;
-            case SORT_DECENDING:
-                painter.state.set(Direction.DOWN);
-                break;
-            default:
-                painter.state.set(Direction.NONE);
-                break;
+            cbse SORT_ASCENDING:
+                pbinter.stbte.set(Direction.UP);
+                brebk;
+            cbse SORT_DECENDING:
+                pbinter.stbte.set(Direction.DOWN);
+                brebk;
+            defbult:
+                pbinter.stbte.set(Direction.NONE);
+                brebk;
         }
 
-        final int newX = x;
-        final int newY = y;
-        final int newWidth = width;
-        final int newHeight = height;
+        finbl int newX = x;
+        finbl int newY = y;
+        finbl int newWidth = width;
+        finbl int newHeight = height;
 
-        painter.paint(g, c, newX - 1, newY - 1, newWidth + 1, newHeight);
+        pbinter.pbint(g, c, newX - 1, newY - 1, newWidth + 1, newHeight);
 
-        // Draw the header
+        // Drbw the hebder
         g.clipRect(newX, y, newWidth, height);
-        g.translate(fHorizontalShift, -1);
-        doPaint = false;
-        jc.paint(g);
-        doPaint = true;
+        g.trbnslbte(fHorizontblShift, -1);
+        doPbint = fblse;
+        jc.pbint(g);
+        doPbint = true;
     }
 
-    protected State getState(final JComponent jc) {
-        if (!jc.isEnabled()) return State.DISABLED;
+    protected Stbte getStbte(finbl JComponent jc) {
+        if (!jc.isEnbbled()) return Stbte.DISABLED;
 
-        final JRootPane rootPane = jc.getRootPane();
-        if (rootPane == null) return State.ACTIVE;
+        finbl JRootPbne rootPbne = jc.getRootPbne();
+        if (rootPbne == null) return Stbte.ACTIVE;
 
-        if (!AquaFocusHandler.isActive(rootPane)) return State.INACTIVE;
+        if (!AqubFocusHbndler.isActive(rootPbne)) return Stbte.INACTIVE;
 
-        return State.ACTIVE;
+        return Stbte.ACTIVE;
     }
 
-    static final RecyclableSingleton<Border> alternateBorder = new RecyclableSingleton<Border>() {
+    stbtic finbl RecyclbbleSingleton<Border> blternbteBorder = new RecyclbbleSingleton<Border>() {
         @Override
-        protected Border getInstance() {
-            return BorderFactory.createRaisedBevelBorder();
+        protected Border getInstbnce() {
+            return BorderFbctory.crebteRbisedBevelBorder();
         }
     };
-    protected static Border getAlternateBorder() {
-        return alternateBorder.get();
+    protected stbtic Border getAlternbteBorder() {
+        return blternbteBorder.get();
     }
 
     /**
      * Returns the insets of the border.
-     * @param c the component for which this border insets value applies
+     * @pbrbm c the component for which this border insets vblue bpplies
      */
-    public Insets getBorderInsets(final Component c) {
-        // bad to create new one each time. For debugging only.
+    public Insets getBorderInsets(finbl Component c) {
+        // bbd to crebte new one ebch time. For debugging only.
         return editorBorderInsets;
     }
 
-    public Insets getBorderInsets(final Component c, final Insets insets) {
+    public Insets getBorderInsets(finbl Component c, finbl Insets insets) {
         insets.left = editorBorderInsets.left;
         insets.top = editorBorderInsets.top;
         insets.right = editorBorderInsets.right;
@@ -154,34 +154,34 @@ public class AquaTableHeaderBorder extends AbstractBorder {
     }
 
     /**
-     * Returns whether or not the border is opaque.  If the border
-     * is opaque, it is responsible for filling in it's own
-     * background when painting.
+     * Returns whether or not the border is opbque.  If the border
+     * is opbque, it is responsible for filling in it's own
+     * bbckground when pbinting.
      */
-    public boolean isBorderOpaque() {
-        return false;
+    public boolebn isBorderOpbque() {
+        return fblse;
     }
 
     /**
-     * Sets whether or not this instance of Border draws selected or not.  Used by AquaFileChooserUI
+     * Sets whether or not this instbnce of Border drbws selected or not.  Used by AqubFileChooserUI
      */
-    private boolean selected = false;
-    protected void setSelected(final boolean inSelected) {
+    privbte boolebn selected = fblse;
+    protected void setSelected(finbl boolebn inSelected) {
         selected = inSelected;
     }
 
     /**
-     * Sets an amount to shift the position of the labels.  Used by AquaFileChooserUI
+     * Sets bn bmount to shift the position of the lbbels.  Used by AqubFileChooserUI
      */
-    private int fHorizontalShift = 0;
-    protected void setHorizontalShift(final int inShift) {
-        fHorizontalShift = inShift;
+    privbte int fHorizontblShift = 0;
+    protected void setHorizontblShift(finbl int inShift) {
+        fHorizontblShift = inShift;
     }
 
-    private int sortOrder = SORT_NONE;
-    protected void setSortOrder(final int inSortOrder) {
+    privbte int sortOrder = SORT_NONE;
+    protected void setSortOrder(finbl int inSortOrder) {
         if (inSortOrder < SORT_DECENDING || inSortOrder > SORT_ASCENDING) {
-            throw new IllegalArgumentException("Invalid sort order constant: " + inSortOrder);
+            throw new IllegblArgumentException("Invblid sort order constbnt: " + inSortOrder);
         }
 
         sortOrder = inSortOrder;

@@ -3,58 +3,58 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="shi"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="shi"/>
 		<script type="Tfng"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">ⵜⴰⴽⴰⵏⵜ</language>
-			<language type="am">ⵜⴰⵎⵀⴰⵔⵉⵜ</language>
-			<language type="ar">ⵜⴰⵄⵔⴰⴱⵜ</language>
-			<language type="be">ⵜⴰⴱⵉⵍⴰⵔⵓⵙⵜ</language>
-			<language type="bg">ⵜⴰⴱⵍⵖⴰⵔⵉⵜ</language>
-			<language type="bn">ⵜⴰⴱⵏⵖⴰⵍⵉⵜ</language>
-			<language type="cs">ⵜⴰⵜⵛⵉⴽⵉⵜ</language>
-			<language type="de">ⵜⴰⵍⵉⵎⴰⵏⵜ</language>
-			<language type="el">ⵜⴰⴳⵔⵉⴳⵉⵜ</language>
-			<language type="en">ⵜⴰⵏⴳⵍⵉⵣⵜ</language>
-			<language type="es">ⵜⴰⵙⴱⵏⵢⵓⵍⵉⵜ</language>
-			<language type="fa">ⵜⴰⴼⵓⵔⵙⵉⵜ</language>
-			<language type="fr">ⵜⴰⴼⵔⴰⵏⵙⵉⵙⵜ</language>
-			<language type="ha">ⵜⴰⵀⴰⵡⵙⴰⵜ</language>
-			<language type="hi">ⵜⴰⵀⵉⵏⴷⵉⵜ</language>
-			<language type="hu">ⵜⴰⵀⵏⵖⴰⵔⵉⵜ</language>
-			<language type="id">ⵜⴰⵏⴷⵓⵏⵉⵙⵉⵜ</language>
-			<language type="ig">ⵜⵉⴳⴱⵓⵜ</language>
-			<language type="it">ⵜⴰⵟⴰⵍⵢⴰⵏⵜ</language>
-			<language type="ja">ⵜⴰⵊⴰⴱⴱⵓⵏⵉⵜ</language>
-			<language type="jv">ⵜⴰⵊⴰⴼⴰⵏⵉⵜ</language>
-			<language type="km">ⵜⴰⵅⵎⵉⵔⵜ</language>
-			<language type="ko">ⵜⴰⴽⵓⵔⵉⵜ</language>
-			<language type="ms">ⵜⴰⵎⴰⵍⴰⵡⵉⵜ</language>
-			<language type="my">ⵜⴰⴱⵉⵔⵎⴰⵏⵉⵜ</language>
-			<language type="ne">ⵜⴰⵏⵉⴱⴰⵍⵉⵜ</language>
-			<language type="nl">ⵜⴰⵀⵓⵍⴰⵏⴷⵉⵜ</language>
-			<language type="pa">ⵜⴰⴱⵏⵊⴰⴱⵉⵜ</language>
-			<language type="pl">ⵜⴰⴱⵓⵍⵓⵏⵉⵜ</language>
-			<language type="pt">ⵜⴰⴱⵕⵟⵇⵉⵣⵜ</language>
-			<language type="ro">ⵜⴰⵔⵓⵎⴰⵏⵉⵜ</language>
-			<language type="ru">ⵜⴰⵔⵓⵙⵉⵜ</language>
-			<language type="rw">ⵜⴰⵔⵓⵡⴰⵏⴷⵉⵜ</language>
-			<language type="shi">ⵜⴰⵎⴰⵣⵉⵖⵜ</language>
-			<language type="so">ⵜⴰⵙⵓⵎⴰⵍⵉⵜ</language>
-			<language type="sv">ⵜⴰⵙⵡⵉⴷⵉⵜ</language>
-			<language type="ta">ⵜⴰⵜⴰⵎⵉⵍⵜ</language>
-			<language type="th">ⵜⴰⵜⴰⵢⵍⴰⵏⴷⵉⵜ</language>
-			<language type="tr">ⵜⴰⵜⵓⵔⴽⵉⵜ</language>
-			<language type="uk">ⵜⵓⴽⵔⴰⵏⵉⵜ</language>
-			<language type="ur">ⵜⵓⵔⴷⵓⵜ</language>
-			<language type="vi">ⵜⴰⴼⵉⵜⵏⴰⵎⵉⵜ</language>
-			<language type="yo">ⵜⴰⵢⵔⵓⴱⴰⵜ</language>
-			<language type="zh">ⵜⴰⵛⵉⵏⵡⵉⵜ</language>
-			<language type="zu">ⵜⴰⵣⵓⵍⵓⵜ</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bk">ⵜⴰⴽⴰⵏⵜ</lbngubge>
+			<lbngubge type="bm">ⵜⴰⵎⵀⴰⵔⵉⵜ</lbngubge>
+			<lbngubge type="br">ⵜⴰⵄⵔⴰⴱⵜ</lbngubge>
+			<lbngubge type="be">ⵜⴰⴱⵉⵍⴰⵔⵓⵙⵜ</lbngubge>
+			<lbngubge type="bg">ⵜⴰⴱⵍⵖⴰⵔⵉⵜ</lbngubge>
+			<lbngubge type="bn">ⵜⴰⴱⵏⵖⴰⵍⵉⵜ</lbngubge>
+			<lbngubge type="cs">ⵜⴰⵜⵛⵉⴽⵉⵜ</lbngubge>
+			<lbngubge type="de">ⵜⴰⵍⵉⵎⴰⵏⵜ</lbngubge>
+			<lbngubge type="el">ⵜⴰⴳⵔⵉⴳⵉⵜ</lbngubge>
+			<lbngubge type="en">ⵜⴰⵏⴳⵍⵉⵣⵜ</lbngubge>
+			<lbngubge type="es">ⵜⴰⵙⴱⵏⵢⵓⵍⵉⵜ</lbngubge>
+			<lbngubge type="fb">ⵜⴰⴼⵓⵔⵙⵉⵜ</lbngubge>
+			<lbngubge type="fr">ⵜⴰⴼⵔⴰⵏⵙⵉⵙⵜ</lbngubge>
+			<lbngubge type="hb">ⵜⴰⵀⴰⵡⵙⴰⵜ</lbngubge>
+			<lbngubge type="hi">ⵜⴰⵀⵉⵏⴷⵉⵜ</lbngubge>
+			<lbngubge type="hu">ⵜⴰⵀⵏⵖⴰⵔⵉⵜ</lbngubge>
+			<lbngubge type="id">ⵜⴰⵏⴷⵓⵏⵉⵙⵉⵜ</lbngubge>
+			<lbngubge type="ig">ⵜⵉⴳⴱⵓⵜ</lbngubge>
+			<lbngubge type="it">ⵜⴰⵟⴰⵍⵢⴰⵏⵜ</lbngubge>
+			<lbngubge type="jb">ⵜⴰⵊⴰⴱⴱⵓⵏⵉⵜ</lbngubge>
+			<lbngubge type="jv">ⵜⴰⵊⴰⴼⴰⵏⵉⵜ</lbngubge>
+			<lbngubge type="km">ⵜⴰⵅⵎⵉⵔⵜ</lbngubge>
+			<lbngubge type="ko">ⵜⴰⴽⵓⵔⵉⵜ</lbngubge>
+			<lbngubge type="ms">ⵜⴰⵎⴰⵍⴰⵡⵉⵜ</lbngubge>
+			<lbngubge type="my">ⵜⴰⴱⵉⵔⵎⴰⵏⵉⵜ</lbngubge>
+			<lbngubge type="ne">ⵜⴰⵏⵉⴱⴰⵍⵉⵜ</lbngubge>
+			<lbngubge type="nl">ⵜⴰⵀⵓⵍⴰⵏⴷⵉⵜ</lbngubge>
+			<lbngubge type="pb">ⵜⴰⴱⵏⵊⴰⴱⵉⵜ</lbngubge>
+			<lbngubge type="pl">ⵜⴰⴱⵓⵍⵓⵏⵉⵜ</lbngubge>
+			<lbngubge type="pt">ⵜⴰⴱⵕⵟⵇⵉⵣⵜ</lbngubge>
+			<lbngubge type="ro">ⵜⴰⵔⵓⵎⴰⵏⵉⵜ</lbngubge>
+			<lbngubge type="ru">ⵜⴰⵔⵓⵙⵉⵜ</lbngubge>
+			<lbngubge type="rw">ⵜⴰⵔⵓⵡⴰⵏⴷⵉⵜ</lbngubge>
+			<lbngubge type="shi">ⵜⴰⵎⴰⵣⵉⵖⵜ</lbngubge>
+			<lbngubge type="so">ⵜⴰⵙⵓⵎⴰⵍⵉⵜ</lbngubge>
+			<lbngubge type="sv">ⵜⴰⵙⵡⵉⴷⵉⵜ</lbngubge>
+			<lbngubge type="tb">ⵜⴰⵜⴰⵎⵉⵍⵜ</lbngubge>
+			<lbngubge type="th">ⵜⴰⵜⴰⵢⵍⴰⵏⴷⵉⵜ</lbngubge>
+			<lbngubge type="tr">ⵜⴰⵜⵓⵔⴽⵉⵜ</lbngubge>
+			<lbngubge type="uk">ⵜⵓⴽⵔⴰⵏⵉⵜ</lbngubge>
+			<lbngubge type="ur">ⵜⵓⵔⴷⵓⵜ</lbngubge>
+			<lbngubge type="vi">ⵜⴰⴼⵉⵜⵏⴰⵎⵉⵜ</lbngubge>
+			<lbngubge type="yo">ⵜⴰⵢⵔⵓⴱⴰⵜ</lbngubge>
+			<lbngubge type="zh">ⵜⴰⵛⵉⵏⵡⵉⵜ</lbngubge>
+			<lbngubge type="zu">ⵜⴰⵣⵓⵍⵓⵜ</lbngubge>
+		</lbngubges>
 		<territories>
 			<territory type="AD">ⴰⵏⴷⵓⵔⴰ</territory>
 			<territory type="AE">ⵍⵉⵎⴰⵔⴰⵜ</territory>
@@ -283,23 +283,23 @@
 			<territory type="ZM">ⵣⴰⵎⴱⵢⴰ</territory>
 			<territory type="ZW">ⵣⵉⵎⴱⴰⴱⵡⵉ</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[ⴰ ⴱ ⴳ {ⴳⵯ} ⴷ ⴹ ⴻ ⴼ ⴽ {ⴽⵯ} ⵀ ⵃ ⵄ ⵅ ⵇ ⵉ ⵊ ⵍ ⵎ ⵏ ⵓ ⵔ ⵕ ⵖ ⵙ ⵚ ⵛ ⵜ ⵟ ⵡ ⵢ ⵣ ⵥ]</exemplarCharacters>
-		<exemplarCharacters type="index">[ⴰ ⴱ ⴳ ⴷ ⴹ ⴻ ⴼ ⴽ ⵀ ⵃ ⵄ ⵅ ⵇ ⵉ ⵊ ⵍ ⵎ ⵏ ⵓ ⵔ ⵕ ⵖ ⵙ ⵚ ⵛ ⵜ ⵟ ⵡ ⵢ ⵣ ⵥ]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[ⴰ ⴱ ⴳ {ⴳⵯ} ⴷ ⴹ ⴻ ⴼ ⴽ {ⴽⵯ} ⵀ ⵃ ⵄ ⵅ ⵇ ⵉ ⵊ ⵍ ⵎ ⵏ ⵓ ⵔ ⵕ ⵖ ⵙ ⵚ ⵛ ⵜ ⵟ ⵡ ⵢ ⵣ ⵥ]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[ⴰ ⴱ ⴳ ⴷ ⴹ ⴻ ⴼ ⴽ ⵀ ⵃ ⵄ ⵅ ⵇ ⵉ ⵊ ⵍ ⵎ ⵏ ⵓ ⵔ ⵕ ⵖ ⵙ ⵚ ⵛ ⵜ ⵟ ⵡ ⵢ ⵣ ⵥ]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>«</quotationStart>
-		<quotationEnd>»</quotationEnd>
-		<alternateQuotationStart>„</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<blternbteQuotbtionStbrt>„</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>”</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">ⵉⵏⵏ</month>
 							<month type="2">ⴱⵕⴰ</month>
 							<month type="3">ⵎⴰⵕ</month>
@@ -328,8 +328,8 @@
 							<month type="12">ⴷⵓⵊⴰⵏⴱⵉⵔ</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
 							<month type="1">ⵉ</month>
 							<month type="2">ⴱ</month>
 							<month type="3">ⵎ</month>
@@ -345,354 +345,354 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">ⴰⵙⴰ</day>
-							<day type="mon">ⴰⵢⵏ</day>
-							<day type="tue">ⴰⵙⵉ</day>
-							<day type="wed">ⴰⴽⵕ</day>
-							<day type="thu">ⴰⴽⵡ</day>
-							<day type="fri">ⴰⵙⵉⵎ</day>
-							<day type="sat">ⴰⵙⵉⴹ</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">ⴰⵙⴰⵎⴰⵙ</day>
-							<day type="mon">ⴰⵢⵏⴰⵙ</day>
-							<day type="tue">ⴰⵙⵉⵏⴰⵙ</day>
-							<day type="wed">ⴰⴽⵕⴰⵙ</day>
-							<day type="thu">ⴰⴽⵡⴰⵙ</day>
-							<day type="fri">ⵙⵉⵎⵡⴰⵙ</day>
-							<day type="sat">ⴰⵙⵉⴹⵢⴰⵙ</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">ⴰⴽ 1</quarter>
-							<quarter type="2">ⴰⴽ 2</quarter>
-							<quarter type="3">ⴰⴽ 3</quarter>
-							<quarter type="4">ⴰⴽ 4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">ⴰⴽⵕⴰⴹⵢⵓⵔ 1</quarter>
-							<quarter type="2">ⴰⴽⵕⴰⴹⵢⵓⵔ 2</quarter>
-							<quarter type="3">ⴰⴽⵕⴰⴹⵢⵓⵔ 3</quarter>
-							<quarter type="4">ⴰⴽⵕⴰⴹⵢⵓⵔ 4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">ⵜⵉⴼⴰⵡⵜ</dayPeriod>
-							<dayPeriod type="pm">ⵜⴰⴷⴳⴳⵯⴰⵜ</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">ⴷⴰⵜ ⵏ ⵄⵉⵙⴰ</era>
-						<era type="1">ⴷⴼⴼⵉⵔ ⵏ ⵄⵉⵙⴰ</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">ⴷⴰⵄ</era>
-						<era type="1">ⴷⴼⵄ</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="M">M</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MMd">d/MM</dateFormatItem>
-						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
-						<dateFormatItem id="MMM">MMM</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMdd">dd MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
-						<dateFormatItem id="ms">m:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">ⴰⴽQ y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">ⴰⵙⴰ</dby>
+							<dby type="mon">ⴰⵢⵏ</dby>
+							<dby type="tue">ⴰⵙⵉ</dby>
+							<dby type="wed">ⴰⴽⵕ</dby>
+							<dby type="thu">ⴰⴽⵡ</dby>
+							<dby type="fri">ⴰⵙⵉⵎ</dby>
+							<dby type="sbt">ⴰⵙⵉⴹ</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">ⴰⵙⴰⵎⴰⵙ</dby>
+							<dby type="mon">ⴰⵢⵏⴰⵙ</dby>
+							<dby type="tue">ⴰⵙⵉⵏⴰⵙ</dby>
+							<dby type="wed">ⴰⴽⵕⴰⵙ</dby>
+							<dby type="thu">ⴰⴽⵡⴰⵙ</dby>
+							<dby type="fri">ⵙⵉⵎⵡⴰⵙ</dby>
+							<dby type="sbt">ⴰⵙⵉⴹⵢⴰⵙ</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">ⴰⴽ 1</qubrter>
+							<qubrter type="2">ⴰⴽ 2</qubrter>
+							<qubrter type="3">ⴰⴽ 3</qubrter>
+							<qubrter type="4">ⴰⴽ 4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">ⴰⴽⵕⴰⴹⵢⵓⵔ 1</qubrter>
+							<qubrter type="2">ⴰⴽⵕⴰⴹⵢⵓⵔ 2</qubrter>
+							<qubrter type="3">ⴰⴽⵕⴰⴹⵢⵓⵔ 3</qubrter>
+							<qubrter type="4">ⴰⴽⵕⴰⴹⵢⵓⵔ 4</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">ⵜⵉⴼⴰⵡⵜ</dbyPeriod>
+							<dbyPeriod type="pm">ⵜⴰⴷⴳⴳⵯⴰⵜ</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">ⴷⴰⵜ ⵏ ⵄⵉⵙⴰ</erb>
+						<erb type="1">ⴷⴼⴼⵉⵔ ⵏ ⵄⵉⵙⴰ</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">ⴷⴰⵄ</erb>
+						<erb type="1">ⴷⴼⵄ</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="M">M</dbteFormbtItem>
+						<dbteFormbtItem id="Md">d/M</dbteFormbtItem>
+						<dbteFormbtItem id="MMd">d/MM</dbteFormbtItem>
+						<dbteFormbtItem id="MMdd">dd/MM</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMdd">dd MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">d MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E d MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="ms">m:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E d/M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM">MMMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">ⴰⴽQ y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>ⵜⴰⵙⵓⵜ</displayName>
+					<field type="erb">
+						<displbyNbme>ⵜⴰⵙⵓⵜ</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>ⴰⵙⴳⴳⵯⴰⵙ</displayName>
+					<field type="yebr">
+						<displbyNbme>ⴰⵙⴳⴳⵯⴰⵙ</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>ⴰⵢⵢⵓⵔ</displayName>
+						<displbyNbme>ⴰⵢⵢⵓⵔ</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>ⵉⵎⴰⵍⴰⵙⵙ</displayName>
+						<displbyNbme>ⵉⵎⴰⵍⴰⵙⵙ</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>ⴰⵙⵙ</displayName>
-						<relative type="-1">ⵉⴹⵍⵍⵉ</relative>
-						<relative type="0">ⴰⵙⵙⴰ</relative>
-						<relative type="1">ⴰⵙⴽⴽⴰ</relative>
+					<field type="dby">
+						<displbyNbme>ⴰⵙⵙ</displbyNbme>
+						<relbtive type="-1">ⵉⴹⵍⵍⵉ</relbtive>
+						<relbtive type="0">ⴰⵙⵙⴰ</relbtive>
+						<relbtive type="1">ⴰⵙⴽⴽⴰ</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>ⴰⵙⵙ ⴳ ⵉⵎⴰⵍⴰⵙⵙ</displayName>
+					<field type="weekdby">
+						<displbyNbme>ⴰⵙⵙ ⴳ ⵉⵎⴰⵍⴰⵙⵙ</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>ⵜⵉⵣⵉ ⴳ ⵡⴰⵙⵙ: ⵜⵉⴼⴰⵡⵜ/ⵜⴰⴷⴳⴳⵯⴰⵜ</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>ⵜⵉⵣⵉ ⴳ ⵡⴰⵙⵙ: ⵜⵉⴼⴰⵡⵜ/ⵜⴰⴷⴳⴳⵯⴰⵜ</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>ⵜⴰⵙⵔⴰⴳⵜ</displayName>
+						<displbyNbme>ⵜⴰⵙⵔⴰⴳⵜ</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>ⵜⵓⵙⴷⵉⴷⵜ</displayName>
+						<displbyNbme>ⵜⵓⵙⴷⵉⴷⵜ</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>ⵜⴰⵙⵉⵏⵜ</displayName>
+						<displbyNbme>ⵜⴰⵙⵉⵏⵜ</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>ⴰⴽⵓⴷ ⵏ ⵓⴳⵎⵎⴰⴹ</displayName>
+						<displbyNbme>ⴰⴽⵓⴷ ⵏ ⵓⴳⵎⵎⴰⴹ</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group> </group>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>#,##0.00¤</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AED">
-				<displayName>ⴰⴷⵔⵉⵎ ⵏ ⵍⵉⵎⴰⵔⴰⵜ</displayName>
+				<displbyNbme>ⴰⴷⵔⵉⵎ ⵏ ⵍⵉⵎⴰⵔⴰⵜ</displbyNbme>
 			</currency>
 			<currency type="AOA">
-				<displayName>ⴽⵡⴰⵏⵣⴰ ⵏ ⴰⵏⴳⵓⵍⴰ</displayName>
+				<displbyNbme>ⴽⵡⴰⵏⵣⴰ ⵏ ⴰⵏⴳⵓⵍⴰ</displbyNbme>
 			</currency>
 			<currency type="AUD">
-				<displayName>ⴰⴷⵓⵍⴰⵔ ⵏ ⵓⵙⵜⵔⴰⵍⵢⴰ</displayName>
+				<displbyNbme>ⴰⴷⵓⵍⴰⵔ ⵏ ⵓⵙⵜⵔⴰⵍⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="BHD">
-				<displayName>ⴰⴷⵉⵏⴰⵔ ⵏ ⴱⵃⵔⴰⵢⵏ</displayName>
+				<displbyNbme>ⴰⴷⵉⵏⴰⵔ ⵏ ⴱⵃⵔⴰⵢⵏ</displbyNbme>
 			</currency>
 			<currency type="BIF">
-				<displayName>ⴼⵔⴰⵏⴽ ⵏ ⴱⵓⵔⵓⵏⴷⵉ</displayName>
+				<displbyNbme>ⴼⵔⴰⵏⴽ ⵏ ⴱⵓⵔⵓⵏⴷⵉ</displbyNbme>
 			</currency>
 			<currency type="BWP">
-				<displayName>ⴰⴱⵓⵍⴰ ⵏ ⴱⵓⵜⵙⵡⴰⵏⴰ</displayName>
+				<displbyNbme>ⴰⴱⵓⵍⴰ ⵏ ⴱⵓⵜⵙⵡⴰⵏⴰ</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName>ⴰⴷⵓⵍⴰⵔ ⵏ ⴽⴰⵏⴰⴷⴰ</displayName>
+				<displbyNbme>ⴰⴷⵓⵍⴰⵔ ⵏ ⴽⴰⵏⴰⴷⴰ</displbyNbme>
 			</currency>
 			<currency type="CDF">
-				<displayName>ⴼⵔⴰⵏⴽ ⵏ ⴽⵓⵏⴳⵓ</displayName>
+				<displbyNbme>ⴼⵔⴰⵏⴽ ⵏ ⴽⵓⵏⴳⵓ</displbyNbme>
 			</currency>
 			<currency type="CHF">
-				<displayName>ⴰⴼⵔⴰⵏⴽ ⵏ ⵙⵡⵉⵙⵔⴰ</displayName>
+				<displbyNbme>ⴰⴼⵔⴰⵏⴽ ⵏ ⵙⵡⵉⵙⵔⴰ</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName>ⴰⵢⴰⵏ ⵏ ⵛⵛⵉⵏⵡⴰ</displayName>
+				<displbyNbme>ⴰⵢⴰⵏ ⵏ ⵛⵛⵉⵏⵡⴰ</displbyNbme>
 			</currency>
 			<currency type="CVE">
-				<displayName>ⵉⵙⴽⵓⴷⵓ ⵏ ⴽⴰⴱⴱⵉⵔⴷⵉ</displayName>
+				<displbyNbme>ⵉⵙⴽⵓⴷⵓ ⵏ ⴽⴰⴱⴱⵉⵔⴷⵉ</displbyNbme>
 			</currency>
 			<currency type="DJF">
-				<displayName>ⴼⵔⴰⵏⴽ ⵏ ⴷⵊⵉⴱⵓⵜⵉ</displayName>
+				<displbyNbme>ⴼⵔⴰⵏⴽ ⵏ ⴷⵊⵉⴱⵓⵜⵉ</displbyNbme>
 			</currency>
 			<currency type="DZD">
-				<displayName>ⴰⴷⵉⵏⴰⵔ ⵏ ⴷⵣⴰⵢⵔ</displayName>
+				<displbyNbme>ⴰⴷⵉⵏⴰⵔ ⵏ ⴷⵣⴰⵢⵔ</displbyNbme>
 			</currency>
 			<currency type="EGP">
-				<displayName>ⴰⵊⵏⵉⵀ ⵏ ⵎⵉⵚⵕ</displayName>
+				<displbyNbme>ⴰⵊⵏⵉⵀ ⵏ ⵎⵉⵚⵕ</displbyNbme>
 			</currency>
 			<currency type="ERN">
-				<displayName>ⵏⴰⴼⴽⴰ ⵏ ⵉⵔⵉⵜⵉⵔⵢⴰ</displayName>
+				<displbyNbme>ⵏⴰⴼⴽⴰ ⵏ ⵉⵔⵉⵜⵉⵔⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="ETB">
-				<displayName>ⴱⵉⵔ ⵏ ⵉⵜⵢⵓⴱⵢⴰ</displayName>
+				<displbyNbme>ⴱⵉⵔ ⵏ ⵉⵜⵢⵓⴱⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName>ⵓⵔⵓ</displayName>
+				<displbyNbme>ⵓⵔⵓ</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName>ⴰⵊⵏⵉⵀ ⴰⵙⵜⵔⵍⵉⵏⵉ ⵏ ⵏⵏⴳⵍⵉⵣ</displayName>
+				<displbyNbme>ⴰⵊⵏⵉⵀ ⴰⵙⵜⵔⵍⵉⵏⵉ ⵏ ⵏⵏⴳⵍⵉⵣ</displbyNbme>
 			</currency>
 			<currency type="GHC">
-				<displayName>ⵙⵉⴷⵉ ⵏ ⵖⴰⵏⴰ</displayName>
+				<displbyNbme>ⵙⵉⴷⵉ ⵏ ⵖⴰⵏⴰ</displbyNbme>
 			</currency>
 			<currency type="GMD">
-				<displayName>ⴷⴰⵍⴰⵙⵉ ⵏ ⴳⴰⵎⴱⵢⴰ</displayName>
+				<displbyNbme>ⴷⴰⵍⴰⵙⵉ ⵏ ⴳⴰⵎⴱⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="GNS">
-				<displayName>ⴼⵔⴰⵏⴽ ⵏ ⵖⵉⵏⵢⴰ</displayName>
+				<displbyNbme>ⴼⵔⴰⵏⴽ ⵏ ⵖⵉⵏⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>ⴰⵔⵓⴱⵉ ⵏ ⵍⵀⵉⵏⴷ</displayName>
+				<displbyNbme>ⴰⵔⵓⴱⵉ ⵏ ⵍⵀⵉⵏⴷ</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName>ⴰⵢⴰⵏ ⵏ ⵍⵢⴰⴱⴰⵏ</displayName>
+				<displbyNbme>ⴰⵢⴰⵏ ⵏ ⵍⵢⴰⴱⴰⵏ</displbyNbme>
 			</currency>
 			<currency type="KES">
-				<displayName>ⴰⵛⵉⵍⵉⵏ ⵏ ⴽⵉⵏⵢⴰ</displayName>
+				<displbyNbme>ⴰⵛⵉⵍⵉⵏ ⵏ ⴽⵉⵏⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="KMF">
-				<displayName>ⴼⵔⴰⵏⴽ ⵏ ⵇⵓⵎⵓⵕ</displayName>
+				<displbyNbme>ⴼⵔⴰⵏⴽ ⵏ ⵇⵓⵎⵓⵕ</displbyNbme>
 			</currency>
 			<currency type="LRD">
-				<displayName>ⴰⴷⵓⵍⴰⵔ ⵏ ⵍⵉⴱⵉⵔⵢⴰ</displayName>
+				<displbyNbme>ⴰⴷⵓⵍⴰⵔ ⵏ ⵍⵉⴱⵉⵔⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="LSL">
-				<displayName>ⵍⵓⵜⵉ ⵏ ⵍⵉⵚⵓⵟⵓ</displayName>
+				<displbyNbme>ⵍⵓⵜⵉ ⵏ ⵍⵉⵚⵓⵟⵓ</displbyNbme>
 			</currency>
 			<currency type="LYD">
-				<displayName>ⴰⴷⵉⵏⴰⵔ ⵏ ⵍⵉⴱⵢⴰ</displayName>
+				<displbyNbme>ⴰⴷⵉⵏⴰⵔ ⵏ ⵍⵉⴱⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="MAD">
-				<displayName>ⴰⴷⵔⵉⵎ ⵏ ⵍⵎⵖⵔⵉⴱ</displayName>
+				<displbyNbme>ⴰⴷⵔⵉⵎ ⵏ ⵍⵎⵖⵔⵉⴱ</displbyNbme>
 			</currency>
 			<currency type="MGA">
-				<displayName>ⴼⵔⴰⵏⴽ ⵏ ⵎⴰⴷⴰⵖⴰⵛⵇⴰⵔ</displayName>
+				<displbyNbme>ⴼⵔⴰⵏⴽ ⵏ ⵎⴰⴷⴰⵖⴰⵛⵇⴰⵔ</displbyNbme>
 			</currency>
 			<currency type="MRO">
-				<displayName>ⵓⵇⵉⵢⵢⴰ ⵏ ⵎⵓⵕⵉⵟⴰⵏⵢⴰ</displayName>
+				<displbyNbme>ⵓⵇⵉⵢⵢⴰ ⵏ ⵎⵓⵕⵉⵟⴰⵏⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="MUR">
-				<displayName>ⴰⵔⵓⴱⵉ ⵏ ⵎⵓⵔⵉⵙ</displayName>
+				<displbyNbme>ⴰⵔⵓⴱⵉ ⵏ ⵎⵓⵔⵉⵙ</displbyNbme>
 			</currency>
 			<currency type="MWK">
-				<displayName>ⴽⵡⴰⵛⴰ ⵏ ⵎⴰⵍⴰⵡⵉ</displayName>
+				<displbyNbme>ⴽⵡⴰⵛⴰ ⵏ ⵎⴰⵍⴰⵡⵉ</displbyNbme>
 			</currency>
 			<currency type="MZM">
-				<displayName>ⴰⵎⵉⵜⵉⴽⵍ ⵏ ⵎⵓⵣⵏⴱⵉⵇ</displayName>
+				<displbyNbme>ⴰⵎⵉⵜⵉⴽⵍ ⵏ ⵎⵓⵣⵏⴱⵉⵇ</displbyNbme>
 			</currency>
 			<currency type="NAD">
-				<displayName>ⴰⴷⵓⵍⴰⵔ ⵏ ⵏⴰⵎⵉⴱⵢⴰ</displayName>
+				<displbyNbme>ⴰⴷⵓⵍⴰⵔ ⵏ ⵏⴰⵎⵉⴱⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="NGN">
-				<displayName>ⵏⴰⵢⵔⴰ ⵏ ⵏⵉⵊⵉⵔⵢⴰ</displayName>
+				<displbyNbme>ⵏⴰⵢⵔⴰ ⵏ ⵏⵉⵊⵉⵔⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="RWF">
-				<displayName>ⴰⴼⵔⴰⵏⴽ ⵏ ⵔⵡⴰⵏⴷⴰ</displayName>
+				<displbyNbme>ⴰⴼⵔⴰⵏⴽ ⵏ ⵔⵡⴰⵏⴷⴰ</displbyNbme>
 			</currency>
 			<currency type="SAR">
-				<displayName>ⴰⵔⵢⴰⵍ ⵏ ⵙⵙⴰⵄⵓⴷⵉⵢⴰ</displayName>
+				<displbyNbme>ⴰⵔⵢⴰⵍ ⵏ ⵙⵙⴰⵄⵓⴷⵉⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="SCR">
-				<displayName>ⴰⵔⵓⴱⵉ ⵏ ⵙⵙⵉⵛⵉⵍ</displayName>
+				<displbyNbme>ⴰⵔⵓⴱⵉ ⵏ ⵙⵙⵉⵛⵉⵍ</displbyNbme>
 			</currency>
 			<currency type="SDG">
-				<displayName>ⴰⴷⵉⵏⴰⵔ ⵏ ⵙⵙⵓⴷⴰⵏ</displayName>
+				<displbyNbme>ⴰⴷⵉⵏⴰⵔ ⵏ ⵙⵙⵓⴷⴰⵏ</displbyNbme>
 			</currency>
 			<currency type="SDP">
-				<displayName>ⴰⵊⵏⵉⵀ ⵏ ⵙⵙⵓⴷⴰⵏ</displayName>
+				<displbyNbme>ⴰⵊⵏⵉⵀ ⵏ ⵙⵙⵓⴷⴰⵏ</displbyNbme>
 			</currency>
 			<currency type="SHP">
-				<displayName>ⴰⵊⵏⵉⵀ ⵏ ⵙⴰⵏⵜⵉⵍⵉⵏ</displayName>
+				<displbyNbme>ⴰⵊⵏⵉⵀ ⵏ ⵙⴰⵏⵜⵉⵍⵉⵏ</displbyNbme>
 			</currency>
 			<currency type="SLL">
-				<displayName>ⵍⵉⵢⵓⵏ</displayName>
+				<displbyNbme>ⵍⵉⵢⵓⵏ</displbyNbme>
 			</currency>
 			<currency type="SOS">
-				<displayName>ⴰⵛⵉⵍⵉⵏ ⵏ ⵚⵚⵓⵎⴰⵍ</displayName>
+				<displbyNbme>ⴰⵛⵉⵍⵉⵏ ⵏ ⵚⵚⵓⵎⴰⵍ</displbyNbme>
 			</currency>
 			<currency type="STD">
-				<displayName>ⴰⴷⵓⴱⵔⴰ ⵏ ⵙⴰⵏⵟⵓⵎⵉ</displayName>
+				<displbyNbme>ⴰⴷⵓⴱⵔⴰ ⵏ ⵙⴰⵏⵟⵓⵎⵉ</displbyNbme>
 			</currency>
 			<currency type="SZL">
-				<displayName>ⵍⵉⵍⴰⵏⵊⵉⵏⵉ</displayName>
+				<displbyNbme>ⵍⵉⵍⴰⵏⵊⵉⵏⵉ</displbyNbme>
 			</currency>
 			<currency type="TND">
-				<displayName>ⴰⴷⵉⵏⴰⵔ ⵏ ⵜⵓⵏⵙ</displayName>
+				<displbyNbme>ⴰⴷⵉⵏⴰⵔ ⵏ ⵜⵓⵏⵙ</displbyNbme>
 			</currency>
 			<currency type="TZS">
-				<displayName>ⴰⵛⵉⵍⵉⵏ ⵏ ⵟⴰⵏⵥⴰⵏⵢⴰ</displayName>
+				<displbyNbme>ⴰⵛⵉⵍⵉⵏ ⵏ ⵟⴰⵏⵥⴰⵏⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="UGX">
-				<displayName>ⴰⵛⵉⵍⵉⵏ ⵏ ⵓⵖⴰⵏⴷⴰ</displayName>
+				<displbyNbme>ⴰⵛⵉⵍⵉⵏ ⵏ ⵓⵖⴰⵏⴷⴰ</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName>ⴰⴷⵓⵍⴰⵔ ⵏ ⵉⵡⵓⵏⴰⴽ ⵉⵎⵓⵏⵏ</displayName>
+				<displbyNbme>ⴰⴷⵓⵍⴰⵔ ⵏ ⵉⵡⵓⵏⴰⴽ ⵉⵎⵓⵏⵏ</displbyNbme>
 			</currency>
 			<currency type="XAF">
-				<displayName>ⴼⵔⴰⵏⴽ ⵚⵉⴼⴰ</displayName>
+				<displbyNbme>ⴼⵔⴰⵏⴽ ⵚⵉⴼⴰ</displbyNbme>
 			</currency>
 			<currency type="XOF">
-				<displayName>ⴼⵔⴰⵏⴽ ⵚⵉⴼⴰ ⴱⵉⵙⴰⵡ</displayName>
+				<displbyNbme>ⴼⵔⴰⵏⴽ ⵚⵉⴼⴰ ⴱⵉⵙⴰⵡ</displbyNbme>
 			</currency>
 			<currency type="ZAR">
-				<displayName>ⴰⵔⴰⵏⴷ ⵏ ⴰⴼⵔⵉⵇⵢⴰ ⵏ ⵉⴼⴼⵓⵙ</displayName>
+				<displbyNbme>ⴰⵔⴰⵏⴷ ⵏ ⴰⴼⵔⵉⵇⵢⴰ ⵏ ⵉⴼⴼⵓⵙ</displbyNbme>
 			</currency>
 			<currency type="ZMK">
-				<displayName>ⴰⴽⵡⴰⵛⴰ ⵏ ⵣⴰⵎⴱⵢⴰ</displayName>
+				<displbyNbme>ⴰⴽⵡⴰⵛⴰ ⵏ ⵣⴰⵎⴱⵢⴰ</displbyNbme>
 			</currency>
 			<currency type="ZWD">
-				<displayName>ⴰⴷⵓⵍⴰⵔ ⵏ ⵣⵉⵎⴱⴰⴱⵡⵉ</displayName>
+				<displbyNbme>ⴰⴷⵓⵍⴰⵔ ⵏ ⵣⵉⵎⴱⴰⴱⵡⵉ</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>ⵢⵢⵉⵀ:ⵢ</yesstr>
 			<nostr>ⵓⵀⵓ:ⵓ</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>

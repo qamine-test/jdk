@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "jlong.h"
-#include "awt_Cursor.h"
-#include "awt_Component.h"
-#include "awt_Container.h"
-#include "awt_IconCursor.h"
-#include "awt_Toolkit.h"
-#include "awt_Window.h"
-#include <java_awt_Cursor.h>
-#include <sun_awt_windows_WCustomCursor.h>
-#include <sun_awt_windows_WGlobalCursorManager.h>
+#include "bwt_Cursor.h"
+#include "bwt_Component.h"
+#include "bwt_Contbiner.h"
+#include "bwt_IconCursor.h"
+#include "bwt_Toolkit.h"
+#include "bwt_Window.h"
+#include <jbvb_bwt_Cursor.h>
+#include <sun_bwt_windows_WCustomCursor.h>
+#include <sun_bwt_windows_WGlobblCursorMbnbger.h>
 
 
 /************************************************************************
  * AwtCursor fields
  */
-jmethodID AwtCursor::mSetPDataID;
-jfieldID AwtCursor::pDataID;
+jmethodID AwtCursor::mSetPDbtbID;
+jfieldID AwtCursor::pDbtbID;
 jfieldID AwtCursor::typeID;
 
 jfieldID AwtCursor::pointXID;
 jfieldID AwtCursor::pointYID;
 
-jclass AwtCursor::globalCursorManagerClass;
-jmethodID AwtCursor::updateCursorID;
+jclbss AwtCursor::globblCursorMbnbgerClbss;
+jmethodID AwtCursor::updbteCursorID;
 
 AwtObjectList AwtCursor::customCursors;
 
@@ -54,11 +54,11 @@ AwtObjectList AwtCursor::customCursors;
 AwtCursor::AwtCursor(JNIEnv *env, HCURSOR hCur, jobject jCur)
 {
     hCursor = hCur;
-    jCursor = env->NewWeakGlobalRef(jCur);
+    jCursor = env->NewWebkGlobblRef(jCur);
 
     xHotSpot = yHotSpot = nWidth = nHeight = nSS = 0;
     cols = NULL;
-    mask = NULL;
+    mbsk = NULL;
 
     custom = dirty = FALSE;
 }
@@ -67,7 +67,7 @@ AwtCursor::AwtCursor(JNIEnv *env, HCURSOR hCur, jobject jCur, int xH, int yH,
                      int nWid, int nHgt, int nS, int *col, BYTE *hM)
 {
     hCursor = hCur;
-    jCursor = env->NewWeakGlobalRef(jCur);
+    jCursor = env->NewWebkGlobblRef(jCur);
 
     xHotSpot = xH;
     yHotSpot = yH;
@@ -75,7 +75,7 @@ AwtCursor::AwtCursor(JNIEnv *env, HCURSOR hCur, jobject jCur, int xH, int yH,
     nHeight = nHgt;
     nSS = nS;
     cols = col;
-    mask = hM;
+    mbsk = hM;
 
     custom = TRUE;
     dirty = FALSE;
@@ -87,7 +87,7 @@ AwtCursor::~AwtCursor()
 
 void AwtCursor::Dispose()
 {
-    delete[] mask;
+    delete[] mbsk;
     delete[] cols;
 
     if (custom) {
@@ -95,169 +95,169 @@ void AwtCursor::Dispose()
     }
 
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject localObj = env->NewLocalRef(jCursor);
-    if (localObj != NULL) {
-        setPData(localObj, ptr_to_jlong(NULL));
-        env->DeleteLocalRef(localObj);
+    jobject locblObj = env->NewLocblRef(jCursor);
+    if (locblObj != NULL) {
+        setPDbtb(locblObj, ptr_to_jlong(NULL));
+        env->DeleteLocblRef(locblObj);
     }
-    env->DeleteWeakGlobalRef(jCursor);
+    env->DeleteWebkGlobblRef(jCursor);
 
     AwtObject::Dispose();
 }
 
-AwtCursor * AwtCursor::CreateSystemCursor(jobject jCursor)
+AwtCursor * AwtCursor::CrebteSystemCursor(jobject jCursor)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
     jint type = env->GetIntField(jCursor, AwtCursor::typeID);
-    DASSERT(type != java_awt_Cursor_CUSTOM_CURSOR);
+    DASSERT(type != jbvb_bwt_Cursor_CUSTOM_CURSOR);
 
     LPCTSTR winCursor;
     switch (type) {
-      case java_awt_Cursor_DEFAULT_CURSOR:
-      default:
+      cbse jbvb_bwt_Cursor_DEFAULT_CURSOR:
+      defbult:
         winCursor = IDC_ARROW;
-        break;
-      case java_awt_Cursor_CROSSHAIR_CURSOR:
+        brebk;
+      cbse jbvb_bwt_Cursor_CROSSHAIR_CURSOR:
         winCursor = IDC_CROSS;
-        break;
-      case java_awt_Cursor_TEXT_CURSOR:
+        brebk;
+      cbse jbvb_bwt_Cursor_TEXT_CURSOR:
         winCursor = IDC_IBEAM;
-        break;
-      case java_awt_Cursor_WAIT_CURSOR:
+        brebk;
+      cbse jbvb_bwt_Cursor_WAIT_CURSOR:
         winCursor = IDC_WAIT;
-        break;
-      case java_awt_Cursor_NE_RESIZE_CURSOR:
-      case java_awt_Cursor_SW_RESIZE_CURSOR:
+        brebk;
+      cbse jbvb_bwt_Cursor_NE_RESIZE_CURSOR:
+      cbse jbvb_bwt_Cursor_SW_RESIZE_CURSOR:
         winCursor = IDC_SIZENESW;
-        break;
-      case java_awt_Cursor_SE_RESIZE_CURSOR:
-      case java_awt_Cursor_NW_RESIZE_CURSOR:
+        brebk;
+      cbse jbvb_bwt_Cursor_SE_RESIZE_CURSOR:
+      cbse jbvb_bwt_Cursor_NW_RESIZE_CURSOR:
         winCursor = IDC_SIZENWSE;
-        break;
-      case java_awt_Cursor_N_RESIZE_CURSOR:
-      case java_awt_Cursor_S_RESIZE_CURSOR:
+        brebk;
+      cbse jbvb_bwt_Cursor_N_RESIZE_CURSOR:
+      cbse jbvb_bwt_Cursor_S_RESIZE_CURSOR:
         winCursor = IDC_SIZENS;
-        break;
-      case java_awt_Cursor_W_RESIZE_CURSOR:
-      case java_awt_Cursor_E_RESIZE_CURSOR:
+        brebk;
+      cbse jbvb_bwt_Cursor_W_RESIZE_CURSOR:
+      cbse jbvb_bwt_Cursor_E_RESIZE_CURSOR:
         winCursor = IDC_SIZEWE;
-        break;
-      case java_awt_Cursor_HAND_CURSOR:
+        brebk;
+      cbse jbvb_bwt_Cursor_HAND_CURSOR:
         winCursor = TEXT("HAND_CURSOR");
-        break;
-      case java_awt_Cursor_MOVE_CURSOR:
+        brebk;
+      cbse jbvb_bwt_Cursor_MOVE_CURSOR:
         winCursor = IDC_SIZEALL;
-        break;
+        brebk;
     }
-    HCURSOR hCursor = ::LoadCursor(NULL, winCursor);
+    HCURSOR hCursor = ::LobdCursor(NULL, winCursor);
     if (hCursor == NULL) {
-        /* Not a system cursor, check for resource. */
-        hCursor = ::LoadCursor(AwtToolkit::GetInstance().GetModuleHandle(),
+        /* Not b system cursor, check for resource. */
+        hCursor = ::LobdCursor(AwtToolkit::GetInstbnce().GetModuleHbndle(),
                                winCursor);
     }
     if (hCursor == NULL) {
-        hCursor = ::LoadCursor(NULL, IDC_ARROW);
+        hCursor = ::LobdCursor(NULL, IDC_ARROW);
         DASSERT(hCursor != NULL);
     }
 
-    AwtCursor *awtCursor = new AwtCursor(env, hCursor, jCursor);
-    setPData(jCursor, ptr_to_jlong(awtCursor));
+    AwtCursor *bwtCursor = new AwtCursor(env, hCursor, jCursor);
+    setPDbtb(jCursor, ptr_to_jlong(bwtCursor));
 
-    return awtCursor;
+    return bwtCursor;
 }
 
 HCURSOR  AwtCursor::GetCursor(JNIEnv *env, AwtComponent *comp) {
-    jlong  pData ;
+    jlong  pDbtb ;
 
     if (comp == NULL) {
         return NULL;
     }
-    if (env->EnsureLocalCapacity(2) < 0) {
+    if (env->EnsureLocblCbpbcity(2) < 0) {
         return NULL;
     }
-    jobject jcomp = comp->GetTarget(env);
+    jobject jcomp = comp->GetTbrget(env);
     if (jcomp == NULL)
         return NULL;
     jobject jcurs = env->GetObjectField (jcomp, AwtComponent::cursorID);
 
     if (jcurs != NULL) {
-        pData = env->GetLongField(jcurs, AwtCursor::pDataID);
-        AwtCursor *awtCursor = (AwtCursor *)jlong_to_ptr(pData);
+        pDbtb = env->GetLongField(jcurs, AwtCursor::pDbtbID);
+        AwtCursor *bwtCursor = (AwtCursor *)jlong_to_ptr(pDbtb);
 
-        env->DeleteLocalRef(jcomp);
-        env->DeleteLocalRef(jcurs);
+        env->DeleteLocblRef(jcomp);
+        env->DeleteLocblRef(jcurs);
 
-        if (awtCursor == NULL) {
+        if (bwtCursor == NULL) {
             return NULL;
         }
-        return awtCursor->GetHCursor();
+        return bwtCursor->GetHCursor();
 
     } else {
-        env->DeleteLocalRef(jcomp);
+        env->DeleteLocblRef(jcomp);
     }
 
-    //if component's cursor is null, get the parent's cursor
-    AwtComponent *parent = comp->GetParent() ;
+    //if component's cursor is null, get the pbrent's cursor
+    AwtComponent *pbrent = comp->GetPbrent() ;
 
-    return AwtCursor::GetCursor(env, parent);
+    return AwtCursor::GetCursor(env, pbrent);
 }
 
-void AwtCursor::UpdateCursor(AwtComponent *comp) {
+void AwtCursor::UpdbteCursor(AwtComponent *comp) {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(1) < 0) {
+    if (env->EnsureLocblCbpbcity(1) < 0) {
         return;
     }
-    jobject jcomp = comp->GetTarget(env);
+    jobject jcomp = comp->GetTbrget(env);
     try {
-        //4372119:Disappearing of busy cursor on JDK 1.3
-        HWND captureWnd = GetCapture();
+        //4372119:Disbppebring of busy cursor on JDK 1.3
+        HWND cbptureWnd = GetCbpture();
         if ( !AwtComponent::isMenuLoopActive() &&
-            (captureWnd==NULL || captureWnd==comp->GetHWnd()))
+            (cbptureWnd==NULL || cbptureWnd==comp->GetHWnd()))
         {
-            if (IsWindow(AwtWindow::GetModalBlocker(
-                                    AwtComponent::GetTopLevelParentForWindow(
+            if (IsWindow(AwtWindow::GetModblBlocker(
+                                    AwtComponent::GetTopLevelPbrentForWindow(
                                     comp->GetHWnd()))))
             {
-                static HCURSOR hArrowCursor = LoadCursor(NULL, IDC_ARROW);
+                stbtic HCURSOR hArrowCursor = LobdCursor(NULL, IDC_ARROW);
                 SetCursor(hArrowCursor);
             } else {
-                HCURSOR cur = comp->getCursorCache();
+                HCURSOR cur = comp->getCursorCbche();
                 if (cur == NULL) {
                     cur = GetCursor(env , comp);
                 }
                 if (cur != NULL) {
                     ::SetCursor(cur);
                 } else {
-                    safe_ExceptionOccurred(env);
+                    sbfe_ExceptionOccurred(env);
                 }
 
-                if (AwtCursor::updateCursorID == NULL) {
-                    jclass cls =
-                    env->FindClass("sun/awt/windows/WGlobalCursorManager");
+                if (AwtCursor::updbteCursorID == NULL) {
+                    jclbss cls =
+                    env->FindClbss("sun/bwt/windows/WGlobblCursorMbnbger");
                     if(cls != NULL){
-                        AwtCursor::globalCursorManagerClass =
-                            (jclass)env->NewGlobalRef(cls);
-                        AwtCursor::updateCursorID =
-                            env->GetStaticMethodID(cls, "nativeUpdateCursor",
-                            "(Ljava/awt/Component;)V");
-                        env->DeleteLocalRef(cls);
-                        DASSERT(AwtCursor::globalCursorManagerClass != NULL);
-                        DASSERT(AwtCursor::updateCursorID != NULL);
+                        AwtCursor::globblCursorMbnbgerClbss =
+                            (jclbss)env->NewGlobblRef(cls);
+                        AwtCursor::updbteCursorID =
+                            env->GetStbticMethodID(cls, "nbtiveUpdbteCursor",
+                            "(Ljbvb/bwt/Component;)V");
+                        env->DeleteLocblRef(cls);
+                        DASSERT(AwtCursor::globblCursorMbnbgerClbss != NULL);
+                        DASSERT(AwtCursor::updbteCursorID != NULL);
                     }
                 }
-                if (AwtCursor::updateCursorID != NULL
-                    && AwtCursor::globalCursorManagerClass != NULL) {
-                    env->CallStaticVoidMethod(AwtCursor::globalCursorManagerClass,
-                        AwtCursor::updateCursorID, jcomp);
+                if (AwtCursor::updbteCursorID != NULL
+                    && AwtCursor::globblCursorMbnbgerClbss != NULL) {
+                    env->CbllStbticVoidMethod(AwtCursor::globblCursorMbnbgerClbss,
+                        AwtCursor::updbteCursorID, jcomp);
                 }
             }
         }
-    } catch (...) {
-        env->DeleteLocalRef(jcomp);
+    } cbtch (...) {
+        env->DeleteLocblRef(jcomp);
         throw;
     }
-    env->DeleteLocalRef(jcomp);
+    env->DeleteLocblRef(jcomp);
 }
 
 void AwtCursor::Rebuild() {
@@ -268,21 +268,21 @@ void AwtCursor::Rebuild() {
     ::DestroyIcon(hCursor);
     hCursor = NULL;
 
-    HBITMAP hMask = ::CreateBitmap(nWidth, nHeight, 1, 1, mask);
-    HBITMAP hColor = create_BMP(NULL, cols, nSS, nWidth, nHeight);
-    if (hMask && hColor) {
+    HBITMAP hMbsk = ::CrebteBitmbp(nWidth, nHeight, 1, 1, mbsk);
+    HBITMAP hColor = crebte_BMP(NULL, cols, nSS, nWidth, nHeight);
+    if (hMbsk && hColor) {
         ICONINFO icnInfo;
         memset(&icnInfo, 0, sizeof(ICONINFO));
-        icnInfo.hbmMask = hMask;
+        icnInfo.hbmMbsk = hMbsk;
         icnInfo.hbmColor = hColor;
         icnInfo.fIcon = FALSE;
         icnInfo.xHotspot = xHotSpot;
         icnInfo.yHotspot = yHotSpot;
 
-        hCursor = ::CreateIconIndirect(&icnInfo);
+        hCursor = ::CrebteIconIndirect(&icnInfo);
 
         destroy_BMP(hColor);
-        destroy_BMP(hMask);
+        destroy_BMP(hMbsk);
     }
     DASSERT(hCursor);
     dirty = FALSE;
@@ -295,26 +295,26 @@ extern "C" {
  */
 
 /*
- * Class:     jave_awt_Cursor
+ * Clbss:     jbve_bwt_Cursor
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_Cursor_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Cursor_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtCursor::mSetPDataID = env->GetMethodID(cls, "setPData", "(J)V");
-    DASSERT(AwtCursor::mSetPDataID != NULL);
-    CHECK_NULL(AwtCursor::mSetPDataID);
-    AwtCursor::pDataID = env->GetFieldID(cls, "pData", "J");
-    DASSERT(AwtCursor::pDataID != NULL);
-    CHECK_NULL(AwtCursor::pDataID);
+    AwtCursor::mSetPDbtbID = env->GetMethodID(cls, "setPDbtb", "(J)V");
+    DASSERT(AwtCursor::mSetPDbtbID != NULL);
+    CHECK_NULL(AwtCursor::mSetPDbtbID);
+    AwtCursor::pDbtbID = env->GetFieldID(cls, "pDbtb", "J");
+    DASSERT(AwtCursor::pDbtbID != NULL);
+    CHECK_NULL(AwtCursor::pDbtbID);
     AwtCursor::typeID = env->GetFieldID(cls, "type", "I");
     DASSERT(AwtCursor::typeID != NULL);
     CHECK_NULL(AwtCursor::typeID);
 
-    cls = env->FindClass("java/awt/Point");
+    cls = env->FindClbss("jbvb/bwt/Point");
     CHECK_NULL(cls);
 
     AwtCursor::pointXID = env->GetFieldID(cls, "x", "I");
@@ -323,97 +323,97 @@ Java_java_awt_Cursor_initIDs(JNIEnv *env, jclass cls)
     AwtCursor::pointYID = env->GetFieldID(cls, "y", "I");
     DASSERT(AwtCursor::pointYID != NULL);
 
-    AwtCursor::updateCursorID = NULL;
+    AwtCursor::updbteCursorID = NULL;
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     java_awt_Cursor
- * Method:    finalizeImpl
- * Signature: ()V
+ * Clbss:     jbvb_bwt_Cursor
+ * Method:    finblizeImpl
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_Cursor_finalizeImpl(JNIEnv *env, jclass clazz, jlong pData)
+Jbvb_jbvb_bwt_Cursor_finblizeImpl(JNIEnv *env, jclbss clbzz, jlong pDbtb)
 {
     TRY_NO_VERIFY;
 
-    AwtObject::_Dispose((PDATA)pData);
+    AwtObject::_Dispose((PDATA)pDbtb);
 
     CATCH_BAD_ALLOC;
 }
 
 /************************************************************************
- * WCustomCursor native methods
+ * WCustomCursor nbtive methods
  */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WCustomCursor_createCursorIndirect(
-    JNIEnv *env, jobject self, jintArray intRasterData, jbyteArray andMask,
+Jbvb_sun_bwt_windows_WCustomCursor_crebteCursorIndirect(
+    JNIEnv *env, jobject self, jintArrby intRbsterDbtb, jbyteArrby bndMbsk,
     jint nSS, jint nW, jint nH, jint xHotSpot, jint yHotSpot)
 {
     TRY;
 
-    JNI_CHECK_NULL_RETURN(intRasterData, "intRasterData argument");
+    JNI_CHECK_NULL_RETURN(intRbsterDbtb, "intRbsterDbtb brgument");
 
     if (nW != ::GetSystemMetrics(SM_CXCURSOR) ||
         nH != ::GetSystemMetrics(SM_CYCURSOR)) {
-        JNU_ThrowArrayIndexOutOfBoundsException(env,
-                                                "bad width and/or height");
+        JNU_ThrowArrbyIndexOutOfBoundsException(env,
+                                                "bbd width bnd/or height");
         return;
     }
 
-    jsize length = env->GetArrayLength(andMask);
-    jbyte *andMaskPtr = new jbyte[length]; // safe because sizeof(jbyte)==1
-    env->GetByteArrayRegion(andMask, 0, length, andMaskPtr);
+    jsize length = env->GetArrbyLength(bndMbsk);
+    jbyte *bndMbskPtr = new jbyte[length]; // sbfe becbuse sizeof(jbyte)==1
+    env->GetByteArrbyRegion(bndMbsk, 0, length, bndMbskPtr);
 
-    HBITMAP hMask = ::CreateBitmap(nW, nH, 1, 1, (BYTE *)andMaskPtr);
+    HBITMAP hMbsk = ::CrebteBitmbp(nW, nH, 1, 1, (BYTE *)bndMbskPtr);
     ::GdiFlush();
 
     int *cols = SAFE_SIZE_NEW_ARRAY2(int, nW, nH);
 
-    jint *intRasterDataPtr = NULL;
+    jint *intRbsterDbtbPtr = NULL;
     HBITMAP hColor = NULL;
     try {
-        intRasterDataPtr =
-            (jint *)env->GetPrimitiveArrayCritical(intRasterData, 0);
-        hColor = create_BMP(NULL, (int *)intRasterDataPtr, nSS, nW, nH);
-        memcpy(cols, intRasterDataPtr, nW*nH*sizeof(int));
-    } catch (...) {
-        if (intRasterDataPtr != NULL) {
-            env->ReleasePrimitiveArrayCritical(intRasterData,
-                                               intRasterDataPtr, 0);
+        intRbsterDbtbPtr =
+            (jint *)env->GetPrimitiveArrbyCriticbl(intRbsterDbtb, 0);
+        hColor = crebte_BMP(NULL, (int *)intRbsterDbtbPtr, nSS, nW, nH);
+        memcpy(cols, intRbsterDbtbPtr, nW*nH*sizeof(int));
+    } cbtch (...) {
+        if (intRbsterDbtbPtr != NULL) {
+            env->RelebsePrimitiveArrbyCriticbl(intRbsterDbtb,
+                                               intRbsterDbtbPtr, 0);
         }
         throw;
     }
 
-    env->ReleasePrimitiveArrayCritical(intRasterData, intRasterDataPtr, 0);
-    intRasterDataPtr = NULL;
+    env->RelebsePrimitiveArrbyCriticbl(intRbsterDbtb, intRbsterDbtbPtr, 0);
+    intRbsterDbtbPtr = NULL;
 
     HCURSOR hCursor = NULL;
 
-    if (hMask && hColor) {
+    if (hMbsk && hColor) {
         ICONINFO icnInfo;
         memset(&icnInfo, 0, sizeof(ICONINFO));
-        icnInfo.hbmMask = hMask;
+        icnInfo.hbmMbsk = hMbsk;
         icnInfo.hbmColor = hColor;
         icnInfo.fIcon = FALSE;
         icnInfo.xHotspot = xHotSpot;
         icnInfo.yHotspot = yHotSpot;
 
-        hCursor = ::CreateIconIndirect(&icnInfo);
+        hCursor = ::CrebteIconIndirect(&icnInfo);
 
         destroy_BMP(hColor);
-        destroy_BMP(hMask);
+        destroy_BMP(hMbsk);
     }
 
     DASSERT(hCursor);
 
     try {
-        AwtCursor::setPData(self, ptr_to_jlong(new AwtCursor(env, hCursor, self, xHotSpot,
+        AwtCursor::setPDbtb(self, ptr_to_jlong(new AwtCursor(env, hCursor, self, xHotSpot,
                                                              yHotSpot, nW, nH, nSS, cols,
-                                                             (BYTE *)andMaskPtr)));
-    } catch (...) {
+                                                             (BYTE *)bndMbskPtr)));
+    } cbtch (...) {
         if (cols) {
             delete[] cols;
         }
@@ -423,12 +423,12 @@ Java_sun_awt_windows_WCustomCursor_createCursorIndirect(
 }
 
 /*
- * Class:     sun_awt_windows_WCustomCursor
+ * Clbss:     sun_bwt_windows_WCustomCursor
  * Method:    getCursorWidth
- * Signature: ()I
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WCustomCursor_getCursorWidth(JNIEnv *, jclass)
+Jbvb_sun_bwt_windows_WCustomCursor_getCursorWidth(JNIEnv *, jclbss)
 {
     TRY;
 
@@ -439,12 +439,12 @@ Java_sun_awt_windows_WCustomCursor_getCursorWidth(JNIEnv *, jclass)
 }
 
 /*
- * Class:     sun_awt_windows_WCustomCursor
+ * Clbss:     sun_bwt_windows_WCustomCursor
  * Method:    getCursorHeight
- * Signature: ()I
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WCustomCursor_getCursorHeight(JNIEnv *, jclass)
+Jbvb_sun_bwt_windows_WCustomCursor_getCursorHeight(JNIEnv *, jclbss)
 {
     TRY;
 
@@ -455,16 +455,16 @@ Java_sun_awt_windows_WCustomCursor_getCursorHeight(JNIEnv *, jclass)
 }
 
 /************************************************************************
- * WGlobalCursorManager native methods
+ * WGlobblCursorMbnbger nbtive methods
  */
 
 /*
- * Class:     sun_awt_windows_WGlobalCursorManager
+ * Clbss:     sun_bwt_windows_WGlobblCursorMbnbger
  * Method:    getCursorPos
- * Signature: (Ljava/awt/Point;)V
+ * Signbture: (Ljbvb/bwt/Point;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WGlobalCursorManager_getCursorPos(JNIEnv *env,
+Jbvb_sun_bwt_windows_WGlobblCursorMbnbger_getCursorPos(JNIEnv *env,
                                                        jobject,
                                                        jobject point)
 {
@@ -478,66 +478,66 @@ Java_sun_awt_windows_WGlobalCursorManager_getCursorPos(JNIEnv *env,
     CATCH_BAD_ALLOC;
 }
 
-struct GlobalSetCursorStruct {
+struct GlobblSetCursorStruct {
     jobject cursor;
-    jboolean u;
+    jboolebn u;
 };
 
-static void GlobalSetCursor(void* pStruct) {
+stbtic void GlobblSetCursor(void* pStruct) {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject cursor  = ((GlobalSetCursorStruct*)pStruct)->cursor;
-    jboolean u      = ((GlobalSetCursorStruct*)pStruct)->u;
-    jlong pData = env->GetLongField(cursor, AwtCursor::pDataID);
-    AwtCursor *awtCursor = (AwtCursor *)jlong_to_ptr(pData);
+    jobject cursor  = ((GlobblSetCursorStruct*)pStruct)->cursor;
+    jboolebn u      = ((GlobblSetCursorStruct*)pStruct)->u;
+    jlong pDbtb = env->GetLongField(cursor, AwtCursor::pDbtbID);
+    AwtCursor *bwtCursor = (AwtCursor *)jlong_to_ptr(pDbtb);
 
-    if (awtCursor == NULL) {
-        awtCursor = AwtCursor::CreateSystemCursor(cursor);
+    if (bwtCursor == NULL) {
+        bwtCursor = AwtCursor::CrebteSystemCursor(cursor);
     }
 
-    HCURSOR hCursor = awtCursor->GetHCursor();
+    HCURSOR hCursor = bwtCursor->GetHCursor();
 
-    BOOL blocked = false;
-    if (jobject jcomp = AwtComponent::FindHeavyweightUnderCursor(u)) {
-        if(jobject jpeer = AwtObject::GetPeerForTarget(env, jcomp))
+    BOOL blocked = fblse;
+    if (jobject jcomp = AwtComponent::FindHebvyweightUnderCursor(u)) {
+        if(jobject jpeer = AwtObject::GetPeerForTbrget(env, jcomp))
         {
-            if(AwtComponent *awtComponent = (AwtComponent*)JNI_GET_PDATA(jpeer)) {
-                blocked = ::IsWindow(AwtWindow::GetModalBlocker(
-                                    AwtComponent::GetTopLevelParentForWindow(
-                                    awtComponent->GetHWnd())));
+            if(AwtComponent *bwtComponent = (AwtComponent*)JNI_GET_PDATA(jpeer)) {
+                blocked = ::IsWindow(AwtWindow::GetModblBlocker(
+                                    AwtComponent::GetTopLevelPbrentForWindow(
+                                    bwtComponent->GetHWnd())));
                 if (!blocked) {
-                    awtComponent->setCursorCache(hCursor);
+                    bwtComponent->setCursorCbche(hCursor);
                 }
             }
-            env->DeleteLocalRef(jpeer);
+            env->DeleteLocblRef(jpeer);
         }
-        env->DeleteGlobalRef(jcomp);
+        env->DeleteGlobblRef(jcomp);
     }
 
     if (!blocked) {
         ::SetCursor(hCursor); // don't need WM_AWT_SETCURSOR
     }
 
-    env->DeleteGlobalRef(((GlobalSetCursorStruct*)pStruct)->cursor);
+    env->DeleteGlobblRef(((GlobblSetCursorStruct*)pStruct)->cursor);
 }
 
 /*
- * Class:     sun_awt_windows_WGlobalCursorManager
+ * Clbss:     sun_bwt_windows_WGlobblCursorMbnbger
  * Method:    setCursor
- * Signature: (Ljava/awt/Component;Ljava/awt/Cursor;)V
+ * Signbture: (Ljbvb/bwt/Component;Ljbvb/bwt/Cursor;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WGlobalCursorManager_setCursor(JNIEnv *env, jobject,
-                            jobject, jobject cursor, jboolean u)
+Jbvb_sun_bwt_windows_WGlobblCursorMbnbger_setCursor(JNIEnv *env, jobject,
+                            jobject, jobject cursor, jboolebn u)
 {
     TRY;
 
     if (cursor != NULL) {  // fix for 4430302 - getCursor() returns NULL
-        GlobalSetCursorStruct data;
-        data.cursor = env->NewGlobalRef(cursor);
-        data.u = u;
-        AwtToolkit::GetInstance().InvokeFunction(
-               GlobalSetCursor,
-               (void *)&data);
+        GlobblSetCursorStruct dbtb;
+        dbtb.cursor = env->NewGlobblRef(cursor);
+        dbtb.u = u;
+        AwtToolkit::GetInstbnce().InvokeFunction(
+               GlobblSetCursor,
+               (void *)&dbtb);
     } else {
         JNU_ThrowNullPointerException(env, "NullPointerException");
     }
@@ -545,45 +545,45 @@ Java_sun_awt_windows_WGlobalCursorManager_setCursor(JNIEnv *env, jobject,
 }
 
 /*
- * Class:     sun_awt_windows_WGlobalCursorManager
- * Method:    findHeavyweight
- * Signature: (II)Z
+ * Clbss:     sun_bwt_windows_WGlobblCursorMbnbger
+ * Method:    findHebvyweight
+ * Signbture: (II)Z
  */
 JNIEXPORT jobject JNICALL
-Java_sun_awt_windows_WGlobalCursorManager_findHeavyweightUnderCursor(
-    JNIEnv *env, jobject, jboolean useCache)
+Jbvb_sun_bwt_windows_WGlobblCursorMbnbger_findHebvyweightUnderCursor(
+    JNIEnv *env, jobject, jboolebn useCbche)
 {
     TRY;
 
-    if (env->EnsureLocalCapacity(1) < 0) {
+    if (env->EnsureLocblCbpbcity(1) < 0) {
         return NULL;
     }
 
-    jobject globalRef = (jobject)AwtToolkit::GetInstance().
+    jobject globblRef = (jobject)AwtToolkit::GetInstbnce().
         InvokeFunction((void*(*)(void*))
-                       AwtComponent::FindHeavyweightUnderCursor,
-                       (void *)useCache);
-    jobject localRef = env->NewLocalRef(globalRef);
-    env->DeleteGlobalRef(globalRef);
-    return localRef;
+                       AwtComponent::FindHebvyweightUnderCursor,
+                       (void *)useCbche);
+    jobject locblRef = env->NewLocblRef(globblRef);
+    env->DeleteGlobblRef(globblRef);
+    return locblRef;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WGlobalCursorManager
- * Method:    getLocationOnScreen
- * Signature: (L/java/awt/Component;)L/java/awt/Point
+ * Clbss:     sun_bwt_windows_WGlobblCursorMbnbger
+ * Method:    getLocbtionOnScreen
+ * Signbture: (L/jbvb/bwt/Component;)L/jbvb/bwt/Point
  */
 JNIEXPORT jobject JNICALL
-Java_sun_awt_windows_WGlobalCursorManager_getLocationOnScreen(
+Jbvb_sun_bwt_windows_WGlobblCursorMbnbger_getLocbtionOnScreen(
     JNIEnv *env, jobject, jobject component)
 {
     TRY;
 
     JNI_CHECK_NULL_RETURN_NULL(component, "null component");
     jobject point =
-        env->CallObjectMethod(component, AwtComponent::getLocationOnScreenMID);
+        env->CbllObjectMethod(component, AwtComponent::getLocbtionOnScreenMID);
     return point;
 
     CATCH_BAD_ALLOC_RET(NULL);

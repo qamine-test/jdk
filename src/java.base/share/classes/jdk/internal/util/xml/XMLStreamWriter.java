@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.internal.util.xml;
+pbckbge jdk.internbl.util.xml;
 
 /**
- * Basic XMLStreamWriter for writing simple XML files such as those
- * defined in java.util.Properties
+ * Bbsic XMLStrebmWriter for writing simple XML files such bs those
+ * defined in jbvb.util.Properties
  *
- * This is a subset of javax.xml.stream.XMLStreamWriter
+ * This is b subset of jbvbx.xml.strebm.XMLStrebmWriter
  *
- * @author Joe Wang
+ * @buthor Joe Wbng
  */
-public  interface XMLStreamWriter {
+public  interfbce XMLStrebmWriter {
 
-    //Defaults the XML version to 1.0, and the encoding to utf-8
-    public final static String DEFAULT_XML_VERSION = "1.0";
-    public final static String DEFAULT_ENCODING = "UTF-8";
+    //Defbults the XML version to 1.0, bnd the encoding to utf-8
+    public finbl stbtic String DEFAULT_XML_VERSION = "1.0";
+    public finbl stbtic String DEFAULT_ENCODING = "UTF-8";
 
     /**
-     * Writes a start tag to the output.  All writeStartElement methods
-     * open a new scope in the internal namespace context.  Writing the
-     * corresponding EndElement causes the scope to be closed.
-     * @param localName local name of the tag, may not be null
-     * @throws XMLStreamException
+     * Writes b stbrt tbg to the output.  All writeStbrtElement methods
+     * open b new scope in the internbl nbmespbce context.  Writing the
+     * corresponding EndElement cbuses the scope to be closed.
+     * @pbrbm locblNbme locbl nbme of the tbg, mby not be null
+     * @throws XMLStrebmException
      */
-    public void writeStartElement(String localName) throws XMLStreamException;
+    public void writeStbrtElement(String locblNbme) throws XMLStrebmException;
 
     /**
-     * Writes an empty element tag to the output
-     * @param localName local name of the tag, may not be null
-     * @throws XMLStreamException
+     * Writes bn empty element tbg to the output
+     * @pbrbm locblNbme locbl nbme of the tbg, mby not be null
+     * @throws XMLStrebmException
      */
-    public void writeEmptyElement(String localName) throws XMLStreamException;
+    public void writeEmptyElement(String locblNbme) throws XMLStrebmException;
 
     /**
-     * Writes an end tag to the output relying on the internal
-     * state of the writer to determine the prefix and local name
+     * Writes bn end tbg to the output relying on the internbl
+     * stbte of the writer to determine the prefix bnd locbl nbme
      * of the event.
-     * @throws XMLStreamException
+     * @throws XMLStrebmException
      */
-    public void writeEndElement() throws XMLStreamException;
+    public void writeEndElement() throws XMLStrebmException;
 
     /**
-     * Closes any start tags and writes corresponding end tags.
-     * @throws XMLStreamException
+     * Closes bny stbrt tbgs bnd writes corresponding end tbgs.
+     * @throws XMLStrebmException
      */
-    public void writeEndDocument() throws XMLStreamException;
+    public void writeEndDocument() throws XMLStrebmException;
 
     /**
-     * Close this writer and free any resources associated with the
-     * writer.  This must not close the underlying output stream.
-     * @throws XMLStreamException
+     * Close this writer bnd free bny resources bssocibted with the
+     * writer.  This must not close the underlying output strebm.
+     * @throws XMLStrebmException
      */
-    public void close() throws XMLStreamException;
+    public void close() throws XMLStrebmException;
 
     /**
-     * Write any cached data to the underlying output mechanism.
-     * @throws XMLStreamException
+     * Write bny cbched dbtb to the underlying output mechbnism.
+     * @throws XMLStrebmException
      */
-    public void flush() throws XMLStreamException;
+    public void flush() throws XMLStrebmException;
 
     /**
-     * Writes an attribute to the output stream without
-     * a prefix.
-     * @param localName the local name of the attribute
-     * @param value the value of the attribute
-     * @throws IllegalStateException if the current state does not allow Attribute writing
-     * @throws XMLStreamException
+     * Writes bn bttribute to the output strebm without
+     * b prefix.
+     * @pbrbm locblNbme the locbl nbme of the bttribute
+     * @pbrbm vblue the vblue of the bttribute
+     * @throws IllegblStbteException if the current stbte does not bllow Attribute writing
+     * @throws XMLStrebmException
      */
-    public void writeAttribute(String localName, String value)
-            throws XMLStreamException;
+    public void writeAttribute(String locblNbme, String vblue)
+            throws XMLStrebmException;
 
     /**
-     * Writes a CData section
-     * @param data the data contained in the CData Section, may not be null
-     * @throws XMLStreamException
+     * Writes b CDbtb section
+     * @pbrbm dbtb the dbtb contbined in the CDbtb Section, mby not be null
+     * @throws XMLStrebmException
      */
-    public void writeCData(String data) throws XMLStreamException;
+    public void writeCDbtb(String dbtb) throws XMLStrebmException;
 
     /**
-     * Write a DTD section.  This string represents the entire doctypedecl production
-     * from the XML 1.0 specification.
+     * Write b DTD section.  This string represents the entire doctypedecl production
+     * from the XML 1.0 specificbtion.
      *
-     * @param dtd the DTD to be written
-     * @throws XMLStreamException
+     * @pbrbm dtd the DTD to be written
+     * @throws XMLStrebmException
      */
-    public void writeDTD(String dtd) throws XMLStreamException;
+    public void writeDTD(String dtd) throws XMLStrebmException;
 
     /**
-     * Write the XML Declaration. Defaults the XML version to 1.0, and the encoding to utf-8
-     * @throws XMLStreamException
+     * Write the XML Declbrbtion. Defbults the XML version to 1.0, bnd the encoding to utf-8
+     * @throws XMLStrebmException
      */
-    public void writeStartDocument() throws XMLStreamException;
+    public void writeStbrtDocument() throws XMLStrebmException;
 
     /**
-     * Write the XML Declaration. Defaults the the encoding to utf-8
-     * @param version version of the xml document
-     * @throws XMLStreamException
+     * Write the XML Declbrbtion. Defbults the the encoding to utf-8
+     * @pbrbm version version of the xml document
+     * @throws XMLStrebmException
      */
-    public void writeStartDocument(String version) throws XMLStreamException;
+    public void writeStbrtDocument(String version) throws XMLStrebmException;
 
     /**
-     * Write the XML Declaration.  Note that the encoding parameter does
-     * not set the actual encoding of the underlying output.  That must
-     * be set when the instance of the XMLStreamWriter is created using the
-     * XMLOutputFactory
-     * @param encoding encoding of the xml declaration
-     * @param version version of the xml document
-     * @throws XMLStreamException If given encoding does not match encoding
-     * of the underlying stream
+     * Write the XML Declbrbtion.  Note thbt the encoding pbrbmeter does
+     * not set the bctubl encoding of the underlying output.  Thbt must
+     * be set when the instbnce of the XMLStrebmWriter is crebted using the
+     * XMLOutputFbctory
+     * @pbrbm encoding encoding of the xml declbrbtion
+     * @pbrbm version version of the xml document
+     * @throws XMLStrebmException If given encoding does not mbtch encoding
+     * of the underlying strebm
      */
-    public void writeStartDocument(String encoding, String version)
-        throws XMLStreamException;
-
-    /**
-     * Write text to the output
-     * @param text the value to write
-     * @throws XMLStreamException
-     */
-    public void writeCharacters(String text) throws XMLStreamException;
+    public void writeStbrtDocument(String encoding, String version)
+        throws XMLStrebmException;
 
     /**
      * Write text to the output
-     * @param text the value to write
-     * @param start the starting position in the array
-     * @param len the number of characters to write
-     * @throws XMLStreamException
+     * @pbrbm text the vblue to write
+     * @throws XMLStrebmException
      */
-    public void writeCharacters(char[] text, int start, int len)
-        throws XMLStreamException;
+    public void writeChbrbcters(String text) throws XMLStrebmException;
+
+    /**
+     * Write text to the output
+     * @pbrbm text the vblue to write
+     * @pbrbm stbrt the stbrting position in the brrby
+     * @pbrbm len the number of chbrbcters to write
+     * @throws XMLStrebmException
+     */
+    public void writeChbrbcters(chbr[] text, int stbrt, int len)
+        throws XMLStrebmException;
 }

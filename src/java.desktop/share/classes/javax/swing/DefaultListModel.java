@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
-import javax.swing.event.*;
+import jbvbx.swing.event.*;
 
 
 /**
- * This class loosely implements the <code>java.util.Vector</code>
- * API, in that it implements the 1.1.x version of
- * <code>java.util.Vector</code>, has no collection class support,
- * and notifies the <code>ListDataListener</code>s when changes occur.
- * Presently it delegates to a <code>Vector</code>,
- * in a future release it will be a real Collection implementation.
+ * This clbss loosely implements the <code>jbvb.util.Vector</code>
+ * API, in thbt it implements the 1.1.x version of
+ * <code>jbvb.util.Vector</code>, hbs no collection clbss support,
+ * bnd notifies the <code>ListDbtbListener</code>s when chbnges occur.
+ * Presently it delegbtes to b <code>Vector</code>,
+ * in b future relebse it will be b rebl Collection implementbtion.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @param <E> the type of the elements of this model
+ * @pbrbm <E> the type of the elements of this model
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultListModel<E> extends AbstractListModel<E>
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultListModel<E> extends AbstrbctListModel<E>
 {
-    private Vector<E> delegate = new Vector<E>();
+    privbte Vector<E> delegbte = new Vector<E>();
 
     /**
      * Returns the number of components in this list.
      * <p>
-     * This method is identical to <code>size</code>, which implements the
-     * <code>List</code> interface defined in the 1.2 Collections framework.
-     * This method exists in conjunction with <code>setSize</code> so that
-     * <code>size</code> is identifiable as a JavaBean property.
+     * This method is identicbl to <code>size</code>, which implements the
+     * <code>List</code> interfbce defined in the 1.2 Collections frbmework.
+     * This method exists in conjunction with <code>setSize</code> so thbt
+     * <code>size</code> is identifibble bs b JbvbBebn property.
      *
      * @return  the number of components in this list
      * @see #size()
      */
     public int getSize() {
-        return delegate.size();
+        return delegbte.size();
     }
 
     /**
-     * Returns the component at the specified index.
+     * Returns the component bt the specified index.
      * <blockquote>
-     * <b>Note:</b> Although this method is not deprecated, the preferred
+     * <b>Note:</b> Although this method is not deprecbted, the preferred
      *    method to use is <code>get(int)</code>, which implements the
-     *    <code>List</code> interface defined in the 1.2 Collections framework.
+     *    <code>List</code> interfbce defined in the 1.2 Collections frbmework.
      * </blockquote>
-     * @param      index   an index into this list
-     * @return     the component at the specified index
-     * @exception  ArrayIndexOutOfBoundsException  if the <code>index</code>
-     *             is negative or greater than the current size of this
+     * @pbrbm      index   bn index into this list
+     * @return     the component bt the specified index
+     * @exception  ArrbyIndexOutOfBoundsException  if the <code>index</code>
+     *             is negbtive or grebter thbn the current size of this
      *             list
      * @see #get(int)
      */
     public E getElementAt(int index) {
-        return delegate.elementAt(index);
+        return delegbte.elementAt(index);
     }
 
     /**
-     * Copies the components of this list into the specified array.
-     * The array must be big enough to hold all the objects in this list,
-     * else an <code>IndexOutOfBoundsException</code> is thrown.
+     * Copies the components of this list into the specified brrby.
+     * The brrby must be big enough to hold bll the objects in this list,
+     * else bn <code>IndexOutOfBoundsException</code> is thrown.
      *
-     * @param   anArray   the array into which the components get copied
+     * @pbrbm   bnArrby   the brrby into which the components get copied
      * @see Vector#copyInto(Object[])
      */
-    public void copyInto(Object anArray[]) {
-        delegate.copyInto(anArray);
+    public void copyInto(Object bnArrby[]) {
+        delegbte.copyInto(bnArrby);
     }
 
     /**
-     * Trims the capacity of this list to be the list's current size.
+     * Trims the cbpbcity of this list to be the list's current size.
      *
      * @see Vector#trimToSize()
      */
     public void trimToSize() {
-        delegate.trimToSize();
+        delegbte.trimToSize();
     }
 
     /**
-     * Increases the capacity of this list, if necessary, to ensure
-     * that it can hold at least the number of components specified by
-     * the minimum capacity argument.
+     * Increbses the cbpbcity of this list, if necessbry, to ensure
+     * thbt it cbn hold bt lebst the number of components specified by
+     * the minimum cbpbcity brgument.
      *
-     * @param   minCapacity   the desired minimum capacity
-     * @see Vector#ensureCapacity(int)
+     * @pbrbm   minCbpbcity   the desired minimum cbpbcity
+     * @see Vector#ensureCbpbcity(int)
      */
-    public void ensureCapacity(int minCapacity) {
-        delegate.ensureCapacity(minCapacity);
+    public void ensureCbpbcity(int minCbpbcity) {
+        delegbte.ensureCbpbcity(minCbpbcity);
     }
 
     /**
      * Sets the size of this list.
      *
-     * @param   newSize   the new size of this list
+     * @pbrbm   newSize   the new size of this list
      * @see Vector#setSize(int)
      */
     public void setSize(int newSize) {
-        int oldSize = delegate.size();
-        delegate.setSize(newSize);
+        int oldSize = delegbte.size();
+        delegbte.setSize(newSize);
         if (oldSize > newSize) {
-            fireIntervalRemoved(this, newSize, oldSize-1);
+            fireIntervblRemoved(this, newSize, oldSize-1);
         }
         else if (oldSize < newSize) {
-            fireIntervalAdded(this, oldSize, newSize-1);
+            fireIntervblAdded(this, oldSize, newSize-1);
         }
     }
 
     /**
-     * Returns the current capacity of this list.
+     * Returns the current cbpbcity of this list.
      *
-     * @return  the current capacity
-     * @see Vector#capacity()
+     * @return  the current cbpbcity
+     * @see Vector#cbpbcity()
      */
-    public int capacity() {
-        return delegate.capacity();
+    public int cbpbcity() {
+        return delegbte.cbpbcity();
     }
 
     /**
@@ -158,392 +158,392 @@ public class DefaultListModel<E> extends AbstractListModel<E>
      * @see Vector#size()
      */
     public int size() {
-        return delegate.size();
+        return delegbte.size();
     }
 
     /**
-     * Tests whether this list has any components.
+     * Tests whether this list hbs bny components.
      *
-     * @return  <code>true</code> if and only if this list has
-     *          no components, that is, its size is zero;
-     *          <code>false</code> otherwise
+     * @return  <code>true</code> if bnd only if this list hbs
+     *          no components, thbt is, its size is zero;
+     *          <code>fblse</code> otherwise
      * @see Vector#isEmpty()
      */
-    public boolean isEmpty() {
-        return delegate.isEmpty();
+    public boolebn isEmpty() {
+        return delegbte.isEmpty();
     }
 
     /**
-     * Returns an enumeration of the components of this list.
+     * Returns bn enumerbtion of the components of this list.
      *
-     * @return  an enumeration of the components of this list
+     * @return  bn enumerbtion of the components of this list
      * @see Vector#elements()
      */
-    public Enumeration<E> elements() {
-        return delegate.elements();
+    public Enumerbtion<E> elements() {
+        return delegbte.elements();
     }
 
     /**
-     * Tests whether the specified object is a component in this list.
+     * Tests whether the specified object is b component in this list.
      *
-     * @param   elem   an object
+     * @pbrbm   elem   bn object
      * @return  <code>true</code> if the specified object
-     *          is the same as a component in this list
-     * @see Vector#contains(Object)
+     *          is the sbme bs b component in this list
+     * @see Vector#contbins(Object)
      */
-    public boolean contains(Object elem) {
-        return delegate.contains(elem);
+    public boolebn contbins(Object elem) {
+        return delegbte.contbins(elem);
     }
 
     /**
-     * Searches for the first occurrence of <code>elem</code>.
+     * Sebrches for the first occurrence of <code>elem</code>.
      *
-     * @param   elem   an object
-     * @return  the index of the first occurrence of the argument in this
+     * @pbrbm   elem   bn object
+     * @return  the index of the first occurrence of the brgument in this
      *          list; returns <code>-1</code> if the object is not found
      * @see Vector#indexOf(Object)
      */
     public int indexOf(Object elem) {
-        return delegate.indexOf(elem);
+        return delegbte.indexOf(elem);
     }
 
     /**
-     * Searches for the first occurrence of <code>elem</code>, beginning
-     * the search at <code>index</code>.
+     * Sebrches for the first occurrence of <code>elem</code>, beginning
+     * the sebrch bt <code>index</code>.
      *
-     * @param   elem    an desired component
-     * @param   index   the index from which to begin searching
+     * @pbrbm   elem    bn desired component
+     * @pbrbm   index   the index from which to begin sebrching
      * @return  the index where the first occurrence of <code>elem</code>
-     *          is found after <code>index</code>; returns <code>-1</code>
+     *          is found bfter <code>index</code>; returns <code>-1</code>
      *          if the <code>elem</code> is not found in the list
      * @see Vector#indexOf(Object,int)
      */
      public int indexOf(Object elem, int index) {
-        return delegate.indexOf(elem, index);
+        return delegbte.indexOf(elem, index);
     }
 
     /**
-     * Returns the index of the last occurrence of <code>elem</code>.
+     * Returns the index of the lbst occurrence of <code>elem</code>.
      *
-     * @param   elem   the desired component
-     * @return  the index of the last occurrence of <code>elem</code>
+     * @pbrbm   elem   the desired component
+     * @return  the index of the lbst occurrence of <code>elem</code>
      *          in the list; returns <code>-1</code> if the object is not found
-     * @see Vector#lastIndexOf(Object)
+     * @see Vector#lbstIndexOf(Object)
      */
-    public int lastIndexOf(Object elem) {
-        return delegate.lastIndexOf(elem);
+    public int lbstIndexOf(Object elem) {
+        return delegbte.lbstIndexOf(elem);
     }
 
     /**
-     * Searches backwards for <code>elem</code>, starting from the
-     * specified index, and returns an index to it.
+     * Sebrches bbckwbrds for <code>elem</code>, stbrting from the
+     * specified index, bnd returns bn index to it.
      *
-     * @param  elem    the desired component
-     * @param  index   the index to start searching from
-     * @return the index of the last occurrence of the <code>elem</code>
-     *          in this list at position less than <code>index</code>;
+     * @pbrbm  elem    the desired component
+     * @pbrbm  index   the index to stbrt sebrching from
+     * @return the index of the lbst occurrence of the <code>elem</code>
+     *          in this list bt position less thbn <code>index</code>;
      *          returns <code>-1</code> if the object is not found
-     * @see Vector#lastIndexOf(Object,int)
+     * @see Vector#lbstIndexOf(Object,int)
      */
-    public int lastIndexOf(Object elem, int index) {
-        return delegate.lastIndexOf(elem, index);
+    public int lbstIndexOf(Object elem, int index) {
+        return delegbte.lbstIndexOf(elem, index);
     }
 
     /**
-     * Returns the component at the specified index.
-     * Throws an <code>ArrayIndexOutOfBoundsException</code> if the index
-     * is negative or not less than the size of the list.
+     * Returns the component bt the specified index.
+     * Throws bn <code>ArrbyIndexOutOfBoundsException</code> if the index
+     * is negbtive or not less thbn the size of the list.
      * <blockquote>
-     * <b>Note:</b> Although this method is not deprecated, the preferred
+     * <b>Note:</b> Although this method is not deprecbted, the preferred
      *    method to use is <code>get(int)</code>, which implements the
-     *    <code>List</code> interface defined in the 1.2 Collections framework.
+     *    <code>List</code> interfbce defined in the 1.2 Collections frbmework.
      * </blockquote>
      *
-     * @param      index   an index into this list
-     * @return     the component at the specified index
+     * @pbrbm      index   bn index into this list
+     * @return     the component bt the specified index
      * @see #get(int)
      * @see Vector#elementAt(int)
      */
     public E elementAt(int index) {
-        return delegate.elementAt(index);
+        return delegbte.elementAt(index);
     }
 
     /**
      * Returns the first component of this list.
-     * Throws a <code>NoSuchElementException</code> if this
-     * vector has no components.
+     * Throws b <code>NoSuchElementException</code> if this
+     * vector hbs no components.
      * @return     the first component of this list
      * @see Vector#firstElement()
      */
     public E firstElement() {
-        return delegate.firstElement();
+        return delegbte.firstElement();
     }
 
     /**
-     * Returns the last component of the list.
-     * Throws a <code>NoSuchElementException</code> if this vector
-     * has no components.
+     * Returns the lbst component of the list.
+     * Throws b <code>NoSuchElementException</code> if this vector
+     * hbs no components.
      *
-     * @return  the last component of the list
-     * @see Vector#lastElement()
+     * @return  the lbst component of the list
+     * @see Vector#lbstElement()
      */
-    public E lastElement() {
-        return delegate.lastElement();
+    public E lbstElement() {
+        return delegbte.lbstElement();
     }
 
     /**
-     * Sets the component at the specified <code>index</code> of this
-     * list to be the specified element. The previous component at that
-     * position is discarded.
+     * Sets the component bt the specified <code>index</code> of this
+     * list to be the specified element. The previous component bt thbt
+     * position is discbrded.
      * <p>
-     * Throws an <code>ArrayIndexOutOfBoundsException</code> if the index
-     * is invalid.
+     * Throws bn <code>ArrbyIndexOutOfBoundsException</code> if the index
+     * is invblid.
      * <blockquote>
-     * <b>Note:</b> Although this method is not deprecated, the preferred
+     * <b>Note:</b> Although this method is not deprecbted, the preferred
      *    method to use is <code>set(int,Object)</code>, which implements the
-     *    <code>List</code> interface defined in the 1.2 Collections framework.
+     *    <code>List</code> interfbce defined in the 1.2 Collections frbmework.
      * </blockquote>
      *
-     * @param      element what the component is to be set to
-     * @param      index   the specified index
+     * @pbrbm      element whbt the component is to be set to
+     * @pbrbm      index   the specified index
      * @see #set(int,Object)
      * @see Vector#setElementAt(Object,int)
      */
     public void setElementAt(E element, int index) {
-        delegate.setElementAt(element, index);
-        fireContentsChanged(this, index, index);
+        delegbte.setElementAt(element, index);
+        fireContentsChbnged(this, index, index);
     }
 
     /**
-     * Deletes the component at the specified index.
+     * Deletes the component bt the specified index.
      * <p>
-     * Throws an <code>ArrayIndexOutOfBoundsException</code> if the index
-     * is invalid.
+     * Throws bn <code>ArrbyIndexOutOfBoundsException</code> if the index
+     * is invblid.
      * <blockquote>
-     * <b>Note:</b> Although this method is not deprecated, the preferred
+     * <b>Note:</b> Although this method is not deprecbted, the preferred
      *    method to use is <code>remove(int)</code>, which implements the
-     *    <code>List</code> interface defined in the 1.2 Collections framework.
+     *    <code>List</code> interfbce defined in the 1.2 Collections frbmework.
      * </blockquote>
      *
-     * @param      index   the index of the object to remove
+     * @pbrbm      index   the index of the object to remove
      * @see #remove(int)
      * @see Vector#removeElementAt(int)
      */
     public void removeElementAt(int index) {
-        delegate.removeElementAt(index);
-        fireIntervalRemoved(this, index, index);
+        delegbte.removeElementAt(index);
+        fireIntervblRemoved(this, index, index);
     }
 
     /**
-     * Inserts the specified element as a component in this list at the
+     * Inserts the specified element bs b component in this list bt the
      * specified <code>index</code>.
      * <p>
-     * Throws an <code>ArrayIndexOutOfBoundsException</code> if the index
-     * is invalid.
+     * Throws bn <code>ArrbyIndexOutOfBoundsException</code> if the index
+     * is invblid.
      * <blockquote>
-     * <b>Note:</b> Although this method is not deprecated, the preferred
-     *    method to use is <code>add(int,Object)</code>, which implements the
-     *    <code>List</code> interface defined in the 1.2 Collections framework.
+     * <b>Note:</b> Although this method is not deprecbted, the preferred
+     *    method to use is <code>bdd(int,Object)</code>, which implements the
+     *    <code>List</code> interfbce defined in the 1.2 Collections frbmework.
      * </blockquote>
      *
-     * @param      element the component to insert
-     * @param      index   where to insert the new component
-     * @exception  ArrayIndexOutOfBoundsException  if the index was invalid
-     * @see #add(int,Object)
+     * @pbrbm      element the component to insert
+     * @pbrbm      index   where to insert the new component
+     * @exception  ArrbyIndexOutOfBoundsException  if the index wbs invblid
+     * @see #bdd(int,Object)
      * @see Vector#insertElementAt(Object,int)
      */
     public void insertElementAt(E element, int index) {
-        delegate.insertElementAt(element, index);
-        fireIntervalAdded(this, index, index);
+        delegbte.insertElementAt(element, index);
+        fireIntervblAdded(this, index, index);
     }
 
     /**
      * Adds the specified component to the end of this list.
      *
-     * @param   element   the component to be added
-     * @see Vector#addElement(Object)
+     * @pbrbm   element   the component to be bdded
+     * @see Vector#bddElement(Object)
      */
-    public void addElement(E element) {
-        int index = delegate.size();
-        delegate.addElement(element);
-        fireIntervalAdded(this, index, index);
+    public void bddElement(E element) {
+        int index = delegbte.size();
+        delegbte.bddElement(element);
+        fireIntervblAdded(this, index, index);
     }
 
     /**
-     * Removes the first (lowest-indexed) occurrence of the argument
+     * Removes the first (lowest-indexed) occurrence of the brgument
      * from this list.
      *
-     * @param   obj   the component to be removed
-     * @return  <code>true</code> if the argument was a component of this
-     *          list; <code>false</code> otherwise
+     * @pbrbm   obj   the component to be removed
+     * @return  <code>true</code> if the brgument wbs b component of this
+     *          list; <code>fblse</code> otherwise
      * @see Vector#removeElement(Object)
      */
-    public boolean removeElement(Object obj) {
+    public boolebn removeElement(Object obj) {
         int index = indexOf(obj);
-        boolean rv = delegate.removeElement(obj);
+        boolebn rv = delegbte.removeElement(obj);
         if (index >= 0) {
-            fireIntervalRemoved(this, index, index);
+            fireIntervblRemoved(this, index, index);
         }
         return rv;
     }
 
 
     /**
-     * Removes all components from this list and sets its size to zero.
+     * Removes bll components from this list bnd sets its size to zero.
      * <blockquote>
-     * <b>Note:</b> Although this method is not deprecated, the preferred
-     *    method to use is <code>clear</code>, which implements the
-     *    <code>List</code> interface defined in the 1.2 Collections framework.
+     * <b>Note:</b> Although this method is not deprecbted, the preferred
+     *    method to use is <code>clebr</code>, which implements the
+     *    <code>List</code> interfbce defined in the 1.2 Collections frbmework.
      * </blockquote>
      *
-     * @see #clear()
+     * @see #clebr()
      * @see Vector#removeAllElements()
      */
     public void removeAllElements() {
-        int index1 = delegate.size()-1;
-        delegate.removeAllElements();
+        int index1 = delegbte.size()-1;
+        delegbte.removeAllElements();
         if (index1 >= 0) {
-            fireIntervalRemoved(this, 0, index1);
+            fireIntervblRemoved(this, 0, index1);
         }
     }
 
 
     /**
-     * Returns a string that displays and identifies this
+     * Returns b string thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a String representation of this object
+     * @return b String representbtion of this object
      */
    public String toString() {
-        return delegate.toString();
+        return delegbte.toString();
     }
 
 
-    /* The remaining methods are included for compatibility with the
-     * Java 2 platform Vector class.
+    /* The rembining methods bre included for compbtibility with the
+     * Jbvb 2 plbtform Vector clbss.
      */
 
     /**
-     * Returns an array containing all of the elements in this list in the
+     * Returns bn brrby contbining bll of the elements in this list in the
      * correct order.
      *
-     * @return an array containing the elements of the list
-     * @see Vector#toArray()
+     * @return bn brrby contbining the elements of the list
+     * @see Vector#toArrby()
      */
-    public Object[] toArray() {
-        Object[] rv = new Object[delegate.size()];
-        delegate.copyInto(rv);
+    public Object[] toArrby() {
+        Object[] rv = new Object[delegbte.size()];
+        delegbte.copyInto(rv);
         return rv;
     }
 
     /**
-     * Returns the element at the specified position in this list.
+     * Returns the element bt the specified position in this list.
      * <p>
-     * Throws an <code>ArrayIndexOutOfBoundsException</code>
-     * if the index is out of range
+     * Throws bn <code>ArrbyIndexOutOfBoundsException</code>
+     * if the index is out of rbnge
      * (<code>index &lt; 0 || index &gt;= size()</code>).
      *
-     * @param index index of element to return
-     * @return the element at the specified position in this list
+     * @pbrbm index index of element to return
+     * @return the element bt the specified position in this list
      */
     public E get(int index) {
-        return delegate.elementAt(index);
+        return delegbte.elementAt(index);
     }
 
     /**
-     * Replaces the element at the specified position in this list with the
+     * Replbces the element bt the specified position in this list with the
      * specified element.
      * <p>
-     * Throws an <code>ArrayIndexOutOfBoundsException</code>
-     * if the index is out of range
+     * Throws bn <code>ArrbyIndexOutOfBoundsException</code>
+     * if the index is out of rbnge
      * (<code>index &lt; 0 || index &gt;= size()</code>).
      *
-     * @param index index of element to replace
-     * @param element element to be stored at the specified position
-     * @return the element previously at the specified position
+     * @pbrbm index index of element to replbce
+     * @pbrbm element element to be stored bt the specified position
+     * @return the element previously bt the specified position
      */
     public E set(int index, E element) {
-        E rv = delegate.elementAt(index);
-        delegate.setElementAt(element, index);
-        fireContentsChanged(this, index, index);
+        E rv = delegbte.elementAt(index);
+        delegbte.setElementAt(element, index);
+        fireContentsChbnged(this, index, index);
         return rv;
     }
 
     /**
-     * Inserts the specified element at the specified position in this list.
+     * Inserts the specified element bt the specified position in this list.
      * <p>
-     * Throws an <code>ArrayIndexOutOfBoundsException</code> if the
-     * index is out of range
+     * Throws bn <code>ArrbyIndexOutOfBoundsException</code> if the
+     * index is out of rbnge
      * (<code>index &lt; 0 || index &gt; size()</code>).
      *
-     * @param index index at which the specified element is to be inserted
-     * @param element element to be inserted
+     * @pbrbm index index bt which the specified element is to be inserted
+     * @pbrbm element element to be inserted
      */
-    public void add(int index, E element) {
-        delegate.insertElementAt(element, index);
-        fireIntervalAdded(this, index, index);
+    public void bdd(int index, E element) {
+        delegbte.insertElementAt(element, index);
+        fireIntervblAdded(this, index, index);
     }
 
     /**
-     * Removes the element at the specified position in this list.
-     * Returns the element that was removed from the list.
+     * Removes the element bt the specified position in this list.
+     * Returns the element thbt wbs removed from the list.
      * <p>
-     * Throws an <code>ArrayIndexOutOfBoundsException</code>
-     * if the index is out of range
+     * Throws bn <code>ArrbyIndexOutOfBoundsException</code>
+     * if the index is out of rbnge
      * (<code>index &lt; 0 || index &gt;= size()</code>).
      *
-     * @param index the index of the element to removed
-     * @return the element previously at the specified position
+     * @pbrbm index the index of the element to removed
+     * @return the element previously bt the specified position
      */
     public E remove(int index) {
-        E rv = delegate.elementAt(index);
-        delegate.removeElementAt(index);
-        fireIntervalRemoved(this, index, index);
+        E rv = delegbte.elementAt(index);
+        delegbte.removeElementAt(index);
+        fireIntervblRemoved(this, index, index);
         return rv;
     }
 
     /**
-     * Removes all of the elements from this list.  The list will
-     * be empty after this call returns (unless it throws an exception).
+     * Removes bll of the elements from this list.  The list will
+     * be empty bfter this cbll returns (unless it throws bn exception).
      */
-    public void clear() {
-        int index1 = delegate.size()-1;
-        delegate.removeAllElements();
+    public void clebr() {
+        int index1 = delegbte.size()-1;
+        delegbte.removeAllElements();
         if (index1 >= 0) {
-            fireIntervalRemoved(this, 0, index1);
+            fireIntervblRemoved(this, 0, index1);
         }
     }
 
     /**
-     * Deletes the components at the specified range of indexes.
-     * The removal is inclusive, so specifying a range of (1,5)
-     * removes the component at index 1 and the component at index 5,
-     * as well as all components in between.
+     * Deletes the components bt the specified rbnge of indexes.
+     * The removbl is inclusive, so specifying b rbnge of (1,5)
+     * removes the component bt index 1 bnd the component bt index 5,
+     * bs well bs bll components in between.
      * <p>
-     * Throws an <code>ArrayIndexOutOfBoundsException</code>
-     * if the index was invalid.
-     * Throws an <code>IllegalArgumentException</code> if
+     * Throws bn <code>ArrbyIndexOutOfBoundsException</code>
+     * if the index wbs invblid.
+     * Throws bn <code>IllegblArgumentException</code> if
      * <code>fromIndex &gt; toIndex</code>.
      *
-     * @param      fromIndex the index of the lower end of the range
-     * @param      toIndex   the index of the upper end of the range
+     * @pbrbm      fromIndex the index of the lower end of the rbnge
+     * @pbrbm      toIndex   the index of the upper end of the rbnge
      * @see        #remove(int)
      */
-    public void removeRange(int fromIndex, int toIndex) {
+    public void removeRbnge(int fromIndex, int toIndex) {
         if (fromIndex > toIndex) {
-            throw new IllegalArgumentException("fromIndex must be <= toIndex");
+            throw new IllegblArgumentException("fromIndex must be <= toIndex");
         }
         for(int i = toIndex; i >= fromIndex; i--) {
-            delegate.removeElementAt(i);
+            delegbte.removeElementAt(i);
         }
-        fireIntervalRemoved(this, fromIndex, toIndex);
+        fireIntervblRemoved(this, fromIndex, toIndex);
     }
 
     /*
-    public void addAll(Collection c) {
+    public void bddAll(Collection c) {
     }
 
-    public void addAll(int index, Collection c) {
+    public void bddAll(int index, Collection c) {
     }
     */
 }

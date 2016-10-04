@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file.attribute;
+pbckbge jbvb.nio.file.bttribute;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * An object to lookup user and group principals by name. A {@link UserPrincipal}
- * represents an identity that may be used to determine access rights to objects
- * in a file system. A {@link GroupPrincipal} represents a <em>group identity</em>.
- * A {@code UserPrincipalLookupService} defines methods to lookup identities by
- * name or group name (which are typically user or account names). Whether names
- * and group names are case sensitive or not depends on the implementation.
- * The exact definition of a group is implementation specific but typically a
- * group represents an identity created for administrative purposes so as to
- * determine the access rights for the members of the group. In particular it is
- * implementation specific if the <em>namespace</em> for names and groups is the
- * same or is distinct. To ensure consistent and correct behavior across
- * platforms it is recommended that this API be used as if the namespaces are
- * distinct. In other words, the {@link #lookupPrincipalByName
- * lookupPrincipalByName} should be used to lookup users, and {@link
- * #lookupPrincipalByGroupName lookupPrincipalByGroupName} should be used to
+ * An object to lookup user bnd group principbls by nbme. A {@link UserPrincipbl}
+ * represents bn identity thbt mby be used to determine bccess rights to objects
+ * in b file system. A {@link GroupPrincipbl} represents b <em>group identity</em>.
+ * A {@code UserPrincipblLookupService} defines methods to lookup identities by
+ * nbme or group nbme (which bre typicblly user or bccount nbmes). Whether nbmes
+ * bnd group nbmes bre cbse sensitive or not depends on the implementbtion.
+ * The exbct definition of b group is implementbtion specific but typicblly b
+ * group represents bn identity crebted for bdministrbtive purposes so bs to
+ * determine the bccess rights for the members of the group. In pbrticulbr it is
+ * implementbtion specific if the <em>nbmespbce</em> for nbmes bnd groups is the
+ * sbme or is distinct. To ensure consistent bnd correct behbvior bcross
+ * plbtforms it is recommended thbt this API be used bs if the nbmespbces bre
+ * distinct. In other words, the {@link #lookupPrincipblByNbme
+ * lookupPrincipblByNbme} should be used to lookup users, bnd {@link
+ * #lookupPrincipblByGroupNbme lookupPrincipblByGroupNbme} should be used to
  * lookup groups.
  *
  * @since 1.7
  *
- * @see java.nio.file.FileSystem#getUserPrincipalLookupService
+ * @see jbvb.nio.file.FileSystem#getUserPrincipblLookupService
  */
 
-public abstract class UserPrincipalLookupService {
+public bbstrbct clbss UserPrincipblLookupService {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
-    protected UserPrincipalLookupService() {
+    protected UserPrincipblLookupService() {
     }
 
     /**
-     * Lookup a user principal by name.
+     * Lookup b user principbl by nbme.
      *
-     * @param   name
-     *          the string representation of the user principal to lookup
+     * @pbrbm   nbme
+     *          the string representbtion of the user principbl to lookup
      *
-     * @return  a user principal
+     * @return  b user principbl
      *
-     * @throws  UserPrincipalNotFoundException
-     *          the principal does not exist
+     * @throws  UserPrincipblNotFoundException
+     *          the principbl does not exist
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, it checks {@link RuntimePermission}<tt>("lookupUserInformation")</tt>
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, it checks {@link RuntimePermission}<tt>("lookupUserInformbtion")</tt>
      */
-    public abstract UserPrincipal lookupPrincipalByName(String name)
+    public bbstrbct UserPrincipbl lookupPrincipblByNbme(String nbme)
         throws IOException;
 
     /**
-     * Lookup a group principal by group name.
+     * Lookup b group principbl by group nbme.
      *
-     * <p> Where an implementation does not support any notion of group then
-     * this method always throws {@link UserPrincipalNotFoundException}. Where
-     * the namespace for user accounts and groups is the same, then this method
-     * is identical to invoking {@link #lookupPrincipalByName
-     * lookupPrincipalByName}.
+     * <p> Where bn implementbtion does not support bny notion of group then
+     * this method blwbys throws {@link UserPrincipblNotFoundException}. Where
+     * the nbmespbce for user bccounts bnd groups is the sbme, then this method
+     * is identicbl to invoking {@link #lookupPrincipblByNbme
+     * lookupPrincipblByNbme}.
      *
-     * @param   group
-     *          the string representation of the group to lookup
+     * @pbrbm   group
+     *          the string representbtion of the group to lookup
      *
-     * @return  a group principal
+     * @return  b group principbl
      *
-     * @throws  UserPrincipalNotFoundException
-     *          the principal does not exist or is not a group
+     * @throws  UserPrincipblNotFoundException
+     *          the principbl does not exist or is not b group
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, it checks {@link RuntimePermission}<tt>("lookupUserInformation")</tt>
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, it checks {@link RuntimePermission}<tt>("lookupUserInformbtion")</tt>
      */
-    public abstract GroupPrincipal lookupPrincipalByGroupName(String group)
+    public bbstrbct GroupPrincipbl lookupPrincipblByGroupNbme(String group)
         throws IOException;
 }

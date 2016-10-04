@@ -1,44 +1,44 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* __ieee754_rem_pio2(x,y)
  *
- * return the remainder of x rem pi/2 in y[0]+y[1]
+ * return the rembinder of x rem pi/2 in y[0]+y[1]
  * use __kernel_rem_pio2()
  */
 
 #include "fdlibm.h"
 
 /*
- * Table of constants for 2/pi, 396 Hex digits (476 decimal) of 2/pi
+ * Tbble of constbnts for 2/pi, 396 Hex digits (476 decimbl) of 2/pi
  */
 #ifdef __STDC__
-static const int two_over_pi[] = {
+stbtic const int two_over_pi[] = {
 #else
-static int two_over_pi[] = {
+stbtic int two_over_pi[] = {
 #endif
 0xA2F983, 0x6E4E44, 0x1529FC, 0x2757D1, 0xF534DD, 0xC0DB62,
 0x95993C, 0x439041, 0xFE5163, 0xABDEBB, 0xC561B7, 0x246E3A,
@@ -54,9 +54,9 @@ static int two_over_pi[] = {
 };
 
 #ifdef __STDC__
-static const int npio2_hw[] = {
+stbtic const int npio2_hw[] = {
 #else
-static int npio2_hw[] = {
+stbtic int npio2_hw[] = {
 #endif
 0x3FF921FB, 0x400921FB, 0x4012D97C, 0x401921FB, 0x401F6A7A, 0x4022D97C,
 0x4025FDBB, 0x402921FB, 0x402C463A, 0x402F6A7A, 0x4031475C, 0x4032D97C,
@@ -77,12 +77,12 @@ static int npio2_hw[] = {
  */
 
 #ifdef __STDC__
-static const double
+stbtic const double
 #else
-static double
+stbtic double
 #endif
 zero =  0.00000000000000000000e+00, /* 0x00000000, 0x00000000 */
-half =  5.00000000000000000000e-01, /* 0x3FE00000, 0x00000000 */
+hblf =  5.00000000000000000000e-01, /* 0x3FE00000, 0x00000000 */
 two24 =  1.67772160000000000000e+07, /* 0x41700000, 0x00000000 */
 invpio2 =  6.36619772367581382433e-01, /* 0x3FE45F30, 0x6DC9C883 */
 pio2_1  =  1.57079632673412561417e+00, /* 0x3FF921FB, 0x54400000 */
@@ -107,24 +107,24 @@ pio2_3t =  8.47842766036889956997e-32; /* 0x397B839A, 0x252049C1 */
         ix = hx&0x7fffffff;
         if(ix<=0x3fe921fb)   /* |x| ~<= pi/4 , no need for reduction */
             {y[0] = x; y[1] = 0; return 0;}
-        if(ix<0x4002d97c) {  /* |x| < 3pi/4, special case with n=+-1 */
+        if(ix<0x4002d97c) {  /* |x| < 3pi/4, specibl cbse with n=+-1 */
             if(hx>0) {
                 z = x - pio2_1;
                 if(ix!=0x3ff921fb) {    /* 33+53 bit pi is good enough */
                     y[0] = z - pio2_1t;
                     y[1] = (z-y[0])-pio2_1t;
-                } else {                /* near pi/2, use 33+33+53 bit pi */
+                } else {                /* nebr pi/2, use 33+33+53 bit pi */
                     z -= pio2_2;
                     y[0] = z - pio2_2t;
                     y[1] = (z-y[0])-pio2_2t;
                 }
                 return 1;
-            } else {    /* negative x */
+            } else {    /* negbtive x */
                 z = x + pio2_1;
                 if(ix!=0x3ff921fb) {    /* 33+53 bit pi is good enough */
                     y[0] = z + pio2_1t;
                     y[1] = (z-y[0])+pio2_1t;
-                } else {                /* near pi/2, use 33+33+53 bit pi */
+                } else {                /* nebr pi/2, use 33+33+53 bit pi */
                     z += pio2_2;
                     y[0] = z + pio2_2t;
                     y[1] = (z-y[0])+pio2_2t;
@@ -133,26 +133,26 @@ pio2_3t =  8.47842766036889956997e-32; /* 0x397B839A, 0x252049C1 */
             }
         }
         if(ix<=0x413921fb) { /* |x| ~<= 2^19*(pi/2), medium size */
-            t  = fabs(x);
-            n  = (int) (t*invpio2+half);
+            t  = fbbs(x);
+            n  = (int) (t*invpio2+hblf);
             fn = (double)n;
             r  = t-fn*pio2_1;
             w  = fn*pio2_1t;    /* 1st round good to 85 bit */
             if(n<32&&ix!=npio2_hw[n-1]) {
-                y[0] = r-w;     /* quick check no cancellation */
+                y[0] = r-w;     /* quick check no cbncellbtion */
             } else {
                 j  = ix>>20;
                 y[0] = r-w;
                 i = j-(((__HI(y[0]))>>20)&0x7ff);
-                if(i>16) {  /* 2nd iteration needed, good to 118 */
+                if(i>16) {  /* 2nd iterbtion needed, good to 118 */
                     t  = r;
                     w  = fn*pio2_2;
                     r  = t-w;
                     w  = fn*pio2_2t-((t-r)-w);
                     y[0] = r-w;
                     i = j-(((__HI(y[0]))>>20)&0x7ff);
-                    if(i>49)  { /* 3rd iteration need, 151 bits acc */
-                        t  = r; /* will cover all possible cases */
+                    if(i>49)  { /* 3rd iterbtion need, 151 bits bcc */
+                        t  = r; /* will cover bll possible cbses */
                         w  = fn*pio2_3;
                         r  = t-w;
                         w  = fn*pio2_3t-((t-r)-w);
@@ -165,12 +165,12 @@ pio2_3t =  8.47842766036889956997e-32; /* 0x397B839A, 0x252049C1 */
             else         return n;
         }
     /*
-     * all other (large) arguments
+     * bll other (lbrge) brguments
      */
-        if(ix>=0x7ff00000) {            /* x is inf or NaN */
+        if(ix>=0x7ff00000) {            /* x is inf or NbN */
             y[0]=y[1]=x-x; return 0;
         }
-    /* set z = scalbn(|x|,ilogb(x)-23) */
+    /* set z = scblbn(|x|,ilogb(x)-23) */
         __LO(z) = __LO(x);
         e0      = (ix>>20)-1046;        /* e0 = ilogb(z)-23; */
         __HI(z) = ix - (e0<<20);

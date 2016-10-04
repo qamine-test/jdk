@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
 
 /**
- * Interface for <code>View</code>s that have size dependent upon tabs.
+ * Interfbce for <code>View</code>s thbt hbve size dependent upon tbbs.
  *
- * @author  Timothy Prinzing
- * @author  Scott Violet
- * @see TabExpander
- * @see LabelView
- * @see ParagraphView
+ * @buthor  Timothy Prinzing
+ * @buthor  Scott Violet
+ * @see TbbExpbnder
+ * @see LbbelView
+ * @see PbrbgrbphView
  */
-public interface TabableView {
+public interfbce TbbbbleView {
 
     /**
-     * Determines the desired span when using the given
-     * tab expansion implementation.  If a container
-     * calls this method, it will do so prior to the
-     * normal layout which would call getPreferredSpan.
-     * A view implementing this should give the same
-     * result in any subsequent calls to getPreferredSpan
-     * along the axis of tab expansion.
+     * Determines the desired spbn when using the given
+     * tbb expbnsion implementbtion.  If b contbiner
+     * cblls this method, it will do so prior to the
+     * normbl lbyout which would cbll getPreferredSpbn.
+     * A view implementing this should give the sbme
+     * result in bny subsequent cblls to getPreferredSpbn
+     * blong the bxis of tbb expbnsion.
      *
-     * @param x the position the view would be located
-     *  at for the purpose of tab expansion &gt;= 0.
-     * @param e how to expand the tabs when encountered.
-     * @return the desired span &gt;= 0
+     * @pbrbm x the position the view would be locbted
+     *  bt for the purpose of tbb expbnsion &gt;= 0.
+     * @pbrbm e how to expbnd the tbbs when encountered.
+     * @return the desired spbn &gt;= 0
      */
-    float getTabbedSpan(float x, TabExpander e);
+    flobt getTbbbedSpbn(flobt x, TbbExpbnder e);
 
     /**
-     * Determines the span along the same axis as tab
-     * expansion for a portion of the view.  This is
-     * intended for use by the TabExpander for cases
-     * where the tab expansion involves aligning the
-     * portion of text that doesn't have whitespace
-     * relative to the tab stop.  There is therefore
-     * an assumption that the range given does not
-     * contain tabs.
+     * Determines the spbn blong the sbme bxis bs tbb
+     * expbnsion for b portion of the view.  This is
+     * intended for use by the TbbExpbnder for cbses
+     * where the tbb expbnsion involves bligning the
+     * portion of text thbt doesn't hbve whitespbce
+     * relbtive to the tbb stop.  There is therefore
+     * bn bssumption thbt the rbnge given does not
+     * contbin tbbs.
      *
-     * @param p0 the starting location in the text document &gt;= 0
-     * @param p1 the ending location in the text document &gt;= p0
-     * @return the span &gt;= 0
+     * @pbrbm p0 the stbrting locbtion in the text document &gt;= 0
+     * @pbrbm p1 the ending locbtion in the text document &gt;= p0
+     * @return the spbn &gt;= 0
      */
-    float getPartialSpan(int p0, int p1);
+    flobt getPbrtiblSpbn(int p0, int p1);
 }

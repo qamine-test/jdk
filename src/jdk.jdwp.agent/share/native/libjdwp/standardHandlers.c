@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * handlers
+ * hbndlers
  *
- * The default event request handler functions
+ * The defbult event request hbndler functions
  */
 
 #include "util.h"
-#include "eventHandler.h"
-#include "threadControl.h"
+#include "eventHbndler.h"
+#include "threbdControl.h"
 #include "eventHelper.h"
-#include "classTrack.h"
+#include "clbssTrbck.h"
 
-#include "standardHandlers.h"
+#include "stbndbrdHbndlers.h"
 
-static void
-handleClassPrepare(JNIEnv *env, EventInfo *evinfo,
-                   HandlerNode *node,
-                   struct bag *eventBag)
+stbtic void
+hbndleClbssPrepbre(JNIEnv *env, EventInfo *evinfo,
+                   HbndlerNode *node,
+                   struct bbg *eventBbg)
 {
-    jthread thread = evinfo->thread;
+    jthrebd threbd = evinfo->threbd;
 
-    /* We try hard to avoid class loads/prepares in debugger
-     * threads, but it is still possible for them to happen (most
-     * likely for exceptions that are thrown within JNI
-     * methods). If such an event occurs, we must report it, but
-     * we cannot suspend the debugger thread.
+    /* We try hbrd to bvoid clbss lobds/prepbres in debugger
+     * threbds, but it is still possible for them to hbppen (most
+     * likely for exceptions thbt bre thrown within JNI
+     * methods). If such bn event occurs, we must report it, but
+     * we cbnnot suspend the debugger threbd.
      *
-     * 1) We report the thread as NULL because we don't want the
-     *    application to get hold of a debugger thread object.
+     * 1) We report the threbd bs NULL becbuse we don't wbnt the
+     *    bpplicbtion to get hold of b debugger threbd object.
      * 2) We try to do the right thing wrt to suspending
-     *    threads without suspending debugger threads. If the
+     *    threbds without suspending debugger threbds. If the
      *    requested suspend policy is NONE, there's no problem. If
-     *    the requested policy is ALL, we can just suspend all
-     *    application threads without producing any surprising
-     *    results by leaving the debugger thread running. However,
-     *    if the requested policy is EVENT_THREAD, we are forced
-     *    to do something different than requested. The most
-     *    useful behavior is to suspend all application threads
-     *    (just as if the policy was ALL). This allows the
-     *    application to operate on the class before it gets into
-     *    circulation and so it is preferable to the other
-     *    alternative of suspending no threads.
+     *    the requested policy is ALL, we cbn just suspend bll
+     *    bpplicbtion threbds without producing bny surprising
+     *    results by lebving the debugger threbd running. However,
+     *    if the requested policy is EVENT_THREAD, we bre forced
+     *    to do something different thbn requested. The most
+     *    useful behbvior is to suspend bll bpplicbtion threbds
+     *    (just bs if the policy wbs ALL). This bllows the
+     *    bpplicbtion to operbte on the clbss before it gets into
+     *    circulbtion bnd so it is preferbble to the other
+     *    blternbtive of suspending no threbds.
      */
-    if (threadControl_isDebugThread(thread)) {
-        evinfo->thread = NULL;
+    if (threbdControl_isDebugThrebd(threbd)) {
+        evinfo->threbd = NULL;
         if (node->suspendPolicy == JDWP_SUSPEND_POLICY(EVENT_THREAD)) {
             node->suspendPolicy = JDWP_SUSPEND_POLICY(ALL);
         }
     }
-    eventHelper_recordEvent(evinfo, node->handlerID,
-                            node->suspendPolicy, eventBag);
+    eventHelper_recordEvent(evinfo, node->hbndlerID,
+                            node->suspendPolicy, eventBbg);
 }
 
-static void
-handleGarbageCollectionFinish(JNIEnv *env, EventInfo *evinfo,
-                  HandlerNode *node,
-                  struct bag *eventBag)
+stbtic void
+hbndleGbrbbgeCollectionFinish(JNIEnv *env, EventInfo *evinfo,
+                  HbndlerNode *node,
+                  struct bbg *eventBbg)
 {
-    JDI_ASSERT_MSG(JNI_FALSE, "Should never call handleGarbageCollectionFinish");
+    JDI_ASSERT_MSG(JNI_FALSE, "Should never cbll hbndleGbrbbgeCollectionFinish");
 }
 
-static void
-handleFrameEvent(JNIEnv *env, EventInfo *evinfo,
-                 HandlerNode *node,
-                 struct bag *eventBag)
+stbtic void
+hbndleFrbmeEvent(JNIEnv *env, EventInfo *evinfo,
+                 HbndlerNode *node,
+                 struct bbg *eventBbg)
 {
     /*
-     * The frame id that comes with this event is very transient.
-     * We can't send the frame to the helper thread because it
-     * might be useless by the time the helper thread can use it
+     * The frbme id thbt comes with this event is very trbnsient.
+     * We cbn't send the frbme to the helper threbd becbuse it
+     * might be useless by the time the helper threbd cbn use it
      * (if suspend policy is NONE). So, get the needed info from
-     * the frame and then use a special command to the helper
-     * thread.
+     * the frbme bnd then use b specibl commbnd to the helper
+     * threbd.
      */
 
     jmethodID method;
-    jlocation location;
+    jlocbtion locbtion;
     jvmtiError error;
-    FrameNumber fnum = 0;
-    jvalue returnValue;
+    FrbmeNumber fnum = 0;
+    jvblue returnVblue;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameLocation)
-            (gdata->jvmti, evinfo->thread, fnum, &method, &location);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetFrbmeLocbtion)
+            (gdbtb->jvmti, evinfo->threbd, fnum, &method, &locbtion);
     if (error != JVMTI_ERROR_NONE) {
-        location = -1;
+        locbtion = -1;
     }
-    returnValue = evinfo->u.method_exit.return_value;
+    returnVblue = evinfo->u.method_exit.return_vblue;
 
-    eventHelper_recordFrameEvent(node->handlerID,
+    eventHelper_recordFrbmeEvent(node->hbndlerID,
                                  node->suspendPolicy,
                                  evinfo->ei,
-                                 evinfo->thread,
-                                 evinfo->clazz,
+                                 evinfo->threbd,
+                                 evinfo->clbzz,
                                  evinfo->method,
-                                 location,
-                                 node->needReturnValue,
-                                 returnValue,
-                                 eventBag);
+                                 locbtion,
+                                 node->needReturnVblue,
+                                 returnVblue,
+                                 eventBbg);
 }
 
-static void
-genericHandler(JNIEnv *env, EventInfo *evinfo,
-               HandlerNode *node,
-               struct bag *eventBag)
+stbtic void
+genericHbndler(JNIEnv *env, EventInfo *evinfo,
+               HbndlerNode *node,
+               struct bbg *eventBbg)
 {
-    eventHelper_recordEvent(evinfo, node->handlerID, node->suspendPolicy,
-                            eventBag);
+    eventHelper_recordEvent(evinfo, node->hbndlerID, node->suspendPolicy,
+                            eventBbg);
 }
 
-HandlerFunction
-standardHandlers_defaultHandler(EventIndex ei)
+HbndlerFunction
+stbndbrdHbndlers_defbultHbndler(EventIndex ei)
 {
     switch (ei) {
-        case EI_BREAKPOINT:
-        case EI_EXCEPTION:
-        case EI_FIELD_ACCESS:
-        case EI_FIELD_MODIFICATION:
-        case EI_SINGLE_STEP:
-        case EI_THREAD_START:
-        case EI_THREAD_END:
-        case EI_VM_DEATH:
-        case EI_MONITOR_CONTENDED_ENTER:
-        case EI_MONITOR_CONTENDED_ENTERED:
-        case EI_MONITOR_WAIT:
-        case EI_MONITOR_WAITED:
-            return &genericHandler;
+        cbse EI_BREAKPOINT:
+        cbse EI_EXCEPTION:
+        cbse EI_FIELD_ACCESS:
+        cbse EI_FIELD_MODIFICATION:
+        cbse EI_SINGLE_STEP:
+        cbse EI_THREAD_START:
+        cbse EI_THREAD_END:
+        cbse EI_VM_DEATH:
+        cbse EI_MONITOR_CONTENDED_ENTER:
+        cbse EI_MONITOR_CONTENDED_ENTERED:
+        cbse EI_MONITOR_WAIT:
+        cbse EI_MONITOR_WAITED:
+            return &genericHbndler;
 
-        case EI_CLASS_PREPARE:
-            return &handleClassPrepare;
+        cbse EI_CLASS_PREPARE:
+            return &hbndleClbssPrepbre;
 
-        case EI_GC_FINISH:
-            return &handleGarbageCollectionFinish;
+        cbse EI_GC_FINISH:
+            return &hbndleGbrbbgeCollectionFinish;
 
-        case EI_METHOD_ENTRY:
-        case EI_METHOD_EXIT:
-            return &handleFrameEvent;
+        cbse EI_METHOD_ENTRY:
+        cbse EI_METHOD_EXIT:
+            return &hbndleFrbmeEvent;
 
-        default:
-            /* This NULL will trigger a AGENT_ERROR_INVALID_EVENT_TYPE */
+        defbult:
+            /* This NULL will trigger b AGENT_ERROR_INVALID_EVENT_TYPE */
             return NULL;
     }
 }
 
 void
-standardHandlers_onConnect(void)
+stbndbrdHbndlers_onConnect(void)
 {
-    jboolean installed;
+    jboolebn instblled;
 
-    /* always report VMDeath to a connected debugger */
-    installed = (eventHandler_createPermanentInternal(
-                        EI_VM_DEATH, genericHandler) != NULL);
-    if (!installed) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_EVENT_TYPE,"Unable to install VM Death event handler");
+    /* blwbys report VMDebth to b connected debugger */
+    instblled = (eventHbndler_crebtePermbnentInternbl(
+                        EI_VM_DEATH, genericHbndler) != NULL);
+    if (!instblled) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_EVENT_TYPE,"Unbble to instbll VM Debth event hbndler");
     }
 }
 
 void
-standardHandlers_onDisconnect(void)
+stbndbrdHbndlers_onDisconnect(void)
 {
 }

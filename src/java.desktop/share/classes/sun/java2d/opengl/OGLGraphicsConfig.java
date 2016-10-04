@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import sun.java2d.SurfaceData;
-import sun.awt.image.SurfaceManager;
-import sun.java2d.pipe.hw.AccelGraphicsConfig;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.bwt.imbge.SurfbceMbnbger;
+import sun.jbvb2d.pipe.hw.AccelGrbphicsConfig;
 
 /**
- * This interface collects the methods that are provided by both
- * GLXGraphicsConfig and WGLGraphicsConfig, making it easier to invoke these
- * methods directly from OGLSurfaceData.
+ * This interfbce collects the methods thbt bre provided by both
+ * GLXGrbphicsConfig bnd WGLGrbphicsConfig, mbking it ebsier to invoke these
+ * methods directly from OGLSurfbceDbtb.
  */
-interface OGLGraphicsConfig extends
-    AccelGraphicsConfig, SurfaceManager.ProxiedGraphicsConfig
+interfbce OGLGrbphicsConfig extends
+    AccelGrbphicsConfig, SurfbceMbnbger.ProxiedGrbphicsConfig
 {
     OGLContext getContext();
-    long getNativeConfigInfo();
-    boolean isCapPresent(int cap);
-    SurfaceData createManagedSurface(int w, int h, int transparency);
+    long getNbtiveConfigInfo();
+    boolebn isCbpPresent(int cbp);
+    SurfbceDbtb crebteMbnbgedSurfbce(int w, int h, int trbnspbrency);
 }

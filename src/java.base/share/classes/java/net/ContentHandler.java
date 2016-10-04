@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * The abstract class {@code ContentHandler} is the superclass
- * of all classes that read an {@code Object} from a
+ * The bbstrbct clbss {@code ContentHbndler} is the superclbss
+ * of bll clbsses thbt rebd bn {@code Object} from b
  * {@code URLConnection}.
  * <p>
- * An application does not generally call the
- * {@code getContent} method in this class directly. Instead, an
- * application calls the {@code getContent} method in class
+ * An bpplicbtion does not generblly cbll the
+ * {@code getContent} method in this clbss directly. Instebd, bn
+ * bpplicbtion cblls the {@code getContent} method in clbss
  * {@code URL} or in {@code URLConnection}.
- * The application's content handler factory (an instance of a class that
- * implements the interface {@code ContentHandlerFactory} set
- * up by a call to {@code setContentHandler}) is
- * called with a {@code String} giving the MIME type of the
- * object being received on the socket. The factory returns an
- * instance of a subclass of {@code ContentHandler}, and its
- * {@code getContent} method is called to create the object.
+ * The bpplicbtion's content hbndler fbctory (bn instbnce of b clbss thbt
+ * implements the interfbce {@code ContentHbndlerFbctory} set
+ * up by b cbll to {@code setContentHbndler}) is
+ * cblled with b {@code String} giving the MIME type of the
+ * object being received on the socket. The fbctory returns bn
+ * instbnce of b subclbss of {@code ContentHbndler}, bnd its
+ * {@code getContent} method is cblled to crebte the object.
  * <p>
- * If no content handler could be found, URLConnection will
- * look for a content handler in a user-defineable set of places.
- * Users can define a vertical-bar delimited set of class prefixes
- * to search through by defining the <i>java.content.handler.pkgs</i>
- * property. The class name must be of the form:
+ * If no content hbndler could be found, URLConnection will
+ * look for b content hbndler in b user-definebble set of plbces.
+ * Users cbn define b verticbl-bbr delimited set of clbss prefixes
+ * to sebrch through by defining the <i>jbvb.content.hbndler.pkgs</i>
+ * property. The clbss nbme must be of the form:
  * <blockquote>
- *     <i>{package-prefix}.{major}.{minor}</i>
+ *     <i>{pbckbge-prefix}.{mbjor}.{minor}</i>
  *     <P>
- *     where <i>{major}.{minor}</i> is formed by taking the
- *     content-type string, replacing all slash characters with a
- *     {@code period} ('.'), and all other non-alphanumeric characters
- *     with the underscore character '{@code _}'. The alphanumeric
- *     characters are specifically the 26 uppercase ASCII letters
- *     '{@code A}' through '{@code Z}', the 26 lowercase ASCII
- *     letters '{@code a}' through '{@code z}', and the 10 ASCII
+ *     where <i>{mbjor}.{minor}</i> is formed by tbking the
+ *     content-type string, replbcing bll slbsh chbrbcters with b
+ *     {@code period} ('.'), bnd bll other non-blphbnumeric chbrbcters
+ *     with the underscore chbrbcter '{@code _}'. The blphbnumeric
+ *     chbrbcters bre specificblly the 26 uppercbse ASCII letters
+ *     '{@code A}' through '{@code Z}', the 26 lowercbse ASCII
+ *     letters '{@code b}' through '{@code z}', bnd the 10 ASCII
  *     digits '{@code 0}' through '{@code 9}'.
  *     <p>
  *     e.g.
- *     YoyoDyne.experimental.text.plain
+ *     YoyoDyne.experimentbl.text.plbin
  * </blockquote>
- * If no user-defined content handler is found, then the system
- * tries to load a specific <i>content-type</i> handler from one
- * of the built-in handlers, if one exists.
+ * If no user-defined content hbndler is found, then the system
+ * tries to lobd b specific <i>content-type</i> hbndler from one
+ * of the built-in hbndlers, if one exists.
  * <p>
- * If the loading of the content handler class would be performed by
- * a classloader that is outside of the delegation chain of the caller,
- * the JVM will need the RuntimePermission "getClassLoader".
+ * If the lobding of the content hbndler clbss would be performed by
+ * b clbsslobder thbt is outside of the delegbtion chbin of the cbller,
+ * the JVM will need the RuntimePermission "getClbssLobder".
  *
- * @author  James Gosling
- * @see     java.net.ContentHandler#getContent(java.net.URLConnection)
- * @see     java.net.ContentHandlerFactory
- * @see     java.net.URL#getContent()
- * @see     java.net.URLConnection
- * @see     java.net.URLConnection#getContent()
- * @see     java.net.URLConnection#setContentHandlerFactory(java.net.ContentHandlerFactory)
+ * @buthor  Jbmes Gosling
+ * @see     jbvb.net.ContentHbndler#getContent(jbvb.net.URLConnection)
+ * @see     jbvb.net.ContentHbndlerFbctory
+ * @see     jbvb.net.URL#getContent()
+ * @see     jbvb.net.URLConnection
+ * @see     jbvb.net.URLConnection#getContent()
+ * @see     jbvb.net.URLConnection#setContentHbndlerFbctory(jbvb.net.ContentHbndlerFbctory)
  * @since   1.0
  */
-abstract public class ContentHandler {
+bbstrbct public clbss ContentHbndler {
     /**
-     * Given a URL connect stream positioned at the beginning of the
-     * representation of an object, this method reads that stream and
-     * creates an object from it.
+     * Given b URL connect strebm positioned bt the beginning of the
+     * representbtion of bn object, this method rebds thbt strebm bnd
+     * crebtes bn object from it.
      *
-     * @param      urlc   a URL connection.
-     * @return     the object read by the {@code ContentHandler}.
-     * @exception  IOException  if an I/O error occurs while reading the object.
+     * @pbrbm      urlc   b URL connection.
+     * @return     the object rebd by the {@code ContentHbndler}.
+     * @exception  IOException  if bn I/O error occurs while rebding the object.
      */
-    abstract public Object getContent(URLConnection urlc) throws IOException;
+    bbstrbct public Object getContent(URLConnection urlc) throws IOException;
 
     /**
-     * Given a URL connect stream positioned at the beginning of the
-     * representation of an object, this method reads that stream and
-     * creates an object that matches one of the types specified.
+     * Given b URL connect strebm positioned bt the beginning of the
+     * representbtion of bn object, this method rebds thbt strebm bnd
+     * crebtes bn object thbt mbtches one of the types specified.
      *
-     * The default implementation of this method should call getContent()
-     * and screen the return type for a match of the suggested types.
+     * The defbult implementbtion of this method should cbll getContent()
+     * bnd screen the return type for b mbtch of the suggested types.
      *
-     * @param      urlc   a URL connection.
-     * @param      classes      an array of types requested
-     * @return     the object read by the {@code ContentHandler} that is
-     *                 the first match of the suggested types.
-     *                 null if none of the requested  are supported.
-     * @exception  IOException  if an I/O error occurs while reading the object.
+     * @pbrbm      urlc   b URL connection.
+     * @pbrbm      clbsses      bn brrby of types requested
+     * @return     the object rebd by the {@code ContentHbndler} thbt is
+     *                 the first mbtch of the suggested types.
+     *                 null if none of the requested  bre supported.
+     * @exception  IOException  if bn I/O error occurs while rebding the object.
      * @since 1.3
      */
-    @SuppressWarnings("rawtypes")
-    public Object getContent(URLConnection urlc, Class[] classes) throws IOException {
+    @SuppressWbrnings("rbwtypes")
+    public Object getContent(URLConnection urlc, Clbss[] clbsses) throws IOException {
         Object obj = getContent(urlc);
 
-        for (int i = 0; i < classes.length; i++) {
-          if (classes[i].isInstance(obj)) {
+        for (int i = 0; i < clbsses.length; i++) {
+          if (clbsses[i].isInstbnce(obj)) {
                 return obj;
           }
         }

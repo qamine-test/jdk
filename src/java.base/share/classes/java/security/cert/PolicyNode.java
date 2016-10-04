@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.util.Iterator;
-import java.util.Set;
+import jbvb.util.Iterbtor;
+import jbvb.util.Set;
 
 /**
- * An immutable valid policy tree node as defined by the PKIX certification
- * path validation algorithm.
+ * An immutbble vblid policy tree node bs defined by the PKIX certificbtion
+ * pbth vblidbtion blgorithm.
  *
- * <p>One of the outputs of the PKIX certification path validation
- * algorithm is a valid policy tree, which includes the policies that
- * were determined to be valid, how this determination was reached,
- * and any policy qualifiers encountered. This tree is of depth
- * <i>n</i>, where <i>n</i> is the length of the certification
- * path that has been validated.
+ * <p>One of the outputs of the PKIX certificbtion pbth vblidbtion
+ * blgorithm is b vblid policy tree, which includes the policies thbt
+ * were determined to be vblid, how this determinbtion wbs rebched,
+ * bnd bny policy qublifiers encountered. This tree is of depth
+ * <i>n</i>, where <i>n</i> is the length of the certificbtion
+ * pbth thbt hbs been vblidbted.
  *
- * <p>Most applications will not need to examine the valid policy tree.
- * They can achieve their policy processing goals by setting the
- * policy-related parameters in {@code PKIXParameters}. However,
- * the valid policy tree is available for more sophisticated applications,
- * especially those that process policy qualifiers.
+ * <p>Most bpplicbtions will not need to exbmine the vblid policy tree.
+ * They cbn bchieve their policy processing gobls by setting the
+ * policy-relbted pbrbmeters in {@code PKIXPbrbmeters}. However,
+ * the vblid policy tree is bvbilbble for more sophisticbted bpplicbtions,
+ * especiblly those thbt process policy qublifiers.
  *
- * <p>{@link PKIXCertPathValidatorResult#getPolicyTree()
- * PKIXCertPathValidatorResult.getPolicyTree} returns the root node of the
- * valid policy tree. The tree can be traversed using the
- * {@link #getChildren getChildren} and {@link #getParent getParent} methods.
- * Data about a particular node can be retrieved using other methods of
+ * <p>{@link PKIXCertPbthVblidbtorResult#getPolicyTree()
+ * PKIXCertPbthVblidbtorResult.getPolicyTree} returns the root node of the
+ * vblid policy tree. The tree cbn be trbversed using the
+ * {@link #getChildren getChildren} bnd {@link #getPbrent getPbrent} methods.
+ * Dbtb bbout b pbrticulbr node cbn be retrieved using other methods of
  * {@code PolicyNode}.
  *
  * <p><b>Concurrent Access</b>
- * <p>All {@code PolicyNode} objects must be immutable and
- * thread-safe. Multiple threads may concurrently invoke the methods defined
- * in this class on a single {@code PolicyNode} object (or more than one)
- * with no ill effects. This stipulation applies to all public fields and
- * methods of this class and any added or overridden by subclasses.
+ * <p>All {@code PolicyNode} objects must be immutbble bnd
+ * threbd-sbfe. Multiple threbds mby concurrently invoke the methods defined
+ * in this clbss on b single {@code PolicyNode} object (or more thbn one)
+ * with no ill effects. This stipulbtion bpplies to bll public fields bnd
+ * methods of this clbss bnd bny bdded or overridden by subclbsses.
  *
  * @since       1.4
- * @author      Sean Mullan
+ * @buthor      Sebn Mullbn
  */
-public interface PolicyNode {
+public interfbce PolicyNode {
 
     /**
-     * Returns the parent of this node, or {@code null} if this is the
+     * Returns the pbrent of this node, or {@code null} if this is the
      * root node.
      *
-     * @return the parent of this node, or {@code null} if this is the
+     * @return the pbrent of this node, or {@code null} if this is the
      * root node
      */
-    PolicyNode getParent();
+    PolicyNode getPbrent();
 
     /**
-     * Returns an iterator over the children of this node. Any attempts to
+     * Returns bn iterbtor over the children of this node. Any bttempts to
      * modify the children of this node through the
-     * {@code Iterator}'s remove method must throw an
-     * {@code UnsupportedOperationException}.
+     * {@code Iterbtor}'s remove method must throw bn
+     * {@code UnsupportedOperbtionException}.
      *
-     * @return an iterator over the children of this node
+     * @return bn iterbtor over the children of this node
      */
-    Iterator<? extends PolicyNode> getChildren();
+    Iterbtor<? extends PolicyNode> getChildren();
 
     /**
-     * Returns the depth of this node in the valid policy tree.
+     * Returns the depth of this node in the vblid policy tree.
      *
      * @return the depth of this node (0 for the root node, 1 for its
-     * children, and so on)
+     * children, bnd so on)
      */
     int getDepth();
 
     /**
-     * Returns the valid policy represented by this node.
+     * Returns the vblid policy represented by this node.
      *
-     * @return the {@code String} OID of the valid policy
-     * represented by this node. For the root node, this method always returns
-     * the special anyPolicy OID: "2.5.29.32.0".
+     * @return the {@code String} OID of the vblid policy
+     * represented by this node. For the root node, this method blwbys returns
+     * the specibl bnyPolicy OID: "2.5.29.32.0".
      */
-    String getValidPolicy();
+    String getVblidPolicy();
 
     /**
-     * Returns the set of policy qualifiers associated with the
-     * valid policy represented by this node.
+     * Returns the set of policy qublifiers bssocibted with the
+     * vblid policy represented by this node.
      *
-     * @return an immutable {@code Set} of
-     * {@code PolicyQualifierInfo}s. For the root node, this
-     * is always an empty {@code Set}.
+     * @return bn immutbble {@code Set} of
+     * {@code PolicyQublifierInfo}s. For the root node, this
+     * is blwbys bn empty {@code Set}.
      */
-    Set<? extends PolicyQualifierInfo> getPolicyQualifiers();
+    Set<? extends PolicyQublifierInfo> getPolicyQublifiers();
 
     /**
-     * Returns the set of expected policies that would satisfy this
-     * node's valid policy in the next certificate to be processed.
+     * Returns the set of expected policies thbt would sbtisfy this
+     * node's vblid policy in the next certificbte to be processed.
      *
-     * @return an immutable {@code Set} of expected policy
+     * @return bn immutbble {@code Set} of expected policy
      * {@code String} OIDs. For the root node, this method
-     * always returns a {@code Set} with one element, the
-     * special anyPolicy OID: "2.5.29.32.0".
+     * blwbys returns b {@code Set} with one element, the
+     * specibl bnyPolicy OID: "2.5.29.32.0".
      */
     Set<String> getExpectedPolicies();
 
     /**
-     * Returns the criticality indicator of the certificate policy extension
-     * in the most recently processed certificate.
+     * Returns the criticblity indicbtor of the certificbte policy extension
+     * in the most recently processed certificbte.
      *
-     * @return {@code true} if extension marked critical,
-     * {@code false} otherwise. For the root node, {@code false}
-     * is always returned.
+     * @return {@code true} if extension mbrked criticbl,
+     * {@code fblse} otherwise. For the root node, {@code fblse}
+     * is blwbys returned.
      */
-    boolean isCritical();
+    boolebn isCriticbl();
 }

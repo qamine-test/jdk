@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.ResolutionSyntax;
-import javax.print.attribute.DocAttribute;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.ResolutionSyntbx;
+import jbvbx.print.bttribute.DocAttribute;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class PrinterResolution is a printing attribute class that specifies an
- * exact resolution supported by a printer or to be used for a print job.
- * This attribute assumes that printers have a small set of device resolutions
- * at which they can operate rather than a continuum.
+ * Clbss PrinterResolution is b printing bttribute clbss thbt specifies bn
+ * exbct resolution supported by b printer or to be used for b print job.
+ * This bttribute bssumes thbt printers hbve b smbll set of device resolutions
+ * bt which they cbn operbte rbther thbn b continuum.
  * <p>
- * PrinterResolution is used in multiple ways:
+ * PrinterResolution is used in multiple wbys:
  * <OL TYPE=1>
  * <LI>
- * When a client searches looking for a printer that supports the client's
- * desired resolution exactly (no more, no less), the client specifies
- * an instance of class PrinterResolution indicating the exact resolution the
- * client wants. Only printers supporting that exact resolution will match the
- * search.
+ * When b client sebrches looking for b printer thbt supports the client's
+ * desired resolution exbctly (no more, no less), the client specifies
+ * bn instbnce of clbss PrinterResolution indicbting the exbct resolution the
+ * client wbnts. Only printers supporting thbt exbct resolution will mbtch the
+ * sebrch.
  *
  * <LI>
- * When a client needs to print a job using the client's desired resolution
- * exactly (no more, no less), the client specifies an instance of class
- * PrinterResolution as an attribute of the Print Job. This will fail if the
- * Print Job doesn't support that exact resolution, and Fidelity is set to
+ * When b client needs to print b job using the client's desired resolution
+ * exbctly (no more, no less), the client specifies bn instbnce of clbss
+ * PrinterResolution bs bn bttribute of the Print Job. This will fbil if the
+ * Print Job doesn't support thbt exbct resolution, bnd Fidelity is set to
  * true.
  * </OL>
- * If a client wants to locate a printer supporting a resolution
- * greater than some required minimum, then it may be necessary to exclude
- * this attribute from a lookup request and to directly query the set of
- * supported resolutions, and specify the one that most closely meets
+ * If b client wbnts to locbte b printer supporting b resolution
+ * grebter thbn some required minimum, then it mby be necessbry to exclude
+ * this bttribute from b lookup request bnd to directly query the set of
+ * supported resolutions, bnd specify the one thbt most closely meets
  * the client's requirements.
- * In some cases this may be more simply achieved by specifying a
- * PrintQuality attribute which often controls resolution.
+ * In some cbses this mby be more simply bchieved by specifying b
+ * PrintQublity bttribute which often controls resolution.
  * <P>
- * <B>IPP Compatibility:</B> The information needed to construct an IPP
- * <CODE>"printer-resolution"</CODE> attribute can be obtained by calling
- * methods on the PrinterResolution object. The category name returned by
- * <CODE>getName()</CODE> gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> The informbtion needed to construct bn IPP
+ * <CODE>"printer-resolution"</CODE> bttribute cbn be obtbined by cblling
+ * methods on the PrinterResolution object. The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> gives the IPP bttribute nbme.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @buthor  Dbvid Mendenhbll
+ * @buthor  Albn Kbminsky
  */
-public final class PrinterResolution    extends ResolutionSyntax
+public finbl clbss PrinterResolution    extends ResolutionSyntbx
         implements DocAttribute, PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = 13090306561090558L;
+    privbte stbtic finbl long seriblVersionUID = 13090306561090558L;
 
     /**
-     * Construct a new printer resolution attribute from the given items.
+     * Construct b new printer resolution bttribute from the given items.
      *
-     * @param  crossFeedResolution
+     * @pbrbm  crossFeedResolution
      *     Cross feed direction resolution.
-     * @param  feedResolution
+     * @pbrbm  feedResolution
      *     Feed direction resolution.
-     * @param  units
-     *    Unit conversion factor, e.g. <code>ResolutionSyntax.DPI</CODE>
-     * or <code>ResolutionSyntax.DPCM</CODE>.
+     * @pbrbm  units
+     *    Unit conversion fbctor, e.g. <code>ResolutionSyntbx.DPI</CODE>
+     * or <code>ResolutionSyntbx.DPCM</CODE>.
      *
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if {@code crossFeedResolution < 1} or
      *     {@code feedResolution < 1} or {@code units < 1}.
      */
@@ -94,55 +94,55 @@ public final class PrinterResolution    extends ResolutionSyntax
     }
 
     /**
-     * Returns whether this printer resolution attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions
+     * Returns whether this printer resolution bttribute is equivblent to the
+     * pbssed in object. To be equivblent, bll of the following conditions
      * must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class PrinterResolution.
+     * <CODE>object</CODE> is bn instbnce of clbss PrinterResolution.
      * <LI>
-     * This attribute's cross feed direction resolution is equal to
+     * This bttribute's cross feed direction resolution is equbl to
      * <CODE>object</CODE>'s cross feed direction resolution.
      * <LI>
-     * This attribute's feed direction resolution is equal to
+     * This bttribute's feed direction resolution is equbl to
      * <CODE>object</CODE>'s feed direction resolution.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this printer
-     *          resolution attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this printer
+     *          resolution bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return (super.equals (object) &&
-                object instanceof PrinterResolution);
+    public boolebn equbls(Object object) {
+        return (super.equbls (object) &&
+                object instbnceof PrinterResolution);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class PrinterResolution, the category is class PrinterResolution itself.
+     * For clbss PrinterResolution, the cbtegory is clbss PrinterResolution itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrinterResolution.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return PrinterResolution.clbss;
                 }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class PrinterResolution, the
-     * category name is <CODE>"printer-resolution"</CODE>.
+     * For clbss PrinterResolution, the
+     * cbtegory nbme is <CODE>"printer-resolution"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "printer-resolution";
     }
 

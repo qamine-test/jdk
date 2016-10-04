@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbckbge com.sun.jmx.snmp.dbemon;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
 // jmx imports
 //
@@ -39,133 +39,133 @@ import com.sun.jmx.snmp.SnmpOid;
 
 // SNMP Runtime imports
 //
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
+import com.sun.jmx.snmp.bgent.SnmpMibAgent;
 
 /**
- * The class is used for building a tree representation of the different
- * root oids of the supported MIBs. Each node is associated to a specific MIB.
+ * The clbss is used for building b tree representbtion of the different
+ * root oids of the supported MIBs. Ebch node is bssocibted to b specific MIB.
  */
-final class SnmpMibTree {
+finbl clbss SnmpMibTree {
 
     public SnmpMibTree() {
-      defaultAgent= null;
+      defbultAgent= null;
       root= new TreeNode(-1, null, null);
     }
 
-    public void setDefaultAgent(SnmpMibAgent def) {
-        defaultAgent= def;
-        root.agent= def;
+    public void setDefbultAgent(SnmpMibAgent def) {
+        defbultAgent= def;
+        root.bgent= def;
     }
 
-    public SnmpMibAgent getDefaultAgent() {
-        return defaultAgent;
+    public SnmpMibAgent getDefbultAgent() {
+        return defbultAgent;
     }
 
-    public void register(SnmpMibAgent agent) {
-        root.registerNode(agent);
+    public void register(SnmpMibAgent bgent) {
+        root.registerNode(bgent);
     }
 
-    public void register(SnmpMibAgent agent, long[] oid) {
-      root.registerNode(oid, 0, agent);
+    public void register(SnmpMibAgent bgent, long[] oid) {
+      root.registerNode(oid, 0, bgent);
     }
 
     public SnmpMibAgent getAgentMib(SnmpOid oid) {
-        TreeNode node= root.retrieveMatchingBranch(oid.longValue(), 0);
+        TreeNode node= root.retrieveMbtchingBrbnch(oid.longVblue(), 0);
         if (node == null)
-            return defaultAgent;
+            return defbultAgent;
         else
             if(node.getAgentMib() == null)
-                return defaultAgent;
+                return defbultAgent;
             else
                 return node.getAgentMib();
     }
 
-    public void unregister(SnmpMibAgent agent, SnmpOid[] oids) {
+    public void unregister(SnmpMibAgent bgent, SnmpOid[] oids) {
         for(int i = 0; i < oids.length; i++) {
-            long[] oid = oids[i].longValue();
-            TreeNode node = root.retrieveMatchingBranch(oid, 0);
+            long[] oid = oids[i].longVblue();
+            TreeNode node = root.retrieveMbtchingBrbnch(oid, 0);
             if (node == null)
                 continue;
-            node.removeAgent(agent);
+            node.removeAgent(bgent);
         }
     }
 
 
-    public void unregister(SnmpMibAgent agent) {
+    public void unregister(SnmpMibAgent bgent) {
 
-        root.removeAgentFully(agent);
+        root.removeAgentFully(bgent);
     }
 
     /*
-    public void unregister(SnmpMibAgent agent) {
-        long[] oid= agent.getRootOid();
-        TreeNode node= root.retrieveMatchingBranch(oid, 0);
+    public void unregister(SnmpMibAgent bgent) {
+        long[] oid= bgent.getRootOid();
+        TreeNode node= root.retrieveMbtchingBrbnch(oid, 0);
         if (node == null)
             return;
-        node.removeAgent(agent);
+        node.removeAgent(bgent);
     }
     */
     public void printTree() {
         root.printTree(">");
     }
 
-    private SnmpMibAgent defaultAgent;
-    private TreeNode root;
+    privbte SnmpMibAgent defbultAgent;
+    privbte TreeNode root;
 
-    // A SnmpMibTree object is a tree of TreeNode
+    // A SnmpMibTree object is b tree of TreeNode
     //
-    final class TreeNode {
+    finbl clbss TreeNode {
 
-        void registerNode(SnmpMibAgent agent) {
-            long[] oid= agent.getRootOid();
-            registerNode(oid, 0, agent);
+        void registerNode(SnmpMibAgent bgent) {
+            long[] oid= bgent.getRootOid();
+            registerNode(oid, 0, bgent);
         }
 
-        TreeNode retrieveMatchingBranch(long[] oid, int cursor) {
+        TreeNode retrieveMbtchingBrbnch(long[] oid, int cursor) {
             TreeNode node= retrieveChild(oid, cursor);
             if (node == null)
                 return this;
             if (children.isEmpty()) {
-                // In this case, the node does not have any children. So no point to
-                // continue the search ...
+                // In this cbse, the node does not hbve bny children. So no point to
+                // continue the sebrch ...
                 return node;
             }
             if( cursor + 1 == oid.length) {
-                // In this case, the oid does not have any more element. So the search
+                // In this cbse, the oid does not hbve bny more element. So the sebrch
                 // is over.
                 return node;
             }
 
-            TreeNode n = node.retrieveMatchingBranch(oid, cursor + 1);
-            //If the returned node got a null agent, we have to replace it by
-            //the current one (in case it is not null)
+            TreeNode n = node.retrieveMbtchingBrbnch(oid, cursor + 1);
+            //If the returned node got b null bgent, we hbve to replbce it by
+            //the current one (in cbse it is not null)
             //
-            return n.agent == null ? this : n;
+            return n.bgent == null ? this : n;
         }
 
         SnmpMibAgent getAgentMib() {
-            return agent;
+            return bgent;
         }
 
         public void printTree(String ident) {
 
             StringBuilder buff= new StringBuilder();
-            if (agents == null) {
+            if (bgents == null) {
                 return;
             }
 
-            for(Enumeration<SnmpMibAgent> e= agents.elements(); e.hasMoreElements(); ) {
+            for(Enumerbtion<SnmpMibAgent> e= bgents.elements(); e.hbsMoreElements(); ) {
                 SnmpMibAgent mib= e.nextElement();
                 if (mib == null)
-                    buff.append("empty ");
+                    buff.bppend("empty ");
                 else
-                    buff.append(mib.getMibName()).append(" ");
+                    buff.bppend(mib.getMibNbme()).bppend(" ");
             }
             ident+= " ";
             if (children == null) {
                 return;
             }
-            for(Enumeration<TreeNode> e= children.elements(); e.hasMoreElements(); ) {
+            for(Enumerbtion<TreeNode> e= children.elements(); e.hbsMoreElements(); ) {
                 TreeNode node= e.nextElement();
                 node.printTree(ident);
             }
@@ -175,95 +175,95 @@ final class SnmpMibTree {
         //--------------
 
         /**
-         * Only the treeNode class can create an instance of treeNode.
-         * The creation occurs when registering a new oid.
+         * Only the treeNode clbss cbn crebte bn instbnce of treeNode.
+         * The crebtion occurs when registering b new oid.
          */
-        private TreeNode(long nodeValue, SnmpMibAgent agent, TreeNode sup) {
-            this.nodeValue= nodeValue;
-            this.parent= sup;
-            agents.addElement(agent);
+        privbte TreeNode(long nodeVblue, SnmpMibAgent bgent, TreeNode sup) {
+            this.nodeVblue= nodeVblue;
+            this.pbrent= sup;
+            bgents.bddElement(bgent);
         }
 
-        private void removeAgentFully(SnmpMibAgent agent) {
+        privbte void removeAgentFully(SnmpMibAgent bgent) {
             Vector<TreeNode> v = new Vector<>();
-            for(Enumeration<TreeNode> e= children.elements();
-                e.hasMoreElements(); ) {
+            for(Enumerbtion<TreeNode> e= children.elements();
+                e.hbsMoreElements(); ) {
 
                 TreeNode node= e.nextElement();
-                node.removeAgentFully(agent);
-                if(node.agents.isEmpty())
-                    v.add(node);
+                node.removeAgentFully(bgent);
+                if(node.bgents.isEmpty())
+                    v.bdd(node);
 
             }
-            for(Enumeration<TreeNode> e= v.elements(); e.hasMoreElements(); ) {
+            for(Enumerbtion<TreeNode> e= v.elements(); e.hbsMoreElements(); ) {
                 children.removeElement(e.nextElement());
             }
-            removeAgent(agent);
+            removeAgent(bgent);
 
         }
 
-        private void removeAgent(SnmpMibAgent mib) {
-            if (!agents.contains(mib))
+        privbte void removeAgent(SnmpMibAgent mib) {
+            if (!bgents.contbins(mib))
                 return;
-            agents.removeElement(mib);
+            bgents.removeElement(mib);
 
-            if (!agents.isEmpty())
-                agent= agents.firstElement();
+            if (!bgents.isEmpty())
+                bgent= bgents.firstElement();
 
         }
 
-        private void setAgent(SnmpMibAgent agent) {
-            this.agent = agent;
+        privbte void setAgent(SnmpMibAgent bgent) {
+            this.bgent = bgent;
         }
 
-        private void registerNode(long[] oid, int cursor, SnmpMibAgent agent) {
+        privbte void registerNode(long[] oid, int cursor, SnmpMibAgent bgent) {
 
             if (cursor >= oid.length)
-                //That's it !
+                //Thbt's it !
                 //
                 return;
             TreeNode child = retrieveChild(oid, cursor);
             if (child == null) {
-                // Create a child and register it !
+                // Crebte b child bnd register it !
                 //
-                long theValue= oid[cursor];
-                child= new TreeNode(theValue, agent, this);
-                children.addElement(child);
+                long theVblue= oid[cursor];
+                child= new TreeNode(theVblue, bgent, this);
+                children.bddElement(child);
             }
             else
-                if (agents.contains(agent) == false) {
-                    agents.addElement(agent);
+                if (bgents.contbins(bgent) == fblse) {
+                    bgents.bddElement(bgent);
                 }
 
-            // We have to set the agent attribute
+            // We hbve to set the bgent bttribute
             //
             if(cursor == (oid.length - 1)) {
-              child.setAgent(agent);
+              child.setAgent(bgent);
             }
             else
-              child.registerNode(oid, cursor+1, agent);
+              child.registerNode(oid, cursor+1, bgent);
         }
 
-        private TreeNode retrieveChild(long[] oid, int current) {
-            long theValue= oid[current];
+        privbte TreeNode retrieveChild(long[] oid, int current) {
+            long theVblue= oid[current];
 
-            for(Enumeration<TreeNode> e= children.elements(); e.hasMoreElements(); ) {
+            for(Enumerbtion<TreeNode> e= children.elements(); e.hbsMoreElements(); ) {
                 TreeNode node= e.nextElement();
-                if (node.match(theValue))
+                if (node.mbtch(theVblue))
                     return node;
             }
             return null;
         }
 
-        private boolean match(long value) {
-            return (nodeValue == value) ? true : false;
+        privbte boolebn mbtch(long vblue) {
+            return (nodeVblue == vblue) ? true : fblse;
         }
 
-        private Vector<TreeNode> children= new Vector<>();
-        private Vector<SnmpMibAgent> agents= new Vector<>();
-        private long nodeValue;
-        private SnmpMibAgent agent;
-        private TreeNode parent;
+        privbte Vector<TreeNode> children= new Vector<>();
+        privbte Vector<SnmpMibAgent> bgents= new Vector<>();
+        privbte long nodeVblue;
+        privbte SnmpMibAgent bgent;
+        privbte TreeNode pbrent;
 
-    }; // end of class TreeNode
+    }; // end of clbss TreeNode
 }

@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * The listener interface for receiving internal frame events.
- * This class is functionally equivalent to the WindowListener class
+ * The listener interfbce for receiving internbl frbme events.
+ * This clbss is functionblly equivblent to the WindowListener clbss
  * in the AWT.
  * <p>
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/internalframelistener.html">How to Write an Internal Frame Listener</a>
- * in <em>The Java Tutorial</em> for further documentation.
+ * See <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/internblfrbmelistener.html">How to Write bn Internbl Frbme Listener</b>
+ * in <em>The Jbvb Tutoribl</em> for further documentbtion.
  *
- * @see java.awt.event.WindowListener
+ * @see jbvb.bwt.event.WindowListener
  *
- * @author Thomas Ball
+ * @buthor Thombs Bbll
  */
-public interface InternalFrameListener extends EventListener {
+public interfbce InternblFrbmeListener extends EventListener {
     /**
-     * Invoked when a internal frame has been opened.
+     * Invoked when b internbl frbme hbs been opened.
      *
-     * @param e an {@code InternalFrameEvent} with information about the
-     *          {@code JInteralFrame} that originated the event
-     * @see javax.swing.JInternalFrame#show
+     * @pbrbm e bn {@code InternblFrbmeEvent} with informbtion bbout the
+     *          {@code JInterblFrbme} thbt originbted the event
+     * @see jbvbx.swing.JInternblFrbme#show
      */
-    public void internalFrameOpened(InternalFrameEvent e);
+    public void internblFrbmeOpened(InternblFrbmeEvent e);
 
     /**
-     * Invoked when an internal frame is in the process of being closed.
-     * The close operation can be overridden at this point.
+     * Invoked when bn internbl frbme is in the process of being closed.
+     * The close operbtion cbn be overridden bt this point.
      *
-     * @param e an {@code InternalFrameEvent} with information about the
-     *          {@code JInteralFrame} that originated the event
-     * @see javax.swing.JInternalFrame#setDefaultCloseOperation
+     * @pbrbm e bn {@code InternblFrbmeEvent} with informbtion bbout the
+     *          {@code JInterblFrbme} thbt originbted the event
+     * @see jbvbx.swing.JInternblFrbme#setDefbultCloseOperbtion
      */
-    public void internalFrameClosing(InternalFrameEvent e);
+    public void internblFrbmeClosing(InternblFrbmeEvent e);
 
     /**
-     * Invoked when an internal frame has been closed.
+     * Invoked when bn internbl frbme hbs been closed.
      *
-     * @param e an {@code InternalFrameEvent} with information about the
-     *          {@code JInteralFrame} that originated the event
-     * @see javax.swing.JInternalFrame#setClosed
+     * @pbrbm e bn {@code InternblFrbmeEvent} with informbtion bbout the
+     *          {@code JInterblFrbme} thbt originbted the event
+     * @see jbvbx.swing.JInternblFrbme#setClosed
      */
-    public void internalFrameClosed(InternalFrameEvent e);
+    public void internblFrbmeClosed(InternblFrbmeEvent e);
 
     /**
-     * Invoked when an internal frame is iconified.
+     * Invoked when bn internbl frbme is iconified.
      *
-     * @param e an {@code InternalFrameEvent} with information about the
-     *          {@code JInteralFrame} that originated the event
-     * @see javax.swing.JInternalFrame#setIcon
+     * @pbrbm e bn {@code InternblFrbmeEvent} with informbtion bbout the
+     *          {@code JInterblFrbme} thbt originbted the event
+     * @see jbvbx.swing.JInternblFrbme#setIcon
      */
-    public void internalFrameIconified(InternalFrameEvent e);
+    public void internblFrbmeIconified(InternblFrbmeEvent e);
 
     /**
-     * Invoked when an internal frame is de-iconified.
+     * Invoked when bn internbl frbme is de-iconified.
      *
-     * @param e an {@code InternalFrameEvent} with information about the
-     *          {@code JInteralFrame} that originated the event
-     * @see javax.swing.JInternalFrame#setIcon
+     * @pbrbm e bn {@code InternblFrbmeEvent} with informbtion bbout the
+     *          {@code JInterblFrbme} thbt originbted the event
+     * @see jbvbx.swing.JInternblFrbme#setIcon
      */
-    public void internalFrameDeiconified(InternalFrameEvent e);
+    public void internblFrbmeDeiconified(InternblFrbmeEvent e);
 
     /**
-     * Invoked when an internal frame is activated.
+     * Invoked when bn internbl frbme is bctivbted.
      *
-     * @param e an {@code InternalFrameEvent} with information about the
-     *          {@code JInteralFrame} that originated the event
-     * @see javax.swing.JInternalFrame#setSelected
+     * @pbrbm e bn {@code InternblFrbmeEvent} with informbtion bbout the
+     *          {@code JInterblFrbme} thbt originbted the event
+     * @see jbvbx.swing.JInternblFrbme#setSelected
      */
-    public void internalFrameActivated(InternalFrameEvent e);
+    public void internblFrbmeActivbted(InternblFrbmeEvent e);
 
     /**
-     * Invoked when an internal frame is de-activated.
+     * Invoked when bn internbl frbme is de-bctivbted.
      *
-     * @param e an {@code InternalFrameEvent} with information about the
-     *          {@code JInteralFrame} that originated the event
-     * @see javax.swing.JInternalFrame#setSelected
+     * @pbrbm e bn {@code InternblFrbmeEvent} with informbtion bbout the
+     *          {@code JInterblFrbme} thbt originbted the event
+     * @see jbvbx.swing.JInternblFrbme#setSelected
      */
-    public void internalFrameDeactivated(InternalFrameEvent e);
+    public void internblFrbmeDebctivbted(InternblFrbmeEvent e);
 }

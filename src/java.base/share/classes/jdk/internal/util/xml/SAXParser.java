@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.internal.util.xml;
+pbckbge jdk.internbl.util.xml;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import jdk.internal.org.xml.sax.InputSource;
-import jdk.internal.org.xml.sax.SAXException;
-import jdk.internal.org.xml.sax.XMLReader;
-import jdk.internal.org.xml.sax.helpers.DefaultHandler;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jdk.internbl.org.xml.sbx.InputSource;
+import jdk.internbl.org.xml.sbx.SAXException;
+import jdk.internbl.org.xml.sbx.XMLRebder;
+import jdk.internbl.org.xml.sbx.helpers.DefbultHbndler;
 
 
 /**
- * Defines the API that wraps an {@link org.xml.sax.XMLReader}
- * implementation class. In JAXP 1.0, this class wrapped the
- * {@link org.xml.sax.Parser} interface, however this interface was
- * replaced by the {@link org.xml.sax.XMLReader}. For ease
- * of transition, this class continues to support the same name
- * and interface as well as supporting new methods.
+ * Defines the API thbt wrbps bn {@link org.xml.sbx.XMLRebder}
+ * implementbtion clbss. In JAXP 1.0, this clbss wrbpped the
+ * {@link org.xml.sbx.Pbrser} interfbce, however this interfbce wbs
+ * replbced by the {@link org.xml.sbx.XMLRebder}. For ebse
+ * of trbnsition, this clbss continues to support the sbme nbme
+ * bnd interfbce bs well bs supporting new methods.
  *
- * An instance of this class can be obtained from the
- * {@link javax.xml.parsers.SAXParserFactory#newSAXParser()} method.
- * Once an instance of this class is obtained, XML can be parsed from
- * a variety of input sources. These input sources are InputStreams,
- * Files, URLs, and SAX InputSources.<p>
+ * An instbnce of this clbss cbn be obtbined from the
+ * {@link jbvbx.xml.pbrsers.SAXPbrserFbctory#newSAXPbrser()} method.
+ * Once bn instbnce of this clbss is obtbined, XML cbn be pbrsed from
+ * b vbriety of input sources. These input sources bre InputStrebms,
+ * Files, URLs, bnd SAX InputSources.<p>
  *
- * This static method creates a new factory instance based
- * on a system property setting or uses the platform default
- * if no property has been defined.<p>
+ * This stbtic method crebtes b new fbctory instbnce bbsed
+ * on b system property setting or uses the plbtform defbult
+ * if no property hbs been defined.<p>
  *
- * The system property that controls which Factory implementation
- * to create is named <code>&quot;javax.xml.parsers.SAXParserFactory&quot;</code>.
- * This property names a class that is a concrete subclass of this
- * abstract class. If no property is defined, a platform default
+ * The system property thbt controls which Fbctory implementbtion
+ * to crebte is nbmed <code>&quot;jbvbx.xml.pbrsers.SAXPbrserFbctory&quot;</code>.
+ * This property nbmes b clbss thbt is b concrete subclbss of this
+ * bbstrbct clbss. If no property is defined, b plbtform defbult
  * will be used.</p>
  *
- * As the content is parsed by the underlying parser, methods of the
+ * As the content is pbrsed by the underlying pbrser, methods of the
  * given
- * {@link org.xml.sax.helpers.DefaultHandler} are called.<p>
+ * {@link org.xml.sbx.helpers.DefbultHbndler} bre cblled.<p>
  *
- * Implementors of this class which wrap an underlaying implementation
- * can consider using the {@link org.xml.sax.helpers.ParserAdapter}
- * class to initially adapt their SAX1 implementation to work under
- * this revised class.
+ * Implementors of this clbss which wrbp bn underlbying implementbtion
+ * cbn consider using the {@link org.xml.sbx.helpers.PbrserAdbpter}
+ * clbss to initiblly bdbpt their SAX1 implementbtion to work under
+ * this revised clbss.
  *
- * @author <a href="mailto:Jeff.Suttor@Sun.com">Jeff Suttor</a>
- * @version $Revision: 1.8 $, $Date: 2010-11-01 04:36:09 $
+ * @buthor <b href="mbilto:Jeff.Suttor@Sun.com">Jeff Suttor</b>
+ * @version $Revision: 1.8 $, $Dbte: 2010-11-01 04:36:09 $
  *
- * @author Joe Wang
- * This is a subset of that in JAXP, javax.xml.parsers.SAXParser
+ * @buthor Joe Wbng
+ * This is b subset of thbt in JAXP, jbvbx.xml.pbrsers.SAXPbrser
  *
  */
-public abstract class SAXParser {
+public bbstrbct clbss SAXPbrser {
 
     /**
-     * <p>Protected constructor to prevent instantiation.</p>
+     * <p>Protected constructor to prevent instbntibtion.</p>
      */
-    protected SAXParser() {
+    protected SAXPbrser() {
     }
 
     /**
-     * Parse the content of the given {@link java.io.InputStream}
-     * instance as XML using the specified
-     * {@link org.xml.sax.helpers.DefaultHandler}.
+     * Pbrse the content of the given {@link jbvb.io.InputStrebm}
+     * instbnce bs XML using the specified
+     * {@link org.xml.sbx.helpers.DefbultHbndler}.
      *
-     * @param is InputStream containing the content to be parsed.
-     * @param dh The SAX DefaultHandler to use.
+     * @pbrbm is InputStrebm contbining the content to be pbrsed.
+     * @pbrbm dh The SAX DefbultHbndler to use.
      *
-     * @throws IllegalArgumentException If the given InputStream is null.
-     * @throws IOException If any IO errors occur.
-     * @throws SAXException If any SAX errors occur during processing.
+     * @throws IllegblArgumentException If the given InputStrebm is null.
+     * @throws IOException If bny IO errors occur.
+     * @throws SAXException If bny SAX errors occur during processing.
      *
-     * @see org.xml.sax.DocumentHandler
+     * @see org.xml.sbx.DocumentHbndler
      */
-    public void parse(InputStream is, DefaultHandler dh)
+    public void pbrse(InputStrebm is, DefbultHbndler dh)
         throws SAXException, IOException
     {
         if (is == null) {
-            throw new IllegalArgumentException("InputStream cannot be null");
+            throw new IllegblArgumentException("InputStrebm cbnnot be null");
         }
 
         InputSource input = new InputSource(is);
-        this.parse(input, dh);
+        this.pbrse(input, dh);
     }
 
     /**
-     * Parse the content described by the giving Uniform Resource
-     * Identifier (URI) as XML using the specified
-     * {@link org.xml.sax.helpers.DefaultHandler}.
+     * Pbrse the content described by the giving Uniform Resource
+     * Identifier (URI) bs XML using the specified
+     * {@link org.xml.sbx.helpers.DefbultHbndler}.
      *
-     * @param uri The location of the content to be parsed.
-     * @param dh The SAX DefaultHandler to use.
+     * @pbrbm uri The locbtion of the content to be pbrsed.
+     * @pbrbm dh The SAX DefbultHbndler to use.
      *
-     * @throws IllegalArgumentException If the uri is null.
-     * @throws IOException If any IO errors occur.
-     * @throws SAXException If any SAX errors occur during processing.
+     * @throws IllegblArgumentException If the uri is null.
+     * @throws IOException If bny IO errors occur.
+     * @throws SAXException If bny SAX errors occur during processing.
      *
-     * @see org.xml.sax.DocumentHandler
+     * @see org.xml.sbx.DocumentHbndler
      */
-    public void parse(String uri, DefaultHandler dh)
+    public void pbrse(String uri, DefbultHbndler dh)
         throws SAXException, IOException
     {
         if (uri == null) {
-            throw new IllegalArgumentException("uri cannot be null");
+            throw new IllegblArgumentException("uri cbnnot be null");
         }
 
         InputSource input = new InputSource(uri);
-        this.parse(input, dh);
+        this.pbrse(input, dh);
     }
 
     /**
-     * Parse the content of the file specified as XML using the
-     * specified {@link org.xml.sax.helpers.DefaultHandler}.
+     * Pbrse the content of the file specified bs XML using the
+     * specified {@link org.xml.sbx.helpers.DefbultHbndler}.
      *
-     * @param f The file containing the XML to parse
-     * @param dh The SAX DefaultHandler to use.
+     * @pbrbm f The file contbining the XML to pbrse
+     * @pbrbm dh The SAX DefbultHbndler to use.
      *
-     * @throws IllegalArgumentException If the File object is null.
-     * @throws IOException If any IO errors occur.
-     * @throws SAXException If any SAX errors occur during processing.
+     * @throws IllegblArgumentException If the File object is null.
+     * @throws IOException If bny IO errors occur.
+     * @throws SAXException If bny SAX errors occur during processing.
      *
-     * @see org.xml.sax.DocumentHandler
+     * @see org.xml.sbx.DocumentHbndler
      */
-    public void parse(File f, DefaultHandler dh)
+    public void pbrse(File f, DefbultHbndler dh)
         throws SAXException, IOException
     {
         if (f == null) {
-            throw new IllegalArgumentException("File cannot be null");
+            throw new IllegblArgumentException("File cbnnot be null");
         }
 
-        //convert file to appropriate URI, f.toURI().toASCIIString()
-        //converts the URI to string as per rule specified in
+        //convert file to bppropribte URI, f.toURI().toASCIIString()
+        //converts the URI to string bs per rule specified in
         //RFC 2396,
         InputSource input = new InputSource(f.toURI().toASCIIString());
-        this.parse(input, dh);
+        this.pbrse(input, dh);
     }
 
     /**
-     * Parse the content given {@link org.xml.sax.InputSource}
-     * as XML using the specified
-     * {@link org.xml.sax.helpers.DefaultHandler}.
+     * Pbrse the content given {@link org.xml.sbx.InputSource}
+     * bs XML using the specified
+     * {@link org.xml.sbx.helpers.DefbultHbndler}.
      *
-     * @param is The InputSource containing the content to be parsed.
-     * @param dh The SAX DefaultHandler to use.
+     * @pbrbm is The InputSource contbining the content to be pbrsed.
+     * @pbrbm dh The SAX DefbultHbndler to use.
      *
-     * @throws IllegalArgumentException If the <code>InputSource</code> object
+     * @throws IllegblArgumentException If the <code>InputSource</code> object
      *   is <code>null</code>.
-     * @throws IOException If any IO errors occur.
-     * @throws SAXException If any SAX errors occur during processing.
+     * @throws IOException If bny IO errors occur.
+     * @throws SAXException If bny SAX errors occur during processing.
      *
-     * @see org.xml.sax.DocumentHandler
+     * @see org.xml.sbx.DocumentHbndler
      */
-    public void parse(InputSource is, DefaultHandler dh)
+    public void pbrse(InputSource is, DefbultHbndler dh)
         throws SAXException, IOException
     {
         if (is == null) {
-            throw new IllegalArgumentException("InputSource cannot be null");
+            throw new IllegblArgumentException("InputSource cbnnot be null");
         }
 
-        XMLReader reader = this.getXMLReader();
+        XMLRebder rebder = this.getXMLRebder();
         if (dh != null) {
-            reader.setContentHandler(dh);
-            reader.setEntityResolver(dh);
-            reader.setErrorHandler(dh);
-            reader.setDTDHandler(dh);
+            rebder.setContentHbndler(dh);
+            rebder.setEntityResolver(dh);
+            rebder.setErrorHbndler(dh);
+            rebder.setDTDHbndler(dh);
         }
-        reader.parse(is);
+        rebder.pbrse(is);
     }
 
     /**
-     * Returns the {@link org.xml.sax.XMLReader} that is encapsulated by the
-     * implementation of this class.
+     * Returns the {@link org.xml.sbx.XMLRebder} thbt is encbpsulbted by the
+     * implementbtion of this clbss.
      *
-     * @return The XMLReader that is encapsulated by the
-     *         implementation of this class.
+     * @return The XMLRebder thbt is encbpsulbted by the
+     *         implementbtion of this clbss.
      *
-     * @throws SAXException If any SAX errors occur during processing.
+     * @throws SAXException If bny SAX errors occur during processing.
      */
-    public abstract XMLReader getXMLReader() throws SAXException;
+    public bbstrbct XMLRebder getXMLRebder() throws SAXException;
 
     /**
-     * Indicates whether or not this parser is configured to
-     * understand namespaces.
+     * Indicbtes whether or not this pbrser is configured to
+     * understbnd nbmespbces.
      *
-     * @return true if this parser is configured to
-     *         understand namespaces; false otherwise.
+     * @return true if this pbrser is configured to
+     *         understbnd nbmespbces; fblse otherwise.
      */
-    public abstract boolean isNamespaceAware();
+    public bbstrbct boolebn isNbmespbceAwbre();
 
     /**
-     * Indicates whether or not this parser is configured to
-     * validate XML documents.
+     * Indicbtes whether or not this pbrser is configured to
+     * vblidbte XML documents.
      *
-     * @return true if this parser is configured to
-     *         validate XML documents; false otherwise.
+     * @return true if this pbrser is configured to
+     *         vblidbte XML documents; fblse otherwise.
      */
-    public abstract boolean isValidating();
+    public bbstrbct boolebn isVblidbting();
 
     /**
-     * <p>Get the XInclude processing mode for this parser.</p>
+     * <p>Get the XInclude processing mode for this pbrser.</p>
      *
      * @return
-     *      the return value of
-     *      the {@link SAXParserFactory#isXIncludeAware()}
-     *      when this parser was created from factory.
+     *      the return vblue of
+     *      the {@link SAXPbrserFbctory#isXIncludeAwbre()}
+     *      when this pbrser wbs crebted from fbctory.
      *
-     * @throws UnsupportedOperationException When implementation does not
+     * @throws UnsupportedOperbtionException When implementbtion does not
      *   override this method
      *
      * @since 1.5
      *
-     * @see SAXParserFactory#setXIncludeAware(boolean)
+     * @see SAXPbrserFbctory#setXIncludeAwbre(boolebn)
      */
-    public boolean isXIncludeAware() {
-        throw new UnsupportedOperationException(
-                "This parser does not support specification \""
-                + this.getClass().getPackage().getSpecificationTitle()
+    public boolebn isXIncludeAwbre() {
+        throw new UnsupportedOperbtionException(
+                "This pbrser does not support specificbtion \""
+                + this.getClbss().getPbckbge().getSpecificbtionTitle()
                 + "\" version \""
-                + this.getClass().getPackage().getSpecificationVersion()
+                + this.getClbss().getPbckbge().getSpecificbtionVersion()
                 + "\"");
     }
 }

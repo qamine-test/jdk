@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
-import com.sun.jmx.mbeanserver.Util;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import com.sun.jmx.mbebnserver.Util;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.List;
 
 /**
- * A RoleList represents a list of roles (Role objects). It is used as
- * parameter when creating a relation, and when trying to set several roles in
- * a relation (via 'setRoles()' method). It is returned as part of a
+ * A RoleList represents b list of roles (Role objects). It is used bs
+ * pbrbmeter when crebting b relbtion, bnd when trying to set severbl roles in
+ * b relbtion (vib 'setRoles()' method). It is returned bs pbrt of b
  * RoleResult, to provide roles successfully retrieved.
  *
  * @since 1.5
  */
-/* We cannot extend ArrayList<Role> because our legacy
-   add(Role) method would then override add(E) in ArrayList<E>,
-   and our return value is void whereas ArrayList.add(E)'s is boolean.
-   Likewise for set(int,Role).  Grrr.  We cannot use covariance
-   to override the most important methods and have them return
-   Role, either, because that would break subclasses that
-   override those methods in turn (using the original return type
-   of Object).  Finally, we cannot implement Iterable<Role>
+/* We cbnnot extend ArrbyList<Role> becbuse our legbcy
+   bdd(Role) method would then override bdd(E) in ArrbyList<E>,
+   bnd our return vblue is void wherebs ArrbyList.bdd(E)'s is boolebn.
+   Likewise for set(int,Role).  Grrr.  We cbnnot use covbribnce
+   to override the most importbnt methods bnd hbve them return
+   Role, either, becbuse thbt would brebk subclbsses thbt
+   override those methods in turn (using the originbl return type
+   of Object).  Finblly, we cbnnot implement Iterbble<Role>
    so you could write
        for (Role r : roleList)
-   because ArrayList<> implements Iterable<> and the same class cannot
-   implement two versions of a generic interface.  Instead we provide
-   the asList() method so you can write
-       for (Role r : roleList.asList())
+   becbuse ArrbyList<> implements Iterbble<> bnd the sbme clbss cbnnot
+   implement two versions of b generic interfbce.  Instebd we provide
+   the bsList() method so you cbn write
+       for (Role r : roleList.bsList())
 */
-public class RoleList extends ArrayList<Object> {
+public clbss RoleList extends ArrbyList<Object> {
 
-    private transient boolean typeSafe;
-    private transient boolean tainted;
+    privbte trbnsient boolebn typeSbfe;
+    privbte trbnsient boolebn tbinted;
 
-    /* Serial version */
-    private static final long serialVersionUID = 5568344346499649313L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = 5568344346499649313L;
 
     //
     // Constructors
     //
 
     /**
-     * Constructs an empty RoleList.
+     * Constructs bn empty RoleList.
      */
     public RoleList() {
         super();
     }
 
     /**
-     * Constructs an empty RoleList with the initial capacity
+     * Constructs bn empty RoleList with the initibl cbpbcity
      * specified.
      *
-     * @param initialCapacity  initial capacity
+     * @pbrbm initiblCbpbcity  initibl cbpbcity
      */
-    public RoleList(int initialCapacity) {
-        super(initialCapacity);
+    public RoleList(int initiblCbpbcity) {
+        super(initiblCbpbcity);
     }
 
     /**
-     * Constructs a {@code RoleList} containing the elements of the
-     * {@code List} specified, in the order in which they are returned by
-     * the {@code List}'s iterator. The {@code RoleList} instance has
-     * an initial capacity of 110% of the size of the {@code List}
+     * Constructs b {@code RoleList} contbining the elements of the
+     * {@code List} specified, in the order in which they bre returned by
+     * the {@code List}'s iterbtor. The {@code RoleList} instbnce hbs
+     * bn initibl cbpbcity of 110% of the size of the {@code List}
      * specified.
      *
-     * @param list the {@code List} that defines the initial contents of
+     * @pbrbm list the {@code List} thbt defines the initibl contents of
      * the new {@code RoleList}.
      *
-     * @exception IllegalArgumentException if the {@code list} parameter
-     * is {@code null} or if the {@code list} parameter contains any
+     * @exception IllegblArgumentException if the {@code list} pbrbmeter
+     * is {@code null} or if the {@code list} pbrbmeter contbins bny
      * non-Role objects.
      *
-     * @see ArrayList#ArrayList(java.util.Collection)
+     * @see ArrbyList#ArrbyList(jbvb.util.Collection)
      */
-    public RoleList(List<Role> list) throws IllegalArgumentException {
-        // Check for null parameter
+    public RoleList(List<Role> list) throws IllegblArgumentException {
+        // Check for null pbrbmeter
         //
         if (list == null)
-            throw new IllegalArgumentException("Null parameter");
+            throw new IllegblArgumentException("Null pbrbmeter");
 
         // Check for non-Role objects
         //
-        checkTypeSafe(list);
+        checkTypeSbfe(list);
 
         // Build the List<Role>
         //
-        super.addAll(list);
+        super.bddAll(list);
     }
 
     /**
-     * Return a view of this list as a {@code List<Role>}.
-     * Changes to the returned value are reflected by changes
-     * to the original {@code RoleList} and vice versa.
+     * Return b view of this list bs b {@code List<Role>}.
+     * Chbnges to the returned vblue bre reflected by chbnges
+     * to the originbl {@code RoleList} bnd vice versb.
      *
-     * @return a {@code List<Role>} whose contents
+     * @return b {@code List<Role>} whose contents
      * reflect the contents of this {@code RoleList}.
      *
-     * <p>If this method has ever been called on a given
-     * {@code RoleList} instance, a subsequent attempt to add
-     * an object to that instance which is not a {@code Role}
-     * will fail with an {@code IllegalArgumentException}. For compatibility
-     * reasons, a {@code RoleList} on which this method has never
-     * been called does allow objects other than {@code Role}s to
-     * be added.</p>
+     * <p>If this method hbs ever been cblled on b given
+     * {@code RoleList} instbnce, b subsequent bttempt to bdd
+     * bn object to thbt instbnce which is not b {@code Role}
+     * will fbil with bn {@code IllegblArgumentException}. For compbtibility
+     * rebsons, b {@code RoleList} on which this method hbs never
+     * been cblled does bllow objects other thbn {@code Role}s to
+     * be bdded.</p>
      *
-     * @throws IllegalArgumentException if this {@code RoleList} contains
-     * an element that is not a {@code Role}.
+     * @throws IllegblArgumentException if this {@code RoleList} contbins
+     * bn element thbt is not b {@code Role}.
      *
      * @since 1.6
      */
-    @SuppressWarnings("unchecked")
-    public List<Role> asList() {
-        if (!typeSafe) {
-            if (tainted)
-                checkTypeSafe(this);
-            typeSafe = true;
+    @SuppressWbrnings("unchecked")
+    public List<Role> bsList() {
+        if (!typeSbfe) {
+            if (tbinted)
+                checkTypeSbfe(this);
+            typeSbfe = true;
         }
-        return Util.cast(this);
+        return Util.cbst(this);
     }
 
     //
@@ -149,225 +149,225 @@ public class RoleList extends ArrayList<Object> {
     //
 
     /**
-     * Adds the Role specified as the last element of the list.
+     * Adds the Role specified bs the lbst element of the list.
      *
-     * @param role  the role to be added.
+     * @pbrbm role  the role to be bdded.
      *
-     * @exception IllegalArgumentException  if the role is null.
+     * @exception IllegblArgumentException  if the role is null.
      */
-    public void add(Role role)
-        throws IllegalArgumentException {
+    public void bdd(Role role)
+        throws IllegblArgumentException {
 
         if (role == null) {
-            String excMsg = "Invalid parameter";
-            throw new IllegalArgumentException(excMsg);
+            String excMsg = "Invblid pbrbmeter";
+            throw new IllegblArgumentException(excMsg);
         }
-        super.add(role);
+        super.bdd(role);
     }
 
     /**
-     * Inserts the role specified as an element at the position specified.
-     * Elements with an index greater than or equal to the current position are
+     * Inserts the role specified bs bn element bt the position specified.
+     * Elements with bn index grebter thbn or equbl to the current position bre
      * shifted up.
      *
-     * @param index  The position in the list where the new Role
+     * @pbrbm index  The position in the list where the new Role
      * object is to be inserted.
-     * @param role  The Role object to be inserted.
+     * @pbrbm role  The Role object to be inserted.
      *
-     * @exception IllegalArgumentException  if the role is null.
-     * @exception IndexOutOfBoundsException  if accessing with an index
+     * @exception IllegblArgumentException  if the role is null.
+     * @exception IndexOutOfBoundsException  if bccessing with bn index
      * outside of the list.
      */
-    public void add(int index,
+    public void bdd(int index,
                     Role role)
-        throws IllegalArgumentException,
+        throws IllegblArgumentException,
                IndexOutOfBoundsException {
 
         if (role == null) {
-            String excMsg = "Invalid parameter";
-            throw new IllegalArgumentException(excMsg);
+            String excMsg = "Invblid pbrbmeter";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        super.add(index, role);
+        super.bdd(index, role);
     }
 
     /**
-     * Sets the element at the position specified to be the role
+     * Sets the element bt the position specified to be the role
      * specified.
-     * The previous element at that position is discarded.
+     * The previous element bt thbt position is discbrded.
      *
-     * @param index  The position specified.
-     * @param role  The value to which the role element should be set.
+     * @pbrbm index  The position specified.
+     * @pbrbm role  The vblue to which the role element should be set.
      *
-     * @exception IllegalArgumentException  if the role is null.
-     * @exception IndexOutOfBoundsException  if accessing with an index
+     * @exception IllegblArgumentException  if the role is null.
+     * @exception IndexOutOfBoundsException  if bccessing with bn index
      * outside of the list.
      */
      public void set(int index,
                      Role role)
-         throws IllegalArgumentException,
+         throws IllegblArgumentException,
                 IndexOutOfBoundsException {
 
         if (role == null) {
-            // Revisit [cebro] Localize message
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            // Revisit [cebro] Locblize messbge
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
         super.set(index, role);
      }
 
     /**
-     * Appends all the elements in the RoleList specified to the end
-     * of the list, in the order in which they are returned by the Iterator of
+     * Appends bll the elements in the RoleList specified to the end
+     * of the list, in the order in which they bre returned by the Iterbtor of
      * the RoleList specified.
      *
-     * @param roleList  Elements to be inserted into the list (can be null)
+     * @pbrbm roleList  Elements to be inserted into the list (cbn be null)
      *
-     * @return true if this list changed as a result of the call.
+     * @return true if this list chbnged bs b result of the cbll.
      *
-     * @exception IndexOutOfBoundsException  if accessing with an index
+     * @exception IndexOutOfBoundsException  if bccessing with bn index
      * outside of the list.
      *
-     * @see ArrayList#addAll(Collection)
+     * @see ArrbyList#bddAll(Collection)
      */
-    public boolean addAll(RoleList roleList)
+    public boolebn bddAll(RoleList roleList)
         throws IndexOutOfBoundsException {
 
         if (roleList == null) {
             return true;
         }
 
-        return (super.addAll(roleList));
+        return (super.bddAll(roleList));
     }
 
     /**
-     * Inserts all of the elements in the RoleList specified into this
-     * list, starting at the specified position, in the order in which they are
-     * returned by the Iterator of the RoleList specified.
+     * Inserts bll of the elements in the RoleList specified into this
+     * list, stbrting bt the specified position, in the order in which they bre
+     * returned by the Iterbtor of the RoleList specified.
      *
-     * @param index  Position at which to insert the first element from the
+     * @pbrbm index  Position bt which to insert the first element from the
      * RoleList specified.
-     * @param roleList  Elements to be inserted into the list.
+     * @pbrbm roleList  Elements to be inserted into the list.
      *
-     * @return true if this list changed as a result of the call.
+     * @return true if this list chbnged bs b result of the cbll.
      *
-     * @exception IllegalArgumentException  if the role is null.
-     * @exception IndexOutOfBoundsException  if accessing with an index
+     * @exception IllegblArgumentException  if the role is null.
+     * @exception IndexOutOfBoundsException  if bccessing with bn index
      * outside of the list.
      *
-     * @see ArrayList#addAll(int, Collection)
+     * @see ArrbyList#bddAll(int, Collection)
      */
-    public boolean addAll(int index,
+    public boolebn bddAll(int index,
                           RoleList roleList)
-        throws IllegalArgumentException,
+        throws IllegblArgumentException,
                IndexOutOfBoundsException {
 
         if (roleList == null) {
-            // Revisit [cebro] Localize message
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            // Revisit [cebro] Locblize messbge
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        return (super.addAll(index, roleList));
+        return (super.bddAll(index, roleList));
     }
 
     /*
-     * Override all of the methods from ArrayList<Object> that might add
-     * a non-Role to the List, and disallow that if asList has ever
-     * been called on this instance.
+     * Override bll of the methods from ArrbyList<Object> thbt might bdd
+     * b non-Role to the List, bnd disbllow thbt if bsList hbs ever
+     * been cblled on this instbnce.
      */
 
     @Override
-    public boolean add(Object o) {
-        if (!tainted)
-            tainted = isTainted(o);
-        if (typeSafe)
-            checkTypeSafe(o);
-        return super.add(o);
+    public boolebn bdd(Object o) {
+        if (!tbinted)
+            tbinted = isTbinted(o);
+        if (typeSbfe)
+            checkTypeSbfe(o);
+        return super.bdd(o);
     }
 
     @Override
-    public void add(int index, Object element) {
-        if (!tainted)
-            tainted = isTainted(element);
-        if (typeSafe)
-            checkTypeSafe(element);
-        super.add(index, element);
+    public void bdd(int index, Object element) {
+        if (!tbinted)
+            tbinted = isTbinted(element);
+        if (typeSbfe)
+            checkTypeSbfe(element);
+        super.bdd(index, element);
     }
 
     @Override
-    public boolean addAll(Collection<?> c) {
-        if (!tainted)
-            tainted = isTainted(c);
-        if (typeSafe)
-            checkTypeSafe(c);
-        return super.addAll(c);
+    public boolebn bddAll(Collection<?> c) {
+        if (!tbinted)
+            tbinted = isTbinted(c);
+        if (typeSbfe)
+            checkTypeSbfe(c);
+        return super.bddAll(c);
     }
 
     @Override
-    public boolean addAll(int index, Collection<?> c) {
-        if (!tainted)
-            tainted = isTainted(c);
-        if (typeSafe)
-            checkTypeSafe(c);
-        return super.addAll(index, c);
+    public boolebn bddAll(int index, Collection<?> c) {
+        if (!tbinted)
+            tbinted = isTbinted(c);
+        if (typeSbfe)
+            checkTypeSbfe(c);
+        return super.bddAll(index, c);
     }
 
     @Override
     public Object set(int index, Object element) {
-        if (!tainted)
-            tainted = isTainted(element);
-        if (typeSafe)
-            checkTypeSafe(element);
+        if (!tbinted)
+            tbinted = isTbinted(element);
+        if (typeSbfe)
+            checkTypeSbfe(element);
         return super.set(index, element);
     }
 
     /**
-     * IllegalArgumentException if o is a non-Role object.
+     * IllegblArgumentException if o is b non-Role object.
      */
-    private static void checkTypeSafe(Object o) {
+    privbte stbtic void checkTypeSbfe(Object o) {
         try {
             o = (Role) o;
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentException(e);
+        } cbtch (ClbssCbstException e) {
+            throw new IllegblArgumentException(e);
         }
     }
 
     /**
-     * IllegalArgumentException if c contains any non-Role objects.
+     * IllegblArgumentException if c contbins bny non-Role objects.
      */
-    private static void checkTypeSafe(Collection<?> c) {
+    privbte stbtic void checkTypeSbfe(Collection<?> c) {
         try {
             Role r;
             for (Object o : c)
                 r = (Role) o;
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentException(e);
+        } cbtch (ClbssCbstException e) {
+            throw new IllegblArgumentException(e);
         }
     }
 
     /**
-     * Returns true if o is a non-Role object.
+     * Returns true if o is b non-Role object.
      */
-    private static boolean isTainted(Object o) {
+    privbte stbtic boolebn isTbinted(Object o) {
         try {
-            checkTypeSafe(o);
-        } catch (IllegalArgumentException e) {
+            checkTypeSbfe(o);
+        } cbtch (IllegblArgumentException e) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if c contains any non-Role objects.
+     * Returns true if c contbins bny non-Role objects.
      */
-    private static boolean isTainted(Collection<?> c) {
+    privbte stbtic boolebn isTbinted(Collection<?> c) {
         try {
-            checkTypeSafe(c);
-        } catch (IllegalArgumentException e) {
+            checkTypeSbfe(c);
+        } cbtch (IllegblArgumentException e) {
             return true;
         }
-        return false;
+        return fblse;
     }
 }

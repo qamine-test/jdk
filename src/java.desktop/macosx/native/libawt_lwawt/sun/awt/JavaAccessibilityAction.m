@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "JavaAccessibilityAction.h"
-#import "JavaAccessibilityUtilities.h"
+#import "JbvbAccessibilityAction.h"
+#import "JbvbAccessibilityUtilities.h"
 
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
 
-@implementation JavaAxAction
+@implementbtion JbvbAxAction
 
-- (id)initWithEnv:(JNIEnv *)env withAccessibleAction:(jobject)accessibleAction withIndex:(jint)index withComponent:(jobject)component
+- (id)initWithEnv:(JNIEnv *)env withAccessibleAction:(jobject)bccessibleAction withIndex:(jint)index withComponent:(jobject)component
 {
     self = [super init];
     if (self) {
-        fAccessibleAction = JNFNewGlobalRef(env, accessibleAction);
+        fAccessibleAction = JNFNewGlobblRef(env, bccessibleAction);
         fIndex = index;
-        fComponent = JNFNewGlobalRef(env, component);
+        fComponent = JNFNewGlobblRef(env, component);
     }
     return self;
 }
 
-- (void)dealloc
+- (void)deblloc
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
+    JNIEnv *env = [ThrebdUtilities getJNIEnvUncbched];
 
-    JNFDeleteGlobalRef(env, fAccessibleAction);
+    JNFDeleteGlobblRef(env, fAccessibleAction);
     fAccessibleAction = NULL;
 
-    JNFDeleteGlobalRef(env, fComponent);
+    JNFDeleteGlobblRef(env, fComponent);
     fComponent = NULL;
 
-    [super dealloc];
+    [super deblloc];
 }
 
 - (NSString *)getDescription
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getAccessibleActionDescription, sjc_CAccessibility, "getAccessibleActionDescription", "(Ljavax/accessibility/AccessibleAction;ILjava/awt/Component;)Ljava/lang/String;");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getAccessibleActionDescription, sjc_CAccessibility, "getAccessibleActionDescription", "(Ljbvbx/bccessibility/AccessibleAction;ILjbvb/bwt/Component;)Ljbvb/lbng/String;");
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    return JNFJavaToNSString(env, JNFCallStaticObjectMethod(env, jm_getAccessibleActionDescription, fAccessibleAction, fIndex, fComponent)); // AWT_THREADING Safe (AWTRunLoopMode)
+    return JNFJbvbToNSString(env, JNFCbllStbticObjectMethod(env, jm_getAccessibleActionDescription, fAccessibleAction, fIndex, fComponent)); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
 - (void)perform
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_doAccessibleAction, sjc_CAccessibility, "doAccessibleAction", "(Ljavax/accessibility/AccessibleAction;ILjava/awt/Component;)V");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_doAccessibleAction, sjc_CAccessibility, "doAccessibleAction", "(Ljbvbx/bccessibility/AccessibleAction;ILjbvb/bwt/Component;)V");
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    JNFCallStaticVoidMethod(env, jm_doAccessibleAction, fAccessibleAction, fIndex, fComponent); // AWT_THREADING Safe (AWTRunLoopMode)
+    JNFCbllStbticVoidMethod(env, jm_doAccessibleAction, fAccessibleAction, fIndex, fComponent); // AWT_THREADING Sbfe (AWTRunLoopMode)
 }
 
 @end
 
 
-@implementation TabGroupAction
+@implementbtion TbbGroupAction
 
-- (id)initWithEnv:(JNIEnv *)env withTabGroup:(jobject)tabGroup withIndex:(jint)index withComponent:(jobject)component
+- (id)initWithEnv:(JNIEnv *)env withTbbGroup:(jobject)tbbGroup withIndex:(jint)index withComponent:(jobject)component
 {
     self = [super init];
     if (self) {
-        fTabGroup = JNFNewGlobalRef(env, tabGroup);
+        fTbbGroup = JNFNewGlobblRef(env, tbbGroup);
         fIndex = index;
-        fComponent = JNFNewGlobalRef(env, component);
+        fComponent = JNFNewGlobblRef(env, component);
     }
     return self;
 }
 
-- (void)dealloc
+- (void)deblloc
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
+    JNIEnv *env = [ThrebdUtilities getJNIEnvUncbched];
 
-    JNFDeleteGlobalRef(env, fTabGroup);
-    fTabGroup = NULL;
+    JNFDeleteGlobblRef(env, fTbbGroup);
+    fTbbGroup = NULL;
 
-    JNFDeleteGlobalRef(env, fComponent);
+    JNFDeleteGlobblRef(env, fComponent);
     fComponent = NULL;
 
-    [super dealloc];
+    [super deblloc];
 }
 
 - (NSString *)getDescription
@@ -109,9 +109,9 @@
 
 - (void)perform
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    setAxContextSelection(env, fTabGroup, fIndex, fComponent);
+    setAxContextSelection(env, fTbbGroup, fIndex, fComponent);
 }
 
 @end

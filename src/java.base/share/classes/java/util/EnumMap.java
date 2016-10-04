@@ -1,350 +1,350 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.Map.Entry;
-import sun.misc.SharedSecrets;
+import jbvb.util.Mbp.Entry;
+import sun.misc.ShbredSecrets;
 
 /**
- * A specialized {@link Map} implementation for use with enum type keys.  All
- * of the keys in an enum map must come from a single enum type that is
- * specified, explicitly or implicitly, when the map is created.  Enum maps
- * are represented internally as arrays.  This representation is extremely
- * compact and efficient.
+ * A speciblized {@link Mbp} implementbtion for use with enum type keys.  All
+ * of the keys in bn enum mbp must come from b single enum type thbt is
+ * specified, explicitly or implicitly, when the mbp is crebted.  Enum mbps
+ * bre represented internblly bs brrbys.  This representbtion is extremely
+ * compbct bnd efficient.
  *
- * <p>Enum maps are maintained in the <i>natural order</i> of their keys
- * (the order in which the enum constants are declared).  This is reflected
- * in the iterators returned by the collections views ({@link #keySet()},
- * {@link #entrySet()}, and {@link #values()}).
+ * <p>Enum mbps bre mbintbined in the <i>nbturbl order</i> of their keys
+ * (the order in which the enum constbnts bre declbred).  This is reflected
+ * in the iterbtors returned by the collections views ({@link #keySet()},
+ * {@link #entrySet()}, bnd {@link #vblues()}).
  *
- * <p>Iterators returned by the collection views are <i>weakly consistent</i>:
- * they will never throw {@link ConcurrentModificationException} and they may
- * or may not show the effects of any modifications to the map that occur while
- * the iteration is in progress.
+ * <p>Iterbtors returned by the collection views bre <i>webkly consistent</i>:
+ * they will never throw {@link ConcurrentModificbtionException} bnd they mby
+ * or mby not show the effects of bny modificbtions to the mbp thbt occur while
+ * the iterbtion is in progress.
  *
- * <p>Null keys are not permitted.  Attempts to insert a null key will
+ * <p>Null keys bre not permitted.  Attempts to insert b null key will
  * throw {@link NullPointerException}.  Attempts to test for the
- * presence of a null key or to remove one will, however, function properly.
- * Null values are permitted.
+ * presence of b null key or to remove one will, however, function properly.
+ * Null vblues bre permitted.
 
- * <P>Like most collection implementations <tt>EnumMap</tt> is not
- * synchronized. If multiple threads access an enum map concurrently, and at
- * least one of the threads modifies the map, it should be synchronized
- * externally.  This is typically accomplished by synchronizing on some
- * object that naturally encapsulates the enum map.  If no such object exists,
- * the map should be "wrapped" using the {@link Collections#synchronizedMap}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access:
+ * <P>Like most collection implementbtions <tt>EnumMbp</tt> is not
+ * synchronized. If multiple threbds bccess bn enum mbp concurrently, bnd bt
+ * lebst one of the threbds modifies the mbp, it should be synchronized
+ * externblly.  This is typicblly bccomplished by synchronizing on some
+ * object thbt nbturblly encbpsulbtes the enum mbp.  If no such object exists,
+ * the mbp should be "wrbpped" using the {@link Collections#synchronizedMbp}
+ * method.  This is best done bt crebtion time, to prevent bccidentbl
+ * unsynchronized bccess:
  *
  * <pre>
- *     Map&lt;EnumKey, V&gt; m
- *         = Collections.synchronizedMap(new EnumMap&lt;EnumKey, V&gt;(...));
+ *     Mbp&lt;EnumKey, V&gt; m
+ *         = Collections.synchronizedMbp(new EnumMbp&lt;EnumKey, V&gt;(...));
  * </pre>
  *
- * <p>Implementation note: All basic operations execute in constant time.
- * They are likely (though not guaranteed) to be faster than their
- * {@link HashMap} counterparts.
+ * <p>Implementbtion note: All bbsic operbtions execute in constbnt time.
+ * They bre likely (though not gubrbnteed) to be fbster thbn their
+ * {@link HbshMbp} counterpbrts.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author Josh Bloch
+ * @buthor Josh Bloch
  * @see EnumSet
  * @since 1.5
  */
-public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
-    implements java.io.Serializable, Cloneable
+public clbss EnumMbp<K extends Enum<K>, V> extends AbstrbctMbp<K, V>
+    implements jbvb.io.Seriblizbble, Clonebble
 {
     /**
-     * The <tt>Class</tt> object for the enum type of all the keys of this map.
+     * The <tt>Clbss</tt> object for the enum type of bll the keys of this mbp.
      *
-     * @serial
+     * @seribl
      */
-    private final Class<K> keyType;
+    privbte finbl Clbss<K> keyType;
 
     /**
-     * All of the values comprising K.  (Cached for performance.)
+     * All of the vblues comprising K.  (Cbched for performbnce.)
      */
-    private transient K[] keyUniverse;
+    privbte trbnsient K[] keyUniverse;
 
     /**
-     * Array representation of this map.  The ith element is the value
-     * to which universe[i] is currently mapped, or null if it isn't
-     * mapped to anything, or NULL if it's mapped to null.
+     * Arrby representbtion of this mbp.  The ith element is the vblue
+     * to which universe[i] is currently mbpped, or null if it isn't
+     * mbpped to bnything, or NULL if it's mbpped to null.
      */
-    private transient Object[] vals;
+    privbte trbnsient Object[] vbls;
 
     /**
-     * The number of mappings in this map.
+     * The number of mbppings in this mbp.
      */
-    private transient int size = 0;
+    privbte trbnsient int size = 0;
 
     /**
-     * Distinguished non-null value for representing null values.
+     * Distinguished non-null vblue for representing null vblues.
      */
-    private static final Object NULL = new Object() {
-        public int hashCode() {
+    privbte stbtic finbl Object NULL = new Object() {
+        public int hbshCode() {
             return 0;
         }
 
         public String toString() {
-            return "java.util.EnumMap.NULL";
+            return "jbvb.util.EnumMbp.NULL";
         }
     };
 
-    private Object maskNull(Object value) {
-        return (value == null ? NULL : value);
+    privbte Object mbskNull(Object vblue) {
+        return (vblue == null ? NULL : vblue);
     }
 
-    @SuppressWarnings("unchecked")
-    private V unmaskNull(Object value) {
-        return (V)(value == NULL ? null : value);
+    @SuppressWbrnings("unchecked")
+    privbte V unmbskNull(Object vblue) {
+        return (V)(vblue == NULL ? null : vblue);
     }
 
-    private static final Enum<?>[] ZERO_LENGTH_ENUM_ARRAY = new Enum<?>[0];
+    privbte stbtic finbl Enum<?>[] ZERO_LENGTH_ENUM_ARRAY = new Enum<?>[0];
 
     /**
-     * Creates an empty enum map with the specified key type.
+     * Crebtes bn empty enum mbp with the specified key type.
      *
-     * @param keyType the class object of the key type for this enum map
+     * @pbrbm keyType the clbss object of the key type for this enum mbp
      * @throws NullPointerException if <tt>keyType</tt> is null
      */
-    public EnumMap(Class<K> keyType) {
+    public EnumMbp(Clbss<K> keyType) {
         this.keyType = keyType;
         keyUniverse = getKeyUniverse(keyType);
-        vals = new Object[keyUniverse.length];
+        vbls = new Object[keyUniverse.length];
     }
 
     /**
-     * Creates an enum map with the same key type as the specified enum
-     * map, initially containing the same mappings (if any).
+     * Crebtes bn enum mbp with the sbme key type bs the specified enum
+     * mbp, initiblly contbining the sbme mbppings (if bny).
      *
-     * @param m the enum map from which to initialize this enum map
+     * @pbrbm m the enum mbp from which to initiblize this enum mbp
      * @throws NullPointerException if <tt>m</tt> is null
      */
-    public EnumMap(EnumMap<K, ? extends V> m) {
+    public EnumMbp(EnumMbp<K, ? extends V> m) {
         keyType = m.keyType;
         keyUniverse = m.keyUniverse;
-        vals = m.vals.clone();
+        vbls = m.vbls.clone();
         size = m.size;
     }
 
     /**
-     * Creates an enum map initialized from the specified map.  If the
-     * specified map is an <tt>EnumMap</tt> instance, this constructor behaves
-     * identically to {@link #EnumMap(EnumMap)}.  Otherwise, the specified map
-     * must contain at least one mapping (in order to determine the new
-     * enum map's key type).
+     * Crebtes bn enum mbp initiblized from the specified mbp.  If the
+     * specified mbp is bn <tt>EnumMbp</tt> instbnce, this constructor behbves
+     * identicblly to {@link #EnumMbp(EnumMbp)}.  Otherwise, the specified mbp
+     * must contbin bt lebst one mbpping (in order to determine the new
+     * enum mbp's key type).
      *
-     * @param m the map from which to initialize this enum map
-     * @throws IllegalArgumentException if <tt>m</tt> is not an
-     *     <tt>EnumMap</tt> instance and contains no mappings
+     * @pbrbm m the mbp from which to initiblize this enum mbp
+     * @throws IllegblArgumentException if <tt>m</tt> is not bn
+     *     <tt>EnumMbp</tt> instbnce bnd contbins no mbppings
      * @throws NullPointerException if <tt>m</tt> is null
      */
-    public EnumMap(Map<K, ? extends V> m) {
-        if (m instanceof EnumMap) {
-            EnumMap<K, ? extends V> em = (EnumMap<K, ? extends V>) m;
+    public EnumMbp(Mbp<K, ? extends V> m) {
+        if (m instbnceof EnumMbp) {
+            EnumMbp<K, ? extends V> em = (EnumMbp<K, ? extends V>) m;
             keyType = em.keyType;
             keyUniverse = em.keyUniverse;
-            vals = em.vals.clone();
+            vbls = em.vbls.clone();
             size = em.size;
         } else {
             if (m.isEmpty())
-                throw new IllegalArgumentException("Specified map is empty");
-            keyType = m.keySet().iterator().next().getDeclaringClass();
+                throw new IllegblArgumentException("Specified mbp is empty");
+            keyType = m.keySet().iterbtor().next().getDeclbringClbss();
             keyUniverse = getKeyUniverse(keyType);
-            vals = new Object[keyUniverse.length];
+            vbls = new Object[keyUniverse.length];
             putAll(m);
         }
     }
 
-    // Query Operations
+    // Query Operbtions
 
     /**
-     * Returns the number of key-value mappings in this map.
+     * Returns the number of key-vblue mbppings in this mbp.
      *
-     * @return the number of key-value mappings in this map
+     * @return the number of key-vblue mbppings in this mbp
      */
     public int size() {
         return size;
     }
 
     /**
-     * Returns <tt>true</tt> if this map maps one or more keys to the
-     * specified value.
+     * Returns <tt>true</tt> if this mbp mbps one or more keys to the
+     * specified vblue.
      *
-     * @param value the value whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map maps one or more keys to this value
+     * @pbrbm vblue the vblue whose presence in this mbp is to be tested
+     * @return <tt>true</tt> if this mbp mbps one or more keys to this vblue
      */
-    public boolean containsValue(Object value) {
-        value = maskNull(value);
+    public boolebn contbinsVblue(Object vblue) {
+        vblue = mbskNull(vblue);
 
-        for (Object val : vals)
-            if (value.equals(val))
+        for (Object vbl : vbls)
+            if (vblue.equbls(vbl))
                 return true;
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns <tt>true</tt> if this map contains a mapping for the specified
+     * Returns <tt>true</tt> if this mbp contbins b mbpping for the specified
      * key.
      *
-     * @param key the key whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map contains a mapping for the specified
+     * @pbrbm key the key whose presence in this mbp is to be tested
+     * @return <tt>true</tt> if this mbp contbins b mbpping for the specified
      *            key
      */
-    public boolean containsKey(Object key) {
-        return isValidKey(key) && vals[((Enum<?>)key).ordinal()] != null;
+    public boolebn contbinsKey(Object key) {
+        return isVblidKey(key) && vbls[((Enum<?>)key).ordinbl()] != null;
     }
 
-    private boolean containsMapping(Object key, Object value) {
-        return isValidKey(key) &&
-            maskNull(value).equals(vals[((Enum<?>)key).ordinal()]);
+    privbte boolebn contbinsMbpping(Object key, Object vblue) {
+        return isVblidKey(key) &&
+            mbskNull(vblue).equbls(vbls[((Enum<?>)key).ordinbl()]);
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Returns the vblue to which the specified key is mbpped,
+     * or {@code null} if this mbp contbins no mbpping for the key.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code (key == k)},
+     * <p>More formblly, if this mbp contbins b mbpping from b key
+     * {@code k} to b vblue {@code v} such thbt {@code (key == k)},
      * then this method returns {@code v}; otherwise it returns
-     * {@code null}.  (There can be at most one such mapping.)
+     * {@code null}.  (There cbn be bt most one such mbpping.)
      *
-     * <p>A return value of {@code null} does not <i>necessarily</i>
-     * indicate that the map contains no mapping for the key; it's also
-     * possible that the map explicitly maps the key to {@code null}.
-     * The {@link #containsKey containsKey} operation may be used to
-     * distinguish these two cases.
+     * <p>A return vblue of {@code null} does not <i>necessbrily</i>
+     * indicbte thbt the mbp contbins no mbpping for the key; it's blso
+     * possible thbt the mbp explicitly mbps the key to {@code null}.
+     * The {@link #contbinsKey contbinsKey} operbtion mby be used to
+     * distinguish these two cbses.
      */
     public V get(Object key) {
-        return (isValidKey(key) ?
-                unmaskNull(vals[((Enum<?>)key).ordinal()]) : null);
+        return (isVblidKey(key) ?
+                unmbskNull(vbls[((Enum<?>)key).ordinbl()]) : null);
     }
 
-    // Modification Operations
+    // Modificbtion Operbtions
 
     /**
-     * Associates the specified value with the specified key in this map.
-     * If the map previously contained a mapping for this key, the old
-     * value is replaced.
+     * Associbtes the specified vblue with the specified key in this mbp.
+     * If the mbp previously contbined b mbpping for this key, the old
+     * vblue is replbced.
      *
-     * @param key the key with which the specified value is to be associated
-     * @param value the value to be associated with the specified key
+     * @pbrbm key the key with which the specified vblue is to be bssocibted
+     * @pbrbm vblue the vblue to be bssocibted with the specified key
      *
-     * @return the previous value associated with specified key, or
-     *     <tt>null</tt> if there was no mapping for key.  (A <tt>null</tt>
-     *     return can also indicate that the map previously associated
+     * @return the previous vblue bssocibted with specified key, or
+     *     <tt>null</tt> if there wbs no mbpping for key.  (A <tt>null</tt>
+     *     return cbn blso indicbte thbt the mbp previously bssocibted
      *     <tt>null</tt> with the specified key.)
      * @throws NullPointerException if the specified key is null
      */
-    public V put(K key, V value) {
+    public V put(K key, V vblue) {
         typeCheck(key);
 
-        int index = key.ordinal();
-        Object oldValue = vals[index];
-        vals[index] = maskNull(value);
-        if (oldValue == null)
+        int index = key.ordinbl();
+        Object oldVblue = vbls[index];
+        vbls[index] = mbskNull(vblue);
+        if (oldVblue == null)
             size++;
-        return unmaskNull(oldValue);
+        return unmbskNull(oldVblue);
     }
 
     /**
-     * Removes the mapping for this key from this map if present.
+     * Removes the mbpping for this key from this mbp if present.
      *
-     * @param key the key whose mapping is to be removed from the map
-     * @return the previous value associated with specified key, or
-     *     <tt>null</tt> if there was no entry for key.  (A <tt>null</tt>
-     *     return can also indicate that the map previously associated
+     * @pbrbm key the key whose mbpping is to be removed from the mbp
+     * @return the previous vblue bssocibted with specified key, or
+     *     <tt>null</tt> if there wbs no entry for key.  (A <tt>null</tt>
+     *     return cbn blso indicbte thbt the mbp previously bssocibted
      *     <tt>null</tt> with the specified key.)
      */
     public V remove(Object key) {
-        if (!isValidKey(key))
+        if (!isVblidKey(key))
             return null;
-        int index = ((Enum<?>)key).ordinal();
-        Object oldValue = vals[index];
-        vals[index] = null;
-        if (oldValue != null)
+        int index = ((Enum<?>)key).ordinbl();
+        Object oldVblue = vbls[index];
+        vbls[index] = null;
+        if (oldVblue != null)
             size--;
-        return unmaskNull(oldValue);
+        return unmbskNull(oldVblue);
     }
 
-    private boolean removeMapping(Object key, Object value) {
-        if (!isValidKey(key))
-            return false;
-        int index = ((Enum<?>)key).ordinal();
-        if (maskNull(value).equals(vals[index])) {
-            vals[index] = null;
+    privbte boolebn removeMbpping(Object key, Object vblue) {
+        if (!isVblidKey(key))
+            return fblse;
+        int index = ((Enum<?>)key).ordinbl();
+        if (mbskNull(vblue).equbls(vbls[index])) {
+            vbls[index] = null;
             size--;
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if key is of the proper type to be a key in this
-     * enum map.
+     * Returns true if key is of the proper type to be b key in this
+     * enum mbp.
      */
-    private boolean isValidKey(Object key) {
+    privbte boolebn isVblidKey(Object key) {
         if (key == null)
-            return false;
+            return fblse;
 
-        // Cheaper than instanceof Enum followed by getDeclaringClass
-        Class<?> keyClass = key.getClass();
-        return keyClass == keyType || keyClass.getSuperclass() == keyType;
+        // Chebper thbn instbnceof Enum followed by getDeclbringClbss
+        Clbss<?> keyClbss = key.getClbss();
+        return keyClbss == keyType || keyClbss.getSuperclbss() == keyType;
     }
 
-    // Bulk Operations
+    // Bulk Operbtions
 
     /**
-     * Copies all of the mappings from the specified map to this map.
-     * These mappings will replace any mappings that this map had for
-     * any of the keys currently in the specified map.
+     * Copies bll of the mbppings from the specified mbp to this mbp.
+     * These mbppings will replbce bny mbppings thbt this mbp hbd for
+     * bny of the keys currently in the specified mbp.
      *
-     * @param m the mappings to be stored in this map
-     * @throws NullPointerException the specified map is null, or if
-     *     one or more keys in the specified map are null
+     * @pbrbm m the mbppings to be stored in this mbp
+     * @throws NullPointerException the specified mbp is null, or if
+     *     one or more keys in the specified mbp bre null
      */
-    public void putAll(Map<? extends K, ? extends V> m) {
-        if (m instanceof EnumMap) {
-            EnumMap<?, ?> em = (EnumMap<?, ?>)m;
+    public void putAll(Mbp<? extends K, ? extends V> m) {
+        if (m instbnceof EnumMbp) {
+            EnumMbp<?, ?> em = (EnumMbp<?, ?>)m;
             if (em.keyType != keyType) {
                 if (em.isEmpty())
                     return;
-                throw new ClassCastException(em.keyType + " != " + keyType);
+                throw new ClbssCbstException(em.keyType + " != " + keyType);
             }
 
             for (int i = 0; i < keyUniverse.length; i++) {
-                Object emValue = em.vals[i];
-                if (emValue != null) {
-                    if (vals[i] == null)
+                Object emVblue = em.vbls[i];
+                if (emVblue != null) {
+                    if (vbls[i] == null)
                         size++;
-                    vals[i] = emValue;
+                    vbls[i] = emVblue;
                 }
             }
         } else {
@@ -353,30 +353,30 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
     }
 
     /**
-     * Removes all mappings from this map.
+     * Removes bll mbppings from this mbp.
      */
-    public void clear() {
-        Arrays.fill(vals, null);
+    public void clebr() {
+        Arrbys.fill(vbls, null);
         size = 0;
     }
 
     // Views
 
     /**
-     * This field is initialized to contain an instance of the entry set
-     * view the first time this view is requested.  The view is stateless,
-     * so there's no reason to create more than one.
+     * This field is initiblized to contbin bn instbnce of the entry set
+     * view the first time this view is requested.  The view is stbteless,
+     * so there's no rebson to crebte more thbn one.
      */
-    private transient Set<Map.Entry<K,V>> entrySet;
+    privbte trbnsient Set<Mbp.Entry<K,V>> entrySet;
 
     /**
-     * Returns a {@link Set} view of the keys contained in this map.
-     * The returned set obeys the general contract outlined in
-     * {@link Map#keySet()}.  The set's iterator will return the keys
-     * in their natural order (the order in which the enum constants
-     * are declared).
+     * Returns b {@link Set} view of the keys contbined in this mbp.
+     * The returned set obeys the generbl contrbct outlined in
+     * {@link Mbp#keySet()}.  The set's iterbtor will return the keys
+     * in their nbturbl order (the order in which the enum constbnts
+     * bre declbred).
      *
-     * @return a set view of the keys contained in this enum map
+     * @return b set view of the keys contbined in this enum mbp
      */
     public Set<K> keySet() {
         Set<K> ks = keySet;
@@ -386,203 +386,203 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
             return keySet = new KeySet();
     }
 
-    private class KeySet extends AbstractSet<K> {
-        public Iterator<K> iterator() {
-            return new KeyIterator();
+    privbte clbss KeySet extends AbstrbctSet<K> {
+        public Iterbtor<K> iterbtor() {
+            return new KeyIterbtor();
         }
         public int size() {
             return size;
         }
-        public boolean contains(Object o) {
-            return containsKey(o);
+        public boolebn contbins(Object o) {
+            return contbinsKey(o);
         }
-        public boolean remove(Object o) {
+        public boolebn remove(Object o) {
             int oldSize = size;
-            EnumMap.this.remove(o);
+            EnumMbp.this.remove(o);
             return size != oldSize;
         }
-        public void clear() {
-            EnumMap.this.clear();
+        public void clebr() {
+            EnumMbp.this.clebr();
         }
     }
 
     /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The returned collection obeys the general contract outlined in
-     * {@link Map#values()}.  The collection's iterator will return the
-     * values in the order their corresponding keys appear in map,
-     * which is their natural order (the order in which the enum constants
-     * are declared).
+     * Returns b {@link Collection} view of the vblues contbined in this mbp.
+     * The returned collection obeys the generbl contrbct outlined in
+     * {@link Mbp#vblues()}.  The collection's iterbtor will return the
+     * vblues in the order their corresponding keys bppebr in mbp,
+     * which is their nbturbl order (the order in which the enum constbnts
+     * bre declbred).
      *
-     * @return a collection view of the values contained in this map
+     * @return b collection view of the vblues contbined in this mbp
      */
-    public Collection<V> values() {
-        Collection<V> vs = values;
+    public Collection<V> vblues() {
+        Collection<V> vs = vblues;
         if (vs != null)
             return vs;
         else
-            return values = new Values();
+            return vblues = new Vblues();
     }
 
-    private class Values extends AbstractCollection<V> {
-        public Iterator<V> iterator() {
-            return new ValueIterator();
+    privbte clbss Vblues extends AbstrbctCollection<V> {
+        public Iterbtor<V> iterbtor() {
+            return new VblueIterbtor();
         }
         public int size() {
             return size;
         }
-        public boolean contains(Object o) {
-            return containsValue(o);
+        public boolebn contbins(Object o) {
+            return contbinsVblue(o);
         }
-        public boolean remove(Object o) {
-            o = maskNull(o);
+        public boolebn remove(Object o) {
+            o = mbskNull(o);
 
-            for (int i = 0; i < vals.length; i++) {
-                if (o.equals(vals[i])) {
-                    vals[i] = null;
+            for (int i = 0; i < vbls.length; i++) {
+                if (o.equbls(vbls[i])) {
+                    vbls[i] = null;
                     size--;
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
-        public void clear() {
-            EnumMap.this.clear();
+        public void clebr() {
+            EnumMbp.this.clebr();
         }
     }
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * The returned set obeys the general contract outlined in
-     * {@link Map#keySet()}.  The set's iterator will return the
-     * mappings in the order their keys appear in map, which is their
-     * natural order (the order in which the enum constants are declared).
+     * Returns b {@link Set} view of the mbppings contbined in this mbp.
+     * The returned set obeys the generbl contrbct outlined in
+     * {@link Mbp#keySet()}.  The set's iterbtor will return the
+     * mbppings in the order their keys bppebr in mbp, which is their
+     * nbturbl order (the order in which the enum constbnts bre declbred).
      *
-     * @return a set view of the mappings contained in this enum map
+     * @return b set view of the mbppings contbined in this enum mbp
      */
-    public Set<Map.Entry<K,V>> entrySet() {
-        Set<Map.Entry<K,V>> es = entrySet;
+    public Set<Mbp.Entry<K,V>> entrySet() {
+        Set<Mbp.Entry<K,V>> es = entrySet;
         if (es != null)
             return es;
         else
             return entrySet = new EntrySet();
     }
 
-    private class EntrySet extends AbstractSet<Map.Entry<K,V>> {
-        public Iterator<Map.Entry<K,V>> iterator() {
-            return new EntryIterator();
+    privbte clbss EntrySet extends AbstrbctSet<Mbp.Entry<K,V>> {
+        public Iterbtor<Mbp.Entry<K,V>> iterbtor() {
+            return new EntryIterbtor();
         }
 
-        public boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> entry = (Map.Entry<?,?>)o;
-            return containsMapping(entry.getKey(), entry.getValue());
+        public boolebn contbins(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> entry = (Mbp.Entry<?,?>)o;
+            return contbinsMbpping(entry.getKey(), entry.getVblue());
         }
-        public boolean remove(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> entry = (Map.Entry<?,?>)o;
-            return removeMapping(entry.getKey(), entry.getValue());
+        public boolebn remove(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> entry = (Mbp.Entry<?,?>)o;
+            return removeMbpping(entry.getKey(), entry.getVblue());
         }
         public int size() {
             return size;
         }
-        public void clear() {
-            EnumMap.this.clear();
+        public void clebr() {
+            EnumMbp.this.clebr();
         }
-        public Object[] toArray() {
-            return fillEntryArray(new Object[size]);
+        public Object[] toArrby() {
+            return fillEntryArrby(new Object[size]);
         }
-        @SuppressWarnings("unchecked")
-        public <T> T[] toArray(T[] a) {
+        @SuppressWbrnings("unchecked")
+        public <T> T[] toArrby(T[] b) {
             int size = size();
-            if (a.length < size)
-                a = (T[])java.lang.reflect.Array
-                    .newInstance(a.getClass().getComponentType(), size);
-            if (a.length > size)
-                a[size] = null;
-            return (T[]) fillEntryArray(a);
+            if (b.length < size)
+                b = (T[])jbvb.lbng.reflect.Arrby
+                    .newInstbnce(b.getClbss().getComponentType(), size);
+            if (b.length > size)
+                b[size] = null;
+            return (T[]) fillEntryArrby(b);
         }
-        private Object[] fillEntryArray(Object[] a) {
+        privbte Object[] fillEntryArrby(Object[] b) {
             int j = 0;
-            for (int i = 0; i < vals.length; i++)
-                if (vals[i] != null)
-                    a[j++] = new AbstractMap.SimpleEntry<>(
-                        keyUniverse[i], unmaskNull(vals[i]));
-            return a;
+            for (int i = 0; i < vbls.length; i++)
+                if (vbls[i] != null)
+                    b[j++] = new AbstrbctMbp.SimpleEntry<>(
+                        keyUniverse[i], unmbskNull(vbls[i]));
+            return b;
         }
     }
 
-    private abstract class EnumMapIterator<T> implements Iterator<T> {
+    privbte bbstrbct clbss EnumMbpIterbtor<T> implements Iterbtor<T> {
         // Lower bound on index of next element to return
         int index = 0;
 
-        // Index of last returned element, or -1 if none
-        int lastReturnedIndex = -1;
+        // Index of lbst returned element, or -1 if none
+        int lbstReturnedIndex = -1;
 
-        public boolean hasNext() {
-            while (index < vals.length && vals[index] == null)
+        public boolebn hbsNext() {
+            while (index < vbls.length && vbls[index] == null)
                 index++;
-            return index != vals.length;
+            return index != vbls.length;
         }
 
         public void remove() {
-            checkLastReturnedIndex();
+            checkLbstReturnedIndex();
 
-            if (vals[lastReturnedIndex] != null) {
-                vals[lastReturnedIndex] = null;
+            if (vbls[lbstReturnedIndex] != null) {
+                vbls[lbstReturnedIndex] = null;
                 size--;
             }
-            lastReturnedIndex = -1;
+            lbstReturnedIndex = -1;
         }
 
-        private void checkLastReturnedIndex() {
-            if (lastReturnedIndex < 0)
-                throw new IllegalStateException();
+        privbte void checkLbstReturnedIndex() {
+            if (lbstReturnedIndex < 0)
+                throw new IllegblStbteException();
         }
     }
 
-    private class KeyIterator extends EnumMapIterator<K> {
+    privbte clbss KeyIterbtor extends EnumMbpIterbtor<K> {
         public K next() {
-            if (!hasNext())
+            if (!hbsNext())
                 throw new NoSuchElementException();
-            lastReturnedIndex = index++;
-            return keyUniverse[lastReturnedIndex];
+            lbstReturnedIndex = index++;
+            return keyUniverse[lbstReturnedIndex];
         }
     }
 
-    private class ValueIterator extends EnumMapIterator<V> {
+    privbte clbss VblueIterbtor extends EnumMbpIterbtor<V> {
         public V next() {
-            if (!hasNext())
+            if (!hbsNext())
                 throw new NoSuchElementException();
-            lastReturnedIndex = index++;
-            return unmaskNull(vals[lastReturnedIndex]);
+            lbstReturnedIndex = index++;
+            return unmbskNull(vbls[lbstReturnedIndex]);
         }
     }
 
-    private class EntryIterator extends EnumMapIterator<Map.Entry<K,V>> {
-        private Entry lastReturnedEntry;
+    privbte clbss EntryIterbtor extends EnumMbpIterbtor<Mbp.Entry<K,V>> {
+        privbte Entry lbstReturnedEntry;
 
-        public Map.Entry<K,V> next() {
-            if (!hasNext())
+        public Mbp.Entry<K,V> next() {
+            if (!hbsNext())
                 throw new NoSuchElementException();
-            lastReturnedEntry = new Entry(index++);
-            return lastReturnedEntry;
+            lbstReturnedEntry = new Entry(index++);
+            return lbstReturnedEntry;
         }
 
         public void remove() {
-            lastReturnedIndex =
-                ((null == lastReturnedEntry) ? -1 : lastReturnedEntry.index);
+            lbstReturnedIndex =
+                ((null == lbstReturnedEntry) ? -1 : lbstReturnedEntry.index);
             super.remove();
-            lastReturnedEntry.index = lastReturnedIndex;
-            lastReturnedEntry = null;
+            lbstReturnedEntry.index = lbstReturnedIndex;
+            lbstReturnedEntry = null;
         }
 
-        private class Entry implements Map.Entry<K,V> {
-            private int index;
+        privbte clbss Entry implements Mbp.Entry<K,V> {
+            privbte int index;
 
-            private Entry(int index) {
+            privbte Entry(int index) {
                 this.index = index;
             }
 
@@ -591,38 +591,38 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
                 return keyUniverse[index];
             }
 
-            public V getValue() {
+            public V getVblue() {
                 checkIndexForEntryUse();
-                return unmaskNull(vals[index]);
+                return unmbskNull(vbls[index]);
             }
 
-            public V setValue(V value) {
+            public V setVblue(V vblue) {
                 checkIndexForEntryUse();
-                V oldValue = unmaskNull(vals[index]);
-                vals[index] = maskNull(value);
-                return oldValue;
+                V oldVblue = unmbskNull(vbls[index]);
+                vbls[index] = mbskNull(vblue);
+                return oldVblue;
             }
 
-            public boolean equals(Object o) {
+            public boolebn equbls(Object o) {
                 if (index < 0)
                     return o == this;
 
-                if (!(o instanceof Map.Entry))
-                    return false;
+                if (!(o instbnceof Mbp.Entry))
+                    return fblse;
 
-                Map.Entry<?,?> e = (Map.Entry<?,?>)o;
-                V ourValue = unmaskNull(vals[index]);
-                Object hisValue = e.getValue();
+                Mbp.Entry<?,?> e = (Mbp.Entry<?,?>)o;
+                V ourVblue = unmbskNull(vbls[index]);
+                Object hisVblue = e.getVblue();
                 return (e.getKey() == keyUniverse[index] &&
-                        (ourValue == hisValue ||
-                         (ourValue != null && ourValue.equals(hisValue))));
+                        (ourVblue == hisVblue ||
+                         (ourVblue != null && ourVblue.equbls(hisVblue))));
             }
 
-            public int hashCode() {
+            public int hbshCode() {
                 if (index < 0)
-                    return super.hashCode();
+                    return super.hbshCode();
 
-                return entryHashCode(index);
+                return entryHbshCode(index);
             }
 
             public String toString() {
@@ -630,49 +630,49 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
                     return super.toString();
 
                 return keyUniverse[index] + "="
-                    + unmaskNull(vals[index]);
+                    + unmbskNull(vbls[index]);
             }
 
-            private void checkIndexForEntryUse() {
+            privbte void checkIndexForEntryUse() {
                 if (index < 0)
-                    throw new IllegalStateException("Entry was removed");
+                    throw new IllegblStbteException("Entry wbs removed");
             }
         }
     }
 
-    // Comparison and hashing
+    // Compbrison bnd hbshing
 
     /**
-     * Compares the specified object with this map for equality.  Returns
-     * <tt>true</tt> if the given object is also a map and the two maps
-     * represent the same mappings, as specified in the {@link
-     * Map#equals(Object)} contract.
+     * Compbres the specified object with this mbp for equblity.  Returns
+     * <tt>true</tt> if the given object is blso b mbp bnd the two mbps
+     * represent the sbme mbppings, bs specified in the {@link
+     * Mbp#equbls(Object)} contrbct.
      *
-     * @param o the object to be compared for equality with this map
-     * @return <tt>true</tt> if the specified object is equal to this map
+     * @pbrbm o the object to be compbred for equblity with this mbp
+     * @return <tt>true</tt> if the specified object is equbl to this mbp
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o)
             return true;
-        if (o instanceof EnumMap)
-            return equals((EnumMap<?,?>)o);
-        if (!(o instanceof Map))
-            return false;
+        if (o instbnceof EnumMbp)
+            return equbls((EnumMbp<?,?>)o);
+        if (!(o instbnceof Mbp))
+            return fblse;
 
-        Map<?,?> m = (Map<?,?>)o;
+        Mbp<?,?> m = (Mbp<?,?>)o;
         if (size != m.size())
-            return false;
+            return fblse;
 
         for (int i = 0; i < keyUniverse.length; i++) {
-            if (null != vals[i]) {
+            if (null != vbls[i]) {
                 K key = keyUniverse[i];
-                V value = unmaskNull(vals[i]);
-                if (null == value) {
-                    if (!((null == m.get(key)) && m.containsKey(key)))
-                       return false;
+                V vblue = unmbskNull(vbls[i]);
+                if (null == vblue) {
+                    if (!((null == m.get(key)) && m.contbinsKey(key)))
+                       return fblse;
                 } else {
-                   if (!value.equals(m.get(key)))
-                      return false;
+                   if (!vblue.equbls(m.get(key)))
+                      return fblse;
                 }
             }
         }
@@ -680,131 +680,131 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
         return true;
     }
 
-    private boolean equals(EnumMap<?,?> em) {
+    privbte boolebn equbls(EnumMbp<?,?> em) {
         if (em.keyType != keyType)
             return size == 0 && em.size == 0;
 
-        // Key types match, compare each value
+        // Key types mbtch, compbre ebch vblue
         for (int i = 0; i < keyUniverse.length; i++) {
-            Object ourValue =    vals[i];
-            Object hisValue = em.vals[i];
-            if (hisValue != ourValue &&
-                (hisValue == null || !hisValue.equals(ourValue)))
-                return false;
+            Object ourVblue =    vbls[i];
+            Object hisVblue = em.vbls[i];
+            if (hisVblue != ourVblue &&
+                (hisVblue == null || !hisVblue.equbls(ourVblue)))
+                return fblse;
         }
         return true;
     }
 
     /**
-     * Returns the hash code value for this map.  The hash code of a map is
-     * defined to be the sum of the hash codes of each entry in the map.
+     * Returns the hbsh code vblue for this mbp.  The hbsh code of b mbp is
+     * defined to be the sum of the hbsh codes of ebch entry in the mbp.
      */
-    public int hashCode() {
+    public int hbshCode() {
         int h = 0;
 
         for (int i = 0; i < keyUniverse.length; i++) {
-            if (null != vals[i]) {
-                h += entryHashCode(i);
+            if (null != vbls[i]) {
+                h += entryHbshCode(i);
             }
         }
 
         return h;
     }
 
-    private int entryHashCode(int index) {
-        return (keyUniverse[index].hashCode() ^ vals[index].hashCode());
+    privbte int entryHbshCode(int index) {
+        return (keyUniverse[index].hbshCode() ^ vbls[index].hbshCode());
     }
 
     /**
-     * Returns a shallow copy of this enum map.  (The values themselves
-     * are not cloned.
+     * Returns b shbllow copy of this enum mbp.  (The vblues themselves
+     * bre not cloned.
      *
-     * @return a shallow copy of this enum map
+     * @return b shbllow copy of this enum mbp
      */
-    @SuppressWarnings("unchecked")
-    public EnumMap<K, V> clone() {
-        EnumMap<K, V> result = null;
+    @SuppressWbrnings("unchecked")
+    public EnumMbp<K, V> clone() {
+        EnumMbp<K, V> result = null;
         try {
-            result = (EnumMap<K, V>) super.clone();
-        } catch(CloneNotSupportedException e) {
+            result = (EnumMbp<K, V>) super.clone();
+        } cbtch(CloneNotSupportedException e) {
             throw new AssertionError();
         }
-        result.vals = result.vals.clone();
+        result.vbls = result.vbls.clone();
         result.entrySet = null;
         return result;
     }
 
     /**
-     * Throws an exception if e is not of the correct type for this enum set.
+     * Throws bn exception if e is not of the correct type for this enum set.
      */
-    private void typeCheck(K key) {
-        Class<?> keyClass = key.getClass();
-        if (keyClass != keyType && keyClass.getSuperclass() != keyType)
-            throw new ClassCastException(keyClass + " != " + keyType);
+    privbte void typeCheck(K key) {
+        Clbss<?> keyClbss = key.getClbss();
+        if (keyClbss != keyType && keyClbss.getSuperclbss() != keyType)
+            throw new ClbssCbstException(keyClbss + " != " + keyType);
     }
 
     /**
-     * Returns all of the values comprising K.
-     * The result is uncloned, cached, and shared by all callers.
+     * Returns bll of the vblues comprising K.
+     * The result is uncloned, cbched, bnd shbred by bll cbllers.
      */
-    private static <K extends Enum<K>> K[] getKeyUniverse(Class<K> keyType) {
-        return SharedSecrets.getJavaLangAccess()
-                                        .getEnumConstantsShared(keyType);
+    privbte stbtic <K extends Enum<K>> K[] getKeyUniverse(Clbss<K> keyType) {
+        return ShbredSecrets.getJbvbLbngAccess()
+                                        .getEnumConstbntsShbred(keyType);
     }
 
-    private static final long serialVersionUID = 458661240069192865L;
+    privbte stbtic finbl long seriblVersionUID = 458661240069192865L;
 
     /**
-     * Save the state of the <tt>EnumMap</tt> instance to a stream (i.e.,
-     * serialize it).
+     * Sbve the stbte of the <tt>EnumMbp</tt> instbnce to b strebm (i.e.,
+     * seriblize it).
      *
-     * @serialData The <i>size</i> of the enum map (the number of key-value
-     *             mappings) is emitted (int), followed by the key (Object)
-     *             and value (Object) for each key-value mapping represented
-     *             by the enum map.
+     * @seriblDbtb The <i>size</i> of the enum mbp (the number of key-vblue
+     *             mbppings) is emitted (int), followed by the key (Object)
+     *             bnd vblue (Object) for ebch key-vblue mbpping represented
+     *             by the enum mbp.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException
     {
-        // Write out the key type and any hidden stuff
-        s.defaultWriteObject();
+        // Write out the key type bnd bny hidden stuff
+        s.defbultWriteObject();
 
-        // Write out size (number of Mappings)
+        // Write out size (number of Mbppings)
         s.writeInt(size);
 
-        // Write out keys and values (alternating)
+        // Write out keys bnd vblues (blternbting)
         int entriesToBeWritten = size;
         for (int i = 0; entriesToBeWritten > 0; i++) {
-            if (null != vals[i]) {
+            if (null != vbls[i]) {
                 s.writeObject(keyUniverse[i]);
-                s.writeObject(unmaskNull(vals[i]));
+                s.writeObject(unmbskNull(vbls[i]));
                 entriesToBeWritten--;
             }
         }
     }
 
     /**
-     * Reconstitute the <tt>EnumMap</tt> instance from a stream (i.e.,
-     * deserialize it).
+     * Reconstitute the <tt>EnumMbp</tt> instbnce from b strebm (i.e.,
+     * deseriblize it).
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException
+    @SuppressWbrnings("unchecked")
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException
     {
-        // Read in the key type and any hidden stuff
-        s.defaultReadObject();
+        // Rebd in the key type bnd bny hidden stuff
+        s.defbultRebdObject();
 
         keyUniverse = getKeyUniverse(keyType);
-        vals = new Object[keyUniverse.length];
+        vbls = new Object[keyUniverse.length];
 
-        // Read in size (number of Mappings)
-        int size = s.readInt();
+        // Rebd in size (number of Mbppings)
+        int size = s.rebdInt();
 
-        // Read the keys and values, and put the mappings in the HashMap
+        // Rebd the keys bnd vblues, bnd put the mbppings in the HbshMbp
         for (int i = 0; i < size; i++) {
-            K key = (K) s.readObject();
-            V value = (V) s.readObject();
-            put(key, value);
+            K key = (K) s.rebdObject();
+            V vblue = (V) s.rebdObject();
+            put(key, vblue);
         }
     }
 }

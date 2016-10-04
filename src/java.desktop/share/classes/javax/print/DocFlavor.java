@@ -1,510 +1,510 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
 
 
 /**
- * Class <code>DocFlavor</code> encapsulates an object that specifies the
- * format in which print data is supplied to a {@link DocPrintJob}.
- * "Doc" is a short, easy-to-pronounce term that means "a piece of print data."
- * The print data format, or "doc flavor", consists of two things:
+ * Clbss <code>DocFlbvor</code> encbpsulbtes bn object thbt specifies the
+ * formbt in which print dbtb is supplied to b {@link DocPrintJob}.
+ * "Doc" is b short, ebsy-to-pronounce term thbt mebns "b piece of print dbtb."
+ * The print dbtb formbt, or "doc flbvor", consists of two things:
  * <UL>
  * <LI>
- * <B>MIME type.</B> This is a Multipurpose Internet Mail Extensions (MIME)
- * media type (as defined in <A HREF="http://www.ietf.org/rfc/rfc2045.txt">RFC
- * 2045</A> and <A HREF="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</A>)
- * that specifies how the print data is to be interpreted.
- * The charset of text data should be the IANA MIME-preferred name, or its
- * canonical name if no preferred name is specified. Additionally a few
- * historical names supported by earlier versions of the Java platform may
+ * <B>MIME type.</B> This is b Multipurpose Internet Mbil Extensions (MIME)
+ * medib type (bs defined in <A HREF="http://www.ietf.org/rfc/rfc2045.txt">RFC
+ * 2045</A> bnd <A HREF="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</A>)
+ * thbt specifies how the print dbtb is to be interpreted.
+ * The chbrset of text dbtb should be the IANA MIME-preferred nbme, or its
+ * cbnonicbl nbme if no preferred nbme is specified. Additionblly b few
+ * historicbl nbmes supported by ebrlier versions of the Jbvb plbtform mby
  * be recognized.
- * See <a href="../../java/lang/package-summary.html#charenc">
- * character encodings</a> for more information on the character encodings
- * supported on the Java platform.
+ * See <b href="../../jbvb/lbng/pbckbge-summbry.html#chbrenc">
+ * chbrbcter encodings</b> for more informbtion on the chbrbcter encodings
+ * supported on the Jbvb plbtform.
  *
  * <LI>
- * <B>Representation class name.</B> This specifies the fully-qualified name of
- * the class of the object from which the actual print data comes, as returned
- * by the {@link java.lang.Class#getName() Class.getName()} method.
- * (Thus the class name for <CODE>byte[]</CODE> is <CODE>"[B"</CODE>, for
- * <CODE>char[]</CODE> it is <CODE>"[C"</CODE>.)
+ * <B>Representbtion clbss nbme.</B> This specifies the fully-qublified nbme of
+ * the clbss of the object from which the bctubl print dbtb comes, bs returned
+ * by the {@link jbvb.lbng.Clbss#getNbme() Clbss.getNbme()} method.
+ * (Thus the clbss nbme for <CODE>byte[]</CODE> is <CODE>"[B"</CODE>, for
+ * <CODE>chbr[]</CODE> it is <CODE>"[C"</CODE>.)
  * </UL>
  * <P>
- * A <code>DocPrintJob</code> obtains its print data by means of interface
+ * A <code>DocPrintJob</code> obtbins its print dbtb by mebns of interfbce
  * {@link Doc Doc}. A <code>Doc</code> object lets the <code>DocPrintJob</code>
- * determine the doc flavor the client can supply.  A <code>Doc</code> object
- * also lets the <code>DocPrintJob</code> obtain an instance of the doc flavor's
- * representation class, from which the <code>DocPrintJob</code> then obtains
- * the actual print data.
+ * determine the doc flbvor the client cbn supply.  A <code>Doc</code> object
+ * blso lets the <code>DocPrintJob</code> obtbin bn instbnce of the doc flbvor's
+ * representbtion clbss, from which the <code>DocPrintJob</code> then obtbins
+ * the bctubl print dbtb.
  *
  * <HR>
- * <H3>Client Formatted Print Data</H3>
- * There are two broad categories of print data, client formatted print data
- * and service formatted print data.
+ * <H3>Client Formbtted Print Dbtb</H3>
+ * There bre two brobd cbtegories of print dbtb, client formbtted print dbtb
+ * bnd service formbtted print dbtb.
  * <P>
- * For <B>client formatted print data</B>, the client determines or knows the
- * print data format.
- * For example the client may have a JPEG encoded image, a URL for
- * HTML code, or a disk file containing plain text in some encoding,
- * possibly obtained from an external source, and
- * requires a way to describe the data format to the print service.
+ * For <B>client formbtted print dbtb</B>, the client determines or knows the
+ * print dbtb formbt.
+ * For exbmple the client mby hbve b JPEG encoded imbge, b URL for
+ * HTML code, or b disk file contbining plbin text in some encoding,
+ * possibly obtbined from bn externbl source, bnd
+ * requires b wby to describe the dbtb formbt to the print service.
  * <p>
- * The doc flavor's representation class is a conduit for the JPS
- * <code>DocPrintJob</code> to obtain a sequence of characters or
+ * The doc flbvor's representbtion clbss is b conduit for the JPS
+ * <code>DocPrintJob</code> to obtbin b sequence of chbrbcters or
  * bytes from the client. The
- * doc flavor's MIME type is one of the standard media types telling how to
- * interpret the sequence of characters or bytes. For a list of standard media
+ * doc flbvor's MIME type is one of the stbndbrd medib types telling how to
+ * interpret the sequence of chbrbcters or bytes. For b list of stbndbrd medib
  * types, see the Internet Assigned Numbers Authority's (IANA's) <A
- * HREF="http://www.iana.org/assignments/media-types/">Media Types
- * Directory</A>. Interface {@link Doc Doc} provides two utility operations,
- * {@link Doc#getReaderForText() getReaderForText} and
- * {@link Doc#getStreamForBytes() getStreamForBytes()}, to help a
- * <code>Doc</code> object's client extract client formatted print data.
+ * HREF="http://www.ibnb.org/bssignments/medib-types/">Medib Types
+ * Directory</A>. Interfbce {@link Doc Doc} provides two utility operbtions,
+ * {@link Doc#getRebderForText() getRebderForText} bnd
+ * {@link Doc#getStrebmForBytes() getStrebmForBytes()}, to help b
+ * <code>Doc</code> object's client extrbct client formbtted print dbtb.
  * <P>
- * For client formatted print data, the print data representation class is
- * typically one of the following (although other representation classes are
+ * For client formbtted print dbtb, the print dbtb representbtion clbss is
+ * typicblly one of the following (blthough other representbtion clbsses bre
  * permitted):
  * <UL>
  * <LI>
- * Character array (<CODE>char[]</CODE>) -- The print data consists of the
- * Unicode characters in the array.
+ * Chbrbcter brrby (<CODE>chbr[]</CODE>) -- The print dbtb consists of the
+ * Unicode chbrbcters in the brrby.
  *
  * <LI>
  * <code>String</code>  --
- * The print data consists of the Unicode characters in the string.
+ * The print dbtb consists of the Unicode chbrbcters in the string.
  *
  * <LI>
- * Character stream ({@link java.io.Reader java.io.Reader})
- * -- The print data consists of the Unicode characters read from the stream
- * up to the end-of-stream.
+ * Chbrbcter strebm ({@link jbvb.io.Rebder jbvb.io.Rebder})
+ * -- The print dbtb consists of the Unicode chbrbcters rebd from the strebm
+ * up to the end-of-strebm.
  *
  * <LI>
- * Byte array (<CODE>byte[]</CODE>) -- The print data consists of the bytes in
- * the array. The bytes are encoded in the character set specified by the doc
- * flavor's MIME type. If the MIME type does not specify a character set, the
- * default character set is US-ASCII.
+ * Byte brrby (<CODE>byte[]</CODE>) -- The print dbtb consists of the bytes in
+ * the brrby. The bytes bre encoded in the chbrbcter set specified by the doc
+ * flbvor's MIME type. If the MIME type does not specify b chbrbcter set, the
+ * defbult chbrbcter set is US-ASCII.
  *
  * <LI>
- * Byte stream ({@link java.io.InputStream java.io.InputStream}) --
- * The print data consists of the bytes read from the stream up to the
- * end-of-stream. The bytes are encoded in the character set specified by the
- * doc flavor's MIME type. If the MIME type does not specify a character set,
- * the default character set is US-ASCII.
+ * Byte strebm ({@link jbvb.io.InputStrebm jbvb.io.InputStrebm}) --
+ * The print dbtb consists of the bytes rebd from the strebm up to the
+ * end-of-strebm. The bytes bre encoded in the chbrbcter set specified by the
+ * doc flbvor's MIME type. If the MIME type does not specify b chbrbcter set,
+ * the defbult chbrbcter set is US-ASCII.
 
  * <LI>
- * Uniform Resource Locator ({@link java.net.URL URL})
- * -- The print data consists of the bytes read from the URL location.
- * The bytes are encoded in the character set specified by the doc flavor's
- * MIME type. If the MIME type does not specify a character set, the default
- * character set is US-ASCII.
+ * Uniform Resource Locbtor ({@link jbvb.net.URL URL})
+ * -- The print dbtb consists of the bytes rebd from the URL locbtion.
+ * The bytes bre encoded in the chbrbcter set specified by the doc flbvor's
+ * MIME type. If the MIME type does not specify b chbrbcter set, the defbult
+ * chbrbcter set is US-ASCII.
  * <P>
- * When the representation class is a URL, the print service itself accesses
- * and downloads the document directly from its URL address, without involving
- * the client. The service may be some form of network print service which
- * is executing in a different environment.
- * This means you should not use a URL print data flavor to print a
- * document at a restricted URL that the client can see but the printer cannot
- * see. This also means you should not use a URL print data flavor to print a
- * document stored in a local file that is not available at a URL
- * accessible independently of the client.
- * For example, a file that is not served up by an HTTP server or FTP server.
- * To print such documents, let the client open an input stream on the URL
- * or file and use an input stream data flavor.
+ * When the representbtion clbss is b URL, the print service itself bccesses
+ * bnd downlobds the document directly from its URL bddress, without involving
+ * the client. The service mby be some form of network print service which
+ * is executing in b different environment.
+ * This mebns you should not use b URL print dbtb flbvor to print b
+ * document bt b restricted URL thbt the client cbn see but the printer cbnnot
+ * see. This blso mebns you should not use b URL print dbtb flbvor to print b
+ * document stored in b locbl file thbt is not bvbilbble bt b URL
+ * bccessible independently of the client.
+ * For exbmple, b file thbt is not served up by bn HTTP server or FTP server.
+ * To print such documents, let the client open bn input strebm on the URL
+ * or file bnd use bn input strebm dbtb flbvor.
  * </UL>
  *
  * <HR>
- * <h3>Default and Platform Encodings</h3>
+ * <h3>Defbult bnd Plbtform Encodings</h3>
  * <P>
- * For byte print data where the doc flavor's MIME type does not include a
- * <CODE>charset</CODE> parameter, the Java Print Service instance assumes the
- * US-ASCII character set by default. This is in accordance with
- * <A HREF="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</A>, which says the
- * default character set is US-ASCII. Note that US-ASCII is a subset of
- * UTF-8, so in the future this may be widened if a future RFC endorses
- * UTF-8 as the default in a compatible manner.
+ * For byte print dbtb where the doc flbvor's MIME type does not include b
+ * <CODE>chbrset</CODE> pbrbmeter, the Jbvb Print Service instbnce bssumes the
+ * US-ASCII chbrbcter set by defbult. This is in bccordbnce with
+ * <A HREF="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</A>, which sbys the
+ * defbult chbrbcter set is US-ASCII. Note thbt US-ASCII is b subset of
+ * UTF-8, so in the future this mby be widened if b future RFC endorses
+ * UTF-8 bs the defbult in b compbtible mbnner.
  * <p>
- * Also note that this is different than the behaviour of the Java runtime
- * when interpreting a stream of bytes as text data. That assumes the
- * default encoding for the user's locale. Thus, when spooling a file in local
- * encoding to a Java Print Service it is important to correctly specify
- * the encoding. Developers working in the English locales should
- * be particularly conscious of this, as their platform encoding corresponds
- * to the default mime charset. By this coincidence that particular
- * case may work without specifying the encoding of platform data.
+ * Also note thbt this is different thbn the behbviour of the Jbvb runtime
+ * when interpreting b strebm of bytes bs text dbtb. Thbt bssumes the
+ * defbult encoding for the user's locble. Thus, when spooling b file in locbl
+ * encoding to b Jbvb Print Service it is importbnt to correctly specify
+ * the encoding. Developers working in the English locbles should
+ * be pbrticulbrly conscious of this, bs their plbtform encoding corresponds
+ * to the defbult mime chbrset. By this coincidence thbt pbrticulbr
+ * cbse mby work without specifying the encoding of plbtform dbtb.
  * <p>
- * Every instance of the Java virtual machine has a default character encoding
- * determined during virtual-machine startup and typically depends upon the
- * locale and charset being used by the underlying operating system.
- * In a distributed environment there is no guarantee that two VM share
- * the same default encoding. Thus clients which want to stream platform
- * encoded text data from the host platform to a Java Print Service instance
- * must explicitly declare the charset and not rely on defaults.
+ * Every instbnce of the Jbvb virtubl mbchine hbs b defbult chbrbcter encoding
+ * determined during virtubl-mbchine stbrtup bnd typicblly depends upon the
+ * locble bnd chbrset being used by the underlying operbting system.
+ * In b distributed environment there is no gubrbntee thbt two VM shbre
+ * the sbme defbult encoding. Thus clients which wbnt to strebm plbtform
+ * encoded text dbtb from the host plbtform to b Jbvb Print Service instbnce
+ * must explicitly declbre the chbrset bnd not rely on defbults.
  * <p>
- * The preferred form is the official IANA primary name for an encoding.
- * Applications which stream text data should always specify the charset
- * in the mime type, which necessitates obtaining the encoding of the host
- * platform for data (eg files) stored in that platform's encoding.
- * A CharSet which corresponds to this and is suitable for use in a
- * mime-type for a DocFlavor can be obtained
- * from {@link DocFlavor#hostEncoding DocFlavor.hostEncoding}
- * This may not always be the primary IANA name but is guaranteed to be
+ * The preferred form is the officibl IANA primbry nbme for bn encoding.
+ * Applicbtions which strebm text dbtb should blwbys specify the chbrset
+ * in the mime type, which necessitbtes obtbining the encoding of the host
+ * plbtform for dbtb (eg files) stored in thbt plbtform's encoding.
+ * A ChbrSet which corresponds to this bnd is suitbble for use in b
+ * mime-type for b DocFlbvor cbn be obtbined
+ * from {@link DocFlbvor#hostEncoding DocFlbvor.hostEncoding}
+ * This mby not blwbys be the primbry IANA nbme but is gubrbnteed to be
  * understood by this VM.
- * For common flavors, the pre-defined *HOST DocFlavors may be used.
+ * For common flbvors, the pre-defined *HOST DocFlbvors mby be used.
  * <p>
- * See <a href="../../java/lang/package-summary.html#charenc">
- * character encodings</a> for more information on the character encodings
- * supported on the Java platform.
+ * See <b href="../../jbvb/lbng/pbckbge-summbry.html#chbrenc">
+ * chbrbcter encodings</b> for more informbtion on the chbrbcter encodings
+ * supported on the Jbvb plbtform.
  * <HR>
- * <h3>Recommended DocFlavors</h3>
+ * <h3>Recommended DocFlbvors</h3>
  * <P>
- * The Java Print Service API does not define any mandatorily supported
- * DocFlavors.
- * However, here are some examples of MIME types that a Java Print Service
- * instance might support for client formatted print data.
- * Nested classes inside class DocFlavor declare predefined static
- * constant DocFlavor objects for these example doc flavors; class DocFlavor's
- * constructor can be used to create an arbitrary doc flavor.
+ * The Jbvb Print Service API does not define bny mbndbtorily supported
+ * DocFlbvors.
+ * However, here bre some exbmples of MIME types thbt b Jbvb Print Service
+ * instbnce might support for client formbtted print dbtb.
+ * Nested clbsses inside clbss DocFlbvor declbre predefined stbtic
+ * constbnt DocFlbvor objects for these exbmple doc flbvors; clbss DocFlbvor's
+ * constructor cbn be used to crebte bn brbitrbry doc flbvor.
  * <UL>
- * <LI>Preformatted text
- * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Types and their descriptions">
+ * <LI>Preformbtted text
+ * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Types bnd their descriptions">
  * <TR>
  *  <TH>MIME-Type</TH><TH>Description</TH>
  * </TR>
  * <TR>
- * <TD><CODE>"text/plain"</CODE></TD>
- * <TD>Plain text in the default character set (US-ASCII)</TD>
+ * <TD><CODE>"text/plbin"</CODE></TD>
+ * <TD>Plbin text in the defbult chbrbcter set (US-ASCII)</TD>
  * </TR>
  * <TR>
- * <TD><CODE>"text/plain; charset=<I>xxx</I>"</CODE></TD>
- * <TD>Plain text in character set <I>xxx</I></TD>
+ * <TD><CODE>"text/plbin; chbrset=<I>xxx</I>"</CODE></TD>
+ * <TD>Plbin text in chbrbcter set <I>xxx</I></TD>
  * </TR>
  * <TR>
  * <TD><CODE>"text/html"</CODE></TD>
- * <TD>HyperText Markup Language in the default character set (US-ASCII)</TD>
+ * <TD>HyperText Mbrkup Lbngubge in the defbult chbrbcter set (US-ASCII)</TD>
  * </TR>
  * <TR>
- * <TD><CODE>"text/html; charset=<I>xxx</I>"</CODE></TD>
- * <TD>HyperText Markup Language in character set <I>xxx</I></TD>
+ * <TD><CODE>"text/html; chbrset=<I>xxx</I>"</CODE></TD>
+ * <TD>HyperText Mbrkup Lbngubge in chbrbcter set <I>xxx</I></TD>
  * </TR>
  * </TABLE>
  * <P>
- * In general, preformatted text print data is provided either in a character
- * oriented representation class (character array, String, Reader) or in a
- * byte oriented representation class (byte array, InputStream, URL).
+ * In generbl, preformbtted text print dbtb is provided either in b chbrbcter
+ * oriented representbtion clbss (chbrbcter brrby, String, Rebder) or in b
+ * byte oriented representbtion clbss (byte brrby, InputStrebm, URL).
  *
- *  <LI>Preformatted page description language (PDL) documents
+ *  <LI>Preformbtted pbge description lbngubge (PDL) documents
  *
- * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Types and their descriptions">
+ * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Types bnd their descriptions">
  * <TR>
  *  <TH>MIME-Type</TH><TH>Description</TH>
  * </TR>
  *<TR>
- * <TD><CODE>"application/pdf"</CODE></TD>
- * <TD>Portable Document Format document</TD>
+ * <TD><CODE>"bpplicbtion/pdf"</CODE></TD>
+ * <TD>Portbble Document Formbt document</TD>
  * </TR>
  * <TR>
- * <TD><CODE>"application/postscript"</CODE></TD>
+ * <TD><CODE>"bpplicbtion/postscript"</CODE></TD>
  * <TD>PostScript document</TD>
  * </TR>
  * <TR>
- * <TD><CODE>"application/vnd.hp-PCL"</CODE></TD>
- * <TD>Printer Control Language document</TD>
+ * <TD><CODE>"bpplicbtion/vnd.hp-PCL"</CODE></TD>
+ * <TD>Printer Control Lbngubge document</TD>
  * </TR>
  * </TABLE>
  * <P>
- * In general, preformatted PDL print data is provided in a byte oriented
- * representation class (byte array, InputStream, URL).
+ * In generbl, preformbtted PDL print dbtb is provided in b byte oriented
+ * representbtion clbss (byte brrby, InputStrebm, URL).
  *
- *  <LI>Preformatted images
+ *  <LI>Preformbtted imbges
  *
- * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Types and their descriptions">
+ * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Types bnd their descriptions">
  * <TR>
  *  <TH>MIME-Type</TH><TH>Description</TH>
  * </TR>
  *
  * <TR>
- * <TD><CODE>"image/gif"</CODE></TD>
- * <TD>Graphics Interchange Format image</TD>
+ * <TD><CODE>"imbge/gif"</CODE></TD>
+ * <TD>Grbphics Interchbnge Formbt imbge</TD>
  * </TR>
  * <TR>
- * <TD><CODE>"image/jpeg"</CODE></TD>
- * <TD>Joint Photographic Experts Group image</TD>
+ * <TD><CODE>"imbge/jpeg"</CODE></TD>
+ * <TD>Joint Photogrbphic Experts Group imbge</TD>
  * </TR>
  * <TR>
- * <TD><CODE>"image/png"</CODE></TD>
- * <TD>Portable Network Graphics image</TD>
+ * <TD><CODE>"imbge/png"</CODE></TD>
+ * <TD>Portbble Network Grbphics imbge</TD>
  * </TR>
  * </TABLE>
  * <P>
- * In general, preformatted image print data is provided in a byte oriented
- * representation class (byte array, InputStream, URL).
+ * In generbl, preformbtted imbge print dbtb is provided in b byte oriented
+ * representbtion clbss (byte brrby, InputStrebm, URL).
  *
- *  <LI>Preformatted autosense print data
+ *  <LI>Preformbtted butosense print dbtb
  *
- * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Types and their descriptions">
+ * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Types bnd their descriptions">
  * <TR>
  *  <TH>MIME-Type</TH><TH>Description</TH>
  * </TR>
  *
  * <TR>
- * <TD><CODE>"application/octet-stream"</CODE></TD>
- * <TD>The print data format is unspecified (just an octet stream)</TD>
+ * <TD><CODE>"bpplicbtion/octet-strebm"</CODE></TD>
+ * <TD>The print dbtb formbt is unspecified (just bn octet strebm)</TD>
  * </TABLE>
  * <P>
- * The printer decides how to interpret the print data; the way this
- * "autosensing" works is implementation dependent. In general, preformatted
- * autosense print data is provided in a byte oriented representation class
- * (byte array, InputStream, URL).
+ * The printer decides how to interpret the print dbtb; the wby this
+ * "butosensing" works is implementbtion dependent. In generbl, preformbtted
+ * butosense print dbtb is provided in b byte oriented representbtion clbss
+ * (byte brrby, InputStrebm, URL).
  * </UL>
  *
  * <HR>
- * <H3>Service Formatted Print Data</H3>
+ * <H3>Service Formbtted Print Dbtb</H3>
  * <P>
- * For <B>service formatted print data</B>, the Java Print Service instance
- * determines the print data format. The doc flavor's representation class
- * denotes an interface whose methods the <code>DocPrintJob</code> invokes to
- * determine the content to be printed -- such as a renderable image
- * interface or a Java printable interface.
- * The doc flavor's MIME type is the special value
- * <CODE>"application/x-java-jvm-local-objectref"</CODE> indicating the client
- * will supply a reference to a Java object that implements the interface
- * named as the representation class.
- * This MIME type is just a placeholder; what's
- * important is the print data representation class.
+ * For <B>service formbtted print dbtb</B>, the Jbvb Print Service instbnce
+ * determines the print dbtb formbt. The doc flbvor's representbtion clbss
+ * denotes bn interfbce whose methods the <code>DocPrintJob</code> invokes to
+ * determine the content to be printed -- such bs b renderbble imbge
+ * interfbce or b Jbvb printbble interfbce.
+ * The doc flbvor's MIME type is the specibl vblue
+ * <CODE>"bpplicbtion/x-jbvb-jvm-locbl-objectref"</CODE> indicbting the client
+ * will supply b reference to b Jbvb object thbt implements the interfbce
+ * nbmed bs the representbtion clbss.
+ * This MIME type is just b plbceholder; whbt's
+ * importbnt is the print dbtb representbtion clbss.
  * <P>
- * For service formatted print data, the print data representation class is
- * typically one of the following (although other representation classes are
- * permitted). Nested classes inside class DocFlavor declare predefined static
- * constant DocFlavor objects for these example doc flavors; class DocFlavor's
- * constructor can be used to create an arbitrary doc flavor.
+ * For service formbtted print dbtb, the print dbtb representbtion clbss is
+ * typicblly one of the following (blthough other representbtion clbsses bre
+ * permitted). Nested clbsses inside clbss DocFlbvor declbre predefined stbtic
+ * constbnt DocFlbvor objects for these exbmple doc flbvors; clbss DocFlbvor's
+ * constructor cbn be used to crebte bn brbitrbry doc flbvor.
  * <UL>
  * <LI>
- * Renderable image object -- The client supplies an object that implements
- * interface
- * {@link java.awt.image.renderable.RenderableImage RenderableImage}. The
- * printer calls methods
- * in that interface to obtain the image to be printed.
+ * Renderbble imbge object -- The client supplies bn object thbt implements
+ * interfbce
+ * {@link jbvb.bwt.imbge.renderbble.RenderbbleImbge RenderbbleImbge}. The
+ * printer cblls methods
+ * in thbt interfbce to obtbin the imbge to be printed.
  *
  * <LI>
- * Printable object -- The client supplies an object that implements interface
- * {@link java.awt.print.Printable Printable}.
- * The printer calls methods in that interface to obtain the pages to be
+ * Printbble object -- The client supplies bn object thbt implements interfbce
+ * {@link jbvb.bwt.print.Printbble Printbble}.
+ * The printer cblls methods in thbt interfbce to obtbin the pbges to be
  * printed, one by one.
- * For each page, the printer supplies a graphics context, and whatever the
- * client draws in that graphics context gets printed.
+ * For ebch pbge, the printer supplies b grbphics context, bnd whbtever the
+ * client drbws in thbt grbphics context gets printed.
  *
  * <LI>
- * Pageable object -- The client supplies an object that implements interface
- * {@link java.awt.print.Pageable Pageable}. The printer calls
- * methods in that interface to obtain the pages to be printed, one by one.
- * For each page, the printer supplies a graphics context, and whatever
- * the client draws in that graphics context gets printed.
+ * Pbgebble object -- The client supplies bn object thbt implements interfbce
+ * {@link jbvb.bwt.print.Pbgebble Pbgebble}. The printer cblls
+ * methods in thbt interfbce to obtbin the pbges to be printed, one by one.
+ * For ebch pbge, the printer supplies b grbphics context, bnd whbtever
+ * the client drbws in thbt grbphics context gets printed.
  * </UL>
  *
  * <HR>
  *
  * <HR>
- * <H3>Pre-defined Doc Flavors</H3>
- * A Java Print Service instance is not <B><I>required</I></B> to support the
- * following print data formats and print data representation classes.  In
- * fact, a developer using this class should <b>never</b> assume that a
- * particular print service supports the document types corresponding to
- * these pre-defined doc flavors.  Always query the print service
- * to determine what doc flavors it supports.  However,
- * developers who have print services that support these doc flavors are
- * encouraged to refer to the predefined singleton instances created here.
+ * <H3>Pre-defined Doc Flbvors</H3>
+ * A Jbvb Print Service instbnce is not <B><I>required</I></B> to support the
+ * following print dbtb formbts bnd print dbtb representbtion clbsses.  In
+ * fbct, b developer using this clbss should <b>never</b> bssume thbt b
+ * pbrticulbr print service supports the document types corresponding to
+ * these pre-defined doc flbvors.  Alwbys query the print service
+ * to determine whbt doc flbvors it supports.  However,
+ * developers who hbve print services thbt support these doc flbvors bre
+ * encourbged to refer to the predefined singleton instbnces crebted here.
  * <UL>
  * <LI>
- * Plain text print data provided through a byte stream. Specifically, the
- * following doc flavors are recommended to be supported:
+ * Plbin text print dbtb provided through b byte strebm. Specificblly, the
+ * following doc flbvors bre recommended to be supported:
  * <BR>&#183;&nbsp;&nbsp;
- * <CODE>("text/plain", "java.io.InputStream")</CODE>
+ * <CODE>("text/plbin", "jbvb.io.InputStrebm")</CODE>
  * <BR>&#183;&nbsp;&nbsp;
- * <CODE>("text/plain; charset=us-ascii", "java.io.InputStream")</CODE>
+ * <CODE>("text/plbin; chbrset=us-bscii", "jbvb.io.InputStrebm")</CODE>
  * <BR>&#183;&nbsp;&nbsp;
- * <CODE>("text/plain; charset=utf-8", "java.io.InputStream")</CODE>
+ * <CODE>("text/plbin; chbrset=utf-8", "jbvb.io.InputStrebm")</CODE>
  *
  * <LI>
- * Renderable image objects. Specifically, the following doc flavor is
+ * Renderbble imbge objects. Specificblly, the following doc flbvor is
  * recommended to be supported:
  * <BR>&#183;&nbsp;&nbsp;
- * <CODE>("application/x-java-jvm-local-objectref", "java.awt.image.renderable.RenderableImage")</CODE>
+ * <CODE>("bpplicbtion/x-jbvb-jvm-locbl-objectref", "jbvb.bwt.imbge.renderbble.RenderbbleImbge")</CODE>
  * </UL>
  * <P>
- * A Java Print Service instance is allowed to support any other doc flavors
- * (or none) in addition to the above mandatory ones, at the implementation's
+ * A Jbvb Print Service instbnce is bllowed to support bny other doc flbvors
+ * (or none) in bddition to the bbove mbndbtory ones, bt the implementbtion's
  * choice.
  * <P>
- * Support for the above doc flavors is desirable so a printing client can rely
- * on being able to print on any JPS printer, regardless of which doc flavors
+ * Support for the bbove doc flbvors is desirbble so b printing client cbn rely
+ * on being bble to print on bny JPS printer, regbrdless of which doc flbvors
  * the printer supports. If the printer doesn't support the client's preferred
- * doc flavor, the client can at least print plain text, or the client can
- * convert its data to a renderable image and print the image.
+ * doc flbvor, the client cbn bt lebst print plbin text, or the client cbn
+ * convert its dbtb to b renderbble imbge bnd print the imbge.
  * <P>
- * Furthermore, every Java Print Service instance must fulfill these
- * requirements for processing plain text print data:
+ * Furthermore, every Jbvb Print Service instbnce must fulfill these
+ * requirements for processing plbin text print dbtb:
  * <UL>
  * <LI>
- * The character pair carriage return-line feed (CR-LF) means
+ * The chbrbcter pbir cbrribge return-line feed (CR-LF) mebns
  * "go to column 1 of the next line."
  * <LI>
- * A carriage return (CR) character standing by itself means
+ * A cbrribge return (CR) chbrbcter stbnding by itself mebns
  * "go to column 1 of the next line."
  * <LI>
- * A line feed (LF) character standing by itself means
+ * A line feed (LF) chbrbcter stbnding by itself mebns
  * "go to column 1 of the next line."
  * </UL>
  * <P>
- * The client must itself perform all plain text print data formatting not
- * addressed by the above requirements.
+ * The client must itself perform bll plbin text print dbtb formbtting not
+ * bddressed by the bbove requirements.
  *
- * <H3>Design Rationale</H3>
+ * <H3>Design Rbtionble</H3>
  * <P>
- * Class DocFlavor in package javax.print.data is similar to class
- * {@link java.awt.datatransfer.DataFlavor DataFlavor}. Class
- * <code>DataFlavor</code>
- * is not used in the Java Print Service (JPS) API
- * for three reasons which are all rooted in allowing the JPS API to be
- * shared by other print services APIs which may need to run on Java profiles
- * which do not include all of the Java Platform, Standard Edition.
+ * Clbss DocFlbvor in pbckbge jbvbx.print.dbtb is similbr to clbss
+ * {@link jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor DbtbFlbvor}. Clbss
+ * <code>DbtbFlbvor</code>
+ * is not used in the Jbvb Print Service (JPS) API
+ * for three rebsons which bre bll rooted in bllowing the JPS API to be
+ * shbred by other print services APIs which mby need to run on Jbvb profiles
+ * which do not include bll of the Jbvb Plbtform, Stbndbrd Edition.
  * <OL TYPE=1>
  * <LI>
- * The JPS API is designed to be used in Java profiles which do not support
+ * The JPS API is designed to be used in Jbvb profiles which do not support
  * AWT.
  *
  * <LI>
- * The implementation of class <code>java.awt.datatransfer.DataFlavor</code>
- * does not guarantee that equivalent data flavors will have the same
- * serialized representation. DocFlavor does, and can be used in services
+ * The implementbtion of clbss <code>jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor</code>
+ * does not gubrbntee thbt equivblent dbtb flbvors will hbve the sbme
+ * seriblized representbtion. DocFlbvor does, bnd cbn be used in services
  * which need this.
  *
  * <LI>
- * The implementation of class <code>java.awt.datatransfer.DataFlavor</code>
- * includes a human presentable name as part of the serialized representation.
- * This is not appropriate as part of a service matching constraint.
+ * The implementbtion of clbss <code>jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor</code>
+ * includes b humbn presentbble nbme bs pbrt of the seriblized representbtion.
+ * This is not bppropribte bs pbrt of b service mbtching constrbint.
  * </OL>
  * <P>
- * Class DocFlavor's serialized representation uses the following
- * canonical form of a MIME type string. Thus, two doc flavors with MIME types
- * that are not identical but that are equivalent (that have the same
- * canonical form) may be considered equal.
+ * Clbss DocFlbvor's seriblized representbtion uses the following
+ * cbnonicbl form of b MIME type string. Thus, two doc flbvors with MIME types
+ * thbt bre not identicbl but thbt bre equivblent (thbt hbve the sbme
+ * cbnonicbl form) mby be considered equbl.
  * <UL>
- * <LI> The media type, media subtype, and parameters are retained, but all
- *      comments and whitespace characters are discarded.
- * <LI> The media type, media subtype, and parameter names are converted to
- *      lowercase.
- * <LI> The parameter values retain their original case, except a charset
- *      parameter value for a text media type is converted to lowercase.
- * <LI> Quote characters surrounding parameter values are removed.
- * <LI> Quoting backslash characters inside parameter values are removed.
- * <LI> The parameters are arranged in ascending order of parameter name.
+ * <LI> The medib type, medib subtype, bnd pbrbmeters bre retbined, but bll
+ *      comments bnd whitespbce chbrbcters bre discbrded.
+ * <LI> The medib type, medib subtype, bnd pbrbmeter nbmes bre converted to
+ *      lowercbse.
+ * <LI> The pbrbmeter vblues retbin their originbl cbse, except b chbrset
+ *      pbrbmeter vblue for b text medib type is converted to lowercbse.
+ * <LI> Quote chbrbcters surrounding pbrbmeter vblues bre removed.
+ * <LI> Quoting bbckslbsh chbrbcters inside pbrbmeter vblues bre removed.
+ * <LI> The pbrbmeters bre brrbnged in bscending order of pbrbmeter nbme.
  * </UL>
  * <P>
- * Class DocFlavor's serialized representation also contains the
- * fully-qualified class <I>name</I> of the representation class
- * (a String object), rather than the representation class itself
- * (a Class object). This allows a client to examine the doc flavors a
- * Java Print Service instance supports without having
- * to load the representation classes, which may be problematic for
+ * Clbss DocFlbvor's seriblized representbtion blso contbins the
+ * fully-qublified clbss <I>nbme</I> of the representbtion clbss
+ * (b String object), rbther thbn the representbtion clbss itself
+ * (b Clbss object). This bllows b client to exbmine the doc flbvors b
+ * Jbvb Print Service instbnce supports without hbving
+ * to lobd the representbtion clbsses, which mby be problembtic for
  * limited-resource clients.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public class DocFlavor implements Serializable, Cloneable {
+public clbss DocFlbvor implements Seriblizbble, Clonebble {
 
-    private static final long serialVersionUID = -4512080796965449721L;
+    privbte stbtic finbl long seriblVersionUID = -4512080796965449721L;
 
     /**
-     * A String representing the host operating system encoding.
+     * A String representing the host operbting system encoding.
      * This will follow the conventions documented in
-     * <a href="http://www.ietf.org/rfc/rfc2278.txt">
-     * <i>RFC&nbsp;2278:&nbsp;IANA Charset Registration Procedures</i></a>
-     * except where historical names are returned for compatibility with
-     * previous versions of the Java platform.
-     * The value returned from method is valid only for the VM which
-     * returns it, for use in a DocFlavor.
-     * This is the charset for all the "HOST" pre-defined DocFlavors in
+     * <b href="http://www.ietf.org/rfc/rfc2278.txt">
+     * <i>RFC&nbsp;2278:&nbsp;IANA Chbrset Registrbtion Procedures</i></b>
+     * except where historicbl nbmes bre returned for compbtibility with
+     * previous versions of the Jbvb plbtform.
+     * The vblue returned from method is vblid only for the VM which
+     * returns it, for use in b DocFlbvor.
+     * This is the chbrset for bll the "HOST" pre-defined DocFlbvors in
      * the executing VM.
      */
-    public static final String hostEncoding;
+    public stbtic finbl String hostEncoding;
 
-    static {
+    stbtic {
         hostEncoding =
-            java.security.AccessController.doPrivileged(
-                  new sun.security.action.GetPropertyAction("file.encoding"));
+            jbvb.security.AccessController.doPrivileged(
+                  new sun.security.bction.GetPropertyAction("file.encoding"));
     }
 
     /**
      * MIME type.
      */
-    private transient MimeType myMimeType;
+    privbte trbnsient MimeType myMimeType;
 
     /**
-     * Representation class name.
-     * @serial
+     * Representbtion clbss nbme.
+     * @seribl
      */
-    private String myClassName;
+    privbte String myClbssNbme;
 
     /**
-     * String value for this doc flavor. Computed when needed and cached.
+     * String vblue for this doc flbvor. Computed when needed bnd cbched.
      */
-    private transient String myStringValue = null;
+    privbte trbnsient String myStringVblue = null;
 
 
     /**
-     * Constructs a new doc flavor object from the given MIME type and
-     * representation class name. The given MIME type is converted into
-     * canonical form and stored internally.
+     * Constructs b new doc flbvor object from the given MIME type bnd
+     * representbtion clbss nbme. The given MIME type is converted into
+     * cbnonicbl form bnd stored internblly.
      *
-     * @param  mimeType   MIME media type string.
-     * @param  className  Fully-qualified representation class name.
+     * @pbrbm  mimeType   MIME medib type string.
+     * @pbrbm  clbssNbme  Fully-qublified representbtion clbss nbme.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>mimeType</CODE> is null or
-     *     <CODE>className</CODE> is null.
-     * @exception  IllegalArgumentException
+     *     <CODE>clbssNbme</CODE> is null.
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if <CODE>mimeType</CODE> does not
-     *     obey the syntax for a MIME media type string.
+     *     obey the syntbx for b MIME medib type string.
      */
-    public DocFlavor(String mimeType, String className) {
-        if (className == null) {
+    public DocFlbvor(String mimeType, String clbssNbme) {
+        if (clbssNbme == null) {
             throw new NullPointerException();
         }
         myMimeType = new MimeType (mimeType);
-        myClassName = className;
+        myClbssNbme = clbssNbme;
     }
 
     /**
-     * Returns this doc flavor object's MIME type string based on the
-     * canonical form. Each parameter value is enclosed in quotes.
+     * Returns this doc flbvor object's MIME type string bbsed on the
+     * cbnonicbl form. Ebch pbrbmeter vblue is enclosed in quotes.
      * @return the mime type
      */
     public String getMimeType() {
@@ -512,909 +512,909 @@ public class DocFlavor implements Serializable, Cloneable {
     }
 
     /**
-     * Returns this doc flavor object's media type (from the MIME type).
-     * @return the media type
+     * Returns this doc flbvor object's medib type (from the MIME type).
+     * @return the medib type
      */
-    public String getMediaType() {
-        return myMimeType.getMediaType();
+    public String getMedibType() {
+        return myMimeType.getMedibType();
     }
 
     /**
-     * Returns this doc flavor object's media subtype (from the MIME type).
-     * @return the media sub-type
+     * Returns this doc flbvor object's medib subtype (from the MIME type).
+     * @return the medib sub-type
      */
-    public String getMediaSubtype() {
-        return myMimeType.getMediaSubtype();
+    public String getMedibSubtype() {
+        return myMimeType.getMedibSubtype();
     }
 
     /**
-     * Returns a <code>String</code> representing a MIME
-     * parameter.
-     * Mime types may include parameters which are usually optional.
-     * The charset for text types is a commonly useful example.
-     * This convenience method will return the value of the specified
-     * parameter if one was specified in the mime type for this flavor.
+     * Returns b <code>String</code> representing b MIME
+     * pbrbmeter.
+     * Mime types mby include pbrbmeters which bre usublly optionbl.
+     * The chbrset for text types is b commonly useful exbmple.
+     * This convenience method will return the vblue of the specified
+     * pbrbmeter if one wbs specified in the mime type for this flbvor.
      *
-     * @param paramName the name of the paramater. This name is internally
-     * converted to the canonical lower case format before performing
-     * the match.
-     * @return String representing a mime parameter, or
-     * null if that parameter is not in the mime type string.
-     * @exception NullPointerException if paramName is null.
+     * @pbrbm pbrbmNbme the nbme of the pbrbmbter. This nbme is internblly
+     * converted to the cbnonicbl lower cbse formbt before performing
+     * the mbtch.
+     * @return String representing b mime pbrbmeter, or
+     * null if thbt pbrbmeter is not in the mime type string.
+     * @exception NullPointerException if pbrbmNbme is null.
      */
-    public String getParameter(String paramName) {
-        return myMimeType.getParameterMap().get(paramName.toLowerCase());
+    public String getPbrbmeter(String pbrbmNbme) {
+        return myMimeType.getPbrbmeterMbp().get(pbrbmNbme.toLowerCbse());
     }
 
     /**
-     * Returns the name of this doc flavor object's representation class.
-     * @return the name of the representation class.
+     * Returns the nbme of this doc flbvor object's representbtion clbss.
+     * @return the nbme of the representbtion clbss.
      */
-    public String getRepresentationClassName() {
-        return myClassName;
+    public String getRepresentbtionClbssNbme() {
+        return myClbssNbme;
     }
 
     /**
-     * Converts this <code>DocFlavor</code> to a string.
+     * Converts this <code>DocFlbvor</code> to b string.
      *
-     * @return  MIME type string based on the canonical form. Each parameter
-     *          value is enclosed in quotes.
-     *          A "class=" parameter is appended to the
-     *          MIME type string to indicate the representation class name.
+     * @return  MIME type string bbsed on the cbnonicbl form. Ebch pbrbmeter
+     *          vblue is enclosed in quotes.
+     *          A "clbss=" pbrbmeter is bppended to the
+     *          MIME type string to indicbte the representbtion clbss nbme.
      */
     public String toString() {
-        return getStringValue();
+        return getStringVblue();
     }
 
     /**
-     * Returns a hash code for this doc flavor object.
+     * Returns b hbsh code for this doc flbvor object.
      */
-    public int hashCode() {
-        return getStringValue().hashCode();
+    public int hbshCode() {
+        return getStringVblue().hbshCode();
     }
 
     /**
-     * Determines if this doc flavor object is equal to the given object.
-     * The two are equal if the given object is not null, is an instance
-     * of <code>DocFlavor</code>, has a MIME type equivalent to this doc
-     * flavor object's MIME type (that is, the MIME types have the same media
-     * type, media subtype, and parameters), and has the same representation
-     * class name as this doc flavor object. Thus, if two doc flavor objects'
-     * MIME types are the same except for comments, they are considered equal.
-     * However, two doc flavor objects with MIME types of "text/plain" and
-     * "text/plain; charset=US-ASCII" are not considered equal, even though
-     * they represent the same media type (because the default character
-     * set for plain text is US-ASCII).
+     * Determines if this doc flbvor object is equbl to the given object.
+     * The two bre equbl if the given object is not null, is bn instbnce
+     * of <code>DocFlbvor</code>, hbs b MIME type equivblent to this doc
+     * flbvor object's MIME type (thbt is, the MIME types hbve the sbme medib
+     * type, medib subtype, bnd pbrbmeters), bnd hbs the sbme representbtion
+     * clbss nbme bs this doc flbvor object. Thus, if two doc flbvor objects'
+     * MIME types bre the sbme except for comments, they bre considered equbl.
+     * However, two doc flbvor objects with MIME types of "text/plbin" bnd
+     * "text/plbin; chbrset=US-ASCII" bre not considered equbl, even though
+     * they represent the sbme medib type (becbuse the defbult chbrbcter
+     * set for plbin text is US-ASCII).
      *
-     * @param  obj  Object to test.
+     * @pbrbm  obj  Object to test.
      *
-     * @return  True if this doc flavor object equals <CODE>obj</CODE>, false
+     * @return  True if this doc flbvor object equbls <CODE>obj</CODE>, fblse
      *          otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         return
             obj != null &&
-            obj instanceof DocFlavor &&
-            getStringValue().equals (((DocFlavor) obj).getStringValue());
+            obj instbnceof DocFlbvor &&
+            getStringVblue().equbls (((DocFlbvor) obj).getStringVblue());
     }
 
     /**
-     * Returns this doc flavor object's string value.
+     * Returns this doc flbvor object's string vblue.
      */
-    private String getStringValue() {
-        if (myStringValue == null) {
-            myStringValue = myMimeType + "; class=\"" + myClassName + "\"";
+    privbte String getStringVblue() {
+        if (myStringVblue == null) {
+            myStringVblue = myMimeType + "; clbss=\"" + myClbssNbme + "\"";
         }
-        return myStringValue;
+        return myStringVblue;
     }
 
     /**
-     * Write the instance to a stream (ie serialize the object).
+     * Write the instbnce to b strebm (ie seriblize the object).
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
 
-        s.defaultWriteObject();
+        s.defbultWriteObject();
         s.writeObject(myMimeType.getMimeType());
     }
 
     /**
-     * Reconstitute an instance from a stream (that is, deserialize it).
+     * Reconstitute bn instbnce from b strebm (thbt is, deseriblize it).
      *
-     * @serialData
-     * The serialised form of a DocFlavor is the String naming the
-     * representation class followed by the String representing the canonical
+     * @seriblDbtb
+     * The seriblised form of b DocFlbvor is the String nbming the
+     * representbtion clbss followed by the String representing the cbnonicbl
      * form of the mime type.
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException {
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException {
 
-        s.defaultReadObject();
-        myMimeType = new MimeType((String)s.readObject());
+        s.defbultRebdObject();
+        myMimeType = new MimeType((String)s.rebdObject());
     }
 
     /**
-     * Class DocFlavor.BYTE_ARRAY provides predefined static constant
-     * DocFlavor objects for example doc flavors using a byte array
-     * (<CODE>byte[]</CODE>) as the print data representation class.
+     * Clbss DocFlbvor.BYTE_ARRAY provides predefined stbtic constbnt
+     * DocFlbvor objects for exbmple doc flbvors using b byte brrby
+     * (<CODE>byte[]</CODE>) bs the print dbtb representbtion clbss.
      *
-     * @author  Alan Kaminsky
+     * @buthor  Albn Kbminsky
      */
-    public static class BYTE_ARRAY extends DocFlavor {
+    public stbtic clbss BYTE_ARRAY extends DocFlbvor {
 
-        private static final long serialVersionUID = -9065578006593857475L;
+        privbte stbtic finbl long seriblVersionUID = -9065578006593857475L;
 
         /**
-         * Constructs a new doc flavor with the given MIME type and a print
-         * data representation class name of <CODE>"[B"</CODE> (byte array).
+         * Constructs b new doc flbvor with the given MIME type bnd b print
+         * dbtb representbtion clbss nbme of <CODE>"[B"</CODE> (byte brrby).
          *
-         * @param  mimeType   MIME media type string.
+         * @pbrbm  mimeType   MIME medib type string.
          *
          * @exception  NullPointerException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> is null.
-         * @exception  IllegalArgumentException
+         * @exception  IllegblArgumentException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> does not
-         *     obey the syntax for a MIME media type string.
+         *     obey the syntbx for b MIME medib type string.
          */
         public BYTE_ARRAY (String mimeType) {
             super (mimeType, "[B");
         }
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/plain"</CODE>,
-         * encoded in the host platform encoding.
-         * See {@link DocFlavor#hostEncoding hostEncoding}
-         * Print data representation class name =
-         * <CODE>"[B"</CODE> (byte array).
+         * Doc flbvor with MIME type = <CODE>"text/plbin"</CODE>,
+         * encoded in the host plbtform encoding.
+         * See {@link DocFlbvor#hostEncoding hostEncoding}
+         * Print dbtb representbtion clbss nbme =
+         * <CODE>"[B"</CODE> (byte brrby).
          */
-        public static final BYTE_ARRAY TEXT_PLAIN_HOST =
-            new BYTE_ARRAY ("text/plain; charset="+hostEncoding);
+        public stbtic finbl BYTE_ARRAY TEXT_PLAIN_HOST =
+            new BYTE_ARRAY ("text/plbin; chbrset="+hostEncoding);
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-8"</CODE>,
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-8"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
          */
-        public static final BYTE_ARRAY TEXT_PLAIN_UTF_8 =
-            new BYTE_ARRAY ("text/plain; charset=utf-8");
+        public stbtic finbl BYTE_ARRAY TEXT_PLAIN_UTF_8 =
+            new BYTE_ARRAY ("text/plbin; chbrset=utf-8");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-16"</CODE>,
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-16"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
          */
-        public static final BYTE_ARRAY TEXT_PLAIN_UTF_16 =
-            new BYTE_ARRAY ("text/plain; charset=utf-16");
-
-
-        /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-16be"</CODE>
-         * (big-endian byte ordering),
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
-         */
-        public static final BYTE_ARRAY TEXT_PLAIN_UTF_16BE =
-            new BYTE_ARRAY ("text/plain; charset=utf-16be");
-
-        /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-16le"</CODE>
-         * (little-endian byte ordering),
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
-         */
-        public static final BYTE_ARRAY TEXT_PLAIN_UTF_16LE =
-            new BYTE_ARRAY ("text/plain; charset=utf-16le");
-
-        /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=us-ascii"</CODE>,
-         * print data representation class name =
-         * <CODE>"[B"</CODE> (byte array).
-         */
-        public static final BYTE_ARRAY TEXT_PLAIN_US_ASCII =
-            new BYTE_ARRAY ("text/plain; charset=us-ascii");
+        public stbtic finbl BYTE_ARRAY TEXT_PLAIN_UTF_16 =
+            new BYTE_ARRAY ("text/plbin; chbrset=utf-16");
 
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/html"</CODE>,
-         * encoded in the host platform encoding.
-         * See {@link DocFlavor#hostEncoding hostEncoding}
-         * Print data representation class name =
-         * <CODE>"[B"</CODE> (byte array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-16be"</CODE>
+         * (big-endibn byte ordering),
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
          */
-        public static final BYTE_ARRAY TEXT_HTML_HOST =
-            new BYTE_ARRAY ("text/html; charset="+hostEncoding);
+        public stbtic finbl BYTE_ARRAY TEXT_PLAIN_UTF_16BE =
+            new BYTE_ARRAY ("text/plbin; chbrset=utf-16be");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-8"</CODE>,
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-16le"</CODE>
+         * (little-endibn byte ordering),
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
          */
-        public static final BYTE_ARRAY TEXT_HTML_UTF_8 =
-            new BYTE_ARRAY ("text/html; charset=utf-8");
+        public stbtic finbl BYTE_ARRAY TEXT_PLAIN_UTF_16LE =
+            new BYTE_ARRAY ("text/plbin; chbrset=utf-16le");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-16"</CODE>,
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=us-bscii"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"[B"</CODE> (byte brrby).
          */
-        public static final BYTE_ARRAY TEXT_HTML_UTF_16 =
-            new BYTE_ARRAY ("text/html; charset=utf-16");
-
-        /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-16be"</CODE>
-         * (big-endian byte ordering),
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
-         */
-        public static final BYTE_ARRAY TEXT_HTML_UTF_16BE =
-            new BYTE_ARRAY ("text/html; charset=utf-16be");
-
-        /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-16le"</CODE>
-         * (little-endian byte ordering),
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
-         */
-        public static final BYTE_ARRAY TEXT_HTML_UTF_16LE =
-            new BYTE_ARRAY ("text/html; charset=utf-16le");
-
-        /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=us-ascii"</CODE>,
-         * print data representation class name =
-         * <CODE>"[B"</CODE> (byte array).
-         */
-        public static final BYTE_ARRAY TEXT_HTML_US_ASCII =
-            new BYTE_ARRAY ("text/html; charset=us-ascii");
+        public stbtic finbl BYTE_ARRAY TEXT_PLAIN_US_ASCII =
+            new BYTE_ARRAY ("text/plbin; chbrset=us-bscii");
 
 
         /**
-         * Doc flavor with MIME type = <CODE>"application/pdf"</CODE>, print
-         * data representation class name = <CODE>"[B"</CODE> (byte array).
+         * Doc flbvor with MIME type = <CODE>"text/html"</CODE>,
+         * encoded in the host plbtform encoding.
+         * See {@link DocFlbvor#hostEncoding hostEncoding}
+         * Print dbtb representbtion clbss nbme =
+         * <CODE>"[B"</CODE> (byte brrby).
          */
-        public static final BYTE_ARRAY PDF = new BYTE_ARRAY ("application/pdf");
+        public stbtic finbl BYTE_ARRAY TEXT_HTML_HOST =
+            new BYTE_ARRAY ("text/html; chbrset="+hostEncoding);
 
         /**
-         * Doc flavor with MIME type = <CODE>"application/postscript"</CODE>,
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-8"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
          */
-        public static final BYTE_ARRAY POSTSCRIPT =
-            new BYTE_ARRAY ("application/postscript");
+        public stbtic finbl BYTE_ARRAY TEXT_HTML_UTF_8 =
+            new BYTE_ARRAY ("text/html; chbrset=utf-8");
 
         /**
-         * Doc flavor with MIME type = <CODE>"application/vnd.hp-PCL"</CODE>,
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-16"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
          */
-        public static final BYTE_ARRAY PCL =
-            new BYTE_ARRAY ("application/vnd.hp-PCL");
+        public stbtic finbl BYTE_ARRAY TEXT_HTML_UTF_16 =
+            new BYTE_ARRAY ("text/html; chbrset=utf-16");
 
         /**
-         * Doc flavor with MIME type = <CODE>"image/gif"</CODE>, print data
-         * representation class name = <CODE>"[B"</CODE> (byte array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-16be"</CODE>
+         * (big-endibn byte ordering),
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
          */
-        public static final BYTE_ARRAY GIF = new BYTE_ARRAY ("image/gif");
+        public stbtic finbl BYTE_ARRAY TEXT_HTML_UTF_16BE =
+            new BYTE_ARRAY ("text/html; chbrset=utf-16be");
 
         /**
-         * Doc flavor with MIME type = <CODE>"image/jpeg"</CODE>, print data
-         * representation class name = <CODE>"[B"</CODE> (byte array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-16le"</CODE>
+         * (little-endibn byte ordering),
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
          */
-        public static final BYTE_ARRAY JPEG = new BYTE_ARRAY ("image/jpeg");
+        public stbtic finbl BYTE_ARRAY TEXT_HTML_UTF_16LE =
+            new BYTE_ARRAY ("text/html; chbrset=utf-16le");
 
         /**
-         * Doc flavor with MIME type = <CODE>"image/png"</CODE>, print data
-         * representation class name = <CODE>"[B"</CODE> (byte array).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=us-bscii"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"[B"</CODE> (byte brrby).
          */
-        public static final BYTE_ARRAY PNG = new BYTE_ARRAY ("image/png");
+        public stbtic finbl BYTE_ARRAY TEXT_HTML_US_ASCII =
+            new BYTE_ARRAY ("text/html; chbrset=us-bscii");
+
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"application/octet-stream"</CODE>,
-         * print data representation class name = <CODE>"[B"</CODE> (byte
-         * array). The client must determine that data described
-         * using this DocFlavor is valid for the printer.
+         * Doc flbvor with MIME type = <CODE>"bpplicbtion/pdf"</CODE>, print
+         * dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte brrby).
          */
-        public static final BYTE_ARRAY AUTOSENSE =
-            new BYTE_ARRAY ("application/octet-stream");
+        public stbtic finbl BYTE_ARRAY PDF = new BYTE_ARRAY ("bpplicbtion/pdf");
+
+        /**
+         * Doc flbvor with MIME type = <CODE>"bpplicbtion/postscript"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
+         */
+        public stbtic finbl BYTE_ARRAY POSTSCRIPT =
+            new BYTE_ARRAY ("bpplicbtion/postscript");
+
+        /**
+         * Doc flbvor with MIME type = <CODE>"bpplicbtion/vnd.hp-PCL"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby).
+         */
+        public stbtic finbl BYTE_ARRAY PCL =
+            new BYTE_ARRAY ("bpplicbtion/vnd.hp-PCL");
+
+        /**
+         * Doc flbvor with MIME type = <CODE>"imbge/gif"</CODE>, print dbtb
+         * representbtion clbss nbme = <CODE>"[B"</CODE> (byte brrby).
+         */
+        public stbtic finbl BYTE_ARRAY GIF = new BYTE_ARRAY ("imbge/gif");
+
+        /**
+         * Doc flbvor with MIME type = <CODE>"imbge/jpeg"</CODE>, print dbtb
+         * representbtion clbss nbme = <CODE>"[B"</CODE> (byte brrby).
+         */
+        public stbtic finbl BYTE_ARRAY JPEG = new BYTE_ARRAY ("imbge/jpeg");
+
+        /**
+         * Doc flbvor with MIME type = <CODE>"imbge/png"</CODE>, print dbtb
+         * representbtion clbss nbme = <CODE>"[B"</CODE> (byte brrby).
+         */
+        public stbtic finbl BYTE_ARRAY PNG = new BYTE_ARRAY ("imbge/png");
+
+        /**
+         * Doc flbvor with MIME type =
+         * <CODE>"bpplicbtion/octet-strebm"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"[B"</CODE> (byte
+         * brrby). The client must determine thbt dbtb described
+         * using this DocFlbvor is vblid for the printer.
+         */
+        public stbtic finbl BYTE_ARRAY AUTOSENSE =
+            new BYTE_ARRAY ("bpplicbtion/octet-strebm");
 
     }
 
     /**
-     * Class DocFlavor.INPUT_STREAM provides predefined static constant
-     * DocFlavor objects for example doc flavors using a byte stream ({@link
-     * java.io.InputStream java.io.InputStream}) as the print
-     * data representation class.
+     * Clbss DocFlbvor.INPUT_STREAM provides predefined stbtic constbnt
+     * DocFlbvor objects for exbmple doc flbvors using b byte strebm ({@link
+     * jbvb.io.InputStrebm jbvb.io.InputStrebm}) bs the print
+     * dbtb representbtion clbss.
      *
-     * @author  Alan Kaminsky
+     * @buthor  Albn Kbminsky
      */
-    public static class INPUT_STREAM extends DocFlavor {
+    public stbtic clbss INPUT_STREAM extends DocFlbvor {
 
-        private static final long serialVersionUID = -7045842700749194127L;
+        privbte stbtic finbl long seriblVersionUID = -7045842700749194127L;
 
         /**
-         * Constructs a new doc flavor with the given MIME type and a print
-         * data representation class name of
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Constructs b new doc flbvor with the given MIME type bnd b print
+         * dbtb representbtion clbss nbme of
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          *
-         * @param  mimeType   MIME media type string.
+         * @pbrbm  mimeType   MIME medib type string.
          *
          * @exception  NullPointerException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> is null.
-         * @exception  IllegalArgumentException
+         * @exception  IllegblArgumentException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> does not
-         *     obey the syntax for a MIME media type string.
+         *     obey the syntbx for b MIME medib type string.
          */
         public INPUT_STREAM (String mimeType) {
-            super (mimeType, "java.io.InputStream");
+            super (mimeType, "jbvb.io.InputStrebm");
         }
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/plain"</CODE>,
-         * encoded in the host platform encoding.
-         * See {@link DocFlavor#hostEncoding hostEncoding}
-         * Print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type = <CODE>"text/plbin"</CODE>,
+         * encoded in the host plbtform encoding.
+         * See {@link DocFlbvor#hostEncoding hostEncoding}
+         * Print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_PLAIN_HOST =
-            new INPUT_STREAM ("text/plain; charset="+hostEncoding);
+        public stbtic finbl INPUT_STREAM TEXT_PLAIN_HOST =
+            new INPUT_STREAM ("text/plbin; chbrset="+hostEncoding);
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-8"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-8"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_PLAIN_UTF_8 =
-            new INPUT_STREAM ("text/plain; charset=utf-8");
+        public stbtic finbl INPUT_STREAM TEXT_PLAIN_UTF_8 =
+            new INPUT_STREAM ("text/plbin; chbrset=utf-8");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-16"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-16"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_PLAIN_UTF_16 =
-            new INPUT_STREAM ("text/plain; charset=utf-16");
+        public stbtic finbl INPUT_STREAM TEXT_PLAIN_UTF_16 =
+            new INPUT_STREAM ("text/plbin; chbrset=utf-16");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-16be"</CODE>
-         * (big-endian byte ordering),
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-16be"</CODE>
+         * (big-endibn byte ordering),
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_PLAIN_UTF_16BE =
-            new INPUT_STREAM ("text/plain; charset=utf-16be");
+        public stbtic finbl INPUT_STREAM TEXT_PLAIN_UTF_16BE =
+            new INPUT_STREAM ("text/plbin; chbrset=utf-16be");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-16le"</CODE>
-         * (little-endian byte ordering),
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-16le"</CODE>
+         * (little-endibn byte ordering),
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_PLAIN_UTF_16LE =
-            new INPUT_STREAM ("text/plain; charset=utf-16le");
+        public stbtic finbl INPUT_STREAM TEXT_PLAIN_UTF_16LE =
+            new INPUT_STREAM ("text/plbin; chbrset=utf-16le");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=us-ascii"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=us-bscii"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_PLAIN_US_ASCII =
-                new INPUT_STREAM ("text/plain; charset=us-ascii");
+        public stbtic finbl INPUT_STREAM TEXT_PLAIN_US_ASCII =
+                new INPUT_STREAM ("text/plbin; chbrset=us-bscii");
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/html"</CODE>,
-         * encoded in the host platform encoding.
-         * See {@link DocFlavor#hostEncoding hostEncoding}
-         * Print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type = <CODE>"text/html"</CODE>,
+         * encoded in the host plbtform encoding.
+         * See {@link DocFlbvor#hostEncoding hostEncoding}
+         * Print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_HTML_HOST =
-            new INPUT_STREAM ("text/html; charset="+hostEncoding);
+        public stbtic finbl INPUT_STREAM TEXT_HTML_HOST =
+            new INPUT_STREAM ("text/html; chbrset="+hostEncoding);
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-8"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-8"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_HTML_UTF_8 =
-            new INPUT_STREAM ("text/html; charset=utf-8");
+        public stbtic finbl INPUT_STREAM TEXT_HTML_UTF_8 =
+            new INPUT_STREAM ("text/html; chbrset=utf-8");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-16"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-16"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_HTML_UTF_16 =
-            new INPUT_STREAM ("text/html; charset=utf-16");
+        public stbtic finbl INPUT_STREAM TEXT_HTML_UTF_16 =
+            new INPUT_STREAM ("text/html; chbrset=utf-16");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-16be"</CODE>
-         * (big-endian byte ordering),
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-16be"</CODE>
+         * (big-endibn byte ordering),
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_HTML_UTF_16BE =
-            new INPUT_STREAM ("text/html; charset=utf-16be");
+        public stbtic finbl INPUT_STREAM TEXT_HTML_UTF_16BE =
+            new INPUT_STREAM ("text/html; chbrset=utf-16be");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-16le"</CODE>
-         * (little-endian byte ordering),
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-16le"</CODE>
+         * (little-endibn byte ordering),
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_HTML_UTF_16LE =
-            new INPUT_STREAM ("text/html; charset=utf-16le");
+        public stbtic finbl INPUT_STREAM TEXT_HTML_UTF_16LE =
+            new INPUT_STREAM ("text/html; chbrset=utf-16le");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=us-ascii"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=us-bscii"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM TEXT_HTML_US_ASCII =
-            new INPUT_STREAM ("text/html; charset=us-ascii");
+        public stbtic finbl INPUT_STREAM TEXT_HTML_US_ASCII =
+            new INPUT_STREAM ("text/html; chbrset=us-bscii");
 
 
         /**
-         * Doc flavor with MIME type = <CODE>"application/pdf"</CODE>, print
-         * data representation class name = <CODE>"java.io.InputStream"</CODE>
-         * (byte stream).
+         * Doc flbvor with MIME type = <CODE>"bpplicbtion/pdf"</CODE>, print
+         * dbtb representbtion clbss nbme = <CODE>"jbvb.io.InputStrebm"</CODE>
+         * (byte strebm).
          */
-        public static final INPUT_STREAM PDF = new INPUT_STREAM ("application/pdf");
+        public stbtic finbl INPUT_STREAM PDF = new INPUT_STREAM ("bpplicbtion/pdf");
 
         /**
-         * Doc flavor with MIME type = <CODE>"application/postscript"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type = <CODE>"bpplicbtion/postscript"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM POSTSCRIPT =
-            new INPUT_STREAM ("application/postscript");
+        public stbtic finbl INPUT_STREAM POSTSCRIPT =
+            new INPUT_STREAM ("bpplicbtion/postscript");
 
         /**
-         * Doc flavor with MIME type = <CODE>"application/vnd.hp-PCL"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type = <CODE>"bpplicbtion/vnd.hp-PCL"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM PCL =
-            new INPUT_STREAM ("application/vnd.hp-PCL");
+        public stbtic finbl INPUT_STREAM PCL =
+            new INPUT_STREAM ("bpplicbtion/vnd.hp-PCL");
 
         /**
-         * Doc flavor with MIME type = <CODE>"image/gif"</CODE>, print data
-         * representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type = <CODE>"imbge/gif"</CODE>, print dbtb
+         * representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM GIF = new INPUT_STREAM ("image/gif");
+        public stbtic finbl INPUT_STREAM GIF = new INPUT_STREAM ("imbge/gif");
 
         /**
-         * Doc flavor with MIME type = <CODE>"image/jpeg"</CODE>, print data
-         * representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type = <CODE>"imbge/jpeg"</CODE>, print dbtb
+         * representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM JPEG = new INPUT_STREAM ("image/jpeg");
+        public stbtic finbl INPUT_STREAM JPEG = new INPUT_STREAM ("imbge/jpeg");
 
         /**
-         * Doc flavor with MIME type = <CODE>"image/png"</CODE>, print data
-         * representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
+         * Doc flbvor with MIME type = <CODE>"imbge/png"</CODE>, print dbtb
+         * representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
          */
-        public static final INPUT_STREAM PNG = new INPUT_STREAM ("image/png");
+        public stbtic finbl INPUT_STREAM PNG = new INPUT_STREAM ("imbge/png");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"application/octet-stream"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.io.InputStream"</CODE> (byte stream).
-         * The client must determine that data described
-         * using this DocFlavor is valid for the printer.
+         * Doc flbvor with MIME type =
+         * <CODE>"bpplicbtion/octet-strebm"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.InputStrebm"</CODE> (byte strebm).
+         * The client must determine thbt dbtb described
+         * using this DocFlbvor is vblid for the printer.
          */
-        public static final INPUT_STREAM AUTOSENSE =
-            new INPUT_STREAM ("application/octet-stream");
+        public stbtic finbl INPUT_STREAM AUTOSENSE =
+            new INPUT_STREAM ("bpplicbtion/octet-strebm");
 
     }
 
     /**
-     * Class DocFlavor.URL provides predefined static constant DocFlavor
+     * Clbss DocFlbvor.URL provides predefined stbtic constbnt DocFlbvor
      * objects.
-     * For example doc flavors using a Uniform Resource Locator ({@link
-     * java.net.URL java.net.URL}) as the print data
-     * representation class.
+     * For exbmple doc flbvors using b Uniform Resource Locbtor ({@link
+     * jbvb.net.URL jbvb.net.URL}) bs the print dbtb
+     * representbtion clbss.
      *
-     * @author  Alan Kaminsky
+     * @buthor  Albn Kbminsky
      */
-    public static class URL extends DocFlavor {
-        private static final long serialVersionUID = 2936725788144902062L;
+    public stbtic clbss URL extends DocFlbvor {
+        privbte stbtic finbl long seriblVersionUID = 2936725788144902062L;
 
         /**
-         * Constructs a new doc flavor with the given MIME type and a print
-         * data representation class name of <CODE>"java.net.URL"</CODE>.
+         * Constructs b new doc flbvor with the given MIME type bnd b print
+         * dbtb representbtion clbss nbme of <CODE>"jbvb.net.URL"</CODE>.
          *
-         * @param  mimeType   MIME media type string.
+         * @pbrbm  mimeType   MIME medib type string.
          *
          * @exception  NullPointerException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> is null.
-         * @exception  IllegalArgumentException
+         * @exception  IllegblArgumentException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> does not
-         *     obey the syntax for a MIME media type string.
+         *     obey the syntbx for b MIME medib type string.
          */
         public URL (String mimeType) {
-            super (mimeType, "java.net.URL");
+            super (mimeType, "jbvb.net.URL");
         }
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/plain"</CODE>,
-         * encoded in the host platform encoding.
-         * See {@link DocFlavor#hostEncoding hostEncoding}
-         * Print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type = <CODE>"text/plbin"</CODE>,
+         * encoded in the host plbtform encoding.
+         * See {@link DocFlbvor#hostEncoding hostEncoding}
+         * Print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_PLAIN_HOST =
-            new URL ("text/plain; charset="+hostEncoding);
+        public stbtic finbl URL TEXT_PLAIN_HOST =
+            new URL ("text/plbin; chbrset="+hostEncoding);
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-8"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-8"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_PLAIN_UTF_8 =
-            new URL ("text/plain; charset=utf-8");
+        public stbtic finbl URL TEXT_PLAIN_UTF_8 =
+            new URL ("text/plbin; chbrset=utf-8");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-16"</CODE>,
-         * print data representation class name =
-         * <CODE>java.net.URL""</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-16"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>jbvb.net.URL""</CODE> (byte strebm).
          */
-        public static final URL TEXT_PLAIN_UTF_16 =
-            new URL ("text/plain; charset=utf-16");
+        public stbtic finbl URL TEXT_PLAIN_UTF_16 =
+            new URL ("text/plbin; chbrset=utf-16");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-16be"</CODE>
-         * (big-endian byte ordering),
-         * print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-16be"</CODE>
+         * (big-endibn byte ordering),
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_PLAIN_UTF_16BE =
-            new URL ("text/plain; charset=utf-16be");
+        public stbtic finbl URL TEXT_PLAIN_UTF_16BE =
+            new URL ("text/plbin; chbrset=utf-16be");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=utf-16le"</CODE>
-         * (little-endian byte ordering),
-         * print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=utf-16le"</CODE>
+         * (little-endibn byte ordering),
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_PLAIN_UTF_16LE =
-            new URL ("text/plain; charset=utf-16le");
+        public stbtic finbl URL TEXT_PLAIN_UTF_16LE =
+            new URL ("text/plbin; chbrset=utf-16le");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/plain; charset=us-ascii"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/plbin; chbrset=us-bscii"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_PLAIN_US_ASCII =
-            new URL ("text/plain; charset=us-ascii");
+        public stbtic finbl URL TEXT_PLAIN_US_ASCII =
+            new URL ("text/plbin; chbrset=us-bscii");
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/html"</CODE>,
-         * encoded in the host platform encoding.
-         * See {@link DocFlavor#hostEncoding hostEncoding}
-         * Print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type = <CODE>"text/html"</CODE>,
+         * encoded in the host plbtform encoding.
+         * See {@link DocFlbvor#hostEncoding hostEncoding}
+         * Print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_HTML_HOST =
-            new URL ("text/html; charset="+hostEncoding);
+        public stbtic finbl URL TEXT_HTML_HOST =
+            new URL ("text/html; chbrset="+hostEncoding);
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-8"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-8"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_HTML_UTF_8 =
-            new URL ("text/html; charset=utf-8");
+        public stbtic finbl URL TEXT_HTML_UTF_8 =
+            new URL ("text/html; chbrset=utf-8");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-16"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-16"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_HTML_UTF_16 =
-            new URL ("text/html; charset=utf-16");
+        public stbtic finbl URL TEXT_HTML_UTF_16 =
+            new URL ("text/html; chbrset=utf-16");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-16be"</CODE>
-         * (big-endian byte ordering),
-         * print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-16be"</CODE>
+         * (big-endibn byte ordering),
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_HTML_UTF_16BE =
-            new URL ("text/html; charset=utf-16be");
+        public stbtic finbl URL TEXT_HTML_UTF_16BE =
+            new URL ("text/html; chbrset=utf-16be");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=utf-16le"</CODE>
-         * (little-endian byte ordering),
-         * print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=utf-16le"</CODE>
+         * (little-endibn byte ordering),
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_HTML_UTF_16LE =
-            new URL ("text/html; charset=utf-16le");
+        public stbtic finbl URL TEXT_HTML_UTF_16LE =
+            new URL ("text/html; chbrset=utf-16le");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"text/html; charset=us-ascii"</CODE>,
-         * print data representation class name =
-         * <CODE>"java.net.URL"</CODE> (byte stream).
+         * Doc flbvor with MIME type =
+         * <CODE>"text/html; chbrset=us-bscii"</CODE>,
+         * print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.net.URL"</CODE> (byte strebm).
          */
-        public static final URL TEXT_HTML_US_ASCII =
-            new URL ("text/html; charset=us-ascii");
+        public stbtic finbl URL TEXT_HTML_US_ASCII =
+            new URL ("text/html; chbrset=us-bscii");
 
 
         /**
-         * Doc flavor with MIME type = <CODE>"application/pdf"</CODE>, print
-         * data representation class name = <CODE>"java.net.URL"</CODE>.
+         * Doc flbvor with MIME type = <CODE>"bpplicbtion/pdf"</CODE>, print
+         * dbtb representbtion clbss nbme = <CODE>"jbvb.net.URL"</CODE>.
          */
-        public static final URL PDF = new URL ("application/pdf");
+        public stbtic finbl URL PDF = new URL ("bpplicbtion/pdf");
 
         /**
-         * Doc flavor with MIME type = <CODE>"application/postscript"</CODE>,
-         * print data representation class name = <CODE>"java.net.URL"</CODE>.
+         * Doc flbvor with MIME type = <CODE>"bpplicbtion/postscript"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"jbvb.net.URL"</CODE>.
          */
-        public static final URL POSTSCRIPT = new URL ("application/postscript");
+        public stbtic finbl URL POSTSCRIPT = new URL ("bpplicbtion/postscript");
 
         /**
-         * Doc flavor with MIME type = <CODE>"application/vnd.hp-PCL"</CODE>,
-         * print data representation class name = <CODE>"java.net.URL"</CODE>.
+         * Doc flbvor with MIME type = <CODE>"bpplicbtion/vnd.hp-PCL"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"jbvb.net.URL"</CODE>.
          */
-        public static final URL PCL = new URL ("application/vnd.hp-PCL");
+        public stbtic finbl URL PCL = new URL ("bpplicbtion/vnd.hp-PCL");
 
         /**
-         * Doc flavor with MIME type = <CODE>"image/gif"</CODE>, print data
-         * representation class name = <CODE>"java.net.URL"</CODE>.
+         * Doc flbvor with MIME type = <CODE>"imbge/gif"</CODE>, print dbtb
+         * representbtion clbss nbme = <CODE>"jbvb.net.URL"</CODE>.
          */
-        public static final URL GIF = new URL ("image/gif");
+        public stbtic finbl URL GIF = new URL ("imbge/gif");
 
         /**
-         * Doc flavor with MIME type = <CODE>"image/jpeg"</CODE>, print data
-         * representation class name = <CODE>"java.net.URL"</CODE>.
+         * Doc flbvor with MIME type = <CODE>"imbge/jpeg"</CODE>, print dbtb
+         * representbtion clbss nbme = <CODE>"jbvb.net.URL"</CODE>.
          */
-        public static final URL JPEG = new URL ("image/jpeg");
+        public stbtic finbl URL JPEG = new URL ("imbge/jpeg");
 
         /**
-         * Doc flavor with MIME type = <CODE>"image/png"</CODE>, print data
-         * representation class name = <CODE>"java.net.URL"</CODE>.
+         * Doc flbvor with MIME type = <CODE>"imbge/png"</CODE>, print dbtb
+         * representbtion clbss nbme = <CODE>"jbvb.net.URL"</CODE>.
          */
-        public static final URL PNG = new URL ("image/png");
+        public stbtic finbl URL PNG = new URL ("imbge/png");
 
         /**
-         * Doc flavor with MIME type =
-         * <CODE>"application/octet-stream"</CODE>,
-         * print data representation class name = <CODE>"java.net.URL"</CODE>.
-         *  The client must determine that data described
-         * using this DocFlavor is valid for the printer.
+         * Doc flbvor with MIME type =
+         * <CODE>"bpplicbtion/octet-strebm"</CODE>,
+         * print dbtb representbtion clbss nbme = <CODE>"jbvb.net.URL"</CODE>.
+         *  The client must determine thbt dbtb described
+         * using this DocFlbvor is vblid for the printer.
          */
-        public static final URL AUTOSENSE = new URL ("application/octet-stream");
+        public stbtic finbl URL AUTOSENSE = new URL ("bpplicbtion/octet-strebm");
 
     }
 
     /**
-     * Class DocFlavor.CHAR_ARRAY provides predefined static constant
-     * DocFlavor objects for example doc flavors using a character array
-     * (<CODE>char[]</CODE>) as the print data representation class. As such,
-     * the character set is Unicode.
+     * Clbss DocFlbvor.CHAR_ARRAY provides predefined stbtic constbnt
+     * DocFlbvor objects for exbmple doc flbvors using b chbrbcter brrby
+     * (<CODE>chbr[]</CODE>) bs the print dbtb representbtion clbss. As such,
+     * the chbrbcter set is Unicode.
      *
-     * @author  Alan Kaminsky
+     * @buthor  Albn Kbminsky
      */
-    public static class CHAR_ARRAY extends DocFlavor {
+    public stbtic clbss CHAR_ARRAY extends DocFlbvor {
 
-        private static final long serialVersionUID = -8720590903724405128L;
+        privbte stbtic finbl long seriblVersionUID = -8720590903724405128L;
 
         /**
-         * Constructs a new doc flavor with the given MIME type and a print
-         * data representation class name of
-         * <CODE>"[C"</CODE> (character array).
+         * Constructs b new doc flbvor with the given MIME type bnd b print
+         * dbtb representbtion clbss nbme of
+         * <CODE>"[C"</CODE> (chbrbcter brrby).
          *
-         * @param  mimeType  MIME media type string. If it is a text media
-         *                      type, it is assumed to contain a
-         *                      <CODE>"charset=utf-16"</CODE> parameter.
+         * @pbrbm  mimeType  MIME medib type string. If it is b text medib
+         *                      type, it is bssumed to contbin b
+         *                      <CODE>"chbrset=utf-16"</CODE> pbrbmeter.
          *
          * @exception  NullPointerException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> is null.
-         * @exception  IllegalArgumentException
+         * @exception  IllegblArgumentException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> does not
-         *     obey the syntax for a MIME media type string.
+         *     obey the syntbx for b MIME medib type string.
          */
         public CHAR_ARRAY (String mimeType) {
             super (mimeType, "[C");
         }
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/plain;
-         * charset=utf-16"</CODE>, print data representation class name =
-         * <CODE>"[C"</CODE> (character array).
+         * Doc flbvor with MIME type = <CODE>"text/plbin;
+         * chbrset=utf-16"</CODE>, print dbtb representbtion clbss nbme =
+         * <CODE>"[C"</CODE> (chbrbcter brrby).
          */
-        public static final CHAR_ARRAY TEXT_PLAIN =
-            new CHAR_ARRAY ("text/plain; charset=utf-16");
+        public stbtic finbl CHAR_ARRAY TEXT_PLAIN =
+            new CHAR_ARRAY ("text/plbin; chbrset=utf-16");
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/html;
-         * charset=utf-16"</CODE>, print data representation class name =
-         * <CODE>"[C"</CODE> (character array).
+         * Doc flbvor with MIME type = <CODE>"text/html;
+         * chbrset=utf-16"</CODE>, print dbtb representbtion clbss nbme =
+         * <CODE>"[C"</CODE> (chbrbcter brrby).
          */
-        public static final CHAR_ARRAY TEXT_HTML =
-            new CHAR_ARRAY ("text/html; charset=utf-16");
+        public stbtic finbl CHAR_ARRAY TEXT_HTML =
+            new CHAR_ARRAY ("text/html; chbrset=utf-16");
 
     }
 
     /**
-     * Class DocFlavor.STRING provides predefined static constant DocFlavor
-     * objects for example doc flavors using a string ({@link java.lang.String
-     * java.lang.String}) as the print data representation class.
-     * As such, the character set is Unicode.
+     * Clbss DocFlbvor.STRING provides predefined stbtic constbnt DocFlbvor
+     * objects for exbmple doc flbvors using b string ({@link jbvb.lbng.String
+     * jbvb.lbng.String}) bs the print dbtb representbtion clbss.
+     * As such, the chbrbcter set is Unicode.
      *
-     * @author  Alan Kaminsky
+     * @buthor  Albn Kbminsky
      */
-    public static class STRING extends DocFlavor {
+    public stbtic clbss STRING extends DocFlbvor {
 
-        private static final long serialVersionUID = 4414407504887034035L;
+        privbte stbtic finbl long seriblVersionUID = 4414407504887034035L;
 
         /**
-         * Constructs a new doc flavor with the given MIME type and a print
-         * data representation class name of <CODE>"java.lang.String"</CODE>.
+         * Constructs b new doc flbvor with the given MIME type bnd b print
+         * dbtb representbtion clbss nbme of <CODE>"jbvb.lbng.String"</CODE>.
          *
-         * @param  mimeType  MIME media type string. If it is a text media
-         *                      type, it is assumed to contain a
-         *                      <CODE>"charset=utf-16"</CODE> parameter.
+         * @pbrbm  mimeType  MIME medib type string. If it is b text medib
+         *                      type, it is bssumed to contbin b
+         *                      <CODE>"chbrset=utf-16"</CODE> pbrbmeter.
          *
          * @exception  NullPointerException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> is null.
-         * @exception  IllegalArgumentException
+         * @exception  IllegblArgumentException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> does not
-         *     obey the syntax for a MIME media type string.
+         *     obey the syntbx for b MIME medib type string.
          */
         public STRING (String mimeType) {
-            super (mimeType, "java.lang.String");
+            super (mimeType, "jbvb.lbng.String");
         }
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/plain;
-         * charset=utf-16"</CODE>, print data representation class name =
-         * <CODE>"java.lang.String"</CODE>.
+         * Doc flbvor with MIME type = <CODE>"text/plbin;
+         * chbrset=utf-16"</CODE>, print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.lbng.String"</CODE>.
          */
-        public static final STRING TEXT_PLAIN =
-            new STRING ("text/plain; charset=utf-16");
+        public stbtic finbl STRING TEXT_PLAIN =
+            new STRING ("text/plbin; chbrset=utf-16");
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/html;
-         * charset=utf-16"</CODE>, print data representation class name =
-         * <CODE>"java.lang.String"</CODE>.
+         * Doc flbvor with MIME type = <CODE>"text/html;
+         * chbrset=utf-16"</CODE>, print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.lbng.String"</CODE>.
          */
-        public static final STRING TEXT_HTML =
-            new STRING ("text/html; charset=utf-16");
+        public stbtic finbl STRING TEXT_HTML =
+            new STRING ("text/html; chbrset=utf-16");
     }
 
     /**
-     * Class DocFlavor.READER provides predefined static constant DocFlavor
-     * objects for example doc flavors using a character stream ({@link
-     * java.io.Reader java.io.Reader}) as the print data
-     * representation class. As such, the character set is Unicode.
+     * Clbss DocFlbvor.READER provides predefined stbtic constbnt DocFlbvor
+     * objects for exbmple doc flbvors using b chbrbcter strebm ({@link
+     * jbvb.io.Rebder jbvb.io.Rebder}) bs the print dbtb
+     * representbtion clbss. As such, the chbrbcter set is Unicode.
      *
-     * @author  Alan Kaminsky
+     * @buthor  Albn Kbminsky
      */
-    public static class READER extends DocFlavor {
+    public stbtic clbss READER extends DocFlbvor {
 
-        private static final long serialVersionUID = 7100295812579351567L;
+        privbte stbtic finbl long seriblVersionUID = 7100295812579351567L;
 
         /**
-         * Constructs a new doc flavor with the given MIME type and a print
-         * data representation class name of\
-         * <CODE>"java.io.Reader"</CODE> (character stream).
+         * Constructs b new doc flbvor with the given MIME type bnd b print
+         * dbtb representbtion clbss nbme of\
+         * <CODE>"jbvb.io.Rebder"</CODE> (chbrbcter strebm).
          *
-         * @param  mimeType  MIME media type string. If it is a text media
-         *                      type, it is assumed to contain a
-         *                      <CODE>"charset=utf-16"</CODE> parameter.
+         * @pbrbm  mimeType  MIME medib type string. If it is b text medib
+         *                      type, it is bssumed to contbin b
+         *                      <CODE>"chbrset=utf-16"</CODE> pbrbmeter.
          *
          * @exception  NullPointerException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> is null.
-         * @exception  IllegalArgumentException
+         * @exception  IllegblArgumentException
          *     (unchecked exception) Thrown if <CODE>mimeType</CODE> does not
-         *     obey the syntax for a MIME media type string.
+         *     obey the syntbx for b MIME medib type string.
          */
         public READER (String mimeType) {
-            super (mimeType, "java.io.Reader");
+            super (mimeType, "jbvb.io.Rebder");
         }
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/plain;
-         * charset=utf-16"</CODE>, print data representation class name =
-         * <CODE>"java.io.Reader"</CODE> (character stream).
+         * Doc flbvor with MIME type = <CODE>"text/plbin;
+         * chbrset=utf-16"</CODE>, print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.Rebder"</CODE> (chbrbcter strebm).
          */
-        public static final READER TEXT_PLAIN =
-            new READER ("text/plain; charset=utf-16");
+        public stbtic finbl READER TEXT_PLAIN =
+            new READER ("text/plbin; chbrset=utf-16");
 
         /**
-         * Doc flavor with MIME type = <CODE>"text/html;
-         * charset=utf-16"</CODE>, print data representation class name =
-         * <CODE>"java.io.Reader"</CODE> (character stream).
+         * Doc flbvor with MIME type = <CODE>"text/html;
+         * chbrset=utf-16"</CODE>, print dbtb representbtion clbss nbme =
+         * <CODE>"jbvb.io.Rebder"</CODE> (chbrbcter strebm).
          */
-        public static final READER TEXT_HTML =
-            new READER ("text/html; charset=utf-16");
+        public stbtic finbl READER TEXT_HTML =
+            new READER ("text/html; chbrset=utf-16");
 
     }
 
     /**
-     * Class DocFlavor.SERVICE_FORMATTED provides predefined static constant
-     * DocFlavor objects for example doc flavors for service formatted print
-     * data.
+     * Clbss DocFlbvor.SERVICE_FORMATTED provides predefined stbtic constbnt
+     * DocFlbvor objects for exbmple doc flbvors for service formbtted print
+     * dbtb.
      *
-     * @author  Alan Kaminsky
+     * @buthor  Albn Kbminsky
      */
-    public static class SERVICE_FORMATTED extends DocFlavor {
+    public stbtic clbss SERVICE_FORMATTED extends DocFlbvor {
 
-        private static final long serialVersionUID = 6181337766266637256L;
+        privbte stbtic finbl long seriblVersionUID = 6181337766266637256L;
 
         /**
-         * Constructs a new doc flavor with a MIME type of
-         * <CODE>"application/x-java-jvm-local-objectref"</CODE> indicating
-         * service formatted print data and the given print data
-         * representation class name.
+         * Constructs b new doc flbvor with b MIME type of
+         * <CODE>"bpplicbtion/x-jbvb-jvm-locbl-objectref"</CODE> indicbting
+         * service formbtted print dbtb bnd the given print dbtb
+         * representbtion clbss nbme.
          *
-         * @param  className  Fully-qualified representation class name.
+         * @pbrbm  clbssNbme  Fully-qublified representbtion clbss nbme.
          *
          * @exception  NullPointerException
-         *     (unchecked exception) Thrown if <CODE>className</CODE> is
+         *     (unchecked exception) Thrown if <CODE>clbssNbme</CODE> is
          *     null.
          */
-        public SERVICE_FORMATTED (String className) {
-            super ("application/x-java-jvm-local-objectref", className);
+        public SERVICE_FORMATTED (String clbssNbme) {
+            super ("bpplicbtion/x-jbvb-jvm-locbl-objectref", clbssNbme);
         }
 
         /**
-         * Service formatted print data doc flavor with print data
-         * representation class name =
-         * <CODE>"java.awt.image.renderable.RenderableImage"</CODE>
-         * (renderable image object).
+         * Service formbtted print dbtb doc flbvor with print dbtb
+         * representbtion clbss nbme =
+         * <CODE>"jbvb.bwt.imbge.renderbble.RenderbbleImbge"</CODE>
+         * (renderbble imbge object).
          */
-        public static final SERVICE_FORMATTED RENDERABLE_IMAGE =
-            new SERVICE_FORMATTED("java.awt.image.renderable.RenderableImage");
+        public stbtic finbl SERVICE_FORMATTED RENDERABLE_IMAGE =
+            new SERVICE_FORMATTED("jbvb.bwt.imbge.renderbble.RenderbbleImbge");
 
         /**
-         * Service formatted print data doc flavor with print data
-         * representation class name = <CODE>"java.awt.print.Printable"</CODE>
-         * (printable object).
+         * Service formbtted print dbtb doc flbvor with print dbtb
+         * representbtion clbss nbme = <CODE>"jbvb.bwt.print.Printbble"</CODE>
+         * (printbble object).
          */
-        public static final SERVICE_FORMATTED PRINTABLE =
-            new SERVICE_FORMATTED ("java.awt.print.Printable");
+        public stbtic finbl SERVICE_FORMATTED PRINTABLE =
+            new SERVICE_FORMATTED ("jbvb.bwt.print.Printbble");
 
         /**
-         * Service formatted print data doc flavor with print data
-         * representation class name = <CODE>"java.awt.print.Pageable"</CODE>
-         * (pageable object).
+         * Service formbtted print dbtb doc flbvor with print dbtb
+         * representbtion clbss nbme = <CODE>"jbvb.bwt.print.Pbgebble"</CODE>
+         * (pbgebble object).
          */
-        public static final SERVICE_FORMATTED PAGEABLE =
-            new SERVICE_FORMATTED ("java.awt.print.Pageable");
+        public stbtic finbl SERVICE_FORMATTED PAGEABLE =
+            new SERVICE_FORMATTED ("jbvb.bwt.print.Pbgebble");
 
         }
 

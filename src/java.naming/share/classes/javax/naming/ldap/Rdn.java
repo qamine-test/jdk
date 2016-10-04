@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Locble;
+import jbvb.util.Collections;
 
-import javax.naming.InvalidNameException;
-import javax.naming.directory.BasicAttributes;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.Attribute;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
+import jbvbx.nbming.InvblidNbmeException;
+import jbvbx.nbming.directory.BbsicAttributes;
+import jbvbx.nbming.directory.Attributes;
+import jbvbx.nbming.directory.Attribute;
+import jbvbx.nbming.NbmingEnumerbtion;
+import jbvbx.nbming.NbmingException;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 /**
- * This class represents a relative distinguished name, or RDN, which is a
- * component of a distinguished name as specified by
- * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>.
- * An example of an RDN is "OU=Sales+CN=J.Smith". In this example,
- * the RDN consist of multiple attribute type/value pairs. The
- * RDN is parsed as described in the class description for
- * {@link javax.naming.ldap.LdapName <tt>LdapName</tt>}.
+ * This clbss represents b relbtive distinguished nbme, or RDN, which is b
+ * component of b distinguished nbme bs specified by
+ * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>.
+ * An exbmple of bn RDN is "OU=Sbles+CN=J.Smith". In this exbmple,
+ * the RDN consist of multiple bttribute type/vblue pbirs. The
+ * RDN is pbrsed bs described in the clbss description for
+ * {@link jbvbx.nbming.ldbp.LdbpNbme <tt>LdbpNbme</tt>}.
  * <p>
- * The Rdn class represents an RDN as attribute type/value mappings,
- * which can be viewed using
- * {@link javax.naming.directory.Attributes Attributes}.
- * In addition, it contains convenience methods that allow easy retrieval
- * of type and value when the Rdn consist of a single type/value pair,
- * which is how it appears in a typical usage.
- * It also contains helper methods that allow escaping of the unformatted
- * attribute value and unescaping of the value formatted according to the
- * escaping syntax defined in RFC2253. For methods that take or return
- * attribute value as an Object, the value is either a String
- * (in unescaped form) or a byte array.
+ * The Rdn clbss represents bn RDN bs bttribute type/vblue mbppings,
+ * which cbn be viewed using
+ * {@link jbvbx.nbming.directory.Attributes Attributes}.
+ * In bddition, it contbins convenience methods thbt bllow ebsy retrievbl
+ * of type bnd vblue when the Rdn consist of b single type/vblue pbir,
+ * which is how it bppebrs in b typicbl usbge.
+ * It blso contbins helper methods thbt bllow escbping of the unformbtted
+ * bttribute vblue bnd unescbping of the vblue formbtted bccording to the
+ * escbping syntbx defined in RFC2253. For methods thbt tbke or return
+ * bttribute vblue bs bn Object, the vblue is either b String
+ * (in unescbped form) or b byte brrby.
  * <p>
- * <code>Rdn</code> will properly parse all valid RDNs, but
- * does not attempt to detect all possible violations when parsing
- * invalid RDNs. It is "generous" in accepting invalid RDNs.
- * The "validity" of a name is determined ultimately when it
- * is supplied to an LDAP server, which may accept or
- * reject the name based on factors such as its schema information
- * and interoperability considerations.
+ * <code>Rdn</code> will properly pbrse bll vblid RDNs, but
+ * does not bttempt to detect bll possible violbtions when pbrsing
+ * invblid RDNs. It is "generous" in bccepting invblid RDNs.
+ * The "vblidity" of b nbme is determined ultimbtely when it
+ * is supplied to bn LDAP server, which mby bccept or
+ * reject the nbme bbsed on fbctors such bs its schemb informbtion
+ * bnd interoperbbility considerbtions.
  *
  * <p>
- * The following code example shows how to construct an Rdn using the
- * constructor that takes type and value as arguments:
+ * The following code exbmple shows how to construct bn Rdn using the
+ * constructor thbt tbkes type bnd vblue bs brguments:
  * <pre>
  *      Rdn rdn = new Rdn("cn", "Juicy, Fruit");
  *      System.out.println(rdn.toString());
  * </pre>
- * The last line will print <tt>cn=Juicy\, Fruit</tt>. The
- * {@link #unescapeValue(String) <tt>unescapeValue()</tt>} method can be
- * used to unescape the escaped comma resulting in the original
- * value <tt>"Juicy, Fruit"</tt>. The {@link #escapeValue(Object)
- * <tt>escapeValue()</tt>} method adds the escape back preceding the comma.
+ * The lbst line will print <tt>cn=Juicy\, Fruit</tt>. The
+ * {@link #unescbpeVblue(String) <tt>unescbpeVblue()</tt>} method cbn be
+ * used to unescbpe the escbped commb resulting in the originbl
+ * vblue <tt>"Juicy, Fruit"</tt>. The {@link #escbpeVblue(Object)
+ * <tt>escbpeVblue()</tt>} method bdds the escbpe bbck preceding the commb.
  * <p>
- * This class can be instantiated by a string representation
- * of the RDN defined in RFC 2253 as shown in the following code example:
+ * This clbss cbn be instbntibted by b string representbtion
+ * of the RDN defined in RFC 2253 bs shown in the following code exbmple:
  * <pre>
  *      Rdn rdn = new Rdn("cn=Juicy\\, Fruit");
  *      System.out.println(rdn.toString());
  * </pre>
- * The last line will print <tt>cn=Juicy\, Fruit</tt>.
+ * The lbst line will print <tt>cn=Juicy\, Fruit</tt>.
  * <p>
- * Concurrent multithreaded read-only access of an instance of
+ * Concurrent multithrebded rebd-only bccess of bn instbnce of
  * <tt>Rdn</tt> need not be synchronized.
  * <p>
- * Unless otherwise noted, the behavior of passing a null argument
- * to a constructor or method in this class will cause NullPointerException
+ * Unless otherwise noted, the behbvior of pbssing b null brgument
+ * to b constructor or method in this clbss will cbuse NullPointerException
  * to be thrown.
  *
  * @since 1.5
  */
 
-public class Rdn implements Serializable, Comparable<Object> {
+public clbss Rdn implements Seriblizbble, Compbrbble<Object> {
 
-    private transient ArrayList<RdnEntry> entries;
+    privbte trbnsient ArrbyList<RdnEntry> entries;
 
-    // The common case.
-    private static final int DEFAULT_SIZE = 1;
+    // The common cbse.
+    privbte stbtic finbl int DEFAULT_SIZE = 1;
 
-    private static final long serialVersionUID = -5994465067210009656L;
+    privbte stbtic finbl long seriblVersionUID = -5994465067210009656L;
 
     /**
-     * Constructs an Rdn from the given attribute set. See
-     * {@link javax.naming.directory.Attributes Attributes}.
+     * Constructs bn Rdn from the given bttribute set. See
+     * {@link jbvbx.nbming.directory.Attributes Attributes}.
      * <p>
-     * The string attribute values are not interpreted as
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * formatted RDN strings. That is, the values are used
-     * literally (not parsed) and assumed to be unescaped.
+     * The string bttribute vblues bre not interpreted bs
+     * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>
+     * formbtted RDN strings. Thbt is, the vblues bre used
+     * literblly (not pbrsed) bnd bssumed to be unescbped.
      *
-     * @param attrSet The non-null and non-empty attributes containing
-     * type/value mappings.
-     * @throws InvalidNameException If contents of <tt>attrSet</tt> cannot
-     *          be used to construct a valid RDN.
+     * @pbrbm bttrSet The non-null bnd non-empty bttributes contbining
+     * type/vblue mbppings.
+     * @throws InvblidNbmeException If contents of <tt>bttrSet</tt> cbnnot
+     *          be used to construct b vblid RDN.
      */
-    public Rdn(Attributes attrSet) throws InvalidNameException {
-        if (attrSet.size() == 0) {
-            throw new InvalidNameException("Attributes cannot be empty");
+    public Rdn(Attributes bttrSet) throws InvblidNbmeException {
+        if (bttrSet.size() == 0) {
+            throw new InvblidNbmeException("Attributes cbnnot be empty");
         }
-        entries = new ArrayList<>(attrSet.size());
-        NamingEnumeration<? extends Attribute> attrs = attrSet.getAll();
+        entries = new ArrbyList<>(bttrSet.size());
+        NbmingEnumerbtion<? extends Attribute> bttrs = bttrSet.getAll();
         try {
-            for (int nEntries = 0; attrs.hasMore(); nEntries++) {
+            for (int nEntries = 0; bttrs.hbsMore(); nEntries++) {
                 RdnEntry entry = new RdnEntry();
-                Attribute attr = attrs.next();
-                entry.type = attr.getID();
-                entry.value = attr.get();
-                entries.add(nEntries, entry);
+                Attribute bttr = bttrs.next();
+                entry.type = bttr.getID();
+                entry.vblue = bttr.get();
+                entries.bdd(nEntries, entry);
             }
-        } catch (NamingException e) {
-            InvalidNameException e2 = new InvalidNameException(
-                                        e.getMessage());
-            e2.initCause(e);
+        } cbtch (NbmingException e) {
+            InvblidNbmeException e2 = new InvblidNbmeException(
+                                        e.getMessbge());
+            e2.initCbuse(e);
             throw e2;
         }
-        sort(); // arrange entries for comparison
+        sort(); // brrbnge entries for compbrison
     }
 
     /**
-     * Constructs an Rdn from the given string.
-     * This constructor takes a string formatted according to the rules
-     * defined in <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * and described in the class description for
-     * {@link javax.naming.ldap.LdapName}.
+     * Constructs bn Rdn from the given string.
+     * This constructor tbkes b string formbtted bccording to the rules
+     * defined in <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>
+     * bnd described in the clbss description for
+     * {@link jbvbx.nbming.ldbp.LdbpNbme}.
      *
-     * @param rdnString The non-null and non-empty RFC2253 formatted string.
-     * @throws InvalidNameException If a syntax error occurs during
-     *                  parsing of the rdnString.
+     * @pbrbm rdnString The non-null bnd non-empty RFC2253 formbtted string.
+     * @throws InvblidNbmeException If b syntbx error occurs during
+     *                  pbrsing of the rdnString.
      */
-    public Rdn(String rdnString) throws InvalidNameException {
-        entries = new ArrayList<>(DEFAULT_SIZE);
-        (new Rfc2253Parser(rdnString)).parseRdn(this);
+    public Rdn(String rdnString) throws InvblidNbmeException {
+        entries = new ArrbyList<>(DEFAULT_SIZE);
+        (new Rfc2253Pbrser(rdnString)).pbrseRdn(this);
     }
 
     /**
-     * Constructs an Rdn from the given <tt>rdn</tt>.
-     * The contents of the <tt>rdn</tt> are simply copied into the newly
-     * created Rdn.
-     * @param rdn The non-null Rdn to be copied.
+     * Constructs bn Rdn from the given <tt>rdn</tt>.
+     * The contents of the <tt>rdn</tt> bre simply copied into the newly
+     * crebted Rdn.
+     * @pbrbm rdn The non-null Rdn to be copied.
      */
     public Rdn(Rdn rdn) {
-        entries = new ArrayList<>(rdn.entries.size());
-        entries.addAll(rdn.entries);
+        entries = new ArrbyList<>(rdn.entries.size());
+        entries.bddAll(rdn.entries);
     }
 
     /**
-     * Constructs an Rdn from the given attribute type and
-     * value.
-     * The string attribute values are not interpreted as
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * formatted RDN strings. That is, the values are used
-     * literally (not parsed) and assumed to be unescaped.
+     * Constructs bn Rdn from the given bttribute type bnd
+     * vblue.
+     * The string bttribute vblues bre not interpreted bs
+     * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>
+     * formbtted RDN strings. Thbt is, the vblues bre used
+     * literblly (not pbrsed) bnd bssumed to be unescbped.
      *
-     * @param type The non-null and non-empty string attribute type.
-     * @param value The non-null and non-empty attribute value.
-     * @throws InvalidNameException If type/value cannot be used to
-     *                  construct a valid RDN.
+     * @pbrbm type The non-null bnd non-empty string bttribute type.
+     * @pbrbm vblue The non-null bnd non-empty bttribute vblue.
+     * @throws InvblidNbmeException If type/vblue cbnnot be used to
+     *                  construct b vblid RDN.
      * @see #toString()
      */
-    public Rdn(String type, Object value) throws InvalidNameException {
-        if (value == null) {
-            throw new NullPointerException("Cannot set value to null");
+    public Rdn(String type, Object vblue) throws InvblidNbmeException {
+        if (vblue == null) {
+            throw new NullPointerException("Cbnnot set vblue to null");
         }
-        if (type.equals("") || isEmptyValue(value)) {
-            throw new InvalidNameException(
-                "type or value cannot be empty, type:" + type +
-                " value:" + value);
+        if (type.equbls("") || isEmptyVblue(vblue)) {
+            throw new InvblidNbmeException(
+                "type or vblue cbnnot be empty, type:" + type +
+                " vblue:" + vblue);
         }
-        entries = new ArrayList<>(DEFAULT_SIZE);
-        put(type, value);
+        entries = new ArrbyList<>(DEFAULT_SIZE);
+        put(type, vblue);
     }
 
-    private boolean isEmptyValue(Object val) {
-        return ((val instanceof String) && val.equals("")) ||
-        ((val instanceof byte[]) && (((byte[]) val).length == 0));
+    privbte boolebn isEmptyVblue(Object vbl) {
+        return ((vbl instbnceof String) && vbl.equbls("")) ||
+        ((vbl instbnceof byte[]) && (((byte[]) vbl).length == 0));
     }
 
-    // An empty constructor used by the parser
+    // An empty constructor used by the pbrser
     Rdn() {
-        entries = new ArrayList<>(DEFAULT_SIZE);
+        entries = new ArrbyList<>(DEFAULT_SIZE);
     }
 
     /*
-     * Adds the given attribute type and value to this Rdn.
-     * The string attribute values are not interpreted as
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * formatted RDN strings. That is the values are used
-     * literally (not parsed) and assumed to be unescaped.
+     * Adds the given bttribute type bnd vblue to this Rdn.
+     * The string bttribute vblues bre not interpreted bs
+     * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>
+     * formbtted RDN strings. Thbt is the vblues bre used
+     * literblly (not pbrsed) bnd bssumed to be unescbped.
      *
-     * @param type The non-null and non-empty string attribute type.
-     * @param value The non-null and non-empty attribute value.
-     * @return The updated Rdn, not a new one. Cannot be null.
+     * @pbrbm type The non-null bnd non-empty string bttribute type.
+     * @pbrbm vblue The non-null bnd non-empty bttribute vblue.
+     * @return The updbted Rdn, not b new one. Cbnnot be null.
      * @see #toString()
      */
-    Rdn put(String type, Object value) {
+    Rdn put(String type, Object vblue) {
 
-        // create new Entry
+        // crebte new Entry
         RdnEntry newEntry = new RdnEntry();
         newEntry.type =  type;
-        if (value instanceof byte[]) {  // clone the byte array
-            newEntry.value = ((byte[]) value).clone();
+        if (vblue instbnceof byte[]) {  // clone the byte brrby
+            newEntry.vblue = ((byte[]) vblue).clone();
         } else {
-            newEntry.value = value;
+            newEntry.vblue = vblue;
         }
-        entries.add(newEntry);
+        entries.bdd(newEntry);
         return this;
     }
 
@@ -246,425 +246,425 @@ public class Rdn implements Serializable, Comparable<Object> {
     }
 
     /**
-     * Retrieves one of this Rdn's value.
-     * This is a convenience method for obtaining the value,
-     * when the RDN contains a single type and value mapping,
-     * which is the common RDN usage.
+     * Retrieves one of this Rdn's vblue.
+     * This is b convenience method for obtbining the vblue,
+     * when the RDN contbins b single type bnd vblue mbpping,
+     * which is the common RDN usbge.
      * <p>
-     * For a multi-valued RDN, this method returns value corresponding
+     * For b multi-vblued RDN, this method returns vblue corresponding
      * to the type returned by {@link #getType() getType()} method.
      *
-     * @return The non-null attribute value.
+     * @return The non-null bttribute vblue.
      */
-    public Object getValue() {
-        return entries.get(0).getValue();
+    public Object getVblue() {
+        return entries.get(0).getVblue();
     }
 
     /**
      * Retrieves one of this Rdn's type.
-     * This is a convenience method for obtaining the type,
-     * when the RDN contains a single type and value mapping,
-     * which is the common RDN usage.
+     * This is b convenience method for obtbining the type,
+     * when the RDN contbins b single type bnd vblue mbpping,
+     * which is the common RDN usbge.
      * <p>
-     * For a multi-valued RDN, the type/value pairs have
-     * no specific order defined on them. In that case, this method
-     * returns type of one of the type/value pairs.
-     * The {@link #getValue() getValue()} method returns the
-     * value corresponding to the type returned by this method.
+     * For b multi-vblued RDN, the type/vblue pbirs hbve
+     * no specific order defined on them. In thbt cbse, this method
+     * returns type of one of the type/vblue pbirs.
+     * The {@link #getVblue() getVblue()} method returns the
+     * vblue corresponding to the type returned by this method.
      *
-     * @return The non-null attribute type.
+     * @return The non-null bttribute type.
      */
     public String getType() {
         return entries.get(0).getType();
     }
 
     /**
-     * Returns this Rdn as a string represented in a format defined by
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a> and described
-     * in the class description for {@link javax.naming.ldap.LdapName LdapName}.
+     * Returns this Rdn bs b string represented in b formbt defined by
+     * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b> bnd described
+     * in the clbss description for {@link jbvbx.nbming.ldbp.LdbpNbme LdbpNbme}.
      *
-     * @return The string representation of the Rdn.
+     * @return The string representbtion of the Rdn.
      */
     public String toString() {
         StringBuilder builder = new StringBuilder();
         int size = entries.size();
         if (size > 0) {
-            builder.append(entries.get(0));
+            builder.bppend(entries.get(0));
         }
         for (int next = 1; next < size; next++) {
-            builder.append('+');
-            builder.append(entries.get(next));
+            builder.bppend('+');
+            builder.bppend(entries.get(next));
         }
         return builder.toString();
     }
 
     /**
-     * Compares this Rdn with the specified Object for order.
-     * Returns a negative integer, zero, or a positive integer as this
-     * Rdn is less than, equal to, or greater than the given Object.
+     * Compbres this Rdn with the specified Object for order.
+     * Returns b negbtive integer, zero, or b positive integer bs this
+     * Rdn is less thbn, equbl to, or grebter thbn the given Object.
      * <p>
-     * If obj is null or not an instance of Rdn, ClassCastException
+     * If obj is null or not bn instbnce of Rdn, ClbssCbstException
      * is thrown.
      * <p>
-     * The attribute type and value pairs of the RDNs are lined up
-     * against each other and compared lexicographically. The order of
-     * components in multi-valued Rdns (such as "ou=Sales+cn=Bob") is not
-     * significant.
+     * The bttribute type bnd vblue pbirs of the RDNs bre lined up
+     * bgbinst ebch other bnd compbred lexicogrbphicblly. The order of
+     * components in multi-vblued Rdns (such bs "ou=Sbles+cn=Bob") is not
+     * significbnt.
      *
-     * @param obj The non-null object to compare against.
-     * @return  A negative integer, zero, or a positive integer as this Rdn
-     *          is less than, equal to, or greater than the given Object.
-     * @exception ClassCastException if obj is null or not a Rdn.
+     * @pbrbm obj The non-null object to compbre bgbinst.
+     * @return  A negbtive integer, zero, or b positive integer bs this Rdn
+     *          is less thbn, equbl to, or grebter thbn the given Object.
+     * @exception ClbssCbstException if obj is null or not b Rdn.
      */
-    public int compareTo(Object obj) {
-        if (!(obj instanceof Rdn)) {
-            throw new ClassCastException("The obj is not a Rdn");
+    public int compbreTo(Object obj) {
+        if (!(obj instbnceof Rdn)) {
+            throw new ClbssCbstException("The obj is not b Rdn");
         }
         if (obj == this) {
             return 0;
         }
-        Rdn that = (Rdn) obj;
-        int minSize = Math.min(entries.size(), that.entries.size());
+        Rdn thbt = (Rdn) obj;
+        int minSize = Mbth.min(entries.size(), thbt.entries.size());
         for (int i = 0; i < minSize; i++) {
 
-            // Compare a single pair of type/value pairs.
-            int diff = entries.get(i).compareTo(that.entries.get(i));
+            // Compbre b single pbir of type/vblue pbirs.
+            int diff = entries.get(i).compbreTo(thbt.entries.get(i));
             if (diff != 0) {
                 return diff;
             }
         }
-        return (entries.size() - that.entries.size());  // longer RDN wins
+        return (entries.size() - thbt.entries.size());  // longer RDN wins
     }
 
     /**
-     * Compares the specified Object with this Rdn for equality.
-     * Returns true if the given object is also a Rdn and the two Rdns
-     * represent the same attribute type and value mappings. The order of
-     * components in multi-valued Rdns (such as "ou=Sales+cn=Bob") is not
-     * significant.
+     * Compbres the specified Object with this Rdn for equblity.
+     * Returns true if the given object is blso b Rdn bnd the two Rdns
+     * represent the sbme bttribute type bnd vblue mbppings. The order of
+     * components in multi-vblued Rdns (such bs "ou=Sbles+cn=Bob") is not
+     * significbnt.
      * <p>
-     * Type and value equality matching is done as below:
+     * Type bnd vblue equblity mbtching is done bs below:
      * <ul>
-     * <li> The types are compared for equality with their case ignored.
-     * <li> String values with different but equivalent usage of quoting,
-     * escaping, or UTF8-hex-encoding are considered equal.
-     * The case of the values is ignored during the comparison.
+     * <li> The types bre compbred for equblity with their cbse ignored.
+     * <li> String vblues with different but equivblent usbge of quoting,
+     * escbping, or UTF8-hex-encoding bre considered equbl.
+     * The cbse of the vblues is ignored during the compbrison.
      * </ul>
      * <p>
-     * If obj is null or not an instance of Rdn, false is returned.
+     * If obj is null or not bn instbnce of Rdn, fblse is returned.
      *
-     * @param obj object to be compared for equality with this Rdn.
-     * @return true if the specified object is equal to this Rdn.
-     * @see #hashCode()
+     * @pbrbm obj object to be compbred for equblity with this Rdn.
+     * @return true if the specified object is equbl to this Rdn.
+     * @see #hbshCode()
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Rdn)) {
-            return false;
+        if (!(obj instbnceof Rdn)) {
+            return fblse;
         }
-        Rdn that = (Rdn) obj;
-        if (entries.size() != that.size()) {
-            return false;
+        Rdn thbt = (Rdn) obj;
+        if (entries.size() != thbt.size()) {
+            return fblse;
         }
         for (int i = 0; i < entries.size(); i++) {
-            if (!entries.get(i).equals(that.entries.get(i))) {
-                return false;
+            if (!entries.get(i).equbls(thbt.entries.get(i))) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Returns the hash code of this RDN. Two RDNs that are
-     * equal (according to the equals method) will have the same
-     * hash code.
+     * Returns the hbsh code of this RDN. Two RDNs thbt bre
+     * equbl (bccording to the equbls method) will hbve the sbme
+     * hbsh code.
      *
-     * @return An int representing the hash code of this Rdn.
-     * @see #equals
+     * @return An int representing the hbsh code of this Rdn.
+     * @see #equbls
      */
-    public int hashCode() {
+    public int hbshCode() {
 
-        // Sum up the hash codes of the components.
-        int hash = 0;
+        // Sum up the hbsh codes of the components.
+        int hbsh = 0;
 
-        // For each type/value pair...
+        // For ebch type/vblue pbir...
         for (int i = 0; i < entries.size(); i++) {
-            hash += entries.get(i).hashCode();
+            hbsh += entries.get(i).hbshCode();
         }
-        return hash;
+        return hbsh;
     }
 
     /**
-     * Retrieves the {@link javax.naming.directory.Attributes Attributes}
-     * view of the type/value mappings contained in this Rdn.
+     * Retrieves the {@link jbvbx.nbming.directory.Attributes Attributes}
+     * view of the type/vblue mbppings contbined in this Rdn.
      *
-     * @return  The non-null attributes containing the type/value
-     *          mappings of this Rdn.
+     * @return  The non-null bttributes contbining the type/vblue
+     *          mbppings of this Rdn.
      */
     public Attributes toAttributes() {
-        Attributes attrs = new BasicAttributes(true);
+        Attributes bttrs = new BbsicAttributes(true);
         for (int i = 0; i < entries.size(); i++) {
             RdnEntry entry = entries.get(i);
-            Attribute attr = attrs.put(entry.getType(), entry.getValue());
-            if (attr != null) {
-                attr.add(entry.getValue());
-                attrs.put(attr);
+            Attribute bttr = bttrs.put(entry.getType(), entry.getVblue());
+            if (bttr != null) {
+                bttr.bdd(entry.getVblue());
+                bttrs.put(bttr);
             }
         }
-        return attrs;
+        return bttrs;
     }
 
 
-    private static class RdnEntry implements Comparable<RdnEntry> {
-        private String type;
-        private Object value;
+    privbte stbtic clbss RdnEntry implements Compbrbble<RdnEntry> {
+        privbte String type;
+        privbte Object vblue;
 
-        // If non-null, a canonical representation of the value suitable
-        // for comparison using String.compareTo()
-        private String comparable = null;
+        // If non-null, b cbnonicbl representbtion of the vblue suitbble
+        // for compbrison using String.compbreTo()
+        privbte String compbrbble = null;
 
         String getType() {
             return type;
         }
 
-        Object getValue() {
-            return value;
+        Object getVblue() {
+            return vblue;
         }
 
-        public int compareTo(RdnEntry that) {
-            int diff = type.compareToIgnoreCase(that.type);
+        public int compbreTo(RdnEntry thbt) {
+            int diff = type.compbreToIgnoreCbse(thbt.type);
             if (diff != 0) {
                 return diff;
             }
-            if (value.equals(that.value)) {     // try shortcut
+            if (vblue.equbls(thbt.vblue)) {     // try shortcut
                 return 0;
             }
-            return getValueComparable().compareTo(
-                        that.getValueComparable());
+            return getVblueCompbrbble().compbreTo(
+                        thbt.getVblueCompbrbble());
         }
 
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this) {
                 return true;
             }
-            if (!(obj instanceof RdnEntry)) {
-                return false;
+            if (!(obj instbnceof RdnEntry)) {
+                return fblse;
             }
 
-            // Any change here must be reflected in hashCode()
-            RdnEntry that = (RdnEntry) obj;
-            return (type.equalsIgnoreCase(that.type)) &&
-                        (getValueComparable().equals(
-                        that.getValueComparable()));
+            // Any chbnge here must be reflected in hbshCode()
+            RdnEntry thbt = (RdnEntry) obj;
+            return (type.equblsIgnoreCbse(thbt.type)) &&
+                        (getVblueCompbrbble().equbls(
+                        thbt.getVblueCompbrbble()));
         }
 
-        public int hashCode() {
-            return (type.toUpperCase(Locale.ENGLISH).hashCode() +
-                getValueComparable().hashCode());
+        public int hbshCode() {
+            return (type.toUpperCbse(Locble.ENGLISH).hbshCode() +
+                getVblueCompbrbble().hbshCode());
         }
 
         public String toString() {
-            return type + "=" + escapeValue(value);
+            return type + "=" + escbpeVblue(vblue);
         }
 
-        private String getValueComparable() {
-            if (comparable != null) {
-                return comparable;              // return cached result
+        privbte String getVblueCompbrbble() {
+            if (compbrbble != null) {
+                return compbrbble;              // return cbched result
             }
 
-            // cache result
-            if (value instanceof byte[]) {
-                comparable = escapeBinaryValue((byte[]) value);
+            // cbche result
+            if (vblue instbnceof byte[]) {
+                compbrbble = escbpeBinbryVblue((byte[]) vblue);
             } else {
-                comparable = ((String) value).toUpperCase(Locale.ENGLISH);
+                compbrbble = ((String) vblue).toUpperCbse(Locble.ENGLISH);
             }
-            return comparable;
+            return compbrbble;
         }
     }
 
     /**
-     * Retrieves the number of attribute type/value pairs in this Rdn.
-     * @return The non-negative number of type/value pairs in this Rdn.
+     * Retrieves the number of bttribute type/vblue pbirs in this Rdn.
+     * @return The non-negbtive number of type/vblue pbirs in this Rdn.
      */
     public int size() {
         return entries.size();
     }
 
     /**
-     * Given the value of an attribute, returns a string escaped according
+     * Given the vblue of bn bttribute, returns b string escbped bccording
      * to the rules specified in
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>.
+     * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>.
      * <p>
-     * For example, if the val is "Sue, Grabbit and Runn", the escaped
-     * value returned by this method is "Sue\, Grabbit and Runn".
+     * For exbmple, if the vbl is "Sue, Grbbbit bnd Runn", the escbped
+     * vblue returned by this method is "Sue\, Grbbbit bnd Runn".
      * <p>
-     * A string value is represented as a String and binary value
-     * as a byte array.
+     * A string vblue is represented bs b String bnd binbry vblue
+     * bs b byte brrby.
      *
-     * @param val The non-null object to be escaped.
-     * @return Escaped string value.
-     * @throws ClassCastException if val is is not a String or byte array.
+     * @pbrbm vbl The non-null object to be escbped.
+     * @return Escbped string vblue.
+     * @throws ClbssCbstException if vbl is is not b String or byte brrby.
      */
-    public static String escapeValue(Object val) {
-        return (val instanceof byte[])
-                ? escapeBinaryValue((byte[])val)
-                : escapeStringValue((String)val);
+    public stbtic String escbpeVblue(Object vbl) {
+        return (vbl instbnceof byte[])
+                ? escbpeBinbryVblue((byte[])vbl)
+                : escbpeStringVblue((String)vbl);
     }
 
     /*
-     * Given the value of a string-valued attribute, returns a
-     * string suitable for inclusion in a DN.  This is accomplished by
-     * using backslash (\) to escape the following characters:
-     *  leading and trailing whitespace
+     * Given the vblue of b string-vblued bttribute, returns b
+     * string suitbble for inclusion in b DN.  This is bccomplished by
+     * using bbckslbsh (\) to escbpe the following chbrbcters:
+     *  lebding bnd trbiling whitespbce
      *  , = + < > # ; " \
      */
-    private static final String escapees = ",=+<>#;\"\\";
+    privbte stbtic finbl String escbpees = ",=+<>#;\"\\";
 
-    private static String escapeStringValue(String val) {
+    privbte stbtic String escbpeStringVblue(String vbl) {
 
-            char[] chars = val.toCharArray();
-            StringBuilder builder = new StringBuilder(2 * val.length());
+            chbr[] chbrs = vbl.toChbrArrby();
+            StringBuilder builder = new StringBuilder(2 * vbl.length());
 
-            // Find leading and trailing whitespace.
-            int lead;   // index of first char that is not leading whitespace
-            for (lead = 0; lead < chars.length; lead++) {
-                if (!isWhitespace(chars[lead])) {
-                    break;
+            // Find lebding bnd trbiling whitespbce.
+            int lebd;   // index of first chbr thbt is not lebding whitespbce
+            for (lebd = 0; lebd < chbrs.length; lebd++) {
+                if (!isWhitespbce(chbrs[lebd])) {
+                    brebk;
                 }
             }
-            int trail;  // index of last char that is not trailing whitespace
-            for (trail = chars.length - 1; trail >= 0; trail--) {
-                if (!isWhitespace(chars[trail])) {
-                    break;
+            int trbil;  // index of lbst chbr thbt is not trbiling whitespbce
+            for (trbil = chbrs.length - 1; trbil >= 0; trbil--) {
+                if (!isWhitespbce(chbrs[trbil])) {
+                    brebk;
                 }
             }
 
-            for (int i = 0; i < chars.length; i++) {
-                char c = chars[i];
-                if ((i < lead) || (i > trail) || (escapees.indexOf(c) >= 0)) {
-                    builder.append('\\');
+            for (int i = 0; i < chbrs.length; i++) {
+                chbr c = chbrs[i];
+                if ((i < lebd) || (i > trbil) || (escbpees.indexOf(c) >= 0)) {
+                    builder.bppend('\\');
                 }
-                builder.append(c);
+                builder.bppend(c);
             }
             return builder.toString();
     }
 
     /*
-     * Given the value of a binary attribute, returns a string
-     * suitable for inclusion in a DN (such as "#CEB1DF80").
-     * TBD: This method should actually generate the ber encoding
-     * of the binary value
+     * Given the vblue of b binbry bttribute, returns b string
+     * suitbble for inclusion in b DN (such bs "#CEB1DF80").
+     * TBD: This method should bctublly generbte the ber encoding
+     * of the binbry vblue
      */
-    private static String escapeBinaryValue(byte[] val) {
+    privbte stbtic String escbpeBinbryVblue(byte[] vbl) {
 
-        StringBuilder builder = new StringBuilder(1 + 2 * val.length);
-        builder.append("#");
+        StringBuilder builder = new StringBuilder(1 + 2 * vbl.length);
+        builder.bppend("#");
 
-        for (int i = 0; i < val.length; i++) {
-            byte b = val[i];
-            builder.append(Character.forDigit(0xF & (b >>> 4), 16));
-            builder.append(Character.forDigit(0xF & b, 16));
+        for (int i = 0; i < vbl.length; i++) {
+            byte b = vbl[i];
+            builder.bppend(Chbrbcter.forDigit(0xF & (b >>> 4), 16));
+            builder.bppend(Chbrbcter.forDigit(0xF & b, 16));
         }
         return builder.toString();
     }
 
     /**
-     * Given an attribute value string formatted according to the rules
+     * Given bn bttribute vblue string formbtted bccording to the rules
      * specified in
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>,
-     * returns the unformatted value.  Escapes and quotes are
-     * stripped away, and hex-encoded UTF-8 is converted to equivalent
-     * UTF-16 characters. Returns a string value as a String, and a
-     * binary value as a byte array.
+     * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>,
+     * returns the unformbtted vblue.  Escbpes bnd quotes bre
+     * stripped bwby, bnd hex-encoded UTF-8 is converted to equivblent
+     * UTF-16 chbrbcters. Returns b string vblue bs b String, bnd b
+     * binbry vblue bs b byte brrby.
      * <p>
-     * Legal and illegal values are defined in RFC 2253.
-     * This method is generous in accepting the values and does not
-     * catch all illegal values.
-     * Therefore, passing in an illegal value might not necessarily
-     * trigger an <tt>IllegalArgumentException</tt>.
+     * Legbl bnd illegbl vblues bre defined in RFC 2253.
+     * This method is generous in bccepting the vblues bnd does not
+     * cbtch bll illegbl vblues.
+     * Therefore, pbssing in bn illegbl vblue might not necessbrily
+     * trigger bn <tt>IllegblArgumentException</tt>.
      *
-     * @param   val     The non-null string to be unescaped.
-     * @return          Unescaped value.
-     * @throws          IllegalArgumentException When an Illegal value
+     * @pbrbm   vbl     The non-null string to be unescbped.
+     * @return          Unescbped vblue.
+     * @throws          IllegblArgumentException When bn Illegbl vblue
      *                  is provided.
      */
-    public static Object unescapeValue(String val) {
+    public stbtic Object unescbpeVblue(String vbl) {
 
-            char[] chars = val.toCharArray();
+            chbr[] chbrs = vbl.toChbrArrby();
             int beg = 0;
-            int end = chars.length;
+            int end = chbrs.length;
 
-            // Trim off leading and trailing whitespace.
-            while ((beg < end) && isWhitespace(chars[beg])) {
+            // Trim off lebding bnd trbiling whitespbce.
+            while ((beg < end) && isWhitespbce(chbrs[beg])) {
                 ++beg;
             }
 
-            while ((beg < end) && isWhitespace(chars[end - 1])) {
+            while ((beg < end) && isWhitespbce(chbrs[end - 1])) {
                 --end;
             }
 
-            // Add back the trailing whitespace with a preceding '\'
-            // (escaped or unescaped) that was taken off in the above
-            // loop. Whether or not to retain this whitespace is decided below.
-            if (end != chars.length &&
+            // Add bbck the trbiling whitespbce with b preceding '\'
+            // (escbped or unescbped) thbt wbs tbken off in the bbove
+            // loop. Whether or not to retbin this whitespbce is decided below.
+            if (end != chbrs.length &&
                     (beg < end) &&
-                    chars[end - 1] == '\\') {
+                    chbrs[end - 1] == '\\') {
                 end++;
             }
             if (beg >= end) {
                 return "";
             }
 
-            if (chars[beg] == '#') {
-                // Value is binary (eg: "#CEB1DF80").
-                return decodeHexPairs(chars, ++beg, end);
+            if (chbrs[beg] == '#') {
+                // Vblue is binbry (eg: "#CEB1DF80").
+                return decodeHexPbirs(chbrs, ++beg, end);
             }
 
             // Trim off quotes.
-            if ((chars[beg] == '\"') && (chars[end - 1] == '\"')) {
+            if ((chbrs[beg] == '\"') && (chbrs[end - 1] == '\"')) {
                 ++beg;
                 --end;
             }
 
             StringBuilder builder = new StringBuilder(end - beg);
-            int esc = -1; // index of the last escaped character
+            int esc = -1; // index of the lbst escbped chbrbcter
 
             for (int i = beg; i < end; i++) {
-                if ((chars[i] == '\\') && (i + 1 < end)) {
-                    if (!Character.isLetterOrDigit(chars[i + 1])) {
-                        ++i;                            // skip backslash
-                        builder.append(chars[i]);       // snarf escaped char
+                if ((chbrs[i] == '\\') && (i + 1 < end)) {
+                    if (!Chbrbcter.isLetterOrDigit(chbrs[i + 1])) {
+                        ++i;                            // skip bbckslbsh
+                        builder.bppend(chbrs[i]);       // snbrf escbped chbr
                         esc = i;
                     } else {
 
-                        // Convert hex-encoded UTF-8 to 16-bit chars.
-                        byte[] utf8 = getUtf8Octets(chars, i, end);
+                        // Convert hex-encoded UTF-8 to 16-bit chbrs.
+                        byte[] utf8 = getUtf8Octets(chbrs, i, end);
                         if (utf8.length > 0) {
                             try {
-                                builder.append(new String(utf8, "UTF8"));
-                            } catch (java.io.UnsupportedEncodingException e) {
-                                // shouldn't happen
+                                builder.bppend(new String(utf8, "UTF8"));
+                            } cbtch (jbvb.io.UnsupportedEncodingException e) {
+                                // shouldn't hbppen
                             }
                             i += utf8.length * 3 - 1;
-                        } else { // no utf8 bytes available, invalid DN
+                        } else { // no utf8 bytes bvbilbble, invblid DN
 
-                            // '/' has no meaning, throw exception
-                            throw new IllegalArgumentException(
-                                "Not a valid attribute string value:" +
-                                val + ",improper usage of backslash");
+                            // '/' hbs no mebning, throw exception
+                            throw new IllegblArgumentException(
+                                "Not b vblid bttribute string vblue:" +
+                                vbl + ",improper usbge of bbckslbsh");
                         }
                     }
                 } else {
-                    builder.append(chars[i]);   // snarf unescaped char
+                    builder.bppend(chbrs[i]);   // snbrf unescbped chbr
                 }
             }
 
-            // Get rid of the unescaped trailing whitespace with the
-            // preceding '\' character that was previously added back.
+            // Get rid of the unescbped trbiling whitespbce with the
+            // preceding '\' chbrbcter thbt wbs previously bdded bbck.
             int len = builder.length();
-            if (isWhitespace(builder.charAt(len - 1)) && esc != (end - 1)) {
+            if (isWhitespbce(builder.chbrAt(len - 1)) && esc != (end - 1)) {
                 builder.setLength(len - 1);
             }
             return builder.toString();
@@ -672,46 +672,46 @@ public class Rdn implements Serializable, Comparable<Object> {
 
 
         /*
-         * Given an array of chars (with starting and ending indexes into it)
-         * representing bytes encoded as hex-pairs (such as "CEB1DF80"),
-         * returns a byte array containing the decoded bytes.
+         * Given bn brrby of chbrs (with stbrting bnd ending indexes into it)
+         * representing bytes encoded bs hex-pbirs (such bs "CEB1DF80"),
+         * returns b byte brrby contbining the decoded bytes.
          */
-        private static byte[] decodeHexPairs(char[] chars, int beg, int end) {
+        privbte stbtic byte[] decodeHexPbirs(chbr[] chbrs, int beg, int end) {
             byte[] bytes = new byte[(end - beg) / 2];
             for (int i = 0; beg + 1 < end; i++) {
-                int hi = Character.digit(chars[beg], 16);
-                int lo = Character.digit(chars[beg + 1], 16);
+                int hi = Chbrbcter.digit(chbrs[beg], 16);
+                int lo = Chbrbcter.digit(chbrs[beg + 1], 16);
                 if (hi < 0 || lo < 0) {
-                    break;
+                    brebk;
                 }
                 bytes[i] = (byte)((hi<<4) + lo);
                 beg += 2;
             }
             if (beg != end) {
-                throw new IllegalArgumentException(
-                        "Illegal attribute value: " + new String(chars));
+                throw new IllegblArgumentException(
+                        "Illegbl bttribute vblue: " + new String(chbrs));
             }
             return bytes;
         }
 
         /*
-         * Given an array of chars (with starting and ending indexes into it),
-         * finds the largest prefix consisting of hex-encoded UTF-8 octets,
-         * and returns a byte array containing the corresponding UTF-8 octets.
+         * Given bn brrby of chbrs (with stbrting bnd ending indexes into it),
+         * finds the lbrgest prefix consisting of hex-encoded UTF-8 octets,
+         * bnd returns b byte brrby contbining the corresponding UTF-8 octets.
          *
          * Hex-encoded UTF-8 octets look like this:
          *      \03\B1\DF\80
          */
-        private static byte[] getUtf8Octets(char[] chars, int beg, int end) {
-            byte[] utf8 = new byte[(end - beg) / 3];    // allow enough room
+        privbte stbtic byte[] getUtf8Octets(chbr[] chbrs, int beg, int end) {
+            byte[] utf8 = new byte[(end - beg) / 3];    // bllow enough room
             int len = 0;        // index of first unused byte in utf8
 
             while ((beg + 2 < end) &&
-                   (chars[beg++] == '\\')) {
-                int hi = Character.digit(chars[beg++], 16);
-                int lo = Character.digit(chars[beg++], 16);
+                   (chbrs[beg++] == '\\')) {
+                int hi = Chbrbcter.digit(chbrs[beg++], 16);
+                int lo = Chbrbcter.digit(chbrs[beg++], 16);
                 if (hi < 0 || lo < 0) {
-                   break;
+                   brebk;
                 }
                 utf8[len++] = (byte)((hi<<4) + lo);
             }
@@ -719,41 +719,41 @@ public class Rdn implements Serializable, Comparable<Object> {
                 return utf8;
             } else {
                 byte[] res = new byte[len];
-                System.arraycopy(utf8, 0, res, 0, len);
+                System.brrbycopy(utf8, 0, res, 0, len);
                 return res;
             }
         }
 
     /*
-     * Best guess as to what RFC 2253 means by "whitespace".
+     * Best guess bs to whbt RFC 2253 mebns by "whitespbce".
      */
-    private static boolean isWhitespace(char c) {
+    privbte stbtic boolebn isWhitespbce(chbr c) {
         return (c == ' ' || c == '\r');
     }
 
     /**
-     * Serializes only the unparsed RDN, for compactness and to avoid
-     * any implementation dependency.
+     * Seriblizes only the unpbrsed RDN, for compbctness bnd to bvoid
+     * bny implementbtion dependency.
      *
-     * @serialData      The RDN string
+     * @seriblDbtb      The RDN string
      */
-    private void writeObject(ObjectOutputStream s)
-            throws java.io.IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm s)
+            throws jbvb.io.IOException {
+        s.defbultWriteObject();
         s.writeObject(toString());
     }
 
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        entries = new ArrayList<>(DEFAULT_SIZE);
-        String unparsed = (String) s.readObject();
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
+        entries = new ArrbyList<>(DEFAULT_SIZE);
+        String unpbrsed = (String) s.rebdObject();
         try {
-            (new Rfc2253Parser(unparsed)).parseRdn(this);
-        } catch (InvalidNameException e) {
-            // shouldn't happen
-            throw new java.io.StreamCorruptedException(
-                    "Invalid name: " + unparsed);
+            (new Rfc2253Pbrser(unpbrsed)).pbrseRdn(this);
+        } cbtch (InvblidNbmeException e) {
+            // shouldn't hbppen
+            throw new jbvb.io.StrebmCorruptedException(
+                    "Invblid nbme: " + unpbrsed);
         }
     }
 }

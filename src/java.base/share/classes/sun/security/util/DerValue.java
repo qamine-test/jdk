@@ -1,797 +1,797 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.*;
-import java.math.BigInteger;
-import java.util.Date;
+import jbvb.io.*;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Dbte;
 import sun.misc.IOUtils;
 
 /**
- * Represents a single DER-encoded value.  DER encoding rules are a subset
- * of the "Basic" Encoding Rules (BER), but they only support a single way
- * ("Definite" encoding) to encode any given value.
+ * Represents b single DER-encoded vblue.  DER encoding rules bre b subset
+ * of the "Bbsic" Encoding Rules (BER), but they only support b single wby
+ * ("Definite" encoding) to encode bny given vblue.
  *
- * <P>All DER-encoded data are triples <em>{type, length, data}</em>.  This
- * class represents such tagged values as they have been read (or constructed),
- * and provides structured access to the encoded data.
+ * <P>All DER-encoded dbtb bre triples <em>{type, length, dbtb}</em>.  This
+ * clbss represents such tbgged vblues bs they hbve been rebd (or constructed),
+ * bnd provides structured bccess to the encoded dbtb.
  *
- * <P>At this time, this class supports only a subset of the types of DER
- * data encodings which are defined.  That subset is sufficient for parsing
- * most X.509 certificates, and working with selected additional formats
- * (such as PKCS #10 certificate requests, and some kinds of PKCS #7 data).
+ * <P>At this time, this clbss supports only b subset of the types of DER
+ * dbtb encodings which bre defined.  Thbt subset is sufficient for pbrsing
+ * most X.509 certificbtes, bnd working with selected bdditionbl formbts
+ * (such bs PKCS #10 certificbte requests, bnd some kinds of PKCS #7 dbtb).
  *
  * A note with respect to T61/Teletex strings: From RFC 1617, section 4.1.3
- * and RFC 3280, section 4.1.2.4., we assume that this kind of string will
- * contain ISO-8859-1 characters only.
+ * bnd RFC 3280, section 4.1.2.4., we bssume thbt this kind of string will
+ * contbin ISO-8859-1 chbrbcters only.
  *
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Dbvid Brownell
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class DerValue {
-    /** The tag class types */
-    public static final byte TAG_UNIVERSAL = (byte)0x000;
-    public static final byte TAG_APPLICATION = (byte)0x040;
-    public static final byte TAG_CONTEXT = (byte)0x080;
-    public static final byte TAG_PRIVATE = (byte)0x0c0;
+public clbss DerVblue {
+    /** The tbg clbss types */
+    public stbtic finbl byte TAG_UNIVERSAL = (byte)0x000;
+    public stbtic finbl byte TAG_APPLICATION = (byte)0x040;
+    public stbtic finbl byte TAG_CONTEXT = (byte)0x080;
+    public stbtic finbl byte TAG_PRIVATE = (byte)0x0c0;
 
-    /** The DER tag of the value; one of the tag_ constants. */
-    public byte                 tag;
+    /** The DER tbg of the vblue; one of the tbg_ constbnts. */
+    public byte                 tbg;
 
     protected DerInputBuffer    buffer;
 
     /**
-     * The DER-encoded data of the value, never null
+     * The DER-encoded dbtb of the vblue, never null
      */
-    public final DerInputStream data;
+    public finbl DerInputStrebm dbtb;
 
-    private int                 length;
+    privbte int                 length;
 
     /*
-     * The type starts at the first byte of the encoding, and
-     * is one of these tag_* values.  That may be all the type
-     * data that is needed.
+     * The type stbrts bt the first byte of the encoding, bnd
+     * is one of these tbg_* vblues.  Thbt mby be bll the type
+     * dbtb thbt is needed.
      */
 
     /*
-     * These tags are the "universal" tags ... they mean the same
-     * in all contexts.  (Mask with 0x1f -- five bits.)
+     * These tbgs bre the "universbl" tbgs ... they mebn the sbme
+     * in bll contexts.  (Mbsk with 0x1f -- five bits.)
      */
 
-    /** Tag value indicating an ASN.1 "BOOLEAN" value. */
-    public final static byte    tag_Boolean = 0x01;
+    /** Tbg vblue indicbting bn ASN.1 "BOOLEAN" vblue. */
+    public finbl stbtic byte    tbg_Boolebn = 0x01;
 
-    /** Tag value indicating an ASN.1 "INTEGER" value. */
-    public final static byte    tag_Integer = 0x02;
+    /** Tbg vblue indicbting bn ASN.1 "INTEGER" vblue. */
+    public finbl stbtic byte    tbg_Integer = 0x02;
 
-    /** Tag value indicating an ASN.1 "BIT STRING" value. */
-    public final static byte    tag_BitString = 0x03;
+    /** Tbg vblue indicbting bn ASN.1 "BIT STRING" vblue. */
+    public finbl stbtic byte    tbg_BitString = 0x03;
 
-    /** Tag value indicating an ASN.1 "OCTET STRING" value. */
-    public final static byte    tag_OctetString = 0x04;
+    /** Tbg vblue indicbting bn ASN.1 "OCTET STRING" vblue. */
+    public finbl stbtic byte    tbg_OctetString = 0x04;
 
-    /** Tag value indicating an ASN.1 "NULL" value. */
-    public final static byte    tag_Null = 0x05;
+    /** Tbg vblue indicbting bn ASN.1 "NULL" vblue. */
+    public finbl stbtic byte    tbg_Null = 0x05;
 
-    /** Tag value indicating an ASN.1 "OBJECT IDENTIFIER" value. */
-    public final static byte    tag_ObjectId = 0x06;
+    /** Tbg vblue indicbting bn ASN.1 "OBJECT IDENTIFIER" vblue. */
+    public finbl stbtic byte    tbg_ObjectId = 0x06;
 
-    /** Tag value including an ASN.1 "ENUMERATED" value */
-    public final static byte    tag_Enumerated = 0x0A;
+    /** Tbg vblue including bn ASN.1 "ENUMERATED" vblue */
+    public finbl stbtic byte    tbg_Enumerbted = 0x0A;
 
-    /** Tag value indicating an ASN.1 "UTF8String" value. */
-    public final static byte    tag_UTF8String = 0x0C;
+    /** Tbg vblue indicbting bn ASN.1 "UTF8String" vblue. */
+    public finbl stbtic byte    tbg_UTF8String = 0x0C;
 
-    /** Tag value including a "printable" string */
-    public final static byte    tag_PrintableString = 0x13;
+    /** Tbg vblue including b "printbble" string */
+    public finbl stbtic byte    tbg_PrintbbleString = 0x13;
 
-    /** Tag value including a "teletype" string */
-    public final static byte    tag_T61String = 0x14;
+    /** Tbg vblue including b "teletype" string */
+    public finbl stbtic byte    tbg_T61String = 0x14;
 
-    /** Tag value including an ASCII string */
-    public final static byte    tag_IA5String = 0x16;
+    /** Tbg vblue including bn ASCII string */
+    public finbl stbtic byte    tbg_IA5String = 0x16;
 
-    /** Tag value indicating an ASN.1 "UTCTime" value. */
-    public final static byte    tag_UtcTime = 0x17;
+    /** Tbg vblue indicbting bn ASN.1 "UTCTime" vblue. */
+    public finbl stbtic byte    tbg_UtcTime = 0x17;
 
-    /** Tag value indicating an ASN.1 "GeneralizedTime" value. */
-    public final static byte    tag_GeneralizedTime = 0x18;
+    /** Tbg vblue indicbting bn ASN.1 "GenerblizedTime" vblue. */
+    public finbl stbtic byte    tbg_GenerblizedTime = 0x18;
 
-    /** Tag value indicating an ASN.1 "GenerallString" value. */
-    public final static byte    tag_GeneralString = 0x1B;
+    /** Tbg vblue indicbting bn ASN.1 "GenerbllString" vblue. */
+    public finbl stbtic byte    tbg_GenerblString = 0x1B;
 
-    /** Tag value indicating an ASN.1 "UniversalString" value. */
-    public final static byte    tag_UniversalString = 0x1C;
+    /** Tbg vblue indicbting bn ASN.1 "UniversblString" vblue. */
+    public finbl stbtic byte    tbg_UniversblString = 0x1C;
 
-    /** Tag value indicating an ASN.1 "BMPString" value. */
-    public final static byte    tag_BMPString = 0x1E;
+    /** Tbg vblue indicbting bn ASN.1 "BMPString" vblue. */
+    public finbl stbtic byte    tbg_BMPString = 0x1E;
 
     // CONSTRUCTED seq/set
 
     /**
-     * Tag value indicating an ASN.1
-     * "SEQUENCE" (zero to N elements, order is significant).
+     * Tbg vblue indicbting bn ASN.1
+     * "SEQUENCE" (zero to N elements, order is significbnt).
      */
-    public final static byte    tag_Sequence = 0x30;
+    public finbl stbtic byte    tbg_Sequence = 0x30;
 
     /**
-     * Tag value indicating an ASN.1
-     * "SEQUENCE OF" (one to N elements, order is significant).
+     * Tbg vblue indicbting bn ASN.1
+     * "SEQUENCE OF" (one to N elements, order is significbnt).
      */
-    public final static byte    tag_SequenceOf = 0x30;
+    public finbl stbtic byte    tbg_SequenceOf = 0x30;
 
     /**
-     * Tag value indicating an ASN.1
-     * "SET" (zero to N members, order does not matter).
+     * Tbg vblue indicbting bn ASN.1
+     * "SET" (zero to N members, order does not mbtter).
      */
-    public final static byte    tag_Set = 0x31;
+    public finbl stbtic byte    tbg_Set = 0x31;
 
     /**
-     * Tag value indicating an ASN.1
-     * "SET OF" (one to N members, order does not matter).
+     * Tbg vblue indicbting bn ASN.1
+     * "SET OF" (one to N members, order does not mbtter).
      */
-    public final static byte    tag_SetOf = 0x31;
+    public finbl stbtic byte    tbg_SetOf = 0x31;
 
     /*
-     * These values are the high order bits for the other kinds of tags.
+     * These vblues bre the high order bits for the other kinds of tbgs.
      */
 
     /**
-     * Returns true if the tag class is UNIVERSAL.
+     * Returns true if the tbg clbss is UNIVERSAL.
      */
-    public boolean isUniversal()      { return ((tag & 0x0c0) == 0x000); }
+    public boolebn isUniversbl()      { return ((tbg & 0x0c0) == 0x000); }
 
     /**
-     * Returns true if the tag class is APPLICATION.
+     * Returns true if the tbg clbss is APPLICATION.
      */
-    public boolean isApplication()    { return ((tag & 0x0c0) == 0x040); }
+    public boolebn isApplicbtion()    { return ((tbg & 0x0c0) == 0x040); }
 
     /**
-     * Returns true iff the CONTEXT SPECIFIC bit is set in the type tag.
-     * This is associated with the ASN.1 "DEFINED BY" syntax.
+     * Returns true iff the CONTEXT SPECIFIC bit is set in the type tbg.
+     * This is bssocibted with the ASN.1 "DEFINED BY" syntbx.
      */
-    public boolean isContextSpecific() { return ((tag & 0x0c0) == 0x080); }
+    public boolebn isContextSpecific() { return ((tbg & 0x0c0) == 0x080); }
 
     /**
-     * Returns true iff the CONTEXT SPECIFIC TAG matches the passed tag.
+     * Returns true iff the CONTEXT SPECIFIC TAG mbtches the pbssed tbg.
      */
-    public boolean isContextSpecific(byte cntxtTag) {
+    public boolebn isContextSpecific(byte cntxtTbg) {
         if (!isContextSpecific()) {
-            return false;
+            return fblse;
         }
-        return ((tag & 0x01f) == cntxtTag);
+        return ((tbg & 0x01f) == cntxtTbg);
     }
 
-    boolean isPrivate()        { return ((tag & 0x0c0) == 0x0c0); }
+    boolebn isPrivbte()        { return ((tbg & 0x0c0) == 0x0c0); }
 
-    /** Returns true iff the CONSTRUCTED bit is set in the type tag. */
-    public boolean isConstructed()    { return ((tag & 0x020) == 0x020); }
+    /** Returns true iff the CONSTRUCTED bit is set in the type tbg. */
+    public boolebn isConstructed()    { return ((tbg & 0x020) == 0x020); }
 
     /**
-     * Returns true iff the CONSTRUCTED TAG matches the passed tag.
+     * Returns true iff the CONSTRUCTED TAG mbtches the pbssed tbg.
      */
-    public boolean isConstructed(byte constructedTag) {
+    public boolebn isConstructed(byte constructedTbg) {
         if (!isConstructed()) {
-            return false;
+            return fblse;
         }
-        return ((tag & 0x01f) == constructedTag);
+        return ((tbg & 0x01f) == constructedTbg);
     }
 
     /**
-     * Creates a PrintableString or UTF8string DER value from a string
+     * Crebtes b PrintbbleString or UTF8string DER vblue from b string
      */
-    public DerValue(String value) throws IOException {
-        boolean isPrintableString = true;
-        for (int i = 0; i < value.length(); i++) {
-            if (!isPrintableStringChar(value.charAt(i))) {
-                isPrintableString = false;
-                break;
+    public DerVblue(String vblue) throws IOException {
+        boolebn isPrintbbleString = true;
+        for (int i = 0; i < vblue.length(); i++) {
+            if (!isPrintbbleStringChbr(vblue.chbrAt(i))) {
+                isPrintbbleString = fblse;
+                brebk;
             }
         }
 
-        data = init(isPrintableString ? tag_PrintableString : tag_UTF8String, value);
+        dbtb = init(isPrintbbleString ? tbg_PrintbbleString : tbg_UTF8String, vblue);
     }
 
     /**
-     * Creates a string type DER value from a String object
-     * @param stringTag the tag for the DER value to create
-     * @param value the String object to use for the DER value
+     * Crebtes b string type DER vblue from b String object
+     * @pbrbm stringTbg the tbg for the DER vblue to crebte
+     * @pbrbm vblue the String object to use for the DER vblue
      */
-    public DerValue(byte stringTag, String value) throws IOException {
-        data = init(stringTag, value);
+    public DerVblue(byte stringTbg, String vblue) throws IOException {
+        dbtb = init(stringTbg, vblue);
     }
 
     /**
-     * Creates a DerValue from a tag and some DER-encoded data.
+     * Crebtes b DerVblue from b tbg bnd some DER-encoded dbtb.
      *
-     * @param tag the DER type tag
-     * @param data the DER-encoded data
+     * @pbrbm tbg the DER type tbg
+     * @pbrbm dbtb the DER-encoded dbtb
      */
-    public DerValue(byte tag, byte[] data) {
-        this.tag = tag;
-        buffer = new DerInputBuffer(data.clone());
-        length = data.length;
-        this.data = new DerInputStream(buffer);
-        this.data.mark(Integer.MAX_VALUE);
+    public DerVblue(byte tbg, byte[] dbtb) {
+        this.tbg = tbg;
+        buffer = new DerInputBuffer(dbtb.clone());
+        length = dbtb.length;
+        this.dbtb = new DerInputStrebm(buffer);
+        this.dbtb.mbrk(Integer.MAX_VALUE);
     }
 
     /*
-     * package private
+     * pbckbge privbte
      */
-    DerValue(DerInputBuffer in) throws IOException {
-        // XXX must also parse BER-encoded constructed
-        // values such as sequences, sets...
+    DerVblue(DerInputBuffer in) throws IOException {
+        // XXX must blso pbrse BER-encoded constructed
+        // vblues such bs sequences, sets...
 
-        tag = (byte)in.read();
-        byte lenByte = (byte)in.read();
-        length = DerInputStream.getLength((lenByte & 0xff), in);
+        tbg = (byte)in.rebd();
+        byte lenByte = (byte)in.rebd();
+        length = DerInputStrebm.getLength((lenByte & 0xff), in);
         if (length == -1) {  // indefinite length encoding found
             DerInputBuffer inbuf = in.dup();
-            int readLen = inbuf.available();
-            int offset = 2;     // for tag and length bytes
-            byte[] indefData = new byte[readLen + offset];
-            indefData[0] = tag;
-            indefData[1] = lenByte;
-            DataInputStream dis = new DataInputStream(inbuf);
-            dis.readFully(indefData, offset, readLen);
+            int rebdLen = inbuf.bvbilbble();
+            int offset = 2;     // for tbg bnd length bytes
+            byte[] indefDbtb = new byte[rebdLen + offset];
+            indefDbtb[0] = tbg;
+            indefDbtb[1] = lenByte;
+            DbtbInputStrebm dis = new DbtbInputStrebm(inbuf);
+            dis.rebdFully(indefDbtb, offset, rebdLen);
             dis.close();
             DerIndefLenConverter derIn = new DerIndefLenConverter();
-            inbuf = new DerInputBuffer(derIn.convert(indefData));
-            if (tag != inbuf.read())
+            inbuf = new DerInputBuffer(derIn.convert(indefDbtb));
+            if (tbg != inbuf.rebd())
                 throw new IOException
                         ("Indefinite length encoding not supported");
-            length = DerInputStream.getDefiniteLength(inbuf);
+            length = DerInputStrebm.getDefiniteLength(inbuf);
             buffer = inbuf.dup();
-            buffer.truncate(length);
-            data = new DerInputStream(buffer);
-            // indefinite form is encoded by sending a length field with a
+            buffer.truncbte(length);
+            dbtb = new DerInputStrebm(buffer);
+            // indefinite form is encoded by sending b length field with b
             // length of 0. - i.e. [1000|0000].
             // the object is ended by sending two zero bytes.
             in.skip(length + offset);
         } else {
 
             buffer = in.dup();
-            buffer.truncate(length);
-            data = new DerInputStream(buffer);
+            buffer.truncbte(length);
+            dbtb = new DerInputStrebm(buffer);
 
             in.skip(length);
         }
     }
 
     /**
-     * Get an ASN.1/DER encoded datum from a buffer.  The
-     * entire buffer must hold exactly one datum, including
-     * its tag and length.
+     * Get bn ASN.1/DER encoded dbtum from b buffer.  The
+     * entire buffer must hold exbctly one dbtum, including
+     * its tbg bnd length.
      *
-     * @param buf buffer holding a single DER-encoded datum.
+     * @pbrbm buf buffer holding b single DER-encoded dbtum.
      */
-    public DerValue(byte[] buf) throws IOException {
-        data = init(true, new ByteArrayInputStream(buf));
+    public DerVblue(byte[] buf) throws IOException {
+        dbtb = init(true, new ByteArrbyInputStrebm(buf));
     }
 
     /**
-     * Get an ASN.1/DER encoded datum from part of a buffer.
-     * That part of the buffer must hold exactly one datum, including
-     * its tag and length.
+     * Get bn ASN.1/DER encoded dbtum from pbrt of b buffer.
+     * Thbt pbrt of the buffer must hold exbctly one dbtum, including
+     * its tbg bnd length.
      *
-     * @param buf the buffer
-     * @param offset start point of the single DER-encoded dataum
-     * @param length how many bytes are in the encoded datum
+     * @pbrbm buf the buffer
+     * @pbrbm offset stbrt point of the single DER-encoded dbtbum
+     * @pbrbm length how mbny bytes bre in the encoded dbtum
      */
-    public DerValue(byte[] buf, int offset, int len) throws IOException {
-        data = init(true, new ByteArrayInputStream(buf, offset, len));
+    public DerVblue(byte[] buf, int offset, int len) throws IOException {
+        dbtb = init(true, new ByteArrbyInputStrebm(buf, offset, len));
     }
 
     /**
-     * Get an ASN1/DER encoded datum from an input stream.  The
-     * stream may have additional data following the encoded datum.
-     * In case of indefinite length encoded datum, the input stream
-     * must hold only one datum.
+     * Get bn ASN1/DER encoded dbtum from bn input strebm.  The
+     * strebm mby hbve bdditionbl dbtb following the encoded dbtum.
+     * In cbse of indefinite length encoded dbtum, the input strebm
+     * must hold only one dbtum.
      *
-     * @param in the input stream holding a single DER datum,
-     *  which may be followed by additional data
+     * @pbrbm in the input strebm holding b single DER dbtum,
+     *  which mby be followed by bdditionbl dbtb
      */
-    public DerValue(InputStream in) throws IOException {
-        data = init(false, in);
+    public DerVblue(InputStrebm in) throws IOException {
+        dbtb = init(fblse, in);
     }
 
-    private DerInputStream init(byte stringTag, String value) throws IOException {
+    privbte DerInputStrebm init(byte stringTbg, String vblue) throws IOException {
         String enc = null;
 
-        tag = stringTag;
+        tbg = stringTbg;
 
-        switch (stringTag) {
-        case tag_PrintableString:
-        case tag_IA5String:
-        case tag_GeneralString:
+        switch (stringTbg) {
+        cbse tbg_PrintbbleString:
+        cbse tbg_IA5String:
+        cbse tbg_GenerblString:
             enc = "ASCII";
-            break;
-        case tag_T61String:
+            brebk;
+        cbse tbg_T61String:
             enc = "ISO-8859-1";
-            break;
-        case tag_BMPString:
-            enc = "UnicodeBigUnmarked";
-            break;
-        case tag_UTF8String:
+            brebk;
+        cbse tbg_BMPString:
+            enc = "UnicodeBigUnmbrked";
+            brebk;
+        cbse tbg_UTF8String:
             enc = "UTF8";
-            break;
-            // TBD: Need encoder for UniversalString before it can
-            // be handled.
-        default:
-            throw new IllegalArgumentException("Unsupported DER string type");
+            brebk;
+            // TBD: Need encoder for UniversblString before it cbn
+            // be hbndled.
+        defbult:
+            throw new IllegblArgumentException("Unsupported DER string type");
         }
 
-        byte[] buf = value.getBytes(enc);
+        byte[] buf = vblue.getBytes(enc);
         length = buf.length;
         buffer = new DerInputBuffer(buf);
-        DerInputStream result = new DerInputStream(buffer);
-        result.mark(Integer.MAX_VALUE);
+        DerInputStrebm result = new DerInputStrebm(buffer);
+        result.mbrk(Integer.MAX_VALUE);
         return result;
     }
 
     /*
      * helper routine
      */
-    private DerInputStream init(boolean fullyBuffered, InputStream in)
+    privbte DerInputStrebm init(boolebn fullyBuffered, InputStrebm in)
             throws IOException {
 
-        tag = (byte)in.read();
-        byte lenByte = (byte)in.read();
-        length = DerInputStream.getLength((lenByte & 0xff), in);
+        tbg = (byte)in.rebd();
+        byte lenByte = (byte)in.rebd();
+        length = DerInputStrebm.getLength((lenByte & 0xff), in);
         if (length == -1) { // indefinite length encoding found
-            int readLen = in.available();
-            int offset = 2;     // for tag and length bytes
-            byte[] indefData = new byte[readLen + offset];
-            indefData[0] = tag;
-            indefData[1] = lenByte;
-            DataInputStream dis = new DataInputStream(in);
-            dis.readFully(indefData, offset, readLen);
+            int rebdLen = in.bvbilbble();
+            int offset = 2;     // for tbg bnd length bytes
+            byte[] indefDbtb = new byte[rebdLen + offset];
+            indefDbtb[0] = tbg;
+            indefDbtb[1] = lenByte;
+            DbtbInputStrebm dis = new DbtbInputStrebm(in);
+            dis.rebdFully(indefDbtb, offset, rebdLen);
             dis.close();
             DerIndefLenConverter derIn = new DerIndefLenConverter();
-            in = new ByteArrayInputStream(derIn.convert(indefData));
-            if (tag != in.read())
+            in = new ByteArrbyInputStrebm(derIn.convert(indefDbtb));
+            if (tbg != in.rebd())
                 throw new IOException
                         ("Indefinite length encoding not supported");
-            length = DerInputStream.getDefiniteLength(in);
+            length = DerInputStrebm.getDefiniteLength(in);
         }
 
-        if (fullyBuffered && in.available() != length)
-            throw new IOException("extra data given to DerValue constructor");
+        if (fullyBuffered && in.bvbilbble() != length)
+            throw new IOException("extrb dbtb given to DerVblue constructor");
 
-        byte[] bytes = IOUtils.readFully(in, length, true);
+        byte[] bytes = IOUtils.rebdFully(in, length, true);
 
         buffer = new DerInputBuffer(bytes);
-        return new DerInputStream(buffer);
+        return new DerInputStrebm(buffer);
     }
 
     /**
-     * Encode an ASN1/DER encoded datum onto a DER output stream.
+     * Encode bn ASN1/DER encoded dbtum onto b DER output strebm.
      */
-    public void encode(DerOutputStream out)
+    public void encode(DerOutputStrebm out)
     throws IOException {
-        out.write(tag);
+        out.write(tbg);
         out.putLength(length);
-        // XXX yeech, excess copies ... DerInputBuffer.write(OutStream)
+        // XXX yeech, excess copies ... DerInputBuffer.write(OutStrebm)
         if (length > 0) {
-            byte[] value = new byte[length];
-            // always synchronized on data
-            synchronized (data) {
+            byte[] vblue = new byte[length];
+            // blwbys synchronized on dbtb
+            synchronized (dbtb) {
                 buffer.reset();
-                if (buffer.read(value) != length) {
-                    throw new IOException("short DER value read (encode)");
+                if (buffer.rebd(vblue) != length) {
+                    throw new IOException("short DER vblue rebd (encode)");
                 }
-                out.write(value);
+                out.write(vblue);
             }
         }
     }
 
-    public final DerInputStream getData() {
-        return data;
+    public finbl DerInputStrebm getDbtb() {
+        return dbtb;
     }
 
-    public final byte getTag() {
-        return tag;
+    public finbl byte getTbg() {
+        return tbg;
     }
 
     /**
-     * Returns an ASN.1 BOOLEAN
+     * Returns bn ASN.1 BOOLEAN
      *
-     * @return the boolean held in this DER value
+     * @return the boolebn held in this DER vblue
      */
-    public boolean getBoolean() throws IOException {
-        if (tag != tag_Boolean) {
-            throw new IOException("DerValue.getBoolean, not a BOOLEAN " + tag);
+    public boolebn getBoolebn() throws IOException {
+        if (tbg != tbg_Boolebn) {
+            throw new IOException("DerVblue.getBoolebn, not b BOOLEAN " + tbg);
         }
         if (length != 1) {
-            throw new IOException("DerValue.getBoolean, invalid length "
+            throw new IOException("DerVblue.getBoolebn, invblid length "
                                         + length);
         }
-        if (buffer.read() != 0) {
+        if (buffer.rebd() != 0) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an ASN.1 OBJECT IDENTIFIER.
+     * Returns bn ASN.1 OBJECT IDENTIFIER.
      *
-     * @return the OID held in this DER value
+     * @return the OID held in this DER vblue
      */
     public ObjectIdentifier getOID() throws IOException {
-        if (tag != tag_ObjectId)
-            throw new IOException("DerValue.getOID, not an OID " + tag);
+        if (tbg != tbg_ObjectId)
+            throw new IOException("DerVblue.getOID, not bn OID " + tbg);
         return new ObjectIdentifier(buffer);
     }
 
-    private byte[] append(byte[] a, byte[] b) {
-        if (a == null)
+    privbte byte[] bppend(byte[] b, byte[] b) {
+        if (b == null)
             return b;
 
-        byte[] ret = new byte[a.length + b.length];
-        System.arraycopy(a, 0, ret, 0, a.length);
-        System.arraycopy(b, 0, ret, a.length, b.length);
+        byte[] ret = new byte[b.length + b.length];
+        System.brrbycopy(b, 0, ret, 0, b.length);
+        System.brrbycopy(b, 0, ret, b.length, b.length);
 
         return ret;
     }
 
     /**
-     * Returns an ASN.1 OCTET STRING
+     * Returns bn ASN.1 OCTET STRING
      *
-     * @return the octet string held in this DER value
+     * @return the octet string held in this DER vblue
      */
     public byte[] getOctetString() throws IOException {
         byte[] bytes;
 
-        if (tag != tag_OctetString && !isConstructed(tag_OctetString)) {
+        if (tbg != tbg_OctetString && !isConstructed(tbg_OctetString)) {
             throw new IOException(
-                "DerValue.getOctetString, not an Octet String: " + tag);
+                "DerVblue.getOctetString, not bn Octet String: " + tbg);
         }
         bytes = new byte[length];
-        // Note: do not tempt to call buffer.read(bytes) at all. There's a
-        // known bug that it returns -1 instead of 0.
+        // Note: do not tempt to cbll buffer.rebd(bytes) bt bll. There's b
+        // known bug thbt it returns -1 instebd of 0.
         if (length == 0) {
             return bytes;
         }
-        if (buffer.read(bytes) != length)
-            throw new IOException("short read on DerValue buffer");
+        if (buffer.rebd(bytes) != length)
+            throw new IOException("short rebd on DerVblue buffer");
         if (isConstructed()) {
-            DerInputStream in = new DerInputStream(bytes);
+            DerInputStrebm in = new DerInputStrebm(bytes);
             bytes = null;
-            while (in.available() != 0) {
-                bytes = append(bytes, in.getOctetString());
+            while (in.bvbilbble() != 0) {
+                bytes = bppend(bytes, in.getOctetString());
             }
         }
         return bytes;
     }
 
     /**
-     * Returns an ASN.1 INTEGER value as an integer.
+     * Returns bn ASN.1 INTEGER vblue bs bn integer.
      *
-     * @return the integer held in this DER value.
+     * @return the integer held in this DER vblue.
      */
     public int getInteger() throws IOException {
-        if (tag != tag_Integer) {
-            throw new IOException("DerValue.getInteger, not an int " + tag);
+        if (tbg != tbg_Integer) {
+            throw new IOException("DerVblue.getInteger, not bn int " + tbg);
         }
-        return buffer.getInteger(data.available());
+        return buffer.getInteger(dbtb.bvbilbble());
     }
 
     /**
-     * Returns an ASN.1 INTEGER value as a BigInteger.
+     * Returns bn ASN.1 INTEGER vblue bs b BigInteger.
      *
-     * @return the integer held in this DER value as a BigInteger.
+     * @return the integer held in this DER vblue bs b BigInteger.
      */
     public BigInteger getBigInteger() throws IOException {
-        if (tag != tag_Integer)
-            throw new IOException("DerValue.getBigInteger, not an int " + tag);
-        return buffer.getBigInteger(data.available(), false);
+        if (tbg != tbg_Integer)
+            throw new IOException("DerVblue.getBigInteger, not bn int " + tbg);
+        return buffer.getBigInteger(dbtb.bvbilbble(), fblse);
     }
 
     /**
-     * Returns an ASN.1 INTEGER value as a positive BigInteger.
-     * This is just to deal with implementations that incorrectly encode
-     * some values as negative.
+     * Returns bn ASN.1 INTEGER vblue bs b positive BigInteger.
+     * This is just to debl with implementbtions thbt incorrectly encode
+     * some vblues bs negbtive.
      *
-     * @return the integer held in this DER value as a BigInteger.
+     * @return the integer held in this DER vblue bs b BigInteger.
      */
     public BigInteger getPositiveBigInteger() throws IOException {
-        if (tag != tag_Integer)
-            throw new IOException("DerValue.getBigInteger, not an int " + tag);
-        return buffer.getBigInteger(data.available(), true);
+        if (tbg != tbg_Integer)
+            throw new IOException("DerVblue.getBigInteger, not bn int " + tbg);
+        return buffer.getBigInteger(dbtb.bvbilbble(), true);
     }
 
     /**
-     * Returns an ASN.1 ENUMERATED value.
+     * Returns bn ASN.1 ENUMERATED vblue.
      *
-     * @return the integer held in this DER value.
+     * @return the integer held in this DER vblue.
      */
-    public int getEnumerated() throws IOException {
-        if (tag != tag_Enumerated) {
-            throw new IOException("DerValue.getEnumerated, incorrect tag: "
-                                  + tag);
+    public int getEnumerbted() throws IOException {
+        if (tbg != tbg_Enumerbted) {
+            throw new IOException("DerVblue.getEnumerbted, incorrect tbg: "
+                                  + tbg);
         }
-        return buffer.getInteger(data.available());
+        return buffer.getInteger(dbtb.bvbilbble());
     }
 
     /**
-     * Returns an ASN.1 BIT STRING value.  The bit string must be byte-aligned.
+     * Returns bn ASN.1 BIT STRING vblue.  The bit string must be byte-bligned.
      *
-     * @return the bit string held in this value
+     * @return the bit string held in this vblue
      */
     public byte[] getBitString() throws IOException {
-        if (tag != tag_BitString)
+        if (tbg != tbg_BitString)
             throw new IOException(
-                "DerValue.getBitString, not a bit string " + tag);
+                "DerVblue.getBitString, not b bit string " + tbg);
 
         return buffer.getBitString();
     }
 
     /**
-     * Returns an ASN.1 BIT STRING value that need not be byte-aligned.
+     * Returns bn ASN.1 BIT STRING vblue thbt need not be byte-bligned.
      *
-     * @return a BitArray representing the bit string held in this value
+     * @return b BitArrby representing the bit string held in this vblue
      */
-    public BitArray getUnalignedBitString() throws IOException {
-        if (tag != tag_BitString)
+    public BitArrby getUnblignedBitString() throws IOException {
+        if (tbg != tbg_BitString)
             throw new IOException(
-                "DerValue.getBitString, not a bit string " + tag);
+                "DerVblue.getBitString, not b bit string " + tbg);
 
-        return buffer.getUnalignedBitString();
+        return buffer.getUnblignedBitString();
     }
 
     /**
-     * Returns the name component as a Java string, regardless of its
-     * encoding restrictions (ASCII, T61, Printable, IA5, BMP, UTF8).
+     * Returns the nbme component bs b Jbvb string, regbrdless of its
+     * encoding restrictions (ASCII, T61, Printbble, IA5, BMP, UTF8).
      */
-    // TBD: Need encoder for UniversalString before it can be handled.
+    // TBD: Need encoder for UniversblString before it cbn be hbndled.
     public String getAsString() throws IOException {
-        if (tag == tag_UTF8String)
+        if (tbg == tbg_UTF8String)
             return getUTF8String();
-        else if (tag == tag_PrintableString)
-            return getPrintableString();
-        else if (tag == tag_T61String)
+        else if (tbg == tbg_PrintbbleString)
+            return getPrintbbleString();
+        else if (tbg == tbg_T61String)
             return getT61String();
-        else if (tag == tag_IA5String)
+        else if (tbg == tbg_IA5String)
             return getIA5String();
         /*
-          else if (tag == tag_UniversalString)
-          return getUniversalString();
+          else if (tbg == tbg_UniversblString)
+          return getUniversblString();
         */
-        else if (tag == tag_BMPString)
+        else if (tbg == tbg_BMPString)
             return getBMPString();
-        else if (tag == tag_GeneralString)
-            return getGeneralString();
+        else if (tbg == tbg_GenerblString)
+            return getGenerblString();
         else
             return null;
     }
 
     /**
-     * Returns an ASN.1 BIT STRING value, with the tag assumed implicit
-     * based on the parameter.  The bit string must be byte-aligned.
+     * Returns bn ASN.1 BIT STRING vblue, with the tbg bssumed implicit
+     * bbsed on the pbrbmeter.  The bit string must be byte-bligned.
      *
-     * @params tagImplicit if true, the tag is assumed implicit.
-     * @return the bit string held in this value
+     * @pbrbms tbgImplicit if true, the tbg is bssumed implicit.
+     * @return the bit string held in this vblue
      */
-    public byte[] getBitString(boolean tagImplicit) throws IOException {
-        if (!tagImplicit) {
-            if (tag != tag_BitString)
-                throw new IOException("DerValue.getBitString, not a bit string "
-                                       + tag);
+    public byte[] getBitString(boolebn tbgImplicit) throws IOException {
+        if (!tbgImplicit) {
+            if (tbg != tbg_BitString)
+                throw new IOException("DerVblue.getBitString, not b bit string "
+                                       + tbg);
             }
         return buffer.getBitString();
     }
 
     /**
-     * Returns an ASN.1 BIT STRING value, with the tag assumed implicit
-     * based on the parameter.  The bit string need not be byte-aligned.
+     * Returns bn ASN.1 BIT STRING vblue, with the tbg bssumed implicit
+     * bbsed on the pbrbmeter.  The bit string need not be byte-bligned.
      *
-     * @params tagImplicit if true, the tag is assumed implicit.
-     * @return the bit string held in this value
+     * @pbrbms tbgImplicit if true, the tbg is bssumed implicit.
+     * @return the bit string held in this vblue
      */
-    public BitArray getUnalignedBitString(boolean tagImplicit)
+    public BitArrby getUnblignedBitString(boolebn tbgImplicit)
     throws IOException {
-        if (!tagImplicit) {
-            if (tag != tag_BitString)
-                throw new IOException("DerValue.getBitString, not a bit string "
-                                       + tag);
+        if (!tbgImplicit) {
+            if (tbg != tbg_BitString)
+                throw new IOException("DerVblue.getBitString, not b bit string "
+                                       + tbg);
             }
-        return buffer.getUnalignedBitString();
+        return buffer.getUnblignedBitString();
     }
 
     /**
-     * Helper routine to return all the bytes contained in the
-     * DerInputStream associated with this object.
+     * Helper routine to return bll the bytes contbined in the
+     * DerInputStrebm bssocibted with this object.
      */
-    public byte[] getDataBytes() throws IOException {
-        byte[] retVal = new byte[length];
-        synchronized (data) {
-            data.reset();
-            data.getBytes(retVal);
+    public byte[] getDbtbBytes() throws IOException {
+        byte[] retVbl = new byte[length];
+        synchronized (dbtb) {
+            dbtb.reset();
+            dbtb.getBytes(retVbl);
         }
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * Returns an ASN.1 STRING value
+     * Returns bn ASN.1 STRING vblue
      *
-     * @return the printable string held in this value
+     * @return the printbble string held in this vblue
      */
-    public String getPrintableString()
+    public String getPrintbbleString()
     throws IOException {
-        if (tag != tag_PrintableString)
+        if (tbg != tbg_PrintbbleString)
             throw new IOException(
-                "DerValue.getPrintableString, not a string " + tag);
+                "DerVblue.getPrintbbleString, not b string " + tbg);
 
-        return new String(getDataBytes(), "ASCII");
+        return new String(getDbtbBytes(), "ASCII");
     }
 
     /**
-     * Returns an ASN.1 T61 (Teletype) STRING value
+     * Returns bn ASN.1 T61 (Teletype) STRING vblue
      *
-     * @return the teletype string held in this value
+     * @return the teletype string held in this vblue
      */
     public String getT61String() throws IOException {
-        if (tag != tag_T61String)
+        if (tbg != tbg_T61String)
             throw new IOException(
-                "DerValue.getT61String, not T61 " + tag);
+                "DerVblue.getT61String, not T61 " + tbg);
 
-        return new String(getDataBytes(), "ISO-8859-1");
+        return new String(getDbtbBytes(), "ISO-8859-1");
     }
 
     /**
-     * Returns an ASN.1 IA5 (ASCII) STRING value
+     * Returns bn ASN.1 IA5 (ASCII) STRING vblue
      *
-     * @return the ASCII string held in this value
+     * @return the ASCII string held in this vblue
      */
     public String getIA5String() throws IOException {
-        if (tag != tag_IA5String)
+        if (tbg != tbg_IA5String)
             throw new IOException(
-                "DerValue.getIA5String, not IA5 " + tag);
+                "DerVblue.getIA5String, not IA5 " + tbg);
 
-        return new String(getDataBytes(), "ASCII");
+        return new String(getDbtbBytes(), "ASCII");
     }
 
     /**
-     * Returns the ASN.1 BMP (Unicode) STRING value as a Java string.
+     * Returns the ASN.1 BMP (Unicode) STRING vblue bs b Jbvb string.
      *
-     * @return a string corresponding to the encoded BMPString held in
-     * this value
+     * @return b string corresponding to the encoded BMPString held in
+     * this vblue
      */
     public String getBMPString() throws IOException {
-        if (tag != tag_BMPString)
+        if (tbg != tbg_BMPString)
             throw new IOException(
-                "DerValue.getBMPString, not BMP " + tag);
+                "DerVblue.getBMPString, not BMP " + tbg);
 
-        // BMPString is the same as Unicode in big endian, unmarked
-        // format.
-        return new String(getDataBytes(), "UnicodeBigUnmarked");
+        // BMPString is the sbme bs Unicode in big endibn, unmbrked
+        // formbt.
+        return new String(getDbtbBytes(), "UnicodeBigUnmbrked");
     }
 
     /**
-     * Returns the ASN.1 UTF-8 STRING value as a Java String.
+     * Returns the ASN.1 UTF-8 STRING vblue bs b Jbvb String.
      *
-     * @return a string corresponding to the encoded UTF8String held in
-     * this value
+     * @return b string corresponding to the encoded UTF8String held in
+     * this vblue
      */
     public String getUTF8String() throws IOException {
-        if (tag != tag_UTF8String)
+        if (tbg != tbg_UTF8String)
             throw new IOException(
-                "DerValue.getUTF8String, not UTF-8 " + tag);
+                "DerVblue.getUTF8String, not UTF-8 " + tbg);
 
-        return new String(getDataBytes(), "UTF8");
+        return new String(getDbtbBytes(), "UTF8");
     }
 
     /**
-     * Returns the ASN.1 GENERAL STRING value as a Java String.
+     * Returns the ASN.1 GENERAL STRING vblue bs b Jbvb String.
      *
-     * @return a string corresponding to the encoded GeneralString held in
-     * this value
+     * @return b string corresponding to the encoded GenerblString held in
+     * this vblue
      */
-    public String getGeneralString() throws IOException {
-        if (tag != tag_GeneralString)
+    public String getGenerblString() throws IOException {
+        if (tbg != tbg_GenerblString)
             throw new IOException(
-                "DerValue.getGeneralString, not GeneralString " + tag);
+                "DerVblue.getGenerblString, not GenerblString " + tbg);
 
-        return new String(getDataBytes(), "ASCII");
+        return new String(getDbtbBytes(), "ASCII");
     }
 
     /**
-     * Returns a Date if the DerValue is UtcTime.
+     * Returns b Dbte if the DerVblue is UtcTime.
      *
-     * @return the Date held in this DER value
+     * @return the Dbte held in this DER vblue
      */
-    public Date getUTCTime() throws IOException {
-        if (tag != tag_UtcTime) {
-            throw new IOException("DerValue.getUTCTime, not a UtcTime: " + tag);
+    public Dbte getUTCTime() throws IOException {
+        if (tbg != tbg_UtcTime) {
+            throw new IOException("DerVblue.getUTCTime, not b UtcTime: " + tbg);
         }
-        return buffer.getUTCTime(data.available());
+        return buffer.getUTCTime(dbtb.bvbilbble());
     }
 
     /**
-     * Returns a Date if the DerValue is GeneralizedTime.
+     * Returns b Dbte if the DerVblue is GenerblizedTime.
      *
-     * @return the Date held in this DER value
+     * @return the Dbte held in this DER vblue
      */
-    public Date getGeneralizedTime() throws IOException {
-        if (tag != tag_GeneralizedTime) {
+    public Dbte getGenerblizedTime() throws IOException {
+        if (tbg != tbg_GenerblizedTime) {
             throw new IOException(
-                "DerValue.getGeneralizedTime, not a GeneralizedTime: " + tag);
+                "DerVblue.getGenerblizedTime, not b GenerblizedTime: " + tbg);
         }
-        return buffer.getGeneralizedTime(data.available());
+        return buffer.getGenerblizedTime(dbtb.bvbilbble());
     }
 
     /**
-     * Bitwise equality comparison.  DER encoded values have a single
-     * encoding, so that bitwise equality of the encoded values is an
-     * efficient way to establish equivalence of the unencoded values.
+     * Bitwise equblity compbrison.  DER encoded vblues hbve b single
+     * encoding, so thbt bitwise equblity of the encoded vblues is bn
+     * efficient wby to estbblish equivblence of the unencoded vblues.
      *
-     * @param other the object being compared with this one
+     * @pbrbm other the object being compbred with this one
      */
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof DerValue)) {
-            return false;
+        if (!(o instbnceof DerVblue)) {
+            return fblse;
         }
-        DerValue other = (DerValue) o;
-        if (tag != other.tag) {
-            return false;
+        DerVblue other = (DerVblue) o;
+        if (tbg != other.tbg) {
+            return fblse;
         }
-        if (data == other.data) {
+        if (dbtb == other.dbtb) {
             return true;
         }
 
-        // make sure the order of lock is always consistent to avoid a deadlock
-        return (System.identityHashCode(this.data)
-                > System.identityHashCode(other.data)) ?
-                doEquals(this, other):
-                doEquals(other, this);
+        // mbke sure the order of lock is blwbys consistent to bvoid b debdlock
+        return (System.identityHbshCode(this.dbtb)
+                > System.identityHbshCode(other.dbtb)) ?
+                doEqubls(this, other):
+                doEqubls(other, this);
     }
 
     /**
-     * Helper for public method equals()
+     * Helper for public method equbls()
      */
-    private static boolean doEquals(DerValue d1, DerValue d2) {
-        synchronized (d1.data) {
-            synchronized (d2.data) {
-                d1.data.reset();
-                d2.data.reset();
-                return d1.buffer.equals(d2.buffer);
+    privbte stbtic boolebn doEqubls(DerVblue d1, DerVblue d2) {
+        synchronized (d1.dbtb) {
+            synchronized (d2.dbtb) {
+                d1.dbtb.reset();
+                d2.dbtb.reset();
+                return d1.buffer.equbls(d2.buffer);
             }
         }
     }
 
     /**
-     * Returns a printable representation of the value.
+     * Returns b printbble representbtion of the vblue.
      *
-     * @return printable representation of the value
+     * @return printbble representbtion of the vblue
      */
     @Override
     public String toString() {
@@ -800,129 +800,129 @@ public class DerValue {
             String str = getAsString();
             if (str != null)
                 return "\"" + str + "\"";
-            if (tag == tag_Null)
-                return "[DerValue, null]";
-            if (tag == tag_ObjectId)
+            if (tbg == tbg_Null)
+                return "[DerVblue, null]";
+            if (tbg == tbg_ObjectId)
                 return "OID." + getOID();
 
             // integers
             else
-                return "[DerValue, tag = " + tag
+                return "[DerVblue, tbg = " + tbg
                         + ", length = " + length + "]";
-        } catch (IOException e) {
-            throw new IllegalArgumentException("misformatted DER value");
+        } cbtch (IOException e) {
+            throw new IllegblArgumentException("misformbtted DER vblue");
         }
     }
 
     /**
-     * Returns a DER-encoded value, such that if it's passed to the
-     * DerValue constructor, a value equivalent to "this" is returned.
+     * Returns b DER-encoded vblue, such thbt if it's pbssed to the
+     * DerVblue constructor, b vblue equivblent to "this" is returned.
      *
-     * @return DER-encoded value, including tag and length.
+     * @return DER-encoded vblue, including tbg bnd length.
      */
-    public byte[] toByteArray() throws IOException {
-        DerOutputStream out = new DerOutputStream();
+    public byte[] toByteArrby() throws IOException {
+        DerOutputStrebm out = new DerOutputStrebm();
 
         encode(out);
-        data.reset();
-        return out.toByteArray();
+        dbtb.reset();
+        return out.toByteArrby();
     }
 
     /**
-     * For "set" and "sequence" types, this function may be used
-     * to return a DER stream of the members of the set or sequence.
-     * This operation is not supported for primitive types such as
+     * For "set" bnd "sequence" types, this function mby be used
+     * to return b DER strebm of the members of the set or sequence.
+     * This operbtion is not supported for primitive types such bs
      * integers or bit strings.
      */
-    public DerInputStream toDerInputStream() throws IOException {
-        if (tag == tag_Sequence || tag == tag_Set)
-            return new DerInputStream(buffer);
-        throw new IOException("toDerInputStream rejects tag type " + tag);
+    public DerInputStrebm toDerInputStrebm() throws IOException {
+        if (tbg == tbg_Sequence || tbg == tbg_Set)
+            return new DerInputStrebm(buffer);
+        throw new IOException("toDerInputStrebm rejects tbg type " + tbg);
     }
 
     /**
-     * Get the length of the encoded value.
+     * Get the length of the encoded vblue.
      */
     public int length() {
         return length;
     }
 
     /**
-     * Determine if a character is one of the permissible characters for
-     * PrintableString:
-     * A-Z, a-z, 0-9, space, apostrophe (39), left and right parentheses,
-     * plus sign, comma, hyphen, period, slash, colon, equals sign,
-     * and question mark.
+     * Determine if b chbrbcter is one of the permissible chbrbcters for
+     * PrintbbleString:
+     * A-Z, b-z, 0-9, spbce, bpostrophe (39), left bnd right pbrentheses,
+     * plus sign, commb, hyphen, period, slbsh, colon, equbls sign,
+     * bnd question mbrk.
      *
-     * Characters that are *not* allowed in PrintableString include
-     * exclamation point, quotation mark, number sign, dollar sign,
-     * percent sign, ampersand, asterisk, semicolon, less than sign,
-     * greater than sign, at sign, left and right square brackets,
-     * backslash, circumflex (94), underscore, back quote (96),
-     * left and right curly brackets, vertical line, tilde,
-     * and the control codes (0-31 and 127).
+     * Chbrbcters thbt bre *not* bllowed in PrintbbleString include
+     * exclbmbtion point, quotbtion mbrk, number sign, dollbr sign,
+     * percent sign, bmpersbnd, bsterisk, semicolon, less thbn sign,
+     * grebter thbn sign, bt sign, left bnd right squbre brbckets,
+     * bbckslbsh, circumflex (94), underscore, bbck quote (96),
+     * left bnd right curly brbckets, verticbl line, tilde,
+     * bnd the control codes (0-31 bnd 127).
      *
-     * This list is based on X.680 (the ASN.1 spec).
+     * This list is bbsed on X.680 (the ASN.1 spec).
      */
-    public static boolean isPrintableStringChar(char ch) {
-        if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
+    public stbtic boolebn isPrintbbleStringChbr(chbr ch) {
+        if ((ch >= 'b' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
             (ch >= '0' && ch <= '9')) {
             return true;
         } else {
             switch (ch) {
-                case ' ':       /* space */
-                case '\'':      /* apostrophe */
-                case '(':       /* left paren */
-                case ')':       /* right paren */
-                case '+':       /* plus */
-                case ',':       /* comma */
-                case '-':       /* hyphen */
-                case '.':       /* period */
-                case '/':       /* slash */
-                case ':':       /* colon */
-                case '=':       /* equals */
-                case '?':       /* question mark */
+                cbse ' ':       /* spbce */
+                cbse '\'':      /* bpostrophe */
+                cbse '(':       /* left pbren */
+                cbse ')':       /* right pbren */
+                cbse '+':       /* plus */
+                cbse ',':       /* commb */
+                cbse '-':       /* hyphen */
+                cbse '.':       /* period */
+                cbse '/':       /* slbsh */
+                cbse ':':       /* colon */
+                cbse '=':       /* equbls */
+                cbse '?':       /* question mbrk */
                     return true;
-                default:
-                    return false;
+                defbult:
+                    return fblse;
             }
         }
     }
 
     /**
-     * Create the tag of the attribute.
+     * Crebte the tbg of the bttribute.
      *
-     * @params class the tag class type, one of UNIVERSAL, CONTEXT,
+     * @pbrbms clbss the tbg clbss type, one of UNIVERSAL, CONTEXT,
      *               APPLICATION or PRIVATE
-     * @params form if true, the value is constructed, otherwise it
+     * @pbrbms form if true, the vblue is constructed, otherwise it
      * is primitive.
-     * @params val the tag value
+     * @pbrbms vbl the tbg vblue
      */
-    public static byte createTag(byte tagClass, boolean form, byte val) {
-        byte tag = (byte)(tagClass | val);
+    public stbtic byte crebteTbg(byte tbgClbss, boolebn form, byte vbl) {
+        byte tbg = (byte)(tbgClbss | vbl);
         if (form) {
-            tag |= (byte)0x20;
+            tbg |= (byte)0x20;
         }
-        return (tag);
+        return (tbg);
     }
 
     /**
-     * Set the tag of the attribute. Commonly used to reset the
-     * tag value used for IMPLICIT encodings.
+     * Set the tbg of the bttribute. Commonly used to reset the
+     * tbg vblue used for IMPLICIT encodings.
      *
-     * @params tag the tag value
+     * @pbrbms tbg the tbg vblue
      */
-    public void resetTag(byte tag) {
-        this.tag = tag;
+    public void resetTbg(byte tbg) {
+        this.tbg = tbg;
     }
 
     /**
-     * Returns a hashcode for this DerValue.
+     * Returns b hbshcode for this DerVblue.
      *
-     * @return a hashcode for this DerValue.
+     * @return b hbshcode for this DerVblue.
      */
     @Override
-    public int hashCode() {
-        return toString().hashCode();
+    public int hbshCode() {
+        return toString().hbshCode();
     }
 }

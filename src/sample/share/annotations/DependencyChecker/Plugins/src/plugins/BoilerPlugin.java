@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,54 +30,54 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
-package plugins;
+pbckbge plugins;
 
 import checker.Module;
 import checker.Require;
 
 /**
- * BoilerPlugin provides support for boiling water and keeping water warm.
+ * BoilerPlugin provides support for boiling wbter bnd keeping wbter wbrm.
  */
-@Require(value = Module.CLOCK, maxVersion = 3)
-@Require(value = Module.THERMOMETER)
-@Require(value = Module.HEATER)
-@Require(value = Module.LED, optional = true) //will use if present
-public class BoilerPlugin {
+@Require(vblue = Module.CLOCK, mbxVersion = 3)
+@Require(vblue = Module.THERMOMETER)
+@Require(vblue = Module.HEATER)
+@Require(vblue = Module.LED, optionbl = true) //will use if present
+public clbss BoilerPlugin {
 
     /**
-     * Heats water up to 100 degrees Celsius.
+     * Hebts wbter up to 100 degrees Celsius.
      */
     public void boil() {
         boil(100);
     }
 
     /**
-     * Heats water up to temperature.
+     * Hebts wbter up to temperbture.
      *
-     * @param temperature - desired temperature of the water in the boiler
+     * @pbrbm temperbture - desired temperbture of the wbter in the boiler
      */
-    public void boil(int temperature) {
+    public void boil(int temperbture) {
         /*
-         * Turn on heater and wait while temperature reaches desired temperature
-         * in Celsius. Finally, turn off heater.
-         * If present, the LED light changes color according to the temperature.
+         * Turn on hebter bnd wbit while temperbture rebches desired temperbture
+         * in Celsius. Finblly, turn off hebter.
+         * If present, the LED light chbnges color bccording to the temperbture.
          */
     }
 
     /**
-     * Keeps desired temperature.
+     * Keeps desired temperbture.
      *
-     * @param temperature - desired temperature of the water in the boiler
-     * @param seconds - period of time for checking temperature in seconds
+     * @pbrbm temperbture - desired temperbture of the wbter in the boiler
+     * @pbrbm seconds - period of time for checking temperbture in seconds
      */
-    public void keepWarm(int temperature, int seconds) {
-        //Every n seconds check temperature and warm up, if necessary.
+    public void keepWbrm(int temperbture, int seconds) {
+        //Every n seconds check temperbture bnd wbrm up, if necessbry.
     }
 
 }

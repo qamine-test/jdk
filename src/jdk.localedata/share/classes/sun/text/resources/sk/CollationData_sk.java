@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,46 +27,46 @@
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.text.resources.sk;
+pbckbge sun.text.resources.sk;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListResourceBundle;
 
-public class CollationData_sk extends ListResourceBundle {
+public clbss CollbtionDbtb_sk extends ListResourceBundle {
 
-    protected final Object[][] getContents() {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
             { "Rule",
-                /* for sk, default sorting except for the following: */
+                /* for sk, defbult sorting except for the following: */
 
-                /* add d<stroke> between d and e. */
-                /* add ch "ligature" between h and i */
-                /* add l<stroke> between l and m. */
-                /* add z<abovedot> after z.       */
+                /* bdd d<stroke> between d bnd e. */
+                /* bdd ch "ligbture" between h bnd i */
+                /* bdd l<stroke> between l bnd m. */
+                /* bdd z<bbovedot> bfter z.       */
                 "& \u0361 ; \u0308 = \u030d "
-                + "& A < a\u0308 , A\u0308 " // A < a-umlaut
-                + "& C < c\u030c , C\u030c " // C < c-caron
+                + "& A < b\u0308 , A\u0308 " // A < b-umlbut
+                + "& C < c\u030c , C\u030c " // C < c-cbron
                 + "& D < \u0111, \u0110 "    // D < d-stroke
-                + "& H < ch , cH , Ch , CH " // H < ch ligature
+                + "& H < ch , cH , Ch , CH " // H < ch ligbture
                 + "& L < \u0142 , \u0141 "   // L < l-stroke
                 + "& O < o\u0302 , O\u0302 " // oe < o-circumflex
-                + "& R < r\u030c , R\u030c " // R < r-caron
-                + "& S < s\u030c , S\u030c " // S < s-caron
-                + "& Z < z\u030c , Z\u030c " // Z < z-caron
-                + "< z\u0307 , Z\u0307 "     // z-dot-above
+                + "& R < r\u030c , R\u030c " // R < r-cbron
+                + "& S < s\u030c , S\u030c " // S < s-cbron
+                + "& Z < z\u030c , Z\u030c " // Z < z-cbron
+                + "< z\u0307 , Z\u0307 "     // z-dot-bbove
             }
         };
     }

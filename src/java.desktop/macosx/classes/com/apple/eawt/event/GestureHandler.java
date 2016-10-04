@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt.event;
+pbckbge com.bpple.ebwt.event;
 
-import sun.awt.SunToolkit;
+import sun.bwt.SunToolkit;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.util.List;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
-final class GestureHandler {
-    private static final String CLIENT_PROPERTY = "com.apple.eawt.event.internalGestureHandler";
+finbl clbss GestureHbndler {
+    privbte stbtic finbl String CLIENT_PROPERTY = "com.bpple.ebwt.event.internblGestureHbndler";
 
-    // native constants for the supported types of high-level gestures
-    @Native static final int PHASE = 1;
-    @Native static final int ROTATE = 2;
-    @Native static final int MAGNIFY = 3;
-    @Native static final int SWIPE = 4;
+    // nbtive constbnts for the supported types of high-level gestures
+    @Nbtive stbtic finbl int PHASE = 1;
+    @Nbtive stbtic finbl int ROTATE = 2;
+    @Nbtive stbtic finbl int MAGNIFY = 3;
+    @Nbtive stbtic finbl int SWIPE = 4;
 
-    // installs a private instance of GestureHandler, if necessary
-    static void addGestureListenerTo(final JComponent component, final GestureListener listener) {
-        final Object value = component.getClientProperty(CLIENT_PROPERTY);
-        if (value instanceof GestureHandler) {
-            ((GestureHandler)value).addListener(listener);
+    // instblls b privbte instbnce of GestureHbndler, if necessbry
+    stbtic void bddGestureListenerTo(finbl JComponent component, finbl GestureListener listener) {
+        finbl Object vblue = component.getClientProperty(CLIENT_PROPERTY);
+        if (vblue instbnceof GestureHbndler) {
+            ((GestureHbndler)vblue).bddListener(listener);
             return;
         }
 
-        if (value != null) return; // some other garbage is in our client property
+        if (vblue != null) return; // some other gbrbbge is in our client property
 
-        final GestureHandler newHandler = new GestureHandler();
-        newHandler.addListener(listener);
-        component.putClientProperty(CLIENT_PROPERTY, newHandler);
+        finbl GestureHbndler newHbndler = new GestureHbndler();
+        newHbndler.bddListener(listener);
+        component.putClientProperty(CLIENT_PROPERTY, newHbndler);
     }
 
-    // asks the installed GestureHandler to remove it's listener (does not uninstall the GestureHandler)
-    static void removeGestureListenerFrom(final JComponent component, final GestureListener listener) {
-        final Object value = component.getClientProperty(CLIENT_PROPERTY);
-        if (!(value instanceof GestureHandler)) return;
-        ((GestureHandler)value).removeListener(listener);
+    // bsks the instblled GestureHbndler to remove it's listener (does not uninstbll the GestureHbndler)
+    stbtic void removeGestureListenerFrom(finbl JComponent component, finbl GestureListener listener) {
+        finbl Object vblue = component.getClientProperty(CLIENT_PROPERTY);
+        if (!(vblue instbnceof GestureHbndler)) return;
+        ((GestureHbndler)vblue).removeListener(listener);
     }
 
 
-    // called from native - finds the deepest component with an installed GestureHandler,
-    // creates a single event, and dispatches it to a recursive notifier
-    static void handleGestureFromNative(final Window window, final int type, final double x, final double y, final double a, final double b) {
-        if (window == null) return; // should never happen...
+    // cblled from nbtive - finds the deepest component with bn instblled GestureHbndler,
+    // crebtes b single event, bnd dispbtches it to b recursive notifier
+    stbtic void hbndleGestureFromNbtive(finbl Window window, finbl int type, finbl double x, finbl double y, finbl double b, finbl double b) {
+        if (window == null) return; // should never hbppen...
 
-        SunToolkit.executeOnEventHandlerThread(window, new Runnable() {
+        SunToolkit.executeOnEventHbndlerThrebd(window, new Runnbble() {
             public void run() {
-                final Component component = SwingUtilities.getDeepestComponentAt(window, (int)x, (int)y);
+                finbl Component component = SwingUtilities.getDeepestComponentAt(window, (int)x, (int)y);
 
-                final PerComponentNotifier firstNotifier;
-                if (component instanceof RootPaneContainer) {
-                    firstNotifier = getNextNotifierForComponent(((RootPaneContainer)component).getRootPane());
+                finbl PerComponentNotifier firstNotifier;
+                if (component instbnceof RootPbneContbiner) {
+                    firstNotifier = getNextNotifierForComponent(((RootPbneContbiner)component).getRootPbne());
                 } else {
                     firstNotifier = getNextNotifierForComponent(component);
                 }
                 if (firstNotifier == null) return;
 
                 switch (type) {
-                    case PHASE:
-                        firstNotifier.recursivelyHandlePhaseChange(a, new GesturePhaseEvent());
+                    cbse PHASE:
+                        firstNotifier.recursivelyHbndlePhbseChbnge(b, new GesturePhbseEvent());
                         return;
-                    case ROTATE:
-                        firstNotifier.recursivelyHandleRotate(new RotationEvent(a));
+                    cbse ROTATE:
+                        firstNotifier.recursivelyHbndleRotbte(new RotbtionEvent(b));
                         return;
-                    case MAGNIFY:
-                        firstNotifier.recursivelyHandleMagnify(new MagnificationEvent(a));
+                    cbse MAGNIFY:
+                        firstNotifier.recursivelyHbndleMbgnify(new MbgnificbtionEvent(b));
                         return;
-                    case SWIPE:
-                        firstNotifier.recursivelyHandleSwipe(a, b, new SwipeEvent());
+                    cbse SWIPE:
+                        firstNotifier.recursivelyHbndleSwipe(b, b, new SwipeEvent());
                         return;
                 }
             }
@@ -103,74 +103,74 @@ final class GestureHandler {
     }
 
 
-    final List<GesturePhaseListener> phasers = new LinkedList<GesturePhaseListener>();
-    final List<RotationListener> rotaters = new LinkedList<RotationListener>();
-    final List<MagnificationListener> magnifiers = new LinkedList<MagnificationListener>();
-    final List<SwipeListener> swipers = new LinkedList<SwipeListener>();
+    finbl List<GesturePhbseListener> phbsers = new LinkedList<GesturePhbseListener>();
+    finbl List<RotbtionListener> rotbters = new LinkedList<RotbtionListener>();
+    finbl List<MbgnificbtionListener> mbgnifiers = new LinkedList<MbgnificbtionListener>();
+    finbl List<SwipeListener> swipers = new LinkedList<SwipeListener>();
 
-    GestureHandler() { }
+    GestureHbndler() { }
 
-    void addListener(final GestureListener listener) {
-        if (listener instanceof GesturePhaseListener) phasers.add((GesturePhaseListener)listener);
-        if (listener instanceof RotationListener) rotaters.add((RotationListener)listener);
-        if (listener instanceof MagnificationListener) magnifiers.add((MagnificationListener)listener);
-        if (listener instanceof SwipeListener) swipers.add((SwipeListener)listener);
+    void bddListener(finbl GestureListener listener) {
+        if (listener instbnceof GesturePhbseListener) phbsers.bdd((GesturePhbseListener)listener);
+        if (listener instbnceof RotbtionListener) rotbters.bdd((RotbtionListener)listener);
+        if (listener instbnceof MbgnificbtionListener) mbgnifiers.bdd((MbgnificbtionListener)listener);
+        if (listener instbnceof SwipeListener) swipers.bdd((SwipeListener)listener);
     }
 
-    void removeListener(final GestureListener listener) {
-        phasers.remove(listener);
-        rotaters.remove(listener);
-        magnifiers.remove(listener);
+    void removeListener(finbl GestureListener listener) {
+        phbsers.remove(listener);
+        rotbters.remove(listener);
+        mbgnifiers.remove(listener);
         swipers.remove(listener);
     }
 
-    // notifies all listeners in a particular component/handler pair
-    // and recursively notifies up the component hierarchy
-    static class PerComponentNotifier {
-        final Component component;
-        final GestureHandler handler;
+    // notifies bll listeners in b pbrticulbr component/hbndler pbir
+    // bnd recursively notifies up the component hierbrchy
+    stbtic clbss PerComponentNotifier {
+        finbl Component component;
+        finbl GestureHbndler hbndler;
 
-        public PerComponentNotifier(final Component component, final GestureHandler handler) {
+        public PerComponentNotifier(finbl Component component, finbl GestureHbndler hbndler) {
             this.component = component;
-            this.handler = handler;
+            this.hbndler = hbndler;
         }
 
-        void recursivelyHandlePhaseChange(final double phase, final GesturePhaseEvent e) {
-            for (final GesturePhaseListener listener : handler.phasers) {
-                if (phase < 0) {
-                    listener.gestureBegan(e);
+        void recursivelyHbndlePhbseChbnge(finbl double phbse, finbl GesturePhbseEvent e) {
+            for (finbl GesturePhbseListener listener : hbndler.phbsers) {
+                if (phbse < 0) {
+                    listener.gestureBegbn(e);
                 } else {
                     listener.gestureEnded(e);
                 }
                 if (e.isConsumed()) return;
             }
 
-            final PerComponentNotifier next = getNextNotifierForComponent(component.getParent());
-            if (next != null) next.recursivelyHandlePhaseChange(phase, e);
+            finbl PerComponentNotifier next = getNextNotifierForComponent(component.getPbrent());
+            if (next != null) next.recursivelyHbndlePhbseChbnge(phbse, e);
         }
 
-        void recursivelyHandleRotate(final RotationEvent e) {
-            for (final RotationListener listener : handler.rotaters) {
-                listener.rotate(e);
+        void recursivelyHbndleRotbte(finbl RotbtionEvent e) {
+            for (finbl RotbtionListener listener : hbndler.rotbters) {
+                listener.rotbte(e);
                 if (e.isConsumed()) return;
             }
 
-            final PerComponentNotifier next = getNextNotifierForComponent(component.getParent());
-            if (next != null) next.recursivelyHandleRotate(e);
+            finbl PerComponentNotifier next = getNextNotifierForComponent(component.getPbrent());
+            if (next != null) next.recursivelyHbndleRotbte(e);
         }
 
-        void recursivelyHandleMagnify(final MagnificationEvent e) {
-            for (final MagnificationListener listener : handler.magnifiers) {
-                listener.magnify(e);
+        void recursivelyHbndleMbgnify(finbl MbgnificbtionEvent e) {
+            for (finbl MbgnificbtionListener listener : hbndler.mbgnifiers) {
+                listener.mbgnify(e);
                 if (e.isConsumed()) return;
             }
 
-            final PerComponentNotifier next = getNextNotifierForComponent(component.getParent());
-            if (next != null) next.recursivelyHandleMagnify(e);
+            finbl PerComponentNotifier next = getNextNotifierForComponent(component.getPbrent());
+            if (next != null) next.recursivelyHbndleMbgnify(e);
         }
 
-        void recursivelyHandleSwipe(final double x, final double y, final SwipeEvent e) {
-            for (final SwipeListener listener : handler.swipers) {
+        void recursivelyHbndleSwipe(finbl double x, finbl double y, finbl SwipeEvent e) {
+            for (finbl SwipeListener listener : hbndler.swipers) {
                 if (x < 0) listener.swipedLeft(e);
                 if (x > 0) listener.swipedRight(e);
                 if (y < 0) listener.swipedDown(e);
@@ -178,28 +178,28 @@ final class GestureHandler {
                 if (e.isConsumed()) return;
             }
 
-            final PerComponentNotifier next = getNextNotifierForComponent(component.getParent());
-            if (next != null) next.recursivelyHandleSwipe(x, y, e);
+            finbl PerComponentNotifier next = getNextNotifierForComponent(component.getPbrent());
+            if (next != null) next.recursivelyHbndleSwipe(x, y, e);
         }
     }
 
-    // helper function to get a handler from a Component
-    static GestureHandler getHandlerForComponent(final Component c) {
-        if (!(c instanceof JComponent)) return null;
-        final Object value = ((JComponent)c).getClientProperty(CLIENT_PROPERTY);
-        if (!(value instanceof GestureHandler)) return null;
-        return (GestureHandler)value;
+    // helper function to get b hbndler from b Component
+    stbtic GestureHbndler getHbndlerForComponent(finbl Component c) {
+        if (!(c instbnceof JComponent)) return null;
+        finbl Object vblue = ((JComponent)c).getClientProperty(CLIENT_PROPERTY);
+        if (!(vblue instbnceof GestureHbndler)) return null;
+        return (GestureHbndler)vblue;
     }
 
-    // recursive helper to find the next component/handler pair
-    static PerComponentNotifier getNextNotifierForComponent(final Component c) {
+    // recursive helper to find the next component/hbndler pbir
+    stbtic PerComponentNotifier getNextNotifierForComponent(finbl Component c) {
         if (c == null) return null;
 
-        final GestureHandler handler = getHandlerForComponent(c);
-        if (handler != null) {
-            return new PerComponentNotifier(c, handler);
+        finbl GestureHbndler hbndler = getHbndlerForComponent(c);
+        if (hbndler != null) {
+            return new PerComponentNotifier(c, hbndler);
         }
 
-        return getNextNotifierForComponent(c.getParent());
+        return getNextNotifierForComponent(c.getPbrent());
     }
 }

@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap.sasl;
+pbckbge com.sun.jndi.ldbp.sbsl;
 
-import java.io.*;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import jbvb.io.*;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.util.StringTokenizer;
 
-import javax.naming.AuthenticationException;
-import javax.naming.AuthenticationNotSupportedException;
-import javax.naming.NamingException;
+import jbvbx.nbming.AuthenticbtionException;
+import jbvbx.nbming.AuthenticbtionNotSupportedException;
+import jbvbx.nbming.NbmingException;
 
-import javax.naming.ldap.Control;
+import jbvbx.nbming.ldbp.Control;
 
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.sasl.*;
-import com.sun.jndi.ldap.Connection;
-import com.sun.jndi.ldap.LdapClient;
-import com.sun.jndi.ldap.LdapResult;
+import jbvbx.security.buth.cbllbbck.CbllbbckHbndler;
+import jbvbx.security.sbsl.*;
+import com.sun.jndi.ldbp.Connection;
+import com.sun.jndi.ldbp.LdbpClient;
+import com.sun.jndi.ldbp.LdbpResult;
 
 /**
-  * Handles SASL support.
+  * Hbndles SASL support.
   *
-  * @author Vincent Ryan
-  * @author Rosanna Lee
+  * @buthor Vincent Rybn
+  * @buthor Rosbnnb Lee
   */
 
-final public class LdapSasl {
+finbl public clbss LdbpSbsl {
     // SASL stuff
-    private static final String SASL_CALLBACK = "java.naming.security.sasl.callback";
-    private static final String SASL_AUTHZ_ID =
-        "java.naming.security.sasl.authorizationId";
-    private static final String SASL_REALM =
-        "java.naming.security.sasl.realm";
+    privbte stbtic finbl String SASL_CALLBACK = "jbvb.nbming.security.sbsl.cbllbbck";
+    privbte stbtic finbl String SASL_AUTHZ_ID =
+        "jbvb.nbming.security.sbsl.buthorizbtionId";
+    privbte stbtic finbl String SASL_REALM =
+        "jbvb.nbming.security.sbsl.reblm";
 
-    private static final int LDAP_SUCCESS = 0;
-    private static final int LDAP_SASL_BIND_IN_PROGRESS = 14;   // LDAPv3
+    privbte stbtic finbl int LDAP_SUCCESS = 0;
+    privbte stbtic finbl int LDAP_SASL_BIND_IN_PROGRESS = 14;   // LDAPv3
 
-    private LdapSasl() {
+    privbte LdbpSbsl() {
     }
 
     /**
      * Performs SASL bind.
-     * Creates a SaslClient by using a default CallbackHandler
-     * that uses the Context.SECURITY_PRINCIPAL and Context.SECURITY_CREDENTIALS
-     * properties to satisfy the callbacks, and by using the
-     * SASL_AUTHZ_ID property as the authorization id. If the SASL_AUTHZ_ID
-     * property has not been set, Context.SECURITY_PRINCIPAL is used.
-     * If SASL_CALLBACK has been set, use that instead of the default
-     * CallbackHandler.
+     * Crebtes b SbslClient by using b defbult CbllbbckHbndler
+     * thbt uses the Context.SECURITY_PRINCIPAL bnd Context.SECURITY_CREDENTIALS
+     * properties to sbtisfy the cbllbbcks, bnd by using the
+     * SASL_AUTHZ_ID property bs the buthorizbtion id. If the SASL_AUTHZ_ID
+     * property hbs not been set, Context.SECURITY_PRINCIPAL is used.
+     * If SASL_CALLBACK hbs been set, use thbt instebd of the defbult
+     * CbllbbckHbndler.
      *<p>
-     * If bind is successful and the selected SASL mechanism has a security
-     * layer, set inStream and outStream to be filter streams that use
-     * the security layer. These will be used for subsequent communication
+     * If bind is successful bnd the selected SASL mechbnism hbs b security
+     * lbyer, set inStrebm bnd outStrebm to be filter strebms thbt use
+     * the security lbyer. These will be used for subsequent communicbtion
      * with the server.
      *<p>
-     * @param conn The non-null connection to use for sending an LDAP BIND
-     * @param server Non-null string name of host to connect to
-     * @param dn Non-null DN to bind as; also used as authentication ID
-     * @param pw Possibly null password; can be byte[], char[] or String
-     * @param authMech A non-null space-separated list of SASL authentication
-     *        mechanisms.
-     * @param env The possibly null environment of the context, possibly containing
-     *        properties for used by SASL mechanisms
-     * @param bindCtls The possibly null controls to accompany the bind
-     * @return LdapResult containing status of the bind
+     * @pbrbm conn The non-null connection to use for sending bn LDAP BIND
+     * @pbrbm server Non-null string nbme of host to connect to
+     * @pbrbm dn Non-null DN to bind bs; blso used bs buthenticbtion ID
+     * @pbrbm pw Possibly null pbssword; cbn be byte[], chbr[] or String
+     * @pbrbm buthMech A non-null spbce-sepbrbted list of SASL buthenticbtion
+     *        mechbnisms.
+     * @pbrbm env The possibly null environment of the context, possibly contbining
+     *        properties for used by SASL mechbnisms
+     * @pbrbm bindCtls The possibly null controls to bccompbny the bind
+     * @return LdbpResult contbining stbtus of the bind
      */
-    @SuppressWarnings("unchecked")
-    public static LdapResult saslBind(LdapClient clnt, Connection conn,
+    @SuppressWbrnings("unchecked")
+    public stbtic LdbpResult sbslBind(LdbpClient clnt, Connection conn,
         String server, String dn, Object pw,
-        String authMech, Hashtable<?,?> env, Control[] bindCtls)
-        throws IOException, NamingException {
+        String buthMech, Hbshtbble<?,?> env, Control[] bindCtls)
+        throws IOException, NbmingException {
 
-        SaslClient saslClnt = null;
-        boolean cleanupHandler = false;
+        SbslClient sbslClnt = null;
+        boolebn clebnupHbndler = fblse;
 
-        // Use supplied callback handler or create default
-        CallbackHandler cbh =
-            (env != null) ? (CallbackHandler)env.get(SASL_CALLBACK) : null;
+        // Use supplied cbllbbck hbndler or crebte defbult
+        CbllbbckHbndler cbh =
+            (env != null) ? (CbllbbckHbndler)env.get(SASL_CALLBACK) : null;
         if (cbh == null) {
-            cbh = new DefaultCallbackHandler(dn, pw, (String)env.get(SASL_REALM));
-            cleanupHandler = true;
+            cbh = new DefbultCbllbbckHbndler(dn, pw, (String)env.get(SASL_REALM));
+            clebnupHbndler = true;
         }
 
-        // Prepare parameters for creating SASL client
-        String authzId = (env != null) ? (String)env.get(SASL_AUTHZ_ID) : null;
-        String[] mechs = getSaslMechanismNames(authMech);
+        // Prepbre pbrbmeters for crebting SASL client
+        String buthzId = (env != null) ? (String)env.get(SASL_AUTHZ_ID) : null;
+        String[] mechs = getSbslMechbnismNbmes(buthMech);
 
         try {
-            // Create SASL client to use using SASL package
-            saslClnt = Sasl.createSaslClient(
-                mechs, authzId, "ldap", server, (Hashtable<String, ?>)env, cbh);
+            // Crebte SASL client to use using SASL pbckbge
+            sbslClnt = Sbsl.crebteSbslClient(
+                mechs, buthzId, "ldbp", server, (Hbshtbble<String, ?>)env, cbh);
 
-            if (saslClnt == null) {
-                throw new AuthenticationNotSupportedException(authMech);
+            if (sbslClnt == null) {
+                throw new AuthenticbtionNotSupportedException(buthMech);
             }
 
-            LdapResult res;
-            String mechName = saslClnt.getMechanismName();
-            byte[] response = saslClnt.hasInitialResponse() ?
-                saslClnt.evaluateChallenge(NO_BYTES) : null;
+            LdbpResult res;
+            String mechNbme = sbslClnt.getMechbnismNbme();
+            byte[] response = sbslClnt.hbsInitiblResponse() ?
+                sbslClnt.evblubteChbllenge(NO_BYTES) : null;
 
-            res = clnt.ldapBind(null, response, bindCtls, mechName, true);
+            res = clnt.ldbpBind(null, response, bindCtls, mechNbme, true);
 
-            while (!saslClnt.isComplete() &&
-                (res.status == LDAP_SASL_BIND_IN_PROGRESS ||
-                 res.status == LDAP_SUCCESS)) {
+            while (!sbslClnt.isComplete() &&
+                (res.stbtus == LDAP_SASL_BIND_IN_PROGRESS ||
+                 res.stbtus == LDAP_SUCCESS)) {
 
-                response = saslClnt.evaluateChallenge(
+                response = sbslClnt.evblubteChbllenge(
                     res.serverCreds != null? res.serverCreds : NO_BYTES);
-                if (res.status == LDAP_SUCCESS) {
+                if (res.stbtus == LDAP_SUCCESS) {
                     if (response != null) {
-                        throw new AuthenticationException(
-                            "SASL client generated response after success");
+                        throw new AuthenticbtionException(
+                            "SASL client generbted response bfter success");
                     }
-                    break;
+                    brebk;
                 }
-                res = clnt.ldapBind(null, response, bindCtls, mechName, true);
+                res = clnt.ldbpBind(null, response, bindCtls, mechNbme, true);
             }
 
-            if (res.status == LDAP_SUCCESS) {
-                if (!saslClnt.isComplete()) {
-                    throw new AuthenticationException(
-                        "SASL authentication not complete despite server claims");
+            if (res.stbtus == LDAP_SUCCESS) {
+                if (!sbslClnt.isComplete()) {
+                    throw new AuthenticbtionException(
+                        "SASL buthenticbtion not complete despite server clbims");
                 }
 
-                String qop = (String) saslClnt.getNegotiatedProperty(Sasl.QOP);
+                String qop = (String) sbslClnt.getNegotibtedProperty(Sbsl.QOP);
 
-                // If negotiated integrity or privacy,
-                if (qop != null && (qop.equalsIgnoreCase("auth-int")
-                    || qop.equalsIgnoreCase("auth-conf"))) {
+                // If negotibted integrity or privbcy,
+                if (qop != null && (qop.equblsIgnoreCbse("buth-int")
+                    || qop.equblsIgnoreCbse("buth-conf"))) {
 
-                    InputStream newIn = new SaslInputStream(saslClnt,
-                        conn.inStream);
-                    OutputStream newOut = new SaslOutputStream(saslClnt,
-                        conn.outStream);
+                    InputStrebm newIn = new SbslInputStrebm(sbslClnt,
+                        conn.inStrebm);
+                    OutputStrebm newOut = new SbslOutputStrebm(sbslClnt,
+                        conn.outStrebm);
 
-                    conn.replaceStreams(newIn, newOut);
+                    conn.replbceStrebms(newIn, newOut);
                 } else {
-                    saslClnt.dispose();
+                    sbslClnt.dispose();
                 }
             }
             return res;
-        } catch (SaslException e) {
-            NamingException ne = new AuthenticationException(
-                authMech);
-            ne.setRootCause(e);
+        } cbtch (SbslException e) {
+            NbmingException ne = new AuthenticbtionException(
+                buthMech);
+            ne.setRootCbuse(e);
             throw ne;
-        } finally {
-            if (cleanupHandler) {
-                ((DefaultCallbackHandler)cbh).clearPassword();
+        } finblly {
+            if (clebnupHbndler) {
+                ((DefbultCbllbbckHbndler)cbh).clebrPbssword();
             }
         }
     }
 
     /**
-      * Returns an array of SASL mechanisms given a string of space
-      * separated SASL mechanism names.
-      * @param The non-null string containing the mechanism names
-      * @return A non-null array of String; each element of the array
-      * contains a single mechanism name.
+      * Returns bn brrby of SASL mechbnisms given b string of spbce
+      * sepbrbted SASL mechbnism nbmes.
+      * @pbrbm The non-null string contbining the mechbnism nbmes
+      * @return A non-null brrby of String; ebch element of the brrby
+      * contbins b single mechbnism nbme.
       */
-    private static String[] getSaslMechanismNames(String str) {
-        StringTokenizer parser = new StringTokenizer(str);
+    privbte stbtic String[] getSbslMechbnismNbmes(String str) {
+        StringTokenizer pbrser = new StringTokenizer(str);
         Vector<String> mechs = new Vector<>(10);
-        while (parser.hasMoreTokens()) {
-            mechs.addElement(parser.nextToken());
+        while (pbrser.hbsMoreTokens()) {
+            mechs.bddElement(pbrser.nextToken());
         }
-        String[] mechNames = new String[mechs.size()];
+        String[] mechNbmes = new String[mechs.size()];
         for (int i = 0; i < mechs.size(); i++) {
-            mechNames[i] = mechs.elementAt(i);
+            mechNbmes[i] = mechs.elementAt(i);
         }
-        return mechNames;
+        return mechNbmes;
     }
 
-    private static final byte[] NO_BYTES = new byte[0];
+    privbte stbtic finbl byte[] NO_BYTES = new byte[0];
 }

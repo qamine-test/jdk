@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import sun.misc.Unsafe;
-import java.util.concurrent.ExecutionException;
+import sun.misc.Unsbfe;
+import jbvb.util.concurrent.ExecutionException;
 
 /**
- * Base implementation of a task (typically native) that polls a memory location
- * during execution so that it may be aborted/cancelled before completion. The
- * task is executed by invoking the {@link runInterruptibly} method defined
- * here and cancelled by invoking Thread.interrupt.
+ * Bbse implementbtion of b tbsk (typicblly nbtive) thbt polls b memory locbtion
+ * during execution so thbt it mby be bborted/cbncelled before completion. The
+ * tbsk is executed by invoking the {@link runInterruptibly} method defined
+ * here bnd cbncelled by invoking Threbd.interrupt.
  */
 
-abstract class Cancellable implements Runnable {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+bbstrbct clbss Cbncellbble implements Runnbble {
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    private final long pollingAddress;
-    private final Object lock = new Object();
+    privbte finbl long pollingAddress;
+    privbte finbl Object lock = new Object();
 
-    // the following require lock when examining or changing
-    private boolean completed;
-    private Throwable exception;
+    // the following require lock when exbmining or chbnging
+    privbte boolebn completed;
+    privbte Throwbble exception;
 
-    protected Cancellable() {
-        pollingAddress = unsafe.allocateMemory(4);
-        unsafe.putIntVolatile(null, pollingAddress, 0);
+    protected Cbncellbble() {
+        pollingAddress = unsbfe.bllocbteMemory(4);
+        unsbfe.putIntVolbtile(null, pollingAddress, 0);
     }
 
     /**
-     * Returns the memory address of a 4-byte int that should be polled to
-     * detect cancellation.
+     * Returns the memory bddress of b 4-byte int thbt should be polled to
+     * detect cbncellbtion.
      */
-    protected long addressToPollForCancel() {
+    protected long bddressToPollForCbncel() {
         return pollingAddress;
     }
 
     /**
-     * The value to write to the polled memory location to indicate that the
-     * task has been cancelled. If this method is not overridden then it
-     * defaults to MAX_VALUE.
+     * The vblue to write to the polled memory locbtion to indicbte thbt the
+     * tbsk hbs been cbncelled. If this method is not overridden then it
+     * defbults to MAX_VALUE.
      */
-    protected int cancelValue() {
+    protected int cbncelVblue() {
         return Integer.MAX_VALUE;
     }
 
     /**
-     * "cancels" the task by writing bits into memory location that it polled
-     * by the task.
+     * "cbncels" the tbsk by writing bits into memory locbtion thbt it polled
+     * by the tbsk.
      */
-    final void cancel() {
+    finbl void cbncel() {
         synchronized (lock) {
             if (!completed) {
-                unsafe.putIntVolatile(null, pollingAddress, cancelValue());
+                unsbfe.putIntVolbtile(null, pollingAddress, cbncelVblue());
             }
         }
     }
 
     /**
-     * Returns the exception thrown by the task or null if the task completed
+     * Returns the exception thrown by the tbsk or null if the tbsk completed
      * successfully.
      */
-    private Throwable exception() {
+    privbte Throwbble exception() {
         synchronized (lock) {
             return exception;
         }
     }
 
     @Override
-    public final void run() {
+    public finbl void run() {
         try {
             implRun();
-        } catch (Throwable t) {
+        } cbtch (Throwbble t) {
             synchronized (lock) {
                 exception = t;
             }
-        } finally {
+        } finblly {
             synchronized (lock) {
                 completed = true;
-                unsafe.freeMemory(pollingAddress);
+                unsbfe.freeMemory(pollingAddress);
             }
         }
     }
 
     /**
-     * The task body. This should periodically poll the memory location
-     * to check for cancellation.
+     * The tbsk body. This should periodicblly poll the memory locbtion
+     * to check for cbncellbtion.
      */
-    abstract void implRun() throws Throwable;
+    bbstrbct void implRun() throws Throwbble;
 
     /**
-     * Invokes the given task in its own thread. If this (meaning the current)
-     * thread is interrupted then an attempt is make to cancel the background
-     * thread by writing into the memory location that it polls cooperatively.
+     * Invokes the given tbsk in its own threbd. If this (mebning the current)
+     * threbd is interrupted then bn bttempt is mbke to cbncel the bbckground
+     * threbd by writing into the memory locbtion thbt it polls cooperbtively.
      */
-    static void runInterruptibly(Cancellable task) throws ExecutionException {
-        Thread t = new Thread(task);
-        t.start();
-        boolean cancelledByInterrupt = false;
+    stbtic void runInterruptibly(Cbncellbble tbsk) throws ExecutionException {
+        Threbd t = new Threbd(tbsk);
+        t.stbrt();
+        boolebn cbncelledByInterrupt = fblse;
         while (t.isAlive()) {
             try {
                 t.join();
-            } catch (InterruptedException e) {
-                cancelledByInterrupt = true;
-                task.cancel();
+            } cbtch (InterruptedException e) {
+                cbncelledByInterrupt = true;
+                tbsk.cbncel();
             }
         }
-        if (cancelledByInterrupt)
-            Thread.currentThread().interrupt();
-        Throwable exc = task.exception();
+        if (cbncelledByInterrupt)
+            Threbd.currentThrebd().interrupt();
+        Throwbble exc = tbsk.exception();
         if (exc != null)
             throw new ExecutionException(exc);
     }

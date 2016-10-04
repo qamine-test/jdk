@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.Font;
+import jbvb.bwt.Font;
 
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.text.AttributedString;
-import java.text.Bidi;
-import java.text.BreakIterator;
-import java.text.CharacterIterator;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
+import jbvb.text.AttributedString;
+import jbvb.text.Bidi;
+import jbvb.text.BrebkIterbtor;
+import jbvb.text.ChbrbcterIterbtor;
 
-import java.awt.font.FontRenderContext;
+import jbvb.bwt.font.FontRenderContext;
 
-import java.util.Hashtable;
-import java.util.Map;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Mbp;
 
-import sun.font.AttributeValues;
+import sun.font.AttributeVblues;
 import sun.font.BidiUtils;
 import sun.font.TextLineComponent;
-import sun.font.TextLabelFactory;
+import sun.font.TextLbbelFbctory;
 import sun.font.FontResolver;
 
 /**
- * The <code>TextMeasurer</code> class provides the primitive operations
- * needed for line break: measuring up to a given advance, determining the
- * advance of a range of characters, and generating a
- * <code>TextLayout</code> for a range of characters. It also provides
- * methods for incremental editing of paragraphs.
+ * The <code>TextMebsurer</code> clbss provides the primitive operbtions
+ * needed for line brebk: mebsuring up to b given bdvbnce, determining the
+ * bdvbnce of b rbnge of chbrbcters, bnd generbting b
+ * <code>TextLbyout</code> for b rbnge of chbrbcters. It blso provides
+ * methods for incrementbl editing of pbrbgrbphs.
  * <p>
- * A <code>TextMeasurer</code> object is constructed with an
- * {@link java.text.AttributedCharacterIterator AttributedCharacterIterator}
- * representing a single paragraph of text.  The value returned by the
- * {@link AttributedCharacterIterator#getBeginIndex() getBeginIndex}
- * method of <code>AttributedCharacterIterator</code>
- * defines the absolute index of the first character.  The value
+ * A <code>TextMebsurer</code> object is constructed with bn
+ * {@link jbvb.text.AttributedChbrbcterIterbtor AttributedChbrbcterIterbtor}
+ * representing b single pbrbgrbph of text.  The vblue returned by the
+ * {@link AttributedChbrbcterIterbtor#getBeginIndex() getBeginIndex}
+ * method of <code>AttributedChbrbcterIterbtor</code>
+ * defines the bbsolute index of the first chbrbcter.  The vblue
  * returned by the
- * {@link AttributedCharacterIterator#getEndIndex() getEndIndex}
- * method of <code>AttributedCharacterIterator</code> defines the index
- * past the last character.  These values define the range of indexes to
- * use in calls to the <code>TextMeasurer</code>.  For example, calls to
- * get the advance of a range of text or the line break of a range of text
- * must use indexes between the beginning and end index values.  Calls to
- * {@link #insertChar(java.text.AttributedCharacterIterator, int) insertChar}
- * and
- * {@link #deleteChar(java.text.AttributedCharacterIterator, int) deleteChar}
- * reset the <code>TextMeasurer</code> to use the beginning index and end
- * index of the <code>AttributedCharacterIterator</code> passed in those calls.
+ * {@link AttributedChbrbcterIterbtor#getEndIndex() getEndIndex}
+ * method of <code>AttributedChbrbcterIterbtor</code> defines the index
+ * pbst the lbst chbrbcter.  These vblues define the rbnge of indexes to
+ * use in cblls to the <code>TextMebsurer</code>.  For exbmple, cblls to
+ * get the bdvbnce of b rbnge of text or the line brebk of b rbnge of text
+ * must use indexes between the beginning bnd end index vblues.  Cblls to
+ * {@link #insertChbr(jbvb.text.AttributedChbrbcterIterbtor, int) insertChbr}
+ * bnd
+ * {@link #deleteChbr(jbvb.text.AttributedChbrbcterIterbtor, int) deleteChbr}
+ * reset the <code>TextMebsurer</code> to use the beginning index bnd end
+ * index of the <code>AttributedChbrbcterIterbtor</code> pbssed in those cblls.
  * <p>
- * Most clients will use the more convenient <code>LineBreakMeasurer</code>,
- * which implements the standard line break policy (placing as many words
- * as will fit on each line).
+ * Most clients will use the more convenient <code>LineBrebkMebsurer</code>,
+ * which implements the stbndbrd line brebk policy (plbcing bs mbny words
+ * bs will fit on ebch line).
  *
- * @author John Raley
- * @see LineBreakMeasurer
+ * @buthor John Rbley
+ * @see LineBrebkMebsurer
  * @since 1.3
  */
 
-public final class TextMeasurer implements Cloneable {
+public finbl clbss TextMebsurer implements Clonebble {
 
-    // Number of lines to format to.
-    private static float EST_LINES = (float) 2.1;
+    // Number of lines to formbt to.
+    privbte stbtic flobt EST_LINES = (flobt) 2.1;
 
     /*
-    static {
+    stbtic {
         String s = System.getProperty("estLines");
         if (s != null) {
             try {
-                Float f = new Float(s);
-                EST_LINES = f.floatValue();
+                Flobt f = new Flobt(s);
+                EST_LINES = f.flobtVblue();
             }
-            catch(NumberFormatException e) {
+            cbtch(NumberFormbtException e) {
             }
         }
         //System.out.println("EST_LINES="+EST_LINES);
     }
     */
 
-    private FontRenderContext fFrc;
+    privbte FontRenderContext fFrc;
 
-    private int fStart;
+    privbte int fStbrt;
 
-    // characters in source text
-    private char[] fChars;
+    // chbrbcters in source text
+    privbte chbr[] fChbrs;
 
-    // Bidi for this paragraph
-    private Bidi fBidi;
+    // Bidi for this pbrbgrbph
+    privbte Bidi fBidi;
 
-    // Levels array for chars in this paragraph - needed to reorder
-    // trailing counterdirectional whitespace
-    private byte[] fLevels;
+    // Levels brrby for chbrs in this pbrbgrbph - needed to reorder
+    // trbiling counterdirectionbl whitespbce
+    privbte byte[] fLevels;
 
-    // line components in logical order
-    private TextLineComponent[] fComponents;
+    // line components in logicbl order
+    privbte TextLineComponent[] fComponents;
 
     // index where components begin
-    private int fComponentStart;
+    privbte int fComponentStbrt;
 
     // index where components end
-    private int fComponentLimit;
+    privbte int fComponentLimit;
 
-    private boolean haveLayoutWindow;
+    privbte boolebn hbveLbyoutWindow;
 
-    // used to find valid starting points for line components
-    private BreakIterator fLineBreak = null;
-    private CharArrayIterator charIter = null;
-    int layoutCount = 0;
-    int layoutCharCount = 0;
+    // used to find vblid stbrting points for line components
+    privbte BrebkIterbtor fLineBrebk = null;
+    privbte ChbrArrbyIterbtor chbrIter = null;
+    int lbyoutCount = 0;
+    int lbyoutChbrCount = 0;
 
-    // paragraph, with resolved fonts and styles
-    private StyledParagraph fParagraph;
+    // pbrbgrbph, with resolved fonts bnd styles
+    privbte StyledPbrbgrbph fPbrbgrbph;
 
-    // paragraph data - same across all layouts
-    private boolean fIsDirectionLTR;
-    private byte fBaseline;
-    private float[] fBaselineOffsets;
-    private float fJustifyRatio = 1;
+    // pbrbgrbph dbtb - sbme bcross bll lbyouts
+    privbte boolebn fIsDirectionLTR;
+    privbte byte fBbseline;
+    privbte flobt[] fBbselineOffsets;
+    privbte flobt fJustifyRbtio = 1;
 
     /**
-     * Constructs a <code>TextMeasurer</code> from the source text.
-     * The source text should be a single entire paragraph.
-     * @param text the source paragraph.  Cannot be null.
-     * @param frc the information about a graphics device which is needed
-     *       to measure the text correctly.  Cannot be null.
+     * Constructs b <code>TextMebsurer</code> from the source text.
+     * The source text should be b single entire pbrbgrbph.
+     * @pbrbm text the source pbrbgrbph.  Cbnnot be null.
+     * @pbrbm frc the informbtion bbout b grbphics device which is needed
+     *       to mebsure the text correctly.  Cbnnot be null.
      */
-    public TextMeasurer(AttributedCharacterIterator text, FontRenderContext frc) {
+    public TextMebsurer(AttributedChbrbcterIterbtor text, FontRenderContext frc) {
 
         fFrc = frc;
         initAll(text);
     }
 
     protected Object clone() {
-        TextMeasurer other;
+        TextMebsurer other;
         try {
-            other = (TextMeasurer) super.clone();
+            other = (TextMebsurer) super.clone();
         }
-        catch(CloneNotSupportedException e) {
+        cbtch(CloneNotSupportedException e) {
             throw new Error();
         }
         if (fComponents != null) {
@@ -182,29 +182,29 @@ public final class TextMeasurer implements Cloneable {
         return other;
     }
 
-    private void invalidateComponents() {
-        fComponentStart = fComponentLimit = fChars.length;
+    privbte void invblidbteComponents() {
+        fComponentStbrt = fComponentLimit = fChbrs.length;
         fComponents = null;
-        haveLayoutWindow = false;
+        hbveLbyoutWindow = fblse;
     }
 
     /**
-     * Initialize state, including fChars array, direction, and
+     * Initiblize stbte, including fChbrs brrby, direction, bnd
      * fBidi.
      */
-    private void initAll(AttributedCharacterIterator text) {
+    privbte void initAll(AttributedChbrbcterIterbtor text) {
 
-        fStart = text.getBeginIndex();
+        fStbrt = text.getBeginIndex();
 
-        // extract chars
-        fChars = new char[text.getEndIndex() - fStart];
+        // extrbct chbrs
+        fChbrs = new chbr[text.getEndIndex() - fStbrt];
 
         int n = 0;
-        for (char c = text.first();
-             c != CharacterIterator.DONE;
+        for (chbr c = text.first();
+             c != ChbrbcterIterbtor.DONE;
              c = text.next())
         {
-            fChars[n++] = c;
+            fChbrs[n++] = c;
         }
 
         text.first();
@@ -215,68 +215,68 @@ public final class TextMeasurer implements Cloneable {
         }
 
         text.first();
-        Map<? extends Attribute, ?> paragraphAttrs = text.getAttributes();
-        NumericShaper shaper = AttributeValues.getNumericShaping(paragraphAttrs);
-        if (shaper != null) {
-            shaper.shape(fChars, 0, fChars.length);
+        Mbp<? extends Attribute, ?> pbrbgrbphAttrs = text.getAttributes();
+        NumericShbper shbper = AttributeVblues.getNumericShbping(pbrbgrbphAttrs);
+        if (shbper != null) {
+            shbper.shbpe(fChbrs, 0, fChbrs.length);
         }
 
-        fParagraph = new StyledParagraph(text, fChars);
+        fPbrbgrbph = new StyledPbrbgrbph(text, fChbrs);
 
-        // set paragraph attributes
+        // set pbrbgrbph bttributes
         {
-            // If there's an embedded graphic at the start of the
-            // paragraph, look for the first non-graphic character
-            // and use it and its font to initialize the paragraph.
-            // If not, use the first graphic to initialize.
-            fJustifyRatio = AttributeValues.getJustification(paragraphAttrs);
+            // If there's bn embedded grbphic bt the stbrt of the
+            // pbrbgrbph, look for the first non-grbphic chbrbcter
+            // bnd use it bnd its font to initiblize the pbrbgrbph.
+            // If not, use the first grbphic to initiblize.
+            fJustifyRbtio = AttributeVblues.getJustificbtion(pbrbgrbphAttrs);
 
-            boolean haveFont = TextLine.advanceToFirstFont(text);
+            boolebn hbveFont = TextLine.bdvbnceToFirstFont(text);
 
-            if (haveFont) {
-                Font defaultFont = TextLine.getFontAtCurrentPos(text);
-                int charsStart = text.getIndex() - text.getBeginIndex();
-                LineMetrics lm = defaultFont.getLineMetrics(fChars, charsStart, charsStart+1, fFrc);
-                fBaseline = (byte) lm.getBaselineIndex();
-                fBaselineOffsets = lm.getBaselineOffsets();
+            if (hbveFont) {
+                Font defbultFont = TextLine.getFontAtCurrentPos(text);
+                int chbrsStbrt = text.getIndex() - text.getBeginIndex();
+                LineMetrics lm = defbultFont.getLineMetrics(fChbrs, chbrsStbrt, chbrsStbrt+1, fFrc);
+                fBbseline = (byte) lm.getBbselineIndex();
+                fBbselineOffsets = lm.getBbselineOffsets();
             }
             else {
-                // hmmm what to do here?  Just try to supply reasonable
-                // values I guess.
+                // hmmm whbt to do here?  Just try to supply rebsonbble
+                // vblues I guess.
 
-                GraphicAttribute graphic = (GraphicAttribute)
-                                paragraphAttrs.get(TextAttribute.CHAR_REPLACEMENT);
-                fBaseline = TextLayout.getBaselineFromGraphic(graphic);
-                Hashtable<Attribute, ?> fmap = new Hashtable<>(5, (float)0.9);
-                Font dummyFont = new Font(fmap);
+                GrbphicAttribute grbphic = (GrbphicAttribute)
+                                pbrbgrbphAttrs.get(TextAttribute.CHAR_REPLACEMENT);
+                fBbseline = TextLbyout.getBbselineFromGrbphic(grbphic);
+                Hbshtbble<Attribute, ?> fmbp = new Hbshtbble<>(5, (flobt)0.9);
+                Font dummyFont = new Font(fmbp);
                 LineMetrics lm = dummyFont.getLineMetrics(" ", 0, 1, fFrc);
-                fBaselineOffsets = lm.getBaselineOffsets();
+                fBbselineOffsets = lm.getBbselineOffsets();
             }
-            fBaselineOffsets = TextLine.getNormalizedOffsets(fBaselineOffsets, fBaseline);
+            fBbselineOffsets = TextLine.getNormblizedOffsets(fBbselineOffsets, fBbseline);
         }
 
-        invalidateComponents();
+        invblidbteComponents();
     }
 
     /**
-     * Generate components for the paragraph.  fChars, fBidi should have been
-     * initialized already.
+     * Generbte components for the pbrbgrbph.  fChbrs, fBidi should hbve been
+     * initiblized blrebdy.
      */
-    private void generateComponents(int startingAt, int endingAt) {
+    privbte void generbteComponents(int stbrtingAt, int endingAt) {
 
-        if (collectStats) {
-            formattedChars += (endingAt-startingAt);
+        if (collectStbts) {
+            formbttedChbrs += (endingAt-stbrtingAt);
         }
-        int layoutFlags = 0; // no extra info yet, bidi determines run and line direction
-        TextLabelFactory factory = new TextLabelFactory(fFrc, fChars, fBidi, layoutFlags);
+        int lbyoutFlbgs = 0; // no extrb info yet, bidi determines run bnd line direction
+        TextLbbelFbctory fbctory = new TextLbbelFbctory(fFrc, fChbrs, fBidi, lbyoutFlbgs);
 
-        int[] charsLtoV = null;
+        int[] chbrsLtoV = null;
 
         if (fBidi != null) {
             fLevels = BidiUtils.getLevels(fBidi);
-            int[] charsVtoL = BidiUtils.createVisualToLogicalMap(fLevels);
-            charsLtoV = BidiUtils.createInverseMap(charsVtoL);
-            fIsDirectionLTR = fBidi.baseIsLeftToRight();
+            int[] chbrsVtoL = BidiUtils.crebteVisublToLogicblMbp(fLevels);
+            chbrsLtoV = BidiUtils.crebteInverseMbp(chbrsVtoL);
+            fIsDirectionLTR = fBidi.bbseIsLeftToRight();
         }
         else {
             fLevels = null;
@@ -285,137 +285,137 @@ public final class TextMeasurer implements Cloneable {
 
         try {
             fComponents = TextLine.getComponents(
-                fParagraph, fChars, startingAt, endingAt, charsLtoV, fLevels, factory);
+                fPbrbgrbph, fChbrs, stbrtingAt, endingAt, chbrsLtoV, fLevels, fbctory);
         }
-        catch(IllegalArgumentException e) {
-            System.out.println("startingAt="+startingAt+"; endingAt="+endingAt);
+        cbtch(IllegblArgumentException e) {
+            System.out.println("stbrtingAt="+stbrtingAt+"; endingAt="+endingAt);
             System.out.println("fComponentLimit="+fComponentLimit);
             throw e;
         }
 
-        fComponentStart = startingAt;
+        fComponentStbrt = stbrtingAt;
         fComponentLimit = endingAt;
-        //debugFormatCount += (endingAt-startingAt);
+        //debugFormbtCount += (endingAt-stbrtingAt);
     }
 
-    private int calcLineBreak(final int pos, final float maxAdvance) {
+    privbte int cblcLineBrebk(finbl int pos, finbl flobt mbxAdvbnce) {
 
-        // either of these statements removes the bug:
-        //generateComponents(0, fChars.length);
-        //generateComponents(pos, fChars.length);
+        // either of these stbtements removes the bug:
+        //generbteComponents(0, fChbrs.length);
+        //generbteComponents(pos, fChbrs.length);
 
-        int startPos = pos;
-        float width = maxAdvance;
+        int stbrtPos = pos;
+        flobt width = mbxAdvbnce;
 
         int tlcIndex;
-        int tlcStart = fComponentStart;
+        int tlcStbrt = fComponentStbrt;
 
         for (tlcIndex = 0; tlcIndex < fComponents.length; tlcIndex++) {
-            int gaLimit = tlcStart + fComponents[tlcIndex].getNumCharacters();
-            if (gaLimit > startPos) {
-                break;
+            int gbLimit = tlcStbrt + fComponents[tlcIndex].getNumChbrbcters();
+            if (gbLimit > stbrtPos) {
+                brebk;
             }
             else {
-                tlcStart = gaLimit;
+                tlcStbrt = gbLimit;
             }
         }
 
-        // tlcStart is now the start of the tlc at tlcIndex
+        // tlcStbrt is now the stbrt of the tlc bt tlcIndex
 
         for (; tlcIndex < fComponents.length; tlcIndex++) {
 
             TextLineComponent tlc = fComponents[tlcIndex];
-            int numCharsInGa = tlc.getNumCharacters();
+            int numChbrsInGb = tlc.getNumChbrbcters();
 
-            int lineBreak = tlc.getLineBreakIndex(startPos - tlcStart, width);
-            if (lineBreak == numCharsInGa && tlcIndex < fComponents.length) {
-                width -= tlc.getAdvanceBetween(startPos - tlcStart, lineBreak);
-                tlcStart += numCharsInGa;
-                startPos = tlcStart;
+            int lineBrebk = tlc.getLineBrebkIndex(stbrtPos - tlcStbrt, width);
+            if (lineBrebk == numChbrsInGb && tlcIndex < fComponents.length) {
+                width -= tlc.getAdvbnceBetween(stbrtPos - tlcStbrt, lineBrebk);
+                tlcStbrt += numChbrsInGb;
+                stbrtPos = tlcStbrt;
             }
             else {
-                return tlcStart + lineBreak;
+                return tlcStbrt + lineBrebk;
             }
         }
 
-        if (fComponentLimit < fChars.length) {
-            // format more text and try again
-            //if (haveLayoutWindow) {
+        if (fComponentLimit < fChbrs.length) {
+            // formbt more text bnd try bgbin
+            //if (hbveLbyoutWindow) {
             //    outOfWindow++;
             //}
 
-            generateComponents(pos, fChars.length);
-            return calcLineBreak(pos, maxAdvance);
+            generbteComponents(pos, fChbrs.length);
+            return cblcLineBrebk(pos, mbxAdvbnce);
         }
 
-        return fChars.length;
+        return fChbrs.length;
     }
 
     /**
-     * According to the Unicode Bidirectional Behavior specification
-     * (Unicode Standard 2.0, section 3.11), whitespace at the ends
-     * of lines which would naturally flow against the base direction
-     * must be made to flow with the line direction, and moved to the
-     * end of the line.  This method returns the start of the sequence
-     * of trailing whitespace characters to move to the end of a
-     * line taken from the given range.
+     * According to the Unicode Bidirectionbl Behbvior specificbtion
+     * (Unicode Stbndbrd 2.0, section 3.11), whitespbce bt the ends
+     * of lines which would nbturblly flow bgbinst the bbse direction
+     * must be mbde to flow with the line direction, bnd moved to the
+     * end of the line.  This method returns the stbrt of the sequence
+     * of trbiling whitespbce chbrbcters to move to the end of b
+     * line tbken from the given rbnge.
      */
-    private int trailingCdWhitespaceStart(int startPos, int limitPos) {
+    privbte int trbilingCdWhitespbceStbrt(int stbrtPos, int limitPos) {
 
         if (fLevels != null) {
-            // Back up over counterdirectional whitespace
-            final byte baseLevel = (byte) (fIsDirectionLTR? 0 : 1);
-            for (int cdWsStart = limitPos; --cdWsStart >= startPos;) {
-                if ((fLevels[cdWsStart] % 2) == baseLevel ||
-                        Character.getDirectionality(fChars[cdWsStart]) != Character.DIRECTIONALITY_WHITESPACE) {
-                    return ++cdWsStart;
+            // Bbck up over counterdirectionbl whitespbce
+            finbl byte bbseLevel = (byte) (fIsDirectionLTR? 0 : 1);
+            for (int cdWsStbrt = limitPos; --cdWsStbrt >= stbrtPos;) {
+                if ((fLevels[cdWsStbrt] % 2) == bbseLevel ||
+                        Chbrbcter.getDirectionblity(fChbrs[cdWsStbrt]) != Chbrbcter.DIRECTIONALITY_WHITESPACE) {
+                    return ++cdWsStbrt;
                 }
             }
         }
 
-        return startPos;
+        return stbrtPos;
     }
 
-    private TextLineComponent[] makeComponentsOnRange(int startPos,
+    privbte TextLineComponent[] mbkeComponentsOnRbnge(int stbrtPos,
                                                       int limitPos) {
 
-        // sigh I really hate to do this here since it's part of the
-        // bidi algorithm.
-        // cdWsStart is the start of the trailing counterdirectional
-        // whitespace
-        final int cdWsStart = trailingCdWhitespaceStart(startPos, limitPos);
+        // sigh I reblly hbte to do this here since it's pbrt of the
+        // bidi blgorithm.
+        // cdWsStbrt is the stbrt of the trbiling counterdirectionbl
+        // whitespbce
+        finbl int cdWsStbrt = trbilingCdWhitespbceStbrt(stbrtPos, limitPos);
 
         int tlcIndex;
-        int tlcStart = fComponentStart;
+        int tlcStbrt = fComponentStbrt;
 
         for (tlcIndex = 0; tlcIndex < fComponents.length; tlcIndex++) {
-            int gaLimit = tlcStart + fComponents[tlcIndex].getNumCharacters();
-            if (gaLimit > startPos) {
-                break;
+            int gbLimit = tlcStbrt + fComponents[tlcIndex].getNumChbrbcters();
+            if (gbLimit > stbrtPos) {
+                brebk;
             }
             else {
-                tlcStart = gaLimit;
+                tlcStbrt = gbLimit;
             }
         }
 
-        // tlcStart is now the start of the tlc at tlcIndex
+        // tlcStbrt is now the stbrt of the tlc bt tlcIndex
 
         int componentCount;
         {
-            boolean split = false;
-            int compStart = tlcStart;
+            boolebn split = fblse;
+            int compStbrt = tlcStbrt;
             int lim=tlcIndex;
-            for (boolean cont=true; cont; lim++) {
-                int gaLimit = compStart + fComponents[lim].getNumCharacters();
-                if (cdWsStart > Math.max(compStart, startPos)
-                            && cdWsStart < Math.min(gaLimit, limitPos)) {
+            for (boolebn cont=true; cont; lim++) {
+                int gbLimit = compStbrt + fComponents[lim].getNumChbrbcters();
+                if (cdWsStbrt > Mbth.mbx(compStbrt, stbrtPos)
+                            && cdWsStbrt < Mbth.min(gbLimit, limitPos)) {
                     split = true;
                 }
-                if (gaLimit >= limitPos) {
-                    cont=false;
+                if (gbLimit >= limitPos) {
+                    cont=fblse;
                 }
                 else {
-                    compStart = gaLimit;
+                    compStbrt = gbLimit;
                 }
             }
             componentCount = lim-tlcIndex;
@@ -426,339 +426,339 @@ public final class TextMeasurer implements Cloneable {
 
         TextLineComponent[] components = new TextLineComponent[componentCount];
         int newCompIndex = 0;
-        int linePos = startPos;
+        int linePos = stbrtPos;
 
-        int breakPt = cdWsStart;
+        int brebkPt = cdWsStbrt;
 
-        int subsetFlag;
-        if (breakPt == startPos) {
-            subsetFlag = fIsDirectionLTR? TextLineComponent.LEFT_TO_RIGHT :
+        int subsetFlbg;
+        if (brebkPt == stbrtPos) {
+            subsetFlbg = fIsDirectionLTR? TextLineComponent.LEFT_TO_RIGHT :
                                           TextLineComponent.RIGHT_TO_LEFT;
-            breakPt = limitPos;
+            brebkPt = limitPos;
         }
         else {
-            subsetFlag = TextLineComponent.UNCHANGED;
+            subsetFlbg = TextLineComponent.UNCHANGED;
         }
 
         while (linePos < limitPos) {
 
-            int compLength = fComponents[tlcIndex].getNumCharacters();
-            int tlcLimit = tlcStart + compLength;
+            int compLength = fComponents[tlcIndex].getNumChbrbcters();
+            int tlcLimit = tlcStbrt + compLength;
 
-            int start = Math.max(linePos, tlcStart);
-            int limit = Math.min(breakPt, tlcLimit);
+            int stbrt = Mbth.mbx(linePos, tlcStbrt);
+            int limit = Mbth.min(brebkPt, tlcLimit);
 
             components[newCompIndex++] = fComponents[tlcIndex].getSubset(
-                                                                start-tlcStart,
-                                                                limit-tlcStart,
-                                                                subsetFlag);
-            linePos += (limit-start);
-            if (linePos == breakPt) {
-                breakPt = limitPos;
-                subsetFlag = fIsDirectionLTR? TextLineComponent.LEFT_TO_RIGHT :
+                                                                stbrt-tlcStbrt,
+                                                                limit-tlcStbrt,
+                                                                subsetFlbg);
+            linePos += (limit-stbrt);
+            if (linePos == brebkPt) {
+                brebkPt = limitPos;
+                subsetFlbg = fIsDirectionLTR? TextLineComponent.LEFT_TO_RIGHT :
                                               TextLineComponent.RIGHT_TO_LEFT;
             }
             if (linePos == tlcLimit) {
                 tlcIndex++;
-                tlcStart = tlcLimit;
+                tlcStbrt = tlcLimit;
             }
         }
 
         return components;
     }
 
-    private TextLine makeTextLineOnRange(int startPos, int limitPos) {
+    privbte TextLine mbkeTextLineOnRbnge(int stbrtPos, int limitPos) {
 
-        int[] charsLtoV = null;
-        byte[] charLevels = null;
+        int[] chbrsLtoV = null;
+        byte[] chbrLevels = null;
 
         if (fBidi != null) {
-            Bidi lineBidi = fBidi.createLineBidi(startPos, limitPos);
-            charLevels = BidiUtils.getLevels(lineBidi);
-            int[] charsVtoL = BidiUtils.createVisualToLogicalMap(charLevels);
-            charsLtoV = BidiUtils.createInverseMap(charsVtoL);
+            Bidi lineBidi = fBidi.crebteLineBidi(stbrtPos, limitPos);
+            chbrLevels = BidiUtils.getLevels(lineBidi);
+            int[] chbrsVtoL = BidiUtils.crebteVisublToLogicblMbp(chbrLevels);
+            chbrsLtoV = BidiUtils.crebteInverseMbp(chbrsVtoL);
         }
 
-        TextLineComponent[] components = makeComponentsOnRange(startPos, limitPos);
+        TextLineComponent[] components = mbkeComponentsOnRbnge(stbrtPos, limitPos);
 
         return new TextLine(fFrc,
                             components,
-                            fBaselineOffsets,
-                            fChars,
-                            startPos,
+                            fBbselineOffsets,
+                            fChbrs,
+                            stbrtPos,
                             limitPos,
-                            charsLtoV,
-                            charLevels,
+                            chbrsLtoV,
+                            chbrLevels,
                             fIsDirectionLTR);
 
     }
 
-    private void ensureComponents(int start, int limit) {
+    privbte void ensureComponents(int stbrt, int limit) {
 
-        if (start < fComponentStart || limit > fComponentLimit) {
-            generateComponents(start, limit);
+        if (stbrt < fComponentStbrt || limit > fComponentLimit) {
+            generbteComponents(stbrt, limit);
         }
     }
 
-    private void makeLayoutWindow(int localStart) {
+    privbte void mbkeLbyoutWindow(int locblStbrt) {
 
-        int compStart = localStart;
-        int compLimit = fChars.length;
+        int compStbrt = locblStbrt;
+        int compLimit = fChbrs.length;
 
-        // If we've already gone past the layout window, format to end of paragraph
-        if (layoutCount > 0 && !haveLayoutWindow) {
-            float avgLineLength = Math.max(layoutCharCount / layoutCount, 1);
-            compLimit = Math.min(localStart + (int)(avgLineLength*EST_LINES), fChars.length);
+        // If we've blrebdy gone pbst the lbyout window, formbt to end of pbrbgrbph
+        if (lbyoutCount > 0 && !hbveLbyoutWindow) {
+            flobt bvgLineLength = Mbth.mbx(lbyoutChbrCount / lbyoutCount, 1);
+            compLimit = Mbth.min(locblStbrt + (int)(bvgLineLength*EST_LINES), fChbrs.length);
         }
 
-        if (localStart > 0 || compLimit < fChars.length) {
-            if (charIter == null) {
-                charIter = new CharArrayIterator(fChars);
+        if (locblStbrt > 0 || compLimit < fChbrs.length) {
+            if (chbrIter == null) {
+                chbrIter = new ChbrArrbyIterbtor(fChbrs);
             }
             else {
-                charIter.reset(fChars);
+                chbrIter.reset(fChbrs);
             }
-            if (fLineBreak == null) {
-                fLineBreak = BreakIterator.getLineInstance();
+            if (fLineBrebk == null) {
+                fLineBrebk = BrebkIterbtor.getLineInstbnce();
             }
-            fLineBreak.setText(charIter);
-            if (localStart > 0) {
-                if (!fLineBreak.isBoundary(localStart)) {
-                    compStart = fLineBreak.preceding(localStart);
+            fLineBrebk.setText(chbrIter);
+            if (locblStbrt > 0) {
+                if (!fLineBrebk.isBoundbry(locblStbrt)) {
+                    compStbrt = fLineBrebk.preceding(locblStbrt);
                 }
             }
-            if (compLimit < fChars.length) {
-                if (!fLineBreak.isBoundary(compLimit)) {
-                    compLimit = fLineBreak.following(compLimit);
+            if (compLimit < fChbrs.length) {
+                if (!fLineBrebk.isBoundbry(compLimit)) {
+                    compLimit = fLineBrebk.following(compLimit);
                 }
             }
         }
 
-        ensureComponents(compStart, compLimit);
-        haveLayoutWindow = true;
+        ensureComponents(compStbrt, compLimit);
+        hbveLbyoutWindow = true;
     }
 
     /**
-     * Returns the index of the first character which will not fit on
-     * on a line beginning at <code>start</code> and possible
-     * measuring up to <code>maxAdvance</code> in graphical width.
+     * Returns the index of the first chbrbcter which will not fit on
+     * on b line beginning bt <code>stbrt</code> bnd possible
+     * mebsuring up to <code>mbxAdvbnce</code> in grbphicbl width.
      *
-     * @param start the character index at which to start measuring.
-     *  <code>start</code> is an absolute index, not relative to the
-     *  start of the paragraph
-     * @param maxAdvance the graphical width in which the line must fit
-     * @return the index after the last character that will fit
-     *  on a line beginning at <code>start</code>, which is not longer
-     *  than <code>maxAdvance</code> in graphical width
-     * @throws IllegalArgumentException if <code>start</code> is
-     *          less than the beginning of the paragraph.
+     * @pbrbm stbrt the chbrbcter index bt which to stbrt mebsuring.
+     *  <code>stbrt</code> is bn bbsolute index, not relbtive to the
+     *  stbrt of the pbrbgrbph
+     * @pbrbm mbxAdvbnce the grbphicbl width in which the line must fit
+     * @return the index bfter the lbst chbrbcter thbt will fit
+     *  on b line beginning bt <code>stbrt</code>, which is not longer
+     *  thbn <code>mbxAdvbnce</code> in grbphicbl width
+     * @throws IllegblArgumentException if <code>stbrt</code> is
+     *          less thbn the beginning of the pbrbgrbph.
      */
-    public int getLineBreakIndex(int start, float maxAdvance) {
+    public int getLineBrebkIndex(int stbrt, flobt mbxAdvbnce) {
 
-        int localStart = start - fStart;
+        int locblStbrt = stbrt - fStbrt;
 
-        if (!haveLayoutWindow ||
-                localStart < fComponentStart ||
-                localStart >= fComponentLimit) {
-            makeLayoutWindow(localStart);
+        if (!hbveLbyoutWindow ||
+                locblStbrt < fComponentStbrt ||
+                locblStbrt >= fComponentLimit) {
+            mbkeLbyoutWindow(locblStbrt);
         }
 
-        return calcLineBreak(localStart, maxAdvance) + fStart;
+        return cblcLineBrebk(locblStbrt, mbxAdvbnce) + fStbrt;
     }
 
     /**
-     * Returns the graphical width of a line beginning at <code>start</code>
-     * and including characters up to <code>limit</code>.
-     * <code>start</code> and <code>limit</code> are absolute indices,
-     * not relative to the start of the paragraph.
+     * Returns the grbphicbl width of b line beginning bt <code>stbrt</code>
+     * bnd including chbrbcters up to <code>limit</code>.
+     * <code>stbrt</code> bnd <code>limit</code> bre bbsolute indices,
+     * not relbtive to the stbrt of the pbrbgrbph.
      *
-     * @param start the character index at which to start measuring
-     * @param limit the character index at which to stop measuring
-     * @return the graphical width of a line beginning at <code>start</code>
-     *   and including characters up to <code>limit</code>
+     * @pbrbm stbrt the chbrbcter index bt which to stbrt mebsuring
+     * @pbrbm limit the chbrbcter index bt which to stop mebsuring
+     * @return the grbphicbl width of b line beginning bt <code>stbrt</code>
+     *   bnd including chbrbcters up to <code>limit</code>
      * @throws IndexOutOfBoundsException if <code>limit</code> is less
-     *         than <code>start</code>
-     * @throws IllegalArgumentException if <code>start</code> or
+     *         thbn <code>stbrt</code>
+     * @throws IllegblArgumentException if <code>stbrt</code> or
      *          <code>limit</code> is not between the beginning of
-     *          the paragraph and the end of the paragraph.
+     *          the pbrbgrbph bnd the end of the pbrbgrbph.
      */
-    public float getAdvanceBetween(int start, int limit) {
+    public flobt getAdvbnceBetween(int stbrt, int limit) {
 
-        int localStart = start - fStart;
-        int localLimit = limit - fStart;
+        int locblStbrt = stbrt - fStbrt;
+        int locblLimit = limit - fStbrt;
 
-        ensureComponents(localStart, localLimit);
-        TextLine line = makeTextLineOnRange(localStart, localLimit);
-        return line.getMetrics().advance;
-        // could cache line in case getLayout is called with same start, limit
+        ensureComponents(locblStbrt, locblLimit);
+        TextLine line = mbkeTextLineOnRbnge(locblStbrt, locblLimit);
+        return line.getMetrics().bdvbnce;
+        // could cbche line in cbse getLbyout is cblled with sbme stbrt, limit
     }
 
     /**
-     * Returns a <code>TextLayout</code> on the given character range.
+     * Returns b <code>TextLbyout</code> on the given chbrbcter rbnge.
      *
-     * @param start the index of the first character
-     * @param limit the index after the last character.  Must be greater
-     *   than <code>start</code>
-     * @return a <code>TextLayout</code> for the characters beginning at
-     *  <code>start</code> up to (but not including) <code>limit</code>
+     * @pbrbm stbrt the index of the first chbrbcter
+     * @pbrbm limit the index bfter the lbst chbrbcter.  Must be grebter
+     *   thbn <code>stbrt</code>
+     * @return b <code>TextLbyout</code> for the chbrbcters beginning bt
+     *  <code>stbrt</code> up to (but not including) <code>limit</code>
      * @throws IndexOutOfBoundsException if <code>limit</code> is less
-     *         than <code>start</code>
-     * @throws IllegalArgumentException if <code>start</code> or
+     *         thbn <code>stbrt</code>
+     * @throws IllegblArgumentException if <code>stbrt</code> or
      *          <code>limit</code> is not between the beginning of
-     *          the paragraph and the end of the paragraph.
+     *          the pbrbgrbph bnd the end of the pbrbgrbph.
      */
-    public TextLayout getLayout(int start, int limit) {
+    public TextLbyout getLbyout(int stbrt, int limit) {
 
-        int localStart = start - fStart;
-        int localLimit = limit - fStart;
+        int locblStbrt = stbrt - fStbrt;
+        int locblLimit = limit - fStbrt;
 
-        ensureComponents(localStart, localLimit);
-        TextLine textLine = makeTextLineOnRange(localStart, localLimit);
+        ensureComponents(locblStbrt, locblLimit);
+        TextLine textLine = mbkeTextLineOnRbnge(locblStbrt, locblLimit);
 
-        if (localLimit < fChars.length) {
-            layoutCharCount += limit-start;
-            layoutCount++;
+        if (locblLimit < fChbrs.length) {
+            lbyoutChbrCount += limit-stbrt;
+            lbyoutCount++;
         }
 
-        return new TextLayout(textLine,
-                              fBaseline,
-                              fBaselineOffsets,
-                              fJustifyRatio);
+        return new TextLbyout(textLine,
+                              fBbseline,
+                              fBbselineOffsets,
+                              fJustifyRbtio);
     }
 
-    private int formattedChars = 0;
-    private static boolean wantStats = false;/*"true".equals(System.getProperty("collectStats"));*/
-    private boolean collectStats = false;
+    privbte int formbttedChbrs = 0;
+    privbte stbtic boolebn wbntStbts = fblse;/*"true".equbls(System.getProperty("collectStbts"));*/
+    privbte boolebn collectStbts = fblse;
 
-    private void printStats() {
-        System.out.println("formattedChars: " + formattedChars);
-        //formattedChars = 0;
-        collectStats = false;
+    privbte void printStbts() {
+        System.out.println("formbttedChbrs: " + formbttedChbrs);
+        //formbttedChbrs = 0;
+        collectStbts = fblse;
     }
 
     /**
-     * Updates the <code>TextMeasurer</code> after a single character has
+     * Updbtes the <code>TextMebsurer</code> bfter b single chbrbcter hbs
      * been inserted
-     * into the paragraph currently represented by this
-     * <code>TextMeasurer</code>.  After this call, this
-     * <code>TextMeasurer</code> is equivalent to a new
-     * <code>TextMeasurer</code> created from the text;  however, it will
-     * usually be more efficient to update an existing
-     * <code>TextMeasurer</code> than to create a new one from scratch.
+     * into the pbrbgrbph currently represented by this
+     * <code>TextMebsurer</code>.  After this cbll, this
+     * <code>TextMebsurer</code> is equivblent to b new
+     * <code>TextMebsurer</code> crebted from the text;  however, it will
+     * usublly be more efficient to updbte bn existing
+     * <code>TextMebsurer</code> thbn to crebte b new one from scrbtch.
      *
-     * @param newParagraph the text of the paragraph after performing
-     * the insertion.  Cannot be null.
-     * @param insertPos the position in the text where the character was
-     * inserted.  Must not be less than the start of
-     * <code>newParagraph</code>, and must be less than the end of
-     * <code>newParagraph</code>.
+     * @pbrbm newPbrbgrbph the text of the pbrbgrbph bfter performing
+     * the insertion.  Cbnnot be null.
+     * @pbrbm insertPos the position in the text where the chbrbcter wbs
+     * inserted.  Must not be less thbn the stbrt of
+     * <code>newPbrbgrbph</code>, bnd must be less thbn the end of
+     * <code>newPbrbgrbph</code>.
      * @throws IndexOutOfBoundsException if <code>insertPos</code> is less
-     *         than the start of <code>newParagraph</code> or greater than
-     *         or equal to the end of <code>newParagraph</code>
-     * @throws NullPointerException if <code>newParagraph</code> is
+     *         thbn the stbrt of <code>newPbrbgrbph</code> or grebter thbn
+     *         or equbl to the end of <code>newPbrbgrbph</code>
+     * @throws NullPointerException if <code>newPbrbgrbph</code> is
      *         <code>null</code>
      */
-    public void insertChar(AttributedCharacterIterator newParagraph, int insertPos) {
+    public void insertChbr(AttributedChbrbcterIterbtor newPbrbgrbph, int insertPos) {
 
-        if (collectStats) {
-            printStats();
+        if (collectStbts) {
+            printStbts();
         }
-        if (wantStats) {
-            collectStats = true;
-        }
-
-        fStart = newParagraph.getBeginIndex();
-        int end = newParagraph.getEndIndex();
-        if (end - fStart != fChars.length+1) {
-            initAll(newParagraph);
+        if (wbntStbts) {
+            collectStbts = true;
         }
 
-        char[] newChars = new char[end-fStart];
-        int newCharIndex = insertPos - fStart;
-        System.arraycopy(fChars, 0, newChars, 0, newCharIndex);
+        fStbrt = newPbrbgrbph.getBeginIndex();
+        int end = newPbrbgrbph.getEndIndex();
+        if (end - fStbrt != fChbrs.length+1) {
+            initAll(newPbrbgrbph);
+        }
 
-        char newChar = newParagraph.setIndex(insertPos);
-        newChars[newCharIndex] = newChar;
-        System.arraycopy(fChars,
-                         newCharIndex,
-                         newChars,
-                         newCharIndex+1,
+        chbr[] newChbrs = new chbr[end-fStbrt];
+        int newChbrIndex = insertPos - fStbrt;
+        System.brrbycopy(fChbrs, 0, newChbrs, 0, newChbrIndex);
+
+        chbr newChbr = newPbrbgrbph.setIndex(insertPos);
+        newChbrs[newChbrIndex] = newChbr;
+        System.brrbycopy(fChbrs,
+                         newChbrIndex,
+                         newChbrs,
+                         newChbrIndex+1,
                          end-insertPos-1);
-        fChars = newChars;
+        fChbrs = newChbrs;
 
-        if (fBidi != null || Bidi.requiresBidi(newChars, newCharIndex, newCharIndex + 1) ||
-                newParagraph.getAttribute(TextAttribute.BIDI_EMBEDDING) != null) {
+        if (fBidi != null || Bidi.requiresBidi(newChbrs, newChbrIndex, newChbrIndex + 1) ||
+                newPbrbgrbph.getAttribute(TextAttribute.BIDI_EMBEDDING) != null) {
 
-            fBidi = new Bidi(newParagraph);
+            fBidi = new Bidi(newPbrbgrbph);
             if (fBidi.isLeftToRight()) {
                 fBidi = null;
             }
         }
 
-        fParagraph = StyledParagraph.insertChar(newParagraph,
-                                                fChars,
+        fPbrbgrbph = StyledPbrbgrbph.insertChbr(newPbrbgrbph,
+                                                fChbrs,
                                                 insertPos,
-                                                fParagraph);
-        invalidateComponents();
+                                                fPbrbgrbph);
+        invblidbteComponents();
     }
 
     /**
-     * Updates the <code>TextMeasurer</code> after a single character has
+     * Updbtes the <code>TextMebsurer</code> bfter b single chbrbcter hbs
      * been deleted
-     * from the paragraph currently represented by this
-     * <code>TextMeasurer</code>.  After this call, this
-     * <code>TextMeasurer</code> is equivalent to a new <code>TextMeasurer</code>
-     * created from the text;  however, it will usually be more efficient
-     * to update an existing <code>TextMeasurer</code> than to create a new one
-     * from scratch.
+     * from the pbrbgrbph currently represented by this
+     * <code>TextMebsurer</code>.  After this cbll, this
+     * <code>TextMebsurer</code> is equivblent to b new <code>TextMebsurer</code>
+     * crebted from the text;  however, it will usublly be more efficient
+     * to updbte bn existing <code>TextMebsurer</code> thbn to crebte b new one
+     * from scrbtch.
      *
-     * @param newParagraph the text of the paragraph after performing
-     * the deletion.  Cannot be null.
-     * @param deletePos the position in the text where the character was removed.
-     * Must not be less than
-     * the start of <code>newParagraph</code>, and must not be greater than the
-     * end of <code>newParagraph</code>.
+     * @pbrbm newPbrbgrbph the text of the pbrbgrbph bfter performing
+     * the deletion.  Cbnnot be null.
+     * @pbrbm deletePos the position in the text where the chbrbcter wbs removed.
+     * Must not be less thbn
+     * the stbrt of <code>newPbrbgrbph</code>, bnd must not be grebter thbn the
+     * end of <code>newPbrbgrbph</code>.
      * @throws IndexOutOfBoundsException if <code>deletePos</code> is
-     *         less than the start of <code>newParagraph</code> or greater
-     *         than the end of <code>newParagraph</code>
-     * @throws NullPointerException if <code>newParagraph</code> is
+     *         less thbn the stbrt of <code>newPbrbgrbph</code> or grebter
+     *         thbn the end of <code>newPbrbgrbph</code>
+     * @throws NullPointerException if <code>newPbrbgrbph</code> is
      *         <code>null</code>
      */
-    public void deleteChar(AttributedCharacterIterator newParagraph, int deletePos) {
+    public void deleteChbr(AttributedChbrbcterIterbtor newPbrbgrbph, int deletePos) {
 
-        fStart = newParagraph.getBeginIndex();
-        int end = newParagraph.getEndIndex();
-        if (end - fStart != fChars.length-1) {
-            initAll(newParagraph);
+        fStbrt = newPbrbgrbph.getBeginIndex();
+        int end = newPbrbgrbph.getEndIndex();
+        if (end - fStbrt != fChbrs.length-1) {
+            initAll(newPbrbgrbph);
         }
 
-        char[] newChars = new char[end-fStart];
-        int changedIndex = deletePos-fStart;
+        chbr[] newChbrs = new chbr[end-fStbrt];
+        int chbngedIndex = deletePos-fStbrt;
 
-        System.arraycopy(fChars, 0, newChars, 0, deletePos-fStart);
-        System.arraycopy(fChars, changedIndex+1, newChars, changedIndex, end-deletePos);
-        fChars = newChars;
+        System.brrbycopy(fChbrs, 0, newChbrs, 0, deletePos-fStbrt);
+        System.brrbycopy(fChbrs, chbngedIndex+1, newChbrs, chbngedIndex, end-deletePos);
+        fChbrs = newChbrs;
 
         if (fBidi != null) {
-            fBidi = new Bidi(newParagraph);
+            fBidi = new Bidi(newPbrbgrbph);
             if (fBidi.isLeftToRight()) {
                 fBidi = null;
             }
         }
 
-        fParagraph = StyledParagraph.deleteChar(newParagraph,
-                                                fChars,
+        fPbrbgrbph = StyledPbrbgrbph.deleteChbr(newPbrbgrbph,
+                                                fChbrs,
                                                 deletePos,
-                                                fParagraph);
-        invalidateComponents();
+                                                fPbrbgrbph);
+        invblidbteComponents();
     }
 
     /**
-     * NOTE:  This method is only for LineBreakMeasurer's use.  It is package-
-     * private because it returns internal data.
+     * NOTE:  This method is only for LineBrebkMebsurer's use.  It is pbckbge-
+     * privbte becbuse it returns internbl dbtb.
      */
-    char[] getChars() {
+    chbr[] getChbrs() {
 
-        return fChars;
+        return fChbrs;
     }
 }

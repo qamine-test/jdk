@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.mscapi;
+pbckbge sun.security.mscbpi;
 
-import java.math.BigInteger;
-import java.security.KeyException;
-import java.security.KeyRep;
-import java.security.ProviderException;
+import jbvb.mbth.BigInteger;
+import jbvb.security.KeyException;
+import jbvb.security.KeyRep;
+import jbvb.security.ProviderException;
 
-import sun.security.rsa.RSAPublicKeyImpl;
+import sun.security.rsb.RSAPublicKeyImpl;
 
 /**
- * The handle for an RSA public key using the Microsoft Crypto API.
+ * The hbndle for bn RSA public key using the Microsoft Crypto API.
  *
  * @since 1.6
  */
-class RSAPublicKey extends Key implements java.security.interfaces.RSAPublicKey
+clbss RSAPublicKey extends Key implements jbvb.security.interfbces.RSAPublicKey
 {
-    private static final long serialVersionUID = -2289561342425825391L;
+    privbte stbtic finbl long seriblVersionUID = -2289561342425825391L;
 
-    private byte[] publicKeyBlob = null;
-    private byte[] encoding = null;
-    private BigInteger modulus = null;
-    private BigInteger exponent = null;
+    privbte byte[] publicKeyBlob = null;
+    privbte byte[] encoding = null;
+    privbte BigInteger modulus = null;
+    privbte BigInteger exponent = null;
 
     /**
-     * Construct an RSAPublicKey object.
+     * Construct bn RSAPublicKey object.
      */
     RSAPublicKey(long hCryptProv, long hCryptKey, int keyLength)
     {
@@ -55,14 +55,14 @@ class RSAPublicKey extends Key implements java.security.interfaces.RSAPublicKey
     }
 
     /**
-     * Returns the standard algorithm name for this key. For
-     * example, "RSA" would indicate that this key is a RSA key.
-     * See Appendix A in the <a href=
+     * Returns the stbndbrd blgorithm nbme for this key. For
+     * exbmple, "RSA" would indicbte thbt this key is b RSA key.
+     * See Appendix A in the <b href=
      * "../../../guide/security/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for information about standard algorithm names.
+     * Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference </b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @return the name of the algorithm associated with this key.
+     * @return the nbme of the blgorithm bssocibted with this key.
      */
     public String getAlgorithm()
     {
@@ -70,17 +70,17 @@ class RSAPublicKey extends Key implements java.security.interfaces.RSAPublicKey
     }
 
     /**
-     * Returns a printable description of the key.
+     * Returns b printbble description of the key.
      */
     public String toString()
     {
         StringBuffer sb = new StringBuffer();
 
-        sb.append("RSAPublicKey [size=").append(keyLength)
-            .append(" bits, type=").append(getKeyType(hCryptKey))
-            .append(", container=").append(getContainerName(hCryptProv))
-            .append("]\n  modulus: ").append(getModulus())
-            .append("\n  public exponent: ").append(getPublicExponent());
+        sb.bppend("RSAPublicKey [size=").bppend(keyLength)
+            .bppend(" bits, type=").bppend(getKeyType(hCryptKey))
+            .bppend(", contbiner=").bppend(getContbinerNbme(hCryptProv))
+            .bppend("]\n  modulus: ").bppend(getModulus())
+            .bppend("\n  public exponent: ").bppend(getPublicExponent());
 
         return sb.toString();
     }
@@ -96,7 +96,7 @@ class RSAPublicKey extends Key implements java.security.interfaces.RSAPublicKey
                 publicKeyBlob = getPublicKeyBlob(hCryptKey);
                 exponent = new BigInteger(1, getExponent(publicKeyBlob));
 
-            } catch (KeyException e) {
+            } cbtch (KeyException e) {
                 throw new ProviderException(e);
             }
         }
@@ -115,7 +115,7 @@ class RSAPublicKey extends Key implements java.security.interfaces.RSAPublicKey
                 publicKeyBlob = getPublicKeyBlob(hCryptKey);
                 modulus = new BigInteger(1, getModulus(publicKeyBlob));
 
-            } catch (KeyException e) {
+            } cbtch (KeyException e) {
                 throw new ProviderException(e);
             }
         }
@@ -124,29 +124,29 @@ class RSAPublicKey extends Key implements java.security.interfaces.RSAPublicKey
     }
 
     /**
-     * Returns the name of the primary encoding format of this key,
+     * Returns the nbme of the primbry encoding formbt of this key,
      * or null if this key does not support encoding.
-     * The primary encoding format is
-     * named in terms of the appropriate ASN.1 data format, if an
-     * ASN.1 specification for this key exists.
-     * For example, the name of the ASN.1 data format for public
-     * keys is <I>SubjectPublicKeyInfo</I>, as
-     * defined by the X.509 standard; in this case, the returned format is
-     * <code>"X.509"</code>. Similarly,
-     * the name of the ASN.1 data format for private keys is
-     * <I>PrivateKeyInfo</I>,
-     * as defined by the PKCS #8 standard; in this case, the returned format is
+     * The primbry encoding formbt is
+     * nbmed in terms of the bppropribte ASN.1 dbtb formbt, if bn
+     * ASN.1 specificbtion for this key exists.
+     * For exbmple, the nbme of the ASN.1 dbtb formbt for public
+     * keys is <I>SubjectPublicKeyInfo</I>, bs
+     * defined by the X.509 stbndbrd; in this cbse, the returned formbt is
+     * <code>"X.509"</code>. Similbrly,
+     * the nbme of the ASN.1 dbtb formbt for privbte keys is
+     * <I>PrivbteKeyInfo</I>,
+     * bs defined by the PKCS #8 stbndbrd; in this cbse, the returned formbt is
      * <code>"PKCS#8"</code>.
      *
-     * @return the primary encoding format of the key.
+     * @return the primbry encoding formbt of the key.
      */
-    public String getFormat()
+    public String getFormbt()
     {
         return "X.509";
     }
 
     /**
-     * Returns the key in its primary encoding format, or null
+     * Returns the key in its primbry encoding formbt, or null
      * if this key does not support encoding.
      *
      * @return the encoded key, or null if the key does not support
@@ -160,32 +160,32 @@ class RSAPublicKey extends Key implements java.security.interfaces.RSAPublicKey
                 encoding = new RSAPublicKeyImpl(getModulus(),
                     getPublicExponent()).getEncoded();
 
-            } catch (KeyException e) {
+            } cbtch (KeyException e) {
                 // ignore
             }
         }
         return encoding;
     }
 
-    protected Object writeReplace() throws java.io.ObjectStreamException {
+    protected Object writeReplbce() throws jbvb.io.ObjectStrebmException {
         return new KeyRep(KeyRep.Type.PUBLIC,
                         getAlgorithm(),
-                        getFormat(),
+                        getFormbt(),
                         getEncoded());
     }
 
     /*
-     * Returns the Microsoft CryptoAPI representation of the key.
+     * Returns the Microsoft CryptoAPI representbtion of the key.
      */
-    private native byte[] getPublicKeyBlob(long hCryptKey) throws KeyException;
+    privbte nbtive byte[] getPublicKeyBlob(long hCryptKey) throws KeyException;
 
     /*
-     * Returns the key's public exponent (in big-endian 2's complement format).
+     * Returns the key's public exponent (in big-endibn 2's complement formbt).
      */
-    private native byte[] getExponent(byte[] keyBlob) throws KeyException;
+    privbte nbtive byte[] getExponent(byte[] keyBlob) throws KeyException;
 
     /*
-     * Returns the key's modulus (in big-endian 2's complement format).
+     * Returns the key's modulus (in big-endibn 2's complement formbt).
      */
-    private native byte[] getModulus(byte[] keyBlob) throws KeyException;
+    privbte nbtive byte[] getModulus(byte[] keyBlob) throws KeyException;
 }

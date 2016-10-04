@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.InvocationEvent;
-import java.awt.event.WindowEvent;
+import jbvb.bwt.event.ComponentEvent;
+import jbvb.bwt.event.InvocbtionEvent;
+import jbvb.bwt.event.WindowEvent;
 
-import sun.awt.IconInfo;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.IconInfo;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAccessor;
+import sun.bwt.SunToolkit;
 
-abstract class XDecoratedPeer extends XWindowPeer {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XDecoratedPeer");
-    private static final PlatformLogger insLog = PlatformLogger.getLogger("sun.awt.X11.insets.XDecoratedPeer");
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.awt.X11.focus.XDecoratedPeer");
-    private static final PlatformLogger iconLog = PlatformLogger.getLogger("sun.awt.X11.icon.XDecoratedPeer");
+bbstrbct clbss XDecorbtedPeer extends XWindowPeer {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XDecorbtedPeer");
+    privbte stbtic finbl PlbtformLogger insLog = PlbtformLogger.getLogger("sun.bwt.X11.insets.XDecorbtedPeer");
+    privbte stbtic finbl PlbtformLogger focusLog = PlbtformLogger.getLogger("sun.bwt.X11.focus.XDecorbtedPeer");
+    privbte stbtic finbl PlbtformLogger iconLog = PlbtformLogger.getLogger("sun.bwt.X11.icon.XDecorbtedPeer");
 
-    // Set to true when we get the first ConfigureNotify after being
-    // reparented - indicates that WM has adopted the top-level.
-    boolean configure_seen;
-    boolean insets_corrected;
+    // Set to true when we get the first ConfigureNotify bfter being
+    // repbrented - indicbtes thbt WM hbs bdopted the top-level.
+    boolebn configure_seen;
+    boolebn insets_corrected;
 
     XIconWindow iconWindow;
     WindowDimensions dimensions;
@@ -53,12 +53,12 @@ abstract class XDecoratedPeer extends XWindowPeer {
     Insets currentInsets;
     XFocusProxyWindow focusProxy;
 
-    XDecoratedPeer(Window target) {
-        super(target);
+    XDecorbtedPeer(Window tbrget) {
+        super(tbrget);
     }
 
-    XDecoratedPeer(XCreateWindowParams params) {
-        super(params);
+    XDecorbtedPeer(XCrebteWindowPbrbms pbrbms) {
+        super(pbrbms);
     }
 
     public long getShell() {
@@ -69,92 +69,92 @@ abstract class XDecoratedPeer extends XWindowPeer {
         return (content == null) ? window : content.getWindow();
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        winAttr.initialFocus = true;
+    void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
+        winAttr.initiblFocus = true;
 
         currentInsets = new Insets(0,0,0,0);
-        applyGuessedInsets();
+        bpplyGuessedInsets();
 
-        Rectangle bounds = (Rectangle)params.get(BOUNDS);
-        dimensions = new WindowDimensions(bounds, getRealInsets(), false);
-        params.put(BOUNDS, dimensions.getClientRect());
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-            insLog.fine("Initial dimensions {0}", dimensions);
+        Rectbngle bounds = (Rectbngle)pbrbms.get(BOUNDS);
+        dimensions = new WindowDimensions(bounds, getReblInsets(), fblse);
+        pbrbms.put(BOUNDS, dimensions.getClientRect());
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            insLog.fine("Initibl dimensions {0}", dimensions);
         }
 
-        // Deny default processing of these events on the shell - proxy will take care of
-        // them instead
-        Long eventMask = (Long)params.get(EVENT_MASK);
-        params.add(EVENT_MASK, Long.valueOf(eventMask.longValue() & ~(XConstants.FocusChangeMask | XConstants.KeyPressMask | XConstants.KeyReleaseMask)));
+        // Deny defbult processing of these events on the shell - proxy will tbke cbre of
+        // them instebd
+        Long eventMbsk = (Long)pbrbms.get(EVENT_MASK);
+        pbrbms.bdd(EVENT_MASK, Long.vblueOf(eventMbsk.longVblue() & ~(XConstbnts.FocusChbngeMbsk | XConstbnts.KeyPressMbsk | XConstbnts.KeyRelebseMbsk)));
     }
 
-    void postInit(XCreateWindowParams params) {
-        // The size hints must be set BEFORE mapping the window (see 6895647)
-        updateSizeHints(dimensions);
+    void postInit(XCrebteWindowPbrbms pbrbms) {
+        // The size hints must be set BEFORE mbpping the window (see 6895647)
+        updbteSizeHints(dimensions);
 
-        // The super method maps the window if it's visible on the shared level
-        super.postInit(params);
+        // The super method mbps the window if it's visible on the shbred level
+        super.postInit(pbrbms);
 
-        // The lines that follow need to be in a postInit, so they
-        // happen after the X window is created.
-        initResizability();
+        // The lines thbt follow need to be in b postInit, so they
+        // hbppen bfter the X window is crebted.
+        initResizbbility();
         XWM.requestWMExtents(getWindow());
 
-        content = XContentWindow.createContent(this);
+        content = XContentWindow.crebteContent(this);
 
-        if (warningWindow != null) {
-            warningWindow.toFront();
+        if (wbrningWindow != null) {
+            wbrningWindow.toFront();
         }
-        focusProxy = createFocusProxy();
+        focusProxy = crebteFocusProxy();
     }
 
-    void setIconHints(java.util.List<IconInfo> icons) {
+    void setIconHints(jbvb.util.List<IconInfo> icons) {
         if (!XWM.getWM().setNetWMIcon(this, icons)) {
             if (icons.size() > 0) {
                 if (iconWindow == null) {
                     iconWindow = new XIconWindow(this);
                 }
-                iconWindow.setIconImages(icons);
+                iconWindow.setIconImbges(icons);
             }
         }
     }
 
-    public void updateMinimumSize() {
-        super.updateMinimumSize();
-        updateMinSizeHints();
+    public void updbteMinimumSize() {
+        super.updbteMinimumSize();
+        updbteMinSizeHints();
     }
 
-    private void updateMinSizeHints() {
-        if (isResizable()) {
-            Dimension minimumSize = getTargetMinimumSize();
+    privbte void updbteMinSizeHints() {
+        if (isResizbble()) {
+            Dimension minimumSize = getTbrgetMinimumSize();
             if (minimumSize != null) {
-                Insets insets = getRealInsets();
+                Insets insets = getReblInsets();
                 int minWidth = minimumSize.width - insets.left - insets.right;
                 int minHeight = minimumSize.height - insets.top - insets.bottom;
                 if (minWidth < 0) minWidth = 0;
                 if (minHeight < 0) minHeight = 0;
-                setSizeHints(XUtilConstants.PMinSize | (isLocationByPlatform()?0:(XUtilConstants.PPosition | XUtilConstants.USPosition)),
+                setSizeHints(XUtilConstbnts.PMinSize | (isLocbtionByPlbtform()?0:(XUtilConstbnts.PPosition | XUtilConstbnts.USPosition)),
                              getX(), getY(), minWidth, minHeight);
                 if (isVisible()) {
-                    Rectangle bounds = getShellBounds();
+                    Rectbngle bounds = getShellBounds();
                     int nw = (bounds.width < minWidth) ? minWidth : bounds.width;
                     int nh = (bounds.height < minHeight) ? minHeight : bounds.height;
                     if (nw != bounds.width || nh != bounds.height) {
-                        setShellSize(new Rectangle(0, 0, nw, nh));
+                        setShellSize(new Rectbngle(0, 0, nw, nh));
                     }
                 }
             } else {
-                boolean isMinSizeSet = isMinSizeSet();
-                XWM.removeSizeHints(this, XUtilConstants.PMinSize);
-                /* Some WMs need remap to redecorate the window */
-                if (isMinSizeSet && isShowing() && XWM.needRemap(this)) {
+                boolebn isMinSizeSet = isMinSizeSet();
+                XWM.removeSizeHints(this, XUtilConstbnts.PMinSize);
+                /* Some WMs need rembp to redecorbte the window */
+                if (isMinSizeSet && isShowing() && XWM.needRembp(this)) {
                     /*
-                     * Do the re/mapping at the Xlib level.  Since we essentially
-                     * work around a WM bug we don't want this hack to be exposed
-                     * to Intrinsics (i.e. don't mess with grabs, callbacks etc).
+                     * Do the re/mbpping bt the Xlib level.  Since we essentiblly
+                     * work bround b WM bug we don't wbnt this hbck to be exposed
+                     * to Intrinsics (i.e. don't mess with grbbs, cbllbbcks etc).
                      */
-                    xSetVisible(false);
+                    xSetVisible(fblse);
                     XToolkit.XSync();
                     xSetVisible(true);
                 }
@@ -162,77 +162,77 @@ abstract class XDecoratedPeer extends XWindowPeer {
         }
     }
 
-    XFocusProxyWindow createFocusProxy() {
+    XFocusProxyWindow crebteFocusProxy() {
         return new XFocusProxyWindow(this);
     }
 
     protected XAtomList getWMProtocols() {
         XAtomList protocols = super.getWMProtocols();
-        protocols.add(wm_delete_window);
-        protocols.add(wm_take_focus);
+        protocols.bdd(wm_delete_window);
+        protocols.bdd(wm_tbke_focus);
         return protocols;
     }
 
-    public Graphics getGraphics() {
+    public Grbphics getGrbphics() {
         AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
-        return getGraphics(content.surfaceData,
-                           compAccessor.getForeground(target),
-                           compAccessor.getBackground(target),
-                           compAccessor.getFont(target));
+        return getGrbphics(content.surfbceDbtb,
+                           compAccessor.getForeground(tbrget),
+                           compAccessor.getBbckground(tbrget),
+                           compAccessor.getFont(tbrget));
     }
 
     public void setTitle(String title) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine("Title is " + title);
         }
         winAttr.title = title;
-        updateWMName();
+        updbteWMNbme();
     }
 
-    protected String getWMName() {
-        if (winAttr.title == null || winAttr.title.trim().equals("")) {
+    protected String getWMNbme() {
+        if (winAttr.title == null || winAttr.title.trim().equbls("")) {
             return " ";
         } else {
             return winAttr.title;
         }
     }
 
-    void updateWMName() {
-        super.updateWMName();
-        String name = getWMName();
-        XToolkit.awtLock();
+    void updbteWMNbme() {
+        super.updbteWMNbme();
+        String nbme = getWMNbme();
+        XToolkit.bwtLock();
         try {
-            if (name == null || name.trim().equals("")) {
-                name = "Java";
+            if (nbme == null || nbme.trim().equbls("")) {
+                nbme = "Jbvb";
             }
-            XAtom iconNameAtom = XAtom.get(XAtom.XA_WM_ICON_NAME);
-            iconNameAtom.setProperty(getWindow(), name);
-            XAtom netIconNameAtom = XAtom.get("_NET_WM_ICON_NAME");
-            netIconNameAtom.setPropertyUTF8(getWindow(), name);
-        } finally {
-            XToolkit.awtUnlock();
+            XAtom iconNbmeAtom = XAtom.get(XAtom.XA_WM_ICON_NAME);
+            iconNbmeAtom.setProperty(getWindow(), nbme);
+            XAtom netIconNbmeAtom = XAtom.get("_NET_WM_ICON_NAME");
+            netIconNbmeAtom.setPropertyUTF8(getWindow(), nbme);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: This method mby be cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void handleIconify() {
-        postEvent(new WindowEvent((Window)target, WindowEvent.WINDOW_ICONIFIED));
+    public void hbndleIconify() {
+        postEvent(new WindowEvent((Window)tbrget, WindowEvent.WINDOW_ICONIFIED));
     }
 
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: This method mby be cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void handleDeiconify() {
-        postEvent(new WindowEvent((Window)target, WindowEvent.WINDOW_DEICONIFIED));
+    public void hbndleDeiconify() {
+        postEvent(new WindowEvent((Window)tbrget, WindowEvent.WINDOW_DEICONIFIED));
     }
 
-    public void handleFocusEvent(XEvent xev) {
-        super.handleFocusEvent(xev);
-        XFocusChangeEvent xfe = xev.get_xfocus();
+    public void hbndleFocusEvent(XEvent xev) {
+        super.hbndleFocusEvent(xev);
+        XFocusChbngeEvent xfe = xev.get_xfocus();
 
-        // If we somehow received focus events forward it instead to proxy
-        // FIXME: Shouldn't we instead check for inferrior?
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+        // If we somehow received focus events forwbrd it instebd to proxy
+        // FIXME: Shouldn't we instebd check for inferrior?
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             focusLog.finer("Received focus event on shell: " + xfe);
         }
 //         focusProxy.xRequestFocus();
@@ -242,26 +242,26 @@ abstract class XDecoratedPeer extends XWindowPeer {
  *                             I N S E T S   C O D E
  **************************************************************************************/
 
-    protected boolean isInitialReshape() {
-        return false;
+    protected boolebn isInitiblReshbpe() {
+        return fblse;
     }
 
-    private static Insets difference(Insets i1, Insets i2) {
+    privbte stbtic Insets difference(Insets i1, Insets i2) {
         return new Insets(i1.top-i2.top, i1.left - i2.left, i1.bottom-i2.bottom, i1.right-i2.right);
     }
 
-    private static boolean isNull(Insets i) {
+    privbte stbtic boolebn isNull(Insets i) {
         return (i == null) || ((i.left | i.top | i.right | i.bottom) == 0);
     }
 
-    private static Insets copy(Insets i) {
+    privbte stbtic Insets copy(Insets i) {
         return new Insets(i.top, i.left, i.bottom, i.right);
     }
 
     // insets which we get from WM (e.g from _NET_FRAME_EXTENTS)
-    private Insets wm_set_insets;
+    privbte Insets wm_set_insets;
 
-    private Insets getWMSetInsets(XAtom changedAtom) {
+    privbte Insets getWMSetInsets(XAtom chbngedAtom) {
         if (isEmbedded()) {
             return null;
         }
@@ -270,13 +270,13 @@ abstract class XDecoratedPeer extends XWindowPeer {
             return wm_set_insets;
         }
 
-        if (changedAtom == null) {
+        if (chbngedAtom == null) {
             wm_set_insets = XWM.getInsetsFromExtents(getWindow());
         } else {
-            wm_set_insets = XWM.getInsetsFromProp(getWindow(), changedAtom);
+            wm_set_insets = XWM.getInsetsFromProp(getWindow(), chbngedAtom);
         }
 
-        if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             insLog.finer("FRAME_EXTENTS: {0}", wm_set_insets);
         }
 
@@ -286,159 +286,159 @@ abstract class XDecoratedPeer extends XWindowPeer {
         return wm_set_insets;
     }
 
-    private void resetWMSetInsets() {
+    privbte void resetWMSetInsets() {
         wm_set_insets = null;
     }
 
-    public void handlePropertyNotify(XEvent xev) {
-        super.handlePropertyNotify(xev);
+    public void hbndlePropertyNotify(XEvent xev) {
+        super.hbndlePropertyNotify(xev);
 
         XPropertyEvent ev = xev.get_xproperty();
-        if (ev.get_atom() == XWM.XA_KDE_NET_WM_FRAME_STRUT.getAtom()
-            || ev.get_atom() == XWM.XA_NET_FRAME_EXTENTS.getAtom())
+        if (ev.get_btom() == XWM.XA_KDE_NET_WM_FRAME_STRUT.getAtom()
+            || ev.get_btom() == XWM.XA_NET_FRAME_EXTENTS.getAtom())
         {
-            getWMSetInsets(XAtom.get(ev.get_atom()));
+            getWMSetInsets(XAtom.get(ev.get_btom()));
         }
     }
 
-    long reparent_serial = 0;
+    long repbrent_seribl = 0;
 
-    public void handleReparentNotifyEvent(XEvent xev) {
-        XReparentEvent  xe = xev.get_xreparent();
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
+    public void hbndleRepbrentNotifyEvent(XEvent xev) {
+        XRepbrentEvent  xe = xev.get_xrepbrent();
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             insLog.fine(xe.toString());
         }
-        reparent_serial = xe.get_serial();
-        XToolkit.awtLock();
+        repbrent_seribl = xe.get_seribl();
+        XToolkit.bwtLock();
         try {
-            long root = XlibWrapper.RootWindow(XToolkit.getDisplay(), getScreenNumber());
+            long root = XlibWrbpper.RootWindow(XToolkit.getDisplby(), getScreenNumber());
 
             if (isEmbedded()) {
-                setReparented(true);
+                setRepbrented(true);
                 insets_corrected = true;
                 return;
             }
-            Component t = target;
-            if (getDecorations() == XWindowAttributesData.AWT_DECOR_NONE) {
-                setReparented(true);
+            Component t = tbrget;
+            if (getDecorbtions() == XWindowAttributesDbtb.AWT_DECOR_NONE) {
+                setRepbrented(true);
                 insets_corrected = true;
-                reshape(dimensions, SET_SIZE, false);
-            } else if (xe.get_parent() == root) {
-                configure_seen = false;
-                insets_corrected = false;
+                reshbpe(dimensions, SET_SIZE, fblse);
+            } else if (xe.get_pbrent() == root) {
+                configure_seen = fblse;
+                insets_corrected = fblse;
 
                 /*
-                 * We can be repareted to root for two reasons:
-                 *   . setVisible(false)
+                 * We cbn be repbreted to root for two rebsons:
+                 *   . setVisible(fblse)
                  *   . WM exited
                  */
                 if (isVisible()) { /* WM exited */
-                    /* Work around 4775545 */
-                    XWM.getWM().unshadeKludge(this);
+                    /* Work bround 4775545 */
+                    XWM.getWM().unshbdeKludge(this);
                     insLog.fine("- WM exited");
                 } else {
-                    insLog.fine(" - reparent due to hide");
+                    insLog.fine(" - repbrent due to hide");
                 }
-            } else { /* reparented to WM frame, figure out our insets */
-                setReparented(true);
-                insets_corrected = false;
+            } else { /* repbrented to WM frbme, figure out our insets */
+                setRepbrented(true);
+                insets_corrected = fblse;
 
-                // Check if we have insets provided by the WM
+                // Check if we hbve insets provided by the WM
                 Insets correctWM = getWMSetInsets(null);
                 if (correctWM != null) {
-                    if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
+                    if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                         insLog.finer("wm-provided insets {0}", correctWM);
                     }
-                    // If these insets are equal to our current insets - no actions are necessary
+                    // If these insets bre equbl to our current insets - no bctions bre necessbry
                     Insets dimInsets = dimensions.getInsets();
-                    if (correctWM.equals(dimInsets)) {
-                        insLog.finer("Insets are the same as estimated - no additional reshapes necessary");
-                        no_reparent_artifacts = true;
+                    if (correctWM.equbls(dimInsets)) {
+                        insLog.finer("Insets bre the sbme bs estimbted - no bdditionbl reshbpes necessbry");
+                        no_repbrent_brtifbcts = true;
                         insets_corrected = true;
-                        applyGuessedInsets();
+                        bpplyGuessedInsets();
                         return;
                     }
                 } else {
-                    correctWM = XWM.getWM().getInsets(this, xe.get_window(), xe.get_parent());
+                    correctWM = XWM.getWM().getInsets(this, xe.get_window(), xe.get_pbrent());
 
-                    if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
+                    if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                         if (correctWM != null) {
                             insLog.finer("correctWM {0}", correctWM);
                         } else {
-                            insLog.finer("correctWM insets are not available, waiting for configureNotify");
+                            insLog.finer("correctWM insets bre not bvbilbble, wbiting for configureNotify");
                         }
                     }
                 }
 
                 if (correctWM != null) {
-                    handleCorrectInsets(correctWM);
+                    hbndleCorrectInsets(correctWM);
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    protected void handleCorrectInsets(Insets correctWM) {
-        XToolkit.awtLock();
+    protected void hbndleCorrectInsets(Insets correctWM) {
+        XToolkit.bwtLock();
         try {
             /*
-             * Ok, now see if we need adjust window size because
-             * initial insets were wrong (most likely they were).
+             * Ok, now see if we need bdjust window size becbuse
+             * initibl insets were wrong (most likely they were).
              */
             Insets correction = difference(correctWM, currentInsets);
-            if (insLog.isLoggable(PlatformLogger.Level.FINEST)) {
+            if (insLog.isLoggbble(PlbtformLogger.Level.FINEST)) {
                 insLog.finest("Corrention {0}", correction);
             }
             if (!isNull(correction)) {
                 currentInsets = copy(correctWM);
-                applyGuessedInsets();
+                bpplyGuessedInsets();
 
-                //Fix for 6318109: PIT: Min Size is not honored properly when a
-                //smaller size is specified in setSize(), XToolkit
-                //update minimum size hints
-                updateMinSizeHints();
+                //Fix for 6318109: PIT: Min Size is not honored properly when b
+                //smbller size is specified in setSize(), XToolkit
+                //updbte minimum size hints
+                updbteMinSizeHints();
             }
-            if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-                insLog.finer("Dimensions before reparent: " + dimensions);
+            if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                insLog.finer("Dimensions before repbrent: " + dimensions);
             }
 
-            dimensions.setInsets(getRealInsets());
+            dimensions.setInsets(getReblInsets());
             insets_corrected = true;
 
-            if (isMaximized()) {
+            if (isMbximized()) {
                 return;
             }
 
             /*
-             * If this window has been sized by a pack() we need
-             * to keep the interior geometry intact.  Since pack()
-             * computed width and height with wrong insets, we
-             * must adjust the target dimensions appropriately.
+             * If this window hbs been sized by b pbck() we need
+             * to keep the interior geometry intbct.  Since pbck()
+             * computed width bnd height with wrong insets, we
+             * must bdjust the tbrget dimensions bppropribtely.
              */
-            if ((getHints().get_flags() & (XUtilConstants.USPosition | XUtilConstants.PPosition)) != 0) {
-                reshape(dimensions, SET_BOUNDS, false);
+            if ((getHints().get_flbgs() & (XUtilConstbnts.USPosition | XUtilConstbnts.PPosition)) != 0) {
+                reshbpe(dimensions, SET_BOUNDS, fblse);
             } else {
-                reshape(dimensions, SET_SIZE, false);
+                reshbpe(dimensions, SET_SIZE, fblse);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    public void handleMoved(WindowDimensions dims) {
-        Point loc = dims.getLocation();
-        AWTAccessor.getComponentAccessor().setLocation(target, loc.x, loc.y);
-        postEvent(new ComponentEvent(target, ComponentEvent.COMPONENT_MOVED));
+    public void hbndleMoved(WindowDimensions dims) {
+        Point loc = dims.getLocbtion();
+        AWTAccessor.getComponentAccessor().setLocbtion(tbrget, loc.x, loc.y);
+        postEvent(new ComponentEvent(tbrget, ComponentEvent.COMPONENT_MOVED));
     }
 
 
     protected Insets guessInsets() {
-        if (isEmbedded() || isTargetUndecorated()) {
+        if (isEmbedded() || isTbrgetUndecorbted()) {
             return new Insets(0, 0, 0, 0);
         } else {
             if (!isNull(currentInsets)) {
-                /* insets were set on wdata by System Properties */
+                /* insets were set on wdbtb by System Properties */
                 return copy(currentInsets);
             } else {
                 Insets res = getWMSetInsets(null);
@@ -450,106 +450,106 @@ abstract class XDecoratedPeer extends XWindowPeer {
         }
     }
 
-    private void applyGuessedInsets() {
+    privbte void bpplyGuessedInsets() {
         Insets guessed = guessInsets();
         currentInsets = copy(guessed);
     }
 
-    public void revalidate() {
-        XToolkit.executeOnEventHandlerThread(target, new Runnable() {
+    public void revblidbte() {
+        XToolkit.executeOnEventHbndlerThrebd(tbrget, new Runnbble() {
                 public void run() {
-                    target.invalidate();
-                    target.validate();
+                    tbrget.invblidbte();
+                    tbrget.vblidbte();
                 }
             });
     }
 
-    Insets getRealInsets() {
+    Insets getReblInsets() {
         if (isNull(currentInsets)) {
-            applyGuessedInsets();
+            bpplyGuessedInsets();
         }
         return currentInsets;
     }
 
     public Insets getInsets() {
-        Insets in = copy(getRealInsets());
-        in.top += getMenuBarHeight();
-        if (insLog.isLoggable(PlatformLogger.Level.FINEST)) {
+        Insets in = copy(getReblInsets());
+        in.top += getMenuBbrHeight();
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINEST)) {
             insLog.finest("Get insets returns {0}", in);
         }
         return in;
     }
 
-    boolean gravityBug() {
-        return XWM.configureGravityBuggy();
+    boolebn grbvityBug() {
+        return XWM.configureGrbvityBuggy();
     }
 
-    // The height of area used to display current active input method
+    // The height of breb used to displby current bctive input method
     int getInputMethodHeight() {
         return 0;
     }
 
-    void updateSizeHints(WindowDimensions dims) {
-        Rectangle rec = dims.getClientRect();
+    void updbteSizeHints(WindowDimensions dims) {
+        Rectbngle rec = dims.getClientRect();
         checkShellRect(rec);
-        updateSizeHints(rec.x, rec.y, rec.width, rec.height);
+        updbteSizeHints(rec.x, rec.y, rec.width, rec.height);
     }
 
-    void updateSizeHints() {
-        updateSizeHints(dimensions);
+    void updbteSizeHints() {
+        updbteSizeHints(dimensions);
     }
 
-    // Coordinates are that of the target
-    // Called only on Toolkit thread
-    public void reshape(WindowDimensions newDimensions, int op,
-                        boolean userReshape)
+    // Coordinbtes bre thbt of the tbrget
+    // Cblled only on Toolkit threbd
+    public void reshbpe(WindowDimensions newDimensions, int op,
+                        boolebn userReshbpe)
     {
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-            insLog.fine("Reshaping " + this + " to " + newDimensions + " op " + op + " user reshape " + userReshape);
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            insLog.fine("Reshbping " + this + " to " + newDimensions + " op " + op + " user reshbpe " + userReshbpe);
         }
-        if (userReshape) {
-            // We handle only userReshape == true cases. It means that
-            // if the window manager or any other part of the windowing
-            // system sets inappropriate size for this window, we can
-            // do nothing but accept it.
-            Rectangle newBounds = newDimensions.getBounds();
+        if (userReshbpe) {
+            // We hbndle only userReshbpe == true cbses. It mebns thbt
+            // if the window mbnbger or bny other pbrt of the windowing
+            // system sets inbppropribte size for this window, we cbn
+            // do nothing but bccept it.
+            Rectbngle newBounds = newDimensions.getBounds();
             Insets insets = newDimensions.getInsets();
             // Inherit isClientSizeSet from newDimensions
             if (newDimensions.isClientSizeSet()) {
-                newBounds = new Rectangle(newBounds.x, newBounds.y,
+                newBounds = new Rectbngle(newBounds.x, newBounds.y,
                                           newBounds.width - insets.left - insets.right,
                                           newBounds.height - insets.top - insets.bottom);
             }
             newDimensions = new WindowDimensions(newBounds, insets, newDimensions.isClientSizeSet());
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            if (!isReparented() || !isVisible()) {
-                if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-                    insLog.fine("- not reparented({0}) or not visible({1}), default reshape",
-                           Boolean.valueOf(isReparented()), Boolean.valueOf(visible));
+            if (!isRepbrented() || !isVisible()) {
+                if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    insLog.fine("- not repbrented({0}) or not visible({1}), defbult reshbpe",
+                           Boolebn.vblueOf(isRepbrented()), Boolebn.vblueOf(visible));
                 }
 
                 // Fix for 6323293.
-                // This actually is needed to preserve compatibility with previous releases -
-                // some of licensees are expecting componentMoved event on invisible one while
-                // its location changes.
-                Point oldLocation = getLocation();
+                // This bctublly is needed to preserve compbtibility with previous relebses -
+                // some of licensees bre expecting componentMoved event on invisible one while
+                // its locbtion chbnges.
+                Point oldLocbtion = getLocbtion();
 
-                Point newLocation = new Point(AWTAccessor.getComponentAccessor().getX(target),
-                                              AWTAccessor.getComponentAccessor().getY(target));
+                Point newLocbtion = new Point(AWTAccessor.getComponentAccessor().getX(tbrget),
+                                              AWTAccessor.getComponentAccessor().getY(tbrget));
 
-                if (!newLocation.equals(oldLocation)) {
-                    handleMoved(newDimensions);
+                if (!newLocbtion.equbls(oldLocbtion)) {
+                    hbndleMoved(newDimensions);
                 }
 
                 dimensions = new WindowDimensions(newDimensions);
-                updateSizeHints(dimensions);
-                Rectangle client = dimensions.getClientRect();
+                updbteSizeHints(dimensions);
+                Rectbngle client = dimensions.getClientRect();
                 checkShellRect(client);
                 setShellBounds(client);
                 if (content != null &&
-                    !content.getSize().equals(newDimensions.getSize()))
+                    !content.getSize().equbls(newDimensions.getSize()))
                 {
                     reconfigureContentWindow(newDimensions);
                 }
@@ -557,18 +557,18 @@ abstract class XDecoratedPeer extends XWindowPeer {
             }
 
             int wm = XWM.getWMID();
-            updateChildrenSizes();
-            applyGuessedInsets();
+            updbteChildrenSizes();
+            bpplyGuessedInsets();
 
-            Rectangle shellRect = newDimensions.getClientRect();
+            Rectbngle shellRect = newDimensions.getClientRect();
 
-            if (gravityBug()) {
+            if (grbvityBug()) {
                 Insets in = newDimensions.getInsets();
-                shellRect.translate(in.left, in.top);
+                shellRect.trbnslbte(in.left, in.top);
             }
 
             if ((op & NO_EMBEDDED_CHECK) == 0 && isEmbedded()) {
-                shellRect.setLocation(0, 0);
+                shellRect.setLocbtion(0, 0);
             }
 
             checkShellRectSize(shellRect);
@@ -580,80 +580,80 @@ abstract class XDecoratedPeer extends XWindowPeer {
 
             if (op == SET_LOCATION) {
                 setShellPosition(shellRect);
-            } else if (isResizable()) {
+            } else if (isResizbble()) {
                 if (op == SET_BOUNDS) {
                     setShellBounds(shellRect);
                 } else {
                     setShellSize(shellRect);
                 }
             } else {
-                XWM.setShellNotResizable(this, newDimensions, shellRect, true);
+                XWM.setShellNotResizbble(this, newDimensions, shellRect, true);
                 if (op == SET_BOUNDS) {
                     setShellPosition(shellRect);
                 }
             }
 
             reconfigureContentWindow(newDimensions);
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * @param x, y, width, heith - dimensions of the window with insets
+     * @pbrbm x, y, width, heith - dimensions of the window with insets
      */
-    private void reshape(int x, int y, int width, int height, int operation,
-                         boolean userReshape)
+    privbte void reshbpe(int x, int y, int width, int height, int operbtion,
+                         boolebn userReshbpe)
     {
-        Rectangle newRec;
-        boolean setClient = false;
+        Rectbngle newRec;
+        boolebn setClient = fblse;
         WindowDimensions dims = new WindowDimensions(dimensions);
-        switch (operation & (~NO_EMBEDDED_CHECK)) {
-          case SET_LOCATION:
-              // Set location always sets bounds location. However, until the window is mapped we
-              // should use client coordinates
-              dims.setLocation(x, y);
-              break;
-          case SET_SIZE:
-              // Set size sets bounds size. However, until the window is mapped we
-              // should use client coordinates
+        switch (operbtion & (~NO_EMBEDDED_CHECK)) {
+          cbse SET_LOCATION:
+              // Set locbtion blwbys sets bounds locbtion. However, until the window is mbpped we
+              // should use client coordinbtes
+              dims.setLocbtion(x, y);
+              brebk;
+          cbse SET_SIZE:
+              // Set size sets bounds size. However, until the window is mbpped we
+              // should use client coordinbtes
               dims.setSize(width, height);
-              break;
-          case SET_CLIENT_SIZE: {
-              // Sets client rect size. Width and height contain insets.
+              brebk;
+          cbse SET_CLIENT_SIZE: {
+              // Sets client rect size. Width bnd height contbin insets.
               Insets in = currentInsets;
               width -= in.left+in.right;
               height -= in.top+in.bottom;
               dims.setClientSize(width, height);
-              break;
+              brebk;
           }
-          case SET_BOUNDS:
-          default:
-              dims.setLocation(x, y);
+          cbse SET_BOUNDS:
+          defbult:
+              dims.setLocbtion(x, y);
               dims.setSize(width, height);
-              break;
+              brebk;
         }
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-            insLog.fine("For the operation {0} new dimensions are {1}",
-                        operationToString(operation), dims);
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            insLog.fine("For the operbtion {0} new dimensions bre {1}",
+                        operbtionToString(operbtion), dims);
         }
 
-        reshape(dims, operation, userReshape);
+        reshbpe(dims, operbtion, userReshbpe);
     }
 
-    // This method gets overriden in XFramePeer & XDialogPeer.
-    abstract boolean isTargetUndecorated();
+    // This method gets overriden in XFrbmePeer & XDiblogPeer.
+    bbstrbct boolebn isTbrgetUndecorbted();
 
     /**
-     * @see java.awt.peer.ComponentPeer#setBounds
+     * @see jbvb.bwt.peer.ComponentPeer#setBounds
      */
     public void setBounds(int x, int y, int width, int height, int op) {
         // TODO: Rewrite with WindowDimensions
-        reshape(x, y, width, height, op, true);
-        validateSurface();
+        reshbpe(x, y, width, height, op, true);
+        vblidbteSurfbce();
     }
 
-    // Coordinates are that of the shell
+    // Coordinbtes bre thbt of the shell
     void reconfigureContentWindow(WindowDimensions dims) {
         if (content == null) {
             insLog.fine("WARNING: Content window is null");
@@ -662,32 +662,32 @@ abstract class XDecoratedPeer extends XWindowPeer {
         content.setContentBounds(dims);
     }
 
-    boolean no_reparent_artifacts = false;
-    public void handleConfigureNotifyEvent(XEvent xev) {
-        assert (SunToolkit.isAWTLockHeldByCurrentThread());
+    boolebn no_repbrent_brtifbcts = fblse;
+    public void hbndleConfigureNotifyEvent(XEvent xev) {
+        bssert (SunToolkit.isAWTLockHeldByCurrentThrebd());
         XConfigureEvent xe = xev.get_xconfigure();
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             insLog.fine("Configure notify {0}", xe);
         }
 
-        // XXX: should really only consider synthetic events, but
-        if (isReparented()) {
+        // XXX: should reblly only consider synthetic events, but
+        if (isRepbrented()) {
             configure_seen = true;
         }
 
-        if (!isMaximized()
-            && (xe.get_serial() == reparent_serial || xe.get_window() != getShell())
-            && !no_reparent_artifacts)
+        if (!isMbximized()
+            && (xe.get_seribl() == repbrent_seribl || xe.get_window() != getShell())
+            && !no_repbrent_brtifbcts)
         {
-            insLog.fine("- reparent artifact, skipping");
+            insLog.fine("- repbrent brtifbct, skipping");
             return;
         }
-        no_reparent_artifacts = false;
+        no_repbrent_brtifbcts = fblse;
 
         /**
-         * When there is a WM we receive some CN before being visible and after.
-         * We should skip all CN which are before being visible, because we assume
-         * the gravity is in action while it is not yet.
+         * When there is b WM we receive some CN before being visible bnd bfter.
+         * We should skip bll CN which bre before being visible, becbuse we bssume
+         * the grbvity is in bction while it is not yet.
          *
          * When there is no WM we receive CN only _before_ being visible.
          * We should process these CNs.
@@ -698,80 +698,80 @@ abstract class XDecoratedPeer extends XWindowPeer {
         }
 
         /*
-         * Some window managers configure before we are reparented and
-         * the send event flag is set! ugh... (Enlighetenment for one,
-         * possibly MWM as well).  If we haven't been reparented yet
+         * Some window mbnbgers configure before we bre repbrented bnd
+         * the send event flbg is set! ugh... (Enlighetenment for one,
+         * possibly MWM bs well).  If we hbven't been repbrented yet
          * this is just the WM shuffling us into position.  Ignore
-         * it!!!! or we wind up in a bogus location.
+         * it!!!! or we wind up in b bogus locbtion.
          */
         int runningWM = XWM.getWMID();
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-            insLog.fine("reparented={0}, visible={1}, WM={2}, decorations={3}",
-                        isReparented(), isVisible(), runningWM, getDecorations());
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            insLog.fine("repbrented={0}, visible={1}, WM={2}, decorbtions={3}",
+                        isRepbrented(), isVisible(), runningWM, getDecorbtions());
         }
-        if (!isReparented() && isVisible() && runningWM != XWM.NO_WM
-                &&  !XWM.isNonReparentingWM()
-                && getDecorations() != XWindowAttributesData.AWT_DECOR_NONE) {
-            insLog.fine("- visible but not reparented, skipping");
+        if (!isRepbrented() && isVisible() && runningWM != XWM.NO_WM
+                &&  !XWM.isNonRepbrentingWM()
+                && getDecorbtions() != XWindowAttributesDbtb.AWT_DECOR_NONE) {
+            insLog.fine("- visible but not repbrented, skipping");
             return;
         }
-        //Last chance to correct insets
-        if (!insets_corrected && getDecorations() != XWindowAttributesData.AWT_DECOR_NONE) {
-            long parent = XlibUtil.getParentWindow(window);
-            Insets correctWM = (parent != -1) ? XWM.getWM().getInsets(this, window, parent) : null;
-            if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
+        //Lbst chbnce to correct insets
+        if (!insets_corrected && getDecorbtions() != XWindowAttributesDbtb.AWT_DECOR_NONE) {
+            long pbrent = XlibUtil.getPbrentWindow(window);
+            Insets correctWM = (pbrent != -1) ? XWM.getWM().getInsets(this, window, pbrent) : null;
+            if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                 if (correctWM != null) {
                     insLog.finer("Configure notify - insets : " + correctWM);
                 } else {
-                    insLog.finer("Configure notify - insets are still not available");
+                    insLog.finer("Configure notify - insets bre still not bvbilbble");
                 }
             }
             if (correctWM != null) {
-                handleCorrectInsets(correctWM);
+                hbndleCorrectInsets(correctWM);
             } else {
-                //Only one attempt to correct insets is made (to lower risk)
-                //if insets are still not available we simply set the flag
+                //Only one bttempt to correct insets is mbde (to lower risk)
+                //if insets bre still not bvbilbble we simply set the flbg
                 insets_corrected = true;
             }
         }
 
-        updateChildrenSizes();
+        updbteChildrenSizes();
 
         // Bounds of the window
-        Rectangle targetBounds = AWTAccessor.getComponentAccessor().getBounds(target);
+        Rectbngle tbrgetBounds = AWTAccessor.getComponentAccessor().getBounds(tbrget);
 
-        Point newLocation = getNewLocation(xe, currentInsets.left, currentInsets.top);
+        Point newLocbtion = getNewLocbtion(xe, currentInsets.left, currentInsets.top);
 
         WindowDimensions newDimensions =
-                new WindowDimensions(newLocation,
+                new WindowDimensions(newLocbtion,
                 new Dimension(xe.get_width(), xe.get_height()),
                 copy(currentInsets),
                 true);
 
-        if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-            insLog.finer("Insets are {0}, new dimensions {1}",
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            insLog.finer("Insets bre {0}, new dimensions {1}",
                      currentInsets, newDimensions);
         }
 
         checkIfOnNewScreen(newDimensions.getBounds());
 
-        Point oldLocation = getLocation();
+        Point oldLocbtion = getLocbtion();
         dimensions = newDimensions;
-        if (!newLocation.equals(oldLocation)) {
-            handleMoved(newDimensions);
+        if (!newLocbtion.equbls(oldLocbtion)) {
+            hbndleMoved(newDimensions);
         }
         reconfigureContentWindow(newDimensions);
-        updateChildrenSizes();
+        updbteChildrenSizes();
 
-        repositionSecurityWarning();
+        repositionSecurityWbrning();
     }
 
-    private void checkShellRectSize(Rectangle shellRect) {
-        shellRect.width = Math.max(MIN_SIZE, shellRect.width);
-        shellRect.height = Math.max(MIN_SIZE, shellRect.height);
+    privbte void checkShellRectSize(Rectbngle shellRect) {
+        shellRect.width = Mbth.mbx(MIN_SIZE, shellRect.width);
+        shellRect.height = Mbth.mbx(MIN_SIZE, shellRect.height);
     }
 
-    private void checkShellRectPos(Rectangle shellRect) {
+    privbte void checkShellRectPos(Rectbngle shellRect) {
         int wm = XWM.getWMID();
         if (wm == XWM.MOTIF_WM || wm == XWM.CDE_WM) {
             if (shellRect.x == 0 && shellRect.y == 0) {
@@ -780,93 +780,93 @@ abstract class XDecoratedPeer extends XWindowPeer {
         }
     }
 
-    private void checkShellRect(Rectangle shellRect) {
+    privbte void checkShellRect(Rectbngle shellRect) {
         checkShellRectSize(shellRect);
         checkShellRectPos(shellRect);
     }
 
-    public void setShellBounds(Rectangle rec) {
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
+    public void setShellBounds(Rectbngle rec) {
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             insLog.fine("Setting shell bounds on " + this + " to " + rec);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            updateSizeHints(rec.x, rec.y, rec.width, rec.height);
-            XlibWrapper.XResizeWindow(XToolkit.getDisplay(), getShell(), rec.width, rec.height);
-            XlibWrapper.XMoveWindow(XToolkit.getDisplay(), getShell(), rec.x, rec.y);
+            updbteSizeHints(rec.x, rec.y, rec.width, rec.height);
+            XlibWrbpper.XResizeWindow(XToolkit.getDisplby(), getShell(), rec.width, rec.height);
+            XlibWrbpper.XMoveWindow(XToolkit.getDisplby(), getShell(), rec.x, rec.y);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlock();
         }
     }
-    public void setShellSize(Rectangle rec) {
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
+    public void setShellSize(Rectbngle rec) {
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             insLog.fine("Setting shell size on " + this + " to " + rec);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            updateSizeHints(rec.x, rec.y, rec.width, rec.height);
-            XlibWrapper.XResizeWindow(XToolkit.getDisplay(), getShell(), rec.width, rec.height);
+            updbteSizeHints(rec.x, rec.y, rec.width, rec.height);
+            XlibWrbpper.XResizeWindow(XToolkit.getDisplby(), getShell(), rec.width, rec.height);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlock();
         }
     }
-    public void setShellPosition(Rectangle rec) {
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
+    public void setShellPosition(Rectbngle rec) {
+        if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             insLog.fine("Setting shell position on " + this + " to " + rec);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            updateSizeHints(rec.x, rec.y, rec.width, rec.height);
-            XlibWrapper.XMoveWindow(XToolkit.getDisplay(), getShell(), rec.x, rec.y);
+            updbteSizeHints(rec.x, rec.y, rec.width, rec.height);
+            XlibWrbpper.XMoveWindow(XToolkit.getDisplby(), getShell(), rec.x, rec.y);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    void initResizability() {
-        setResizable(winAttr.initialResizability);
+    void initResizbbility() {
+        setResizbble(winAttr.initiblResizbbility);
     }
-    public void setResizable(boolean resizable) {
+    public void setResizbble(boolebn resizbble) {
         int fs = winAttr.functions;
-        if (!isResizable() && resizable) {
+        if (!isResizbble() && resizbble) {
             currentInsets = new Insets(0, 0, 0, 0);
             resetWMSetInsets();
             if (!isEmbedded()) {
-                setReparented(false);
+                setRepbrented(fblse);
             }
-            winAttr.isResizable = resizable;
-            if ((fs & MWMConstants.MWM_FUNC_ALL) != 0) {
-                fs &= ~(MWMConstants.MWM_FUNC_RESIZE | MWMConstants.MWM_FUNC_MAXIMIZE);
+            winAttr.isResizbble = resizbble;
+            if ((fs & MWMConstbnts.MWM_FUNC_ALL) != 0) {
+                fs &= ~(MWMConstbnts.MWM_FUNC_RESIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
             } else {
-                fs |= (MWMConstants.MWM_FUNC_RESIZE | MWMConstants.MWM_FUNC_MAXIMIZE);
+                fs |= (MWMConstbnts.MWM_FUNC_RESIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
             }
             winAttr.functions = fs;
-            XWM.setShellResizable(this);
-        } else if (isResizable() && !resizable) {
+            XWM.setShellResizbble(this);
+        } else if (isResizbble() && !resizbble) {
             currentInsets = new Insets(0, 0, 0, 0);
             resetWMSetInsets();
             if (!isEmbedded()) {
-                setReparented(false);
+                setRepbrented(fblse);
             }
-            winAttr.isResizable = resizable;
-            if ((fs & MWMConstants.MWM_FUNC_ALL) != 0) {
-                fs |= (MWMConstants.MWM_FUNC_RESIZE | MWMConstants.MWM_FUNC_MAXIMIZE);
+            winAttr.isResizbble = resizbble;
+            if ((fs & MWMConstbnts.MWM_FUNC_ALL) != 0) {
+                fs |= (MWMConstbnts.MWM_FUNC_RESIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
             } else {
-                fs &= ~(MWMConstants.MWM_FUNC_RESIZE | MWMConstants.MWM_FUNC_MAXIMIZE);
+                fs &= ~(MWMConstbnts.MWM_FUNC_RESIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
             }
             winAttr.functions = fs;
-            XWM.setShellNotResizable(this, dimensions, dimensions.getBounds(), false);
+            XWM.setShellNotResizbble(this, dimensions, dimensions.getBounds(), fblse);
         }
     }
 
-    Rectangle getShellBounds() {
+    Rectbngle getShellBounds() {
         return dimensions.getClientRect();
     }
 
-    public Rectangle getBounds() {
+    public Rectbngle getBounds() {
         return dimensions.getBounds();
     }
 
@@ -875,24 +875,24 @@ abstract class XDecoratedPeer extends XWindowPeer {
     }
 
     public int getX() {
-        return dimensions.getLocation().x;
+        return dimensions.getLocbtion().x;
     }
 
     public int getY() {
-        return dimensions.getLocation().y;
+        return dimensions.getLocbtion().y;
     }
 
-    public Point getLocation() {
-        return dimensions.getLocation();
+    public Point getLocbtion() {
+        return dimensions.getLocbtion();
     }
 
     public int getAbsoluteX() {
-        // NOTE: returning this peer's location which is shell location
+        // NOTE: returning this peer's locbtion which is shell locbtion
         return dimensions.getScreenBounds().x;
     }
 
     public int getAbsoluteY() {
-        // NOTE: returning this peer's location which is shell location
+        // NOTE: returning this peer's locbtion which is shell locbtion
         return dimensions.getScreenBounds().y;
     }
 
@@ -904,25 +904,25 @@ abstract class XDecoratedPeer extends XWindowPeer {
         return getSize().height;
     }
 
-    final public WindowDimensions getDimensions() {
+    finbl public WindowDimensions getDimensions() {
         return dimensions;
     }
 
-    public Point getLocationOnScreen() {
-        XToolkit.awtLock();
+    public Point getLocbtionOnScreen() {
+        XToolkit.bwtLock();
         try {
             if (configure_seen) {
-                return toGlobal(0,0);
+                return toGlobbl(0,0);
             } else {
-                Point location = target.getLocation();
-                if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-                    insLog.fine("getLocationOnScreen {0} not reparented: {1} ",
-                                this, location);
+                Point locbtion = tbrget.getLocbtion();
+                if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    insLog.fine("getLocbtionOnScreen {0} not repbrented: {1} ",
+                                this, locbtion);
                 }
-                return location;
+                return locbtion;
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
@@ -931,53 +931,53 @@ abstract class XDecoratedPeer extends XWindowPeer {
  *              END            OF             I N S E T S   C O D E
  **************************************************************************************/
 
-    protected boolean isEventDisabled(XEvent e) {
+    protected boolebn isEventDisbbled(XEvent e) {
         switch (e.get_type()) {
-            // Do not generate MOVED/RESIZED events since we generate them by ourselves
-          case XConstants.ConfigureNotify:
+            // Do not generbte MOVED/RESIZED events since we generbte them by ourselves
+          cbse XConstbnts.ConfigureNotify:
               return true;
-          case XConstants.EnterNotify:
-          case XConstants.LeaveNotify:
-              // Disable crossing event on outer borders of Frame so
-              // we receive only one set of cross notifications(first set is from content window)
+          cbse XConstbnts.EnterNotify:
+          cbse XConstbnts.LebveNotify:
+              // Disbble crossing event on outer borders of Frbme so
+              // we receive only one set of cross notificbtions(first set is from content window)
               return true;
-          default:
-              return super.isEventDisabled(e);
+          defbult:
+              return super.isEventDisbbled(e);
         }
     }
 
-    int getDecorations() {
-        return winAttr.decorations;
+    int getDecorbtions() {
+        return winAttr.decorbtions;
     }
 
     int getFunctions() {
         return winAttr.functions;
     }
 
-    public void setVisible(boolean vis) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("Setting {0} to visible {1}", this, Boolean.valueOf(vis));
+    public void setVisible(boolebn vis) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("Setting {0} to visible {1}", this, Boolebn.vblueOf(vis));
         }
         if (vis && !isVisible()) {
             XWM.setShellDecor(this);
             super.setVisible(vis);
-            if (winAttr.isResizable) {
-                //Fix for 4320050: Minimum size for java.awt.Frame is not being enforced.
-                //We need to update frame's minimum size, not to reset it
-                XWM.removeSizeHints(this, XUtilConstants.PMaxSize);
-                updateMinimumSize();
+            if (winAttr.isResizbble) {
+                //Fix for 4320050: Minimum size for jbvb.bwt.Frbme is not being enforced.
+                //We need to updbte frbme's minimum size, not to reset it
+                XWM.removeSizeHints(this, XUtilConstbnts.PMbxSize);
+                updbteMinimumSize();
             }
         } else {
             super.setVisible(vis);
         }
     }
 
-    protected void suppressWmTakeFocus(boolean doSuppress) {
+    protected void suppressWmTbkeFocus(boolebn doSuppress) {
         XAtomList protocols = getWMProtocols();
         if (doSuppress) {
-            protocols.remove(wm_take_focus);
+            protocols.remove(wm_tbke_focus);
         } else {
-            protocols.add(wm_take_focus);
+            protocols.bdd(wm_tbke_focus);
         }
         wm_protocols.setAtomListProperty(this, protocols);
     }
@@ -995,39 +995,39 @@ abstract class XDecoratedPeer extends XWindowPeer {
         super.dispose();
     }
 
-    public void handleClientMessage(XEvent xev) {
-        super.handleClientMessage(xev);
-        XClientMessageEvent cl = xev.get_xclient();
-        if ((wm_protocols != null) && (cl.get_message_type() == wm_protocols.getAtom())) {
-            if (cl.get_data(0) == wm_delete_window.getAtom()) {
-                handleQuit();
-            } else if (cl.get_data(0) == wm_take_focus.getAtom()) {
-                handleWmTakeFocus(cl);
+    public void hbndleClientMessbge(XEvent xev) {
+        super.hbndleClientMessbge(xev);
+        XClientMessbgeEvent cl = xev.get_xclient();
+        if ((wm_protocols != null) && (cl.get_messbge_type() == wm_protocols.getAtom())) {
+            if (cl.get_dbtb(0) == wm_delete_window.getAtom()) {
+                hbndleQuit();
+            } else if (cl.get_dbtb(0) == wm_tbke_focus.getAtom()) {
+                hbndleWmTbkeFocus(cl);
             }
         }
     }
 
-    private void handleWmTakeFocus(XClientMessageEvent cl) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
+    privbte void hbndleWmTbkeFocus(XClientMessbgeEvent cl) {
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             focusLog.fine("WM_TAKE_FOCUS on {0}", this);
         }
-        requestWindowFocus(cl.get_data(1), true);
+        requestWindowFocus(cl.get_dbtb(1), true);
     }
 
     /**
-     * Requests focus to this decorated top-level by requesting X input focus
+     * Requests focus to this decorbted top-level by requesting X input focus
      * to the shell window.
      */
-    protected void requestXFocus(long time, boolean timeProvided) {
-        // We have proxied focus mechanism - instead of shell the focus is held
-        // by "proxy" - invisible mapped window. When we want to set X input focus to
-        // toplevel set it on proxy instead.
+    protected void requestXFocus(long time, boolebn timeProvided) {
+        // We hbve proxied focus mechbnism - instebd of shell the focus is held
+        // by "proxy" - invisible mbpped window. When we wbnt to set X input focus to
+        // toplevel set it on proxy instebd.
         if (focusProxy == null) {
-            if (focusLog.isLoggable(PlatformLogger.Level.WARNING)) {
-                focusLog.warning("Focus proxy is null for " + this);
+            if (focusLog.isLoggbble(PlbtformLogger.Level.WARNING)) {
+                focusLog.wbrning("Focus proxy is null for " + this);
             }
         } else {
-            if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
+            if (focusLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                 focusLog.fine("Requesting focus to proxy: " + focusProxy);
             }
             if (timeProvided) {
@@ -1042,34 +1042,34 @@ abstract class XDecoratedPeer extends XWindowPeer {
         return focusProxy;
     }
 
-    public void handleQuit() {
-        postEvent(new WindowEvent((Window)target, WindowEvent.WINDOW_CLOSING));
+    public void hbndleQuit() {
+        postEvent(new WindowEvent((Window)tbrget, WindowEvent.WINDOW_CLOSING));
     }
 
-    final void dumpMe() {
+    finbl void dumpMe() {
         System.err.println(">>> Peer: " + x + ", " + y + ", " + width + ", " + height);
     }
 
-    final void dumpTarget() {
+    finbl void dumpTbrget() {
         AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
-        int getWidth = compAccessor.getWidth(target);
-        int getHeight = compAccessor.getHeight(target);
-        int getTargetX = compAccessor.getX(target);
-        int getTargetY = compAccessor.getY(target);
-        System.err.println(">>> Target: " + getTargetX + ", " + getTargetY + ", " + getWidth + ", " + getHeight);
+        int getWidth = compAccessor.getWidth(tbrget);
+        int getHeight = compAccessor.getHeight(tbrget);
+        int getTbrgetX = compAccessor.getX(tbrget);
+        int getTbrgetY = compAccessor.getY(tbrget);
+        System.err.println(">>> Tbrget: " + getTbrgetX + ", " + getTbrgetY + ", " + getWidth + ", " + getHeight);
     }
 
-    final void dumpShell() {
+    finbl void dumpShell() {
         dumpWindow("Shell", getShell());
     }
-    final void dumpContent() {
+    finbl void dumpContent() {
         dumpWindow("Content", getContentWindow());
     }
-    final void dumpParent() {
-        long parent = XlibUtil.getParentWindow(getShell());
-        if (parent != 0)
+    finbl void dumpPbrent() {
+        long pbrent = XlibUtil.getPbrentWindow(getShell());
+        if (pbrent != 0)
         {
-            dumpWindow("Parent", parent);
+            dumpWindow("Pbrent", pbrent);
         }
         else
         {
@@ -1077,91 +1077,91 @@ abstract class XDecoratedPeer extends XWindowPeer {
         }
     }
 
-    final void dumpWindow(String id, long window) {
-        XWindowAttributes pattr = new XWindowAttributes();
+    finbl void dumpWindow(String id, long window) {
+        XWindowAttributes pbttr = new XWindowAttributes();
         try {
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                int status =
-                    XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                     window, pattr.pData);
+                int stbtus =
+                    XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(),
+                                                     window, pbttr.pDbtb);
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlock();
             }
-            System.err.println(">>>> " + id + ": " + pattr.get_x()
-                               + ", " + pattr.get_y() + ", " + pattr.get_width()
-                               + ", " + pattr.get_height());
-        } finally {
-            pattr.dispose();
+            System.err.println(">>>> " + id + ": " + pbttr.get_x()
+                               + ", " + pbttr.get_y() + ", " + pbttr.get_width()
+                               + ", " + pbttr.get_height());
+        } finblly {
+            pbttr.dispose();
         }
     }
 
-    final void dumpAll() {
-        dumpTarget();
+    finbl void dumpAll() {
+        dumpTbrget();
         dumpMe();
-        dumpParent();
+        dumpPbrent();
         dumpShell();
         dumpContent();
     }
 
-    boolean isMaximized() {
-        return false;
+    boolebn isMbximized() {
+        return fblse;
     }
 
     @Override
-    boolean isOverrideRedirect() {
-        return Window.Type.POPUP.equals(getWindowType());
+    boolebn isOverrideRedirect() {
+        return Window.Type.POPUP.equbls(getWindowType());
     }
 
-    public boolean requestWindowFocus(long time, boolean timeProvided) {
-        focusLog.fine("Request for decorated window focus");
-        // If this is Frame or Dialog we can't assure focus request success - but we still can try
-        // If this is Window and its owner Frame is active we can be sure request succedded.
-        Window focusedWindow = XKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow();
-        Window activeWindow = XWindowPeer.getDecoratedOwner(focusedWindow);
+    public boolebn requestWindowFocus(long time, boolebn timeProvided) {
+        focusLog.fine("Request for decorbted window focus");
+        // If this is Frbme or Diblog we cbn't bssure focus request success - but we still cbn try
+        // If this is Window bnd its owner Frbme is bctive we cbn be sure request succedded.
+        Window focusedWindow = XKeybobrdFocusMbnbgerPeer.getInstbnce().getCurrentFocusedWindow();
+        Window bctiveWindow = XWindowPeer.getDecorbtedOwner(focusedWindow);
 
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
-            focusLog.finer("Current window is: active={0}, focused={1}",
-                       Boolean.valueOf(target == activeWindow),
-                       Boolean.valueOf(target == focusedWindow));
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            focusLog.finer("Current window is: bctive={0}, focused={1}",
+                       Boolebn.vblueOf(tbrget == bctiveWindow),
+                       Boolebn.vblueOf(tbrget == focusedWindow));
         }
 
         XWindowPeer toFocus = this;
-        while (toFocus.nextTransientFor != null) {
-            toFocus = toFocus.nextTransientFor;
+        while (toFocus.nextTrbnsientFor != null) {
+            toFocus = toFocus.nextTrbnsientFor;
         }
         if (toFocus == null || !toFocus.focusAllowedFor()) {
-            // This might change when WM will have property to determine focus policy.
-            // Right now, because policy is unknown we can't be sure we succedded
-            return false;
+            // This might chbnge when WM will hbve property to determine focus policy.
+            // Right now, becbuse policy is unknown we cbn't be sure we succedded
+            return fblse;
         }
         if (this == toFocus) {
-            if (isWMStateNetHidden()) {
-                focusLog.fine("The window is unmapped, so rejecting the request");
-                return false;
+            if (isWMStbteNetHidden()) {
+                focusLog.fine("The window is unmbpped, so rejecting the request");
+                return fblse;
             }
-            if (target == activeWindow && target != focusedWindow) {
-                // Happens when an owned window is currently focused
-                focusLog.fine("Focus is on child window - transferring it back to the owner");
-                handleWindowFocusInSync(-1);
+            if (tbrget == bctiveWindow && tbrget != focusedWindow) {
+                // Hbppens when bn owned window is currently focused
+                focusLog.fine("Focus is on child window - trbnsferring it bbck to the owner");
+                hbndleWindowFocusInSync(-1);
                 return true;
             }
-            Window realNativeFocusedWindow = XWindowPeer.getNativeFocusedWindow();
-            if (focusLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                focusLog.finest("Real native focused window: " + realNativeFocusedWindow +
+            Window reblNbtiveFocusedWindow = XWindowPeer.getNbtiveFocusedWindow();
+            if (focusLog.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                focusLog.finest("Rebl nbtive focused window: " + reblNbtiveFocusedWindow +
                             "\nKFM's focused window: " + focusedWindow);
             }
 
-            // A workaround for Metacity. See 6522725, 6613426, 7147075.
-            if (target == realNativeFocusedWindow && XWM.getWMID() == XWM.METACITY_WM) {
-                if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-                    focusLog.fine("The window is already natively focused.");
+            // A workbround for Metbcity. See 6522725, 6613426, 7147075.
+            if (tbrget == reblNbtiveFocusedWindow && XWM.getWMID() == XWM.METACITY_WM) {
+                if (focusLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    focusLog.fine("The window is blrebdy nbtively focused.");
                 }
                 return true;
             }
         }
-        if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             focusLog.fine("Requesting focus to " + (this == toFocus ? "this window" : toFocus));
         }
 
@@ -1173,62 +1173,62 @@ abstract class XDecoratedPeer extends XWindowPeer {
         return (this == toFocus);
     }
 
-    XWindowPeer actualFocusedWindow = null;
-    void setActualFocusedWindow(XWindowPeer actualFocusedWindow) {
-        synchronized(getStateLock()) {
-            this.actualFocusedWindow = actualFocusedWindow;
+    XWindowPeer bctublFocusedWindow = null;
+    void setActublFocusedWindow(XWindowPeer bctublFocusedWindow) {
+        synchronized(getStbteLock()) {
+            this.bctublFocusedWindow = bctublFocusedWindow;
         }
     }
 
-    boolean requestWindowFocus(XWindowPeer actualFocusedWindow,
-                               long time, boolean timeProvided)
+    boolebn requestWindowFocus(XWindowPeer bctublFocusedWindow,
+                               long time, boolebn timeProvided)
     {
-        setActualFocusedWindow(actualFocusedWindow);
+        setActublFocusedWindow(bctublFocusedWindow);
         return requestWindowFocus(time, timeProvided);
     }
-    public void handleWindowFocusIn(long serial) {
-        if (null == actualFocusedWindow) {
-            super.handleWindowFocusIn(serial);
+    public void hbndleWindowFocusIn(long seribl) {
+        if (null == bctublFocusedWindow) {
+            super.hbndleWindowFocusIn(seribl);
         } else {
             /*
              * Fix for 6314575.
-             * If this is a result of clicking on one of the Frame's component
-             * then 'actualFocusedWindow' shouldn't be focused. A decision of focusing
-             * it or not should be made after the appropriate Java mouse event (if any)
-             * is handled by the component where 'actualFocusedWindow' value may be reset.
+             * If this is b result of clicking on one of the Frbme's component
+             * then 'bctublFocusedWindow' shouldn't be focused. A decision of focusing
+             * it or not should be mbde bfter the bppropribte Jbvb mouse event (if bny)
+             * is hbndled by the component where 'bctublFocusedWindow' vblue mby be reset.
              *
-             * The fix is based on the empiric fact consisting in that the component
-             * receives native mouse event nearly at the same time the Frame receives
-             * WM_TAKE_FOCUS (when FocusIn is generated via XSetInputFocus call) but
-             * definetely before the Frame gets FocusIn event (when this method is called).
+             * The fix is bbsed on the empiric fbct consisting in thbt the component
+             * receives nbtive mouse event nebrly bt the sbme time the Frbme receives
+             * WM_TAKE_FOCUS (when FocusIn is generbted vib XSetInputFocus cbll) but
+             * definetely before the Frbme gets FocusIn event (when this method is cblled).
              */
-            postEvent(new InvocationEvent(target, new Runnable() {
+            postEvent(new InvocbtionEvent(tbrget, new Runnbble() {
                 public void run() {
                     XWindowPeer fw = null;
-                    synchronized (getStateLock()) {
-                        fw = actualFocusedWindow;
-                        actualFocusedWindow = null;
-                        if (null == fw || !fw.isVisible() || !fw.isFocusableWindow()) {
-                            fw = XDecoratedPeer.this;
+                    synchronized (getStbteLock()) {
+                        fw = bctublFocusedWindow;
+                        bctublFocusedWindow = null;
+                        if (null == fw || !fw.isVisible() || !fw.isFocusbbleWindow()) {
+                            fw = XDecorbtedPeer.this;
                         }
                     }
-                    fw.handleWindowFocusIn_Dispatch();
+                    fw.hbndleWindowFocusIn_Dispbtch();
                 }
             }));
         }
     }
 
-    public void handleWindowFocusOut(Window oppositeWindow, long serial) {
-        Window actualFocusedWindow = XKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow();
+    public void hbndleWindowFocusOut(Window oppositeWindow, long seribl) {
+        Window bctublFocusedWindow = XKeybobrdFocusMbnbgerPeer.getInstbnce().getCurrentFocusedWindow();
 
-        // If the actual focused window is not this decorated window then retain it.
-        if (actualFocusedWindow != null && actualFocusedWindow != target) {
-            Window owner = XWindowPeer.getDecoratedOwner(actualFocusedWindow);
+        // If the bctubl focused window is not this decorbted window then retbin it.
+        if (bctublFocusedWindow != null && bctublFocusedWindow != tbrget) {
+            Window owner = XWindowPeer.getDecorbtedOwner(bctublFocusedWindow);
 
-            if (owner != null && owner == target) {
-                setActualFocusedWindow((XWindowPeer) AWTAccessor.getComponentAccessor().getPeer(actualFocusedWindow));
+            if (owner != null && owner == tbrget) {
+                setActublFocusedWindow((XWindowPeer) AWTAccessor.getComponentAccessor().getPeer(bctublFocusedWindow));
             }
         }
-        super.handleWindowFocusOut(oppositeWindow, serial);
+        super.hbndleWindowFocusOut(oppositeWindow, seribl);
     }
 }

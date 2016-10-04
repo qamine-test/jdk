@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.datatransfer.*;
-import java.awt.im.InputContext;
-import java.beans.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.synth.SynthUI;
-import sun.swing.DefaultLookup;
-import sun.awt.AppContext;
-import javax.swing.plaf.basic.DragRecognitionSupport.BeforeDrag;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import jbvb.bwt.im.InputContext;
+import jbvb.bebns.*;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.plbf.synth.SynthUI;
+import sun.swing.DefbultLookup;
+import sun.bwt.AppContext;
+import jbvbx.swing.plbf.bbsic.DrbgRecognitionSupport.BeforeDrbg;
 
 /**
  * <p>
- * Basis of a text components look-and-feel.  This provides the
- * basic editor view and controller services that may be useful
- * when creating a look-and-feel for an extension of
+ * Bbsis of b text components look-bnd-feel.  This provides the
+ * bbsic editor view bnd controller services thbt mby be useful
+ * when crebting b look-bnd-feel for bn extension of
  * <code>JTextComponent</code>.
  * <p>
- * Most state is held in the associated <code>JTextComponent</code>
- * as bound properties, and the UI installs default values for the
- * various properties.  This default will install something for
- * all of the properties.  Typically, a LAF implementation will
- * do more however.  At a minimum, a LAF would generally install
+ * Most stbte is held in the bssocibted <code>JTextComponent</code>
+ * bs bound properties, bnd the UI instblls defbult vblues for the
+ * vbrious properties.  This defbult will instbll something for
+ * bll of the properties.  Typicblly, b LAF implementbtion will
+ * do more however.  At b minimum, b LAF would generblly instbll
  * key bindings.
  * <p>
- * This class also provides some concurrency support if the
- * <code>Document</code> associated with the JTextComponent is a subclass of
- * <code>AbstractDocument</code>.  Access to the View (or View hierarchy) is
- * serialized between any thread mutating the model and the Swing
- * event thread (which is expected to render, do model/view coordinate
- * translation, etc).  <em>Any access to the root view should first
- * acquire a read-lock on the AbstractDocument and release that lock
- * in a finally block.</em>
+ * This clbss blso provides some concurrency support if the
+ * <code>Document</code> bssocibted with the JTextComponent is b subclbss of
+ * <code>AbstrbctDocument</code>.  Access to the View (or View hierbrchy) is
+ * seriblized between bny threbd mutbting the model bnd the Swing
+ * event threbd (which is expected to render, do model/view coordinbte
+ * trbnslbtion, etc).  <em>Any bccess to the root view should first
+ * bcquire b rebd-lock on the AbstrbctDocument bnd relebse thbt lock
+ * in b finblly block.</em>
  * <p>
- * An important method to define is the {@link #getPropertyPrefix} method
- * which is used as the basis of the keys used to fetch defaults
- * from the UIManager.  The string should reflect the type of
- * TextUI (eg. TextField, TextArea, etc) without the particular
- * LAF part of the name (eg Metal, Motif, etc).
+ * An importbnt method to define is the {@link #getPropertyPrefix} method
+ * which is used bs the bbsis of the keys used to fetch defbults
+ * from the UIMbnbger.  The string should reflect the type of
+ * TextUI (eg. TextField, TextAreb, etc) without the pbrticulbr
+ * LAF pbrt of the nbme (eg Metbl, Motif, etc).
  * <p>
- * To build a view of the model, one of the following strategies
- * can be employed.
+ * To build b view of the model, one of the following strbtegies
+ * cbn be employed.
  * <ol>
  * <li>
- * One strategy is to simply redefine the
- * ViewFactory interface in the UI.  By default, this UI itself acts
- * as the factory for View implementations.  This is useful
- * for simple factories.  To do this reimplement the
- * {@link #create} method.
+ * One strbtegy is to simply redefine the
+ * ViewFbctory interfbce in the UI.  By defbult, this UI itself bcts
+ * bs the fbctory for View implementbtions.  This is useful
+ * for simple fbctories.  To do this reimplement the
+ * {@link #crebte} method.
  * <li>
- * A common strategy for creating more complex types of documents
- * is to have the EditorKit implementation return a factory.  Since
- * the EditorKit ties all of the pieces necessary to maintain a type
- * of document, the factory is typically an important part of that
- * and should be produced by the EditorKit implementation.
+ * A common strbtegy for crebting more complex types of documents
+ * is to hbve the EditorKit implementbtion return b fbctory.  Since
+ * the EditorKit ties bll of the pieces necessbry to mbintbin b type
+ * of document, the fbctory is typicblly bn importbnt pbrt of thbt
+ * bnd should be produced by the EditorKit implementbtion.
  * </ol>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Timothy Prinzing
- * @author Shannon Hickey (drag and drop)
+ * @buthor Timothy Prinzing
+ * @buthor Shbnnon Hickey (drbg bnd drop)
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class BasicTextUI extends TextUI implements ViewFactory {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss BbsicTextUI extends TextUI implements ViewFbctory {
 
     /**
-     * Creates a new UI.
+     * Crebtes b new UI.
      */
-    public BasicTextUI() {
-        painted = false;
+    public BbsicTextUI() {
+        pbinted = fblse;
     }
 
     /**
-     * Creates the object to use for a caret.  By default an
-     * instance of BasicCaret is created.  This method
-     * can be redefined to provide something else that implements
-     * the InputPosition interface or a subclass of JCaret.
+     * Crebtes the object to use for b cbret.  By defbult bn
+     * instbnce of BbsicCbret is crebted.  This method
+     * cbn be redefined to provide something else thbt implements
+     * the InputPosition interfbce or b subclbss of JCbret.
      *
-     * @return the caret object
+     * @return the cbret object
      */
-    protected Caret createCaret() {
-        return new BasicCaret();
+    protected Cbret crebteCbret() {
+        return new BbsicCbret();
     }
 
     /**
-     * Creates the object to use for adding highlights.  By default
-     * an instance of BasicHighlighter is created.  This method
-     * can be redefined to provide something else that implements
-     * the Highlighter interface or a subclass of DefaultHighlighter.
+     * Crebtes the object to use for bdding highlights.  By defbult
+     * bn instbnce of BbsicHighlighter is crebted.  This method
+     * cbn be redefined to provide something else thbt implements
+     * the Highlighter interfbce or b subclbss of DefbultHighlighter.
      *
      * @return the highlighter
      */
-    protected Highlighter createHighlighter() {
-        return new BasicHighlighter();
+    protected Highlighter crebteHighlighter() {
+        return new BbsicHighlighter();
     }
 
     /**
-     * Fetches the name of the keymap that will be installed/used
-     * by default for this UI. This is implemented to create a
-     * name based upon the classname.  The name is the the name
-     * of the class with the package prefix removed.
+     * Fetches the nbme of the keymbp thbt will be instblled/used
+     * by defbult for this UI. This is implemented to crebte b
+     * nbme bbsed upon the clbssnbme.  The nbme is the the nbme
+     * of the clbss with the pbckbge prefix removed.
      *
-     * @return the name
+     * @return the nbme
      */
-    protected String getKeymapName() {
-        String nm = getClass().getName();
-        int index = nm.lastIndexOf('.');
+    protected String getKeymbpNbme() {
+        String nm = getClbss().getNbme();
+        int index = nm.lbstIndexOf('.');
         if (index >= 0) {
             nm = nm.substring(index+1, nm.length());
         }
@@ -152,356 +152,356 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
     }
 
     /**
-     * Creates the keymap to use for the text component, and installs
-     * any necessary bindings into it.  By default, the keymap is
-     * shared between all instances of this type of TextUI. The
-     * keymap has the name defined by the getKeymapName method.  If the
-     * keymap is not found, then DEFAULT_KEYMAP from JTextComponent is used.
+     * Crebtes the keymbp to use for the text component, bnd instblls
+     * bny necessbry bindings into it.  By defbult, the keymbp is
+     * shbred between bll instbnces of this type of TextUI. The
+     * keymbp hbs the nbme defined by the getKeymbpNbme method.  If the
+     * keymbp is not found, then DEFAULT_KEYMAP from JTextComponent is used.
      * <p>
-     * The set of bindings used to create the keymap is fetched
-     * from the UIManager using a key formed by combining the
+     * The set of bindings used to crebte the keymbp is fetched
+     * from the UIMbnbger using b key formed by combining the
      * {@link #getPropertyPrefix} method
-     * and the string <code>.keyBindings</code>.  The type is expected
+     * bnd the string <code>.keyBindings</code>.  The type is expected
      * to be <code>JTextComponent.KeyBinding[]</code>.
      *
-     * @return the keymap
-     * @see #getKeymapName
-     * @see javax.swing.text.JTextComponent
+     * @return the keymbp
+     * @see #getKeymbpNbme
+     * @see jbvbx.swing.text.JTextComponent
      */
-    protected Keymap createKeymap() {
-        String nm = getKeymapName();
-        Keymap map = JTextComponent.getKeymap(nm);
-        if (map == null) {
-            Keymap parent = JTextComponent.getKeymap(JTextComponent.DEFAULT_KEYMAP);
-            map = JTextComponent.addKeymap(nm, parent);
+    protected Keymbp crebteKeymbp() {
+        String nm = getKeymbpNbme();
+        Keymbp mbp = JTextComponent.getKeymbp(nm);
+        if (mbp == null) {
+            Keymbp pbrent = JTextComponent.getKeymbp(JTextComponent.DEFAULT_KEYMAP);
+            mbp = JTextComponent.bddKeymbp(nm, pbrent);
             String prefix = getPropertyPrefix();
-            Object o = DefaultLookup.get(editor, this,
+            Object o = DefbultLookup.get(editor, this,
                 prefix + ".keyBindings");
-            if ((o != null) && (o instanceof JTextComponent.KeyBinding[])) {
+            if ((o != null) && (o instbnceof JTextComponent.KeyBinding[])) {
                 JTextComponent.KeyBinding[] bindings = (JTextComponent.KeyBinding[]) o;
-                JTextComponent.loadKeymap(map, bindings, getComponent().getActions());
+                JTextComponent.lobdKeymbp(mbp, bindings, getComponent().getActions());
             }
         }
-        return map;
+        return mbp;
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
+     * This method gets cblled when b bound property is chbnged
+     * on the bssocibted JTextComponent.  This is b hook
+     * which UI implementbtions mby chbnge to reflect how the
+     * UI displbys bound properties of JTextComponent subclbsses.
      * This is implemented to do nothing (i.e. the response to
-     * properties in JTextComponent itself are handled prior
-     * to calling this method).
+     * properties in JTextComponent itself bre hbndled prior
+     * to cblling this method).
      *
-     * This implementation updates the background of the text
-     * component if the editable and/or enabled state changes.
+     * This implementbtion updbtes the bbckground of the text
+     * component if the editbble bnd/or enbbled stbte chbnges.
      *
-     * @param evt the property change event
+     * @pbrbm evt the property chbnge event
      */
-    protected void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("editable") ||
-                evt.getPropertyName().equals("enabled")) {
+    protected void propertyChbnge(PropertyChbngeEvent evt) {
+        if (evt.getPropertyNbme().equbls("editbble") ||
+                evt.getPropertyNbme().equbls("enbbled")) {
 
-            updateBackground((JTextComponent)evt.getSource());
+            updbteBbckground((JTextComponent)evt.getSource());
         }
     }
 
     /**
-     * Updates the background of the text component based on whether the
-     * text component is editable and/or enabled.
+     * Updbtes the bbckground of the text component bbsed on whether the
+     * text component is editbble bnd/or enbbled.
      *
-     * @param c the JTextComponent that needs its background color updated
+     * @pbrbm c the JTextComponent thbt needs its bbckground color updbted
      */
-    private void updateBackground(JTextComponent c) {
-        // This is a temporary workaround.
-        // This code does not correctly deal with Synth (Synth doesn't use
-        // properties like this), nor does it deal with the situation where
-        // the developer grabs the color from a JLabel and sets it as
-        // the background for a JTextArea in all look and feels. The problem
-        // scenario results if the Color obtained for the Label and TextArea
-        // is ==, which is the case for the windows look and feel.
-        // Until an appropriate solution is found, the code is being
-        // reverted to what it was before the original fix.
-        if (this instanceof SynthUI || (c instanceof JTextArea)) {
+    privbte void updbteBbckground(JTextComponent c) {
+        // This is b temporbry workbround.
+        // This code does not correctly debl with Synth (Synth doesn't use
+        // properties like this), nor does it debl with the situbtion where
+        // the developer grbbs the color from b JLbbel bnd sets it bs
+        // the bbckground for b JTextAreb in bll look bnd feels. The problem
+        // scenbrio results if the Color obtbined for the Lbbel bnd TextAreb
+        // is ==, which is the cbse for the windows look bnd feel.
+        // Until bn bppropribte solution is found, the code is being
+        // reverted to whbt it wbs before the originbl fix.
+        if (this instbnceof SynthUI || (c instbnceof JTextAreb)) {
             return;
         }
-        Color background = c.getBackground();
-        if (background instanceof UIResource) {
+        Color bbckground = c.getBbckground();
+        if (bbckground instbnceof UIResource) {
             String prefix = getPropertyPrefix();
 
-            Color disabledBG =
-                DefaultLookup.getColor(c, this, prefix + ".disabledBackground", null);
-            Color inactiveBG =
-                DefaultLookup.getColor(c, this, prefix + ".inactiveBackground", null);
+            Color disbbledBG =
+                DefbultLookup.getColor(c, this, prefix + ".disbbledBbckground", null);
+            Color inbctiveBG =
+                DefbultLookup.getColor(c, this, prefix + ".inbctiveBbckground", null);
             Color bg =
-                DefaultLookup.getColor(c, this, prefix + ".background", null);
+                DefbultLookup.getColor(c, this, prefix + ".bbckground", null);
 
-            /* In an ideal situation, the following check would not be necessary
-             * and we would replace the color any time the previous color was a
-             * UIResouce. However, it turns out that there is existing code that
-             * uses the following inadvisable pattern to turn a text area into
-             * what appears to be a multi-line label:
+            /* In bn idebl situbtion, the following check would not be necessbry
+             * bnd we would replbce the color bny time the previous color wbs b
+             * UIResouce. However, it turns out thbt there is existing code thbt
+             * uses the following inbdvisbble pbttern to turn b text breb into
+             * whbt bppebrs to be b multi-line lbbel:
              *
-             * JLabel label = new JLabel();
-             * JTextArea area = new JTextArea();
-             * area.setBackground(label.getBackground());
-             * area.setEditable(false);
+             * JLbbel lbbel = new JLbbel();
+             * JTextAreb breb = new JTextAreb();
+             * breb.setBbckground(lbbel.getBbckground());
+             * breb.setEditbble(fblse);
              *
-             * JLabel's default background is a UIResource. As such, just
-             * checking for UIResource would have us always changing the
-             * background away from what the developer wanted.
+             * JLbbel's defbult bbckground is b UIResource. As such, just
+             * checking for UIResource would hbve us blwbys chbnging the
+             * bbckground bwby from whbt the developer wbnted.
              *
-             * Therefore, for JTextArea/JEditorPane, we'll additionally check
-             * that the color we're about to replace matches one that was
-             * installed by us from the UIDefaults.
+             * Therefore, for JTextAreb/JEditorPbne, we'll bdditionblly check
+             * thbt the color we're bbout to replbce mbtches one thbt wbs
+             * instblled by us from the UIDefbults.
              */
-            if ((c instanceof JTextArea || c instanceof JEditorPane)
-                    && background != disabledBG
-                    && background != inactiveBG
-                    && background != bg) {
+            if ((c instbnceof JTextAreb || c instbnceof JEditorPbne)
+                    && bbckground != disbbledBG
+                    && bbckground != inbctiveBG
+                    && bbckground != bg) {
 
                 return;
             }
 
             Color newColor = null;
-            if (!c.isEnabled()) {
-                newColor = disabledBG;
+            if (!c.isEnbbled()) {
+                newColor = disbbledBG;
             }
-            if (newColor == null && !c.isEditable()) {
-                newColor = inactiveBG;
+            if (newColor == null && !c.isEditbble()) {
+                newColor = inbctiveBG;
             }
             if (newColor == null) {
                 newColor = bg;
             }
-            if (newColor != null && newColor != background) {
-                c.setBackground(newColor);
+            if (newColor != null && newColor != bbckground) {
+                c.setBbckground(newColor);
             }
         }
     }
 
     /**
-     * Gets the name used as a key to look up properties through the
-     * UIManager.  This is used as a prefix to all the standard
+     * Gets the nbme used bs b key to look up properties through the
+     * UIMbnbger.  This is used bs b prefix to bll the stbndbrd
      * text properties.
      *
-     * @return the name
+     * @return the nbme
      */
-    protected abstract String getPropertyPrefix();
+    protected bbstrbct String getPropertyPrefix();
 
     /**
-     * Initializes component properties, such as font, foreground,
-     * background, caret color, selection color, selected text color,
-     * disabled text color, and border color.  The font, foreground, and
-     * background properties are only set if their current value is either null
-     * or a UIResource, other properties are set if the current
-     * value is null.
+     * Initiblizes component properties, such bs font, foreground,
+     * bbckground, cbret color, selection color, selected text color,
+     * disbbled text color, bnd border color.  The font, foreground, bnd
+     * bbckground properties bre only set if their current vblue is either null
+     * or b UIResource, other properties bre set if the current
+     * vblue is null.
      *
-     * @see #uninstallDefaults
-     * @see #installUI
+     * @see #uninstbllDefbults
+     * @see #instbllUI
      */
-    protected void installDefaults()
+    protected void instbllDefbults()
     {
         String prefix = getPropertyPrefix();
         Font f = editor.getFont();
-        if ((f == null) || (f instanceof UIResource)) {
-            editor.setFont(UIManager.getFont(prefix + ".font"));
+        if ((f == null) || (f instbnceof UIResource)) {
+            editor.setFont(UIMbnbger.getFont(prefix + ".font"));
         }
 
-        Color bg = editor.getBackground();
-        if ((bg == null) || (bg instanceof UIResource)) {
-            editor.setBackground(UIManager.getColor(prefix + ".background"));
+        Color bg = editor.getBbckground();
+        if ((bg == null) || (bg instbnceof UIResource)) {
+            editor.setBbckground(UIMbnbger.getColor(prefix + ".bbckground"));
         }
 
         Color fg = editor.getForeground();
-        if ((fg == null) || (fg instanceof UIResource)) {
-            editor.setForeground(UIManager.getColor(prefix + ".foreground"));
+        if ((fg == null) || (fg instbnceof UIResource)) {
+            editor.setForeground(UIMbnbger.getColor(prefix + ".foreground"));
         }
 
-        Color color = editor.getCaretColor();
-        if ((color == null) || (color instanceof UIResource)) {
-            editor.setCaretColor(UIManager.getColor(prefix + ".caretForeground"));
+        Color color = editor.getCbretColor();
+        if ((color == null) || (color instbnceof UIResource)) {
+            editor.setCbretColor(UIMbnbger.getColor(prefix + ".cbretForeground"));
         }
 
         Color s = editor.getSelectionColor();
-        if ((s == null) || (s instanceof UIResource)) {
-            editor.setSelectionColor(UIManager.getColor(prefix + ".selectionBackground"));
+        if ((s == null) || (s instbnceof UIResource)) {
+            editor.setSelectionColor(UIMbnbger.getColor(prefix + ".selectionBbckground"));
         }
 
         Color sfg = editor.getSelectedTextColor();
-        if ((sfg == null) || (sfg instanceof UIResource)) {
-            editor.setSelectedTextColor(UIManager.getColor(prefix + ".selectionForeground"));
+        if ((sfg == null) || (sfg instbnceof UIResource)) {
+            editor.setSelectedTextColor(UIMbnbger.getColor(prefix + ".selectionForeground"));
         }
 
-        Color dfg = editor.getDisabledTextColor();
-        if ((dfg == null) || (dfg instanceof UIResource)) {
-            editor.setDisabledTextColor(UIManager.getColor(prefix + ".inactiveForeground"));
+        Color dfg = editor.getDisbbledTextColor();
+        if ((dfg == null) || (dfg instbnceof UIResource)) {
+            editor.setDisbbledTextColor(UIMbnbger.getColor(prefix + ".inbctiveForeground"));
         }
 
         Border b = editor.getBorder();
-        if ((b == null) || (b instanceof UIResource)) {
-            editor.setBorder(UIManager.getBorder(prefix + ".border"));
+        if ((b == null) || (b instbnceof UIResource)) {
+            editor.setBorder(UIMbnbger.getBorder(prefix + ".border"));
         }
 
-        Insets margin = editor.getMargin();
-        if (margin == null || margin instanceof UIResource) {
-            editor.setMargin(UIManager.getInsets(prefix + ".margin"));
+        Insets mbrgin = editor.getMbrgin();
+        if (mbrgin == null || mbrgin instbnceof UIResource) {
+            editor.setMbrgin(UIMbnbger.getInsets(prefix + ".mbrgin"));
         }
 
-        updateCursor();
+        updbteCursor();
     }
 
-    private void installDefaults2() {
-        editor.addMouseListener(dragListener);
-        editor.addMouseMotionListener(dragListener);
+    privbte void instbllDefbults2() {
+        editor.bddMouseListener(drbgListener);
+        editor.bddMouseMotionListener(drbgListener);
 
         String prefix = getPropertyPrefix();
 
-        Caret caret = editor.getCaret();
-        if (caret == null || caret instanceof UIResource) {
-            caret = createCaret();
-            editor.setCaret(caret);
+        Cbret cbret = editor.getCbret();
+        if (cbret == null || cbret instbnceof UIResource) {
+            cbret = crebteCbret();
+            editor.setCbret(cbret);
 
-            int rate = DefaultLookup.getInt(getComponent(), this, prefix + ".caretBlinkRate", 500);
-            caret.setBlinkRate(rate);
+            int rbte = DefbultLookup.getInt(getComponent(), this, prefix + ".cbretBlinkRbte", 500);
+            cbret.setBlinkRbte(rbte);
         }
 
         Highlighter highlighter = editor.getHighlighter();
-        if (highlighter == null || highlighter instanceof UIResource) {
-            editor.setHighlighter(createHighlighter());
+        if (highlighter == null || highlighter instbnceof UIResource) {
+            editor.setHighlighter(crebteHighlighter());
         }
 
-        TransferHandler th = editor.getTransferHandler();
-        if (th == null || th instanceof UIResource) {
-            editor.setTransferHandler(getTransferHandler());
+        TrbnsferHbndler th = editor.getTrbnsferHbndler();
+        if (th == null || th instbnceof UIResource) {
+            editor.setTrbnsferHbndler(getTrbnsferHbndler());
         }
     }
 
     /**
-     * Sets the component properties that have not been explicitly overridden
+     * Sets the component properties thbt hbve not been explicitly overridden
      * to {@code null}.  A property is considered overridden if its current
-     * value is not a {@code UIResource}.
+     * vblue is not b {@code UIResource}.
      *
-     * @see #installDefaults
-     * @see #uninstallUI
+     * @see #instbllDefbults
+     * @see #uninstbllUI
      */
-    protected void uninstallDefaults()
+    protected void uninstbllDefbults()
     {
-        editor.removeMouseListener(dragListener);
-        editor.removeMouseMotionListener(dragListener);
+        editor.removeMouseListener(drbgListener);
+        editor.removeMouseMotionListener(drbgListener);
 
-        if (editor.getCaretColor() instanceof UIResource) {
-            editor.setCaretColor(null);
+        if (editor.getCbretColor() instbnceof UIResource) {
+            editor.setCbretColor(null);
         }
 
-        if (editor.getSelectionColor() instanceof UIResource) {
+        if (editor.getSelectionColor() instbnceof UIResource) {
             editor.setSelectionColor(null);
         }
 
-        if (editor.getDisabledTextColor() instanceof UIResource) {
-            editor.setDisabledTextColor(null);
+        if (editor.getDisbbledTextColor() instbnceof UIResource) {
+            editor.setDisbbledTextColor(null);
         }
 
-        if (editor.getSelectedTextColor() instanceof UIResource) {
+        if (editor.getSelectedTextColor() instbnceof UIResource) {
             editor.setSelectedTextColor(null);
         }
 
-        if (editor.getBorder() instanceof UIResource) {
+        if (editor.getBorder() instbnceof UIResource) {
             editor.setBorder(null);
         }
 
-        if (editor.getMargin() instanceof UIResource) {
-            editor.setMargin(null);
+        if (editor.getMbrgin() instbnceof UIResource) {
+            editor.setMbrgin(null);
         }
 
-        if (editor.getCaret() instanceof UIResource) {
-            editor.setCaret(null);
+        if (editor.getCbret() instbnceof UIResource) {
+            editor.setCbret(null);
         }
 
-        if (editor.getHighlighter() instanceof UIResource) {
+        if (editor.getHighlighter() instbnceof UIResource) {
             editor.setHighlighter(null);
         }
 
-        if (editor.getTransferHandler() instanceof UIResource) {
-            editor.setTransferHandler(null);
+        if (editor.getTrbnsferHbndler() instbnceof UIResource) {
+            editor.setTrbnsferHbndler(null);
         }
 
-        if (editor.getCursor() instanceof UIResource) {
+        if (editor.getCursor() instbnceof UIResource) {
             editor.setCursor(null);
         }
     }
 
     /**
-     * Installs listeners for the UI.
+     * Instblls listeners for the UI.
      */
-    protected void installListeners() {
+    protected void instbllListeners() {
     }
 
     /**
-     * Uninstalls listeners for the UI.
+     * Uninstblls listeners for the UI.
      */
-    protected void uninstallListeners() {
+    protected void uninstbllListeners() {
     }
 
     /**
-     * Registers keyboard actions.
+     * Registers keybobrd bctions.
      */
-    protected void installKeyboardActions() {
-        // backward compatibility support... keymaps for the UI
-        // are now installed in the more friendly input map.
-        editor.setKeymap(createKeymap());
+    protected void instbllKeybobrdActions() {
+        // bbckwbrd compbtibility support... keymbps for the UI
+        // bre now instblled in the more friendly input mbp.
+        editor.setKeymbp(crebteKeymbp());
 
-        InputMap km = getInputMap();
+        InputMbp km = getInputMbp();
         if (km != null) {
-            SwingUtilities.replaceUIInputMap(editor, JComponent.WHEN_FOCUSED,
+            SwingUtilities.replbceUIInputMbp(editor, JComponent.WHEN_FOCUSED,
                                              km);
         }
 
-        ActionMap map = getActionMap();
-        if (map != null) {
-            SwingUtilities.replaceUIActionMap(editor, map);
+        ActionMbp mbp = getActionMbp();
+        if (mbp != null) {
+            SwingUtilities.replbceUIActionMbp(editor, mbp);
         }
 
-        updateFocusAcceleratorBinding(false);
+        updbteFocusAccelerbtorBinding(fblse);
     }
 
     /**
-     * Get the InputMap to use for the UI.
+     * Get the InputMbp to use for the UI.
      */
-    InputMap getInputMap() {
-        InputMap map = new InputMapUIResource();
+    InputMbp getInputMbp() {
+        InputMbp mbp = new InputMbpUIResource();
 
-        InputMap shared =
-            (InputMap)DefaultLookup.get(editor, this,
-            getPropertyPrefix() + ".focusInputMap");
-        if (shared != null) {
-            map.setParent(shared);
+        InputMbp shbred =
+            (InputMbp)DefbultLookup.get(editor, this,
+            getPropertyPrefix() + ".focusInputMbp");
+        if (shbred != null) {
+            mbp.setPbrent(shbred);
         }
-        return map;
+        return mbp;
     }
 
     /**
-     * Invoked when the focus accelerator changes, this will update the
-     * key bindings as necessary.
+     * Invoked when the focus bccelerbtor chbnges, this will updbte the
+     * key bindings bs necessbry.
      */
-    void updateFocusAcceleratorBinding(boolean changed) {
-        char accelerator = editor.getFocusAccelerator();
+    void updbteFocusAccelerbtorBinding(boolebn chbnged) {
+        chbr bccelerbtor = editor.getFocusAccelerbtor();
 
-        if (changed || accelerator != '\0') {
-            InputMap km = SwingUtilities.getUIInputMap
+        if (chbnged || bccelerbtor != '\0') {
+            InputMbp km = SwingUtilities.getUIInputMbp
                         (editor, JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-            if (km == null && accelerator != '\0') {
-                km = new ComponentInputMapUIResource(editor);
-                SwingUtilities.replaceUIInputMap(editor, JComponent.
+            if (km == null && bccelerbtor != '\0') {
+                km = new ComponentInputMbpUIResource(editor);
+                SwingUtilities.replbceUIInputMbp(editor, JComponent.
                                                  WHEN_IN_FOCUSED_WINDOW, km);
-                ActionMap am = getActionMap();
-                SwingUtilities.replaceUIActionMap(editor, am);
+                ActionMbp bm = getActionMbp();
+                SwingUtilities.replbceUIActionMbp(editor, bm);
             }
             if (km != null) {
-                km.clear();
-                if (accelerator != '\0') {
-                    km.put(KeyStroke.getKeyStroke(accelerator, BasicLookAndFeel.getFocusAcceleratorKeyMask()), "requestFocus");
+                km.clebr();
+                if (bccelerbtor != '\0') {
+                    km.put(KeyStroke.getKeyStroke(bccelerbtor, BbsicLookAndFeel.getFocusAccelerbtorKeyMbsk()), "requestFocus");
                 }
             }
         }
@@ -509,386 +509,386 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
 
 
     /**
-     * Invoked when editable property is changed.
+     * Invoked when editbble property is chbnged.
      *
-     * removing 'TAB' and 'SHIFT-TAB' from traversalKeysSet in case
-     * editor is editable
-     * adding 'TAB' and 'SHIFT-TAB' to traversalKeysSet in case
-     * editor is non editable
+     * removing 'TAB' bnd 'SHIFT-TAB' from trbversblKeysSet in cbse
+     * editor is editbble
+     * bdding 'TAB' bnd 'SHIFT-TAB' to trbversblKeysSet in cbse
+     * editor is non editbble
      */
 
-    void updateFocusTraversalKeys() {
+    void updbteFocusTrbversblKeys() {
         /*
-         * Fix for 4514331 Non-editable JTextArea and similar
-         * should allow Tab to keyboard - accessibility
+         * Fix for 4514331 Non-editbble JTextAreb bnd similbr
+         * should bllow Tbb to keybobrd - bccessibility
          */
         EditorKit editorKit = getEditorKit(editor);
         if ( editorKit != null
-             && editorKit instanceof DefaultEditorKit) {
-            Set<AWTKeyStroke> storedForwardTraversalKeys = editor.
-                getFocusTraversalKeys(KeyboardFocusManager.
+             && editorKit instbnceof DefbultEditorKit) {
+            Set<AWTKeyStroke> storedForwbrdTrbversblKeys = editor.
+                getFocusTrbversblKeys(KeybobrdFocusMbnbger.
                                       FORWARD_TRAVERSAL_KEYS);
-            Set<AWTKeyStroke> storedBackwardTraversalKeys = editor.
-                getFocusTraversalKeys(KeyboardFocusManager.
+            Set<AWTKeyStroke> storedBbckwbrdTrbversblKeys = editor.
+                getFocusTrbversblKeys(KeybobrdFocusMbnbger.
                                       BACKWARD_TRAVERSAL_KEYS);
-            Set<AWTKeyStroke> forwardTraversalKeys =
-                new HashSet<AWTKeyStroke>(storedForwardTraversalKeys);
-            Set<AWTKeyStroke> backwardTraversalKeys =
-                new HashSet<AWTKeyStroke>(storedBackwardTraversalKeys);
-            if (editor.isEditable()) {
-                forwardTraversalKeys.
+            Set<AWTKeyStroke> forwbrdTrbversblKeys =
+                new HbshSet<AWTKeyStroke>(storedForwbrdTrbversblKeys);
+            Set<AWTKeyStroke> bbckwbrdTrbversblKeys =
+                new HbshSet<AWTKeyStroke>(storedBbckwbrdTrbversblKeys);
+            if (editor.isEditbble()) {
+                forwbrdTrbversblKeys.
                     remove(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
-                backwardTraversalKeys.
+                bbckwbrdTrbversblKeys.
                     remove(KeyStroke.getKeyStroke(KeyEvent.VK_TAB,
                                                   InputEvent.SHIFT_MASK));
             } else {
-                forwardTraversalKeys.add(KeyStroke.
+                forwbrdTrbversblKeys.bdd(KeyStroke.
                                          getKeyStroke(KeyEvent.VK_TAB, 0));
-                backwardTraversalKeys.
-                    add(KeyStroke.
+                bbckwbrdTrbversblKeys.
+                    bdd(KeyStroke.
                         getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_MASK));
             }
-            LookAndFeel.installProperty(editor,
-                                        "focusTraversalKeysForward",
-                                         forwardTraversalKeys);
-            LookAndFeel.installProperty(editor,
-                                        "focusTraversalKeysBackward",
-                                         backwardTraversalKeys);
+            LookAndFeel.instbllProperty(editor,
+                                        "focusTrbversblKeysForwbrd",
+                                         forwbrdTrbversblKeys);
+            LookAndFeel.instbllProperty(editor,
+                                        "focusTrbversblKeysBbckwbrd",
+                                         bbckwbrdTrbversblKeys);
         }
 
     }
 
     /**
-     * As needed updates cursor for the target editor.
+     * As needed updbtes cursor for the tbrget editor.
      */
-    private void updateCursor() {
+    privbte void updbteCursor() {
         if ((! editor.isCursorSet())
-               || editor.getCursor() instanceof UIResource) {
-            Cursor cursor = (editor.isEditable()) ? textCursor : null;
+               || editor.getCursor() instbnceof UIResource) {
+            Cursor cursor = (editor.isEditbble()) ? textCursor : null;
             editor.setCursor(cursor);
         }
     }
 
     /**
-     * Returns the <code>TransferHandler</code> that will be installed if
-     * their isn't one installed on the <code>JTextComponent</code>.
+     * Returns the <code>TrbnsferHbndler</code> thbt will be instblled if
+     * their isn't one instblled on the <code>JTextComponent</code>.
      */
-    TransferHandler getTransferHandler() {
-        return defaultTransferHandler;
+    TrbnsferHbndler getTrbnsferHbndler() {
+        return defbultTrbnsferHbndler;
     }
 
     /**
-     * Fetch an action map to use.
+     * Fetch bn bction mbp to use.
      */
-    ActionMap getActionMap() {
-        String mapName = getPropertyPrefix() + ".actionMap";
-        ActionMap map = (ActionMap)UIManager.get(mapName);
+    ActionMbp getActionMbp() {
+        String mbpNbme = getPropertyPrefix() + ".bctionMbp";
+        ActionMbp mbp = (ActionMbp)UIMbnbger.get(mbpNbme);
 
-        if (map == null) {
-            map = createActionMap();
-            if (map != null) {
-                UIManager.getLookAndFeelDefaults().put(mapName, map);
+        if (mbp == null) {
+            mbp = crebteActionMbp();
+            if (mbp != null) {
+                UIMbnbger.getLookAndFeelDefbults().put(mbpNbme, mbp);
             }
         }
-        ActionMap componentMap = new ActionMapUIResource();
-        componentMap.put("requestFocus", new FocusAction());
+        ActionMbp componentMbp = new ActionMbpUIResource();
+        componentMbp.put("requestFocus", new FocusAction());
         /*
          * fix for bug 4515750
-         * JTextField & non-editable JTextArea bind return key - default btn not accessible
+         * JTextField & non-editbble JTextAreb bind return key - defbult btn not bccessible
          *
-         * Wrap the return action so that it is only enabled when the
-         * component is editable. This allows the default button to be
-         * processed when the text component has focus and isn't editable.
+         * Wrbp the return bction so thbt it is only enbbled when the
+         * component is editbble. This bllows the defbult button to be
+         * processed when the text component hbs focus bnd isn't editbble.
          *
          */
-        if (getEditorKit(editor) instanceof DefaultEditorKit) {
-            if (map != null) {
-                Object obj = map.get(DefaultEditorKit.insertBreakAction);
+        if (getEditorKit(editor) instbnceof DefbultEditorKit) {
+            if (mbp != null) {
+                Object obj = mbp.get(DefbultEditorKit.insertBrebkAction);
                 if (obj != null
-                    && obj instanceof DefaultEditorKit.InsertBreakAction) {
-                    Action action =  new TextActionWrapper((TextAction)obj);
-                    componentMap.put(action.getValue(Action.NAME),action);
+                    && obj instbnceof DefbultEditorKit.InsertBrebkAction) {
+                    Action bction =  new TextActionWrbpper((TextAction)obj);
+                    componentMbp.put(bction.getVblue(Action.NAME),bction);
                 }
             }
         }
-        if (map != null) {
-            componentMap.setParent(map);
+        if (mbp != null) {
+            componentMbp.setPbrent(mbp);
         }
-        return componentMap;
+        return componentMbp;
     }
 
     /**
-     * Create a default action map.  This is basically the
-     * set of actions found exported by the component.
+     * Crebte b defbult bction mbp.  This is bbsicblly the
+     * set of bctions found exported by the component.
      */
-    ActionMap createActionMap() {
-        ActionMap map = new ActionMapUIResource();
-        Action[] actions = editor.getActions();
-        //System.out.println("building map for UI: " + getPropertyPrefix());
-        int n = actions.length;
+    ActionMbp crebteActionMbp() {
+        ActionMbp mbp = new ActionMbpUIResource();
+        Action[] bctions = editor.getActions();
+        //System.out.println("building mbp for UI: " + getPropertyPrefix());
+        int n = bctions.length;
         for (int i = 0; i < n; i++) {
-            Action a = actions[i];
-            map.put(a.getValue(Action.NAME), a);
-            //System.out.println("  " + a.getValue(Action.NAME));
+            Action b = bctions[i];
+            mbp.put(b.getVblue(Action.NAME), b);
+            //System.out.println("  " + b.getVblue(Action.NAME));
         }
-        map.put(TransferHandler.getCutAction().getValue(Action.NAME),
-                TransferHandler.getCutAction());
-        map.put(TransferHandler.getCopyAction().getValue(Action.NAME),
-                TransferHandler.getCopyAction());
-        map.put(TransferHandler.getPasteAction().getValue(Action.NAME),
-                TransferHandler.getPasteAction());
-        return map;
+        mbp.put(TrbnsferHbndler.getCutAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getCutAction());
+        mbp.put(TrbnsferHbndler.getCopyAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getCopyAction());
+        mbp.put(TrbnsferHbndler.getPbsteAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getPbsteAction());
+        return mbp;
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unregisters keybobrd bctions.
      */
-    protected void uninstallKeyboardActions() {
-        editor.setKeymap(null);
-        SwingUtilities.replaceUIInputMap(editor, JComponent.
+    protected void uninstbllKeybobrdActions() {
+        editor.setKeymbp(null);
+        SwingUtilities.replbceUIInputMbp(editor, JComponent.
                                          WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIActionMap(editor, null);
+        SwingUtilities.replbceUIActionMbp(editor, null);
     }
 
     /**
-     * Paints a background for the view.  This will only be
-     * called if isOpaque() on the associated component is
-     * true.  The default is to paint the background color
+     * Pbints b bbckground for the view.  This will only be
+     * cblled if isOpbque() on the bssocibted component is
+     * true.  The defbult is to pbint the bbckground color
      * of the component.
      *
-     * @param g the graphics context
+     * @pbrbm g the grbphics context
      */
-    protected void paintBackground(Graphics g) {
-        g.setColor(editor.getBackground());
+    protected void pbintBbckground(Grbphics g) {
+        g.setColor(editor.getBbckground());
         g.fillRect(0, 0, editor.getWidth(), editor.getHeight());
     }
 
     /**
-     * Fetches the text component associated with this
-     * UI implementation.  This will be null until
-     * the ui has been installed.
+     * Fetches the text component bssocibted with this
+     * UI implementbtion.  This will be null until
+     * the ui hbs been instblled.
      *
      * @return the editor component
      */
-    protected final JTextComponent getComponent() {
+    protected finbl JTextComponent getComponent() {
         return editor;
     }
 
     /**
-     * Flags model changes.
-     * This is called whenever the model has changed.
-     * It is implemented to rebuild the view hierarchy
-     * to represent the default root element of the
-     * associated model.
+     * Flbgs model chbnges.
+     * This is cblled whenever the model hbs chbnged.
+     * It is implemented to rebuild the view hierbrchy
+     * to represent the defbult root element of the
+     * bssocibted model.
      */
-    protected void modelChanged() {
-        // create a view hierarchy
-        ViewFactory f = rootView.getViewFactory();
+    protected void modelChbnged() {
+        // crebte b view hierbrchy
+        ViewFbctory f = rootView.getViewFbctory();
         Document doc = editor.getDocument();
-        Element elem = doc.getDefaultRootElement();
-        setView(f.create(elem));
+        Element elem = doc.getDefbultRootElement();
+        setView(f.crebte(elem));
     }
 
     /**
-     * Sets the current root of the view hierarchy and calls invalidate().
-     * If there were any child components, they will be removed (i.e.
-     * there are assumed to have come from components embedded in views).
+     * Sets the current root of the view hierbrchy bnd cblls invblidbte().
+     * If there were bny child components, they will be removed (i.e.
+     * there bre bssumed to hbve come from components embedded in views).
      *
-     * @param v the root view
+     * @pbrbm v the root view
      */
-    protected final void setView(View v) {
+    protected finbl void setView(View v) {
         rootView.setView(v);
-        painted = false;
-        editor.revalidate();
-        editor.repaint();
+        pbinted = fblse;
+        editor.revblidbte();
+        editor.repbint();
     }
 
     /**
-     * Paints the interface safely with a guarantee that
-     * the model won't change from the view of this thread.
+     * Pbints the interfbce sbfely with b gubrbntee thbt
+     * the model won't chbnge from the view of this threbd.
      * This does the following things, rendering from
-     * back to front.
+     * bbck to front.
      * <ol>
      * <li>
-     * If the component is marked as opaque, the background
-     * is painted in the current background color of the
+     * If the component is mbrked bs opbque, the bbckground
+     * is pbinted in the current bbckground color of the
      * component.
      * <li>
-     * The highlights (if any) are painted.
+     * The highlights (if bny) bre pbinted.
      * <li>
-     * The view hierarchy is painted.
+     * The view hierbrchy is pbinted.
      * <li>
-     * The caret is painted.
+     * The cbret is pbinted.
      * </ol>
      *
-     * @param g the graphics context
+     * @pbrbm g the grbphics context
      */
-    protected void paintSafely(Graphics g) {
-        painted = true;
+    protected void pbintSbfely(Grbphics g) {
+        pbinted = true;
         Highlighter highlighter = editor.getHighlighter();
-        Caret caret = editor.getCaret();
+        Cbret cbret = editor.getCbret();
 
-        // paint the background
-        if (editor.isOpaque()) {
-            paintBackground(g);
+        // pbint the bbckground
+        if (editor.isOpbque()) {
+            pbintBbckground(g);
         }
 
-        // paint the highlights
+        // pbint the highlights
         if (highlighter != null) {
-            highlighter.paint(g);
+            highlighter.pbint(g);
         }
 
-        // paint the view hierarchy
-        Rectangle alloc = getVisibleEditorRect();
-        if (alloc != null) {
-            rootView.paint(g, alloc);
+        // pbint the view hierbrchy
+        Rectbngle blloc = getVisibleEditorRect();
+        if (blloc != null) {
+            rootView.pbint(g, blloc);
         }
 
-        // paint the caret
-        if (caret != null) {
-            caret.paint(g);
+        // pbint the cbret
+        if (cbret != null) {
+            cbret.pbint(g);
         }
 
-        if (dropCaret != null) {
-            dropCaret.paint(g);
+        if (dropCbret != null) {
+            dropCbret.pbint(g);
         }
     }
 
     // --- ComponentUI methods --------------------------------------------
 
     /**
-     * Installs the UI for a component.  This does the following
+     * Instblls the UI for b component.  This does the following
      * things.
      * <ol>
      * <li>
-     * Sets the associated component to opaque if the opaque property
-     * has not already been set by the client program. This will cause the
-     * component's background color to be painted.
+     * Sets the bssocibted component to opbque if the opbque property
+     * hbs not blrebdy been set by the client progrbm. This will cbuse the
+     * component's bbckground color to be pbinted.
      * <li>
-     * Installs the default caret and highlighter into the
-     * associated component. These properties are only set if their
-     * current value is either {@code null} or an instance of
+     * Instblls the defbult cbret bnd highlighter into the
+     * bssocibted component. These properties bre only set if their
+     * current vblue is either {@code null} or bn instbnce of
      * {@link UIResource}.
      * <li>
-     * Attaches to the editor and model.  If there is no
-     * model, a default one is created.
+     * Attbches to the editor bnd model.  If there is no
+     * model, b defbult one is crebted.
      * <li>
-     * Creates the view factory and the view hierarchy used
+     * Crebtes the view fbctory bnd the view hierbrchy used
      * to represent the model.
      * </ol>
      *
-     * @param c the editor component
-     * @see ComponentUI#installUI
+     * @pbrbm c the editor component
+     * @see ComponentUI#instbllUI
      */
-    public void installUI(JComponent c) {
-        if (c instanceof JTextComponent) {
+    public void instbllUI(JComponent c) {
+        if (c instbnceof JTextComponent) {
             editor = (JTextComponent) c;
 
-            // common case is background painted... this can
-            // easily be changed by subclasses or from outside
+            // common cbse is bbckground pbinted... this cbn
+            // ebsily be chbnged by subclbsses or from outside
             // of the component.
-            LookAndFeel.installProperty(editor, "opaque", Boolean.TRUE);
-            LookAndFeel.installProperty(editor, "autoscrolls", Boolean.TRUE);
+            LookAndFeel.instbllProperty(editor, "opbque", Boolebn.TRUE);
+            LookAndFeel.instbllProperty(editor, "butoscrolls", Boolebn.TRUE);
 
-            // install defaults
-            installDefaults();
-            installDefaults2();
+            // instbll defbults
+            instbllDefbults();
+            instbllDefbults2();
 
-            // attach to the model and editor
-            editor.addPropertyChangeListener(updateHandler);
+            // bttbch to the model bnd editor
+            editor.bddPropertyChbngeListener(updbteHbndler);
             Document doc = editor.getDocument();
             if (doc == null) {
-                // no model, create a default one.  This will
-                // fire a notification to the updateHandler
-                // which takes care of the rest.
-                editor.setDocument(getEditorKit(editor).createDefaultDocument());
+                // no model, crebte b defbult one.  This will
+                // fire b notificbtion to the updbteHbndler
+                // which tbkes cbre of the rest.
+                editor.setDocument(getEditorKit(editor).crebteDefbultDocument());
             } else {
-                doc.addDocumentListener(updateHandler);
-                modelChanged();
+                doc.bddDocumentListener(updbteHbndler);
+                modelChbnged();
             }
 
-            // install keymap
-            installListeners();
-            installKeyboardActions();
+            // instbll keymbp
+            instbllListeners();
+            instbllKeybobrdActions();
 
-            LayoutManager oldLayout = editor.getLayout();
-            if ((oldLayout == null) || (oldLayout instanceof UIResource)) {
-                // by default, use default LayoutManger implementation that
-                // will position the components associated with a View object.
-                editor.setLayout(updateHandler);
+            LbyoutMbnbger oldLbyout = editor.getLbyout();
+            if ((oldLbyout == null) || (oldLbyout instbnceof UIResource)) {
+                // by defbult, use defbult LbyoutMbnger implementbtion thbt
+                // will position the components bssocibted with b View object.
+                editor.setLbyout(updbteHbndler);
             }
 
-            updateBackground(editor);
+            updbteBbckground(editor);
         } else {
             throw new Error("TextUI needs JTextComponent");
         }
     }
 
     /**
-     * Deinstalls the UI for a component.  This removes the listeners,
-     * uninstalls the highlighter, removes views, and nulls out the keymap.
+     * Deinstblls the UI for b component.  This removes the listeners,
+     * uninstblls the highlighter, removes views, bnd nulls out the keymbp.
      *
-     * @param c the editor component
-     * @see ComponentUI#uninstallUI
+     * @pbrbm c the editor component
+     * @see ComponentUI#uninstbllUI
      */
-    public void uninstallUI(JComponent c) {
-        // detach from the model
-        editor.removePropertyChangeListener(updateHandler);
-        editor.getDocument().removeDocumentListener(updateHandler);
+    public void uninstbllUI(JComponent c) {
+        // detbch from the model
+        editor.removePropertyChbngeListener(updbteHbndler);
+        editor.getDocument().removeDocumentListener(updbteHbndler);
 
-        // view part
-        painted = false;
-        uninstallDefaults();
+        // view pbrt
+        pbinted = fblse;
+        uninstbllDefbults();
         rootView.setView(null);
         c.removeAll();
-        LayoutManager lm = c.getLayout();
-        if (lm instanceof UIResource) {
-            c.setLayout(null);
+        LbyoutMbnbger lm = c.getLbyout();
+        if (lm instbnceof UIResource) {
+            c.setLbyout(null);
         }
 
-        // controller part
-        uninstallKeyboardActions();
-        uninstallListeners();
+        // controller pbrt
+        uninstbllKeybobrdActions();
+        uninstbllListeners();
 
         editor = null;
     }
 
     /**
-     * Superclass paints background in an uncontrollable way
-     * (i.e. one might want an image tiled into the background).
-     * To prevent this from happening twice, this method is
-     * reimplemented to simply paint.
+     * Superclbss pbints bbckground in bn uncontrollbble wby
+     * (i.e. one might wbnt bn imbge tiled into the bbckground).
+     * To prevent this from hbppening twice, this method is
+     * reimplemented to simply pbint.
      * <p>
-     * <em>NOTE:</em> NOTE: Superclass is also not thread-safe in its
-     * rendering of the background, although that is not an issue with the
-     * default rendering.
+     * <em>NOTE:</em> NOTE: Superclbss is blso not threbd-sbfe in its
+     * rendering of the bbckground, blthough thbt is not bn issue with the
+     * defbult rendering.
      */
-    public void update(Graphics g, JComponent c) {
-        paint(g, c);
+    public void updbte(Grbphics g, JComponent c) {
+        pbint(g, c);
     }
 
     /**
-     * Paints the interface.  This is routed to the
-     * paintSafely method under the guarantee that
-     * the model won't change from the view of this thread
-     * while it's rendering (if the associated model is
-     * derived from AbstractDocument).  This enables the
-     * model to potentially be updated asynchronously.
+     * Pbints the interfbce.  This is routed to the
+     * pbintSbfely method under the gubrbntee thbt
+     * the model won't chbnge from the view of this threbd
+     * while it's rendering (if the bssocibted model is
+     * derived from AbstrbctDocument).  This enbbles the
+     * model to potentiblly be updbted bsynchronously.
      *
-     * @param g the graphics context
-     * @param c the editor component
+     * @pbrbm g the grbphics context
+     * @pbrbm c the editor component
      */
-    public final void paint(Graphics g, JComponent c) {
+    public finbl void pbint(Grbphics g, JComponent c) {
         if ((rootView.getViewCount() > 0) && (rootView.getView(0) != null)) {
             Document doc = editor.getDocument();
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readLock();
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdLock();
             }
             try {
-                paintSafely(g);
-            } finally {
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).readUnlock();
+                pbintSbfely(g);
+            } finblly {
+                if (doc instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)doc).rebdUnlock();
                 }
             }
         }
@@ -896,14 +896,14 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
 
     /**
      * Gets the preferred size for the editor component.  If the component
-     * has been given a size prior to receiving this request, it will
-     * set the size of the view hierarchy to reflect the size of the component
-     * before requesting the preferred size of the view hierarchy.  This
-     * allows formatted views to format to the current component size before
-     * answering the request.  Other views don't care about currently formatted
-     * size and give the same answer either way.
+     * hbs been given b size prior to receiving this request, it will
+     * set the size of the view hierbrchy to reflect the size of the component
+     * before requesting the preferred size of the view hierbrchy.  This
+     * bllows formbtted views to formbt to the current component size before
+     * bnswering the request.  Other views don't cbre bbout currently formbtted
+     * size bnd give the sbme bnswer either wby.
      *
-     * @param c the editor component
+     * @pbrbm c the editor component
      * @return the size
      */
     public Dimension getPreferredSize(JComponent c) {
@@ -911,25 +911,25 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
         Insets i = c.getInsets();
         Dimension d = c.getSize();
 
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+        if (doc instbnceof AbstrbctDocument) {
+            ((AbstrbctDocument)doc).rebdLock();
         }
         try {
             if ((d.width > (i.left + i.right)) && (d.height > (i.top + i.bottom))) {
                 rootView.setSize(d.width - i.left - i.right, d.height - i.top - i.bottom);
             }
             else if (d.width == 0 && d.height == 0) {
-                // Probably haven't been layed out yet, force some sort of
-                // initial sizing.
+                // Probbbly hbven't been lbyed out yet, force some sort of
+                // initibl sizing.
                 rootView.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
             }
-            d.width = (int) Math.min((long) rootView.getPreferredSpan(View.X_AXIS) +
+            d.width = (int) Mbth.min((long) rootView.getPreferredSpbn(View.X_AXIS) +
                                      (long) i.left + (long) i.right, Integer.MAX_VALUE);
-            d.height = (int) Math.min((long) rootView.getPreferredSpan(View.Y_AXIS) +
+            d.height = (int) Mbth.min((long) rootView.getPreferredSpbn(View.Y_AXIS) +
                                       (long) i.top + (long) i.bottom, Integer.MAX_VALUE);
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+        } finblly {
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdUnlock();
             }
         }
         return d;
@@ -938,48 +938,48 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
     /**
      * Gets the minimum size for the editor component.
      *
-     * @param c the editor component
+     * @pbrbm c the editor component
      * @return the size
      */
     public Dimension getMinimumSize(JComponent c) {
         Document doc = editor.getDocument();
         Insets i = c.getInsets();
         Dimension d = new Dimension();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+        if (doc instbnceof AbstrbctDocument) {
+            ((AbstrbctDocument)doc).rebdLock();
         }
         try {
-            d.width = (int) rootView.getMinimumSpan(View.X_AXIS) + i.left + i.right;
-            d.height = (int)  rootView.getMinimumSpan(View.Y_AXIS) + i.top + i.bottom;
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+            d.width = (int) rootView.getMinimumSpbn(View.X_AXIS) + i.left + i.right;
+            d.height = (int)  rootView.getMinimumSpbn(View.Y_AXIS) + i.top + i.bottom;
+        } finblly {
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdUnlock();
             }
         }
         return d;
     }
 
     /**
-     * Gets the maximum size for the editor component.
+     * Gets the mbximum size for the editor component.
      *
-     * @param c the editor component
+     * @pbrbm c the editor component
      * @return the size
      */
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         Document doc = editor.getDocument();
         Insets i = c.getInsets();
         Dimension d = new Dimension();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+        if (doc instbnceof AbstrbctDocument) {
+            ((AbstrbctDocument)doc).rebdLock();
         }
         try {
-            d.width = (int) Math.min((long) rootView.getMaximumSpan(View.X_AXIS) +
+            d.width = (int) Mbth.min((long) rootView.getMbximumSpbn(View.X_AXIS) +
                                      (long) i.left + (long) i.right, Integer.MAX_VALUE);
-            d.height = (int) Math.min((long) rootView.getMaximumSpan(View.Y_AXIS) +
+            d.height = (int) Mbth.min((long) rootView.getMbximumSpbn(View.Y_AXIS) +
                                       (long) i.top + (long) i.bottom, Integer.MAX_VALUE);
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+        } finblly {
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdUnlock();
             }
         }
         return d;
@@ -989,127 +989,127 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
 
 
     /**
-     * Gets the allocation to give the root View.  Due
-     * to an unfortunate set of historical events this
-     * method is inappropriately named.  The Rectangle
-     * returned has nothing to do with visibility.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Gets the bllocbtion to give the root View.  Due
+     * to bn unfortunbte set of historicbl events this
+     * method is inbppropribtely nbmed.  The Rectbngle
+     * returned hbs nothing to do with visibility.
+     * The component must hbve b non-zero positive size for
+     * this trbnslbtion to be computed.
      *
      * @return the bounding box for the root view
      */
-    protected Rectangle getVisibleEditorRect() {
-        Rectangle alloc = editor.getBounds();
-        if ((alloc.width > 0) && (alloc.height > 0)) {
-            alloc.x = alloc.y = 0;
+    protected Rectbngle getVisibleEditorRect() {
+        Rectbngle blloc = editor.getBounds();
+        if ((blloc.width > 0) && (blloc.height > 0)) {
+            blloc.x = blloc.y = 0;
             Insets insets = editor.getInsets();
-            alloc.x += insets.left;
-            alloc.y += insets.top;
-            alloc.width -= insets.left + insets.right;
-            alloc.height -= insets.top + insets.bottom;
-            return alloc;
+            blloc.x += insets.left;
+            blloc.y += insets.top;
+            blloc.width -= insets.left + insets.right;
+            blloc.height -= insets.top + insets.bottom;
+            return blloc;
         }
         return null;
     }
 
     /**
-     * Converts the given location in the model to a place in
-     * the view coordinate system.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Converts the given locbtion in the model to b plbce in
+     * the view coordinbte system.
+     * The component must hbve b non-zero positive size for
+     * this trbnslbtion to be computed.
      *
-     * @param tc the text component for which this UI is installed
-     * @param pos the local location in the model to translate &gt;= 0
-     * @return the coordinates as a rectangle, null if the model is not painted
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document
+     * @pbrbm tc the text component for which this UI is instblled
+     * @pbrbm pos the locbl locbtion in the model to trbnslbte &gt;= 0
+     * @return the coordinbtes bs b rectbngle, null if the model is not pbinted
+     * @exception BbdLocbtionException  if the given position does not
+     *   represent b vblid locbtion in the bssocibted document
      * @see TextUI#modelToView
      */
-    public Rectangle modelToView(JTextComponent tc, int pos) throws BadLocationException {
-        return modelToView(tc, pos, Position.Bias.Forward);
+    public Rectbngle modelToView(JTextComponent tc, int pos) throws BbdLocbtionException {
+        return modelToView(tc, pos, Position.Bibs.Forwbrd);
     }
 
     /**
-     * Converts the given location in the model to a place in
-     * the view coordinate system.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Converts the given locbtion in the model to b plbce in
+     * the view coordinbte system.
+     * The component must hbve b non-zero positive size for
+     * this trbnslbtion to be computed.
      *
-     * @param tc the text component for which this UI is installed
-     * @param pos the local location in the model to translate &gt;= 0
-     * @return the coordinates as a rectangle, null if the model is not painted
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document
+     * @pbrbm tc the text component for which this UI is instblled
+     * @pbrbm pos the locbl locbtion in the model to trbnslbte &gt;= 0
+     * @return the coordinbtes bs b rectbngle, null if the model is not pbinted
+     * @exception BbdLocbtionException  if the given position does not
+     *   represent b vblid locbtion in the bssocibted document
      * @see TextUI#modelToView
      */
-    public Rectangle modelToView(JTextComponent tc, int pos, Position.Bias bias) throws BadLocationException {
+    public Rectbngle modelToView(JTextComponent tc, int pos, Position.Bibs bibs) throws BbdLocbtionException {
         Document doc = editor.getDocument();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+        if (doc instbnceof AbstrbctDocument) {
+            ((AbstrbctDocument)doc).rebdLock();
         }
         try {
-            Rectangle alloc = getVisibleEditorRect();
-            if (alloc != null) {
-                rootView.setSize(alloc.width, alloc.height);
-                Shape s = rootView.modelToView(pos, alloc, bias);
+            Rectbngle blloc = getVisibleEditorRect();
+            if (blloc != null) {
+                rootView.setSize(blloc.width, blloc.height);
+                Shbpe s = rootView.modelToView(pos, blloc, bibs);
                 if (s != null) {
                   return s.getBounds();
                 }
             }
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+        } finblly {
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdUnlock();
             }
         }
         return null;
     }
 
     /**
-     * Converts the given place in the view coordinate system
-     * to the nearest representative location in the model.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Converts the given plbce in the view coordinbte system
+     * to the nebrest representbtive locbtion in the model.
+     * The component must hbve b non-zero positive size for
+     * this trbnslbtion to be computed.
      *
-     * @param tc the text component for which this UI is installed
-     * @param pt the location in the view to translate.  This
-     *  should be in the same coordinate system as the mouse events.
-     * @return the offset from the start of the document &gt;= 0,
-     *   -1 if not painted
+     * @pbrbm tc the text component for which this UI is instblled
+     * @pbrbm pt the locbtion in the view to trbnslbte.  This
+     *  should be in the sbme coordinbte system bs the mouse events.
+     * @return the offset from the stbrt of the document &gt;= 0,
+     *   -1 if not pbinted
      * @see TextUI#viewToModel
      */
     public int viewToModel(JTextComponent tc, Point pt) {
-        return viewToModel(tc, pt, discardBias);
+        return viewToModel(tc, pt, discbrdBibs);
     }
 
     /**
-     * Converts the given place in the view coordinate system
-     * to the nearest representative location in the model.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Converts the given plbce in the view coordinbte system
+     * to the nebrest representbtive locbtion in the model.
+     * The component must hbve b non-zero positive size for
+     * this trbnslbtion to be computed.
      *
-     * @param tc the text component for which this UI is installed
-     * @param pt the location in the view to translate.  This
-     *  should be in the same coordinate system as the mouse events.
-     * @return the offset from the start of the document &gt;= 0,
-     *   -1 if the component doesn't yet have a positive size.
+     * @pbrbm tc the text component for which this UI is instblled
+     * @pbrbm pt the locbtion in the view to trbnslbte.  This
+     *  should be in the sbme coordinbte system bs the mouse events.
+     * @return the offset from the stbrt of the document &gt;= 0,
+     *   -1 if the component doesn't yet hbve b positive size.
      * @see TextUI#viewToModel
      */
     public int viewToModel(JTextComponent tc, Point pt,
-                           Position.Bias[] biasReturn) {
+                           Position.Bibs[] bibsReturn) {
         int offs = -1;
         Document doc = editor.getDocument();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+        if (doc instbnceof AbstrbctDocument) {
+            ((AbstrbctDocument)doc).rebdLock();
         }
         try {
-            Rectangle alloc = getVisibleEditorRect();
-            if (alloc != null) {
-                rootView.setSize(alloc.width, alloc.height);
-                offs = rootView.viewToModel(pt.x, pt.y, alloc, biasReturn);
+            Rectbngle blloc = getVisibleEditorRect();
+            if (blloc != null) {
+                rootView.setSize(blloc.width, blloc.height);
+                offs = rootView.viewToModel(pt.x, pt.y, blloc, bibsReturn);
             }
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+        } finblly {
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdUnlock();
             }
         }
         return offs;
@@ -1118,71 +1118,71 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
     /**
      * {@inheritDoc}
      */
-    public int getNextVisualPositionFrom(JTextComponent t, int pos,
-                    Position.Bias b, int direction, Position.Bias[] biasRet)
-                    throws BadLocationException{
+    public int getNextVisublPositionFrom(JTextComponent t, int pos,
+                    Position.Bibs b, int direction, Position.Bibs[] bibsRet)
+                    throws BbdLocbtionException{
         Document doc = editor.getDocument();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+        if (doc instbnceof AbstrbctDocument) {
+            ((AbstrbctDocument)doc).rebdLock();
         }
         try {
-            if (painted) {
-                Rectangle alloc = getVisibleEditorRect();
-                if (alloc != null) {
-                    rootView.setSize(alloc.width, alloc.height);
+            if (pbinted) {
+                Rectbngle blloc = getVisibleEditorRect();
+                if (blloc != null) {
+                    rootView.setSize(blloc.width, blloc.height);
                 }
-                return rootView.getNextVisualPositionFrom(pos, b, alloc, direction,
-                                                          biasRet);
+                return rootView.getNextVisublPositionFrom(pos, b, blloc, direction,
+                                                          bibsRet);
             }
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+        } finblly {
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdUnlock();
             }
         }
         return -1;
     }
 
     /**
-     * Causes the portion of the view responsible for the
-     * given part of the model to be repainted.  Does nothing if
-     * the view is not currently painted.
+     * Cbuses the portion of the view responsible for the
+     * given pbrt of the model to be repbinted.  Does nothing if
+     * the view is not currently pbinted.
      *
-     * @param tc the text component for which this UI is installed
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
-     * @see TextUI#damageRange
+     * @pbrbm tc the text component for which this UI is instblled
+     * @pbrbm p0 the beginning of the rbnge &gt;= 0
+     * @pbrbm p1 the end of the rbnge &gt;= p0
+     * @see TextUI#dbmbgeRbnge
      */
-    public void damageRange(JTextComponent tc, int p0, int p1) {
-        damageRange(tc, p0, p1, Position.Bias.Forward, Position.Bias.Backward);
+    public void dbmbgeRbnge(JTextComponent tc, int p0, int p1) {
+        dbmbgeRbnge(tc, p0, p1, Position.Bibs.Forwbrd, Position.Bibs.Bbckwbrd);
     }
 
     /**
-     * Causes the portion of the view responsible for the
-     * given part of the model to be repainted.
+     * Cbuses the portion of the view responsible for the
+     * given pbrt of the model to be repbinted.
      *
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
+     * @pbrbm p0 the beginning of the rbnge &gt;= 0
+     * @pbrbm p1 the end of the rbnge &gt;= p0
      */
-    public void damageRange(JTextComponent t, int p0, int p1,
-                            Position.Bias p0Bias, Position.Bias p1Bias) {
-        if (painted) {
-            Rectangle alloc = getVisibleEditorRect();
-            if (alloc != null) {
+    public void dbmbgeRbnge(JTextComponent t, int p0, int p1,
+                            Position.Bibs p0Bibs, Position.Bibs p1Bibs) {
+        if (pbinted) {
+            Rectbngle blloc = getVisibleEditorRect();
+            if (blloc != null) {
                 Document doc = t.getDocument();
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).readLock();
+                if (doc instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)doc).rebdLock();
                 }
                 try {
-                    rootView.setSize(alloc.width, alloc.height);
-                    Shape toDamage = rootView.modelToView(p0, p0Bias,
-                            p1, p1Bias, alloc);
-                    Rectangle rect = (toDamage instanceof Rectangle) ?
-                            (Rectangle)toDamage : toDamage.getBounds();
-                    editor.repaint(rect.x, rect.y, rect.width, rect.height);
-                } catch (BadLocationException e) {
-                } finally {
-                    if (doc instanceof AbstractDocument) {
-                        ((AbstractDocument)doc).readUnlock();
+                    rootView.setSize(blloc.width, blloc.height);
+                    Shbpe toDbmbge = rootView.modelToView(p0, p0Bibs,
+                            p1, p1Bibs, blloc);
+                    Rectbngle rect = (toDbmbge instbnceof Rectbngle) ?
+                            (Rectbngle)toDbmbge : toDbmbge.getBounds();
+                    editor.repbint(rect.x, rect.y, rect.width, rect.height);
+                } cbtch (BbdLocbtionException e) {
+                } finblly {
+                    if (doc instbnceof AbstrbctDocument) {
+                        ((AbstrbctDocument)doc).rebdUnlock();
                     }
                 }
             }
@@ -1192,29 +1192,29 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
     /**
      * Fetches the EditorKit for the UI.
      *
-     * @param tc the text component for which this UI is installed
-     * @return the editor capabilities
+     * @pbrbm tc the text component for which this UI is instblled
+     * @return the editor cbpbbilities
      * @see TextUI#getEditorKit
      */
     public EditorKit getEditorKit(JTextComponent tc) {
-        return defaultKit;
+        return defbultKit;
     }
 
     /**
-     * Fetches a View with the allocation of the associated
-     * text component (i.e. the root of the hierarchy) that
-     * can be traversed to determine how the model is being
-     * represented spatially.
+     * Fetches b View with the bllocbtion of the bssocibted
+     * text component (i.e. the root of the hierbrchy) thbt
+     * cbn be trbversed to determine how the model is being
+     * represented spbtiblly.
      * <p>
-     * <font style="color: red;"><b>NOTE:</b>The View hierarchy can
-     * be traversed from the root view, and other things
-     * can be done as well.  Things done in this way cannot
-     * be protected like simple method calls through the TextUI.
-     * Therefore, proper operation in the presence of concurrency
-     * must be arranged by any logic that calls this method!
+     * <font style="color: red;"><b>NOTE:</b>The View hierbrchy cbn
+     * be trbversed from the root view, bnd other things
+     * cbn be done bs well.  Things done in this wby cbnnot
+     * be protected like simple method cblls through the TextUI.
+     * Therefore, proper operbtion in the presence of concurrency
+     * must be brrbnged by bny logic thbt cblls this method!
      * </font>
      *
-     * @param tc the text component for which this UI is installed
+     * @pbrbm tc the text component for which this UI is instblled
      * @return the view
      * @see TextUI#getRootView
      */
@@ -1224,106 +1224,106 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
 
 
     /**
-     * Returns the string to be used as the tooltip at the passed in location.
-     * This forwards the method onto the root View.
+     * Returns the string to be used bs the tooltip bt the pbssed in locbtion.
+     * This forwbrds the method onto the root View.
      *
-     * @see javax.swing.text.JTextComponent#getToolTipText
-     * @see javax.swing.text.View#getToolTipText
+     * @see jbvbx.swing.text.JTextComponent#getToolTipText
+     * @see jbvbx.swing.text.View#getToolTipText
      * @since 1.4
      */
     public String getToolTipText(JTextComponent t, Point pt) {
-        if (!painted) {
+        if (!pbinted) {
             return null;
         }
         Document doc = editor.getDocument();
         String tt = null;
-        Rectangle alloc = getVisibleEditorRect();
+        Rectbngle blloc = getVisibleEditorRect();
 
-        if (alloc != null) {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readLock();
+        if (blloc != null) {
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdLock();
             }
             try {
-                tt = rootView.getToolTipText(pt.x, pt.y, alloc);
-            } finally {
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).readUnlock();
+                tt = rootView.getToolTipText(pt.x, pt.y, blloc);
+            } finblly {
+                if (doc instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)doc).rebdUnlock();
                 }
             }
         }
         return tt;
     }
 
-    // --- ViewFactory methods ------------------------------
+    // --- ViewFbctory methods ------------------------------
 
     /**
-     * Creates a view for an element.
-     * If a subclass wishes to directly implement the factory
+     * Crebtes b view for bn element.
+     * If b subclbss wishes to directly implement the fbctory
      * producing the view(s), it should reimplement this
-     * method.  By default it simply returns null indicating
-     * it is unable to represent the element.
+     * method.  By defbult it simply returns null indicbting
+     * it is unbble to represent the element.
      *
-     * @param elem the element
+     * @pbrbm elem the element
      * @return the view
      */
-    public View create(Element elem) {
+    public View crebte(Element elem) {
         return null;
     }
 
     /**
-     * Creates a view for an element.
-     * If a subclass wishes to directly implement the factory
+     * Crebtes b view for bn element.
+     * If b subclbss wishes to directly implement the fbctory
      * producing the view(s), it should reimplement this
-     * method.  By default it simply returns null indicating
-     * it is unable to represent the part of the element.
+     * method.  By defbult it simply returns null indicbting
+     * it is unbble to represent the pbrt of the element.
      *
-     * @param elem the element
-     * @param p0 the starting offset &gt;= 0
-     * @param p1 the ending offset &gt;= p0
+     * @pbrbm elem the element
+     * @pbrbm p0 the stbrting offset &gt;= 0
+     * @pbrbm p1 the ending offset &gt;= p0
      * @return the view
      */
-    public View create(Element elem, int p0, int p1) {
+    public View crebte(Element elem, int p0, int p1) {
         return null;
     }
 
     /**
-     * Default implementation of the interface {@code Caret}.
+     * Defbult implementbtion of the interfbce {@code Cbret}.
      */
-    public static class BasicCaret extends DefaultCaret implements UIResource {}
+    public stbtic clbss BbsicCbret extends DefbultCbret implements UIResource {}
 
     /**
-     * Default implementation of the interface {@code Highlighter}.
+     * Defbult implementbtion of the interfbce {@code Highlighter}.
      */
-    public static class BasicHighlighter extends DefaultHighlighter implements UIResource {}
+    public stbtic clbss BbsicHighlighter extends DefbultHighlighter implements UIResource {}
 
-    static class BasicCursor extends Cursor implements UIResource {
-        BasicCursor(int type) {
+    stbtic clbss BbsicCursor extends Cursor implements UIResource {
+        BbsicCursor(int type) {
             super(type);
         }
 
-        BasicCursor(String name) {
-            super(name);
+        BbsicCursor(String nbme) {
+            super(nbme);
         }
     }
 
-    private static BasicCursor textCursor = new BasicCursor(Cursor.TEXT_CURSOR);
-    // ----- member variables ---------------------------------------
+    privbte stbtic BbsicCursor textCursor = new BbsicCursor(Cursor.TEXT_CURSOR);
+    // ----- member vbribbles ---------------------------------------
 
-    private static final EditorKit defaultKit = new DefaultEditorKit();
-    transient JTextComponent editor;
-    transient boolean painted;
-    transient RootView rootView = new RootView();
-    transient UpdateHandler updateHandler = new UpdateHandler();
-    private static final TransferHandler defaultTransferHandler = new TextTransferHandler();
-    private final DragListener dragListener = getDragListener();
-    private static final Position.Bias[] discardBias = new Position.Bias[1];
-    private DefaultCaret dropCaret;
+    privbte stbtic finbl EditorKit defbultKit = new DefbultEditorKit();
+    trbnsient JTextComponent editor;
+    trbnsient boolebn pbinted;
+    trbnsient RootView rootView = new RootView();
+    trbnsient UpdbteHbndler updbteHbndler = new UpdbteHbndler();
+    privbte stbtic finbl TrbnsferHbndler defbultTrbnsferHbndler = new TextTrbnsferHbndler();
+    privbte finbl DrbgListener drbgListener = getDrbgListener();
+    privbte stbtic finbl Position.Bibs[] discbrdBibs = new Position.Bibs[1];
+    privbte DefbultCbret dropCbret;
 
     /**
-     * Root view that acts as a gateway between the component
-     * and the View hierarchy.
+     * Root view thbt bcts bs b gbtewby between the component
+     * bnd the View hierbrchy.
      */
-    class RootView extends View {
+    clbss RootView extends View {
 
         RootView() {
             super(null);
@@ -1333,102 +1333,102 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
             View oldView = view;
             view = null;
             if (oldView != null) {
-                // get rid of back reference so that the old
-                // hierarchy can be garbage collected.
-                oldView.setParent(null);
+                // get rid of bbck reference so thbt the old
+                // hierbrchy cbn be gbrbbge collected.
+                oldView.setPbrent(null);
             }
             if (v != null) {
-                v.setParent(this);
+                v.setPbrent(this);
             }
             view = v;
         }
 
         /**
-         * Fetches the attributes to use when rendering.  At the root
-         * level there are no attributes.  If an attribute is resolved
-         * up the view hierarchy this is the end of the line.
+         * Fetches the bttributes to use when rendering.  At the root
+         * level there bre no bttributes.  If bn bttribute is resolved
+         * up the view hierbrchy this is the end of the line.
          */
         public AttributeSet getAttributes() {
             return null;
         }
 
         /**
-         * Determines the preferred span for this view along an axis.
+         * Determines the preferred spbn for this view blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the span the view would like to be rendered into.
-         *         Typically the view is told to render into the span
-         *         that is returned, although there is no guarantee.
-         *         The parent may choose to resize or break the view.
+         * @pbrbm bxis mby be either X_AXIS or Y_AXIS
+         * @return the spbn the view would like to be rendered into.
+         *         Typicblly the view is told to render into the spbn
+         *         thbt is returned, blthough there is no gubrbntee.
+         *         The pbrent mby choose to resize or brebk the view.
          */
-        public float getPreferredSpan(int axis) {
+        public flobt getPreferredSpbn(int bxis) {
             if (view != null) {
-                return view.getPreferredSpan(axis);
+                return view.getPreferredSpbn(bxis);
             }
             return 10;
         }
 
         /**
-         * Determines the minimum span for this view along an axis.
+         * Determines the minimum spbn for this view blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the span the view would like to be rendered into.
-         *         Typically the view is told to render into the span
-         *         that is returned, although there is no guarantee.
-         *         The parent may choose to resize or break the view.
+         * @pbrbm bxis mby be either X_AXIS or Y_AXIS
+         * @return the spbn the view would like to be rendered into.
+         *         Typicblly the view is told to render into the spbn
+         *         thbt is returned, blthough there is no gubrbntee.
+         *         The pbrent mby choose to resize or brebk the view.
          */
-        public float getMinimumSpan(int axis) {
+        public flobt getMinimumSpbn(int bxis) {
             if (view != null) {
-                return view.getMinimumSpan(axis);
+                return view.getMinimumSpbn(bxis);
             }
             return 10;
         }
 
         /**
-         * Determines the maximum span for this view along an axis.
+         * Determines the mbximum spbn for this view blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the span the view would like to be rendered into.
-         *         Typically the view is told to render into the span
-         *         that is returned, although there is no guarantee.
-         *         The parent may choose to resize or break the view.
+         * @pbrbm bxis mby be either X_AXIS or Y_AXIS
+         * @return the spbn the view would like to be rendered into.
+         *         Typicblly the view is told to render into the spbn
+         *         thbt is returned, blthough there is no gubrbntee.
+         *         The pbrent mby choose to resize or brebk the view.
          */
-        public float getMaximumSpan(int axis) {
+        public flobt getMbximumSpbn(int bxis) {
             return Integer.MAX_VALUE;
         }
 
         /**
-         * Specifies that a preference has changed.
-         * Child views can call this on the parent to indicate that
-         * the preference has changed.  The root view routes this to
-         * invalidate on the hosting component.
+         * Specifies thbt b preference hbs chbnged.
+         * Child views cbn cbll this on the pbrent to indicbte thbt
+         * the preference hbs chbnged.  The root view routes this to
+         * invblidbte on the hosting component.
          * <p>
-         * This can be called on a different thread from the
-         * event dispatching thread and is basically unsafe to
-         * propagate into the component.  To make this safe,
-         * the operation is transferred over to the event dispatching
-         * thread for completion.  It is a design goal that all view
-         * methods be safe to call without concern for concurrency,
-         * and this behavior helps make that true.
+         * This cbn be cblled on b different threbd from the
+         * event dispbtching threbd bnd is bbsicblly unsbfe to
+         * propbgbte into the component.  To mbke this sbfe,
+         * the operbtion is trbnsferred over to the event dispbtching
+         * threbd for completion.  It is b design gobl thbt bll view
+         * methods be sbfe to cbll without concern for concurrency,
+         * bnd this behbvior helps mbke thbt true.
          *
-         * @param child the child view
-         * @param width true if the width preference has changed
-         * @param height true if the height preference has changed
+         * @pbrbm child the child view
+         * @pbrbm width true if the width preference hbs chbnged
+         * @pbrbm height true if the height preference hbs chbnged
          */
-        public void preferenceChanged(View child, boolean width, boolean height) {
-            editor.revalidate();
+        public void preferenceChbnged(View child, boolebn width, boolebn height) {
+            editor.revblidbte();
         }
 
         /**
-         * Determines the desired alignment for this view along an axis.
+         * Determines the desired blignment for this view blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the desired alignment, where 0.0 indicates the origin
-         *     and 1.0 the full span away from the origin
+         * @pbrbm bxis mby be either X_AXIS or Y_AXIS
+         * @return the desired blignment, where 0.0 indicbtes the origin
+         *     bnd 1.0 the full spbn bwby from the origin
          */
-        public float getAlignment(int axis) {
+        public flobt getAlignment(int bxis) {
             if (view != null) {
-                return view.getAlignment(axis);
+                return view.getAlignment(bxis);
             }
             return 0;
         }
@@ -1436,31 +1436,31 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
         /**
          * Renders the view.
          *
-         * @param g the graphics context
-         * @param allocation the region to render into
+         * @pbrbm g the grbphics context
+         * @pbrbm bllocbtion the region to render into
          */
-        public void paint(Graphics g, Shape allocation) {
+        public void pbint(Grbphics g, Shbpe bllocbtion) {
             if (view != null) {
-                Rectangle alloc = (allocation instanceof Rectangle) ?
-                          (Rectangle)allocation : allocation.getBounds();
-                setSize(alloc.width, alloc.height);
-                view.paint(g, allocation);
+                Rectbngle blloc = (bllocbtion instbnceof Rectbngle) ?
+                          (Rectbngle)bllocbtion : bllocbtion.getBounds();
+                setSize(blloc.width, blloc.height);
+                view.pbint(g, bllocbtion);
             }
         }
 
         /**
-         * Sets the view parent.
+         * Sets the view pbrent.
          *
-         * @param parent the parent view
+         * @pbrbm pbrent the pbrent view
          */
-        public void setParent(View parent) {
-            throw new Error("Can't set parent on root view");
+        public void setPbrent(View pbrent) {
+            throw new Error("Cbn't set pbrent on root view");
         }
 
         /**
          * Returns the number of views in this view.  Since
-         * this view simply wraps the root of the view hierarchy
-         * it has exactly one child.
+         * this view simply wrbps the root of the view hierbrchy
+         * it hbs exbctly one child.
          *
          * @return the number of views
          * @see #getView
@@ -1470,9 +1470,9 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
         }
 
         /**
-         * Gets the n-th view in this container.
+         * Gets the n-th view in this contbiner.
          *
-         * @param n the number of the view to get
+         * @pbrbm n the number of the view to get
          * @return the view
          */
         public View getView(int n) {
@@ -1484,171 +1484,171 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
          * the model.  This is implemented to return the index of the only
          * child.
          *
-         * @param pos the position &gt;= 0
+         * @pbrbm pos the position &gt;= 0
          * @return  index of the view representing the given position, or
-         *   -1 if no view represents that position
+         *   -1 if no view represents thbt position
          * @since 1.3
          */
-        public int getViewIndex(int pos, Position.Bias b) {
+        public int getViewIndex(int pos, Position.Bibs b) {
             return 0;
         }
 
         /**
-         * Fetches the allocation for the given child view.
-         * This enables finding out where various views
-         * are located, without assuming the views store
-         * their location.  This returns the given allocation
-         * since this view simply acts as a gateway between
-         * the view hierarchy and the associated component.
+         * Fetches the bllocbtion for the given child view.
+         * This enbbles finding out where vbrious views
+         * bre locbted, without bssuming the views store
+         * their locbtion.  This returns the given bllocbtion
+         * since this view simply bcts bs b gbtewby between
+         * the view hierbrchy bnd the bssocibted component.
          *
-         * @param index the index of the child
-         * @param a  the allocation to this view.
-         * @return the allocation to the child
+         * @pbrbm index the index of the child
+         * @pbrbm b  the bllocbtion to this view.
+         * @return the bllocbtion to the child
          */
-        public Shape getChildAllocation(int index, Shape a) {
-            return a;
+        public Shbpe getChildAllocbtion(int index, Shbpe b) {
+            return b;
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Provides b mbpping from the document model coordinbte spbce
+         * to the coordinbte spbce of the view mbpped to it.
          *
-         * @param pos the position to convert
-         * @param a the allocated region to render into
+         * @pbrbm pos the position to convert
+         * @pbrbm b the bllocbted region to render into
          * @return the bounding box of the given position
          */
-        public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
+        public Shbpe modelToView(int pos, Shbpe b, Position.Bibs b) throws BbdLocbtionException {
             if (view != null) {
-                return view.modelToView(pos, a, b);
+                return view.modelToView(pos, b, b);
             }
             return null;
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Provides b mbpping from the document model coordinbte spbce
+         * to the coordinbte spbce of the view mbpped to it.
          *
-         * @param p0 the position to convert &gt;= 0
-         * @param b0 the bias toward the previous character or the
-         *  next character represented by p0, in case the
-         *  position is a boundary of two views.
-         * @param p1 the position to convert &gt;= 0
-         * @param b1 the bias toward the previous character or the
-         *  next character represented by p1, in case the
-         *  position is a boundary of two views.
-         * @param a the allocated region to render into
+         * @pbrbm p0 the position to convert &gt;= 0
+         * @pbrbm b0 the bibs towbrd the previous chbrbcter or the
+         *  next chbrbcter represented by p0, in cbse the
+         *  position is b boundbry of two views.
+         * @pbrbm p1 the position to convert &gt;= 0
+         * @pbrbm b1 the bibs towbrd the previous chbrbcter or the
+         *  next chbrbcter represented by p1, in cbse the
+         *  position is b boundbry of two views.
+         * @pbrbm b the bllocbted region to render into
          * @return the bounding box of the given position is returned
-         * @exception BadLocationException  if the given position does
-         *   not represent a valid location in the associated document
-         * @exception IllegalArgumentException for an invalid bias argument
+         * @exception BbdLocbtionException  if the given position does
+         *   not represent b vblid locbtion in the bssocibted document
+         * @exception IllegblArgumentException for bn invblid bibs brgument
          * @see View#viewToModel
          */
-        public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1, Shape a) throws BadLocationException {
+        public Shbpe modelToView(int p0, Position.Bibs b0, int p1, Position.Bibs b1, Shbpe b) throws BbdLocbtionException {
             if (view != null) {
-                return view.modelToView(p0, b0, p1, b1, a);
+                return view.modelToView(p0, b0, p1, b1, b);
             }
             return null;
         }
 
         /**
-         * Provides a mapping from the view coordinate space to the logical
-         * coordinate space of the model.
+         * Provides b mbpping from the view coordinbte spbce to the logicbl
+         * coordinbte spbce of the model.
          *
-         * @param x x coordinate of the view location to convert
-         * @param y y coordinate of the view location to convert
-         * @param a the allocated region to render into
-         * @return the location within the model that best represents the
+         * @pbrbm x x coordinbte of the view locbtion to convert
+         * @pbrbm y y coordinbte of the view locbtion to convert
+         * @pbrbm b the bllocbted region to render into
+         * @return the locbtion within the model thbt best represents the
          *    given point in the view
          */
-        public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
+        public int viewToModel(flobt x, flobt y, Shbpe b, Position.Bibs[] bibs) {
             if (view != null) {
-                int retValue = view.viewToModel(x, y, a, bias);
-                return retValue;
+                int retVblue = view.viewToModel(x, y, b, bibs);
+                return retVblue;
             }
             return -1;
         }
 
         /**
-         * Provides a way to determine the next visually represented model
-         * location that one might place a caret.  Some views may not be visible,
-         * they might not be in the same order found in the model, or they just
-         * might not allow access to some of the locations in the model.
-         * This method enables specifying a position to convert
-         * within the range of &gt;=0.  If the value is -1, a position
-         * will be calculated automatically.  If the value &lt; -1,
-         * the {@code BadLocationException} will be thrown.
+         * Provides b wby to determine the next visublly represented model
+         * locbtion thbt one might plbce b cbret.  Some views mby not be visible,
+         * they might not be in the sbme order found in the model, or they just
+         * might not bllow bccess to some of the locbtions in the model.
+         * This method enbbles specifying b position to convert
+         * within the rbnge of &gt;=0.  If the vblue is -1, b position
+         * will be cblculbted butombticblly.  If the vblue &lt; -1,
+         * the {@code BbdLocbtionException} will be thrown.
          *
-         * @param pos the position to convert &gt;= 0
-         * @param a the allocated region to render into
-         * @param direction the direction from the current position that can
-         *  be thought of as the arrow keys typically found on a keyboard.
-         *  This may be SwingConstants.WEST, SwingConstants.EAST,
-         *  SwingConstants.NORTH, or SwingConstants.SOUTH.
-         * @return the location within the model that best represents the next
-         *  location visual position.
-         * @exception BadLocationException the given position is not a valid
+         * @pbrbm pos the position to convert &gt;= 0
+         * @pbrbm b the bllocbted region to render into
+         * @pbrbm direction the direction from the current position thbt cbn
+         *  be thought of bs the brrow keys typicblly found on b keybobrd.
+         *  This mby be SwingConstbnts.WEST, SwingConstbnts.EAST,
+         *  SwingConstbnts.NORTH, or SwingConstbnts.SOUTH.
+         * @return the locbtion within the model thbt best represents the next
+         *  locbtion visubl position.
+         * @exception BbdLocbtionException the given position is not b vblid
          *                                 position within the document
-         * @exception IllegalArgumentException for an invalid direction
+         * @exception IllegblArgumentException for bn invblid direction
          */
-        public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
+        public int getNextVisublPositionFrom(int pos, Position.Bibs b, Shbpe b,
                                              int direction,
-                                             Position.Bias[] biasRet)
-            throws BadLocationException {
+                                             Position.Bibs[] bibsRet)
+            throws BbdLocbtionException {
             if (pos < -1) {
-                throw new BadLocationException("invalid position", pos);
+                throw new BbdLocbtionException("invblid position", pos);
             }
             if( view != null ) {
-                int nextPos = view.getNextVisualPositionFrom(pos, b, a,
-                                                     direction, biasRet);
+                int nextPos = view.getNextVisublPositionFrom(pos, b, b,
+                                                     direction, bibsRet);
                 if(nextPos != -1) {
                     pos = nextPos;
                 }
                 else {
-                    biasRet[0] = b;
+                    bibsRet[0] = b;
                 }
             }
             return pos;
         }
 
         /**
-         * Gives notification that something was inserted into the document
-         * in a location that this view is responsible for.
+         * Gives notificbtion thbt something wbs inserted into the document
+         * in b locbtion thbt this view is responsible for.
          *
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
+         * @pbrbm e the chbnge informbtion from the bssocibted document
+         * @pbrbm b the current bllocbtion of the view
+         * @pbrbm f the fbctory to use to rebuild if the view hbs children
          */
-        public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+        public void insertUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
             if (view != null) {
-                view.insertUpdate(e, a, f);
+                view.insertUpdbte(e, b, f);
             }
         }
 
         /**
-         * Gives notification that something was removed from the document
-         * in a location that this view is responsible for.
+         * Gives notificbtion thbt something wbs removed from the document
+         * in b locbtion thbt this view is responsible for.
          *
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
+         * @pbrbm e the chbnge informbtion from the bssocibted document
+         * @pbrbm b the current bllocbtion of the view
+         * @pbrbm f the fbctory to use to rebuild if the view hbs children
          */
-        public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+        public void removeUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
             if (view != null) {
-                view.removeUpdate(e, a, f);
+                view.removeUpdbte(e, b, f);
             }
         }
 
         /**
-         * Gives notification from the document that attributes were changed
-         * in a location that this view is responsible for.
+         * Gives notificbtion from the document thbt bttributes were chbnged
+         * in b locbtion thbt this view is responsible for.
          *
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
+         * @pbrbm e the chbnge informbtion from the bssocibted document
+         * @pbrbm b the current bllocbtion of the view
+         * @pbrbm f the fbctory to use to rebuild if the view hbs children
          */
-        public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+        public void chbngedUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
             if (view != null) {
-                view.changedUpdate(e, a, f);
+                view.chbngedUpdbte(e, b, f);
             }
         }
 
@@ -1662,15 +1662,15 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
         }
 
         /**
-         * Returns the starting offset into the model for this view.
+         * Returns the stbrting offset into the model for this view.
          *
-         * @return the starting offset
+         * @return the stbrting offset
          */
-        public int getStartOffset() {
+        public int getStbrtOffset() {
             if (view != null) {
-                return view.getStartOffset();
+                return view.getStbrtOffset();
             }
-            return getElement().getStartOffset();
+            return getElement().getStbrtOffset();
         }
 
         /**
@@ -1686,7 +1686,7 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
         }
 
         /**
-         * Gets the element that this view is mapped to.
+         * Gets the element thbt this view is mbpped to.
          *
          * @return the view
          */
@@ -1694,32 +1694,32 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
             if (view != null) {
                 return view.getElement();
             }
-            return editor.getDocument().getDefaultRootElement();
+            return editor.getDocument().getDefbultRootElement();
         }
 
         /**
-         * Breaks this view on the given axis at the given length.
+         * Brebks this view on the given bxis bt the given length.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @param len specifies where a break is desired in the span
-         * @param the current allocation of the view
-         * @return the fragment of the view that represents the given span
-         *   if the view can be broken, otherwise null
+         * @pbrbm bxis mby be either X_AXIS or Y_AXIS
+         * @pbrbm len specifies where b brebk is desired in the spbn
+         * @pbrbm the current bllocbtion of the view
+         * @return the frbgment of the view thbt represents the given spbn
+         *   if the view cbn be broken, otherwise null
          */
-        public View breakView(int axis, float len, Shape a) {
-            throw new Error("Can't break root view");
+        public View brebkView(int bxis, flobt len, Shbpe b) {
+            throw new Error("Cbn't brebk root view");
         }
 
         /**
-         * Determines the resizability of the view along the
-         * given axis.  A value of 0 or less is not resizable.
+         * Determines the resizbbility of the view blong the
+         * given bxis.  A vblue of 0 or less is not resizbble.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
+         * @pbrbm bxis mby be either X_AXIS or Y_AXIS
          * @return the weight
          */
-        public int getResizeWeight(int axis) {
+        public int getResizeWeight(int bxis) {
             if (view != null) {
-                return view.getResizeWeight(axis);
+                return view.getResizeWeight(bxis);
             }
             return 0;
         }
@@ -1727,274 +1727,274 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
         /**
          * Sets the view size.
          *
-         * @param width the width
-         * @param height the height
+         * @pbrbm width the width
+         * @pbrbm height the height
          */
-        public void setSize(float width, float height) {
+        public void setSize(flobt width, flobt height) {
             if (view != null) {
                 view.setSize(width, height);
             }
         }
 
         /**
-         * Fetches the container hosting the view.  This is useful for
-         * things like scheduling a repaint, finding out the host
-         * components font, etc.  The default implementation
-         * of this is to forward the query to the parent view.
+         * Fetches the contbiner hosting the view.  This is useful for
+         * things like scheduling b repbint, finding out the host
+         * components font, etc.  The defbult implementbtion
+         * of this is to forwbrd the query to the pbrent view.
          *
-         * @return the container
+         * @return the contbiner
          */
-        public Container getContainer() {
+        public Contbiner getContbiner() {
             return editor;
         }
 
         /**
-         * Fetches the factory to be used for building the
-         * various view fragments that make up the view that
-         * represents the model.  This is what determines
+         * Fetches the fbctory to be used for building the
+         * vbrious view frbgments thbt mbke up the view thbt
+         * represents the model.  This is whbt determines
          * how the model will be represented.  This is implemented
-         * to fetch the factory provided by the associated
-         * EditorKit unless that is null, in which case this
-         * simply returns the BasicTextUI itself which allows
-         * subclasses to implement a simple factory directly without
-         * creating extra objects.
+         * to fetch the fbctory provided by the bssocibted
+         * EditorKit unless thbt is null, in which cbse this
+         * simply returns the BbsicTextUI itself which bllows
+         * subclbsses to implement b simple fbctory directly without
+         * crebting extrb objects.
          *
-         * @return the factory
+         * @return the fbctory
          */
-        public ViewFactory getViewFactory() {
+        public ViewFbctory getViewFbctory() {
             EditorKit kit = getEditorKit(editor);
-            ViewFactory f = kit.getViewFactory();
+            ViewFbctory f = kit.getViewFbctory();
             if (f != null) {
                 return f;
             }
-            return BasicTextUI.this;
+            return BbsicTextUI.this;
         }
 
-        private View view;
+        privbte View view;
 
     }
 
     /**
-     * Handles updates from various places.  If the model is changed,
-     * this class unregisters as a listener to the old model and
-     * registers with the new model.  If the document model changes,
-     * the change is forwarded to the root view.  If the focus
-     * accelerator changes, a new keystroke is registered to request
+     * Hbndles updbtes from vbrious plbces.  If the model is chbnged,
+     * this clbss unregisters bs b listener to the old model bnd
+     * registers with the new model.  If the document model chbnges,
+     * the chbnge is forwbrded to the root view.  If the focus
+     * bccelerbtor chbnges, b new keystroke is registered to request
      * focus.
      */
-    class UpdateHandler implements PropertyChangeListener, DocumentListener, LayoutManager2, UIResource {
+    clbss UpdbteHbndler implements PropertyChbngeListener, DocumentListener, LbyoutMbnbger2, UIResource {
 
-        // --- PropertyChangeListener methods -----------------------
+        // --- PropertyChbngeListener methods -----------------------
 
         /**
-         * This method gets called when a bound property is changed.
-         * We are looking for document changes on the editor.
+         * This method gets cblled when b bound property is chbnged.
+         * We bre looking for document chbnges on the editor.
          */
-        public final void propertyChange(PropertyChangeEvent evt) {
-            Object oldValue = evt.getOldValue();
-            Object newValue = evt.getNewValue();
-            String propertyName = evt.getPropertyName();
-            if ((oldValue instanceof Document) || (newValue instanceof Document)) {
-                if (oldValue != null) {
-                    ((Document)oldValue).removeDocumentListener(this);
-                    i18nView = false;
+        public finbl void propertyChbnge(PropertyChbngeEvent evt) {
+            Object oldVblue = evt.getOldVblue();
+            Object newVblue = evt.getNewVblue();
+            String propertyNbme = evt.getPropertyNbme();
+            if ((oldVblue instbnceof Document) || (newVblue instbnceof Document)) {
+                if (oldVblue != null) {
+                    ((Document)oldVblue).removeDocumentListener(this);
+                    i18nView = fblse;
                 }
-                if (newValue != null) {
-                    ((Document)newValue).addDocumentListener(this);
-                    if ("document" == propertyName) {
+                if (newVblue != null) {
+                    ((Document)newVblue).bddDocumentListener(this);
+                    if ("document" == propertyNbme) {
                         setView(null);
-                        BasicTextUI.this.propertyChange(evt);
-                        modelChanged();
+                        BbsicTextUI.this.propertyChbnge(evt);
+                        modelChbnged();
                         return;
                     }
                 }
-                modelChanged();
+                modelChbnged();
             }
-            if ("focusAccelerator" == propertyName) {
-                updateFocusAcceleratorBinding(true);
-            } else if ("componentOrientation" == propertyName) {
-                // Changes in ComponentOrientation require the views to be
+            if ("focusAccelerbtor" == propertyNbme) {
+                updbteFocusAccelerbtorBinding(true);
+            } else if ("componentOrientbtion" == propertyNbme) {
+                // Chbnges in ComponentOrientbtion require the views to be
                 // rebuilt.
-                modelChanged();
-            } else if ("font" == propertyName) {
-                modelChanged();
-            } else if ("dropLocation" == propertyName) {
-                dropIndexChanged();
-            } else if ("editable" == propertyName) {
-                updateCursor();
-                modelChanged();
+                modelChbnged();
+            } else if ("font" == propertyNbme) {
+                modelChbnged();
+            } else if ("dropLocbtion" == propertyNbme) {
+                dropIndexChbnged();
+            } else if ("editbble" == propertyNbme) {
+                updbteCursor();
+                modelChbnged();
             }
-            BasicTextUI.this.propertyChange(evt);
+            BbsicTextUI.this.propertyChbnge(evt);
         }
 
-        private void dropIndexChanged() {
+        privbte void dropIndexChbnged() {
             if (editor.getDropMode() == DropMode.USE_SELECTION) {
                 return;
             }
 
-            JTextComponent.DropLocation dropLocation = editor.getDropLocation();
+            JTextComponent.DropLocbtion dropLocbtion = editor.getDropLocbtion();
 
-            if (dropLocation == null) {
-                if (dropCaret != null) {
-                    dropCaret.deinstall(editor);
-                    editor.repaint(dropCaret);
-                    dropCaret = null;
+            if (dropLocbtion == null) {
+                if (dropCbret != null) {
+                    dropCbret.deinstbll(editor);
+                    editor.repbint(dropCbret);
+                    dropCbret = null;
                 }
             } else {
-                if (dropCaret == null) {
-                    dropCaret = new BasicCaret();
-                    dropCaret.install(editor);
-                    dropCaret.setVisible(true);
+                if (dropCbret == null) {
+                    dropCbret = new BbsicCbret();
+                    dropCbret.instbll(editor);
+                    dropCbret.setVisible(true);
                 }
 
-                dropCaret.setDot(dropLocation.getIndex(),
-                                 dropLocation.getBias());
+                dropCbret.setDot(dropLocbtion.getIndex(),
+                                 dropLocbtion.getBibs());
             }
         }
 
         // --- DocumentListener methods -----------------------
 
         /**
-         * The insert notification.  Gets sent to the root of the view structure
-         * that represents the portion of the model being represented by the
-         * editor.  The factory is added as an argument to the update so that
-         * the views can update themselves in a dynamic (not hardcoded) way.
+         * The insert notificbtion.  Gets sent to the root of the view structure
+         * thbt represents the portion of the model being represented by the
+         * editor.  The fbctory is bdded bs bn brgument to the updbte so thbt
+         * the views cbn updbte themselves in b dynbmic (not hbrdcoded) wby.
          *
-         * @param e  The change notification from the currently associated
+         * @pbrbm e  The chbnge notificbtion from the currently bssocibted
          *  document.
-         * @see DocumentListener#insertUpdate
+         * @see DocumentListener#insertUpdbte
          */
-        public final void insertUpdate(DocumentEvent e) {
+        public finbl void insertUpdbte(DocumentEvent e) {
             Document doc = e.getDocument();
             Object o = doc.getProperty("i18n");
-            if (o instanceof Boolean) {
-                Boolean i18nFlag = (Boolean) o;
-                if (i18nFlag.booleanValue() != i18nView) {
-                    // i18n flag changed, rebuild the view
-                    i18nView = i18nFlag.booleanValue();
-                    modelChanged();
+            if (o instbnceof Boolebn) {
+                Boolebn i18nFlbg = (Boolebn) o;
+                if (i18nFlbg.boolebnVblue() != i18nView) {
+                    // i18n flbg chbnged, rebuild the view
+                    i18nView = i18nFlbg.boolebnVblue();
+                    modelChbnged();
                     return;
                 }
             }
 
-            // normal insert update
-            Rectangle alloc = (painted) ? getVisibleEditorRect() : null;
-            rootView.insertUpdate(e, alloc, rootView.getViewFactory());
+            // normbl insert updbte
+            Rectbngle blloc = (pbinted) ? getVisibleEditorRect() : null;
+            rootView.insertUpdbte(e, blloc, rootView.getViewFbctory());
         }
 
         /**
-         * The remove notification.  Gets sent to the root of the view structure
-         * that represents the portion of the model being represented by the
-         * editor.  The factory is added as an argument to the update so that
-         * the views can update themselves in a dynamic (not hardcoded) way.
+         * The remove notificbtion.  Gets sent to the root of the view structure
+         * thbt represents the portion of the model being represented by the
+         * editor.  The fbctory is bdded bs bn brgument to the updbte so thbt
+         * the views cbn updbte themselves in b dynbmic (not hbrdcoded) wby.
          *
-         * @param e  The change notification from the currently associated
+         * @pbrbm e  The chbnge notificbtion from the currently bssocibted
          *  document.
-         * @see DocumentListener#removeUpdate
+         * @see DocumentListener#removeUpdbte
          */
-        public final void removeUpdate(DocumentEvent e) {
-            Rectangle alloc = (painted) ? getVisibleEditorRect() : null;
-            rootView.removeUpdate(e, alloc, rootView.getViewFactory());
+        public finbl void removeUpdbte(DocumentEvent e) {
+            Rectbngle blloc = (pbinted) ? getVisibleEditorRect() : null;
+            rootView.removeUpdbte(e, blloc, rootView.getViewFbctory());
         }
 
         /**
-         * The change notification.  Gets sent to the root of the view structure
-         * that represents the portion of the model being represented by the
-         * editor.  The factory is added as an argument to the update so that
-         * the views can update themselves in a dynamic (not hardcoded) way.
+         * The chbnge notificbtion.  Gets sent to the root of the view structure
+         * thbt represents the portion of the model being represented by the
+         * editor.  The fbctory is bdded bs bn brgument to the updbte so thbt
+         * the views cbn updbte themselves in b dynbmic (not hbrdcoded) wby.
          *
-         * @param e  The change notification from the currently associated
+         * @pbrbm e  The chbnge notificbtion from the currently bssocibted
          *  document.
-         * @see DocumentListener#changedUpdate(DocumentEvent)
+         * @see DocumentListener#chbngedUpdbte(DocumentEvent)
          */
-        public final void changedUpdate(DocumentEvent e) {
-            Rectangle alloc = (painted) ? getVisibleEditorRect() : null;
-            rootView.changedUpdate(e, alloc, rootView.getViewFactory());
+        public finbl void chbngedUpdbte(DocumentEvent e) {
+            Rectbngle blloc = (pbinted) ? getVisibleEditorRect() : null;
+            rootView.chbngedUpdbte(e, blloc, rootView.getViewFbctory());
         }
 
-        // --- LayoutManager2 methods --------------------------------
+        // --- LbyoutMbnbger2 methods --------------------------------
 
         /**
-         * Adds the specified component with the specified name to
-         * the layout.
-         * @param name the component name
-         * @param comp the component to be added
+         * Adds the specified component with the specified nbme to
+         * the lbyout.
+         * @pbrbm nbme the component nbme
+         * @pbrbm comp the component to be bdded
          */
-        public void addLayoutComponent(String name, Component comp) {
+        public void bddLbyoutComponent(String nbme, Component comp) {
             // not supported
         }
 
         /**
-         * Removes the specified component from the layout.
-         * @param comp the component to be removed
+         * Removes the specified component from the lbyout.
+         * @pbrbm comp the component to be removed
          */
-        public void removeLayoutComponent(Component comp) {
-            if (constraints != null) {
-                // remove the constraint record
-                constraints.remove(comp);
+        public void removeLbyoutComponent(Component comp) {
+            if (constrbints != null) {
+                // remove the constrbint record
+                constrbints.remove(comp);
             }
         }
 
         /**
-         * Calculates the preferred size dimensions for the specified
-         * panel given the components in the specified parent container.
-         * @param parent the component to be laid out
+         * Cblculbtes the preferred size dimensions for the specified
+         * pbnel given the components in the specified pbrent contbiner.
+         * @pbrbm pbrent the component to be lbid out
          *
-         * @see #minimumLayoutSize
+         * @see #minimumLbyoutSize
          */
-        public Dimension preferredLayoutSize(Container parent) {
-            // should not be called (JComponent uses UI instead)
+        public Dimension preferredLbyoutSize(Contbiner pbrent) {
+            // should not be cblled (JComponent uses UI instebd)
             return null;
         }
 
         /**
-         * Calculates the minimum size dimensions for the specified
-         * panel given the components in the specified parent container.
-         * @param parent the component to be laid out
-         * @see #preferredLayoutSize
+         * Cblculbtes the minimum size dimensions for the specified
+         * pbnel given the components in the specified pbrent contbiner.
+         * @pbrbm pbrent the component to be lbid out
+         * @see #preferredLbyoutSize
          */
-        public Dimension minimumLayoutSize(Container parent) {
-            // should not be called (JComponent uses UI instead)
+        public Dimension minimumLbyoutSize(Contbiner pbrent) {
+            // should not be cblled (JComponent uses UI instebd)
             return null;
         }
 
         /**
-         * Lays out the container in the specified panel.  This is
-         * implemented to position all components that were added
-         * with a View object as a constraint.  The current allocation
-         * of the associated View is used as the location of the
+         * Lbys out the contbiner in the specified pbnel.  This is
+         * implemented to position bll components thbt were bdded
+         * with b View object bs b constrbint.  The current bllocbtion
+         * of the bssocibted View is used bs the locbtion of the
          * component.
          * <p>
-         * A read-lock is acquired on the document to prevent the
-         * view tree from being modified while the layout process
-         * is active.
+         * A rebd-lock is bcquired on the document to prevent the
+         * view tree from being modified while the lbyout process
+         * is bctive.
          *
-         * @param parent the component which needs to be laid out
+         * @pbrbm pbrent the component which needs to be lbid out
          */
-        public void layoutContainer(Container parent) {
-            if ((constraints != null) && (! constraints.isEmpty())) {
-                Rectangle alloc = getVisibleEditorRect();
-                if (alloc != null) {
+        public void lbyoutContbiner(Contbiner pbrent) {
+            if ((constrbints != null) && (! constrbints.isEmpty())) {
+                Rectbngle blloc = getVisibleEditorRect();
+                if (blloc != null) {
                     Document doc = editor.getDocument();
-                    if (doc instanceof AbstractDocument) {
-                        ((AbstractDocument)doc).readLock();
+                    if (doc instbnceof AbstrbctDocument) {
+                        ((AbstrbctDocument)doc).rebdLock();
                     }
                     try {
-                        rootView.setSize(alloc.width, alloc.height);
-                        Enumeration<Component> components = constraints.keys();
-                        while (components.hasMoreElements()) {
+                        rootView.setSize(blloc.width, blloc.height);
+                        Enumerbtion<Component> components = constrbints.keys();
+                        while (components.hbsMoreElements()) {
                             Component comp = components.nextElement();
-                            View v = (View) constraints.get(comp);
-                            Shape ca = calculateViewPosition(alloc, v);
-                            if (ca != null) {
-                                Rectangle compAlloc = (ca instanceof Rectangle) ?
-                                    (Rectangle) ca : ca.getBounds();
+                            View v = (View) constrbints.get(comp);
+                            Shbpe cb = cblculbteViewPosition(blloc, v);
+                            if (cb != null) {
+                                Rectbngle compAlloc = (cb instbnceof Rectbngle) ?
+                                    (Rectbngle) cb : cb.getBounds();
                                 comp.setBounds(compAlloc);
                             }
                         }
-                    } finally {
-                        if (doc instanceof AbstractDocument) {
-                            ((AbstractDocument)doc).readUnlock();
+                    } finblly {
+                        if (doc instbnceof AbstrbctDocument) {
+                            ((AbstrbctDocument)doc).rebdUnlock();
                         }
                     }
                 }
@@ -2002,132 +2002,132 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
         }
 
         /**
-         * Find the Shape representing the given view.
+         * Find the Shbpe representing the given view.
          */
-        Shape calculateViewPosition(Shape alloc, View v) {
-            int pos = v.getStartOffset();
+        Shbpe cblculbteViewPosition(Shbpe blloc, View v) {
+            int pos = v.getStbrtOffset();
             View child = null;
-            for (View parent = rootView; (parent != null) && (parent != v); parent = child) {
-                int index = parent.getViewIndex(pos, Position.Bias.Forward);
-                alloc = parent.getChildAllocation(index, alloc);
-                child = parent.getView(index);
+            for (View pbrent = rootView; (pbrent != null) && (pbrent != v); pbrent = child) {
+                int index = pbrent.getViewIndex(pos, Position.Bibs.Forwbrd);
+                blloc = pbrent.getChildAllocbtion(index, blloc);
+                child = pbrent.getView(index);
             }
-            return (child != null) ? alloc : null;
+            return (child != null) ? blloc : null;
         }
 
         /**
-         * Adds the specified component to the layout, using the specified
-         * constraint object.  We only store those components that were added
-         * with a constraint that is of type View.
+         * Adds the specified component to the lbyout, using the specified
+         * constrbint object.  We only store those components thbt were bdded
+         * with b constrbint thbt is of type View.
          *
-         * @param comp the component to be added
-         * @param constraint  where/how the component is added to the layout.
+         * @pbrbm comp the component to be bdded
+         * @pbrbm constrbint  where/how the component is bdded to the lbyout.
          */
-        public void addLayoutComponent(Component comp, Object constraint) {
-            if (constraint instanceof View) {
-                if (constraints == null) {
-                    constraints = new Hashtable<Component, Object>(7);
+        public void bddLbyoutComponent(Component comp, Object constrbint) {
+            if (constrbint instbnceof View) {
+                if (constrbints == null) {
+                    constrbints = new Hbshtbble<Component, Object>(7);
                 }
-                constraints.put(comp, constraint);
+                constrbints.put(comp, constrbint);
             }
         }
 
         /**
-         * Returns the maximum size of this component.
-         * @see java.awt.Component#getMinimumSize()
-         * @see java.awt.Component#getPreferredSize()
-         * @see LayoutManager
+         * Returns the mbximum size of this component.
+         * @see jbvb.bwt.Component#getMinimumSize()
+         * @see jbvb.bwt.Component#getPreferredSize()
+         * @see LbyoutMbnbger
          */
-        public Dimension maximumLayoutSize(Container target) {
-            // should not be called (JComponent uses UI instead)
+        public Dimension mbximumLbyoutSize(Contbiner tbrget) {
+            // should not be cblled (JComponent uses UI instebd)
             return null;
         }
 
         /**
-         * Returns the alignment along the x axis.  This specifies how
-         * the component would like to be aligned relative to other
-         * components.  The value should be a number between 0 and 1
-         * where 0 represents alignment along the origin, 1 is aligned
-         * the furthest away from the origin, 0.5 is centered, etc.
+         * Returns the blignment blong the x bxis.  This specifies how
+         * the component would like to be bligned relbtive to other
+         * components.  The vblue should be b number between 0 bnd 1
+         * where 0 represents blignment blong the origin, 1 is bligned
+         * the furthest bwby from the origin, 0.5 is centered, etc.
          */
-        public float getLayoutAlignmentX(Container target) {
+        public flobt getLbyoutAlignmentX(Contbiner tbrget) {
             return 0.5f;
         }
 
         /**
-         * Returns the alignment along the y axis.  This specifies how
-         * the component would like to be aligned relative to other
-         * components.  The value should be a number between 0 and 1
-         * where 0 represents alignment along the origin, 1 is aligned
-         * the furthest away from the origin, 0.5 is centered, etc.
+         * Returns the blignment blong the y bxis.  This specifies how
+         * the component would like to be bligned relbtive to other
+         * components.  The vblue should be b number between 0 bnd 1
+         * where 0 represents blignment blong the origin, 1 is bligned
+         * the furthest bwby from the origin, 0.5 is centered, etc.
          */
-        public float getLayoutAlignmentY(Container target) {
+        public flobt getLbyoutAlignmentY(Contbiner tbrget) {
             return 0.5f;
         }
 
         /**
-         * Invalidates the layout, indicating that if the layout manager
-         * has cached information it should be discarded.
+         * Invblidbtes the lbyout, indicbting thbt if the lbyout mbnbger
+         * hbs cbched informbtion it should be discbrded.
          */
-        public void invalidateLayout(Container target) {
+        public void invblidbteLbyout(Contbiner tbrget) {
         }
 
         /**
-         * The "layout constraints" for the LayoutManager2 implementation.
-         * These are View objects for those components that are represented
-         * by a View in the View tree.
+         * The "lbyout constrbints" for the LbyoutMbnbger2 implementbtion.
+         * These bre View objects for those components thbt bre represented
+         * by b View in the View tree.
          */
-        private Hashtable<Component, Object> constraints;
+        privbte Hbshtbble<Component, Object> constrbints;
 
-        private boolean i18nView = false;
+        privbte boolebn i18nView = fblse;
     }
 
     /**
-     * Wrapper for text actions to return isEnabled false in case editor is non editable
+     * Wrbpper for text bctions to return isEnbbled fblse in cbse editor is non editbble
      */
-    class TextActionWrapper extends TextAction {
-        public TextActionWrapper(TextAction action) {
-            super((String)action.getValue(Action.NAME));
-            this.action = action;
+    clbss TextActionWrbpper extends TextAction {
+        public TextActionWrbpper(TextAction bction) {
+            super((String)bction.getVblue(Action.NAME));
+            this.bction = bction;
         }
         /**
-         * The operation to perform when this action is triggered.
+         * The operbtion to perform when this bction is triggered.
          *
-         * @param e the action event
+         * @pbrbm e the bction event
          */
-        public void actionPerformed(ActionEvent e) {
-            action.actionPerformed(e);
+        public void bctionPerformed(ActionEvent e) {
+            bction.bctionPerformed(e);
         }
-        public boolean isEnabled() {
-            return (editor == null || editor.isEditable()) ? action.isEnabled() : false;
+        public boolebn isEnbbled() {
+            return (editor == null || editor.isEditbble()) ? bction.isEnbbled() : fblse;
         }
-        TextAction action = null;
+        TextAction bction = null;
     }
 
 
     /**
-     * Registered in the ActionMap.
+     * Registered in the ActionMbp.
      */
-    class FocusAction extends AbstractAction {
+    clbss FocusAction extends AbstrbctAction {
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             editor.requestFocus();
         }
 
-        public boolean isEnabled() {
-            return editor.isEditable();
+        public boolebn isEnbbled() {
+            return editor.isEditbble();
         }
     }
 
-    private static DragListener getDragListener() {
-        synchronized(DragListener.class) {
-            DragListener listener =
-                (DragListener)AppContext.getAppContext().
-                    get(DragListener.class);
+    privbte stbtic DrbgListener getDrbgListener() {
+        synchronized(DrbgListener.clbss) {
+            DrbgListener listener =
+                (DrbgListener)AppContext.getAppContext().
+                    get(DrbgListener.clbss);
 
             if (listener == null) {
-                listener = new DragListener();
-                AppContext.getAppContext().put(DragListener.class, listener);
+                listener = new DrbgListener();
+                AppContext.getAppContext().put(DrbgListener.clbss, listener);
             }
 
             return listener;
@@ -2135,438 +2135,438 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
     }
 
     /**
-     * Listens for mouse events for the purposes of detecting drag gestures.
-     * BasicTextUI will maintain one of these per AppContext.
+     * Listens for mouse events for the purposes of detecting drbg gestures.
+     * BbsicTextUI will mbintbin one of these per AppContext.
      */
-    static class DragListener extends MouseInputAdapter
-                              implements BeforeDrag {
+    stbtic clbss DrbgListener extends MouseInputAdbpter
+                              implements BeforeDrbg {
 
-        private boolean dragStarted;
+        privbte boolebn drbgStbrted;
 
-        public void dragStarting(MouseEvent me) {
-            dragStarted = true;
+        public void drbgStbrting(MouseEvent me) {
+            drbgStbrted = true;
         }
 
         public void mousePressed(MouseEvent e) {
             JTextComponent c = (JTextComponent)e.getSource();
-            if (c.getDragEnabled()) {
-                dragStarted = false;
-                if (isDragPossible(e) && DragRecognitionSupport.mousePressed(e)) {
+            if (c.getDrbgEnbbled()) {
+                drbgStbrted = fblse;
+                if (isDrbgPossible(e) && DrbgRecognitionSupport.mousePressed(e)) {
                     e.consume();
                 }
             }
         }
 
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
             JTextComponent c = (JTextComponent)e.getSource();
-            if (c.getDragEnabled()) {
-                if (dragStarted) {
+            if (c.getDrbgEnbbled()) {
+                if (drbgStbrted) {
                     e.consume();
                 }
 
-                DragRecognitionSupport.mouseReleased(e);
+                DrbgRecognitionSupport.mouseRelebsed(e);
             }
         }
 
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDrbgged(MouseEvent e) {
             JTextComponent c = (JTextComponent)e.getSource();
-            if (c.getDragEnabled()) {
-                if (dragStarted || DragRecognitionSupport.mouseDragged(e, this)) {
+            if (c.getDrbgEnbbled()) {
+                if (drbgStbrted || DrbgRecognitionSupport.mouseDrbgged(e, this)) {
                     e.consume();
                 }
             }
         }
 
         /**
-         * Determines if the following are true:
+         * Determines if the following bre true:
          * <ul>
-         * <li>the component is enabled
-         * <li>the press event is located over a selection
+         * <li>the component is enbbled
+         * <li>the press event is locbted over b selection
          * </ul>
          */
-        protected boolean isDragPossible(MouseEvent e) {
+        protected boolebn isDrbgPossible(MouseEvent e) {
             JTextComponent c = (JTextComponent)e.getSource();
-            if (c.isEnabled()) {
-                Caret caret = c.getCaret();
-                int dot = caret.getDot();
-                int mark = caret.getMark();
-                if (dot != mark) {
+            if (c.isEnbbled()) {
+                Cbret cbret = c.getCbret();
+                int dot = cbret.getDot();
+                int mbrk = cbret.getMbrk();
+                if (dot != mbrk) {
                     Point p = new Point(e.getX(), e.getY());
                     int pos = c.viewToModel(p);
 
-                    int p0 = Math.min(dot, mark);
-                    int p1 = Math.max(dot, mark);
+                    int p0 = Mbth.min(dot, mbrk);
+                    int p1 = Mbth.mbx(dot, mbrk);
                     if ((pos >= p0) && (pos < p1)) {
                         return true;
                     }
                 }
             }
-            return false;
+            return fblse;
         }
     }
 
-    static class TextTransferHandler extends TransferHandler implements UIResource {
+    stbtic clbss TextTrbnsferHbndler extends TrbnsferHbndler implements UIResource {
 
-        private JTextComponent exportComp;
-        private boolean shouldRemove;
-        private int p0;
-        private int p1;
+        privbte JTextComponent exportComp;
+        privbte boolebn shouldRemove;
+        privbte int p0;
+        privbte int p1;
 
         /**
-         * Whether or not this is a drop using
+         * Whether or not this is b drop using
          * <code>DropMode.INSERT</code>.
          */
-        private boolean modeBetween = false;
+        privbte boolebn modeBetween = fblse;
 
         /**
-         * Whether or not this is a drop.
+         * Whether or not this is b drop.
          */
-        private boolean isDrop = false;
+        privbte boolebn isDrop = fblse;
 
         /**
-         * The drop action.
+         * The drop bction.
          */
-        private int dropAction = MOVE;
+        privbte int dropAction = MOVE;
 
         /**
-         * The drop bias.
+         * The drop bibs.
          */
-        private Position.Bias dropBias;
+        privbte Position.Bibs dropBibs;
 
         /**
-         * Try to find a flavor that can be used to import a Transferable.
-         * The set of usable flavors are tried in the following order:
+         * Try to find b flbvor thbt cbn be used to import b Trbnsferbble.
+         * The set of usbble flbvors bre tried in the following order:
          * <ol>
-         *     <li>First, an attempt is made to find a flavor matching the content type
+         *     <li>First, bn bttempt is mbde to find b flbvor mbtching the content type
          *         of the EditorKit for the component.
-         *     <li>Second, an attempt to find a text/plain flavor is made.
-         *     <li>Third, an attempt to find a flavor representing a String reference
-         *         in the same VM is made.
-         *     <li>Lastly, DataFlavor.stringFlavor is searched for.
+         *     <li>Second, bn bttempt to find b text/plbin flbvor is mbde.
+         *     <li>Third, bn bttempt to find b flbvor representing b String reference
+         *         in the sbme VM is mbde.
+         *     <li>Lbstly, DbtbFlbvor.stringFlbvor is sebrched for.
          * </ol>
          */
-        protected DataFlavor getImportFlavor(DataFlavor[] flavors, JTextComponent c) {
-            DataFlavor plainFlavor = null;
-            DataFlavor refFlavor = null;
-            DataFlavor stringFlavor = null;
+        protected DbtbFlbvor getImportFlbvor(DbtbFlbvor[] flbvors, JTextComponent c) {
+            DbtbFlbvor plbinFlbvor = null;
+            DbtbFlbvor refFlbvor = null;
+            DbtbFlbvor stringFlbvor = null;
 
-            if (c instanceof JEditorPane) {
-                for (int i = 0; i < flavors.length; i++) {
-                    String mime = flavors[i].getMimeType();
-                    if (mime.startsWith(((JEditorPane)c).getEditorKit().getContentType())) {
-                        return flavors[i];
-                    } else if (plainFlavor == null && mime.startsWith("text/plain")) {
-                        plainFlavor = flavors[i];
-                    } else if (refFlavor == null && mime.startsWith("application/x-java-jvm-local-objectref")
-                                                 && flavors[i].getRepresentationClass() == java.lang.String.class) {
-                        refFlavor = flavors[i];
-                    } else if (stringFlavor == null && flavors[i].equals(DataFlavor.stringFlavor)) {
-                        stringFlavor = flavors[i];
+            if (c instbnceof JEditorPbne) {
+                for (int i = 0; i < flbvors.length; i++) {
+                    String mime = flbvors[i].getMimeType();
+                    if (mime.stbrtsWith(((JEditorPbne)c).getEditorKit().getContentType())) {
+                        return flbvors[i];
+                    } else if (plbinFlbvor == null && mime.stbrtsWith("text/plbin")) {
+                        plbinFlbvor = flbvors[i];
+                    } else if (refFlbvor == null && mime.stbrtsWith("bpplicbtion/x-jbvb-jvm-locbl-objectref")
+                                                 && flbvors[i].getRepresentbtionClbss() == jbvb.lbng.String.clbss) {
+                        refFlbvor = flbvors[i];
+                    } else if (stringFlbvor == null && flbvors[i].equbls(DbtbFlbvor.stringFlbvor)) {
+                        stringFlbvor = flbvors[i];
                     }
                 }
-                if (plainFlavor != null) {
-                    return plainFlavor;
-                } else if (refFlavor != null) {
-                    return refFlavor;
-                } else if (stringFlavor != null) {
-                    return stringFlavor;
+                if (plbinFlbvor != null) {
+                    return plbinFlbvor;
+                } else if (refFlbvor != null) {
+                    return refFlbvor;
+                } else if (stringFlbvor != null) {
+                    return stringFlbvor;
                 }
                 return null;
             }
 
 
-            for (int i = 0; i < flavors.length; i++) {
-                String mime = flavors[i].getMimeType();
-                if (mime.startsWith("text/plain")) {
-                    return flavors[i];
-                } else if (refFlavor == null && mime.startsWith("application/x-java-jvm-local-objectref")
-                                             && flavors[i].getRepresentationClass() == java.lang.String.class) {
-                    refFlavor = flavors[i];
-                } else if (stringFlavor == null && flavors[i].equals(DataFlavor.stringFlavor)) {
-                    stringFlavor = flavors[i];
+            for (int i = 0; i < flbvors.length; i++) {
+                String mime = flbvors[i].getMimeType();
+                if (mime.stbrtsWith("text/plbin")) {
+                    return flbvors[i];
+                } else if (refFlbvor == null && mime.stbrtsWith("bpplicbtion/x-jbvb-jvm-locbl-objectref")
+                                             && flbvors[i].getRepresentbtionClbss() == jbvb.lbng.String.clbss) {
+                    refFlbvor = flbvors[i];
+                } else if (stringFlbvor == null && flbvors[i].equbls(DbtbFlbvor.stringFlbvor)) {
+                    stringFlbvor = flbvors[i];
                 }
             }
-            if (refFlavor != null) {
-                return refFlavor;
-            } else if (stringFlavor != null) {
-                return stringFlavor;
+            if (refFlbvor != null) {
+                return refFlbvor;
+            } else if (stringFlbvor != null) {
+                return stringFlbvor;
             }
             return null;
         }
 
         /**
-         * Import the given stream data into the text component.
+         * Import the given strebm dbtb into the text component.
          */
-        protected void handleReaderImport(Reader in, JTextComponent c, boolean useRead)
-                                               throws BadLocationException, IOException {
-            if (useRead) {
-                int startPosition = c.getSelectionStart();
+        protected void hbndleRebderImport(Rebder in, JTextComponent c, boolebn useRebd)
+                                               throws BbdLocbtionException, IOException {
+            if (useRebd) {
+                int stbrtPosition = c.getSelectionStbrt();
                 int endPosition = c.getSelectionEnd();
-                int length = endPosition - startPosition;
+                int length = endPosition - stbrtPosition;
                 EditorKit kit = c.getUI().getEditorKit(c);
                 Document doc = c.getDocument();
                 if (length > 0) {
-                    doc.remove(startPosition, length);
+                    doc.remove(stbrtPosition, length);
                 }
-                kit.read(in, doc, startPosition);
+                kit.rebd(in, doc, stbrtPosition);
             } else {
-                char[] buff = new char[1024];
+                chbr[] buff = new chbr[1024];
                 int nch;
-                boolean lastWasCR = false;
-                int last;
+                boolebn lbstWbsCR = fblse;
+                int lbst;
                 StringBuffer sbuff = null;
 
-                // Read in a block at a time, mapping \r\n to \n, as well as single
+                // Rebd in b block bt b time, mbpping \r\n to \n, bs well bs single
                 // \r to \n.
-                while ((nch = in.read(buff, 0, buff.length)) != -1) {
+                while ((nch = in.rebd(buff, 0, buff.length)) != -1) {
                     if (sbuff == null) {
                         sbuff = new StringBuffer(nch);
                     }
-                    last = 0;
+                    lbst = 0;
                     for(int counter = 0; counter < nch; counter++) {
                         switch(buff[counter]) {
-                        case '\r':
-                            if (lastWasCR) {
+                        cbse '\r':
+                            if (lbstWbsCR) {
                                 if (counter == 0) {
-                                    sbuff.append('\n');
+                                    sbuff.bppend('\n');
                                 } else {
                                     buff[counter - 1] = '\n';
                                 }
                             } else {
-                                lastWasCR = true;
+                                lbstWbsCR = true;
                             }
-                            break;
-                        case '\n':
-                            if (lastWasCR) {
-                                if (counter > (last + 1)) {
-                                    sbuff.append(buff, last, counter - last - 1);
+                            brebk;
+                        cbse '\n':
+                            if (lbstWbsCR) {
+                                if (counter > (lbst + 1)) {
+                                    sbuff.bppend(buff, lbst, counter - lbst - 1);
                                 }
-                                // else nothing to do, can skip \r, next write will
+                                // else nothing to do, cbn skip \r, next write will
                                 // write \n
-                                lastWasCR = false;
-                                last = counter;
+                                lbstWbsCR = fblse;
+                                lbst = counter;
                             }
-                            break;
-                        default:
-                            if (lastWasCR) {
+                            brebk;
+                        defbult:
+                            if (lbstWbsCR) {
                                 if (counter == 0) {
-                                    sbuff.append('\n');
+                                    sbuff.bppend('\n');
                                 } else {
                                     buff[counter - 1] = '\n';
                                 }
-                                lastWasCR = false;
+                                lbstWbsCR = fblse;
                             }
-                            break;
+                            brebk;
                         }
                     }
-                    if (last < nch) {
-                        if (lastWasCR) {
-                            if (last < (nch - 1)) {
-                                sbuff.append(buff, last, nch - last - 1);
+                    if (lbst < nch) {
+                        if (lbstWbsCR) {
+                            if (lbst < (nch - 1)) {
+                                sbuff.bppend(buff, lbst, nch - lbst - 1);
                             }
                         } else {
-                            sbuff.append(buff, last, nch - last);
+                            sbuff.bppend(buff, lbst, nch - lbst);
                         }
                     }
                 }
-                if (lastWasCR) {
-                    sbuff.append('\n');
+                if (lbstWbsCR) {
+                    sbuff.bppend('\n');
                 }
-                c.replaceSelection(sbuff != null ? sbuff.toString() : "");
+                c.replbceSelection(sbuff != null ? sbuff.toString() : "");
             }
         }
 
-        // --- TransferHandler methods ------------------------------------
+        // --- TrbnsferHbndler methods ------------------------------------
 
         /**
-         * This is the type of transfer actions supported by the source.  Some models are
-         * not mutable, so a transfer operation of COPY only should
-         * be advertised in that case.
+         * This is the type of trbnsfer bctions supported by the source.  Some models bre
+         * not mutbble, so b trbnsfer operbtion of COPY only should
+         * be bdvertised in thbt cbse.
          *
-         * @param c  The component holding the data to be transfered.  This
-         *  argument is provided to enable sharing of TransferHandlers by
+         * @pbrbm c  The component holding the dbtb to be trbnsfered.  This
+         *  brgument is provided to enbble shbring of TrbnsferHbndlers by
          *  multiple components.
-         * @return  This is implemented to return NONE if the component is a JPasswordField
-         *  since exporting data via user gestures is not allowed.  If the text component is
-         *  editable, COPY_OR_MOVE is returned, otherwise just COPY is allowed.
+         * @return  This is implemented to return NONE if the component is b JPbsswordField
+         *  since exporting dbtb vib user gestures is not bllowed.  If the text component is
+         *  editbble, COPY_OR_MOVE is returned, otherwise just COPY is bllowed.
          */
         public int getSourceActions(JComponent c) {
-            if (c instanceof JPasswordField &&
-                c.getClientProperty("JPasswordField.cutCopyAllowed") !=
-                Boolean.TRUE) {
+            if (c instbnceof JPbsswordField &&
+                c.getClientProperty("JPbsswordField.cutCopyAllowed") !=
+                Boolebn.TRUE) {
                 return NONE;
             }
 
-            return ((JTextComponent)c).isEditable() ? COPY_OR_MOVE : COPY;
+            return ((JTextComponent)c).isEditbble() ? COPY_OR_MOVE : COPY;
         }
 
         /**
-         * Create a Transferable to use as the source for a data transfer.
+         * Crebte b Trbnsferbble to use bs the source for b dbtb trbnsfer.
          *
-         * @param comp  The component holding the data to be transfered.  This
-         *  argument is provided to enable sharing of TransferHandlers by
+         * @pbrbm comp  The component holding the dbtb to be trbnsfered.  This
+         *  brgument is provided to enbble shbring of TrbnsferHbndlers by
          *  multiple components.
-         * @return  The representation of the data to be transfered.
+         * @return  The representbtion of the dbtb to be trbnsfered.
          *
          */
-        protected Transferable createTransferable(JComponent comp) {
+        protected Trbnsferbble crebteTrbnsferbble(JComponent comp) {
             exportComp = (JTextComponent)comp;
             shouldRemove = true;
-            p0 = exportComp.getSelectionStart();
+            p0 = exportComp.getSelectionStbrt();
             p1 = exportComp.getSelectionEnd();
-            return (p0 != p1) ? (new TextTransferable(exportComp, p0, p1)) : null;
+            return (p0 != p1) ? (new TextTrbnsferbble(exportComp, p0, p1)) : null;
         }
 
         /**
-         * This method is called after data has been exported.  This method should remove
-         * the data that was transfered if the action was MOVE.
+         * This method is cblled bfter dbtb hbs been exported.  This method should remove
+         * the dbtb thbt wbs trbnsfered if the bction wbs MOVE.
          *
-         * @param source The component that was the source of the data.
-         * @param data   The data that was transferred or possibly null
-         *               if the action is <code>NONE</code>.
-         * @param action The actual action that was performed.
+         * @pbrbm source The component thbt wbs the source of the dbtb.
+         * @pbrbm dbtb   The dbtb thbt wbs trbnsferred or possibly null
+         *               if the bction is <code>NONE</code>.
+         * @pbrbm bction The bctubl bction thbt wbs performed.
          */
-        protected void exportDone(JComponent source, Transferable data, int action) {
-            // only remove the text if shouldRemove has not been set to
-            // false by importData and only if the action is a move
-            if (shouldRemove && action == MOVE) {
-                TextTransferable t = (TextTransferable)data;
+        protected void exportDone(JComponent source, Trbnsferbble dbtb, int bction) {
+            // only remove the text if shouldRemove hbs not been set to
+            // fblse by importDbtb bnd only if the bction is b move
+            if (shouldRemove && bction == MOVE) {
+                TextTrbnsferbble t = (TextTrbnsferbble)dbtb;
                 t.removeText();
             }
 
             exportComp = null;
         }
 
-        public boolean importData(TransferSupport support) {
+        public boolebn importDbtb(TrbnsferSupport support) {
             isDrop = support.isDrop();
 
             if (isDrop) {
                 modeBetween =
                     ((JTextComponent)support.getComponent()).getDropMode() == DropMode.INSERT;
 
-                dropBias = ((JTextComponent.DropLocation)support.getDropLocation()).getBias();
+                dropBibs = ((JTextComponent.DropLocbtion)support.getDropLocbtion()).getBibs();
 
                 dropAction = support.getDropAction();
             }
 
             try {
-                return super.importData(support);
-            } finally {
-                isDrop = false;
-                modeBetween = false;
-                dropBias = null;
+                return super.importDbtb(support);
+            } finblly {
+                isDrop = fblse;
+                modeBetween = fblse;
+                dropBibs = null;
                 dropAction = MOVE;
             }
         }
 
         /**
-         * This method causes a transfer to a component from a clipboard or a
-         * DND drop operation.  The Transferable represents the data to be
+         * This method cbuses b trbnsfer to b component from b clipbobrd or b
+         * DND drop operbtion.  The Trbnsferbble represents the dbtb to be
          * imported into the component.
          *
-         * @param comp  The component to receive the transfer.  This
-         *  argument is provided to enable sharing of TransferHandlers by
+         * @pbrbm comp  The component to receive the trbnsfer.  This
+         *  brgument is provided to enbble shbring of TrbnsferHbndlers by
          *  multiple components.
-         * @param t     The data to import
-         * @return  true if the data was inserted into the component, false otherwise.
+         * @pbrbm t     The dbtb to import
+         * @return  true if the dbtb wbs inserted into the component, fblse otherwise.
          */
-        public boolean importData(JComponent comp, Transferable t) {
+        public boolebn importDbtb(JComponent comp, Trbnsferbble t) {
             JTextComponent c = (JTextComponent)comp;
 
             int pos = modeBetween
-                      ? c.getDropLocation().getIndex() : c.getCaretPosition();
+                      ? c.getDropLocbtion().getIndex() : c.getCbretPosition();
 
-            // if we are importing to the same component that we exported from
-            // then don't actually do anything if the drop location is inside
-            // the drag location and set shouldRemove to false so that exportDone
-            // knows not to remove any data
+            // if we bre importing to the sbme component thbt we exported from
+            // then don't bctublly do bnything if the drop locbtion is inside
+            // the drbg locbtion bnd set shouldRemove to fblse so thbt exportDone
+            // knows not to remove bny dbtb
             if (dropAction == MOVE && c == exportComp && pos >= p0 && pos <= p1) {
-                shouldRemove = false;
+                shouldRemove = fblse;
                 return true;
             }
 
-            boolean imported = false;
-            DataFlavor importFlavor = getImportFlavor(t.getTransferDataFlavors(), c);
-            if (importFlavor != null) {
+            boolebn imported = fblse;
+            DbtbFlbvor importFlbvor = getImportFlbvor(t.getTrbnsferDbtbFlbvors(), c);
+            if (importFlbvor != null) {
                 try {
-                    boolean useRead = false;
-                    if (comp instanceof JEditorPane) {
-                        JEditorPane ep = (JEditorPane)comp;
-                        if (!ep.getContentType().startsWith("text/plain") &&
-                                importFlavor.getMimeType().startsWith(ep.getContentType())) {
-                            useRead = true;
+                    boolebn useRebd = fblse;
+                    if (comp instbnceof JEditorPbne) {
+                        JEditorPbne ep = (JEditorPbne)comp;
+                        if (!ep.getContentType().stbrtsWith("text/plbin") &&
+                                importFlbvor.getMimeType().stbrtsWith(ep.getContentType())) {
+                            useRebd = true;
                         }
                     }
                     InputContext ic = c.getInputContext();
                     if (ic != null) {
                         ic.endComposition();
                     }
-                    Reader r = importFlavor.getReaderForText(t);
+                    Rebder r = importFlbvor.getRebderForText(t);
 
                     if (modeBetween) {
-                        Caret caret = c.getCaret();
-                        if (caret instanceof DefaultCaret) {
-                            ((DefaultCaret)caret).setDot(pos, dropBias);
+                        Cbret cbret = c.getCbret();
+                        if (cbret instbnceof DefbultCbret) {
+                            ((DefbultCbret)cbret).setDot(pos, dropBibs);
                         } else {
-                            c.setCaretPosition(pos);
+                            c.setCbretPosition(pos);
                         }
                     }
 
-                    handleReaderImport(r, c, useRead);
+                    hbndleRebderImport(r, c, useRebd);
 
                     if (isDrop) {
                         c.requestFocus();
-                        Caret caret = c.getCaret();
-                        if (caret instanceof DefaultCaret) {
-                            int newPos = caret.getDot();
-                            Position.Bias newBias = ((DefaultCaret)caret).getDotBias();
+                        Cbret cbret = c.getCbret();
+                        if (cbret instbnceof DefbultCbret) {
+                            int newPos = cbret.getDot();
+                            Position.Bibs newBibs = ((DefbultCbret)cbret).getDotBibs();
 
-                            ((DefaultCaret)caret).setDot(pos, dropBias);
-                            ((DefaultCaret)caret).moveDot(newPos, newBias);
+                            ((DefbultCbret)cbret).setDot(pos, dropBibs);
+                            ((DefbultCbret)cbret).moveDot(newPos, newBibs);
                         } else {
-                            c.select(pos, c.getCaretPosition());
+                            c.select(pos, c.getCbretPosition());
                         }
                     }
 
                     imported = true;
-                } catch (UnsupportedFlavorException ufe) {
-                } catch (BadLocationException ble) {
-                } catch (IOException ioe) {
+                } cbtch (UnsupportedFlbvorException ufe) {
+                } cbtch (BbdLocbtionException ble) {
+                } cbtch (IOException ioe) {
                 }
             }
             return imported;
         }
 
         /**
-         * This method indicates if a component would accept an import of the given
-         * set of data flavors prior to actually attempting to import it.
+         * This method indicbtes if b component would bccept bn import of the given
+         * set of dbtb flbvors prior to bctublly bttempting to import it.
          *
-         * @param comp  The component to receive the transfer.  This
-         *  argument is provided to enable sharing of TransferHandlers by
+         * @pbrbm comp  The component to receive the trbnsfer.  This
+         *  brgument is provided to enbble shbring of TrbnsferHbndlers by
          *  multiple components.
-         * @param flavors  The data formats available
-         * @return  true if the data can be inserted into the component, false otherwise.
+         * @pbrbm flbvors  The dbtb formbts bvbilbble
+         * @return  true if the dbtb cbn be inserted into the component, fblse otherwise.
          */
-        public boolean canImport(JComponent comp, DataFlavor[] flavors) {
+        public boolebn cbnImport(JComponent comp, DbtbFlbvor[] flbvors) {
             JTextComponent c = (JTextComponent)comp;
-            if (!(c.isEditable() && c.isEnabled())) {
-                return false;
+            if (!(c.isEditbble() && c.isEnbbled())) {
+                return fblse;
             }
-            return (getImportFlavor(flavors, c) != null);
+            return (getImportFlbvor(flbvors, c) != null);
         }
 
         /**
-         * A possible implementation of the Transferable interface
-         * for text components.  For a JEditorPane with a rich set
-         * of EditorKit implementations, conversions could be made
-         * giving a wider set of formats.  This is implemented to
-         * offer up only the active content type and text/plain
-         * (if that is not the active format) since that can be
-         * extracted from other formats.
+         * A possible implementbtion of the Trbnsferbble interfbce
+         * for text components.  For b JEditorPbne with b rich set
+         * of EditorKit implementbtions, conversions could be mbde
+         * giving b wider set of formbts.  This is implemented to
+         * offer up only the bctive content type bnd text/plbin
+         * (if thbt is not the bctive formbt) since thbt cbn be
+         * extrbcted from other formbts.
          */
-        static class TextTransferable extends BasicTransferable {
+        stbtic clbss TextTrbnsferbble extends BbsicTrbnsferbble {
 
-            TextTransferable(JTextComponent c, int start, int end) {
+            TextTrbnsferbble(JTextComponent c, int stbrt, int end) {
                 super(null, null);
 
                 this.c = c;
@@ -2574,31 +2574,31 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
                 Document doc = c.getDocument();
 
                 try {
-                    p0 = doc.createPosition(start);
-                    p1 = doc.createPosition(end);
+                    p0 = doc.crebtePosition(stbrt);
+                    p1 = doc.crebtePosition(end);
 
-                    plainData = c.getSelectedText();
+                    plbinDbtb = c.getSelectedText();
 
-                    if (c instanceof JEditorPane) {
-                        JEditorPane ep = (JEditorPane)c;
+                    if (c instbnceof JEditorPbne) {
+                        JEditorPbne ep = (JEditorPbne)c;
 
                         mimeType = ep.getContentType();
 
-                        if (mimeType.startsWith("text/plain")) {
+                        if (mimeType.stbrtsWith("text/plbin")) {
                             return;
                         }
 
                         StringWriter sw = new StringWriter(p1.getOffset() - p0.getOffset());
                         ep.getEditorKit().write(sw, doc, p0.getOffset(), p1.getOffset() - p0.getOffset());
 
-                        if (mimeType.startsWith("text/html")) {
-                            htmlData = sw.toString();
+                        if (mimeType.stbrtsWith("text/html")) {
+                            htmlDbtb = sw.toString();
                         } else {
                             richText = sw.toString();
                         }
                     }
-                } catch (BadLocationException ble) {
-                } catch (IOException ioe) {
+                } cbtch (BbdLocbtionException ble) {
+                } cbtch (IOException ioe) {
                 }
             }
 
@@ -2607,51 +2607,51 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
                     try {
                         Document doc = c.getDocument();
                         doc.remove(p0.getOffset(), p1.getOffset() - p0.getOffset());
-                    } catch (BadLocationException e) {
+                    } cbtch (BbdLocbtionException e) {
                     }
                 }
             }
 
-            // ---- EditorKit other than plain or HTML text -----------------------
+            // ---- EditorKit other thbn plbin or HTML text -----------------------
 
             /**
-             * If the EditorKit is not for text/plain or text/html, that format
-             * is supported through the "richer flavors" part of BasicTransferable.
+             * If the EditorKit is not for text/plbin or text/html, thbt formbt
+             * is supported through the "richer flbvors" pbrt of BbsicTrbnsferbble.
              */
-            protected DataFlavor[] getRicherFlavors() {
+            protected DbtbFlbvor[] getRicherFlbvors() {
                 if (richText == null) {
                     return null;
                 }
 
                 try {
-                    DataFlavor[] flavors = new DataFlavor[3];
-                    flavors[0] = new DataFlavor(mimeType + ";class=java.lang.String");
-                    flavors[1] = new DataFlavor(mimeType + ";class=java.io.Reader");
-                    flavors[2] = new DataFlavor(mimeType + ";class=java.io.InputStream;charset=unicode");
-                    return flavors;
-                } catch (ClassNotFoundException cle) {
-                    // fall through to unsupported (should not happen)
+                    DbtbFlbvor[] flbvors = new DbtbFlbvor[3];
+                    flbvors[0] = new DbtbFlbvor(mimeType + ";clbss=jbvb.lbng.String");
+                    flbvors[1] = new DbtbFlbvor(mimeType + ";clbss=jbvb.io.Rebder");
+                    flbvors[2] = new DbtbFlbvor(mimeType + ";clbss=jbvb.io.InputStrebm;chbrset=unicode");
+                    return flbvors;
+                } cbtch (ClbssNotFoundException cle) {
+                    // fbll through to unsupported (should not hbppen)
                 }
 
                 return null;
             }
 
             /**
-             * The only richer format supported is the file list flavor
+             * The only richer formbt supported is the file list flbvor
              */
-            protected Object getRicherData(DataFlavor flavor) throws UnsupportedFlavorException {
+            protected Object getRicherDbtb(DbtbFlbvor flbvor) throws UnsupportedFlbvorException {
                 if (richText == null) {
                     return null;
                 }
 
-                if (String.class.equals(flavor.getRepresentationClass())) {
+                if (String.clbss.equbls(flbvor.getRepresentbtionClbss())) {
                     return richText;
-                } else if (Reader.class.equals(flavor.getRepresentationClass())) {
-                    return new StringReader(richText);
-                } else if (InputStream.class.equals(flavor.getRepresentationClass())) {
-                    return new StringBufferInputStream(richText);
+                } else if (Rebder.clbss.equbls(flbvor.getRepresentbtionClbss())) {
+                    return new StringRebder(richText);
+                } else if (InputStrebm.clbss.equbls(flbvor.getRepresentbtionClbss())) {
+                    return new StringBufferInputStrebm(richText);
                 }
-                throw new UnsupportedFlavorException(flavor);
+                throw new UnsupportedFlbvorException(flbvor);
             }
 
             Position p0;

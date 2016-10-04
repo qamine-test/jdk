@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbckbge com.sun.jmx.snmp.IPAcl;
 
 
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.io.Serializable;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
+import jbvb.io.Seriblizbble;
 
 
 /**
- * Principal represents a host.
+ * Principbl represents b host.
  *
  */
 
-class PrincipalImpl implements java.security.Principal, Serializable {
-    private static final long serialVersionUID = -7910027842878976761L;
+clbss PrincipblImpl implements jbvb.security.Principbl, Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = -7910027842878976761L;
 
-    private InetAddress[] add = null;
+    privbte InetAddress[] bdd = null;
 
     /**
-     * Constructs a principal with the local host.
+     * Constructs b principbl with the locbl host.
      */
-    public PrincipalImpl () throws UnknownHostException {
-        add = new InetAddress[1];
-        add[0] = java.net.InetAddress.getLocalHost();
+    public PrincipblImpl () throws UnknownHostException {
+        bdd = new InetAddress[1];
+        bdd[0] = jbvb.net.InetAddress.getLocblHost();
     }
 
     /**
-     * Construct a principal using the specified host.
+     * Construct b principbl using the specified host.
      * <P>
-     * The host can be either:
+     * The host cbn be either:
      * <UL>
-     * <LI> a host name
-     * <LI> an IP address
+     * <LI> b host nbme
+     * <LI> bn IP bddress
      * </UL>
      *
-     * @param hostName the host used to make the principal.
+     * @pbrbm hostNbme the host used to mbke the principbl.
      */
-    public PrincipalImpl(String hostName) throws UnknownHostException {
-        if ((hostName.equals("localhost")) || (hostName.equals("127.0.0.1"))) {
-            add = new InetAddress[1];
-            add[0] = java.net.InetAddress.getByName(hostName);
+    public PrincipblImpl(String hostNbme) throws UnknownHostException {
+        if ((hostNbme.equbls("locblhost")) || (hostNbme.equbls("127.0.0.1"))) {
+            bdd = new InetAddress[1];
+            bdd[0] = jbvb.net.InetAddress.getByNbme(hostNbme);
         }
         else
-            add = java.net.InetAddress.getAllByName( hostName );
+            bdd = jbvb.net.InetAddress.getAllByNbme( hostNbme );
     }
 
     /**
-     * Constructs a principal using an Internet Protocol (IP) address.
+     * Constructs b principbl using bn Internet Protocol (IP) bddress.
      *
-     * @param address the Internet Protocol (IP) address.
+     * @pbrbm bddress the Internet Protocol (IP) bddress.
      */
-    public PrincipalImpl(InetAddress address) {
-        add = new InetAddress[1];
-        add[0] = address;
+    public PrincipblImpl(InetAddress bddress) {
+        bdd = new InetAddress[1];
+        bdd[0] = bddress;
     }
 
     /**
-     * Returns the name of this principal.
+     * Returns the nbme of this principbl.
      *
-     * @return the name of this principal.
+     * @return the nbme of this principbl.
      */
-    public String getName() {
-        return add[0].toString();
+    public String getNbme() {
+        return bdd[0].toString();
     }
 
     /**
-     * Compares this principal to the specified object. Returns true if the
-     * object passed in matches the principal
-     * represented by the implementation of this interface.
+     * Compbres this principbl to the specified object. Returns true if the
+     * object pbssed in mbtches the principbl
+     * represented by the implementbtion of this interfbce.
      *
-     * @param a the principal to compare with.
-     * @return true if the principal passed in is the same as that encapsulated by this principal, false otherwise.
+     * @pbrbm b the principbl to compbre with.
+     * @return true if the principbl pbssed in is the sbme bs thbt encbpsulbted by this principbl, fblse otherwise.
      */
-    public boolean equals(Object a) {
-        if (a instanceof PrincipalImpl){
-            for(int i = 0; i < add.length; i++) {
-                if(add[i].equals (((PrincipalImpl) a).getAddress()))
+    public boolebn equbls(Object b) {
+        if (b instbnceof PrincipblImpl){
+            for(int i = 0; i < bdd.length; i++) {
+                if(bdd[i].equbls (((PrincipblImpl) b).getAddress()))
                     return true;
             }
-            return false;
+            return fblse;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Returns a hashcode for this principal.
+     * Returns b hbshcode for this principbl.
      *
-     * @return a hashcode for this principal.
+     * @return b hbshcode for this principbl.
      */
-    public int hashCode(){
-        return add[0].hashCode();
+    public int hbshCode(){
+        return bdd[0].hbshCode();
     }
 
     /**
-     * Returns a string representation of this principal. In case of multiple address, the first one is returned.
+     * Returns b string representbtion of this principbl. In cbse of multiple bddress, the first one is returned.
      *
-     * @return a string representation of this principal.
+     * @return b string representbtion of this principbl.
      */
     public String toString() {
-        return ("PrincipalImpl :"+add[0].toString());
+        return ("PrincipblImpl :"+bdd[0].toString());
     }
 
     /**
-     * Returns the Internet Protocol (IP) address for this principal. In case of multiple address, the first one is returned.
+     * Returns the Internet Protocol (IP) bddress for this principbl. In cbse of multiple bddress, the first one is returned.
      *
-     * @return the Internet Protocol (IP) address for this principal.
+     * @return the Internet Protocol (IP) bddress for this principbl.
      */
     public InetAddress getAddress(){
-        return add[0];
+        return bdd[0];
     }
 
     /**
-     * Returns the Internet Protocol (IP) address for this principal. In case of multiple address, the first one is returned.
+     * Returns the Internet Protocol (IP) bddress for this principbl. In cbse of multiple bddress, the first one is returned.
      *
-     * @return the array of Internet Protocol (IP) addresses for this principal.
+     * @return the brrby of Internet Protocol (IP) bddresses for this principbl.
      */
     public InetAddress[] getAddresses(){
-        return add;
+        return bdd;
     }
 }

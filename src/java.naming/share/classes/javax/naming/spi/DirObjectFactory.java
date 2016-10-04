@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.spi;
+pbckbge jbvbx.nbming.spi;
 
-import java.util.Hashtable;
-import javax.naming.*;
-import javax.naming.directory.Attributes;
+import jbvb.util.Hbshtbble;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.Attributes;
 
 /**
-  * This interface represents a factory for creating an object given
-  * an object and attributes about the object.
+  * This interfbce represents b fbctory for crebting bn object given
+  * bn object bnd bttributes bbout the object.
   *<p>
-  * The JNDI framework allows for object implementations to
-  * be loaded in dynamically via <em>object factories</em>. See
-  * <tt>ObjectFactory</tt> for details.
+  * The JNDI frbmework bllows for object implementbtions to
+  * be lobded in dynbmicblly vib <em>object fbctories</em>. See
+  * <tt>ObjectFbctory</tt> for detbils.
   * <p>
-  * A <tt>DirObjectFactory</tt> extends <tt>ObjectFactory</tt> by allowing
-  * an <tt>Attributes</tt> instance
-  * to be supplied to the <tt>getObjectInstance()</tt> method.
-  * <tt>DirObjectFactory</tt> implementations are intended to be used by <tt>DirContext</tt>
-  * service providers. The service provider, in addition reading an
-  * object from the directory, might already have attributes that
-  * are useful for the object factory to check to see whether the
-  * factory is supposed to process the object. For instance, an LDAP-style
-  * service provider might have read the "objectclass" of the object.
-  * A CORBA object factory might be interested only in LDAP entries
-  * with "objectclass=corbaObject". By using the attributes supplied by
-  * the LDAP service provider, the CORBA object factory can quickly
-  * eliminate objects that it need not worry about, and non-CORBA object
-  * factories can quickly eliminate CORBA-related LDAP entries.
+  * A <tt>DirObjectFbctory</tt> extends <tt>ObjectFbctory</tt> by bllowing
+  * bn <tt>Attributes</tt> instbnce
+  * to be supplied to the <tt>getObjectInstbnce()</tt> method.
+  * <tt>DirObjectFbctory</tt> implementbtions bre intended to be used by <tt>DirContext</tt>
+  * service providers. The service provider, in bddition rebding bn
+  * object from the directory, might blrebdy hbve bttributes thbt
+  * bre useful for the object fbctory to check to see whether the
+  * fbctory is supposed to process the object. For instbnce, bn LDAP-style
+  * service provider might hbve rebd the "objectclbss" of the object.
+  * A CORBA object fbctory might be interested only in LDAP entries
+  * with "objectclbss=corbbObject". By using the bttributes supplied by
+  * the LDAP service provider, the CORBA object fbctory cbn quickly
+  * eliminbte objects thbt it need not worry bbout, bnd non-CORBA object
+  * fbctories cbn quickly eliminbte CORBA-relbted LDAP entries.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see NamingManager#getObjectInstance
-  * @see DirectoryManager#getObjectInstance
-  * @see ObjectFactory
+  * @see NbmingMbnbger#getObjectInstbnce
+  * @see DirectoryMbnbger#getObjectInstbnce
+  * @see ObjectFbctory
   * @since 1.3
   */
 
-public interface DirObjectFactory extends ObjectFactory {
+public interfbce DirObjectFbctory extends ObjectFbctory {
 /**
- * Creates an object using the location or reference information, and attributes
+ * Crebtes bn object using the locbtion or reference informbtion, bnd bttributes
  * specified.
  * <p>
- * Special requirements of this object are supplied
+ * Specibl requirements of this object bre supplied
  * using <code>environment</code>.
- * An example of such an environment property is user identity
- * information.
+ * An exbmple of such bn environment property is user identity
+ * informbtion.
  *<p>
- * <tt>DirectoryManager.getObjectInstance()</tt>
- * successively loads in object factories. If it encounters a <tt>DirObjectFactory</tt>,
- * it will invoke <tt>DirObjectFactory.getObjectInstance()</tt>;
+ * <tt>DirectoryMbnbger.getObjectInstbnce()</tt>
+ * successively lobds in object fbctories. If it encounters b <tt>DirObjectFbctory</tt>,
+ * it will invoke <tt>DirObjectFbctory.getObjectInstbnce()</tt>;
  * otherwise, it invokes
- * <tt>ObjectFactory.getObjectInstance()</tt>. It does this until a factory
- * produces a non-null answer.
- * <p> When an exception
- * is thrown by an object factory, the exception is passed on to the caller
- * of <tt>DirectoryManager.getObjectInstance()</tt>. The search for other factories
- * that may produce a non-null answer is halted.
- * An object factory should only throw an exception if it is sure that
- * it is the only intended factory and that no other object factories
+ * <tt>ObjectFbctory.getObjectInstbnce()</tt>. It does this until b fbctory
+ * produces b non-null bnswer.
+ * <p> When bn exception
+ * is thrown by bn object fbctory, the exception is pbssed on to the cbller
+ * of <tt>DirectoryMbnbger.getObjectInstbnce()</tt>. The sebrch for other fbctories
+ * thbt mby produce b non-null bnswer is hblted.
+ * An object fbctory should only throw bn exception if it is sure thbt
+ * it is the only intended fbctory bnd thbt no other object fbctories
  * should be tried.
- * If this factory cannot create an object using the arguments supplied,
+ * If this fbctory cbnnot crebte bn object using the brguments supplied,
  * it should return null.
-  *<p>Since <tt>DirObjectFactory</tt> extends <tt>ObjectFactory</tt>, it
+  *<p>Since <tt>DirObjectFbctory</tt> extends <tt>ObjectFbctory</tt>, it
   * effectively
-  * has two <tt>getObjectInstance()</tt> methods, where one differs from the other by
-  * the attributes argument. Given a factory that implements <tt>DirObjectFactory</tt>,
-  * <tt>DirectoryManager.getObjectInstance()</tt> will only
-  * use the method that accepts the attributes argument, while
-  * <tt>NamingManager.getObjectInstance()</tt> will only use the one that does not accept
-  * the attributes argument.
+  * hbs two <tt>getObjectInstbnce()</tt> methods, where one differs from the other by
+  * the bttributes brgument. Given b fbctory thbt implements <tt>DirObjectFbctory</tt>,
+  * <tt>DirectoryMbnbger.getObjectInstbnce()</tt> will only
+  * use the method thbt bccepts the bttributes brgument, while
+  * <tt>NbmingMbnbger.getObjectInstbnce()</tt> will only use the one thbt does not bccept
+  * the bttributes brgument.
  *<p>
- * See <tt>ObjectFactory</tt> for a description URL context factories and other
- * properties of object factories that apply equally to <tt>DirObjectFactory</tt>.
+ * See <tt>ObjectFbctory</tt> for b description URL context fbctories bnd other
+ * properties of object fbctories thbt bpply equblly to <tt>DirObjectFbctory</tt>.
  *<p>
- * The <tt>name</tt>, <tt>attrs</tt>, and <tt>environment</tt> parameters
- * are owned by the caller.
- * The implementation will not modify these objects or keep references
- * to them, although it may keep references to clones or copies.
+ * The <tt>nbme</tt>, <tt>bttrs</tt>, bnd <tt>environment</tt> pbrbmeters
+ * bre owned by the cbller.
+ * The implementbtion will not modify these objects or keep references
+ * to them, blthough it mby keep references to clones or copies.
  *
- * @param obj The possibly null object containing location or reference
- *              information that can be used in creating an object.
- * @param name The name of this object relative to <code>nameCtx</code>,
- *              or null if no name is specified.
- * @param nameCtx The context relative to which the <code>name</code>
- *              parameter is specified, or null if <code>name</code> is
- *              relative to the default initial context.
- * @param environment The possibly null environment that is used in
- *              creating the object.
- * @param attrs The possibly null attributes containing some of <tt>obj</tt>'s
- * attributes. <tt>attrs</tt> might not necessarily have all of <tt>obj</tt>'s
- * attributes. If the object factory requires more attributes, it needs
- * to get it, either using <tt>obj</tt>, or <tt>name</tt> and <tt>nameCtx</tt>.
- *      The factory must not modify attrs.
- * @return The object created; null if an object cannot be created.
- * @exception Exception If this object factory encountered an exception
- * while attempting to create an object, and no other object factories are
+ * @pbrbm obj The possibly null object contbining locbtion or reference
+ *              informbtion thbt cbn be used in crebting bn object.
+ * @pbrbm nbme The nbme of this object relbtive to <code>nbmeCtx</code>,
+ *              or null if no nbme is specified.
+ * @pbrbm nbmeCtx The context relbtive to which the <code>nbme</code>
+ *              pbrbmeter is specified, or null if <code>nbme</code> is
+ *              relbtive to the defbult initibl context.
+ * @pbrbm environment The possibly null environment thbt is used in
+ *              crebting the object.
+ * @pbrbm bttrs The possibly null bttributes contbining some of <tt>obj</tt>'s
+ * bttributes. <tt>bttrs</tt> might not necessbrily hbve bll of <tt>obj</tt>'s
+ * bttributes. If the object fbctory requires more bttributes, it needs
+ * to get it, either using <tt>obj</tt>, or <tt>nbme</tt> bnd <tt>nbmeCtx</tt>.
+ *      The fbctory must not modify bttrs.
+ * @return The object crebted; null if bn object cbnnot be crebted.
+ * @exception Exception If this object fbctory encountered bn exception
+ * while bttempting to crebte bn object, bnd no other object fbctories bre
  * to be tried.
  *
- * @see DirectoryManager#getObjectInstance
- * @see NamingManager#getURLContext
+ * @see DirectoryMbnbger#getObjectInstbnce
+ * @see NbmingMbnbger#getURLContext
  */
-    public Object getObjectInstance(Object obj, Name name, Context nameCtx,
-                                    Hashtable<?,?> environment,
-                                    Attributes attrs)
+    public Object getObjectInstbnce(Object obj, Nbme nbme, Context nbmeCtx,
+                                    Hbshtbble<?,?> environment,
+                                    Attributes bttrs)
         throws Exception;
 }

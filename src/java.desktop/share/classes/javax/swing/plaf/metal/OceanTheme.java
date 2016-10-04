@@ -1,435 +1,435 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import java.awt.*;
-import java.net.URL;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvb.bwt.*;
+import jbvb.net.URL;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 import sun.swing.SwingUtilities2;
 import sun.swing.PrintColorUIResource;
 
 /**
- * The default theme for the {@code MetalLookAndFeel}.
+ * The defbult theme for the {@code MetblLookAndFeel}.
  * <p>
  * The designers
- * of the Metal Look and Feel strive to keep the default look up to
- * date, possibly through the use of new themes in the future.
- * Therefore, developers should only use this class directly when they
- * wish to customize the "Ocean" look, or force it to be the current
- * theme, regardless of future updates.
+ * of the Metbl Look bnd Feel strive to keep the defbult look up to
+ * dbte, possibly through the use of new themes in the future.
+ * Therefore, developers should only use this clbss directly when they
+ * wish to customize the "Ocebn" look, or force it to be the current
+ * theme, regbrdless of future updbtes.
 
  * <p>
- * All colors returned by {@code OceanTheme} are completely
- * opaque.
+ * All colors returned by {@code OcebnTheme} bre completely
+ * opbque.
  *
  * @since 1.5
- * @see MetalLookAndFeel#setCurrentTheme
+ * @see MetblLookAndFeel#setCurrentTheme
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class OceanTheme extends DefaultMetalTheme {
-    private static final ColorUIResource PRIMARY1 =
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss OcebnTheme extends DefbultMetblTheme {
+    privbte stbtic finbl ColorUIResource PRIMARY1 =
                               new ColorUIResource(0x6382BF);
-    private static final ColorUIResource PRIMARY2 =
+    privbte stbtic finbl ColorUIResource PRIMARY2 =
                               new ColorUIResource(0xA3B8CC);
-    private static final ColorUIResource PRIMARY3 =
+    privbte stbtic finbl ColorUIResource PRIMARY3 =
                               new ColorUIResource(0xB8CFE5);
-    private static final ColorUIResource SECONDARY1 =
+    privbte stbtic finbl ColorUIResource SECONDARY1 =
                               new ColorUIResource(0x7A8A99);
-    private static final ColorUIResource SECONDARY2 =
+    privbte stbtic finbl ColorUIResource SECONDARY2 =
                               new ColorUIResource(0xB8CFE5);
-    private static final ColorUIResource SECONDARY3 =
+    privbte stbtic finbl ColorUIResource SECONDARY3 =
                               new ColorUIResource(0xEEEEEE);
 
-    private static final ColorUIResource CONTROL_TEXT_COLOR =
+    privbte stbtic finbl ColorUIResource CONTROL_TEXT_COLOR =
                               new PrintColorUIResource(0x333333, Color.BLACK);
-    private static final ColorUIResource INACTIVE_CONTROL_TEXT_COLOR =
+    privbte stbtic finbl ColorUIResource INACTIVE_CONTROL_TEXT_COLOR =
                               new ColorUIResource(0x999999);
-    private static final ColorUIResource MENU_DISABLED_FOREGROUND =
+    privbte stbtic finbl ColorUIResource MENU_DISABLED_FOREGROUND =
                               new ColorUIResource(0x999999);
-    private static final ColorUIResource OCEAN_BLACK =
+    privbte stbtic finbl ColorUIResource OCEAN_BLACK =
                               new PrintColorUIResource(0x333333, Color.BLACK);
 
-    private static final ColorUIResource OCEAN_DROP =
+    privbte stbtic finbl ColorUIResource OCEAN_DROP =
                               new ColorUIResource(0xD2E9FF);
 
-    // ComponentOrientation Icon
-    // Delegates to different icons based on component orientation
-    private static class COIcon extends IconUIResource {
-        private Icon rtl;
+    // ComponentOrientbtion Icon
+    // Delegbtes to different icons bbsed on component orientbtion
+    privbte stbtic clbss COIcon extends IconUIResource {
+        privbte Icon rtl;
 
         public COIcon(Icon ltr, Icon rtl) {
             super(ltr);
             this.rtl = rtl;
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (MetalUtils.isLeftToRight(c)) {
-                super.paintIcon(c, g, x, y);
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            if (MetblUtils.isLeftToRight(c)) {
+                super.pbintIcon(c, g, x, y);
             } else {
-                rtl.paintIcon(c, g, x, y);
+                rtl.pbintIcon(c, g, x, y);
             }
         }
     }
 
-    // InternalFrame Icon
-    // Delegates to different icons based on button state
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class IFIcon extends IconUIResource {
-        private Icon pressed;
+    // InternblFrbme Icon
+    // Delegbtes to different icons bbsed on button stbte
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte stbtic clbss IFIcon extends IconUIResource {
+        privbte Icon pressed;
 
-        public IFIcon(Icon normal, Icon pressed) {
-            super(normal);
+        public IFIcon(Icon normbl, Icon pressed) {
+            super(normbl);
             this.pressed = pressed;
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            ButtonModel model = ((AbstractButton)c).getModel();
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            ButtonModel model = ((AbstrbctButton)c).getModel();
             if (model.isPressed() && model.isArmed()) {
-                pressed.paintIcon(c, g, x, y);
+                pressed.pbintIcon(c, g, x, y);
             } else {
-                super.paintIcon(c, g, x, y);
+                super.pbintIcon(c, g, x, y);
             }
         }
     }
 
     /**
-     * Creates an instance of <code>OceanTheme</code>
+     * Crebtes bn instbnce of <code>OcebnTheme</code>
      */
-    public OceanTheme() {
+    public OcebnTheme() {
     }
 
     /**
-     * Add this theme's custom entries to the defaults table.
+     * Add this theme's custom entries to the defbults tbble.
      *
-     * @param table the defaults table, non-null
-     * @throws NullPointerException if {@code table} is {@code null}
+     * @pbrbm tbble the defbults tbble, non-null
+     * @throws NullPointerException if {@code tbble} is {@code null}
      */
-    public void addCustomEntriesToTable(UIDefaults table) {
-        UIDefaults.LazyValue focusBorder = t ->
-            new BorderUIResource.LineBorderUIResource(getPrimary1());
-        // .30 0 DDE8F3 white secondary2
-        java.util.List<?> buttonGradient = Arrays.asList(
-                 new Object[] {new Float(.3f), new Float(0f),
-                 new ColorUIResource(0xDDE8F3), getWhite(), getSecondary2() });
+    public void bddCustomEntriesToTbble(UIDefbults tbble) {
+        UIDefbults.LbzyVblue focusBorder = t ->
+            new BorderUIResource.LineBorderUIResource(getPrimbry1());
+        // .30 0 DDE8F3 white secondbry2
+        jbvb.util.List<?> buttonGrbdient = Arrbys.bsList(
+                 new Object[] {new Flobt(.3f), new Flobt(0f),
+                 new ColorUIResource(0xDDE8F3), getWhite(), getSecondbry2() });
 
-        // Other possible properties that aren't defined:
+        // Other possible properties thbt bren't defined:
         //
-        // Used when generating the disabled Icons, provides the region to
-        // constrain grays to.
-        // Button.disabledGrayRange -> Object[] of Integers giving min/max
-        // InternalFrame.inactiveTitleGradient -> Gradient when the
-        //   internal frame is inactive.
+        // Used when generbting the disbbled Icons, provides the region to
+        // constrbin grbys to.
+        // Button.disbbledGrbyRbnge -> Object[] of Integers giving min/mbx
+        // InternblFrbme.inbctiveTitleGrbdient -> Grbdient when the
+        //   internbl frbme is inbctive.
         Color cccccc = new ColorUIResource(0xCCCCCC);
-        Color dadada = new ColorUIResource(0xDADADA);
+        Color dbdbdb = new ColorUIResource(0xDADADA);
         Color c8ddf2 = new ColorUIResource(0xC8DDF2);
-        Object directoryIcon = getIconResource("icons/ocean/directory.gif");
-        Object fileIcon = getIconResource("icons/ocean/file.gif");
-        java.util.List<?> sliderGradient = Arrays.asList(new Object[] {
-            new Float(.3f), new Float(.2f),
+        Object directoryIcon = getIconResource("icons/ocebn/directory.gif");
+        Object fileIcon = getIconResource("icons/ocebn/file.gif");
+        jbvb.util.List<?> sliderGrbdient = Arrbys.bsList(new Object[] {
+            new Flobt(.3f), new Flobt(.2f),
             c8ddf2, getWhite(), new ColorUIResource(SECONDARY2) });
 
-        Object[] defaults = new Object[] {
-            "Button.gradient", buttonGradient,
-            "Button.rollover", Boolean.TRUE,
-            "Button.toolBarBorderBackground", INACTIVE_CONTROL_TEXT_COLOR,
-            "Button.disabledToolBarBorderBackground", cccccc,
-            "Button.rolloverIconType", "ocean",
+        Object[] defbults = new Object[] {
+            "Button.grbdient", buttonGrbdient,
+            "Button.rollover", Boolebn.TRUE,
+            "Button.toolBbrBorderBbckground", INACTIVE_CONTROL_TEXT_COLOR,
+            "Button.disbbledToolBbrBorderBbckground", cccccc,
+            "Button.rolloverIconType", "ocebn",
 
-            "CheckBox.rollover", Boolean.TRUE,
-            "CheckBox.gradient", buttonGradient,
+            "CheckBox.rollover", Boolebn.TRUE,
+            "CheckBox.grbdient", buttonGrbdient,
 
-            "CheckBoxMenuItem.gradient", buttonGradient,
+            "CheckBoxMenuItem.grbdient", buttonGrbdient,
 
             // home2
             "FileChooser.homeFolderIcon",
-                 getIconResource("icons/ocean/homeFolder.gif"),
+                 getIconResource("icons/ocebn/homeFolder.gif"),
             // directory2
             "FileChooser.newFolderIcon",
-                 getIconResource("icons/ocean/newFolder.gif"),
+                 getIconResource("icons/ocebn/newFolder.gif"),
             // updir2
             "FileChooser.upFolderIcon",
-                 getIconResource("icons/ocean/upFolder.gif"),
+                 getIconResource("icons/ocebn/upFolder.gif"),
 
             // computer2
             "FileView.computerIcon",
-                 getIconResource("icons/ocean/computer.gif"),
+                 getIconResource("icons/ocebn/computer.gif"),
             "FileView.directoryIcon", directoryIcon,
             // disk2
-            "FileView.hardDriveIcon",
-                 getIconResource("icons/ocean/hardDrive.gif"),
+            "FileView.hbrdDriveIcon",
+                 getIconResource("icons/ocebn/hbrdDrive.gif"),
             "FileView.fileIcon", fileIcon,
             // floppy2
             "FileView.floppyDriveIcon",
-                 getIconResource("icons/ocean/floppy.gif"),
+                 getIconResource("icons/ocebn/floppy.gif"),
 
-            "Label.disabledForeground", getInactiveControlTextColor(),
+            "Lbbel.disbbledForeground", getInbctiveControlTextColor(),
 
-            "Menu.opaque", Boolean.FALSE,
+            "Menu.opbque", Boolebn.FALSE,
 
-            "MenuBar.gradient", Arrays.asList(new Object[] {
-                     new Float(1f), new Float(0f),
-                     getWhite(), dadada,
-                     new ColorUIResource(dadada) }),
-            "MenuBar.borderColor", cccccc,
+            "MenuBbr.grbdient", Arrbys.bsList(new Object[] {
+                     new Flobt(1f), new Flobt(0f),
+                     getWhite(), dbdbdb,
+                     new ColorUIResource(dbdbdb) }),
+            "MenuBbr.borderColor", cccccc,
 
-            "InternalFrame.activeTitleGradient", buttonGradient,
+            "InternblFrbme.bctiveTitleGrbdient", buttonGrbdient,
             // close2
-            "InternalFrame.closeIcon",
-                     new UIDefaults.LazyValue() {
-                         public Object createValue(UIDefaults table) {
-                             return new IFIcon(getHastenedIcon("icons/ocean/close.gif", table),
-                                               getHastenedIcon("icons/ocean/close-pressed.gif", table));
+            "InternblFrbme.closeIcon",
+                     new UIDefbults.LbzyVblue() {
+                         public Object crebteVblue(UIDefbults tbble) {
+                             return new IFIcon(getHbstenedIcon("icons/ocebn/close.gif", tbble),
+                                               getHbstenedIcon("icons/ocebn/close-pressed.gif", tbble));
                          }
                      },
             // minimize
-            "InternalFrame.iconifyIcon",
-                     new UIDefaults.LazyValue() {
-                         public Object createValue(UIDefaults table) {
-                             return new IFIcon(getHastenedIcon("icons/ocean/iconify.gif", table),
-                                               getHastenedIcon("icons/ocean/iconify-pressed.gif", table));
+            "InternblFrbme.iconifyIcon",
+                     new UIDefbults.LbzyVblue() {
+                         public Object crebteVblue(UIDefbults tbble) {
+                             return new IFIcon(getHbstenedIcon("icons/ocebn/iconify.gif", tbble),
+                                               getHbstenedIcon("icons/ocebn/iconify-pressed.gif", tbble));
                          }
                      },
             // restore
-            "InternalFrame.minimizeIcon",
-                     new UIDefaults.LazyValue() {
-                         public Object createValue(UIDefaults table) {
-                             return new IFIcon(getHastenedIcon("icons/ocean/minimize.gif", table),
-                                               getHastenedIcon("icons/ocean/minimize-pressed.gif", table));
+            "InternblFrbme.minimizeIcon",
+                     new UIDefbults.LbzyVblue() {
+                         public Object crebteVblue(UIDefbults tbble) {
+                             return new IFIcon(getHbstenedIcon("icons/ocebn/minimize.gif", tbble),
+                                               getHbstenedIcon("icons/ocebn/minimize-pressed.gif", tbble));
                          }
                      },
             // menubutton3
-            "InternalFrame.icon",
-                     getIconResource("icons/ocean/menu.gif"),
-            // maximize2
-            "InternalFrame.maximizeIcon",
-                     new UIDefaults.LazyValue() {
-                         public Object createValue(UIDefaults table) {
-                             return new IFIcon(getHastenedIcon("icons/ocean/maximize.gif", table),
-                                               getHastenedIcon("icons/ocean/maximize-pressed.gif", table));
+            "InternblFrbme.icon",
+                     getIconResource("icons/ocebn/menu.gif"),
+            // mbximize2
+            "InternblFrbme.mbximizeIcon",
+                     new UIDefbults.LbzyVblue() {
+                         public Object crebteVblue(UIDefbults tbble) {
+                             return new IFIcon(getHbstenedIcon("icons/ocebn/mbximize.gif", tbble),
+                                               getHbstenedIcon("icons/ocebn/mbximize-pressed.gif", tbble));
                          }
                      },
-            // paletteclose
-            "InternalFrame.paletteCloseIcon",
-                     new UIDefaults.LazyValue() {
-                         public Object createValue(UIDefaults table) {
-                             return new IFIcon(getHastenedIcon("icons/ocean/paletteClose.gif", table),
-                                               getHastenedIcon("icons/ocean/paletteClose-pressed.gif", table));
+            // pbletteclose
+            "InternblFrbme.pbletteCloseIcon",
+                     new UIDefbults.LbzyVblue() {
+                         public Object crebteVblue(UIDefbults tbble) {
+                             return new IFIcon(getHbstenedIcon("icons/ocebn/pbletteClose.gif", tbble),
+                                               getHbstenedIcon("icons/ocebn/pbletteClose-pressed.gif", tbble));
                          }
                      },
 
             "List.focusCellHighlightBorder", focusBorder,
 
-            "MenuBarUI", "javax.swing.plaf.metal.MetalMenuBarUI",
+            "MenuBbrUI", "jbvbx.swing.plbf.metbl.MetblMenuBbrUI",
 
-            "OptionPane.errorIcon",
-                   getIconResource("icons/ocean/error.png"),
-            "OptionPane.informationIcon",
-                   getIconResource("icons/ocean/info.png"),
-            "OptionPane.questionIcon",
-                   getIconResource("icons/ocean/question.png"),
-            "OptionPane.warningIcon",
-                   getIconResource("icons/ocean/warning.png"),
+            "OptionPbne.errorIcon",
+                   getIconResource("icons/ocebn/error.png"),
+            "OptionPbne.informbtionIcon",
+                   getIconResource("icons/ocebn/info.png"),
+            "OptionPbne.questionIcon",
+                   getIconResource("icons/ocebn/question.png"),
+            "OptionPbne.wbrningIcon",
+                   getIconResource("icons/ocebn/wbrning.png"),
 
-            "RadioButton.gradient", buttonGradient,
-            "RadioButton.rollover", Boolean.TRUE,
+            "RbdioButton.grbdient", buttonGrbdient,
+            "RbdioButton.rollover", Boolebn.TRUE,
 
-            "RadioButtonMenuItem.gradient", buttonGradient,
+            "RbdioButtonMenuItem.grbdient", buttonGrbdient,
 
-            "ScrollBar.gradient", buttonGradient,
+            "ScrollBbr.grbdient", buttonGrbdient,
 
-            "Slider.altTrackColor", new ColorUIResource(0xD2E2EF),
-            "Slider.gradient", sliderGradient,
-            "Slider.focusGradient", sliderGradient,
+            "Slider.bltTrbckColor", new ColorUIResource(0xD2E2EF),
+            "Slider.grbdient", sliderGrbdient,
+            "Slider.focusGrbdient", sliderGrbdient,
 
-            "SplitPane.oneTouchButtonsOpaque", Boolean.FALSE,
-            "SplitPane.dividerFocusColor", c8ddf2,
+            "SplitPbne.oneTouchButtonsOpbque", Boolebn.FALSE,
+            "SplitPbne.dividerFocusColor", c8ddf2,
 
-            "TabbedPane.borderHightlightColor", getPrimary1(),
-            "TabbedPane.contentAreaColor", c8ddf2,
-            "TabbedPane.contentBorderInsets", new Insets(4, 2, 3, 3),
-            "TabbedPane.selected", c8ddf2,
-            "TabbedPane.tabAreaBackground", dadada,
-            "TabbedPane.tabAreaInsets", new Insets(2, 2, 0, 6),
-            "TabbedPane.unselectedBackground", SECONDARY3,
+            "TbbbedPbne.borderHightlightColor", getPrimbry1(),
+            "TbbbedPbne.contentArebColor", c8ddf2,
+            "TbbbedPbne.contentBorderInsets", new Insets(4, 2, 3, 3),
+            "TbbbedPbne.selected", c8ddf2,
+            "TbbbedPbne.tbbArebBbckground", dbdbdb,
+            "TbbbedPbne.tbbArebInsets", new Insets(2, 2, 0, 6),
+            "TbbbedPbne.unselectedBbckground", SECONDARY3,
 
-            "Table.focusCellHighlightBorder", focusBorder,
-            "Table.gridColor", SECONDARY1,
-            "TableHeader.focusCellBackground", c8ddf2,
+            "Tbble.focusCellHighlightBorder", focusBorder,
+            "Tbble.gridColor", SECONDARY1,
+            "TbbleHebder.focusCellBbckground", c8ddf2,
 
-            "ToggleButton.gradient", buttonGradient,
+            "ToggleButton.grbdient", buttonGrbdient,
 
-            "ToolBar.borderColor", cccccc,
-            "ToolBar.isRollover", Boolean.TRUE,
+            "ToolBbr.borderColor", cccccc,
+            "ToolBbr.isRollover", Boolebn.TRUE,
 
             "Tree.closedIcon", directoryIcon,
 
-            "Tree.collapsedIcon",
-                  new UIDefaults.LazyValue() {
-                      public Object createValue(UIDefaults table) {
-                          return new COIcon(getHastenedIcon("icons/ocean/collapsed.gif", table),
-                                            getHastenedIcon("icons/ocean/collapsed-rtl.gif", table));
+            "Tree.collbpsedIcon",
+                  new UIDefbults.LbzyVblue() {
+                      public Object crebteVblue(UIDefbults tbble) {
+                          return new COIcon(getHbstenedIcon("icons/ocebn/collbpsed.gif", tbble),
+                                            getHbstenedIcon("icons/ocebn/collbpsed-rtl.gif", tbble));
                       }
                   },
 
-            "Tree.expandedIcon",
-                  getIconResource("icons/ocean/expanded.gif"),
-            "Tree.leafIcon", fileIcon,
+            "Tree.expbndedIcon",
+                  getIconResource("icons/ocebn/expbnded.gif"),
+            "Tree.lebfIcon", fileIcon,
             "Tree.openIcon", directoryIcon,
-            "Tree.selectionBorderColor", getPrimary1(),
-            "Tree.dropLineColor", getPrimary1(),
-            "Table.dropLineColor", getPrimary1(),
-            "Table.dropLineShortColor", OCEAN_BLACK,
+            "Tree.selectionBorderColor", getPrimbry1(),
+            "Tree.dropLineColor", getPrimbry1(),
+            "Tbble.dropLineColor", getPrimbry1(),
+            "Tbble.dropLineShortColor", OCEAN_BLACK,
 
-            "Table.dropCellBackground", OCEAN_DROP,
-            "Tree.dropCellBackground", OCEAN_DROP,
-            "List.dropCellBackground", OCEAN_DROP,
-            "List.dropLineColor", getPrimary1()
+            "Tbble.dropCellBbckground", OCEAN_DROP,
+            "Tree.dropCellBbckground", OCEAN_DROP,
+            "List.dropCellBbckground", OCEAN_DROP,
+            "List.dropLineColor", getPrimbry1()
         };
-        table.putDefaults(defaults);
+        tbble.putDefbults(defbults);
     }
 
     /**
-     * Overriden to enable picking up the system fonts, if applicable.
+     * Overriden to enbble picking up the system fonts, if bpplicbble.
      */
-    boolean isSystemTheme() {
+    boolebn isSystemTheme() {
         return true;
     }
 
     /**
-     * Return the name of this theme, "Ocean".
+     * Return the nbme of this theme, "Ocebn".
      *
-     * @return "Ocean"
+     * @return "Ocebn"
      */
-    public String getName() {
-        return "Ocean";
+    public String getNbme() {
+        return "Ocebn";
     }
 
     /**
-     * Returns the primary 1 color. This returns a color with an rgb hex value
+     * Returns the primbry 1 color. This returns b color with bn rgb hex vblue
      * of {@code 0x6382BF}.
      *
-     * @return the primary 1 color
-     * @see java.awt.Color#decode
+     * @return the primbry 1 color
+     * @see jbvb.bwt.Color#decode
      */
-    protected ColorUIResource getPrimary1() {
+    protected ColorUIResource getPrimbry1() {
         return PRIMARY1;
     }
 
     /**
-     * Returns the primary 2 color. This returns a color with an rgb hex value
+     * Returns the primbry 2 color. This returns b color with bn rgb hex vblue
      * of {@code 0xA3B8CC}.
      *
-     * @return the primary 2 color
-     * @see java.awt.Color#decode
+     * @return the primbry 2 color
+     * @see jbvb.bwt.Color#decode
      */
-    protected ColorUIResource getPrimary2() {
+    protected ColorUIResource getPrimbry2() {
         return PRIMARY2;
     }
 
     /**
-     * Returns the primary 3 color. This returns a color with an rgb hex value
+     * Returns the primbry 3 color. This returns b color with bn rgb hex vblue
      * of {@code 0xB8CFE5}.
      *
-     * @return the primary 3 color
-     * @see java.awt.Color#decode
+     * @return the primbry 3 color
+     * @see jbvb.bwt.Color#decode
      */
-    protected ColorUIResource getPrimary3() {
+    protected ColorUIResource getPrimbry3() {
         return PRIMARY3;
     }
 
     /**
-     * Returns the secondary 1 color. This returns a color with an rgb hex
-     * value of {@code 0x7A8A99}.
+     * Returns the secondbry 1 color. This returns b color with bn rgb hex
+     * vblue of {@code 0x7A8A99}.
      *
-     * @return the secondary 1 color
-     * @see java.awt.Color#decode
+     * @return the secondbry 1 color
+     * @see jbvb.bwt.Color#decode
      */
-    protected ColorUIResource getSecondary1() {
+    protected ColorUIResource getSecondbry1() {
         return SECONDARY1;
     }
 
     /**
-     * Returns the secondary 2 color. This returns a color with an rgb hex
-     * value of {@code 0xB8CFE5}.
+     * Returns the secondbry 2 color. This returns b color with bn rgb hex
+     * vblue of {@code 0xB8CFE5}.
      *
-     * @return the secondary 2 color
-     * @see java.awt.Color#decode
+     * @return the secondbry 2 color
+     * @see jbvb.bwt.Color#decode
      */
-    protected ColorUIResource getSecondary2() {
+    protected ColorUIResource getSecondbry2() {
         return SECONDARY2;
     }
 
     /**
-     * Returns the secondary 3 color. This returns a color with an rgb hex
-     * value of {@code 0xEEEEEE}.
+     * Returns the secondbry 3 color. This returns b color with bn rgb hex
+     * vblue of {@code 0xEEEEEE}.
      *
-     * @return the secondary 3 color
-     * @see java.awt.Color#decode
+     * @return the secondbry 3 color
+     * @see jbvb.bwt.Color#decode
      */
-    protected ColorUIResource getSecondary3() {
+    protected ColorUIResource getSecondbry3() {
         return SECONDARY3;
     }
 
     /**
-     * Returns the black color. This returns a color with an rgb hex
-     * value of {@code 0x333333}.
+     * Returns the blbck color. This returns b color with bn rgb hex
+     * vblue of {@code 0x333333}.
      *
-     * @return the black color
-     * @see java.awt.Color#decode
+     * @return the blbck color
+     * @see jbvb.bwt.Color#decode
      */
-    protected ColorUIResource getBlack() {
+    protected ColorUIResource getBlbck() {
         return OCEAN_BLACK;
     }
 
     /**
-     * Returns the desktop color. This returns a color with an rgb hex
-     * value of {@code 0xFFFFFF}.
+     * Returns the desktop color. This returns b color with bn rgb hex
+     * vblue of {@code 0xFFFFFF}.
      *
      * @return the desktop color
-     * @see java.awt.Color#decode
+     * @see jbvb.bwt.Color#decode
      */
     public ColorUIResource getDesktopColor() {
-        return MetalTheme.white;
+        return MetblTheme.white;
     }
 
     /**
-     * Returns the inactive control text color. This returns a color with an
-     * rgb hex value of {@code 0x999999}.
+     * Returns the inbctive control text color. This returns b color with bn
+     * rgb hex vblue of {@code 0x999999}.
      *
-     * @return the inactive control text color
+     * @return the inbctive control text color
      */
-    public ColorUIResource getInactiveControlTextColor() {
+    public ColorUIResource getInbctiveControlTextColor() {
         return INACTIVE_CONTROL_TEXT_COLOR;
     }
 
     /**
-     * Returns the control text color. This returns a color with an
-     * rgb hex value of {@code 0x333333}.
+     * Returns the control text color. This returns b color with bn
+     * rgb hex vblue of {@code 0x333333}.
      *
      * @return the control text color
      */
@@ -438,23 +438,23 @@ public class OceanTheme extends DefaultMetalTheme {
     }
 
     /**
-     * Returns the menu disabled foreground color. This returns a color with an
-     * rgb hex value of {@code 0x999999}.
+     * Returns the menu disbbled foreground color. This returns b color with bn
+     * rgb hex vblue of {@code 0x999999}.
      *
-     * @return the menu disabled foreground color
+     * @return the menu disbbled foreground color
      */
-    public ColorUIResource getMenuDisabledForeground() {
+    public ColorUIResource getMenuDisbbledForeground() {
         return MENU_DISABLED_FOREGROUND;
     }
 
-    private Object getIconResource(String iconID) {
-        return SwingUtilities2.makeIcon(getClass(), OceanTheme.class, iconID);
+    privbte Object getIconResource(String iconID) {
+        return SwingUtilities2.mbkeIcon(getClbss(), OcebnTheme.clbss, iconID);
     }
 
-    // makes use of getIconResource() to fetch an icon and then hastens it
-    // - calls createValue() on it and returns the actual icon
-    private Icon getHastenedIcon(String iconID, UIDefaults table) {
+    // mbkes use of getIconResource() to fetch bn icon bnd then hbstens it
+    // - cblls crebteVblue() on it bnd returns the bctubl icon
+    privbte Icon getHbstenedIcon(String iconID, UIDefbults tbble) {
         Object res = getIconResource(iconID);
-        return (Icon)((UIDefaults.LazyValue)res).createValue(table);
+        return (Icon)((UIDefbults.LbzyVblue)res).crebteVblue(tbble);
     }
 }

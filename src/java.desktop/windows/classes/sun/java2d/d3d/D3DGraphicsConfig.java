@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.d3d;
+pbckbge sun.jbvb2d.d3d;
 
-import java.awt.AWTException;
-import java.awt.BufferCapabilities;
-import java.awt.BufferCapabilities.FlipContents;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.ImageCapabilities;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DirectColorModel;
-import java.awt.image.VolatileImage;
-import sun.awt.Win32GraphicsConfig;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.SurfaceManager;
-import sun.awt.windows.WComponentPeer;
-import sun.java2d.Surface;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.hw.AccelDeviceEventNotifier;
-import sun.java2d.pipe.hw.AccelTypedVolatileImage;
-import sun.java2d.pipe.hw.AccelGraphicsConfig;
-import sun.java2d.pipe.hw.AccelSurface;
-import sun.java2d.pipe.hw.ContextCapabilities;
-import static sun.java2d.pipe.hw.AccelSurface.*;
-import static sun.java2d.d3d.D3DContext.D3DContextCaps.*;
-import sun.java2d.pipe.hw.AccelDeviceEventListener;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.BufferCbpbbilities;
+import jbvb.bwt.BufferCbpbbilities.FlipContents;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.ImbgeCbpbbilities;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.VolbtileImbge;
+import sun.bwt.Win32GrbphicsConfig;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.SurfbceMbnbger;
+import sun.bwt.windows.WComponentPeer;
+import sun.jbvb2d.Surfbce;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.pipe.hw.AccelDeviceEventNotifier;
+import sun.jbvb2d.pipe.hw.AccelTypedVolbtileImbge;
+import sun.jbvb2d.pipe.hw.AccelGrbphicsConfig;
+import sun.jbvb2d.pipe.hw.AccelSurfbce;
+import sun.jbvb2d.pipe.hw.ContextCbpbbilities;
+import stbtic sun.jbvb2d.pipe.hw.AccelSurfbce.*;
+import stbtic sun.jbvb2d.d3d.D3DContext.D3DContextCbps.*;
+import sun.jbvb2d.pipe.hw.AccelDeviceEventListener;
 
-public class D3DGraphicsConfig
-    extends Win32GraphicsConfig
-    implements AccelGraphicsConfig
+public clbss D3DGrbphicsConfig
+    extends Win32GrbphicsConfig
+    implements AccelGrbphicsConfig
 {
-    private static ImageCapabilities imageCaps = new D3DImageCaps();
+    privbte stbtic ImbgeCbpbbilities imbgeCbps = new D3DImbgeCbps();
 
-    private BufferCapabilities bufferCaps;
-    private D3DGraphicsDevice device;
+    privbte BufferCbpbbilities bufferCbps;
+    privbte D3DGrbphicsDevice device;
 
-    protected D3DGraphicsConfig(D3DGraphicsDevice device) {
+    protected D3DGrbphicsConfig(D3DGrbphicsDevice device) {
         super(device, 0);
         this.device = device;
     }
 
-    public SurfaceData createManagedSurface(int w, int h, int transparency) {
-        return D3DSurfaceData.createData(this, w, h,
-                                         getColorModel(transparency),
+    public SurfbceDbtb crebteMbnbgedSurfbce(int w, int h, int trbnspbrency) {
+        return D3DSurfbceDbtb.crebteDbtb(this, w, h,
+                                         getColorModel(trbnspbrency),
                                          null,
-                                         D3DSurfaceData.TEXTURE);
+                                         D3DSurfbceDbtb.TEXTURE);
     }
 
     @Override
-    public synchronized void displayChanged() {
-        super.displayChanged();
-        // the context could hold a reference to a D3DSurfaceData, which in
-        // turn has a reference back to this D3DGraphicsConfig, so in order
-        // for this instance to be disposed we need to break the connection
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+    public synchronized void displbyChbnged() {
+        super.displbyChbnged();
+        // the context could hold b reference to b D3DSurfbceDbtb, which in
+        // turn hbs b reference bbck to this D3DGrbphicsConfig, so in order
+        // for this instbnce to be disposed we need to brebk the connection
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            D3DContext.invalidateCurrentContext();
-        } finally {
+            D3DContext.invblidbteCurrentContext();
+        } finblly {
             rq.unlock();
         }
     }
 
     @Override
-    public ColorModel getColorModel(int transparency) {
-        switch (transparency) {
-        case Transparency.OPAQUE:
-            // REMIND: once the ColorModel spec is changed, this should be
-            //         an opaque premultiplied DCM...
+    public ColorModel getColorModel(int trbnspbrency) {
+        switch (trbnspbrency) {
+        cbse Trbnspbrency.OPAQUE:
+            // REMIND: once the ColorModel spec is chbnged, this should be
+            //         bn opbque premultiplied DCM...
             return new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-        case Transparency.BITMASK:
+        cbse Trbnspbrency.BITMASK:
             return new DirectColorModel(25, 0xff0000, 0xff00, 0xff, 0x1000000);
-        case Transparency.TRANSLUCENT:
-            ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+        cbse Trbnspbrency.TRANSLUCENT:
+            ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
             return new DirectColorModel(cs, 32,
                                         0xff0000, 0xff00, 0xff, 0xff000000,
-                                        true, DataBuffer.TYPE_INT);
-        default:
+                                        true, DbtbBuffer.TYPE_INT);
+        defbult:
             return null;
         }
     }
 
     @Override
     public String toString() {
-        return ("D3DGraphicsConfig[dev="+screen+",pixfmt="+visual+"]");
+        return ("D3DGrbphicsConfig[dev="+screen+",pixfmt="+visubl+"]");
     }
 
     /**
-     * The following methods are invoked from WComponentPeer.java rather
-     * than having the Win32-dependent implementations hardcoded in that
-     * class.  This way the appropriate actions are taken based on the peer's
-     * GraphicsConfig, whether it is a Win32GraphicsConfig or a
-     * D3DGraphicsConfig.
+     * The following methods bre invoked from WComponentPeer.jbvb rbther
+     * thbn hbving the Win32-dependent implementbtions hbrdcoded in thbt
+     * clbss.  This wby the bppropribte bctions bre tbken bbsed on the peer's
+     * GrbphicsConfig, whether it is b Win32GrbphicsConfig or b
+     * D3DGrbphicsConfig.
      */
 
     /**
-     * Creates a new SurfaceData that will be associated with the given
-     * WComponentPeer. D3D9 doesn't allow rendering to the screen,
-     * so a GDI surface will be returned.
+     * Crebtes b new SurfbceDbtb thbt will be bssocibted with the given
+     * WComponentPeer. D3D9 doesn't bllow rendering to the screen,
+     * so b GDI surfbce will be returned.
      */
     @Override
-    public SurfaceData createSurfaceData(WComponentPeer peer,
-                                         int numBackBuffers)
+    public SurfbceDbtb crebteSurfbceDbtb(WComponentPeer peer,
+                                         int numBbckBuffers)
     {
-        return super.createSurfaceData(peer, numBackBuffers);
+        return super.crebteSurfbceDbtb(peer, numBbckBuffers);
     }
 
     /**
      * The following methods correspond to the multibuffering methods in
-     * WComponentPeer.java...
+     * WComponentPeer.jbvb...
      */
 
     /**
-     * Checks that the requested configuration is natively supported; if not,
-     * an AWTException is thrown.
+     * Checks thbt the requested configurbtion is nbtively supported; if not,
+     * bn AWTException is thrown.
      */
     @Override
-    public void assertOperationSupported(Component target,
+    public void bssertOperbtionSupported(Component tbrget,
                                          int numBuffers,
-                                         BufferCapabilities caps)
+                                         BufferCbpbbilities cbps)
         throws AWTException
     {
         if (numBuffers < 2 || numBuffers > 4) {
             throw new AWTException("Only 2-4 buffers supported");
         }
-        if (caps.getFlipContents() == BufferCapabilities.FlipContents.COPIED &&
+        if (cbps.getFlipContents() == BufferCbpbbilities.FlipContents.COPIED &&
             numBuffers != 2)
         {
             throw new AWTException("FlipContents.COPIED is only" +
@@ -159,106 +159,106 @@ public class D3DGraphicsConfig
     }
 
     /**
-     * Creates a D3D-based backbuffer for the given peer and returns the
-     * image wrapper.
+     * Crebtes b D3D-bbsed bbckbuffer for the given peer bnd returns the
+     * imbge wrbpper.
      */
     @Override
-    public VolatileImage createBackBuffer(WComponentPeer peer) {
-        Component target = (Component)peer.getTarget();
-        // it is possible for the component to have size 0x0, adjust it to
-        // be at least 1x1 to avoid IAE
-        int w = Math.max(1, target.getWidth());
-        int h = Math.max(1, target.getHeight());
-        return new SunVolatileImage(target, w, h, Boolean.TRUE);
+    public VolbtileImbge crebteBbckBuffer(WComponentPeer peer) {
+        Component tbrget = (Component)peer.getTbrget();
+        // it is possible for the component to hbve size 0x0, bdjust it to
+        // be bt lebst 1x1 to bvoid IAE
+        int w = Mbth.mbx(1, tbrget.getWidth());
+        int h = Mbth.mbx(1, tbrget.getHeight());
+        return new SunVolbtileImbge(tbrget, w, h, Boolebn.TRUE);
     }
 
     /**
-     * Performs the native D3D flip operation for the given target Component.
+     * Performs the nbtive D3D flip operbtion for the given tbrget Component.
      */
     @Override
     public void flip(WComponentPeer peer,
-                     Component target, VolatileImage backBuffer,
+                     Component tbrget, VolbtileImbge bbckBuffer,
                      int x1, int y1, int x2, int y2,
-                     BufferCapabilities.FlipContents flipAction)
+                     BufferCbpbbilities.FlipContents flipAction)
     {
-        // REMIND: we should actually get a surface data for the
-        // backBuffer's VI
-        SurfaceManager d3dvsm =
-            SurfaceManager.getManager(backBuffer);
-        SurfaceData sd = d3dvsm.getPrimarySurfaceData();
-        if (sd instanceof D3DSurfaceData) {
-            D3DSurfaceData d3dsd = (D3DSurfaceData)sd;
-            D3DSurfaceData.swapBuffers(d3dsd, x1, y1, x2, y2);
+        // REMIND: we should bctublly get b surfbce dbtb for the
+        // bbckBuffer's VI
+        SurfbceMbnbger d3dvsm =
+            SurfbceMbnbger.getMbnbger(bbckBuffer);
+        SurfbceDbtb sd = d3dvsm.getPrimbrySurfbceDbtb();
+        if (sd instbnceof D3DSurfbceDbtb) {
+            D3DSurfbceDbtb d3dsd = (D3DSurfbceDbtb)sd;
+            D3DSurfbceDbtb.swbpBuffers(d3dsd, x1, y1, x2, y2);
         } else {
-            // the surface was likely lost could not have been restored
-            Graphics g = peer.getGraphics();
+            // the surfbce wbs likely lost could not hbve been restored
+            Grbphics g = peer.getGrbphics();
             try {
-                g.drawImage(backBuffer,
+                g.drbwImbge(bbckBuffer,
                             x1, y1, x2, y2,
                             x1, y1, x2, y2,
                             null);
-            } finally {
+            } finblly {
                 g.dispose();
             }
         }
 
-        if (flipAction == BufferCapabilities.FlipContents.BACKGROUND) {
-            Graphics g = backBuffer.getGraphics();
+        if (flipAction == BufferCbpbbilities.FlipContents.BACKGROUND) {
+            Grbphics g = bbckBuffer.getGrbphics();
             try {
-                g.setColor(target.getBackground());
+                g.setColor(tbrget.getBbckground());
                 g.fillRect(0, 0,
-                           backBuffer.getWidth(),
-                           backBuffer.getHeight());
-            } finally {
+                           bbckBuffer.getWidth(),
+                           bbckBuffer.getHeight());
+            } finblly {
                 g.dispose();
             }
         }
     }
 
-    private static class D3DBufferCaps extends BufferCapabilities {
-        public D3DBufferCaps() {
-            // REMIND: should we indicate that the front-buffer
-            // (the on-screen rendering) is not accelerated?
-            super(imageCaps, imageCaps, FlipContents.UNDEFINED);
+    privbte stbtic clbss D3DBufferCbps extends BufferCbpbbilities {
+        public D3DBufferCbps() {
+            // REMIND: should we indicbte thbt the front-buffer
+            // (the on-screen rendering) is not bccelerbted?
+            super(imbgeCbps, imbgeCbps, FlipContents.UNDEFINED);
         }
         @Override
-        public boolean isMultiBufferAvailable() {
+        public boolebn isMultiBufferAvbilbble() {
             return true;
         }
 
     }
 
     @Override
-    public BufferCapabilities getBufferCapabilities() {
-        if (bufferCaps == null) {
-            bufferCaps = new D3DBufferCaps();
+    public BufferCbpbbilities getBufferCbpbbilities() {
+        if (bufferCbps == null) {
+            bufferCbps = new D3DBufferCbps();
         }
-        return bufferCaps;
+        return bufferCbps;
     }
 
-    private static class D3DImageCaps extends ImageCapabilities {
-        private D3DImageCaps() {
+    privbte stbtic clbss D3DImbgeCbps extends ImbgeCbpbbilities {
+        privbte D3DImbgeCbps() {
             super(true);
         }
         @Override
-        public boolean isTrueVolatile() {
+        public boolebn isTrueVolbtile() {
             return true;
         }
     }
 
     @Override
-    public ImageCapabilities getImageCapabilities() {
-        return imageCaps;
+    public ImbgeCbpbbilities getImbgeCbpbbilities() {
+        return imbgeCbps;
     }
 
-    D3DGraphicsDevice getD3DDevice() {
+    D3DGrbphicsDevice getD3DDevice() {
         return device;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @see sun.java2d.pipe.hw.BufferedContextProvider#getContext
+     * @see sun.jbvb2d.pipe.hw.BufferedContextProvider#getContext
      */
     @Override
     public D3DContext getContext() {
@@ -268,35 +268,35 @@ public class D3DGraphicsConfig
     /**
      * {@inheritDoc}
      *
-     * @see sun.java2d.pipe.hw.AccelGraphicsConfig#createCompatibleVolatileImage
+     * @see sun.jbvb2d.pipe.hw.AccelGrbphicsConfig#crebteCompbtibleVolbtileImbge
      */
     @Override
-    public VolatileImage
-        createCompatibleVolatileImage(int width, int height,
-                                      int transparency, int type)
+    public VolbtileImbge
+        crebteCompbtibleVolbtileImbge(int width, int height,
+                                      int trbnspbrency, int type)
     {
         if (type == FLIP_BACKBUFFER || type == WINDOW || type == UNDEFINED ||
-            transparency == Transparency.BITMASK)
+            trbnspbrency == Trbnspbrency.BITMASK)
         {
             return null;
         }
-        boolean isOpaque = transparency == Transparency.OPAQUE;
+        boolebn isOpbque = trbnspbrency == Trbnspbrency.OPAQUE;
         if (type == RT_TEXTURE) {
-            int cap = isOpaque ? CAPS_RT_TEXTURE_OPAQUE : CAPS_RT_TEXTURE_ALPHA;
-            if (!device.isCapPresent(cap)) {
+            int cbp = isOpbque ? CAPS_RT_TEXTURE_OPAQUE : CAPS_RT_TEXTURE_ALPHA;
+            if (!device.isCbpPresent(cbp)) {
                 return null;
             }
         } else if (type == RT_PLAIN) {
-            if (!isOpaque && !device.isCapPresent(CAPS_RT_PLAIN_ALPHA)) {
+            if (!isOpbque && !device.isCbpPresent(CAPS_RT_PLAIN_ALPHA)) {
                 return null;
             }
         }
 
-        SunVolatileImage vi = new AccelTypedVolatileImage(this, width, height,
-                                                          transparency, type);
-        Surface sd = vi.getDestSurface();
-        if (!(sd instanceof AccelSurface) ||
-            ((AccelSurface)sd).getType() != type)
+        SunVolbtileImbge vi = new AccelTypedVolbtileImbge(this, width, height,
+                                                          trbnspbrency, type);
+        Surfbce sd = vi.getDestSurfbce();
+        if (!(sd instbnceof AccelSurfbce) ||
+            ((AccelSurfbce)sd).getType() != type)
         {
             vi.flush();
             vi = null;
@@ -308,16 +308,16 @@ public class D3DGraphicsConfig
     /**
      * {@inheritDoc}
      *
-     * @see sun.java2d.pipe.hw.AccelGraphicsConfig#getContextCapabilities
+     * @see sun.jbvb2d.pipe.hw.AccelGrbphicsConfig#getContextCbpbbilities
      */
     @Override
-    public ContextCapabilities getContextCapabilities() {
-        return device.getContextCapabilities();
+    public ContextCbpbbilities getContextCbpbbilities() {
+        return device.getContextCbpbbilities();
     }
 
     @Override
-    public void addDeviceEventListener(AccelDeviceEventListener l) {
-        AccelDeviceEventNotifier.addListener(l, device.getScreen());
+    public void bddDeviceEventListener(AccelDeviceEventListener l) {
+        AccelDeviceEventNotifier.bddListener(l, device.getScreen());
     }
 
     @Override

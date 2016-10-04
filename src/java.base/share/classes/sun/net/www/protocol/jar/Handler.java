@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.jar;
+pbckbge sun.net.www.protocol.jbr;
 
-import java.io.IOException;
-import java.net.*;
-import sun.net.www.ParseUtil;
+import jbvb.io.IOException;
+import jbvb.net.*;
+import sun.net.www.PbrseUtil;
 
 /*
- * Jar URL Handler
+ * Jbr URL Hbndler
  */
-public class Handler extends java.net.URLStreamHandler {
+public clbss Hbndler extends jbvb.net.URLStrebmHbndler {
 
-    private static final String separator = "!/";
+    privbte stbtic finbl String sepbrbtor = "!/";
 
-    protected java.net.URLConnection openConnection(URL u)
+    protected jbvb.net.URLConnection openConnection(URL u)
     throws IOException {
-        return new JarURLConnection(u, this);
+        return new JbrURLConnection(u, this);
     }
 
-    private static int indexOfBangSlash(String spec) {
-        int indexOfBang = spec.length();
-        while((indexOfBang = spec.lastIndexOf('!', indexOfBang)) != -1) {
-            if ((indexOfBang != (spec.length() - 1)) &&
-                (spec.charAt(indexOfBang + 1) == '/')) {
-                return indexOfBang + 1;
+    privbte stbtic int indexOfBbngSlbsh(String spec) {
+        int indexOfBbng = spec.length();
+        while((indexOfBbng = spec.lbstIndexOf('!', indexOfBbng)) != -1) {
+            if ((indexOfBbng != (spec.length() - 1)) &&
+                (spec.chbrAt(indexOfBbng + 1) == '/')) {
+                return indexOfBbng + 1;
             } else {
-                indexOfBang--;
+                indexOfBbng--;
             }
         }
         return -1;
     }
 
     /**
-     * Compare two jar URLs
+     * Compbre two jbr URLs
      */
     @Override
-    protected boolean sameFile(URL u1, URL u2) {
-        if (!u1.getProtocol().equals("jar") || !u2.getProtocol().equals("jar"))
-            return false;
+    protected boolebn sbmeFile(URL u1, URL u2) {
+        if (!u1.getProtocol().equbls("jbr") || !u2.getProtocol().equbls("jbr"))
+            return fblse;
 
         String file1 = u1.getFile();
         String file2 = u2.getFile();
-        int sep1 = file1.indexOf(separator);
-        int sep2 = file2.indexOf(separator);
+        int sep1 = file1.indexOf(sepbrbtor);
+        int sep2 = file2.indexOf(sepbrbtor);
 
         if (sep1 == -1 || sep2 == -1) {
-            return super.sameFile(u1, u2);
+            return super.sbmeFile(u1, u2);
         }
 
         String entry1 = file1.substring(sep1 + 2);
         String entry2 = file2.substring(sep2 + 2);
 
-        if (!entry1.equals(entry2))
-            return false;
+        if (!entry1.equbls(entry2))
+            return fblse;
 
         URL enclosedURL1 = null, enclosedURL2 = null;
         try {
             enclosedURL1 = new URL(file1.substring(0, sep1));
             enclosedURL2 = new URL(file2.substring(0, sep2));
-        } catch (MalformedURLException unused) {
-            return super.sameFile(u1, u2);
+        } cbtch (MblformedURLException unused) {
+            return super.sbmeFile(u1, u2);
         }
 
-        if (!super.sameFile(enclosedURL1, enclosedURL2)) {
-            return false;
+        if (!super.sbmeFile(enclosedURL1, enclosedURL2)) {
+            return fblse;
         }
 
         return true;
     }
 
     @Override
-    protected int hashCode(URL u) {
+    protected int hbshCode(URL u) {
         int h = 0;
 
         String protocol = u.getProtocol();
         if (protocol != null)
-            h += protocol.hashCode();
+            h += protocol.hbshCode();
 
         String file = u.getFile();
-        int sep = file.indexOf(separator);
+        int sep = file.indexOf(sepbrbtor);
 
         if (sep == -1)
-            return h + file.hashCode();
+            return h + file.hbshCode();
 
         URL enclosedURL = null;
         String fileWithoutEntry = file.substring(0, sep);
         try {
             enclosedURL = new URL(fileWithoutEntry);
-            h += enclosedURL.hashCode();
-        } catch (MalformedURLException unused) {
-            h += fileWithoutEntry.hashCode();
+            h += enclosedURL.hbshCode();
+        } cbtch (MblformedURLException unused) {
+            h += fileWithoutEntry.hbshCode();
         }
 
         String entry = file.substring(sep + 2);
-        h += entry.hashCode();
+        h += entry.hbshCode();
 
         return h;
     }
 
 
     @Override
-    @SuppressWarnings("deprecation")
-    protected void parseURL(URL url, String spec,
-                            int start, int limit) {
+    @SuppressWbrnings("deprecbtion")
+    protected void pbrseURL(URL url, String spec,
+                            int stbrt, int limit) {
         String file = null;
         String ref = null;
-        // first figure out if there is an anchor
+        // first figure out if there is bn bnchor
         int refPos = spec.indexOf('#', limit);
-        boolean refOnly = refPos == start;
+        boolebn refOnly = refPos == stbrt;
         if (refPos > -1) {
             ref = spec.substring(refPos + 1, spec.length());
             if (refOnly) {
@@ -138,71 +138,71 @@ public class Handler extends java.net.URLStreamHandler {
             }
         }
         // then figure out if the spec is
-        // 1. absolute (jar:)
-        // 2. relative (i.e. url + foo/bar/baz.ext)
-        // 3. anchor-only (i.e. url + #foo), which we already did (refOnly)
-        boolean absoluteSpec = false;
+        // 1. bbsolute (jbr:)
+        // 2. relbtive (i.e. url + foo/bbr/bbz.ext)
+        // 3. bnchor-only (i.e. url + #foo), which we blrebdy did (refOnly)
+        boolebn bbsoluteSpec = fblse;
         if (spec.length() >= 4) {
-            absoluteSpec = spec.substring(0, 4).equalsIgnoreCase("jar:");
+            bbsoluteSpec = spec.substring(0, 4).equblsIgnoreCbse("jbr:");
         }
-        spec = spec.substring(start, limit);
+        spec = spec.substring(stbrt, limit);
 
-        if (absoluteSpec) {
-            file = parseAbsoluteSpec(spec);
+        if (bbsoluteSpec) {
+            file = pbrseAbsoluteSpec(spec);
         } else if (!refOnly) {
-            file = parseContextSpec(url, spec);
+            file = pbrseContextSpec(url, spec);
 
-            // Canonize the result after the bangslash
-            int bangSlash = indexOfBangSlash(file);
-            String toBangSlash = file.substring(0, bangSlash);
-            String afterBangSlash = file.substring(bangSlash);
-            sun.net.www.ParseUtil canonizer = new ParseUtil();
-            afterBangSlash = canonizer.canonizeString(afterBangSlash);
-            file = toBangSlash + afterBangSlash;
+            // Cbnonize the result bfter the bbngslbsh
+            int bbngSlbsh = indexOfBbngSlbsh(file);
+            String toBbngSlbsh = file.substring(0, bbngSlbsh);
+            String bfterBbngSlbsh = file.substring(bbngSlbsh);
+            sun.net.www.PbrseUtil cbnonizer = new PbrseUtil();
+            bfterBbngSlbsh = cbnonizer.cbnonizeString(bfterBbngSlbsh);
+            file = toBbngSlbsh + bfterBbngSlbsh;
         }
-        setURL(url, "jar", "", -1, file, ref);
+        setURL(url, "jbr", "", -1, file, ref);
     }
 
-    private String parseAbsoluteSpec(String spec) {
+    privbte String pbrseAbsoluteSpec(String spec) {
         URL url = null;
         int index = -1;
         // check for !/
-        if ((index = indexOfBangSlash(spec)) == -1) {
+        if ((index = indexOfBbngSlbsh(spec)) == -1) {
             throw new NullPointerException("no !/ in spec");
         }
         // test the inner URL
         try {
             String innerSpec = spec.substring(0, index - 1);
             url = new URL(innerSpec);
-        } catch (MalformedURLException e) {
-            throw new NullPointerException("invalid url: " +
+        } cbtch (MblformedURLException e) {
+            throw new NullPointerException("invblid url: " +
                                            spec + " (" + e + ")");
         }
         return spec;
     }
 
-    private String parseContextSpec(URL url, String spec) {
+    privbte String pbrseContextSpec(URL url, String spec) {
         String ctxFile = url.getFile();
-        // if the spec begins with /, chop up the jar back !/
-        if (spec.startsWith("/")) {
-            int bangSlash = indexOfBangSlash(ctxFile);
-            if (bangSlash == -1) {
-                throw new NullPointerException("malformed " +
+        // if the spec begins with /, chop up the jbr bbck !/
+        if (spec.stbrtsWith("/")) {
+            int bbngSlbsh = indexOfBbngSlbsh(ctxFile);
+            if (bbngSlbsh == -1) {
+                throw new NullPointerException("mblformed " +
                                                "context url:" +
                                                url +
                                                ": no !/");
             }
-            ctxFile = ctxFile.substring(0, bangSlash);
+            ctxFile = ctxFile.substring(0, bbngSlbsh);
         }
-        if (!ctxFile.endsWith("/") && (!spec.startsWith("/"))){
-            // chop up the last component
-            int lastSlash = ctxFile.lastIndexOf('/');
-            if (lastSlash == -1) {
-                throw new NullPointerException("malformed " +
+        if (!ctxFile.endsWith("/") && (!spec.stbrtsWith("/"))){
+            // chop up the lbst component
+            int lbstSlbsh = ctxFile.lbstIndexOf('/');
+            if (lbstSlbsh == -1) {
+                throw new NullPointerException("mblformed " +
                                                "context url:" +
                                                url);
             }
-            ctxFile = ctxFile.substring(0, lastSlash + 1);
+            ctxFile = ctxFile.substring(0, lbstSlbsh + 1);
         }
         return (ctxFile + spec);
     }

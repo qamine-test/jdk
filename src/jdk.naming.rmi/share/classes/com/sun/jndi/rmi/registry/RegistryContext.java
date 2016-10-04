@@ -1,476 +1,476 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.rmi.registry;
+pbckbge com.sun.jndi.rmi.registry;
 
 
-import java.util.Hashtable;
-import java.util.Properties;
-import java.rmi.*;
-import java.rmi.server.*;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Properties;
+import jbvb.rmi.*;
+import jbvb.rmi.server.*;
+import jbvb.rmi.registry.Registry;
+import jbvb.rmi.registry.LocbteRegistry;
 
-import javax.naming.*;
-import javax.naming.spi.NamingManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.NbmingMbnbger;
 
 
 /**
- * A RegistryContext is a context representing a remote RMI registry.
+ * A RegistryContext is b context representing b remote RMI registry.
  *
- * @author Scott Seligman
+ * @buthor Scott Seligmbn
  */
 
 
-public class RegistryContext implements Context, Referenceable {
+public clbss RegistryContext implements Context, Referencebble {
 
-    private Hashtable<String, Object> environment;
-    private Registry registry;
-    private String host;
-    private int port;
-    private static final NameParser nameParser = new AtomicNameParser();
-    private static final String SOCKET_FACTORY = "com.sun.jndi.rmi.factory.socket";
+    privbte Hbshtbble<String, Object> environment;
+    privbte Registry registry;
+    privbte String host;
+    privbte int port;
+    privbte stbtic finbl NbmePbrser nbmePbrser = new AtomicNbmePbrser();
+    privbte stbtic finbl String SOCKET_FACTORY = "com.sun.jndi.rmi.fbctory.socket";
 
-    Reference reference = null; // ref used to create this context, if any
+    Reference reference = null; // ref used to crebte this context, if bny
 
-    // Environment property that, if set, indicates that a security
-    // manager should be installed (if none is already in place).
-    public static final String SECURITY_MGR =
-            "java.naming.rmi.security.manager";
+    // Environment property thbt, if set, indicbtes thbt b security
+    // mbnbger should be instblled (if none is blrebdy in plbce).
+    public stbtic finbl String SECURITY_MGR =
+            "jbvb.nbming.rmi.security.mbnbger";
 
     /**
-     * Returns a context for the registry at a given host and port.
-     * If "host" is null, uses default host.
-     * If "port" is non-positive, uses default port.
-     * Cloning of "env" is handled by caller; see comments within
-     * RegistryContextFactory.getObjectInstance(), for example.
+     * Returns b context for the registry bt b given host bnd port.
+     * If "host" is null, uses defbult host.
+     * If "port" is non-positive, uses defbult port.
+     * Cloning of "env" is hbndled by cbller; see comments within
+     * RegistryContextFbctory.getObjectInstbnce(), for exbmple.
      */
-    @SuppressWarnings("unchecked")
-    public RegistryContext(String host, int port, Hashtable<?, ?> env)
-            throws NamingException
+    @SuppressWbrnings("unchecked")
+    public RegistryContext(String host, int port, Hbshtbble<?, ?> env)
+            throws NbmingException
     {
         environment = (env == null)
-                      ? new Hashtable<String, Object>(5)
-                      : (Hashtable<String, Object>) env;
+                      ? new Hbshtbble<String, Object>(5)
+                      : (Hbshtbble<String, Object>) env;
         if (environment.get(SECURITY_MGR) != null) {
-            installSecurityMgr();
+            instbllSecurityMgr();
         }
 
-        // chop off '[' and ']' in an IPv6 literal address
-        if ((host != null) && (host.charAt(0) == '[')) {
+        // chop off '[' bnd ']' in bn IPv6 literbl bddress
+        if ((host != null) && (host.chbrAt(0) == '[')) {
             host = host.substring(1, host.length() - 1);
         }
 
-        RMIClientSocketFactory socketFactory =
-                (RMIClientSocketFactory) environment.get(SOCKET_FACTORY);
-        registry = getRegistry(host, port, socketFactory);
+        RMIClientSocketFbctory socketFbctory =
+                (RMIClientSocketFbctory) environment.get(SOCKET_FACTORY);
+        registry = getRegistry(host, port, socketFbctory);
         this.host = host;
         this.port = port;
     }
 
     /**
-     * Returns a clone of a registry context.  The context's private state
-     * is independent of the original's (so closing one context, for example,
+     * Returns b clone of b registry context.  The context's privbte stbte
+     * is independent of the originbl's (so closing one context, for exbmple,
      * won't close the other).
      */
-    // %%% Alternatively, this could be done with a clone() method.
-    @SuppressWarnings("unchecked") // clone()
+    // %%% Alternbtively, this could be done with b clone() method.
+    @SuppressWbrnings("unchecked") // clone()
     RegistryContext(RegistryContext ctx) {
-        environment = (Hashtable<String, Object>)ctx.environment.clone();
+        environment = (Hbshtbble<String, Object>)ctx.environment.clone();
         registry = ctx.registry;
         host = ctx.host;
         port = ctx.port;
         reference = ctx.reference;
     }
 
-    protected void finalize() {
+    protected void finblize() {
         close();
     }
 
-    public Object lookup(Name name) throws NamingException {
-        if (name.isEmpty()) {
+    public Object lookup(Nbme nbme) throws NbmingException {
+        if (nbme.isEmpty()) {
             return (new RegistryContext(this));
         }
         Remote obj;
         try {
-            obj = registry.lookup(name.get(0));
-        } catch (NotBoundException e) {
-            throw (new NameNotFoundException(name.get(0)));
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+            obj = registry.lookup(nbme.get(0));
+        } cbtch (NotBoundException e) {
+            throw (new NbmeNotFoundException(nbme.get(0)));
+        } cbtch (RemoteException e) {
+            throw (NbmingException)wrbpRemoteException(e).fillInStbckTrbce();
         }
-        return (decodeObject(obj, name.getPrefix(1)));
+        return (decodeObject(obj, nbme.getPrefix(1)));
     }
 
-    public Object lookup(String name) throws NamingException {
-        return lookup(new CompositeName(name));
+    public Object lookup(String nbme) throws NbmingException {
+        return lookup(new CompositeNbme(nbme));
     }
 
     /**
-     * If the object to be bound is both Remote and Referenceable, binds the
+     * If the object to be bound is both Remote bnd Referencebble, binds the
      * object itself, not its Reference.
      */
-    public void bind(Name name, Object obj) throws NamingException {
-        if (name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: Cannot bind empty name"));
+    public void bind(Nbme nbme, Object obj) throws NbmingException {
+        if (nbme.isEmpty()) {
+            throw (new InvblidNbmeException(
+                    "RegistryContext: Cbnnot bind empty nbme"));
         }
         try {
-            registry.bind(name.get(0), encodeObject(obj, name.getPrefix(1)));
-        } catch (AlreadyBoundException e) {
-            NamingException ne = new NameAlreadyBoundException(name.get(0));
-            ne.setRootCause(e);
+            registry.bind(nbme.get(0), encodeObject(obj, nbme.getPrefix(1)));
+        } cbtch (AlrebdyBoundException e) {
+            NbmingException ne = new NbmeAlrebdyBoundException(nbme.get(0));
+            ne.setRootCbuse(e);
             throw ne;
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+        } cbtch (RemoteException e) {
+            throw (NbmingException)wrbpRemoteException(e).fillInStbckTrbce();
         }
     }
 
-    public void bind(String name, Object obj) throws NamingException {
-        bind(new CompositeName(name), obj);
+    public void bind(String nbme, Object obj) throws NbmingException {
+        bind(new CompositeNbme(nbme), obj);
     }
 
-    public void rebind(Name name, Object obj) throws NamingException {
-        if (name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: Cannot rebind empty name"));
-        }
-        try {
-            registry.rebind(name.get(0), encodeObject(obj, name.getPrefix(1)));
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
-        }
-    }
-
-    public void rebind(String name, Object obj) throws NamingException {
-        rebind(new CompositeName(name), obj);
-    }
-
-    public void unbind(Name name) throws NamingException {
-        if (name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: Cannot unbind empty name"));
+    public void rebind(Nbme nbme, Object obj) throws NbmingException {
+        if (nbme.isEmpty()) {
+            throw (new InvblidNbmeException(
+                    "RegistryContext: Cbnnot rebind empty nbme"));
         }
         try {
-            registry.unbind(name.get(0));
-        } catch (NotBoundException e) {
+            registry.rebind(nbme.get(0), encodeObject(obj, nbme.getPrefix(1)));
+        } cbtch (RemoteException e) {
+            throw (NbmingException)wrbpRemoteException(e).fillInStbckTrbce();
+        }
+    }
+
+    public void rebind(String nbme, Object obj) throws NbmingException {
+        rebind(new CompositeNbme(nbme), obj);
+    }
+
+    public void unbind(Nbme nbme) throws NbmingException {
+        if (nbme.isEmpty()) {
+            throw (new InvblidNbmeException(
+                    "RegistryContext: Cbnnot unbind empty nbme"));
+        }
+        try {
+            registry.unbind(nbme.get(0));
+        } cbtch (NotBoundException e) {
             // method is idempotent
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+        } cbtch (RemoteException e) {
+            throw (NbmingException)wrbpRemoteException(e).fillInStbckTrbce();
         }
     }
 
-    public void unbind(String name) throws NamingException {
-        unbind(new CompositeName(name));
+    public void unbind(String nbme) throws NbmingException {
+        unbind(new CompositeNbme(nbme));
     }
 
     /**
-     * Rename is implemented by this sequence of operations:
-     * lookup, bind, unbind.  The sequence is not performed atomically.
+     * Renbme is implemented by this sequence of operbtions:
+     * lookup, bind, unbind.  The sequence is not performed btomicblly.
      */
-    public void rename(Name oldName, Name newName) throws NamingException {
-        bind(newName, lookup(oldName));
-        unbind(oldName);
+    public void renbme(Nbme oldNbme, Nbme newNbme) throws NbmingException {
+        bind(newNbme, lookup(oldNbme));
+        unbind(oldNbme);
     }
 
-    public void rename(String name, String newName) throws NamingException {
-        rename(new CompositeName(name), new CompositeName(newName));
+    public void renbme(String nbme, String newNbme) throws NbmingException {
+        renbme(new CompositeNbme(nbme), new CompositeNbme(newNbme));
     }
 
-    public NamingEnumeration<NameClassPair> list(Name name) throws
-            NamingException {
-        if (!name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: can only list \"\""));
+    public NbmingEnumerbtion<NbmeClbssPbir> list(Nbme nbme) throws
+            NbmingException {
+        if (!nbme.isEmpty()) {
+            throw (new InvblidNbmeException(
+                    "RegistryContext: cbn only list \"\""));
         }
         try {
-            String[] names = registry.list();
-            return (new NameClassPairEnumeration(names));
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+            String[] nbmes = registry.list();
+            return (new NbmeClbssPbirEnumerbtion(nbmes));
+        } cbtch (RemoteException e) {
+            throw (NbmingException)wrbpRemoteException(e).fillInStbckTrbce();
         }
     }
 
-    public NamingEnumeration<NameClassPair> list(String name) throws
-            NamingException {
-        return list(new CompositeName(name));
+    public NbmingEnumerbtion<NbmeClbssPbir> list(String nbme) throws
+            NbmingException {
+        return list(new CompositeNbme(nbme));
     }
 
-    public NamingEnumeration<Binding> listBindings(Name name)
-            throws NamingException
+    public NbmingEnumerbtion<Binding> listBindings(Nbme nbme)
+            throws NbmingException
     {
-        if (!name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: can only list \"\""));
+        if (!nbme.isEmpty()) {
+            throw (new InvblidNbmeException(
+                    "RegistryContext: cbn only list \"\""));
         }
         try {
-            String[] names = registry.list();
-            return (new BindingEnumeration(this, names));
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+            String[] nbmes = registry.list();
+            return (new BindingEnumerbtion(this, nbmes));
+        } cbtch (RemoteException e) {
+            throw (NbmingException)wrbpRemoteException(e).fillInStbckTrbce();
         }
     }
 
-    public NamingEnumeration<Binding> listBindings(String name) throws
-            NamingException {
-        return listBindings(new CompositeName(name));
+    public NbmingEnumerbtion<Binding> listBindings(String nbme) throws
+            NbmingException {
+        return listBindings(new CompositeNbme(nbme));
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        throw (new OperationNotSupportedException());
+    public void destroySubcontext(Nbme nbme) throws NbmingException {
+        throw (new OperbtionNotSupportedException());
     }
 
-    public void destroySubcontext(String name) throws NamingException {
-        throw (new OperationNotSupportedException());
+    public void destroySubcontext(String nbme) throws NbmingException {
+        throw (new OperbtionNotSupportedException());
     }
 
-    public Context createSubcontext(Name name) throws NamingException {
-        throw (new OperationNotSupportedException());
+    public Context crebteSubcontext(Nbme nbme) throws NbmingException {
+        throw (new OperbtionNotSupportedException());
     }
 
-    public Context createSubcontext(String name) throws NamingException {
-        throw (new OperationNotSupportedException());
+    public Context crebteSubcontext(String nbme) throws NbmingException {
+        throw (new OperbtionNotSupportedException());
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        return lookup(name);
+    public Object lookupLink(Nbme nbme) throws NbmingException {
+        return lookup(nbme);
     }
 
-    public Object lookupLink(String name) throws NamingException {
-        return lookup(name);
+    public Object lookupLink(String nbme) throws NbmingException {
+        return lookup(nbme);
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        return nameParser;
+    public NbmePbrser getNbmePbrser(Nbme nbme) throws NbmingException {
+        return nbmePbrser;
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        return nameParser;
+    public NbmePbrser getNbmePbrser(String nbme) throws NbmingException {
+        return nbmePbrser;
     }
 
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        Name result = (Name)prefix.clone();
-        return result.addAll(name);
+    public Nbme composeNbme(Nbme nbme, Nbme prefix) throws NbmingException {
+        Nbme result = (Nbme)prefix.clone();
+        return result.bddAll(nbme);
     }
 
-    public String composeName(String name, String prefix)
-            throws NamingException
+    public String composeNbme(String nbme, String prefix)
+            throws NbmingException
     {
-        return composeName(new CompositeName(name),
-                           new CompositeName(prefix)).toString();
+        return composeNbme(new CompositeNbme(nbme),
+                           new CompositeNbme(prefix)).toString();
     }
 
-    public Object removeFromEnvironment(String propName)
-            throws NamingException
+    public Object removeFromEnvironment(String propNbme)
+            throws NbmingException
     {
-        return environment.remove(propName);
+        return environment.remove(propNbme);
     }
 
-    public Object addToEnvironment(String propName, Object propVal)
-            throws NamingException
+    public Object bddToEnvironment(String propNbme, Object propVbl)
+            throws NbmingException
     {
-        if (propName.equals(SECURITY_MGR)) {
-            installSecurityMgr();
+        if (propNbme.equbls(SECURITY_MGR)) {
+            instbllSecurityMgr();
         }
-        return environment.put(propName, propVal);
+        return environment.put(propNbme, propVbl);
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public Hashtable<String, Object> getEnvironment() throws NamingException {
-        return (Hashtable<String, Object>)environment.clone();
+    @SuppressWbrnings("unchecked") // clone()
+    public Hbshtbble<String, Object> getEnvironment() throws NbmingException {
+        return (Hbshtbble<String, Object>)environment.clone();
     }
 
     public void close() {
         environment = null;
         registry = null;
-        // &&& If we were caching registry connections, we would probably
-        // uncache this one now.
+        // &&& If we were cbching registry connections, we would probbbly
+        // uncbche this one now.
     }
 
-    public String getNameInNamespace() {
-        return ""; // Registry has an empty name
+    public String getNbmeInNbmespbce() {
+        return ""; // Registry hbs bn empty nbme
     }
 
     /**
-     * Returns an RMI registry reference for this context.
+     * Returns bn RMI registry reference for this context.
      *<p>
-     * If this context was created from a reference, that reference is
-     * returned.  Otherwise, an exception is thrown if the registry's
-     * host is "localhost" or the default (null).  Although this could
-     * possibly make for a valid reference, it's far more likely to be
-     * an easily made error.
+     * If this context wbs crebted from b reference, thbt reference is
+     * returned.  Otherwise, bn exception is thrown if the registry's
+     * host is "locblhost" or the defbult (null).  Although this could
+     * possibly mbke for b vblid reference, it's fbr more likely to be
+     * bn ebsily mbde error.
      *
-     * @see RegistryContextFactory
+     * @see RegistryContextFbctory
      */
-    public Reference getReference() throws NamingException {
+    public Reference getReference() throws NbmingException {
         if (reference != null) {
-            return (Reference)reference.clone();  // %%% clone the addrs too?
+            return (Reference)reference.clone();  // %%% clone the bddrs too?
         }
-        if (host == null || host.equals("localhost")) {
-            throw (new ConfigurationException(
-                    "Cannot create a reference for an RMI registry whose " +
-                    "host was unspecified or specified as \"localhost\""));
+        if (host == null || host.equbls("locblhost")) {
+            throw (new ConfigurbtionException(
+                    "Cbnnot crebte b reference for bn RMI registry whose " +
+                    "host wbs unspecified or specified bs \"locblhost\""));
         }
         String url = "rmi://";
 
-        // Enclose IPv6 literal address in '[' and ']'
+        // Enclose IPv6 literbl bddress in '[' bnd ']'
         url = (host.indexOf(':') > -1) ? url + "[" + host + "]" :
                                          url + host;
         if (port > 0) {
             url += ":" + Integer.toString(port);
         }
-        RefAddr addr = new StringRefAddr(RegistryContextFactory.ADDRESS_TYPE,
+        RefAddr bddr = new StringRefAddr(RegistryContextFbctory.ADDRESS_TYPE,
                                          url);
-        return (new Reference(RegistryContext.class.getName(),
-                              addr,
-                              RegistryContextFactory.class.getName(),
+        return (new Reference(RegistryContext.clbss.getNbme(),
+                              bddr,
+                              RegistryContextFbctory.clbss.getNbme(),
                               null));
     }
 
 
     /**
-     * Wrap a RemoteException inside a NamingException.
+     * Wrbp b RemoteException inside b NbmingException.
      */
-    public static NamingException wrapRemoteException(RemoteException re) {
+    public stbtic NbmingException wrbpRemoteException(RemoteException re) {
 
-        NamingException ne;
+        NbmingException ne;
 
-        if (re instanceof ConnectException) {
-            ne = new ServiceUnavailableException();
+        if (re instbnceof ConnectException) {
+            ne = new ServiceUnbvbilbbleException();
 
-        } else if (re instanceof AccessException) {
+        } else if (re instbnceof AccessException) {
             ne = new NoPermissionException();
 
-        } else if (re instanceof StubNotFoundException ||
-                   re instanceof UnknownHostException ||
-                   re instanceof SocketSecurityException) {
-            ne = new ConfigurationException();
+        } else if (re instbnceof StubNotFoundException ||
+                   re instbnceof UnknownHostException ||
+                   re instbnceof SocketSecurityException) {
+            ne = new ConfigurbtionException();
 
-        } else if (re instanceof ExportException ||
-                   re instanceof ConnectIOException ||
-                   re instanceof MarshalException ||
-                   re instanceof UnmarshalException ||
-                   re instanceof NoSuchObjectException) {
-            ne = new CommunicationException();
+        } else if (re instbnceof ExportException ||
+                   re instbnceof ConnectIOException ||
+                   re instbnceof MbrshblException ||
+                   re instbnceof UnmbrshblException ||
+                   re instbnceof NoSuchObjectException) {
+            ne = new CommunicbtionException();
 
-        } else if (re instanceof ServerException &&
-                   re.detail instanceof RemoteException) {
-            ne = wrapRemoteException((RemoteException)re.detail);
+        } else if (re instbnceof ServerException &&
+                   re.detbil instbnceof RemoteException) {
+            ne = wrbpRemoteException((RemoteException)re.detbil);
 
         } else {
-            ne = new NamingException();
+            ne = new NbmingException();
         }
-        ne.setRootCause(re);
+        ne.setRootCbuse(re);
         return ne;
     }
 
     /**
-     * Returns the registry at a given host, port and socket factory.
-     * If "host" is null, uses default host.
-     * If "port" is non-positive, uses default port.
-     * If "socketFactory" is null, uses the default socket.
+     * Returns the registry bt b given host, port bnd socket fbctory.
+     * If "host" is null, uses defbult host.
+     * If "port" is non-positive, uses defbult port.
+     * If "socketFbctory" is null, uses the defbult socket.
      */
-    private static Registry getRegistry(String host, int port,
-                RMIClientSocketFactory socketFactory)
-            throws NamingException
+    privbte stbtic Registry getRegistry(String host, int port,
+                RMIClientSocketFbctory socketFbctory)
+            throws NbmingException
     {
-        // %%% We could cache registry connections here.  The transport layer
-        // may already reuse connections.
+        // %%% We could cbche registry connections here.  The trbnsport lbyer
+        // mby blrebdy reuse connections.
         try {
-            if (socketFactory == null) {
-                return LocateRegistry.getRegistry(host, port);
+            if (socketFbctory == null) {
+                return LocbteRegistry.getRegistry(host, port);
             } else {
-                return LocateRegistry.getRegistry(host, port, socketFactory);
+                return LocbteRegistry.getRegistry(host, port, socketFbctory);
             }
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+        } cbtch (RemoteException e) {
+            throw (NbmingException)wrbpRemoteException(e).fillInStbckTrbce();
         }
     }
 
     /**
-     * Attempts to install a security manager if none is currently in
-     * place.
+     * Attempts to instbll b security mbnbger if none is currently in
+     * plbce.
      */
-    private static void installSecurityMgr() {
+    privbte stbtic void instbllSecurityMgr() {
 
         try {
-            System.setSecurityManager(new RMISecurityManager());
-        } catch (Exception e) {
+            System.setSecurityMbnbger(new RMISecurityMbnbger());
+        } cbtch (Exception e) {
         }
     }
 
     /**
-     * Encodes an object prior to binding it in the registry.  First,
-     * NamingManager.getStateToBind() is invoked.  If the resulting
-     * object is Remote, it is returned.  If it is a Reference or
-     * Referenceable, the reference is wrapped in a Remote object.
-     * Otherwise, an exception is thrown.
+     * Encodes bn object prior to binding it in the registry.  First,
+     * NbmingMbnbger.getStbteToBind() is invoked.  If the resulting
+     * object is Remote, it is returned.  If it is b Reference or
+     * Referencebble, the reference is wrbpped in b Remote object.
+     * Otherwise, bn exception is thrown.
      *
-     * @param name      The object's name relative to this context.
+     * @pbrbm nbme      The object's nbme relbtive to this context.
      */
-    private Remote encodeObject(Object obj, Name name)
-            throws NamingException, RemoteException
+    privbte Remote encodeObject(Object obj, Nbme nbme)
+            throws NbmingException, RemoteException
     {
-        obj = NamingManager.getStateToBind(obj, name, this, environment);
+        obj = NbmingMbnbger.getStbteToBind(obj, nbme, this, environment);
 
-        if (obj instanceof Remote) {
+        if (obj instbnceof Remote) {
             return (Remote)obj;
         }
-        if (obj instanceof Reference) {
-            return (new ReferenceWrapper((Reference)obj));
+        if (obj instbnceof Reference) {
+            return (new ReferenceWrbpper((Reference)obj));
         }
-        if (obj instanceof Referenceable) {
-            return (new ReferenceWrapper(((Referenceable)obj).getReference()));
+        if (obj instbnceof Referencebble) {
+            return (new ReferenceWrbpper(((Referencebble)obj).getReference()));
         }
-        throw (new IllegalArgumentException(
+        throw (new IllegblArgumentException(
                 "RegistryContext: " +
-                "object to bind must be Remote, Reference, or Referenceable"));
+                "object to bind must be Remote, Reference, or Referencebble"));
     }
 
     /**
-     * Decodes an object that has been retrieved from the registry.
-     * First, if the object is a RemoteReference, the Reference is
-     * unwrapped.  Then, NamingManager.getObjectInstance() is invoked.
+     * Decodes bn object thbt hbs been retrieved from the registry.
+     * First, if the object is b RemoteReference, the Reference is
+     * unwrbpped.  Then, NbmingMbnbger.getObjectInstbnce() is invoked.
      *
-     * @param name      The object's name relative to this context.
+     * @pbrbm nbme      The object's nbme relbtive to this context.
      */
-    private Object decodeObject(Remote r, Name name) throws NamingException {
+    privbte Object decodeObject(Remote r, Nbme nbme) throws NbmingException {
         try {
-            Object obj = (r instanceof RemoteReference)
+            Object obj = (r instbnceof RemoteReference)
                         ? ((RemoteReference)r).getReference()
                         : (Object)r;
-            return NamingManager.getObjectInstance(obj, name, this,
+            return NbmingMbnbger.getObjectInstbnce(obj, nbme, this,
                                                    environment);
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw e;
-        } catch (RemoteException e) {
-            throw (NamingException)
-                wrapRemoteException(e).fillInStackTrace();
-        } catch (Exception e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
+        } cbtch (RemoteException e) {
+            throw (NbmingException)
+                wrbpRemoteException(e).fillInStbckTrbce();
+        } cbtch (Exception e) {
+            NbmingException ne = new NbmingException();
+            ne.setRootCbuse(e);
             throw ne;
         }
     }
@@ -479,127 +479,127 @@ public class RegistryContext implements Context, Referenceable {
 
 
 /**
- * A name parser for case-sensitive atomic names.
+ * A nbme pbrser for cbse-sensitive btomic nbmes.
  */
-class AtomicNameParser implements NameParser {
-    private static final Properties syntax = new Properties();
+clbss AtomicNbmePbrser implements NbmePbrser {
+    privbte stbtic finbl Properties syntbx = new Properties();
 
-    public Name parse(String name) throws NamingException {
-        return (new CompoundName(name, syntax));
+    public Nbme pbrse(String nbme) throws NbmingException {
+        return (new CompoundNbme(nbme, syntbx));
     }
 }
 
 
 /**
- * An enumeration of name / class-name pairs.
+ * An enumerbtion of nbme / clbss-nbme pbirs.
  */
-class NameClassPairEnumeration implements NamingEnumeration<NameClassPair> {
-    private final String[] names;
-    private int nextName;       // index into "names"
+clbss NbmeClbssPbirEnumerbtion implements NbmingEnumerbtion<NbmeClbssPbir> {
+    privbte finbl String[] nbmes;
+    privbte int nextNbme;       // index into "nbmes"
 
-    NameClassPairEnumeration(String[] names) {
-        this.names = names;
-        nextName = 0;
+    NbmeClbssPbirEnumerbtion(String[] nbmes) {
+        this.nbmes = nbmes;
+        nextNbme = 0;
     }
 
-    public boolean hasMore() {
-        return (nextName < names.length);
+    public boolebn hbsMore() {
+        return (nextNbme < nbmes.length);
     }
 
-    public NameClassPair next() throws NamingException {
-        if (!hasMore()) {
-            throw (new java.util.NoSuchElementException());
+    public NbmeClbssPbir next() throws NbmingException {
+        if (!hbsMore()) {
+            throw (new jbvb.util.NoSuchElementException());
         }
-        // Convert name to a one-element composite name, so embedded
-        // meta-characters are properly escaped.
-        String name = names[nextName++];
-        Name cname = (new CompositeName()).add(name);
-        NameClassPair ncp = new NameClassPair(cname.toString(),
-                                            "java.lang.Object");
-        ncp.setNameInNamespace(name);
+        // Convert nbme to b one-element composite nbme, so embedded
+        // metb-chbrbcters bre properly escbped.
+        String nbme = nbmes[nextNbme++];
+        Nbme cnbme = (new CompositeNbme()).bdd(nbme);
+        NbmeClbssPbir ncp = new NbmeClbssPbir(cnbme.toString(),
+                                            "jbvb.lbng.Object");
+        ncp.setNbmeInNbmespbce(nbme);
         return ncp;
     }
 
-    public boolean hasMoreElements() {
-        return hasMore();
+    public boolebn hbsMoreElements() {
+        return hbsMore();
     }
 
-    public NameClassPair nextElement() {
+    public NbmeClbssPbir nextElement() {
         try {
             return next();
-        } catch (NamingException e) {   // should never happen
-            throw (new java.util.NoSuchElementException(
-                    "javax.naming.NamingException was thrown"));
+        } cbtch (NbmingException e) {   // should never hbppen
+            throw (new jbvb.util.NoSuchElementException(
+                    "jbvbx.nbming.NbmingException wbs thrown"));
         }
     }
 
     public void close() {
-        nextName = names.length;
+        nextNbme = nbmes.length;
     }
 }
 
 
 /**
- * An enumeration of Bindings.
+ * An enumerbtion of Bindings.
  *
- * The actual registry lookups are performed when next() is called.  It would
- * be nicer to defer this until the object (or its class name) is actually
- * requested.  The problem with that approach is that Binding.getObject()
- * cannot throw NamingException.
+ * The bctubl registry lookups bre performed when next() is cblled.  It would
+ * be nicer to defer this until the object (or its clbss nbme) is bctublly
+ * requested.  The problem with thbt bpprobch is thbt Binding.getObject()
+ * cbnnot throw NbmingException.
  */
-class BindingEnumeration implements NamingEnumeration<Binding> {
-    private RegistryContext ctx;
-    private final String[] names;
-    private int nextName;       // index into "names"
+clbss BindingEnumerbtion implements NbmingEnumerbtion<Binding> {
+    privbte RegistryContext ctx;
+    privbte finbl String[] nbmes;
+    privbte int nextNbme;       // index into "nbmes"
 
-    BindingEnumeration(RegistryContext ctx, String[] names) {
-        // Clone ctx in case someone closes it before we're through.
+    BindingEnumerbtion(RegistryContext ctx, String[] nbmes) {
+        // Clone ctx in cbse someone closes it before we're through.
         this.ctx = new RegistryContext(ctx);
-        this.names = names;
-        nextName = 0;
+        this.nbmes = nbmes;
+        nextNbme = 0;
     }
 
-    protected void finalize() {
+    protected void finblize() {
         ctx.close();
     }
 
-    public boolean hasMore() {
-        if (nextName >= names.length) {
+    public boolebn hbsMore() {
+        if (nextNbme >= nbmes.length) {
             ctx.close();
         }
-        return (nextName < names.length);
+        return (nextNbme < nbmes.length);
     }
 
-    public Binding next() throws NamingException {
-        if (!hasMore()) {
-            throw (new java.util.NoSuchElementException());
+    public Binding next() throws NbmingException {
+        if (!hbsMore()) {
+            throw (new jbvb.util.NoSuchElementException());
         }
-        // Convert name to a one-element composite name, so embedded
-        // meta-characters are properly escaped.
-        String name = names[nextName++];
-        Name cname = (new CompositeName()).add(name);
+        // Convert nbme to b one-element composite nbme, so embedded
+        // metb-chbrbcters bre properly escbped.
+        String nbme = nbmes[nextNbme++];
+        Nbme cnbme = (new CompositeNbme()).bdd(nbme);
 
-        Object obj = ctx.lookup(cname);
-        String cnameStr = cname.toString();
-        Binding binding = new Binding(cnameStr, obj);
-        binding.setNameInNamespace(cnameStr);
+        Object obj = ctx.lookup(cnbme);
+        String cnbmeStr = cnbme.toString();
+        Binding binding = new Binding(cnbmeStr, obj);
+        binding.setNbmeInNbmespbce(cnbmeStr);
         return binding;
     }
 
-    public boolean hasMoreElements() {
-        return hasMore();
+    public boolebn hbsMoreElements() {
+        return hbsMore();
     }
 
     public Binding nextElement() {
         try {
             return next();
-        } catch (NamingException e) {
-            throw (new java.util.NoSuchElementException(
-                    "javax.naming.NamingException was thrown"));
+        } cbtch (NbmingException e) {
+            throw (new jbvb.util.NoSuchElementException(
+                    "jbvbx.nbming.NbmingException wbs thrown"));
         }
     }
 
     public void close () {
-        finalize();
+        finblize();
     }
 }

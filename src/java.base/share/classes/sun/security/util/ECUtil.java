@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
+import jbvb.security.*;
 
-import java.security.interfaces.*;
+import jbvb.security.interfbces.*;
 
-import java.security.spec.*;
+import jbvb.security.spec.*;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 import sun.security.x509.X509Key;
 
-public class ECUtil {
+public clbss ECUtil {
 
-    // Used by SunPKCS11 and SunJSSE.
-    public static ECPoint decodePoint(byte[] data, EllipticCurve curve)
+    // Used by SunPKCS11 bnd SunJSSE.
+    public stbtic ECPoint decodePoint(byte[] dbtb, EllipticCurve curve)
             throws IOException {
-        if ((data.length == 0) || (data[0] != 4)) {
-            throw new IOException("Only uncompressed point format supported");
+        if ((dbtb.length == 0) || (dbtb[0] != 4)) {
+            throw new IOException("Only uncompressed point formbt supported");
         }
-        // Per ANSI X9.62, an encoded point is a 1 byte type followed by
-        // ceiling(log base 2 field-size / 8) bytes of x and the same of y.
-        int n = (data.length - 1) / 2;
+        // Per ANSI X9.62, bn encoded point is b 1 byte type followed by
+        // ceiling(log bbse 2 field-size / 8) bytes of x bnd the sbme of y.
+        int n = (dbtb.length - 1) / 2;
         if (n != ((curve.getField().getFieldSize() + 7 ) >> 3)) {
-            throw new IOException("Point does not match field size");
+            throw new IOException("Point does not mbtch field size");
         }
 
-        byte[] xb = Arrays.copyOfRange(data, 1, 1 + n);
-        byte[] yb = Arrays.copyOfRange(data, n + 1, n + 1 + n);
+        byte[] xb = Arrbys.copyOfRbnge(dbtb, 1, 1 + n);
+        byte[] yb = Arrbys.copyOfRbnge(dbtb, n + 1, n + 1 + n);
 
         return new ECPoint(new BigInteger(1, xb), new BigInteger(1, yb));
     }
 
-    // Used by SunPKCS11 and SunJSSE.
-    public static byte[] encodePoint(ECPoint point, EllipticCurve curve) {
+    // Used by SunPKCS11 bnd SunJSSE.
+    public stbtic byte[] encodePoint(ECPoint point, EllipticCurve curve) {
         // get field size in bytes (rounding up)
         int n = (curve.getField().getFieldSize() + 7) >> 3;
-        byte[] xb = trimZeroes(point.getAffineX().toByteArray());
-        byte[] yb = trimZeroes(point.getAffineY().toByteArray());
+        byte[] xb = trimZeroes(point.getAffineX().toByteArrby());
+        byte[] yb = trimZeroes(point.getAffineY().toByteArrby());
         if ((xb.length > n) || (yb.length > n)) {
             throw new RuntimeException
-                ("Point coordinates do not match field size");
+                ("Point coordinbtes do not mbtch field size");
         }
         byte[] b = new byte[1 + (n << 1)];
         b[0] = 4; // uncompressed
-        System.arraycopy(xb, 0, b, n - xb.length + 1, xb.length);
-        System.arraycopy(yb, 0, b, b.length - yb.length, yb.length);
+        System.brrbycopy(xb, 0, b, n - xb.length + 1, xb.length);
+        System.brrbycopy(yb, 0, b, b.length - yb.length, yb.length);
         return b;
     }
 
-    public static byte[] trimZeroes(byte[] b) {
+    public stbtic byte[] trimZeroes(byte[] b) {
         int i = 0;
         while ((i < b.length - 1) && (b[i] == 0)) {
             i++;
@@ -86,146 +86,146 @@ public class ECUtil {
             return b;
         }
 
-        return Arrays.copyOfRange(b, i, b.length);
+        return Arrbys.copyOfRbnge(b, i, b.length);
     }
 
-    private static KeyFactory getKeyFactory() {
+    privbte stbtic KeyFbctory getKeyFbctory() {
         try {
-            return KeyFactory.getInstance("EC", "SunEC");
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            return KeyFbctory.getInstbnce("EC", "SunEC");
+        } cbtch (NoSuchAlgorithmException | NoSuchProviderException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static ECPublicKey decodeX509ECPublicKey(byte[] encoded)
-            throws InvalidKeySpecException {
-        KeyFactory keyFactory = getKeyFactory();
+    public stbtic ECPublicKey decodeX509ECPublicKey(byte[] encoded)
+            throws InvblidKeySpecException {
+        KeyFbctory keyFbctory = getKeyFbctory();
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encoded);
 
-        return (ECPublicKey)keyFactory.generatePublic(keySpec);
+        return (ECPublicKey)keyFbctory.generbtePublic(keySpec);
     }
 
-    public static byte[] x509EncodeECPublicKey(ECPoint w,
-            ECParameterSpec params) throws InvalidKeySpecException {
-        KeyFactory keyFactory = getKeyFactory();
-        ECPublicKeySpec keySpec = new ECPublicKeySpec(w, params);
-        X509Key key = (X509Key)keyFactory.generatePublic(keySpec);
+    public stbtic byte[] x509EncodeECPublicKey(ECPoint w,
+            ECPbrbmeterSpec pbrbms) throws InvblidKeySpecException {
+        KeyFbctory keyFbctory = getKeyFbctory();
+        ECPublicKeySpec keySpec = new ECPublicKeySpec(w, pbrbms);
+        X509Key key = (X509Key)keyFbctory.generbtePublic(keySpec);
 
         return key.getEncoded();
     }
 
-    public static ECPrivateKey decodePKCS8ECPrivateKey(byte[] encoded)
-            throws InvalidKeySpecException {
-        KeyFactory keyFactory = getKeyFactory();
+    public stbtic ECPrivbteKey decodePKCS8ECPrivbteKey(byte[] encoded)
+            throws InvblidKeySpecException {
+        KeyFbctory keyFbctory = getKeyFbctory();
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
 
-        return (ECPrivateKey)keyFactory.generatePrivate(keySpec);
+        return (ECPrivbteKey)keyFbctory.generbtePrivbte(keySpec);
     }
 
-    public static ECPrivateKey generateECPrivateKey(BigInteger s,
-            ECParameterSpec params) throws InvalidKeySpecException {
-        KeyFactory keyFactory = getKeyFactory();
-        ECPrivateKeySpec keySpec = new ECPrivateKeySpec(s, params);
+    public stbtic ECPrivbteKey generbteECPrivbteKey(BigInteger s,
+            ECPbrbmeterSpec pbrbms) throws InvblidKeySpecException {
+        KeyFbctory keyFbctory = getKeyFbctory();
+        ECPrivbteKeySpec keySpec = new ECPrivbteKeySpec(s, pbrbms);
 
-        return (ECPrivateKey)keyFactory.generatePrivate(keySpec);
+        return (ECPrivbteKey)keyFbctory.generbtePrivbte(keySpec);
     }
 
-    private static AlgorithmParameters getECParameters(Provider p) {
+    privbte stbtic AlgorithmPbrbmeters getECPbrbmeters(Provider p) {
         try {
             if (p != null) {
-                return AlgorithmParameters.getInstance("EC", p);
+                return AlgorithmPbrbmeters.getInstbnce("EC", p);
             }
 
-            return AlgorithmParameters.getInstance("EC");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new RuntimeException(nsae);
+            return AlgorithmPbrbmeters.getInstbnce("EC");
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new RuntimeException(nsbe);
         }
     }
 
-    public static byte[] encodeECParameterSpec(Provider p,
-                                               ECParameterSpec spec) {
-        AlgorithmParameters parameters = getECParameters(p);
+    public stbtic byte[] encodeECPbrbmeterSpec(Provider p,
+                                               ECPbrbmeterSpec spec) {
+        AlgorithmPbrbmeters pbrbmeters = getECPbrbmeters(p);
 
         try {
-            parameters.init(spec);
-        } catch (InvalidParameterSpecException ipse) {
-            throw new RuntimeException("Not a known named curve: " + spec);
+            pbrbmeters.init(spec);
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
+            throw new RuntimeException("Not b known nbmed curve: " + spec);
         }
 
         try {
-            return parameters.getEncoded();
-        } catch (IOException ioe) {
-            // it is a bug if this should happen
+            return pbrbmeters.getEncoded();
+        } cbtch (IOException ioe) {
+            // it is b bug if this should hbppen
             throw new RuntimeException(ioe);
         }
     }
 
-    public static ECParameterSpec getECParameterSpec(Provider p,
-                                                     ECParameterSpec spec) {
-        AlgorithmParameters parameters = getECParameters(p);
+    public stbtic ECPbrbmeterSpec getECPbrbmeterSpec(Provider p,
+                                                     ECPbrbmeterSpec spec) {
+        AlgorithmPbrbmeters pbrbmeters = getECPbrbmeters(p);
 
         try {
-            parameters.init(spec);
-            return parameters.getParameterSpec(ECParameterSpec.class);
-        } catch (InvalidParameterSpecException ipse) {
+            pbrbmeters.init(spec);
+            return pbrbmeters.getPbrbmeterSpec(ECPbrbmeterSpec.clbss);
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
             return null;
         }
     }
 
-    public static ECParameterSpec getECParameterSpec(Provider p,
-                                                     byte[] params)
+    public stbtic ECPbrbmeterSpec getECPbrbmeterSpec(Provider p,
+                                                     byte[] pbrbms)
             throws IOException {
-        AlgorithmParameters parameters = getECParameters(p);
+        AlgorithmPbrbmeters pbrbmeters = getECPbrbmeters(p);
 
-        parameters.init(params);
+        pbrbmeters.init(pbrbms);
 
         try {
-            return parameters.getParameterSpec(ECParameterSpec.class);
-        } catch (InvalidParameterSpecException ipse) {
+            return pbrbmeters.getPbrbmeterSpec(ECPbrbmeterSpec.clbss);
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
             return null;
         }
     }
 
-    public static ECParameterSpec getECParameterSpec(Provider p, String name) {
-        AlgorithmParameters parameters = getECParameters(p);
+    public stbtic ECPbrbmeterSpec getECPbrbmeterSpec(Provider p, String nbme) {
+        AlgorithmPbrbmeters pbrbmeters = getECPbrbmeters(p);
 
         try {
-            parameters.init(new ECGenParameterSpec(name));
-            return parameters.getParameterSpec(ECParameterSpec.class);
-        } catch (InvalidParameterSpecException ipse) {
+            pbrbmeters.init(new ECGenPbrbmeterSpec(nbme));
+            return pbrbmeters.getPbrbmeterSpec(ECPbrbmeterSpec.clbss);
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
             return null;
         }
     }
 
-    public static ECParameterSpec getECParameterSpec(Provider p, int keySize) {
-        AlgorithmParameters parameters = getECParameters(p);
+    public stbtic ECPbrbmeterSpec getECPbrbmeterSpec(Provider p, int keySize) {
+        AlgorithmPbrbmeters pbrbmeters = getECPbrbmeters(p);
 
         try {
-            parameters.init(new ECKeySizeParameterSpec(keySize));
-            return parameters.getParameterSpec(ECParameterSpec.class);
-        } catch (InvalidParameterSpecException ipse) {
+            pbrbmeters.init(new ECKeySizePbrbmeterSpec(keySize));
+            return pbrbmeters.getPbrbmeterSpec(ECPbrbmeterSpec.clbss);
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
             return null;
         }
 
     }
 
-    public static String getCurveName(Provider p, ECParameterSpec spec) {
-        ECGenParameterSpec nameSpec;
-        AlgorithmParameters parameters = getECParameters(p);
+    public stbtic String getCurveNbme(Provider p, ECPbrbmeterSpec spec) {
+        ECGenPbrbmeterSpec nbmeSpec;
+        AlgorithmPbrbmeters pbrbmeters = getECPbrbmeters(p);
 
         try {
-            parameters.init(spec);
-            nameSpec = parameters.getParameterSpec(ECGenParameterSpec.class);
-        } catch (InvalidParameterSpecException ipse) {
+            pbrbmeters.init(spec);
+            nbmeSpec = pbrbmeters.getPbrbmeterSpec(ECGenPbrbmeterSpec.clbss);
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
             return null;
         }
 
-        if (nameSpec == null) {
+        if (nbmeSpec == null) {
             return null;
         }
 
-        return nameSpec.getName();
+        return nbmeSpec.getNbme();
     }
 
-    private ECUtil() {}
+    privbte ECUtil() {}
 }

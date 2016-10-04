@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicTbbbedPbneUI;
+import jbvb.io.Seriblizbble;
 
 /**
- * A Motif L&F implementation of TabbedPaneUI.
+ * A Motif L&F implementbtion of TbbbedPbneUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Amy Fowler
- * @author Philip Milne
+ * @buthor Amy Fowler
+ * @buthor Philip Milne
  */
-public class MotifTabbedPaneUI extends BasicTabbedPaneUI
+public clbss MotifTbbbedPbneUI extends BbsicTbbbedPbneUI
 {
 
-// Instance variables initialized at installation
+// Instbnce vbribbles initiblized bt instbllbtion
 
-    protected Color unselectedTabBackground;
-    protected Color unselectedTabForeground;
-    protected Color unselectedTabShadow;
-    protected Color unselectedTabHighlight;
+    protected Color unselectedTbbBbckground;
+    protected Color unselectedTbbForeground;
+    protected Color unselectedTbbShbdow;
+    protected Color unselectedTbbHighlight;
 
 
-// UI creation
+// UI crebtion
 
-    public static ComponentUI createUI(JComponent tabbedPane) {
-        return new MotifTabbedPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent tbbbedPbne) {
+        return new MotifTbbbedPbneUI();
     }
 
 
-// UI Installation/De-installation
+// UI Instbllbtion/De-instbllbtion
 
 
-    protected void installDefaults() {
-        super.installDefaults();
+    protected void instbllDefbults() {
+        super.instbllDefbults();
 
-        unselectedTabBackground = UIManager.getColor("TabbedPane.unselectedTabBackground");
-        unselectedTabForeground = UIManager.getColor("TabbedPane.unselectedTabForeground");
-        unselectedTabShadow = UIManager.getColor("TabbedPane.unselectedTabShadow");
-        unselectedTabHighlight = UIManager.getColor("TabbedPane.unselectedTabHighlight");
+        unselectedTbbBbckground = UIMbnbger.getColor("TbbbedPbne.unselectedTbbBbckground");
+        unselectedTbbForeground = UIMbnbger.getColor("TbbbedPbne.unselectedTbbForeground");
+        unselectedTbbShbdow = UIMbnbger.getColor("TbbbedPbne.unselectedTbbShbdow");
+        unselectedTbbHighlight = UIMbnbger.getColor("TbbbedPbne.unselectedTbbHighlight");
     }
 
-    protected void uninstallDefaults() {
-        super.uninstallDefaults();
+    protected void uninstbllDefbults() {
+        super.uninstbllDefbults();
 
-        unselectedTabBackground = null;
-        unselectedTabForeground = null;
-        unselectedTabShadow = null;
-        unselectedTabHighlight = null;
+        unselectedTbbBbckground = null;
+        unselectedTbbForeground = null;
+        unselectedTbbShbdow = null;
+        unselectedTbbHighlight = null;
     }
 
 // UI Rendering
 
-   protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
+   protected void pbintContentBorderTopEdge(Grbphics g, int tbbPlbcement,
                                             int selectedIndex,
                                             int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
+        Rectbngle selRect = selectedIndex < 0? null :
+                               getTbbBounds(selectedIndex, cblcRect);
         g.setColor(lightHighlight);
 
-        // Draw unbroken line if tabs are not on TOP, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+        // Drbw unbroken line if tbbs bre not on TOP, OR
+        // selected tbb is not visible (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != TOP || selectedIndex < 0 ||
+        if (tbbPlbcement != TOP || selectedIndex < 0 ||
             (selRect.x < x || selRect.x > x + w)) {
-            g.drawLine(x, y, x+w-2, y);
+            g.drbwLine(x, y, x+w-2, y);
         } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x, y, selRect.x - 1, y);
+            // Brebk line to show visubl connection to selected tbb
+            g.drbwLine(x, y, selRect.x - 1, y);
             if (selRect.x + selRect.width < x + w - 2) {
-                g.drawLine(selRect.x + selRect.width, y,
+                g.drbwLine(selRect.x + selRect.width, y,
                            x+w-2, y);
             }
         }
     }
 
-    protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
+    protected void pbintContentBorderBottomEdge(Grbphics g, int tbbPlbcement,
                                                int selectedIndex,
                                                int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
-        g.setColor(shadow);
+        Rectbngle selRect = selectedIndex < 0? null :
+                               getTbbBounds(selectedIndex, cblcRect);
+        g.setColor(shbdow);
 
-        // Draw unbroken line if tabs are not on BOTTOM, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+        // Drbw unbroken line if tbbs bre not on BOTTOM, OR
+        // selected tbb is not visible (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != BOTTOM || selectedIndex < 0 ||
+        if (tbbPlbcement != BOTTOM || selectedIndex < 0 ||
              (selRect.x < x || selRect.x > x + w)) {
-            g.drawLine(x+1, y+h-1, x+w-1, y+h-1);
+            g.drbwLine(x+1, y+h-1, x+w-1, y+h-1);
         } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x+1, y+h-1, selRect.x - 1, y+h-1);
+            // Brebk line to show visubl connection to selected tbb
+            g.drbwLine(x+1, y+h-1, selRect.x - 1, y+h-1);
             if (selRect.x + selRect.width < x + w - 2) {
-                g.drawLine(selRect.x + selRect.width, y+h-1, x+w-2, y+h-1);
+                g.drbwLine(selRect.x + selRect.width, y+h-1, x+w-2, y+h-1);
             }
         }
     }
 
-    protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
+    protected void pbintContentBorderRightEdge(Grbphics g, int tbbPlbcement,
                                                int selectedIndex,
                                                int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
-        g.setColor(shadow);
-        // Draw unbroken line if tabs are not on RIGHT, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+        Rectbngle selRect = selectedIndex < 0? null :
+                               getTbbBounds(selectedIndex, cblcRect);
+        g.setColor(shbdow);
+        // Drbw unbroken line if tbbs bre not on RIGHT, OR
+        // selected tbb is not visible (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != RIGHT || selectedIndex < 0 ||
+        if (tbbPlbcement != RIGHT || selectedIndex < 0 ||
              (selRect.y < y || selRect.y > y + h)) {
-            g.drawLine(x+w-1, y+1, x+w-1, y+h-1);
+            g.drbwLine(x+w-1, y+1, x+w-1, y+h-1);
         } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x+w-1, y+1, x+w-1, selRect.y - 1);
+            // Brebk line to show visubl connection to selected tbb
+            g.drbwLine(x+w-1, y+1, x+w-1, selRect.y - 1);
             if (selRect.y + selRect.height < y + h - 2 ) {
-                g.drawLine(x+w-1, selRect.y + selRect.height,
+                g.drbwLine(x+w-1, selRect.y + selRect.height,
                            x+w-1, y+h-2);
             }
         }
     }
 
-    protected void paintTabBackground(Graphics g,
-                                      int tabPlacement, int tabIndex,
+    protected void pbintTbbBbckground(Grbphics g,
+                                      int tbbPlbcement, int tbbIndex,
                                       int x, int y, int w, int h,
-                                      boolean isSelected ) {
-        g.setColor(isSelected? tabPane.getBackgroundAt(tabIndex) : unselectedTabBackground);
-        switch(tabPlacement) {
-          case LEFT:
+                                      boolebn isSelected ) {
+        g.setColor(isSelected? tbbPbne.getBbckgroundAt(tbbIndex) : unselectedTbbBbckground);
+        switch(tbbPlbcement) {
+          cbse LEFT:
               g.fillRect(x+1, y+1, w-1, h-2);
-              break;
-          case RIGHT:
+              brebk;
+          cbse RIGHT:
               g.fillRect(x, y+1, w-1, h-2);
-              break;
-          case BOTTOM:
+              brebk;
+          cbse BOTTOM:
               g.fillRect(x+1, y, w-2, h-3);
-              g.drawLine(x+2, y+h-3, x+w-3, y+h-3);
-              g.drawLine(x+3, y+h-2, x+w-4, y+h-2);
-              break;
-          case TOP:
-          default:
+              g.drbwLine(x+2, y+h-3, x+w-3, y+h-3);
+              g.drbwLine(x+3, y+h-2, x+w-4, y+h-2);
+              brebk;
+          cbse TOP:
+          defbult:
               g.fillRect(x+1, y+3, w-2, h-3);
-              g.drawLine(x+2, y+2, x+w-3, y+2);
-              g.drawLine(x+3, y+1, x+w-4, y+1);
+              g.drbwLine(x+2, y+2, x+w-3, y+2);
+              g.drbwLine(x+3, y+1, x+w-4, y+1);
         }
 
     }
 
-    protected void paintTabBorder(Graphics g,
-                                  int tabPlacement, int tabIndex,
+    protected void pbintTbbBorder(Grbphics g,
+                                  int tbbPlbcement, int tbbIndex,
                                   int x, int y, int w, int h,
-                                  boolean isSelected) {
-        g.setColor(isSelected? lightHighlight : unselectedTabHighlight);
+                                  boolebn isSelected) {
+        g.setColor(isSelected? lightHighlight : unselectedTbbHighlight);
 
-        switch(tabPlacement) {
-          case LEFT:
-              g.drawLine(x, y+2, x, y+h-3);
-              g.drawLine(x+1, y+1, x+1, y+2);
-              g.drawLine(x+2, y, x+2, y+1);
-              g.drawLine(x+3, y, x+w-1, y);
-              g.setColor(isSelected? shadow : unselectedTabShadow);
-              g.drawLine(x+1, y+h-3, x+1, y+h-2);
-              g.drawLine(x+2, y+h-2, x+2, y+h-1);
-              g.drawLine(x+3, y+h-1, x+w-1, y+h-1);
-              break;
-          case RIGHT:
-              g.drawLine(x, y, x+w-3, y);
-              g.setColor(isSelected? shadow : unselectedTabShadow);
-              g.drawLine(x+w-3, y, x+w-3, y+1);
-              g.drawLine(x+w-2, y+1, x+w-2, y+2);
-              g.drawLine(x+w-1, y+2, x+w-1, y+h-3);
-              g.drawLine(x+w-2, y+h-3, x+w-2, y+h-2);
-              g.drawLine(x+w-3, y+h-2, x+w-3, y+h-1);
-              g.drawLine(x, y+h-1, x+w-3, y+h-1);
-              break;
-          case BOTTOM:
-              g.drawLine(x, y, x, y+h-3);
-              g.drawLine(x+1, y+h-3, x+1, y+h-2);
-              g.drawLine(x+2, y+h-2, x+2, y+h-1);
-              g.setColor(isSelected? shadow : unselectedTabShadow);
-              g.drawLine(x+3, y+h-1, x+w-4, y+h-1);
-              g.drawLine(x+w-3, y+h-2, x+w-3, y+h-1);
-              g.drawLine(x+w-2, y+h-3, x+w-2, y+h-2);
-              g.drawLine(x+w-1, y, x+w-1, y+h-3);
-              break;
-          case TOP:
-          default:
-              g.drawLine(x, y+2, x, y+h-1);
-              g.drawLine(x+1, y+1, x+1, y+2);
-              g.drawLine(x+2, y, x+2, y+1);
-              g.drawLine(x+3, y, x+w-4, y);
-              g.setColor(isSelected? shadow : unselectedTabShadow);
-              g.drawLine(x+w-3, y, x+w-3, y+1);
-              g.drawLine(x+w-2, y+1, x+w-2, y+2);
-              g.drawLine(x+w-1, y+2, x+w-1, y+h-1);
+        switch(tbbPlbcement) {
+          cbse LEFT:
+              g.drbwLine(x, y+2, x, y+h-3);
+              g.drbwLine(x+1, y+1, x+1, y+2);
+              g.drbwLine(x+2, y, x+2, y+1);
+              g.drbwLine(x+3, y, x+w-1, y);
+              g.setColor(isSelected? shbdow : unselectedTbbShbdow);
+              g.drbwLine(x+1, y+h-3, x+1, y+h-2);
+              g.drbwLine(x+2, y+h-2, x+2, y+h-1);
+              g.drbwLine(x+3, y+h-1, x+w-1, y+h-1);
+              brebk;
+          cbse RIGHT:
+              g.drbwLine(x, y, x+w-3, y);
+              g.setColor(isSelected? shbdow : unselectedTbbShbdow);
+              g.drbwLine(x+w-3, y, x+w-3, y+1);
+              g.drbwLine(x+w-2, y+1, x+w-2, y+2);
+              g.drbwLine(x+w-1, y+2, x+w-1, y+h-3);
+              g.drbwLine(x+w-2, y+h-3, x+w-2, y+h-2);
+              g.drbwLine(x+w-3, y+h-2, x+w-3, y+h-1);
+              g.drbwLine(x, y+h-1, x+w-3, y+h-1);
+              brebk;
+          cbse BOTTOM:
+              g.drbwLine(x, y, x, y+h-3);
+              g.drbwLine(x+1, y+h-3, x+1, y+h-2);
+              g.drbwLine(x+2, y+h-2, x+2, y+h-1);
+              g.setColor(isSelected? shbdow : unselectedTbbShbdow);
+              g.drbwLine(x+3, y+h-1, x+w-4, y+h-1);
+              g.drbwLine(x+w-3, y+h-2, x+w-3, y+h-1);
+              g.drbwLine(x+w-2, y+h-3, x+w-2, y+h-2);
+              g.drbwLine(x+w-1, y, x+w-1, y+h-3);
+              brebk;
+          cbse TOP:
+          defbult:
+              g.drbwLine(x, y+2, x, y+h-1);
+              g.drbwLine(x+1, y+1, x+1, y+2);
+              g.drbwLine(x+2, y, x+2, y+1);
+              g.drbwLine(x+3, y, x+w-4, y);
+              g.setColor(isSelected? shbdow : unselectedTbbShbdow);
+              g.drbwLine(x+w-3, y, x+w-3, y+1);
+              g.drbwLine(x+w-2, y+1, x+w-2, y+2);
+              g.drbwLine(x+w-1, y+2, x+w-1, y+h-1);
         }
 
     }
 
-    protected void paintFocusIndicator(Graphics g, int tabPlacement,
-                                       Rectangle[] rects, int tabIndex,
-                                       Rectangle iconRect, Rectangle textRect,
-                                       boolean isSelected) {
-        Rectangle tabRect = rects[tabIndex];
-        if (tabPane.hasFocus() && isSelected) {
+    protected void pbintFocusIndicbtor(Grbphics g, int tbbPlbcement,
+                                       Rectbngle[] rects, int tbbIndex,
+                                       Rectbngle iconRect, Rectbngle textRect,
+                                       boolebn isSelected) {
+        Rectbngle tbbRect = rects[tbbIndex];
+        if (tbbPbne.hbsFocus() && isSelected) {
             int x, y, w, h;
             g.setColor(focus);
-            switch(tabPlacement) {
-              case LEFT:
-                  x = tabRect.x + 3;
-                  y = tabRect.y + 3;
-                  w = tabRect.width - 6;
-                  h = tabRect.height - 7;
-                  break;
-              case RIGHT:
-                  x = tabRect.x + 2;
-                  y = tabRect.y + 3;
-                  w = tabRect.width - 6;
-                  h = tabRect.height - 7;
-                  break;
-              case BOTTOM:
-                  x = tabRect.x + 3;
-                  y = tabRect.y + 2;
-                  w = tabRect.width - 7;
-                  h = tabRect.height - 6;
-                  break;
-              case TOP:
-              default:
-                  x = tabRect.x + 3;
-                  y = tabRect.y + 3;
-                  w = tabRect.width - 7;
-                  h = tabRect.height - 6;
+            switch(tbbPlbcement) {
+              cbse LEFT:
+                  x = tbbRect.x + 3;
+                  y = tbbRect.y + 3;
+                  w = tbbRect.width - 6;
+                  h = tbbRect.height - 7;
+                  brebk;
+              cbse RIGHT:
+                  x = tbbRect.x + 2;
+                  y = tbbRect.y + 3;
+                  w = tbbRect.width - 6;
+                  h = tbbRect.height - 7;
+                  brebk;
+              cbse BOTTOM:
+                  x = tbbRect.x + 3;
+                  y = tbbRect.y + 2;
+                  w = tbbRect.width - 7;
+                  h = tbbRect.height - 6;
+                  brebk;
+              cbse TOP:
+              defbult:
+                  x = tbbRect.x + 3;
+                  y = tbbRect.y + 3;
+                  w = tbbRect.width - 7;
+                  h = tbbRect.height - 6;
             }
-            g.drawRect(x, y, w, h);
+            g.drbwRect(x, y, w, h);
         }
     }
 
-    protected int getTabRunIndent(int tabPlacement, int run) {
+    protected int getTbbRunIndent(int tbbPlbcement, int run) {
         return run*3;
     }
 
-    protected int getTabRunOverlay(int tabPlacement) {
-        tabRunOverlay = (tabPlacement == LEFT || tabPlacement == RIGHT)?
-            (int)Math.round((float)maxTabWidth * .10) :
-            (int)Math.round((float)maxTabHeight * .22);
+    protected int getTbbRunOverlby(int tbbPlbcement) {
+        tbbRunOverlby = (tbbPlbcement == LEFT || tbbPlbcement == RIGHT)?
+            (int)Mbth.round((flobt)mbxTbbWidth * .10) :
+            (int)Mbth.round((flobt)mbxTbbHeight * .22);
 
-        // Ensure that runover lay is not more than insets
-        // 2 pixel offset is set from insets to each run
-        switch(tabPlacement) {
-        case LEFT:
-                if( tabRunOverlay > tabInsets.right - 2 )
-                    tabRunOverlay = tabInsets.right - 2 ;
-                break;
-        case RIGHT:
-                if( tabRunOverlay > tabInsets.left - 2 )
-                    tabRunOverlay = tabInsets.left - 2 ;
-                break;
-        case TOP:
-                if( tabRunOverlay > tabInsets.bottom - 2 )
-                    tabRunOverlay = tabInsets.bottom - 2 ;
-                break;
-        case BOTTOM:
-                if( tabRunOverlay > tabInsets.top - 2 )
-                    tabRunOverlay = tabInsets.top - 2 ;
-                break;
+        // Ensure thbt runover lby is not more thbn insets
+        // 2 pixel offset is set from insets to ebch run
+        switch(tbbPlbcement) {
+        cbse LEFT:
+                if( tbbRunOverlby > tbbInsets.right - 2 )
+                    tbbRunOverlby = tbbInsets.right - 2 ;
+                brebk;
+        cbse RIGHT:
+                if( tbbRunOverlby > tbbInsets.left - 2 )
+                    tbbRunOverlby = tbbInsets.left - 2 ;
+                brebk;
+        cbse TOP:
+                if( tbbRunOverlby > tbbInsets.bottom - 2 )
+                    tbbRunOverlby = tbbInsets.bottom - 2 ;
+                brebk;
+        cbse BOTTOM:
+                if( tbbRunOverlby > tbbInsets.top - 2 )
+                    tbbRunOverlby = tbbInsets.top - 2 ;
+                brebk;
 
         }
 
-        return tabRunOverlay;
+        return tbbRunOverlby;
     }
 
 }

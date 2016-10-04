@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset;
+pbckbge jbvbx.sql.rowset;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.math.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
 
 /**
- * The standard interface that all standard implementations of
- * <code>FilteredRowSet</code> must implement. The <code>FilteredRowSetImpl</code> class
- * provides the reference implementation which may be extended if required.
- * Alternatively, a vendor is free to implement its own version
- * by implementing this interface.
+ * The stbndbrd interfbce thbt bll stbndbrd implementbtions of
+ * <code>FilteredRowSet</code> must implement. The <code>FilteredRowSetImpl</code> clbss
+ * provides the reference implementbtion which mby be extended if required.
+ * Alternbtively, b vendor is free to implement its own version
+ * by implementing this interfbce.
  *
- * <h3>1.0 Background</h3>
+ * <h3>1.0 Bbckground</h3>
  *
- * There are occasions when a <code>RowSet</code> object has a need to provide a degree
+ * There bre occbsions when b <code>RowSet</code> object hbs b need to provide b degree
  * of filtering to its contents. One possible solution is to provide
- * a query language for all standard <code>RowSet</code> implementations; however,
- * this is an impractical approach for lightweight components such as disconnected
+ * b query lbngubge for bll stbndbrd <code>RowSet</code> implementbtions; however,
+ * this is bn imprbcticbl bpprobch for lightweight components such bs disconnected
  * <code>RowSet</code>
- * objects. The <code>FilteredRowSet</code> interface seeks to address this need
- * without supplying a heavyweight query language along with the processing that
- * such a query language would require.
+ * objects. The <code>FilteredRowSet</code> interfbce seeks to bddress this need
+ * without supplying b hebvyweight query lbngubge blong with the processing thbt
+ * such b query lbngubge would require.
  * <p>
- * A JDBC <code>FilteredRowSet</code> standard implementation implements the
- * <code>RowSet</code> interfaces and extends the
- * <code>CachedRowSet</code>&trade; class. The
- * <code>CachedRowSet</code> class provides a set of protected cursor manipulation
- * methods, which a <code>FilteredRowSet</code> implementation can override
+ * A JDBC <code>FilteredRowSet</code> stbndbrd implementbtion implements the
+ * <code>RowSet</code> interfbces bnd extends the
+ * <code>CbchedRowSet</code>&trbde; clbss. The
+ * <code>CbchedRowSet</code> clbss provides b set of protected cursor mbnipulbtion
+ * methods, which b <code>FilteredRowSet</code> implementbtion cbn override
  * to supply filtering support.
  *
- * <h3>2.0 Predicate Sharing</h3>
+ * <h3>2.0 Predicbte Shbring</h3>
  *
- * If a <code>FilteredRowSet</code> implementation is shared using the
- * inherited <code>createShared</code> method in parent interfaces, the
- * <code>Predicate</code> should be shared without modification by all
- * <code>FilteredRowSet</code> instance clones.
+ * If b <code>FilteredRowSet</code> implementbtion is shbred using the
+ * inherited <code>crebteShbred</code> method in pbrent interfbces, the
+ * <code>Predicbte</code> should be shbred without modificbtion by bll
+ * <code>FilteredRowSet</code> instbnce clones.
  *
- * <h3>3.0 Usage</h3>
+ * <h3>3.0 Usbge</h3>
  * <p>
- * By implementing a <code>Predicate</code> (see example in <a href="Predicate.html">Predicate</a>
- * class JavaDoc), a <code>FilteredRowSet</code> could then be used as described
+ * By implementing b <code>Predicbte</code> (see exbmple in <b href="Predicbte.html">Predicbte</b>
+ * clbss JbvbDoc), b <code>FilteredRowSet</code> could then be used bs described
  * below.
  *
  * <pre>
  * {@code
  *     FilteredRowSet frs = new FilteredRowSetImpl();
- *     frs.populate(rs);
+ *     frs.populbte(rs);
  *
- *     Range name = new Range("Alpha", "Bravo", "columnName");
- *     frs.setFilter(name);
+ *     Rbnge nbme = new Rbnge("Alphb", "Brbvo", "columnNbme");
+ *     frs.setFilter(nbme);
  *
- *     frs.next() // only names from "Alpha" to "Bravo" will be returned
+ *     frs.next() // only nbmes from "Alphb" to "Brbvo" will be returned
  * }
  * </pre>
- * In the example above, we initialize a <code>Range</code> object which
- * implements the <code>Predicate</code> interface. This object expresses
- * the following constraints: All rows outputted or modified from this
- * <code>FilteredRowSet</code> object must fall between the values 'Alpha' and
- * 'Bravo' both values inclusive, in the column 'columnName'. If a filter is
- * applied to a <code>FilteredRowSet</code> object that contains no data that
- * falls within the range of the filter, no rows are returned.
+ * In the exbmple bbove, we initiblize b <code>Rbnge</code> object which
+ * implements the <code>Predicbte</code> interfbce. This object expresses
+ * the following constrbints: All rows outputted or modified from this
+ * <code>FilteredRowSet</code> object must fbll between the vblues 'Alphb' bnd
+ * 'Brbvo' both vblues inclusive, in the column 'columnNbme'. If b filter is
+ * bpplied to b <code>FilteredRowSet</code> object thbt contbins no dbtb thbt
+ * fblls within the rbnge of the filter, no rows bre returned.
  * <p>
- * This framework allows multiple classes implementing predicates to be
- * used in combination to achieved the required filtering result with
- * out the need for query language processing.
+ * This frbmework bllows multiple clbsses implementing predicbtes to be
+ * used in combinbtion to bchieved the required filtering result with
+ * out the need for query lbngubge processing.
  *
- * <h3>4.0 Updating a <code>FilteredRowSet</code> Object</h3>
- * The predicate set on a <code>FilteredRowSet</code> object
- * applies a criterion on all rows in a
- * <code>RowSet</code> object to manage a subset of rows in a <code>RowSet</code>
- * object. This criterion governs the subset of rows that are visible and also
- * defines which rows can be modified, deleted or inserted.
+ * <h3>4.0 Updbting b <code>FilteredRowSet</code> Object</h3>
+ * The predicbte set on b <code>FilteredRowSet</code> object
+ * bpplies b criterion on bll rows in b
+ * <code>RowSet</code> object to mbnbge b subset of rows in b <code>RowSet</code>
+ * object. This criterion governs the subset of rows thbt bre visible bnd blso
+ * defines which rows cbn be modified, deleted or inserted.
  * <p>
- * Therefore, the predicate set on a <code>FilteredRowSet</code> object must be
- * considered as bi-directional and the set criterion as the gating mechanism
- * for all views and updates to the <code>FilteredRowSet</code> object. Any attempt
- * to update the <code>FilteredRowSet</code> that violates the criterion will
- * result in a <code>SQLException</code> object being thrown.
+ * Therefore, the predicbte set on b <code>FilteredRowSet</code> object must be
+ * considered bs bi-directionbl bnd the set criterion bs the gbting mechbnism
+ * for bll views bnd updbtes to the <code>FilteredRowSet</code> object. Any bttempt
+ * to updbte the <code>FilteredRowSet</code> thbt violbtes the criterion will
+ * result in b <code>SQLException</code> object being thrown.
  * <p>
- * The <code>FilteredRowSet</code> range criterion can be modified by applying
- * a new <code>Predicate</code> object to the <code>FilteredRowSet</code>
- * instance at any time. This is  possible if no additional references to the
- * <code>FilteredRowSet</code> object are detected. A new filter has has an
- * immediate effect on criterion enforcement within the
- * <code>FilteredRowSet</code> object, and all subsequent views and updates will be
- * subject to similar enforcement.
+ * The <code>FilteredRowSet</code> rbnge criterion cbn be modified by bpplying
+ * b new <code>Predicbte</code> object to the <code>FilteredRowSet</code>
+ * instbnce bt bny time. This is  possible if no bdditionbl references to the
+ * <code>FilteredRowSet</code> object bre detected. A new filter hbs hbs bn
+ * immedibte effect on criterion enforcement within the
+ * <code>FilteredRowSet</code> object, bnd bll subsequent views bnd updbtes will be
+ * subject to similbr enforcement.
  *
- * <h3>5.0 Behavior of Rows Outside the Filter</h3>
- * Rows that fall outside of the filter set on a <code>FilteredRowSet</code>
- * object cannot be modified until the filter is removed or a
- * new filter is applied.
+ * <h3>5.0 Behbvior of Rows Outside the Filter</h3>
+ * Rows thbt fbll outside of the filter set on b <code>FilteredRowSet</code>
+ * object cbnnot be modified until the filter is removed or b
+ * new filter is bpplied.
  * <p>
- * Furthermore, only rows that fall within the bounds of a filter will be
- * synchronized with the data source.
+ * Furthermore, only rows thbt fbll within the bounds of b filter will be
+ * synchronized with the dbtb source.
  *
- * @author Jonathan Bruce
+ * @buthor Jonbthbn Bruce
  * @since 1.5
  */
 
-public interface FilteredRowSet extends WebRowSet {
+public interfbce FilteredRowSet extends WebRowSet {
 
    /**
-    * Applies the given <code>Predicate</code> object to this
+    * Applies the given <code>Predicbte</code> object to this
     * <code>FilteredRowSet</code>
-    * object. The filter applies controls both to inbound and outbound views,
-    * constraining which rows are visible and which
-    * rows can be manipulated.
+    * object. The filter bpplies controls both to inbound bnd outbound views,
+    * constrbining which rows bre visible bnd which
+    * rows cbn be mbnipulbted.
     * <p>
-    * A new <code>Predicate</code> object may be set at any time. This has the
-    * effect of changing constraints on the <code>RowSet</code> object's data.
-    * In addition, modifying the filter at runtime presents issues whereby
-    * multiple components may be operating on one <code>FilteredRowSet</code> object.
-    * Application developers must take responsibility for managing multiple handles
-    * to <code>FilteredRowSet</code> objects when their underling <code>Predicate</code>
-    * objects change.
+    * A new <code>Predicbte</code> object mby be set bt bny time. This hbs the
+    * effect of chbnging constrbints on the <code>RowSet</code> object's dbtb.
+    * In bddition, modifying the filter bt runtime presents issues whereby
+    * multiple components mby be operbting on one <code>FilteredRowSet</code> object.
+    * Applicbtion developers must tbke responsibility for mbnbging multiple hbndles
+    * to <code>FilteredRowSet</code> objects when their underling <code>Predicbte</code>
+    * objects chbnge.
     *
-    * @param p a <code>Predicate</code> object defining the filter for this
-    * <code>FilteredRowSet</code> object. Setting a <b>null</b> value
-    * will clear the predicate, allowing all rows to become visible.
+    * @pbrbm p b <code>Predicbte</code> object defining the filter for this
+    * <code>FilteredRowSet</code> object. Setting b <b>null</b> vblue
+    * will clebr the predicbte, bllowing bll rows to become visible.
     *
-    * @throws SQLException if an error occurs when setting the
-    *     <code>Predicate</code> object
+    * @throws SQLException if bn error occurs when setting the
+    *     <code>Predicbte</code> object
     */
-    public void setFilter(Predicate p) throws SQLException;
+    public void setFilter(Predicbte p) throws SQLException;
 
    /**
-    * Retrieves the active filter for this <code>FilteredRowSet</code> object.
+    * Retrieves the bctive filter for this <code>FilteredRowSet</code> object.
     *
-    * @return p the <code>Predicate</code> for this <code>FilteredRowSet</code>
-    * object; <code>null</code> if no filter has been set.
+    * @return p the <code>Predicbte</code> for this <code>FilteredRowSet</code>
+    * object; <code>null</code> if no filter hbs been set.
     */
-    public Predicate getFilter() ;
+    public Predicbte getFilter() ;
 }

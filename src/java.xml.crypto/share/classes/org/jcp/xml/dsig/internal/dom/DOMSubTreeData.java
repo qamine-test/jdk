@@ -3,98 +3,98 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
  * $Id$
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.NodeSetData;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import org.w3c.dom.NamedNodeMap;
+import jbvbx.xml.crypto.NodeSetDbtb;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.ListIterbtor;
+import jbvb.util.NoSuchElementException;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
 
 /**
- * This is a subtype of NodeSetData that represents a dereferenced
- * same-document URI as the root of a subdocument. The main reason is
- * for efficiency and performance, as some transforms can operate
- * directly on the subdocument and there is no need to convert it
- * first to an XPath node-set.
+ * This is b subtype of NodeSetDbtb thbt represents b dereferenced
+ * sbme-document URI bs the root of b subdocument. The mbin rebson is
+ * for efficiency bnd performbnce, bs some trbnsforms cbn operbte
+ * directly on the subdocument bnd there is no need to convert it
+ * first to bn XPbth node-set.
  */
-public class DOMSubTreeData implements NodeSetData {
+public clbss DOMSubTreeDbtb implements NodeSetDbtb {
 
-    private boolean excludeComments;
-    private Node root;
+    privbte boolebn excludeComments;
+    privbte Node root;
 
-    public DOMSubTreeData(Node root, boolean excludeComments) {
+    public DOMSubTreeDbtb(Node root, boolebn excludeComments) {
         this.root = root;
         this.excludeComments = excludeComments;
     }
 
-    public Iterator<Node> iterator() {
-        return new DelayedNodeIterator(root, excludeComments);
+    public Iterbtor<Node> iterbtor() {
+        return new DelbyedNodeIterbtor(root, excludeComments);
     }
 
     public Node getRoot() {
         return root;
     }
 
-    public boolean excludeComments() {
+    public boolebn excludeComments() {
         return excludeComments;
     }
 
     /**
-     * This is an Iterator that contains a backing node-set that is
-     * not populated until the caller first attempts to advance the iterator.
+     * This is bn Iterbtor thbt contbins b bbcking node-set thbt is
+     * not populbted until the cbller first bttempts to bdvbnce the iterbtor.
      */
-    static class DelayedNodeIterator implements Iterator<Node> {
-        private Node root;
-        private List<Node> nodeSet;
-        private ListIterator<Node> li;
-        private boolean withComments;
+    stbtic clbss DelbyedNodeIterbtor implements Iterbtor<Node> {
+        privbte Node root;
+        privbte List<Node> nodeSet;
+        privbte ListIterbtor<Node> li;
+        privbte boolebn withComments;
 
-        DelayedNodeIterator(Node root, boolean excludeComments) {
+        DelbyedNodeIterbtor(Node root, boolebn excludeComments) {
             this.root = root;
             this.withComments = !excludeComments;
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             if (nodeSet == null) {
-                nodeSet = dereferenceSameDocumentURI(root);
-                li = nodeSet.listIterator();
+                nodeSet = dereferenceSbmeDocumentURI(root);
+                li = nodeSet.listIterbtor();
             }
-            return li.hasNext();
+            return li.hbsNext();
         }
 
         public Node next() {
             if (nodeSet == null) {
-                nodeSet = dereferenceSameDocumentURI(root);
-                li = nodeSet.listIterator();
+                nodeSet = dereferenceSbmeDocumentURI(root);
+                li = nodeSet.listIterbtor();
             }
-            if (li.hasNext()) {
+            if (li.hbsNext()) {
                 return li.next();
             } else {
                 throw new NoSuchElementException();
@@ -102,18 +102,18 @@ public class DOMSubTreeData implements NodeSetData {
         }
 
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
 
         /**
-         * Dereferences a same-document URI fragment.
+         * Dereferences b sbme-document URI frbgment.
          *
-         * @param node the node (document or element) referenced by the
-         *        URI fragment. If null, returns an empty set.
-         * @return a set of nodes (minus any comment nodes)
+         * @pbrbm node the node (document or element) referenced by the
+         *        URI frbgment. If null, returns bn empty set.
+         * @return b set of nodes (minus bny comment nodes)
          */
-        private List<Node> dereferenceSameDocumentURI(Node node) {
-            List<Node> nodeSet = new ArrayList<Node>();
+        privbte List<Node> dereferenceSbmeDocumentURI(Node node) {
+            List<Node> nodeSet = new ArrbyList<Node>();
             if (node != null) {
                 nodeSetMinusCommentNodes(node, nodeSet, null);
             }
@@ -121,59 +121,59 @@ public class DOMSubTreeData implements NodeSetData {
         }
 
         /**
-         * Recursively traverses the subtree, and returns an XPath-equivalent
-         * node-set of all nodes traversed, excluding any comment nodes,
+         * Recursively trbverses the subtree, bnd returns bn XPbth-equivblent
+         * node-set of bll nodes trbversed, excluding bny comment nodes,
          * if specified.
          *
-         * @param node the node to traverse
-         * @param nodeSet the set of nodes traversed so far
-         * @param the previous sibling node
+         * @pbrbm node the node to trbverse
+         * @pbrbm nodeSet the set of nodes trbversed so fbr
+         * @pbrbm the previous sibling node
          */
-        @SuppressWarnings("fallthrough")
-        private void nodeSetMinusCommentNodes(Node node, List<Node> nodeSet,
+        @SuppressWbrnings("fbllthrough")
+        privbte void nodeSetMinusCommentNodes(Node node, List<Node> nodeSet,
                                               Node prevSibling)
         {
             switch (node.getNodeType()) {
-                case Node.ELEMENT_NODE :
-                    NamedNodeMap attrs = node.getAttributes();
-                    if (attrs != null) {
-                        for (int i = 0, len = attrs.getLength(); i < len; i++) {
-                            nodeSet.add(attrs.item(i));
+                cbse Node.ELEMENT_NODE :
+                    NbmedNodeMbp bttrs = node.getAttributes();
+                    if (bttrs != null) {
+                        for (int i = 0, len = bttrs.getLength(); i < len; i++) {
+                            nodeSet.bdd(bttrs.item(i));
                         }
                     }
-                    nodeSet.add(node);
+                    nodeSet.bdd(node);
                     Node pSibling = null;
                     for (Node child = node.getFirstChild(); child != null;
                         child = child.getNextSibling()) {
                         nodeSetMinusCommentNodes(child, nodeSet, pSibling);
                         pSibling = child;
                     }
-                    break;
-                case Node.DOCUMENT_NODE :
+                    brebk;
+                cbse Node.DOCUMENT_NODE :
                     pSibling = null;
                     for (Node child = node.getFirstChild(); child != null;
                         child = child.getNextSibling()) {
                         nodeSetMinusCommentNodes(child, nodeSet, pSibling);
                         pSibling = child;
                     }
-                    break;
-                case Node.TEXT_NODE :
-                case Node.CDATA_SECTION_NODE:
-                    // emulate XPath which only returns the first node in
-                    // contiguous text/cdata nodes
+                    brebk;
+                cbse Node.TEXT_NODE :
+                cbse Node.CDATA_SECTION_NODE:
+                    // emulbte XPbth which only returns the first node in
+                    // contiguous text/cdbtb nodes
                     if (prevSibling != null &&
                         (prevSibling.getNodeType() == Node.TEXT_NODE ||
                          prevSibling.getNodeType() == Node.CDATA_SECTION_NODE)) {
                         return;
                     }
-                    nodeSet.add(node);
-                    break;
-                case Node.PROCESSING_INSTRUCTION_NODE :
-                    nodeSet.add(node);
-                    break;
-                case Node.COMMENT_NODE:
+                    nodeSet.bdd(node);
+                    brebk;
+                cbse Node.PROCESSING_INSTRUCTION_NODE :
+                    nodeSet.bdd(node);
+                    brebk;
+                cbse Node.COMMENT_NODE:
                     if (withComments) {
-                        nodeSet.add(node);
+                        nodeSet.bdd(node);
                     }
             }
         }

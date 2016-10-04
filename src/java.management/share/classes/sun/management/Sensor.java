@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.lang.management.MemoryUsage;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
 
 /**
- * An abstract sensor.
+ * An bbstrbct sensor.
  *
  * <p>
- * A <tt>AbstractSensor</tt> object consists of two attributes:
+ * A <tt>AbstrbctSensor</tt> object consists of two bttributes:
  * <ul>
- *   <li><tt>on</tt> is a boolean flag indicating if a sensor is
- *       triggered. This flag will be set or cleared by the
- *       component that owns the sensor.</li>
- *   <li><tt>count</tt> is the total number of times that a sensor
- *       has been triggered.</li>
+ *   <li><tt>on</tt> is b boolebn flbg indicbting if b sensor is
+ *       triggered. This flbg will be set or clebred by the
+ *       component thbt owns the sensor.</li>
+ *   <li><tt>count</tt> is the totbl number of times thbt b sensor
+ *       hbs been triggered.</li>
  * </ul>
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
 
-public abstract class Sensor {
-    private Object  lock;
-    private String  name;
-    private long    count;
-    private boolean on;
+public bbstrbct clbss Sensor {
+    privbte Object  lock;
+    privbte String  nbme;
+    privbte long    count;
+    privbte boolebn on;
 
     /**
-     * Constructs a <tt>Sensor</tt> object.
+     * Constructs b <tt>Sensor</tt> object.
      *
-     * @param name The name of this sensor.
+     * @pbrbm nbme The nbme of this sensor.
      */
-    public Sensor(String name) {
-        this.name = name;
+    public Sensor(String nbme) {
+        this.nbme = nbme;
         this.count = 0;
-        this.on = false;
+        this.on = fblse;
         this.lock = new Object();
     }
 
     /**
-     * Returns the name of this sensor.
+     * Returns the nbme of this sensor.
      *
-     * @return the name of this sensor.
+     * @return the nbme of this sensor.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns the total number of times that this sensor has been triggered.
+     * Returns the totbl number of times thbt this sensor hbs been triggered.
      *
-     * @return the total number of times that this sensor has been triggered.
+     * @return the totbl number of times thbt this sensor hbs been triggered.
      */
     public long getCount() {
         synchronized (lock) {
@@ -89,10 +89,10 @@ public abstract class Sensor {
      * Tests if this sensor is currently on.
      *
      * @return <tt>true</tt> if the sensor is currently on;
-     *         <tt>false</tt> otherwise.
+     *         <tt>fblse</tt> otherwise.
      *
      */
-    public boolean isOn() {
+    public boolebn isOn() {
         synchronized (lock) {
             return on;
         }
@@ -100,7 +100,7 @@ public abstract class Sensor {
 
     /**
      * Triggers this sensor. This method first sets this sensor on
-     * and increments its sensor count.
+     * bnd increments its sensor count.
      */
     public void trigger() {
         synchronized (lock) {
@@ -112,7 +112,7 @@ public abstract class Sensor {
 
     /**
      * Triggers this sensor. This method sets this sensor on
-     * and increments the count with the input <tt>increment</tt>.
+     * bnd increments the count with the input <tt>increment</tt>.
      */
     public void trigger(int increment) {
         synchronized (lock) {
@@ -124,49 +124,49 @@ public abstract class Sensor {
     }
 
     /**
-     * Triggers this sensor piggybacking a memory usage object.
+     * Triggers this sensor piggybbcking b memory usbge object.
      * This method sets this sensor on
-     * and increments the count with the input <tt>increment</tt>.
+     * bnd increments the count with the input <tt>increment</tt>.
      */
-    public void trigger(int increment, MemoryUsage usage) {
+    public void trigger(int increment, MemoryUsbge usbge) {
         synchronized (lock) {
             on = true;
             count += increment;
             // Do something here...
         }
-        triggerAction(usage);
+        triggerAction(usbge);
     }
 
     /**
-     * Clears this sensor.
+     * Clebrs this sensor.
      */
-    public void clear() {
+    public void clebr() {
         synchronized (lock) {
-            on = false;
+            on = fblse;
         }
-        clearAction();
+        clebrAction();
     }
 
 
     /**
-     * Clears this sensor
-     * and increments the count with the input <tt>increment</tt>.
+     * Clebrs this sensor
+     * bnd increments the count with the input <tt>increment</tt>.
      */
-    public void clear(int increment) {
+    public void clebr(int increment) {
         synchronized (lock) {
-            on = false;
+            on = fblse;
             count += increment;
         }
-        clearAction();
+        clebrAction();
     }
 
     public String toString() {
-        return "Sensor - " + getName() +
+        return "Sensor - " + getNbme() +
             (isOn() ? " on " : " off ") +
             " count = " + getCount();
     }
 
-    abstract void triggerAction();
-    abstract void triggerAction(MemoryUsage u);
-    abstract void clearAction();
+    bbstrbct void triggerAction();
+    bbstrbct void triggerAction(MemoryUsbge u);
+    bbstrbct void clebrAction();
 }

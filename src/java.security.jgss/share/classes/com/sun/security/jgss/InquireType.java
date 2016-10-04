@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.jgss;
+pbckbge com.sun.security.jgss;
 
 /**
- * Attribute types that can be specified as an argument of
+ * Attribute types thbt cbn be specified bs bn brgument of
  * {@link com.sun.security.jgss.ExtendedGSSContext#inquireSecContext}
  */
 @jdk.Exported
 public enum InquireType {
     /**
-     * Attribute type for retrieving the session key of an established
-     * Kerberos 5 security context. The returned object is an instance of
-     * {@link java.security.Key}, which has the following properties:
+     * Attribute type for retrieving the session key of bn estbblished
+     * Kerberos 5 security context. The returned object is bn instbnce of
+     * {@link jbvb.security.Key}, which hbs the following properties:
      *    <ul>
-     *    <li>Algorithm: enctype as a string, where
+     *    <li>Algorithm: enctype bs b string, where
      *        enctype is defined in RFC 3961, section 8.
-     *    <li>Format: "RAW"
-     *    <li>Encoded form: the raw key bytes, not in any ASN.1 encoding
+     *    <li>Formbt: "RAW"
+     *    <li>Encoded form: the rbw key bytes, not in bny ASN.1 encoding
      *    </ul>
-     * @deprecated as of 1.9, replaced by {@link #KRB5_GET_SESSION_KEY_EX}
-     * which returns an instance of
+     * @deprecbted bs of 1.9, replbced by {@link #KRB5_GET_SESSION_KEY_EX}
+     * which returns bn instbnce of
      * {@link sun.security.jgss.krb5.Krb5Context.EncryptionKey}
-     * that implements the {@link javax.crypto.SecretKey} interface and
-     * has similar methods with {@link javax.security.auth.kerberos.KerberosKey}.
+     * thbt implements the {@link jbvbx.crypto.SecretKey} interfbce bnd
+     * hbs similbr methods with {@link jbvbx.security.buth.kerberos.KerberosKey}.
      */
-    @Deprecated
+    @Deprecbted
     KRB5_GET_SESSION_KEY,
     /**
-     * Attribute type for retrieving the session key of an
-     * established Kerberos 5 security context. The return value is an
-     * instance of {@link javax.security.auth.kerberos.EncryptionKey}.
+     * Attribute type for retrieving the session key of bn
+     * estbblished Kerberos 5 security context. The return vblue is bn
+     * instbnce of {@link jbvbx.security.buth.kerberos.EncryptionKey}.
      *
      * @since 1.9
      */
     KRB5_GET_SESSION_KEY_EX,
     /**
-     * Attribute type for retrieving the service ticket flags of an
-     * established Kerberos 5 security context. The returned object is
-     * a boolean array for the service ticket flags, which is long enough
-     * to contain all true bits. This means if the user wants to get the
-     * <em>n</em>'th bit but the length of the returned array is less than
-     * <em>n</em>, it is regarded as false.
+     * Attribute type for retrieving the service ticket flbgs of bn
+     * estbblished Kerberos 5 security context. The returned object is
+     * b boolebn brrby for the service ticket flbgs, which is long enough
+     * to contbin bll true bits. This mebns if the user wbnts to get the
+     * <em>n</em>'th bit but the length of the returned brrby is less thbn
+     * <em>n</em>, it is regbrded bs fblse.
      */
     KRB5_GET_TKT_FLAGS,
     /**
-     * Attribute type for retrieving the authorization data in the
-     * service ticket of an established Kerberos 5 security context.
-     * Only supported on the acceptor side.
+     * Attribute type for retrieving the buthorizbtion dbtb in the
+     * service ticket of bn estbblished Kerberos 5 security context.
+     * Only supported on the bcceptor side.
      */
     KRB5_GET_AUTHZ_DATA,
     /**
-     * Attribute type for retrieving the authtime in the service ticket
-     * of an established Kerberos 5 security context. The returned object
-     * is a String object in the standard KerberosTime format defined in
+     * Attribute type for retrieving the buthtime in the service ticket
+     * of bn estbblished Kerberos 5 security context. The returned object
+     * is b String object in the stbndbrd KerberosTime formbt defined in
      * RFC 4120 Section 5.2.3.
      */
     KRB5_GET_AUTHTIME,
     /**
-     * Attribute type for retrieving the KRB_CRED message that an initiator
-     * is about to send to an acceptor. The return type is an instance of
-     * {@link javax.security.auth.kerberos.KerberosCredMessage}.
+     * Attribute type for retrieving the KRB_CRED messbge thbt bn initibtor
+     * is bbout to send to bn bcceptor. The return type is bn instbnce of
+     * {@link jbvbx.security.buth.kerberos.KerberosCredMessbge}.
      *
      * @since 1.9
      */

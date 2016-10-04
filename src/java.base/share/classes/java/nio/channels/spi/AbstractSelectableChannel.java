@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels.spi;
+pbckbge jbvb.nio.chbnnels.spi;
 
-import java.io.IOException;
-import java.nio.channels.*;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.*;
 
 
 /**
- * Base implementation class for selectable channels.
+ * Bbse implementbtion clbss for selectbble chbnnels.
  *
- * <p> This class defines methods that handle the mechanics of channel
- * registration, deregistration, and closing.  It maintains the current
- * blocking mode of this channel as well as its current set of selection keys.
- * It performs all of the synchronization required to implement the {@link
- * java.nio.channels.SelectableChannel} specification.  Implementations of the
- * abstract protected methods defined in this class need not synchronize
- * against other threads that might be engaged in the same operations.  </p>
+ * <p> This clbss defines methods thbt hbndle the mechbnics of chbnnel
+ * registrbtion, deregistrbtion, bnd closing.  It mbintbins the current
+ * blocking mode of this chbnnel bs well bs its current set of selection keys.
+ * It performs bll of the synchronizbtion required to implement the {@link
+ * jbvb.nio.chbnnels.SelectbbleChbnnel} specificbtion.  Implementbtions of the
+ * bbstrbct protected methods defined in this clbss need not synchronize
+ * bgbinst other threbds thbt might be engbged in the sbme operbtions.  </p>
  *
  *
- * @author Mark Reinhold
- * @author Mike McCloskey
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor Mike McCloskey
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class AbstractSelectableChannel
-    extends SelectableChannel
+public bbstrbct clbss AbstrbctSelectbbleChbnnel
+    extends SelectbbleChbnnel
 {
 
-    // The provider that created this channel
-    private final SelectorProvider provider;
+    // The provider thbt crebted this chbnnel
+    privbte finbl SelectorProvider provider;
 
-    // Keys that have been created by registering this channel with selectors.
-    // They are saved because if this channel is closed the keys must be
+    // Keys thbt hbve been crebted by registering this chbnnel with selectors.
+    // They bre sbved becbuse if this chbnnel is closed the keys must be
     // deregistered.  Protected by keyLock.
     //
-    private SelectionKey[] keys = null;
-    private int keyCount = 0;
+    privbte SelectionKey[] keys = null;
+    privbte int keyCount = 0;
 
-    // Lock for key set and count
-    private final Object keyLock = new Object();
+    // Lock for key set bnd count
+    privbte finbl Object keyLock = new Object();
 
-    // Lock for registration and configureBlocking operations
-    private final Object regLock = new Object();
+    // Lock for registrbtion bnd configureBlocking operbtions
+    privbte finbl Object regLock = new Object();
 
     // Blocking mode, protected by regLock
-    boolean blocking = true;
+    boolebn blocking = true;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param  provider
-     *         The provider that created this channel
+     * @pbrbm  provider
+     *         The provider thbt crebted this chbnnel
      */
-    protected AbstractSelectableChannel(SelectorProvider provider) {
+    protected AbstrbctSelectbbleChbnnel(SelectorProvider provider) {
         this.provider = provider;
     }
 
     /**
-     * Returns the provider that created this channel.
+     * Returns the provider thbt crebted this chbnnel.
      *
-     * @return  The provider that created this channel
+     * @return  The provider thbt crebted this chbnnel
      */
-    public final SelectorProvider provider() {
+    public finbl SelectorProvider provider() {
         return provider;
     }
 
 
     // -- Utility methods for the key set --
 
-    private void addKey(SelectionKey k) {
-        assert Thread.holdsLock(keyLock);
+    privbte void bddKey(SelectionKey k) {
+        bssert Threbd.holdsLock(keyLock);
         int i = 0;
         if ((keys != null) && (keyCount < keys.length)) {
-            // Find empty element of key array
+            // Find empty element of key brrby
             for (i = 0; i < keys.length; i++)
                 if (keys[i] == null)
-                    break;
+                    brebk;
         } else if (keys == null) {
             keys =  new SelectionKey[3];
         } else {
-            // Grow key array
+            // Grow key brrby
             int n = keys.length * 2;
             SelectionKey[] ks =  new SelectionKey[n];
             for (i = 0; i < keys.length; i++)
@@ -115,7 +115,7 @@ public abstract class AbstractSelectableChannel
         keyCount++;
     }
 
-    private SelectionKey findKey(Selector sel) {
+    privbte SelectionKey findKey(Selector sel) {
         synchronized (keyLock) {
             if (keys == null)
                 return null;
@@ -126,91 +126,91 @@ public abstract class AbstractSelectableChannel
         }
     }
 
-    void removeKey(SelectionKey k) {                    // package-private
+    void removeKey(SelectionKey k) {                    // pbckbge-privbte
         synchronized (keyLock) {
             for (int i = 0; i < keys.length; i++)
                 if (keys[i] == k) {
                     keys[i] = null;
                     keyCount--;
                 }
-            ((AbstractSelectionKey)k).invalidate();
+            ((AbstrbctSelectionKey)k).invblidbte();
         }
     }
 
-    private boolean haveValidKeys() {
+    privbte boolebn hbveVblidKeys() {
         synchronized (keyLock) {
             if (keyCount == 0)
-                return false;
+                return fblse;
             for (int i = 0; i < keys.length; i++) {
-                if ((keys[i] != null) && keys[i].isValid())
+                if ((keys[i] != null) && keys[i].isVblid())
                     return true;
             }
-            return false;
+            return fblse;
         }
     }
 
 
-    // -- Registration --
+    // -- Registrbtion --
 
-    public final boolean isRegistered() {
+    public finbl boolebn isRegistered() {
         synchronized (keyLock) {
             return keyCount != 0;
         }
     }
 
-    public final SelectionKey keyFor(Selector sel) {
+    public finbl SelectionKey keyFor(Selector sel) {
         return findKey(sel);
     }
 
     /**
-     * Registers this channel with the given selector, returning a selection key.
+     * Registers this chbnnel with the given selector, returning b selection key.
      *
-     * <p>  This method first verifies that this channel is open and that the
-     * given initial interest set is valid.
+     * <p>  This method first verifies thbt this chbnnel is open bnd thbt the
+     * given initibl interest set is vblid.
      *
-     * <p> If this channel is already registered with the given selector then
-     * the selection key representing that registration is returned after
-     * setting its interest set to the given value.
+     * <p> If this chbnnel is blrebdy registered with the given selector then
+     * the selection key representing thbt registrbtion is returned bfter
+     * setting its interest set to the given vblue.
      *
-     * <p> Otherwise this channel has not yet been registered with the given
-     * selector, so the {@link AbstractSelector#register register} method of
-     * the selector is invoked while holding the appropriate locks.  The
-     * resulting key is added to this channel's key set before being returned.
+     * <p> Otherwise this chbnnel hbs not yet been registered with the given
+     * selector, so the {@link AbstrbctSelector#register register} method of
+     * the selector is invoked while holding the bppropribte locks.  The
+     * resulting key is bdded to this chbnnel's key set before being returned.
      * </p>
      *
      * @throws  ClosedSelectorException {@inheritDoc}
      *
-     * @throws  IllegalBlockingModeException {@inheritDoc}
+     * @throws  IllegblBlockingModeException {@inheritDoc}
      *
-     * @throws  IllegalSelectorException {@inheritDoc}
+     * @throws  IllegblSelectorException {@inheritDoc}
      *
-     * @throws  CancelledKeyException {@inheritDoc}
+     * @throws  CbncelledKeyException {@inheritDoc}
      *
-     * @throws  IllegalArgumentException {@inheritDoc}
+     * @throws  IllegblArgumentException {@inheritDoc}
      */
-    public final SelectionKey register(Selector sel, int ops,
-                                       Object att)
-        throws ClosedChannelException
+    public finbl SelectionKey register(Selector sel, int ops,
+                                       Object btt)
+        throws ClosedChbnnelException
     {
         synchronized (regLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
-            if ((ops & ~validOps()) != 0)
-                throw new IllegalArgumentException();
+                throw new ClosedChbnnelException();
+            if ((ops & ~vblidOps()) != 0)
+                throw new IllegblArgumentException();
             if (blocking)
-                throw new IllegalBlockingModeException();
+                throw new IllegblBlockingModeException();
             SelectionKey k = findKey(sel);
             if (k != null) {
                 k.interestOps(ops);
-                k.attach(att);
+                k.bttbch(btt);
             }
             if (k == null) {
-                // New registration
+                // New registrbtion
                 synchronized (keyLock) {
                     if (!isOpen())
-                        throw new ClosedChannelException();
-                    k = ((AbstractSelector)sel).register(this, ops, att);
-                    addKey(k);
+                        throw new ClosedChbnnelException();
+                    k = ((AbstrbctSelector)sel).register(this, ops, btt);
+                    bddKey(k);
                 }
             }
             return k;
@@ -221,76 +221,76 @@ public abstract class AbstractSelectableChannel
     // -- Closing --
 
     /**
-     * Closes this channel.
+     * Closes this chbnnel.
      *
      * <p> This method, which is specified in the {@link
-     * AbstractInterruptibleChannel} class and is invoked by the {@link
-     * java.nio.channels.Channel#close close} method, in turn invokes the
-     * {@link #implCloseSelectableChannel implCloseSelectableChannel} method in
-     * order to perform the actual work of closing this channel.  It then
-     * cancels all of this channel's keys.  </p>
+     * AbstrbctInterruptibleChbnnel} clbss bnd is invoked by the {@link
+     * jbvb.nio.chbnnels.Chbnnel#close close} method, in turn invokes the
+     * {@link #implCloseSelectbbleChbnnel implCloseSelectbbleChbnnel} method in
+     * order to perform the bctubl work of closing this chbnnel.  It then
+     * cbncels bll of this chbnnel's keys.  </p>
      */
-    protected final void implCloseChannel() throws IOException {
-        implCloseSelectableChannel();
+    protected finbl void implCloseChbnnel() throws IOException {
+        implCloseSelectbbleChbnnel();
         synchronized (keyLock) {
             int count = (keys == null) ? 0 : keys.length;
             for (int i = 0; i < count; i++) {
                 SelectionKey k = keys[i];
                 if (k != null)
-                    k.cancel();
+                    k.cbncel();
             }
         }
     }
 
     /**
-     * Closes this selectable channel.
+     * Closes this selectbble chbnnel.
      *
-     * <p> This method is invoked by the {@link java.nio.channels.Channel#close
-     * close} method in order to perform the actual work of closing the
-     * channel.  This method is only invoked if the channel has not yet been
-     * closed, and it is never invoked more than once.
+     * <p> This method is invoked by the {@link jbvb.nio.chbnnels.Chbnnel#close
+     * close} method in order to perform the bctubl work of closing the
+     * chbnnel.  This method is only invoked if the chbnnel hbs not yet been
+     * closed, bnd it is never invoked more thbn once.
      *
-     * <p> An implementation of this method must arrange for any other thread
-     * that is blocked in an I/O operation upon this channel to return
-     * immediately, either by throwing an exception or by returning normally.
+     * <p> An implementbtion of this method must brrbnge for bny other threbd
+     * thbt is blocked in bn I/O operbtion upon this chbnnel to return
+     * immedibtely, either by throwing bn exception or by returning normblly.
      * </p>
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    protected abstract void implCloseSelectableChannel() throws IOException;
+    protected bbstrbct void implCloseSelectbbleChbnnel() throws IOException;
 
 
     // -- Blocking --
 
-    public final boolean isBlocking() {
+    public finbl boolebn isBlocking() {
         synchronized (regLock) {
             return blocking;
         }
     }
 
-    public final Object blockingLock() {
+    public finbl Object blockingLock() {
         return regLock;
     }
 
     /**
-     * Adjusts this channel's blocking mode.
+     * Adjusts this chbnnel's blocking mode.
      *
      * <p> If the given blocking mode is different from the current blocking
      * mode then this method invokes the {@link #implConfigureBlocking
-     * implConfigureBlocking} method, while holding the appropriate locks, in
-     * order to change the mode.  </p>
+     * implConfigureBlocking} method, while holding the bppropribte locks, in
+     * order to chbnge the mode.  </p>
      */
-    public final SelectableChannel configureBlocking(boolean block)
+    public finbl SelectbbleChbnnel configureBlocking(boolebn block)
         throws IOException
     {
         synchronized (regLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (blocking == block)
                 return this;
-            if (block && haveValidKeys())
-                throw new IllegalBlockingModeException();
+            if (block && hbveVblidKeys())
+                throw new IllegblBlockingModeException();
             implConfigureBlocking(block);
             blocking = block;
         }
@@ -298,21 +298,21 @@ public abstract class AbstractSelectableChannel
     }
 
     /**
-     * Adjusts this channel's blocking mode.
+     * Adjusts this chbnnel's blocking mode.
      *
      * <p> This method is invoked by the {@link #configureBlocking
-     * configureBlocking} method in order to perform the actual work of
-     * changing the blocking mode.  This method is only invoked if the new mode
+     * configureBlocking} method in order to perform the bctubl work of
+     * chbnging the blocking mode.  This method is only invoked if the new mode
      * is different from the current mode.  </p>
      *
-     * @param  block  If <tt>true</tt> then this channel will be placed in
-     *                blocking mode; if <tt>false</tt> then it will be placed
+     * @pbrbm  block  If <tt>true</tt> then this chbnnel will be plbced in
+     *                blocking mode; if <tt>fblse</tt> then it will be plbced
      *                non-blocking mode
      *
      * @throws IOException
-     *         If an I/O error occurs
+     *         If bn I/O error occurs
      */
-    protected abstract void implConfigureBlocking(boolean block)
+    protected bbstrbct void implConfigureBlocking(boolebn block)
         throws IOException;
 
 }

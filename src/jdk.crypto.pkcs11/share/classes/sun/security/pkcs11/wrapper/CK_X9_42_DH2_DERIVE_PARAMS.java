@@ -2,34 +2,34 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,31 +45,31 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 
 /**
- * class CK_X9_42_DH2_DERIVE_PARAMS provides the parameters to the
- * CKM_X9_42_DH_HYBRID_DERIVE and CKM_X9_42_MQV_DERIVE mechanisms.<p>
+ * clbss CK_X9_42_DH2_DERIVE_PARAMS provides the pbrbmeters to the
+ * CKM_X9_42_DH_HYBRID_DERIVE bnd CKM_X9_42_MQV_DERIVE mechbnisms.<p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  * typedef struct CK_X9_42_DH2_DERIVE_PARAMS {
  *   CK_X9_42_DH_KDF_TYPE kdf;
  *   CK_ULONG ulOtherInfoLen;
  *   CK_BYTE_PTR pOtherInfo;
- *   CK_ULONG ulPublicDataLen;
- *   CK_BYTE_PTR pPublicData;
- *   CK_ULONG ulPrivateDataLen;
- *   CK_OBJECT_HANDLE hPrivateData;
- *   CK_ULONG ulPublicDataLen2;
- *   CK_BYTE_PTR pPublicData2;
+ *   CK_ULONG ulPublicDbtbLen;
+ *   CK_BYTE_PTR pPublicDbtb;
+ *   CK_ULONG ulPrivbteDbtbLen;
+ *   CK_OBJECT_HANDLE hPrivbteDbtb;
+ *   CK_ULONG ulPublicDbtbLen2;
+ *   CK_BYTE_PTR pPublicDbtb2;
  * } CK_X9_42_DH2_DERIVE_PARAMS;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
  */
-public class CK_X9_42_DH2_DERIVE_PARAMS {
+public clbss CK_X9_42_DH2_DERIVE_PARAMS {
 
     /**
      * <B>PKCS#11:</B>
@@ -91,89 +91,89 @@ public class CK_X9_42_DH2_DERIVE_PARAMS {
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulPublicDataLen;
-     *   CK_BYTE_PTR pPublicData;
+     *   CK_ULONG ulPublicDbtbLen;
+     *   CK_BYTE_PTR pPublicDbtb;
      * </PRE>
      */
-    public byte[] pPublicData;
+    public byte[] pPublicDbtb;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulPrivateDataLen;
+     *   CK_ULONG ulPrivbteDbtbLen;
      * </PRE>
      */
-    public long ulPrivateDataLen;
+    public long ulPrivbteDbtbLen;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_OBJECT_HANDLE hPrivateData;
+     *   CK_OBJECT_HANDLE hPrivbteDbtb;
      * </PRE>
      */
-    public long hPrivateData;
+    public long hPrivbteDbtb;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulPublicDataLen2;
-     *   CK_BYTE_PTR pPublicData2;
+     *   CK_ULONG ulPublicDbtbLen2;
+     *   CK_BYTE_PTR pPublicDbtb2;
      * </PRE>
      */
-    public byte[] pPublicData2;
+    public byte[] pPublicDbtb2;
 
     /**
-     * Returns the string representation of CK_PKCS5_PBKD2_PARAMS.
+     * Returns the string representbtion of CK_PKCS5_PBKD2_PARAMS.
      *
-     * @return the string representation of CK_PKCS5_PBKD2_PARAMS
+     * @return the string representbtion of CK_PKCS5_PBKD2_PARAMS
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Constants.INDENT);
-        sb.append("kdf: 0x");
-        sb.append(Functions.toFullHexString(kdf));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("kdf: 0x");
+        sb.bppend(Functions.toFullHexString(kdf));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pOtherInfoLen: ");
-        sb.append(pOtherInfo.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pOtherInfoLen: ");
+        sb.bppend(pOtherInfo.length);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pOtherInfo: ");
-        sb.append(Functions.toHexString(pOtherInfo));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pOtherInfo: ");
+        sb.bppend(Functions.toHexString(pOtherInfo));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicDataLen: ");
-        sb.append(pPublicData.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pPublicDbtbLen: ");
+        sb.bppend(pPublicDbtb.length);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicData: ");
-        sb.append(Functions.toHexString(pPublicData));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pPublicDbtb: ");
+        sb.bppend(Functions.toHexString(pPublicDbtb));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulPrivateDataLen: ");
-        sb.append(ulPrivateDataLen);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("ulPrivbteDbtbLen: ");
+        sb.bppend(ulPrivbteDbtbLen);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("hPrivateData: ");
-        sb.append(hPrivateData);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("hPrivbteDbtb: ");
+        sb.bppend(hPrivbteDbtb);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicDataLen2: ");
-        sb.append(pPublicData2.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pPublicDbtbLen2: ");
+        sb.bppend(pPublicDbtb2.length);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPublicData2: ");
-        sb.append(Functions.toHexString(pPublicData2));
-        //buffer.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pPublicDbtb2: ");
+        sb.bppend(Functions.toHexString(pPublicDbtb2));
+        //buffer.bppend(Constbnts.NEWLINE);
 
         return sb.toString();
     }

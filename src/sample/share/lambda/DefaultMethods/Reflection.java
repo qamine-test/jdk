@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,83 +29,83 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.stream.Stream;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.Arrbys;
+import jbvb.util.strebm.Strebm;
 
 /**
- * The code sample illustrates changes in the reflection API linked
- * <b>default methods</b>. Since Java SE 8, a new method is added into the class
- * <b><code>java.lang.reflect.Method</code></b>, with which you can reflectively
- * determine whether or not a default method provided by an interface
- * (<b><code>Method.isDefault()</code></b>).
+ * The code sbmple illustrbtes chbnges in the reflection API linked
+ * <b>defbult methods</b>. Since Jbvb SE 8, b new method is bdded into the clbss
+ * <b><code>jbvb.lbng.reflect.Method</code></b>, with which you cbn reflectively
+ * determine whether or not b defbult method provided by bn interfbce
+ * (<b><code>Method.isDefbult()</code></b>).
  */
-public class Reflection {
+public clbss Reflection {
 
     /**
-     * Base interface to illustrate the new reflection API.
+     * Bbse interfbce to illustrbte the new reflection API.
      *
      * @see Dog
      */
-    public interface Animal {
+    public interfbce Animbl {
 
         /**
-         * Return string representation of the eat action for Animal
+         * Return string representbtion of the ebt bction for Animbl
          *
-         * @return string representation of the eat action for Animal
+         * @return string representbtion of the ebt bction for Animbl
          */
-        default String eat() {
-            return this.getClass().getSimpleName()
-                    + " eats like an ordinary animal";
+        defbult String ebt() {
+            return this.getClbss().getSimpleNbme()
+                    + " ebts like bn ordinbry bnimbl";
         }
 
         /**
-         * Return string representation of the sleep action for Animal
+         * Return string representbtion of the sleep bction for Animbl
          *
-         * @return string representation of the sleep action for Animal
+         * @return string representbtion of the sleep bction for Animbl
          */
-        default String sleep() {
-            return this.getClass().getSimpleName()
-                    + " sleeps like an ordinary animal";
+        defbult String sleep() {
+            return this.getClbss().getSimpleNbme()
+                    + " sleeps like bn ordinbry bnimbl";
         }
 
         /**
-         * Return string representation of the go action for Animal
+         * Return string representbtion of the go bction for Animbl
          *
-         * @return string representation of the go action for Animal
+         * @return string representbtion of the go bction for Animbl
          */
         String go();
     }
 
     /**
-     * Dog class to illustrate the new reflection API. You can see that:
+     * Dog clbss to illustrbte the new reflection API. You cbn see thbt:
      * <ul>
-     * <li> the {@link #go} and {@link #sleep} methods are not default.
-     * {@link #go} is not the default implementation and the {@link #sleep}
-     * method implementation wins as subtype (according with {@link Inheritance}
+     * <li> the {@link #go} bnd {@link #sleep} methods bre not defbult.
+     * {@link #go} is not the defbult implementbtion bnd the {@link #sleep}
+     * method implementbtion wins bs subtype (bccording with {@link Inheritbnce}
      * rule. 2) </li>
-     * <li> the {@link #eat} is a simple default method that is not overridden
-     * in this class.
+     * <li> the {@link #ebt} is b simple defbult method thbt is not overridden
+     * in this clbss.
      * </li>
      * </ul>
      */
-    public static class Dog implements Animal {
+    public stbtic clbss Dog implements Animbl {
 
         /**
-         * Return string representation of the go action for Dog
+         * Return string representbtion of the go bction for Dog
          *
-         * @return string representation of the go action for Dog
+         * @return string representbtion of the go bction for Dog
          */
         @Override
         public String go() {
-            return "Dog walks on four legs";
+            return "Dog wblks on four legs";
         }
 
         /**
-         * Return string representation of the sleep action for Dog
+         * Return string representbtion of the sleep bction for Dog
          *
-         * @return string representation of the sleep action for Dog
+         * @return string representbtion of the sleep bction for Dog
          */
         @Override
         public String sleep() {
@@ -114,21 +114,21 @@ public class Reflection {
     }
 
     /**
-     * Illustrate the usage of the method java.lang.reflect.Method.isDefault()
+     * Illustrbte the usbge of the method jbvb.lbng.reflect.Method.isDefbult()
      *
-     * @param args command-line arguments
-     * @throws NoSuchMethodException internal demo error
+     * @pbrbm brgs commbnd-line brguments
+     * @throws NoSuchMethodException internbl demo error
      */
-    public static void main(final String[] args) throws NoSuchMethodException {
+    public stbtic void mbin(finbl String[] brgs) throws NoSuchMethodException {
         Dog dog = new Dog();
-        Stream.of(Dog.class.getMethod("eat"), Dog.class.getMethod("go"), Dog.class.getMethod("sleep"))
-                .forEach((m) -> {
-                    System.out.println("Method name:   " + m.getName());
-                    System.out.println("    isDefault: " + m.isDefault());
+        Strebm.of(Dog.clbss.getMethod("ebt"), Dog.clbss.getMethod("go"), Dog.clbss.getMethod("sleep"))
+                .forEbch((m) -> {
+                    System.out.println("Method nbme:   " + m.getNbme());
+                    System.out.println("    isDefbult: " + m.isDefbult());
                     System.out.print("    invoke:    ");
                     try {
                         m.invoke(dog);
-                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    } cbtch (IllegblAccessException | IllegblArgumentException | InvocbtionTbrgetException ex) {
                     }
                     System.out.println();
                 });

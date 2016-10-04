@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package apple.laf;
+pbckbge bpple.lbf;
 
-import com.apple.laf.AquaImageFactory.NineSliceMetrics;
+import com.bpple.lbf.AqubImbgeFbctory.NineSliceMetrics;
 
-import apple.laf.JRSUIConstants.*;
-import sun.security.action.GetPropertyAction;
+import bpple.lbf.JRSUIConstbnts.*;
+import sun.security.bction.GetPropertyAction;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
-public class JRSUIUtils {
-    static boolean isLeopard = isMacOSXLeopard();
-    static boolean isSnowLeopardOrBelow = isMacOSXSnowLeopardOrBelow();
+public clbss JRSUIUtils {
+    stbtic boolebn isLeopbrd = isMbcOSXLeopbrd();
+    stbtic boolebn isSnowLeopbrdOrBelow = isMbcOSXSnowLeopbrdOrBelow();
 
-    static boolean isMacOSXLeopard() {
-        return isCurrentMacOSXVersion(5);
+    stbtic boolebn isMbcOSXLeopbrd() {
+        return isCurrentMbcOSXVersion(5);
     }
 
-    static boolean isMacOSXSnowLeopardOrBelow() {
-        return currentMacOSXVersionMatchesGivenVersionRange(6, true, true, false);
+    stbtic boolebn isMbcOSXSnowLeopbrdOrBelow() {
+        return currentMbcOSXVersionMbtchesGivenVersionRbnge(6, true, true, fblse);
     }
 
-    static boolean isCurrentMacOSXVersion(final int version) {
-        return currentMacOSXVersionMatchesGivenVersionRange(version, true, false, false);
+    stbtic boolebn isCurrentMbcOSXVersion(finbl int version) {
+        return currentMbcOSXVersionMbtchesGivenVersionRbnge(version, true, fblse, fblse);
     }
 
-    static boolean currentMacOSXVersionMatchesGivenVersionRange(final int version, final boolean inclusive, final boolean matchBelow, final boolean matchAbove) {
+    stbtic boolebn currentMbcOSXVersionMbtchesGivenVersionRbnge(finbl int version, finbl boolebn inclusive, finbl boolebn mbtchBelow, finbl boolebn mbtchAbove) {
         // split the "10.x.y" version number
         String osVersion = AccessController.doPrivileged(new GetPropertyAction("os.version"));
-        String[] fragments = osVersion.split("\\.");
+        String[] frbgments = osVersion.split("\\.");
 
-        // sanity check the "10." part of the version
-        if (!fragments[0].equals("10")) return false;
-        if (fragments.length < 2) return false;
+        // sbnity check the "10." pbrt of the version
+        if (!frbgments[0].equbls("10")) return fblse;
+        if (frbgments.length < 2) return fblse;
 
-        // check if os.version matches the given version using the given match method
+        // check if os.version mbtches the given version using the given mbtch method
         try {
-            int minorVers = Integer.parseInt(fragments[1]);
+            int minorVers = Integer.pbrseInt(frbgments[1]);
 
             if (inclusive && minorVers == version) return true;
-            if (matchBelow && minorVers < version) return true;
-            if (matchAbove && minorVers > version) return true;
+            if (mbtchBelow && minorVers < version) return true;
+            if (mbtchAbove && minorVers > version) return true;
 
-        } catch (NumberFormatException e) {
-            // was not an integer
+        } cbtch (NumberFormbtException e) {
+            // wbs not bn integer
         }
-        return false;
+        return fblse;
     }
 
-    public static class TabbedPane {
-        public static boolean useLegacyTabs() {
-            return isLeopard;
+    public stbtic clbss TbbbedPbne {
+        public stbtic boolebn useLegbcyTbbs() {
+            return isLeopbrd;
         }
-        public static boolean shouldUseTabbedPaneContrastUI() {
-            return !isSnowLeopardOrBelow;
-        }
-    }
-
-    public static class InternalFrame {
-        public static boolean shouldUseLegacyBorderMetrics() {
-            return isSnowLeopardOrBelow;
+        public stbtic boolebn shouldUseTbbbedPbneContrbstUI() {
+            return !isSnowLeopbrdOrBelow;
         }
     }
 
-    public static class Tree {
-        public static boolean useLegacyTreeKnobs() {
-            return isLeopard;
+    public stbtic clbss InternblFrbme {
+        public stbtic boolebn shouldUseLegbcyBorderMetrics() {
+            return isSnowLeopbrdOrBelow;
         }
     }
 
-    public static class ScrollBar {
-        private static native boolean shouldUseScrollToClick();
+    public stbtic clbss Tree {
+        public stbtic boolebn useLegbcyTreeKnobs() {
+            return isLeopbrd;
+        }
+    }
 
-        public static boolean useScrollToClick() {
+    public stbtic clbss ScrollBbr {
+        privbte stbtic nbtive boolebn shouldUseScrollToClick();
+
+        public stbtic boolebn useScrollToClick() {
             return shouldUseScrollToClick();
         }
 
-        public static void getPartBounds(final double[] rect, final JRSUIControl control, final double x, final double y, final double w, final double h, final ScrollBarPart part) {
-            control.getPartBounds(rect, x, y, w, h, part.ordinal);
+        public stbtic void getPbrtBounds(finbl double[] rect, finbl JRSUIControl control, finbl double x, finbl double y, finbl double w, finbl double h, finbl ScrollBbrPbrt pbrt) {
+            control.getPbrtBounds(rect, x, y, w, h, pbrt.ordinbl);
         }
 
-        public static double getNativeOffsetChange(final JRSUIControl control, final double x, final double y, final double w, final double h, final int offset, final int visibleAmount, final int extent) {
-            return control.getScrollBarOffsetChange(x, y, w, h, offset, visibleAmount, extent);
-        }
-    }
-
-    public static class Images {
-        public static boolean shouldUseLegacySecurityUIPath() {
-            return isSnowLeopardOrBelow;
+        public stbtic double getNbtiveOffsetChbnge(finbl JRSUIControl control, finbl double x, finbl double y, finbl double w, finbl double h, finbl int offset, finbl int visibleAmount, finbl int extent) {
+            return control.getScrollBbrOffsetChbnge(x, y, w, h, offset, visibleAmount, extent);
         }
     }
 
-    public static class HitDetection {
-        public static Hit getHitForPoint(final JRSUIControl control, final double x, final double y, final double w, final double h, final double hitX, final double hitY) {
+    public stbtic clbss Imbges {
+        public stbtic boolebn shouldUseLegbcySecurityUIPbth() {
+            return isSnowLeopbrdOrBelow;
+        }
+    }
+
+    public stbtic clbss HitDetection {
+        public stbtic Hit getHitForPoint(finbl JRSUIControl control, finbl double x, finbl double y, finbl double w, finbl double h, finbl double hitX, finbl double hitY) {
             return control.getHitForPoint(x, y, w, h, hitX, hitY);
         }
     }
 
-    public interface NineSliceMetricsProvider {
-        public NineSliceMetrics getNineSliceMetricsForState(JRSUIState state);
+    public interfbce NineSliceMetricsProvider {
+        public NineSliceMetrics getNineSliceMetricsForStbte(JRSUIStbte stbte);
     }
 }

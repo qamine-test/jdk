@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import java.security.KeyStore.*;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
+import jbvb.security.KeyStore.*;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteException;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
-import javax.security.auth.callback.*;
+import jbvbx.security.buth.cbllbbck.*;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code KeyStore} class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a keystore for a particular keystore type.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the {@code KeyStore} clbss.
+ * All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b keystore for b pbrticulbr keystore type.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  *
  * @see KeyStore
@@ -51,543 +51,543 @@ import javax.security.auth.callback.*;
  * @since 1.2
  */
 
-public abstract class KeyStoreSpi {
+public bbstrbct clbss KeyStoreSpi {
 
     /**
-     * Returns the key associated with the given alias, using the given
-     * password to recover it.  The key must have been associated with
-     * the alias by a call to {@code setKeyEntry},
-     * or by a call to {@code setEntry} with a
-     * {@code PrivateKeyEntry} or {@code SecretKeyEntry}.
+     * Returns the key bssocibted with the given blibs, using the given
+     * pbssword to recover it.  The key must hbve been bssocibted with
+     * the blibs by b cbll to {@code setKeyEntry},
+     * or by b cbll to {@code setEntry} with b
+     * {@code PrivbteKeyEntry} or {@code SecretKeyEntry}.
      *
-     * @param alias the alias name
-     * @param password the password for recovering the key
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm pbssword the pbssword for recovering the key
      *
-     * @return the requested key, or null if the given alias does not exist
-     * or does not identify a key-related entry.
+     * @return the requested key, or null if the given blibs does not exist
+     * or does not identify b key-relbted entry.
      *
-     * @exception NoSuchAlgorithmException if the algorithm for recovering the
-     * key cannot be found
-     * @exception UnrecoverableKeyException if the key cannot be recovered
-     * (e.g., the given password is wrong).
+     * @exception NoSuchAlgorithmException if the blgorithm for recovering the
+     * key cbnnot be found
+     * @exception UnrecoverbbleKeyException if the key cbnnot be recovered
+     * (e.g., the given pbssword is wrong).
      */
-    public abstract Key engineGetKey(String alias, char[] password)
-        throws NoSuchAlgorithmException, UnrecoverableKeyException;
+    public bbstrbct Key engineGetKey(String blibs, chbr[] pbssword)
+        throws NoSuchAlgorithmException, UnrecoverbbleKeyException;
 
     /**
-     * Returns the certificate chain associated with the given alias.
-     * The certificate chain must have been associated with the alias
-     * by a call to {@code setKeyEntry},
-     * or by a call to {@code setEntry} with a
-     * {@code PrivateKeyEntry}.
+     * Returns the certificbte chbin bssocibted with the given blibs.
+     * The certificbte chbin must hbve been bssocibted with the blibs
+     * by b cbll to {@code setKeyEntry},
+     * or by b cbll to {@code setEntry} with b
+     * {@code PrivbteKeyEntry}.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the certificate chain (ordered with the user's certificate first
-     * and the root certificate authority last), or null if the given alias
-     * does not exist or does not contain a certificate chain
+     * @return the certificbte chbin (ordered with the user's certificbte first
+     * bnd the root certificbte buthority lbst), or null if the given blibs
+     * does not exist or does not contbin b certificbte chbin
      */
-    public abstract Certificate[] engineGetCertificateChain(String alias);
+    public bbstrbct Certificbte[] engineGetCertificbteChbin(String blibs);
 
     /**
-     * Returns the certificate associated with the given alias.
+     * Returns the certificbte bssocibted with the given blibs.
      *
-     * <p> If the given alias name identifies an entry
-     * created by a call to {@code setCertificateEntry},
-     * or created by a call to {@code setEntry} with a
-     * {@code TrustedCertificateEntry},
-     * then the trusted certificate contained in that entry is returned.
+     * <p> If the given blibs nbme identifies bn entry
+     * crebted by b cbll to {@code setCertificbteEntry},
+     * or crebted by b cbll to {@code setEntry} with b
+     * {@code TrustedCertificbteEntry},
+     * then the trusted certificbte contbined in thbt entry is returned.
      *
-     * <p> If the given alias name identifies an entry
-     * created by a call to {@code setKeyEntry},
-     * or created by a call to {@code setEntry} with a
-     * {@code PrivateKeyEntry},
-     * then the first element of the certificate chain in that entry
-     * (if a chain exists) is returned.
+     * <p> If the given blibs nbme identifies bn entry
+     * crebted by b cbll to {@code setKeyEntry},
+     * or crebted by b cbll to {@code setEntry} with b
+     * {@code PrivbteKeyEntry},
+     * then the first element of the certificbte chbin in thbt entry
+     * (if b chbin exists) is returned.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the certificate, or null if the given alias does not exist or
-     * does not contain a certificate.
+     * @return the certificbte, or null if the given blibs does not exist or
+     * does not contbin b certificbte.
      */
-    public abstract Certificate engineGetCertificate(String alias);
+    public bbstrbct Certificbte engineGetCertificbte(String blibs);
 
     /**
-     * Returns the creation date of the entry identified by the given alias.
+     * Returns the crebtion dbte of the entry identified by the given blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return the creation date of this entry, or null if the given alias does
+     * @return the crebtion dbte of this entry, or null if the given blibs does
      * not exist
      */
-    public abstract Date engineGetCreationDate(String alias);
+    public bbstrbct Dbte engineGetCrebtionDbte(String blibs);
 
     /**
-     * Assigns the given key to the given alias, protecting it with the given
-     * password.
+     * Assigns the given key to the given blibs, protecting it with the given
+     * pbssword.
      *
-     * <p>If the given key is of type {@code java.security.PrivateKey},
-     * it must be accompanied by a certificate chain certifying the
+     * <p>If the given key is of type {@code jbvb.security.PrivbteKey},
+     * it must be bccompbnied by b certificbte chbin certifying the
      * corresponding public key.
      *
-     * <p>If the given alias already exists, the keystore information
-     * associated with it is overridden by the given key (and possibly
-     * certificate chain).
+     * <p>If the given blibs blrebdy exists, the keystore informbtion
+     * bssocibted with it is overridden by the given key (bnd possibly
+     * certificbte chbin).
      *
-     * @param alias the alias name
-     * @param key the key to be associated with the alias
-     * @param password the password to protect the key
-     * @param chain the certificate chain for the corresponding public
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm key the key to be bssocibted with the blibs
+     * @pbrbm pbssword the pbssword to protect the key
+     * @pbrbm chbin the certificbte chbin for the corresponding public
      * key (only required if the given key is of type
-     * {@code java.security.PrivateKey}).
+     * {@code jbvb.security.PrivbteKey}).
      *
-     * @exception KeyStoreException if the given key cannot be protected, or
-     * this operation fails for some other reason
+     * @exception KeyStoreException if the given key cbnnot be protected, or
+     * this operbtion fbils for some other rebson
      */
-    public abstract void engineSetKeyEntry(String alias, Key key,
-                                           char[] password,
-                                           Certificate[] chain)
+    public bbstrbct void engineSetKeyEntry(String blibs, Key key,
+                                           chbr[] pbssword,
+                                           Certificbte[] chbin)
         throws KeyStoreException;
 
     /**
-     * Assigns the given key (that has already been protected) to the given
-     * alias.
+     * Assigns the given key (thbt hbs blrebdy been protected) to the given
+     * blibs.
      *
      * <p>If the protected key is of type
-     * {@code java.security.PrivateKey},
-     * it must be accompanied by a certificate chain certifying the
+     * {@code jbvb.security.PrivbteKey},
+     * it must be bccompbnied by b certificbte chbin certifying the
      * corresponding public key.
      *
-     * <p>If the given alias already exists, the keystore information
-     * associated with it is overridden by the given key (and possibly
-     * certificate chain).
+     * <p>If the given blibs blrebdy exists, the keystore informbtion
+     * bssocibted with it is overridden by the given key (bnd possibly
+     * certificbte chbin).
      *
-     * @param alias the alias name
-     * @param key the key (in protected format) to be associated with the alias
-     * @param chain the certificate chain for the corresponding public
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm key the key (in protected formbt) to be bssocibted with the blibs
+     * @pbrbm chbin the certificbte chbin for the corresponding public
      * key (only useful if the protected key is of type
-     * {@code java.security.PrivateKey}).
+     * {@code jbvb.security.PrivbteKey}).
      *
-     * @exception KeyStoreException if this operation fails.
+     * @exception KeyStoreException if this operbtion fbils.
      */
-    public abstract void engineSetKeyEntry(String alias, byte[] key,
-                                           Certificate[] chain)
+    public bbstrbct void engineSetKeyEntry(String blibs, byte[] key,
+                                           Certificbte[] chbin)
         throws KeyStoreException;
 
     /**
-     * Assigns the given certificate to the given alias.
+     * Assigns the given certificbte to the given blibs.
      *
-     * <p> If the given alias identifies an existing entry
-     * created by a call to {@code setCertificateEntry},
-     * or created by a call to {@code setEntry} with a
-     * {@code TrustedCertificateEntry},
-     * the trusted certificate in the existing entry
-     * is overridden by the given certificate.
+     * <p> If the given blibs identifies bn existing entry
+     * crebted by b cbll to {@code setCertificbteEntry},
+     * or crebted by b cbll to {@code setEntry} with b
+     * {@code TrustedCertificbteEntry},
+     * the trusted certificbte in the existing entry
+     * is overridden by the given certificbte.
      *
-     * @param alias the alias name
-     * @param cert the certificate
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm cert the certificbte
      *
-     * @exception KeyStoreException if the given alias already exists and does
-     * not identify an entry containing a trusted certificate,
-     * or this operation fails for some other reason.
+     * @exception KeyStoreException if the given blibs blrebdy exists bnd does
+     * not identify bn entry contbining b trusted certificbte,
+     * or this operbtion fbils for some other rebson.
      */
-    public abstract void engineSetCertificateEntry(String alias,
-                                                   Certificate cert)
+    public bbstrbct void engineSetCertificbteEntry(String blibs,
+                                                   Certificbte cert)
         throws KeyStoreException;
 
     /**
-     * Deletes the entry identified by the given alias from this keystore.
+     * Deletes the entry identified by the given blibs from this keystore.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @exception KeyStoreException if the entry cannot be removed.
+     * @exception KeyStoreException if the entry cbnnot be removed.
      */
-    public abstract void engineDeleteEntry(String alias)
+    public bbstrbct void engineDeleteEntry(String blibs)
         throws KeyStoreException;
 
     /**
-     * Lists all the alias names of this keystore.
+     * Lists bll the blibs nbmes of this keystore.
      *
-     * @return enumeration of the alias names
+     * @return enumerbtion of the blibs nbmes
      */
-    public abstract Enumeration<String> engineAliases();
+    public bbstrbct Enumerbtion<String> engineAlibses();
 
     /**
-     * Checks if the given alias exists in this keystore.
+     * Checks if the given blibs exists in this keystore.
      *
-     * @param alias the alias name
+     * @pbrbm blibs the blibs nbme
      *
-     * @return true if the alias exists, false otherwise
+     * @return true if the blibs exists, fblse otherwise
      */
-    public abstract boolean engineContainsAlias(String alias);
+    public bbstrbct boolebn engineContbinsAlibs(String blibs);
 
     /**
      * Retrieves the number of entries in this keystore.
      *
      * @return the number of entries in this keystore
      */
-    public abstract int engineSize();
+    public bbstrbct int engineSize();
 
     /**
-     * Returns true if the entry identified by the given alias
-     * was created by a call to {@code setKeyEntry},
-     * or created by a call to {@code setEntry} with a
-     * {@code PrivateKeyEntry} or a {@code SecretKeyEntry}.
+     * Returns true if the entry identified by the given blibs
+     * wbs crebted by b cbll to {@code setKeyEntry},
+     * or crebted by b cbll to {@code setEntry} with b
+     * {@code PrivbteKeyEntry} or b {@code SecretKeyEntry}.
      *
-     * @param alias the alias for the keystore entry to be checked
+     * @pbrbm blibs the blibs for the keystore entry to be checked
      *
-     * @return true if the entry identified by the given alias is a
-     * key-related, false otherwise.
+     * @return true if the entry identified by the given blibs is b
+     * key-relbted, fblse otherwise.
      */
-    public abstract boolean engineIsKeyEntry(String alias);
+    public bbstrbct boolebn engineIsKeyEntry(String blibs);
 
     /**
-     * Returns true if the entry identified by the given alias
-     * was created by a call to {@code setCertificateEntry},
-     * or created by a call to {@code setEntry} with a
-     * {@code TrustedCertificateEntry}.
+     * Returns true if the entry identified by the given blibs
+     * wbs crebted by b cbll to {@code setCertificbteEntry},
+     * or crebted by b cbll to {@code setEntry} with b
+     * {@code TrustedCertificbteEntry}.
      *
-     * @param alias the alias for the keystore entry to be checked
+     * @pbrbm blibs the blibs for the keystore entry to be checked
      *
-     * @return true if the entry identified by the given alias contains a
-     * trusted certificate, false otherwise.
+     * @return true if the entry identified by the given blibs contbins b
+     * trusted certificbte, fblse otherwise.
      */
-    public abstract boolean engineIsCertificateEntry(String alias);
+    public bbstrbct boolebn engineIsCertificbteEntry(String blibs);
 
     /**
-     * Returns the (alias) name of the first keystore entry whose certificate
-     * matches the given certificate.
+     * Returns the (blibs) nbme of the first keystore entry whose certificbte
+     * mbtches the given certificbte.
      *
-     * <p>This method attempts to match the given certificate with each
-     * keystore entry. If the entry being considered was
-     * created by a call to {@code setCertificateEntry},
-     * or created by a call to {@code setEntry} with a
-     * {@code TrustedCertificateEntry},
-     * then the given certificate is compared to that entry's certificate.
+     * <p>This method bttempts to mbtch the given certificbte with ebch
+     * keystore entry. If the entry being considered wbs
+     * crebted by b cbll to {@code setCertificbteEntry},
+     * or crebted by b cbll to {@code setEntry} with b
+     * {@code TrustedCertificbteEntry},
+     * then the given certificbte is compbred to thbt entry's certificbte.
      *
-     * <p> If the entry being considered was
-     * created by a call to {@code setKeyEntry},
-     * or created by a call to {@code setEntry} with a
-     * {@code PrivateKeyEntry},
-     * then the given certificate is compared to the first
-     * element of that entry's certificate chain.
+     * <p> If the entry being considered wbs
+     * crebted by b cbll to {@code setKeyEntry},
+     * or crebted by b cbll to {@code setEntry} with b
+     * {@code PrivbteKeyEntry},
+     * then the given certificbte is compbred to the first
+     * element of thbt entry's certificbte chbin.
      *
-     * @param cert the certificate to match with.
+     * @pbrbm cert the certificbte to mbtch with.
      *
-     * @return the alias name of the first entry with matching certificate,
+     * @return the blibs nbme of the first entry with mbtching certificbte,
      * or null if no such entry exists in this keystore.
      */
-    public abstract String engineGetCertificateAlias(Certificate cert);
+    public bbstrbct String engineGetCertificbteAlibs(Certificbte cert);
 
     /**
-     * Stores this keystore to the given output stream, and protects its
-     * integrity with the given password.
+     * Stores this keystore to the given output strebm, bnd protects its
+     * integrity with the given pbssword.
      *
-     * @param stream the output stream to which this keystore is written.
-     * @param password the password to generate the keystore integrity check
+     * @pbrbm strebm the output strebm to which this keystore is written.
+     * @pbrbm pbssword the pbssword to generbte the keystore integrity check
      *
-     * @exception IOException if there was an I/O problem with data
-     * @exception NoSuchAlgorithmException if the appropriate data integrity
-     * algorithm could not be found
-     * @exception CertificateException if any of the certificates included in
-     * the keystore data could not be stored
+     * @exception IOException if there wbs bn I/O problem with dbtb
+     * @exception NoSuchAlgorithmException if the bppropribte dbtb integrity
+     * blgorithm could not be found
+     * @exception CertificbteException if bny of the certificbtes included in
+     * the keystore dbtb could not be stored
      */
-    public abstract void engineStore(OutputStream stream, char[] password)
-        throws IOException, NoSuchAlgorithmException, CertificateException;
+    public bbstrbct void engineStore(OutputStrebm strebm, chbr[] pbssword)
+        throws IOException, NoSuchAlgorithmException, CertificbteException;
 
     /**
      * Stores this keystore using the given
-     * {@code KeyStore.LoadStoreParmeter}.
+     * {@code KeyStore.LobdStorePbrmeter}.
      *
-     * @param param the {@code KeyStore.LoadStoreParmeter}
-     *          that specifies how to store the keystore,
-     *          which may be {@code null}
+     * @pbrbm pbrbm the {@code KeyStore.LobdStorePbrmeter}
+     *          thbt specifies how to store the keystore,
+     *          which mby be {@code null}
      *
-     * @exception IllegalArgumentException if the given
-     *          {@code KeyStore.LoadStoreParmeter}
+     * @exception IllegblArgumentException if the given
+     *          {@code KeyStore.LobdStorePbrmeter}
      *          input is not recognized
-     * @exception IOException if there was an I/O problem with data
-     * @exception NoSuchAlgorithmException if the appropriate data integrity
-     *          algorithm could not be found
-     * @exception CertificateException if any of the certificates included in
-     *          the keystore data could not be stored
+     * @exception IOException if there wbs bn I/O problem with dbtb
+     * @exception NoSuchAlgorithmException if the bppropribte dbtb integrity
+     *          blgorithm could not be found
+     * @exception CertificbteException if bny of the certificbtes included in
+     *          the keystore dbtb could not be stored
      *
      * @since 1.5
      */
-    public void engineStore(KeyStore.LoadStoreParameter param)
+    public void engineStore(KeyStore.LobdStorePbrbmeter pbrbm)
                 throws IOException, NoSuchAlgorithmException,
-                CertificateException {
-        throw new UnsupportedOperationException();
+                CertificbteException {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Loads the keystore from the given input stream.
+     * Lobds the keystore from the given input strebm.
      *
-     * <p>A password may be given to unlock the keystore
-     * (e.g. the keystore resides on a hardware token device),
-     * or to check the integrity of the keystore data.
-     * If a password is not given for integrity checking,
+     * <p>A pbssword mby be given to unlock the keystore
+     * (e.g. the keystore resides on b hbrdwbre token device),
+     * or to check the integrity of the keystore dbtb.
+     * If b pbssword is not given for integrity checking,
      * then integrity checking is not performed.
      *
-     * @param stream the input stream from which the keystore is loaded,
+     * @pbrbm strebm the input strebm from which the keystore is lobded,
      * or {@code null}
-     * @param password the password used to check the integrity of
-     * the keystore, the password used to unlock the keystore,
+     * @pbrbm pbssword the pbssword used to check the integrity of
+     * the keystore, the pbssword used to unlock the keystore,
      * or {@code null}
      *
-     * @exception IOException if there is an I/O or format problem with the
-     * keystore data, if a password is required but not given,
-     * or if the given password was incorrect. If the error is due to a
-     * wrong password, the {@link Throwable#getCause cause} of the
-     * {@code IOException} should be an
-     * {@code UnrecoverableKeyException}
-     * @exception NoSuchAlgorithmException if the algorithm used to check
-     * the integrity of the keystore cannot be found
-     * @exception CertificateException if any of the certificates in the
-     * keystore could not be loaded
+     * @exception IOException if there is bn I/O or formbt problem with the
+     * keystore dbtb, if b pbssword is required but not given,
+     * or if the given pbssword wbs incorrect. If the error is due to b
+     * wrong pbssword, the {@link Throwbble#getCbuse cbuse} of the
+     * {@code IOException} should be bn
+     * {@code UnrecoverbbleKeyException}
+     * @exception NoSuchAlgorithmException if the blgorithm used to check
+     * the integrity of the keystore cbnnot be found
+     * @exception CertificbteException if bny of the certificbtes in the
+     * keystore could not be lobded
      */
-    public abstract void engineLoad(InputStream stream, char[] password)
-        throws IOException, NoSuchAlgorithmException, CertificateException;
+    public bbstrbct void engineLobd(InputStrebm strebm, chbr[] pbssword)
+        throws IOException, NoSuchAlgorithmException, CertificbteException;
 
     /**
-     * Loads the keystore using the given
-     * {@code KeyStore.LoadStoreParameter}.
+     * Lobds the keystore using the given
+     * {@code KeyStore.LobdStorePbrbmeter}.
      *
-     * <p> Note that if this KeyStore has already been loaded, it is
-     * reinitialized and loaded again from the given parameter.
+     * <p> Note thbt if this KeyStore hbs blrebdy been lobded, it is
+     * reinitiblized bnd lobded bgbin from the given pbrbmeter.
      *
-     * @param param the {@code KeyStore.LoadStoreParameter}
-     *          that specifies how to load the keystore,
-     *          which may be {@code null}
+     * @pbrbm pbrbm the {@code KeyStore.LobdStorePbrbmeter}
+     *          thbt specifies how to lobd the keystore,
+     *          which mby be {@code null}
      *
-     * @exception IllegalArgumentException if the given
-     *          {@code KeyStore.LoadStoreParameter}
+     * @exception IllegblArgumentException if the given
+     *          {@code KeyStore.LobdStorePbrbmeter}
      *          input is not recognized
-     * @exception IOException if there is an I/O or format problem with the
-     *          keystore data. If the error is due to an incorrect
-     *         {@code ProtectionParameter} (e.g. wrong password)
-     *         the {@link Throwable#getCause cause} of the
-     *         {@code IOException} should be an
-     *         {@code UnrecoverableKeyException}
-     * @exception NoSuchAlgorithmException if the algorithm used to check
-     *          the integrity of the keystore cannot be found
-     * @exception CertificateException if any of the certificates in the
-     *          keystore could not be loaded
+     * @exception IOException if there is bn I/O or formbt problem with the
+     *          keystore dbtb. If the error is due to bn incorrect
+     *         {@code ProtectionPbrbmeter} (e.g. wrong pbssword)
+     *         the {@link Throwbble#getCbuse cbuse} of the
+     *         {@code IOException} should be bn
+     *         {@code UnrecoverbbleKeyException}
+     * @exception NoSuchAlgorithmException if the blgorithm used to check
+     *          the integrity of the keystore cbnnot be found
+     * @exception CertificbteException if bny of the certificbtes in the
+     *          keystore could not be lobded
      *
      * @since 1.5
      */
-    public void engineLoad(KeyStore.LoadStoreParameter param)
+    public void engineLobd(KeyStore.LobdStorePbrbmeter pbrbm)
                 throws IOException, NoSuchAlgorithmException,
-                CertificateException {
+                CertificbteException {
 
-        if (param == null) {
-            engineLoad((InputStream)null, (char[])null);
+        if (pbrbm == null) {
+            engineLobd((InputStrebm)null, (chbr[])null);
             return;
         }
 
-        if (param instanceof KeyStore.SimpleLoadStoreParameter) {
-            ProtectionParameter protection = param.getProtectionParameter();
-            char[] password;
-            if (protection instanceof PasswordProtection) {
-                password = ((PasswordProtection)protection).getPassword();
-            } else if (protection instanceof CallbackHandlerProtection) {
-                CallbackHandler handler =
-                    ((CallbackHandlerProtection)protection).getCallbackHandler();
-                PasswordCallback callback =
-                    new PasswordCallback("Password: ", false);
+        if (pbrbm instbnceof KeyStore.SimpleLobdStorePbrbmeter) {
+            ProtectionPbrbmeter protection = pbrbm.getProtectionPbrbmeter();
+            chbr[] pbssword;
+            if (protection instbnceof PbsswordProtection) {
+                pbssword = ((PbsswordProtection)protection).getPbssword();
+            } else if (protection instbnceof CbllbbckHbndlerProtection) {
+                CbllbbckHbndler hbndler =
+                    ((CbllbbckHbndlerProtection)protection).getCbllbbckHbndler();
+                PbsswordCbllbbck cbllbbck =
+                    new PbsswordCbllbbck("Pbssword: ", fblse);
                 try {
-                    handler.handle(new Callback[] {callback});
-                } catch (UnsupportedCallbackException e) {
+                    hbndler.hbndle(new Cbllbbck[] {cbllbbck});
+                } cbtch (UnsupportedCbllbbckException e) {
                     throw new NoSuchAlgorithmException
-                        ("Could not obtain password", e);
+                        ("Could not obtbin pbssword", e);
                 }
-                password = callback.getPassword();
-                callback.clearPassword();
-                if (password == null) {
+                pbssword = cbllbbck.getPbssword();
+                cbllbbck.clebrPbssword();
+                if (pbssword == null) {
                     throw new NoSuchAlgorithmException
-                        ("No password provided");
+                        ("No pbssword provided");
                 }
             } else {
-                throw new NoSuchAlgorithmException("ProtectionParameter must"
-                    + " be PasswordProtection or CallbackHandlerProtection");
+                throw new NoSuchAlgorithmException("ProtectionPbrbmeter must"
+                    + " be PbsswordProtection or CbllbbckHbndlerProtection");
             }
-            engineLoad(null, password);
+            engineLobd(null, pbssword);
             return;
         }
 
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Gets a {@code KeyStore.Entry} for the specified alias
-     * with the specified protection parameter.
+     * Gets b {@code KeyStore.Entry} for the specified blibs
+     * with the specified protection pbrbmeter.
      *
-     * @param alias get the {@code KeyStore.Entry} for this alias
-     * @param protParam the {@code ProtectionParameter}
+     * @pbrbm blibs get the {@code KeyStore.Entry} for this blibs
+     * @pbrbm protPbrbm the {@code ProtectionPbrbmeter}
      *          used to protect the {@code Entry},
-     *          which may be {@code null}
+     *          which mby be {@code null}
      *
-     * @return the {@code KeyStore.Entry} for the specified alias,
+     * @return the {@code KeyStore.Entry} for the specified blibs,
      *          or {@code null} if there is no such entry
      *
-     * @exception KeyStoreException if the operation failed
-     * @exception NoSuchAlgorithmException if the algorithm for recovering the
-     *          entry cannot be found
-     * @exception UnrecoverableEntryException if the specified
-     *          {@code protParam} were insufficient or invalid
-     * @exception UnrecoverableKeyException if the entry is a
-     *          {@code PrivateKeyEntry} or {@code SecretKeyEntry}
-     *          and the specified {@code protParam} does not contain
-     *          the information needed to recover the key (e.g. wrong password)
+     * @exception KeyStoreException if the operbtion fbiled
+     * @exception NoSuchAlgorithmException if the blgorithm for recovering the
+     *          entry cbnnot be found
+     * @exception UnrecoverbbleEntryException if the specified
+     *          {@code protPbrbm} were insufficient or invblid
+     * @exception UnrecoverbbleKeyException if the entry is b
+     *          {@code PrivbteKeyEntry} or {@code SecretKeyEntry}
+     *          bnd the specified {@code protPbrbm} does not contbin
+     *          the informbtion needed to recover the key (e.g. wrong pbssword)
      *
      * @since 1.5
      */
-    public KeyStore.Entry engineGetEntry(String alias,
-                        KeyStore.ProtectionParameter protParam)
+    public KeyStore.Entry engineGetEntry(String blibs,
+                        KeyStore.ProtectionPbrbmeter protPbrbm)
                 throws KeyStoreException, NoSuchAlgorithmException,
-                UnrecoverableEntryException {
+                UnrecoverbbleEntryException {
 
-        if (!engineContainsAlias(alias)) {
+        if (!engineContbinsAlibs(blibs)) {
             return null;
         }
 
-        if (protParam == null) {
-            if (engineIsCertificateEntry(alias)) {
-                return new KeyStore.TrustedCertificateEntry
-                                (engineGetCertificate(alias));
+        if (protPbrbm == null) {
+            if (engineIsCertificbteEntry(blibs)) {
+                return new KeyStore.TrustedCertificbteEntry
+                                (engineGetCertificbte(blibs));
             } else {
-                throw new UnrecoverableKeyException
-                        ("requested entry requires a password");
+                throw new UnrecoverbbleKeyException
+                        ("requested entry requires b pbssword");
             }
         }
 
-        if (protParam instanceof KeyStore.PasswordProtection) {
-            if (engineIsCertificateEntry(alias)) {
-                throw new UnsupportedOperationException
-                    ("trusted certificate entries are not password-protected");
-            } else if (engineIsKeyEntry(alias)) {
-                KeyStore.PasswordProtection pp =
-                        (KeyStore.PasswordProtection)protParam;
-                char[] password = pp.getPassword();
+        if (protPbrbm instbnceof KeyStore.PbsswordProtection) {
+            if (engineIsCertificbteEntry(blibs)) {
+                throw new UnsupportedOperbtionException
+                    ("trusted certificbte entries bre not pbssword-protected");
+            } else if (engineIsKeyEntry(blibs)) {
+                KeyStore.PbsswordProtection pp =
+                        (KeyStore.PbsswordProtection)protPbrbm;
+                chbr[] pbssword = pp.getPbssword();
 
-                Key key = engineGetKey(alias, password);
-                if (key instanceof PrivateKey) {
-                    Certificate[] chain = engineGetCertificateChain(alias);
-                    return new KeyStore.PrivateKeyEntry((PrivateKey)key, chain);
-                } else if (key instanceof SecretKey) {
+                Key key = engineGetKey(blibs, pbssword);
+                if (key instbnceof PrivbteKey) {
+                    Certificbte[] chbin = engineGetCertificbteChbin(blibs);
+                    return new KeyStore.PrivbteKeyEntry((PrivbteKey)key, chbin);
+                } else if (key instbnceof SecretKey) {
                     return new KeyStore.SecretKeyEntry((SecretKey)key);
                 }
             }
         }
 
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Saves a {@code KeyStore.Entry} under the specified alias.
-     * The specified protection parameter is used to protect the
+     * Sbves b {@code KeyStore.Entry} under the specified blibs.
+     * The specified protection pbrbmeter is used to protect the
      * {@code Entry}.
      *
-     * <p> If an entry already exists for the specified alias,
+     * <p> If bn entry blrebdy exists for the specified blibs,
      * it is overridden.
      *
-     * @param alias save the {@code KeyStore.Entry} under this alias
-     * @param entry the {@code Entry} to save
-     * @param protParam the {@code ProtectionParameter}
+     * @pbrbm blibs sbve the {@code KeyStore.Entry} under this blibs
+     * @pbrbm entry the {@code Entry} to sbve
+     * @pbrbm protPbrbm the {@code ProtectionPbrbmeter}
      *          used to protect the {@code Entry},
-     *          which may be {@code null}
+     *          which mby be {@code null}
      *
-     * @exception KeyStoreException if this operation fails
+     * @exception KeyStoreException if this operbtion fbils
      *
      * @since 1.5
      */
-    public void engineSetEntry(String alias, KeyStore.Entry entry,
-                        KeyStore.ProtectionParameter protParam)
+    public void engineSetEntry(String blibs, KeyStore.Entry entry,
+                        KeyStore.ProtectionPbrbmeter protPbrbm)
                 throws KeyStoreException {
 
-        // get password
-        if (protParam != null &&
-            !(protParam instanceof KeyStore.PasswordProtection)) {
-            throw new KeyStoreException("unsupported protection parameter");
+        // get pbssword
+        if (protPbrbm != null &&
+            !(protPbrbm instbnceof KeyStore.PbsswordProtection)) {
+            throw new KeyStoreException("unsupported protection pbrbmeter");
         }
-        KeyStore.PasswordProtection pProtect = null;
-        if (protParam != null) {
-            pProtect = (KeyStore.PasswordProtection)protParam;
+        KeyStore.PbsswordProtection pProtect = null;
+        if (protPbrbm != null) {
+            pProtect = (KeyStore.PbsswordProtection)protPbrbm;
         }
 
         // set entry
-        if (entry instanceof KeyStore.TrustedCertificateEntry) {
-            if (protParam != null && pProtect.getPassword() != null) {
-                // pre-1.5 style setCertificateEntry did not allow password
+        if (entry instbnceof KeyStore.TrustedCertificbteEntry) {
+            if (protPbrbm != null && pProtect.getPbssword() != null) {
+                // pre-1.5 style setCertificbteEntry did not bllow pbssword
                 throw new KeyStoreException
-                    ("trusted certificate entries are not password-protected");
+                    ("trusted certificbte entries bre not pbssword-protected");
             } else {
-                KeyStore.TrustedCertificateEntry tce =
-                        (KeyStore.TrustedCertificateEntry)entry;
-                engineSetCertificateEntry(alias, tce.getTrustedCertificate());
+                KeyStore.TrustedCertificbteEntry tce =
+                        (KeyStore.TrustedCertificbteEntry)entry;
+                engineSetCertificbteEntry(blibs, tce.getTrustedCertificbte());
                 return;
             }
-        } else if (entry instanceof KeyStore.PrivateKeyEntry) {
-            if (pProtect == null || pProtect.getPassword() == null) {
-                // pre-1.5 style setKeyEntry required password
+        } else if (entry instbnceof KeyStore.PrivbteKeyEntry) {
+            if (pProtect == null || pProtect.getPbssword() == null) {
+                // pre-1.5 style setKeyEntry required pbssword
                 throw new KeyStoreException
-                    ("non-null password required to create PrivateKeyEntry");
+                    ("non-null pbssword required to crebte PrivbteKeyEntry");
             } else {
                 engineSetKeyEntry
-                    (alias,
-                    ((KeyStore.PrivateKeyEntry)entry).getPrivateKey(),
-                    pProtect.getPassword(),
-                    ((KeyStore.PrivateKeyEntry)entry).getCertificateChain());
+                    (blibs,
+                    ((KeyStore.PrivbteKeyEntry)entry).getPrivbteKey(),
+                    pProtect.getPbssword(),
+                    ((KeyStore.PrivbteKeyEntry)entry).getCertificbteChbin());
                 return;
             }
-        } else if (entry instanceof KeyStore.SecretKeyEntry) {
-            if (pProtect == null || pProtect.getPassword() == null) {
-                // pre-1.5 style setKeyEntry required password
+        } else if (entry instbnceof KeyStore.SecretKeyEntry) {
+            if (pProtect == null || pProtect.getPbssword() == null) {
+                // pre-1.5 style setKeyEntry required pbssword
                 throw new KeyStoreException
-                    ("non-null password required to create SecretKeyEntry");
+                    ("non-null pbssword required to crebte SecretKeyEntry");
             } else {
                 engineSetKeyEntry
-                    (alias,
+                    (blibs,
                     ((KeyStore.SecretKeyEntry)entry).getSecretKey(),
-                    pProtect.getPassword(),
-                    (Certificate[])null);
+                    pProtect.getPbssword(),
+                    (Certificbte[])null);
                 return;
             }
         }
 
         throw new KeyStoreException
-                ("unsupported entry type: " + entry.getClass().getName());
+                ("unsupported entry type: " + entry.getClbss().getNbme());
     }
 
     /**
      * Determines if the keystore {@code Entry} for the specified
-     * {@code alias} is an instance or subclass of the specified
-     * {@code entryClass}.
+     * {@code blibs} is bn instbnce or subclbss of the specified
+     * {@code entryClbss}.
      *
-     * @param alias the alias name
-     * @param entryClass the entry class
+     * @pbrbm blibs the blibs nbme
+     * @pbrbm entryClbss the entry clbss
      *
      * @return true if the keystore {@code Entry} for the specified
-     *          {@code alias} is an instance or subclass of the
-     *          specified {@code entryClass}, false otherwise
+     *          {@code blibs} is bn instbnce or subclbss of the
+     *          specified {@code entryClbss}, fblse otherwise
      *
      * @since 1.5
      */
-    public boolean
-        engineEntryInstanceOf(String alias,
-                              Class<? extends KeyStore.Entry> entryClass)
+    public boolebn
+        engineEntryInstbnceOf(String blibs,
+                              Clbss<? extends KeyStore.Entry> entryClbss)
     {
-        if (entryClass == KeyStore.TrustedCertificateEntry.class) {
-            return engineIsCertificateEntry(alias);
+        if (entryClbss == KeyStore.TrustedCertificbteEntry.clbss) {
+            return engineIsCertificbteEntry(blibs);
         }
-        if (entryClass == KeyStore.PrivateKeyEntry.class) {
-            return engineIsKeyEntry(alias) &&
-                        engineGetCertificate(alias) != null;
+        if (entryClbss == KeyStore.PrivbteKeyEntry.clbss) {
+            return engineIsKeyEntry(blibs) &&
+                        engineGetCertificbte(blibs) != null;
         }
-        if (entryClass == KeyStore.SecretKeyEntry.class) {
-            return engineIsKeyEntry(alias) &&
-                        engineGetCertificate(alias) == null;
+        if (entryClbss == KeyStore.SecretKeyEntry.clbss) {
+            return engineIsKeyEntry(blibs) &&
+                        engineGetCertificbte(blibs) == null;
         }
-        return false;
+        return fblse;
     }
 }

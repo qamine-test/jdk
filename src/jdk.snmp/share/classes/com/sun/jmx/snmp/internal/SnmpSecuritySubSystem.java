@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2001, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp.internal;
+pbckbge com.sun.jmx.snmp.internbl;
 
 import com.sun.jmx.snmp.SnmpTooBigException;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpUnknownSecModelException;
 import com.sun.jmx.snmp.SnmpSecurityException;
-import com.sun.jmx.snmp.SnmpSecurityParameters;
+import com.sun.jmx.snmp.SnmpSecurityPbrbmeters;
 
 /**
- * Security sub system interface. To allow engine integration, a security sub system must implement this interface.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * Security sub system interfbce. To bllow engine integrbtion, b security sub system must implement this interfbce.
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
-public interface SnmpSecuritySubSystem extends SnmpSubSystem {
+public interfbce SnmpSecuritySubSystem extends SnmpSubSystem {
      /**
-     * Instantiates an <CODE>SnmpSecurityCache</CODE> that is dependant to the model implementation. This call is routed to the dedicated model according to the model ID.
-     * @param id The model ID.
-     * @return The model dependant security cache.
+     * Instbntibtes bn <CODE>SnmpSecurityCbche</CODE> thbt is dependbnt to the model implementbtion. This cbll is routed to the dedicbted model bccording to the model ID.
+     * @pbrbm id The model ID.
+     * @return The model dependbnt security cbche.
      */
-    public SnmpSecurityCache createSecurityCache(int id) throws SnmpUnknownSecModelException;
+    public SnmpSecurityCbche crebteSecurityCbche(int id) throws SnmpUnknownSecModelException;
     /**
-     * To release the previously created cache. This call is routed to the dedicated model according to the model ID.
-     * @param id The model ID.
-     * @param cache The security cache to release.
+     * To relebse the previously crebted cbche. This cbll is routed to the dedicbted model bccording to the model ID.
+     * @pbrbm id The model ID.
+     * @pbrbm cbche The security cbche to relebse.
      */
-    public void releaseSecurityCache(int id,
-                                     SnmpSecurityCache cache) throws SnmpUnknownSecModelException;
+    public void relebseSecurityCbche(int id,
+                                     SnmpSecurityCbche cbche) throws SnmpUnknownSecModelException;
 
      /**
-     * Called when a request is to be sent to the network. It must be securized. This call is routed to the dedicated model according to the model ID.
-     * <BR>The specified parameters are defined in RFC 2572 (see also the {@link com.sun.jmx.snmp.SnmpV3Message} class).
-     * @param cache The cache that has been created by calling <CODE>createSecurityCache</CODE> on this model.
-     * @param version The SNMP protocol version.
-     * @param msgID The current request id.
-     * @param msgMaxSize The message max size.
-     * @param msgFlags The message flags (reportable, Auth and Priv).
-     * @param msgSecurityModel This current security model.
-     * @param params The security parameters that contain the model dependant parameters.
-     * @param contextEngineID The context engine ID.
-     * @param contextName The context name.
-     * @param data The marshalled varbind list
-     * @param dataLength The marshalled varbind list length.
-     * @param outputBytes The buffer to fill with securized request. This is a representation independant marshalled format. This buffer will be sent to the network.
-     * @return The marshalled byte number.
+     * Cblled when b request is to be sent to the network. It must be securized. This cbll is routed to the dedicbted model bccording to the model ID.
+     * <BR>The specified pbrbmeters bre defined in RFC 2572 (see blso the {@link com.sun.jmx.snmp.SnmpV3Messbge} clbss).
+     * @pbrbm cbche The cbche thbt hbs been crebted by cblling <CODE>crebteSecurityCbche</CODE> on this model.
+     * @pbrbm version The SNMP protocol version.
+     * @pbrbm msgID The current request id.
+     * @pbrbm msgMbxSize The messbge mbx size.
+     * @pbrbm msgFlbgs The messbge flbgs (reportbble, Auth bnd Priv).
+     * @pbrbm msgSecurityModel This current security model.
+     * @pbrbm pbrbms The security pbrbmeters thbt contbin the model dependbnt pbrbmeters.
+     * @pbrbm contextEngineID The context engine ID.
+     * @pbrbm contextNbme The context nbme.
+     * @pbrbm dbtb The mbrshblled vbrbind list
+     * @pbrbm dbtbLength The mbrshblled vbrbind list length.
+     * @pbrbm outputBytes The buffer to fill with securized request. This is b representbtion independbnt mbrshblled formbt. This buffer will be sent to the network.
+     * @return The mbrshblled byte number.
      */
-    public int generateRequestMsg(SnmpSecurityCache cache,
+    public int generbteRequestMsg(SnmpSecurityCbche cbche,
                                   int version,
                                   int msgID,
-                                  int msgMaxSize,
-                                  byte msgFlags,
+                                  int msgMbxSize,
+                                  byte msgFlbgs,
                                   int msgSecurityModel,
-                                  SnmpSecurityParameters params,
+                                  SnmpSecurityPbrbmeters pbrbms,
                                   byte[] contextEngineID,
-                                  byte[] contextName,
-                                  byte[] data,
-                                  int dataLength,
+                                  byte[] contextNbme,
+                                  byte[] dbtb,
+                                  int dbtbLength,
                                   byte[] outputBytes)
-        throws SnmpTooBigException, SnmpStatusException, SnmpSecurityException, SnmpUnknownSecModelException;
+        throws SnmpTooBigException, SnmpStbtusException, SnmpSecurityException, SnmpUnknownSecModelException;
 
     /**
-     * Called when a response is to be sent to the network. It must be securized. This call is routed to the dedicated model according to the model ID.
-     * <BR>The specified parameters are defined in RFC 2572 (see also the {@link com.sun.jmx.snmp.SnmpV3Message} class).
-     * @param cache The cache that has been created by calling <CODE>createSecurityCache</CODE> on this model.
-     * @param version The SNMP protocol version.
-     * @param msgID The current request id.
-     * @param msgMaxSize The message max size.
-     * @param msgFlags The message flags (reportable, Auth and Priv).
-     * @param msgSecurityModel This current security model.
-     * @param params The security parameters that contain the model dependant parameters.
-     * @param contextEngineID The context engine ID.
-     * @param contextName The context name.
-     * @param data The marshalled varbind list
-     * @param dataLength The marshalled varbind list length.
-     * @param outputBytes The buffer to fill with securized request. This is a representation independant marshalled format. This buffer will be sent to the network.
-     * @return The marshalled byte number.
+     * Cblled when b response is to be sent to the network. It must be securized. This cbll is routed to the dedicbted model bccording to the model ID.
+     * <BR>The specified pbrbmeters bre defined in RFC 2572 (see blso the {@link com.sun.jmx.snmp.SnmpV3Messbge} clbss).
+     * @pbrbm cbche The cbche thbt hbs been crebted by cblling <CODE>crebteSecurityCbche</CODE> on this model.
+     * @pbrbm version The SNMP protocol version.
+     * @pbrbm msgID The current request id.
+     * @pbrbm msgMbxSize The messbge mbx size.
+     * @pbrbm msgFlbgs The messbge flbgs (reportbble, Auth bnd Priv).
+     * @pbrbm msgSecurityModel This current security model.
+     * @pbrbm pbrbms The security pbrbmeters thbt contbin the model dependbnt pbrbmeters.
+     * @pbrbm contextEngineID The context engine ID.
+     * @pbrbm contextNbme The context nbme.
+     * @pbrbm dbtb The mbrshblled vbrbind list
+     * @pbrbm dbtbLength The mbrshblled vbrbind list length.
+     * @pbrbm outputBytes The buffer to fill with securized request. This is b representbtion independbnt mbrshblled formbt. This buffer will be sent to the network.
+     * @return The mbrshblled byte number.
      */
-    public int generateResponseMsg(SnmpSecurityCache cache,
+    public int generbteResponseMsg(SnmpSecurityCbche cbche,
                                    int version,
                                    int msgID,
-                                   int msgMaxSize,
-                                   byte msgFlags,
+                                   int msgMbxSize,
+                                   byte msgFlbgs,
                                    int msgSecurityModel,
-                                   SnmpSecurityParameters params,
+                                   SnmpSecurityPbrbmeters pbrbms,
                                    byte[] contextEngineID,
-                                   byte[] contextName,
-                                   byte[] data,
-                                   int dataLength,
+                                   byte[] contextNbme,
+                                   byte[] dbtb,
+                                   int dbtbLength,
                                    byte[] outputBytes)
-        throws SnmpTooBigException, SnmpStatusException,
+        throws SnmpTooBigException, SnmpStbtusException,
                SnmpSecurityException, SnmpUnknownSecModelException;
       /**
-     * Called when a request is received from the network. It handles authentication and privacy. This call is routed to the dedicated model according to the model ID.
-     * <BR>The specified parameters are defined in RFC 2572 (see also the {@link com.sun.jmx.snmp.SnmpV3Message} class).
-     * @param cache The cache that has been created by calling <CODE>createSecurityCache</CODE> on this model.
-     * @param version The SNMP protocol version.
-     * @param msgID The current request id.
-     * @param msgMaxSize The message max size.
-     * @param msgFlags The message flags (reportable, Auth and Priv)
-     * @param msgSecurityModel This current security model.
-     * @param params The security parameters in a marshalled format. The informations cointained in this array are model dependant.
-     * @param contextEngineID The context engine ID or null if encrypted.
-     * @param contextName The context name or null if encrypted.
-     * @param data The marshalled varbind list or null if encrypted.
-     * @param encryptedPdu The encrypted pdu or null if not encrypted.
-     * @param decryptedPdu The decrypted pdu. If no decryption is to be done, the passed context engine ID, context name and data could be used to fill this object.
-     * @return The decoded security parameters.
+     * Cblled when b request is received from the network. It hbndles buthenticbtion bnd privbcy. This cbll is routed to the dedicbted model bccording to the model ID.
+     * <BR>The specified pbrbmeters bre defined in RFC 2572 (see blso the {@link com.sun.jmx.snmp.SnmpV3Messbge} clbss).
+     * @pbrbm cbche The cbche thbt hbs been crebted by cblling <CODE>crebteSecurityCbche</CODE> on this model.
+     * @pbrbm version The SNMP protocol version.
+     * @pbrbm msgID The current request id.
+     * @pbrbm msgMbxSize The messbge mbx size.
+     * @pbrbm msgFlbgs The messbge flbgs (reportbble, Auth bnd Priv)
+     * @pbrbm msgSecurityModel This current security model.
+     * @pbrbm pbrbms The security pbrbmeters in b mbrshblled formbt. The informbtions cointbined in this brrby bre model dependbnt.
+     * @pbrbm contextEngineID The context engine ID or null if encrypted.
+     * @pbrbm contextNbme The context nbme or null if encrypted.
+     * @pbrbm dbtb The mbrshblled vbrbind list or null if encrypted.
+     * @pbrbm encryptedPdu The encrypted pdu or null if not encrypted.
+     * @pbrbm decryptedPdu The decrypted pdu. If no decryption is to be done, the pbssed context engine ID, context nbme bnd dbtb could be used to fill this object.
+     * @return The decoded security pbrbmeters.
 
      */
-    public SnmpSecurityParameters
-        processIncomingRequest(SnmpSecurityCache cache,
+    public SnmpSecurityPbrbmeters
+        processIncomingRequest(SnmpSecurityCbche cbche,
                                int version,
                                int msgID,
-                               int msgMaxSize,
-                               byte msgFlags,
+                               int msgMbxSize,
+                               byte msgFlbgs,
                                int msgSecurityModel,
-                               byte[] params,
+                               byte[] pbrbms,
                                byte[] contextEngineID,
-                               byte[] contextName,
-                               byte[] data,
+                               byte[] contextNbme,
+                               byte[] dbtb,
                                byte[] encryptedPdu,
                                SnmpDecryptedPdu decryptedPdu)
-        throws SnmpStatusException, SnmpSecurityException, SnmpUnknownSecModelException;
+        throws SnmpStbtusException, SnmpSecurityException, SnmpUnknownSecModelException;
           /**
-     * Called when a response is received from the network. It handles authentication and privacy. This call is routed to the dedicated model according to the model ID.
-     * <BR>The specified parameters are defined in RFC 2572 (see also the {@link com.sun.jmx.snmp.SnmpV3Message} class).
-     * @param cache The cache that has been created by calling <CODE>createSecurityCache</CODE> on this model.
-     * @param version The SNMP protocol version.
-     * @param msgID The current request id.
-     * @param msgMaxSize The message max size.
-     * @param msgFlags The message flags (reportable, Auth and Priv).
-     * @param msgSecurityModel This current security model.
-     * @param params The security parameters in a marshalled format. The informations cointained in this array are model dependant.
-     * @param contextEngineID The context engine ID or null if encrypted.
-     * @param contextName The context name or null if encrypted.
-     * @param data The marshalled varbind list or null if encrypted.
-     * @param encryptedPdu The encrypted pdu or null if not encrypted.
-     * @param decryptedPdu The decrypted pdu. If no decryption is to be done, the passed context engine ID, context name and data could be used to fill this object.
-     * @return The security parameters.
+     * Cblled when b response is received from the network. It hbndles buthenticbtion bnd privbcy. This cbll is routed to the dedicbted model bccording to the model ID.
+     * <BR>The specified pbrbmeters bre defined in RFC 2572 (see blso the {@link com.sun.jmx.snmp.SnmpV3Messbge} clbss).
+     * @pbrbm cbche The cbche thbt hbs been crebted by cblling <CODE>crebteSecurityCbche</CODE> on this model.
+     * @pbrbm version The SNMP protocol version.
+     * @pbrbm msgID The current request id.
+     * @pbrbm msgMbxSize The messbge mbx size.
+     * @pbrbm msgFlbgs The messbge flbgs (reportbble, Auth bnd Priv).
+     * @pbrbm msgSecurityModel This current security model.
+     * @pbrbm pbrbms The security pbrbmeters in b mbrshblled formbt. The informbtions cointbined in this brrby bre model dependbnt.
+     * @pbrbm contextEngineID The context engine ID or null if encrypted.
+     * @pbrbm contextNbme The context nbme or null if encrypted.
+     * @pbrbm dbtb The mbrshblled vbrbind list or null if encrypted.
+     * @pbrbm encryptedPdu The encrypted pdu or null if not encrypted.
+     * @pbrbm decryptedPdu The decrypted pdu. If no decryption is to be done, the pbssed context engine ID, context nbme bnd dbtb could be used to fill this object.
+     * @return The security pbrbmeters.
 
      */
-    public SnmpSecurityParameters processIncomingResponse(SnmpSecurityCache cache,
+    public SnmpSecurityPbrbmeters processIncomingResponse(SnmpSecurityCbche cbche,
                                                           int version,
                                                           int msgID,
-                                                          int msgMaxSize,
-                                                          byte msgFlags,
+                                                          int msgMbxSize,
+                                                          byte msgFlbgs,
                                                           int msgSecurityModel,
-                                                          byte[] params,
+                                                          byte[] pbrbms,
                                                           byte[] contextEngineID,
-                                                          byte[] contextName,
-                                                          byte[] data,
+                                                          byte[] contextNbme,
+                                                          byte[] dbtb,
                                                           byte[] encryptedPdu,
                                                           SnmpDecryptedPdu decryptedPdu)
-        throws SnmpStatusException, SnmpSecurityException, SnmpUnknownSecModelException;
+        throws SnmpStbtusException, SnmpSecurityException, SnmpUnknownSecModelException;
 }

@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.PrintServiceAttribute;
 
 /**
- * Class PrinterState is a printing attribute class, an enumeration, that
- * identifies the current state of a printer. Class PrinterState defines
- * standard printer state values. A Print Service implementation only needs
- * to report those printer states which are appropriate for the particular
- * implementation; it does not have to report every defined printer state. The
- * {@link PrinterStateReasons PrinterStateReasons} attribute augments the
- * PrinterState attribute to give more detailed information about the printer
- * in  given printer state.
+ * Clbss PrinterStbte is b printing bttribute clbss, bn enumerbtion, thbt
+ * identifies the current stbte of b printer. Clbss PrinterStbte defines
+ * stbndbrd printer stbte vblues. A Print Service implementbtion only needs
+ * to report those printer stbtes which bre bppropribte for the pbrticulbr
+ * implementbtion; it does not hbve to report every defined printer stbte. The
+ * {@link PrinterStbteRebsons PrinterStbteRebsons} bttribute bugments the
+ * PrinterStbte bttribute to give more detbiled informbtion bbout the printer
+ * in  given printer stbte.
  * <P>
- * <B>IPP Compatibility:</B> The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The enumerbtion's
+ * integer vblue is the IPP enum vblue.  The <code>toString()</code> method
+ * returns the IPP string representbtion of the bttribute vblue.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class PrinterState extends EnumSyntax
+public finbl clbss PrinterStbte extends EnumSyntbx
 implements PrintServiceAttribute {
 
-    private static final long serialVersionUID = -649578618346507718L;
+    privbte stbtic finbl long seriblVersionUID = -649578618346507718L;
 
     /**
-     * The printer state is unknown.
+     * The printer stbte is unknown.
      */
-    public static final PrinterState UNKNOWN = new PrinterState(0);
+    public stbtic finbl PrinterStbte UNKNOWN = new PrinterStbte(0);
 
     /**
-     * Indicates that new jobs can start processing without waiting.
+     * Indicbtes thbt new jobs cbn stbrt processing without wbiting.
      */
-    public static final PrinterState IDLE = new PrinterState(3);
+    public stbtic finbl PrinterStbte IDLE = new PrinterStbte(3);
 
     /**
-     * Indicates that jobs are processing;
-     * new jobs will wait before processing.
+     * Indicbtes thbt jobs bre processing;
+     * new jobs will wbit before processing.
      */
-    public static final PrinterState PROCESSING = new PrinterState(4);
+    public stbtic finbl PrinterStbte PROCESSING = new PrinterStbte(4);
 
     /**
-     * Indicates that no jobs can be processed and intervention is required.
+     * Indicbtes thbt no jobs cbn be processed bnd intervention is required.
      */
-    public static final PrinterState STOPPED = new PrinterState(5);
+    public stbtic finbl PrinterStbte STOPPED = new PrinterStbte(5);
 
     /**
-     * Construct a new printer state enumeration value with the given integer
-     * value.
+     * Construct b new printer stbte enumerbtion vblue with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected PrinterState(int value) {
-        super (value);
+    protected PrinterStbte(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
+    privbte stbtic finbl String[] myStringTbble = {
         "unknown",
         null,
         null,
@@ -90,7 +90,7 @@ implements PrintServiceAttribute {
         "stopped"
     };
 
-    private static final PrinterState[] myEnumValueTable = {
+    privbte stbtic finbl PrinterStbte[] myEnumVblueTbble = {
         UNKNOWN,
         null,
         null,
@@ -100,42 +100,42 @@ implements PrintServiceAttribute {
     };
 
     /**
-     * Returns the string table for class PrinterState.
+     * Returns the string tbble for clbss PrinterStbte.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protected String[] getStringTbble() {
+        return myStringTbble;
     }
 
     /**
-     * Returns the enumeration value table for class PrinterState.
+     * Returns the enumerbtion vblue tbble for clbss PrinterStbte.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return myEnumVblueTbble;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class PrinterState, the category is class PrinterState itself.
+     * For clbss PrinterStbte, the cbtegory is clbss PrinterStbte itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrinterState.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return PrinterStbte.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class PrinterState, the category name is <CODE>"printer-state"</CODE>.
+     * For clbss PrinterStbte, the cbtegory nbme is <CODE>"printer-stbte"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "printer-state";
+    public finbl String getNbme() {
+        return "printer-stbte";
     }
 
 }

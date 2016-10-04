@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.*;
 
-public class Symbol extends Charset {
+public clbss Symbol extends Chbrset {
     public Symbol () {
         super("Symbol", null);
     }
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
 
-    /* Seems like supporting a decoder is required, but we aren't going
-     * to be publically exposing this class, so no need to waste work
+    /* Seems like supporting b decoder is required, but we bren't going
+     * to be publicblly exposing this clbss, so no need to wbste work
      */
-    public CharsetDecoder newDecoder() {
-        throw new Error("Decoder is not implemented for Symbol Charset");
+    public ChbrsetDecoder newDecoder() {
+        throw new Error("Decoder is not implemented for Symbol Chbrset");
     }
 
-    public boolean contains(Charset cs) {
-        return cs instanceof Symbol;
+    public boolebn contbins(Chbrset cs) {
+        return cs instbnceof Symbol;
     }
 
-    private static class Encoder extends CharsetEncoder {
-        public Encoder(Charset cs) {
+    privbte stbtic clbss Encoder extends ChbrsetEncoder {
+        public Encoder(Chbrset cs) {
             super(cs, 1.0f, 1.0f);
         }
 
-        public boolean canEncode(char c) {
+        public boolebn cbnEncode(chbr c) {
             if (c >= 0x2200 && c <= 0x22ef) {
-                if (table_math[c - 0x2200] != 0x00) {
+                if (tbble_mbth[c - 0x2200] != 0x00) {
                     return true;
                 }
             } else if (c >= 0x0391 && c <= 0x03d6) {
-                if (table_greek[c - 0x0391] != 0x00) {
+                if (tbble_greek[c - 0x0391] != 0x00) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        protected CoderResult encodeLoop(CharBuffer src, ByteBuffer dst) {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+        protected CoderResult encodeLoop(ChbrBuffer src, ByteBuffer dst) {
+            chbr[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            byte[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
                 while (sp < sl) {
-                    char c = sa[sp];
+                    chbr c = sb[sp];
                     if (dl - dp < 1)
                         return CoderResult.OVERFLOW;
-                    if (!canEncode(c))
-                        return CoderResult.unmappableForLength(1);
+                    if (!cbnEncode(c))
+                        return CoderResult.unmbppbbleForLength(1);
                     sp++;
                     if (c >= 0x2200 && c <= 0x22ef){
-                        da[dp++] = table_math[c - 0x2200];
+                        db[dp++] = tbble_mbth[c - 0x2200];
                     } else if (c >= 0x0391 && c <= 0x03d6) {
-                        da[dp++]= table_greek[c - 0x0391];
+                        db[dp++]= tbble_greek[c - 0x0391];
                     }
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private static byte[] table_math = {
+        privbte stbtic byte[] tbble_mbth = {
             (byte)0042, (byte)0000, (byte)0144, (byte)0044,
             (byte)0000, (byte)0306, (byte)0104, (byte)0321,    // 00
             (byte)0316, (byte)0317, (byte)0000, (byte)0000,
@@ -141,7 +141,7 @@ public class Symbol extends Charset {
             (byte)0000, (byte)0000, (byte)0000, (byte)0000,
             (byte)0000, (byte)0000, (byte)0000, (byte)0000,
             (byte)0000, (byte)0000, (byte)0000, (byte)0000,
-            (byte)0000, (byte)0136, (byte)0000, (byte)0000,    // a0
+            (byte)0000, (byte)0136, (byte)0000, (byte)0000,    // b0
             (byte)0000, (byte)0000, (byte)0000, (byte)0000,
             (byte)0000, (byte)0000, (byte)0000, (byte)0000,
             (byte)0000, (byte)0000, (byte)0000, (byte)0000,
@@ -162,13 +162,13 @@ public class Symbol extends Charset {
             (byte)0000, (byte)0000, (byte)0000, (byte)0274,
         };
 
-        private static byte[] table_greek = {
+        privbte stbtic byte[] tbble_greek = {
             (byte)0101, (byte)0102, (byte)0107,
             (byte)0104, (byte)0105, (byte)0132, (byte)0110,    // 90
             (byte)0121, (byte)0111, (byte)0113, (byte)0114,
             (byte)0115, (byte)0116, (byte)0130, (byte)0117,
             (byte)0120, (byte)0122, (byte)0000, (byte)0123,
-            (byte)0124, (byte)0125, (byte)0106, (byte)0103,    // a0
+            (byte)0124, (byte)0125, (byte)0106, (byte)0103,    // b0
             (byte)0131, (byte)0127, (byte)0000, (byte)0000,
             (byte)0000, (byte)0000, (byte)0000, (byte)0000,
             (byte)0000, (byte)0141, (byte)0142, (byte)0147,
@@ -183,8 +183,8 @@ public class Symbol extends Charset {
             (byte)0000, (byte)0152, (byte)0166,                // d0
         };
 
-        /* The default implementation creates a decoder and we don't have one */
-        public boolean isLegalReplacement(byte[] repl) {
+        /* The defbult implementbtion crebtes b decoder bnd we don't hbve one */
+        public boolebn isLegblReplbcement(byte[] repl) {
             return true;
         }
     }

@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import java.util.Arrays;
-import java.util.ArrayList;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
+import jbvb.util.Arrbys;
+import jbvb.util.ArrbyList;
 
 
 /**
- * A default L&amp;F implementation of MenuUI.  This implementation
- * is a "combined" view/controller.
+ * A defbult L&bmp;F implementbtion of MenuUI.  This implementbtion
+ * is b "combined" view/controller.
  *
- * @author Georges Saab
- * @author David Karlton
- * @author Arnaud Weber
+ * @buthor Georges Sbbb
+ * @buthor Dbvid Kbrlton
+ * @buthor Arnbud Weber
  */
-public class BasicMenuUI extends BasicMenuItemUI
+public clbss BbsicMenuUI extends BbsicMenuItemUI
 {
     /**
-     * The instance of {@code ChangeListener}.
+     * The instbnce of {@code ChbngeListener}.
      */
-    protected ChangeListener         changeListener;
+    protected ChbngeListener         chbngeListener;
 
     /**
-     * The instance of {@code MenuListener}.
+     * The instbnce of {@code MenuListener}.
      */
     protected MenuListener           menuListener;
 
-    private int lastMnemonic = 0;
+    privbte int lbstMnemonic = 0;
 
-    /** Uses as the parent of the windowInputMap when selected. */
-    private InputMap selectedWindowInputMap;
+    /** Uses bs the pbrent of the windowInputMbp when selected. */
+    privbte InputMbp selectedWindowInputMbp;
 
-    /* diagnostic aids -- should be false for production builds. */
-    private static final boolean TRACE =   false; // trace creates and disposes
-    private static final boolean VERBOSE = false; // show reuse hits/misses
-    private static final boolean DEBUG =   false;  // show bad params, misc.
+    /* dibgnostic bids -- should be fblse for production builds. */
+    privbte stbtic finbl boolebn TRACE =   fblse; // trbce crebtes bnd disposes
+    privbte stbtic finbl boolebn VERBOSE = fblse; // show reuse hits/misses
+    privbte stbtic finbl boolebn DEBUG =   fblse;  // show bbd pbrbms, misc.
 
-    private static boolean crossMenuMnemonic = true;
+    privbte stbtic boolebn crossMenuMnemonic = true;
 
     /**
-     * Constructs a new instance of {@code BasicMenuUI}.
+     * Constructs b new instbnce of {@code BbsicMenuUI}.
      *
-     * @param x a component
-     * @return a new instance of {@code BasicMenuUI}
+     * @pbrbm x b component
+     * @return b new instbnce of {@code BbsicMenuUI}
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new BasicMenuUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new BbsicMenuUI();
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        BasicMenuItemUI.loadActionMap(map);
-        map.put(new Actions(Actions.SELECT, null, true));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        BbsicMenuItemUI.lobdActionMbp(mbp);
+        mbp.put(new Actions(Actions.SELECT, null, true));
     }
 
 
-    protected void installDefaults() {
-        super.installDefaults();
-        updateDefaultBackgroundColor();
-        ((JMenu)menuItem).setDelay(200);
-        crossMenuMnemonic = UIManager.getBoolean("Menu.crossMenuMnemonic");
+    protected void instbllDefbults() {
+        super.instbllDefbults();
+        updbteDefbultBbckgroundColor();
+        ((JMenu)menuItem).setDelby(200);
+        crossMenuMnemonic = UIMbnbger.getBoolebn("Menu.crossMenuMnemonic");
     }
 
     protected String getPropertyPrefix() {
         return "Menu";
     }
 
-    protected void installListeners() {
-        super.installListeners();
+    protected void instbllListeners() {
+        super.instbllListeners();
 
-        if (changeListener == null)
-            changeListener = createChangeListener(menuItem);
+        if (chbngeListener == null)
+            chbngeListener = crebteChbngeListener(menuItem);
 
-        if (changeListener != null)
-            menuItem.addChangeListener(changeListener);
+        if (chbngeListener != null)
+            menuItem.bddChbngeListener(chbngeListener);
 
         if (menuListener == null)
-            menuListener = createMenuListener(menuItem);
+            menuListener = crebteMenuListener(menuItem);
 
         if (menuListener != null)
-            ((JMenu)menuItem).addMenuListener(menuListener);
+            ((JMenu)menuItem).bddMenuListener(menuListener);
     }
 
-    protected void installKeyboardActions() {
-        super.installKeyboardActions();
-        updateMnemonicBinding();
+    protected void instbllKeybobrdActions() {
+        super.instbllKeybobrdActions();
+        updbteMnemonicBinding();
     }
 
-    void installLazyActionMap() {
-        LazyActionMap.installLazyActionMap(menuItem, BasicMenuUI.class,
-                                           getPropertyPrefix() + ".actionMap");
+    void instbllLbzyActionMbp() {
+        LbzyActionMbp.instbllLbzyActionMbp(menuItem, BbsicMenuUI.clbss,
+                                           getPropertyPrefix() + ".bctionMbp");
     }
 
-    void updateMnemonicBinding() {
+    void updbteMnemonicBinding() {
         int mnemonic = menuItem.getModel().getMnemonic();
-        int[] shortcutKeys = (int[])DefaultLookup.get(menuItem, this,
+        int[] shortcutKeys = (int[])DefbultLookup.get(menuItem, this,
                                                    "Menu.shortcutKeys");
         if (shortcutKeys == null) {
             shortcutKeys = new int[] {KeyEvent.ALT_MASK};
         }
-        if (mnemonic == lastMnemonic) {
+        if (mnemonic == lbstMnemonic) {
             return;
         }
-        InputMap windowInputMap = SwingUtilities.getUIInputMap(
+        InputMbp windowInputMbp = SwingUtilities.getUIInputMbp(
                        menuItem, JComponent.WHEN_IN_FOCUSED_WINDOW);
-        if (lastMnemonic != 0 && windowInputMap != null) {
+        if (lbstMnemonic != 0 && windowInputMbp != null) {
             for (int shortcutKey : shortcutKeys) {
-                windowInputMap.remove(KeyStroke.getKeyStroke
-                        (lastMnemonic, shortcutKey, false));
+                windowInputMbp.remove(KeyStroke.getKeyStroke
+                        (lbstMnemonic, shortcutKey, fblse));
             }
         }
         if (mnemonic != 0) {
-            if (windowInputMap == null) {
-                windowInputMap = createInputMap(JComponent.
+            if (windowInputMbp == null) {
+                windowInputMbp = crebteInputMbp(JComponent.
                                               WHEN_IN_FOCUSED_WINDOW);
-                SwingUtilities.replaceUIInputMap(menuItem, JComponent.
-                                       WHEN_IN_FOCUSED_WINDOW, windowInputMap);
+                SwingUtilities.replbceUIInputMbp(menuItem, JComponent.
+                                       WHEN_IN_FOCUSED_WINDOW, windowInputMbp);
             }
             for (int shortcutKey : shortcutKeys) {
-                windowInputMap.put(KeyStroke.getKeyStroke(mnemonic,
-                        shortcutKey, false), "selectMenu");
+                windowInputMbp.put(KeyStroke.getKeyStroke(mnemonic,
+                        shortcutKey, fblse), "selectMenu");
             }
         }
-        lastMnemonic = mnemonic;
+        lbstMnemonic = mnemonic;
     }
 
-    protected void uninstallKeyboardActions() {
-        super.uninstallKeyboardActions();
-        lastMnemonic = 0;
+    protected void uninstbllKeybobrdActions() {
+        super.uninstbllKeybobrdActions();
+        lbstMnemonic = 0;
     }
 
-    protected MouseInputListener createMouseInputListener(JComponent c) {
-        return getHandler();
+    protected MouseInputListener crebteMouseInputListener(JComponent c) {
+        return getHbndler();
     }
 
     /**
-     * Returns an instance of {@code MenuListener}.
+     * Returns bn instbnce of {@code MenuListener}.
      *
-     * @param c a component
-     * @return an instance of {@code MenuListener}
+     * @pbrbm c b component
+     * @return bn instbnce of {@code MenuListener}
      */
-    protected MenuListener createMenuListener(JComponent c) {
+    protected MenuListener crebteMenuListener(JComponent c) {
         return null;
     }
 
     /**
-     * Returns an instance of {@code ChangeListener}.
+     * Returns bn instbnce of {@code ChbngeListener}.
      *
-     * @param c a component
-     * @return an instance of {@code ChangeListener}
+     * @pbrbm c b component
+     * @return bn instbnce of {@code ChbngeListener}
      */
-    protected ChangeListener createChangeListener(JComponent c) {
+    protected ChbngeListener crebteChbngeListener(JComponent c) {
         return null;
     }
 
-    protected PropertyChangeListener createPropertyChangeListener(JComponent c) {
-        return getHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener(JComponent c) {
+        return getHbndler();
     }
 
-    BasicMenuItemUI.Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    BbsicMenuItemUI.Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
-    protected void uninstallDefaults() {
-        menuItem.setArmed(false);
-        menuItem.setSelected(false);
-        menuItem.resetKeyboardActions();
-        super.uninstallDefaults();
+    protected void uninstbllDefbults() {
+        menuItem.setArmed(fblse);
+        menuItem.setSelected(fblse);
+        menuItem.resetKeybobrdActions();
+        super.uninstbllDefbults();
     }
 
-    protected void uninstallListeners() {
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
 
-        if (changeListener != null)
-            menuItem.removeChangeListener(changeListener);
+        if (chbngeListener != null)
+            menuItem.removeChbngeListener(chbngeListener);
 
         if (menuListener != null)
             ((JMenu)menuItem).removeMenuListener(menuListener);
 
-        changeListener = null;
+        chbngeListener = null;
         menuListener = null;
-        handler = null;
+        hbndler = null;
     }
 
-    protected MenuDragMouseListener createMenuDragMouseListener(JComponent c) {
-        return getHandler();
+    protected MenuDrbgMouseListener crebteMenuDrbgMouseListener(JComponent c) {
+        return getHbndler();
     }
 
-    protected MenuKeyListener createMenuKeyListener(JComponent c) {
-        return (MenuKeyListener)getHandler();
+    protected MenuKeyListener crebteMenuKeyListener(JComponent c) {
+        return (MenuKeyListener)getHbndler();
     }
 
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         if (((JMenu)menuItem).isTopLevelMenu() == true) {
             Dimension d = c.getPreferredSize();
             return new Dimension(d.width, Short.MAX_VALUE);
@@ -236,56 +236,56 @@ public class BasicMenuUI extends BasicMenuItemUI
     /**
      * Sets timer to the {@code menu}.
      *
-     * @param menu an instance of {@code JMenu}.
+     * @pbrbm menu bn instbnce of {@code JMenu}.
      */
     protected void setupPostTimer(JMenu menu) {
-        Timer timer = new Timer(menu.getDelay(), new Actions(
-                                    Actions.SELECT, menu,false));
-        timer.setRepeats(false);
-        timer.start();
+        Timer timer = new Timer(menu.getDelby(), new Actions(
+                                    Actions.SELECT, menu,fblse));
+        timer.setRepebts(fblse);
+        timer.stbrt();
     }
 
-    private static void appendPath(MenuElement[] path, MenuElement elem) {
-        MenuElement newPath[] = new MenuElement[path.length+1];
-        System.arraycopy(path, 0, newPath, 0, path.length);
-        newPath[path.length] = elem;
-        MenuSelectionManager.defaultManager().setSelectedPath(newPath);
+    privbte stbtic void bppendPbth(MenuElement[] pbth, MenuElement elem) {
+        MenuElement newPbth[] = new MenuElement[pbth.length+1];
+        System.brrbycopy(pbth, 0, newPbth, 0, pbth.length);
+        newPbth[pbth.length] = elem;
+        MenuSelectionMbnbger.defbultMbnbger().setSelectedPbth(newPbth);
     }
 
-    private static class Actions extends UIAction {
-        private static final String SELECT = "selectMenu";
+    privbte stbtic clbss Actions extends UIAction {
+        privbte stbtic finbl String SELECT = "selectMenu";
 
-        // NOTE: This will be null if the action is registered in the
-        // ActionMap. For the timer use it will be non-null.
-        private JMenu menu;
-        private boolean force=false;
+        // NOTE: This will be null if the bction is registered in the
+        // ActionMbp. For the timer use it will be non-null.
+        privbte JMenu menu;
+        privbte boolebn force=fblse;
 
-        Actions(String key, JMenu menu, boolean shouldForce) {
+        Actions(String key, JMenu menu, boolebn shouldForce) {
             super(key);
             this.menu = menu;
             this.force = shouldForce;
         }
 
-        private JMenu getMenu(ActionEvent e) {
-            if (e.getSource() instanceof JMenu) {
+        privbte JMenu getMenu(ActionEvent e) {
+            if (e.getSource() instbnceof JMenu) {
                 return (JMenu)e.getSource();
             }
             return menu;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             JMenu menu = getMenu(e);
             if (!crossMenuMnemonic) {
-                JPopupMenu pm = BasicPopupMenuUI.getLastPopup();
-                if (pm != null && pm != menu.getParent()) {
+                JPopupMenu pm = BbsicPopupMenuUI.getLbstPopup();
+                if (pm != null && pm != menu.getPbrent()) {
                     return;
                 }
             }
 
-            final MenuSelectionManager defaultManager = MenuSelectionManager.defaultManager();
+            finbl MenuSelectionMbnbger defbultMbnbger = MenuSelectionMbnbger.defbultMbnbger();
             if(force) {
-                Container cnt = menu.getParent();
-                if(cnt != null && cnt instanceof JMenuBar) {
+                Contbiner cnt = menu.getPbrent();
+                if(cnt != null && cnt instbnceof JMenuBbr) {
                     MenuElement me[];
                     MenuElement subElements[];
 
@@ -302,170 +302,170 @@ public class BasicMenuUI extends BasicMenuItemUI
                         me[1] = menu;
                         me[2] = menu.getPopupMenu();
                     }
-                    defaultManager.setSelectedPath(me);
+                    defbultMbnbger.setSelectedPbth(me);
                 }
             } else {
-                MenuElement path[] = defaultManager.getSelectedPath();
-                if(path.length > 0 && path[path.length-1] == menu) {
-                    appendPath(path, menu.getPopupMenu());
+                MenuElement pbth[] = defbultMbnbger.getSelectedPbth();
+                if(pbth.length > 0 && pbth[pbth.length-1] == menu) {
+                    bppendPbth(pbth, menu.getPopupMenu());
                 }
             }
         }
 
-        public boolean isEnabled(Object c) {
-            if (c instanceof JMenu) {
-                return ((JMenu)c).isEnabled();
+        public boolebn isEnbbled(Object c) {
+            if (c instbnceof JMenu) {
+                return ((JMenu)c).isEnbbled();
             }
             return true;
         }
     }
 
     /*
-     * Set the background color depending on whether this is a toplevel menu
-     * in a menubar or a submenu of another menu.
+     * Set the bbckground color depending on whether this is b toplevel menu
+     * in b menubbr or b submenu of bnother menu.
      */
-    private void updateDefaultBackgroundColor() {
-        if (!UIManager.getBoolean("Menu.useMenuBarBackgroundForTopLevel")) {
+    privbte void updbteDefbultBbckgroundColor() {
+        if (!UIMbnbger.getBoolebn("Menu.useMenuBbrBbckgroundForTopLevel")) {
            return;
         }
         JMenu menu = (JMenu)menuItem;
-        if (menu.getBackground() instanceof UIResource) {
+        if (menu.getBbckground() instbnceof UIResource) {
             if (menu.isTopLevelMenu()) {
-                menu.setBackground(UIManager.getColor("MenuBar.background"));
+                menu.setBbckground(UIMbnbger.getColor("MenuBbr.bbckground"));
             } else {
-                menu.setBackground(UIManager.getColor(getPropertyPrefix() + ".background"));
+                menu.setBbckground(UIMbnbger.getColor(getPropertyPrefix() + ".bbckground"));
             }
         }
     }
 
     /**
-     * Instantiated and used by a menu item to handle the current menu selection
-     * from mouse events. A MouseInputHandler processes and forwards all mouse events
-     * to a shared instance of the MenuSelectionManager.
+     * Instbntibted bnd used by b menu item to hbndle the current menu selection
+     * from mouse events. A MouseInputHbndler processes bnd forwbrds bll mouse events
+     * to b shbred instbnce of the MenuSelectionMbnbger.
      * <p>
-     * This class is protected so that it can be subclassed by other look and
-     * feels to implement their own mouse handling behavior. All overridden
-     * methods should call the parent methods so that the menu selection
+     * This clbss is protected so thbt it cbn be subclbssed by other look bnd
+     * feels to implement their own mouse hbndling behbvior. All overridden
+     * methods should cbll the pbrent methods so thbt the menu selection
      * is correct.
      *
-     * @see javax.swing.MenuSelectionManager
+     * @see jbvbx.swing.MenuSelectionMbnbger
      * @since 1.4
      */
-    protected class MouseInputHandler implements MouseInputListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+    protected clbss MouseInputHbndler implements MouseInputListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
 
         public void mouseClicked(MouseEvent e) {
-            getHandler().mouseClicked(e);
+            getHbndler().mouseClicked(e);
         }
 
         /**
-         * Invoked when the mouse has been clicked on the menu. This
-         * method clears or sets the selection path of the
-         * MenuSelectionManager.
+         * Invoked when the mouse hbs been clicked on the menu. This
+         * method clebrs or sets the selection pbth of the
+         * MenuSelectionMbnbger.
          *
-         * @param e the mouse event
+         * @pbrbm e the mouse event
          */
         public void mousePressed(MouseEvent e) {
-            getHandler().mousePressed(e);
+            getHbndler().mousePressed(e);
         }
 
         /**
-         * Invoked when the mouse has been released on the menu. Delegates the
-         * mouse event to the MenuSelectionManager.
+         * Invoked when the mouse hbs been relebsed on the menu. Delegbtes the
+         * mouse event to the MenuSelectionMbnbger.
          *
-         * @param e the mouse event
+         * @pbrbm e the mouse event
          */
-        public void mouseReleased(MouseEvent e) {
-            getHandler().mouseReleased(e);
+        public void mouseRelebsed(MouseEvent e) {
+            getHbndler().mouseRelebsed(e);
         }
 
         /**
          * Invoked when the cursor enters the menu. This method sets the selected
-         * path for the MenuSelectionManager and handles the case
-         * in which a menu item is used to pop up an additional menu, as in a
-         * hierarchical menu system.
+         * pbth for the MenuSelectionMbnbger bnd hbndles the cbse
+         * in which b menu item is used to pop up bn bdditionbl menu, bs in b
+         * hierbrchicbl menu system.
          *
-         * @param e the mouse event; not used
+         * @pbrbm e the mouse event; not used
          */
         public void mouseEntered(MouseEvent e) {
-            getHandler().mouseEntered(e);
+            getHbndler().mouseEntered(e);
         }
         public void mouseExited(MouseEvent e) {
-            getHandler().mouseExited(e);
+            getHbndler().mouseExited(e);
         }
 
         /**
-         * Invoked when a mouse button is pressed on the menu and then dragged.
-         * Delegates the mouse event to the MenuSelectionManager.
+         * Invoked when b mouse button is pressed on the menu bnd then drbgged.
+         * Delegbtes the mouse event to the MenuSelectionMbnbger.
          *
-         * @param e the mouse event
-         * @see java.awt.event.MouseMotionListener#mouseDragged
+         * @pbrbm e the mouse event
+         * @see jbvb.bwt.event.MouseMotionListener#mouseDrbgged
          */
-        public void mouseDragged(MouseEvent e) {
-            getHandler().mouseDragged(e);
+        public void mouseDrbgged(MouseEvent e) {
+            getHbndler().mouseDrbgged(e);
         }
 
         public void mouseMoved(MouseEvent e) {
-            getHandler().mouseMoved(e);
+            getHbndler().mouseMoved(e);
         }
     }
 
     /**
-     * As of Java 2 platform 1.4, this previously undocumented class
-     * is now obsolete. KeyBindings are now managed by the popup menu.
+     * As of Jbvb 2 plbtform 1.4, this previously undocumented clbss
+     * is now obsolete. KeyBindings bre now mbnbged by the popup menu.
      */
-    public class ChangeHandler implements ChangeListener {
+    public clbss ChbngeHbndler implements ChbngeListener {
         /**
-         * The instance of {@code JMenu}.
+         * The instbnce of {@code JMenu}.
          */
         public JMenu    menu;
 
         /**
-         * The instance of {@code BasicMenuUI}.
+         * The instbnce of {@code BbsicMenuUI}.
          */
-        public BasicMenuUI ui;
+        public BbsicMenuUI ui;
 
         /**
-         * {@code true} if an item of popup menu is selected.
+         * {@code true} if bn item of popup menu is selected.
          */
-        public boolean  isSelected = false;
+        public boolebn  isSelected = fblse;
 
         /**
-         * The component that was focused.
+         * The component thbt wbs focused.
          */
-        public Component wasFocused;
+        public Component wbsFocused;
 
         /**
-         * Constructs a new instance of {@code ChangeHandler}.
+         * Constructs b new instbnce of {@code ChbngeHbndler}.
          *
-         * @param m an instance of {@code JMenu}
-         * @param ui an instance of {@code BasicMenuUI}
+         * @pbrbm m bn instbnce of {@code JMenu}
+         * @pbrbm ui bn instbnce of {@code BbsicMenuUI}
          */
-        public ChangeHandler(JMenu m, BasicMenuUI ui) {
+        public ChbngeHbndler(JMenu m, BbsicMenuUI ui) {
             menu = m;
             this.ui = ui;
         }
 
-        public void stateChanged(ChangeEvent e) { }
+        public void stbteChbnged(ChbngeEvent e) { }
     }
 
-    private class Handler extends BasicMenuItemUI.Handler implements MenuKeyListener {
+    privbte clbss Hbndler extends BbsicMenuItemUI.Hbndler implements MenuKeyListener {
         //
-        // PropertyChangeListener
+        // PropertyChbngeListener
         //
-        public void propertyChange(PropertyChangeEvent e) {
-            if (e.getPropertyName() == AbstractButton.
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            if (e.getPropertyNbme() == AbstrbctButton.
                              MNEMONIC_CHANGED_PROPERTY) {
-                updateMnemonicBinding();
+                updbteMnemonicBinding();
             }
             else {
-                if (e.getPropertyName().equals("ancestor")) {
-                    updateDefaultBackgroundColor();
+                if (e.getPropertyNbme().equbls("bncestor")) {
+                    updbteDefbultBbckgroundColor();
                 }
-                super.propertyChange(e);
+                super.propertyChbnge(e);
             }
         }
 
@@ -476,40 +476,40 @@ public class BasicMenuUI extends BasicMenuItemUI
         }
 
         /**
-         * Invoked when the mouse has been clicked on the menu. This
-         * method clears or sets the selection path of the
-         * MenuSelectionManager.
+         * Invoked when the mouse hbs been clicked on the menu. This
+         * method clebrs or sets the selection pbth of the
+         * MenuSelectionMbnbger.
          *
-         * @param e the mouse event
+         * @pbrbm e the mouse event
          */
         public void mousePressed(MouseEvent e) {
             JMenu menu = (JMenu)menuItem;
-            if (!menu.isEnabled())
+            if (!menu.isEnbbled())
                 return;
 
-            MenuSelectionManager manager =
-                MenuSelectionManager.defaultManager();
+            MenuSelectionMbnbger mbnbger =
+                MenuSelectionMbnbger.defbultMbnbger();
             if(menu.isTopLevelMenu()) {
                 if(menu.isSelected() && menu.getPopupMenu().isShowing()) {
-                    manager.clearSelectedPath();
+                    mbnbger.clebrSelectedPbth();
                 } else {
-                    Container cnt = menu.getParent();
-                    if(cnt != null && cnt instanceof JMenuBar) {
+                    Contbiner cnt = menu.getPbrent();
+                    if(cnt != null && cnt instbnceof JMenuBbr) {
                         MenuElement me[] = new MenuElement[2];
                         me[0]=(MenuElement)cnt;
                         me[1]=menu;
-                        manager.setSelectedPath(me);
+                        mbnbger.setSelectedPbth(me);
                     }
                 }
             }
 
-            MenuElement selectedPath[] = manager.getSelectedPath();
-            if (selectedPath.length > 0 &&
-                selectedPath[selectedPath.length-1] != menu.getPopupMenu()) {
+            MenuElement selectedPbth[] = mbnbger.getSelectedPbth();
+            if (selectedPbth.length > 0 &&
+                selectedPbth[selectedPbth.length-1] != menu.getPopupMenu()) {
 
                 if(menu.isTopLevelMenu() ||
-                   menu.getDelay() == 0) {
-                    appendPath(selectedPath, menu.getPopupMenu());
+                   menu.getDelby() == 0) {
+                    bppendPbth(selectedPbth, menu.getPopupMenu());
                 } else {
                     setupPostTimer(menu);
                 }
@@ -517,64 +517,64 @@ public class BasicMenuUI extends BasicMenuItemUI
         }
 
         /**
-         * Invoked when the mouse has been released on the menu. Delegates the
-         * mouse event to the MenuSelectionManager.
+         * Invoked when the mouse hbs been relebsed on the menu. Delegbtes the
+         * mouse event to the MenuSelectionMbnbger.
          *
-         * @param e the mouse event
+         * @pbrbm e the mouse event
          */
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
             JMenu menu = (JMenu)menuItem;
-            if (!menu.isEnabled())
+            if (!menu.isEnbbled())
                 return;
-            MenuSelectionManager manager =
-                MenuSelectionManager.defaultManager();
-            manager.processMouseEvent(e);
+            MenuSelectionMbnbger mbnbger =
+                MenuSelectionMbnbger.defbultMbnbger();
+            mbnbger.processMouseEvent(e);
             if (!e.isConsumed())
-                manager.clearSelectedPath();
+                mbnbger.clebrSelectedPbth();
         }
 
         /**
          * Invoked when the cursor enters the menu. This method sets the selected
-         * path for the MenuSelectionManager and handles the case
-         * in which a menu item is used to pop up an additional menu, as in a
-         * hierarchical menu system.
+         * pbth for the MenuSelectionMbnbger bnd hbndles the cbse
+         * in which b menu item is used to pop up bn bdditionbl menu, bs in b
+         * hierbrchicbl menu system.
          *
-         * @param e the mouse event; not used
+         * @pbrbm e the mouse event; not used
          */
         public void mouseEntered(MouseEvent e) {
             JMenu menu = (JMenu)menuItem;
-            // only disable the menu highlighting if it's disabled and the property isn't
-            // true. This allows disabled rollovers to work in WinL&F
-            if (!menu.isEnabled() && !UIManager.getBoolean("MenuItem.disabledAreNavigable")) {
+            // only disbble the menu highlighting if it's disbbled bnd the property isn't
+            // true. This bllows disbbled rollovers to work in WinL&F
+            if (!menu.isEnbbled() && !UIMbnbger.getBoolebn("MenuItem.disbbledAreNbvigbble")) {
                 return;
             }
 
-            MenuSelectionManager manager =
-                MenuSelectionManager.defaultManager();
-            MenuElement selectedPath[] = manager.getSelectedPath();
+            MenuSelectionMbnbger mbnbger =
+                MenuSelectionMbnbger.defbultMbnbger();
+            MenuElement selectedPbth[] = mbnbger.getSelectedPbth();
             if (!menu.isTopLevelMenu()) {
-                if(!(selectedPath.length > 0 &&
-                     selectedPath[selectedPath.length-1] ==
+                if(!(selectedPbth.length > 0 &&
+                     selectedPbth[selectedPbth.length-1] ==
                      menu.getPopupMenu())) {
-                    if(menu.getDelay() == 0) {
-                        appendPath(getPath(), menu.getPopupMenu());
+                    if(menu.getDelby() == 0) {
+                        bppendPbth(getPbth(), menu.getPopupMenu());
                     } else {
-                        manager.setSelectedPath(getPath());
+                        mbnbger.setSelectedPbth(getPbth());
                         setupPostTimer(menu);
                     }
                 }
             } else {
-                if(selectedPath.length > 0 &&
-                   selectedPath[0] == menu.getParent()) {
-                    MenuElement newPath[] = new MenuElement[3];
-                    // A top level menu's parent is by definition
-                    // a JMenuBar
-                    newPath[0] = (MenuElement)menu.getParent();
-                    newPath[1] = menu;
-                    if (BasicPopupMenuUI.getLastPopup() != null) {
-                        newPath[2] = menu.getPopupMenu();
+                if(selectedPbth.length > 0 &&
+                   selectedPbth[0] == menu.getPbrent()) {
+                    MenuElement newPbth[] = new MenuElement[3];
+                    // A top level menu's pbrent is by definition
+                    // b JMenuBbr
+                    newPbth[0] = (MenuElement)menu.getPbrent();
+                    newPbth[1] = menu;
+                    if (BbsicPopupMenuUI.getLbstPopup() != null) {
+                        newPbth[2] = menu.getPopupMenu();
                     }
-                    manager.setSelectedPath(newPath);
+                    mbnbger.setSelectedPbth(newPbth);
                 }
             }
         }
@@ -582,59 +582,59 @@ public class BasicMenuUI extends BasicMenuItemUI
         }
 
         /**
-         * Invoked when a mouse button is pressed on the menu and then dragged.
-         * Delegates the mouse event to the MenuSelectionManager.
+         * Invoked when b mouse button is pressed on the menu bnd then drbgged.
+         * Delegbtes the mouse event to the MenuSelectionMbnbger.
          *
-         * @param e the mouse event
-         * @see java.awt.event.MouseMotionListener#mouseDragged
+         * @pbrbm e the mouse event
+         * @see jbvb.bwt.event.MouseMotionListener#mouseDrbgged
          */
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDrbgged(MouseEvent e) {
             JMenu menu = (JMenu)menuItem;
-            if (!menu.isEnabled())
+            if (!menu.isEnbbled())
                 return;
-            MenuSelectionManager.defaultManager().processMouseEvent(e);
+            MenuSelectionMbnbger.defbultMbnbger().processMouseEvent(e);
         }
         public void mouseMoved(MouseEvent e) {
         }
 
 
         //
-        // MenuDragHandler
+        // MenuDrbgHbndler
         //
-        public void menuDragMouseEntered(MenuDragMouseEvent e) {}
-        public void menuDragMouseDragged(MenuDragMouseEvent e) {
-            if (menuItem.isEnabled() == false)
+        public void menuDrbgMouseEntered(MenuDrbgMouseEvent e) {}
+        public void menuDrbgMouseDrbgged(MenuDrbgMouseEvent e) {
+            if (menuItem.isEnbbled() == fblse)
                 return;
 
-            MenuSelectionManager manager = e.getMenuSelectionManager();
-            MenuElement path[] = e.getPath();
+            MenuSelectionMbnbger mbnbger = e.getMenuSelectionMbnbger();
+            MenuElement pbth[] = e.getPbth();
 
             Point p = e.getPoint();
             if(p.x >= 0 && p.x < menuItem.getWidth() &&
                p.y >= 0 && p.y < menuItem.getHeight()) {
                 JMenu menu = (JMenu)menuItem;
-                MenuElement selectedPath[] = manager.getSelectedPath();
-                if(!(selectedPath.length > 0 &&
-                     selectedPath[selectedPath.length-1] ==
+                MenuElement selectedPbth[] = mbnbger.getSelectedPbth();
+                if(!(selectedPbth.length > 0 &&
+                     selectedPbth[selectedPbth.length-1] ==
                      menu.getPopupMenu())) {
                     if(menu.isTopLevelMenu() ||
-                       menu.getDelay() == 0  ||
+                       menu.getDelby() == 0  ||
                        e.getID() == MouseEvent.MOUSE_DRAGGED) {
-                        appendPath(path, menu.getPopupMenu());
+                        bppendPbth(pbth, menu.getPopupMenu());
                     } else {
-                        manager.setSelectedPath(path);
+                        mbnbger.setSelectedPbth(pbth);
                         setupPostTimer(menu);
                     }
                 }
             } else if(e.getID() == MouseEvent.MOUSE_RELEASED) {
-                Component comp = manager.componentForPoint(e.getComponent(), e.getPoint());
+                Component comp = mbnbger.componentForPoint(e.getComponent(), e.getPoint());
                 if (comp == null)
-                    manager.clearSelectedPath();
+                    mbnbger.clebrSelectedPbth();
             }
 
         }
-        public void menuDragMouseExited(MenuDragMouseEvent e) {}
-        public void menuDragMouseReleased(MenuDragMouseEvent e) {}
+        public void menuDrbgMouseExited(MenuDrbgMouseEvent e) {}
+        public void menuDrbgMouseRelebsed(MenuDrbgMouseEvent e) {}
 
         //
         // MenuKeyListener
@@ -643,40 +643,40 @@ public class BasicMenuUI extends BasicMenuItemUI
          * Open the Menu
          */
         public void menuKeyTyped(MenuKeyEvent e) {
-            if (!crossMenuMnemonic && BasicPopupMenuUI.getLastPopup() != null) {
-                // when crossMenuMnemonic is not set, we don't open a toplevel
-                // menu if another toplevel menu is already open
+            if (!crossMenuMnemonic && BbsicPopupMenuUI.getLbstPopup() != null) {
+                // when crossMenuMnemonic is not set, we don't open b toplevel
+                // menu if bnother toplevel menu is blrebdy open
                 return;
             }
 
-            if (BasicPopupMenuUI.getPopups().size() != 0) {
-                //Fix 6939261: to return in case not on the main menu
-                //and has a pop-up.
-                //after return code will be handled in BasicPopupMenuUI.java
+            if (BbsicPopupMenuUI.getPopups().size() != 0) {
+                //Fix 6939261: to return in cbse not on the mbin menu
+                //bnd hbs b pop-up.
+                //bfter return code will be hbndled in BbsicPopupMenuUI.jbvb
                 return;
             }
 
-            char key = Character.toLowerCase((char)menuItem.getMnemonic());
-            MenuElement path[] = e.getPath();
-            if (key == Character.toLowerCase(e.getKeyChar())) {
+            chbr key = Chbrbcter.toLowerCbse((chbr)menuItem.getMnemonic());
+            MenuElement pbth[] = e.getPbth();
+            if (key == Chbrbcter.toLowerCbse(e.getKeyChbr())) {
                 JPopupMenu popupMenu = ((JMenu)menuItem).getPopupMenu();
-                ArrayList<MenuElement> newList = new ArrayList<>(Arrays.asList(path));
-                newList.add(popupMenu);
+                ArrbyList<MenuElement> newList = new ArrbyList<>(Arrbys.bsList(pbth));
+                newList.bdd(popupMenu);
                 MenuElement subs[] = popupMenu.getSubElements();
                 MenuElement sub =
-                        BasicPopupMenuUI.findEnabledChild(subs, -1, true);
+                        BbsicPopupMenuUI.findEnbbledChild(subs, -1, true);
                 if(sub != null) {
-                    newList.add(sub);
+                    newList.bdd(sub);
                 }
-                MenuSelectionManager manager = e.getMenuSelectionManager();
-                MenuElement newPath[] = new MenuElement[0];;
-                newPath = newList.toArray(newPath);
-                manager.setSelectedPath(newPath);
+                MenuSelectionMbnbger mbnbger = e.getMenuSelectionMbnbger();
+                MenuElement newPbth[] = new MenuElement[0];;
+                newPbth = newList.toArrby(newPbth);
+                mbnbger.setSelectedPbth(newPbth);
                 e.consume();
             }
         }
 
         public void menuKeyPressed(MenuKeyEvent e) {}
-        public void menuKeyReleased(MenuKeyEvent e) {}
+        public void menuKeyRelebsed(MenuKeyEvent e) {}
     }
 }

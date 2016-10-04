@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.Enumeration;
-import java.util.List;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Enumerbtion;
+import jbvb.util.List;
 
 import sun.security.util.*;
 
@@ -37,16 +37,16 @@ import sun.security.util.*;
  * Represents the Freshest CRL Extension.
  *
  * <p>
- * The extension identifies how delta CRL information for a
- * complete CRL is obtained.
+ * The extension identifies how deltb CRL informbtion for b
+ * complete CRL is obtbined.
  *
  * <p>
  * The extension is defined in Section 5.2.6 of
- * <a href="http://www.ietf.org/rfc/rfc3280.txt">Internet X.509 PKI Certific
-ate and Certificate Revocation List (CRL) Profile</a>.
+ * <b href="http://www.ietf.org/rfc/rfc3280.txt">Internet X.509 PKI Certific
+bte bnd Certificbte Revocbtion List (CRL) Profile</b>.
  *
  * <p>
- * Its ASN.1 definition is as follows:
+ * Its ASN.1 definition is bs follows:
  * <pre>
  *     id-ce-freshestCRL OBJECT IDENTIFIER ::=  { id-ce 46 }
  *
@@ -55,45 +55,45 @@ ate and Certificate Revocation List (CRL) Profile</a>.
  *
  * @since 1.6
  */
-public class FreshestCRLExtension extends CRLDistributionPointsExtension {
+public clbss FreshestCRLExtension extends CRLDistributionPointsExtension {
 
     /**
-     * Attribute name.
+     * Attribute nbme.
      */
-    public static final String NAME = "FreshestCRL";
+    public stbtic finbl String NAME = "FreshestCRL";
 
     /**
-     * Creates a freshest CRL extension.
-     * The criticality is set to false.
+     * Crebtes b freshest CRL extension.
+     * The criticblity is set to fblse.
      *
-     * @param distributionPoints the list of delta CRL distribution points.
+     * @pbrbm distributionPoints the list of deltb CRL distribution points.
      */
     public FreshestCRLExtension(List<DistributionPoint> distributionPoints)
         throws IOException {
 
-        super(PKIXExtensions.FreshestCRL_Id, false, distributionPoints, NAME);
+        super(PKIXExtensions.FreshestCRL_Id, fblse, distributionPoints, NAME);
     }
 
     /**
-     * Creates the extension from the passed DER encoded value of the same.
+     * Crebtes the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
      * @exception IOException on decoding error.
      */
-    public FreshestCRLExtension(Boolean critical, Object value)
+    public FreshestCRLExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        super(PKIXExtensions.FreshestCRL_Id, critical.booleanValue(), value,
+        super(PKIXExtensions.FreshestCRL_Id, criticbl.boolebnVblue(), vblue,
             NAME);
     }
 
     /**
-     * Writes the extension to the DerOutputStream.
+     * Writes the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        super.encode(out, PKIXExtensions.FreshestCRL_Id, false);
+    public void encode(OutputStrebm out) throws IOException {
+        super.encode(out, PKIXExtensions.FreshestCRL_Id, fblse);
     }
 }

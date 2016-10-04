@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.rmi;
+pbckbge sun.jvmstbt.perfdbtb.monitor.protocol.rmi;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import sun.jvmstat.monitor.remote.*;
-import sun.jvmstat.perfdata.monitor.*;
-import java.util.*;
-import java.net.*;
-import java.io.*;
-import java.rmi.*;
-import java.util.HashMap;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.event.*;
+import sun.jvmstbt.monitor.remote.*;
+import sun.jvmstbt.perfdbtb.monitor.*;
+import jbvb.util.*;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvb.rmi.*;
+import jbvb.util.HbshMbp;
 
 /**
- * Concrete implementation of the MonitoredHost interface for the
- * <em>rmi</em> protocol of the HotSpot PerfData monitoring implementation.
+ * Concrete implementbtion of the MonitoredHost interfbce for the
+ * <em>rmi</em> protocol of the HotSpot PerfDbtb monitoring implementbtion.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class MonitoredHostProvider extends MonitoredHost {
-    private static final String serverName = "/JStatRemoteHost";
-    private static final int DEFAULT_POLLING_INTERVAL = 1000;
+public clbss MonitoredHostProvider extends MonitoredHost {
+    privbte stbtic finbl String serverNbme = "/JStbtRemoteHost";
+    privbte stbtic finbl int DEFAULT_POLLING_INTERVAL = 1000;
 
-    private ArrayList<HostListener> listeners;
-    private NotifierTask task;
-    private HashSet<Integer> activeVms;
-    private RemoteVmManager vmManager;
-    private RemoteHost remoteHost;
-    private Timer timer;
+    privbte ArrbyList<HostListener> listeners;
+    privbte NotifierTbsk tbsk;
+    privbte HbshSet<Integer> bctiveVms;
+    privbte RemoteVmMbnbger vmMbnbger;
+    privbte RemoteHost remoteHost;
+    privbte Timer timer;
 
     /**
-     * Create a MonitoredHostProvider instance using the given HostIdentifier.
+     * Crebte b MonitoredHostProvider instbnce using the given HostIdentifier.
      *
-     * @param hostId the host identifier for this MonitoredHost
-     * @throws MonitorException Thrown on any error encountered while
-     *                          communicating with the remote host.
+     * @pbrbm hostId the host identifier for this MonitoredHost
+     * @throws MonitorException Thrown on bny error encountered while
+     *                          communicbting with the remote host.
      */
     public MonitoredHostProvider(HostIdentifier hostId)
            throws MonitorException {
         this.hostId = hostId;
-        this.listeners = new ArrayList<HostListener>();
-        this.interval = DEFAULT_POLLING_INTERVAL;
-        this.activeVms = new HashSet<Integer>();
+        this.listeners = new ArrbyList<HostListener>();
+        this.intervbl = DEFAULT_POLLING_INTERVAL;
+        this.bctiveVms = new HbshSet<Integer>();
 
-        String rmiName;
-        String sn = serverName;
-        String path = hostId.getPath();
+        String rmiNbme;
+        String sn = serverNbme;
+        String pbth = hostId.getPbth();
 
-        if ((path != null) && (path.length() > 0)) {
-            sn = path;
+        if ((pbth != null) && (pbth.length() > 0)) {
+            sn = pbth;
         }
 
         if (hostId.getPort() != -1) {
-            rmiName = "rmi://" + hostId.getHost() + ":" + hostId.getPort() + sn;
+            rmiNbme = "rmi://" + hostId.getHost() + ":" + hostId.getPort() + sn;
         } else {
-            rmiName = "rmi://" + hostId.getHost() + sn;
+            rmiNbme = "rmi://" + hostId.getHost() + sn;
         }
 
         try {
-            remoteHost = (RemoteHost)Naming.lookup(rmiName);
+            remoteHost = (RemoteHost)Nbming.lookup(rmiNbme);
 
-        } catch (RemoteException e) {
+        } cbtch (RemoteException e) {
             /*
-             * rmi registry not available
+             * rmi registry not bvbilbble
              *
-             * Access control exceptions, where the rmi server refuses a
-             * connection based on policy file configuration, come through
-             * here on the client side. Unfortunately, the RemoteException
-             * doesn't contain enough information to determine the true cause
-             * of the exception. So, we have to output a rather generic message.
+             * Access control exceptions, where the rmi server refuses b
+             * connection bbsed on policy file configurbtion, come through
+             * here on the client side. Unfortunbtely, the RemoteException
+             * doesn't contbin enough informbtion to determine the true cbuse
+             * of the exception. So, we hbve to output b rbther generic messbge.
              */
-            String message = "RMI Registry not available at "
+            String messbge = "RMI Registry not bvbilbble bt "
                              + hostId.getHost();
 
             if (hostId.getPort() == -1) {
-                message = message + ":"
-                          + java.rmi.registry.Registry.REGISTRY_PORT;
+                messbge = messbge + ":"
+                          + jbvb.rmi.registry.Registry.REGISTRY_PORT;
             } else {
-                message = message + ":" + hostId.getPort();
+                messbge = messbge + ":" + hostId.getPort();
             }
 
-            if (e.getMessage() != null) {
-                throw new MonitorException(message + "\n" + e.getMessage(), e);
+            if (e.getMessbge() != null) {
+                throw new MonitorException(messbge + "\n" + e.getMessbge(), e);
             } else {
-                throw new MonitorException(message, e);
+                throw new MonitorException(messbge, e);
             }
 
-        } catch (NotBoundException e) {
-            // no server with given name
-            String message = e.getMessage();
-            if (message == null) message = rmiName;
-            throw new MonitorException("RMI Server " + message
-                                       + " not available", e);
-        } catch (MalformedURLException e) {
-            // this is a programming problem
-            e.printStackTrace();
-            throw new IllegalArgumentException("Malformed URL: " + rmiName);
+        } cbtch (NotBoundException e) {
+            // no server with given nbme
+            String messbge = e.getMessbge();
+            if (messbge == null) messbge = rmiNbme;
+            throw new MonitorException("RMI Server " + messbge
+                                       + " not bvbilbble", e);
+        } cbtch (MblformedURLException e) {
+            // this is b progrbmming problem
+            e.printStbckTrbce();
+            throw new IllegblArgumentException("Mblformed URL: " + rmiNbme);
         }
-        this.vmManager = new RemoteVmManager(remoteHost);
+        this.vmMbnbger = new RemoteVmMbnbger(remoteHost);
         this.timer = new Timer(true);
     }
 
@@ -136,28 +136,28 @@ public class MonitoredHostProvider extends MonitoredHost {
     /**
      * {@inheritDoc}
      */
-    public MonitoredVm getMonitoredVm(VmIdentifier vmid, int interval)
+    public MonitoredVm getMonitoredVm(VmIdentifier vmid, int intervbl)
                        throws MonitorException {
         VmIdentifier nvmid = null;
         try {
             nvmid = hostId.resolve(vmid);
-            RemoteVm rvm = remoteHost.attachVm(vmid.getLocalVmId(),
+            RemoteVm rvm = remoteHost.bttbchVm(vmid.getLocblVmId(),
                                                vmid.getMode());
             RemoteMonitoredVm rmvm = new RemoteMonitoredVm(rvm, nvmid, timer,
-                                                           interval);
-            rmvm.attach();
+                                                           intervbl);
+            rmvm.bttbch();
             return rmvm;
 
-        } catch (RemoteException e) {
-            throw new MonitorException("Remote Exception attaching to "
+        } cbtch (RemoteException e) {
+            throw new MonitorException("Remote Exception bttbching to "
                                        + nvmid.toString(), e);
-        } catch (URISyntaxException e) {
+        } cbtch (URISyntbxException e) {
             /*
-             * the VmIdentifier is expected to be a valid and should resolve
-             * easonably against the host identifier. A URISyntaxException
-             * here is most likely a programming error.
+             * the VmIdentifier is expected to be b vblid bnd should resolve
+             * ebsonbbly bgbinst the host identifier. A URISyntbxException
+             * here is most likely b progrbmming error.
              */
-            throw new IllegalArgumentException("Malformed URI: "
+            throw new IllegblArgumentException("Mblformed URI: "
                                                + vmid.toString(), e);
         }
     }
@@ -165,14 +165,14 @@ public class MonitoredHostProvider extends MonitoredHost {
     /**
      * {@inheritDoc}
      */
-    public void detach(MonitoredVm vm) throws MonitorException {
+    public void detbch(MonitoredVm vm) throws MonitorException {
         RemoteMonitoredVm rmvm = (RemoteMonitoredVm)vm;
-        rmvm.detach();
+        rmvm.detbch();
         try {
-            remoteHost.detachVm(rmvm.getRemoteVm());
+            remoteHost.detbchVm(rmvm.getRemoteVm());
 
-        } catch (RemoteException e) {
-            throw new MonitorException("Remote Exception detaching from "
+        } cbtch (RemoteException e) {
+            throw new MonitorException("Remote Exception detbching from "
                                        + vm.getVmIdentifier().toString(), e);
         }
     }
@@ -180,12 +180,12 @@ public class MonitoredHostProvider extends MonitoredHost {
     /**
      * {@inheritDoc}
      */
-    public void addHostListener(HostListener listener) {
+    public void bddHostListener(HostListener listener) {
         synchronized(listeners) {
-            listeners.add(listener);
-            if (task == null) {
-                task = new NotifierTask();
-                timer.schedule(task, 0, interval);
+            listeners.bdd(listener);
+            if (tbsk == null) {
+                tbsk = new NotifierTbsk();
+                timer.schedule(tbsk, 0, intervbl);
             }
         }
     }
@@ -195,34 +195,34 @@ public class MonitoredHostProvider extends MonitoredHost {
      */
     public void removeHostListener(HostListener listener) {
         /*
-         * XXX: if a disconnect method is added, make sure it calls
-         * this method to unregister this object from the watcher. otherwise,
-         * an unused MonitoredHostProvider instance may go uncollected.
+         * XXX: if b disconnect method is bdded, mbke sure it cblls
+         * this method to unregister this object from the wbtcher. otherwise,
+         * bn unused MonitoredHostProvider instbnce mby go uncollected.
          */
         synchronized(listeners) {
             listeners.remove(listener);
-            if (listeners.isEmpty() && (task != null)) {
-                task.cancel();
-                task = null;
+            if (listeners.isEmpty() && (tbsk != null)) {
+                tbsk.cbncel();
+                tbsk = null;
             }
         }
     }
 
-    public void setInterval(int newInterval) {
+    public void setIntervbl(int newIntervbl) {
         synchronized(listeners) {
-            if (newInterval == interval) {
+            if (newIntervbl == intervbl) {
                 return;
             }
 
-            int oldInterval = interval;
-            super.setInterval(newInterval);
+            int oldIntervbl = intervbl;
+            super.setIntervbl(newIntervbl);
 
-            if (task != null) {
-                task.cancel();
-                NotifierTask oldTask = task;
-                task = new NotifierTask();
-                CountedTimerTaskUtils.reschedule(timer, oldTask, task,
-                                                 oldInterval, newInterval);
+            if (tbsk != null) {
+                tbsk.cbncel();
+                NotifierTbsk oldTbsk = tbsk;
+                tbsk = new NotifierTbsk();
+                CountedTimerTbskUtils.reschedule(timer, oldTbsk, tbsk,
+                                                 oldIntervbl, newIntervbl);
             }
         }
     }
@@ -230,54 +230,54 @@ public class MonitoredHostProvider extends MonitoredHost {
     /**
      * {@inheritDoc}
      */
-    public Set<Integer> activeVms() throws MonitorException {
-        return vmManager.activeVms();
+    public Set<Integer> bctiveVms() throws MonitorException {
+        return vmMbnbger.bctiveVms();
     }
 
     /**
-     * Fire VmStatusChangeEvent events to HostListener objects
+     * Fire VmStbtusChbngeEvent events to HostListener objects
      *
-     * @param active Set of Integer objects containing the local
-     *               Vm Identifiers of the active JVMs
-     * @param started Set of Integer objects containing the local
-     *                Vm Identifiers of new JVMs started since last
-     *                interval.
-     * @param terminated Set of Integer objects containing the local
-     *                   Vm Identifiers of terminated JVMs since last
-     *                   interval.
+     * @pbrbm bctive Set of Integer objects contbining the locbl
+     *               Vm Identifiers of the bctive JVMs
+     * @pbrbm stbrted Set of Integer objects contbining the locbl
+     *                Vm Identifiers of new JVMs stbrted since lbst
+     *                intervbl.
+     * @pbrbm terminbted Set of Integer objects contbining the locbl
+     *                   Vm Identifiers of terminbted JVMs since lbst
+     *                   intervbl.
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    private void fireVmStatusChangedEvents(Set<Integer> active, Set<Integer> started,
-                                           Set<Integer> terminated) {
-        ArrayList<HostListener> registered = null;
-        VmStatusChangeEvent ev = null;
+    @SuppressWbrnings("unchecked") // Cbst of result of clone
+    privbte void fireVmStbtusChbngedEvents(Set<Integer> bctive, Set<Integer> stbrted,
+                                           Set<Integer> terminbted) {
+        ArrbyList<HostListener> registered = null;
+        VmStbtusChbngeEvent ev = null;
 
         synchronized(listeners) {
-            registered = (ArrayList)listeners.clone();
+            registered = (ArrbyList)listeners.clone();
         }
 
-        for (Iterator<HostListener> i = registered.iterator(); i.hasNext(); /* empty */) {
+        for (Iterbtor<HostListener> i = registered.iterbtor(); i.hbsNext(); /* empty */) {
             HostListener l = i.next();
             if (ev == null) {
-                ev = new VmStatusChangeEvent(this, active, started, terminated);
+                ev = new VmStbtusChbngeEvent(this, bctive, stbrted, terminbted);
             }
-            l.vmStatusChanged(ev);
+            l.vmStbtusChbnged(ev);
         }
     }
 
     /**
      * Fire hostDisconnectEvent events.
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
+    @SuppressWbrnings("unchecked") // Cbst of result of clone
     void fireDisconnectedEvents() {
-        ArrayList<HostListener> registered = null;
+        ArrbyList<HostListener> registered = null;
         HostEvent ev = null;
 
         synchronized(listeners) {
-            registered = (ArrayList)listeners.clone();
+            registered = (ArrbyList)listeners.clone();
         }
 
-        for (Iterator<HostListener> i = registered.iterator(); i.hasNext(); /* empty */) {
+        for (Iterbtor<HostListener> i = registered.iterbtor(); i.hbsNext(); /* empty */) {
             HostListener l = i.next();
             if (ev == null) {
                 ev = new HostEvent(this);
@@ -287,56 +287,56 @@ public class MonitoredHostProvider extends MonitoredHost {
     }
 
     /**
-     * class to poll the remote machine and generate local event notifications.
+     * clbss to poll the remote mbchine bnd generbte locbl event notificbtions.
      */
-    private class NotifierTask extends CountedTimerTask {
+    privbte clbss NotifierTbsk extends CountedTimerTbsk {
         public void run() {
             super.run();
 
-            // save the last set of active JVMs
-            Set<Integer> lastActiveVms = activeVms;
+            // sbve the lbst set of bctive JVMs
+            Set<Integer> lbstActiveVms = bctiveVms;
 
             try {
-                // get the current set of active JVMs
-                activeVms = (HashSet<Integer>)vmManager.activeVms();
+                // get the current set of bctive JVMs
+                bctiveVms = (HbshSet<Integer>)vmMbnbger.bctiveVms();
 
-            } catch (MonitorException e) {
-                // XXX: use logging api
-                System.err.println("MonitoredHostProvider: polling task "
-                                   + "caught MonitorException:");
-                e.printStackTrace();
+            } cbtch (MonitorException e) {
+                // XXX: use logging bpi
+                System.err.println("MonitoredHostProvider: polling tbsk "
+                                   + "cbught MonitorException:");
+                e.printStbckTrbce();
 
-                // mark the HostManager as errored and notify listeners
-                setLastException(e);
+                // mbrk the HostMbnbger bs errored bnd notify listeners
+                setLbstException(e);
                 fireDisconnectedEvents();
             }
 
-            if (activeVms.isEmpty()) {
+            if (bctiveVms.isEmpty()) {
                 return;
             }
 
-            Set<Integer> startedVms = new HashSet<>();
-            Set<Integer> terminatedVms = new HashSet<>();
+            Set<Integer> stbrtedVms = new HbshSet<>();
+            Set<Integer> terminbtedVms = new HbshSet<>();
 
-            for (Iterator<Integer> i = activeVms.iterator(); i.hasNext(); /* empty */ ) {
+            for (Iterbtor<Integer> i = bctiveVms.iterbtor(); i.hbsNext(); /* empty */ ) {
                 Integer vmid = i.next();
-                if (!lastActiveVms.contains(vmid)) {
-                    // a new file has been detected, add to set
-                    startedVms.add(vmid);
+                if (!lbstActiveVms.contbins(vmid)) {
+                    // b new file hbs been detected, bdd to set
+                    stbrtedVms.bdd(vmid);
                 }
             }
 
-            for (Iterator<Integer> i = lastActiveVms.iterator(); i.hasNext();
+            for (Iterbtor<Integer> i = lbstActiveVms.iterbtor(); i.hbsNext();
                     /* empty */ ) {
                 Integer o = i.next();
-                if (!activeVms.contains(o)) {
-                    // JVM has terminated, remove it from the active list
-                    terminatedVms.add(o);
+                if (!bctiveVms.contbins(o)) {
+                    // JVM hbs terminbted, remove it from the bctive list
+                    terminbtedVms.bdd(o);
                 }
             }
 
-            if (!startedVms.isEmpty() || !terminatedVms.isEmpty()) {
-                fireVmStatusChangedEvents(activeVms, startedVms, terminatedVms);
+            if (!stbrtedVms.isEmpty() || !terminbtedVms.isEmpty()) {
+                fireVmStbtusChbngedEvents(bctiveVms, stbrtedVms, terminbtedVms);
             }
         }
     }

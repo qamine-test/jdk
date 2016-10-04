@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * A {@link Set} that further provides a <i>total ordering</i> on its elements.
- * The elements are ordered using their {@linkplain Comparable natural
- * ordering}, or by a {@link Comparator} typically provided at sorted
- * set creation time.  The set's iterator will traverse the set in
- * ascending element order. Several additional operations are provided
- * to take advantage of the ordering.  (This interface is the set
- * analogue of {@link SortedMap}.)
+ * A {@link Set} thbt further provides b <i>totbl ordering</i> on its elements.
+ * The elements bre ordered using their {@linkplbin Compbrbble nbturbl
+ * ordering}, or by b {@link Compbrbtor} typicblly provided bt sorted
+ * set crebtion time.  The set's iterbtor will trbverse the set in
+ * bscending element order. Severbl bdditionbl operbtions bre provided
+ * to tbke bdvbntbge of the ordering.  (This interfbce is the set
+ * bnblogue of {@link SortedMbp}.)
  *
- * <p>All elements inserted into a sorted set must implement the <tt>Comparable</tt>
- * interface (or be accepted by the specified comparator).  Furthermore, all
- * such elements must be <i>mutually comparable</i>: <tt>e1.compareTo(e2)</tt>
- * (or <tt>comparator.compare(e1, e2)</tt>) must not throw a
- * <tt>ClassCastException</tt> for any elements <tt>e1</tt> and <tt>e2</tt> in
- * the sorted set.  Attempts to violate this restriction will cause the
- * offending method or constructor invocation to throw a
- * <tt>ClassCastException</tt>.
+ * <p>All elements inserted into b sorted set must implement the <tt>Compbrbble</tt>
+ * interfbce (or be bccepted by the specified compbrbtor).  Furthermore, bll
+ * such elements must be <i>mutublly compbrbble</i>: <tt>e1.compbreTo(e2)</tt>
+ * (or <tt>compbrbtor.compbre(e1, e2)</tt>) must not throw b
+ * <tt>ClbssCbstException</tt> for bny elements <tt>e1</tt> bnd <tt>e2</tt> in
+ * the sorted set.  Attempts to violbte this restriction will cbuse the
+ * offending method or constructor invocbtion to throw b
+ * <tt>ClbssCbstException</tt>.
  *
- * <p>Note that the ordering maintained by a sorted set (whether or not an
- * explicit comparator is provided) must be <i>consistent with equals</i> if
- * the sorted set is to correctly implement the <tt>Set</tt> interface.  (See
- * the <tt>Comparable</tt> interface or <tt>Comparator</tt> interface for a
- * precise definition of <i>consistent with equals</i>.)  This is so because
- * the <tt>Set</tt> interface is defined in terms of the <tt>equals</tt>
- * operation, but a sorted set performs all element comparisons using its
- * <tt>compareTo</tt> (or <tt>compare</tt>) method, so two elements that are
- * deemed equal by this method are, from the standpoint of the sorted set,
- * equal.  The behavior of a sorted set <i>is</i> well-defined even if its
- * ordering is inconsistent with equals; it just fails to obey the general
- * contract of the <tt>Set</tt> interface.
+ * <p>Note thbt the ordering mbintbined by b sorted set (whether or not bn
+ * explicit compbrbtor is provided) must be <i>consistent with equbls</i> if
+ * the sorted set is to correctly implement the <tt>Set</tt> interfbce.  (See
+ * the <tt>Compbrbble</tt> interfbce or <tt>Compbrbtor</tt> interfbce for b
+ * precise definition of <i>consistent with equbls</i>.)  This is so becbuse
+ * the <tt>Set</tt> interfbce is defined in terms of the <tt>equbls</tt>
+ * operbtion, but b sorted set performs bll element compbrisons using its
+ * <tt>compbreTo</tt> (or <tt>compbre</tt>) method, so two elements thbt bre
+ * deemed equbl by this method bre, from the stbndpoint of the sorted set,
+ * equbl.  The behbvior of b sorted set <i>is</i> well-defined even if its
+ * ordering is inconsistent with equbls; it just fbils to obey the generbl
+ * contrbct of the <tt>Set</tt> interfbce.
  *
- * <p>All general-purpose sorted set implementation classes should
- * provide four "standard" constructors: 1) A void (no arguments)
- * constructor, which creates an empty sorted set sorted according to
- * the natural ordering of its elements.  2) A constructor with a
- * single argument of type <tt>Comparator</tt>, which creates an empty
- * sorted set sorted according to the specified comparator.  3) A
- * constructor with a single argument of type <tt>Collection</tt>,
- * which creates a new sorted set with the same elements as its
- * argument, sorted according to the natural ordering of the elements.
- * 4) A constructor with a single argument of type <tt>SortedSet</tt>,
- * which creates a new sorted set with the same elements and the same
- * ordering as the input sorted set.  There is no way to enforce this
- * recommendation, as interfaces cannot contain constructors.
+ * <p>All generbl-purpose sorted set implementbtion clbsses should
+ * provide four "stbndbrd" constructors: 1) A void (no brguments)
+ * constructor, which crebtes bn empty sorted set sorted bccording to
+ * the nbturbl ordering of its elements.  2) A constructor with b
+ * single brgument of type <tt>Compbrbtor</tt>, which crebtes bn empty
+ * sorted set sorted bccording to the specified compbrbtor.  3) A
+ * constructor with b single brgument of type <tt>Collection</tt>,
+ * which crebtes b new sorted set with the sbme elements bs its
+ * brgument, sorted bccording to the nbturbl ordering of the elements.
+ * 4) A constructor with b single brgument of type <tt>SortedSet</tt>,
+ * which crebtes b new sorted set with the sbme elements bnd the sbme
+ * ordering bs the input sorted set.  There is no wby to enforce this
+ * recommendbtion, bs interfbces cbnnot contbin constructors.
  *
- * <p>Note: several methods return subsets with restricted ranges.
- * Such ranges are <i>half-open</i>, that is, they include their low
- * endpoint but not their high endpoint (where applicable).
- * If you need a <i>closed range</i> (which includes both endpoints), and
- * the element type allows for calculation of the successor of a given
- * value, merely request the subrange from <tt>lowEndpoint</tt> to
- * <tt>successor(highEndpoint)</tt>.  For example, suppose that <tt>s</tt>
- * is a sorted set of strings.  The following idiom obtains a view
- * containing all of the strings in <tt>s</tt> from <tt>low</tt> to
+ * <p>Note: severbl methods return subsets with restricted rbnges.
+ * Such rbnges bre <i>hblf-open</i>, thbt is, they include their low
+ * endpoint but not their high endpoint (where bpplicbble).
+ * If you need b <i>closed rbnge</i> (which includes both endpoints), bnd
+ * the element type bllows for cblculbtion of the successor of b given
+ * vblue, merely request the subrbnge from <tt>lowEndpoint</tt> to
+ * <tt>successor(highEndpoint)</tt>.  For exbmple, suppose thbt <tt>s</tt>
+ * is b sorted set of strings.  The following idiom obtbins b view
+ * contbining bll of the strings in <tt>s</tt> from <tt>low</tt> to
  * <tt>high</tt>, inclusive:<pre>
  *   SortedSet&lt;String&gt; sub = s.subSet(low, high+"\0");</pre>
  *
- * A similar technique can be used to generate an <i>open range</i> (which
- * contains neither endpoint).  The following idiom obtains a view
- * containing all of the Strings in <tt>s</tt> from <tt>low</tt> to
+ * A similbr technique cbn be used to generbte bn <i>open rbnge</i> (which
+ * contbins neither endpoint).  The following idiom obtbins b view
+ * contbining bll of the Strings in <tt>s</tt> from <tt>low</tt> to
  * <tt>high</tt>, exclusive:<pre>
  *   SortedSet&lt;String&gt; sub = s.subSet(low+"\0", high);</pre>
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This interfbce is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @param <E> the type of elements maintained by this set
+ * @pbrbm <E> the type of elements mbintbined by this set
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @see Set
  * @see TreeSet
- * @see SortedMap
+ * @see SortedMbp
  * @see Collection
- * @see Comparable
- * @see Comparator
- * @see ClassCastException
+ * @see Compbrbble
+ * @see Compbrbtor
+ * @see ClbssCbstException
  * @since 1.2
  */
 
-public interface SortedSet<E> extends Set<E> {
+public interfbce SortedSet<E> extends Set<E> {
     /**
-     * Returns the comparator used to order the elements in this set,
-     * or <tt>null</tt> if this set uses the {@linkplain Comparable
-     * natural ordering} of its elements.
+     * Returns the compbrbtor used to order the elements in this set,
+     * or <tt>null</tt> if this set uses the {@linkplbin Compbrbble
+     * nbturbl ordering} of its elements.
      *
-     * @return the comparator used to order the elements in this set,
-     *         or <tt>null</tt> if this set uses the natural ordering
+     * @return the compbrbtor used to order the elements in this set,
+     *         or <tt>null</tt> if this set uses the nbturbl ordering
      *         of its elements
      */
-    Comparator<? super E> comparator();
+    Compbrbtor<? super E> compbrbtor();
 
     /**
-     * Returns a view of the portion of this set whose elements range
+     * Returns b view of the portion of this set whose elements rbnge
      * from <tt>fromElement</tt>, inclusive, to <tt>toElement</tt>,
-     * exclusive.  (If <tt>fromElement</tt> and <tt>toElement</tt> are
-     * equal, the returned set is empty.)  The returned set is backed
-     * by this set, so changes in the returned set are reflected in
-     * this set, and vice-versa.  The returned set supports all
-     * optional set operations that this set supports.
+     * exclusive.  (If <tt>fromElement</tt> bnd <tt>toElement</tt> bre
+     * equbl, the returned set is empty.)  The returned set is bbcked
+     * by this set, so chbnges in the returned set bre reflected in
+     * this set, bnd vice-versb.  The returned set supports bll
+     * optionbl set operbtions thbt this set supports.
      *
-     * <p>The returned set will throw an <tt>IllegalArgumentException</tt>
-     * on an attempt to insert an element outside its range.
+     * <p>The returned set will throw bn <tt>IllegblArgumentException</tt>
+     * on bn bttempt to insert bn element outside its rbnge.
      *
-     * @param fromElement low endpoint (inclusive) of the returned set
-     * @param toElement high endpoint (exclusive) of the returned set
-     * @return a view of the portion of this set whose elements range from
+     * @pbrbm fromElement low endpoint (inclusive) of the returned set
+     * @pbrbm toElement high endpoint (exclusive) of the returned set
+     * @return b view of the portion of this set whose elements rbnge from
      *         <tt>fromElement</tt>, inclusive, to <tt>toElement</tt>, exclusive
-     * @throws ClassCastException if <tt>fromElement</tt> and
-     *         <tt>toElement</tt> cannot be compared to one another using this
-     *         set's comparator (or, if the set has no comparator, using
-     *         natural ordering).  Implementations may, but are not required
+     * @throws ClbssCbstException if <tt>fromElement</tt> bnd
+     *         <tt>toElement</tt> cbnnot be compbred to one bnother using this
+     *         set's compbrbtor (or, if the set hbs no compbrbtor, using
+     *         nbturbl ordering).  Implementbtions mby, but bre not required
      *         to, throw this exception if <tt>fromElement</tt> or
-     *         <tt>toElement</tt> cannot be compared to elements currently in
+     *         <tt>toElement</tt> cbnnot be compbred to elements currently in
      *         the set.
      * @throws NullPointerException if <tt>fromElement</tt> or
-     *         <tt>toElement</tt> is null and this set does not permit null
+     *         <tt>toElement</tt> is null bnd this set does not permit null
      *         elements
-     * @throws IllegalArgumentException if <tt>fromElement</tt> is
-     *         greater than <tt>toElement</tt>; or if this set itself
-     *         has a restricted range, and <tt>fromElement</tt> or
-     *         <tt>toElement</tt> lies outside the bounds of the range
+     * @throws IllegblArgumentException if <tt>fromElement</tt> is
+     *         grebter thbn <tt>toElement</tt>; or if this set itself
+     *         hbs b restricted rbnge, bnd <tt>fromElement</tt> or
+     *         <tt>toElement</tt> lies outside the bounds of the rbnge
      */
     SortedSet<E> subSet(E fromElement, E toElement);
 
     /**
-     * Returns a view of the portion of this set whose elements are
-     * strictly less than <tt>toElement</tt>.  The returned set is
-     * backed by this set, so changes in the returned set are
-     * reflected in this set, and vice-versa.  The returned set
-     * supports all optional set operations that this set supports.
+     * Returns b view of the portion of this set whose elements bre
+     * strictly less thbn <tt>toElement</tt>.  The returned set is
+     * bbcked by this set, so chbnges in the returned set bre
+     * reflected in this set, bnd vice-versb.  The returned set
+     * supports bll optionbl set operbtions thbt this set supports.
      *
-     * <p>The returned set will throw an <tt>IllegalArgumentException</tt>
-     * on an attempt to insert an element outside its range.
+     * <p>The returned set will throw bn <tt>IllegblArgumentException</tt>
+     * on bn bttempt to insert bn element outside its rbnge.
      *
-     * @param toElement high endpoint (exclusive) of the returned set
-     * @return a view of the portion of this set whose elements are strictly
-     *         less than <tt>toElement</tt>
-     * @throws ClassCastException if <tt>toElement</tt> is not compatible
-     *         with this set's comparator (or, if the set has no comparator,
-     *         if <tt>toElement</tt> does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if <tt>toElement</tt> cannot be compared to elements
+     * @pbrbm toElement high endpoint (exclusive) of the returned set
+     * @return b view of the portion of this set whose elements bre strictly
+     *         less thbn <tt>toElement</tt>
+     * @throws ClbssCbstException if <tt>toElement</tt> is not compbtible
+     *         with this set's compbrbtor (or, if the set hbs no compbrbtor,
+     *         if <tt>toElement</tt> does not implement {@link Compbrbble}).
+     *         Implementbtions mby, but bre not required to, throw this
+     *         exception if <tt>toElement</tt> cbnnot be compbred to elements
      *         currently in the set.
-     * @throws NullPointerException if <tt>toElement</tt> is null and
+     * @throws NullPointerException if <tt>toElement</tt> is null bnd
      *         this set does not permit null elements
-     * @throws IllegalArgumentException if this set itself has a
-     *         restricted range, and <tt>toElement</tt> lies outside the
-     *         bounds of the range
+     * @throws IllegblArgumentException if this set itself hbs b
+     *         restricted rbnge, bnd <tt>toElement</tt> lies outside the
+     *         bounds of the rbnge
      */
-    SortedSet<E> headSet(E toElement);
+    SortedSet<E> hebdSet(E toElement);
 
     /**
-     * Returns a view of the portion of this set whose elements are
-     * greater than or equal to <tt>fromElement</tt>.  The returned
-     * set is backed by this set, so changes in the returned set are
-     * reflected in this set, and vice-versa.  The returned set
-     * supports all optional set operations that this set supports.
+     * Returns b view of the portion of this set whose elements bre
+     * grebter thbn or equbl to <tt>fromElement</tt>.  The returned
+     * set is bbcked by this set, so chbnges in the returned set bre
+     * reflected in this set, bnd vice-versb.  The returned set
+     * supports bll optionbl set operbtions thbt this set supports.
      *
-     * <p>The returned set will throw an <tt>IllegalArgumentException</tt>
-     * on an attempt to insert an element outside its range.
+     * <p>The returned set will throw bn <tt>IllegblArgumentException</tt>
+     * on bn bttempt to insert bn element outside its rbnge.
      *
-     * @param fromElement low endpoint (inclusive) of the returned set
-     * @return a view of the portion of this set whose elements are greater
-     *         than or equal to <tt>fromElement</tt>
-     * @throws ClassCastException if <tt>fromElement</tt> is not compatible
-     *         with this set's comparator (or, if the set has no comparator,
-     *         if <tt>fromElement</tt> does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if <tt>fromElement</tt> cannot be compared to elements
+     * @pbrbm fromElement low endpoint (inclusive) of the returned set
+     * @return b view of the portion of this set whose elements bre grebter
+     *         thbn or equbl to <tt>fromElement</tt>
+     * @throws ClbssCbstException if <tt>fromElement</tt> is not compbtible
+     *         with this set's compbrbtor (or, if the set hbs no compbrbtor,
+     *         if <tt>fromElement</tt> does not implement {@link Compbrbble}).
+     *         Implementbtions mby, but bre not required to, throw this
+     *         exception if <tt>fromElement</tt> cbnnot be compbred to elements
      *         currently in the set.
      * @throws NullPointerException if <tt>fromElement</tt> is null
-     *         and this set does not permit null elements
-     * @throws IllegalArgumentException if this set itself has a
-     *         restricted range, and <tt>fromElement</tt> lies outside the
-     *         bounds of the range
+     *         bnd this set does not permit null elements
+     * @throws IllegblArgumentException if this set itself hbs b
+     *         restricted rbnge, bnd <tt>fromElement</tt> lies outside the
+     *         bounds of the rbnge
      */
-    SortedSet<E> tailSet(E fromElement);
+    SortedSet<E> tbilSet(E fromElement);
 
     /**
      * Returns the first (lowest) element currently in this set.
@@ -213,51 +213,51 @@ public interface SortedSet<E> extends Set<E> {
     E first();
 
     /**
-     * Returns the last (highest) element currently in this set.
+     * Returns the lbst (highest) element currently in this set.
      *
-     * @return the last (highest) element currently in this set
+     * @return the lbst (highest) element currently in this set
      * @throws NoSuchElementException if this set is empty
      */
-    E last();
+    E lbst();
 
     /**
-     * Creates a {@code Spliterator} over the elements in this sorted set.
+     * Crebtes b {@code Spliterbtor} over the elements in this sorted set.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#DISTINCT},
-     * {@link Spliterator#SORTED} and {@link Spliterator#ORDERED}.
-     * Implementations should document the reporting of additional
-     * characteristic values.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#DISTINCT},
+     * {@link Spliterbtor#SORTED} bnd {@link Spliterbtor#ORDERED}.
+     * Implementbtions should document the reporting of bdditionbl
+     * chbrbcteristic vblues.
      *
-     * <p>The spliterator's comparator (see
-     * {@link java.util.Spliterator#getComparator()}) must be {@code null} if
-     * the sorted set's comparator (see {@link #comparator()}) is {@code null}.
-     * Otherwise, the spliterator's comparator must be the same as or impose the
-     * same total ordering as the sorted set's comparator.
+     * <p>The spliterbtor's compbrbtor (see
+     * {@link jbvb.util.Spliterbtor#getCompbrbtor()}) must be {@code null} if
+     * the sorted set's compbrbtor (see {@link #compbrbtor()}) is {@code null}.
+     * Otherwise, the spliterbtor's compbrbtor must be the sbme bs or impose the
+     * sbme totbl ordering bs the sorted set's compbrbtor.
      *
      * @implSpec
-     * The default implementation creates a
-     * <em><a href="Spliterator.html#binding">late-binding</a></em> spliterator
-     * from the sorted set's {@code Iterator}.  The spliterator inherits the
-     * <em>fail-fast</em> properties of the set's iterator.  The
-     * spliterator's comparator is the same as the sorted set's comparator.
+     * The defbult implementbtion crebtes b
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em> spliterbtor
+     * from the sorted set's {@code Iterbtor}.  The spliterbtor inherits the
+     * <em>fbil-fbst</em> properties of the set's iterbtor.  The
+     * spliterbtor's compbrbtor is the sbme bs the sorted set's compbrbtor.
      * <p>
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SIZED}.
+     * The crebted {@code Spliterbtor} bdditionblly reports
+     * {@link Spliterbtor#SIZED}.
      *
      * @implNote
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SUBSIZED}.
+     * The crebted {@code Spliterbtor} bdditionblly reports
+     * {@link Spliterbtor#SUBSIZED}.
      *
-     * @return a {@code Spliterator} over the elements in this sorted set
+     * @return b {@code Spliterbtor} over the elements in this sorted set
      * @since 1.8
      */
     @Override
-    default Spliterator<E> spliterator() {
-        return new Spliterators.IteratorSpliterator<E>(
-                this, Spliterator.DISTINCT | Spliterator.SORTED | Spliterator.ORDERED) {
+    defbult Spliterbtor<E> spliterbtor() {
+        return new Spliterbtors.IterbtorSpliterbtor<E>(
+                this, Spliterbtor.DISTINCT | Spliterbtor.SORTED | Spliterbtor.ORDERED) {
             @Override
-            public Comparator<? super E> getComparator() {
-                return SortedSet.this.comparator();
+            public Compbrbtor<? super E> getCompbrbtor() {
+                return SortedSet.this.compbrbtor();
             }
         };
     }

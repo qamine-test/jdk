@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.gtk;
+pbckbge com.sun.jbvb.swing.plbf.gtk;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.File;
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.filechooser.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicDirectoryModel;
-import javax.swing.table.*;
-import javax.accessibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.filechooser.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicDirectoryModel;
+import jbvbx.swing.tbble.*;
+import jbvbx.bccessibility.*;
 
 import sun.swing.SwingUtilities2;
 
-import sun.swing.plaf.synth.*;
-import sun.swing.FilePane;
-import sun.awt.shell.ShellFolder;
+import sun.swing.plbf.synth.*;
+import sun.swing.FilePbne;
+import sun.bwt.shell.ShellFolder;
 
 /**
  * GTK FileChooserUI.
  *
- * @author Leif Samuelsson
- * @author Jeff Dinkins
+ * @buthor Leif Sbmuelsson
+ * @buthor Jeff Dinkins
  */
-class GTKFileChooserUI extends SynthFileChooserUI {
+clbss GTKFileChooserUI extends SynthFileChooserUI {
 
-    // The accessoryPanel is a container to place the JFileChooser accessory component
-    private JPanel accessoryPanel = null;
+    // The bccessoryPbnel is b contbiner to plbce the JFileChooser bccessory component
+    privbte JPbnel bccessoryPbnel = null;
 
-    private String newFolderButtonText = null;
-    private String newFolderErrorSeparator = null;
-    private String newFolderErrorText = null;
-    private String newFolderDialogText = null;
-    private String newFolderNoDirectoryErrorTitleText = null;
-    private String newFolderNoDirectoryErrorText = null;
+    privbte String newFolderButtonText = null;
+    privbte String newFolderErrorSepbrbtor = null;
+    privbte String newFolderErrorText = null;
+    privbte String newFolderDiblogText = null;
+    privbte String newFolderNoDirectoryErrorTitleText = null;
+    privbte String newFolderNoDirectoryErrorText = null;
 
-    private String deleteFileButtonText = null;
-    private String renameFileButtonText = null;
+    privbte String deleteFileButtonText = null;
+    privbte String renbmeFileButtonText = null;
 
-    private String newFolderButtonToolTipText = null;
-    private String deleteFileButtonToolTipText = null;
-    private String renameFileButtonToolTipText = null;
+    privbte String newFolderButtonToolTipText = null;
+    privbte String deleteFileButtonToolTipText = null;
+    privbte String renbmeFileButtonToolTipText = null;
 
-    private int newFolderButtonMnemonic = 0;
-    private int deleteFileButtonMnemonic = 0;
-    private int renameFileButtonMnemonic = 0;
-    private int foldersLabelMnemonic = 0;
-    private int filesLabelMnemonic = 0;
+    privbte int newFolderButtonMnemonic = 0;
+    privbte int deleteFileButtonMnemonic = 0;
+    privbte int renbmeFileButtonMnemonic = 0;
+    privbte int foldersLbbelMnemonic = 0;
+    privbte int filesLbbelMnemonic = 0;
 
-    private String renameFileDialogText = null;
-    private String renameFileErrorTitle = null;
-    private String renameFileErrorText = null;
+    privbte String renbmeFileDiblogText = null;
+    privbte String renbmeFileErrorTitle = null;
+    privbte String renbmeFileErrorText = null;
 
-    private JComboBox<FileFilter> filterComboBox;
-    private FilterComboBoxModel filterComboBoxModel;
+    privbte JComboBox<FileFilter> filterComboBox;
+    privbte FilterComboBoxModel filterComboBoxModel;
 
     // From Motif
 
-    private JPanel rightPanel;
-    private JList<File> directoryList;
-    private JList<File> fileList;
+    privbte JPbnel rightPbnel;
+    privbte JList<File> directoryList;
+    privbte JList<File> fileList;
 
-    private JLabel pathField;
-    private JTextField fileNameTextField;
+    privbte JLbbel pbthField;
+    privbte JTextField fileNbmeTextField;
 
-    private static final Dimension hstrut3 = new Dimension(3, 1);
-    private static final Dimension vstrut10 = new Dimension(1, 10);
+    privbte stbtic finbl Dimension hstrut3 = new Dimension(3, 1);
+    privbte stbtic finbl Dimension vstrut10 = new Dimension(1, 10);
 
-    private static Dimension prefListSize = new Dimension(75, 150);
+    privbte stbtic Dimension prefListSize = new Dimension(75, 150);
 
-    private static Dimension PREF_SIZE = new Dimension(435, 360);
-    private static Dimension MIN_SIZE = new Dimension(200, 300);
+    privbte stbtic Dimension PREF_SIZE = new Dimension(435, 360);
+    privbte stbtic Dimension MIN_SIZE = new Dimension(200, 300);
 
-    private static Dimension ZERO_ACC_SIZE = new Dimension(1, 1);
+    privbte stbtic Dimension ZERO_ACC_SIZE = new Dimension(1, 1);
 
-    private static Dimension MAX_SIZE = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
+    privbte stbtic Dimension MAX_SIZE = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
-    private static final Insets buttonMargin = new Insets(3, 3, 3, 3);
+    privbte stbtic finbl Insets buttonMbrgin = new Insets(3, 3, 3, 3);
 
-    private String filesLabelText = null;
-    private String foldersLabelText = null;
-    private String pathLabelText = null;
-    private String filterLabelText = null;
+    privbte String filesLbbelText = null;
+    privbte String foldersLbbelText = null;
+    privbte String pbthLbbelText = null;
+    privbte String filterLbbelText = null;
 
-    private int pathLabelMnemonic = 0;
-    private int filterLabelMnemonic = 0;
+    privbte int pbthLbbelMnemonic = 0;
+    privbte int filterLbbelMnemonic = 0;
 
-    private JComboBox<File> directoryComboBox;
-    private DirectoryComboBoxModel directoryComboBoxModel;
-    private Action directoryComboBoxAction = new DirectoryComboBoxAction();
-    private JPanel bottomButtonPanel;
-    private GTKDirectoryModel model = null;
-    private Action newFolderAction;
-    private boolean readOnly;
-    private boolean showDirectoryIcons;
-    private boolean showFileIcons;
-    private GTKFileView fileView = new GTKFileView();
-    private PropertyChangeListener gtkFCPropertyChangeListener;
-    private Action approveSelectionAction = new GTKApproveSelectionAction();
-    private GTKDirectoryListModel directoryListModel;
+    privbte JComboBox<File> directoryComboBox;
+    privbte DirectoryComboBoxModel directoryComboBoxModel;
+    privbte Action directoryComboBoxAction = new DirectoryComboBoxAction();
+    privbte JPbnel bottomButtonPbnel;
+    privbte GTKDirectoryModel model = null;
+    privbte Action newFolderAction;
+    privbte boolebn rebdOnly;
+    privbte boolebn showDirectoryIcons;
+    privbte boolebn showFileIcons;
+    privbte GTKFileView fileView = new GTKFileView();
+    privbte PropertyChbngeListener gtkFCPropertyChbngeListener;
+    privbte Action bpproveSelectionAction = new GTKApproveSelectionAction();
+    privbte GTKDirectoryListModel directoryListModel;
 
     public GTKFileChooserUI(JFileChooser filechooser) {
         super(filechooser);
     }
 
-    protected ActionMap createActionMap() {
-        ActionMap map = new ActionMapUIResource();
-        map.put("approveSelection", getApproveSelectionAction());
-        map.put("cancelSelection", getCancelSelectionAction());
-        map.put("Go Up", getChangeToParentDirectoryAction());
-        map.put("fileNameCompletion", getFileNameCompletionAction());
-        return map;
+    protected ActionMbp crebteActionMbp() {
+        ActionMbp mbp = new ActionMbpUIResource();
+        mbp.put("bpproveSelection", getApproveSelectionAction());
+        mbp.put("cbncelSelection", getCbncelSelectionAction());
+        mbp.put("Go Up", getChbngeToPbrentDirectoryAction());
+        mbp.put("fileNbmeCompletion", getFileNbmeCompletionAction());
+        return mbp;
     }
 
-    public String getFileName() {
+    public String getFileNbme() {
         JFileChooser fc = getFileChooser();
-        String typedInName = fileNameTextField != null ?
-            fileNameTextField.getText() : null;
+        String typedInNbme = fileNbmeTextField != null ?
+            fileNbmeTextField.getText() : null;
 
-        if (!fc.isMultiSelectionEnabled()) {
-            return typedInName;
+        if (!fc.isMultiSelectionEnbbled()) {
+            return typedInNbme;
         }
 
         int mode = fc.getFileSelectionMode();
         JList<File> list = mode == JFileChooser.DIRECTORIES_ONLY ?
             directoryList : fileList;
-        Object[] files = list.getSelectedValues();
+        Object[] files = list.getSelectedVblues();
         int len = files.length;
         Vector<String> result = new Vector<String>(len + 1);
 
-        // we return all selected file names
+        // we return bll selected file nbmes
         for (int i = 0; i < len; i++) {
             File file = (File)files[i];
-            result.add(file.getName());
+            result.bdd(file.getNbme());
         }
-        // plus the file name typed into the text field, if not already there
-        if (typedInName != null && !result.contains(typedInName)) {
-            result.add(typedInName);
+        // plus the file nbme typed into the text field, if not blrebdy there
+        if (typedInNbme != null && !result.contbins(typedInNbme)) {
+            result.bdd(typedInNbme);
         }
 
         StringBuilder sb = new StringBuilder();
@@ -175,66 +175,66 @@ class GTKFileChooserUI extends SynthFileChooserUI {
         // construct the resulting string
         for (int i=0; i<len; i++) {
             if (i > 0) {
-                sb.append(" ");
+                sb.bppend(" ");
             }
             if (len > 1) {
-                sb.append("\"");
+                sb.bppend("\"");
             }
-            sb.append(result.get(i));
+            sb.bppend(result.get(i));
             if (len > 1) {
-                sb.append("\"");
+                sb.bppend("\"");
             }
         }
         return sb.toString();
     }
 
-    public void setFileName(String fileName) {
-        if (fileNameTextField != null) {
-            fileNameTextField.setText(fileName);
+    public void setFileNbme(String fileNbme) {
+        if (fileNbmeTextField != null) {
+            fileNbmeTextField.setText(fileNbme);
         }
     }
 
-//     public String getDirectoryName() {
-//      return pathField.getText();
+//     public String getDirectoryNbme() {
+//      return pbthField.getText();
 //     }
 
-    public void setDirectoryName(String dirname) {
-        pathField.setText(dirname);
+    public void setDirectoryNbme(String dirnbme) {
+        pbthField.setText(dirnbme);
     }
 
     public void ensureFileIsVisible(JFileChooser fc, File f) {
         // PENDING
     }
 
-    public void rescanCurrentDirectory(JFileChooser fc) {
-        getModel().validateFileCache();
+    public void rescbnCurrentDirectory(JFileChooser fc) {
+        getModel().vblidbteFileCbche();
     }
 
-    public JPanel getAccessoryPanel() {
-        return accessoryPanel;
+    public JPbnel getAccessoryPbnel() {
+        return bccessoryPbnel;
     }
 
     // ***********************
-    // * FileView operations *
+    // * FileView operbtions *
     // ***********************
 
     public FileView getFileView(JFileChooser fc) {
         return fileView;
     }
 
-    private class GTKFileView extends BasicFileView {
+    privbte clbss GTKFileView extends BbsicFileView {
         public GTKFileView() {
-            iconCache = null;
+            iconCbche = null;
         }
 
-        public void clearIconCache() {
+        public void clebrIconCbche() {
         }
 
-        public Icon getCachedIcon(File f) {
+        public Icon getCbchedIcon(File f) {
             return null;
         }
 
-        public void cacheIcon(File f, Icon i) {
+        public void cbcheIcon(File f, Icon i) {
         }
 
         public Icon getIcon(File f) {
@@ -243,132 +243,132 @@ class GTKFileChooserUI extends SynthFileChooserUI {
     }
 
 
-    private void updateDefaultButton() {
+    privbte void updbteDefbultButton() {
         JFileChooser filechooser = getFileChooser();
-        JRootPane root = SwingUtilities.getRootPane(filechooser);
+        JRootPbne root = SwingUtilities.getRootPbne(filechooser);
         if (root == null) {
             return;
         }
 
         if (filechooser.getControlButtonsAreShown()) {
-            if (root.getDefaultButton() == null) {
-                root.setDefaultButton(getApproveButton(filechooser));
-                getCancelButton(filechooser).setDefaultCapable(false);
+            if (root.getDefbultButton() == null) {
+                root.setDefbultButton(getApproveButton(filechooser));
+                getCbncelButton(filechooser).setDefbultCbpbble(fblse);
             }
         } else {
-            if (root.getDefaultButton() == getApproveButton(filechooser)) {
-                root.setDefaultButton(null);
+            if (root.getDefbultButton() == getApproveButton(filechooser)) {
+                root.setDefbultButton(null);
             }
         }
     }
 
-    protected void doSelectedFileChanged(PropertyChangeEvent e) {
-        super.doSelectedFileChanged(e);
-        File f = (File) e.getNewValue();
+    protected void doSelectedFileChbnged(PropertyChbngeEvent e) {
+        super.doSelectedFileChbnged(e);
+        File f = (File) e.getNewVblue();
         if (f != null) {
-            setFileName(getFileChooser().getName(f));
+            setFileNbme(getFileChooser().getNbme(f));
         }
     }
 
-    protected void doDirectoryChanged(PropertyChangeEvent e) {
-        directoryList.clearSelection();
+    protected void doDirectoryChbnged(PropertyChbngeEvent e) {
+        directoryList.clebrSelection();
         ListSelectionModel sm = directoryList.getSelectionModel();
-        if (sm instanceof DefaultListSelectionModel) {
-            ((DefaultListSelectionModel)sm).moveLeadSelectionIndex(0);
+        if (sm instbnceof DefbultListSelectionModel) {
+            ((DefbultListSelectionModel)sm).moveLebdSelectionIndex(0);
             sm.setAnchorSelectionIndex(0);
         }
-        fileList.clearSelection();
+        fileList.clebrSelection();
         sm = fileList.getSelectionModel();
-        if (sm instanceof DefaultListSelectionModel) {
-            ((DefaultListSelectionModel)sm).moveLeadSelectionIndex(0);
+        if (sm instbnceof DefbultListSelectionModel) {
+            ((DefbultListSelectionModel)sm).moveLebdSelectionIndex(0);
             sm.setAnchorSelectionIndex(0);
         }
 
         File currentDirectory = getFileChooser().getCurrentDirectory();
         if (currentDirectory != null) {
             try {
-                setDirectoryName(ShellFolder.getNormalizedFile((File)e.getNewValue()).getPath());
-            } catch (IOException ioe) {
-                setDirectoryName(((File)e.getNewValue()).getAbsolutePath());
+                setDirectoryNbme(ShellFolder.getNormblizedFile((File)e.getNewVblue()).getPbth());
+            } cbtch (IOException ioe) {
+                setDirectoryNbme(((File)e.getNewVblue()).getAbsolutePbth());
             }
-            if ((getFileChooser().getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) && !getFileChooser().isMultiSelectionEnabled()) {
-                setFileName(pathField.getText());
+            if ((getFileChooser().getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) && !getFileChooser().isMultiSelectionEnbbled()) {
+                setFileNbme(pbthField.getText());
             }
-            directoryComboBoxModel.addItem(currentDirectory);
-            directoryListModel.directoryChanged();
+            directoryComboBoxModel.bddItem(currentDirectory);
+            directoryListModel.directoryChbnged();
         }
-        super.doDirectoryChanged(e);
+        super.doDirectoryChbnged(e);
     }
 
-    protected void doAccessoryChanged(PropertyChangeEvent e) {
-        if (getAccessoryPanel() != null) {
-            if (e.getOldValue() != null) {
-                getAccessoryPanel().remove((JComponent)e.getOldValue());
+    protected void doAccessoryChbnged(PropertyChbngeEvent e) {
+        if (getAccessoryPbnel() != null) {
+            if (e.getOldVblue() != null) {
+                getAccessoryPbnel().remove((JComponent)e.getOldVblue());
             }
-            JComponent accessory = (JComponent)e.getNewValue();
-            if (accessory != null) {
-                getAccessoryPanel().add(accessory, BorderLayout.CENTER);
-                getAccessoryPanel().setPreferredSize(accessory.getPreferredSize());
-                getAccessoryPanel().setMaximumSize(MAX_SIZE);
+            JComponent bccessory = (JComponent)e.getNewVblue();
+            if (bccessory != null) {
+                getAccessoryPbnel().bdd(bccessory, BorderLbyout.CENTER);
+                getAccessoryPbnel().setPreferredSize(bccessory.getPreferredSize());
+                getAccessoryPbnel().setMbximumSize(MAX_SIZE);
             } else {
-                getAccessoryPanel().setPreferredSize(ZERO_ACC_SIZE);
-                getAccessoryPanel().setMaximumSize(ZERO_ACC_SIZE);
+                getAccessoryPbnel().setPreferredSize(ZERO_ACC_SIZE);
+                getAccessoryPbnel().setMbximumSize(ZERO_ACC_SIZE);
             }
         }
     }
 
-    protected void doFileSelectionModeChanged(PropertyChangeEvent e) {
-        directoryList.clearSelection();
-        rightPanel.setVisible(((Integer)e.getNewValue()).intValue() != JFileChooser.DIRECTORIES_ONLY);
+    protected void doFileSelectionModeChbnged(PropertyChbngeEvent e) {
+        directoryList.clebrSelection();
+        rightPbnel.setVisible(((Integer)e.getNewVblue()).intVblue() != JFileChooser.DIRECTORIES_ONLY);
 
-        super.doFileSelectionModeChanged(e);
+        super.doFileSelectionModeChbnged(e);
     }
 
-    protected void doMultiSelectionChanged(PropertyChangeEvent e) {
-        if (getFileChooser().isMultiSelectionEnabled()) {
+    protected void doMultiSelectionChbnged(PropertyChbngeEvent e) {
+        if (getFileChooser().isMultiSelectionEnbbled()) {
             fileList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         } else {
             fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            fileList.clearSelection();
+            fileList.clebrSelection();
         }
 
-        super.doMultiSelectionChanged(e);
+        super.doMultiSelectionChbnged(e);
     }
 
-    protected void doControlButtonsChanged(PropertyChangeEvent e) {
-        super.doControlButtonsChanged(e);
+    protected void doControlButtonsChbnged(PropertyChbngeEvent e) {
+        super.doControlButtonsChbnged(e);
 
         JFileChooser filechooser = getFileChooser();
         if (filechooser.getControlButtonsAreShown()) {
-            filechooser.add(bottomButtonPanel, BorderLayout.SOUTH);
+            filechooser.bdd(bottomButtonPbnel, BorderLbyout.SOUTH);
         } else {
-            filechooser.remove(bottomButtonPanel);
+            filechooser.remove(bottomButtonPbnel);
         }
-        updateDefaultButton();
+        updbteDefbultButton();
     }
 
-    protected void doAncestorChanged(PropertyChangeEvent e) {
-        if (e.getOldValue() == null && e.getNewValue() != null) {
-            // Ancestor was added, set initial focus
-            fileNameTextField.selectAll();
-            fileNameTextField.requestFocus();
-            updateDefaultButton();
+    protected void doAncestorChbnged(PropertyChbngeEvent e) {
+        if (e.getOldVblue() == null && e.getNewVblue() != null) {
+            // Ancestor wbs bdded, set initibl focus
+            fileNbmeTextField.selectAll();
+            fileNbmeTextField.requestFocus();
+            updbteDefbultButton();
         }
 
-        super.doAncestorChanged(e);
+        super.doAncestorChbnged(e);
     }
 
 
 
     // ********************************************
-    // ************ Create Listeners **************
+    // ************ Crebte Listeners **************
     // ********************************************
 
-    public ListSelectionListener createListSelectionListener(JFileChooser fc) {
+    public ListSelectionListener crebteListSelectionListener(JFileChooser fc) {
         return new SelectionListener();
     }
 
-    class DoubleClickListener extends MouseAdapter {
+    clbss DoubleClickListener extends MouseAdbpter {
         JList<?> list;
         public  DoubleClickListener(JList<?> list) {
             this.list = list;
@@ -376,24 +376,24 @@ class GTKFileChooserUI extends SynthFileChooserUI {
 
         public void mouseClicked(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
-                int index = list.locationToIndex(e.getPoint());
+                int index = list.locbtionToIndex(e.getPoint());
                 if (index >= 0) {
                     File f = (File) list.getModel().getElementAt(index);
                     try {
-                        // Strip trailing ".."
-                        f = ShellFolder.getNormalizedFile(f);
-                    } catch (IOException ex) {
-                        // That's ok, we'll use f as is
+                        // Strip trbiling ".."
+                        f = ShellFolder.getNormblizedFile(f);
+                    } cbtch (IOException ex) {
+                        // Thbt's ok, we'll use f bs is
                     }
-                    if (getFileChooser().isTraversable(f)) {
-                        list.clearSelection();
-                        if (getFileChooser().getCurrentDirectory().equals(f)){
-                            rescanCurrentDirectory(getFileChooser());
+                    if (getFileChooser().isTrbversbble(f)) {
+                        list.clebrSelection();
+                        if (getFileChooser().getCurrentDirectory().equbls(f)){
+                            rescbnCurrentDirectory(getFileChooser());
                         } else {
                             getFileChooser().setCurrentDirectory(f);
                         }
                     } else {
-                        getFileChooser().approveSelection();
+                        getFileChooser().bpproveSelection();
                     }
                 }
             }
@@ -401,69 +401,69 @@ class GTKFileChooserUI extends SynthFileChooserUI {
 
         public void mouseEntered(MouseEvent evt) {
             if (list != null) {
-                TransferHandler th1 = getFileChooser().getTransferHandler();
-                TransferHandler th2 = list.getTransferHandler();
+                TrbnsferHbndler th1 = getFileChooser().getTrbnsferHbndler();
+                TrbnsferHbndler th2 = list.getTrbnsferHbndler();
                 if (th1 != th2) {
-                    list.setTransferHandler(th1);
+                    list.setTrbnsferHbndler(th1);
                 }
-                if (getFileChooser().getDragEnabled() != list.getDragEnabled()) {
-                    list.setDragEnabled(getFileChooser().getDragEnabled());
+                if (getFileChooser().getDrbgEnbbled() != list.getDrbgEnbbled()) {
+                    list.setDrbgEnbbled(getFileChooser().getDrbgEnbbled());
                 }
             }
         }
     }
 
-    protected MouseListener createDoubleClickListener(JFileChooser fc, JList<?> list) {
+    protected MouseListener crebteDoubleClickListener(JFileChooser fc, JList<?> list) {
         return new DoubleClickListener(list);
     }
 
 
 
-    protected class SelectionListener implements ListSelectionListener {
-        public void valueChanged(ListSelectionEvent e) {
-            if (!e.getValueIsAdjusting()) {
+    protected clbss SelectionListener implements ListSelectionListener {
+        public void vblueChbnged(ListSelectionEvent e) {
+            if (!e.getVblueIsAdjusting()) {
                 JFileChooser chooser = getFileChooser();
                 JList<?> list = (JList) e.getSource();
 
-                if (chooser.isMultiSelectionEnabled()) {
+                if (chooser.isMultiSelectionEnbbled()) {
                     File[] files = null;
-                    Object[] objects = list.getSelectedValues();
+                    Object[] objects = list.getSelectedVblues();
                     if (objects != null) {
                         if (objects.length == 1
                             && ((File)objects[0]).isDirectory()
-                            && chooser.isTraversable(((File)objects[0]))
+                            && chooser.isTrbversbble(((File)objects[0]))
                             && (chooser.getFileSelectionMode() != JFileChooser.DIRECTORIES_ONLY
                                 || !chooser.getFileSystemView().isFileSystem(((File)objects[0])))) {
                             setDirectorySelected(true);
                             setDirectory(((File)objects[0]));
                         } else {
-                            ArrayList<File> fList = new ArrayList<File>(objects.length);
+                            ArrbyList<File> fList = new ArrbyList<File>(objects.length);
                             for (Object object : objects) {
                                 File f = (File) object;
-                                if ((chooser.isFileSelectionEnabled() && f.isFile())
-                                    || (chooser.isDirectorySelectionEnabled() && f.isDirectory())) {
-                                    fList.add(f);
+                                if ((chooser.isFileSelectionEnbbled() && f.isFile())
+                                    || (chooser.isDirectorySelectionEnbbled() && f.isDirectory())) {
+                                    fList.bdd(f);
                                 }
                             }
                             if (fList.size() > 0) {
-                                files = fList.toArray(new File[fList.size()]);
+                                files = fList.toArrby(new File[fList.size()]);
                             }
-                            setDirectorySelected(false);
+                            setDirectorySelected(fblse);
                         }
                     }
                     chooser.setSelectedFiles(files);
                 } else {
-                    File file = (File)list.getSelectedValue();
+                    File file = (File)list.getSelectedVblue();
                     if (file != null
                         && file.isDirectory()
-                        && chooser.isTraversable(file)
+                        && chooser.isTrbversbble(file)
                         && (chooser.getFileSelectionMode() == JFileChooser.FILES_ONLY
                             || !chooser.getFileSystemView().isFileSystem(file))) {
 
                         setDirectorySelected(true);
                         setDirectory(file);
                     } else {
-                        setDirectorySelected(false);
+                        setDirectorySelected(fblse);
                         if (file != null) {
                             chooser.setSelectedFile(file);
                         }
@@ -475,447 +475,447 @@ class GTKFileChooserUI extends SynthFileChooserUI {
 
 
     //
-    // ComponentUI Interface Implementation methods
+    // ComponentUI Interfbce Implementbtion methods
     //
-    public static ComponentUI createUI(JComponent c) {
+    public stbtic ComponentUI crebteUI(JComponent c) {
         return new GTKFileChooserUI((JFileChooser)c);
     }
 
-    public void installUI(JComponent c) {
-        accessoryPanel = new JPanel(new BorderLayout(10, 10));
-        accessoryPanel.setName("GTKFileChooser.accessoryPanel");
+    public void instbllUI(JComponent c) {
+        bccessoryPbnel = new JPbnel(new BorderLbyout(10, 10));
+        bccessoryPbnel.setNbme("GTKFileChooser.bccessoryPbnel");
 
-        super.installUI(c);
+        super.instbllUI(c);
     }
 
-    public void uninstallUI(JComponent c) {
-        c.removePropertyChangeListener(filterComboBoxModel);
-        super.uninstallUI(c);
+    public void uninstbllUI(JComponent c) {
+        c.removePropertyChbngeListener(filterComboBoxModel);
+        super.uninstbllUI(c);
 
-        if (accessoryPanel != null) {
-            accessoryPanel.removeAll();
+        if (bccessoryPbnel != null) {
+            bccessoryPbnel.removeAll();
         }
-        accessoryPanel = null;
+        bccessoryPbnel = null;
         getFileChooser().removeAll();
     }
 
-    public void installComponents(JFileChooser fc) {
-        super.installComponents(fc);
+    public void instbllComponents(JFileChooser fc) {
+        super.instbllComponents(fc);
 
-        boolean leftToRight = fc.getComponentOrientation().isLeftToRight();
+        boolebn leftToRight = fc.getComponentOrientbtion().isLeftToRight();
 
-        fc.setLayout(new BorderLayout());
+        fc.setLbyout(new BorderLbyout());
         fc.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
         // Top row of buttons
-        JPanel topButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-        topButtonPanel.setBorder(new EmptyBorder(10, 10, 0, 10));
-        topButtonPanel.setName("GTKFileChooser.topButtonPanel");
+        JPbnel topButtonPbnel = new JPbnel(new FlowLbyout(FlowLbyout.LEADING, 0, 0));
+        topButtonPbnel.setBorder(new EmptyBorder(10, 10, 0, 10));
+        topButtonPbnel.setNbme("GTKFileChooser.topButtonPbnel");
 
-        if (!UIManager.getBoolean("FileChooser.readOnly")) {
+        if (!UIMbnbger.getBoolebn("FileChooser.rebdOnly")) {
             JButton newFolderButton = new JButton(getNewFolderAction());
-            newFolderButton.setName("GTKFileChooser.newFolderButton");
+            newFolderButton.setNbme("GTKFileChooser.newFolderButton");
             newFolderButton.setMnemonic(newFolderButtonMnemonic);
             newFolderButton.setToolTipText(newFolderButtonToolTipText);
             newFolderButton.setText(newFolderButtonText);
-            topButtonPanel.add(newFolderButton);
+            topButtonPbnel.bdd(newFolderButton);
         }
         JButton deleteFileButton = new JButton(deleteFileButtonText);
-        deleteFileButton.setName("GTKFileChooser.deleteFileButton");
+        deleteFileButton.setNbme("GTKFileChooser.deleteFileButton");
         deleteFileButton.setMnemonic(deleteFileButtonMnemonic);
         deleteFileButton.setToolTipText(deleteFileButtonToolTipText);
-        deleteFileButton.setEnabled(false);
-        topButtonPanel.add(deleteFileButton);
+        deleteFileButton.setEnbbled(fblse);
+        topButtonPbnel.bdd(deleteFileButton);
 
-        RenameFileAction rfa = new RenameFileAction();
-        JButton renameFileButton = new JButton(rfa);
-        if (readOnly) {
-            rfa.setEnabled(false);
+        RenbmeFileAction rfb = new RenbmeFileAction();
+        JButton renbmeFileButton = new JButton(rfb);
+        if (rebdOnly) {
+            rfb.setEnbbled(fblse);
         }
-        renameFileButton.setText(renameFileButtonText);
-        renameFileButton.setName("GTKFileChooser.renameFileButton");
-        renameFileButton.setMnemonic(renameFileButtonMnemonic);
-        renameFileButton.setToolTipText(renameFileButtonToolTipText);
-        topButtonPanel.add(renameFileButton);
+        renbmeFileButton.setText(renbmeFileButtonText);
+        renbmeFileButton.setNbme("GTKFileChooser.renbmeFileButton");
+        renbmeFileButton.setMnemonic(renbmeFileButtonMnemonic);
+        renbmeFileButton.setToolTipText(renbmeFileButtonToolTipText);
+        topButtonPbnel.bdd(renbmeFileButton);
 
-        fc.add(topButtonPanel, BorderLayout.NORTH);
+        fc.bdd(topButtonPbnel, BorderLbyout.NORTH);
 
 
-        JPanel interior = new JPanel();
+        JPbnel interior = new JPbnel();
         interior.setBorder(new EmptyBorder(0, 10, 10, 10));
-        interior.setName("GTKFileChooser.interiorPanel");
-        align(interior);
-        interior.setLayout(new BoxLayout(interior, BoxLayout.PAGE_AXIS));
+        interior.setNbme("GTKFileChooser.interiorPbnel");
+        blign(interior);
+        interior.setLbyout(new BoxLbyout(interior, BoxLbyout.PAGE_AXIS));
 
-        fc.add(interior, BorderLayout.CENTER);
+        fc.bdd(interior, BorderLbyout.CENTER);
 
-        @SuppressWarnings("serial") // anonymous class
-        JPanel comboBoxPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        JPbnel comboBoxPbnel = new JPbnel(new FlowLbyout(FlowLbyout.CENTER,
                                                          0, 0) {
-            public void layoutContainer(Container target) {
-                super.layoutContainer(target);
+            public void lbyoutContbiner(Contbiner tbrget) {
+                super.lbyoutContbiner(tbrget);
                 JComboBox<?> comboBox = directoryComboBox;
-                if (comboBox.getWidth() > target.getWidth()) {
-                    comboBox.setBounds(0, comboBox.getY(), target.getWidth(),
+                if (comboBox.getWidth() > tbrget.getWidth()) {
+                    comboBox.setBounds(0, comboBox.getY(), tbrget.getWidth(),
                                        comboBox.getHeight());
                 }
             }
         });
-        comboBoxPanel.setBorder(new EmptyBorder(0, 0, 4, 0));
-        comboBoxPanel.setName("GTKFileChooser.directoryComboBoxPanel");
+        comboBoxPbnel.setBorder(new EmptyBorder(0, 0, 4, 0));
+        comboBoxPbnel.setNbme("GTKFileChooser.directoryComboBoxPbnel");
         // CurrentDir ComboBox
-        directoryComboBoxModel = createDirectoryComboBoxModel(fc);
+        directoryComboBoxModel = crebteDirectoryComboBoxModel(fc);
         directoryComboBox = new JComboBox<>(directoryComboBoxModel);
-        directoryComboBox.setName("GTKFileChooser.directoryComboBox");
-        directoryComboBox.putClientProperty( "JComboBox.lightweightKeyboardNavigation", "Lightweight" );
-        directoryComboBox.addActionListener(directoryComboBoxAction);
-        directoryComboBox.setMaximumRowCount(8);
-        comboBoxPanel.add(directoryComboBox);
-        interior.add(comboBoxPanel);
+        directoryComboBox.setNbme("GTKFileChooser.directoryComboBox");
+        directoryComboBox.putClientProperty( "JComboBox.lightweightKeybobrdNbvigbtion", "Lightweight" );
+        directoryComboBox.bddActionListener(directoryComboBoxAction);
+        directoryComboBox.setMbximumRowCount(8);
+        comboBoxPbnel.bdd(directoryComboBox);
+        interior.bdd(comboBoxPbnel);
 
 
-        // CENTER: left, right, accessory
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.setName("GTKFileChooser.centerPanel");
+        // CENTER: left, right, bccessory
+        JPbnel centerPbnel = new JPbnel(new BorderLbyout());
+        centerPbnel.setNbme("GTKFileChooser.centerPbnel");
 
         // SPLIT PANEL: left, right
-        JSplitPane splitPanel = new JSplitPane();
-        splitPanel.setName("GTKFileChooser.splitPanel");
-        splitPanel.setDividerLocation((PREF_SIZE.width-8)/2);
+        JSplitPbne splitPbnel = new JSplitPbne();
+        splitPbnel.setNbme("GTKFileChooser.splitPbnel");
+        splitPbnel.setDividerLocbtion((PREF_SIZE.width-8)/2);
 
-        // left panel - Filter & directoryList
-        JPanel leftPanel = new JPanel(new GridBagLayout());
-        leftPanel.setName("GTKFileChooser.directoryListPanel");
+        // left pbnel - Filter & directoryList
+        JPbnel leftPbnel = new JPbnel(new GridBbgLbyout());
+        leftPbnel.setNbme("GTKFileChooser.directoryListPbnel");
 
         // Add the Directory List
-        // Create a label that looks like button (should be a table header)
-        TableCellRenderer headerRenderer = new JTableHeader().getDefaultRenderer();
-        JLabel directoryListLabel =
-            (JLabel)headerRenderer.getTableCellRendererComponent(null, foldersLabelText,
-                                                                     false, false, 0, 0);
-        directoryListLabel.setName("GTKFileChooser.directoryListLabel");
-        leftPanel.add(directoryListLabel, new GridBagConstraints(
-                          0, 0, 1, 1, 1, 0, GridBagConstraints.WEST,
-                          GridBagConstraints.HORIZONTAL,
+        // Crebte b lbbel thbt looks like button (should be b tbble hebder)
+        TbbleCellRenderer hebderRenderer = new JTbbleHebder().getDefbultRenderer();
+        JLbbel directoryListLbbel =
+            (JLbbel)hebderRenderer.getTbbleCellRendererComponent(null, foldersLbbelText,
+                                                                     fblse, fblse, 0, 0);
+        directoryListLbbel.setNbme("GTKFileChooser.directoryListLbbel");
+        leftPbnel.bdd(directoryListLbbel, new GridBbgConstrbints(
+                          0, 0, 1, 1, 1, 0, GridBbgConstrbints.WEST,
+                          GridBbgConstrbints.HORIZONTAL,
                           new Insets(0, 0, 0, 0), 0, 0));
-        leftPanel.add(createDirectoryList(), new GridBagConstraints(
-                          0, 1, 1, 1, 1, 1, GridBagConstraints.EAST,
-                          GridBagConstraints.BOTH,
+        leftPbnel.bdd(crebteDirectoryList(), new GridBbgConstrbints(
+                          0, 1, 1, 1, 1, 1, GridBbgConstrbints.EAST,
+                          GridBbgConstrbints.BOTH,
                           new Insets(0, 0, 0, 0), 0, 0));
-        directoryListLabel.setDisplayedMnemonic(foldersLabelMnemonic);
-        directoryListLabel.setLabelFor(directoryList);
+        directoryListLbbel.setDisplbyedMnemonic(foldersLbbelMnemonic);
+        directoryListLbbel.setLbbelFor(directoryList);
 
-        // create files list
-        rightPanel = new JPanel(new GridBagLayout());
-        rightPanel.setName("GTKFileChooser.fileListPanel");
+        // crebte files list
+        rightPbnel = new JPbnel(new GridBbgLbyout());
+        rightPbnel.setNbme("GTKFileChooser.fileListPbnel");
 
-        headerRenderer = new JTableHeader().getDefaultRenderer();
-        JLabel fileListLabel =
-            (JLabel)headerRenderer.getTableCellRendererComponent(null, filesLabelText,
-                                                                     false, false, 0, 0);
-        fileListLabel.setName("GTKFileChooser.fileListLabel");
-        rightPanel.add(fileListLabel, new GridBagConstraints(
-                          0, 0, 1, 1, 1, 0, GridBagConstraints.WEST,
-                          GridBagConstraints.HORIZONTAL,
+        hebderRenderer = new JTbbleHebder().getDefbultRenderer();
+        JLbbel fileListLbbel =
+            (JLbbel)hebderRenderer.getTbbleCellRendererComponent(null, filesLbbelText,
+                                                                     fblse, fblse, 0, 0);
+        fileListLbbel.setNbme("GTKFileChooser.fileListLbbel");
+        rightPbnel.bdd(fileListLbbel, new GridBbgConstrbints(
+                          0, 0, 1, 1, 1, 0, GridBbgConstrbints.WEST,
+                          GridBbgConstrbints.HORIZONTAL,
                           new Insets(0, 0, 0, 0), 0, 0));
-        rightPanel.add(createFilesList(), new GridBagConstraints(
-                          0, 1, 1, 1, 1, 1, GridBagConstraints.EAST,
-                          GridBagConstraints.BOTH,
+        rightPbnel.bdd(crebteFilesList(), new GridBbgConstrbints(
+                          0, 1, 1, 1, 1, 1, GridBbgConstrbints.EAST,
+                          GridBbgConstrbints.BOTH,
                           new Insets(0, 0, 0, 0), 0, 0));
-        fileListLabel.setDisplayedMnemonic(filesLabelMnemonic);
-        fileListLabel.setLabelFor(fileList);
+        fileListLbbel.setDisplbyedMnemonic(filesLbbelMnemonic);
+        fileListLbbel.setLbbelFor(fileList);
 
-        splitPanel.add(leftPanel,  leftToRight ? JSplitPane.LEFT : JSplitPane.RIGHT);
-        splitPanel.add(rightPanel, leftToRight ? JSplitPane.RIGHT : JSplitPane.LEFT);
-        centerPanel.add(splitPanel, BorderLayout.CENTER);
+        splitPbnel.bdd(leftPbnel,  leftToRight ? JSplitPbne.LEFT : JSplitPbne.RIGHT);
+        splitPbnel.bdd(rightPbnel, leftToRight ? JSplitPbne.RIGHT : JSplitPbne.LEFT);
+        centerPbnel.bdd(splitPbnel, BorderLbyout.CENTER);
 
-        JComponent accessoryPanel = getAccessoryPanel();
-        JComponent accessory = fc.getAccessory();
-        if (accessoryPanel != null) {
-            if (accessory == null) {
-                accessoryPanel.setPreferredSize(ZERO_ACC_SIZE);
-                accessoryPanel.setMaximumSize(ZERO_ACC_SIZE);
+        JComponent bccessoryPbnel = getAccessoryPbnel();
+        JComponent bccessory = fc.getAccessory();
+        if (bccessoryPbnel != null) {
+            if (bccessory == null) {
+                bccessoryPbnel.setPreferredSize(ZERO_ACC_SIZE);
+                bccessoryPbnel.setMbximumSize(ZERO_ACC_SIZE);
             } else {
-                getAccessoryPanel().add(accessory, BorderLayout.CENTER);
-                accessoryPanel.setPreferredSize(accessory.getPreferredSize());
-                accessoryPanel.setMaximumSize(MAX_SIZE);
+                getAccessoryPbnel().bdd(bccessory, BorderLbyout.CENTER);
+                bccessoryPbnel.setPreferredSize(bccessory.getPreferredSize());
+                bccessoryPbnel.setMbximumSize(MAX_SIZE);
             }
-            align(accessoryPanel);
-            centerPanel.add(accessoryPanel, BorderLayout.AFTER_LINE_ENDS);
+            blign(bccessoryPbnel);
+            centerPbnel.bdd(bccessoryPbnel, BorderLbyout.AFTER_LINE_ENDS);
         }
-        interior.add(centerPanel);
-        interior.add(Box.createRigidArea(vstrut10));
+        interior.bdd(centerPbnel);
+        interior.bdd(Box.crebteRigidAreb(vstrut10));
 
-        JPanel pathFieldPanel = new JPanel(new FlowLayout(FlowLayout.LEADING,
+        JPbnel pbthFieldPbnel = new JPbnel(new FlowLbyout(FlowLbyout.LEADING,
                                                           0, 0));
-        pathFieldPanel.setBorder(new EmptyBorder(0, 0, 4, 0));
-        JLabel pathFieldLabel = new JLabel(pathLabelText);
-        pathFieldLabel.setName("GTKFileChooser.pathFieldLabel");
-        pathFieldLabel.setDisplayedMnemonic(pathLabelMnemonic);
-        align(pathFieldLabel);
-        pathFieldPanel.add(pathFieldLabel);
-        pathFieldPanel.add(Box.createRigidArea(hstrut3));
+        pbthFieldPbnel.setBorder(new EmptyBorder(0, 0, 4, 0));
+        JLbbel pbthFieldLbbel = new JLbbel(pbthLbbelText);
+        pbthFieldLbbel.setNbme("GTKFileChooser.pbthFieldLbbel");
+        pbthFieldLbbel.setDisplbyedMnemonic(pbthLbbelMnemonic);
+        blign(pbthFieldLbbel);
+        pbthFieldPbnel.bdd(pbthFieldLbbel);
+        pbthFieldPbnel.bdd(Box.crebteRigidAreb(hstrut3));
 
         File currentDirectory = fc.getCurrentDirectory();
-        String curDirName = null;
+        String curDirNbme = null;
         if (currentDirectory != null) {
-            curDirName = currentDirectory.getPath();
+            curDirNbme = currentDirectory.getPbth();
         }
-        @SuppressWarnings("serial") // anonymous class
-        JLabel tmp = new JLabel(curDirName) {
-            public Dimension getMaximumSize() {
-                Dimension d = super.getMaximumSize();
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        JLbbel tmp = new JLbbel(curDirNbme) {
+            public Dimension getMbximumSize() {
+                Dimension d = super.getMbximumSize();
                 d.height = getPreferredSize().height;
                 return d;
             }
         };
-        pathField =  tmp;
-        pathField.setName("GTKFileChooser.pathField");
-        align(pathField);
-        pathFieldPanel.add(pathField);
-        interior.add(pathFieldPanel);
+        pbthField =  tmp;
+        pbthField.setNbme("GTKFileChooser.pbthField");
+        blign(pbthField);
+        pbthFieldPbnel.bdd(pbthField);
+        interior.bdd(pbthFieldPbnel);
 
-        // add the fileName field
-        @SuppressWarnings("serial") // anonymous class
+        // bdd the fileNbme field
+        @SuppressWbrnings("seribl") // bnonymous clbss
         JTextField tmp2 = new JTextField() {
-            public Dimension getMaximumSize() {
-                Dimension d = super.getMaximumSize();
+            public Dimension getMbximumSize() {
+                Dimension d = super.getMbximumSize();
                 d.height = getPreferredSize().height;
                 return d;
             }
         };
-        fileNameTextField = tmp2;
+        fileNbmeTextField = tmp2;
 
-        pathFieldLabel.setLabelFor(fileNameTextField);
+        pbthFieldLbbel.setLbbelFor(fileNbmeTextField);
 
-        Set<AWTKeyStroke> forwardTraversalKeys = fileNameTextField.getFocusTraversalKeys(
-            KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS);
-        forwardTraversalKeys = new HashSet<AWTKeyStroke>(forwardTraversalKeys);
-        forwardTraversalKeys.remove(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
-        fileNameTextField.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, forwardTraversalKeys);
+        Set<AWTKeyStroke> forwbrdTrbversblKeys = fileNbmeTextField.getFocusTrbversblKeys(
+            KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS);
+        forwbrdTrbversblKeys = new HbshSet<AWTKeyStroke>(forwbrdTrbversblKeys);
+        forwbrdTrbversblKeys.remove(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
+        fileNbmeTextField.setFocusTrbversblKeys(KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS, forwbrdTrbversblKeys);
 
-        fileNameTextField.setName("GTKFileChooser.fileNameTextField");
-        fileNameTextField.getActionMap().put("fileNameCompletionAction", getFileNameCompletionAction());
-        fileNameTextField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), "fileNameCompletionAction");
-        interior.add(fileNameTextField);
+        fileNbmeTextField.setNbme("GTKFileChooser.fileNbmeTextField");
+        fileNbmeTextField.getActionMbp().put("fileNbmeCompletionAction", getFileNbmeCompletionAction());
+        fileNbmeTextField.getInputMbp().put(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), "fileNbmeCompletionAction");
+        interior.bdd(fileNbmeTextField);
 
         // Add the filter combo box
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
-        panel.setBorder(new EmptyBorder(0, 0, 4, 0));
-        JLabel filterLabel = new JLabel(filterLabelText);
-        filterLabel.setName("GTKFileChooser.filterLabel");
-        filterLabel.setDisplayedMnemonic(filterLabelMnemonic);
-        panel.add(filterLabel);
+        JPbnel pbnel = new JPbnel();
+        pbnel.setLbyout(new FlowLbyout(FlowLbyout.LEADING, 0, 0));
+        pbnel.setBorder(new EmptyBorder(0, 0, 4, 0));
+        JLbbel filterLbbel = new JLbbel(filterLbbelText);
+        filterLbbel.setNbme("GTKFileChooser.filterLbbel");
+        filterLbbel.setDisplbyedMnemonic(filterLbbelMnemonic);
+        pbnel.bdd(filterLbbel);
 
-        filterComboBoxModel = createFilterComboBoxModel();
-        fc.addPropertyChangeListener(filterComboBoxModel);
+        filterComboBoxModel = crebteFilterComboBoxModel();
+        fc.bddPropertyChbngeListener(filterComboBoxModel);
         filterComboBox = new JComboBox<>(filterComboBoxModel);
-        filterComboBox.setRenderer(createFilterComboBoxRenderer());
-        filterLabel.setLabelFor(filterComboBox);
+        filterComboBox.setRenderer(crebteFilterComboBoxRenderer());
+        filterLbbel.setLbbelFor(filterComboBox);
 
-        interior.add(Box.createRigidArea(vstrut10));
-        interior.add(panel);
-        interior.add(filterComboBox);
+        interior.bdd(Box.crebteRigidAreb(vstrut10));
+        interior.bdd(pbnel);
+        interior.bdd(filterComboBox);
 
         // Add buttons
-        bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-        bottomButtonPanel.setName("GTKFileChooser.bottomButtonPanel");
-        align(bottomButtonPanel);
+        bottomButtonPbnel = new JPbnel(new FlowLbyout(FlowLbyout.TRAILING));
+        bottomButtonPbnel.setNbme("GTKFileChooser.bottomButtonPbnel");
+        blign(bottomButtonPbnel);
 
-        JPanel pnButtons = new JPanel(new GridLayout(1, 2, 5, 0));
+        JPbnel pnButtons = new JPbnel(new GridLbyout(1, 2, 5, 0));
 
-        JButton cancelButton = getCancelButton(fc);
-        align(cancelButton);
-        cancelButton.setMargin(buttonMargin);
-        pnButtons.add(cancelButton);
+        JButton cbncelButton = getCbncelButton(fc);
+        blign(cbncelButton);
+        cbncelButton.setMbrgin(buttonMbrgin);
+        pnButtons.bdd(cbncelButton);
 
-        JButton approveButton = getApproveButton(fc);
-        align(approveButton);
-        approveButton.setMargin(buttonMargin);
-        pnButtons.add(approveButton);
+        JButton bpproveButton = getApproveButton(fc);
+        blign(bpproveButton);
+        bpproveButton.setMbrgin(buttonMbrgin);
+        pnButtons.bdd(bpproveButton);
 
-        bottomButtonPanel.add(pnButtons);
+        bottomButtonPbnel.bdd(pnButtons);
 
         if (fc.getControlButtonsAreShown()) {
-            fc.add(bottomButtonPanel, BorderLayout.SOUTH);
+            fc.bdd(bottomButtonPbnel, BorderLbyout.SOUTH);
         }
     }
 
-    protected void installListeners(JFileChooser fc) {
-        super.installListeners(fc);
+    protected void instbllListeners(JFileChooser fc) {
+        super.instbllListeners(fc);
 
-        gtkFCPropertyChangeListener = new GTKFCPropertyChangeListener();
-        fc.addPropertyChangeListener(gtkFCPropertyChangeListener);
+        gtkFCPropertyChbngeListener = new GTKFCPropertyChbngeListener();
+        fc.bddPropertyChbngeListener(gtkFCPropertyChbngeListener);
     }
 
-    private int getMnemonic(String key, Locale l) {
-        return SwingUtilities2.getUIDefaultsInt(key, l);
+    privbte int getMnemonic(String key, Locble l) {
+        return SwingUtilities2.getUIDefbultsInt(key, l);
     }
 
-    protected void uninstallListeners(JFileChooser fc) {
-        super.uninstallListeners(fc);
+    protected void uninstbllListeners(JFileChooser fc) {
+        super.uninstbllListeners(fc);
 
-        if (gtkFCPropertyChangeListener != null) {
-            fc.removePropertyChangeListener(gtkFCPropertyChangeListener);
+        if (gtkFCPropertyChbngeListener != null) {
+            fc.removePropertyChbngeListener(gtkFCPropertyChbngeListener);
         }
     }
 
-    private class GTKFCPropertyChangeListener implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent e) {
-            String prop = e.getPropertyName();
-            if (prop.equals("GTKFileChooser.showDirectoryIcons")) {
-                showDirectoryIcons = Boolean.TRUE.equals(e.getNewValue());
-            } else if (prop.equals("GTKFileChooser.showFileIcons")) {
-                showFileIcons      = Boolean.TRUE.equals(e.getNewValue());
+    privbte clbss GTKFCPropertyChbngeListener implements PropertyChbngeListener {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String prop = e.getPropertyNbme();
+            if (prop.equbls("GTKFileChooser.showDirectoryIcons")) {
+                showDirectoryIcons = Boolebn.TRUE.equbls(e.getNewVblue());
+            } else if (prop.equbls("GTKFileChooser.showFileIcons")) {
+                showFileIcons      = Boolebn.TRUE.equbls(e.getNewVblue());
             }
         }
     }
 
-    protected void installDefaults(JFileChooser fc) {
-        super.installDefaults(fc);
-        readOnly = UIManager.getBoolean("FileChooser.readOnly");
+    protected void instbllDefbults(JFileChooser fc) {
+        super.instbllDefbults(fc);
+        rebdOnly = UIMbnbger.getBoolebn("FileChooser.rebdOnly");
         showDirectoryIcons =
-            Boolean.TRUE.equals(fc.getClientProperty("GTKFileChooser.showDirectoryIcons"));
+            Boolebn.TRUE.equbls(fc.getClientProperty("GTKFileChooser.showDirectoryIcons"));
         showFileIcons =
-            Boolean.TRUE.equals(fc.getClientProperty("GTKFileChooser.showFileIcons"));
+            Boolebn.TRUE.equbls(fc.getClientProperty("GTKFileChooser.showFileIcons"));
     }
 
-    protected void installIcons(JFileChooser fc) {
-        directoryIcon    = UIManager.getIcon("FileView.directoryIcon");
-        fileIcon         = UIManager.getIcon("FileView.fileIcon");
+    protected void instbllIcons(JFileChooser fc) {
+        directoryIcon    = UIMbnbger.getIcon("FileView.directoryIcon");
+        fileIcon         = UIMbnbger.getIcon("FileView.fileIcon");
     }
 
-    protected void installStrings(JFileChooser fc) {
-        super.installStrings(fc);
+    protected void instbllStrings(JFileChooser fc) {
+        super.instbllStrings(fc);
 
-        Locale l = fc.getLocale();
+        Locble l = fc.getLocble();
 
-        newFolderDialogText = UIManager.getString("FileChooser.newFolderDialogText", l);
-        newFolderErrorText = UIManager.getString("FileChooser.newFolderErrorText",l);
-        newFolderErrorSeparator = UIManager.getString("FileChooser.newFolderErrorSeparator",l);
-        newFolderButtonText = UIManager.getString("FileChooser.newFolderButtonText", l);
-        newFolderNoDirectoryErrorTitleText = UIManager.getString("FileChooser.newFolderNoDirectoryErrorTitleText", l);
-        newFolderNoDirectoryErrorText = UIManager.getString("FileChooser.newFolderNoDirectoryErrorText", l);
-        deleteFileButtonText = UIManager.getString("FileChooser.deleteFileButtonText", l);
-        renameFileButtonText = UIManager.getString("FileChooser.renameFileButtonText", l);
+        newFolderDiblogText = UIMbnbger.getString("FileChooser.newFolderDiblogText", l);
+        newFolderErrorText = UIMbnbger.getString("FileChooser.newFolderErrorText",l);
+        newFolderErrorSepbrbtor = UIMbnbger.getString("FileChooser.newFolderErrorSepbrbtor",l);
+        newFolderButtonText = UIMbnbger.getString("FileChooser.newFolderButtonText", l);
+        newFolderNoDirectoryErrorTitleText = UIMbnbger.getString("FileChooser.newFolderNoDirectoryErrorTitleText", l);
+        newFolderNoDirectoryErrorText = UIMbnbger.getString("FileChooser.newFolderNoDirectoryErrorText", l);
+        deleteFileButtonText = UIMbnbger.getString("FileChooser.deleteFileButtonText", l);
+        renbmeFileButtonText = UIMbnbger.getString("FileChooser.renbmeFileButtonText", l);
 
         newFolderButtonMnemonic = getMnemonic("FileChooser.newFolderButtonMnemonic", l);
         deleteFileButtonMnemonic = getMnemonic("FileChooser.deleteFileButtonMnemonic", l);
-        renameFileButtonMnemonic = getMnemonic("FileChooser.renameFileButtonMnemonic", l);
+        renbmeFileButtonMnemonic = getMnemonic("FileChooser.renbmeFileButtonMnemonic", l);
 
-        newFolderButtonToolTipText = UIManager.getString("FileChooser.newFolderButtonToolTipText", l);
-        deleteFileButtonToolTipText = UIManager.getString("FileChooser.deleteFileButtonToolTipText", l);
-        renameFileButtonToolTipText = UIManager.getString("FileChooser.renameFileButtonToolTipText", l);
+        newFolderButtonToolTipText = UIMbnbger.getString("FileChooser.newFolderButtonToolTipText", l);
+        deleteFileButtonToolTipText = UIMbnbger.getString("FileChooser.deleteFileButtonToolTipText", l);
+        renbmeFileButtonToolTipText = UIMbnbger.getString("FileChooser.renbmeFileButtonToolTipText", l);
 
-        renameFileDialogText = UIManager.getString("FileChooser.renameFileDialogText", l);
-        renameFileErrorTitle = UIManager.getString("FileChooser.renameFileErrorTitle", l);
-        renameFileErrorText = UIManager.getString("FileChooser.renameFileErrorText", l);
+        renbmeFileDiblogText = UIMbnbger.getString("FileChooser.renbmeFileDiblogText", l);
+        renbmeFileErrorTitle = UIMbnbger.getString("FileChooser.renbmeFileErrorTitle", l);
+        renbmeFileErrorText = UIMbnbger.getString("FileChooser.renbmeFileErrorText", l);
 
-        foldersLabelText = UIManager.getString("FileChooser.foldersLabelText",l);
-        foldersLabelMnemonic = getMnemonic("FileChooser.foldersLabelMnemonic", l);
+        foldersLbbelText = UIMbnbger.getString("FileChooser.foldersLbbelText",l);
+        foldersLbbelMnemonic = getMnemonic("FileChooser.foldersLbbelMnemonic", l);
 
-        filesLabelText = UIManager.getString("FileChooser.filesLabelText",l);
-        filesLabelMnemonic = getMnemonic("FileChooser.filesLabelMnemonic", l);
+        filesLbbelText = UIMbnbger.getString("FileChooser.filesLbbelText",l);
+        filesLbbelMnemonic = getMnemonic("FileChooser.filesLbbelMnemonic", l);
 
-        pathLabelText = UIManager.getString("FileChooser.pathLabelText",l);
-        pathLabelMnemonic = getMnemonic("FileChooser.pathLabelMnemonic", l);
+        pbthLbbelText = UIMbnbger.getString("FileChooser.pbthLbbelText",l);
+        pbthLbbelMnemonic = getMnemonic("FileChooser.pbthLbbelMnemonic", l);
 
-        filterLabelText = UIManager.getString("FileChooser.filterLabelText", l);
-        filterLabelMnemonic = UIManager.getInt("FileChooser.filterLabelMnemonic");
+        filterLbbelText = UIMbnbger.getString("FileChooser.filterLbbelText", l);
+        filterLbbelMnemonic = UIMbnbger.getInt("FileChooser.filterLbbelMnemonic");
     }
 
-    protected void uninstallStrings(JFileChooser fc) {
-        super.uninstallStrings(fc);
+    protected void uninstbllStrings(JFileChooser fc) {
+        super.uninstbllStrings(fc);
 
         newFolderButtonText = null;
         deleteFileButtonText = null;
-        renameFileButtonText = null;
+        renbmeFileButtonText = null;
 
         newFolderButtonToolTipText = null;
         deleteFileButtonToolTipText = null;
-        renameFileButtonToolTipText = null;
+        renbmeFileButtonToolTipText = null;
 
-        renameFileDialogText = null;
-        renameFileErrorTitle = null;
-        renameFileErrorText = null;
+        renbmeFileDiblogText = null;
+        renbmeFileErrorTitle = null;
+        renbmeFileErrorText = null;
 
-        foldersLabelText = null;
-        filesLabelText = null;
+        foldersLbbelText = null;
+        filesLbbelText = null;
 
-        pathLabelText = null;
+        pbthLbbelText = null;
 
-        newFolderDialogText = null;
+        newFolderDiblogText = null;
         newFolderErrorText = null;
-        newFolderErrorSeparator = null;
+        newFolderErrorSepbrbtor = null;
     }
 
-    protected JScrollPane createFilesList() {
+    protected JScrollPbne crebteFilesList() {
         fileList = new JList<>();
-        fileList.setName("GTKFileChooser.fileList");
-        fileList.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, filesLabelText);
+        fileList.setNbme("GTKFileChooser.fileList");
+        fileList.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, filesLbbelText);
 
-        if (getFileChooser().isMultiSelectionEnabled()) {
+        if (getFileChooser().isMultiSelectionEnbbled()) {
             fileList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         } else {
             fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         }
 
         fileList.setModel(new GTKFileListModel());
-        fileList.getSelectionModel().removeSelectionInterval(0, 0);
+        fileList.getSelectionModel().removeSelectionIntervbl(0, 0);
         fileList.setCellRenderer(new FileCellRenderer());
-        fileList.addListSelectionListener(createListSelectionListener(getFileChooser()));
-        fileList.addMouseListener(createDoubleClickListener(getFileChooser(), fileList));
-        align(fileList);
-        JScrollPane scrollpane = new JScrollPane(fileList);
-    scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollpane.setName("GTKFileChooser.fileListScrollPane");
-        scrollpane.setPreferredSize(prefListSize);
-        scrollpane.setMaximumSize(MAX_SIZE);
-        align(scrollpane);
-        return scrollpane;
+        fileList.bddListSelectionListener(crebteListSelectionListener(getFileChooser()));
+        fileList.bddMouseListener(crebteDoubleClickListener(getFileChooser(), fileList));
+        blign(fileList);
+        JScrollPbne scrollpbne = new JScrollPbne(fileList);
+    scrollpbne.setVerticblScrollBbrPolicy(JScrollPbne.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollpbne.setNbme("GTKFileChooser.fileListScrollPbne");
+        scrollpbne.setPreferredSize(prefListSize);
+        scrollpbne.setMbximumSize(MAX_SIZE);
+        blign(scrollpbne);
+        return scrollpbne;
     }
 
-    protected JScrollPane createDirectoryList() {
+    protected JScrollPbne crebteDirectoryList() {
         directoryList = new JList<>();
-        directoryList.setName("GTKFileChooser.directoryList");
-        directoryList.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, foldersLabelText);
-        align(directoryList);
+        directoryList.setNbme("GTKFileChooser.directoryList");
+        directoryList.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, foldersLbbelText);
+        blign(directoryList);
 
         directoryList.setCellRenderer(new DirectoryCellRenderer());
         directoryListModel = new GTKDirectoryListModel();
-        directoryList.getSelectionModel().removeSelectionInterval(0, 0);
+        directoryList.getSelectionModel().removeSelectionIntervbl(0, 0);
         directoryList.setModel(directoryListModel);
-        directoryList.addMouseListener(createDoubleClickListener(getFileChooser(), directoryList));
-        directoryList.addListSelectionListener(createListSelectionListener(getFileChooser()));
+        directoryList.bddMouseListener(crebteDoubleClickListener(getFileChooser(), directoryList));
+        directoryList.bddListSelectionListener(crebteListSelectionListener(getFileChooser()));
 
-        JScrollPane scrollpane = new JScrollPane(directoryList);
-    scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollpane.setName("GTKFileChooser.directoryListScrollPane");
-        scrollpane.setMaximumSize(MAX_SIZE);
-        scrollpane.setPreferredSize(prefListSize);
-        align(scrollpane);
-        return scrollpane;
+        JScrollPbne scrollpbne = new JScrollPbne(directoryList);
+    scrollpbne.setVerticblScrollBbrPolicy(JScrollPbne.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollpbne.setNbme("GTKFileChooser.directoryListScrollPbne");
+        scrollpbne.setMbximumSize(MAX_SIZE);
+        scrollpbne.setPreferredSize(prefListSize);
+        blign(scrollpbne);
+        return scrollpbne;
     }
 
-    protected void createModel() {
+    protected void crebteModel() {
         model = new GTKDirectoryModel();
     }
 
-    public BasicDirectoryModel getModel() {
+    public BbsicDirectoryModel getModel() {
         return model;
     }
 
     public Action getApproveSelectionAction() {
-        return approveSelectionAction;
+        return bpproveSelectionAction;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class GTKDirectoryModel extends BasicDirectoryModel {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss GTKDirectoryModel extends BbsicDirectoryModel {
         FileSystemView fsv;
-        private Comparator<File> fileComparator = new Comparator<File>() {
-            public int compare(File o, File o1) {
-                return fsv.getSystemDisplayName(o).compareTo(fsv.getSystemDisplayName(o1));
+        privbte Compbrbtor<File> fileCompbrbtor = new Compbrbtor<File>() {
+            public int compbre(File o, File o1) {
+                return fsv.getSystemDisplbyNbme(o).compbreTo(fsv.getSystemDisplbyNbme(o1));
             }
         };
 
@@ -925,16 +925,16 @@ class GTKFileChooserUI extends SynthFileChooserUI {
 
         protected void sort(Vector<? extends File> v) {
             fsv = getFileChooser().getFileSystemView();
-            Collections.sort(v, fileComparator);
+            Collections.sort(v, fileCompbrbtor);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class GTKDirectoryListModel extends AbstractListModel<File> implements ListDataListener {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss GTKDirectoryListModel extends AbstrbctListModel<File> implements ListDbtbListener {
         File curDir;
         public GTKDirectoryListModel() {
-            getModel().addListDataListener(this);
-            directoryChanged();
+            getModel().bddListDbtbListener(this);
+            directoryChbnged();
         }
 
         public int getSize() {
@@ -947,45 +947,45 @@ class GTKFileChooserUI extends SynthFileChooserUI {
                     curDir;
         }
 
-        public void intervalAdded(ListDataEvent e) {
-            fireIntervalAdded(this, e.getIndex0(), e.getIndex1());
+        public void intervblAdded(ListDbtbEvent e) {
+            fireIntervblAdded(this, e.getIndex0(), e.getIndex1());
         }
 
-        public void intervalRemoved(ListDataEvent e) {
-            fireIntervalRemoved(this, e.getIndex0(), e.getIndex1());
+        public void intervblRemoved(ListDbtbEvent e) {
+            fireIntervblRemoved(this, e.getIndex0(), e.getIndex1());
         }
 
         // PENDING - this is inefficient - should sent out
-        // incremental adjustment values instead of saying that the
-        // whole list has changed.
-        public void fireContentsChanged() {
-            fireContentsChanged(this, 0, getModel().getDirectories().size()-1);
+        // incrementbl bdjustment vblues instebd of sbying thbt the
+        // whole list hbs chbnged.
+        public void fireContentsChbnged() {
+            fireContentsChbnged(this, 0, getModel().getDirectories().size()-1);
         }
 
-        // PENDING - fire the correct interval changed - currently sending
-        // out that everything has changed
-        public void contentsChanged(ListDataEvent e) {
-            fireContentsChanged();
+        // PENDING - fire the correct intervbl chbnged - currently sending
+        // out thbt everything hbs chbnged
+        public void contentsChbnged(ListDbtbEvent e) {
+            fireContentsChbnged();
         }
 
-        private void directoryChanged() {
-            curDir = getFileChooser().getFileSystemView().createFileObject(
+        privbte void directoryChbnged() {
+            curDir = getFileChooser().getFileSystemView().crebteFileObject(
                     getFileChooser().getCurrentDirectory(), ".");
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class GTKFileListModel extends AbstractListModel<File> implements ListDataListener {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss GTKFileListModel extends AbstrbctListModel<File> implements ListDbtbListener {
         public GTKFileListModel() {
-            getModel().addListDataListener(this);
+            getModel().bddListDbtbListener(this);
         }
 
         public int getSize() {
             return getModel().getFiles().size();
         }
 
-        public boolean contains(Object o) {
-            return getModel().getFiles().contains(o);
+        public boolebn contbins(Object o) {
+            return getModel().getFiles().contbins(o);
         }
 
         public int indexOf(Object o) {
@@ -997,54 +997,54 @@ class GTKFileChooserUI extends SynthFileChooserUI {
             return getModel().getFiles().elementAt(index);
         }
 
-        public void intervalAdded(ListDataEvent e) {
-            fireIntervalAdded(this, e.getIndex0(), e.getIndex1());
+        public void intervblAdded(ListDbtbEvent e) {
+            fireIntervblAdded(this, e.getIndex0(), e.getIndex1());
         }
 
-        public void intervalRemoved(ListDataEvent e) {
-            fireIntervalRemoved(this, e.getIndex0(), e.getIndex1());
+        public void intervblRemoved(ListDbtbEvent e) {
+            fireIntervblRemoved(this, e.getIndex0(), e.getIndex1());
         }
 
         // PENDING - this is inefficient - should sent out
-        // incremental adjustment values instead of saying that the
-        // whole list has changed.
-        public void fireContentsChanged() {
-            fireContentsChanged(this, 0, getModel().getFiles().size()-1);
+        // incrementbl bdjustment vblues instebd of sbying thbt the
+        // whole list hbs chbnged.
+        public void fireContentsChbnged() {
+            fireContentsChbnged(this, 0, getModel().getFiles().size()-1);
         }
 
-        // PENDING - fire the interval changed
-        public void contentsChanged(ListDataEvent e) {
-            fireContentsChanged();
+        // PENDING - fire the intervbl chbnged
+        public void contentsChbnged(ListDbtbEvent e) {
+            fireContentsChbnged();
         }
     }
 
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class FileCellRenderer extends DefaultListCellRenderer  {
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss FileCellRenderer extends DefbultListCellRenderer  {
+        public Component getListCellRendererComponent(JList<?> list, Object vblue, int index,
+                                                      boolebn isSelected, boolebn cellHbsFocus) {
 
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            setText(getFileChooser().getName((File) value));
+            super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
+            setText(getFileChooser().getNbme((File) vblue));
             if (showFileIcons) {
-                setIcon(getFileChooser().getIcon((File)value));
+                setIcon(getFileChooser().getIcon((File)vblue));
             }
             return this;
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DirectoryCellRenderer extends DefaultListCellRenderer  {
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss DirectoryCellRenderer extends DefbultListCellRenderer  {
+        public Component getListCellRendererComponent(JList<?> list, Object vblue, int index,
+                                                      boolebn isSelected, boolebn cellHbsFocus) {
 
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
 
             if (showDirectoryIcons) {
-                setIcon(getFileChooser().getIcon((File)value));
-                setText(getFileChooser().getName((File)value));
+                setIcon(getFileChooser().getIcon((File)vblue));
+                setText(getFileChooser().getNbme((File)vblue));
             } else {
-                setText(getFileChooser().getName((File)value) + "/");
+                setText(getFileChooser().getNbme((File)vblue) + "/");
             }
             return this;
         }
@@ -1052,11 +1052,11 @@ class GTKFileChooserUI extends SynthFileChooserUI {
 
     public Dimension getPreferredSize(JComponent c) {
         Dimension prefSize = new Dimension(PREF_SIZE);
-        JComponent accessory = getFileChooser().getAccessory();
-        if (accessory != null) {
-            prefSize.width += accessory.getPreferredSize().width + 20;
+        JComponent bccessory = getFileChooser().getAccessory();
+        if (bccessory != null) {
+            prefSize.width += bccessory.getPreferredSize().width + 20;
         }
-        Dimension d = c.getLayout().preferredLayoutSize(c);
+        Dimension d = c.getLbyout().preferredLbyoutSize(c);
         if (d != null) {
             return new Dimension(d.width < prefSize.width ? prefSize.width : d.width,
                                  d.height < prefSize.height ? prefSize.height : d.height);
@@ -1069,11 +1069,11 @@ class GTKFileChooserUI extends SynthFileChooserUI {
         return new Dimension(MIN_SIZE);
     }
 
-    public Dimension getMaximumSize(JComponent x) {
+    public Dimension getMbximumSize(JComponent x) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    protected void align(JComponent c) {
+    protected void blign(JComponent c) {
         c.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         c.setAlignmentY(JComponent.TOP_ALIGNMENT);
     }
@@ -1081,80 +1081,80 @@ class GTKFileChooserUI extends SynthFileChooserUI {
     public Action getNewFolderAction() {
         if (newFolderAction == null) {
             newFolderAction = new NewFolderAction();
-            newFolderAction.setEnabled(!readOnly);
+            newFolderAction.setEnbbled(!rebdOnly);
         }
         return newFolderAction;
     }
 
     //
-    // DataModel for DirectoryComboxbox
+    // DbtbModel for DirectoryComboxbox
     //
-    protected DirectoryComboBoxModel createDirectoryComboBoxModel(JFileChooser fc) {
+    protected DirectoryComboBoxModel crebteDirectoryComboBoxModel(JFileChooser fc) {
         return new DirectoryComboBoxModel();
     }
 
     /**
-     * Data model for a type-face selection combo-box.
+     * Dbtb model for b type-fbce selection combo-box.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DirectoryComboBoxModel extends AbstractListModel<File> implements ComboBoxModel<File> {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss DirectoryComboBoxModel extends AbstrbctListModel<File> implements ComboBoxModel<File> {
         Vector<File> directories = new Vector<File>();
         File selectedDirectory = null;
         JFileChooser chooser = getFileChooser();
         FileSystemView fsv = chooser.getFileSystemView();
 
         public DirectoryComboBoxModel() {
-            // Add the current directory to the model, and make it the
+            // Add the current directory to the model, bnd mbke it the
             // selectedDirectory
             File dir = getFileChooser().getCurrentDirectory();
             if (dir != null) {
-                addItem(dir);
+                bddItem(dir);
             }
         }
 
         /**
-         * Adds the directory to the model and sets it to be selected,
-         * additionally clears out the previous selected directory and
-         * the paths leading up to it, if any.
+         * Adds the directory to the model bnd sets it to be selected,
+         * bdditionblly clebrs out the previous selected directory bnd
+         * the pbths lebding up to it, if bny.
          */
-        private void addItem(File directory) {
+        privbte void bddItem(File directory) {
 
             if (directory == null) {
                 return;
             }
 
             int oldSize = directories.size();
-            directories.clear();
+            directories.clebr();
             if (oldSize > 0) {
-                fireIntervalRemoved(this, 0, oldSize);
+                fireIntervblRemoved(this, 0, oldSize);
             }
 
-            // Get the canonical (full) path. This has the side
-            // benefit of removing extraneous chars from the path,
-            // for example /foo/bar/ becomes /foo/bar
-            File canonical;
+            // Get the cbnonicbl (full) pbth. This hbs the side
+            // benefit of removing extrbneous chbrs from the pbth,
+            // for exbmple /foo/bbr/ becomes /foo/bbr
+            File cbnonicbl;
             try {
-                canonical = fsv.createFileObject(ShellFolder.getNormalizedFile(directory).getPath());
-            } catch (IOException e) {
-                // Maybe drive is not ready. Can't abort here.
-                canonical = directory;
+                cbnonicbl = fsv.crebteFileObject(ShellFolder.getNormblizedFile(directory).getPbth());
+            } cbtch (IOException e) {
+                // Mbybe drive is not rebdy. Cbn't bbort here.
+                cbnonicbl = directory;
             }
 
-            // create File instances of each directory leading up to the top
-            File f = canonical;
+            // crebte File instbnces of ebch directory lebding up to the top
+            File f = cbnonicbl;
             do {
-                directories.add(f);
-            } while ((f = f.getParentFile()) != null);
+                directories.bdd(f);
+            } while ((f = f.getPbrentFile()) != null);
             int newSize = directories.size();
             if (newSize > 0) {
-                fireIntervalAdded(this, 0, newSize);
+                fireIntervblAdded(this, 0, newSize);
             }
-            setSelectedItem(canonical);
+            setSelectedItem(cbnonicbl);
         }
 
         public void setSelectedItem(Object selectedDirectory) {
             this.selectedDirectory = (File)selectedDirectory;
-            fireContentsChanged(this, -1, -1);
+            fireContentsChbnged(this, -1, -1);
         }
 
         public Object getSelectedItem() {
@@ -1172,122 +1172,122 @@ class GTKFileChooserUI extends SynthFileChooserUI {
     }
 
     /**
-     * Acts when DirectoryComboBox has changed the selected item.
+     * Acts when DirectoryComboBox hbs chbnged the selected item.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class DirectoryComboBoxAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss DirectoryComboBoxAction extends AbstrbctAction {
         protected DirectoryComboBoxAction() {
             super("DirectoryComboBoxAction");
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             File f = (File)directoryComboBox.getSelectedItem();
             getFileChooser().setCurrentDirectory(f);
         }
     }
 
     /**
-     * Creates a new folder.
+     * Crebtes b new folder.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class NewFolderAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss NewFolderAction extends AbstrbctAction {
         protected NewFolderAction() {
-            super(FilePane.ACTION_NEW_FOLDER);
+            super(FilePbne.ACTION_NEW_FOLDER);
         }
-        public void actionPerformed(ActionEvent e) {
-            if (readOnly) {
+        public void bctionPerformed(ActionEvent e) {
+            if (rebdOnly) {
                 return;
             }
             JFileChooser fc = getFileChooser();
             File currentDirectory = fc.getCurrentDirectory();
-            String dirName = JOptionPane.showInputDialog(fc,
-                    newFolderDialogText, newFolderButtonText,
-                    JOptionPane.PLAIN_MESSAGE);
+            String dirNbme = JOptionPbne.showInputDiblog(fc,
+                    newFolderDiblogText, newFolderButtonText,
+                    JOptionPbne.PLAIN_MESSAGE);
 
-            if (dirName != null) {
+            if (dirNbme != null) {
                 if (!currentDirectory.exists()) {
-                    JOptionPane.showMessageDialog(fc,
-                            MessageFormat.format(newFolderNoDirectoryErrorText, dirName),
-                            newFolderNoDirectoryErrorTitleText, JOptionPane.ERROR_MESSAGE);
+                    JOptionPbne.showMessbgeDiblog(fc,
+                            MessbgeFormbt.formbt(newFolderNoDirectoryErrorText, dirNbme),
+                            newFolderNoDirectoryErrorTitleText, JOptionPbne.ERROR_MESSAGE);
                     return;
                 }
 
-                File newDir = fc.getFileSystemView().createFileObject
-                        (currentDirectory, dirName);
+                File newDir = fc.getFileSystemView().crebteFileObject
+                        (currentDirectory, dirNbme);
                 if (newDir == null || !newDir.mkdir()) {
-                    JOptionPane.showMessageDialog(fc,
-                            newFolderErrorText + newFolderErrorSeparator + " \"" +
-                            dirName + "\"",
-                            newFolderErrorText, JOptionPane.ERROR_MESSAGE);
+                    JOptionPbne.showMessbgeDiblog(fc,
+                            newFolderErrorText + newFolderErrorSepbrbtor + " \"" +
+                            dirNbme + "\"",
+                            newFolderErrorText, JOptionPbne.ERROR_MESSAGE);
                 }
-                fc.rescanCurrentDirectory();
+                fc.rescbnCurrentDirectory();
             }
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class GTKApproveSelectionAction extends ApproveSelectionAction {
-        public void actionPerformed(ActionEvent e) {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss GTKApproveSelectionAction extends ApproveSelectionAction {
+        public void bctionPerformed(ActionEvent e) {
             if (isDirectorySelected()) {
                 File dir = getDirectory();
                 try {
-                    // Strip trailing ".."
+                    // Strip trbiling ".."
                     if (dir != null) {
-                        dir = ShellFolder.getNormalizedFile(dir);
+                        dir = ShellFolder.getNormblizedFile(dir);
                     }
-                } catch (IOException ex) {
-                    // Ok, use f as is
+                } cbtch (IOException ex) {
+                    // Ok, use f bs is
                 }
-                if (getFileChooser().getCurrentDirectory().equals(dir)) {
-                    directoryList.clearSelection();
-                    fileList.clearSelection();
+                if (getFileChooser().getCurrentDirectory().equbls(dir)) {
+                    directoryList.clebrSelection();
+                    fileList.clebrSelection();
                     ListSelectionModel sm = fileList.getSelectionModel();
-                    if (sm instanceof DefaultListSelectionModel) {
-                        ((DefaultListSelectionModel)sm).moveLeadSelectionIndex(0);
+                    if (sm instbnceof DefbultListSelectionModel) {
+                        ((DefbultListSelectionModel)sm).moveLebdSelectionIndex(0);
                         sm.setAnchorSelectionIndex(0);
                     }
-                    rescanCurrentDirectory(getFileChooser());
+                    rescbnCurrentDirectory(getFileChooser());
                     return;
                 }
             }
-            super.actionPerformed(e);
+            super.bctionPerformed(e);
         }
     }
 
     /**
-     * Renames file
+     * Renbmes file
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class RenameFileAction extends AbstractAction {
-        protected RenameFileAction() {
-            super(FilePane.ACTION_EDIT_FILE_NAME);
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss RenbmeFileAction extends AbstrbctAction {
+        protected RenbmeFileAction() {
+            super(FilePbne.ACTION_EDIT_FILE_NAME);
         }
-        public void actionPerformed(ActionEvent e) {
-            if (getFileName().equals("")) {
+        public void bctionPerformed(ActionEvent e) {
+            if (getFileNbme().equbls("")) {
                 return;
             }
             JFileChooser fc = getFileChooser();
             File currentDirectory = fc.getCurrentDirectory();
-            String newFileName = (String) JOptionPane.showInputDialog
-                   (fc, new MessageFormat(renameFileDialogText).format
-                           (new Object[] { getFileName() }),
-                           renameFileButtonText, JOptionPane.PLAIN_MESSAGE, null, null,
-                           getFileName());
+            String newFileNbme = (String) JOptionPbne.showInputDiblog
+                   (fc, new MessbgeFormbt(renbmeFileDiblogText).formbt
+                           (new Object[] { getFileNbme() }),
+                           renbmeFileButtonText, JOptionPbne.PLAIN_MESSAGE, null, null,
+                           getFileNbme());
 
-            if (newFileName != null) {
-                File oldFile = fc.getFileSystemView().createFileObject
-                        (currentDirectory, getFileName());
-                File newFile = fc.getFileSystemView().createFileObject
-                        (currentDirectory, newFileName);
+            if (newFileNbme != null) {
+                File oldFile = fc.getFileSystemView().crebteFileObject
+                        (currentDirectory, getFileNbme());
+                File newFile = fc.getFileSystemView().crebteFileObject
+                        (currentDirectory, newFileNbme);
                 if (oldFile == null || newFile == null ||
-                        !getModel().renameFile(oldFile, newFile)) {
-                    JOptionPane.showMessageDialog(fc,
-                            new MessageFormat(renameFileErrorText).
-                            format(new Object[] { getFileName(), newFileName}),
-                            renameFileErrorTitle, JOptionPane.ERROR_MESSAGE);
+                        !getModel().renbmeFile(oldFile, newFile)) {
+                    JOptionPbne.showMessbgeDiblog(fc,
+                            new MessbgeFormbt(renbmeFileErrorText).
+                            formbt(new Object[] { getFileNbme(), newFileNbme}),
+                            renbmeFileErrorTitle, JOptionPbne.ERROR_MESSAGE);
                 } else {
-                    setFileName(getFileChooser().getName(newFile));
-                    fc.rescanCurrentDirectory();
+                    setFileNbme(getFileChooser().getNbme(newFile));
+                    fc.rescbnCurrentDirectory();
                 }
             }
         }
@@ -1296,38 +1296,38 @@ class GTKFileChooserUI extends SynthFileChooserUI {
     //
     // Renderer for Filter ComboBox
     //
-    protected FilterComboBoxRenderer createFilterComboBoxRenderer() {
+    protected FilterComboBoxRenderer crebteFilterComboBoxRenderer() {
         return new FilterComboBoxRenderer();
     }
 
     /**
      * Render different filters
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class FilterComboBoxRenderer extends DefaultListCellRenderer implements UIResource {
-        public String getName() {
-            // As SynthComboBoxRenderer's are asked for a size BEFORE they
-            // are parented getName is overriden to force the name to be
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss FilterComboBoxRenderer extends DefbultListCellRenderer implements UIResource {
+        public String getNbme() {
+            // As SynthComboBoxRenderer's bre bsked for b size BEFORE they
+            // bre pbrented getNbme is overriden to force the nbme to be
             // ComboBox.renderer if it isn't set. If we didn't do this the
-            // wrong style could be used for size calculations.
-            String name = super.getName();
-            if (name == null) {
+            // wrong style could be used for size cblculbtions.
+            String nbme = super.getNbme();
+            if (nbme == null) {
                 return "ComboBox.renderer";
             }
-            return name;
+            return nbme;
         }
 
-        public Component getListCellRendererComponent(JList<?> list, Object value,
-                                                      int index, boolean isSelected,
-                                                      boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<?> list, Object vblue,
+                                                      int index, boolebn isSelected,
+                                                      boolebn cellHbsFocus) {
 
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            super.getListCellRendererComponent(list, vblue, index, isSelected, cellHbsFocus);
 
-            setName("ComboBox.listRenderer");
+            setNbme("ComboBox.listRenderer");
 
-            if (value != null) {
-                if (value instanceof FileFilter) {
-                    setText(((FileFilter) value).getDescription());
+            if (vblue != null) {
+                if (vblue instbnceof FileFilter) {
+                    setText(((FileFilter) vblue).getDescription());
                 }
             } else {
                 setText("");
@@ -1338,58 +1338,58 @@ class GTKFileChooserUI extends SynthFileChooserUI {
     }
 
     //
-    // DataModel for Filter Combobox
+    // DbtbModel for Filter Combobox
     //
-    protected FilterComboBoxModel createFilterComboBoxModel() {
+    protected FilterComboBoxModel crebteFilterComboBoxModel() {
         return new FilterComboBoxModel();
     }
 
     /**
-     * Data model for filter combo-box.
+     * Dbtb model for filter combo-box.
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    protected class FilterComboBoxModel extends AbstractListModel<FileFilter>
-            implements ComboBoxModel<FileFilter>, PropertyChangeListener {
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    protected clbss FilterComboBoxModel extends AbstrbctListModel<FileFilter>
+            implements ComboBoxModel<FileFilter>, PropertyChbngeListener {
         protected FileFilter[] filters;
 
         protected FilterComboBoxModel() {
             super();
-            filters = getFileChooser().getChoosableFileFilters();
+            filters = getFileChooser().getChoosbbleFileFilters();
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String prop = e.getPropertyName();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String prop = e.getPropertyNbme();
             if (prop == JFileChooser.CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY) {
-                filters = (FileFilter[]) e.getNewValue();
-                fireContentsChanged(this, -1, -1);
+                filters = (FileFilter[]) e.getNewVblue();
+                fireContentsChbnged(this, -1, -1);
             } else if (prop == JFileChooser.FILE_FILTER_CHANGED_PROPERTY) {
-                fireContentsChanged(this, -1, -1);
+                fireContentsChbnged(this, -1, -1);
             }
         }
 
         public void setSelectedItem(Object filter) {
             if (filter != null) {
                 getFileChooser().setFileFilter((FileFilter) filter);
-                fireContentsChanged(this, -1, -1);
+                fireContentsChbnged(this, -1, -1);
             }
         }
 
         public Object getSelectedItem() {
-            // Ensure that the current filter is in the list.
-            // NOTE: we shouldnt' have to do this, since JFileChooser adds
-            // the filter to the choosable filters list when the filter
-            // is set. Lets be paranoid just in case someone overrides
+            // Ensure thbt the current filter is in the list.
+            // NOTE: we shouldnt' hbve to do this, since JFileChooser bdds
+            // the filter to the choosbble filters list when the filter
+            // is set. Lets be pbrbnoid just in cbse someone overrides
             // setFileFilter in JFileChooser.
             FileFilter currentFilter = getFileChooser().getFileFilter();
-            boolean found = false;
+            boolebn found = fblse;
             if (currentFilter != null) {
                 for (FileFilter filter : filters) {
                     if (filter == currentFilter) {
                         found = true;
                     }
                 }
-                if (found == false) {
-                    getFileChooser().addChoosableFileFilter(currentFilter);
+                if (found == fblse) {
+                    getFileChooser().bddChoosbbleFileFilter(currentFilter);
                 }
             }
             return getFileChooser().getFileFilter();
@@ -1406,7 +1406,7 @@ class GTKFileChooserUI extends SynthFileChooserUI {
         @Override
         public FileFilter getElementAt(int index) {
             if (index > getSize() - 1) {
-                // This shouldn't happen. Try to recover gracefully.
+                // This shouldn't hbppen. Try to recover grbcefully.
                 return getFileChooser().getFileFilter();
             }
             if (filters != null) {

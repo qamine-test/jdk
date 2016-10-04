@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.net;
+pbckbge jdk.net;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * Represents the service level properties for the platform specific socket
+ * Represents the service level properties for the plbtform specific socket
  * option {@link ExtendedSocketOptions#SO_FLOW_SLA}.
  * <p>
- * The priority and bandwidth parameters must be set before
+ * The priority bnd bbndwidth pbrbmeters must be set before
  * setting the socket option.
  * <p>
- * When the {@code SO_FLOW_SLA} option is set then it may not take effect
- * immediately. If the value of the socket option is obtained with
- * {@code getOption()} then the status may be returned as {@code INPROGRESS}
- * until it takes effect. The priority and bandwidth values are only valid when
- * the status is returned as OK.
+ * When the {@code SO_FLOW_SLA} option is set then it mby not tbke effect
+ * immedibtely. If the vblue of the socket option is obtbined with
+ * {@code getOption()} then the stbtus mby be returned bs {@code INPROGRESS}
+ * until it tbkes effect. The priority bnd bbndwidth vblues bre only vblid when
+ * the stbtus is returned bs OK.
  * <p>
- * When a security manager is installed, a {@link NetworkPermission}
+ * When b security mbnbger is instblled, b {@link NetworkPermission}
  * is required to set or get this option.
  *
  * @since 1.8
  */
 @jdk.Exported
-public class SocketFlow {
+public clbss SocketFlow {
 
-    private static final int UNSET = -1;
-    @Native public static final int NORMAL_PRIORITY = 1;
-    @Native public static final int HIGH_PRIORITY = 2;
+    privbte stbtic finbl int UNSET = -1;
+    @Nbtive public stbtic finbl int NORMAL_PRIORITY = 1;
+    @Nbtive public stbtic finbl int HIGH_PRIORITY = 2;
 
-    private int priority = NORMAL_PRIORITY;
+    privbte int priority = NORMAL_PRIORITY;
 
-    private long bandwidth = UNSET;
+    privbte long bbndwidth = UNSET;
 
-    private Status status = Status.NO_STATUS;
+    privbte Stbtus stbtus = Stbtus.NO_STATUS;
 
-    private SocketFlow() {}
+    privbte SocketFlow() {}
 
     /**
-     * Enumeration of the return values from the SO_FLOW_SLA
-     * socket option. Both setting and getting the option return
-     * one of these statuses, which reflect the state of socket's
+     * Enumerbtion of the return vblues from the SO_FLOW_SLA
+     * socket option. Both setting bnd getting the option return
+     * one of these stbtuses, which reflect the stbte of socket's
      * flow.
      *
      * @since 1.8
      */
     @jdk.Exported
-    public enum Status {
+    public enum Stbtus {
         /**
-         * Set or get socket option has not been called yet. Status
-         * values can only be retrieved after calling set or get.
+         * Set or get socket option hbs not been cblled yet. Stbtus
+         * vblues cbn only be retrieved bfter cblling set or get.
          */
         NO_STATUS,
         /**
-         * Flow successfully created.
+         * Flow successfully crebted.
          */
         OK,
         /**
-         * Caller has no permission to create flow.
+         * Cbller hbs no permission to crebte flow.
          */
         NO_PERMISSION,
         /**
-         * Flow can not be created because socket is not connected.
+         * Flow cbn not be crebted becbuse socket is not connected.
          */
         NOT_CONNECTED,
         /**
-         * Flow creation not supported for this socket.
+         * Flow crebtion not supported for this socket.
          */
         NOT_SUPPORTED,
         /**
-         * A flow already exists with identical attributes.
+         * A flow blrebdy exists with identicbl bttributes.
          */
         ALREADY_CREATED,
         /**
-         * A flow is being created.
+         * A flow is being crebted.
          */
         IN_PROGRESS,
         /**
@@ -106,39 +106,39 @@ public class SocketFlow {
     }
 
     /**
-     * Creates a new SocketFlow that can be used to set the SO_FLOW_SLA
-     * socket option and create a socket flow.
+     * Crebtes b new SocketFlow thbt cbn be used to set the SO_FLOW_SLA
+     * socket option bnd crebte b socket flow.
      */
-    public static SocketFlow create() {
+    public stbtic SocketFlow crebte() {
         return new SocketFlow();
     }
 
     /**
      * Sets this SocketFlow's priority. Must be either NORMAL_PRIORITY
-     * HIGH_PRIORITY. If not set, a flow's priority is normal.
+     * HIGH_PRIORITY. If not set, b flow's priority is normbl.
      *
-     * @throws IllegalArgumentException if priority is not NORMAL_PRIORITY or
+     * @throws IllegblArgumentException if priority is not NORMAL_PRIORITY or
      *         HIGH_PRIORITY.
      */
     public SocketFlow priority(int priority) {
         if (priority != NORMAL_PRIORITY && priority != HIGH_PRIORITY) {
-            throw new IllegalArgumentException("invalid priority");
+            throw new IllegblArgumentException("invblid priority");
         }
         this.priority = priority;
         return this;
     }
 
     /**
-     * Sets this SocketFlow's bandwidth. Must be greater than or equal to zero.
-     * A value of zero drops all packets for the socket.
+     * Sets this SocketFlow's bbndwidth. Must be grebter thbn or equbl to zero.
+     * A vblue of zero drops bll pbckets for the socket.
      *
-     * @throws IllegalArgumentException if bandwidth is less than zero.
+     * @throws IllegblArgumentException if bbndwidth is less thbn zero.
      */
-    public SocketFlow bandwidth(long bandwidth) {
-        if (bandwidth < 0) {
-            throw new IllegalArgumentException("invalid bandwidth");
+    public SocketFlow bbndwidth(long bbndwidth) {
+        if (bbndwidth < 0) {
+            throw new IllegblArgumentException("invblid bbndwidth");
         } else {
-            this.bandwidth = bandwidth;
+            this.bbndwidth = bbndwidth;
         }
         return this;
     }
@@ -151,19 +151,19 @@ public class SocketFlow {
     }
 
     /**
-     * Returns this SocketFlow's bandwidth.
+     * Returns this SocketFlow's bbndwidth.
      *
-     * @return this SocketFlow's bandwidth, or {@code -1} if status is not OK.
+     * @return this SocketFlow's bbndwidth, or {@code -1} if stbtus is not OK.
      */
-    public long bandwidth() {
-        return bandwidth;
+    public long bbndwidth() {
+        return bbndwidth;
     }
 
     /**
-     * Returns the Status value of this SocketFlow. NO_STATUS is returned
-     * if the object was not used in a call to set or get the option.
+     * Returns the Stbtus vblue of this SocketFlow. NO_STATUS is returned
+     * if the object wbs not used in b cbll to set or get the option.
      */
-    public Status status() {
-        return status;
+    public Stbtus stbtus() {
+        return stbtus;
     }
 }

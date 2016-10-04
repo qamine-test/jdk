@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,633 +30,633 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 /*
- * This script creates a simple Notepad-like interface, which
- * serves as a simple script editor, runner.
+ * This script crebtes b simple Notepbd-like interfbce, which
+ * serves bs b simple script editor, runner.
  *
  * File dependency:
  *
- *    gui.js -> for basic GUI functions
+ *    gui.js -> for bbsic GUI functions
  */
 
 /*
- * globalThis is used for actionHelpGlobals() and showFrame().
+ * globblThis is used for bctionHelpGlobbls() bnd showFrbme().
  */
-var globalThis = this;
+vbr globblThis = this;
 
 /*
- * JavaImporter helps in avoiding pollution of JavaScript
- * global namespace. We can import multiple Java packages
- * with this and use the JavaImporter object with "with"
- * statement.
+ * JbvbImporter helps in bvoiding pollution of JbvbScript
+ * globbl nbmespbce. We cbn import multiple Jbvb pbckbges
+ * with this bnd use the JbvbImporter object with "with"
+ * stbtement.
  */
-var guiPkgs = new JavaImporter(java.awt, java.awt.event,
-                               javax.swing, javax.swing.undo,
-                               javax.swing.event, javax.swing.text);
+vbr guiPkgs = new JbvbImporter(jbvb.bwt, jbvb.bwt.event,
+                               jbvbx.swing, jbvbx.swing.undo,
+                               jbvbx.swing.event, jbvbx.swing.text);
 
-// main entry point of the scriptpad application
-var main = function() {
-    function createEditor() {
-        var c = new guiPkgs.JTextArea();
-        c.setDragEnabled(true);
-        c.setFont(new guiPkgs.Font("monospaced", guiPkgs.Font.PLAIN, 12));
+// mbin entry point of the scriptpbd bpplicbtion
+vbr mbin = function() {
+    function crebteEditor() {
+        vbr c = new guiPkgs.JTextAreb();
+        c.setDrbgEnbbled(true);
+        c.setFont(new guiPkgs.Font("monospbced", guiPkgs.Font.PLAIN, 12));
         return c;
     }
 
-    /*const*/ var titleSuffix = "- Scriptpad";
-    /*const*/ var defaultTitle = "Untitled" + titleSuffix;
+    /*const*/ vbr titleSuffix = "- Scriptpbd";
+    /*const*/ vbr defbultTitle = "Untitled" + titleSuffix;
 
-    // Scriptpad's main frame
-    var frame;
-    // Scriptpad's main editor
-    var editor;
+    // Scriptpbd's mbin frbme
+    vbr frbme;
+    // Scriptpbd's mbin editor
+    vbr editor;
 
-    // To track the current file name
-    var curFileName = null;
+    // To trbck the current file nbme
+    vbr curFileNbme = null;
 
-    // To track whether the current document
-    // has been modified or not
-    var docChanged = false;
+    // To trbck whether the current document
+    // hbs been modified or not
+    vbr docChbnged = fblse;
 
-    // check and alert user for unsaved
+    // check bnd blert user for unsbved
     // but modified document
-    function checkDocChanged() {
-        if (docChanged) {
+    function checkDocChbnged() {
+        if (docChbnged) {
             // ignore zero-content untitled document
-            if (curFileName == null &&
+            if (curFileNbme == null &&
                 editor.document.length == 0) {
                 return;
             }
 
-            if (confirm("Do you want to save the changes?",
-                        "The document has changed")) {
-                actionSave();
+            if (confirm("Do you wbnt to sbve the chbnges?",
+                        "The document hbs chbnged")) {
+                bctionSbve();
             }
         }
     }
 
-    // set a document listener to track
-    // whether that is modified or not
+    // set b document listener to trbck
+    // whether thbt is modified or not
     function setDocListener() {
-        var doc = editor.getDocument();
-        docChanged = false;
-        doc.addDocumentListener( new guiPkgs.DocumentListener() {
-                                     equals: function(o) {
+        vbr doc = editor.getDocument();
+        docChbnged = fblse;
+        doc.bddDocumentListener( new guiPkgs.DocumentListener() {
+                                     equbls: function(o) {
                                          return this === o; },
                                      toString: function() {
                                          return "doc listener"; },
-                                     changeUpdate: function() {
-                                         docChanged = true; },
-                                     insertUpdate: function() {
-                                         docChanged = true; },
-                                     removeUpdate: function() {
-                                         docChanged = true; }
+                                     chbngeUpdbte: function() {
+                                         docChbnged = true; },
+                                     insertUpdbte: function() {
+                                         docChbnged = true; },
+                                     removeUpdbte: function() {
+                                         docChbnged = true; }
                                  });
     }
 
-    // menu action functions
+    // menu bction functions
 
     // "File" menu
 
-    // create a "new" document
-    function actionNew() {
-        checkDocChanged();
-        curFileName = null;
-        editor.setDocument(new guiPkgs.PlainDocument());
+    // crebte b "new" document
+    function bctionNew() {
+        checkDocChbnged();
+        curFileNbme = null;
+        editor.setDocument(new guiPkgs.PlbinDocument());
         setDocListener();
-        frame.setTitle(defaultTitle);
-        editor.revalidate();
+        frbme.setTitle(defbultTitle);
+        editor.revblidbte();
     }
 
-    // open an existing file
-    function actionOpen() {
-        checkDocChanged();
-        var f = fileDialog();
+    // open bn existing file
+    function bctionOpen() {
+        checkDocChbnged();
+        vbr f = fileDiblog();
         if (f == null) {
             return;
         }
 
-        if (f.isFile() && f.canRead()) {
-            frame.setTitle(f.getName() + titleSuffix);
-            editor.setDocument(new guiPkgs.PlainDocument());
-            var progress = new guiPkgs.JProgressBar();
+        if (f.isFile() && f.cbnRebd()) {
+            frbme.setTitle(f.getNbme() + titleSuffix);
+            editor.setDocument(new guiPkgs.PlbinDocument());
+            vbr progress = new guiPkgs.JProgressBbr();
             progress.setMinimum(0);
-            progress.setMaximum(f.length());
-            var doc = editor.getDocument();
-            var inp = new java.io.FileReader(f);
-            var buff = java.lang.reflect.Array.newInstance(
-                java.lang.Character.TYPE, 4096);
-            var nch;
-            while ((nch = inp.read(buff, 0, buff.length)) != -1) {
+            progress.setMbximum(f.length());
+            vbr doc = editor.getDocument();
+            vbr inp = new jbvb.io.FileRebder(f);
+            vbr buff = jbvb.lbng.reflect.Arrby.newInstbnce(
+                jbvb.lbng.Chbrbcter.TYPE, 4096);
+            vbr nch;
+            while ((nch = inp.rebd(buff, 0, buff.length)) != -1) {
                 doc.insertString(doc.getLength(),
-                                 new java.lang.String(buff, 0, nch), null);
-                progress.setValue(progress.getValue() + nch);
+                                 new jbvb.lbng.String(buff, 0, nch), null);
+                progress.setVblue(progress.getVblue() + nch);
             }
             inp.close();
-            curFileName = f.getAbsolutePath();
+            curFileNbme = f.getAbsolutePbth();
             setDocListener();
         } else {
-            error("Can not open file: " + f,
+            error("Cbn not open file: " + f,
                   "Error opening file: " + f);
         }
     }
 
-    // open script from a URL
-    function actionOpenURL() {
-        checkDocChanged();
-        var url = prompt("Address:");
+    // open script from b URL
+    function bctionOpenURL() {
+        checkDocChbnged();
+        vbr url = prompt("Address:");
         if (url == null) {
             return;
         }
 
         try {
-            var u = new java.net.URL(url);
-            editor.setDocument(new guiPkgs.PlainDocument());
-            frame.setTitle(url + titleSuffix);
-            var progress = new guiPkgs.JProgressBar();
+            vbr u = new jbvb.net.URL(url);
+            editor.setDocument(new guiPkgs.PlbinDocument());
+            frbme.setTitle(url + titleSuffix);
+            vbr progress = new guiPkgs.JProgressBbr();
             progress.setMinimum(0);
-            progress.setIndeterminate(true);
-            var doc = editor.getDocument();
-            var inp = new java.io.InputStreamReader(u.openStream());
-            var buff = java.lang.reflect.Array.newInstance(
-                java.lang.Character.TYPE, 4096);
-            var nch;
-            while ((nch = inp.read(buff, 0, buff.length)) != -1) {
+            progress.setIndeterminbte(true);
+            vbr doc = editor.getDocument();
+            vbr inp = new jbvb.io.InputStrebmRebder(u.openStrebm());
+            vbr buff = jbvb.lbng.reflect.Arrby.newInstbnce(
+                jbvb.lbng.Chbrbcter.TYPE, 4096);
+            vbr nch;
+            while ((nch = inp.rebd(buff, 0, buff.length)) != -1) {
                 doc.insertString(doc.getLength(),
-                                 new java.lang.String(buff, 0, nch), null);
-                progress.setValue(progress.getValue() + nch);
+                                 new jbvb.lbng.String(buff, 0, nch), null);
+                progress.setVblue(progress.getVblue() + nch);
             }
-            curFileName = null;
+            curFileNbme = null;
             setDocListener();
-        } catch (e) {
+        } cbtch (e) {
             error("Error opening URL: " + e,
-                  "Can not open URL: " + url);
+                  "Cbn not open URL: " + url);
         }
     }
 
-    // factored out "save" function used by
-    // save, save as menu actions
-    function save(file) {
-        var doc = editor.getDocument();
-        frame.setTitle(file.getName() + titleSuffix);
-        curFileName = file;
-        var progress = new guiPkgs.JProgressBar();
+    // fbctored out "sbve" function used by
+    // sbve, sbve bs menu bctions
+    function sbve(file) {
+        vbr doc = editor.getDocument();
+        frbme.setTitle(file.getNbme() + titleSuffix);
+        curFileNbme = file;
+        vbr progress = new guiPkgs.JProgressBbr();
         progress.setMinimum(0);
-        progress.setMaximum(file.length());
-        var out = new java.io.FileWriter(file);
-        var text = new guiPkgs.Segment();
-        text.setPartialReturn(true);
-        var charsLeft = doc.getLength();
-        var offset = 0;
-        var min;
+        progress.setMbximum(file.length());
+        vbr out = new jbvb.io.FileWriter(file);
+        vbr text = new guiPkgs.Segment();
+        text.setPbrtiblReturn(true);
+        vbr chbrsLeft = doc.getLength();
+        vbr offset = 0;
+        vbr min;
 
-        while (charsLeft > 0) {
-            doc.getText(offset, Math.min(4096, charsLeft), text);
-            out.write(text.array, text.offset, text.count);
-            charsLeft -= text.count;
+        while (chbrsLeft > 0) {
+            doc.getText(offset, Mbth.min(4096, chbrsLeft), text);
+            out.write(text.brrby, text.offset, text.count);
+            chbrsLeft -= text.count;
             offset += text.count;
-            progress.setValue(offset);
-            java.lang.Thread.sleep(10);
+            progress.setVblue(offset);
+            jbvb.lbng.Threbd.sleep(10);
         }
 
         out.flush();
         out.close();
-        docChanged = false;
+        docChbnged = fblse;
     }
 
-    // file-save as menu
-    function actionSaveAs() {
-        var ret = fileDialog(null, true);
+    // file-sbve bs menu
+    function bctionSbveAs() {
+        vbr ret = fileDiblog(null, true);
         if (ret == null) {
             return;
         }
-        save(ret);
+        sbve(ret);
     }
 
-    // file-save menu
-    function actionSave() {
-        if (curFileName) {
-            save(new java.io.File(curFileName));
+    // file-sbve menu
+    function bctionSbve() {
+        if (curFileNbme) {
+            sbve(new jbvb.io.File(curFileNbme));
         } else {
-            actionSaveAs();
+            bctionSbveAs();
         }
     }
 
-    // exit from scriptpad
-    function actionExit() {
-        checkDocChanged();
-        java.lang.System.exit(0);
+    // exit from scriptpbd
+    function bctionExit() {
+        checkDocChbnged();
+        jbvb.lbng.System.exit(0);
     }
 
     // "Edit" menu
 
     // cut the currently selected text
-    function actionCut() {
+    function bctionCut() {
         editor.cut();
     }
 
-    // copy the currently selected text to clipboard
-    function actionCopy() {
+    // copy the currently selected text to clipbobrd
+    function bctionCopy() {
         editor.copy();
     }
 
-    // paste clipboard content to document
-    function actionPaste() {
-        editor.paste();
+    // pbste clipbobrd content to document
+    function bctionPbste() {
+        editor.pbste();
     }
 
-    // select all the text in editor
-    function actionSelectAll() {
+    // select bll the text in editor
+    function bctionSelectAll() {
         editor.selectAll();
     }
 
     // "Tools" menu
 
-    // run the current document as JavaScript
-    function actionRun() {
-        var doc = editor.getDocument();
-        var script = doc.getText(0, doc.getLength());
-        var oldFile = engine.get(javax.script.ScriptEngine.FILENAME);
+    // run the current document bs JbvbScript
+    function bctionRun() {
+        vbr doc = editor.getDocument();
+        vbr script = doc.getText(0, doc.getLength());
+        vbr oldFile = engine.get(jbvbx.script.ScriptEngine.FILENAME);
         try {
             if (engine == undefined) {
-                var m = new javax.script.ScriptEngineManager();
-                engine = m.getEngineByName("nashorn");
+                vbr m = new jbvbx.script.ScriptEngineMbnbger();
+                engine = m.getEngineByNbme("nbshorn");
             }
-            engine.put(javax.script.ScriptEngine.FILENAME, frame.title);
-            engine.eval(script, context);
-        } catch (e) {
+            engine.put(jbvbx.script.ScriptEngine.FILENAME, frbme.title);
+            engine.evbl(script, context);
+        } cbtch (e) {
             error(e, "Script Error");
-            e.printStackTrace();
-        } finally {
-            engine.put(javax.script.ScriptEngine.FILENAME, oldFile);
+            e.printStbckTrbce();
+        } finblly {
+            engine.put(jbvbx.script.ScriptEngine.FILENAME, oldFile);
         }
     }
 
-    // "Examples" menu
+    // "Exbmples" menu
 
-    // show given script as new document
+    // show given script bs new document
     function showScript(title, str) {
-        actionNew();
-        frame.setTitle("Example - " + title + titleSuffix);
-        var doc = editor.document;
+        bctionNew();
+        frbme.setTitle("Exbmple - " + title + titleSuffix);
+        vbr doc = editor.document;
         doc.insertString(0, str, null);
     }
 
     // "hello world"
-    function actionHello() {
-        showScript(actionEval.title,
-                   "alert('Hello, world');");
+    function bctionHello() {
+        showScript(bctionEvbl.title,
+                   "blert('Hello, world');");
     }
-    actionHello.title = "Hello, World";
+    bctionHello.title = "Hello, World";
 
-    // eval the "hello world"!
-    function actionEval() {
-        showScript(actionEval.title,
-                   "eval(\"alert('Hello, world')\");");
+    // evbl the "hello world"!
+    function bctionEvbl() {
+        showScript(bctionEvbl.title,
+                   "evbl(\"blert('Hello, world')\");");
     }
-    actionEval.title = "Eval";
+    bctionEvbl.title = "Evbl";
 
-    // show how to access Java static methods
-    function actionJavaStatic() {
-        showScript(arguments.callee.title,
-                   "// Just use Java syntax\n" +
-                   "var props = java.lang.System.getProperties();\n" +
-                   "alert(props.get('os.name'));");
+    // show how to bccess Jbvb stbtic methods
+    function bctionJbvbStbtic() {
+        showScript(brguments.cbllee.title,
+                   "// Just use Jbvb syntbx\n" +
+                   "vbr props = jbvb.lbng.System.getProperties();\n" +
+                   "blert(props.get('os.nbme'));");
     }
-    actionJavaStatic.title = "Java Static Calls";
+    bctionJbvbStbtic.title = "Jbvb Stbtic Cblls";
 
-    // show how to access Java classes, methods
-    function actionJavaAccess() {
-        showScript(arguments.callee.title,
-                   "// just use new JavaClass();\n" +
-                   "var fr = new javax.swing.JFrame();\n" +
-                   "// call all public methods as in Java\n" +
+    // show how to bccess Jbvb clbsses, methods
+    function bctionJbvbAccess() {
+        showScript(brguments.cbllee.title,
+                   "// just use new JbvbClbss();\n" +
+                   "vbr fr = new jbvbx.swing.JFrbme();\n" +
+                   "// cbll bll public methods bs in Jbvb\n" +
                    "fr.setTitle('hello');\n" +
-                   "fr.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);\n" +
+                   "fr.setDefbultCloseOperbtion(jbvbx.swing.WindowConstbnts.DISPOSE_ON_CLOSE);\n" +
                    "fr.setSize(200, 200);\n" +
                    "fr.setVisible(true);");
     }
-    actionJavaAccess.title = "Java Object Access";
+    bctionJbvbAccess.title = "Jbvb Object Access";
 
-    // show how to use Java bean conventions
-    function actionJavaBean() {
-        showScript(arguments.callee.title,
-                   "var fr = new javax.swing.JFrame();\n" +
+    // show how to use Jbvb bebn conventions
+    function bctionJbvbBebn() {
+        showScript(brguments.cbllee.title,
+                   "vbr fr = new jbvbx.swing.JFrbme();\n" +
                    "fr.setSize(200, 200);\n" +
-                   "// access public get/set methods as fields\n" +
-                   "fr.defaultCloseOperation = javax.swing.WindowConstants.DISPOSE_ON_CLOSE;\n" +
+                   "// bccess public get/set methods bs fields\n" +
+                   "fr.defbultCloseOperbtion = jbvbx.swing.WindowConstbnts.DISPOSE_ON_CLOSE;\n" +
                    "fr.title = 'hello';\n" +
                    "fr.visible = true;");
     }
-    actionJavaBean.title = "Java Beans";
+    bctionJbvbBebn.title = "Jbvb Bebns";
 
-    // show how to implement Java interface
-    function actionJavaInterface() {
-        showScript(arguments.callee.title,
-                   "// use Java anonymizer class-like syntax!\n" +
-                   "var r = new java.lang.Runnable() {\n" +
+    // show how to implement Jbvb interfbce
+    function bctionJbvbInterfbce() {
+        showScript(brguments.cbllee.title,
+                   "// use Jbvb bnonymizer clbss-like syntbx!\n" +
+                   "vbr r = new jbvb.lbng.Runnbble() {\n" +
                    "            run: function() {\n" +
-                   "                    alert('hello');\n" +
+                   "                    blert('hello');\n" +
                    "            }\n" +
                    "    };\n" +
-                   "// use the above Runnable to create a Thread\n" +
-                   "new java.lang.Thread(r).start();\n" +
-                   "// For simple one method interfaces, just pass script function\n" +
-                   "new java.lang.Thread(function() { alert('world'); }).start();");
+                   "// use the bbove Runnbble to crebte b Threbd\n" +
+                   "new jbvb.lbng.Threbd(r).stbrt();\n" +
+                   "// For simple one method interfbces, just pbss script function\n" +
+                   "new jbvb.lbng.Threbd(function() { blert('world'); }).stbrt();");
     }
-    actionJavaInterface.title = "Java Interfaces";
+    bctionJbvbInterfbce.title = "Jbvb Interfbces";
 
-    // show how to import Java classes, packages
-    function actionJavaImport() {
-        showScript(arguments.callee.title,
-                   "// use Java-like import *...\n" +
-                   "//    importPackage(java.io);\n" +
-                   "// or import a specific class\n" +
-                   "//    importClass(java.io.File);\n" +
-                   "// or better - import just within a scope!\n" +
-                   "var ioPkgs = JavaImporter(java.io);\n" +
-                   "with (ioPkgs) { alert(new File('.').absolutePath); }");
+    // show how to import Jbvb clbsses, pbckbges
+    function bctionJbvbImport() {
+        showScript(brguments.cbllee.title,
+                   "// use Jbvb-like import *...\n" +
+                   "//    importPbckbge(jbvb.io);\n" +
+                   "// or import b specific clbss\n" +
+                   "//    importClbss(jbvb.io.File);\n" +
+                   "// or better - import just within b scope!\n" +
+                   "vbr ioPkgs = JbvbImporter(jbvb.io);\n" +
+                   "with (ioPkgs) { blert(new File('.').bbsolutePbth); }");
     }
-    actionJavaImport.title = "Java Import";
+    bctionJbvbImport.title = "Jbvb Import";
 
     // "Help" menu
 
     /*
-     * Shows a one liner help message for each
-     * global function. Note that this function
-     * depends on docString meta-data for each
+     * Shows b one liner help messbge for ebch
+     * globbl function. Note thbt this function
+     * depends on docString metb-dbtb for ebch
      * function.
      */
-    function actionHelpGlobals() {
-        var names = new java.util.ArrayList();
-        for (var i in globalThis) {
-            var func = globalThis[i];
+    function bctionHelpGlobbls() {
+        vbr nbmes = new jbvb.util.ArrbyList();
+        for (vbr i in globblThis) {
+            vbr func = globblThis[i];
             if (typeof(func) == "function" &&
                 ("docString" in func)) {
-                names.add(i);
+                nbmes.bdd(i);
             }
         }
-        java.util.Collections.sort(names);
-        var helpDoc = new java.lang.StringBuffer();
-        helpDoc.append("<table border='1'>");
-        var itr = names.iterator();
-        while (itr.hasNext()) {
-            var name = itr.next();
-            helpDoc.append("<tr><td>");
-            helpDoc.append(name);
-            helpDoc.append("</td><td>");
-            helpDoc.append(globalThis[name].docString);
-            helpDoc.append("</td></tr>");
+        jbvb.util.Collections.sort(nbmes);
+        vbr helpDoc = new jbvb.lbng.StringBuffer();
+        helpDoc.bppend("<tbble border='1'>");
+        vbr itr = nbmes.iterbtor();
+        while (itr.hbsNext()) {
+            vbr nbme = itr.next();
+            helpDoc.bppend("<tr><td>");
+            helpDoc.bppend(nbme);
+            helpDoc.bppend("</td><td>");
+            helpDoc.bppend(globblThis[nbme].docString);
+            helpDoc.bppend("</td></tr>");
         }
-        helpDoc.append("</table>");
+        helpDoc.bppend("</tbble>");
 
-        var helpEditor = new guiPkgs.JEditorPane();
+        vbr helpEditor = new guiPkgs.JEditorPbne();
         helpEditor.setContentType("text/html");
-        helpEditor.setEditable(false);
+        helpEditor.setEditbble(fblse);
         helpEditor.setText(helpDoc.toString());
 
-        var scroller = new guiPkgs.JScrollPane();
-        var port = scroller.getViewport();
-        port.add(helpEditor);
+        vbr scroller = new guiPkgs.JScrollPbne();
+        vbr port = scroller.getViewport();
+        port.bdd(helpEditor);
 
-        var helpFrame = new guiPkgs.JFrame("Help - Global Functions");
-        helpFrame.getContentPane().add("Center", scroller);
-        helpFrame.setDefaultCloseOperation(guiPkgs.WindowConstants.DISPOSE_ON_CLOSE);
-        helpFrame.pack();
-        helpFrame.setSize(500, 600);
-        helpFrame.setVisible(true);
+        vbr helpFrbme = new guiPkgs.JFrbme("Help - Globbl Functions");
+        helpFrbme.getContentPbne().bdd("Center", scroller);
+        helpFrbme.setDefbultCloseOperbtion(guiPkgs.WindowConstbnts.DISPOSE_ON_CLOSE);
+        helpFrbme.pbck();
+        helpFrbme.setSize(500, 600);
+        helpFrbme.setVisible(true);
     }
 
-    // show a simple about message for scriptpad
-    function actionAbout() {
-        alert("Scriptpad\nVersion 1.1", "Scriptpad");
+    // show b simple bbout messbge for scriptpbd
+    function bctionAbout() {
+        blert("Scriptpbd\nVersion 1.1", "Scriptpbd");
     }
 
     /*
-     * This data is used to construct menu bar.
-     * This way adding a menu is easier. Just add
-     * top level menu or add an item to an existing
-     * menu. "action" should be a function that is
-     * called back on clicking the correponding menu.
+     * This dbtb is used to construct menu bbr.
+     * This wby bdding b menu is ebsier. Just bdd
+     * top level menu or bdd bn item to bn existing
+     * menu. "bction" should be b function thbt is
+     * cblled bbck on clicking the correponding menu.
      */
-    var menuData = [
+    vbr menuDbtb = [
         {
             menu: "File",
             items: [
-                { name: "New",  action: actionNew , accel: guiPkgs.KeyEvent.VK_N },
-                { name: "Open...", action: actionOpen, accel: guiPkgs.KeyEvent.VK_O },
-                { name: "Open URL...", action: actionOpenURL, accel: guiPkgs.KeyEvent.VK_U },
-                { name: "Save", action: actionSave, accel: guiPkgs.KeyEvent.VK_S },
-                { name: "Save As...", action: actionSaveAs },
-                { name: "-" },
-                { name: "Exit", action: actionExit, accel: guiPkgs.KeyEvent.VK_Q }
+                { nbme: "New",  bction: bctionNew , bccel: guiPkgs.KeyEvent.VK_N },
+                { nbme: "Open...", bction: bctionOpen, bccel: guiPkgs.KeyEvent.VK_O },
+                { nbme: "Open URL...", bction: bctionOpenURL, bccel: guiPkgs.KeyEvent.VK_U },
+                { nbme: "Sbve", bction: bctionSbve, bccel: guiPkgs.KeyEvent.VK_S },
+                { nbme: "Sbve As...", bction: bctionSbveAs },
+                { nbme: "-" },
+                { nbme: "Exit", bction: bctionExit, bccel: guiPkgs.KeyEvent.VK_Q }
             ]
         },
 
         {
             menu: "Edit",
             items: [
-                { name: "Cut", action: actionCut, accel: guiPkgs.KeyEvent.VK_X },
-                { name: "Copy", action: actionCopy, accel: guiPkgs.KeyEvent.VK_C },
-                { name: "Paste", action: actionPaste, accel: guiPkgs.KeyEvent.VK_V },
-                { name: "-" },
-                { name: "Select All", action: actionSelectAll, accel: guiPkgs.KeyEvent.VK_A }
+                { nbme: "Cut", bction: bctionCut, bccel: guiPkgs.KeyEvent.VK_X },
+                { nbme: "Copy", bction: bctionCopy, bccel: guiPkgs.KeyEvent.VK_C },
+                { nbme: "Pbste", bction: bctionPbste, bccel: guiPkgs.KeyEvent.VK_V },
+                { nbme: "-" },
+                { nbme: "Select All", bction: bctionSelectAll, bccel: guiPkgs.KeyEvent.VK_A }
             ]
         },
 
         {
             menu: "Tools",
             items: [
-                { name: "Run", action: actionRun, accel: guiPkgs.KeyEvent.VK_R }
+                { nbme: "Run", bction: bctionRun, bccel: guiPkgs.KeyEvent.VK_R }
             ]
         },
 
         {
-            menu: "Examples",
+            menu: "Exbmples",
             items: [
-                { name: actionHello.title, action: actionHello },
-                { name: actionEval.title, action: actionEval },
-                { name: actionJavaStatic.title, action: actionJavaStatic },
-                { name: actionJavaAccess.title, action: actionJavaAccess },
-                { name: actionJavaBean.title, action: actionJavaBean },
-                { name: actionJavaInterface.title, action: actionJavaInterface },
-                { name: actionJavaImport.title, action: actionJavaImport }
+                { nbme: bctionHello.title, bction: bctionHello },
+                { nbme: bctionEvbl.title, bction: bctionEvbl },
+                { nbme: bctionJbvbStbtic.title, bction: bctionJbvbStbtic },
+                { nbme: bctionJbvbAccess.title, bction: bctionJbvbAccess },
+                { nbme: bctionJbvbBebn.title, bction: bctionJbvbBebn },
+                { nbme: bctionJbvbInterfbce.title, bction: bctionJbvbInterfbce },
+                { nbme: bctionJbvbImport.title, bction: bctionJbvbImport }
             ]
         },
 
         {
             menu: "Help",
             items: [
-                { name: "Global Functions", action: actionHelpGlobals },
-                { name: "-" },
-                { name: "About Scriptpad", action: actionAbout }
+                { nbme: "Globbl Functions", bction: bctionHelpGlobbls },
+                { nbme: "-" },
+                { nbme: "About Scriptpbd", bction: bctionAbout }
             ]
         }
     ];
 
-    function setMenuAccelerator(mi, accel) {
-        var keyStroke = guiPkgs.KeyStroke.getKeyStroke(accel,
-                                                       guiPkgs.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false);
-        mi.setAccelerator(keyStroke);
+    function setMenuAccelerbtor(mi, bccel) {
+        vbr keyStroke = guiPkgs.KeyStroke.getKeyStroke(bccel,
+                                                       guiPkgs.Toolkit.getDefbultToolkit().getMenuShortcutKeyMbsk(), fblse);
+        mi.setAccelerbtor(keyStroke);
     }
 
-    // create a menubar using the above menu data
-    function createMenubar() {
-        var mb = new guiPkgs.JMenuBar();
-        for (var m in menuData) {
-            var items = menuData[m].items;
-            var menu = new guiPkgs.JMenu(menuData[m].menu);
+    // crebte b menubbr using the bbove menu dbtb
+    function crebteMenubbr() {
+        vbr mb = new guiPkgs.JMenuBbr();
+        for (vbr m in menuDbtb) {
+            vbr items = menuDbtb[m].items;
+            vbr menu = new guiPkgs.JMenu(menuDbtb[m].menu);
 
-            for (var i in items) {
-                if (items[i].name.equals("-")) {
-                    menu.addSeparator();
+            for (vbr i in items) {
+                if (items[i].nbme.equbls("-")) {
+                    menu.bddSepbrbtor();
                 } else {
-                    var mi = new guiPkgs.JMenuItem(items[i].name);
-                    var action = items[i].action;
-                    mi.addActionListener(action);
-                    var accel = items[i].accel;
-                    if (accel) {
-                        setMenuAccelerator(mi, accel);
+                    vbr mi = new guiPkgs.JMenuItem(items[i].nbme);
+                    vbr bction = items[i].bction;
+                    mi.bddActionListener(bction);
+                    vbr bccel = items[i].bccel;
+                    if (bccel) {
+                        setMenuAccelerbtor(mi, bccel);
                     }
-                    menu.add(mi);
+                    menu.bdd(mi);
                 }
 	        }
 
-	        mb.add(menu);
+	        mb.bdd(menu);
         }
 
         return mb;
     }
 
-    // function to add a new menu item under "Tools" menu
-    function addTool(menuItem, action, accel) {
-        if (typeof(action) != "function") {
+    // function to bdd b new menu item under "Tools" menu
+    function bddTool(menuItem, bction, bccel) {
+        if (typeof(bction) != "function") {
             return;
         }
 
-        var toolsIndex = -1;
+        vbr toolsIndex = -1;
         // find the index of the "Tools" menu
-        for (var i in menuData) {
-            if (menuData[i].menu.equals("Tools")) {
+        for (vbr i in menuDbtb) {
+            if (menuDbtb[i].menu.equbls("Tools")) {
                 toolsIndex = i;
-                break;
+                brebk;
             }
         }
         if (toolsIndex == -1) {
             return;
         }
-        var toolsMenu = frame.getJMenuBar().getMenu(toolsIndex);
-        var mi = new guiPkgs.JMenuItem(menuItem);
-        mi.addActionListener(action);
-        if (accel) {
-            setMenuAccelerator(mi, accel);
+        vbr toolsMenu = frbme.getJMenuBbr().getMenu(toolsIndex);
+        vbr mi = new guiPkgs.JMenuItem(menuItem);
+        mi.bddActionListener(bction);
+        if (bccel) {
+            setMenuAccelerbtor(mi, bccel);
         }
-        toolsMenu.add(mi);
+        toolsMenu.bdd(mi);
     }
 
-    // create Scriptpad frame
-    function createFrame() {
-        frame = new guiPkgs.JFrame();
-        frame.setTitle(defaultTitle);
-        frame.setBackground(guiPkgs.Color.lightGray);
-        frame.getContentPane().setLayout(new guiPkgs.BorderLayout());
+    // crebte Scriptpbd frbme
+    function crebteFrbme() {
+        frbme = new guiPkgs.JFrbme();
+        frbme.setTitle(defbultTitle);
+        frbme.setBbckground(guiPkgs.Color.lightGrby);
+        frbme.getContentPbne().setLbyout(new guiPkgs.BorderLbyout());
 
-        // create notepad panel
-        var notepad = new guiPkgs.JPanel();
-        notepad.setBorder(guiPkgs.BorderFactory.createEtchedBorder());
-        notepad.setLayout(new guiPkgs.BorderLayout());
+        // crebte notepbd pbnel
+        vbr notepbd = new guiPkgs.JPbnel();
+        notepbd.setBorder(guiPkgs.BorderFbctory.crebteEtchedBorder());
+        notepbd.setLbyout(new guiPkgs.BorderLbyout());
 
-        // create editor
-        editor = createEditor();
-        var scroller = new guiPkgs.JScrollPane();
-        var port = scroller.getViewport();
-        port.add(editor);
+        // crebte editor
+        editor = crebteEditor();
+        vbr scroller = new guiPkgs.JScrollPbne();
+        vbr port = scroller.getViewport();
+        port.bdd(editor);
 
-        // add editor to notepad panel
-        var panel = new guiPkgs.JPanel();
-        panel.setLayout(new guiPkgs.BorderLayout());
-        panel.add("Center", scroller);
-        notepad.add("Center", panel);
+        // bdd editor to notepbd pbnel
+        vbr pbnel = new guiPkgs.JPbnel();
+        pbnel.setLbyout(new guiPkgs.BorderLbyout());
+        pbnel.bdd("Center", scroller);
+        notepbd.bdd("Center", pbnel);
 
-        // add notepad panel to frame
-        frame.getContentPane().add("Center", notepad);
+        // bdd notepbd pbnel to frbme
+        frbme.getContentPbne().bdd("Center", notepbd);
 
-        // set menu bar to frame and show the frame
-        frame.setJMenuBar(createMenubar());
-        frame.setDefaultCloseOperation(guiPkgs.JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(500, 600);
+        // set menu bbr to frbme bnd show the frbme
+        frbme.setJMenuBbr(crebteMenubbr());
+        frbme.setDefbultCloseOperbtion(guiPkgs.JFrbme.EXIT_ON_CLOSE);
+        frbme.pbck();
+        frbme.setSize(500, 600);
     }
 
-    // show Scriptpad frame
-    function showFrame() {
-        // set global variable by the name "window"
-        globalThis.window = frame;
+    // show Scriptpbd frbme
+    function showFrbme() {
+        // set globbl vbribble by the nbme "window"
+        globblThis.window = frbme;
 
         // open new document
-        actionNew();
+        bctionNew();
 
-        frame.setVisible(true);
+        frbme.setVisible(true);
     }
 
-    // create and show Scriptpad frame
-    createFrame();
-    showFrame();
+    // crebte bnd show Scriptpbd frbme
+    crebteFrbme();
+    showFrbme();
 
     /*
-     * Application object has two fields "frame", "editor"
-     * which are current JFrame and editor and a method
-     * called "addTool" to add new menu item to "Tools" menu.
+     * Applicbtion object hbs two fields "frbme", "editor"
+     * which bre current JFrbme bnd editor bnd b method
+     * cblled "bddTool" to bdd new menu item to "Tools" menu.
      */
     return {
-        frame: frame,
+        frbme: frbme,
         editor: editor,
-        addTool: addTool
+        bddTool: bddTool
     };
 };
 
 /*
- * Call the main and store Application object
- * in a global variable named "application".
+ * Cbll the mbin bnd store Applicbtion object
+ * in b globbl vbribble nbmed "bpplicbtion".
  */
-var application = main();
+vbr bpplicbtion = mbin();
 
-if (this.load == undefined) {
-    function load(file) {
-        var ioPkgs = new JavaImporter(java.io);
+if (this.lobd == undefined) {
+    function lobd(file) {
+        vbr ioPkgs = new JbvbImporter(jbvb.io);
         with (ioPkgs) {
-            var stream = new FileInputStream(file);
-            var bstream = new BufferedInputStream(stream);
-            var reader = new BufferedReader(new InputStreamReader(bstream));
-            var oldFilename = engine.get(engine.FILENAME);
+            vbr strebm = new FileInputStrebm(file);
+            vbr bstrebm = new BufferedInputStrebm(strebm);
+            vbr rebder = new BufferedRebder(new InputStrebmRebder(bstrebm));
+            vbr oldFilenbme = engine.get(engine.FILENAME);
             engine.put(engine.FILENAME, file);
             try {
-                engine.eval(reader, context);
-            } finally {
-                engine.put(engine.FILENAME, oldFilename);
+                engine.evbl(rebder, context);
+            } finblly {
+                engine.put(engine.FILENAME, oldFilenbme);
             }
-            stream.close();
+            strebm.close();
         }
     }
-    load.docString = "loads the given script file";
+    lobd.docString = "lobds the given script file";
 }
 
 /*
- * Load user specific init file under home dir, if found.
+ * Lobd user specific init file under home dir, if found.
  */
-function loadUserInit() {
-    var home = java.lang.System.getProperty("user.home");
-    var f = new java.io.File(home, "scriptpad.js");
+function lobdUserInit() {
+    vbr home = jbvb.lbng.System.getProperty("user.home");
+    vbr f = new jbvb.io.File(home, "scriptpbd.js");
     if (f.exists()) {
-        engine.eval(new java.io.FileReader(f));
+        engine.evbl(new jbvb.io.FileRebder(f));
     }
 }
 
-loadUserInit();
+lobdUserInit();

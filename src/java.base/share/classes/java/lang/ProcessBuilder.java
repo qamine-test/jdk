@@ -1,374 +1,374 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Arrbys;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * This class is used to create operating system processes.
+ * This clbss is used to crebte operbting system processes.
  *
- * <p>Each {@code ProcessBuilder} instance manages a collection
- * of process attributes.  The {@link #start()} method creates a new
- * {@link Process} instance with those attributes.  The {@link
- * #start()} method can be invoked repeatedly from the same instance
- * to create new subprocesses with identical or related attributes.
+ * <p>Ebch {@code ProcessBuilder} instbnce mbnbges b collection
+ * of process bttributes.  The {@link #stbrt()} method crebtes b new
+ * {@link Process} instbnce with those bttributes.  The {@link
+ * #stbrt()} method cbn be invoked repebtedly from the sbme instbnce
+ * to crebte new subprocesses with identicbl or relbted bttributes.
  *
- * <p>Each process builder manages these process attributes:
+ * <p>Ebch process builder mbnbges these process bttributes:
  *
  * <ul>
  *
- * <li>a <i>command</i>, a list of strings which signifies the
- * external program file to be invoked and its arguments, if any.
- * Which string lists represent a valid operating system command is
- * system-dependent.  For example, it is common for each conceptual
- * argument to be an element in this list, but there are operating
- * systems where programs are expected to tokenize command line
- * strings themselves - on such a system a Java implementation might
- * require commands to contain exactly two elements.
+ * <li>b <i>commbnd</i>, b list of strings which signifies the
+ * externbl progrbm file to be invoked bnd its brguments, if bny.
+ * Which string lists represent b vblid operbting system commbnd is
+ * system-dependent.  For exbmple, it is common for ebch conceptubl
+ * brgument to be bn element in this list, but there bre operbting
+ * systems where progrbms bre expected to tokenize commbnd line
+ * strings themselves - on such b system b Jbvb implementbtion might
+ * require commbnds to contbin exbctly two elements.
  *
- * <li>an <i>environment</i>, which is a system-dependent mapping from
- * <i>variables</i> to <i>values</i>.  The initial value is a copy of
+ * <li>bn <i>environment</i>, which is b system-dependent mbpping from
+ * <i>vbribbles</i> to <i>vblues</i>.  The initibl vblue is b copy of
  * the environment of the current process (see {@link System#getenv()}).
  *
- * <li>a <i>working directory</i>.  The default value is the current
- * working directory of the current process, usually the directory
- * named by the system property {@code user.dir}.
+ * <li>b <i>working directory</i>.  The defbult vblue is the current
+ * working directory of the current process, usublly the directory
+ * nbmed by the system property {@code user.dir}.
  *
- * <li><a name="redirect-input">a source of <i>standard input</i></a>.
- * By default, the subprocess reads input from a pipe.  Java code
- * can access this pipe via the output stream returned by
- * {@link Process#getOutputStream()}.  However, standard input may
- * be redirected to another source using
+ * <li><b nbme="redirect-input">b source of <i>stbndbrd input</i></b>.
+ * By defbult, the subprocess rebds input from b pipe.  Jbvb code
+ * cbn bccess this pipe vib the output strebm returned by
+ * {@link Process#getOutputStrebm()}.  However, stbndbrd input mby
+ * be redirected to bnother source using
  * {@link #redirectInput(Redirect) redirectInput}.
- * In this case, {@link Process#getOutputStream()} will return a
- * <i>null output stream</i>, for which:
+ * In this cbse, {@link Process#getOutputStrebm()} will return b
+ * <i>null output strebm</i>, for which:
  *
  * <ul>
- * <li>the {@link OutputStream#write(int) write} methods always
+ * <li>the {@link OutputStrebm#write(int) write} methods blwbys
  * throw {@code IOException}
- * <li>the {@link OutputStream#close() close} method does nothing
+ * <li>the {@link OutputStrebm#close() close} method does nothing
  * </ul>
  *
- * <li><a name="redirect-output">a destination for <i>standard output</i>
- * and <i>standard error</i></a>.  By default, the subprocess writes standard
- * output and standard error to pipes.  Java code can access these pipes
- * via the input streams returned by {@link Process#getInputStream()} and
- * {@link Process#getErrorStream()}.  However, standard output and
- * standard error may be redirected to other destinations using
- * {@link #redirectOutput(Redirect) redirectOutput} and
+ * <li><b nbme="redirect-output">b destinbtion for <i>stbndbrd output</i>
+ * bnd <i>stbndbrd error</i></b>.  By defbult, the subprocess writes stbndbrd
+ * output bnd stbndbrd error to pipes.  Jbvb code cbn bccess these pipes
+ * vib the input strebms returned by {@link Process#getInputStrebm()} bnd
+ * {@link Process#getErrorStrebm()}.  However, stbndbrd output bnd
+ * stbndbrd error mby be redirected to other destinbtions using
+ * {@link #redirectOutput(Redirect) redirectOutput} bnd
  * {@link #redirectError(Redirect) redirectError}.
- * In this case, {@link Process#getInputStream()} and/or
- * {@link Process#getErrorStream()} will return a <i>null input
- * stream</i>, for which:
+ * In this cbse, {@link Process#getInputStrebm()} bnd/or
+ * {@link Process#getErrorStrebm()} will return b <i>null input
+ * strebm</i>, for which:
  *
  * <ul>
- * <li>the {@link InputStream#read() read} methods always return
+ * <li>the {@link InputStrebm#rebd() rebd} methods blwbys return
  * {@code -1}
- * <li>the {@link InputStream#available() available} method always returns
+ * <li>the {@link InputStrebm#bvbilbble() bvbilbble} method blwbys returns
  * {@code 0}
- * <li>the {@link InputStream#close() close} method does nothing
+ * <li>the {@link InputStrebm#close() close} method does nothing
  * </ul>
  *
- * <li>a <i>redirectErrorStream</i> property.  Initially, this property
- * is {@code false}, meaning that the standard output and error
- * output of a subprocess are sent to two separate streams, which can
- * be accessed using the {@link Process#getInputStream()} and {@link
- * Process#getErrorStream()} methods.
+ * <li>b <i>redirectErrorStrebm</i> property.  Initiblly, this property
+ * is {@code fblse}, mebning thbt the stbndbrd output bnd error
+ * output of b subprocess bre sent to two sepbrbte strebms, which cbn
+ * be bccessed using the {@link Process#getInputStrebm()} bnd {@link
+ * Process#getErrorStrebm()} methods.
  *
- * <p>If the value is set to {@code true}, then:
+ * <p>If the vblue is set to {@code true}, then:
  *
  * <ul>
- * <li>standard error is merged with the standard output and always sent
- * to the same destination (this makes it easier to correlate error
- * messages with the corresponding output)
- * <li>the common destination of standard error and standard output can be
+ * <li>stbndbrd error is merged with the stbndbrd output bnd blwbys sent
+ * to the sbme destinbtion (this mbkes it ebsier to correlbte error
+ * messbges with the corresponding output)
+ * <li>the common destinbtion of stbndbrd error bnd stbndbrd output cbn be
  * redirected using
  * {@link #redirectOutput(Redirect) redirectOutput}
- * <li>any redirection set by the
+ * <li>bny redirection set by the
  * {@link #redirectError(Redirect) redirectError}
- * method is ignored when creating a subprocess
- * <li>the stream returned from {@link Process#getErrorStream()} will
- * always be a <a href="#redirect-output">null input stream</a>
+ * method is ignored when crebting b subprocess
+ * <li>the strebm returned from {@link Process#getErrorStrebm()} will
+ * blwbys be b <b href="#redirect-output">null input strebm</b>
  * </ul>
  *
  * </ul>
  *
- * <p>Modifying a process builder's attributes will affect processes
- * subsequently started by that object's {@link #start()} method, but
- * will never affect previously started processes or the Java process
+ * <p>Modifying b process builder's bttributes will bffect processes
+ * subsequently stbrted by thbt object's {@link #stbrt()} method, but
+ * will never bffect previously stbrted processes or the Jbvb process
  * itself.
  *
- * <p>Most error checking is performed by the {@link #start()} method.
- * It is possible to modify the state of an object so that {@link
- * #start()} will fail.  For example, setting the command attribute to
- * an empty list will not throw an exception unless {@link #start()}
+ * <p>Most error checking is performed by the {@link #stbrt()} method.
+ * It is possible to modify the stbte of bn object so thbt {@link
+ * #stbrt()} will fbil.  For exbmple, setting the commbnd bttribute to
+ * bn empty list will not throw bn exception unless {@link #stbrt()}
  * is invoked.
  *
- * <p><strong>Note that this class is not synchronized.</strong>
- * If multiple threads access a {@code ProcessBuilder} instance
- * concurrently, and at least one of the threads modifies one of the
- * attributes structurally, it <i>must</i> be synchronized externally.
+ * <p><strong>Note thbt this clbss is not synchronized.</strong>
+ * If multiple threbds bccess b {@code ProcessBuilder} instbnce
+ * concurrently, bnd bt lebst one of the threbds modifies one of the
+ * bttributes structurblly, it <i>must</i> be synchronized externblly.
  *
- * <p>Starting a new process which uses the default working directory
- * and environment is easy:
+ * <p>Stbrting b new process which uses the defbult working directory
+ * bnd environment is ebsy:
  *
  * <pre> {@code
- * Process p = new ProcessBuilder("myCommand", "myArg").start();
+ * Process p = new ProcessBuilder("myCommbnd", "myArg").stbrt();
  * }</pre>
  *
- * <p>Here is an example that starts a process with a modified working
- * directory and environment, and redirects standard output and error
- * to be appended to a log file:
+ * <p>Here is bn exbmple thbt stbrts b process with b modified working
+ * directory bnd environment, bnd redirects stbndbrd output bnd error
+ * to be bppended to b log file:
  *
  * <pre> {@code
  * ProcessBuilder pb =
- *   new ProcessBuilder("myCommand", "myArg1", "myArg2");
- * Map<String, String> env = pb.environment();
- * env.put("VAR1", "myValue");
+ *   new ProcessBuilder("myCommbnd", "myArg1", "myArg2");
+ * Mbp<String, String> env = pb.environment();
+ * env.put("VAR1", "myVblue");
  * env.remove("OTHERVAR");
  * env.put("VAR2", env.get("VAR1") + "suffix");
  * pb.directory(new File("myDir"));
  * File log = new File("log");
- * pb.redirectErrorStream(true);
- * pb.redirectOutput(Redirect.appendTo(log));
- * Process p = pb.start();
- * assert pb.redirectInput() == Redirect.PIPE;
- * assert pb.redirectOutput().file() == log;
- * assert p.getInputStream().read() == -1;
+ * pb.redirectErrorStrebm(true);
+ * pb.redirectOutput(Redirect.bppendTo(log));
+ * Process p = pb.stbrt();
+ * bssert pb.redirectInput() == Redirect.PIPE;
+ * bssert pb.redirectOutput().file() == log;
+ * bssert p.getInputStrebm().rebd() == -1;
  * }</pre>
  *
- * <p>To start a process with an explicit set of environment
- * variables, first call {@link java.util.Map#clear() Map.clear()}
- * before adding environment variables.
+ * <p>To stbrt b process with bn explicit set of environment
+ * vbribbles, first cbll {@link jbvb.util.Mbp#clebr() Mbp.clebr()}
+ * before bdding environment vbribbles.
  *
- * @author Martin Buchholz
+ * @buthor Mbrtin Buchholz
  * @since 1.5
  */
 
-public final class ProcessBuilder
+public finbl clbss ProcessBuilder
 {
-    private List<String> command;
-    private File directory;
-    private Map<String,String> environment;
-    private boolean redirectErrorStream;
-    private Redirect[] redirects;
+    privbte List<String> commbnd;
+    privbte File directory;
+    privbte Mbp<String,String> environment;
+    privbte boolebn redirectErrorStrebm;
+    privbte Redirect[] redirects;
 
     /**
-     * Constructs a process builder with the specified operating
-     * system program and arguments.  This constructor does <i>not</i>
-     * make a copy of the {@code command} list.  Subsequent
-     * updates to the list will be reflected in the state of the
+     * Constructs b process builder with the specified operbting
+     * system progrbm bnd brguments.  This constructor does <i>not</i>
+     * mbke b copy of the {@code commbnd} list.  Subsequent
+     * updbtes to the list will be reflected in the stbte of the
      * process builder.  It is not checked whether
-     * {@code command} corresponds to a valid operating system
-     * command.
+     * {@code commbnd} corresponds to b vblid operbting system
+     * commbnd.
      *
-     * @param  command the list containing the program and its arguments
-     * @throws NullPointerException if the argument is null
+     * @pbrbm  commbnd the list contbining the progrbm bnd its brguments
+     * @throws NullPointerException if the brgument is null
      */
-    public ProcessBuilder(List<String> command) {
-        if (command == null)
+    public ProcessBuilder(List<String> commbnd) {
+        if (commbnd == null)
             throw new NullPointerException();
-        this.command = command;
+        this.commbnd = commbnd;
     }
 
     /**
-     * Constructs a process builder with the specified operating
-     * system program and arguments.  This is a convenience
-     * constructor that sets the process builder's command to a string
-     * list containing the same strings as the {@code command}
-     * array, in the same order.  It is not checked whether
-     * {@code command} corresponds to a valid operating system
-     * command.
+     * Constructs b process builder with the specified operbting
+     * system progrbm bnd brguments.  This is b convenience
+     * constructor thbt sets the process builder's commbnd to b string
+     * list contbining the sbme strings bs the {@code commbnd}
+     * brrby, in the sbme order.  It is not checked whether
+     * {@code commbnd} corresponds to b vblid operbting system
+     * commbnd.
      *
-     * @param command a string array containing the program and its arguments
+     * @pbrbm commbnd b string brrby contbining the progrbm bnd its brguments
      */
-    public ProcessBuilder(String... command) {
-        this.command = new ArrayList<>(command.length);
-        for (String arg : command)
-            this.command.add(arg);
+    public ProcessBuilder(String... commbnd) {
+        this.commbnd = new ArrbyList<>(commbnd.length);
+        for (String brg : commbnd)
+            this.commbnd.bdd(brg);
     }
 
     /**
-     * Sets this process builder's operating system program and
-     * arguments.  This method does <i>not</i> make a copy of the
-     * {@code command} list.  Subsequent updates to the list will
-     * be reflected in the state of the process builder.  It is not
-     * checked whether {@code command} corresponds to a valid
-     * operating system command.
+     * Sets this process builder's operbting system progrbm bnd
+     * brguments.  This method does <i>not</i> mbke b copy of the
+     * {@code commbnd} list.  Subsequent updbtes to the list will
+     * be reflected in the stbte of the process builder.  It is not
+     * checked whether {@code commbnd} corresponds to b vblid
+     * operbting system commbnd.
      *
-     * @param  command the list containing the program and its arguments
+     * @pbrbm  commbnd the list contbining the progrbm bnd its brguments
      * @return this process builder
      *
-     * @throws NullPointerException if the argument is null
+     * @throws NullPointerException if the brgument is null
      */
-    public ProcessBuilder command(List<String> command) {
-        if (command == null)
+    public ProcessBuilder commbnd(List<String> commbnd) {
+        if (commbnd == null)
             throw new NullPointerException();
-        this.command = command;
+        this.commbnd = commbnd;
         return this;
     }
 
     /**
-     * Sets this process builder's operating system program and
-     * arguments.  This is a convenience method that sets the command
-     * to a string list containing the same strings as the
-     * {@code command} array, in the same order.  It is not
-     * checked whether {@code command} corresponds to a valid
-     * operating system command.
+     * Sets this process builder's operbting system progrbm bnd
+     * brguments.  This is b convenience method thbt sets the commbnd
+     * to b string list contbining the sbme strings bs the
+     * {@code commbnd} brrby, in the sbme order.  It is not
+     * checked whether {@code commbnd} corresponds to b vblid
+     * operbting system commbnd.
      *
-     * @param  command a string array containing the program and its arguments
+     * @pbrbm  commbnd b string brrby contbining the progrbm bnd its brguments
      * @return this process builder
      */
-    public ProcessBuilder command(String... command) {
-        this.command = new ArrayList<>(command.length);
-        for (String arg : command)
-            this.command.add(arg);
+    public ProcessBuilder commbnd(String... commbnd) {
+        this.commbnd = new ArrbyList<>(commbnd.length);
+        for (String brg : commbnd)
+            this.commbnd.bdd(brg);
         return this;
     }
 
     /**
-     * Returns this process builder's operating system program and
-     * arguments.  The returned list is <i>not</i> a copy.  Subsequent
-     * updates to the list will be reflected in the state of this
+     * Returns this process builder's operbting system progrbm bnd
+     * brguments.  The returned list is <i>not</i> b copy.  Subsequent
+     * updbtes to the list will be reflected in the stbte of this
      * process builder.
      *
-     * @return this process builder's program and its arguments
+     * @return this process builder's progrbm bnd its brguments
      */
-    public List<String> command() {
-        return command;
+    public List<String> commbnd() {
+        return commbnd;
     }
 
     /**
-     * Returns a string map view of this process builder's environment.
+     * Returns b string mbp view of this process builder's environment.
      *
-     * Whenever a process builder is created, the environment is
-     * initialized to a copy of the current process environment (see
-     * {@link System#getenv()}).  Subprocesses subsequently started by
-     * this object's {@link #start()} method will use this map as
+     * Whenever b process builder is crebted, the environment is
+     * initiblized to b copy of the current process environment (see
+     * {@link System#getenv()}).  Subprocesses subsequently stbrted by
+     * this object's {@link #stbrt()} method will use this mbp bs
      * their environment.
      *
-     * <p>The returned object may be modified using ordinary {@link
-     * java.util.Map Map} operations.  These modifications will be
-     * visible to subprocesses started via the {@link #start()}
-     * method.  Two {@code ProcessBuilder} instances always
-     * contain independent process environments, so changes to the
-     * returned map will never be reflected in any other
-     * {@code ProcessBuilder} instance or the values returned by
+     * <p>The returned object mby be modified using ordinbry {@link
+     * jbvb.util.Mbp Mbp} operbtions.  These modificbtions will be
+     * visible to subprocesses stbrted vib the {@link #stbrt()}
+     * method.  Two {@code ProcessBuilder} instbnces blwbys
+     * contbin independent process environments, so chbnges to the
+     * returned mbp will never be reflected in bny other
+     * {@code ProcessBuilder} instbnce or the vblues returned by
      * {@link System#getenv System.getenv}.
      *
-     * <p>If the system does not support environment variables, an
-     * empty map is returned.
+     * <p>If the system does not support environment vbribbles, bn
+     * empty mbp is returned.
      *
-     * <p>The returned map does not permit null keys or values.
-     * Attempting to insert or query the presence of a null key or
-     * value will throw a {@link NullPointerException}.
-     * Attempting to query the presence of a key or value which is not
-     * of type {@link String} will throw a {@link ClassCastException}.
+     * <p>The returned mbp does not permit null keys or vblues.
+     * Attempting to insert or query the presence of b null key or
+     * vblue will throw b {@link NullPointerException}.
+     * Attempting to query the presence of b key or vblue which is not
+     * of type {@link String} will throw b {@link ClbssCbstException}.
      *
-     * <p>The behavior of the returned map is system-dependent.  A
-     * system may not allow modifications to environment variables or
-     * may forbid certain variable names or values.  For this reason,
-     * attempts to modify the map may fail with
-     * {@link UnsupportedOperationException} or
-     * {@link IllegalArgumentException}
-     * if the modification is not permitted by the operating system.
+     * <p>The behbvior of the returned mbp is system-dependent.  A
+     * system mby not bllow modificbtions to environment vbribbles or
+     * mby forbid certbin vbribble nbmes or vblues.  For this rebson,
+     * bttempts to modify the mbp mby fbil with
+     * {@link UnsupportedOperbtionException} or
+     * {@link IllegblArgumentException}
+     * if the modificbtion is not permitted by the operbting system.
      *
-     * <p>Since the external format of environment variable names and
-     * values is system-dependent, there may not be a one-to-one
-     * mapping between them and Java's Unicode strings.  Nevertheless,
-     * the map is implemented in such a way that environment variables
-     * which are not modified by Java code will have an unmodified
-     * native representation in the subprocess.
+     * <p>Since the externbl formbt of environment vbribble nbmes bnd
+     * vblues is system-dependent, there mby not be b one-to-one
+     * mbpping between them bnd Jbvb's Unicode strings.  Nevertheless,
+     * the mbp is implemented in such b wby thbt environment vbribbles
+     * which bre not modified by Jbvb code will hbve bn unmodified
+     * nbtive representbtion in the subprocess.
      *
-     * <p>The returned map and its collection views may not obey the
-     * general contract of the {@link Object#equals} and
-     * {@link Object#hashCode} methods.
+     * <p>The returned mbp bnd its collection views mby not obey the
+     * generbl contrbct of the {@link Object#equbls} bnd
+     * {@link Object#hbshCode} methods.
      *
-     * <p>The returned map is typically case-sensitive on all platforms.
+     * <p>The returned mbp is typicblly cbse-sensitive on bll plbtforms.
      *
-     * <p>If a security manager exists, its
-     * {@link SecurityManager#checkPermission checkPermission} method
-     * is called with a
+     * <p>If b security mbnbger exists, its
+     * {@link SecurityMbnbger#checkPermission checkPermission} method
+     * is cblled with b
      * {@link RuntimePermission}{@code ("getenv.*")} permission.
-     * This may result in a {@link SecurityException} being thrown.
+     * This mby result in b {@link SecurityException} being thrown.
      *
-     * <p>When passing information to a Java subprocess,
-     * <a href=System.html#EnvironmentVSSystemProperties>system properties</a>
-     * are generally preferred over environment variables.
+     * <p>When pbssing informbtion to b Jbvb subprocess,
+     * <b href=System.html#EnvironmentVSSystemProperties>system properties</b>
+     * bre generblly preferred over environment vbribbles.
      *
      * @return this process builder's environment
      *
      * @throws SecurityException
-     *         if a security manager exists and its
-     *         {@link SecurityManager#checkPermission checkPermission}
-     *         method doesn't allow access to the process environment
+     *         if b security mbnbger exists bnd its
+     *         {@link SecurityMbnbger#checkPermission checkPermission}
+     *         method doesn't bllow bccess to the process environment
      *
-     * @see    Runtime#exec(String[],String[],java.io.File)
+     * @see    Runtime#exec(String[],String[],jbvb.io.File)
      * @see    System#getenv()
      */
-    public Map<String,String> environment() {
-        SecurityManager security = System.getSecurityManager();
+    public Mbp<String,String> environment() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null)
             security.checkPermission(new RuntimePermission("getenv.*"));
 
         if (environment == null)
             environment = ProcessEnvironment.environment();
 
-        assert environment != null;
+        bssert environment != null;
 
         return environment;
     }
 
     // Only for use by Runtime.exec(...envp...)
     ProcessBuilder environment(String[] envp) {
-        assert environment == null;
+        bssert environment == null;
         if (envp != null) {
             environment = ProcessEnvironment.emptyEnvironment(envp.length);
-            assert environment != null;
+            bssert environment != null;
 
             for (String envstring : envp) {
-                // Before 1.5, we blindly passed invalid envstrings
+                // Before 1.5, we blindly pbssed invblid envstrings
                 // to the child process.
-                // We would like to throw an exception, but do not,
-                // for compatibility with old broken code.
+                // We would like to throw bn exception, but do not,
+                // for compbtibility with old broken code.
 
-                // Silently discard any trailing junk.
+                // Silently discbrd bny trbiling junk.
                 if (envstring.indexOf((int) '\u0000') != -1)
-                    envstring = envstring.replaceFirst("\u0000.*", "");
+                    envstring = envstring.replbceFirst("\u0000.*", "");
 
                 int eqlsign =
                     envstring.indexOf('=', ProcessEnvironment.MIN_NAME_LENGTH);
-                // Silently ignore envstrings lacking the required `='.
+                // Silently ignore envstrings lbcking the required `='.
                 if (eqlsign != -1)
                     environment.put(envstring.substring(0,eqlsign),
                                     envstring.substring(eqlsign+1));
@@ -380,12 +380,12 @@ public final class ProcessBuilder
     /**
      * Returns this process builder's working directory.
      *
-     * Subprocesses subsequently started by this object's {@link
-     * #start()} method will use this as their working directory.
-     * The returned value may be {@code null} -- this means to use
-     * the working directory of the current Java process, usually the
-     * directory named by the system property {@code user.dir},
-     * as the working directory of the child process.
+     * Subprocesses subsequently stbrted by this object's {@link
+     * #stbrt()} method will use this bs their working directory.
+     * The returned vblue mby be {@code null} -- this mebns to use
+     * the working directory of the current Jbvb process, usublly the
+     * directory nbmed by the system property {@code user.dir},
+     * bs the working directory of the child process.
      *
      * @return this process builder's working directory
      */
@@ -396,14 +396,14 @@ public final class ProcessBuilder
     /**
      * Sets this process builder's working directory.
      *
-     * Subprocesses subsequently started by this object's {@link
-     * #start()} method will use this as their working directory.
-     * The argument may be {@code null} -- this means to use the
-     * working directory of the current Java process, usually the
-     * directory named by the system property {@code user.dir},
-     * as the working directory of the child process.
+     * Subprocesses subsequently stbrted by this object's {@link
+     * #stbrt()} method will use this bs their working directory.
+     * The brgument mby be {@code null} -- this mebns to use the
+     * working directory of the current Jbvb process, usublly the
+     * directory nbmed by the system property {@code user.dir},
+     * bs the working directory of the child process.
      *
-     * @param  directory the new working directory
+     * @pbrbm  directory the new working directory
      * @return this process builder
      */
     public ProcessBuilder directory(File directory) {
@@ -414,51 +414,51 @@ public final class ProcessBuilder
     // ---------------- I/O Redirection ----------------
 
     /**
-     * Implements a <a href="#redirect-output">null input stream</a>.
+     * Implements b <b href="#redirect-output">null input strebm</b>.
      */
-    static class NullInputStream extends InputStream {
-        static final NullInputStream INSTANCE = new NullInputStream();
-        private NullInputStream() {}
-        public int read()      { return -1; }
-        public int available() { return 0; }
+    stbtic clbss NullInputStrebm extends InputStrebm {
+        stbtic finbl NullInputStrebm INSTANCE = new NullInputStrebm();
+        privbte NullInputStrebm() {}
+        public int rebd()      { return -1; }
+        public int bvbilbble() { return 0; }
     }
 
     /**
-     * Implements a <a href="#redirect-input">null output stream</a>.
+     * Implements b <b href="#redirect-input">null output strebm</b>.
      */
-    static class NullOutputStream extends OutputStream {
-        static final NullOutputStream INSTANCE = new NullOutputStream();
-        private NullOutputStream() {}
+    stbtic clbss NullOutputStrebm extends OutputStrebm {
+        stbtic finbl NullOutputStrebm INSTANCE = new NullOutputStrebm();
+        privbte NullOutputStrebm() {}
         public void write(int b) throws IOException {
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
         }
     }
 
     /**
-     * Represents a source of subprocess input or a destination of
+     * Represents b source of subprocess input or b destinbtion of
      * subprocess output.
      *
-     * Each {@code Redirect} instance is one of the following:
+     * Ebch {@code Redirect} instbnce is one of the following:
      *
      * <ul>
-     * <li>the special value {@link #PIPE Redirect.PIPE}
-     * <li>the special value {@link #INHERIT Redirect.INHERIT}
-     * <li>a redirection to read from a file, created by an invocation of
+     * <li>the specibl vblue {@link #PIPE Redirect.PIPE}
+     * <li>the specibl vblue {@link #INHERIT Redirect.INHERIT}
+     * <li>b redirection to rebd from b file, crebted by bn invocbtion of
      *     {@link Redirect#from Redirect.from(File)}
-     * <li>a redirection to write to a file,  created by an invocation of
+     * <li>b redirection to write to b file,  crebted by bn invocbtion of
      *     {@link Redirect#to Redirect.to(File)}
-     * <li>a redirection to append to a file, created by an invocation of
-     *     {@link Redirect#appendTo Redirect.appendTo(File)}
+     * <li>b redirection to bppend to b file, crebted by bn invocbtion of
+     *     {@link Redirect#bppendTo Redirect.bppendTo(File)}
      * </ul>
      *
-     * <p>Each of the above categories has an associated unique
+     * <p>Ebch of the bbove cbtegories hbs bn bssocibted unique
      * {@link Type Type}.
      *
      * @since 1.7
      */
-    public static abstract class Redirect {
+    public stbtic bbstrbct clbss Redirect {
         /**
-         * The type of a {@link Redirect}.
+         * The type of b {@link Redirect}.
          */
         public enum Type {
             /**
@@ -485,7 +485,7 @@ public final class ProcessBuilder
 
             /**
              * The type of redirects returned from
-             * {@link Redirect#appendTo Redirect.appendTo(File)}.
+             * {@link Redirect#bppendTo Redirect.bppendTo(File)}.
              */
             APPEND
         };
@@ -494,97 +494,97 @@ public final class ProcessBuilder
          * Returns the type of this {@code Redirect}.
          * @return the type of this {@code Redirect}
          */
-        public abstract Type type();
+        public bbstrbct Type type();
 
         /**
-         * Indicates that subprocess I/O will be connected to the
-         * current Java process over a pipe.
+         * Indicbtes thbt subprocess I/O will be connected to the
+         * current Jbvb process over b pipe.
          *
-         * This is the default handling of subprocess standard I/O.
+         * This is the defbult hbndling of subprocess stbndbrd I/O.
          *
-         * <p>It will always be true that
+         * <p>It will blwbys be true thbt
          *  <pre> {@code
          * Redirect.PIPE.file() == null &&
          * Redirect.PIPE.type() == Redirect.Type.PIPE
          * }</pre>
          */
-        public static final Redirect PIPE = new Redirect() {
+        public stbtic finbl Redirect PIPE = new Redirect() {
                 public Type type() { return Type.PIPE; }
                 public String toString() { return type().toString(); }};
 
         /**
-         * Indicates that subprocess I/O source or destination will be the
-         * same as those of the current process.  This is the normal
-         * behavior of most operating system command interpreters (shells).
+         * Indicbtes thbt subprocess I/O source or destinbtion will be the
+         * sbme bs those of the current process.  This is the normbl
+         * behbvior of most operbting system commbnd interpreters (shells).
          *
-         * <p>It will always be true that
+         * <p>It will blwbys be true thbt
          *  <pre> {@code
          * Redirect.INHERIT.file() == null &&
          * Redirect.INHERIT.type() == Redirect.Type.INHERIT
          * }</pre>
          */
-        public static final Redirect INHERIT = new Redirect() {
+        public stbtic finbl Redirect INHERIT = new Redirect() {
                 public Type type() { return Type.INHERIT; }
                 public String toString() { return type().toString(); }};
 
         /**
-         * Returns the {@link File} source or destination associated
+         * Returns the {@link File} source or destinbtion bssocibted
          * with this redirect, or {@code null} if there is no such file.
          *
-         * @return the file associated with this redirect,
+         * @return the file bssocibted with this redirect,
          *         or {@code null} if there is no such file
          */
         public File file() { return null; }
 
         /**
-         * When redirected to a destination file, indicates if the output
+         * When redirected to b destinbtion file, indicbtes if the output
          * is to be written to the end of the file.
          */
-        boolean append() {
-            throw new UnsupportedOperationException();
+        boolebn bppend() {
+            throw new UnsupportedOperbtionException();
         }
 
         /**
-         * Returns a redirect to read from the specified file.
+         * Returns b redirect to rebd from the specified file.
          *
-         * <p>It will always be true that
+         * <p>It will blwbys be true thbt
          *  <pre> {@code
          * Redirect.from(file).file() == file &&
          * Redirect.from(file).type() == Redirect.Type.READ
          * }</pre>
          *
-         * @param file The {@code File} for the {@code Redirect}.
+         * @pbrbm file The {@code File} for the {@code Redirect}.
          * @throws NullPointerException if the specified file is null
-         * @return a redirect to read from the specified file
+         * @return b redirect to rebd from the specified file
          */
-        public static Redirect from(final File file) {
+        public stbtic Redirect from(finbl File file) {
             if (file == null)
                 throw new NullPointerException();
             return new Redirect() {
                     public Type type() { return Type.READ; }
                     public File file() { return file; }
                     public String toString() {
-                        return "redirect to read from file \"" + file + "\"";
+                        return "redirect to rebd from file \"" + file + "\"";
                     }
                 };
         }
 
         /**
-         * Returns a redirect to write to the specified file.
-         * If the specified file exists when the subprocess is started,
-         * its previous contents will be discarded.
+         * Returns b redirect to write to the specified file.
+         * If the specified file exists when the subprocess is stbrted,
+         * its previous contents will be discbrded.
          *
-         * <p>It will always be true that
+         * <p>It will blwbys be true thbt
          *  <pre> {@code
          * Redirect.to(file).file() == file &&
          * Redirect.to(file).type() == Redirect.Type.WRITE
          * }</pre>
          *
-         * @param file The {@code File} for the {@code Redirect}.
+         * @pbrbm file The {@code File} for the {@code Redirect}.
          * @throws NullPointerException if the specified file is null
-         * @return a redirect to write to the specified file
+         * @return b redirect to write to the specified file
          */
-        public static Redirect to(final File file) {
+        public stbtic Redirect to(finbl File file) {
             if (file == null)
                 throw new NullPointerException();
             return new Redirect() {
@@ -593,80 +593,80 @@ public final class ProcessBuilder
                     public String toString() {
                         return "redirect to write to file \"" + file + "\"";
                     }
-                    boolean append() { return false; }
+                    boolebn bppend() { return fblse; }
                 };
         }
 
         /**
-         * Returns a redirect to append to the specified file.
-         * Each write operation first advances the position to the
-         * end of the file and then writes the requested data.
-         * Whether the advancement of the position and the writing
-         * of the data are done in a single atomic operation is
-         * system-dependent and therefore unspecified.
+         * Returns b redirect to bppend to the specified file.
+         * Ebch write operbtion first bdvbnces the position to the
+         * end of the file bnd then writes the requested dbtb.
+         * Whether the bdvbncement of the position bnd the writing
+         * of the dbtb bre done in b single btomic operbtion is
+         * system-dependent bnd therefore unspecified.
          *
-         * <p>It will always be true that
+         * <p>It will blwbys be true thbt
          *  <pre> {@code
-         * Redirect.appendTo(file).file() == file &&
-         * Redirect.appendTo(file).type() == Redirect.Type.APPEND
+         * Redirect.bppendTo(file).file() == file &&
+         * Redirect.bppendTo(file).type() == Redirect.Type.APPEND
          * }</pre>
          *
-         * @param file The {@code File} for the {@code Redirect}.
+         * @pbrbm file The {@code File} for the {@code Redirect}.
          * @throws NullPointerException if the specified file is null
-         * @return a redirect to append to the specified file
+         * @return b redirect to bppend to the specified file
          */
-        public static Redirect appendTo(final File file) {
+        public stbtic Redirect bppendTo(finbl File file) {
             if (file == null)
                 throw new NullPointerException();
             return new Redirect() {
                     public Type type() { return Type.APPEND; }
                     public File file() { return file; }
                     public String toString() {
-                        return "redirect to append to file \"" + file + "\"";
+                        return "redirect to bppend to file \"" + file + "\"";
                     }
-                    boolean append() { return true; }
+                    boolebn bppend() { return true; }
                 };
         }
 
         /**
-         * Compares the specified object with this {@code Redirect} for
-         * equality.  Returns {@code true} if and only if the two
-         * objects are identical or both objects are {@code Redirect}
-         * instances of the same type associated with non-null equal
-         * {@code File} instances.
+         * Compbres the specified object with this {@code Redirect} for
+         * equblity.  Returns {@code true} if bnd only if the two
+         * objects bre identicbl or both objects bre {@code Redirect}
+         * instbnces of the sbme type bssocibted with non-null equbl
+         * {@code File} instbnces.
          */
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this)
                 return true;
-            if (! (obj instanceof Redirect))
-                return false;
+            if (! (obj instbnceof Redirect))
+                return fblse;
             Redirect r = (Redirect) obj;
             if (r.type() != this.type())
-                return false;
-            assert this.file() != null;
-            return this.file().equals(r.file());
+                return fblse;
+            bssert this.file() != null;
+            return this.file().equbls(r.file());
         }
 
         /**
-         * Returns a hash code value for this {@code Redirect}.
-         * @return a hash code value for this {@code Redirect}
+         * Returns b hbsh code vblue for this {@code Redirect}.
+         * @return b hbsh code vblue for this {@code Redirect}
          */
-        public int hashCode() {
+        public int hbshCode() {
             File file = file();
             if (file == null)
-                return super.hashCode();
+                return super.hbshCode();
             else
-                return file.hashCode();
+                return file.hbshCode();
         }
 
         /**
          * No public constructors.  Clients must use predefined
-         * static {@code Redirect} instances or factory methods.
+         * stbtic {@code Redirect} instbnces or fbctory methods.
          */
-        private Redirect() {}
+        privbte Redirect() {}
     }
 
-    private Redirect[] redirects() {
+    privbte Redirect[] redirects() {
         if (redirects == null)
             redirects = new Redirect[] {
                 Redirect.PIPE, Redirect.PIPE, Redirect.PIPE
@@ -675,24 +675,24 @@ public final class ProcessBuilder
     }
 
     /**
-     * Sets this process builder's standard input source.
+     * Sets this process builder's stbndbrd input source.
      *
-     * Subprocesses subsequently started by this object's {@link #start()}
-     * method obtain their standard input from this source.
+     * Subprocesses subsequently stbrted by this object's {@link #stbrt()}
+     * method obtbin their stbndbrd input from this source.
      *
      * <p>If the source is {@link Redirect#PIPE Redirect.PIPE}
-     * (the initial value), then the standard input of a
-     * subprocess can be written to using the output stream
-     * returned by {@link Process#getOutputStream()}.
-     * If the source is set to any other value, then
-     * {@link Process#getOutputStream()} will return a
-     * <a href="#redirect-input">null output stream</a>.
+     * (the initibl vblue), then the stbndbrd input of b
+     * subprocess cbn be written to using the output strebm
+     * returned by {@link Process#getOutputStrebm()}.
+     * If the source is set to bny other vblue, then
+     * {@link Process#getOutputStrebm()} will return b
+     * <b href="#redirect-input">null output strebm</b>.
      *
-     * @param  source the new standard input source
+     * @pbrbm  source the new stbndbrd input source
      * @return this process builder
-     * @throws IllegalArgumentException
-     *         if the redirect does not correspond to a valid source
-     *         of data, that is, has type
+     * @throws IllegblArgumentException
+     *         if the redirect does not correspond to b vblid source
+     *         of dbtb, thbt is, hbs type
      *         {@link Redirect.Type#WRITE WRITE} or
      *         {@link Redirect.Type#APPEND APPEND}
      * @since  1.7
@@ -700,86 +700,86 @@ public final class ProcessBuilder
     public ProcessBuilder redirectInput(Redirect source) {
         if (source.type() == Redirect.Type.WRITE ||
             source.type() == Redirect.Type.APPEND)
-            throw new IllegalArgumentException(
-                "Redirect invalid for reading: " + source);
+            throw new IllegblArgumentException(
+                "Redirect invblid for rebding: " + source);
         redirects()[0] = source;
         return this;
     }
 
     /**
-     * Sets this process builder's standard output destination.
+     * Sets this process builder's stbndbrd output destinbtion.
      *
-     * Subprocesses subsequently started by this object's {@link #start()}
-     * method send their standard output to this destination.
+     * Subprocesses subsequently stbrted by this object's {@link #stbrt()}
+     * method send their stbndbrd output to this destinbtion.
      *
-     * <p>If the destination is {@link Redirect#PIPE Redirect.PIPE}
-     * (the initial value), then the standard output of a subprocess
-     * can be read using the input stream returned by {@link
-     * Process#getInputStream()}.
-     * If the destination is set to any other value, then
-     * {@link Process#getInputStream()} will return a
-     * <a href="#redirect-output">null input stream</a>.
+     * <p>If the destinbtion is {@link Redirect#PIPE Redirect.PIPE}
+     * (the initibl vblue), then the stbndbrd output of b subprocess
+     * cbn be rebd using the input strebm returned by {@link
+     * Process#getInputStrebm()}.
+     * If the destinbtion is set to bny other vblue, then
+     * {@link Process#getInputStrebm()} will return b
+     * <b href="#redirect-output">null input strebm</b>.
      *
-     * @param  destination the new standard output destination
+     * @pbrbm  destinbtion the new stbndbrd output destinbtion
      * @return this process builder
-     * @throws IllegalArgumentException
-     *         if the redirect does not correspond to a valid
-     *         destination of data, that is, has type
+     * @throws IllegblArgumentException
+     *         if the redirect does not correspond to b vblid
+     *         destinbtion of dbtb, thbt is, hbs type
      *         {@link Redirect.Type#READ READ}
      * @since  1.7
      */
-    public ProcessBuilder redirectOutput(Redirect destination) {
-        if (destination.type() == Redirect.Type.READ)
-            throw new IllegalArgumentException(
-                "Redirect invalid for writing: " + destination);
-        redirects()[1] = destination;
+    public ProcessBuilder redirectOutput(Redirect destinbtion) {
+        if (destinbtion.type() == Redirect.Type.READ)
+            throw new IllegblArgumentException(
+                "Redirect invblid for writing: " + destinbtion);
+        redirects()[1] = destinbtion;
         return this;
     }
 
     /**
-     * Sets this process builder's standard error destination.
+     * Sets this process builder's stbndbrd error destinbtion.
      *
-     * Subprocesses subsequently started by this object's {@link #start()}
-     * method send their standard error to this destination.
+     * Subprocesses subsequently stbrted by this object's {@link #stbrt()}
+     * method send their stbndbrd error to this destinbtion.
      *
-     * <p>If the destination is {@link Redirect#PIPE Redirect.PIPE}
-     * (the initial value), then the error output of a subprocess
-     * can be read using the input stream returned by {@link
-     * Process#getErrorStream()}.
-     * If the destination is set to any other value, then
-     * {@link Process#getErrorStream()} will return a
-     * <a href="#redirect-output">null input stream</a>.
+     * <p>If the destinbtion is {@link Redirect#PIPE Redirect.PIPE}
+     * (the initibl vblue), then the error output of b subprocess
+     * cbn be rebd using the input strebm returned by {@link
+     * Process#getErrorStrebm()}.
+     * If the destinbtion is set to bny other vblue, then
+     * {@link Process#getErrorStrebm()} will return b
+     * <b href="#redirect-output">null input strebm</b>.
      *
-     * <p>If the {@link #redirectErrorStream redirectErrorStream}
-     * attribute has been set {@code true}, then the redirection set
-     * by this method has no effect.
+     * <p>If the {@link #redirectErrorStrebm redirectErrorStrebm}
+     * bttribute hbs been set {@code true}, then the redirection set
+     * by this method hbs no effect.
      *
-     * @param  destination the new standard error destination
+     * @pbrbm  destinbtion the new stbndbrd error destinbtion
      * @return this process builder
-     * @throws IllegalArgumentException
-     *         if the redirect does not correspond to a valid
-     *         destination of data, that is, has type
+     * @throws IllegblArgumentException
+     *         if the redirect does not correspond to b vblid
+     *         destinbtion of dbtb, thbt is, hbs type
      *         {@link Redirect.Type#READ READ}
      * @since  1.7
      */
-    public ProcessBuilder redirectError(Redirect destination) {
-        if (destination.type() == Redirect.Type.READ)
-            throw new IllegalArgumentException(
-                "Redirect invalid for writing: " + destination);
-        redirects()[2] = destination;
+    public ProcessBuilder redirectError(Redirect destinbtion) {
+        if (destinbtion.type() == Redirect.Type.READ)
+            throw new IllegblArgumentException(
+                "Redirect invblid for writing: " + destinbtion);
+        redirects()[2] = destinbtion;
         return this;
     }
 
     /**
-     * Sets this process builder's standard input source to a file.
+     * Sets this process builder's stbndbrd input source to b file.
      *
-     * <p>This is a convenience method.  An invocation of the form
+     * <p>This is b convenience method.  An invocbtion of the form
      * {@code redirectInput(file)}
-     * behaves in exactly the same way as the invocation
+     * behbves in exbctly the sbme wby bs the invocbtion
      * {@link #redirectInput(Redirect) redirectInput}
      * {@code (Redirect.from(file))}.
      *
-     * @param  file the new standard input source
+     * @pbrbm  file the new stbndbrd input source
      * @return this process builder
      * @since  1.7
      */
@@ -788,15 +788,15 @@ public final class ProcessBuilder
     }
 
     /**
-     * Sets this process builder's standard output destination to a file.
+     * Sets this process builder's stbndbrd output destinbtion to b file.
      *
-     * <p>This is a convenience method.  An invocation of the form
+     * <p>This is b convenience method.  An invocbtion of the form
      * {@code redirectOutput(file)}
-     * behaves in exactly the same way as the invocation
+     * behbves in exbctly the sbme wby bs the invocbtion
      * {@link #redirectOutput(Redirect) redirectOutput}
      * {@code (Redirect.to(file))}.
      *
-     * @param  file the new standard output destination
+     * @pbrbm  file the new stbndbrd output destinbtion
      * @return this process builder
      * @since  1.7
      */
@@ -805,15 +805,15 @@ public final class ProcessBuilder
     }
 
     /**
-     * Sets this process builder's standard error destination to a file.
+     * Sets this process builder's stbndbrd error destinbtion to b file.
      *
-     * <p>This is a convenience method.  An invocation of the form
+     * <p>This is b convenience method.  An invocbtion of the form
      * {@code redirectError(file)}
-     * behaves in exactly the same way as the invocation
+     * behbves in exbctly the sbme wby bs the invocbtion
      * {@link #redirectError(Redirect) redirectError}
      * {@code (Redirect.to(file))}.
      *
-     * @param  file the new standard error destination
+     * @pbrbm  file the new stbndbrd error destinbtion
      * @return this process builder
      * @since  1.7
      */
@@ -822,13 +822,13 @@ public final class ProcessBuilder
     }
 
     /**
-     * Returns this process builder's standard input source.
+     * Returns this process builder's stbndbrd input source.
      *
-     * Subprocesses subsequently started by this object's {@link #start()}
-     * method obtain their standard input from this source.
-     * The initial value is {@link Redirect#PIPE Redirect.PIPE}.
+     * Subprocesses subsequently stbrted by this object's {@link #stbrt()}
+     * method obtbin their stbndbrd input from this source.
+     * The initibl vblue is {@link Redirect#PIPE Redirect.PIPE}.
      *
-     * @return this process builder's standard input source
+     * @return this process builder's stbndbrd input source
      * @since  1.7
      */
     public Redirect redirectInput() {
@@ -836,13 +836,13 @@ public final class ProcessBuilder
     }
 
     /**
-     * Returns this process builder's standard output destination.
+     * Returns this process builder's stbndbrd output destinbtion.
      *
-     * Subprocesses subsequently started by this object's {@link #start()}
-     * method redirect their standard output to this destination.
-     * The initial value is {@link Redirect#PIPE Redirect.PIPE}.
+     * Subprocesses subsequently stbrted by this object's {@link #stbrt()}
+     * method redirect their stbndbrd output to this destinbtion.
+     * The initibl vblue is {@link Redirect#PIPE Redirect.PIPE}.
      *
-     * @return this process builder's standard output destination
+     * @return this process builder's stbndbrd output destinbtion
      * @since  1.7
      */
     public Redirect redirectOutput() {
@@ -850,13 +850,13 @@ public final class ProcessBuilder
     }
 
     /**
-     * Returns this process builder's standard error destination.
+     * Returns this process builder's stbndbrd error destinbtion.
      *
-     * Subprocesses subsequently started by this object's {@link #start()}
-     * method redirect their standard error to this destination.
-     * The initial value is {@link Redirect#PIPE Redirect.PIPE}.
+     * Subprocesses subsequently stbrted by this object's {@link #stbrt()}
+     * method redirect their stbndbrd error to this destinbtion.
+     * The initibl vblue is {@link Redirect#PIPE Redirect.PIPE}.
      *
-     * @return this process builder's standard error destination
+     * @return this process builder's stbndbrd error destinbtion
      * @since  1.7
      */
     public Redirect redirectError() {
@@ -864,193 +864,193 @@ public final class ProcessBuilder
     }
 
     /**
-     * Sets the source and destination for subprocess standard I/O
-     * to be the same as those of the current Java process.
+     * Sets the source bnd destinbtion for subprocess stbndbrd I/O
+     * to be the sbme bs those of the current Jbvb process.
      *
-     * <p>This is a convenience method.  An invocation of the form
+     * <p>This is b convenience method.  An invocbtion of the form
      *  <pre> {@code
      * pb.inheritIO()
      * }</pre>
-     * behaves in exactly the same way as the invocation
+     * behbves in exbctly the sbme wby bs the invocbtion
      *  <pre> {@code
      * pb.redirectInput(Redirect.INHERIT)
      *   .redirectOutput(Redirect.INHERIT)
      *   .redirectError(Redirect.INHERIT)
      * }</pre>
      *
-     * This gives behavior equivalent to most operating system
-     * command interpreters, or the standard C library function
+     * This gives behbvior equivblent to most operbting system
+     * commbnd interpreters, or the stbndbrd C librbry function
      * {@code system()}.
      *
      * @return this process builder
      * @since  1.7
      */
     public ProcessBuilder inheritIO() {
-        Arrays.fill(redirects(), Redirect.INHERIT);
+        Arrbys.fill(redirects(), Redirect.INHERIT);
         return this;
     }
 
     /**
-     * Tells whether this process builder merges standard error and
-     * standard output.
+     * Tells whether this process builder merges stbndbrd error bnd
+     * stbndbrd output.
      *
-     * <p>If this property is {@code true}, then any error output
-     * generated by subprocesses subsequently started by this object's
-     * {@link #start()} method will be merged with the standard
-     * output, so that both can be read using the
-     * {@link Process#getInputStream()} method.  This makes it easier
-     * to correlate error messages with the corresponding output.
-     * The initial value is {@code false}.
+     * <p>If this property is {@code true}, then bny error output
+     * generbted by subprocesses subsequently stbrted by this object's
+     * {@link #stbrt()} method will be merged with the stbndbrd
+     * output, so thbt both cbn be rebd using the
+     * {@link Process#getInputStrebm()} method.  This mbkes it ebsier
+     * to correlbte error messbges with the corresponding output.
+     * The initibl vblue is {@code fblse}.
      *
-     * @return this process builder's {@code redirectErrorStream} property
+     * @return this process builder's {@code redirectErrorStrebm} property
      */
-    public boolean redirectErrorStream() {
-        return redirectErrorStream;
+    public boolebn redirectErrorStrebm() {
+        return redirectErrorStrebm;
     }
 
     /**
-     * Sets this process builder's {@code redirectErrorStream} property.
+     * Sets this process builder's {@code redirectErrorStrebm} property.
      *
-     * <p>If this property is {@code true}, then any error output
-     * generated by subprocesses subsequently started by this object's
-     * {@link #start()} method will be merged with the standard
-     * output, so that both can be read using the
-     * {@link Process#getInputStream()} method.  This makes it easier
-     * to correlate error messages with the corresponding output.
-     * The initial value is {@code false}.
+     * <p>If this property is {@code true}, then bny error output
+     * generbted by subprocesses subsequently stbrted by this object's
+     * {@link #stbrt()} method will be merged with the stbndbrd
+     * output, so thbt both cbn be rebd using the
+     * {@link Process#getInputStrebm()} method.  This mbkes it ebsier
+     * to correlbte error messbges with the corresponding output.
+     * The initibl vblue is {@code fblse}.
      *
-     * @param  redirectErrorStream the new property value
+     * @pbrbm  redirectErrorStrebm the new property vblue
      * @return this process builder
      */
-    public ProcessBuilder redirectErrorStream(boolean redirectErrorStream) {
-        this.redirectErrorStream = redirectErrorStream;
+    public ProcessBuilder redirectErrorStrebm(boolebn redirectErrorStrebm) {
+        this.redirectErrorStrebm = redirectErrorStrebm;
         return this;
     }
 
     /**
-     * Starts a new process using the attributes of this process builder.
+     * Stbrts b new process using the bttributes of this process builder.
      *
      * <p>The new process will
-     * invoke the command and arguments given by {@link #command()},
-     * in a working directory as given by {@link #directory()},
-     * with a process environment as given by {@link #environment()}.
+     * invoke the commbnd bnd brguments given by {@link #commbnd()},
+     * in b working directory bs given by {@link #directory()},
+     * with b process environment bs given by {@link #environment()}.
      *
-     * <p>This method checks that the command is a valid operating
-     * system command.  Which commands are valid is system-dependent,
-     * but at the very least the command must be a non-empty list of
+     * <p>This method checks thbt the commbnd is b vblid operbting
+     * system commbnd.  Which commbnds bre vblid is system-dependent,
+     * but bt the very lebst the commbnd must be b non-empty list of
      * non-null strings.
      *
-     * <p>A minimal set of system dependent environment variables may
-     * be required to start a process on some operating systems.
-     * As a result, the subprocess may inherit additional environment variable
+     * <p>A minimbl set of system dependent environment vbribbles mby
+     * be required to stbrt b process on some operbting systems.
+     * As b result, the subprocess mby inherit bdditionbl environment vbribble
      * settings beyond those in the process builder's {@link #environment()}.
      *
-     * <p>If there is a security manager, its
-     * {@link SecurityManager#checkExec checkExec}
-     * method is called with the first component of this object's
-     * {@code command} array as its argument. This may result in
-     * a {@link SecurityException} being thrown.
+     * <p>If there is b security mbnbger, its
+     * {@link SecurityMbnbger#checkExec checkExec}
+     * method is cblled with the first component of this object's
+     * {@code commbnd} brrby bs its brgument. This mby result in
+     * b {@link SecurityException} being thrown.
      *
-     * <p>Starting an operating system process is highly system-dependent.
-     * Among the many things that can go wrong are:
+     * <p>Stbrting bn operbting system process is highly system-dependent.
+     * Among the mbny things thbt cbn go wrong bre:
      * <ul>
-     * <li>The operating system program file was not found.
-     * <li>Access to the program file was denied.
+     * <li>The operbting system progrbm file wbs not found.
+     * <li>Access to the progrbm file wbs denied.
      * <li>The working directory does not exist.
-     * <li>Invalid character in command argument, such as NUL.
+     * <li>Invblid chbrbcter in commbnd brgument, such bs NUL.
      * </ul>
      *
-     * <p>In such cases an exception will be thrown.  The exact nature
-     * of the exception is system-dependent, but it will always be a
-     * subclass of {@link IOException}.
+     * <p>In such cbses bn exception will be thrown.  The exbct nbture
+     * of the exception is system-dependent, but it will blwbys be b
+     * subclbss of {@link IOException}.
      *
-     * <p>Subsequent modifications to this process builder will not
-     * affect the returned {@link Process}.
+     * <p>Subsequent modificbtions to this process builder will not
+     * bffect the returned {@link Process}.
      *
-     * @return a new {@link Process} object for managing the subprocess
+     * @return b new {@link Process} object for mbnbging the subprocess
      *
      * @throws NullPointerException
-     *         if an element of the command list is null
+     *         if bn element of the commbnd list is null
      *
      * @throws IndexOutOfBoundsException
-     *         if the command is an empty list (has size {@code 0})
+     *         if the commbnd is bn empty list (hbs size {@code 0})
      *
      * @throws SecurityException
-     *         if a security manager exists and
+     *         if b security mbnbger exists bnd
      *         <ul>
      *
      *         <li>its
-     *         {@link SecurityManager#checkExec checkExec}
-     *         method doesn't allow creation of the subprocess, or
+     *         {@link SecurityMbnbger#checkExec checkExec}
+     *         method doesn't bllow crebtion of the subprocess, or
      *
-     *         <li>the standard input to the subprocess was
-     *         {@linkplain #redirectInput redirected from a file}
-     *         and the security manager's
-     *         {@link SecurityManager#checkRead checkRead} method
-     *         denies read access to the file, or
+     *         <li>the stbndbrd input to the subprocess wbs
+     *         {@linkplbin #redirectInput redirected from b file}
+     *         bnd the security mbnbger's
+     *         {@link SecurityMbnbger#checkRebd checkRebd} method
+     *         denies rebd bccess to the file, or
      *
-     *         <li>the standard output or standard error of the
-     *         subprocess was
-     *         {@linkplain #redirectOutput redirected to a file}
-     *         and the security manager's
-     *         {@link SecurityManager#checkWrite checkWrite} method
-     *         denies write access to the file
+     *         <li>the stbndbrd output or stbndbrd error of the
+     *         subprocess wbs
+     *         {@linkplbin #redirectOutput redirected to b file}
+     *         bnd the security mbnbger's
+     *         {@link SecurityMbnbger#checkWrite checkWrite} method
+     *         denies write bccess to the file
      *
      *         </ul>
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException if bn I/O error occurs
      *
-     * @see Runtime#exec(String[], String[], java.io.File)
+     * @see Runtime#exec(String[], String[], jbvb.io.File)
      */
-    public Process start() throws IOException {
-        // Must convert to array first -- a malicious user-supplied
+    public Process stbrt() throws IOException {
+        // Must convert to brrby first -- b mblicious user-supplied
         // list might try to circumvent the security check.
-        String[] cmdarray = command.toArray(new String[command.size()]);
-        cmdarray = cmdarray.clone();
+        String[] cmdbrrby = commbnd.toArrby(new String[commbnd.size()]);
+        cmdbrrby = cmdbrrby.clone();
 
-        for (String arg : cmdarray)
-            if (arg == null)
+        for (String brg : cmdbrrby)
+            if (brg == null)
                 throw new NullPointerException();
-        // Throws IndexOutOfBoundsException if command is empty
-        String prog = cmdarray[0];
+        // Throws IndexOutOfBoundsException if commbnd is empty
+        String prog = cmdbrrby[0];
 
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null)
             security.checkExec(prog);
 
         String dir = directory == null ? null : directory.toString();
 
-        for (int i = 1; i < cmdarray.length; i++) {
-            if (cmdarray[i].indexOf('\u0000') >= 0) {
-                throw new IOException("invalid null character in command");
+        for (int i = 1; i < cmdbrrby.length; i++) {
+            if (cmdbrrby[i].indexOf('\u0000') >= 0) {
+                throw new IOException("invblid null chbrbcter in commbnd");
             }
         }
 
         try {
-            return ProcessImpl.start(cmdarray,
+            return ProcessImpl.stbrt(cmdbrrby,
                                      environment,
                                      dir,
                                      redirects,
-                                     redirectErrorStream);
-        } catch (IOException | IllegalArgumentException e) {
-            String exceptionInfo = ": " + e.getMessage();
-            Throwable cause = e;
-            if ((e instanceof IOException) && security != null) {
-                // Can not disclose the fail reason for read-protected files.
+                                     redirectErrorStrebm);
+        } cbtch (IOException | IllegblArgumentException e) {
+            String exceptionInfo = ": " + e.getMessbge();
+            Throwbble cbuse = e;
+            if ((e instbnceof IOException) && security != null) {
+                // Cbn not disclose the fbil rebson for rebd-protected files.
                 try {
-                    security.checkRead(prog);
-                } catch (SecurityException se) {
+                    security.checkRebd(prog);
+                } cbtch (SecurityException se) {
                     exceptionInfo = "";
-                    cause = se;
+                    cbuse = se;
                 }
             }
-            // It's much easier for us to create a high-quality error
-            // message than the low-level C code which found the problem.
+            // It's much ebsier for us to crebte b high-qublity error
+            // messbge thbn the low-level C code which found the problem.
             throw new IOException(
-                "Cannot run program \"" + prog + "\""
+                "Cbnnot run progrbm \"" + prog + "\""
                 + (dir == null ? "" : " (in directory \"" + dir + "\")")
                 + exceptionInfo,
-                cause);
+                cbuse);
         }
     }
 }

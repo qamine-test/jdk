@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1997, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.log;
+pbckbge sun.rmi.log;
 
-import java.io.*;
-import sun.rmi.server.MarshalOutputStream;
-import sun.rmi.server.MarshalInputStream;
+import jbvb.io.*;
+import sun.rmi.server.MbrshblOutputStrebm;
+import sun.rmi.server.MbrshblInputStrebm;
 
 /**
- * A LogHandler represents snapshots and update records as serializable
+ * A LogHbndler represents snbpshots bnd updbte records bs seriblizbble
  * objects.
  *
- * This implementation does not know how to create an initial snaphot or
- * apply an update to a snapshot.  The client must specifiy these methods
- * via a subclass.
+ * This implementbtion does not know how to crebte bn initibl snbphot or
+ * bpply bn updbte to b snbpshot.  The client must specifiy these methods
+ * vib b subclbss.
  *
- * @see ReliableLog
+ * @see RelibbleLog
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  */
-public abstract
-class LogHandler {
+public bbstrbct
+clbss LogHbndler {
 
     /**
-     * Creates a LogHandler for a ReliableLog.
+     * Crebtes b LogHbndler for b RelibbleLog.
      */
-    public LogHandler() {}
+    public LogHbndler() {}
 
     /**
-     * Creates and returns the initial state of data structure that needs
-     * to be stably stored. This method is called when a ReliableLog is
-     * created.
-     * @return the initial state
-     * @exception Exception can raise any exception
+     * Crebtes bnd returns the initibl stbte of dbtb structure thbt needs
+     * to be stbbly stored. This method is cblled when b RelibbleLog is
+     * crebted.
+     * @return the initibl stbte
+     * @exception Exception cbn rbise bny exception
      */
-    public abstract
-    Object initialSnapshot() throws Exception;
+    public bbstrbct
+    Object initiblSnbpshot() throws Exception;
 
     /**
-     * Writes the snapshot object to a stream.  This callback is
-     * invoked when the client calls the snaphot method of ReliableLog.
-     * @param out the output stream
-     * @param value the snapshot
-     * @exception Exception can raise any exception
+     * Writes the snbpshot object to b strebm.  This cbllbbck is
+     * invoked when the client cblls the snbphot method of RelibbleLog.
+     * @pbrbm out the output strebm
+     * @pbrbm vblue the snbpshot
+     * @exception Exception cbn rbise bny exception
      */
     public
-    void snapshot(OutputStream out, Object value) throws Exception {
-        MarshalOutputStream s = new MarshalOutputStream(out);
-        s.writeObject(value);
+    void snbpshot(OutputStrebm out, Object vblue) throws Exception {
+        MbrshblOutputStrebm s = new MbrshblOutputStrebm(out);
+        s.writeObject(vblue);
         s.flush();
     }
 
     /**
-     * Read the snapshot object from a stream and returns the snapshot.
-     * This callback is invoked when the client calls the recover method
-     * of ReliableLog.
-     * @param in the input stream
-     * @return the state (snapshot)
-     * @exception Exception can raise any exception
+     * Rebd the snbpshot object from b strebm bnd returns the snbpshot.
+     * This cbllbbck is invoked when the client cblls the recover method
+     * of RelibbleLog.
+     * @pbrbm in the input strebm
+     * @return the stbte (snbpshot)
+     * @exception Exception cbn rbise bny exception
      */
 
     public
-    Object recover(InputStream in) throws Exception {
-        MarshalInputStream s = new MarshalInputStream(in);
-        return s.readObject();
+    Object recover(InputStrebm in) throws Exception {
+        MbrshblInputStrebm s = new MbrshblInputStrebm(in);
+        return s.rebdObject();
     }
 
     /**
-     * Writes the representation (a serializable object) of an update
-     * to a stream.  This callback is invoked when the client calls the
-     * update method of ReliableLog.
-     * @param out the output stream
-     * @param value the snapshot
-     * @exception Exception can raise any exception
+     * Writes the representbtion (b seriblizbble object) of bn updbte
+     * to b strebm.  This cbllbbck is invoked when the client cblls the
+     * updbte method of RelibbleLog.
+     * @pbrbm out the output strebm
+     * @pbrbm vblue the snbpshot
+     * @exception Exception cbn rbise bny exception
      */
     public
-    void writeUpdate(LogOutputStream out, Object value) throws Exception {
+    void writeUpdbte(LogOutputStrebm out, Object vblue) throws Exception {
 
-        MarshalOutputStream s = new MarshalOutputStream(out);
-        s.writeObject(value);
+        MbrshblOutputStrebm s = new MbrshblOutputStrebm(out);
+        s.writeObject(vblue);
         s.flush();
     }
 
     /**
-     * Reads a stably logged update (a serializable object) from a
-     * stream.  This callback is invoked during recovery, once for
-     * every record in the log.  After reading the update, this method
-     * invokes the applyUpdate (abstract) method in order to obtain
-     * the new snapshot value.  It then returns the new snapshot.
+     * Rebds b stbbly logged updbte (b seriblizbble object) from b
+     * strebm.  This cbllbbck is invoked during recovery, once for
+     * every record in the log.  After rebding the updbte, this method
+     * invokes the bpplyUpdbte (bbstrbct) method in order to obtbin
+     * the new snbpshot vblue.  It then returns the new snbpshot.
      *
-     * @param in the input stream
-     * @param state the current state
-     * @return the new state
-     * @exception Exception can raise any exception
+     * @pbrbm in the input strebm
+     * @pbrbm stbte the current stbte
+     * @return the new stbte
+     * @exception Exception cbn rbise bny exception
      */
     public
-    Object readUpdate(LogInputStream in, Object state) throws Exception {
-        MarshalInputStream  s = new MarshalInputStream(in);
-        return applyUpdate(s.readObject(), state);
+    Object rebdUpdbte(LogInputStrebm in, Object stbte) throws Exception {
+        MbrshblInputStrebm  s = new MbrshblInputStrebm(in);
+        return bpplyUpdbte(s.rebdObject(), stbte);
     }
 
     /**
-     * Reads a stably logged update (a serializable object) from a stream.
-     * This callback is invoked during recovery, once for every record in the
-     * log.  After reading the update, this method is invoked in order to
-     * obtain the new snapshot value.  The method should apply the update
-     * object to the current state <code>state</code> and return the new
-     * state (the new snapshot value).
-     * @param update the update object
-     * @param state the current state
-     * @return the new state
-     * @exception Exception can raise any exception
+     * Rebds b stbbly logged updbte (b seriblizbble object) from b strebm.
+     * This cbllbbck is invoked during recovery, once for every record in the
+     * log.  After rebding the updbte, this method is invoked in order to
+     * obtbin the new snbpshot vblue.  The method should bpply the updbte
+     * object to the current stbte <code>stbte</code> bnd return the new
+     * stbte (the new snbpshot vblue).
+     * @pbrbm updbte the updbte object
+     * @pbrbm stbte the current stbte
+     * @return the new stbte
+     * @exception Exception cbn rbise bny exception
      */
-    public abstract
-    Object applyUpdate(Object update, Object state) throws Exception;
+    public bbstrbct
+    Object bpplyUpdbte(Object updbte, Object stbte) throws Exception;
 
 }

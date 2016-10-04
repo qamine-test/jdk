@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.plugins.bmp;
+pbckbge jbvbx.imbgeio.plugins.bmp;
 
-import java.util.Locale;
-import javax.imageio.ImageWriteParam;
+import jbvb.util.Locble;
+import jbvbx.imbgeio.ImbgeWritePbrbm;
 
-import com.sun.imageio.plugins.bmp.BMPConstants;
-import com.sun.imageio.plugins.bmp.BMPCompressionTypes;
+import com.sun.imbgeio.plugins.bmp.BMPConstbnts;
+import com.sun.imbgeio.plugins.bmp.BMPCompressionTypes;
 
 /**
- * A subclass of <code>ImageWriteParam</code> for encoding images in
- * the BMP format.
+ * A subclbss of <code>ImbgeWritePbrbm</code> for encoding imbges in
+ * the BMP formbt.
  *
- * <p> This class allows for the specification of various parameters
- * while writing a BMP format image file.  By default, the data layout
- * is bottom-up, such that the pixels are stored in bottom-up order,
- * the first scanline being stored last.
+ * <p> This clbss bllows for the specificbtion of vbrious pbrbmeters
+ * while writing b BMP formbt imbge file.  By defbult, the dbtb lbyout
+ * is bottom-up, such thbt the pixels bre stored in bottom-up order,
+ * the first scbnline being stored lbst.
  *
- * <p>The particular compression scheme to be used can be specified by using
- * the <code>setCompressionType()</code> method with the appropriate type
- * string.  The compression scheme specified will be honored if and only if it
- * is compatible with the type of image being written. If the specified
- * compression scheme is not compatible with the type of image being written
- * then the <code>IOException</code> will be thrown by the BMP image writer.
+ * <p>The pbrticulbr compression scheme to be used cbn be specified by using
+ * the <code>setCompressionType()</code> method with the bppropribte type
+ * string.  The compression scheme specified will be honored if bnd only if it
+ * is compbtible with the type of imbge being written. If the specified
+ * compression scheme is not compbtible with the type of imbge being written
+ * then the <code>IOException</code> will be thrown by the BMP imbge writer.
  * If the compression type is not set explicitly then <code>getCompressionType()</code>
- * will return <code>null</code>. In this case the BMP image writer will select
- * a compression type that supports encoding of the given image without loss
+ * will return <code>null</code>. In this cbse the BMP imbge writer will select
+ * b compression type thbt supports encoding of the given imbge without loss
  * of the color resolution.
- * <p>The compression type strings and the image type(s) each supports are
+ * <p>The compression type strings bnd the imbge type(s) ebch supports bre
  * listed in the following
- * table:
+ * tbble:
  *
- * <table border=1>
- * <caption><b>Compression Types</b></caption>
- * <tr><th>Type String</th> <th>Description</th>  <th>Image Types</th></tr>
- * <tr><td>BI_RGB</td>  <td>Uncompressed RLE</td> <td>{@literal <= } 8-bits/sample</td></tr>
- * <tr><td>BI_RLE8</td> <td>8-bit Run Length Encoding</td> <td>{@literal <=} 8-bits/sample</td></tr>
- * <tr><td>BI_RLE4</td> <td>4-bit Run Length Encoding</td> <td>{@literal <=} 4-bits/sample</td></tr>
- * <tr><td>BI_BITFIELDS</td> <td>Packed data</td> <td> 16 or 32 bits/sample</td></tr>
- * </table>
+ * <tbble border=1>
+ * <cbption><b>Compression Types</b></cbption>
+ * <tr><th>Type String</th> <th>Description</th>  <th>Imbge Types</th></tr>
+ * <tr><td>BI_RGB</td>  <td>Uncompressed RLE</td> <td>{@literbl <= } 8-bits/sbmple</td></tr>
+ * <tr><td>BI_RLE8</td> <td>8-bit Run Length Encoding</td> <td>{@literbl <=} 8-bits/sbmple</td></tr>
+ * <tr><td>BI_RLE4</td> <td>4-bit Run Length Encoding</td> <td>{@literbl <=} 4-bits/sbmple</td></tr>
+ * <tr><td>BI_BITFIELDS</td> <td>Pbcked dbtb</td> <td> 16 or 32 bits/sbmple</td></tr>
+ * </tbble>
  */
-public class BMPImageWriteParam extends ImageWriteParam {
+public clbss BMPImbgeWritePbrbm extends ImbgeWritePbrbm {
 
-    private boolean topDown = false;
+    privbte boolebn topDown = fblse;
 
     /**
-     * Constructs a <code>BMPImageWriteParam</code> set to use a given
-     * <code>Locale</code> and with default values for all parameters.
+     * Constructs b <code>BMPImbgeWritePbrbm</code> set to use b given
+     * <code>Locble</code> bnd with defbult vblues for bll pbrbmeters.
      *
-     * @param locale a <code>Locale</code> to be used to localize
-     * compression type names and quality descriptions, or
+     * @pbrbm locble b <code>Locble</code> to be used to locblize
+     * compression type nbmes bnd qublity descriptions, or
      * <code>null</code>.
      */
-    public BMPImageWriteParam(Locale locale) {
-        super(locale);
+    public BMPImbgeWritePbrbm(Locble locble) {
+        super(locble);
 
         // Set compression types ("BI_RGB" denotes uncompressed).
         compressionTypes = BMPCompressionTypes.getCompressionTypes();
 
-        // Set compression flag.
-        canWriteCompressed = true;
+        // Set compression flbg.
+        cbnWriteCompressed = true;
         compressionMode = MODE_COPY_FROM_METADATA;
-        compressionType = compressionTypes[BMPConstants.BI_RGB];
+        compressionType = compressionTypes[BMPConstbnts.BI_RGB];
     }
 
     /**
-     * Constructs an <code>BMPImageWriteParam</code> object with default
-     * values for all parameters and a <code>null</code> <code>Locale</code>.
+     * Constructs bn <code>BMPImbgeWritePbrbm</code> object with defbult
+     * vblues for bll pbrbmeters bnd b <code>null</code> <code>Locble</code>.
      */
-    public BMPImageWriteParam() {
+    public BMPImbgeWritePbrbm() {
         this(null);
     }
 
     /**
-     * If set, the data will be written out in a top-down manner, the first
-     * scanline being written first.
+     * If set, the dbtb will be written out in b top-down mbnner, the first
+     * scbnline being written first.
      *
-     * @param topDown whether the data are written in top-down order.
+     * @pbrbm topDown whether the dbtb bre written in top-down order.
      */
-    public void setTopDown(boolean topDown) {
+    public void setTopDown(boolebn topDown) {
         this.topDown = topDown;
     }
 
     /**
-     * Returns the value of the <code>topDown</code> parameter.
-     * The default is <code>false</code>.
+     * Returns the vblue of the <code>topDown</code> pbrbmeter.
+     * The defbult is <code>fblse</code>.
      *
-     * @return whether the data are written in top-down order.
+     * @return whether the dbtb bre written in top-down order.
      */
-    public boolean isTopDown() {
+    public boolebn isTopDown() {
         return topDown;
     }
 }

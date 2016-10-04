@@ -1,131 +1,131 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.util.AbstractQueue;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
+import jbvb.util.AbstrbctQueue;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.concurrent.locks.Condition;
+import jbvb.util.concurrent.locks.ReentrbntLock;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.Consumer;
 
 /**
- * An optionally-bounded {@linkplain BlockingDeque blocking deque} based on
+ * An optionblly-bounded {@linkplbin BlockingDeque blocking deque} bbsed on
  * linked nodes.
  *
- * <p>The optional capacity bound constructor argument serves as a
- * way to prevent excessive expansion. The capacity, if unspecified,
- * is equal to {@link Integer#MAX_VALUE}.  Linked nodes are
- * dynamically created upon each insertion unless this would bring the
- * deque above capacity.
+ * <p>The optionbl cbpbcity bound constructor brgument serves bs b
+ * wby to prevent excessive expbnsion. The cbpbcity, if unspecified,
+ * is equbl to {@link Integer#MAX_VALUE}.  Linked nodes bre
+ * dynbmicblly crebted upon ebch insertion unless this would bring the
+ * deque bbove cbpbcity.
  *
- * <p>Most operations run in constant time (ignoring time spent
+ * <p>Most operbtions run in constbnt time (ignoring time spent
  * blocking).  Exceptions include {@link #remove(Object) remove},
  * {@link #removeFirstOccurrence removeFirstOccurrence}, {@link
- * #removeLastOccurrence removeLastOccurrence}, {@link #contains
- * contains}, {@link #iterator iterator.remove()}, and the bulk
- * operations, all of which run in linear time.
+ * #removeLbstOccurrence removeLbstOccurrence}, {@link #contbins
+ * contbins}, {@link #iterbtor iterbtor.remove()}, bnd the bulk
+ * operbtions, bll of which run in linebr time.
  *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.
+ * <p>This clbss bnd its iterbtor implement bll of the
+ * <em>optionbl</em> methods of the {@link Collection} bnd {@link
+ * Iterbtor} interfbces.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.6
- * @author  Doug Lea
- * @param <E> the type of elements held in this collection
+ * @buthor  Doug Leb
+ * @pbrbm <E> the type of elements held in this collection
  */
-public class LinkedBlockingDeque<E>
-    extends AbstractQueue<E>
-    implements BlockingDeque<E>, java.io.Serializable {
+public clbss LinkedBlockingDeque<E>
+    extends AbstrbctQueue<E>
+    implements BlockingDeque<E>, jbvb.io.Seriblizbble {
 
     /*
-     * Implemented as a simple doubly-linked list protected by a
-     * single lock and using conditions to manage blocking.
+     * Implemented bs b simple doubly-linked list protected by b
+     * single lock bnd using conditions to mbnbge blocking.
      *
-     * To implement weakly consistent iterators, it appears we need to
-     * keep all Nodes GC-reachable from a predecessor dequeued Node.
-     * That would cause two problems:
-     * - allow a rogue Iterator to cause unbounded memory retention
-     * - cause cross-generational linking of old Nodes to new Nodes if
-     *   a Node was tenured while live, which generational GCs have a
-     *   hard time dealing with, causing repeated major collections.
-     * However, only non-deleted Nodes need to be reachable from
-     * dequeued Nodes, and reachability does not necessarily have to
+     * To implement webkly consistent iterbtors, it bppebrs we need to
+     * keep bll Nodes GC-rebchbble from b predecessor dequeued Node.
+     * Thbt would cbuse two problems:
+     * - bllow b rogue Iterbtor to cbuse unbounded memory retention
+     * - cbuse cross-generbtionbl linking of old Nodes to new Nodes if
+     *   b Node wbs tenured while live, which generbtionbl GCs hbve b
+     *   hbrd time debling with, cbusing repebted mbjor collections.
+     * However, only non-deleted Nodes need to be rebchbble from
+     * dequeued Nodes, bnd rebchbbility does not necessbrily hbve to
      * be of the kind understood by the GC.  We use the trick of
-     * linking a Node that has just been dequeued to itself.  Such a
-     * self-link implicitly means to jump to "first" (for next links)
-     * or "last" (for prev links).
+     * linking b Node thbt hbs just been dequeued to itself.  Such b
+     * self-link implicitly mebns to jump to "first" (for next links)
+     * or "lbst" (for prev links).
      */
 
     /*
-     * We have "diamond" multiple interface/abstract class inheritance
-     * here, and that introduces ambiguities. Often we want the
-     * BlockingDeque javadoc combined with the AbstractQueue
-     * implementation, so a lot of method specs are duplicated here.
+     * We hbve "dibmond" multiple interfbce/bbstrbct clbss inheritbnce
+     * here, bnd thbt introduces bmbiguities. Often we wbnt the
+     * BlockingDeque jbvbdoc combined with the AbstrbctQueue
+     * implementbtion, so b lot of method specs bre duplicbted here.
      */
 
-    private static final long serialVersionUID = -387911632671998426L;
+    privbte stbtic finbl long seriblVersionUID = -387911632671998426L;
 
-    /** Doubly-linked list node class */
-    static final class Node<E> {
+    /** Doubly-linked list node clbss */
+    stbtic finbl clbss Node<E> {
         /**
-         * The item, or null if this node has been removed.
+         * The item, or null if this node hbs been removed.
          */
         E item;
 
         /**
          * One of:
-         * - the real predecessor Node
-         * - this Node, meaning the predecessor is tail
-         * - null, meaning there is no predecessor
+         * - the rebl predecessor Node
+         * - this Node, mebning the predecessor is tbil
+         * - null, mebning there is no predecessor
          */
         Node<E> prev;
 
         /**
          * One of:
-         * - the real successor Node
-         * - this Node, meaning the successor is head
-         * - null, meaning there is no successor
+         * - the rebl successor Node
+         * - this Node, mebning the successor is hebd
+         * - null, mebning there is no successor
          */
         Node<E> next;
 
@@ -136,35 +136,35 @@ public class LinkedBlockingDeque<E>
 
     /**
      * Pointer to first node.
-     * Invariant: (first == null && last == null) ||
+     * Invbribnt: (first == null && lbst == null) ||
      *            (first.prev == null && first.item != null)
      */
-    transient Node<E> first;
+    trbnsient Node<E> first;
 
     /**
-     * Pointer to last node.
-     * Invariant: (first == null && last == null) ||
-     *            (last.next == null && last.item != null)
+     * Pointer to lbst node.
+     * Invbribnt: (first == null && lbst == null) ||
+     *            (lbst.next == null && lbst.item != null)
      */
-    transient Node<E> last;
+    trbnsient Node<E> lbst;
 
     /** Number of items in the deque */
-    private transient int count;
+    privbte trbnsient int count;
 
-    /** Maximum number of items in the deque */
-    private final int capacity;
+    /** Mbximum number of items in the deque */
+    privbte finbl int cbpbcity;
 
-    /** Main lock guarding all access */
-    final ReentrantLock lock = new ReentrantLock();
+    /** Mbin lock gubrding bll bccess */
+    finbl ReentrbntLock lock = new ReentrbntLock();
 
-    /** Condition for waiting takes */
-    private final Condition notEmpty = lock.newCondition();
+    /** Condition for wbiting tbkes */
+    privbte finbl Condition notEmpty = lock.newCondition();
 
-    /** Condition for waiting puts */
-    private final Condition notFull = lock.newCondition();
+    /** Condition for wbiting puts */
+    privbte finbl Condition notFull = lock.newCondition();
 
     /**
-     * Creates a {@code LinkedBlockingDeque} with a capacity of
+     * Crebtes b {@code LinkedBlockingDeque} with b cbpbcity of
      * {@link Integer#MAX_VALUE}.
      */
     public LinkedBlockingDeque() {
@@ -172,88 +172,88 @@ public class LinkedBlockingDeque<E>
     }
 
     /**
-     * Creates a {@code LinkedBlockingDeque} with the given (fixed) capacity.
+     * Crebtes b {@code LinkedBlockingDeque} with the given (fixed) cbpbcity.
      *
-     * @param capacity the capacity of this deque
-     * @throws IllegalArgumentException if {@code capacity} is less than 1
+     * @pbrbm cbpbcity the cbpbcity of this deque
+     * @throws IllegblArgumentException if {@code cbpbcity} is less thbn 1
      */
-    public LinkedBlockingDeque(int capacity) {
-        if (capacity <= 0) throw new IllegalArgumentException();
-        this.capacity = capacity;
+    public LinkedBlockingDeque(int cbpbcity) {
+        if (cbpbcity <= 0) throw new IllegblArgumentException();
+        this.cbpbcity = cbpbcity;
     }
 
     /**
-     * Creates a {@code LinkedBlockingDeque} with a capacity of
-     * {@link Integer#MAX_VALUE}, initially containing the elements of
-     * the given collection, added in traversal order of the
-     * collection's iterator.
+     * Crebtes b {@code LinkedBlockingDeque} with b cbpbcity of
+     * {@link Integer#MAX_VALUE}, initiblly contbining the elements of
+     * the given collection, bdded in trbversbl order of the
+     * collection's iterbtor.
      *
-     * @param c the collection of elements to initially contain
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm c the collection of elements to initiblly contbin
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
      */
     public LinkedBlockingDeque(Collection<? extends E> c) {
         this(Integer.MAX_VALUE);
-        final ReentrantLock lock = this.lock;
-        lock.lock(); // Never contended, but necessary for visibility
+        finbl ReentrbntLock lock = this.lock;
+        lock.lock(); // Never contended, but necessbry for visibility
         try {
             for (E e : c) {
                 if (e == null)
                     throw new NullPointerException();
-                if (!linkLast(new Node<E>(e)))
-                    throw new IllegalStateException("Deque full");
+                if (!linkLbst(new Node<E>(e)))
+                    throw new IllegblStbteException("Deque full");
             }
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
 
-    // Basic linking and unlinking operations, called only while holding lock
+    // Bbsic linking bnd unlinking operbtions, cblled only while holding lock
 
     /**
-     * Links node as first element, or returns false if full.
+     * Links node bs first element, or returns fblse if full.
      */
-    private boolean linkFirst(Node<E> node) {
-        // assert lock.isHeldByCurrentThread();
-        if (count >= capacity)
-            return false;
+    privbte boolebn linkFirst(Node<E> node) {
+        // bssert lock.isHeldByCurrentThrebd();
+        if (count >= cbpbcity)
+            return fblse;
         Node<E> f = first;
         node.next = f;
         first = node;
-        if (last == null)
-            last = node;
+        if (lbst == null)
+            lbst = node;
         else
             f.prev = node;
         ++count;
-        notEmpty.signal();
+        notEmpty.signbl();
         return true;
     }
 
     /**
-     * Links node as last element, or returns false if full.
+     * Links node bs lbst element, or returns fblse if full.
      */
-    private boolean linkLast(Node<E> node) {
-        // assert lock.isHeldByCurrentThread();
-        if (count >= capacity)
-            return false;
-        Node<E> l = last;
+    privbte boolebn linkLbst(Node<E> node) {
+        // bssert lock.isHeldByCurrentThrebd();
+        if (count >= cbpbcity)
+            return fblse;
+        Node<E> l = lbst;
         node.prev = l;
-        last = node;
+        lbst = node;
         if (first == null)
             first = node;
         else
             l.next = node;
         ++count;
-        notEmpty.signal();
+        notEmpty.signbl();
         return true;
     }
 
     /**
-     * Removes and returns first element, or null if empty.
+     * Removes bnd returns first element, or null if empty.
      */
-    private E unlinkFirst() {
-        // assert lock.isHeldByCurrentThread();
+    privbte E unlinkFirst() {
+        // bssert lock.isHeldByCurrentThrebd();
         Node<E> f = first;
         if (f == null)
             return null;
@@ -263,33 +263,33 @@ public class LinkedBlockingDeque<E>
         f.next = f; // help GC
         first = n;
         if (n == null)
-            last = null;
+            lbst = null;
         else
             n.prev = null;
         --count;
-        notFull.signal();
+        notFull.signbl();
         return item;
     }
 
     /**
-     * Removes and returns last element, or null if empty.
+     * Removes bnd returns lbst element, or null if empty.
      */
-    private E unlinkLast() {
-        // assert lock.isHeldByCurrentThread();
-        Node<E> l = last;
+    privbte E unlinkLbst() {
+        // bssert lock.isHeldByCurrentThrebd();
+        Node<E> l = lbst;
         if (l == null)
             return null;
         Node<E> p = l.prev;
         E item = l.item;
         l.item = null;
         l.prev = l; // help GC
-        last = p;
+        lbst = p;
         if (p == null)
             first = null;
         else
             p.next = null;
         --count;
-        notFull.signal();
+        notFull.signbl();
         return item;
     }
 
@@ -297,55 +297,55 @@ public class LinkedBlockingDeque<E>
      * Unlinks x.
      */
     void unlink(Node<E> x) {
-        // assert lock.isHeldByCurrentThread();
+        // bssert lock.isHeldByCurrentThrebd();
         Node<E> p = x.prev;
         Node<E> n = x.next;
         if (p == null) {
             unlinkFirst();
         } else if (n == null) {
-            unlinkLast();
+            unlinkLbst();
         } else {
             p.next = n;
             n.prev = p;
             x.item = null;
-            // Don't mess with x's links.  They may still be in use by
-            // an iterator.
+            // Don't mess with x's links.  They mby still be in use by
+            // bn iterbtor.
             --count;
-            notFull.signal();
+            notFull.signbl();
         }
     }
 
     // BlockingDeque methods
 
     /**
-     * @throws IllegalStateException if this deque is full
+     * @throws IllegblStbteException if this deque is full
      * @throws NullPointerException {@inheritDoc}
      */
-    public void addFirst(E e) {
+    public void bddFirst(E e) {
         if (!offerFirst(e))
-            throw new IllegalStateException("Deque full");
+            throw new IllegblStbteException("Deque full");
     }
 
     /**
-     * @throws IllegalStateException if this deque is full
+     * @throws IllegblStbteException if this deque is full
      * @throws NullPointerException  {@inheritDoc}
      */
-    public void addLast(E e) {
-        if (!offerLast(e))
-            throw new IllegalStateException("Deque full");
+    public void bddLbst(E e) {
+        if (!offerLbst(e))
+            throw new IllegblStbteException("Deque full");
     }
 
     /**
      * @throws NullPointerException {@inheritDoc}
      */
-    public boolean offerFirst(E e) {
+    public boolebn offerFirst(E e) {
         if (e == null) throw new NullPointerException();
         Node<E> node = new Node<E>(e);
-        final ReentrantLock lock = this.lock;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             return linkFirst(node);
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
@@ -353,14 +353,14 @@ public class LinkedBlockingDeque<E>
     /**
      * @throws NullPointerException {@inheritDoc}
      */
-    public boolean offerLast(E e) {
+    public boolebn offerLbst(E e) {
         if (e == null) throw new NullPointerException();
         Node<E> node = new Node<E>(e);
-        final ReentrantLock lock = this.lock;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            return linkLast(node);
-        } finally {
+            return linkLbst(node);
+        } finblly {
             lock.unlock();
         }
     }
@@ -372,12 +372,12 @@ public class LinkedBlockingDeque<E>
     public void putFirst(E e) throws InterruptedException {
         if (e == null) throw new NullPointerException();
         Node<E> node = new Node<E>(e);
-        final ReentrantLock lock = this.lock;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             while (!linkFirst(node))
-                notFull.await();
-        } finally {
+                notFull.bwbit();
+        } finblly {
             lock.unlock();
         }
     }
@@ -386,15 +386,15 @@ public class LinkedBlockingDeque<E>
      * @throws NullPointerException {@inheritDoc}
      * @throws InterruptedException {@inheritDoc}
      */
-    public void putLast(E e) throws InterruptedException {
+    public void putLbst(E e) throws InterruptedException {
         if (e == null) throw new NullPointerException();
         Node<E> node = new Node<E>(e);
-        final ReentrantLock lock = this.lock;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            while (!linkLast(node))
-                notFull.await();
-        } finally {
+            while (!linkLbst(node))
+                notFull.bwbit();
+        } finblly {
             lock.unlock();
         }
     }
@@ -403,21 +403,21 @@ public class LinkedBlockingDeque<E>
      * @throws NullPointerException {@inheritDoc}
      * @throws InterruptedException {@inheritDoc}
      */
-    public boolean offerFirst(E e, long timeout, TimeUnit unit)
+    public boolebn offerFirst(E e, long timeout, TimeUnit unit)
         throws InterruptedException {
         if (e == null) throw new NullPointerException();
         Node<E> node = new Node<E>(e);
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
+        long nbnos = unit.toNbnos(timeout);
+        finbl ReentrbntLock lock = this.lock;
         lock.lockInterruptibly();
         try {
             while (!linkFirst(node)) {
-                if (nanos <= 0)
-                    return false;
-                nanos = notFull.awaitNanos(nanos);
+                if (nbnos <= 0)
+                    return fblse;
+                nbnos = notFull.bwbitNbnos(nbnos);
             }
             return true;
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
@@ -426,21 +426,21 @@ public class LinkedBlockingDeque<E>
      * @throws NullPointerException {@inheritDoc}
      * @throws InterruptedException {@inheritDoc}
      */
-    public boolean offerLast(E e, long timeout, TimeUnit unit)
+    public boolebn offerLbst(E e, long timeout, TimeUnit unit)
         throws InterruptedException {
         if (e == null) throw new NullPointerException();
         Node<E> node = new Node<E>(e);
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
+        long nbnos = unit.toNbnos(timeout);
+        finbl ReentrbntLock lock = this.lock;
         lock.lockInterruptibly();
         try {
-            while (!linkLast(node)) {
-                if (nanos <= 0)
-                    return false;
-                nanos = notFull.awaitNanos(nanos);
+            while (!linkLbst(node)) {
+                if (nbnos <= 0)
+                    return fblse;
+                nbnos = notFull.bwbitNbnos(nbnos);
             }
             return true;
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
@@ -457,90 +457,90 @@ public class LinkedBlockingDeque<E>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
-    public E removeLast() {
-        E x = pollLast();
+    public E removeLbst() {
+        E x = pollLbst();
         if (x == null) throw new NoSuchElementException();
         return x;
     }
 
     public E pollFirst() {
-        final ReentrantLock lock = this.lock;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             return unlinkFirst();
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
-    public E pollLast() {
-        final ReentrantLock lock = this.lock;
+    public E pollLbst() {
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            return unlinkLast();
-        } finally {
+            return unlinkLbst();
+        } finblly {
             lock.unlock();
         }
     }
 
-    public E takeFirst() throws InterruptedException {
-        final ReentrantLock lock = this.lock;
+    public E tbkeFirst() throws InterruptedException {
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             E x;
             while ( (x = unlinkFirst()) == null)
-                notEmpty.await();
+                notEmpty.bwbit();
             return x;
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
-    public E takeLast() throws InterruptedException {
-        final ReentrantLock lock = this.lock;
+    public E tbkeLbst() throws InterruptedException {
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             E x;
-            while ( (x = unlinkLast()) == null)
-                notEmpty.await();
+            while ( (x = unlinkLbst()) == null)
+                notEmpty.bwbit();
             return x;
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
     public E pollFirst(long timeout, TimeUnit unit)
         throws InterruptedException {
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
+        long nbnos = unit.toNbnos(timeout);
+        finbl ReentrbntLock lock = this.lock;
         lock.lockInterruptibly();
         try {
             E x;
             while ( (x = unlinkFirst()) == null) {
-                if (nanos <= 0)
+                if (nbnos <= 0)
                     return null;
-                nanos = notEmpty.awaitNanos(nanos);
+                nbnos = notEmpty.bwbitNbnos(nbnos);
             }
             return x;
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
-    public E pollLast(long timeout, TimeUnit unit)
+    public E pollLbst(long timeout, TimeUnit unit)
         throws InterruptedException {
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
+        long nbnos = unit.toNbnos(timeout);
+        finbl ReentrbntLock lock = this.lock;
         lock.lockInterruptibly();
         try {
             E x;
-            while ( (x = unlinkLast()) == null) {
-                if (nanos <= 0)
+            while ( (x = unlinkLbst()) == null) {
+                if (nbnos <= 0)
                     return null;
-                nanos = notEmpty.awaitNanos(nanos);
+                nbnos = notEmpty.bwbitNbnos(nbnos);
             }
             return x;
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
@@ -557,62 +557,62 @@ public class LinkedBlockingDeque<E>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
-    public E getLast() {
-        E x = peekLast();
+    public E getLbst() {
+        E x = peekLbst();
         if (x == null) throw new NoSuchElementException();
         return x;
     }
 
     public E peekFirst() {
-        final ReentrantLock lock = this.lock;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             return (first == null) ? null : first.item;
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
-    public E peekLast() {
-        final ReentrantLock lock = this.lock;
+    public E peekLbst() {
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            return (last == null) ? null : last.item;
-        } finally {
+            return (lbst == null) ? null : lbst.item;
+        } finblly {
             lock.unlock();
         }
     }
 
-    public boolean removeFirstOccurrence(Object o) {
-        if (o == null) return false;
-        final ReentrantLock lock = this.lock;
+    public boolebn removeFirstOccurrence(Object o) {
+        if (o == null) return fblse;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             for (Node<E> p = first; p != null; p = p.next) {
-                if (o.equals(p.item)) {
+                if (o.equbls(p.item)) {
                     unlink(p);
                     return true;
                 }
             }
-            return false;
-        } finally {
+            return fblse;
+        } finblly {
             lock.unlock();
         }
     }
 
-    public boolean removeLastOccurrence(Object o) {
-        if (o == null) return false;
-        final ReentrantLock lock = this.lock;
+    public boolebn removeLbstOccurrence(Object o) {
+        if (o == null) return fblse;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            for (Node<E> p = last; p != null; p = p.prev) {
-                if (o.equals(p.item)) {
+            for (Node<E> p = lbst; p != null; p = p.prev) {
+                if (o.equbls(p.item)) {
                     unlink(p);
                     return true;
                 }
             }
-            return false;
-        } finally {
+            return fblse;
+        } finblly {
             lock.unlock();
         }
     }
@@ -620,25 +620,25 @@ public class LinkedBlockingDeque<E>
     // BlockingQueue methods
 
     /**
-     * Inserts the specified element at the end of this deque unless it would
-     * violate capacity restrictions.  When using a capacity-restricted deque,
-     * it is generally preferable to use method {@link #offer(Object) offer}.
+     * Inserts the specified element bt the end of this deque unless it would
+     * violbte cbpbcity restrictions.  When using b cbpbcity-restricted deque,
+     * it is generblly preferbble to use method {@link #offer(Object) offer}.
      *
-     * <p>This method is equivalent to {@link #addLast}.
+     * <p>This method is equivblent to {@link #bddLbst}.
      *
-     * @throws IllegalStateException if this deque is full
+     * @throws IllegblStbteException if this deque is full
      * @throws NullPointerException if the specified element is null
      */
-    public boolean add(E e) {
-        addLast(e);
+    public boolebn bdd(E e) {
+        bddLbst(e);
         return true;
     }
 
     /**
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offer(E e) {
-        return offerLast(e);
+    public boolebn offer(E e) {
+        return offerLbst(e);
     }
 
     /**
@@ -646,26 +646,26 @@ public class LinkedBlockingDeque<E>
      * @throws InterruptedException {@inheritDoc}
      */
     public void put(E e) throws InterruptedException {
-        putLast(e);
+        putLbst(e);
     }
 
     /**
      * @throws NullPointerException {@inheritDoc}
      * @throws InterruptedException {@inheritDoc}
      */
-    public boolean offer(E e, long timeout, TimeUnit unit)
+    public boolebn offer(E e, long timeout, TimeUnit unit)
         throws InterruptedException {
-        return offerLast(e, timeout, unit);
+        return offerLbst(e, timeout, unit);
     }
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque.
-     * This method differs from {@link #poll poll} only in that it throws an
+     * Retrieves bnd removes the hebd of the queue represented by this deque.
+     * This method differs from {@link #poll poll} only in thbt it throws bn
      * exception if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #removeFirst() removeFirst}.
+     * <p>This method is equivblent to {@link #removeFirst() removeFirst}.
      *
-     * @return the head of the queue represented by this deque
+     * @return the hebd of the queue represented by this deque
      * @throws NoSuchElementException if this deque is empty
      */
     public E remove() {
@@ -676,8 +676,8 @@ public class LinkedBlockingDeque<E>
         return pollFirst();
     }
 
-    public E take() throws InterruptedException {
-        return takeFirst();
+    public E tbke() throws InterruptedException {
+        return tbkeFirst();
     }
 
     public E poll(long timeout, TimeUnit unit) throws InterruptedException {
@@ -685,13 +685,13 @@ public class LinkedBlockingDeque<E>
     }
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
-     * this deque.  This method differs from {@link #peek peek} only in that
-     * it throws an exception if this deque is empty.
+     * Retrieves, but does not remove, the hebd of the queue represented by
+     * this deque.  This method differs from {@link #peek peek} only in thbt
+     * it throws bn exception if this deque is empty.
      *
-     * <p>This method is equivalent to {@link #getFirst() getFirst}.
+     * <p>This method is equivblent to {@link #getFirst() getFirst}.
      *
-     * @return the head of the queue represented by this deque
+     * @return the hebd of the queue represented by this deque
      * @throws NoSuchElementException if this deque is empty
      */
     public E element() {
@@ -703,71 +703,71 @@ public class LinkedBlockingDeque<E>
     }
 
     /**
-     * Returns the number of additional elements that this deque can ideally
-     * (in the absence of memory or resource constraints) accept without
-     * blocking. This is always equal to the initial capacity of this deque
+     * Returns the number of bdditionbl elements thbt this deque cbn ideblly
+     * (in the bbsence of memory or resource constrbints) bccept without
+     * blocking. This is blwbys equbl to the initibl cbpbcity of this deque
      * less the current {@code size} of this deque.
      *
-     * <p>Note that you <em>cannot</em> always tell if an attempt to insert
-     * an element will succeed by inspecting {@code remainingCapacity}
-     * because it may be the case that another thread is about to
-     * insert or remove an element.
+     * <p>Note thbt you <em>cbnnot</em> blwbys tell if bn bttempt to insert
+     * bn element will succeed by inspecting {@code rembiningCbpbcity}
+     * becbuse it mby be the cbse thbt bnother threbd is bbout to
+     * insert or remove bn element.
      */
-    public int remainingCapacity() {
-        final ReentrantLock lock = this.lock;
+    public int rembiningCbpbcity() {
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            return capacity - count;
-        } finally {
+            return cbpbcity - count;
+        } finblly {
             lock.unlock();
         }
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      */
-    public int drainTo(Collection<? super E> c) {
-        return drainTo(c, Integer.MAX_VALUE);
+    public int drbinTo(Collection<? super E> c) {
+        return drbinTo(c, Integer.MAX_VALUE);
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
      */
-    public int drainTo(Collection<? super E> c, int maxElements) {
+    public int drbinTo(Collection<? super E> c, int mbxElements) {
         if (c == null)
             throw new NullPointerException();
         if (c == this)
-            throw new IllegalArgumentException();
-        if (maxElements <= 0)
+            throw new IllegblArgumentException();
+        if (mbxElements <= 0)
             return 0;
-        final ReentrantLock lock = this.lock;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            int n = Math.min(maxElements, count);
+            int n = Mbth.min(mbxElements, count);
             for (int i = 0; i < n; i++) {
-                c.add(first.item);   // In this order, in case add() throws.
+                c.bdd(first.item);   // In this order, in cbse bdd() throws.
                 unlinkFirst();
             }
             return n;
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
-    // Stack methods
+    // Stbck methods
 
     /**
-     * @throws IllegalStateException if this deque is full
+     * @throws IllegblStbteException if this deque is full
      * @throws NullPointerException {@inheritDoc}
      */
     public void push(E e) {
-        addFirst(e);
+        bddFirst(e);
     }
 
     /**
@@ -781,19 +781,19 @@ public class LinkedBlockingDeque<E>
 
     /**
      * Removes the first occurrence of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * If the deque does not contbin the element, it is unchbnged.
+     * More formblly, removes the first element {@code e} such thbt
+     * {@code o.equbls(e)} (if such bn element exists).
+     * Returns {@code true} if this deque contbined the specified element
+     * (or equivblently, if this deque chbnged bs b result of the cbll).
      *
-     * <p>This method is equivalent to
+     * <p>This method is equivblent to
      * {@link #removeFirstOccurrence(Object) removeFirstOccurrence}.
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if this deque changed as a result of the call
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if this deque chbnged bs b result of the cbll
      */
-    public boolean remove(Object o) {
+    public boolebn remove(Object o) {
         return removeFirstOccurrence(o);
     }
 
@@ -803,163 +803,163 @@ public class LinkedBlockingDeque<E>
      * @return the number of elements in this deque
      */
     public int size() {
-        final ReentrantLock lock = this.lock;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             return count;
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
     /**
-     * Returns {@code true} if this deque contains the specified element.
-     * More formally, returns {@code true} if and only if this deque contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Returns {@code true} if this deque contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this deque contbins
+     * bt lebst one element {@code e} such thbt {@code o.equbls(e)}.
      *
-     * @param o object to be checked for containment in this deque
-     * @return {@code true} if this deque contains the specified element
+     * @pbrbm o object to be checked for contbinment in this deque
+     * @return {@code true} if this deque contbins the specified element
      */
-    public boolean contains(Object o) {
-        if (o == null) return false;
-        final ReentrantLock lock = this.lock;
+    public boolebn contbins(Object o) {
+        if (o == null) return fblse;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             for (Node<E> p = first; p != null; p = p.next)
-                if (o.equals(p.item))
+                if (o.equbls(p.item))
                     return true;
-            return false;
-        } finally {
+            return fblse;
+        } finblly {
             lock.unlock();
         }
     }
 
     /*
-     * TODO: Add support for more efficient bulk operations.
+     * TODO: Add support for more efficient bulk operbtions.
      *
-     * We don't want to acquire the lock for every iteration, but we
-     * also want other threads a chance to interact with the
-     * collection, especially when count is close to capacity.
+     * We don't wbnt to bcquire the lock for every iterbtion, but we
+     * blso wbnt other threbds b chbnce to interbct with the
+     * collection, especiblly when count is close to cbpbcity.
      */
 
 //     /**
-//      * Adds all of the elements in the specified collection to this
-//      * queue.  Attempts to addAll of a queue to itself result in
-//      * {@code IllegalArgumentException}. Further, the behavior of
-//      * this operation is undefined if the specified collection is
-//      * modified while the operation is in progress.
+//      * Adds bll of the elements in the specified collection to this
+//      * queue.  Attempts to bddAll of b queue to itself result in
+//      * {@code IllegblArgumentException}. Further, the behbvior of
+//      * this operbtion is undefined if the specified collection is
+//      * modified while the operbtion is in progress.
 //      *
-//      * @param c collection containing elements to be added to this queue
-//      * @return {@code true} if this queue changed as a result of the call
-//      * @throws ClassCastException            {@inheritDoc}
+//      * @pbrbm c collection contbining elements to be bdded to this queue
+//      * @return {@code true} if this queue chbnged bs b result of the cbll
+//      * @throws ClbssCbstException            {@inheritDoc}
 //      * @throws NullPointerException          {@inheritDoc}
-//      * @throws IllegalArgumentException      {@inheritDoc}
-//      * @throws IllegalStateException if this deque is full
-//      * @see #add(Object)
+//      * @throws IllegblArgumentException      {@inheritDoc}
+//      * @throws IllegblStbteException if this deque is full
+//      * @see #bdd(Object)
 //      */
-//     public boolean addAll(Collection<? extends E> c) {
+//     public boolebn bddAll(Collection<? extends E> c) {
 //         if (c == null)
 //             throw new NullPointerException();
 //         if (c == this)
-//             throw new IllegalArgumentException();
-//         final ReentrantLock lock = this.lock;
+//             throw new IllegblArgumentException();
+//         finbl ReentrbntLock lock = this.lock;
 //         lock.lock();
 //         try {
-//             boolean modified = false;
+//             boolebn modified = fblse;
 //             for (E e : c)
-//                 if (linkLast(e))
+//                 if (linkLbst(e))
 //                     modified = true;
 //             return modified;
-//         } finally {
+//         } finblly {
 //             lock.unlock();
 //         }
 //     }
 
     /**
-     * Returns an array containing all of the elements in this deque, in
-     * proper sequence (from first to last element).
+     * Returns bn brrby contbining bll of the elements in this deque, in
+     * proper sequence (from first to lbst element).
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this deque.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it bre
+     * mbintbined by this deque.  (In other words, this method must bllocbte
+     * b new brrby).  The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all of the elements in this deque
+     * @return bn brrby contbining bll of the elements in this deque
      */
-    @SuppressWarnings("unchecked")
-    public Object[] toArray() {
-        final ReentrantLock lock = this.lock;
+    @SuppressWbrnings("unchecked")
+    public Object[] toArrby() {
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            Object[] a = new Object[count];
+            Object[] b = new Object[count];
             int k = 0;
             for (Node<E> p = first; p != null; p = p.next)
-                a[k++] = p.item;
-            return a;
-        } finally {
+                b[k++] = p.item;
+            return b;
+        } finblly {
             lock.unlock();
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this deque, in
-     * proper sequence; the runtime type of the returned array is that of
-     * the specified array.  If the deque fits in the specified array, it
-     * is returned therein.  Otherwise, a new array is allocated with the
-     * runtime type of the specified array and the size of this deque.
+     * Returns bn brrby contbining bll of the elements in this deque, in
+     * proper sequence; the runtime type of the returned brrby is thbt of
+     * the specified brrby.  If the deque fits in the specified brrby, it
+     * is returned therein.  Otherwise, b new brrby is bllocbted with the
+     * runtime type of the specified brrby bnd the size of this deque.
      *
-     * <p>If this deque fits in the specified array with room to spare
-     * (i.e., the array has more elements than this deque), the element in
-     * the array immediately following the end of the deque is set to
+     * <p>If this deque fits in the specified brrby with room to spbre
+     * (i.e., the brrby hbs more elements thbn this deque), the element in
+     * the brrby immedibtely following the end of the deque is set to
      * {@code null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Like the {@link #toArrby()} method, this method bcts bs bridge between
+     * brrby-bbsed bnd collection-bbsed APIs.  Further, this method bllows
+     * precise control over the runtime type of the output brrby, bnd mby,
+     * under certbin circumstbnces, be used to sbve bllocbtion costs.
      *
-     * <p>Suppose {@code x} is a deque known to contain only strings.
-     * The following code can be used to dump the deque into a newly
-     * allocated array of {@code String}:
+     * <p>Suppose {@code x} is b deque known to contbin only strings.
+     * The following code cbn be used to dump the deque into b newly
+     * bllocbted brrby of {@code String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <pre> {@code String[] y = x.toArrby(new String[0]);}</pre>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Note thbt {@code toArrby(new Object[0])} is identicbl in function to
+     * {@code toArrby()}.
      *
-     * @param a the array into which the elements of the deque are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this deque
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
+     * @pbrbm b the brrby into which the elements of the deque bre to
+     *          be stored, if it is big enough; otherwise, b new brrby of the
+     *          sbme runtime type is bllocbted for this purpose
+     * @return bn brrby contbining bll of the elements in this deque
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in
      *         this deque
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        final ReentrantLock lock = this.lock;
+    @SuppressWbrnings("unchecked")
+    public <T> T[] toArrby(T[] b) {
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            if (a.length < count)
-                a = (T[])java.lang.reflect.Array.newInstance
-                    (a.getClass().getComponentType(), count);
+            if (b.length < count)
+                b = (T[])jbvb.lbng.reflect.Arrby.newInstbnce
+                    (b.getClbss().getComponentType(), count);
 
             int k = 0;
             for (Node<E> p = first; p != null; p = p.next)
-                a[k++] = (T)p.item;
-            if (a.length > k)
-                a[k] = null;
-            return a;
-        } finally {
+                b[k++] = (T)p.item;
+            if (b.length > k)
+                b[k] = null;
+            return b;
+        } finblly {
             lock.unlock();
         }
     }
 
     public String toString() {
-        final ReentrantLock lock = this.lock;
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             Node<E> p = first;
@@ -967,26 +967,26 @@ public class LinkedBlockingDeque<E>
                 return "[]";
 
             StringBuilder sb = new StringBuilder();
-            sb.append('[');
+            sb.bppend('[');
             for (;;) {
                 E e = p.item;
-                sb.append(e == this ? "(this Collection)" : e);
+                sb.bppend(e == this ? "(this Collection)" : e);
                 p = p.next;
                 if (p == null)
-                    return sb.append(']').toString();
-                sb.append(',').append(' ');
+                    return sb.bppend(']').toString();
+                sb.bppend(',').bppend(' ');
             }
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
     /**
-     * Atomically removes all of the elements from this deque.
-     * The deque will be empty after this call returns.
+     * Atomicblly removes bll of the elements from this deque.
+     * The deque will be empty bfter this cbll returns.
      */
-    public void clear() {
-        final ReentrantLock lock = this.lock;
+    public void clebr() {
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
             for (Node<E> f = first; f != null; ) {
@@ -996,75 +996,75 @@ public class LinkedBlockingDeque<E>
                 f.next = null;
                 f = n;
             }
-            first = last = null;
+            first = lbst = null;
             count = 0;
-            notFull.signalAll();
-        } finally {
+            notFull.signblAll();
+        } finblly {
             lock.unlock();
         }
     }
 
     /**
-     * Returns an iterator over the elements in this deque in proper sequence.
-     * The elements will be returned in order from first (head) to last (tail).
+     * Returns bn iterbtor over the elements in this deque in proper sequence.
+     * The elements will be returned in order from first (hebd) to lbst (tbil).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned iterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * @return an iterator over the elements in this deque in proper sequence
+     * @return bn iterbtor over the elements in this deque in proper sequence
      */
-    public Iterator<E> iterator() {
+    public Iterbtor<E> iterbtor() {
         return new Itr();
     }
 
     /**
-     * Returns an iterator over the elements in this deque in reverse
-     * sequential order.  The elements will be returned in order from
-     * last (tail) to first (head).
+     * Returns bn iterbtor over the elements in this deque in reverse
+     * sequentibl order.  The elements will be returned in order from
+     * lbst (tbil) to first (hebd).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned iterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * @return an iterator over the elements in this deque in reverse order
+     * @return bn iterbtor over the elements in this deque in reverse order
      */
-    public Iterator<E> descendingIterator() {
+    public Iterbtor<E> descendingIterbtor() {
         return new DescendingItr();
     }
 
     /**
-     * Base class for Iterators for LinkedBlockingDeque
+     * Bbse clbss for Iterbtors for LinkedBlockingDeque
      */
-    private abstract class AbstractItr implements Iterator<E> {
+    privbte bbstrbct clbss AbstrbctItr implements Iterbtor<E> {
         /**
          * The next node to return in next()
          */
         Node<E> next;
 
         /**
-         * nextItem holds on to item fields because once we claim that
-         * an element exists in hasNext(), we must return item read
-         * under lock (in advance()) even if it was in the process of
-         * being removed when hasNext() was called.
+         * nextItem holds on to item fields becbuse once we clbim thbt
+         * bn element exists in hbsNext(), we must return item rebd
+         * under lock (in bdvbnce()) even if it wbs in the process of
+         * being removed when hbsNext() wbs cblled.
          */
         E nextItem;
 
         /**
-         * Node returned by most recent call to next. Needed by remove.
-         * Reset to null if this element is deleted by a call to remove.
+         * Node returned by most recent cbll to next. Needed by remove.
+         * Reset to null if this element is deleted by b cbll to remove.
          */
-        private Node<E> lastRet;
+        privbte Node<E> lbstRet;
 
-        abstract Node<E> firstNode();
-        abstract Node<E> nextNode(Node<E> n);
+        bbstrbct Node<E> firstNode();
+        bbstrbct Node<E> nextNode(Node<E> n);
 
-        AbstractItr() {
-            // set to initial position
-            final ReentrantLock lock = LinkedBlockingDeque.this.lock;
+        AbstrbctItr() {
+            // set to initibl position
+            finbl ReentrbntLock lock = LinkedBlockingDeque.this.lock;
             lock.lock();
             try {
                 next = firstNode();
                 nextItem = (next == null) ? null : next.item;
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
@@ -1073,9 +1073,9 @@ public class LinkedBlockingDeque<E>
          * Returns the successor node of the given non-null, but
          * possibly previously deleted, node.
          */
-        private Node<E> succ(Node<E> n) {
-            // Chains of deleted nodes ending in null or self-links
-            // are possible if multiple interior nodes are removed.
+        privbte Node<E> succ(Node<E> n) {
+            // Chbins of deleted nodes ending in null or self-links
+            // bre possible if multiple interior nodes bre removed.
             for (;;) {
                 Node<E> s = nextNode(n);
                 if (s == null)
@@ -1090,121 +1090,121 @@ public class LinkedBlockingDeque<E>
         }
 
         /**
-         * Advances next.
+         * Advbnces next.
          */
-        void advance() {
-            final ReentrantLock lock = LinkedBlockingDeque.this.lock;
+        void bdvbnce() {
+            finbl ReentrbntLock lock = LinkedBlockingDeque.this.lock;
             lock.lock();
             try {
-                // assert next != null;
+                // bssert next != null;
                 next = succ(next);
                 nextItem = (next == null) ? null : next.item;
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return next != null;
         }
 
         public E next() {
             if (next == null)
                 throw new NoSuchElementException();
-            lastRet = next;
+            lbstRet = next;
             E x = nextItem;
-            advance();
+            bdvbnce();
             return x;
         }
 
         public void remove() {
-            Node<E> n = lastRet;
+            Node<E> n = lbstRet;
             if (n == null)
-                throw new IllegalStateException();
-            lastRet = null;
-            final ReentrantLock lock = LinkedBlockingDeque.this.lock;
+                throw new IllegblStbteException();
+            lbstRet = null;
+            finbl ReentrbntLock lock = LinkedBlockingDeque.this.lock;
             lock.lock();
             try {
                 if (n.item != null)
                     unlink(n);
-            } finally {
+            } finblly {
                 lock.unlock();
             }
         }
     }
 
-    /** Forward iterator */
-    private class Itr extends AbstractItr {
+    /** Forwbrd iterbtor */
+    privbte clbss Itr extends AbstrbctItr {
         Node<E> firstNode() { return first; }
         Node<E> nextNode(Node<E> n) { return n.next; }
     }
 
-    /** Descending iterator */
-    private class DescendingItr extends AbstractItr {
-        Node<E> firstNode() { return last; }
+    /** Descending iterbtor */
+    privbte clbss DescendingItr extends AbstrbctItr {
+        Node<E> firstNode() { return lbst; }
         Node<E> nextNode(Node<E> n) { return n.prev; }
     }
 
-    /** A customized variant of Spliterators.IteratorSpliterator */
-    static final class LBDSpliterator<E> implements Spliterator<E> {
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        final LinkedBlockingDeque<E> queue;
-        Node<E> current;    // current node; null until initialized
-        int batch;          // batch size for splits
-        boolean exhausted;  // true when no more nodes
-        long est;           // size estimate
-        LBDSpliterator(LinkedBlockingDeque<E> queue) {
+    /** A customized vbribnt of Spliterbtors.IterbtorSpliterbtor */
+    stbtic finbl clbss LBDSpliterbtor<E> implements Spliterbtor<E> {
+        stbtic finbl int MAX_BATCH = 1 << 25;  // mbx bbtch brrby size;
+        finbl LinkedBlockingDeque<E> queue;
+        Node<E> current;    // current node; null until initiblized
+        int bbtch;          // bbtch size for splits
+        boolebn exhbusted;  // true when no more nodes
+        long est;           // size estimbte
+        LBDSpliterbtor(LinkedBlockingDeque<E> queue) {
             this.queue = queue;
             this.est = queue.size();
         }
 
-        public long estimateSize() { return est; }
+        public long estimbteSize() { return est; }
 
-        public Spliterator<E> trySplit() {
+        public Spliterbtor<E> trySplit() {
             Node<E> h;
-            final LinkedBlockingDeque<E> q = this.queue;
-            int b = batch;
+            finbl LinkedBlockingDeque<E> q = this.queue;
+            int b = bbtch;
             int n = (b <= 0) ? 1 : (b >= MAX_BATCH) ? MAX_BATCH : b + 1;
-            if (!exhausted &&
+            if (!exhbusted &&
                 ((h = current) != null || (h = q.first) != null) &&
                 h.next != null) {
-                Object[] a = new Object[n];
-                final ReentrantLock lock = q.lock;
+                Object[] b = new Object[n];
+                finbl ReentrbntLock lock = q.lock;
                 int i = 0;
                 Node<E> p = current;
                 lock.lock();
                 try {
                     if (p != null || (p = q.first) != null) {
                         do {
-                            if ((a[i] = p.item) != null)
+                            if ((b[i] = p.item) != null)
                                 ++i;
                         } while ((p = p.next) != null && i < n);
                     }
-                } finally {
+                } finblly {
                     lock.unlock();
                 }
                 if ((current = p) == null) {
                     est = 0L;
-                    exhausted = true;
+                    exhbusted = true;
                 }
                 else if ((est -= i) < 0L)
                     est = 0L;
                 if (i > 0) {
-                    batch = i;
-                    return Spliterators.spliterator
-                        (a, 0, i, Spliterator.ORDERED | Spliterator.NONNULL |
-                         Spliterator.CONCURRENT);
+                    bbtch = i;
+                    return Spliterbtors.spliterbtor
+                        (b, 0, i, Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                         Spliterbtor.CONCURRENT);
                 }
             }
             return null;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
-            if (action == null) throw new NullPointerException();
-            final LinkedBlockingDeque<E> q = this.queue;
-            final ReentrantLock lock = q.lock;
-            if (!exhausted) {
-                exhausted = true;
+        public void forEbchRembining(Consumer<? super E> bction) {
+            if (bction == null) throw new NullPointerException();
+            finbl LinkedBlockingDeque<E> q = this.queue;
+            finbl ReentrbntLock lock = q.lock;
+            if (!exhbusted) {
+                exhbusted = true;
                 Node<E> p = current;
                 do {
                     E e = null;
@@ -1216,22 +1216,22 @@ public class LinkedBlockingDeque<E>
                             e = p.item;
                             p = p.next;
                             if (e != null)
-                                break;
+                                brebk;
                         }
-                    } finally {
+                    } finblly {
                         lock.unlock();
                     }
                     if (e != null)
-                        action.accept(e);
+                        bction.bccept(e);
                 } while (p != null);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
-            if (action == null) throw new NullPointerException();
-            final LinkedBlockingDeque<E> q = this.queue;
-            final ReentrantLock lock = q.lock;
-            if (!exhausted) {
+        public boolebn tryAdvbnce(Consumer<? super E> bction) {
+            if (bction == null) throw new NullPointerException();
+            finbl LinkedBlockingDeque<E> q = this.queue;
+            finbl ReentrbntLock lock = q.lock;
+            if (!exhbusted) {
                 E e = null;
                 lock.lock();
                 try {
@@ -1241,92 +1241,92 @@ public class LinkedBlockingDeque<E>
                         e = current.item;
                         current = current.next;
                         if (e != null)
-                            break;
+                            brebk;
                     }
-                } finally {
+                } finblly {
                     lock.unlock();
                 }
                 if (current == null)
-                    exhausted = true;
+                    exhbusted = true;
                 if (e != null) {
-                    action.accept(e);
+                    bction.bccept(e);
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.NONNULL |
-                Spliterator.CONCURRENT;
+        public int chbrbcteristics() {
+            return Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                Spliterbtor.CONCURRENT;
         }
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this deque.
+     * Returns b {@link Spliterbtor} over the elements in this deque.
      *
-     * <p>The returned spliterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned spliterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#ORDERED}, and {@link Spliterator#NONNULL}.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#ORDERED}, bnd {@link Spliterbtor#NONNULL}.
      *
      * @implNote
-     * The {@code Spliterator} implements {@code trySplit} to permit limited
-     * parallelism.
+     * The {@code Spliterbtor} implements {@code trySplit} to permit limited
+     * pbrbllelism.
      *
-     * @return a {@code Spliterator} over the elements in this deque
+     * @return b {@code Spliterbtor} over the elements in this deque
      * @since 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new LBDSpliterator<E>(this);
+    public Spliterbtor<E> spliterbtor() {
+        return new LBDSpliterbtor<E>(this);
     }
 
     /**
-     * Saves this deque to a stream (that is, serializes it).
+     * Sbves this deque to b strebm (thbt is, seriblizes it).
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData The capacity (int), followed by elements (each an
-     * {@code Object}) in the proper order, followed by a null
+     * @pbrbm s the strebm
+     * @throws jbvb.io.IOException if bn I/O error occurs
+     * @seriblDbtb The cbpbcity (int), followed by elements (ebch bn
+     * {@code Object}) in the proper order, followed by b null
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        final ReentrantLock lock = this.lock;
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
+        finbl ReentrbntLock lock = this.lock;
         lock.lock();
         try {
-            // Write out capacity and any hidden stuff
-            s.defaultWriteObject();
-            // Write out all elements in the proper order.
+            // Write out cbpbcity bnd bny hidden stuff
+            s.defbultWriteObject();
+            // Write out bll elements in the proper order.
             for (Node<E> p = first; p != null; p = p.next)
                 s.writeObject(p.item);
-            // Use trailing null as sentinel
+            // Use trbiling null bs sentinel
             s.writeObject(null);
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
     /**
-     * Reconstitutes this deque from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
+     * Reconstitutes this deque from b strebm (thbt is, deseriblizes it).
+     * @pbrbm s the strebm
+     * @throws ClbssNotFoundException if the clbss of b seriblized object
      *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
         count = 0;
         first = null;
-        last = null;
-        // Read in all elements and place in queue
+        lbst = null;
+        // Rebd in bll elements bnd plbce in queue
         for (;;) {
-            @SuppressWarnings("unchecked")
-            E item = (E)s.readObject();
+            @SuppressWbrnings("unchecked")
+            E item = (E)s.rebdObject();
             if (item == null)
-                break;
-            add(item);
+                brebk;
+            bdd(item);
         }
     }
 

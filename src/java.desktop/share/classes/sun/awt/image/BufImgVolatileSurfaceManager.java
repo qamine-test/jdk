@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.SurfbceDbtb;
 
 /**
- * This SurfaceManager variant manages an unaccelerated volatile surface.
- * This class is created in the event that someone requested a VolatileImage
- * to be created from a BufferedImageGraphicsConfig, which is not platform-
- * or hardware-based, thus the resulting surface and surface manager
- * are unaccelerated.  All we do in this class is implement the abstract
- * methods of VolatileSurfaceManager to return values that indicate that
- * we cannot accelerate surfaces through this SurfaceManager, thus the
- * parent class will handle things through the unaccelerated backup mechanism.
+ * This SurfbceMbnbger vbribnt mbnbges bn unbccelerbted volbtile surfbce.
+ * This clbss is crebted in the event thbt someone requested b VolbtileImbge
+ * to be crebted from b BufferedImbgeGrbphicsConfig, which is not plbtform-
+ * or hbrdwbre-bbsed, thus the resulting surfbce bnd surfbce mbnbger
+ * bre unbccelerbted.  All we do in this clbss is implement the bbstrbct
+ * methods of VolbtileSurfbceMbnbger to return vblues thbt indicbte thbt
+ * we cbnnot bccelerbte surfbces through this SurfbceMbnbger, thus the
+ * pbrent clbss will hbndle things through the unbccelerbted bbckup mechbnism.
  */
-public class BufImgVolatileSurfaceManager extends VolatileSurfaceManager {
+public clbss BufImgVolbtileSurfbceMbnbger extends VolbtileSurfbceMbnbger {
 
     /**
-     * This constructor simply defers to the superclass since all of the real
-     * functionality of this class is implemented in VolatileSurfaceManager.
+     * This constructor simply defers to the superclbss since bll of the rebl
+     * functionblity of this clbss is implemented in VolbtileSurfbceMbnbger.
      */
-    public BufImgVolatileSurfaceManager(SunVolatileImage vImg, Object context) {
+    public BufImgVolbtileSurfbceMbnbger(SunVolbtileImbge vImg, Object context) {
         super(vImg, context);
     }
 
     /**
-     * Returns false to indicate that this surface manager cannot accelerate
-     * the image.
+     * Returns fblse to indicbte thbt this surfbce mbnbger cbnnot bccelerbte
+     * the imbge.
      */
-    protected boolean isAccelerationEnabled() {
-        return false;
+    protected boolebn isAccelerbtionEnbbled() {
+        return fblse;
     }
 
     /**
-     * Returns null to indicate failure in creating the accelerated surface.
-     * Note that this method should not ever be called since creation of
-     * accelerated surfaces should be preceded by calls to the above
-     * isAccelerationEnabled() method.  But we need to override this method
-     * since it is abstract in our parent class.
+     * Returns null to indicbte fbilure in crebting the bccelerbted surfbce.
+     * Note thbt this method should not ever be cblled since crebtion of
+     * bccelerbted surfbces should be preceded by cblls to the bbove
+     * isAccelerbtionEnbbled() method.  But we need to override this method
+     * since it is bbstrbct in our pbrent clbss.
      */
-    protected SurfaceData initAcceleratedSurface() {
+    protected SurfbceDbtb initAccelerbtedSurfbce() {
         return null;
     }
 }

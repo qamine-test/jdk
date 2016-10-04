@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.security.acl;
+pbckbge sun.security.bcl;
 
-import java.util.*;
-import java.security.Principal;
-import java.security.acl.*;
+import jbvb.util.*;
+import jbvb.security.Principbl;
+import jbvb.security.bcl.*;
 
 /**
- * This is a class that describes one entry that associates users
+ * This is b clbss thbt describes one entry thbt bssocibtes users
  * or groups with permissions in the ACL.
- * The entry may be used as a way of granting or denying permissions.
- * @author      Satish Dharmaraj
+ * The entry mby be used bs b wby of grbnting or denying permissions.
+ * @buthor      Sbtish Dhbrmbrbj
  */
-public class AclEntryImpl implements AclEntry {
-    private Principal user = null;
-    private Vector<Permission> permissionSet = new Vector<>(10, 10);
-    private boolean negative = false;
+public clbss AclEntryImpl implements AclEntry {
+    privbte Principbl user = null;
+    privbte Vector<Permission> permissionSet = new Vector<>(10, 10);
+    privbte boolebn negbtive = fblse;
 
     /**
-     * Construct an ACL entry that associates a user with permissions
+     * Construct bn ACL entry thbt bssocibtes b user with permissions
      * in the ACL.
-     * @param user The user that is associated with this entry.
+     * @pbrbm user The user thbt is bssocibted with this entry.
      */
-    public AclEntryImpl(Principal user) {
+    public AclEntryImpl(Principbl user) {
         this.user = user;
     }
 
     /**
-     * Construct a null ACL entry
+     * Construct b null ACL entry
      */
     public AclEntryImpl() {
     }
 
     /**
-     * Sets the principal in the entity. If a group or a
-     * principal had already been set, a false value is
-     * returned, otherwise a true value is returned.
-     * @param user The user that is associated with this entry.
-     * @return true if the principal is set, false if there is
-     * one already.
+     * Sets the principbl in the entity. If b group or b
+     * principbl hbd blrebdy been set, b fblse vblue is
+     * returned, otherwise b true vblue is returned.
+     * @pbrbm user The user thbt is bssocibted with this entry.
+     * @return true if the principbl is set, fblse if there is
+     * one blrebdy.
      */
-    public boolean setPrincipal(Principal user) {
+    public boolebn setPrincipbl(Principbl user) {
         if (this.user != null)
-          return false;
+          return fblse;
         this.user = user;
         return true;
     }
 
     /**
-     * This method sets the ACL to have negative permissions.
-     * That is the user or group is denied the permission set
+     * This method sets the ACL to hbve negbtive permissions.
+     * Thbt is the user or group is denied the permission set
      * specified in the entry.
      */
-    public void setNegativePermissions() {
-        negative = true;
+    public void setNegbtivePermissions() {
+        negbtive = true;
     }
 
     /**
-     * Returns true if this is a negative ACL.
+     * Returns true if this is b negbtive ACL.
      */
-    public boolean isNegative() {
-        return negative;
+    public boolebn isNegbtive() {
+        return negbtive;
     }
 
     /**
-     * A principal or a group can be associated with multiple
-     * permissions. This method adds a permission to the ACL entry.
-     * @param permission The permission to be associated with
-     * the principal or the group in the entry.
-     * @return true if the permission was added, false if the
-     * permission was already part of the permission set.
+     * A principbl or b group cbn be bssocibted with multiple
+     * permissions. This method bdds b permission to the ACL entry.
+     * @pbrbm permission The permission to be bssocibted with
+     * the principbl or the group in the entry.
+     * @return true if the permission wbs bdded, fblse if the
+     * permission wbs blrebdy pbrt of the permission set.
      */
-    public boolean addPermission(Permission permission) {
+    public boolebn bddPermission(Permission permission) {
 
-        if (permissionSet.contains(permission))
-          return false;
+        if (permissionSet.contbins(permission))
+          return fblse;
 
-        permissionSet.addElement(permission);
+        permissionSet.bddElement(permission);
 
         return true;
     }
 
     /**
-     * The method disassociates the permission from the Principal
+     * The method disbssocibtes the permission from the Principbl
      * or the Group in this ACL entry.
-     * @param permission The permission to be disassociated with
-     * the principal or the group in the entry.
-     * @return true if the permission is removed, false if the
-     * permission is not part of the permission set.
+     * @pbrbm permission The permission to be disbssocibted with
+     * the principbl or the group in the entry.
+     * @return true if the permission is removed, fblse if the
+     * permission is not pbrt of the permission set.
      */
-    public boolean removePermission(Permission permission) {
+    public boolebn removePermission(Permission permission) {
         return permissionSet.removeElement(permission);
     }
 
     /**
-     * Checks if the passed permission is part of the allowed
+     * Checks if the pbssed permission is pbrt of the bllowed
      * permission set in this entry.
-     * @param permission The permission that has to be part of
+     * @pbrbm permission The permission thbt hbs to be pbrt of
      * the permission set in the entry.
-     * @return true if the permission passed is part of the
-     * permission set in the entry, false otherwise.
+     * @return true if the permission pbssed is pbrt of the
+     * permission set in the entry, fblse otherwise.
      */
-    public boolean checkPermission(Permission permission) {
-        return permissionSet.contains(permission);
+    public boolebn checkPermission(Permission permission) {
+        return permissionSet.contbins(permission);
     }
 
     /**
-     * return an enumeration of the permissions in this ACL entry.
+     * return bn enumerbtion of the permissions in this ACL entry.
      */
-    public Enumeration<Permission> permissions() {
+    public Enumerbtion<Permission> permissions() {
         return permissionSet.elements();
     }
 
     /**
-     * Return a string representation of  the contents of the ACL entry.
+     * Return b string representbtion of  the contents of the ACL entry.
      */
     public String toString() {
         StringBuffer s = new StringBuffer();
-        if (negative)
-          s.append("-");
+        if (negbtive)
+          s.bppend("-");
         else
-          s.append("+");
-        if (user instanceof Group)
-            s.append("Group.");
+          s.bppend("+");
+        if (user instbnceof Group)
+            s.bppend("Group.");
         else
-            s.append("User.");
-        s.append(user + "=");
-        Enumeration<Permission> e = permissions();
-        while(e.hasMoreElements()) {
+            s.bppend("User.");
+        s.bppend(user + "=");
+        Enumerbtion<Permission> e = permissions();
+        while(e.hbsMoreElements()) {
             Permission p = e.nextElement();
-            s.append(p);
-            if (e.hasMoreElements())
-                s.append(",");
+            s.bppend(p);
+            if (e.hbsMoreElements())
+                s.bppend(",");
         }
         return new String(s);
     }
 
     /**
-     * Clones an AclEntry.
+     * Clones bn AclEntry.
      */
-    @SuppressWarnings("unchecked") // Safe casts assuming clone() works correctly
+    @SuppressWbrnings("unchecked") // Sbfe cbsts bssuming clone() works correctly
     public synchronized Object clone() {
         AclEntryImpl cloned;
         cloned = new AclEntryImpl(user);
         cloned.permissionSet = (Vector<Permission>) permissionSet.clone();
-        cloned.negative = negative;
+        cloned.negbtive = negbtive;
         return cloned;
     }
 
     /**
-     * Return the Principal associated in this ACL entry.
-     * The method returns null if the entry uses a group
-     * instead of a principal.
+     * Return the Principbl bssocibted in this ACL entry.
+     * The method returns null if the entry uses b group
+     * instebd of b principbl.
      */
-    public Principal getPrincipal() {
+    public Principbl getPrincipbl() {
         return user;
     }
 }

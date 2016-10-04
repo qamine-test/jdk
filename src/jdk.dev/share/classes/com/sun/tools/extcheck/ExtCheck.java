@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.extcheck;
+pbckbge com.sun.tools.extcheck;
 
-import java.util.*;
-import java.net.MalformedURLException;
-import java.util.Vector;
-import java.io.*;
-import java.util.StringTokenizer;
-import java.net.URL;
-import java.util.jar.JarFile;
-import java.util.jar.JarEntry;
-import java.util.jar.Manifest;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-import java.net.URLConnection;
-import java.security.Permission;
-import java.util.jar.*;
-import java.net.JarURLConnection;
-import sun.net.www.ParseUtil;
+import jbvb.util.*;
+import jbvb.net.MblformedURLException;
+import jbvb.util.Vector;
+import jbvb.io.*;
+import jbvb.util.StringTokenizer;
+import jbvb.net.URL;
+import jbvb.util.jbr.JbrFile;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.Mbnifest;
+import jbvb.util.jbr.Attributes;
+import jbvb.util.jbr.Attributes.Nbme;
+import jbvb.net.URLConnection;
+import jbvb.security.Permission;
+import jbvb.util.jbr.*;
+import jbvb.net.JbrURLConnection;
+import sun.net.www.PbrseUtil;
 
 /**
- * ExtCheck reports on clashes between a specified (target)
- * jar file and jar files already installed in the extensions
+ * ExtCheck reports on clbshes between b specified (tbrget)
+ * jbr file bnd jbr files blrebdy instblled in the extensions
  * directory.
  *
- * @author Benedict Gomes
+ * @buthor Benedict Gomes
  * @since 1.2
  */
 
-public class ExtCheck {
+public clbss ExtCheck {
 
-    private static final boolean DEBUG = false;
+    privbte stbtic finbl boolebn DEBUG = fblse;
 
-    // The following strings hold the values of the version variables
-    // for the target jar file
-    private String targetSpecTitle;
-    private String targetSpecVersion;
-    private String targetSpecVendor;
-    private String targetImplTitle;
-    private String targetImplVersion;
-    private String targetImplVendor;
-    private String targetsealed;
+    // The following strings hold the vblues of the version vbribbles
+    // for the tbrget jbr file
+    privbte String tbrgetSpecTitle;
+    privbte String tbrgetSpecVersion;
+    privbte String tbrgetSpecVendor;
+    privbte String tbrgetImplTitle;
+    privbte String tbrgetImplVersion;
+    privbte String tbrgetImplVendor;
+    privbte String tbrgetsebled;
 
-    /* Flag to indicate whether extra information should be dumped to stdout */
-    private boolean verboseFlag;
+    /* Flbg to indicbte whether extrb informbtion should be dumped to stdout */
+    privbte boolebn verboseFlbg;
 
     /*
-     * Create a new instance of the jar reporting tool for a particular
-     * targetFile.
-     * @param targetFile is the file to compare against.
-     * @param verbose indicates whether to dump filenames and manifest
-     *                information (on conflict) to the standard output.
+     * Crebte b new instbnce of the jbr reporting tool for b pbrticulbr
+     * tbrgetFile.
+     * @pbrbm tbrgetFile is the file to compbre bgbinst.
+     * @pbrbm verbose indicbtes whether to dump filenbmes bnd mbnifest
+     *                informbtion (on conflict) to the stbndbrd output.
      */
-    static ExtCheck create(File targetFile, boolean verbose) {
-        return new ExtCheck(targetFile, verbose);
+    stbtic ExtCheck crebte(File tbrgetFile, boolebn verbose) {
+        return new ExtCheck(tbrgetFile, verbose);
     }
 
-    private ExtCheck(File targetFile, boolean verbose) {
-        verboseFlag = verbose;
-        investigateTarget(targetFile);
+    privbte ExtCheck(File tbrgetFile, boolebn verbose) {
+        verboseFlbg = verbose;
+        investigbteTbrget(tbrgetFile);
     }
 
 
-    private void investigateTarget(File targetFile) {
-        verboseMessage("Target file:" + targetFile);
-        Manifest targetManifest = null;
+    privbte void investigbteTbrget(File tbrgetFile) {
+        verboseMessbge("Tbrget file:" + tbrgetFile);
+        Mbnifest tbrgetMbnifest = null;
         try {
-            File canon = new File(targetFile.getCanonicalPath());
-            URL url = ParseUtil.fileToEncodedURL(canon);
+            File cbnon = new File(tbrgetFile.getCbnonicblPbth());
+            URL url = PbrseUtil.fileToEncodedURL(cbnon);
             if (url != null){
-                JarLoader loader = new JarLoader(url);
-                JarFile jarFile = loader.getJarFile();
-                targetManifest = jarFile.getManifest();
+                JbrLobder lobder = new JbrLobder(url);
+                JbrFile jbrFile = lobder.getJbrFile();
+                tbrgetMbnifest = jbrFile.getMbnifest();
             }
-        } catch (MalformedURLException e){
-            error("Malformed URL ");
-        } catch (IOException e) {
+        } cbtch (MblformedURLException e){
+            error("Mblformed URL ");
+        } cbtch (IOException e) {
             error("IO Exception ");
         }
-        if (targetManifest == null)
-            error("No manifest available in "+targetFile);
-        Attributes attr = targetManifest.getMainAttributes();
-        if (attr != null) {
-            targetSpecTitle   = attr.getValue(Name.SPECIFICATION_TITLE);
-            targetSpecVersion = attr.getValue(Name.SPECIFICATION_VERSION);
-            targetSpecVendor  = attr.getValue(Name.SPECIFICATION_VENDOR);
-            targetImplTitle   = attr.getValue(Name.IMPLEMENTATION_TITLE);
-            targetImplVersion = attr.getValue(Name.IMPLEMENTATION_VERSION);
-            targetImplVendor  = attr.getValue(Name.IMPLEMENTATION_VENDOR);
-            targetsealed      = attr.getValue(Name.SEALED);
+        if (tbrgetMbnifest == null)
+            error("No mbnifest bvbilbble in "+tbrgetFile);
+        Attributes bttr = tbrgetMbnifest.getMbinAttributes();
+        if (bttr != null) {
+            tbrgetSpecTitle   = bttr.getVblue(Nbme.SPECIFICATION_TITLE);
+            tbrgetSpecVersion = bttr.getVblue(Nbme.SPECIFICATION_VERSION);
+            tbrgetSpecVendor  = bttr.getVblue(Nbme.SPECIFICATION_VENDOR);
+            tbrgetImplTitle   = bttr.getVblue(Nbme.IMPLEMENTATION_TITLE);
+            tbrgetImplVersion = bttr.getVblue(Nbme.IMPLEMENTATION_VERSION);
+            tbrgetImplVendor  = bttr.getVblue(Nbme.IMPLEMENTATION_VENDOR);
+            tbrgetsebled      = bttr.getVblue(Nbme.SEALED);
         } else {
-            error("No attributes available in the manifest");
+            error("No bttributes bvbilbble in the mbnifest");
         }
-        if (targetSpecTitle == null)
-            error("The target file does not have a specification title");
-        if (targetSpecVersion == null)
-            error("The target file does not have a specification version");
-        verboseMessage("Specification title:" + targetSpecTitle);
-        verboseMessage("Specification version:" + targetSpecVersion);
-        if (targetSpecVendor != null)
-            verboseMessage("Specification vendor:" + targetSpecVendor);
-        if (targetImplVersion != null)
-            verboseMessage("Implementation version:" + targetImplVersion);
-        if (targetImplVendor != null)
-            verboseMessage("Implementation vendor:" + targetImplVendor);
-        verboseMessage("");
+        if (tbrgetSpecTitle == null)
+            error("The tbrget file does not hbve b specificbtion title");
+        if (tbrgetSpecVersion == null)
+            error("The tbrget file does not hbve b specificbtion version");
+        verboseMessbge("Specificbtion title:" + tbrgetSpecTitle);
+        verboseMessbge("Specificbtion version:" + tbrgetSpecVersion);
+        if (tbrgetSpecVendor != null)
+            verboseMessbge("Specificbtion vendor:" + tbrgetSpecVendor);
+        if (tbrgetImplVersion != null)
+            verboseMessbge("Implementbtion version:" + tbrgetImplVersion);
+        if (tbrgetImplVendor != null)
+            verboseMessbge("Implementbtion vendor:" + tbrgetImplVendor);
+        verboseMessbge("");
     }
 
     /**
-     * Verify that none of the jar files in the install directory
-     * has the same specification-title and the same or a newer
-     * specification-version.
+     * Verify thbt none of the jbr files in the instbll directory
+     * hbs the sbme specificbtion-title bnd the sbme or b newer
+     * specificbtion-version.
      *
-     * @return Return true if the target jar file is newer
-     *        than any installed jar file with the same specification-title,
-     *        otherwise return false
+     * @return Return true if the tbrget jbr file is newer
+     *        thbn bny instblled jbr file with the sbme specificbtion-title,
+     *        otherwise return fblse
      */
-    boolean checkInstalledAgainstTarget(){
-        String s = System.getProperty("java.ext.dirs");
+    boolebn checkInstblledAgbinstTbrget(){
+        String s = System.getProperty("jbvb.ext.dirs");
         File [] dirs;
         if (s != null) {
             StringTokenizer st =
-                new StringTokenizer(s, File.pathSeparator);
+                new StringTokenizer(s, File.pbthSepbrbtor);
             int count = st.countTokens();
             dirs = new File[count];
             for (int i = 0; i < count; i++) {
@@ -154,93 +154,93 @@ public class ExtCheck {
             dirs = new File[0];
         }
 
-        boolean result = true;
+        boolebn result = true;
         for (int i = 0; i < dirs.length; i++) {
             String[] files = dirs[i].list();
             if (files != null) {
                 for (int j = 0; j < files.length; j++) {
                     try {
                         File f = new File(dirs[i],files[j]);
-                        File canon = new File(f.getCanonicalPath());
-                        URL url = ParseUtil.fileToEncodedURL(canon);
+                        File cbnon = new File(f.getCbnonicblPbth());
+                        URL url = PbrseUtil.fileToEncodedURL(cbnon);
                         if (url != null){
                             result = result && checkURLRecursively(1,url);
                         }
-                    } catch (MalformedURLException e){
-                        error("Malformed URL");
-                    } catch (IOException e) {
+                    } cbtch (MblformedURLException e){
+                        error("Mblformed URL");
+                    } cbtch (IOException e) {
                         error("IO Exception");
                     }
                 }
             }
         }
         if (result) {
-            generalMessage("No conflicting installed jar found.");
+            generblMessbge("No conflicting instblled jbr found.");
         } else {
-            generalMessage("Conflicting installed jar found. "
-                           + " Use -verbose for more information.");
+            generblMessbge("Conflicting instblled jbr found. "
+                           + " Use -verbose for more informbtion.");
         }
         return result;
     }
 
     /**
-     * Recursively verify that a jar file, and any urls mentioned
-     * in its class path, do not conflict with the target jar file.
+     * Recursively verify thbt b jbr file, bnd bny urls mentioned
+     * in its clbss pbth, do not conflict with the tbrget jbr file.
      *
-     * @param indent is the current nesting level
-     * @param url is the path to the jar file being checked.
-     * @return true if there is no newer URL, otherwise false
+     * @pbrbm indent is the current nesting level
+     * @pbrbm url is the pbth to the jbr file being checked.
+     * @return true if there is no newer URL, otherwise fblse
      */
-    private boolean checkURLRecursively(int indent, URL url)
+    privbte boolebn checkURLRecursively(int indent, URL url)
         throws IOException
     {
-        verboseMessage("Comparing with " + url);
-        JarLoader jarloader = new JarLoader(url);
-        JarFile j = jarloader.getJarFile();
-        Manifest man = j.getManifest();
-        if (man != null) {
-            Attributes attr = man.getMainAttributes();
-            if (attr != null){
-                String title   = attr.getValue(Name.SPECIFICATION_TITLE);
-                String version = attr.getValue(Name.SPECIFICATION_VERSION);
-                String vendor  = attr.getValue(Name.SPECIFICATION_VENDOR);
-                String implTitle   = attr.getValue(Name.IMPLEMENTATION_TITLE);
+        verboseMessbge("Compbring with " + url);
+        JbrLobder jbrlobder = new JbrLobder(url);
+        JbrFile j = jbrlobder.getJbrFile();
+        Mbnifest mbn = j.getMbnifest();
+        if (mbn != null) {
+            Attributes bttr = mbn.getMbinAttributes();
+            if (bttr != null){
+                String title   = bttr.getVblue(Nbme.SPECIFICATION_TITLE);
+                String version = bttr.getVblue(Nbme.SPECIFICATION_VERSION);
+                String vendor  = bttr.getVblue(Nbme.SPECIFICATION_VENDOR);
+                String implTitle   = bttr.getVblue(Nbme.IMPLEMENTATION_TITLE);
                 String implVersion
-                    = attr.getValue(Name.IMPLEMENTATION_VERSION);
-                String implVendor  = attr.getValue(Name.IMPLEMENTATION_VENDOR);
-                String sealed      = attr.getValue(Name.SEALED);
+                    = bttr.getVblue(Nbme.IMPLEMENTATION_VERSION);
+                String implVendor  = bttr.getVblue(Nbme.IMPLEMENTATION_VENDOR);
+                String sebled      = bttr.getVblue(Nbme.SEALED);
                 if (title != null){
-                    if (title.equals(targetSpecTitle)){
+                    if (title.equbls(tbrgetSpecTitle)){
                         if (version != null){
-                            if (version.equals(targetSpecVersion) ||
-                                isNotOlderThan(version,targetSpecVersion)){
-                                verboseMessage("");
-                                verboseMessage("CONFLICT DETECTED ");
-                                verboseMessage("Conflicting file:"+ url);
-                                verboseMessage("Installed Version:" +
+                            if (version.equbls(tbrgetSpecVersion) ||
+                                isNotOlderThbn(version,tbrgetSpecVersion)){
+                                verboseMessbge("");
+                                verboseMessbge("CONFLICT DETECTED ");
+                                verboseMessbge("Conflicting file:"+ url);
+                                verboseMessbge("Instblled Version:" +
                                                version);
                                 if (implTitle != null)
-                                    verboseMessage("Implementation Title:"+
+                                    verboseMessbge("Implementbtion Title:"+
                                                    implTitle);
                                 if (implVersion != null)
-                                    verboseMessage("Implementation Version:"+
+                                    verboseMessbge("Implementbtion Version:"+
                                                    implVersion);
                                 if (implVendor != null)
-                                    verboseMessage("Implementation Vendor:"+
+                                    verboseMessbge("Implementbtion Vendor:"+
                                                    implVendor);
-                                return false;
+                                return fblse;
                             }
                         }
                     }
                 }
             }
         }
-        boolean result = true;
-        URL[] loaderList = jarloader.getClassPath();
-        if (loaderList != null) {
-            for(int i=0; i < loaderList.length; i++){
+        boolebn result = true;
+        URL[] lobderList = jbrlobder.getClbssPbth();
+        if (lobderList != null) {
+            for(int i=0; i < lobderList.length; i++){
                 if (url != null){
-                    boolean res =  checkURLRecursively(indent+1,loaderList[i]);
+                    boolebn res =  checkURLRecursively(indent+1,lobderList[i]);
                     result = res && result;
                 }
             }
@@ -249,138 +249,138 @@ public class ExtCheck {
     }
 
     /**
-     *  See comment in method java.lang.Package.isCompatibleWith.
-     *  Return true if already is not older than target. i.e. the
-     *  target file may be superseded by a file already installed
+     *  See comment in method jbvb.lbng.Pbckbge.isCompbtibleWith.
+     *  Return true if blrebdy is not older thbn tbrget. i.e. the
+     *  tbrget file mby be superseded by b file blrebdy instblled
      */
-    private boolean isNotOlderThan(String already,String target)
-        throws NumberFormatException
+    privbte boolebn isNotOlderThbn(String blrebdy,String tbrget)
+        throws NumberFormbtException
     {
-            if (already == null || already.length() < 1) {
-            throw new NumberFormatException("Empty version string");
+            if (blrebdy == null || blrebdy.length() < 1) {
+            throw new NumberFormbtException("Empty version string");
         }
 
-            // Until it matches scan and compare numbers
-            StringTokenizer dtok = new StringTokenizer(target, ".", true);
-            StringTokenizer stok = new StringTokenizer(already, ".", true);
-        while (dtok.hasMoreTokens() || stok.hasMoreTokens()) {
+            // Until it mbtches scbn bnd compbre numbers
+            StringTokenizer dtok = new StringTokenizer(tbrget, ".", true);
+            StringTokenizer stok = new StringTokenizer(blrebdy, ".", true);
+        while (dtok.hbsMoreTokens() || stok.hbsMoreTokens()) {
             int dver;
             int sver;
-            if (dtok.hasMoreTokens()) {
-                dver = Integer.parseInt(dtok.nextToken());
+            if (dtok.hbsMoreTokens()) {
+                dver = Integer.pbrseInt(dtok.nextToken());
             } else
                 dver = 0;
 
-            if (stok.hasMoreTokens()) {
-                sver = Integer.parseInt(stok.nextToken());
+            if (stok.hbsMoreTokens()) {
+                sver = Integer.pbrseInt(stok.nextToken());
             } else
                 sver = 0;
 
                 if (sver < dver)
-                        return false;                // Known to be incompatible
+                        return fblse;                // Known to be incompbtible
                 if (sver > dver)
-                        return true;                // Known to be compatible
+                        return true;                // Known to be compbtible
 
-                // Check for and absorb separators
-                if (dtok.hasMoreTokens())
+                // Check for bnd bbsorb sepbrbtors
+                if (dtok.hbsMoreTokens())
                         dtok.nextToken();
-                if (stok.hasMoreTokens())
+                if (stok.hbsMoreTokens())
                         stok.nextToken();
-                // Compare next component
+                // Compbre next component
             }
-            // All components numerically equal
+            // All components numericblly equbl
         return true;
     }
 
 
     /**
-     * Prints out message if the verboseFlag is set
+     * Prints out messbge if the verboseFlbg is set
      */
-    void verboseMessage(String message){
-        if (verboseFlag) {
-            System.err.println(message);
+    void verboseMessbge(String messbge){
+        if (verboseFlbg) {
+            System.err.println(messbge);
         }
     }
 
-    void generalMessage(String message){
-        System.err.println(message);
+    void generblMessbge(String messbge){
+        System.err.println(messbge);
     }
 
     /**
-     * Throws a RuntimeException with a message describing the error.
+     * Throws b RuntimeException with b messbge describing the error.
      */
-    static void error(String message) throws RuntimeException {
-        throw new RuntimeException(message);
+    stbtic void error(String messbge) throws RuntimeException {
+        throw new RuntimeException(messbge);
     }
 
 
     /**
-     * Inner class used to represent a loader of resources and classes
-     * from a base URL. Somewhat modified version of code in
-     * sun.misc.URLClassPath.JarLoader
+     * Inner clbss used to represent b lobder of resources bnd clbsses
+     * from b bbse URL. Somewhbt modified version of code in
+     * sun.misc.URLClbssPbth.JbrLobder
      */
-    private static class JarLoader {
-        private final URL base;
-        private JarFile jar;
-        private URL csu;
+    privbte stbtic clbss JbrLobder {
+        privbte finbl URL bbse;
+        privbte JbrFile jbr;
+        privbte URL csu;
 
         /*
-         * Creates a new Loader for the specified URL.
+         * Crebtes b new Lobder for the specified URL.
          */
-        JarLoader(URL url) {
-            String urlName = url + "!/";
-            URL tmpBaseURL = null;
+        JbrLobder(URL url) {
+            String urlNbme = url + "!/";
+            URL tmpBbseURL = null;
             try {
-                tmpBaseURL = new URL("jar","",urlName);
-                jar = findJarFile(url);
+                tmpBbseURL = new URL("jbr","",urlNbme);
+                jbr = findJbrFile(url);
                 csu = url;
-            } catch (MalformedURLException e) {
-                ExtCheck.error("Malformed url "+urlName);
-            } catch (IOException e) {
+            } cbtch (MblformedURLException e) {
+                ExtCheck.error("Mblformed url "+urlNbme);
+            } cbtch (IOException e) {
                 ExtCheck.error("IO Exception occurred");
             }
-            base = tmpBaseURL;
+            bbse = tmpBbseURL;
 
         }
 
         /*
-         * Returns the base URL for this Loader.
+         * Returns the bbse URL for this Lobder.
          */
-        URL getBaseURL() {
-            return base;
+        URL getBbseURL() {
+            return bbse;
         }
 
-        JarFile getJarFile() {
-            return jar;
+        JbrFile getJbrFile() {
+            return jbr;
         }
 
-        private JarFile findJarFile(URL url) throws IOException {
-             // Optimize case where url refers to a local jar file
-             if ("file".equals(url.getProtocol())) {
-                 String path = url.getFile().replace('/', File.separatorChar);
-                 File file = new File(path);
+        privbte JbrFile findJbrFile(URL url) throws IOException {
+             // Optimize cbse where url refers to b locbl jbr file
+             if ("file".equbls(url.getProtocol())) {
+                 String pbth = url.getFile().replbce('/', File.sepbrbtorChbr);
+                 File file = new File(pbth);
                  if (!file.exists()) {
-                     throw new FileNotFoundException(path);
+                     throw new FileNotFoundException(pbth);
                  }
-                 return new JarFile(path);
+                 return new JbrFile(pbth);
              }
-             URLConnection uc = getBaseURL().openConnection();
+             URLConnection uc = getBbseURL().openConnection();
              //uc.setRequestProperty(USER_AGENT_JAVA_VERSION, JAVA_VERSION);
-             return ((JarURLConnection)uc).getJarFile();
+             return ((JbrURLConnection)uc).getJbrFile();
          }
 
 
         /*
-         * Returns the JAR file local class path, or null if none.
+         * Returns the JAR file locbl clbss pbth, or null if none.
          */
-        URL[] getClassPath() throws IOException {
-            Manifest man = jar.getManifest();
-            if (man != null) {
-                Attributes attr = man.getMainAttributes();
-                if (attr != null) {
-                    String value = attr.getValue(Name.CLASS_PATH);
-                    if (value != null) {
-                        return parseClassPath(csu, value);
+        URL[] getClbssPbth() throws IOException {
+            Mbnifest mbn = jbr.getMbnifest();
+            if (mbn != null) {
+                Attributes bttr = mbn.getMbinAttributes();
+                if (bttr != null) {
+                    String vblue = bttr.getVblue(Nbme.CLASS_PATH);
+                    if (vblue != null) {
+                        return pbrseClbssPbth(csu, vblue);
                     }
                 }
             }
@@ -388,18 +388,18 @@ public class ExtCheck {
         }
 
         /*
-         * Parses value of the Class-Path manifest attribute and returns
-         * an array of URLs relative to the specified base URL.
+         * Pbrses vblue of the Clbss-Pbth mbnifest bttribute bnd returns
+         * bn brrby of URLs relbtive to the specified bbse URL.
          */
-        private URL[] parseClassPath(URL base, String value)
-            throws MalformedURLException
+        privbte URL[] pbrseClbssPbth(URL bbse, String vblue)
+            throws MblformedURLException
         {
-            StringTokenizer st = new StringTokenizer(value);
+            StringTokenizer st = new StringTokenizer(vblue);
             URL[] urls = new URL[st.countTokens()];
             int i = 0;
-            while (st.hasMoreTokens()) {
-                String path = st.nextToken();
-                urls[i] = new URL(base, path);
+            while (st.hbsMoreTokens()) {
+                String pbth = st.nextToken();
+                urls[i] = new URL(bbse, pbth);
                 i++;
             }
             return urls;

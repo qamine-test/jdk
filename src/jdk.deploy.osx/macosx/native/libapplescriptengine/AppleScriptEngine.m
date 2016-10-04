@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "apple_applescript_AppleScriptEngine.h"
-#import "apple_applescript_AppleScriptEngineFactory.h"
+#import "bpple_bpplescript_AppleScriptEngine.h"
+#import "bpple_bpplescript_AppleScriptEngineFbctory.h"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "NS_Java_ConversionUtils.h"
+#import "NS_Jbvb_ConversionUtils.h"
 #import "AppleScriptExecutionContext.h"
 
 //#define DEBUG 1
 
 
 /*
- * Class:     apple_applescript_AppleScriptEngineFactory
- * Method:    initNative
- * Signature: ()V
+ * Clbss:     bpple_bpplescript_AppleScriptEngineFbctory
+ * Method:    initNbtive
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_apple_applescript_AppleScriptEngineFactory_initNative
-(JNIEnv *env, jclass clazz)
+JNIEXPORT void JNICALL Jbvb_bpple_bpplescript_AppleScriptEngineFbctory_initNbtive
+(JNIEnv *env, jclbss clbzz)
 {
     return;
 }
 
 
 /*
- * Class:     apple_applescript_AppleScriptEngine
- * Method:    initNative
- * Signature: ()V
+ * Clbss:     bpple_bpplescript_AppleScriptEngine
+ * Method:    initNbtive
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_apple_applescript_AppleScriptEngine_initNative
-(JNIEnv *env, jclass clazz)
+JNIEXPORT void JNICALL Jbvb_bpple_bpplescript_AppleScriptEngine_initNbtive
+(JNIEnv *env, jclbss clbzz)
 {
     return;
 }
 
 
 /*
- * Class:     apple_applescript_AppleScriptEngine
- * Method:    createContextFrom
- * Signature: (Ljava/lang/Object;)J
+ * Clbss:     bpple_bpplescript_AppleScriptEngine
+ * Method:    crebteContextFrom
+ * Signbture: (Ljbvb/lbng/Object;)J
  */
-JNIEXPORT jlong JNICALL Java_apple_applescript_AppleScriptEngine_createContextFrom
-(JNIEnv *env, jclass clazz, jobject javaContext)
+JNIEXPORT jlong JNICALL Jbvb_bpple_bpplescript_AppleScriptEngine_crebteContextFrom
+(JNIEnv *env, jclbss clbzz, jobject jbvbContext)
 {
     NSObject *obj = nil;
 
 JNF_COCOA_ENTER(env);
 
-    obj = [[JavaAppleScriptEngineCoercion coercer] coerceJavaObject:javaContext withEnv:env];
+    obj = [[JbvbAppleScriptEngineCoercion coercer] coerceJbvbObject:jbvbContext withEnv:env];
 
 #ifdef DEBUG
     NSLog(@"converted context: %@", obj);
 #endif
 
-    CFRetain(obj);
+    CFRetbin(obj);
 
 JNF_COCOA_EXIT(env);
 
@@ -85,18 +85,18 @@ JNF_COCOA_EXIT(env);
 
 
 /*
- * Class:     apple_applescript_AppleScriptEngine
- * Method:    createObjectFrom
- * Signature: (J)Ljava/lang/Object;
+ * Clbss:     bpple_bpplescript_AppleScriptEngine
+ * Method:    crebteObjectFrom
+ * Signbture: (J)Ljbvb/lbng/Object;
  */
-JNIEXPORT jobject JNICALL Java_apple_applescript_AppleScriptEngine_createObjectFrom
-(JNIEnv *env, jclass clazz, jlong nativeContext)
+JNIEXPORT jobject JNICALL Jbvb_bpple_bpplescript_AppleScriptEngine_crebteObjectFrom
+(JNIEnv *env, jclbss clbzz, jlong nbtiveContext)
 {
     jobject obj = NULL;
 
 JNF_COCOA_ENTER(env);
 
-    obj = [[JavaAppleScriptEngineCoercion coercer] coerceNSObject:(id)jlong_to_ptr(nativeContext) withEnv:env];
+    obj = [[JbvbAppleScriptEngineCoercion coercer] coerceNSObject:(id)jlong_to_ptr(nbtiveContext) withEnv:env];
 
 JNF_COCOA_EXIT(env);
 
@@ -105,18 +105,18 @@ JNF_COCOA_EXIT(env);
 
 
 /*
- * Class:     apple_applescript_AppleScriptEngine
+ * Clbss:     bpple_bpplescript_AppleScriptEngine
  * Method:    disposeContext
- * Signature: (J)V
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_apple_applescript_AppleScriptEngine_disposeContext
-(JNIEnv *env, jclass clazz, jlong nativeContext)
+JNIEXPORT void JNICALL Jbvb_bpple_bpplescript_AppleScriptEngine_disposeContext
+(JNIEnv *env, jclbss clbzz, jlong nbtiveContext)
 {
 
 JNF_COCOA_ENTER(env);
 
-    id obj = (id)jlong_to_ptr(nativeContext);
-    if (obj != nil) CFRelease(obj);
+    id obj = (id)jlong_to_ptr(nbtiveContext);
+    if (obj != nil) CFRelebse(obj);
 
 JNF_COCOA_EXIT(env);
 
@@ -124,68 +124,68 @@ JNF_COCOA_EXIT(env);
 
 
 /*
- * Class:     apple_applescript_AppleScriptEngine
- * Method:    evalScript
- * Signature: (Ljava/lang/String;J)J
+ * Clbss:     bpple_bpplescript_AppleScriptEngine
+ * Method:    evblScript
+ * Signbture: (Ljbvb/lbng/String;J)J
  */
-JNIEXPORT jlong JNICALL Java_apple_applescript_AppleScriptEngine_evalScript
-(JNIEnv *env, jclass clazz, jstring ascript, jlong contextptr)
+JNIEXPORT jlong JNICALL Jbvb_bpple_bpplescript_AppleScriptEngine_evblScript
+(JNIEnv *env, jclbss clbzz, jstring bscript, jlong contextptr)
 {
-    id retval = nil;
+    id retvbl = nil;
 
 JNF_COCOA_ENTER(env);
 
-    NSDictionary *ncontext = jlong_to_ptr(contextptr);
-    NSString *source = JNFJavaToNSString(env, ascript);
+    NSDictionbry *ncontext = jlong_to_ptr(contextptr);
+    NSString *source = JNFJbvbToNSString(env, bscript);
 
 #ifdef DEBUG
-    NSLog(@"evalScript(source:\"%@\" context: %@)", source, ncontext);
+    NSLog(@"evblScript(source:\"%@\" context: %@)", source, ncontext);
 #endif
 
-    AppleScriptExecutionContext *scriptInvocationCtx = [[[AppleScriptExecutionContext alloc] initWithSource:source context:ncontext] autorelease];
-    retval = [scriptInvocationCtx invokeWithEnv:env];
+    AppleScriptExecutionContext *scriptInvocbtionCtx = [[[AppleScriptExecutionContext blloc] initWithSource:source context:ncontext] butorelebse];
+    retvbl = [scriptInvocbtionCtx invokeWithEnv:env];
 
 #ifdef DEBUG
-    NSLog(@"returning: %@", retval);
+    NSLog(@"returning: %@", retvbl);
 #endif
 
-    if (retval) CFRetain(retval);
+    if (retvbl) CFRetbin(retvbl);
 
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(retval);
+    return ptr_to_jlong(retvbl);
 }
 
 
 /*
- * Class:     apple_applescript_AppleScriptEngine
- * Method:    evalScriptFromURL
- * Signature: (Ljava/lang/String;J)J
+ * Clbss:     bpple_bpplescript_AppleScriptEngine
+ * Method:    evblScriptFromURL
+ * Signbture: (Ljbvb/lbng/String;J)J
  */
-JNIEXPORT jlong JNICALL Java_apple_applescript_AppleScriptEngine_evalScriptFromURL
-(JNIEnv *env, jclass clazz, jstring afilename, jlong contextptr)
+JNIEXPORT jlong JNICALL Jbvb_bpple_bpplescript_AppleScriptEngine_evblScriptFromURL
+(JNIEnv *env, jclbss clbzz, jstring bfilenbme, jlong contextptr)
 {
-    id retval = nil;
+    id retvbl = nil;
 
 JNF_COCOA_ENTER(env);
 
-    NSDictionary *ncontext = jlong_to_ptr(contextptr);
-    NSString *filename = JNFJavaToNSString(env, afilename);
+    NSDictionbry *ncontext = jlong_to_ptr(contextptr);
+    NSString *filenbme = JNFJbvbToNSString(env, bfilenbme);
 
 #ifdef DEBUG
-    NSLog(@"evalScript(filename:\"%@\" context: %@)", filename, ncontext);
+    NSLog(@"evblScript(filenbme:\"%@\" context: %@)", filenbme, ncontext);
 #endif
 
-    AppleScriptExecutionContext *scriptInvocationCtx = [[[AppleScriptExecutionContext alloc] initWithFile:filename context:ncontext] autorelease];
-    retval = [scriptInvocationCtx invokeWithEnv:env];
+    AppleScriptExecutionContext *scriptInvocbtionCtx = [[[AppleScriptExecutionContext blloc] initWithFile:filenbme context:ncontext] butorelebse];
+    retvbl = [scriptInvocbtionCtx invokeWithEnv:env];
 
 #ifdef DEBUG
-    NSLog(@"returning: %@", retval);
+    NSLog(@"returning: %@", retvbl);
 #endif
 
-    if (retval) CFRetain(retval);
+    if (retvbl) CFRetbin(retvbl);
 
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(retval);
+    return ptr_to_jlong(retvbl);
 }

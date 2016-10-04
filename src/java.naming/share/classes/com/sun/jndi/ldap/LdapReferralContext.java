@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.*;
-import javax.naming.ldap.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.*;
+import jbvbx.nbming.ldbp.*;
 
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import com.sun.jndi.toolkit.dir.SearchFilter;
+import jbvb.util.Hbshtbble;
+import jbvb.util.StringTokenizer;
+import com.sun.jndi.toolkit.dir.SebrchFilter;
 
 /**
- * A context for handling referrals.
+ * A context for hbndling referrbls.
  *
- * @author Vincent Ryan
+ * @buthor Vincent Rybn
  */
-final class LdapReferralContext implements DirContext, LdapContext {
+finbl clbss LdbpReferrblContext implements DirContext, LdbpContext {
 
-    private DirContext refCtx = null;
-    private Name urlName = null;   // override the supplied name
-    private String urlAttrs = null;  // override attributes
-    private String urlScope = null;  // override scope
-    private String urlFilter = null; // override filter
+    privbte DirContext refCtx = null;
+    privbte Nbme urlNbme = null;   // override the supplied nbme
+    privbte String urlAttrs = null;  // override bttributes
+    privbte String urlScope = null;  // override scope
+    privbte String urlFilter = null; // override filter
 
-    private LdapReferralException refEx = null;
-    private boolean skipThisReferral = false;
-    private int hopCount = 1;
-    private NamingException previousEx = null;
+    privbte LdbpReferrblException refEx = null;
+    privbte boolebn skipThisReferrbl = fblse;
+    privbte int hopCount = 1;
+    privbte NbmingException previousEx = null;
 
-    @SuppressWarnings("unchecked") // clone()
-    LdapReferralContext(LdapReferralException ex,
-        Hashtable<?,?> env,
+    @SuppressWbrnings("unchecked") // clone()
+    LdbpReferrblContext(LdbpReferrblException ex,
+        Hbshtbble<?,?> env,
         Control[] connCtls,
         Control[] reqCtls,
-        String nextName,
-        boolean skipThisReferral,
-        int handleReferrals) throws NamingException {
+        String nextNbme,
+        boolebn skipThisReferrbl,
+        int hbndleReferrbls) throws NbmingException {
 
         refEx = ex;
 
-        if (this.skipThisReferral = skipThisReferral) {
-            return; // don't create a DirContext for this referral
+        if (this.skipThisReferrbl = skipThisReferrbl) {
+            return; // don't crebte b DirContext for this referrbl
         }
 
-        String referral;
+        String referrbl;
 
-        // Make copies of environment and connect controls for our own use.
+        // Mbke copies of environment bnd connect controls for our own use.
         if (env != null) {
-            env = (Hashtable<?,?>) env.clone();
-            // Remove old connect controls from environment, unless we have new
-            // ones that will override them anyway.
+            env = (Hbshtbble<?,?>) env.clone();
+            // Remove old connect controls from environment, unless we hbve new
+            // ones thbt will override them bnywby.
             if (connCtls == null) {
-                env.remove(LdapCtx.BIND_CONTROLS);
+                env.remove(LdbpCtx.BIND_CONTROLS);
             }
         } else if (connCtls != null) {
-            env = new Hashtable<String, Control[]>(5);
+            env = new Hbshtbble<String, Control[]>(5);
         }
         if (connCtls != null) {
             Control[] copiedCtls = new Control[connCtls.length];
-            System.arraycopy(connCtls, 0, copiedCtls, 0, connCtls.length);
-            // Add copied controls to environment, replacing any old ones.
-            ((Hashtable<? super String, ? super Control[]>)env)
-                    .put(LdapCtx.BIND_CONTROLS, copiedCtls);
+            System.brrbycopy(connCtls, 0, copiedCtls, 0, connCtls.length);
+            // Add copied controls to environment, replbcing bny old ones.
+            ((Hbshtbble<? super String, ? super Control[]>)env)
+                    .put(LdbpCtx.BIND_CONTROLS, copiedCtls);
         }
 
         while (true) {
             try {
-                referral = refEx.getNextReferral();
-                if (referral == null) {
-                    throw (NamingException)(previousEx.fillInStackTrace());
+                referrbl = refEx.getNextReferrbl();
+                if (referrbl == null) {
+                    throw (NbmingException)(previousEx.fillInStbckTrbce());
                 }
 
-            } catch (LdapReferralException e) {
+            } cbtch (LdbpReferrblException e) {
 
-                if (handleReferrals == LdapClient.LDAP_REF_THROW) {
+                if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW) {
                     throw e;
                 } else {
                     refEx = e;
@@ -105,85 +105,85 @@ final class LdapReferralContext implements DirContext, LdapContext {
                 }
             }
 
-            // Create a Reference containing the referral URL.
-            Reference ref = new Reference("javax.naming.directory.DirContext",
-                                          new StringRefAddr("URL", referral));
+            // Crebte b Reference contbining the referrbl URL.
+            Reference ref = new Reference("jbvbx.nbming.directory.DirContext",
+                                          new StringRefAddr("URL", referrbl));
 
             Object obj;
             try {
-                obj = NamingManager.getObjectInstance(ref, null, null, env);
+                obj = NbmingMbnbger.getObjectInstbnce(ref, null, null, env);
 
-            } catch (NamingException e) {
+            } cbtch (NbmingException e) {
 
-                if (handleReferrals == LdapClient.LDAP_REF_THROW) {
+                if (hbndleReferrbls == LdbpClient.LDAP_REF_THROW) {
                     throw e;
                 }
 
-                // mask the exception and save it for later
+                // mbsk the exception bnd sbve it for lbter
                 previousEx = e;
 
-                // follow another referral
+                // follow bnother referrbl
                 continue;
 
-            } catch (Exception e) {
-                NamingException e2 =
-                    new NamingException(
-                        "problem generating object using object factory");
-                e2.setRootCause(e);
+            } cbtch (Exception e) {
+                NbmingException e2 =
+                    new NbmingException(
+                        "problem generbting object using object fbctory");
+                e2.setRootCbuse(e);
                 throw e2;
             }
-            if (obj instanceof DirContext) {
+            if (obj instbnceof DirContext) {
                 refCtx = (DirContext)obj;
-                if (refCtx instanceof LdapContext && reqCtls != null) {
-                    ((LdapContext)refCtx).setRequestControls(reqCtls);
+                if (refCtx instbnceof LdbpContext && reqCtls != null) {
+                    ((LdbpContext)refCtx).setRequestControls(reqCtls);
                 }
-                initDefaults(referral, nextName);
+                initDefbults(referrbl, nextNbme);
 
-                break;
+                brebk;
             } else {
-                NamingException ne = new NotContextException(
-                    "Cannot create context for: " + referral);
-                ne.setRemainingName((new CompositeName()).add(nextName));
+                NbmingException ne = new NotContextException(
+                    "Cbnnot crebte context for: " + referrbl);
+                ne.setRembiningNbme((new CompositeNbme()).bdd(nextNbme));
                 throw ne;
             }
         }
     }
 
-    private void initDefaults(String referral, String nextName)
-        throws NamingException {
+    privbte void initDefbults(String referrbl, String nextNbme)
+        throws NbmingException {
         String urlString;
         try {
-            // parse URL
-            LdapURL url = new LdapURL(referral);
+            // pbrse URL
+            LdbpURL url = new LdbpURL(referrbl);
             urlString = url.getDN();
             urlAttrs = url.getAttributes();
             urlScope = url.getScope();
             urlFilter = url.getFilter();
 
-        } catch (NamingException e) {
-            // Not an LDAP URL; use original URL
-            urlString = referral;
+        } cbtch (NbmingException e) {
+            // Not bn LDAP URL; use originbl URL
+            urlString = referrbl;
             urlAttrs = urlScope = urlFilter = null;
         }
 
-        // reuse original name if URL DN is absent
+        // reuse originbl nbme if URL DN is bbsent
         if (urlString == null) {
-            urlString = nextName;
+            urlString = nextNbme;
         } else {
-            // concatenate with remaining name if URL DN is present
+            // concbtenbte with rembining nbme if URL DN is present
             urlString = "";
         }
 
         if (urlString == null) {
-            urlName = null;
+            urlNbme = null;
         } else {
-            urlName = urlString.equals("") ? new CompositeName() :
-                new CompositeName().add(urlString);
+            urlNbme = urlString.equbls("") ? new CompositeNbme() :
+                new CompositeNbme().bdd(urlString);
         }
     }
 
 
-    public void close() throws NamingException {
+    public void close() throws NbmingException {
         if (refCtx != null) {
             refCtx.close();
             refCtx = null;
@@ -193,741 +193,741 @@ final class LdapReferralContext implements DirContext, LdapContext {
 
     void setHopCount(int hopCount) {
         this.hopCount = hopCount;
-        if ((refCtx != null) && (refCtx instanceof LdapCtx)) {
-            ((LdapCtx)refCtx).setHopCount(hopCount);
+        if ((refCtx != null) && (refCtx instbnceof LdbpCtx)) {
+            ((LdbpCtx)refCtx).setHopCount(hopCount);
         }
     }
 
-    public Object lookup(String name) throws NamingException {
-        return lookup(toName(name));
+    public Object lookup(String nbme) throws NbmingException {
+        return lookup(toNbme(nbme));
     }
 
-    public Object lookup(Name name) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Object lookup(Nbme nbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        return refCtx.lookup(overrideName(name));
+        return refCtx.lookup(overrideNbme(nbme));
     }
 
-    public void bind(String name, Object obj) throws NamingException {
-        bind(toName(name), obj);
+    public void bind(String nbme, Object obj) throws NbmingException {
+        bind(toNbme(nbme), obj);
     }
 
-    public void bind(Name name, Object obj) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void bind(Nbme nbme, Object obj) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        refCtx.bind(overrideName(name), obj);
+        refCtx.bind(overrideNbme(nbme), obj);
     }
 
-    public void rebind(String name, Object obj) throws NamingException {
-        rebind(toName(name), obj);
+    public void rebind(String nbme, Object obj) throws NbmingException {
+        rebind(toNbme(nbme), obj);
     }
 
-    public void rebind(Name name, Object obj) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void rebind(Nbme nbme, Object obj) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        refCtx.rebind(overrideName(name), obj);
+        refCtx.rebind(overrideNbme(nbme), obj);
     }
 
-    public void unbind(String name) throws NamingException {
-        unbind(toName(name));
+    public void unbind(String nbme) throws NbmingException {
+        unbind(toNbme(nbme));
     }
 
-    public void unbind(Name name) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void unbind(Nbme nbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        refCtx.unbind(overrideName(name));
+        refCtx.unbind(overrideNbme(nbme));
     }
 
-    public void rename(String oldName, String newName) throws NamingException {
-        rename(toName(oldName), toName(newName));
+    public void renbme(String oldNbme, String newNbme) throws NbmingException {
+        renbme(toNbme(oldNbme), toNbme(newNbme));
     }
 
-    public void rename(Name oldName, Name newName) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void renbme(Nbme oldNbme, Nbme newNbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        refCtx.rename(overrideName(oldName), toName(refEx.getNewRdn()));
+        refCtx.renbme(overrideNbme(oldNbme), toNbme(refEx.getNewRdn()));
     }
 
-    public NamingEnumeration<NameClassPair> list(String name) throws NamingException {
-        return list(toName(name));
+    public NbmingEnumerbtion<NbmeClbssPbir> list(String nbme) throws NbmingException {
+        return list(toNbme(nbme));
     }
 
-    @SuppressWarnings("unchecked")
-    public NamingEnumeration<NameClassPair> list(Name name) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    @SuppressWbrnings("unchecked")
+    public NbmingEnumerbtion<NbmeClbssPbir> list(Nbme nbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
         try {
-            NamingEnumeration<NameClassPair> ne = null;
+            NbmingEnumerbtion<NbmeClbssPbir> ne = null;
 
-            if (urlScope != null && urlScope.equals("base")) {
-                SearchControls cons = new SearchControls();
-                cons.setReturningObjFlag(true);
-                cons.setSearchScope(SearchControls.OBJECT_SCOPE);
+            if (urlScope != null && urlScope.equbls("bbse")) {
+                SebrchControls cons = new SebrchControls();
+                cons.setReturningObjFlbg(true);
+                cons.setSebrchScope(SebrchControls.OBJECT_SCOPE);
 
-                ne = (NamingEnumeration)
-                        refCtx.search(overrideName(name), "(objectclass=*)", cons);
+                ne = (NbmingEnumerbtion)
+                        refCtx.sebrch(overrideNbme(nbme), "(objectclbss=*)", cons);
 
             } else {
-                ne = refCtx.list(overrideName(name));
+                ne = refCtx.list(overrideNbme(nbme));
             }
 
-            refEx.setNameResolved(true);
+            refEx.setNbmeResolved(true);
 
-            // append (referrals from) the exception that generated this
-            // context to the new search results, so that referral processing
-            // can continue
-            ((ReferralEnumeration)ne).appendUnprocessedReferrals(refEx);
+            // bppend (referrbls from) the exception thbt generbted this
+            // context to the new sebrch results, so thbt referrbl processing
+            // cbn continue
+            ((ReferrblEnumerbtion)ne).bppendUnprocessedReferrbls(refEx);
 
             return (ne);
 
-        } catch (LdapReferralException e) {
+        } cbtch (LdbpReferrblException e) {
 
-            // append (referrals from) the exception that generated this
-            // context to the new exception, so that referral processing
-            // can continue
+            // bppend (referrbls from) the exception thbt generbted this
+            // context to the new exception, so thbt referrbl processing
+            // cbn continue
 
-            e.appendUnprocessedReferrals(refEx);
-            throw (NamingException)(e.fillInStackTrace());
+            e.bppendUnprocessedReferrbls(refEx);
+            throw (NbmingException)(e.fillInStbckTrbce());
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
 
-            // record the exception if there are no remaining referrals
-            if ((refEx != null) && (! refEx.hasMoreReferrals())) {
-                refEx.setNamingException(e);
+            // record the exception if there bre no rembining referrbls
+            if ((refEx != null) && (! refEx.hbsMoreReferrbls())) {
+                refEx.setNbmingException(e);
             }
             if ((refEx != null) &&
-                (refEx.hasMoreReferrals() ||
-                 refEx.hasMoreReferralExceptions())) {
-                throw (NamingException)
-                    ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+                (refEx.hbsMoreReferrbls() ||
+                 refEx.hbsMoreReferrblExceptions())) {
+                throw (NbmingException)
+                    ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
             } else {
                 throw e;
             }
         }
     }
 
-    public NamingEnumeration<Binding> listBindings(String name) throws
-            NamingException {
-        return listBindings(toName(name));
+    public NbmingEnumerbtion<Binding> listBindings(String nbme) throws
+            NbmingException {
+        return listBindings(toNbme(nbme));
     }
 
-    @SuppressWarnings("unchecked")
-    public NamingEnumeration<Binding> listBindings(Name name) throws
-            NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    @SuppressWbrnings("unchecked")
+    public NbmingEnumerbtion<Binding> listBindings(Nbme nbme) throws
+            NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
         try {
-            NamingEnumeration<Binding> be = null;
+            NbmingEnumerbtion<Binding> be = null;
 
-            if (urlScope != null && urlScope.equals("base")) {
-                SearchControls cons = new SearchControls();
-                cons.setReturningObjFlag(true);
-                cons.setSearchScope(SearchControls.OBJECT_SCOPE);
+            if (urlScope != null && urlScope.equbls("bbse")) {
+                SebrchControls cons = new SebrchControls();
+                cons.setReturningObjFlbg(true);
+                cons.setSebrchScope(SebrchControls.OBJECT_SCOPE);
 
-                be = (NamingEnumeration)refCtx.search(overrideName(name),
-                        "(objectclass=*)", cons);
+                be = (NbmingEnumerbtion)refCtx.sebrch(overrideNbme(nbme),
+                        "(objectclbss=*)", cons);
 
             } else {
-                be = refCtx.listBindings(overrideName(name));
+                be = refCtx.listBindings(overrideNbme(nbme));
             }
 
-            refEx.setNameResolved(true);
+            refEx.setNbmeResolved(true);
 
-            // append (referrals from) the exception that generated this
-            // context to the new search results, so that referral processing
-            // can continue
-            ((ReferralEnumeration<Binding>)be).appendUnprocessedReferrals(refEx);
+            // bppend (referrbls from) the exception thbt generbted this
+            // context to the new sebrch results, so thbt referrbl processing
+            // cbn continue
+            ((ReferrblEnumerbtion<Binding>)be).bppendUnprocessedReferrbls(refEx);
 
             return (be);
 
-        } catch (LdapReferralException e) {
+        } cbtch (LdbpReferrblException e) {
 
-            // append (referrals from) the exception that generated this
-            // context to the new exception, so that referral processing
-            // can continue
+            // bppend (referrbls from) the exception thbt generbted this
+            // context to the new exception, so thbt referrbl processing
+            // cbn continue
 
-            e.appendUnprocessedReferrals(refEx);
-            throw (NamingException)(e.fillInStackTrace());
+            e.bppendUnprocessedReferrbls(refEx);
+            throw (NbmingException)(e.fillInStbckTrbce());
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
 
-            // record the exception if there are no remaining referrals
-            if ((refEx != null) && (! refEx.hasMoreReferrals())) {
-                refEx.setNamingException(e);
+            // record the exception if there bre no rembining referrbls
+            if ((refEx != null) && (! refEx.hbsMoreReferrbls())) {
+                refEx.setNbmingException(e);
             }
             if ((refEx != null) &&
-                (refEx.hasMoreReferrals() ||
-                 refEx.hasMoreReferralExceptions())) {
-                throw (NamingException)
-                    ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+                (refEx.hbsMoreReferrbls() ||
+                 refEx.hbsMoreReferrblExceptions())) {
+                throw (NbmingException)
+                    ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
             } else {
                 throw e;
             }
         }
     }
 
-    public void destroySubcontext(String name) throws NamingException {
-        destroySubcontext(toName(name));
+    public void destroySubcontext(String nbme) throws NbmingException {
+        destroySubcontext(toNbme(nbme));
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void destroySubcontext(Nbme nbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        refCtx.destroySubcontext(overrideName(name));
+        refCtx.destroySubcontext(overrideNbme(nbme));
     }
 
-    public Context createSubcontext(String name) throws NamingException {
-        return createSubcontext(toName(name));
+    public Context crebteSubcontext(String nbme) throws NbmingException {
+        return crebteSubcontext(toNbme(nbme));
     }
 
-    public Context createSubcontext(Name name) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Context crebteSubcontext(Nbme nbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        return refCtx.createSubcontext(overrideName(name));
+        return refCtx.crebteSubcontext(overrideNbme(nbme));
     }
 
-    public Object lookupLink(String name) throws NamingException {
-        return lookupLink(toName(name));
+    public Object lookupLink(String nbme) throws NbmingException {
+        return lookupLink(toNbme(nbme));
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Object lookupLink(Nbme nbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        return refCtx.lookupLink(overrideName(name));
+        return refCtx.lookupLink(overrideNbme(nbme));
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        return getNameParser(toName(name));
+    public NbmePbrser getNbmePbrser(String nbme) throws NbmingException {
+        return getNbmePbrser(toNbme(nbme));
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public NbmePbrser getNbmePbrser(Nbme nbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        return refCtx.getNameParser(overrideName(name));
+        return refCtx.getNbmePbrser(overrideNbme(nbme));
     }
 
-    public String composeName(String name, String prefix)
-            throws NamingException {
-                return composeName(toName(name), toName(prefix)).toString();
+    public String composeNbme(String nbme, String prefix)
+            throws NbmingException {
+                return composeNbme(toNbme(nbme), toNbme(prefix)).toString();
     }
 
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Nbme composeNbme(Nbme nbme, Nbme prefix) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
-        return refCtx.composeName(name, prefix);
+        return refCtx.composeNbme(nbme, prefix);
     }
 
-    public Object addToEnvironment(String propName, Object propVal)
-            throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
-        }
-
-        return refCtx.addToEnvironment(propName, propVal);
-    }
-
-    public Object removeFromEnvironment(String propName)
-            throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Object bddToEnvironment(String propNbme, Object propVbl)
+            throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        return refCtx.removeFromEnvironment(propName);
+        return refCtx.bddToEnvironment(propNbme, propVbl);
     }
 
-    public Hashtable<?,?> getEnvironment() throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Object removeFromEnvironment(String propNbme)
+            throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
+        }
+
+        return refCtx.removeFromEnvironment(propNbme);
+    }
+
+    public Hbshtbble<?,?> getEnvironment() throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
         return refCtx.getEnvironment();
     }
 
-    public Attributes getAttributes(String name) throws NamingException {
-        return getAttributes(toName(name));
+    public Attributes getAttributes(String nbme) throws NbmingException {
+        return getAttributes(toNbme(nbme));
     }
 
-    public Attributes getAttributes(Name name) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Attributes getAttributes(Nbme nbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        return refCtx.getAttributes(overrideName(name));
+        return refCtx.getAttributes(overrideNbme(nbme));
     }
 
-    public Attributes getAttributes(String name, String[] attrIds)
-            throws NamingException {
-        return getAttributes(toName(name), attrIds);
+    public Attributes getAttributes(String nbme, String[] bttrIds)
+            throws NbmingException {
+        return getAttributes(toNbme(nbme), bttrIds);
     }
 
-    public Attributes getAttributes(Name name, String[] attrIds)
-            throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Attributes getAttributes(Nbme nbme, String[] bttrIds)
+            throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        return refCtx.getAttributes(overrideName(name), attrIds);
+        return refCtx.getAttributes(overrideNbme(nbme), bttrIds);
     }
 
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-            throws NamingException {
-        modifyAttributes(toName(name), mod_op, attrs);
+    public void modifyAttributes(String nbme, int mod_op, Attributes bttrs)
+            throws NbmingException {
+        modifyAttributes(toNbme(nbme), mod_op, bttrs);
     }
 
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-            throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void modifyAttributes(Nbme nbme, int mod_op, Attributes bttrs)
+            throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        refCtx.modifyAttributes(overrideName(name), mod_op, attrs);
+        refCtx.modifyAttributes(overrideNbme(nbme), mod_op, bttrs);
     }
 
-    public void modifyAttributes(String name, ModificationItem[] mods)
-            throws NamingException {
-        modifyAttributes(toName(name), mods);
+    public void modifyAttributes(String nbme, ModificbtionItem[] mods)
+            throws NbmingException {
+        modifyAttributes(toNbme(nbme), mods);
     }
 
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-            throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void modifyAttributes(Nbme nbme, ModificbtionItem[] mods)
+            throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        refCtx.modifyAttributes(overrideName(name), mods);
+        refCtx.modifyAttributes(overrideNbme(nbme), mods);
     }
 
-    public void bind(String name, Object obj, Attributes attrs)
-            throws NamingException {
-        bind(toName(name), obj, attrs);
+    public void bind(String nbme, Object obj, Attributes bttrs)
+            throws NbmingException {
+        bind(toNbme(nbme), obj, bttrs);
     }
 
-    public void bind(Name name, Object obj, Attributes attrs)
-            throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void bind(Nbme nbme, Object obj, Attributes bttrs)
+            throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        refCtx.bind(overrideName(name), obj, attrs);
+        refCtx.bind(overrideNbme(nbme), obj, bttrs);
     }
 
-    public void rebind(String name, Object obj, Attributes attrs)
-            throws NamingException {
-        rebind(toName(name), obj, attrs);
+    public void rebind(String nbme, Object obj, Attributes bttrs)
+            throws NbmingException {
+        rebind(toNbme(nbme), obj, bttrs);
     }
 
-    public void rebind(Name name, Object obj, Attributes attrs)
-            throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void rebind(Nbme nbme, Object obj, Attributes bttrs)
+            throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        refCtx.rebind(overrideName(name), obj, attrs);
+        refCtx.rebind(overrideNbme(nbme), obj, bttrs);
     }
 
-    public DirContext createSubcontext(String name, Attributes attrs)
-            throws NamingException {
-        return createSubcontext(toName(name), attrs);
+    public DirContext crebteSubcontext(String nbme, Attributes bttrs)
+            throws NbmingException {
+        return crebteSubcontext(toNbme(nbme), bttrs);
     }
 
-    public DirContext createSubcontext(Name name, Attributes attrs)
-            throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public DirContext crebteSubcontext(Nbme nbme, Attributes bttrs)
+            throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        return refCtx.createSubcontext(overrideName(name), attrs);
+        return refCtx.crebteSubcontext(overrideNbme(nbme), bttrs);
     }
 
-    public DirContext getSchema(String name) throws NamingException {
-        return getSchema(toName(name));
+    public DirContext getSchemb(String nbme) throws NbmingException {
+        return getSchemb(toNbme(nbme));
     }
 
-    public DirContext getSchema(Name name) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public DirContext getSchemb(Nbme nbme) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        return refCtx.getSchema(overrideName(name));
+        return refCtx.getSchemb(overrideNbme(nbme));
     }
 
-    public DirContext getSchemaClassDefinition(String name)
-            throws NamingException {
-        return getSchemaClassDefinition(toName(name));
+    public DirContext getSchembClbssDefinition(String nbme)
+            throws NbmingException {
+        return getSchembClbssDefinition(toNbme(nbme));
     }
 
-    public DirContext getSchemaClassDefinition(Name name)
-            throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public DirContext getSchembClbssDefinition(Nbme nbme)
+            throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-      return refCtx.getSchemaClassDefinition(overrideName(name));
+      return refCtx.getSchembClbssDefinition(overrideNbme(nbme));
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
-                                                  Attributes matchingAttributes)
-            throws NamingException {
-        return search(toName(name), SearchFilter.format(matchingAttributes),
-            new SearchControls());
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
+                                                  Attributes mbtchingAttributes)
+            throws NbmingException {
+        return sebrch(toNbme(nbme), SebrchFilter.formbt(mbtchingAttributes),
+            new SebrchControls());
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
-                                                  Attributes matchingAttributes)
-            throws NamingException {
-        return search(name, SearchFilter.format(matchingAttributes),
-            new SearchControls());
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
+                                                  Attributes mbtchingAttributes)
+            throws NbmingException {
+        return sebrch(nbme, SebrchFilter.formbt(mbtchingAttributes),
+            new SebrchControls());
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
-                                                  Attributes matchingAttributes,
-                                                  String[] attributesToReturn)
-            throws NamingException {
-        SearchControls cons = new SearchControls();
-        cons.setReturningAttributes(attributesToReturn);
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
+                                                  Attributes mbtchingAttributes,
+                                                  String[] bttributesToReturn)
+            throws NbmingException {
+        SebrchControls cons = new SebrchControls();
+        cons.setReturningAttributes(bttributesToReturn);
 
-        return search(toName(name), SearchFilter.format(matchingAttributes),
+        return sebrch(toNbme(nbme), SebrchFilter.formbt(mbtchingAttributes),
             cons);
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
-                                                  Attributes matchingAttributes,
-                                                  String[] attributesToReturn)
-            throws NamingException {
-        SearchControls cons = new SearchControls();
-        cons.setReturningAttributes(attributesToReturn);
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
+                                                  Attributes mbtchingAttributes,
+                                                  String[] bttributesToReturn)
+            throws NbmingException {
+        SebrchControls cons = new SebrchControls();
+        cons.setReturningAttributes(bttributesToReturn);
 
-        return search(name, SearchFilter.format(matchingAttributes), cons);
+        return sebrch(nbme, SebrchFilter.formbt(mbtchingAttributes), cons);
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
                                                   String filter,
-                                                  SearchControls cons)
-            throws NamingException {
-        return search(toName(name), filter, cons);
+                                                  SebrchControls cons)
+            throws NbmingException {
+        return sebrch(toNbme(nbme), filter, cons);
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
                                                   String filter,
-        SearchControls cons) throws NamingException {
+        SebrchControls cons) throws NbmingException {
 
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
         try {
-            NamingEnumeration<SearchResult> se =
-                    refCtx.search(overrideName(name),
+            NbmingEnumerbtion<SebrchResult> se =
+                    refCtx.sebrch(overrideNbme(nbme),
                                   overrideFilter(filter),
                                   overrideAttributesAndScope(cons));
 
-            refEx.setNameResolved(true);
+            refEx.setNbmeResolved(true);
 
-            // append (referrals from) the exception that generated this
-            // context to the new search results, so that referral processing
-            // can continue
-            ((ReferralEnumeration)se).appendUnprocessedReferrals(refEx);
+            // bppend (referrbls from) the exception thbt generbted this
+            // context to the new sebrch results, so thbt referrbl processing
+            // cbn continue
+            ((ReferrblEnumerbtion)se).bppendUnprocessedReferrbls(refEx);
 
             return (se);
 
-        } catch (LdapReferralException e) {
+        } cbtch (LdbpReferrblException e) {
 
-            // %%% setNameResolved(true);
+            // %%% setNbmeResolved(true);
 
-            // append (referrals from) the exception that generated this
-            // context to the new exception, so that referral processing
-            // can continue
+            // bppend (referrbls from) the exception thbt generbted this
+            // context to the new exception, so thbt referrbl processing
+            // cbn continue
 
-            e.appendUnprocessedReferrals(refEx);
-            throw (NamingException)(e.fillInStackTrace());
+            e.bppendUnprocessedReferrbls(refEx);
+            throw (NbmingException)(e.fillInStbckTrbce());
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
 
-            // record the exception if there are no remaining referrals
-            if ((refEx != null) && (! refEx.hasMoreReferrals())) {
-                refEx.setNamingException(e);
+            // record the exception if there bre no rembining referrbls
+            if ((refEx != null) && (! refEx.hbsMoreReferrbls())) {
+                refEx.setNbmingException(e);
             }
             if ((refEx != null) &&
-                (refEx.hasMoreReferrals() ||
-                 refEx.hasMoreReferralExceptions())) {
-                throw (NamingException)
-                    ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+                (refEx.hbsMoreReferrbls() ||
+                 refEx.hbsMoreReferrblExceptions())) {
+                throw (NbmingException)
+                    ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
             } else {
                 throw e;
             }
         }
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
                                                   String filterExpr,
                                                   Object[] filterArgs,
-                                                  SearchControls cons)
-            throws NamingException {
-        return search(toName(name), filterExpr, filterArgs, cons);
+                                                  SebrchControls cons)
+            throws NbmingException {
+        return sebrch(toNbme(nbme), filterExpr, filterArgs, cons);
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
         String filterExpr,
         Object[] filterArgs,
-        SearchControls cons) throws NamingException {
+        SebrchControls cons) throws NbmingException {
 
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
         try {
-            NamingEnumeration<SearchResult> se;
+            NbmingEnumerbtion<SebrchResult> se;
 
             if (urlFilter != null) {
-                se = refCtx.search(overrideName(name), urlFilter,
+                se = refCtx.sebrch(overrideNbme(nbme), urlFilter,
                 overrideAttributesAndScope(cons));
             } else {
-                se = refCtx.search(overrideName(name), filterExpr,
+                se = refCtx.sebrch(overrideNbme(nbme), filterExpr,
                 filterArgs, overrideAttributesAndScope(cons));
             }
 
-            refEx.setNameResolved(true);
+            refEx.setNbmeResolved(true);
 
-            // append (referrals from) the exception that generated this
-            // context to the new search results, so that referral processing
-            // can continue
-            ((ReferralEnumeration)se).appendUnprocessedReferrals(refEx);
+            // bppend (referrbls from) the exception thbt generbted this
+            // context to the new sebrch results, so thbt referrbl processing
+            // cbn continue
+            ((ReferrblEnumerbtion)se).bppendUnprocessedReferrbls(refEx);
 
             return (se);
 
-        } catch (LdapReferralException e) {
+        } cbtch (LdbpReferrblException e) {
 
-            // append (referrals from) the exception that generated this
-            // context to the new exception, so that referral processing
-            // can continue
+            // bppend (referrbls from) the exception thbt generbted this
+            // context to the new exception, so thbt referrbl processing
+            // cbn continue
 
-            e.appendUnprocessedReferrals(refEx);
-            throw (NamingException)(e.fillInStackTrace());
+            e.bppendUnprocessedReferrbls(refEx);
+            throw (NbmingException)(e.fillInStbckTrbce());
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
 
-            // record the exception if there are no remaining referrals
-            if ((refEx != null) && (! refEx.hasMoreReferrals())) {
-                refEx.setNamingException(e);
+            // record the exception if there bre no rembining referrbls
+            if ((refEx != null) && (! refEx.hbsMoreReferrbls())) {
+                refEx.setNbmingException(e);
             }
             if ((refEx != null) &&
-                (refEx.hasMoreReferrals() ||
-                 refEx.hasMoreReferralExceptions())) {
-                throw (NamingException)
-                    ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+                (refEx.hbsMoreReferrbls() ||
+                 refEx.hbsMoreReferrblExceptions())) {
+                throw (NbmingException)
+                    ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
             } else {
                 throw e;
             }
         }
     }
 
-    public String getNameInNamespace() throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public String getNbmeInNbmespbce() throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
-        return urlName != null && !urlName.isEmpty() ? urlName.get(0) : "";
+        return urlNbme != null && !urlNbme.isEmpty() ? urlNbme.get(0) : "";
     }
 
-    // ---------------------- LdapContext ---------------------
+    // ---------------------- LdbpContext ---------------------
 
-    public ExtendedResponse extendedOperation(ExtendedRequest request)
-        throws NamingException {
+    public ExtendedResponse extendedOperbtion(ExtendedRequest request)
+        throws NbmingException {
 
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        if (!(refCtx instanceof LdapContext)) {
+        if (!(refCtx instbnceof LdbpContext)) {
             throw new NotContextException(
-                "Referral context not an instance of LdapContext");
+                "Referrbl context not bn instbnce of LdbpContext");
         }
 
-        return ((LdapContext)refCtx).extendedOperation(request);
+        return ((LdbpContext)refCtx).extendedOperbtion(request);
     }
 
-    public LdapContext newInstance(Control[] requestControls)
-        throws NamingException {
+    public LdbpContext newInstbnce(Control[] requestControls)
+        throws NbmingException {
 
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        if (!(refCtx instanceof LdapContext)) {
+        if (!(refCtx instbnceof LdbpContext)) {
             throw new NotContextException(
-                "Referral context not an instance of LdapContext");
+                "Referrbl context not bn instbnce of LdbpContext");
         }
 
-        return ((LdapContext)refCtx).newInstance(requestControls);
+        return ((LdbpContext)refCtx).newInstbnce(requestControls);
     }
 
-    public void reconnect(Control[] connCtls) throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public void reconnect(Control[] connCtls) throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        if (!(refCtx instanceof LdapContext)) {
+        if (!(refCtx instbnceof LdbpContext)) {
             throw new NotContextException(
-                "Referral context not an instance of LdapContext");
+                "Referrbl context not bn instbnce of LdbpContext");
         }
 
-        ((LdapContext)refCtx).reconnect(connCtls);
+        ((LdbpContext)refCtx).reconnect(connCtls);
     }
 
-    public Control[] getConnectControls() throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Control[] getConnectControls() throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        if (!(refCtx instanceof LdapContext)) {
+        if (!(refCtx instbnceof LdbpContext)) {
             throw new NotContextException(
-                "Referral context not an instance of LdapContext");
+                "Referrbl context not bn instbnce of LdbpContext");
         }
 
-        return ((LdapContext)refCtx).getConnectControls();
+        return ((LdbpContext)refCtx).getConnectControls();
     }
 
     public void setRequestControls(Control[] requestControls)
-        throws NamingException {
+        throws NbmingException {
 
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        if (!(refCtx instanceof LdapContext)) {
+        if (!(refCtx instbnceof LdbpContext)) {
             throw new NotContextException(
-                "Referral context not an instance of LdapContext");
+                "Referrbl context not bn instbnce of LdbpContext");
         }
 
-        ((LdapContext)refCtx).setRequestControls(requestControls);
+        ((LdbpContext)refCtx).setRequestControls(requestControls);
     }
 
-    public Control[] getRequestControls() throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Control[] getRequestControls() throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        if (!(refCtx instanceof LdapContext)) {
+        if (!(refCtx instbnceof LdbpContext)) {
             throw new NotContextException(
-                "Referral context not an instance of LdapContext");
+                "Referrbl context not bn instbnce of LdbpContext");
         }
-        return ((LdapContext)refCtx).getRequestControls();
+        return ((LdbpContext)refCtx).getRequestControls();
     }
 
-    public Control[] getResponseControls() throws NamingException {
-        if (skipThisReferral) {
-            throw (NamingException)
-                ((refEx.appendUnprocessedReferrals(null)).fillInStackTrace());
+    public Control[] getResponseControls() throws NbmingException {
+        if (skipThisReferrbl) {
+            throw (NbmingException)
+                ((refEx.bppendUnprocessedReferrbls(null)).fillInStbckTrbce());
         }
 
-        if (!(refCtx instanceof LdapContext)) {
+        if (!(refCtx instbnceof LdbpContext)) {
             throw new NotContextException(
-                "Referral context not an instance of LdapContext");
+                "Referrbl context not bn instbnce of LdbpContext");
         }
-        return ((LdapContext)refCtx).getResponseControls();
+        return ((LdbpContext)refCtx).getResponseControls();
     }
 
-    // ---------------------- Private methods  ---------------------
-    private Name toName(String name) throws InvalidNameException {
-        return name.equals("") ? new CompositeName() :
-            new CompositeName().add(name);
+    // ---------------------- Privbte methods  ---------------------
+    privbte Nbme toNbme(String nbme) throws InvblidNbmeException {
+        return nbme.equbls("") ? new CompositeNbme() :
+            new CompositeNbme().bdd(nbme);
     }
 
     /*
      * Use the DN component from the LDAP URL (if present) to override the
      * supplied DN.
      */
-    private Name overrideName(Name name) throws InvalidNameException {
-        return (urlName == null ? name : urlName);
+    privbte Nbme overrideNbme(Nbme nbme) throws InvblidNbmeException {
+        return (urlNbme == null ? nbme : urlNbme);
     }
 
     /*
-     * Use the attributes and scope components from the LDAP URL (if present)
-     * to override the corresponding components supplied in SearchControls.
+     * Use the bttributes bnd scope components from the LDAP URL (if present)
+     * to override the corresponding components supplied in SebrchControls.
      */
-    private SearchControls overrideAttributesAndScope(SearchControls cons) {
-        SearchControls urlCons;
+    privbte SebrchControls overrideAttributesAndScope(SebrchControls cons) {
+        SebrchControls urlCons;
 
         if ((urlScope != null) || (urlAttrs != null)) {
-            urlCons = new SearchControls(cons.getSearchScope(),
+            urlCons = new SebrchControls(cons.getSebrchScope(),
                                         cons.getCountLimit(),
                                         cons.getTimeLimit(),
                                         cons.getReturningAttributes(),
-                                        cons.getReturningObjFlag(),
-                                        cons.getDerefLinkFlag());
+                                        cons.getReturningObjFlbg(),
+                                        cons.getDerefLinkFlbg());
 
             if (urlScope != null) {
-                if (urlScope.equals("base")) {
-                    urlCons.setSearchScope(SearchControls.OBJECT_SCOPE);
-                } else if (urlScope.equals("one")) {
-                    urlCons.setSearchScope(SearchControls.ONELEVEL_SCOPE);
-                } else if (urlScope.equals("sub")) {
-                    urlCons.setSearchScope(SearchControls.SUBTREE_SCOPE);
+                if (urlScope.equbls("bbse")) {
+                    urlCons.setSebrchScope(SebrchControls.OBJECT_SCOPE);
+                } else if (urlScope.equbls("one")) {
+                    urlCons.setSebrchScope(SebrchControls.ONELEVEL_SCOPE);
+                } else if (urlScope.equbls("sub")) {
+                    urlCons.setSebrchScope(SebrchControls.SUBTREE_SCOPE);
                 }
             }
 
             if (urlAttrs != null) {
                 StringTokenizer tokens = new StringTokenizer(urlAttrs, ",");
                 int count = tokens.countTokens();
-                String[] attrs = new String[count];
+                String[] bttrs = new String[count];
                 for (int i = 0; i < count; i ++) {
-                    attrs[i] = tokens.nextToken();
+                    bttrs[i] = tokens.nextToken();
                 }
-                urlCons.setReturningAttributes(attrs);
+                urlCons.setReturningAttributes(bttrs);
             }
 
             return urlCons;
@@ -941,7 +941,7 @@ final class LdapReferralContext implements DirContext, LdapContext {
      * Use the filter component from the LDAP URL (if present) to override the
      * supplied filter.
      */
-    private String overrideFilter(String filter) {
+    privbte String overrideFilter(String filter) {
         return (urlFilter == null ? filter : urlFilter);
     }
 

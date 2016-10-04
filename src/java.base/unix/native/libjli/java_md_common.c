@@ -1,39 +1,39 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-#include "java.h"
+#include "jbvb.h"
 
 /*
- * If app is "/foo/bin/javac", or "/foo/bin/sparcv9/javac" then put
+ * If bpp is "/foo/bin/jbvbc", or "/foo/bin/spbrcv9/jbvbc" then put
  * "/foo" into buf.
  */
-jboolean
-GetApplicationHome(char *buf, jint bufsize)
+jboolebn
+GetApplicbtionHome(chbr *buf, jint bufsize)
 {
-    const char *execname = GetExecName();
-    if (execname != NULL) {
-        JLI_Snprintf(buf, bufsize, "%s", execname);
+    const chbr *execnbme = GetExecNbme();
+    if (execnbme != NULL) {
+        JLI_Snprintf(buf, bufsize, "%s", execnbme);
         buf[bufsize-1] = '\0';
     } else {
         return JNI_FALSE;
@@ -43,13 +43,13 @@ GetApplicationHome(char *buf, jint bufsize)
         buf[0] = '\0';
         return JNI_FALSE;
     }
-    *(JLI_StrRChr(buf, '/')) = '\0';    /* executable file      */
+    *(JLI_StrRChr(buf, '/')) = '\0';    /* executbble file      */
     if (JLI_StrLen(buf) < 4 || JLI_StrRChr(buf, '/') == 0) {
         buf[0] = '\0';
         return JNI_FALSE;
     }
     if (JLI_StrCmp("/bin", buf + JLI_StrLen(buf) - 4) != 0)
-        *(JLI_StrRChr(buf, '/')) = '\0';        /* sparcv9 or amd64     */
+        *(JLI_StrRChr(buf, '/')) = '\0';        /* spbrcv9 or bmd64     */
     if (JLI_StrLen(buf) < 4 || JLI_StrCmp("/bin", buf + JLI_StrLen(buf) - 4) != 0) {
         buf[0] = '\0';
         return JNI_FALSE;
@@ -59,108 +59,108 @@ GetApplicationHome(char *buf, jint bufsize)
     return JNI_TRUE;
 }
 /*
- * Return true if the named program exists
+ * Return true if the nbmed progrbm exists
  */
-static int
-ProgramExists(char *name)
+stbtic int
+ProgrbmExists(chbr *nbme)
 {
-    struct stat sb;
-    if (stat(name, &sb) != 0) return 0;
+    struct stbt sb;
+    if (stbt(nbme, &sb) != 0) return 0;
     if (S_ISDIR(sb.st_mode)) return 0;
     return (sb.st_mode & S_IEXEC) != 0;
 }
 
 /*
- * Find a command in a directory, returning the path.
+ * Find b commbnd in b directory, returning the pbth.
  */
-static char *
-Resolve(char *indir, char *cmd)
+stbtic chbr *
+Resolve(chbr *indir, chbr *cmd)
 {
-    char name[PATH_MAX + 2], *real;
+    chbr nbme[PATH_MAX + 2], *rebl;
 
     if ((JLI_StrLen(indir) + JLI_StrLen(cmd) + 1)  > PATH_MAX) return 0;
-    JLI_Snprintf(name, sizeof(name), "%s%c%s", indir, FILE_SEPARATOR, cmd);
-    if (!ProgramExists(name)) return 0;
-    real = JLI_MemAlloc(PATH_MAX + 2);
-    if (!realpath(name, real))
-        JLI_StrCpy(real, name);
-    return real;
+    JLI_Snprintf(nbme, sizeof(nbme), "%s%c%s", indir, FILE_SEPARATOR, cmd);
+    if (!ProgrbmExists(nbme)) return 0;
+    rebl = JLI_MemAlloc(PATH_MAX + 2);
+    if (!reblpbth(nbme, rebl))
+        JLI_StrCpy(rebl, nbme);
+    return rebl;
 }
 
 /*
- * Find a path for the executable
+ * Find b pbth for the executbble
  */
-char *
-FindExecName(char *program)
+chbr *
+FindExecNbme(chbr *progrbm)
 {
-    char cwdbuf[PATH_MAX+2];
-    char *path;
-    char *tmp_path;
-    char *f;
-    char *result = NULL;
+    chbr cwdbuf[PATH_MAX+2];
+    chbr *pbth;
+    chbr *tmp_pbth;
+    chbr *f;
+    chbr *result = NULL;
 
-    /* absolute path? */
-    if (*program == FILE_SEPARATOR ||
-        (FILE_SEPARATOR=='\\' && JLI_StrRChr(program, ':')))
-        return Resolve("", program+1);
+    /* bbsolute pbth? */
+    if (*progrbm == FILE_SEPARATOR ||
+        (FILE_SEPARATOR=='\\' && JLI_StrRChr(progrbm, ':')))
+        return Resolve("", progrbm+1);
 
-    /* relative path? */
-    if (JLI_StrRChr(program, FILE_SEPARATOR) != 0) {
-        char buf[PATH_MAX+2];
-        return Resolve(getcwd(cwdbuf, sizeof(cwdbuf)), program);
+    /* relbtive pbth? */
+    if (JLI_StrRChr(progrbm, FILE_SEPARATOR) != 0) {
+        chbr buf[PATH_MAX+2];
+        return Resolve(getcwd(cwdbuf, sizeof(cwdbuf)), progrbm);
     }
 
-    /* from search path? */
-    path = getenv("PATH");
-    if (!path || !*path) path = ".";
-    tmp_path = JLI_MemAlloc(JLI_StrLen(path) + 2);
-    JLI_StrCpy(tmp_path, path);
+    /* from sebrch pbth? */
+    pbth = getenv("PATH");
+    if (!pbth || !*pbth) pbth = ".";
+    tmp_pbth = JLI_MemAlloc(JLI_StrLen(pbth) + 2);
+    JLI_StrCpy(tmp_pbth, pbth);
 
-    for (f=tmp_path; *f && result==0; ) {
-        char *s = f;
+    for (f=tmp_pbth; *f && result==0; ) {
+        chbr *s = f;
         while (*f && (*f != PATH_SEPARATOR)) ++f;
         if (*f) *f++ = 0;
         if (*s == FILE_SEPARATOR)
-            result = Resolve(s, program);
+            result = Resolve(s, progrbm);
         else {
-            /* relative path element */
-            char dir[2*PATH_MAX];
+            /* relbtive pbth element */
+            chbr dir[2*PATH_MAX];
             JLI_Snprintf(dir, sizeof(dir), "%s%c%s", getcwd(cwdbuf, sizeof(cwdbuf)),
                     FILE_SEPARATOR, s);
-            result = Resolve(dir, program);
+            result = Resolve(dir, progrbm);
         }
-        if (result != 0) break;
+        if (result != 0) brebk;
     }
 
-    JLI_MemFree(tmp_path);
+    JLI_MemFree(tmp_pbth);
     return result;
 }
 
-void JLI_ReportErrorMessage(const char* fmt, ...) {
-    va_list vl;
-    va_start(vl, fmt);
+void JLI_ReportErrorMessbge(const chbr* fmt, ...) {
+    vb_list vl;
+    vb_stbrt(vl, fmt);
     vfprintf(stderr, fmt, vl);
     fprintf(stderr, "\n");
-    va_end(vl);
+    vb_end(vl);
 }
 
-void JLI_ReportErrorMessageSys(const char* fmt, ...) {
-    va_list vl;
-    char *emsg;
+void JLI_ReportErrorMessbgeSys(const chbr* fmt, ...) {
+    vb_list vl;
+    chbr *emsg;
 
     /*
-     * TODO: its safer to use strerror_r but is not available on
-     * Solaris 8. Until then....
+     * TODO: its sbfer to use strerror_r but is not bvbilbble on
+     * Solbris 8. Until then....
      */
     emsg = strerror(errno);
     if (emsg != NULL) {
         fprintf(stderr, "%s\n", emsg);
     }
 
-    va_start(vl, fmt);
+    vb_stbrt(vl, fmt);
     vfprintf(stderr, fmt, vl);
     fprintf(stderr, "\n");
-    va_end(vl);
+    vb_end(vl);
 }
 
 void  JLI_ReportExceptionDescription(JNIEnv * env) {
@@ -168,78 +168,78 @@ void  JLI_ReportExceptionDescription(JNIEnv * env) {
 }
 
 /*
- *      Since using the file system as a registry is a bit risky, perform
- *      additional sanity checks on the identified directory to validate
- *      it as a valid jre/sdk.
+ *      Since using the file system bs b registry is b bit risky, perform
+ *      bdditionbl sbnity checks on the identified directory to vblidbte
+ *      it bs b vblid jre/sdk.
  *
- *      Return 0 if the tests fail; otherwise return non-zero (true).
+ *      Return 0 if the tests fbil; otherwise return non-zero (true).
  *
- *      Note that checking for anything more than the existence of an
- *      executable object at bin/java relative to the path being checked
- *      will break the regression tests.
+ *      Note thbt checking for bnything more thbn the existence of bn
+ *      executbble object bt bin/jbvb relbtive to the pbth being checked
+ *      will brebk the regression tests.
  */
-static int
-CheckSanity(char *path, char *dir)
+stbtic int
+CheckSbnity(chbr *pbth, chbr *dir)
 {
-    char    buffer[PATH_MAX];
+    chbr    buffer[PATH_MAX];
 
-    if (JLI_StrLen(path) + JLI_StrLen(dir) + 11 > PATH_MAX)
-        return (0);     /* Silently reject "impossibly" long paths */
+    if (JLI_StrLen(pbth) + JLI_StrLen(dir) + 11 > PATH_MAX)
+        return (0);     /* Silently reject "impossibly" long pbths */
 
-    JLI_Snprintf(buffer, sizeof(buffer), "%s/%s/bin/java", path, dir);
-    return ((access(buffer, X_OK) == 0) ? 1 : 0);
+    JLI_Snprintf(buffer, sizeof(buffer), "%s/%s/bin/jbvb", pbth, dir);
+    return ((bccess(buffer, X_OK) == 0) ? 1 : 0);
 }
 
 /*
- *      Determine if there is an acceptable JRE in the directory dirname.
- *      Upon locating the "best" one, return a fully qualified path to
- *      it. "Best" is defined as the most advanced JRE meeting the
- *      constraints contained in the manifest_info. If no JRE in this
- *      directory meets the constraints, return NULL.
+ *      Determine if there is bn bcceptbble JRE in the directory dirnbme.
+ *      Upon locbting the "best" one, return b fully qublified pbth to
+ *      it. "Best" is defined bs the most bdvbnced JRE meeting the
+ *      constrbints contbined in the mbnifest_info. If no JRE in this
+ *      directory meets the constrbints, return NULL.
  *
- *      Note that we don't check for errors in reading the directory
- *      (which would be done by checking errno).  This is because it
- *      doesn't matter if we get an error reading the directory, or
- *      we just don't find anything interesting in the directory.  We
- *      just return NULL in either case.
+ *      Note thbt we don't check for errors in rebding the directory
+ *      (which would be done by checking errno).  This is becbuse it
+ *      doesn't mbtter if we get bn error rebding the directory, or
+ *      we just don't find bnything interesting in the directory.  We
+ *      just return NULL in either cbse.
  *
- *      The historical names of j2sdk and j2re were changed to jdk and
- *      jre respecively as part of the 1.5 rebranding effort.  Since the
- *      former names are legacy on Linux, they must be recognized for
- *      all time.  Fortunately, this is a minor cost.
+ *      The historicbl nbmes of j2sdk bnd j2re were chbnged to jdk bnd
+ *      jre respecively bs pbrt of the 1.5 rebrbnding effort.  Since the
+ *      former nbmes bre legbcy on Linux, they must be recognized for
+ *      bll time.  Fortunbtely, this is b minor cost.
  */
-static char
-*ProcessDir(manifest_info *info, char *dirname)
+stbtic chbr
+*ProcessDir(mbnifest_info *info, chbr *dirnbme)
 {
     DIR     *dirp;
     struct dirent *dp;
-    char    *best = NULL;
+    chbr    *best = NULL;
     int     offset;
     int     best_offset = 0;
-    char    *ret_str = NULL;
-    char    buffer[PATH_MAX];
+    chbr    *ret_str = NULL;
+    chbr    buffer[PATH_MAX];
 
-    if ((dirp = opendir(dirname)) == NULL)
+    if ((dirp = opendir(dirnbme)) == NULL)
         return (NULL);
 
     do {
-        if ((dp = readdir(dirp)) != NULL) {
+        if ((dp = rebddir(dirp)) != NULL) {
             offset = 0;
-            if ((JLI_StrNCmp(dp->d_name, "jre", 3) == 0) ||
-                (JLI_StrNCmp(dp->d_name, "jdk", 3) == 0))
+            if ((JLI_StrNCmp(dp->d_nbme, "jre", 3) == 0) ||
+                (JLI_StrNCmp(dp->d_nbme, "jdk", 3) == 0))
                 offset = 3;
-            else if (JLI_StrNCmp(dp->d_name, "j2re", 4) == 0)
+            else if (JLI_StrNCmp(dp->d_nbme, "j2re", 4) == 0)
                 offset = 4;
-            else if (JLI_StrNCmp(dp->d_name, "j2sdk", 5) == 0)
+            else if (JLI_StrNCmp(dp->d_nbme, "j2sdk", 5) == 0)
                 offset = 5;
             if (offset > 0) {
-                if ((JLI_AcceptableRelease(dp->d_name + offset,
-                    info->jre_version)) && CheckSanity(dirname, dp->d_name))
-                    if ((best == NULL) || (JLI_ExactVersionId(
-                      dp->d_name + offset, best + best_offset) > 0)) {
+                if ((JLI_AcceptbbleRelebse(dp->d_nbme + offset,
+                    info->jre_version)) && CheckSbnity(dirnbme, dp->d_nbme))
+                    if ((best == NULL) || (JLI_ExbctVersionId(
+                      dp->d_nbme + offset, best + best_offset) > 0)) {
                         if (best != NULL)
                             JLI_MemFree(best);
-                        best = JLI_StringDup(dp->d_name);
+                        best = JLI_StringDup(dp->d_nbme);
                         best_offset = offset;
                     }
             }
@@ -249,167 +249,167 @@ static char
     if (best == NULL)
         return (NULL);
     else {
-        ret_str = JLI_MemAlloc(JLI_StrLen(dirname) + JLI_StrLen(best) + 2);
-        sprintf(ret_str, "%s/%s", dirname, best);
+        ret_str = JLI_MemAlloc(JLI_StrLen(dirnbme) + JLI_StrLen(best) + 2);
+        sprintf(ret_str, "%s/%s", dirnbme, best);
         JLI_MemFree(best);
         return (ret_str);
     }
 }
 
 /*
- *      This is the global entry point. It examines the host for the optimal
- *      JRE to be used by scanning a set of directories.  The set of directories
- *      is platform dependent and can be overridden by the environment
- *      variable JAVA_VERSION_PATH.
+ *      This is the globbl entry point. It exbmines the host for the optimbl
+ *      JRE to be used by scbnning b set of directories.  The set of directories
+ *      is plbtform dependent bnd cbn be overridden by the environment
+ *      vbribble JAVA_VERSION_PATH.
  *
- *      This routine itself simply determines the set of appropriate
- *      directories before passing control onto ProcessDir().
+ *      This routine itself simply determines the set of bppropribte
+ *      directories before pbssing control onto ProcessDir().
  */
-char*
-LocateJRE(manifest_info* info)
+chbr*
+LocbteJRE(mbnifest_info* info)
 {
-    char        *path;
-    char        *home;
-    char        *target = NULL;
-    char        *dp;
-    char        *cp;
+    chbr        *pbth;
+    chbr        *home;
+    chbr        *tbrget = NULL;
+    chbr        *dp;
+    chbr        *cp;
 
     /*
-     * Start by getting JAVA_VERSION_PATH
+     * Stbrt by getting JAVA_VERSION_PATH
      */
-    if (info->jre_restrict_search) {
-        path = JLI_StringDup(system_dir);
-    } else if ((path = getenv("JAVA_VERSION_PATH")) != NULL) {
-        path = JLI_StringDup(path);
+    if (info->jre_restrict_sebrch) {
+        pbth = JLI_StringDup(system_dir);
+    } else if ((pbth = getenv("JAVA_VERSION_PATH")) != NULL) {
+        pbth = JLI_StringDup(pbth);
     } else {
         if ((home = getenv("HOME")) != NULL) {
-            path = (char *)JLI_MemAlloc(JLI_StrLen(home) + \
+            pbth = (chbr *)JLI_MemAlloc(JLI_StrLen(home) + \
                         JLI_StrLen(system_dir) + JLI_StrLen(user_dir) + 2);
-            sprintf(path, "%s%s:%s", home, user_dir, system_dir);
+            sprintf(pbth, "%s%s:%s", home, user_dir, system_dir);
         } else {
-            path = JLI_StringDup(system_dir);
+            pbth = JLI_StringDup(system_dir);
         }
     }
 
     /*
-     * Step through each directory on the path. Terminate the scan with
-     * the first directory with an acceptable JRE.
+     * Step through ebch directory on the pbth. Terminbte the scbn with
+     * the first directory with bn bcceptbble JRE.
      */
-    cp = dp = path;
+    cp = dp = pbth;
     while (dp != NULL) {
         cp = JLI_StrChr(dp, (int)':');
         if (cp != NULL)
             *cp = '\0';
-        if ((target = ProcessDir(info, dp)) != NULL)
-            break;
+        if ((tbrget = ProcessDir(info, dp)) != NULL)
+            brebk;
         dp = cp;
         if (dp != NULL)
             dp++;
     }
-    JLI_MemFree(path);
-    return (target);
+    JLI_MemFree(pbth);
+    return (tbrget);
 }
 
 /*
- * Given a path to a jre to execute, this routine checks if this process
- * is indeed that jre.  If not, it exec's that jre.
+ * Given b pbth to b jre to execute, this routine checks if this process
+ * is indeed thbt jre.  If not, it exec's thbt jre.
  *
- * We want to actually check the paths rather than just the version string
- * built into the executable, so that given version specification (and
- * JAVA_VERSION_PATH) will yield the exact same Java environment, regardless
- * of the version of the arbitrary launcher we start with.
+ * We wbnt to bctublly check the pbths rbther thbn just the version string
+ * built into the executbble, so thbt given version specificbtion (bnd
+ * JAVA_VERSION_PATH) will yield the exbct sbme Jbvb environment, regbrdless
+ * of the version of the brbitrbry lbuncher we stbrt with.
  */
 void
-ExecJRE(char *jre, char **argv)
+ExecJRE(chbr *jre, chbr **brgv)
 {
-    char    wanted[PATH_MAX];
-    const char* progname = GetProgramName();
-    const char* execname = NULL;
+    chbr    wbnted[PATH_MAX];
+    const chbr* prognbme = GetProgrbmNbme();
+    const chbr* execnbme = NULL;
 
     /*
-     * Resolve the real path to the directory containing the selected JRE.
+     * Resolve the rebl pbth to the directory contbining the selected JRE.
      */
-    if (realpath(jre, wanted) == NULL) {
-        JLI_ReportErrorMessage(JRE_ERROR9, jre);
+    if (reblpbth(jre, wbnted) == NULL) {
+        JLI_ReportErrorMessbge(JRE_ERROR9, jre);
         exit(1);
     }
 
     /*
-     * Resolve the real path to the currently running launcher.
+     * Resolve the rebl pbth to the currently running lbuncher.
      */
-    SetExecname(argv);
-    execname = GetExecName();
-    if (execname == NULL) {
-        JLI_ReportErrorMessage(JRE_ERROR10);
+    SetExecnbme(brgv);
+    execnbme = GetExecNbme();
+    if (execnbme == NULL) {
+        JLI_ReportErrorMessbge(JRE_ERROR10);
         exit(1);
     }
 
     /*
-     * If the path to the selected JRE directory is a match to the initial
-     * portion of the path to the currently executing JRE, we have a winner!
+     * If the pbth to the selected JRE directory is b mbtch to the initibl
+     * portion of the pbth to the currently executing JRE, we hbve b winner!
      * If so, just return.
      */
-    if (JLI_StrNCmp(wanted, execname, JLI_StrLen(wanted)) == 0)
-        return;                 /* I am the droid you were looking for */
+    if (JLI_StrNCmp(wbnted, execnbme, JLI_StrLen(wbnted)) == 0)
+        return;                 /* I bm the droid you were looking for */
 
 
     /*
-     * This should never happen (because of the selection code in SelectJRE),
-     * but check for "impossibly" long path names just because buffer overruns
-     * can be so deadly.
+     * This should never hbppen (becbuse of the selection code in SelectJRE),
+     * but check for "impossibly" long pbth nbmes just becbuse buffer overruns
+     * cbn be so debdly.
      */
-    if (JLI_StrLen(wanted) + JLI_StrLen(progname) + 6 > PATH_MAX) {
-        JLI_ReportErrorMessage(JRE_ERROR11);
+    if (JLI_StrLen(wbnted) + JLI_StrLen(prognbme) + 6 > PATH_MAX) {
+        JLI_ReportErrorMessbge(JRE_ERROR11);
         exit(1);
     }
 
     /*
-     * Construct the path and exec it.
+     * Construct the pbth bnd exec it.
      */
-    (void)JLI_StrCat(JLI_StrCat(wanted, "/bin/"), progname);
-    argv[0] = JLI_StringDup(progname);
-    if (JLI_IsTraceLauncher()) {
+    (void)JLI_StrCbt(JLI_StrCbt(wbnted, "/bin/"), prognbme);
+    brgv[0] = JLI_StringDup(prognbme);
+    if (JLI_IsTrbceLbuncher()) {
         int i;
-        printf("ReExec Command: %s (%s)\n", wanted, argv[0]);
+        printf("ReExec Commbnd: %s (%s)\n", wbnted, brgv[0]);
         printf("ReExec Args:");
-        for (i = 1; argv[i] != NULL; i++)
-            printf(" %s", argv[i]);
+        for (i = 1; brgv[i] != NULL; i++)
+            printf(" %s", brgv[i]);
         printf("\n");
     }
-    JLI_TraceLauncher("TRACER_MARKER:About to EXEC\n");
+    JLI_TrbceLbuncher("TRACER_MARKER:About to EXEC\n");
     (void)fflush(stdout);
     (void)fflush(stderr);
-    execv(wanted, argv);
-    JLI_ReportErrorMessageSys(JRE_ERROR12, wanted);
+    execv(wbnted, brgv);
+    JLI_ReportErrorMessbgeSys(JRE_ERROR12, wbnted);
     exit(1);
 }
 
 /*
- * "Borrowed" from Solaris 10 where the unsetenv() function is being added
- * to libc thanks to SUSv3 (Standard Unix Specification, version 3). As
- * such, in the fullness of time this will appear in libc on all relevant
- * Solaris/Linux platforms and maybe even the Windows platform.  At that
- * time, this stub can be removed.
+ * "Borrowed" from Solbris 10 where the unsetenv() function is being bdded
+ * to libc thbnks to SUSv3 (Stbndbrd Unix Specificbtion, version 3). As
+ * such, in the fullness of time this will bppebr in libc on bll relevbnt
+ * Solbris/Linux plbtforms bnd mbybe even the Windows plbtform.  At thbt
+ * time, this stub cbn be removed.
  *
- * This implementation removes the environment locking for multithreaded
- * applications.  (We don't have access to these mutexes within libc and
- * the launcher isn't multithreaded.)  Note that what remains is platform
- * independent, because it only relies on attributes that a POSIX environment
+ * This implementbtion removes the environment locking for multithrebded
+ * bpplicbtions.  (We don't hbve bccess to these mutexes within libc bnd
+ * the lbuncher isn't multithrebded.)  Note thbt whbt rembins is plbtform
+ * independent, becbuse it only relies on bttributes thbt b POSIX environment
  * defines.
  *
- * Returns 0 on success, -1 on failure.
+ * Returns 0 on success, -1 on fbilure.
  *
- * Also removed was the setting of errno.  The only value of errno set
- * was EINVAL ("Invalid Argument").
+ * Also removed wbs the setting of errno.  The only vblue of errno set
+ * wbs EINVAL ("Invblid Argument").
  */
 
 /*
- * s1(environ) is name=value
- * s2(name) is name(not the form of name=value).
- * if names match, return value of 1, else return 0
+ * s1(environ) is nbme=vblue
+ * s2(nbme) is nbme(not the form of nbme=vblue).
+ * if nbmes mbtch, return vblue of 1, else return 0
  */
-static int
-match_noeq(const char *s1, const char *s2)
+stbtic int
+mbtch_noeq(const chbr *s1, const chbr *s2)
 {
         while (*s1 == *s2++) {
                 if (*s1++ == '=')
@@ -421,28 +421,28 @@ match_noeq(const char *s1, const char *s2)
 }
 
 /*
- * added for SUSv3 standard
+ * bdded for SUSv3 stbndbrd
  *
  * Delete entry from environ.
- * Do not free() memory!  Other threads may be using it.
- * Keep it around forever.
+ * Do not free() memory!  Other threbds mby be using it.
+ * Keep it bround forever.
  */
-static int
-borrowed_unsetenv(const char *name)
+stbtic int
+borrowed_unsetenv(const chbr *nbme)
 {
         long    idx;            /* index into environ */
 
-        if (name == NULL || *name == '\0' ||
-            JLI_StrChr(name, '=') != NULL) {
+        if (nbme == NULL || *nbme == '\0' ||
+            JLI_StrChr(nbme, '=') != NULL) {
                 return (-1);
         }
 
         for (idx = 0; environ[idx] != NULL; idx++) {
-                if (match_noeq(environ[idx], name))
-                        break;
+                if (mbtch_noeq(environ[idx], nbme))
+                        brebk;
         }
         if (environ[idx] == NULL) {
-                /* name not found but still a success */
+                /* nbme not found but still b success */
                 return (0);
         }
         /* squeeze up one entry */
@@ -455,51 +455,51 @@ borrowed_unsetenv(const char *name)
 /* --- End of "borrowed" code --- */
 
 /*
- * Wrapper for unsetenv() function.
+ * Wrbpper for unsetenv() function.
  */
 int
-UnsetEnv(char *name)
+UnsetEnv(chbr *nbme)
 {
-    return(borrowed_unsetenv(name));
+    return(borrowed_unsetenv(nbme));
 }
 
-const char *
-jlong_format_specifier() {
+const chbr *
+jlong_formbt_specifier() {
     return "%lld";
 }
 
-jboolean
-IsJavaw()
+jboolebn
+IsJbvbw()
 {
     /* noop on UNIX */
     return JNI_FALSE;
 }
 
 void
-InitLauncher(jboolean javaw)
+InitLbuncher(jboolebn jbvbw)
 {
-    JLI_SetTraceLauncher();
+    JLI_SetTrbceLbuncher();
 }
 
 /*
- * The implementation for finding classes from the bootstrap
- * class loader, refer to java.h
+ * The implementbtion for finding clbsses from the bootstrbp
+ * clbss lobder, refer to jbvb.h
  */
-static FindClassFromBootLoader_t *findBootClass = NULL;
+stbtic FindClbssFromBootLobder_t *findBootClbss = NULL;
 
-jclass
-FindBootStrapClass(JNIEnv *env, const char* classname)
+jclbss
+FindBootStrbpClbss(JNIEnv *env, const chbr* clbssnbme)
 {
-   if (findBootClass == NULL) {
-       findBootClass = (FindClassFromBootLoader_t *)dlsym(RTLD_DEFAULT,
-          "JVM_FindClassFromBootLoader");
-       if (findBootClass == NULL) {
-           JLI_ReportErrorMessage(DLL_ERROR4,
-               "JVM_FindClassFromBootLoader");
+   if (findBootClbss == NULL) {
+       findBootClbss = (FindClbssFromBootLobder_t *)dlsym(RTLD_DEFAULT,
+          "JVM_FindClbssFromBootLobder");
+       if (findBootClbss == NULL) {
+           JLI_ReportErrorMessbge(DLL_ERROR4,
+               "JVM_FindClbssFromBootLobder");
            return NULL;
        }
    }
-   return findBootClass(env, classname);
+   return findBootClbss(env, clbssnbme);
 }
 
 StdArg
@@ -513,8 +513,8 @@ JLI_GetStdArgc() {
     return 0;
 }
 
-jobjectArray
-CreateApplicationArgs(JNIEnv *env, char **strv, int argc)
+jobjectArrby
+CrebteApplicbtionArgs(JNIEnv *env, chbr **strv, int brgc)
 {
-    return NewPlatformStringArray(env, strv, argc);
+    return NewPlbtformStringArrby(env, strv, brgc);
 }

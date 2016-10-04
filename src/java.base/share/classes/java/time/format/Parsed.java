@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2008-2013, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2008-2013, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,170 +59,170 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbckbge jbvb.time.formbt;
 
-import static java.time.temporal.ChronoField.AMPM_OF_DAY;
-import static java.time.temporal.ChronoField.CLOCK_HOUR_OF_AMPM;
-import static java.time.temporal.ChronoField.CLOCK_HOUR_OF_DAY;
-import static java.time.temporal.ChronoField.HOUR_OF_AMPM;
-import static java.time.temporal.ChronoField.HOUR_OF_DAY;
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
-import static java.time.temporal.ChronoField.MICRO_OF_DAY;
-import static java.time.temporal.ChronoField.MICRO_OF_SECOND;
-import static java.time.temporal.ChronoField.MILLI_OF_DAY;
-import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
-import static java.time.temporal.ChronoField.MINUTE_OF_DAY;
-import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
-import static java.time.temporal.ChronoField.NANO_OF_DAY;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoField.OFFSET_SECONDS;
-import static java.time.temporal.ChronoField.SECOND_OF_DAY;
-import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
+import stbtic jbvb.time.temporbl.ChronoField.AMPM_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.CLOCK_HOUR_OF_AMPM;
+import stbtic jbvb.time.temporbl.ChronoField.CLOCK_HOUR_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.HOUR_OF_AMPM;
+import stbtic jbvb.time.temporbl.ChronoField.HOUR_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.INSTANT_SECONDS;
+import stbtic jbvb.time.temporbl.ChronoField.MICRO_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.MICRO_OF_SECOND;
+import stbtic jbvb.time.temporbl.ChronoField.MILLI_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.MILLI_OF_SECOND;
+import stbtic jbvb.time.temporbl.ChronoField.MINUTE_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.MINUTE_OF_HOUR;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_SECOND;
+import stbtic jbvb.time.temporbl.ChronoField.OFFSET_SECONDS;
+import stbtic jbvb.time.temporbl.ChronoField.SECOND_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.SECOND_OF_MINUTE;
 
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.chrono.ChronoZonedDateTime;
-import java.time.chrono.Chronology;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
+import jbvb.time.DbteTimeException;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblDbte;
+import jbvb.time.LocblTime;
+import jbvb.time.Period;
+import jbvb.time.ZoneId;
+import jbvb.time.ZoneOffset;
+import jbvb.time.chrono.ChronoLocblDbte;
+import jbvb.time.chrono.ChronoLocblDbteTime;
+import jbvb.time.chrono.ChronoZonedDbteTime;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Objects;
+import jbvb.util.Set;
 
 /**
- * A store of parsed data.
+ * A store of pbrsed dbtb.
  * <p>
- * This class is used during parsing to collect the data. Part of the parsing process
- * involves handling optional blocks and multiple copies of the data get created to
- * support the necessary backtracking.
+ * This clbss is used during pbrsing to collect the dbtb. Pbrt of the pbrsing process
+ * involves hbndling optionbl blocks bnd multiple copies of the dbtb get crebted to
+ * support the necessbry bbcktrbcking.
  * <p>
- * Once parsing is completed, this class can be used as the resultant {@code TemporalAccessor}.
- * In most cases, it is only exposed once the fields have been resolved.
+ * Once pbrsing is completed, this clbss cbn be used bs the resultbnt {@code TemporblAccessor}.
+ * In most cbses, it is only exposed once the fields hbve been resolved.
  *
  * @implSpec
- * This class is a mutable context intended for use from a single thread.
- * Usage of the class is thread-safe within standard parsing as a new instance of this class
- * is automatically created for each parse and parsing is single-threaded
+ * This clbss is b mutbble context intended for use from b single threbd.
+ * Usbge of the clbss is threbd-sbfe within stbndbrd pbrsing bs b new instbnce of this clbss
+ * is butombticblly crebted for ebch pbrse bnd pbrsing is single-threbded
  *
  * @since 1.8
  */
-final class Parsed implements TemporalAccessor {
-    // some fields are accessed using package scope from DateTimeParseContext
+finbl clbss Pbrsed implements TemporblAccessor {
+    // some fields bre bccessed using pbckbge scope from DbteTimePbrseContext
 
     /**
-     * The parsed fields.
+     * The pbrsed fields.
      */
-    final Map<TemporalField, Long> fieldValues = new HashMap<>();
+    finbl Mbp<TemporblField, Long> fieldVblues = new HbshMbp<>();
     /**
-     * The parsed zone.
+     * The pbrsed zone.
      */
     ZoneId zone;
     /**
-     * The parsed chronology.
+     * The pbrsed chronology.
      */
     Chronology chrono;
     /**
-     * Whether a leap-second is parsed.
+     * Whether b lebp-second is pbrsed.
      */
-    boolean leapSecond;
+    boolebn lebpSecond;
     /**
      * The resolver style to use.
      */
-    private ResolverStyle resolverStyle;
+    privbte ResolverStyle resolverStyle;
     /**
-     * The resolved date.
+     * The resolved dbte.
      */
-    private ChronoLocalDate date;
+    privbte ChronoLocblDbte dbte;
     /**
      * The resolved time.
      */
-    private LocalTime time;
+    privbte LocblTime time;
     /**
-     * The excess period from time-only parsing.
+     * The excess period from time-only pbrsing.
      */
-    Period excessDays = Period.ZERO;
+    Period excessDbys = Period.ZERO;
 
     /**
-     * Creates an instance.
+     * Crebtes bn instbnce.
      */
-    Parsed() {
+    Pbrsed() {
     }
 
     /**
-     * Creates a copy.
+     * Crebtes b copy.
      */
-    Parsed copy() {
-        // only copy fields used in parsing stage
-        Parsed cloned = new Parsed();
-        cloned.fieldValues.putAll(this.fieldValues);
+    Pbrsed copy() {
+        // only copy fields used in pbrsing stbge
+        Pbrsed cloned = new Pbrsed();
+        cloned.fieldVblues.putAll(this.fieldVblues);
         cloned.zone = this.zone;
         cloned.chrono = this.chrono;
-        cloned.leapSecond = this.leapSecond;
+        cloned.lebpSecond = this.lebpSecond;
         return cloned;
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public boolean isSupported(TemporalField field) {
-        if (fieldValues.containsKey(field) ||
-                (date != null && date.isSupported(field)) ||
+    public boolebn isSupported(TemporblField field) {
+        if (fieldVblues.contbinsKey(field) ||
+                (dbte != null && dbte.isSupported(field)) ||
                 (time != null && time.isSupported(field))) {
             return true;
         }
-        return field != null && (field instanceof ChronoField == false) && field.isSupportedBy(this);
+        return field != null && (field instbnceof ChronoField == fblse) && field.isSupportedBy(this);
     }
 
     @Override
-    public long getLong(TemporalField field) {
+    public long getLong(TemporblField field) {
         Objects.requireNonNull(field, "field");
-        Long value = fieldValues.get(field);
-        if (value != null) {
-            return value;
+        Long vblue = fieldVblues.get(field);
+        if (vblue != null) {
+            return vblue;
         }
-        if (date != null && date.isSupported(field)) {
-            return date.getLong(field);
+        if (dbte != null && dbte.isSupported(field)) {
+            return dbte.getLong(field);
         }
         if (time != null && time.isSupported(field)) {
             return time.getLong(field);
         }
-        if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+        if (field instbnceof ChronoField) {
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
         return field.getFrom(this);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.zoneId()) {
+    public <R> R query(TemporblQuery<R> query) {
+        if (query == TemporblQueries.zoneId()) {
             return (R) zone;
-        } else if (query == TemporalQueries.chronology()) {
+        } else if (query == TemporblQueries.chronology()) {
             return (R) chrono;
-        } else if (query == TemporalQueries.localDate()) {
-            return (R) (date != null ? LocalDate.from(date) : null);
-        } else if (query == TemporalQueries.localTime()) {
+        } else if (query == TemporblQueries.locblDbte()) {
+            return (R) (dbte != null ? LocblDbte.from(dbte) : null);
+        } else if (query == TemporblQueries.locblTime()) {
             return (R) time;
-        } else if (query == TemporalQueries.zone() || query == TemporalQueries.offset()) {
+        } else if (query == TemporblQueries.zone() || query == TemporblQueries.offset()) {
             return query.queryFrom(this);
-        } else if (query == TemporalQueries.precision()) {
-            return null;  // not a complete date/time
+        } else if (query == TemporblQueries.precision()) {
+            return null;  // not b complete dbte/time
         }
-        // inline TemporalAccessor.super.query(query) as an optimization
-        // non-JDK classes are not permitted to make this optimization
+        // inline TemporblAccessor.super.query(query) bs bn optimizbtion
+        // non-JDK clbsses bre not permitted to mbke this optimizbtion
         return query.queryFrom(this);
     }
 
@@ -230,422 +230,422 @@ final class Parsed implements TemporalAccessor {
     /**
      * Resolves the fields in this context.
      *
-     * @param resolverStyle  the resolver style, not null
-     * @param resolverFields  the fields to use for resolving, null for all fields
-     * @return this, for method chaining
-     * @throws DateTimeException if resolving one field results in a value for
-     *  another field that is in conflict
+     * @pbrbm resolverStyle  the resolver style, not null
+     * @pbrbm resolverFields  the fields to use for resolving, null for bll fields
+     * @return this, for method chbining
+     * @throws DbteTimeException if resolving one field results in b vblue for
+     *  bnother field thbt is in conflict
      */
-    TemporalAccessor resolve(ResolverStyle resolverStyle, Set<TemporalField> resolverFields) {
+    TemporblAccessor resolve(ResolverStyle resolverStyle, Set<TemporblField> resolverFields) {
         if (resolverFields != null) {
-            fieldValues.keySet().retainAll(resolverFields);
+            fieldVblues.keySet().retbinAll(resolverFields);
         }
         this.resolverStyle = resolverStyle;
         resolveFields();
         resolveTimeLenient();
         crossCheck();
         resolvePeriod();
-        resolveFractional();
-        resolveInstant();
+        resolveFrbctionbl();
+        resolveInstbnt();
         return this;
     }
 
     //-----------------------------------------------------------------------
-    private void resolveFields() {
+    privbte void resolveFields() {
         // resolve ChronoField
-        resolveInstantFields();
-        resolveDateFields();
+        resolveInstbntFields();
+        resolveDbteFields();
         resolveTimeFields();
 
-        // if any other fields, handle them
-        // any lenient date resolution should return epoch-day
-        if (fieldValues.size() > 0) {
-            int changedCount = 0;
+        // if bny other fields, hbndle them
+        // bny lenient dbte resolution should return epoch-dby
+        if (fieldVblues.size() > 0) {
+            int chbngedCount = 0;
             outer:
-            while (changedCount < 50) {
-                for (Map.Entry<TemporalField, Long> entry : fieldValues.entrySet()) {
-                    TemporalField targetField = entry.getKey();
-                    TemporalAccessor resolvedObject = targetField.resolve(fieldValues, this, resolverStyle);
+            while (chbngedCount < 50) {
+                for (Mbp.Entry<TemporblField, Long> entry : fieldVblues.entrySet()) {
+                    TemporblField tbrgetField = entry.getKey();
+                    TemporblAccessor resolvedObject = tbrgetField.resolve(fieldVblues, this, resolverStyle);
                     if (resolvedObject != null) {
-                        if (resolvedObject instanceof ChronoZonedDateTime) {
-                            ChronoZonedDateTime<?> czdt = (ChronoZonedDateTime<?>) resolvedObject;
+                        if (resolvedObject instbnceof ChronoZonedDbteTime) {
+                            ChronoZonedDbteTime<?> czdt = (ChronoZonedDbteTime<?>) resolvedObject;
                             if (zone == null) {
                                 zone = czdt.getZone();
-                            } else if (zone.equals(czdt.getZone()) == false) {
-                                throw new DateTimeException("ChronoZonedDateTime must use the effective parsed zone: " + zone);
+                            } else if (zone.equbls(czdt.getZone()) == fblse) {
+                                throw new DbteTimeException("ChronoZonedDbteTime must use the effective pbrsed zone: " + zone);
                             }
-                            resolvedObject = czdt.toLocalDateTime();
+                            resolvedObject = czdt.toLocblDbteTime();
                         }
-                        if (resolvedObject instanceof ChronoLocalDateTime) {
-                            ChronoLocalDateTime<?> cldt = (ChronoLocalDateTime<?>) resolvedObject;
-                            updateCheckConflict(cldt.toLocalTime(), Period.ZERO);
-                            updateCheckConflict(cldt.toLocalDate());
-                            changedCount++;
-                            continue outer;  // have to restart to avoid concurrent modification
+                        if (resolvedObject instbnceof ChronoLocblDbteTime) {
+                            ChronoLocblDbteTime<?> cldt = (ChronoLocblDbteTime<?>) resolvedObject;
+                            updbteCheckConflict(cldt.toLocblTime(), Period.ZERO);
+                            updbteCheckConflict(cldt.toLocblDbte());
+                            chbngedCount++;
+                            continue outer;  // hbve to restbrt to bvoid concurrent modificbtion
                         }
-                        if (resolvedObject instanceof ChronoLocalDate) {
-                            updateCheckConflict((ChronoLocalDate) resolvedObject);
-                            changedCount++;
-                            continue outer;  // have to restart to avoid concurrent modification
+                        if (resolvedObject instbnceof ChronoLocblDbte) {
+                            updbteCheckConflict((ChronoLocblDbte) resolvedObject);
+                            chbngedCount++;
+                            continue outer;  // hbve to restbrt to bvoid concurrent modificbtion
                         }
-                        if (resolvedObject instanceof LocalTime) {
-                            updateCheckConflict((LocalTime) resolvedObject, Period.ZERO);
-                            changedCount++;
-                            continue outer;  // have to restart to avoid concurrent modification
+                        if (resolvedObject instbnceof LocblTime) {
+                            updbteCheckConflict((LocblTime) resolvedObject, Period.ZERO);
+                            chbngedCount++;
+                            continue outer;  // hbve to restbrt to bvoid concurrent modificbtion
                         }
-                        throw new DateTimeException("Method resolve() can only return ChronoZonedDateTime, " +
-                                "ChronoLocalDateTime, ChronoLocalDate or LocalTime");
-                    } else if (fieldValues.containsKey(targetField) == false) {
-                        changedCount++;
-                        continue outer;  // have to restart to avoid concurrent modification
+                        throw new DbteTimeException("Method resolve() cbn only return ChronoZonedDbteTime, " +
+                                "ChronoLocblDbteTime, ChronoLocblDbte or LocblTime");
+                    } else if (fieldVblues.contbinsKey(tbrgetField) == fblse) {
+                        chbngedCount++;
+                        continue outer;  // hbve to restbrt to bvoid concurrent modificbtion
                     }
                 }
-                break;
+                brebk;
             }
-            if (changedCount == 50) {  // catch infinite loops
-                throw new DateTimeException("One of the parsed fields has an incorrectly implemented resolve method");
+            if (chbngedCount == 50) {  // cbtch infinite loops
+                throw new DbteTimeException("One of the pbrsed fields hbs bn incorrectly implemented resolve method");
             }
-            // if something changed then have to redo ChronoField resolve
-            if (changedCount > 0) {
-                resolveInstantFields();
-                resolveDateFields();
+            // if something chbnged then hbve to redo ChronoField resolve
+            if (chbngedCount > 0) {
+                resolveInstbntFields();
+                resolveDbteFields();
                 resolveTimeFields();
             }
         }
     }
 
-    private void updateCheckConflict(TemporalField targetField, TemporalField changeField, Long changeValue) {
-        Long old = fieldValues.put(changeField, changeValue);
-        if (old != null && old.longValue() != changeValue.longValue()) {
-            throw new DateTimeException("Conflict found: " + changeField + " " + old +
-                    " differs from " + changeField + " " + changeValue +
-                    " while resolving  " + targetField);
+    privbte void updbteCheckConflict(TemporblField tbrgetField, TemporblField chbngeField, Long chbngeVblue) {
+        Long old = fieldVblues.put(chbngeField, chbngeVblue);
+        if (old != null && old.longVblue() != chbngeVblue.longVblue()) {
+            throw new DbteTimeException("Conflict found: " + chbngeField + " " + old +
+                    " differs from " + chbngeField + " " + chbngeVblue +
+                    " while resolving  " + tbrgetField);
         }
     }
 
     //-----------------------------------------------------------------------
-    private void resolveInstantFields() {
-        // resolve parsed instant seconds to date and time if zone available
-        if (fieldValues.containsKey(INSTANT_SECONDS)) {
+    privbte void resolveInstbntFields() {
+        // resolve pbrsed instbnt seconds to dbte bnd time if zone bvbilbble
+        if (fieldVblues.contbinsKey(INSTANT_SECONDS)) {
             if (zone != null) {
-                resolveInstantFields0(zone);
+                resolveInstbntFields0(zone);
             } else {
-                Long offsetSecs = fieldValues.get(OFFSET_SECONDS);
+                Long offsetSecs = fieldVblues.get(OFFSET_SECONDS);
                 if (offsetSecs != null) {
-                    ZoneOffset offset = ZoneOffset.ofTotalSeconds(offsetSecs.intValue());
-                    resolveInstantFields0(offset);
+                    ZoneOffset offset = ZoneOffset.ofTotblSeconds(offsetSecs.intVblue());
+                    resolveInstbntFields0(offset);
                 }
             }
         }
     }
 
-    private void resolveInstantFields0(ZoneId selectedZone) {
-        Instant instant = Instant.ofEpochSecond(fieldValues.remove(INSTANT_SECONDS));
-        ChronoZonedDateTime<?> zdt = chrono.zonedDateTime(instant, selectedZone);
-        updateCheckConflict(zdt.toLocalDate());
-        updateCheckConflict(INSTANT_SECONDS, SECOND_OF_DAY, (long) zdt.toLocalTime().toSecondOfDay());
+    privbte void resolveInstbntFields0(ZoneId selectedZone) {
+        Instbnt instbnt = Instbnt.ofEpochSecond(fieldVblues.remove(INSTANT_SECONDS));
+        ChronoZonedDbteTime<?> zdt = chrono.zonedDbteTime(instbnt, selectedZone);
+        updbteCheckConflict(zdt.toLocblDbte());
+        updbteCheckConflict(INSTANT_SECONDS, SECOND_OF_DAY, (long) zdt.toLocblTime().toSecondOfDby());
     }
 
     //-----------------------------------------------------------------------
-    private void resolveDateFields() {
-        updateCheckConflict(chrono.resolveDate(fieldValues, resolverStyle));
+    privbte void resolveDbteFields() {
+        updbteCheckConflict(chrono.resolveDbte(fieldVblues, resolverStyle));
     }
 
-    private void updateCheckConflict(ChronoLocalDate cld) {
-        if (date != null) {
-            if (cld != null && date.equals(cld) == false) {
-                throw new DateTimeException("Conflict found: Fields resolved to two different dates: " + date + " " + cld);
+    privbte void updbteCheckConflict(ChronoLocblDbte cld) {
+        if (dbte != null) {
+            if (cld != null && dbte.equbls(cld) == fblse) {
+                throw new DbteTimeException("Conflict found: Fields resolved to two different dbtes: " + dbte + " " + cld);
             }
         } else if (cld != null) {
-            if (chrono.equals(cld.getChronology()) == false) {
-                throw new DateTimeException("ChronoLocalDate must use the effective parsed chronology: " + chrono);
+            if (chrono.equbls(cld.getChronology()) == fblse) {
+                throw new DbteTimeException("ChronoLocblDbte must use the effective pbrsed chronology: " + chrono);
             }
-            date = cld;
+            dbte = cld;
         }
     }
 
     //-----------------------------------------------------------------------
-    private void resolveTimeFields() {
+    privbte void resolveTimeFields() {
         // simplify fields
-        if (fieldValues.containsKey(CLOCK_HOUR_OF_DAY)) {
-            // lenient allows anything, smart allows 0-24, strict allows 1-24
-            long ch = fieldValues.remove(CLOCK_HOUR_OF_DAY);
+        if (fieldVblues.contbinsKey(CLOCK_HOUR_OF_DAY)) {
+            // lenient bllows bnything, smbrt bllows 0-24, strict bllows 1-24
+            long ch = fieldVblues.remove(CLOCK_HOUR_OF_DAY);
             if (resolverStyle == ResolverStyle.STRICT || (resolverStyle == ResolverStyle.SMART && ch != 0)) {
-                CLOCK_HOUR_OF_DAY.checkValidValue(ch);
+                CLOCK_HOUR_OF_DAY.checkVblidVblue(ch);
             }
-            updateCheckConflict(CLOCK_HOUR_OF_DAY, HOUR_OF_DAY, ch == 24 ? 0 : ch);
+            updbteCheckConflict(CLOCK_HOUR_OF_DAY, HOUR_OF_DAY, ch == 24 ? 0 : ch);
         }
-        if (fieldValues.containsKey(CLOCK_HOUR_OF_AMPM)) {
-            // lenient allows anything, smart allows 0-12, strict allows 1-12
-            long ch = fieldValues.remove(CLOCK_HOUR_OF_AMPM);
+        if (fieldVblues.contbinsKey(CLOCK_HOUR_OF_AMPM)) {
+            // lenient bllows bnything, smbrt bllows 0-12, strict bllows 1-12
+            long ch = fieldVblues.remove(CLOCK_HOUR_OF_AMPM);
             if (resolverStyle == ResolverStyle.STRICT || (resolverStyle == ResolverStyle.SMART && ch != 0)) {
-                CLOCK_HOUR_OF_AMPM.checkValidValue(ch);
+                CLOCK_HOUR_OF_AMPM.checkVblidVblue(ch);
             }
-            updateCheckConflict(CLOCK_HOUR_OF_AMPM, HOUR_OF_AMPM, ch == 12 ? 0 : ch);
+            updbteCheckConflict(CLOCK_HOUR_OF_AMPM, HOUR_OF_AMPM, ch == 12 ? 0 : ch);
         }
-        if (fieldValues.containsKey(AMPM_OF_DAY) && fieldValues.containsKey(HOUR_OF_AMPM)) {
-            long ap = fieldValues.remove(AMPM_OF_DAY);
-            long hap = fieldValues.remove(HOUR_OF_AMPM);
+        if (fieldVblues.contbinsKey(AMPM_OF_DAY) && fieldVblues.contbinsKey(HOUR_OF_AMPM)) {
+            long bp = fieldVblues.remove(AMPM_OF_DAY);
+            long hbp = fieldVblues.remove(HOUR_OF_AMPM);
             if (resolverStyle == ResolverStyle.LENIENT) {
-                updateCheckConflict(AMPM_OF_DAY, HOUR_OF_DAY, Math.addExact(Math.multiplyExact(ap, 12), hap));
+                updbteCheckConflict(AMPM_OF_DAY, HOUR_OF_DAY, Mbth.bddExbct(Mbth.multiplyExbct(bp, 12), hbp));
             } else {  // STRICT or SMART
-                AMPM_OF_DAY.checkValidValue(ap);
-                HOUR_OF_AMPM.checkValidValue(ap);
-                updateCheckConflict(AMPM_OF_DAY, HOUR_OF_DAY, ap * 12 + hap);
+                AMPM_OF_DAY.checkVblidVblue(bp);
+                HOUR_OF_AMPM.checkVblidVblue(bp);
+                updbteCheckConflict(AMPM_OF_DAY, HOUR_OF_DAY, bp * 12 + hbp);
             }
         }
-        if (fieldValues.containsKey(NANO_OF_DAY)) {
-            long nod = fieldValues.remove(NANO_OF_DAY);
+        if (fieldVblues.contbinsKey(NANO_OF_DAY)) {
+            long nod = fieldVblues.remove(NANO_OF_DAY);
             if (resolverStyle != ResolverStyle.LENIENT) {
-                NANO_OF_DAY.checkValidValue(nod);
+                NANO_OF_DAY.checkVblidVblue(nod);
             }
-            updateCheckConflict(NANO_OF_DAY, HOUR_OF_DAY, nod / 3600_000_000_000L);
-            updateCheckConflict(NANO_OF_DAY, MINUTE_OF_HOUR, (nod / 60_000_000_000L) % 60);
-            updateCheckConflict(NANO_OF_DAY, SECOND_OF_MINUTE, (nod / 1_000_000_000L) % 60);
-            updateCheckConflict(NANO_OF_DAY, NANO_OF_SECOND, nod % 1_000_000_000L);
+            updbteCheckConflict(NANO_OF_DAY, HOUR_OF_DAY, nod / 3600_000_000_000L);
+            updbteCheckConflict(NANO_OF_DAY, MINUTE_OF_HOUR, (nod / 60_000_000_000L) % 60);
+            updbteCheckConflict(NANO_OF_DAY, SECOND_OF_MINUTE, (nod / 1_000_000_000L) % 60);
+            updbteCheckConflict(NANO_OF_DAY, NANO_OF_SECOND, nod % 1_000_000_000L);
         }
-        if (fieldValues.containsKey(MICRO_OF_DAY)) {
-            long cod = fieldValues.remove(MICRO_OF_DAY);
+        if (fieldVblues.contbinsKey(MICRO_OF_DAY)) {
+            long cod = fieldVblues.remove(MICRO_OF_DAY);
             if (resolverStyle != ResolverStyle.LENIENT) {
-                MICRO_OF_DAY.checkValidValue(cod);
+                MICRO_OF_DAY.checkVblidVblue(cod);
             }
-            updateCheckConflict(MICRO_OF_DAY, SECOND_OF_DAY, cod / 1_000_000L);
-            updateCheckConflict(MICRO_OF_DAY, MICRO_OF_SECOND, cod % 1_000_000L);
+            updbteCheckConflict(MICRO_OF_DAY, SECOND_OF_DAY, cod / 1_000_000L);
+            updbteCheckConflict(MICRO_OF_DAY, MICRO_OF_SECOND, cod % 1_000_000L);
         }
-        if (fieldValues.containsKey(MILLI_OF_DAY)) {
-            long lod = fieldValues.remove(MILLI_OF_DAY);
+        if (fieldVblues.contbinsKey(MILLI_OF_DAY)) {
+            long lod = fieldVblues.remove(MILLI_OF_DAY);
             if (resolverStyle != ResolverStyle.LENIENT) {
-                MILLI_OF_DAY.checkValidValue(lod);
+                MILLI_OF_DAY.checkVblidVblue(lod);
             }
-            updateCheckConflict(MILLI_OF_DAY, SECOND_OF_DAY, lod / 1_000);
-            updateCheckConflict(MILLI_OF_DAY, MILLI_OF_SECOND, lod % 1_000);
+            updbteCheckConflict(MILLI_OF_DAY, SECOND_OF_DAY, lod / 1_000);
+            updbteCheckConflict(MILLI_OF_DAY, MILLI_OF_SECOND, lod % 1_000);
         }
-        if (fieldValues.containsKey(SECOND_OF_DAY)) {
-            long sod = fieldValues.remove(SECOND_OF_DAY);
+        if (fieldVblues.contbinsKey(SECOND_OF_DAY)) {
+            long sod = fieldVblues.remove(SECOND_OF_DAY);
             if (resolverStyle != ResolverStyle.LENIENT) {
-                SECOND_OF_DAY.checkValidValue(sod);
+                SECOND_OF_DAY.checkVblidVblue(sod);
             }
-            updateCheckConflict(SECOND_OF_DAY, HOUR_OF_DAY, sod / 3600);
-            updateCheckConflict(SECOND_OF_DAY, MINUTE_OF_HOUR, (sod / 60) % 60);
-            updateCheckConflict(SECOND_OF_DAY, SECOND_OF_MINUTE, sod % 60);
+            updbteCheckConflict(SECOND_OF_DAY, HOUR_OF_DAY, sod / 3600);
+            updbteCheckConflict(SECOND_OF_DAY, MINUTE_OF_HOUR, (sod / 60) % 60);
+            updbteCheckConflict(SECOND_OF_DAY, SECOND_OF_MINUTE, sod % 60);
         }
-        if (fieldValues.containsKey(MINUTE_OF_DAY)) {
-            long mod = fieldValues.remove(MINUTE_OF_DAY);
+        if (fieldVblues.contbinsKey(MINUTE_OF_DAY)) {
+            long mod = fieldVblues.remove(MINUTE_OF_DAY);
             if (resolverStyle != ResolverStyle.LENIENT) {
-                MINUTE_OF_DAY.checkValidValue(mod);
+                MINUTE_OF_DAY.checkVblidVblue(mod);
             }
-            updateCheckConflict(MINUTE_OF_DAY, HOUR_OF_DAY, mod / 60);
-            updateCheckConflict(MINUTE_OF_DAY, MINUTE_OF_HOUR, mod % 60);
+            updbteCheckConflict(MINUTE_OF_DAY, HOUR_OF_DAY, mod / 60);
+            updbteCheckConflict(MINUTE_OF_DAY, MINUTE_OF_HOUR, mod % 60);
         }
 
-        // combine partial second fields strictly, leaving lenient expansion to later
-        if (fieldValues.containsKey(NANO_OF_SECOND)) {
-            long nos = fieldValues.get(NANO_OF_SECOND);
+        // combine pbrtibl second fields strictly, lebving lenient expbnsion to lbter
+        if (fieldVblues.contbinsKey(NANO_OF_SECOND)) {
+            long nos = fieldVblues.get(NANO_OF_SECOND);
             if (resolverStyle != ResolverStyle.LENIENT) {
-                NANO_OF_SECOND.checkValidValue(nos);
+                NANO_OF_SECOND.checkVblidVblue(nos);
             }
-            if (fieldValues.containsKey(MICRO_OF_SECOND)) {
-                long cos = fieldValues.remove(MICRO_OF_SECOND);
+            if (fieldVblues.contbinsKey(MICRO_OF_SECOND)) {
+                long cos = fieldVblues.remove(MICRO_OF_SECOND);
                 if (resolverStyle != ResolverStyle.LENIENT) {
-                    MICRO_OF_SECOND.checkValidValue(cos);
+                    MICRO_OF_SECOND.checkVblidVblue(cos);
                 }
                 nos = cos * 1000 + (nos % 1000);
-                updateCheckConflict(MICRO_OF_SECOND, NANO_OF_SECOND, nos);
+                updbteCheckConflict(MICRO_OF_SECOND, NANO_OF_SECOND, nos);
             }
-            if (fieldValues.containsKey(MILLI_OF_SECOND)) {
-                long los = fieldValues.remove(MILLI_OF_SECOND);
+            if (fieldVblues.contbinsKey(MILLI_OF_SECOND)) {
+                long los = fieldVblues.remove(MILLI_OF_SECOND);
                 if (resolverStyle != ResolverStyle.LENIENT) {
-                    MILLI_OF_SECOND.checkValidValue(los);
+                    MILLI_OF_SECOND.checkVblidVblue(los);
                 }
-                updateCheckConflict(MILLI_OF_SECOND, NANO_OF_SECOND, los * 1_000_000L + (nos % 1_000_000L));
+                updbteCheckConflict(MILLI_OF_SECOND, NANO_OF_SECOND, los * 1_000_000L + (nos % 1_000_000L));
             }
         }
 
-        // convert to time if all four fields available (optimization)
-        if (fieldValues.containsKey(HOUR_OF_DAY) && fieldValues.containsKey(MINUTE_OF_HOUR) &&
-                fieldValues.containsKey(SECOND_OF_MINUTE) && fieldValues.containsKey(NANO_OF_SECOND)) {
-            long hod = fieldValues.remove(HOUR_OF_DAY);
-            long moh = fieldValues.remove(MINUTE_OF_HOUR);
-            long som = fieldValues.remove(SECOND_OF_MINUTE);
-            long nos = fieldValues.remove(NANO_OF_SECOND);
+        // convert to time if bll four fields bvbilbble (optimizbtion)
+        if (fieldVblues.contbinsKey(HOUR_OF_DAY) && fieldVblues.contbinsKey(MINUTE_OF_HOUR) &&
+                fieldVblues.contbinsKey(SECOND_OF_MINUTE) && fieldVblues.contbinsKey(NANO_OF_SECOND)) {
+            long hod = fieldVblues.remove(HOUR_OF_DAY);
+            long moh = fieldVblues.remove(MINUTE_OF_HOUR);
+            long som = fieldVblues.remove(SECOND_OF_MINUTE);
+            long nos = fieldVblues.remove(NANO_OF_SECOND);
             resolveTime(hod, moh, som, nos);
         }
     }
 
-    private void resolveTimeLenient() {
-        // leniently create a time from incomplete information
-        // done after everything else as it creates information from nothing
-        // which would break updateCheckConflict(field)
+    privbte void resolveTimeLenient() {
+        // leniently crebte b time from incomplete informbtion
+        // done bfter everything else bs it crebtes informbtion from nothing
+        // which would brebk updbteCheckConflict(field)
 
         if (time == null) {
-            // NANO_OF_SECOND merged with MILLI/MICRO above
-            if (fieldValues.containsKey(MILLI_OF_SECOND)) {
-                long los = fieldValues.remove(MILLI_OF_SECOND);
-                if (fieldValues.containsKey(MICRO_OF_SECOND)) {
-                    // merge milli-of-second and micro-of-second for better error message
-                    long cos = los * 1_000 + (fieldValues.get(MICRO_OF_SECOND) % 1_000);
-                    updateCheckConflict(MILLI_OF_SECOND, MICRO_OF_SECOND, cos);
-                    fieldValues.remove(MICRO_OF_SECOND);
-                    fieldValues.put(NANO_OF_SECOND, cos * 1_000L);
+            // NANO_OF_SECOND merged with MILLI/MICRO bbove
+            if (fieldVblues.contbinsKey(MILLI_OF_SECOND)) {
+                long los = fieldVblues.remove(MILLI_OF_SECOND);
+                if (fieldVblues.contbinsKey(MICRO_OF_SECOND)) {
+                    // merge milli-of-second bnd micro-of-second for better error messbge
+                    long cos = los * 1_000 + (fieldVblues.get(MICRO_OF_SECOND) % 1_000);
+                    updbteCheckConflict(MILLI_OF_SECOND, MICRO_OF_SECOND, cos);
+                    fieldVblues.remove(MICRO_OF_SECOND);
+                    fieldVblues.put(NANO_OF_SECOND, cos * 1_000L);
                 } else {
-                    // convert milli-of-second to nano-of-second
-                    fieldValues.put(NANO_OF_SECOND, los * 1_000_000L);
+                    // convert milli-of-second to nbno-of-second
+                    fieldVblues.put(NANO_OF_SECOND, los * 1_000_000L);
                 }
-            } else if (fieldValues.containsKey(MICRO_OF_SECOND)) {
-                // convert micro-of-second to nano-of-second
-                long cos = fieldValues.remove(MICRO_OF_SECOND);
-                fieldValues.put(NANO_OF_SECOND, cos * 1_000L);
+            } else if (fieldVblues.contbinsKey(MICRO_OF_SECOND)) {
+                // convert micro-of-second to nbno-of-second
+                long cos = fieldVblues.remove(MICRO_OF_SECOND);
+                fieldVblues.put(NANO_OF_SECOND, cos * 1_000L);
             }
 
-            // merge hour/minute/second/nano leniently
-            Long hod = fieldValues.get(HOUR_OF_DAY);
+            // merge hour/minute/second/nbno leniently
+            Long hod = fieldVblues.get(HOUR_OF_DAY);
             if (hod != null) {
-                Long moh = fieldValues.get(MINUTE_OF_HOUR);
-                Long som = fieldValues.get(SECOND_OF_MINUTE);
-                Long nos = fieldValues.get(NANO_OF_SECOND);
+                Long moh = fieldVblues.get(MINUTE_OF_HOUR);
+                Long som = fieldVblues.get(SECOND_OF_MINUTE);
+                Long nos = fieldVblues.get(NANO_OF_SECOND);
 
-                // check for invalid combinations that cannot be defaulted
+                // check for invblid combinbtions thbt cbnnot be defbulted
                 if ((moh == null && (som != null || nos != null)) ||
                         (moh != null && som == null && nos != null)) {
                     return;
                 }
 
-                // default as necessary and build time
-                long mohVal = (moh != null ? moh : 0);
-                long somVal = (som != null ? som : 0);
-                long nosVal = (nos != null ? nos : 0);
-                resolveTime(hod, mohVal, somVal, nosVal);
-                fieldValues.remove(HOUR_OF_DAY);
-                fieldValues.remove(MINUTE_OF_HOUR);
-                fieldValues.remove(SECOND_OF_MINUTE);
-                fieldValues.remove(NANO_OF_SECOND);
+                // defbult bs necessbry bnd build time
+                long mohVbl = (moh != null ? moh : 0);
+                long somVbl = (som != null ? som : 0);
+                long nosVbl = (nos != null ? nos : 0);
+                resolveTime(hod, mohVbl, somVbl, nosVbl);
+                fieldVblues.remove(HOUR_OF_DAY);
+                fieldVblues.remove(MINUTE_OF_HOUR);
+                fieldVblues.remove(SECOND_OF_MINUTE);
+                fieldVblues.remove(NANO_OF_SECOND);
             }
         }
 
-        // validate remaining
-        if (resolverStyle != ResolverStyle.LENIENT && fieldValues.size() > 0) {
-            for (Entry<TemporalField, Long> entry : fieldValues.entrySet()) {
-                TemporalField field = entry.getKey();
-                if (field instanceof ChronoField && field.isTimeBased()) {
-                    ((ChronoField) field).checkValidValue(entry.getValue());
+        // vblidbte rembining
+        if (resolverStyle != ResolverStyle.LENIENT && fieldVblues.size() > 0) {
+            for (Entry<TemporblField, Long> entry : fieldVblues.entrySet()) {
+                TemporblField field = entry.getKey();
+                if (field instbnceof ChronoField && field.isTimeBbsed()) {
+                    ((ChronoField) field).checkVblidVblue(entry.getVblue());
                 }
             }
         }
     }
 
-    private void resolveTime(long hod, long moh, long som, long nos) {
+    privbte void resolveTime(long hod, long moh, long som, long nos) {
         if (resolverStyle == ResolverStyle.LENIENT) {
-            long totalNanos = Math.multiplyExact(hod, 3600_000_000_000L);
-            totalNanos = Math.addExact(totalNanos, Math.multiplyExact(moh, 60_000_000_000L));
-            totalNanos = Math.addExact(totalNanos, Math.multiplyExact(som, 1_000_000_000L));
-            totalNanos = Math.addExact(totalNanos, nos);
-            int excessDays = (int) Math.floorDiv(totalNanos, 86400_000_000_000L);  // safe int cast
-            long nod = Math.floorMod(totalNanos, 86400_000_000_000L);
-            updateCheckConflict(LocalTime.ofNanoOfDay(nod), Period.ofDays(excessDays));
+            long totblNbnos = Mbth.multiplyExbct(hod, 3600_000_000_000L);
+            totblNbnos = Mbth.bddExbct(totblNbnos, Mbth.multiplyExbct(moh, 60_000_000_000L));
+            totblNbnos = Mbth.bddExbct(totblNbnos, Mbth.multiplyExbct(som, 1_000_000_000L));
+            totblNbnos = Mbth.bddExbct(totblNbnos, nos);
+            int excessDbys = (int) Mbth.floorDiv(totblNbnos, 86400_000_000_000L);  // sbfe int cbst
+            long nod = Mbth.floorMod(totblNbnos, 86400_000_000_000L);
+            updbteCheckConflict(LocblTime.ofNbnoOfDby(nod), Period.ofDbys(excessDbys));
         } else {  // STRICT or SMART
-            int mohVal = MINUTE_OF_HOUR.checkValidIntValue(moh);
-            int nosVal = NANO_OF_SECOND.checkValidIntValue(nos);
-            // handle 24:00 end of day
-            if (resolverStyle == ResolverStyle.SMART && hod == 24 && mohVal == 0 && som == 0 && nosVal == 0) {
-                updateCheckConflict(LocalTime.MIDNIGHT, Period.ofDays(1));
+            int mohVbl = MINUTE_OF_HOUR.checkVblidIntVblue(moh);
+            int nosVbl = NANO_OF_SECOND.checkVblidIntVblue(nos);
+            // hbndle 24:00 end of dby
+            if (resolverStyle == ResolverStyle.SMART && hod == 24 && mohVbl == 0 && som == 0 && nosVbl == 0) {
+                updbteCheckConflict(LocblTime.MIDNIGHT, Period.ofDbys(1));
             } else {
-                int hodVal = HOUR_OF_DAY.checkValidIntValue(hod);
-                int somVal = SECOND_OF_MINUTE.checkValidIntValue(som);
-                updateCheckConflict(LocalTime.of(hodVal, mohVal, somVal, nosVal), Period.ZERO);
+                int hodVbl = HOUR_OF_DAY.checkVblidIntVblue(hod);
+                int somVbl = SECOND_OF_MINUTE.checkVblidIntVblue(som);
+                updbteCheckConflict(LocblTime.of(hodVbl, mohVbl, somVbl, nosVbl), Period.ZERO);
             }
         }
     }
 
-    private void resolvePeriod() {
-        // add whole days if we have both date and time
-        if (date != null && time != null && excessDays.isZero() == false) {
-            date = date.plus(excessDays);
-            excessDays = Period.ZERO;
+    privbte void resolvePeriod() {
+        // bdd whole dbys if we hbve both dbte bnd time
+        if (dbte != null && time != null && excessDbys.isZero() == fblse) {
+            dbte = dbte.plus(excessDbys);
+            excessDbys = Period.ZERO;
         }
     }
 
-    private void resolveFractional() {
-        // ensure fractional seconds available as ChronoField requires
-        // resolveTimeLenient() will have merged MICRO_OF_SECOND/MILLI_OF_SECOND to NANO_OF_SECOND
+    privbte void resolveFrbctionbl() {
+        // ensure frbctionbl seconds bvbilbble bs ChronoField requires
+        // resolveTimeLenient() will hbve merged MICRO_OF_SECOND/MILLI_OF_SECOND to NANO_OF_SECOND
         if (time == null &&
-                (fieldValues.containsKey(INSTANT_SECONDS) ||
-                    fieldValues.containsKey(SECOND_OF_DAY) ||
-                    fieldValues.containsKey(SECOND_OF_MINUTE))) {
-            if (fieldValues.containsKey(NANO_OF_SECOND)) {
-                long nos = fieldValues.get(NANO_OF_SECOND);
-                fieldValues.put(MICRO_OF_SECOND, nos / 1000);
-                fieldValues.put(MILLI_OF_SECOND, nos / 1000000);
+                (fieldVblues.contbinsKey(INSTANT_SECONDS) ||
+                    fieldVblues.contbinsKey(SECOND_OF_DAY) ||
+                    fieldVblues.contbinsKey(SECOND_OF_MINUTE))) {
+            if (fieldVblues.contbinsKey(NANO_OF_SECOND)) {
+                long nos = fieldVblues.get(NANO_OF_SECOND);
+                fieldVblues.put(MICRO_OF_SECOND, nos / 1000);
+                fieldVblues.put(MILLI_OF_SECOND, nos / 1000000);
             } else {
-                fieldValues.put(NANO_OF_SECOND, 0L);
-                fieldValues.put(MICRO_OF_SECOND, 0L);
-                fieldValues.put(MILLI_OF_SECOND, 0L);
+                fieldVblues.put(NANO_OF_SECOND, 0L);
+                fieldVblues.put(MICRO_OF_SECOND, 0L);
+                fieldVblues.put(MILLI_OF_SECOND, 0L);
             }
         }
     }
 
-    private void resolveInstant() {
-        // add instant seconds if we have date, time and zone
-        if (date != null && time != null) {
+    privbte void resolveInstbnt() {
+        // bdd instbnt seconds if we hbve dbte, time bnd zone
+        if (dbte != null && time != null) {
             if (zone != null) {
-                long instant = date.atTime(time).atZone(zone).getLong(ChronoField.INSTANT_SECONDS);
-                fieldValues.put(INSTANT_SECONDS, instant);
+                long instbnt = dbte.btTime(time).btZone(zone).getLong(ChronoField.INSTANT_SECONDS);
+                fieldVblues.put(INSTANT_SECONDS, instbnt);
             } else {
-                Long offsetSecs = fieldValues.get(OFFSET_SECONDS);
+                Long offsetSecs = fieldVblues.get(OFFSET_SECONDS);
                 if (offsetSecs != null) {
-                    ZoneOffset offset = ZoneOffset.ofTotalSeconds(offsetSecs.intValue());
-                    long instant = date.atTime(time).atZone(offset).getLong(ChronoField.INSTANT_SECONDS);
-                    fieldValues.put(INSTANT_SECONDS, instant);
+                    ZoneOffset offset = ZoneOffset.ofTotblSeconds(offsetSecs.intVblue());
+                    long instbnt = dbte.btTime(time).btZone(offset).getLong(ChronoField.INSTANT_SECONDS);
+                    fieldVblues.put(INSTANT_SECONDS, instbnt);
                 }
             }
         }
     }
 
-    private void updateCheckConflict(LocalTime timeToSet, Period periodToSet) {
+    privbte void updbteCheckConflict(LocblTime timeToSet, Period periodToSet) {
         if (time != null) {
-            if (time.equals(timeToSet) == false) {
-                throw new DateTimeException("Conflict found: Fields resolved to different times: " + time + " " + timeToSet);
+            if (time.equbls(timeToSet) == fblse) {
+                throw new DbteTimeException("Conflict found: Fields resolved to different times: " + time + " " + timeToSet);
             }
-            if (excessDays.isZero() == false && periodToSet.isZero() == false && excessDays.equals(periodToSet) == false) {
-                throw new DateTimeException("Conflict found: Fields resolved to different excess periods: " + excessDays + " " + periodToSet);
+            if (excessDbys.isZero() == fblse && periodToSet.isZero() == fblse && excessDbys.equbls(periodToSet) == fblse) {
+                throw new DbteTimeException("Conflict found: Fields resolved to different excess periods: " + excessDbys + " " + periodToSet);
             } else {
-                excessDays = periodToSet;
+                excessDbys = periodToSet;
             }
         } else {
             time = timeToSet;
-            excessDays = periodToSet;
+            excessDbys = periodToSet;
         }
     }
 
     //-----------------------------------------------------------------------
-    private void crossCheck() {
-        // only cross-check date, time and date-time
-        // avoid object creation if possible
-        if (date != null) {
-            crossCheck(date);
+    privbte void crossCheck() {
+        // only cross-check dbte, time bnd dbte-time
+        // bvoid object crebtion if possible
+        if (dbte != null) {
+            crossCheck(dbte);
         }
         if (time != null) {
             crossCheck(time);
-            if (date != null && fieldValues.size() > 0) {
-                crossCheck(date.atTime(time));
+            if (dbte != null && fieldVblues.size() > 0) {
+                crossCheck(dbte.btTime(time));
             }
         }
     }
 
-    private void crossCheck(TemporalAccessor target) {
-        for (Iterator<Entry<TemporalField, Long>> it = fieldValues.entrySet().iterator(); it.hasNext(); ) {
-            Entry<TemporalField, Long> entry = it.next();
-            TemporalField field = entry.getKey();
-            if (target.isSupported(field)) {
-                long val1;
+    privbte void crossCheck(TemporblAccessor tbrget) {
+        for (Iterbtor<Entry<TemporblField, Long>> it = fieldVblues.entrySet().iterbtor(); it.hbsNext(); ) {
+            Entry<TemporblField, Long> entry = it.next();
+            TemporblField field = entry.getKey();
+            if (tbrget.isSupported(field)) {
+                long vbl1;
                 try {
-                    val1 = target.getLong(field);
-                } catch (RuntimeException ex) {
+                    vbl1 = tbrget.getLong(field);
+                } cbtch (RuntimeException ex) {
                     continue;
                 }
-                long val2 = entry.getValue();
-                if (val1 != val2) {
-                    throw new DateTimeException("Conflict found: Field " + field + " " + val1 +
-                            " differs from " + field + " " + val2 + " derived from " + target);
+                long vbl2 = entry.getVblue();
+                if (vbl1 != vbl2) {
+                    throw new DbteTimeException("Conflict found: Field " + field + " " + vbl1 +
+                            " differs from " + field + " " + vbl2 + " derived from " + tbrget);
                 }
                 it.remove();
             }
@@ -656,19 +656,19 @@ final class Parsed implements TemporalAccessor {
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder(64);
-        buf.append(fieldValues).append(',').append(chrono);
+        buf.bppend(fieldVblues).bppend(',').bppend(chrono);
         if (zone != null) {
-            buf.append(',').append(zone);
+            buf.bppend(',').bppend(zone);
         }
-        if (date != null || time != null) {
-            buf.append(" resolved to ");
-            if (date != null) {
-                buf.append(date);
+        if (dbte != null || time != null) {
+            buf.bppend(" resolved to ");
+            if (dbte != null) {
+                buf.bppend(dbte);
                 if (time != null) {
-                    buf.append('T').append(time);
+                    buf.bppend('T').bppend(time);
                 }
             } else {
-                buf.append(time);
+                buf.bppend(time);
             }
         }
         return buf.toString();

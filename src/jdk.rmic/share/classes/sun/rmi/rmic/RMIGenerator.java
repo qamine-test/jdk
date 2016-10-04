@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*****************************************************************************/
-/*                    Copyright (c) IBM Corporation 1998                     */
+/*                    Copyright (c) IBM Corporbtion 1998                     */
 /*                                                                           */
 /* (C) Copyright IBM Corp. 1998                                              */
 /*                                                                           */
 /*****************************************************************************/
 
-package sun.rmi.rmic;
+pbckbge sun.rmi.rmic;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import sun.tools.java.Type;
-import sun.tools.java.Identifier;
-import sun.tools.java.ClassDefinition;
-import sun.tools.java.ClassDeclaration;
-import sun.tools.java.ClassNotFound;
-import sun.tools.java.ClassFile;
-import sun.tools.java.MemberDefinition;
-import com.sun.corba.se.impl.util.Utility;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.OutputStrebmWriter;
+import jbvb.io.IOException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import sun.tools.jbvb.Type;
+import sun.tools.jbvb.Identifier;
+import sun.tools.jbvb.ClbssDefinition;
+import sun.tools.jbvb.ClbssDeclbrbtion;
+import sun.tools.jbvb.ClbssNotFound;
+import sun.tools.jbvb.ClbssFile;
+import sun.tools.jbvb.MemberDefinition;
+import com.sun.corbb.se.impl.util.Utility;
 
 /**
- * A Generator object will generate the Java source code of the stub
- * and skeleton classes for an RMI remote implementation class, using
- * a particular stub protocol version.
+ * A Generbtor object will generbte the Jbvb source code of the stub
+ * bnd skeleton clbsses for bn RMI remote implementbtion clbss, using
+ * b pbrticulbr stub protocol version.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author      Peter Jones,  Bryan Atsatt
+ * @buthor      Peter Jones,  Brybn Atsbtt
  */
-public class RMIGenerator implements RMIConstants, Generator {
+public clbss RMIGenerbtor implements RMIConstbnts, Generbtor {
 
-    private static final Hashtable<String, Integer> versionOptions = new Hashtable<>();
-    static {
+    privbte stbtic finbl Hbshtbble<String, Integer> versionOptions = new Hbshtbble<>();
+    stbtic {
         versionOptions.put("-v1.1", STUB_VERSION_1_1);
-        versionOptions.put("-vcompat", STUB_VERSION_FAT);
+        versionOptions.put("-vcompbt", STUB_VERSION_FAT);
         versionOptions.put("-v1.2", STUB_VERSION_1_2);
     }
 
     /**
-     * Default constructor for Main to use.
+     * Defbult constructor for Mbin to use.
      */
-    public RMIGenerator() {
-        version = STUB_VERSION_1_2;     // default is -v1.2 (see 4638155)
+    public RMIGenerbtor() {
+        version = STUB_VERSION_1_2;     // defbult is -v1.2 (see 4638155)
     }
 
     /**
-     * Examine and consume command line arguments.
-     * @param argv The command line arguments. Ignore null
-     * and unknown arguments. Set each consumed argument to null.
-     * @param error Report any errors using the main.error() methods.
-     * @return true if no errors, false otherwise.
+     * Exbmine bnd consume commbnd line brguments.
+     * @pbrbm brgv The commbnd line brguments. Ignore null
+     * bnd unknown brguments. Set ebch consumed brgument to null.
+     * @pbrbm error Report bny errors using the mbin.error() methods.
+     * @return true if no errors, fblse otherwise.
      */
-    public boolean parseArgs(String argv[], Main main) {
+    public boolebn pbrseArgs(String brgv[], Mbin mbin) {
         String explicitVersion = null;
-        for (int i = 0; i < argv.length; i++) {
-            if (argv[i] != null) {
-                String arg = argv[i].toLowerCase();
-                if (versionOptions.containsKey(arg)) {
+        for (int i = 0; i < brgv.length; i++) {
+            if (brgv[i] != null) {
+                String brg = brgv[i].toLowerCbse();
+                if (versionOptions.contbinsKey(brg)) {
                     if (explicitVersion != null &&
-                        !explicitVersion.equals(arg))
+                        !explicitVersion.equbls(brg))
                     {
-                        main.error("rmic.cannot.use.both",
-                                   explicitVersion, arg);
-                        return false;
+                        mbin.error("rmic.cbnnot.use.both",
+                                   explicitVersion, brg);
+                        return fblse;
                     }
-                    explicitVersion = arg;
-                    version = versionOptions.get(arg);
-                    argv[i] = null;
+                    explicitVersion = brg;
+                    version = versionOptions.get(brg);
+                    brgv[i] = null;
                 }
             }
         }
@@ -105,235 +105,235 @@ public class RMIGenerator implements RMIConstants, Generator {
     }
 
     /**
-     * Generate the source files for the stub and/or skeleton classes
-     * needed by RMI for the given remote implementation class.
+     * Generbte the source files for the stub bnd/or skeleton clbsses
+     * needed by RMI for the given remote implementbtion clbss.
      *
-     * @param env       compiler environment
-     * @param cdef      definition of remote implementation class
-     *                  to generate stubs and/or skeletons for
-     * @param destDir   directory for the root of the package hierarchy
-     *                  for generated files
+     * @pbrbm env       compiler environment
+     * @pbrbm cdef      definition of remote implementbtion clbss
+     *                  to generbte stubs bnd/or skeletons for
+     * @pbrbm destDir   directory for the root of the pbckbge hierbrchy
+     *                  for generbted files
      */
-    public void generate(BatchEnvironment env, ClassDefinition cdef, File destDir) {
-        RemoteClass remoteClass = RemoteClass.forClass(env, cdef);
-        if (remoteClass == null)        // exit if an error occurred
+    public void generbte(BbtchEnvironment env, ClbssDefinition cdef, File destDir) {
+        RemoteClbss remoteClbss = RemoteClbss.forClbss(env, cdef);
+        if (remoteClbss == null)        // exit if bn error occurred
             return;
 
-        RMIGenerator gen;
+        RMIGenerbtor gen;
         try {
-            gen = new RMIGenerator(env, cdef, destDir, remoteClass, version);
-        } catch (ClassNotFound e) {
-            env.error(0, "rmic.class.not.found", e.name);
+            gen = new RMIGenerbtor(env, cdef, destDir, remoteClbss, version);
+        } cbtch (ClbssNotFound e) {
+            env.error(0, "rmic.clbss.not.found", e.nbme);
             return;
         }
-        gen.generate();
+        gen.generbte();
     }
 
-    private void generate() {
-        env.addGeneratedFile(stubFile);
+    privbte void generbte() {
+        env.bddGenerbtedFile(stubFile);
 
         try {
             IndentingWriter out = new IndentingWriter(
-                new OutputStreamWriter(new FileOutputStream(stubFile)));
+                new OutputStrebmWriter(new FileOutputStrebm(stubFile)));
             writeStub(out);
             out.close();
             if (env.verbose()) {
-                env.output(Main.getText("rmic.wrote", stubFile.getPath()));
+                env.output(Mbin.getText("rmic.wrote", stubFile.getPbth()));
             }
-            env.parseFile(new ClassFile(stubFile));
-        } catch (IOException e) {
-            env.error(0, "cant.write", stubFile.toString());
+            env.pbrseFile(new ClbssFile(stubFile));
+        } cbtch (IOException e) {
+            env.error(0, "cbnt.write", stubFile.toString());
             return;
         }
 
         if (version == STUB_VERSION_1_1 ||
             version == STUB_VERSION_FAT)
         {
-            env.addGeneratedFile(skeletonFile);
+            env.bddGenerbtedFile(skeletonFile);
 
             try {
                 IndentingWriter out = new IndentingWriter(
-                    new OutputStreamWriter(
-                        new FileOutputStream(skeletonFile)));
+                    new OutputStrebmWriter(
+                        new FileOutputStrebm(skeletonFile)));
                 writeSkeleton(out);
                 out.close();
                 if (env.verbose()) {
-                    env.output(Main.getText("rmic.wrote",
-                        skeletonFile.getPath()));
+                    env.output(Mbin.getText("rmic.wrote",
+                        skeletonFile.getPbth()));
                 }
-                env.parseFile(new ClassFile(skeletonFile));
-            } catch (IOException e) {
-                env.error(0, "cant.write", stubFile.toString());
+                env.pbrseFile(new ClbssFile(skeletonFile));
+            } cbtch (IOException e) {
+                env.error(0, "cbnt.write", stubFile.toString());
                 return;
             }
         } else {
             /*
-             * For bugid 4135136: if skeleton files are not being generated
-             * for this compilation run, delete old skeleton source or class
-             * files for this remote implementation class that were
-             * (presumably) left over from previous runs, to avoid user
-             * confusion from extraneous or inconsistent generated files.
+             * For bugid 4135136: if skeleton files bre not being generbted
+             * for this compilbtion run, delete old skeleton source or clbss
+             * files for this remote implementbtion clbss thbt were
+             * (presumbbly) left over from previous runs, to bvoid user
+             * confusion from extrbneous or inconsistent generbted files.
              */
 
-            File outputDir = Util.getOutputDirectoryFor(remoteClassName,destDir,env);
-            File skeletonClassFile = new File(outputDir,skeletonClassName.getName().toString() + ".class");
+            File outputDir = Util.getOutputDirectoryFor(remoteClbssNbme,destDir,env);
+            File skeletonClbssFile = new File(outputDir,skeletonClbssNbme.getNbme().toString() + ".clbss");
 
-            skeletonFile.delete();      // ignore failures (no big deal)
-            skeletonClassFile.delete();
+            skeletonFile.delete();      // ignore fbilures (no big debl)
+            skeletonClbssFile.delete();
         }
     }
 
     /**
-     * Return the File object that should be used as the source file
-     * for the given Java class, using the supplied destination
-     * directory for the top of the package hierarchy.
+     * Return the File object thbt should be used bs the source file
+     * for the given Jbvb clbss, using the supplied destinbtion
+     * directory for the top of the pbckbge hierbrchy.
      */
-    protected static File sourceFileForClass(Identifier className,
-                                             Identifier outputClassName,
+    protected stbtic File sourceFileForClbss(Identifier clbssNbme,
+                                             Identifier outputClbssNbme,
                                              File destDir,
-                                             BatchEnvironment env)
+                                             BbtchEnvironment env)
     {
-        File packageDir = Util.getOutputDirectoryFor(className,destDir,env);
-        String outputName = Names.mangleClass(outputClassName).getName().toString();
+        File pbckbgeDir = Util.getOutputDirectoryFor(clbssNbme,destDir,env);
+        String outputNbme = Nbmes.mbngleClbss(outputClbssNbme).getNbme().toString();
 
-        // Is there any existing _Tie equivalent leftover from a
-        // previous invocation of rmic -iiop? Only do this once per
-        // class by looking for skeleton generation...
+        // Is there bny existing _Tie equivblent leftover from b
+        // previous invocbtion of rmic -iiop? Only do this once per
+        // clbss by looking for skeleton generbtion...
 
-        if (outputName.endsWith("_Skel")) {
-            String classNameStr = className.getName().toString();
-            File temp = new File(packageDir, Utility.tieName(classNameStr) + ".class");
+        if (outputNbme.endsWith("_Skel")) {
+            String clbssNbmeStr = clbssNbme.getNbme().toString();
+            File temp = new File(pbckbgeDir, Utility.tieNbme(clbssNbmeStr) + ".clbss");
             if (temp.exists()) {
 
-                // Found a tie. Is IIOP generation also being done?
+                // Found b tie. Is IIOP generbtion blso being done?
 
-                if (!env.getMain().iiopGeneration) {
+                if (!env.getMbin().iiopGenerbtion) {
 
-                    // No, so write a warning...
+                    // No, so write b wbrning...
 
-                    env.error(0,"warn.rmic.tie.found",
-                              classNameStr,
-                              temp.getAbsolutePath());
+                    env.error(0,"wbrn.rmic.tie.found",
+                              clbssNbmeStr,
+                              temp.getAbsolutePbth());
                 }
             }
         }
 
-        String outputFileName = outputName + ".java";
-        return new File(packageDir, outputFileName);
+        String outputFileNbme = outputNbme + ".jbvb";
+        return new File(pbckbgeDir, outputFileNbme);
     }
 
 
     /** rmic environment for this object */
-    private BatchEnvironment env;
+    privbte BbtchEnvironment env;
 
-    /** the remote class that this instance is generating code for */
-    private RemoteClass remoteClass;
+    /** the remote clbss thbt this instbnce is generbting code for */
+    privbte RemoteClbss remoteClbss;
 
-    /** version of the stub protocol to use in code generation */
-    private int version;
+    /** version of the stub protocol to use in code generbtion */
+    privbte int version;
 
-    /** remote methods for remote class, indexed by operation number */
-    private RemoteClass.Method[] remoteMethods;
+    /** remote methods for remote clbss, indexed by operbtion number */
+    privbte RemoteClbss.Method[] remoteMethods;
 
     /**
-     * Names for the remote class and the stub and skeleton classes
-     * to be generated for it.
+     * Nbmes for the remote clbss bnd the stub bnd skeleton clbsses
+     * to be generbted for it.
      */
-    private Identifier remoteClassName;
-    private Identifier stubClassName;
-    private Identifier skeletonClassName;
+    privbte Identifier remoteClbssNbme;
+    privbte Identifier stubClbssNbme;
+    privbte Identifier skeletonClbssNbme;
 
-    private ClassDefinition cdef;
-    private File destDir;
-    private File stubFile;
-    private File skeletonFile;
+    privbte ClbssDefinition cdef;
+    privbte File destDir;
+    privbte File stubFile;
+    privbte File skeletonFile;
 
     /**
-     * Names to use for the java.lang.reflect.Method static fields
-     * corresponding to each remote method.
+     * Nbmes to use for the jbvb.lbng.reflect.Method stbtic fields
+     * corresponding to ebch remote method.
      */
-    private String[] methodFieldNames;
+    privbte String[] methodFieldNbmes;
 
-    /** cached definition for certain exception classes in this environment */
-    private ClassDefinition defException;
-    private ClassDefinition defRemoteException;
-    private ClassDefinition defRuntimeException;
+    /** cbched definition for certbin exception clbsses in this environment */
+    privbte ClbssDefinition defException;
+    privbte ClbssDefinition defRemoteException;
+    privbte ClbssDefinition defRuntimeException;
 
     /**
-     * Create a new stub/skeleton Generator object for the given
-     * remote implementation class to generate code according to
+     * Crebte b new stub/skeleton Generbtor object for the given
+     * remote implementbtion clbss to generbte code bccording to
      * the given stub protocol version.
      */
-    private RMIGenerator(BatchEnvironment env, ClassDefinition cdef,
-                           File destDir, RemoteClass remoteClass, int version)
-        throws ClassNotFound
+    privbte RMIGenerbtor(BbtchEnvironment env, ClbssDefinition cdef,
+                           File destDir, RemoteClbss remoteClbss, int version)
+        throws ClbssNotFound
     {
         this.destDir     = destDir;
         this.cdef        = cdef;
         this.env         = env;
-        this.remoteClass = remoteClass;
+        this.remoteClbss = remoteClbss;
         this.version     = version;
 
-        remoteMethods = remoteClass.getRemoteMethods();
+        remoteMethods = remoteClbss.getRemoteMethods();
 
-        remoteClassName = remoteClass.getName();
-        stubClassName = Names.stubFor(remoteClassName);
-        skeletonClassName = Names.skeletonFor(remoteClassName);
+        remoteClbssNbme = remoteClbss.getNbme();
+        stubClbssNbme = Nbmes.stubFor(remoteClbssNbme);
+        skeletonClbssNbme = Nbmes.skeletonFor(remoteClbssNbme);
 
-        methodFieldNames = nameMethodFields(remoteMethods);
+        methodFieldNbmes = nbmeMethodFields(remoteMethods);
 
-        stubFile = sourceFileForClass(remoteClassName,stubClassName, destDir , env);
-        skeletonFile = sourceFileForClass(remoteClassName,skeletonClassName, destDir, env);
+        stubFile = sourceFileForClbss(remoteClbssNbme,stubClbssNbme, destDir , env);
+        skeletonFile = sourceFileForClbss(remoteClbssNbme,skeletonClbssNbme, destDir, env);
 
         /*
-         * Initialize cached definitions for exception classes used
-         * in the generation process.
+         * Initiblize cbched definitions for exception clbsses used
+         * in the generbtion process.
          */
         defException =
-            env.getClassDeclaration(idJavaLangException).
-                getClassDefinition(env);
+            env.getClbssDeclbrbtion(idJbvbLbngException).
+                getClbssDefinition(env);
         defRemoteException =
-            env.getClassDeclaration(idRemoteException).
-                getClassDefinition(env);
+            env.getClbssDeclbrbtion(idRemoteException).
+                getClbssDefinition(env);
         defRuntimeException =
-            env.getClassDeclaration(idJavaLangRuntimeException).
-                getClassDefinition(env);
+            env.getClbssDeclbrbtion(idJbvbLbngRuntimeException).
+                getClbssDefinition(env);
     }
 
     /**
-     * Write the stub for the remote class to a stream.
+     * Write the stub for the remote clbss to b strebm.
      */
-    private void writeStub(IndentingWriter p) throws IOException {
+    privbte void writeStub(IndentingWriter p) throws IOException {
 
         /*
-         * Write boiler plate comment.
+         * Write boiler plbte comment.
          */
-        p.pln("// Stub class generated by rmic, do not edit.");
-        p.pln("// Contents subject to change without notice.");
+        p.pln("// Stub clbss generbted by rmic, do not edit.");
+        p.pln("// Contents subject to chbnge without notice.");
         p.pln();
 
         /*
-         * If remote implementation class was in a particular package,
-         * declare the stub class to be in the same package.
+         * If remote implementbtion clbss wbs in b pbrticulbr pbckbge,
+         * declbre the stub clbss to be in the sbme pbckbge.
          */
-        if (remoteClassName.isQualified()) {
-            p.pln("package " + remoteClassName.getQualifier() + ";");
+        if (remoteClbssNbme.isQublified()) {
+            p.pln("pbckbge " + remoteClbssNbme.getQublifier() + ";");
             p.pln();
         }
 
         /*
-         * Declare the stub class; implement all remote interfaces.
+         * Declbre the stub clbss; implement bll remote interfbces.
          */
-        p.plnI("public final class " +
-            Names.mangleClass(stubClassName.getName()));
+        p.plnI("public finbl clbss " +
+            Nbmes.mbngleClbss(stubClbssNbme.getNbme()));
         p.pln("extends " + idRemoteStub);
-        ClassDefinition[] remoteInterfaces = remoteClass.getRemoteInterfaces();
-        if (remoteInterfaces.length > 0) {
+        ClbssDefinition[] remoteInterfbces = remoteClbss.getRemoteInterfbces();
+        if (remoteInterfbces.length > 0) {
             p.p("implements ");
-            for (int i = 0; i < remoteInterfaces.length; i++) {
+            for (int i = 0; i < remoteInterfbces.length; i++) {
                 if (i > 0)
                     p.p(", ");
-                p.p(remoteInterfaces[i].getName().toString());
+                p.p(remoteInterfbces[i].getNbme().toString());
             }
             p.pln();
         }
@@ -342,79 +342,79 @@ public class RMIGenerator implements RMIConstants, Generator {
         if (version == STUB_VERSION_1_1 ||
             version == STUB_VERSION_FAT)
         {
-            writeOperationsArray(p);
+            writeOperbtionsArrby(p);
             p.pln();
-            writeInterfaceHash(p);
+            writeInterfbceHbsh(p);
             p.pln();
         }
 
         if (version == STUB_VERSION_FAT ||
             version == STUB_VERSION_1_2)
         {
-            p.pln("private static final long serialVersionUID = " +
+            p.pln("privbte stbtic finbl long seriblVersionUID = " +
                 STUB_SERIAL_VERSION_UID + ";");
             p.pln();
 
             /*
-             * We only need to declare and initialize the static fields of
-             * Method objects for each remote method if there are any remote
-             * methods; otherwise, skip this code entirely, to avoid generating
-             * a try/catch block for a checked exception that cannot occur
+             * We only need to declbre bnd initiblize the stbtic fields of
+             * Method objects for ebch remote method if there bre bny remote
+             * methods; otherwise, skip this code entirely, to bvoid generbting
+             * b try/cbtch block for b checked exception thbt cbnnot occur
              * (see bugid 4125181).
              */
-            if (methodFieldNames.length > 0) {
+            if (methodFieldNbmes.length > 0) {
                 if (version == STUB_VERSION_FAT) {
-                    p.pln("private static boolean useNewInvoke;");
+                    p.pln("privbte stbtic boolebn useNewInvoke;");
                 }
-                writeMethodFieldDeclarations(p);
+                writeMethodFieldDeclbrbtions(p);
                 p.pln();
 
                 /*
-                 * Initialize java.lang.reflect.Method fields for each remote
-                 * method in a static initializer.
+                 * Initiblize jbvb.lbng.reflect.Method fields for ebch remote
+                 * method in b stbtic initiblizer.
                  */
-                p.plnI("static {");
+                p.plnI("stbtic {");
                 p.plnI("try {");
                 if (version == STUB_VERSION_FAT) {
                     /*
-                     * Fat stubs must determine whether the API required for
+                     * Fbt stubs must determine whether the API required for
                      * the JDK 1.2 stub protocol is supported in the current
-                     * runtime, so that it can use it if supported.  This is
+                     * runtime, so thbt it cbn use it if supported.  This is
                      * determined by using the Reflection API to test if the
-                     * new invoke method on RemoteRef exists, and setting the
-                     * static boolean "useNewInvoke" to true if it does, or
-                     * to false if a NoSuchMethodException is thrown.
+                     * new invoke method on RemoteRef exists, bnd setting the
+                     * stbtic boolebn "useNewInvoke" to true if it does, or
+                     * to fblse if b NoSuchMethodException is thrown.
                      */
-                    p.plnI(idRemoteRef + ".class.getMethod(\"invoke\",");
-                    p.plnI("new java.lang.Class[] {");
-                    p.pln(idRemote + ".class,");
-                    p.pln("java.lang.reflect.Method.class,");
-                    p.pln("java.lang.Object[].class,");
-                    p.pln("long.class");
+                    p.plnI(idRemoteRef + ".clbss.getMethod(\"invoke\",");
+                    p.plnI("new jbvb.lbng.Clbss[] {");
+                    p.pln(idRemote + ".clbss,");
+                    p.pln("jbvb.lbng.reflect.Method.clbss,");
+                    p.pln("jbvb.lbng.Object[].clbss,");
+                    p.pln("long.clbss");
                     p.pOln("});");
                     p.pO();
                     p.pln("useNewInvoke = true;");
                 }
-                writeMethodFieldInitializers(p);
-                p.pOlnI("} catch (java.lang.NoSuchMethodException e) {");
+                writeMethodFieldInitiblizers(p);
+                p.pOlnI("} cbtch (jbvb.lbng.NoSuchMethodException e) {");
                 if (version == STUB_VERSION_FAT) {
-                    p.pln("useNewInvoke = false;");
+                    p.pln("useNewInvoke = fblse;");
                 } else {
                     /*
-                     * REMIND: By throwing an Error here, the application will
-                     * get the NoSuchMethodError directly when the stub class
-                     * is initialized.  If we throw a RuntimeException
-                     * instead, the application would get an
-                     * ExceptionInInitializerError.  Would that be more
-                     * appropriate, and if so, which RuntimeException should
+                     * REMIND: By throwing bn Error here, the bpplicbtion will
+                     * get the NoSuchMethodError directly when the stub clbss
+                     * is initiblized.  If we throw b RuntimeException
+                     * instebd, the bpplicbtion would get bn
+                     * ExceptionInInitiblizerError.  Would thbt be more
+                     * bppropribte, bnd if so, which RuntimeException should
                      * be thrown?
                      */
-                    p.plnI("throw new java.lang.NoSuchMethodError(");
-                    p.pln("\"stub class initialization failed\");");
+                    p.plnI("throw new jbvb.lbng.NoSuchMethodError(");
+                    p.pln("\"stub clbss initiblizbtion fbiled\");");
                     p.pO();
                 }
-                p.pOln("}");            // end try/catch block
-                p.pOln("}");            // end static initializer
+                p.pOln("}");            // end try/cbtch block
+                p.pOln("}");            // end stbtic initiblizer
                 p.pln();
             }
         }
@@ -423,42 +423,42 @@ public class RMIGenerator implements RMIConstants, Generator {
         p.pln();
 
         /*
-         * Write each stub method.
+         * Write ebch stub method.
          */
         if (remoteMethods.length > 0) {
-            p.pln("// methods from remote interfaces");
+            p.pln("// methods from remote interfbces");
             for (int i = 0; i < remoteMethods.length; ++i) {
                 p.pln();
                 writeStubMethod(p, i);
             }
         }
 
-        p.pOln("}");                    // end stub class
+        p.pOln("}");                    // end stub clbss
     }
 
     /**
-     * Write the constructors for the stub class.
+     * Write the constructors for the stub clbss.
      */
-    private void writeStubConstructors(IndentingWriter p)
+    privbte void writeStubConstructors(IndentingWriter p)
         throws IOException
     {
         p.pln("// constructors");
 
         /*
-         * Only stubs compatible with the JDK 1.1 stub protocol need
-         * a no-arg constructor; later versions use reflection to find
-         * the constructor that directly takes a RemoteRef argument.
+         * Only stubs compbtible with the JDK 1.1 stub protocol need
+         * b no-brg constructor; lbter versions use reflection to find
+         * the constructor thbt directly tbkes b RemoteRef brgument.
          */
         if (version == STUB_VERSION_1_1 ||
             version == STUB_VERSION_FAT)
         {
-            p.plnI("public " + Names.mangleClass(stubClassName.getName()) +
+            p.plnI("public " + Nbmes.mbngleClbss(stubClbssNbme.getNbme()) +
                 "() {");
             p.pln("super();");
             p.pOln("}");
         }
 
-        p.plnI("public " + Names.mangleClass(stubClassName.getName()) +
+        p.plnI("public " + Nbmes.mbngleClbss(stubClbssNbme.getNbme()) +
             "(" + idRemoteRef + " ref) {");
         p.pln("super(ref);");
         p.pOln("}");
@@ -467,28 +467,28 @@ public class RMIGenerator implements RMIConstants, Generator {
     /**
      * Write the stub method for the remote method with the given "opnum".
      */
-    private void writeStubMethod(IndentingWriter p, int opnum)
+    privbte void writeStubMethod(IndentingWriter p, int opnum)
         throws IOException
     {
-        RemoteClass.Method method = remoteMethods[opnum];
-        Identifier methodName = method.getName();
+        RemoteClbss.Method method = remoteMethods[opnum];
+        Identifier methodNbme = method.getNbme();
         Type methodType = method.getType();
-        Type paramTypes[] = methodType.getArgumentTypes();
-        String paramNames[] = nameParameters(paramTypes);
+        Type pbrbmTypes[] = methodType.getArgumentTypes();
+        String pbrbmNbmes[] = nbmePbrbmeters(pbrbmTypes);
         Type returnType = methodType.getReturnType();
-        ClassDeclaration[] exceptions = method.getExceptions();
+        ClbssDeclbrbtion[] exceptions = method.getExceptions();
 
         /*
-         * Declare stub method; throw exceptions declared in remote
-         * interface(s).
+         * Declbre stub method; throw exceptions declbred in remote
+         * interfbce(s).
          */
-        p.pln("// implementation of " +
-            methodType.typeString(methodName.toString(), true, false));
-        p.p("public " + returnType + " " + methodName + "(");
-        for (int i = 0; i < paramTypes.length; i++) {
+        p.pln("// implementbtion of " +
+            methodType.typeString(methodNbme.toString(), true, fblse));
+        p.p("public " + returnType + " " + methodNbme + "(");
+        for (int i = 0; i < pbrbmTypes.length; i++) {
             if (i > 0)
                 p.p(", ");
-            p.p(paramTypes[i] + " " + paramNames[i]);
+            p.p(pbrbmTypes[i] + " " + pbrbmNbmes[i]);
         }
         p.plnI(")");
         if (exceptions.length > 0) {
@@ -496,7 +496,7 @@ public class RMIGenerator implements RMIConstants, Generator {
             for (int i = 0; i < exceptions.length; i++) {
                 if (i > 0)
                     p.p(", ");
-                p.p(exceptions[i].getName().toString());
+                p.p(exceptions[i].getNbme().toString());
             }
             p.pln();
         }
@@ -504,29 +504,29 @@ public class RMIGenerator implements RMIConstants, Generator {
 
         /*
          * The RemoteRef.invoke methods throw Exception, but unless this
-         * stub method throws Exception as well, we must catch Exceptions
-         * thrown from the invocation.  So we must catch Exception and
-         * rethrow something we can throw: UnexpectedException, which is a
-         * subclass of RemoteException.  But for any subclasses of Exception
-         * that we can throw, like RemoteException, RuntimeException, and
-         * any of the exceptions declared by this stub method, we want them
-         * to pass through unharmed, so first we must catch any such
-         * exceptions and rethrow it directly.
+         * stub method throws Exception bs well, we must cbtch Exceptions
+         * thrown from the invocbtion.  So we must cbtch Exception bnd
+         * rethrow something we cbn throw: UnexpectedException, which is b
+         * subclbss of RemoteException.  But for bny subclbsses of Exception
+         * thbt we cbn throw, like RemoteException, RuntimeException, bnd
+         * bny of the exceptions declbred by this stub method, we wbnt them
+         * to pbss through unhbrmed, so first we must cbtch bny such
+         * exceptions bnd rethrow it directly.
          *
-         * We have to be careful generating the rethrowing catch blocks
-         * here, because javac will flag an error if there are any
-         * unreachable catch blocks, i.e. if the catch of an exception class
-         * follows a previous catch of it or of one of its superclasses.
-         * The following method invocation takes care of these details.
+         * We hbve to be cbreful generbting the rethrowing cbtch blocks
+         * here, becbuse jbvbc will flbg bn error if there bre bny
+         * unrebchbble cbtch blocks, i.e. if the cbtch of bn exception clbss
+         * follows b previous cbtch of it or of one of its superclbsses.
+         * The following method invocbtion tbkes cbre of these detbils.
          */
-        Vector<ClassDefinition> catchList = computeUniqueCatchList(exceptions);
+        Vector<ClbssDefinition> cbtchList = computeUniqueCbtchList(exceptions);
 
         /*
-         * If we need to catch any particular exceptions (i.e. this method
-         * does not declare java.lang.Exception), put the entire stub
-         * method in a try block.
+         * If we need to cbtch bny pbrticulbr exceptions (i.e. this method
+         * does not declbre jbvb.lbng.Exception), put the entire stub
+         * method in b try block.
          */
-        if (catchList.size() > 0) {
+        if (cbtchList.size() > 0) {
             p.plnI("try {");
         }
 
@@ -539,22 +539,22 @@ public class RMIGenerator implements RMIConstants, Generator {
             if (!returnType.isType(TC_VOID)) {
                 p.p("Object $result = ");               // REMIND: why $?
             }
-            p.p("ref.invoke(this, " + methodFieldNames[opnum] + ", ");
-            if (paramTypes.length > 0) {
-                p.p("new java.lang.Object[] {");
-                for (int i = 0; i < paramTypes.length; i++) {
+            p.p("ref.invoke(this, " + methodFieldNbmes[opnum] + ", ");
+            if (pbrbmTypes.length > 0) {
+                p.p("new jbvb.lbng.Object[] {");
+                for (int i = 0; i < pbrbmTypes.length; i++) {
                     if (i > 0)
                         p.p(", ");
-                    p.p(wrapArgumentCode(paramTypes[i], paramNames[i]));
+                    p.p(wrbpArgumentCode(pbrbmTypes[i], pbrbmNbmes[i]));
                 }
                 p.p("}");
             } else {
                 p.p("null");
             }
-            p.pln(", " + method.getMethodHash() + "L);");
+            p.pln(", " + method.getMethodHbsh() + "L);");
             if (!returnType.isType(TC_VOID)) {
                 p.pln("return " +
-                    unwrapArgumentCode(returnType, "$result") + ";");
+                    unwrbpArgumentCode(returnType, "$result") + ";");
             }
         }
         if (version == STUB_VERSION_FAT) {
@@ -563,44 +563,44 @@ public class RMIGenerator implements RMIConstants, Generator {
         if (version == STUB_VERSION_1_1 ||
             version == STUB_VERSION_FAT)
         {
-            p.pln(idRemoteCall + " call = ref.newCall((" + idRemoteObject +
-                ") this, operations, " + opnum + ", interfaceHash);");
+            p.pln(idRemoteCbll + " cbll = ref.newCbll((" + idRemoteObject +
+                ") this, operbtions, " + opnum + ", interfbceHbsh);");
 
-            if (paramTypes.length > 0) {
+            if (pbrbmTypes.length > 0) {
                 p.plnI("try {");
-                p.pln("java.io.ObjectOutput out = call.getOutputStream();");
-                writeMarshalArguments(p, "out", paramTypes, paramNames);
-                p.pOlnI("} catch (java.io.IOException e) {");
-                p.pln("throw new " + idMarshalException +
-                    "(\"error marshalling arguments\", e);");
+                p.pln("jbvb.io.ObjectOutput out = cbll.getOutputStrebm();");
+                writeMbrshblArguments(p, "out", pbrbmTypes, pbrbmNbmes);
+                p.pOlnI("} cbtch (jbvb.io.IOException e) {");
+                p.pln("throw new " + idMbrshblException +
+                    "(\"error mbrshblling brguments\", e);");
                 p.pOln("}");
             }
 
-            p.pln("ref.invoke(call);");
+            p.pln("ref.invoke(cbll);");
 
             if (returnType.isType(TC_VOID)) {
-                p.pln("ref.done(call);");
+                p.pln("ref.done(cbll);");
             } else {
                 p.pln(returnType + " $result;");        // REMIND: why $?
                 p.plnI("try {");
-                p.pln("java.io.ObjectInput in = call.getInputStream();");
-                boolean objectRead =
-                    writeUnmarshalArgument(p, "in", returnType, "$result");
+                p.pln("jbvb.io.ObjectInput in = cbll.getInputStrebm();");
+                boolebn objectRebd =
+                    writeUnmbrshblArgument(p, "in", returnType, "$result");
                 p.pln(";");
-                p.pOlnI("} catch (java.io.IOException e) {");
-                p.pln("throw new " + idUnmarshalException +
-                    "(\"error unmarshalling return\", e);");
+                p.pOlnI("} cbtch (jbvb.io.IOException e) {");
+                p.pln("throw new " + idUnmbrshblException +
+                    "(\"error unmbrshblling return\", e);");
                 /*
-                 * If any only if readObject has been invoked, we must catch
-                 * ClassNotFoundException as well as IOException.
+                 * If bny only if rebdObject hbs been invoked, we must cbtch
+                 * ClbssNotFoundException bs well bs IOException.
                  */
-                if (objectRead) {
-                    p.pOlnI("} catch (java.lang.ClassNotFoundException e) {");
-                    p.pln("throw new " + idUnmarshalException +
-                        "(\"error unmarshalling return\", e);");
+                if (objectRebd) {
+                    p.pOlnI("} cbtch (jbvb.lbng.ClbssNotFoundException e) {");
+                    p.pln("throw new " + idUnmbrshblException +
+                        "(\"error unmbrshblling return\", e);");
                 }
-                p.pOlnI("} finally {");
-                p.pln("ref.done(call);");
+                p.pOlnI("} finblly {");
+                p.pln("ref.done(cbll);");
                 p.pOln("}");
                 p.pln("return $result;");
             }
@@ -610,103 +610,103 @@ public class RMIGenerator implements RMIConstants, Generator {
         }
 
         /*
-         * If we need to catch any particular exceptions, finally write
-         * the catch blocks for them, rethrow any other Exceptions with an
-         * UnexpectedException, and end the try block.
+         * If we need to cbtch bny pbrticulbr exceptions, finblly write
+         * the cbtch blocks for them, rethrow bny other Exceptions with bn
+         * UnexpectedException, bnd end the try block.
          */
-        if (catchList.size() > 0) {
-            for (Enumeration<ClassDefinition> enumeration = catchList.elements();
-                 enumeration.hasMoreElements();)
+        if (cbtchList.size() > 0) {
+            for (Enumerbtion<ClbssDefinition> enumerbtion = cbtchList.elements();
+                 enumerbtion.hbsMoreElements();)
             {
-                ClassDefinition def = enumeration.nextElement();
-                p.pOlnI("} catch (" + def.getName() + " e) {");
+                ClbssDefinition def = enumerbtion.nextElement();
+                p.pOlnI("} cbtch (" + def.getNbme() + " e) {");
                 p.pln("throw e;");
             }
-            p.pOlnI("} catch (java.lang.Exception e) {");
+            p.pOlnI("} cbtch (jbvb.lbng.Exception e) {");
             p.pln("throw new " + idUnexpectedException +
-                "(\"undeclared checked exception\", e);");
-            p.pOln("}");                // end try/catch block
+                "(\"undeclbred checked exception\", e);");
+            p.pOln("}");                // end try/cbtch block
         }
 
         p.pOln("}");                    // end stub method
     }
 
     /**
-     * Compute the exceptions which need to be caught and rethrown in a
-     * stub method before wrapping Exceptions in UnexpectedExceptions,
-     * given the exceptions declared in the throws clause of the method.
-     * Returns a Vector containing ClassDefinition objects for each
-     * exception to catch.  Each exception is guaranteed to be unique,
-     * i.e. not a subclass of any of the other exceptions in the Vector,
-     * so the catch blocks for these exceptions may be generated in any
-     * order relative to each other.
+     * Compute the exceptions which need to be cbught bnd rethrown in b
+     * stub method before wrbpping Exceptions in UnexpectedExceptions,
+     * given the exceptions declbred in the throws clbuse of the method.
+     * Returns b Vector contbining ClbssDefinition objects for ebch
+     * exception to cbtch.  Ebch exception is gubrbnteed to be unique,
+     * i.e. not b subclbss of bny of the other exceptions in the Vector,
+     * so the cbtch blocks for these exceptions mby be generbted in bny
+     * order relbtive to ebch other.
      *
-     * RemoteException and RuntimeException are each automatically placed
-     * in the returned Vector (if none of their superclasses are already
-     * present), since those exceptions should always be directly rethrown
-     * by a stub method.
+     * RemoteException bnd RuntimeException bre ebch butombticblly plbced
+     * in the returned Vector (if none of their superclbsses bre blrebdy
+     * present), since those exceptions should blwbys be directly rethrown
+     * by b stub method.
      *
-     * The returned Vector will be empty if java.lang.Exception or one
-     * of its superclasses is in the throws clause of the method, indicating
-     * that no exceptions need to be caught.
+     * The returned Vector will be empty if jbvb.lbng.Exception or one
+     * of its superclbsses is in the throws clbuse of the method, indicbting
+     * thbt no exceptions need to be cbught.
      */
-    private Vector<ClassDefinition> computeUniqueCatchList(ClassDeclaration[] exceptions) {
-        Vector<ClassDefinition> uniqueList = new Vector<>();       // unique exceptions to catch
+    privbte Vector<ClbssDefinition> computeUniqueCbtchList(ClbssDeclbrbtion[] exceptions) {
+        Vector<ClbssDefinition> uniqueList = new Vector<>();       // unique exceptions to cbtch
 
-        uniqueList.addElement(defRuntimeException);
-        uniqueList.addElement(defRemoteException);
+        uniqueList.bddElement(defRuntimeException);
+        uniqueList.bddElement(defRemoteException);
 
-        /* For each exception declared by the stub method's throws clause: */
+        /* For ebch exception declbred by the stub method's throws clbuse: */
     nextException:
         for (int i = 0; i < exceptions.length; i++) {
-            ClassDeclaration decl = exceptions[i];
+            ClbssDeclbrbtion decl = exceptions[i];
             try {
-                if (defException.subClassOf(env, decl)) {
+                if (defException.subClbssOf(env, decl)) {
                     /*
-                     * (If java.lang.Exception (or a superclass) was declared
-                     * in the throws clause of this stub method, then we don't
-                     * have to bother catching anything; clear the list and
+                     * (If jbvb.lbng.Exception (or b superclbss) wbs declbred
+                     * in the throws clbuse of this stub method, then we don't
+                     * hbve to bother cbtching bnything; clebr the list bnd
                      * return.)
                      */
-                    uniqueList.clear();
-                    break;
-                } else if (!defException.superClassOf(env, decl)) {
+                    uniqueList.clebr();
+                    brebk;
+                } else if (!defException.superClbssOf(env, decl)) {
                     /*
-                     * Ignore other Throwables that do not extend Exception,
-                     * since they do not need to be caught anyway.
+                     * Ignore other Throwbbles thbt do not extend Exception,
+                     * since they do not need to be cbught bnywby.
                      */
                     continue;
                 }
                 /*
-                 * Compare this exception against the current list of
-                 * exceptions that need to be caught:
+                 * Compbre this exception bgbinst the current list of
+                 * exceptions thbt need to be cbught:
                  */
                 for (int j = 0; j < uniqueList.size();) {
-                    ClassDefinition def = uniqueList.elementAt(j);
-                    if (def.superClassOf(env, decl)) {
+                    ClbssDefinition def = uniqueList.elementAt(j);
+                    if (def.superClbssOf(env, decl)) {
                         /*
-                         * If a superclass of this exception is already on
-                         * the list to catch, then ignore and continue;
+                         * If b superclbss of this exception is blrebdy on
+                         * the list to cbtch, then ignore bnd continue;
                          */
                         continue nextException;
-                    } else if (def.subClassOf(env, decl)) {
+                    } else if (def.subClbssOf(env, decl)) {
                         /*
-                         * If a subclass of this exception is on the list
-                         * to catch, then remove it.
+                         * If b subclbss of this exception is on the list
+                         * to cbtch, then remove it.
                          */
                         uniqueList.removeElementAt(j);
                     } else {
-                        j++;    // else continue comparing
+                        j++;    // else continue compbring
                     }
                 }
-                /* This exception is unique: add it to the list to catch. */
-                uniqueList.addElement(decl.getClassDefinition(env));
-            } catch (ClassNotFound e) {
-                env.error(0, "class.not.found", e.name, decl.getName());
+                /* This exception is unique: bdd it to the list to cbtch. */
+                uniqueList.bddElement(decl.getClbssDefinition(env));
+            } cbtch (ClbssNotFound e) {
+                env.error(0, "clbss.not.found", e.nbme, decl.getNbme());
                 /*
-                 * REMIND: We do not exit from this exceptional condition,
-                 * generating questionable code and likely letting the
-                 * compiler report a resulting error later.
+                 * REMIND: We do not exit from this exceptionbl condition,
+                 * generbting questionbble code bnd likely letting the
+                 * compiler report b resulting error lbter.
                  */
             }
         }
@@ -714,57 +714,57 @@ public class RMIGenerator implements RMIConstants, Generator {
     }
 
     /**
-     * Write the skeleton for the remote class to a stream.
+     * Write the skeleton for the remote clbss to b strebm.
      */
-    private void writeSkeleton(IndentingWriter p) throws IOException {
+    privbte void writeSkeleton(IndentingWriter p) throws IOException {
         if (version == STUB_VERSION_1_2) {
-            throw new Error("should not generate skeleton for version");
+            throw new Error("should not generbte skeleton for version");
         }
 
         /*
-         * Write boiler plate comment.
+         * Write boiler plbte comment.
          */
-        p.pln("// Skeleton class generated by rmic, do not edit.");
-        p.pln("// Contents subject to change without notice.");
+        p.pln("// Skeleton clbss generbted by rmic, do not edit.");
+        p.pln("// Contents subject to chbnge without notice.");
         p.pln();
 
         /*
-         * If remote implementation class was in a particular package,
-         * declare the skeleton class to be in the same package.
+         * If remote implementbtion clbss wbs in b pbrticulbr pbckbge,
+         * declbre the skeleton clbss to be in the sbme pbckbge.
          */
-        if (remoteClassName.isQualified()) {
-            p.pln("package " + remoteClassName.getQualifier() + ";");
+        if (remoteClbssNbme.isQublified()) {
+            p.pln("pbckbge " + remoteClbssNbme.getQublifier() + ";");
             p.pln();
         }
 
         /*
-         * Declare the skeleton class.
+         * Declbre the skeleton clbss.
          */
-        p.plnI("public final class " +
-            Names.mangleClass(skeletonClassName.getName()));
+        p.plnI("public finbl clbss " +
+            Nbmes.mbngleClbss(skeletonClbssNbme.getNbme()));
         p.pln("implements " + idSkeleton);
         p.pOlnI("{");
 
-        writeOperationsArray(p);
+        writeOperbtionsArrby(p);
         p.pln();
 
-        writeInterfaceHash(p);
+        writeInterfbceHbsh(p);
         p.pln();
 
         /*
-         * Define the getOperations() method.
+         * Define the getOperbtions() method.
          */
-        p.plnI("public " + idOperation + "[] getOperations() {");
-        p.pln("return (" + idOperation + "[]) operations.clone();");
+        p.plnI("public " + idOperbtion + "[] getOperbtions() {");
+        p.pln("return (" + idOperbtion + "[]) operbtions.clone();");
         p.pOln("}");
         p.pln();
 
         /*
-         * Define the dispatch() method.
+         * Define the dispbtch() method.
          */
-        p.plnI("public void dispatch(" + idRemote + " obj, " +
-            idRemoteCall + " call, int opnum, long hash)");
-        p.pln("throws java.lang.Exception");
+        p.plnI("public void dispbtch(" + idRemote + " obj, " +
+            idRemoteCbll + " cbll, int opnum, long hbsh)");
+        p.pln("throws jbvb.lbng.Exception");
         p.pOlnI("{");
 
         if (version == STUB_VERSION_FAT) {
@@ -773,33 +773,33 @@ public class RMIGenerator implements RMIConstants, Generator {
                 for (int opnum = 0; opnum < remoteMethods.length; opnum++) {
                     if (opnum > 0)
                         p.pO("} else ");
-                    p.plnI("if (hash == " +
-                        remoteMethods[opnum].getMethodHash() + "L) {");
+                    p.plnI("if (hbsh == " +
+                        remoteMethods[opnum].getMethodHbsh() + "L) {");
                     p.pln("opnum = " + opnum + ";");
                 }
                 p.pOlnI("} else {");
             }
             /*
-             * Skeleton throws UnmarshalException if it does not recognize
-             * the method hash; this is what UnicastServerRef.dispatch()
+             * Skeleton throws UnmbrshblException if it does not recognize
+             * the method hbsh; this is whbt UnicbstServerRef.dispbtch()
              * would do.
              */
             p.pln("throw new " +
-                idUnmarshalException + "(\"invalid method hash\");");
+                idUnmbrshblException + "(\"invblid method hbsh\");");
             if (remoteMethods.length > 0) {
                 p.pOln("}");
             }
             /*
-             * Ignore the validation of the interface hash if the
-             * operation number was negative, since it is really a
-             * method hash instead.
+             * Ignore the vblidbtion of the interfbce hbsh if the
+             * operbtion number wbs negbtive, since it is reblly b
+             * method hbsh instebd.
              */
             p.pOlnI("} else {");
         }
 
-        p.plnI("if (hash != interfaceHash)");
+        p.plnI("if (hbsh != interfbceHbsh)");
         p.pln("throw new " +
-            idSkeletonMismatchException + "(\"interface hash mismatch\");");
+            idSkeletonMismbtchException + "(\"interfbce hbsh mismbtch\");");
         p.pO();
 
         if (version == STUB_VERSION_FAT) {
@@ -808,92 +808,92 @@ public class RMIGenerator implements RMIConstants, Generator {
         p.pln();
 
         /*
-         * Cast remote object instance to our specific implementation class.
+         * Cbst remote object instbnce to our specific implementbtion clbss.
          */
-        p.pln(remoteClassName + " server = (" + remoteClassName + ") obj;");
+        p.pln(remoteClbssNbme + " server = (" + remoteClbssNbme + ") obj;");
 
         /*
-         * Process call according to the operation number.
+         * Process cbll bccording to the operbtion number.
          */
         p.plnI("switch (opnum) {");
         for (int opnum = 0; opnum < remoteMethods.length; opnum++) {
-            writeSkeletonDispatchCase(p, opnum);
+            writeSkeletonDispbtchCbse(p, opnum);
         }
-        p.pOlnI("default:");
+        p.pOlnI("defbult:");
         /*
-         * Skeleton throws UnmarshalException if it does not recognize
-         * the operation number; this is consistent with the case of an
-         * unrecognized method hash.
+         * Skeleton throws UnmbrshblException if it does not recognize
+         * the operbtion number; this is consistent with the cbse of bn
+         * unrecognized method hbsh.
          */
-        p.pln("throw new " + idUnmarshalException +
-            "(\"invalid method number\");");
-        p.pOln("}");                    // end switch statement
+        p.pln("throw new " + idUnmbrshblException +
+            "(\"invblid method number\");");
+        p.pOln("}");                    // end switch stbtement
 
-        p.pOln("}");                    // end dispatch() method
+        p.pOln("}");                    // end dispbtch() method
 
-        p.pOln("}");                    // end skeleton class
+        p.pOln("}");                    // end skeleton clbss
     }
 
     /**
-     * Write the case block for the skeleton's dispatch method for
+     * Write the cbse block for the skeleton's dispbtch method for
      * the remote method with the given "opnum".
      */
-    private void writeSkeletonDispatchCase(IndentingWriter p, int opnum)
+    privbte void writeSkeletonDispbtchCbse(IndentingWriter p, int opnum)
         throws IOException
     {
-        RemoteClass.Method method = remoteMethods[opnum];
-        Identifier methodName = method.getName();
+        RemoteClbss.Method method = remoteMethods[opnum];
+        Identifier methodNbme = method.getNbme();
         Type methodType = method.getType();
-        Type paramTypes[] = methodType.getArgumentTypes();
-        String paramNames[] = nameParameters(paramTypes);
+        Type pbrbmTypes[] = methodType.getArgumentTypes();
+        String pbrbmNbmes[] = nbmePbrbmeters(pbrbmTypes);
         Type returnType = methodType.getReturnType();
 
-        p.pOlnI("case " + opnum + ": // " +
-            methodType.typeString(methodName.toString(), true, false));
+        p.pOlnI("cbse " + opnum + ": // " +
+            methodType.typeString(methodNbme.toString(), true, fblse));
         /*
-         * Use nested block statement inside case to provide an independent
-         * namespace for local variables used to unmarshal parameters for
+         * Use nested block stbtement inside cbse to provide bn independent
+         * nbmespbce for locbl vbribbles used to unmbrshbl pbrbmeters for
          * this remote method.
          */
         p.pOlnI("{");
 
-        if (paramTypes.length > 0) {
+        if (pbrbmTypes.length > 0) {
             /*
-             * Declare local variables to hold arguments.
+             * Declbre locbl vbribbles to hold brguments.
              */
-            for (int i = 0; i < paramTypes.length; i++) {
-                p.pln(paramTypes[i] + " " + paramNames[i] + ";");
+            for (int i = 0; i < pbrbmTypes.length; i++) {
+                p.pln(pbrbmTypes[i] + " " + pbrbmNbmes[i] + ";");
             }
 
             /*
-             * Unmarshal arguments from call stream.
+             * Unmbrshbl brguments from cbll strebm.
              */
             p.plnI("try {");
-            p.pln("java.io.ObjectInput in = call.getInputStream();");
-            boolean objectsRead = writeUnmarshalArguments(p, "in",
-                paramTypes, paramNames);
-            p.pOlnI("} catch (java.io.IOException e) {");
-            p.pln("throw new " + idUnmarshalException +
-                "(\"error unmarshalling arguments\", e);");
+            p.pln("jbvb.io.ObjectInput in = cbll.getInputStrebm();");
+            boolebn objectsRebd = writeUnmbrshblArguments(p, "in",
+                pbrbmTypes, pbrbmNbmes);
+            p.pOlnI("} cbtch (jbvb.io.IOException e) {");
+            p.pln("throw new " + idUnmbrshblException +
+                "(\"error unmbrshblling brguments\", e);");
             /*
-             * If any only if readObject has been invoked, we must catch
-             * ClassNotFoundException as well as IOException.
+             * If bny only if rebdObject hbs been invoked, we must cbtch
+             * ClbssNotFoundException bs well bs IOException.
              */
-            if (objectsRead) {
-                p.pOlnI("} catch (java.lang.ClassNotFoundException e) {");
-                p.pln("throw new " + idUnmarshalException +
-                    "(\"error unmarshalling arguments\", e);");
+            if (objectsRebd) {
+                p.pOlnI("} cbtch (jbvb.lbng.ClbssNotFoundException e) {");
+                p.pln("throw new " + idUnmbrshblException +
+                    "(\"error unmbrshblling brguments\", e);");
             }
-            p.pOlnI("} finally {");
-            p.pln("call.releaseInputStream();");
+            p.pOlnI("} finblly {");
+            p.pln("cbll.relebseInputStrebm();");
             p.pOln("}");
         } else {
-            p.pln("call.releaseInputStream();");
+            p.pln("cbll.relebseInputStrebm();");
         }
 
         if (!returnType.isType(TC_VOID)) {
             /*
-             * Declare variable to hold return type, if not void.
+             * Declbre vbribble to hold return type, if not void.
              */
             p.p(returnType + " $result = ");            // REMIND: why $?
         }
@@ -901,108 +901,108 @@ public class RMIGenerator implements RMIConstants, Generator {
         /*
          * Invoke the method on the server object.
          */
-        p.p("server." + methodName + "(");
-        for (int i = 0; i < paramNames.length; i++) {
+        p.p("server." + methodNbme + "(");
+        for (int i = 0; i < pbrbmNbmes.length; i++) {
             if (i > 0)
                 p.p(", ");
-            p.p(paramNames[i]);
+            p.p(pbrbmNbmes[i]);
         }
         p.pln(");");
 
         /*
-         * Always invoke getResultStream(true) on the call object to send
-         * the indication of a successful invocation to the caller.  If
-         * the return type is not void, keep the result stream and marshal
-         * the return value.
+         * Alwbys invoke getResultStrebm(true) on the cbll object to send
+         * the indicbtion of b successful invocbtion to the cbller.  If
+         * the return type is not void, keep the result strebm bnd mbrshbl
+         * the return vblue.
          */
         p.plnI("try {");
         if (!returnType.isType(TC_VOID)) {
-            p.p("java.io.ObjectOutput out = ");
+            p.p("jbvb.io.ObjectOutput out = ");
         }
-        p.pln("call.getResultStream(true);");
+        p.pln("cbll.getResultStrebm(true);");
         if (!returnType.isType(TC_VOID)) {
-            writeMarshalArgument(p, "out", returnType, "$result");
+            writeMbrshblArgument(p, "out", returnType, "$result");
             p.pln(";");
         }
-        p.pOlnI("} catch (java.io.IOException e) {");
+        p.pOlnI("} cbtch (jbvb.io.IOException e) {");
         p.pln("throw new " +
-            idMarshalException + "(\"error marshalling return\", e);");
+            idMbrshblException + "(\"error mbrshblling return\", e);");
         p.pOln("}");
 
-        p.pln("break;");                // break from switch statement
+        p.pln("brebk;");                // brebk from switch stbtement
 
-        p.pOlnI("}");                   // end nested block statement
+        p.pOlnI("}");                   // end nested block stbtement
         p.pln();
     }
 
     /**
-     * Write declaration and initializer for "operations" static array.
+     * Write declbrbtion bnd initiblizer for "operbtions" stbtic brrby.
      */
-    private void writeOperationsArray(IndentingWriter p)
+    privbte void writeOperbtionsArrby(IndentingWriter p)
         throws IOException
     {
-        p.plnI("private static final " + idOperation + "[] operations = {");
+        p.plnI("privbte stbtic finbl " + idOperbtion + "[] operbtions = {");
         for (int i = 0; i < remoteMethods.length; i++) {
             if (i > 0)
                 p.pln(",");
-            p.p("new " + idOperation + "(\"" +
-                remoteMethods[i].getOperationString() + "\")");
+            p.p("new " + idOperbtion + "(\"" +
+                remoteMethods[i].getOperbtionString() + "\")");
         }
         p.pln();
         p.pOln("};");
     }
 
     /**
-     * Write declaration and initializer for "interfaceHash" static field.
+     * Write declbrbtion bnd initiblizer for "interfbceHbsh" stbtic field.
      */
-    private void writeInterfaceHash(IndentingWriter p)
+    privbte void writeInterfbceHbsh(IndentingWriter p)
         throws IOException
     {
-        p.pln("private static final long interfaceHash = " +
-            remoteClass.getInterfaceHash() + "L;");
+        p.pln("privbte stbtic finbl long interfbceHbsh = " +
+            remoteClbss.getInterfbceHbsh() + "L;");
     }
 
     /**
-     * Write declaration for java.lang.reflect.Method static fields
-     * corresponding to each remote method in a stub.
+     * Write declbrbtion for jbvb.lbng.reflect.Method stbtic fields
+     * corresponding to ebch remote method in b stub.
      */
-    private void writeMethodFieldDeclarations(IndentingWriter p)
+    privbte void writeMethodFieldDeclbrbtions(IndentingWriter p)
         throws IOException
     {
-        for (int i = 0; i < methodFieldNames.length; i++) {
-            p.pln("private static java.lang.reflect.Method " +
-                methodFieldNames[i] + ";");
+        for (int i = 0; i < methodFieldNbmes.length; i++) {
+            p.pln("privbte stbtic jbvb.lbng.reflect.Method " +
+                methodFieldNbmes[i] + ";");
         }
     }
 
     /**
-     * Write code to initialize the static fields for each method
-     * using the Java Reflection API.
+     * Write code to initiblize the stbtic fields for ebch method
+     * using the Jbvb Reflection API.
      */
-    private void writeMethodFieldInitializers(IndentingWriter p)
+    privbte void writeMethodFieldInitiblizers(IndentingWriter p)
         throws IOException
     {
-        for (int i = 0; i < methodFieldNames.length; i++) {
-            p.p(methodFieldNames[i] + " = ");
+        for (int i = 0; i < methodFieldNbmes.length; i++) {
+            p.p(methodFieldNbmes[i] + " = ");
             /*
-             * Here we look up the Method object in the arbitrary interface
-             * that we find in the RemoteClass.Method object.
-             * REMIND: Is this arbitrary choice OK?
-             * REMIND: Should this access be part of RemoteClass.Method's
-             * abstraction?
+             * Here we look up the Method object in the brbitrbry interfbce
+             * thbt we find in the RemoteClbss.Method object.
+             * REMIND: Is this brbitrbry choice OK?
+             * REMIND: Should this bccess be pbrt of RemoteClbss.Method's
+             * bbstrbction?
              */
-            RemoteClass.Method method = remoteMethods[i];
+            RemoteClbss.Method method = remoteMethods[i];
             MemberDefinition def = method.getMemberDefinition();
-            Identifier methodName = method.getName();
+            Identifier methodNbme = method.getNbme();
             Type methodType = method.getType();
-            Type paramTypes[] = methodType.getArgumentTypes();
+            Type pbrbmTypes[] = methodType.getArgumentTypes();
 
-            p.p(def.getClassDefinition().getName() + ".class.getMethod(\"" +
-                methodName + "\", new java.lang.Class[] {");
-            for (int j = 0; j < paramTypes.length; j++) {
+            p.p(def.getClbssDefinition().getNbme() + ".clbss.getMethod(\"" +
+                methodNbme + "\", new jbvb.lbng.Clbss[] {");
+            for (int j = 0; j < pbrbmTypes.length; j++) {
                 if (j > 0)
                     p.p(", ");
-                p.p(paramTypes[j] + ".class");
+                p.p(pbrbmTypes[j] + ".clbss");
             }
             p.pln("});");
         }
@@ -1010,292 +1010,292 @@ public class RMIGenerator implements RMIConstants, Generator {
 
 
     /*
-     * Following are a series of static utility methods useful during
-     * the code generation process:
+     * Following bre b series of stbtic utility methods useful during
+     * the code generbtion process:
      */
 
     /**
-     * Generate an array of names for fields that correspond to the given
-     * array of remote methods.  Each name in the returned array is
-     * guaranteed to be unique.
+     * Generbte bn brrby of nbmes for fields thbt correspond to the given
+     * brrby of remote methods.  Ebch nbme in the returned brrby is
+     * gubrbnteed to be unique.
      *
-     * The name of a method is included in its corresponding field name
-     * to enhance readability of the generated code.
+     * The nbme of b method is included in its corresponding field nbme
+     * to enhbnce rebdbbility of the generbted code.
      */
-    private static String[] nameMethodFields(RemoteClass.Method[] methods) {
-        String[] names = new String[methods.length];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = "$method_" + methods[i].getName() + "_" + i;
+    privbte stbtic String[] nbmeMethodFields(RemoteClbss.Method[] methods) {
+        String[] nbmes = new String[methods.length];
+        for (int i = 0; i < nbmes.length; i++) {
+            nbmes[i] = "$method_" + methods[i].getNbme() + "_" + i;
         }
-        return names;
+        return nbmes;
     }
 
     /**
-     * Generate an array of names for parameters corresponding to the
-     * given array of types for the parameters.  Each name in the returned
-     * array is guaranteed to be unique.
+     * Generbte bn brrby of nbmes for pbrbmeters corresponding to the
+     * given brrby of types for the pbrbmeters.  Ebch nbme in the returned
+     * brrby is gubrbnteed to be unique.
      *
-     * A representation of the type of a parameter is included in its
-     * corresponding field name to enhance the readability of the generated
+     * A representbtion of the type of b pbrbmeter is included in its
+     * corresponding field nbme to enhbnce the rebdbbility of the generbted
      * code.
      */
-    private static String[] nameParameters(Type[] types) {
-        String[] names = new String[types.length];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = "$param_" +
-                generateNameFromType(types[i]) + "_" + (i + 1);
+    privbte stbtic String[] nbmePbrbmeters(Type[] types) {
+        String[] nbmes = new String[types.length];
+        for (int i = 0; i < nbmes.length; i++) {
+            nbmes[i] = "$pbrbm_" +
+                generbteNbmeFromType(types[i]) + "_" + (i + 1);
         }
-        return names;
+        return nbmes;
     }
 
     /**
-     * Generate a readable string representing the given type suitable
-     * for embedding within a Java identifier.
+     * Generbte b rebdbble string representing the given type suitbble
+     * for embedding within b Jbvb identifier.
      */
-    private static String generateNameFromType(Type type) {
+    privbte stbtic String generbteNbmeFromType(Type type) {
         int typeCode = type.getTypeCode();
         switch (typeCode) {
-        case TC_BOOLEAN:
-        case TC_BYTE:
-        case TC_CHAR:
-        case TC_SHORT:
-        case TC_INT:
-        case TC_LONG:
-        case TC_FLOAT:
-        case TC_DOUBLE:
+        cbse TC_BOOLEAN:
+        cbse TC_BYTE:
+        cbse TC_CHAR:
+        cbse TC_SHORT:
+        cbse TC_INT:
+        cbse TC_LONG:
+        cbse TC_FLOAT:
+        cbse TC_DOUBLE:
             return type.toString();
-        case TC_ARRAY:
-            return "arrayOf_" + generateNameFromType(type.getElementType());
-        case TC_CLASS:
-            return Names.mangleClass(type.getClassName().getName()).toString();
-        default:
+        cbse TC_ARRAY:
+            return "brrbyOf_" + generbteNbmeFromType(type.getElementType());
+        cbse TC_CLASS:
+            return Nbmes.mbngleClbss(type.getClbssNbme().getNbme()).toString();
+        defbult:
             throw new Error("unexpected type code: " + typeCode);
         }
     }
 
     /**
-     * Write a snippet of Java code to marshal a value named "name" of
-     * type "type" to the java.io.ObjectOutput stream named "stream".
+     * Write b snippet of Jbvb code to mbrshbl b vblue nbmed "nbme" of
+     * type "type" to the jbvb.io.ObjectOutput strebm nbmed "strebm".
      *
-     * Primitive types are marshalled with their corresponding methods
-     * in the java.io.DataOutput interface, and objects (including arrays)
-     * are marshalled using the writeObject method.
+     * Primitive types bre mbrshblled with their corresponding methods
+     * in the jbvb.io.DbtbOutput interfbce, bnd objects (including brrbys)
+     * bre mbrshblled using the writeObject method.
      */
-    private static void writeMarshalArgument(IndentingWriter p,
-                                             String streamName,
-                                             Type type, String name)
+    privbte stbtic void writeMbrshblArgument(IndentingWriter p,
+                                             String strebmNbme,
+                                             Type type, String nbme)
         throws IOException
     {
         int typeCode = type.getTypeCode();
         switch (typeCode) {
-        case TC_BOOLEAN:
-            p.p(streamName + ".writeBoolean(" + name + ")");
-            break;
-        case TC_BYTE:
-            p.p(streamName + ".writeByte(" + name + ")");
-            break;
-        case TC_CHAR:
-            p.p(streamName + ".writeChar(" + name + ")");
-            break;
-        case TC_SHORT:
-            p.p(streamName + ".writeShort(" + name + ")");
-            break;
-        case TC_INT:
-            p.p(streamName + ".writeInt(" + name + ")");
-            break;
-        case TC_LONG:
-            p.p(streamName + ".writeLong(" + name + ")");
-            break;
-        case TC_FLOAT:
-            p.p(streamName + ".writeFloat(" + name + ")");
-            break;
-        case TC_DOUBLE:
-            p.p(streamName + ".writeDouble(" + name + ")");
-            break;
-        case TC_ARRAY:
-        case TC_CLASS:
-            p.p(streamName + ".writeObject(" + name + ")");
-            break;
-        default:
+        cbse TC_BOOLEAN:
+            p.p(strebmNbme + ".writeBoolebn(" + nbme + ")");
+            brebk;
+        cbse TC_BYTE:
+            p.p(strebmNbme + ".writeByte(" + nbme + ")");
+            brebk;
+        cbse TC_CHAR:
+            p.p(strebmNbme + ".writeChbr(" + nbme + ")");
+            brebk;
+        cbse TC_SHORT:
+            p.p(strebmNbme + ".writeShort(" + nbme + ")");
+            brebk;
+        cbse TC_INT:
+            p.p(strebmNbme + ".writeInt(" + nbme + ")");
+            brebk;
+        cbse TC_LONG:
+            p.p(strebmNbme + ".writeLong(" + nbme + ")");
+            brebk;
+        cbse TC_FLOAT:
+            p.p(strebmNbme + ".writeFlobt(" + nbme + ")");
+            brebk;
+        cbse TC_DOUBLE:
+            p.p(strebmNbme + ".writeDouble(" + nbme + ")");
+            brebk;
+        cbse TC_ARRAY:
+        cbse TC_CLASS:
+            p.p(strebmNbme + ".writeObject(" + nbme + ")");
+            brebk;
+        defbult:
             throw new Error("unexpected type code: " + typeCode);
         }
     }
 
     /**
-     * Write Java statements to marshal a series of values in order as
-     * named in the "names" array, with types as specified in the "types"
-     * array", to the java.io.ObjectOutput stream named "stream".
+     * Write Jbvb stbtements to mbrshbl b series of vblues in order bs
+     * nbmed in the "nbmes" brrby, with types bs specified in the "types"
+     * brrby", to the jbvb.io.ObjectOutput strebm nbmed "strebm".
      */
-    private static void writeMarshalArguments(IndentingWriter p,
-                                              String streamName,
-                                              Type[] types, String[] names)
+    privbte stbtic void writeMbrshblArguments(IndentingWriter p,
+                                              String strebmNbme,
+                                              Type[] types, String[] nbmes)
         throws IOException
     {
-        if (types.length != names.length) {
-            throw new Error("parameter type and name arrays different sizes");
+        if (types.length != nbmes.length) {
+            throw new Error("pbrbmeter type bnd nbme brrbys different sizes");
         }
 
         for (int i = 0; i < types.length; i++) {
-            writeMarshalArgument(p, streamName, types[i], names[i]);
+            writeMbrshblArgument(p, strebmNbme, types[i], nbmes[i]);
             p.pln(";");
         }
     }
 
     /**
-     * Write a snippet of Java code to unmarshal a value of type "type"
-     * from the java.io.ObjectInput stream named "stream" into a variable
-     * named "name" (if "name" is null, the value in unmarshalled and
-     * discarded).
+     * Write b snippet of Jbvb code to unmbrshbl b vblue of type "type"
+     * from the jbvb.io.ObjectInput strebm nbmed "strebm" into b vbribble
+     * nbmed "nbme" (if "nbme" is null, the vblue in unmbrshblled bnd
+     * discbrded).
      *
-     * Primitive types are unmarshalled with their corresponding methods
-     * in the java.io.DataInput interface, and objects (including arrays)
-     * are unmarshalled using the readObject method.
+     * Primitive types bre unmbrshblled with their corresponding methods
+     * in the jbvb.io.DbtbInput interfbce, bnd objects (including brrbys)
+     * bre unmbrshblled using the rebdObject method.
      */
-    private static boolean writeUnmarshalArgument(IndentingWriter p,
-                                                  String streamName,
-                                                  Type type, String name)
+    privbte stbtic boolebn writeUnmbrshblArgument(IndentingWriter p,
+                                                  String strebmNbme,
+                                                  Type type, String nbme)
         throws IOException
     {
-        boolean readObject = false;
+        boolebn rebdObject = fblse;
 
-        if (name != null) {
-            p.p(name + " = ");
+        if (nbme != null) {
+            p.p(nbme + " = ");
         }
 
         int typeCode = type.getTypeCode();
         switch (type.getTypeCode()) {
-        case TC_BOOLEAN:
-            p.p(streamName + ".readBoolean()");
-            break;
-        case TC_BYTE:
-            p.p(streamName + ".readByte()");
-            break;
-        case TC_CHAR:
-            p.p(streamName + ".readChar()");
-            break;
-        case TC_SHORT:
-            p.p(streamName + ".readShort()");
-            break;
-        case TC_INT:
-            p.p(streamName + ".readInt()");
-            break;
-        case TC_LONG:
-            p.p(streamName + ".readLong()");
-            break;
-        case TC_FLOAT:
-            p.p(streamName + ".readFloat()");
-            break;
-        case TC_DOUBLE:
-            p.p(streamName + ".readDouble()");
-            break;
-        case TC_ARRAY:
-        case TC_CLASS:
-            p.p("(" + type + ") " + streamName + ".readObject()");
-            readObject = true;
-            break;
-        default:
+        cbse TC_BOOLEAN:
+            p.p(strebmNbme + ".rebdBoolebn()");
+            brebk;
+        cbse TC_BYTE:
+            p.p(strebmNbme + ".rebdByte()");
+            brebk;
+        cbse TC_CHAR:
+            p.p(strebmNbme + ".rebdChbr()");
+            brebk;
+        cbse TC_SHORT:
+            p.p(strebmNbme + ".rebdShort()");
+            brebk;
+        cbse TC_INT:
+            p.p(strebmNbme + ".rebdInt()");
+            brebk;
+        cbse TC_LONG:
+            p.p(strebmNbme + ".rebdLong()");
+            brebk;
+        cbse TC_FLOAT:
+            p.p(strebmNbme + ".rebdFlobt()");
+            brebk;
+        cbse TC_DOUBLE:
+            p.p(strebmNbme + ".rebdDouble()");
+            brebk;
+        cbse TC_ARRAY:
+        cbse TC_CLASS:
+            p.p("(" + type + ") " + strebmNbme + ".rebdObject()");
+            rebdObject = true;
+            brebk;
+        defbult:
             throw new Error("unexpected type code: " + typeCode);
         }
-        return readObject;
+        return rebdObject;
     }
 
     /**
-     * Write Java statements to unmarshal a series of values in order of
-     * types as in the "types" array from the java.io.ObjectInput stream
-     * named "stream" into variables as named in "names" (for any element
-     * of "names" that is null, the corresponding value is unmarshalled
-     * and discarded).
+     * Write Jbvb stbtements to unmbrshbl b series of vblues in order of
+     * types bs in the "types" brrby from the jbvb.io.ObjectInput strebm
+     * nbmed "strebm" into vbribbles bs nbmed in "nbmes" (for bny element
+     * of "nbmes" thbt is null, the corresponding vblue is unmbrshblled
+     * bnd discbrded).
      */
-    private static boolean writeUnmarshalArguments(IndentingWriter p,
-                                                   String streamName,
+    privbte stbtic boolebn writeUnmbrshblArguments(IndentingWriter p,
+                                                   String strebmNbme,
                                                    Type[] types,
-                                                   String[] names)
+                                                   String[] nbmes)
         throws IOException
     {
-        if (types.length != names.length) {
-            throw new Error("parameter type and name arrays different sizes");
+        if (types.length != nbmes.length) {
+            throw new Error("pbrbmeter type bnd nbme brrbys different sizes");
         }
 
-        boolean readObject = false;
+        boolebn rebdObject = fblse;
         for (int i = 0; i < types.length; i++) {
-            if (writeUnmarshalArgument(p, streamName, types[i], names[i])) {
-                readObject = true;
+            if (writeUnmbrshblArgument(p, strebmNbme, types[i], nbmes[i])) {
+                rebdObject = true;
             }
             p.pln(";");
         }
-        return readObject;
+        return rebdObject;
     }
 
     /**
-     * Return a snippet of Java code to wrap a value named "name" of
-     * type "type" into an object as appropriate for use by the
-     * Java Reflection API.
+     * Return b snippet of Jbvb code to wrbp b vblue nbmed "nbme" of
+     * type "type" into bn object bs bppropribte for use by the
+     * Jbvb Reflection API.
      *
-     * For primitive types, an appropriate wrapper class instantiated
-     * with the primitive value.  For object types (including arrays),
-     * no wrapping is necessary, so the value is named directly.
+     * For primitive types, bn bppropribte wrbpper clbss instbntibted
+     * with the primitive vblue.  For object types (including brrbys),
+     * no wrbpping is necessbry, so the vblue is nbmed directly.
      */
-    private static String wrapArgumentCode(Type type, String name) {
+    privbte stbtic String wrbpArgumentCode(Type type, String nbme) {
         int typeCode = type.getTypeCode();
         switch (typeCode) {
-        case TC_BOOLEAN:
-            return ("(" + name +
-                    " ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE)");
-        case TC_BYTE:
-            return "new java.lang.Byte(" + name + ")";
-        case TC_CHAR:
-            return "new java.lang.Character(" + name + ")";
-        case TC_SHORT:
-            return "new java.lang.Short(" + name + ")";
-        case TC_INT:
-            return "new java.lang.Integer(" + name + ")";
-        case TC_LONG:
-            return "new java.lang.Long(" + name + ")";
-        case TC_FLOAT:
-            return "new java.lang.Float(" + name + ")";
-        case TC_DOUBLE:
-            return "new java.lang.Double(" + name + ")";
-        case TC_ARRAY:
-        case TC_CLASS:
-            return name;
-        default:
+        cbse TC_BOOLEAN:
+            return ("(" + nbme +
+                    " ? jbvb.lbng.Boolebn.TRUE : jbvb.lbng.Boolebn.FALSE)");
+        cbse TC_BYTE:
+            return "new jbvb.lbng.Byte(" + nbme + ")";
+        cbse TC_CHAR:
+            return "new jbvb.lbng.Chbrbcter(" + nbme + ")";
+        cbse TC_SHORT:
+            return "new jbvb.lbng.Short(" + nbme + ")";
+        cbse TC_INT:
+            return "new jbvb.lbng.Integer(" + nbme + ")";
+        cbse TC_LONG:
+            return "new jbvb.lbng.Long(" + nbme + ")";
+        cbse TC_FLOAT:
+            return "new jbvb.lbng.Flobt(" + nbme + ")";
+        cbse TC_DOUBLE:
+            return "new jbvb.lbng.Double(" + nbme + ")";
+        cbse TC_ARRAY:
+        cbse TC_CLASS:
+            return nbme;
+        defbult:
             throw new Error("unexpected type code: " + typeCode);
         }
     }
 
     /**
-     * Return a snippet of Java code to unwrap a value named "name" into
-     * a value of type "type", as appropriate for the Java Reflection API.
+     * Return b snippet of Jbvb code to unwrbp b vblue nbmed "nbme" into
+     * b vblue of type "type", bs bppropribte for the Jbvb Reflection API.
      *
-     * For primitive types, the value is assumed to be of the corresponding
-     * wrapper type, and a method is called on the wrapper type to retrieve
-     * the primitive value.  For object types (include arrays), no
-     * unwrapping is necessary; the value is simply cast to the expected
-     * real object type.
+     * For primitive types, the vblue is bssumed to be of the corresponding
+     * wrbpper type, bnd b method is cblled on the wrbpper type to retrieve
+     * the primitive vblue.  For object types (include brrbys), no
+     * unwrbpping is necessbry; the vblue is simply cbst to the expected
+     * rebl object type.
      */
-    private static String unwrapArgumentCode(Type type, String name) {
+    privbte stbtic String unwrbpArgumentCode(Type type, String nbme) {
         int typeCode = type.getTypeCode();
         switch (typeCode) {
-        case TC_BOOLEAN:
-            return "((java.lang.Boolean) " + name + ").booleanValue()";
-        case TC_BYTE:
-            return "((java.lang.Byte) " + name + ").byteValue()";
-        case TC_CHAR:
-            return "((java.lang.Character) " + name + ").charValue()";
-        case TC_SHORT:
-            return "((java.lang.Short) " + name + ").shortValue()";
-        case TC_INT:
-            return "((java.lang.Integer) " + name + ").intValue()";
-        case TC_LONG:
-            return "((java.lang.Long) " + name + ").longValue()";
-        case TC_FLOAT:
-            return "((java.lang.Float) " + name + ").floatValue()";
-        case TC_DOUBLE:
-            return "((java.lang.Double) " + name + ").doubleValue()";
-        case TC_ARRAY:
-        case TC_CLASS:
-            return "((" + type + ") " + name + ")";
-        default:
+        cbse TC_BOOLEAN:
+            return "((jbvb.lbng.Boolebn) " + nbme + ").boolebnVblue()";
+        cbse TC_BYTE:
+            return "((jbvb.lbng.Byte) " + nbme + ").byteVblue()";
+        cbse TC_CHAR:
+            return "((jbvb.lbng.Chbrbcter) " + nbme + ").chbrVblue()";
+        cbse TC_SHORT:
+            return "((jbvb.lbng.Short) " + nbme + ").shortVblue()";
+        cbse TC_INT:
+            return "((jbvb.lbng.Integer) " + nbme + ").intVblue()";
+        cbse TC_LONG:
+            return "((jbvb.lbng.Long) " + nbme + ").longVblue()";
+        cbse TC_FLOAT:
+            return "((jbvb.lbng.Flobt) " + nbme + ").flobtVblue()";
+        cbse TC_DOUBLE:
+            return "((jbvb.lbng.Double) " + nbme + ").doubleVblue()";
+        cbse TC_ARRAY:
+        cbse TC_CLASS:
+            return "((" + type + ") " + nbme + ")";
+        defbult:
             throw new Error("unexpected type code: " + typeCode);
         }
     }

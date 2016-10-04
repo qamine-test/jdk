@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.ssl.internal.www.protocol.https;
+pbckbge com.sun.net.ssl.internbl.www.protocol.https;
 
-import java.io.IOException;
-import java.net.URL;
-import java.net.Proxy;
+import jbvb.io.IOException;
+import jbvb.net.URL;
+import jbvb.net.Proxy;
 
 /**
- * This class exists for compatibility with previous JSSE releases
- * only. The HTTPS implementation can now be found in
+ * This clbss exists for compbtibility with previous JSSE relebses
+ * only. The HTTPS implementbtion cbn now be found in
  * sun.net.www.protocol.https.
  *
  */
-public class Handler extends sun.net.www.protocol.https.Handler {
+public clbss Hbndler extends sun.net.www.protocol.https.Hbndler {
 
-    public Handler() {
+    public Hbndler() {
         super();
     }
 
-    public Handler(String proxy, int port) {
+    public Hbndler(String proxy, int port) {
         super(proxy, port);
     }
 
-    protected java.net.URLConnection openConnection(URL u) throws IOException {
+    protected jbvb.net.URLConnection openConnection(URL u) throws IOException {
         return openConnection(u, (Proxy)null);
     }
 
-    protected java.net.URLConnection openConnection(URL u, Proxy p) throws IOException {
+    protected jbvb.net.URLConnection openConnection(URL u, Proxy p) throws IOException {
         return new HttpsURLConnectionOldImpl(u, p, this);
     }
 }

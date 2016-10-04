@@ -1,59 +1,59 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
 <html>
-<head>
+<hebd>
   <title>README - CodePointIM</title>
-  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-</head>
+  <metb http-equiv="content-type" content="text/html; chbrset=ISO-8859-1">
+</hebd>
 <body>
 <h1>Code Point Input Method</h1>
 <p>
-The Code Point Input Method is a simple input method that allows Unicode
-characters to be entered using their code point or code unit values.
+The Code Point Input Method is b simple input method thbt bllows Unicode
+chbrbcters to be entered using their code point or code unit vblues.
 <p>
-The input method accepts three different notations, all using hexadecimal
-digits from the set [0-9a-fA-F]:
+The input method bccepts three different notbtions, bll using hexbdecimbl
+digits from the set [0-9b-fA-F]:
 <br>
 <ul>
-  <li>"\uxxxx": The standard Unicode escape notation of the Java programming
-language. This notation allows input of code points up to U+FFFE; the illegal
-code point U+FFFF is not allowed.</li>
-  <li>"\Uxxxxxx": An extended Unicode escape notation specific to this input
-method. This notation allows direct input of any Unicode code Point except the
-illegal code point U+FFFF. The uppercase "U" indicates that six hexadecimal
-digits follow. "xxxxxx" must be between 000000 and 10FFFF.</li>
-  <li>"\uxxxx\uyyyy": Two consecutive standard Unicode escapes, together
-representing a code point between U+10000 and U+10FFFF (a supplementary
-character). "xxxx" must be between D800 and DBFF (that is, a high surrogate
-value), "yyyy" between DC00 and DFFF (a low surrogate value).</li>
+  <li>"\uxxxx": The stbndbrd Unicode escbpe notbtion of the Jbvb progrbmming
+lbngubge. This notbtion bllows input of code points up to U+FFFE; the illegbl
+code point U+FFFF is not bllowed.</li>
+  <li>"\Uxxxxxx": An extended Unicode escbpe notbtion specific to this input
+method. This notbtion bllows direct input of bny Unicode code Point except the
+illegbl code point U+FFFF. The uppercbse "U" indicbtes thbt six hexbdecimbl
+digits follow. "xxxxxx" must be between 000000 bnd 10FFFF.</li>
+  <li>"\uxxxx\uyyyy": Two consecutive stbndbrd Unicode escbpes, together
+representing b code point between U+10000 bnd U+10FFFF (b supplementbry
+chbrbcter). "xxxx" must be between D800 bnd DBFF (thbt is, b high surrogbte
+vblue), "yyyy" between DC00 bnd DFFF (b low surrogbte vblue).</li>
 </ul>
-In general, the input method passes characters through unchanged. However,
-when the user types a "\", the input method enters composition mode. In
+In generbl, the input method pbsses chbrbcters through unchbnged. However,
+when the user types b "\", the input method enters composition mode. In
 composition mode, the user types the desired code point using one of the
-notations above, then types a space character to convert to the corresponding
-Unicode character and commit. The input method then returns to pass-through
-mode until another "\" character is entered.
+notbtions bbove, then types b spbce chbrbcter to convert to the corresponding
+Unicode chbrbcter bnd commit. The input method then returns to pbss-through
+mode until bnother "\" chbrbcter is entered.
 <p>
-While in composition mode, the user can use the left arrow, right arrow,
-backspace, and delete keys to edit the sequence. The "\u" or "\U" characters
-can only be deleted if they are not followed by hexadecimal digits in the
-composition sequence. Deleting the initial "\u" or "\U" returns the input
-method to pass-through mode.
+While in composition mode, the user cbn use the left brrow, right brrow,
+bbckspbce, bnd delete keys to edit the sequence. The "\u" or "\U" chbrbcters
+cbn only be deleted if they bre not followed by hexbdecimbl digits in the
+composition sequence. Deleting the initibl "\u" or "\U" returns the input
+method to pbss-through mode.
 <p>
-Since the initial "\" character starts composition mode, a user must type two
-"\" characters in order to add a single "\" to the text. When an initial "\"
-has been entered, but the next character is not "u", "U", or "\", both the "\"
-and the subsequent character are committed, and the input method returns to
-pass-through mode. Also, typing a new line, or tab character at any time
-during composition immediately commits the current composed text.
+Since the initibl "\" chbrbcter stbrts composition mode, b user must type two
+"\" chbrbcters in order to bdd b single "\" to the text. When bn initibl "\"
+hbs been entered, but the next chbrbcter is not "u", "U", or "\", both the "\"
+bnd the subsequent chbrbcter bre committed, bnd the input method returns to
+pbss-through mode. Also, typing b new line, or tbb chbrbcter bt bny time
+during composition immedibtely commits the current composed text.
 <p>
-Input methods are extensions to the Java Runtime Environment; they cannot be
-run as applications. Before you can use an input method, you have to install
-it in the JRE, run an application that supports input methods (such as the
-JFC demos Notepad and Stylepad), and select the input method. You can learn
-more about these steps from the article
-"<a href="http://javadesktop.org/articles/InputMethod/index.html">Using Input Methods on the Java Platform</a>"
-and more about supplementary character support from the article
-"<a href="http://java.sun.com/developer/technicalArticles/Intl/Supplementary/index.html">Supplementary Characters in the Java Platform</a>".
+Input methods bre extensions to the Jbvb Runtime Environment; they cbnnot be
+run bs bpplicbtions. Before you cbn use bn input method, you hbve to instbll
+it in the JRE, run bn bpplicbtion thbt supports input methods (such bs the
+JFC demos Notepbd bnd Stylepbd), bnd select the input method. You cbn lebrn
+more bbout these steps from the brticle
+"<b href="http://jbvbdesktop.org/brticles/InputMethod/index.html">Using Input Methods on the Jbvb Plbtform</b>"
+bnd more bbout supplementbry chbrbcter support from the brticle
+"<b href="http://jbvb.sun.com/developer/technicblArticles/Intl/Supplementbry/index.html">Supplementbry Chbrbcters in the Jbvb Plbtform</b>".
 <p>
 This input method requires JRE 5.0 or higher.
 <br>

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,49 +30,49 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Tracker class support functions. */
+/* Trbcker clbss support functions. */
 
 /*
- * This file contains the native support calls for the Tracker
- *   class. These native methods are registered and not made extern.
- *   Tracking is engaged by using JNI to assign to a static field in the
- *   Tracker class.
+ * This file contbins the nbtive support cblls for the Trbcker
+ *   clbss. These nbtive methods bre registered bnd not mbde extern.
+ *   Trbcking is engbged by using JNI to bssign to b stbtic field in the
+ *   Trbcker clbss.
  *
- * Just like JVMTI callbacks, it's best that we keep track of these so that
- *   when the VM_DEATH happens we know to wait for them to complete.
+ * Just like JVMTI cbllbbcks, it's best thbt we keep trbck of these so thbt
+ *   when the VM_DEATH hbppens we know to wbit for them to complete.
  *
- * This file also contains the functions that will initialize the Tracker
- *   interface for BCI and identify the Tracker methods to make sure
- *   they are not included in any stack traces obtained from JVMTI.
+ * This file blso contbins the functions thbt will initiblize the Trbcker
+ *   interfbce for BCI bnd identify the Trbcker methods to mbke sure
+ *   they bre not included in bny stbck trbces obtbined from JVMTI.
  *
- * RFE: The performance of the java injected code calling native methods
- *        could be an issue here, cpu=times seems to be the worst where
- *        a native call is made for entry and exit, even on the smallest
- *        Java method. The alternative would be to cache the data on
- *        the Java side, and either push it out to the native side, or
- *        use some kind of pull from the native side, or even using
- *        shared memory or a socket.  However having said that, the
- *        current performance issues are more around sheer memory needed,
- *        and repeated calls to GetThreadCpuTime(), which is being investigated.
+ * RFE: The performbnce of the jbvb injected code cblling nbtive methods
+ *        could be bn issue here, cpu=times seems to be the worst where
+ *        b nbtive cbll is mbde for entry bnd exit, even on the smbllest
+ *        Jbvb method. The blternbtive would be to cbche the dbtb on
+ *        the Jbvb side, bnd either push it out to the nbtive side, or
+ *        use some kind of pull from the nbtive side, or even using
+ *        shbred memory or b socket.  However hbving sbid thbt, the
+ *        current performbnce issues bre more bround sheer memory needed,
+ *        bnd repebted cblls to GetThrebdCpuTime(), which is being investigbted.
  *
  */
 
 #include "hprof.h"
 
-/* Macros to surround tracker based callback code.
- *   Also see BEGIN_CALLBACK and END_CALLBACK in hprof_init.c.
- *   If the VM_DEATH callback is active in the begining, then this callback
- *   just blocks (it is assumed we don't want to return to the VM).
- *   If the VM_DEATH callback is active at the end, then this callback
- *   will notify the VM_DEATH callback if it's the last one.
+/* Mbcros to surround trbcker bbsed cbllbbck code.
+ *   Also see BEGIN_CALLBACK bnd END_CALLBACK in hprof_init.c.
+ *   If the VM_DEATH cbllbbck is bctive in the begining, then this cbllbbck
+ *   just blocks (it is bssumed we don't wbnt to return to the VM).
+ *   If the VM_DEATH cbllbbck is bctive bt the end, then this cbllbbck
+ *   will notify the VM_DEATH cbllbbck if it's the lbst one.
  *
  *   WARNING: No not 'return' or 'goto' out of the BEGIN_TRACKER_CALLBACK/END_TRACKER_CALLBACK
  *            block, this will mess up the count.
@@ -80,172 +80,172 @@
 
 #define BEGIN_TRACKER_CALLBACK()                                        \
 { /* BEGIN OF TRACKER_CALLBACK */                                       \
-    jboolean bypass = JNI_TRUE;                                         \
-    rawMonitorEnter(gdata->callbackLock); {                             \
-        if ( gdata->tracking_engaged != 0 ) {                           \
-            if (!gdata->vm_death_callback_active) {                     \
-                gdata->active_callbacks++;                              \
-                bypass = JNI_FALSE;                                     \
+    jboolebn bypbss = JNI_TRUE;                                         \
+    rbwMonitorEnter(gdbtb->cbllbbckLock); {                             \
+        if ( gdbtb->trbcking_engbged != 0 ) {                           \
+            if (!gdbtb->vm_debth_cbllbbck_bctive) {                     \
+                gdbtb->bctive_cbllbbcks++;                              \
+                bypbss = JNI_FALSE;                                     \
             }                                                           \
         }                                                               \
-    } rawMonitorExit(gdata->callbackLock);                              \
-    if ( !bypass ) {                                                    \
+    } rbwMonitorExit(gdbtb->cbllbbckLock);                              \
+    if ( !bypbss ) {                                                    \
         /* BODY OF TRACKER_CALLBACK CODE */
 
-#define END_TRACKER_CALLBACK() /* Part of bypass if body */             \
-        rawMonitorEnter(gdata->callbackLock); {                         \
-            gdata->active_callbacks--;                                  \
-            if (gdata->active_callbacks < 0) {                          \
-                HPROF_ERROR(JNI_TRUE, "Problems tracking callbacks");   \
+#define END_TRACKER_CALLBACK() /* Pbrt of bypbss if body */             \
+        rbwMonitorEnter(gdbtb->cbllbbckLock); {                         \
+            gdbtb->bctive_cbllbbcks--;                                  \
+            if (gdbtb->bctive_cbllbbcks < 0) {                          \
+                HPROF_ERROR(JNI_TRUE, "Problems trbcking cbllbbcks");   \
             }                                                           \
-            if (gdata->vm_death_callback_active) {                      \
-                if (gdata->active_callbacks == 0) {                     \
-                    rawMonitorNotifyAll(gdata->callbackLock);           \
+            if (gdbtb->vm_debth_cbllbbck_bctive) {                      \
+                if (gdbtb->bctive_cbllbbcks == 0) {                     \
+                    rbwMonitorNotifyAll(gdbtb->cbllbbckLock);           \
                 }                                                       \
             }                                                           \
-        } rawMonitorExit(gdata->callbackLock);                          \
+        } rbwMonitorExit(gdbtb->cbllbbckLock);                          \
     }                                                                   \
 } /* END OF TRACKER_CALLBACK */
 
 
 /*
- * Class:     Tracker
- * Method:    nativeNewArray
- * Signature: (Ljava/lang/Object;Ljava/lang/Object;)V
+ * Clbss:     Trbcker
+ * Method:    nbtiveNewArrby
+ * Signbture: (Ljbvb/lbng/Object;Ljbvb/lbng/Object;)V
  */
-static void JNICALL
-Tracker_nativeNewArray
-  (JNIEnv *env, jclass clazz, jobject thread, jobject obj)
+stbtic void JNICALL
+Trbcker_nbtiveNewArrby
+  (JNIEnv *env, jclbss clbzz, jobject threbd, jobject obj)
 {
     BEGIN_TRACKER_CALLBACK() {
-        event_newarray(env, thread, obj);
+        event_newbrrby(env, threbd, obj);
     } END_TRACKER_CALLBACK();
 }
 
 /*
- * Class:     Tracker
- * Method:    nativeObjectInit
- * Signature: (Ljava/lang/Object;Ljava/lang/Object;)V
+ * Clbss:     Trbcker
+ * Method:    nbtiveObjectInit
+ * Signbture: (Ljbvb/lbng/Object;Ljbvb/lbng/Object;)V
  */
-static void JNICALL
-Tracker_nativeObjectInit
-  (JNIEnv *env, jclass clazz, jobject thread, jobject obj)
+stbtic void JNICALL
+Trbcker_nbtiveObjectInit
+  (JNIEnv *env, jclbss clbzz, jobject threbd, jobject obj)
 {
     BEGIN_TRACKER_CALLBACK() {
-        event_object_init(env, thread, obj);
+        event_object_init(env, threbd, obj);
     } END_TRACKER_CALLBACK();
 }
 
 /*
- * Class:     Tracker
- * Method:    nativeCallSite
- * Signature: (Ljava/lang/Object;II)V
+ * Clbss:     Trbcker
+ * Method:    nbtiveCbllSite
+ * Signbture: (Ljbvb/lbng/Object;II)V
  */
-static void JNICALL
-Tracker_nativeCallSite
-  (JNIEnv *env, jclass clazz, jobject thread, jint cnum, jint mnum)
+stbtic void JNICALL
+Trbcker_nbtiveCbllSite
+  (JNIEnv *env, jclbss clbzz, jobject threbd, jint cnum, jint mnum)
 {
     BEGIN_TRACKER_CALLBACK() {
-        event_call(env, thread, cnum, mnum);
+        event_cbll(env, threbd, cnum, mnum);
     } END_TRACKER_CALLBACK();
 }
 
 /*
- * Class:     Tracker
- * Method:    nativeReturnSite
- * Signature: (Ljava/lang/Object;II)V
+ * Clbss:     Trbcker
+ * Method:    nbtiveReturnSite
+ * Signbture: (Ljbvb/lbng/Object;II)V
  */
-static void JNICALL
-Tracker_nativeReturnSite
-  (JNIEnv *env, jclass clazz, jobject thread, jint cnum, jint mnum)
+stbtic void JNICALL
+Trbcker_nbtiveReturnSite
+  (JNIEnv *env, jclbss clbzz, jobject threbd, jint cnum, jint mnum)
 {
     BEGIN_TRACKER_CALLBACK() {
-        event_return(env, thread, cnum, mnum);
+        event_return(env, threbd, cnum, mnum);
     } END_TRACKER_CALLBACK();
 }
 
 
 /* ------------------------------------------------------------------- */
-/* Set Java static field to turn on native code calls in Tracker. */
+/* Set Jbvb stbtic field to turn on nbtive code cblls in Trbcker. */
 
-static void
-set_engaged(JNIEnv *env, jint engaged)
+stbtic void
+set_engbged(JNIEnv *env, jint engbged)
 {
-    LOG3("set_engaged()", "engaging tracking", engaged);
+    LOG3("set_engbged()", "engbging trbcking", engbged);
 
-    if ( ! gdata->bci ) {
+    if ( ! gdbtb->bci ) {
         return;
     }
-    rawMonitorEnter(gdata->callbackLock); {
-        if ( gdata->tracking_engaged != engaged ) {
+    rbwMonitorEnter(gdbtb->cbllbbckLock); {
+        if ( gdbtb->trbcking_engbged != engbged ) {
             jfieldID field;
-            jclass   tracker_class;
+            jclbss   trbcker_clbss;
 
-            tracker_class = class_get_class(env, gdata->tracker_cnum);
-            gdata->tracking_engaged = 0;
-            /* Activate or deactivate the injection code on the Java side */
-            HPROF_ASSERT(tracker_class!=NULL);
-            exceptionClear(env);
-            field = getStaticFieldID(env, tracker_class,
+            trbcker_clbss = clbss_get_clbss(env, gdbtb->trbcker_cnum);
+            gdbtb->trbcking_engbged = 0;
+            /* Activbte or debctivbte the injection code on the Jbvb side */
+            HPROF_ASSERT(trbcker_clbss!=NULL);
+            exceptionClebr(env);
+            field = getStbticFieldID(env, trbcker_clbss,
                                     TRACKER_ENGAGED_NAME, TRACKER_ENGAGED_SIG);
-            setStaticIntField(env, tracker_class, field, engaged);
-            exceptionClear(env);
+            setStbticIntField(env, trbcker_clbss, field, engbged);
+            exceptionClebr(env);
 
-            LOG3("set_engaged()", "tracking engaged", engaged);
+            LOG3("set_engbged()", "trbcking engbged", engbged);
 
-            gdata->tracking_engaged = engaged;
+            gdbtb->trbcking_engbged = engbged;
         }
-    } rawMonitorExit(gdata->callbackLock);
+    } rbwMonitorExit(gdbtb->cbllbbckLock);
 }
 
 void
-tracker_engage(JNIEnv *env)
+trbcker_engbge(JNIEnv *env)
 {
-    set_engaged(env, 0xFFFF);
+    set_engbged(env, 0xFFFF);
 }
 
 void
-tracker_disengage(JNIEnv *env)
+trbcker_disengbge(JNIEnv *env)
 {
-    set_engaged(env, 0);
+    set_engbged(env, 0);
 }
 
-jboolean
-tracker_method(jmethodID method)
+jboolebn
+trbcker_method(jmethodID method)
 {
     int      i;
 
-    if ( ! gdata->bci ) {
+    if ( ! gdbtb->bci ) {
         return JNI_FALSE;
     }
 
     HPROF_ASSERT(method!=NULL);
-    HPROF_ASSERT(gdata->tracker_method_count > 0);
-    for ( i = 0 ; i < gdata->tracker_method_count ; i++ ) {
-        HPROF_ASSERT(gdata->tracker_methods[i].method!=NULL);
-        if ( method == gdata->tracker_methods[i].method ) {
+    HPROF_ASSERT(gdbtb->trbcker_method_count > 0);
+    for ( i = 0 ; i < gdbtb->trbcker_method_count ; i++ ) {
+        HPROF_ASSERT(gdbtb->trbcker_methods[i].method!=NULL);
+        if ( method == gdbtb->trbcker_methods[i].method ) {
             return JNI_TRUE;
         }
     }
     return JNI_FALSE;
 }
 
-static JNINativeMethod registry[4] =
+stbtic JNINbtiveMethod registry[4] =
 {
         { TRACKER_NEWARRAY_NATIVE_NAME,    TRACKER_NEWARRAY_NATIVE_SIG,
-                (void*)&Tracker_nativeNewArray },
+                (void*)&Trbcker_nbtiveNewArrby },
         { TRACKER_OBJECT_INIT_NATIVE_NAME, TRACKER_OBJECT_INIT_NATIVE_SIG,
-                (void*)&Tracker_nativeObjectInit },
+                (void*)&Trbcker_nbtiveObjectInit },
         { TRACKER_CALL_NATIVE_NAME,        TRACKER_CALL_NATIVE_SIG,
-                (void*)&Tracker_nativeCallSite },
+                (void*)&Trbcker_nbtiveCbllSite },
         { TRACKER_RETURN_NATIVE_NAME,      TRACKER_RETURN_NATIVE_SIG,
-                (void*)&Tracker_nativeReturnSite }
+                (void*)&Trbcker_nbtiveReturnSite }
 };
 
-static struct {
-    char *name;
-    char *sig;
-} tracker_methods[] =
+stbtic struct {
+    chbr *nbme;
+    chbr *sig;
+} trbcker_methods[] =
     {
         { TRACKER_NEWARRAY_NAME,           TRACKER_NEWARRAY_SIG            },
         { TRACKER_OBJECT_INIT_NAME,        TRACKER_OBJECT_INIT_SIG         },
@@ -258,63 +258,63 @@ static struct {
     };
 
 void
-tracker_setup_class(void)
+trbcker_setup_clbss(void)
 {
-    ClassIndex  cnum;
-    LoaderIndex loader_index;
+    ClbssIndex  cnum;
+    LobderIndex lobder_index;
 
-    HPROF_ASSERT(gdata->tracker_cnum==0);
-    loader_index = loader_find_or_create(NULL,NULL);
-    cnum = class_find_or_create(TRACKER_CLASS_SIG, loader_index);
-    gdata->tracker_cnum = cnum;
+    HPROF_ASSERT(gdbtb->trbcker_cnum==0);
+    lobder_index = lobder_find_or_crebte(NULL,NULL);
+    cnum = clbss_find_or_crebte(TRACKER_CLASS_SIG, lobder_index);
+    gdbtb->trbcker_cnum = cnum;
     HPROF_ASSERT(cnum!=0);
-    class_add_status(cnum, CLASS_SPECIAL);
+    clbss_bdd_stbtus(cnum, CLASS_SPECIAL);
 }
 
 void
-tracker_setup_methods(JNIEnv *env)
+trbcker_setup_methods(JNIEnv *env)
 {
-    ClassIndex  cnum;
-    LoaderIndex loader_index;
+    ClbssIndex  cnum;
+    LobderIndex lobder_index;
     int         i;
-    jclass      object_class;
-    jclass      tracker_class;
+    jclbss      object_clbss;
+    jclbss      trbcker_clbss;
 
-    if ( ! gdata->bci ) {
+    if ( ! gdbtb->bci ) {
         return;
     }
 
-    loader_index = loader_find_or_create(NULL,NULL);
-    cnum = class_find_or_create(OBJECT_CLASS_SIG, loader_index);
-    object_class = class_get_class(env, cnum);
-    tracker_class = class_get_class(env, gdata->tracker_cnum);
+    lobder_index = lobder_find_or_crebte(NULL,NULL);
+    cnum = clbss_find_or_crebte(OBJECT_CLASS_SIG, lobder_index);
+    object_clbss = clbss_get_clbss(env, cnum);
+    trbcker_clbss = clbss_get_clbss(env, gdbtb->trbcker_cnum);
 
     CHECK_EXCEPTIONS(env) {
-        registerNatives(env, tracker_class, registry,
+        registerNbtives(env, trbcker_clbss, registry,
                                 (int)sizeof(registry)/(int)sizeof(registry[0]));
     } END_CHECK_EXCEPTIONS;
 
-    HPROF_ASSERT(tracker_class!=NULL);
+    HPROF_ASSERT(trbcker_clbss!=NULL);
 
-    gdata->tracker_method_count =
-        (int)sizeof(tracker_methods)/(int)sizeof(tracker_methods[0]);
+    gdbtb->trbcker_method_count =
+        (int)sizeof(trbcker_methods)/(int)sizeof(trbcker_methods[0]);
 
-    HPROF_ASSERT(gdata->tracker_method_count <=
-      (int)(sizeof(gdata->tracker_methods)/sizeof(gdata->tracker_methods[0])));
+    HPROF_ASSERT(gdbtb->trbcker_method_count <=
+      (int)(sizeof(gdbtb->trbcker_methods)/sizeof(gdbtb->trbcker_methods[0])));
 
     CHECK_EXCEPTIONS(env) {
-        gdata->object_init_method = getMethodID(env, object_class,
+        gdbtb->object_init_method = getMethodID(env, object_clbss,
                                     OBJECT_INIT_NAME, OBJECT_INIT_SIG);
-        for ( i=0 ; i < gdata->tracker_method_count ; i++ ) {
-            gdata->tracker_methods[i].name =
-                        string_find_or_create(tracker_methods[i].name);
-            gdata->tracker_methods[i].sig =
-                        string_find_or_create(tracker_methods[i].sig);
-            gdata->tracker_methods[i].method =
-                      getStaticMethodID(env, tracker_class,
-                            tracker_methods[i].name, tracker_methods[i].sig);
-            HPROF_ASSERT(gdata->tracker_methods[i].method!=NULL);
-            LOG2("tracker_setup_methods(): Found", tracker_methods[i].name);
+        for ( i=0 ; i < gdbtb->trbcker_method_count ; i++ ) {
+            gdbtb->trbcker_methods[i].nbme =
+                        string_find_or_crebte(trbcker_methods[i].nbme);
+            gdbtb->trbcker_methods[i].sig =
+                        string_find_or_crebte(trbcker_methods[i].sig);
+            gdbtb->trbcker_methods[i].method =
+                      getStbticMethodID(env, trbcker_clbss,
+                            trbcker_methods[i].nbme, trbcker_methods[i].sig);
+            HPROF_ASSERT(gdbtb->trbcker_methods[i].method!=NULL);
+            LOG2("trbcker_setup_methods(): Found", trbcker_methods[i].nbme);
         }
     } END_CHECK_EXCEPTIONS;
 }

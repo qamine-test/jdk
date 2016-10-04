@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.beans.*;
-import java.util.*;
+import jbvb.bebns.*;
+import jbvb.util.*;
 
-import javax.swing.JComponent;
+import jbvbx.swing.JComponent;
 
-public class ClientPropertyApplicator<T extends JComponent, N> implements PropertyChangeListener {
-    private final Map<String, Property<N>> properties = new HashMap<String, Property<N>>();
+public clbss ClientPropertyApplicbtor<T extends JComponent, N> implements PropertyChbngeListener {
+    privbte finbl Mbp<String, Property<N>> properties = new HbshMbp<String, Property<N>>();
 
-    @SuppressWarnings("unchecked")
-    public ClientPropertyApplicator(final Property<N>... propertyList) {
-        for (final Property<N> p : propertyList) {
-            properties.put(p.name, p);
+    @SuppressWbrnings("unchecked")
+    public ClientPropertyApplicbtor(finbl Property<N>... propertyList) {
+        for (finbl Property<N> p : propertyList) {
+            properties.put(p.nbme, p);
         }
     }
 
-    void applyProperty(final N target, final String propName, final Object value) {
-        final Property<N> property = properties.get(propName);
+    void bpplyProperty(finbl N tbrget, finbl String propNbme, finbl Object vblue) {
+        finbl Property<N> property = properties.get(propNbme);
         if (property != null) {
-            property.applyProperty(target, value);
+            property.bpplyProperty(tbrget, vblue);
         }
     }
 
-    public void attachAndApplyClientProperties(final T target) {
-        target.addPropertyChangeListener(this);
-        final N obj = convertJComponentToTarget(target);
+    public void bttbchAndApplyClientProperties(finbl T tbrget) {
+        tbrget.bddPropertyChbngeListener(this);
+        finbl N obj = convertJComponentToTbrget(tbrget);
         if (obj == null) {
             return;
         }
 
-        final Set<String> propNames = properties.keySet();
-        for (final String propName : propNames) {
-            final Object value = target.getClientProperty(propName);
-            if (value == null) {
+        finbl Set<String> propNbmes = properties.keySet();
+        for (finbl String propNbme : propNbmes) {
+            finbl Object vblue = tbrget.getClientProperty(propNbme);
+            if (vblue == null) {
                 continue;
             }
-            applyProperty(obj, propName, value);
+            bpplyProperty(obj, propNbme, vblue);
         }
     }
 
-    public void removeFrom(final T target) {
-        target.removePropertyChangeListener(this);
+    public void removeFrom(finbl T tbrget) {
+        tbrget.removePropertyChbngeListener(this);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void propertyChange(final PropertyChangeEvent evt) {
-        final N obj = convertJComponentToTarget((T)evt.getSource());
+    @SuppressWbrnings("unchecked")
+    public void propertyChbnge(finbl PropertyChbngeEvent evt) {
+        finbl N obj = convertJComponentToTbrget((T)evt.getSource());
         if (obj == null) return;
-        applyProperty(obj, evt.getPropertyName(), evt.getNewValue());
+        bpplyProperty(obj, evt.getPropertyNbme(), evt.getNewVblue());
     }
 
-    @SuppressWarnings("unchecked")
-    public N convertJComponentToTarget(final T component) {
-        return (N)component; // naive implementation
+    @SuppressWbrnings("unchecked")
+    public N convertJComponentToTbrget(finbl T component) {
+        return (N)component; // nbive implementbtion
     }
 
-    public abstract static class Property<X> {
-        final String name;
+    public bbstrbct stbtic clbss Property<X> {
+        finbl String nbme;
 
-        public Property(final String name) {
-            this.name = name;
+        public Property(finbl String nbme) {
+            this.nbme = nbme;
         }
 
-        public abstract void applyProperty(final X target, final Object value);
+        public bbstrbct void bpplyProperty(finbl X tbrget, finbl Object vblue);
     }
 }

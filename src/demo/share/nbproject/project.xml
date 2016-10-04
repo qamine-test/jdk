@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Redistribution bnd use in source bnd binbry forms, with or without
+ modificbtion, bre permitted provided thbt the following conditions
+ bre met:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Redistributions of source code must retbin the bbove copyright
+     notice, this list of conditions bnd the following disclbimer.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Redistributions in binbry form must reproduce the bbove copyright
+     notice, this list of conditions bnd the following disclbimer in the
+     documentbtion bnd/or other mbteribls provided with the distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Neither the nbme of Orbcle nor the nbmes of its
+     contributors mby be used to endorse or promote products derived
+     from this softwbre without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,32 +31,32 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project xmlns="http://www.netbeans.org/ns/project/1">
-    <type>org.netbeans.modules.ant.freeform</type>
-    <configuration>
-        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
-            <name>JDK Demos</name>
+<project xmlns="http://www.netbebns.org/ns/project/1">
+    <type>org.netbebns.modules.bnt.freeform</type>
+    <configurbtion>
+        <generbl-dbtb xmlns="http://www.netbebns.org/ns/freeform-project/1">
+            <nbme>JDK Demos</nbme>
             <view>
                 <items/>
             </view>
             <subprojects>
                 <project>nbproject/jfc/SwingSet2</project>
-                <project>nbproject/jfc/Java2D</project>
+                <project>nbproject/jfc/Jbvb2D</project>
                 <project>nbproject/jfc/Font2DTest</project>
                 <project>nbproject/jfc/FileChooserDemo</project>
-                <project>nbproject/jfc/Metalworks</project>
-                <project>nbproject/jfc/Notepad</project>
-                <project>nbproject/jfc/SampleTree</project>
-                <project>nbproject/jfc/Stylepad</project>
+                <project>nbproject/jfc/Metblworks</project>
+                <project>nbproject/jfc/Notepbd</project>
+                <project>nbproject/jfc/SbmpleTree</project>
+                <project>nbproject/jfc/Stylepbd</project>
                 <project>nbproject/jfc/SwingApplet</project>
-                <project>nbproject/jfc/TableExample</project>
-                <project>nbproject/jfc/TransparentRuler</project>
+                <project>nbproject/jfc/TbbleExbmple</project>
+                <project>nbproject/jfc/TrbnspbrentRuler</project>
                 <project>nbproject/scripting/jconsole-plugin</project>
-                <project>nbproject/management/FullThreadDump</project>
-                <project>nbproject/management/JTop</project>
-                <project>nbproject/management/MemoryMonitor</project>
-                <project>nbproject/management/VerboseGC</project>
+                <project>nbproject/mbnbgement/FullThrebdDump</project>
+                <project>nbproject/mbnbgement/JTop</project>
+                <project>nbproject/mbnbgement/MemoryMonitor</project>
+                <project>nbproject/mbnbgement/VerboseGC</project>
             </subprojects>
-        </general-data>
-    </configuration>
+        </generbl-dbtb>
+    </configurbtion>
 </project>

@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,15 +30,15 @@
  * WARNING: THIS FILE IS MACHINE GENERATED. DO NOT HAND EDIT IT UNLESS
  * YOU REALLY KNOW WHAT YOU'RE DOING.
  *
- * Generated on: 07/20/2005 10:43:59 AM PDT
+ * Generbted on: 07/20/2005 10:43:59 AM PDT
  */
 
 #include "LETypes.h"
-#include "DefaultCharMapper.h"
+#include "DefbultChbrMbpper.h"
 
 U_NAMESPACE_BEGIN
 
-const LEUnicode32 DefaultCharMapper::mirroredChars[] = {
+const LEUnicode32 DefbultChbrMbpper::mirroredChbrs[] = {
     0x0028, 0x0029, 0x003C, 0x003E, 0x005B, 0x005D, 0x007B, 0x007D,
     0x00AB, 0x00BB, 0x2039, 0x203A, 0x2045, 0x2046, 0x207D, 0x207E,
     0x208D, 0x208E, 0x2208, 0x2209, 0x220A, 0x220B, 0x220C, 0x220D,
@@ -83,7 +83,7 @@ const LEUnicode32 DefaultCharMapper::mirroredChars[] = {
     0xFF5F, 0xFF60, 0xFF62, 0xFF63
 };
 
-const LEUnicode32 DefaultCharMapper::srahCderorrim[] = {
+const LEUnicode32 DefbultChbrMbpper::srbhCderorrim[] = {
     0x0029, 0x0028, 0x003E, 0x003C, 0x005D, 0x005B, 0x007D, 0x007B,
     0x00BB, 0x00AB, 0x203A, 0x2039, 0x2046, 0x2045, 0x207E, 0x207D,
     0x208E, 0x208D, 0x220B, 0x220C, 0x220D, 0x2208, 0x2209, 0x220A,
@@ -128,6 +128,6 @@ const LEUnicode32 DefaultCharMapper::srahCderorrim[] = {
     0xFF60, 0xFF5F, 0xFF63, 0xFF62
 };
 
-const le_int32 DefaultCharMapper::mirroredCharsCount = 332;
+const le_int32 DefbultChbrMbpper::mirroredChbrsCount = 332;
 
 U_NAMESPACE_END

@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.sasl;
+pbckbge jbvbx.security.sbsl;
 
 /**
- * Performs SASL authentication as a server.
+ * Performs SASL buthenticbtion bs b server.
  *<p>
- * A server such an LDAP server gets an instance of this
- * class in order to perform authentication defined by a specific SASL
- * mechanism. Invoking methods on the {@code SaslServer} instance
- * generates challenges according to the SASL
- * mechanism implemented by the {@code SaslServer}.
- * As the authentication proceeds, the instance
- * encapsulates the state of a SASL server's authentication exchange.
+ * A server such bn LDAP server gets bn instbnce of this
+ * clbss in order to perform buthenticbtion defined by b specific SASL
+ * mechbnism. Invoking methods on the {@code SbslServer} instbnce
+ * generbtes chbllenges bccording to the SASL
+ * mechbnism implemented by the {@code SbslServer}.
+ * As the buthenticbtion proceeds, the instbnce
+ * encbpsulbtes the stbte of b SASL server's buthenticbtion exchbnge.
  *<p>
- * Here's an example of how an LDAP server might use a {@code SaslServer}.
- * It first gets an instance of a {@code SaslServer} for the SASL mechanism
+ * Here's bn exbmple of how bn LDAP server might use b {@code SbslServer}.
+ * It first gets bn instbnce of b {@code SbslServer} for the SASL mechbnism
  * requested by the client:
  *<blockquote><pre>
- * SaslServer ss = Sasl.createSaslServer(mechanism,
- *     "ldap", myFQDN, props, callbackHandler);
+ * SbslServer ss = Sbsl.crebteSbslServer(mechbnism,
+ *     "ldbp", myFQDN, props, cbllbbckHbndler);
  *</pre></blockquote>
- * It can then proceed to use the server for authentication.
- * For example, suppose the LDAP server received an LDAP BIND request
- * containing the name of the SASL mechanism and an (optional) initial
- * response. It then might use the server as follows:
+ * It cbn then proceed to use the server for buthenticbtion.
+ * For exbmple, suppose the LDAP server received bn LDAP BIND request
+ * contbining the nbme of the SASL mechbnism bnd bn (optionbl) initibl
+ * response. It then might use the server bs follows:
  *<blockquote><pre>{@code
  * while (!ss.isComplete()) {
  *     try {
- *         byte[] challenge = ss.evaluateResponse(response);
+ *         byte[] chbllenge = ss.evblubteResponse(response);
  *         if (ss.isComplete()) {
- *             status = ldap.sendBindResponse(mechanism, challenge, SUCCESS);
+ *             stbtus = ldbp.sendBindResponse(mechbnism, chbllenge, SUCCESS);
  *         } else {
- *             status = ldap.sendBindResponse(mechanism, challenge,
+ *             stbtus = ldbp.sendBindResponse(mechbnism, chbllenge,
                    SASL_BIND_IN_PROGRESS);
- *             response = ldap.readBindRequest();
+ *             response = ldbp.rebdBindRequest();
  *         }
- *     } catch (SaslException e) {
- *          status = ldap.sendErrorResponse(e);
- *          break;
+ *     } cbtch (SbslException e) {
+ *          stbtus = ldbp.sendErrorResponse(e);
+ *          brebk;
  *     }
  * }
- * if (ss.isComplete() && status == SUCCESS) {
- *    String qop = (String) sc.getNegotiatedProperty(Sasl.QOP);
+ * if (ss.isComplete() && stbtus == SUCCESS) {
+ *    String qop = (String) sc.getNegotibtedProperty(Sbsl.QOP);
  *    if (qop != null
- *        && (qop.equalsIgnoreCase("auth-int")
- *            || qop.equalsIgnoreCase("auth-conf"))) {
+ *        && (qop.equblsIgnoreCbse("buth-int")
+ *            || qop.equblsIgnoreCbse("buth-conf"))) {
  *
- *      // Use SaslServer.wrap() and SaslServer.unwrap() for future
- *      // communication with client
- *      ldap.in = new SecureInputStream(ss, ldap.in);
- *      ldap.out = new SecureOutputStream(ss, ldap.out);
+ *      // Use SbslServer.wrbp() bnd SbslServer.unwrbp() for future
+ *      // communicbtion with client
+ *      ldbp.in = new SecureInputStrebm(ss, ldbp.in);
+ *      ldbp.out = new SecureOutputStrebm(ss, ldbp.out);
  *    }
  * }
  *}</pre></blockquote>
  *
  * @since 1.5
  *
- * @see Sasl
- * @see SaslServerFactory
+ * @see Sbsl
+ * @see SbslServerFbctory
  *
- * @author Rosanna Lee
- * @author Rob Weltman
+ * @buthor Rosbnnb Lee
+ * @buthor Rob Weltmbn
  */
-public abstract interface SaslServer {
+public bbstrbct interfbce SbslServer {
 
     /**
-     * Returns the IANA-registered mechanism name of this SASL server.
+     * Returns the IANA-registered mechbnism nbme of this SASL server.
      * (e.g. "CRAM-MD5", "GSSAPI").
-     * @return A non-null string representing the IANA-registered mechanism name.
+     * @return A non-null string representing the IANA-registered mechbnism nbme.
      */
-    public abstract String getMechanismName();
+    public bbstrbct String getMechbnismNbme();
 
     /**
-     * Evaluates the response data and generates a challenge.
+     * Evblubtes the response dbtb bnd generbtes b chbllenge.
      *
-     * If a response is received from the client during the authentication
-     * process, this method is called to prepare an appropriate next
-     * challenge to submit to the client. The challenge is null if the
-     * authentication has succeeded and no more challenge data is to be sent
-     * to the client. It is non-null if the authentication must be continued
-     * by sending a challenge to the client, or if the authentication has
-     * succeeded but challenge data needs to be processed by the client.
-     * {@code isComplete()} should be called
-     * after each call to {@code evaluateResponse()},to determine if any further
+     * If b response is received from the client during the buthenticbtion
+     * process, this method is cblled to prepbre bn bppropribte next
+     * chbllenge to submit to the client. The chbllenge is null if the
+     * buthenticbtion hbs succeeded bnd no more chbllenge dbtb is to be sent
+     * to the client. It is non-null if the buthenticbtion must be continued
+     * by sending b chbllenge to the client, or if the buthenticbtion hbs
+     * succeeded but chbllenge dbtb needs to be processed by the client.
+     * {@code isComplete()} should be cblled
+     * bfter ebch cbll to {@code evblubteResponse()},to determine if bny further
      * response is needed from the client.
      *
-     * @param response The non-null (but possibly empty) response sent
+     * @pbrbm response The non-null (but possibly empty) response sent
      * by the client.
      *
-     * @return The possibly null challenge to send to the client.
-     * It is null if the authentication has succeeded and there is
-     * no more challenge data to be sent to the client.
-     * @exception SaslException If an error occurred while processing
-     * the response or generating a challenge.
+     * @return The possibly null chbllenge to send to the client.
+     * It is null if the buthenticbtion hbs succeeded bnd there is
+     * no more chbllenge dbtb to be sent to the client.
+     * @exception SbslException If bn error occurred while processing
+     * the response or generbting b chbllenge.
      */
-    public abstract byte[] evaluateResponse(byte[] response)
-        throws SaslException;
+    public bbstrbct byte[] evblubteResponse(byte[] response)
+        throws SbslException;
 
     /**
-      * Determines whether the authentication exchange has completed.
-      * This method is typically called after each invocation of
-      * {@code evaluateResponse()} to determine whether the
-      * authentication has completed successfully or should be continued.
-      * @return true if the authentication exchange has completed; false otherwise.
+      * Determines whether the buthenticbtion exchbnge hbs completed.
+      * This method is typicblly cblled bfter ebch invocbtion of
+      * {@code evblubteResponse()} to determine whether the
+      * buthenticbtion hbs completed successfully or should be continued.
+      * @return true if the buthenticbtion exchbnge hbs completed; fblse otherwise.
       */
-    public abstract boolean isComplete();
+    public bbstrbct boolebn isComplete();
 
     /**
-     * Reports the authorization ID in effect for the client of this
+     * Reports the buthorizbtion ID in effect for the client of this
      * session.
-     * This method can only be called if isComplete() returns true.
-     * @return The authorization ID of the client.
-     * @exception IllegalStateException if this authentication session has not completed
+     * This method cbn only be cblled if isComplete() returns true.
+     * @return The buthorizbtion ID of the client.
+     * @exception IllegblStbteException if this buthenticbtion session hbs not completed
      */
-    public String getAuthorizationID();
+    public String getAuthorizbtionID();
 
     /**
-     * Unwraps a byte array received from the client.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when {@code isComplete()} returns true) and only if
-     * the authentication exchange has negotiated integrity and/or privacy
-     * as the quality of protection; otherwise,
-     * an {@code IllegalStateException} is thrown.
+     * Unwrbps b byte brrby received from the client.
+     * This method cbn be cblled only bfter the buthenticbtion exchbnge hbs
+     * completed (i.e., when {@code isComplete()} returns true) bnd only if
+     * the buthenticbtion exchbnge hbs negotibted integrity bnd/or privbcy
+     * bs the qublity of protection; otherwise,
+     * bn {@code IllegblStbteException} is thrown.
      *<p>
-     * {@code incoming} is the contents of the SASL buffer as defined in RFC 2222
-     * without the leading four octet field that represents the length.
-     * {@code offset} and {@code len} specify the portion of {@code incoming}
+     * {@code incoming} is the contents of the SASL buffer bs defined in RFC 2222
+     * without the lebding four octet field thbt represents the length.
+     * {@code offset} bnd {@code len} specify the portion of {@code incoming}
      * to use.
      *
-     * @param incoming A non-null byte array containing the encoded bytes
+     * @pbrbm incoming A non-null byte brrby contbining the encoded bytes
      *                from the client.
-     * @param offset The starting position at {@code incoming} of the bytes to use.
-     * @param len The number of bytes from {@code incoming} to use.
-     * @return A non-null byte array containing the decoded bytes.
-     * @exception SaslException if {@code incoming} cannot be successfully
-     * unwrapped.
-     * @exception IllegalStateException if the authentication exchange has
-     * not completed, or if the negotiated quality of protection
-     * has neither integrity nor privacy
+     * @pbrbm offset The stbrting position bt {@code incoming} of the bytes to use.
+     * @pbrbm len The number of bytes from {@code incoming} to use.
+     * @return A non-null byte brrby contbining the decoded bytes.
+     * @exception SbslException if {@code incoming} cbnnot be successfully
+     * unwrbpped.
+     * @exception IllegblStbteException if the buthenticbtion exchbnge hbs
+     * not completed, or if the negotibted qublity of protection
+     * hbs neither integrity nor privbcy
      */
-    public abstract byte[] unwrap(byte[] incoming, int offset, int len)
-        throws SaslException;
+    public bbstrbct byte[] unwrbp(byte[] incoming, int offset, int len)
+        throws SbslException;
 
     /**
-     * Wraps a byte array to be sent to the client.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when {@code isComplete()} returns true) and only if
-     * the authentication exchange has negotiated integrity and/or privacy
-     * as the quality of protection; otherwise, a {@code SaslException} is thrown.
+     * Wrbps b byte brrby to be sent to the client.
+     * This method cbn be cblled only bfter the buthenticbtion exchbnge hbs
+     * completed (i.e., when {@code isComplete()} returns true) bnd only if
+     * the buthenticbtion exchbnge hbs negotibted integrity bnd/or privbcy
+     * bs the qublity of protection; otherwise, b {@code SbslException} is thrown.
      *<p>
      * The result of this method
-     * will make up the contents of the SASL buffer as defined in RFC 2222
-     * without the leading four octet field that represents the length.
-     * {@code offset} and {@code len} specify the portion of {@code outgoing}
+     * will mbke up the contents of the SASL buffer bs defined in RFC 2222
+     * without the lebding four octet field thbt represents the length.
+     * {@code offset} bnd {@code len} specify the portion of {@code outgoing}
      * to use.
      *
-     * @param outgoing A non-null byte array containing the bytes to encode.
-     * @param offset The starting position at {@code outgoing} of the bytes to use.
-     * @param len The number of bytes from {@code outgoing} to use.
-     * @return A non-null byte array containing the encoded bytes.
-     * @exception SaslException if {@code outgoing} cannot be successfully
-     * wrapped.
-     * @exception IllegalStateException if the authentication exchange has
-     * not completed, or if the negotiated quality of protection has
-     * neither integrity nor privacy.
+     * @pbrbm outgoing A non-null byte brrby contbining the bytes to encode.
+     * @pbrbm offset The stbrting position bt {@code outgoing} of the bytes to use.
+     * @pbrbm len The number of bytes from {@code outgoing} to use.
+     * @return A non-null byte brrby contbining the encoded bytes.
+     * @exception SbslException if {@code outgoing} cbnnot be successfully
+     * wrbpped.
+     * @exception IllegblStbteException if the buthenticbtion exchbnge hbs
+     * not completed, or if the negotibted qublity of protection hbs
+     * neither integrity nor privbcy.
      */
-    public abstract byte[] wrap(byte[] outgoing, int offset, int len)
-        throws SaslException;
+    public bbstrbct byte[] wrbp(byte[] outgoing, int offset, int len)
+        throws SbslException;
 
     /**
-     * Retrieves the negotiated property.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when {@code isComplete()} returns true); otherwise, an
-     * {@code IllegalStateException} is thrown.
+     * Retrieves the negotibted property.
+     * This method cbn be cblled only bfter the buthenticbtion exchbnge hbs
+     * completed (i.e., when {@code isComplete()} returns true); otherwise, bn
+     * {@code IllegblStbteException} is thrown.
      * <p>
-     * The {@link Sasl} class includes several well-known property names
-     * (For example, {@link Sasl#QOP}). A SASL provider can support other
-     * properties which are specific to the vendor and/or a mechanism.
+     * The {@link Sbsl} clbss includes severbl well-known property nbmes
+     * (For exbmple, {@link Sbsl#QOP}). A SASL provider cbn support other
+     * properties which bre specific to the vendor bnd/or b mechbnism.
      *
-     * @param propName the property
-     * @return The value of the negotiated property. If null, the property was
-     * not negotiated or is not applicable to this mechanism.
-     * @exception IllegalStateException if this authentication exchange has not completed
+     * @pbrbm propNbme the property
+     * @return The vblue of the negotibted property. If null, the property wbs
+     * not negotibted or is not bpplicbble to this mechbnism.
+     * @exception IllegblStbteException if this buthenticbtion exchbnge hbs not completed
      */
 
-    public abstract Object getNegotiatedProperty(String propName);
+    public bbstrbct Object getNegotibtedProperty(String propNbme);
 
      /**
-      * Disposes of any system resources or security-sensitive information
-      * the SaslServer might be using. Invoking this method invalidates
-      * the SaslServer instance. This method is idempotent.
-      * @throws SaslException If a problem was encountered while disposing
+      * Disposes of bny system resources or security-sensitive informbtion
+      * the SbslServer might be using. Invoking this method invblidbtes
+      * the SbslServer instbnce. This method is idempotent.
+      * @throws SbslException If b problem wbs encountered while disposing
       * the resources.
       */
-    public abstract void dispose() throws SaslException;
+    public bbstrbct void dispose() throws SbslException;
 }

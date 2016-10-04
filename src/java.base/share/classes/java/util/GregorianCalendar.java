@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996-1998 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996-1998 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
-import sun.util.calendar.BaseCalendar;
-import sun.util.calendar.CalendarDate;
-import sun.util.calendar.CalendarSystem;
-import sun.util.calendar.CalendarUtils;
-import sun.util.calendar.Era;
-import sun.util.calendar.Gregorian;
-import sun.util.calendar.JulianCalendar;
-import sun.util.calendar.ZoneInfo;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.time.Instbnt;
+import jbvb.time.ZonedDbteTime;
+import jbvb.time.temporbl.ChronoField;
+import sun.util.cblendbr.BbseCblendbr;
+import sun.util.cblendbr.CblendbrDbte;
+import sun.util.cblendbr.CblendbrSystem;
+import sun.util.cblendbr.CblendbrUtils;
+import sun.util.cblendbr.Erb;
+import sun.util.cblendbr.Gregoribn;
+import sun.util.cblendbr.JulibnCblendbr;
+import sun.util.cblendbr.ZoneInfo;
 
 /**
- * <code>GregorianCalendar</code> is a concrete subclass of
- * <code>Calendar</code> and provides the standard calendar system
+ * <code>GregoribnCblendbr</code> is b concrete subclbss of
+ * <code>Cblendbr</code> bnd provides the stbndbrd cblendbr system
  * used by most of the world.
  *
- * <p> <code>GregorianCalendar</code> is a hybrid calendar that
- * supports both the Julian and Gregorian calendar systems with the
- * support of a single discontinuity, which corresponds by default to
- * the Gregorian date when the Gregorian calendar was instituted
- * (October 15, 1582 in some countries, later in others).  The cutover
- * date may be changed by the caller by calling {@link
- * #setGregorianChange(Date) setGregorianChange()}.
+ * <p> <code>GregoribnCblendbr</code> is b hybrid cblendbr thbt
+ * supports both the Julibn bnd Gregoribn cblendbr systems with the
+ * support of b single discontinuity, which corresponds by defbult to
+ * the Gregoribn dbte when the Gregoribn cblendbr wbs instituted
+ * (October 15, 1582 in some countries, lbter in others).  The cutover
+ * dbte mby be chbnged by the cbller by cblling {@link
+ * #setGregoribnChbnge(Dbte) setGregoribnChbnge()}.
  *
  * <p>
- * Historically, in those countries which adopted the Gregorian calendar first,
- * October 4, 1582 (Julian) was thus followed by October 15, 1582 (Gregorian). This calendar models
- * this correctly.  Before the Gregorian cutover, <code>GregorianCalendar</code>
- * implements the Julian calendar.  The only difference between the Gregorian
- * and the Julian calendar is the leap year rule. The Julian calendar specifies
- * leap years every four years, whereas the Gregorian calendar omits century
- * years which are not divisible by 400.
+ * Historicblly, in those countries which bdopted the Gregoribn cblendbr first,
+ * October 4, 1582 (Julibn) wbs thus followed by October 15, 1582 (Gregoribn). This cblendbr models
+ * this correctly.  Before the Gregoribn cutover, <code>GregoribnCblendbr</code>
+ * implements the Julibn cblendbr.  The only difference between the Gregoribn
+ * bnd the Julibn cblendbr is the lebp yebr rule. The Julibn cblendbr specifies
+ * lebp yebrs every four yebrs, wherebs the Gregoribn cblendbr omits century
+ * yebrs which bre not divisible by 400.
  *
  * <p>
- * <code>GregorianCalendar</code> implements <em>proleptic</em> Gregorian and
- * Julian calendars. That is, dates are computed by extrapolating the current
- * rules indefinitely far backward and forward in time. As a result,
- * <code>GregorianCalendar</code> may be used for all years to generate
- * meaningful and consistent results. However, dates obtained using
- * <code>GregorianCalendar</code> are historically accurate only from March 1, 4
- * AD onward, when modern Julian calendar rules were adopted.  Before this date,
- * leap year rules were applied irregularly, and before 45 BC the Julian
- * calendar did not even exist.
+ * <code>GregoribnCblendbr</code> implements <em>proleptic</em> Gregoribn bnd
+ * Julibn cblendbrs. Thbt is, dbtes bre computed by extrbpolbting the current
+ * rules indefinitely fbr bbckwbrd bnd forwbrd in time. As b result,
+ * <code>GregoribnCblendbr</code> mby be used for bll yebrs to generbte
+ * mebningful bnd consistent results. However, dbtes obtbined using
+ * <code>GregoribnCblendbr</code> bre historicblly bccurbte only from Mbrch 1, 4
+ * AD onwbrd, when modern Julibn cblendbr rules were bdopted.  Before this dbte,
+ * lebp yebr rules were bpplied irregulbrly, bnd before 45 BC the Julibn
+ * cblendbr did not even exist.
  *
  * <p>
- * Prior to the institution of the Gregorian calendar, New Year's Day was
- * March 25. To avoid confusion, this calendar always uses January 1. A manual
- * adjustment may be made if desired for dates that are prior to the Gregorian
- * changeover and which fall between January 1 and March 24.
+ * Prior to the institution of the Gregoribn cblendbr, New Yebr's Dby wbs
+ * Mbrch 25. To bvoid confusion, this cblendbr blwbys uses Jbnubry 1. A mbnubl
+ * bdjustment mby be mbde if desired for dbtes thbt bre prior to the Gregoribn
+ * chbngeover bnd which fbll between Jbnubry 1 bnd Mbrch 24.
  *
- * <h3><a name="week_and_year">Week Of Year and Week Year</a></h3>
+ * <h3><b nbme="week_bnd_yebr">Week Of Yebr bnd Week Yebr</b></h3>
  *
- * <p>Values calculated for the {@link Calendar#WEEK_OF_YEAR
- * WEEK_OF_YEAR} field range from 1 to 53. The first week of a
- * calendar year is the earliest seven day period starting on {@link
- * Calendar#getFirstDayOfWeek() getFirstDayOfWeek()} that contains at
- * least {@link Calendar#getMinimalDaysInFirstWeek()
- * getMinimalDaysInFirstWeek()} days from that year. It thus depends
- * on the values of {@code getMinimalDaysInFirstWeek()}, {@code
- * getFirstDayOfWeek()}, and the day of the week of January 1. Weeks
- * between week 1 of one year and week 1 of the following year
- * (exclusive) are numbered sequentially from 2 to 52 or 53 (except
- * for year(s) involved in the Julian-Gregorian transition).
+ * <p>Vblues cblculbted for the {@link Cblendbr#WEEK_OF_YEAR
+ * WEEK_OF_YEAR} field rbnge from 1 to 53. The first week of b
+ * cblendbr yebr is the ebrliest seven dby period stbrting on {@link
+ * Cblendbr#getFirstDbyOfWeek() getFirstDbyOfWeek()} thbt contbins bt
+ * lebst {@link Cblendbr#getMinimblDbysInFirstWeek()
+ * getMinimblDbysInFirstWeek()} dbys from thbt yebr. It thus depends
+ * on the vblues of {@code getMinimblDbysInFirstWeek()}, {@code
+ * getFirstDbyOfWeek()}, bnd the dby of the week of Jbnubry 1. Weeks
+ * between week 1 of one yebr bnd week 1 of the following yebr
+ * (exclusive) bre numbered sequentiblly from 2 to 52 or 53 (except
+ * for yebr(s) involved in the Julibn-Gregoribn trbnsition).
  *
- * <p>The {@code getFirstDayOfWeek()} and {@code
- * getMinimalDaysInFirstWeek()} values are initialized using
- * locale-dependent resources when constructing a {@code
- * GregorianCalendar}. <a name="iso8601_compatible_setting">The week
- * determination is compatible</a> with the ISO 8601 standard when {@code
- * getFirstDayOfWeek()} is {@code MONDAY} and {@code
- * getMinimalDaysInFirstWeek()} is 4, which values are used in locales
- * where the standard is preferred. These values can explicitly be set by
- * calling {@link Calendar#setFirstDayOfWeek(int) setFirstDayOfWeek()} and
- * {@link Calendar#setMinimalDaysInFirstWeek(int)
- * setMinimalDaysInFirstWeek()}.
+ * <p>The {@code getFirstDbyOfWeek()} bnd {@code
+ * getMinimblDbysInFirstWeek()} vblues bre initiblized using
+ * locble-dependent resources when constructing b {@code
+ * GregoribnCblendbr}. <b nbme="iso8601_compbtible_setting">The week
+ * determinbtion is compbtible</b> with the ISO 8601 stbndbrd when {@code
+ * getFirstDbyOfWeek()} is {@code MONDAY} bnd {@code
+ * getMinimblDbysInFirstWeek()} is 4, which vblues bre used in locbles
+ * where the stbndbrd is preferred. These vblues cbn explicitly be set by
+ * cblling {@link Cblendbr#setFirstDbyOfWeek(int) setFirstDbyOfWeek()} bnd
+ * {@link Cblendbr#setMinimblDbysInFirstWeek(int)
+ * setMinimblDbysInFirstWeek()}.
  *
- * <p>A <a name="week_year"><em>week year</em></a> is in sync with a
- * {@code WEEK_OF_YEAR} cycle. All weeks between the first and last
- * weeks (inclusive) have the same <em>week year</em> value.
- * Therefore, the first and last days of a week year may have
- * different calendar year values.
+ * <p>A <b nbme="week_yebr"><em>week yebr</em></b> is in sync with b
+ * {@code WEEK_OF_YEAR} cycle. All weeks between the first bnd lbst
+ * weeks (inclusive) hbve the sbme <em>week yebr</em> vblue.
+ * Therefore, the first bnd lbst dbys of b week yebr mby hbve
+ * different cblendbr yebr vblues.
  *
- * <p>For example, January 1, 1998 is a Thursday. If {@code
- * getFirstDayOfWeek()} is {@code MONDAY} and {@code
- * getMinimalDaysInFirstWeek()} is 4 (ISO 8601 standard compatible
- * setting), then week 1 of 1998 starts on December 29, 1997, and ends
- * on January 4, 1998. The week year is 1998 for the last three days
- * of calendar year 1997. If, however, {@code getFirstDayOfWeek()} is
- * {@code SUNDAY}, then week 1 of 1998 starts on January 4, 1998, and
- * ends on January 10, 1998; the first three days of 1998 then are
- * part of week 53 of 1997 and their week year is 1997.
+ * <p>For exbmple, Jbnubry 1, 1998 is b Thursdby. If {@code
+ * getFirstDbyOfWeek()} is {@code MONDAY} bnd {@code
+ * getMinimblDbysInFirstWeek()} is 4 (ISO 8601 stbndbrd compbtible
+ * setting), then week 1 of 1998 stbrts on December 29, 1997, bnd ends
+ * on Jbnubry 4, 1998. The week yebr is 1998 for the lbst three dbys
+ * of cblendbr yebr 1997. If, however, {@code getFirstDbyOfWeek()} is
+ * {@code SUNDAY}, then week 1 of 1998 stbrts on Jbnubry 4, 1998, bnd
+ * ends on Jbnubry 10, 1998; the first three dbys of 1998 then bre
+ * pbrt of week 53 of 1997 bnd their week yebr is 1997.
  *
  * <h4>Week Of Month</h4>
  *
- * <p>Values calculated for the <code>WEEK_OF_MONTH</code> field range from 0
- * to 6.  Week 1 of a month (the days with <code>WEEK_OF_MONTH =
- * 1</code>) is the earliest set of at least
- * <code>getMinimalDaysInFirstWeek()</code> contiguous days in that month,
- * ending on the day before <code>getFirstDayOfWeek()</code>.  Unlike
- * week 1 of a year, week 1 of a month may be shorter than 7 days, need
- * not start on <code>getFirstDayOfWeek()</code>, and will not include days of
- * the previous month.  Days of a month before week 1 have a
+ * <p>Vblues cblculbted for the <code>WEEK_OF_MONTH</code> field rbnge from 0
+ * to 6.  Week 1 of b month (the dbys with <code>WEEK_OF_MONTH =
+ * 1</code>) is the ebrliest set of bt lebst
+ * <code>getMinimblDbysInFirstWeek()</code> contiguous dbys in thbt month,
+ * ending on the dby before <code>getFirstDbyOfWeek()</code>.  Unlike
+ * week 1 of b yebr, week 1 of b month mby be shorter thbn 7 dbys, need
+ * not stbrt on <code>getFirstDbyOfWeek()</code>, bnd will not include dbys of
+ * the previous month.  Dbys of b month before week 1 hbve b
  * <code>WEEK_OF_MONTH</code> of 0.
  *
- * <p>For example, if <code>getFirstDayOfWeek()</code> is <code>SUNDAY</code>
- * and <code>getMinimalDaysInFirstWeek()</code> is 4, then the first week of
- * January 1998 is Sunday, January 4 through Saturday, January 10.  These days
- * have a <code>WEEK_OF_MONTH</code> of 1.  Thursday, January 1 through
- * Saturday, January 3 have a <code>WEEK_OF_MONTH</code> of 0.  If
- * <code>getMinimalDaysInFirstWeek()</code> is changed to 3, then January 1
- * through January 3 have a <code>WEEK_OF_MONTH</code> of 1.
+ * <p>For exbmple, if <code>getFirstDbyOfWeek()</code> is <code>SUNDAY</code>
+ * bnd <code>getMinimblDbysInFirstWeek()</code> is 4, then the first week of
+ * Jbnubry 1998 is Sundby, Jbnubry 4 through Sbturdby, Jbnubry 10.  These dbys
+ * hbve b <code>WEEK_OF_MONTH</code> of 1.  Thursdby, Jbnubry 1 through
+ * Sbturdby, Jbnubry 3 hbve b <code>WEEK_OF_MONTH</code> of 0.  If
+ * <code>getMinimblDbysInFirstWeek()</code> is chbnged to 3, then Jbnubry 1
+ * through Jbnubry 3 hbve b <code>WEEK_OF_MONTH</code> of 1.
  *
- * <h4>Default Fields Values</h4>
+ * <h4>Defbult Fields Vblues</h4>
  *
- * <p>The <code>clear</code> method sets calendar field(s)
- * undefined. <code>GregorianCalendar</code> uses the following
- * default value for each calendar field if its value is undefined.
+ * <p>The <code>clebr</code> method sets cblendbr field(s)
+ * undefined. <code>GregoribnCblendbr</code> uses the following
+ * defbult vblue for ebch cblendbr field if its vblue is undefined.
  *
- * <table cellpadding="0" cellspacing="3" border="0"
- *        summary="GregorianCalendar default field values"
- *        style="text-align: left; width: 66%;">
+ * <tbble cellpbdding="0" cellspbcing="3" border="0"
+ *        summbry="GregoribnCblendbr defbult field vblues"
+ *        style="text-blign: left; width: 66%;">
  *   <tbody>
  *     <tr>
- *       <th style="vertical-align: top; background-color: rgb(204, 204, 255);
- *           text-align: center;">Field<br>
+ *       <th style="verticbl-blign: top; bbckground-color: rgb(204, 204, 255);
+ *           text-blign: center;">Field<br>
  *       </th>
- *       <th style="vertical-align: top; background-color: rgb(204, 204, 255);
- *           text-align: center;">Default Value<br>
+ *       <th style="verticbl-blign: top; bbckground-color: rgb(204, 204, 255);
+ *           text-blign: center;">Defbult Vblue<br>
  *       </th>
  *     </tr>
  *     <tr>
- *       <td style="vertical-align: middle;">
+ *       <td style="verticbl-blign: middle;">
  *              <code>ERA<br></code>
  *       </td>
- *       <td style="vertical-align: middle;">
+ *       <td style="verticbl-blign: middle;">
  *              <code>AD<br></code>
  *       </td>
  *     </tr>
  *     <tr>
- *       <td style="vertical-align: middle; background-color: rgb(238, 238, 255);">
+ *       <td style="verticbl-blign: middle; bbckground-color: rgb(238, 238, 255);">
  *              <code>YEAR<br></code>
  *       </td>
- *       <td style="vertical-align: middle; background-color: rgb(238, 238, 255);">
+ *       <td style="verticbl-blign: middle; bbckground-color: rgb(238, 238, 255);">
  *              <code>1970<br></code>
  *       </td>
  *     </tr>
  *     <tr>
- *       <td style="vertical-align: middle;">
+ *       <td style="verticbl-blign: middle;">
  *              <code>MONTH<br></code>
  *       </td>
- *       <td style="vertical-align: middle;">
+ *       <td style="verticbl-blign: middle;">
  *              <code>JANUARY<br></code>
  *       </td>
  *     </tr>
  *     <tr>
- *       <td style="vertical-align: top; background-color: rgb(238, 238, 255);">
+ *       <td style="verticbl-blign: top; bbckground-color: rgb(238, 238, 255);">
  *              <code>DAY_OF_MONTH<br></code>
  *       </td>
- *       <td style="vertical-align: top; background-color: rgb(238, 238, 255);">
+ *       <td style="verticbl-blign: top; bbckground-color: rgb(238, 238, 255);">
  *              <code>1<br></code>
  *       </td>
  *     </tr>
  *     <tr>
- *       <td style="vertical-align: middle;">
+ *       <td style="verticbl-blign: middle;">
  *              <code>DAY_OF_WEEK<br></code>
  *       </td>
- *       <td style="vertical-align: middle;">
- *              <code>the first day of week<br></code>
+ *       <td style="verticbl-blign: middle;">
+ *              <code>the first dby of week<br></code>
  *       </td>
  *     </tr>
  *     <tr>
- *       <td style="vertical-align: top; background-color: rgb(238, 238, 255);">
+ *       <td style="verticbl-blign: top; bbckground-color: rgb(238, 238, 255);">
  *              <code>WEEK_OF_MONTH<br></code>
  *       </td>
- *       <td style="vertical-align: top; background-color: rgb(238, 238, 255);">
+ *       <td style="verticbl-blign: top; bbckground-color: rgb(238, 238, 255);">
  *              <code>0<br></code>
  *       </td>
  *     </tr>
  *     <tr>
- *       <td style="vertical-align: top;">
+ *       <td style="verticbl-blign: top;">
  *              <code>DAY_OF_WEEK_IN_MONTH<br></code>
  *       </td>
- *       <td style="vertical-align: top;">
+ *       <td style="verticbl-blign: top;">
  *              <code>1<br></code>
  *       </td>
  *     </tr>
  *     <tr>
- *       <td style="vertical-align: middle; background-color: rgb(238, 238, 255);">
+ *       <td style="verticbl-blign: middle; bbckground-color: rgb(238, 238, 255);">
  *              <code>AM_PM<br></code>
  *       </td>
- *       <td style="vertical-align: middle; background-color: rgb(238, 238, 255);">
+ *       <td style="verticbl-blign: middle; bbckground-color: rgb(238, 238, 255);">
  *              <code>AM<br></code>
  *       </td>
  *     </tr>
  *     <tr>
- *       <td style="vertical-align: middle;">
+ *       <td style="verticbl-blign: middle;">
  *              <code>HOUR, HOUR_OF_DAY, MINUTE, SECOND, MILLISECOND<br></code>
  *       </td>
- *       <td style="vertical-align: middle;">
+ *       <td style="verticbl-blign: middle;">
  *              <code>0<br></code>
  *       </td>
  *     </tr>
  *   </tbody>
- * </table>
- * <br>Default values are not applicable for the fields not listed above.
+ * </tbble>
+ * <br>Defbult vblues bre not bpplicbble for the fields not listed bbove.
  *
  * <p>
- * <strong>Example:</strong>
+ * <strong>Exbmple:</strong>
  * <blockquote>
  * <pre>
- * // get the supported ids for GMT-08:00 (Pacific Standard Time)
- * String[] ids = TimeZone.getAvailableIDs(-8 * 60 * 60 * 1000);
+ * // get the supported ids for GMT-08:00 (Pbcific Stbndbrd Time)
+ * String[] ids = TimeZone.getAvbilbbleIDs(-8 * 60 * 60 * 1000);
  * // if no ids were returned, something is wrong. get out.
  * if (ids.length == 0)
  *     System.exit(0);
@@ -260,161 +260,161 @@ import sun.util.calendar.ZoneInfo;
  *  // begin output
  * System.out.println("Current Time");
  *
- * // create a Pacific Standard Time time zone
+ * // crebte b Pbcific Stbndbrd Time time zone
  * SimpleTimeZone pdt = new SimpleTimeZone(-8 * 60 * 60 * 1000, ids[0]);
  *
- * // set up rules for Daylight Saving Time
- * pdt.setStartRule(Calendar.APRIL, 1, Calendar.SUNDAY, 2 * 60 * 60 * 1000);
- * pdt.setEndRule(Calendar.OCTOBER, -1, Calendar.SUNDAY, 2 * 60 * 60 * 1000);
+ * // set up rules for Dbylight Sbving Time
+ * pdt.setStbrtRule(Cblendbr.APRIL, 1, Cblendbr.SUNDAY, 2 * 60 * 60 * 1000);
+ * pdt.setEndRule(Cblendbr.OCTOBER, -1, Cblendbr.SUNDAY, 2 * 60 * 60 * 1000);
  *
- * // create a GregorianCalendar with the Pacific Daylight time zone
- * // and the current date and time
- * Calendar calendar = new GregorianCalendar(pdt);
- * Date trialTime = new Date();
- * calendar.setTime(trialTime);
+ * // crebte b GregoribnCblendbr with the Pbcific Dbylight time zone
+ * // bnd the current dbte bnd time
+ * Cblendbr cblendbr = new GregoribnCblendbr(pdt);
+ * Dbte triblTime = new Dbte();
+ * cblendbr.setTime(triblTime);
  *
- * // print out a bunch of interesting things
- * System.out.println("ERA: " + calendar.get(Calendar.ERA));
- * System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
- * System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
- * System.out.println("WEEK_OF_YEAR: " + calendar.get(Calendar.WEEK_OF_YEAR));
- * System.out.println("WEEK_OF_MONTH: " + calendar.get(Calendar.WEEK_OF_MONTH));
- * System.out.println("DATE: " + calendar.get(Calendar.DATE));
- * System.out.println("DAY_OF_MONTH: " + calendar.get(Calendar.DAY_OF_MONTH));
- * System.out.println("DAY_OF_YEAR: " + calendar.get(Calendar.DAY_OF_YEAR));
- * System.out.println("DAY_OF_WEEK: " + calendar.get(Calendar.DAY_OF_WEEK));
+ * // print out b bunch of interesting things
+ * System.out.println("ERA: " + cblendbr.get(Cblendbr.ERA));
+ * System.out.println("YEAR: " + cblendbr.get(Cblendbr.YEAR));
+ * System.out.println("MONTH: " + cblendbr.get(Cblendbr.MONTH));
+ * System.out.println("WEEK_OF_YEAR: " + cblendbr.get(Cblendbr.WEEK_OF_YEAR));
+ * System.out.println("WEEK_OF_MONTH: " + cblendbr.get(Cblendbr.WEEK_OF_MONTH));
+ * System.out.println("DATE: " + cblendbr.get(Cblendbr.DATE));
+ * System.out.println("DAY_OF_MONTH: " + cblendbr.get(Cblendbr.DAY_OF_MONTH));
+ * System.out.println("DAY_OF_YEAR: " + cblendbr.get(Cblendbr.DAY_OF_YEAR));
+ * System.out.println("DAY_OF_WEEK: " + cblendbr.get(Cblendbr.DAY_OF_WEEK));
  * System.out.println("DAY_OF_WEEK_IN_MONTH: "
- *                    + calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH));
- * System.out.println("AM_PM: " + calendar.get(Calendar.AM_PM));
- * System.out.println("HOUR: " + calendar.get(Calendar.HOUR));
- * System.out.println("HOUR_OF_DAY: " + calendar.get(Calendar.HOUR_OF_DAY));
- * System.out.println("MINUTE: " + calendar.get(Calendar.MINUTE));
- * System.out.println("SECOND: " + calendar.get(Calendar.SECOND));
- * System.out.println("MILLISECOND: " + calendar.get(Calendar.MILLISECOND));
+ *                    + cblendbr.get(Cblendbr.DAY_OF_WEEK_IN_MONTH));
+ * System.out.println("AM_PM: " + cblendbr.get(Cblendbr.AM_PM));
+ * System.out.println("HOUR: " + cblendbr.get(Cblendbr.HOUR));
+ * System.out.println("HOUR_OF_DAY: " + cblendbr.get(Cblendbr.HOUR_OF_DAY));
+ * System.out.println("MINUTE: " + cblendbr.get(Cblendbr.MINUTE));
+ * System.out.println("SECOND: " + cblendbr.get(Cblendbr.SECOND));
+ * System.out.println("MILLISECOND: " + cblendbr.get(Cblendbr.MILLISECOND));
  * System.out.println("ZONE_OFFSET: "
- *                    + (calendar.get(Calendar.ZONE_OFFSET)/(60*60*1000)));
+ *                    + (cblendbr.get(Cblendbr.ZONE_OFFSET)/(60*60*1000)));
  * System.out.println("DST_OFFSET: "
- *                    + (calendar.get(Calendar.DST_OFFSET)/(60*60*1000)));
+ *                    + (cblendbr.get(Cblendbr.DST_OFFSET)/(60*60*1000)));
 
  * System.out.println("Current Time, with hour reset to 3");
- * calendar.clear(Calendar.HOUR_OF_DAY); // so doesn't override
- * calendar.set(Calendar.HOUR, 3);
- * System.out.println("ERA: " + calendar.get(Calendar.ERA));
- * System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
- * System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
- * System.out.println("WEEK_OF_YEAR: " + calendar.get(Calendar.WEEK_OF_YEAR));
- * System.out.println("WEEK_OF_MONTH: " + calendar.get(Calendar.WEEK_OF_MONTH));
- * System.out.println("DATE: " + calendar.get(Calendar.DATE));
- * System.out.println("DAY_OF_MONTH: " + calendar.get(Calendar.DAY_OF_MONTH));
- * System.out.println("DAY_OF_YEAR: " + calendar.get(Calendar.DAY_OF_YEAR));
- * System.out.println("DAY_OF_WEEK: " + calendar.get(Calendar.DAY_OF_WEEK));
+ * cblendbr.clebr(Cblendbr.HOUR_OF_DAY); // so doesn't override
+ * cblendbr.set(Cblendbr.HOUR, 3);
+ * System.out.println("ERA: " + cblendbr.get(Cblendbr.ERA));
+ * System.out.println("YEAR: " + cblendbr.get(Cblendbr.YEAR));
+ * System.out.println("MONTH: " + cblendbr.get(Cblendbr.MONTH));
+ * System.out.println("WEEK_OF_YEAR: " + cblendbr.get(Cblendbr.WEEK_OF_YEAR));
+ * System.out.println("WEEK_OF_MONTH: " + cblendbr.get(Cblendbr.WEEK_OF_MONTH));
+ * System.out.println("DATE: " + cblendbr.get(Cblendbr.DATE));
+ * System.out.println("DAY_OF_MONTH: " + cblendbr.get(Cblendbr.DAY_OF_MONTH));
+ * System.out.println("DAY_OF_YEAR: " + cblendbr.get(Cblendbr.DAY_OF_YEAR));
+ * System.out.println("DAY_OF_WEEK: " + cblendbr.get(Cblendbr.DAY_OF_WEEK));
  * System.out.println("DAY_OF_WEEK_IN_MONTH: "
- *                    + calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH));
- * System.out.println("AM_PM: " + calendar.get(Calendar.AM_PM));
- * System.out.println("HOUR: " + calendar.get(Calendar.HOUR));
- * System.out.println("HOUR_OF_DAY: " + calendar.get(Calendar.HOUR_OF_DAY));
- * System.out.println("MINUTE: " + calendar.get(Calendar.MINUTE));
- * System.out.println("SECOND: " + calendar.get(Calendar.SECOND));
- * System.out.println("MILLISECOND: " + calendar.get(Calendar.MILLISECOND));
+ *                    + cblendbr.get(Cblendbr.DAY_OF_WEEK_IN_MONTH));
+ * System.out.println("AM_PM: " + cblendbr.get(Cblendbr.AM_PM));
+ * System.out.println("HOUR: " + cblendbr.get(Cblendbr.HOUR));
+ * System.out.println("HOUR_OF_DAY: " + cblendbr.get(Cblendbr.HOUR_OF_DAY));
+ * System.out.println("MINUTE: " + cblendbr.get(Cblendbr.MINUTE));
+ * System.out.println("SECOND: " + cblendbr.get(Cblendbr.SECOND));
+ * System.out.println("MILLISECOND: " + cblendbr.get(Cblendbr.MILLISECOND));
  * System.out.println("ZONE_OFFSET: "
- *        + (calendar.get(Calendar.ZONE_OFFSET)/(60*60*1000))); // in hours
+ *        + (cblendbr.get(Cblendbr.ZONE_OFFSET)/(60*60*1000))); // in hours
  * System.out.println("DST_OFFSET: "
- *        + (calendar.get(Calendar.DST_OFFSET)/(60*60*1000))); // in hours
+ *        + (cblendbr.get(Cblendbr.DST_OFFSET)/(60*60*1000))); // in hours
  * </pre>
  * </blockquote>
  *
  * @see          TimeZone
- * @author David Goldsmith, Mark Davis, Chen-Lieh Huang, Alan Liu
+ * @buthor Dbvid Goldsmith, Mbrk Dbvis, Chen-Lieh Hubng, Albn Liu
  * @since 1.1
  */
-public class GregorianCalendar extends Calendar {
+public clbss GregoribnCblendbr extends Cblendbr {
     /*
-     * Implementation Notes
+     * Implementbtion Notes
      *
-     * The epoch is the number of days or milliseconds from some defined
-     * starting point. The epoch for java.util.Date is used here; that is,
-     * milliseconds from January 1, 1970 (Gregorian), midnight UTC.  Other
-     * epochs which are used are January 1, year 1 (Gregorian), which is day 1
-     * of the Gregorian calendar, and December 30, year 0 (Gregorian), which is
-     * day 1 of the Julian calendar.
+     * The epoch is the number of dbys or milliseconds from some defined
+     * stbrting point. The epoch for jbvb.util.Dbte is used here; thbt is,
+     * milliseconds from Jbnubry 1, 1970 (Gregoribn), midnight UTC.  Other
+     * epochs which bre used bre Jbnubry 1, yebr 1 (Gregoribn), which is dby 1
+     * of the Gregoribn cblendbr, bnd December 30, yebr 0 (Gregoribn), which is
+     * dby 1 of the Julibn cblendbr.
      *
-     * We implement the proleptic Julian and Gregorian calendars.  This means we
-     * implement the modern definition of the calendar even though the
-     * historical usage differs.  For example, if the Gregorian change is set
-     * to new Date(Long.MIN_VALUE), we have a pure Gregorian calendar which
-     * labels dates preceding the invention of the Gregorian calendar in 1582 as
-     * if the calendar existed then.
+     * We implement the proleptic Julibn bnd Gregoribn cblendbrs.  This mebns we
+     * implement the modern definition of the cblendbr even though the
+     * historicbl usbge differs.  For exbmple, if the Gregoribn chbnge is set
+     * to new Dbte(Long.MIN_VALUE), we hbve b pure Gregoribn cblendbr which
+     * lbbels dbtes preceding the invention of the Gregoribn cblendbr in 1582 bs
+     * if the cblendbr existed then.
      *
-     * Likewise, with the Julian calendar, we assume a consistent
-     * 4-year leap year rule, even though the historical pattern of
-     * leap years is irregular, being every 3 years from 45 BCE
-     * through 9 BCE, then every 4 years from 8 CE onwards, with no
-     * leap years in-between.  Thus date computations and functions
-     * such as isLeapYear() are not intended to be historically
-     * accurate.
+     * Likewise, with the Julibn cblendbr, we bssume b consistent
+     * 4-yebr lebp yebr rule, even though the historicbl pbttern of
+     * lebp yebrs is irregulbr, being every 3 yebrs from 45 BCE
+     * through 9 BCE, then every 4 yebrs from 8 CE onwbrds, with no
+     * lebp yebrs in-between.  Thus dbte computbtions bnd functions
+     * such bs isLebpYebr() bre not intended to be historicblly
+     * bccurbte.
      */
 
 //////////////////
-// Class Variables
+// Clbss Vbribbles
 //////////////////
 
     /**
-     * Value of the <code>ERA</code> field indicating
-     * the period before the common era (before Christ), also known as BCE.
-     * The sequence of years at the transition from <code>BC</code> to <code>AD</code> is
+     * Vblue of the <code>ERA</code> field indicbting
+     * the period before the common erb (before Christ), blso known bs BCE.
+     * The sequence of yebrs bt the trbnsition from <code>BC</code> to <code>AD</code> is
      * ..., 2 BC, 1 BC, 1 AD, 2 AD,...
      *
      * @see #ERA
      */
-    public static final int BC = 0;
+    public stbtic finbl int BC = 0;
 
     /**
-     * Value of the {@link #ERA} field indicating
-     * the period before the common era, the same value as {@link #BC}.
+     * Vblue of the {@link #ERA} field indicbting
+     * the period before the common erb, the sbme vblue bs {@link #BC}.
      *
      * @see #CE
      */
-    static final int BCE = 0;
+    stbtic finbl int BCE = 0;
 
     /**
-     * Value of the <code>ERA</code> field indicating
-     * the common era (Anno Domini), also known as CE.
-     * The sequence of years at the transition from <code>BC</code> to <code>AD</code> is
+     * Vblue of the <code>ERA</code> field indicbting
+     * the common erb (Anno Domini), blso known bs CE.
+     * The sequence of yebrs bt the trbnsition from <code>BC</code> to <code>AD</code> is
      * ..., 2 BC, 1 BC, 1 AD, 2 AD,...
      *
      * @see #ERA
      */
-    public static final int AD = 1;
+    public stbtic finbl int AD = 1;
 
     /**
-     * Value of the {@link #ERA} field indicating
-     * the common era, the same value as {@link #AD}.
+     * Vblue of the {@link #ERA} field indicbting
+     * the common erb, the sbme vblue bs {@link #AD}.
      *
      * @see #BCE
      */
-    static final int CE = 1;
+    stbtic finbl int CE = 1;
 
-    private static final int EPOCH_OFFSET   = 719163; // Fixed date of January 1, 1970 (Gregorian)
-    private static final int EPOCH_YEAR     = 1970;
+    privbte stbtic finbl int EPOCH_OFFSET   = 719163; // Fixed dbte of Jbnubry 1, 1970 (Gregoribn)
+    privbte stbtic finbl int EPOCH_YEAR     = 1970;
 
-    static final int MONTH_LENGTH[]
-        = {31,28,31,30,31,30,31,31,30,31,30,31}; // 0-based
-    static final int LEAP_MONTH_LENGTH[]
-        = {31,29,31,30,31,30,31,31,30,31,30,31}; // 0-based
+    stbtic finbl int MONTH_LENGTH[]
+        = {31,28,31,30,31,30,31,31,30,31,30,31}; // 0-bbsed
+    stbtic finbl int LEAP_MONTH_LENGTH[]
+        = {31,29,31,30,31,30,31,31,30,31,30,31}; // 0-bbsed
 
-    // Useful millisecond constants.  Although ONE_DAY and ONE_WEEK can fit
-    // into ints, they must be longs in order to prevent arithmetic overflow
+    // Useful millisecond constbnts.  Although ONE_DAY bnd ONE_WEEK cbn fit
+    // into ints, they must be longs in order to prevent brithmetic overflow
     // when performing (bug 4173516).
-    private static final int  ONE_SECOND = 1000;
-    private static final int  ONE_MINUTE = 60*ONE_SECOND;
-    private static final int  ONE_HOUR   = 60*ONE_MINUTE;
-    private static final long ONE_DAY    = 24*ONE_HOUR;
-    private static final long ONE_WEEK   = 7*ONE_DAY;
+    privbte stbtic finbl int  ONE_SECOND = 1000;
+    privbte stbtic finbl int  ONE_MINUTE = 60*ONE_SECOND;
+    privbte stbtic finbl int  ONE_HOUR   = 60*ONE_MINUTE;
+    privbte stbtic finbl long ONE_DAY    = 24*ONE_HOUR;
+    privbte stbtic finbl long ONE_WEEK   = 7*ONE_DAY;
 
     /*
      * <pre>
-     *                            Greatest       Least
-     * Field name        Minimum   Minimum     Maximum     Maximum
+     *                            Grebtest       Lebst
+     * Field nbme        Minimum   Minimum     Mbximum     Mbximum
      * ----------        -------   -------     -------     -------
      * ERA                     0         0           1           1
      * YEAR                    1         1   292269054   292278994
@@ -434,9 +434,9 @@ public class GregorianCalendar extends Calendar {
      * ZONE_OFFSET        -13:00    -13:00       14:00       14:00
      * DST_OFFSET           0:00      0:00        0:20        2:00
      * </pre>
-     * *: depends on the Gregorian change date
+     * *: depends on the Gregoribn chbnge dbte
      */
-    static final int MIN_VALUES[] = {
+    stbtic finbl int MIN_VALUES[] = {
         BCE,            // ERA
         1,              // YEAR
         JANUARY,        // MONTH
@@ -452,10 +452,10 @@ public class GregorianCalendar extends Calendar {
         0,              // MINUTE
         0,              // SECOND
         0,              // MILLISECOND
-        -13*ONE_HOUR,   // ZONE_OFFSET (UNIX compatibility)
+        -13*ONE_HOUR,   // ZONE_OFFSET (UNIX compbtibility)
         0               // DST_OFFSET
     };
-    static final int LEAST_MAX_VALUES[] = {
+    stbtic finbl int LEAST_MAX_VALUES[] = {
         CE,             // ERA
         292269054,      // YEAR
         DECEMBER,       // MONTH
@@ -472,9 +472,9 @@ public class GregorianCalendar extends Calendar {
         59,             // SECOND
         999,            // MILLISECOND
         14*ONE_HOUR,    // ZONE_OFFSET
-        20*ONE_MINUTE   // DST_OFFSET (historical least maximum)
+        20*ONE_MINUTE   // DST_OFFSET (historicbl lebst mbximum)
     };
-    static final int MAX_VALUES[] = {
+    stbtic finbl int MAX_VALUES[] = {
         CE,             // ERA
         292278994,      // YEAR
         DECEMBER,       // MONTH
@@ -494,248 +494,248 @@ public class GregorianCalendar extends Calendar {
         2*ONE_HOUR      // DST_OFFSET (double summer time)
     };
 
-    // Proclaim serialization compatibility with JDK 1.1
-    @SuppressWarnings("FieldNameHidesFieldInSuperclass")
-    static final long serialVersionUID = -8125100834729963327L;
+    // Proclbim seriblizbtion compbtibility with JDK 1.1
+    @SuppressWbrnings("FieldNbmeHidesFieldInSuperclbss")
+    stbtic finbl long seriblVersionUID = -8125100834729963327L;
 
-    // Reference to the sun.util.calendar.Gregorian instance (singleton).
-    private static final Gregorian gcal =
-                                CalendarSystem.getGregorianCalendar();
+    // Reference to the sun.util.cblendbr.Gregoribn instbnce (singleton).
+    privbte stbtic finbl Gregoribn gcbl =
+                                CblendbrSystem.getGregoribnCblendbr();
 
-    // Reference to the JulianCalendar instance (singleton), set as needed. See
-    // getJulianCalendarSystem().
-    private static JulianCalendar jcal;
+    // Reference to the JulibnCblendbr instbnce (singleton), set bs needed. See
+    // getJulibnCblendbrSystem().
+    privbte stbtic JulibnCblendbr jcbl;
 
-    // JulianCalendar eras. See getJulianCalendarSystem().
-    private static Era[] jeras;
+    // JulibnCblendbr erbs. See getJulibnCblendbrSystem().
+    privbte stbtic Erb[] jerbs;
 
-    // The default value of gregorianCutover.
-    static final long DEFAULT_GREGORIAN_CUTOVER = -12219292800000L;
+    // The defbult vblue of gregoribnCutover.
+    stbtic finbl long DEFAULT_GREGORIAN_CUTOVER = -12219292800000L;
 
 /////////////////////
-// Instance Variables
+// Instbnce Vbribbles
 /////////////////////
 
     /**
-     * The point at which the Gregorian calendar rules are used, measured in
-     * milliseconds from the standard epoch.  Default is October 15, 1582
-     * (Gregorian) 00:00:00 UTC or -12219292800000L.  For this value, October 4,
-     * 1582 (Julian) is followed by October 15, 1582 (Gregorian).  This
-     * corresponds to Julian day number 2299161.
-     * @serial
+     * The point bt which the Gregoribn cblendbr rules bre used, mebsured in
+     * milliseconds from the stbndbrd epoch.  Defbult is October 15, 1582
+     * (Gregoribn) 00:00:00 UTC or -12219292800000L.  For this vblue, October 4,
+     * 1582 (Julibn) is followed by October 15, 1582 (Gregoribn).  This
+     * corresponds to Julibn dby number 2299161.
+     * @seribl
      */
-    private long gregorianCutover = DEFAULT_GREGORIAN_CUTOVER;
+    privbte long gregoribnCutover = DEFAULT_GREGORIAN_CUTOVER;
 
     /**
-     * The fixed date of the gregorianCutover.
+     * The fixed dbte of the gregoribnCutover.
      */
-    private transient long gregorianCutoverDate =
+    privbte trbnsient long gregoribnCutoverDbte =
         (((DEFAULT_GREGORIAN_CUTOVER + 1)/ONE_DAY) - 1) + EPOCH_OFFSET; // == 577736
 
     /**
-     * The normalized year of the gregorianCutover in Gregorian, with
+     * The normblized yebr of the gregoribnCutover in Gregoribn, with
      * 0 representing 1 BCE, -1 representing 2 BCE, etc.
      */
-    private transient int gregorianCutoverYear = 1582;
+    privbte trbnsient int gregoribnCutoverYebr = 1582;
 
     /**
-     * The normalized year of the gregorianCutover in Julian, with 0
+     * The normblized yebr of the gregoribnCutover in Julibn, with 0
      * representing 1 BCE, -1 representing 2 BCE, etc.
      */
-    private transient int gregorianCutoverYearJulian = 1582;
+    privbte trbnsient int gregoribnCutoverYebrJulibn = 1582;
 
     /**
-     * gdate always has a sun.util.calendar.Gregorian.Date instance to
-     * avoid overhead of creating it. The assumption is that most
-     * applications will need only Gregorian calendar calculations.
+     * gdbte blwbys hbs b sun.util.cblendbr.Gregoribn.Dbte instbnce to
+     * bvoid overhebd of crebting it. The bssumption is thbt most
+     * bpplicbtions will need only Gregoribn cblendbr cblculbtions.
      */
-    private transient BaseCalendar.Date gdate;
+    privbte trbnsient BbseCblendbr.Dbte gdbte;
 
     /**
-     * Reference to either gdate or a JulianCalendar.Date
-     * instance. After calling complete(), this value is guaranteed to
+     * Reference to either gdbte or b JulibnCblendbr.Dbte
+     * instbnce. After cblling complete(), this vblue is gubrbnteed to
      * be set.
      */
-    private transient BaseCalendar.Date cdate;
+    privbte trbnsient BbseCblendbr.Dbte cdbte;
 
     /**
-     * The CalendarSystem used to calculate the date in cdate. After
-     * calling complete(), this value is guaranteed to be set and
-     * consistent with the cdate value.
+     * The CblendbrSystem used to cblculbte the dbte in cdbte. After
+     * cblling complete(), this vblue is gubrbnteed to be set bnd
+     * consistent with the cdbte vblue.
      */
-    private transient BaseCalendar calsys;
+    privbte trbnsient BbseCblendbr cblsys;
 
     /**
-     * Temporary int[2] to get time zone offsets. zoneOffsets[0] gets
-     * the GMT offset value and zoneOffsets[1] gets the DST saving
-     * value.
+     * Temporbry int[2] to get time zone offsets. zoneOffsets[0] gets
+     * the GMT offset vblue bnd zoneOffsets[1] gets the DST sbving
+     * vblue.
      */
-    private transient int[] zoneOffsets;
+    privbte trbnsient int[] zoneOffsets;
 
     /**
-     * Temporary storage for saving original fields[] values in
+     * Temporbry storbge for sbving originbl fields[] vblues in
      * non-lenient mode.
      */
-    private transient int[] originalFields;
+    privbte trbnsient int[] originblFields;
 
 ///////////////
 // Constructors
 ///////////////
 
     /**
-     * Constructs a default <code>GregorianCalendar</code> using the current time
-     * in the default time zone with the default
-     * {@link Locale.Category#FORMAT FORMAT} locale.
+     * Constructs b defbult <code>GregoribnCblendbr</code> using the current time
+     * in the defbult time zone with the defbult
+     * {@link Locble.Cbtegory#FORMAT FORMAT} locble.
      */
-    public GregorianCalendar() {
-        this(TimeZone.getDefaultRef(), Locale.getDefault(Locale.Category.FORMAT));
-        setZoneShared(true);
+    public GregoribnCblendbr() {
+        this(TimeZone.getDefbultRef(), Locble.getDefbult(Locble.Cbtegory.FORMAT));
+        setZoneShbred(true);
     }
 
     /**
-     * Constructs a <code>GregorianCalendar</code> based on the current time
-     * in the given time zone with the default
-     * {@link Locale.Category#FORMAT FORMAT} locale.
+     * Constructs b <code>GregoribnCblendbr</code> bbsed on the current time
+     * in the given time zone with the defbult
+     * {@link Locble.Cbtegory#FORMAT FORMAT} locble.
      *
-     * @param zone the given time zone.
+     * @pbrbm zone the given time zone.
      */
-    public GregorianCalendar(TimeZone zone) {
-        this(zone, Locale.getDefault(Locale.Category.FORMAT));
+    public GregoribnCblendbr(TimeZone zone) {
+        this(zone, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Constructs a <code>GregorianCalendar</code> based on the current time
-     * in the default time zone with the given locale.
+     * Constructs b <code>GregoribnCblendbr</code> bbsed on the current time
+     * in the defbult time zone with the given locble.
      *
-     * @param aLocale the given locale.
+     * @pbrbm bLocble the given locble.
      */
-    public GregorianCalendar(Locale aLocale) {
-        this(TimeZone.getDefaultRef(), aLocale);
-        setZoneShared(true);
+    public GregoribnCblendbr(Locble bLocble) {
+        this(TimeZone.getDefbultRef(), bLocble);
+        setZoneShbred(true);
     }
 
     /**
-     * Constructs a <code>GregorianCalendar</code> based on the current time
-     * in the given time zone with the given locale.
+     * Constructs b <code>GregoribnCblendbr</code> bbsed on the current time
+     * in the given time zone with the given locble.
      *
-     * @param zone the given time zone.
-     * @param aLocale the given locale.
+     * @pbrbm zone the given time zone.
+     * @pbrbm bLocble the given locble.
      */
-    public GregorianCalendar(TimeZone zone, Locale aLocale) {
-        super(zone, aLocale);
-        gdate = (BaseCalendar.Date) gcal.newCalendarDate(zone);
+    public GregoribnCblendbr(TimeZone zone, Locble bLocble) {
+        super(zone, bLocble);
+        gdbte = (BbseCblendbr.Dbte) gcbl.newCblendbrDbte(zone);
         setTimeInMillis(System.currentTimeMillis());
     }
 
     /**
-     * Constructs a <code>GregorianCalendar</code> with the given date set
-     * in the default time zone with the default locale.
+     * Constructs b <code>GregoribnCblendbr</code> with the given dbte set
+     * in the defbult time zone with the defbult locble.
      *
-     * @param year the value used to set the <code>YEAR</code> calendar field in the calendar.
-     * @param month the value used to set the <code>MONTH</code> calendar field in the calendar.
-     * Month value is 0-based. e.g., 0 for January.
-     * @param dayOfMonth the value used to set the <code>DAY_OF_MONTH</code> calendar field in the calendar.
+     * @pbrbm yebr the vblue used to set the <code>YEAR</code> cblendbr field in the cblendbr.
+     * @pbrbm month the vblue used to set the <code>MONTH</code> cblendbr field in the cblendbr.
+     * Month vblue is 0-bbsed. e.g., 0 for Jbnubry.
+     * @pbrbm dbyOfMonth the vblue used to set the <code>DAY_OF_MONTH</code> cblendbr field in the cblendbr.
      */
-    public GregorianCalendar(int year, int month, int dayOfMonth) {
-        this(year, month, dayOfMonth, 0, 0, 0, 0);
+    public GregoribnCblendbr(int yebr, int month, int dbyOfMonth) {
+        this(yebr, month, dbyOfMonth, 0, 0, 0, 0);
     }
 
     /**
-     * Constructs a <code>GregorianCalendar</code> with the given date
-     * and time set for the default time zone with the default locale.
+     * Constructs b <code>GregoribnCblendbr</code> with the given dbte
+     * bnd time set for the defbult time zone with the defbult locble.
      *
-     * @param year the value used to set the <code>YEAR</code> calendar field in the calendar.
-     * @param month the value used to set the <code>MONTH</code> calendar field in the calendar.
-     * Month value is 0-based. e.g., 0 for January.
-     * @param dayOfMonth the value used to set the <code>DAY_OF_MONTH</code> calendar field in the calendar.
-     * @param hourOfDay the value used to set the <code>HOUR_OF_DAY</code> calendar field
-     * in the calendar.
-     * @param minute the value used to set the <code>MINUTE</code> calendar field
-     * in the calendar.
+     * @pbrbm yebr the vblue used to set the <code>YEAR</code> cblendbr field in the cblendbr.
+     * @pbrbm month the vblue used to set the <code>MONTH</code> cblendbr field in the cblendbr.
+     * Month vblue is 0-bbsed. e.g., 0 for Jbnubry.
+     * @pbrbm dbyOfMonth the vblue used to set the <code>DAY_OF_MONTH</code> cblendbr field in the cblendbr.
+     * @pbrbm hourOfDby the vblue used to set the <code>HOUR_OF_DAY</code> cblendbr field
+     * in the cblendbr.
+     * @pbrbm minute the vblue used to set the <code>MINUTE</code> cblendbr field
+     * in the cblendbr.
      */
-    public GregorianCalendar(int year, int month, int dayOfMonth, int hourOfDay,
+    public GregoribnCblendbr(int yebr, int month, int dbyOfMonth, int hourOfDby,
                              int minute) {
-        this(year, month, dayOfMonth, hourOfDay, minute, 0, 0);
+        this(yebr, month, dbyOfMonth, hourOfDby, minute, 0, 0);
     }
 
     /**
-     * Constructs a GregorianCalendar with the given date
-     * and time set for the default time zone with the default locale.
+     * Constructs b GregoribnCblendbr with the given dbte
+     * bnd time set for the defbult time zone with the defbult locble.
      *
-     * @param year the value used to set the <code>YEAR</code> calendar field in the calendar.
-     * @param month the value used to set the <code>MONTH</code> calendar field in the calendar.
-     * Month value is 0-based. e.g., 0 for January.
-     * @param dayOfMonth the value used to set the <code>DAY_OF_MONTH</code> calendar field in the calendar.
-     * @param hourOfDay the value used to set the <code>HOUR_OF_DAY</code> calendar field
-     * in the calendar.
-     * @param minute the value used to set the <code>MINUTE</code> calendar field
-     * in the calendar.
-     * @param second the value used to set the <code>SECOND</code> calendar field
-     * in the calendar.
+     * @pbrbm yebr the vblue used to set the <code>YEAR</code> cblendbr field in the cblendbr.
+     * @pbrbm month the vblue used to set the <code>MONTH</code> cblendbr field in the cblendbr.
+     * Month vblue is 0-bbsed. e.g., 0 for Jbnubry.
+     * @pbrbm dbyOfMonth the vblue used to set the <code>DAY_OF_MONTH</code> cblendbr field in the cblendbr.
+     * @pbrbm hourOfDby the vblue used to set the <code>HOUR_OF_DAY</code> cblendbr field
+     * in the cblendbr.
+     * @pbrbm minute the vblue used to set the <code>MINUTE</code> cblendbr field
+     * in the cblendbr.
+     * @pbrbm second the vblue used to set the <code>SECOND</code> cblendbr field
+     * in the cblendbr.
      */
-    public GregorianCalendar(int year, int month, int dayOfMonth, int hourOfDay,
+    public GregoribnCblendbr(int yebr, int month, int dbyOfMonth, int hourOfDby,
                              int minute, int second) {
-        this(year, month, dayOfMonth, hourOfDay, minute, second, 0);
+        this(yebr, month, dbyOfMonth, hourOfDby, minute, second, 0);
     }
 
     /**
-     * Constructs a <code>GregorianCalendar</code> with the given date
-     * and time set for the default time zone with the default locale.
+     * Constructs b <code>GregoribnCblendbr</code> with the given dbte
+     * bnd time set for the defbult time zone with the defbult locble.
      *
-     * @param year the value used to set the <code>YEAR</code> calendar field in the calendar.
-     * @param month the value used to set the <code>MONTH</code> calendar field in the calendar.
-     * Month value is 0-based. e.g., 0 for January.
-     * @param dayOfMonth the value used to set the <code>DAY_OF_MONTH</code> calendar field in the calendar.
-     * @param hourOfDay the value used to set the <code>HOUR_OF_DAY</code> calendar field
-     * in the calendar.
-     * @param minute the value used to set the <code>MINUTE</code> calendar field
-     * in the calendar.
-     * @param second the value used to set the <code>SECOND</code> calendar field
-     * in the calendar.
-     * @param millis the value used to set the <code>MILLISECOND</code> calendar field
+     * @pbrbm yebr the vblue used to set the <code>YEAR</code> cblendbr field in the cblendbr.
+     * @pbrbm month the vblue used to set the <code>MONTH</code> cblendbr field in the cblendbr.
+     * Month vblue is 0-bbsed. e.g., 0 for Jbnubry.
+     * @pbrbm dbyOfMonth the vblue used to set the <code>DAY_OF_MONTH</code> cblendbr field in the cblendbr.
+     * @pbrbm hourOfDby the vblue used to set the <code>HOUR_OF_DAY</code> cblendbr field
+     * in the cblendbr.
+     * @pbrbm minute the vblue used to set the <code>MINUTE</code> cblendbr field
+     * in the cblendbr.
+     * @pbrbm second the vblue used to set the <code>SECOND</code> cblendbr field
+     * in the cblendbr.
+     * @pbrbm millis the vblue used to set the <code>MILLISECOND</code> cblendbr field
      */
-    GregorianCalendar(int year, int month, int dayOfMonth,
-                      int hourOfDay, int minute, int second, int millis) {
+    GregoribnCblendbr(int yebr, int month, int dbyOfMonth,
+                      int hourOfDby, int minute, int second, int millis) {
         super();
-        gdate = (BaseCalendar.Date) gcal.newCalendarDate(getZone());
-        this.set(YEAR, year);
+        gdbte = (BbseCblendbr.Dbte) gcbl.newCblendbrDbte(getZone());
+        this.set(YEAR, yebr);
         this.set(MONTH, month);
-        this.set(DAY_OF_MONTH, dayOfMonth);
+        this.set(DAY_OF_MONTH, dbyOfMonth);
 
-        // Set AM_PM and HOUR here to set their stamp values before
+        // Set AM_PM bnd HOUR here to set their stbmp vblues before
         // setting HOUR_OF_DAY (6178071).
-        if (hourOfDay >= 12 && hourOfDay <= 23) {
-            // If hourOfDay is a valid PM hour, set the correct PM values
-            // so that it won't throw an exception in case it's set to
-            // non-lenient later.
-            this.internalSet(AM_PM, PM);
-            this.internalSet(HOUR, hourOfDay - 12);
+        if (hourOfDby >= 12 && hourOfDby <= 23) {
+            // If hourOfDby is b vblid PM hour, set the correct PM vblues
+            // so thbt it won't throw bn exception in cbse it's set to
+            // non-lenient lbter.
+            this.internblSet(AM_PM, PM);
+            this.internblSet(HOUR, hourOfDby - 12);
         } else {
-            // The default value for AM_PM is AM.
-            // We don't care any out of range value here for leniency.
-            this.internalSet(HOUR, hourOfDay);
+            // The defbult vblue for AM_PM is AM.
+            // We don't cbre bny out of rbnge vblue here for leniency.
+            this.internblSet(HOUR, hourOfDby);
         }
-        // The stamp values of AM_PM and HOUR must be COMPUTED. (6440854)
+        // The stbmp vblues of AM_PM bnd HOUR must be COMPUTED. (6440854)
         setFieldsComputed(HOUR_MASK|AM_PM_MASK);
 
-        this.set(HOUR_OF_DAY, hourOfDay);
+        this.set(HOUR_OF_DAY, hourOfDby);
         this.set(MINUTE, minute);
         this.set(SECOND, second);
-        // should be changed to set() when this constructor is made
+        // should be chbnged to set() when this constructor is mbde
         // public.
-        this.internalSet(MILLISECOND, millis);
+        this.internblSet(MILLISECOND, millis);
     }
 
     /**
-     * Constructs an empty GregorianCalendar.
+     * Constructs bn empty GregoribnCblendbr.
      *
-     * @param zone    the given time zone
-     * @param aLocale the given locale
-     * @param flag    the flag requesting an empty instance
+     * @pbrbm zone    the given time zone
+     * @pbrbm bLocble the given locble
+     * @pbrbm flbg    the flbg requesting bn empty instbnce
      */
-    GregorianCalendar(TimeZone zone, Locale locale, boolean flag) {
-        super(zone, locale);
-        gdate = (BaseCalendar.Date) gcal.newCalendarDate(getZone());
+    GregoribnCblendbr(TimeZone zone, Locble locble, boolebn flbg) {
+        super(zone, locble);
+        gdbte = (BbseCblendbr.Dbte) gcbl.newCblendbrDbte(getZone());
     }
 
 /////////////////
@@ -743,236 +743,236 @@ public class GregorianCalendar extends Calendar {
 /////////////////
 
     /**
-     * Sets the <code>GregorianCalendar</code> change date. This is the point when the switch
-     * from Julian dates to Gregorian dates occurred. Default is October 15,
-     * 1582 (Gregorian). Previous to this, dates will be in the Julian calendar.
+     * Sets the <code>GregoribnCblendbr</code> chbnge dbte. This is the point when the switch
+     * from Julibn dbtes to Gregoribn dbtes occurred. Defbult is October 15,
+     * 1582 (Gregoribn). Previous to this, dbtes will be in the Julibn cblendbr.
      * <p>
-     * To obtain a pure Julian calendar, set the change date to
-     * <code>Date(Long.MAX_VALUE)</code>.  To obtain a pure Gregorian calendar,
-     * set the change date to <code>Date(Long.MIN_VALUE)</code>.
+     * To obtbin b pure Julibn cblendbr, set the chbnge dbte to
+     * <code>Dbte(Long.MAX_VALUE)</code>.  To obtbin b pure Gregoribn cblendbr,
+     * set the chbnge dbte to <code>Dbte(Long.MIN_VALUE)</code>.
      *
-     * @param date the given Gregorian cutover date.
+     * @pbrbm dbte the given Gregoribn cutover dbte.
      */
-    public void setGregorianChange(Date date) {
-        long cutoverTime = date.getTime();
-        if (cutoverTime == gregorianCutover) {
+    public void setGregoribnChbnge(Dbte dbte) {
+        long cutoverTime = dbte.getTime();
+        if (cutoverTime == gregoribnCutover) {
             return;
         }
-        // Before changing the cutover date, make sure to have the
-        // time of this calendar.
+        // Before chbnging the cutover dbte, mbke sure to hbve the
+        // time of this cblendbr.
         complete();
-        setGregorianChange(cutoverTime);
+        setGregoribnChbnge(cutoverTime);
     }
 
-    private void setGregorianChange(long cutoverTime) {
-        gregorianCutover = cutoverTime;
-        gregorianCutoverDate = CalendarUtils.floorDivide(cutoverTime, ONE_DAY)
+    privbte void setGregoribnChbnge(long cutoverTime) {
+        gregoribnCutover = cutoverTime;
+        gregoribnCutoverDbte = CblendbrUtils.floorDivide(cutoverTime, ONE_DAY)
                                 + EPOCH_OFFSET;
 
-        // To provide the "pure" Julian calendar as advertised.
-        // Strictly speaking, the last millisecond should be a
-        // Gregorian date. However, the API doc specifies that setting
-        // the cutover date to Long.MAX_VALUE will make this calendar
-        // a pure Julian calendar. (See 4167995)
+        // To provide the "pure" Julibn cblendbr bs bdvertised.
+        // Strictly spebking, the lbst millisecond should be b
+        // Gregoribn dbte. However, the API doc specifies thbt setting
+        // the cutover dbte to Long.MAX_VALUE will mbke this cblendbr
+        // b pure Julibn cblendbr. (See 4167995)
         if (cutoverTime == Long.MAX_VALUE) {
-            gregorianCutoverDate++;
+            gregoribnCutoverDbte++;
         }
 
-        BaseCalendar.Date d = getGregorianCutoverDate();
+        BbseCblendbr.Dbte d = getGregoribnCutoverDbte();
 
-        // Set the cutover year (in the Gregorian year numbering)
-        gregorianCutoverYear = d.getYear();
+        // Set the cutover yebr (in the Gregoribn yebr numbering)
+        gregoribnCutoverYebr = d.getYebr();
 
-        BaseCalendar julianCal = getJulianCalendarSystem();
-        d = (BaseCalendar.Date) julianCal.newCalendarDate(TimeZone.NO_TIMEZONE);
-        julianCal.getCalendarDateFromFixedDate(d, gregorianCutoverDate - 1);
-        gregorianCutoverYearJulian = d.getNormalizedYear();
+        BbseCblendbr julibnCbl = getJulibnCblendbrSystem();
+        d = (BbseCblendbr.Dbte) julibnCbl.newCblendbrDbte(TimeZone.NO_TIMEZONE);
+        julibnCbl.getCblendbrDbteFromFixedDbte(d, gregoribnCutoverDbte - 1);
+        gregoribnCutoverYebrJulibn = d.getNormblizedYebr();
 
-        if (time < gregorianCutover) {
-            // The field values are no longer valid under the new
-            // cutover date.
-            setUnnormalized();
+        if (time < gregoribnCutover) {
+            // The field vblues bre no longer vblid under the new
+            // cutover dbte.
+            setUnnormblized();
         }
     }
 
     /**
-     * Gets the Gregorian Calendar change date.  This is the point when the
-     * switch from Julian dates to Gregorian dates occurred. Default is
-     * October 15, 1582 (Gregorian). Previous to this, dates will be in the Julian
-     * calendar.
+     * Gets the Gregoribn Cblendbr chbnge dbte.  This is the point when the
+     * switch from Julibn dbtes to Gregoribn dbtes occurred. Defbult is
+     * October 15, 1582 (Gregoribn). Previous to this, dbtes will be in the Julibn
+     * cblendbr.
      *
-     * @return the Gregorian cutover date for this <code>GregorianCalendar</code> object.
+     * @return the Gregoribn cutover dbte for this <code>GregoribnCblendbr</code> object.
      */
-    public final Date getGregorianChange() {
-        return new Date(gregorianCutover);
+    public finbl Dbte getGregoribnChbnge() {
+        return new Dbte(gregoribnCutover);
     }
 
     /**
-     * Determines if the given year is a leap year. Returns <code>true</code> if
-     * the given year is a leap year. To specify BC year numbers,
-     * <code>1 - year number</code> must be given. For example, year BC 4 is
-     * specified as -3.
+     * Determines if the given yebr is b lebp yebr. Returns <code>true</code> if
+     * the given yebr is b lebp yebr. To specify BC yebr numbers,
+     * <code>1 - yebr number</code> must be given. For exbmple, yebr BC 4 is
+     * specified bs -3.
      *
-     * @param year the given year.
-     * @return <code>true</code> if the given year is a leap year; <code>false</code> otherwise.
+     * @pbrbm yebr the given yebr.
+     * @return <code>true</code> if the given yebr is b lebp yebr; <code>fblse</code> otherwise.
      */
-    public boolean isLeapYear(int year) {
-        if ((year & 3) != 0) {
-            return false;
+    public boolebn isLebpYebr(int yebr) {
+        if ((yebr & 3) != 0) {
+            return fblse;
         }
 
-        if (year > gregorianCutoverYear) {
-            return (year%100 != 0) || (year%400 == 0); // Gregorian
+        if (yebr > gregoribnCutoverYebr) {
+            return (yebr%100 != 0) || (yebr%400 == 0); // Gregoribn
         }
-        if (year < gregorianCutoverYearJulian) {
-            return true; // Julian
+        if (yebr < gregoribnCutoverYebrJulibn) {
+            return true; // Julibn
         }
-        boolean gregorian;
-        // If the given year is the Gregorian cutover year, we need to
-        // determine which calendar system to be applied to February in the year.
-        if (gregorianCutoverYear == gregorianCutoverYearJulian) {
-            BaseCalendar.Date d = getCalendarDate(gregorianCutoverDate); // Gregorian
-            gregorian = d.getMonth() < BaseCalendar.MARCH;
+        boolebn gregoribn;
+        // If the given yebr is the Gregoribn cutover yebr, we need to
+        // determine which cblendbr system to be bpplied to Februbry in the yebr.
+        if (gregoribnCutoverYebr == gregoribnCutoverYebrJulibn) {
+            BbseCblendbr.Dbte d = getCblendbrDbte(gregoribnCutoverDbte); // Gregoribn
+            gregoribn = d.getMonth() < BbseCblendbr.MARCH;
         } else {
-            gregorian = year == gregorianCutoverYear;
+            gregoribn = yebr == gregoribnCutoverYebr;
         }
-        return gregorian ? (year%100 != 0) || (year%400 == 0) : true;
+        return gregoribn ? (yebr%100 != 0) || (yebr%400 == 0) : true;
     }
 
     /**
-     * Returns {@code "gregory"} as the calendar type.
+     * Returns {@code "gregory"} bs the cblendbr type.
      *
      * @return {@code "gregory"}
      * @since 1.8
      */
     @Override
-    public String getCalendarType() {
+    public String getCblendbrType() {
         return "gregory";
     }
 
     /**
-     * Compares this <code>GregorianCalendar</code> to the specified
-     * <code>Object</code>. The result is <code>true</code> if and
-     * only if the argument is a <code>GregorianCalendar</code> object
-     * that represents the same time value (millisecond offset from
-     * the <a href="Calendar.html#Epoch">Epoch</a>) under the same
-     * <code>Calendar</code> parameters and Gregorian change date as
+     * Compbres this <code>GregoribnCblendbr</code> to the specified
+     * <code>Object</code>. The result is <code>true</code> if bnd
+     * only if the brgument is b <code>GregoribnCblendbr</code> object
+     * thbt represents the sbme time vblue (millisecond offset from
+     * the <b href="Cblendbr.html#Epoch">Epoch</b>) under the sbme
+     * <code>Cblendbr</code> pbrbmeters bnd Gregoribn chbnge dbte bs
      * this object.
      *
-     * @param obj the object to compare with.
-     * @return <code>true</code> if this object is equal to <code>obj</code>;
-     * <code>false</code> otherwise.
-     * @see Calendar#compareTo(Calendar)
+     * @pbrbm obj the object to compbre with.
+     * @return <code>true</code> if this object is equbl to <code>obj</code>;
+     * <code>fblse</code> otherwise.
+     * @see Cblendbr#compbreTo(Cblendbr)
      */
     @Override
-    public boolean equals(Object obj) {
-        return obj instanceof GregorianCalendar &&
-            super.equals(obj) &&
-            gregorianCutover == ((GregorianCalendar)obj).gregorianCutover;
+    public boolebn equbls(Object obj) {
+        return obj instbnceof GregoribnCblendbr &&
+            super.equbls(obj) &&
+            gregoribnCutover == ((GregoribnCblendbr)obj).gregoribnCutover;
     }
 
     /**
-     * Generates the hash code for this <code>GregorianCalendar</code> object.
+     * Generbtes the hbsh code for this <code>GregoribnCblendbr</code> object.
      */
     @Override
-    public int hashCode() {
-        return super.hashCode() ^ (int)gregorianCutoverDate;
+    public int hbshCode() {
+        return super.hbshCode() ^ (int)gregoribnCutoverDbte;
     }
 
     /**
-     * Adds the specified (signed) amount of time to the given calendar field,
-     * based on the calendar's rules.
+     * Adds the specified (signed) bmount of time to the given cblendbr field,
+     * bbsed on the cblendbr's rules.
      *
-     * <p><em>Add rule 1</em>. The value of <code>field</code>
-     * after the call minus the value of <code>field</code> before the
-     * call is <code>amount</code>, modulo any overflow that has occurred in
-     * <code>field</code>. Overflow occurs when a field value exceeds its
-     * range and, as a result, the next larger field is incremented or
-     * decremented and the field value is adjusted back into its range.</p>
+     * <p><em>Add rule 1</em>. The vblue of <code>field</code>
+     * bfter the cbll minus the vblue of <code>field</code> before the
+     * cbll is <code>bmount</code>, modulo bny overflow thbt hbs occurred in
+     * <code>field</code>. Overflow occurs when b field vblue exceeds its
+     * rbnge bnd, bs b result, the next lbrger field is incremented or
+     * decremented bnd the field vblue is bdjusted bbck into its rbnge.</p>
      *
-     * <p><em>Add rule 2</em>. If a smaller field is expected to be
-     * invariant, but it is impossible for it to be equal to its
-     * prior value because of changes in its minimum or maximum after
-     * <code>field</code> is changed, then its value is adjusted to be as close
-     * as possible to its expected value. A smaller field represents a
-     * smaller unit of time. <code>HOUR</code> is a smaller field than
-     * <code>DAY_OF_MONTH</code>. No adjustment is made to smaller fields
-     * that are not expected to be invariant. The calendar system
-     * determines what fields are expected to be invariant.</p>
+     * <p><em>Add rule 2</em>. If b smbller field is expected to be
+     * invbribnt, but it is impossible for it to be equbl to its
+     * prior vblue becbuse of chbnges in its minimum or mbximum bfter
+     * <code>field</code> is chbnged, then its vblue is bdjusted to be bs close
+     * bs possible to its expected vblue. A smbller field represents b
+     * smbller unit of time. <code>HOUR</code> is b smbller field thbn
+     * <code>DAY_OF_MONTH</code>. No bdjustment is mbde to smbller fields
+     * thbt bre not expected to be invbribnt. The cblendbr system
+     * determines whbt fields bre expected to be invbribnt.</p>
      *
-     * @param field the calendar field.
-     * @param amount the amount of date or time to be added to the field.
-     * @exception IllegalArgumentException if <code>field</code> is
+     * @pbrbm field the cblendbr field.
+     * @pbrbm bmount the bmount of dbte or time to be bdded to the field.
+     * @exception IllegblArgumentException if <code>field</code> is
      * <code>ZONE_OFFSET</code>, <code>DST_OFFSET</code>, or unknown,
-     * or if any calendar fields have out-of-range values in
+     * or if bny cblendbr fields hbve out-of-rbnge vblues in
      * non-lenient mode.
      */
     @Override
-    public void add(int field, int amount) {
-        // If amount == 0, do nothing even the given field is out of
-        // range. This is tested by JCK.
-        if (amount == 0) {
+    public void bdd(int field, int bmount) {
+        // If bmount == 0, do nothing even the given field is out of
+        // rbnge. This is tested by JCK.
+        if (bmount == 0) {
             return;   // Do nothing!
         }
 
         if (field < 0 || field >= ZONE_OFFSET) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        // Sync the time and calendar fields.
+        // Sync the time bnd cblendbr fields.
         complete();
 
         if (field == YEAR) {
-            int year = internalGet(YEAR);
-            if (internalGetEra() == CE) {
-                year += amount;
-                if (year > 0) {
-                    set(YEAR, year);
-                } else { // year <= 0
-                    set(YEAR, 1 - year);
-                    // if year == 0, you get 1 BCE.
+            int yebr = internblGet(YEAR);
+            if (internblGetErb() == CE) {
+                yebr += bmount;
+                if (yebr > 0) {
+                    set(YEAR, yebr);
+                } else { // yebr <= 0
+                    set(YEAR, 1 - yebr);
+                    // if yebr == 0, you get 1 BCE.
                     set(ERA, BCE);
                 }
             }
-            else { // era == BCE
-                year -= amount;
-                if (year > 0) {
-                    set(YEAR, year);
-                } else { // year <= 0
-                    set(YEAR, 1 - year);
-                    // if year == 0, you get 1 CE
+            else { // erb == BCE
+                yebr -= bmount;
+                if (yebr > 0) {
+                    set(YEAR, yebr);
+                } else { // yebr <= 0
+                    set(YEAR, 1 - yebr);
+                    // if yebr == 0, you get 1 CE
                     set(ERA, CE);
                 }
             }
-            pinDayOfMonth();
+            pinDbyOfMonth();
         } else if (field == MONTH) {
-            int month = internalGet(MONTH) + amount;
-            int year = internalGet(YEAR);
-            int y_amount;
+            int month = internblGet(MONTH) + bmount;
+            int yebr = internblGet(YEAR);
+            int y_bmount;
 
             if (month >= 0) {
-                y_amount = month/12;
+                y_bmount = month/12;
             } else {
-                y_amount = (month+1)/12 - 1;
+                y_bmount = (month+1)/12 - 1;
             }
-            if (y_amount != 0) {
-                if (internalGetEra() == CE) {
-                    year += y_amount;
-                    if (year > 0) {
-                        set(YEAR, year);
-                    } else { // year <= 0
-                        set(YEAR, 1 - year);
-                        // if year == 0, you get 1 BCE
+            if (y_bmount != 0) {
+                if (internblGetErb() == CE) {
+                    yebr += y_bmount;
+                    if (yebr > 0) {
+                        set(YEAR, yebr);
+                    } else { // yebr <= 0
+                        set(YEAR, 1 - yebr);
+                        // if yebr == 0, you get 1 BCE
                         set(ERA, BCE);
                     }
                 }
-                else { // era == BCE
-                    year -= y_amount;
-                    if (year > 0) {
-                        set(YEAR, year);
-                    } else { // year <= 0
-                        set(YEAR, 1 - year);
-                        // if year == 0, you get 1 CE
+                else { // erb == BCE
+                    yebr -= y_bmount;
+                    if (yebr > 0) {
+                        set(YEAR, yebr);
+                    } else { // yebr <= 0
+                        set(YEAR, 1 - yebr);
+                        // if yebr == 0, you get 1 CE
                         set(ERA, CE);
                     }
                 }
@@ -988,98 +988,98 @@ public class GregorianCalendar extends Calendar {
                 }
                 set(MONTH, JANUARY + month);
             }
-            pinDayOfMonth();
+            pinDbyOfMonth();
         } else if (field == ERA) {
-            int era = internalGet(ERA) + amount;
-            if (era < 0) {
-                era = 0;
+            int erb = internblGet(ERA) + bmount;
+            if (erb < 0) {
+                erb = 0;
             }
-            if (era > 1) {
-                era = 1;
+            if (erb > 1) {
+                erb = 1;
             }
-            set(ERA, era);
+            set(ERA, erb);
         } else {
-            long delta = amount;
-            long timeOfDay = 0;
+            long deltb = bmount;
+            long timeOfDby = 0;
             switch (field) {
-            // Handle the time fields here. Convert the given
-            // amount to milliseconds and call setTimeInMillis.
-            case HOUR:
-            case HOUR_OF_DAY:
-                delta *= 60 * 60 * 1000;        // hours to minutes
-                break;
+            // Hbndle the time fields here. Convert the given
+            // bmount to milliseconds bnd cbll setTimeInMillis.
+            cbse HOUR:
+            cbse HOUR_OF_DAY:
+                deltb *= 60 * 60 * 1000;        // hours to minutes
+                brebk;
 
-            case MINUTE:
-                delta *= 60 * 1000;             // minutes to seconds
-                break;
+            cbse MINUTE:
+                deltb *= 60 * 1000;             // minutes to seconds
+                brebk;
 
-            case SECOND:
-                delta *= 1000;                  // seconds to milliseconds
-                break;
+            cbse SECOND:
+                deltb *= 1000;                  // seconds to milliseconds
+                brebk;
 
-            case MILLISECOND:
-                break;
+            cbse MILLISECOND:
+                brebk;
 
-            // Handle week, day and AM_PM fields which involves
-            // time zone offset change adjustment. Convert the
-            // given amount to the number of days.
-            case WEEK_OF_YEAR:
-            case WEEK_OF_MONTH:
-            case DAY_OF_WEEK_IN_MONTH:
-                delta *= 7;
-                break;
+            // Hbndle week, dby bnd AM_PM fields which involves
+            // time zone offset chbnge bdjustment. Convert the
+            // given bmount to the number of dbys.
+            cbse WEEK_OF_YEAR:
+            cbse WEEK_OF_MONTH:
+            cbse DAY_OF_WEEK_IN_MONTH:
+                deltb *= 7;
+                brebk;
 
-            case DAY_OF_MONTH: // synonym of DATE
-            case DAY_OF_YEAR:
-            case DAY_OF_WEEK:
-                break;
+            cbse DAY_OF_MONTH: // synonym of DATE
+            cbse DAY_OF_YEAR:
+            cbse DAY_OF_WEEK:
+                brebk;
 
-            case AM_PM:
-                // Convert the amount to the number of days (delta)
-                // and +12 or -12 hours (timeOfDay).
-                delta = amount / 2;
-                timeOfDay = 12 * (amount % 2);
-                break;
+            cbse AM_PM:
+                // Convert the bmount to the number of dbys (deltb)
+                // bnd +12 or -12 hours (timeOfDby).
+                deltb = bmount / 2;
+                timeOfDby = 12 * (bmount % 2);
+                brebk;
             }
 
-            // The time fields don't require time zone offset change
-            // adjustment.
+            // The time fields don't require time zone offset chbnge
+            // bdjustment.
             if (field >= HOUR) {
-                setTimeInMillis(time + delta);
+                setTimeInMillis(time + deltb);
                 return;
             }
 
-            // The rest of the fields (week, day or AM_PM fields)
-            // require time zone offset (both GMT and DST) change
-            // adjustment.
+            // The rest of the fields (week, dby or AM_PM fields)
+            // require time zone offset (both GMT bnd DST) chbnge
+            // bdjustment.
 
-            // Translate the current time to the fixed date and time
-            // of the day.
-            long fd = getCurrentFixedDate();
-            timeOfDay += internalGet(HOUR_OF_DAY);
-            timeOfDay *= 60;
-            timeOfDay += internalGet(MINUTE);
-            timeOfDay *= 60;
-            timeOfDay += internalGet(SECOND);
-            timeOfDay *= 1000;
-            timeOfDay += internalGet(MILLISECOND);
-            if (timeOfDay >= ONE_DAY) {
+            // Trbnslbte the current time to the fixed dbte bnd time
+            // of the dby.
+            long fd = getCurrentFixedDbte();
+            timeOfDby += internblGet(HOUR_OF_DAY);
+            timeOfDby *= 60;
+            timeOfDby += internblGet(MINUTE);
+            timeOfDby *= 60;
+            timeOfDby += internblGet(SECOND);
+            timeOfDby *= 1000;
+            timeOfDby += internblGet(MILLISECOND);
+            if (timeOfDby >= ONE_DAY) {
                 fd++;
-                timeOfDay -= ONE_DAY;
-            } else if (timeOfDay < 0) {
+                timeOfDby -= ONE_DAY;
+            } else if (timeOfDby < 0) {
                 fd--;
-                timeOfDay += ONE_DAY;
+                timeOfDby += ONE_DAY;
             }
 
-            fd += delta; // fd is the expected fixed date after the calculation
-            int zoneOffset = internalGet(ZONE_OFFSET) + internalGet(DST_OFFSET);
-            setTimeInMillis((fd - EPOCH_OFFSET) * ONE_DAY + timeOfDay - zoneOffset);
-            zoneOffset -= internalGet(ZONE_OFFSET) + internalGet(DST_OFFSET);
-            // If the time zone offset has changed, then adjust the difference.
+            fd += deltb; // fd is the expected fixed dbte bfter the cblculbtion
+            int zoneOffset = internblGet(ZONE_OFFSET) + internblGet(DST_OFFSET);
+            setTimeInMillis((fd - EPOCH_OFFSET) * ONE_DAY + timeOfDby - zoneOffset);
+            zoneOffset -= internblGet(ZONE_OFFSET) + internblGet(DST_OFFSET);
+            // If the time zone offset hbs chbnged, then bdjust the difference.
             if (zoneOffset != 0) {
                 setTimeInMillis(time + zoneOffset);
-                long fd2 = getCurrentFixedDate();
-                // If the adjustment has changed the date, then take
+                long fd2 = getCurrentFixedDbte();
+                // If the bdjustment hbs chbnged the dbte, then tbke
                 // the previous one.
                 if (fd2 != fd) {
                     setTimeInMillis(time - zoneOffset);
@@ -1089,447 +1089,447 @@ public class GregorianCalendar extends Calendar {
     }
 
     /**
-     * Adds or subtracts (up/down) a single unit of time on the given time
-     * field without changing larger fields.
+     * Adds or subtrbcts (up/down) b single unit of time on the given time
+     * field without chbnging lbrger fields.
      * <p>
-     * <em>Example</em>: Consider a <code>GregorianCalendar</code>
-     * originally set to December 31, 1999. Calling {@link #roll(int,boolean) roll(Calendar.MONTH, true)}
-     * sets the calendar to January 31, 1999.  The <code>YEAR</code> field is unchanged
-     * because it is a larger field than <code>MONTH</code>.</p>
+     * <em>Exbmple</em>: Consider b <code>GregoribnCblendbr</code>
+     * originblly set to December 31, 1999. Cblling {@link #roll(int,boolebn) roll(Cblendbr.MONTH, true)}
+     * sets the cblendbr to Jbnubry 31, 1999.  The <code>YEAR</code> field is unchbnged
+     * becbuse it is b lbrger field thbn <code>MONTH</code>.</p>
      *
-     * @param up indicates if the value of the specified calendar field is to be
-     * rolled up or rolled down. Use <code>true</code> if rolling up, <code>false</code> otherwise.
-     * @exception IllegalArgumentException if <code>field</code> is
+     * @pbrbm up indicbtes if the vblue of the specified cblendbr field is to be
+     * rolled up or rolled down. Use <code>true</code> if rolling up, <code>fblse</code> otherwise.
+     * @exception IllegblArgumentException if <code>field</code> is
      * <code>ZONE_OFFSET</code>, <code>DST_OFFSET</code>, or unknown,
-     * or if any calendar fields have out-of-range values in
+     * or if bny cblendbr fields hbve out-of-rbnge vblues in
      * non-lenient mode.
-     * @see #add(int,int)
+     * @see #bdd(int,int)
      * @see #set(int,int)
      */
     @Override
-    public void roll(int field, boolean up) {
+    public void roll(int field, boolebn up) {
         roll(field, up ? +1 : -1);
     }
 
     /**
-     * Adds a signed amount to the specified calendar field without changing larger fields.
-     * A negative roll amount means to subtract from field without changing
-     * larger fields. If the specified amount is 0, this method performs nothing.
+     * Adds b signed bmount to the specified cblendbr field without chbnging lbrger fields.
+     * A negbtive roll bmount mebns to subtrbct from field without chbnging
+     * lbrger fields. If the specified bmount is 0, this method performs nothing.
      *
-     * <p>This method calls {@link #complete()} before adding the
-     * amount so that all the calendar fields are normalized. If there
-     * is any calendar field having an out-of-range value in non-lenient mode, then an
-     * <code>IllegalArgumentException</code> is thrown.
+     * <p>This method cblls {@link #complete()} before bdding the
+     * bmount so thbt bll the cblendbr fields bre normblized. If there
+     * is bny cblendbr field hbving bn out-of-rbnge vblue in non-lenient mode, then bn
+     * <code>IllegblArgumentException</code> is thrown.
      *
      * <p>
-     * <em>Example</em>: Consider a <code>GregorianCalendar</code>
-     * originally set to August 31, 1999. Calling <code>roll(Calendar.MONTH,
-     * 8)</code> sets the calendar to April 30, <strong>1999</strong>. Using a
-     * <code>GregorianCalendar</code>, the <code>DAY_OF_MONTH</code> field cannot
+     * <em>Exbmple</em>: Consider b <code>GregoribnCblendbr</code>
+     * originblly set to August 31, 1999. Cblling <code>roll(Cblendbr.MONTH,
+     * 8)</code> sets the cblendbr to April 30, <strong>1999</strong>. Using b
+     * <code>GregoribnCblendbr</code>, the <code>DAY_OF_MONTH</code> field cbnnot
      * be 31 in the month April. <code>DAY_OF_MONTH</code> is set to the closest possible
-     * value, 30. The <code>YEAR</code> field maintains the value of 1999 because it
-     * is a larger field than <code>MONTH</code>.
+     * vblue, 30. The <code>YEAR</code> field mbintbins the vblue of 1999 becbuse it
+     * is b lbrger field thbn <code>MONTH</code>.
      * <p>
-     * <em>Example</em>: Consider a <code>GregorianCalendar</code>
-     * originally set to Sunday June 6, 1999. Calling
-     * <code>roll(Calendar.WEEK_OF_MONTH, -1)</code> sets the calendar to
-     * Tuesday June 1, 1999, whereas calling
-     * <code>add(Calendar.WEEK_OF_MONTH, -1)</code> sets the calendar to
-     * Sunday May 30, 1999. This is because the roll rule imposes an
-     * additional constraint: The <code>MONTH</code> must not change when the
-     * <code>WEEK_OF_MONTH</code> is rolled. Taken together with add rule 1,
-     * the resultant date must be between Tuesday June 1 and Saturday June
-     * 5. According to add rule 2, the <code>DAY_OF_WEEK</code>, an invariant
-     * when changing the <code>WEEK_OF_MONTH</code>, is set to Tuesday, the
-     * closest possible value to Sunday (where Sunday is the first day of the
+     * <em>Exbmple</em>: Consider b <code>GregoribnCblendbr</code>
+     * originblly set to Sundby June 6, 1999. Cblling
+     * <code>roll(Cblendbr.WEEK_OF_MONTH, -1)</code> sets the cblendbr to
+     * Tuesdby June 1, 1999, wherebs cblling
+     * <code>bdd(Cblendbr.WEEK_OF_MONTH, -1)</code> sets the cblendbr to
+     * Sundby Mby 30, 1999. This is becbuse the roll rule imposes bn
+     * bdditionbl constrbint: The <code>MONTH</code> must not chbnge when the
+     * <code>WEEK_OF_MONTH</code> is rolled. Tbken together with bdd rule 1,
+     * the resultbnt dbte must be between Tuesdby June 1 bnd Sbturdby June
+     * 5. According to bdd rule 2, the <code>DAY_OF_WEEK</code>, bn invbribnt
+     * when chbnging the <code>WEEK_OF_MONTH</code>, is set to Tuesdby, the
+     * closest possible vblue to Sundby (where Sundby is the first dby of the
      * week).</p>
      *
-     * @param field the calendar field.
-     * @param amount the signed amount to add to <code>field</code>.
-     * @exception IllegalArgumentException if <code>field</code> is
+     * @pbrbm field the cblendbr field.
+     * @pbrbm bmount the signed bmount to bdd to <code>field</code>.
+     * @exception IllegblArgumentException if <code>field</code> is
      * <code>ZONE_OFFSET</code>, <code>DST_OFFSET</code>, or unknown,
-     * or if any calendar fields have out-of-range values in
+     * or if bny cblendbr fields hbve out-of-rbnge vblues in
      * non-lenient mode.
-     * @see #roll(int,boolean)
-     * @see #add(int,int)
+     * @see #roll(int,boolebn)
+     * @see #bdd(int,int)
      * @see #set(int,int)
      * @since 1.2
      */
     @Override
-    public void roll(int field, int amount) {
-        // If amount == 0, do nothing even the given field is out of
-        // range. This is tested by JCK.
-        if (amount == 0) {
+    public void roll(int field, int bmount) {
+        // If bmount == 0, do nothing even the given field is out of
+        // rbnge. This is tested by JCK.
+        if (bmount == 0) {
             return;
         }
 
         if (field < 0 || field >= ZONE_OFFSET) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        // Sync the time and calendar fields.
+        // Sync the time bnd cblendbr fields.
         complete();
 
         int min = getMinimum(field);
-        int max = getMaximum(field);
+        int mbx = getMbximum(field);
 
         switch (field) {
-        case AM_PM:
-        case ERA:
-        case YEAR:
-        case MINUTE:
-        case SECOND:
-        case MILLISECOND:
-            // These fields are handled simply, since they have fixed minima
-            // and maxima.  The field DAY_OF_MONTH is almost as simple.  Other
-            // fields are complicated, since the range within they must roll
-            // varies depending on the date.
-            break;
+        cbse AM_PM:
+        cbse ERA:
+        cbse YEAR:
+        cbse MINUTE:
+        cbse SECOND:
+        cbse MILLISECOND:
+            // These fields bre hbndled simply, since they hbve fixed minimb
+            // bnd mbximb.  The field DAY_OF_MONTH is blmost bs simple.  Other
+            // fields bre complicbted, since the rbnge within they must roll
+            // vbries depending on the dbte.
+            brebk;
 
-        case HOUR:
-        case HOUR_OF_DAY:
+        cbse HOUR:
+        cbse HOUR_OF_DAY:
             {
-                int unit = max + 1; // 12 or 24 hours
-                int h = internalGet(field);
-                int nh = (h + amount) % unit;
+                int unit = mbx + 1; // 12 or 24 hours
+                int h = internblGet(field);
+                int nh = (h + bmount) % unit;
                 if (nh < 0) {
                     nh += unit;
                 }
                 time += ONE_HOUR * (nh - h);
 
-                // The day might have changed, which could happen if
-                // the daylight saving time transition brings it to
-                // the next day, although it's very unlikely. But we
-                // have to make sure not to change the larger fields.
-                CalendarDate d = calsys.getCalendarDate(time, getZone());
-                if (internalGet(DAY_OF_MONTH) != d.getDayOfMonth()) {
-                    d.setDate(internalGet(YEAR),
-                              internalGet(MONTH) + 1,
-                              internalGet(DAY_OF_MONTH));
+                // The dby might hbve chbnged, which could hbppen if
+                // the dbylight sbving time trbnsition brings it to
+                // the next dby, blthough it's very unlikely. But we
+                // hbve to mbke sure not to chbnge the lbrger fields.
+                CblendbrDbte d = cblsys.getCblendbrDbte(time, getZone());
+                if (internblGet(DAY_OF_MONTH) != d.getDbyOfMonth()) {
+                    d.setDbte(internblGet(YEAR),
+                              internblGet(MONTH) + 1,
+                              internblGet(DAY_OF_MONTH));
                     if (field == HOUR) {
-                        assert (internalGet(AM_PM) == PM);
-                        d.addHours(+12); // restore PM
+                        bssert (internblGet(AM_PM) == PM);
+                        d.bddHours(+12); // restore PM
                     }
-                    time = calsys.getTime(d);
+                    time = cblsys.getTime(d);
                 }
-                int hourOfDay = d.getHours();
-                internalSet(field, hourOfDay % unit);
+                int hourOfDby = d.getHours();
+                internblSet(field, hourOfDby % unit);
                 if (field == HOUR) {
-                    internalSet(HOUR_OF_DAY, hourOfDay);
+                    internblSet(HOUR_OF_DAY, hourOfDby);
                 } else {
-                    internalSet(AM_PM, hourOfDay / 12);
-                    internalSet(HOUR, hourOfDay % 12);
+                    internblSet(AM_PM, hourOfDby / 12);
+                    internblSet(HOUR, hourOfDby % 12);
                 }
 
-                // Time zone offset and/or daylight saving might have changed.
+                // Time zone offset bnd/or dbylight sbving might hbve chbnged.
                 int zoneOffset = d.getZoneOffset();
-                int saving = d.getDaylightSaving();
-                internalSet(ZONE_OFFSET, zoneOffset - saving);
-                internalSet(DST_OFFSET, saving);
+                int sbving = d.getDbylightSbving();
+                internblSet(ZONE_OFFSET, zoneOffset - sbving);
+                internblSet(DST_OFFSET, sbving);
                 return;
             }
 
-        case MONTH:
-            // Rolling the month involves both pinning the final value to [0, 11]
-            // and adjusting the DAY_OF_MONTH if necessary.  We only adjust the
-            // DAY_OF_MONTH if, after updating the MONTH field, it is illegal.
-            // E.g., <jan31>.roll(MONTH, 1) -> <feb28> or <feb29>.
+        cbse MONTH:
+            // Rolling the month involves both pinning the finbl vblue to [0, 11]
+            // bnd bdjusting the DAY_OF_MONTH if necessbry.  We only bdjust the
+            // DAY_OF_MONTH if, bfter updbting the MONTH field, it is illegbl.
+            // E.g., <jbn31>.roll(MONTH, 1) -> <feb28> or <feb29>.
             {
-                if (!isCutoverYear(cdate.getNormalizedYear())) {
-                    int mon = (internalGet(MONTH) + amount) % 12;
+                if (!isCutoverYebr(cdbte.getNormblizedYebr())) {
+                    int mon = (internblGet(MONTH) + bmount) % 12;
                     if (mon < 0) {
                         mon += 12;
                     }
                     set(MONTH, mon);
 
-                    // Keep the day of month in the range.  We don't want to spill over
-                    // into the next month; e.g., we don't want jan31 + 1 mo -> feb31 ->
-                    // mar3.
+                    // Keep the dby of month in the rbnge.  We don't wbnt to spill over
+                    // into the next month; e.g., we don't wbnt jbn31 + 1 mo -> feb31 ->
+                    // mbr3.
                     int monthLen = monthLength(mon);
-                    if (internalGet(DAY_OF_MONTH) > monthLen) {
+                    if (internblGet(DAY_OF_MONTH) > monthLen) {
                         set(DAY_OF_MONTH, monthLen);
                     }
                 } else {
-                    // We need to take care of different lengths in
-                    // year and month due to the cutover.
-                    int yearLength = getActualMaximum(MONTH) + 1;
-                    int mon = (internalGet(MONTH) + amount) % yearLength;
+                    // We need to tbke cbre of different lengths in
+                    // yebr bnd month due to the cutover.
+                    int yebrLength = getActublMbximum(MONTH) + 1;
+                    int mon = (internblGet(MONTH) + bmount) % yebrLength;
                     if (mon < 0) {
-                        mon += yearLength;
+                        mon += yebrLength;
                     }
                     set(MONTH, mon);
-                    int monthLen = getActualMaximum(DAY_OF_MONTH);
-                    if (internalGet(DAY_OF_MONTH) > monthLen) {
+                    int monthLen = getActublMbximum(DAY_OF_MONTH);
+                    if (internblGet(DAY_OF_MONTH) > monthLen) {
                         set(DAY_OF_MONTH, monthLen);
                     }
                 }
                 return;
             }
 
-        case WEEK_OF_YEAR:
+        cbse WEEK_OF_YEAR:
             {
-                int y = cdate.getNormalizedYear();
-                max = getActualMaximum(WEEK_OF_YEAR);
-                set(DAY_OF_WEEK, internalGet(DAY_OF_WEEK));
-                int woy = internalGet(WEEK_OF_YEAR);
-                int value = woy + amount;
-                if (!isCutoverYear(y)) {
-                    int weekYear = getWeekYear();
-                    if (weekYear == y) {
-                        // If the new value is in between min and max
-                        // (exclusive), then we can use the value.
-                        if (value > min && value < max) {
-                            set(WEEK_OF_YEAR, value);
+                int y = cdbte.getNormblizedYebr();
+                mbx = getActublMbximum(WEEK_OF_YEAR);
+                set(DAY_OF_WEEK, internblGet(DAY_OF_WEEK));
+                int woy = internblGet(WEEK_OF_YEAR);
+                int vblue = woy + bmount;
+                if (!isCutoverYebr(y)) {
+                    int weekYebr = getWeekYebr();
+                    if (weekYebr == y) {
+                        // If the new vblue is in between min bnd mbx
+                        // (exclusive), then we cbn use the vblue.
+                        if (vblue > min && vblue < mbx) {
+                            set(WEEK_OF_YEAR, vblue);
                             return;
                         }
-                        long fd = getCurrentFixedDate();
-                        // Make sure that the min week has the current DAY_OF_WEEK
-                        // in the calendar year
-                        long day1 = fd - (7 * (woy - min));
-                        if (calsys.getYearFromFixedDate(day1) != y) {
+                        long fd = getCurrentFixedDbte();
+                        // Mbke sure thbt the min week hbs the current DAY_OF_WEEK
+                        // in the cblendbr yebr
+                        long dby1 = fd - (7 * (woy - min));
+                        if (cblsys.getYebrFromFixedDbte(dby1) != y) {
                             min++;
                         }
 
-                        // Make sure the same thing for the max week
-                        fd += 7 * (max - internalGet(WEEK_OF_YEAR));
-                        if (calsys.getYearFromFixedDate(fd) != y) {
-                            max--;
+                        // Mbke sure the sbme thing for the mbx week
+                        fd += 7 * (mbx - internblGet(WEEK_OF_YEAR));
+                        if (cblsys.getYebrFromFixedDbte(fd) != y) {
+                            mbx--;
                         }
                     } else {
-                        // When WEEK_OF_YEAR and YEAR are out of sync,
-                        // adjust woy and amount to stay in the calendar year.
-                        if (weekYear > y) {
-                            if (amount < 0) {
-                                amount++;
+                        // When WEEK_OF_YEAR bnd YEAR bre out of sync,
+                        // bdjust woy bnd bmount to stby in the cblendbr yebr.
+                        if (weekYebr > y) {
+                            if (bmount < 0) {
+                                bmount++;
                             }
-                            woy = max;
+                            woy = mbx;
                         } else {
-                            if (amount > 0) {
-                                amount -= woy - max;
+                            if (bmount > 0) {
+                                bmount -= woy - mbx;
                             }
                             woy = min;
                         }
                     }
-                    set(field, getRolledValue(woy, amount, min, max));
+                    set(field, getRolledVblue(woy, bmount, min, mbx));
                     return;
                 }
 
-                // Handle cutover here.
-                long fd = getCurrentFixedDate();
-                BaseCalendar cal;
-                if (gregorianCutoverYear == gregorianCutoverYearJulian) {
-                    cal = getCutoverCalendarSystem();
-                } else if (y == gregorianCutoverYear) {
-                    cal = gcal;
+                // Hbndle cutover here.
+                long fd = getCurrentFixedDbte();
+                BbseCblendbr cbl;
+                if (gregoribnCutoverYebr == gregoribnCutoverYebrJulibn) {
+                    cbl = getCutoverCblendbrSystem();
+                } else if (y == gregoribnCutoverYebr) {
+                    cbl = gcbl;
                 } else {
-                    cal = getJulianCalendarSystem();
+                    cbl = getJulibnCblendbrSystem();
                 }
-                long day1 = fd - (7 * (woy - min));
-                // Make sure that the min week has the current DAY_OF_WEEK
-                if (cal.getYearFromFixedDate(day1) != y) {
+                long dby1 = fd - (7 * (woy - min));
+                // Mbke sure thbt the min week hbs the current DAY_OF_WEEK
+                if (cbl.getYebrFromFixedDbte(dby1) != y) {
                     min++;
                 }
 
-                // Make sure the same thing for the max week
-                fd += 7 * (max - woy);
-                cal = (fd >= gregorianCutoverDate) ? gcal : getJulianCalendarSystem();
-                if (cal.getYearFromFixedDate(fd) != y) {
-                    max--;
+                // Mbke sure the sbme thing for the mbx week
+                fd += 7 * (mbx - woy);
+                cbl = (fd >= gregoribnCutoverDbte) ? gcbl : getJulibnCblendbrSystem();
+                if (cbl.getYebrFromFixedDbte(fd) != y) {
+                    mbx--;
                 }
-                // value: the new WEEK_OF_YEAR which must be converted
-                // to month and day of month.
-                value = getRolledValue(woy, amount, min, max) - 1;
-                BaseCalendar.Date d = getCalendarDate(day1 + value * 7);
+                // vblue: the new WEEK_OF_YEAR which must be converted
+                // to month bnd dby of month.
+                vblue = getRolledVblue(woy, bmount, min, mbx) - 1;
+                BbseCblendbr.Dbte d = getCblendbrDbte(dby1 + vblue * 7);
                 set(MONTH, d.getMonth() - 1);
-                set(DAY_OF_MONTH, d.getDayOfMonth());
+                set(DAY_OF_MONTH, d.getDbyOfMonth());
                 return;
             }
 
-        case WEEK_OF_MONTH:
+        cbse WEEK_OF_MONTH:
             {
-                boolean isCutoverYear = isCutoverYear(cdate.getNormalizedYear());
-                // dow: relative day of week from first day of week
-                int dow = internalGet(DAY_OF_WEEK) - getFirstDayOfWeek();
+                boolebn isCutoverYebr = isCutoverYebr(cdbte.getNormblizedYebr());
+                // dow: relbtive dby of week from first dby of week
+                int dow = internblGet(DAY_OF_WEEK) - getFirstDbyOfWeek();
                 if (dow < 0) {
                     dow += 7;
                 }
 
-                long fd = getCurrentFixedDate();
-                long month1;     // fixed date of the first day (usually 1) of the month
-                int monthLength; // actual month length
-                if (isCutoverYear) {
-                    month1 = getFixedDateMonth1(cdate, fd);
-                    monthLength = actualMonthLength();
+                long fd = getCurrentFixedDbte();
+                long month1;     // fixed dbte of the first dby (usublly 1) of the month
+                int monthLength; // bctubl month length
+                if (isCutoverYebr) {
+                    month1 = getFixedDbteMonth1(cdbte, fd);
+                    monthLength = bctublMonthLength();
                 } else {
-                    month1 = fd - internalGet(DAY_OF_MONTH) + 1;
-                    monthLength = calsys.getMonthLength(cdate);
+                    month1 = fd - internblGet(DAY_OF_MONTH) + 1;
+                    monthLength = cblsys.getMonthLength(cdbte);
                 }
 
-                // the first day of week of the month.
-                long monthDay1st = BaseCalendar.getDayOfWeekDateOnOrBefore(month1 + 6,
-                                                                           getFirstDayOfWeek());
-                // if the week has enough days to form a week, the
-                // week starts from the previous month.
-                if ((int)(monthDay1st - month1) >= getMinimalDaysInFirstWeek()) {
-                    monthDay1st -= 7;
+                // the first dby of week of the month.
+                long monthDby1st = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(month1 + 6,
+                                                                           getFirstDbyOfWeek());
+                // if the week hbs enough dbys to form b week, the
+                // week stbrts from the previous month.
+                if ((int)(monthDby1st - month1) >= getMinimblDbysInFirstWeek()) {
+                    monthDby1st -= 7;
                 }
-                max = getActualMaximum(field);
+                mbx = getActublMbximum(field);
 
-                // value: the new WEEK_OF_MONTH value
-                int value = getRolledValue(internalGet(field), amount, 1, max) - 1;
+                // vblue: the new WEEK_OF_MONTH vblue
+                int vblue = getRolledVblue(internblGet(field), bmount, 1, mbx) - 1;
 
-                // nfd: fixed date of the rolled date
-                long nfd = monthDay1st + value * 7 + dow;
+                // nfd: fixed dbte of the rolled dbte
+                long nfd = monthDby1st + vblue * 7 + dow;
 
-                // Unlike WEEK_OF_YEAR, we need to change day of week if the
+                // Unlike WEEK_OF_YEAR, we need to chbnge dby of week if the
                 // nfd is out of the month.
                 if (nfd < month1) {
                     nfd = month1;
                 } else if (nfd >= (month1 + monthLength)) {
                     nfd = month1 + monthLength - 1;
                 }
-                int dayOfMonth;
-                if (isCutoverYear) {
-                    // If we are in the cutover year, convert nfd to
-                    // its calendar date and use dayOfMonth.
-                    BaseCalendar.Date d = getCalendarDate(nfd);
-                    dayOfMonth = d.getDayOfMonth();
+                int dbyOfMonth;
+                if (isCutoverYebr) {
+                    // If we bre in the cutover yebr, convert nfd to
+                    // its cblendbr dbte bnd use dbyOfMonth.
+                    BbseCblendbr.Dbte d = getCblendbrDbte(nfd);
+                    dbyOfMonth = d.getDbyOfMonth();
                 } else {
-                    dayOfMonth = (int)(nfd - month1) + 1;
+                    dbyOfMonth = (int)(nfd - month1) + 1;
                 }
-                set(DAY_OF_MONTH, dayOfMonth);
+                set(DAY_OF_MONTH, dbyOfMonth);
                 return;
             }
 
-        case DAY_OF_MONTH:
+        cbse DAY_OF_MONTH:
             {
-                if (!isCutoverYear(cdate.getNormalizedYear())) {
-                    max = calsys.getMonthLength(cdate);
-                    break;
+                if (!isCutoverYebr(cdbte.getNormblizedYebr())) {
+                    mbx = cblsys.getMonthLength(cdbte);
+                    brebk;
                 }
 
-                // Cutover year handling
-                long fd = getCurrentFixedDate();
-                long month1 = getFixedDateMonth1(cdate, fd);
-                // It may not be a regular month. Convert the date and range to
-                // the relative values, perform the roll, and
-                // convert the result back to the rolled date.
-                int value = getRolledValue((int)(fd - month1), amount, 0, actualMonthLength() - 1);
-                BaseCalendar.Date d = getCalendarDate(month1 + value);
-                assert d.getMonth()-1 == internalGet(MONTH);
-                set(DAY_OF_MONTH, d.getDayOfMonth());
+                // Cutover yebr hbndling
+                long fd = getCurrentFixedDbte();
+                long month1 = getFixedDbteMonth1(cdbte, fd);
+                // It mby not be b regulbr month. Convert the dbte bnd rbnge to
+                // the relbtive vblues, perform the roll, bnd
+                // convert the result bbck to the rolled dbte.
+                int vblue = getRolledVblue((int)(fd - month1), bmount, 0, bctublMonthLength() - 1);
+                BbseCblendbr.Dbte d = getCblendbrDbte(month1 + vblue);
+                bssert d.getMonth()-1 == internblGet(MONTH);
+                set(DAY_OF_MONTH, d.getDbyOfMonth());
                 return;
             }
 
-        case DAY_OF_YEAR:
+        cbse DAY_OF_YEAR:
             {
-                max = getActualMaximum(field);
-                if (!isCutoverYear(cdate.getNormalizedYear())) {
-                    break;
+                mbx = getActublMbximum(field);
+                if (!isCutoverYebr(cdbte.getNormblizedYebr())) {
+                    brebk;
                 }
 
-                // Handle cutover here.
-                long fd = getCurrentFixedDate();
-                long jan1 = fd - internalGet(DAY_OF_YEAR) + 1;
-                int value = getRolledValue((int)(fd - jan1) + 1, amount, min, max);
-                BaseCalendar.Date d = getCalendarDate(jan1 + value - 1);
+                // Hbndle cutover here.
+                long fd = getCurrentFixedDbte();
+                long jbn1 = fd - internblGet(DAY_OF_YEAR) + 1;
+                int vblue = getRolledVblue((int)(fd - jbn1) + 1, bmount, min, mbx);
+                BbseCblendbr.Dbte d = getCblendbrDbte(jbn1 + vblue - 1);
                 set(MONTH, d.getMonth() - 1);
-                set(DAY_OF_MONTH, d.getDayOfMonth());
+                set(DAY_OF_MONTH, d.getDbyOfMonth());
                 return;
             }
 
-        case DAY_OF_WEEK:
+        cbse DAY_OF_WEEK:
             {
-                if (!isCutoverYear(cdate.getNormalizedYear())) {
-                    // If the week of year is in the same year, we can
-                    // just change DAY_OF_WEEK.
-                    int weekOfYear = internalGet(WEEK_OF_YEAR);
-                    if (weekOfYear > 1 && weekOfYear < 52) {
-                        set(WEEK_OF_YEAR, weekOfYear); // update stamp[WEEK_OF_YEAR]
-                        max = SATURDAY;
-                        break;
+                if (!isCutoverYebr(cdbte.getNormblizedYebr())) {
+                    // If the week of yebr is in the sbme yebr, we cbn
+                    // just chbnge DAY_OF_WEEK.
+                    int weekOfYebr = internblGet(WEEK_OF_YEAR);
+                    if (weekOfYebr > 1 && weekOfYebr < 52) {
+                        set(WEEK_OF_YEAR, weekOfYebr); // updbte stbmp[WEEK_OF_YEAR]
+                        mbx = SATURDAY;
+                        brebk;
                     }
                 }
 
-                // We need to handle it in a different way around year
-                // boundaries and in the cutover year. Note that
-                // changing era and year values violates the roll
-                // rule: not changing larger calendar fields...
-                amount %= 7;
-                if (amount == 0) {
+                // We need to hbndle it in b different wby bround yebr
+                // boundbries bnd in the cutover yebr. Note thbt
+                // chbnging erb bnd yebr vblues violbtes the roll
+                // rule: not chbnging lbrger cblendbr fields...
+                bmount %= 7;
+                if (bmount == 0) {
                     return;
                 }
-                long fd = getCurrentFixedDate();
-                long dowFirst = BaseCalendar.getDayOfWeekDateOnOrBefore(fd, getFirstDayOfWeek());
-                fd += amount;
+                long fd = getCurrentFixedDbte();
+                long dowFirst = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(fd, getFirstDbyOfWeek());
+                fd += bmount;
                 if (fd < dowFirst) {
                     fd += 7;
                 } else if (fd >= dowFirst + 7) {
                     fd -= 7;
                 }
-                BaseCalendar.Date d = getCalendarDate(fd);
-                set(ERA, (d.getNormalizedYear() <= 0 ? BCE : CE));
-                set(d.getYear(), d.getMonth() - 1, d.getDayOfMonth());
+                BbseCblendbr.Dbte d = getCblendbrDbte(fd);
+                set(ERA, (d.getNormblizedYebr() <= 0 ? BCE : CE));
+                set(d.getYebr(), d.getMonth() - 1, d.getDbyOfMonth());
                 return;
             }
 
-        case DAY_OF_WEEK_IN_MONTH:
+        cbse DAY_OF_WEEK_IN_MONTH:
             {
-                min = 1; // after normalized, min should be 1.
-                if (!isCutoverYear(cdate.getNormalizedYear())) {
-                    int dom = internalGet(DAY_OF_MONTH);
-                    int monthLength = calsys.getMonthLength(cdate);
-                    int lastDays = monthLength % 7;
-                    max = monthLength / 7;
+                min = 1; // bfter normblized, min should be 1.
+                if (!isCutoverYebr(cdbte.getNormblizedYebr())) {
+                    int dom = internblGet(DAY_OF_MONTH);
+                    int monthLength = cblsys.getMonthLength(cdbte);
+                    int lbstDbys = monthLength % 7;
+                    mbx = monthLength / 7;
                     int x = (dom - 1) % 7;
-                    if (x < lastDays) {
-                        max++;
+                    if (x < lbstDbys) {
+                        mbx++;
                     }
-                    set(DAY_OF_WEEK, internalGet(DAY_OF_WEEK));
-                    break;
+                    set(DAY_OF_WEEK, internblGet(DAY_OF_WEEK));
+                    brebk;
                 }
 
-                // Cutover year handling
-                long fd = getCurrentFixedDate();
-                long month1 = getFixedDateMonth1(cdate, fd);
-                int monthLength = actualMonthLength();
-                int lastDays = monthLength % 7;
-                max = monthLength / 7;
+                // Cutover yebr hbndling
+                long fd = getCurrentFixedDbte();
+                long month1 = getFixedDbteMonth1(cdbte, fd);
+                int monthLength = bctublMonthLength();
+                int lbstDbys = monthLength % 7;
+                mbx = monthLength / 7;
                 int x = (int)(fd - month1) % 7;
-                if (x < lastDays) {
-                    max++;
+                if (x < lbstDbys) {
+                    mbx++;
                 }
-                int value = getRolledValue(internalGet(field), amount, min, max) - 1;
-                fd = month1 + value * 7 + x;
-                BaseCalendar cal = (fd >= gregorianCutoverDate) ? gcal : getJulianCalendarSystem();
-                BaseCalendar.Date d = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.NO_TIMEZONE);
-                cal.getCalendarDateFromFixedDate(d, fd);
-                set(DAY_OF_MONTH, d.getDayOfMonth());
+                int vblue = getRolledVblue(internblGet(field), bmount, min, mbx) - 1;
+                fd = month1 + vblue * 7 + x;
+                BbseCblendbr cbl = (fd >= gregoribnCutoverDbte) ? gcbl : getJulibnCblendbrSystem();
+                BbseCblendbr.Dbte d = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(TimeZone.NO_TIMEZONE);
+                cbl.getCblendbrDbteFromFixedDbte(d, fd);
+                set(DAY_OF_MONTH, d.getDbyOfMonth());
                 return;
             }
         }
 
-        set(field, getRolledValue(internalGet(field), amount, min, max));
+        set(field, getRolledVblue(internblGet(field), bmount, min, mbx));
     }
 
     /**
-     * Returns the minimum value for the given calendar field of this
-     * <code>GregorianCalendar</code> instance. The minimum value is
-     * defined as the smallest value returned by the {@link
-     * Calendar#get(int) get} method for any possible time value,
-     * taking into consideration the current values of the
-     * {@link Calendar#getFirstDayOfWeek() getFirstDayOfWeek},
-     * {@link Calendar#getMinimalDaysInFirstWeek() getMinimalDaysInFirstWeek},
-     * {@link #getGregorianChange() getGregorianChange} and
-     * {@link Calendar#getTimeZone() getTimeZone} methods.
+     * Returns the minimum vblue for the given cblendbr field of this
+     * <code>GregoribnCblendbr</code> instbnce. The minimum vblue is
+     * defined bs the smbllest vblue returned by the {@link
+     * Cblendbr#get(int) get} method for bny possible time vblue,
+     * tbking into considerbtion the current vblues of the
+     * {@link Cblendbr#getFirstDbyOfWeek() getFirstDbyOfWeek},
+     * {@link Cblendbr#getMinimblDbysInFirstWeek() getMinimblDbysInFirstWeek},
+     * {@link #getGregoribnChbnge() getGregoribnChbnge} bnd
+     * {@link Cblendbr#getTimeZone() getTimeZone} methods.
      *
-     * @param field the calendar field.
-     * @return the minimum value for the given calendar field.
-     * @see #getMaximum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMinimum(int)
-     * @see #getActualMaximum(int)
+     * @pbrbm field the cblendbr field.
+     * @return the minimum vblue for the given cblendbr field.
+     * @see #getMbximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMinimum(int)
+     * @see #getActublMbximum(int)
      */
     @Override
     public int getMinimum(int field) {
@@ -1537,480 +1537,480 @@ public class GregorianCalendar extends Calendar {
     }
 
     /**
-     * Returns the maximum value for the given calendar field of this
-     * <code>GregorianCalendar</code> instance. The maximum value is
-     * defined as the largest value returned by the {@link
-     * Calendar#get(int) get} method for any possible time value,
-     * taking into consideration the current values of the
-     * {@link Calendar#getFirstDayOfWeek() getFirstDayOfWeek},
-     * {@link Calendar#getMinimalDaysInFirstWeek() getMinimalDaysInFirstWeek},
-     * {@link #getGregorianChange() getGregorianChange} and
-     * {@link Calendar#getTimeZone() getTimeZone} methods.
+     * Returns the mbximum vblue for the given cblendbr field of this
+     * <code>GregoribnCblendbr</code> instbnce. The mbximum vblue is
+     * defined bs the lbrgest vblue returned by the {@link
+     * Cblendbr#get(int) get} method for bny possible time vblue,
+     * tbking into considerbtion the current vblues of the
+     * {@link Cblendbr#getFirstDbyOfWeek() getFirstDbyOfWeek},
+     * {@link Cblendbr#getMinimblDbysInFirstWeek() getMinimblDbysInFirstWeek},
+     * {@link #getGregoribnChbnge() getGregoribnChbnge} bnd
+     * {@link Cblendbr#getTimeZone() getTimeZone} methods.
      *
-     * @param field the calendar field.
-     * @return the maximum value for the given calendar field.
+     * @pbrbm field the cblendbr field.
+     * @return the mbximum vblue for the given cblendbr field.
      * @see #getMinimum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMinimum(int)
-     * @see #getActualMaximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMinimum(int)
+     * @see #getActublMbximum(int)
      */
     @Override
-    public int getMaximum(int field) {
+    public int getMbximum(int field) {
         switch (field) {
-        case MONTH:
-        case DAY_OF_MONTH:
-        case DAY_OF_YEAR:
-        case WEEK_OF_YEAR:
-        case WEEK_OF_MONTH:
-        case DAY_OF_WEEK_IN_MONTH:
-        case YEAR:
+        cbse MONTH:
+        cbse DAY_OF_MONTH:
+        cbse DAY_OF_YEAR:
+        cbse WEEK_OF_YEAR:
+        cbse WEEK_OF_MONTH:
+        cbse DAY_OF_WEEK_IN_MONTH:
+        cbse YEAR:
             {
-                // On or after Gregorian 200-3-1, Julian and Gregorian
-                // calendar dates are the same or Gregorian dates are
-                // larger (i.e., there is a "gap") after 300-3-1.
-                if (gregorianCutoverYear > 200) {
-                    break;
+                // On or bfter Gregoribn 200-3-1, Julibn bnd Gregoribn
+                // cblendbr dbtes bre the sbme or Gregoribn dbtes bre
+                // lbrger (i.e., there is b "gbp") bfter 300-3-1.
+                if (gregoribnCutoverYebr > 200) {
+                    brebk;
                 }
-                // There might be "overlapping" dates.
-                GregorianCalendar gc = (GregorianCalendar) clone();
+                // There might be "overlbpping" dbtes.
+                GregoribnCblendbr gc = (GregoribnCblendbr) clone();
                 gc.setLenient(true);
-                gc.setTimeInMillis(gregorianCutover);
-                int v1 = gc.getActualMaximum(field);
-                gc.setTimeInMillis(gregorianCutover-1);
-                int v2 = gc.getActualMaximum(field);
-                return Math.max(MAX_VALUES[field], Math.max(v1, v2));
+                gc.setTimeInMillis(gregoribnCutover);
+                int v1 = gc.getActublMbximum(field);
+                gc.setTimeInMillis(gregoribnCutover-1);
+                int v2 = gc.getActublMbximum(field);
+                return Mbth.mbx(MAX_VALUES[field], Mbth.mbx(v1, v2));
             }
         }
         return MAX_VALUES[field];
     }
 
     /**
-     * Returns the highest minimum value for the given calendar field
-     * of this <code>GregorianCalendar</code> instance. The highest
-     * minimum value is defined as the largest value returned by
-     * {@link #getActualMinimum(int)} for any possible time value,
-     * taking into consideration the current values of the
-     * {@link Calendar#getFirstDayOfWeek() getFirstDayOfWeek},
-     * {@link Calendar#getMinimalDaysInFirstWeek() getMinimalDaysInFirstWeek},
-     * {@link #getGregorianChange() getGregorianChange} and
-     * {@link Calendar#getTimeZone() getTimeZone} methods.
+     * Returns the highest minimum vblue for the given cblendbr field
+     * of this <code>GregoribnCblendbr</code> instbnce. The highest
+     * minimum vblue is defined bs the lbrgest vblue returned by
+     * {@link #getActublMinimum(int)} for bny possible time vblue,
+     * tbking into considerbtion the current vblues of the
+     * {@link Cblendbr#getFirstDbyOfWeek() getFirstDbyOfWeek},
+     * {@link Cblendbr#getMinimblDbysInFirstWeek() getMinimblDbysInFirstWeek},
+     * {@link #getGregoribnChbnge() getGregoribnChbnge} bnd
+     * {@link Cblendbr#getTimeZone() getTimeZone} methods.
      *
-     * @param field the calendar field.
-     * @return the highest minimum value for the given calendar field.
+     * @pbrbm field the cblendbr field.
+     * @return the highest minimum vblue for the given cblendbr field.
      * @see #getMinimum(int)
-     * @see #getMaximum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMinimum(int)
-     * @see #getActualMaximum(int)
+     * @see #getMbximum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMinimum(int)
+     * @see #getActublMbximum(int)
      */
     @Override
-    public int getGreatestMinimum(int field) {
+    public int getGrebtestMinimum(int field) {
         if (field == DAY_OF_MONTH) {
-            BaseCalendar.Date d = getGregorianCutoverDate();
-            long mon1 = getFixedDateMonth1(d, gregorianCutoverDate);
-            d = getCalendarDate(mon1);
-            return Math.max(MIN_VALUES[field], d.getDayOfMonth());
+            BbseCblendbr.Dbte d = getGregoribnCutoverDbte();
+            long mon1 = getFixedDbteMonth1(d, gregoribnCutoverDbte);
+            d = getCblendbrDbte(mon1);
+            return Mbth.mbx(MIN_VALUES[field], d.getDbyOfMonth());
         }
         return MIN_VALUES[field];
     }
 
     /**
-     * Returns the lowest maximum value for the given calendar field
-     * of this <code>GregorianCalendar</code> instance. The lowest
-     * maximum value is defined as the smallest value returned by
-     * {@link #getActualMaximum(int)} for any possible time value,
-     * taking into consideration the current values of the
-     * {@link Calendar#getFirstDayOfWeek() getFirstDayOfWeek},
-     * {@link Calendar#getMinimalDaysInFirstWeek() getMinimalDaysInFirstWeek},
-     * {@link #getGregorianChange() getGregorianChange} and
-     * {@link Calendar#getTimeZone() getTimeZone} methods.
+     * Returns the lowest mbximum vblue for the given cblendbr field
+     * of this <code>GregoribnCblendbr</code> instbnce. The lowest
+     * mbximum vblue is defined bs the smbllest vblue returned by
+     * {@link #getActublMbximum(int)} for bny possible time vblue,
+     * tbking into considerbtion the current vblues of the
+     * {@link Cblendbr#getFirstDbyOfWeek() getFirstDbyOfWeek},
+     * {@link Cblendbr#getMinimblDbysInFirstWeek() getMinimblDbysInFirstWeek},
+     * {@link #getGregoribnChbnge() getGregoribnChbnge} bnd
+     * {@link Cblendbr#getTimeZone() getTimeZone} methods.
      *
-     * @param field the calendar field
-     * @return the lowest maximum value for the given calendar field.
+     * @pbrbm field the cblendbr field
+     * @return the lowest mbximum vblue for the given cblendbr field.
      * @see #getMinimum(int)
-     * @see #getMaximum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getActualMinimum(int)
-     * @see #getActualMaximum(int)
+     * @see #getMbximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getActublMinimum(int)
+     * @see #getActublMbximum(int)
      */
     @Override
-    public int getLeastMaximum(int field) {
+    public int getLebstMbximum(int field) {
         switch (field) {
-        case MONTH:
-        case DAY_OF_MONTH:
-        case DAY_OF_YEAR:
-        case WEEK_OF_YEAR:
-        case WEEK_OF_MONTH:
-        case DAY_OF_WEEK_IN_MONTH:
-        case YEAR:
+        cbse MONTH:
+        cbse DAY_OF_MONTH:
+        cbse DAY_OF_YEAR:
+        cbse WEEK_OF_YEAR:
+        cbse WEEK_OF_MONTH:
+        cbse DAY_OF_WEEK_IN_MONTH:
+        cbse YEAR:
             {
-                GregorianCalendar gc = (GregorianCalendar) clone();
+                GregoribnCblendbr gc = (GregoribnCblendbr) clone();
                 gc.setLenient(true);
-                gc.setTimeInMillis(gregorianCutover);
-                int v1 = gc.getActualMaximum(field);
-                gc.setTimeInMillis(gregorianCutover-1);
-                int v2 = gc.getActualMaximum(field);
-                return Math.min(LEAST_MAX_VALUES[field], Math.min(v1, v2));
+                gc.setTimeInMillis(gregoribnCutover);
+                int v1 = gc.getActublMbximum(field);
+                gc.setTimeInMillis(gregoribnCutover-1);
+                int v2 = gc.getActublMbximum(field);
+                return Mbth.min(LEAST_MAX_VALUES[field], Mbth.min(v1, v2));
             }
         }
         return LEAST_MAX_VALUES[field];
     }
 
     /**
-     * Returns the minimum value that this calendar field could have,
-     * taking into consideration the given time value and the current
-     * values of the
-     * {@link Calendar#getFirstDayOfWeek() getFirstDayOfWeek},
-     * {@link Calendar#getMinimalDaysInFirstWeek() getMinimalDaysInFirstWeek},
-     * {@link #getGregorianChange() getGregorianChange} and
-     * {@link Calendar#getTimeZone() getTimeZone} methods.
+     * Returns the minimum vblue thbt this cblendbr field could hbve,
+     * tbking into considerbtion the given time vblue bnd the current
+     * vblues of the
+     * {@link Cblendbr#getFirstDbyOfWeek() getFirstDbyOfWeek},
+     * {@link Cblendbr#getMinimblDbysInFirstWeek() getMinimblDbysInFirstWeek},
+     * {@link #getGregoribnChbnge() getGregoribnChbnge} bnd
+     * {@link Cblendbr#getTimeZone() getTimeZone} methods.
      *
-     * <p>For example, if the Gregorian change date is January 10,
-     * 1970 and the date of this <code>GregorianCalendar</code> is
-     * January 20, 1970, the actual minimum value of the
-     * <code>DAY_OF_MONTH</code> field is 10 because the previous date
-     * of January 10, 1970 is December 27, 1996 (in the Julian
-     * calendar). Therefore, December 28, 1969 to January 9, 1970
+     * <p>For exbmple, if the Gregoribn chbnge dbte is Jbnubry 10,
+     * 1970 bnd the dbte of this <code>GregoribnCblendbr</code> is
+     * Jbnubry 20, 1970, the bctubl minimum vblue of the
+     * <code>DAY_OF_MONTH</code> field is 10 becbuse the previous dbte
+     * of Jbnubry 10, 1970 is December 27, 1996 (in the Julibn
+     * cblendbr). Therefore, December 28, 1969 to Jbnubry 9, 1970
      * don't exist.
      *
-     * @param field the calendar field
-     * @return the minimum of the given field for the time value of
-     * this <code>GregorianCalendar</code>
+     * @pbrbm field the cblendbr field
+     * @return the minimum of the given field for the time vblue of
+     * this <code>GregoribnCblendbr</code>
      * @see #getMinimum(int)
-     * @see #getMaximum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMaximum(int)
+     * @see #getMbximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMbximum(int)
      * @since 1.2
      */
     @Override
-    public int getActualMinimum(int field) {
+    public int getActublMinimum(int field) {
         if (field == DAY_OF_MONTH) {
-            GregorianCalendar gc = getNormalizedCalendar();
-            int year = gc.cdate.getNormalizedYear();
-            if (year == gregorianCutoverYear || year == gregorianCutoverYearJulian) {
-                long month1 = getFixedDateMonth1(gc.cdate, gc.calsys.getFixedDate(gc.cdate));
-                BaseCalendar.Date d = getCalendarDate(month1);
-                return d.getDayOfMonth();
+            GregoribnCblendbr gc = getNormblizedCblendbr();
+            int yebr = gc.cdbte.getNormblizedYebr();
+            if (yebr == gregoribnCutoverYebr || yebr == gregoribnCutoverYebrJulibn) {
+                long month1 = getFixedDbteMonth1(gc.cdbte, gc.cblsys.getFixedDbte(gc.cdbte));
+                BbseCblendbr.Dbte d = getCblendbrDbte(month1);
+                return d.getDbyOfMonth();
             }
         }
         return getMinimum(field);
     }
 
     /**
-     * Returns the maximum value that this calendar field could have,
-     * taking into consideration the given time value and the current
-     * values of the
-     * {@link Calendar#getFirstDayOfWeek() getFirstDayOfWeek},
-     * {@link Calendar#getMinimalDaysInFirstWeek() getMinimalDaysInFirstWeek},
-     * {@link #getGregorianChange() getGregorianChange} and
-     * {@link Calendar#getTimeZone() getTimeZone} methods.
-     * For example, if the date of this instance is February 1, 2004,
-     * the actual maximum value of the <code>DAY_OF_MONTH</code> field
-     * is 29 because 2004 is a leap year, and if the date of this
-     * instance is February 1, 2005, it's 28.
+     * Returns the mbximum vblue thbt this cblendbr field could hbve,
+     * tbking into considerbtion the given time vblue bnd the current
+     * vblues of the
+     * {@link Cblendbr#getFirstDbyOfWeek() getFirstDbyOfWeek},
+     * {@link Cblendbr#getMinimblDbysInFirstWeek() getMinimblDbysInFirstWeek},
+     * {@link #getGregoribnChbnge() getGregoribnChbnge} bnd
+     * {@link Cblendbr#getTimeZone() getTimeZone} methods.
+     * For exbmple, if the dbte of this instbnce is Februbry 1, 2004,
+     * the bctubl mbximum vblue of the <code>DAY_OF_MONTH</code> field
+     * is 29 becbuse 2004 is b lebp yebr, bnd if the dbte of this
+     * instbnce is Februbry 1, 2005, it's 28.
      *
-     * <p>This method calculates the maximum value of {@link
-     * Calendar#WEEK_OF_YEAR WEEK_OF_YEAR} based on the {@link
-     * Calendar#YEAR YEAR} (calendar year) value, not the <a
-     * href="#week_year">week year</a>. Call {@link
-     * #getWeeksInWeekYear()} to get the maximum value of {@code
-     * WEEK_OF_YEAR} in the week year of this {@code GregorianCalendar}.
+     * <p>This method cblculbtes the mbximum vblue of {@link
+     * Cblendbr#WEEK_OF_YEAR WEEK_OF_YEAR} bbsed on the {@link
+     * Cblendbr#YEAR YEAR} (cblendbr yebr) vblue, not the <b
+     * href="#week_yebr">week yebr</b>. Cbll {@link
+     * #getWeeksInWeekYebr()} to get the mbximum vblue of {@code
+     * WEEK_OF_YEAR} in the week yebr of this {@code GregoribnCblendbr}.
      *
-     * @param field the calendar field
-     * @return the maximum of the given field for the time value of
-     * this <code>GregorianCalendar</code>
+     * @pbrbm field the cblendbr field
+     * @return the mbximum of the given field for the time vblue of
+     * this <code>GregoribnCblendbr</code>
      * @see #getMinimum(int)
-     * @see #getMaximum(int)
-     * @see #getGreatestMinimum(int)
-     * @see #getLeastMaximum(int)
-     * @see #getActualMinimum(int)
+     * @see #getMbximum(int)
+     * @see #getGrebtestMinimum(int)
+     * @see #getLebstMbximum(int)
+     * @see #getActublMinimum(int)
      * @since 1.2
      */
     @Override
-    public int getActualMaximum(int field) {
-        final int fieldsForFixedMax = ERA_MASK|DAY_OF_WEEK_MASK|HOUR_MASK|AM_PM_MASK|
+    public int getActublMbximum(int field) {
+        finbl int fieldsForFixedMbx = ERA_MASK|DAY_OF_WEEK_MASK|HOUR_MASK|AM_PM_MASK|
             HOUR_OF_DAY_MASK|MINUTE_MASK|SECOND_MASK|MILLISECOND_MASK|
             ZONE_OFFSET_MASK|DST_OFFSET_MASK;
-        if ((fieldsForFixedMax & (1<<field)) != 0) {
-            return getMaximum(field);
+        if ((fieldsForFixedMbx & (1<<field)) != 0) {
+            return getMbximum(field);
         }
 
-        GregorianCalendar gc = getNormalizedCalendar();
-        BaseCalendar.Date date = gc.cdate;
-        BaseCalendar cal = gc.calsys;
-        int normalizedYear = date.getNormalizedYear();
+        GregoribnCblendbr gc = getNormblizedCblendbr();
+        BbseCblendbr.Dbte dbte = gc.cdbte;
+        BbseCblendbr cbl = gc.cblsys;
+        int normblizedYebr = dbte.getNormblizedYebr();
 
-        int value = -1;
+        int vblue = -1;
         switch (field) {
-        case MONTH:
+        cbse MONTH:
             {
-                if (!gc.isCutoverYear(normalizedYear)) {
-                    value = DECEMBER;
-                    break;
+                if (!gc.isCutoverYebr(normblizedYebr)) {
+                    vblue = DECEMBER;
+                    brebk;
                 }
 
-                // January 1 of the next year may or may not exist.
-                long nextJan1;
+                // Jbnubry 1 of the next yebr mby or mby not exist.
+                long nextJbn1;
                 do {
-                    nextJan1 = gcal.getFixedDate(++normalizedYear, BaseCalendar.JANUARY, 1, null);
-                } while (nextJan1 < gregorianCutoverDate);
-                BaseCalendar.Date d = (BaseCalendar.Date) date.clone();
-                cal.getCalendarDateFromFixedDate(d, nextJan1 - 1);
-                value = d.getMonth() - 1;
+                    nextJbn1 = gcbl.getFixedDbte(++normblizedYebr, BbseCblendbr.JANUARY, 1, null);
+                } while (nextJbn1 < gregoribnCutoverDbte);
+                BbseCblendbr.Dbte d = (BbseCblendbr.Dbte) dbte.clone();
+                cbl.getCblendbrDbteFromFixedDbte(d, nextJbn1 - 1);
+                vblue = d.getMonth() - 1;
             }
-            break;
+            brebk;
 
-        case DAY_OF_MONTH:
+        cbse DAY_OF_MONTH:
             {
-                value = cal.getMonthLength(date);
-                if (!gc.isCutoverYear(normalizedYear) || date.getDayOfMonth() == value) {
-                    break;
+                vblue = cbl.getMonthLength(dbte);
+                if (!gc.isCutoverYebr(normblizedYebr) || dbte.getDbyOfMonth() == vblue) {
+                    brebk;
                 }
 
-                // Handle cutover year.
-                long fd = gc.getCurrentFixedDate();
-                if (fd >= gregorianCutoverDate) {
-                    break;
+                // Hbndle cutover yebr.
+                long fd = gc.getCurrentFixedDbte();
+                if (fd >= gregoribnCutoverDbte) {
+                    brebk;
                 }
-                int monthLength = gc.actualMonthLength();
-                long monthEnd = gc.getFixedDateMonth1(gc.cdate, fd) + monthLength - 1;
-                // Convert the fixed date to its calendar date.
-                BaseCalendar.Date d = gc.getCalendarDate(monthEnd);
-                value = d.getDayOfMonth();
+                int monthLength = gc.bctublMonthLength();
+                long monthEnd = gc.getFixedDbteMonth1(gc.cdbte, fd) + monthLength - 1;
+                // Convert the fixed dbte to its cblendbr dbte.
+                BbseCblendbr.Dbte d = gc.getCblendbrDbte(monthEnd);
+                vblue = d.getDbyOfMonth();
             }
-            break;
+            brebk;
 
-        case DAY_OF_YEAR:
+        cbse DAY_OF_YEAR:
             {
-                if (!gc.isCutoverYear(normalizedYear)) {
-                    value = cal.getYearLength(date);
-                    break;
+                if (!gc.isCutoverYebr(normblizedYebr)) {
+                    vblue = cbl.getYebrLength(dbte);
+                    brebk;
                 }
 
-                // Handle cutover year.
-                long jan1;
-                if (gregorianCutoverYear == gregorianCutoverYearJulian) {
-                    BaseCalendar cocal = gc.getCutoverCalendarSystem();
-                    jan1 = cocal.getFixedDate(normalizedYear, 1, 1, null);
-                } else if (normalizedYear == gregorianCutoverYearJulian) {
-                    jan1 = cal.getFixedDate(normalizedYear, 1, 1, null);
+                // Hbndle cutover yebr.
+                long jbn1;
+                if (gregoribnCutoverYebr == gregoribnCutoverYebrJulibn) {
+                    BbseCblendbr cocbl = gc.getCutoverCblendbrSystem();
+                    jbn1 = cocbl.getFixedDbte(normblizedYebr, 1, 1, null);
+                } else if (normblizedYebr == gregoribnCutoverYebrJulibn) {
+                    jbn1 = cbl.getFixedDbte(normblizedYebr, 1, 1, null);
                 } else {
-                    jan1 = gregorianCutoverDate;
+                    jbn1 = gregoribnCutoverDbte;
                 }
-                // January 1 of the next year may or may not exist.
-                long nextJan1 = gcal.getFixedDate(++normalizedYear, 1, 1, null);
-                if (nextJan1 < gregorianCutoverDate) {
-                    nextJan1 = gregorianCutoverDate;
+                // Jbnubry 1 of the next yebr mby or mby not exist.
+                long nextJbn1 = gcbl.getFixedDbte(++normblizedYebr, 1, 1, null);
+                if (nextJbn1 < gregoribnCutoverDbte) {
+                    nextJbn1 = gregoribnCutoverDbte;
                 }
-                assert jan1 <= cal.getFixedDate(date.getNormalizedYear(), date.getMonth(),
-                                                date.getDayOfMonth(), date);
-                assert nextJan1 >= cal.getFixedDate(date.getNormalizedYear(), date.getMonth(),
-                                                date.getDayOfMonth(), date);
-                value = (int)(nextJan1 - jan1);
+                bssert jbn1 <= cbl.getFixedDbte(dbte.getNormblizedYebr(), dbte.getMonth(),
+                                                dbte.getDbyOfMonth(), dbte);
+                bssert nextJbn1 >= cbl.getFixedDbte(dbte.getNormblizedYebr(), dbte.getMonth(),
+                                                dbte.getDbyOfMonth(), dbte);
+                vblue = (int)(nextJbn1 - jbn1);
             }
-            break;
+            brebk;
 
-        case WEEK_OF_YEAR:
+        cbse WEEK_OF_YEAR:
             {
-                if (!gc.isCutoverYear(normalizedYear)) {
-                    // Get the day of week of January 1 of the year
-                    CalendarDate d = cal.newCalendarDate(TimeZone.NO_TIMEZONE);
-                    d.setDate(date.getYear(), BaseCalendar.JANUARY, 1);
-                    int dayOfWeek = cal.getDayOfWeek(d);
-                    // Normalize the day of week with the firstDayOfWeek value
-                    dayOfWeek -= getFirstDayOfWeek();
-                    if (dayOfWeek < 0) {
-                        dayOfWeek += 7;
+                if (!gc.isCutoverYebr(normblizedYebr)) {
+                    // Get the dby of week of Jbnubry 1 of the yebr
+                    CblendbrDbte d = cbl.newCblendbrDbte(TimeZone.NO_TIMEZONE);
+                    d.setDbte(dbte.getYebr(), BbseCblendbr.JANUARY, 1);
+                    int dbyOfWeek = cbl.getDbyOfWeek(d);
+                    // Normblize the dby of week with the firstDbyOfWeek vblue
+                    dbyOfWeek -= getFirstDbyOfWeek();
+                    if (dbyOfWeek < 0) {
+                        dbyOfWeek += 7;
                     }
-                    value = 52;
-                    int magic = dayOfWeek + getMinimalDaysInFirstWeek() - 1;
-                    if ((magic == 6) ||
-                        (date.isLeapYear() && (magic == 5 || magic == 12))) {
-                        value++;
+                    vblue = 52;
+                    int mbgic = dbyOfWeek + getMinimblDbysInFirstWeek() - 1;
+                    if ((mbgic == 6) ||
+                        (dbte.isLebpYebr() && (mbgic == 5 || mbgic == 12))) {
+                        vblue++;
                     }
-                    break;
+                    brebk;
                 }
 
                 if (gc == this) {
-                    gc = (GregorianCalendar) gc.clone();
+                    gc = (GregoribnCblendbr) gc.clone();
                 }
-                int maxDayOfYear = getActualMaximum(DAY_OF_YEAR);
-                gc.set(DAY_OF_YEAR, maxDayOfYear);
-                value = gc.get(WEEK_OF_YEAR);
-                if (internalGet(YEAR) != gc.getWeekYear()) {
-                    gc.set(DAY_OF_YEAR, maxDayOfYear - 7);
-                    value = gc.get(WEEK_OF_YEAR);
+                int mbxDbyOfYebr = getActublMbximum(DAY_OF_YEAR);
+                gc.set(DAY_OF_YEAR, mbxDbyOfYebr);
+                vblue = gc.get(WEEK_OF_YEAR);
+                if (internblGet(YEAR) != gc.getWeekYebr()) {
+                    gc.set(DAY_OF_YEAR, mbxDbyOfYebr - 7);
+                    vblue = gc.get(WEEK_OF_YEAR);
                 }
             }
-            break;
+            brebk;
 
-        case WEEK_OF_MONTH:
+        cbse WEEK_OF_MONTH:
             {
-                if (!gc.isCutoverYear(normalizedYear)) {
-                    CalendarDate d = cal.newCalendarDate(null);
-                    d.setDate(date.getYear(), date.getMonth(), 1);
-                    int dayOfWeek = cal.getDayOfWeek(d);
-                    int monthLength = cal.getMonthLength(d);
-                    dayOfWeek -= getFirstDayOfWeek();
-                    if (dayOfWeek < 0) {
-                        dayOfWeek += 7;
+                if (!gc.isCutoverYebr(normblizedYebr)) {
+                    CblendbrDbte d = cbl.newCblendbrDbte(null);
+                    d.setDbte(dbte.getYebr(), dbte.getMonth(), 1);
+                    int dbyOfWeek = cbl.getDbyOfWeek(d);
+                    int monthLength = cbl.getMonthLength(d);
+                    dbyOfWeek -= getFirstDbyOfWeek();
+                    if (dbyOfWeek < 0) {
+                        dbyOfWeek += 7;
                     }
-                    int nDaysFirstWeek = 7 - dayOfWeek; // # of days in the first week
-                    value = 3;
-                    if (nDaysFirstWeek >= getMinimalDaysInFirstWeek()) {
-                        value++;
+                    int nDbysFirstWeek = 7 - dbyOfWeek; // # of dbys in the first week
+                    vblue = 3;
+                    if (nDbysFirstWeek >= getMinimblDbysInFirstWeek()) {
+                        vblue++;
                     }
-                    monthLength -= nDaysFirstWeek + 7 * 3;
+                    monthLength -= nDbysFirstWeek + 7 * 3;
                     if (monthLength > 0) {
-                        value++;
+                        vblue++;
                         if (monthLength > 7) {
-                            value++;
+                            vblue++;
                         }
                     }
-                    break;
+                    brebk;
                 }
 
-                // Cutover year handling
+                // Cutover yebr hbndling
                 if (gc == this) {
-                    gc = (GregorianCalendar) gc.clone();
+                    gc = (GregoribnCblendbr) gc.clone();
                 }
-                int y = gc.internalGet(YEAR);
-                int m = gc.internalGet(MONTH);
+                int y = gc.internblGet(YEAR);
+                int m = gc.internblGet(MONTH);
                 do {
-                    value = gc.get(WEEK_OF_MONTH);
-                    gc.add(WEEK_OF_MONTH, +1);
+                    vblue = gc.get(WEEK_OF_MONTH);
+                    gc.bdd(WEEK_OF_MONTH, +1);
                 } while (gc.get(YEAR) == y && gc.get(MONTH) == m);
             }
-            break;
+            brebk;
 
-        case DAY_OF_WEEK_IN_MONTH:
+        cbse DAY_OF_WEEK_IN_MONTH:
             {
-                // may be in the Gregorian cutover month
-                int ndays, dow1;
-                int dow = date.getDayOfWeek();
-                if (!gc.isCutoverYear(normalizedYear)) {
-                    BaseCalendar.Date d = (BaseCalendar.Date) date.clone();
-                    ndays = cal.getMonthLength(d);
-                    d.setDayOfMonth(1);
-                    cal.normalize(d);
-                    dow1 = d.getDayOfWeek();
+                // mby be in the Gregoribn cutover month
+                int ndbys, dow1;
+                int dow = dbte.getDbyOfWeek();
+                if (!gc.isCutoverYebr(normblizedYebr)) {
+                    BbseCblendbr.Dbte d = (BbseCblendbr.Dbte) dbte.clone();
+                    ndbys = cbl.getMonthLength(d);
+                    d.setDbyOfMonth(1);
+                    cbl.normblize(d);
+                    dow1 = d.getDbyOfWeek();
                 } else {
-                    // Let a cloned GregorianCalendar take care of the cutover cases.
+                    // Let b cloned GregoribnCblendbr tbke cbre of the cutover cbses.
                     if (gc == this) {
-                        gc = (GregorianCalendar) clone();
+                        gc = (GregoribnCblendbr) clone();
                     }
-                    ndays = gc.actualMonthLength();
-                    gc.set(DAY_OF_MONTH, gc.getActualMinimum(DAY_OF_MONTH));
+                    ndbys = gc.bctublMonthLength();
+                    gc.set(DAY_OF_MONTH, gc.getActublMinimum(DAY_OF_MONTH));
                     dow1 = gc.get(DAY_OF_WEEK);
                 }
                 int x = dow - dow1;
                 if (x < 0) {
                     x += 7;
                 }
-                ndays -= x;
-                value = (ndays + 6) / 7;
+                ndbys -= x;
+                vblue = (ndbys + 6) / 7;
             }
-            break;
+            brebk;
 
-        case YEAR:
-            /* The year computation is no different, in principle, from the
-             * others, however, the range of possible maxima is large.  In
-             * addition, the way we know we've exceeded the range is different.
-             * For these reasons, we use the special case code below to handle
+        cbse YEAR:
+            /* The yebr computbtion is no different, in principle, from the
+             * others, however, the rbnge of possible mbximb is lbrge.  In
+             * bddition, the wby we know we've exceeded the rbnge is different.
+             * For these rebsons, we use the specibl cbse code below to hbndle
              * this field.
              *
-             * The actual maxima for YEAR depend on the type of calendar:
+             * The bctubl mbximb for YEAR depend on the type of cblendbr:
              *
-             *     Gregorian = May 17, 292275056 BCE - Aug 17, 292278994 CE
-             *     Julian    = Dec  2, 292269055 BCE - Jan  3, 292272993 CE
+             *     Gregoribn = Mby 17, 292275056 BCE - Aug 17, 292278994 CE
+             *     Julibn    = Dec  2, 292269055 BCE - Jbn  3, 292272993 CE
              *     Hybrid    = Dec  2, 292269055 BCE - Aug 17, 292278994 CE
              *
-             * We know we've exceeded the maximum when either the month, date,
-             * time, or era changes in response to setting the year.  We don't
-             * check for month, date, and time here because the year and era are
-             * sufficient to detect an invalid year setting.  NOTE: If code is
-             * added to check the month and date in the future for some reason,
-             * Feb 29 must be allowed to shift to Mar 1 when setting the year.
+             * We know we've exceeded the mbximum when either the month, dbte,
+             * time, or erb chbnges in response to setting the yebr.  We don't
+             * check for month, dbte, bnd time here becbuse the yebr bnd erb bre
+             * sufficient to detect bn invblid yebr setting.  NOTE: If code is
+             * bdded to check the month bnd dbte in the future for some rebson,
+             * Feb 29 must be bllowed to shift to Mbr 1 when setting the yebr.
              */
             {
                 if (gc == this) {
-                    gc = (GregorianCalendar) clone();
+                    gc = (GregoribnCblendbr) clone();
                 }
 
-                // Calculate the millisecond offset from the beginning
-                // of the year of this calendar and adjust the max
-                // year value if we are beyond the limit in the max
-                // year.
-                long current = gc.getYearOffsetInMillis();
+                // Cblculbte the millisecond offset from the beginning
+                // of the yebr of this cblendbr bnd bdjust the mbx
+                // yebr vblue if we bre beyond the limit in the mbx
+                // yebr.
+                long current = gc.getYebrOffsetInMillis();
 
-                if (gc.internalGetEra() == CE) {
+                if (gc.internblGetErb() == CE) {
                     gc.setTimeInMillis(Long.MAX_VALUE);
-                    value = gc.get(YEAR);
-                    long maxEnd = gc.getYearOffsetInMillis();
-                    if (current > maxEnd) {
-                        value--;
+                    vblue = gc.get(YEAR);
+                    long mbxEnd = gc.getYebrOffsetInMillis();
+                    if (current > mbxEnd) {
+                        vblue--;
                     }
                 } else {
-                    CalendarSystem mincal = gc.getTimeInMillis() >= gregorianCutover ?
-                        gcal : getJulianCalendarSystem();
-                    CalendarDate d = mincal.getCalendarDate(Long.MIN_VALUE, getZone());
-                    long maxEnd = (cal.getDayOfYear(d) - 1) * 24 + d.getHours();
-                    maxEnd *= 60;
-                    maxEnd += d.getMinutes();
-                    maxEnd *= 60;
-                    maxEnd += d.getSeconds();
-                    maxEnd *= 1000;
-                    maxEnd += d.getMillis();
-                    value = d.getYear();
-                    if (value <= 0) {
-                        assert mincal == gcal;
-                        value = 1 - value;
+                    CblendbrSystem mincbl = gc.getTimeInMillis() >= gregoribnCutover ?
+                        gcbl : getJulibnCblendbrSystem();
+                    CblendbrDbte d = mincbl.getCblendbrDbte(Long.MIN_VALUE, getZone());
+                    long mbxEnd = (cbl.getDbyOfYebr(d) - 1) * 24 + d.getHours();
+                    mbxEnd *= 60;
+                    mbxEnd += d.getMinutes();
+                    mbxEnd *= 60;
+                    mbxEnd += d.getSeconds();
+                    mbxEnd *= 1000;
+                    mbxEnd += d.getMillis();
+                    vblue = d.getYebr();
+                    if (vblue <= 0) {
+                        bssert mincbl == gcbl;
+                        vblue = 1 - vblue;
                     }
-                    if (current < maxEnd) {
-                        value--;
+                    if (current < mbxEnd) {
+                        vblue--;
                     }
                 }
             }
-            break;
+            brebk;
 
-        default:
-            throw new ArrayIndexOutOfBoundsException(field);
+        defbult:
+            throw new ArrbyIndexOutOfBoundsException(field);
         }
-        return value;
+        return vblue;
     }
 
     /**
      * Returns the millisecond offset from the beginning of this
-     * year. This Calendar object must have been normalized.
+     * yebr. This Cblendbr object must hbve been normblized.
      */
-    private long getYearOffsetInMillis() {
-        long t = (internalGet(DAY_OF_YEAR) - 1) * 24;
-        t += internalGet(HOUR_OF_DAY);
+    privbte long getYebrOffsetInMillis() {
+        long t = (internblGet(DAY_OF_YEAR) - 1) * 24;
+        t += internblGet(HOUR_OF_DAY);
         t *= 60;
-        t += internalGet(MINUTE);
+        t += internblGet(MINUTE);
         t *= 60;
-        t += internalGet(SECOND);
+        t += internblGet(SECOND);
         t *= 1000;
-        return t + internalGet(MILLISECOND) -
-            (internalGet(ZONE_OFFSET) + internalGet(DST_OFFSET));
+        return t + internblGet(MILLISECOND) -
+            (internblGet(ZONE_OFFSET) + internblGet(DST_OFFSET));
     }
 
     @Override
     public Object clone()
     {
-        GregorianCalendar other = (GregorianCalendar) super.clone();
+        GregoribnCblendbr other = (GregoribnCblendbr) super.clone();
 
-        other.gdate = (BaseCalendar.Date) gdate.clone();
-        if (cdate != null) {
-            if (cdate != gdate) {
-                other.cdate = (BaseCalendar.Date) cdate.clone();
+        other.gdbte = (BbseCblendbr.Dbte) gdbte.clone();
+        if (cdbte != null) {
+            if (cdbte != gdbte) {
+                other.cdbte = (BbseCblendbr.Dbte) cdbte.clone();
             } else {
-                other.cdate = other.gdate;
+                other.cdbte = other.gdbte;
             }
         }
-        other.originalFields = null;
+        other.originblFields = null;
         other.zoneOffsets = null;
         return other;
     }
@@ -2018,10 +2018,10 @@ public class GregorianCalendar extends Calendar {
     @Override
     public TimeZone getTimeZone() {
         TimeZone zone = super.getTimeZone();
-        // To share the zone by CalendarDates
-        gdate.setZone(zone);
-        if (cdate != null && cdate != gdate) {
-            cdate.setZone(zone);
+        // To shbre the zone by CblendbrDbtes
+        gdbte.setZone(zone);
+        if (cdbte != null && cdbte != gdbte) {
+            cdbte.setZone(zone);
         }
         return zone;
     }
@@ -2029,952 +2029,952 @@ public class GregorianCalendar extends Calendar {
     @Override
     public void setTimeZone(TimeZone zone) {
         super.setTimeZone(zone);
-        // To share the zone by CalendarDates
-        gdate.setZone(zone);
-        if (cdate != null && cdate != gdate) {
-            cdate.setZone(zone);
+        // To shbre the zone by CblendbrDbtes
+        gdbte.setZone(zone);
+        if (cdbte != null && cdbte != gdbte) {
+            cdbte.setZone(zone);
         }
     }
 
     /**
-     * Returns {@code true} indicating this {@code GregorianCalendar}
-     * supports week dates.
+     * Returns {@code true} indicbting this {@code GregoribnCblendbr}
+     * supports week dbtes.
      *
-     * @return {@code true} (always)
-     * @see #getWeekYear()
-     * @see #setWeekDate(int,int,int)
-     * @see #getWeeksInWeekYear()
+     * @return {@code true} (blwbys)
+     * @see #getWeekYebr()
+     * @see #setWeekDbte(int,int,int)
+     * @see #getWeeksInWeekYebr()
      * @since 1.7
      */
     @Override
-    public final boolean isWeekDateSupported() {
+    public finbl boolebn isWeekDbteSupported() {
         return true;
     }
 
     /**
-     * Returns the <a href="#week_year">week year</a> represented by this
-     * {@code GregorianCalendar}. The dates in the weeks between 1 and the
-     * maximum week number of the week year have the same week year value
-     * that may be one year before or after the {@link Calendar#YEAR YEAR}
-     * (calendar year) value.
+     * Returns the <b href="#week_yebr">week yebr</b> represented by this
+     * {@code GregoribnCblendbr}. The dbtes in the weeks between 1 bnd the
+     * mbximum week number of the week yebr hbve the sbme week yebr vblue
+     * thbt mby be one yebr before or bfter the {@link Cblendbr#YEAR YEAR}
+     * (cblendbr yebr) vblue.
      *
-     * <p>This method calls {@link Calendar#complete()} before
-     * calculating the week year.
+     * <p>This method cblls {@link Cblendbr#complete()} before
+     * cblculbting the week yebr.
      *
-     * @return the week year represented by this {@code GregorianCalendar}.
-     *         If the {@link Calendar#ERA ERA} value is {@link #BC}, the year is
-     *         represented by 0 or a negative number: BC 1 is 0, BC 2
-     *         is -1, BC 3 is -2, and so on.
-     * @throws IllegalArgumentException
-     *         if any of the calendar fields is invalid in non-lenient mode.
-     * @see #isWeekDateSupported()
-     * @see #getWeeksInWeekYear()
-     * @see Calendar#getFirstDayOfWeek()
-     * @see Calendar#getMinimalDaysInFirstWeek()
+     * @return the week yebr represented by this {@code GregoribnCblendbr}.
+     *         If the {@link Cblendbr#ERA ERA} vblue is {@link #BC}, the yebr is
+     *         represented by 0 or b negbtive number: BC 1 is 0, BC 2
+     *         is -1, BC 3 is -2, bnd so on.
+     * @throws IllegblArgumentException
+     *         if bny of the cblendbr fields is invblid in non-lenient mode.
+     * @see #isWeekDbteSupported()
+     * @see #getWeeksInWeekYebr()
+     * @see Cblendbr#getFirstDbyOfWeek()
+     * @see Cblendbr#getMinimblDbysInFirstWeek()
      * @since 1.7
      */
     @Override
-    public int getWeekYear() {
-        int year = get(YEAR); // implicitly calls complete()
-        if (internalGetEra() == BCE) {
-            year = 1 - year;
+    public int getWeekYebr() {
+        int yebr = get(YEAR); // implicitly cblls complete()
+        if (internblGetErb() == BCE) {
+            yebr = 1 - yebr;
         }
 
-        // Fast path for the Gregorian calendar years that are never
-        // affected by the Julian-Gregorian transition
-        if (year > gregorianCutoverYear + 1) {
-            int weekOfYear = internalGet(WEEK_OF_YEAR);
-            if (internalGet(MONTH) == JANUARY) {
-                if (weekOfYear >= 52) {
-                    --year;
+        // Fbst pbth for the Gregoribn cblendbr yebrs thbt bre never
+        // bffected by the Julibn-Gregoribn trbnsition
+        if (yebr > gregoribnCutoverYebr + 1) {
+            int weekOfYebr = internblGet(WEEK_OF_YEAR);
+            if (internblGet(MONTH) == JANUARY) {
+                if (weekOfYebr >= 52) {
+                    --yebr;
                 }
             } else {
-                if (weekOfYear == 1) {
-                    ++year;
+                if (weekOfYebr == 1) {
+                    ++yebr;
                 }
             }
-            return year;
+            return yebr;
         }
 
-        // General (slow) path
-        int dayOfYear = internalGet(DAY_OF_YEAR);
-        int maxDayOfYear = getActualMaximum(DAY_OF_YEAR);
-        int minimalDays = getMinimalDaysInFirstWeek();
+        // Generbl (slow) pbth
+        int dbyOfYebr = internblGet(DAY_OF_YEAR);
+        int mbxDbyOfYebr = getActublMbximum(DAY_OF_YEAR);
+        int minimblDbys = getMinimblDbysInFirstWeek();
 
-        // Quickly check the possibility of year adjustments before
-        // cloning this GregorianCalendar.
-        if (dayOfYear > minimalDays && dayOfYear < (maxDayOfYear - 6)) {
-            return year;
+        // Quickly check the possibility of yebr bdjustments before
+        // cloning this GregoribnCblendbr.
+        if (dbyOfYebr > minimblDbys && dbyOfYebr < (mbxDbyOfYebr - 6)) {
+            return yebr;
         }
 
-        // Create a clone to work on the calculation
-        GregorianCalendar cal = (GregorianCalendar) clone();
-        cal.setLenient(true);
-        // Use GMT so that intermediate date calculations won't
-        // affect the time of day fields.
-        cal.setTimeZone(TimeZone.getTimeZone("GMT"));
-        // Go to the first day of the year, which is usually January 1.
-        cal.set(DAY_OF_YEAR, 1);
-        cal.complete();
+        // Crebte b clone to work on the cblculbtion
+        GregoribnCblendbr cbl = (GregoribnCblendbr) clone();
+        cbl.setLenient(true);
+        // Use GMT so thbt intermedibte dbte cblculbtions won't
+        // bffect the time of dby fields.
+        cbl.setTimeZone(TimeZone.getTimeZone("GMT"));
+        // Go to the first dby of the yebr, which is usublly Jbnubry 1.
+        cbl.set(DAY_OF_YEAR, 1);
+        cbl.complete();
 
-        // Get the first day of the first day-of-week in the year.
-        int delta = getFirstDayOfWeek() - cal.get(DAY_OF_WEEK);
-        if (delta != 0) {
-            if (delta < 0) {
-                delta += 7;
+        // Get the first dby of the first dby-of-week in the yebr.
+        int deltb = getFirstDbyOfWeek() - cbl.get(DAY_OF_WEEK);
+        if (deltb != 0) {
+            if (deltb < 0) {
+                deltb += 7;
             }
-            cal.add(DAY_OF_YEAR, delta);
+            cbl.bdd(DAY_OF_YEAR, deltb);
         }
-        int minDayOfYear = cal.get(DAY_OF_YEAR);
-        if (dayOfYear < minDayOfYear) {
-            if (minDayOfYear <= minimalDays) {
-                --year;
+        int minDbyOfYebr = cbl.get(DAY_OF_YEAR);
+        if (dbyOfYebr < minDbyOfYebr) {
+            if (minDbyOfYebr <= minimblDbys) {
+                --yebr;
             }
         } else {
-            cal.set(YEAR, year + 1);
-            cal.set(DAY_OF_YEAR, 1);
-            cal.complete();
-            int del = getFirstDayOfWeek() - cal.get(DAY_OF_WEEK);
+            cbl.set(YEAR, yebr + 1);
+            cbl.set(DAY_OF_YEAR, 1);
+            cbl.complete();
+            int del = getFirstDbyOfWeek() - cbl.get(DAY_OF_WEEK);
             if (del != 0) {
                 if (del < 0) {
                     del += 7;
                 }
-                cal.add(DAY_OF_YEAR, del);
+                cbl.bdd(DAY_OF_YEAR, del);
             }
-            minDayOfYear = cal.get(DAY_OF_YEAR) - 1;
-            if (minDayOfYear == 0) {
-                minDayOfYear = 7;
+            minDbyOfYebr = cbl.get(DAY_OF_YEAR) - 1;
+            if (minDbyOfYebr == 0) {
+                minDbyOfYebr = 7;
             }
-            if (minDayOfYear >= minimalDays) {
-                int days = maxDayOfYear - dayOfYear + 1;
-                if (days <= (7 - minDayOfYear)) {
-                    ++year;
+            if (minDbyOfYebr >= minimblDbys) {
+                int dbys = mbxDbyOfYebr - dbyOfYebr + 1;
+                if (dbys <= (7 - minDbyOfYebr)) {
+                    ++yebr;
                 }
             }
         }
-        return year;
+        return yebr;
     }
 
     /**
-     * Sets this {@code GregorianCalendar} to the date given by the
-     * date specifiers - <a href="#week_year">{@code weekYear}</a>,
-     * {@code weekOfYear}, and {@code dayOfWeek}. {@code weekOfYear}
-     * follows the <a href="#week_and_year">{@code WEEK_OF_YEAR}
-     * numbering</a>.  The {@code dayOfWeek} value must be one of the
-     * {@link Calendar#DAY_OF_WEEK DAY_OF_WEEK} values: {@link
-     * Calendar#SUNDAY SUNDAY} to {@link Calendar#SATURDAY SATURDAY}.
+     * Sets this {@code GregoribnCblendbr} to the dbte given by the
+     * dbte specifiers - <b href="#week_yebr">{@code weekYebr}</b>,
+     * {@code weekOfYebr}, bnd {@code dbyOfWeek}. {@code weekOfYebr}
+     * follows the <b href="#week_bnd_yebr">{@code WEEK_OF_YEAR}
+     * numbering</b>.  The {@code dbyOfWeek} vblue must be one of the
+     * {@link Cblendbr#DAY_OF_WEEK DAY_OF_WEEK} vblues: {@link
+     * Cblendbr#SUNDAY SUNDAY} to {@link Cblendbr#SATURDAY SATURDAY}.
      *
-     * <p>Note that the numeric day-of-week representation differs from
-     * the ISO 8601 standard, and that the {@code weekOfYear}
-     * numbering is compatible with the standard when {@code
-     * getFirstDayOfWeek()} is {@code MONDAY} and {@code
-     * getMinimalDaysInFirstWeek()} is 4.
+     * <p>Note thbt the numeric dby-of-week representbtion differs from
+     * the ISO 8601 stbndbrd, bnd thbt the {@code weekOfYebr}
+     * numbering is compbtible with the stbndbrd when {@code
+     * getFirstDbyOfWeek()} is {@code MONDAY} bnd {@code
+     * getMinimblDbysInFirstWeek()} is 4.
      *
-     * <p>Unlike the {@code set} method, all of the calendar fields
-     * and the instant of time value are calculated upon return.
+     * <p>Unlike the {@code set} method, bll of the cblendbr fields
+     * bnd the instbnt of time vblue bre cblculbted upon return.
      *
-     * <p>If {@code weekOfYear} is out of the valid week-of-year
-     * range in {@code weekYear}, the {@code weekYear}
-     * and {@code weekOfYear} values are adjusted in lenient
-     * mode, or an {@code IllegalArgumentException} is thrown in
+     * <p>If {@code weekOfYebr} is out of the vblid week-of-yebr
+     * rbnge in {@code weekYebr}, the {@code weekYebr}
+     * bnd {@code weekOfYebr} vblues bre bdjusted in lenient
+     * mode, or bn {@code IllegblArgumentException} is thrown in
      * non-lenient mode.
      *
-     * @param weekYear    the week year
-     * @param weekOfYear  the week number based on {@code weekYear}
-     * @param dayOfWeek   the day of week value: one of the constants
+     * @pbrbm weekYebr    the week yebr
+     * @pbrbm weekOfYebr  the week number bbsed on {@code weekYebr}
+     * @pbrbm dbyOfWeek   the dby of week vblue: one of the constbnts
      *                    for the {@link #DAY_OF_WEEK DAY_OF_WEEK} field:
-     *                    {@link Calendar#SUNDAY SUNDAY}, ...,
-     *                    {@link Calendar#SATURDAY SATURDAY}.
-     * @exception IllegalArgumentException
-     *            if any of the given date specifiers is invalid,
-     *            or if any of the calendar fields are inconsistent
-     *            with the given date specifiers in non-lenient mode
-     * @see GregorianCalendar#isWeekDateSupported()
-     * @see Calendar#getFirstDayOfWeek()
-     * @see Calendar#getMinimalDaysInFirstWeek()
+     *                    {@link Cblendbr#SUNDAY SUNDAY}, ...,
+     *                    {@link Cblendbr#SATURDAY SATURDAY}.
+     * @exception IllegblArgumentException
+     *            if bny of the given dbte specifiers is invblid,
+     *            or if bny of the cblendbr fields bre inconsistent
+     *            with the given dbte specifiers in non-lenient mode
+     * @see GregoribnCblendbr#isWeekDbteSupported()
+     * @see Cblendbr#getFirstDbyOfWeek()
+     * @see Cblendbr#getMinimblDbysInFirstWeek()
      * @since 1.7
      */
     @Override
-    public void setWeekDate(int weekYear, int weekOfYear, int dayOfWeek) {
-        if (dayOfWeek < SUNDAY || dayOfWeek > SATURDAY) {
-            throw new IllegalArgumentException("invalid dayOfWeek: " + dayOfWeek);
+    public void setWeekDbte(int weekYebr, int weekOfYebr, int dbyOfWeek) {
+        if (dbyOfWeek < SUNDAY || dbyOfWeek > SATURDAY) {
+            throw new IllegblArgumentException("invblid dbyOfWeek: " + dbyOfWeek);
         }
 
-        // To avoid changing the time of day fields by date
-        // calculations, use a clone with the GMT time zone.
-        GregorianCalendar gc = (GregorianCalendar) clone();
+        // To bvoid chbnging the time of dby fields by dbte
+        // cblculbtions, use b clone with the GMT time zone.
+        GregoribnCblendbr gc = (GregoribnCblendbr) clone();
         gc.setLenient(true);
-        int era = gc.get(ERA);
-        gc.clear();
+        int erb = gc.get(ERA);
+        gc.clebr();
         gc.setTimeZone(TimeZone.getTimeZone("GMT"));
-        gc.set(ERA, era);
-        gc.set(YEAR, weekYear);
+        gc.set(ERA, erb);
+        gc.set(YEAR, weekYebr);
         gc.set(WEEK_OF_YEAR, 1);
-        gc.set(DAY_OF_WEEK, getFirstDayOfWeek());
-        int days = dayOfWeek - getFirstDayOfWeek();
-        if (days < 0) {
-            days += 7;
+        gc.set(DAY_OF_WEEK, getFirstDbyOfWeek());
+        int dbys = dbyOfWeek - getFirstDbyOfWeek();
+        if (dbys < 0) {
+            dbys += 7;
         }
-        days += 7 * (weekOfYear - 1);
-        if (days != 0) {
-            gc.add(DAY_OF_YEAR, days);
+        dbys += 7 * (weekOfYebr - 1);
+        if (dbys != 0) {
+            gc.bdd(DAY_OF_YEAR, dbys);
         } else {
             gc.complete();
         }
 
         if (!isLenient() &&
-            (gc.getWeekYear() != weekYear
-             || gc.internalGet(WEEK_OF_YEAR) != weekOfYear
-             || gc.internalGet(DAY_OF_WEEK) != dayOfWeek)) {
-            throw new IllegalArgumentException();
+            (gc.getWeekYebr() != weekYebr
+             || gc.internblGet(WEEK_OF_YEAR) != weekOfYebr
+             || gc.internblGet(DAY_OF_WEEK) != dbyOfWeek)) {
+            throw new IllegblArgumentException();
         }
 
-        set(ERA, gc.internalGet(ERA));
-        set(YEAR, gc.internalGet(YEAR));
-        set(MONTH, gc.internalGet(MONTH));
-        set(DAY_OF_MONTH, gc.internalGet(DAY_OF_MONTH));
+        set(ERA, gc.internblGet(ERA));
+        set(YEAR, gc.internblGet(YEAR));
+        set(MONTH, gc.internblGet(MONTH));
+        set(DAY_OF_MONTH, gc.internblGet(DAY_OF_MONTH));
 
-        // to avoid throwing an IllegalArgumentException in
-        // non-lenient, set WEEK_OF_YEAR internally
-        internalSet(WEEK_OF_YEAR, weekOfYear);
+        // to bvoid throwing bn IllegblArgumentException in
+        // non-lenient, set WEEK_OF_YEAR internblly
+        internblSet(WEEK_OF_YEAR, weekOfYebr);
         complete();
     }
 
     /**
-     * Returns the number of weeks in the <a href="#week_year">week year</a>
-     * represented by this {@code GregorianCalendar}.
+     * Returns the number of weeks in the <b href="#week_yebr">week yebr</b>
+     * represented by this {@code GregoribnCblendbr}.
      *
-     * <p>For example, if this {@code GregorianCalendar}'s date is
-     * December 31, 2008 with <a href="#iso8601_compatible_setting">the ISO
-     * 8601 compatible setting</a>, this method will return 53 for the
-     * period: December 29, 2008 to January 3, 2010 while {@link
-     * #getActualMaximum(int) getActualMaximum(WEEK_OF_YEAR)} will return
+     * <p>For exbmple, if this {@code GregoribnCblendbr}'s dbte is
+     * December 31, 2008 with <b href="#iso8601_compbtible_setting">the ISO
+     * 8601 compbtible setting</b>, this method will return 53 for the
+     * period: December 29, 2008 to Jbnubry 3, 2010 while {@link
+     * #getActublMbximum(int) getActublMbximum(WEEK_OF_YEAR)} will return
      * 52 for the period: December 31, 2007 to December 28, 2008.
      *
-     * @return the number of weeks in the week year.
-     * @see Calendar#WEEK_OF_YEAR
-     * @see #getWeekYear()
-     * @see #getActualMaximum(int)
+     * @return the number of weeks in the week yebr.
+     * @see Cblendbr#WEEK_OF_YEAR
+     * @see #getWeekYebr()
+     * @see #getActublMbximum(int)
      * @since 1.7
      */
     @Override
-    public int getWeeksInWeekYear() {
-        GregorianCalendar gc = getNormalizedCalendar();
-        int weekYear = gc.getWeekYear();
-        if (weekYear == gc.internalGet(YEAR)) {
-            return gc.getActualMaximum(WEEK_OF_YEAR);
+    public int getWeeksInWeekYebr() {
+        GregoribnCblendbr gc = getNormblizedCblendbr();
+        int weekYebr = gc.getWeekYebr();
+        if (weekYebr == gc.internblGet(YEAR)) {
+            return gc.getActublMbximum(WEEK_OF_YEAR);
         }
 
-        // Use the 2nd week for calculating the max of WEEK_OF_YEAR
+        // Use the 2nd week for cblculbting the mbx of WEEK_OF_YEAR
         if (gc == this) {
-            gc = (GregorianCalendar) gc.clone();
+            gc = (GregoribnCblendbr) gc.clone();
         }
-        gc.setWeekDate(weekYear, 2, internalGet(DAY_OF_WEEK));
-        return gc.getActualMaximum(WEEK_OF_YEAR);
+        gc.setWeekDbte(weekYebr, 2, internblGet(DAY_OF_WEEK));
+        return gc.getActublMbximum(WEEK_OF_YEAR);
     }
 
 /////////////////////////////
-// Time => Fields computation
+// Time => Fields computbtion
 /////////////////////////////
 
     /**
-     * The fixed date corresponding to gdate. If the value is
-     * Long.MIN_VALUE, the fixed date value is unknown. Currently,
-     * Julian calendar dates are not cached.
+     * The fixed dbte corresponding to gdbte. If the vblue is
+     * Long.MIN_VALUE, the fixed dbte vblue is unknown. Currently,
+     * Julibn cblendbr dbtes bre not cbched.
      */
-    transient private long cachedFixedDate = Long.MIN_VALUE;
+    trbnsient privbte long cbchedFixedDbte = Long.MIN_VALUE;
 
     /**
-     * Converts the time value (millisecond offset from the <a
-     * href="Calendar.html#Epoch">Epoch</a>) to calendar field values.
+     * Converts the time vblue (millisecond offset from the <b
+     * href="Cblendbr.html#Epoch">Epoch</b>) to cblendbr field vblues.
      * The time is <em>not</em>
-     * recomputed first; to recompute the time, then the fields, call the
+     * recomputed first; to recompute the time, then the fields, cbll the
      * <code>complete</code> method.
      *
-     * @see Calendar#complete
+     * @see Cblendbr#complete
      */
     @Override
     protected void computeFields() {
-        int mask;
-        if (isPartiallyNormalized()) {
-            // Determine which calendar fields need to be computed.
-            mask = getSetStateFields();
-            int fieldMask = ~mask & ALL_FIELDS;
-            // We have to call computTime in case calsys == null in
-            // order to set calsys and cdate. (6263644)
-            if (fieldMask != 0 || calsys == null) {
-                mask |= computeFields(fieldMask,
-                                      mask & (ZONE_OFFSET_MASK|DST_OFFSET_MASK));
-                assert mask == ALL_FIELDS;
+        int mbsk;
+        if (isPbrtibllyNormblized()) {
+            // Determine which cblendbr fields need to be computed.
+            mbsk = getSetStbteFields();
+            int fieldMbsk = ~mbsk & ALL_FIELDS;
+            // We hbve to cbll computTime in cbse cblsys == null in
+            // order to set cblsys bnd cdbte. (6263644)
+            if (fieldMbsk != 0 || cblsys == null) {
+                mbsk |= computeFields(fieldMbsk,
+                                      mbsk & (ZONE_OFFSET_MASK|DST_OFFSET_MASK));
+                bssert mbsk == ALL_FIELDS;
             }
         } else {
-            mask = ALL_FIELDS;
-            computeFields(mask, 0);
+            mbsk = ALL_FIELDS;
+            computeFields(mbsk, 0);
         }
-        // After computing all the fields, set the field state to `COMPUTED'.
-        setFieldsComputed(mask);
+        // After computing bll the fields, set the field stbte to `COMPUTED'.
+        setFieldsComputed(mbsk);
     }
 
     /**
      * This computeFields implements the conversion from UTC
-     * (millisecond offset from the Epoch) to calendar
-     * field values. fieldMask specifies which fields to change the
-     * setting state to COMPUTED, although all fields are set to
-     * the correct values. This is required to fix 4685354.
+     * (millisecond offset from the Epoch) to cblendbr
+     * field vblues. fieldMbsk specifies which fields to chbnge the
+     * setting stbte to COMPUTED, blthough bll fields bre set to
+     * the correct vblues. This is required to fix 4685354.
      *
-     * @param fieldMask a bit mask to specify which fields to change
-     * the setting state.
-     * @param tzMask a bit mask to specify which time zone offset
-     * fields to be used for time calculations
-     * @return a new field mask that indicates what field values have
-     * actually been set.
+     * @pbrbm fieldMbsk b bit mbsk to specify which fields to chbnge
+     * the setting stbte.
+     * @pbrbm tzMbsk b bit mbsk to specify which time zone offset
+     * fields to be used for time cblculbtions
+     * @return b new field mbsk thbt indicbtes whbt field vblues hbve
+     * bctublly been set.
      */
-    private int computeFields(int fieldMask, int tzMask) {
+    privbte int computeFields(int fieldMbsk, int tzMbsk) {
         int zoneOffset = 0;
         TimeZone tz = getZone();
         if (zoneOffsets == null) {
             zoneOffsets = new int[2];
         }
-        if (tzMask != (ZONE_OFFSET_MASK|DST_OFFSET_MASK)) {
-            if (tz instanceof ZoneInfo) {
+        if (tzMbsk != (ZONE_OFFSET_MASK|DST_OFFSET_MASK)) {
+            if (tz instbnceof ZoneInfo) {
                 zoneOffset = ((ZoneInfo)tz).getOffsets(time, zoneOffsets);
             } else {
                 zoneOffset = tz.getOffset(time);
-                zoneOffsets[0] = tz.getRawOffset();
+                zoneOffsets[0] = tz.getRbwOffset();
                 zoneOffsets[1] = zoneOffset - zoneOffsets[0];
             }
         }
-        if (tzMask != 0) {
-            if (isFieldSet(tzMask, ZONE_OFFSET)) {
-                zoneOffsets[0] = internalGet(ZONE_OFFSET);
+        if (tzMbsk != 0) {
+            if (isFieldSet(tzMbsk, ZONE_OFFSET)) {
+                zoneOffsets[0] = internblGet(ZONE_OFFSET);
             }
-            if (isFieldSet(tzMask, DST_OFFSET)) {
-                zoneOffsets[1] = internalGet(DST_OFFSET);
+            if (isFieldSet(tzMbsk, DST_OFFSET)) {
+                zoneOffsets[1] = internblGet(DST_OFFSET);
             }
             zoneOffset = zoneOffsets[0] + zoneOffsets[1];
         }
 
-        // By computing time and zoneOffset separately, we can take
-        // the wider range of time+zoneOffset than the previous
-        // implementation.
-        long fixedDate = zoneOffset / ONE_DAY;
-        int timeOfDay = zoneOffset % (int)ONE_DAY;
-        fixedDate += time / ONE_DAY;
-        timeOfDay += (int) (time % ONE_DAY);
-        if (timeOfDay >= ONE_DAY) {
-            timeOfDay -= ONE_DAY;
-            ++fixedDate;
+        // By computing time bnd zoneOffset sepbrbtely, we cbn tbke
+        // the wider rbnge of time+zoneOffset thbn the previous
+        // implementbtion.
+        long fixedDbte = zoneOffset / ONE_DAY;
+        int timeOfDby = zoneOffset % (int)ONE_DAY;
+        fixedDbte += time / ONE_DAY;
+        timeOfDby += (int) (time % ONE_DAY);
+        if (timeOfDby >= ONE_DAY) {
+            timeOfDby -= ONE_DAY;
+            ++fixedDbte;
         } else {
-            while (timeOfDay < 0) {
-                timeOfDay += ONE_DAY;
-                --fixedDate;
+            while (timeOfDby < 0) {
+                timeOfDby += ONE_DAY;
+                --fixedDbte;
             }
         }
-        fixedDate += EPOCH_OFFSET;
+        fixedDbte += EPOCH_OFFSET;
 
-        int era = CE;
-        int year;
-        if (fixedDate >= gregorianCutoverDate) {
-            // Handle Gregorian dates.
-            assert cachedFixedDate == Long.MIN_VALUE || gdate.isNormalized()
-                        : "cache control: not normalized";
-            assert cachedFixedDate == Long.MIN_VALUE ||
-                   gcal.getFixedDate(gdate.getNormalizedYear(),
-                                          gdate.getMonth(),
-                                          gdate.getDayOfMonth(), gdate)
-                                == cachedFixedDate
-                        : "cache control: inconsictency" +
-                          ", cachedFixedDate=" + cachedFixedDate +
+        int erb = CE;
+        int yebr;
+        if (fixedDbte >= gregoribnCutoverDbte) {
+            // Hbndle Gregoribn dbtes.
+            bssert cbchedFixedDbte == Long.MIN_VALUE || gdbte.isNormblized()
+                        : "cbche control: not normblized";
+            bssert cbchedFixedDbte == Long.MIN_VALUE ||
+                   gcbl.getFixedDbte(gdbte.getNormblizedYebr(),
+                                          gdbte.getMonth(),
+                                          gdbte.getDbyOfMonth(), gdbte)
+                                == cbchedFixedDbte
+                        : "cbche control: inconsictency" +
+                          ", cbchedFixedDbte=" + cbchedFixedDbte +
                           ", computed=" +
-                          gcal.getFixedDate(gdate.getNormalizedYear(),
-                                                 gdate.getMonth(),
-                                                 gdate.getDayOfMonth(),
-                                                 gdate) +
-                          ", date=" + gdate;
+                          gcbl.getFixedDbte(gdbte.getNormblizedYebr(),
+                                                 gdbte.getMonth(),
+                                                 gdbte.getDbyOfMonth(),
+                                                 gdbte) +
+                          ", dbte=" + gdbte;
 
-            // See if we can use gdate to avoid date calculation.
-            if (fixedDate != cachedFixedDate) {
-                gcal.getCalendarDateFromFixedDate(gdate, fixedDate);
-                cachedFixedDate = fixedDate;
+            // See if we cbn use gdbte to bvoid dbte cblculbtion.
+            if (fixedDbte != cbchedFixedDbte) {
+                gcbl.getCblendbrDbteFromFixedDbte(gdbte, fixedDbte);
+                cbchedFixedDbte = fixedDbte;
             }
 
-            year = gdate.getYear();
-            if (year <= 0) {
-                year = 1 - year;
-                era = BCE;
+            yebr = gdbte.getYebr();
+            if (yebr <= 0) {
+                yebr = 1 - yebr;
+                erb = BCE;
             }
-            calsys = gcal;
-            cdate = gdate;
-            assert cdate.getDayOfWeek() > 0 : "dow="+cdate.getDayOfWeek()+", date="+cdate;
+            cblsys = gcbl;
+            cdbte = gdbte;
+            bssert cdbte.getDbyOfWeek() > 0 : "dow="+cdbte.getDbyOfWeek()+", dbte="+cdbte;
         } else {
-            // Handle Julian calendar dates.
-            calsys = getJulianCalendarSystem();
-            cdate = (BaseCalendar.Date) jcal.newCalendarDate(getZone());
-            jcal.getCalendarDateFromFixedDate(cdate, fixedDate);
-            Era e = cdate.getEra();
-            if (e == jeras[0]) {
-                era = BCE;
+            // Hbndle Julibn cblendbr dbtes.
+            cblsys = getJulibnCblendbrSystem();
+            cdbte = (BbseCblendbr.Dbte) jcbl.newCblendbrDbte(getZone());
+            jcbl.getCblendbrDbteFromFixedDbte(cdbte, fixedDbte);
+            Erb e = cdbte.getErb();
+            if (e == jerbs[0]) {
+                erb = BCE;
             }
-            year = cdate.getYear();
+            yebr = cdbte.getYebr();
         }
 
-        // Always set the ERA and YEAR values.
-        internalSet(ERA, era);
-        internalSet(YEAR, year);
-        int mask = fieldMask | (ERA_MASK|YEAR_MASK);
+        // Alwbys set the ERA bnd YEAR vblues.
+        internblSet(ERA, erb);
+        internblSet(YEAR, yebr);
+        int mbsk = fieldMbsk | (ERA_MASK|YEAR_MASK);
 
-        int month =  cdate.getMonth() - 1; // 0-based
-        int dayOfMonth = cdate.getDayOfMonth();
+        int month =  cdbte.getMonth() - 1; // 0-bbsed
+        int dbyOfMonth = cdbte.getDbyOfMonth();
 
-        // Set the basic date fields.
-        if ((fieldMask & (MONTH_MASK|DAY_OF_MONTH_MASK|DAY_OF_WEEK_MASK))
+        // Set the bbsic dbte fields.
+        if ((fieldMbsk & (MONTH_MASK|DAY_OF_MONTH_MASK|DAY_OF_WEEK_MASK))
             != 0) {
-            internalSet(MONTH, month);
-            internalSet(DAY_OF_MONTH, dayOfMonth);
-            internalSet(DAY_OF_WEEK, cdate.getDayOfWeek());
-            mask |= MONTH_MASK|DAY_OF_MONTH_MASK|DAY_OF_WEEK_MASK;
+            internblSet(MONTH, month);
+            internblSet(DAY_OF_MONTH, dbyOfMonth);
+            internblSet(DAY_OF_WEEK, cdbte.getDbyOfWeek());
+            mbsk |= MONTH_MASK|DAY_OF_MONTH_MASK|DAY_OF_WEEK_MASK;
         }
 
-        if ((fieldMask & (HOUR_OF_DAY_MASK|AM_PM_MASK|HOUR_MASK
+        if ((fieldMbsk & (HOUR_OF_DAY_MASK|AM_PM_MASK|HOUR_MASK
                           |MINUTE_MASK|SECOND_MASK|MILLISECOND_MASK)) != 0) {
-            if (timeOfDay != 0) {
-                int hours = timeOfDay / ONE_HOUR;
-                internalSet(HOUR_OF_DAY, hours);
-                internalSet(AM_PM, hours / 12); // Assume AM == 0
-                internalSet(HOUR, hours % 12);
-                int r = timeOfDay % ONE_HOUR;
-                internalSet(MINUTE, r / ONE_MINUTE);
+            if (timeOfDby != 0) {
+                int hours = timeOfDby / ONE_HOUR;
+                internblSet(HOUR_OF_DAY, hours);
+                internblSet(AM_PM, hours / 12); // Assume AM == 0
+                internblSet(HOUR, hours % 12);
+                int r = timeOfDby % ONE_HOUR;
+                internblSet(MINUTE, r / ONE_MINUTE);
                 r %= ONE_MINUTE;
-                internalSet(SECOND, r / ONE_SECOND);
-                internalSet(MILLISECOND, r % ONE_SECOND);
+                internblSet(SECOND, r / ONE_SECOND);
+                internblSet(MILLISECOND, r % ONE_SECOND);
             } else {
-                internalSet(HOUR_OF_DAY, 0);
-                internalSet(AM_PM, AM);
-                internalSet(HOUR, 0);
-                internalSet(MINUTE, 0);
-                internalSet(SECOND, 0);
-                internalSet(MILLISECOND, 0);
+                internblSet(HOUR_OF_DAY, 0);
+                internblSet(AM_PM, AM);
+                internblSet(HOUR, 0);
+                internblSet(MINUTE, 0);
+                internblSet(SECOND, 0);
+                internblSet(MILLISECOND, 0);
             }
-            mask |= (HOUR_OF_DAY_MASK|AM_PM_MASK|HOUR_MASK
+            mbsk |= (HOUR_OF_DAY_MASK|AM_PM_MASK|HOUR_MASK
                      |MINUTE_MASK|SECOND_MASK|MILLISECOND_MASK);
         }
 
-        if ((fieldMask & (ZONE_OFFSET_MASK|DST_OFFSET_MASK)) != 0) {
-            internalSet(ZONE_OFFSET, zoneOffsets[0]);
-            internalSet(DST_OFFSET, zoneOffsets[1]);
-            mask |= (ZONE_OFFSET_MASK|DST_OFFSET_MASK);
+        if ((fieldMbsk & (ZONE_OFFSET_MASK|DST_OFFSET_MASK)) != 0) {
+            internblSet(ZONE_OFFSET, zoneOffsets[0]);
+            internblSet(DST_OFFSET, zoneOffsets[1]);
+            mbsk |= (ZONE_OFFSET_MASK|DST_OFFSET_MASK);
         }
 
-        if ((fieldMask & (DAY_OF_YEAR_MASK|WEEK_OF_YEAR_MASK|WEEK_OF_MONTH_MASK|DAY_OF_WEEK_IN_MONTH_MASK)) != 0) {
-            int normalizedYear = cdate.getNormalizedYear();
-            long fixedDateJan1 = calsys.getFixedDate(normalizedYear, 1, 1, cdate);
-            int dayOfYear = (int)(fixedDate - fixedDateJan1) + 1;
-            long fixedDateMonth1 = fixedDate - dayOfMonth + 1;
-            int cutoverGap = 0;
-            int cutoverYear = (calsys == gcal) ? gregorianCutoverYear : gregorianCutoverYearJulian;
-            int relativeDayOfMonth = dayOfMonth - 1;
+        if ((fieldMbsk & (DAY_OF_YEAR_MASK|WEEK_OF_YEAR_MASK|WEEK_OF_MONTH_MASK|DAY_OF_WEEK_IN_MONTH_MASK)) != 0) {
+            int normblizedYebr = cdbte.getNormblizedYebr();
+            long fixedDbteJbn1 = cblsys.getFixedDbte(normblizedYebr, 1, 1, cdbte);
+            int dbyOfYebr = (int)(fixedDbte - fixedDbteJbn1) + 1;
+            long fixedDbteMonth1 = fixedDbte - dbyOfMonth + 1;
+            int cutoverGbp = 0;
+            int cutoverYebr = (cblsys == gcbl) ? gregoribnCutoverYebr : gregoribnCutoverYebrJulibn;
+            int relbtiveDbyOfMonth = dbyOfMonth - 1;
 
-            // If we are in the cutover year, we need some special handling.
-            if (normalizedYear == cutoverYear) {
-                // Need to take care of the "missing" days.
-                if (gregorianCutoverYearJulian <= gregorianCutoverYear) {
-                    // We need to find out where we are. The cutover
-                    // gap could even be more than one year.  (One
-                    // year difference in ~48667 years.)
-                    fixedDateJan1 = getFixedDateJan1(cdate, fixedDate);
-                    if (fixedDate >= gregorianCutoverDate) {
-                        fixedDateMonth1 = getFixedDateMonth1(cdate, fixedDate);
+            // If we bre in the cutover yebr, we need some specibl hbndling.
+            if (normblizedYebr == cutoverYebr) {
+                // Need to tbke cbre of the "missing" dbys.
+                if (gregoribnCutoverYebrJulibn <= gregoribnCutoverYebr) {
+                    // We need to find out where we bre. The cutover
+                    // gbp could even be more thbn one yebr.  (One
+                    // yebr difference in ~48667 yebrs.)
+                    fixedDbteJbn1 = getFixedDbteJbn1(cdbte, fixedDbte);
+                    if (fixedDbte >= gregoribnCutoverDbte) {
+                        fixedDbteMonth1 = getFixedDbteMonth1(cdbte, fixedDbte);
                     }
                 }
-                int realDayOfYear = (int)(fixedDate - fixedDateJan1) + 1;
-                cutoverGap = dayOfYear - realDayOfYear;
-                dayOfYear = realDayOfYear;
-                relativeDayOfMonth = (int)(fixedDate - fixedDateMonth1);
+                int reblDbyOfYebr = (int)(fixedDbte - fixedDbteJbn1) + 1;
+                cutoverGbp = dbyOfYebr - reblDbyOfYebr;
+                dbyOfYebr = reblDbyOfYebr;
+                relbtiveDbyOfMonth = (int)(fixedDbte - fixedDbteMonth1);
             }
-            internalSet(DAY_OF_YEAR, dayOfYear);
-            internalSet(DAY_OF_WEEK_IN_MONTH, relativeDayOfMonth / 7 + 1);
+            internblSet(DAY_OF_YEAR, dbyOfYebr);
+            internblSet(DAY_OF_WEEK_IN_MONTH, relbtiveDbyOfMonth / 7 + 1);
 
-            int weekOfYear = getWeekNumber(fixedDateJan1, fixedDate);
+            int weekOfYebr = getWeekNumber(fixedDbteJbn1, fixedDbte);
 
-            // The spec is to calculate WEEK_OF_YEAR in the
-            // ISO8601-style. This creates problems, though.
-            if (weekOfYear == 0) {
-                // If the date belongs to the last week of the
-                // previous year, use the week number of "12/31" of
-                // the "previous" year. Again, if the previous year is
-                // the Gregorian cutover year, we need to take care of
-                // it.  Usually the previous day of January 1 is
-                // December 31, which is not always true in
-                // GregorianCalendar.
-                long fixedDec31 = fixedDateJan1 - 1;
-                long prevJan1  = fixedDateJan1 - 365;
-                if (normalizedYear > (cutoverYear + 1)) {
-                    if (CalendarUtils.isGregorianLeapYear(normalizedYear - 1)) {
-                        --prevJan1;
+            // The spec is to cblculbte WEEK_OF_YEAR in the
+            // ISO8601-style. This crebtes problems, though.
+            if (weekOfYebr == 0) {
+                // If the dbte belongs to the lbst week of the
+                // previous yebr, use the week number of "12/31" of
+                // the "previous" yebr. Agbin, if the previous yebr is
+                // the Gregoribn cutover yebr, we need to tbke cbre of
+                // it.  Usublly the previous dby of Jbnubry 1 is
+                // December 31, which is not blwbys true in
+                // GregoribnCblendbr.
+                long fixedDec31 = fixedDbteJbn1 - 1;
+                long prevJbn1  = fixedDbteJbn1 - 365;
+                if (normblizedYebr > (cutoverYebr + 1)) {
+                    if (CblendbrUtils.isGregoribnLebpYebr(normblizedYebr - 1)) {
+                        --prevJbn1;
                     }
-                } else if (normalizedYear <= gregorianCutoverYearJulian) {
-                    if (CalendarUtils.isJulianLeapYear(normalizedYear - 1)) {
-                        --prevJan1;
+                } else if (normblizedYebr <= gregoribnCutoverYebrJulibn) {
+                    if (CblendbrUtils.isJulibnLebpYebr(normblizedYebr - 1)) {
+                        --prevJbn1;
                     }
                 } else {
-                    BaseCalendar calForJan1 = calsys;
-                    //int prevYear = normalizedYear - 1;
-                    int prevYear = getCalendarDate(fixedDec31).getNormalizedYear();
-                    if (prevYear == gregorianCutoverYear) {
-                        calForJan1 = getCutoverCalendarSystem();
-                        if (calForJan1 == jcal) {
-                            prevJan1 = calForJan1.getFixedDate(prevYear,
-                                                               BaseCalendar.JANUARY,
+                    BbseCblendbr cblForJbn1 = cblsys;
+                    //int prevYebr = normblizedYebr - 1;
+                    int prevYebr = getCblendbrDbte(fixedDec31).getNormblizedYebr();
+                    if (prevYebr == gregoribnCutoverYebr) {
+                        cblForJbn1 = getCutoverCblendbrSystem();
+                        if (cblForJbn1 == jcbl) {
+                            prevJbn1 = cblForJbn1.getFixedDbte(prevYebr,
+                                                               BbseCblendbr.JANUARY,
                                                                1,
                                                                null);
                         } else {
-                            prevJan1 = gregorianCutoverDate;
-                            calForJan1 = gcal;
+                            prevJbn1 = gregoribnCutoverDbte;
+                            cblForJbn1 = gcbl;
                         }
-                    } else if (prevYear <= gregorianCutoverYearJulian) {
-                        calForJan1 = getJulianCalendarSystem();
-                        prevJan1 = calForJan1.getFixedDate(prevYear,
-                                                           BaseCalendar.JANUARY,
+                    } else if (prevYebr <= gregoribnCutoverYebrJulibn) {
+                        cblForJbn1 = getJulibnCblendbrSystem();
+                        prevJbn1 = cblForJbn1.getFixedDbte(prevYebr,
+                                                           BbseCblendbr.JANUARY,
                                                            1,
                                                            null);
                     }
                 }
-                weekOfYear = getWeekNumber(prevJan1, fixedDec31);
+                weekOfYebr = getWeekNumber(prevJbn1, fixedDec31);
             } else {
-                if (normalizedYear > gregorianCutoverYear ||
-                    normalizedYear < (gregorianCutoverYearJulian - 1)) {
-                    // Regular years
-                    if (weekOfYear >= 52) {
-                        long nextJan1 = fixedDateJan1 + 365;
-                        if (cdate.isLeapYear()) {
-                            nextJan1++;
+                if (normblizedYebr > gregoribnCutoverYebr ||
+                    normblizedYebr < (gregoribnCutoverYebrJulibn - 1)) {
+                    // Regulbr yebrs
+                    if (weekOfYebr >= 52) {
+                        long nextJbn1 = fixedDbteJbn1 + 365;
+                        if (cdbte.isLebpYebr()) {
+                            nextJbn1++;
                         }
-                        long nextJan1st = BaseCalendar.getDayOfWeekDateOnOrBefore(nextJan1 + 6,
-                                                                                  getFirstDayOfWeek());
-                        int ndays = (int)(nextJan1st - nextJan1);
-                        if (ndays >= getMinimalDaysInFirstWeek() && fixedDate >= (nextJan1st - 7)) {
-                            // The first days forms a week in which the date is included.
-                            weekOfYear = 1;
+                        long nextJbn1st = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(nextJbn1 + 6,
+                                                                                  getFirstDbyOfWeek());
+                        int ndbys = (int)(nextJbn1st - nextJbn1);
+                        if (ndbys >= getMinimblDbysInFirstWeek() && fixedDbte >= (nextJbn1st - 7)) {
+                            // The first dbys forms b week in which the dbte is included.
+                            weekOfYebr = 1;
                         }
                     }
                 } else {
-                    BaseCalendar calForJan1 = calsys;
-                    int nextYear = normalizedYear + 1;
-                    if (nextYear == (gregorianCutoverYearJulian + 1) &&
-                        nextYear < gregorianCutoverYear) {
-                        // In case the gap is more than one year.
-                        nextYear = gregorianCutoverYear;
+                    BbseCblendbr cblForJbn1 = cblsys;
+                    int nextYebr = normblizedYebr + 1;
+                    if (nextYebr == (gregoribnCutoverYebrJulibn + 1) &&
+                        nextYebr < gregoribnCutoverYebr) {
+                        // In cbse the gbp is more thbn one yebr.
+                        nextYebr = gregoribnCutoverYebr;
                     }
-                    if (nextYear == gregorianCutoverYear) {
-                        calForJan1 = getCutoverCalendarSystem();
+                    if (nextYebr == gregoribnCutoverYebr) {
+                        cblForJbn1 = getCutoverCblendbrSystem();
                     }
 
-                    long nextJan1;
-                    if (nextYear > gregorianCutoverYear
-                        || gregorianCutoverYearJulian == gregorianCutoverYear
-                        || nextYear == gregorianCutoverYearJulian) {
-                        nextJan1 = calForJan1.getFixedDate(nextYear,
-                                                           BaseCalendar.JANUARY,
+                    long nextJbn1;
+                    if (nextYebr > gregoribnCutoverYebr
+                        || gregoribnCutoverYebrJulibn == gregoribnCutoverYebr
+                        || nextYebr == gregoribnCutoverYebrJulibn) {
+                        nextJbn1 = cblForJbn1.getFixedDbte(nextYebr,
+                                                           BbseCblendbr.JANUARY,
                                                            1,
                                                            null);
                     } else {
-                        nextJan1 = gregorianCutoverDate;
-                        calForJan1 = gcal;
+                        nextJbn1 = gregoribnCutoverDbte;
+                        cblForJbn1 = gcbl;
                     }
 
-                    long nextJan1st = BaseCalendar.getDayOfWeekDateOnOrBefore(nextJan1 + 6,
-                                                                              getFirstDayOfWeek());
-                    int ndays = (int)(nextJan1st - nextJan1);
-                    if (ndays >= getMinimalDaysInFirstWeek() && fixedDate >= (nextJan1st - 7)) {
-                        // The first days forms a week in which the date is included.
-                        weekOfYear = 1;
+                    long nextJbn1st = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(nextJbn1 + 6,
+                                                                              getFirstDbyOfWeek());
+                    int ndbys = (int)(nextJbn1st - nextJbn1);
+                    if (ndbys >= getMinimblDbysInFirstWeek() && fixedDbte >= (nextJbn1st - 7)) {
+                        // The first dbys forms b week in which the dbte is included.
+                        weekOfYebr = 1;
                     }
                 }
             }
-            internalSet(WEEK_OF_YEAR, weekOfYear);
-            internalSet(WEEK_OF_MONTH, getWeekNumber(fixedDateMonth1, fixedDate));
-            mask |= (DAY_OF_YEAR_MASK|WEEK_OF_YEAR_MASK|WEEK_OF_MONTH_MASK|DAY_OF_WEEK_IN_MONTH_MASK);
+            internblSet(WEEK_OF_YEAR, weekOfYebr);
+            internblSet(WEEK_OF_MONTH, getWeekNumber(fixedDbteMonth1, fixedDbte));
+            mbsk |= (DAY_OF_YEAR_MASK|WEEK_OF_YEAR_MASK|WEEK_OF_MONTH_MASK|DAY_OF_WEEK_IN_MONTH_MASK);
         }
-        return mask;
+        return mbsk;
     }
 
     /**
-     * Returns the number of weeks in a period between fixedDay1 and
-     * fixedDate. The getFirstDayOfWeek-getMinimalDaysInFirstWeek rule
-     * is applied to calculate the number of weeks.
+     * Returns the number of weeks in b period between fixedDby1 bnd
+     * fixedDbte. The getFirstDbyOfWeek-getMinimblDbysInFirstWeek rule
+     * is bpplied to cblculbte the number of weeks.
      *
-     * @param fixedDay1 the fixed date of the first day of the period
-     * @param fixedDate the fixed date of the last day of the period
+     * @pbrbm fixedDby1 the fixed dbte of the first dby of the period
+     * @pbrbm fixedDbte the fixed dbte of the lbst dby of the period
      * @return the number of weeks of the given period
      */
-    private int getWeekNumber(long fixedDay1, long fixedDate) {
-        // We can always use `gcal' since Julian and Gregorian are the
-        // same thing for this calculation.
-        long fixedDay1st = Gregorian.getDayOfWeekDateOnOrBefore(fixedDay1 + 6,
-                                                                getFirstDayOfWeek());
-        int ndays = (int)(fixedDay1st - fixedDay1);
-        assert ndays <= 7;
-        if (ndays >= getMinimalDaysInFirstWeek()) {
-            fixedDay1st -= 7;
+    privbte int getWeekNumber(long fixedDby1, long fixedDbte) {
+        // We cbn blwbys use `gcbl' since Julibn bnd Gregoribn bre the
+        // sbme thing for this cblculbtion.
+        long fixedDby1st = Gregoribn.getDbyOfWeekDbteOnOrBefore(fixedDby1 + 6,
+                                                                getFirstDbyOfWeek());
+        int ndbys = (int)(fixedDby1st - fixedDby1);
+        bssert ndbys <= 7;
+        if (ndbys >= getMinimblDbysInFirstWeek()) {
+            fixedDby1st -= 7;
         }
-        int normalizedDayOfPeriod = (int)(fixedDate - fixedDay1st);
-        if (normalizedDayOfPeriod >= 0) {
-            return normalizedDayOfPeriod / 7 + 1;
+        int normblizedDbyOfPeriod = (int)(fixedDbte - fixedDby1st);
+        if (normblizedDbyOfPeriod >= 0) {
+            return normblizedDbyOfPeriod / 7 + 1;
         }
-        return CalendarUtils.floorDivide(normalizedDayOfPeriod, 7) + 1;
+        return CblendbrUtils.floorDivide(normblizedDbyOfPeriod, 7) + 1;
     }
 
     /**
-     * Converts calendar field values to the time value (millisecond
-     * offset from the <a href="Calendar.html#Epoch">Epoch</a>).
+     * Converts cblendbr field vblues to the time vblue (millisecond
+     * offset from the <b href="Cblendbr.html#Epoch">Epoch</b>).
      *
-     * @exception IllegalArgumentException if any calendar fields are invalid.
+     * @exception IllegblArgumentException if bny cblendbr fields bre invblid.
      */
     @Override
     protected void computeTime() {
-        // In non-lenient mode, perform brief checking of calendar
-        // fields which have been set externally. Through this
-        // checking, the field values are stored in originalFields[]
-        // to see if any of them are normalized later.
+        // In non-lenient mode, perform brief checking of cblendbr
+        // fields which hbve been set externblly. Through this
+        // checking, the field vblues bre stored in originblFields[]
+        // to see if bny of them bre normblized lbter.
         if (!isLenient()) {
-            if (originalFields == null) {
-                originalFields = new int[FIELD_COUNT];
+            if (originblFields == null) {
+                originblFields = new int[FIELD_COUNT];
             }
             for (int field = 0; field < FIELD_COUNT; field++) {
-                int value = internalGet(field);
-                if (isExternallySet(field)) {
-                    // Quick validation for any out of range values
-                    if (value < getMinimum(field) || value > getMaximum(field)) {
-                        throw new IllegalArgumentException(getFieldName(field));
+                int vblue = internblGet(field);
+                if (isExternbllySet(field)) {
+                    // Quick vblidbtion for bny out of rbnge vblues
+                    if (vblue < getMinimum(field) || vblue > getMbximum(field)) {
+                        throw new IllegblArgumentException(getFieldNbme(field));
                     }
                 }
-                originalFields[field] = value;
+                originblFields[field] = vblue;
             }
         }
 
-        // Let the super class determine which calendar fields to be
-        // used to calculate the time.
-        int fieldMask = selectFields();
+        // Let the super clbss determine which cblendbr fields to be
+        // used to cblculbte the time.
+        int fieldMbsk = selectFields();
 
-        // The year defaults to the epoch start. We don't check
-        // fieldMask for YEAR because YEAR is a mandatory field to
-        // determine the date.
-        int year = isSet(YEAR) ? internalGet(YEAR) : EPOCH_YEAR;
+        // The yebr defbults to the epoch stbrt. We don't check
+        // fieldMbsk for YEAR becbuse YEAR is b mbndbtory field to
+        // determine the dbte.
+        int yebr = isSet(YEAR) ? internblGet(YEAR) : EPOCH_YEAR;
 
-        int era = internalGetEra();
-        if (era == BCE) {
-            year = 1 - year;
-        } else if (era != CE) {
-            // Even in lenient mode we disallow ERA values other than CE & BCE.
-            // (The same normalization rule as add()/roll() could be
-            // applied here in lenient mode. But this checking is kept
-            // unchanged for compatibility as of 1.5.)
-            throw new IllegalArgumentException("Invalid era");
+        int erb = internblGetErb();
+        if (erb == BCE) {
+            yebr = 1 - yebr;
+        } else if (erb != CE) {
+            // Even in lenient mode we disbllow ERA vblues other thbn CE & BCE.
+            // (The sbme normblizbtion rule bs bdd()/roll() could be
+            // bpplied here in lenient mode. But this checking is kept
+            // unchbnged for compbtibility bs of 1.5.)
+            throw new IllegblArgumentException("Invblid erb");
         }
 
-        // If year is 0 or negative, we need to set the ERA value later.
-        if (year <= 0 && !isSet(ERA)) {
-            fieldMask |= ERA_MASK;
+        // If yebr is 0 or negbtive, we need to set the ERA vblue lbter.
+        if (yebr <= 0 && !isSet(ERA)) {
+            fieldMbsk |= ERA_MASK;
             setFieldsComputed(ERA_MASK);
         }
 
-        // Calculate the time of day. We rely on the convention that
-        // an UNSET field has 0.
-        long timeOfDay = 0;
-        if (isFieldSet(fieldMask, HOUR_OF_DAY)) {
-            timeOfDay += (long) internalGet(HOUR_OF_DAY);
+        // Cblculbte the time of dby. We rely on the convention thbt
+        // bn UNSET field hbs 0.
+        long timeOfDby = 0;
+        if (isFieldSet(fieldMbsk, HOUR_OF_DAY)) {
+            timeOfDby += (long) internblGet(HOUR_OF_DAY);
         } else {
-            timeOfDay += internalGet(HOUR);
-            // The default value of AM_PM is 0 which designates AM.
-            if (isFieldSet(fieldMask, AM_PM)) {
-                timeOfDay += 12 * internalGet(AM_PM);
+            timeOfDby += internblGet(HOUR);
+            // The defbult vblue of AM_PM is 0 which designbtes AM.
+            if (isFieldSet(fieldMbsk, AM_PM)) {
+                timeOfDby += 12 * internblGet(AM_PM);
             }
         }
-        timeOfDay *= 60;
-        timeOfDay += internalGet(MINUTE);
-        timeOfDay *= 60;
-        timeOfDay += internalGet(SECOND);
-        timeOfDay *= 1000;
-        timeOfDay += internalGet(MILLISECOND);
+        timeOfDby *= 60;
+        timeOfDby += internblGet(MINUTE);
+        timeOfDby *= 60;
+        timeOfDby += internblGet(SECOND);
+        timeOfDby *= 1000;
+        timeOfDby += internblGet(MILLISECOND);
 
-        // Convert the time of day to the number of days and the
+        // Convert the time of dby to the number of dbys bnd the
         // millisecond offset from midnight.
-        long fixedDate = timeOfDay / ONE_DAY;
-        timeOfDay %= ONE_DAY;
-        while (timeOfDay < 0) {
-            timeOfDay += ONE_DAY;
-            --fixedDate;
+        long fixedDbte = timeOfDby / ONE_DAY;
+        timeOfDby %= ONE_DAY;
+        while (timeOfDby < 0) {
+            timeOfDby += ONE_DAY;
+            --fixedDbte;
         }
 
-        // Calculate the fixed date since January 1, 1 (Gregorian).
-        calculateFixedDate: {
+        // Cblculbte the fixed dbte since Jbnubry 1, 1 (Gregoribn).
+        cblculbteFixedDbte: {
             long gfd, jfd;
-            if (year > gregorianCutoverYear && year > gregorianCutoverYearJulian) {
-                gfd = fixedDate + getFixedDate(gcal, year, fieldMask);
-                if (gfd >= gregorianCutoverDate) {
-                    fixedDate = gfd;
-                    break calculateFixedDate;
+            if (yebr > gregoribnCutoverYebr && yebr > gregoribnCutoverYebrJulibn) {
+                gfd = fixedDbte + getFixedDbte(gcbl, yebr, fieldMbsk);
+                if (gfd >= gregoribnCutoverDbte) {
+                    fixedDbte = gfd;
+                    brebk cblculbteFixedDbte;
                 }
-                jfd = fixedDate + getFixedDate(getJulianCalendarSystem(), year, fieldMask);
-            } else if (year < gregorianCutoverYear && year < gregorianCutoverYearJulian) {
-                jfd = fixedDate + getFixedDate(getJulianCalendarSystem(), year, fieldMask);
-                if (jfd < gregorianCutoverDate) {
-                    fixedDate = jfd;
-                    break calculateFixedDate;
+                jfd = fixedDbte + getFixedDbte(getJulibnCblendbrSystem(), yebr, fieldMbsk);
+            } else if (yebr < gregoribnCutoverYebr && yebr < gregoribnCutoverYebrJulibn) {
+                jfd = fixedDbte + getFixedDbte(getJulibnCblendbrSystem(), yebr, fieldMbsk);
+                if (jfd < gregoribnCutoverDbte) {
+                    fixedDbte = jfd;
+                    brebk cblculbteFixedDbte;
                 }
                 gfd = jfd;
             } else {
-                jfd = fixedDate + getFixedDate(getJulianCalendarSystem(), year, fieldMask);
-                gfd = fixedDate + getFixedDate(gcal, year, fieldMask);
+                jfd = fixedDbte + getFixedDbte(getJulibnCblendbrSystem(), yebr, fieldMbsk);
+                gfd = fixedDbte + getFixedDbte(gcbl, yebr, fieldMbsk);
             }
 
-            // Now we have to determine which calendar date it is.
+            // Now we hbve to determine which cblendbr dbte it is.
 
-            // If the date is relative from the beginning of the year
-            // in the Julian calendar, then use jfd;
-            if (isFieldSet(fieldMask, DAY_OF_YEAR) || isFieldSet(fieldMask, WEEK_OF_YEAR)) {
-                if (gregorianCutoverYear == gregorianCutoverYearJulian) {
-                    fixedDate = jfd;
-                    break calculateFixedDate;
-                } else if (year == gregorianCutoverYear) {
-                    fixedDate = gfd;
-                    break calculateFixedDate;
+            // If the dbte is relbtive from the beginning of the yebr
+            // in the Julibn cblendbr, then use jfd;
+            if (isFieldSet(fieldMbsk, DAY_OF_YEAR) || isFieldSet(fieldMbsk, WEEK_OF_YEAR)) {
+                if (gregoribnCutoverYebr == gregoribnCutoverYebrJulibn) {
+                    fixedDbte = jfd;
+                    brebk cblculbteFixedDbte;
+                } else if (yebr == gregoribnCutoverYebr) {
+                    fixedDbte = gfd;
+                    brebk cblculbteFixedDbte;
                 }
             }
 
-            if (gfd >= gregorianCutoverDate) {
-                if (jfd >= gregorianCutoverDate) {
-                    fixedDate = gfd;
+            if (gfd >= gregoribnCutoverDbte) {
+                if (jfd >= gregoribnCutoverDbte) {
+                    fixedDbte = gfd;
                 } else {
-                    // The date is in an "overlapping" period. No way
-                    // to disambiguate it. Determine it using the
-                    // previous date calculation.
-                    if (calsys == gcal || calsys == null) {
-                        fixedDate = gfd;
+                    // The dbte is in bn "overlbpping" period. No wby
+                    // to disbmbigubte it. Determine it using the
+                    // previous dbte cblculbtion.
+                    if (cblsys == gcbl || cblsys == null) {
+                        fixedDbte = gfd;
                     } else {
-                        fixedDate = jfd;
+                        fixedDbte = jfd;
                     }
                 }
             } else {
-                if (jfd < gregorianCutoverDate) {
-                    fixedDate = jfd;
+                if (jfd < gregoribnCutoverDbte) {
+                    fixedDbte = jfd;
                 } else {
-                    // The date is in a "missing" period.
+                    // The dbte is in b "missing" period.
                     if (!isLenient()) {
-                        throw new IllegalArgumentException("the specified date doesn't exist");
+                        throw new IllegblArgumentException("the specified dbte doesn't exist");
                     }
-                    // Take the Julian date for compatibility, which
-                    // will produce a Gregorian date.
-                    fixedDate = jfd;
+                    // Tbke the Julibn dbte for compbtibility, which
+                    // will produce b Gregoribn dbte.
+                    fixedDbte = jfd;
                 }
             }
         }
 
-        // millis represents local wall-clock time in milliseconds.
-        long millis = (fixedDate - EPOCH_OFFSET) * ONE_DAY + timeOfDay;
+        // millis represents locbl wbll-clock time in milliseconds.
+        long millis = (fixedDbte - EPOCH_OFFSET) * ONE_DAY + timeOfDby;
 
-        // Compute the time zone offset and DST offset.  There are two potential
-        // ambiguities here.  We'll assume a 2:00 am (wall time) switchover time
+        // Compute the time zone offset bnd DST offset.  There bre two potentibl
+        // bmbiguities here.  We'll bssume b 2:00 bm (wbll time) switchover time
         // for discussion purposes here.
-        // 1. The transition into DST.  Here, a designated time of 2:00 am - 2:59 am
-        //    can be in standard or in DST depending.  However, 2:00 am is an invalid
-        //    representation (the representation jumps from 1:59:59 am Std to 3:00:00 am DST).
-        //    We assume standard time.
-        // 2. The transition out of DST.  Here, a designated time of 1:00 am - 1:59 am
-        //    can be in standard or DST.  Both are valid representations (the rep
+        // 1. The trbnsition into DST.  Here, b designbted time of 2:00 bm - 2:59 bm
+        //    cbn be in stbndbrd or in DST depending.  However, 2:00 bm is bn invblid
+        //    representbtion (the representbtion jumps from 1:59:59 bm Std to 3:00:00 bm DST).
+        //    We bssume stbndbrd time.
+        // 2. The trbnsition out of DST.  Here, b designbted time of 1:00 bm - 1:59 bm
+        //    cbn be in stbndbrd or DST.  Both bre vblid representbtions (the rep
         //    jumps from 1:59:59 DST to 1:00:00 Std).
-        //    Again, we assume standard time.
-        // We use the TimeZone object, unless the user has explicitly set the ZONE_OFFSET
+        //    Agbin, we bssume stbndbrd time.
+        // We use the TimeZone object, unless the user hbs explicitly set the ZONE_OFFSET
         // or DST_OFFSET fields; then we use those fields.
         TimeZone zone = getZone();
         if (zoneOffsets == null) {
             zoneOffsets = new int[2];
         }
-        int tzMask = fieldMask & (ZONE_OFFSET_MASK|DST_OFFSET_MASK);
-        if (tzMask != (ZONE_OFFSET_MASK|DST_OFFSET_MASK)) {
-            if (zone instanceof ZoneInfo) {
-                ((ZoneInfo)zone).getOffsetsByWall(millis, zoneOffsets);
+        int tzMbsk = fieldMbsk & (ZONE_OFFSET_MASK|DST_OFFSET_MASK);
+        if (tzMbsk != (ZONE_OFFSET_MASK|DST_OFFSET_MASK)) {
+            if (zone instbnceof ZoneInfo) {
+                ((ZoneInfo)zone).getOffsetsByWbll(millis, zoneOffsets);
             } else {
-                int gmtOffset = isFieldSet(fieldMask, ZONE_OFFSET) ?
-                                    internalGet(ZONE_OFFSET) : zone.getRawOffset();
+                int gmtOffset = isFieldSet(fieldMbsk, ZONE_OFFSET) ?
+                                    internblGet(ZONE_OFFSET) : zone.getRbwOffset();
                 zone.getOffsets(millis - gmtOffset, zoneOffsets);
             }
         }
-        if (tzMask != 0) {
-            if (isFieldSet(tzMask, ZONE_OFFSET)) {
-                zoneOffsets[0] = internalGet(ZONE_OFFSET);
+        if (tzMbsk != 0) {
+            if (isFieldSet(tzMbsk, ZONE_OFFSET)) {
+                zoneOffsets[0] = internblGet(ZONE_OFFSET);
             }
-            if (isFieldSet(tzMask, DST_OFFSET)) {
-                zoneOffsets[1] = internalGet(DST_OFFSET);
+            if (isFieldSet(tzMbsk, DST_OFFSET)) {
+                zoneOffsets[1] = internblGet(DST_OFFSET);
             }
         }
 
-        // Adjust the time zone offset values to get the UTC time.
+        // Adjust the time zone offset vblues to get the UTC time.
         millis -= zoneOffsets[0] + zoneOffsets[1];
 
-        // Set this calendar's time in milliseconds
+        // Set this cblendbr's time in milliseconds
         time = millis;
 
-        int mask = computeFields(fieldMask | getSetStateFields(), tzMask);
+        int mbsk = computeFields(fieldMbsk | getSetStbteFields(), tzMbsk);
 
         if (!isLenient()) {
             for (int field = 0; field < FIELD_COUNT; field++) {
-                if (!isExternallySet(field)) {
+                if (!isExternbllySet(field)) {
                     continue;
                 }
-                if (originalFields[field] != internalGet(field)) {
-                    String s = originalFields[field] + " -> " + internalGet(field);
-                    // Restore the original field values
-                    System.arraycopy(originalFields, 0, fields, 0, fields.length);
-                    throw new IllegalArgumentException(getFieldName(field) + ": " + s);
+                if (originblFields[field] != internblGet(field)) {
+                    String s = originblFields[field] + " -> " + internblGet(field);
+                    // Restore the originbl field vblues
+                    System.brrbycopy(originblFields, 0, fields, 0, fields.length);
+                    throw new IllegblArgumentException(getFieldNbme(field) + ": " + s);
                 }
             }
         }
-        setFieldsNormalized(mask);
+        setFieldsNormblized(mbsk);
     }
 
     /**
-     * Computes the fixed date under either the Gregorian or the
-     * Julian calendar, using the given year and the specified calendar fields.
+     * Computes the fixed dbte under either the Gregoribn or the
+     * Julibn cblendbr, using the given yebr bnd the specified cblendbr fields.
      *
-     * @param cal the CalendarSystem to be used for the date calculation
-     * @param year the normalized year number, with 0 indicating the
-     * year 1 BCE, -1 indicating 2 BCE, etc.
-     * @param fieldMask the calendar fields to be used for the date calculation
-     * @return the fixed date
-     * @see Calendar#selectFields
+     * @pbrbm cbl the CblendbrSystem to be used for the dbte cblculbtion
+     * @pbrbm yebr the normblized yebr number, with 0 indicbting the
+     * yebr 1 BCE, -1 indicbting 2 BCE, etc.
+     * @pbrbm fieldMbsk the cblendbr fields to be used for the dbte cblculbtion
+     * @return the fixed dbte
+     * @see Cblendbr#selectFields
      */
-    private long getFixedDate(BaseCalendar cal, int year, int fieldMask) {
+    privbte long getFixedDbte(BbseCblendbr cbl, int yebr, int fieldMbsk) {
         int month = JANUARY;
-        if (isFieldSet(fieldMask, MONTH)) {
-            // No need to check if MONTH has been set (no isSet(MONTH)
-            // call) since its unset value happens to be JANUARY (0).
-            month = internalGet(MONTH);
+        if (isFieldSet(fieldMbsk, MONTH)) {
+            // No need to check if MONTH hbs been set (no isSet(MONTH)
+            // cbll) since its unset vblue hbppens to be JANUARY (0).
+            month = internblGet(MONTH);
 
-            // If the month is out of range, adjust it into range
+            // If the month is out of rbnge, bdjust it into rbnge
             if (month > DECEMBER) {
-                year += month / 12;
+                yebr += month / 12;
                 month %= 12;
             } else if (month < JANUARY) {
                 int[] rem = new int[1];
-                year += CalendarUtils.floorDivide(month, 12, rem);
+                yebr += CblendbrUtils.floorDivide(month, 12, rem);
                 month = rem[0];
             }
         }
 
-        // Get the fixed date since Jan 1, 1 (Gregorian). We are on
-        // the first day of either `month' or January in 'year'.
-        long fixedDate = cal.getFixedDate(year, month + 1, 1,
-                                          cal == gcal ? gdate : null);
-        if (isFieldSet(fieldMask, MONTH)) {
-            // Month-based calculations
-            if (isFieldSet(fieldMask, DAY_OF_MONTH)) {
-                // We are on the first day of the month. Just add the
-                // offset if DAY_OF_MONTH is set. If the isSet call
-                // returns false, that means DAY_OF_MONTH has been
-                // selected just because of the selected
-                // combination. We don't need to add any since the
-                // default value is the 1st.
+        // Get the fixed dbte since Jbn 1, 1 (Gregoribn). We bre on
+        // the first dby of either `month' or Jbnubry in 'yebr'.
+        long fixedDbte = cbl.getFixedDbte(yebr, month + 1, 1,
+                                          cbl == gcbl ? gdbte : null);
+        if (isFieldSet(fieldMbsk, MONTH)) {
+            // Month-bbsed cblculbtions
+            if (isFieldSet(fieldMbsk, DAY_OF_MONTH)) {
+                // We bre on the first dby of the month. Just bdd the
+                // offset if DAY_OF_MONTH is set. If the isSet cbll
+                // returns fblse, thbt mebns DAY_OF_MONTH hbs been
+                // selected just becbuse of the selected
+                // combinbtion. We don't need to bdd bny since the
+                // defbult vblue is the 1st.
                 if (isSet(DAY_OF_MONTH)) {
-                    // To avoid underflow with DAY_OF_MONTH-1, add
-                    // DAY_OF_MONTH, then subtract 1.
-                    fixedDate += internalGet(DAY_OF_MONTH);
-                    fixedDate--;
+                    // To bvoid underflow with DAY_OF_MONTH-1, bdd
+                    // DAY_OF_MONTH, then subtrbct 1.
+                    fixedDbte += internblGet(DAY_OF_MONTH);
+                    fixedDbte--;
                 }
             } else {
-                if (isFieldSet(fieldMask, WEEK_OF_MONTH)) {
-                    long firstDayOfWeek = BaseCalendar.getDayOfWeekDateOnOrBefore(fixedDate + 6,
-                                                                                  getFirstDayOfWeek());
-                    // If we have enough days in the first week, then
+                if (isFieldSet(fieldMbsk, WEEK_OF_MONTH)) {
+                    long firstDbyOfWeek = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(fixedDbte + 6,
+                                                                                  getFirstDbyOfWeek());
+                    // If we hbve enough dbys in the first week, then
                     // move to the previous week.
-                    if ((firstDayOfWeek - fixedDate) >= getMinimalDaysInFirstWeek()) {
-                        firstDayOfWeek -= 7;
+                    if ((firstDbyOfWeek - fixedDbte) >= getMinimblDbysInFirstWeek()) {
+                        firstDbyOfWeek -= 7;
                     }
-                    if (isFieldSet(fieldMask, DAY_OF_WEEK)) {
-                        firstDayOfWeek = BaseCalendar.getDayOfWeekDateOnOrBefore(firstDayOfWeek + 6,
-                                                                                 internalGet(DAY_OF_WEEK));
+                    if (isFieldSet(fieldMbsk, DAY_OF_WEEK)) {
+                        firstDbyOfWeek = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(firstDbyOfWeek + 6,
+                                                                                 internblGet(DAY_OF_WEEK));
                     }
-                    // In lenient mode, we treat days of the previous
-                    // months as a part of the specified
+                    // In lenient mode, we trebt dbys of the previous
+                    // months bs b pbrt of the specified
                     // WEEK_OF_MONTH. See 4633646.
-                    fixedDate = firstDayOfWeek + 7 * (internalGet(WEEK_OF_MONTH) - 1);
+                    fixedDbte = firstDbyOfWeek + 7 * (internblGet(WEEK_OF_MONTH) - 1);
                 } else {
-                    int dayOfWeek;
-                    if (isFieldSet(fieldMask, DAY_OF_WEEK)) {
-                        dayOfWeek = internalGet(DAY_OF_WEEK);
+                    int dbyOfWeek;
+                    if (isFieldSet(fieldMbsk, DAY_OF_WEEK)) {
+                        dbyOfWeek = internblGet(DAY_OF_WEEK);
                     } else {
-                        dayOfWeek = getFirstDayOfWeek();
+                        dbyOfWeek = getFirstDbyOfWeek();
                     }
-                    // We are basing this on the day-of-week-in-month.  The only
-                    // trickiness occurs if the day-of-week-in-month is
-                    // negative.
+                    // We bre bbsing this on the dby-of-week-in-month.  The only
+                    // trickiness occurs if the dby-of-week-in-month is
+                    // negbtive.
                     int dowim;
-                    if (isFieldSet(fieldMask, DAY_OF_WEEK_IN_MONTH)) {
-                        dowim = internalGet(DAY_OF_WEEK_IN_MONTH);
+                    if (isFieldSet(fieldMbsk, DAY_OF_WEEK_IN_MONTH)) {
+                        dowim = internblGet(DAY_OF_WEEK_IN_MONTH);
                     } else {
                         dowim = 1;
                     }
                     if (dowim >= 0) {
-                        fixedDate = BaseCalendar.getDayOfWeekDateOnOrBefore(fixedDate + (7 * dowim) - 1,
-                                                                            dayOfWeek);
+                        fixedDbte = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(fixedDbte + (7 * dowim) - 1,
+                                                                            dbyOfWeek);
                     } else {
-                        // Go to the first day of the next week of
-                        // the specified week boundary.
-                        int lastDate = monthLength(month, year) + (7 * (dowim + 1));
-                        // Then, get the day of week date on or before the last date.
-                        fixedDate = BaseCalendar.getDayOfWeekDateOnOrBefore(fixedDate + lastDate - 1,
-                                                                            dayOfWeek);
+                        // Go to the first dby of the next week of
+                        // the specified week boundbry.
+                        int lbstDbte = monthLength(month, yebr) + (7 * (dowim + 1));
+                        // Then, get the dby of week dbte on or before the lbst dbte.
+                        fixedDbte = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(fixedDbte + lbstDbte - 1,
+                                                                            dbyOfWeek);
                     }
                 }
             }
         } else {
-            if (year == gregorianCutoverYear && cal == gcal
-                && fixedDate < gregorianCutoverDate
-                && gregorianCutoverYear != gregorianCutoverYearJulian) {
-                // January 1 of the year doesn't exist.  Use
-                // gregorianCutoverDate as the first day of the
-                // year.
-                fixedDate = gregorianCutoverDate;
+            if (yebr == gregoribnCutoverYebr && cbl == gcbl
+                && fixedDbte < gregoribnCutoverDbte
+                && gregoribnCutoverYebr != gregoribnCutoverYebrJulibn) {
+                // Jbnubry 1 of the yebr doesn't exist.  Use
+                // gregoribnCutoverDbte bs the first dby of the
+                // yebr.
+                fixedDbte = gregoribnCutoverDbte;
             }
-            // We are on the first day of the year.
-            if (isFieldSet(fieldMask, DAY_OF_YEAR)) {
-                // Add the offset, then subtract 1. (Make sure to avoid underflow.)
-                fixedDate += internalGet(DAY_OF_YEAR);
-                fixedDate--;
+            // We bre on the first dby of the yebr.
+            if (isFieldSet(fieldMbsk, DAY_OF_YEAR)) {
+                // Add the offset, then subtrbct 1. (Mbke sure to bvoid underflow.)
+                fixedDbte += internblGet(DAY_OF_YEAR);
+                fixedDbte--;
             } else {
-                long firstDayOfWeek = BaseCalendar.getDayOfWeekDateOnOrBefore(fixedDate + 6,
-                                                                              getFirstDayOfWeek());
-                // If we have enough days in the first week, then move
+                long firstDbyOfWeek = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(fixedDbte + 6,
+                                                                              getFirstDbyOfWeek());
+                // If we hbve enough dbys in the first week, then move
                 // to the previous week.
-                if ((firstDayOfWeek - fixedDate) >= getMinimalDaysInFirstWeek()) {
-                    firstDayOfWeek -= 7;
+                if ((firstDbyOfWeek - fixedDbte) >= getMinimblDbysInFirstWeek()) {
+                    firstDbyOfWeek -= 7;
                 }
-                if (isFieldSet(fieldMask, DAY_OF_WEEK)) {
-                    int dayOfWeek = internalGet(DAY_OF_WEEK);
-                    if (dayOfWeek != getFirstDayOfWeek()) {
-                        firstDayOfWeek = BaseCalendar.getDayOfWeekDateOnOrBefore(firstDayOfWeek + 6,
-                                                                                 dayOfWeek);
+                if (isFieldSet(fieldMbsk, DAY_OF_WEEK)) {
+                    int dbyOfWeek = internblGet(DAY_OF_WEEK);
+                    if (dbyOfWeek != getFirstDbyOfWeek()) {
+                        firstDbyOfWeek = BbseCblendbr.getDbyOfWeekDbteOnOrBefore(firstDbyOfWeek + 6,
+                                                                                 dbyOfWeek);
                     }
                 }
-                fixedDate = firstDayOfWeek + 7 * ((long)internalGet(WEEK_OF_YEAR) - 1);
+                fixedDbte = firstDbyOfWeek + 7 * ((long)internblGet(WEEK_OF_YEAR) - 1);
             }
         }
 
-        return fixedDate;
+        return fixedDbte;
     }
 
     /**
-     * Returns this object if it's normalized (all fields and time are
-     * in sync). Otherwise, a cloned object is returned after calling
+     * Returns this object if it's normblized (bll fields bnd time bre
+     * in sync). Otherwise, b cloned object is returned bfter cblling
      * complete() in lenient mode.
      */
-    private GregorianCalendar getNormalizedCalendar() {
-        GregorianCalendar gc;
-        if (isFullyNormalized()) {
+    privbte GregoribnCblendbr getNormblizedCblendbr() {
+        GregoribnCblendbr gc;
+        if (isFullyNormblized()) {
             gc = this;
         } else {
-            // Create a clone and normalize the calendar fields
-            gc = (GregorianCalendar) this.clone();
+            // Crebte b clone bnd normblize the cblendbr fields
+            gc = (GregoribnCblendbr) this.clone();
             gc.setLenient(true);
             gc.complete();
         }
@@ -2982,320 +2982,320 @@ public class GregorianCalendar extends Calendar {
     }
 
     /**
-     * Returns the Julian calendar system instance (singleton). 'jcal'
-     * and 'jeras' are set upon the return.
+     * Returns the Julibn cblendbr system instbnce (singleton). 'jcbl'
+     * bnd 'jerbs' bre set upon the return.
      */
-    private static synchronized BaseCalendar getJulianCalendarSystem() {
-        if (jcal == null) {
-            jcal = (JulianCalendar) CalendarSystem.forName("julian");
-            jeras = jcal.getEras();
+    privbte stbtic synchronized BbseCblendbr getJulibnCblendbrSystem() {
+        if (jcbl == null) {
+            jcbl = (JulibnCblendbr) CblendbrSystem.forNbme("julibn");
+            jerbs = jcbl.getErbs();
         }
-        return jcal;
+        return jcbl;
     }
 
     /**
-     * Returns the calendar system for dates before the cutover date
-     * in the cutover year. If the cutover date is January 1, the
-     * method returns Gregorian. Otherwise, Julian.
+     * Returns the cblendbr system for dbtes before the cutover dbte
+     * in the cutover yebr. If the cutover dbte is Jbnubry 1, the
+     * method returns Gregoribn. Otherwise, Julibn.
      */
-    private BaseCalendar getCutoverCalendarSystem() {
-        if (gregorianCutoverYearJulian < gregorianCutoverYear) {
-            return gcal;
+    privbte BbseCblendbr getCutoverCblendbrSystem() {
+        if (gregoribnCutoverYebrJulibn < gregoribnCutoverYebr) {
+            return gcbl;
         }
-        return getJulianCalendarSystem();
+        return getJulibnCblendbrSystem();
     }
 
     /**
-     * Determines if the specified year (normalized) is the Gregorian
-     * cutover year. This object must have been normalized.
+     * Determines if the specified yebr (normblized) is the Gregoribn
+     * cutover yebr. This object must hbve been normblized.
      */
-    private boolean isCutoverYear(int normalizedYear) {
-        int cutoverYear = (calsys == gcal) ? gregorianCutoverYear : gregorianCutoverYearJulian;
-        return normalizedYear == cutoverYear;
+    privbte boolebn isCutoverYebr(int normblizedYebr) {
+        int cutoverYebr = (cblsys == gcbl) ? gregoribnCutoverYebr : gregoribnCutoverYebrJulibn;
+        return normblizedYebr == cutoverYebr;
     }
 
     /**
-     * Returns the fixed date of the first day of the year (usually
-     * January 1) before the specified date.
+     * Returns the fixed dbte of the first dby of the yebr (usublly
+     * Jbnubry 1) before the specified dbte.
      *
-     * @param date the date for which the first day of the year is
-     * calculated. The date has to be in the cut-over year (Gregorian
-     * or Julian).
-     * @param fixedDate the fixed date representation of the date
+     * @pbrbm dbte the dbte for which the first dby of the yebr is
+     * cblculbted. The dbte hbs to be in the cut-over yebr (Gregoribn
+     * or Julibn).
+     * @pbrbm fixedDbte the fixed dbte representbtion of the dbte
      */
-    private long getFixedDateJan1(BaseCalendar.Date date, long fixedDate) {
-        assert date.getNormalizedYear() == gregorianCutoverYear ||
-            date.getNormalizedYear() == gregorianCutoverYearJulian;
-        if (gregorianCutoverYear != gregorianCutoverYearJulian) {
-            if (fixedDate >= gregorianCutoverDate) {
-                // Dates before the cutover date don't exist
-                // in the same (Gregorian) year. So, no
-                // January 1 exists in the year. Use the
-                // cutover date as the first day of the year.
-                return gregorianCutoverDate;
+    privbte long getFixedDbteJbn1(BbseCblendbr.Dbte dbte, long fixedDbte) {
+        bssert dbte.getNormblizedYebr() == gregoribnCutoverYebr ||
+            dbte.getNormblizedYebr() == gregoribnCutoverYebrJulibn;
+        if (gregoribnCutoverYebr != gregoribnCutoverYebrJulibn) {
+            if (fixedDbte >= gregoribnCutoverDbte) {
+                // Dbtes before the cutover dbte don't exist
+                // in the sbme (Gregoribn) yebr. So, no
+                // Jbnubry 1 exists in the yebr. Use the
+                // cutover dbte bs the first dby of the yebr.
+                return gregoribnCutoverDbte;
             }
         }
-        // January 1 of the normalized year should exist.
-        BaseCalendar juliancal = getJulianCalendarSystem();
-        return juliancal.getFixedDate(date.getNormalizedYear(), BaseCalendar.JANUARY, 1, null);
+        // Jbnubry 1 of the normblized yebr should exist.
+        BbseCblendbr julibncbl = getJulibnCblendbrSystem();
+        return julibncbl.getFixedDbte(dbte.getNormblizedYebr(), BbseCblendbr.JANUARY, 1, null);
     }
 
     /**
-     * Returns the fixed date of the first date of the month (usually
-     * the 1st of the month) before the specified date.
+     * Returns the fixed dbte of the first dbte of the month (usublly
+     * the 1st of the month) before the specified dbte.
      *
-     * @param date the date for which the first day of the month is
-     * calculated. The date has to be in the cut-over year (Gregorian
-     * or Julian).
-     * @param fixedDate the fixed date representation of the date
+     * @pbrbm dbte the dbte for which the first dby of the month is
+     * cblculbted. The dbte hbs to be in the cut-over yebr (Gregoribn
+     * or Julibn).
+     * @pbrbm fixedDbte the fixed dbte representbtion of the dbte
      */
-    private long getFixedDateMonth1(BaseCalendar.Date date, long fixedDate) {
-        assert date.getNormalizedYear() == gregorianCutoverYear ||
-            date.getNormalizedYear() == gregorianCutoverYearJulian;
-        BaseCalendar.Date gCutover = getGregorianCutoverDate();
-        if (gCutover.getMonth() == BaseCalendar.JANUARY
-            && gCutover.getDayOfMonth() == 1) {
-            // The cutover happened on January 1.
-            return fixedDate - date.getDayOfMonth() + 1;
+    privbte long getFixedDbteMonth1(BbseCblendbr.Dbte dbte, long fixedDbte) {
+        bssert dbte.getNormblizedYebr() == gregoribnCutoverYebr ||
+            dbte.getNormblizedYebr() == gregoribnCutoverYebrJulibn;
+        BbseCblendbr.Dbte gCutover = getGregoribnCutoverDbte();
+        if (gCutover.getMonth() == BbseCblendbr.JANUARY
+            && gCutover.getDbyOfMonth() == 1) {
+            // The cutover hbppened on Jbnubry 1.
+            return fixedDbte - dbte.getDbyOfMonth() + 1;
         }
 
-        long fixedDateMonth1;
-        // The cutover happened sometime during the year.
-        if (date.getMonth() == gCutover.getMonth()) {
-            // The cutover happened in the month.
-            BaseCalendar.Date jLastDate = getLastJulianDate();
-            if (gregorianCutoverYear == gregorianCutoverYearJulian
-                && gCutover.getMonth() == jLastDate.getMonth()) {
-                // The "gap" fits in the same month.
-                fixedDateMonth1 = jcal.getFixedDate(date.getNormalizedYear(),
-                                                    date.getMonth(),
+        long fixedDbteMonth1;
+        // The cutover hbppened sometime during the yebr.
+        if (dbte.getMonth() == gCutover.getMonth()) {
+            // The cutover hbppened in the month.
+            BbseCblendbr.Dbte jLbstDbte = getLbstJulibnDbte();
+            if (gregoribnCutoverYebr == gregoribnCutoverYebrJulibn
+                && gCutover.getMonth() == jLbstDbte.getMonth()) {
+                // The "gbp" fits in the sbme month.
+                fixedDbteMonth1 = jcbl.getFixedDbte(dbte.getNormblizedYebr(),
+                                                    dbte.getMonth(),
                                                     1,
                                                     null);
             } else {
-                // Use the cutover date as the first day of the month.
-                fixedDateMonth1 = gregorianCutoverDate;
+                // Use the cutover dbte bs the first dby of the month.
+                fixedDbteMonth1 = gregoribnCutoverDbte;
             }
         } else {
-            // The cutover happened before the month.
-            fixedDateMonth1 = fixedDate - date.getDayOfMonth() + 1;
+            // The cutover hbppened before the month.
+            fixedDbteMonth1 = fixedDbte - dbte.getDbyOfMonth() + 1;
         }
 
-        return fixedDateMonth1;
+        return fixedDbteMonth1;
     }
 
     /**
-     * Returns a CalendarDate produced from the specified fixed date.
+     * Returns b CblendbrDbte produced from the specified fixed dbte.
      *
-     * @param fd the fixed date
+     * @pbrbm fd the fixed dbte
      */
-    private BaseCalendar.Date getCalendarDate(long fd) {
-        BaseCalendar cal = (fd >= gregorianCutoverDate) ? gcal : getJulianCalendarSystem();
-        BaseCalendar.Date d = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.NO_TIMEZONE);
-        cal.getCalendarDateFromFixedDate(d, fd);
+    privbte BbseCblendbr.Dbte getCblendbrDbte(long fd) {
+        BbseCblendbr cbl = (fd >= gregoribnCutoverDbte) ? gcbl : getJulibnCblendbrSystem();
+        BbseCblendbr.Dbte d = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(TimeZone.NO_TIMEZONE);
+        cbl.getCblendbrDbteFromFixedDbte(d, fd);
         return d;
     }
 
     /**
-     * Returns the Gregorian cutover date as a BaseCalendar.Date. The
-     * date is a Gregorian date.
+     * Returns the Gregoribn cutover dbte bs b BbseCblendbr.Dbte. The
+     * dbte is b Gregoribn dbte.
      */
-    private BaseCalendar.Date getGregorianCutoverDate() {
-        return getCalendarDate(gregorianCutoverDate);
+    privbte BbseCblendbr.Dbte getGregoribnCutoverDbte() {
+        return getCblendbrDbte(gregoribnCutoverDbte);
     }
 
     /**
-     * Returns the day before the Gregorian cutover date as a
-     * BaseCalendar.Date. The date is a Julian date.
+     * Returns the dby before the Gregoribn cutover dbte bs b
+     * BbseCblendbr.Dbte. The dbte is b Julibn dbte.
      */
-    private BaseCalendar.Date getLastJulianDate() {
-        return getCalendarDate(gregorianCutoverDate - 1);
+    privbte BbseCblendbr.Dbte getLbstJulibnDbte() {
+        return getCblendbrDbte(gregoribnCutoverDbte - 1);
     }
 
     /**
      * Returns the length of the specified month in the specified
-     * year. The year number must be normalized.
+     * yebr. The yebr number must be normblized.
      *
-     * @see #isLeapYear(int)
+     * @see #isLebpYebr(int)
      */
-    private int monthLength(int month, int year) {
-        return isLeapYear(year) ? LEAP_MONTH_LENGTH[month] : MONTH_LENGTH[month];
+    privbte int monthLength(int month, int yebr) {
+        return isLebpYebr(yebr) ? LEAP_MONTH_LENGTH[month] : MONTH_LENGTH[month];
     }
 
     /**
-     * Returns the length of the specified month in the year provided
-     * by internalGet(YEAR).
+     * Returns the length of the specified month in the yebr provided
+     * by internblGet(YEAR).
      *
-     * @see #isLeapYear(int)
+     * @see #isLebpYebr(int)
      */
-    private int monthLength(int month) {
-        int year = internalGet(YEAR);
-        if (internalGetEra() == BCE) {
-            year = 1 - year;
+    privbte int monthLength(int month) {
+        int yebr = internblGet(YEAR);
+        if (internblGetErb() == BCE) {
+            yebr = 1 - yebr;
         }
-        return monthLength(month, year);
+        return monthLength(month, yebr);
     }
 
-    private int actualMonthLength() {
-        int year = cdate.getNormalizedYear();
-        if (year != gregorianCutoverYear && year != gregorianCutoverYearJulian) {
-            return calsys.getMonthLength(cdate);
+    privbte int bctublMonthLength() {
+        int yebr = cdbte.getNormblizedYebr();
+        if (yebr != gregoribnCutoverYebr && yebr != gregoribnCutoverYebrJulibn) {
+            return cblsys.getMonthLength(cdbte);
         }
-        BaseCalendar.Date date = (BaseCalendar.Date) cdate.clone();
-        long fd = calsys.getFixedDate(date);
-        long month1 = getFixedDateMonth1(date, fd);
-        long next1 = month1 + calsys.getMonthLength(date);
-        if (next1 < gregorianCutoverDate) {
+        BbseCblendbr.Dbte dbte = (BbseCblendbr.Dbte) cdbte.clone();
+        long fd = cblsys.getFixedDbte(dbte);
+        long month1 = getFixedDbteMonth1(dbte, fd);
+        long next1 = month1 + cblsys.getMonthLength(dbte);
+        if (next1 < gregoribnCutoverDbte) {
             return (int)(next1 - month1);
         }
-        if (cdate != gdate) {
-            date = (BaseCalendar.Date) gcal.newCalendarDate(TimeZone.NO_TIMEZONE);
+        if (cdbte != gdbte) {
+            dbte = (BbseCblendbr.Dbte) gcbl.newCblendbrDbte(TimeZone.NO_TIMEZONE);
         }
-        gcal.getCalendarDateFromFixedDate(date, next1);
-        next1 = getFixedDateMonth1(date, next1);
+        gcbl.getCblendbrDbteFromFixedDbte(dbte, next1);
+        next1 = getFixedDbteMonth1(dbte, next1);
         return (int)(next1 - month1);
     }
 
     /**
-     * Returns the length (in days) of the specified year. The year
-     * must be normalized.
+     * Returns the length (in dbys) of the specified yebr. The yebr
+     * must be normblized.
      */
-    private int yearLength(int year) {
-        return isLeapYear(year) ? 366 : 365;
+    privbte int yebrLength(int yebr) {
+        return isLebpYebr(yebr) ? 366 : 365;
     }
 
     /**
-     * Returns the length (in days) of the year provided by
-     * internalGet(YEAR).
+     * Returns the length (in dbys) of the yebr provided by
+     * internblGet(YEAR).
      */
-    private int yearLength() {
-        int year = internalGet(YEAR);
-        if (internalGetEra() == BCE) {
-            year = 1 - year;
+    privbte int yebrLength() {
+        int yebr = internblGet(YEAR);
+        if (internblGetErb() == BCE) {
+            yebr = 1 - yebr;
         }
-        return yearLength(year);
+        return yebrLength(yebr);
     }
 
     /**
-     * After adjustments such as add(MONTH), add(YEAR), we don't want the
-     * month to jump around.  E.g., we don't want Jan 31 + 1 month to go to Mar
-     * 3, we want it to go to Feb 28.  Adjustments which might run into this
-     * problem call this method to retain the proper month.
+     * After bdjustments such bs bdd(MONTH), bdd(YEAR), we don't wbnt the
+     * month to jump bround.  E.g., we don't wbnt Jbn 31 + 1 month to go to Mbr
+     * 3, we wbnt it to go to Feb 28.  Adjustments which might run into this
+     * problem cbll this method to retbin the proper month.
      */
-    private void pinDayOfMonth() {
-        int year = internalGet(YEAR);
+    privbte void pinDbyOfMonth() {
+        int yebr = internblGet(YEAR);
         int monthLen;
-        if (year > gregorianCutoverYear || year < gregorianCutoverYearJulian) {
-            monthLen = monthLength(internalGet(MONTH));
+        if (yebr > gregoribnCutoverYebr || yebr < gregoribnCutoverYebrJulibn) {
+            monthLen = monthLength(internblGet(MONTH));
         } else {
-            GregorianCalendar gc = getNormalizedCalendar();
-            monthLen = gc.getActualMaximum(DAY_OF_MONTH);
+            GregoribnCblendbr gc = getNormblizedCblendbr();
+            monthLen = gc.getActublMbximum(DAY_OF_MONTH);
         }
-        int dom = internalGet(DAY_OF_MONTH);
+        int dom = internblGet(DAY_OF_MONTH);
         if (dom > monthLen) {
             set(DAY_OF_MONTH, monthLen);
         }
     }
 
     /**
-     * Returns the fixed date value of this object. The time value and
-     * calendar fields must be in synch.
+     * Returns the fixed dbte vblue of this object. The time vblue bnd
+     * cblendbr fields must be in synch.
      */
-    private long getCurrentFixedDate() {
-        return (calsys == gcal) ? cachedFixedDate : calsys.getFixedDate(cdate);
+    privbte long getCurrentFixedDbte() {
+        return (cblsys == gcbl) ? cbchedFixedDbte : cblsys.getFixedDbte(cdbte);
     }
 
     /**
-     * Returns the new value after 'roll'ing the specified value and amount.
+     * Returns the new vblue bfter 'roll'ing the specified vblue bnd bmount.
      */
-    private static int getRolledValue(int value, int amount, int min, int max) {
-        assert value >= min && value <= max;
-        int range = max - min + 1;
-        amount %= range;
-        int n = value + amount;
-        if (n > max) {
-            n -= range;
+    privbte stbtic int getRolledVblue(int vblue, int bmount, int min, int mbx) {
+        bssert vblue >= min && vblue <= mbx;
+        int rbnge = mbx - min + 1;
+        bmount %= rbnge;
+        int n = vblue + bmount;
+        if (n > mbx) {
+            n -= rbnge;
         } else if (n < min) {
-            n += range;
+            n += rbnge;
         }
-        assert n >= min && n <= max;
+        bssert n >= min && n <= mbx;
         return n;
     }
 
     /**
-     * Returns the ERA.  We need a special method for this because the
-     * default ERA is CE, but a zero (unset) ERA is BCE.
+     * Returns the ERA.  We need b specibl method for this becbuse the
+     * defbult ERA is CE, but b zero (unset) ERA is BCE.
      */
-    private int internalGetEra() {
-        return isSet(ERA) ? internalGet(ERA) : CE;
+    privbte int internblGetErb() {
+        return isSet(ERA) ? internblGet(ERA) : CE;
     }
 
     /**
-     * Updates internal state.
+     * Updbtes internbl stbte.
      */
-    private void readObject(ObjectInputStream stream)
-            throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        if (gdate == null) {
-            gdate = (BaseCalendar.Date) gcal.newCalendarDate(getZone());
-            cachedFixedDate = Long.MIN_VALUE;
+    privbte void rebdObject(ObjectInputStrebm strebm)
+            throws IOException, ClbssNotFoundException {
+        strebm.defbultRebdObject();
+        if (gdbte == null) {
+            gdbte = (BbseCblendbr.Dbte) gcbl.newCblendbrDbte(getZone());
+            cbchedFixedDbte = Long.MIN_VALUE;
         }
-        setGregorianChange(gregorianCutover);
+        setGregoribnChbnge(gregoribnCutover);
     }
 
     /**
-     * Converts this object to a {@code ZonedDateTime} that represents
-     * the same point on the time-line as this {@code GregorianCalendar}.
+     * Converts this object to b {@code ZonedDbteTime} thbt represents
+     * the sbme point on the time-line bs this {@code GregoribnCblendbr}.
      * <p>
-     * Since this object supports a Julian-Gregorian cutover date and
-     * {@code ZonedDateTime} does not, it is possible that the resulting year,
-     * month and day will have different values.  The result will represent the
-     * correct date in the ISO calendar system, which will also be the same value
-     * for Modified Julian Days.
+     * Since this object supports b Julibn-Gregoribn cutover dbte bnd
+     * {@code ZonedDbteTime} does not, it is possible thbt the resulting yebr,
+     * month bnd dby will hbve different vblues.  The result will represent the
+     * correct dbte in the ISO cblendbr system, which will blso be the sbme vblue
+     * for Modified Julibn Dbys.
      *
-     * @return a zoned date-time representing the same point on the time-line
-     *  as this gregorian calendar
+     * @return b zoned dbte-time representing the sbme point on the time-line
+     *  bs this gregoribn cblendbr
      * @since 1.8
      */
-    public ZonedDateTime toZonedDateTime() {
-        return ZonedDateTime.ofInstant(Instant.ofEpochMilli(getTimeInMillis()),
+    public ZonedDbteTime toZonedDbteTime() {
+        return ZonedDbteTime.ofInstbnt(Instbnt.ofEpochMilli(getTimeInMillis()),
                                        getTimeZone().toZoneId());
     }
 
     /**
-     * Obtains an instance of {@code GregorianCalendar} with the default locale
-     * from a {@code ZonedDateTime} object.
+     * Obtbins bn instbnce of {@code GregoribnCblendbr} with the defbult locble
+     * from b {@code ZonedDbteTime} object.
      * <p>
-     * Since {@code ZonedDateTime} does not support a Julian-Gregorian cutover
-     * date and uses ISO calendar system, the return GregorianCalendar is a pure
-     * Gregorian calendar and uses ISO 8601 standard for week definitions,
-     * which has {@code MONDAY} as the {@link Calendar#getFirstDayOfWeek()
-     * FirstDayOfWeek} and {@code 4} as the value of the
-     * {@link Calendar#getMinimalDaysInFirstWeek() MinimalDaysInFirstWeek}.
+     * Since {@code ZonedDbteTime} does not support b Julibn-Gregoribn cutover
+     * dbte bnd uses ISO cblendbr system, the return GregoribnCblendbr is b pure
+     * Gregoribn cblendbr bnd uses ISO 8601 stbndbrd for week definitions,
+     * which hbs {@code MONDAY} bs the {@link Cblendbr#getFirstDbyOfWeek()
+     * FirstDbyOfWeek} bnd {@code 4} bs the vblue of the
+     * {@link Cblendbr#getMinimblDbysInFirstWeek() MinimblDbysInFirstWeek}.
      * <p>
-     * {@code ZoneDateTime} can store points on the time-line further in the
-     * future and further in the past than {@code GregorianCalendar}. In this
-     * scenario, this method will throw an {@code IllegalArgumentException}
+     * {@code ZoneDbteTime} cbn store points on the time-line further in the
+     * future bnd further in the pbst thbn {@code GregoribnCblendbr}. In this
+     * scenbrio, this method will throw bn {@code IllegblArgumentException}
      * exception.
      *
-     * @param zdt  the zoned date-time object to convert
-     * @return  the gregorian calendar representing the same point on the
-     *  time-line as the zoned date-time provided
+     * @pbrbm zdt  the zoned dbte-time object to convert
+     * @return  the gregoribn cblendbr representing the sbme point on the
+     *  time-line bs the zoned dbte-time provided
      * @exception NullPointerException if {@code zdt} is null
-     * @exception IllegalArgumentException if the zoned date-time is too
-     * large to represent as a {@code GregorianCalendar}
+     * @exception IllegblArgumentException if the zoned dbte-time is too
+     * lbrge to represent bs b {@code GregoribnCblendbr}
      * @since 1.8
      */
-    public static GregorianCalendar from(ZonedDateTime zdt) {
-        GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone(zdt.getZone()));
-        cal.setGregorianChange(new Date(Long.MIN_VALUE));
-        cal.setFirstDayOfWeek(MONDAY);
-        cal.setMinimalDaysInFirstWeek(4);
+    public stbtic GregoribnCblendbr from(ZonedDbteTime zdt) {
+        GregoribnCblendbr cbl = new GregoribnCblendbr(TimeZone.getTimeZone(zdt.getZone()));
+        cbl.setGregoribnChbnge(new Dbte(Long.MIN_VALUE));
+        cbl.setFirstDbyOfWeek(MONDAY);
+        cbl.setMinimblDbysInFirstWeek(4);
         try {
-            cal.setTimeInMillis(Math.addExact(Math.multiplyExact(zdt.toEpochSecond(), 1000),
+            cbl.setTimeInMillis(Mbth.bddExbct(Mbth.multiplyExbct(zdt.toEpochSecond(), 1000),
                                               zdt.get(ChronoField.MILLI_OF_SECOND)));
-        } catch (ArithmeticException ex) {
-            throw new IllegalArgumentException(ex);
+        } cbtch (ArithmeticException ex) {
+            throw new IllegblArgumentException(ex);
         }
-        return cal;
+        return cbl;
     }
 }

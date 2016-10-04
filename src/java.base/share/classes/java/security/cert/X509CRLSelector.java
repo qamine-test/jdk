@@ -1,690 +1,690 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.util.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.security.util.Debug;
-import sun.security.util.DerInputStream;
+import sun.security.util.DerInputStrebm;
 import sun.security.x509.CRLNumberExtension;
-import sun.security.x509.X500Name;
+import sun.security.x509.X500Nbme;
 
 /**
- * A {@code CRLSelector} that selects {@code X509CRLs} that
- * match all specified criteria. This class is particularly useful when
- * selecting CRLs from a {@code CertStore} to check revocation status
- * of a particular certificate.
+ * A {@code CRLSelector} thbt selects {@code X509CRLs} thbt
+ * mbtch bll specified criterib. This clbss is pbrticulbrly useful when
+ * selecting CRLs from b {@code CertStore} to check revocbtion stbtus
+ * of b pbrticulbr certificbte.
  * <p>
- * When first constructed, an {@code X509CRLSelector} has no criteria
- * enabled and each of the {@code get} methods return a default
- * value ({@code null}). Therefore, the {@link #match match} method
- * would return {@code true} for any {@code X509CRL}. Typically,
- * several criteria are enabled (by calling {@link #setIssuers setIssuers}
- * or {@link #setDateAndTime setDateAndTime}, for instance) and then the
- * {@code X509CRLSelector} is passed to
- * {@link CertStore#getCRLs CertStore.getCRLs} or some similar
+ * When first constructed, bn {@code X509CRLSelector} hbs no criterib
+ * enbbled bnd ebch of the {@code get} methods return b defbult
+ * vblue ({@code null}). Therefore, the {@link #mbtch mbtch} method
+ * would return {@code true} for bny {@code X509CRL}. Typicblly,
+ * severbl criterib bre enbbled (by cblling {@link #setIssuers setIssuers}
+ * or {@link #setDbteAndTime setDbteAndTime}, for instbnce) bnd then the
+ * {@code X509CRLSelector} is pbssed to
+ * {@link CertStore#getCRLs CertStore.getCRLs} or some similbr
  * method.
  * <p>
- * Please refer to <a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280:
- * Internet X.509 Public Key Infrastructure Certificate and CRL Profile</a>
- * for definitions of the X.509 CRL fields and extensions mentioned below.
+ * Plebse refer to <b href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280:
+ * Internet X.509 Public Key Infrbstructure Certificbte bnd CRL Profile</b>
+ * for definitions of the X.509 CRL fields bnd extensions mentioned below.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unless otherwise specified, the methods defined in this clbss bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single
+ * object concurrently should synchronize bmongst themselves bnd
+ * provide the necessbry locking. Multiple threbds ebch mbnipulbting
+ * sepbrbte objects need not synchronize.
  *
  * @see CRLSelector
  * @see X509CRL
  *
  * @since       1.4
- * @author      Steve Hanna
+ * @buthor      Steve Hbnnb
  */
-public class X509CRLSelector implements CRLSelector {
+public clbss X509CRLSelector implements CRLSelector {
 
-    static {
-        CertPathHelperImpl.initialize();
+    stbtic {
+        CertPbthHelperImpl.initiblize();
     }
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private HashSet<Object> issuerNames;
-    private HashSet<X500Principal> issuerX500Principals;
-    private BigInteger minCRL;
-    private BigInteger maxCRL;
-    private Date dateAndTime;
-    private X509Certificate certChecking;
-    private long skew = 0;
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
+    privbte HbshSet<Object> issuerNbmes;
+    privbte HbshSet<X500Principbl> issuerX500Principbls;
+    privbte BigInteger minCRL;
+    privbte BigInteger mbxCRL;
+    privbte Dbte dbteAndTime;
+    privbte X509Certificbte certChecking;
+    privbte long skew = 0;
 
     /**
-     * Creates an {@code X509CRLSelector}. Initially, no criteria are set
-     * so any {@code X509CRL} will match.
+     * Crebtes bn {@code X509CRLSelector}. Initiblly, no criterib bre set
+     * so bny {@code X509CRL} will mbtch.
      */
     public X509CRLSelector() {}
 
     /**
-     * Sets the issuerNames criterion. The issuer distinguished name in the
-     * {@code X509CRL} must match at least one of the specified
-     * distinguished names. If {@code null}, any issuer distinguished name
+     * Sets the issuerNbmes criterion. The issuer distinguished nbme in the
+     * {@code X509CRL} must mbtch bt lebst one of the specified
+     * distinguished nbmes. If {@code null}, bny issuer distinguished nbme
      * will do.
      * <p>
-     * This method allows the caller to specify, with a single method call,
-     * the complete set of issuer names which {@code X509CRLs} may contain.
-     * The specified value replaces the previous value for the issuerNames
+     * This method bllows the cbller to specify, with b single method cbll,
+     * the complete set of issuer nbmes which {@code X509CRLs} mby contbin.
+     * The specified vblue replbces the previous vblue for the issuerNbmes
      * criterion.
      * <p>
-     * The {@code names} parameter (if not {@code null}) is a
-     * {@code Collection} of {@code X500Principal}s.
+     * The {@code nbmes} pbrbmeter (if not {@code null}) is b
+     * {@code Collection} of {@code X500Principbl}s.
      * <p>
-     * Note that the {@code names} parameter can contain duplicate
-     * distinguished names, but they may be removed from the
-     * {@code Collection} of names returned by the
+     * Note thbt the {@code nbmes} pbrbmeter cbn contbin duplicbte
+     * distinguished nbmes, but they mby be removed from the
+     * {@code Collection} of nbmes returned by the
      * {@link #getIssuers getIssuers} method.
      * <p>
-     * Note that a copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Note thbt b copy is performed on the {@code Collection} to
+     * protect bgbinst subsequent modificbtions.
      *
-     * @param issuers a {@code Collection} of X500Principals
+     * @pbrbm issuers b {@code Collection} of X500Principbls
      *   (or {@code null})
      * @see #getIssuers
      * @since 1.5
      */
-    public void setIssuers(Collection<X500Principal> issuers) {
+    public void setIssuers(Collection<X500Principbl> issuers) {
         if ((issuers == null) || issuers.isEmpty()) {
-            issuerNames = null;
-            issuerX500Principals = null;
+            issuerNbmes = null;
+            issuerX500Principbls = null;
         } else {
             // clone
-            issuerX500Principals = new HashSet<X500Principal>(issuers);
-            issuerNames = new HashSet<Object>();
-            for (X500Principal p : issuerX500Principals) {
-                issuerNames.add(p.getEncoded());
+            issuerX500Principbls = new HbshSet<X500Principbl>(issuers);
+            issuerNbmes = new HbshSet<Object>();
+            for (X500Principbl p : issuerX500Principbls) {
+                issuerNbmes.bdd(p.getEncoded());
             }
         }
     }
 
     /**
-     * <strong>Note:</strong> use {@linkplain #setIssuers(Collection)} instead
-     * or only specify the byte array form of distinguished names when using
-     * this method. See {@link #addIssuerName(String)} for more information.
+     * <strong>Note:</strong> use {@linkplbin #setIssuers(Collection)} instebd
+     * or only specify the byte brrby form of distinguished nbmes when using
+     * this method. See {@link #bddIssuerNbme(String)} for more informbtion.
      * <p>
-     * Sets the issuerNames criterion. The issuer distinguished name in the
-     * {@code X509CRL} must match at least one of the specified
-     * distinguished names. If {@code null}, any issuer distinguished name
+     * Sets the issuerNbmes criterion. The issuer distinguished nbme in the
+     * {@code X509CRL} must mbtch bt lebst one of the specified
+     * distinguished nbmes. If {@code null}, bny issuer distinguished nbme
      * will do.
      * <p>
-     * This method allows the caller to specify, with a single method call,
-     * the complete set of issuer names which {@code X509CRLs} may contain.
-     * The specified value replaces the previous value for the issuerNames
+     * This method bllows the cbller to specify, with b single method cbll,
+     * the complete set of issuer nbmes which {@code X509CRLs} mby contbin.
+     * The specified vblue replbces the previous vblue for the issuerNbmes
      * criterion.
      * <p>
-     * The {@code names} parameter (if not {@code null}) is a
-     * {@code Collection} of names. Each name is a {@code String}
-     * or a byte array representing a distinguished name (in
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a> or
+     * The {@code nbmes} pbrbmeter (if not {@code null}) is b
+     * {@code Collection} of nbmes. Ebch nbme is b {@code String}
+     * or b byte brrby representing b distinguished nbme (in
+     * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b> or
      * ASN.1 DER encoded form, respectively). If {@code null} is supplied
-     * as the value for this argument, no issuerNames check will be performed.
+     * bs the vblue for this brgument, no issuerNbmes check will be performed.
      * <p>
-     * Note that the {@code names} parameter can contain duplicate
-     * distinguished names, but they may be removed from the
-     * {@code Collection} of names returned by the
-     * {@link #getIssuerNames getIssuerNames} method.
+     * Note thbt the {@code nbmes} pbrbmeter cbn contbin duplicbte
+     * distinguished nbmes, but they mby be removed from the
+     * {@code Collection} of nbmes returned by the
+     * {@link #getIssuerNbmes getIssuerNbmes} method.
      * <p>
-     * If a name is specified as a byte array, it should contain a single DER
-     * encoded distinguished name, as defined in X.501. The ASN.1 notation for
-     * this structure is as follows.
+     * If b nbme is specified bs b byte brrby, it should contbin b single DER
+     * encoded distinguished nbme, bs defined in X.501. The ASN.1 notbtion for
+     * this structure is bs follows.
      * <pre>{@code
-     * Name ::= CHOICE {
+     * Nbme ::= CHOICE {
      *   RDNSequence }
      *
-     * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+     * RDNSequence ::= SEQUENCE OF RelbtiveDistinguishedNbme
      *
-     * RelativeDistinguishedName ::=
-     *   SET SIZE (1 .. MAX) OF AttributeTypeAndValue
+     * RelbtiveDistinguishedNbme ::=
+     *   SET SIZE (1 .. MAX) OF AttributeTypeAndVblue
      *
-     * AttributeTypeAndValue ::= SEQUENCE {
+     * AttributeTypeAndVblue ::= SEQUENCE {
      *   type     AttributeType,
-     *   value    AttributeValue }
+     *   vblue    AttributeVblue }
      *
      * AttributeType ::= OBJECT IDENTIFIER
      *
-     * AttributeValue ::= ANY DEFINED BY AttributeType
+     * AttributeVblue ::= ANY DEFINED BY AttributeType
      * ....
      * DirectoryString ::= CHOICE {
      *       teletexString           TeletexString (SIZE (1..MAX)),
-     *       printableString         PrintableString (SIZE (1..MAX)),
-     *       universalString         UniversalString (SIZE (1..MAX)),
+     *       printbbleString         PrintbbleString (SIZE (1..MAX)),
+     *       universblString         UniversblString (SIZE (1..MAX)),
      *       utf8String              UTF8String (SIZE (1.. MAX)),
      *       bmpString               BMPString (SIZE (1..MAX)) }
      * }</pre>
      * <p>
-     * Note that a deep copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Note thbt b deep copy is performed on the {@code Collection} to
+     * protect bgbinst subsequent modificbtions.
      *
-     * @param names a {@code Collection} of names (or {@code null})
-     * @throws IOException if a parsing error occurs
-     * @see #getIssuerNames
+     * @pbrbm nbmes b {@code Collection} of nbmes (or {@code null})
+     * @throws IOException if b pbrsing error occurs
+     * @see #getIssuerNbmes
      */
-    public void setIssuerNames(Collection<?> names) throws IOException {
-        if (names == null || names.size() == 0) {
-            issuerNames = null;
-            issuerX500Principals = null;
+    public void setIssuerNbmes(Collection<?> nbmes) throws IOException {
+        if (nbmes == null || nbmes.size() == 0) {
+            issuerNbmes = null;
+            issuerX500Principbls = null;
         } else {
-            HashSet<Object> tempNames = cloneAndCheckIssuerNames(names);
-            // Ensure that we either set both of these or neither
-            issuerX500Principals = parseIssuerNames(tempNames);
-            issuerNames = tempNames;
+            HbshSet<Object> tempNbmes = cloneAndCheckIssuerNbmes(nbmes);
+            // Ensure thbt we either set both of these or neither
+            issuerX500Principbls = pbrseIssuerNbmes(tempNbmes);
+            issuerNbmes = tempNbmes;
         }
     }
 
     /**
-     * Adds a name to the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names.
+     * Adds b nbme to the issuerNbmes criterion. The issuer distinguished
+     * nbme in the {@code X509CRL} must mbtch bt lebst one of the specified
+     * distinguished nbmes.
      * <p>
-     * This method allows the caller to add a name to the set of issuer names
-     * which {@code X509CRLs} may contain. The specified name is added to
-     * any previous value for the issuerNames criterion.
-     * If the specified name is a duplicate, it may be ignored.
+     * This method bllows the cbller to bdd b nbme to the set of issuer nbmes
+     * which {@code X509CRLs} mby contbin. The specified nbme is bdded to
+     * bny previous vblue for the issuerNbmes criterion.
+     * If the specified nbme is b duplicbte, it mby be ignored.
      *
-     * @param issuer the issuer as X500Principal
+     * @pbrbm issuer the issuer bs X500Principbl
      * @since 1.5
      */
-    public void addIssuer(X500Principal issuer) {
-        addIssuerNameInternal(issuer.getEncoded(), issuer);
+    public void bddIssuer(X500Principbl issuer) {
+        bddIssuerNbmeInternbl(issuer.getEncoded(), issuer);
     }
 
     /**
-     * <strong>Denigrated</strong>, use
-     * {@linkplain #addIssuer(X500Principal)} or
-     * {@linkplain #addIssuerName(byte[])} instead. This method should not be
-     * relied on as it can fail to match some CRLs because of a loss of
-     * encoding information in the RFC 2253 String form of some distinguished
-     * names.
+     * <strong>Denigrbted</strong>, use
+     * {@linkplbin #bddIssuer(X500Principbl)} or
+     * {@linkplbin #bddIssuerNbme(byte[])} instebd. This method should not be
+     * relied on bs it cbn fbil to mbtch some CRLs becbuse of b loss of
+     * encoding informbtion in the RFC 2253 String form of some distinguished
+     * nbmes.
      * <p>
-     * Adds a name to the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names.
+     * Adds b nbme to the issuerNbmes criterion. The issuer distinguished
+     * nbme in the {@code X509CRL} must mbtch bt lebst one of the specified
+     * distinguished nbmes.
      * <p>
-     * This method allows the caller to add a name to the set of issuer names
-     * which {@code X509CRLs} may contain. The specified name is added to
-     * any previous value for the issuerNames criterion.
-     * If the specified name is a duplicate, it may be ignored.
+     * This method bllows the cbller to bdd b nbme to the set of issuer nbmes
+     * which {@code X509CRLs} mby contbin. The specified nbme is bdded to
+     * bny previous vblue for the issuerNbmes criterion.
+     * If the specified nbme is b duplicbte, it mby be ignored.
      *
-     * @param name the name in RFC 2253 form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbme the nbme in RFC 2253 form
+     * @throws IOException if b pbrsing error occurs
      */
-    public void addIssuerName(String name) throws IOException {
-        addIssuerNameInternal(name, new X500Name(name).asX500Principal());
+    public void bddIssuerNbme(String nbme) throws IOException {
+        bddIssuerNbmeInternbl(nbme, new X500Nbme(nbme).bsX500Principbl());
     }
 
     /**
-     * Adds a name to the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names.
+     * Adds b nbme to the issuerNbmes criterion. The issuer distinguished
+     * nbme in the {@code X509CRL} must mbtch bt lebst one of the specified
+     * distinguished nbmes.
      * <p>
-     * This method allows the caller to add a name to the set of issuer names
-     * which {@code X509CRLs} may contain. The specified name is added to
-     * any previous value for the issuerNames criterion. If the specified name
-     * is a duplicate, it may be ignored.
-     * If a name is specified as a byte array, it should contain a single DER
-     * encoded distinguished name, as defined in X.501. The ASN.1 notation for
-     * this structure is as follows.
+     * This method bllows the cbller to bdd b nbme to the set of issuer nbmes
+     * which {@code X509CRLs} mby contbin. The specified nbme is bdded to
+     * bny previous vblue for the issuerNbmes criterion. If the specified nbme
+     * is b duplicbte, it mby be ignored.
+     * If b nbme is specified bs b byte brrby, it should contbin b single DER
+     * encoded distinguished nbme, bs defined in X.501. The ASN.1 notbtion for
+     * this structure is bs follows.
      * <p>
-     * The name is provided as a byte array. This byte array should contain
-     * a single DER encoded distinguished name, as defined in X.501. The ASN.1
-     * notation for this structure appears in the documentation for
-     * {@link #setIssuerNames setIssuerNames(Collection names)}.
+     * The nbme is provided bs b byte brrby. This byte brrby should contbin
+     * b single DER encoded distinguished nbme, bs defined in X.501. The ASN.1
+     * notbtion for this structure bppebrs in the documentbtion for
+     * {@link #setIssuerNbmes setIssuerNbmes(Collection nbmes)}.
      * <p>
-     * Note that the byte array supplied here is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby supplied here is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param name a byte array containing the name in ASN.1 DER encoded form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbme b byte brrby contbining the nbme in ASN.1 DER encoded form
+     * @throws IOException if b pbrsing error occurs
      */
-    public void addIssuerName(byte[] name) throws IOException {
-        // clone because byte arrays are modifiable
-        addIssuerNameInternal(name.clone(), new X500Name(name).asX500Principal());
+    public void bddIssuerNbme(byte[] nbme) throws IOException {
+        // clone becbuse byte brrbys bre modifibble
+        bddIssuerNbmeInternbl(nbme.clone(), new X500Nbme(nbme).bsX500Principbl());
     }
 
     /**
-     * A private method that adds a name (String or byte array) to the
-     * issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names.
+     * A privbte method thbt bdds b nbme (String or byte brrby) to the
+     * issuerNbmes criterion. The issuer distinguished
+     * nbme in the {@code X509CRL} must mbtch bt lebst one of the specified
+     * distinguished nbmes.
      *
-     * @param name the name in string or byte array form
-     * @param principal the name in X500Principal form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbme the nbme in string or byte brrby form
+     * @pbrbm principbl the nbme in X500Principbl form
+     * @throws IOException if b pbrsing error occurs
      */
-    private void addIssuerNameInternal(Object name, X500Principal principal) {
-        if (issuerNames == null) {
-            issuerNames = new HashSet<Object>();
+    privbte void bddIssuerNbmeInternbl(Object nbme, X500Principbl principbl) {
+        if (issuerNbmes == null) {
+            issuerNbmes = new HbshSet<Object>();
         }
-        if (issuerX500Principals == null) {
-            issuerX500Principals = new HashSet<X500Principal>();
+        if (issuerX500Principbls == null) {
+            issuerX500Principbls = new HbshSet<X500Principbl>();
         }
-        issuerNames.add(name);
-        issuerX500Principals.add(principal);
+        issuerNbmes.bdd(nbme);
+        issuerX500Principbls.bdd(principbl);
     }
 
     /**
-     * Clone and check an argument of the form passed to
-     * setIssuerNames. Throw an IOException if the argument is malformed.
+     * Clone bnd check bn brgument of the form pbssed to
+     * setIssuerNbmes. Throw bn IOException if the brgument is mblformed.
      *
-     * @param names a {@code Collection} of names. Each entry is a
-     *              String or a byte array (the name, in string or ASN.1
+     * @pbrbm nbmes b {@code Collection} of nbmes. Ebch entry is b
+     *              String or b byte brrby (the nbme, in string or ASN.1
      *              DER encoded form, respectively). {@code null} is
-     *              not an acceptable value.
-     * @return a deep copy of the specified {@code Collection}
-     * @throws IOException if a parsing error occurs
+     *              not bn bcceptbble vblue.
+     * @return b deep copy of the specified {@code Collection}
+     * @throws IOException if b pbrsing error occurs
      */
-    private static HashSet<Object> cloneAndCheckIssuerNames(Collection<?> names)
+    privbte stbtic HbshSet<Object> cloneAndCheckIssuerNbmes(Collection<?> nbmes)
         throws IOException
     {
-        HashSet<Object> namesCopy = new HashSet<Object>();
-        Iterator<?> i = names.iterator();
-        while (i.hasNext()) {
-            Object nameObject = i.next();
-            if (!(nameObject instanceof byte []) &&
-                !(nameObject instanceof String))
-                throw new IOException("name not byte array or String");
-            if (nameObject instanceof byte [])
-                namesCopy.add(((byte []) nameObject).clone());
+        HbshSet<Object> nbmesCopy = new HbshSet<Object>();
+        Iterbtor<?> i = nbmes.iterbtor();
+        while (i.hbsNext()) {
+            Object nbmeObject = i.next();
+            if (!(nbmeObject instbnceof byte []) &&
+                !(nbmeObject instbnceof String))
+                throw new IOException("nbme not byte brrby or String");
+            if (nbmeObject instbnceof byte [])
+                nbmesCopy.bdd(((byte []) nbmeObject).clone());
             else
-                namesCopy.add(nameObject);
+                nbmesCopy.bdd(nbmeObject);
         }
-        return(namesCopy);
+        return(nbmesCopy);
     }
 
     /**
-     * Clone an argument of the form passed to setIssuerNames.
-     * Throw a RuntimeException if the argument is malformed.
+     * Clone bn brgument of the form pbssed to setIssuerNbmes.
+     * Throw b RuntimeException if the brgument is mblformed.
      * <p>
-     * This method wraps cloneAndCheckIssuerNames, changing any IOException
-     * into a RuntimeException. This method should be used when the object being
-     * cloned has already been checked, so there should never be any exceptions.
+     * This method wrbps cloneAndCheckIssuerNbmes, chbnging bny IOException
+     * into b RuntimeException. This method should be used when the object being
+     * cloned hbs blrebdy been checked, so there should never be bny exceptions.
      *
-     * @param names a {@code Collection} of names. Each entry is a
-     *              String or a byte array (the name, in string or ASN.1
+     * @pbrbm nbmes b {@code Collection} of nbmes. Ebch entry is b
+     *              String or b byte brrby (the nbme, in string or ASN.1
      *              DER encoded form, respectively). {@code null} is
-     *              not an acceptable value.
-     * @return a deep copy of the specified {@code Collection}
-     * @throws RuntimeException if a parsing error occurs
+     *              not bn bcceptbble vblue.
+     * @return b deep copy of the specified {@code Collection}
+     * @throws RuntimeException if b pbrsing error occurs
      */
-    private static HashSet<Object> cloneIssuerNames(Collection<Object> names) {
+    privbte stbtic HbshSet<Object> cloneIssuerNbmes(Collection<Object> nbmes) {
         try {
-            return cloneAndCheckIssuerNames(names);
-        } catch (IOException ioe) {
+            return cloneAndCheckIssuerNbmes(nbmes);
+        } cbtch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
     }
 
     /**
-     * Parse an argument of the form passed to setIssuerNames,
-     * returning a Collection of issuerX500Principals.
-     * Throw an IOException if the argument is malformed.
+     * Pbrse bn brgument of the form pbssed to setIssuerNbmes,
+     * returning b Collection of issuerX500Principbls.
+     * Throw bn IOException if the brgument is mblformed.
      *
-     * @param names a {@code Collection} of names. Each entry is a
-     *              String or a byte array (the name, in string or ASN.1
+     * @pbrbm nbmes b {@code Collection} of nbmes. Ebch entry is b
+     *              String or b byte brrby (the nbme, in string or ASN.1
      *              DER encoded form, respectively). <Code>Null</Code> is
-     *              not an acceptable value.
-     * @return a HashSet of issuerX500Principals
-     * @throws IOException if a parsing error occurs
+     *              not bn bcceptbble vblue.
+     * @return b HbshSet of issuerX500Principbls
+     * @throws IOException if b pbrsing error occurs
      */
-    private static HashSet<X500Principal> parseIssuerNames(Collection<Object> names)
+    privbte stbtic HbshSet<X500Principbl> pbrseIssuerNbmes(Collection<Object> nbmes)
     throws IOException {
-        HashSet<X500Principal> x500Principals = new HashSet<X500Principal>();
-        for (Iterator<Object> t = names.iterator(); t.hasNext(); ) {
-            Object nameObject = t.next();
-            if (nameObject instanceof String) {
-                x500Principals.add(new X500Name((String)nameObject).asX500Principal());
+        HbshSet<X500Principbl> x500Principbls = new HbshSet<X500Principbl>();
+        for (Iterbtor<Object> t = nbmes.iterbtor(); t.hbsNext(); ) {
+            Object nbmeObject = t.next();
+            if (nbmeObject instbnceof String) {
+                x500Principbls.bdd(new X500Nbme((String)nbmeObject).bsX500Principbl());
             } else {
                 try {
-                    x500Principals.add(new X500Principal((byte[])nameObject));
-                } catch (IllegalArgumentException e) {
-                    throw (IOException)new IOException("Invalid name").initCause(e);
+                    x500Principbls.bdd(new X500Principbl((byte[])nbmeObject));
+                } cbtch (IllegblArgumentException e) {
+                    throw (IOException)new IOException("Invblid nbme").initCbuse(e);
                 }
             }
         }
-        return x500Principals;
+        return x500Principbls;
     }
 
     /**
-     * Sets the minCRLNumber criterion. The {@code X509CRL} must have a
-     * CRL number extension whose value is greater than or equal to the
-     * specified value. If {@code null}, no minCRLNumber check will be
+     * Sets the minCRLNumber criterion. The {@code X509CRL} must hbve b
+     * CRL number extension whose vblue is grebter thbn or equbl to the
+     * specified vblue. If {@code null}, no minCRLNumber check will be
      * done.
      *
-     * @param minCRL the minimum CRL number accepted (or {@code null})
+     * @pbrbm minCRL the minimum CRL number bccepted (or {@code null})
      */
     public void setMinCRLNumber(BigInteger minCRL) {
         this.minCRL = minCRL;
     }
 
     /**
-     * Sets the maxCRLNumber criterion. The {@code X509CRL} must have a
-     * CRL number extension whose value is less than or equal to the
-     * specified value. If {@code null}, no maxCRLNumber check will be
+     * Sets the mbxCRLNumber criterion. The {@code X509CRL} must hbve b
+     * CRL number extension whose vblue is less thbn or equbl to the
+     * specified vblue. If {@code null}, no mbxCRLNumber check will be
      * done.
      *
-     * @param maxCRL the maximum CRL number accepted (or {@code null})
+     * @pbrbm mbxCRL the mbximum CRL number bccepted (or {@code null})
      */
-    public void setMaxCRLNumber(BigInteger maxCRL) {
-        this.maxCRL = maxCRL;
+    public void setMbxCRLNumber(BigInteger mbxCRL) {
+        this.mbxCRL = mbxCRL;
     }
 
     /**
-     * Sets the dateAndTime criterion. The specified date must be
-     * equal to or later than the value of the thisUpdate component
-     * of the {@code X509CRL} and earlier than the value of the
-     * nextUpdate component. There is no match if the {@code X509CRL}
-     * does not contain a nextUpdate component.
-     * If {@code null}, no dateAndTime check will be done.
+     * Sets the dbteAndTime criterion. The specified dbte must be
+     * equbl to or lbter thbn the vblue of the thisUpdbte component
+     * of the {@code X509CRL} bnd ebrlier thbn the vblue of the
+     * nextUpdbte component. There is no mbtch if the {@code X509CRL}
+     * does not contbin b nextUpdbte component.
+     * If {@code null}, no dbteAndTime check will be done.
      * <p>
-     * Note that the {@code Date} supplied here is cloned to protect
-     * against subsequent modifications.
+     * Note thbt the {@code Dbte} supplied here is cloned to protect
+     * bgbinst subsequent modificbtions.
      *
-     * @param dateAndTime the {@code Date} to match against
+     * @pbrbm dbteAndTime the {@code Dbte} to mbtch bgbinst
      *                    (or {@code null})
-     * @see #getDateAndTime
+     * @see #getDbteAndTime
      */
-    public void setDateAndTime(Date dateAndTime) {
-        if (dateAndTime == null)
-            this.dateAndTime = null;
+    public void setDbteAndTime(Dbte dbteAndTime) {
+        if (dbteAndTime == null)
+            this.dbteAndTime = null;
         else
-            this.dateAndTime = new Date(dateAndTime.getTime());
+            this.dbteAndTime = new Dbte(dbteAndTime.getTime());
         this.skew = 0;
     }
 
     /**
-     * Sets the dateAndTime criterion and allows for the specified clock skew
-     * (in milliseconds) when checking against the validity period of the CRL.
+     * Sets the dbteAndTime criterion bnd bllows for the specified clock skew
+     * (in milliseconds) when checking bgbinst the vblidity period of the CRL.
      */
-    void setDateAndTime(Date dateAndTime, long skew) {
-        this.dateAndTime =
-            (dateAndTime == null ? null : new Date(dateAndTime.getTime()));
+    void setDbteAndTime(Dbte dbteAndTime, long skew) {
+        this.dbteAndTime =
+            (dbteAndTime == null ? null : new Dbte(dbteAndTime.getTime()));
         this.skew = skew;
     }
 
     /**
-     * Sets the certificate being checked. This is not a criterion. Rather,
-     * it is optional information that may help a {@code CertStore}
-     * find CRLs that would be relevant when checking revocation for the
-     * specified certificate. If {@code null} is specified, then no
-     * such optional information is provided.
+     * Sets the certificbte being checked. This is not b criterion. Rbther,
+     * it is optionbl informbtion thbt mby help b {@code CertStore}
+     * find CRLs thbt would be relevbnt when checking revocbtion for the
+     * specified certificbte. If {@code null} is specified, then no
+     * such optionbl informbtion is provided.
      *
-     * @param cert the {@code X509Certificate} being checked
+     * @pbrbm cert the {@code X509Certificbte} being checked
      *             (or {@code null})
-     * @see #getCertificateChecking
+     * @see #getCertificbteChecking
      */
-    public void setCertificateChecking(X509Certificate cert) {
+    public void setCertificbteChecking(X509Certificbte cert) {
         certChecking = cert;
     }
 
     /**
-     * Returns the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names. If the value returned is {@code null}, any
-     * issuer distinguished name will do.
+     * Returns the issuerNbmes criterion. The issuer distinguished
+     * nbme in the {@code X509CRL} must mbtch bt lebst one of the specified
+     * distinguished nbmes. If the vblue returned is {@code null}, bny
+     * issuer distinguished nbme will do.
      * <p>
-     * If the value returned is not {@code null}, it is a
-     * unmodifiable {@code Collection} of {@code X500Principal}s.
+     * If the vblue returned is not {@code null}, it is b
+     * unmodifibble {@code Collection} of {@code X500Principbl}s.
      *
-     * @return an unmodifiable {@code Collection} of names
+     * @return bn unmodifibble {@code Collection} of nbmes
      *   (or {@code null})
      * @see #setIssuers
      * @since 1.5
      */
-    public Collection<X500Principal> getIssuers() {
-        if (issuerX500Principals == null) {
+    public Collection<X500Principbl> getIssuers() {
+        if (issuerX500Principbls == null) {
             return null;
         }
-        return Collections.unmodifiableCollection(issuerX500Principals);
+        return Collections.unmodifibbleCollection(issuerX500Principbls);
     }
 
     /**
-     * Returns a copy of the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names. If the value returned is {@code null}, any
-     * issuer distinguished name will do.
+     * Returns b copy of the issuerNbmes criterion. The issuer distinguished
+     * nbme in the {@code X509CRL} must mbtch bt lebst one of the specified
+     * distinguished nbmes. If the vblue returned is {@code null}, bny
+     * issuer distinguished nbme will do.
      * <p>
-     * If the value returned is not {@code null}, it is a
-     * {@code Collection} of names. Each name is a {@code String}
-     * or a byte array representing a distinguished name (in RFC 2253 or
-     * ASN.1 DER encoded form, respectively).  Note that the
-     * {@code Collection} returned may contain duplicate names.
+     * If the vblue returned is not {@code null}, it is b
+     * {@code Collection} of nbmes. Ebch nbme is b {@code String}
+     * or b byte brrby representing b distinguished nbme (in RFC 2253 or
+     * ASN.1 DER encoded form, respectively).  Note thbt the
+     * {@code Collection} returned mby contbin duplicbte nbmes.
      * <p>
-     * If a name is specified as a byte array, it should contain a single DER
-     * encoded distinguished name, as defined in X.501. The ASN.1 notation for
-     * this structure is given in the documentation for
-     * {@link #setIssuerNames setIssuerNames(Collection names)}.
+     * If b nbme is specified bs b byte brrby, it should contbin b single DER
+     * encoded distinguished nbme, bs defined in X.501. The ASN.1 notbtion for
+     * this structure is given in the documentbtion for
+     * {@link #setIssuerNbmes setIssuerNbmes(Collection nbmes)}.
      * <p>
-     * Note that a deep copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Note thbt b deep copy is performed on the {@code Collection} to
+     * protect bgbinst subsequent modificbtions.
      *
-     * @return a {@code Collection} of names (or {@code null})
-     * @see #setIssuerNames
+     * @return b {@code Collection} of nbmes (or {@code null})
+     * @see #setIssuerNbmes
      */
-    public Collection<Object> getIssuerNames() {
-        if (issuerNames == null) {
+    public Collection<Object> getIssuerNbmes() {
+        if (issuerNbmes == null) {
             return null;
         }
-        return cloneIssuerNames(issuerNames);
+        return cloneIssuerNbmes(issuerNbmes);
     }
 
     /**
-     * Returns the minCRLNumber criterion. The {@code X509CRL} must have a
-     * CRL number extension whose value is greater than or equal to the
-     * specified value. If {@code null}, no minCRLNumber check will be done.
+     * Returns the minCRLNumber criterion. The {@code X509CRL} must hbve b
+     * CRL number extension whose vblue is grebter thbn or equbl to the
+     * specified vblue. If {@code null}, no minCRLNumber check will be done.
      *
-     * @return the minimum CRL number accepted (or {@code null})
+     * @return the minimum CRL number bccepted (or {@code null})
      */
     public BigInteger getMinCRL() {
         return minCRL;
     }
 
     /**
-     * Returns the maxCRLNumber criterion. The {@code X509CRL} must have a
-     * CRL number extension whose value is less than or equal to the
-     * specified value. If {@code null}, no maxCRLNumber check will be
+     * Returns the mbxCRLNumber criterion. The {@code X509CRL} must hbve b
+     * CRL number extension whose vblue is less thbn or equbl to the
+     * specified vblue. If {@code null}, no mbxCRLNumber check will be
      * done.
      *
-     * @return the maximum CRL number accepted (or {@code null})
+     * @return the mbximum CRL number bccepted (or {@code null})
      */
-    public BigInteger getMaxCRL() {
-        return maxCRL;
+    public BigInteger getMbxCRL() {
+        return mbxCRL;
     }
 
     /**
-     * Returns the dateAndTime criterion. The specified date must be
-     * equal to or later than the value of the thisUpdate component
-     * of the {@code X509CRL} and earlier than the value of the
-     * nextUpdate component. There is no match if the
-     * {@code X509CRL} does not contain a nextUpdate component.
-     * If {@code null}, no dateAndTime check will be done.
+     * Returns the dbteAndTime criterion. The specified dbte must be
+     * equbl to or lbter thbn the vblue of the thisUpdbte component
+     * of the {@code X509CRL} bnd ebrlier thbn the vblue of the
+     * nextUpdbte component. There is no mbtch if the
+     * {@code X509CRL} does not contbin b nextUpdbte component.
+     * If {@code null}, no dbteAndTime check will be done.
      * <p>
-     * Note that the {@code Date} returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the {@code Dbte} returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @return the {@code Date} to match against (or {@code null})
-     * @see #setDateAndTime
+     * @return the {@code Dbte} to mbtch bgbinst (or {@code null})
+     * @see #setDbteAndTime
      */
-    public Date getDateAndTime() {
-        if (dateAndTime == null)
+    public Dbte getDbteAndTime() {
+        if (dbteAndTime == null)
             return null;
-        return (Date) dateAndTime.clone();
+        return (Dbte) dbteAndTime.clone();
     }
 
     /**
-     * Returns the certificate being checked. This is not a criterion. Rather,
-     * it is optional information that may help a {@code CertStore}
-     * find CRLs that would be relevant when checking revocation for the
-     * specified certificate. If the value returned is {@code null}, then
-     * no such optional information is provided.
+     * Returns the certificbte being checked. This is not b criterion. Rbther,
+     * it is optionbl informbtion thbt mby help b {@code CertStore}
+     * find CRLs thbt would be relevbnt when checking revocbtion for the
+     * specified certificbte. If the vblue returned is {@code null}, then
+     * no such optionbl informbtion is provided.
      *
-     * @return the certificate being checked (or {@code null})
-     * @see #setCertificateChecking
+     * @return the certificbte being checked (or {@code null})
+     * @see #setCertificbteChecking
      */
-    public X509Certificate getCertificateChecking() {
+    public X509Certificbte getCertificbteChecking() {
         return certChecking;
     }
 
     /**
-     * Returns a printable representation of the {@code X509CRLSelector}.
+     * Returns b printbble representbtion of the {@code X509CRLSelector}.
      *
-     * @return a {@code String} describing the contents of the
+     * @return b {@code String} describing the contents of the
      *         {@code X509CRLSelector}.
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("X509CRLSelector: [\n");
-        if (issuerNames != null) {
-            sb.append("  IssuerNames:\n");
-            Iterator<Object> i = issuerNames.iterator();
-            while (i.hasNext())
-                sb.append("    " + i.next() + "\n");
+        sb.bppend("X509CRLSelector: [\n");
+        if (issuerNbmes != null) {
+            sb.bppend("  IssuerNbmes:\n");
+            Iterbtor<Object> i = issuerNbmes.iterbtor();
+            while (i.hbsNext())
+                sb.bppend("    " + i.next() + "\n");
         }
         if (minCRL != null)
-            sb.append("  minCRLNumber: " + minCRL + "\n");
-        if (maxCRL != null)
-            sb.append("  maxCRLNumber: " + maxCRL + "\n");
-        if (dateAndTime != null)
-            sb.append("  dateAndTime: " + dateAndTime + "\n");
+            sb.bppend("  minCRLNumber: " + minCRL + "\n");
+        if (mbxCRL != null)
+            sb.bppend("  mbxCRLNumber: " + mbxCRL + "\n");
+        if (dbteAndTime != null)
+            sb.bppend("  dbteAndTime: " + dbteAndTime + "\n");
         if (certChecking != null)
-            sb.append("  Certificate being checked: " + certChecking + "\n");
-        sb.append("]");
+            sb.bppend("  Certificbte being checked: " + certChecking + "\n");
+        sb.bppend("]");
         return sb.toString();
     }
 
     /**
-     * Decides whether a {@code CRL} should be selected.
+     * Decides whether b {@code CRL} should be selected.
      *
-     * @param crl the {@code CRL} to be checked
+     * @pbrbm crl the {@code CRL} to be checked
      * @return {@code true} if the {@code CRL} should be selected,
-     *         {@code false} otherwise
+     *         {@code fblse} otherwise
      */
-    public boolean match(CRL crl) {
-        if (!(crl instanceof X509CRL)) {
-            return false;
+    public boolebn mbtch(CRL crl) {
+        if (!(crl instbnceof X509CRL)) {
+            return fblse;
         }
         X509CRL xcrl = (X509CRL)crl;
 
-        /* match on issuer name */
-        if (issuerNames != null) {
-            X500Principal issuer = xcrl.getIssuerX500Principal();
-            Iterator<X500Principal> i = issuerX500Principals.iterator();
-            boolean found = false;
-            while (!found && i.hasNext()) {
-                if (i.next().equals(issuer)) {
+        /* mbtch on issuer nbme */
+        if (issuerNbmes != null) {
+            X500Principbl issuer = xcrl.getIssuerX500Principbl();
+            Iterbtor<X500Principbl> i = issuerX500Principbls.iterbtor();
+            boolebn found = fblse;
+            while (!found && i.hbsNext()) {
+                if (i.next().equbls(issuer)) {
                     found = true;
                 }
             }
             if (!found) {
                 if (debug != null) {
-                    debug.println("X509CRLSelector.match: issuer DNs "
-                        + "don't match");
+                    debug.println("X509CRLSelector.mbtch: issuer DNs "
+                        + "don't mbtch");
                 }
-                return false;
+                return fblse;
             }
         }
 
-        if ((minCRL != null) || (maxCRL != null)) {
+        if ((minCRL != null) || (mbxCRL != null)) {
             /* Get CRL number extension from CRL */
-            byte[] crlNumExtVal = xcrl.getExtensionValue("2.5.29.20");
-            if (crlNumExtVal == null) {
+            byte[] crlNumExtVbl = xcrl.getExtensionVblue("2.5.29.20");
+            if (crlNumExtVbl == null) {
                 if (debug != null) {
-                    debug.println("X509CRLSelector.match: no CRLNumber");
+                    debug.println("X509CRLSelector.mbtch: no CRLNumber");
                 }
             }
             BigInteger crlNum;
             try {
-                DerInputStream in = new DerInputStream(crlNumExtVal);
+                DerInputStrebm in = new DerInputStrebm(crlNumExtVbl);
                 byte[] encoded = in.getOctetString();
                 CRLNumberExtension crlNumExt =
-                    new CRLNumberExtension(Boolean.FALSE, encoded);
+                    new CRLNumberExtension(Boolebn.FALSE, encoded);
                 crlNum = crlNumExt.get(CRLNumberExtension.NUMBER);
-            } catch (IOException ex) {
+            } cbtch (IOException ex) {
                 if (debug != null) {
-                    debug.println("X509CRLSelector.match: exception in "
+                    debug.println("X509CRLSelector.mbtch: exception in "
                         + "decoding CRL number");
                 }
-                return false;
+                return fblse;
             }
 
-            /* match on minCRLNumber */
+            /* mbtch on minCRLNumber */
             if (minCRL != null) {
-                if (crlNum.compareTo(minCRL) < 0) {
+                if (crlNum.compbreTo(minCRL) < 0) {
                     if (debug != null) {
-                        debug.println("X509CRLSelector.match: CRLNumber too small");
+                        debug.println("X509CRLSelector.mbtch: CRLNumber too smbll");
                     }
-                    return false;
+                    return fblse;
                 }
             }
 
-            /* match on maxCRLNumber */
-            if (maxCRL != null) {
-                if (crlNum.compareTo(maxCRL) > 0) {
+            /* mbtch on mbxCRLNumber */
+            if (mbxCRL != null) {
+                if (crlNum.compbreTo(mbxCRL) > 0) {
                     if (debug != null) {
-                        debug.println("X509CRLSelector.match: CRLNumber too large");
+                        debug.println("X509CRLSelector.mbtch: CRLNumber too lbrge");
                     }
-                    return false;
+                    return fblse;
                 }
             }
         }
 
 
-        /* match on dateAndTime */
-        if (dateAndTime != null) {
-            Date crlThisUpdate = xcrl.getThisUpdate();
-            Date nextUpdate = xcrl.getNextUpdate();
-            if (nextUpdate == null) {
+        /* mbtch on dbteAndTime */
+        if (dbteAndTime != null) {
+            Dbte crlThisUpdbte = xcrl.getThisUpdbte();
+            Dbte nextUpdbte = xcrl.getNextUpdbte();
+            if (nextUpdbte == null) {
                 if (debug != null) {
-                    debug.println("X509CRLSelector.match: nextUpdate null");
+                    debug.println("X509CRLSelector.mbtch: nextUpdbte null");
                 }
-                return false;
+                return fblse;
             }
-            Date nowPlusSkew = dateAndTime;
-            Date nowMinusSkew = dateAndTime;
+            Dbte nowPlusSkew = dbteAndTime;
+            Dbte nowMinusSkew = dbteAndTime;
             if (skew > 0) {
-                nowPlusSkew = new Date(dateAndTime.getTime() + skew);
-                nowMinusSkew = new Date(dateAndTime.getTime() - skew);
+                nowPlusSkew = new Dbte(dbteAndTime.getTime() + skew);
+                nowMinusSkew = new Dbte(dbteAndTime.getTime() - skew);
             }
-            if (nowMinusSkew.after(nextUpdate)
-                || nowPlusSkew.before(crlThisUpdate)) {
+            if (nowMinusSkew.bfter(nextUpdbte)
+                || nowPlusSkew.before(crlThisUpdbte)) {
                 if (debug != null) {
-                    debug.println("X509CRLSelector.match: update out of range");
+                    debug.println("X509CRLSelector.mbtch: updbte out of rbnge");
                 }
-                return false;
+                return fblse;
             }
         }
 
@@ -692,23 +692,23 @@ public class X509CRLSelector implements CRLSelector {
     }
 
     /**
-     * Returns a copy of this object.
+     * Returns b copy of this object.
      *
      * @return the copy
      */
     public Object clone() {
         try {
             X509CRLSelector copy = (X509CRLSelector)super.clone();
-            if (issuerNames != null) {
-                copy.issuerNames =
-                        new HashSet<Object>(issuerNames);
-                copy.issuerX500Principals =
-                        new HashSet<X500Principal>(issuerX500Principals);
+            if (issuerNbmes != null) {
+                copy.issuerNbmes =
+                        new HbshSet<Object>(issuerNbmes);
+                copy.issuerX500Principbls =
+                        new HbshSet<X500Principbl>(issuerX500Principbls);
             }
             return copy;
-        } catch (CloneNotSupportedException e) {
-            /* Cannot happen */
-            throw new InternalError(e.toString(), e);
+        } cbtch (CloneNotSupportedException e) {
+            /* Cbnnot hbppen */
+            throw new InternblError(e.toString(), e);
         }
     }
 }

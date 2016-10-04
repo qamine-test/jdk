@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.lang.ref.*;
-import java.util.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
+import jbvb.lbng.ref.*;
+import jbvb.util.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponentUI;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
 
 /**
  * Windows rendition of the component.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  */
-public class WindowsScrollBarUI extends BasicScrollBarUI {
-    private Grid thumbGrid;
-    private Grid highlightGrid;
-    private Dimension horizontalThumbSize;
-    private Dimension verticalThumbSize;
+public clbss WindowsScrollBbrUI extends BbsicScrollBbrUI {
+    privbte Grid thumbGrid;
+    privbte Grid highlightGrid;
+    privbte Dimension horizontblThumbSize;
+    privbte Dimension verticblThumbSize;
 
     /**
-     * Creates a UI for a JScrollBar.
+     * Crebtes b UI for b JScrollBbr.
      *
-     * @param c the text field
+     * @pbrbm c the text field
      * @return the UI
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new WindowsScrollBarUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new WindowsScrollBbrUI();
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
+    protected void instbllDefbults() {
+        super.instbllDefbults();
 
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            scrollbar.setBorder(null);
-            horizontalThumbSize = getSize(scrollbar, xp, Part.SBP_THUMBBTNHORZ);
-            verticalThumbSize = getSize(scrollbar, xp, Part.SBP_THUMBBTNVERT);
+            scrollbbr.setBorder(null);
+            horizontblThumbSize = getSize(scrollbbr, xp, Pbrt.SBP_THUMBBTNHORZ);
+            verticblThumbSize = getSize(scrollbbr, xp, Pbrt.SBP_THUMBBTNVERT);
         } else {
-            horizontalThumbSize = null;
-            verticalThumbSize = null;
+            horizontblThumbSize = null;
+            verticblThumbSize = null;
         }
     }
 
-    private static Dimension getSize(Component component, XPStyle xp, Part part) {
-        Skin skin = xp.getSkin(component, part);
+    privbte stbtic Dimension getSize(Component component, XPStyle xp, Pbrt pbrt) {
+        Skin skin = xp.getSkin(component, pbrt);
         return new Dimension(skin.getWidth(), skin.getHeight());
     }
 
     @Override
     protected Dimension getMinimumThumbSize() {
-        if ((horizontalThumbSize == null) || (verticalThumbSize == null)) {
+        if ((horizontblThumbSize == null) || (verticblThumbSize == null)) {
             return super.getMinimumThumbSize();
         }
-        return JScrollBar.HORIZONTAL == scrollbar.getOrientation()
-                ? horizontalThumbSize
-                : verticalThumbSize;
+        return JScrollBbr.HORIZONTAL == scrollbbr.getOrientbtion()
+                ? horizontblThumbSize
+                : verticblThumbSize;
     }
 
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
+    public void uninstbllUI(JComponent c) {
+        super.uninstbllUI(c);
         thumbGrid = highlightGrid = null;
     }
 
-    protected void configureScrollBarColors() {
-        super.configureScrollBarColors();
-        Color color = UIManager.getColor("ScrollBar.trackForeground");
-        if (color != null && trackColor != null) {
-            thumbGrid = Grid.getGrid(color, trackColor);
+    protected void configureScrollBbrColors() {
+        super.configureScrollBbrColors();
+        Color color = UIMbnbger.getColor("ScrollBbr.trbckForeground");
+        if (color != null && trbckColor != null) {
+            thumbGrid = Grid.getGrid(color, trbckColor);
         }
 
-        color = UIManager.getColor("ScrollBar.trackHighlightForeground");
-        if (color != null && trackHighlightColor != null) {
-            highlightGrid = Grid.getGrid(color, trackHighlightColor);
+        color = UIMbnbger.getColor("ScrollBbr.trbckHighlightForeground");
+        if (color != null && trbckHighlightColor != null) {
+            highlightGrid = Grid.getGrid(color, trbckHighlightColor);
         }
     }
 
-    protected JButton createDecreaseButton(int orientation)  {
-        return new WindowsArrowButton(orientation,
-                                    UIManager.getColor("ScrollBar.thumb"),
-                                    UIManager.getColor("ScrollBar.thumbShadow"),
-                                    UIManager.getColor("ScrollBar.thumbDarkShadow"),
-                                    UIManager.getColor("ScrollBar.thumbHighlight"));
+    protected JButton crebteDecrebseButton(int orientbtion)  {
+        return new WindowsArrowButton(orientbtion,
+                                    UIMbnbger.getColor("ScrollBbr.thumb"),
+                                    UIMbnbger.getColor("ScrollBbr.thumbShbdow"),
+                                    UIMbnbger.getColor("ScrollBbr.thumbDbrkShbdow"),
+                                    UIMbnbger.getColor("ScrollBbr.thumbHighlight"));
     }
 
-    protected JButton createIncreaseButton(int orientation)  {
-        return new WindowsArrowButton(orientation,
-                                    UIManager.getColor("ScrollBar.thumb"),
-                                    UIManager.getColor("ScrollBar.thumbShadow"),
-                                    UIManager.getColor("ScrollBar.thumbDarkShadow"),
-                                    UIManager.getColor("ScrollBar.thumbHighlight"));
+    protected JButton crebteIncrebseButton(int orientbtion)  {
+        return new WindowsArrowButton(orientbtion,
+                                    UIMbnbger.getColor("ScrollBbr.thumb"),
+                                    UIMbnbger.getColor("ScrollBbr.thumbShbdow"),
+                                    UIMbnbger.getColor("ScrollBbr.thumbDbrkShbdow"),
+                                    UIMbnbger.getColor("ScrollBbr.thumbHighlight"));
     }
 
     /**
@@ -132,146 +132,146 @@ public class WindowsScrollBarUI extends BasicScrollBarUI {
      * @since 1.6
      */
     @Override
-    protected ArrowButtonListener createArrowButtonListener(){
-        // we need to repaint the entire scrollbar because state change for each
-        // button causes a state change for the thumb and other button on Vista
-        if(XPStyle.isVista()) {
+    protected ArrowButtonListener crebteArrowButtonListener(){
+        // we need to repbint the entire scrollbbr becbuse stbte chbnge for ebch
+        // button cbuses b stbte chbnge for the thumb bnd other button on Vistb
+        if(XPStyle.isVistb()) {
             return new ArrowButtonListener() {
                 public void mouseEntered(MouseEvent evt) {
-                    repaint();
+                    repbint();
                     super.mouseEntered(evt);
                 }
                 public void mouseExited(MouseEvent evt) {
-                    repaint();
+                    repbint();
                     super.mouseExited(evt);
                 }
-                private void repaint() {
-                    scrollbar.repaint();
+                privbte void repbint() {
+                    scrollbbr.repbint();
                 }
             };
         } else {
-            return super.createArrowButtonListener();
+            return super.crebteArrowButtonListener();
         }
     }
 
-    protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds){
-        boolean v = (scrollbar.getOrientation() == JScrollBar.VERTICAL);
+    protected void pbintTrbck(Grbphics g, JComponent c, Rectbngle trbckBounds){
+        boolebn v = (scrollbbr.getOrientbtion() == JScrollBbr.VERTICAL);
 
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            JScrollBar sb = (JScrollBar)c;
-            State state = State.NORMAL;
-            // Pending: Implement rollover (hot) and pressed
-            if (!sb.isEnabled()) {
-                state = State.DISABLED;
+            JScrollBbr sb = (JScrollBbr)c;
+            Stbte stbte = Stbte.NORMAL;
+            // Pending: Implement rollover (hot) bnd pressed
+            if (!sb.isEnbbled()) {
+                stbte = Stbte.DISABLED;
             }
-            Part part = v ? Part.SBP_LOWERTRACKVERT : Part.SBP_LOWERTRACKHORZ;
-            xp.getSkin(sb, part).paintSkin(g, trackBounds, state);
+            Pbrt pbrt = v ? Pbrt.SBP_LOWERTRACKVERT : Pbrt.SBP_LOWERTRACKHORZ;
+            xp.getSkin(sb, pbrt).pbintSkin(g, trbckBounds, stbte);
         } else if (thumbGrid == null) {
-            super.paintTrack(g, c, trackBounds);
+            super.pbintTrbck(g, c, trbckBounds);
         }
         else {
-            thumbGrid.paint(g, trackBounds.x, trackBounds.y, trackBounds.width,
-                            trackBounds.height);
-            if (trackHighlight == DECREASE_HIGHLIGHT) {
-                paintDecreaseHighlight(g);
+            thumbGrid.pbint(g, trbckBounds.x, trbckBounds.y, trbckBounds.width,
+                            trbckBounds.height);
+            if (trbckHighlight == DECREASE_HIGHLIGHT) {
+                pbintDecrebseHighlight(g);
             }
-            else if (trackHighlight == INCREASE_HIGHLIGHT) {
-                paintIncreaseHighlight(g);
+            else if (trbckHighlight == INCREASE_HIGHLIGHT) {
+                pbintIncrebseHighlight(g);
             }
         }
     }
 
-    protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-        boolean v = (scrollbar.getOrientation() == JScrollBar.VERTICAL);
+    protected void pbintThumb(Grbphics g, JComponent c, Rectbngle thumbBounds) {
+        boolebn v = (scrollbbr.getOrientbtion() == JScrollBbr.VERTICAL);
 
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            JScrollBar sb = (JScrollBar)c;
-            State state = State.NORMAL;
-            if (!sb.isEnabled()) {
-                state = State.DISABLED;
-            } else if (isDragging) {
-                state = State.PRESSED;
+            JScrollBbr sb = (JScrollBbr)c;
+            Stbte stbte = Stbte.NORMAL;
+            if (!sb.isEnbbled()) {
+                stbte = Stbte.DISABLED;
+            } else if (isDrbgging) {
+                stbte = Stbte.PRESSED;
             } else if (isThumbRollover()) {
-                state = State.HOT;
-            } else if (XPStyle.isVista()) {
+                stbte = Stbte.HOT;
+            } else if (XPStyle.isVistb()) {
                 if ((incrButton != null && incrButton.getModel().isRollover()) ||
                     (decrButton != null && decrButton.getModel().isRollover())) {
-                    state = State.HOVER;
+                    stbte = Stbte.HOVER;
                 }
             }
-            // Paint thumb
-            Part thumbPart = v ? Part.SBP_THUMBBTNVERT : Part.SBP_THUMBBTNHORZ;
-            xp.getSkin(sb, thumbPart).paintSkin(g, thumbBounds, state);
-            // Paint gripper
-            Part gripperPart = v ? Part.SBP_GRIPPERVERT : Part.SBP_GRIPPERHORZ;
-            Skin skin = xp.getSkin(sb, gripperPart);
-            Insets gripperInsets = xp.getMargin(c, thumbPart, null, Prop.CONTENTMARGINS);
+            // Pbint thumb
+            Pbrt thumbPbrt = v ? Pbrt.SBP_THUMBBTNVERT : Pbrt.SBP_THUMBBTNHORZ;
+            xp.getSkin(sb, thumbPbrt).pbintSkin(g, thumbBounds, stbte);
+            // Pbint gripper
+            Pbrt gripperPbrt = v ? Pbrt.SBP_GRIPPERVERT : Pbrt.SBP_GRIPPERHORZ;
+            Skin skin = xp.getSkin(sb, gripperPbrt);
+            Insets gripperInsets = xp.getMbrgin(c, thumbPbrt, null, Prop.CONTENTMARGINS);
             if (gripperInsets == null ||
                 (v && (thumbBounds.height - gripperInsets.top -
                        gripperInsets.bottom >= skin.getHeight())) ||
                 (!v && (thumbBounds.width - gripperInsets.left -
                         gripperInsets.right >= skin.getWidth()))) {
-                skin.paintSkin(g,
+                skin.pbintSkin(g,
                                thumbBounds.x + (thumbBounds.width  - skin.getWidth()) / 2,
                                thumbBounds.y + (thumbBounds.height - skin.getHeight()) / 2,
-                               skin.getWidth(), skin.getHeight(), state);
+                               skin.getWidth(), skin.getHeight(), stbte);
             }
         } else {
-            super.paintThumb(g, c, thumbBounds);
+            super.pbintThumb(g, c, thumbBounds);
         }
     }
 
 
-    protected void paintDecreaseHighlight(Graphics g) {
+    protected void pbintDecrebseHighlight(Grbphics g) {
         if (highlightGrid == null) {
-            super.paintDecreaseHighlight(g);
+            super.pbintDecrebseHighlight(g);
         }
         else {
-            Insets insets = scrollbar.getInsets();
-            Rectangle thumbR = getThumbBounds();
+            Insets insets = scrollbbr.getInsets();
+            Rectbngle thumbR = getThumbBounds();
             int x, y, w, h;
 
-            if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+            if (scrollbbr.getOrientbtion() == JScrollBbr.VERTICAL) {
                 x = insets.left;
                 y = decrButton.getY() + decrButton.getHeight();
-                w = scrollbar.getWidth() - (insets.left + insets.right);
+                w = scrollbbr.getWidth() - (insets.left + insets.right);
                 h = thumbR.y - y;
             }
             else {
                 x = decrButton.getX() + decrButton.getHeight();
                 y = insets.top;
                 w = thumbR.x - x;
-                h = scrollbar.getHeight() - (insets.top + insets.bottom);
+                h = scrollbbr.getHeight() - (insets.top + insets.bottom);
             }
-            highlightGrid.paint(g, x, y, w, h);
+            highlightGrid.pbint(g, x, y, w, h);
         }
     }
 
 
-    protected void paintIncreaseHighlight(Graphics g) {
+    protected void pbintIncrebseHighlight(Grbphics g) {
         if (highlightGrid == null) {
-            super.paintDecreaseHighlight(g);
+            super.pbintDecrebseHighlight(g);
         }
         else {
-            Insets insets = scrollbar.getInsets();
-            Rectangle thumbR = getThumbBounds();
+            Insets insets = scrollbbr.getInsets();
+            Rectbngle thumbR = getThumbBounds();
             int x, y, w, h;
 
-            if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+            if (scrollbbr.getOrientbtion() == JScrollBbr.VERTICAL) {
                 x = insets.left;
                 y = thumbR.y + thumbR.height;
-                w = scrollbar.getWidth() - (insets.left + insets.right);
+                w = scrollbbr.getWidth() - (insets.left + insets.right);
                 h = incrButton.getY() - y;
             }
             else {
                 x = thumbR.x + thumbR.width;
                 y = insets.top;
                 w = incrButton.getX() - x;
-                h = scrollbar.getHeight() - (insets.top + insets.bottom);
+                h = scrollbbr.getHeight() - (insets.top + insets.bottom);
             }
-            highlightGrid.paint(g, x, y, w, h);
+            highlightGrid.pbint(g, x, y, w, h);
         }
     }
 
@@ -281,100 +281,100 @@ public class WindowsScrollBarUI extends BasicScrollBarUI {
      * @since 1.6
      */
     @Override
-    protected void setThumbRollover(boolean active) {
-        boolean old = isThumbRollover();
-        super.setThumbRollover(active);
-        // we need to repaint the entire scrollbar because state change for thumb
-        // causes state change for incr and decr buttons on Vista
-        if(XPStyle.isVista() && active != old) {
-            scrollbar.repaint();
+    protected void setThumbRollover(boolebn bctive) {
+        boolebn old = isThumbRollover();
+        super.setThumbRollover(bctive);
+        // we need to repbint the entire scrollbbr becbuse stbte chbnge for thumb
+        // cbuses stbte chbnge for incr bnd decr buttons on Vistb
+        if(XPStyle.isVistb() && bctive != old) {
+            scrollbbr.repbint();
         }
     }
 
     /**
      * WindowsArrowButton is used for the buttons to position the
-     * document up/down. It differs from BasicArrowButton in that the
-     * preferred size is always a square.
+     * document up/down. It differs from BbsicArrowButton in thbt the
+     * preferred size is blwbys b squbre.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class WindowsArrowButton extends BasicArrowButton {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss WindowsArrowButton extends BbsicArrowButton {
 
-        public WindowsArrowButton(int direction, Color background, Color shadow,
-                         Color darkShadow, Color highlight) {
-            super(direction, background, shadow, darkShadow, highlight);
+        public WindowsArrowButton(int direction, Color bbckground, Color shbdow,
+                         Color dbrkShbdow, Color highlight) {
+            super(direction, bbckground, shbdow, dbrkShbdow, highlight);
         }
 
         public WindowsArrowButton(int direction) {
             super(direction);
         }
 
-        public void paint(Graphics g) {
+        public void pbint(Grbphics g) {
             XPStyle xp = XPStyle.getXP();
             if (xp != null) {
                 ButtonModel model = getModel();
-                Skin skin = xp.getSkin(this, Part.SBP_ARROWBTN);
-                State state = null;
+                Skin skin = xp.getSkin(this, Pbrt.SBP_ARROWBTN);
+                Stbte stbte = null;
 
-                boolean jointRollover = XPStyle.isVista() && (isThumbRollover() ||
+                boolebn jointRollover = XPStyle.isVistb() && (isThumbRollover() ||
                     (this == incrButton && decrButton.getModel().isRollover()) ||
                     (this == decrButton && incrButton.getModel().isRollover()));
 
-                // normal, rollover, pressed, disabled
+                // normbl, rollover, pressed, disbbled
                 if (model.isArmed() && model.isPressed()) {
                     switch (direction) {
-                        case NORTH: state = State.UPPRESSED;    break;
-                        case SOUTH: state = State.DOWNPRESSED;  break;
-                        case WEST:  state = State.LEFTPRESSED;  break;
-                        case EAST:  state = State.RIGHTPRESSED; break;
+                        cbse NORTH: stbte = Stbte.UPPRESSED;    brebk;
+                        cbse SOUTH: stbte = Stbte.DOWNPRESSED;  brebk;
+                        cbse WEST:  stbte = Stbte.LEFTPRESSED;  brebk;
+                        cbse EAST:  stbte = Stbte.RIGHTPRESSED; brebk;
                     }
-                } else if (!model.isEnabled()) {
+                } else if (!model.isEnbbled()) {
                     switch (direction) {
-                        case NORTH: state = State.UPDISABLED;    break;
-                        case SOUTH: state = State.DOWNDISABLED;  break;
-                        case WEST:  state = State.LEFTDISABLED;  break;
-                        case EAST:  state = State.RIGHTDISABLED; break;
+                        cbse NORTH: stbte = Stbte.UPDISABLED;    brebk;
+                        cbse SOUTH: stbte = Stbte.DOWNDISABLED;  brebk;
+                        cbse WEST:  stbte = Stbte.LEFTDISABLED;  brebk;
+                        cbse EAST:  stbte = Stbte.RIGHTDISABLED; brebk;
                     }
                 } else if (model.isRollover() || model.isPressed()) {
                     switch (direction) {
-                        case NORTH: state = State.UPHOT;    break;
-                        case SOUTH: state = State.DOWNHOT;  break;
-                        case WEST:  state = State.LEFTHOT;  break;
-                        case EAST:  state = State.RIGHTHOT; break;
+                        cbse NORTH: stbte = Stbte.UPHOT;    brebk;
+                        cbse SOUTH: stbte = Stbte.DOWNHOT;  brebk;
+                        cbse WEST:  stbte = Stbte.LEFTHOT;  brebk;
+                        cbse EAST:  stbte = Stbte.RIGHTHOT; brebk;
                     }
                 } else if (jointRollover) {
                     switch (direction) {
-                        case NORTH: state = State.UPHOVER;    break;
-                        case SOUTH: state = State.DOWNHOVER;  break;
-                        case WEST:  state = State.LEFTHOVER;  break;
-                        case EAST:  state = State.RIGHTHOVER; break;
+                        cbse NORTH: stbte = Stbte.UPHOVER;    brebk;
+                        cbse SOUTH: stbte = Stbte.DOWNHOVER;  brebk;
+                        cbse WEST:  stbte = Stbte.LEFTHOVER;  brebk;
+                        cbse EAST:  stbte = Stbte.RIGHTHOVER; brebk;
                     }
                 } else {
                     switch (direction) {
-                        case NORTH: state = State.UPNORMAL;    break;
-                        case SOUTH: state = State.DOWNNORMAL;  break;
-                        case WEST:  state = State.LEFTNORMAL;  break;
-                        case EAST:  state = State.RIGHTNORMAL; break;
+                        cbse NORTH: stbte = Stbte.UPNORMAL;    brebk;
+                        cbse SOUTH: stbte = Stbte.DOWNNORMAL;  brebk;
+                        cbse WEST:  stbte = Stbte.LEFTNORMAL;  brebk;
+                        cbse EAST:  stbte = Stbte.RIGHTNORMAL; brebk;
                     }
                 }
 
-                skin.paintSkin(g, 0, 0, getWidth(), getHeight(), state);
+                skin.pbintSkin(g, 0, 0, getWidth(), getHeight(), stbte);
             } else {
-                super.paint(g);
+                super.pbint(g);
             }
         }
 
         public Dimension getPreferredSize() {
             int size = 16;
-            if (scrollbar != null) {
-                switch (scrollbar.getOrientation()) {
-                case JScrollBar.VERTICAL:
-                    size = scrollbar.getWidth();
-                    break;
-                case JScrollBar.HORIZONTAL:
-                    size = scrollbar.getHeight();
-                    break;
+            if (scrollbbr != null) {
+                switch (scrollbbr.getOrientbtion()) {
+                cbse JScrollBbr.VERTICAL:
+                    size = scrollbbr.getWidth();
+                    brebk;
+                cbse JScrollBbr.HORIZONTAL:
+                    size = scrollbbr.getHeight();
+                    brebk;
                 }
-                size = Math.max(size, 5);
+                size = Mbth.mbx(size, 5);
             }
             return new Dimension(size, size);
         }
@@ -382,79 +382,79 @@ public class WindowsScrollBarUI extends BasicScrollBarUI {
 
 
     /**
-     * This should be pulled out into its own class if more classes need to
+     * This should be pulled out into its own clbss if more clbsses need to
      * use it.
      * <p>
-     * Grid is used to draw the track for windows scrollbars. Grids
-     * are cached in a HashMap, with the key being the rgb components
-     * of the foreground/background colors. Further the Grid is held through
-     * a WeakRef so that it can be freed when no longer needed. As the
-     * Grid is rather expensive to draw, it is drawn in a BufferedImage.
+     * Grid is used to drbw the trbck for windows scrollbbrs. Grids
+     * bre cbched in b HbshMbp, with the key being the rgb components
+     * of the foreground/bbckground colors. Further the Grid is held through
+     * b WebkRef so thbt it cbn be freed when no longer needed. As the
+     * Grid is rbther expensive to drbw, it is drbwn in b BufferedImbge.
      */
-    private static class Grid {
-        private static final int BUFFER_SIZE = 64;
-        private static HashMap<String, WeakReference<Grid>> map;
+    privbte stbtic clbss Grid {
+        privbte stbtic finbl int BUFFER_SIZE = 64;
+        privbte stbtic HbshMbp<String, WebkReference<Grid>> mbp;
 
-        private BufferedImage image;
+        privbte BufferedImbge imbge;
 
-        static {
-            map = new HashMap<String, WeakReference<Grid>>();
+        stbtic {
+            mbp = new HbshMbp<String, WebkReference<Grid>>();
         }
 
-        public static Grid getGrid(Color fg, Color bg) {
+        public stbtic Grid getGrid(Color fg, Color bg) {
             String key = fg.getRGB() + " " + bg.getRGB();
-            WeakReference<Grid> ref = map.get(key);
+            WebkReference<Grid> ref = mbp.get(key);
             Grid grid = (ref == null) ? null : ref.get();
             if (grid == null) {
                 grid = new Grid(fg, bg);
-                map.put(key, new WeakReference<Grid>(grid));
+                mbp.put(key, new WebkReference<Grid>(grid));
             }
             return grid;
         }
 
         public Grid(Color fg, Color bg) {
-            int cmap[] = { fg.getRGB(), bg.getRGB() };
-            IndexColorModel icm = new IndexColorModel(8, 2, cmap, 0, false, -1,
-                                                      DataBuffer.TYPE_BYTE);
-            image = new BufferedImage(BUFFER_SIZE, BUFFER_SIZE,
-                                      BufferedImage.TYPE_BYTE_INDEXED, icm);
-            Graphics g = image.getGraphics();
+            int cmbp[] = { fg.getRGB(), bg.getRGB() };
+            IndexColorModel icm = new IndexColorModel(8, 2, cmbp, 0, fblse, -1,
+                                                      DbtbBuffer.TYPE_BYTE);
+            imbge = new BufferedImbge(BUFFER_SIZE, BUFFER_SIZE,
+                                      BufferedImbge.TYPE_BYTE_INDEXED, icm);
+            Grbphics g = imbge.getGrbphics();
             try {
                 g.setClip(0, 0, BUFFER_SIZE, BUFFER_SIZE);
-                paintGrid(g, fg, bg);
+                pbintGrid(g, fg, bg);
             }
-            finally {
+            finblly {
                 g.dispose();
             }
         }
 
         /**
-         * Paints the grid into the specified Graphics at the specified
-         * location.
+         * Pbints the grid into the specified Grbphics bt the specified
+         * locbtion.
          */
-        public void paint(Graphics g, int x, int y, int w, int h) {
-            Rectangle clipRect = g.getClipBounds();
-            int minX = Math.max(x, clipRect.x);
-            int minY = Math.max(y, clipRect.y);
-            int maxX = Math.min(clipRect.x + clipRect.width, x + w);
-            int maxY = Math.min(clipRect.y + clipRect.height, y + h);
+        public void pbint(Grbphics g, int x, int y, int w, int h) {
+            Rectbngle clipRect = g.getClipBounds();
+            int minX = Mbth.mbx(x, clipRect.x);
+            int minY = Mbth.mbx(y, clipRect.y);
+            int mbxX = Mbth.min(clipRect.x + clipRect.width, x + w);
+            int mbxY = Mbth.min(clipRect.y + clipRect.height, y + h);
 
-            if (maxX <= minX || maxY <= minY) {
+            if (mbxX <= minX || mbxY <= minY) {
                 return;
             }
             int xOffset = (minX - x) % 2;
-            for (int xCounter = minX; xCounter < maxX;
+            for (int xCounter = minX; xCounter < mbxX;
                  xCounter += BUFFER_SIZE) {
                 int yOffset = (minY - y) % 2;
-                int width = Math.min(BUFFER_SIZE - xOffset,
-                                     maxX - xCounter);
+                int width = Mbth.min(BUFFER_SIZE - xOffset,
+                                     mbxX - xCounter);
 
-                for (int yCounter = minY; yCounter < maxY;
+                for (int yCounter = minY; yCounter < mbxY;
                      yCounter += BUFFER_SIZE) {
-                    int height = Math.min(BUFFER_SIZE - yOffset,
-                                          maxY - yCounter);
+                    int height = Mbth.min(BUFFER_SIZE - yOffset,
+                                          mbxY - yCounter);
 
-                    g.drawImage(image, xCounter, yCounter,
+                    g.drbwImbge(imbge, xCounter, yCounter,
                                 xCounter + width, yCounter + height,
                                 xOffset, yOffset,
                                 xOffset + width, yOffset + height, null);
@@ -471,33 +471,33 @@ public class WindowsScrollBarUI extends BasicScrollBarUI {
         }
 
         /**
-         * Actually renders the grid into the Graphics <code>g</code>.
+         * Actublly renders the grid into the Grbphics <code>g</code>.
          */
-        private void paintGrid(Graphics g, Color fg, Color bg) {
-            Rectangle clipRect = g.getClipBounds();
+        privbte void pbintGrid(Grbphics g, Color fg, Color bg) {
+            Rectbngle clipRect = g.getClipBounds();
             g.setColor(bg);
             g.fillRect(clipRect.x, clipRect.y, clipRect.width,
                        clipRect.height);
             g.setColor(fg);
-            g.translate(clipRect.x, clipRect.y);
+            g.trbnslbte(clipRect.x, clipRect.y);
             int width = clipRect.width;
             int height = clipRect.height;
             int xCounter = clipRect.x % 2;
             for (int end = width - height; xCounter < end; xCounter += 2) {
-                g.drawLine(xCounter, 0, xCounter + height, height);
+                g.drbwLine(xCounter, 0, xCounter + height, height);
             }
             for (int end = width; xCounter < end; xCounter += 2) {
-                g.drawLine(xCounter, 0, width, width - xCounter);
+                g.drbwLine(xCounter, 0, width, width - xCounter);
             }
 
             int yCounter = ((clipRect.x % 2) == 0) ? 2 : 1;
             for (int end = height - width; yCounter < end; yCounter += 2) {
-                g.drawLine(0, yCounter, width, yCounter + width);
+                g.drbwLine(0, yCounter, width, yCounter + width);
             }
             for (int end = height; yCounter < end; yCounter += 2) {
-                g.drawLine(0, yCounter, height - yCounter, height);
+                g.drbwLine(0, yCounter, height - yCounter, height);
             }
-            g.translate(-clipRect.x, -clipRect.y);
+            g.trbnslbte(-clipRect.x, -clipRect.y);
         }
     }
 }

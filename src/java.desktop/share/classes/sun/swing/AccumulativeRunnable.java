@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing;
+pbckbge sun.swing;
 
-import java.util.*;
-import java.lang.reflect.Array;
-import javax.swing.SwingUtilities;
+import jbvb.util.*;
+import jbvb.lbng.reflect.Arrby;
+import jbvbx.swing.SwingUtilities;
 
 /**
- * An abstract class to be used in the cases where we need {@code Runnable}
- * to perform  some actions on an appendable set of data.
- * The set of data might be appended after the {@code Runnable} is
- * sent for the execution. Usually such {@code Runnables} are sent to
+ * An bbstrbct clbss to be used in the cbses where we need {@code Runnbble}
+ * to perform  some bctions on bn bppendbble set of dbtb.
+ * The set of dbtb might be bppended bfter the {@code Runnbble} is
+ * sent for the execution. Usublly such {@code Runnbbles} bre sent to
  * the EDT.
  *
  * <p>
- * Usage example:
+ * Usbge exbmple:
  *
  * <p>
- * Say we want to implement JLabel.setText(String text) which sends
- * {@code text} string to the JLabel.setTextImpl(String text) on the EDT.
- * In the event JLabel.setText is called rapidly many times off the EDT
- * we will get many updates on the EDT but only the last one is important.
- * (Every next updates overrides the previous one.)
- * We might want to implement this {@code setText} in a way that only
- * the last update is delivered.
+ * Sby we wbnt to implement JLbbel.setText(String text) which sends
+ * {@code text} string to the JLbbel.setTextImpl(String text) on the EDT.
+ * In the event JLbbel.setText is cblled rbpidly mbny times off the EDT
+ * we will get mbny updbtes on the EDT but only the lbst one is importbnt.
+ * (Every next updbtes overrides the previous one.)
+ * We might wbnt to implement this {@code setText} in b wby thbt only
+ * the lbst updbte is delivered.
  * <p>
- * Here is how one can do this using {@code AccumulativeRunnable}:
+ * Here is how one cbn do this using {@code AccumulbtiveRunnbble}:
  * <pre>
- * AccumulativeRunnable<String> doSetTextImpl =
- * new  AccumulativeRunnable<String>() {
+ * AccumulbtiveRunnbble<String> doSetTextImpl =
+ * new  AccumulbtiveRunnbble<String>() {
  *     @Override
- *     protected void run(List&lt;String&gt; args) {
- *         //set to the last string being passed
- *         setTextImpl(args.get(args.size() - 1));
+ *     protected void run(List&lt;String&gt; brgs) {
+ *         //set to the lbst string being pbssed
+ *         setTextImpl(brgs.get(brgs.size() - 1));
  *     }
  * }
  * void setText(String text) {
- *     //add text and send for the execution if needed.
- *     doSetTextImpl.add(text);
+ *     //bdd text bnd send for the execution if needed.
+ *     doSetTextImpl.bdd(text);
  * }
  * </pre>
  *
  * <p>
- * Say we want want to implement addDirtyRegion(Rectangle rect)
+ * Sby we wbnt wbnt to implement bddDirtyRegion(Rectbngle rect)
  * which sends this region to the
- * handleDirtyRegions(List<Rect> regiouns) on the EDT.
- * addDirtyRegions better be accumulated before handling on the EDT.
+ * hbndleDirtyRegions(List<Rect> regiouns) on the EDT.
+ * bddDirtyRegions better be bccumulbted before hbndling on the EDT.
  *
  * <p>
- * Here is how it can be implemented using AccumulativeRunnable:
+ * Here is how it cbn be implemented using AccumulbtiveRunnbble:
  * <pre>
- * AccumulativeRunnable<Rectangle> doHandleDirtyRegions =
- *     new AccumulativeRunnable<Rectangle>() {
+ * AccumulbtiveRunnbble<Rectbngle> doHbndleDirtyRegions =
+ *     new AccumulbtiveRunnbble<Rectbngle>() {
  *         @Override
- *         protected void run(List&lt;Rectangle&gt; args) {
- *             handleDirtyRegions(args);
+ *         protected void run(List&lt;Rectbngle&gt; brgs) {
+ *             hbndleDirtyRegions(brgs);
  *         }
  *     };
- *  void addDirtyRegion(Rectangle rect) {
- *      doHandleDirtyRegions.add(rect);
+ *  void bddDirtyRegion(Rectbngle rect) {
+ *      doHbndleDirtyRegions.bdd(rect);
  *  }
  * </pre>
  *
- * @author Igor Kushnirskiy
+ * @buthor Igor Kushnirskiy
  *
- * @param <T> the type this {@code Runnable} accumulates
+ * @pbrbm <T> the type this {@code Runnbble} bccumulbtes
  *
  * @since 1.6
  */
-public abstract class AccumulativeRunnable<T> implements Runnable {
-    private List<T> arguments = null;
+public bbstrbct clbss AccumulbtiveRunnbble<T> implements Runnbble {
+    privbte List<T> brguments = null;
 
     /**
-     * Equivalent to {@code Runnable.run} method with the
-     * accumulated arguments to process.
+     * Equivblent to {@code Runnbble.run} method with the
+     * bccumulbted brguments to process.
      *
-     * @param args accumulated argumets to process.
+     * @pbrbm brgs bccumulbted brgumets to process.
      */
-    protected abstract void run(List<T> args);
+    protected bbstrbct void run(List<T> brgs);
 
     /**
      * {@inheritDoc}
      *
      * <p>
-     * This implementation calls {@code run(List<T> args)} mehtod
-     * with the list of accumulated arguments.
+     * This implementbtion cblls {@code run(List<T> brgs)} mehtod
+     * with the list of bccumulbted brguments.
      */
-    public final void run() {
+    public finbl void run() {
         run(flush());
     }
 
     /**
-     * appends arguments and sends this {@cod Runnable} for the
+     * bppends brguments bnd sends this {@cod Runnbble} for the
      * execution if needed.
      * <p>
-     * This implementation uses {@see #submit} to send this
-     * {@code Runnable} for execution.
-     * @param args the arguments to accumulate
+     * This implementbtion uses {@see #submit} to send this
+     * {@code Runnbble} for execution.
+     * @pbrbm brgs the brguments to bccumulbte
      */
-    @SafeVarargs
-    @SuppressWarnings("varargs") // Copying args is safe
-    public final synchronized void add(T... args) {
-        boolean isSubmitted = true;
-        if (arguments == null) {
-            isSubmitted = false;
-            arguments = new ArrayList<T>();
+    @SbfeVbrbrgs
+    @SuppressWbrnings("vbrbrgs") // Copying brgs is sbfe
+    public finbl synchronized void bdd(T... brgs) {
+        boolebn isSubmitted = true;
+        if (brguments == null) {
+            isSubmitted = fblse;
+            brguments = new ArrbyList<T>();
         }
-        Collections.addAll(arguments, args);
+        Collections.bddAll(brguments, brgs);
         if (!isSubmitted) {
             submit();
         }
     }
 
     /**
-     * Sends this {@code Runnable} for the execution
+     * Sends this {@code Runnbble} for the execution
      *
      * <p>
-     * This method is to be executed only from {@code add} method.
+     * This method is to be executed only from {@code bdd} method.
      *
      * <p>
-     * This implementation uses {@code SwingWorker.invokeLater}.
+     * This implementbtion uses {@code SwingWorker.invokeLbter}.
      */
     protected void submit() {
-        SwingUtilities.invokeLater(this);
+        SwingUtilities.invokeLbter(this);
     }
 
     /**
-     * Returns accumulated arguments and flashes the arguments storage.
+     * Returns bccumulbted brguments bnd flbshes the brguments storbge.
      *
-     * @return accumulated arguments
+     * @return bccumulbted brguments
      */
-    private final synchronized List<T> flush() {
-        List<T> list = arguments;
-        arguments = null;
+    privbte finbl synchronized List<T> flush() {
+        List<T> list = brguments;
+        brguments = null;
         return list;
     }
 }

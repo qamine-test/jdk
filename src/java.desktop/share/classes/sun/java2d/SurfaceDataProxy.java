@@ -1,471 +1,471 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.AlphaComposite;
-import java.awt.GraphicsEnvironment;
+import jbvb.bwt.Color;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.GrbphicsEnvironment;
 
-import sun.awt.DisplayChangedListener;
-import sun.java2d.StateTrackable.State;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.BlitBg;
-import sun.awt.image.SurfaceManager;
-import sun.awt.image.SurfaceManager.FlushableCacheData;
+import sun.bwt.DisplbyChbngedListener;
+import sun.jbvb2d.StbteTrbckbble.Stbte;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.BlitBg;
+import sun.bwt.imbge.SurfbceMbnbger;
+import sun.bwt.imbge.SurfbceMbnbger.FlushbbleCbcheDbtb;
 
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import jbvb.security.AccessController;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * The proxy class encapsulates the logic for managing alternate
- * SurfaceData representations of a primary SurfaceData.
- * The main class will handle tracking the state changes of the
- * primary SurfaceData and updating the associated SurfaceData
- * proxy variants.
+ * The proxy clbss encbpsulbtes the logic for mbnbging blternbte
+ * SurfbceDbtb representbtions of b primbry SurfbceDbtb.
+ * The mbin clbss will hbndle trbcking the stbte chbnges of the
+ * primbry SurfbceDbtb bnd updbting the bssocibted SurfbceDbtb
+ * proxy vbribnts.
  * <p>
- * Subclasses have 2 main responsibilities:
+ * Subclbsses hbve 2 mbin responsibilities:
  * <ul>
- * <li> Override the isSupportedOperation() method to determine if
- *      a given operation can be accelerated with a given source
- *      SurfaceData
- * <li> Override the validateSurfaceData() method to create or update
- *      a given accelerated surface to hold the pixels for the indicated
- *      source SurfaceData
+ * <li> Override the isSupportedOperbtion() method to determine if
+ *      b given operbtion cbn be bccelerbted with b given source
+ *      SurfbceDbtb
+ * <li> Override the vblidbteSurfbceDbtb() method to crebte or updbte
+ *      b given bccelerbted surfbce to hold the pixels for the indicbted
+ *      source SurfbceDbtb
  * </ul>
- * If necessary, a subclass may also override the updateSurfaceData
- * method to transfer the pixels to the accelerated surface.
- * By default the parent class will transfer the pixels using a
- * standard Blit operation between the two SurfaceData objects.
+ * If necessbry, b subclbss mby blso override the updbteSurfbceDbtb
+ * method to trbnsfer the pixels to the bccelerbted surfbce.
+ * By defbult the pbrent clbss will trbnsfer the pixels using b
+ * stbndbrd Blit operbtion between the two SurfbceDbtb objects.
  */
-public abstract class SurfaceDataProxy
-    implements DisplayChangedListener, SurfaceManager.FlushableCacheData
+public bbstrbct clbss SurfbceDbtbProxy
+    implements DisplbyChbngedListener, SurfbceMbnbger.FlushbbleCbcheDbtb
 {
-    private static boolean cachingAllowed;
-    private static int defaultThreshold;
+    privbte stbtic boolebn cbchingAllowed;
+    privbte stbtic int defbultThreshold;
 
-    static {
-        cachingAllowed = true;
-        String manimg = AccessController.doPrivileged(
-            new GetPropertyAction("sun.java2d.managedimages"));
-        if (manimg != null && manimg.equals("false")) {
-            cachingAllowed = false;
-            System.out.println("Disabling managed images");
+    stbtic {
+        cbchingAllowed = true;
+        String mbnimg = AccessController.doPrivileged(
+            new GetPropertyAction("sun.jbvb2d.mbnbgedimbges"));
+        if (mbnimg != null && mbnimg.equbls("fblse")) {
+            cbchingAllowed = fblse;
+            System.out.println("Disbbling mbnbged imbges");
         }
 
-        defaultThreshold = 1;
+        defbultThreshold = 1;
         String num = AccessController.doPrivileged(
-            new GetPropertyAction("sun.java2d.accthreshold"));
+            new GetPropertyAction("sun.jbvb2d.bccthreshold"));
         if (num != null) {
             try {
-                int parsed = Integer.parseInt(num);
-                if (parsed >= 0) {
-                    defaultThreshold = parsed;
-                    System.out.println("New Default Acceleration Threshold: " +
-                                       defaultThreshold);
+                int pbrsed = Integer.pbrseInt(num);
+                if (pbrsed >= 0) {
+                    defbultThreshold = pbrsed;
+                    System.out.println("New Defbult Accelerbtion Threshold: " +
+                                       defbultThreshold);
                 }
-            } catch (NumberFormatException e) {
+            } cbtch (NumberFormbtException e) {
                 System.err.println("Error setting new threshold:" + e);
             }
         }
     }
 
-    public static boolean isCachingAllowed() {
-        return cachingAllowed;
+    public stbtic boolebn isCbchingAllowed() {
+        return cbchingAllowed;
     }
 
     /**
-     * Determine if an alternate form for the srcData is needed
-     * and appropriate from the given operational parameters.
+     * Determine if bn blternbte form for the srcDbtb is needed
+     * bnd bppropribte from the given operbtionbl pbrbmeters.
      */
-    public abstract boolean isSupportedOperation(SurfaceData srcData,
+    public bbstrbct boolebn isSupportedOperbtion(SurfbceDbtb srcDbtb,
                                                  int txtype,
                                                  CompositeType comp,
                                                  Color bgColor);
 
     /**
-     * Construct an alternate form of the given SurfaceData.
-     * The contents of the returned SurfaceData may be undefined
-     * since the calling code will take care of updating the
-     * contents with a subsequent call to updateSurfaceData.
+     * Construct bn blternbte form of the given SurfbceDbtb.
+     * The contents of the returned SurfbceDbtb mby be undefined
+     * since the cblling code will tbke cbre of updbting the
+     * contents with b subsequent cbll to updbteSurfbceDbtb.
      * <p>
-     * If the method returns null then there was a problem with
-     * allocating the accelerated surface.  The getRetryTracker()
-     * method will be called to track when to attempt another
-     * revalidation.
+     * If the method returns null then there wbs b problem with
+     * bllocbting the bccelerbted surfbce.  The getRetryTrbcker()
+     * method will be cblled to trbck when to bttempt bnother
+     * revblidbtion.
      */
-    public abstract SurfaceData validateSurfaceData(SurfaceData srcData,
-                                                    SurfaceData cachedData,
+    public bbstrbct SurfbceDbtb vblidbteSurfbceDbtb(SurfbceDbtb srcDbtb,
+                                                    SurfbceDbtb cbchedDbtb,
                                                     int w, int h);
 
     /**
-     * If the subclass is unable to validate or create a cached
-     * SurfaceData then this method will be used to get a
-     * StateTracker object that will indicate when to attempt
-     * to validate the surface again.  Subclasses may return
-     * trackers which count down an ever increasing threshold
-     * to provide hysteresis on creating surfaces during low
-     * memory conditions.  The default implementation just waits
-     * another "threshold" number of accesses before trying again.
+     * If the subclbss is unbble to vblidbte or crebte b cbched
+     * SurfbceDbtb then this method will be used to get b
+     * StbteTrbcker object thbt will indicbte when to bttempt
+     * to vblidbte the surfbce bgbin.  Subclbsses mby return
+     * trbckers which count down bn ever increbsing threshold
+     * to provide hysteresis on crebting surfbces during low
+     * memory conditions.  The defbult implementbtion just wbits
+     * bnother "threshold" number of bccesses before trying bgbin.
      */
-    public StateTracker getRetryTracker(SurfaceData srcData) {
-        return new CountdownTracker(threshold);
+    public StbteTrbcker getRetryTrbcker(SurfbceDbtb srcDbtb) {
+        return new CountdownTrbcker(threshold);
     }
 
-    public static class CountdownTracker implements StateTracker {
-        private int countdown;
+    public stbtic clbss CountdownTrbcker implements StbteTrbcker {
+        privbte int countdown;
 
-        public CountdownTracker(int threshold) {
+        public CountdownTrbcker(int threshold) {
             this.countdown = threshold;
         }
 
-        public synchronized boolean isCurrent() {
+        public synchronized boolebn isCurrent() {
             return (--countdown >= 0);
         }
     }
 
     /**
-     * This instance is for cases where a caching implementation
-     * determines that a particular source image will never need
-     * to be cached - either the source SurfaceData was of an
-     * incompatible type, or it was in an UNTRACKABLE state or
-     * some other factor is discovered that permanently prevents
-     * acceleration or caching.
-     * This class optimally implements NOP variants of all necessary
-     * methods to avoid caching with a minimum of fuss.
+     * This instbnce is for cbses where b cbching implementbtion
+     * determines thbt b pbrticulbr source imbge will never need
+     * to be cbched - either the source SurfbceDbtb wbs of bn
+     * incompbtible type, or it wbs in bn UNTRACKABLE stbte or
+     * some other fbctor is discovered thbt permbnently prevents
+     * bccelerbtion or cbching.
+     * This clbss optimblly implements NOP vbribnts of bll necessbry
+     * methods to bvoid cbching with b minimum of fuss.
      */
-    public static SurfaceDataProxy UNCACHED = new SurfaceDataProxy(0) {
+    public stbtic SurfbceDbtbProxy UNCACHED = new SurfbceDbtbProxy(0) {
         @Override
-        public boolean isAccelerated() {
-            return false;
+        public boolebn isAccelerbted() {
+            return fblse;
         }
 
         @Override
-        public boolean isSupportedOperation(SurfaceData srcData,
+        public boolebn isSupportedOperbtion(SurfbceDbtb srcDbtb,
                                             int txtype,
                                             CompositeType comp,
                                             Color bgColor)
         {
-            return false;
+            return fblse;
         }
 
         @Override
-        public SurfaceData validateSurfaceData(SurfaceData srcData,
-                                               SurfaceData cachedData,
+        public SurfbceDbtb vblidbteSurfbceDbtb(SurfbceDbtb srcDbtb,
+                                               SurfbceDbtb cbchedDbtb,
                                                int w, int h)
         {
-            throw new InternalError("UNCACHED should never validate SDs");
+            throw new InternblError("UNCACHED should never vblidbte SDs");
         }
 
         @Override
-        public SurfaceData replaceData(SurfaceData srcData,
+        public SurfbceDbtb replbceDbtb(SurfbceDbtb srcDbtb,
                                        int txtype,
                                        CompositeType comp,
                                        Color bgColor)
         {
-            // Not necessary to override this, but doing so is faster
-            return srcData;
+            // Not necessbry to override this, but doing so is fbster
+            return srcDbtb;
         }
     };
 
-    // The number of attempts to copy from a STABLE source before
-    // a cached copy is created or updated.
-    private int threshold;
+    // The number of bttempts to copy from b STABLE source before
+    // b cbched copy is crebted or updbted.
+    privbte int threshold;
 
     /*
-     * Source tracking data
+     * Source trbcking dbtb
      *
-     * Every time that srcTracker is out of date we will reset numtries
-     * to threshold and set the cacheTracker to one that is non-current.
-     * numtries will then count down to 0 at which point the cacheTracker
-     * will remind us that we need to update the cachedSD before we can
+     * Every time thbt srcTrbcker is out of dbte we will reset numtries
+     * to threshold bnd set the cbcheTrbcker to one thbt is non-current.
+     * numtries will then count down to 0 bt which point the cbcheTrbcker
+     * will remind us thbt we need to updbte the cbchedSD before we cbn
      * use it.
      *
-     * Note that since these fields interrelate we should synchronize
-     * whenever we update them, but it should be OK to read them
-     * without synchronization.
+     * Note thbt since these fields interrelbte we should synchronize
+     * whenever we updbte them, but it should be OK to rebd them
+     * without synchronizbtion.
      */
-    private StateTracker srcTracker;
-    private int numtries;
+    privbte StbteTrbcker srcTrbcker;
+    privbte int numtries;
 
     /*
-     * Cached data
+     * Cbched dbtb
      *
-     * We cache a SurfaceData created by the subclass in cachedSD and
-     * track its state (isValid and !surfaceLost) in cacheTracker.
+     * We cbche b SurfbceDbtb crebted by the subclbss in cbchedSD bnd
+     * trbck its stbte (isVblid bnd !surfbceLost) in cbcheTrbcker.
      *
-     * Also, when we want to note that cachedSD needs to be updated
-     * we replace the cacheTracker with a NEVER_CURRENT tracker which
-     * will cause us to try to revalidate and update the surface on
+     * Also, when we wbnt to note thbt cbchedSD needs to be updbted
+     * we replbce the cbcheTrbcker with b NEVER_CURRENT trbcker which
+     * will cbuse us to try to revblidbte bnd updbte the surfbce on
      * next use.
      */
-    private SurfaceData cachedSD;
-    private StateTracker cacheTracker;
+    privbte SurfbceDbtb cbchedSD;
+    privbte StbteTrbcker cbcheTrbcker;
 
     /*
-     * Are we still the best object to control caching of data
-     * for the source image?
+     * Are we still the best object to control cbching of dbtb
+     * for the source imbge?
      */
-    private boolean valid;
+    privbte boolebn vblid;
 
     /**
-     * Create a SurfaceData proxy manager that attempts to create
-     * and cache a variant copy of the source SurfaceData after
-     * the default threshold number of attempts to copy from the
+     * Crebte b SurfbceDbtb proxy mbnbger thbt bttempts to crebte
+     * bnd cbche b vbribnt copy of the source SurfbceDbtb bfter
+     * the defbult threshold number of bttempts to copy from the
      * STABLE source.
      */
-    public SurfaceDataProxy() {
-        this(defaultThreshold);
+    public SurfbceDbtbProxy() {
+        this(defbultThreshold);
     }
 
     /**
-     * Create a SurfaceData proxy manager that attempts to create
-     * and cache a variant copy of the source SurfaceData after
-     * the specified threshold number of attempts to copy from
+     * Crebte b SurfbceDbtb proxy mbnbger thbt bttempts to crebte
+     * bnd cbche b vbribnt copy of the source SurfbceDbtb bfter
+     * the specified threshold number of bttempts to copy from
      * the STABLE source.
      */
-    public SurfaceDataProxy(int threshold) {
+    public SurfbceDbtbProxy(int threshold) {
         this.threshold = threshold;
 
-        this.srcTracker = StateTracker.NEVER_CURRENT;
+        this.srcTrbcker = StbteTrbcker.NEVER_CURRENT;
         // numtries will be reset on first use
-        this.cacheTracker = StateTracker.NEVER_CURRENT;
+        this.cbcheTrbcker = StbteTrbcker.NEVER_CURRENT;
 
-        this.valid = true;
+        this.vblid = true;
     }
 
     /**
-     * Returns true iff this SurfaceData proxy is still the best
-     * way to control caching of the given source on the given
-     * destination.
+     * Returns true iff this SurfbceDbtb proxy is still the best
+     * wby to control cbching of the given source on the given
+     * destinbtion.
      */
-    public boolean isValid() {
-        return valid;
+    public boolebn isVblid() {
+        return vblid;
     }
 
     /**
-     * Sets the valid state to false so that the next time this
-     * proxy is fetched to generate a replacement SurfaceData,
-     * the code in SurfaceData knows to replace the proxy first.
+     * Sets the vblid stbte to fblse so thbt the next time this
+     * proxy is fetched to generbte b replbcement SurfbceDbtb,
+     * the code in SurfbceDbtb knows to replbce the proxy first.
      */
-    public void invalidate() {
-        this.valid = false;
+    public void invblidbte() {
+        this.vblid = fblse;
     }
 
     /**
-     * Flush all cached resources as per the FlushableCacheData interface.
-     * The deaccelerated parameter indicates if the flush is
-     * happening because the associated surface is no longer
-     * being accelerated (for instance the acceleration priority
-     * is set below the threshold needed for acceleration).
-     * Returns a boolean that indicates if the cached object is
-     * no longer needed and should be removed from the cache.
+     * Flush bll cbched resources bs per the FlushbbleCbcheDbtb interfbce.
+     * The debccelerbted pbrbmeter indicbtes if the flush is
+     * hbppening becbuse the bssocibted surfbce is no longer
+     * being bccelerbted (for instbnce the bccelerbtion priority
+     * is set below the threshold needed for bccelerbtion).
+     * Returns b boolebn thbt indicbtes if the cbched object is
+     * no longer needed bnd should be removed from the cbche.
      */
-    public boolean flush(boolean deaccelerated) {
-        if (deaccelerated) {
-            invalidate();
+    public boolebn flush(boolebn debccelerbted) {
+        if (debccelerbted) {
+            invblidbte();
         }
         flush();
-        return !isValid();
+        return !isVblid();
     }
 
     /**
-     * Actively flushes (drops and invalidates) the cached surface
-     * so that it can be reclaimed quickly.
+     * Actively flushes (drops bnd invblidbtes) the cbched surfbce
+     * so thbt it cbn be reclbimed quickly.
      */
     public synchronized void flush() {
-        SurfaceData csd = this.cachedSD;
-        this.cachedSD = null;
-        this.cacheTracker = StateTracker.NEVER_CURRENT;
+        SurfbceDbtb csd = this.cbchedSD;
+        this.cbchedSD = null;
+        this.cbcheTrbcker = StbteTrbcker.NEVER_CURRENT;
         if (csd != null) {
             csd.flush();
         }
     }
 
     /**
-     * Returns true iff this SurfaceData proxy is still valid
-     * and if it has a currently cached replacement that is also
-     * valid and current.
+     * Returns true iff this SurfbceDbtb proxy is still vblid
+     * bnd if it hbs b currently cbched replbcement thbt is blso
+     * vblid bnd current.
      */
-    public boolean isAccelerated() {
-        return (isValid() &&
-                srcTracker.isCurrent() &&
-                cacheTracker.isCurrent());
+    public boolebn isAccelerbted() {
+        return (isVblid() &&
+                srcTrbcker.isCurrent() &&
+                cbcheTrbcker.isCurrent());
     }
 
     /**
-     * This method should be called from subclasses which create
-     * cached SurfaceData objects that depend on the current
-     * properties of the display.
+     * This method should be cblled from subclbsses which crebte
+     * cbched SurfbceDbtb objects thbt depend on the current
+     * properties of the displby.
      */
-    protected void activateDisplayListener() {
-        GraphicsEnvironment ge =
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
-        // We could have a HeadlessGE at this point, so double-check before
-        // assuming anything.
-        // Also, no point in listening to display change events if
-        // the image is never going to be accelerated.
-        if (ge instanceof SunGraphicsEnvironment) {
-            ((SunGraphicsEnvironment)ge).addDisplayChangedListener(this);
+    protected void bctivbteDisplbyListener() {
+        GrbphicsEnvironment ge =
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        // We could hbve b HebdlessGE bt this point, so double-check before
+        // bssuming bnything.
+        // Also, no point in listening to displby chbnge events if
+        // the imbge is never going to be bccelerbted.
+        if (ge instbnceof SunGrbphicsEnvironment) {
+            ((SunGrbphicsEnvironment)ge).bddDisplbyChbngedListener(this);
         }
     }
 
     /**
-     * Invoked when the display mode has changed.
-     * This method will invalidate and drop the internal cachedSD object.
+     * Invoked when the displby mode hbs chbnged.
+     * This method will invblidbte bnd drop the internbl cbchedSD object.
      */
-    public void displayChanged() {
+    public void displbyChbnged() {
         flush();
     }
 
     /**
-     * Invoked when the palette has changed.
+     * Invoked when the pblette hbs chbnged.
      */
-    public void paletteChanged() {
-        // We could potentially get away with just resetting cacheTracker
-        // here but there is a small window of vulnerability in the
-        // replaceData method where we could be just finished with
-        // updating the cachedSD when this method is called and even
-        // though we set a non-current cacheTracker here it will then
-        // immediately get set to a current one by the thread that is
-        // updating the cachedSD.  It is safer to just replace the
-        // srcTracker with a non-current version that will trigger a
-        // full update cycle the next time this proxy is used.
-        // The downside is having to go through a full threshold count
-        // before we can update and use our cache again, but palette
-        // changes should be relatively rare...
-        this.srcTracker = StateTracker.NEVER_CURRENT;
+    public void pbletteChbnged() {
+        // We could potentiblly get bwby with just resetting cbcheTrbcker
+        // here but there is b smbll window of vulnerbbility in the
+        // replbceDbtb method where we could be just finished with
+        // updbting the cbchedSD when this method is cblled bnd even
+        // though we set b non-current cbcheTrbcker here it will then
+        // immedibtely get set to b current one by the threbd thbt is
+        // updbting the cbchedSD.  It is sbfer to just replbce the
+        // srcTrbcker with b non-current version thbt will trigger b
+        // full updbte cycle the next time this proxy is used.
+        // The downside is hbving to go through b full threshold count
+        // before we cbn updbte bnd use our cbche bgbin, but pblette
+        // chbnges should be relbtively rbre...
+        this.srcTrbcker = StbteTrbcker.NEVER_CURRENT;
     }
 
     /**
-     * This method attempts to replace the srcData with a cached version.
-     * It relies on the subclass to determine if the cached version will
-     * be useful given the operational parameters.
-     * This method checks any preexisting cached copy for being "up to date"
-     * and tries to update it if it is stale or non-existant and the
-     * appropriate number of accesses have occurred since it last was stale.
+     * This method bttempts to replbce the srcDbtb with b cbched version.
+     * It relies on the subclbss to determine if the cbched version will
+     * be useful given the operbtionbl pbrbmeters.
+     * This method checks bny preexisting cbched copy for being "up to dbte"
+     * bnd tries to updbte it if it is stble or non-existbnt bnd the
+     * bppropribte number of bccesses hbve occurred since it lbst wbs stble.
      * <p>
-     * An outline of the process is as follows:
+     * An outline of the process is bs follows:
      * <ol>
-     * <li> Check the operational parameters (txtype, comp, bgColor)
-     *      to make sure that the operation is supported.  Return the
-     *      original SurfaceData if the operation cannot be accelerated.
-     * <li> Check the tracker for the source surface to see if it has
-     *      remained stable since it was last cached.  Update the state
-     *      variables to cause both a threshold countdown and an update
-     *      of the cached copy if it is not.  (Setting cacheTracker to
-     *      NEVER_CURRENT effectively marks it as "needing to be updated".)
-     * <li> Check the tracker for the cached copy to see if is still
-     *      valid and up to date.  Note that the cacheTracker may be
-     *      non-current if either something happened to the cached copy
-     *      (eg. surfaceLost) or if the source was out of date and the
-     *      cacheTracker was set to NEVER_CURRENT to force an update.
-     *      Decrement the countdown and copy the source to the cache
-     *      as necessary and then update the variables to show that
-     *      the cached copy is stable.
+     * <li> Check the operbtionbl pbrbmeters (txtype, comp, bgColor)
+     *      to mbke sure thbt the operbtion is supported.  Return the
+     *      originbl SurfbceDbtb if the operbtion cbnnot be bccelerbted.
+     * <li> Check the trbcker for the source surfbce to see if it hbs
+     *      rembined stbble since it wbs lbst cbched.  Updbte the stbte
+     *      vbribbles to cbuse both b threshold countdown bnd bn updbte
+     *      of the cbched copy if it is not.  (Setting cbcheTrbcker to
+     *      NEVER_CURRENT effectively mbrks it bs "needing to be updbted".)
+     * <li> Check the trbcker for the cbched copy to see if is still
+     *      vblid bnd up to dbte.  Note thbt the cbcheTrbcker mby be
+     *      non-current if either something hbppened to the cbched copy
+     *      (eg. surfbceLost) or if the source wbs out of dbte bnd the
+     *      cbcheTrbcker wbs set to NEVER_CURRENT to force bn updbte.
+     *      Decrement the countdown bnd copy the source to the cbche
+     *      bs necessbry bnd then updbte the vbribbles to show thbt
+     *      the cbched copy is stbble.
      * </ol>
      */
-    public SurfaceData replaceData(SurfaceData srcData,
+    public SurfbceDbtb replbceDbtb(SurfbceDbtb srcDbtb,
                                    int txtype,
                                    CompositeType comp,
                                    Color bgColor)
     {
-        if (isSupportedOperation(srcData, txtype, comp, bgColor)) {
-            // First deal with tracking the source.
-            if (!srcTracker.isCurrent()) {
+        if (isSupportedOperbtion(srcDbtb, txtype, comp, bgColor)) {
+            // First debl with trbcking the source.
+            if (!srcTrbcker.isCurrent()) {
                 synchronized (this) {
                     this.numtries = threshold;
-                    this.srcTracker = srcData.getStateTracker();
-                    this.cacheTracker = StateTracker.NEVER_CURRENT;
+                    this.srcTrbcker = srcDbtb.getStbteTrbcker();
+                    this.cbcheTrbcker = StbteTrbcker.NEVER_CURRENT;
                 }
 
-                if (!srcTracker.isCurrent()) {
-                    // Dynamic or Untrackable (or a very recent modification)
-                    if (srcData.getState() == State.UNTRACKABLE) {
-                        // UNTRACKABLE means we can never cache again.
+                if (!srcTrbcker.isCurrent()) {
+                    // Dynbmic or Untrbckbble (or b very recent modificbtion)
+                    if (srcDbtb.getStbte() == Stbte.UNTRACKABLE) {
+                        // UNTRACKABLE mebns we cbn never cbche bgbin.
 
-                        // Invalidate so we get replaced next time we are used
-                        // (presumably with an UNCACHED proxy).
-                        invalidate();
+                        // Invblidbte so we get replbced next time we bre used
+                        // (presumbbly with bn UNCACHED proxy).
+                        invblidbte();
 
-                        // Aggressively drop our reference to the cachedSD
-                        // in case this proxy is not consulted again (and
-                        // thus replaced) for a long time.
+                        // Aggressively drop our reference to the cbchedSD
+                        // in cbse this proxy is not consulted bgbin (bnd
+                        // thus replbced) for b long time.
                         flush();
                     }
-                    return srcData;
+                    return srcDbtb;
                 }
             }
 
-            // Then deal with checking the validity of the cached SurfaceData
-            SurfaceData csd = this.cachedSD;
-            if (!cacheTracker.isCurrent()) {
-                // Next make sure the dust has settled
+            // Then debl with checking the vblidity of the cbched SurfbceDbtb
+            SurfbceDbtb csd = this.cbchedSD;
+            if (!cbcheTrbcker.isCurrent()) {
+                // Next mbke sure the dust hbs settled
                 synchronized (this) {
                     if (numtries > 0) {
                         --numtries;
-                        return srcData;
+                        return srcDbtb;
                     }
                 }
 
-                Rectangle r = srcData.getBounds();
+                Rectbngle r = srcDbtb.getBounds();
                 int w = r.width;
                 int h = r.height;
 
-                // Snapshot the tracker in case it changes while
-                // we are updating the cached SD...
-                StateTracker curTracker = srcTracker;
+                // Snbpshot the trbcker in cbse it chbnges while
+                // we bre updbting the cbched SD...
+                StbteTrbcker curTrbcker = srcTrbcker;
 
-                csd = validateSurfaceData(srcData, csd, w, h);
+                csd = vblidbteSurfbceDbtb(srcDbtb, csd, w, h);
                 if (csd == null) {
                     synchronized (this) {
-                        if (curTracker == srcTracker) {
-                            this.cacheTracker = getRetryTracker(srcData);
-                            this.cachedSD = null;
+                        if (curTrbcker == srcTrbcker) {
+                            this.cbcheTrbcker = getRetryTrbcker(srcDbtb);
+                            this.cbchedSD = null;
                         }
                     }
-                    return srcData;
+                    return srcDbtb;
                 }
 
-                updateSurfaceData(srcData, csd, w, h);
-                if (!csd.isValid()) {
-                    return srcData;
+                updbteSurfbceDbtb(srcDbtb, csd, w, h);
+                if (!csd.isVblid()) {
+                    return srcDbtb;
                 }
 
                 synchronized (this) {
-                    // We only reset these variables if the tracker from
-                    // before the surface update is still in use and current
-                    // Note that we must use a srcTracker that was fetched
-                    // from before the update process to make sure that we
-                    // do not lose some pixel changes in the shuffle.
-                    if (curTracker == srcTracker && curTracker.isCurrent()) {
-                        this.cacheTracker = csd.getStateTracker();
-                        this.cachedSD = csd;
+                    // We only reset these vbribbles if the trbcker from
+                    // before the surfbce updbte is still in use bnd current
+                    // Note thbt we must use b srcTrbcker thbt wbs fetched
+                    // from before the updbte process to mbke sure thbt we
+                    // do not lose some pixel chbnges in the shuffle.
+                    if (curTrbcker == srcTrbcker && curTrbcker.isCurrent()) {
+                        this.cbcheTrbcker = csd.getStbteTrbcker();
+                        this.cbchedSD = csd;
                     }
                 }
             }
@@ -475,54 +475,54 @@ public abstract class SurfaceDataProxy
             }
         }
 
-        return srcData;
+        return srcDbtb;
     }
 
     /**
-     * This is the default implementation for updating the cached
-     * SurfaceData from the source (primary) SurfaceData.
+     * This is the defbult implementbtion for updbting the cbched
+     * SurfbceDbtb from the source (primbry) SurfbceDbtb.
      * A simple Blit is used to copy the pixels from the source to
-     * the destination SurfaceData.
-     * A subclass can override this implementation if a more complex
-     * operation is required to update its cached copies.
+     * the destinbtion SurfbceDbtb.
+     * A subclbss cbn override this implementbtion if b more complex
+     * operbtion is required to updbte its cbched copies.
      */
-    public void updateSurfaceData(SurfaceData srcData,
-                                  SurfaceData dstData,
+    public void updbteSurfbceDbtb(SurfbceDbtb srcDbtb,
+                                  SurfbceDbtb dstDbtb,
                                   int w, int h)
     {
-        SurfaceType srcType = srcData.getSurfaceType();
-        SurfaceType dstType = dstData.getSurfaceType();
-        Blit blit = Blit.getFromCache(srcType,
-                                      CompositeType.SrcNoEa,
+        SurfbceType srcType = srcDbtb.getSurfbceType();
+        SurfbceType dstType = dstDbtb.getSurfbceType();
+        Blit blit = Blit.getFromCbche(srcType,
+                                      CompositeType.SrcNoEb,
                                       dstType);
-        blit.Blit(srcData, dstData,
-                  AlphaComposite.Src, null,
+        blit.Blit(srcDbtb, dstDbtb,
+                  AlphbComposite.Src, null,
                   0, 0, 0, 0, w, h);
-        dstData.markDirty();
+        dstDbtb.mbrkDirty();
     }
 
     /**
-     * This is an alternate implementation for updating the cached
-     * SurfaceData from the source (primary) SurfaceData using a
-     * background color for transparent pixels.
+     * This is bn blternbte implementbtion for updbting the cbched
+     * SurfbceDbtb from the source (primbry) SurfbceDbtb using b
+     * bbckground color for trbnspbrent pixels.
      * A simple BlitBg is used to copy the pixels from the source to
-     * the destination SurfaceData with the specified bgColor.
-     * A subclass can override the normal updateSurfaceData method
-     * and call this implementation instead if it wants to use color
-     * keying for bitmask images.
+     * the destinbtion SurfbceDbtb with the specified bgColor.
+     * A subclbss cbn override the normbl updbteSurfbceDbtb method
+     * bnd cbll this implementbtion instebd if it wbnts to use color
+     * keying for bitmbsk imbges.
      */
-    public void updateSurfaceDataBg(SurfaceData srcData,
-                                    SurfaceData dstData,
+    public void updbteSurfbceDbtbBg(SurfbceDbtb srcDbtb,
+                                    SurfbceDbtb dstDbtb,
                                     int w, int h, Color bgColor)
     {
-        SurfaceType srcType = srcData.getSurfaceType();
-        SurfaceType dstType = dstData.getSurfaceType();
-        BlitBg blitbg = BlitBg.getFromCache(srcType,
-                                            CompositeType.SrcNoEa,
+        SurfbceType srcType = srcDbtb.getSurfbceType();
+        SurfbceType dstType = dstDbtb.getSurfbceType();
+        BlitBg blitbg = BlitBg.getFromCbche(srcType,
+                                            CompositeType.SrcNoEb,
                                             dstType);
-        blitbg.BlitBg(srcData, dstData,
-                      AlphaComposite.Src, null, bgColor.getRGB(),
+        blitbg.BlitBg(srcDbtb, dstDbtb,
+                      AlphbComposite.Src, null, bgColor.getRGB(),
                       0, 0, 0, 0, w, h);
-        dstData.markDirty();
+        dstDbtb.mbrkDirty();
     }
 }

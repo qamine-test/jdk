@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Vector;
+import jbvb.io.IOException;
+import jbvb.util.Collection;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
 
 
-public class SCDynamicStoreConfig {
-    private static native void installNotificationCallback();
-    private static native Hashtable<String, Object> getKerberosConfig();
-    private static boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
+public clbss SCDynbmicStoreConfig {
+    privbte stbtic nbtive void instbllNotificbtionCbllbbck();
+    privbte stbtic nbtive Hbshtbble<String, Object> getKerberosConfig();
+    privbte stbtic boolebn DEBUG = sun.security.krb5.internbl.Krb5.DEBUG;
 
-    static {
-        boolean isMac = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    String osname = System.getProperty("os.name");
-                    if (osname.contains("OS X")) {
-                        System.loadLibrary("osxkrb5");
+    stbtic {
+        boolebn isMbc = jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    String osnbme = System.getProperty("os.nbme");
+                    if (osnbme.contbins("OS X")) {
+                        System.lobdLibrbry("osxkrb5");
                         return true;
                     }
-                    return false;
+                    return fblse;
                 }
             });
-        if (isMac) installNotificationCallback();
+        if (isMbc) instbllNotificbtionCbllbbck();
     }
 
-    private static Vector<String> unwrapHost(
-            Collection<Hashtable<String, String>> c) {
+    privbte stbtic Vector<String> unwrbpHost(
+            Collection<Hbshtbble<String, String>> c) {
         Vector<String> vector = new Vector<String>();
-        for (Hashtable<String, String> m : c) {
-            vector.add(m.get("host"));
+        for (Hbshtbble<String, String> m : c) {
+            vector.bdd(m.get("host"));
         }
         return vector;
     }
 
     /**
-     * convertRealmConfigs: Maps the Object graph that we get from JNI to the
-     * object graph that Config expects. Also the items inside the kdc array
-     * are wrapped inside Hashtables
+     * convertReblmConfigs: Mbps the Object grbph thbt we get from JNI to the
+     * object grbph thbt Config expects. Also the items inside the kdc brrby
+     * bre wrbpped inside Hbshtbbles
      */
-    @SuppressWarnings("unchecked")
-    private static Hashtable<String, Object>
-            convertRealmConfigs(Hashtable<String, ?> configs) {
-        Hashtable<String, Object> realmsTable = new Hashtable<String, Object>();
+    @SuppressWbrnings("unchecked")
+    privbte stbtic Hbshtbble<String, Object>
+            convertReblmConfigs(Hbshtbble<String, ?> configs) {
+        Hbshtbble<String, Object> reblmsTbble = new Hbshtbble<String, Object>();
 
-        for (String realm : configs.keySet()) {
+        for (String reblm : configs.keySet()) {
             // get the kdc
-            Hashtable<String, Collection<?>> map =
-                    (Hashtable<String, Collection<?>>) configs.get(realm);
-            Hashtable<String, Vector<String>> realmMap =
-                    new Hashtable<String, Vector<String>>();
+            Hbshtbble<String, Collection<?>> mbp =
+                    (Hbshtbble<String, Collection<?>>) configs.get(reblm);
+            Hbshtbble<String, Vector<String>> reblmMbp =
+                    new Hbshtbble<String, Vector<String>>();
 
-            // put the kdc into the realmMap
-            Collection<Hashtable<String, String>> kdc =
-                    (Collection<Hashtable<String, String>>) map.get("kdc");
-            if (kdc != null) realmMap.put("kdc", unwrapHost(kdc));
+            // put the kdc into the reblmMbp
+            Collection<Hbshtbble<String, String>> kdc =
+                    (Collection<Hbshtbble<String, String>>) mbp.get("kdc");
+            if (kdc != null) reblmMbp.put("kdc", unwrbpHost(kdc));
 
-            // put the admin server into the realmMap
-            Collection<Hashtable<String, String>> kadmin =
-                    (Collection<Hashtable<String, String>>) map.get("kadmin");
-            if (kadmin != null) realmMap.put("admin_server", unwrapHost(kadmin));
+            // put the bdmin server into the reblmMbp
+            Collection<Hbshtbble<String, String>> kbdmin =
+                    (Collection<Hbshtbble<String, String>>) mbp.get("kbdmin");
+            if (kbdmin != null) reblmMbp.put("bdmin_server", unwrbpHost(kbdmin));
 
-            // add the full entry to the realmTable
-            realmsTable.put(realm, realmMap);
+            // bdd the full entry to the reblmTbble
+            reblmsTbble.put(reblm, reblmMbp);
         }
 
-        return realmsTable;
+        return reblmsTbble;
     }
 
     /**
-     * Calls down to JNI to get the raw Kerberos Config and maps the object
-     * graph to the one that Kerberos Config in Java expects
+     * Cblls down to JNI to get the rbw Kerberos Config bnd mbps the object
+     * grbph to the one thbt Kerberos Config in Jbvb expects
      *
      * @return
      * @throws IOException
      */
-    public static Hashtable<String, Object> getConfig() throws IOException {
-        Hashtable<String, Object> stanzaTable = getKerberosConfig();
-        if (stanzaTable == null) {
+    public stbtic Hbshtbble<String, Object> getConfig() throws IOException {
+        Hbshtbble<String, Object> stbnzbTbble = getKerberosConfig();
+        if (stbnzbTbble == null) {
             throw new IOException(
-                    "Could not load configuration from SCDynamicStore");
+                    "Could not lobd configurbtion from SCDynbmicStore");
         }
-        if (DEBUG) System.out.println("Raw map from JNI: " + stanzaTable);
-        return convertNativeConfig(stanzaTable);
+        if (DEBUG) System.out.println("Rbw mbp from JNI: " + stbnzbTbble);
+        return convertNbtiveConfig(stbnzbTbble);
     }
 
-    @SuppressWarnings("unchecked")
-    private static Hashtable<String, Object> convertNativeConfig(
-            Hashtable<String, Object> stanzaTable) {
-        // convert SCDynamicStore realm structure to Java realm structure
-        Hashtable<String, ?> realms =
-                (Hashtable<String, ?>) stanzaTable.get("realms");
-        if (realms != null) {
-            stanzaTable.remove("realms");
-            Hashtable<String, Object> realmsTable = convertRealmConfigs(realms);
-            stanzaTable.put("realms", realmsTable);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic Hbshtbble<String, Object> convertNbtiveConfig(
+            Hbshtbble<String, Object> stbnzbTbble) {
+        // convert SCDynbmicStore reblm structure to Jbvb reblm structure
+        Hbshtbble<String, ?> reblms =
+                (Hbshtbble<String, ?>) stbnzbTbble.get("reblms");
+        if (reblms != null) {
+            stbnzbTbble.remove("reblms");
+            Hbshtbble<String, Object> reblmsTbble = convertReblmConfigs(reblms);
+            stbnzbTbble.put("reblms", reblmsTbble);
         }
-        WrapAllStringInVector(stanzaTable);
-        if (DEBUG) System.out.println("stanzaTable : " + stanzaTable);
-        return stanzaTable;
+        WrbpAllStringInVector(stbnzbTbble);
+        if (DEBUG) System.out.println("stbnzbTbble : " + stbnzbTbble);
+        return stbnzbTbble;
     }
 
-    @SuppressWarnings("unchecked")
-    private static void WrapAllStringInVector(
-            Hashtable<String, Object> stanzaTable) {
-        for (String s: stanzaTable.keySet()) {
-            Object v = stanzaTable.get(s);
-            if (v instanceof Hashtable) {
-                WrapAllStringInVector((Hashtable<String,Object>)v);
-            } else if (v instanceof String) {
+    @SuppressWbrnings("unchecked")
+    privbte stbtic void WrbpAllStringInVector(
+            Hbshtbble<String, Object> stbnzbTbble) {
+        for (String s: stbnzbTbble.keySet()) {
+            Object v = stbnzbTbble.get(s);
+            if (v instbnceof Hbshtbble) {
+                WrbpAllStringInVector((Hbshtbble<String,Object>)v);
+            } else if (v instbnceof String) {
                 Vector<String> vec = new Vector<>();
-                vec.add((String)v);
-                stanzaTable.put(s, vec);
+                vec.bdd((String)v);
+                stbnzbTbble.put(s, vec);
             }
         }
     }

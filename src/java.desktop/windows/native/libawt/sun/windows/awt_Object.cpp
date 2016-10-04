@@ -1,33 +1,33 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_Object.h"
+#include "bwt_Object.h"
 #include "ObjectList.h"
 
 #ifdef DEBUG
-static BOOL reportEvents = FALSE;
+stbtic BOOL reportEvents = FALSE;
 #endif
 
 
@@ -35,12 +35,12 @@ static BOOL reportEvents = FALSE;
  * AwtObject fields
  */
 
-jfieldID AwtObject::pDataID;
+jfieldID AwtObject::pDbtbID;
 jfieldID AwtObject::destroyedID;
-jfieldID AwtObject::targetID;
-jclass AwtObject::wObjectPeerClass;
-jmethodID AwtObject::getPeerForTargetMID;
-jfieldID AwtObject::createErrorID;
+jfieldID AwtObject::tbrgetID;
+jclbss AwtObject::wObjectPeerClbss;
+jmethodID AwtObject::getPeerForTbrgetMID;
+jfieldID AwtObject::crebteErrorID;
 
 
 /************************************************************************
@@ -51,7 +51,7 @@ AwtObject::AwtObject()
 {
     theAwtObjectList.Add(this);
     m_peerObject = NULL;
-    m_callbacksEnabled = TRUE;
+    m_cbllbbcksEnbbled = TRUE;
 }
 
 AwtObject::~AwtObject()
@@ -60,85 +60,85 @@ AwtObject::~AwtObject()
 
 void AwtObject::Dispose()
 {
-    AwtToolkit::GetInstance().PostMessage(WM_AWT_DELETEOBJECT, (WPARAM)this, (LPARAM)0);
+    AwtToolkit::GetInstbnce().PostMessbge(WM_AWT_DELETEOBJECT, (WPARAM)this, (LPARAM)0);
 }
 
 void AwtObject::_Dispose(jobject self)
 {
     TRY_NO_VERIFY;
 
-    CriticalSection::Lock l(AwtToolkit::GetInstance().GetSyncCS());
+    CriticblSection::Lock l(AwtToolkit::GetInstbnce().GetSyncCS());
 
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    jobject selfGlobblRef = env->NewGlobblRef(self);
 
-    // value 0 of lParam means that we should not attempt to enter the
-    // SyncCall critical section, as it was entered someshere earlier
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_DISPOSE, (WPARAM)selfGlobalRef, (LPARAM)0);
+    // vblue 0 of lPbrbm mebns thbt we should not bttempt to enter the
+    // SyncCbll criticbl section, bs it wbs entered someshere ebrlier
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_DISPOSE, (WPARAM)selfGlobblRef, (LPARAM)0);
 
     CATCH_BAD_ALLOC;
 }
 
-void AwtObject::_Dispose(PDATA pData)
+void AwtObject::_Dispose(PDATA pDbtb)
 {
     TRY_NO_VERIFY;
 
-    CriticalSection::Lock l(AwtToolkit::GetInstance().GetSyncCS());
+    CriticblSection::Lock l(AwtToolkit::GetInstbnce().GetSyncCS());
 
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_DISPOSEPDATA, (WPARAM)pData, (LPARAM)0);
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_DISPOSEPDATA, (WPARAM)pDbtb, (LPARAM)0);
 
     CATCH_BAD_ALLOC;
 }
 /*
- * Return the peer associated with some target.  This information is
- * maintained in a hashtable at the java level.
+ * Return the peer bssocibted with some tbrget.  This informbtion is
+ * mbintbined in b hbshtbble bt the jbvb level.
  */
-jobject AwtObject::GetPeerForTarget(JNIEnv *env, jobject target)
+jobject AwtObject::GetPeerForTbrget(JNIEnv *env, jobject tbrget)
 {
     jobject result =
-        env->CallStaticObjectMethod(AwtObject::wObjectPeerClass,
-                                    AwtObject::getPeerForTargetMID,
-                                    target);
+        env->CbllStbticObjectMethod(AwtObject::wObjectPeerClbss,
+                                    AwtObject::getPeerForTbrgetMID,
+                                    tbrget);
 
-    DASSERT(!safe_ExceptionOccurred(env));
+    DASSERT(!sbfe_ExceptionOccurred(env));
     return result;
 }
 
-/* Execute a callback to the associated Java peer. */
+/* Execute b cbllbbck to the bssocibted Jbvb peer. */
 void
-AwtObject::DoCallback(const char* methodName, const char* methodSig, ...)
+AwtObject::DoCbllbbck(const chbr* methodNbme, const chbr* methodSig, ...)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    /* don't callback during the create & initialization process */
-    if (m_peerObject != NULL && m_callbacksEnabled) {
-        va_list args;
-        va_start(args, methodSig);
+    /* don't cbllbbck during the crebte & initiblizbtion process */
+    if (m_peerObject != NULL && m_cbllbbcksEnbbled) {
+        vb_list brgs;
+        vb_stbrt(brgs, methodSig);
 #ifdef DEBUG
         if (reportEvents) {
-            jstring targetStr =
-                (jstring)JNU_CallMethodByName(env, NULL, GetTarget(env),
-                                              "getName",
-                                              "()Ljava/lang/String;").l;
-            DASSERT(!safe_ExceptionOccurred(env));
-            LPCWSTR targetStrW = JNU_GetStringPlatformChars(env, targetStr, NULL);
-            printf("Posting %s%s method to %S\n", methodName, methodSig, targetStrW);
-            JNU_ReleaseStringPlatformChars(env, targetStr, targetStrW);
+            jstring tbrgetStr =
+                (jstring)JNU_CbllMethodByNbme(env, NULL, GetTbrget(env),
+                                              "getNbme",
+                                              "()Ljbvb/lbng/String;").l;
+            DASSERT(!sbfe_ExceptionOccurred(env));
+            LPCWSTR tbrgetStrW = JNU_GetStringPlbtformChbrs(env, tbrgetStr, NULL);
+            printf("Posting %s%s method to %S\n", methodNbme, methodSig, tbrgetStrW);
+            JNU_RelebseStringPlbtformChbrs(env, tbrgetStr, tbrgetStrW);
         }
 #endif
-        /* caching would do much good here */
-        JNU_CallMethodByNameV(env, NULL, GetPeer(env),
-                              methodName, methodSig, args);
+        /* cbching would do much good here */
+        JNU_CbllMethodByNbmeV(env, NULL, GetPeer(env),
+                              methodNbme, methodSig, brgs);
         {
-            jthrowable exc = safe_ExceptionOccurred(env);
+            jthrowbble exc = sbfe_ExceptionOccurred(env);
             if (exc) {
-                env->DeleteLocalRef(exc);
+                env->DeleteLocblRef(exc);
                 env->ExceptionDescribe();
-                env->ExceptionClear();
+                env->ExceptionClebr();
             }
         }
-        DASSERT(!safe_ExceptionOccurred(env));
-        va_end(args);
+        DASSERT(!sbfe_ExceptionOccurred(env));
+        vb_end(brgs);
     }
 }
 
@@ -149,114 +149,114 @@ void AwtObject::SendEvent(jobject event)
 #ifdef DEBUG
     if (reportEvents) {
         jstring eventStr = JNU_ToString(env, event);
-        DASSERT(!safe_ExceptionOccurred(env));
-        jstring targetStr =
-            (jstring)JNU_CallMethodByName(env, NULL, GetTarget(env),"getName",
-                                          "()Ljava/lang/String;").l;
-        DASSERT(!safe_ExceptionOccurred(env));
-        LPCWSTR eventStrW = JNU_GetStringPlatformChars(env, eventStr, NULL);
-        LPCWSTR targetStrW = JNU_GetStringPlatformChars(env, targetStr, NULL);
-        printf("Posting %S to %S\n", eventStrW, targetStrW);
-        JNU_ReleaseStringPlatformChars(env, eventStr, eventStrW);
-        JNU_ReleaseStringPlatformChars(env, targetStr, targetStrW);
+        DASSERT(!sbfe_ExceptionOccurred(env));
+        jstring tbrgetStr =
+            (jstring)JNU_CbllMethodByNbme(env, NULL, GetTbrget(env),"getNbme",
+                                          "()Ljbvb/lbng/String;").l;
+        DASSERT(!sbfe_ExceptionOccurred(env));
+        LPCWSTR eventStrW = JNU_GetStringPlbtformChbrs(env, eventStr, NULL);
+        LPCWSTR tbrgetStrW = JNU_GetStringPlbtformChbrs(env, tbrgetStr, NULL);
+        printf("Posting %S to %S\n", eventStrW, tbrgetStrW);
+        JNU_RelebseStringPlbtformChbrs(env, eventStr, eventStrW);
+        JNU_RelebseStringPlbtformChbrs(env, tbrgetStr, tbrgetStrW);
     }
 #endif
     /* Post event to the system EventQueue. */
-    JNU_CallMethodByName(env, NULL, GetPeer(env), "postEvent",
-                         "(Ljava/awt/AWTEvent;)V", event);
+    JNU_CbllMethodByNbme(env, NULL, GetPeer(env), "postEvent",
+                         "(Ljbvb/bwt/AWTEvent;)V", event);
     {
-        jthrowable exc = safe_ExceptionOccurred(env);
+        jthrowbble exc = sbfe_ExceptionOccurred(env);
         if (exc) {
-            env->DeleteLocalRef(exc);
+            env->DeleteLocblRef(exc);
             env->ExceptionDescribe();
         }
     }
-    DASSERT(!safe_ExceptionOccurred(env));
+    DASSERT(!sbfe_ExceptionOccurred(env));
 }
 
 //
-// (static)
-// Switches to Windows thread via SendMessage and synchronously
-// calls AwtObject::WinThreadExecProc with the given command id
-// and parameters.
+// (stbtic)
+// Switches to Windows threbd vib SendMessbge bnd synchronously
+// cblls AwtObject::WinThrebdExecProc with the given commbnd id
+// bnd pbrbmeters.
 //
-// Useful for writing code that needs to be synchronized with
-// what's happening on the Windows thread.
+// Useful for writing code thbt needs to be synchronized with
+// whbt's hbppening on the Windows threbd.
 //
-LRESULT AwtObject::WinThreadExec(
+LRESULT AwtObject::WinThrebdExec(
     jobject                             peerObject,
     UINT                                cmdId,
-    LPARAM                              param1,
-    LPARAM                              param2,
-    LPARAM                              param3,
-    LPARAM                              param4 )
+    LPARAM                              pbrbm1,
+    LPARAM                              pbrbm2,
+    LPARAM                              pbrbm3,
+    LPARAM                              pbrbm4 )
 {
     DASSERT( peerObject != NULL);
 
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    // since we pass peerObject to another thread we must
-    //   make a global ref
-    jobject peerObjectGlobalRef = env->NewGlobalRef(peerObject);
+    // since we pbss peerObject to bnother threbd we must
+    //   mbke b globbl ref
+    jobject peerObjectGlobblRef = env->NewGlobblRef(peerObject);
 
-    ExecuteArgs         args;
-    LRESULT         retVal;
+    ExecuteArgs         brgs;
+    LRESULT         retVbl;
 
-    // setup arguments
-    args.cmdId = cmdId;
-    args.param1 = param1;
-    args.param2 = param2;
-    args.param3 = param3;
-    args.param4 = param4;
+    // setup brguments
+    brgs.cmdId = cmdId;
+    brgs.pbrbm1 = pbrbm1;
+    brgs.pbrbm2 = pbrbm2;
+    brgs.pbrbm3 = pbrbm3;
+    brgs.pbrbm4 = pbrbm4;
 
-    // call WinThreadExecProc on the toolkit thread
-    retVal = AwtToolkit::GetInstance().SendMessage(WM_AWT_EXECUTE_SYNC,
-                                                   (WPARAM)peerObjectGlobalRef,
-                                                   (LPARAM)&args);
-    return retVal;
+    // cbll WinThrebdExecProc on the toolkit threbd
+    retVbl = AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_EXECUTE_SYNC,
+                                                   (WPARAM)peerObjectGlobblRef,
+                                                   (LPARAM)&brgs);
+    return retVbl;
 }
 
-LRESULT AwtObject::WinThreadExecProc(ExecuteArgs * args)
+LRESULT AwtObject::WinThrebdExecProc(ExecuteArgs * brgs)
 {
-    DASSERT(FALSE); // no default handler
+    DASSERT(FALSE); // no defbult hbndler
     return 0L;
 }
 
 /************************************************************************
- * WObjectPeer native methods
+ * WObjectPeer nbtive methods
  */
 
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WObjectPeer_initIDs(JNIEnv *env, jclass cls) {
+Jbvb_sun_bwt_windows_WObjectPeer_initIDs(JNIEnv *env, jclbss cls) {
     TRY;
 
-    AwtObject::wObjectPeerClass = (jclass)env->NewGlobalRef(cls);
-    DASSERT(AwtObject::wObjectPeerClass != NULL);
-    CHECK_NULL(AwtObject::wObjectPeerClass);
+    AwtObject::wObjectPeerClbss = (jclbss)env->NewGlobblRef(cls);
+    DASSERT(AwtObject::wObjectPeerClbss != NULL);
+    CHECK_NULL(AwtObject::wObjectPeerClbss);
 
-    AwtObject::pDataID = env->GetFieldID(cls, "pData", "J");
-    DASSERT(AwtObject::pDataID != NULL);
-    CHECK_NULL(AwtObject::pDataID);
+    AwtObject::pDbtbID = env->GetFieldID(cls, "pDbtb", "J");
+    DASSERT(AwtObject::pDbtbID != NULL);
+    CHECK_NULL(AwtObject::pDbtbID);
 
     AwtObject::destroyedID = env->GetFieldID(cls, "destroyed", "Z");
     DASSERT(AwtObject::destroyedID != NULL);
     CHECK_NULL(AwtObject::destroyedID);
 
-    AwtObject::targetID = env->GetFieldID(cls, "target",
-                                              "Ljava/lang/Object;");
-    DASSERT(AwtObject::targetID != NULL);
-    CHECK_NULL(AwtObject::targetID);
+    AwtObject::tbrgetID = env->GetFieldID(cls, "tbrget",
+                                              "Ljbvb/lbng/Object;");
+    DASSERT(AwtObject::tbrgetID != NULL);
+    CHECK_NULL(AwtObject::tbrgetID);
 
-    AwtObject::getPeerForTargetMID =
-        env->GetStaticMethodID(cls, "getPeerForTarget",
-                         "(Ljava/lang/Object;)Lsun/awt/windows/WObjectPeer;");
-    DASSERT(AwtObject::getPeerForTargetMID != NULL);
-    CHECK_NULL(AwtObject::getPeerForTargetMID);
+    AwtObject::getPeerForTbrgetMID =
+        env->GetStbticMethodID(cls, "getPeerForTbrget",
+                         "(Ljbvb/lbng/Object;)Lsun/bwt/windows/WObjectPeer;");
+    DASSERT(AwtObject::getPeerForTbrgetMID != NULL);
+    CHECK_NULL(AwtObject::getPeerForTbrgetMID);
 
-    AwtObject::createErrorID = env->GetFieldID(cls, "createError", "Ljava/lang/Error;");
-    DASSERT(AwtObject::createErrorID != NULL);
-    CHECK_NULL(AwtObject::createErrorID);
+    AwtObject::crebteErrorID = env->GetFieldID(cls, "crebteError", "Ljbvb/lbng/Error;");
+    DASSERT(AwtObject::crebteErrorID != NULL);
+    CHECK_NULL(AwtObject::crebteErrorID);
 
     CATCH_BAD_ALLOC;
 }

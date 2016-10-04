@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
 
 import sun.swing.SwingUtilities2;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingletonFromDefbultConstructor;
 
-public class AquaLabelUI extends BasicLabelUI {
-    protected static final  RecyclableSingleton<AquaLabelUI> aquaLabelUI = new RecyclableSingletonFromDefaultConstructor<AquaLabelUI>(AquaLabelUI.class);
+public clbss AqubLbbelUI extends BbsicLbbelUI {
+    protected stbtic finbl  RecyclbbleSingleton<AqubLbbelUI> bqubLbbelUI = new RecyclbbleSingletonFromDefbultConstructor<AqubLbbelUI>(AqubLbbelUI.clbss);
 
-    public static ComponentUI createUI(final JComponent c) {
-        return aquaLabelUI.get();
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return bqubLbbelUI.get();
     }
 
-    protected void installListeners(final JLabel c) {
-        super.installListeners(c);
-        AquaUtilControlSize.addSizePropertyListener(c);
+    protected void instbllListeners(finbl JLbbel c) {
+        super.instbllListeners(c);
+        AqubUtilControlSize.bddSizePropertyListener(c);
     }
 
-    protected void uninstallListeners(final JLabel c) {
-        AquaUtilControlSize.removeSizePropertyListener(c);
-        super.uninstallListeners(c);
+    protected void uninstbllListeners(finbl JLbbel c) {
+        AqubUtilControlSize.removeSizePropertyListener(c);
+        super.uninstbllListeners(c);
     }
 
-    protected void paintEnabledText(final JLabel l, final Graphics g, final String s, final int textX, final int textY) {
-        int mnemIndex = l.getDisplayedMnemonicIndex();
-        if (AquaMnemonicHandler.isMnemonicHidden()) {
+    protected void pbintEnbbledText(finbl JLbbel l, finbl Grbphics g, finbl String s, finbl int textX, finbl int textY) {
+        int mnemIndex = l.getDisplbyedMnemonicIndex();
+        if (AqubMnemonicHbndler.isMnemonicHidden()) {
             mnemIndex = -1;
         }
 
         g.setColor(l.getForeground());
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, mnemIndex, textX, textY);
+        SwingUtilities2.drbwStringUnderlineChbrAt(l, g, s, mnemIndex, textX, textY);
     }
 
     /**
-     * Paint clippedText at textX, textY with background.lighter() and then
-     * shifted down and to the right by one pixel with background.darker().
+     * Pbint clippedText bt textX, textY with bbckground.lighter() bnd then
+     * shifted down bnd to the right by one pixel with bbckground.dbrker().
      *
-     * @see #paint
-     * @see #paintEnabledText
+     * @see #pbint
+     * @see #pbintEnbbledText
      */
-    protected void paintDisabledText(final JLabel l, final Graphics g, final String s, final int textX, final int textY) {
-        int accChar = l.getDisplayedMnemonicIndex();
-        if (AquaMnemonicHandler.isMnemonicHidden()) {
-            accChar = -1;
+    protected void pbintDisbbledText(finbl JLbbel l, finbl Grbphics g, finbl String s, finbl int textX, finbl int textY) {
+        int bccChbr = l.getDisplbyedMnemonicIndex();
+        if (AqubMnemonicHbndler.isMnemonicHidden()) {
+            bccChbr = -1;
         }
 
-        final Color background = l.getBackground();
+        finbl Color bbckground = l.getBbckground();
 
-        // if our background is still something we set then we can use our happy background color.
-        if (background instanceof UIResource) {
-            g.setColor(getDisabledLabelColor(l));
-            SwingUtilities2.drawStringUnderlineCharAt(l, g, s, accChar, textX, textY);
+        // if our bbckground is still something we set then we cbn use our hbppy bbckground color.
+        if (bbckground instbnceof UIResource) {
+            g.setColor(getDisbbledLbbelColor(l));
+            SwingUtilities2.drbwStringUnderlineChbrAt(l, g, s, bccChbr, textX, textY);
         } else {
-            super.paintDisabledText(l, g, s, textX, textY);
+            super.pbintDisbbledText(l, g, s, textX, textY);
         }
     }
 
-    static final String DISABLED_COLOR_KEY = "Label.disabledForegroundColor";
-    protected Color getDisabledLabelColor(final JLabel label) {
-        final Color fg = label.getForeground();
+    stbtic finbl String DISABLED_COLOR_KEY = "Lbbel.disbbledForegroundColor";
+    protected Color getDisbbledLbbelColor(finbl JLbbel lbbel) {
+        finbl Color fg = lbbel.getForeground();
 
-        final Object colorProperty = label.getClientProperty(DISABLED_COLOR_KEY);
-        if (colorProperty instanceof Color) {
-            final Color disabledColor = (Color)colorProperty;
-            if ((fg.getRGB() << 8) == (disabledColor.getRGB() << 8)) return disabledColor;
+        finbl Object colorProperty = lbbel.getClientProperty(DISABLED_COLOR_KEY);
+        if (colorProperty instbnceof Color) {
+            finbl Color disbbledColor = (Color)colorProperty;
+            if ((fg.getRGB() << 8) == (disbbledColor.getRGB() << 8)) return disbbledColor;
         }
 
-        final Color newDisabledColor = new Color(fg.getRed(), fg.getGreen(), fg.getBlue(), fg.getAlpha() / 2);
-        label.putClientProperty(DISABLED_COLOR_KEY, newDisabledColor);
-        return newDisabledColor;
+        finbl Color newDisbbledColor = new Color(fg.getRed(), fg.getGreen(), fg.getBlue(), fg.getAlphb() / 2);
+        lbbel.putClientProperty(DISABLED_COLOR_KEY, newDisbbledColor);
+        return newDisbbledColor;
     }
 }

@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -54,390 +54,390 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.ERA;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.PROLEPTIC_MONTH;
-import static java.time.temporal.ChronoField.YEAR_OF_ERA;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.ERA;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.PROLEPTIC_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR_OF_ERA;
 
-import java.io.Serializable;
-import java.time.DateTimeException;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.Seriblizbble;
+import jbvb.time.DbteTimeException;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Objects;
 
 /**
- * A date expressed in terms of a standard year-month-day calendar system.
+ * A dbte expressed in terms of b stbndbrd yebr-month-dby cblendbr system.
  * <p>
- * This class is used by applications seeking to handle dates in non-ISO calendar systems.
- * For example, the Japanese, Minguo, Thai Buddhist and others.
+ * This clbss is used by bpplicbtions seeking to hbndle dbtes in non-ISO cblendbr systems.
+ * For exbmple, the Jbpbnese, Minguo, Thbi Buddhist bnd others.
  * <p>
- * {@code ChronoLocalDate} is built on the generic concepts of year, month and day.
- * The calendar system, represented by a {@link java.time.chrono.Chronology}, expresses the relationship between
- * the fields and this class allows the resulting date to be manipulated.
+ * {@code ChronoLocblDbte} is built on the generic concepts of yebr, month bnd dby.
+ * The cblendbr system, represented by b {@link jbvb.time.chrono.Chronology}, expresses the relbtionship between
+ * the fields bnd this clbss bllows the resulting dbte to be mbnipulbted.
  * <p>
- * Note that not all calendar systems are suitable for use with this class.
- * For example, the Mayan calendar uses a system that bears no relation to years, months and days.
+ * Note thbt not bll cblendbr systems bre suitbble for use with this clbss.
+ * For exbmple, the Mbybn cblendbr uses b system thbt bebrs no relbtion to yebrs, months bnd dbys.
  * <p>
- * The API design encourages the use of {@code LocalDate} for the majority of the application.
- * This includes code to read and write from a persistent data store, such as a database,
- * and to send dates and times across a network. The {@code ChronoLocalDate} instance is then used
- * at the user interface level to deal with localized input/output.
+ * The API design encourbges the use of {@code LocblDbte} for the mbjority of the bpplicbtion.
+ * This includes code to rebd bnd write from b persistent dbtb store, such bs b dbtbbbse,
+ * bnd to send dbtes bnd times bcross b network. The {@code ChronoLocblDbte} instbnce is then used
+ * bt the user interfbce level to debl with locblized input/output.
  *
- * <P>Example: </p>
+ * <P>Exbmple: </p>
  * <pre>
- *        System.out.printf("Example()%n");
- *        // Enumerate the list of available calendars and print today for each
- *        Set&lt;Chronology&gt; chronos = Chronology.getAvailableChronologies();
+ *        System.out.printf("Exbmple()%n");
+ *        // Enumerbte the list of bvbilbble cblendbrs bnd print todby for ebch
+ *        Set&lt;Chronology&gt; chronos = Chronology.getAvbilbbleChronologies();
  *        for (Chronology chrono : chronos) {
- *            ChronoLocalDate date = chrono.dateNow();
- *            System.out.printf("   %20s: %s%n", chrono.getID(), date.toString());
+ *            ChronoLocblDbte dbte = chrono.dbteNow();
+ *            System.out.printf("   %20s: %s%n", chrono.getID(), dbte.toString());
  *        }
  *
- *        // Print the Hijrah date and calendar
- *        ChronoLocalDate date = Chronology.of("Hijrah").dateNow();
- *        int day = date.get(ChronoField.DAY_OF_MONTH);
- *        int dow = date.get(ChronoField.DAY_OF_WEEK);
- *        int month = date.get(ChronoField.MONTH_OF_YEAR);
- *        int year = date.get(ChronoField.YEAR);
- *        System.out.printf("  Today is %s %s %d-%s-%d%n", date.getChronology().getID(),
- *                dow, day, month, year);
+ *        // Print the Hijrbh dbte bnd cblendbr
+ *        ChronoLocblDbte dbte = Chronology.of("Hijrbh").dbteNow();
+ *        int dby = dbte.get(ChronoField.DAY_OF_MONTH);
+ *        int dow = dbte.get(ChronoField.DAY_OF_WEEK);
+ *        int month = dbte.get(ChronoField.MONTH_OF_YEAR);
+ *        int yebr = dbte.get(ChronoField.YEAR);
+ *        System.out.printf("  Todby is %s %s %d-%s-%d%n", dbte.getChronology().getID(),
+ *                dow, dby, month, yebr);
 
- *        // Print today's date and the last day of the year
- *        ChronoLocalDate now1 = Chronology.of("Hijrah").dateNow();
- *        ChronoLocalDate first = now1.with(ChronoField.DAY_OF_MONTH, 1)
+ *        // Print todby's dbte bnd the lbst dby of the yebr
+ *        ChronoLocblDbte now1 = Chronology.of("Hijrbh").dbteNow();
+ *        ChronoLocblDbte first = now1.with(ChronoField.DAY_OF_MONTH, 1)
  *                .with(ChronoField.MONTH_OF_YEAR, 1);
- *        ChronoLocalDate last = first.plus(1, ChronoUnit.YEARS)
+ *        ChronoLocblDbte lbst = first.plus(1, ChronoUnit.YEARS)
  *                .minus(1, ChronoUnit.DAYS);
- *        System.out.printf("  Today is %s: start: %s; end: %s%n", last.getChronology().getID(),
- *                first, last);
+ *        System.out.printf("  Todby is %s: stbrt: %s; end: %s%n", lbst.getChronology().getID(),
+ *                first, lbst);
  * </pre>
  *
- * <h3>Adding Calendars</h3>
- * <p> The set of calendars is extensible by defining a subclass of {@link ChronoLocalDate}
- * to represent a date instance and an implementation of {@code Chronology}
- * to be the factory for the ChronoLocalDate subclass.
+ * <h3>Adding Cblendbrs</h3>
+ * <p> The set of cblendbrs is extensible by defining b subclbss of {@link ChronoLocblDbte}
+ * to represent b dbte instbnce bnd bn implementbtion of {@code Chronology}
+ * to be the fbctory for the ChronoLocblDbte subclbss.
  * </p>
- * <p> To permit the discovery of the additional calendar types the implementation of
- * {@code Chronology} must be registered as a Service implementing the {@code Chronology} interface
- * in the {@code META-INF/Services} file as per the specification of {@link java.util.ServiceLoader}.
- * The subclass must function according to the {@code Chronology} class description and must provide its
- * {@link java.time.chrono.Chronology#getId() chronlogy ID} and {@link Chronology#getCalendarType() calendar type}. </p>
+ * <p> To permit the discovery of the bdditionbl cblendbr types the implementbtion of
+ * {@code Chronology} must be registered bs b Service implementing the {@code Chronology} interfbce
+ * in the {@code META-INF/Services} file bs per the specificbtion of {@link jbvb.util.ServiceLobder}.
+ * The subclbss must function bccording to the {@code Chronology} clbss description bnd must provide its
+ * {@link jbvb.time.chrono.Chronology#getId() chronlogy ID} bnd {@link Chronology#getCblendbrType() cblendbr type}. </p>
  *
  * @implSpec
- * This abstract class must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Subclasses should be Serializable wherever possible.
+ * This bbstrbct clbss must be implemented with cbre to ensure other clbsses operbte correctly.
+ * All implementbtions thbt cbn be instbntibted must be finbl, immutbble bnd threbd-sbfe.
+ * Subclbsses should be Seriblizbble wherever possible.
  *
- * @param <D> the ChronoLocalDate of this date-time
+ * @pbrbm <D> the ChronoLocblDbte of this dbte-time
  * @since 1.8
  */
-abstract class ChronoLocalDateImpl<D extends ChronoLocalDate>
-        implements ChronoLocalDate, Temporal, TemporalAdjuster, Serializable {
+bbstrbct clbss ChronoLocblDbteImpl<D extends ChronoLocblDbte>
+        implements ChronoLocblDbte, Temporbl, TemporblAdjuster, Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 6282433883239719096L;
+    privbte stbtic finbl long seriblVersionUID = 6282433883239719096L;
 
     /**
-     * Casts the {@code Temporal} to {@code ChronoLocalDate} ensuring it bas the specified chronology.
+     * Cbsts the {@code Temporbl} to {@code ChronoLocblDbte} ensuring it bbs the specified chronology.
      *
-     * @param chrono  the chronology to check for, not null
-     * @param temporal  a date-time to cast, not null
-     * @return the date-time checked and cast to {@code ChronoLocalDate}, not null
-     * @throws ClassCastException if the date-time cannot be cast to ChronoLocalDate
-     *  or the chronology is not equal this Chronology
+     * @pbrbm chrono  the chronology to check for, not null
+     * @pbrbm temporbl  b dbte-time to cbst, not null
+     * @return the dbte-time checked bnd cbst to {@code ChronoLocblDbte}, not null
+     * @throws ClbssCbstException if the dbte-time cbnnot be cbst to ChronoLocblDbte
+     *  or the chronology is not equbl this Chronology
      */
-    static <D extends ChronoLocalDate> D ensureValid(Chronology chrono, Temporal temporal) {
-        @SuppressWarnings("unchecked")
-        D other = (D) temporal;
-        if (chrono.equals(other.getChronology()) == false) {
-            throw new ClassCastException("Chronology mismatch, expected: " + chrono.getId() + ", actual: " + other.getChronology().getId());
+    stbtic <D extends ChronoLocblDbte> D ensureVblid(Chronology chrono, Temporbl temporbl) {
+        @SuppressWbrnings("unchecked")
+        D other = (D) temporbl;
+        if (chrono.equbls(other.getChronology()) == fblse) {
+            throw new ClbssCbstException("Chronology mismbtch, expected: " + chrono.getId() + ", bctubl: " + other.getChronology().getId());
         }
         return other;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance.
+     * Crebtes bn instbnce.
      */
-    ChronoLocalDateImpl() {
+    ChronoLocblDbteImpl() {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public D with(TemporalAdjuster adjuster) {
-        return (D) ChronoLocalDate.super.with(adjuster);
+    @SuppressWbrnings("unchecked")
+    public D with(TemporblAdjuster bdjuster) {
+        return (D) ChronoLocblDbte.super.with(bdjuster);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public D with(TemporalField field, long value) {
-        return (D) ChronoLocalDate.super.with(field, value);
-    }
-
-    //-----------------------------------------------------------------------
-    @Override
-    @SuppressWarnings("unchecked")
-    public D plus(TemporalAmount amount) {
-        return (D) ChronoLocalDate.super.plus(amount);
+    @SuppressWbrnings("unchecked")
+    public D with(TemporblField field, long vblue) {
+        return (D) ChronoLocblDbte.super.with(field, vblue);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    @SuppressWarnings("unchecked")
-    public D plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
+    @SuppressWbrnings("unchecked")
+    public D plus(TemporblAmount bmount) {
+        return (D) ChronoLocblDbte.super.plus(bmount);
+    }
+
+    //-----------------------------------------------------------------------
+    @Override
+    @SuppressWbrnings("unchecked")
+    public D plus(long bmountToAdd, TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
             ChronoUnit f = (ChronoUnit) unit;
             switch (f) {
-                case DAYS: return plusDays(amountToAdd);
-                case WEEKS: return plusDays(Math.multiplyExact(amountToAdd, 7));
-                case MONTHS: return plusMonths(amountToAdd);
-                case YEARS: return plusYears(amountToAdd);
-                case DECADES: return plusYears(Math.multiplyExact(amountToAdd, 10));
-                case CENTURIES: return plusYears(Math.multiplyExact(amountToAdd, 100));
-                case MILLENNIA: return plusYears(Math.multiplyExact(amountToAdd, 1000));
-                case ERAS: return with(ERA, Math.addExact(getLong(ERA), amountToAdd));
+                cbse DAYS: return plusDbys(bmountToAdd);
+                cbse WEEKS: return plusDbys(Mbth.multiplyExbct(bmountToAdd, 7));
+                cbse MONTHS: return plusMonths(bmountToAdd);
+                cbse YEARS: return plusYebrs(bmountToAdd);
+                cbse DECADES: return plusYebrs(Mbth.multiplyExbct(bmountToAdd, 10));
+                cbse CENTURIES: return plusYebrs(Mbth.multiplyExbct(bmountToAdd, 100));
+                cbse MILLENNIA: return plusYebrs(Mbth.multiplyExbct(bmountToAdd, 1000));
+                cbse ERAS: return with(ERA, Mbth.bddExbct(getLong(ERA), bmountToAdd));
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
-        return (D) ChronoLocalDate.super.plus(amountToAdd, unit);
+        return (D) ChronoLocblDbte.super.plus(bmountToAdd, unit);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public D minus(TemporalAmount amount) {
-        return (D) ChronoLocalDate.super.minus(amount);
+    @SuppressWbrnings("unchecked")
+    public D minus(TemporblAmount bmount) {
+        return (D) ChronoLocblDbte.super.minus(bmount);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public D minus(long amountToSubtract, TemporalUnit unit) {
-        return (D) ChronoLocalDate.super.minus(amountToSubtract, unit);
+    @SuppressWbrnings("unchecked")
+    public D minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return (D) ChronoLocblDbte.super.minus(bmountToSubtrbct, unit);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date with the specified number of years added.
+     * Returns b copy of this dbte with the specified number of yebrs bdded.
      * <p>
-     * This adds the specified period in years to the date.
-     * In some cases, adding years can cause the resulting date to become invalid.
-     * If this occurs, then other fields, typically the day-of-month, will be adjusted to ensure
-     * that the result is valid. Typically this will select the last valid day of the month.
+     * This bdds the specified period in yebrs to the dbte.
+     * In some cbses, bdding yebrs cbn cbuse the resulting dbte to become invblid.
+     * If this occurs, then other fields, typicblly the dby-of-month, will be bdjusted to ensure
+     * thbt the result is vblid. Typicblly this will select the lbst vblid dby of the month.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param yearsToAdd  the years to add, may be negative
-     * @return a date based on this one with the years added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm yebrsToAdd  the yebrs to bdd, mby be negbtive
+     * @return b dbte bbsed on this one with the yebrs bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    abstract D plusYears(long yearsToAdd);
+    bbstrbct D plusYebrs(long yebrsToAdd);
 
     /**
-     * Returns a copy of this date with the specified number of months added.
+     * Returns b copy of this dbte with the specified number of months bdded.
      * <p>
-     * This adds the specified period in months to the date.
-     * In some cases, adding months can cause the resulting date to become invalid.
-     * If this occurs, then other fields, typically the day-of-month, will be adjusted to ensure
-     * that the result is valid. Typically this will select the last valid day of the month.
+     * This bdds the specified period in months to the dbte.
+     * In some cbses, bdding months cbn cbuse the resulting dbte to become invblid.
+     * If this occurs, then other fields, typicblly the dby-of-month, will be bdjusted to ensure
+     * thbt the result is vblid. Typicblly this will select the lbst vblid dby of the month.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param monthsToAdd  the months to add, may be negative
-     * @return a date based on this one with the months added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm monthsToAdd  the months to bdd, mby be negbtive
+     * @return b dbte bbsed on this one with the months bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    abstract D plusMonths(long monthsToAdd);
+    bbstrbct D plusMonths(long monthsToAdd);
 
     /**
-     * Returns a copy of this date with the specified number of weeks added.
+     * Returns b copy of this dbte with the specified number of weeks bdded.
      * <p>
-     * This adds the specified period in weeks to the date.
-     * In some cases, adding weeks can cause the resulting date to become invalid.
-     * If this occurs, then other fields will be adjusted to ensure that the result is valid.
+     * This bdds the specified period in weeks to the dbte.
+     * In some cbses, bdding weeks cbn cbuse the resulting dbte to become invblid.
+     * If this occurs, then other fields will be bdjusted to ensure thbt the result is vblid.
      * <p>
-     * The default implementation uses {@link #plusDays(long)} using a 7 day week.
+     * The defbult implementbtion uses {@link #plusDbys(long)} using b 7 dby week.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param weeksToAdd  the weeks to add, may be negative
-     * @return a date based on this one with the weeks added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm weeksToAdd  the weeks to bdd, mby be negbtive
+     * @return b dbte bbsed on this one with the weeks bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
     D plusWeeks(long weeksToAdd) {
-        return plusDays(Math.multiplyExact(weeksToAdd, 7));
+        return plusDbys(Mbth.multiplyExbct(weeksToAdd, 7));
     }
 
     /**
-     * Returns a copy of this date with the specified number of days added.
+     * Returns b copy of this dbte with the specified number of dbys bdded.
      * <p>
-     * This adds the specified period in days to the date.
+     * This bdds the specified period in dbys to the dbte.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param daysToAdd  the days to add, may be negative
-     * @return a date based on this one with the days added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm dbysToAdd  the dbys to bdd, mby be negbtive
+     * @return b dbte bbsed on this one with the dbys bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    abstract D plusDays(long daysToAdd);
+    bbstrbct D plusDbys(long dbysToAdd);
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date with the specified number of years subtracted.
+     * Returns b copy of this dbte with the specified number of yebrs subtrbcted.
      * <p>
-     * This subtracts the specified period in years to the date.
-     * In some cases, subtracting years can cause the resulting date to become invalid.
-     * If this occurs, then other fields, typically the day-of-month, will be adjusted to ensure
-     * that the result is valid. Typically this will select the last valid day of the month.
+     * This subtrbcts the specified period in yebrs to the dbte.
+     * In some cbses, subtrbcting yebrs cbn cbuse the resulting dbte to become invblid.
+     * If this occurs, then other fields, typicblly the dby-of-month, will be bdjusted to ensure
+     * thbt the result is vblid. Typicblly this will select the lbst vblid dby of the month.
      * <p>
-     * The default implementation uses {@link #plusYears(long)}.
+     * The defbult implementbtion uses {@link #plusYebrs(long)}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param yearsToSubtract  the years to subtract, may be negative
-     * @return a date based on this one with the years subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm yebrsToSubtrbct  the yebrs to subtrbct, mby be negbtive
+     * @return b dbte bbsed on this one with the yebrs subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    @SuppressWarnings("unchecked")
-    D minusYears(long yearsToSubtract) {
-        return (yearsToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusYears(Long.MAX_VALUE)).plusYears(1) : plusYears(-yearsToSubtract));
+    @SuppressWbrnings("unchecked")
+    D minusYebrs(long yebrsToSubtrbct) {
+        return (yebrsToSubtrbct == Long.MIN_VALUE ? ((ChronoLocblDbteImpl<D>)plusYebrs(Long.MAX_VALUE)).plusYebrs(1) : plusYebrs(-yebrsToSubtrbct));
     }
 
     /**
-     * Returns a copy of this date with the specified number of months subtracted.
+     * Returns b copy of this dbte with the specified number of months subtrbcted.
      * <p>
-     * This subtracts the specified period in months to the date.
-     * In some cases, subtracting months can cause the resulting date to become invalid.
-     * If this occurs, then other fields, typically the day-of-month, will be adjusted to ensure
-     * that the result is valid. Typically this will select the last valid day of the month.
+     * This subtrbcts the specified period in months to the dbte.
+     * In some cbses, subtrbcting months cbn cbuse the resulting dbte to become invblid.
+     * If this occurs, then other fields, typicblly the dby-of-month, will be bdjusted to ensure
+     * thbt the result is vblid. Typicblly this will select the lbst vblid dby of the month.
      * <p>
-     * The default implementation uses {@link #plusMonths(long)}.
+     * The defbult implementbtion uses {@link #plusMonths(long)}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param monthsToSubtract  the months to subtract, may be negative
-     * @return a date based on this one with the months subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm monthsToSubtrbct  the months to subtrbct, mby be negbtive
+     * @return b dbte bbsed on this one with the months subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    @SuppressWarnings("unchecked")
-    D minusMonths(long monthsToSubtract) {
-        return (monthsToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusMonths(Long.MAX_VALUE)).plusMonths(1) : plusMonths(-monthsToSubtract));
+    @SuppressWbrnings("unchecked")
+    D minusMonths(long monthsToSubtrbct) {
+        return (monthsToSubtrbct == Long.MIN_VALUE ? ((ChronoLocblDbteImpl<D>)plusMonths(Long.MAX_VALUE)).plusMonths(1) : plusMonths(-monthsToSubtrbct));
     }
 
     /**
-     * Returns a copy of this date with the specified number of weeks subtracted.
+     * Returns b copy of this dbte with the specified number of weeks subtrbcted.
      * <p>
-     * This subtracts the specified period in weeks to the date.
-     * In some cases, subtracting weeks can cause the resulting date to become invalid.
-     * If this occurs, then other fields will be adjusted to ensure that the result is valid.
+     * This subtrbcts the specified period in weeks to the dbte.
+     * In some cbses, subtrbcting weeks cbn cbuse the resulting dbte to become invblid.
+     * If this occurs, then other fields will be bdjusted to ensure thbt the result is vblid.
      * <p>
-     * The default implementation uses {@link #plusWeeks(long)}.
+     * The defbult implementbtion uses {@link #plusWeeks(long)}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param weeksToSubtract  the weeks to subtract, may be negative
-     * @return a date based on this one with the weeks subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm weeksToSubtrbct  the weeks to subtrbct, mby be negbtive
+     * @return b dbte bbsed on this one with the weeks subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    @SuppressWarnings("unchecked")
-    D minusWeeks(long weeksToSubtract) {
-        return (weeksToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusWeeks(Long.MAX_VALUE)).plusWeeks(1) : plusWeeks(-weeksToSubtract));
+    @SuppressWbrnings("unchecked")
+    D minusWeeks(long weeksToSubtrbct) {
+        return (weeksToSubtrbct == Long.MIN_VALUE ? ((ChronoLocblDbteImpl<D>)plusWeeks(Long.MAX_VALUE)).plusWeeks(1) : plusWeeks(-weeksToSubtrbct));
     }
 
     /**
-     * Returns a copy of this date with the specified number of days subtracted.
+     * Returns b copy of this dbte with the specified number of dbys subtrbcted.
      * <p>
-     * This subtracts the specified period in days to the date.
+     * This subtrbcts the specified period in dbys to the dbte.
      * <p>
-     * The default implementation uses {@link #plusDays(long)}.
+     * The defbult implementbtion uses {@link #plusDbys(long)}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param daysToSubtract  the days to subtract, may be negative
-     * @return a date based on this one with the days subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm dbysToSubtrbct  the dbys to subtrbct, mby be negbtive
+     * @return b dbte bbsed on this one with the dbys subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    @SuppressWarnings("unchecked")
-    D minusDays(long daysToSubtract) {
-        return (daysToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusDays(Long.MAX_VALUE)).plusDays(1) : plusDays(-daysToSubtract));
+    @SuppressWbrnings("unchecked")
+    D minusDbys(long dbysToSubtrbct) {
+        return (dbysToSubtrbct == Long.MIN_VALUE ? ((ChronoLocblDbteImpl<D>)plusDbys(Long.MAX_VALUE)).plusDbys(1) : plusDbys(-dbysToSubtrbct));
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
+    public long until(Temporbl endExclusive, TemporblUnit unit) {
         Objects.requireNonNull(endExclusive, "endExclusive");
-        ChronoLocalDate end = getChronology().date(endExclusive);
-        if (unit instanceof ChronoUnit) {
+        ChronoLocblDbte end = getChronology().dbte(endExclusive);
+        if (unit instbnceof ChronoUnit) {
             switch ((ChronoUnit) unit) {
-                case DAYS: return daysUntil(end);
-                case WEEKS: return daysUntil(end) / 7;
-                case MONTHS: return monthsUntil(end);
-                case YEARS: return monthsUntil(end) / 12;
-                case DECADES: return monthsUntil(end) / 120;
-                case CENTURIES: return monthsUntil(end) / 1200;
-                case MILLENNIA: return monthsUntil(end) / 12000;
-                case ERAS: return end.getLong(ERA) - getLong(ERA);
+                cbse DAYS: return dbysUntil(end);
+                cbse WEEKS: return dbysUntil(end) / 7;
+                cbse MONTHS: return monthsUntil(end);
+                cbse YEARS: return monthsUntil(end) / 12;
+                cbse DECADES: return monthsUntil(end) / 120;
+                cbse CENTURIES: return monthsUntil(end) / 1200;
+                cbse MILLENNIA: return monthsUntil(end) / 12000;
+                cbse ERAS: return end.getLong(ERA) - getLong(ERA);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
         Objects.requireNonNull(unit, "unit");
         return unit.between(this, end);
     }
 
-    private long daysUntil(ChronoLocalDate end) {
-        return end.toEpochDay() - toEpochDay();  // no overflow
+    privbte long dbysUntil(ChronoLocblDbte end) {
+        return end.toEpochDby() - toEpochDby();  // no overflow
     }
 
-    private long monthsUntil(ChronoLocalDate end) {
-        ValueRange range = getChronology().range(MONTH_OF_YEAR);
-        if (range.getMaximum() != 12) {
-            throw new IllegalStateException("ChronoLocalDateImpl only supports Chronologies with 12 months per year");
+    privbte long monthsUntil(ChronoLocblDbte end) {
+        VblueRbnge rbnge = getChronology().rbnge(MONTH_OF_YEAR);
+        if (rbnge.getMbximum() != 12) {
+            throw new IllegblStbteException("ChronoLocblDbteImpl only supports Chronologies with 12 months per yebr");
         }
-        long packed1 = getLong(PROLEPTIC_MONTH) * 32L + get(DAY_OF_MONTH);  // no overflow
-        long packed2 = end.getLong(PROLEPTIC_MONTH) * 32L + end.get(DAY_OF_MONTH);  // no overflow
-        return (packed2 - packed1) / 32;
+        long pbcked1 = getLong(PROLEPTIC_MONTH) * 32L + get(DAY_OF_MONTH);  // no overflow
+        long pbcked2 = end.getLong(PROLEPTIC_MONTH) * 32L + end.get(DAY_OF_MONTH);  // no overflow
+        return (pbcked2 - pbcked1) / 32;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ChronoLocalDate) {
-            return compareTo((ChronoLocalDate) obj) == 0;
+        if (obj instbnceof ChronoLocblDbte) {
+            return compbreTo((ChronoLocblDbte) obj) == 0;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public int hashCode() {
-        long epDay = toEpochDay();
-        return getChronology().hashCode() ^ ((int) (epDay ^ (epDay >>> 32)));
+    public int hbshCode() {
+        long epDby = toEpochDby();
+        return getChronology().hbshCode() ^ ((int) (epDby ^ (epDby >>> 32)));
     }
 
     @Override
     public String toString() {
-        // getLong() reduces chances of exceptions in toString()
+        // getLong() reduces chbnces of exceptions in toString()
         long yoe = getLong(YEAR_OF_ERA);
         long moy = getLong(MONTH_OF_YEAR);
         long dom = getLong(DAY_OF_MONTH);
         StringBuilder buf = new StringBuilder(30);
-        buf.append(getChronology().toString())
-                .append(" ")
-                .append(getEra())
-                .append(" ")
-                .append(yoe)
-                .append(moy < 10 ? "-0" : "-").append(moy)
-                .append(dom < 10 ? "-0" : "-").append(dom);
+        buf.bppend(getChronology().toString())
+                .bppend(" ")
+                .bppend(getErb())
+                .bppend(" ")
+                .bppend(yoe)
+                .bppend(moy < 10 ? "-0" : "-").bppend(moy)
+                .bppend(dom < 10 ? "-0" : "-").bppend(dom);
         return buf.toString();
     }
 

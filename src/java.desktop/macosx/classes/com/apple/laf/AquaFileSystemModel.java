@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.beans.*;
-import java.io.File;
-import java.util.*;
+import jbvb.bebns.*;
+import jbvb.io.File;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.event.ListDataEvent;
-import javax.swing.filechooser.FileSystemView;
-import javax.swing.table.AbstractTableModel;
+import jbvbx.swing.*;
+import jbvbx.swing.event.ListDbtbEvent;
+import jbvbx.swing.filechooser.FileSystemView;
+import jbvbx.swing.tbble.AbstrbctTbbleModel;
 
 /**
- * NavServices-like implementation of a file Table
+ * NbvServices-like implementbtion of b file Tbble
  *
- * Some of it came from BasicDirectoryModel
+ * Some of it cbme from BbsicDirectoryModel
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class AquaFileSystemModel extends AbstractTableModel implements PropertyChangeListener {
-    private final JTable fFileList;
-    private LoadFilesThread loadThread = null;
-    private Vector<File> files = null;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss AqubFileSystemModel extends AbstrbctTbbleModel implements PropertyChbngeListener {
+    privbte finbl JTbble fFileList;
+    privbte LobdFilesThrebd lobdThrebd = null;
+    privbte Vector<File> files = null;
 
     JFileChooser filechooser = null;
-    Vector<SortableFile> fileCache = null;
-    Object fileCacheLock;
+    Vector<SortbbleFile> fileCbche = null;
+    Object fileCbcheLock;
 
     Vector<File> directories = null;
     int fetchID = 0;
 
-    private final boolean fSortAscending[] = {true, true};
-    // private boolean fSortAscending = true;
-    private boolean fSortNames = true;
-    private final String[] fColumnNames;
-    public final static String SORT_BY_CHANGED = "sortByChanged";
-    public final static String SORT_ASCENDING_CHANGED = "sortAscendingChanged";
+    privbte finbl boolebn fSortAscending[] = {true, true};
+    // privbte boolebn fSortAscending = true;
+    privbte boolebn fSortNbmes = true;
+    privbte finbl String[] fColumnNbmes;
+    public finbl stbtic String SORT_BY_CHANGED = "sortByChbnged";
+    public finbl stbtic String SORT_ASCENDING_CHANGED = "sortAscendingChbnged";
 
-    public AquaFileSystemModel(final JFileChooser filechooser, final JTable filelist, final String[] colNames) {
-        fileCacheLock = new Object();
+    public AqubFileSystemModel(finbl JFileChooser filechooser, finbl JTbble filelist, finbl String[] colNbmes) {
+        fileCbcheLock = new Object();
         this.filechooser = filechooser;
         fFileList = filelist;
-        fColumnNames = colNames;
-        validateFileCache();
-        updateSelectionMode();
+        fColumnNbmes = colNbmes;
+        vblidbteFileCbche();
+        updbteSelectionMode();
     }
 
-    void updateSelectionMode() {
-        // Save dialog lists can't be multi select, because all we're selecting is the next folder to open
-        final boolean b = filechooser.isMultiSelectionEnabled() && filechooser.getDialogType() != JFileChooser.SAVE_DIALOG;
+    void updbteSelectionMode() {
+        // Sbve diblog lists cbn't be multi select, becbuse bll we're selecting is the next folder to open
+        finbl boolebn b = filechooser.isMultiSelectionEnbbled() && filechooser.getDiblogType() != JFileChooser.SAVE_DIALOG;
         fFileList.setSelectionMode(b ? ListSelectionModel.MULTIPLE_INTERVAL_SELECTION : ListSelectionModel.SINGLE_SELECTION);
     }
 
-    public void propertyChange(final PropertyChangeEvent e) {
-        final String prop = e.getPropertyName();
+    public void propertyChbnge(finbl PropertyChbngeEvent e) {
+        finbl String prop = e.getPropertyNbme();
         if (prop == JFileChooser.DIRECTORY_CHANGED_PROPERTY || prop == JFileChooser.FILE_VIEW_CHANGED_PROPERTY || prop == JFileChooser.FILE_FILTER_CHANGED_PROPERTY || prop == JFileChooser.FILE_HIDING_CHANGED_PROPERTY) {
-            invalidateFileCache();
-            validateFileCache();
-        } else if (prop.equals(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
-            updateSelectionMode();
+            invblidbteFileCbche();
+            vblidbteFileCbche();
+        } else if (prop.equbls(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
+            updbteSelectionMode();
         } else if (prop == JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY) {
-            invalidateFileCache();
-            validateFileCache();
+            invblidbteFileCbche();
+            vblidbteFileCbche();
         }
         if (prop == SORT_BY_CHANGED) {// $ Ought to just resort
-            fSortNames = (((Integer)e.getNewValue()).intValue() == 0);
-            invalidateFileCache();
-            validateFileCache();
-            fFileList.repaint();
+            fSortNbmes = (((Integer)e.getNewVblue()).intVblue() == 0);
+            invblidbteFileCbche();
+            vblidbteFileCbche();
+            fFileList.repbint();
         }
         if (prop == SORT_ASCENDING_CHANGED) {
-            final int sortColumn = (fSortNames ? 0 : 1);
-            fSortAscending[sortColumn] = ((Boolean)e.getNewValue()).booleanValue();
-            invalidateFileCache();
-            validateFileCache();
-            fFileList.repaint();
+            finbl int sortColumn = (fSortNbmes ? 0 : 1);
+            fSortAscending[sortColumn] = ((Boolebn)e.getNewVblue()).boolebnVblue();
+            invblidbteFileCbche();
+            vblidbteFileCbche();
+            fFileList.repbint();
         }
     }
 
-    public void invalidateFileCache() {
+    public void invblidbteFileCbche() {
         files = null;
         directories = null;
 
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                final int lastRow = fileCache.size();
-                fileCache = null;
-                fireTableRowsDeleted(0, lastRow);
+        synchronized(fileCbcheLock) {
+            if (fileCbche != null) {
+                finbl int lbstRow = fileCbche.size();
+                fileCbche = null;
+                fireTbbleRowsDeleted(0, lbstRow);
             }
         }
     }
@@ -122,16 +122,16 @@ class AquaFileSystemModel extends AbstractTableModel implements PropertyChangeLi
         if (files != null) { return files; }
         files = new Vector<File>();
         directories = new Vector<File>();
-        directories.addElement(filechooser.getFileSystemView().createFileObject(filechooser.getCurrentDirectory(), ".."));
+        directories.bddElement(filechooser.getFileSystemView().crebteFileObject(filechooser.getCurrentDirectory(), ".."));
 
-        synchronized(fileCacheLock) {
-            for (int i = 0; i < fileCache.size(); i++) {
-                final SortableFile sf = fileCache.elementAt(i);
-                final File f = sf.fFile;
-                if (filechooser.isTraversable(f)) {
-                    directories.addElement(f);
+        synchronized(fileCbcheLock) {
+            for (int i = 0; i < fileCbche.size(); i++) {
+                finbl SortbbleFile sf = fileCbche.elementAt(i);
+                finbl File f = sf.fFile;
+                if (filechooser.isTrbversbble(f)) {
+                    directories.bddElement(f);
                 } else {
-                    files.addElement(f);
+                    files.bddElement(f);
                 }
             }
         }
@@ -139,180 +139,180 @@ class AquaFileSystemModel extends AbstractTableModel implements PropertyChangeLi
         return files;
     }
 
-    public void runWhenDone(final Runnable runnable){
-         synchronized (fileCacheLock) {
-             if (loadThread != null) {
-                 if (loadThread.isAlive()) {
-                     loadThread.queuedTasks.add(runnable);
+    public void runWhenDone(finbl Runnbble runnbble){
+         synchronized (fileCbcheLock) {
+             if (lobdThrebd != null) {
+                 if (lobdThrebd.isAlive()) {
+                     lobdThrebd.queuedTbsks.bdd(runnbble);
                      return;
                  }
              }
 
-             SwingUtilities.invokeLater(runnable);
+             SwingUtilities.invokeLbter(runnbble);
          }
      }
 
-    public void validateFileCache() {
-        final File currentDirectory = filechooser.getCurrentDirectory();
+    public void vblidbteFileCbche() {
+        finbl File currentDirectory = filechooser.getCurrentDirectory();
 
         if (currentDirectory == null) {
-            invalidateFileCache();
+            invblidbteFileCbche();
             return;
         }
 
-        if (loadThread != null) {
+        if (lobdThrebd != null) {
             // interrupt
-            loadThread.interrupt();
+            lobdThrebd.interrupt();
         }
 
         fetchID++;
 
         // PENDING(jeff) pick the size more sensibly
-        invalidateFileCache();
-        synchronized(fileCacheLock) {
-            fileCache = new Vector<SortableFile>(50);
+        invblidbteFileCbche();
+        synchronized(fileCbcheLock) {
+            fileCbche = new Vector<SortbbleFile>(50);
         }
 
-        loadThread = new LoadFilesThread(currentDirectory, fetchID);
-        loadThread.start();
+        lobdThrebd = new LobdFilesThrebd(currentDirectory, fetchID);
+        lobdThrebd.stbrt();
     }
 
     public int getColumnCount() {
         return 2;
     }
 
-    public String getColumnName(final int col) {
-        return fColumnNames[col];
+    public String getColumnNbme(finbl int col) {
+        return fColumnNbmes[col];
     }
 
-    public Class<? extends Object> getColumnClass(final int col) {
-        if (col == 0) return File.class;
-        return Date.class;
+    public Clbss<? extends Object> getColumnClbss(finbl int col) {
+        if (col == 0) return File.clbss;
+        return Dbte.clbss;
     }
 
     public int getRowCount() {
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                return fileCache.size();
+        synchronized(fileCbcheLock) {
+            if (fileCbche != null) {
+                return fileCbche.size();
             }
             return 0;
         }
     }
 
-    // SAK: Part of fix for 3168263. The fileCache contains
-    // SortableFiles, so when finding a file in the list we need to
-    // first create a sortable file.
-    public boolean contains(final File o) {
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                return fileCache.contains(new SortableFile(o));
+    // SAK: Pbrt of fix for 3168263. The fileCbche contbins
+    // SortbbleFiles, so when finding b file in the list we need to
+    // first crebte b sortbble file.
+    public boolebn contbins(finbl File o) {
+        synchronized(fileCbcheLock) {
+            if (fileCbche != null) {
+                return fileCbche.contbins(new SortbbleFile(o));
             }
-            return false;
+            return fblse;
         }
     }
 
-    public int indexOf(final File o) {
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                final boolean isAscending = fSortNames ? fSortAscending[0] : fSortAscending[1];
-                final int row = fileCache.indexOf(new SortableFile(o));
-                return isAscending ? row : fileCache.size() - row - 1;
+    public int indexOf(finbl File o) {
+        synchronized(fileCbcheLock) {
+            if (fileCbche != null) {
+                finbl boolebn isAscending = fSortNbmes ? fSortAscending[0] : fSortAscending[1];
+                finbl int row = fileCbche.indexOf(new SortbbleFile(o));
+                return isAscending ? row : fileCbche.size() - row - 1;
             }
             return 0;
         }
     }
 
-    // AbstractListModel interface
-    public Object getElementAt(final int row) {
-        return getValueAt(row, 0);
+    // AbstrbctListModel interfbce
+    public Object getElementAt(finbl int row) {
+        return getVblueAt(row, 0);
     }
 
-    // AbstractTableModel interface
+    // AbstrbctTbbleModel interfbce
 
-    public Object getValueAt(int row, final int col) {
+    public Object getVblueAt(int row, finbl int col) {
         if (row < 0 || col < 0) return null;
-        final boolean isAscending = fSortNames ? fSortAscending[0] : fSortAscending[1];
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                if (!isAscending) row = fileCache.size() - row - 1;
-                return fileCache.elementAt(row).getValueAt(col);
+        finbl boolebn isAscending = fSortNbmes ? fSortAscending[0] : fSortAscending[1];
+        synchronized(fileCbcheLock) {
+            if (fileCbche != null) {
+                if (!isAscending) row = fileCbche.size() - row - 1;
+                return fileCbche.elementAt(row).getVblueAt(col);
             }
             return null;
         }
     }
 
     // PENDING(jeff) - implement
-    public void intervalAdded(final ListDataEvent e) {
+    public void intervblAdded(finbl ListDbtbEvent e) {
     }
 
     // PENDING(jeff) - implement
-    public void intervalRemoved(final ListDataEvent e) {
+    public void intervblRemoved(finbl ListDbtbEvent e) {
     }
 
-    protected void sort(final Vector<Object> v) {
-        if (fSortNames) sSortNames.quickSort(v, 0, v.size() - 1);
-        else sSortDates.quickSort(v, 0, v.size() - 1);
+    protected void sort(finbl Vector<Object> v) {
+        if (fSortNbmes) sSortNbmes.quickSort(v, 0, v.size() - 1);
+        else sSortDbtes.quickSort(v, 0, v.size() - 1);
     }
 
-    // Liberated from the 1.1 SortDemo
+    // Liberbted from the 1.1 SortDemo
     //
-    // This is a generic version of C.A.R Hoare's Quick Sort
-    // algorithm. This will handle arrays that are already
-    // sorted, and arrays with duplicate keys.<BR>
+    // This is b generic version of C.A.R Hobre's Quick Sort
+    // blgorithm. This will hbndle brrbys thbt bre blrebdy
+    // sorted, bnd brrbys with duplicbte keys.<BR>
     //
-    // If you think of a one dimensional array as going from
+    // If you think of b one dimensionbl brrby bs going from
     // the lowest index on the left to the highest index on the right
-    // then the parameters to this function are lowest index or
-    // left and highest index or right. The first time you call
-    // this function it will be with the parameters 0, a.length - 1.
+    // then the pbrbmeters to this function bre lowest index or
+    // left bnd highest index or right. The first time you cbll
+    // this function it will be with the pbrbmeters 0, b.length - 1.
     //
-    // @param a an integer array
-    // @param lo0 left boundary of array partition
-    // @param hi0 right boundary of array partition
-    abstract class QuickSort {
-        final void quickSort(final Vector<Object> v, final int lo0, final int hi0) {
+    // @pbrbm b bn integer brrby
+    // @pbrbm lo0 left boundbry of brrby pbrtition
+    // @pbrbm hi0 right boundbry of brrby pbrtition
+    bbstrbct clbss QuickSort {
+        finbl void quickSort(finbl Vector<Object> v, finbl int lo0, finbl int hi0) {
             int lo = lo0;
             int hi = hi0;
-            SortableFile mid;
+            SortbbleFile mid;
 
             if (hi0 > lo0) {
-                // Arbitrarily establishing partition element as the midpoint of
-                // the array.
-                mid = (SortableFile)v.elementAt((lo0 + hi0) / 2);
+                // Arbitrbrily estbblishing pbrtition element bs the midpoint of
+                // the brrby.
+                mid = (SortbbleFile)v.elementAt((lo0 + hi0) / 2);
 
-                // loop through the array until indices cross
+                // loop through the brrby until indices cross
                 while (lo <= hi) {
-                    // find the first element that is greater than or equal to
-                    // the partition element starting from the left Index.
+                    // find the first element thbt is grebter thbn or equbl to
+                    // the pbrtition element stbrting from the left Index.
                     //
-                    // Nasty to have to cast here. Would it be quicker
-                    // to copy the vectors into arrays and sort the arrays?
-                    while ((lo < hi0) && lt((SortableFile)v.elementAt(lo), mid)) {
+                    // Nbsty to hbve to cbst here. Would it be quicker
+                    // to copy the vectors into brrbys bnd sort the brrbys?
+                    while ((lo < hi0) && lt((SortbbleFile)v.elementAt(lo), mid)) {
                         ++lo;
                     }
 
-                    // find an element that is smaller than or equal to
-                    // the partition element starting from the right Index.
-                    while ((hi > lo0) && lt(mid, (SortableFile)v.elementAt(hi))) {
+                    // find bn element thbt is smbller thbn or equbl to
+                    // the pbrtition element stbrting from the right Index.
+                    while ((hi > lo0) && lt(mid, (SortbbleFile)v.elementAt(hi))) {
                         --hi;
                     }
 
-                    // if the indexes have not crossed, swap
+                    // if the indexes hbve not crossed, swbp
                     if (lo <= hi) {
-                        swap(v, lo, hi);
+                        swbp(v, lo, hi);
                         ++lo;
                         --hi;
                     }
                 }
 
-                // If the right index has not reached the left side of array
-                // must now sort the left partition.
+                // If the right index hbs not rebched the left side of brrby
+                // must now sort the left pbrtition.
                 if (lo0 < hi) {
                     quickSort(v, lo0, hi);
                 }
 
-                // If the left index has not reached the right side of array
-                // must now sort the right partition.
+                // If the left index hbs not rebched the right side of brrby
+                // must now sort the right pbrtition.
                 if (lo < hi0) {
                     quickSort(v, lo, hi0);
                 }
@@ -320,136 +320,136 @@ class AquaFileSystemModel extends AbstractTableModel implements PropertyChangeLi
             }
         }
 
-        private final void swap(final Vector<Object> a, final int i, final int j) {
-            final Object T = a.elementAt(i);
-            a.setElementAt(a.elementAt(j), i);
-            a.setElementAt(T, j);
+        privbte finbl void swbp(finbl Vector<Object> b, finbl int i, finbl int j) {
+            finbl Object T = b.elementAt(i);
+            b.setElementAt(b.elementAt(j), i);
+            b.setElementAt(T, j);
         }
 
-        protected abstract boolean lt(SortableFile a, SortableFile b);
+        protected bbstrbct boolebn lt(SortbbleFile b, SortbbleFile b);
     }
 
-    class QuickSortNames extends QuickSort {
-        protected boolean lt(final SortableFile a, final SortableFile b) {
-            final String aLower = a.fName.toLowerCase();
-            final String bLower = b.fName.toLowerCase();
-            return aLower.compareTo(bLower) < 0;
-        }
-    }
-
-    class QuickSortDates extends QuickSort {
-        protected boolean lt(final SortableFile a, final SortableFile b) {
-            return a.fDateValue < b.fDateValue;
+    clbss QuickSortNbmes extends QuickSort {
+        protected boolebn lt(finbl SortbbleFile b, finbl SortbbleFile b) {
+            finbl String bLower = b.fNbme.toLowerCbse();
+            finbl String bLower = b.fNbme.toLowerCbse();
+            return bLower.compbreTo(bLower) < 0;
         }
     }
 
-    // for speed in sorting, displaying
-    class SortableFile /* extends FileView */{
+    clbss QuickSortDbtes extends QuickSort {
+        protected boolebn lt(finbl SortbbleFile b, finbl SortbbleFile b) {
+            return b.fDbteVblue < b.fDbteVblue;
+        }
+    }
+
+    // for speed in sorting, displbying
+    clbss SortbbleFile /* extends FileView */{
         File fFile;
-        String fName;
-        long fDateValue;
-        Date fDate;
+        String fNbme;
+        long fDbteVblue;
+        Dbte fDbte;
 
-        SortableFile(final File f) {
+        SortbbleFile(finbl File f) {
             fFile = f;
-            fName = fFile.getName();
-            fDateValue = fFile.lastModified();
-            fDate = new Date(fDateValue);
+            fNbme = fFile.getNbme();
+            fDbteVblue = fFile.lbstModified();
+            fDbte = new Dbte(fDbteVblue);
         }
 
-        public Object getValueAt(final int col) {
+        public Object getVblueAt(finbl int col) {
             if (col == 0) return fFile;
-            return fDate;
+            return fDbte;
         }
 
-        public boolean equals(final Object other) {
-            final SortableFile otherFile = (SortableFile)other;
-            return otherFile.fFile.equals(fFile);
+        public boolebn equbls(finbl Object other) {
+            finbl SortbbleFile otherFile = (SortbbleFile)other;
+            return otherFile.fFile.equbls(fFile);
         }
 
         @Override
-        public int hashCode() {
-            return Objects.hashCode(fFile);
+        public int hbshCode() {
+            return Objects.hbshCode(fFile);
         }
     }
 
-    class LoadFilesThread extends Thread {
-        Vector<Runnable> queuedTasks = new Vector<Runnable>();
+    clbss LobdFilesThrebd extends Threbd {
+        Vector<Runnbble> queuedTbsks = new Vector<Runnbble>();
         File currentDirectory = null;
         int fid;
 
-        public LoadFilesThread(final File currentDirectory, final int fid) {
-            super("Aqua L&F File Loading Thread");
+        public LobdFilesThrebd(finbl File currentDirectory, finbl int fid) {
+            super("Aqub L&F File Lobding Threbd");
             this.currentDirectory = currentDirectory;
             this.fid = fid;
         }
 
         public void run() {
-            final Vector<DoChangeContents> runnables = new Vector<DoChangeContents>(10);
-            final FileSystemView fileSystem = filechooser.getFileSystemView();
+            finbl Vector<DoChbngeContents> runnbbles = new Vector<DoChbngeContents>(10);
+            finbl FileSystemView fileSystem = filechooser.getFileSystemView();
 
-            final File[] list = fileSystem.getFiles(currentDirectory, filechooser.isFileHidingEnabled());
+            finbl File[] list = fileSystem.getFiles(currentDirectory, filechooser.isFileHidingEnbbled());
 
-            final Vector<Object> acceptsList = new Vector<Object>();
+            finbl Vector<Object> bcceptsList = new Vector<Object>();
 
-            for (final File element : list) {
-                // Return all files to the file chooser. The UI will disable or enable
-                // the file name if the current filter approves.
-                acceptsList.addElement(new SortableFile(element));
+            for (finbl File element : list) {
+                // Return bll files to the file chooser. The UI will disbble or enbble
+                // the file nbme if the current filter bpproves.
+                bcceptsList.bddElement(new SortbbleFile(element));
             }
 
-            // Sort based on settings.
-            sort(acceptsList);
+            // Sort bbsed on settings.
+            sort(bcceptsList);
 
-            // Don't separate directories from files
-            Vector<SortableFile> chunk = new Vector<SortableFile>(10);
-            final int listSize = acceptsList.size();
-            // run through list grabbing file/dirs in chunks of ten
+            // Don't sepbrbte directories from files
+            Vector<SortbbleFile> chunk = new Vector<SortbbleFile>(10);
+            finbl int listSize = bcceptsList.size();
+            // run through list grbbbing file/dirs in chunks of ten
             for (int i = 0; i < listSize;) {
-                SortableFile f;
+                SortbbleFile f;
                 for (int j = 0; j < 10 && i < listSize; j++, i++) {
-                    f = (SortableFile)acceptsList.elementAt(i);
-                    chunk.addElement(f);
+                    f = (SortbbleFile)bcceptsList.elementAt(i);
+                    chunk.bddElement(f);
                 }
-                final DoChangeContents runnable = new DoChangeContents(chunk, fid);
-                runnables.addElement(runnable);
-                SwingUtilities.invokeLater(runnable);
-                chunk = new Vector<SortableFile>(10);
+                finbl DoChbngeContents runnbble = new DoChbngeContents(chunk, fid);
+                runnbbles.bddElement(runnbble);
+                SwingUtilities.invokeLbter(runnbble);
+                chunk = new Vector<SortbbleFile>(10);
                 if (isInterrupted()) {
-                    // interrupted, cancel all runnables
-                    cancelRunnables(runnables);
+                    // interrupted, cbncel bll runnbbles
+                    cbncelRunnbbles(runnbbles);
                     return;
                 }
             }
 
-            synchronized (fileCacheLock) {
-                for (final Runnable r : queuedTasks) {
-                    SwingUtilities.invokeLater(r);
+            synchronized (fileCbcheLock) {
+                for (finbl Runnbble r : queuedTbsks) {
+                    SwingUtilities.invokeLbter(r);
                 }
             }
         }
 
-        public void cancelRunnables(final Vector<DoChangeContents> runnables) {
-            for (int i = 0; i < runnables.size(); i++) {
-                runnables.elementAt(i).cancel();
+        public void cbncelRunnbbles(finbl Vector<DoChbngeContents> runnbbles) {
+            for (int i = 0; i < runnbbles.size(); i++) {
+                runnbbles.elementAt(i).cbncel();
             }
         }
     }
 
-    class DoChangeContents implements Runnable {
-        private Vector<SortableFile> contentFiles;
-        private boolean doFire = true;
-        private final Object lock = new Object();
-        private final int fid;
+    clbss DoChbngeContents implements Runnbble {
+        privbte Vector<SortbbleFile> contentFiles;
+        privbte boolebn doFire = true;
+        privbte finbl Object lock = new Object();
+        privbte finbl int fid;
 
-        public DoChangeContents(final Vector<SortableFile> files, final int fid) {
+        public DoChbngeContents(finbl Vector<SortbbleFile> files, finbl int fid) {
             this.contentFiles = files;
             this.fid = fid;
         }
 
-        synchronized void cancel() {
+        synchronized void cbncel() {
             synchronized(lock) {
-                doFire = false;
+                doFire = fblse;
             }
         }
 
@@ -457,11 +457,11 @@ class AquaFileSystemModel extends AbstractTableModel implements PropertyChangeLi
             if (fetchID == fid) {
                 synchronized(lock) {
                     if (doFire) {
-                        synchronized(fileCacheLock) {
-                            if (fileCache != null) {
+                        synchronized(fileCbcheLock) {
+                            if (fileCbche != null) {
                                 for (int i = 0; i < contentFiles.size(); i++) {
-                                    fileCache.addElement(contentFiles.elementAt(i));
-                                    fireTableRowsInserted(i, i);
+                                    fileCbche.bddElement(contentFiles.elementAt(i));
+                                    fireTbbleRowsInserted(i, i);
                                 }
                             }
                         }
@@ -473,6 +473,6 @@ class AquaFileSystemModel extends AbstractTableModel implements PropertyChangeLi
         }
     }
 
-    final QuickSortNames sSortNames = new QuickSortNames();
-    final QuickSortDates sSortDates = new QuickSortDates();
+    finbl QuickSortNbmes sSortNbmes = new QuickSortNbmes();
+    finbl QuickSortDbtes sSortDbtes = new QuickSortDbtes();
 }

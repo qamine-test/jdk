@@ -3,49 +3,49 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: ApacheOctetStreamData.java 1197150 2011-11-03 14:34:57Z coheigea $
+ * $Id: ApbcheOctetStrebmDbtb.jbvb 1197150 2011-11-03 14:34:57Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.io.IOException;
-import javax.xml.crypto.OctetStreamData;
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
+import jbvb.io.IOException;
+import jbvbx.xml.crypto.OctetStrebmDbtb;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
 
-public class ApacheOctetStreamData extends OctetStreamData
-    implements ApacheData {
+public clbss ApbcheOctetStrebmDbtb extends OctetStrebmDbtb
+    implements ApbcheDbtb {
 
-    private XMLSignatureInput xi;
+    privbte XMLSignbtureInput xi;
 
-    public ApacheOctetStreamData(XMLSignatureInput xi)
-        throws CanonicalizationException, IOException
+    public ApbcheOctetStrebmDbtb(XMLSignbtureInput xi)
+        throws CbnonicblizbtionException, IOException
     {
-        super(xi.getOctetStream(), xi.getSourceURI(), xi.getMIMEType());
+        super(xi.getOctetStrebm(), xi.getSourceURI(), xi.getMIMEType());
         this.xi = xi;
     }
 
-    public XMLSignatureInput getXMLSignatureInput() {
+    public XMLSignbtureInput getXMLSignbtureInput() {
         return xi;
     }
 }

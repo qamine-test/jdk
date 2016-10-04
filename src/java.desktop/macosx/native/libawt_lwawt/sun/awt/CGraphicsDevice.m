@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import "LWCToolkit.h"
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
 /*
- * Convert the mode string to the more convinient bits per pixel value
+ * Convert the mode string to the more convinient bits per pixel vblue
  */
-static int getBPPFromModeString(CFStringRef mode)
+stbtic int getBPPFromModeString(CFStringRef mode)
 {
-    if ((CFStringCompare(mode, CFSTR(kIO30BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo)) {
-        // This is a strange mode, where we using 10 bits per RGB component and pack it into 32 bits
-        // Java is not ready to work with this mode but we have to specify it as supported
+    if ((CFStringCompbre(mode, CFSTR(kIO30BitDirectPixels), kCFCompbreCbseInsensitive) == kCFCompbreEqublTo)) {
+        // This is b strbnge mode, where we using 10 bits per RGB component bnd pbck it into 32 bits
+        // Jbvb is not rebdy to work with this mode but we hbve to specify it bs supported
         return 30;
     }
-    else if (CFStringCompare(mode, CFSTR(IO32BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+    else if (CFStringCompbre(mode, CFSTR(IO32BitDirectPixels), kCFCompbreCbseInsensitive) == kCFCompbreEqublTo) {
         return 32;
     }
-    else if (CFStringCompare(mode, CFSTR(IO16BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+    else if (CFStringCompbre(mode, CFSTR(IO16BitDirectPixels), kCFCompbreCbseInsensitive) == kCFCompbreEqublTo) {
         return 16;
     }
-    else if (CFStringCompare(mode, CFSTR(IO8BitIndexedPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+    else if (CFStringCompbre(mode, CFSTR(IO8BitIndexedPixels), kCFCompbreCbseInsensitive) == kCFCompbreEqublTo) {
         return 8;
     }
 
     return 0;
 }
 
-static BOOL isValidDisplayMode(CGDisplayModeRef mode){
-    return (1 < CGDisplayModeGetWidth(mode) && 1 < CGDisplayModeGetHeight(mode));
+stbtic BOOL isVblidDisplbyMode(CGDisplbyModeRef mode){
+    return (1 < CGDisplbyModeGetWidth(mode) && 1 < CGDisplbyModeGetHeight(mode));
 }
 
-static CFMutableArrayRef getAllValidDisplayModes(jint displayID){
-    CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
+stbtic CFMutbbleArrbyRef getAllVblidDisplbyModes(jint displbyID){
+    CFArrbyRef bllModes = CGDisplbyCopyAllDisplbyModes(displbyID, NULL);
 
-    CFIndex numModes = CFArrayGetCount(allModes);
-    CFMutableArrayRef validModes = CFArrayCreateMutable(kCFAllocatorDefault, numModes + 1, &kCFTypeArrayCallBacks);
+    CFIndex numModes = CFArrbyGetCount(bllModes);
+    CFMutbbleArrbyRef vblidModes = CFArrbyCrebteMutbble(kCFAllocbtorDefbult, numModes + 1, &kCFTypeArrbyCbllBbcks);
 
     CFIndex n;
     for (n=0; n < numModes; n++) {
-        CGDisplayModeRef cRef = (CGDisplayModeRef) CFArrayGetValueAtIndex(allModes, n);
-        if (cRef != NULL && isValidDisplayMode(cRef)) {
-            CFArrayAppendValue(validModes, cRef);
+        CGDisplbyModeRef cRef = (CGDisplbyModeRef) CFArrbyGetVblueAtIndex(bllModes, n);
+        if (cRef != NULL && isVblidDisplbyMode(cRef)) {
+            CFArrbyAppendVblue(vblidModes, cRef);
         }
     }
-    CFRelease(allModes);
+    CFRelebse(bllModes);
     
-    CGDisplayModeRef currentMode = CGDisplayCopyDisplayMode(displayID);
+    CGDisplbyModeRef currentMode = CGDisplbyCopyDisplbyMode(displbyID);
 
-    BOOL containsCurrentMode = NO;
-    numModes = CFArrayGetCount(validModes);
+    BOOL contbinsCurrentMode = NO;
+    numModes = CFArrbyGetCount(vblidModes);
     for (n=0; n < numModes; n++) {
-        if(CFArrayGetValueAtIndex(validModes, n) == currentMode){
-            containsCurrentMode = YES;
-            break;
+        if(CFArrbyGetVblueAtIndex(vblidModes, n) == currentMode){
+            contbinsCurrentMode = YES;
+            brebk;
         }
     }
 
-    if (!containsCurrentMode) {
-        CFArrayAppendValue(validModes, currentMode);
+    if (!contbinsCurrentMode) {
+        CFArrbyAppendVblue(vblidModes, currentMode);
     }
-    CGDisplayModeRelease(currentMode);
+    CGDisplbyModeRelebse(currentMode);
 
-    return validModes;
+    return vblidModes;
 }
 
 /*
- * Find the best possible match in the list of display modes that we can switch to based on
- * the provided parameters.
+ * Find the best possible mbtch in the list of displby modes thbt we cbn switch to bbsed on
+ * the provided pbrbmeters.
  */
-static CGDisplayModeRef getBestModeForParameters(CFArrayRef allModes, int w, int h, int bpp, int refrate) {
-    CGDisplayModeRef bestGuess = NULL;
-    CFIndex numModes = CFArrayGetCount(allModes), n;
+stbtic CGDisplbyModeRef getBestModeForPbrbmeters(CFArrbyRef bllModes, int w, int h, int bpp, int refrbte) {
+    CGDisplbyModeRef bestGuess = NULL;
+    CFIndex numModes = CFArrbyGetCount(bllModes), n;
     int thisBpp = 0;
     for(n = 0; n < numModes; n++ ) {
-        CGDisplayModeRef cRef = (CGDisplayModeRef) CFArrayGetValueAtIndex(allModes, n);
+        CGDisplbyModeRef cRef = (CGDisplbyModeRef) CFArrbyGetVblueAtIndex(bllModes, n);
         if(cRef == NULL) {
             continue;
         }
-        CFStringRef modeString = CGDisplayModeCopyPixelEncoding(cRef);
+        CFStringRef modeString = CGDisplbyModeCopyPixelEncoding(cRef);
         thisBpp = getBPPFromModeString(modeString);
-        CFRelease(modeString);
-        if (thisBpp != bpp || (int)CGDisplayModeGetHeight(cRef) != h || (int)CGDisplayModeGetWidth(cRef) != w) {
-            // One of the key parameters does not match
+        CFRelebse(modeString);
+        if (thisBpp != bpp || (int)CGDisplbyModeGetHeight(cRef) != h || (int)CGDisplbyModeGetWidth(cRef) != w) {
+            // One of the key pbrbmeters does not mbtch
             continue;
         }
 
-        if (refrate == 0) { // REFRESH_RATE_UNKNOWN
+        if (refrbte == 0) { // REFRESH_RATE_UNKNOWN
             return cRef;
         }
 
-        // Refresh rate might be 0 in display mode and we ask for specific display rate
-        // but if we do not find exact match then 0 refresh rate might be just Ok
-        if (CGDisplayModeGetRefreshRate(cRef) == refrate) {
-            // Exact match
+        // Refresh rbte might be 0 in displby mode bnd we bsk for specific displby rbte
+        // but if we do not find exbct mbtch then 0 refresh rbte might be just Ok
+        if (CGDisplbyModeGetRefreshRbte(cRef) == refrbte) {
+            // Exbct mbtch
             return cRef;
         }
-        if (CGDisplayModeGetRefreshRate(cRef) == 0) {
-            // Not exactly what was asked for, but may fit our needs if we don't find an exact match
+        if (CGDisplbyModeGetRefreshRbte(cRef) == 0) {
+            // Not exbctly whbt wbs bsked for, but mby fit our needs if we don't find bn exbct mbtch
             bestGuess = cRef;
         }
     }
@@ -127,94 +127,94 @@ static CGDisplayModeRef getBestModeForParameters(CFArrayRef allModes, int w, int
 }
 
 /*
- * Create a new java.awt.DisplayMode instance based on provided CGDisplayModeRef
+ * Crebte b new jbvb.bwt.DisplbyMode instbnce bbsed on provided CGDisplbyModeRef
  */
-static jobject createJavaDisplayMode(CGDisplayModeRef mode, JNIEnv *env, jint displayID) {
+stbtic jobject crebteJbvbDisplbyMode(CGDisplbyModeRef mode, JNIEnv *env, jint displbyID) {
     jobject ret = NULL;
-    jint h, w, bpp, refrate;
+    jint h, w, bpp, refrbte;
     JNF_COCOA_ENTER(env);
-    CFStringRef currentBPP = CGDisplayModeCopyPixelEncoding(mode);
+    CFStringRef currentBPP = CGDisplbyModeCopyPixelEncoding(mode);
     bpp = getBPPFromModeString(currentBPP);
-    refrate = CGDisplayModeGetRefreshRate(mode);
-    h = CGDisplayModeGetHeight(mode);
-    w = CGDisplayModeGetWidth(mode);
-    CFRelease(currentBPP);
-    static JNF_CLASS_CACHE(jc_DisplayMode, "java/awt/DisplayMode");
-    static JNF_CTOR_CACHE(jc_DisplayMode_ctor, jc_DisplayMode, "(IIII)V");
-    ret = JNFNewObject(env, jc_DisplayMode_ctor, w, h, bpp, refrate);
+    refrbte = CGDisplbyModeGetRefreshRbte(mode);
+    h = CGDisplbyModeGetHeight(mode);
+    w = CGDisplbyModeGetWidth(mode);
+    CFRelebse(currentBPP);
+    stbtic JNF_CLASS_CACHE(jc_DisplbyMode, "jbvb/bwt/DisplbyMode");
+    stbtic JNF_CTOR_CACHE(jc_DisplbyMode_ctor, jc_DisplbyMode, "(IIII)V");
+    ret = JNFNewObject(env, jc_DisplbyMode_ctor, w, h, bpp, refrbte);
     JNF_COCOA_EXIT(env);
     return ret;
 }
 
 
 /*
- * Class:     sun_awt_CGraphicsDevice
- * Method:    nativeGetXResolution
- * Signature: (I)D
+ * Clbss:     sun_bwt_CGrbphicsDevice
+ * Method:    nbtiveGetXResolution
+ * Signbture: (I)D
  */
 JNIEXPORT jdouble JNICALL
-Java_sun_awt_CGraphicsDevice_nativeGetXResolution
-  (JNIEnv *env, jclass class, jint displayID)
+Jbvb_sun_bwt_CGrbphicsDevice_nbtiveGetXResolution
+  (JNIEnv *env, jclbss clbss, jint displbyID)
 {
-    // CGDisplayScreenSize can return 0 if displayID is invalid
-    CGSize size = CGDisplayScreenSize(displayID);
-    CGRect rect = CGDisplayBounds(displayID);
+    // CGDisplbyScreenSize cbn return 0 if displbyID is invblid
+    CGSize size = CGDisplbyScreenSize(displbyID);
+    CGRect rect = CGDisplbyBounds(displbyID);
     // 1 inch == 25.4 mm
-    jfloat inches = size.width / 25.4f;
+    jflobt inches = size.width / 25.4f;
     return inches > 0 ? rect.size.width / inches : 72;
 }
 
 /*
- * Class:     sun_awt_CGraphicsDevice
- * Method:    nativeGetYResolution
- * Signature: (I)D
+ * Clbss:     sun_bwt_CGrbphicsDevice
+ * Method:    nbtiveGetYResolution
+ * Signbture: (I)D
  */
 JNIEXPORT jdouble JNICALL
-Java_sun_awt_CGraphicsDevice_nativeGetYResolution
-  (JNIEnv *env, jclass class, jint displayID)
+Jbvb_sun_bwt_CGrbphicsDevice_nbtiveGetYResolution
+  (JNIEnv *env, jclbss clbss, jint displbyID)
 {
-    // CGDisplayScreenSize can return 0 if displayID is invalid
-    CGSize size = CGDisplayScreenSize(displayID);
-    CGRect rect = CGDisplayBounds(displayID);
+    // CGDisplbyScreenSize cbn return 0 if displbyID is invblid
+    CGSize size = CGDisplbyScreenSize(displbyID);
+    CGRect rect = CGDisplbyBounds(displbyID);
     // 1 inch == 25.4 mm
-    jfloat inches = size.height / 25.4f;
+    jflobt inches = size.height / 25.4f;
     return inches > 0 ? rect.size.height / inches : 72;
 }
 
 /*
- * Class:     sun_awt_CGraphicsDevice
- * Method:    nativeGetScreenInsets
- * Signature: (I)D
+ * Clbss:     sun_bwt_CGrbphicsDevice
+ * Method:    nbtiveGetScreenInsets
+ * Signbture: (I)D
  */
 JNIEXPORT jobject JNICALL
-Java_sun_awt_CGraphicsDevice_nativeGetScreenInsets
-  (JNIEnv *env, jclass class, jint displayID)
+Jbvb_sun_bwt_CGrbphicsDevice_nbtiveGetScreenInsets
+  (JNIEnv *env, jclbss clbss, jint displbyID)
 {
     jobject ret = NULL;
-    __block NSRect frame = NSZeroRect;
-    __block NSRect visibleFrame = NSZeroRect;
+    __block NSRect frbme = NSZeroRect;
+    __block NSRect visibleFrbme = NSZeroRect;
 JNF_COCOA_ENTER(env);
     
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        NSArray *screens = [NSScreen screens];
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        NSArrby *screens = [NSScreen screens];
         for (NSScreen *screen in screens) {
-            NSDictionary *screenInfo = [screen deviceDescription];
+            NSDictionbry *screenInfo = [screen deviceDescription];
             NSNumber *screenID = [screenInfo objectForKey:@"NSScreenNumber"];
-            if ([screenID pointerValue] == displayID){
-                frame = [screen frame];
-                visibleFrame = [screen visibleFrame];
-                break;
+            if ([screenID pointerVblue] == displbyID){
+                frbme = [screen frbme];
+                visibleFrbme = [screen visibleFrbme];
+                brebk;
             }
         }
     }];
-    // Convert between Cocoa's coordinate system and Java.
-    jint bottom = visibleFrame.origin.y - frame.origin.y;
-    jint top = frame.size.height - visibleFrame.size.height - bottom;
-    jint left = visibleFrame.origin.x - frame.origin.x;
-    jint right = frame.size.width - visibleFrame.size.width - left;
+    // Convert between Cocob's coordinbte system bnd Jbvb.
+    jint bottom = visibleFrbme.origin.y - frbme.origin.y;
+    jint top = frbme.size.height - visibleFrbme.size.height - bottom;
+    jint left = visibleFrbme.origin.x - frbme.origin.x;
+    jint right = frbme.size.width - visibleFrbme.size.width - left;
     
-    static JNF_CLASS_CACHE(jc_Insets, "java/awt/Insets");
-    static JNF_CTOR_CACHE(jc_Insets_ctor, jc_Insets, "(IIII)V");
+    stbtic JNF_CLASS_CACHE(jc_Insets, "jbvb/bwt/Insets");
+    stbtic JNF_CTOR_CACHE(jc_Insets_ctor, jc_Insets, "(IIII)V");
     ret = JNFNewObject(env, jc_Insets_ctor, top, left, bottom, right);
 
 JNF_COCOA_EXIT(env);
@@ -223,121 +223,121 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_awt_CGraphicsDevice
- * Method:    nativeSetDisplayMode
- * Signature: (IIIII)V
+ * Clbss:     sun_bwt_CGrbphicsDevice
+ * Method:    nbtiveSetDisplbyMode
+ * Signbture: (IIIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_CGraphicsDevice_nativeSetDisplayMode
-(JNIEnv *env, jclass class, jint displayID, jint w, jint h, jint bpp, jint refrate)
+Jbvb_sun_bwt_CGrbphicsDevice_nbtiveSetDisplbyMode
+(JNIEnv *env, jclbss clbss, jint displbyID, jint w, jint h, jint bpp, jint refrbte)
 {
     JNF_COCOA_ENTER(env);
-    CFArrayRef allModes = getAllValidDisplayModes(displayID);
-    CGDisplayModeRef closestMatch = getBestModeForParameters(allModes, (int)w, (int)h, (int)bpp, (int)refrate);
+    CFArrbyRef bllModes = getAllVblidDisplbyModes(displbyID);
+    CGDisplbyModeRef closestMbtch = getBestModeForPbrbmeters(bllModes, (int)w, (int)h, (int)bpp, (int)refrbte);
     
     __block CGError retCode = kCGErrorSuccess;
-    if (closestMatch != NULL) {
-        CGDisplayModeRetain(closestMatch);
-        [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-            CGDisplayConfigRef config;
-            retCode = CGBeginDisplayConfiguration(&config);
+    if (closestMbtch != NULL) {
+        CGDisplbyModeRetbin(closestMbtch);
+        [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+            CGDisplbyConfigRef config;
+            retCode = CGBeginDisplbyConfigurbtion(&config);
             if (retCode == kCGErrorSuccess) {
-                CGConfigureDisplayWithDisplayMode(config, displayID, closestMatch, NULL);
-                retCode = CGCompleteDisplayConfiguration(config, kCGConfigureForAppOnly);
+                CGConfigureDisplbyWithDisplbyMode(config, displbyID, closestMbtch, NULL);
+                retCode = CGCompleteDisplbyConfigurbtion(config, kCGConfigureForAppOnly);
             }
-            CGDisplayModeRelease(closestMatch);
+            CGDisplbyModeRelebse(closestMbtch);
         }];
     } else {
-        [JNFException raise:env as:kIllegalArgumentException reason:"Invalid display mode"];
+        [JNFException rbise:env bs:kIllegblArgumentException rebson:"Invblid displby mode"];
     }
 
     if (retCode != kCGErrorSuccess){
-        [JNFException raise:env as:kIllegalArgumentException reason:"Unable to set display mode!"];
+        [JNFException rbise:env bs:kIllegblArgumentException rebson:"Unbble to set displby mode!"];
     }
-    CFRelease(allModes);
+    CFRelebse(bllModes);
     JNF_COCOA_EXIT(env);
 }
 /*
- * Class:     sun_awt_CGraphicsDevice
- * Method:    nativeGetDisplayMode
- * Signature: (I)Ljava/awt/DisplayMode
+ * Clbss:     sun_bwt_CGrbphicsDevice
+ * Method:    nbtiveGetDisplbyMode
+ * Signbture: (I)Ljbvb/bwt/DisplbyMode
  */
 JNIEXPORT jobject JNICALL
-Java_sun_awt_CGraphicsDevice_nativeGetDisplayMode
-(JNIEnv *env, jclass class, jint displayID)
+Jbvb_sun_bwt_CGrbphicsDevice_nbtiveGetDisplbyMode
+(JNIEnv *env, jclbss clbss, jint displbyID)
 {
     jobject ret = NULL;
-    CGDisplayModeRef currentMode = CGDisplayCopyDisplayMode(displayID);
-    ret = createJavaDisplayMode(currentMode, env, displayID);
-    CGDisplayModeRelease(currentMode);
+    CGDisplbyModeRef currentMode = CGDisplbyCopyDisplbyMode(displbyID);
+    ret = crebteJbvbDisplbyMode(currentMode, env, displbyID);
+    CGDisplbyModeRelebse(currentMode);
     return ret;
 }
 
 /*
- * Class:     sun_awt_CGraphicsDevice
- * Method:    nativeGetDisplayMode
- * Signature: (I)[Ljava/awt/DisplayModes
+ * Clbss:     sun_bwt_CGrbphicsDevice
+ * Method:    nbtiveGetDisplbyMode
+ * Signbture: (I)[Ljbvb/bwt/DisplbyModes
  */
-JNIEXPORT jobjectArray JNICALL
-Java_sun_awt_CGraphicsDevice_nativeGetDisplayModes
-(JNIEnv *env, jclass class, jint displayID)
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_sun_bwt_CGrbphicsDevice_nbtiveGetDisplbyModes
+(JNIEnv *env, jclbss clbss, jint displbyID)
 {
-    jobjectArray jreturnArray = NULL;
+    jobjectArrby jreturnArrby = NULL;
     JNF_COCOA_ENTER(env);
-    CFArrayRef allModes = getAllValidDisplayModes(displayID);
+    CFArrbyRef bllModes = getAllVblidDisplbyModes(displbyID);
 
-    CFIndex numModes = CFArrayGetCount(allModes);
-    static JNF_CLASS_CACHE(jc_DisplayMode, "java/awt/DisplayMode");
+    CFIndex numModes = CFArrbyGetCount(bllModes);
+    stbtic JNF_CLASS_CACHE(jc_DisplbyMode, "jbvb/bwt/DisplbyMode");
 
-    jreturnArray = JNFNewObjectArray(env, &jc_DisplayMode, (jsize) numModes);
-    if (!jreturnArray) {
-        NSLog(@"CGraphicsDevice can't create java array of DisplayMode objects");
+    jreturnArrby = JNFNewObjectArrby(env, &jc_DisplbyMode, (jsize) numModes);
+    if (!jreturnArrby) {
+        NSLog(@"CGrbphicsDevice cbn't crebte jbvb brrby of DisplbyMode objects");
         return nil;
     }
 
     CFIndex n;
     for (n=0; n < numModes; n++) {
-        CGDisplayModeRef cRef = (CGDisplayModeRef) CFArrayGetValueAtIndex(allModes, n);
+        CGDisplbyModeRef cRef = (CGDisplbyModeRef) CFArrbyGetVblueAtIndex(bllModes, n);
         if (cRef != NULL) {
-            jobject oneMode = createJavaDisplayMode(cRef, env, displayID);
-            (*env)->SetObjectArrayElement(env, jreturnArray, n, oneMode);
+            jobject oneMode = crebteJbvbDisplbyMode(cRef, env, displbyID);
+            (*env)->SetObjectArrbyElement(env, jreturnArrby, n, oneMode);
             if ((*env)->ExceptionOccurred(env)) {
                 (*env)->ExceptionDescribe(env);
-                (*env)->ExceptionClear(env);
+                (*env)->ExceptionClebr(env);
                 continue;
             }
-            (*env)->DeleteLocalRef(env, oneMode);
+            (*env)->DeleteLocblRef(env, oneMode);
         }
     }
-    CFRelease(allModes);
+    CFRelebse(bllModes);
     JNF_COCOA_EXIT(env);
 
-    return jreturnArray;
+    return jreturnArrby;
 }
 
 /*
- * Class:     sun_awt_CGraphicsDevice
- * Method:    nativeGetScaleFactor
- * Signature: (I)D
+ * Clbss:     sun_bwt_CGrbphicsDevice
+ * Method:    nbtiveGetScbleFbctor
+ * Signbture: (I)D
  */
 JNIEXPORT jdouble JNICALL
-Java_sun_awt_CGraphicsDevice_nativeGetScaleFactor
-(JNIEnv *env, jclass class, jint displayID)
+Jbvb_sun_bwt_CGrbphicsDevice_nbtiveGetScbleFbctor
+(JNIEnv *env, jclbss clbss, jint displbyID)
 {
     __block jdouble ret = 1.0f;
 
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        NSArray *screens = [NSScreen screens];
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        NSArrby *screens = [NSScreen screens];
         for (NSScreen *screen in screens) {
-            NSDictionary *screenInfo = [screen deviceDescription];
+            NSDictionbry *screenInfo = [screen deviceDescription];
             NSNumber *screenID = [screenInfo objectForKey:@"NSScreenNumber"];
-            if ([screenID pointerValue] == displayID){
-                if ([screen respondsToSelector:@selector(backingScaleFactor)]) {
-                    ret = [screen backingScaleFactor];
+            if ([screenID pointerVblue] == displbyID){
+                if ([screen respondsToSelector:@selector(bbckingScbleFbctor)]) {
+                    ret = [screen bbckingScbleFbctor];
                 }
-                break;
+                brebk;
             }
         }
     }];

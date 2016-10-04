@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.LabelPeer;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import javax.accessibility.*;
+import jbvb.bwt.peer.LbbelPeer;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvbx.bccessibility.*;
 
 /**
- * A <code>Label</code> object is a component for placing text in a
- * container. A label displays a single line of read-only text.
- * The text can be changed by the application, but a user cannot edit it
+ * A <code>Lbbel</code> object is b component for plbcing text in b
+ * contbiner. A lbbel displbys b single line of rebd-only text.
+ * The text cbn be chbnged by the bpplicbtion, but b user cbnnot edit it
  * directly.
  * <p>
- * For example, the code&nbsp;.&nbsp;.&nbsp;.
+ * For exbmple, the code&nbsp;.&nbsp;.&nbsp;.
  *
  * <hr><blockquote><pre>
- * setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
- * add(new Label("Hi There!"));
- * add(new Label("Another Label"));
+ * setLbyout(new FlowLbyout(FlowLbyout.CENTER, 10, 10));
+ * bdd(new Lbbel("Hi There!"));
+ * bdd(new Lbbel("Another Lbbel"));
  * </pre></blockquote><hr>
  * <p>
- * produces the following labels:
+ * produces the following lbbels:
  * <p>
- * <img src="doc-files/Label-1.gif" alt="Two labels: 'Hi There!' and 'Another label'"
- * style="float:center; margin: 7px 10px;">
+ * <img src="doc-files/Lbbel-1.gif" blt="Two lbbels: 'Hi There!' bnd 'Another lbbel'"
+ * style="flobt:center; mbrgin: 7px 10px;">
  *
- * @author      Sami Shaio
+ * @buthor      Sbmi Shbio
  * @since       1.0
  */
-public class Label extends Component implements Accessible {
+public clbss Lbbel extends Component implements Accessible {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Indicates that the label should be left justified.
+     * Indicbtes thbt the lbbel should be left justified.
      */
-    public static final int LEFT        = 0;
+    public stbtic finbl int LEFT        = 0;
 
     /**
-     * Indicates that the label should be centered.
+     * Indicbtes thbt the lbbel should be centered.
      */
-    public static final int CENTER      = 1;
+    public stbtic finbl int CENTER      = 1;
 
     /**
-     * Indicates that the label should be right justified.
+     * Indicbtes thbt the lbbel should be right justified.
      */
-    public static final int RIGHT       = 2;
+    public stbtic finbl int RIGHT       = 2;
 
     /**
-     * The text of this label.
-     * This text can be modified by the program
+     * The text of this lbbel.
+     * This text cbn be modified by the progrbm
      * but never by the user.
      *
-     * @serial
+     * @seribl
      * @see #getText()
      * @see #setText(String)
      */
     String text;
 
     /**
-     * The label's alignment.  The default alignment is set
+     * The lbbel's blignment.  The defbult blignment is set
      * to be left justified.
      *
-     * @serial
+     * @seribl
      * @see #getAlignment()
      * @see #setAlignment(int)
      */
-    int    alignment = LEFT;
+    int    blignment = LEFT;
 
-    private static final String base = "label";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "lbbel";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = 3094126758329070636L;
+     privbte stbtic finbl long seriblVersionUID = 3094126758329070636L;
 
     /**
-     * Constructs an empty label.
-     * The text of the label is the empty string <code>""</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Constructs bn empty lbbel.
+     * The text of the lbbel is the empty string <code>""</code>.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Label() throws HeadlessException {
+    public Lbbel() throws HebdlessException {
         this("", LEFT);
     }
 
     /**
-     * Constructs a new label with the specified string of text,
+     * Constructs b new lbbel with the specified string of text,
      * left justified.
-     * @param text the string that the label presents.
-     *        A <code>null</code> value
-     *        will be accepted without causing a NullPointerException
+     * @pbrbm text the string thbt the lbbel presents.
+     *        A <code>null</code> vblue
+     *        will be bccepted without cbusing b NullPointerException
      *        to be thrown.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Label(String text) throws HeadlessException {
+    public Lbbel(String text) throws HebdlessException {
         this(text, LEFT);
     }
 
     /**
-     * Constructs a new label that presents the specified string of
-     * text with the specified alignment.
-     * Possible values for <code>alignment</code> are <code>Label.LEFT</code>,
-     * <code>Label.RIGHT</code>, and <code>Label.CENTER</code>.
-     * @param text the string that the label presents.
-     *        A <code>null</code> value
-     *        will be accepted without causing a NullPointerException
+     * Constructs b new lbbel thbt presents the specified string of
+     * text with the specified blignment.
+     * Possible vblues for <code>blignment</code> bre <code>Lbbel.LEFT</code>,
+     * <code>Lbbel.RIGHT</code>, bnd <code>Lbbel.CENTER</code>.
+     * @pbrbm text the string thbt the lbbel presents.
+     *        A <code>null</code> vblue
+     *        will be bccepted without cbusing b NullPointerException
      *        to be thrown.
-     * @param     alignment   the alignment value.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm     blignment   the blignment vblue.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public Label(String text, int alignment) throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    public Lbbel(String text, int blignment) throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
         this.text = text;
-        setAlignment(alignment);
+        setAlignment(blignment);
     }
 
     /**
-     * Read a label from an object input stream.
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns
+     * Rebd b lbbel from bn object input strebm.
+     * @exception HebdlessException if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns
      * <code>true</code>
-     * @serial
+     * @seribl
      * @since 1.4
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException, HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        s.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException, HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
+        s.defbultRebdObject();
     }
 
     /**
-     * Construct a name for this component.  Called by getName() when the
-     * name is <code>null</code>.
+     * Construct b nbme for this component.  Cblled by getNbme() when the
+     * nbme is <code>null</code>.
      */
-    String constructComponentName() {
-        synchronized (Label.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (Lbbel.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the peer for this label.  The peer allows us to
-     * modify the appearance of the label without changing its
-     * functionality.
+     * Crebtes the peer for this lbbel.  The peer bllows us to
+     * modify the bppebrbnce of the lbbel without chbnging its
+     * functionblity.
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = getToolkit().createLabel(this);
-            super.addNotify();
+                peer = getToolkit().crebteLbbel(this);
+            super.bddNotify();
         }
     }
 
     /**
-     * Gets the current alignment of this label. Possible values are
-     * <code>Label.LEFT</code>, <code>Label.RIGHT</code>, and
-     * <code>Label.CENTER</code>.
-     * @return the alignment of this label
-     * @see java.awt.Label#setAlignment
+     * Gets the current blignment of this lbbel. Possible vblues bre
+     * <code>Lbbel.LEFT</code>, <code>Lbbel.RIGHT</code>, bnd
+     * <code>Lbbel.CENTER</code>.
+     * @return the blignment of this lbbel
+     * @see jbvb.bwt.Lbbel#setAlignment
      */
     public int getAlignment() {
-        return alignment;
+        return blignment;
     }
 
     /**
-     * Sets the alignment for this label to the specified alignment.
-     * Possible values are <code>Label.LEFT</code>,
-     * <code>Label.RIGHT</code>, and <code>Label.CENTER</code>.
-     * @param      alignment    the alignment to be set.
-     * @exception  IllegalArgumentException if an improper value for
-     *                          <code>alignment</code> is given.
-     * @see        java.awt.Label#getAlignment
+     * Sets the blignment for this lbbel to the specified blignment.
+     * Possible vblues bre <code>Lbbel.LEFT</code>,
+     * <code>Lbbel.RIGHT</code>, bnd <code>Lbbel.CENTER</code>.
+     * @pbrbm      blignment    the blignment to be set.
+     * @exception  IllegblArgumentException if bn improper vblue for
+     *                          <code>blignment</code> is given.
+     * @see        jbvb.bwt.Lbbel#getAlignment
      */
-    public synchronized void setAlignment(int alignment) {
-        switch (alignment) {
-          case LEFT:
-          case CENTER:
-          case RIGHT:
-            this.alignment = alignment;
-            LabelPeer peer = (LabelPeer)this.peer;
+    public synchronized void setAlignment(int blignment) {
+        switch (blignment) {
+          cbse LEFT:
+          cbse CENTER:
+          cbse RIGHT:
+            this.blignment = blignment;
+            LbbelPeer peer = (LbbelPeer)this.peer;
             if (peer != null) {
-                peer.setAlignment(alignment);
+                peer.setAlignment(blignment);
             }
             return;
         }
-        throw new IllegalArgumentException("improper alignment: " + alignment);
+        throw new IllegblArgumentException("improper blignment: " + blignment);
     }
 
     /**
-     * Gets the text of this label.
-     * @return     the text of this label, or <code>null</code> if
-     *             the text has been set to <code>null</code>.
-     * @see        java.awt.Label#setText
+     * Gets the text of this lbbel.
+     * @return     the text of this lbbel, or <code>null</code> if
+     *             the text hbs been set to <code>null</code>.
+     * @see        jbvb.bwt.Lbbel#setText
      */
     public String getText() {
         return text;
     }
 
     /**
-     * Sets the text for this label to the specified text.
-     * @param      text the text that this label displays. If
+     * Sets the text for this lbbel to the specified text.
+     * @pbrbm      text the text thbt this lbbel displbys. If
      *             <code>text</code> is <code>null</code>, it is
-     *             treated for display purposes like an empty
+     *             trebted for displby purposes like bn empty
      *             string <code>""</code>.
-     * @see        java.awt.Label#getText
+     * @see        jbvb.bwt.Lbbel#getText
      */
     public void setText(String text) {
-        boolean testvalid = false;
+        boolebn testvblid = fblse;
         synchronized (this) {
             if (text != this.text && (this.text == null ||
-                                      !this.text.equals(text))) {
+                                      !this.text.equbls(text))) {
                 this.text = text;
-                LabelPeer peer = (LabelPeer)this.peer;
+                LbbelPeer peer = (LbbelPeer)this.peer;
                 if (peer != null) {
                     peer.setText(text);
                 }
-                testvalid = true;
+                testvblid = true;
             }
         }
 
-        // This could change the preferred size of the Component.
-        if (testvalid) {
-            invalidateIfValid();
+        // This could chbnge the preferred size of the Component.
+        if (testvblid) {
+            invblidbteIfVblid();
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>Label</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this <code>Lbbel</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return     the parameter string of this label
+     * @return     the pbrbmeter string of this lbbel
      */
-    protected String paramString() {
-        String align = "";
-        switch (alignment) {
-            case LEFT:   align = "left"; break;
-            case CENTER: align = "center"; break;
-            case RIGHT:  align = "right"; break;
+    protected String pbrbmString() {
+        String blign = "";
+        switch (blignment) {
+            cbse LEFT:   blign = "left"; brebk;
+            cbse CENTER: blign = "center"; brebk;
+            cbse RIGHT:  blign = "right"; brebk;
         }
-        return super.paramString() + ",align=" + align + ",text=" + text;
+        return super.pbrbmString() + ",blign=" + blign + ",text=" + text;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
 
 /////////////////
@@ -293,55 +293,55 @@ public class Label extends Component implements Accessible {
 
 
     /**
-     * Gets the AccessibleContext associated with this Label.
-     * For labels, the AccessibleContext takes the form of an
-     * AccessibleAWTLabel.
-     * A new AccessibleAWTLabel instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this Lbbel.
+     * For lbbels, the AccessibleContext tbkes the form of bn
+     * AccessibleAWTLbbel.
+     * A new AccessibleAWTLbbel instbnce is crebted if necessbry.
      *
-     * @return an AccessibleAWTLabel that serves as the
-     *         AccessibleContext of this Label
+     * @return bn AccessibleAWTLbbel thbt serves bs the
+     *         AccessibleContext of this Lbbel
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTLabel();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTLbbel();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Label</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to label user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Lbbel</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to lbbel user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTLabel extends AccessibleAWTComponent
+    protected clbss AccessibleAWTLbbel extends AccessibleAWTComponent
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = -3568967560160480438L;
+        privbte stbtic finbl long seriblVersionUID = -3568967560160480438L;
 
         /**
-         * Constructor for the accessible label.
+         * Constructor for the bccessible lbbel.
          */
-        public AccessibleAWTLabel() {
+        public AccessibleAWTLbbel() {
             super();
         }
 
         /**
-         * Get the accessible name of this object.
+         * Get the bccessible nbme of this object.
          *
-         * @return the localized name of the object -- can be null if this
-         * object does not have a name
-         * @see AccessibleContext#setAccessibleName
+         * @return the locblized nbme of the object -- cbn be null if this
+         * object does not hbve b nbme
+         * @see AccessibleContext#setAccessibleNbme
          */
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
+        public String getAccessibleNbme() {
+            if (bccessibleNbme != null) {
+                return bccessibleNbme;
             } else {
                 if (getText() == null) {
-                    return super.getAccessibleName();
+                    return super.getAccessibleNbme();
                 } else {
                     return getText();
                 }
@@ -351,13 +351,13 @@ public class Label extends Component implements Accessible {
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the object
+         * @return bn instbnce of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.LABEL;
         }
 
-    } // inner class AccessibleAWTLabel
+    } // inner clbss AccessibleAWTLbbel
 
 }

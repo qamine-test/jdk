@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
 
 /**
- * Represents an SNMP null value.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * Represents bn SNMP null vblue.
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpNull extends SnmpValue {
-    private static final long serialVersionUID = 1783782515994279177L;
+public clbss SnmpNull extends SnmpVblue {
+    privbte stbtic finbl long seriblVersionUID = 1783782515994279177L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpNull</CODE>.
+     * Constructs b new <CODE>SnmpNull</CODE>.
      */
     public SnmpNull() {
-        tag = NullTag ;
+        tbg = NullTbg ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpNull</CODE>.
-     * <BR>For mibgen private use only.
+     * Constructs b new <CODE>SnmpNull</CODE>.
+     * <BR>For mibgen privbte use only.
      */
     public SnmpNull(String dummy) {
         this();
     }
 
     /**
-     * Constructs a new <CODE>SnmpNull</CODE> from the specified tag value.
-     * @param t The initialization value.
+     * Constructs b new <CODE>SnmpNull</CODE> from the specified tbg vblue.
+     * @pbrbm t The initiblizbtion vblue.
      */
     public SnmpNull(int t) {
-        tag = t ;
+        tbg = t ;
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Returns the tag value of this <CODE>SnmpNull</CODE>.
-     * @return The value.
+     * Returns the tbg vblue of this <CODE>SnmpNull</CODE>.
+     * @return The vblue.
      */
-    public int getTag() {
-        return tag ;
+    public int getTbg() {
+        return tbg ;
     }
 
     /**
-     * Converts the <CODE>NULL</CODE> value to its ASN.1 <CODE>String</CODE> form.
-     * When the tag is not the universal one, it is preprended
+     * Converts the <CODE>NULL</CODE> vblue to its ASN.1 <CODE>String</CODE> form.
+     * When the tbg is not the universbl one, it is preprended
      * to the <CODE>String</CODE> form.
-     * @return The <CODE>String</CODE> representation of the value.
+     * @return The <CODE>String</CODE> representbtion of the vblue.
      */
     public String toString() {
         String result = "" ;
-        if (tag != 5) {
-            result += "[" + tag + "] " ;
+        if (tbg != 5) {
+            result += "[" + tbg + "] " ;
         }
         result += "NULL" ;
-        switch(tag) {
-        case errNoSuchObjectTag :
+        switch(tbg) {
+        cbse errNoSuchObjectTbg :
             result += " (noSuchObject)" ;
-            break ;
+            brebk ;
 
-        case errNoSuchInstanceTag :
-            result += " (noSuchInstance)" ;
-            break ;
+        cbse errNoSuchInstbnceTbg :
+            result += " (noSuchInstbnce)" ;
+            brebk ;
 
-        case errEndOfMibViewTag :
+        cbse errEndOfMibViewTbg :
             result += " (endOfMibView)" ;
-            break ;
+            brebk ;
         }
         return result ;
     }
 
     /**
-     * Converts the <CODE>NULL</CODE> value to its <CODE>SnmpOid</CODE> form.
-     * Normally, a <CODE>NULL</CODE> value cannot be used as an index value,
-     * this method triggers an exception.
-     * @return The OID representation of the value.
+     * Converts the <CODE>NULL</CODE> vblue to its <CODE>SnmpOid</CODE> form.
+     * Normblly, b <CODE>NULL</CODE> vblue cbnnot be used bs bn index vblue,
+     * this method triggers bn exception.
+     * @return The OID representbtion of the vblue.
      */
     public SnmpOid toOid() {
-        throw new IllegalArgumentException() ;
+        throw new IllegblArgumentException() ;
     }
 
     /**
-     * Performs a clone action. This provides a workaround for the
-     * <CODE>SnmpValue</CODE> interface.
-     * @return The SnmpValue clone.
+     * Performs b clone bction. This provides b workbround for the
+     * <CODE>SnmpVblue</CODE> interfbce.
+     * @return The SnmpVblue clone.
      */
-    final synchronized public SnmpValue duplicate() {
-        return (SnmpValue) clone() ;
+    finbl synchronized public SnmpVblue duplicbte() {
+        return (SnmpVblue) clone() ;
     }
 
     /**
-     * Clones the <CODE>SnmpNull</CODE> object, making a copy of its data.
+     * Clones the <CODE>SnmpNull</CODE> object, mbking b copy of its dbtb.
      * @return The object clone.
      */
-    final synchronized public Object clone() {
+    finbl synchronized public Object clone() {
         SnmpNull  newclone = null ;
         try {
             newclone = (SnmpNull) super.clone() ;
-            newclone.tag = tag ;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e) ; // vm bug.
+            newclone.tbg = tbg ;
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e) ; // vm bug.
         }
         return newclone ;
     }
 
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Returns b textubl description of the type object.
+     * @return ASN.1 textubl description.
      */
-    final public String getTypeName() {
-        return name ;
+    finbl public String getTypeNbme() {
+        return nbme ;
     }
 
     /**
-     * Checks if this <CODE>SnmpNull</CODE> object corresponds to a <CODE>noSuchObject</CODE> value.
-     * @return <CODE>true</CODE> if the tag equals {@link com.sun.jmx.snmp.SnmpDataTypeEnums#errNoSuchObjectTag},
-     * <CODE>false</CODE> otherwise.
+     * Checks if this <CODE>SnmpNull</CODE> object corresponds to b <CODE>noSuchObject</CODE> vblue.
+     * @return <CODE>true</CODE> if the tbg equbls {@link com.sun.jmx.snmp.SnmpDbtbTypeEnums#errNoSuchObjectTbg},
+     * <CODE>fblse</CODE> otherwise.
      */
-    public boolean isNoSuchObjectValue() {
-        return (tag == SnmpDataTypeEnums.errNoSuchObjectTag);
+    public boolebn isNoSuchObjectVblue() {
+        return (tbg == SnmpDbtbTypeEnums.errNoSuchObjectTbg);
     }
 
     /**
-     * Checks if this <CODE>SnmpNull</CODE> object corresponds to a <CODE>noSuchInstance</CODE> value.
-     * @return <CODE>true</CODE> if the tag equals {@link com.sun.jmx.snmp.SnmpDataTypeEnums#errNoSuchInstanceTag},
-     * <CODE>false</CODE> otherwise.
+     * Checks if this <CODE>SnmpNull</CODE> object corresponds to b <CODE>noSuchInstbnce</CODE> vblue.
+     * @return <CODE>true</CODE> if the tbg equbls {@link com.sun.jmx.snmp.SnmpDbtbTypeEnums#errNoSuchInstbnceTbg},
+     * <CODE>fblse</CODE> otherwise.
      */
-    public boolean isNoSuchInstanceValue() {
-        return (tag == SnmpDataTypeEnums.errNoSuchInstanceTag);
+    public boolebn isNoSuchInstbnceVblue() {
+        return (tbg == SnmpDbtbTypeEnums.errNoSuchInstbnceTbg);
     }
 
     /**
-     * Checks if this <CODE>SnmpNull</CODE> object corresponds to an <CODE>endOfMibView</CODE> value.
-     * @return <CODE>true</CODE> if the tag equals {@link com.sun.jmx.snmp.SnmpDataTypeEnums#errEndOfMibViewTag},
-     * <CODE>false</CODE> otherwise.
+     * Checks if this <CODE>SnmpNull</CODE> object corresponds to bn <CODE>endOfMibView</CODE> vblue.
+     * @return <CODE>true</CODE> if the tbg equbls {@link com.sun.jmx.snmp.SnmpDbtbTypeEnums#errEndOfMibViewTbg},
+     * <CODE>fblse</CODE> otherwise.
      */
-    public boolean isEndOfMibViewValue() {
-        return (tag == SnmpDataTypeEnums.errEndOfMibViewTag);
+    public boolebn isEndOfMibViewVblue() {
+        return (tbg == SnmpDbtbTypeEnums.errEndOfMibViewTbg);
     }
 
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbme of the type.
      */
-    final static String name = "Null" ;
+    finbl stbtic String nbme = "Null" ;
 
     /**
-     * This is the tag of the NULL value. By default, it is the universal tag value.
+     * This is the tbg of the NULL vblue. By defbult, it is the universbl tbg vblue.
      */
-    private int tag = 5 ;
+    privbte int tbg = 5 ;
 }

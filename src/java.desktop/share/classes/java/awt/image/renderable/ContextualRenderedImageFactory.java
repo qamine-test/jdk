@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* ********************************************************************
  **********************************************************************
  **********************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997                      ***
- *** As  an unpublished  work pursuant to Title 17 of the United    ***
- *** States Code.  All rights reserved.                             ***
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublished  work pursubnt to Title 17 of the United    ***
+ *** Stbtes Code.  All rights reserved.                             ***
  **********************************************************************
  **********************************************************************
  **********************************************************************/
 
-package java.awt.image.renderable;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.RenderedImage;
+pbckbge jbvb.bwt.imbge.renderbble;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.RenderedImbge;
 
 /**
- * ContextualRenderedImageFactory provides an interface for the
- * functionality that may differ between instances of
- * RenderableImageOp.  Thus different operations on RenderableImages
- * may be performed by a single class such as RenderedImageOp through
- * the use of multiple instances of ContextualRenderedImageFactory.
- * The name ContextualRenderedImageFactory is commonly shortened to
+ * ContextublRenderedImbgeFbctory provides bn interfbce for the
+ * functionblity thbt mby differ between instbnces of
+ * RenderbbleImbgeOp.  Thus different operbtions on RenderbbleImbges
+ * mby be performed by b single clbss such bs RenderedImbgeOp through
+ * the use of multiple instbnces of ContextublRenderedImbgeFbctory.
+ * The nbme ContextublRenderedImbgeFbctory is commonly shortened to
  * "CRIF."
  *
- * <p> All operations that are to be used in a rendering-independent
- * chain must implement ContextualRenderedImageFactory.
+ * <p> All operbtions thbt bre to be used in b rendering-independent
+ * chbin must implement ContextublRenderedImbgeFbctory.
  *
- * <p> Classes that implement this interface must provide a
- * constructor with no arguments.
+ * <p> Clbsses thbt implement this interfbce must provide b
+ * constructor with no brguments.
  */
-public interface ContextualRenderedImageFactory extends RenderedImageFactory {
+public interfbce ContextublRenderedImbgeFbctory extends RenderedImbgeFbctory {
 
     /**
-     * Maps the operation's output RenderContext into a RenderContext
-     * for each of the operation's sources.  This is useful for
-     * operations that can be expressed in whole or in part simply as
-     * alterations in the RenderContext, such as an affine mapping, or
-     * operations that wish to obtain lower quality renderings of
-     * their sources in order to save processing effort or
-     * transmission bandwith.  Some operations, such as blur, can also
-     * use this mechanism to avoid obtaining sources of higher quality
-     * than necessary.
+     * Mbps the operbtion's output RenderContext into b RenderContext
+     * for ebch of the operbtion's sources.  This is useful for
+     * operbtions thbt cbn be expressed in whole or in pbrt simply bs
+     * blterbtions in the RenderContext, such bs bn bffine mbpping, or
+     * operbtions thbt wish to obtbin lower qublity renderings of
+     * their sources in order to sbve processing effort or
+     * trbnsmission bbndwith.  Some operbtions, such bs blur, cbn blso
+     * use this mechbnism to bvoid obtbining sources of higher qublity
+     * thbn necessbry.
      *
-     * @param i the index of the source image.
-     * @param renderContext the RenderContext being applied to the operation.
-     * @param paramBlock a ParameterBlock containing the operation's
-     *        sources and parameters.
-     * @param image the RenderableImage being rendered.
-     * @return a <code>RenderContext</code> for
-     *         the source at the specified index of the parameters
-     *         Vector contained in the specified ParameterBlock.
+     * @pbrbm i the index of the source imbge.
+     * @pbrbm renderContext the RenderContext being bpplied to the operbtion.
+     * @pbrbm pbrbmBlock b PbrbmeterBlock contbining the operbtion's
+     *        sources bnd pbrbmeters.
+     * @pbrbm imbge the RenderbbleImbge being rendered.
+     * @return b <code>RenderContext</code> for
+     *         the source bt the specified index of the pbrbmeters
+     *         Vector contbined in the specified PbrbmeterBlock.
      */
-    RenderContext mapRenderContext(int i,
+    RenderContext mbpRenderContext(int i,
                                    RenderContext renderContext,
-                                   ParameterBlock paramBlock,
-                                   RenderableImage image);
+                                   PbrbmeterBlock pbrbmBlock,
+                                   RenderbbleImbge imbge);
 
     /**
-     * Creates a rendering, given a RenderContext and a ParameterBlock
-     * containing the operation's sources and parameters.  The output
-     * is a RenderedImage that takes the RenderContext into account to
-     * determine its dimensions and placement on the image plane.
-     * This method houses the "intelligence" that allows a
-     * rendering-independent operation to adapt to a specific
+     * Crebtes b rendering, given b RenderContext bnd b PbrbmeterBlock
+     * contbining the operbtion's sources bnd pbrbmeters.  The output
+     * is b RenderedImbge thbt tbkes the RenderContext into bccount to
+     * determine its dimensions bnd plbcement on the imbge plbne.
+     * This method houses the "intelligence" thbt bllows b
+     * rendering-independent operbtion to bdbpt to b specific
      * RenderContext.
      *
-     * @param renderContext The RenderContext specifying the rendering
-     * @param paramBlock a ParameterBlock containing the operation's
-     *        sources and parameters
-     * @return a <code>RenderedImage</code> from the sources and parameters
-     *         in the specified ParameterBlock and according to the
+     * @pbrbm renderContext The RenderContext specifying the rendering
+     * @pbrbm pbrbmBlock b PbrbmeterBlock contbining the operbtion's
+     *        sources bnd pbrbmeters
+     * @return b <code>RenderedImbge</code> from the sources bnd pbrbmeters
+     *         in the specified PbrbmeterBlock bnd bccording to the
      *         rendering instructions in the specified RenderContext.
      */
-    RenderedImage create(RenderContext renderContext,
-                         ParameterBlock paramBlock);
+    RenderedImbge crebte(RenderContext renderContext,
+                         PbrbmeterBlock pbrbmBlock);
 
     /**
-     * Returns the bounding box for the output of the operation,
-     * performed on a given set of sources, in rendering-independent
-     * space.  The bounds are returned as a Rectangle2D, that is, an
-     * axis-aligned rectangle with floating-point corner coordinates.
+     * Returns the bounding box for the output of the operbtion,
+     * performed on b given set of sources, in rendering-independent
+     * spbce.  The bounds bre returned bs b Rectbngle2D, thbt is, bn
+     * bxis-bligned rectbngle with flobting-point corner coordinbtes.
      *
-     * @param paramBlock a ParameterBlock containing the operation's
-     *        sources and parameters.
-     * @return a Rectangle2D specifying the rendering-independent
+     * @pbrbm pbrbmBlock b PbrbmeterBlock contbining the operbtion's
+     *        sources bnd pbrbmeters.
+     * @return b Rectbngle2D specifying the rendering-independent
      *         bounding box of the output.
      */
-    Rectangle2D getBounds2D(ParameterBlock paramBlock);
+    Rectbngle2D getBounds2D(PbrbmeterBlock pbrbmBlock);
 
     /**
-     * Gets the appropriate instance of the property specified by the name
-     * parameter.  This method must determine which instance of a property to
-     * return when there are multiple sources that each specify the property.
+     * Gets the bppropribte instbnce of the property specified by the nbme
+     * pbrbmeter.  This method must determine which instbnce of b property to
+     * return when there bre multiple sources thbt ebch specify the property.
      *
-     * @param paramBlock a ParameterBlock containing the operation's
-     *        sources and parameters.
-     * @param name a String naming the desired property.
-     * @return an object reference to the value of the property requested.
+     * @pbrbm pbrbmBlock b PbrbmeterBlock contbining the operbtion's
+     *        sources bnd pbrbmeters.
+     * @pbrbm nbme b String nbming the desired property.
+     * @return bn object reference to the vblue of the property requested.
      */
-    Object getProperty(ParameterBlock paramBlock, String name);
+    Object getProperty(PbrbmeterBlock pbrbmBlock, String nbme);
 
     /**
-     * Returns a list of names recognized by getProperty.
-     * @return the list of property names.
+     * Returns b list of nbmes recognized by getProperty.
+     * @return the list of property nbmes.
      */
-    String[] getPropertyNames();
+    String[] getPropertyNbmes();
 
     /**
-     * Returns true if successive renderings (that is, calls to
-     * create(RenderContext, ParameterBlock)) with the same arguments
-     * may produce different results.  This method may be used to
-     * determine whether an existing rendering may be cached and
-     * reused.  It is always safe to return true.
+     * Returns true if successive renderings (thbt is, cblls to
+     * crebte(RenderContext, PbrbmeterBlock)) with the sbme brguments
+     * mby produce different results.  This method mby be used to
+     * determine whether bn existing rendering mby be cbched bnd
+     * reused.  It is blwbys sbfe to return true.
      * @return <code>true</code> if successive renderings with the
-     *         same arguments might produce different results;
-     *         <code>false</code> otherwise.
+     *         sbme brguments might produce different results;
+     *         <code>fblse</code> otherwise.
      */
-    boolean isDynamic();
+    boolebn isDynbmic();
 }

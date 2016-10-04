@@ -1,35 +1,35 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* deflate.h -- internal compression state
- * Copyright (C) 1995-2012 Jean-loup Gailly
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* deflbte.h -- internbl compression stbte
+ * Copyright (C) 1995-2012 Jebn-loup Gbilly
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
-/* WARNING: this file should *not* be used by applications. It is
-   part of the implementation of the compression library and is
-   subject to change. Applications should only use zlib.h.
+/* WARNING: this file should *not* be used by bpplicbtions. It is
+   pbrt of the implementbtion of the compression librbry bnd is
+   subject to chbnge. Applicbtions should only use zlib.h.
  */
 
 /* @(#) $Id$ */
@@ -39,35 +39,35 @@
 
 #include "zutil.h"
 
-/* define NO_GZIP when compiling if you want to disable gzip header and
-   trailer creation by deflate().  NO_GZIP would be used to avoid linking in
-   the crc code when it is not needed.  For shared libraries, gzip encoding
-   should be left enabled. */
+/* define NO_GZIP when compiling if you wbnt to disbble gzip hebder bnd
+   trbiler crebtion by deflbte().  NO_GZIP would be used to bvoid linking in
+   the crc code when it is not needed.  For shbred librbries, gzip encoding
+   should be left enbbled. */
 #ifndef NO_GZIP
 #  define GZIP
 #endif
 
 /* ===========================================================================
- * Internal compression state.
+ * Internbl compression stbte.
  */
 
 #define LENGTH_CODES 29
-/* number of length codes, not counting the special END_BLOCK code */
+/* number of length codes, not counting the specibl END_BLOCK code */
 
 #define LITERALS  256
-/* number of literal bytes 0..255 */
+/* number of literbl bytes 0..255 */
 
 #define L_CODES (LITERALS+1+LENGTH_CODES)
-/* number of Literal or Length codes, including the END_BLOCK code */
+/* number of Literbl or Length codes, including the END_BLOCK code */
 
 #define D_CODES   30
-/* number of distance codes */
+/* number of distbnce codes */
 
 #define BL_CODES  19
-/* number of codes used to transfer the bit lengths */
+/* number of codes used to trbnsfer the bit lengths */
 
 #define HEAP_SIZE (2*L_CODES+1)
-/* maximum heap size */
+/* mbximum hebp size */
 
 #define MAX_BITS 15
 /* All codes must not exceed MAX_BITS bits */
@@ -82,259 +82,259 @@
 #define HCRC_STATE   103
 #define BUSY_STATE   113
 #define FINISH_STATE 666
-/* Stream status */
+/* Strebm stbtus */
 
 
-/* Data structure describing a single value and its code string. */
-typedef struct ct_data_s {
+/* Dbtb structure describing b single vblue bnd its code string. */
+typedef struct ct_dbtb_s {
     union {
         ush  freq;       /* frequency count */
         ush  code;       /* bit string */
     } fc;
     union {
-        ush  dad;        /* father node in Huffman tree */
+        ush  dbd;        /* fbther node in Huffmbn tree */
         ush  len;        /* length of bit string */
     } dl;
-} FAR ct_data;
+} FAR ct_dbtb;
 
 #define Freq fc.freq
 #define Code fc.code
-#define Dad  dl.dad
+#define Dbd  dl.dbd
 #define Len  dl.len
 
-typedef struct static_tree_desc_s  static_tree_desc;
+typedef struct stbtic_tree_desc_s  stbtic_tree_desc;
 
 typedef struct tree_desc_s {
-    ct_data *dyn_tree;           /* the dynamic tree */
-    int     max_code;            /* largest code with non zero frequency */
-    static_tree_desc *stat_desc; /* the corresponding static tree */
+    ct_dbtb *dyn_tree;           /* the dynbmic tree */
+    int     mbx_code;            /* lbrgest code with non zero frequency */
+    stbtic_tree_desc *stbt_desc; /* the corresponding stbtic tree */
 } FAR tree_desc;
 
 typedef ush Pos;
 typedef Pos FAR Posf;
 typedef unsigned IPos;
 
-/* A Pos is an index in the character window. We use short instead of int to
- * save space in the various tables. IPos is used only for parameter passing.
+/* A Pos is bn index in the chbrbcter window. We use short instebd of int to
+ * sbve spbce in the vbrious tbbles. IPos is used only for pbrbmeter pbssing.
  */
 
-typedef struct internal_state {
-    z_streamp strm;      /* pointer back to this zlib stream */
-    int   status;        /* as the name implies */
+typedef struct internbl_stbte {
+    z_strebmp strm;      /* pointer bbck to this zlib strebm */
+    int   stbtus;        /* bs the nbme implies */
     Bytef *pending_buf;  /* output still pending */
     ulg   pending_buf_size; /* size of pending_buf */
-    Bytef *pending_out;  /* next pending byte to output to the stream */
+    Bytef *pending_out;  /* next pending byte to output to the strebm */
     uInt   pending;      /* nb of bytes in the pending buffer */
-    int   wrap;          /* bit 0 true for zlib, bit 1 true for gzip */
-    gz_headerp  gzhead;  /* gzip header information to write */
-    uInt   gzindex;      /* where in extra, name, or comment */
-    Byte  method;        /* can only be DEFLATED */
-    int   last_flush;    /* value of flush param for previous deflate call */
+    int   wrbp;          /* bit 0 true for zlib, bit 1 true for gzip */
+    gz_hebderp  gzhebd;  /* gzip hebder informbtion to write */
+    uInt   gzindex;      /* where in extrb, nbme, or comment */
+    Byte  method;        /* cbn only be DEFLATED */
+    int   lbst_flush;    /* vblue of flush pbrbm for previous deflbte cbll */
 
-                /* used by deflate.c: */
+                /* used by deflbte.c: */
 
-    uInt  w_size;        /* LZ77 window size (32K by default) */
+    uInt  w_size;        /* LZ77 window size (32K by defbult) */
     uInt  w_bits;        /* log2(w_size)  (8..16) */
-    uInt  w_mask;        /* w_size - 1 */
+    uInt  w_mbsk;        /* w_size - 1 */
 
     Bytef *window;
-    /* Sliding window. Input bytes are read into the second half of the window,
-     * and move to the first half later to keep a dictionary of at least wSize
-     * bytes. With this organization, matches are limited to a distance of
-     * wSize-MAX_MATCH bytes, but this ensures that IO is always
-     * performed with a length multiple of the block size. Also, it limits
+    /* Sliding window. Input bytes bre rebd into the second hblf of the window,
+     * bnd move to the first hblf lbter to keep b dictionbry of bt lebst wSize
+     * bytes. With this orgbnizbtion, mbtches bre limited to b distbnce of
+     * wSize-MAX_MATCH bytes, but this ensures thbt IO is blwbys
+     * performed with b length multiple of the block size. Also, it limits
      * the window size to 64K, which is quite useful on MSDOS.
-     * To do: use the user input buffer as sliding window.
+     * To do: use the user input buffer bs sliding window.
      */
 
     ulg window_size;
-    /* Actual size of window: 2*wSize, except when the user input buffer
-     * is directly used as sliding window.
+    /* Actubl size of window: 2*wSize, except when the user input buffer
+     * is directly used bs sliding window.
      */
 
     Posf *prev;
-    /* Link to older string with same hash index. To limit the size of this
-     * array to 64K, this link is maintained only for the last 32K strings.
-     * An index in this array is thus a window index modulo 32K.
+    /* Link to older string with sbme hbsh index. To limit the size of this
+     * brrby to 64K, this link is mbintbined only for the lbst 32K strings.
+     * An index in this brrby is thus b window index modulo 32K.
      */
 
-    Posf *head; /* Heads of the hash chains or NIL. */
+    Posf *hebd; /* Hebds of the hbsh chbins or NIL. */
 
-    uInt  ins_h;          /* hash index of string to be inserted */
-    uInt  hash_size;      /* number of elements in hash table */
-    uInt  hash_bits;      /* log2(hash_size) */
-    uInt  hash_mask;      /* hash_size-1 */
+    uInt  ins_h;          /* hbsh index of string to be inserted */
+    uInt  hbsh_size;      /* number of elements in hbsh tbble */
+    uInt  hbsh_bits;      /* log2(hbsh_size) */
+    uInt  hbsh_mbsk;      /* hbsh_size-1 */
 
-    uInt  hash_shift;
-    /* Number of bits by which ins_h must be shifted at each input
-     * step. It must be such that after MIN_MATCH steps, the oldest
-     * byte no longer takes part in the hash key, that is:
-     *   hash_shift * MIN_MATCH >= hash_bits
+    uInt  hbsh_shift;
+    /* Number of bits by which ins_h must be shifted bt ebch input
+     * step. It must be such thbt bfter MIN_MATCH steps, the oldest
+     * byte no longer tbkes pbrt in the hbsh key, thbt is:
+     *   hbsh_shift * MIN_MATCH >= hbsh_bits
      */
 
-    long block_start;
-    /* Window position at the beginning of the current output block. Gets
-     * negative when the window is moved backwards.
+    long block_stbrt;
+    /* Window position bt the beginning of the current output block. Gets
+     * negbtive when the window is moved bbckwbrds.
      */
 
-    uInt match_length;           /* length of best match */
-    IPos prev_match;             /* previous match */
-    int match_available;         /* set if previous match exists */
-    uInt strstart;               /* start of string to insert */
-    uInt match_start;            /* start of matching string */
-    uInt lookahead;              /* number of valid bytes ahead in window */
+    uInt mbtch_length;           /* length of best mbtch */
+    IPos prev_mbtch;             /* previous mbtch */
+    int mbtch_bvbilbble;         /* set if previous mbtch exists */
+    uInt strstbrt;               /* stbrt of string to insert */
+    uInt mbtch_stbrt;            /* stbrt of mbtching string */
+    uInt lookbhebd;              /* number of vblid bytes bhebd in window */
 
     uInt prev_length;
-    /* Length of the best match at previous step. Matches not greater than this
-     * are discarded. This is used in the lazy match evaluation.
+    /* Length of the best mbtch bt previous step. Mbtches not grebter thbn this
+     * bre discbrded. This is used in the lbzy mbtch evblubtion.
      */
 
-    uInt max_chain_length;
-    /* To speed up deflation, hash chains are never searched beyond this
-     * length.  A higher limit improves compression ratio but degrades the
+    uInt mbx_chbin_length;
+    /* To speed up deflbtion, hbsh chbins bre never sebrched beyond this
+     * length.  A higher limit improves compression rbtio but degrbdes the
      * speed.
      */
 
-    uInt max_lazy_match;
-    /* Attempt to find a better match only when the current match is strictly
-     * smaller than this value. This mechanism is used only for compression
+    uInt mbx_lbzy_mbtch;
+    /* Attempt to find b better mbtch only when the current mbtch is strictly
+     * smbller thbn this vblue. This mechbnism is used only for compression
      * levels >= 4.
      */
-#   define max_insert_length  max_lazy_match
-    /* Insert new strings in the hash table only if the match length is not
-     * greater than this length. This saves time but degrades compression.
-     * max_insert_length is used only for compression levels <= 3.
+#   define mbx_insert_length  mbx_lbzy_mbtch
+    /* Insert new strings in the hbsh tbble only if the mbtch length is not
+     * grebter thbn this length. This sbves time but degrbdes compression.
+     * mbx_insert_length is used only for compression levels <= 3.
      */
 
     int level;    /* compression level (1..9) */
-    int strategy; /* favor or force Huffman coding*/
+    int strbtegy; /* fbvor or force Huffmbn coding*/
 
-    uInt good_match;
-    /* Use a faster search when the previous match is longer than this */
+    uInt good_mbtch;
+    /* Use b fbster sebrch when the previous mbtch is longer thbn this */
 
-    int nice_match; /* Stop searching when current match exceeds this */
+    int nice_mbtch; /* Stop sebrching when current mbtch exceeds this */
 
                 /* used by trees.c: */
-    /* Didn't use ct_data typedef below to suppress compiler warning */
-    struct ct_data_s dyn_ltree[HEAP_SIZE];   /* literal and length tree */
-    struct ct_data_s dyn_dtree[2*D_CODES+1]; /* distance tree */
-    struct ct_data_s bl_tree[2*BL_CODES+1];  /* Huffman tree for bit lengths */
+    /* Didn't use ct_dbtb typedef below to suppress compiler wbrning */
+    struct ct_dbtb_s dyn_ltree[HEAP_SIZE];   /* literbl bnd length tree */
+    struct ct_dbtb_s dyn_dtree[2*D_CODES+1]; /* distbnce tree */
+    struct ct_dbtb_s bl_tree[2*BL_CODES+1];  /* Huffmbn tree for bit lengths */
 
-    struct tree_desc_s l_desc;               /* desc. for literal tree */
-    struct tree_desc_s d_desc;               /* desc. for distance tree */
+    struct tree_desc_s l_desc;               /* desc. for literbl tree */
+    struct tree_desc_s d_desc;               /* desc. for distbnce tree */
     struct tree_desc_s bl_desc;              /* desc. for bit length tree */
 
     ush bl_count[MAX_BITS+1];
-    /* number of codes at each bit length for an optimal tree */
+    /* number of codes bt ebch bit length for bn optimbl tree */
 
-    int heap[2*L_CODES+1];      /* heap used to build the Huffman trees */
-    int heap_len;               /* number of elements in the heap */
-    int heap_max;               /* element of largest frequency */
-    /* The sons of heap[n] are heap[2*n] and heap[2*n+1]. heap[0] is not used.
-     * The same heap array is used to build all trees.
+    int hebp[2*L_CODES+1];      /* hebp used to build the Huffmbn trees */
+    int hebp_len;               /* number of elements in the hebp */
+    int hebp_mbx;               /* element of lbrgest frequency */
+    /* The sons of hebp[n] bre hebp[2*n] bnd hebp[2*n+1]. hebp[0] is not used.
+     * The sbme hebp brrby is used to build bll trees.
      */
 
     uch depth[2*L_CODES+1];
-    /* Depth of each subtree used as tie breaker for trees of equal frequency
+    /* Depth of ebch subtree used bs tie brebker for trees of equbl frequency
      */
 
-    uchf *l_buf;          /* buffer for literals or lengths */
+    uchf *l_buf;          /* buffer for literbls or lengths */
 
     uInt  lit_bufsize;
-    /* Size of match buffer for literals/lengths.  There are 4 reasons for
+    /* Size of mbtch buffer for literbls/lengths.  There bre 4 rebsons for
      * limiting lit_bufsize to 64K:
-     *   - frequencies can be kept in 16 bit counters
-     *   - if compression is not successful for the first block, all input
-     *     data is still in the window so we can still emit a stored block even
-     *     when input comes from standard input.  (This can also be done for
-     *     all blocks if lit_bufsize is not greater than 32K.)
-     *   - if compression is not successful for a file smaller than 64K, we can
-     *     even emit a stored file instead of a stored block (saving 5 bytes).
-     *     This is applicable only for zip (not gzip or zlib).
-     *   - creating new Huffman trees less frequently may not provide fast
-     *     adaptation to changes in the input data statistics. (Take for
-     *     example a binary file with poorly compressible code followed by
-     *     a highly compressible string table.) Smaller buffer sizes give
-     *     fast adaptation but have of course the overhead of transmitting
+     *   - frequencies cbn be kept in 16 bit counters
+     *   - if compression is not successful for the first block, bll input
+     *     dbtb is still in the window so we cbn still emit b stored block even
+     *     when input comes from stbndbrd input.  (This cbn blso be done for
+     *     bll blocks if lit_bufsize is not grebter thbn 32K.)
+     *   - if compression is not successful for b file smbller thbn 64K, we cbn
+     *     even emit b stored file instebd of b stored block (sbving 5 bytes).
+     *     This is bpplicbble only for zip (not gzip or zlib).
+     *   - crebting new Huffmbn trees less frequently mby not provide fbst
+     *     bdbptbtion to chbnges in the input dbtb stbtistics. (Tbke for
+     *     exbmple b binbry file with poorly compressible code followed by
+     *     b highly compressible string tbble.) Smbller buffer sizes give
+     *     fbst bdbptbtion but hbve of course the overhebd of trbnsmitting
      *     trees more frequently.
-     *   - I can't count above 4
+     *   - I cbn't count bbove 4
      */
 
-    uInt last_lit;      /* running index in l_buf */
+    uInt lbst_lit;      /* running index in l_buf */
 
     ushf *d_buf;
-    /* Buffer for distances. To simplify the code, d_buf and l_buf have
-     * the same number of elements. To use different lengths, an extra flag
-     * array would be necessary.
+    /* Buffer for distbnces. To simplify the code, d_buf bnd l_buf hbve
+     * the sbme number of elements. To use different lengths, bn extrb flbg
+     * brrby would be necessbry.
      */
 
-    ulg opt_len;        /* bit length of current block with optimal trees */
-    ulg static_len;     /* bit length of current block with static trees */
-    uInt matches;       /* number of string matches in current block */
-    uInt insert;        /* bytes at end of window left to insert */
+    ulg opt_len;        /* bit length of current block with optimbl trees */
+    ulg stbtic_len;     /* bit length of current block with stbtic trees */
+    uInt mbtches;       /* number of string mbtches in current block */
+    uInt insert;        /* bytes bt end of window left to insert */
 
 #ifdef DEBUG
-    ulg compressed_len; /* total bit length of compressed file mod 2^32 */
-    ulg bits_sent;      /* bit length of compressed data sent mod 2^32 */
+    ulg compressed_len; /* totbl bit length of compressed file mod 2^32 */
+    ulg bits_sent;      /* bit length of compressed dbtb sent mod 2^32 */
 #endif
 
     ush bi_buf;
-    /* Output buffer. bits are inserted starting at the bottom (least
-     * significant bits).
+    /* Output buffer. bits bre inserted stbrting bt the bottom (lebst
+     * significbnt bits).
      */
-    int bi_valid;
-    /* Number of valid bits in bi_buf.  All bits above the last valid bit
-     * are always zero.
-     */
-
-    ulg high_water;
-    /* High water mark offset in window for initialized bytes -- bytes above
-     * this are set to zero in order to avoid memory check warnings when
-     * longest match routines access bytes past the input.  This is then
-     * updated to the new high water mark.
+    int bi_vblid;
+    /* Number of vblid bits in bi_buf.  All bits bbove the lbst vblid bit
+     * bre blwbys zero.
      */
 
-} FAR deflate_state;
+    ulg high_wbter;
+    /* High wbter mbrk offset in window for initiblized bytes -- bytes bbove
+     * this bre set to zero in order to bvoid memory check wbrnings when
+     * longest mbtch routines bccess bytes pbst the input.  This is then
+     * updbted to the new high wbter mbrk.
+     */
 
-/* Output a byte on the stream.
- * IN assertion: there is enough room in pending_buf.
+} FAR deflbte_stbte;
+
+/* Output b byte on the strebm.
+ * IN bssertion: there is enough room in pending_buf.
  */
 #define put_byte(s, c) {s->pending_buf[s->pending++] = (c);}
 
 
 #define MIN_LOOKAHEAD (MAX_MATCH+MIN_MATCH+1)
-/* Minimum amount of lookahead, except at the end of the input file.
- * See deflate.c for comments about the MIN_MATCH+1.
+/* Minimum bmount of lookbhebd, except bt the end of the input file.
+ * See deflbte.c for comments bbout the MIN_MATCH+1.
  */
 
 #define MAX_DIST(s)  ((s)->w_size-MIN_LOOKAHEAD)
-/* In order to simplify the code, particularly on 16 bit machines, match
- * distances are limited to MAX_DIST instead of WSIZE.
+/* In order to simplify the code, pbrticulbrly on 16 bit mbchines, mbtch
+ * distbnces bre limited to MAX_DIST instebd of WSIZE.
  */
 
 #define WIN_INIT MAX_MATCH
-/* Number of bytes after end of data in window to initialize in order to avoid
-   memory checker errors from longest match routines */
+/* Number of bytes bfter end of dbtb in window to initiblize in order to bvoid
+   memory checker errors from longest mbtch routines */
 
         /* in trees.c */
-void ZLIB_INTERNAL _tr_init OF((deflate_state *s));
-int ZLIB_INTERNAL _tr_tally OF((deflate_state *s, unsigned dist, unsigned lc));
-void ZLIB_INTERNAL _tr_flush_block OF((deflate_state *s, charf *buf,
-                        ulg stored_len, int last));
-void ZLIB_INTERNAL _tr_flush_bits OF((deflate_state *s));
-void ZLIB_INTERNAL _tr_align OF((deflate_state *s));
-void ZLIB_INTERNAL _tr_stored_block OF((deflate_state *s, charf *buf,
-                        ulg stored_len, int last));
+void ZLIB_INTERNAL _tr_init OF((deflbte_stbte *s));
+int ZLIB_INTERNAL _tr_tblly OF((deflbte_stbte *s, unsigned dist, unsigned lc));
+void ZLIB_INTERNAL _tr_flush_block OF((deflbte_stbte *s, chbrf *buf,
+                        ulg stored_len, int lbst));
+void ZLIB_INTERNAL _tr_flush_bits OF((deflbte_stbte *s));
+void ZLIB_INTERNAL _tr_blign OF((deflbte_stbte *s));
+void ZLIB_INTERNAL _tr_stored_block OF((deflbte_stbte *s, chbrf *buf,
+                        ulg stored_len, int lbst));
 
 #define d_code(dist) \
    ((dist) < 256 ? _dist_code[dist] : _dist_code[256+((dist)>>7)])
-/* Mapping from a distance to a distance code. dist is the distance - 1 and
- * must not have side effects. _dist_code[256] and _dist_code[257] are never
+/* Mbpping from b distbnce to b distbnce code. dist is the distbnce - 1 bnd
+ * must not hbve side effects. _dist_code[256] bnd _dist_code[257] bre never
  * used.
  */
 
 #ifndef DEBUG
-/* Inline versions of _tr_tally for speed: */
+/* Inline versions of _tr_tblly for speed: */
 
 #if defined(GEN_TREES_H) || !defined(STDC)
   extern uch ZLIB_INTERNAL _length_code[];
@@ -344,27 +344,27 @@ void ZLIB_INTERNAL _tr_stored_block OF((deflate_state *s, charf *buf,
   extern const uch ZLIB_INTERNAL _dist_code[];
 #endif
 
-# define _tr_tally_lit(s, c, flush) \
+# define _tr_tblly_lit(s, c, flush) \
   { uch cc = (c); \
-    s->d_buf[s->last_lit] = 0; \
-    s->l_buf[s->last_lit++] = cc; \
+    s->d_buf[s->lbst_lit] = 0; \
+    s->l_buf[s->lbst_lit++] = cc; \
     s->dyn_ltree[cc].Freq++; \
-    flush = (s->last_lit == s->lit_bufsize-1); \
+    flush = (s->lbst_lit == s->lit_bufsize-1); \
    }
-# define _tr_tally_dist(s, distance, length, flush) \
+# define _tr_tblly_dist(s, distbnce, length, flush) \
   { uch len = (length); \
-    ush dist = (distance); \
-    s->d_buf[s->last_lit] = dist; \
-    s->l_buf[s->last_lit++] = len; \
+    ush dist = (distbnce); \
+    s->d_buf[s->lbst_lit] = dist; \
+    s->l_buf[s->lbst_lit++] = len; \
     dist--; \
     s->dyn_ltree[_length_code[len]+LITERALS+1].Freq++; \
     s->dyn_dtree[d_code(dist)].Freq++; \
-    flush = (s->last_lit == s->lit_bufsize-1); \
+    flush = (s->lbst_lit == s->lit_bufsize-1); \
   }
 #else
-# define _tr_tally_lit(s, c, flush) flush = _tr_tally(s, 0, c)
-# define _tr_tally_dist(s, distance, length, flush) \
-              flush = _tr_tally(s, distance, length)
+# define _tr_tblly_lit(s, c, flush) flush = _tr_tblly(s, 0, c)
+# define _tr_tblly_dist(s, distbnce, length, flush) \
+              flush = _tr_tblly(s, distbnce, length)
 #endif
 
 #endif /* DEFLATE_H */

@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
 
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
+import jbvb.bwt.Component;
+import jbvb.bwt.EventQueue;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.event.MouseAdbpter;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.io.IOException;
 
-import java.lang.reflect.Array;
+import jbvb.lbng.reflect.Arrby;
 
-import java.util.EventObject;
-import java.util.HashMap;
-import java.util.WeakHashMap;
+import jbvb.util.EventObject;
+import jbvb.util.HbshMbp;
+import jbvb.util.WebkHbshMbp;
 
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.management.JMException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanAttributeInfo;
-import javax.management.AttributeList;
-import javax.management.Attribute;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.TabularData;
+import jbvb.util.concurrent.ExecutionException;
+import jbvb.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvbx.mbnbgement.JMException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.AttributeList;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.TbbulbrDbtb;
 
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingWorker;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JOptionPbne;
+import jbvbx.swing.JTbble;
+import jbvbx.swing.JTextField;
+import jbvbx.swing.SwingWorker;
+import jbvbx.swing.event.ChbngeEvent;
+import jbvbx.swing.event.TbbleModelEvent;
+import jbvbx.swing.event.TbbleModelListener;
+import jbvbx.swing.tbble.DefbultTbbleCellRenderer;
+import jbvbx.swing.tbble.DefbultTbbleModel;
+import jbvbx.swing.tbble.TbbleCellEditor;
+import jbvbx.swing.tbble.TbbleCellRenderer;
+import jbvbx.swing.tbble.TbbleColumn;
+import jbvbx.swing.tbble.TbbleColumnModel;
+import jbvbx.swing.tbble.TbbleModel;
 
-import sun.tools.jconsole.MBeansTab;
+import sun.tools.jconsole.MBebnsTbb;
 import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.Messages;
-import sun.tools.jconsole.ProxyClient.SnapshotMBeanServerConnection;
+import sun.tools.jconsole.Messbges;
+import sun.tools.jconsole.ProxyClient.SnbpshotMBebnServerConnection;
 
 /*IMPORTANT :
-  There is a deadlock issue there if we don't synchronize well loadAttributes,
-  refresh attributes and empty table methods since a UI thread can call
-  loadAttributes and at the same time a JMX notification can raise an
-  emptyTable. Since there are synchronization in the JMX world it's
-  COMPULSORY to not call the JMX world in synchronized blocks */
-@SuppressWarnings("serial")
-public class XMBeanAttributes extends XTable {
+  There is b debdlock issue there if we don't synchronize well lobdAttributes,
+  refresh bttributes bnd empty tbble methods since b UI threbd cbn cbll
+  lobdAttributes bnd bt the sbme time b JMX notificbtion cbn rbise bn
+  emptyTbble. Since there bre synchronizbtion in the JMX world it's
+  COMPULSORY to not cbll the JMX world in synchronized blocks */
+@SuppressWbrnings("seribl")
+public clbss XMBebnAttributes extends XTbble {
 
-    final Logger LOGGER =
-            Logger.getLogger(XMBeanAttributes.class.getPackage().getName());
+    finbl Logger LOGGER =
+            Logger.getLogger(XMBebnAttributes.clbss.getPbckbge().getNbme());
 
-    private final static String[] columnNames =
-    {Messages.NAME,
-     Messages.VALUE};
+    privbte finbl stbtic String[] columnNbmes =
+    {Messbges.NAME,
+     Messbges.VALUE};
 
-    private XMBean mbean;
-    private MBeanInfo mbeanInfo;
-    private MBeanAttributeInfo[] attributesInfo;
-    private HashMap<String, Object> attributes;
-    private HashMap<String, Object> unavailableAttributes;
-    private HashMap<String, Object> viewableAttributes;
-    private WeakHashMap<XMBean, HashMap<String, ZoomedCell>> viewersCache =
-            new WeakHashMap<XMBean, HashMap<String, ZoomedCell>>();
-    private final TableModelListener attributesListener;
-    private MBeansTab mbeansTab;
-    private TableCellEditor valueCellEditor = new ValueCellEditor();
-    private int rowMinHeight = -1;
-    private AttributesMouseListener mouseListener = new AttributesMouseListener();
+    privbte XMBebn mbebn;
+    privbte MBebnInfo mbebnInfo;
+    privbte MBebnAttributeInfo[] bttributesInfo;
+    privbte HbshMbp<String, Object> bttributes;
+    privbte HbshMbp<String, Object> unbvbilbbleAttributes;
+    privbte HbshMbp<String, Object> viewbbleAttributes;
+    privbte WebkHbshMbp<XMBebn, HbshMbp<String, ZoomedCell>> viewersCbche =
+            new WebkHbshMbp<XMBebn, HbshMbp<String, ZoomedCell>>();
+    privbte finbl TbbleModelListener bttributesListener;
+    privbte MBebnsTbb mbebnsTbb;
+    privbte TbbleCellEditor vblueCellEditor = new VblueCellEditor();
+    privbte int rowMinHeight = -1;
+    privbte AttributesMouseListener mouseListener = new AttributesMouseListener();
 
-    private static TableCellEditor editor =
-            new Utils.ReadOnlyTableCellEditor(new JTextField());
+    privbte stbtic TbbleCellEditor editor =
+            new Utils.RebdOnlyTbbleCellEditor(new JTextField());
 
-    public XMBeanAttributes(MBeansTab mbeansTab) {
+    public XMBebnAttributes(MBebnsTbb mbebnsTbb) {
         super();
-        this.mbeansTab = mbeansTab;
-        ((DefaultTableModel)getModel()).setColumnIdentifiers(columnNames);
-        attributesListener = new AttributesListener(this);
-        getModel().addTableModelListener(attributesListener);
+        this.mbebnsTbb = mbebnsTbb;
+        ((DefbultTbbleModel)getModel()).setColumnIdentifiers(columnNbmes);
+        bttributesListener = new AttributesListener(this);
+        getModel().bddTbbleModelListener(bttributesListener);
         getColumnModel().getColumn(NAME_COLUMN).setPreferredWidth(40);
 
-        addMouseListener(mouseListener);
-        getTableHeader().setReorderingAllowed(false);
+        bddMouseListener(mouseListener);
+        getTbbleHebder().setReorderingAllowed(fblse);
         setColumnEditors();
-        addKeyListener(new Utils.CopyKeyAdapter());
+        bddKeyListener(new Utils.CopyKeyAdbpter());
     }
 
     @Override
-    public synchronized Component prepareRenderer(TableCellRenderer renderer,
+    public synchronized Component prepbreRenderer(TbbleCellRenderer renderer,
                                                   int row, int column) {
-        //In case we have a repaint thread that is in the process of
-        //repainting an obsolete table, just ignore the call.
-        //It can happen when MBean selection is switched at a very quick rate
+        //In cbse we hbve b repbint threbd thbt is in the process of
+        //repbinting bn obsolete tbble, just ignore the cbll.
+        //It cbn hbppen when MBebn selection is switched bt b very quick rbte
         if(row >= getRowCount())
             return null;
         else
-            return super.prepareRenderer(renderer, row, column);
+            return super.prepbreRenderer(renderer, row, column);
     }
 
-    void updateRowHeight(Object obj, int row) {
+    void updbteRowHeight(Object obj, int row) {
         ZoomedCell cell = null;
-        if(obj instanceof ZoomedCell) {
+        if(obj instbnceof ZoomedCell) {
             cell = (ZoomedCell) obj;
             if(cell.isInited())
                 setRowHeight(row, cell.getHeight());
@@ -145,139 +145,139 @@ public class XMBeanAttributes extends XTable {
     }
 
     @Override
-    public synchronized TableCellRenderer getCellRenderer(int row,
+    public synchronized TbbleCellRenderer getCellRenderer(int row,
             int column) {
-        //In case we have a repaint thread that is in the process of
-        //repainting an obsolete table, just ignore the call.
-        //It can happen when MBean selection is switched at a very quick rate
+        //In cbse we hbve b repbint threbd thbt is in the process of
+        //repbinting bn obsolete tbble, just ignore the cbll.
+        //It cbn hbppen when MBebn selection is switched bt b very quick rbte
         if (row >= getRowCount()) {
             return null;
         } else {
             if (column == VALUE_COLUMN) {
-                Object obj = getModel().getValueAt(row, column);
-                if (obj instanceof ZoomedCell) {
+                Object obj = getModel().getVblueAt(row, column);
+                if (obj instbnceof ZoomedCell) {
                     ZoomedCell cell = (ZoomedCell) obj;
                     if (cell.isInited()) {
-                        DefaultTableCellRenderer renderer =
-                                (DefaultTableCellRenderer) cell.getRenderer();
+                        DefbultTbbleCellRenderer renderer =
+                                (DefbultTbbleCellRenderer) cell.getRenderer();
                         renderer.setToolTipText(getToolTip(row,column));
                         return renderer;
                     }
                 }
             }
-            DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)
+            DefbultTbbleCellRenderer renderer = (DefbultTbbleCellRenderer)
                 super.getCellRenderer(row, column);
             if (!isCellError(row, column)) {
-                if (!(isColumnEditable(column) && isWritable(row) &&
-                      Utils.isEditableType(getClassName(row)))) {
-                    renderer.setForeground(getDefaultColor());
+                if (!(isColumnEditbble(column) && isWritbble(row) &&
+                      Utils.isEditbbleType(getClbssNbme(row)))) {
+                    renderer.setForeground(getDefbultColor());
                 }
             }
             return renderer;
         }
     }
 
-    private void setColumnEditors() {
-        TableColumnModel tcm = getColumnModel();
-        for (int i = 0; i < columnNames.length; i++) {
-            TableColumn tc = tcm.getColumn(i);
-            if (isColumnEditable(i)) {
-                tc.setCellEditor(valueCellEditor);
+    privbte void setColumnEditors() {
+        TbbleColumnModel tcm = getColumnModel();
+        for (int i = 0; i < columnNbmes.length; i++) {
+            TbbleColumn tc = tcm.getColumn(i);
+            if (isColumnEditbble(i)) {
+                tc.setCellEditor(vblueCellEditor);
             } else {
                 tc.setCellEditor(editor);
             }
         }
     }
 
-    public void cancelCellEditing() {
-        if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer("Cancel Editing Row: "+getEditingRow());
+    public void cbncelCellEditing() {
+        if (LOGGER.isLoggbble(Level.FINER)) {
+            LOGGER.finer("Cbncel Editing Row: "+getEditingRow());
         }
-        final TableCellEditor tableCellEditor = getCellEditor();
-        if (tableCellEditor != null) {
-            tableCellEditor.cancelCellEditing();
+        finbl TbbleCellEditor tbbleCellEditor = getCellEditor();
+        if (tbbleCellEditor != null) {
+            tbbleCellEditor.cbncelCellEditing();
         }
     }
 
     public void stopCellEditing() {
-        if (LOGGER.isLoggable(Level.FINER)) {
+        if (LOGGER.isLoggbble(Level.FINER)) {
             LOGGER.finer("Stop Editing Row: "+getEditingRow());
         }
-        final TableCellEditor tableCellEditor = getCellEditor();
-        if (tableCellEditor != null) {
-            tableCellEditor.stopCellEditing();
+        finbl TbbleCellEditor tbbleCellEditor = getCellEditor();
+        if (tbbleCellEditor != null) {
+            tbbleCellEditor.stopCellEditing();
         }
     }
 
     @Override
-    public final boolean editCellAt(final int row, final int column, EventObject e) {
-        if (LOGGER.isLoggable(Level.FINER)) {
+    public finbl boolebn editCellAt(finbl int row, finbl int column, EventObject e) {
+        if (LOGGER.isLoggbble(Level.FINER)) {
             LOGGER.finer("editCellAt(row="+row+", col="+column+
                     ", e="+e+")");
         }
         if (JConsole.isDebug()) {
-            System.err.println("edit: "+getValueName(row)+"="+getValue(row));
+            System.err.println("edit: "+getVblueNbme(row)+"="+getVblue(row));
         }
-        boolean retVal = super.editCellAt(row, column, e);
-        if (retVal) {
-            final TableCellEditor tableCellEditor =
+        boolebn retVbl = super.editCellAt(row, column, e);
+        if (retVbl) {
+            finbl TbbleCellEditor tbbleCellEditor =
                     getColumnModel().getColumn(column).getCellEditor();
-            if (tableCellEditor == valueCellEditor) {
-                ((JComponent) tableCellEditor).requestFocus();
+            if (tbbleCellEditor == vblueCellEditor) {
+                ((JComponent) tbbleCellEditor).requestFocus();
             }
         }
-        return retVal;
+        return retVbl;
     }
 
     @Override
-    public boolean isCellEditable(int row, int col) {
-        // All the cells in non-editable columns are editable
-        if (!isColumnEditable(col)) {
+    public boolebn isCellEditbble(int row, int col) {
+        // All the cells in non-editbble columns bre editbble
+        if (!isColumnEditbble(col)) {
             return true;
         }
-        // Maximized zoomed cells are editable
-        Object obj = getModel().getValueAt(row, col);
-        if (obj instanceof ZoomedCell) {
+        // Mbximized zoomed cells bre editbble
+        Object obj = getModel().getVblueAt(row, col);
+        if (obj instbnceof ZoomedCell) {
             ZoomedCell cell = (ZoomedCell) obj;
-            return cell.isMaximized();
+            return cell.isMbximized();
         }
         return true;
     }
 
     @Override
-    public void setValueAt(Object value, int row, int column) {
-        if (!isCellError(row, column) && isColumnEditable(column) &&
-            isWritable(row) && Utils.isEditableType(getClassName(row))) {
+    public void setVblueAt(Object vblue, int row, int column) {
+        if (!isCellError(row, column) && isColumnEditbble(column) &&
+            isWritbble(row) && Utils.isEditbbleType(getClbssNbme(row))) {
             if (JConsole.isDebug()) {
-                System.err.println("validating [row="+row+", column="+column+
-                        "]: "+getValueName(row)+"="+value);
+                System.err.println("vblidbting [row="+row+", column="+column+
+                        "]: "+getVblueNbme(row)+"="+vblue);
             }
-            super.setValueAt(value, row, column);
+            super.setVblueAt(vblue, row, column);
         }
     }
 
-    //Table methods
+    //Tbble methods
 
-    public boolean isTableEditable() {
+    public boolebn isTbbleEditbble() {
         return true;
     }
 
-    public void setTableValue(Object value, int row) {
+    public void setTbbleVblue(Object vblue, int row) {
     }
 
-    public boolean isColumnEditable(int column) {
+    public boolebn isColumnEditbble(int column) {
         if (column < getColumnCount()) {
-            return getColumnName(column).equals(Messages.VALUE);
+            return getColumnNbme(column).equbls(Messbges.VALUE);
         }
         else {
-            return false;
+            return fblse;
         }
     }
 
-    public String getClassName(int row) {
+    public String getClbssNbme(int row) {
         int index = convertRowToIndex(row);
         if (index != -1) {
-            return attributesInfo[index].getType();
+            return bttributesInfo[index].getType();
         }
         else {
             return null;
@@ -285,35 +285,35 @@ public class XMBeanAttributes extends XTable {
     }
 
 
-    public String getValueName(int row) {
+    public String getVblueNbme(int row) {
         int index = convertRowToIndex(row);
         if (index != -1) {
-            return attributesInfo[index].getName();
+            return bttributesInfo[index].getNbme();
         }
         else {
             return null;
         }
     }
 
-    public Object getValue(int row) {
-        final Object val = ((DefaultTableModel) getModel())
-                .getValueAt(row, VALUE_COLUMN);
-        return val;
+    public Object getVblue(int row) {
+        finbl Object vbl = ((DefbultTbbleModel) getModel())
+                .getVblueAt(row, VALUE_COLUMN);
+        return vbl;
     }
 
-    //tool tip only for editable column
+    //tool tip only for editbble column
     @Override
     public String getToolTip(int row, int column) {
         if (isCellError(row, column)) {
-            return (String) unavailableAttributes.get(getValueName(row));
+            return (String) unbvbilbbleAttributes.get(getVblueNbme(row));
         }
-        if (isColumnEditable(column)) {
-            Object value = getValue(row);
+        if (isColumnEditbble(column)) {
+            Object vblue = getVblue(row);
             String tip = null;
-            if (value != null) {
-                tip = value.toString();
-                if(isAttributeViewable(row, VALUE_COLUMN))
-                    tip = Messages.DOUBLE_CLICK_TO_EXPAND_FORWARD_SLASH_COLLAPSE+
+            if (vblue != null) {
+                tip = vblue.toString();
+                if(isAttributeViewbble(row, VALUE_COLUMN))
+                    tip = Messbges.DOUBLE_CLICK_TO_EXPAND_FORWARD_SLASH_COLLAPSE+
                         ". " + tip;
             }
 
@@ -323,264 +323,264 @@ public class XMBeanAttributes extends XTable {
         if(column == NAME_COLUMN) {
             int index = convertRowToIndex(row);
             if (index != -1) {
-                return attributesInfo[index].getDescription();
+                return bttributesInfo[index].getDescription();
             }
         }
         return null;
     }
 
-    public synchronized boolean isWritable(int row) {
+    public synchronized boolebn isWritbble(int row) {
         int index = convertRowToIndex(row);
         if (index != -1) {
-            return (attributesInfo[index].isWritable());
+            return (bttributesInfo[index].isWritbble());
         }
         else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Override JTable method in order to make any call to this method
-     * atomic with TableModel elements.
+     * Override JTbble method in order to mbke bny cbll to this method
+     * btomic with TbbleModel elements.
      */
     @Override
     public synchronized int getRowCount() {
         return super.getRowCount();
     }
 
-    public synchronized boolean isReadable(int row) {
+    public synchronized boolebn isRebdbble(int row) {
         int index = convertRowToIndex(row);
         if (index != -1) {
-            return (attributesInfo[index].isReadable());
+            return (bttributesInfo[index].isRebdbble());
         }
         else {
-            return false;
+            return fblse;
         }
     }
 
-    public synchronized boolean isCellError(int row, int col) {
-        return (isColumnEditable(col) &&
-                (unavailableAttributes.containsKey(getValueName(row))));
+    public synchronized boolebn isCellError(int row, int col) {
+        return (isColumnEditbble(col) &&
+                (unbvbilbbleAttributes.contbinsKey(getVblueNbme(row))));
     }
 
-    public synchronized boolean isAttributeViewable(int row, int col) {
-        boolean isViewable = false;
+    public synchronized boolebn isAttributeViewbble(int row, int col) {
+        boolebn isViewbble = fblse;
         if(col == VALUE_COLUMN) {
-            Object obj = getModel().getValueAt(row, col);
-            if(obj instanceof ZoomedCell)
-                isViewable = true;
+            Object obj = getModel().getVblueAt(row, col);
+            if(obj instbnceof ZoomedCell)
+                isViewbble = true;
         }
 
-        return isViewable;
+        return isViewbble;
     }
 
-    // Call this in EDT
-    public void loadAttributes(final XMBean mbean, final MBeanInfo mbeanInfo) {
+    // Cbll this in EDT
+    public void lobdAttributes(finbl XMBebn mbebn, finbl MBebnInfo mbebnInfo) {
 
-        final SwingWorker<Runnable,Void> load =
-                new SwingWorker<Runnable,Void>() {
+        finbl SwingWorker<Runnbble,Void> lobd =
+                new SwingWorker<Runnbble,Void>() {
             @Override
-            protected Runnable doInBackground() throws Exception {
-                return doLoadAttributes(mbean,mbeanInfo);
+            protected Runnbble doInBbckground() throws Exception {
+                return doLobdAttributes(mbebn,mbebnInfo);
             }
 
             @Override
             protected void done() {
                 try {
-                    final Runnable updateUI = get();
-                    if (updateUI != null) updateUI.run();
-                } catch (RuntimeException x) {
+                    finbl Runnbble updbteUI = get();
+                    if (updbteUI != null) updbteUI.run();
+                } cbtch (RuntimeException x) {
                     throw x;
-                } catch (ExecutionException x) {
+                } cbtch (ExecutionException x) {
                     if(JConsole.isDebug()) {
                        System.err.println(
-                               "Exception raised while loading attributes: "
-                               +x.getCause());
-                       x.printStackTrace();
+                               "Exception rbised while lobding bttributes: "
+                               +x.getCbuse());
+                       x.printStbckTrbce();
                     }
-                } catch (InterruptedException x) {
+                } cbtch (InterruptedException x) {
                     if(JConsole.isDebug()) {
                        System.err.println(
-                            "Interrupted while loading attributes: "+x);
-                       x.printStackTrace();
+                            "Interrupted while lobding bttributes: "+x);
+                       x.printStbckTrbce();
                     }
                 }
             }
 
         };
-        mbeansTab.workerAdd(load);
+        mbebnsTbb.workerAdd(lobd);
     }
 
-    // Don't call this in EDT, but execute returned Runnable inside
-    // EDT - typically in the done() method of a SwingWorker
-    // This method can return null.
-    private Runnable doLoadAttributes(final XMBean mbean, MBeanInfo infoOrNull)
+    // Don't cbll this in EDT, but execute returned Runnbble inside
+    // EDT - typicblly in the done() method of b SwingWorker
+    // This method cbn return null.
+    privbte Runnbble doLobdAttributes(finbl XMBebn mbebn, MBebnInfo infoOrNull)
         throws JMException, IOException {
-        // To avoid deadlock with events coming from the JMX side,
-        // we retrieve all JMX stuff in a non synchronized block.
+        // To bvoid debdlock with events coming from the JMX side,
+        // we retrieve bll JMX stuff in b non synchronized block.
 
-        if(mbean == null) return null;
-        final MBeanInfo curMBeanInfo =
-                (infoOrNull==null)?mbean.getMBeanInfo():infoOrNull;
+        if(mbebn == null) return null;
+        finbl MBebnInfo curMBebnInfo =
+                (infoOrNull==null)?mbebn.getMBebnInfo():infoOrNull;
 
-        final MBeanAttributeInfo[] attrsInfo = curMBeanInfo.getAttributes();
-        final HashMap<String, Object> attrs =
-            new HashMap<String, Object>(attrsInfo.length);
-        final HashMap<String, Object> unavailableAttrs =
-            new HashMap<String, Object>(attrsInfo.length);
-        final HashMap<String, Object> viewableAttrs =
-            new HashMap<String, Object>(attrsInfo.length);
+        finbl MBebnAttributeInfo[] bttrsInfo = curMBebnInfo.getAttributes();
+        finbl HbshMbp<String, Object> bttrs =
+            new HbshMbp<String, Object>(bttrsInfo.length);
+        finbl HbshMbp<String, Object> unbvbilbbleAttrs =
+            new HbshMbp<String, Object>(bttrsInfo.length);
+        finbl HbshMbp<String, Object> viewbbleAttrs =
+            new HbshMbp<String, Object>(bttrsInfo.length);
         AttributeList list = null;
 
         try {
-            list = mbean.getAttributes(attrsInfo);
-        }catch(Exception e) {
+            list = mbebn.getAttributes(bttrsInfo);
+        }cbtch(Exception e) {
             if (JConsole.isDebug()) {
-                System.err.println("Error calling getAttributes() on MBean \"" +
-                                   mbean.getObjectName() + "\". JConsole will " +
-                                   "try to get them individually calling " +
-                                   "getAttribute() instead. Exception:");
-                e.printStackTrace(System.err);
+                System.err.println("Error cblling getAttributes() on MBebn \"" +
+                                   mbebn.getObjectNbme() + "\". JConsole will " +
+                                   "try to get them individublly cblling " +
+                                   "getAttribute() instebd. Exception:");
+                e.printStbckTrbce(System.err);
             }
             list = new AttributeList();
-            //Can't load all attributes, do it one after each other.
-            for(int i = 0; i < attrsInfo.length; i++) {
-                String name = null;
+            //Cbn't lobd bll bttributes, do it one bfter ebch other.
+            for(int i = 0; i < bttrsInfo.length; i++) {
+                String nbme = null;
                 try {
-                    name = attrsInfo[i].getName();
-                    Object value =
-                        mbean.getMBeanServerConnection().
-                        getAttribute(mbean.getObjectName(), name);
-                    list.add(new Attribute(name, value));
-                }catch(Exception ex) {
-                    if(attrsInfo[i].isReadable()) {
-                        unavailableAttrs.put(name,
-                                Utils.getActualException(ex).toString());
+                    nbme = bttrsInfo[i].getNbme();
+                    Object vblue =
+                        mbebn.getMBebnServerConnection().
+                        getAttribute(mbebn.getObjectNbme(), nbme);
+                    list.bdd(new Attribute(nbme, vblue));
+                }cbtch(Exception ex) {
+                    if(bttrsInfo[i].isRebdbble()) {
+                        unbvbilbbleAttrs.put(nbme,
+                                Utils.getActublException(ex).toString());
                     }
                 }
             }
         }
         try {
-            int att_length = list.size();
-            for (int i=0;i<att_length;i++) {
-                Attribute attribute = (Attribute) list.get(i);
-                if(isViewable(attribute)) {
-                    viewableAttrs.put(attribute.getName(),
-                                           attribute.getValue());
+            int btt_length = list.size();
+            for (int i=0;i<btt_length;i++) {
+                Attribute bttribute = (Attribute) list.get(i);
+                if(isViewbble(bttribute)) {
+                    viewbbleAttrs.put(bttribute.getNbme(),
+                                           bttribute.getVblue());
                 }
                 else
-                    attrs.put(attribute.getName(),attribute.getValue());
+                    bttrs.put(bttribute.getNbme(),bttribute.getVblue());
 
             }
-            // if not all attributes are accessible,
-            // check them one after the other.
-            if (att_length < attrsInfo.length) {
-                for (int i=0;i<attrsInfo.length;i++) {
-                    MBeanAttributeInfo attributeInfo = attrsInfo[i];
-                    if (!attrs.containsKey(attributeInfo.getName()) &&
-                        !viewableAttrs.containsKey(attributeInfo.
-                                                        getName()) &&
-                        !unavailableAttrs.containsKey(attributeInfo.
-                                                           getName())) {
-                        if (attributeInfo.isReadable()) {
+            // if not bll bttributes bre bccessible,
+            // check them one bfter the other.
+            if (btt_length < bttrsInfo.length) {
+                for (int i=0;i<bttrsInfo.length;i++) {
+                    MBebnAttributeInfo bttributeInfo = bttrsInfo[i];
+                    if (!bttrs.contbinsKey(bttributeInfo.getNbme()) &&
+                        !viewbbleAttrs.contbinsKey(bttributeInfo.
+                                                        getNbme()) &&
+                        !unbvbilbbleAttrs.contbinsKey(bttributeInfo.
+                                                           getNbme())) {
+                        if (bttributeInfo.isRebdbble()) {
                             // getAttributes didn't help resolving the
                             // exception.
-                            // We must call it again to understand what
+                            // We must cbll it bgbin to understbnd whbt
                             // went wrong.
                             try {
                                 Object v =
-                                    mbean.getMBeanServerConnection().getAttribute(
-                                    mbean.getObjectName(), attributeInfo.getName());
-                                //What happens if now it is ok?
-                                // Be pragmatic, add it to readable...
-                                attrs.put(attributeInfo.getName(),
+                                    mbebn.getMBebnServerConnection().getAttribute(
+                                    mbebn.getObjectNbme(), bttributeInfo.getNbme());
+                                //Whbt hbppens if now it is ok?
+                                // Be prbgmbtic, bdd it to rebdbble...
+                                bttrs.put(bttributeInfo.getNbme(),
                                                v);
-                            }catch(Exception e) {
-                                //Put the exception that will be displayed
+                            }cbtch(Exception e) {
+                                //Put the exception thbt will be displbyed
                                 // in tooltip
-                                unavailableAttrs.put(attributeInfo.getName(),
-                                        Utils.getActualException(e).toString());
+                                unbvbilbbleAttrs.put(bttributeInfo.getNbme(),
+                                        Utils.getActublException(e).toString());
                             }
                         }
                     }
                 }
             }
         }
-        catch(Exception e) {
-            //sets all attributes unavailable except the writable ones
-            for (int i=0;i<attrsInfo.length;i++) {
-                MBeanAttributeInfo attributeInfo = attrsInfo[i];
-                if (attributeInfo.isReadable()) {
-                    unavailableAttrs.put(attributeInfo.getName(),
-                                              Utils.getActualException(e).
+        cbtch(Exception e) {
+            //sets bll bttributes unbvbilbble except the writbble ones
+            for (int i=0;i<bttrsInfo.length;i++) {
+                MBebnAttributeInfo bttributeInfo = bttrsInfo[i];
+                if (bttributeInfo.isRebdbble()) {
+                    unbvbilbbleAttrs.put(bttributeInfo.getNbme(),
+                                              Utils.getActublException(e).
                                               toString());
                 }
             }
         }
-        //end of retrieval
+        //end of retrievbl
 
-        //one update at a time
-        return new Runnable() {
+        //one updbte bt b time
+        return new Runnbble() {
             public void run() {
-                synchronized (XMBeanAttributes.this) {
-                    XMBeanAttributes.this.mbean = mbean;
-                    XMBeanAttributes.this.mbeanInfo = curMBeanInfo;
-                    XMBeanAttributes.this.attributesInfo = attrsInfo;
-                    XMBeanAttributes.this.attributes = attrs;
-                    XMBeanAttributes.this.unavailableAttributes = unavailableAttrs;
-                    XMBeanAttributes.this.viewableAttributes = viewableAttrs;
+                synchronized (XMBebnAttributes.this) {
+                    XMBebnAttributes.this.mbebn = mbebn;
+                    XMBebnAttributes.this.mbebnInfo = curMBebnInfo;
+                    XMBebnAttributes.this.bttributesInfo = bttrsInfo;
+                    XMBebnAttributes.this.bttributes = bttrs;
+                    XMBebnAttributes.this.unbvbilbbleAttributes = unbvbilbbleAttrs;
+                    XMBebnAttributes.this.viewbbleAttributes = viewbbleAttrs;
 
-                    DefaultTableModel tableModel =
-                            (DefaultTableModel) getModel();
+                    DefbultTbbleModel tbbleModel =
+                            (DefbultTbbleModel) getModel();
 
-                    // add attribute information
-                    emptyTable(tableModel);
+                    // bdd bttribute informbtion
+                    emptyTbble(tbbleModel);
 
-                    addTableData(tableModel,
-                            mbean,
-                            attrsInfo,
-                            attrs,
-                            unavailableAttrs,
-                            viewableAttrs);
+                    bddTbbleDbtb(tbbleModel,
+                            mbebn,
+                            bttrsInfo,
+                            bttrs,
+                            unbvbilbbleAttrs,
+                            viewbbleAttrs);
 
-                    // update the model with the new data
-                    tableModel.newDataAvailable(new TableModelEvent(tableModel));
-                    // re-register for change events
-                    tableModel.addTableModelListener(attributesListener);
+                    // updbte the model with the new dbtb
+                    tbbleModel.newDbtbAvbilbble(new TbbleModelEvent(tbbleModel));
+                    // re-register for chbnge events
+                    tbbleModel.bddTbbleModelListener(bttributesListener);
                 }
             }
         };
     }
 
-    void collapse(String attributeName, final Component c) {
-        final int row = getSelectedRow();
-        Object obj = getModel().getValueAt(row, VALUE_COLUMN);
-        if(obj instanceof ZoomedCell) {
-            cancelCellEditing();
+    void collbpse(String bttributeNbme, finbl Component c) {
+        finbl int row = getSelectedRow();
+        Object obj = getModel().getVblueAt(row, VALUE_COLUMN);
+        if(obj instbnceof ZoomedCell) {
+            cbncelCellEditing();
             ZoomedCell cell = (ZoomedCell) obj;
             cell.reset();
             setRowHeight(row,
                          cell.getHeight());
             editCellAt(row,
                        VALUE_COLUMN);
-            invalidate();
-            repaint();
+            invblidbte();
+            repbint();
         }
     }
 
-    ZoomedCell updateZoomedCell(int row,
+    ZoomedCell updbteZoomedCell(int row,
                                 int col) {
-        Object obj = getModel().getValueAt(row, VALUE_COLUMN);
+        Object obj = getModel().getVblueAt(row, VALUE_COLUMN);
         ZoomedCell cell = null;
-        if(obj instanceof ZoomedCell) {
+        if(obj instbnceof ZoomedCell) {
             cell = (ZoomedCell) obj;
             if(!cell.isInited()) {
-                Object elem = cell.getValue();
-                String attributeName =
-                    (String) getModel().getValueAt(row,
+                Object elem = cell.getVblue();
+                String bttributeNbme =
+                    (String) getModel().getVblueAt(row,
                                                    NAME_COLUMN);
-                Component comp = mbeansTab.getDataViewer().
-                        createAttributeViewer(elem, mbean, attributeName, this);
+                Component comp = mbebnsTbb.getDbtbViewer().
+                        crebteAttributeViewer(elem, mbebn, bttributeNbme, this);
                 if(comp != null){
                     if(rowMinHeight == -1)
                         rowMinHeight = getRowHeight(row);
@@ -589,54 +589,54 @@ public class XMBeanAttributes extends XTable {
                               comp,
                               rowMinHeight);
 
-                    XDataViewer.registerForMouseEvent(
+                    XDbtbViewer.registerForMouseEvent(
                             comp, mouseListener);
                 } else
                     return cell;
             }
 
-            cell.switchState();
+            cell.switchStbte();
             setRowHeight(row,
                          cell.getHeight());
 
-            if(!cell.isMaximized()) {
-                cancelCellEditing();
-                //Back to simple editor.
+            if(!cell.isMbximized()) {
+                cbncelCellEditing();
+                //Bbck to simple editor.
                 editCellAt(row,
                            VALUE_COLUMN);
             }
 
-            invalidate();
-            repaint();
+            invblidbte();
+            repbint();
         }
         return cell;
     }
 
-    // This is called by XSheet when the "refresh" button is pressed.
-    // In this case we will commit any pending attribute values by
-    // calling 'stopCellEditing'.
+    // This is cblled by XSheet when the "refresh" button is pressed.
+    // In this cbse we will commit bny pending bttribute vblues by
+    // cblling 'stopCellEditing'.
     //
     public void refreshAttributes() {
          refreshAttributes(true);
     }
 
-    // refreshAttributes(false) is called by tableChanged().
-    // in this case we must not call stopCellEditing, because it's already
-    // been called - e.g.
-    // lostFocus/mousePressed -> stopCellEditing -> setValueAt -> tableChanged
-    //                        -> refreshAttributes(false)
+    // refreshAttributes(fblse) is cblled by tbbleChbnged().
+    // in this cbse we must not cbll stopCellEditing, becbuse it's blrebdy
+    // been cblled - e.g.
+    // lostFocus/mousePressed -> stopCellEditing -> setVblueAt -> tbbleChbnged
+    //                        -> refreshAttributes(fblse)
     //
-    // Can be called in EDT - as long as the implementation of
-    // mbeansTab.getCachedMBeanServerConnection() and mbsc.flush() doesn't
-    // change
+    // Cbn be cblled in EDT - bs long bs the implementbtion of
+    // mbebnsTbb.getCbchedMBebnServerConnection() bnd mbsc.flush() doesn't
+    // chbnge
     //
-    private void refreshAttributes(final boolean stopCellEditing) {
+    privbte void refreshAttributes(finbl boolebn stopCellEditing) {
          SwingWorker<Void,Void> sw = new SwingWorker<Void,Void>() {
 
             @Override
-            protected Void doInBackground() throws Exception {
-                SnapshotMBeanServerConnection mbsc =
-                mbeansTab.getSnapshotMBeanServerConnection();
+            protected Void doInBbckground() throws Exception {
+                SnbpshotMBebnServerConnection mbsc =
+                mbebnsTbb.getSnbpshotMBebnServerConnection();
                 mbsc.flush();
                 return null;
             }
@@ -646,27 +646,27 @@ public class XMBeanAttributes extends XTable {
                 try {
                     get();
                     if (stopCellEditing) stopCellEditing();
-                    loadAttributes(mbean, mbeanInfo);
-                } catch (Exception x) {
+                    lobdAttributes(mbebn, mbebnInfo);
+                } cbtch (Exception x) {
                     if (JConsole.isDebug()) {
-                        x.printStackTrace();
+                        x.printStbckTrbce();
                     }
                 }
             }
          };
-         mbeansTab.workerAdd(sw);
+         mbebnsTbb.workerAdd(sw);
      }
-    // We need to call stop editing here - otherwise edits are lost
-    // when resizing the table.
+    // We need to cbll stop editing here - otherwise edits bre lost
+    // when resizing the tbble.
     //
     @Override
-    public void columnMarginChanged(ChangeEvent e) {
+    public void columnMbrginChbnged(ChbngeEvent e) {
         if (isEditing()) stopCellEditing();
-        super.columnMarginChanged(e);
+        super.columnMbrginChbnged(e);
     }
 
-    // We need to call stop editing here - otherwise the edited value
-    // is transferred to the wrong row...
+    // We need to cbll stop editing here - otherwise the edited vblue
+    // is trbnsferred to the wrong row...
     //
     @Override
     void sortRequested(int column) {
@@ -676,187 +676,187 @@ public class XMBeanAttributes extends XTable {
 
 
     @Override
-    public synchronized void emptyTable() {
-         emptyTable((DefaultTableModel)getModel());
+    public synchronized void emptyTbble() {
+         emptyTbble((DefbultTbbleModel)getModel());
      }
 
-    // Call this in synchronized block.
-    private void emptyTable(DefaultTableModel model) {
-         model.removeTableModelListener(attributesListener);
-         super.emptyTable();
+    // Cbll this in synchronized block.
+    privbte void emptyTbble(DefbultTbbleModel model) {
+         model.removeTbbleModelListener(bttributesListener);
+         super.emptyTbble();
     }
 
-    private boolean isViewable(Attribute attribute) {
-        Object data = attribute.getValue();
-        return XDataViewer.isViewableValue(data);
+    privbte boolebn isViewbble(Attribute bttribute) {
+        Object dbtb = bttribute.getVblue();
+        return XDbtbViewer.isViewbbleVblue(dbtb);
 
     }
 
     synchronized void removeAttributes() {
-        if (attributes != null) {
-            attributes.clear();
+        if (bttributes != null) {
+            bttributes.clebr();
         }
-        if (unavailableAttributes != null) {
-            unavailableAttributes.clear();
+        if (unbvbilbbleAttributes != null) {
+            unbvbilbbleAttributes.clebr();
         }
-        if (viewableAttributes != null) {
-            viewableAttributes.clear();
+        if (viewbbleAttributes != null) {
+            viewbbleAttributes.clebr();
         }
-        mbean = null;
+        mbebn = null;
     }
 
-    private ZoomedCell getZoomedCell(XMBean mbean, String attribute, Object value) {
-        synchronized (viewersCache) {
-            HashMap<String, ZoomedCell> viewers;
-            if (viewersCache.containsKey(mbean)) {
-                viewers = viewersCache.get(mbean);
+    privbte ZoomedCell getZoomedCell(XMBebn mbebn, String bttribute, Object vblue) {
+        synchronized (viewersCbche) {
+            HbshMbp<String, ZoomedCell> viewers;
+            if (viewersCbche.contbinsKey(mbebn)) {
+                viewers = viewersCbche.get(mbebn);
             } else {
-                viewers = new HashMap<String, ZoomedCell>();
+                viewers = new HbshMbp<String, ZoomedCell>();
             }
             ZoomedCell cell;
-            if (viewers.containsKey(attribute)) {
-                cell = viewers.get(attribute);
-                cell.setValue(value);
-                if (cell.isMaximized() && cell.getType() != XDataViewer.NUMERIC) {
-                    // Plotters are the only viewers with auto update capabilities.
-                    // Other viewers need to be updated manually.
+            if (viewers.contbinsKey(bttribute)) {
+                cell = viewers.get(bttribute);
+                cell.setVblue(vblue);
+                if (cell.isMbximized() && cell.getType() != XDbtbViewer.NUMERIC) {
+                    // Plotters bre the only viewers with buto updbte cbpbbilities.
+                    // Other viewers need to be updbted mbnublly.
                     Component comp =
-                        mbeansTab.getDataViewer().createAttributeViewer(
-                            value, mbean, attribute, XMBeanAttributes.this);
+                        mbebnsTbb.getDbtbViewer().crebteAttributeViewer(
+                            vblue, mbebn, bttribute, XMBebnAttributes.this);
                     cell.init(cell.getMinRenderer(), comp, cell.getMinHeight());
-                    XDataViewer.registerForMouseEvent(comp, mouseListener);
+                    XDbtbViewer.registerForMouseEvent(comp, mouseListener);
                 }
             } else {
-                cell = new ZoomedCell(value);
-                viewers.put(attribute, cell);
+                cell = new ZoomedCell(vblue);
+                viewers.put(bttribute, cell);
             }
-            viewersCache.put(mbean, viewers);
+            viewersCbche.put(mbebn, viewers);
             return cell;
         }
     }
 
-    //will be called in a synchronized block
-    protected void addTableData(DefaultTableModel tableModel,
-                                XMBean mbean,
-                                MBeanAttributeInfo[] attributesInfo,
-                                HashMap<String, Object> attributes,
-                                HashMap<String, Object> unavailableAttributes,
-                                HashMap<String, Object> viewableAttributes) {
+    //will be cblled in b synchronized block
+    protected void bddTbbleDbtb(DefbultTbbleModel tbbleModel,
+                                XMBebn mbebn,
+                                MBebnAttributeInfo[] bttributesInfo,
+                                HbshMbp<String, Object> bttributes,
+                                HbshMbp<String, Object> unbvbilbbleAttributes,
+                                HbshMbp<String, Object> viewbbleAttributes) {
 
-        Object rowData[] = new Object[2];
+        Object rowDbtb[] = new Object[2];
         int col1Width = 0;
         int col2Width = 0;
-        for (int i = 0; i < attributesInfo.length; i++) {
-            rowData[0] = (attributesInfo[i].getName());
-            if (unavailableAttributes.containsKey(rowData[0])) {
-                rowData[1] = Messages.UNAVAILABLE;
-            } else if (viewableAttributes.containsKey(rowData[0])) {
-                rowData[1] = viewableAttributes.get(rowData[0]);
-                if (!attributesInfo[i].isWritable() ||
-                    !Utils.isEditableType(attributesInfo[i].getType())) {
-                    rowData[1] = getZoomedCell(mbean, (String) rowData[0], rowData[1]);
+        for (int i = 0; i < bttributesInfo.length; i++) {
+            rowDbtb[0] = (bttributesInfo[i].getNbme());
+            if (unbvbilbbleAttributes.contbinsKey(rowDbtb[0])) {
+                rowDbtb[1] = Messbges.UNAVAILABLE;
+            } else if (viewbbleAttributes.contbinsKey(rowDbtb[0])) {
+                rowDbtb[1] = viewbbleAttributes.get(rowDbtb[0]);
+                if (!bttributesInfo[i].isWritbble() ||
+                    !Utils.isEditbbleType(bttributesInfo[i].getType())) {
+                    rowDbtb[1] = getZoomedCell(mbebn, (String) rowDbtb[0], rowDbtb[1]);
                 }
             } else {
-                rowData[1] = attributes.get(rowData[0]);
+                rowDbtb[1] = bttributes.get(rowDbtb[0]);
             }
 
-            tableModel.addRow(rowData);
+            tbbleModel.bddRow(rowDbtb);
 
-            //Update column width
+            //Updbte column width
             //
             String str = null;
-            if(rowData[0] != null) {
-                str = rowData[0].toString();
+            if(rowDbtb[0] != null) {
+                str = rowDbtb[0].toString();
                 if(str.length() > col1Width)
                     col1Width = str.length();
             }
-            if(rowData[1] != null) {
-                str = rowData[1].toString();
+            if(rowDbtb[1] != null) {
+                str = rowDbtb[1].toString();
                 if(str.length() > col2Width)
                     col2Width = str.length();
             }
         }
-        updateColumnWidth(col1Width, col2Width);
+        updbteColumnWidth(col1Width, col2Width);
     }
 
-    private void updateColumnWidth(int col1Width, int col2Width) {
-        TableColumnModel colModel = getColumnModel();
+    privbte void updbteColumnWidth(int col1Width, int col2Width) {
+        TbbleColumnModel colModel = getColumnModel();
 
-        //Get the column at index pColumn, and set its preferred width.
+        //Get the column bt index pColumn, bnd set its preferred width.
         col1Width = col1Width * 7;
         col2Width = col2Width * 7;
         if(col1Width + col2Width <
-           (int) getPreferredScrollableViewportSize().getWidth())
-            col2Width = (int) getPreferredScrollableViewportSize().getWidth()
+           (int) getPreferredScrollbbleViewportSize().getWidth())
+            col2Width = (int) getPreferredScrollbbleViewportSize().getWidth()
                 - col1Width;
 
         colModel.getColumn(NAME_COLUMN).setPreferredWidth(50);
     }
 
-    class AttributesMouseListener extends MouseAdapter {
+    clbss AttributesMouseListener extends MouseAdbpter {
 
         @Override
         public void mousePressed(MouseEvent e) {
             if(e.getButton() == MouseEvent.BUTTON1) {
                 if(e.getClickCount() >= 2) {
 
-                    int row = XMBeanAttributes.this.getSelectedRow();
-                    int col = XMBeanAttributes.this.getSelectedColumn();
+                    int row = XMBebnAttributes.this.getSelectedRow();
+                    int col = XMBebnAttributes.this.getSelectedColumn();
                     if(col != VALUE_COLUMN) return;
                     if(col == -1 || row == -1) return;
 
-                    XMBeanAttributes.this.updateZoomedCell(row, col);
+                    XMBebnAttributes.this.updbteZoomedCell(row, col);
                 }
             }
         }
     }
 
-    class ValueCellEditor extends XTextFieldEditor {
-        // implements javax.swing.table.TableCellEditor
+    clbss VblueCellEditor extends XTextFieldEditor {
+        // implements jbvbx.swing.tbble.TbbleCellEditor
         @Override
-        public Component getTableCellEditorComponent(JTable table,
-                                                     Object value,
-                                                     boolean isSelected,
+        public Component getTbbleCellEditorComponent(JTbble tbble,
+                                                     Object vblue,
+                                                     boolebn isSelected,
                                                      int row,
                                                      int column) {
-            Object val = value;
+            Object vbl = vblue;
             if(column == VALUE_COLUMN) {
-                Object obj = getModel().getValueAt(row,
+                Object obj = getModel().getVblueAt(row,
                                                    column);
-                if(obj instanceof ZoomedCell) {
+                if(obj instbnceof ZoomedCell) {
                     ZoomedCell cell = (ZoomedCell) obj;
-                    if(cell.getRenderer() instanceof MaximizedCellRenderer) {
-                        MaximizedCellRenderer zr =
-                            (MaximizedCellRenderer) cell.getRenderer();
+                    if(cell.getRenderer() instbnceof MbximizedCellRenderer) {
+                        MbximizedCellRenderer zr =
+                            (MbximizedCellRenderer) cell.getRenderer();
                         return zr.getComponent();
                     }
                 } else {
-                    Component comp = super.getTableCellEditorComponent(
-                            table, val, isSelected, row, column);
+                    Component comp = super.getTbbleCellEditorComponent(
+                            tbble, vbl, isSelected, row, column);
                     if (isCellError(row, column) ||
-                        !isWritable(row) ||
-                        !Utils.isEditableType(getClassName(row))) {
-                        textField.setEditable(false);
+                        !isWritbble(row) ||
+                        !Utils.isEditbbleType(getClbssNbme(row))) {
+                        textField.setEditbble(fblse);
                     }
                     return comp;
                 }
             }
-            return super.getTableCellEditorComponent(table,
-                                                     val,
+            return super.getTbbleCellEditorComponent(tbble,
+                                                     vbl,
                                                      isSelected,
                                                      row,
                                                      column);
         }
         @Override
-        public boolean stopCellEditing() {
+        public boolebn stopCellEditing() {
             int editingRow = getEditingRow();
             int editingColumn = getEditingColumn();
             if (editingColumn == VALUE_COLUMN) {
-                Object obj = getModel().getValueAt(editingRow, editingColumn);
-                if (obj instanceof ZoomedCell) {
+                Object obj = getModel().getVblueAt(editingRow, editingColumn);
+                if (obj instbnceof ZoomedCell) {
                     ZoomedCell cell = (ZoomedCell) obj;
-                    if (cell.isMaximized()) {
-                        this.cancelCellEditing();
+                    if (cell.isMbximized()) {
+                        this.cbncelCellEditing();
                         return true;
                     }
                 }
@@ -865,9 +865,9 @@ public class XMBeanAttributes extends XTable {
         }
     }
 
-    class MaximizedCellRenderer extends  DefaultTableCellRenderer {
+    clbss MbximizedCellRenderer extends  DefbultTbbleCellRenderer {
         Component comp;
-        MaximizedCellRenderer(Component comp) {
+        MbximizedCellRenderer(Component comp) {
             this.comp = comp;
             Dimension d = comp.getPreferredSize();
             if (d.getHeight() > 220) {
@@ -875,10 +875,10 @@ public class XMBeanAttributes extends XTable {
             }
         }
         @Override
-        public Component getTableCellRendererComponent(JTable table,
-                                                       Object value,
-                                                       boolean isSelected,
-                                                       boolean hasFocus,
+        public Component getTbbleCellRendererComponent(JTbble tbble,
+                                                       Object vblue,
+                                                       boolebn isSelected,
+                                                       boolebn hbsFocus,
                                                        int row,
                                                        int column) {
             return comp;
@@ -888,36 +888,36 @@ public class XMBeanAttributes extends XTable {
         }
     }
 
-    class ZoomedCell {
-        TableCellRenderer minRenderer;
-        MaximizedCellRenderer maxRenderer;
+    clbss ZoomedCell {
+        TbbleCellRenderer minRenderer;
+        MbximizedCellRenderer mbxRenderer;
         int minHeight;
-        boolean minimized = true;
-        boolean init = false;
+        boolebn minimized = true;
+        boolebn init = fblse;
         int type;
-        Object value;
-        ZoomedCell(Object value) {
-            type = XDataViewer.getViewerType(value);
-            this.value = value;
+        Object vblue;
+        ZoomedCell(Object vblue) {
+            type = XDbtbViewer.getViewerType(vblue);
+            this.vblue = vblue;
         }
 
-        boolean isInited() {
+        boolebn isInited() {
             return init;
         }
 
-        Object getValue() {
-            return value;
+        Object getVblue() {
+            return vblue;
         }
 
-        void setValue(Object value) {
-            this.value = value;
+        void setVblue(Object vblue) {
+            this.vblue = vblue;
         }
 
-        void init(TableCellRenderer minRenderer,
-                  Component maxComponent,
+        void init(TbbleCellRenderer minRenderer,
+                  Component mbxComponent,
                   int minHeight) {
             this.minRenderer = minRenderer;
-            this.maxRenderer = new MaximizedCellRenderer(maxComponent);
+            this.mbxRenderer = new MbximizedCellRenderer(mbxComponent);
 
             this.minHeight = minHeight;
             init = true;
@@ -928,28 +928,28 @@ public class XMBeanAttributes extends XTable {
         }
 
         void reset() {
-            init = false;
+            init = fblse;
             minimized = true;
         }
 
-        void switchState() {
+        void switchStbte() {
             minimized = !minimized;
         }
-        boolean isMaximized() {
+        boolebn isMbximized() {
             return !minimized;
         }
         void minimize() {
             minimized = true;
         }
 
-        void maximize() {
-            minimized = false;
+        void mbximize() {
+            minimized = fblse;
         }
 
         int getHeight() {
             if(minimized) return minHeight;
             else
-                return (int) maxRenderer.getComponent().
+                return (int) mbxRenderer.getComponent().
                     getPreferredSize().getHeight() ;
         }
 
@@ -960,87 +960,87 @@ public class XMBeanAttributes extends XTable {
         @Override
         public String toString() {
 
-            if(value == null) return null;
+            if(vblue == null) return null;
 
-            if(value.getClass().isArray()) {
-                String name =
-                    Utils.getArrayClassName(value.getClass().getName());
-                int length = Array.getLength(value);
-                return name + "[" + length +"]";
+            if(vblue.getClbss().isArrby()) {
+                String nbme =
+                    Utils.getArrbyClbssNbme(vblue.getClbss().getNbme());
+                int length = Arrby.getLength(vblue);
+                return nbme + "[" + length +"]";
             }
 
-            if(value instanceof CompositeData ||
-               value instanceof TabularData)
-                return value.getClass().getName();
+            if(vblue instbnceof CompositeDbtb ||
+               vblue instbnceof TbbulbrDbtb)
+                return vblue.getClbss().getNbme();
 
-            return value.toString();
+            return vblue.toString();
         }
 
-        TableCellRenderer getRenderer() {
+        TbbleCellRenderer getRenderer() {
             if(minimized) return minRenderer;
-            else return maxRenderer;
+            else return mbxRenderer;
         }
 
-        TableCellRenderer getMinRenderer() {
+        TbbleCellRenderer getMinRenderer() {
             return minRenderer;
         }
     }
 
-    class AttributesListener implements  TableModelListener {
+    clbss AttributesListener implements  TbbleModelListener {
 
-        private Component component;
+        privbte Component component;
 
         public AttributesListener(Component component) {
             this.component = component;
         }
 
-        // Call this in EDT
-        public void tableChanged(final TableModelEvent e) {
-            // only post changes to the draggable column
-            if (isColumnEditable(e.getColumn())) {
-                final TableModel model = (TableModel)e.getSource();
-                Object tableValue = model.getValueAt(e.getFirstRow(),
+        // Cbll this in EDT
+        public void tbbleChbnged(finbl TbbleModelEvent e) {
+            // only post chbnges to the drbggbble column
+            if (isColumnEditbble(e.getColumn())) {
+                finbl TbbleModel model = (TbbleModel)e.getSource();
+                Object tbbleVblue = model.getVblueAt(e.getFirstRow(),
                                                  e.getColumn());
 
-                if (LOGGER.isLoggable(Level.FINER)) {
-                    LOGGER.finer("tableChanged: firstRow="+e.getFirstRow()+
-                        ", lastRow="+e.getLastRow()+", column="+e.getColumn()+
-                        ", value="+tableValue);
+                if (LOGGER.isLoggbble(Level.FINER)) {
+                    LOGGER.finer("tbbleChbnged: firstRow="+e.getFirstRow()+
+                        ", lbstRow="+e.getLbstRow()+", column="+e.getColumn()+
+                        ", vblue="+tbbleVblue);
                 }
-                // if it's a String, try construct new value
+                // if it's b String, try construct new vblue
                 // using the defined type.
-                if (tableValue instanceof String) {
+                if (tbbleVblue instbnceof String) {
                     try {
-                        tableValue =
-                            Utils.createObjectFromString(getClassName(e.getFirstRow()), // type
-                            (String)tableValue);// value
-                    } catch (Throwable ex) {
-                        popupAndLog(ex,"tableChanged",
-                                    Messages.PROBLEM_SETTING_ATTRIBUTE);
+                        tbbleVblue =
+                            Utils.crebteObjectFromString(getClbssNbme(e.getFirstRow()), // type
+                            (String)tbbleVblue);// vblue
+                    } cbtch (Throwbble ex) {
+                        popupAndLog(ex,"tbbleChbnged",
+                                    Messbges.PROBLEM_SETTING_ATTRIBUTE);
                     }
                 }
-                final String attributeName = getValueName(e.getFirstRow());
-                final Attribute attribute =
-                      new Attribute(attributeName,tableValue);
-                setAttribute(attribute, "tableChanged");
+                finbl String bttributeNbme = getVblueNbme(e.getFirstRow());
+                finbl Attribute bttribute =
+                      new Attribute(bttributeNbme,tbbleVblue);
+                setAttribute(bttribute, "tbbleChbnged");
             }
         }
 
-        // Call this in EDT
-        private void setAttribute(final Attribute attribute, final String method) {
-            final SwingWorker<Void,Void> setAttribute =
+        // Cbll this in EDT
+        privbte void setAttribute(finbl Attribute bttribute, finbl String method) {
+            finbl SwingWorker<Void,Void> setAttribute =
                     new SwingWorker<Void,Void>() {
                 @Override
-                protected Void doInBackground() throws Exception {
+                protected Void doInBbckground() throws Exception {
                     try {
                         if (JConsole.isDebug()) {
                             System.err.println("setAttribute("+
-                                    attribute.getName()+
-                                "="+attribute.getValue()+")");
+                                    bttribute.getNbme()+
+                                "="+bttribute.getVblue()+")");
                         }
-                        mbean.setAttribute(attribute);
-                    } catch (Throwable ex) {
-                        popupAndLog(ex,method,Messages.PROBLEM_SETTING_ATTRIBUTE);
+                        mbebn.setAttribute(bttribute);
+                    } cbtch (Throwbble ex) {
+                        popupAndLog(ex,method,Messbges.PROBLEM_SETTING_ATTRIBUTE);
                     }
                     return null;
                 }
@@ -1048,28 +1048,28 @@ public class XMBeanAttributes extends XTable {
                 protected void done() {
                     try {
                         get();
-                    } catch (Exception x) {
+                    } cbtch (Exception x) {
                         if (JConsole.isDebug())
-                            x.printStackTrace();
+                            x.printStbckTrbce();
                     }
-                    refreshAttributes(false);
+                    refreshAttributes(fblse);
                 }
 
             };
-            mbeansTab.workerAdd(setAttribute);
+            mbebnsTbb.workerAdd(setAttribute);
         }
 
-        // Call this outside EDT
-        private void popupAndLog(Throwable ex, String method, String title) {
-            ex = Utils.getActualException(ex);
-            if (JConsole.isDebug()) ex.printStackTrace();
+        // Cbll this outside EDT
+        privbte void popupAndLog(Throwbble ex, String method, String title) {
+            ex = Utils.getActublException(ex);
+            if (JConsole.isDebug()) ex.printStbckTrbce();
 
-            String message = (ex.getMessage() != null) ? ex.getMessage()
+            String messbge = (ex.getMessbge() != null) ? ex.getMessbge()
                     : ex.toString();
-            EventQueue.invokeLater(
-                    new ThreadDialog(component, message+"\n",
+            EventQueue.invokeLbter(
+                    new ThrebdDiblog(component, messbge+"\n",
                                      title,
-                                     JOptionPane.ERROR_MESSAGE));
+                                     JOptionPbne.ERROR_MESSAGE));
         }
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,62 +27,62 @@
 #include <stdlib.h>
 
 #include "jni.h"
-#include "manifest_info.h"
-#include "JarFacade.h"
+#include "mbnifest_info.h"
+#include "JbrFbcbde.h"
 
 typedef struct {
-    jarAttribute* head;
-    jarAttribute* tail;
-} iterationContext;
+    jbrAttribute* hebd;
+    jbrAttribute* tbil;
+} iterbtionContext;
 
-static void
-doAttribute(const char* name, const char* value, void* user_data) {
-    iterationContext* context = (iterationContext*) user_data;
+stbtic void
+doAttribute(const chbr* nbme, const chbr* vblue, void* user_dbtb) {
+    iterbtionContext* context = (iterbtionContext*) user_dbtb;
 
-    jarAttribute* attribute = (jarAttribute*)malloc(sizeof(jarAttribute));
-    if (attribute != NULL) {
-        attribute->name = strdup(name);
-        if (attribute->name == NULL) {
-            free(attribute);
+    jbrAttribute* bttribute = (jbrAttribute*)mblloc(sizeof(jbrAttribute));
+    if (bttribute != NULL) {
+        bttribute->nbme = strdup(nbme);
+        if (bttribute->nbme == NULL) {
+            free(bttribute);
         } else {
-            char *begin = (char *)value;
-            char *end;
-            size_t value_len;
+            chbr *begin = (chbr *)vblue;
+            chbr *end;
+            size_t vblue_len;
 
-            /* skip any leading white space */
+            /* skip bny lebding white spbce */
             while (*begin == ' ') {
                 begin++;
             }
 
-            /* skip any trailing white space */
+            /* skip bny trbiling white spbce */
             end = &begin[strlen(begin)];
             while (end > begin && end[-1] == ' ') {
                 end--;
             }
 
             if (begin == end) {
-                /* no value so skip this attribute */
-                free(attribute->name);
-                free(attribute);
+                /* no vblue so skip this bttribute */
+                free(bttribute->nbme);
+                free(bttribute);
                 return;
             }
 
-            value_len = (size_t)(end - begin);
-            attribute->value = malloc(value_len + 1);
-            if (attribute->value == NULL) {
-                free(attribute->name);
-                free(attribute);
+            vblue_len = (size_t)(end - begin);
+            bttribute->vblue = mblloc(vblue_len + 1);
+            if (bttribute->vblue == NULL) {
+                free(bttribute->nbme);
+                free(bttribute);
             } else {
-                /* save the value without leading or trailing whitespace */
-                strncpy(attribute->value, begin, value_len);
-                attribute->value[value_len] = '\0';
-                attribute->next = NULL;
-                if (context->head == NULL) {
-                    context->head = attribute;
+                /* sbve the vblue without lebding or trbiling whitespbce */
+                strncpy(bttribute->vblue, begin, vblue_len);
+                bttribute->vblue[vblue_len] = '\0';
+                bttribute->next = NULL;
+                if (context->hebd == NULL) {
+                    context->hebd = bttribute;
                 } else {
-                    context->tail->next = attribute;
+                    context->tbil->next = bttribute;
                 }
-                context->tail = attribute;
+                context->tbil = bttribute;
             }
         }
 
@@ -90,51 +90,51 @@ doAttribute(const char* name, const char* value, void* user_data) {
 }
 
 /*
- * Return a list of attributes from the main section of the given JAR
- * file. Returns NULL if there is an error or there aren't any attributes.
+ * Return b list of bttributes from the mbin section of the given JAR
+ * file. Returns NULL if there is bn error or there bren't bny bttributes.
  */
-jarAttribute*
-readAttributes(const char* jarfile)
+jbrAttribute*
+rebdAttributes(const chbr* jbrfile)
 {
     int rc;
-    iterationContext context = { NULL, NULL };
+    iterbtionContext context = { NULL, NULL };
 
-    rc = JLI_ManifestIterate(jarfile, doAttribute, (void*)&context);
+    rc = JLI_MbnifestIterbte(jbrfile, doAttribute, (void*)&context);
 
     if (rc == 0) {
-        return context.head;
+        return context.hebd;
     } else {
-        freeAttributes(context.head);
+        freeAttributes(context.hebd);
         return NULL;
     }
 }
 
 
 /*
- * Free a list of attributes
+ * Free b list of bttributes
  */
 void
-freeAttributes(jarAttribute* head) {
-    while (head != NULL) {
-        jarAttribute* next = (jarAttribute*)head->next;
-        free(head->name);
-        free(head->value);
-        free(head);
-        head = next;
+freeAttributes(jbrAttribute* hebd) {
+    while (hebd != NULL) {
+        jbrAttribute* next = (jbrAttribute*)hebd->next;
+        free(hebd->nbme);
+        free(hebd->vblue);
+        free(hebd);
+        hebd = next;
     }
 }
 
 /*
- * Get the value of an attribute in an attribute list. Returns NULL
- * if attribute not found.
+ * Get the vblue of bn bttribute in bn bttribute list. Returns NULL
+ * if bttribute not found.
  */
-char*
-getAttribute(const jarAttribute* attributes, const char* name) {
-    while (attributes != NULL) {
-        if (strcasecmp(attributes->name, name) == 0) {
-            return attributes->value;
+chbr*
+getAttribute(const jbrAttribute* bttributes, const chbr* nbme) {
+    while (bttributes != NULL) {
+        if (strcbsecmp(bttributes->nbme, nbme) == 0) {
+            return bttributes->vblue;
         }
-        attributes = (jarAttribute*)attributes->next;
+        bttributes = (jbrAttribute*)bttributes->next;
     }
     return NULL;
 }

@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt.datatransfer;
+pbckbge jbvb.bwt.dbtbtrbnsfer;
 
-import java.util.EventObject;
+import jbvb.util.EventObject;
 
 
 /**
- * <code>FlavorEvent</code> is used to notify interested parties
- * that available {@link DataFlavor}s have changed in the
- * {@link Clipboard} (the event source).
+ * <code>FlbvorEvent</code> is used to notify interested pbrties
+ * thbt bvbilbble {@link DbtbFlbvor}s hbve chbnged in the
+ * {@link Clipbobrd} (the event source).
  *
- * @see FlavorListener
+ * @see FlbvorListener
  *
- * @author Alexander Gerasimov
+ * @buthor Alexbnder Gerbsimov
  * @since 1.5
  */
-public class FlavorEvent extends EventObject {
-    private static final long serialVersionUID = -5842664112252414548L;
+public clbss FlbvorEvent extends EventObject {
+    privbte stbtic finbl long seriblVersionUID = -5842664112252414548L;
 
     /**
-     * Constructs a <code>FlavorEvent</code> object.
+     * Constructs b <code>FlbvorEvent</code> object.
      *
-     * @param source  the <code>Clipboard</code> that is the source of the event
+     * @pbrbm source  the <code>Clipbobrd</code> thbt is the source of the event
      *
-     * @throws IllegalArgumentException if the {@code source} is {@code null}
+     * @throws IllegblArgumentException if the {@code source} is {@code null}
      */
-    public FlavorEvent(Clipboard source) {
+    public FlbvorEvent(Clipbobrd source) {
         super(source);
     }
 }

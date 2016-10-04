@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.IntegerSyntbx;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class JobKOctetsProcessed is an integer valued printing attribute class that
- * specifies the total number of print data octets processed so far in K octets,
- * i.e., in units of 1024 octets. The value must be rounded up, so that a job
- * between 1 and 1024 octets inclusive must be indicated as being 1K octets,
- * 1025 to 2048 inclusive must be 2K, etc. For a multidoc print job (a job with
- * multiple documents), the JobKOctetsProcessed value is computed by adding up
- * the individual documents' number of octets processed so far, then rounding up
- * to the next K octets value.
+ * Clbss JobKOctetsProcessed is bn integer vblued printing bttribute clbss thbt
+ * specifies the totbl number of print dbtb octets processed so fbr in K octets,
+ * i.e., in units of 1024 octets. The vblue must be rounded up, so thbt b job
+ * between 1 bnd 1024 octets inclusive must be indicbted bs being 1K octets,
+ * 1025 to 2048 inclusive must be 2K, etc. For b multidoc print job (b job with
+ * multiple documents), the JobKOctetsProcessed vblue is computed by bdding up
+ * the individubl documents' number of octets processed so fbr, then rounding up
+ * to the next K octets vblue.
  * <P>
- * The JobKOctetsProcessed attribute describes the progress of the job. This
- * attribute is intended to be a counter. That is, the JobKOctetsProcessed value
- * for a job that has not started processing must be 0. When the job's {@link
- * JobState JobState} is PROCESSING or PROCESSING_STOPPED, the
- * JobKOctetsProcessed value is intended to increase as the job is processed; it
- * indicates the amount of the job that has been processed at the time the Print
- * Job's attribute set is queried or at the time a print job event is reported.
- * When the job enters the COMPLETED, CANCELED, or ABORTED states, the
- * JobKOctetsProcessed value is the final value for the job.
+ * The JobKOctetsProcessed bttribute describes the progress of the job. This
+ * bttribute is intended to be b counter. Thbt is, the JobKOctetsProcessed vblue
+ * for b job thbt hbs not stbrted processing must be 0. When the job's {@link
+ * JobStbte JobStbte} is PROCESSING or PROCESSING_STOPPED, the
+ * JobKOctetsProcessed vblue is intended to increbse bs the job is processed; it
+ * indicbtes the bmount of the job thbt hbs been processed bt the time the Print
+ * Job's bttribute set is queried or bt the time b print job event is reported.
+ * When the job enters the COMPLETED, CANCELED, or ABORTED stbtes, the
+ * JobKOctetsProcessed vblue is the finbl vblue for the job.
  * <P>
- * For implementations where multiple copies are produced by the interpreter
- * with only a single pass over the data, the final value of the
- * JobKOctetsProcessed attribute must be equal to the value of the {@link
- * JobKOctets JobKOctets} attribute. For implementations where multiple copies
- * are produced by the interpreter by processing the data for each copy, the
- * final value must be a multiple of the value of the {@link JobKOctets
- * JobKOctets} attribute.
+ * For implementbtions where multiple copies bre produced by the interpreter
+ * with only b single pbss over the dbtb, the finbl vblue of the
+ * JobKOctetsProcessed bttribute must be equbl to the vblue of the {@link
+ * JobKOctets JobKOctets} bttribute. For implementbtions where multiple copies
+ * bre produced by the interpreter by processing the dbtb for ebch copy, the
+ * finbl vblue must be b multiple of the vblue of the {@link JobKOctets
+ * JobKOctets} bttribute.
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> The integer vblue gives the IPP integer vblue. The
+ * cbtegory nbme returned by <CODE>getNbme()</CODE> gives the IPP bttribute
+ * nbme.
  *
  * @see JobKOctets
  * @see JobKOctetsSupported
  * @see JobImpressionsCompleted
- * @see JobMediaSheetsCompleted
+ * @see JobMedibSheetsCompleted
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class JobKOctetsProcessed extends IntegerSyntax
+public finbl clbss JobKOctetsProcessed extends IntegerSyntbx
         implements PrintJobAttribute {
 
-    private static final long serialVersionUID = -6265238509657881806L;
+    privbte stbtic finbl long seriblVersionUID = -6265238509657881806L;
 
     /**
-     * Construct a new job K octets processed attribute with the given integer
-     * value.
+     * Construct b new job K octets processed bttribute with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      *
-     * @exception  IllegalArgumentException
-     *  (Unchecked exception) Thrown if <CODE>value</CODE> is less than 0.
+     * @exception  IllegblArgumentException
+     *  (Unchecked exception) Thrown if <CODE>vblue</CODE> is less thbn 0.
      */
-    public JobKOctetsProcessed(int value) {
-        super (value, 0, Integer.MAX_VALUE);
+    public JobKOctetsProcessed(int vblue) {
+        super (vblue, 0, Integer.MAX_VALUE);
     }
 
     /**
-     * Returns whether this job K octets processed attribute is equivalent to
-     * the passed in object. To be equivalent, all of the following conditions
+     * Returns whether this job K octets processed bttribute is equivblent to
+     * the pbssed in object. To be equivblent, bll of the following conditions
      * must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobKOctetsProcessed.
+     * <CODE>object</CODE> is bn instbnce of clbss JobKOctetsProcessed.
      * <LI>
-     * This job K octets processed attribute's value and
-     * <CODE>object</CODE>'s value are equal.
+     * This job K octets processed bttribute's vblue bnd
+     * <CODE>object</CODE>'s vblue bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job K
-     *          octets processed attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this job K
+     *          octets processed bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return(super.equals (object) &&
-               object instanceof JobKOctetsProcessed);
+    public boolebn equbls(Object object) {
+        return(super.equbls (object) &&
+               object instbnceof JobKOctetsProcessed);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class JobKOctetsProcessed, the category is class
+     * For clbss JobKOctetsProcessed, the cbtegory is clbss
      * JobKOctetsProcessed itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobKOctetsProcessed.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return JobKOctetsProcessed.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class JobKOctetsProcessed, the category name is
+     * For clbss JobKOctetsProcessed, the cbtegory nbme is
      * <CODE>"job-k-octets-processed"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "job-k-octets-processed";
     }
 

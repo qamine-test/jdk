@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// SAX locator interface for document events.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: Locator.java,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
+// SAX locbtor interfbce for document events.
+// http://www.sbxproject.org
+// No wbrrbnty; no copyright -- use this bs you will.
+// $Id: Locbtor.jbvb,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbckbge jdk.internbl.org.xml.sbx;
 
 
 /**
- * Interface for associating a SAX event with a document location.
+ * Interfbce for bssocibting b SAX event with b document locbtion.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>If a SAX parser provides location information to the SAX
- * application, it does so by implementing this interface and then
- * passing an instance to the application using the content
- * handler's {@link org.xml.sax.ContentHandler#setDocumentLocator
- * setDocumentLocator} method.  The application can use the
- * object to obtain the location of any other SAX event
+ * <p>If b SAX pbrser provides locbtion informbtion to the SAX
+ * bpplicbtion, it does so by implementing this interfbce bnd then
+ * pbssing bn instbnce to the bpplicbtion using the content
+ * hbndler's {@link org.xml.sbx.ContentHbndler#setDocumentLocbtor
+ * setDocumentLocbtor} method.  The bpplicbtion cbn use the
+ * object to obtbin the locbtion of bny other SAX event
  * in the XML source document.</p>
  *
- * <p>Note that the results returned by the object will be valid only
- * during the scope of each callback method: the application
- * will receive unpredictable results if it attempts to use the
- * locator at any other time, or after parsing completes.</p>
+ * <p>Note thbt the results returned by the object will be vblid only
+ * during the scope of ebch cbllbbck method: the bpplicbtion
+ * will receive unpredictbble results if it bttempts to use the
+ * locbtor bt bny other time, or bfter pbrsing completes.</p>
  *
- * <p>SAX parsers are not required to supply a locator, but they are
- * very strongly encouraged to do so.  If the parser supplies a
- * locator, it must do so before reporting any other document events.
- * If no locator has been set by the time the application receives
- * the {@link org.xml.sax.ContentHandler#startDocument startDocument}
- * event, the application should assume that a locator is not
- * available.</p>
+ * <p>SAX pbrsers bre not required to supply b locbtor, but they bre
+ * very strongly encourbged to do so.  If the pbrser supplies b
+ * locbtor, it must do so before reporting bny other document events.
+ * If no locbtor hbs been set by the time the bpplicbtion receives
+ * the {@link org.xml.sbx.ContentHbndler#stbrtDocument stbrtDocument}
+ * event, the bpplicbtion should bssume thbt b locbtor is not
+ * bvbilbble.</p>
  *
  * @since SAX 1.0
- * @author David Megginson
- * @see org.xml.sax.ContentHandler#setDocumentLocator
+ * @buthor Dbvid Megginson
+ * @see org.xml.sbx.ContentHbndler#setDocumentLocbtor
  */
-public interface Locator {
+public interfbce Locbtor {
 
 
     /**
      * Return the public identifier for the current document event.
      *
-     * <p>The return value is the public identifier of the document
-     * entity or of the external parsed entity in which the markup
-     * triggering the event appears.</p>
+     * <p>The return vblue is the public identifier of the document
+     * entity or of the externbl pbrsed entity in which the mbrkup
+     * triggering the event bppebrs.</p>
      *
-     * @return A string containing the public identifier, or
-     *         null if none is available.
+     * @return A string contbining the public identifier, or
+     *         null if none is bvbilbble.
      * @see #getSystemId
      */
-    public abstract String getPublicId ();
+    public bbstrbct String getPublicId ();
 
 
     /**
      * Return the system identifier for the current document event.
      *
-     * <p>The return value is the system identifier of the document
-     * entity or of the external parsed entity in which the markup
-     * triggering the event appears.</p>
+     * <p>The return vblue is the system identifier of the document
+     * entity or of the externbl pbrsed entity in which the mbrkup
+     * triggering the event bppebrs.</p>
      *
-     * <p>If the system identifier is a URL, the parser must resolve it
-     * fully before passing it to the application.  For example, a file
-     * name must always be provided as a <em>file:...</em> URL, and other
-     * kinds of relative URI are also resolved against their bases.</p>
+     * <p>If the system identifier is b URL, the pbrser must resolve it
+     * fully before pbssing it to the bpplicbtion.  For exbmple, b file
+     * nbme must blwbys be provided bs b <em>file:...</em> URL, bnd other
+     * kinds of relbtive URI bre blso resolved bgbinst their bbses.</p>
      *
-     * @return A string containing the system identifier, or null
-     *         if none is available.
+     * @return A string contbining the system identifier, or null
+     *         if none is bvbilbble.
      * @see #getPublicId
      */
-    public abstract String getSystemId ();
+    public bbstrbct String getSystemId ();
 
 
     /**
      * Return the line number where the current document event ends.
-     * Lines are delimited by line ends, which are defined in
-     * the XML specification.
+     * Lines bre delimited by line ends, which bre defined in
+     * the XML specificbtion.
      *
-     * <p><strong>Warning:</strong> The return value from the method
-     * is intended only as an approximation for the sake of diagnostics;
-     * it is not intended to provide sufficient information
-     * to edit the character content of the original XML document.
-     * In some cases, these "line" numbers match what would be displayed
-     * as columns, and in others they may not match the source text
-     * due to internal entity expansion.  </p>
+     * <p><strong>Wbrning:</strong> The return vblue from the method
+     * is intended only bs bn bpproximbtion for the sbke of dibgnostics;
+     * it is not intended to provide sufficient informbtion
+     * to edit the chbrbcter content of the originbl XML document.
+     * In some cbses, these "line" numbers mbtch whbt would be displbyed
+     * bs columns, bnd in others they mby not mbtch the source text
+     * due to internbl entity expbnsion.  </p>
      *
-     * <p>The return value is an approximation of the line number
-     * in the document entity or external parsed entity where the
-     * markup triggering the event appears.</p>
+     * <p>The return vblue is bn bpproximbtion of the line number
+     * in the document entity or externbl pbrsed entity where the
+     * mbrkup triggering the event bppebrs.</p>
      *
      * <p>If possible, the SAX driver should provide the line position
-     * of the first character after the text associated with the document
+     * of the first chbrbcter bfter the text bssocibted with the document
      * event.  The first line is line 1.</p>
      *
-     * @return The line number, or -1 if none is available.
+     * @return The line number, or -1 if none is bvbilbble.
      * @see #getColumnNumber
      */
-    public abstract int getLineNumber ();
+    public bbstrbct int getLineNumber ();
 
 
     /**
      * Return the column number where the current document event ends.
-     * This is one-based number of Java <code>char</code> values since
-     * the last line end.
+     * This is one-bbsed number of Jbvb <code>chbr</code> vblues since
+     * the lbst line end.
      *
-     * <p><strong>Warning:</strong> The return value from the method
-     * is intended only as an approximation for the sake of diagnostics;
-     * it is not intended to provide sufficient information
-     * to edit the character content of the original XML document.
-     * For example, when lines contain combining character sequences, wide
-     * characters, surrogate pairs, or bi-directional text, the value may
-     * not correspond to the column in a text editor's display. </p>
+     * <p><strong>Wbrning:</strong> The return vblue from the method
+     * is intended only bs bn bpproximbtion for the sbke of dibgnostics;
+     * it is not intended to provide sufficient informbtion
+     * to edit the chbrbcter content of the originbl XML document.
+     * For exbmple, when lines contbin combining chbrbcter sequences, wide
+     * chbrbcters, surrogbte pbirs, or bi-directionbl text, the vblue mby
+     * not correspond to the column in b text editor's displby. </p>
      *
-     * <p>The return value is an approximation of the column number
-     * in the document entity or external parsed entity where the
-     * markup triggering the event appears.</p>
+     * <p>The return vblue is bn bpproximbtion of the column number
+     * in the document entity or externbl pbrsed entity where the
+     * mbrkup triggering the event bppebrs.</p>
      *
      * <p>If possible, the SAX driver should provide the line position
-     * of the first character after the text associated with the document
-     * event.  The first column in each line is column 1.</p>
+     * of the first chbrbcter bfter the text bssocibted with the document
+     * event.  The first column in ebch line is column 1.</p>
      *
-     * @return The column number, or -1 if none is available.
+     * @return The column number, or -1 if none is bvbilbble.
      * @see #getLineNumber
      */
-    public abstract int getColumnNumber ();
+    public bbstrbct int getColumnNumber ();
 
 }
 
-// end of Locator.java
+// end of Locbtor.jbvb

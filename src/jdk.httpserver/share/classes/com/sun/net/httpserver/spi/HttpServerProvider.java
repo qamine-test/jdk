@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.httpserver.spi;
+pbckbge com.sun.net.httpserver.spi;
 
-import java.io.IOException;
-import java.net.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import jbvb.io.IOException;
+import jbvb.net.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Iterbtor;
+import jbvb.util.ServiceLobder;
+import jbvb.util.ServiceConfigurbtionError;
 import com.sun.net.httpserver.*;
 
 /**
- * Service provider class for HttpServer.
- * Sub-classes of HttpServerProvider provide an implementation of
- * {@link HttpServer} and associated classes. Applications do not normally use
- * this class. See {@link #provider()} for how providers are found and loaded.
+ * Service provider clbss for HttpServer.
+ * Sub-clbsses of HttpServerProvider provide bn implementbtion of
+ * {@link HttpServer} bnd bssocibted clbsses. Applicbtions do not normblly use
+ * this clbss. See {@link #provider()} for how providers bre found bnd lobded.
  */
 @jdk.Exported
-public abstract class HttpServerProvider {
+public bbstrbct clbss HttpServerProvider {
 
     /**
-     * creates a HttpServer from this provider
+     * crebtes b HttpServer from this provider
      *
-     * @param  addr
-     *         the address to bind to. May be {@code null}
+     * @pbrbm  bddr
+     *         the bddress to bind to. Mby be {@code null}
      *
-     * @param  backlog
-     *         the socket backlog. A value of {@code zero} means the systems default
+     * @pbrbm  bbcklog
+     *         the socket bbcklog. A vblue of {@code zero} mebns the systems defbult
      */
-    public abstract HttpServer createHttpServer(InetSocketAddress addr,
-                                                int backlog)
+    public bbstrbct HttpServer crebteHttpServer(InetSocketAddress bddr,
+                                                int bbcklog)
         throws IOException;
 
     /**
-     * creates a HttpsServer from this provider
+     * crebtes b HttpsServer from this provider
      *
-     * @param  addr
-     *         the address to bind to. May be {@code null}
+     * @pbrbm  bddr
+     *         the bddress to bind to. Mby be {@code null}
      *
-     * @param  backlog
-     *         the socket backlog. A value of {@code zero} means the systems default
+     * @pbrbm  bbcklog
+     *         the socket bbcklog. A vblue of {@code zero} mebns the systems defbult
      */
-    public abstract HttpsServer createHttpsServer(InetSocketAddress addr,
-                                                  int backlog)
+    public bbstrbct HttpsServer crebteHttpsServer(InetSocketAddress bddr,
+                                                  int bbcklog)
         throws IOException;
 
-    private static final Object lock = new Object();
-    private static HttpServerProvider provider = null;
+    privbte stbtic finbl Object lock = new Object();
+    privbte stbtic HttpServerProvider provider = null;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
+     *          If b security mbnbger hbs been instblled bnd it denies
      *          {@link RuntimePermission}{@code ("httpServerProvider")}
      */
     protected HttpServerProvider() {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
             sm.checkPermission(new RuntimePermission("httpServerProvider"));
     }
 
-    private static boolean loadProviderFromProperty() {
+    privbte stbtic boolebn lobdProviderFromProperty() {
         String cn = System.getProperty("com.sun.net.httpserver.HttpServerProvider");
         if (cn == null)
-            return false;
+            return fblse;
         try {
-            Class<?> c = Class.forName(cn, true,
-                                       ClassLoader.getSystemClassLoader());
-            provider = (HttpServerProvider)c.newInstance();
+            Clbss<?> c = Clbss.forNbme(cn, true,
+                                       ClbssLobder.getSystemClbssLobder());
+            provider = (HttpServerProvider)c.newInstbnce();
             return true;
-        } catch (ClassNotFoundException |
-                 IllegalAccessException |
-                 InstantiationException |
+        } cbtch (ClbssNotFoundException |
+                 IllegblAccessException |
+                 InstbntibtionException |
                  SecurityException x) {
-            throw new ServiceConfigurationError(null, x);
+            throw new ServiceConfigurbtionError(null, x);
         }
     }
 
-    private static boolean loadProviderAsService() {
-        Iterator<HttpServerProvider> i =
-            ServiceLoader.load(HttpServerProvider.class,
-                               ClassLoader.getSystemClassLoader())
-                .iterator();
+    privbte stbtic boolebn lobdProviderAsService() {
+        Iterbtor<HttpServerProvider> i =
+            ServiceLobder.lobd(HttpServerProvider.clbss,
+                               ClbssLobder.getSystemClbssLobder())
+                .iterbtor();
         for (;;) {
             try {
-                if (!i.hasNext())
-                    return false;
+                if (!i.hbsNext())
+                    return fblse;
                 provider = i.next();
                 return true;
-            } catch (ServiceConfigurationError sce) {
-                if (sce.getCause() instanceof SecurityException) {
+            } cbtch (ServiceConfigurbtionError sce) {
+                if (sce.getCbuse() instbnceof SecurityException) {
                     // Ignore the security exception, try the next provider
                     continue;
                 }
@@ -124,52 +124,52 @@ public abstract class HttpServerProvider {
     }
 
     /**
-     * Returns the system wide default HttpServerProvider for this invocation of
-     * the Java virtual machine.
+     * Returns the system wide defbult HttpServerProvider for this invocbtion of
+     * the Jbvb virtubl mbchine.
      *
-     * <p> The first invocation of this method locates the default provider
-     * object as follows: </p>
+     * <p> The first invocbtion of this method locbtes the defbult provider
+     * object bs follows: </p>
      *
      * <ol>
      *
      *   <li><p> If the system property
      *   {@code com.sun.net.httpserver.HttpServerProvider} is defined then it
-     *   is taken to be the fully-qualified name of a concrete provider class.
-     *   The class is loaded and instantiated; if this process fails then an
+     *   is tbken to be the fully-qublified nbme of b concrete provider clbss.
+     *   The clbss is lobded bnd instbntibted; if this process fbils then bn
      *   unspecified unchecked error or exception is thrown.  </p></li>
      *
-     *   <li><p> If a provider class has been installed in a jar file that is
-     *   visible to the system class loader, and that jar file contains a
-     *   provider-configuration file named
+     *   <li><p> If b provider clbss hbs been instblled in b jbr file thbt is
+     *   visible to the system clbss lobder, bnd thbt jbr file contbins b
+     *   provider-configurbtion file nbmed
      *   {@code com.sun.net.httpserver.HttpServerProvider} in the resource
-     *   directory <tt>META-INF/services</tt>, then the first class name
-     *   specified in that file is taken.  The class is loaded and
-     *   instantiated; if this process fails then an unspecified unchecked error
+     *   directory <tt>META-INF/services</tt>, then the first clbss nbme
+     *   specified in thbt file is tbken.  The clbss is lobded bnd
+     *   instbntibted; if this process fbils then bn unspecified unchecked error
      *   or exception is thrown.  </p></li>
      *
-     *   <li><p> Finally, if no provider has been specified by any of the above
-     *   means then the system-default provider class is instantiated and the
+     *   <li><p> Finblly, if no provider hbs been specified by bny of the bbove
+     *   mebns then the system-defbult provider clbss is instbntibted bnd the
      *   result is returned.  </p></li>
      *
      * </ol>
      *
-     * <p> Subsequent invocations of this method return the provider that was
-     * returned by the first invocation.  </p>
+     * <p> Subsequent invocbtions of this method return the provider thbt wbs
+     * returned by the first invocbtion.  </p>
      *
-     * @return  The system-wide default HttpServerProvider
+     * @return  The system-wide defbult HttpServerProvider
      */
-    public static HttpServerProvider provider () {
+    public stbtic HttpServerProvider provider () {
         synchronized (lock) {
             if (provider != null)
                 return provider;
             return (HttpServerProvider)AccessController
                 .doPrivileged(new PrivilegedAction<Object>() {
                         public Object run() {
-                            if (loadProviderFromProperty())
+                            if (lobdProviderFromProperty())
                                 return provider;
-                            if (loadProviderAsService())
+                            if (lobdProviderAsService())
                                 return provider;
-                            provider = new sun.net.httpserver.DefaultHttpServerProvider();
+                            provider = new sun.net.httpserver.DefbultHttpServerProvider();
                             return provider;
                         }
                     });

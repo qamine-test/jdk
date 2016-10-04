@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.jdp;
+pbckbge sun.mbnbgement.jdp;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import jbvb.io.IOException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import jbvb.util.UUID;
 
 /**
- * A packet to broadcasts JMX URL
+ * A pbcket to brobdcbsts JMX URL
  *
  * Fields:
  *
  * <ul>
- * <li>UUID - broadcast session ID, changed every time when we start/stop
+ * <li>UUID - brobdcbst session ID, chbnged every time when we stbrt/stop
  * discovery service</li>
  * <li>JMX_URL - URL to connect to JMX service</li>
- * <li>MAIN_CLASS - optional name of main class, filled from sun.java.command stripped for
- * security reason to first space</li>
- * <li>INSTANCE_NAME - optional custom name of particular instance as provided by customer</li>
+ * <li>MAIN_CLASS - optionbl nbme of mbin clbss, filled from sun.jbvb.commbnd stripped for
+ * security rebson to first spbce</li>
+ * <li>INSTANCE_NAME - optionbl custom nbme of pbrticulbr instbnce bs provided by customer</li>
  * </ul>
  */
-public final class JdpJmxPacket
-       extends JdpGenericPacket
-       implements JdpPacket {
+public finbl clbss JdpJmxPbcket
+       extends JdpGenericPbcket
+       implements JdpPbcket {
 
     /**
      * Session ID
      */
-    public final static String UUID_KEY = "DISCOVERABLE_SESSION_UUID";
+    public finbl stbtic String UUID_KEY = "DISCOVERABLE_SESSION_UUID";
     /**
-     * Name of main class
+     * Nbme of mbin clbss
      */
-    public final static String MAIN_CLASS_KEY = "MAIN_CLASS";
+    public finbl stbtic String MAIN_CLASS_KEY = "MAIN_CLASS";
     /**
      * JMX service URL
      */
-    public final static String JMX_SERVICE_URL_KEY = "JMX_SERVICE_URL";
+    public finbl stbtic String JMX_SERVICE_URL_KEY = "JMX_SERVICE_URL";
     /**
-     * Name of Java instance
+     * Nbme of Jbvb instbnce
      */
-    public final static String INSTANCE_NAME_KEY = "INSTANCE_NAME";
+    public finbl stbtic String INSTANCE_NAME_KEY = "INSTANCE_NAME";
     /**
-     * PID of java process, optional presented if it could be obtained
+     * PID of jbvb process, optionbl presented if it could be obtbined
      */
-    public final static String PROCESS_ID_KEY = "PROCESS_ID";
+    public finbl stbtic String PROCESS_ID_KEY = "PROCESS_ID";
     /**
-     * Hostname of rmi server, optional presented if user overrides rmi server
-     * hostname by java.rmi.server.hostname property
+     * Hostnbme of rmi server, optionbl presented if user overrides rmi server
+     * hostnbme by jbvb.rmi.server.hostnbme property
      */
-    public final static String RMI_HOSTNAME_KEY = "RMI_HOSTNAME";
+    public finbl stbtic String RMI_HOSTNAME_KEY = "RMI_HOSTNAME";
     /**
-     * Configured broadcast interval, optional
+     * Configured brobdcbst intervbl, optionbl
      */
-    public final static String BROADCAST_INTERVAL_KEY = "BROADCAST_INTERVAL";
+    public finbl stbtic String BROADCAST_INTERVAL_KEY = "BROADCAST_INTERVAL";
 
-    private UUID id;
-    private String mainClass;
-    private String jmxServiceUrl;
-    private String instanceName;
-    private String processId;
-    private String rmiHostname;
-    private String broadcastInterval;
+    privbte UUID id;
+    privbte String mbinClbss;
+    privbte String jmxServiceUrl;
+    privbte String instbnceNbme;
+    privbte String processId;
+    privbte String rmiHostnbme;
+    privbte String brobdcbstIntervbl;
 
     /**
-     * Create new instance from user provided data. Set mandatory fields
+     * Crebte new instbnce from user provided dbtb. Set mbndbtory fields
      *
-     * @param id - java instance id
-     * @param jmxServiceUrl - JMX service url
+     * @pbrbm id - jbvb instbnce id
+     * @pbrbm jmxServiceUrl - JMX service url
      */
-    public JdpJmxPacket(UUID id, String jmxServiceUrl) {
+    public JdpJmxPbcket(UUID id, String jmxServiceUrl) {
         this.id = id;
         this.jmxServiceUrl = jmxServiceUrl;
     }
 
     /**
-     * Create new instance from network data Parse packet and set fields.
+     * Crebte new instbnce from network dbtb Pbrse pbcket bnd set fields.
      *
-     * @param data - raw packet data as it came from a Net
+     * @pbrbm dbtb - rbw pbcket dbtb bs it cbme from b Net
      * @throws JdpException
      */
-    public JdpJmxPacket(byte[] data)
+    public JdpJmxPbcket(byte[] dbtb)
             throws JdpException {
-        JdpPacketReader reader;
+        JdpPbcketRebder rebder;
 
-        reader = new JdpPacketReader(data);
-        Map<String, String> p = reader.getDiscoveryDataAsMap();
+        rebder = new JdpPbcketRebder(dbtb);
+        Mbp<String, String> p = rebder.getDiscoveryDbtbAsMbp();
 
         String sId = p.get(UUID_KEY);
         this.id = (sId == null) ? null : UUID.fromString(sId);
         this.jmxServiceUrl = p.get(JMX_SERVICE_URL_KEY);
-        this.mainClass = p.get(MAIN_CLASS_KEY);
-        this.instanceName = p.get(INSTANCE_NAME_KEY);
+        this.mbinClbss = p.get(MAIN_CLASS_KEY);
+        this.instbnceNbme = p.get(INSTANCE_NAME_KEY);
         this.processId = p.get(PROCESS_ID_KEY);
-        this.rmiHostname = p.get(RMI_HOSTNAME_KEY);
-        this.broadcastInterval = p.get(BROADCAST_INTERVAL_KEY);
+        this.rmiHostnbme = p.get(RMI_HOSTNAME_KEY);
+        this.brobdcbstIntervbl = p.get(BROADCAST_INTERVAL_KEY);
     }
 
     /**
-     * Set main class field
+     * Set mbin clbss field
      *
-     * @param mainClass - main class of running app
+     * @pbrbm mbinClbss - mbin clbss of running bpp
      */
-    public void setMainClass(String mainClass) {
-        this.mainClass = mainClass;
+    public void setMbinClbss(String mbinClbss) {
+        this.mbinClbss = mbinClbss;
     }
 
     /**
-     * Set instance name field
+     * Set instbnce nbme field
      *
-     * @param instanceName - name of instance as provided by customer
+     * @pbrbm instbnceNbme - nbme of instbnce bs provided by customer
      */
-    public void setInstanceName(String instanceName) {
-        this.instanceName = instanceName;
+    public void setInstbnceNbme(String instbnceNbme) {
+        this.instbnceNbme = instbnceNbme;
     }
 
     /**
@@ -147,10 +147,10 @@ public final class JdpJmxPacket
 
     /**
      *
-     * @return main class field
+     * @return mbin clbss field
      */
-    public String getMainClass() {
-        return mainClass;
+    public String getMbinClbss() {
+        return mbinClbss;
     }
 
     /**
@@ -163,10 +163,10 @@ public final class JdpJmxPacket
 
     /**
      *
-     * @return instance name
+     * @return instbnce nbme
      */
-    public String getInstanceName() {
-        return instanceName;
+    public String getInstbnceNbme() {
+        return instbnceNbme;
     }
 
     public String getProcessId() {
@@ -177,69 +177,69 @@ public final class JdpJmxPacket
         this.processId = processId;
     }
 
-    public String getRmiHostname() {
-        return rmiHostname;
+    public String getRmiHostnbme() {
+        return rmiHostnbme;
     }
 
-    public void setRmiHostname(String rmiHostname) {
-        this.rmiHostname = rmiHostname;
+    public void setRmiHostnbme(String rmiHostnbme) {
+        this.rmiHostnbme = rmiHostnbme;
     }
 
-    public String getBroadcastInterval() {
-        return broadcastInterval;
+    public String getBrobdcbstIntervbl() {
+        return brobdcbstIntervbl;
     }
 
-    public void setBroadcastInterval(String broadcastInterval) {
-        this.broadcastInterval = broadcastInterval;
+    public void setBrobdcbstIntervbl(String brobdcbstIntervbl) {
+        this.brobdcbstIntervbl = brobdcbstIntervbl;
     }
 
     /**
      *
-     * @return assembled packet ready to be sent across a Net
+     * @return bssembled pbcket rebdy to be sent bcross b Net
      * @throws IOException
      */
     @Override
-    public byte[] getPacketData() throws IOException {
-        // Assemble packet from fields to byte array
-        JdpPacketWriter writer;
-        writer = new JdpPacketWriter();
-        writer.addEntry(UUID_KEY, (id == null) ? null : id.toString());
-        writer.addEntry(MAIN_CLASS_KEY, mainClass);
-        writer.addEntry(JMX_SERVICE_URL_KEY, jmxServiceUrl);
-        writer.addEntry(INSTANCE_NAME_KEY, instanceName);
-        writer.addEntry(PROCESS_ID_KEY, processId);
-        writer.addEntry(RMI_HOSTNAME_KEY, rmiHostname);
-        writer.addEntry(BROADCAST_INTERVAL_KEY, broadcastInterval);
+    public byte[] getPbcketDbtb() throws IOException {
+        // Assemble pbcket from fields to byte brrby
+        JdpPbcketWriter writer;
+        writer = new JdpPbcketWriter();
+        writer.bddEntry(UUID_KEY, (id == null) ? null : id.toString());
+        writer.bddEntry(MAIN_CLASS_KEY, mbinClbss);
+        writer.bddEntry(JMX_SERVICE_URL_KEY, jmxServiceUrl);
+        writer.bddEntry(INSTANCE_NAME_KEY, instbnceNbme);
+        writer.bddEntry(PROCESS_ID_KEY, processId);
+        writer.bddEntry(RMI_HOSTNAME_KEY, rmiHostnbme);
+        writer.bddEntry(BROADCAST_INTERVAL_KEY, brobdcbstIntervbl);
 
-        return writer.getPacketBytes();
+        return writer.getPbcketBytes();
     }
 
     /**
      *
-     * @return packet hash code
+     * @return pbcket hbsh code
      */
     @Override
-    public int hashCode() {
-        int hash = 1;
-        hash = hash * 31 + id.hashCode();
-        hash = hash * 31 + jmxServiceUrl.hashCode();
-        return hash;
+    public int hbshCode() {
+        int hbsh = 1;
+        hbsh = hbsh * 31 + id.hbshCode();
+        hbsh = hbsh * 31 + jmxServiceUrl.hbshCode();
+        return hbsh;
     }
 
     /**
-     * Compare two packets
+     * Compbre two pbckets
      *
-     * @param o - packet to compare
-     * @return either packet equals or not
+     * @pbrbm o - pbcket to compbre
+     * @return either pbcket equbls or not
      */
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
 
-        if (o == null || ! (o instanceof JdpJmxPacket) ){
-            return false;
+        if (o == null || ! (o instbnceof JdpJmxPbcket) ){
+            return fblse;
         }
 
-        JdpJmxPacket p = (JdpJmxPacket) o;
-        return  Objects.equals(id, p.getId()) && Objects.equals(jmxServiceUrl, p.getJmxServiceUrl());
+        JdpJmxPbcket p = (JdpJmxPbcket) o;
+        return  Objects.equbls(id, p.getId()) && Objects.equbls(jmxServiceUrl, p.getJmxServiceUrl());
     }
 }

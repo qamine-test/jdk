@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,15 +30,15 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 /*
- * Few user interface utilities.
+ * Few user interfbce utilities.
  */
 
 if (this.window === undefined) {
@@ -46,243 +46,243 @@ if (this.window === undefined) {
 }
 
 /**
- * Swing invokeLater - invokes given function in AWT event thread
+ * Swing invokeLbter - invokes given function in AWT event threbd
  */
-Function.prototype.invokeLater = function() {
-    var SwingUtilities = javax.swing.SwingUtilities;
-    var func = this;
-    var args = arguments;
-    SwingUtilities.invokeLater(new java.lang.Runnable() {
+Function.prototype.invokeLbter = function() {
+    vbr SwingUtilities = jbvbx.swing.SwingUtilities;
+    vbr func = this;
+    vbr brgs = brguments;
+    SwingUtilities.invokeLbter(new jbvb.lbng.Runnbble() {
                        run: function() {
-                           func.apply(func, args);
+                           func.bpply(func, brgs);
                        }
                   });
 };
 
 /**
- * Swing invokeAndWait - invokes given function in AWT event thread
- * and waits for it's completion
+ * Swing invokeAndWbit - invokes given function in AWT event threbd
+ * bnd wbits for it's completion
  */
-Function.prototype.invokeAndWait = function() {
-    var SwingUtilities = javax.swing.SwingUtilities;
-    var func = this;
-    var args = arguments;
-    SwingUtilities.invokeAndWait(new java.lang.Runnable() {
+Function.prototype.invokeAndWbit = function() {
+    vbr SwingUtilities = jbvbx.swing.SwingUtilities;
+    vbr func = this;
+    vbr brgs = brguments;
+    SwingUtilities.invokeAndWbit(new jbvb.lbng.Runnbble() {
                        run: function() {
-                           func.apply(func, args);
+                           func.bpply(func, brgs);
                        }
                   });
 };
 
 /**
- * Am I running in AWT event dispatcher thread?
+ * Am I running in AWT event dispbtcher threbd?
  */
-function isEventThread() {
-    var SwingUtilities = javax.swing.SwingUtilities;
-    return SwingUtilities.isEventDispatchThread();
+function isEventThrebd() {
+    vbr SwingUtilities = jbvbx.swing.SwingUtilities;
+    return SwingUtilities.isEventDispbtchThrebd();
 }
-isEventThread.docString = "returns whether the current thread is GUI thread";
+isEventThrebd.docString = "returns whether the current threbd is GUI threbd";
 
 /**
- * Opens a file dialog box
+ * Opens b file diblog box
  *
- * @param curDir current directory [optional]
- * @param save flag tells whether this is a save dialog or not
+ * @pbrbm curDir current directory [optionbl]
+ * @pbrbm sbve flbg tells whether this is b sbve diblog or not
  * @return selected file or else null
  */
-function fileDialog(curDir, save) {
-    var result;
-    function _fileDialog() {
+function fileDiblog(curDir, sbve) {
+    vbr result;
+    function _fileDiblog() {
         if (curDir == undefined) {
-            curDir = new java.io.File(".");
+            curDir = new jbvb.io.File(".");
         }
 
-        var JFileChooser = javax.swing.JFileChooser;
-        var dialog = new JFileChooser(curDir);
-        var res = save ? dialog.showSaveDialog(window):
-            dialog.showOpenDialog(window);
+        vbr JFileChooser = jbvbx.swing.JFileChooser;
+        vbr diblog = new JFileChooser(curDir);
+        vbr res = sbve ? diblog.showSbveDiblog(window):
+            diblog.showOpenDiblog(window);
 
         if (res == JFileChooser.APPROVE_OPTION) {
-           result = dialog.getSelectedFile();
+           result = diblog.getSelectedFile();
         } else {
            result = null;
         }
     }
 
-    if (isEventThread()) {
-        _fileDialog();
+    if (isEventThrebd()) {
+        _fileDiblog();
     } else {
-        _fileDialog.invokeAndWait();
+        _fileDiblog.invokeAndWbit();
     }
 
     return result;
 }
-fileDialog.docString = "show a file dialog box";
+fileDiblog.docString = "show b file diblog box";
 
 /**
- * Opens a color chooser dialog box
+ * Opens b color chooser diblog box
  *
- * @param title of the dialog box [optional]
- * @param color default color [optional]
- * @return chosen color or default color
+ * @pbrbm title of the diblog box [optionbl]
+ * @pbrbm color defbult color [optionbl]
+ * @return chosen color or defbult color
  */
-function colorDialog(title, color) {
-    var result;
+function colorDiblog(title, color) {
+    vbr result;
 
-    function _colorDialog() {
+    function _colorDiblog() {
         if (title == undefined) {
             title = "Choose Color";
         }
 
         if (color == undefined) {
-            color = java.awt.Color.BLACK;
+            color = jbvb.bwt.Color.BLACK;
         }
 
-        var chooser = new javax.swing.JColorChooser();
-        var res = chooser.showDialog(window, title, color);
+        vbr chooser = new jbvbx.swing.JColorChooser();
+        vbr res = chooser.showDiblog(window, title, color);
         result = res ? res : color;
     }
 
-    if (isEventThread()) {
-        _colorDialog();
+    if (isEventThrebd()) {
+        _colorDiblog();
     } else {
-        _colorDialog.invokeAndWait();
+        _colorDiblog.invokeAndWbit();
     }
 
     return result;
 }
-colorDialog.docString = "shows a color chooser dialog box";
+colorDiblog.docString = "shows b color chooser diblog box";
 
 /**
- * Shows a message box
+ * Shows b messbge box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
- * @param msgType type of message box [constants in JOptionPane]
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
+ * @pbrbm msgType type of messbge box [constbnts in JOptionPbne]
  */
 function msgBox(msg, title, msgType) {
     function _msgBox() {
-        var JOptionPane = javax.swing.JOptionPane;
+        vbr JOptionPbne = jbvbx.swing.JOptionPbne;
         if (msg === undefined) msg = "undefined";
         if (msg === null) msg = "null";
         if (title == undefined) title = msg;
-        if (msgType == undefined) msgType = JOptionPane.INFORMATION_MESSAGE;
-        JOptionPane.showMessageDialog(window, msg, title, msgType);
+        if (msgType == undefined) msgType = JOptionPbne.INFORMATION_MESSAGE;
+        JOptionPbne.showMessbgeDiblog(window, msg, title, msgType);
     }
 
-    if (isEventThread()) {
+    if (isEventThrebd()) {
         _msgBox();
     } else {
-        _msgBox.invokeAndWait();
+        _msgBox.invokeAndWbit();
     }
 }
-msgBox.docString = "shows MessageBox to the user";
+msgBox.docString = "shows MessbgeBox to the user";
 
 /**
- * Shows an information alert box
+ * Shows bn informbtion blert box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
  */
-function alert(msg, title) {
-    var JOptionPane = javax.swing.JOptionPane;
-    msgBox(msg, title, JOptionPane.INFORMATION_MESSAGE);
+function blert(msg, title) {
+    vbr JOptionPbne = jbvbx.swing.JOptionPbne;
+    msgBox(msg, title, JOptionPbne.INFORMATION_MESSAGE);
 }
-alert.docString = "shows an alert message box to the user";
+blert.docString = "shows bn blert messbge box to the user";
 
 /**
- * Shows an error alert box
+ * Shows bn error blert box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
  */
 function error(msg, title) {
-    var JOptionPane = javax.swing.JOptionPane;
-    msgBox(msg, title, JOptionPane.ERROR_MESSAGE);
+    vbr JOptionPbne = jbvbx.swing.JOptionPbne;
+    msgBox(msg, title, JOptionPbne.ERROR_MESSAGE);
 }
-error.docString = "shows an error message box to the user";
+error.docString = "shows bn error messbge box to the user";
 
 /**
- * Shows a warning alert box
+ * Shows b wbrning blert box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
  */
-function warn(msg, title) {
-    var JOptionPane = javax.swing.JOptionPane;
-    msgBox(msg, title, JOptionPane.WARNING_MESSAGE);
+function wbrn(msg, title) {
+    vbr JOptionPbne = jbvbx.swing.JOptionPbne;
+    msgBox(msg, title, JOptionPbne.WARNING_MESSAGE);
 }
-warn.docString = "shows a warning message box to the user";
+wbrn.docString = "shows b wbrning messbge box to the user";
 
 /**
- * Shows a prompt dialog box
+ * Shows b prompt diblog box
  *
- * @param question question to be asked
- * @param answer default answer suggested [optional]
- * @return answer given by user
+ * @pbrbm question question to be bsked
+ * @pbrbm bnswer defbult bnswer suggested [optionbl]
+ * @return bnswer given by user
  */
-function prompt(question, answer) {
-    var result;
+function prompt(question, bnswer) {
+    vbr result;
     function _prompt() {
-        var JOptionPane = javax.swing.JOptionPane;
-        if (answer == undefined) answer = "";
-        result = JOptionPane.showInputDialog(window, question, answer);
+        vbr JOptionPbne = jbvbx.swing.JOptionPbne;
+        if (bnswer == undefined) bnswer = "";
+        result = JOptionPbne.showInputDiblog(window, question, bnswer);
     }
 
-    if (isEventThread()) {
+    if (isEventThrebd()) {
         _prompt();
     } else {
-        _prompt.invokeAndWait();
+        _prompt.invokeAndWbit();
     }
 
     return result;
 }
-prompt.docString = "shows a prompt box to the user and returns the answer";
+prompt.docString = "shows b prompt box to the user bnd returns the bnswer";
 
 /**
- * Shows a confirmation dialog box
+ * Shows b confirmbtion diblog box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
- * @return boolean (yes->true, no->false)
+ * @pbrbm msg messbge to be shown
+ * @pbrbm title title of messbge box [optionbl]
+ * @return boolebn (yes->true, no->fblse)
  */
 function confirm(msg, title) {
-    var result;
-    var JOptionPane = javax.swing.JOptionPane;
+    vbr result;
+    vbr JOptionPbne = jbvbx.swing.JOptionPbne;
 
     function _confirm() {
         if (title == undefined) title = msg;
-        var optionType = JOptionPane.YES_NO_OPTION;
-        result = JOptionPane.showConfirmDialog(window, msg, title, optionType);
+        vbr optionType = JOptionPbne.YES_NO_OPTION;
+        result = JOptionPbne.showConfirmDiblog(window, msg, title, optionType);
     }
 
-    if (isEventThread()) {
+    if (isEventThrebd()) {
         _confirm();
     } else {
-        _confirm.invokeAndWait();
+        _confirm.invokeAndWbit();
     }
 
-    return result == JOptionPane.YES_OPTION;
+    return result == JOptionPbne.YES_OPTION;
 }
-confirm.docString = "shows a confirmation message box to the user";
+confirm.docString = "shows b confirmbtion messbge box to the user";
 
 /**
- * Exit the process after confirmation from user
+ * Exit the process bfter confirmbtion from user
  *
- * @param exitCode return code to OS [optional]
+ * @pbrbm exitCode return code to OS [optionbl]
  */
 function exit(exitCode) {
     if (exitCode == undefined) exitCode = 0;
-    if (confirm("Do you really want to exit?")) {
-        java.lang.System.exit(exitCode);
+    if (confirm("Do you reblly wbnt to exit?")) {
+        jbvb.lbng.System.exit(exitCode);
     }
 }
 exit.docString = "exits jconsole";
 
 // synonym to exit
-var quit = exit;
+vbr quit = exit;
 
-// if echo function is not defined, define it as synonym
+// if echo function is not defined, define it bs synonym
 // for println function
 if (this.echo == undefined) {
     function echo(str) {

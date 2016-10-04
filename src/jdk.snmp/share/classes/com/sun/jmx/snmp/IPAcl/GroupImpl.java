@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbckbge com.sun.jmx.snmp.IPAcl;
 
 
 
-import java.util.Vector;
-import java.util.Enumeration;
-import java.io.Serializable;
-import java.net.UnknownHostException;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.io.Seriblizbble;
+import jbvb.net.UnknownHostException;
 
 
-import java.security.Principal;
-import java.security.acl.Group;
+import jbvb.security.Principbl;
+import jbvb.security.bcl.Group;
 
 
 /**
- * This class is used to represent a subnet mask (a group of hosts
- * matching the same
- * IP mask).
+ * This clbss is used to represent b subnet mbsk (b group of hosts
+ * mbtching the sbme
+ * IP mbsk).
  *
  */
 
-class GroupImpl extends PrincipalImpl implements Group, Serializable {
-  private static final long serialVersionUID = -7777387035032541168L;
+clbss GroupImpl extends PrincipblImpl implements Group, Seriblizbble {
+  privbte stbtic finbl long seriblVersionUID = -7777387035032541168L;
 
   /**
-   * Constructs an empty group.
+   * Constructs bn empty group.
    * @exception UnknownHostException Not implemented
    */
   public GroupImpl () throws UnknownHostException {
   }
 
   /**
-   * Constructs a group using the specified subnet mask.
+   * Constructs b group using the specified subnet mbsk.
    *
-   * @param mask The subnet mask to use to build the group.
-   * @exception UnknownHostException if the subnet mask cann't be built.
+   * @pbrbm mbsk The subnet mbsk to use to build the group.
+   * @exception UnknownHostException if the subnet mbsk cbnn't be built.
    */
-  public GroupImpl (String mask) throws UnknownHostException {
-        super(mask);
+  public GroupImpl (String mbsk) throws UnknownHostException {
+        super(mbsk);
   }
 
     /**
      * Adds the specified member to the group.
      *
-     * @param p the principal to add to this group.
-     * @return true if the member was successfully added, false if the
-     *     principal was already a member.
+     * @pbrbm p the principbl to bdd to this group.
+     * @return true if the member wbs successfully bdded, fblse if the
+     *     principbl wbs blrebdy b member.
      */
-    public boolean addMember(Principal p) {
-        // we don't need to add members because the ip address is a
-        // subnet mask
+    public boolebn bddMember(Principbl p) {
+        // we don't need to bdd members becbuse the ip bddress is b
+        // subnet mbsk
         return true;
     }
 
-  public int hashCode() {
-        return super.hashCode();
+  public int hbshCode() {
+        return super.hbshCode();
   }
 
   /**
-   * Compares this group to the specified object. Returns true if the object
-   * passed in matches the group represented.
+   * Compbres this group to the specified object. Returns true if the object
+   * pbssed in mbtches the group represented.
    *
-   * @param p the object to compare with.
-   * @return true if the object passed in matches the subnet mask,
-   *   false otherwise.
+   * @pbrbm p the object to compbre with.
+   * @return true if the object pbssed in mbtches the subnet mbsk,
+   *   fblse otherwise.
    */
-  public boolean equals (Object p) {
-        if (p instanceof PrincipalImpl || p instanceof GroupImpl){
-          if ((super.hashCode() & p.hashCode()) == p.hashCode()) return true;
-          else return false;
+  public boolebn equbls (Object p) {
+        if (p instbnceof PrincipblImpl || p instbnceof GroupImpl){
+          if ((super.hbshCode() & p.hbshCode()) == p.hbshCode()) return true;
+          else return fblse;
         } else {
-          return false;
+          return fblse;
         }
   }
 
   /**
-   * Returns true if the passed principal is a member of the group.
+   * Returns true if the pbssed principbl is b member of the group.
    *
-   * @param p the principal whose membership is to be checked.
-   * @return true if the principal is a member of this group, false otherwise.
+   * @pbrbm p the principbl whose membership is to be checked.
+   * @return true if the principbl is b member of this group, fblse otherwise.
    */
-  public boolean isMember(Principal p) {
-        if ((p.hashCode() & super.hashCode()) == p.hashCode()) return true;
-        else return false;
+  public boolebn isMember(Principbl p) {
+        if ((p.hbshCode() & super.hbshCode()) == p.hbshCode()) return true;
+        else return fblse;
   }
 
   /**
-   * Returns an enumeration which contains the subnet mask.
+   * Returns bn enumerbtion which contbins the subnet mbsk.
    *
-   * @return an enumeration which contains the subnet mask.
+   * @return bn enumerbtion which contbins the subnet mbsk.
    */
-  public Enumeration<? extends Principal> members(){
-        Vector<Principal> v = new Vector<Principal>(1);
-        v.addElement(this);
+  public Enumerbtion<? extends Principbl> members(){
+        Vector<Principbl> v = new Vector<Principbl>(1);
+        v.bddElement(this);
         return v.elements();
   }
 
   /**
    * Removes the specified member from the group. (Not implemented)
    *
-   * @param p the principal to remove from this group.
-   * @return allways return true.
+   * @pbrbm p the principbl to remove from this group.
+   * @return bllwbys return true.
    */
-  public boolean removeMember(Principal p) {
+  public boolebn removeMember(Principbl p) {
         return true;
   }
 
   /**
-   * Prints a string representation of this group.
+   * Prints b string representbtion of this group.
    *
-   * @return  a string representation of this group.
+   * @return  b string representbtion of this group.
    */
   public String toString() {
         return ("GroupImpl :"+super.getAddress().toString());

@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @buthor Chbrlton Innovbtions, Inc.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import sun.java2d.loops.GraphicsPrimitive;
-import java.awt.Color;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import jbvb.bwt.Color;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.Rbster;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
 
 /**
- *   DrawLine
- *   1) draw solid color single width line onto destination surface
- *   2) must accept output area [x, y, dx, dy]
- *      from within the surface description data for clip rect
+ *   DrbwLine
+ *   1) drbw solid color single width line onto destinbtion surfbce
+ *   2) must bccept output breb [x, y, dx, dy]
+ *      from within the surfbce description dbtb for clip rect
  */
-public class DrawLine extends GraphicsPrimitive
+public clbss DrbwLine extends GrbphicsPrimitive
 {
-    public final static String methodSignature = "DrawLine(...)".toString();
+    public finbl stbtic String methodSignbture = "DrbwLine(...)".toString();
 
-    public final static int primTypeID = makePrimTypeID();
+    public finbl stbtic int primTypeID = mbkePrimTypeID();
 
-    public static DrawLine locate(SurfaceType srctype,
+    public stbtic DrbwLine locbte(SurfbceType srctype,
                                   CompositeType comptype,
-                                  SurfaceType dsttype)
+                                  SurfbceType dsttype)
     {
-        return (DrawLine) GraphicsPrimitiveMgr.locate(primTypeID,
+        return (DrbwLine) GrbphicsPrimitiveMgr.locbte(primTypeID,
                                                       srctype, comptype, dsttype);
     }
 
-    protected DrawLine(SurfaceType srctype,
+    protected DrbwLine(SurfbceType srctype,
                        CompositeType comptype,
-                       SurfaceType dsttype)
+                       SurfbceType dsttype)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
-    public DrawLine(long pNativePrim,
-                    SurfaceType srctype,
+    public DrbwLine(long pNbtivePrim,
+                    SurfbceType srctype,
                     CompositeType comptype,
-                    SurfaceType dsttype)
+                    SurfbceType dsttype)
     {
-        super(pNativePrim, methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(pNbtivePrim, methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
     /**
-     *   All DrawLine implementors must have this invoker method
+     *   All DrbwLine implementors must hbve this invoker method
      */
-    public native void DrawLine(SunGraphics2D sg2d, SurfaceData dest,
+    public nbtive void DrbwLine(SunGrbphics2D sg2d, SurfbceDbtb dest,
                                 int x1, int y1, int x2, int y2);
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
+    public GrbphicsPrimitive mbkePrimitive(SurfbceType srctype,
                                            CompositeType comptype,
-                                           SurfaceType dsttype)
+                                           SurfbceType dsttype)
     {
-        // REMIND: use FillSpans or converter object?
-        throw new InternalError("DrawLine not implemented for "+
+        // REMIND: use FillSpbns or converter object?
+        throw new InternblError("DrbwLine not implemented for "+
                                 srctype+" with "+comptype);
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceDrawLine(this);
+    public GrbphicsPrimitive trbceWrbp() {
+        return new TrbceDrbwLine(this);
     }
 
-    private static class TraceDrawLine extends DrawLine {
-        DrawLine target;
+    privbte stbtic clbss TrbceDrbwLine extends DrbwLine {
+        DrbwLine tbrget;
 
-        public TraceDrawLine(DrawLine target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        public TrbceDrbwLine(DrbwLine tbrget) {
+            super(tbrget.getSourceType(),
+                  tbrget.getCompositeType(),
+                  tbrget.getDestType());
+            this.tbrget = tbrget;
         }
 
-        public GraphicsPrimitive traceWrap() {
+        public GrbphicsPrimitive trbceWrbp() {
             return this;
         }
 
-        public void DrawLine(SunGraphics2D sg2d, SurfaceData dest,
+        public void DrbwLine(SunGrbphics2D sg2d, SurfbceDbtb dest,
                              int x1, int y1, int x2, int y2)
         {
-            tracePrimitive(target);
-            target.DrawLine(sg2d, dest, x1, y1, x2, y2);
+            trbcePrimitive(tbrget);
+            tbrget.DrbwLine(sg2d, dest, x1, y1, x2, y2);
         }
     }
 }

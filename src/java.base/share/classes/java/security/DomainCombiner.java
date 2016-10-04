@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
 /**
- * A {@code DomainCombiner} provides a means to dynamically
- * update the ProtectionDomains associated with the current
+ * A {@code DombinCombiner} provides b mebns to dynbmicblly
+ * updbte the ProtectionDombins bssocibted with the current
  * {@code AccessControlContext}.
  *
- * <p> A {@code DomainCombiner} is passed as a parameter to the
- * appropriate constructor for {@code AccessControlContext}.
- * The newly constructed context is then passed to the
+ * <p> A {@code DombinCombiner} is pbssed bs b pbrbmeter to the
+ * bppropribte constructor for {@code AccessControlContext}.
+ * The newly constructed context is then pbssed to the
  * {@code AccessController.doPrivileged(..., context)} method
- * to bind the provided context (and associated {@code DomainCombiner})
- * with the current execution Thread.  Subsequent calls to
+ * to bind the provided context (bnd bssocibted {@code DombinCombiner})
+ * with the current execution Threbd.  Subsequent cblls to
  * {@code AccessController.getContext} or
  * {@code AccessController.checkPermission}
- * cause the {@code DomainCombiner.combine} to get invoked.
+ * cbuse the {@code DombinCombiner.combine} to get invoked.
  *
- * <p> The combine method takes two arguments.  The first argument represents
- * an array of ProtectionDomains from the current execution Thread,
- * since the most recent call to {@code AccessController.doPrivileged}.
- * If no call to doPrivileged was made, then the first argument will contain
- * all the ProtectionDomains from the current execution Thread.
- * The second argument represents an array of inherited ProtectionDomains,
- * which may be {@code null}.  ProtectionDomains may be inherited
- * from a parent Thread, or from a privileged context.  If no call to
- * doPrivileged was made, then the second argument will contain the
- * ProtectionDomains inherited from the parent Thread.  If one or more calls
- * to doPrivileged were made, and the most recent call was to
- * doPrivileged(action, context), then the second argument will contain the
- * ProtectionDomains from the privileged context.  If the most recent call
- * was to doPrivileged(action), then there is no privileged context,
- * and the second argument will be {@code null}.
+ * <p> The combine method tbkes two brguments.  The first brgument represents
+ * bn brrby of ProtectionDombins from the current execution Threbd,
+ * since the most recent cbll to {@code AccessController.doPrivileged}.
+ * If no cbll to doPrivileged wbs mbde, then the first brgument will contbin
+ * bll the ProtectionDombins from the current execution Threbd.
+ * The second brgument represents bn brrby of inherited ProtectionDombins,
+ * which mby be {@code null}.  ProtectionDombins mby be inherited
+ * from b pbrent Threbd, or from b privileged context.  If no cbll to
+ * doPrivileged wbs mbde, then the second brgument will contbin the
+ * ProtectionDombins inherited from the pbrent Threbd.  If one or more cblls
+ * to doPrivileged were mbde, bnd the most recent cbll wbs to
+ * doPrivileged(bction, context), then the second brgument will contbin the
+ * ProtectionDombins from the privileged context.  If the most recent cbll
+ * wbs to doPrivileged(bction), then there is no privileged context,
+ * bnd the second brgument will be {@code null}.
  *
- * <p> The {@code combine} method investigates the two input arrays
- * of ProtectionDomains and returns a single array containing the updated
- * ProtectionDomains.  In the simplest case, the {@code combine}
- * method merges the two stacks into one.  In more complex cases,
- * the {@code combine} method returns a modified
- * stack of ProtectionDomains.  The modification may have added new
- * ProtectionDomains, removed certain ProtectionDomains, or simply
- * updated existing ProtectionDomains.  Re-ordering and other optimizations
- * to the ProtectionDomains are also permitted.  Typically the
- * {@code combine} method bases its updates on the information
- * encapsulated in the {@code DomainCombiner}.
+ * <p> The {@code combine} method investigbtes the two input brrbys
+ * of ProtectionDombins bnd returns b single brrby contbining the updbted
+ * ProtectionDombins.  In the simplest cbse, the {@code combine}
+ * method merges the two stbcks into one.  In more complex cbses,
+ * the {@code combine} method returns b modified
+ * stbck of ProtectionDombins.  The modificbtion mby hbve bdded new
+ * ProtectionDombins, removed certbin ProtectionDombins, or simply
+ * updbted existing ProtectionDombins.  Re-ordering bnd other optimizbtions
+ * to the ProtectionDombins bre blso permitted.  Typicblly the
+ * {@code combine} method bbses its updbtes on the informbtion
+ * encbpsulbted in the {@code DombinCombiner}.
  *
  * <p> After the {@code AccessController.getContext} method
- * receives the combined stack of ProtectionDomains back from
- * the {@code DomainCombiner}, it returns a new
- * AccessControlContext that has both the combined ProtectionDomains
- * as well as the {@code DomainCombiner}.
+ * receives the combined stbck of ProtectionDombins bbck from
+ * the {@code DombinCombiner}, it returns b new
+ * AccessControlContext thbt hbs both the combined ProtectionDombins
+ * bs well bs the {@code DombinCombiner}.
  *
  * @see AccessController
  * @see AccessControlContext
  * @since 1.3
  */
-public interface DomainCombiner {
+public interfbce DombinCombiner {
 
     /**
-     * Modify or update the provided ProtectionDomains.
-     * ProtectionDomains may be added to or removed from the given
-     * ProtectionDomains.  The ProtectionDomains may be re-ordered.
-     * Individual ProtectionDomains may be modified (with a new
-     * set of Permissions, for example).
+     * Modify or updbte the provided ProtectionDombins.
+     * ProtectionDombins mby be bdded to or removed from the given
+     * ProtectionDombins.  The ProtectionDombins mby be re-ordered.
+     * Individubl ProtectionDombins mby be modified (with b new
+     * set of Permissions, for exbmple).
      *
      * <p>
      *
-     * @param currentDomains the ProtectionDomains associated with the
-     *          current execution Thread, up to the most recent
-     *          privileged {@code ProtectionDomain}.
-     *          The ProtectionDomains are are listed in order of execution,
-     *          with the most recently executing {@code ProtectionDomain}
-     *          residing at the beginning of the array. This parameter may
-     *          be {@code null} if the current execution Thread
-     *          has no associated ProtectionDomains.<p>
+     * @pbrbm currentDombins the ProtectionDombins bssocibted with the
+     *          current execution Threbd, up to the most recent
+     *          privileged {@code ProtectionDombin}.
+     *          The ProtectionDombins bre bre listed in order of execution,
+     *          with the most recently executing {@code ProtectionDombin}
+     *          residing bt the beginning of the brrby. This pbrbmeter mby
+     *          be {@code null} if the current execution Threbd
+     *          hbs no bssocibted ProtectionDombins.<p>
      *
-     * @param assignedDomains an array of inherited ProtectionDomains.
-     *          ProtectionDomains may be inherited from a parent Thread,
-     *          or from a privileged {@code AccessControlContext}.
-     *          This parameter may be {@code null}
-     *          if there are no inherited ProtectionDomains.
+     * @pbrbm bssignedDombins bn brrby of inherited ProtectionDombins.
+     *          ProtectionDombins mby be inherited from b pbrent Threbd,
+     *          or from b privileged {@code AccessControlContext}.
+     *          This pbrbmeter mby be {@code null}
+     *          if there bre no inherited ProtectionDombins.
      *
-     * @return a new array consisting of the updated ProtectionDomains,
+     * @return b new brrby consisting of the updbted ProtectionDombins,
      *          or {@code null}.
      */
-    ProtectionDomain[] combine(ProtectionDomain[] currentDomains,
-                                ProtectionDomain[] assignedDomains);
+    ProtectionDombin[] combine(ProtectionDombin[] currentDombins,
+                                ProtectionDombin[] bssignedDombins);
 }

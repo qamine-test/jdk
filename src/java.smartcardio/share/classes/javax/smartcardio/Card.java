@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.smartcardio;
+pbckbge jbvbx.smbrtcbrdio;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 
 /**
- * A Smart Card with which a connection has been established. Card objects
- * are obtained by calling {@link CardTerminal#connect CardTerminal.connect()}.
+ * A Smbrt Cbrd with which b connection hbs been estbblished. Cbrd objects
+ * bre obtbined by cblling {@link CbrdTerminbl#connect CbrdTerminbl.connect()}.
  *
- * @see CardTerminal
+ * @see CbrdTerminbl
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @author  JSR 268 Expert Group
+ * @buthor  Andrebs Sterbenz
+ * @buthor  JSR 268 Expert Group
 */
-public abstract class Card {
+public bbstrbct clbss Cbrd {
 
     /**
-     * Constructs a new Card object.
+     * Constructs b new Cbrd object.
      *
-     * <p>This constructor is called by subclasses only. Application should
-     * call the {@linkplain CardTerminal#connect CardTerminal.connect()}
-     * method to obtain a Card
+     * <p>This constructor is cblled by subclbsses only. Applicbtion should
+     * cbll the {@linkplbin CbrdTerminbl#connect CbrdTerminbl.connect()}
+     * method to obtbin b Cbrd
      * object.
      */
-    protected Card() {
+    protected Cbrd() {
         // empty
     }
 
     /**
-     * Returns the ATR of this card.
+     * Returns the ATR of this cbrd.
      *
-     * @return the ATR of this card.
+     * @return the ATR of this cbrd.
      */
-    public abstract ATR getATR();
+    public bbstrbct ATR getATR();
 
     /**
-     * Returns the protocol in use for this card.
+     * Returns the protocol in use for this cbrd.
      *
-     * @return the protocol in use for this card, for example "T=0" or "T=1"
+     * @return the protocol in use for this cbrd, for exbmple "T=0" or "T=1"
      */
-    public abstract String getProtocol();
+    public bbstrbct String getProtocol();
 
     /**
-     * Returns the CardChannel for the basic logical channel. The basic
-     * logical channel has a channel number of 0.
+     * Returns the CbrdChbnnel for the bbsic logicbl chbnnel. The bbsic
+     * logicbl chbnnel hbs b chbnnel number of 0.
      *
-     * @throws SecurityException if a SecurityManager exists and the
-     *   caller does not have the required
-     *   {@linkplain CardPermission permission}
-     * @throws IllegalStateException if this card object has been disposed of
-     *   via the {@linkplain #disconnect disconnect()} method
+     * @throws SecurityException if b SecurityMbnbger exists bnd the
+     *   cbller does not hbve the required
+     *   {@linkplbin CbrdPermission permission}
+     * @throws IllegblStbteException if this cbrd object hbs been disposed of
+     *   vib the {@linkplbin #disconnect disconnect()} method
      */
-    public abstract CardChannel getBasicChannel();
+    public bbstrbct CbrdChbnnel getBbsicChbnnel();
 
     /**
-     * Opens a new logical channel to the card and returns it. The channel is
-     * opened by issuing a <code>MANAGE CHANNEL</code> command that should use
-     * the format <code>[00 70 00 00 01]</code>.
+     * Opens b new logicbl chbnnel to the cbrd bnd returns it. The chbnnel is
+     * opened by issuing b <code>MANAGE CHANNEL</code> commbnd thbt should use
+     * the formbt <code>[00 70 00 00 01]</code>.
      *
-     * @throws SecurityException if a SecurityManager exists and the
-     *   caller does not have the required
-     *   {@linkplain CardPermission permission}
-     * @throws CardException is a new logical channel could not be opened
-     * @throws IllegalStateException if this card object has been disposed of
-     *   via the {@linkplain #disconnect disconnect()} method
+     * @throws SecurityException if b SecurityMbnbger exists bnd the
+     *   cbller does not hbve the required
+     *   {@linkplbin CbrdPermission permission}
+     * @throws CbrdException is b new logicbl chbnnel could not be opened
+     * @throws IllegblStbteException if this cbrd object hbs been disposed of
+     *   vib the {@linkplbin #disconnect disconnect()} method
      */
-    public abstract CardChannel openLogicalChannel() throws CardException;
+    public bbstrbct CbrdChbnnel openLogicblChbnnel() throws CbrdException;
 
     /**
-     * Requests exclusive access to this card.
+     * Requests exclusive bccess to this cbrd.
      *
-     * <p>Once a thread has invoked <code>beginExclusive</code>, only this
-     * thread is allowed to communicate with this card until it calls
-     * <code>endExclusive</code>. Other threads attempting communication
-     * will receive a CardException.
+     * <p>Once b threbd hbs invoked <code>beginExclusive</code>, only this
+     * threbd is bllowed to communicbte with this cbrd until it cblls
+     * <code>endExclusive</code>. Other threbds bttempting communicbtion
+     * will receive b CbrdException.
      *
-     * <p>Applications have to ensure that exclusive access is correctly
-     * released. This can be achieved by executing
-     * the <code>beginExclusive()</code> and <code>endExclusive</code> calls
-     * in a <code>try ... finally</code> block.
+     * <p>Applicbtions hbve to ensure thbt exclusive bccess is correctly
+     * relebsed. This cbn be bchieved by executing
+     * the <code>beginExclusive()</code> bnd <code>endExclusive</code> cblls
+     * in b <code>try ... finblly</code> block.
      *
-     * @throws SecurityException if a SecurityManager exists and the
-     *   caller does not have the required
-     *   {@linkplain CardPermission permission}
-     * @throws CardException if exclusive access has already been set
-     *   or if exclusive access could not be established
-     * @throws IllegalStateException if this card object has been disposed of
-     *   via the {@linkplain #disconnect disconnect()} method
+     * @throws SecurityException if b SecurityMbnbger exists bnd the
+     *   cbller does not hbve the required
+     *   {@linkplbin CbrdPermission permission}
+     * @throws CbrdException if exclusive bccess hbs blrebdy been set
+     *   or if exclusive bccess could not be estbblished
+     * @throws IllegblStbteException if this cbrd object hbs been disposed of
+     *   vib the {@linkplbin #disconnect disconnect()} method
      */
-    public abstract void beginExclusive() throws CardException;
+    public bbstrbct void beginExclusive() throws CbrdException;
 
     /**
-     * Releases the exclusive access previously established using
+     * Relebses the exclusive bccess previously estbblished using
      * <code>beginExclusive</code>.
      *
-     * @throws SecurityException if a SecurityManager exists and the
-     *   caller does not have the required
-     *   {@linkplain CardPermission permission}
-     * @throws IllegalStateException if the active Thread does not currently have
-     *   exclusive access to this card or
-     *   if this card object has been disposed of
-     *   via the {@linkplain #disconnect disconnect()} method
-     * @throws CardException if the operation failed
+     * @throws SecurityException if b SecurityMbnbger exists bnd the
+     *   cbller does not hbve the required
+     *   {@linkplbin CbrdPermission permission}
+     * @throws IllegblStbteException if the bctive Threbd does not currently hbve
+     *   exclusive bccess to this cbrd or
+     *   if this cbrd object hbs been disposed of
+     *   vib the {@linkplbin #disconnect disconnect()} method
+     * @throws CbrdException if the operbtion fbiled
      */
-    public abstract void endExclusive() throws CardException;
+    public bbstrbct void endExclusive() throws CbrdException;
 
     /**
-     * Transmits a control command to the terminal device.
+     * Trbnsmits b control commbnd to the terminbl device.
      *
-     * <p>This can be used to, for example, control terminal functions like
-     * a built-in PIN pad or biometrics.
+     * <p>This cbn be used to, for exbmple, control terminbl functions like
+     * b built-in PIN pbd or biometrics.
      *
-     * @param controlCode the control code of the command
-     * @param command the command data
+     * @pbrbm controlCode the control code of the commbnd
+     * @pbrbm commbnd the commbnd dbtb
      *
-     * @throws SecurityException if a SecurityManager exists and the
-     *   caller does not have the required
-     *   {@linkplain CardPermission permission}
-     * @throws NullPointerException if command is null
-     * @throws CardException if the card operation failed
-     * @throws IllegalStateException if this card object has been disposed of
-     *   via the {@linkplain #disconnect disconnect()} method
+     * @throws SecurityException if b SecurityMbnbger exists bnd the
+     *   cbller does not hbve the required
+     *   {@linkplbin CbrdPermission permission}
+     * @throws NullPointerException if commbnd is null
+     * @throws CbrdException if the cbrd operbtion fbiled
+     * @throws IllegblStbteException if this cbrd object hbs been disposed of
+     *   vib the {@linkplbin #disconnect disconnect()} method
      */
-    public abstract byte[] transmitControlCommand(int controlCode,
-            byte[] command) throws CardException;
+    public bbstrbct byte[] trbnsmitControlCommbnd(int controlCode,
+            byte[] commbnd) throws CbrdException;
 
     /**
-     * Disconnects the connection with this card. After this method returns,
-     * calling methods on this object or in CardChannels associated with this
-     * object that require interaction with the card will raise an
-     * IllegalStateException.
+     * Disconnects the connection with this cbrd. After this method returns,
+     * cblling methods on this object or in CbrdChbnnels bssocibted with this
+     * object thbt require interbction with the cbrd will rbise bn
+     * IllegblStbteException.
      *
-     * @param reset whether to reset the card after disconnecting.
+     * @pbrbm reset whether to reset the cbrd bfter disconnecting.
      *
-     * @throws CardException if the card operation failed
-     * @throws SecurityException if a SecurityManager exists and the
-     *   caller does not have the required
-     *   {@linkplain CardPermission permission}
+     * @throws CbrdException if the cbrd operbtion fbiled
+     * @throws SecurityException if b SecurityMbnbger exists bnd the
+     *   cbller does not hbve the required
+     *   {@linkplbin CbrdPermission permission}
      */
-    public abstract void disconnect(boolean reset) throws CardException;
+    public bbstrbct void disconnect(boolebn reset) throws CbrdException;
 
 }

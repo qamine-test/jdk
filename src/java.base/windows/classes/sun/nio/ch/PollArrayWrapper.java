@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * Manipulates a native array of structs corresponding to (fd, events) pairs.
+ * Mbnipulbtes b nbtive brrby of structs corresponding to (fd, events) pbirs.
  *
  * typedef struct pollfd {
  *    SOCKET fd;            // 4 bytes
  *    short events;         // 2 bytes
  * } pollfd_t;
  *
- * @author Konstantin Kladko
- * @author Mike McCloskey
+ * @buthor Konstbntin Klbdko
+ * @buthor Mike McCloskey
  */
 
-class PollArrayWrapper {
+clbss PollArrbyWrbpper {
 
-    private AllocatedNativeObject pollArray; // The fd array
+    privbte AllocbtedNbtiveObject pollArrby; // The fd brrby
 
-    long pollArrayAddress; // pollArrayAddress
+    long pollArrbyAddress; // pollArrbyAddress
 
-    @Native private static final short FD_OFFSET     = 0; // fd offset in pollfd
-    @Native private static final short EVENT_OFFSET  = 4; // events offset in pollfd
+    @Nbtive privbte stbtic finbl short FD_OFFSET     = 0; // fd offset in pollfd
+    @Nbtive privbte stbtic finbl short EVENT_OFFSET  = 4; // events offset in pollfd
 
-    static short SIZE_POLLFD = 8; // sizeof pollfd struct
+    stbtic short SIZE_POLLFD = 8; // sizeof pollfd struct
 
-    private int size; // Size of the pollArray
+    privbte int size; // Size of the pollArrby
 
-    PollArrayWrapper(int newSize) {
-        int allocationSize = newSize * SIZE_POLLFD;
-        pollArray = new AllocatedNativeObject(allocationSize, true);
-        pollArrayAddress = pollArray.address();
+    PollArrbyWrbpper(int newSize) {
+        int bllocbtionSize = newSize * SIZE_POLLFD;
+        pollArrby = new AllocbtedNbtiveObject(bllocbtionSize, true);
+        pollArrbyAddress = pollArrby.bddress();
         this.size = newSize;
     }
 
-    // Prepare another pollfd struct for use.
-    void addEntry(int index, SelectionKeyImpl ski) {
-        putDescriptor(index, ski.channel.getFDVal());
+    // Prepbre bnother pollfd struct for use.
+    void bddEntry(int index, SelectionKeyImpl ski) {
+        putDescriptor(index, ski.chbnnel.getFDVbl());
     }
 
-    // Writes the pollfd entry from the source wrapper at the source index
-    // over the entry in the target wrapper at the target index.
-    void replaceEntry(PollArrayWrapper source, int sindex,
-                                     PollArrayWrapper target, int tindex) {
-        target.putDescriptor(tindex, source.getDescriptor(sindex));
-        target.putEventOps(tindex, source.getEventOps(sindex));
+    // Writes the pollfd entry from the source wrbpper bt the source index
+    // over the entry in the tbrget wrbpper bt the tbrget index.
+    void replbceEntry(PollArrbyWrbpper source, int sindex,
+                                     PollArrbyWrbpper tbrget, int tindex) {
+        tbrget.putDescriptor(tindex, source.getDescriptor(sindex));
+        tbrget.putEventOps(tindex, source.getEventOps(sindex));
     }
 
-    // Grows the pollfd array to new size
+    // Grows the pollfd brrby to new size
     void grow(int newSize) {
-        PollArrayWrapper temp = new PollArrayWrapper(newSize);
+        PollArrbyWrbpper temp = new PollArrbyWrbpper(newSize);
         for (int i = 0; i < size; i++)
-            replaceEntry(this, i, temp, i);
-        pollArray.free();
-        pollArray = temp.pollArray;
+            replbceEntry(this, i, temp, i);
+        pollArrby.free();
+        pollArrby = temp.pollArrby;
         this.size = temp.size;
-        pollArrayAddress = pollArray.address();
+        pollArrbyAddress = pollArrby.bddress();
     }
 
     void free() {
-        pollArray.free();
+        pollArrby.free();
     }
 
     // Access methods for fd structures
     void putDescriptor(int i, int fd) {
-        pollArray.putInt(SIZE_POLLFD * i + FD_OFFSET, fd);
+        pollArrby.putInt(SIZE_POLLFD * i + FD_OFFSET, fd);
     }
 
     void putEventOps(int i, int event) {
-        pollArray.putShort(SIZE_POLLFD * i + EVENT_OFFSET, (short)event);
+        pollArrby.putShort(SIZE_POLLFD * i + EVENT_OFFSET, (short)event);
     }
 
     int getEventOps(int i) {
-        return pollArray.getShort(SIZE_POLLFD * i + EVENT_OFFSET);
+        return pollArrby.getShort(SIZE_POLLFD * i + EVENT_OFFSET);
     }
 
     int getDescriptor(int i) {
-       return pollArray.getInt(SIZE_POLLFD * i + FD_OFFSET);
+       return pollArrby.getInt(SIZE_POLLFD * i + FD_OFFSET);
     }
 
-    // Adds Windows wakeup socket at a given index.
-    void addWakeupSocket(int fdVal, int index) {
-        putDescriptor(index, fdVal);
+    // Adds Windows wbkeup socket bt b given index.
+    void bddWbkeupSocket(int fdVbl, int index) {
+        putDescriptor(index, fdVbl);
         putEventOps(index, Net.POLLIN);
     }
 }

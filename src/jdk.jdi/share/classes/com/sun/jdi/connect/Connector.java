@@ -1,291 +1,291 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.connect;
+pbckbge com.sun.jdi.connect;
 
-import java.util.Map;
-import java.util.List;
-import java.io.Serializable;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.io.Seriblizbble;
 
 /**
- * A method of connection between a debugger and a target VM.
- * A connector encapsulates exactly one {@link Transport}. used
- * to establish the connection. Each connector has a set of arguments
- * which controls its operation. The arguments are stored as a
- * map, keyed by a string. Each implementation defines the string
- * argument keys it accepts.
+ * A method of connection between b debugger bnd b tbrget VM.
+ * A connector encbpsulbtes exbctly one {@link Trbnsport}. used
+ * to estbblish the connection. Ebch connector hbs b set of brguments
+ * which controls its operbtion. The brguments bre stored bs b
+ * mbp, keyed by b string. Ebch implementbtion defines the string
+ * brgument keys it bccepts.
  *
- * @see LaunchingConnector
- * @see AttachingConnector
+ * @see LbunchingConnector
+ * @see AttbchingConnector
  * @see ListeningConnector
  * @see Connector.Argument
  *
- * @author Gordon Hirsch
+ * @buthor Gordon Hirsch
  * @since  1.3
  */
 @jdk.Exported
-public interface Connector {
+public interfbce Connector {
     /**
-     * Returns a short identifier for the connector. Connector implementors
-     * should follow similar naming conventions as are used with packages
-     * to avoid name collisions. For example, the Sun connector
-     * implementations have names prefixed with "com.sun.jdi.".
+     * Returns b short identifier for the connector. Connector implementors
+     * should follow similbr nbming conventions bs bre used with pbckbges
+     * to bvoid nbme collisions. For exbmple, the Sun connector
+     * implementbtions hbve nbmes prefixed with "com.sun.jdi.".
      * Not intended for exposure to end-user.
      *
-     * @return the name of this connector.
+     * @return the nbme of this connector.
      */
-    String name();
+    String nbme();
 
     /**
-     * Returns a human-readable description of this connector
-     * and its purpose.
+     * Returns b humbn-rebdbble description of this connector
+     * bnd its purpose.
      *
      * @return the description of this connector
      */
     String description();
 
     /**
-     * Returns the transport mechanism used by this connector to establish
-     * connections with a target VM.
+     * Returns the trbnsport mechbnism used by this connector to estbblish
+     * connections with b tbrget VM.
      *
-     * @return the {@link Transport} used by this connector.
+     * @return the {@link Trbnsport} used by this connector.
      */
-    Transport transport();
+    Trbnsport trbnsport();
 
     /**
-     * Returns the arguments accepted by this Connector and their
-     * default values. The keys of the returned map are string argument
-     * names. The values are {@link Connector.Argument} containing
-     * information about the argument and its default value.
+     * Returns the brguments bccepted by this Connector bnd their
+     * defbult vblues. The keys of the returned mbp bre string brgument
+     * nbmes. The vblues bre {@link Connector.Argument} contbining
+     * informbtion bbout the brgument bnd its defbult vblue.
      *
-     * @return the map associating argument names with argument
-     * information and default value.
+     * @return the mbp bssocibting brgument nbmes with brgument
+     * informbtion bnd defbult vblue.
      */
-    Map<String,Connector.Argument> defaultArguments();
+    Mbp<String,Connector.Argument> defbultArguments();
 
     /**
-     * Specification for and value of a Connector argument.
-     * Will always implement a subinterface of Argument:
-     * {@link Connector.StringArgument}, {@link Connector.BooleanArgument},
+     * Specificbtion for bnd vblue of b Connector brgument.
+     * Will blwbys implement b subinterfbce of Argument:
+     * {@link Connector.StringArgument}, {@link Connector.BoolebnArgument},
      * {@link Connector.IntegerArgument},
      * or {@link Connector.SelectedArgument}.
      */
     @jdk.Exported
-    public interface Argument extends Serializable {
+    public interfbce Argument extends Seriblizbble {
         /**
-         * Returns a short, unique identifier for the argument.
+         * Returns b short, unique identifier for the brgument.
          * Not intended for exposure to end-user.
          *
-         * @return the name of this argument.
+         * @return the nbme of this brgument.
          */
-        String name();
+        String nbme();
 
         /**
-         * Returns a short human-readable label for this argument.
+         * Returns b short humbn-rebdbble lbbel for this brgument.
          *
-         * @return a label for this argument
+         * @return b lbbel for this brgument
          */
-        String label();
+        String lbbel();
 
         /**
-         * Returns a human-readable description of this argument
-         * and its purpose.
+         * Returns b humbn-rebdbble description of this brgument
+         * bnd its purpose.
          *
-         * @return the description of this argument
+         * @return the description of this brgument
          */
         String description();
 
         /**
-         * Returns the current value of the argument. Initially, the
-         * default value is returned. If the value is currently unspecified,
+         * Returns the current vblue of the brgument. Initiblly, the
+         * defbult vblue is returned. If the vblue is currently unspecified,
          * null is returned.
          *
-         * @return the current value of the argument.
+         * @return the current vblue of the brgument.
          */
-        String value();
+        String vblue();
 
         /**
-         * Sets the value of the argument.
-         * The value should be checked with {@link #isValid(String)}
-         * before setting it; invalid values will throw an exception
-         * when the connection is established - for example,
-         * on {@link LaunchingConnector#launch}
+         * Sets the vblue of the brgument.
+         * The vblue should be checked with {@link #isVblid(String)}
+         * before setting it; invblid vblues will throw bn exception
+         * when the connection is estbblished - for exbmple,
+         * on {@link LbunchingConnector#lbunch}
          */
-        void setValue(String value);
+        void setVblue(String vblue);
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if the value is valid to be
-         * used in {@link #setValue(String)}
+         * Performs bbsic sbnity check of brgument.
+         * @return <code>true</code> if the vblue is vblid to be
+         * used in {@link #setVblue(String)}
          */
-        boolean isValid(String value);
+        boolebn isVblid(String vblue);
 
         /**
-         * Indicates whether the argument must be specified. If true,
-         * {@link #setValue} must be used to set a non-null value before
-         * using this argument in establishing a connection.
+         * Indicbtes whether the brgument must be specified. If true,
+         * {@link #setVblue} must be used to set b non-null vblue before
+         * using this brgument in estbblishing b connection.
          *
-         * @return <code>true</code> if the argument must be specified;
-         * <code>false</code> otherwise.
+         * @return <code>true</code> if the brgument must be specified;
+         * <code>fblse</code> otherwise.
          */
-        boolean mustSpecify();
+        boolebn mustSpecify();
     }
 
     /**
-     * Specification for and value of a Connector argument,
-     * whose value is Boolean.  Boolean values are represented
-     * by the localized versions of the strings "true" and "false".
+     * Specificbtion for bnd vblue of b Connector brgument,
+     * whose vblue is Boolebn.  Boolebn vblues bre represented
+     * by the locblized versions of the strings "true" bnd "fblse".
      */
     @jdk.Exported
-    public interface BooleanArgument extends Argument {
+    public interfbce BoolebnArgument extends Argument {
         /**
-         * Sets the value of the argument.
+         * Sets the vblue of the brgument.
          */
-        void setValue(boolean value);
+        void setVblue(boolebn vblue);
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value is a string
-         * representation of a boolean value.
-         * @see #stringValueOf(boolean)
+         * Performs bbsic sbnity check of brgument.
+         * @return <code>true</code> if vblue is b string
+         * representbtion of b boolebn vblue.
+         * @see #stringVblueOf(boolebn)
          */
-        boolean isValid(String value);
+        boolebn isVblid(String vblue);
 
         /**
-         * Return the string representation of the <code>value</code>
-         * parameter.
-         * Does not set or examine the current value of <code>this</code>
-         * instance.
-         * @return the localized String representation of the
-         * boolean value.
+         * Return the string representbtion of the <code>vblue</code>
+         * pbrbmeter.
+         * Does not set or exbmine the current vblue of <code>this</code>
+         * instbnce.
+         * @return the locblized String representbtion of the
+         * boolebn vblue.
          */
-        String stringValueOf(boolean value);
+        String stringVblueOf(boolebn vblue);
 
         /**
-         * Return the value of the argument as a boolean.  Since
-         * the argument may not have been set or may have an invalid
-         * value {@link #isValid(String)} should be called on
-         * {@link #value()} to check its validity.  If it is invalid
-         * the boolean returned by this method is undefined.
-         * @return the value of the argument as a boolean.
+         * Return the vblue of the brgument bs b boolebn.  Since
+         * the brgument mby not hbve been set or mby hbve bn invblid
+         * vblue {@link #isVblid(String)} should be cblled on
+         * {@link #vblue()} to check its vblidity.  If it is invblid
+         * the boolebn returned by this method is undefined.
+         * @return the vblue of the brgument bs b boolebn.
          */
-        boolean booleanValue();
+        boolebn boolebnVblue();
     }
 
     /**
-     * Specification for and value of a Connector argument,
-     * whose value is an integer.  Integer values are represented
+     * Specificbtion for bnd vblue of b Connector brgument,
+     * whose vblue is bn integer.  Integer vblues bre represented
      * by their corresponding strings.
      */
     @jdk.Exported
-    public interface IntegerArgument extends Argument {
+    public interfbce IntegerArgument extends Argument {
         /**
-         * Sets the value of the argument.
-         * The value should be checked with {@link #isValid(int)}
-         * before setting it; invalid values will throw an exception
-         * when the connection is established - for example,
-         * on {@link LaunchingConnector#launch}
+         * Sets the vblue of the brgument.
+         * The vblue should be checked with {@link #isVblid(int)}
+         * before setting it; invblid vblues will throw bn exception
+         * when the connection is estbblished - for exbmple,
+         * on {@link LbunchingConnector#lbunch}
          */
-        void setValue(int value);
+        void setVblue(int vblue);
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value represents an int that is
-         * <code>{@link #min()} &lt;= value &lt;= {@link #max()}</code>
+         * Performs bbsic sbnity check of brgument.
+         * @return <code>true</code> if vblue represents bn int thbt is
+         * <code>{@link #min()} &lt;= vblue &lt;= {@link #mbx()}</code>
          */
-        boolean isValid(String value);
+        boolebn isVblid(String vblue);
 
         /**
-         * Performs basic sanity check of argument.
+         * Performs bbsic sbnity check of brgument.
          * @return <code>true</code> if
-         * <code>{@link #min()} &lt;= value  &lt;= {@link #max()}</code>
+         * <code>{@link #min()} &lt;= vblue  &lt;= {@link #mbx()}</code>
          */
-        boolean isValid(int value);
+        boolebn isVblid(int vblue);
 
         /**
-         * Return the string representation of the <code>value</code>
-         * parameter.
-         * Does not set or examine the current value of <code>this</code>
-         * instance.
-         * @return the String representation of the
-         * int value.
+         * Return the string representbtion of the <code>vblue</code>
+         * pbrbmeter.
+         * Does not set or exbmine the current vblue of <code>this</code>
+         * instbnce.
+         * @return the String representbtion of the
+         * int vblue.
          */
-        String stringValueOf(int value);
+        String stringVblueOf(int vblue);
 
         /**
-         * Return the value of the argument as a int.  Since
-         * the argument may not have been set or may have an invalid
-         * value {@link #isValid(String)} should be called on
-         * {@link #value()} to check its validity.  If it is invalid
+         * Return the vblue of the brgument bs b int.  Since
+         * the brgument mby not hbve been set or mby hbve bn invblid
+         * vblue {@link #isVblid(String)} should be cblled on
+         * {@link #vblue()} to check its vblidity.  If it is invblid
          * the int returned by this method is undefined.
-         * @return the value of the argument as a int.
+         * @return the vblue of the brgument bs b int.
          */
-        int intValue();
+        int intVblue();
 
         /**
-         * The upper bound for the value.
-         * @return the maximum allowed value for this argument.
+         * The upper bound for the vblue.
+         * @return the mbximum bllowed vblue for this brgument.
          */
-        int max();
+        int mbx();
 
         /**
-         * The lower bound for the value.
-         * @return the minimum allowed value for this argument.
+         * The lower bound for the vblue.
+         * @return the minimum bllowed vblue for this brgument.
          */
         int min();
     }
 
     /**
-     * Specification for and value of a Connector argument,
-     * whose value is a String.
+     * Specificbtion for bnd vblue of b Connector brgument,
+     * whose vblue is b String.
      */
     @jdk.Exported
-    public interface StringArgument extends Argument {
+    public interfbce StringArgument extends Argument {
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> always
+         * Performs bbsic sbnity check of brgument.
+         * @return <code>true</code> blwbys
          */
-        boolean isValid(String value);
+        boolebn isVblid(String vblue);
     }
 
     /**
-     * Specification for and value of a Connector argument,
-     * whose value is a String selected from a list of choices.
+     * Specificbtion for bnd vblue of b Connector brgument,
+     * whose vblue is b String selected from b list of choices.
      */
     @jdk.Exported
-    public interface SelectedArgument extends Argument {
+    public interfbce SelectedArgument extends Argument {
         /**
-         * Return the possible values for the argument
+         * Return the possible vblues for the brgument
          * @return {@link List} of {@link String}
          */
         List<String> choices();
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value is one of {@link #choices()}.
+         * Performs bbsic sbnity check of brgument.
+         * @return <code>true</code> if vblue is one of {@link #choices()}.
          */
-        boolean isValid(String value);
+        boolebn isVblid(String vblue);
     }
 }

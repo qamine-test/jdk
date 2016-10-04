@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "SurfaceData.h"
+#include "SurfbceDbtb.h"
 
-#include "awt_p.h"
-#include "awt_GraphicsEnv.h"
+#include "bwt_p.h"
+#include "bwt_GrbphicsEnv.h"
 
-#include <jdga.h>
+#include <jdgb.h>
 
 #ifdef HEADLESS
-#include "GLXGraphicsConfig.h"
+#include "GLXGrbphicsConfig.h"
 #endif
 
 #include <X11/extensions/Xrender.h>
 
 /**
- * This include file contains support declarations for loops using the
- * X11 extended SurfaceData interface to talk to an X11 drawable from
- * native code.
+ * This include file contbins support declbrbtions for loops using the
+ * X11 extended SurfbceDbtb interfbce to tblk to bn X11 drbwbble from
+ * nbtive code.
  */
 
 #ifdef HEADLESS
@@ -48,127 +48,127 @@
 typedef struct _X11SDOps X11SDOps;
 
 /*
- * This function returns an X11 Drawable which transparent pixels
- * (if there are any) were set to the specified color.
+ * This function returns bn X11 Drbwbble which trbnspbrent pixels
+ * (if there bre bny) were set to the specified color.
  *
- * The env parameter should be the JNIEnv of the surrounding JNI context.
+ * The env pbrbmeter should be the JNIEnv of the surrounding JNI context.
  *
- * The xsdo parameter should be a pointer to the ops object upon which
+ * The xsdo pbrbmeter should be b pointer to the ops object upon which
  * this function is being invoked.
  *
- * The pixel parameter should be a color to which the transparent
- * pixels of the image should be se set to.
+ * The pixel pbrbmeter should be b color to which the trbnspbrent
+ * pixels of the imbge should be se set to.
  */
-typedef Drawable GetPixmapBgFunc(JNIEnv *env,
+typedef Drbwbble GetPixmbpBgFunc(JNIEnv *env,
                                  X11SDOps *xsdo,
                                  jint pixel);
 
 /*
- * This function releases the lock set by GetPixmapBg
- * function of the indicated X11SDOps structure.
+ * This function relebses the lock set by GetPixmbpBg
+ * function of the indicbted X11SDOps structure.
  *
- * The env parameter should be the JNIEnv of the surrounding JNI context.
+ * The env pbrbmeter should be the JNIEnv of the surrounding JNI context.
  *
- * The ops parameter should be a pointer to the ops object upon which
+ * The ops pbrbmeter should be b pointer to the ops object upon which
  * this function is being invoked.
  */
-typedef void ReleasePixmapBgFunc(JNIEnv *env,
+typedef void RelebsePixmbpBgFunc(JNIEnv *env,
                                  X11SDOps *xsdo);
 
 
 #ifdef MITSHM
 typedef struct {
-    XShmSegmentInfo     *shmSegInfo;    /* Shared Memory Segment Info */
+    XShmSegmentInfo     *shmSegInfo;    /* Shbred Memory Segment Info */
     jint                bytesPerLine;   /* needed for ShMem lock */
-    jboolean            xRequestSent;   /* true if x request is sent w/o XSync */
+    jboolebn            xRequestSent;   /* true if x request is sent w/o XSync */
     jint                pmSize;
 
-    jboolean            usingShmPixmap;
-    Drawable            pixmap;
-    Drawable            shmPixmap;
-    jint                numBltsSinceRead;
-    jint                pixelsReadSinceBlt;
-    jint                pixelsReadThreshold;
+    jboolebn            usingShmPixmbp;
+    Drbwbble            pixmbp;
+    Drbwbble            shmPixmbp;
+    jint                numBltsSinceRebd;
+    jint                pixelsRebdSinceBlt;
+    jint                pixelsRebdThreshold;
     jint                numBltsThreshold;
-} ShmPixmapData;
+} ShmPixmbpDbtb;
 #endif /* MITSHM */
 
 struct _X11SDOps {
-    SurfaceDataOps      sdOps;
-    GetPixmapBgFunc     *GetPixmapWithBg;
-    ReleasePixmapBgFunc *ReleasePixmapWithBg;
-    jboolean            invalid;
-    jboolean            isPixmap;
+    SurfbceDbtbOps      sdOps;
+    GetPixmbpBgFunc     *GetPixmbpWithBg;
+    RelebsePixmbpBgFunc *RelebsePixmbpWithBg;
+    jboolebn            invblid;
+    jboolebn            isPixmbp;
     jobject             peer;
-    Drawable            drawable;
+    Drbwbble            drbwbble;
     Widget              widget;
-    GC                  javaGC;        /* used for Java-level GC validation */
-    GC                  cachedGC;      /* cached for use in X11SD_Unlock() */
+    GC                  jbvbGC;        /* used for Jbvb-level GC vblidbtion */
+    GC                  cbchedGC;      /* cbched for use in X11SD_Unlock() */
     jint                depth;
-    jint                pixelmask;
-    JDgaSurfaceInfo     surfInfo;
-    AwtGraphicsConfigData *configData;
-    ColorData           *cData;
-    jboolean            dgaAvailable;
-    void                *dgaDev;
-    Pixmap              bitmask;
-    jint                bgPixel;       /* bg pixel for the pixmap */
-    jboolean            isBgInitialized; /* whether the bg pixel is valid */
+    jint                pixelmbsk;
+    JDgbSurfbceInfo     surfInfo;
+    AwtGrbphicsConfigDbtb *configDbtb;
+    ColorDbtb           *cDbtb;
+    jboolebn            dgbAvbilbble;
+    void                *dgbDev;
+    Pixmbp              bitmbsk;
+    jint                bgPixel;       /* bg pixel for the pixmbp */
+    jboolebn            isBgInitiblized; /* whether the bg pixel is vblid */
     jint                pmWidth;       /* width, height of the */
-    jint                pmHeight;      /* pixmap */
+    jint                pmHeight;      /* pixmbp */
     Picture             xrPic;
 #ifdef MITSHM
-    ShmPixmapData       shmPMData;     /* data for switching between shm/nonshm pixmaps*/
+    ShmPixmbpDbtb       shmPMDbtb;     /* dbtb for switching between shm/nonshm pixmbps*/
 #endif /* MITSHM */
 };
 
-#define X11SD_LOCK_UNLOCKED     0       /* surface is not locked */
-#define X11SD_LOCK_BY_NULL      1       /* surface locked for NOP */
-#define X11SD_LOCK_BY_XIMAGE    2       /* surface locked by Get/PutImage */
-#define X11SD_LOCK_BY_DGA       3       /* surface locked by DGA */
-#define X11SD_LOCK_BY_SHMEM     4       /* surface locked by ShMemExt */
+#define X11SD_LOCK_UNLOCKED     0       /* surfbce is not locked */
+#define X11SD_LOCK_BY_NULL      1       /* surfbce locked for NOP */
+#define X11SD_LOCK_BY_XIMAGE    2       /* surfbce locked by Get/PutImbge */
+#define X11SD_LOCK_BY_DGA       3       /* surfbce locked by DGA */
+#define X11SD_LOCK_BY_SHMEM     4       /* surfbce locked by ShMemExt */
 
 #ifdef MITSHM
-XImage * X11SD_GetSharedImage       (X11SDOps *xsdo,
+XImbge * X11SD_GetShbredImbge       (X11SDOps *xsdo,
                                      jint width, jint height,
-                                     jint maxWidth, jint maxHeight,
-                                     jboolean readBits);
-XImage * X11SD_CreateSharedImage    (X11SDOps *xsdo, jint width, jint height);
-Drawable X11SD_CreateSharedPixmap   (X11SDOps *xsdo);
-void     X11SD_DropSharedSegment    (XShmSegmentInfo *shminfo);
-void     X11SD_PuntPixmap           (X11SDOps *xsdo, jint width, jint height);
-void     X11SD_UnPuntPixmap         (X11SDOps *xsdo);
-jboolean X11SD_CachedXImageFits     (jint width, jint height,
-                                     jint maxWidth, jint maxHeight,
-                                     jint depth, jboolean readBits);
-XImage * X11SD_GetCachedXImage      (jint width, jint height, jboolean readBits);
+                                     jint mbxWidth, jint mbxHeight,
+                                     jboolebn rebdBits);
+XImbge * X11SD_CrebteShbredImbge    (X11SDOps *xsdo, jint width, jint height);
+Drbwbble X11SD_CrebteShbredPixmbp   (X11SDOps *xsdo);
+void     X11SD_DropShbredSegment    (XShmSegmentInfo *shminfo);
+void     X11SD_PuntPixmbp           (X11SDOps *xsdo, jint width, jint height);
+void     X11SD_UnPuntPixmbp         (X11SDOps *xsdo);
+jboolebn X11SD_CbchedXImbgeFits     (jint width, jint height,
+                                     jint mbxWidth, jint mbxHeight,
+                                     jint depth, jboolebn rebdBits);
+XImbge * X11SD_GetCbchedXImbge      (jint width, jint height, jboolebn rebdBits);
 #endif /* MITSHM */
 jint     X11SD_InitWindow(JNIEnv *env, X11SDOps *xsdo);
-void     X11SD_DisposeOrCacheXImage (XImage * image);
-void     X11SD_DisposeXImage(XImage * image);
+void     X11SD_DisposeOrCbcheXImbge (XImbge * imbge);
+void     X11SD_DisposeXImbge(XImbge * imbge);
 void     X11SD_DirectRenderNotify(JNIEnv *env, X11SDOps *xsdo);
 #endif /* !HEADLESS */
 
-jboolean XShared_initIDs(JNIEnv *env, jboolean allowShmPixmaps);
-jboolean XShared_initSurface(JNIEnv *env, X11SDOps *xsdo, jint depth, jint width, jint height, jlong drawable);
+jboolebn XShbred_initIDs(JNIEnv *env, jboolebn bllowShmPixmbps);
+jboolebn XShbred_initSurfbce(JNIEnv *env, X11SDOps *xsdo, jint depth, jint width, jint height, jlong drbwbble);
 
 /*
- * This function returns a pointer to a native X11SDOps structure
- * for accessing the indicated X11 SurfaceData Java object.  It
- * verifies that the indicated SurfaceData object is an instance
- * of X11SurfaceData before returning and will return NULL if the
- * wrong SurfaceData object is being accessed.  This function will
- * throw the appropriate Java exception if it returns NULL so that
- * the caller can simply return.
+ * This function returns b pointer to b nbtive X11SDOps structure
+ * for bccessing the indicbted X11 SurfbceDbtb Jbvb object.  It
+ * verifies thbt the indicbted SurfbceDbtb object is bn instbnce
+ * of X11SurfbceDbtb before returning bnd will return NULL if the
+ * wrong SurfbceDbtb object is being bccessed.  This function will
+ * throw the bppropribte Jbvb exception if it returns NULL so thbt
+ * the cbller cbn simply return.
  *
- * Note to callers:
- *      This function uses JNI methods so it is important that the
- *      caller not have any outstanding GetPrimitiveArrayCritical or
- *      GetStringCritical locks which have not been released.
+ * Note to cbllers:
+ *      This function uses JNI methods so it is importbnt thbt the
+ *      cbller not hbve bny outstbnding GetPrimitiveArrbyCriticbl or
+ *      GetStringCriticbl locks which hbve not been relebsed.
  *
- *      The caller may continue to use JNI methods after this method
- *      is called since this function will not leave any outstanding
- *      JNI Critical locks unreleased.
+ *      The cbller mby continue to use JNI methods bfter this method
+ *      is cblled since this function will not lebve bny outstbnding
+ *      JNI Criticbl locks unrelebsed.
  */
 JNIEXPORT X11SDOps * JNICALL
-X11SurfaceData_GetOps(JNIEnv *env, jobject sData);
+X11SurfbceDbtb_GetOps(JNIEnv *env, jobject sDbtb);

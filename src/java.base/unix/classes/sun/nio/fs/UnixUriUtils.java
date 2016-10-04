@@ -1,197 +1,197 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.Path;
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
+import jbvb.nio.file.Pbth;
+import jbvb.io.File;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
+import jbvb.util.Arrbys;
 
 /**
- * Unix specific Path <--> URI conversion
+ * Unix specific Pbth <--> URI conversion
  */
 
-class UnixUriUtils {
-    private UnixUriUtils() { }
+clbss UnixUriUtils {
+    privbte UnixUriUtils() { }
 
     /**
-     * Converts URI to Path
+     * Converts URI to Pbth
      */
-    static Path fromUri(UnixFileSystem fs, URI uri) {
+    stbtic Pbth fromUri(UnixFileSystem fs, URI uri) {
         if (!uri.isAbsolute())
-            throw new IllegalArgumentException("URI is not absolute");
-        if (uri.isOpaque())
-            throw new IllegalArgumentException("URI is not hierarchical");
+            throw new IllegblArgumentException("URI is not bbsolute");
+        if (uri.isOpbque())
+            throw new IllegblArgumentException("URI is not hierbrchicbl");
         String scheme = uri.getScheme();
-        if ((scheme == null) || !scheme.equalsIgnoreCase("file"))
-            throw new IllegalArgumentException("URI scheme is not \"file\"");
+        if ((scheme == null) || !scheme.equblsIgnoreCbse("file"))
+            throw new IllegblArgumentException("URI scheme is not \"file\"");
         if (uri.getAuthority() != null)
-            throw new IllegalArgumentException("URI has an authority component");
-        if (uri.getFragment() != null)
-            throw new IllegalArgumentException("URI has a fragment component");
+            throw new IllegblArgumentException("URI hbs bn buthority component");
+        if (uri.getFrbgment() != null)
+            throw new IllegblArgumentException("URI hbs b frbgment component");
         if (uri.getQuery() != null)
-            throw new IllegalArgumentException("URI has a query component");
+            throw new IllegblArgumentException("URI hbs b query component");
 
-        // compatibility with java.io.File
-        if (!uri.toString().startsWith("file:///"))
-            return new File(uri).toPath();
+        // compbtibility with jbvb.io.File
+        if (!uri.toString().stbrtsWith("file:///"))
+            return new File(uri).toPbth();
 
-        // transformation use raw path
-        String p = uri.getRawPath();
+        // trbnsformbtion use rbw pbth
+        String p = uri.getRbwPbth();
         int len = p.length();
         if (len == 0)
-            throw new IllegalArgumentException("URI path component is empty");
+            throw new IllegblArgumentException("URI pbth component is empty");
 
-        // transform escaped octets and unescaped characters to bytes
+        // trbnsform escbped octets bnd unescbped chbrbcters to bytes
         if (p.endsWith("/") && len > 1)
             len--;
         byte[] result = new byte[len];
         int rlen = 0;
         int pos = 0;
         while (pos < len) {
-            char c = p.charAt(pos++);
+            chbr c = p.chbrAt(pos++);
             byte b;
             if (c == '%') {
-                assert (pos+2) <= len;
-                char c1 = p.charAt(pos++);
-                char c2 = p.charAt(pos++);
+                bssert (pos+2) <= len;
+                chbr c1 = p.chbrAt(pos++);
+                chbr c2 = p.chbrAt(pos++);
                 b = (byte)((decode(c1) << 4) | decode(c2));
                 if (b == 0)
-                    throw new IllegalArgumentException("Nul character not allowed");
+                    throw new IllegblArgumentException("Nul chbrbcter not bllowed");
             } else {
-                assert c < 0x80;
+                bssert c < 0x80;
                 b = (byte)c;
             }
             result[rlen++] = b;
         }
         if (rlen != result.length)
-            result = Arrays.copyOf(result, rlen);
+            result = Arrbys.copyOf(result, rlen);
 
-        return new UnixPath(fs, result);
+        return new UnixPbth(fs, result);
     }
 
     /**
-     * Converts Path to URI
+     * Converts Pbth to URI
      */
-    static URI toUri(UnixPath up) {
-        byte[] path = up.toAbsolutePath().asByteArray();
+    stbtic URI toUri(UnixPbth up) {
+        byte[] pbth = up.toAbsolutePbth().bsByteArrby();
         StringBuilder sb = new StringBuilder("file:///");
-        assert path[0] == '/';
-        for (int i=1; i<path.length; i++) {
-            char c = (char)(path[i] & 0xff);
-            if (match(c, L_PATH, H_PATH)) {
-                sb.append(c);
+        bssert pbth[0] == '/';
+        for (int i=1; i<pbth.length; i++) {
+            chbr c = (chbr)(pbth[i] & 0xff);
+            if (mbtch(c, L_PATH, H_PATH)) {
+                sb.bppend(c);
             } else {
-               sb.append('%');
-               sb.append(hexDigits[(c >> 4) & 0x0f]);
-               sb.append(hexDigits[(c) & 0x0f]);
+               sb.bppend('%');
+               sb.bppend(hexDigits[(c >> 4) & 0x0f]);
+               sb.bppend(hexDigits[(c) & 0x0f]);
             }
         }
 
-        // trailing slash if directory
-        if (sb.charAt(sb.length()-1) != '/') {
+        // trbiling slbsh if directory
+        if (sb.chbrAt(sb.length()-1) != '/') {
             try {
                  if (UnixFileAttributes.get(up, true).isDirectory())
-                     sb.append('/');
-            } catch (UnixException x) {
+                     sb.bppend('/');
+            } cbtch (UnixException x) {
                 // ignore
             }
         }
 
         try {
             return new URI(sb.toString());
-        } catch (URISyntaxException x) {
-            throw new AssertionError(x);  // should not happen
+        } cbtch (URISyntbxException x) {
+            throw new AssertionError(x);  // should not hbppen
         }
     }
 
-    // The following is copied from java.net.URI
+    // The following is copied from jbvb.net.URI
 
-    // Compute the low-order mask for the characters in the given string
-    private static long lowMask(String chars) {
-        int n = chars.length();
+    // Compute the low-order mbsk for the chbrbcters in the given string
+    privbte stbtic long lowMbsk(String chbrs) {
+        int n = chbrs.length();
         long m = 0;
         for (int i = 0; i < n; i++) {
-            char c = chars.charAt(i);
+            chbr c = chbrs.chbrAt(i);
             if (c < 64)
                 m |= (1L << c);
         }
         return m;
     }
 
-    // Compute the high-order mask for the characters in the given string
-    private static long highMask(String chars) {
-        int n = chars.length();
+    // Compute the high-order mbsk for the chbrbcters in the given string
+    privbte stbtic long highMbsk(String chbrs) {
+        int n = chbrs.length();
         long m = 0;
         for (int i = 0; i < n; i++) {
-            char c = chars.charAt(i);
+            chbr c = chbrs.chbrAt(i);
             if ((c >= 64) && (c < 128))
                 m |= (1L << (c - 64));
         }
         return m;
     }
 
-    // Compute a low-order mask for the characters
-    // between first and last, inclusive
-    private static long lowMask(char first, char last) {
+    // Compute b low-order mbsk for the chbrbcters
+    // between first bnd lbst, inclusive
+    privbte stbtic long lowMbsk(chbr first, chbr lbst) {
         long m = 0;
-        int f = Math.max(Math.min(first, 63), 0);
-        int l = Math.max(Math.min(last, 63), 0);
+        int f = Mbth.mbx(Mbth.min(first, 63), 0);
+        int l = Mbth.mbx(Mbth.min(lbst, 63), 0);
         for (int i = f; i <= l; i++)
             m |= 1L << i;
         return m;
     }
 
-    // Compute a high-order mask for the characters
-    // between first and last, inclusive
-    private static long highMask(char first, char last) {
+    // Compute b high-order mbsk for the chbrbcters
+    // between first bnd lbst, inclusive
+    privbte stbtic long highMbsk(chbr first, chbr lbst) {
         long m = 0;
-        int f = Math.max(Math.min(first, 127), 64) - 64;
-        int l = Math.max(Math.min(last, 127), 64) - 64;
+        int f = Mbth.mbx(Mbth.min(first, 127), 64) - 64;
+        int l = Mbth.mbx(Mbth.min(lbst, 127), 64) - 64;
         for (int i = f; i <= l; i++)
             m |= 1L << i;
         return m;
     }
 
-    // Tell whether the given character is permitted by the given mask pair
-    private static boolean match(char c, long lowMask, long highMask) {
+    // Tell whether the given chbrbcter is permitted by the given mbsk pbir
+    privbte stbtic boolebn mbtch(chbr c, long lowMbsk, long highMbsk) {
         if (c < 64)
-            return ((1L << c) & lowMask) != 0;
+            return ((1L << c) & lowMbsk) != 0;
         if (c < 128)
-            return ((1L << (c - 64)) & highMask) != 0;
-        return false;
+            return ((1L << (c - 64)) & highMbsk) != 0;
+        return fblse;
     }
 
     // decode
-    private static int decode(char c) {
+    privbte stbtic int decode(chbr c) {
         if ((c >= '0') && (c <= '9'))
             return c - '0';
-        if ((c >= 'a') && (c <= 'f'))
-            return c - 'a' + 10;
+        if ((c >= 'b') && (c <= 'f'))
+            return c - 'b' + 10;
         if ((c >= 'A') && (c <= 'F'))
             return c - 'A' + 10;
         throw new AssertionError();
@@ -199,50 +199,50 @@ class UnixUriUtils {
 
     // digit    = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" |
     //            "8" | "9"
-    private static final long L_DIGIT = lowMask('0', '9');
-    private static final long H_DIGIT = 0L;
+    privbte stbtic finbl long L_DIGIT = lowMbsk('0', '9');
+    privbte stbtic finbl long H_DIGIT = 0L;
 
-    // upalpha  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
+    // upblphb  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
     //            "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" |
     //            "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
-    private static final long L_UPALPHA = 0L;
-    private static final long H_UPALPHA = highMask('A', 'Z');
+    privbte stbtic finbl long L_UPALPHA = 0L;
+    privbte stbtic finbl long H_UPALPHA = highMbsk('A', 'Z');
 
-    // lowalpha = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" |
+    // lowblphb = "b" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" |
     //            "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" |
     //            "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
-    private static final long L_LOWALPHA = 0L;
-    private static final long H_LOWALPHA = highMask('a', 'z');
+    privbte stbtic finbl long L_LOWALPHA = 0L;
+    privbte stbtic finbl long H_LOWALPHA = highMbsk('b', 'z');
 
-    // alpha         = lowalpha | upalpha
-    private static final long L_ALPHA = L_LOWALPHA | L_UPALPHA;
-    private static final long H_ALPHA = H_LOWALPHA | H_UPALPHA;
+    // blphb         = lowblphb | upblphb
+    privbte stbtic finbl long L_ALPHA = L_LOWALPHA | L_UPALPHA;
+    privbte stbtic finbl long H_ALPHA = H_LOWALPHA | H_UPALPHA;
 
-    // alphanum      = alpha | digit
-    private static final long L_ALPHANUM = L_DIGIT | L_ALPHA;
-    private static final long H_ALPHANUM = H_DIGIT | H_ALPHA;
+    // blphbnum      = blphb | digit
+    privbte stbtic finbl long L_ALPHANUM = L_DIGIT | L_ALPHA;
+    privbte stbtic finbl long H_ALPHANUM = H_DIGIT | H_ALPHA;
 
-    // mark          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
+    // mbrk          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
     //                 "(" | ")"
-    private static final long L_MARK = lowMask("-_.!~*'()");
-    private static final long H_MARK = highMask("-_.!~*'()");
+    privbte stbtic finbl long L_MARK = lowMbsk("-_.!~*'()");
+    privbte stbtic finbl long H_MARK = highMbsk("-_.!~*'()");
 
-    // unreserved    = alphanum | mark
-    private static final long L_UNRESERVED = L_ALPHANUM | L_MARK;
-    private static final long H_UNRESERVED = H_ALPHANUM | H_MARK;
+    // unreserved    = blphbnum | mbrk
+    privbte stbtic finbl long L_UNRESERVED = L_ALPHANUM | L_MARK;
+    privbte stbtic finbl long H_UNRESERVED = H_ALPHANUM | H_MARK;
 
-    // pchar         = unreserved | escaped |
+    // pchbr         = unreserved | escbped |
     //                 ":" | "@" | "&" | "=" | "+" | "$" | ","
-    private static final long L_PCHAR
-        = L_UNRESERVED | lowMask(":@&=+$,");
-    private static final long H_PCHAR
-        = H_UNRESERVED | highMask(":@&=+$,");
+    privbte stbtic finbl long L_PCHAR
+        = L_UNRESERVED | lowMbsk(":@&=+$,");
+    privbte stbtic finbl long H_PCHAR
+        = H_UNRESERVED | highMbsk(":@&=+$,");
 
-   // All valid path characters
-   private static final long L_PATH = L_PCHAR | lowMask(";/");
-   private static final long H_PATH = H_PCHAR | highMask(";/");
+   // All vblid pbth chbrbcters
+   privbte stbtic finbl long L_PATH = L_PCHAR | lowMbsk(";/");
+   privbte stbtic finbl long H_PATH = H_PCHAR | highMbsk(";/");
 
-   private final static char[] hexDigits = {
+   privbte finbl stbtic chbr[] hexDigits = {
         '0', '1', '2', '3', '4', '5', '6', '7',
         '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };

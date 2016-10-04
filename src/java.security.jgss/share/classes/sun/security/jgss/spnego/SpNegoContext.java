@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.spnego;
+pbckbge sun.security.jgss.spnego;
 
 import com.sun.security.jgss.ExtendedGSSContext;
 import com.sun.security.jgss.InquireType;
-import java.io.*;
-import java.security.Provider;
+import jbvb.io.*;
+import jbvb.security.Provider;
 import org.ietf.jgss.*;
 import sun.security.jgss.*;
 import sun.security.jgss.spi.*;
 import sun.security.util.*;
 
 /**
- * Implements the mechanism specific context class for SPNEGO
- * GSS-API mechanism
+ * Implements the mechbnism specific context clbss for SPNEGO
+ * GSS-API mechbnism
  *
- * @author Seema Malkani
+ * @buthor Seemb Mblkbni
  * @since 1.6
  */
-public class SpNegoContext implements GSSContextSpi {
+public clbss SpNegoContext implements GSSContextSpi {
 
     /*
-     * The different states that this context can be in.
+     * The different stbtes thbt this context cbn be in.
      */
-    private static final int STATE_NEW = 1;
-    private static final int STATE_IN_PROCESS = 2;
-    private static final int STATE_DONE = 3;
-    private static final int STATE_DELETED = 4;
+    privbte stbtic finbl int STATE_NEW = 1;
+    privbte stbtic finbl int STATE_IN_PROCESS = 2;
+    privbte stbtic finbl int STATE_DONE = 3;
+    privbte stbtic finbl int STATE_DELETED = 4;
 
-    private int state = STATE_NEW;
+    privbte int stbte = STATE_NEW;
 
     /*
-     * Optional features that the application can set and their default
-     * values.
+     * Optionbl febtures thbt the bpplicbtion cbn set bnd their defbult
+     * vblues.
      */
-    private boolean credDelegState = false;
-    private boolean mutualAuthState = true;
-    private boolean replayDetState = true;
-    private boolean sequenceDetState = true;
-    private boolean confState = true;
-    private boolean integState = true;
-    private boolean delegPolicyState = false;
+    privbte boolebn credDelegStbte = fblse;
+    privbte boolebn mutublAuthStbte = true;
+    privbte boolebn replbyDetStbte = true;
+    privbte boolebn sequenceDetStbte = true;
+    privbte boolebn confStbte = true;
+    privbte boolebn integStbte = true;
+    privbte boolebn delegPolicyStbte = fblse;
 
-    private GSSNameSpi peerName = null;
-    private GSSNameSpi myName = null;
-    private SpNegoCredElement myCred = null;
+    privbte GSSNbmeSpi peerNbme = null;
+    privbte GSSNbmeSpi myNbme = null;
+    privbte SpNegoCredElement myCred = null;
 
-    private GSSContext mechContext = null;
-    private byte[] DER_mechTypes = null;
+    privbte GSSContext mechContext = null;
+    privbte byte[] DER_mechTypes = null;
 
-    private int lifetime;
-    private ChannelBinding channelBinding;
-    private boolean initiator;
+    privbte int lifetime;
+    privbte ChbnnelBinding chbnnelBinding;
+    privbte boolebn initibtor;
 
-    // the underlying negotiated mechanism
-    private Oid internal_mech = null;
+    // the underlying negotibted mechbnism
+    privbte Oid internbl_mech = null;
 
-    // the SpNegoMechFactory that creates this context
-    final private SpNegoMechFactory factory;
+    // the SpNegoMechFbctory thbt crebtes this context
+    finbl privbte SpNegoMechFbctory fbctory;
 
     // debug property
-    static final boolean DEBUG =
-        java.security.AccessController.doPrivileged(
-            new sun.security.action.GetBooleanAction
-            ("sun.security.spnego.debug")).booleanValue();
+    stbtic finbl boolebn DEBUG =
+        jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetBoolebnAction
+            ("sun.security.spnego.debug")).boolebnVblue();
 
     /**
-     * Constructor for SpNegoContext to be called on the context initiator's
+     * Constructor for SpNegoContext to be cblled on the context initibtor's
      * side.
      */
-    public SpNegoContext(SpNegoMechFactory factory, GSSNameSpi peerName,
-                        GSSCredentialSpi myCred,
+    public SpNegoContext(SpNegoMechFbctory fbctory, GSSNbmeSpi peerNbme,
+                        GSSCredentiblSpi myCred,
                         int lifetime) throws GSSException {
 
-        if (peerName == null)
-            throw new IllegalArgumentException("Cannot have null peer name");
-        if ((myCred != null) && !(myCred instanceof SpNegoCredElement)) {
-            throw new IllegalArgumentException("Wrong cred element type");
+        if (peerNbme == null)
+            throw new IllegblArgumentException("Cbnnot hbve null peer nbme");
+        if ((myCred != null) && !(myCred instbnceof SpNegoCredElement)) {
+            throw new IllegblArgumentException("Wrong cred element type");
         }
-        this.peerName = peerName;
+        this.peerNbme = peerNbme;
         this.myCred = (SpNegoCredElement) myCred;
         this.lifetime = lifetime;
-        this.initiator = true;
-        this.factory = factory;
+        this.initibtor = true;
+        this.fbctory = fbctory;
     }
 
     /**
-     * Constructor for SpNegoContext to be called on the context acceptor's
+     * Constructor for SpNegoContext to be cblled on the context bcceptor's
      * side.
      */
-    public SpNegoContext(SpNegoMechFactory factory, GSSCredentialSpi myCred)
+    public SpNegoContext(SpNegoMechFbctory fbctory, GSSCredentiblSpi myCred)
             throws GSSException {
-        if ((myCred != null) && !(myCred instanceof SpNegoCredElement)) {
-            throw new IllegalArgumentException("Wrong cred element type");
+        if ((myCred != null) && !(myCred instbnceof SpNegoCredElement)) {
+            throw new IllegblArgumentException("Wrong cred element type");
         }
         this.myCred = (SpNegoCredElement) myCred;
-        this.initiator = false;
-        this.factory = factory;
+        this.initibtor = fblse;
+        this.fbctory = fbctory;
     }
 
     /**
-     * Constructor for SpNegoContext to import a previously exported context.
+     * Constructor for SpNegoContext to import b previously exported context.
      */
-    public SpNegoContext(SpNegoMechFactory factory, byte [] interProcessToken)
+    public SpNegoContext(SpNegoMechFbctory fbctory, byte [] interProcessToken)
         throws GSSException {
         throw new GSSException(GSSException.UNAVAILABLE,
-                               -1, "GSS Import Context not available");
+                               -1, "GSS Import Context not bvbilbble");
     }
 
     /**
-     * Requests that confidentiality be available.
+     * Requests thbt confidentiblity be bvbilbble.
      */
-    public final void requestConf(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            confState  = value;
+    public finbl void requestConf(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            confStbte  = vblue;
     }
 
     /**
-     * Is confidentiality available?
+     * Is confidentiblity bvbilbble?
      */
-    public final boolean getConfState() {
-        return confState;
+    public finbl boolebn getConfStbte() {
+        return confStbte;
     }
 
     /**
-     * Requests that integrity be available.
+     * Requests thbt integrity be bvbilbble.
      */
-    public final void requestInteg(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            integState  = value;
+    public finbl void requestInteg(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            integStbte  = vblue;
     }
 
     /**
-     * Requests that deleg policy be respected.
+     * Requests thbt deleg policy be respected.
      */
-    public final void requestDelegPolicy(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            delegPolicyState = value;
+    public finbl void requestDelegPolicy(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            delegPolicyStbte = vblue;
     }
 
     /**
-     * Is integrity available?
+     * Is integrity bvbilbble?
      */
-    public final boolean getIntegState() {
-        return integState;
+    public finbl boolebn getIntegStbte() {
+        return integStbte;
     }
 
     /**
      * Is deleg policy respected?
      */
-    public final boolean getDelegPolicyState() {
-        if (isInitiator() && mechContext != null &&
-                mechContext instanceof ExtendedGSSContext &&
-                (state == STATE_IN_PROCESS || state == STATE_DONE)) {
-            return ((ExtendedGSSContext)mechContext).getDelegPolicyState();
+    public finbl boolebn getDelegPolicyStbte() {
+        if (isInitibtor() && mechContext != null &&
+                mechContext instbnceof ExtendedGSSContext &&
+                (stbte == STATE_IN_PROCESS || stbte == STATE_DONE)) {
+            return ((ExtendedGSSContext)mechContext).getDelegPolicyStbte();
         } else {
-            return delegPolicyState;
+            return delegPolicyStbte;
         }
     }
 
     /**
-     * Requests that credential delegation be done during context
-     * establishment.
+     * Requests thbt credentibl delegbtion be done during context
+     * estbblishment.
      */
-    public final void requestCredDeleg(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            credDelegState  = value;
+    public finbl void requestCredDeleg(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            credDelegStbte  = vblue;
     }
 
     /**
-     * Is credential delegation enabled?
+     * Is credentibl delegbtion enbbled?
      */
-    public final boolean getCredDelegState() {
-        if (isInitiator() && mechContext != null &&
-                (state == STATE_IN_PROCESS || state == STATE_DONE)) {
-            return mechContext.getCredDelegState();
+    public finbl boolebn getCredDelegStbte() {
+        if (isInitibtor() && mechContext != null &&
+                (stbte == STATE_IN_PROCESS || stbte == STATE_DONE)) {
+            return mechContext.getCredDelegStbte();
         } else {
-            return credDelegState;
+            return credDelegStbte;
         }
     }
 
     /**
-     * Requests that mutual authentication be done during context
-     * establishment. Since this is fromm the client's perspective, it
-     * essentially requests that the server be authenticated.
+     * Requests thbt mutubl buthenticbtion be done during context
+     * estbblishment. Since this is fromm the client's perspective, it
+     * essentiblly requests thbt the server be buthenticbted.
      */
-    public final void requestMutualAuth(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator()) {
-            mutualAuthState  = value;
+    public finbl void requestMutublAuth(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor()) {
+            mutublAuthStbte  = vblue;
         }
     }
 
     /**
-     * Is mutual authentication enabled? Since this is from the client's
-     * perspective, it essentially meas that the server is being
-     * authenticated.
+     * Is mutubl buthenticbtion enbbled? Since this is from the client's
+     * perspective, it essentiblly mebs thbt the server is being
+     * buthenticbted.
      */
-    public final boolean getMutualAuthState() {
-        return mutualAuthState;
+    public finbl boolebn getMutublAuthStbte() {
+        return mutublAuthStbte;
     }
 
     /**
-     * Returns the mechanism oid.
+     * Returns the mechbnism oid.
      *
      * @return the Oid of this context
      */
-    public final Oid getMech() {
-        if (isEstablished()) {
-            return getNegotiatedMech();
+    public finbl Oid getMech() {
+        if (isEstbblished()) {
+            return getNegotibtedMech();
         }
-        return (SpNegoMechFactory.GSS_SPNEGO_MECH_OID);
+        return (SpNegoMechFbctory.GSS_SPNEGO_MECH_OID);
     }
 
-    public final Oid getNegotiatedMech() {
-        return (internal_mech);
+    public finbl Oid getNegotibtedMech() {
+        return (internbl_mech);
     }
 
-    public final Provider getProvider() {
-        return SpNegoMechFactory.PROVIDER;
+    public finbl Provider getProvider() {
+        return SpNegoMechFbctory.PROVIDER;
     }
 
-    public final void dispose() throws GSSException {
+    public finbl void dispose() throws GSSException {
         mechContext = null;
-        state = STATE_DELETED;
+        stbte = STATE_DELETED;
     }
 
     /**
-     * Tests if this is the initiator side of the context.
+     * Tests if this is the initibtor side of the context.
      *
-     * @return boolean indicating if this is initiator (true)
-     *  or target (false)
+     * @return boolebn indicbting if this is initibtor (true)
+     *  or tbrget (fblse)
      */
-    public final boolean isInitiator() {
-        return initiator;
+    public finbl boolebn isInitibtor() {
+        return initibtor;
     }
 
     /**
-     * Tests if the context can be used for per-message service.
-     * Context may allow the calls to the per-message service
-     * functions before being fully established.
+     * Tests if the context cbn be used for per-messbge service.
+     * Context mby bllow the cblls to the per-messbge service
+     * functions before being fully estbblished.
      *
-     * @return boolean indicating if per-message methods can
-     *  be called.
+     * @return boolebn indicbting if per-messbge methods cbn
+     *  be cblled.
      */
-    public final boolean isProtReady() {
-        return (state == STATE_DONE);
+    public finbl boolebn isProtRebdy() {
+        return (stbte == STATE_DONE);
     }
 
     /**
-     * Initiator context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
+     * Initibtor context estbblishment cbll. This method mby be
+     * required to be cblled severbl times. A CONTINUE_NEEDED return
+     * cbll indicbtes thbt more cblls bre needed bfter the next token
      * is received from the peer.
      *
-     * @param is contains the token received from the peer. On the
-     *        first call it will be ignored.
-     * @return any token required to be sent to the peer
-     * It is responsibility of the caller to send the token
+     * @pbrbm is contbins the token received from the peer. On the
+     *        first cbll it will be ignored.
+     * @return bny token required to be sent to the peer
+     * It is responsibility of the cbller to send the token
      * to its peer for processing.
      * @exception GSSException
      */
-    public final byte[] initSecContext(InputStream is, int mechTokenSize)
+    public finbl byte[] initSecContext(InputStrebm is, int mechTokenSize)
         throws GSSException {
 
-        byte[] retVal = null;
+        byte[] retVbl = null;
         NegTokenInit initToken = null;
         byte[] mechToken = null;
         int errorCode = GSSException.FAILURE;
 
         if (DEBUG) {
             System.out.println("Entered SpNego.initSecContext with " +
-                                "state=" + printState(state));
+                                "stbte=" + printStbte(stbte));
         }
-        if (!isInitiator()) {
+        if (!isInitibtor()) {
             throw new GSSException(GSSException.FAILURE, -1,
-                "initSecContext on an acceptor GSSContext");
+                "initSecContext on bn bcceptor GSSContext");
         }
 
         try {
-            if (state == STATE_NEW) {
-                state = STATE_IN_PROCESS;
+            if (stbte == STATE_NEW) {
+                stbte = STATE_IN_PROCESS;
 
                 errorCode = GSSException.NO_CRED;
 
-                // determine available mech set
-                Oid[] mechList = getAvailableMechs();
+                // determine bvbilbble mech set
+                Oid[] mechList = getAvbilbbleMechs();
                 DER_mechTypes = getEncodedMechs(mechList);
 
-                // pull out first mechanism
-                internal_mech = mechList[0];
+                // pull out first mechbnism
+                internbl_mech = mechList[0];
 
-                // get the token for first mechanism
+                // get the token for first mechbnism
                 mechToken = GSS_initSecContext(null);
 
                 errorCode = GSSException.DEFECTIVE_TOKEN;
-                // generate SPNEGO token
-                initToken = new NegTokenInit(DER_mechTypes, getContextFlags(),
+                // generbte SPNEGO token
+                initToken = new NegTokenInit(DER_mechTypes, getContextFlbgs(),
                                         mechToken, null);
                 if (DEBUG) {
                     System.out.println("SpNegoContext.initSecContext: " +
                                 "sending token of type = " +
-                                SpNegoToken.getTokenName(initToken.getType()));
+                                SpNegoToken.getTokenNbme(initToken.getType()));
                 }
                 // get the encoded token
-                retVal = initToken.getEncoded();
+                retVbl = initToken.getEncoded();
 
-            } else if (state == STATE_IN_PROCESS) {
+            } else if (stbte == STATE_IN_PROCESS) {
 
                 errorCode = GSSException.FAILURE;
                 if (is == null) {
@@ -337,58 +337,58 @@ public class SpNegoContext implements GSSContextSpi {
                 }
 
                 errorCode = GSSException.DEFECTIVE_TOKEN;
-                byte[] server_token = new byte[is.available()];
-                SpNegoToken.readFully(is, server_token);
+                byte[] server_token = new byte[is.bvbilbble()];
+                SpNegoToken.rebdFully(is, server_token);
                 if (DEBUG) {
                     System.out.println("SpNegoContext.initSecContext: " +
                                         "process received token = " +
                                         SpNegoToken.getHexBytes(server_token));
                 }
 
-                // read the SPNEGO token
-                // token will be validated when parsing
-                NegTokenTarg targToken = new NegTokenTarg(server_token);
+                // rebd the SPNEGO token
+                // token will be vblidbted when pbrsing
+                NegTokenTbrg tbrgToken = new NegTokenTbrg(server_token);
 
                 if (DEBUG) {
                     System.out.println("SpNegoContext.initSecContext: " +
                                 "received token of type = " +
-                                SpNegoToken.getTokenName(targToken.getType()));
+                                SpNegoToken.getTokenNbme(tbrgToken.getType()));
                 }
 
-                // pull out mechanism
-                internal_mech = targToken.getSupportedMech();
-                if (internal_mech == null) {
-                    // return wth failure
+                // pull out mechbnism
+                internbl_mech = tbrgToken.getSupportedMech();
+                if (internbl_mech == null) {
+                    // return wth fbilure
                     throw new GSSException(errorCode, -1,
-                                "supported mechanism from server is null");
+                                "supported mechbnism from server is null");
                 }
 
-                // get the negotiated result
+                // get the negotibted result
                 SpNegoToken.NegoResult negoResult = null;
-                int result = targToken.getNegotiatedResult();
+                int result = tbrgToken.getNegotibtedResult();
                 switch (result) {
-                    case 0:
+                    cbse 0:
                         negoResult = SpNegoToken.NegoResult.ACCEPT_COMPLETE;
-                        state = STATE_DONE;
-                        break;
-                    case 1:
+                        stbte = STATE_DONE;
+                        brebk;
+                    cbse 1:
                         negoResult = SpNegoToken.NegoResult.ACCEPT_INCOMPLETE;
-                        state = STATE_IN_PROCESS;
-                        break;
-                    case 2:
+                        stbte = STATE_IN_PROCESS;
+                        brebk;
+                    cbse 2:
                         negoResult = SpNegoToken.NegoResult.REJECT;
-                        state = STATE_DELETED;
-                        break;
-                    default:
-                        state = STATE_DONE;
-                        break;
+                        stbte = STATE_DELETED;
+                        brebk;
+                    defbult:
+                        stbte = STATE_DONE;
+                        brebk;
                 }
 
                 errorCode = GSSException.BAD_MECH;
 
                 if (negoResult == SpNegoToken.NegoResult.REJECT) {
                     throw new GSSException(errorCode, -1,
-                                        internal_mech.toString());
+                                        internbl_mech.toString());
                 }
 
                 errorCode = GSSException.DEFECTIVE_TOKEN;
@@ -396,367 +396,367 @@ public class SpNegoContext implements GSSContextSpi {
                 if ((negoResult == SpNegoToken.NegoResult.ACCEPT_COMPLETE) ||
                     (negoResult == SpNegoToken.NegoResult.ACCEPT_INCOMPLETE)) {
 
-                    // pull out the mechanism token
-                    byte[] accept_token = targToken.getResponseToken();
-                    if (accept_token == null) {
-                        if (!isMechContextEstablished()) {
-                            // return with failure
+                    // pull out the mechbnism token
+                    byte[] bccept_token = tbrgToken.getResponseToken();
+                    if (bccept_token == null) {
+                        if (!isMechContextEstbblished()) {
+                            // return with fbilure
                             throw new GSSException(errorCode, -1,
-                                    "mechanism token from server is null");
+                                    "mechbnism token from server is null");
                         }
                     } else {
-                        mechToken = GSS_initSecContext(accept_token);
+                        mechToken = GSS_initSecContext(bccept_token);
                     }
                     // verify MIC
                     if (!GSSUtil.useMSInterop()) {
-                        byte[] micToken = targToken.getMechListMIC();
+                        byte[] micToken = tbrgToken.getMechListMIC();
                         if (!verifyMechListMIC(DER_mechTypes, micToken)) {
                             throw new GSSException(errorCode, -1,
-                                "verification of MIC on MechList Failed!");
+                                "verificbtion of MIC on MechList Fbiled!");
                         }
                     }
-                    if (isMechContextEstablished()) {
-                        state = STATE_DONE;
-                        retVal = mechToken;
+                    if (isMechContextEstbblished()) {
+                        stbte = STATE_DONE;
+                        retVbl = mechToken;
                         if (DEBUG) {
-                            System.out.println("SPNEGO Negotiated Mechanism = "
-                                + internal_mech + " " +
-                                GSSUtil.getMechStr(internal_mech));
+                            System.out.println("SPNEGO Negotibted Mechbnism = "
+                                + internbl_mech + " " +
+                                GSSUtil.getMechStr(internbl_mech));
                         }
                     } else {
-                        // generate SPNEGO token
+                        // generbte SPNEGO token
                         initToken = new NegTokenInit(null, null,
                                                 mechToken, null);
                         if (DEBUG) {
                             System.out.println("SpNegoContext.initSecContext:" +
                                 " continue sending token of type = " +
-                                SpNegoToken.getTokenName(initToken.getType()));
+                                SpNegoToken.getTokenNbme(initToken.getType()));
                         }
                         // get the encoded token
-                        retVal = initToken.getEncoded();
+                        retVbl = initToken.getEncoded();
                     }
                 }
 
             } else {
                 // XXX Use logging API
                 if (DEBUG) {
-                    System.out.println(state);
+                    System.out.println(stbte);
                 }
             }
             if (DEBUG) {
-                if (retVal != null) {
+                if (retVbl != null) {
                     System.out.println("SNegoContext.initSecContext: " +
-                        "sending token = " + SpNegoToken.getHexBytes(retVal));
+                        "sending token = " + SpNegoToken.getHexBytes(retVbl));
                 }
             }
-        } catch (GSSException e) {
+        } cbtch (GSSException e) {
             GSSException gssException =
-                        new GSSException(errorCode, -1, e.getMessage());
-            gssException.initCause(e);
+                        new GSSException(errorCode, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
 
-        return retVal;
+        return retVbl;
     }
 
 
     /**
-     * Acceptor's context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
+     * Acceptor's context estbblishment cbll. This method mby be
+     * required to be cblled severbl times. A CONTINUE_NEEDED return
+     * cbll indicbtes thbt more cblls bre needed bfter the next token
      * is received from the peer.
      *
-     * @param is contains the token received from the peer.
-     * @return any token required to be sent to the peer
-     * It is responsibility of the caller to send the token
+     * @pbrbm is contbins the token received from the peer.
+     * @return bny token required to be sent to the peer
+     * It is responsibility of the cbller to send the token
      * to its peer for processing.
      * @exception GSSException
      */
-    public final byte[] acceptSecContext(InputStream is, int mechTokenSize)
+    public finbl byte[] bcceptSecContext(InputStrebm is, int mechTokenSize)
         throws GSSException {
 
-        byte[] retVal = null;
+        byte[] retVbl = null;
         SpNegoToken.NegoResult negoResult;
-        boolean valid = true;
+        boolebn vblid = true;
 
         if (DEBUG) {
-            System.out.println("Entered SpNegoContext.acceptSecContext with " +
-                               "state=" +  printState(state));
+            System.out.println("Entered SpNegoContext.bcceptSecContext with " +
+                               "stbte=" +  printStbte(stbte));
         }
 
-        if (isInitiator()) {
+        if (isInitibtor()) {
             throw new GSSException(GSSException.FAILURE, -1,
-                                   "acceptSecContext on an initiator " +
+                                   "bcceptSecContext on bn initibtor " +
                                    "GSSContext");
         }
         try {
-            if (state == STATE_NEW) {
-                state = STATE_IN_PROCESS;
+            if (stbte == STATE_NEW) {
+                stbte = STATE_IN_PROCESS;
 
-                // read data
-                byte[] token = new byte[is.available()];
-                SpNegoToken.readFully(is, token);
+                // rebd dbtb
+                byte[] token = new byte[is.bvbilbble()];
+                SpNegoToken.rebdFully(is, token);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
+                    System.out.println("SpNegoContext.bcceptSecContext: " +
                                         "receiving token = " +
                                         SpNegoToken.getHexBytes(token));
                 }
 
-                // read the SPNEGO token
-                // token will be validated when parsing
+                // rebd the SPNEGO token
+                // token will be vblidbted when pbrsing
                 NegTokenInit initToken = new NegTokenInit(token);
 
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
+                    System.out.println("SpNegoContext.bcceptSecContext: " +
                                 "received token of type = " +
-                                SpNegoToken.getTokenName(initToken.getType()));
+                                SpNegoToken.getTokenNbme(initToken.getType()));
                 }
 
                 Oid[] mechList = initToken.getMechTypeList();
                 DER_mechTypes = initToken.getMechTypes();
                 if (DER_mechTypes == null) {
-                    valid = false;
+                    vblid = fblse;
                 }
 
                 /*
-                 * Select the best match between the list of mechs
-                 * that the initiator requested and the list that
-                 * the acceptor will support.
+                 * Select the best mbtch between the list of mechs
+                 * thbt the initibtor requested bnd the list thbt
+                 * the bcceptor will support.
                  */
-                Oid[] supported_mechSet = getAvailableMechs();
-                Oid mech_wanted =
-                        negotiate_mech_type(supported_mechSet, mechList);
-                if (mech_wanted == null) {
-                    valid = false;
+                Oid[] supported_mechSet = getAvbilbbleMechs();
+                Oid mech_wbnted =
+                        negotibte_mech_type(supported_mechSet, mechList);
+                if (mech_wbnted == null) {
+                    vblid = fblse;
                 }
-                // save the desired mechanism
-                internal_mech = mech_wanted;
+                // sbve the desired mechbnism
+                internbl_mech = mech_wbnted;
 
-                // get the token for mechanism
-                byte[] accept_token;
+                // get the token for mechbnism
+                byte[] bccept_token;
 
-                if (mechList[0].equals(mech_wanted)) {
-                    // get the mechanism token
+                if (mechList[0].equbls(mech_wbnted)) {
+                    // get the mechbnism token
                     byte[] mechToken = initToken.getMechToken();
                     if (mechToken == null) {
                         throw new GSSException(GSSException.FAILURE, -1,
                                 "mechToken is missing");
                     }
-                    accept_token = GSS_acceptSecContext(mechToken);
+                    bccept_token = GSS_bcceptSecContext(mechToken);
                 } else {
-                    accept_token = null;
+                    bccept_token = null;
                 }
 
                 // verify MIC
-                if (!GSSUtil.useMSInterop() && valid) {
-                    valid = verifyMechListMIC(DER_mechTypes,
+                if (!GSSUtil.useMSInterop() && vblid) {
+                    vblid = verifyMechListMIC(DER_mechTypes,
                                                 initToken.getMechListMIC());
                 }
 
-                // determine negotiated result status
-                if (valid) {
-                    if (isMechContextEstablished()) {
+                // determine negotibted result stbtus
+                if (vblid) {
+                    if (isMechContextEstbblished()) {
                         negoResult = SpNegoToken.NegoResult.ACCEPT_COMPLETE;
-                        state = STATE_DONE;
-                        // now set the context flags for acceptor
-                        setContextFlags();
-                        // print the negotiated mech info
+                        stbte = STATE_DONE;
+                        // now set the context flbgs for bcceptor
+                        setContextFlbgs();
+                        // print the negotibted mech info
                         if (DEBUG) {
-                            System.out.println("SPNEGO Negotiated Mechanism = "
-                                + internal_mech + " " +
-                                GSSUtil.getMechStr(internal_mech));
+                            System.out.println("SPNEGO Negotibted Mechbnism = "
+                                + internbl_mech + " " +
+                                GSSUtil.getMechStr(internbl_mech));
                         }
                     } else {
                         negoResult = SpNegoToken.NegoResult.ACCEPT_INCOMPLETE;
-                        state = STATE_IN_PROCESS;
+                        stbte = STATE_IN_PROCESS;
                     }
                 } else {
                     negoResult = SpNegoToken.NegoResult.REJECT;
-                    state = STATE_DONE;
+                    stbte = STATE_DONE;
                 }
 
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                                "mechanism wanted = " + mech_wanted);
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                                "negotiated result = " + negoResult);
+                    System.out.println("SpNegoContext.bcceptSecContext: " +
+                                "mechbnism wbnted = " + mech_wbnted);
+                    System.out.println("SpNegoContext.bcceptSecContext: " +
+                                "negotibted result = " + negoResult);
                 }
 
-                // generate SPNEGO token
-                NegTokenTarg targToken = new NegTokenTarg(negoResult.ordinal(),
-                                mech_wanted, accept_token, null);
+                // generbte SPNEGO token
+                NegTokenTbrg tbrgToken = new NegTokenTbrg(negoResult.ordinbl(),
+                                mech_wbnted, bccept_token, null);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
+                    System.out.println("SpNegoContext.bcceptSecContext: " +
                                 "sending token of type = " +
-                                SpNegoToken.getTokenName(targToken.getType()));
+                                SpNegoToken.getTokenNbme(tbrgToken.getType()));
                 }
                 // get the encoded token
-                retVal = targToken.getEncoded();
+                retVbl = tbrgToken.getEncoded();
 
-            } else if (state == STATE_IN_PROCESS) {
-                // read data
-                byte[] token = new byte[is.available()];
-                SpNegoToken.readFully(is, token);
+            } else if (stbte == STATE_IN_PROCESS) {
+                // rebd dbtb
+                byte[] token = new byte[is.bvbilbble()];
+                SpNegoToken.rebdFully(is, token);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
+                    System.out.println("SpNegoContext.bcceptSecContext: " +
                             "receiving token = " +
                             SpNegoToken.getHexBytes(token));
                 }
 
-                // read the SPNEGO token
-                // token will be validated when parsing
-                NegTokenTarg inputToken = new NegTokenTarg(token);
+                // rebd the SPNEGO token
+                // token will be vblidbted when pbrsing
+                NegTokenTbrg inputToken = new NegTokenTbrg(token);
 
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
+                    System.out.println("SpNegoContext.bcceptSecContext: " +
                             "received token of type = " +
-                            SpNegoToken.getTokenName(inputToken.getType()));
+                            SpNegoToken.getTokenNbme(inputToken.getType()));
                 }
 
-                // read the token
+                // rebd the token
                 byte[] client_token = inputToken.getResponseToken();
-                byte[] accept_token = GSS_acceptSecContext(client_token);
-                if (accept_token == null) {
-                    valid = false;
+                byte[] bccept_token = GSS_bcceptSecContext(client_token);
+                if (bccept_token == null) {
+                    vblid = fblse;
                 }
 
-                // determine negotiated result status
-                if (valid) {
-                    if (isMechContextEstablished()) {
+                // determine negotibted result stbtus
+                if (vblid) {
+                    if (isMechContextEstbblished()) {
                         negoResult = SpNegoToken.NegoResult.ACCEPT_COMPLETE;
-                        state = STATE_DONE;
+                        stbte = STATE_DONE;
                     } else {
                         negoResult = SpNegoToken.NegoResult.ACCEPT_INCOMPLETE;
-                        state = STATE_IN_PROCESS;
+                        stbte = STATE_IN_PROCESS;
                     }
                 } else {
                     negoResult = SpNegoToken.NegoResult.REJECT;
-                    state = STATE_DONE;
+                    stbte = STATE_DONE;
                 }
 
-                // generate SPNEGO token
-                NegTokenTarg targToken = new NegTokenTarg(negoResult.ordinal(),
-                                null, accept_token, null);
+                // generbte SPNEGO token
+                NegTokenTbrg tbrgToken = new NegTokenTbrg(negoResult.ordinbl(),
+                                null, bccept_token, null);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
+                    System.out.println("SpNegoContext.bcceptSecContext: " +
                                 "sending token of type = " +
-                                SpNegoToken.getTokenName(targToken.getType()));
+                                SpNegoToken.getTokenNbme(tbrgToken.getType()));
                 }
                 // get the encoded token
-                retVal = targToken.getEncoded();
+                retVbl = tbrgToken.getEncoded();
 
             } else {
                 // XXX Use logging API
                 if (DEBUG) {
-                    System.out.println("AcceptSecContext: state = " + state);
+                    System.out.println("AcceptSecContext: stbte = " + stbte);
                 }
             }
             if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                        "sending token = " + SpNegoToken.getHexBytes(retVal));
+                    System.out.println("SpNegoContext.bcceptSecContext: " +
+                        "sending token = " + SpNegoToken.getHexBytes(retVbl));
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
+                new GSSException(GSSException.FAILURE, -1, e.getMessbge());
+            gssException.initCbuse(e);
             throw gssException;
         }
 
-        if (state == STATE_DONE) {
-            // now set the context flags for acceptor
-            setContextFlags();
+        if (stbte == STATE_DONE) {
+            // now set the context flbgs for bcceptor
+            setContextFlbgs();
         }
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * obtain the available mechanisms
+     * obtbin the bvbilbble mechbnisms
      */
-    private Oid[] getAvailableMechs() {
+    privbte Oid[] getAvbilbbleMechs() {
         if (myCred != null) {
             Oid[] mechs = new Oid[1];
-            mechs[0] = myCred.getInternalMech();
+            mechs[0] = myCred.getInternblMech();
             return mechs;
         } else {
-            return factory.availableMechs;
+            return fbctory.bvbilbbleMechs;
         }
     }
 
     /**
      * get ther DER encoded MechList
      */
-    private byte[] getEncodedMechs(Oid[] mechSet)
+    privbte byte[] getEncodedMechs(Oid[] mechSet)
         throws IOException, GSSException {
 
-        DerOutputStream mech = new DerOutputStream();
+        DerOutputStrebm mech = new DerOutputStrebm();
         for (int i = 0; i < mechSet.length; i++) {
             byte[] mechType = mechSet[i].getDER();
             mech.write(mechType);
         }
         // insert in SEQUENCE
-        DerOutputStream mechTypeList = new DerOutputStream();
-        mechTypeList.write(DerValue.tag_Sequence, mech);
-        byte[] encoded = mechTypeList.toByteArray();
+        DerOutputStrebm mechTypeList = new DerOutputStrebm();
+        mechTypeList.write(DerVblue.tbg_Sequence, mech);
+        byte[] encoded = mechTypeList.toByteArrby();
         return encoded;
     }
 
     /**
-     * get the context flags
+     * get the context flbgs
      */
-    private BitArray getContextFlags() {
-        BitArray out = new BitArray(7);
+    privbte BitArrby getContextFlbgs() {
+        BitArrby out = new BitArrby(7);
 
-        if (getCredDelegState()) out.set(0, true);
-        if (getMutualAuthState()) out.set(1, true);
-        if (getReplayDetState()) out.set(2, true);
-        if (getSequenceDetState()) out.set(3, true);
-        if (getConfState()) out.set(5, true);
-        if (getIntegState()) out.set(6, true);
+        if (getCredDelegStbte()) out.set(0, true);
+        if (getMutublAuthStbte()) out.set(1, true);
+        if (getReplbyDetStbte()) out.set(2, true);
+        if (getSequenceDetStbte()) out.set(3, true);
+        if (getConfStbte()) out.set(5, true);
+        if (getIntegStbte()) out.set(6, true);
 
         return out;
     }
 
-    // Only called on acceptor side. On the initiator side, most flags
-    // are already set at request. For those that might get chanegd,
-    // state from mech below is used.
-    private void setContextFlags() {
+    // Only cblled on bcceptor side. On the initibtor side, most flbgs
+    // bre blrebdy set bt request. For those thbt might get chbnegd,
+    // stbte from mech below is used.
+    privbte void setContextFlbgs() {
 
         if (mechContext != null) {
-            // default for cred delegation is false
-            if (mechContext.getCredDelegState()) {
-                credDelegState = true;
+            // defbult for cred delegbtion is fblse
+            if (mechContext.getCredDelegStbte()) {
+                credDelegStbte = true;
             }
-            // default for the following are true
-            if (!mechContext.getMutualAuthState()) {
-                mutualAuthState = false;
+            // defbult for the following bre true
+            if (!mechContext.getMutublAuthStbte()) {
+                mutublAuthStbte = fblse;
             }
-            if (!mechContext.getReplayDetState()) {
-                replayDetState = false;
+            if (!mechContext.getReplbyDetStbte()) {
+                replbyDetStbte = fblse;
             }
-            if (!mechContext.getSequenceDetState()) {
-                sequenceDetState = false;
+            if (!mechContext.getSequenceDetStbte()) {
+                sequenceDetStbte = fblse;
             }
-            if (!mechContext.getIntegState()) {
-                integState = false;
+            if (!mechContext.getIntegStbte()) {
+                integStbte = fblse;
             }
-            if (!mechContext.getConfState()) {
-                confState = false;
+            if (!mechContext.getConfStbte()) {
+                confStbte = fblse;
             }
         }
     }
 
     /**
-     * generate MIC on mechList. Not used at the moment.
+     * generbte MIC on mechList. Not used bt the moment.
      */
-    /*private byte[] generateMechListMIC(byte[] mechTypes)
+    /*privbte byte[] generbteMechListMIC(byte[] mechTypes)
         throws GSSException {
 
-        // sanity check the required input
+        // sbnity check the required input
         if (mechTypes == null) {
             if (DEBUG) {
                 System.out.println("SpNegoContext: no MIC token included");
@@ -764,29 +764,29 @@ public class SpNegoContext implements GSSContextSpi {
             return null;
         }
 
-        // check if mechanism supports integrity
-        if (!mechContext.getIntegState()) {
+        // check if mechbnism supports integrity
+        if (!mechContext.getIntegStbte()) {
             if (DEBUG) {
                 System.out.println("SpNegoContext: no MIC token included" +
-                        " - mechanism does not support integrity");
+                        " - mechbnism does not support integrity");
             }
             return null;
         }
 
-        // compute MIC on DER encoded mechanism list
+        // compute MIC on DER encoded mechbnism list
         byte[] mic = null;
         try {
-            MessageProp prop = new MessageProp(0, true);
+            MessbgeProp prop = new MessbgeProp(0, true);
             mic = getMIC(mechTypes, 0, mechTypes.length, prop);
             if (DEBUG) {
                 System.out.println("SpNegoContext: getMIC = " +
                                         SpNegoToken.getHexBytes(mic));
             }
-        } catch (GSSException e) {
+        } cbtch (GSSException e) {
             mic = null;
             if (DEBUG) {
                 System.out.println("SpNegoContext: no MIC token included" +
-                        " - getMIC failed : " + e.getMessage());
+                        " - getMIC fbiled : " + e.getMessbge());
             }
         }
         return mic;
@@ -795,128 +795,128 @@ public class SpNegoContext implements GSSContextSpi {
     /**
      * verify MIC on MechList
      */
-    private boolean verifyMechListMIC(byte[] mechTypes, byte[] token)
+    privbte boolebn verifyMechListMIC(byte[] mechTypes, byte[] token)
         throws GSSException {
 
-        // sanity check the input
+        // sbnity check the input
         if (token == null) {
             if (DEBUG) {
-                System.out.println("SpNegoContext: no MIC token validation");
+                System.out.println("SpNegoContext: no MIC token vblidbtion");
             }
             return true;
         }
 
-        // check if mechanism supports integrity
-        if (!mechContext.getIntegState()) {
+        // check if mechbnism supports integrity
+        if (!mechContext.getIntegStbte()) {
             if (DEBUG) {
-                System.out.println("SpNegoContext: no MIC token validation" +
-                        " - mechanism does not support integrity");
+                System.out.println("SpNegoContext: no MIC token vblidbtion" +
+                        " - mechbnism does not support integrity");
             }
             return true;
         }
 
         // now verify the token
-        boolean valid = false;
+        boolebn vblid = fblse;
         try {
-            MessageProp prop = new MessageProp(0, true);
+            MessbgeProp prop = new MessbgeProp(0, true);
             verifyMIC(token, 0, token.length, mechTypes,
                         0, mechTypes.length, prop);
-            valid = true;
-        } catch (GSSException e) {
-            valid = false;
+            vblid = true;
+        } cbtch (GSSException e) {
+            vblid = fblse;
             if (DEBUG) {
-                System.out.println("SpNegoContext: MIC validation failed! " +
-                                        e.getMessage());
+                System.out.println("SpNegoContext: MIC vblidbtion fbiled! " +
+                                        e.getMessbge());
             }
         }
-        return valid;
+        return vblid;
     }
 
     /**
-     * call gss_init_sec_context for the corresponding underlying mechanism
+     * cbll gss_init_sec_context for the corresponding underlying mechbnism
      */
-    private byte[] GSS_initSecContext(byte[] token) throws GSSException {
+    privbte byte[] GSS_initSecContext(byte[] token) throws GSSException {
         byte[] tok = null;
 
         if (mechContext == null) {
-            // initialize mech context
-            GSSName serverName =
-                factory.manager.createName(peerName.toString(),
-                    peerName.getStringNameType(), internal_mech);
-            GSSCredential cred = null;
+            // initiblize mech context
+            GSSNbme serverNbme =
+                fbctory.mbnbger.crebteNbme(peerNbme.toString(),
+                    peerNbme.getStringNbmeType(), internbl_mech);
+            GSSCredentibl cred = null;
             if (myCred != null) {
-                // create context with provided credential
-                cred = new GSSCredentialImpl(factory.manager,
-                    myCred.getInternalCred());
+                // crebte context with provided credentibl
+                cred = new GSSCredentiblImpl(fbctory.mbnbger,
+                    myCred.getInternblCred());
             }
             mechContext =
-                factory.manager.createContext(serverName,
-                    internal_mech, cred, GSSContext.DEFAULT_LIFETIME);
-            mechContext.requestConf(confState);
-            mechContext.requestInteg(integState);
-            mechContext.requestCredDeleg(credDelegState);
-            mechContext.requestMutualAuth(mutualAuthState);
-            mechContext.requestReplayDet(replayDetState);
-            mechContext.requestSequenceDet(sequenceDetState);
-            if (mechContext instanceof ExtendedGSSContext) {
+                fbctory.mbnbger.crebteContext(serverNbme,
+                    internbl_mech, cred, GSSContext.DEFAULT_LIFETIME);
+            mechContext.requestConf(confStbte);
+            mechContext.requestInteg(integStbte);
+            mechContext.requestCredDeleg(credDelegStbte);
+            mechContext.requestMutublAuth(mutublAuthStbte);
+            mechContext.requestReplbyDet(replbyDetStbte);
+            mechContext.requestSequenceDet(sequenceDetStbte);
+            if (mechContext instbnceof ExtendedGSSContext) {
                 ((ExtendedGSSContext)mechContext).requestDelegPolicy(
-                        delegPolicyState);
+                        delegPolicyStbte);
             }
         }
 
-        // pass token
+        // pbss token
         if (token != null) {
             tok = token;
         } else {
             tok = new byte[0];
         }
 
-        // pass token to mechanism initSecContext
+        // pbss token to mechbnism initSecContext
         byte[] init_token = mechContext.initSecContext(tok, 0, tok.length);
 
         return init_token;
     }
 
     /**
-     * call gss_accept_sec_context for the corresponding underlying mechanism
+     * cbll gss_bccept_sec_context for the corresponding underlying mechbnism
      */
-    private byte[] GSS_acceptSecContext(byte[] token) throws GSSException {
+    privbte byte[] GSS_bcceptSecContext(byte[] token) throws GSSException {
 
         if (mechContext == null) {
-            // initialize mech context
-            GSSCredential cred = null;
+            // initiblize mech context
+            GSSCredentibl cred = null;
             if (myCred != null) {
-                // create context with provided credential
-                cred = new GSSCredentialImpl(factory.manager,
-                myCred.getInternalCred());
+                // crebte context with provided credentibl
+                cred = new GSSCredentiblImpl(fbctory.mbnbger,
+                myCred.getInternblCred());
             }
             mechContext =
-                factory.manager.createContext(cred);
+                fbctory.mbnbger.crebteContext(cred);
         }
 
-        // pass token to mechanism acceptSecContext
-        byte[] accept_token =
-                mechContext.acceptSecContext(token, 0, token.length);
+        // pbss token to mechbnism bcceptSecContext
+        byte[] bccept_token =
+                mechContext.bcceptSecContext(token, 0, token.length);
 
-        return accept_token;
+        return bccept_token;
     }
 
     /**
-     * This routine compares the recieved mechset to the mechset that
-     * this server can support. It looks sequentially through the mechset
-     * and the first one that matches what the server can support is
-     * chosen as the negotiated mechanism. If one is found, negResult
-     * is set to ACCEPT_COMPLETE, otherwise we return NULL and negResult
+     * This routine compbres the recieved mechset to the mechset thbt
+     * this server cbn support. It looks sequentiblly through the mechset
+     * bnd the first one thbt mbtches whbt the server cbn support is
+     * chosen bs the negotibted mechbnism. If one is found, negResult
+     * is set to ACCEPT_COMPLETE, otherwise we return NULL bnd negResult
      * is set to REJECT.
      */
-    private static Oid negotiate_mech_type(Oid[] supported_mechSet,
+    privbte stbtic Oid negotibte_mech_type(Oid[] supported_mechSet,
                                         Oid[] mechSet) {
         for (int i = 0; i < supported_mechSet.length; i++) {
             for (int j = 0; j < mechSet.length; j++) {
-                if (mechSet[j].equals(supported_mechSet[i])) {
+                if (mechSet[j].equbls(supported_mechSet[i])) {
                     if (DEBUG) {
                         System.out.println("SpNegoContext: " +
-                                "negotiated mechanism = " + mechSet[j]);
+                                "negotibted mechbnism = " + mechSet[j]);
                     }
                     return (mechSet[j]);
                 }
@@ -925,74 +925,74 @@ public class SpNegoContext implements GSSContextSpi {
         return null;
     }
 
-    public final boolean isEstablished() {
-        return (state == STATE_DONE);
+    public finbl boolebn isEstbblished() {
+        return (stbte == STATE_DONE);
     }
 
-    public final boolean isMechContextEstablished() {
+    public finbl boolebn isMechContextEstbblished() {
         if (mechContext != null) {
-            return mechContext.isEstablished();
+            return mechContext.isEstbblished();
         } else {
             if (DEBUG) {
-                System.out.println("The underlying mechanism context has " +
-                                        "not been initialized");
+                System.out.println("The underlying mechbnism context hbs " +
+                                        "not been initiblized");
             }
-            return false;
+            return fblse;
         }
     }
 
-    public final byte [] export() throws GSSException {
+    public finbl byte [] export() throws GSSException {
         throw new GSSException(GSSException.UNAVAILABLE, -1,
-                               "GSS Export Context not available");
+                               "GSS Export Context not bvbilbble");
     }
 
     /**
-     * Sets the channel bindings to be used during context
-     * establishment.
+     * Sets the chbnnel bindings to be used during context
+     * estbblishment.
      */
-    public final void setChannelBinding(ChannelBinding channelBinding)
+    public finbl void setChbnnelBinding(ChbnnelBinding chbnnelBinding)
         throws GSSException {
-        this.channelBinding = channelBinding;
+        this.chbnnelBinding = chbnnelBinding;
     }
 
-    final ChannelBinding getChannelBinding() {
-        return channelBinding;
+    finbl ChbnnelBinding getChbnnelBinding() {
+        return chbnnelBinding;
     }
 
     /*
-     * Anonymity is a little different in that after an application
-     * requests anonymity it will want to know whether the mechanism
-     * can support it or not, prior to sending any tokens across for
-     * context establishment. Since this is from the initiator's
-     * perspective, it essentially requests that the initiator be
-     * anonymous.
+     * Anonymity is b little different in thbt bfter bn bpplicbtion
+     * requests bnonymity it will wbnt to know whether the mechbnism
+     * cbn support it or not, prior to sending bny tokens bcross for
+     * context estbblishment. Since this is from the initibtor's
+     * perspective, it essentiblly requests thbt the initibtor be
+     * bnonymous.
      */
-    public final void requestAnonymity(boolean value) throws GSSException {
-        // Ignore silently. Application will check back with
-        // getAnonymityState.
+    public finbl void requestAnonymity(boolebn vblue) throws GSSException {
+        // Ignore silently. Applicbtion will check bbck with
+        // getAnonymityStbte.
     }
 
-    // RFC 2853 actually calls for this to be called after context
-    // establishment to get the right answer, but that is
-    // incorrect. The application may not want to send over any
-    // tokens if anonymity is not available.
-    public final boolean getAnonymityState() {
-        return false;
+    // RFC 2853 bctublly cblls for this to be cblled bfter context
+    // estbblishment to get the right bnswer, but thbt is
+    // incorrect. The bpplicbtion mby not wbnt to send over bny
+    // tokens if bnonymity is not bvbilbble.
+    public finbl boolebn getAnonymityStbte() {
+        return fblse;
     }
 
     /**
-     * Requests the desired lifetime. Can only be used on the context
-     * initiator's side.
+     * Requests the desired lifetime. Cbn only be used on the context
+     * initibtor's side.
      */
     public void requestLifetime(int lifetime) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
+        if (stbte == STATE_NEW && isInitibtor())
             this.lifetime = lifetime;
     }
 
     /**
-     * The lifetime remaining for this context.
+     * The lifetime rembining for this context.
      */
-    public final int getLifetime() {
+    public finbl int getLifetime() {
         if (mechContext != null) {
             return mechContext.getLifetime();
         } else {
@@ -1000,230 +1000,230 @@ public class SpNegoContext implements GSSContextSpi {
         }
     }
 
-    public final boolean isTransferable() throws GSSException {
-        return false;
+    public finbl boolebn isTrbnsferbble() throws GSSException {
+        return fblse;
     }
 
     /**
-     * Requests that sequence checking be done on the GSS wrap and MIC
+     * Requests thbt sequence checking be done on the GSS wrbp bnd MIC
      * tokens.
      */
-    public final void requestSequenceDet(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            sequenceDetState  = value;
+    public finbl void requestSequenceDet(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            sequenceDetStbte  = vblue;
     }
 
     /**
-     * Is sequence checking enabled on the GSS Wrap and MIC tokens?
-     * We enable sequence checking if replay detection is enabled.
+     * Is sequence checking enbbled on the GSS Wrbp bnd MIC tokens?
+     * We enbble sequence checking if replby detection is enbbled.
      */
-    public final boolean getSequenceDetState() {
-        return sequenceDetState || replayDetState;
+    public finbl boolebn getSequenceDetStbte() {
+        return sequenceDetStbte || replbyDetStbte;
     }
 
     /**
-     * Requests that replay detection be done on the GSS wrap and MIC
+     * Requests thbt replby detection be done on the GSS wrbp bnd MIC
      * tokens.
      */
-    public final void requestReplayDet(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            replayDetState  = value;
+    public finbl void requestReplbyDet(boolebn vblue) throws GSSException {
+        if (stbte == STATE_NEW && isInitibtor())
+            replbyDetStbte  = vblue;
     }
 
     /**
-     * Is replay detection enabled on the GSS wrap and MIC tokens?
-     * We enable replay detection if sequence checking is enabled.
+     * Is replby detection enbbled on the GSS wrbp bnd MIC tokens?
+     * We enbble replby detection if sequence checking is enbbled.
      */
-    public final boolean getReplayDetState() {
-        return replayDetState || sequenceDetState;
+    public finbl boolebn getReplbyDetStbte() {
+        return replbyDetStbte || sequenceDetStbte;
     }
 
-    public final GSSNameSpi getTargName() throws GSSException {
-        // fill-in the GSSName
-        // get the peer name for the mechanism
+    public finbl GSSNbmeSpi getTbrgNbme() throws GSSException {
+        // fill-in the GSSNbme
+        // get the peer nbme for the mechbnism
         if (mechContext != null) {
-            GSSNameImpl targName = (GSSNameImpl)mechContext.getTargName();
-            peerName = targName.getElement(internal_mech);
-            return peerName;
+            GSSNbmeImpl tbrgNbme = (GSSNbmeImpl)mechContext.getTbrgNbme();
+            peerNbme = tbrgNbme.getElement(internbl_mech);
+            return peerNbme;
         } else {
             if (DEBUG) {
-                System.out.println("The underlying mechanism context has " +
-                                        "not been initialized");
+                System.out.println("The underlying mechbnism context hbs " +
+                                        "not been initiblized");
             }
             return null;
         }
     }
 
-    public final GSSNameSpi getSrcName() throws GSSException {
-        // fill-in the GSSName
-        // get the src name for the mechanism
+    public finbl GSSNbmeSpi getSrcNbme() throws GSSException {
+        // fill-in the GSSNbme
+        // get the src nbme for the mechbnism
         if (mechContext != null) {
-            GSSNameImpl srcName = (GSSNameImpl)mechContext.getSrcName();
-            myName = srcName.getElement(internal_mech);
-            return myName;
+            GSSNbmeImpl srcNbme = (GSSNbmeImpl)mechContext.getSrcNbme();
+            myNbme = srcNbme.getElement(internbl_mech);
+            return myNbme;
         } else {
             if (DEBUG) {
-                System.out.println("The underlying mechanism context has " +
-                                        "not been initialized");
+                System.out.println("The underlying mechbnism context hbs " +
+                                        "not been initiblized");
             }
             return null;
         }
     }
 
     /**
-     * Returns the delegated credential for the context. This
-     * is an optional feature of contexts which not all
-     * mechanisms will support. A context can be requested to
-     * support credential delegation by using the <b>CRED_DELEG</b>.
-     * This is only valid on the acceptor side of the context.
-     * @return GSSCredentialSpi object for the delegated credential
+     * Returns the delegbted credentibl for the context. This
+     * is bn optionbl febture of contexts which not bll
+     * mechbnisms will support. A context cbn be requested to
+     * support credentibl delegbtion by using the <b>CRED_DELEG</b>.
+     * This is only vblid on the bcceptor side of the context.
+     * @return GSSCredentiblSpi object for the delegbted credentibl
      * @exception GSSException
-     * @see GSSContext#getCredDelegState
+     * @see GSSContext#getCredDelegStbte
      */
-    public final GSSCredentialSpi getDelegCred() throws GSSException {
-        if (state != STATE_IN_PROCESS && state != STATE_DONE)
+    public finbl GSSCredentiblSpi getDelegCred() throws GSSException {
+        if (stbte != STATE_IN_PROCESS && stbte != STATE_DONE)
             throw new GSSException(GSSException.NO_CONTEXT);
         if (mechContext != null) {
-            GSSCredentialImpl delegCred =
-                        (GSSCredentialImpl)mechContext.getDelegCred();
+            GSSCredentiblImpl delegCred =
+                        (GSSCredentiblImpl)mechContext.getDelegCred();
             if (delegCred == null) {
                 return null;
             }
-            // determine delegated cred element usage
-            boolean initiate = false;
-            if (delegCred.getUsage() == GSSCredential.INITIATE_ONLY) {
-                initiate = true;
+            // determine delegbted cred element usbge
+            boolebn initibte = fblse;
+            if (delegCred.getUsbge() == GSSCredentibl.INITIATE_ONLY) {
+                initibte = true;
             }
-            GSSCredentialSpi mechCred =
-                    delegCred.getElement(internal_mech, initiate);
+            GSSCredentiblSpi mechCred =
+                    delegCred.getElement(internbl_mech, initibte);
             SpNegoCredElement cred = new SpNegoCredElement(mechCred);
-            return cred.getInternalCred();
+            return cred.getInternblCred();
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "getDelegCred called in invalid state!");
+                                "getDelegCred cblled in invblid stbte!");
         }
     }
 
-    public final int getWrapSizeLimit(int qop, boolean confReq,
-                                       int maxTokSize) throws GSSException {
+    public finbl int getWrbpSizeLimit(int qop, boolebn confReq,
+                                       int mbxTokSize) throws GSSException {
         if (mechContext != null) {
-            return mechContext.getWrapSizeLimit(qop, confReq, maxTokSize);
+            return mechContext.getWrbpSizeLimit(qop, confReq, mbxTokSize);
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "getWrapSizeLimit called in invalid state!");
+                                "getWrbpSizeLimit cblled in invblid stbte!");
         }
     }
 
-    public final byte[] wrap(byte inBuf[], int offset, int len,
-                             MessageProp msgProp) throws GSSException {
+    public finbl byte[] wrbp(byte inBuf[], int offset, int len,
+                             MessbgeProp msgProp) throws GSSException {
         if (mechContext != null) {
-            return mechContext.wrap(inBuf, offset, len, msgProp);
+            return mechContext.wrbp(inBuf, offset, len, msgProp);
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "Wrap called in invalid state!");
+                                "Wrbp cblled in invblid stbte!");
         }
     }
 
-    public final void wrap(InputStream is, OutputStream os,
-                            MessageProp msgProp) throws GSSException {
+    public finbl void wrbp(InputStrebm is, OutputStrebm os,
+                            MessbgeProp msgProp) throws GSSException {
         if (mechContext != null) {
-            mechContext.wrap(is, os, msgProp);
+            mechContext.wrbp(is, os, msgProp);
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "Wrap called in invalid state!");
+                                "Wrbp cblled in invblid stbte!");
         }
     }
 
-    public final byte[] unwrap(byte inBuf[], int offset, int len,
-                               MessageProp msgProp)
+    public finbl byte[] unwrbp(byte inBuf[], int offset, int len,
+                               MessbgeProp msgProp)
         throws GSSException {
         if (mechContext != null) {
-            return mechContext.unwrap(inBuf, offset, len, msgProp);
+            return mechContext.unwrbp(inBuf, offset, len, msgProp);
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "UnWrap called in invalid state!");
+                                "UnWrbp cblled in invblid stbte!");
         }
     }
 
-    public final void unwrap(InputStream is, OutputStream os,
-                             MessageProp msgProp) throws GSSException {
+    public finbl void unwrbp(InputStrebm is, OutputStrebm os,
+                             MessbgeProp msgProp) throws GSSException {
         if (mechContext != null) {
-            mechContext.unwrap(is, os, msgProp);
+            mechContext.unwrbp(is, os, msgProp);
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "UnWrap called in invalid state!");
+                                "UnWrbp cblled in invblid stbte!");
         }
     }
 
-    public final byte[] getMIC(byte []inMsg, int offset, int len,
-                               MessageProp msgProp)
+    public finbl byte[] getMIC(byte []inMsg, int offset, int len,
+                               MessbgeProp msgProp)
         throws GSSException {
         if (mechContext != null) {
             return mechContext.getMIC(inMsg, offset, len, msgProp);
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "getMIC called in invalid state!");
+                                "getMIC cblled in invblid stbte!");
         }
     }
 
-    public final void getMIC(InputStream is, OutputStream os,
-                              MessageProp msgProp) throws GSSException {
+    public finbl void getMIC(InputStrebm is, OutputStrebm os,
+                              MessbgeProp msgProp) throws GSSException {
         if (mechContext != null) {
             mechContext.getMIC(is, os, msgProp);
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "getMIC called in invalid state!");
+                                "getMIC cblled in invblid stbte!");
         }
     }
 
-    public final void verifyMIC(byte []inTok, int tokOffset, int tokLen,
+    public finbl void verifyMIC(byte []inTok, int tokOffset, int tokLen,
                                 byte[] inMsg, int msgOffset, int msgLen,
-                                MessageProp msgProp)
+                                MessbgeProp msgProp)
         throws GSSException {
         if (mechContext != null) {
             mechContext.verifyMIC(inTok, tokOffset, tokLen, inMsg, msgOffset,
                                 msgLen,  msgProp);
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "verifyMIC called in invalid state!");
+                                "verifyMIC cblled in invblid stbte!");
         }
     }
 
-    public final void verifyMIC(InputStream is, InputStream msgStr,
-                                 MessageProp msgProp) throws GSSException {
+    public finbl void verifyMIC(InputStrebm is, InputStrebm msgStr,
+                                 MessbgeProp msgProp) throws GSSException {
         if (mechContext != null) {
             mechContext.verifyMIC(is, msgStr, msgProp);
         } else {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "verifyMIC called in invalid state!");
+                                "verifyMIC cblled in invblid stbte!");
         }
     }
 
-    private static String printState(int state) {
-        switch (state) {
-          case STATE_NEW:
+    privbte stbtic String printStbte(int stbte) {
+        switch (stbte) {
+          cbse STATE_NEW:
                 return ("STATE_NEW");
-          case STATE_IN_PROCESS:
+          cbse STATE_IN_PROCESS:
                 return ("STATE_IN_PROCESS");
-          case STATE_DONE:
+          cbse STATE_DONE:
                 return ("STATE_DONE");
-          case STATE_DELETED:
+          cbse STATE_DELETED:
                 return ("STATE_DELETED");
-          default:
-                return ("Unknown state " + state);
+          defbult:
+                return ("Unknown stbte " + stbte);
         }
     }
 
     /**
-     * Retrieve attribute of the context for {@code type}.
+     * Retrieve bttribute of the context for {@code type}.
      */
     public Object inquireSecContext(InquireType type)
             throws GSSException {
         if (mechContext == null) {
             throw new GSSException(GSSException.NO_CONTEXT, -1,
-                    "Underlying mech not established.");
+                    "Underlying mech not estbblished.");
         }
-        if (mechContext instanceof ExtendedGSSContext) {
+        if (mechContext instbnceof ExtendedGSSContext) {
             return ((ExtendedGSSContext)mechContext).inquireSecContext(type);
         } else {
             throw new GSSException(GSSException.BAD_MECH, -1,

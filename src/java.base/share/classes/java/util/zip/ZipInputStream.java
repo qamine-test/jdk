@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.PushbackInputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import static java.util.zip.ZipConstants64.*;
-import static java.util.zip.ZipUtils.*;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.EOFException;
+import jbvb.io.PushbbckInputStrebm;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
+import stbtic jbvb.util.zip.ZipConstbnts64.*;
+import stbtic jbvb.util.zip.ZipUtils.*;
 
 /**
- * This class implements an input stream filter for reading files in the
- * ZIP file format. Includes support for both compressed and uncompressed
+ * This clbss implements bn input strebm filter for rebding files in the
+ * ZIP file formbt. Includes support for both compressed bnd uncompressed
  * entries.
  *
- * @author      David Connelly
+ * @buthor      Dbvid Connelly
  */
 public
-class ZipInputStream extends InflaterInputStream implements ZipConstants {
-    private ZipEntry entry;
-    private int flag;
-    private CRC32 crc = new CRC32();
-    private long remaining;
-    private byte[] tmpbuf = new byte[512];
+clbss ZipInputStrebm extends InflbterInputStrebm implements ZipConstbnts {
+    privbte ZipEntry entry;
+    privbte int flbg;
+    privbte CRC32 crc = new CRC32();
+    privbte long rembining;
+    privbte byte[] tmpbuf = new byte[512];
 
-    private static final int STORED = ZipEntry.STORED;
-    private static final int DEFLATED = ZipEntry.DEFLATED;
+    privbte stbtic finbl int STORED = ZipEntry.STORED;
+    privbte stbtic finbl int DEFLATED = ZipEntry.DEFLATED;
 
-    private boolean closed = false;
-    // this flag is set to true after EOF has reached for
+    privbte boolebn closed = fblse;
+    // this flbg is set to true bfter EOF hbs rebched for
     // one entry
-    private boolean entryEOF = false;
+    privbte boolebn entryEOF = fblse;
 
-    private ZipCoder zc;
+    privbte ZipCoder zc;
 
     /**
-     * Check to make sure that this stream has not been closed
+     * Check to mbke sure thbt this strebm hbs not been closed
      */
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (closed) {
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
         }
     }
 
     /**
-     * Creates a new ZIP input stream.
+     * Crebtes b new ZIP input strebm.
      *
-     * <p>The UTF-8 {@link java.nio.charset.Charset charset} is used to
-     * decode the entry names.
+     * <p>The UTF-8 {@link jbvb.nio.chbrset.Chbrset chbrset} is used to
+     * decode the entry nbmes.
      *
-     * @param in the actual input stream
+     * @pbrbm in the bctubl input strebm
      */
-    public ZipInputStream(InputStream in) {
-        this(in, StandardCharsets.UTF_8);
+    public ZipInputStrebm(InputStrebm in) {
+        this(in, StbndbrdChbrsets.UTF_8);
     }
 
     /**
-     * Creates a new ZIP input stream.
+     * Crebtes b new ZIP input strebm.
      *
-     * @param in the actual input stream
+     * @pbrbm in the bctubl input strebm
      *
-     * @param charset
-     *        The {@linkplain java.nio.charset.Charset charset} to be
-     *        used to decode the ZIP entry name (ignored if the
-     *        <a href="package-summary.html#lang_encoding"> language
-     *        encoding bit</a> of the ZIP entry's general purpose bit
-     *        flag is set).
+     * @pbrbm chbrset
+     *        The {@linkplbin jbvb.nio.chbrset.Chbrset chbrset} to be
+     *        used to decode the ZIP entry nbme (ignored if the
+     *        <b href="pbckbge-summbry.html#lbng_encoding"> lbngubge
+     *        encoding bit</b> of the ZIP entry's generbl purpose bit
+     *        flbg is set).
      *
      * @since 1.7
      */
-    public ZipInputStream(InputStream in, Charset charset) {
-        super(new PushbackInputStream(in, 512), new Inflater(true), 512);
-        usesDefaultInflater = true;
+    public ZipInputStrebm(InputStrebm in, Chbrset chbrset) {
+        super(new PushbbckInputStrebm(in, 512), new Inflbter(true), 512);
+        usesDefbultInflbter = true;
         if(in == null) {
             throw new NullPointerException("in is null");
         }
-        if (charset == null)
-            throw new NullPointerException("charset is null");
-        this.zc = ZipCoder.get(charset);
+        if (chbrset == null)
+            throw new NullPointerException("chbrset is null");
+        this.zc = ZipCoder.get(chbrset);
     }
 
     /**
-     * Reads the next ZIP file entry and positions the stream at the
-     * beginning of the entry data.
-     * @return the next ZIP file entry, or null if there are no more entries
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
+     * Rebds the next ZIP file entry bnd positions the strebm bt the
+     * beginning of the entry dbtb.
+     * @return the next ZIP file entry, or null if there bre no more entries
+     * @exception ZipException if b ZIP file error hbs occurred
+     * @exception IOException if bn I/O error hbs occurred
      */
     public ZipEntry getNextEntry() throws IOException {
         ensureOpen();
@@ -119,40 +119,40 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
         }
         crc.reset();
         inf.reset();
-        if ((entry = readLOC()) == null) {
+        if ((entry = rebdLOC()) == null) {
             return null;
         }
         if (entry.method == STORED) {
-            remaining = entry.size;
+            rembining = entry.size;
         }
-        entryEOF = false;
+        entryEOF = fblse;
         return entry;
     }
 
     /**
-     * Closes the current ZIP entry and positions the stream for reading the
+     * Closes the current ZIP entry bnd positions the strebm for rebding the
      * next entry.
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
+     * @exception ZipException if b ZIP file error hbs occurred
+     * @exception IOException if bn I/O error hbs occurred
      */
     public void closeEntry() throws IOException {
         ensureOpen();
-        while (read(tmpbuf, 0, tmpbuf.length) != -1) ;
+        while (rebd(tmpbuf, 0, tmpbuf.length) != -1) ;
         entryEOF = true;
     }
 
     /**
-     * Returns 0 after EOF has reached for the current entry data,
-     * otherwise always return 1.
+     * Returns 0 bfter EOF hbs rebched for the current entry dbtb,
+     * otherwise blwbys return 1.
      * <p>
-     * Programs should not count on this method to return the actual number
-     * of bytes that could be read without blocking.
+     * Progrbms should not count on this method to return the bctubl number
+     * of bytes thbt could be rebd without blocking.
      *
-     * @return     1 before EOF and 0 after EOF has reached for current entry.
-     * @exception  IOException  if an I/O error occurs.
+     * @return     1 before EOF bnd 0 bfter EOF hbs rebched for current entry.
+     * @exception  IOException  if bn I/O error occurs.
      *
      */
-    public int available() throws IOException {
+    public int bvbilbble() throws IOException {
         ensureOpen();
         if (entryEOF) {
             return 0;
@@ -162,23 +162,23 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
     }
 
     /**
-     * Reads from the current ZIP entry into an array of bytes.
+     * Rebds from the current ZIP entry into bn brrby of bytes.
      * If <code>len</code> is not zero, the method
-     * blocks until some input is available; otherwise, no
-     * bytes are read and <code>0</code> is returned.
-     * @param b the buffer into which the data is read
-     * @param off the start offset in the destination array <code>b</code>
-     * @param len the maximum number of bytes read
-     * @return the actual number of bytes read, or -1 if the end of the
-     *         entry is reached
+     * blocks until some input is bvbilbble; otherwise, no
+     * bytes bre rebd bnd <code>0</code> is returned.
+     * @pbrbm b the buffer into which the dbtb is rebd
+     * @pbrbm off the stbrt offset in the destinbtion brrby <code>b</code>
+     * @pbrbm len the mbximum number of bytes rebd
+     * @return the bctubl number of bytes rebd, or -1 if the end of the
+     *         entry is rebched
      * @exception  NullPointerException if <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException if <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException if <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>b.length - off</code>
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
+     * @exception ZipException if b ZIP file error hbs occurred
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
         ensureOpen();
         if (off < 0 || len < 0 || off > b.length - len) {
             throw new IndexOutOfBoundsException();
@@ -190,76 +190,76 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
             return -1;
         }
         switch (entry.method) {
-        case DEFLATED:
-            len = super.read(b, off, len);
+        cbse DEFLATED:
+            len = super.rebd(b, off, len);
             if (len == -1) {
-                readEnd(entry);
+                rebdEnd(entry);
                 entryEOF = true;
                 entry = null;
             } else {
-                crc.update(b, off, len);
+                crc.updbte(b, off, len);
             }
             return len;
-        case STORED:
-            if (remaining <= 0) {
+        cbse STORED:
+            if (rembining <= 0) {
                 entryEOF = true;
                 entry = null;
                 return -1;
             }
-            if (len > remaining) {
-                len = (int)remaining;
+            if (len > rembining) {
+                len = (int)rembining;
             }
-            len = in.read(b, off, len);
+            len = in.rebd(b, off, len);
             if (len == -1) {
                 throw new ZipException("unexpected EOF");
             }
-            crc.update(b, off, len);
-            remaining -= len;
-            if (remaining == 0 && entry.crc != crc.getValue()) {
+            crc.updbte(b, off, len);
+            rembining -= len;
+            if (rembining == 0 && entry.crc != crc.getVblue()) {
                 throw new ZipException(
-                    "invalid entry CRC (expected 0x" + Long.toHexString(entry.crc) +
-                    " but got 0x" + Long.toHexString(crc.getValue()) + ")");
+                    "invblid entry CRC (expected 0x" + Long.toHexString(entry.crc) +
+                    " but got 0x" + Long.toHexString(crc.getVblue()) + ")");
             }
             return len;
-        default:
-            throw new ZipException("invalid compression method");
+        defbult:
+            throw new ZipException("invblid compression method");
         }
     }
 
     /**
      * Skips specified number of bytes in the current ZIP entry.
-     * @param n the number of bytes to skip
-     * @return the actual number of bytes skipped
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
-     * @exception IllegalArgumentException if {@code n < 0}
+     * @pbrbm n the number of bytes to skip
+     * @return the bctubl number of bytes skipped
+     * @exception ZipException if b ZIP file error hbs occurred
+     * @exception IOException if bn I/O error hbs occurred
+     * @exception IllegblArgumentException if {@code n < 0}
      */
     public long skip(long n) throws IOException {
         if (n < 0) {
-            throw new IllegalArgumentException("negative skip length");
+            throw new IllegblArgumentException("negbtive skip length");
         }
         ensureOpen();
-        int max = (int)Math.min(n, Integer.MAX_VALUE);
-        int total = 0;
-        while (total < max) {
-            int len = max - total;
+        int mbx = (int)Mbth.min(n, Integer.MAX_VALUE);
+        int totbl = 0;
+        while (totbl < mbx) {
+            int len = mbx - totbl;
             if (len > tmpbuf.length) {
                 len = tmpbuf.length;
             }
-            len = read(tmpbuf, 0, len);
+            len = rebd(tmpbuf, 0, len);
             if (len == -1) {
                 entryEOF = true;
-                break;
+                brebk;
             }
-            total += len;
+            totbl += len;
         }
-        return total;
+        return totbl;
     }
 
     /**
-     * Closes this input stream and releases any system resources associated
-     * with the stream.
-     * @exception IOException if an I/O error has occurred
+     * Closes this input strebm bnd relebses bny system resources bssocibted
+     * with the strebm.
+     * @exception IOException if bn I/O error hbs occurred
      */
     public void close() throws IOException {
         if (!closed) {
@@ -268,23 +268,23 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
         }
     }
 
-    private byte[] b = new byte[256];
+    privbte byte[] b = new byte[256];
 
     /*
-     * Reads local file (LOC) header for next entry.
+     * Rebds locbl file (LOC) hebder for next entry.
      */
-    private ZipEntry readLOC() throws IOException {
+    privbte ZipEntry rebdLOC() throws IOException {
         try {
-            readFully(tmpbuf, 0, LOCHDR);
-        } catch (EOFException e) {
+            rebdFully(tmpbuf, 0, LOCHDR);
+        } cbtch (EOFException e) {
             return null;
         }
         if (get32(tmpbuf, 0) != LOCSIG) {
             return null;
         }
-        // get flag first, we need check EFS.
-        flag = get16(tmpbuf, LOCFLG);
-        // get the entry name and create the ZipEntry first
+        // get flbg first, we need check EFS.
+        flbg = get16(tmpbuf, LOCFLG);
+        // get the entry nbme bnd crebte the ZipEntry first
         int len = get16(tmpbuf, LOCNAM);
         int blen = b.length;
         if (len > blen) {
@@ -293,22 +293,22 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
             } while (len > blen);
             b = new byte[blen];
         }
-        readFully(b, 0, len);
+        rebdFully(b, 0, len);
         // Force to use UTF-8 if the EFS bit is ON, even the cs is NOT UTF-8
-        ZipEntry e = createZipEntry(((flag & EFS) != 0)
+        ZipEntry e = crebteZipEntry(((flbg & EFS) != 0)
                                     ? zc.toStringUTF8(b, len)
                                     : zc.toString(b, len));
-        // now get the remaining fields for the entry
-        if ((flag & 1) == 1) {
+        // now get the rembining fields for the entry
+        if ((flbg & 1) == 1) {
             throw new ZipException("encrypted ZIP entry not supported");
         }
         e.method = get16(tmpbuf, LOCHOW);
-        e.time = dosToJavaTime(get32(tmpbuf, LOCTIM));
-        if ((flag & 8) == 8) {
-            /* "Data Descriptor" present */
+        e.time = dosToJbvbTime(get32(tmpbuf, LOCTIM));
+        if ((flbg & 8) == 8) {
+            /* "Dbtb Descriptor" present */
             if (e.method != DEFLATED) {
                 throw new ZipException(
-                        "only DEFLATED entries can have EXT descriptor");
+                        "only DEFLATED entries cbn hbve EXT descriptor");
             }
         } else {
             e.crc = get32(tmpbuf, LOCCRC);
@@ -317,45 +317,45 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
         }
         len = get16(tmpbuf, LOCEXT);
         if (len > 0) {
-            byte[] extra = new byte[len];
-            readFully(extra, 0, len);
-            e.setExtra0(extra,
+            byte[] extrb = new byte[len];
+            rebdFully(extrb, 0, len);
+            e.setExtrb0(extrb,
                         e.csize == ZIP64_MAGICVAL || e.size == ZIP64_MAGICVAL);
         }
         return e;
     }
 
     /**
-     * Creates a new <code>ZipEntry</code> object for the specified
-     * entry name.
+     * Crebtes b new <code>ZipEntry</code> object for the specified
+     * entry nbme.
      *
-     * @param name the ZIP file entry name
-     * @return the ZipEntry just created
+     * @pbrbm nbme the ZIP file entry nbme
+     * @return the ZipEntry just crebted
      */
-    protected ZipEntry createZipEntry(String name) {
-        return new ZipEntry(name);
+    protected ZipEntry crebteZipEntry(String nbme) {
+        return new ZipEntry(nbme);
     }
 
     /*
-     * Reads end of deflated entry as well as EXT descriptor if present.
+     * Rebds end of deflbted entry bs well bs EXT descriptor if present.
      */
-    private void readEnd(ZipEntry e) throws IOException {
-        int n = inf.getRemaining();
+    privbte void rebdEnd(ZipEntry e) throws IOException {
+        int n = inf.getRembining();
         if (n > 0) {
-            ((PushbackInputStream)in).unread(buf, len - n, n);
+            ((PushbbckInputStrebm)in).unrebd(buf, len - n, n);
         }
-        if ((flag & 8) == 8) {
-            /* "Data Descriptor" present */
+        if ((flbg & 8) == 8) {
+            /* "Dbtb Descriptor" present */
             if (inf.getBytesWritten() > ZIP64_MAGICVAL ||
-                inf.getBytesRead() > ZIP64_MAGICVAL) {
-                // ZIP64 format
-                readFully(tmpbuf, 0, ZIP64_EXTHDR);
+                inf.getBytesRebd() > ZIP64_MAGICVAL) {
+                // ZIP64 formbt
+                rebdFully(tmpbuf, 0, ZIP64_EXTHDR);
                 long sig = get32(tmpbuf, 0);
                 if (sig != EXTSIG) { // no EXTSIG present
                     e.crc = sig;
                     e.csize = get64(tmpbuf, ZIP64_EXTSIZ - ZIP64_EXTCRC);
                     e.size = get64(tmpbuf, ZIP64_EXTLEN - ZIP64_EXTCRC);
-                    ((PushbackInputStream)in).unread(
+                    ((PushbbckInputStrebm)in).unrebd(
                         tmpbuf, ZIP64_EXTHDR - ZIP64_EXTCRC - 1, ZIP64_EXTCRC);
                 } else {
                     e.crc = get32(tmpbuf, ZIP64_EXTCRC);
@@ -363,13 +363,13 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
                     e.size = get64(tmpbuf, ZIP64_EXTLEN);
                 }
             } else {
-                readFully(tmpbuf, 0, EXTHDR);
+                rebdFully(tmpbuf, 0, EXTHDR);
                 long sig = get32(tmpbuf, 0);
                 if (sig != EXTSIG) { // no EXTSIG present
                     e.crc = sig;
                     e.csize = get32(tmpbuf, EXTSIZ - EXTCRC);
                     e.size = get32(tmpbuf, EXTLEN - EXTCRC);
-                    ((PushbackInputStream)in).unread(
+                    ((PushbbckInputStrebm)in).unrebd(
                                                tmpbuf, EXTHDR - EXTCRC - 1, EXTCRC);
                 } else {
                     e.crc = get32(tmpbuf, EXTCRC);
@@ -380,27 +380,27 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
         }
         if (e.size != inf.getBytesWritten()) {
             throw new ZipException(
-                "invalid entry size (expected " + e.size +
+                "invblid entry size (expected " + e.size +
                 " but got " + inf.getBytesWritten() + " bytes)");
         }
-        if (e.csize != inf.getBytesRead()) {
+        if (e.csize != inf.getBytesRebd()) {
             throw new ZipException(
-                "invalid entry compressed size (expected " + e.csize +
-                " but got " + inf.getBytesRead() + " bytes)");
+                "invblid entry compressed size (expected " + e.csize +
+                " but got " + inf.getBytesRebd() + " bytes)");
         }
-        if (e.crc != crc.getValue()) {
+        if (e.crc != crc.getVblue()) {
             throw new ZipException(
-                "invalid entry CRC (expected 0x" + Long.toHexString(e.crc) +
-                " but got 0x" + Long.toHexString(crc.getValue()) + ")");
+                "invblid entry CRC (expected 0x" + Long.toHexString(e.crc) +
+                " but got 0x" + Long.toHexString(crc.getVblue()) + ")");
         }
     }
 
     /*
-     * Reads bytes, blocking until all bytes are read.
+     * Rebds bytes, blocking until bll bytes bre rebd.
      */
-    private void readFully(byte[] b, int off, int len) throws IOException {
+    privbte void rebdFully(byte[] b, int off, int len) throws IOException {
         while (len > 0) {
-            int n = in.read(b, off, len);
+            int n = in.rebd(b, off, len);
             if (n == -1) {
                 throw new EOFException();
             }

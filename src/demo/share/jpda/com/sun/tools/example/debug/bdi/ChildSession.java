@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbckbge com.sun.tools.exbmple.debug.bdi;
 
 import com.sun.jdi.*;
-import com.sun.jdi.connect.LaunchingConnector;
+import com.sun.jdi.connect.LbunchingConnector;
 import com.sun.jdi.connect.Connector;
-import com.sun.jdi.connect.VMStartException;
-import com.sun.jdi.connect.IllegalConnectorArgumentsException;
-import java.io.*;
-import java.util.Map;
-import javax.swing.SwingUtilities;
+import com.sun.jdi.connect.VMStbrtException;
+import com.sun.jdi.connect.IllegblConnectorArgumentsException;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvbx.swing.SwingUtilities;
 
 
-class ChildSession extends Session {
+clbss ChildSession extends Session {
 
-    private Process process;
+    privbte Process process;
 
-    private PrintWriter in;
-    private BufferedReader out;
-    private BufferedReader err;
+    privbte PrintWriter in;
+    privbte BufferedRebder out;
+    privbte BufferedRebder err;
 
-    private InputListener input;
-    private OutputListener output;
-    private OutputListener error;
+    privbte InputListener input;
+    privbte OutputListener output;
+    privbte OutputListener error;
 
-    public ChildSession(ExecutionManager runtime,
+    public ChildSession(ExecutionMbnbger runtime,
                         String userVMArgs, String cmdLine,
                         InputListener input,
                         OutputListener output,
                         OutputListener error,
-                        OutputListener diagnostics) {
-        this(runtime, getVM(diagnostics, userVMArgs, cmdLine),
-             input, output, error, diagnostics);
+                        OutputListener dibgnostics) {
+        this(runtime, getVM(dibgnostics, userVMArgs, cmdLine),
+             input, output, error, dibgnostics);
     }
 
-    public ChildSession(ExecutionManager runtime,
-                        LaunchingConnector connector,
-                        Map<String, Connector.Argument> arguments,
+    public ChildSession(ExecutionMbnbger runtime,
+                        LbunchingConnector connector,
+                        Mbp<String, Connector.Argument> brguments,
                         InputListener input,
                         OutputListener output,
                         OutputListener error,
-                        OutputListener diagnostics) {
-        this(runtime, generalGetVM(diagnostics, connector, arguments),
-             input, output, error, diagnostics);
+                        OutputListener dibgnostics) {
+        this(runtime, generblGetVM(dibgnostics, connector, brguments),
+             input, output, error, dibgnostics);
     }
 
-    private ChildSession(ExecutionManager runtime,
-                        VirtualMachine vm,
+    privbte ChildSession(ExecutionMbnbger runtime,
+                        VirtublMbchine vm,
                         InputListener input,
                         OutputListener output,
                         OutputListener error,
-                        OutputListener diagnostics) {
-        super(vm, runtime, diagnostics);
+                        OutputListener dibgnostics) {
+        super(vm, runtime, dibgnostics);
         this.input = input;
         this.output = output;
         this.error = error;
     }
 
     @Override
-    public boolean attach() {
+    public boolebn bttbch() {
 
         if (!connectToVMProcess()) {
-            diagnostics.putString("Could not launch VM");
-            return false;
+            dibgnostics.putString("Could not lbunch VM");
+            return fblse;
         }
 
         /*
-         * Create a Thread that will retrieve and display any output.
-         * Needs to be high priority, else debugger may exit before
-         * it can be displayed.
+         * Crebte b Threbd thbt will retrieve bnd displby bny output.
+         * Needs to be high priority, else debugger mby exit before
+         * it cbn be displbyed.
          */
 
-        //### Rename InputWriter and OutputReader classes
-        //### Thread priorities cribbed from ttydebug.  Think about them.
+        //### Renbme InputWriter bnd OutputRebder clbsses
+        //### Threbd priorities cribbed from ttydebug.  Think bbout them.
 
-        OutputReader outputReader =
-            new OutputReader("output reader", "output",
-                             out, output, diagnostics);
-        outputReader.setPriority(Thread.MAX_PRIORITY-1);
-        outputReader.start();
+        OutputRebder outputRebder =
+            new OutputRebder("output rebder", "output",
+                             out, output, dibgnostics);
+        outputRebder.setPriority(Threbd.MAX_PRIORITY-1);
+        outputRebder.stbrt();
 
-        OutputReader errorReader =
-            new OutputReader("error reader", "error",
-                             err, error, diagnostics);
-        errorReader.setPriority(Thread.MAX_PRIORITY-1);
-        errorReader.start();
+        OutputRebder errorRebder =
+            new OutputRebder("error rebder", "error",
+                             err, error, dibgnostics);
+        errorRebder.setPriority(Threbd.MAX_PRIORITY-1);
+        errorRebder.stbrt();
 
         InputWriter inputWriter =
             new InputWriter("input writer", in, input);
-        inputWriter.setPriority(Thread.MAX_PRIORITY-1);
-        inputWriter.start();
+        inputWriter.setPriority(Threbd.MAX_PRIORITY-1);
+        inputWriter.stbrt();
 
-        if (!super.attach()) {
+        if (!super.bttbch()) {
             if (process != null) {
                 process.destroy();
                 process = null;
             }
-            return false;
+            return fblse;
         }
 
         //### debug
-        //System.out.println("IO after attach: "+ inputWriter + " " + outputReader + " "+ errorReader);
+        //System.out.println("IO bfter bttbch: "+ inputWriter + " " + outputRebder + " "+ errorRebder);
 
         return true;
     }
 
     @Override
-    public void detach() {
+    public void detbch() {
 
         //### debug
-        //System.out.println("IO before detach: "+ inputWriter + " " + outputReader + " "+ errorReader);
+        //System.out.println("IO before detbch: "+ inputWriter + " " + outputRebder + " "+ errorRebder);
 
-        super.detach();
+        super.detbch();
 
         /*
         inputWriter.quit();
-        outputReader.quit();
-        errorReader.quit();
+        outputRebder.quit();
+        errorRebder.quit();
         */
 
         if (process != null) {
@@ -159,138 +159,138 @@ class ChildSession extends Session {
     }
 
     /**
-     * Launch child java interpreter, return host:port
+     * Lbunch child jbvb interpreter, return host:port
      */
 
-    static private void dumpStream(OutputListener diagnostics,
-                                   InputStream stream) throws IOException {
-        BufferedReader in =
-            new BufferedReader(new InputStreamReader(stream));
+    stbtic privbte void dumpStrebm(OutputListener dibgnostics,
+                                   InputStrebm strebm) throws IOException {
+        BufferedRebder in =
+            new BufferedRebder(new InputStrebmRebder(strebm));
         String line;
-        while ((line = in.readLine()) != null) {
-            diagnostics.putString(line);
+        while ((line = in.rebdLine()) != null) {
+            dibgnostics.putString(line);
         }
     }
 
-    static private void dumpFailedLaunchInfo(OutputListener diagnostics,
+    stbtic privbte void dumpFbiledLbunchInfo(OutputListener dibgnostics,
                                              Process process) {
         try {
-            dumpStream(diagnostics, process.getErrorStream());
-            dumpStream(diagnostics, process.getInputStream());
-        } catch (IOException e) {
-            diagnostics.putString("Unable to display process output: " +
-                                  e.getMessage());
+            dumpStrebm(dibgnostics, process.getErrorStrebm());
+            dumpStrebm(dibgnostics, process.getInputStrebm());
+        } cbtch (IOException e) {
+            dibgnostics.putString("Unbble to displby process output: " +
+                                  e.getMessbge());
         }
     }
 
-    static private VirtualMachine getVM(OutputListener diagnostics,
+    stbtic privbte VirtublMbchine getVM(OutputListener dibgnostics,
                                         String userVMArgs,
                                         String cmdLine) {
-        VirtualMachineManager manager = Bootstrap.virtualMachineManager();
-        LaunchingConnector connector = manager.defaultConnector();
-        Map<String, Connector.Argument> arguments = connector.defaultArguments();
-        arguments.get("options").setValue(userVMArgs);
-        arguments.get("main").setValue(cmdLine);
-        return generalGetVM(diagnostics, connector, arguments);
+        VirtublMbchineMbnbger mbnbger = Bootstrbp.virtublMbchineMbnbger();
+        LbunchingConnector connector = mbnbger.defbultConnector();
+        Mbp<String, Connector.Argument> brguments = connector.defbultArguments();
+        brguments.get("options").setVblue(userVMArgs);
+        brguments.get("mbin").setVblue(cmdLine);
+        return generblGetVM(dibgnostics, connector, brguments);
     }
 
-    static private VirtualMachine generalGetVM(OutputListener diagnostics,
-                                               LaunchingConnector connector,
-                                               Map<String, Connector.Argument> arguments) {
-        VirtualMachine vm = null;
+    stbtic privbte VirtublMbchine generblGetVM(OutputListener dibgnostics,
+                                               LbunchingConnector connector,
+                                               Mbp<String, Connector.Argument> brguments) {
+        VirtublMbchine vm = null;
         try {
-            diagnostics.putString("Starting child.");
-            vm = connector.launch(arguments);
-        } catch (IOException ioe) {
-            diagnostics.putString("Unable to start child: " + ioe.getMessage());
-        } catch (IllegalConnectorArgumentsException icae) {
-            diagnostics.putString("Unable to start child: " + icae.getMessage());
-        } catch (VMStartException vmse) {
-            diagnostics.putString("Unable to start child: " + vmse.getMessage() + '\n');
-            dumpFailedLaunchInfo(diagnostics, vmse.process());
+            dibgnostics.putString("Stbrting child.");
+            vm = connector.lbunch(brguments);
+        } cbtch (IOException ioe) {
+            dibgnostics.putString("Unbble to stbrt child: " + ioe.getMessbge());
+        } cbtch (IllegblConnectorArgumentsException icbe) {
+            dibgnostics.putString("Unbble to stbrt child: " + icbe.getMessbge());
+        } cbtch (VMStbrtException vmse) {
+            dibgnostics.putString("Unbble to stbrt child: " + vmse.getMessbge() + '\n');
+            dumpFbiledLbunchInfo(dibgnostics, vmse.process());
         }
         return vm;
     }
 
-    private boolean connectToVMProcess() {
+    privbte boolebn connectToVMProcess() {
         if (vm == null) {
-            return false;
+            return fblse;
         }
         process = vm.process();
-        in = new PrintWriter(new OutputStreamWriter(process.getOutputStream()));
-        //### Note small buffer sizes!
-        out = new BufferedReader(new InputStreamReader(process.getInputStream()), 1);
-        err = new BufferedReader(new InputStreamReader(process.getErrorStream()), 1);
+        in = new PrintWriter(new OutputStrebmWriter(process.getOutputStrebm()));
+        //### Note smbll buffer sizes!
+        out = new BufferedRebder(new InputStrebmRebder(process.getInputStrebm()), 1);
+        err = new BufferedRebder(new InputStrebmRebder(process.getErrorStrebm()), 1);
         return true;
     }
 
     /**
-     *  Threads to handle application input/output.
+     *  Threbds to hbndle bpplicbtion input/output.
      */
 
-    private static class OutputReader extends Thread {
+    privbte stbtic clbss OutputRebder extends Threbd {
 
-        private String streamName;
-        private BufferedReader stream;
-        private OutputListener output;
-        private OutputListener diagnostics;
-        private boolean running = true;
-        private char[] buffer = new char[512];
+        privbte String strebmNbme;
+        privbte BufferedRebder strebm;
+        privbte OutputListener output;
+        privbte OutputListener dibgnostics;
+        privbte boolebn running = true;
+        privbte chbr[] buffer = new chbr[512];
 
-        OutputReader(String threadName,
-                     String streamName,
-                     BufferedReader stream,
+        OutputRebder(String threbdNbme,
+                     String strebmNbme,
+                     BufferedRebder strebm,
                      OutputListener output,
-                     OutputListener diagnostics) {
-            super(threadName);
-            this.streamName = streamName;
-            this.stream = stream;
+                     OutputListener dibgnostics) {
+            super(threbdNbme);
+            this.strebmNbme = strebmNbme;
+            this.strebm = strebm;
             this.output = output;
-            this.diagnostics = diagnostics;
+            this.dibgnostics = dibgnostics;
         }
 
         @Override
         public void run() {
             try {
                 int count;
-                while (running && (count = stream.read(buffer, 0, 512)) != -1) {
+                while (running && (count = strebm.rebd(buffer, 0, 512)) != -1) {
                     if (count > 0) {
-                        // Run in Swing event dispatcher thread.
-                        final String chars = new String(buffer, 0, count);
-                        SwingUtilities.invokeLater(new Runnable() {
+                        // Run in Swing event dispbtcher threbd.
+                        finbl String chbrs = new String(buffer, 0, count);
+                        SwingUtilities.invokeLbter(new Runnbble() {
                             @Override
                             public void run() {
-                                output.putString(chars);
+                                output.putString(chbrs);
                             }
                         });
                     }
                     //### Should we sleep briefly here?
                 }
-            } catch (IOException e) {
-                // Run in Swing event dispatcher thread.
-                SwingUtilities.invokeLater(new Runnable() {
+            } cbtch (IOException e) {
+                // Run in Swing event dispbtcher threbd.
+                SwingUtilities.invokeLbter(new Runnbble() {
                     @Override
                     public void run() {
-                        diagnostics.putString("IO error reading " +
-                                              streamName +
-                                              " stream of child java interpreter");
+                        dibgnostics.putString("IO error rebding " +
+                                              strebmNbme +
+                                              " strebm of child jbvb interpreter");
                     }
                 });
             }
         }
     }
 
-    private static class InputWriter extends Thread {
+    privbte stbtic clbss InputWriter extends Threbd {
 
-        private PrintWriter stream;
-        private InputListener input;
-        private boolean running = true;
+        privbte PrintWriter strebm;
+        privbte InputListener input;
+        privbte boolebn running = true;
 
-        InputWriter(String threadName,
-                    PrintWriter stream,
+        InputWriter(String threbdNbme,
+                    PrintWriter strebm,
                     InputListener input) {
-            super(threadName);
-            this.stream = stream;
+            super(threbdNbme);
+            this.strebm = strebm;
             this.input = input;
         }
 
@@ -299,9 +299,9 @@ class ChildSession extends Session {
             String line;
             while (running) {
                 line = input.getLine();
-                stream.println(line);
-                // Should not be needed for println above!
-                stream.flush();
+                strebm.println(line);
+                // Should not be needed for println bbove!
+                strebm.flush();
             }
         }
     }

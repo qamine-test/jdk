@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import java.util.EventObject;
-import javax.swing.tree.TreePath;
+import jbvb.util.EventObject;
+import jbvbx.swing.tree.TreePbth;
 
 
 /**
- * Encapsulates information describing changes to a tree model, and
- * used to notify tree model listeners of the change.
- * For more information and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/events/treemodellistener.html">How to Write a Tree Model Listener</a>,
- * a section in <em>The Java Tutorial.</em>
+ * Encbpsulbtes informbtion describing chbnges to b tree model, bnd
+ * used to notify tree model listeners of the chbnge.
+ * For more informbtion bnd exbmples see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/treemodellistener.html">How to Write b Tree Model Listener</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Rob Davis
- * @author Ray Ryan
- * @author Scott Violet
+ * @buthor Rob Dbvis
+ * @buthor Rby Rybn
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TreeModelEvent extends EventObject {
-    /** Path to the parent of the nodes that have changed. */
-    protected TreePath  path;
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss TreeModelEvent extends EventObject {
+    /** Pbth to the pbrent of the nodes thbt hbve chbnged. */
+    protected TreePbth  pbth;
     /** Indices identifying the position of where the children were. */
     protected int[]     childIndices;
-    /** Children that have been removed. */
+    /** Children thbt hbve been removed. */
     protected Object[]  children;
 
     /**
-     * Used to create an event when nodes have been changed, inserted, or
-     * removed, identifying the path to the parent of the modified items as
-     * an array of Objects. All of the modified objects are siblings which are
-     * direct descendents (not grandchildren) of the specified parent.
-     * The positions at which the inserts, deletes, or changes occurred are
-     * specified by an array of <code>int</code>. The indexes in that array
+     * Used to crebte bn event when nodes hbve been chbnged, inserted, or
+     * removed, identifying the pbth to the pbrent of the modified items bs
+     * bn brrby of Objects. All of the modified objects bre siblings which bre
+     * direct descendents (not grbndchildren) of the specified pbrent.
+     * The positions bt which the inserts, deletes, or chbnges occurred bre
+     * specified by bn brrby of <code>int</code>. The indexes in thbt brrby
      * must be in order, from lowest to highest.
      * <p>
-     * For changes, the indexes in the model correspond exactly to the indexes
-     * of items currently displayed in the UI. As a result, it is not really
-     * critical if the indexes are not in their exact order. But after multiple
+     * For chbnges, the indexes in the model correspond exbctly to the indexes
+     * of items currently displbyed in the UI. As b result, it is not reblly
+     * criticbl if the indexes bre not in their exbct order. But bfter multiple
      * inserts or deletes, the items currently in the UI no longer correspond
-     * to the items in the model. It is therefore critical to specify the
-     * indexes properly for inserts and deletes.
+     * to the items in the model. It is therefore criticbl to specify the
+     * indexes properly for inserts bnd deletes.
      * <p>
-     * For inserts, the indexes represent the <i>final</i> state of the tree,
-     * after the inserts have occurred. Since the indexes must be specified in
-     * order, the most natural processing methodology is to do the inserts
-     * starting at the lowest index and working towards the highest. Accumulate
-     * a Vector of <code>Integer</code> objects that specify the
-     * insert-locations as you go, then convert the Vector to an
-     * array of <code>int</code> to create the event. When the postition-index
-     * equals zero, the node is inserted at the beginning of the list. When the
-     * position index equals the size of the list, the node is "inserted" at
-     * (appended to) the end of the list.
+     * For inserts, the indexes represent the <i>finbl</i> stbte of the tree,
+     * bfter the inserts hbve occurred. Since the indexes must be specified in
+     * order, the most nbturbl processing methodology is to do the inserts
+     * stbrting bt the lowest index bnd working towbrds the highest. Accumulbte
+     * b Vector of <code>Integer</code> objects thbt specify the
+     * insert-locbtions bs you go, then convert the Vector to bn
+     * brrby of <code>int</code> to crebte the event. When the postition-index
+     * equbls zero, the node is inserted bt the beginning of the list. When the
+     * position index equbls the size of the list, the node is "inserted" bt
+     * (bppended to) the end of the list.
      * <p>
-     * For deletes, the indexes represent the <i>initial</i> state of the tree,
-     * before the deletes have occurred. Since the indexes must be specified in
-     * order, the most natural processing methodology is to use a delete-counter.
-     * Start by initializing the counter to zero and start work through the
-     * list from lowest to highest. Every time you do a delete, add the current
-     * value of the delete-counter to the index-position where the delete occurred,
-     * and append the result to a Vector of delete-locations, using
-     * <code>addElement()</code>. Then increment the delete-counter. The index
-     * positions stored in the Vector therefore reflect the effects of all previous
-     * deletes, so they represent each object's position in the initial tree.
-     * (You could also start at the highest index and working back towards the
-     * lowest, accumulating a Vector of delete-locations as you go using the
+     * For deletes, the indexes represent the <i>initibl</i> stbte of the tree,
+     * before the deletes hbve occurred. Since the indexes must be specified in
+     * order, the most nbturbl processing methodology is to use b delete-counter.
+     * Stbrt by initiblizing the counter to zero bnd stbrt work through the
+     * list from lowest to highest. Every time you do b delete, bdd the current
+     * vblue of the delete-counter to the index-position where the delete occurred,
+     * bnd bppend the result to b Vector of delete-locbtions, using
+     * <code>bddElement()</code>. Then increment the delete-counter. The index
+     * positions stored in the Vector therefore reflect the effects of bll previous
+     * deletes, so they represent ebch object's position in the initibl tree.
+     * (You could blso stbrt bt the highest index bnd working bbck towbrds the
+     * lowest, bccumulbting b Vector of delete-locbtions bs you go using the
      * <code>insertElementAt(Integer, 0)</code>.) However you produce the Vector
-     * of initial-positions, you then need to convert the Vector of <code>Integer</code>
-     * objects to an array of <code>int</code> to create the event.
+     * of initibl-positions, you then need to convert the Vector of <code>Integer</code>
+     * objects to bn brrby of <code>int</code> to crebte the event.
      * <p>
      * <b>Notes:</b><ul style="list-style-type:none">
      * <li>Like the <code>insertNodeInto</code> method in the
-     *    <code>DefaultTreeModel</code> class, <code>insertElementAt</code>
-     *    appends to the <code>Vector</code> when the index matches the size
-     *    of the vector. So you can use <code>insertElementAt(Integer, 0)</code>
+     *    <code>DefbultTreeModel</code> clbss, <code>insertElementAt</code>
+     *    bppends to the <code>Vector</code> when the index mbtches the size
+     *    of the vector. So you cbn use <code>insertElementAt(Integer, 0)</code>
      *    even when the vector is empty.</li>
-     * <li>To create a node changed event for the root node, specify the parent
-     *     and the child indices as <code>null</code>.</li>
+     * <li>To crebte b node chbnged event for the root node, specify the pbrent
+     *     bnd the child indices bs <code>null</code>.</li>
      * </ul>
      *
-     * @param source the Object responsible for generating the event (typically
-     *               the creator of the event object passes <code>this</code>
-     *               for its value)
-     * @param path   an array of Object identifying the path to the
-     *               parent of the modified item(s), where the first element
-     *               of the array is the Object stored at the root node and
-     *               the last element is the Object stored at the parent node
-     * @param childIndices an array of <code>int</code> that specifies the
-     *               index values of the removed items. The indices must be
+     * @pbrbm source the Object responsible for generbting the event (typicblly
+     *               the crebtor of the event object pbsses <code>this</code>
+     *               for its vblue)
+     * @pbrbm pbth   bn brrby of Object identifying the pbth to the
+     *               pbrent of the modified item(s), where the first element
+     *               of the brrby is the Object stored bt the root node bnd
+     *               the lbst element is the Object stored bt the pbrent node
+     * @pbrbm childIndices bn brrby of <code>int</code> thbt specifies the
+     *               index vblues of the removed items. The indices must be
      *               in sorted order, from lowest to highest
-     * @param children an array of Object containing the inserted, removed, or
-     *                 changed objects
-     * @see TreePath
+     * @pbrbm children bn brrby of Object contbining the inserted, removed, or
+     *                 chbnged objects
+     * @see TreePbth
      */
-    public TreeModelEvent(Object source, Object[] path, int[] childIndices,
+    public TreeModelEvent(Object source, Object[] pbth, int[] childIndices,
                           Object[] children)
     {
-        this(source, (path == null) ? null : new TreePath(path), childIndices, children);
+        this(source, (pbth == null) ? null : new TreePbth(pbth), childIndices, children);
     }
 
     /**
-     * Used to create an event when nodes have been changed, inserted, or
-     * removed, identifying the path to the parent of the modified items as
-     * a TreePath object. For more information on how to specify the indexes
-     * and objects, see
+     * Used to crebte bn event when nodes hbve been chbnged, inserted, or
+     * removed, identifying the pbth to the pbrent of the modified items bs
+     * b TreePbth object. For more informbtion on how to specify the indexes
+     * bnd objects, see
      * <code>TreeModelEvent(Object,Object[],int[],Object[])</code>.
      *
-     * @param source the Object responsible for generating the event (typically
-     *               the creator of the event object passes <code>this</code>
-     *               for its value)
-     * @param path   a TreePath object that identifies the path to the
-     *               parent of the modified item(s)
-     * @param childIndices an array of <code>int</code> that specifies the
-     *               index values of the modified items
-     * @param children an array of Object containing the inserted, removed, or
-     *                 changed objects
+     * @pbrbm source the Object responsible for generbting the event (typicblly
+     *               the crebtor of the event object pbsses <code>this</code>
+     *               for its vblue)
+     * @pbrbm pbth   b TreePbth object thbt identifies the pbth to the
+     *               pbrent of the modified item(s)
+     * @pbrbm childIndices bn brrby of <code>int</code> thbt specifies the
+     *               index vblues of the modified items
+     * @pbrbm children bn brrby of Object contbining the inserted, removed, or
+     *                 chbnged objects
      *
      * @see #TreeModelEvent(Object,Object[],int[],Object[])
      */
-    public TreeModelEvent(Object source, TreePath path, int[] childIndices,
+    public TreeModelEvent(Object source, TreePbth pbth, int[] childIndices,
                           Object[] children)
     {
         super(source);
-        this.path = path;
+        this.pbth = pbth;
         this.childIndices = childIndices;
         this.children = children;
     }
 
     /**
-     * Used to create an event when the node structure has changed in some way,
-     * identifying the path to the root of a modified subtree as an array of
-     * Objects. A structure change event might involve nodes swapping position,
-     * for example, or it might encapsulate multiple inserts and deletes in the
-     * subtree stemming from the node, where the changes may have taken place at
+     * Used to crebte bn event when the node structure hbs chbnged in some wby,
+     * identifying the pbth to the root of b modified subtree bs bn brrby of
+     * Objects. A structure chbnge event might involve nodes swbpping position,
+     * for exbmple, or it might encbpsulbte multiple inserts bnd deletes in the
+     * subtree stemming from the node, where the chbnges mby hbve tbken plbce bt
      * different levels of the subtree.
      * <blockquote>
      *   <b>Note:</b><br>
-     *   JTree collapses all nodes under the specified node, so that only its
-     *   immediate children are visible.
+     *   JTree collbpses bll nodes under the specified node, so thbt only its
+     *   immedibte children bre visible.
      * </blockquote>
      *
-     * @param source the Object responsible for generating the event (typically
-     *               the creator of the event object passes <code>this</code>
-     *               for its value)
-     * @param path   an array of Object identifying the path to the root of the
-     *               modified subtree, where the first element of the array is
-     *               the object stored at the root node and the last element
-     *               is the object stored at the changed node
-     * @see TreePath
+     * @pbrbm source the Object responsible for generbting the event (typicblly
+     *               the crebtor of the event object pbsses <code>this</code>
+     *               for its vblue)
+     * @pbrbm pbth   bn brrby of Object identifying the pbth to the root of the
+     *               modified subtree, where the first element of the brrby is
+     *               the object stored bt the root node bnd the lbst element
+     *               is the object stored bt the chbnged node
+     * @see TreePbth
      */
-    public TreeModelEvent(Object source, Object[] path)
+    public TreeModelEvent(Object source, Object[] pbth)
     {
-        this(source, (path == null) ? null : new TreePath(path));
+        this(source, (pbth == null) ? null : new TreePbth(pbth));
     }
 
     /**
-     * Used to create an event when the node structure has changed in some way,
-     * identifying the path to the root of the modified subtree as a TreePath
-     * object. For more information on this event specification, see
+     * Used to crebte bn event when the node structure hbs chbnged in some wby,
+     * identifying the pbth to the root of the modified subtree bs b TreePbth
+     * object. For more informbtion on this event specificbtion, see
      * <code>TreeModelEvent(Object,Object[])</code>.
      *
-     * @param source the Object responsible for generating the event (typically
-     *               the creator of the event object passes <code>this</code>
-     *               for its value)
-     * @param path   a TreePath object that identifies the path to the
-     *               change. In the DefaultTreeModel,
-     *               this object contains an array of user-data objects,
-     *               but a subclass of TreePath could use some totally
-     *               different mechanism -- for example, a node ID number
+     * @pbrbm source the Object responsible for generbting the event (typicblly
+     *               the crebtor of the event object pbsses <code>this</code>
+     *               for its vblue)
+     * @pbrbm pbth   b TreePbth object thbt identifies the pbth to the
+     *               chbnge. In the DefbultTreeModel,
+     *               this object contbins bn brrby of user-dbtb objects,
+     *               but b subclbss of TreePbth could use some totblly
+     *               different mechbnism -- for exbmple, b node ID number
      *
      * @see #TreeModelEvent(Object,Object[])
      */
-    public TreeModelEvent(Object source, TreePath path)
+    public TreeModelEvent(Object source, TreePbth pbth)
     {
         super(source);
-        this.path = path;
+        this.pbth = pbth;
         this.childIndices = new int[0];
     }
 
     /**
-     * For all events, except treeStructureChanged,
-     * returns the parent of the changed nodes.
-     * For treeStructureChanged events, returns the ancestor of the
-     * structure that has changed. This and
-     * <code>getChildIndices</code> are used to get a list of the effected
+     * For bll events, except treeStructureChbnged,
+     * returns the pbrent of the chbnged nodes.
+     * For treeStructureChbnged events, returns the bncestor of the
+     * structure thbt hbs chbnged. This bnd
+     * <code>getChildIndices</code> bre used to get b list of the effected
      * nodes.
      * <p>
-     * The one exception to this is a treeNodesChanged event that is to
-     * identify the root, in which case this will return the root
-     * and <code>getChildIndices</code> will return null.
+     * The one exception to this is b treeNodesChbnged event thbt is to
+     * identify the root, in which cbse this will return the root
+     * bnd <code>getChildIndices</code> will return null.
      *
-     * @return the TreePath used in identifying the changed nodes.
-     * @see TreePath#getLastPathComponent
+     * @return the TreePbth used in identifying the chbnged nodes.
+     * @see TreePbth#getLbstPbthComponent
      */
-    public TreePath getTreePath() { return path; }
+    public TreePbth getTreePbth() { return pbth; }
 
     /**
-     * Convenience method to get the array of objects from the TreePath
-     * instance that this event wraps.
+     * Convenience method to get the brrby of objects from the TreePbth
+     * instbnce thbt this event wrbps.
      *
-     * @return an array of Objects, where the first Object is the one
-     *         stored at the root and the last object is the one
-     *         stored at the node identified by the path
+     * @return bn brrby of Objects, where the first Object is the one
+     *         stored bt the root bnd the lbst object is the one
+     *         stored bt the node identified by the pbth
      */
-    public Object[] getPath() {
-        if(path != null)
-            return path.getPath();
+    public Object[] getPbth() {
+        if(pbth != null)
+            return pbth.getPbth();
         return null;
     }
 
     /**
-     * Returns the objects that are children of the node identified by
-     * <code>getPath</code> at the locations specified by
-     * <code>getChildIndices</code>. If this is a removal event the
-     * returned objects are no longer children of the parent node.
+     * Returns the objects thbt bre children of the node identified by
+     * <code>getPbth</code> bt the locbtions specified by
+     * <code>getChildIndices</code>. If this is b removbl event the
+     * returned objects bre no longer children of the pbrent node.
      *
-     * @return an array of Object containing the children specified by
+     * @return bn brrby of Object contbining the children specified by
      *         the event
-     * @see #getPath
+     * @see #getPbth
      * @see #getChildIndices
      */
     public Object[] getChildren() {
@@ -258,57 +258,57 @@ public class TreeModelEvent extends EventObject {
             int            cCount = children.length;
             Object[]       retChildren = new Object[cCount];
 
-            System.arraycopy(children, 0, retChildren, 0, cCount);
+            System.brrbycopy(children, 0, retChildren, 0, cCount);
             return retChildren;
         }
         return null;
     }
 
     /**
-     * Returns the values of the child indexes. If this is a removal event
-     * the indexes point to locations in the initial list where items
-     * were removed. If it is an insert, the indices point to locations
-     * in the final list where the items were added. For node changes,
-     * the indices point to the locations of the modified nodes.
+     * Returns the vblues of the child indexes. If this is b removbl event
+     * the indexes point to locbtions in the initibl list where items
+     * were removed. If it is bn insert, the indices point to locbtions
+     * in the finbl list where the items were bdded. For node chbnges,
+     * the indices point to the locbtions of the modified nodes.
      *
-     * @return an array of <code>int</code> containing index locations for
+     * @return bn brrby of <code>int</code> contbining index locbtions for
      *         the children specified by the event
      */
     public int[] getChildIndices() {
         if(childIndices != null) {
             int            cCount = childIndices.length;
-            int[]          retArray = new int[cCount];
+            int[]          retArrby = new int[cCount];
 
-            System.arraycopy(childIndices, 0, retArray, 0, cCount);
-            return retArray;
+            System.brrbycopy(childIndices, 0, retArrby, 0, cCount);
+            return retArrby;
         }
         return null;
     }
 
     /**
-     * Returns a string that displays and identifies this object's
+     * Returns b string thbt displbys bnd identifies this object's
      * properties.
      *
-     * @return a String representation of this object
+     * @return b String representbtion of this object
      */
     public String toString() {
         StringBuilder   sb = new StringBuilder();
 
-        sb.append(getClass().getName() + " " +
-                  Integer.toString(hashCode()));
-        if(path != null)
-            sb.append(" path " + path);
+        sb.bppend(getClbss().getNbme() + " " +
+                  Integer.toString(hbshCode()));
+        if(pbth != null)
+            sb.bppend(" pbth " + pbth);
         if(childIndices != null) {
-            sb.append(" indices [ ");
+            sb.bppend(" indices [ ");
             for(int counter = 0; counter < childIndices.length; counter++)
-                sb.append(Integer.toString(childIndices[counter])+ " ");
-            sb.append("]");
+                sb.bppend(Integer.toString(childIndices[counter])+ " ");
+            sb.bppend("]");
         }
         if(children != null) {
-            sb.append(" children [ ");
+            sb.bppend(" children [ ");
             for(int counter = 0; counter < children.length; counter++)
-                sb.append(children[counter] + " ");
-            sb.append("]");
+                sb.bppend(children[counter] + " ");
+            sb.bppend("]");
         }
         return sb.toString();
     }

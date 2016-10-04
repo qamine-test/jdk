@@ -1,344 +1,344 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.io.IOException;
-import java.nio.channels.spi.AbstractInterruptibleChannel;
-import java.nio.channels.spi.SelectorProvider;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.spi.AbstrbctInterruptibleChbnnel;
+import jbvb.nio.chbnnels.spi.SelectorProvider;
 
 
 /**
- * A channel that can be multiplexed via a {@link Selector}.
+ * A chbnnel thbt cbn be multiplexed vib b {@link Selector}.
  *
- * <p> In order to be used with a selector, an instance of this class must
- * first be <i>registered</i> via the {@link #register(Selector,int,Object)
- * register} method.  This method returns a new {@link SelectionKey} object
- * that represents the channel's registration with the selector.
+ * <p> In order to be used with b selector, bn instbnce of this clbss must
+ * first be <i>registered</i> vib the {@link #register(Selector,int,Object)
+ * register} method.  This method returns b new {@link SelectionKey} object
+ * thbt represents the chbnnel's registrbtion with the selector.
  *
- * <p> Once registered with a selector, a channel remains registered until it
- * is <i>deregistered</i>.  This involves deallocating whatever resources were
- * allocated to the channel by the selector.
+ * <p> Once registered with b selector, b chbnnel rembins registered until it
+ * is <i>deregistered</i>.  This involves debllocbting whbtever resources were
+ * bllocbted to the chbnnel by the selector.
  *
- * <p> A channel cannot be deregistered directly; instead, the key representing
- * its registration must be <i>cancelled</i>.  Cancelling a key requests that
- * the channel be deregistered during the selector's next selection operation.
- * A key may be cancelled explicitly by invoking its {@link
- * SelectionKey#cancel() cancel} method.  All of a channel's keys are cancelled
- * implicitly when the channel is closed, whether by invoking its {@link
- * Channel#close close} method or by interrupting a thread blocked in an I/O
- * operation upon the channel.
+ * <p> A chbnnel cbnnot be deregistered directly; instebd, the key representing
+ * its registrbtion must be <i>cbncelled</i>.  Cbncelling b key requests thbt
+ * the chbnnel be deregistered during the selector's next selection operbtion.
+ * A key mby be cbncelled explicitly by invoking its {@link
+ * SelectionKey#cbncel() cbncel} method.  All of b chbnnel's keys bre cbncelled
+ * implicitly when the chbnnel is closed, whether by invoking its {@link
+ * Chbnnel#close close} method or by interrupting b threbd blocked in bn I/O
+ * operbtion upon the chbnnel.
  *
- * <p> If the selector itself is closed then the channel will be deregistered,
- * and the key representing its registration will be invalidated, without
- * further delay.
+ * <p> If the selector itself is closed then the chbnnel will be deregistered,
+ * bnd the key representing its registrbtion will be invblidbted, without
+ * further delby.
  *
- * <p> A channel may be registered at most once with any particular selector.
+ * <p> A chbnnel mby be registered bt most once with bny pbrticulbr selector.
  *
- * <p> Whether or not a channel is registered with one or more selectors may be
+ * <p> Whether or not b chbnnel is registered with one or more selectors mby be
  * determined by invoking the {@link #isRegistered isRegistered} method.
  *
- * <p> Selectable channels are safe for use by multiple concurrent
- * threads. </p>
+ * <p> Selectbble chbnnels bre sbfe for use by multiple concurrent
+ * threbds. </p>
  *
  *
- * <a name="bm"></a>
+ * <b nbme="bm"></b>
  * <h2>Blocking mode</h2>
  *
- * A selectable channel is either in <i>blocking</i> mode or in
- * <i>non-blocking</i> mode.  In blocking mode, every I/O operation invoked
- * upon the channel will block until it completes.  In non-blocking mode an I/O
- * operation will never block and may transfer fewer bytes than were requested
- * or possibly no bytes at all.  The blocking mode of a selectable channel may
+ * A selectbble chbnnel is either in <i>blocking</i> mode or in
+ * <i>non-blocking</i> mode.  In blocking mode, every I/O operbtion invoked
+ * upon the chbnnel will block until it completes.  In non-blocking mode bn I/O
+ * operbtion will never block bnd mby trbnsfer fewer bytes thbn were requested
+ * or possibly no bytes bt bll.  The blocking mode of b selectbble chbnnel mby
  * be determined by invoking its {@link #isBlocking isBlocking} method.
  *
- * <p> Newly-created selectable channels are always in blocking mode.
- * Non-blocking mode is most useful in conjunction with selector-based
- * multiplexing.  A channel must be placed into non-blocking mode before being
- * registered with a selector, and may not be returned to blocking mode until
- * it has been deregistered.
+ * <p> Newly-crebted selectbble chbnnels bre blwbys in blocking mode.
+ * Non-blocking mode is most useful in conjunction with selector-bbsed
+ * multiplexing.  A chbnnel must be plbced into non-blocking mode before being
+ * registered with b selector, bnd mby not be returned to blocking mode until
+ * it hbs been deregistered.
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  *
  * @see SelectionKey
  * @see Selector
  */
 
-public abstract class SelectableChannel
-    extends AbstractInterruptibleChannel
-    implements Channel
+public bbstrbct clbss SelectbbleChbnnel
+    extends AbstrbctInterruptibleChbnnel
+    implements Chbnnel
 {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
-    protected SelectableChannel() { }
+    protected SelectbbleChbnnel() { }
 
     /**
-     * Returns the provider that created this channel.
+     * Returns the provider thbt crebted this chbnnel.
      *
-     * @return  The provider that created this channel
+     * @return  The provider thbt crebted this chbnnel
      */
-    public abstract SelectorProvider provider();
+    public bbstrbct SelectorProvider provider();
 
     /**
-     * Returns an <a href="SelectionKey.html#opsets">operation set</a>
-     * identifying this channel's supported operations.  The bits that are set
-     * in this integer value denote exactly the operations that are valid for
-     * this channel.  This method always returns the same value for a given
-     * concrete channel class.
+     * Returns bn <b href="SelectionKey.html#opsets">operbtion set</b>
+     * identifying this chbnnel's supported operbtions.  The bits thbt bre set
+     * in this integer vblue denote exbctly the operbtions thbt bre vblid for
+     * this chbnnel.  This method blwbys returns the sbme vblue for b given
+     * concrete chbnnel clbss.
      *
-     * @return  The valid-operation set
+     * @return  The vblid-operbtion set
      */
-    public abstract int validOps();
+    public bbstrbct int vblidOps();
 
-    // Internal state:
-    //   keySet, may be empty but is never null, typ. a tiny array
-    //   boolean isRegistered, protected by key set
-    //   regLock, lock object to prevent duplicate registrations
-    //   boolean isBlocking, protected by regLock
+    // Internbl stbte:
+    //   keySet, mby be empty but is never null, typ. b tiny brrby
+    //   boolebn isRegistered, protected by key set
+    //   regLock, lock object to prevent duplicbte registrbtions
+    //   boolebn isBlocking, protected by regLock
 
     /**
-     * Tells whether or not this channel is currently registered with any
-     * selectors.  A newly-created channel is not registered.
+     * Tells whether or not this chbnnel is currently registered with bny
+     * selectors.  A newly-crebted chbnnel is not registered.
      *
-     * <p> Due to the inherent delay between key cancellation and channel
-     * deregistration, a channel may remain registered for some time after all
-     * of its keys have been cancelled.  A channel may also remain registered
-     * for some time after it is closed.  </p>
+     * <p> Due to the inherent delby between key cbncellbtion bnd chbnnel
+     * deregistrbtion, b chbnnel mby rembin registered for some time bfter bll
+     * of its keys hbve been cbncelled.  A chbnnel mby blso rembin registered
+     * for some time bfter it is closed.  </p>
      *
-     * @return <tt>true</tt> if, and only if, this channel is registered
+     * @return <tt>true</tt> if, bnd only if, this chbnnel is registered
      */
-    public abstract boolean isRegistered();
+    public bbstrbct boolebn isRegistered();
     //
     // sync(keySet) { return isRegistered; }
 
     /**
-     * Retrieves the key representing the channel's registration with the given
+     * Retrieves the key representing the chbnnel's registrbtion with the given
      * selector.
      *
-     * @param   sel
+     * @pbrbm   sel
      *          The selector
      *
-     * @return  The key returned when this channel was last registered with the
-     *          given selector, or <tt>null</tt> if this channel is not
-     *          currently registered with that selector
+     * @return  The key returned when this chbnnel wbs lbst registered with the
+     *          given selector, or <tt>null</tt> if this chbnnel is not
+     *          currently registered with thbt selector
      */
-    public abstract SelectionKey keyFor(Selector sel);
+    public bbstrbct SelectionKey keyFor(Selector sel);
     //
     // sync(keySet) { return findKey(sel); }
 
     /**
-     * Registers this channel with the given selector, returning a selection
+     * Registers this chbnnel with the given selector, returning b selection
      * key.
      *
-     * <p> If this channel is currently registered with the given selector then
-     * the selection key representing that registration is returned.  The key's
-     * interest set will have been changed to <tt>ops</tt>, as if by invoking
+     * <p> If this chbnnel is currently registered with the given selector then
+     * the selection key representing thbt registrbtion is returned.  The key's
+     * interest set will hbve been chbnged to <tt>ops</tt>, bs if by invoking
      * the {@link SelectionKey#interestOps(int) interestOps(int)} method.  If
-     * the <tt>att</tt> argument is not <tt>null</tt> then the key's attachment
-     * will have been set to that value.  A {@link CancelledKeyException} will
-     * be thrown if the key has already been cancelled.
+     * the <tt>btt</tt> brgument is not <tt>null</tt> then the key's bttbchment
+     * will hbve been set to thbt vblue.  A {@link CbncelledKeyException} will
+     * be thrown if the key hbs blrebdy been cbncelled.
      *
-     * <p> Otherwise this channel has not yet been registered with the given
-     * selector, so it is registered and the resulting new key is returned.
-     * The key's initial interest set will be <tt>ops</tt> and its attachment
-     * will be <tt>att</tt>.
+     * <p> Otherwise this chbnnel hbs not yet been registered with the given
+     * selector, so it is registered bnd the resulting new key is returned.
+     * The key's initibl interest set will be <tt>ops</tt> bnd its bttbchment
+     * will be <tt>btt</tt>.
      *
-     * <p> This method may be invoked at any time.  If this method is invoked
-     * while another invocation of this method or of the {@link
-     * #configureBlocking(boolean) configureBlocking} method is in progress
-     * then it will first block until the other operation is complete.  This
-     * method will then synchronize on the selector's key set and therefore may
-     * block if invoked concurrently with another registration or selection
-     * operation involving the same selector. </p>
+     * <p> This method mby be invoked bt bny time.  If this method is invoked
+     * while bnother invocbtion of this method or of the {@link
+     * #configureBlocking(boolebn) configureBlocking} method is in progress
+     * then it will first block until the other operbtion is complete.  This
+     * method will then synchronize on the selector's key set bnd therefore mby
+     * block if invoked concurrently with bnother registrbtion or selection
+     * operbtion involving the sbme selector. </p>
      *
-     * <p> If this channel is closed while this operation is in progress then
-     * the key returned by this method will have been cancelled and will
-     * therefore be invalid. </p>
+     * <p> If this chbnnel is closed while this operbtion is in progress then
+     * the key returned by this method will hbve been cbncelled bnd will
+     * therefore be invblid. </p>
      *
-     * @param  sel
-     *         The selector with which this channel is to be registered
+     * @pbrbm  sel
+     *         The selector with which this chbnnel is to be registered
      *
-     * @param  ops
+     * @pbrbm  ops
      *         The interest set for the resulting key
      *
-     * @param  att
-     *         The attachment for the resulting key; may be <tt>null</tt>
+     * @pbrbm  btt
+     *         The bttbchment for the resulting key; mby be <tt>null</tt>
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  ClosedSelectorException
      *          If the selector is closed
      *
-     * @throws  IllegalBlockingModeException
-     *          If this channel is in blocking mode
+     * @throws  IllegblBlockingModeException
+     *          If this chbnnel is in blocking mode
      *
-     * @throws  IllegalSelectorException
-     *          If this channel was not created by the same provider
-     *          as the given selector
+     * @throws  IllegblSelectorException
+     *          If this chbnnel wbs not crebted by the sbme provider
+     *          bs the given selector
      *
-     * @throws  CancelledKeyException
-     *          If this channel is currently registered with the given selector
-     *          but the corresponding key has already been cancelled
+     * @throws  CbncelledKeyException
+     *          If this chbnnel is currently registered with the given selector
+     *          but the corresponding key hbs blrebdy been cbncelled
      *
-     * @throws  IllegalArgumentException
-     *          If a bit in the <tt>ops</tt> set does not correspond to an
-     *          operation that is supported by this channel, that is, if
-     *          {@code set & ~validOps() != 0}
+     * @throws  IllegblArgumentException
+     *          If b bit in the <tt>ops</tt> set does not correspond to bn
+     *          operbtion thbt is supported by this chbnnel, thbt is, if
+     *          {@code set & ~vblidOps() != 0}
      *
-     * @return  A key representing the registration of this channel with
+     * @return  A key representing the registrbtion of this chbnnel with
      *          the given selector
      */
-    public abstract SelectionKey register(Selector sel, int ops, Object att)
-        throws ClosedChannelException;
+    public bbstrbct SelectionKey register(Selector sel, int ops, Object btt)
+        throws ClosedChbnnelException;
     //
     // sync(regLock) {
     //   sync(keySet) { look for selector }
-    //   if (channel found) { set interest ops -- may block in selector;
+    //   if (chbnnel found) { set interest ops -- mby block in selector;
     //                        return key; }
-    //   create new key -- may block somewhere in selector;
-    //   sync(keySet) { add key; }
-    //   attach(attachment);
+    //   crebte new key -- mby block somewhere in selector;
+    //   sync(keySet) { bdd key; }
+    //   bttbch(bttbchment);
     //   return key;
     // }
 
     /**
-     * Registers this channel with the given selector, returning a selection
+     * Registers this chbnnel with the given selector, returning b selection
      * key.
      *
-     * <p> An invocation of this convenience method of the form
+     * <p> An invocbtion of this convenience method of the form
      *
      * <blockquote><tt>sc.register(sel, ops)</tt></blockquote>
      *
-     * behaves in exactly the same way as the invocation
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <blockquote><tt>sc.{@link
-     * #register(java.nio.channels.Selector,int,java.lang.Object)
+     * #register(jbvb.nio.chbnnels.Selector,int,jbvb.lbng.Object)
      * register}(sel, ops, null)</tt></blockquote>
      *
-     * @param  sel
-     *         The selector with which this channel is to be registered
+     * @pbrbm  sel
+     *         The selector with which this chbnnel is to be registered
      *
-     * @param  ops
+     * @pbrbm  ops
      *         The interest set for the resulting key
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  ClosedSelectorException
      *          If the selector is closed
      *
-     * @throws  IllegalBlockingModeException
-     *          If this channel is in blocking mode
+     * @throws  IllegblBlockingModeException
+     *          If this chbnnel is in blocking mode
      *
-     * @throws  IllegalSelectorException
-     *          If this channel was not created by the same provider
-     *          as the given selector
+     * @throws  IllegblSelectorException
+     *          If this chbnnel wbs not crebted by the sbme provider
+     *          bs the given selector
      *
-     * @throws  CancelledKeyException
-     *          If this channel is currently registered with the given selector
-     *          but the corresponding key has already been cancelled
+     * @throws  CbncelledKeyException
+     *          If this chbnnel is currently registered with the given selector
+     *          but the corresponding key hbs blrebdy been cbncelled
      *
-     * @throws  IllegalArgumentException
-     *          If a bit in <tt>ops</tt> does not correspond to an operation
-     *          that is supported by this channel, that is, if {@code set &
-     *          ~validOps() != 0}
+     * @throws  IllegblArgumentException
+     *          If b bit in <tt>ops</tt> does not correspond to bn operbtion
+     *          thbt is supported by this chbnnel, thbt is, if {@code set &
+     *          ~vblidOps() != 0}
      *
-     * @return  A key representing the registration of this channel with
+     * @return  A key representing the registrbtion of this chbnnel with
      *          the given selector
      */
-    public final SelectionKey register(Selector sel, int ops)
-        throws ClosedChannelException
+    public finbl SelectionKey register(Selector sel, int ops)
+        throws ClosedChbnnelException
     {
         return register(sel, ops, null);
     }
 
     /**
-     * Adjusts this channel's blocking mode.
+     * Adjusts this chbnnel's blocking mode.
      *
-     * <p> If this channel is registered with one or more selectors then an
-     * attempt to place it into blocking mode will cause an {@link
-     * IllegalBlockingModeException} to be thrown.
+     * <p> If this chbnnel is registered with one or more selectors then bn
+     * bttempt to plbce it into blocking mode will cbuse bn {@link
+     * IllegblBlockingModeException} to be thrown.
      *
-     * <p> This method may be invoked at any time.  The new blocking mode will
-     * only affect I/O operations that are initiated after this method returns.
-     * For some implementations this may require blocking until all pending I/O
-     * operations are complete.
+     * <p> This method mby be invoked bt bny time.  The new blocking mode will
+     * only bffect I/O operbtions thbt bre initibted bfter this method returns.
+     * For some implementbtions this mby require blocking until bll pending I/O
+     * operbtions bre complete.
      *
-     * <p> If this method is invoked while another invocation of this method or
+     * <p> If this method is invoked while bnother invocbtion of this method or
      * of the {@link #register(Selector, int) register} method is in progress
-     * then it will first block until the other operation is complete. </p>
+     * then it will first block until the other operbtion is complete. </p>
      *
-     * @param  block  If <tt>true</tt> then this channel will be placed in
-     *                blocking mode; if <tt>false</tt> then it will be placed
+     * @pbrbm  block  If <tt>true</tt> then this chbnnel will be plbced in
+     *                blocking mode; if <tt>fblse</tt> then it will be plbced
      *                non-blocking mode
      *
-     * @return  This selectable channel
+     * @return  This selectbble chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
-     * @throws  IllegalBlockingModeException
-     *          If <tt>block</tt> is <tt>true</tt> and this channel is
+     * @throws  IllegblBlockingModeException
+     *          If <tt>block</tt> is <tt>true</tt> bnd this chbnnel is
      *          registered with one or more selectors
      *
      * @throws IOException
-     *         If an I/O error occurs
+     *         If bn I/O error occurs
      */
-    public abstract SelectableChannel configureBlocking(boolean block)
+    public bbstrbct SelectbbleChbnnel configureBlocking(boolebn block)
         throws IOException;
     //
     // sync(regLock) {
     //   sync(keySet) { throw IBME if block && isRegistered; }
-    //   change mode;
+    //   chbnge mode;
     // }
 
     /**
-     * Tells whether or not every I/O operation on this channel will block
-     * until it completes.  A newly-created channel is always in blocking mode.
+     * Tells whether or not every I/O operbtion on this chbnnel will block
+     * until it completes.  A newly-crebted chbnnel is blwbys in blocking mode.
      *
-     * <p> If this channel is closed then the value returned by this method is
+     * <p> If this chbnnel is closed then the vblue returned by this method is
      * not specified. </p>
      *
-     * @return <tt>true</tt> if, and only if, this channel is in blocking mode
+     * @return <tt>true</tt> if, bnd only if, this chbnnel is in blocking mode
      */
-    public abstract boolean isBlocking();
+    public bbstrbct boolebn isBlocking();
 
     /**
      * Retrieves the object upon which the {@link #configureBlocking
-     * configureBlocking} and {@link #register register} methods synchronize.
-     * This is often useful in the implementation of adaptors that require a
-     * specific blocking mode to be maintained for a short period of time.
+     * configureBlocking} bnd {@link #register register} methods synchronize.
+     * This is often useful in the implementbtion of bdbptors thbt require b
+     * specific blocking mode to be mbintbined for b short period of time.
      *
      * @return  The blocking-mode lock object
      */
-    public abstract Object blockingLock();
+    public bbstrbct Object blockingLock();
 
 }

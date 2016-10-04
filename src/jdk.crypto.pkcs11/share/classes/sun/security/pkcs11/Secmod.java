@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.KeyStore.*;
-import java.security.cert.X509Certificate;
+import jbvb.security.*;
+import jbvb.security.KeyStore.*;
+import jbvb.security.cert.X509Certificbte;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 
 /**
- * The Secmod class defines the interface to the native NSS
- * library and the configuration information it stores in its
+ * The Secmod clbss defines the interfbce to the nbtive NSS
+ * librbry bnd the configurbtion informbtion it stores in its
  * secmod.db file.
  *
- * <p>Example code:
+ * <p>Exbmple code:
  * <pre>
- *   Secmod secmod = Secmod.getInstance();
- *   if (secmod.isInitialized() == false) {
- *       secmod.initialize("/home/myself/.mozilla", "/usr/sfw/lib/mozilla");
+ *   Secmod secmod = Secmod.getInstbnce();
+ *   if (secmod.isInitiblized() == fblse) {
+ *       secmod.initiblize("/home/myself/.mozillb", "/usr/sfw/lib/mozillb");
  *   }
  *
  *   Provider p = secmod.getModule(ModuleType.KEYSTORE).getProvider();
- *   KeyStore ks = KeyStore.getInstance("PKCS11", p);
- *   ks.load(null, password);
+ *   KeyStore ks = KeyStore.getInstbnce("PKCS11", p);
+ *   ks.lobd(null, pbssword);
  * </pre>
  *
  * @since   1.6
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class Secmod {
+public finbl clbss Secmod {
 
-    private final static boolean DEBUG = false;
+    privbte finbl stbtic boolebn DEBUG = fblse;
 
-    private final static Secmod INSTANCE;
+    privbte finbl stbtic Secmod INSTANCE;
 
-    static {
-        sun.security.pkcs11.wrapper.PKCS11.loadNative();
+    stbtic {
+        sun.security.pkcs11.wrbpper.PKCS11.lobdNbtive();
         INSTANCE = new Secmod();
     }
 
-    private final static String NSS_LIB_NAME = "nss3";
+    privbte finbl stbtic String NSS_LIB_NAME = "nss3";
 
-    private final static String SOFTTOKEN_LIB_NAME = "softokn3";
+    privbte finbl stbtic String SOFTTOKEN_LIB_NAME = "softokn3";
 
-    private final static String TRUST_LIB_NAME = "nssckbi";
+    privbte finbl stbtic String TRUST_LIB_NAME = "nssckbi";
 
-    // handle to be passed to the native code, 0 means not initialized
-    private long nssHandle;
+    // hbndle to be pbssed to the nbtive code, 0 mebns not initiblized
+    privbte long nssHbndle;
 
-    // whether this is a supported version of NSS
-    private boolean supported;
+    // whether this is b supported version of NSS
+    privbte boolebn supported;
 
     // list of the modules
-    private List<Module> modules;
+    privbte List<Module> modules;
 
-    private String configDir;
+    privbte String configDir;
 
-    private String nssLibDir;
+    privbte String nssLibDir;
 
-    private Secmod() {
+    privbte Secmod() {
         // empty
     }
 
     /**
-     * Return the singleton Secmod instance.
+     * Return the singleton Secmod instbnce.
      */
-    public static Secmod getInstance() {
+    public stbtic Secmod getInstbnce() {
         return INSTANCE;
     }
 
-    private boolean isLoaded() {
-        if (nssHandle == 0) {
-            nssHandle = nssGetLibraryHandle(System.mapLibraryName(NSS_LIB_NAME));
-            if (nssHandle != 0) {
+    privbte boolebn isLobded() {
+        if (nssHbndle == 0) {
+            nssHbndle = nssGetLibrbryHbndle(System.mbpLibrbryNbme(NSS_LIB_NAME));
+            if (nssHbndle != 0) {
                 fetchVersions();
             }
         }
-        return (nssHandle != 0);
+        return (nssHbndle != 0);
     }
 
-    private void fetchVersions() {
-        supported = nssVersionCheck(nssHandle, "3.7");
+    privbte void fetchVersions() {
+        supported = nssVersionCheck(nssHbndle, "3.7");
     }
 
     /**
-     * Test whether this Secmod has been initialized. Returns true
-     * if NSS has been initialized using either the initialize() method
-     * or by directly calling the native NSS APIs. The latter may be
-     * the case if the current process contains components that use
+     * Test whether this Secmod hbs been initiblized. Returns true
+     * if NSS hbs been initiblized using either the initiblize() method
+     * or by directly cblling the nbtive NSS APIs. The lbtter mby be
+     * the cbse if the current process contbins components thbt use
      * NSS directly.
      *
-     * @throws IOException if an incompatible version of NSS
-     *   has been loaded
+     * @throws IOException if bn incompbtible version of NSS
+     *   hbs been lobded
      */
-    public synchronized boolean isInitialized() throws IOException {
-        // NSS does not allow us to check if it is initialized already
-        // assume that if it is loaded it is also initialized
-        if (isLoaded() == false) {
-            return false;
+    public synchronized boolebn isInitiblized() throws IOException {
+        // NSS does not bllow us to check if it is initiblized blrebdy
+        // bssume thbt if it is lobded it is blso initiblized
+        if (isLobded() == fblse) {
+            return fblse;
         }
-        if (supported == false) {
+        if (supported == fblse) {
             throw new IOException
-                ("An incompatible version of NSS is already loaded, "
-                + "3.7 or later required");
+                ("An incompbtible version of NSS is blrebdy lobded, "
+                + "3.7 or lbter required");
         }
         return true;
     }
@@ -144,33 +144,33 @@ public final class Secmod {
     }
 
     /**
-     * Initialize this Secmod.
+     * Initiblize this Secmod.
      *
-     * @param configDir the directory containing the NSS configuration
-     *   files such as secmod.db
-     * @param nssLibDir the directory containing the NSS libraries
-     *   (libnss3.so or nss3.dll) or null if the library is on
-     *   the system default shared library path
+     * @pbrbm configDir the directory contbining the NSS configurbtion
+     *   files such bs secmod.db
+     * @pbrbm nssLibDir the directory contbining the NSS librbries
+     *   (libnss3.so or nss3.dll) or null if the librbry is on
+     *   the system defbult shbred librbry pbth
      *
-     * @throws IOException if NSS has already been initialized,
-     *   the specified directories are invalid, or initialization
-     *   fails for any other reason
+     * @throws IOException if NSS hbs blrebdy been initiblized,
+     *   the specified directories bre invblid, or initiblizbtion
+     *   fbils for bny other rebson
      */
-    public void initialize(String configDir, String nssLibDir)
+    public void initiblize(String configDir, String nssLibDir)
             throws IOException {
-        initialize(DbMode.READ_WRITE, configDir, nssLibDir, false);
+        initiblize(DbMode.READ_WRITE, configDir, nssLibDir, fblse);
     }
 
-    public void initialize(DbMode dbMode, String configDir, String nssLibDir)
+    public void initiblize(DbMode dbMode, String configDir, String nssLibDir)
             throws IOException {
-        initialize(dbMode, configDir, nssLibDir, false);
+        initiblize(dbMode, configDir, nssLibDir, fblse);
     }
 
-    public synchronized void initialize(DbMode dbMode, String configDir,
-        String nssLibDir, boolean nssOptimizeSpace) throws IOException {
+    public synchronized void initiblize(DbMode dbMode, String configDir,
+        String nssLibDir, boolebn nssOptimizeSpbce) throws IOException {
 
-        if (isInitialized()) {
-            throw new IOException("NSS is already initialized");
+        if (isInitiblized()) {
+            throw new IOException("NSS is blrebdy initiblized");
         }
 
         if (dbMode == null) {
@@ -179,49 +179,49 @@ public final class Secmod {
         if ((dbMode != DbMode.NO_DB) && (configDir == null)) {
             throw new NullPointerException();
         }
-        String platformLibName = System.mapLibraryName("nss3");
-        String platformPath;
+        String plbtformLibNbme = System.mbpLibrbryNbme("nss3");
+        String plbtformPbth;
         if (nssLibDir == null) {
-            platformPath = platformLibName;
+            plbtformPbth = plbtformLibNbme;
         } else {
-            File base = new File(nssLibDir);
-            if (base.isDirectory() == false) {
-                throw new IOException("nssLibDir must be a directory:" + nssLibDir);
+            File bbse = new File(nssLibDir);
+            if (bbse.isDirectory() == fblse) {
+                throw new IOException("nssLibDir must be b directory:" + nssLibDir);
             }
-            File platformFile = new File(base, platformLibName);
-            if (platformFile.isFile() == false) {
-                throw new FileNotFoundException(platformFile.getPath());
+            File plbtformFile = new File(bbse, plbtformLibNbme);
+            if (plbtformFile.isFile() == fblse) {
+                throw new FileNotFoundException(plbtformFile.getPbth());
             }
-            platformPath = platformFile.getPath();
+            plbtformPbth = plbtformFile.getPbth();
         }
 
         if (configDir != null) {
-            File configBase = new File(configDir);
-            if (configBase.isDirectory() == false ) {
-                throw new IOException("configDir must be a directory: " + configDir);
+            File configBbse = new File(configDir);
+            if (configBbse.isDirectory() == fblse ) {
+                throw new IOException("configDir must be b directory: " + configDir);
             }
-            File secmodFile = new File(configBase, "secmod.db");
-            if (secmodFile.isFile() == false) {
-                throw new FileNotFoundException(secmodFile.getPath());
+            File secmodFile = new File(configBbse, "secmod.db");
+            if (secmodFile.isFile() == fblse) {
+                throw new FileNotFoundException(secmodFile.getPbth());
             }
         }
 
-        if (DEBUG) System.out.println("lib: " + platformPath);
-        nssHandle = nssLoadLibrary(platformPath);
-        if (DEBUG) System.out.println("handle: " + nssHandle);
+        if (DEBUG) System.out.println("lib: " + plbtformPbth);
+        nssHbndle = nssLobdLibrbry(plbtformPbth);
+        if (DEBUG) System.out.println("hbndle: " + nssHbndle);
         fetchVersions();
-        if (supported == false) {
+        if (supported == fblse) {
             throw new IOException
-                ("The specified version of NSS is incompatible, "
-                + "3.7 or later required");
+                ("The specified version of NSS is incompbtible, "
+                + "3.7 or lbter required");
         }
 
         if (DEBUG) System.out.println("dir: " + configDir);
-        boolean initok = nssInitialize(dbMode.functionName, nssHandle,
-            configDir, nssOptimizeSpace);
+        boolebn initok = nssInitiblize(dbMode.functionNbme, nssHbndle,
+            configDir, nssOptimizeSpbce);
         if (DEBUG) System.out.println("init: " + initok);
-        if (initok == false) {
-            throw new IOException("NSS initialization failed");
+        if (initok == fblse) {
+            throw new IOException("NSS initiblizbtion fbiled");
         }
 
         this.configDir = configDir;
@@ -229,91 +229,91 @@ public final class Secmod {
     }
 
     /**
-     * Return an immutable list of all available modules.
+     * Return bn immutbble list of bll bvbilbble modules.
      *
-     * @throws IllegalStateException if this Secmod is misconfigured
-     *   or not initialized
+     * @throws IllegblStbteException if this Secmod is misconfigured
+     *   or not initiblized
      */
     public synchronized List<Module> getModules() {
         try {
-            if (isInitialized() == false) {
-                throw new IllegalStateException("NSS not initialized");
+            if (isInitiblized() == fblse) {
+                throw new IllegblStbteException("NSS not initiblized");
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             // IOException if misconfigured
-            throw new IllegalStateException(e);
+            throw new IllegblStbteException(e);
         }
         if (modules == null) {
-            @SuppressWarnings("unchecked")
-            List<Module> modules = (List<Module>)nssGetModuleList(nssHandle,
+            @SuppressWbrnings("unchecked")
+            List<Module> modules = (List<Module>)nssGetModuleList(nssHbndle,
                 nssLibDir);
-            this.modules = Collections.unmodifiableList(modules);
+            this.modules = Collections.unmodifibbleList(modules);
         }
         return modules;
     }
 
-    private static byte[] getDigest(X509Certificate cert, String algorithm) {
+    privbte stbtic byte[] getDigest(X509Certificbte cert, String blgorithm) {
         try {
-            MessageDigest md = MessageDigest.getInstance(algorithm);
+            MessbgeDigest md = MessbgeDigest.getInstbnce(blgorithm);
             return md.digest(cert.getEncoded());
-        } catch (GeneralSecurityException e) {
+        } cbtch (GenerblSecurityException e) {
             throw new ProviderException(e);
         }
     }
 
-    boolean isTrusted(X509Certificate cert, TrustType trustType) {
+    boolebn isTrusted(X509Certificbte cert, TrustType trustType) {
         Bytes bytes = new Bytes(getDigest(cert, "SHA-1"));
-        TrustAttributes attr = getModuleTrust(ModuleType.KEYSTORE, bytes);
-        if (attr == null) {
-            attr = getModuleTrust(ModuleType.FIPS, bytes);
-            if (attr == null) {
-                attr = getModuleTrust(ModuleType.TRUSTANCHOR, bytes);
+        TrustAttributes bttr = getModuleTrust(ModuleType.KEYSTORE, bytes);
+        if (bttr == null) {
+            bttr = getModuleTrust(ModuleType.FIPS, bytes);
+            if (bttr == null) {
+                bttr = getModuleTrust(ModuleType.TRUSTANCHOR, bytes);
             }
         }
-        return (attr == null) ? false : attr.isTrusted(trustType);
+        return (bttr == null) ? fblse : bttr.isTrusted(trustType);
     }
 
-    private TrustAttributes getModuleTrust(ModuleType type, Bytes bytes) {
+    privbte TrustAttributes getModuleTrust(ModuleType type, Bytes bytes) {
         Module module = getModule(type);
         TrustAttributes t = (module == null) ? null : module.getTrust(bytes);
         return t;
     }
 
     /**
-     * Constants describing the different types of NSS modules.
-     * For this API, NSS modules are classified as either one
-     * of the internal modules delivered as part of NSS or
-     * as an external module provided by a 3rd party.
+     * Constbnts describing the different types of NSS modules.
+     * For this API, NSS modules bre clbssified bs either one
+     * of the internbl modules delivered bs pbrt of NSS or
+     * bs bn externbl module provided by b 3rd pbrty.
      */
-    public static enum ModuleType {
+    public stbtic enum ModuleType {
         /**
          * The NSS Softtoken crypto module. This is the first
          * slot of the softtoken object.
          * This module provides
-         * implementations for cryptographic algorithms but no KeyStore.
+         * implementbtions for cryptogrbphic blgorithms but no KeyStore.
          */
         CRYPTO,
         /**
          * The NSS Softtoken KeyStore module. This is the second
          * slot of the softtoken object.
          * This module provides
-         * implementations for cryptographic algorithms (after login)
-         * and the KeyStore.
+         * implementbtions for cryptogrbphic blgorithms (bfter login)
+         * bnd the KeyStore.
          */
         KEYSTORE,
         /**
-         * The NSS Softtoken module in FIPS mode. Note that in FIPS mode the
-         * softtoken presents only one slot, not separate CRYPTO and KEYSTORE
-         * slots as in non-FIPS mode.
+         * The NSS Softtoken module in FIPS mode. Note thbt in FIPS mode the
+         * softtoken presents only one slot, not sepbrbte CRYPTO bnd KEYSTORE
+         * slots bs in non-FIPS mode.
          */
         FIPS,
         /**
-         * The NSS builtin trust anchor module. This is the
+         * The NSS builtin trust bnchor module. This is the
          * NSSCKBI object. It provides no crypto functions.
          */
         TRUSTANCHOR,
         /**
-         * An external module.
+         * An externbl module.
          */
         EXTERNAL,
     }
@@ -322,8 +322,8 @@ public final class Secmod {
      * Returns the first module of the specified type. If no such
      * module exists, this method returns null.
      *
-     * @throws IllegalStateException if this Secmod is misconfigured
-     *   or not initialized
+     * @throws IllegblStbteException if this Secmod is misconfigured
+     *   or not initiblized
      */
     public Module getModule(ModuleType type) {
         for (Module module : getModules()) {
@@ -334,61 +334,61 @@ public final class Secmod {
         return null;
     }
 
-    static final String TEMPLATE_EXTERNAL =
-        "library = %s\n"
-        + "name = \"%s\"\n"
+    stbtic finbl String TEMPLATE_EXTERNAL =
+        "librbry = %s\n"
+        + "nbme = \"%s\"\n"
         + "slotListIndex = %d\n";
 
-    static final String TEMPLATE_TRUSTANCHOR =
-        "library = %s\n"
-        + "name = \"NSS Trust Anchors\"\n"
+    stbtic finbl String TEMPLATE_TRUSTANCHOR =
+        "librbry = %s\n"
+        + "nbme = \"NSS Trust Anchors\"\n"
         + "slotListIndex = 0\n"
-        + "enabledMechanisms = { KeyStore }\n"
+        + "enbbledMechbnisms = { KeyStore }\n"
         + "nssUseSecmodTrust = true\n";
 
-    static final String TEMPLATE_CRYPTO =
-        "library = %s\n"
-        + "name = \"NSS SoftToken Crypto\"\n"
+    stbtic finbl String TEMPLATE_CRYPTO =
+        "librbry = %s\n"
+        + "nbme = \"NSS SoftToken Crypto\"\n"
         + "slotListIndex = 0\n"
-        + "disabledMechanisms = { KeyStore }\n";
+        + "disbbledMechbnisms = { KeyStore }\n";
 
-    static final String TEMPLATE_KEYSTORE =
-        "library = %s\n"
-        + "name = \"NSS SoftToken KeyStore\"\n"
+    stbtic finbl String TEMPLATE_KEYSTORE =
+        "librbry = %s\n"
+        + "nbme = \"NSS SoftToken KeyStore\"\n"
         + "slotListIndex = 1\n"
         + "nssUseSecmodTrust = true\n";
 
-    static final String TEMPLATE_FIPS =
-        "library = %s\n"
-        + "name = \"NSS FIPS SoftToken\"\n"
+    stbtic finbl String TEMPLATE_FIPS =
+        "librbry = %s\n"
+        + "nbme = \"NSS FIPS SoftToken\"\n"
         + "slotListIndex = 0\n"
         + "nssUseSecmodTrust = true\n";
 
     /**
-     * A representation of one PKCS#11 slot in a PKCS#11 module.
+     * A representbtion of one PKCS#11 slot in b PKCS#11 module.
      */
-    public static final class Module {
-        // path of the native library
-        final String libraryName;
-        // descriptive name used by NSS
-        final String commonName;
-        final int slot;
-        final ModuleType type;
+    public stbtic finbl clbss Module {
+        // pbth of the nbtive librbry
+        finbl String librbryNbme;
+        // descriptive nbme used by NSS
+        finbl String commonNbme;
+        finbl int slot;
+        finbl ModuleType type;
 
-        private String config;
-        private SunPKCS11 provider;
+        privbte String config;
+        privbte SunPKCS11 provider;
 
-        // trust attributes. Used for the KEYSTORE and TRUSTANCHOR modules only
-        private Map<Bytes,TrustAttributes> trust;
+        // trust bttributes. Used for the KEYSTORE bnd TRUSTANCHOR modules only
+        privbte Mbp<Bytes,TrustAttributes> trust;
 
-        Module(String libraryDir, String libraryName, String commonName,
-                boolean fips, int slot) {
+        Module(String librbryDir, String librbryNbme, String commonNbme,
+                boolebn fips, int slot) {
             ModuleType type;
 
-            if ((libraryName == null) || (libraryName.length() == 0)) {
+            if ((librbryNbme == null) || (librbryNbme.length() == 0)) {
                 // must be softtoken
-                libraryName = System.mapLibraryName(SOFTTOKEN_LIB_NAME);
-                if (fips == false) {
+                librbryNbme = System.mbpLibrbryNbme(SOFTTOKEN_LIB_NAME);
+                if (fips == fblse) {
                     type = (slot == 0) ? ModuleType.CRYPTO : ModuleType.KEYSTORE;
                 } else {
                     type = ModuleType.FIPS;
@@ -398,87 +398,87 @@ public final class Secmod {
                     }
                 }
             } else {
-                if (libraryName.endsWith(System.mapLibraryName(TRUST_LIB_NAME))
-                        || commonName.equals("Builtin Roots Module")) {
+                if (librbryNbme.endsWith(System.mbpLibrbryNbme(TRUST_LIB_NAME))
+                        || commonNbme.equbls("Builtin Roots Module")) {
                     type = ModuleType.TRUSTANCHOR;
                 } else {
                     type = ModuleType.EXTERNAL;
                 }
                 if (fips) {
-                    throw new RuntimeException("FIPS flag set for non-internal "
-                        + "module: " + libraryName + ", " + commonName);
+                    throw new RuntimeException("FIPS flbg set for non-internbl "
+                        + "module: " + librbryNbme + ", " + commonNbme);
                 }
             }
-            // On Ubuntu the libsoftokn3 library is located in a subdirectory
-            // of the system libraries directory. (Since Ubuntu 11.04.)
-            File libraryFile = new File(libraryDir, libraryName);
-            if (!libraryFile.isFile()) {
-               File failover = new File(libraryDir, "nss/" + libraryName);
-               if (failover.isFile()) {
-                   libraryFile = failover;
+            // On Ubuntu the libsoftokn3 librbry is locbted in b subdirectory
+            // of the system librbries directory. (Since Ubuntu 11.04.)
+            File librbryFile = new File(librbryDir, librbryNbme);
+            if (!librbryFile.isFile()) {
+               File fbilover = new File(librbryDir, "nss/" + librbryNbme);
+               if (fbilover.isFile()) {
+                   librbryFile = fbilover;
                }
             }
-            this.libraryName = libraryFile.getPath();
-            this.commonName = commonName;
+            this.librbryNbme = librbryFile.getPbth();
+            this.commonNbme = commonNbme;
             this.slot = slot;
             this.type = type;
-            initConfiguration();
+            initConfigurbtion();
         }
 
-        private void initConfiguration() {
+        privbte void initConfigurbtion() {
             switch (type) {
-            case EXTERNAL:
-                config = String.format(TEMPLATE_EXTERNAL, libraryName,
-                                            commonName + " " + slot, slot);
-                break;
-            case CRYPTO:
-                config = String.format(TEMPLATE_CRYPTO, libraryName);
-                break;
-            case KEYSTORE:
-                config = String.format(TEMPLATE_KEYSTORE, libraryName);
-                break;
-            case FIPS:
-                config = String.format(TEMPLATE_FIPS, libraryName);
-                break;
-            case TRUSTANCHOR:
-                config = String.format(TEMPLATE_TRUSTANCHOR, libraryName);
-                break;
-            default:
+            cbse EXTERNAL:
+                config = String.formbt(TEMPLATE_EXTERNAL, librbryNbme,
+                                            commonNbme + " " + slot, slot);
+                brebk;
+            cbse CRYPTO:
+                config = String.formbt(TEMPLATE_CRYPTO, librbryNbme);
+                brebk;
+            cbse KEYSTORE:
+                config = String.formbt(TEMPLATE_KEYSTORE, librbryNbme);
+                brebk;
+            cbse FIPS:
+                config = String.formbt(TEMPLATE_FIPS, librbryNbme);
+                brebk;
+            cbse TRUSTANCHOR:
+                config = String.formbt(TEMPLATE_TRUSTANCHOR, librbryNbme);
+                brebk;
+            defbult:
                 throw new RuntimeException("Unknown module type: " + type);
             }
         }
 
         /**
-         * Get the configuration for this module. This is a string
-         * in the SunPKCS11 configuration format. It can be
-         * customized with additional options and then made
-         * current using the setConfiguration() method.
+         * Get the configurbtion for this module. This is b string
+         * in the SunPKCS11 configurbtion formbt. It cbn be
+         * customized with bdditionbl options bnd then mbde
+         * current using the setConfigurbtion() method.
          */
-        @Deprecated
-        public synchronized String getConfiguration() {
+        @Deprecbted
+        public synchronized String getConfigurbtion() {
             return config;
         }
 
         /**
-         * Set the configuration for this module.
+         * Set the configurbtion for this module.
          *
-         * @throws IllegalStateException if the associated provider
-         *   instance has already been created.
+         * @throws IllegblStbteException if the bssocibted provider
+         *   instbnce hbs blrebdy been crebted.
          */
-        @Deprecated
-        public synchronized void setConfiguration(String config) {
+        @Deprecbted
+        public synchronized void setConfigurbtion(String config) {
             if (provider != null) {
-                throw new IllegalStateException("Provider instance already created");
+                throw new IllegblStbteException("Provider instbnce blrebdy crebted");
             }
             this.config = config;
         }
 
         /**
-         * Return the pathname of the native library that implements
-         * this module. For example, /usr/lib/libpkcs11.so.
+         * Return the pbthnbme of the nbtive librbry thbt implements
+         * this module. For exbmple, /usr/lib/libpkcs11.so.
          */
-        public String getLibraryName() {
-            return libraryName;
+        public String getLibrbryNbme() {
+            return librbryNbme;
         }
 
         /**
@@ -489,11 +489,11 @@ public final class Secmod {
         }
 
         /**
-         * Returns the provider instance that is associated with this
-         * module. The first call to this method creates the provider
-         * instance.
+         * Returns the provider instbnce thbt is bssocibted with this
+         * module. The first cbll to this method crebtes the provider
+         * instbnce.
          */
-        @Deprecated
+        @Deprecbted
         public synchronized Provider getProvider() {
             if (provider == null) {
                 provider = newProvider();
@@ -501,51 +501,51 @@ public final class Secmod {
             return provider;
         }
 
-        synchronized boolean hasInitializedProvider() {
+        synchronized boolebn hbsInitiblizedProvider() {
             return provider != null;
         }
 
         void setProvider(SunPKCS11 p) {
             if (provider != null) {
-                throw new ProviderException("Secmod provider already initialized");
+                throw new ProviderException("Secmod provider blrebdy initiblized");
             }
             provider = p;
         }
 
-        private SunPKCS11 newProvider() {
+        privbte SunPKCS11 newProvider() {
             try {
-                InputStream in = new ByteArrayInputStream(config.getBytes("UTF8"));
+                InputStrebm in = new ByteArrbyInputStrebm(config.getBytes("UTF8"));
                 return new SunPKCS11(in);
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 // XXX
                 throw new ProviderException(e);
             }
         }
 
-        synchronized void setTrust(Token token, X509Certificate cert) {
+        synchronized void setTrust(Token token, X509Certificbte cert) {
             Bytes bytes = new Bytes(getDigest(cert, "SHA-1"));
-            TrustAttributes attr = getTrust(bytes);
-            if (attr == null) {
-                attr = new TrustAttributes(token, cert, bytes, CKT_NETSCAPE_TRUSTED_DELEGATOR);
-                trust.put(bytes, attr);
+            TrustAttributes bttr = getTrust(bytes);
+            if (bttr == null) {
+                bttr = new TrustAttributes(token, cert, bytes, CKT_NETSCAPE_TRUSTED_DELEGATOR);
+                trust.put(bytes, bttr);
             } else {
-                // does it already have the correct trust settings?
-                if (attr.isTrusted(TrustType.ALL) == false) {
+                // does it blrebdy hbve the correct trust settings?
+                if (bttr.isTrusted(TrustType.ALL) == fblse) {
                     // XXX not yet implemented
-                    throw new ProviderException("Cannot change existing trust attributes");
+                    throw new ProviderException("Cbnnot chbnge existing trust bttributes");
                 }
             }
         }
 
-        TrustAttributes getTrust(Bytes hash) {
+        TrustAttributes getTrust(Bytes hbsh) {
             if (trust == null) {
-                // If provider is not set, create a temporary provider to
-                // retrieve the trust information. This can happen if we need
-                // to get the trust information for the trustanchor module
-                // because we need to look for user customized settings in the
-                // keystore module (which may not have a provider created yet).
-                // Creating a temporary provider and then dropping it on the
-                // floor immediately is flawed, but it's the best we can do
+                // If provider is not set, crebte b temporbry provider to
+                // retrieve the trust informbtion. This cbn hbppen if we need
+                // to get the trust informbtion for the trustbnchor module
+                // becbuse we need to look for user customized settings in the
+                // keystore module (which mby not hbve b provider crebted yet).
+                // Crebting b temporbry provider bnd then dropping it on the
+                // floor immedibtely is flbwed, but it's the best we cbn do
                 // for now.
                 synchronized (this) {
                     SunPKCS11 p = provider;
@@ -554,70 +554,70 @@ public final class Secmod {
                     }
                     try {
                         trust = Secmod.getTrust(p);
-                    } catch (PKCS11Exception e) {
+                    } cbtch (PKCS11Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
-            return trust.get(hash);
+            return trust.get(hbsh);
         }
 
         public String toString() {
             return
-            commonName + " (" + type + ", " + libraryName + ", slot " + slot + ")";
+            commonNbme + " (" + type + ", " + librbryNbme + ", slot " + slot + ")";
         }
 
     }
 
     /**
-     * Constants representing NSS trust categories.
+     * Constbnts representing NSS trust cbtegories.
      */
-    public static enum TrustType {
-        /** Trusted for all purposes */
+    public stbtic enum TrustType {
+        /** Trusted for bll purposes */
         ALL,
-        /** Trusted for SSL client authentication */
+        /** Trusted for SSL client buthenticbtion */
         CLIENT_AUTH,
-        /** Trusted for SSL server authentication */
+        /** Trusted for SSL server buthenticbtion */
         SERVER_AUTH,
         /** Trusted for code signing */
         CODE_SIGNING,
-        /** Trusted for email protection */
+        /** Trusted for embil protection */
         EMAIL_PROTECTION,
     }
 
-    public static enum DbMode {
-        READ_WRITE("NSS_InitReadWrite"),
+    public stbtic enum DbMode {
+        READ_WRITE("NSS_InitRebdWrite"),
         READ_ONLY ("NSS_Init"),
         NO_DB     ("NSS_NoDB_Init");
 
-        final String functionName;
-        DbMode(String functionName) {
-            this.functionName = functionName;
+        finbl String functionNbme;
+        DbMode(String functionNbme) {
+            this.functionNbme = functionNbme;
         }
     }
 
     /**
-     * A LoadStoreParameter for use with the NSS Softtoken or
+     * A LobdStorePbrbmeter for use with the NSS Softtoken or
      * NSS TrustAnchor KeyStores.
      * <p>
-     * It allows the set of trusted certificates that are returned by
+     * It bllows the set of trusted certificbtes thbt bre returned by
      * the KeyStore to be specified.
      */
-    public static final class KeyStoreLoadParameter implements LoadStoreParameter {
-        final TrustType trustType;
-        final ProtectionParameter protection;
-        public KeyStoreLoadParameter(TrustType trustType, char[] password) {
-            this(trustType, new PasswordProtection(password));
+    public stbtic finbl clbss KeyStoreLobdPbrbmeter implements LobdStorePbrbmeter {
+        finbl TrustType trustType;
+        finbl ProtectionPbrbmeter protection;
+        public KeyStoreLobdPbrbmeter(TrustType trustType, chbr[] pbssword) {
+            this(trustType, new PbsswordProtection(pbssword));
 
         }
-        public KeyStoreLoadParameter(TrustType trustType, ProtectionParameter prot) {
+        public KeyStoreLobdPbrbmeter(TrustType trustType, ProtectionPbrbmeter prot) {
             if (trustType == null) {
                 throw new NullPointerException("trustType must not be null");
             }
             this.trustType = trustType;
             this.protection = prot;
         }
-        public ProtectionParameter getProtectionParameter() {
+        public ProtectionPbrbmeter getProtectionPbrbmeter() {
             return protection;
         }
         public TrustType getTrustType() {
@@ -625,158 +625,158 @@ public final class Secmod {
         }
     }
 
-    static class TrustAttributes {
-        final long handle;
-        final long clientAuth, serverAuth, codeSigning, emailProtection;
-        final byte[] shaHash;
-        TrustAttributes(Token token, X509Certificate cert, Bytes bytes, long trustValue) {
+    stbtic clbss TrustAttributes {
+        finbl long hbndle;
+        finbl long clientAuth, serverAuth, codeSigning, embilProtection;
+        finbl byte[] shbHbsh;
+        TrustAttributes(Token token, X509Certificbte cert, Bytes bytes, long trustVblue) {
             Session session = null;
             try {
                 session = token.getOpSession();
                 // XXX use KeyStore TrustType settings to determine which
-                // attributes to set
-                CK_ATTRIBUTE[] attrs = new CK_ATTRIBUTE[] {
+                // bttributes to set
+                CK_ATTRIBUTE[] bttrs = new CK_ATTRIBUTE[] {
                     new CK_ATTRIBUTE(CKA_TOKEN, true),
                     new CK_ATTRIBUTE(CKA_CLASS, CKO_NETSCAPE_TRUST),
-                    new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_SERVER_AUTH, trustValue),
-                    new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CODE_SIGNING, trustValue),
-                    new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_EMAIL_PROTECTION, trustValue),
-                    new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CLIENT_AUTH, trustValue),
+                    new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_SERVER_AUTH, trustVblue),
+                    new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CODE_SIGNING, trustVblue),
+                    new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_EMAIL_PROTECTION, trustVblue),
+                    new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CLIENT_AUTH, trustVblue),
                     new CK_ATTRIBUTE(CKA_NETSCAPE_CERT_SHA1_HASH, bytes.b),
                     new CK_ATTRIBUTE(CKA_NETSCAPE_CERT_MD5_HASH, getDigest(cert, "MD5")),
-                    new CK_ATTRIBUTE(CKA_ISSUER, cert.getIssuerX500Principal().getEncoded()),
-                    new CK_ATTRIBUTE(CKA_SERIAL_NUMBER, cert.getSerialNumber().toByteArray()),
-                    // XXX per PKCS#11 spec, the serial number should be in ASN.1
+                    new CK_ATTRIBUTE(CKA_ISSUER, cert.getIssuerX500Principbl().getEncoded()),
+                    new CK_ATTRIBUTE(CKA_SERIAL_NUMBER, cert.getSeriblNumber().toByteArrby()),
+                    // XXX per PKCS#11 spec, the seribl number should be in ASN.1
                 };
-                handle = token.p11.C_CreateObject(session.id(), attrs);
-                shaHash = bytes.b;
-                clientAuth = trustValue;
-                serverAuth = trustValue;
-                codeSigning = trustValue;
-                emailProtection = trustValue;
-            } catch (PKCS11Exception e) {
-                throw new ProviderException("Could not create trust object", e);
-            } finally {
-                token.releaseSession(session);
+                hbndle = token.p11.C_CrebteObject(session.id(), bttrs);
+                shbHbsh = bytes.b;
+                clientAuth = trustVblue;
+                serverAuth = trustVblue;
+                codeSigning = trustVblue;
+                embilProtection = trustVblue;
+            } cbtch (PKCS11Exception e) {
+                throw new ProviderException("Could not crebte trust object", e);
+            } finblly {
+                token.relebseSession(session);
             }
         }
-        TrustAttributes(Token token, Session session, long handle)
+        TrustAttributes(Token token, Session session, long hbndle)
                         throws PKCS11Exception {
-            this.handle = handle;
-            CK_ATTRIBUTE[] attrs = new CK_ATTRIBUTE[] {
+            this.hbndle = hbndle;
+            CK_ATTRIBUTE[] bttrs = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_SERVER_AUTH),
                 new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CODE_SIGNING),
                 new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_EMAIL_PROTECTION),
                 new CK_ATTRIBUTE(CKA_NETSCAPE_CERT_SHA1_HASH),
             };
 
-            token.p11.C_GetAttributeValue(session.id(), handle, attrs);
-            serverAuth = attrs[0].getLong();
-            codeSigning = attrs[1].getLong();
-            emailProtection = attrs[2].getLong();
-            shaHash = attrs[3].getByteArray();
+            token.p11.C_GetAttributeVblue(session.id(), hbndle, bttrs);
+            serverAuth = bttrs[0].getLong();
+            codeSigning = bttrs[1].getLong();
+            embilProtection = bttrs[2].getLong();
+            shbHbsh = bttrs[3].getByteArrby();
 
-            attrs = new CK_ATTRIBUTE[] {
+            bttrs = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CLIENT_AUTH),
             };
             long c;
             try {
-                token.p11.C_GetAttributeValue(session.id(), handle, attrs);
-                c = attrs[0].getLong();
-            } catch (PKCS11Exception e) {
-                // trust anchor module does not support this attribute
+                token.p11.C_GetAttributeVblue(session.id(), hbndle, bttrs);
+                c = bttrs[0].getLong();
+            } cbtch (PKCS11Exception e) {
+                // trust bnchor module does not support this bttribute
                 c = serverAuth;
             }
             clientAuth = c;
         }
-        Bytes getHash() {
-            return new Bytes(shaHash);
+        Bytes getHbsh() {
+            return new Bytes(shbHbsh);
         }
-        boolean isTrusted(TrustType type) {
+        boolebn isTrusted(TrustType type) {
             switch (type) {
-            case CLIENT_AUTH:
+            cbse CLIENT_AUTH:
                 return isTrusted(clientAuth);
-            case SERVER_AUTH:
+            cbse SERVER_AUTH:
                 return isTrusted(serverAuth);
-            case CODE_SIGNING:
+            cbse CODE_SIGNING:
                 return isTrusted(codeSigning);
-            case EMAIL_PROTECTION:
-                return isTrusted(emailProtection);
-            case ALL:
+            cbse EMAIL_PROTECTION:
+                return isTrusted(embilProtection);
+            cbse ALL:
                 return isTrusted(TrustType.CLIENT_AUTH)
                     && isTrusted(TrustType.SERVER_AUTH)
                     && isTrusted(TrustType.CODE_SIGNING)
                     && isTrusted(TrustType.EMAIL_PROTECTION);
-            default:
-                return false;
+            defbult:
+                return fblse;
             }
         }
 
-        private boolean isTrusted(long l) {
+        privbte boolebn isTrusted(long l) {
             // XXX CKT_TRUSTED?
             return (l == CKT_NETSCAPE_TRUSTED_DELEGATOR);
         }
 
     }
 
-    private static class Bytes {
-        final byte[] b;
+    privbte stbtic clbss Bytes {
+        finbl byte[] b;
         Bytes(byte[] b) {
             this.b = b;
         }
-        public int hashCode() {
-            return Arrays.hashCode(b);
+        public int hbshCode() {
+            return Arrbys.hbshCode(b);
         }
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (this == o) {
                 return true;
             }
-            if (o instanceof Bytes == false) {
-                return false;
+            if (o instbnceof Bytes == fblse) {
+                return fblse;
             }
             Bytes other = (Bytes)o;
-            return Arrays.equals(this.b, other.b);
+            return Arrbys.equbls(this.b, other.b);
         }
     }
 
-    private static Map<Bytes,TrustAttributes> getTrust(SunPKCS11 provider)
+    privbte stbtic Mbp<Bytes,TrustAttributes> getTrust(SunPKCS11 provider)
             throws PKCS11Exception {
-        Map<Bytes,TrustAttributes> trustMap = new HashMap<Bytes,TrustAttributes>();
+        Mbp<Bytes,TrustAttributes> trustMbp = new HbshMbp<Bytes,TrustAttributes>();
         Token token = provider.getToken();
         Session session = null;
         try {
             session = token.getOpSession();
             int MAX_NUM = 8192;
-            CK_ATTRIBUTE[] attrs = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttrs = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_CLASS, CKO_NETSCAPE_TRUST),
             };
-            token.p11.C_FindObjectsInit(session.id(), attrs);
-            long[] handles = token.p11.C_FindObjects(session.id(), MAX_NUM);
-            token.p11.C_FindObjectsFinal(session.id());
-            if (DEBUG) System.out.println("handles: " + handles.length);
+            token.p11.C_FindObjectsInit(session.id(), bttrs);
+            long[] hbndles = token.p11.C_FindObjects(session.id(), MAX_NUM);
+            token.p11.C_FindObjectsFinbl(session.id());
+            if (DEBUG) System.out.println("hbndles: " + hbndles.length);
 
-            for (long handle : handles) {
+            for (long hbndle : hbndles) {
                 try {
-                    TrustAttributes trust = new TrustAttributes(token, session, handle);
-                    trustMap.put(trust.getHash(), trust);
-                } catch (PKCS11Exception e) {
+                    TrustAttributes trust = new TrustAttributes(token, session, hbndle);
+                    trustMbp.put(trust.getHbsh(), trust);
+                } cbtch (PKCS11Exception e) {
                     // skip put on pkcs11 error
                 }
             }
-        } finally {
-            token.releaseSession(session);
+        } finblly {
+            token.relebseSession(session);
         }
-        return trustMap;
+        return trustMbp;
     }
 
-    private static native long nssGetLibraryHandle(String libraryName);
+    privbte stbtic nbtive long nssGetLibrbryHbndle(String librbryNbme);
 
-    private static native long nssLoadLibrary(String name) throws IOException;
+    privbte stbtic nbtive long nssLobdLibrbry(String nbme) throws IOException;
 
-    private static native boolean nssVersionCheck(long handle, String minVersion);
+    privbte stbtic nbtive boolebn nssVersionCheck(long hbndle, String minVersion);
 
-    private static native boolean nssInitialize(String functionName, long handle, String configDir, boolean nssOptimizeSpace);
+    privbte stbtic nbtive boolebn nssInitiblize(String functionNbme, long hbndle, String configDir, boolebn nssOptimizeSpbce);
 
-    private static native Object nssGetModuleList(long handle, String libDir);
+    privbte stbtic nbtive Object nssGetModuleList(long hbndle, String libDir);
 
 }

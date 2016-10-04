@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 import com.sun.jdi.*;
 
-import com.sun.tools.example.debug.event.*;
+import com.sun.tools.exbmple.debug.event.*;
 
 /**
- * Manage the list of source files.
+ * Mbnbge the list of source files.
  * Origin of SourceListener events.
  */
-public class SourceManager {
+public clbss SourceMbnbger {
 
-    //### TODO: The source cache should be aged, and some cap
-    //### put on memory consumption by source files loaded into core.
+    //### TODO: The source cbche should be bged, bnd some cbp
+    //### put on memory consumption by source files lobded into core.
 
-    private List<SourceModel> sourceList;
-    private SearchPath sourcePath;
+    privbte List<SourceModel> sourceList;
+    privbte SebrchPbth sourcePbth;
 
-    private ArrayList<SourceListener> sourceListeners = new ArrayList<SourceListener>();
+    privbte ArrbyList<SourceListener> sourceListeners = new ArrbyList<SourceListener>();
 
-    private Map<ReferenceType, SourceModel> classToSource = new HashMap<ReferenceType, SourceModel>();
+    privbte Mbp<ReferenceType, SourceModel> clbssToSource = new HbshMbp<ReferenceType, SourceModel>();
 
-    private Environment env;
+    privbte Environment env;
 
     /**
-     * Hold on to it so it can be removed.
+     * Hold on to it so it cbn be removed.
      */
-    private SMClassListener classListener = new SMClassListener();
+    privbte SMClbssListener clbssListener = new SMClbssListener();
 
-    public SourceManager(Environment env) {
-        this(env, new SearchPath(""));
+    public SourceMbnbger(Environment env) {
+        this(env, new SebrchPbth(""));
     }
 
-    public SourceManager(Environment env, SearchPath sourcePath) {
+    public SourceMbnbger(Environment env, SebrchPbth sourcePbth) {
         this.env = env;
         this.sourceList = new LinkedList<SourceModel>();
-        this.sourcePath = sourcePath;
-        env.getExecutionManager().addJDIListener(classListener);
+        this.sourcePbth = sourcePbth;
+        env.getExecutionMbnbger().bddJDIListener(clbssListener);
     }
 
     /**
-     * Set path for access to source code.
+     * Set pbth for bccess to source code.
      */
-    public void setSourcePath(SearchPath sp) {
-        sourcePath = sp;
-        // Old cached sources are now invalid.
+    public void setSourcePbth(SebrchPbth sp) {
+        sourcePbth = sp;
+        // Old cbched sources bre now invblid.
         sourceList = new LinkedList<SourceModel>();
-        notifySourcepathChanged();
-        classToSource = new HashMap<ReferenceType, SourceModel>();
+        notifySourcepbthChbnged();
+        clbssToSource = new HbshMbp<ReferenceType, SourceModel>();
     }
 
-    public void addSourceListener(SourceListener l) {
-        sourceListeners.add(l);
+    public void bddSourceListener(SourceListener l) {
+        sourceListeners.bdd(l);
     }
 
     public void removeSourceListener(SourceListener l) {
         sourceListeners.remove(l);
     }
 
-    private void notifySourcepathChanged() {
-        ArrayList<SourceListener> l = new ArrayList<SourceListener>(sourceListeners);
-        SourcepathChangedEvent evt = new SourcepathChangedEvent(this);
+    privbte void notifySourcepbthChbnged() {
+        ArrbyList<SourceListener> l = new ArrbyList<SourceListener>(sourceListeners);
+        SourcepbthChbngedEvent evt = new SourcepbthChbngedEvent(this);
         for (int i = 0; i < l.size(); i++) {
-            l.get(i).sourcepathChanged(evt);
+            l.get(i).sourcepbthChbnged(evt);
         }
     }
 
     /**
-     * Get path for access to source code.
+     * Get pbth for bccess to source code.
      */
-    public SearchPath getSourcePath() {
-        return sourcePath;
+    public SebrchPbth getSourcePbth() {
+        return sourcePbth;
     }
 
     /**
-     * Get source object associated with a Location.
+     * Get source object bssocibted with b Locbtion.
      */
-    public SourceModel sourceForLocation(Location loc) {
-        return sourceForClass(loc.declaringType());
+    public SourceModel sourceForLocbtion(Locbtion loc) {
+        return sourceForClbss(loc.declbringType());
     }
 
     /**
-     * Get source object associated with a class or interface.
-     * Returns null if not available.
+     * Get source object bssocibted with b clbss or interfbce.
+     * Returns null if not bvbilbble.
      */
-    public SourceModel sourceForClass(ReferenceType refType) {
-        SourceModel sm = classToSource.get(refType);
+    public SourceModel sourceForClbss(ReferenceType refType) {
+        SourceModel sm = clbssToSource.get(refType);
         if (sm != null) {
             return sm;
         }
         try {
-            String filename = refType.sourceName();
-            String refName = refType.name();
-            int iDot = refName.lastIndexOf('.');
-            String pkgName = (iDot >= 0)? refName.substring(0, iDot+1) : "";
-            String full = pkgName.replace('.', File.separatorChar) + filename;
-            File path = sourcePath.resolve(full);
-            if (path != null) {
-                sm = sourceForFile(path);
-                classToSource.put(refType, sm);
+            String filenbme = refType.sourceNbme();
+            String refNbme = refType.nbme();
+            int iDot = refNbme.lbstIndexOf('.');
+            String pkgNbme = (iDot >= 0)? refNbme.substring(0, iDot+1) : "";
+            String full = pkgNbme.replbce('.', File.sepbrbtorChbr) + filenbme;
+            File pbth = sourcePbth.resolve(full);
+            if (pbth != null) {
+                sm = sourceForFile(pbth);
+                clbssToSource.put(refType, sm);
                 return sm;
             }
             return null;
-        } catch (AbsentInformationException e) {
+        } cbtch (AbsentInformbtionException e) {
             return null;
         }
     }
 
     /**
-     * Get source object associated with an absolute file path.
+     * Get source object bssocibted with bn bbsolute file pbth.
      */
-    //### Use hash table for this?
-    public SourceModel sourceForFile(File path) {
-        Iterator<SourceModel> iter = sourceList.iterator();
+    //### Use hbsh tbble for this?
+    public SourceModel sourceForFile(File pbth) {
+        Iterbtor<SourceModel> iter = sourceList.iterbtor();
         SourceModel sm = null;
-        while (iter.hasNext()) {
-            SourceModel candidate = iter.next();
-            if (candidate.fileName().equals(path)) {
-                sm = candidate;
-                iter.remove();    // Will move to start of list.
-                break;
+        while (iter.hbsNext()) {
+            SourceModel cbndidbte = iter.next();
+            if (cbndidbte.fileNbme().equbls(pbth)) {
+                sm = cbndidbte;
+                iter.remove();    // Will move to stbrt of list.
+                brebk;
             }
         }
-        if (sm == null && path.exists()) {
-            sm = new SourceModel(env, path);
+        if (sm == null && pbth.exists()) {
+            sm = new SourceModel(env, pbth);
         }
         if (sm != null) {
-            // At start of list for faster access
-            sourceList.add(0, sm);
+            // At stbrt of list for fbster bccess
+            sourceList.bdd(0, sm);
         }
         return sm;
     }
 
-    private class SMClassListener extends JDIAdapter
+    privbte clbss SMClbssListener extends JDIAdbpter
                                    implements JDIListener {
 
         @Override
-        public void classPrepare(ClassPrepareEventSet e) {
+        public void clbssPrepbre(ClbssPrepbreEventSet e) {
             ReferenceType refType = e.getReferenceType();
-            SourceModel sm = sourceForClass(refType);
+            SourceModel sm = sourceForClbss(refType);
             if (sm != null) {
-                sm.addClass(refType);
+                sm.bddClbss(refType);
             }
         }
 
         @Override
-        public void classUnload(ClassUnloadEventSet e) {
-            //### iterate through looking for (e.getTypeName()).
+        public void clbssUnlobd(ClbssUnlobdEventSet e) {
+            //### iterbte through looking for (e.getTypeNbme()).
             //### then remove it.
         }
     }

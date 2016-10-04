@@ -1,186 +1,186 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * An {@link ExecutorService} that can schedule commands to run after a given
- * delay, or to execute periodically.
+ * An {@link ExecutorService} thbt cbn schedule commbnds to run bfter b given
+ * delby, or to execute periodicblly.
  *
- * <p>The {@code schedule} methods create tasks with various delays
- * and return a task object that can be used to cancel or check
- * execution. The {@code scheduleAtFixedRate} and
- * {@code scheduleWithFixedDelay} methods create and execute tasks
- * that run periodically until cancelled.
+ * <p>The {@code schedule} methods crebte tbsks with vbrious delbys
+ * bnd return b tbsk object thbt cbn be used to cbncel or check
+ * execution. The {@code scheduleAtFixedRbte} bnd
+ * {@code scheduleWithFixedDelby} methods crebte bnd execute tbsks
+ * thbt run periodicblly until cbncelled.
  *
- * <p>Commands submitted using the {@link Executor#execute(Runnable)}
- * and {@link ExecutorService} {@code submit} methods are scheduled
- * with a requested delay of zero. Zero and negative delays (but not
- * periods) are also allowed in {@code schedule} methods, and are
- * treated as requests for immediate execution.
+ * <p>Commbnds submitted using the {@link Executor#execute(Runnbble)}
+ * bnd {@link ExecutorService} {@code submit} methods bre scheduled
+ * with b requested delby of zero. Zero bnd negbtive delbys (but not
+ * periods) bre blso bllowed in {@code schedule} methods, bnd bre
+ * trebted bs requests for immedibte execution.
  *
- * <p>All {@code schedule} methods accept <em>relative</em> delays and
- * periods as arguments, not absolute times or dates. It is a simple
- * matter to transform an absolute time represented as a {@link
- * java.util.Date} to the required form. For example, to schedule at
- * a certain future {@code date}, you can use: {@code schedule(task,
- * date.getTime() - System.currentTimeMillis(),
- * TimeUnit.MILLISECONDS)}. Beware however that expiration of a
- * relative delay need not coincide with the current {@code Date} at
- * which the task is enabled due to network time synchronization
- * protocols, clock drift, or other factors.
+ * <p>All {@code schedule} methods bccept <em>relbtive</em> delbys bnd
+ * periods bs brguments, not bbsolute times or dbtes. It is b simple
+ * mbtter to trbnsform bn bbsolute time represented bs b {@link
+ * jbvb.util.Dbte} to the required form. For exbmple, to schedule bt
+ * b certbin future {@code dbte}, you cbn use: {@code schedule(tbsk,
+ * dbte.getTime() - System.currentTimeMillis(),
+ * TimeUnit.MILLISECONDS)}. Bewbre however thbt expirbtion of b
+ * relbtive delby need not coincide with the current {@code Dbte} bt
+ * which the tbsk is enbbled due to network time synchronizbtion
+ * protocols, clock drift, or other fbctors.
  *
- * <p>The {@link Executors} class provides convenient factory methods for
- * the ScheduledExecutorService implementations provided in this package.
+ * <p>The {@link Executors} clbss provides convenient fbctory methods for
+ * the ScheduledExecutorService implementbtions provided in this pbckbge.
  *
- * <h3>Usage Example</h3>
+ * <h3>Usbge Exbmple</h3>
  *
- * Here is a class with a method that sets up a ScheduledExecutorService
- * to beep every ten seconds for an hour:
+ * Here is b clbss with b method thbt sets up b ScheduledExecutorService
+ * to beep every ten seconds for bn hour:
  *
  *  <pre> {@code
- * import static java.util.concurrent.TimeUnit.*;
- * class BeeperControl {
- *   private final ScheduledExecutorService scheduler =
- *     Executors.newScheduledThreadPool(1);
+ * import stbtic jbvb.util.concurrent.TimeUnit.*;
+ * clbss BeeperControl {
+ *   privbte finbl ScheduledExecutorService scheduler =
+ *     Executors.newScheduledThrebdPool(1);
  *
  *   public void beepForAnHour() {
- *     final Runnable beeper = new Runnable() {
+ *     finbl Runnbble beeper = new Runnbble() {
  *       public void run() { System.out.println("beep"); }
  *     };
- *     final ScheduledFuture<?> beeperHandle =
- *       scheduler.scheduleAtFixedRate(beeper, 10, 10, SECONDS);
- *     scheduler.schedule(new Runnable() {
- *       public void run() { beeperHandle.cancel(true); }
+ *     finbl ScheduledFuture<?> beeperHbndle =
+ *       scheduler.scheduleAtFixedRbte(beeper, 10, 10, SECONDS);
+ *     scheduler.schedule(new Runnbble() {
+ *       public void run() { beeperHbndle.cbncel(true); }
  *     }, 60 * 60, SECONDS);
  *   }
  * }}</pre>
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public interface ScheduledExecutorService extends ExecutorService {
+public interfbce ScheduledExecutorService extends ExecutorService {
 
     /**
-     * Creates and executes a one-shot action that becomes enabled
-     * after the given delay.
+     * Crebtes bnd executes b one-shot bction thbt becomes enbbled
+     * bfter the given delby.
      *
-     * @param command the task to execute
-     * @param delay the time from now to delay execution
-     * @param unit the time unit of the delay parameter
-     * @return a ScheduledFuture representing pending completion of
-     *         the task and whose {@code get()} method will return
+     * @pbrbm commbnd the tbsk to execute
+     * @pbrbm delby the time from now to delby execution
+     * @pbrbm unit the time unit of the delby pbrbmeter
+     * @return b ScheduledFuture representing pending completion of
+     *         the tbsk bnd whose {@code get()} method will return
      *         {@code null} upon completion
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws RejectedExecutionException if the tbsk cbnnot be
      *         scheduled for execution
-     * @throws NullPointerException if command is null
+     * @throws NullPointerException if commbnd is null
      */
-    public ScheduledFuture<?> schedule(Runnable command,
-                                       long delay, TimeUnit unit);
+    public ScheduledFuture<?> schedule(Runnbble commbnd,
+                                       long delby, TimeUnit unit);
 
     /**
-     * Creates and executes a ScheduledFuture that becomes enabled after the
-     * given delay.
+     * Crebtes bnd executes b ScheduledFuture thbt becomes enbbled bfter the
+     * given delby.
      *
-     * @param callable the function to execute
-     * @param delay the time from now to delay execution
-     * @param unit the time unit of the delay parameter
-     * @param <V> the type of the callable's result
-     * @return a ScheduledFuture that can be used to extract result or cancel
-     * @throws RejectedExecutionException if the task cannot be
+     * @pbrbm cbllbble the function to execute
+     * @pbrbm delby the time from now to delby execution
+     * @pbrbm unit the time unit of the delby pbrbmeter
+     * @pbrbm <V> the type of the cbllbble's result
+     * @return b ScheduledFuture thbt cbn be used to extrbct result or cbncel
+     * @throws RejectedExecutionException if the tbsk cbnnot be
      *         scheduled for execution
-     * @throws NullPointerException if callable is null
+     * @throws NullPointerException if cbllbble is null
      */
-    public <V> ScheduledFuture<V> schedule(Callable<V> callable,
-                                           long delay, TimeUnit unit);
+    public <V> ScheduledFuture<V> schedule(Cbllbble<V> cbllbble,
+                                           long delby, TimeUnit unit);
 
     /**
-     * Creates and executes a periodic action that becomes enabled first
-     * after the given initial delay, and subsequently with the given
-     * period; that is executions will commence after
-     * {@code initialDelay} then {@code initialDelay+period}, then
-     * {@code initialDelay + 2 * period}, and so on.
-     * If any execution of the task
-     * encounters an exception, subsequent executions are suppressed.
-     * Otherwise, the task will only terminate via cancellation or
-     * termination of the executor.  If any execution of this task
-     * takes longer than its period, then subsequent executions
-     * may start late, but will not concurrently execute.
+     * Crebtes bnd executes b periodic bction thbt becomes enbbled first
+     * bfter the given initibl delby, bnd subsequently with the given
+     * period; thbt is executions will commence bfter
+     * {@code initiblDelby} then {@code initiblDelby+period}, then
+     * {@code initiblDelby + 2 * period}, bnd so on.
+     * If bny execution of the tbsk
+     * encounters bn exception, subsequent executions bre suppressed.
+     * Otherwise, the tbsk will only terminbte vib cbncellbtion or
+     * terminbtion of the executor.  If bny execution of this tbsk
+     * tbkes longer thbn its period, then subsequent executions
+     * mby stbrt lbte, but will not concurrently execute.
      *
-     * @param command the task to execute
-     * @param initialDelay the time to delay first execution
-     * @param period the period between successive executions
-     * @param unit the time unit of the initialDelay and period parameters
-     * @return a ScheduledFuture representing pending completion of
-     *         the task, and whose {@code get()} method will throw an
-     *         exception upon cancellation
-     * @throws RejectedExecutionException if the task cannot be
+     * @pbrbm commbnd the tbsk to execute
+     * @pbrbm initiblDelby the time to delby first execution
+     * @pbrbm period the period between successive executions
+     * @pbrbm unit the time unit of the initiblDelby bnd period pbrbmeters
+     * @return b ScheduledFuture representing pending completion of
+     *         the tbsk, bnd whose {@code get()} method will throw bn
+     *         exception upon cbncellbtion
+     * @throws RejectedExecutionException if the tbsk cbnnot be
      *         scheduled for execution
-     * @throws NullPointerException if command is null
-     * @throws IllegalArgumentException if period less than or equal to zero
+     * @throws NullPointerException if commbnd is null
+     * @throws IllegblArgumentException if period less thbn or equbl to zero
      */
-    public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,
-                                                  long initialDelay,
+    public ScheduledFuture<?> scheduleAtFixedRbte(Runnbble commbnd,
+                                                  long initiblDelby,
                                                   long period,
                                                   TimeUnit unit);
 
     /**
-     * Creates and executes a periodic action that becomes enabled first
-     * after the given initial delay, and subsequently with the
-     * given delay between the termination of one execution and the
-     * commencement of the next.  If any execution of the task
-     * encounters an exception, subsequent executions are suppressed.
-     * Otherwise, the task will only terminate via cancellation or
-     * termination of the executor.
+     * Crebtes bnd executes b periodic bction thbt becomes enbbled first
+     * bfter the given initibl delby, bnd subsequently with the
+     * given delby between the terminbtion of one execution bnd the
+     * commencement of the next.  If bny execution of the tbsk
+     * encounters bn exception, subsequent executions bre suppressed.
+     * Otherwise, the tbsk will only terminbte vib cbncellbtion or
+     * terminbtion of the executor.
      *
-     * @param command the task to execute
-     * @param initialDelay the time to delay first execution
-     * @param delay the delay between the termination of one
-     * execution and the commencement of the next
-     * @param unit the time unit of the initialDelay and delay parameters
-     * @return a ScheduledFuture representing pending completion of
-     *         the task, and whose {@code get()} method will throw an
-     *         exception upon cancellation
-     * @throws RejectedExecutionException if the task cannot be
+     * @pbrbm commbnd the tbsk to execute
+     * @pbrbm initiblDelby the time to delby first execution
+     * @pbrbm delby the delby between the terminbtion of one
+     * execution bnd the commencement of the next
+     * @pbrbm unit the time unit of the initiblDelby bnd delby pbrbmeters
+     * @return b ScheduledFuture representing pending completion of
+     *         the tbsk, bnd whose {@code get()} method will throw bn
+     *         exception upon cbncellbtion
+     * @throws RejectedExecutionException if the tbsk cbnnot be
      *         scheduled for execution
-     * @throws NullPointerException if command is null
-     * @throws IllegalArgumentException if delay less than or equal to zero
+     * @throws NullPointerException if commbnd is null
+     * @throws IllegblArgumentException if delby less thbn or equbl to zero
      */
-    public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
-                                                     long initialDelay,
-                                                     long delay,
+    public ScheduledFuture<?> scheduleWithFixedDelby(Runnbble commbnd,
+                                                     long initiblDelby,
+                                                     long delby,
                                                      TimeUnit unit);
 
 }

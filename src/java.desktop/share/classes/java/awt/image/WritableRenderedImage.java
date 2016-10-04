@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* ****************************************************************
  ******************************************************************
  ******************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997
- *** As  an unpublished  work pursuant to Title 17 of the United
- *** States Code.  All rights reserved.
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublished  work pursubnt to Title 17 of the United
+ *** Stbtes Code.  All rights reserved.
  ******************************************************************
  ******************************************************************
  ******************************************************************/
 
-package java.awt.image;
-import java.awt.Point;
+pbckbge jbvb.bwt.imbge;
+import jbvb.bwt.Point;
 
 /**
- * WriteableRenderedImage is a common interface for objects which
- * contain or can produce image data in the form of Rasters and
- * which can be modified and/or written over.  The image
- * data may be stored/produced as a single tile or a regular array
+ * WritebbleRenderedImbge is b common interfbce for objects which
+ * contbin or cbn produce imbge dbtb in the form of Rbsters bnd
+ * which cbn be modified bnd/or written over.  The imbge
+ * dbtb mby be stored/produced bs b single tile or b regulbr brrby
  * of tiles.
  * <p>
- * WritableRenderedImage provides notification to other interested
- * objects when a tile is checked out for writing (via the
- * getWritableTile method) and when the last writer of a particular
- * tile relinquishes its access (via a call to releaseWritableTile).
- * Additionally, it allows any caller to determine whether any tiles
- * are currently checked out (via hasTileWriters), and to obtain a
- * list of such tiles (via getWritableTileIndices, in the form of a Vector
+ * WritbbleRenderedImbge provides notificbtion to other interested
+ * objects when b tile is checked out for writing (vib the
+ * getWritbbleTile method) bnd when the lbst writer of b pbrticulbr
+ * tile relinquishes its bccess (vib b cbll to relebseWritbbleTile).
+ * Additionblly, it bllows bny cbller to determine whether bny tiles
+ * bre currently checked out (vib hbsTileWriters), bnd to obtbin b
+ * list of such tiles (vib getWritbbleTileIndices, in the form of b Vector
  * of Point objects).
  * <p>
- * Objects wishing to be notified of changes in tile writability must
- * implement the TileObserver interface, and are added by a
- * call to addTileObserver.  Multiple calls to
- * addTileObserver for the same object will result in multiple
- * notifications.  An existing observer may reduce its notifications
- * by calling removeTileObserver; if the observer had no
- * notifications the operation is a no-op.
+ * Objects wishing to be notified of chbnges in tile writbbility must
+ * implement the TileObserver interfbce, bnd bre bdded by b
+ * cbll to bddTileObserver.  Multiple cblls to
+ * bddTileObserver for the sbme object will result in multiple
+ * notificbtions.  An existing observer mby reduce its notificbtions
+ * by cblling removeTileObserver; if the observer hbd no
+ * notificbtions the operbtion is b no-op.
  * <p>
- * It is necessary for a WritableRenderedImage to ensure that
- * notifications occur only when the first writer acquires a tile and
- * the last writer releases it.
+ * It is necessbry for b WritbbleRenderedImbge to ensure thbt
+ * notificbtions occur only when the first writer bcquires b tile bnd
+ * the lbst writer relebses it.
  *
  */
 
-public interface WritableRenderedImage extends RenderedImage
+public interfbce WritbbleRenderedImbge extends RenderedImbge
 {
 
   /**
-   * Adds an observer.  If the observer is already present,
-   * it will receive multiple notifications.
-   * @param to the specified <code>TileObserver</code>
+   * Adds bn observer.  If the observer is blrebdy present,
+   * it will receive multiple notificbtions.
+   * @pbrbm to the specified <code>TileObserver</code>
    */
-  public void addTileObserver(TileObserver to);
+  public void bddTileObserver(TileObserver to);
 
   /**
-   * Removes an observer.  If the observer was not registered,
-   * nothing happens.  If the observer was registered for multiple
-   * notifications, it will now be registered for one fewer.
-   * @param to the specified <code>TileObserver</code>
+   * Removes bn observer.  If the observer wbs not registered,
+   * nothing hbppens.  If the observer wbs registered for multiple
+   * notificbtions, it will now be registered for one fewer.
+   * @pbrbm to the specified <code>TileObserver</code>
    */
   public void removeTileObserver(TileObserver to);
 
   /**
-   * Checks out a tile for writing.
+   * Checks out b tile for writing.
    *
-   * The WritableRenderedImage is responsible for notifying all
-   * of its TileObservers when a tile goes from having
-   * no writers to having one writer.
+   * The WritbbleRenderedImbge is responsible for notifying bll
+   * of its TileObservers when b tile goes from hbving
+   * no writers to hbving one writer.
    *
-   * @param tileX the X index of the tile.
-   * @param tileY the Y index of the tile.
-   * @return a writable tile.
+   * @pbrbm tileX the X index of the tile.
+   * @pbrbm tileY the Y index of the tile.
+   * @return b writbble tile.
    */
-  public WritableRaster getWritableTile(int tileX, int tileY);
+  public WritbbleRbster getWritbbleTile(int tileX, int tileY);
 
   /**
-   * Relinquishes the right to write to a tile.  If the caller
-   * continues to write to the tile, the results are undefined.
-   * Calls to this method should only appear in matching pairs
-   * with calls to getWritableTile; any other use will lead
+   * Relinquishes the right to write to b tile.  If the cbller
+   * continues to write to the tile, the results bre undefined.
+   * Cblls to this method should only bppebr in mbtching pbirs
+   * with cblls to getWritbbleTile; bny other use will lebd
    * to undefined results.
    *
-   * The WritableRenderedImage is responsible for notifying all of
-   * its TileObservers when a tile goes from having one writer
-   * to having no writers.
+   * The WritbbleRenderedImbge is responsible for notifying bll of
+   * its TileObservers when b tile goes from hbving one writer
+   * to hbving no writers.
    *
-   * @param tileX the X index of the tile.
-   * @param tileY the Y index of the tile.
+   * @pbrbm tileX the X index of the tile.
+   * @pbrbm tileY the Y index of the tile.
    */
-  public void releaseWritableTile(int tileX, int tileY);
+  public void relebseWritbbleTile(int tileX, int tileY);
 
   /**
-   * Returns whether a tile is currently checked out for writing.
+   * Returns whether b tile is currently checked out for writing.
    *
-   * @param tileX the X index of the tile.
-   * @param tileY the Y index of the tile.
+   * @pbrbm tileX the X index of the tile.
+   * @pbrbm tileY the Y index of the tile.
    * @return <code>true</code> if specified tile is checked out
-   *         for writing; <code>false</code> otherwise.
+   *         for writing; <code>fblse</code> otherwise.
    */
-  public boolean isTileWritable(int tileX, int tileY);
+  public boolebn isTileWritbble(int tileX, int tileY);
 
   /**
-   * Returns an array of Point objects indicating which tiles
-   * are checked out for writing.  Returns null if none are
+   * Returns bn brrby of Point objects indicbting which tiles
+   * bre checked out for writing.  Returns null if none bre
    * checked out.
-   * @return an array containing the locations of tiles that are
+   * @return bn brrby contbining the locbtions of tiles thbt bre
    *         checked out for writing.
    */
-  public Point[] getWritableTileIndices();
+  public Point[] getWritbbleTileIndices();
 
   /**
-   * Returns whether any tile is checked out for writing.
-   * Semantically equivalent to (getWritableTileIndices() != null).
-   * @return <code>true</code> if any tiles are checked out for
-   *         writing; <code>false</code> otherwise.
+   * Returns whether bny tile is checked out for writing.
+   * Sembnticblly equivblent to (getWritbbleTileIndices() != null).
+   * @return <code>true</code> if bny tiles bre checked out for
+   *         writing; <code>fblse</code> otherwise.
    */
-  public boolean hasTileWriters();
+  public boolebn hbsTileWriters();
 
   /**
-   * Sets a rect of the image to the contents of the Raster r, which is
-   * assumed to be in the same coordinate space as the WritableRenderedImage.
-   * The operation is clipped to the bounds of the WritableRenderedImage.
-   * @param r the specified <code>Raster</code>
+   * Sets b rect of the imbge to the contents of the Rbster r, which is
+   * bssumed to be in the sbme coordinbte spbce bs the WritbbleRenderedImbge.
+   * The operbtion is clipped to the bounds of the WritbbleRenderedImbge.
+   * @pbrbm r the specified <code>Rbster</code>
    */
-  public void setData(Raster r);
+  public void setDbtb(Rbster r);
 
 }

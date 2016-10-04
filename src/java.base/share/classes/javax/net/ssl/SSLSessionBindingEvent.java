@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.util.EventObject;
+import jbvb.util.EventObject;
 
 
 /**
- * This event is propagated to a SSLSessionBindingListener.
- * When a listener object is bound or unbound to an SSLSession by
- * {@link SSLSession#putValue(String, Object)}
- * or {@link SSLSession#removeValue(String)}, objects which
- * implement the SSLSessionBindingListener will be receive an
- * event of this type.  The event's <code>name</code> field is the
+ * This event is propbgbted to b SSLSessionBindingListener.
+ * When b listener object is bound or unbound to bn SSLSession by
+ * {@link SSLSession#putVblue(String, Object)}
+ * or {@link SSLSession#removeVblue(String)}, objects which
+ * implement the SSLSessionBindingListener will be receive bn
+ * event of this type.  The event's <code>nbme</code> field is the
  * key in which the listener is being bound or unbound.
  *
  * @see SSLSession
  * @see SSLSessionBindingListener
  *
  * @since 1.4
- * @author Nathan Abramson
- * @author David Brownell
+ * @buthor Nbthbn Abrbmson
+ * @buthor Dbvid Brownell
  */
 public
-class SSLSessionBindingEvent
+clbss SSLSessionBindingEvent
 extends EventObject
 {
-    private static final long serialVersionUID = 3989172637106345L;
+    privbte stbtic finbl long seriblVersionUID = 3989172637106345L;
 
     /**
-     * @serial The name to which the object is being bound or unbound
+     * @seribl The nbme to which the object is being bound or unbound
      */
-    private String name;
+    privbte String nbme;
 
     /**
-     * Constructs a new SSLSessionBindingEvent.
+     * Constructs b new SSLSessionBindingEvent.
      *
-     * @param session the SSLSession acting as the source of the event
-     * @param name the name to which the object is being bound or unbound
-     * @exception  IllegalArgumentException  if <code>session</code> is null.
+     * @pbrbm session the SSLSession bcting bs the source of the event
+     * @pbrbm nbme the nbme to which the object is being bound or unbound
+     * @exception  IllegblArgumentException  if <code>session</code> is null.
      */
-    public SSLSessionBindingEvent(SSLSession session, String name)
+    public SSLSessionBindingEvent(SSLSession session, String nbme)
     {
         super(session);
-        this.name = name;
+        this.nbme = nbme;
     }
 
     /**
-     * Returns the name to which the object is being bound, or the name
+     * Returns the nbme to which the object is being bound, or the nbme
      * from which the object is being unbound.
      *
-     * @return the name to which the object is being bound or unbound
+     * @return the nbme to which the object is being bound or unbound
      */
-    public String getName()
+    public String getNbme()
     {
-        return name;
+        return nbme;
     }
 
     /**

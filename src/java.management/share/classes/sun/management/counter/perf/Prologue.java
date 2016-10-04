@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management.counter.perf;
+pbckbge sun.mbnbgement.counter.perf;
 
-import sun.management.counter.*;
-import java.nio.*;
+import sun.mbnbgement.counter.*;
+import jbvb.nio.*;
 
-class Prologue {
-    // these constants should match their #define counterparts in vmdata.hpp
-    private final static byte PERFDATA_BIG_ENDIAN    = 0;
-    private final static byte PERFDATA_LITTLE_ENDIAN = 1;
-    private final static int  PERFDATA_MAGIC         = 0xcafec0c0;
+clbss Prologue {
+    // these constbnts should mbtch their #define counterpbrts in vmdbtb.hpp
+    privbte finbl stbtic byte PERFDATA_BIG_ENDIAN    = 0;
+    privbte finbl stbtic byte PERFDATA_LITTLE_ENDIAN = 1;
+    privbte finbl stbtic int  PERFDATA_MAGIC         = 0xcbfec0c0;
 
-    private class PrologueFieldOffset {
-        private final static int SIZEOF_BYTE = 1;
-        private final static int SIZEOF_INT  = 4;
-        private final static int SIZEOF_LONG = 8;
+    privbte clbss PrologueFieldOffset {
+        privbte finbl stbtic int SIZEOF_BYTE = 1;
+        privbte finbl stbtic int SIZEOF_INT  = 4;
+        privbte finbl stbtic int SIZEOF_LONG = 8;
 
-        private final static int MAGIC_SIZE            = SIZEOF_INT;
-        private final static int BYTE_ORDER_SIZE       = SIZEOF_BYTE;
-        private final static int MAJOR_SIZE            = SIZEOF_BYTE;
-        private final static int MINOR_SIZE            = SIZEOF_BYTE;
-        private final static int ACCESSIBLE_SIZE       = SIZEOF_BYTE;
-        private final static int USED_SIZE             = SIZEOF_INT;
-        private final static int OVERFLOW_SIZE         = SIZEOF_INT;
-        private final static int MOD_TIMESTAMP_SIZE    = SIZEOF_LONG;
-        private final static int ENTRY_OFFSET_SIZE     = SIZEOF_INT;
-        private final static int NUM_ENTRIES_SIZE      = SIZEOF_INT;
+        privbte finbl stbtic int MAGIC_SIZE            = SIZEOF_INT;
+        privbte finbl stbtic int BYTE_ORDER_SIZE       = SIZEOF_BYTE;
+        privbte finbl stbtic int MAJOR_SIZE            = SIZEOF_BYTE;
+        privbte finbl stbtic int MINOR_SIZE            = SIZEOF_BYTE;
+        privbte finbl stbtic int ACCESSIBLE_SIZE       = SIZEOF_BYTE;
+        privbte finbl stbtic int USED_SIZE             = SIZEOF_INT;
+        privbte finbl stbtic int OVERFLOW_SIZE         = SIZEOF_INT;
+        privbte finbl stbtic int MOD_TIMESTAMP_SIZE    = SIZEOF_LONG;
+        privbte finbl stbtic int ENTRY_OFFSET_SIZE     = SIZEOF_INT;
+        privbte finbl stbtic int NUM_ENTRIES_SIZE      = SIZEOF_INT;
 
-        // these constants must match the field offsets and sizes
-        // in the PerfDataPrologue structure in perfMemory.hpp
-        final static int MAGIC          = 0;
-        final static int BYTE_ORDER     = MAGIC + MAGIC_SIZE;
-        final static int MAJOR_VERSION  = BYTE_ORDER + BYTE_ORDER_SIZE;
-        final static int MINOR_VERSION  = MAJOR_VERSION + MAJOR_SIZE;
-        final static int ACCESSIBLE     = MINOR_VERSION + MINOR_SIZE;
-        final static int USED           = ACCESSIBLE + ACCESSIBLE_SIZE;
-        final static int OVERFLOW       = USED + USED_SIZE;
-        final static int MOD_TIMESTAMP  = OVERFLOW + OVERFLOW_SIZE;
-        final static int ENTRY_OFFSET   = MOD_TIMESTAMP + MOD_TIMESTAMP_SIZE;
-        final static int NUM_ENTRIES    = ENTRY_OFFSET + ENTRY_OFFSET_SIZE;
-        final static int PROLOGUE_2_0_SIZE = NUM_ENTRIES + NUM_ENTRIES_SIZE;
+        // these constbnts must mbtch the field offsets bnd sizes
+        // in the PerfDbtbPrologue structure in perfMemory.hpp
+        finbl stbtic int MAGIC          = 0;
+        finbl stbtic int BYTE_ORDER     = MAGIC + MAGIC_SIZE;
+        finbl stbtic int MAJOR_VERSION  = BYTE_ORDER + BYTE_ORDER_SIZE;
+        finbl stbtic int MINOR_VERSION  = MAJOR_VERSION + MAJOR_SIZE;
+        finbl stbtic int ACCESSIBLE     = MINOR_VERSION + MINOR_SIZE;
+        finbl stbtic int USED           = ACCESSIBLE + ACCESSIBLE_SIZE;
+        finbl stbtic int OVERFLOW       = USED + USED_SIZE;
+        finbl stbtic int MOD_TIMESTAMP  = OVERFLOW + OVERFLOW_SIZE;
+        finbl stbtic int ENTRY_OFFSET   = MOD_TIMESTAMP + MOD_TIMESTAMP_SIZE;
+        finbl stbtic int NUM_ENTRIES    = ENTRY_OFFSET + ENTRY_OFFSET_SIZE;
+        finbl stbtic int PROLOGUE_2_0_SIZE = NUM_ENTRIES + NUM_ENTRIES_SIZE;
     }
 
 
-    private ByteBuffer header;
-    private int magic;
+    privbte ByteBuffer hebder;
+    privbte int mbgic;
 
     Prologue(ByteBuffer b) {
-        this.header = b.duplicate();
+        this.hebder = b.duplicbte();
 
-        // the magic number is always stored in big-endian format
-        // save and restore the buffer's initial byte order around
-        // the fetch of the data.
-        header.order(ByteOrder.BIG_ENDIAN);
-        header.position(PrologueFieldOffset.MAGIC);
-        magic = header.getInt();
+        // the mbgic number is blwbys stored in big-endibn formbt
+        // sbve bnd restore the buffer's initibl byte order bround
+        // the fetch of the dbtb.
+        hebder.order(ByteOrder.BIG_ENDIAN);
+        hebder.position(PrologueFieldOffset.MAGIC);
+        mbgic = hebder.getInt();
 
-        // the magic number is always stored in big-endian format
-        if (magic != PERFDATA_MAGIC) {
-            throw new InstrumentationException("Bad Magic: " +
-                                               Integer.toHexString(getMagic()));
+        // the mbgic number is blwbys stored in big-endibn formbt
+        if (mbgic != PERFDATA_MAGIC) {
+            throw new InstrumentbtionException("Bbd Mbgic: " +
+                                               Integer.toHexString(getMbgic()));
         }
 
 
-        // set the buffer's byte order according to the value of its
+        // set the buffer's byte order bccording to the vblue of its
         // byte order field.
-        header.order(getByteOrder());
+        hebder.order(getByteOrder());
 
         // Check version
-        int major = getMajorVersion();
+        int mbjor = getMbjorVersion();
         int minor = getMinorVersion();
 
-        if (major < 2) {
-            throw new InstrumentationException("Unsupported version: " +
-                                               major + "." + minor);
+        if (mbjor < 2) {
+            throw new InstrumentbtionException("Unsupported version: " +
+                                               mbjor + "." + minor);
         }
 
         // Currently, only support 2.0 version.
-        header.limit(PrologueFieldOffset.PROLOGUE_2_0_SIZE);
+        hebder.limit(PrologueFieldOffset.PROLOGUE_2_0_SIZE);
     }
 
-    public int getMagic() {
-        return magic;
+    public int getMbgic() {
+        return mbgic;
     }
 
-    public int getMajorVersion() {
-        header.position(PrologueFieldOffset.MAJOR_VERSION);
-        return (int)header.get();
+    public int getMbjorVersion() {
+        hebder.position(PrologueFieldOffset.MAJOR_VERSION);
+        return (int)hebder.get();
     }
 
     public int getMinorVersion() {
-        header.position(PrologueFieldOffset.MINOR_VERSION);
-        return (int)header.get();
+        hebder.position(PrologueFieldOffset.MINOR_VERSION);
+        return (int)hebder.get();
     }
 
     public ByteOrder getByteOrder() {
-        header.position(PrologueFieldOffset.BYTE_ORDER);
+        hebder.position(PrologueFieldOffset.BYTE_ORDER);
 
-        byte byte_order = header.get();
+        byte byte_order = hebder.get();
         if (byte_order == PERFDATA_BIG_ENDIAN) {
             return ByteOrder.BIG_ENDIAN;
         }
@@ -130,35 +130,35 @@ class Prologue {
     }
 
     public int getEntryOffset() {
-        header.position(PrologueFieldOffset.ENTRY_OFFSET);
-        return header.getInt();
+        hebder.position(PrologueFieldOffset.ENTRY_OFFSET);
+        return hebder.getInt();
     }
 
-    // The following fields are updated asynchronously
-    // while they are accessed by these methods.
+    // The following fields bre updbted bsynchronously
+    // while they bre bccessed by these methods.
     public int getUsed() {
-        header.position(PrologueFieldOffset.USED);
-        return header.getInt();
+        hebder.position(PrologueFieldOffset.USED);
+        return hebder.getInt();
     }
 
     public int getOverflow() {
-        header.position(PrologueFieldOffset.OVERFLOW);
-        return header.getInt();
+        hebder.position(PrologueFieldOffset.OVERFLOW);
+        return hebder.getInt();
     }
 
-    public long getModificationTimeStamp() {
-        header.position(PrologueFieldOffset.MOD_TIMESTAMP);
-        return header.getLong();
+    public long getModificbtionTimeStbmp() {
+        hebder.position(PrologueFieldOffset.MOD_TIMESTAMP);
+        return hebder.getLong();
     }
 
     public int getNumEntries() {
-        header.position(PrologueFieldOffset.NUM_ENTRIES);
-        return header.getInt();
+        hebder.position(PrologueFieldOffset.NUM_ENTRIES);
+        return hebder.getInt();
     }
 
-    public boolean isAccessible() {
-        header.position(PrologueFieldOffset.ACCESSIBLE);
-        byte b = header.get();
-        return (b == 0 ? false : true);
+    public boolebn isAccessible() {
+        hebder.position(PrologueFieldOffset.ACCESSIBLE);
+        byte b = hebder.get();
+        return (b == 0 ? fblse : true);
     }
 }

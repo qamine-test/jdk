@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import sun.awt.util.ThreadGroupUtils;
+import sun.bwt.util.ThrebdGroupUtils;
 
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.PhantomReference;
-import java.lang.ref.WeakReference;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Hashtable;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.PhbntomReference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbshtbble;
 
 /**
- * This class is used for registering and disposing the native
- * data associated with java objects.
+ * This clbss is used for registering bnd disposing the nbtive
+ * dbtb bssocibted with jbvb objects.
  *
- * The object can register itself by calling one of the addRecord
- * methods and providing either the pointer to the native disposal
- * method or a descendant of the DisposerRecord class with overridden
+ * The object cbn register itself by cblling one of the bddRecord
+ * methods bnd providing either the pointer to the nbtive disposbl
+ * method or b descendbnt of the DisposerRecord clbss with overridden
  * dispose() method.
  *
- * When the object becomes unreachable, the dispose() method
- * of the associated DisposerRecord object will be called.
+ * When the object becomes unrebchbble, the dispose() method
+ * of the bssocibted DisposerRecord object will be cblled.
  *
  * @see DisposerRecord
  */
-public class Disposer implements Runnable {
-    private static final ReferenceQueue<Object> queue = new ReferenceQueue<>();
-    private static final Hashtable<java.lang.ref.Reference<Object>, DisposerRecord> records =
-        new Hashtable<>();
+public clbss Disposer implements Runnbble {
+    privbte stbtic finbl ReferenceQueue<Object> queue = new ReferenceQueue<>();
+    privbte stbtic finbl Hbshtbble<jbvb.lbng.ref.Reference<Object>, DisposerRecord> records =
+        new Hbshtbble<>();
 
-    private static Disposer disposerInstance;
-    public static final int WEAK = 0;
-    public static final int PHANTOM = 1;
-    public static int refType = PHANTOM;
+    privbte stbtic Disposer disposerInstbnce;
+    public stbtic finbl int WEAK = 0;
+    public stbtic finbl int PHANTOM = 1;
+    public stbtic int refType = PHANTOM;
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("awt");
+                    System.lobdLibrbry("bwt");
                     return null;
                 }
             });
         initIDs();
-        String type = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("sun.java2d.reftype"));
+        String type = jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction("sun.jbvb2d.reftype"));
         if (type != null) {
-            if (type.equals("weak")) {
+            if (type.equbls("webk")) {
                 refType = WEAK;
                 System.err.println("Using WEAK refs");
             } else {
@@ -80,65 +80,65 @@ public class Disposer implements Runnable {
                 System.err.println("Using PHANTOM refs");
             }
         }
-        disposerInstance = new Disposer();
+        disposerInstbnce = new Disposer();
         AccessController.doPrivileged(
                 (PrivilegedAction<Void>) () -> {
-                     /* The thread must be a member of a thread group
+                     /* The threbd must be b member of b threbd group
                       * which will not get GCed before VM exit.
-                      * Make its parent the top-level thread group.
+                      * Mbke its pbrent the top-level threbd group.
                       */
-                     ThreadGroup rootTG = ThreadGroupUtils.getRootThreadGroup();
-                     Thread t = new Thread(rootTG, disposerInstance, "Java2D Disposer");
-                     t.setContextClassLoader(null);
-                     t.setDaemon(true);
-                     t.setPriority(Thread.MAX_PRIORITY);
-                     t.start();
+                     ThrebdGroup rootTG = ThrebdGroupUtils.getRootThrebdGroup();
+                     Threbd t = new Threbd(rootTG, disposerInstbnce, "Jbvb2D Disposer");
+                     t.setContextClbssLobder(null);
+                     t.setDbemon(true);
+                     t.setPriority(Threbd.MAX_PRIORITY);
+                     t.stbrt();
                      return null;
                  }
          );
     }
 
     /**
-     * Registers the object and the native data for later disposal.
-     * @param target Object to be registered
-     * @param disposeMethod pointer to the native disposal method
-     * @param pData pointer to the data to be passed to the
-     *              native disposal method
+     * Registers the object bnd the nbtive dbtb for lbter disposbl.
+     * @pbrbm tbrget Object to be registered
+     * @pbrbm disposeMethod pointer to the nbtive disposbl method
+     * @pbrbm pDbtb pointer to the dbtb to be pbssed to the
+     *              nbtive disposbl method
      */
-    public static void addRecord(Object target,
-                                 long disposeMethod, long pData)
+    public stbtic void bddRecord(Object tbrget,
+                                 long disposeMethod, long pDbtb)
     {
-        disposerInstance.add(target,
-                             new DefaultDisposerRecord(disposeMethod, pData));
+        disposerInstbnce.bdd(tbrget,
+                             new DefbultDisposerRecord(disposeMethod, pDbtb));
     }
 
     /**
-     * Registers the object and the native data for later disposal.
-     * @param target Object to be registered
-     * @param rec the associated DisposerRecord object
+     * Registers the object bnd the nbtive dbtb for lbter disposbl.
+     * @pbrbm tbrget Object to be registered
+     * @pbrbm rec the bssocibted DisposerRecord object
      * @see DisposerRecord
      */
-    public static void addRecord(Object target, DisposerRecord rec) {
-        disposerInstance.add(target, rec);
+    public stbtic void bddRecord(Object tbrget, DisposerRecord rec) {
+        disposerInstbnce.bdd(tbrget, rec);
     }
 
     /**
-     * Performs the actual registration of the target object to be disposed.
-     * @param target Object to be registered, or if target is an instance
-     *               of DisposerTarget, its associated disposer referent
-     *               will be the Object that is registered
-     * @param rec the associated DisposerRecord object
+     * Performs the bctubl registrbtion of the tbrget object to be disposed.
+     * @pbrbm tbrget Object to be registered, or if tbrget is bn instbnce
+     *               of DisposerTbrget, its bssocibted disposer referent
+     *               will be the Object thbt is registered
+     * @pbrbm rec the bssocibted DisposerRecord object
      * @see DisposerRecord
      */
-    synchronized void add(Object target, DisposerRecord rec) {
-        if (target instanceof DisposerTarget) {
-            target = ((DisposerTarget)target).getDisposerReferent();
+    synchronized void bdd(Object tbrget, DisposerRecord rec) {
+        if (tbrget instbnceof DisposerTbrget) {
+            tbrget = ((DisposerTbrget)tbrget).getDisposerReferent();
         }
-        java.lang.ref.Reference<Object> ref;
+        jbvb.lbng.ref.Reference<Object> ref;
         if (refType == PHANTOM) {
-            ref = new PhantomReference<>(target, queue);
+            ref = new PhbntomReference<>(tbrget, queue);
         } else {
-            ref = new WeakReference<>(target, queue);
+            ref = new WebkReference<>(tbrget, queue);
         }
         records.put(ref, rec);
     }
@@ -147,30 +147,30 @@ public class Disposer implements Runnable {
         while (true) {
             try {
                 Object obj = queue.remove();
-                ((Reference)obj).clear();
+                ((Reference)obj).clebr();
                 DisposerRecord rec = records.remove(obj);
                 rec.dispose();
                 obj = null;
                 rec = null;
-                clearDeferredRecords();
-            } catch (Exception e) {
+                clebrDeferredRecords();
+            } cbtch (Exception e) {
                 System.out.println("Exception while removing reference.");
             }
         }
     }
 
     /*
-     * This is a marker interface that, if implemented, means it
-     * doesn't acquire any special locks, and is safe to
-     * be disposed in the poll loop on whatever thread
-     * which happens to be the Toolkit thread, is in use.
+     * This is b mbrker interfbce thbt, if implemented, mebns it
+     * doesn't bcquire bny specibl locks, bnd is sbfe to
+     * be disposed in the poll loop on whbtever threbd
+     * which hbppens to be the Toolkit threbd, is in use.
      */
-    public static interface PollDisposable {
+    public stbtic interfbce PollDisposbble {
     };
 
-    private static ArrayList<DisposerRecord> deferredRecords = null;
+    privbte stbtic ArrbyList<DisposerRecord> deferredRecords = null;
 
-    private static void clearDeferredRecords() {
+    privbte stbtic void clebrDeferredRecords() {
         if (deferredRecords == null || deferredRecords.isEmpty()) {
             return;
         }
@@ -178,28 +178,28 @@ public class Disposer implements Runnable {
             try {
                 DisposerRecord rec = deferredRecords.get(i);
                 rec.dispose();
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 System.out.println("Exception while disposing deferred rec.");
             }
         }
-        deferredRecords.clear();
+        deferredRecords.clebr();
     }
 
     /*
-     * Set to indicate the queue is presently being polled.
+     * Set to indicbte the queue is presently being polled.
      */
-    public static volatile boolean pollingQueue = false;
+    public stbtic volbtile boolebn pollingQueue = fblse;
 
     /*
-     * The pollRemove() method is called back from a dispose method
-     * that is running on the toolkit thread and wants to
-     * dispose any pending refs that are safe to be disposed
-     * on that thread.
+     * The pollRemove() method is cblled bbck from b dispose method
+     * thbt is running on the toolkit threbd bnd wbnts to
+     * dispose bny pending refs thbt bre sbfe to be disposed
+     * on thbt threbd.
      */
-    public static void pollRemove() {
+    public stbtic void pollRemove() {
 
-        /* This should never be called recursively, so this check
-         * is just a safeguard against the unexpected.
+        /* This should never be cblled recursively, so this check
+         * is just b sbfegubrd bgbinst the unexpected.
          */
         if (pollingQueue) {
             return;
@@ -212,52 +212,52 @@ public class Disposer implements Runnable {
             while ((obj = queue.poll()) != null
                    && freed < 10000 && deferred < 100) {
                 freed++;
-                ((Reference)obj).clear();
+                ((Reference)obj).clebr();
                 DisposerRecord rec = records.remove(obj);
-                if (rec instanceof PollDisposable) {
+                if (rec instbnceof PollDisposbble) {
                     rec.dispose();
                     obj = null;
                     rec = null;
                 } else {
-                    if (rec == null) { // shouldn't happen, but just in case.
+                    if (rec == null) { // shouldn't hbppen, but just in cbse.
                         continue;
                     }
                     deferred++;
                     if (deferredRecords == null) {
-                      deferredRecords = new ArrayList<DisposerRecord>(5);
+                      deferredRecords = new ArrbyList<DisposerRecord>(5);
                     }
-                    deferredRecords.add(rec);
+                    deferredRecords.bdd(rec);
                 }
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             System.out.println("Exception while removing reference.");
-        } finally {
-            pollingQueue = false;
+        } finblly {
+            pollingQueue = fblse;
         }
     }
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
     /*
-     * This was added for use by the 2D font implementation to avoid creation
-     * of an additional disposer thread.
-     * WARNING: this thread class monitors a specific queue, so a reference
-     * added here must have been created with this queue. Failure to do
-     * so will clutter the records hashmap and no one will be cleaning up
+     * This wbs bdded for use by the 2D font implementbtion to bvoid crebtion
+     * of bn bdditionbl disposer threbd.
+     * WARNING: this threbd clbss monitors b specific queue, so b reference
+     * bdded here must hbve been crebted with this queue. Fbilure to do
+     * so will clutter the records hbshmbp bnd no one will be clebning up
      * the reference queue.
      */
-    @SuppressWarnings("unchecked")
-    public static void addReference(Reference<Object> ref, DisposerRecord rec) {
+    @SuppressWbrnings("unchecked")
+    public stbtic void bddReference(Reference<Object> ref, DisposerRecord rec) {
         records.put(ref, rec);
     }
 
-    public static void addObjectRecord(Object obj, DisposerRecord rec) {
-        records.put(new WeakReference<>(obj, queue) , rec);
+    public stbtic void bddObjectRecord(Object obj, DisposerRecord rec) {
+        records.put(new WebkReference<>(obj, queue) , rec);
     }
 
-    /* This is intended for use in conjunction with addReference(..)
+    /* This is intended for use in conjunction with bddReference(..)
      */
-    public static ReferenceQueue<Object> getQueue() {
+    public stbtic ReferenceQueue<Object> getQueue() {
         return queue;
     }
 

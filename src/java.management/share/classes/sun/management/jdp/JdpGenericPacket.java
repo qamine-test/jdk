@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.jdp;
+pbckbge sun.mbnbgement.jdp;
 
 /**
- * JdpGenericPacket responsible to provide fields
- * common for all Jdp packets
+ * JdpGenericPbcket responsible to provide fields
+ * common for bll Jdp pbckets
  */
-public abstract class JdpGenericPacket implements JdpPacket {
+public bbstrbct clbss JdpGenericPbcket implements JdpPbcket {
 
     /**
-     * JDP protocol magic. Magic allows a reader to quickly select
-     * JDP packets from a bunch of broadcast packets addressed to the same port
-     * and broadcast group. Any packet intended to be parsed by JDP client
-     * has to start from this  magic.
+     * JDP protocol mbgic. Mbgic bllows b rebder to quickly select
+     * JDP pbckets from b bunch of brobdcbst pbckets bddressed to the sbme port
+     * bnd brobdcbst group. Any pbcket intended to be pbrsed by JDP client
+     * hbs to stbrt from this  mbgic.
      */
-    private static final int MAGIC = 0xC0FFEE42;
+    privbte stbtic finbl int MAGIC = 0xC0FFEE42;
 
     /**
-     * Current version of protocol. Any implementation of this protocol has to
-     * conform with the packet structure and the flow described in JEP-168
+     * Current version of protocol. Any implementbtion of this protocol hbs to
+     * conform with the pbcket structure bnd the flow described in JEP-168
      */
-    private static final short PROTOCOL_VERSION = 1;
+    privbte stbtic finbl short PROTOCOL_VERSION = 1;
 
     /**
-     * Default do-nothing constructor
+     * Defbult do-nothing constructor
      */
-    protected  JdpGenericPacket(){
+    protected  JdpGenericPbcket(){
         // do nothing
     }
 
 
     /**
-     * Validate protocol header magic field
+     * Vblidbte protocol hebder mbgic field
      *
-     * @param magic - value to validate
+     * @pbrbm mbgic - vblue to vblidbte
      * @throws JdpException
      */
-    public static void checkMagic(int magic)
+    public stbtic void checkMbgic(int mbgic)
             throws JdpException {
-        if (magic != MAGIC) {
-            throw new JdpException("Invalid JDP magic header: " + magic);
+        if (mbgic != MAGIC) {
+            throw new JdpException("Invblid JDP mbgic hebder: " + mbgic);
         }
     }
 
     /**
-     * Validate protocol header version field
+     * Vblidbte protocol hebder version field
      *
-     * @param version - value to validate
+     * @pbrbm version - vblue to vblidbte
      * @throws JdpException
      */
-    public static void checkVersion(short version)
+    public stbtic void checkVersion(short version)
             throws JdpException {
 
         if (version > PROTOCOL_VERSION) {
@@ -81,9 +81,9 @@ public abstract class JdpGenericPacket implements JdpPacket {
 
     /**
      *
-     * @return protocol magic
+     * @return protocol mbgic
      */
-    public static int getMagic() {
+    public stbtic int getMbgic() {
         return MAGIC;
     }
 
@@ -91,7 +91,7 @@ public abstract class JdpGenericPacket implements JdpPacket {
      *
      * @return current protocol version
      */
-    public static short getVersion() {
+    public stbtic short getVersion() {
         return PROTOCOL_VERSION;
     }
 }

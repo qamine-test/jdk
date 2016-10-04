@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,167 +56,167 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * An {@link FieldVisitor} that generates Java fields in bytecode form.
+ * An {@link FieldVisitor} thbt generbtes Jbvb fields in bytecode form.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-final class FieldWriter extends FieldVisitor {
+finbl clbss FieldWriter extends FieldVisitor {
 
     /**
-     * The class writer to which this field must be added.
+     * The clbss writer to which this field must be bdded.
      */
-    private final ClassWriter cw;
+    privbte finbl ClbssWriter cw;
 
     /**
-     * Access flags of this field.
+     * Access flbgs of this field.
      */
-    private final int access;
+    privbte finbl int bccess;
 
     /**
-     * The index of the constant pool item that contains the name of this
+     * The index of the constbnt pool item thbt contbins the nbme of this
      * method.
      */
-    private final int name;
+    privbte finbl int nbme;
 
     /**
-     * The index of the constant pool item that contains the descriptor of this
+     * The index of the constbnt pool item thbt contbins the descriptor of this
      * field.
      */
-    private final int desc;
+    privbte finbl int desc;
 
     /**
-     * The index of the constant pool item that contains the signature of this
+     * The index of the constbnt pool item thbt contbins the signbture of this
      * field.
      */
-    private int signature;
+    privbte int signbture;
 
     /**
-     * The index of the constant pool item that contains the constant value of
+     * The index of the constbnt pool item thbt contbins the constbnt vblue of
      * this field.
      */
-    private int value;
+    privbte int vblue;
 
     /**
-     * The runtime visible annotations of this field. May be <tt>null</tt>.
+     * The runtime visible bnnotbtions of this field. Mby be <tt>null</tt>.
      */
-    private AnnotationWriter anns;
+    privbte AnnotbtionWriter bnns;
 
     /**
-     * The runtime invisible annotations of this field. May be <tt>null</tt>.
+     * The runtime invisible bnnotbtions of this field. Mby be <tt>null</tt>.
      */
-    private AnnotationWriter ianns;
+    privbte AnnotbtionWriter ibnns;
 
     /**
-     * The runtime visible type annotations of this field. May be <tt>null</tt>.
+     * The runtime visible type bnnotbtions of this field. Mby be <tt>null</tt>.
      */
-    private AnnotationWriter tanns;
+    privbte AnnotbtionWriter tbnns;
 
     /**
-     * The runtime invisible type annotations of this field. May be
+     * The runtime invisible type bnnotbtions of this field. Mby be
      * <tt>null</tt>.
      */
-    private AnnotationWriter itanns;
+    privbte AnnotbtionWriter itbnns;
 
     /**
-     * The non standard attributes of this field. May be <tt>null</tt>.
+     * The non stbndbrd bttributes of this field. Mby be <tt>null</tt>.
      */
-    private Attribute attrs;
+    privbte Attribute bttrs;
 
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a new {@link FieldWriter}.
+     * Constructs b new {@link FieldWriter}.
      *
-     * @param cw
-     *            the class writer to which this field must be added.
-     * @param access
-     *            the field's access flags (see {@link Opcodes}).
-     * @param name
-     *            the field's name.
-     * @param desc
+     * @pbrbm cw
+     *            the clbss writer to which this field must be bdded.
+     * @pbrbm bccess
+     *            the field's bccess flbgs (see {@link Opcodes}).
+     * @pbrbm nbme
+     *            the field's nbme.
+     * @pbrbm desc
      *            the field's descriptor (see {@link Type}).
-     * @param signature
-     *            the field's signature. May be <tt>null</tt>.
-     * @param value
-     *            the field's constant value. May be <tt>null</tt>.
+     * @pbrbm signbture
+     *            the field's signbture. Mby be <tt>null</tt>.
+     * @pbrbm vblue
+     *            the field's constbnt vblue. Mby be <tt>null</tt>.
      */
-    FieldWriter(final ClassWriter cw, final int access, final String name,
-            final String desc, final String signature, final Object value) {
+    FieldWriter(finbl ClbssWriter cw, finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl Object vblue) {
         super(Opcodes.ASM5);
         if (cw.firstField == null) {
             cw.firstField = this;
         } else {
-            cw.lastField.fv = this;
+            cw.lbstField.fv = this;
         }
-        cw.lastField = this;
+        cw.lbstField = this;
         this.cw = cw;
-        this.access = access;
-        this.name = cw.newUTF8(name);
+        this.bccess = bccess;
+        this.nbme = cw.newUTF8(nbme);
         this.desc = cw.newUTF8(desc);
-        if (ClassReader.SIGNATURES && signature != null) {
-            this.signature = cw.newUTF8(signature);
+        if (ClbssRebder.SIGNATURES && signbture != null) {
+            this.signbture = cw.newUTF8(signbture);
         }
-        if (value != null) {
-            this.value = cw.newConstItem(value).index;
+        if (vblue != null) {
+            this.vblue = cw.newConstItem(vblue).index;
         }
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the FieldVisitor abstract class
+    // Implementbtion of the FieldVisitor bbstrbct clbss
     // ------------------------------------------------------------------------
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
+        if (!ClbssRebder.ANNOTATIONS) {
             return null;
         }
         ByteVector bv = new ByteVector();
-        // write type, and reserve space for values count
+        // write type, bnd reserve spbce for vblues count
         bv.putShort(cw.newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(cw, true, bv, bv, 2);
+        AnnotbtionWriter bw = new AnnotbtionWriter(cw, true, bv, bv, 2);
         if (visible) {
-            aw.next = anns;
-            anns = aw;
+            bw.next = bnns;
+            bnns = bw;
         } else {
-            aw.next = ianns;
-            ianns = aw;
+            bw.next = ibnns;
+            ibnns = bw;
         }
-        return aw;
+        return bw;
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
+    public AnnotbtionVisitor visitTypeAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
+        if (!ClbssRebder.ANNOTATIONS) {
             return null;
         }
         ByteVector bv = new ByteVector();
-        // write target_type and target_info
-        AnnotationWriter.putTarget(typeRef, typePath, bv);
-        // write type, and reserve space for values count
+        // write tbrget_type bnd tbrget_info
+        AnnotbtionWriter.putTbrget(typeRef, typePbth, bv);
+        // write type, bnd reserve spbce for vblues count
         bv.putShort(cw.newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(cw, true, bv, bv,
+        AnnotbtionWriter bw = new AnnotbtionWriter(cw, true, bv, bv,
                 bv.length - 2);
         if (visible) {
-            aw.next = tanns;
-            tanns = aw;
+            bw.next = tbnns;
+            tbnns = bw;
         } else {
-            aw.next = itanns;
-            itanns = aw;
+            bw.next = itbnns;
+            itbnns = bw;
         }
-        return aw;
+        return bw;
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
-        attr.next = attrs;
-        attrs = attr;
+    public void visitAttribute(finbl Attribute bttr) {
+        bttr.next = bttrs;
+        bttrs = bttr;
     }
 
     @Override
@@ -234,43 +234,43 @@ final class FieldWriter extends FieldVisitor {
      */
     int getSize() {
         int size = 8;
-        if (value != 0) {
-            cw.newUTF8("ConstantValue");
+        if (vblue != 0) {
+            cw.newUTF8("ConstbntVblue");
             size += 8;
         }
-        if ((access & Opcodes.ACC_SYNTHETIC) != 0) {
+        if ((bccess & Opcodes.ACC_SYNTHETIC) != 0) {
             if ((cw.version & 0xFFFF) < Opcodes.V1_5
-                    || (access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                    || (bccess & ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
                 cw.newUTF8("Synthetic");
                 size += 6;
             }
         }
-        if ((access & Opcodes.ACC_DEPRECATED) != 0) {
-            cw.newUTF8("Deprecated");
+        if ((bccess & Opcodes.ACC_DEPRECATED) != 0) {
+            cw.newUTF8("Deprecbted");
             size += 6;
         }
-        if (ClassReader.SIGNATURES && signature != 0) {
-            cw.newUTF8("Signature");
+        if (ClbssRebder.SIGNATURES && signbture != 0) {
+            cw.newUTF8("Signbture");
             size += 8;
         }
-        if (ClassReader.ANNOTATIONS && anns != null) {
-            cw.newUTF8("RuntimeVisibleAnnotations");
-            size += 8 + anns.getSize();
+        if (ClbssRebder.ANNOTATIONS && bnns != null) {
+            cw.newUTF8("RuntimeVisibleAnnotbtions");
+            size += 8 + bnns.getSize();
         }
-        if (ClassReader.ANNOTATIONS && ianns != null) {
-            cw.newUTF8("RuntimeInvisibleAnnotations");
-            size += 8 + ianns.getSize();
+        if (ClbssRebder.ANNOTATIONS && ibnns != null) {
+            cw.newUTF8("RuntimeInvisibleAnnotbtions");
+            size += 8 + ibnns.getSize();
         }
-        if (ClassReader.ANNOTATIONS && tanns != null) {
-            cw.newUTF8("RuntimeVisibleTypeAnnotations");
-            size += 8 + tanns.getSize();
+        if (ClbssRebder.ANNOTATIONS && tbnns != null) {
+            cw.newUTF8("RuntimeVisibleTypeAnnotbtions");
+            size += 8 + tbnns.getSize();
         }
-        if (ClassReader.ANNOTATIONS && itanns != null) {
-            cw.newUTF8("RuntimeInvisibleTypeAnnotations");
-            size += 8 + itanns.getSize();
+        if (ClbssRebder.ANNOTATIONS && itbnns != null) {
+            cw.newUTF8("RuntimeInvisibleTypeAnnotbtions");
+            size += 8 + itbnns.getSize();
         }
-        if (attrs != null) {
-            size += attrs.getSize(cw, null, 0, -1, -1);
+        if (bttrs != null) {
+            size += bttrs.getSize(cw, null, 0, -1, -1);
         }
         return size;
     }
@@ -278,81 +278,81 @@ final class FieldWriter extends FieldVisitor {
     /**
      * Puts the content of this field into the given byte vector.
      *
-     * @param out
+     * @pbrbm out
      *            where the content of this field must be put.
      */
-    void put(final ByteVector out) {
-        final int FACTOR = ClassWriter.TO_ACC_SYNTHETIC;
-        int mask = Opcodes.ACC_DEPRECATED | ClassWriter.ACC_SYNTHETIC_ATTRIBUTE
-                | ((access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) / FACTOR);
-        out.putShort(access & ~mask).putShort(name).putShort(desc);
-        int attributeCount = 0;
-        if (value != 0) {
-            ++attributeCount;
+    void put(finbl ByteVector out) {
+        finbl int FACTOR = ClbssWriter.TO_ACC_SYNTHETIC;
+        int mbsk = Opcodes.ACC_DEPRECATED | ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE
+                | ((bccess & ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE) / FACTOR);
+        out.putShort(bccess & ~mbsk).putShort(nbme).putShort(desc);
+        int bttributeCount = 0;
+        if (vblue != 0) {
+            ++bttributeCount;
         }
-        if ((access & Opcodes.ACC_SYNTHETIC) != 0) {
+        if ((bccess & Opcodes.ACC_SYNTHETIC) != 0) {
             if ((cw.version & 0xFFFF) < Opcodes.V1_5
-                    || (access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
-                ++attributeCount;
+                    || (bccess & ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                ++bttributeCount;
             }
         }
-        if ((access & Opcodes.ACC_DEPRECATED) != 0) {
-            ++attributeCount;
+        if ((bccess & Opcodes.ACC_DEPRECATED) != 0) {
+            ++bttributeCount;
         }
-        if (ClassReader.SIGNATURES && signature != 0) {
-            ++attributeCount;
+        if (ClbssRebder.SIGNATURES && signbture != 0) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && anns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && bnns != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && ianns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && ibnns != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && tanns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && tbnns != null) {
+            ++bttributeCount;
         }
-        if (ClassReader.ANNOTATIONS && itanns != null) {
-            ++attributeCount;
+        if (ClbssRebder.ANNOTATIONS && itbnns != null) {
+            ++bttributeCount;
         }
-        if (attrs != null) {
-            attributeCount += attrs.getCount();
+        if (bttrs != null) {
+            bttributeCount += bttrs.getCount();
         }
-        out.putShort(attributeCount);
-        if (value != 0) {
-            out.putShort(cw.newUTF8("ConstantValue"));
-            out.putInt(2).putShort(value);
+        out.putShort(bttributeCount);
+        if (vblue != 0) {
+            out.putShort(cw.newUTF8("ConstbntVblue"));
+            out.putInt(2).putShort(vblue);
         }
-        if ((access & Opcodes.ACC_SYNTHETIC) != 0) {
+        if ((bccess & Opcodes.ACC_SYNTHETIC) != 0) {
             if ((cw.version & 0xFFFF) < Opcodes.V1_5
-                    || (access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                    || (bccess & ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
                 out.putShort(cw.newUTF8("Synthetic")).putInt(0);
             }
         }
-        if ((access & Opcodes.ACC_DEPRECATED) != 0) {
-            out.putShort(cw.newUTF8("Deprecated")).putInt(0);
+        if ((bccess & Opcodes.ACC_DEPRECATED) != 0) {
+            out.putShort(cw.newUTF8("Deprecbted")).putInt(0);
         }
-        if (ClassReader.SIGNATURES && signature != 0) {
-            out.putShort(cw.newUTF8("Signature"));
-            out.putInt(2).putShort(signature);
+        if (ClbssRebder.SIGNATURES && signbture != 0) {
+            out.putShort(cw.newUTF8("Signbture"));
+            out.putInt(2).putShort(signbture);
         }
-        if (ClassReader.ANNOTATIONS && anns != null) {
-            out.putShort(cw.newUTF8("RuntimeVisibleAnnotations"));
-            anns.put(out);
+        if (ClbssRebder.ANNOTATIONS && bnns != null) {
+            out.putShort(cw.newUTF8("RuntimeVisibleAnnotbtions"));
+            bnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && ianns != null) {
-            out.putShort(cw.newUTF8("RuntimeInvisibleAnnotations"));
-            ianns.put(out);
+        if (ClbssRebder.ANNOTATIONS && ibnns != null) {
+            out.putShort(cw.newUTF8("RuntimeInvisibleAnnotbtions"));
+            ibnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && tanns != null) {
-            out.putShort(cw.newUTF8("RuntimeVisibleTypeAnnotations"));
-            tanns.put(out);
+        if (ClbssRebder.ANNOTATIONS && tbnns != null) {
+            out.putShort(cw.newUTF8("RuntimeVisibleTypeAnnotbtions"));
+            tbnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && itanns != null) {
-            out.putShort(cw.newUTF8("RuntimeInvisibleTypeAnnotations"));
-            itanns.put(out);
+        if (ClbssRebder.ANNOTATIONS && itbnns != null) {
+            out.putShort(cw.newUTF8("RuntimeInvisibleTypeAnnotbtions"));
+            itbnns.put(out);
         }
-        if (attrs != null) {
-            attrs.put(cw, null, 0, -1, -1, out);
+        if (bttrs != null) {
+            bttrs.put(cw, null, 0, -1, -1, out);
         }
     }
 }

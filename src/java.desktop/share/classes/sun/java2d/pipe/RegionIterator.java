@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Rectangle;
+import jbvb.bwt.Rectbngle;
 
 /**
- * This class defines the API for iterating through the bands
- * of a region object.
+ * This clbss defines the API for iterbting through the bbnds
+ * of b region object.
  */
-public class RegionIterator {
+public clbss RegionIterbtor {
     Region region;
     int curIndex;
-    int numXbands;
+    int numXbbnds;
 
-    RegionIterator(Region r) {
+    RegionIterbtor(Region r) {
         region = r;
     }
 
     /**
-     * Returns a new RegionIterator object representing the same
-     * iteration state as this object to allow multiple iteration
-     * branches from the current position.
+     * Returns b new RegionIterbtor object representing the sbme
+     * iterbtion stbte bs this object to bllow multiple iterbtion
+     * brbnches from the current position.
      */
-    public RegionIterator createCopy() {
-        RegionIterator r = new RegionIterator(region);
+    public RegionIterbtor crebteCopy() {
+        RegionIterbtor r = new RegionIterbtor(region);
         r.curIndex = this.curIndex;
-        r.numXbands = this.numXbands;
+        r.numXbbnds = this.numXbbnds;
         return r;
     }
 
     /**
-     * Copies the iteration state from this RegionIterator object
-     * into another RegionIterator object to allow multiple iteration
-     * branches from the current position.
+     * Copies the iterbtion stbte from this RegionIterbtor object
+     * into bnother RegionIterbtor object to bllow multiple iterbtion
+     * brbnches from the current position.
      */
-    public void copyStateFrom(RegionIterator ri) {
+    public void copyStbteFrom(RegionIterbtor ri) {
         if (this.region != ri.region) {
-            throw new InternalError("region mismatch");
+            throw new InternblError("region mismbtch");
         }
         this.curIndex = ri.curIndex;
-        this.numXbands = ri.numXbands;
+        this.numXbbnds = ri.numXbbnds;
     }
 
     /**
-     * Moves the iteration state to the beginning of the next
-     * Y range in the region returning true if one is found
-     * and recording the low and high Y coordinates of the
-     * range in the array at locations 1 and 3 respectively.
+     * Moves the iterbtion stbte to the beginning of the next
+     * Y rbnge in the region returning true if one is found
+     * bnd recording the low bnd high Y coordinbtes of the
+     * rbnge in the brrby bt locbtions 1 bnd 3 respectively.
      */
-    public boolean nextYRange(int range[]) {
-        curIndex += numXbands * 2;
-        numXbands = 0;
+    public boolebn nextYRbnge(int rbnge[]) {
+        curIndex += numXbbnds * 2;
+        numXbbnds = 0;
         if (curIndex >= region.endIndex) {
-            return false;
+            return fblse;
         }
-        range[1] = region.bands[curIndex++];
-        range[3] = region.bands[curIndex++];
-        numXbands = region.bands[curIndex++];
+        rbnge[1] = region.bbnds[curIndex++];
+        rbnge[3] = region.bbnds[curIndex++];
+        numXbbnds = region.bbnds[curIndex++];
         return true;
     }
 
     /**
-     * Moves the iteration state to the beginning of the next
-     * X band in the current Y range returning true if one is
-     * found and recording the low and high X coordinates of
-     * the range in the array at locations 0 and 2 respectively.
+     * Moves the iterbtion stbte to the beginning of the next
+     * X bbnd in the current Y rbnge returning true if one is
+     * found bnd recording the low bnd high X coordinbtes of
+     * the rbnge in the brrby bt locbtions 0 bnd 2 respectively.
      */
-    public boolean nextXBand(int range[]) {
-        if (numXbands <= 0) {
-            return false;
+    public boolebn nextXBbnd(int rbnge[]) {
+        if (numXbbnds <= 0) {
+            return fblse;
         }
-        numXbands--;
-        range[0] = region.bands[curIndex++];
-        range[2] = region.bands[curIndex++];
+        numXbbnds--;
+        rbnge[0] = region.bbnds[curIndex++];
+        rbnge[2] = region.bbnds[curIndex++];
         return true;
     }
 }

@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.colorchooser;
+pbckbge jbvbx.swing.colorchooser;
 
-import java.awt.Component;
-import javax.swing.UIManager;
+import jbvb.bwt.Component;
+import jbvbx.swing.UIMbnbger;
 
-class ColorModel {
+clbss ColorModel {
 
-    private final String prefix;
-    private final String[] labels;
+    privbte finbl String prefix;
+    privbte finbl String[] lbbels;
 
-    ColorModel(String name, String... labels) {
-        this.prefix = "ColorChooser." + name; // NON-NLS: default prefix
-        this.labels = labels;
+    ColorModel(String nbme, String... lbbels) {
+        this.prefix = "ColorChooser." + nbme; // NON-NLS: defbult prefix
+        this.lbbels = lbbels;
     }
 
     ColorModel() {
-        this("rgb", "Red", "Green", "Blue", "Alpha"); // NON-NLS: components
+        this("rgb", "Red", "Green", "Blue", "Alphb"); // NON-NLS: components
     }
 
-    void setColor(int color, float[] model) {
-        model[0] = normalize(color >> 16);
-        model[1] = normalize(color >> 8);
-        model[2] = normalize(color);
-        model[3] = normalize(color >> 24);
+    void setColor(int color, flobt[] model) {
+        model[0] = normblize(color >> 16);
+        model[1] = normblize(color >> 8);
+        model[2] = normblize(color);
+        model[3] = normblize(color >> 24);
     }
 
-    int getColor(float[] model) {
+    int getColor(flobt[] model) {
         return to8bit(model[2]) | (to8bit(model[1]) << 8) | (to8bit(model[0]) << 16) | (to8bit(model[3]) << 24);
     }
 
     int getCount() {
-        return this.labels.length;
+        return this.lbbels.length;
     }
 
     int getMinimum(int index) {
         return 0;
     }
 
-    int getMaximum(int index) {
+    int getMbximum(int index) {
         return 255;
     }
 
-    float getDefault(int index) {
+    flobt getDefbult(int index) {
         return 0.0f;
     }
 
-    final String getLabel(Component component, int index) {
-        return getText(component, this.labels[index]);
+    finbl String getLbbel(Component component, int index) {
+        return getText(component, this.lbbels[index]);
     }
 
-    private static float normalize(int value) {
-        return (float) (value & 0xFF) / 255.0f;
+    privbte stbtic flobt normblize(int vblue) {
+        return (flobt) (vblue & 0xFF) / 255.0f;
     }
 
-    private static int to8bit(float value) {
-        return (int) (255.0f * value);
+    privbte stbtic int to8bit(flobt vblue) {
+        return (int) (255.0f * vblue);
     }
 
-    final String getText(Component component, String suffix) {
-        return UIManager.getString(this.prefix + suffix + "Text", component.getLocale()); // NON-NLS: default postfix
+    finbl String getText(Component component, String suffix) {
+        return UIMbnbger.getString(this.prefix + suffix + "Text", component.getLocble()); // NON-NLS: defbult postfix
     }
 
-    final int getInteger(Component component, String suffix) {
-        Object value = UIManager.get(this.prefix + suffix, component.getLocale());
-        if (value instanceof Integer) {
-            return (Integer) value;
+    finbl int getInteger(Component component, String suffix) {
+        Object vblue = UIMbnbger.get(this.prefix + suffix, component.getLocble());
+        if (vblue instbnceof Integer) {
+            return (Integer) vblue;
         }
-        if (value instanceof String) {
+        if (vblue instbnceof String) {
             try {
-                return Integer.parseInt((String) value);
+                return Integer.pbrseInt((String) vblue);
             }
-            catch (NumberFormatException exception) {
+            cbtch (NumberFormbtException exception) {
             }
         }
         return -1;

@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 1996, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.Comparator;
-import java.util.Arrays;
-import java.math.BigInteger;
-import java.util.Locale;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.text.SimpleDbteFormbt;
+import jbvb.util.Dbte;
+import jbvb.util.TimeZone;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Locble;
 
 
 /**
- * Output stream marshaling DER-encoded data.  This is eventually provided
- * in the form of a byte array; there is no advance limit on the size of
- * that byte array.
+ * Output strebm mbrshbling DER-encoded dbtb.  This is eventublly provided
+ * in the form of b byte brrby; there is no bdvbnce limit on the size of
+ * thbt byte brrby.
  *
- * <P>At this time, this class supports only a subset of the types of
- * DER data encodings which are defined.  That subset is sufficient for
- * generating most X.509 certificates.
+ * <P>At this time, this clbss supports only b subset of the types of
+ * DER dbtb encodings which bre defined.  Thbt subset is sufficient for
+ * generbting most X.509 certificbtes.
  *
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Dbvid Brownell
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class DerOutputStream
-extends ByteArrayOutputStream implements DerEncoder {
+public clbss DerOutputStrebm
+extends ByteArrbyOutputStrebm implements DerEncoder {
     /**
-     * Construct an DER output stream.
+     * Construct bn DER output strebm.
      *
-     * @param size how large a buffer to preallocate.
+     * @pbrbm size how lbrge b buffer to prebllocbte.
      */
-    public DerOutputStream(int size) { super(size); }
+    public DerOutputStrebm(int size) { super(size); }
 
     /**
-     * Construct an DER output stream.
+     * Construct bn DER output strebm.
      */
-    public DerOutputStream() { }
+    public DerOutputStrebm() { }
 
     /**
-     * Writes tagged, pre-marshaled data.  This calcuates and encodes
-     * the length, so that the output data is the standard triple of
-     * { tag, length, data } used by all DER values.
+     * Writes tbgged, pre-mbrshbled dbtb.  This cblcubtes bnd encodes
+     * the length, so thbt the output dbtb is the stbndbrd triple of
+     * { tbg, length, dbtb } used by bll DER vblues.
      *
-     * @param tag the DER value tag for the data, such as
-     *          <em>DerValue.tag_Sequence</em>
-     * @param buf buffered data, which must be DER-encoded
+     * @pbrbm tbg the DER vblue tbg for the dbtb, such bs
+     *          <em>DerVblue.tbg_Sequence</em>
+     * @pbrbm buf buffered dbtb, which must be DER-encoded
      */
-    public void write(byte tag, byte[] buf) throws IOException {
-        write(tag);
+    public void write(byte tbg, byte[] buf) throws IOException {
+        write(tbg);
         putLength(buf.length);
         write(buf, 0, buf.length);
     }
 
     /**
-     * Writes tagged data using buffer-to-buffer copy.  As above,
-     * this writes a standard DER record.  This is often used when
-     * efficiently encapsulating values in sequences.
+     * Writes tbgged dbtb using buffer-to-buffer copy.  As bbove,
+     * this writes b stbndbrd DER record.  This is often used when
+     * efficiently encbpsulbting vblues in sequences.
      *
-     * @param tag the DER value tag for the data, such as
-     *          <em>DerValue.tag_Sequence</em>
-     * @param out buffered data
+     * @pbrbm tbg the DER vblue tbg for the dbtb, such bs
+     *          <em>DerVblue.tbg_Sequence</em>
+     * @pbrbm out buffered dbtb
      */
-    public void write(byte tag, DerOutputStream out) throws IOException {
-        write(tag);
+    public void write(byte tbg, DerOutputStrebm out) throws IOException {
+        write(tbg);
         putLength(out.count);
         write(out.buf, 0, out.count);
     }
 
     /**
-     * Writes implicitly tagged data using buffer-to-buffer copy.  As above,
-     * this writes a standard DER record.  This is often used when
-     * efficiently encapsulating implicitly tagged values.
+     * Writes implicitly tbgged dbtb using buffer-to-buffer copy.  As bbove,
+     * this writes b stbndbrd DER record.  This is often used when
+     * efficiently encbpsulbting implicitly tbgged vblues.
      *
-     * @param tag the DER value of the context-specific tag that replaces
-     * original tag of the value in the output, such as in
+     * @pbrbm tbg the DER vblue of the context-specific tbg thbt replbces
+     * originbl tbg of the vblue in the output, such bs in
      * <pre>
      *          <em> <field> [N] IMPLICIT <type></em>
      * </pre>
-     * For example, <em>FooLength [1] IMPLICIT INTEGER</em>, with value=4;
-     * would be encoded as "81 01 04"  whereas in explicit
-     * tagging it would be encoded as "A1 03 02 01 04".
-     * Notice that the tag is A1 and not 81, this is because with
-     * explicit tagging the form is always constructed.
-     * @param value original value being implicitly tagged
+     * For exbmple, <em>FooLength [1] IMPLICIT INTEGER</em>, with vblue=4;
+     * would be encoded bs "81 01 04"  wherebs in explicit
+     * tbgging it would be encoded bs "A1 03 02 01 04".
+     * Notice thbt the tbg is A1 bnd not 81, this is becbuse with
+     * explicit tbgging the form is blwbys constructed.
+     * @pbrbm vblue originbl vblue being implicitly tbgged
      */
-    public void writeImplicit(byte tag, DerOutputStream value)
+    public void writeImplicit(byte tbg, DerOutputStrebm vblue)
     throws IOException {
-        write(tag);
-        write(value.buf, 1, value.count-1);
+        write(tbg);
+        write(vblue.buf, 1, vblue.count-1);
     }
 
     /**
-     * Marshals pre-encoded DER value onto the output stream.
+     * Mbrshbls pre-encoded DER vblue onto the output strebm.
      */
-    public void putDerValue(DerValue val) throws IOException {
-        val.encode(this);
+    public void putDerVblue(DerVblue vbl) throws IOException {
+        vbl.encode(this);
     }
 
     /*
-     * PRIMITIVES -- these are "universal" ASN.1 simple types.
+     * PRIMITIVES -- these bre "universbl" ASN.1 simple types.
      *
      *  BOOLEAN, INTEGER, BIT STRING, OCTET STRING, NULL
      *  OBJECT IDENTIFIER, SEQUENCE(OF), SET(OF)
-     *  PrintableString, T61String, IA5String, UTCTime
+     *  PrintbbleString, T61String, IA5String, UTCTime
      */
 
     /**
-     * Marshals a DER boolean on the output stream.
+     * Mbrshbls b DER boolebn on the output strebm.
      */
-    public void putBoolean(boolean val) throws IOException {
-        write(DerValue.tag_Boolean);
+    public void putBoolebn(boolebn vbl) throws IOException {
+        write(DerVblue.tbg_Boolebn);
         putLength(1);
-        if (val) {
+        if (vbl) {
             write(0xff);
         } else {
             write(0);
@@ -147,145 +147,145 @@ extends ByteArrayOutputStream implements DerEncoder {
     }
 
     /**
-     * Marshals a DER enumerated on the output stream.
-     * @param i the enumerated value.
+     * Mbrshbls b DER enumerbted on the output strebm.
+     * @pbrbm i the enumerbted vblue.
      */
-    public void putEnumerated(int i) throws IOException {
-        write(DerValue.tag_Enumerated);
+    public void putEnumerbted(int i) throws IOException {
+        write(DerVblue.tbg_Enumerbted);
         putIntegerContents(i);
     }
 
     /**
-     * Marshals a DER integer on the output stream.
+     * Mbrshbls b DER integer on the output strebm.
      *
-     * @param i the integer in the form of a BigInteger.
+     * @pbrbm i the integer in the form of b BigInteger.
      */
     public void putInteger(BigInteger i) throws IOException {
-        write(DerValue.tag_Integer);
-        byte[]    buf = i.toByteArray(); // least number  of bytes
+        write(DerVblue.tbg_Integer);
+        byte[]    buf = i.toByteArrby(); // lebst number  of bytes
         putLength(buf.length);
         write(buf, 0, buf.length);
     }
 
     /**
-     * Marshals a DER integer on the output stream.
-     * @param i the integer in the form of an Integer.
+     * Mbrshbls b DER integer on the output strebm.
+     * @pbrbm i the integer in the form of bn Integer.
      */
     public void putInteger(Integer i) throws IOException {
-        putInteger(i.intValue());
+        putInteger(i.intVblue());
     }
 
     /**
-     * Marshals a DER integer on the output stream.
-     * @param i the integer.
+     * Mbrshbls b DER integer on the output strebm.
+     * @pbrbm i the integer.
      */
     public void putInteger(int i) throws IOException {
-        write(DerValue.tag_Integer);
+        write(DerVblue.tbg_Integer);
         putIntegerContents(i);
     }
 
-    private void putIntegerContents(int i) throws IOException {
+    privbte void putIntegerContents(int i) throws IOException {
 
         byte[] bytes = new byte[4];
-        int start = 0;
+        int stbrt = 0;
 
-        // Obtain the four bytes of the int
+        // Obtbin the four bytes of the int
 
         bytes[3] = (byte) (i & 0xff);
         bytes[2] = (byte)((i & 0xff00) >>> 8);
         bytes[1] = (byte)((i & 0xff0000) >>> 16);
         bytes[0] = (byte)((i & 0xff000000) >>> 24);
 
-        // Reduce them to the least number of bytes needed to
+        // Reduce them to the lebst number of bytes needed to
         // represent this int
 
         if (bytes[0] == (byte)0xff) {
 
-            // Eliminate redundant 0xff
+            // Eliminbte redundbnt 0xff
 
             for (int j = 0; j < 3; j++) {
                 if ((bytes[j] == (byte)0xff) &&
                     ((bytes[j+1] & 0x80) == 0x80))
-                    start++;
+                    stbrt++;
                 else
-                    break;
+                    brebk;
              }
          } else if (bytes[0] == 0x00) {
 
-             // Eliminate redundant 0x00
+             // Eliminbte redundbnt 0x00
 
             for (int j = 0; j < 3; j++) {
                 if ((bytes[j] == 0x00) &&
                     ((bytes[j+1] & 0x80) == 0))
-                    start++;
+                    stbrt++;
                 else
-                    break;
+                    brebk;
             }
         }
 
-        putLength(4 - start);
-        for (int k = start; k < 4; k++)
+        putLength(4 - stbrt);
+        for (int k = stbrt; k < 4; k++)
             write(bytes[k]);
     }
 
     /**
-     * Marshals a DER bit string on the output stream. The bit
-     * string must be byte-aligned.
+     * Mbrshbls b DER bit string on the output strebm. The bit
+     * string must be byte-bligned.
      *
-     * @param bits the bit string, MSB first
+     * @pbrbm bits the bit string, MSB first
      */
     public void putBitString(byte[] bits) throws IOException {
-        write(DerValue.tag_BitString);
+        write(DerVblue.tbg_BitString);
         putLength(bits.length + 1);
-        write(0);               // all of last octet is used
+        write(0);               // bll of lbst octet is used
         write(bits);
     }
 
     /**
-     * Marshals a DER bit string on the output stream.
-     * The bit strings need not be byte-aligned.
+     * Mbrshbls b DER bit string on the output strebm.
+     * The bit strings need not be byte-bligned.
      *
-     * @param bits the bit string, MSB first
+     * @pbrbm bits the bit string, MSB first
      */
-    public void putUnalignedBitString(BitArray ba) throws IOException {
-        byte[] bits = ba.toByteArray();
+    public void putUnblignedBitString(BitArrby bb) throws IOException {
+        byte[] bits = bb.toByteArrby();
 
-        write(DerValue.tag_BitString);
+        write(DerVblue.tbg_BitString);
         putLength(bits.length + 1);
-        write(bits.length*8 - ba.length()); // excess bits in last octet
+        write(bits.length*8 - bb.length()); // excess bits in lbst octet
         write(bits);
     }
 
     /**
-     * Marshals a truncated DER bit string on the output stream.
-     * The bit strings need not be byte-aligned.
+     * Mbrshbls b truncbted DER bit string on the output strebm.
+     * The bit strings need not be byte-bligned.
      *
-     * @param bits the bit string, MSB first
+     * @pbrbm bits the bit string, MSB first
      */
-    public void putTruncatedUnalignedBitString(BitArray ba) throws IOException {
-        putUnalignedBitString(ba.truncate());
+    public void putTruncbtedUnblignedBitString(BitArrby bb) throws IOException {
+        putUnblignedBitString(bb.truncbte());
     }
 
     /**
-     * DER-encodes an ASN.1 OCTET STRING value on the output stream.
+     * DER-encodes bn ASN.1 OCTET STRING vblue on the output strebm.
      *
-     * @param octets the octet string
+     * @pbrbm octets the octet string
      */
     public void putOctetString(byte[] octets) throws IOException {
-        write(DerValue.tag_OctetString, octets);
+        write(DerVblue.tbg_OctetString, octets);
     }
 
     /**
-     * Marshals a DER "null" value on the output stream.  These are
-     * often used to indicate optional values which have been omitted.
+     * Mbrshbls b DER "null" vblue on the output strebm.  These bre
+     * often used to indicbte optionbl vblues which hbve been omitted.
      */
     public void putNull() throws IOException {
-        write(DerValue.tag_Null);
+        write(DerVblue.tbg_Null);
         putLength(0);
     }
 
     /**
-     * Marshals an object identifier (OID) on the output stream.
+     * Mbrshbls bn object identifier (OID) on the output strebm.
      * Corresponds to the ASN.1 "OBJECT IDENTIFIER" construct.
      */
     public void putOID(ObjectIdentifier oid) throws IOException {
@@ -293,230 +293,230 @@ extends ByteArrayOutputStream implements DerEncoder {
     }
 
     /**
-     * Marshals a sequence on the output stream.  This supports both
-     * the ASN.1 "SEQUENCE" (zero to N values) and "SEQUENCE OF"
-     * (one to N values) constructs.
+     * Mbrshbls b sequence on the output strebm.  This supports both
+     * the ASN.1 "SEQUENCE" (zero to N vblues) bnd "SEQUENCE OF"
+     * (one to N vblues) constructs.
      */
-    public void putSequence(DerValue[] seq) throws IOException {
-        DerOutputStream bytes = new DerOutputStream();
+    public void putSequence(DerVblue[] seq) throws IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
         int i;
 
         for (i = 0; i < seq.length; i++)
             seq[i].encode(bytes);
 
-        write(DerValue.tag_Sequence, bytes);
+        write(DerVblue.tbg_Sequence, bytes);
     }
 
     /**
-     * Marshals the contents of a set on the output stream without
+     * Mbrshbls the contents of b set on the output strebm without
      * ordering the elements.  Ok for BER encoding, but not for DER
      * encoding.
      *
      * For DER encoding, use orderedPutSet() or orderedPutSetOf().
      */
-    public void putSet(DerValue[] set) throws IOException {
-        DerOutputStream bytes = new DerOutputStream();
+    public void putSet(DerVblue[] set) throws IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
         int i;
 
         for (i = 0; i < set.length; i++)
             set[i].encode(bytes);
 
-        write(DerValue.tag_Set, bytes);
+        write(DerVblue.tbg_Set, bytes);
     }
 
     /**
-     * Marshals the contents of a set on the output stream.  Sets
-     * are semantically unordered, but DER requires that encodings of
-     * set elements be sorted into ascending lexicographical order
-     * before being output.  Hence sets with the same tags and
-     * elements have the same DER encoding.
+     * Mbrshbls the contents of b set on the output strebm.  Sets
+     * bre sembnticblly unordered, but DER requires thbt encodings of
+     * set elements be sorted into bscending lexicogrbphicbl order
+     * before being output.  Hence sets with the sbme tbgs bnd
+     * elements hbve the sbme DER encoding.
      *
      * This method supports the ASN.1 "SET OF" construct, but not
-     * "SET", which uses a different order.
+     * "SET", which uses b different order.
      */
-    public void putOrderedSetOf(byte tag, DerEncoder[] set) throws IOException {
-        putOrderedSet(tag, set, lexOrder);
+    public void putOrderedSetOf(byte tbg, DerEncoder[] set) throws IOException {
+        putOrderedSet(tbg, set, lexOrder);
     }
 
     /**
-     * Marshals the contents of a set on the output stream.  Sets
-     * are semantically unordered, but DER requires that encodings of
-     * set elements be sorted into ascending tag order
-     * before being output.  Hence sets with the same tags and
-     * elements have the same DER encoding.
+     * Mbrshbls the contents of b set on the output strebm.  Sets
+     * bre sembnticblly unordered, but DER requires thbt encodings of
+     * set elements be sorted into bscending tbg order
+     * before being output.  Hence sets with the sbme tbgs bnd
+     * elements hbve the sbme DER encoding.
      *
      * This method supports the ASN.1 "SET" construct, but not
-     * "SET OF", which uses a different order.
+     * "SET OF", which uses b different order.
      */
-    public void putOrderedSet(byte tag, DerEncoder[] set) throws IOException {
-        putOrderedSet(tag, set, tagOrder);
+    public void putOrderedSet(byte tbg, DerEncoder[] set) throws IOException {
+        putOrderedSet(tbg, set, tbgOrder);
     }
 
     /**
-     *  Lexicographical order comparison on byte arrays, for ordering
-     *  elements of a SET OF objects in DER encoding.
+     *  Lexicogrbphicbl order compbrison on byte brrbys, for ordering
+     *  elements of b SET OF objects in DER encoding.
      */
-    private static ByteArrayLexOrder lexOrder = new ByteArrayLexOrder();
+    privbte stbtic ByteArrbyLexOrder lexOrder = new ByteArrbyLexOrder();
 
     /**
-     *  Tag order comparison on byte arrays, for ordering elements of
+     *  Tbg order compbrison on byte brrbys, for ordering elements of
      *  SET objects in DER encoding.
      */
-    private static ByteArrayTagOrder tagOrder = new ByteArrayTagOrder();
+    privbte stbtic ByteArrbyTbgOrder tbgOrder = new ByteArrbyTbgOrder();
 
     /**
-     * Marshals a the contents of a set on the output stream with the
-     * encodings of its sorted in increasing order.
+     * Mbrshbls b the contents of b set on the output strebm with the
+     * encodings of its sorted in increbsing order.
      *
-     * @param order the order to use when sorting encodings of components.
+     * @pbrbm order the order to use when sorting encodings of components.
      */
-    private void putOrderedSet(byte tag, DerEncoder[] set,
-                               Comparator<byte[]> order) throws IOException {
-        DerOutputStream[] streams = new DerOutputStream[set.length];
+    privbte void putOrderedSet(byte tbg, DerEncoder[] set,
+                               Compbrbtor<byte[]> order) throws IOException {
+        DerOutputStrebm[] strebms = new DerOutputStrebm[set.length];
 
         for (int i = 0; i < set.length; i++) {
-            streams[i] = new DerOutputStream();
-            set[i].derEncode(streams[i]);
+            strebms[i] = new DerOutputStrebm();
+            set[i].derEncode(strebms[i]);
         }
 
         // order the element encodings
-        byte[][] bufs = new byte[streams.length][];
-        for (int i = 0; i < streams.length; i++) {
-            bufs[i] = streams[i].toByteArray();
+        byte[][] bufs = new byte[strebms.length][];
+        for (int i = 0; i < strebms.length; i++) {
+            bufs[i] = strebms[i].toByteArrby();
         }
-        Arrays.<byte[]>sort(bufs, order);
+        Arrbys.<byte[]>sort(bufs, order);
 
-        DerOutputStream bytes = new DerOutputStream();
-        for (int i = 0; i < streams.length; i++) {
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        for (int i = 0; i < strebms.length; i++) {
             bytes.write(bufs[i]);
         }
-        write(tag, bytes);
+        write(tbg, bytes);
 
     }
 
     /**
-     * Marshals a string as a DER encoded UTF8String.
+     * Mbrshbls b string bs b DER encoded UTF8String.
      */
     public void putUTF8String(String s) throws IOException {
-        writeString(s, DerValue.tag_UTF8String, "UTF8");
+        writeString(s, DerVblue.tbg_UTF8String, "UTF8");
     }
 
     /**
-     * Marshals a string as a DER encoded PrintableString.
+     * Mbrshbls b string bs b DER encoded PrintbbleString.
      */
-    public void putPrintableString(String s) throws IOException {
-        writeString(s, DerValue.tag_PrintableString, "ASCII");
+    public void putPrintbbleString(String s) throws IOException {
+        writeString(s, DerVblue.tbg_PrintbbleString, "ASCII");
     }
 
     /**
-     * Marshals a string as a DER encoded T61String.
+     * Mbrshbls b string bs b DER encoded T61String.
      */
     public void putT61String(String s) throws IOException {
         /*
-         * Works for characters that are defined in both ASCII and
+         * Works for chbrbcters thbt bre defined in both ASCII bnd
          * T61.
          */
-        writeString(s, DerValue.tag_T61String, "ISO-8859-1");
+        writeString(s, DerVblue.tbg_T61String, "ISO-8859-1");
     }
 
     /**
-     * Marshals a string as a DER encoded IA5String.
+     * Mbrshbls b string bs b DER encoded IA5String.
      */
     public void putIA5String(String s) throws IOException {
-        writeString(s, DerValue.tag_IA5String, "ASCII");
+        writeString(s, DerVblue.tbg_IA5String, "ASCII");
     }
 
     /**
-     * Marshals a string as a DER encoded BMPString.
+     * Mbrshbls b string bs b DER encoded BMPString.
      */
     public void putBMPString(String s) throws IOException {
-        writeString(s, DerValue.tag_BMPString, "UnicodeBigUnmarked");
+        writeString(s, DerVblue.tbg_BMPString, "UnicodeBigUnmbrked");
     }
 
     /**
-     * Marshals a string as a DER encoded GeneralString.
+     * Mbrshbls b string bs b DER encoded GenerblString.
      */
-    public void putGeneralString(String s) throws IOException {
-        writeString(s, DerValue.tag_GeneralString, "ASCII");
+    public void putGenerblString(String s) throws IOException {
+        writeString(s, DerVblue.tbg_GenerblString, "ASCII");
     }
 
     /**
-     * Private helper routine for writing DER encoded string values.
-     * @param s the string to write
-     * @param stringTag one of the DER string tags that indicate which
+     * Privbte helper routine for writing DER encoded string vblues.
+     * @pbrbm s the string to write
+     * @pbrbm stringTbg one of the DER string tbgs thbt indicbte which
      * encoding should be used to write the string out.
-     * @param enc the name of the encoder that should be used corresponding
-     * to the above tag.
+     * @pbrbm enc the nbme of the encoder thbt should be used corresponding
+     * to the bbove tbg.
      */
-    private void writeString(String s, byte stringTag, String enc)
+    privbte void writeString(String s, byte stringTbg, String enc)
         throws IOException {
 
-        byte[] data = s.getBytes(enc);
-        write(stringTag);
-        putLength(data.length);
-        write(data);
+        byte[] dbtb = s.getBytes(enc);
+        write(stringTbg);
+        putLength(dbtb.length);
+        write(dbtb);
     }
 
     /**
-     * Marshals a DER UTC time/date value.
+     * Mbrshbls b DER UTC time/dbte vblue.
      *
      * <P>YYMMDDhhmmss{Z|+hhmm|-hhmm} ... emits only using Zulu time
-     * and with seconds (even if seconds=0) as per RFC 3280.
+     * bnd with seconds (even if seconds=0) bs per RFC 3280.
      */
-    public void putUTCTime(Date d) throws IOException {
-        putTime(d, DerValue.tag_UtcTime);
+    public void putUTCTime(Dbte d) throws IOException {
+        putTime(d, DerVblue.tbg_UtcTime);
     }
 
     /**
-     * Marshals a DER Generalized Time/date value.
+     * Mbrshbls b DER Generblized Time/dbte vblue.
      *
      * <P>YYYYMMDDhhmmss{Z|+hhmm|-hhmm} ... emits only using Zulu time
-     * and with seconds (even if seconds=0) as per RFC 3280.
+     * bnd with seconds (even if seconds=0) bs per RFC 3280.
      */
-    public void putGeneralizedTime(Date d) throws IOException {
-        putTime(d, DerValue.tag_GeneralizedTime);
+    public void putGenerblizedTime(Dbte d) throws IOException {
+        putTime(d, DerVblue.tbg_GenerblizedTime);
     }
 
     /**
-     * Private helper routine for marshalling a DER UTC/Generalized
-     * time/date value. If the tag specified is not that for UTC Time
-     * then it defaults to Generalized Time.
-     * @param d the date to be marshalled
-     * @param tag the tag for UTC Time or Generalized Time
+     * Privbte helper routine for mbrshblling b DER UTC/Generblized
+     * time/dbte vblue. If the tbg specified is not thbt for UTC Time
+     * then it defbults to Generblized Time.
+     * @pbrbm d the dbte to be mbrshblled
+     * @pbrbm tbg the tbg for UTC Time or Generblized Time
      */
-    private void putTime(Date d, byte tag) throws IOException {
+    privbte void putTime(Dbte d, byte tbg) throws IOException {
 
         /*
-         * Format the date.
+         * Formbt the dbte.
          */
 
         TimeZone tz = TimeZone.getTimeZone("GMT");
-        String pattern = null;
+        String pbttern = null;
 
-        if (tag == DerValue.tag_UtcTime) {
-            pattern = "yyMMddHHmmss'Z'";
+        if (tbg == DerVblue.tbg_UtcTime) {
+            pbttern = "yyMMddHHmmss'Z'";
         } else {
-            tag = DerValue.tag_GeneralizedTime;
-            pattern = "yyyyMMddHHmmss'Z'";
+            tbg = DerVblue.tbg_GenerblizedTime;
+            pbttern = "yyyyMMddHHmmss'Z'";
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.US);
+        SimpleDbteFormbt sdf = new SimpleDbteFormbt(pbttern, Locble.US);
         sdf.setTimeZone(tz);
-        byte[] time = (sdf.format(d)).getBytes("ISO-8859-1");
+        byte[] time = (sdf.formbt(d)).getBytes("ISO-8859-1");
 
         /*
-         * Write the formatted date.
+         * Write the formbtted dbte.
          */
 
-        write(tag);
+        write(tbg);
         putLength(time.length);
         write(time);
     }
 
     /**
-     * Put the encoding of the length in the stream.
+     * Put the encoding of the length in the strebm.
      *
-     * @params len the length of the attribute.
+     * @pbrbms len the length of the bttribute.
      * @exception IOException on writing errors.
      */
     public void putLength(int len) throws IOException {
@@ -548,29 +548,29 @@ extends ByteArrayOutputStream implements DerEncoder {
     }
 
     /**
-     * Put the tag of the attribute in the stream.
+     * Put the tbg of the bttribute in the strebm.
      *
-     * @params class the tag class type, one of UNIVERSAL, CONTEXT,
+     * @pbrbms clbss the tbg clbss type, one of UNIVERSAL, CONTEXT,
      *                            APPLICATION or PRIVATE
-     * @params form if true, the value is constructed, otherwise it is
+     * @pbrbms form if true, the vblue is constructed, otherwise it is
      * primitive.
-     * @params val the tag value
+     * @pbrbms vbl the tbg vblue
      */
-    public void putTag(byte tagClass, boolean form, byte val) {
-        byte tag = (byte)(tagClass | val);
+    public void putTbg(byte tbgClbss, boolebn form, byte vbl) {
+        byte tbg = (byte)(tbgClbss | vbl);
         if (form) {
-            tag |= (byte)0x20;
+            tbg |= (byte)0x20;
         }
-        write(tag);
+        write(tbg);
     }
 
     /**
-     *  Write the current contents of this <code>DerOutputStream</code>
-     *  to an <code>OutputStream</code>.
+     *  Write the current contents of this <code>DerOutputStrebm</code>
+     *  to bn <code>OutputStrebm</code>.
      *
      *  @exception IOException on output error.
      */
-    public void derEncode(OutputStream out) throws IOException {
-        out.write(toByteArray());
+    public void derEncode(OutputStrebm out) throws IOException {
+        out.write(toByteArrby());
     }
 }

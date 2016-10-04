@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * JobState is a printing attribute class, an enumeration, that identifies
- * the current state of a print job. Class JobState defines standard job state
- * values. A  Print Service implementation only needs to report those job
- * states which are appropriate for the particular implementation; it does not
- * have to report every defined job state. The {@link JobStateReasons
- * JobStateReasons} attribute augments the JobState attribute to give more
- * detailed information about the job in the given job state.
+ * JobStbte is b printing bttribute clbss, bn enumerbtion, thbt identifies
+ * the current stbte of b print job. Clbss JobStbte defines stbndbrd job stbte
+ * vblues. A  Print Service implementbtion only needs to report those job
+ * stbtes which bre bppropribte for the pbrticulbr implementbtion; it does not
+ * hbve to report every defined job stbte. The {@link JobStbteRebsons
+ * JobStbteRebsons} bttribute bugments the JobStbte bttribute to give more
+ * detbiled informbtion bbout the job in the given job stbte.
  * <P>
- * <B>IPP Compatibility:</B> The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The enumerbtion's
+ * integer vblue is the IPP enum vblue.  The <code>toString()</code> method
+ * returns the IPP string representbtion of the bttribute vblue.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
 
-public class JobState extends EnumSyntax implements PrintJobAttribute {
+public clbss JobStbte extends EnumSyntbx implements PrintJobAttribute {
 
-    private static final long serialVersionUID = 400465010094018920L;
+    privbte stbtic finbl long seriblVersionUID = 400465010094018920L;
 
     /**
-     * The job state is unknown.
+     * The job stbte is unknown.
      */
-    public static final JobState UNKNOWN = new JobState(0);
+    public stbtic finbl JobStbte UNKNOWN = new JobStbte(0);
 
     /**
-     * The job is a candidate to start processing, but is not yet processing.
+     * The job is b cbndidbte to stbrt processing, but is not yet processing.
      */
-    public static final JobState PENDING = new JobState(3);
+    public stbtic finbl JobStbte PENDING = new JobStbte(3);
 
     /**
-     * The job is not a candidate for processing for any number of reasons but
-     * will return to the PENDING state as soon as the reasons are no longer
-     * present. The job's {@link JobStateReasons JobStateReasons} attribute must
-     * indicate why the job is no longer a candidate for processing.
+     * The job is not b cbndidbte for processing for bny number of rebsons but
+     * will return to the PENDING stbte bs soon bs the rebsons bre no longer
+     * present. The job's {@link JobStbteRebsons JobStbteRebsons} bttribute must
+     * indicbte why the job is no longer b cbndidbte for processing.
      */
-    public static final JobState PENDING_HELD = new JobState(4);
+    public stbtic finbl JobStbte PENDING_HELD = new JobStbte(4);
 
     /**
-     * The job is processing. One or more of the following activities is
+     * The job is processing. One or more of the following bctivities is
      * occurring:
      * <OL TYPE=1>
      * <LI>
-     * The job is using, or is attempting to use, one or more purely software
-     * processes that are analyzing, creating, or interpreting a PDL, etc.
+     * The job is using, or is bttempting to use, one or more purely softwbre
+     * processes thbt bre bnblyzing, crebting, or interpreting b PDL, etc.
      *
      * <LI>
-     * The job is using, or is attempting to use, one or more hardware
-     * devices that are interpreting a PDL, making marks on a medium, and/or
-     * performing finishing, such as stapling, etc.
+     * The job is using, or is bttempting to use, one or more hbrdwbre
+     * devices thbt bre interpreting b PDL, mbking mbrks on b medium, bnd/or
+     * performing finishing, such bs stbpling, etc.
      *
      * <LI>
-     * The printer has made the job ready for printing, but the output
-     * device is not yet printing it, either because the job hasn't reached the
-     * output device or because the job is queued in the output device or some
-     * other spooler, awaiting the output device to print it.
+     * The printer hbs mbde the job rebdy for printing, but the output
+     * device is not yet printing it, either becbuse the job hbsn't rebched the
+     * output device or becbuse the job is queued in the output device or some
+     * other spooler, bwbiting the output device to print it.
      * </OL>
      * <P>
-     * When the job is in the PROCESSING state, the entire job state includes
-     * the detailed status represented in the printer's {@link PrinterState
-     * PrinterState} and {@link PrinterStateReasons PrinterStateReasons}
-     * attributes.
+     * When the job is in the PROCESSING stbte, the entire job stbte includes
+     * the detbiled stbtus represented in the printer's {@link PrinterStbte
+     * PrinterStbte} bnd {@link PrinterStbteRebsons PrinterStbteRebsons}
+     * bttributes.
      * <P>
-     * Implementations may, though they need not, include additional values in
-     * the job's {@link JobStateReasons JobStateReasons} attribute to indicate
-     * the progress of the job, such as adding the JOB_PRINTING value to
-     * indicate when the output device is actually making marks on paper and/or
-     * the PROCESSING_TO_STOP_POINT value to indicate that the printer is in the
-     * process of canceling or aborting the job.
+     * Implementbtions mby, though they need not, include bdditionbl vblues in
+     * the job's {@link JobStbteRebsons JobStbteRebsons} bttribute to indicbte
+     * the progress of the job, such bs bdding the JOB_PRINTING vblue to
+     * indicbte when the output device is bctublly mbking mbrks on pbper bnd/or
+     * the PROCESSING_TO_STOP_POINT vblue to indicbte thbt the printer is in the
+     * process of cbnceling or bborting the job.
      */
-    public static final JobState PROCESSING = new JobState (5);
+    public stbtic finbl JobStbte PROCESSING = new JobStbte (5);
 
     /**
-     * The job has stopped while processing for any number of reasons and will
-     * return to the PROCESSING state as soon as the reasons are no longer
+     * The job hbs stopped while processing for bny number of rebsons bnd will
+     * return to the PROCESSING stbte bs soon bs the rebsons bre no longer
      * present.
      * <P>
-     * The job's {@link JobStateReasons JobStateReasons} attribute may indicate
-     * why the job has stopped processing. For example, if the output device is
-     * stopped, the PRINTER_STOPPED value may be included in the job's {@link
-     * JobStateReasons JobStateReasons} attribute.
+     * The job's {@link JobStbteRebsons JobStbteRebsons} bttribute mby indicbte
+     * why the job hbs stopped processing. For exbmple, if the output device is
+     * stopped, the PRINTER_STOPPED vblue mby be included in the job's {@link
+     * JobStbteRebsons JobStbteRebsons} bttribute.
      * <P>
-     * <I>Note:</I> When an output device is stopped, the device usually
-     * indicates its condition in human readable form locally at the device. A
-     * client can obtain more complete device status remotely by querying the
-     * printer's {@link PrinterState PrinterState} and {@link
-     * PrinterStateReasons PrinterStateReasons} attributes.
+     * <I>Note:</I> When bn output device is stopped, the device usublly
+     * indicbtes its condition in humbn rebdbble form locblly bt the device. A
+     * client cbn obtbin more complete device stbtus remotely by querying the
+     * printer's {@link PrinterStbte PrinterStbte} bnd {@link
+     * PrinterStbteRebsons PrinterStbteRebsons} bttributes.
      */
-    public static final JobState PROCESSING_STOPPED = new JobState (6);
+    public stbtic finbl JobStbte PROCESSING_STOPPED = new JobStbte (6);
 
     /**
-     * The job has been canceled by some human agency, the printer has completed
-     * canceling the job, and all job status attributes have reached their final
-     * values for the job. While the printer is canceling the job, the job
-     * remains in its current state, but the job's {@link JobStateReasons
-     * JobStateReasons} attribute should contain the PROCESSING_TO_STOP_POINT
-     * value and one of the CANCELED_BY_USER, CANCELED_BY_OPERATOR, or
-     * CANCELED_AT_DEVICE values. When the job moves to the CANCELED state, the
-     * PROCESSING_TO_STOP_POINT value, if present, must be removed, but the
-     * CANCELED_BY_<I>xxx</I> value, if present, must remain.
+     * The job hbs been cbnceled by some humbn bgency, the printer hbs completed
+     * cbnceling the job, bnd bll job stbtus bttributes hbve rebched their finbl
+     * vblues for the job. While the printer is cbnceling the job, the job
+     * rembins in its current stbte, but the job's {@link JobStbteRebsons
+     * JobStbteRebsons} bttribute should contbin the PROCESSING_TO_STOP_POINT
+     * vblue bnd one of the CANCELED_BY_USER, CANCELED_BY_OPERATOR, or
+     * CANCELED_AT_DEVICE vblues. When the job moves to the CANCELED stbte, the
+     * PROCESSING_TO_STOP_POINT vblue, if present, must be removed, but the
+     * CANCELED_BY_<I>xxx</I> vblue, if present, must rembin.
      */
-    public static final JobState CANCELED = new JobState (7);
+    public stbtic finbl JobStbte CANCELED = new JobStbte (7);
 
     /**
-     * The job has been aborted by the system (usually while the job was in the
-     * PROCESSING or PROCESSING_STOPPED state), the printer has completed
-     * aborting the job, and all job status attributes have reached their final
-     * values for the job. While the printer is aborting the job, the job
-     * remains in its current state, but the job's {@link JobStateReasons
-     * JobStateReasons} attribute should contain the PROCESSING_TO_STOP_POINT
-     * and ABORTED_BY_SYSTEM values. When the job moves to the ABORTED state,
-     * the PROCESSING_TO_STOP_POINT value, if present, must be removed, but the
-     * ABORTED_BY_SYSTEM value, if present, must remain.
+     * The job hbs been bborted by the system (usublly while the job wbs in the
+     * PROCESSING or PROCESSING_STOPPED stbte), the printer hbs completed
+     * bborting the job, bnd bll job stbtus bttributes hbve rebched their finbl
+     * vblues for the job. While the printer is bborting the job, the job
+     * rembins in its current stbte, but the job's {@link JobStbteRebsons
+     * JobStbteRebsons} bttribute should contbin the PROCESSING_TO_STOP_POINT
+     * bnd ABORTED_BY_SYSTEM vblues. When the job moves to the ABORTED stbte,
+     * the PROCESSING_TO_STOP_POINT vblue, if present, must be removed, but the
+     * ABORTED_BY_SYSTEM vblue, if present, must rembin.
      */
-    public static final JobState ABORTED = new JobState (8);
+    public stbtic finbl JobStbte ABORTED = new JobStbte (8);
 
     /**
-     * The job has completed successfully or with warnings or errors after
-     * processing, all of the job media sheets have been successfully stacked in
-     * the appropriate output bin(s), and all job status attributes have reached
-     * their final values for the job. The job's {@link JobStateReasons
-     * JobStateReasons} attribute should contain one of these values:
+     * The job hbs completed successfully or with wbrnings or errors bfter
+     * processing, bll of the job medib sheets hbve been successfully stbcked in
+     * the bppropribte output bin(s), bnd bll job stbtus bttributes hbve rebched
+     * their finbl vblues for the job. The job's {@link JobStbteRebsons
+     * JobStbteRebsons} bttribute should contbin one of these vblues:
      * COMPLETED_SUCCESSFULLY, COMPLETED_WITH_WARNINGS, or
      * COMPLETED_WITH_ERRORS.
      */
-    public static final JobState COMPLETED = new JobState (9);
+    public stbtic finbl JobStbte COMPLETED = new JobStbte (9);
 
     // Hidden constructors.
 
     /**
-     * Construct a new job state enumeration value with the given integer value.
+     * Construct b new job stbte enumerbtion vblue with the given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected JobState(int value) {
-        super (value);
+    protected JobStbte(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable =
+    privbte stbtic finbl String[] myStringTbble =
     {"unknown",
      null,
      null,
@@ -176,11 +176,11 @@ public class JobState extends EnumSyntax implements PrintJobAttribute {
      "pending-held",
      "processing",
      "processing-stopped",
-     "canceled",
-     "aborted",
+     "cbnceled",
+     "bborted",
      "completed"};
 
-    private static final JobState[] myEnumValueTable =
+    privbte stbtic finbl JobStbte[] myEnumVblueTbble =
     {UNKNOWN,
      null,
      null,
@@ -193,44 +193,44 @@ public class JobState extends EnumSyntax implements PrintJobAttribute {
      COMPLETED};
 
     /**
-     * Returns the string table for class JobState.
+     * Returns the string tbble for clbss JobStbte.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protected String[] getStringTbble() {
+        return myStringTbble;
     }
 
     /**
-     * Returns the enumeration value table for class JobState.
+     * Returns the enumerbtion vblue tbble for clbss JobStbte.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return myEnumVblueTbble;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class JobState and any vendor-defined subclasses, the category is
-     * class JobState itself.
+     * For clbss JobStbte bnd bny vendor-defined subclbsses, the cbtegory is
+     * clbss JobStbte itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobState.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return JobStbte.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class JobState and any vendor-defined subclasses, the category
-     * name is <CODE>"job-state"</CODE>.
+     * For clbss JobStbte bnd bny vendor-defined subclbsses, the cbtegory
+     * nbme is <CODE>"job-stbte"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "job-state";
+    public finbl String getNbme() {
+        return "job-stbte";
     }
 
 }

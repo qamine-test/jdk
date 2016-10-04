@@ -1,32 +1,32 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*****************************************************************************/
 /*
-**      Native functions for interfacing Java with the native implementation
-**      of PlatformMidi.h's functions.
+**      Nbtive functions for interfbcing Jbvb with the nbtive implementbtion
+**      of PlbtformMidi.h's functions.
 */
 /*****************************************************************************/
 
@@ -36,65 +36,65 @@
 
 #include <jni.h>
 #include "SoundDefs.h"
-#include "PlatformMidi.h"
+#include "PlbtformMidi.h"
 #include "Utilities.h"
-#include "com_sun_media_sound_MidiOutDevice.h"
+#include "com_sun_medib_sound_MidiOutDevice.h"
 
 
 // NATIVE METHODS
 
 
 JNIEXPORT jlong JNICALL
-Java_com_sun_media_sound_MidiOutDevice_nOpen(JNIEnv* e, jobject thisObj, jint index) {
+Jbvb_com_sun_medib_sound_MidiOutDevice_nOpen(JNIEnv* e, jobject thisObj, jint index) {
 
-    void* deviceHandle = NULL;
+    void* deviceHbndle = NULL;
     INT32 err = MIDI_NOT_SUPPORTED;
 
-    TRACE1("Java_com_sun_media_sound_MidiOutDevice_nOpen: index: %d\n", index);
+    TRACE1("Jbvb_com_sun_medib_sound_MidiOutDevice_nOpen: index: %d\n", index);
 
 #if USE_PLATFORM_MIDI_OUT == TRUE
-    err = MIDI_OUT_OpenDevice((INT32) index, (MidiDeviceHandle**) (&deviceHandle));
+    err = MIDI_OUT_OpenDevice((INT32) index, (MidiDeviceHbndle**) (&deviceHbndle));
 #endif
 
-    // if we didn't get a valid handle, throw a MidiUnavailableException
-    if (!deviceHandle) {
-        ERROR0("Java_com_sun_media_sound_MidiOutDevice_nOpen:");
-        ThrowJavaMessageException(e, JAVA_MIDI_PACKAGE_NAME"/MidiUnavailableException",
-                                  MIDI_OUT_InternalGetErrorString(err));
+    // if we didn't get b vblid hbndle, throw b MidiUnbvbilbbleException
+    if (!deviceHbndle) {
+        ERROR0("Jbvb_com_sun_medib_sound_MidiOutDevice_nOpen:");
+        ThrowJbvbMessbgeException(e, JAVA_MIDI_PACKAGE_NAME"/MidiUnbvbilbbleException",
+                                  MIDI_OUT_InternblGetErrorString(err));
     } else {
-        TRACE0("Java_com_sun_media_sound_MidiOutDevice_nOpen succeeded\n");
+        TRACE0("Jbvb_com_sun_medib_sound_MidiOutDevice_nOpen succeeded\n");
     }
-    return (jlong) (INT_PTR) deviceHandle;
+    return (jlong) (INT_PTR) deviceHbndle;
 }
 
 
 JNIEXPORT void JNICALL
-Java_com_sun_media_sound_MidiOutDevice_nClose(JNIEnv* e, jobject thisObj, jlong deviceHandle) {
+Jbvb_com_sun_medib_sound_MidiOutDevice_nClose(JNIEnv* e, jobject thisObj, jlong deviceHbndle) {
 
-    TRACE0("Java_com_sun_media_sound_MidiOutDevice_nClose.\n");
+    TRACE0("Jbvb_com_sun_medib_sound_MidiOutDevice_nClose.\n");
 
 #if USE_PLATFORM_MIDI_OUT == TRUE
-    MIDI_OUT_CloseDevice((MidiDeviceHandle*) (UINT_PTR) deviceHandle);
+    MIDI_OUT_CloseDevice((MidiDeviceHbndle*) (UINT_PTR) deviceHbndle);
 #endif
 
-    TRACE0("Java_com_sun_media_sound_MidiOutDevice_nClose succeeded\n");
+    TRACE0("Jbvb_com_sun_medib_sound_MidiOutDevice_nClose succeeded\n");
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_com_sun_media_sound_MidiOutDevice_nGetTimeStamp(JNIEnv* e, jobject thisObj, jlong deviceHandle) {
+Jbvb_com_sun_medib_sound_MidiOutDevice_nGetTimeStbmp(JNIEnv* e, jobject thisObj, jlong deviceHbndle) {
 
     jlong ret = -1;
 
-    TRACE0("Java_com_sun_media_sound_MidiOutDevice_nGetTimeStamp.\n");
+    TRACE0("Jbvb_com_sun_medib_sound_MidiOutDevice_nGetTimeStbmp.\n");
 
 #if USE_PLATFORM_MIDI_OUT == TRUE
-    ret = (jlong) MIDI_OUT_GetTimeStamp((MidiDeviceHandle*) (UINT_PTR) deviceHandle);
+    ret = (jlong) MIDI_OUT_GetTimeStbmp((MidiDeviceHbndle*) (UINT_PTR) deviceHbndle);
 #endif
 
-    /* Handle error codes. */
+    /* Hbndle error codes. */
     if (ret < -1) {
-        ERROR1("Java_com_sun_media_sound_MidiOutDevice_nGetTimeStamp: MIDI_IN_GetTimeStamp returned %lld\n", ret);
+        ERROR1("Jbvb_com_sun_medib_sound_MidiOutDevice_nGetTimeStbmp: MIDI_IN_GetTimeStbmp returned %lld\n", ret);
         ret = -1;
     }
     return ret;
@@ -102,46 +102,46 @@ Java_com_sun_media_sound_MidiOutDevice_nGetTimeStamp(JNIEnv* e, jobject thisObj,
 
 
 JNIEXPORT void JNICALL
-Java_com_sun_media_sound_MidiOutDevice_nSendShortMessage(JNIEnv* e, jobject thisObj, jlong deviceHandle,
-                                                         jint packedMsg, jlong timeStamp) {
+Jbvb_com_sun_medib_sound_MidiOutDevice_nSendShortMessbge(JNIEnv* e, jobject thisObj, jlong deviceHbndle,
+                                                         jint pbckedMsg, jlong timeStbmp) {
 
-    TRACE0("Java_com_sun_media_sound_MidiOutDevice_nSendShortMessage.\n");
+    TRACE0("Jbvb_com_sun_medib_sound_MidiOutDevice_nSendShortMessbge.\n");
 
 #if USE_PLATFORM_MIDI_OUT == TRUE
-    MIDI_OUT_SendShortMessage((MidiDeviceHandle*) (UINT_PTR) deviceHandle,
-                              (UINT32) packedMsg, (UINT32)timeStamp);
+    MIDI_OUT_SendShortMessbge((MidiDeviceHbndle*) (UINT_PTR) deviceHbndle,
+                              (UINT32) pbckedMsg, (UINT32)timeStbmp);
 #endif
 
-    TRACE0("Java_com_sun_media_sound_MidiOutDevice_nSendShortMessage succeeded\n");
+    TRACE0("Jbvb_com_sun_medib_sound_MidiOutDevice_nSendShortMessbge succeeded\n");
 }
 
 
 JNIEXPORT void JNICALL
-Java_com_sun_media_sound_MidiOutDevice_nSendLongMessage(JNIEnv* e, jobject thisObj, jlong deviceHandle,
-                                                        jbyteArray jData, jint size, jlong timeStamp) {
+Jbvb_com_sun_medib_sound_MidiOutDevice_nSendLongMessbge(JNIEnv* e, jobject thisObj, jlong deviceHbndle,
+                                                        jbyteArrby jDbtb, jint size, jlong timeStbmp) {
 #if USE_PLATFORM_MIDI_OUT == TRUE
-    UBYTE* data;
+    UBYTE* dbtb;
 #endif
 
-    TRACE0("Java_com_sun_media_sound_MidiOutDevice_nSendLongMessage.\n");
+    TRACE0("Jbvb_com_sun_medib_sound_MidiOutDevice_nSendLongMessbge.\n");
 
 #if USE_PLATFORM_MIDI_OUT == TRUE
-    data = (UBYTE*) ((*e)->GetByteArrayElements(e, jData, NULL));
-    if (!data) {
-        ERROR0("MidiOutDevice: Java_com_sun_media_sound_MidiOutDevice_nSendLongMessage: could not get array elements\n");
+    dbtb = (UBYTE*) ((*e)->GetByteArrbyElements(e, jDbtb, NULL));
+    if (!dbtb) {
+        ERROR0("MidiOutDevice: Jbvb_com_sun_medib_sound_MidiOutDevice_nSendLongMessbge: could not get brrby elements\n");
         return;
     }
-    /* "continuation" sysex messages start with F7 (instead of F0), but
-       are sent without the F7. */
-    if (data[0] == 0xF7) {
-        data++;
+    /* "continubtion" sysex messbges stbrt with F7 (instebd of F0), but
+       bre sent without the F7. */
+    if (dbtb[0] == 0xF7) {
+        dbtb++;
         size--;
     }
-    MIDI_OUT_SendLongMessage((MidiDeviceHandle*) (UINT_PTR) deviceHandle, data,
-                             (UINT32) size, (UINT32)timeStamp);
-    // release the byte array
-    (*e)->ReleaseByteArrayElements(e, jData, (jbyte*) data, JNI_ABORT);
+    MIDI_OUT_SendLongMessbge((MidiDeviceHbndle*) (UINT_PTR) deviceHbndle, dbtb,
+                             (UINT32) size, (UINT32)timeStbmp);
+    // relebse the byte brrby
+    (*e)->RelebseByteArrbyElements(e, jDbtb, (jbyte*) dbtb, JNI_ABORT);
 #endif
 
-    TRACE0("Java_com_sun_media_sound_MidiOutDevice_nSendLongMessage succeeded\n");
+    TRACE0("Jbvb_com_sun_medib_sound_MidiOutDevice_nSendLongMessbge succeeded\n");
 }

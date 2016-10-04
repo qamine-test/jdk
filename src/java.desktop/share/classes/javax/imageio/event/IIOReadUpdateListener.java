@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.event;
+pbckbge jbvbx.imbgeio.event;
 
-import java.awt.image.BufferedImage;
-import java.util.EventListener;
-import javax.imageio.ImageReader;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.util.EventListener;
+import jbvbx.imbgeio.ImbgeRebder;
 
 /**
- * An interface used by <code>ImageReader</code> implementations to
- * notify callers of their image and thumbnail reading methods of
- * pixel updates.
+ * An interfbce used by <code>ImbgeRebder</code> implementbtions to
+ * notify cbllers of their imbge bnd thumbnbil rebding methods of
+ * pixel updbtes.
  *
- * @see javax.imageio.ImageReader#addIIOReadUpdateListener
- * @see javax.imageio.ImageReader#removeIIOReadUpdateListener
+ * @see jbvbx.imbgeio.ImbgeRebder#bddIIORebdUpdbteListener
+ * @see jbvbx.imbgeio.ImbgeRebder#removeIIORebdUpdbteListener
  *
  */
-public interface IIOReadUpdateListener extends EventListener {
+public interfbce IIORebdUpdbteListener extends EventListener {
 
     /**
-     * Reports that the current read operation is about to begin a
-     * progressive pass.  Readers of formats that support progressive
-     * encoding should use this to notify clients when each pass is
-     * completed when reading a progressively encoded image.
+     * Reports thbt the current rebd operbtion is bbout to begin b
+     * progressive pbss.  Rebders of formbts thbt support progressive
+     * encoding should use this to notify clients when ebch pbss is
+     * completed when rebding b progressively encoded imbge.
      *
-     * <p> An estimate of the area that will be updated by the pass is
-     * indicated by the <code>minX</code>, <code>minY</code>,
-     * <code>width</code>, and <code>height</code> parameters.  If the
-     * pass is interlaced, that is, it only updates selected rows or
-     * columns, the <code>periodX</code> and <code>periodY</code>
-     * parameters will indicate the degree of subsampling.  The set of
-     * bands that may be affected is indicated by the value of
-     * <code>bands</code>.
+     * <p> An estimbte of the breb thbt will be updbted by the pbss is
+     * indicbted by the <code>minX</code>, <code>minY</code>,
+     * <code>width</code>, bnd <code>height</code> pbrbmeters.  If the
+     * pbss is interlbced, thbt is, it only updbtes selected rows or
+     * columns, the <code>periodX</code> bnd <code>periodY</code>
+     * pbrbmeters will indicbte the degree of subsbmpling.  The set of
+     * bbnds thbt mby be bffected is indicbted by the vblue of
+     * <code>bbnds</code>.
      *
-     * @param source the <code>ImageReader</code> object calling this
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this
      * method.
-     * @param theImage the <code>BufferedImage</code> being updated.
-     * @param pass the number of the pass that is about to begin,
-     * starting with 0.
-     * @param minPass the index of the first pass that will be decoded.
-     * @param maxPass the index of the last pass that will be decoded.
-     * @param minX the X coordinate of the leftmost updated column
+     * @pbrbm theImbge the <code>BufferedImbge</code> being updbted.
+     * @pbrbm pbss the number of the pbss thbt is bbout to begin,
+     * stbrting with 0.
+     * @pbrbm minPbss the index of the first pbss thbt will be decoded.
+     * @pbrbm mbxPbss the index of the lbst pbss thbt will be decoded.
+     * @pbrbm minX the X coordinbte of the leftmost updbted column
      * of pixels.
-     * @param minY the Y coordinate of the uppermost updated row
+     * @pbrbm minY the Y coordinbte of the uppermost updbted row
      * of pixels.
-     * @param periodX the horizontal spacing between updated pixels;
-     * a value of 1 means no gaps.
-     * @param periodY the vertical spacing between updated pixels;
-     * a value of 1 means no gaps.
-     * @param bands an array of <code>int</code>s indicating the the
-     * set bands that may be updated.
+     * @pbrbm periodX the horizontbl spbcing between updbted pixels;
+     * b vblue of 1 mebns no gbps.
+     * @pbrbm periodY the verticbl spbcing between updbted pixels;
+     * b vblue of 1 mebns no gbps.
+     * @pbrbm bbnds bn brrby of <code>int</code>s indicbting the the
+     * set bbnds thbt mby be updbted.
      */
-    void passStarted(ImageReader source,
-                     BufferedImage theImage,
-                     int pass,
-                     int minPass, int maxPass,
+    void pbssStbrted(ImbgeRebder source,
+                     BufferedImbge theImbge,
+                     int pbss,
+                     int minPbss, int mbxPbss,
                      int minX, int minY,
                      int periodX, int periodY,
-                     int[] bands);
+                     int[] bbnds);
 
     /**
-     * Reports that a given region of the image has been updated.
-     * The application might choose to redisplay the specified area,
-     * for example, in order to provide a progressive display effect,
-     * or perform other incremental processing.
+     * Reports thbt b given region of the imbge hbs been updbted.
+     * The bpplicbtion might choose to redisplby the specified breb,
+     * for exbmple, in order to provide b progressive displby effect,
+     * or perform other incrementbl processing.
      *
-     * <p> Note that different image format readers may produce
-     * decoded pixels in a variety of different orders.  Many readers
-     * will produce pixels in a simple top-to-bottom,
-     * left-to-right-order, but others may use multiple passes of
-     * interlacing, tiling, etc.  The sequence of updates may even
-     * differ from call to call depending on network speeds, for
-     * example.  A call to this method does not guarantee that all the
-     * specified pixels have actually been updated, only that some
-     * activity has taken place within some subregion of the one
+     * <p> Note thbt different imbge formbt rebders mby produce
+     * decoded pixels in b vbriety of different orders.  Mbny rebders
+     * will produce pixels in b simple top-to-bottom,
+     * left-to-right-order, but others mby use multiple pbsses of
+     * interlbcing, tiling, etc.  The sequence of updbtes mby even
+     * differ from cbll to cbll depending on network speeds, for
+     * exbmple.  A cbll to this method does not gubrbntee thbt bll the
+     * specified pixels hbve bctublly been updbted, only thbt some
+     * bctivity hbs tbken plbce within some subregion of the one
      * specified.
      *
-     * <p> The particular <code>ImageReader</code> implementation may
-     * choose how often to provide updates.  Each update specifies
-     * that a given region of the image has been updated since the
-     * last update.  A region is described by its spatial bounding box
-     * (<code>minX</code>, <code>minY</code>, <code>width</code>, and
-     * <code>height</code>); X and Y subsampling factors
-     * (<code>periodX</code> and <code>periodY</code>); and a set of
-     * updated bands (<code>bands</code>).  For example, the update:
+     * <p> The pbrticulbr <code>ImbgeRebder</code> implementbtion mby
+     * choose how often to provide updbtes.  Ebch updbte specifies
+     * thbt b given region of the imbge hbs been updbted since the
+     * lbst updbte.  A region is described by its spbtibl bounding box
+     * (<code>minX</code>, <code>minY</code>, <code>width</code>, bnd
+     * <code>height</code>); X bnd Y subsbmpling fbctors
+     * (<code>periodX</code> bnd <code>periodY</code>); bnd b set of
+     * updbted bbnds (<code>bbnds</code>).  For exbmple, the updbte:
      *
      * <pre>
      * minX = 10
@@ -114,11 +114,11 @@ public interface IIOReadUpdateListener extends EventListener {
      * height = 4
      * periodX = 2
      * periodY = 3
-     * bands = { 1, 3 }
+     * bbnds = { 1, 3 }
      * </pre>
      *
-     * would indicate that bands 1 and 3 of the following pixels were
-     * updated:
+     * would indicbte thbt bbnds 1 bnd 3 of the following pixels were
+     * updbted:
      *
      * <pre>
      * (10, 20) (12, 20) (14, 20)
@@ -127,123 +127,123 @@ public interface IIOReadUpdateListener extends EventListener {
      * (10, 29) (12, 29) (14, 29)
      * </pre>
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param theImage the <code>BufferedImage</code> being updated.
-     * @param minX the X coordinate of the leftmost updated column
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this method.
+     * @pbrbm theImbge the <code>BufferedImbge</code> being updbted.
+     * @pbrbm minX the X coordinbte of the leftmost updbted column
      * of pixels.
-     * @param minY the Y coordinate of the uppermost updated row
+     * @pbrbm minY the Y coordinbte of the uppermost updbted row
      * of pixels.
-     * @param width the number of updated pixels horizontally.
-     * @param height the number of updated pixels vertically.
-     * @param periodX the horizontal spacing between updated pixels;
-     * a value of 1 means no gaps.
-     * @param periodY the vertical spacing between updated pixels;
-     * a value of 1 means no gaps.
-     * @param bands an array of <code>int</code>s indicating which
-     * bands are being updated.
+     * @pbrbm width the number of updbted pixels horizontblly.
+     * @pbrbm height the number of updbted pixels verticblly.
+     * @pbrbm periodX the horizontbl spbcing between updbted pixels;
+     * b vblue of 1 mebns no gbps.
+     * @pbrbm periodY the verticbl spbcing between updbted pixels;
+     * b vblue of 1 mebns no gbps.
+     * @pbrbm bbnds bn brrby of <code>int</code>s indicbting which
+     * bbnds bre being updbted.
      */
-    void imageUpdate(ImageReader source,
-                     BufferedImage theImage,
+    void imbgeUpdbte(ImbgeRebder source,
+                     BufferedImbge theImbge,
                      int minX, int minY,
                      int width, int height,
                      int periodX, int periodY,
-                     int[] bands);
+                     int[] bbnds);
 
     /**
-     * Reports that the current read operation has completed a
-     * progressive pass.  Readers of formats that support
+     * Reports thbt the current rebd operbtion hbs completed b
+     * progressive pbss.  Rebders of formbts thbt support
      * progressive encoding should use this to notify clients when
-     * each pass is completed when reading a progressively
-     * encoded image.
+     * ebch pbss is completed when rebding b progressively
+     * encoded imbge.
      *
-     * @param source the <code>ImageReader</code> object calling this
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this
      * method.
-     * @param theImage the <code>BufferedImage</code> being updated.
+     * @pbrbm theImbge the <code>BufferedImbge</code> being updbted.
      *
-     * @see javax.imageio.ImageReadParam#setSourceProgressivePasses(int, int)
+     * @see jbvbx.imbgeio.ImbgeRebdPbrbm#setSourceProgressivePbsses(int, int)
      */
-    void passComplete(ImageReader source, BufferedImage theImage);
+    void pbssComplete(ImbgeRebder source, BufferedImbge theImbge);
 
     /**
-     * Reports that the current thumbnail read operation is about to
-     * begin a progressive pass.  Readers of formats that support
+     * Reports thbt the current thumbnbil rebd operbtion is bbout to
+     * begin b progressive pbss.  Rebders of formbts thbt support
      * progressive encoding should use this to notify clients when
-     * each pass is completed when reading a progressively encoded
-     * thumbnail image.
+     * ebch pbss is completed when rebding b progressively encoded
+     * thumbnbil imbge.
      *
-     * @param source the <code>ImageReader</code> object calling this
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this
      * method.
-     * @param theThumbnail the <code>BufferedImage</code> thumbnail
-     * being updated.
-     * @param pass the number of the pass that is about to begin,
-     * starting with 0.
-     * @param minPass the index of the first pass that will be decoded.
-     * @param maxPass the index of the last pass that will be decoded.
-     * @param minX the X coordinate of the leftmost updated column
+     * @pbrbm theThumbnbil the <code>BufferedImbge</code> thumbnbil
+     * being updbted.
+     * @pbrbm pbss the number of the pbss thbt is bbout to begin,
+     * stbrting with 0.
+     * @pbrbm minPbss the index of the first pbss thbt will be decoded.
+     * @pbrbm mbxPbss the index of the lbst pbss thbt will be decoded.
+     * @pbrbm minX the X coordinbte of the leftmost updbted column
      * of pixels.
-     * @param minY the Y coordinate of the uppermost updated row
+     * @pbrbm minY the Y coordinbte of the uppermost updbted row
      * of pixels.
-     * @param periodX the horizontal spacing between updated pixels;
-     * a value of 1 means no gaps.
-     * @param periodY the vertical spacing between updated pixels;
-     * a value of 1 means no gaps.
-     * @param bands an array of <code>int</code>s indicating the the
-     * set bands that may be updated.
+     * @pbrbm periodX the horizontbl spbcing between updbted pixels;
+     * b vblue of 1 mebns no gbps.
+     * @pbrbm periodY the verticbl spbcing between updbted pixels;
+     * b vblue of 1 mebns no gbps.
+     * @pbrbm bbnds bn brrby of <code>int</code>s indicbting the the
+     * set bbnds thbt mby be updbted.
      *
-     * @see #passStarted
+     * @see #pbssStbrted
      */
-    void thumbnailPassStarted(ImageReader source,
-                              BufferedImage theThumbnail,
-                              int pass,
-                              int minPass, int maxPass,
+    void thumbnbilPbssStbrted(ImbgeRebder source,
+                              BufferedImbge theThumbnbil,
+                              int pbss,
+                              int minPbss, int mbxPbss,
                               int minX, int minY,
                               int periodX, int periodY,
-                              int[] bands);
+                              int[] bbnds);
 
     /**
-     * Reports that a given region of a thumbnail image has been updated.
-     * The application might choose to redisplay the specified area,
-     * for example, in order to provide a progressive display effect,
-     * or perform other incremental processing.
+     * Reports thbt b given region of b thumbnbil imbge hbs been updbted.
+     * The bpplicbtion might choose to redisplby the specified breb,
+     * for exbmple, in order to provide b progressive displby effect,
+     * or perform other incrementbl processing.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param theThumbnail the <code>BufferedImage</code> thumbnail
-     * being updated.
-     * @param minX the X coordinate of the leftmost updated column
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this method.
+     * @pbrbm theThumbnbil the <code>BufferedImbge</code> thumbnbil
+     * being updbted.
+     * @pbrbm minX the X coordinbte of the leftmost updbted column
      * of pixels.
-     * @param minY the Y coordinate of the uppermost updated row
+     * @pbrbm minY the Y coordinbte of the uppermost updbted row
      * of pixels.
-     * @param width the number of updated pixels horizontally.
-     * @param height the number of updated pixels vertically.
-     * @param periodX the horizontal spacing between updated pixels;
-     * a value of 1 means no gaps.
-     * @param periodY the vertical spacing between updated pixels;
-     * a value of 1 means no gaps.
-     * @param bands an array of <code>int</code>s indicating which
-     * bands are being updated.
+     * @pbrbm width the number of updbted pixels horizontblly.
+     * @pbrbm height the number of updbted pixels verticblly.
+     * @pbrbm periodX the horizontbl spbcing between updbted pixels;
+     * b vblue of 1 mebns no gbps.
+     * @pbrbm periodY the verticbl spbcing between updbted pixels;
+     * b vblue of 1 mebns no gbps.
+     * @pbrbm bbnds bn brrby of <code>int</code>s indicbting which
+     * bbnds bre being updbted.
      *
-     * @see #imageUpdate
+     * @see #imbgeUpdbte
      */
-    void thumbnailUpdate(ImageReader source,
-                         BufferedImage theThumbnail,
+    void thumbnbilUpdbte(ImbgeRebder source,
+                         BufferedImbge theThumbnbil,
                          int minX, int minY,
                          int width, int height,
                          int periodX, int periodY,
-                         int[] bands);
+                         int[] bbnds);
 
     /**
-     * Reports that the current thumbnail read operation has completed
-     * a progressive pass.  Readers of formats that support
+     * Reports thbt the current thumbnbil rebd operbtion hbs completed
+     * b progressive pbss.  Rebders of formbts thbt support
      * progressive encoding should use this to notify clients when
-     * each pass is completed when reading a progressively encoded
-     * thumbnail image.
+     * ebch pbss is completed when rebding b progressively encoded
+     * thumbnbil imbge.
      *
-     * @param source the <code>ImageReader</code> object calling this
+     * @pbrbm source the <code>ImbgeRebder</code> object cblling this
      * method.
-     * @param theThumbnail the <code>BufferedImage</code> thumbnail
-     * being updated.
+     * @pbrbm theThumbnbil the <code>BufferedImbge</code> thumbnbil
+     * being updbted.
      *
-     * @see #passComplete
+     * @see #pbssComplete
      */
-    void thumbnailPassComplete(ImageReader source, BufferedImage theThumbnail);
+    void thumbnbilPbssComplete(ImbgeRebder source, BufferedImbge theThumbnbil);
 }

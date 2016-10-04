@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.util.Collection;
-import java.util.Set;
+import jbvb.util.Collection;
+import jbvb.util.Set;
 
 /**
- * An abstract class that performs one or more checks on an
- * {@code X509Certificate}.
+ * An bbstrbct clbss thbt performs one or more checks on bn
+ * {@code X509Certificbte}.
  *
- * <p>A concrete implementation of the {@code PKIXCertPathChecker} class
- * can be created to extend the PKIX certification path validation algorithm.
- * For example, an implementation may check for and process a critical private
- * extension of each certificate in a certification path.
+ * <p>A concrete implementbtion of the {@code PKIXCertPbthChecker} clbss
+ * cbn be crebted to extend the PKIX certificbtion pbth vblidbtion blgorithm.
+ * For exbmple, bn implementbtion mby check for bnd process b criticbl privbte
+ * extension of ebch certificbte in b certificbtion pbth.
  *
- * <p>Instances of {@code PKIXCertPathChecker} are passed as parameters
- * using the {@link PKIXParameters#setCertPathCheckers setCertPathCheckers}
- * or {@link PKIXParameters#addCertPathChecker addCertPathChecker} methods
- * of the {@code PKIXParameters} and {@code PKIXBuilderParameters}
- * class. Each of the {@code PKIXCertPathChecker}s {@link #check check}
- * methods will be called, in turn, for each certificate processed by a PKIX
- * {@code CertPathValidator} or {@code CertPathBuilder}
- * implementation.
+ * <p>Instbnces of {@code PKIXCertPbthChecker} bre pbssed bs pbrbmeters
+ * using the {@link PKIXPbrbmeters#setCertPbthCheckers setCertPbthCheckers}
+ * or {@link PKIXPbrbmeters#bddCertPbthChecker bddCertPbthChecker} methods
+ * of the {@code PKIXPbrbmeters} bnd {@code PKIXBuilderPbrbmeters}
+ * clbss. Ebch of the {@code PKIXCertPbthChecker}s {@link #check check}
+ * methods will be cblled, in turn, for ebch certificbte processed by b PKIX
+ * {@code CertPbthVblidbtor} or {@code CertPbthBuilder}
+ * implementbtion.
  *
- * <p>A {@code PKIXCertPathChecker} may be called multiple times on
- * successive certificates in a certification path. Concrete subclasses
- * are expected to maintain any internal state that may be necessary to
- * check successive certificates. The {@link #init init} method is used
- * to initialize the internal state of the checker so that the certificates
- * of a new certification path may be checked. A stateful implementation
- * <b>must</b> override the {@link #clone clone} method if necessary in
- * order to allow a PKIX {@code CertPathBuilder} to efficiently
- * backtrack and try other paths. In these situations, the
- * {@code CertPathBuilder} is able to restore prior path validation
- * states by restoring the cloned {@code PKIXCertPathChecker}s.
+ * <p>A {@code PKIXCertPbthChecker} mby be cblled multiple times on
+ * successive certificbtes in b certificbtion pbth. Concrete subclbsses
+ * bre expected to mbintbin bny internbl stbte thbt mby be necessbry to
+ * check successive certificbtes. The {@link #init init} method is used
+ * to initiblize the internbl stbte of the checker so thbt the certificbtes
+ * of b new certificbtion pbth mby be checked. A stbteful implementbtion
+ * <b>must</b> override the {@link #clone clone} method if necessbry in
+ * order to bllow b PKIX {@code CertPbthBuilder} to efficiently
+ * bbcktrbck bnd try other pbths. In these situbtions, the
+ * {@code CertPbthBuilder} is bble to restore prior pbth vblidbtion
+ * stbtes by restoring the cloned {@code PKIXCertPbthChecker}s.
  *
- * <p>The order in which the certificates are presented to the
- * {@code PKIXCertPathChecker} may be either in the forward direction
- * (from target to most-trusted CA) or in the reverse direction (from
- * most-trusted CA to target). A {@code PKIXCertPathChecker} implementation
- * <b>must</b> support reverse checking (the ability to perform its checks when
- * it is presented with certificates in the reverse direction) and <b>may</b>
- * support forward checking (the ability to perform its checks when it is
- * presented with certificates in the forward direction). The
- * {@link #isForwardCheckingSupported isForwardCheckingSupported} method
- * indicates whether forward checking is supported.
+ * <p>The order in which the certificbtes bre presented to the
+ * {@code PKIXCertPbthChecker} mby be either in the forwbrd direction
+ * (from tbrget to most-trusted CA) or in the reverse direction (from
+ * most-trusted CA to tbrget). A {@code PKIXCertPbthChecker} implementbtion
+ * <b>must</b> support reverse checking (the bbility to perform its checks when
+ * it is presented with certificbtes in the reverse direction) bnd <b>mby</b>
+ * support forwbrd checking (the bbility to perform its checks when it is
+ * presented with certificbtes in the forwbrd direction). The
+ * {@link #isForwbrdCheckingSupported isForwbrdCheckingSupported} method
+ * indicbtes whether forwbrd checking is supported.
  * <p>
- * Additional input parameters required for executing the check may be
- * specified through constructors of concrete implementations of this class.
+ * Additionbl input pbrbmeters required for executing the check mby be
+ * specified through constructors of concrete implementbtions of this clbss.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unless otherwise specified, the methods defined in this clbss bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single
+ * object concurrently should synchronize bmongst themselves bnd
+ * provide the necessbry locking. Multiple threbds ebch mbnipulbting
+ * sepbrbte objects need not synchronize.
  *
- * @see PKIXParameters
- * @see PKIXBuilderParameters
+ * @see PKIXPbrbmeters
+ * @see PKIXBuilderPbrbmeters
  *
  * @since       1.4
- * @author      Yassir Elley
- * @author      Sean Mullan
+ * @buthor      Ybssir Elley
+ * @buthor      Sebn Mullbn
  */
-public abstract class PKIXCertPathChecker
-    implements CertPathChecker, Cloneable {
+public bbstrbct clbss PKIXCertPbthChecker
+    implements CertPbthChecker, Clonebble {
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
-    protected PKIXCertPathChecker() {}
+    protected PKIXCertPbthChecker() {}
 
     /**
-     * Initializes the internal state of this {@code PKIXCertPathChecker}.
+     * Initiblizes the internbl stbte of this {@code PKIXCertPbthChecker}.
      * <p>
-     * The {@code forward} flag specifies the order that
-     * certificates will be passed to the {@link #check check} method
-     * (forward or reverse). A {@code PKIXCertPathChecker} <b>must</b>
-     * support reverse checking and <b>may</b> support forward checking.
+     * The {@code forwbrd} flbg specifies the order thbt
+     * certificbtes will be pbssed to the {@link #check check} method
+     * (forwbrd or reverse). A {@code PKIXCertPbthChecker} <b>must</b>
+     * support reverse checking bnd <b>mby</b> support forwbrd checking.
      *
-     * @param forward the order that certificates are presented to
-     * the {@code check} method. If {@code true}, certificates
-     * are presented from target to most-trusted CA (forward); if
-     * {@code false}, from most-trusted CA to target (reverse).
-     * @throws CertPathValidatorException if this
-     * {@code PKIXCertPathChecker} is unable to check certificates in
-     * the specified order; it should never be thrown if the forward flag
-     * is false since reverse checking must be supported
+     * @pbrbm forwbrd the order thbt certificbtes bre presented to
+     * the {@code check} method. If {@code true}, certificbtes
+     * bre presented from tbrget to most-trusted CA (forwbrd); if
+     * {@code fblse}, from most-trusted CA to tbrget (reverse).
+     * @throws CertPbthVblidbtorException if this
+     * {@code PKIXCertPbthChecker} is unbble to check certificbtes in
+     * the specified order; it should never be thrown if the forwbrd flbg
+     * is fblse since reverse checking must be supported
      */
     @Override
-    public abstract void init(boolean forward)
-        throws CertPathValidatorException;
+    public bbstrbct void init(boolebn forwbrd)
+        throws CertPbthVblidbtorException;
 
     /**
-     * Indicates if forward checking is supported. Forward checking refers
-     * to the ability of the {@code PKIXCertPathChecker} to perform
-     * its checks when certificates are presented to the {@code check}
-     * method in the forward direction (from target to most-trusted CA).
+     * Indicbtes if forwbrd checking is supported. Forwbrd checking refers
+     * to the bbility of the {@code PKIXCertPbthChecker} to perform
+     * its checks when certificbtes bre presented to the {@code check}
+     * method in the forwbrd direction (from tbrget to most-trusted CA).
      *
-     * @return {@code true} if forward checking is supported,
-     * {@code false} otherwise
+     * @return {@code true} if forwbrd checking is supported,
+     * {@code fblse} otherwise
      */
     @Override
-    public abstract boolean isForwardCheckingSupported();
+    public bbstrbct boolebn isForwbrdCheckingSupported();
 
     /**
-     * Returns an immutable {@code Set} of X.509 certificate extensions
-     * that this {@code PKIXCertPathChecker} supports (i.e. recognizes, is
-     * able to process), or {@code null} if no extensions are supported.
+     * Returns bn immutbble {@code Set} of X.509 certificbte extensions
+     * thbt this {@code PKIXCertPbthChecker} supports (i.e. recognizes, is
+     * bble to process), or {@code null} if no extensions bre supported.
      * <p>
-     * Each element of the set is a {@code String} representing the
-     * Object Identifier (OID) of the X.509 extension that is supported.
-     * The OID is represented by a set of nonnegative integers separated by
+     * Ebch element of the set is b {@code String} representing the
+     * Object Identifier (OID) of the X.509 extension thbt is supported.
+     * The OID is represented by b set of nonnegbtive integers sepbrbted by
      * periods.
      * <p>
-     * All X.509 certificate extensions that a {@code PKIXCertPathChecker}
-     * might possibly be able to process should be included in the set.
+     * All X.509 certificbte extensions thbt b {@code PKIXCertPbthChecker}
+     * might possibly be bble to process should be included in the set.
      *
-     * @return an immutable {@code Set} of X.509 extension OIDs (in
-     * {@code String} format) supported by this
-     * {@code PKIXCertPathChecker}, or {@code null} if no
-     * extensions are supported
+     * @return bn immutbble {@code Set} of X.509 extension OIDs (in
+     * {@code String} formbt) supported by this
+     * {@code PKIXCertPbthChecker}, or {@code null} if no
+     * extensions bre supported
      */
-    public abstract Set<String> getSupportedExtensions();
+    public bbstrbct Set<String> getSupportedExtensions();
 
     /**
-     * Performs the check(s) on the specified certificate using its internal
-     * state and removes any critical extensions that it processes from the
-     * specified collection of OID strings that represent the unresolved
-     * critical extensions. The certificates are presented in the order
+     * Performs the check(s) on the specified certificbte using its internbl
+     * stbte bnd removes bny criticbl extensions thbt it processes from the
+     * specified collection of OID strings thbt represent the unresolved
+     * criticbl extensions. The certificbtes bre presented in the order
      * specified by the {@code init} method.
      *
-     * @param cert the {@code Certificate} to be checked
-     * @param unresolvedCritExts a {@code Collection} of OID strings
-     * representing the current set of unresolved critical extensions
-     * @exception CertPathValidatorException if the specified certificate does
-     * not pass the check
+     * @pbrbm cert the {@code Certificbte} to be checked
+     * @pbrbm unresolvedCritExts b {@code Collection} of OID strings
+     * representing the current set of unresolved criticbl extensions
+     * @exception CertPbthVblidbtorException if the specified certificbte does
+     * not pbss the check
      */
-    public abstract void check(Certificate cert,
+    public bbstrbct void check(Certificbte cert,
             Collection<String> unresolvedCritExts)
-            throws CertPathValidatorException;
+            throws CertPbthVblidbtorException;
 
     /**
      * {@inheritDoc}
      *
-     * <p>This implementation calls
-     * {@code check(cert, java.util.Collections.<String>emptySet())}.
+     * <p>This implementbtion cblls
+     * {@code check(cert, jbvb.util.Collections.<String>emptySet())}.
      */
     @Override
-    public void check(Certificate cert) throws CertPathValidatorException {
-        check(cert, java.util.Collections.<String>emptySet());
+    public void check(Certificbte cert) throws CertPbthVblidbtorException {
+        check(cert, jbvb.util.Collections.<String>emptySet());
     }
 
     /**
-     * Returns a clone of this object. Calls the {@code Object.clone()}
+     * Returns b clone of this object. Cblls the {@code Object.clone()}
      * method.
-     * All subclasses which maintain state must support and
-     * override this method, if necessary.
+     * All subclbsses which mbintbin stbte must support bnd
+     * override this method, if necessbry.
      *
-     * @return a copy of this {@code PKIXCertPathChecker}
+     * @return b copy of this {@code PKIXCertPbthChecker}
      */
     @Override
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            /* Cannot happen */
-            throw new InternalError(e.toString(), e);
+        } cbtch (CloneNotSupportedException e) {
+            /* Cbnnot hbppen */
+            throw new InternblError(e.toString(), e);
         }
     }
 }

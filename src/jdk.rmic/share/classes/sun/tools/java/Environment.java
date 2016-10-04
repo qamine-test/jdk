@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
-import java.util.Stack;
-import java.io.IOException;
+import jbvb.util.Stbck;
+import jbvb.io.IOException;
 import sun.tools.tree.Context;
 //JCOV
-import java.io.File;
+import jbvb.io.File;
 //end JCOV
 
 /**
- * This class defines the environment for a compilation.
- * It is used to load classes, resolve class names and
- * report errors. It is an abstract class, a subclass
- * must define implementations for some of the functions.<p>
+ * This clbss defines the environment for b compilbtion.
+ * It is used to lobd clbsses, resolve clbss nbmes bnd
+ * report errors. It is bn bbstrbct clbss, b subclbss
+ * must define implementbtions for some of the functions.<p>
  *
- * An environment has a source object associated with it.
- * This is the thing against which errors are reported, it
- * is usually a file name, a field or a class.<p>
+ * An environment hbs b source object bssocibted with it.
+ * This is the thing bgbinst which errors bre reported, it
+ * is usublly b file nbme, b field or b clbss.<p>
  *
- * Environments can be nested to change the source object.<p>
+ * Environments cbn be nested to chbnge the source object.<p>
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author      Arthur van Hoff
+ * @buthor      Arthur vbn Hoff
  */
 
-public class Environment implements Constants {
+public clbss Environment implements Constbnts {
     /**
-     * The actual environment to which everything is forwarded.
+     * The bctubl environment to which everything is forwbrded.
      */
     Environment env;
 
     /**
-     * External character encoding name
+     * Externbl chbrbcter encoding nbme
      */
     String encoding;
 
     /**
-     * The object that is currently being parsed/compiled.
-     * It is either a file name (String) or a field (MemberDefinition)
-     * or a class (ClassDeclaration or ClassDefinition).
+     * The object thbt is currently being pbrsed/compiled.
+     * It is either b file nbme (String) or b field (MemberDefinition)
+     * or b clbss (ClbssDeclbrbtion or ClbssDefinition).
      */
     Object source;
 
     public Environment(Environment env, Object source) {
-        if (env != null && env.env != null && env.getClass() == this.getClass())
-            env = env.env;      // a small optimization
+        if (env != null && env.env != null && env.getClbss() == this.getClbss())
+            env = env.env;      // b smbll optimizbtion
         this.env = env;
         this.source = source;
     }
@@ -80,202 +80,202 @@ public class Environment implements Constants {
     }
 
     /**
-     * Tells whether an Identifier refers to a package which should be
+     * Tells whether bn Identifier refers to b pbckbge which should be
      * exempt from the "exists" check in Imports#resolve().
      */
-    public boolean isExemptPackage(Identifier id) {
-        return env.isExemptPackage(id);
+    public boolebn isExemptPbckbge(Identifier id) {
+        return env.isExemptPbckbge(id);
     }
 
     /**
-     * Return a class declaration given a fully qualified class name.
+     * Return b clbss declbrbtion given b fully qublified clbss nbme.
      */
-    public ClassDeclaration getClassDeclaration(Identifier nm) {
-        return env.getClassDeclaration(nm);
+    public ClbssDeclbrbtion getClbssDeclbrbtion(Identifier nm) {
+        return env.getClbssDeclbrbtion(nm);
     }
 
     /**
-     * Return a class definition given a fully qualified class name.
+     * Return b clbss definition given b fully qublified clbss nbme.
      * <p>
-     * Should be called only with 'internal' class names, i.e., the result
-     * of a call to 'resolveName' or a synthetic class name.
+     * Should be cblled only with 'internbl' clbss nbmes, i.e., the result
+     * of b cbll to 'resolveNbme' or b synthetic clbss nbme.
      */
-    public final ClassDefinition getClassDefinition(Identifier nm) throws ClassNotFound {
+    public finbl ClbssDefinition getClbssDefinition(Identifier nm) throws ClbssNotFound {
         if (nm.isInner()) {
-            ClassDefinition c = getClassDefinition(nm.getTopName());
-            Identifier tail = nm.getFlatName();
-        walkTail:
-            while (tail.isQualified()) {
-                tail = tail.getTail();
-                Identifier head = tail.getHead();
-                //System.out.println("CLASS: " + c + " HEAD: " + head + " TAIL: " + tail);
-                String hname = head.toString();
-                // If the name is of the form 'ClassName.N$localName', where N is
-                // a number, the field 'N$localName' may not necessarily be a member
-                // of the class named by 'ClassName', but might be a member of some
-                // inaccessible class contained within it.  We use 'getLocalClass'
-                // to do the lookup in this case.  This is part of a fix for bugid
-                // 4054523 and 4030421.  See also 'BatchEnvironment.makeClassDefinition'.
-                // This should also work for anonymous class names of the form
-                // 'ClassName.N'.  Note that the '.' qualifications get converted to
-                // '$' characters when determining the external name of the class and
-                // the name of the class file.
-                if (hname.length() > 0
-                    && Character.isDigit(hname.charAt(0))) {
-                    ClassDefinition localClass = c.getLocalClass(hname);
-                    if (localClass != null) {
-                        c = localClass;
-                        continue walkTail;
+            ClbssDefinition c = getClbssDefinition(nm.getTopNbme());
+            Identifier tbil = nm.getFlbtNbme();
+        wblkTbil:
+            while (tbil.isQublified()) {
+                tbil = tbil.getTbil();
+                Identifier hebd = tbil.getHebd();
+                //System.out.println("CLASS: " + c + " HEAD: " + hebd + " TAIL: " + tbil);
+                String hnbme = hebd.toString();
+                // If the nbme is of the form 'ClbssNbme.N$locblNbme', where N is
+                // b number, the field 'N$locblNbme' mby not necessbrily be b member
+                // of the clbss nbmed by 'ClbssNbme', but might be b member of some
+                // inbccessible clbss contbined within it.  We use 'getLocblClbss'
+                // to do the lookup in this cbse.  This is pbrt of b fix for bugid
+                // 4054523 bnd 4030421.  See blso 'BbtchEnvironment.mbkeClbssDefinition'.
+                // This should blso work for bnonymous clbss nbmes of the form
+                // 'ClbssNbme.N'.  Note thbt the '.' qublificbtions get converted to
+                // '$' chbrbcters when determining the externbl nbme of the clbss bnd
+                // the nbme of the clbss file.
+                if (hnbme.length() > 0
+                    && Chbrbcter.isDigit(hnbme.chbrAt(0))) {
+                    ClbssDefinition locblClbss = c.getLocblClbss(hnbme);
+                    if (locblClbss != null) {
+                        c = locblClbss;
+                        continue wblkTbil;
                     }
                 } else {
-                    for (MemberDefinition f = c.getFirstMatch(head);
-                         f != null; f = f.getNextMatch()) {
-                        if (f.isInnerClass()) {
-                            c = f.getInnerClass();
-                            continue walkTail;
+                    for (MemberDefinition f = c.getFirstMbtch(hebd);
+                         f != null; f = f.getNextMbtch()) {
+                        if (f.isInnerClbss()) {
+                            c = f.getInnerClbss();
+                            continue wblkTbil;
                         }
                     }
                 }
-                throw new ClassNotFound(Identifier.lookupInner(c.getName(), head));
+                throw new ClbssNotFound(Identifier.lookupInner(c.getNbme(), hebd));
             }
             //System.out.println("FOUND " + c + " FOR " + nm);
             return c;
         }
-        return getClassDeclaration(nm).getClassDefinition(this);
+        return getClbssDeclbrbtion(nm).getClbssDefinition(this);
     }
 
 
     /**
-     * Return a class declaration given a type. Only works for
-     * class types.
+     * Return b clbss declbrbtion given b type. Only works for
+     * clbss types.
      */
-    public ClassDeclaration getClassDeclaration(Type t) {
-        return getClassDeclaration(t.getClassName());
+    public ClbssDeclbrbtion getClbssDeclbrbtion(Type t) {
+        return getClbssDeclbrbtion(t.getClbssNbme());
     }
 
     /**
-     * Return a class definition given a type. Only works for
-     * class types.
+     * Return b clbss definition given b type. Only works for
+     * clbss types.
      */
-    public final ClassDefinition getClassDefinition(Type t) throws ClassNotFound {
-        return getClassDefinition(t.getClassName());
+    public finbl ClbssDefinition getClbssDefinition(Type t) throws ClbssNotFound {
+        return getClbssDefinition(t.getClbssNbme());
     }
 
     /**
-     * Check if a class exists (without actually loading it).
-     * (Since inner classes cannot in general be examined without
-     * loading source, this method does not accept inner names.)
+     * Check if b clbss exists (without bctublly lobding it).
+     * (Since inner clbsses cbnnot in generbl be exbmined without
+     * lobding source, this method does not bccept inner nbmes.)
      */
-    public boolean classExists(Identifier nm) {
-        return env.classExists(nm);
+    public boolebn clbssExists(Identifier nm) {
+        return env.clbssExists(nm);
     }
 
-    public final boolean classExists(Type t) {
-        return !t.isType(TC_CLASS) || classExists(t.getClassName());
-    }
-
-    /**
-     * Get the package path for a package
-     */
-    public Package getPackage(Identifier pkg) throws IOException {
-        return env.getPackage(pkg);
+    public finbl boolebn clbssExists(Type t) {
+        return !t.isType(TC_CLASS) || clbssExists(t.getClbssNbme());
     }
 
     /**
-     * Load the definition of a class.
+     * Get the pbckbge pbth for b pbckbge
      */
-    public void loadDefinition(ClassDeclaration c) {
-        env.loadDefinition(c);
+    public Pbckbge getPbckbge(Identifier pkg) throws IOException {
+        return env.getPbckbge(pkg);
     }
 
     /**
-     * Return the source of the environment (ie: the thing being compiled/parsed).
+     * Lobd the definition of b clbss.
      */
-    public final Object getSource() {
+    public void lobdDefinition(ClbssDeclbrbtion c) {
+        env.lobdDefinition(c);
+    }
+
+    /**
+     * Return the source of the environment (ie: the thing being compiled/pbrsed).
+     */
+    public finbl Object getSource() {
         return source;
     }
 
     /**
-     * Resolve a type. Make sure that all the classes referred to by
-     * the type have a definition.  Report errors.  Return true if
-     * the type is well-formed.  Presently used for types appearing
-     * in member declarations, which represent named types internally as
-     * qualified identifiers.  Type names appearing in local variable
-     * declarations and within expressions are represented as identifier
-     * or field expressions, and are resolved by 'toType', which delegates
-     * handling of the non-inner portion of the name to this method.
+     * Resolve b type. Mbke sure thbt bll the clbsses referred to by
+     * the type hbve b definition.  Report errors.  Return true if
+     * the type is well-formed.  Presently used for types bppebring
+     * in member declbrbtions, which represent nbmed types internblly bs
+     * qublified identifiers.  Type nbmes bppebring in locbl vbribble
+     * declbrbtions bnd within expressions bre represented bs identifier
+     * or field expressions, bnd bre resolved by 'toType', which delegbtes
+     * hbndling of the non-inner portion of the nbme to this method.
      * <p>
-     * In 'toType', the various stages of qualification are represented by
-     * separate AST nodes.  Here, we are given a single identifier which
-     * contains the entire qualification structure.  It is not possible in
-     * general to set the error location to the exact position of a component
-     * that is in error, so an error message must refer to the entire qualified
-     * name.  An attempt to keep track of the string length of the components of
-     * the name and to offset the location accordingly fails because the initial
-     * prefix of the name may have been rewritten by an earlier call to
-     * 'resolveName'.  See 'SourceMember.resolveTypeStructure'.  The situation
-     * is actually even worse than this, because only a single location is
-     * passed in for an entire declaration, which may contain many type names.
-     * All error messages are thus poorly localized.  These checks should be
-     * done while traversing the parse tree for the type, not the type descriptor.
+     * In 'toType', the vbrious stbges of qublificbtion bre represented by
+     * sepbrbte AST nodes.  Here, we bre given b single identifier which
+     * contbins the entire qublificbtion structure.  It is not possible in
+     * generbl to set the error locbtion to the exbct position of b component
+     * thbt is in error, so bn error messbge must refer to the entire qublified
+     * nbme.  An bttempt to keep trbck of the string length of the components of
+     * the nbme bnd to offset the locbtion bccordingly fbils becbuse the initibl
+     * prefix of the nbme mby hbve been rewritten by bn ebrlier cbll to
+     * 'resolveNbme'.  See 'SourceMember.resolveTypeStructure'.  The situbtion
+     * is bctublly even worse thbn this, becbuse only b single locbtion is
+     * pbssed in for bn entire declbrbtion, which mby contbin mbny type nbmes.
+     * All error messbges bre thus poorly locblized.  These checks should be
+     * done while trbversing the pbrse tree for the type, not the type descriptor.
      * <p>
      * DESIGN NOTE:
-     * As far as I can tell, the two-stage resolution of names represented in
-     * string form is an artifact of the late implementation of inner classes
-     * and the use of mangled names internally within the compiler.  All
-     * qualified names should have their hiearchical structure made explicit
-     * in the parse tree at the phase at which they are presented for static
-     * semantic checking.  This would affect class names appearing in 'extends',
-     * 'implements', and 'throws' clauses, as well as in member declarations.
+     * As fbr bs I cbn tell, the two-stbge resolution of nbmes represented in
+     * string form is bn brtifbct of the lbte implementbtion of inner clbsses
+     * bnd the use of mbngled nbmes internblly within the compiler.  All
+     * qublified nbmes should hbve their hiebrchicbl structure mbde explicit
+     * in the pbrse tree bt the phbse bt which they bre presented for stbtic
+     * sembntic checking.  This would bffect clbss nbmes bppebring in 'extends',
+     * 'implements', bnd 'throws' clbuses, bs well bs in member declbrbtions.
      */
-    public boolean resolve(long where, ClassDefinition c, Type t) {
+    public boolebn resolve(long where, ClbssDefinition c, Type t) {
         switch (t.getTypeCode()) {
-          case TC_CLASS: {
-            ClassDefinition def;
+          cbse TC_CLASS: {
+            ClbssDefinition def;
             try {
-                Identifier nm = t.getClassName();
-                if (!nm.isQualified() && !nm.isInner() && !classExists(nm)) {
-                    resolve(nm);        // elicit complaints about ambiguity
+                Identifier nm = t.getClbssNbme();
+                if (!nm.isQublified() && !nm.isInner() && !clbssExists(nm)) {
+                    resolve(nm);        // elicit complbints bbout bmbiguity
                 }
-                def = getQualifiedClassDefinition(where, nm, c, false);
-                if (!c.canAccess(this, def.getClassDeclaration())) {
-                    // Reported error location may be imprecise
-                    // if the name is qualified.
-                    error(where, "cant.access.class", def);
-                    return true; // return false later
+                def = getQublifiedClbssDefinition(where, nm, c, fblse);
+                if (!c.cbnAccess(this, def.getClbssDeclbrbtion())) {
+                    // Reported error locbtion mby be imprecise
+                    // if the nbme is qublified.
+                    error(where, "cbnt.bccess.clbss", def);
+                    return true; // return fblse lbter
                 }
                 def.noteUsedBy(c, where, env);
-            } catch (AmbiguousClass ee) {
-                error(where, "ambig.class", ee.name1, ee.name2);
-                return false;
-            } catch (ClassNotFound e) {
-                // For now, report "class.and.package" only when the code
-                // is going to fail anyway.
+            } cbtch (AmbiguousClbss ee) {
+                error(where, "bmbig.clbss", ee.nbme1, ee.nbme2);
+                return fblse;
+            } cbtch (ClbssNotFound e) {
+                // For now, report "clbss.bnd.pbckbge" only when the code
+                // is going to fbil bnywby.
                 try {
-                    if (e.name.isInner() &&
-                            getPackage(e.name.getTopName()).exists()) {
-                        env.error(where, "class.and.package",
-                                  e.name.getTopName());
+                    if (e.nbme.isInner() &&
+                            getPbckbge(e.nbme.getTopNbme()).exists()) {
+                        env.error(where, "clbss.bnd.pbckbge",
+                                  e.nbme.getTopNbme());
                     }
-                } catch (IOException ee) {
-                    env.error(where, "io.exception", "package check");
+                } cbtch (IOException ee) {
+                    env.error(where, "io.exception", "pbckbge check");
                 }
-                // This error message is also emitted for 'new' expressions.
-                // error(where, "class.not.found", e.name, "declaration");
-                error(where, "class.not.found.no.context", e.name);
-                return false;
+                // This error messbge is blso emitted for 'new' expressions.
+                // error(where, "clbss.not.found", e.nbme, "declbrbtion");
+                error(where, "clbss.not.found.no.context", e.nbme);
+                return fblse;
             }
             return true;
           }
 
-          case TC_ARRAY:
+          cbse TC_ARRAY:
             return resolve(where, c, t.getElementType());
 
-          case TC_METHOD:
-            boolean ok = resolve(where, c, t.getReturnType());
-            Type args[] = t.getArgumentTypes();
-            for (int i = args.length ; i-- > 0 ; ) {
-                ok &= resolve(where, c, args[i]);
+          cbse TC_METHOD:
+            boolebn ok = resolve(where, c, t.getReturnType());
+            Type brgs[] = t.getArgumentTypes();
+            for (int i = brgs.length ; i-- > 0 ; ) {
+                ok &= resolve(where, c, brgs[i]);
             }
             return ok;
         }
@@ -283,464 +283,464 @@ public class Environment implements Constants {
     }
 
     /**
-     * Given its fully-qualified name, verify that a class is defined and accessible.
-     * Used to check components of qualified names in contexts where a class is expected.
-     * Like 'resolve', but is given a single type name, not a type descriptor.
+     * Given its fully-qublified nbme, verify thbt b clbss is defined bnd bccessible.
+     * Used to check components of qublified nbmes in contexts where b clbss is expected.
+     * Like 'resolve', but is given b single type nbme, not b type descriptor.
      */
-    public boolean resolveByName(long where, ClassDefinition c, Identifier nm) {
-        return resolveByName(where, c, nm, false);
+    public boolebn resolveByNbme(long where, ClbssDefinition c, Identifier nm) {
+        return resolveByNbme(where, c, nm, fblse);
     }
 
-    public boolean resolveExtendsByName(long where, ClassDefinition c, Identifier nm) {
-        return resolveByName(where, c, nm, true);
+    public boolebn resolveExtendsByNbme(long where, ClbssDefinition c, Identifier nm) {
+        return resolveByNbme(where, c, nm, true);
     }
 
-    private boolean resolveByName(long where, ClassDefinition c,
-                                 Identifier nm, boolean isExtends) {
-        ClassDefinition def;
+    privbte boolebn resolveByNbme(long where, ClbssDefinition c,
+                                 Identifier nm, boolebn isExtends) {
+        ClbssDefinition def;
         try {
-            if (!nm.isQualified() && !nm.isInner() && !classExists(nm)) {
-                resolve(nm);    // elicit complaints about ambiguity
+            if (!nm.isQublified() && !nm.isInner() && !clbssExists(nm)) {
+                resolve(nm);    // elicit complbints bbout bmbiguity
             }
-            def = getQualifiedClassDefinition(where, nm, c, isExtends);
-            ClassDeclaration decl = def.getClassDeclaration();
-            if (!((!isExtends && c.canAccess(this, decl))
+            def = getQublifiedClbssDefinition(where, nm, c, isExtends);
+            ClbssDeclbrbtion decl = def.getClbssDeclbrbtion();
+            if (!((!isExtends && c.cbnAccess(this, decl))
                   ||
-                  (isExtends && c.extendsCanAccess(this, decl)))) {
-                error(where, "cant.access.class", def);
-                return true; // return false later
+                  (isExtends && c.extendsCbnAccess(this, decl)))) {
+                error(where, "cbnt.bccess.clbss", def);
+                return true; // return fblse lbter
             }
-        } catch (AmbiguousClass ee) {
-            error(where, "ambig.class", ee.name1, ee.name2);
-            return false;
-        } catch (ClassNotFound e) {
-            // For now, report "class.and.package" only when the code
-            // is going to fail anyway.
+        } cbtch (AmbiguousClbss ee) {
+            error(where, "bmbig.clbss", ee.nbme1, ee.nbme2);
+            return fblse;
+        } cbtch (ClbssNotFound e) {
+            // For now, report "clbss.bnd.pbckbge" only when the code
+            // is going to fbil bnywby.
             try {
-                if (e.name.isInner() &&
-                    getPackage(e.name.getTopName()).exists()) {
-                    env.error(where, "class.and.package",
-                              e.name.getTopName());
+                if (e.nbme.isInner() &&
+                    getPbckbge(e.nbme.getTopNbme()).exists()) {
+                    env.error(where, "clbss.bnd.pbckbge",
+                              e.nbme.getTopNbme());
                 }
-            } catch (IOException ee) {
-                env.error(where, "io.exception", "package check");
+            } cbtch (IOException ee) {
+                env.error(where, "io.exception", "pbckbge check");
             }
-            error(where, "class.not.found", e.name, "type name");
-            return false;
+            error(where, "clbss.not.found", e.nbme, "type nbme");
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Like 'getClassDefinition(env)', but check access on each component.
-     * Currently called only by 'resolve' above.  It is doubtful that calls
-     * to 'getClassDefinition(env)' are appropriate now.
+     * Like 'getClbssDefinition(env)', but check bccess on ebch component.
+     * Currently cblled only by 'resolve' bbove.  It is doubtful thbt cblls
+     * to 'getClbssDefinition(env)' bre bppropribte now.
      */
-    public final ClassDefinition
-    getQualifiedClassDefinition(long where,
+    public finbl ClbssDefinition
+    getQublifiedClbssDefinition(long where,
                                 Identifier nm,
-                                ClassDefinition ctxClass,
-                                boolean isExtends) throws ClassNotFound {
+                                ClbssDefinition ctxClbss,
+                                boolebn isExtends) throws ClbssNotFound {
         if (nm.isInner()) {
-            ClassDefinition c = getClassDefinition(nm.getTopName());
-            Identifier tail = nm.getFlatName();
-        walkTail:
-            while (tail.isQualified()) {
-                tail = tail.getTail();
-                Identifier head = tail.getHead();
-                // System.out.println("CLASS: " + c + " HEAD: " + head + " TAIL: " + tail);
-                String hname = head.toString();
-                // Handle synthesized names of local and anonymous classes.
-                // See 'getClassDefinition(env)' above.
-                if (hname.length() > 0
-                    && Character.isDigit(hname.charAt(0))) {
-                    ClassDefinition localClass = c.getLocalClass(hname);
-                    if (localClass != null) {
-                        c = localClass;
-                        continue walkTail;
+            ClbssDefinition c = getClbssDefinition(nm.getTopNbme());
+            Identifier tbil = nm.getFlbtNbme();
+        wblkTbil:
+            while (tbil.isQublified()) {
+                tbil = tbil.getTbil();
+                Identifier hebd = tbil.getHebd();
+                // System.out.println("CLASS: " + c + " HEAD: " + hebd + " TAIL: " + tbil);
+                String hnbme = hebd.toString();
+                // Hbndle synthesized nbmes of locbl bnd bnonymous clbsses.
+                // See 'getClbssDefinition(env)' bbove.
+                if (hnbme.length() > 0
+                    && Chbrbcter.isDigit(hnbme.chbrAt(0))) {
+                    ClbssDefinition locblClbss = c.getLocblClbss(hnbme);
+                    if (locblClbss != null) {
+                        c = locblClbss;
+                        continue wblkTbil;
                     }
                 } else {
-                    for (MemberDefinition f = c.getFirstMatch(head);
-                         f != null; f = f.getNextMatch()) {
-                        if (f.isInnerClass()) {
-                            ClassDeclaration rdecl = c.getClassDeclaration();
-                            c = f.getInnerClass();
-                            ClassDeclaration fdecl = c.getClassDeclaration();
-                            // This check is presumably applicable even if the
-                            // original source-code name (expanded by 'resolveNames')
-                            // was a simple, unqualified name.  Hopefully, JLS 2e
-                            // will clarify the matter.
+                    for (MemberDefinition f = c.getFirstMbtch(hebd);
+                         f != null; f = f.getNextMbtch()) {
+                        if (f.isInnerClbss()) {
+                            ClbssDeclbrbtion rdecl = c.getClbssDeclbrbtion();
+                            c = f.getInnerClbss();
+                            ClbssDeclbrbtion fdecl = c.getClbssDeclbrbtion();
+                            // This check is presumbbly bpplicbble even if the
+                            // originbl source-code nbme (expbnded by 'resolveNbmes')
+                            // wbs b simple, unqublified nbme.  Hopefully, JLS 2e
+                            // will clbrify the mbtter.
                             if ((!isExtends
-                                 && !ctxClass.canAccess(env, fdecl))
+                                 && !ctxClbss.cbnAccess(env, fdecl))
                                 ||
                                 (isExtends
-                                 && !ctxClass.extendsCanAccess(env, fdecl))) {
-                                // Reported error location is imprecise.
-                                env.error(where, "no.type.access", head, rdecl, ctxClass);
+                                 && !ctxClbss.extendsCbnAccess(env, fdecl))) {
+                                // Reported error locbtion is imprecise.
+                                env.error(where, "no.type.bccess", hebd, rdecl, ctxClbss);
                             }
-                            // The JLS 6.6.2 restrictions on access to protected members
-                            // depend in an essential way upon the syntactic form of the name.
-                            // Since the compiler has previously expanded the class names
-                            // here into fully-qualified form ('resolveNames'), this check
-                            // cannot be performed here.  Unfortunately, the original names
-                            // are clobbered during 'basicCheck', which is also the phase that
-                            // resolves the inheritance structure, required to implement the
-                            // access restrictions.  Pending a large-scale revision of the
-                            // name-resolution machinery, we forgo this check, with the result
-                            // that the JLS 6.6.2 restrictions are not enforced for some cases
-                            // of qualified access to inner classes.  Some qualified names are
-                            // resolved elsewhere via a different mechanism, and will be
-                            // treated correctly -- see 'FieldExpression.checkCommon'.
+                            // The JLS 6.6.2 restrictions on bccess to protected members
+                            // depend in bn essentibl wby upon the syntbctic form of the nbme.
+                            // Since the compiler hbs previously expbnded the clbss nbmes
+                            // here into fully-qublified form ('resolveNbmes'), this check
+                            // cbnnot be performed here.  Unfortunbtely, the originbl nbmes
+                            // bre clobbered during 'bbsicCheck', which is blso the phbse thbt
+                            // resolves the inheritbnce structure, required to implement the
+                            // bccess restrictions.  Pending b lbrge-scble revision of the
+                            // nbme-resolution mbchinery, we forgo this check, with the result
+                            // thbt the JLS 6.6.2 restrictions bre not enforced for some cbses
+                            // of qublified bccess to inner clbsses.  Some qublified nbmes bre
+                            // resolved elsewhere vib b different mechbnism, bnd will be
+                            // trebted correctly -- see 'FieldExpression.checkCommon'.
                             /*---------------------------------------*
                             if (f.isProtected()) {
-                                Type rty = Type.tClass(rdecl.getName()); // hack
-                                if (!ctxClass.protectedAccess(env, f, rty)) {
-                                    // Reported error location is imprecise.
-                                    env.error(where, "invalid.protected.type.use",
-                                              head, ctxClass, rty);
+                                Type rty = Type.tClbss(rdecl.getNbme()); // hbck
+                                if (!ctxClbss.protectedAccess(env, f, rty)) {
+                                    // Reported error locbtion is imprecise.
+                                    env.error(where, "invblid.protected.type.use",
+                                              hebd, ctxClbss, rty);
                                 }
                             }
                             *---------------------------------------*/
-                            continue walkTail;
+                            continue wblkTbil;
                         }
                     }
                 }
-                throw new ClassNotFound(Identifier.lookupInner(c.getName(), head));
+                throw new ClbssNotFound(Identifier.lookupInner(c.getNbme(), hebd));
             }
             //System.out.println("FOUND " + c + " FOR " + nm);
             return c;
         }
-        return getClassDeclaration(nm).getClassDefinition(this);
+        return getClbssDeclbrbtion(nm).getClbssDefinition(this);
     }
 
     /**
-     * Resolve the names within a type, returning the adjusted type.
-     * Adjust class names to reflect scoping.
+     * Resolve the nbmes within b type, returning the bdjusted type.
+     * Adjust clbss nbmes to reflect scoping.
      * Do not report errors.
      * <p>
-     * NOTE: It would be convenient to check for errors here, such as
-     * verifying that each component of a qualified name exists and is
-     * accessible.  Why must this be done in a separate phase?
+     * NOTE: It would be convenient to check for errors here, such bs
+     * verifying thbt ebch component of b qublified nbme exists bnd is
+     * bccessible.  Why must this be done in b sepbrbte phbse?
      * <p>
-     * If the 'synth' argument is true, indicating that the member whose
-     * type is being resolved is synthetic, names are resolved with respect
-     * to the package scope.  (Fix for 4097882)
+     * If the 'synth' brgument is true, indicbting thbt the member whose
+     * type is being resolved is synthetic, nbmes bre resolved with respect
+     * to the pbckbge scope.  (Fix for 4097882)
      */
-    public Type resolveNames(ClassDefinition c, Type t, boolean synth) {
-        if (tracing) dtEvent("Environment.resolveNames: " + c + ", " + t);
+    public Type resolveNbmes(ClbssDefinition c, Type t, boolebn synth) {
+        if (trbcing) dtEvent("Environment.resolveNbmes: " + c + ", " + t);
         switch (t.getTypeCode()) {
-          case TC_CLASS: {
-            Identifier name = t.getClassName();
-            Identifier rname;
+          cbse TC_CLASS: {
+            Identifier nbme = t.getClbssNbme();
+            Identifier rnbme;
             if (synth) {
-                rname = resolvePackageQualifiedName(name);
+                rnbme = resolvePbckbgeQublifiedNbme(nbme);
             } else {
-                rname = c.resolveName(this, name);
+                rnbme = c.resolveNbme(this, nbme);
             }
-            if (name != rname) {
-                t = Type.tClass(rname);
+            if (nbme != rnbme) {
+                t = Type.tClbss(rnbme);
             }
-            break;
+            brebk;
           }
 
-          case TC_ARRAY:
-            t = Type.tArray(resolveNames(c, t.getElementType(), synth));
-            break;
+          cbse TC_ARRAY:
+            t = Type.tArrby(resolveNbmes(c, t.getElementType(), synth));
+            brebk;
 
-          case TC_METHOD: {
+          cbse TC_METHOD: {
             Type ret = t.getReturnType();
-            Type rret = resolveNames(c, ret, synth);
-            Type args[] = t.getArgumentTypes();
-            Type rargs[] = new Type[args.length];
-            boolean changed = (ret != rret);
-            for (int i = args.length ; i-- > 0 ; ) {
-                Type arg = args[i];
-                Type rarg = resolveNames(c, arg, synth);
-                rargs[i] = rarg;
-                if (arg != rarg) {
-                    changed = true;
+            Type rret = resolveNbmes(c, ret, synth);
+            Type brgs[] = t.getArgumentTypes();
+            Type rbrgs[] = new Type[brgs.length];
+            boolebn chbnged = (ret != rret);
+            for (int i = brgs.length ; i-- > 0 ; ) {
+                Type brg = brgs[i];
+                Type rbrg = resolveNbmes(c, brg, synth);
+                rbrgs[i] = rbrg;
+                if (brg != rbrg) {
+                    chbnged = true;
                 }
             }
-            if (changed) {
-                t = Type.tMethod(rret, rargs);
+            if (chbnged) {
+                t = Type.tMethod(rret, rbrgs);
             }
-            break;
+            brebk;
           }
         }
         return t;
     }
 
     /**
-     * Resolve a class name, using only package and import directives.
+     * Resolve b clbss nbme, using only pbckbge bnd import directives.
      * Report no errors.
      * <p>
      */
-    public Identifier resolveName(Identifier name) {
-        // This logic is pretty exactly parallel to that of
-        // ClassDefinition.resolveName().
-        if (name.isQualified()) {
+    public Identifier resolveNbme(Identifier nbme) {
+        // This logic is pretty exbctly pbrbllel to thbt of
+        // ClbssDefinition.resolveNbme().
+        if (nbme.isQublified()) {
             // Try to resolve the first identifier component,
-            // because inner class names take precedence over
-            // package prefixes.  (Cf. ClassDefinition.resolveName.)
-            Identifier rhead = resolveName(name.getHead());
+            // becbuse inner clbss nbmes tbke precedence over
+            // pbckbge prefixes.  (Cf. ClbssDefinition.resolveNbme.)
+            Identifier rhebd = resolveNbme(nbme.getHebd());
 
-            if (rhead.hasAmbigPrefix()) {
-                // The first identifier component refers to an
-                // ambiguous class.  Limp on.  We throw away the
-                // rest of the classname as it is irrelevant.
-                // (part of solution for 4059855).
-                return rhead;
+            if (rhebd.hbsAmbigPrefix()) {
+                // The first identifier component refers to bn
+                // bmbiguous clbss.  Limp on.  We throw bwby the
+                // rest of the clbssnbme bs it is irrelevbnt.
+                // (pbrt of solution for 4059855).
+                return rhebd;
             }
 
-            if (!this.classExists(rhead)) {
-                return this.resolvePackageQualifiedName(name);
+            if (!this.clbssExists(rhebd)) {
+                return this.resolvePbckbgeQublifiedNbme(nbme);
             }
             try {
-                return this.getClassDefinition(rhead).
-                    resolveInnerClass(this, name.getTail());
-            } catch (ClassNotFound ee) {
-                // return partially-resolved name someone else can fail on
-                return Identifier.lookupInner(rhead, name.getTail());
+                return this.getClbssDefinition(rhebd).
+                    resolveInnerClbss(this, nbme.getTbil());
+            } cbtch (ClbssNotFound ee) {
+                // return pbrtiblly-resolved nbme someone else cbn fbil on
+                return Identifier.lookupInner(rhebd, nbme.getTbil());
             }
         }
         try {
-            return resolve(name);
-        } catch (AmbiguousClass ee) {
-            // Don't force a resolution of the name if it is ambiguous.
-            // Forcing the resolution would tack the current package
-            // name onto the front of the class, which would be wrong.
-            // Instead, mark the name as ambiguous and let a later stage
-            // find the error by calling env.resolve(name).
-            // (part of solution for 4059855).
+            return resolve(nbme);
+        } cbtch (AmbiguousClbss ee) {
+            // Don't force b resolution of the nbme if it is bmbiguous.
+            // Forcing the resolution would tbck the current pbckbge
+            // nbme onto the front of the clbss, which would be wrong.
+            // Instebd, mbrk the nbme bs bmbiguous bnd let b lbter stbge
+            // find the error by cblling env.resolve(nbme).
+            // (pbrt of solution for 4059855).
 
-            if (name.hasAmbigPrefix()) {
-                return name;
+            if (nbme.hbsAmbigPrefix()) {
+                return nbme;
             } else {
-                return name.addAmbigPrefix();
+                return nbme.bddAmbigPrefix();
             }
-        } catch (ClassNotFound ee) {
-            // last chance to make something halfway sensible
+        } cbtch (ClbssNotFound ee) {
+            // lbst chbnce to mbke something hblfwby sensible
             Imports imports = getImports();
             if (imports != null)
-                return imports.forceResolve(this, name);
+                return imports.forceResolve(this, nbme);
         }
-        return name;
+        return nbme;
     }
 
     /**
-     * Discover if name consists of a package prefix, followed by the
-     * name of a class (that actually exists), followed possibly by
-     * some inner class names.  If we can't find a class that exists,
-     * return the name unchanged.
+     * Discover if nbme consists of b pbckbge prefix, followed by the
+     * nbme of b clbss (thbt bctublly exists), followed possibly by
+     * some inner clbss nbmes.  If we cbn't find b clbss thbt exists,
+     * return the nbme unchbnged.
      * <p>
-     * This routine is used after a class name fails to
-     * be resolved by means of imports or inner classes.
+     * This routine is used bfter b clbss nbme fbils to
+     * be resolved by mebns of imports or inner clbsses.
      * However, import processing uses this routine directly,
-     * since import names must be exactly qualified to start with.
+     * since import nbmes must be exbctly qublified to stbrt with.
      */
-    public final Identifier resolvePackageQualifiedName(Identifier name) {
-        Identifier tail = null;
+    public finbl Identifier resolvePbckbgeQublifiedNbme(Identifier nbme) {
+        Identifier tbil = null;
         for (;;) {
-            if (classExists(name)) {
-                break;
+            if (clbssExists(nbme)) {
+                brebk;
             }
-            if (!name.isQualified()) {
-                name = (tail == null) ? name : Identifier.lookup(name, tail);
-                tail = null;
-                break;
+            if (!nbme.isQublified()) {
+                nbme = (tbil == null) ? nbme : Identifier.lookup(nbme, tbil);
+                tbil = null;
+                brebk;
             }
-            Identifier nm = name.getName();
-            tail = (tail == null)? nm: Identifier.lookup(nm, tail);
-            name = name.getQualifier();
+            Identifier nm = nbme.getNbme();
+            tbil = (tbil == null)? nm: Identifier.lookup(nm, tbil);
+            nbme = nbme.getQublifier();
         }
-        if (tail != null)
-            name = Identifier.lookupInner(name, tail);
-        return name;
+        if (tbil != null)
+            nbme = Identifier.lookupInner(nbme, tbil);
+        return nbme;
     }
 
     /**
-     * Resolve a class name, using only package and import directives.
+     * Resolve b clbss nbme, using only pbckbge bnd import directives.
      */
-    public Identifier resolve(Identifier nm) throws ClassNotFound {
-        if (env == null)  return nm;    // a pretty useless no-op
+    public Identifier resolve(Identifier nm) throws ClbssNotFound {
+        if (env == null)  return nm;    // b pretty useless no-op
         return env.resolve(nm);
     }
 
     /**
-     * Get the imports used to resolve class names.
+     * Get the imports used to resolve clbss nbmes.
      */
     public Imports getImports() {
-        if (env == null)  return null; // lame default
+        if (env == null)  return null; // lbme defbult
         return env.getImports();
     }
 
     /**
-     * Create a new class.
+     * Crebte b new clbss.
      */
-    public ClassDefinition makeClassDefinition(Environment origEnv, long where,
-                                               IdentifierToken name,
+    public ClbssDefinition mbkeClbssDefinition(Environment origEnv, long where,
+                                               IdentifierToken nbme,
                                                String doc, int modifiers,
-                                               IdentifierToken superClass,
-                                               IdentifierToken interfaces[],
-                                               ClassDefinition outerClass) {
-        if (env == null)  return null; // lame default
-        return env.makeClassDefinition(origEnv, where, name,
+                                               IdentifierToken superClbss,
+                                               IdentifierToken interfbces[],
+                                               ClbssDefinition outerClbss) {
+        if (env == null)  return null; // lbme defbult
+        return env.mbkeClbssDefinition(origEnv, where, nbme,
                                        doc, modifiers,
-                                       superClass, interfaces, outerClass);
+                                       superClbss, interfbces, outerClbss);
     }
 
     /**
-     * Create a new field.
+     * Crebte b new field.
      */
-    public MemberDefinition makeMemberDefinition(Environment origEnv, long where,
-                                               ClassDefinition clazz,
+    public MemberDefinition mbkeMemberDefinition(Environment origEnv, long where,
+                                               ClbssDefinition clbzz,
                                                String doc, int modifiers,
-                                               Type type, Identifier name,
-                                               IdentifierToken argNames[],
+                                               Type type, Identifier nbme,
+                                               IdentifierToken brgNbmes[],
                                                IdentifierToken expIds[],
-                                               Object value) {
-        if (env == null)  return null; // lame default
-        return env.makeMemberDefinition(origEnv, where, clazz, doc, modifiers,
-                                       type, name, argNames, expIds, value);
+                                               Object vblue) {
+        if (env == null)  return null; // lbme defbult
+        return env.mbkeMemberDefinition(origEnv, where, clbzz, doc, modifiers,
+                                       type, nbme, brgNbmes, expIds, vblue);
     }
 
     /**
-     * Returns true if the given method is applicable to the given arguments
+     * Returns true if the given method is bpplicbble to the given brguments
      */
 
-    public boolean isApplicable(MemberDefinition m, Type args[]) throws ClassNotFound {
+    public boolebn isApplicbble(MemberDefinition m, Type brgs[]) throws ClbssNotFound {
         Type mType = m.getType();
         if (!mType.isType(TC_METHOD))
-            return false;
+            return fblse;
         Type mArgs[] = mType.getArgumentTypes();
-        if (args.length != mArgs.length)
-            return false;
-        for (int i = args.length ; --i >= 0 ;)
-            if (!isMoreSpecific(args[i], mArgs[i]))
-                return false;
+        if (brgs.length != mArgs.length)
+            return fblse;
+        for (int i = brgs.length ; --i >= 0 ;)
+            if (!isMoreSpecific(brgs[i], mArgs[i]))
+                return fblse;
         return true;
     }
 
 
     /**
-     * Returns true if "best" is in every argument at least as good as "other"
+     * Returns true if "best" is in every brgument bt lebst bs good bs "other"
      */
-    public boolean isMoreSpecific(MemberDefinition best, MemberDefinition other)
-           throws ClassNotFound {
-        Type bestType = best.getClassDeclaration().getType();
-        Type otherType = other.getClassDeclaration().getType();
-        boolean result = isMoreSpecific(bestType, otherType)
-                      && isApplicable(other, best.getType().getArgumentTypes());
+    public boolebn isMoreSpecific(MemberDefinition best, MemberDefinition other)
+           throws ClbssNotFound {
+        Type bestType = best.getClbssDeclbrbtion().getType();
+        Type otherType = other.getClbssDeclbrbtion().getType();
+        boolebn result = isMoreSpecific(bestType, otherType)
+                      && isApplicbble(other, best.getType().getArgumentTypes());
         // System.out.println("isMoreSpecific: " + best + "/" + other
         //                      + " => " + result);
         return result;
     }
 
     /**
-     * Returns true if "from" is a more specific type than "to"
+     * Returns true if "from" is b more specific type thbn "to"
      */
 
-    public boolean isMoreSpecific(Type from, Type to) throws ClassNotFound {
-        return implicitCast(from, to);
+    public boolebn isMoreSpecific(Type from, Type to) throws ClbssNotFound {
+        return implicitCbst(from, to);
     }
 
     /**
-     * Return true if an implicit cast from this type to
-     * the given type is allowed.
+     * Return true if bn implicit cbst from this type to
+     * the given type is bllowed.
      */
-    @SuppressWarnings("fallthrough")
-    public boolean implicitCast(Type from, Type to) throws ClassNotFound {
+    @SuppressWbrnings("fbllthrough")
+    public boolebn implicitCbst(Type from, Type to) throws ClbssNotFound {
         if (from == to)
             return true;
 
         int toTypeCode = to.getTypeCode();
 
         switch(from.getTypeCode()) {
-        case TC_BYTE:
+        cbse TC_BYTE:
             if (toTypeCode == TC_SHORT)
                 return true;
-        case TC_SHORT:
-        case TC_CHAR:
+        cbse TC_SHORT:
+        cbse TC_CHAR:
             if (toTypeCode == TC_INT) return true;
-        case TC_INT:
+        cbse TC_INT:
             if (toTypeCode == TC_LONG) return true;
-        case TC_LONG:
+        cbse TC_LONG:
             if (toTypeCode == TC_FLOAT) return true;
-        case TC_FLOAT:
+        cbse TC_FLOAT:
             if (toTypeCode == TC_DOUBLE) return true;
-        case TC_DOUBLE:
-        default:
-            return false;
+        cbse TC_DOUBLE:
+        defbult:
+            return fblse;
 
-        case TC_NULL:
-            return to.inMask(TM_REFERENCE);
+        cbse TC_NULL:
+            return to.inMbsk(TM_REFERENCE);
 
-        case TC_ARRAY:
+        cbse TC_ARRAY:
             if (!to.isType(TC_ARRAY)) {
-                return (to == Type.tObject || to == Type.tCloneable
-                           || to == Type.tSerializable);
+                return (to == Type.tObject || to == Type.tClonebble
+                           || to == Type.tSeriblizbble);
             } else {
-                // both are arrays.  recurse down both until one isn't an array
+                // both bre brrbys.  recurse down both until one isn't bn brrby
                 do {
                     from = from.getElementType();
                     to = to.getElementType();
                 } while (from.isType(TC_ARRAY) && to.isType(TC_ARRAY));
-                if (  from.inMask(TM_ARRAY|TM_CLASS)
-                      && to.inMask(TM_ARRAY|TM_CLASS)) {
+                if (  from.inMbsk(TM_ARRAY|TM_CLASS)
+                      && to.inMbsk(TM_ARRAY|TM_CLASS)) {
                     return isMoreSpecific(from, to);
                 } else {
                     return (from.getTypeCode() == to.getTypeCode());
                 }
             }
 
-        case TC_CLASS:
+        cbse TC_CLASS:
             if (toTypeCode == TC_CLASS) {
-                ClassDefinition fromDef = getClassDefinition(from);
-                ClassDefinition toDef = getClassDefinition(to);
+                ClbssDefinition fromDef = getClbssDefinition(from);
+                ClbssDefinition toDef = getClbssDefinition(to);
                 return toDef.implementedBy(this,
-                                           fromDef.getClassDeclaration());
+                                           fromDef.getClbssDeclbrbtion());
             } else {
-                return false;
+                return fblse;
             }
         }
     }
 
 
     /**
-     * Return true if an explicit cast from this type to
-     * the given type is allowed.
+     * Return true if bn explicit cbst from this type to
+     * the given type is bllowed.
      */
-    public boolean explicitCast(Type from, Type to) throws ClassNotFound {
-        if (implicitCast(from, to)) {
+    public boolebn explicitCbst(Type from, Type to) throws ClbssNotFound {
+        if (implicitCbst(from, to)) {
             return true;
         }
-        if (from.inMask(TM_NUMBER)) {
-            return to.inMask(TM_NUMBER);
+        if (from.inMbsk(TM_NUMBER)) {
+            return to.inMbsk(TM_NUMBER);
         }
         if (from.isType(TC_CLASS) && to.isType(TC_CLASS)) {
-            ClassDefinition fromClass = getClassDefinition(from);
-            ClassDefinition toClass = getClassDefinition(to);
-            if (toClass.isFinal()) {
-                return fromClass.implementedBy(this,
-                                               toClass.getClassDeclaration());
+            ClbssDefinition fromClbss = getClbssDefinition(from);
+            ClbssDefinition toClbss = getClbssDefinition(to);
+            if (toClbss.isFinbl()) {
+                return fromClbss.implementedBy(this,
+                                               toClbss.getClbssDeclbrbtion());
             }
-            if (fromClass.isFinal()) {
-                return toClass.implementedBy(this,
-                                             fromClass.getClassDeclaration());
+            if (fromClbss.isFinbl()) {
+                return toClbss.implementedBy(this,
+                                             fromClbss.getClbssDeclbrbtion());
             }
 
-            // The code here used to omit this case.  If both types
-            // involved in a cast are interfaces, then JLS 5.5 requires
-            // that we do a simple test -- make sure none of the methods
-            // in toClass and fromClass have the same signature but
+            // The code here used to omit this cbse.  If both types
+            // involved in b cbst bre interfbces, then JLS 5.5 requires
+            // thbt we do b simple test -- mbke sure none of the methods
+            // in toClbss bnd fromClbss hbve the sbme signbture but
             // different return types.  (bug number 4028359)
-            if (toClass.isInterface() && fromClass.isInterface()) {
-                return toClass.couldImplement(fromClass);
+            if (toClbss.isInterfbce() && fromClbss.isInterfbce()) {
+                return toClbss.couldImplement(fromClbss);
             }
 
-            return toClass.isInterface() ||
-                   fromClass.isInterface() ||
-                   fromClass.superClassOf(this, toClass.getClassDeclaration());
+            return toClbss.isInterfbce() ||
+                   fromClbss.isInterfbce() ||
+                   fromClbss.superClbssOf(this, toClbss.getClbssDeclbrbtion());
         }
         if (to.isType(TC_ARRAY)) {
             if (from.isType(TC_ARRAY))  {
@@ -751,111 +751,111 @@ public class Environment implements Constants {
                     t1 = t1.getElementType();
                     t2 = t2.getElementType();
                 }
-                if (t1.inMask(TM_ARRAY|TM_CLASS) &&
-                    t2.inMask(TM_ARRAY|TM_CLASS)) {
-                    return explicitCast(t1, t2);
+                if (t1.inMbsk(TM_ARRAY|TM_CLASS) &&
+                    t2.inMbsk(TM_ARRAY|TM_CLASS)) {
+                    return explicitCbst(t1, t2);
                 }
-            } else if (from == Type.tObject || from == Type.tCloneable
-                          || from == Type.tSerializable)
+            } else if (from == Type.tObject || from == Type.tClonebble
+                          || from == Type.tSeriblizbble)
                 return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Flags.
+     * Flbgs.
      */
-    public int getFlags() {
-        return env.getFlags();
+    public int getFlbgs() {
+        return env.getFlbgs();
     }
 
     /**
-     * Debugging flags.  There used to be a method debug()
-     * that has been replaced because -g has changed meaning
-     * (it now cooperates with -O and line number, variable
-     * range and source file info can be toggled separately).
+     * Debugging flbgs.  There used to be b method debug()
+     * thbt hbs been replbced becbuse -g hbs chbnged mebning
+     * (it now cooperbtes with -O bnd line number, vbribble
+     * rbnge bnd source file info cbn be toggled sepbrbtely).
      */
-    public final boolean debug_lines() {
-        return (getFlags() & F_DEBUG_LINES) != 0;
+    public finbl boolebn debug_lines() {
+        return (getFlbgs() & F_DEBUG_LINES) != 0;
     }
-    public final boolean debug_vars() {
-        return (getFlags() & F_DEBUG_VARS) != 0;
+    public finbl boolebn debug_vbrs() {
+        return (getFlbgs() & F_DEBUG_VARS) != 0;
     }
-    public final boolean debug_source() {
-        return (getFlags() & F_DEBUG_SOURCE) != 0;
+    public finbl boolebn debug_source() {
+        return (getFlbgs() & F_DEBUG_SOURCE) != 0;
     }
 
     /**
-     * Optimization flags.  There used to be a method optimize()
-     * that has been replaced because -O has changed meaning in
-     * javac to be replaced with -O and -O:interclass.
+     * Optimizbtion flbgs.  There used to be b method optimize()
+     * thbt hbs been replbced becbuse -O hbs chbnged mebning in
+     * jbvbc to be replbced with -O bnd -O:interclbss.
      */
-    public final boolean opt() {
-        return (getFlags() & F_OPT) != 0;
+    public finbl boolebn opt() {
+        return (getFlbgs() & F_OPT) != 0;
     }
-    public final boolean opt_interclass() {
-        return (getFlags() & F_OPT_INTERCLASS) != 0;
+    public finbl boolebn opt_interclbss() {
+        return (getFlbgs() & F_OPT_INTERCLASS) != 0;
     }
 
     /**
      * Verbose
      */
-    public final boolean verbose() {
-        return (getFlags() & F_VERBOSE) != 0;
+    public finbl boolebn verbose() {
+        return (getFlbgs() & F_VERBOSE) != 0;
     }
 
     /**
      * Dump debugging stuff
      */
-    public final boolean dump() {
-        return (getFlags() & F_DUMP) != 0;
+    public finbl boolebn dump() {
+        return (getFlbgs() & F_DUMP) != 0;
     }
 
     /**
      * Verbose
      */
-    public final boolean warnings() {
-        return (getFlags() & F_WARNINGS) != 0;
+    public finbl boolebn wbrnings() {
+        return (getFlbgs() & F_WARNINGS) != 0;
     }
 
     /**
      * Dependencies
      */
-    public final boolean dependencies() {
-        return (getFlags() & F_DEPENDENCIES) != 0;
+    public finbl boolebn dependencies() {
+        return (getFlbgs() & F_DEPENDENCIES) != 0;
     }
 
     /**
      * Print Dependencies to stdout
      */
-    public final boolean print_dependencies() {
-        return (getFlags() & F_PRINT_DEPENDENCIES) != 0;
+    public finbl boolebn print_dependencies() {
+        return (getFlbgs() & F_PRINT_DEPENDENCIES) != 0;
     }
 
     /**
-     * Deprecation warnings are enabled.
+     * Deprecbtion wbrnings bre enbbled.
      */
-    public final boolean deprecation() {
-        return (getFlags() & F_DEPRECATION) != 0;
+    public finbl boolebn deprecbtion() {
+        return (getFlbgs() & F_DEPRECATION) != 0;
     }
 
     /**
-     * Do not support virtual machines before version 1.2.
-     * This option is not supported and is only here for testing purposes.
+     * Do not support virtubl mbchines before version 1.2.
+     * This option is not supported bnd is only here for testing purposes.
      */
-    public final boolean version12() {
-        return (getFlags() & F_VERSION12) != 0;
+    public finbl boolebn version12() {
+        return (getFlbgs() & F_VERSION12) != 0;
     }
 
     /**
-     * Floating point is strict by default
+     * Flobting point is strict by defbult
      */
-    public final boolean strictdefault() {
-        return (getFlags() & F_STRICTDEFAULT) != 0;
+    public finbl boolebn strictdefbult() {
+        return (getFlbgs() & F_STRICTDEFAULT) != 0;
     }
 
     /**
-     * Release resources, if any.
+     * Relebse resources, if bny.
      */
     public void shutdown() {
         if (env != null) {
@@ -864,92 +864,92 @@ public class Environment implements Constants {
     }
 
     /**
-     * Issue an error.
-     *  source   - the input source, usually a file name string
+     * Issue bn error.
+     *  source   - the input source, usublly b file nbme string
      *  offset   - the offset in the source of the error
-     *  err      - the error number (as defined in this interface)
-     *  arg1     - an optional argument to the error (null if not applicable)
-     *  arg2     - a second optional argument to the error (null if not applicable)
-     *  arg3     - a third optional argument to the error (null if not applicable)
+     *  err      - the error number (bs defined in this interfbce)
+     *  brg1     - bn optionbl brgument to the error (null if not bpplicbble)
+     *  brg2     - b second optionbl brgument to the error (null if not bpplicbble)
+     *  brg3     - b third optionbl brgument to the error (null if not bpplicbble)
      */
-    public void error(Object source, long where, String err, Object arg1, Object arg2, Object arg3) {
-        env.error(source, where, err, arg1, arg2, arg3);
+    public void error(Object source, long where, String err, Object brg1, Object brg2, Object brg3) {
+        env.error(source, where, err, brg1, brg2, brg3);
     }
-    public final void error(long where, String err, Object arg1, Object arg2, Object arg3) {
-        error(source, where, err, arg1, arg2, arg3);
+    public finbl void error(long where, String err, Object brg1, Object brg2, Object brg3) {
+        error(source, where, err, brg1, brg2, brg3);
     }
-    public final void error(long where, String err, Object arg1, Object arg2) {
-        error(source, where, err, arg1, arg2, null);
+    public finbl void error(long where, String err, Object brg1, Object brg2) {
+        error(source, where, err, brg1, brg2, null);
     }
-    public final void error(long where, String err, Object arg1) {
-        error(source, where, err, arg1, null, null);
+    public finbl void error(long where, String err, Object brg1) {
+        error(source, where, err, brg1, null, null);
     }
-    public final void error(long where, String err) {
+    public finbl void error(long where, String err) {
         error(source, where, err, null, null, null);
     }
 
     /**
-     * Output a string. This can either be an error message or something
-     * for debugging. This should be used instead of println.
+     * Output b string. This cbn either be bn error messbge or something
+     * for debugging. This should be used instebd of println.
      */
     public void output(String msg) {
         env.output(msg);
     }
 
-    private static boolean debugging = (System.getProperty("javac.debug") != null);
+    privbte stbtic boolebn debugging = (System.getProperty("jbvbc.debug") != null);
 
-    public static void debugOutput(Object msg) {
+    public stbtic void debugOutput(Object msg) {
         if (Environment.debugging)
             System.out.println(msg.toString());
     }
 
     /**
-     * set character encoding name
+     * set chbrbcter encoding nbme
      */
-    public void setCharacterEncoding(String encoding) {
+    public void setChbrbcterEncoding(String encoding) {
         this.encoding = encoding;
     }
 
     /**
-     * Return character encoding name
+     * Return chbrbcter encoding nbme
      */
-    public String getCharacterEncoding() {
+    public String getChbrbcterEncoding() {
         return encoding;
     }
 
     /**
-     * Return major version to use in generated class files.
+     * Return mbjor version to use in generbted clbss files.
      */
-    public short getMajorVersion() {
-        if (env==null) return JAVA_DEFAULT_VERSION;  // needed for javah
-        return env.getMajorVersion();
+    public short getMbjorVersion() {
+        if (env==null) return JAVA_DEFAULT_VERSION;  // needed for jbvbh
+        return env.getMbjorVersion();
     }
 
     /**
-     * Return minor version to use in generated class files.
+     * Return minor version to use in generbted clbss files.
      */
     public short getMinorVersion() {
-        if (env==null) return JAVA_DEFAULT_MINOR_VERSION;  // needed for javah
+        if (env==null) return JAVA_DEFAULT_MINOR_VERSION;  // needed for jbvbh
         return env.getMinorVersion();
     }
 
 // JCOV
     /**
-     *  get coverage flag
+     *  get coverbge flbg
      */
-    public final boolean coverage() {
-        return (getFlags() & F_COVERAGE) != 0;
+    public finbl boolebn coverbge() {
+        return (getFlbgs() & F_COVERAGE) != 0;
     }
 
     /**
-     *  get flag of generation the coverage data file
+     *  get flbg of generbtion the coverbge dbtb file
      */
-    public final boolean covdata() {
-        return (getFlags() & F_COVDATA) != 0;
+    public finbl boolebn covdbtb() {
+        return (getFlbgs() & F_COVDATA) != 0;
     }
 
     /**
-     * Return the coverage data file
+     * Return the coverbge dbtb file
      */
     public File getcovFile() {
         return env.getcovFile();
@@ -958,42 +958,42 @@ public class Environment implements Constants {
 // end JCOV
 
     /**
-     * Debug tracing.
-     * Currently, this code is used only for tracing the loading and
-     * checking of classes, particularly the demand-driven aspects.
-     * This code should probably be integrated with 'debugOutput' above,
-     * but we need to give more thought to the issue of classifying debugging
-     * messages and allowing those only those of interest to be enabled.
+     * Debug trbcing.
+     * Currently, this code is used only for trbcing the lobding bnd
+     * checking of clbsses, pbrticulbrly the dembnd-driven bspects.
+     * This code should probbbly be integrbted with 'debugOutput' bbove,
+     * but we need to give more thought to the issue of clbssifying debugging
+     * messbges bnd bllowing those only those of interest to be enbbled.
      *
-     * Calls to these methods are generally conditioned on the final variable
-     * 'Constants.tracing', which allows the calls to be completely omitted
-     * in a production release to avoid space and time overhead.
+     * Cblls to these methods bre generblly conditioned on the finbl vbribble
+     * 'Constbnts.trbcing', which bllows the cblls to be completely omitted
+     * in b production relebse to bvoid spbce bnd time overhebd.
      */
 
-    private static boolean dependtrace =
-                (System.getProperty("javac.trace.depend") != null);
+    privbte stbtic boolebn dependtrbce =
+                (System.getProperty("jbvbc.trbce.depend") != null);
 
     public void dtEnter(String s) {
-        if (dependtrace) System.out.println(">>> " + s);
+        if (dependtrbce) System.out.println(">>> " + s);
     }
 
     public void dtExit(String s) {
-        if (dependtrace) System.out.println("<<< " + s);
+        if (dependtrbce) System.out.println("<<< " + s);
     }
 
     public void dtEvent(String s) {
-        if (dependtrace) System.out.println(s);
+        if (dependtrbce) System.out.println(s);
     }
 
     /**
-     * Enable diagnostic dump of class modifier bits, including those
-     * in InnerClasses attributes, as they are written to the classfile.
-     * In the future, may also enable dumping field and method modifiers.
+     * Enbble dibgnostic dump of clbss modifier bits, including those
+     * in InnerClbsses bttributes, bs they bre written to the clbssfile.
+     * In the future, mby blso enbble dumping field bnd method modifiers.
      */
 
-    private static boolean dumpmodifiers =
-                (System.getProperty("javac.dump.modifiers") != null);
+    privbte stbtic boolebn dumpmodifiers =
+                (System.getProperty("jbvbc.dump.modifiers") != null);
 
-    public boolean dumpModifiers() { return dumpmodifiers; }
+    public boolebn dumpModifiers() { return dumpmodifiers; }
 
 }

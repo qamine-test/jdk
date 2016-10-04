@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.*;
-import java.security.cert.CertPath;
+import jbvb.io.*;
+import jbvb.security.cert.CertPbth;
 
 /**
- * This class encapsulates information about a code signer.
- * It is immutable.
+ * This clbss encbpsulbtes informbtion bbout b code signer.
+ * It is immutbble.
  *
  * @since 1.5
- * @author Vincent Ryan
+ * @buthor Vincent Rybn
  */
 
-public final class CodeSigner implements Serializable {
+public finbl clbss CodeSigner implements Seriblizbble {
 
-    private static final long serialVersionUID = 6819288105193937581L;
-
-    /**
-     * The signer's certificate path.
-     *
-     * @serial
-     */
-    private CertPath signerCertPath;
-
-    /*
-     * The signature timestamp.
-     *
-     * @serial
-     */
-    private Timestamp timestamp;
-
-    /*
-     * Hash code for this code signer.
-     */
-    private transient int myhash = -1;
+    privbte stbtic finbl long seriblVersionUID = 6819288105193937581L;
 
     /**
-     * Constructs a CodeSigner object.
+     * The signer's certificbte pbth.
      *
-     * @param signerCertPath The signer's certificate path.
+     * @seribl
+     */
+    privbte CertPbth signerCertPbth;
+
+    /*
+     * The signbture timestbmp.
+     *
+     * @seribl
+     */
+    privbte Timestbmp timestbmp;
+
+    /*
+     * Hbsh code for this code signer.
+     */
+    privbte trbnsient int myhbsh = -1;
+
+    /**
+     * Constructs b CodeSigner object.
+     *
+     * @pbrbm signerCertPbth The signer's certificbte pbth.
      *                       It must not be {@code null}.
-     * @param timestamp A signature timestamp.
-     *                  If {@code null} then no timestamp was generated
-     *                  for the signature.
-     * @throws NullPointerException if {@code signerCertPath} is
+     * @pbrbm timestbmp A signbture timestbmp.
+     *                  If {@code null} then no timestbmp wbs generbted
+     *                  for the signbture.
+     * @throws NullPointerException if {@code signerCertPbth} is
      *                              {@code null}.
      */
-    public CodeSigner(CertPath signerCertPath, Timestamp timestamp) {
-        if (signerCertPath == null) {
+    public CodeSigner(CertPbth signerCertPbth, Timestbmp timestbmp) {
+        if (signerCertPbth == null) {
             throw new NullPointerException();
         }
-        this.signerCertPath = signerCertPath;
-        this.timestamp = timestamp;
+        this.signerCertPbth = signerCertPbth;
+        this.timestbmp = timestbmp;
     }
 
     /**
-     * Returns the signer's certificate path.
+     * Returns the signer's certificbte pbth.
      *
-     * @return A certificate path.
+     * @return A certificbte pbth.
      */
-    public CertPath getSignerCertPath() {
-        return signerCertPath;
+    public CertPbth getSignerCertPbth() {
+        return signerCertPbth;
     }
 
     /**
-     * Returns the signature timestamp.
+     * Returns the signbture timestbmp.
      *
-     * @return The timestamp or {@code null} if none is present.
+     * @return The timestbmp or {@code null} if none is present.
      */
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Timestbmp getTimestbmp() {
+        return timestbmp;
     }
 
     /**
-     * Returns the hash code value for this code signer.
-     * The hash code is generated using the signer's certificate path and the
-     * timestamp, if present.
+     * Returns the hbsh code vblue for this code signer.
+     * The hbsh code is generbted using the signer's certificbte pbth bnd the
+     * timestbmp, if present.
      *
-     * @return a hash code value for this code signer.
+     * @return b hbsh code vblue for this code signer.
      */
-    public int hashCode() {
-        if (myhash == -1) {
-            if (timestamp == null) {
-                myhash = signerCertPath.hashCode();
+    public int hbshCode() {
+        if (myhbsh == -1) {
+            if (timestbmp == null) {
+                myhbsh = signerCertPbth.hbshCode();
             } else {
-                myhash = signerCertPath.hashCode() + timestamp.hashCode();
+                myhbsh = signerCertPbth.hbshCode() + timestbmp.hbshCode();
             }
         }
-        return myhash;
+        return myhbsh;
     }
 
     /**
-     * Tests for equality between the specified object and this
-     * code signer. Two code signers are considered equal if their
-     * signer certificate paths are equal and if their timestamps are equal,
+     * Tests for equblity between the specified object bnd this
+     * code signer. Two code signers bre considered equbl if their
+     * signer certificbte pbths bre equbl bnd if their timestbmps bre equbl,
      * if present in both.
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj the object to test for equblity with this object.
      *
-     * @return true if the objects are considered equal, false otherwise.
+     * @return true if the objects bre considered equbl, fblse otherwise.
      */
-    public boolean equals(Object obj) {
-        if (obj == null || (!(obj instanceof CodeSigner))) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (obj == null || (!(obj instbnceof CodeSigner))) {
+            return fblse;
         }
-        CodeSigner that = (CodeSigner)obj;
+        CodeSigner thbt = (CodeSigner)obj;
 
-        if (this == that) {
+        if (this == thbt) {
             return true;
         }
-        Timestamp thatTimestamp = that.getTimestamp();
-        if (timestamp == null) {
-            if (thatTimestamp != null) {
-                return false;
+        Timestbmp thbtTimestbmp = thbt.getTimestbmp();
+        if (timestbmp == null) {
+            if (thbtTimestbmp != null) {
+                return fblse;
             }
         } else {
-            if (thatTimestamp == null ||
-                (! timestamp.equals(thatTimestamp))) {
-                return false;
+            if (thbtTimestbmp == null ||
+                (! timestbmp.equbls(thbtTimestbmp))) {
+                return fblse;
             }
         }
-        return signerCertPath.equals(that.getSignerCertPath());
+        return signerCertPbth.equbls(thbt.getSignerCertPbth());
     }
 
     /**
-     * Returns a string describing this code signer.
+     * Returns b string describing this code signer.
      *
-     * @return A string comprising the signer's certificate and a timestamp,
+     * @return A string comprising the signer's certificbte bnd b timestbmp,
      *         if present.
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        sb.append("Signer: " + signerCertPath.getCertificates().get(0));
-        if (timestamp != null) {
-            sb.append("timestamp: " + timestamp);
+        sb.bppend("(");
+        sb.bppend("Signer: " + signerCertPbth.getCertificbtes().get(0));
+        if (timestbmp != null) {
+            sb.bppend("timestbmp: " + timestbmp);
         }
-        sb.append(")");
+        sb.bppend(")");
         return sb.toString();
     }
 
-    // Explicitly reset hash code value to -1
-    private void readObject(ObjectInputStream ois)
-        throws IOException, ClassNotFoundException {
-     ois.defaultReadObject();
-     myhash = -1;
+    // Explicitly reset hbsh code vblue to -1
+    privbte void rebdObject(ObjectInputStrebm ois)
+        throws IOException, ClbssNotFoundException {
+     ois.defbultRebdObject();
+     myhbsh = -1;
     }
 }

@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.EventObject;
-import java.awt.event.*;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.LightweightPeer;
-import java.lang.reflect.Field;
-import sun.awt.AWTAccessor;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.EventObject;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.bwt.peer.LightweightPeer;
+import jbvb.lbng.reflect.Field;
+import sun.bwt.AWTAccessor;
+import sun.util.logging.PlbtformLogger;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
 
 /**
- * The root event class for all AWT events.
- * This class and its subclasses supercede the original
- * java.awt.Event class.
- * Subclasses of this root AWTEvent class defined outside of the
- * java.awt.event package should define event ID values greater than
- * the value defined by RESERVED_ID_MAX.
+ * The root event clbss for bll AWT events.
+ * This clbss bnd its subclbsses supercede the originbl
+ * jbvb.bwt.Event clbss.
+ * Subclbsses of this root AWTEvent clbss defined outside of the
+ * jbvb.bwt.event pbckbge should define event ID vblues grebter thbn
+ * the vblue defined by RESERVED_ID_MAX.
  * <p>
- * The event masks defined in this class are needed by Component subclasses
- * which are using Component.enableEvents() to select for event types not
- * selected by registered listeners. If a listener is registered on a
- * component, the appropriate event mask is already set internally by the
+ * The event mbsks defined in this clbss bre needed by Component subclbsses
+ * which bre using Component.enbbleEvents() to select for event types not
+ * selected by registered listeners. If b listener is registered on b
+ * component, the bppropribte event mbsk is blrebdy set internblly by the
  * component.
  * <p>
- * The masks are also used to specify to which types of events an
- * AWTEventListener should listen. The masks are bitwise-ORed together
- * and passed to Toolkit.addAWTEventListener.
+ * The mbsks bre blso used to specify to which types of events bn
+ * AWTEventListener should listen. The mbsks bre bitwise-ORed together
+ * bnd pbssed to Toolkit.bddAWTEventListener.
  *
- * @see Component#enableEvents
- * @see Toolkit#addAWTEventListener
+ * @see Component#enbbleEvents
+ * @see Toolkit#bddAWTEventListener
  *
- * @see java.awt.event.ActionEvent
- * @see java.awt.event.AdjustmentEvent
- * @see java.awt.event.ComponentEvent
- * @see java.awt.event.ContainerEvent
- * @see java.awt.event.FocusEvent
- * @see java.awt.event.InputMethodEvent
- * @see java.awt.event.InvocationEvent
- * @see java.awt.event.ItemEvent
- * @see java.awt.event.HierarchyEvent
- * @see java.awt.event.KeyEvent
- * @see java.awt.event.MouseEvent
- * @see java.awt.event.MouseWheelEvent
- * @see java.awt.event.PaintEvent
- * @see java.awt.event.TextEvent
- * @see java.awt.event.WindowEvent
+ * @see jbvb.bwt.event.ActionEvent
+ * @see jbvb.bwt.event.AdjustmentEvent
+ * @see jbvb.bwt.event.ComponentEvent
+ * @see jbvb.bwt.event.ContbinerEvent
+ * @see jbvb.bwt.event.FocusEvent
+ * @see jbvb.bwt.event.InputMethodEvent
+ * @see jbvb.bwt.event.InvocbtionEvent
+ * @see jbvb.bwt.event.ItemEvent
+ * @see jbvb.bwt.event.HierbrchyEvent
+ * @see jbvb.bwt.event.KeyEvent
+ * @see jbvb.bwt.event.MouseEvent
+ * @see jbvb.bwt.event.MouseWheelEvent
+ * @see jbvb.bwt.event.PbintEvent
+ * @see jbvb.bwt.event.TextEvent
+ * @see jbvb.bwt.event.WindowEvent
  *
- * @author Carl Quinn
- * @author Amy Fowler
+ * @buthor Cbrl Quinn
+ * @buthor Amy Fowler
  * @since 1.1
  */
-public abstract class AWTEvent extends EventObject {
-    private static final PlatformLogger log = PlatformLogger.getLogger("java.awt.AWTEvent");
-    private byte bdata[];
+public bbstrbct clbss AWTEvent extends EventObject {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("jbvb.bwt.AWTEvent");
+    privbte byte bdbtb[];
 
     /**
      * The event's id.
-     * @serial
+     * @seribl
      * @see #getID()
      * @see #AWTEvent
      */
     protected int id;
 
     /**
-     * Controls whether or not the event is sent back down to the peer once the
-     * source has processed it - false means it's sent to the peer; true means
-     * it's not. Semantic events always have a 'true' value since they were
-     * generated by the peer in response to a low-level event.
-     * @serial
+     * Controls whether or not the event is sent bbck down to the peer once the
+     * source hbs processed it - fblse mebns it's sent to the peer; true mebns
+     * it's not. Sembntic events blwbys hbve b 'true' vblue since they were
+     * generbted by the peer in response to b low-level event.
+     * @seribl
      * @see #consume
      * @see #isConsumed
      */
-    protected boolean consumed = false;
+    protected boolebn consumed = fblse;
 
    /*
     * The event's AccessControlContext.
     */
-    private transient volatile AccessControlContext acc =
+    privbte trbnsient volbtile AccessControlContext bcc =
         AccessController.getContext();
 
    /*
-    * Returns the acc this event was constructed with.
+    * Returns the bcc this event wbs constructed with.
     */
-    final AccessControlContext getAccessControlContext() {
-        if (acc == null) {
+    finbl AccessControlContext getAccessControlContext() {
+        if (bcc == null) {
             throw new SecurityException("AWTEvent is missing AccessControlContext");
         }
-        return acc;
+        return bcc;
     }
 
-    transient boolean focusManagerIsDispatching = false;
-    transient boolean isPosted;
+    trbnsient boolebn focusMbnbgerIsDispbtching = fblse;
+    trbnsient boolebn isPosted;
 
     /**
-     * Indicates whether this AWTEvent was generated by the system as
+     * Indicbtes whether this AWTEvent wbs generbted by the system bs
      * opposed to by user code.
      */
-    private transient boolean isSystemGenerated;
+    privbte trbnsient boolebn isSystemGenerbted;
 
     /**
-     * The event mask for selecting component events.
+     * The event mbsk for selecting component events.
      */
-    public final static long COMPONENT_EVENT_MASK = 0x01;
+    public finbl stbtic long COMPONENT_EVENT_MASK = 0x01;
 
     /**
-     * The event mask for selecting container events.
+     * The event mbsk for selecting contbiner events.
      */
-    public final static long CONTAINER_EVENT_MASK = 0x02;
+    public finbl stbtic long CONTAINER_EVENT_MASK = 0x02;
 
     /**
-     * The event mask for selecting focus events.
+     * The event mbsk for selecting focus events.
      */
-    public final static long FOCUS_EVENT_MASK = 0x04;
+    public finbl stbtic long FOCUS_EVENT_MASK = 0x04;
 
     /**
-     * The event mask for selecting key events.
+     * The event mbsk for selecting key events.
      */
-    public final static long KEY_EVENT_MASK = 0x08;
+    public finbl stbtic long KEY_EVENT_MASK = 0x08;
 
     /**
-     * The event mask for selecting mouse events.
+     * The event mbsk for selecting mouse events.
      */
-    public final static long MOUSE_EVENT_MASK = 0x10;
+    public finbl stbtic long MOUSE_EVENT_MASK = 0x10;
 
     /**
-     * The event mask for selecting mouse motion events.
+     * The event mbsk for selecting mouse motion events.
      */
-    public final static long MOUSE_MOTION_EVENT_MASK = 0x20;
+    public finbl stbtic long MOUSE_MOTION_EVENT_MASK = 0x20;
 
     /**
-     * The event mask for selecting window events.
+     * The event mbsk for selecting window events.
      */
-    public final static long WINDOW_EVENT_MASK = 0x40;
+    public finbl stbtic long WINDOW_EVENT_MASK = 0x40;
 
     /**
-     * The event mask for selecting action events.
+     * The event mbsk for selecting bction events.
      */
-    public final static long ACTION_EVENT_MASK = 0x80;
+    public finbl stbtic long ACTION_EVENT_MASK = 0x80;
 
     /**
-     * The event mask for selecting adjustment events.
+     * The event mbsk for selecting bdjustment events.
      */
-    public final static long ADJUSTMENT_EVENT_MASK = 0x100;
+    public finbl stbtic long ADJUSTMENT_EVENT_MASK = 0x100;
 
     /**
-     * The event mask for selecting item events.
+     * The event mbsk for selecting item events.
      */
-    public final static long ITEM_EVENT_MASK = 0x200;
+    public finbl stbtic long ITEM_EVENT_MASK = 0x200;
 
     /**
-     * The event mask for selecting text events.
+     * The event mbsk for selecting text events.
      */
-    public final static long TEXT_EVENT_MASK = 0x400;
+    public finbl stbtic long TEXT_EVENT_MASK = 0x400;
 
     /**
-     * The event mask for selecting input method events.
+     * The event mbsk for selecting input method events.
      */
-    public final static long INPUT_METHOD_EVENT_MASK = 0x800;
+    public finbl stbtic long INPUT_METHOD_EVENT_MASK = 0x800;
 
     /**
-     * The pseudo event mask for enabling input methods.
-     * We're using one bit in the eventMask so we don't need
-     * a separate field inputMethodsEnabled.
+     * The pseudo event mbsk for enbbling input methods.
+     * We're using one bit in the eventMbsk so we don't need
+     * b sepbrbte field inputMethodsEnbbled.
      */
-    final static long INPUT_METHODS_ENABLED_MASK = 0x1000;
+    finbl stbtic long INPUT_METHODS_ENABLED_MASK = 0x1000;
 
     /**
-     * The event mask for selecting paint events.
+     * The event mbsk for selecting pbint events.
      */
-    public final static long PAINT_EVENT_MASK = 0x2000;
+    public finbl stbtic long PAINT_EVENT_MASK = 0x2000;
 
     /**
-     * The event mask for selecting invocation events.
+     * The event mbsk for selecting invocbtion events.
      */
-    public final static long INVOCATION_EVENT_MASK = 0x4000;
+    public finbl stbtic long INVOCATION_EVENT_MASK = 0x4000;
 
     /**
-     * The event mask for selecting hierarchy events.
+     * The event mbsk for selecting hierbrchy events.
      */
-    public final static long HIERARCHY_EVENT_MASK = 0x8000;
+    public finbl stbtic long HIERARCHY_EVENT_MASK = 0x8000;
 
     /**
-     * The event mask for selecting hierarchy bounds events.
+     * The event mbsk for selecting hierbrchy bounds events.
      */
-    public final static long HIERARCHY_BOUNDS_EVENT_MASK = 0x10000;
+    public finbl stbtic long HIERARCHY_BOUNDS_EVENT_MASK = 0x10000;
 
     /**
-     * The event mask for selecting mouse wheel events.
+     * The event mbsk for selecting mouse wheel events.
      * @since 1.4
      */
-    public final static long MOUSE_WHEEL_EVENT_MASK = 0x20000;
+    public finbl stbtic long MOUSE_WHEEL_EVENT_MASK = 0x20000;
 
     /**
-     * The event mask for selecting window state events.
+     * The event mbsk for selecting window stbte events.
      * @since 1.4
      */
-    public final static long WINDOW_STATE_EVENT_MASK = 0x40000;
+    public finbl stbtic long WINDOW_STATE_EVENT_MASK = 0x40000;
 
     /**
-     * The event mask for selecting window focus events.
+     * The event mbsk for selecting window focus events.
      * @since 1.4
      */
-    public final static long WINDOW_FOCUS_EVENT_MASK = 0x80000;
+    public finbl stbtic long WINDOW_FOCUS_EVENT_MASK = 0x80000;
 
     /**
-     * WARNING: there are more mask defined privately.  See
+     * WARNING: there bre more mbsk defined privbtely.  See
      * SunToolkit.GRAB_EVENT_MASK.
      */
 
     /**
-     * The maximum value for reserved AWT event IDs. Programs defining
-     * their own event IDs should use IDs greater than this value.
+     * The mbximum vblue for reserved AWT event IDs. Progrbms defining
+     * their own event IDs should use IDs grebter thbn this vblue.
      */
-    public final static int RESERVED_ID_MAX = 1999;
+    public finbl stbtic int RESERVED_ID_MAX = 1999;
 
     // security stuff
-    private static Field inputEvent_CanAccessSystemClipboard_Field = null;
+    privbte stbtic Field inputEvent_CbnAccessSystemClipbobrd_Field = null;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -1825314779160409405L;
+    privbte stbtic finbl long seriblVersionUID = -1825314779160409405L;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
         AWTAccessor.setAWTEventAccessor(
@@ -261,48 +261,48 @@ public abstract class AWTEvent extends EventObject {
                     ev.isPosted = true;
                 }
 
-                public void setSystemGenerated(AWTEvent ev) {
-                    ev.isSystemGenerated = true;
+                public void setSystemGenerbted(AWTEvent ev) {
+                    ev.isSystemGenerbted = true;
                 }
 
-                public boolean isSystemGenerated(AWTEvent ev) {
-                    return ev.isSystemGenerated;
+                public boolebn isSystemGenerbted(AWTEvent ev) {
+                    return ev.isSystemGenerbted;
                 }
 
                 public AccessControlContext getAccessControlContext(AWTEvent ev) {
                     return ev.getAccessControlContext();
                 }
 
-                public byte[] getBData(AWTEvent ev) {
-                    return ev.bdata;
+                public byte[] getBDbtb(AWTEvent ev) {
+                    return ev.bdbtb;
                 }
 
-                public void setBData(AWTEvent ev, byte[] bdata) {
-                    ev.bdata = bdata;
+                public void setBDbtb(AWTEvent ev, byte[] bdbtb) {
+                    ev.bdbtb = bdbtb;
                 }
 
             });
     }
 
-    private static synchronized Field get_InputEvent_CanAccessSystemClipboard() {
-        if (inputEvent_CanAccessSystemClipboard_Field == null) {
-            inputEvent_CanAccessSystemClipboard_Field =
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Field>() {
+    privbte stbtic synchronized Field get_InputEvent_CbnAccessSystemClipbobrd() {
+        if (inputEvent_CbnAccessSystemClipbobrd_Field == null) {
+            inputEvent_CbnAccessSystemClipbobrd_Field =
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Field>() {
                             public Field run() {
                                 Field field = null;
                                 try {
-                                    field = InputEvent.class.
-                                        getDeclaredField("canAccessSystemClipboard");
+                                    field = InputEvent.clbss.
+                                        getDeclbredField("cbnAccessSystemClipbobrd");
                                     field.setAccessible(true);
                                     return field;
-                                } catch (SecurityException e) {
-                                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                                        log.fine("AWTEvent.get_InputEvent_CanAccessSystemClipboard() got SecurityException ", e);
+                                } cbtch (SecurityException e) {
+                                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                                        log.fine("AWTEvent.get_InputEvent_CbnAccessSystemClipbobrd() got SecurityException ", e);
                                     }
-                                } catch (NoSuchFieldException e) {
-                                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                                        log.fine("AWTEvent.get_InputEvent_CanAccessSystemClipboard() got NoSuchFieldException ", e);
+                                } cbtch (NoSuchFieldException e) {
+                                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                                        log.fine("AWTEvent.get_InputEvent_CbnAccessSystemClipbobrd() got NoSuchFieldException ", e);
                                     }
                                 }
                                 return null;
@@ -310,53 +310,53 @@ public abstract class AWTEvent extends EventObject {
                         });
         }
 
-        return inputEvent_CanAccessSystemClipboard_Field;
+        return inputEvent_CbnAccessSystemClipbobrd_Field;
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-     * accessed from C.
+     * Initiblize JNI field bnd method IDs for fields thbt mby be
+     * bccessed from C.
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
     /**
-     * Constructs an AWTEvent object from the parameters of a 1.0-style event.
-     * @param event the old-style event
+     * Constructs bn AWTEvent object from the pbrbmeters of b 1.0-style event.
+     * @pbrbm event the old-style event
      */
     public AWTEvent(Event event) {
-        this(event.target, event.id);
+        this(event.tbrget, event.id);
     }
 
     /**
-     * Constructs an AWTEvent object with the specified source object and type.
+     * Constructs bn AWTEvent object with the specified source object bnd type.
      *
-     * @param source the object where the event originated
-     * @param id the event type
+     * @pbrbm source the object where the event originbted
+     * @pbrbm id the event type
      */
     public AWTEvent(Object source, int id) {
         super(source);
         this.id = id;
         switch(id) {
-          case ActionEvent.ACTION_PERFORMED:
-          case ItemEvent.ITEM_STATE_CHANGED:
-          case AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED:
-          case TextEvent.TEXT_VALUE_CHANGED:
+          cbse ActionEvent.ACTION_PERFORMED:
+          cbse ItemEvent.ITEM_STATE_CHANGED:
+          cbse AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED:
+          cbse TextEvent.TEXT_VALUE_CHANGED:
             consumed = true;
-            break;
-          default:
+            brebk;
+          defbult:
         }
     }
 
     /**
-     * Retargets an event to a new source. This method is typically used to
-     * retarget an event to a lightweight child Component of the original
-     * heavyweight source.
+     * Retbrgets bn event to b new source. This method is typicblly used to
+     * retbrget bn event to b lightweight child Component of the originbl
+     * hebvyweight source.
      * <p>
-     * This method is intended to be used only by event targeting subsystems,
-     * such as client-defined KeyboardFocusManagers. It is not for general
+     * This method is intended to be used only by event tbrgeting subsystems,
+     * such bs client-defined KeybobrdFocusMbnbgers. It is not for generbl
      * client use.
      *
-     * @param newSource the new Object to which the event should be dispatched
+     * @pbrbm newSource the new Object to which the event should be dispbtched
      * @since 1.4
      */
     public void setSource(Object newSource) {
@@ -365,11 +365,11 @@ public abstract class AWTEvent extends EventObject {
         }
 
         Component comp = null;
-        if (newSource instanceof Component) {
+        if (newSource instbnceof Component) {
             comp = (Component)newSource;
             while (comp != null && comp.peer != null &&
-                   (comp.peer instanceof LightweightPeer)) {
-                comp = comp.parent;
+                   (comp.peer instbnceof LightweightPeer)) {
+                comp = comp.pbrent;
             }
         }
 
@@ -378,13 +378,13 @@ public abstract class AWTEvent extends EventObject {
             if (comp != null) {
                 ComponentPeer peer = comp.peer;
                 if (peer != null) {
-                    nativeSetSource(peer);
+                    nbtiveSetSource(peer);
                 }
             }
         }
     }
 
-    private native void nativeSetSource(ComponentPeer peer);
+    privbte nbtive void nbtiveSetSource(ComponentPeer peer);
 
     /**
      * Returns the event type.
@@ -396,82 +396,82 @@ public abstract class AWTEvent extends EventObject {
     }
 
     /**
-     * Returns a String representation of this object.
+     * Returns b String representbtion of this object.
      */
     public String toString() {
-        String srcName = null;
-        if (source instanceof Component) {
-            srcName = ((Component)source).getName();
-        } else if (source instanceof MenuComponent) {
-            srcName = ((MenuComponent)source).getName();
+        String srcNbme = null;
+        if (source instbnceof Component) {
+            srcNbme = ((Component)source).getNbme();
+        } else if (source instbnceof MenuComponent) {
+            srcNbme = ((MenuComponent)source).getNbme();
         }
-        return getClass().getName() + "[" + paramString() + "] on " +
-            (srcName != null? srcName : source);
+        return getClbss().getNbme() + "[" + pbrbmString() + "] on " +
+            (srcNbme != null? srcNbme : source);
     }
 
     /**
-     * Returns a string representing the state of this <code>Event</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this <code>Event</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return  a string representation of this event
+     * @return  b string representbtion of this event
      */
-    public String paramString() {
+    public String pbrbmString() {
         return "";
     }
 
     /**
-     * Consumes this event, if this event can be consumed. Only low-level,
-     * system events can be consumed
+     * Consumes this event, if this event cbn be consumed. Only low-level,
+     * system events cbn be consumed
      */
     protected void consume() {
         switch(id) {
-          case KeyEvent.KEY_PRESSED:
-          case KeyEvent.KEY_RELEASED:
-          case MouseEvent.MOUSE_PRESSED:
-          case MouseEvent.MOUSE_RELEASED:
-          case MouseEvent.MOUSE_MOVED:
-          case MouseEvent.MOUSE_DRAGGED:
-          case MouseEvent.MOUSE_ENTERED:
-          case MouseEvent.MOUSE_EXITED:
-          case MouseEvent.MOUSE_WHEEL:
-          case InputMethodEvent.INPUT_METHOD_TEXT_CHANGED:
-          case InputMethodEvent.CARET_POSITION_CHANGED:
+          cbse KeyEvent.KEY_PRESSED:
+          cbse KeyEvent.KEY_RELEASED:
+          cbse MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_RELEASED:
+          cbse MouseEvent.MOUSE_MOVED:
+          cbse MouseEvent.MOUSE_DRAGGED:
+          cbse MouseEvent.MOUSE_ENTERED:
+          cbse MouseEvent.MOUSE_EXITED:
+          cbse MouseEvent.MOUSE_WHEEL:
+          cbse InputMethodEvent.INPUT_METHOD_TEXT_CHANGED:
+          cbse InputMethodEvent.CARET_POSITION_CHANGED:
               consumed = true;
-              break;
-          default:
-              // event type cannot be consumed
+              brebk;
+          defbult:
+              // event type cbnnot be consumed
         }
     }
 
     /**
-     * Returns whether this event has been consumed.
+     * Returns whether this event hbs been consumed.
      *
-     * @return {@code true} if this event has been consumed;
-     *          otherwise {@code false}
+     * @return {@code true} if this event hbs been consumed;
+     *          otherwise {@code fblse}
      */
-    protected boolean isConsumed() {
+    protected boolebn isConsumed() {
         return consumed;
     }
 
     /**
-     * Converts a new event to an old one (used for compatibility).
-     * If the new event cannot be converted (because no old equivalent
+     * Converts b new event to bn old one (used for compbtibility).
+     * If the new event cbnnot be converted (becbuse no old equivblent
      * exists) then this returns null.
      *
-     * Note: this method is here instead of in each individual new
-     * event class in java.awt.event because we don't want to make
-     * it public and it needs to be called from java.awt.
+     * Note: this method is here instebd of in ebch individubl new
+     * event clbss in jbvb.bwt.event becbuse we don't wbnt to mbke
+     * it public bnd it needs to be cblled from jbvb.bwt.
      */
     Event convertToOld() {
         Object src = getSource();
         int newid = id;
 
         switch(id) {
-          case KeyEvent.KEY_PRESSED:
-          case KeyEvent.KEY_RELEASED:
+          cbse KeyEvent.KEY_PRESSED:
+          cbse KeyEvent.KEY_RELEASED:
               KeyEvent ke = (KeyEvent)this;
               if (ke.isActionKey()) {
                   newid = (id == KeyEvent.KEY_PRESSED?
@@ -483,143 +483,143 @@ public abstract class AWTEvent extends EventObject {
                   keyCode == KeyEvent.VK_ALT) {
                   return null;  // suppress modifier keys in old event model.
               }
-              // no mask for button1 existed in old Event - strip it out
+              // no mbsk for button1 existed in old Event - strip it out
               return new Event(src, ke.getWhen(), newid, 0, 0,
                                Event.getOldEventKey(ke),
                                (ke.getModifiers() & ~InputEvent.BUTTON1_MASK));
 
-          case MouseEvent.MOUSE_PRESSED:
-          case MouseEvent.MOUSE_RELEASED:
-          case MouseEvent.MOUSE_MOVED:
-          case MouseEvent.MOUSE_DRAGGED:
-          case MouseEvent.MOUSE_ENTERED:
-          case MouseEvent.MOUSE_EXITED:
+          cbse MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_RELEASED:
+          cbse MouseEvent.MOUSE_MOVED:
+          cbse MouseEvent.MOUSE_DRAGGED:
+          cbse MouseEvent.MOUSE_ENTERED:
+          cbse MouseEvent.MOUSE_EXITED:
               MouseEvent me = (MouseEvent)this;
-              // no mask for button1 existed in old Event - strip it out
+              // no mbsk for button1 existed in old Event - strip it out
               Event olde = new Event(src, me.getWhen(), newid,
                                me.getX(), me.getY(), 0,
                                (me.getModifiers() & ~InputEvent.BUTTON1_MASK));
               olde.clickCount = me.getClickCount();
               return olde;
 
-          case FocusEvent.FOCUS_GAINED:
+          cbse FocusEvent.FOCUS_GAINED:
               return new Event(src, Event.GOT_FOCUS, null);
 
-          case FocusEvent.FOCUS_LOST:
+          cbse FocusEvent.FOCUS_LOST:
               return new Event(src, Event.LOST_FOCUS, null);
 
-          case WindowEvent.WINDOW_CLOSING:
-          case WindowEvent.WINDOW_ICONIFIED:
-          case WindowEvent.WINDOW_DEICONIFIED:
+          cbse WindowEvent.WINDOW_CLOSING:
+          cbse WindowEvent.WINDOW_ICONIFIED:
+          cbse WindowEvent.WINDOW_DEICONIFIED:
               return new Event(src, newid, null);
 
-          case ComponentEvent.COMPONENT_MOVED:
-              if (src instanceof Frame || src instanceof Dialog) {
-                  Point p = ((Component)src).getLocation();
+          cbse ComponentEvent.COMPONENT_MOVED:
+              if (src instbnceof Frbme || src instbnceof Diblog) {
+                  Point p = ((Component)src).getLocbtion();
                   return new Event(src, 0, Event.WINDOW_MOVED, p.x, p.y, 0, 0);
               }
-              break;
+              brebk;
 
-          case ActionEvent.ACTION_PERFORMED:
-              ActionEvent ae = (ActionEvent)this;
+          cbse ActionEvent.ACTION_PERFORMED:
+              ActionEvent be = (ActionEvent)this;
               String cmd;
-              if (src instanceof Button) {
-                  cmd = ((Button)src).getLabel();
-              } else if (src instanceof MenuItem) {
-                  cmd = ((MenuItem)src).getLabel();
+              if (src instbnceof Button) {
+                  cmd = ((Button)src).getLbbel();
+              } else if (src instbnceof MenuItem) {
+                  cmd = ((MenuItem)src).getLbbel();
               } else {
-                  cmd = ae.getActionCommand();
+                  cmd = be.getActionCommbnd();
               }
-              return new Event(src, 0, newid, 0, 0, 0, ae.getModifiers(), cmd);
+              return new Event(src, 0, newid, 0, 0, 0, be.getModifiers(), cmd);
 
-          case ItemEvent.ITEM_STATE_CHANGED:
+          cbse ItemEvent.ITEM_STATE_CHANGED:
               ItemEvent ie = (ItemEvent)this;
-              Object arg;
-              if (src instanceof List) {
-                  newid = (ie.getStateChange() == ItemEvent.SELECTED?
+              Object brg;
+              if (src instbnceof List) {
+                  newid = (ie.getStbteChbnge() == ItemEvent.SELECTED?
                            Event.LIST_SELECT : Event.LIST_DESELECT);
-                  arg = ie.getItem();
+                  brg = ie.getItem();
               } else {
                   newid = Event.ACTION_EVENT;
-                  if (src instanceof Choice) {
-                      arg = ie.getItem();
+                  if (src instbnceof Choice) {
+                      brg = ie.getItem();
 
                   } else { // Checkbox
-                      arg = Boolean.valueOf(ie.getStateChange() == ItemEvent.SELECTED);
+                      brg = Boolebn.vblueOf(ie.getStbteChbnge() == ItemEvent.SELECTED);
                   }
               }
-              return new Event(src, newid, arg);
+              return new Event(src, newid, brg);
 
-          case AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED:
-              AdjustmentEvent aje = (AdjustmentEvent)this;
-              switch(aje.getAdjustmentType()) {
-                case AdjustmentEvent.UNIT_INCREMENT:
+          cbse AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED:
+              AdjustmentEvent bje = (AdjustmentEvent)this;
+              switch(bje.getAdjustmentType()) {
+                cbse AdjustmentEvent.UNIT_INCREMENT:
                   newid = Event.SCROLL_LINE_DOWN;
-                  break;
-                case AdjustmentEvent.UNIT_DECREMENT:
+                  brebk;
+                cbse AdjustmentEvent.UNIT_DECREMENT:
                   newid = Event.SCROLL_LINE_UP;
-                  break;
-                case AdjustmentEvent.BLOCK_INCREMENT:
+                  brebk;
+                cbse AdjustmentEvent.BLOCK_INCREMENT:
                   newid = Event.SCROLL_PAGE_DOWN;
-                  break;
-                case AdjustmentEvent.BLOCK_DECREMENT:
+                  brebk;
+                cbse AdjustmentEvent.BLOCK_DECREMENT:
                   newid = Event.SCROLL_PAGE_UP;
-                  break;
-                case AdjustmentEvent.TRACK:
-                  if (aje.getValueIsAdjusting()) {
+                  brebk;
+                cbse AdjustmentEvent.TRACK:
+                  if (bje.getVblueIsAdjusting()) {
                       newid = Event.SCROLL_ABSOLUTE;
                   }
                   else {
                       newid = Event.SCROLL_END;
                   }
-                  break;
-                default:
+                  brebk;
+                defbult:
                   return null;
               }
-              return new Event(src, newid, Integer.valueOf(aje.getValue()));
+              return new Event(src, newid, Integer.vblueOf(bje.getVblue()));
 
-          default:
+          defbult:
         }
         return null;
     }
 
     /**
-     * Copies all private data from this event into that.
-     * Space is allocated for the copied data that will be
-     * freed when the that is finalized. Upon completion,
-     * this event is not changed.
+     * Copies bll privbte dbtb from this event into thbt.
+     * Spbce is bllocbted for the copied dbtb thbt will be
+     * freed when the thbt is finblized. Upon completion,
+     * this event is not chbnged.
      */
-    void copyPrivateDataInto(AWTEvent that) {
-        that.bdata = this.bdata;
-        // Copy canAccessSystemClipboard value from this into that.
-        if (this instanceof InputEvent && that instanceof InputEvent) {
-            Field field = get_InputEvent_CanAccessSystemClipboard();
+    void copyPrivbteDbtbInto(AWTEvent thbt) {
+        thbt.bdbtb = this.bdbtb;
+        // Copy cbnAccessSystemClipbobrd vblue from this into thbt.
+        if (this instbnceof InputEvent && thbt instbnceof InputEvent) {
+            Field field = get_InputEvent_CbnAccessSystemClipbobrd();
             if (field != null) {
                 try {
-                    boolean b = field.getBoolean(this);
-                    field.setBoolean(that, b);
-                } catch(IllegalAccessException e) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("AWTEvent.copyPrivateDataInto() got IllegalAccessException ", e);
+                    boolebn b = field.getBoolebn(this);
+                    field.setBoolebn(thbt, b);
+                } cbtch(IllegblAccessException e) {
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("AWTEvent.copyPrivbteDbtbInto() got IllegblAccessException ", e);
                     }
                 }
             }
         }
-        that.isSystemGenerated = this.isSystemGenerated;
+        thbt.isSystemGenerbted = this.isSystemGenerbted;
     }
 
-    void dispatched() {
-        if (this instanceof InputEvent) {
-            Field field = get_InputEvent_CanAccessSystemClipboard();
+    void dispbtched() {
+        if (this instbnceof InputEvent) {
+            Field field = get_InputEvent_CbnAccessSystemClipbobrd();
             if (field != null) {
                 try {
-                    field.setBoolean(this, false);
-                } catch(IllegalAccessException e) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("AWTEvent.dispatched() got IllegalAccessException ", e);
+                    field.setBoolebn(this, fblse);
+                } cbtch(IllegblAccessException e) {
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("AWTEvent.dispbtched() got IllegblAccessException ", e);
                     }
                 }
             }
         }
     }
-} // class AWTEvent
+} // clbss AWTEvent

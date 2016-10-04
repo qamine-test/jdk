@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "AWTSurfaceLayers.h"
+#import "AWTSurfbceLbyers.h"
 
-JNIEXPORT JAWT_DrawingSurfaceInfo* JNICALL awt_DrawingSurface_GetDrawingSurfaceInfo
-(JAWT_DrawingSurface* ds)
+JNIEXPORT JAWT_DrbwingSurfbceInfo* JNICALL bwt_DrbwingSurfbce_GetDrbwingSurfbceInfo
+(JAWT_DrbwingSurfbce* ds)
 {
-    JAWT_DrawingSurfaceInfo* dsi = (JAWT_DrawingSurfaceInfo*)malloc(sizeof(JAWT_DrawingSurfaceInfo));
+    JAWT_DrbwingSurfbceInfo* dsi = (JAWT_DrbwingSurfbceInfo*)mblloc(sizeof(JAWT_DrbwingSurfbceInfo));
 
     JNIEnv *env = ds->env;
-    jobject target = ds->target;
+    jobject tbrget = ds->tbrget;
 
-    static JNF_CLASS_CACHE(jc_Component, "java/awt/Component");
-    static JNF_MEMBER_CACHE(jf_peer, jc_Component, "peer", "Ljava/awt/peer/ComponentPeer;");
-    jobject peer = JNFGetObjectField(env, target, jf_peer);
+    stbtic JNF_CLASS_CACHE(jc_Component, "jbvb/bwt/Component");
+    stbtic JNF_MEMBER_CACHE(jf_peer, jc_Component, "peer", "Ljbvb/bwt/peer/ComponentPeer;");
+    jobject peer = JNFGetObjectField(env, tbrget, jf_peer);
 
-    static JNF_CLASS_CACHE(jc_ComponentPeer, "sun/lwawt/LWComponentPeer");
-    static JNF_MEMBER_CACHE(jf_platformComponent, jc_ComponentPeer,
-                            "platformComponent", "Lsun/lwawt/PlatformComponent;");
-    jobject platformComponent = JNFGetObjectField(env, peer, jf_platformComponent);
+    stbtic JNF_CLASS_CACHE(jc_ComponentPeer, "sun/lwbwt/LWComponentPeer");
+    stbtic JNF_MEMBER_CACHE(jf_plbtformComponent, jc_ComponentPeer,
+                            "plbtformComponent", "Lsun/lwbwt/PlbtformComponent;");
+    jobject plbtformComponent = JNFGetObjectField(env, peer, jf_plbtformComponent);
 
-    static JNF_CLASS_CACHE(jc_PlatformComponent, "sun/lwawt/macosx/CPlatformComponent");
-    static JNF_MEMBER_CACHE(jm_getPointer, jc_PlatformComponent, "getPointer", "()J");
-    AWTSurfaceLayers *surfaceLayers = jlong_to_ptr(JNFCallLongMethod(env, platformComponent, jm_getPointer));
-    // REMIND: assert(surfaceLayers)
+    stbtic JNF_CLASS_CACHE(jc_PlbtformComponent, "sun/lwbwt/mbcosx/CPlbtformComponent");
+    stbtic JNF_MEMBER_CACHE(jm_getPointer, jc_PlbtformComponent, "getPointer", "()J");
+    AWTSurfbceLbyers *surfbceLbyers = jlong_to_ptr(JNFCbllLongMethod(env, plbtformComponent, jm_getPointer));
+    // REMIND: bssert(surfbceLbyers)
 
-    dsi->platformInfo = surfaceLayers;
+    dsi->plbtformInfo = surfbceLbyers;
     dsi->ds = ds;
 
-    static JNF_MEMBER_CACHE(jf_x, jc_Component, "x", "I");
-    static JNF_MEMBER_CACHE(jf_y, jc_Component, "y", "I");
-    static JNF_MEMBER_CACHE(jf_width, jc_Component, "width", "I");
-    static JNF_MEMBER_CACHE(jf_height, jc_Component, "height", "I");
+    stbtic JNF_MEMBER_CACHE(jf_x, jc_Component, "x", "I");
+    stbtic JNF_MEMBER_CACHE(jf_y, jc_Component, "y", "I");
+    stbtic JNF_MEMBER_CACHE(jf_width, jc_Component, "width", "I");
+    stbtic JNF_MEMBER_CACHE(jf_height, jc_Component, "height", "I");
 
-    dsi->bounds.x = JNFGetIntField(env, target, jf_x);
-    dsi->bounds.y = JNFGetIntField(env, target, jf_y);
-    dsi->bounds.width = JNFGetIntField(env, target, jf_width);
-    dsi->bounds.height = JNFGetIntField(env, target, jf_height);
+    dsi->bounds.x = JNFGetIntField(env, tbrget, jf_x);
+    dsi->bounds.y = JNFGetIntField(env, tbrget, jf_y);
+    dsi->bounds.width = JNFGetIntField(env, tbrget, jf_width);
+    dsi->bounds.height = JNFGetIntField(env, tbrget, jf_height);
 
     dsi->clipSize = 1;
     dsi->clip = &(dsi->bounds);
@@ -68,64 +68,64 @@ JNIEXPORT JAWT_DrawingSurfaceInfo* JNICALL awt_DrawingSurface_GetDrawingSurfaceI
     return dsi;
 }
 
-JNIEXPORT jint JNICALL awt_DrawingSurface_Lock
-(JAWT_DrawingSurface* ds)
+JNIEXPORT jint JNICALL bwt_DrbwingSurfbce_Lock
+(JAWT_DrbwingSurfbce* ds)
 {
     // TODO: implement
     return 0;
 }
 
-JNIEXPORT void JNICALL awt_DrawingSurface_Unlock
-(JAWT_DrawingSurface* ds)
+JNIEXPORT void JNICALL bwt_DrbwingSurfbce_Unlock
+(JAWT_DrbwingSurfbce* ds)
 {
     // TODO: implement
 }
 
-JNIEXPORT void JNICALL awt_DrawingSurface_FreeDrawingSurfaceInfo
-(JAWT_DrawingSurfaceInfo* dsi)
+JNIEXPORT void JNICALL bwt_DrbwingSurfbce_FreeDrbwingSurfbceInfo
+(JAWT_DrbwingSurfbceInfo* dsi)
 {
     free(dsi);
 }
 
-JNIEXPORT JAWT_DrawingSurface* JNICALL awt_GetDrawingSurface
-(JNIEnv* env, jobject target)
+JNIEXPORT JAWT_DrbwingSurfbce* JNICALL bwt_GetDrbwingSurfbce
+(JNIEnv* env, jobject tbrget)
 {
-    JAWT_DrawingSurface* ds = (JAWT_DrawingSurface*)malloc(sizeof(JAWT_DrawingSurface));
+    JAWT_DrbwingSurfbce* ds = (JAWT_DrbwingSurfbce*)mblloc(sizeof(JAWT_DrbwingSurfbce));
 
-    // TODO: "target instanceof" check
+    // TODO: "tbrget instbnceof" check
 
     ds->env = env;
-    ds->target = (*env)->NewGlobalRef(env, target);
-    ds->Lock = awt_DrawingSurface_Lock;
-    ds->GetDrawingSurfaceInfo = awt_DrawingSurface_GetDrawingSurfaceInfo;
-    ds->FreeDrawingSurfaceInfo = awt_DrawingSurface_FreeDrawingSurfaceInfo;
-    ds->Unlock = awt_DrawingSurface_Unlock;
+    ds->tbrget = (*env)->NewGlobblRef(env, tbrget);
+    ds->Lock = bwt_DrbwingSurfbce_Lock;
+    ds->GetDrbwingSurfbceInfo = bwt_DrbwingSurfbce_GetDrbwingSurfbceInfo;
+    ds->FreeDrbwingSurfbceInfo = bwt_DrbwingSurfbce_FreeDrbwingSurfbceInfo;
+    ds->Unlock = bwt_DrbwingSurfbce_Unlock;
 
     return ds;
 }
 
-JNIEXPORT void JNICALL awt_FreeDrawingSurface
-(JAWT_DrawingSurface* ds)
+JNIEXPORT void JNICALL bwt_FreeDrbwingSurfbce
+(JAWT_DrbwingSurfbce* ds)
 {
     JNIEnv *env = ds->env;
-    (*env)->DeleteGlobalRef(env, ds->target);
+    (*env)->DeleteGlobblRef(env, ds->tbrget);
     free(ds);
 }
 
-JNIEXPORT void JNICALL awt_Lock
+JNIEXPORT void JNICALL bwt_Lock
 (JNIEnv* env)
 {
     // TODO: implement
 }
 
-JNIEXPORT void JNICALL awt_Unlock
+JNIEXPORT void JNICALL bwt_Unlock
 (JNIEnv* env)
 {
     // TODO: implement
 }
 
-JNIEXPORT jobject JNICALL awt_GetComponent
-(JNIEnv* env, void* platformInfo)
+JNIEXPORT jobject JNICALL bwt_GetComponent
+(JNIEnv* env, void* plbtformInfo)
 {
     // TODO: implement
     return NULL;

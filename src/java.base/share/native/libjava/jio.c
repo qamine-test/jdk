@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,38 +28,38 @@
 #include "jni.h"
 
 
-/* This is a temporary solution until we figure out how to let native
- * libraries use jio_* without linking with the VM.
+/* This is b temporbry solution until we figure out how to let nbtive
+ * librbries use jio_* without linking with the VM.
  */
 
 extern int
-jio_vsnprintf(char *str, size_t count, const char *fmt, va_list args);
+jio_vsnprintf(chbr *str, size_t count, const chbr *fmt, vb_list brgs);
 
 JNIEXPORT int
-jio_snprintf(char *str, size_t count, const char *fmt, ...)
+jio_snprintf(chbr *str, size_t count, const chbr *fmt, ...)
 {
     int len;
 
-    va_list args;
-    va_start(args, fmt);
-    len = jio_vsnprintf(str, count, fmt, args);
-    va_end(args);
+    vb_list brgs;
+    vb_stbrt(brgs, fmt);
+    len = jio_vsnprintf(str, count, fmt, brgs);
+    vb_end(brgs);
 
     return len;
 }
 
 extern int
-jio_vfprintf(FILE *, const char *fmt, va_list args);
+jio_vfprintf(FILE *, const chbr *fmt, vb_list brgs);
 
 JNIEXPORT int
-jio_fprintf(FILE *fp, const char *fmt, ...)
+jio_fprintf(FILE *fp, const chbr *fmt, ...)
 {
     int len;
 
-    va_list args;
-    va_start(args, fmt);
-    len = jio_vfprintf(fp, fmt, args);
-    va_end(args);
+    vb_list brgs;
+    vb_stbrt(brgs, fmt);
+    len = jio_vfprintf(fp, fmt, brgs);
+    vb_end(brgs);
 
     return len;
 }

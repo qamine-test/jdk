@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.datatransfer;
+pbckbge sun.bwt.dbtbtrbnsfer;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
-import java.io.OutputStream;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.UnsupportedFlbvorException;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmClbss;
+import jbvb.io.OutputStrebm;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
 
 /**
- * Proxies for another Transferable so that Serializable objects are never
- * returned directly by DnD or the Clipboard. Instead, a new instance of the
+ * Proxies for bnother Trbnsferbble so thbt Seriblizbble objects bre never
+ * returned directly by DnD or the Clipbobrd. Instebd, b new instbnce of the
  * object is returned.
  *
- * @author Lawrence P.G. Cable
- * @author David Mendenhall
+ * @buthor Lbwrence P.G. Cbble
+ * @buthor Dbvid Mendenhbll
  *
  * @since 1.4
  */
-public class TransferableProxy implements Transferable {
-    public TransferableProxy(Transferable t, boolean local) {
-        transferable = t;
-        isLocal = local;
+public clbss TrbnsferbbleProxy implements Trbnsferbble {
+    public TrbnsferbbleProxy(Trbnsferbble t, boolebn locbl) {
+        trbnsferbble = t;
+        isLocbl = locbl;
     }
-    public DataFlavor[] getTransferDataFlavors() {
-        return transferable.getTransferDataFlavors();
+    public DbtbFlbvor[] getTrbnsferDbtbFlbvors() {
+        return trbnsferbble.getTrbnsferDbtbFlbvors();
     }
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return transferable.isDataFlavorSupported(flavor);
+    public boolebn isDbtbFlbvorSupported(DbtbFlbvor flbvor) {
+        return trbnsferbble.isDbtbFlbvorSupported(flbvor);
     }
-    public Object getTransferData(DataFlavor df)
-        throws UnsupportedFlavorException, IOException
+    public Object getTrbnsferDbtb(DbtbFlbvor df)
+        throws UnsupportedFlbvorException, IOException
     {
-        Object data = transferable.getTransferData(df);
+        Object dbtb = trbnsferbble.getTrbnsferDbtb(df);
 
-        // If the data is a Serializable object, then create a new instance
-        // before returning it. This insulates applications sharing DnD and
-        // Clipboard data from each other.
-        if (data != null && isLocal && df.isFlavorSerializedObjectType()) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // If the dbtb is b Seriblizbble object, then crebte b new instbnce
+        // before returning it. This insulbtes bpplicbtions shbring DnD bnd
+        // Clipbobrd dbtb from ebch other.
+        if (dbtb != null && isLocbl && df.isFlbvorSeriblizedObjectType()) {
+            ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
 
-            ClassLoaderObjectOutputStream oos =
-                new ClassLoaderObjectOutputStream(baos);
-            oos.writeObject(data);
+            ClbssLobderObjectOutputStrebm oos =
+                new ClbssLobderObjectOutputStrebm(bbos);
+            oos.writeObject(dbtb);
 
-            ByteArrayInputStream bais =
-                new ByteArrayInputStream(baos.toByteArray());
+            ByteArrbyInputStrebm bbis =
+                new ByteArrbyInputStrebm(bbos.toByteArrby());
 
             try {
-                ClassLoaderObjectInputStream ois =
-                    new ClassLoaderObjectInputStream(bais,
-                                                     oos.getClassLoaderMap());
-                data = ois.readObject();
-            } catch (ClassNotFoundException cnfe) {
-                throw (IOException)new IOException().initCause(cnfe);
+                ClbssLobderObjectInputStrebm ois =
+                    new ClbssLobderObjectInputStrebm(bbis,
+                                                     oos.getClbssLobderMbp());
+                dbtb = ois.rebdObject();
+            } cbtch (ClbssNotFoundException cnfe) {
+                throw (IOException)new IOException().initCbuse(cnfe);
             }
         }
 
-        return data;
+        return dbtb;
     }
 
-    protected final Transferable transferable;
-    protected final boolean isLocal;
+    protected finbl Trbnsferbble trbnsferbble;
+    protected finbl boolebn isLocbl;
 }
 
-final class ClassLoaderObjectOutputStream extends ObjectOutputStream {
-    private final Map<Set<String>, ClassLoader> map =
-        new HashMap<Set<String>, ClassLoader>();
+finbl clbss ClbssLobderObjectOutputStrebm extends ObjectOutputStrebm {
+    privbte finbl Mbp<Set<String>, ClbssLobder> mbp =
+        new HbshMbp<Set<String>, ClbssLobder>();
 
-    ClassLoaderObjectOutputStream(OutputStream os) throws IOException {
+    ClbssLobderObjectOutputStrebm(OutputStrebm os) throws IOException {
         super(os);
     }
 
-    protected void annotateClass(final Class<?> cl) throws IOException {
-        ClassLoader classLoader = AccessController.doPrivileged(
-            new PrivilegedAction<ClassLoader>() {
-                public ClassLoader run() {
-                    return cl.getClassLoader();
+    protected void bnnotbteClbss(finbl Clbss<?> cl) throws IOException {
+        ClbssLobder clbssLobder = AccessController.doPrivileged(
+            new PrivilegedAction<ClbssLobder>() {
+                public ClbssLobder run() {
+                    return cl.getClbssLobder();
                 }
             });
 
-        Set<String> s = new HashSet<String>(1);
-        s.add(cl.getName());
+        Set<String> s = new HbshSet<String>(1);
+        s.bdd(cl.getNbme());
 
-        map.put(s, classLoader);
+        mbp.put(s, clbssLobder);
     }
-    protected void annotateProxyClass(final Class<?> cl) throws IOException {
-        ClassLoader classLoader = AccessController.doPrivileged(
-            new PrivilegedAction<ClassLoader>() {
-                public ClassLoader run() {
-                    return cl.getClassLoader();
+    protected void bnnotbteProxyClbss(finbl Clbss<?> cl) throws IOException {
+        ClbssLobder clbssLobder = AccessController.doPrivileged(
+            new PrivilegedAction<ClbssLobder>() {
+                public ClbssLobder run() {
+                    return cl.getClbssLobder();
                 }
             });
 
-        Class<?>[] interfaces = cl.getInterfaces();
-        Set<String> s = new HashSet<String>(interfaces.length);
-        for (int i = 0; i < interfaces.length; i++) {
-            s.add(interfaces[i].getName());
+        Clbss<?>[] interfbces = cl.getInterfbces();
+        Set<String> s = new HbshSet<String>(interfbces.length);
+        for (int i = 0; i < interfbces.length; i++) {
+            s.bdd(interfbces[i].getNbme());
         }
 
-        map.put(s, classLoader);
+        mbp.put(s, clbssLobder);
     }
 
-    Map<Set<String>, ClassLoader> getClassLoaderMap() {
-        return new HashMap<>(map);
+    Mbp<Set<String>, ClbssLobder> getClbssLobderMbp() {
+        return new HbshMbp<>(mbp);
     }
 }
 
-final class ClassLoaderObjectInputStream extends ObjectInputStream {
-    private final Map<Set<String>, ClassLoader> map;
+finbl clbss ClbssLobderObjectInputStrebm extends ObjectInputStrebm {
+    privbte finbl Mbp<Set<String>, ClbssLobder> mbp;
 
-    ClassLoaderObjectInputStream(InputStream is,
-                                 Map<Set<String>, ClassLoader> map)
+    ClbssLobderObjectInputStrebm(InputStrebm is,
+                                 Mbp<Set<String>, ClbssLobder> mbp)
       throws IOException {
         super(is);
-        if (map == null) {
-            throw new NullPointerException("Null map");
+        if (mbp == null) {
+            throw new NullPointerException("Null mbp");
         }
-        this.map = map;
+        this.mbp = mbp;
     }
 
-    protected Class<?> resolveClass(ObjectStreamClass classDesc)
-      throws IOException, ClassNotFoundException {
-        String className = classDesc.getName();
+    protected Clbss<?> resolveClbss(ObjectStrebmClbss clbssDesc)
+      throws IOException, ClbssNotFoundException {
+        String clbssNbme = clbssDesc.getNbme();
 
-        Set<String> s = new HashSet<String>(1);
-        s.add(className);
+        Set<String> s = new HbshSet<String>(1);
+        s.bdd(clbssNbme);
 
-        ClassLoader classLoader = map.get(s);
-        if (classLoader != null) {
-            return Class.forName(className, false, classLoader);
+        ClbssLobder clbssLobder = mbp.get(s);
+        if (clbssLobder != null) {
+            return Clbss.forNbme(clbssNbme, fblse, clbssLobder);
         } else {
-            return super.resolveClass(classDesc);
+            return super.resolveClbss(clbssDesc);
         }
     }
 
-    protected Class<?> resolveProxyClass(String[] interfaces)
-      throws IOException, ClassNotFoundException {
+    protected Clbss<?> resolveProxyClbss(String[] interfbces)
+      throws IOException, ClbssNotFoundException {
 
-        Set<String> s = new HashSet<String>(interfaces.length);
-        for (int i = 0; i < interfaces.length; i++) {
-            s.add(interfaces[i]);
+        Set<String> s = new HbshSet<String>(interfbces.length);
+        for (int i = 0; i < interfbces.length; i++) {
+            s.bdd(interfbces[i]);
         }
 
-        ClassLoader classLoader = map.get(s);
-        if (classLoader == null) {
-            return super.resolveProxyClass(interfaces);
+        ClbssLobder clbssLobder = mbp.get(s);
+        if (clbssLobder == null) {
+            return super.resolveProxyClbss(interfbces);
         }
 
-        // The code below is mostly copied from the superclass.
-        ClassLoader nonPublicLoader = null;
-        boolean hasNonPublicInterface = false;
+        // The code below is mostly copied from the superclbss.
+        ClbssLobder nonPublicLobder = null;
+        boolebn hbsNonPublicInterfbce = fblse;
 
-        // define proxy in class loader of non-public interface(s), if any
-        Class<?>[] classObjs = new Class<?>[interfaces.length];
-        for (int i = 0; i < interfaces.length; i++) {
-            Class<?> cl = Class.forName(interfaces[i], false, classLoader);
+        // define proxy in clbss lobder of non-public interfbce(s), if bny
+        Clbss<?>[] clbssObjs = new Clbss<?>[interfbces.length];
+        for (int i = 0; i < interfbces.length; i++) {
+            Clbss<?> cl = Clbss.forNbme(interfbces[i], fblse, clbssLobder);
             if ((cl.getModifiers() & Modifier.PUBLIC) == 0) {
-                if (hasNonPublicInterface) {
-                    if (nonPublicLoader != cl.getClassLoader()) {
-                        throw new IllegalAccessError(
-                            "conflicting non-public interface class loaders");
+                if (hbsNonPublicInterfbce) {
+                    if (nonPublicLobder != cl.getClbssLobder()) {
+                        throw new IllegblAccessError(
+                            "conflicting non-public interfbce clbss lobders");
                     }
                 } else {
-                    nonPublicLoader = cl.getClassLoader();
-                    hasNonPublicInterface = true;
+                    nonPublicLobder = cl.getClbssLobder();
+                    hbsNonPublicInterfbce = true;
                 }
             }
-            classObjs[i] = cl;
+            clbssObjs[i] = cl;
         }
         try {
-            return Proxy.getProxyClass(hasNonPublicInterface ?
-                                       nonPublicLoader : classLoader,
-                                       classObjs);
-        } catch (IllegalArgumentException e) {
-            throw new ClassNotFoundException(null, e);
+            return Proxy.getProxyClbss(hbsNonPublicInterfbce ?
+                                       nonPublicLobder : clbssLobder,
+                                       clbssObjs);
+        } cbtch (IllegblArgumentException e) {
+            throw new ClbssNotFoundException(null, e);
         }
     }
 }

@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1998, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.io.EOFException;
-import java.net.URL;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.io.InputStream;
-import java.security.CodeSigner;
-import java.util.jar.Manifest;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
+import jbvb.io.EOFException;
+import jbvb.net.URL;
+import jbvb.io.IOException;
+import jbvb.io.InterruptedIOException;
+import jbvb.io.InputStrebm;
+import jbvb.security.CodeSigner;
+import jbvb.util.jbr.Mbnifest;
+import jbvb.nio.ByteBuffer;
+import jbvb.util.Arrbys;
 import sun.nio.ByteBuffered;
 
 /**
- * This class is used to represent a Resource that has been loaded
- * from the class path.
+ * This clbss is used to represent b Resource thbt hbs been lobded
+ * from the clbss pbth.
  *
- * @author  David Connelly
+ * @buthor  Dbvid Connelly
  * @since   1.2
  */
-public abstract class Resource {
+public bbstrbct clbss Resource {
     /**
-     * Returns the name of the Resource.
+     * Returns the nbme of the Resource.
      */
-    public abstract String getName();
+    public bbstrbct String getNbme();
 
     /**
      * Returns the URL of the Resource.
      */
-    public abstract URL getURL();
+    public bbstrbct URL getURL();
 
     /**
      * Returns the CodeSource URL for the Resource.
      */
-    public abstract URL getCodeSourceURL();
+    public bbstrbct URL getCodeSourceURL();
 
     /**
-     * Returns an InputStream for reading the Resource data.
+     * Returns bn InputStrebm for rebding the Resource dbtb.
      */
-    public abstract InputStream getInputStream() throws IOException;
+    public bbstrbct InputStrebm getInputStrebm() throws IOException;
 
     /**
-     * Returns the length of the Resource data, or -1 if unknown.
+     * Returns the length of the Resource dbtb, or -1 if unknown.
      */
-    public abstract int getContentLength() throws IOException;
+    public bbstrbct int getContentLength() throws IOException;
 
-    private InputStream cis;
+    privbte InputStrebm cis;
 
-    /* Cache result in case getBytes is called after getByteBuffer. */
-    private synchronized InputStream cachedInputStream() throws IOException {
+    /* Cbche result in cbse getBytes is cblled bfter getByteBuffer. */
+    privbte synchronized InputStrebm cbchedInputStrebm() throws IOException {
         if (cis == null) {
-            cis = getInputStream();
+            cis = getInputStrebm();
         }
         return cis;
     }
 
     /**
-     * Returns the Resource data as an array of bytes.
+     * Returns the Resource dbtb bs bn brrby of bytes.
      */
     public byte[] getBytes() throws IOException {
         byte[] b;
-        // Get stream before content length so that a FileNotFoundException
-        // can propagate upwards without being caught too early
-        InputStream in = cachedInputStream();
+        // Get strebm before content length so thbt b FileNotFoundException
+        // cbn propbgbte upwbrds without being cbught too ebrly
+        InputStrebm in = cbchedInputStrebm();
 
-        // This code has been uglified to protect against interrupts.
-        // Even if a thread has been interrupted when loading resources,
-        // the IO should not abort, so must carefully retry, failing only
-        // if the retry leads to some other IO exception.
+        // This code hbs been uglified to protect bgbinst interrupts.
+        // Even if b threbd hbs been interrupted when lobding resources,
+        // the IO should not bbort, so must cbrefully retry, fbiling only
+        // if the retry lebds to some other IO exception.
 
-        boolean isInterrupted = Thread.interrupted();
+        boolebn isInterrupted = Threbd.interrupted();
         int len;
         for (;;) {
             try {
                 len = getContentLength();
-                break;
-            } catch (InterruptedIOException iioe) {
-                Thread.interrupted();
+                brebk;
+            } cbtch (InterruptedIOException iioe) {
+                Threbd.interrupted();
                 isInterrupted = true;
             }
         }
@@ -110,71 +110,71 @@ public abstract class Resource {
             if (len == -1) len = Integer.MAX_VALUE;
             int pos = 0;
             while (pos < len) {
-                int bytesToRead;
-                if (pos >= b.length) { // Only expand when there's no room
-                    bytesToRead = Math.min(len - pos, b.length + 1024);
-                    if (b.length < pos + bytesToRead) {
-                        b = Arrays.copyOf(b, pos + bytesToRead);
+                int bytesToRebd;
+                if (pos >= b.length) { // Only expbnd when there's no room
+                    bytesToRebd = Mbth.min(len - pos, b.length + 1024);
+                    if (b.length < pos + bytesToRebd) {
+                        b = Arrbys.copyOf(b, pos + bytesToRebd);
                     }
                 } else {
-                    bytesToRead = b.length - pos;
+                    bytesToRebd = b.length - pos;
                 }
                 int cc = 0;
                 try {
-                    cc = in.read(b, pos, bytesToRead);
-                } catch (InterruptedIOException iioe) {
-                    Thread.interrupted();
+                    cc = in.rebd(b, pos, bytesToRebd);
+                } cbtch (InterruptedIOException iioe) {
+                    Threbd.interrupted();
                     isInterrupted = true;
                 }
                 if (cc < 0) {
                     if (len != Integer.MAX_VALUE) {
-                        throw new EOFException("Detect premature EOF");
+                        throw new EOFException("Detect prembture EOF");
                     } else {
                         if (b.length != pos) {
-                            b = Arrays.copyOf(b, pos);
+                            b = Arrbys.copyOf(b, pos);
                         }
-                        break;
+                        brebk;
                     }
                 }
                 pos += cc;
             }
-        } finally {
+        } finblly {
             try {
                 in.close();
-            } catch (InterruptedIOException iioe) {
+            } cbtch (InterruptedIOException iioe) {
                 isInterrupted = true;
-            } catch (IOException ignore) {}
+            } cbtch (IOException ignore) {}
 
             if (isInterrupted) {
-                Thread.currentThread().interrupt();
+                Threbd.currentThrebd().interrupt();
             }
         }
         return b;
     }
 
     /**
-     * Returns the Resource data as a ByteBuffer, but only if the input stream
-     * was implemented on top of a ByteBuffer. Return <tt>null</tt> otherwise.
+     * Returns the Resource dbtb bs b ByteBuffer, but only if the input strebm
+     * wbs implemented on top of b ByteBuffer. Return <tt>null</tt> otherwise.
      */
     public ByteBuffer getByteBuffer() throws IOException {
-        InputStream in = cachedInputStream();
-        if (in instanceof ByteBuffered) {
+        InputStrebm in = cbchedInputStrebm();
+        if (in instbnceof ByteBuffered) {
             return ((ByteBuffered)in).getByteBuffer();
         }
         return null;
     }
 
     /**
-     * Returns the Manifest for the Resource, or null if none.
+     * Returns the Mbnifest for the Resource, or null if none.
      */
-    public Manifest getManifest() throws IOException {
+    public Mbnifest getMbnifest() throws IOException {
         return null;
     }
 
     /**
-     * Returns theCertificates for the Resource, or null if none.
+     * Returns theCertificbtes for the Resource, or null if none.
      */
-    public java.security.cert.Certificate[] getCertificates() {
+    public jbvb.security.cert.Certificbte[] getCertificbtes() {
         return null;
     }
 

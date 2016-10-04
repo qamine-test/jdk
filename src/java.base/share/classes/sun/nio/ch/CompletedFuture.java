@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.ExecutionException;
-import java.io.IOException;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.ExecutionException;
+import jbvb.io.IOException;
 
 /**
- * A Future representing the result of an I/O operation that has already
+ * A Future representing the result of bn I/O operbtion thbt hbs blrebdy
  * completed.
  */
 
-final class CompletedFuture<V> implements Future<V> {
-    private final V result;
-    private final Throwable exc;
+finbl clbss CompletedFuture<V> implements Future<V> {
+    privbte finbl V result;
+    privbte finbl Throwbble exc;
 
-    private CompletedFuture(V result, Throwable exc) {
+    privbte CompletedFuture(V result, Throwbble exc) {
         this.result = result;
         this.exc = exc;
     }
 
-    static <V> CompletedFuture<V> withResult(V result) {
+    stbtic <V> CompletedFuture<V> withResult(V result) {
         return new CompletedFuture<V>(result, null);
     }
 
-    static <V> CompletedFuture<V> withFailure(Throwable exc) {
+    stbtic <V> CompletedFuture<V> withFbilure(Throwbble exc) {
         // exception must be IOException or SecurityException
-        if (!(exc instanceof IOException) && !(exc instanceof SecurityException))
+        if (!(exc instbnceof IOException) && !(exc instbnceof SecurityException))
             exc = new IOException(exc);
         return new CompletedFuture<V>(null, exc);
     }
 
-    static <V> CompletedFuture<V> withResult(V result, Throwable exc) {
+    stbtic <V> CompletedFuture<V> withResult(V result, Throwbble exc) {
         if (exc == null) {
             return withResult(result);
         } else {
-            return withFailure(exc);
+            return withFbilure(exc);
         }
     }
 
@@ -80,17 +80,17 @@ final class CompletedFuture<V> implements Future<V> {
     }
 
     @Override
-    public boolean isCancelled() {
-        return false;
+    public boolebn isCbncelled() {
+        return fblse;
     }
 
     @Override
-    public boolean isDone() {
+    public boolebn isDone() {
         return true;
     }
 
     @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
-        return false;
+    public boolebn cbncel(boolebn mbyInterruptIfRunning) {
+        return fblse;
     }
 }

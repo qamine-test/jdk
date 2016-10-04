@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
-import javax.swing.plaf.ComponentUI;
-import javax.swing.border.*;
-import javax.swing.event.SwingPropertyChangeSupport;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.SwingPropertyChbngeSupport;
 
-import java.lang.reflect.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.ResourceBundle;
-import java.util.ResourceBundle.Control;
-import java.util.Locale;
-import java.util.Vector;
-import java.util.MissingResourceException;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Insets;
-import java.awt.Dimension;
-import java.lang.reflect.Method;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.PrivilegedAction;
+import jbvb.lbng.reflect.*;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.ResourceBundle;
+import jbvb.util.ResourceBundle.Control;
+import jbvb.util.Locble;
+import jbvb.util.Vector;
+import jbvb.util.MissingResourceException;
+import jbvb.bwt.Font;
+import jbvb.bwt.Color;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Dimension;
+import jbvb.lbng.reflect.Method;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvb.security.PrivilegedAction;
 
 import sun.reflect.misc.MethodUtil;
 import sun.reflect.misc.ReflectUtil;
@@ -57,650 +57,650 @@ import sun.swing.SwingUtilities2;
 import sun.util.CoreResourceBundleControl;
 
 /**
- * A table of defaults for Swing components.  Applications can set/get
- * default values via the <code>UIManager</code>.
+ * A tbble of defbults for Swing components.  Applicbtions cbn set/get
+ * defbult vblues vib the <code>UIMbnbger</code>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see UIManager
- * @author Hans Muller
+ * @see UIMbnbger
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class UIDefaults extends Hashtable<Object,Object>
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss UIDefbults extends Hbshtbble<Object,Object>
 {
-    private static final Object PENDING = "Pending";
+    privbte stbtic finbl Object PENDING = "Pending";
 
-    private SwingPropertyChangeSupport changeSupport;
+    privbte SwingPropertyChbngeSupport chbngeSupport;
 
-    private Vector<String> resourceBundles;
+    privbte Vector<String> resourceBundles;
 
-    private Locale defaultLocale = Locale.getDefault();
-
-    /**
-     * Maps from a Locale to a cached Map of the ResourceBundle. This is done
-     * so as to avoid an exception being thrown when a value is asked for.
-     * Access to this should be done while holding a lock on the
-     * UIDefaults, eg synchronized(this).
-     */
-    private Map<Locale, Map<String, Object>> resourceCache;
+    privbte Locble defbultLocble = Locble.getDefbult();
 
     /**
-     * Creates an empty defaults table.
+     * Mbps from b Locble to b cbched Mbp of the ResourceBundle. This is done
+     * so bs to bvoid bn exception being thrown when b vblue is bsked for.
+     * Access to this should be done while holding b lock on the
+     * UIDefbults, eg synchronized(this).
      */
-    public UIDefaults() {
+    privbte Mbp<Locble, Mbp<String, Object>> resourceCbche;
+
+    /**
+     * Crebtes bn empty defbults tbble.
+     */
+    public UIDefbults() {
         this(700, .75f);
     }
 
     /**
-     * Creates an empty defaults table with the specified initial capacity and
-     * load factor.
+     * Crebtes bn empty defbults tbble with the specified initibl cbpbcity bnd
+     * lobd fbctor.
      *
-     * @param initialCapacity   the initial capacity of the defaults table
-     * @param loadFactor        the load factor of the defaults table
-     * @see java.util.Hashtable
+     * @pbrbm initiblCbpbcity   the initibl cbpbcity of the defbults tbble
+     * @pbrbm lobdFbctor        the lobd fbctor of the defbults tbble
+     * @see jbvb.util.Hbshtbble
      * @since 1.6
      */
-    public UIDefaults(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
-        resourceCache = new HashMap<Locale, Map<String, Object>>();
+    public UIDefbults(int initiblCbpbcity, flobt lobdFbctor) {
+        super(initiblCbpbcity, lobdFbctor);
+        resourceCbche = new HbshMbp<Locble, Mbp<String, Object>>();
     }
 
 
     /**
-     * Creates a defaults table initialized with the specified
-     * key/value pairs.  For example:
+     * Crebtes b defbults tbble initiblized with the specified
+     * key/vblue pbirs.  For exbmple:
      * <pre>
-        Object[] uiDefaults = {
-             "Font", new Font("Dialog", Font.BOLD, 12),
+        Object[] uiDefbults = {
+             "Font", new Font("Diblog", Font.BOLD, 12),
             "Color", Color.red,
              "five", new Integer(5)
         }
-        UIDefaults myDefaults = new UIDefaults(uiDefaults);
+        UIDefbults myDefbults = new UIDefbults(uiDefbults);
      * </pre>
-     * @param keyValueList  an array of objects containing the key/value
-     *          pairs
+     * @pbrbm keyVblueList  bn brrby of objects contbining the key/vblue
+     *          pbirs
      */
-    public UIDefaults(Object[] keyValueList) {
-        super(keyValueList.length / 2);
-        for(int i = 0; i < keyValueList.length; i += 2) {
-            super.put(keyValueList[i], keyValueList[i + 1]);
+    public UIDefbults(Object[] keyVblueList) {
+        super(keyVblueList.length / 2);
+        for(int i = 0; i < keyVblueList.length; i += 2) {
+            super.put(keyVblueList[i], keyVblueList[i + 1]);
         }
     }
 
     /**
-     * Returns the value for key.  If the value is a
-     * <code>UIDefaults.LazyValue</code> then the real
-     * value is computed with <code>LazyValue.createValue()</code>,
-     * the table entry is replaced, and the real value is returned.
-     * If the value is an <code>UIDefaults.ActiveValue</code>
-     * the table entry is not replaced - the value is computed
-     * with <code>ActiveValue.createValue()</code> for each
-     * <code>get()</code> call.
+     * Returns the vblue for key.  If the vblue is b
+     * <code>UIDefbults.LbzyVblue</code> then the rebl
+     * vblue is computed with <code>LbzyVblue.crebteVblue()</code>,
+     * the tbble entry is replbced, bnd the rebl vblue is returned.
+     * If the vblue is bn <code>UIDefbults.ActiveVblue</code>
+     * the tbble entry is not replbced - the vblue is computed
+     * with <code>ActiveVblue.crebteVblue()</code> for ebch
+     * <code>get()</code> cbll.
      *
-     * If the key is not found in the table then it is searched for in the list
-     * of resource bundles maintained by this object.  The resource bundles are
-     * searched most recently added first using the locale returned by
-     * <code>getDefaultLocale</code>.  <code>LazyValues</code> and
-     * <code>ActiveValues</code> are not supported in the resource bundles.
+     * If the key is not found in the tbble then it is sebrched for in the list
+     * of resource bundles mbintbined by this object.  The resource bundles bre
+     * sebrched most recently bdded first using the locble returned by
+     * <code>getDefbultLocble</code>.  <code>LbzyVblues</code> bnd
+     * <code>ActiveVblues</code> bre not supported in the resource bundles.
 
      *
-     * @param key the desired key
-     * @return the value for <code>key</code>
-     * @see LazyValue
-     * @see ActiveValue
-     * @see java.util.Hashtable#get
-     * @see #getDefaultLocale
-     * @see #addResourceBundle
+     * @pbrbm key the desired key
+     * @return the vblue for <code>key</code>
+     * @see LbzyVblue
+     * @see ActiveVblue
+     * @see jbvb.util.Hbshtbble#get
+     * @see #getDefbultLocble
+     * @see #bddResourceBundle
      * @since 1.4
      */
     public Object get(Object key) {
-        Object value = getFromHashtable( key );
-        return (value != null) ? value : getFromResourceBundle(key, null);
+        Object vblue = getFromHbshtbble( key );
+        return (vblue != null) ? vblue : getFromResourceBundle(key, null);
     }
 
     /**
-     * Looks up up the given key in our Hashtable and resolves LazyValues
-     * or ActiveValues.
+     * Looks up up the given key in our Hbshtbble bnd resolves LbzyVblues
+     * or ActiveVblues.
      */
-    private Object getFromHashtable(Object key) {
-        /* Quickly handle the common case, without grabbing
-         * a lock.
+    privbte Object getFromHbshtbble(Object key) {
+        /* Quickly hbndle the common cbse, without grbbbing
+         * b lock.
          */
-        Object value = super.get(key);
-        if ((value != PENDING) &&
-            !(value instanceof ActiveValue) &&
-            !(value instanceof LazyValue)) {
-            return value;
+        Object vblue = super.get(key);
+        if ((vblue != PENDING) &&
+            !(vblue instbnceof ActiveVblue) &&
+            !(vblue instbnceof LbzyVblue)) {
+            return vblue;
         }
 
-        /* If the LazyValue for key is being constructed by another
-         * thread then wait and then return the new value, otherwise drop
-         * the lock and construct the ActiveValue or the LazyValue.
-         * We use the special value PENDING to mark LazyValues that
-         * are being constructed.
+        /* If the LbzyVblue for key is being constructed by bnother
+         * threbd then wbit bnd then return the new vblue, otherwise drop
+         * the lock bnd construct the ActiveVblue or the LbzyVblue.
+         * We use the specibl vblue PENDING to mbrk LbzyVblues thbt
+         * bre being constructed.
          */
         synchronized(this) {
-            value = super.get(key);
-            if (value == PENDING) {
+            vblue = super.get(key);
+            if (vblue == PENDING) {
                 do {
                     try {
-                        this.wait();
+                        this.wbit();
                     }
-                    catch (InterruptedException e) {
+                    cbtch (InterruptedException e) {
                     }
-                    value = super.get(key);
+                    vblue = super.get(key);
                 }
-                while(value == PENDING);
-                return value;
+                while(vblue == PENDING);
+                return vblue;
             }
-            else if (value instanceof LazyValue) {
+            else if (vblue instbnceof LbzyVblue) {
                 super.put(key, PENDING);
             }
-            else if (!(value instanceof ActiveValue)) {
-                return value;
+            else if (!(vblue instbnceof ActiveVblue)) {
+                return vblue;
             }
         }
 
-        /* At this point we know that the value of key was
-         * a LazyValue or an ActiveValue.
+        /* At this point we know thbt the vblue of key wbs
+         * b LbzyVblue or bn ActiveVblue.
          */
-        if (value instanceof LazyValue) {
+        if (vblue instbnceof LbzyVblue) {
             try {
-                /* If an exception is thrown we'll just put the LazyValue
-                 * back in the table.
+                /* If bn exception is thrown we'll just put the LbzyVblue
+                 * bbck in the tbble.
                  */
-                value = ((LazyValue)value).createValue(this);
+                vblue = ((LbzyVblue)vblue).crebteVblue(this);
             }
-            finally {
+            finblly {
                 synchronized(this) {
-                    if (value == null) {
+                    if (vblue == null) {
                         super.remove(key);
                     }
                     else {
-                        super.put(key, value);
+                        super.put(key, vblue);
                     }
                     this.notifyAll();
                 }
             }
         }
         else {
-            value = ((ActiveValue)value).createValue(this);
+            vblue = ((ActiveVblue)vblue).crebteVblue(this);
         }
 
-        return value;
+        return vblue;
     }
 
 
     /**
-     * Returns the value for key associated with the given locale.
-     * If the value is a <code>UIDefaults.LazyValue</code> then the real
-     * value is computed with <code>LazyValue.createValue()</code>,
-     * the table entry is replaced, and the real value is returned.
-     * If the value is an <code>UIDefaults.ActiveValue</code>
-     * the table entry is not replaced - the value is computed
-     * with <code>ActiveValue.createValue()</code> for each
-     * <code>get()</code> call.
+     * Returns the vblue for key bssocibted with the given locble.
+     * If the vblue is b <code>UIDefbults.LbzyVblue</code> then the rebl
+     * vblue is computed with <code>LbzyVblue.crebteVblue()</code>,
+     * the tbble entry is replbced, bnd the rebl vblue is returned.
+     * If the vblue is bn <code>UIDefbults.ActiveVblue</code>
+     * the tbble entry is not replbced - the vblue is computed
+     * with <code>ActiveVblue.crebteVblue()</code> for ebch
+     * <code>get()</code> cbll.
      *
-     * If the key is not found in the table then it is searched for in the list
-     * of resource bundles maintained by this object.  The resource bundles are
-     * searched most recently added first using the given locale.
-     * <code>LazyValues</code> and <code>ActiveValues</code> are not supported
+     * If the key is not found in the tbble then it is sebrched for in the list
+     * of resource bundles mbintbined by this object.  The resource bundles bre
+     * sebrched most recently bdded first using the given locble.
+     * <code>LbzyVblues</code> bnd <code>ActiveVblues</code> bre not supported
      * in the resource bundles.
      *
-     * @param key the desired key
-     * @param l the desired <code>locale</code>
-     * @return the value for <code>key</code>
-     * @see LazyValue
-     * @see ActiveValue
-     * @see java.util.Hashtable#get
-     * @see #addResourceBundle
+     * @pbrbm key the desired key
+     * @pbrbm l the desired <code>locble</code>
+     * @return the vblue for <code>key</code>
+     * @see LbzyVblue
+     * @see ActiveVblue
+     * @see jbvb.util.Hbshtbble#get
+     * @see #bddResourceBundle
      * @since 1.4
      */
-    public Object get(Object key, Locale l) {
-        Object value = getFromHashtable( key );
-        return (value != null) ? value : getFromResourceBundle(key, l);
+    public Object get(Object key, Locble l) {
+        Object vblue = getFromHbshtbble( key );
+        return (vblue != null) ? vblue : getFromResourceBundle(key, l);
     }
 
     /**
      * Looks up given key in our resource bundles.
      */
-    private Object getFromResourceBundle(Object key, Locale l) {
+    privbte Object getFromResourceBundle(Object key, Locble l) {
 
         if( resourceBundles == null ||
             resourceBundles.isEmpty() ||
-            !(key instanceof String) ) {
+            !(key instbnceof String) ) {
             return null;
         }
 
-        // A null locale means use the default locale.
+        // A null locble mebns use the defbult locble.
         if( l == null ) {
-            if( defaultLocale == null )
+            if( defbultLocble == null )
                 return null;
             else
-                l = defaultLocale;
+                l = defbultLocble;
         }
 
         synchronized(this) {
-            return getResourceCache(l).get(key);
+            return getResourceCbche(l).get(key);
         }
     }
 
     /**
-     * Returns a Map of the known resources for the given locale.
+     * Returns b Mbp of the known resources for the given locble.
      */
-    private Map<String, Object> getResourceCache(Locale l) {
-        Map<String, Object> values = resourceCache.get(l);
+    privbte Mbp<String, Object> getResourceCbche(Locble l) {
+        Mbp<String, Object> vblues = resourceCbche.get(l);
 
-        if (values == null) {
-            values = new TextAndMnemonicHashMap();
+        if (vblues == null) {
+            vblues = new TextAndMnemonicHbshMbp();
             for (int i=resourceBundles.size()-1; i >= 0; i--) {
-                String bundleName = resourceBundles.get(i);
+                String bundleNbme = resourceBundles.get(i);
                 try {
-                    Control c = CoreResourceBundleControl.getRBControlInstance(bundleName);
+                    Control c = CoreResourceBundleControl.getRBControlInstbnce(bundleNbme);
                     ResourceBundle b;
                     if (c != null) {
-                        b = ResourceBundle.getBundle(bundleName, l, c);
+                        b = ResourceBundle.getBundle(bundleNbme, l, c);
                     } else {
-                        b = ResourceBundle.getBundle(bundleName, l);
+                        b = ResourceBundle.getBundle(bundleNbme, l);
                     }
-                    Enumeration<String> keys = b.getKeys();
+                    Enumerbtion<String> keys = b.getKeys();
 
-                    while (keys.hasMoreElements()) {
+                    while (keys.hbsMoreElements()) {
                         String key = keys.nextElement();
 
-                        if (values.get(key) == null) {
-                            Object value = b.getObject(key);
+                        if (vblues.get(key) == null) {
+                            Object vblue = b.getObject(key);
 
-                            values.put(key, value);
+                            vblues.put(key, vblue);
                         }
                     }
-                } catch( MissingResourceException mre ) {
+                } cbtch( MissingResourceException mre ) {
                     // Keep looking
                 }
             }
-            resourceCache.put(l, values);
+            resourceCbche.put(l, vblues);
         }
-        return values;
+        return vblues;
     }
 
     /**
-     * Sets the value of <code>key</code> to <code>value</code> for all locales.
-     * If <code>key</code> is a string and the new value isn't
-     * equal to the old one, fire a <code>PropertyChangeEvent</code>.
-     * If value is <code>null</code>, the key is removed from the table.
+     * Sets the vblue of <code>key</code> to <code>vblue</code> for bll locbles.
+     * If <code>key</code> is b string bnd the new vblue isn't
+     * equbl to the old one, fire b <code>PropertyChbngeEvent</code>.
+     * If vblue is <code>null</code>, the key is removed from the tbble.
      *
-     * @param key    the unique <code>Object</code> who's value will be used
-     *          to retrieve the data value associated with it
-     * @param value  the new <code>Object</code> to store as data under
-     *          that key
-     * @return the previous <code>Object</code> value, or <code>null</code>
-     * @see #putDefaults
-     * @see java.util.Hashtable#put
+     * @pbrbm key    the unique <code>Object</code> who's vblue will be used
+     *          to retrieve the dbtb vblue bssocibted with it
+     * @pbrbm vblue  the new <code>Object</code> to store bs dbtb under
+     *          thbt key
+     * @return the previous <code>Object</code> vblue, or <code>null</code>
+     * @see #putDefbults
+     * @see jbvb.util.Hbshtbble#put
      */
-    public Object put(Object key, Object value) {
-        Object oldValue = (value == null) ? super.remove(key) : super.put(key, value);
-        if (key instanceof String) {
-            firePropertyChange((String)key, oldValue, value);
+    public Object put(Object key, Object vblue) {
+        Object oldVblue = (vblue == null) ? super.remove(key) : super.put(key, vblue);
+        if (key instbnceof String) {
+            firePropertyChbnge((String)key, oldVblue, vblue);
         }
-        return oldValue;
+        return oldVblue;
     }
 
 
     /**
-     * Puts all of the key/value pairs in the database and
-     * unconditionally generates one <code>PropertyChangeEvent</code>.
-     * The events oldValue and newValue will be <code>null</code> and its
-     * <code>propertyName</code> will be "UIDefaults".  The key/value pairs are
-     * added for all locales.
+     * Puts bll of the key/vblue pbirs in the dbtbbbse bnd
+     * unconditionblly generbtes one <code>PropertyChbngeEvent</code>.
+     * The events oldVblue bnd newVblue will be <code>null</code> bnd its
+     * <code>propertyNbme</code> will be "UIDefbults".  The key/vblue pbirs bre
+     * bdded for bll locbles.
      *
-     * @param keyValueList  an array of key/value pairs
+     * @pbrbm keyVblueList  bn brrby of key/vblue pbirs
      * @see #put
-     * @see java.util.Hashtable#put
+     * @see jbvb.util.Hbshtbble#put
      */
-    public void putDefaults(Object[] keyValueList) {
-        for(int i = 0, max = keyValueList.length; i < max; i += 2) {
-            Object value = keyValueList[i + 1];
-            if (value == null) {
-                super.remove(keyValueList[i]);
+    public void putDefbults(Object[] keyVblueList) {
+        for(int i = 0, mbx = keyVblueList.length; i < mbx; i += 2) {
+            Object vblue = keyVblueList[i + 1];
+            if (vblue == null) {
+                super.remove(keyVblueList[i]);
             }
             else {
-                super.put(keyValueList[i], value);
+                super.put(keyVblueList[i], vblue);
             }
         }
-        firePropertyChange("UIDefaults", null, null);
+        firePropertyChbnge("UIDefbults", null, null);
     }
 
 
     /**
-     * If the value of <code>key</code> is a <code>Font</code> return it,
+     * If the vblue of <code>key</code> is b <code>Font</code> return it,
      * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Font</code>,
+     * @pbrbm key the desired key
+     * @return if the vblue for <code>key</code> is b <code>Font</code>,
      *          return the <code>Font</code> object; otherwise return
      *          <code>null</code>
      */
     public Font getFont(Object key) {
-        Object value = get(key);
-        return (value instanceof Font) ? (Font)value : null;
+        Object vblue = get(key);
+        return (vblue instbnceof Font) ? (Font)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Font</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is a <code>Font</code>,
+     * If the vblue of <code>key</code> for the given <code>Locble</code>
+     * is b <code>Font</code> return it, otherwise return <code>null</code>.
+     * @pbrbm key the desired key
+     * @pbrbm l the desired locble
+     * @return if the vblue for <code>key</code> bnd <code>Locble</code>
+     *          is b <code>Font</code>,
      *          return the <code>Font</code> object; otherwise return
      *          <code>null</code>
      * @since 1.4
      */
-    public Font getFont(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Font) ? (Font)value : null;
+    public Font getFont(Object key, Locble l) {
+        Object vblue = get(key,l);
+        return (vblue instbnceof Font) ? (Font)vblue : null;
     }
 
     /**
-     * If the value of <code>key</code> is a <code>Color</code> return it,
+     * If the vblue of <code>key</code> is b <code>Color</code> return it,
      * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Color</code>,
+     * @pbrbm key the desired key
+     * @return if the vblue for <code>key</code> is b <code>Color</code>,
      *          return the <code>Color</code> object; otherwise return
      *          <code>null</code>
      */
     public Color getColor(Object key) {
-        Object value = get(key);
-        return (value instanceof Color) ? (Color)value : null;
+        Object vblue = get(key);
+        return (vblue instbnceof Color) ? (Color)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Color</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is a <code>Color</code>,
+     * If the vblue of <code>key</code> for the given <code>Locble</code>
+     * is b <code>Color</code> return it, otherwise return <code>null</code>.
+     * @pbrbm key the desired key
+     * @pbrbm l the desired locble
+     * @return if the vblue for <code>key</code> bnd <code>Locble</code>
+     *          is b <code>Color</code>,
      *          return the <code>Color</code> object; otherwise return
      *          <code>null</code>
      * @since 1.4
      */
-    public Color getColor(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Color) ? (Color)value : null;
+    public Color getColor(Object key, Locble l) {
+        Object vblue = get(key,l);
+        return (vblue instbnceof Color) ? (Color)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> is an <code>Icon</code> return it,
+     * If the vblue of <code>key</code> is bn <code>Icon</code> return it,
      * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is an <code>Icon</code>,
+     * @pbrbm key the desired key
+     * @return if the vblue for <code>key</code> is bn <code>Icon</code>,
      *          return the <code>Icon</code> object; otherwise return
      *          <code>null</code>
      */
     public Icon getIcon(Object key) {
-        Object value = get(key);
-        return (value instanceof Icon) ? (Icon)value : null;
+        Object vblue = get(key);
+        return (vblue instbnceof Icon) ? (Icon)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is an <code>Icon</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is an <code>Icon</code>,
+     * If the vblue of <code>key</code> for the given <code>Locble</code>
+     * is bn <code>Icon</code> return it, otherwise return <code>null</code>.
+     * @pbrbm key the desired key
+     * @pbrbm l the desired locble
+     * @return if the vblue for <code>key</code> bnd <code>Locble</code>
+     *          is bn <code>Icon</code>,
      *          return the <code>Icon</code> object; otherwise return
      *          <code>null</code>
      * @since 1.4
      */
-    public Icon getIcon(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Icon) ? (Icon)value : null;
+    public Icon getIcon(Object key, Locble l) {
+        Object vblue = get(key,l);
+        return (vblue instbnceof Icon) ? (Icon)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> is a <code>Border</code> return it,
+     * If the vblue of <code>key</code> is b <code>Border</code> return it,
      * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Border</code>,
+     * @pbrbm key the desired key
+     * @return if the vblue for <code>key</code> is b <code>Border</code>,
      *          return the <code>Border</code> object; otherwise return
      *          <code>null</code>
      */
     public Border getBorder(Object key) {
-        Object value = get(key);
-        return (value instanceof Border) ? (Border)value : null;
+        Object vblue = get(key);
+        return (vblue instbnceof Border) ? (Border)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Border</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is a <code>Border</code>,
+     * If the vblue of <code>key</code> for the given <code>Locble</code>
+     * is b <code>Border</code> return it, otherwise return <code>null</code>.
+     * @pbrbm key the desired key
+     * @pbrbm l the desired locble
+     * @return if the vblue for <code>key</code> bnd <code>Locble</code>
+     *          is b <code>Border</code>,
      *          return the <code>Border</code> object; otherwise return
      *          <code>null</code>
      * @since 1.4
      */
-    public Border getBorder(Object key, Locale l)  {
-        Object value = get(key,l);
-        return (value instanceof Border) ? (Border)value : null;
+    public Border getBorder(Object key, Locble l)  {
+        Object vblue = get(key,l);
+        return (vblue instbnceof Border) ? (Border)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> is a <code>String</code> return it,
+     * If the vblue of <code>key</code> is b <code>String</code> return it,
      * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>String</code>,
+     * @pbrbm key the desired key
+     * @return if the vblue for <code>key</code> is b <code>String</code>,
      *          return the <code>String</code> object; otherwise return
      *          <code>null</code>
      */
     public String getString(Object key) {
-        Object value = get(key);
-        return (value instanceof String) ? (String)value : null;
+        Object vblue = get(key);
+        return (vblue instbnceof String) ? (String)vblue : null;
     }
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>String</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired <code>Locale</code>
-     * @return if the value for <code>key</code> for the given
-     *          <code>Locale</code> is a <code>String</code>,
+     * If the vblue of <code>key</code> for the given <code>Locble</code>
+     * is b <code>String</code> return it, otherwise return <code>null</code>.
+     * @pbrbm key the desired key
+     * @pbrbm l the desired <code>Locble</code>
+     * @return if the vblue for <code>key</code> for the given
+     *          <code>Locble</code> is b <code>String</code>,
      *          return the <code>String</code> object; otherwise return
      *          <code>null</code>
      * @since 1.4
      */
-    public String getString(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof String) ? (String)value : null;
+    public String getString(Object key, Locble l) {
+        Object vblue = get(key,l);
+        return (vblue instbnceof String) ? (String)vblue : null;
     }
 
     /**
-     * If the value of <code>key</code> is an <code>Integer</code> return its
-     * integer value, otherwise return 0.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is an <code>Integer</code>,
-     *          return its value, otherwise return 0
+     * If the vblue of <code>key</code> is bn <code>Integer</code> return its
+     * integer vblue, otherwise return 0.
+     * @pbrbm key the desired key
+     * @return if the vblue for <code>key</code> is bn <code>Integer</code>,
+     *          return its vblue, otherwise return 0
      */
     public int getInt(Object key) {
-        Object value = get(key);
-        return (value instanceof Integer) ? ((Integer)value).intValue() : 0;
+        Object vblue = get(key);
+        return (vblue instbnceof Integer) ? ((Integer)vblue).intVblue() : 0;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is an <code>Integer</code> return its integer value, otherwise return 0.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is an <code>Integer</code>,
-     *          return its value, otherwise return 0
+     * If the vblue of <code>key</code> for the given <code>Locble</code>
+     * is bn <code>Integer</code> return its integer vblue, otherwise return 0.
+     * @pbrbm key the desired key
+     * @pbrbm l the desired locble
+     * @return if the vblue for <code>key</code> bnd <code>Locble</code>
+     *          is bn <code>Integer</code>,
+     *          return its vblue, otherwise return 0
      * @since 1.4
      */
-    public int getInt(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Integer) ? ((Integer)value).intValue() : 0;
+    public int getInt(Object key, Locble l) {
+        Object vblue = get(key,l);
+        return (vblue instbnceof Integer) ? ((Integer)vblue).intVblue() : 0;
     }
 
 
     /**
-     * If the value of <code>key</code> is boolean, return the
-     * boolean value, otherwise return false.
+     * If the vblue of <code>key</code> is boolebn, return the
+     * boolebn vblue, otherwise return fblse.
      *
-     * @param key an <code>Object</code> specifying the key for the desired boolean value
-     * @return if the value of <code>key</code> is boolean, return the
-     *         boolean value, otherwise return false.
+     * @pbrbm key bn <code>Object</code> specifying the key for the desired boolebn vblue
+     * @return if the vblue of <code>key</code> is boolebn, return the
+     *         boolebn vblue, otherwise return fblse.
      * @since 1.4
      */
-    public boolean getBoolean(Object key) {
-        Object value = get(key);
-        return (value instanceof Boolean) ? ((Boolean)value).booleanValue() : false;
+    public boolebn getBoolebn(Object key) {
+        Object vblue = get(key);
+        return (vblue instbnceof Boolebn) ? ((Boolebn)vblue).boolebnVblue() : fblse;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is boolean, return the boolean value, otherwise return false.
+     * If the vblue of <code>key</code> for the given <code>Locble</code>
+     * is boolebn, return the boolebn vblue, otherwise return fblse.
      *
-     * @param key an <code>Object</code> specifying the key for the desired boolean value
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is boolean, return the
-     *         boolean value, otherwise return false.
+     * @pbrbm key bn <code>Object</code> specifying the key for the desired boolebn vblue
+     * @pbrbm l the desired locble
+     * @return if the vblue for <code>key</code> bnd <code>Locble</code>
+     *         is boolebn, return the
+     *         boolebn vblue, otherwise return fblse.
      * @since 1.4
      */
-    public boolean getBoolean(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Boolean) ? ((Boolean)value).booleanValue() : false;
+    public boolebn getBoolebn(Object key, Locble l) {
+        Object vblue = get(key,l);
+        return (vblue instbnceof Boolebn) ? ((Boolebn)vblue).boolebnVblue() : fblse;
     }
 
 
     /**
-     * If the value of <code>key</code> is an <code>Insets</code> return it,
+     * If the vblue of <code>key</code> is bn <code>Insets</code> return it,
      * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is an <code>Insets</code>,
+     * @pbrbm key the desired key
+     * @return if the vblue for <code>key</code> is bn <code>Insets</code>,
      *          return the <code>Insets</code> object; otherwise return
      *          <code>null</code>
      */
     public Insets getInsets(Object key) {
-        Object value = get(key);
-        return (value instanceof Insets) ? (Insets)value : null;
+        Object vblue = get(key);
+        return (vblue instbnceof Insets) ? (Insets)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is an <code>Insets</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is an <code>Insets</code>,
+     * If the vblue of <code>key</code> for the given <code>Locble</code>
+     * is bn <code>Insets</code> return it, otherwise return <code>null</code>.
+     * @pbrbm key the desired key
+     * @pbrbm l the desired locble
+     * @return if the vblue for <code>key</code> bnd <code>Locble</code>
+     *          is bn <code>Insets</code>,
      *          return the <code>Insets</code> object; otherwise return
      *          <code>null</code>
      * @since 1.4
      */
-    public Insets getInsets(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Insets) ? (Insets)value : null;
+    public Insets getInsets(Object key, Locble l) {
+        Object vblue = get(key,l);
+        return (vblue instbnceof Insets) ? (Insets)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> is a <code>Dimension</code> return it,
+     * If the vblue of <code>key</code> is b <code>Dimension</code> return it,
      * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Dimension</code>,
+     * @pbrbm key the desired key
+     * @return if the vblue for <code>key</code> is b <code>Dimension</code>,
      *          return the <code>Dimension</code> object; otherwise return
      *          <code>null</code>
      */
     public Dimension getDimension(Object key) {
-        Object value = get(key);
-        return (value instanceof Dimension) ? (Dimension)value : null;
+        Object vblue = get(key);
+        return (vblue instbnceof Dimension) ? (Dimension)vblue : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Dimension</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is a <code>Dimension</code>,
+     * If the vblue of <code>key</code> for the given <code>Locble</code>
+     * is b <code>Dimension</code> return it, otherwise return <code>null</code>.
+     * @pbrbm key the desired key
+     * @pbrbm l the desired locble
+     * @return if the vblue for <code>key</code> bnd <code>Locble</code>
+     *          is b <code>Dimension</code>,
      *          return the <code>Dimension</code> object; otherwise return
      *          <code>null</code>
      * @since 1.4
      */
-    public Dimension getDimension(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Dimension) ? (Dimension)value : null;
+    public Dimension getDimension(Object key, Locble l) {
+        Object vblue = get(key,l);
+        return (vblue instbnceof Dimension) ? (Dimension)vblue : null;
     }
 
 
     /**
-     * The value of <code>get(uidClassID)</code> must be the
-     * <code>String</code> name of a
-     * class that implements the corresponding <code>ComponentUI</code>
-     * class.  If the class hasn't been loaded before, this method looks
-     * up the class with <code>uiClassLoader.loadClass()</code> if a non
+     * The vblue of <code>get(uidClbssID)</code> must be the
+     * <code>String</code> nbme of b
+     * clbss thbt implements the corresponding <code>ComponentUI</code>
+     * clbss.  If the clbss hbsn't been lobded before, this method looks
+     * up the clbss with <code>uiClbssLobder.lobdClbss()</code> if b non
      * <code>null</code>
-     * class loader is provided, <code>classForName()</code> otherwise.
+     * clbss lobder is provided, <code>clbssForNbme()</code> otherwise.
      * <p>
-     * If a mapping for <code>uiClassID</code> exists or if the specified
-     * class can't be found, return <code>null</code>.
+     * If b mbpping for <code>uiClbssID</code> exists or if the specified
+     * clbss cbn't be found, return <code>null</code>.
      * <p>
-     * This method is used by <code>getUI</code>, it's usually
-     * not necessary to call it directly.
+     * This method is used by <code>getUI</code>, it's usublly
+     * not necessbry to cbll it directly.
      *
-     * @param uiClassID  a string containing the class ID
-     * @param uiClassLoader the object which will load the class
-     * @return the value of <code>Class.forName(get(uidClassID))</code>
+     * @pbrbm uiClbssID  b string contbining the clbss ID
+     * @pbrbm uiClbssLobder the object which will lobd the clbss
+     * @return the vblue of <code>Clbss.forNbme(get(uidClbssID))</code>
      * @see #getUI
      */
-    public Class<? extends ComponentUI>
-        getUIClass(String uiClassID, ClassLoader uiClassLoader)
+    public Clbss<? extends ComponentUI>
+        getUIClbss(String uiClbssID, ClbssLobder uiClbssLobder)
     {
         try {
-            String className = (String)get(uiClassID);
-            if (className != null) {
-                ReflectUtil.checkPackageAccess(className);
+            String clbssNbme = (String)get(uiClbssID);
+            if (clbssNbme != null) {
+                ReflectUtil.checkPbckbgeAccess(clbssNbme);
 
-                Class<?> cls = (Class)get(className);
+                Clbss<?> cls = (Clbss)get(clbssNbme);
                 if (cls == null) {
-                    if (uiClassLoader == null) {
-                        cls = SwingUtilities.loadSystemClass(className);
+                    if (uiClbssLobder == null) {
+                        cls = SwingUtilities.lobdSystemClbss(clbssNbme);
                     }
                     else {
-                        cls = uiClassLoader.loadClass(className);
+                        cls = uiClbssLobder.lobdClbss(clbssNbme);
                     }
                     if (cls != null) {
-                        // Save lookup for future use, as forName is slow.
-                        put(className, cls);
+                        // Sbve lookup for future use, bs forNbme is slow.
+                        put(clbssNbme, cls);
                     }
                 }
-                @SuppressWarnings("unchecked")
-                Class<? extends ComponentUI> tmp = (Class<? extends ComponentUI>)cls;
+                @SuppressWbrnings("unchecked")
+                Clbss<? extends ComponentUI> tmp = (Clbss<? extends ComponentUI>)cls;
                 return tmp;
             }
         }
-        catch (ClassNotFoundException | ClassCastException e) {
+        cbtch (ClbssNotFoundException | ClbssCbstException e) {
             return null;
         }
         return null;
@@ -708,74 +708,74 @@ public class UIDefaults extends Hashtable<Object,Object>
 
 
     /**
-     * Returns the L&amp;F class that renders this component.
+     * Returns the L&bmp;F clbss thbt renders this component.
      *
-     * @param uiClassID a string containing the class ID
-     * @return the Class object returned by
-     *          <code>getUIClass(uiClassID, null)</code>
+     * @pbrbm uiClbssID b string contbining the clbss ID
+     * @return the Clbss object returned by
+     *          <code>getUIClbss(uiClbssID, null)</code>
      */
-    public Class<? extends ComponentUI> getUIClass(String uiClassID) {
-        return getUIClass(uiClassID, null);
+    public Clbss<? extends ComponentUI> getUIClbss(String uiClbssID) {
+        return getUIClbss(uiClbssID, null);
     }
 
 
     /**
-     * If <code>getUI()</code> fails for any reason,
-     * it calls this method before returning <code>null</code>.
-     * Subclasses may choose to do more or less here.
+     * If <code>getUI()</code> fbils for bny rebson,
+     * it cblls this method before returning <code>null</code>.
+     * Subclbsses mby choose to do more or less here.
      *
-     * @param msg message string to print
+     * @pbrbm msg messbge string to print
      * @see #getUI
      */
     protected void getUIError(String msg) {
-        System.err.println("UIDefaults.getUI() failed: " + msg);
+        System.err.println("UIDefbults.getUI() fbiled: " + msg);
         try {
             throw new Error();
         }
-        catch (Throwable e) {
-            e.printStackTrace();
+        cbtch (Throwbble e) {
+            e.printStbckTrbce();
         }
     }
 
     /**
-     * Creates an <code>ComponentUI</code> implementation for the
-     * specified component.  In other words create the look
-     * and feel specific delegate object for <code>target</code>.
+     * Crebtes bn <code>ComponentUI</code> implementbtion for the
+     * specified component.  In other words crebte the look
+     * bnd feel specific delegbte object for <code>tbrget</code>.
      * This is done in two steps:
      * <ul>
-     * <li> Look up the name of the <code>ComponentUI</code> implementation
-     * class under the value returned by <code>target.getUIClassID()</code>.
-     * <li> Use the implementation classes static <code>createUI()</code>
-     * method to construct a look and feel delegate.
+     * <li> Look up the nbme of the <code>ComponentUI</code> implementbtion
+     * clbss under the vblue returned by <code>tbrget.getUIClbssID()</code>.
+     * <li> Use the implementbtion clbsses stbtic <code>crebteUI()</code>
+     * method to construct b look bnd feel delegbte.
      * </ul>
-     * @param target  the <code>JComponent</code> which needs a UI
+     * @pbrbm tbrget  the <code>JComponent</code> which needs b UI
      * @return the <code>ComponentUI</code> object
      */
-    public ComponentUI getUI(JComponent target) {
+    public ComponentUI getUI(JComponent tbrget) {
 
-        Object cl = get("ClassLoader");
-        ClassLoader uiClassLoader =
-            (cl != null) ? (ClassLoader)cl : target.getClass().getClassLoader();
-        Class<? extends ComponentUI> uiClass = getUIClass(target.getUIClassID(), uiClassLoader);
+        Object cl = get("ClbssLobder");
+        ClbssLobder uiClbssLobder =
+            (cl != null) ? (ClbssLobder)cl : tbrget.getClbss().getClbssLobder();
+        Clbss<? extends ComponentUI> uiClbss = getUIClbss(tbrget.getUIClbssID(), uiClbssLobder);
         Object uiObject = null;
 
-        if (uiClass == null) {
-            getUIError("no ComponentUI class for: " + target);
+        if (uiClbss == null) {
+            getUIError("no ComponentUI clbss for: " + tbrget);
         }
         else {
             try {
-                Method m = (Method)get(uiClass);
+                Method m = (Method)get(uiClbss);
                 if (m == null) {
-                    m = uiClass.getMethod("createUI", new Class<?>[]{JComponent.class});
-                    put(uiClass, m);
+                    m = uiClbss.getMethod("crebteUI", new Clbss<?>[]{JComponent.clbss});
+                    put(uiClbss, m);
                 }
-                uiObject = MethodUtil.invoke(m, null, new Object[]{target});
+                uiObject = MethodUtil.invoke(m, null, new Object[]{tbrget});
             }
-            catch (NoSuchMethodException e) {
-                getUIError("static createUI() method not found in " + uiClass);
+            cbtch (NoSuchMethodException e) {
+                getUIError("stbtic crebteUI() method not found in " + uiClbss);
             }
-            catch (Exception e) {
-                getUIError("createUI() failed for " + target + " " + e);
+            cbtch (Exception e) {
+                getUIError("crebteUI() fbiled for " + tbrget + " " + e);
             }
         }
 
@@ -783,395 +783,395 @@ public class UIDefaults extends Hashtable<Object,Object>
     }
 
     /**
-     * Adds a <code>PropertyChangeListener</code> to the listener list.
-     * The listener is registered for all properties.
+     * Adds b <code>PropertyChbngeListener</code> to the listener list.
+     * The listener is registered for bll properties.
      * <p>
-     * A <code>PropertyChangeEvent</code> will get fired whenever a default
-     * is changed.
+     * A <code>PropertyChbngeEvent</code> will get fired whenever b defbult
+     * is chbnged.
      *
-     * @param listener  the <code>PropertyChangeListener</code> to be added
-     * @see java.beans.PropertyChangeSupport
+     * @pbrbm listener  the <code>PropertyChbngeListener</code> to be bdded
+     * @see jbvb.bebns.PropertyChbngeSupport
      */
-    public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport == null) {
-            changeSupport = new SwingPropertyChangeSupport(this);
+    public synchronized void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+        if (chbngeSupport == null) {
+            chbngeSupport = new SwingPropertyChbngeSupport(this);
         }
-        changeSupport.addPropertyChangeListener(listener);
+        chbngeSupport.bddPropertyChbngeListener(listener);
     }
 
 
     /**
-     * Removes a <code>PropertyChangeListener</code> from the listener list.
-     * This removes a <code>PropertyChangeListener</code> that was registered
-     * for all properties.
+     * Removes b <code>PropertyChbngeListener</code> from the listener list.
+     * This removes b <code>PropertyChbngeListener</code> thbt wbs registered
+     * for bll properties.
      *
-     * @param listener  the <code>PropertyChangeListener</code> to be removed
-     * @see java.beans.PropertyChangeSupport
+     * @pbrbm listener  the <code>PropertyChbngeListener</code> to be removed
+     * @see jbvb.bebns.PropertyChbngeSupport
      */
-    public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport != null) {
-            changeSupport.removePropertyChangeListener(listener);
+    public synchronized void removePropertyChbngeListener(PropertyChbngeListener listener) {
+        if (chbngeSupport != null) {
+            chbngeSupport.removePropertyChbngeListener(listener);
         }
     }
 
 
     /**
-     * Returns an array of all the <code>PropertyChangeListener</code>s added
-     * to this UIDefaults with addPropertyChangeListener().
+     * Returns bn brrby of bll the <code>PropertyChbngeListener</code>s bdded
+     * to this UIDefbults with bddPropertyChbngeListener().
      *
-     * @return all of the <code>PropertyChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>PropertyChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public synchronized PropertyChangeListener[] getPropertyChangeListeners() {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
+    public synchronized PropertyChbngeListener[] getPropertyChbngeListeners() {
+        if (chbngeSupport == null) {
+            return new PropertyChbngeListener[0];
         }
-        return changeSupport.getPropertyChangeListeners();
+        return chbngeSupport.getPropertyChbngeListeners();
     }
 
 
     /**
-     * Support for reporting bound property changes.  If oldValue and
-     * newValue are not equal and the <code>PropertyChangeEvent</code>x
-     * listener list isn't empty, then fire a
-     * <code>PropertyChange</code> event to each listener.
+     * Support for reporting bound property chbnges.  If oldVblue bnd
+     * newVblue bre not equbl bnd the <code>PropertyChbngeEvent</code>x
+     * listener list isn't empty, then fire b
+     * <code>PropertyChbnge</code> event to ebch listener.
      *
-     * @param propertyName  the programmatic name of the property
-     *          that was changed
-     * @param oldValue  the old value of the property
-     * @param newValue  the new value of the property
-     * @see java.beans.PropertyChangeSupport
+     * @pbrbm propertyNbme  the progrbmmbtic nbme of the property
+     *          thbt wbs chbnged
+     * @pbrbm oldVblue  the old vblue of the property
+     * @pbrbm newVblue  the new vblue of the property
+     * @see jbvb.bebns.PropertyChbngeSupport
      */
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        if (changeSupport != null) {
-            changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    protected void firePropertyChbnge(String propertyNbme, Object oldVblue, Object newVblue) {
+        if (chbngeSupport != null) {
+            chbngeSupport.firePropertyChbnge(propertyNbme, oldVblue, newVblue);
         }
     }
 
 
     /**
-     * Adds a resource bundle to the list of resource bundles that are
-     * searched for localized values.  Resource bundles are searched in the
-     * reverse order they were added.  In other words, the most recently added
-     * bundle is searched first.
+     * Adds b resource bundle to the list of resource bundles thbt bre
+     * sebrched for locblized vblues.  Resource bundles bre sebrched in the
+     * reverse order they were bdded.  In other words, the most recently bdded
+     * bundle is sebrched first.
      *
-     * @param bundleName  the base name of the resource bundle to be added
-     * @see java.util.ResourceBundle
+     * @pbrbm bundleNbme  the bbse nbme of the resource bundle to be bdded
+     * @see jbvb.util.ResourceBundle
      * @see #removeResourceBundle
      * @since 1.4
      */
-    public synchronized void addResourceBundle( String bundleName ) {
-        if( bundleName == null ) {
+    public synchronized void bddResourceBundle( String bundleNbme ) {
+        if( bundleNbme == null ) {
             return;
         }
         if( resourceBundles == null ) {
             resourceBundles = new Vector<String>(5);
         }
-        if (!resourceBundles.contains(bundleName)) {
-            resourceBundles.add( bundleName );
-            resourceCache.clear();
+        if (!resourceBundles.contbins(bundleNbme)) {
+            resourceBundles.bdd( bundleNbme );
+            resourceCbche.clebr();
         }
     }
 
 
     /**
-     * Removes a resource bundle from the list of resource bundles that are
-     * searched for localized defaults.
+     * Removes b resource bundle from the list of resource bundles thbt bre
+     * sebrched for locblized defbults.
      *
-     * @param bundleName  the base name of the resource bundle to be removed
-     * @see java.util.ResourceBundle
-     * @see #addResourceBundle
+     * @pbrbm bundleNbme  the bbse nbme of the resource bundle to be removed
+     * @see jbvb.util.ResourceBundle
+     * @see #bddResourceBundle
      * @since 1.4
      */
-    public synchronized void removeResourceBundle( String bundleName ) {
+    public synchronized void removeResourceBundle( String bundleNbme ) {
         if( resourceBundles != null ) {
-            resourceBundles.remove( bundleName );
+            resourceBundles.remove( bundleNbme );
         }
-        resourceCache.clear();
+        resourceCbche.clebr();
     }
 
     /**
-     * Sets the default locale.  The default locale is used in retrieving
-     * localized values via <code>get</code> methods that do not take a
-     * locale argument.  As of release 1.4, Swing UI objects should retrieve
-     * localized values using the locale of their component rather than the
-     * default locale.  The default locale exists to provide compatibility with
-     * pre 1.4 behaviour.
+     * Sets the defbult locble.  The defbult locble is used in retrieving
+     * locblized vblues vib <code>get</code> methods thbt do not tbke b
+     * locble brgument.  As of relebse 1.4, Swing UI objects should retrieve
+     * locblized vblues using the locble of their component rbther thbn the
+     * defbult locble.  The defbult locble exists to provide compbtibility with
+     * pre 1.4 behbviour.
      *
-     * @param l the new default locale
-     * @see #getDefaultLocale
+     * @pbrbm l the new defbult locble
+     * @see #getDefbultLocble
      * @see #get(Object)
-     * @see #get(Object,Locale)
+     * @see #get(Object,Locble)
      * @since 1.4
      */
-    public void setDefaultLocale( Locale l ) {
-        defaultLocale = l;
+    public void setDefbultLocble( Locble l ) {
+        defbultLocble = l;
     }
 
     /**
-     * Returns the default locale.  The default locale is used in retrieving
-     * localized values via <code>get</code> methods that do not take a
-     * locale argument.  As of release 1.4, Swing UI objects should retrieve
-     * localized values using the locale of their component rather than the
-     * default locale.  The default locale exists to provide compatibility with
-     * pre 1.4 behaviour.
+     * Returns the defbult locble.  The defbult locble is used in retrieving
+     * locblized vblues vib <code>get</code> methods thbt do not tbke b
+     * locble brgument.  As of relebse 1.4, Swing UI objects should retrieve
+     * locblized vblues using the locble of their component rbther thbn the
+     * defbult locble.  The defbult locble exists to provide compbtibility with
+     * pre 1.4 behbviour.
      *
-     * @return the default locale
-     * @see #setDefaultLocale
+     * @return the defbult locble
+     * @see #setDefbultLocble
      * @see #get(Object)
-     * @see #get(Object,Locale)
+     * @see #get(Object,Locble)
      * @since 1.4
      */
-    public Locale getDefaultLocale() {
-        return defaultLocale;
+    public Locble getDefbultLocble() {
+        return defbultLocble;
     }
 
     /**
-     * This class enables one to store an entry in the defaults
-     * table that isn't constructed until the first time it's
+     * This clbss enbbles one to store bn entry in the defbults
+     * tbble thbt isn't constructed until the first time it's
      * looked up with one of the <code>getXXX(key)</code> methods.
-     * Lazy values are useful for defaults that are expensive
-     * to construct or are seldom retrieved.  The first time
-     * a <code>LazyValue</code> is retrieved its "real value" is computed
-     * by calling <code>LazyValue.createValue()</code> and the real
-     * value is used to replace the <code>LazyValue</code> in the
-     * <code>UIDefaults</code>
-     * table.  Subsequent lookups for the same key return
-     * the real value.  Here's an example of a <code>LazyValue</code>
-     * that constructs a <code>Border</code>:
+     * Lbzy vblues bre useful for defbults thbt bre expensive
+     * to construct or bre seldom retrieved.  The first time
+     * b <code>LbzyVblue</code> is retrieved its "rebl vblue" is computed
+     * by cblling <code>LbzyVblue.crebteVblue()</code> bnd the rebl
+     * vblue is used to replbce the <code>LbzyVblue</code> in the
+     * <code>UIDefbults</code>
+     * tbble.  Subsequent lookups for the sbme key return
+     * the rebl vblue.  Here's bn exbmple of b <code>LbzyVblue</code>
+     * thbt constructs b <code>Border</code>:
      * <pre>
-     *  Object borderLazyValue = new UIDefaults.LazyValue() {
-     *      public Object createValue(UIDefaults table) {
-     *          return new BorderFactory.createLoweredBevelBorder();
+     *  Object borderLbzyVblue = new UIDefbults.LbzyVblue() {
+     *      public Object crebteVblue(UIDefbults tbble) {
+     *          return new BorderFbctory.crebteLoweredBevelBorder();
      *      }
      *  };
      *
-     *  uiDefaultsTable.put("MyBorder", borderLazyValue);
+     *  uiDefbultsTbble.put("MyBorder", borderLbzyVblue);
      * </pre>
      *
-     * @see UIDefaults#get
+     * @see UIDefbults#get
      */
-    public interface LazyValue {
+    public interfbce LbzyVblue {
         /**
-         * Creates the actual value retrieved from the <code>UIDefaults</code>
-         * table. When an object that implements this interface is
-         * retrieved from the table, this method is used to create
-         * the real value, which is then stored in the table and
-         * returned to the calling method.
+         * Crebtes the bctubl vblue retrieved from the <code>UIDefbults</code>
+         * tbble. When bn object thbt implements this interfbce is
+         * retrieved from the tbble, this method is used to crebte
+         * the rebl vblue, which is then stored in the tbble bnd
+         * returned to the cblling method.
          *
-         * @param table  a <code>UIDefaults</code> table
-         * @return the created <code>Object</code>
+         * @pbrbm tbble  b <code>UIDefbults</code> tbble
+         * @return the crebted <code>Object</code>
          */
-        Object createValue(UIDefaults table);
+        Object crebteVblue(UIDefbults tbble);
     }
 
 
     /**
-     * This class enables one to store an entry in the defaults
-     * table that's constructed each time it's looked up with one of
-     * the <code>getXXX(key)</code> methods. Here's an example of
-     * an <code>ActiveValue</code> that constructs a
-     * <code>DefaultListCellRenderer</code>:
+     * This clbss enbbles one to store bn entry in the defbults
+     * tbble thbt's constructed ebch time it's looked up with one of
+     * the <code>getXXX(key)</code> methods. Here's bn exbmple of
+     * bn <code>ActiveVblue</code> thbt constructs b
+     * <code>DefbultListCellRenderer</code>:
      * <pre>
-     *  Object cellRendererActiveValue = new UIDefaults.ActiveValue() {
-     *      public Object createValue(UIDefaults table) {
-     *          return new DefaultListCellRenderer();
+     *  Object cellRendererActiveVblue = new UIDefbults.ActiveVblue() {
+     *      public Object crebteVblue(UIDefbults tbble) {
+     *          return new DefbultListCellRenderer();
      *      }
      *  };
      *
-     *  uiDefaultsTable.put("MyRenderer", cellRendererActiveValue);
+     *  uiDefbultsTbble.put("MyRenderer", cellRendererActiveVblue);
      * </pre>
      *
-     * @see UIDefaults#get
+     * @see UIDefbults#get
      */
-    public interface ActiveValue {
+    public interfbce ActiveVblue {
         /**
-         * Creates the value retrieved from the <code>UIDefaults</code> table.
-         * The object is created each time it is accessed.
+         * Crebtes the vblue retrieved from the <code>UIDefbults</code> tbble.
+         * The object is crebted ebch time it is bccessed.
          *
-         * @param table  a <code>UIDefaults</code> table
-         * @return the created <code>Object</code>
+         * @pbrbm tbble  b <code>UIDefbults</code> tbble
+         * @return the crebted <code>Object</code>
          */
-        Object createValue(UIDefaults table);
+        Object crebteVblue(UIDefbults tbble);
     }
 
     /**
-     * This class provides an implementation of <code>LazyValue</code>
-     * which can be
-     * used to delay loading of the Class for the instance to be created.
-     * It also avoids creation of an anonymous inner class for the
-     * <code>LazyValue</code>
-     * subclass.  Both of these improve performance at the time that a
-     * a Look and Feel is loaded, at the cost of a slight performance
-     * reduction the first time <code>createValue</code> is called
-     * (since Reflection APIs are used).
+     * This clbss provides bn implementbtion of <code>LbzyVblue</code>
+     * which cbn be
+     * used to delby lobding of the Clbss for the instbnce to be crebted.
+     * It blso bvoids crebtion of bn bnonymous inner clbss for the
+     * <code>LbzyVblue</code>
+     * subclbss.  Both of these improve performbnce bt the time thbt b
+     * b Look bnd Feel is lobded, bt the cost of b slight performbnce
+     * reduction the first time <code>crebteVblue</code> is cblled
+     * (since Reflection APIs bre used).
      * @since 1.3
      */
-    public static class ProxyLazyValue implements LazyValue {
-        private AccessControlContext acc;
-        private String className;
-        private String methodName;
-        private Object[] args;
+    public stbtic clbss ProxyLbzyVblue implements LbzyVblue {
+        privbte AccessControlContext bcc;
+        privbte String clbssNbme;
+        privbte String methodNbme;
+        privbte Object[] brgs;
 
         /**
-         * Creates a <code>LazyValue</code> which will construct an instance
-         * when asked.
+         * Crebtes b <code>LbzyVblue</code> which will construct bn instbnce
+         * when bsked.
          *
-         * @param c    a <code>String</code> specifying the classname
-         *             of the instance to be created on demand
+         * @pbrbm c    b <code>String</code> specifying the clbssnbme
+         *             of the instbnce to be crebted on dembnd
          */
-        public ProxyLazyValue(String c) {
+        public ProxyLbzyVblue(String c) {
             this(c, (String)null);
         }
         /**
-         * Creates a <code>LazyValue</code> which will construct an instance
-         * when asked.
+         * Crebtes b <code>LbzyVblue</code> which will construct bn instbnce
+         * when bsked.
          *
-         * @param c    a <code>String</code> specifying the classname of
-         *              the class
-         *              containing a static method to be called for
-         *              instance creation
-         * @param m    a <code>String</code> specifying the static
-         *              method to be called on class c
+         * @pbrbm c    b <code>String</code> specifying the clbssnbme of
+         *              the clbss
+         *              contbining b stbtic method to be cblled for
+         *              instbnce crebtion
+         * @pbrbm m    b <code>String</code> specifying the stbtic
+         *              method to be cblled on clbss c
          */
-        public ProxyLazyValue(String c, String m) {
+        public ProxyLbzyVblue(String c, String m) {
             this(c, m, null);
         }
         /**
-         * Creates a <code>LazyValue</code> which will construct an instance
-         * when asked.
+         * Crebtes b <code>LbzyVblue</code> which will construct bn instbnce
+         * when bsked.
          *
-         * @param c    a <code>String</code> specifying the classname
-         *              of the instance to be created on demand
-         * @param o    an array of <code>Objects</code> to be passed as
-         *              paramaters to the constructor in class c
+         * @pbrbm c    b <code>String</code> specifying the clbssnbme
+         *              of the instbnce to be crebted on dembnd
+         * @pbrbm o    bn brrby of <code>Objects</code> to be pbssed bs
+         *              pbrbmbters to the constructor in clbss c
          */
-        public ProxyLazyValue(String c, Object[] o) {
+        public ProxyLbzyVblue(String c, Object[] o) {
             this(c, null, o);
         }
         /**
-         * Creates a <code>LazyValue</code> which will construct an instance
-         * when asked.
+         * Crebtes b <code>LbzyVblue</code> which will construct bn instbnce
+         * when bsked.
          *
-         * @param c    a <code>String</code> specifying the classname
-         *              of the class
-         *              containing a static method to be called for
-         *              instance creation.
-         * @param m    a <code>String</code> specifying the static method
-         *              to be called on class c
-         * @param o    an array of <code>Objects</code> to be passed as
-         *              paramaters to the static method in class c
+         * @pbrbm c    b <code>String</code> specifying the clbssnbme
+         *              of the clbss
+         *              contbining b stbtic method to be cblled for
+         *              instbnce crebtion.
+         * @pbrbm m    b <code>String</code> specifying the stbtic method
+         *              to be cblled on clbss c
+         * @pbrbm o    bn brrby of <code>Objects</code> to be pbssed bs
+         *              pbrbmbters to the stbtic method in clbss c
          */
-        public ProxyLazyValue(String c, String m, Object[] o) {
-            acc = AccessController.getContext();
-            className = c;
-            methodName = m;
+        public ProxyLbzyVblue(String c, String m, Object[] o) {
+            bcc = AccessController.getContext();
+            clbssNbme = c;
+            methodNbme = m;
             if (o != null) {
-                args = o.clone();
+                brgs = o.clone();
             }
         }
 
         /**
-         * Creates the value retrieved from the <code>UIDefaults</code> table.
-         * The object is created each time it is accessed.
+         * Crebtes the vblue retrieved from the <code>UIDefbults</code> tbble.
+         * The object is crebted ebch time it is bccessed.
          *
-         * @param table  a <code>UIDefaults</code> table
-         * @return the created <code>Object</code>
+         * @pbrbm tbble  b <code>UIDefbults</code> tbble
+         * @return the crebted <code>Object</code>
          */
-        public Object createValue(final UIDefaults table) {
-            // In order to pick up the security policy in effect at the
-            // time of creation we use a doPrivileged with the
-            // AccessControlContext that was in place when this was created.
-            if (acc == null && System.getSecurityManager() != null) {
+        public Object crebteVblue(finbl UIDefbults tbble) {
+            // In order to pick up the security policy in effect bt the
+            // time of crebtion we use b doPrivileged with the
+            // AccessControlContext thbt wbs in plbce when this wbs crebted.
+            if (bcc == null && System.getSecurityMbnbger() != null) {
                 throw new SecurityException("null AccessControlContext");
             }
             return AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 public Object run() {
                     try {
-                        Class<?> c;
+                        Clbss<?> c;
                         Object cl;
-                        // See if we should use a separate ClassLoader
-                        if (table == null || !((cl = table.get("ClassLoader"))
-                                               instanceof ClassLoader)) {
-                            cl = Thread.currentThread().
-                                        getContextClassLoader();
+                        // See if we should use b sepbrbte ClbssLobder
+                        if (tbble == null || !((cl = tbble.get("ClbssLobder"))
+                                               instbnceof ClbssLobder)) {
+                            cl = Threbd.currentThrebd().
+                                        getContextClbssLobder();
                             if (cl == null) {
-                                // Fallback to the system class loader.
-                                cl = ClassLoader.getSystemClassLoader();
+                                // Fbllbbck to the system clbss lobder.
+                                cl = ClbssLobder.getSystemClbssLobder();
                             }
                         }
-                        ReflectUtil.checkPackageAccess(className);
-                        c = Class.forName(className, true, (ClassLoader)cl);
+                        ReflectUtil.checkPbckbgeAccess(clbssNbme);
+                        c = Clbss.forNbme(clbssNbme, true, (ClbssLobder)cl);
                         SwingUtilities2.checkAccess(c.getModifiers());
-                        if (methodName != null) {
-                            Class<?>[] types = getClassArray(args);
-                            Method m = c.getMethod(methodName, types);
-                            return MethodUtil.invoke(m, c, args);
+                        if (methodNbme != null) {
+                            Clbss<?>[] types = getClbssArrby(brgs);
+                            Method m = c.getMethod(methodNbme, types);
+                            return MethodUtil.invoke(m, c, brgs);
                         } else {
-                            Class<?>[] types = getClassArray(args);
+                            Clbss<?>[] types = getClbssArrby(brgs);
                             Constructor<?> constructor = c.getConstructor(types);
                             SwingUtilities2.checkAccess(constructor.getModifiers());
-                            return constructor.newInstance(args);
+                            return constructor.newInstbnce(brgs);
                         }
-                    } catch(Exception e) {
-                        // Ideally we would throw an exception, unfortunately
-                        // often times there are errors as an initial look and
-                        // feel is loaded before one can be switched. Perhaps a
-                        // flag should be added for debugging, so that if true
+                    } cbtch(Exception e) {
+                        // Ideblly we would throw bn exception, unfortunbtely
+                        // often times there bre errors bs bn initibl look bnd
+                        // feel is lobded before one cbn be switched. Perhbps b
+                        // flbg should be bdded for debugging, so thbt if true
                         // the exception would be thrown.
                     }
                     return null;
                 }
-            }, acc);
+            }, bcc);
         }
 
         /*
-         * Coerce the array of class types provided into one which
-         * looks the way the Reflection APIs expect.  This is done
-         * by substituting primitive types for their Object counterparts,
-         * and superclasses for subclasses used to add the
-         * <code>UIResource</code> tag.
+         * Coerce the brrby of clbss types provided into one which
+         * looks the wby the Reflection APIs expect.  This is done
+         * by substituting primitive types for their Object counterpbrts,
+         * bnd superclbsses for subclbsses used to bdd the
+         * <code>UIResource</code> tbg.
          */
-        private Class<?>[] getClassArray(Object[] args) {
-            Class<?>[] types = null;
-            if (args!=null) {
-                types = new Class<?>[args.length];
-                for (int i = 0; i< args.length; i++) {
+        privbte Clbss<?>[] getClbssArrby(Object[] brgs) {
+            Clbss<?>[] types = null;
+            if (brgs!=null) {
+                types = new Clbss<?>[brgs.length];
+                for (int i = 0; i< brgs.length; i++) {
                     /* PENDING(ges): At present only the primitive types
-                       used are handled correctly; this should eventually
-                       handle all primitive types */
-                    if (args[i] instanceof java.lang.Integer) {
+                       used bre hbndled correctly; this should eventublly
+                       hbndle bll primitive types */
+                    if (brgs[i] instbnceof jbvb.lbng.Integer) {
                         types[i]=Integer.TYPE;
-                    } else if (args[i] instanceof java.lang.Boolean) {
-                        types[i]=Boolean.TYPE;
-                    } else if (args[i] instanceof javax.swing.plaf.ColorUIResource) {
+                    } else if (brgs[i] instbnceof jbvb.lbng.Boolebn) {
+                        types[i]=Boolebn.TYPE;
+                    } else if (brgs[i] instbnceof jbvbx.swing.plbf.ColorUIResource) {
                         /* PENDING(ges) Currently the Reflection APIs do not
-                           search superclasses of parameters supplied for
-                           constructor/method lookup.  Since we only have
-                           one case where this is needed, we substitute
-                           directly instead of adding a massive amount
-                           of mechanism for this.  Eventually this will
-                           probably need to handle the general case as well.
+                           sebrch superclbsses of pbrbmeters supplied for
+                           constructor/method lookup.  Since we only hbve
+                           one cbse where this is needed, we substitute
+                           directly instebd of bdding b mbssive bmount
+                           of mechbnism for this.  Eventublly this will
+                           probbbly need to hbndle the generbl cbse bs well.
                            */
-                        types[i]=java.awt.Color.class;
+                        types[i]=jbvb.bwt.Color.clbss;
                     } else {
-                        types[i]=args[i].getClass();
+                        types[i]=brgs[i].getClbss();
                     }
                 }
             }
             return types;
         }
 
-        private String printArgs(Object[] array) {
+        privbte String printArgs(Object[] brrby) {
             String s = "{";
-            if (array !=null) {
-                for (int i = 0 ; i < array.length-1; i++) {
-                    s = s.concat(array[i] + ",");
+            if (brrby !=null) {
+                for (int i = 0 ; i < brrby.length-1; i++) {
+                    s = s.concbt(brrby[i] + ",");
                 }
-                s = s.concat(array[array.length-1] + "}");
+                s = s.concbt(brrby[brrby.length-1] + "}");
             } else {
-                s = s.concat("}");
+                s = s.concbt("}");
             }
             return s;
         }
@@ -1179,34 +1179,34 @@ public class UIDefaults extends Hashtable<Object,Object>
 
 
     /**
-     * <code>LazyInputMap</code> will create a <code>InputMap</code>
-     * in its <code>createValue</code>
-     * method. The bindings are passed in in the constructor.
-     * The bindings are an array with
+     * <code>LbzyInputMbp</code> will crebte b <code>InputMbp</code>
+     * in its <code>crebteVblue</code>
+     * method. The bindings bre pbssed in in the constructor.
+     * The bindings bre bn brrby with
      * the even number entries being string <code>KeyStrokes</code>
-     * (eg "alt SPACE") and
-     * the odd number entries being the value to use in the
-     * <code>InputMap</code> (and the key in the <code>ActionMap</code>).
+     * (eg "blt SPACE") bnd
+     * the odd number entries being the vblue to use in the
+     * <code>InputMbp</code> (bnd the key in the <code>ActionMbp</code>).
      * @since 1.3
      */
-    public static class LazyInputMap implements LazyValue {
-        /** Key bindings are registered under. */
-        private Object[] bindings;
+    public stbtic clbss LbzyInputMbp implements LbzyVblue {
+        /** Key bindings bre registered under. */
+        privbte Object[] bindings;
 
-        public LazyInputMap(Object[] bindings) {
+        public LbzyInputMbp(Object[] bindings) {
             this.bindings = bindings;
         }
 
         /**
-         * Creates an <code>InputMap</code> with the bindings that are
-         * passed in.
+         * Crebtes bn <code>InputMbp</code> with the bindings thbt bre
+         * pbssed in.
          *
-         * @param table a <code>UIDefaults</code> table
-         * @return the <code>InputMap</code>
+         * @pbrbm tbble b <code>UIDefbults</code> tbble
+         * @return the <code>InputMbp</code>
          */
-        public Object createValue(UIDefaults table) {
+        public Object crebteVblue(UIDefbults tbble) {
             if (bindings != null) {
-                InputMap km = LookAndFeel.makeInputMap(bindings);
+                InputMbp km = LookAndFeel.mbkeInputMbp(bindings);
                 return km;
             }
             return null;
@@ -1214,41 +1214,41 @@ public class UIDefaults extends Hashtable<Object,Object>
     }
 
     /**
-     * <code>TextAndMnemonicHashMap</code> stores swing resource strings. Many of strings
-     * can have a mnemonic. For example:
-     *   FileChooser.saveButton.textAndMnemonic=&Save
-     * For this case method get returns "Save" for the key "FileChooser.saveButtonText" and
-     * mnemonic "S" for the key "FileChooser.saveButtonMnemonic"
+     * <code>TextAndMnemonicHbshMbp</code> stores swing resource strings. Mbny of strings
+     * cbn hbve b mnemonic. For exbmple:
+     *   FileChooser.sbveButton.textAndMnemonic=&Sbve
+     * For this cbse method get returns "Sbve" for the key "FileChooser.sbveButtonText" bnd
+     * mnemonic "S" for the key "FileChooser.sbveButtonMnemonic"
      *
-     * There are several patterns for the text and mnemonic suffixes which are checked by the
-     * <code>TextAndMnemonicHashMap</code> class.
-     * Patterns which are converted to the xxx.textAndMnemonic key:
-     * (xxxNameText, xxxNameMnemonic)
-     * (xxxNameText, xxxMnemonic)
-     * (xxx.nameText, xxx.mnemonic)
+     * There bre severbl pbtterns for the text bnd mnemonic suffixes which bre checked by the
+     * <code>TextAndMnemonicHbshMbp</code> clbss.
+     * Pbtterns which bre converted to the xxx.textAndMnemonic key:
+     * (xxxNbmeText, xxxNbmeMnemonic)
+     * (xxxNbmeText, xxxMnemonic)
+     * (xxx.nbmeText, xxx.mnemonic)
      * (xxxText, xxxMnemonic)
      *
-     * These patterns can have a mnemonic index in format
-     * (xxxDisplayedMnemonicIndex)
+     * These pbtterns cbn hbve b mnemonic index in formbt
+     * (xxxDisplbyedMnemonicIndex)
      *
-     * Pattern which is converted to the xxx.titleAndMnemonic key:
+     * Pbttern which is converted to the xxx.titleAndMnemonic key:
      * (xxxTitle, xxxMnemonic)
      *
      */
-    private static class TextAndMnemonicHashMap extends HashMap<String, Object> {
+    privbte stbtic clbss TextAndMnemonicHbshMbp extends HbshMbp<String, Object> {
 
-        static final String AND_MNEMONIC = "AndMnemonic";
-        static final String TITLE_SUFFIX = ".titleAndMnemonic";
-        static final String TEXT_SUFFIX = ".textAndMnemonic";
+        stbtic finbl String AND_MNEMONIC = "AndMnemonic";
+        stbtic finbl String TITLE_SUFFIX = ".titleAndMnemonic";
+        stbtic finbl String TEXT_SUFFIX = ".textAndMnemonic";
 
         @Override
         public Object get(Object key) {
 
-            Object value = super.get(key);
+            Object vblue = super.get(key);
 
-            if (value == null) {
+            if (vblue == null) {
 
-                boolean checkTitle = false;
+                boolebn checkTitle = fblse;
 
                 String stringKey = key.toString();
                 String compositeKey = null;
@@ -1259,7 +1259,7 @@ public class UIDefaults extends Hashtable<Object,Object>
 
                 if (stringKey.endsWith(".mnemonic")) {
                     compositeKey = composeKey(stringKey, 9, TEXT_SUFFIX);
-                } else if (stringKey.endsWith("NameMnemonic")) {
+                } else if (stringKey.endsWith("NbmeMnemonic")) {
                     compositeKey = composeKey(stringKey, 12, TEXT_SUFFIX);
                 } else if (stringKey.endsWith("Mnemonic")) {
                     compositeKey = composeKey(stringKey, 8, TEXT_SUFFIX);
@@ -1267,18 +1267,18 @@ public class UIDefaults extends Hashtable<Object,Object>
                 }
 
                 if (compositeKey != null) {
-                    value = super.get(compositeKey);
-                    if (value == null && checkTitle) {
+                    vblue = super.get(compositeKey);
+                    if (vblue == null && checkTitle) {
                         compositeKey = composeKey(stringKey, 8, TITLE_SUFFIX);
-                        value = super.get(compositeKey);
+                        vblue = super.get(compositeKey);
                     }
 
-                    return value == null ? null : getMnemonicFromProperty(value.toString());
+                    return vblue == null ? null : getMnemonicFromProperty(vblue.toString());
                 }
 
-                if (stringKey.endsWith("NameText")) {
+                if (stringKey.endsWith("NbmeText")) {
                     compositeKey = composeKey(stringKey, 8, TEXT_SUFFIX);
-                } else if (stringKey.endsWith(".nameText")) {
+                } else if (stringKey.endsWith(".nbmeText")) {
                     compositeKey = composeKey(stringKey, 9, TEXT_SUFFIX);
                 } else if (stringKey.endsWith("Text")) {
                     compositeKey = composeKey(stringKey, 4, TEXT_SUFFIX);
@@ -1287,22 +1287,22 @@ public class UIDefaults extends Hashtable<Object,Object>
                 }
 
                 if (compositeKey != null) {
-                    value = super.get(compositeKey);
-                    return value == null ? null : getTextFromProperty(value.toString());
+                    vblue = super.get(compositeKey);
+                    return vblue == null ? null : getTextFromProperty(vblue.toString());
                 }
 
-                if (stringKey.endsWith("DisplayedMnemonicIndex")) {
+                if (stringKey.endsWith("DisplbyedMnemonicIndex")) {
                     compositeKey = composeKey(stringKey, 22, TEXT_SUFFIX);
-                    value = super.get(compositeKey);
-                    if (value == null) {
+                    vblue = super.get(compositeKey);
+                    if (vblue == null) {
                         compositeKey = composeKey(stringKey, 22, TITLE_SUFFIX);
-                        value = super.get(compositeKey);
+                        vblue = super.get(compositeKey);
                     }
-                    return value == null ? null : getIndexFromProperty(value.toString());
+                    return vblue == null ? null : getIndexFromProperty(vblue.toString());
                 }
             }
 
-            return value;
+            return vblue;
         }
 
         String composeKey(String key, int reduce, String sufix) {
@@ -1310,14 +1310,14 @@ public class UIDefaults extends Hashtable<Object,Object>
         }
 
         String getTextFromProperty(String text) {
-            return text.replace("&", "");
+            return text.replbce("&", "");
         }
 
         String getMnemonicFromProperty(String text) {
             int index = text.indexOf('&');
             if (0 <= index && index < text.length() - 1) {
-                char c = text.charAt(index + 1);
-                return Integer.toString((int) Character.toUpperCase(c));
+                chbr c = text.chbrAt(index + 1);
+                return Integer.toString((int) Chbrbcter.toUpperCbse(c));
             }
             return null;
         }

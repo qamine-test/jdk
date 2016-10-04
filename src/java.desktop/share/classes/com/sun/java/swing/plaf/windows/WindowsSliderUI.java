@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.MouseEvent;
 
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
 
 /**
  * Windows rendition of the component.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  */
-public class WindowsSliderUI extends BasicSliderUI
+public clbss WindowsSliderUI extends BbsicSliderUI
 {
-    private boolean rollover = false;
-    private boolean pressed = false;
+    privbte boolebn rollover = fblse;
+    privbte boolebn pressed = fblse;
 
     public WindowsSliderUI(JSlider b){
         super(b);
     }
 
-    public static ComponentUI createUI(JComponent b) {
+    public stbtic ComponentUI crebteUI(JComponent b) {
         return new WindowsSliderUI((JSlider)b);
     }
 
 
     /**
-     * Overrides to return a private track listener subclass which handles
-     * the HOT, PRESSED, and FOCUSED states.
+     * Overrides to return b privbte trbck listener subclbss which hbndles
+     * the HOT, PRESSED, bnd FOCUSED stbtes.
      * @since 1.6
      */
-    protected TrackListener createTrackListener(JSlider slider) {
-        return new WindowsTrackListener();
+    protected TrbckListener crebteTrbckListener(JSlider slider) {
+        return new WindowsTrbckListener();
     }
 
-    private class WindowsTrackListener extends TrackListener {
+    privbte clbss WindowsTrbckListener extends TrbckListener {
 
         public void mouseMoved(MouseEvent e) {
-            updateRollover(thumbRect.contains(e.getX(), e.getY()));
+            updbteRollover(thumbRect.contbins(e.getX(), e.getY()));
             super.mouseMoved(e);
         }
 
         public void mouseEntered(MouseEvent e) {
-            updateRollover(thumbRect.contains(e.getX(), e.getY()));
+            updbteRollover(thumbRect.contbins(e.getX(), e.getY()));
             super.mouseEntered(e);
         }
 
         public void mouseExited(MouseEvent e) {
-            updateRollover(false);
+            updbteRollover(fblse);
             super.mouseExited(e);
         }
 
         public void mousePressed(MouseEvent e) {
-            updatePressed(thumbRect.contains(e.getX(), e.getY()));
+            updbtePressed(thumbRect.contbins(e.getX(), e.getY()));
             super.mousePressed(e);
         }
 
-        public void mouseReleased(MouseEvent e) {
-            updatePressed(false);
-            super.mouseReleased(e);
+        public void mouseRelebsed(MouseEvent e) {
+            updbtePressed(fblse);
+            super.mouseRelebsed(e);
         }
 
-        public void updatePressed(boolean newPressed) {
-            // You can't press a disabled slider
-            if (!slider.isEnabled()) {
+        public void updbtePressed(boolebn newPressed) {
+            // You cbn't press b disbbled slider
+            if (!slider.isEnbbled()) {
                 return;
             }
             if (pressed != newPressed) {
                 pressed = newPressed;
-                slider.repaint(thumbRect);
+                slider.repbint(thumbRect);
             }
         }
 
-        public void updateRollover(boolean newRollover) {
-            // You can't have a rollover on a disabled slider
-            if (!slider.isEnabled()) {
+        public void updbteRollover(boolebn newRollover) {
+            // You cbn't hbve b rollover on b disbbled slider
+            if (!slider.isEnbbled()) {
                 return;
             }
             if (rollover != newRollover) {
                 rollover = newRollover;
-                slider.repaint(thumbRect);
+                slider.repbint(thumbRect);
             }
         }
 
     }
 
 
-    public void paintTrack(Graphics g)  {
+    public void pbintTrbck(Grbphics g)  {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            boolean vertical = (slider.getOrientation() == JSlider.VERTICAL);
-            Part part = vertical ? Part.TKP_TRACKVERT : Part.TKP_TRACK;
-            Skin skin = xp.getSkin(slider, part);
+            boolebn verticbl = (slider.getOrientbtion() == JSlider.VERTICAL);
+            Pbrt pbrt = verticbl ? Pbrt.TKP_TRACKVERT : Pbrt.TKP_TRACK;
+            Skin skin = xp.getSkin(slider, pbrt);
 
-            if (vertical) {
-                int x = (trackRect.width - skin.getWidth()) / 2;
-                skin.paintSkin(g, trackRect.x + x, trackRect.y,
-                               skin.getWidth(), trackRect.height, null);
+            if (verticbl) {
+                int x = (trbckRect.width - skin.getWidth()) / 2;
+                skin.pbintSkin(g, trbckRect.x + x, trbckRect.y,
+                               skin.getWidth(), trbckRect.height, null);
             } else {
-                int y = (trackRect.height - skin.getHeight()) / 2;
-                skin.paintSkin(g, trackRect.x, trackRect.y + y,
-                               trackRect.width, skin.getHeight(), null);
+                int y = (trbckRect.height - skin.getHeight()) / 2;
+                skin.pbintSkin(g, trbckRect.x, trbckRect.y + y,
+                               trbckRect.width, skin.getHeight(), null);
             }
         } else {
-            super.paintTrack(g);
+            super.pbintTrbck(g);
         }
     }
 
 
-    protected void paintMinorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x ) {
+    protected void pbintMinorTickForHorizSlider( Grbphics g, Rectbngle tickBounds, int x ) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            g.setColor(xp.getColor(slider, Part.TKP_TICS, null, Prop.COLOR, Color.black));
+            g.setColor(xp.getColor(slider, Pbrt.TKP_TICS, null, Prop.COLOR, Color.blbck));
         }
-        super.paintMinorTickForHorizSlider(g, tickBounds, x);
+        super.pbintMinorTickForHorizSlider(g, tickBounds, x);
     }
 
-    protected void paintMajorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x ) {
+    protected void pbintMbjorTickForHorizSlider( Grbphics g, Rectbngle tickBounds, int x ) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            g.setColor(xp.getColor(slider, Part.TKP_TICS, null, Prop.COLOR, Color.black));
+            g.setColor(xp.getColor(slider, Pbrt.TKP_TICS, null, Prop.COLOR, Color.blbck));
         }
-        super.paintMajorTickForHorizSlider(g, tickBounds, x);
+        super.pbintMbjorTickForHorizSlider(g, tickBounds, x);
     }
 
-    protected void paintMinorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
+    protected void pbintMinorTickForVertSlider( Grbphics g, Rectbngle tickBounds, int y ) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            g.setColor(xp.getColor(slider, Part.TKP_TICSVERT, null, Prop.COLOR, Color.black));
+            g.setColor(xp.getColor(slider, Pbrt.TKP_TICSVERT, null, Prop.COLOR, Color.blbck));
         }
-        super.paintMinorTickForVertSlider(g, tickBounds, y);
+        super.pbintMinorTickForVertSlider(g, tickBounds, y);
     }
 
-    protected void paintMajorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
+    protected void pbintMbjorTickForVertSlider( Grbphics g, Rectbngle tickBounds, int y ) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            g.setColor(xp.getColor(slider, Part.TKP_TICSVERT, null, Prop.COLOR, Color.black));
+            g.setColor(xp.getColor(slider, Pbrt.TKP_TICSVERT, null, Prop.COLOR, Color.blbck));
         }
-        super.paintMajorTickForVertSlider(g, tickBounds, y);
+        super.pbintMbjorTickForVertSlider(g, tickBounds, y);
     }
 
 
-    public void paintThumb(Graphics g)  {
+    public void pbintThumb(Grbphics g)  {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            Part part = getXPThumbPart();
-            State state = State.NORMAL;
+            Pbrt pbrt = getXPThumbPbrt();
+            Stbte stbte = Stbte.NORMAL;
 
-            if (slider.hasFocus()) {
-                state = State.FOCUSED;
+            if (slider.hbsFocus()) {
+                stbte = Stbte.FOCUSED;
             }
             if (rollover) {
-                state = State.HOT;
+                stbte = Stbte.HOT;
             }
             if (pressed) {
-                state = State.PRESSED;
+                stbte = Stbte.PRESSED;
             }
-            if(!slider.isEnabled()) {
-                state = State.DISABLED;
+            if(!slider.isEnbbled()) {
+                stbte = Stbte.DISABLED;
             }
 
-            xp.getSkin(slider, part).paintSkin(g, thumbRect.x, thumbRect.y, state);
+            xp.getSkin(slider, pbrt).pbintSkin(g, thumbRect.x, thumbRect.y, stbte);
         } else {
-            super.paintThumb(g);
+            super.pbintThumb(g);
         }
     }
 
@@ -205,7 +205,7 @@ public class WindowsSliderUI extends BasicSliderUI
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
             Dimension size = new Dimension();
-            Skin s = xp.getSkin(slider, getXPThumbPart());
+            Skin s = xp.getSkin(slider, getXPThumbPbrt());
             size.width = s.getWidth();
             size.height = s.getHeight();
             return size;
@@ -214,20 +214,20 @@ public class WindowsSliderUI extends BasicSliderUI
         }
     }
 
-    private Part getXPThumbPart() {
-        Part part;
-        boolean vertical = (slider.getOrientation() == JSlider.VERTICAL);
-        boolean leftToRight = slider.getComponentOrientation().isLeftToRight();
-        Boolean paintThumbArrowShape =
-                (Boolean)slider.getClientProperty("Slider.paintThumbArrowShape");
-        if ((!slider.getPaintTicks() && paintThumbArrowShape == null) ||
-            paintThumbArrowShape == Boolean.FALSE) {
-                part = vertical ? Part.TKP_THUMBVERT
-                                : Part.TKP_THUMB;
+    privbte Pbrt getXPThumbPbrt() {
+        Pbrt pbrt;
+        boolebn verticbl = (slider.getOrientbtion() == JSlider.VERTICAL);
+        boolebn leftToRight = slider.getComponentOrientbtion().isLeftToRight();
+        Boolebn pbintThumbArrowShbpe =
+                (Boolebn)slider.getClientProperty("Slider.pbintThumbArrowShbpe");
+        if ((!slider.getPbintTicks() && pbintThumbArrowShbpe == null) ||
+            pbintThumbArrowShbpe == Boolebn.FALSE) {
+                pbrt = verticbl ? Pbrt.TKP_THUMBVERT
+                                : Pbrt.TKP_THUMB;
         } else {
-                part = vertical ? (leftToRight ? Part.TKP_THUMBRIGHT : Part.TKP_THUMBLEFT)
-                                : Part.TKP_THUMBBOTTOM;
+                pbrt = verticbl ? (leftToRight ? Pbrt.TKP_THUMBRIGHT : Pbrt.TKP_THUMBLEFT)
+                                : Pbrt.TKP_THUMBBOTTOM;
         }
-        return part;
+        return pbrt;
     }
 }

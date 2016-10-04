@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.tools;
+pbckbge sun.security.krb5.internbl.tools;
 
-import java.net.InetAddress;
+import jbvb.net.InetAddress;
 import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.ccache.*;
-import sun.security.krb5.internal.ktab.*;
-import sun.security.krb5.internal.crypto.EType;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.ccbche.*;
+import sun.security.krb5.internbl.ktbb.*;
+import sun.security.krb5.internbl.crypto.EType;
 
 /**
- * This class can execute as a command-line tool to list entries in
- * credential cache and key tab.
+ * This clbss cbn execute bs b commbnd-line tool to list entries in
+ * credentibl cbche bnd key tbb.
  *
- * @author Yanni Zhang
- * @author Ram Marti
+ * @buthor Ybnni Zhbng
+ * @buthor Rbm Mbrti
  */
-public class Klist {
-    Object target;
-    // for credentials cache, options are 'f', 'e', 'a' and 'n';
-    // for  keytab, optionsare 't' and 'K' and 'e'
-    char[] options = new char[4];
-    String name;       // the name of credentials cache and keytable.
-    char action;       // actions would be 'c' for credentials cache
-    // and 'k' for keytable.
-    private static boolean DEBUG = Krb5.DEBUG;
+public clbss Klist {
+    Object tbrget;
+    // for credentibls cbche, options bre 'f', 'e', 'b' bnd 'n';
+    // for  keytbb, optionsbre 't' bnd 'K' bnd 'e'
+    chbr[] options = new chbr[4];
+    String nbme;       // the nbme of credentibls cbche bnd keytbble.
+    chbr bction;       // bctions would be 'c' for credentibls cbche
+    // bnd 'k' for keytbble.
+    privbte stbtic boolebn DEBUG = Krb5.DEBUG;
 
     /**
-     * The main program that can be invoked at command line.
-     * <br>Usage: klist
-     * [[-c] [-f] [-e] [-a [-n]]] [-k [-t] [-K]] [name]
-     * -c specifies that credential cache is to be listed
-     * -k specifies that key tab is to be listed
-     * name name of the credentials cache or keytab
-     * <br>available options for credential caches:
+     * The mbin progrbm thbt cbn be invoked bt commbnd line.
+     * <br>Usbge: klist
+     * [[-c] [-f] [-e] [-b [-n]]] [-k [-t] [-K]] [nbme]
+     * -c specifies thbt credentibl cbche is to be listed
+     * -k specifies thbt key tbb is to be listed
+     * nbme nbme of the credentibls cbche or keytbb
+     * <br>bvbilbble options for credentibl cbches:
      * <ul>
-     * <li><b>-f</b>  shows credentials flags
+     * <li><b>-f</b>  shows credentibls flbgs
      * <li><b>-e</b>  shows the encryption type
-     * <li><b>-a</b>  shows addresses
-     * <li><b>-n</b>  do not reverse-resolve addresses
+     * <li><b>-b</b>  shows bddresses
+     * <li><b>-n</b>  do not reverse-resolve bddresses
      * </ul>
-     * available options for keytabs:
-     * <li><b>-t</b> shows keytab entry timestamps
-     * <li><b>-K</b> shows keytab entry DES keys
+     * bvbilbble options for keytbbs:
+     * <li><b>-t</b> shows keytbb entry timestbmps
+     * <li><b>-K</b> shows keytbb entry DES keys
      */
-    public static void main(String[] args) {
+    public stbtic void mbin(String[] brgs) {
         Klist klist = new Klist();
-        if ((args == null) || (args.length == 0)) {
-            klist.action = 'c'; // default will list default credentials cache.
+        if ((brgs == null) || (brgs.length == 0)) {
+            klist.bction = 'c'; // defbult will list defbult credentibls cbche.
         } else {
-            klist.processArgs(args);
+            klist.processArgs(brgs);
         }
-        switch (klist.action) {
-        case 'c':
-            if (klist.name == null) {
-                klist.target = CredentialsCache.getInstance();
-                klist.name = CredentialsCache.cacheName();
+        switch (klist.bction) {
+        cbse 'c':
+            if (klist.nbme == null) {
+                klist.tbrget = CredentiblsCbche.getInstbnce();
+                klist.nbme = CredentiblsCbche.cbcheNbme();
             } else
-                klist.target = CredentialsCache.getInstance(klist.name);
+                klist.tbrget = CredentiblsCbche.getInstbnce(klist.nbme);
 
-            if (klist.target != null)  {
-                klist.displayCache();
+            if (klist.tbrget != null)  {
+                klist.displbyCbche();
             } else {
-                klist.displayMessage("Credentials cache");
+                klist.displbyMessbge("Credentibls cbche");
                 System.exit(-1);
             }
-            break;
-        case 'k':
-            KeyTab ktab = KeyTab.getInstance(klist.name);
-            if (ktab.isMissing()) {
-                System.out.println("KeyTab " + klist.name + " not found.");
+            brebk;
+        cbse 'k':
+            KeyTbb ktbb = KeyTbb.getInstbnce(klist.nbme);
+            if (ktbb.isMissing()) {
+                System.out.println("KeyTbb " + klist.nbme + " not found.");
                 System.exit(-1);
-            } else if (!ktab.isValid()) {
-                System.out.println("KeyTab " + klist.name
-                        + " format not supported.");
+            } else if (!ktbb.isVblid()) {
+                System.out.println("KeyTbb " + klist.nbme
+                        + " formbt not supported.");
                 System.exit(-1);
             }
-            klist.target = ktab;
-            klist.name = ktab.tabName();
-            klist.displayTab();
-            break;
-        default:
-            if (klist.name != null) {
+            klist.tbrget = ktbb;
+            klist.nbme = ktbb.tbbNbme();
+            klist.displbyTbb();
+            brebk;
+        defbult:
+            if (klist.nbme != null) {
                 klist.printHelp();
                 System.exit(-1);
             } else {
-                klist.target = CredentialsCache.getInstance();
-                klist.name = CredentialsCache.cacheName();
-                if (klist.target != null) {
-                    klist.displayCache();
+                klist.tbrget = CredentiblsCbche.getInstbnce();
+                klist.nbme = CredentiblsCbche.cbcheNbme();
+                if (klist.tbrget != null) {
+                    klist.displbyCbche();
                 } else {
-                    klist.displayMessage("Credentials cache");
+                    klist.displbyMessbge("Credentibls cbche");
                     System.exit(-1);
                 }
             }
@@ -126,72 +126,72 @@ public class Klist {
     }
 
     /**
-     * Parses the command line arguments.
+     * Pbrses the commbnd line brguments.
      */
-    void processArgs(String[] args) {
-        Character arg;
-        for (int i = 0; i < args.length; i++) {
-            if ((args[i].length() >= 2) && (args[i].startsWith("-"))) {
-                arg = new Character(args[i].charAt(1));
-                switch (arg.charValue()) {
-                case 'c':
-                    action = 'c';
-                    break;
-                case 'k':
-                    action = 'k';
-                    break;
-                case 'a':
-                    options[2] = 'a';
-                    break;
-                case 'n':
+    void processArgs(String[] brgs) {
+        Chbrbcter brg;
+        for (int i = 0; i < brgs.length; i++) {
+            if ((brgs[i].length() >= 2) && (brgs[i].stbrtsWith("-"))) {
+                brg = new Chbrbcter(brgs[i].chbrAt(1));
+                switch (brg.chbrVblue()) {
+                cbse 'c':
+                    bction = 'c';
+                    brebk;
+                cbse 'k':
+                    bction = 'k';
+                    brebk;
+                cbse 'b':
+                    options[2] = 'b';
+                    brebk;
+                cbse 'n':
                     options[3] = 'n';
-                    break;
-                case 'f':
+                    brebk;
+                cbse 'f':
                     options[1] = 'f';
-                    break;
-                case 'e':
+                    brebk;
+                cbse 'e':
                     options[0] = 'e';
-                    break;
-                case 'K':
+                    brebk;
+                cbse 'K':
                     options[1] = 'K';
-                    break;
-                case 't':
+                    brebk;
+                cbse 't':
                     options[2] = 't';
-                    break;
-                default:
+                    brebk;
+                defbult:
                     printHelp();
                     System.exit(-1);
                 }
 
             } else {
-                if (!args[i].startsWith("-") && (i == args.length - 1)) {
-                    // the argument is the last one.
-                    name = args[i];
-                    arg = null;
+                if (!brgs[i].stbrtsWith("-") && (i == brgs.length - 1)) {
+                    // the brgument is the lbst one.
+                    nbme = brgs[i];
+                    brg = null;
                 } else {
-                    printHelp(); // incorrect input format.
+                    printHelp(); // incorrect input formbt.
                     System.exit(-1);
                 }
             }
         }
     }
 
-    void displayTab() {
-        KeyTab table = (KeyTab)target;
-        KeyTabEntry[] entries = table.getEntries();
+    void displbyTbb() {
+        KeyTbb tbble = (KeyTbb)tbrget;
+        KeyTbbEntry[] entries = tbble.getEntries();
         if (entries.length == 0) {
-            System.out.println("\nKey tab: " + name +
+            System.out.println("\nKey tbb: " + nbme +
                                ", " + " 0 entries found.\n");
         } else {
             if (entries.length == 1)
-                System.out.println("\nKey tab: " + name +
+                System.out.println("\nKey tbb: " + nbme +
                                    ", " + entries.length + " entry found.\n");
             else
-                System.out.println("\nKey tab: " + name + ", " +
+                System.out.println("\nKey tbb: " + nbme + ", " +
                                    entries.length + " entries found.\n");
             for (int i = 0; i < entries.length; i++) {
                 System.out.println("[" + (i + 1) + "] " +
-                                   "Service principal: "  +
+                                   "Service principbl: "  +
                                    entries[i].getService().toString());
                 System.out.println("\t KVNO: " +
                                    entries[i].getKey().getKeyVersionNumber());
@@ -206,56 +206,56 @@ public class Klist {
                                        entries[i].getKeyString());
                 }
                 if (options[2] == 't') {
-                    System.out.println("\t Time stamp: " +
-                            format(entries[i].getTimeStamp()));
+                    System.out.println("\t Time stbmp: " +
+                            formbt(entries[i].getTimeStbmp()));
                 }
             }
         }
     }
 
-    void displayCache() {
-        CredentialsCache cache = (CredentialsCache)target;
-        sun.security.krb5.internal.ccache.Credentials[] creds =
-            cache.getCredsList();
+    void displbyCbche() {
+        CredentiblsCbche cbche = (CredentiblsCbche)tbrget;
+        sun.security.krb5.internbl.ccbche.Credentibls[] creds =
+            cbche.getCredsList();
         if (creds == null) {
-            System.out.println ("No credentials available in the cache " +
-                                name);
+            System.out.println ("No credentibls bvbilbble in the cbche " +
+                                nbme);
             System.exit(-1);
         }
-        System.out.println("\nCredentials cache: " +  name);
-        String defaultPrincipal = cache.getPrimaryPrincipal().toString();
+        System.out.println("\nCredentibls cbche: " +  nbme);
+        String defbultPrincipbl = cbche.getPrimbryPrincipbl().toString();
         int num = creds.length;
 
         if (num == 1)
-            System.out.println("\nDefault principal: " +
-                               defaultPrincipal + ", " +
+            System.out.println("\nDefbult principbl: " +
+                               defbultPrincipbl + ", " +
                                creds.length + " entry found.\n");
         else
-            System.out.println("\nDefault principal: " +
-                               defaultPrincipal + ", " +
+            System.out.println("\nDefbult principbl: " +
+                               defbultPrincipbl + ", " +
                                creds.length + " entries found.\n");
         if (creds != null) {
             for (int i = 0; i < creds.length; i++) {
                 try {
-                    String starttime;
+                    String stbrttime;
                     String endtime;
                     String renewTill;
-                    String servicePrincipal;
-                    if (creds[i].getStartTime() != null) {
-                        starttime = format(creds[i].getStartTime());
+                    String servicePrincipbl;
+                    if (creds[i].getStbrtTime() != null) {
+                        stbrttime = formbt(creds[i].getStbrtTime());
                     } else {
-                        starttime = format(creds[i].getAuthTime());
+                        stbrttime = formbt(creds[i].getAuthTime());
                     }
-                    endtime = format(creds[i].getEndTime());
-                    servicePrincipal =
-                        creds[i].getServicePrincipal().toString();
+                    endtime = formbt(creds[i].getEndTime());
+                    servicePrincipbl =
+                        creds[i].getServicePrincipbl().toString();
                     System.out.println("[" + (i + 1) + "] " +
-                                       " Service Principal:  " +
-                                       servicePrincipal);
-                    System.out.println("     Valid starting:     " + starttime);
+                                       " Service Principbl:  " +
+                                       servicePrincipbl);
+                    System.out.println("     Vblid stbrting:     " + stbrttime);
                     System.out.println("     Expires:            " + endtime);
                     if (creds[i].getRenewTill() != null) {
-                        renewTill = format(creds[i].getRenewTill());
+                        renewTill = formbt(creds[i].getRenewTill());
                         System.out.println(
                                 "     Renew until:        " + renewTill);
                     }
@@ -266,35 +266,35 @@ public class Klist {
                                 + eskey + ", " + etkt);
                     }
                     if (options[1] == 'f') {
-                        System.out.println("     Flags:              " +
-                                           creds[i].getTicketFlags().toString());
+                        System.out.println("     Flbgs:              " +
+                                           creds[i].getTicketFlbgs().toString());
                     }
-                    if (options[2] == 'a') {
-                        boolean first = true;
-                        InetAddress[] caddr
+                    if (options[2] == 'b') {
+                        boolebn first = true;
+                        InetAddress[] cbddr
                                 = creds[i].setKrbCreds().getClientAddresses();
-                        if (caddr != null) {
-                            for (InetAddress ia: caddr) {
+                        if (cbddr != null) {
+                            for (InetAddress ib: cbddr) {
                                 String out;
                                 if (options[3] == 'n') {
-                                    out = ia.getHostAddress();
+                                    out = ib.getHostAddress();
                                 } else {
-                                    out = ia.getCanonicalHostName();
+                                    out = ib.getCbnonicblHostNbme();
                                 }
                                 System.out.println("     " +
                                         (first?"Addresses:":"          ") +
                                         "       " + out);
-                                first = false;
+                                first = fblse;
                             }
                         } else {
-                            System.out.println("     [No host addresses info]");
+                            System.out.println("     [No host bddresses info]");
                         }
                     }
-                } catch (RealmException e) {
-                    System.out.println("Error reading principal from "+
+                } cbtch (ReblmException e) {
+                    System.out.println("Error rebding principbl from "+
                                        "the entry.");
                     if (DEBUG) {
-                        e.printStackTrace();
+                        e.printStbckTrbce();
                     }
                     System.exit(-1);
                 }
@@ -304,51 +304,51 @@ public class Klist {
         }
     }
 
-    void displayMessage(String target) {
-        if (name == null) {
-            System.out.println("Default " + target + " not found.");
+    void displbyMessbge(String tbrget) {
+        if (nbme == null) {
+            System.out.println("Defbult " + tbrget + " not found.");
         } else {
-            System.out.println(target + " " + name + " not found.");
+            System.out.println(tbrget + " " + nbme + " not found.");
         }
     }
     /**
-     * Reformats the date from the form -
+     * Reformbts the dbte from the form -
      *     dow mon dd hh:mm:ss zzz yyyy to mon/dd/yyyy hh:mm
-     * where dow is the day of the week, mon is the month,
-     * dd is the day of the month, hh is the hour of
-     * the day, mm is the minute within the hour,
+     * where dow is the dby of the week, mon is the month,
+     * dd is the dby of the month, hh is the hour of
+     * the dby, mm is the minute within the hour,
      * ss is the second within the minute, zzz is the time zone,
-     * and yyyy is the year.
-     * @param date the string form of Date object.
+     * bnd yyyy is the yebr.
+     * @pbrbm dbte the string form of Dbte object.
      */
-    private String format(KerberosTime kt) {
-        String date = kt.toDate().toString();
-        return (date.substring(4, 7) + " " + date.substring(8, 10) +
-                ", " + date.substring(24)
-                + " " + date.substring(11, 19));
+    privbte String formbt(KerberosTime kt) {
+        String dbte = kt.toDbte().toString();
+        return (dbte.substring(4, 7) + " " + dbte.substring(8, 10) +
+                ", " + dbte.substring(24)
+                + " " + dbte.substring(11, 19));
     }
     /**
-     * Prints out the help information.
+     * Prints out the help informbtion.
      */
     void printHelp() {
-        System.out.println("\nUsage: klist " +
-                           "[[-c] [-f] [-e] [-a [-n]]] [-k [-t] [-K]] [name]");
-        System.out.println("   name\t name of credentials cache or " +
-                           " keytab with the prefix. File-based cache or "
-                           + "keytab's prefix is FILE:.");
-        System.out.println("   -c specifies that credential cache is to be " +
+        System.out.println("\nUsbge: klist " +
+                           "[[-c] [-f] [-e] [-b [-n]]] [-k [-t] [-K]] [nbme]");
+        System.out.println("   nbme\t nbme of credentibls cbche or " +
+                           " keytbb with the prefix. File-bbsed cbche or "
+                           + "keytbb's prefix is FILE:.");
+        System.out.println("   -c specifies thbt credentibl cbche is to be " +
                            "listed");
-        System.out.println("   -k specifies that key tab is to be listed");
-        System.out.println("   options for credentials caches:");
-        System.out.println("\t-f \t shows credentials flags");
+        System.out.println("   -k specifies thbt key tbb is to be listed");
+        System.out.println("   options for credentibls cbches:");
+        System.out.println("\t-f \t shows credentibls flbgs");
         System.out.println("\t-e \t shows the encryption type");
-        System.out.println("\t-a \t shows addresses");
-        System.out.println("\t  -n \t   do not reverse-resolve addresses");
-        System.out.println("   options for keytabs:");
-        System.out.println("\t-t \t shows keytab entry timestamps");
-        System.out.println("\t-K \t shows keytab entry key value");
-        System.out.println("\t-e \t shows keytab entry key type");
-        System.out.println("\nUsage: java sun.security.krb5.tools.Klist " +
+        System.out.println("\t-b \t shows bddresses");
+        System.out.println("\t  -n \t   do not reverse-resolve bddresses");
+        System.out.println("   options for keytbbs:");
+        System.out.println("\t-t \t shows keytbb entry timestbmps");
+        System.out.println("\t-K \t shows keytbb entry key vblue");
+        System.out.println("\t-e \t shows keytbb entry key type");
+        System.out.println("\nUsbge: jbvb sun.security.krb5.tools.Klist " +
                            "-help for help.");
     }
 }

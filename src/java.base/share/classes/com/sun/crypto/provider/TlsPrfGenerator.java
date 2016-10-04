@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import javax.crypto.*;
-import javax.crypto.spec.SecretKeySpec;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.SecretKeySpec;
 
-import sun.security.internal.spec.TlsPrfParameterSpec;
+import sun.security.internbl.spec.TlsPrfPbrbmeterSpec;
 
 /**
- * KeyGenerator implementation for the TLS PRF function.
+ * KeyGenerbtor implementbtion for the TLS PRF function.
  * <p>
- * This class duplicates the HMAC functionality (RFC 2104) with
- * performance optimizations (e.g. XOR'ing keys with padding doesn't
- * need to be redone for each HMAC operation).
+ * This clbss duplicbtes the HMAC functionblity (RFC 2104) with
+ * performbnce optimizbtions (e.g. XOR'ing keys with pbdding doesn't
+ * need to be redone for ebch HMAC operbtion).
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.6
  */
-abstract class TlsPrfGenerator extends KeyGeneratorSpi {
+bbstrbct clbss TlsPrfGenerbtor extends KeyGenerbtorSpi {
 
-    // magic constants and utility functions, also used by other files
-    // in this package
+    // mbgic constbnts bnd utility functions, blso used by other files
+    // in this pbckbge
 
-    private final static byte[] B0 = new byte[0];
+    privbte finbl stbtic byte[] B0 = new byte[0];
 
-    final static byte[] LABEL_MASTER_SECRET = // "master secret"
+    finbl stbtic byte[] LABEL_MASTER_SECRET = // "mbster secret"
         { 109, 97, 115, 116, 101, 114, 32, 115, 101, 99, 114, 101, 116 };
 
-    final static byte[] LABEL_KEY_EXPANSION = // "key expansion"
+    finbl stbtic byte[] LABEL_KEY_EXPANSION = // "key expbnsion"
         { 107, 101, 121, 32, 101, 120, 112, 97, 110, 115, 105, 111, 110 };
 
-    final static byte[] LABEL_CLIENT_WRITE_KEY = // "client write key"
+    finbl stbtic byte[] LABEL_CLIENT_WRITE_KEY = // "client write key"
         { 99, 108, 105, 101, 110, 116, 32, 119, 114, 105, 116, 101, 32,
           107, 101, 121 };
 
-    final static byte[] LABEL_SERVER_WRITE_KEY = // "server write key"
+    finbl stbtic byte[] LABEL_SERVER_WRITE_KEY = // "server write key"
         { 115, 101, 114, 118, 101, 114, 32, 119, 114, 105, 116, 101, 32,
           107, 101, 121 };
 
-    final static byte[] LABEL_IV_BLOCK = // "IV block"
+    finbl stbtic byte[] LABEL_IV_BLOCK = // "IV block"
         { 73, 86, 32, 98, 108, 111, 99, 107 };
 
     /*
-     * TLS HMAC "inner" and "outer" padding.  This isn't a function
-     * of the digest algorithm.
+     * TLS HMAC "inner" bnd "outer" pbdding.  This isn't b function
+     * of the digest blgorithm.
      */
-    private static final byte[] HMAC_ipad64  = genPad((byte)0x36, 64);
-    private static final byte[] HMAC_ipad128 = genPad((byte)0x36, 128);
-    private static final byte[] HMAC_opad64  = genPad((byte)0x5c, 64);
-    private static final byte[] HMAC_opad128 = genPad((byte)0x5c, 128);
+    privbte stbtic finbl byte[] HMAC_ipbd64  = genPbd((byte)0x36, 64);
+    privbte stbtic finbl byte[] HMAC_ipbd128 = genPbd((byte)0x36, 128);
+    privbte stbtic finbl byte[] HMAC_opbd64  = genPbd((byte)0x5c, 64);
+    privbte stbtic finbl byte[] HMAC_opbd128 = genPbd((byte)0x5c, 128);
 
-    // SSL3 magic mix constants ("A", "BB", "CCC", ...)
-    final static byte[][] SSL3_CONST = genConst();
+    // SSL3 mbgic mix constbnts ("A", "BB", "CCC", ...)
+    finbl stbtic byte[][] SSL3_CONST = genConst();
 
-    static byte[] genPad(byte b, int count) {
-        byte[] padding = new byte[count];
-        Arrays.fill(padding, b);
-        return padding;
+    stbtic byte[] genPbd(byte b, int count) {
+        byte[] pbdding = new byte[count];
+        Arrbys.fill(pbdding, b);
+        return pbdding;
     }
 
-    static byte[] concat(byte[] b1, byte[] b2) {
+    stbtic byte[] concbt(byte[] b1, byte[] b2) {
         int n1 = b1.length;
         int n2 = b2.length;
         byte[] b = new byte[n1 + n2];
-        System.arraycopy(b1, 0, b, 0, n1);
-        System.arraycopy(b2, 0, b, n1, n2);
+        System.brrbycopy(b1, 0, b, 0, n1);
+        System.brrbycopy(b2, 0, b, n1, n2);
         return b;
     }
 
-    private static byte[][] genConst() {
+    privbte stbtic byte[][] genConst() {
         int n = 10;
-        byte[][] arr = new byte[n][];
+        byte[][] brr = new byte[n][];
         for (int i = 0; i < n; i++) {
             byte[] b = new byte[i + 1];
-            Arrays.fill(b, (byte)('A' + i));
-            arr[i] = b;
+            Arrbys.fill(b, (byte)('A' + i));
+            brr[i] = b;
         }
-        return arr;
+        return brr;
     }
 
-    // PRF implementation
+    // PRF implementbtion
 
-    private final static String MSG = "TlsPrfGenerator must be "
-        + "initialized using a TlsPrfParameterSpec";
+    privbte finbl stbtic String MSG = "TlsPrfGenerbtor must be "
+        + "initiblized using b TlsPrfPbrbmeterSpec";
 
-    private TlsPrfParameterSpec spec;
+    privbte TlsPrfPbrbmeterSpec spec;
 
-    public TlsPrfGenerator() {
+    public TlsPrfGenerbtor() {
     }
 
-    protected void engineInit(SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protected void engineInit(SecureRbndom rbndom) {
+        throw new InvblidPbrbmeterException(MSG);
     }
 
-    protected void engineInit(AlgorithmParameterSpec params,
-            SecureRandom random) throws InvalidAlgorithmParameterException {
-        if (params instanceof TlsPrfParameterSpec == false) {
-            throw new InvalidAlgorithmParameterException(MSG);
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbms,
+            SecureRbndom rbndom) throws InvblidAlgorithmPbrbmeterException {
+        if (pbrbms instbnceof TlsPrfPbrbmeterSpec == fblse) {
+            throw new InvblidAlgorithmPbrbmeterException(MSG);
         }
-        this.spec = (TlsPrfParameterSpec)params;
+        this.spec = (TlsPrfPbrbmeterSpec)pbrbms;
         SecretKey key = spec.getSecret();
-        if ((key != null) && ("RAW".equals(key.getFormat()) == false)) {
-            throw new InvalidAlgorithmParameterException(
-                "Key encoding format must be RAW");
+        if ((key != null) && ("RAW".equbls(key.getFormbt()) == fblse)) {
+            throw new InvblidAlgorithmPbrbmeterException(
+                "Key encoding formbt must be RAW");
         }
     }
 
-    protected void engineInit(int keysize, SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protected void engineInit(int keysize, SecureRbndom rbndom) {
+        throw new InvblidPbrbmeterException(MSG);
     }
 
-    SecretKey engineGenerateKey0(boolean tls12) {
+    SecretKey engineGenerbteKey0(boolebn tls12) {
         if (spec == null) {
-            throw new IllegalStateException(
-                "TlsPrfGenerator must be initialized");
+            throw new IllegblStbteException(
+                "TlsPrfGenerbtor must be initiblized");
         }
         SecretKey key = spec.getSecret();
         byte[] secret = (key == null) ? null : key.getEncoded();
         try {
-            byte[] labelBytes = spec.getLabel().getBytes("UTF8");
+            byte[] lbbelBytes = spec.getLbbel().getBytes("UTF8");
             int n = spec.getOutputLength();
             byte[] prfBytes = (tls12 ?
-                doTLS12PRF(secret, labelBytes, spec.getSeed(), n,
-                    spec.getPRFHashAlg(), spec.getPRFHashLength(),
+                doTLS12PRF(secret, lbbelBytes, spec.getSeed(), n,
+                    spec.getPRFHbshAlg(), spec.getPRFHbshLength(),
                     spec.getPRFBlockSize()) :
-                doTLS10PRF(secret, labelBytes, spec.getSeed(), n));
+                doTLS10PRF(secret, lbbelBytes, spec.getSeed(), n));
             return new SecretKeySpec(prfBytes, "TlsPrf");
-        } catch (GeneralSecurityException e) {
-            throw new ProviderException("Could not generate PRF", e);
-        } catch (java.io.UnsupportedEncodingException e) {
-            throw new ProviderException("Could not generate PRF", e);
+        } cbtch (GenerblSecurityException e) {
+            throw new ProviderException("Could not generbte PRF", e);
+        } cbtch (jbvb.io.UnsupportedEncodingException e) {
+            throw new ProviderException("Could not generbte PRF", e);
         }
     }
 
-    static byte[] doTLS12PRF(byte[] secret, byte[] labelBytes,
+    stbtic byte[] doTLS12PRF(byte[] secret, byte[] lbbelBytes,
             byte[] seed, int outputLength,
-            String prfHash, int prfHashLength, int prfBlockSize)
+            String prfHbsh, int prfHbshLength, int prfBlockSize)
             throws NoSuchAlgorithmException, DigestException {
-        if (prfHash == null) {
-            throw new NoSuchAlgorithmException("Unspecified PRF algorithm");
+        if (prfHbsh == null) {
+            throw new NoSuchAlgorithmException("Unspecified PRF blgorithm");
         }
-        MessageDigest prfMD = MessageDigest.getInstance(prfHash);
-        return doTLS12PRF(secret, labelBytes, seed, outputLength,
-            prfMD, prfHashLength, prfBlockSize);
+        MessbgeDigest prfMD = MessbgeDigest.getInstbnce(prfHbsh);
+        return doTLS12PRF(secret, lbbelBytes, seed, outputLength,
+            prfMD, prfHbshLength, prfBlockSize);
     }
 
-    static byte[] doTLS12PRF(byte[] secret, byte[] labelBytes,
+    stbtic byte[] doTLS12PRF(byte[] secret, byte[] lbbelBytes,
             byte[] seed, int outputLength,
-            MessageDigest mdPRF, int mdPRFLen, int mdPRFBlockSize)
+            MessbgeDigest mdPRF, int mdPRFLen, int mdPRFBlockSize)
             throws DigestException {
 
         if (secret == null) {
             secret = B0;
         }
 
-        // If we have a long secret, digest it first.
+        // If we hbve b long secret, digest it first.
         if (secret.length > mdPRFBlockSize) {
             secret = mdPRF.digest(secret);
         }
 
         byte[] output = new byte[outputLength];
-        byte [] ipad;
-        byte [] opad;
+        byte [] ipbd;
+        byte [] opbd;
 
         switch (mdPRFBlockSize) {
-        case 64:
-            ipad = HMAC_ipad64.clone();
-            opad = HMAC_opad64.clone();
-            break;
-        case 128:
-            ipad = HMAC_ipad128.clone();
-            opad = HMAC_opad128.clone();
-            break;
-        default:
+        cbse 64:
+            ipbd = HMAC_ipbd64.clone();
+            opbd = HMAC_opbd64.clone();
+            brebk;
+        cbse 128:
+            ipbd = HMAC_ipbd128.clone();
+            opbd = HMAC_opbd128.clone();
+            brebk;
+        defbult:
             throw new DigestException("Unexpected block size.");
         }
 
-        // P_HASH(Secret, label + seed)
-        expand(mdPRF, mdPRFLen, secret, 0, secret.length, labelBytes,
-            seed, output, ipad, opad);
+        // P_HASH(Secret, lbbel + seed)
+        expbnd(mdPRF, mdPRFLen, secret, 0, secret.length, lbbelBytes,
+            seed, output, ipbd, opbd);
 
         return output;
     }
 
-    static byte[] doTLS10PRF(byte[] secret, byte[] labelBytes,
+    stbtic byte[] doTLS10PRF(byte[] secret, byte[] lbbelBytes,
             byte[] seed, int outputLength) throws NoSuchAlgorithmException,
             DigestException {
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        MessageDigest sha = MessageDigest.getInstance("SHA1");
-        return doTLS10PRF(secret, labelBytes, seed, outputLength, md5, sha);
+        MessbgeDigest md5 = MessbgeDigest.getInstbnce("MD5");
+        MessbgeDigest shb = MessbgeDigest.getInstbnce("SHA1");
+        return doTLS10PRF(secret, lbbelBytes, seed, outputLength, md5, shb);
     }
 
-    static byte[] doTLS10PRF(byte[] secret, byte[] labelBytes,
-            byte[] seed, int outputLength, MessageDigest md5,
-            MessageDigest sha) throws DigestException {
+    stbtic byte[] doTLS10PRF(byte[] secret, byte[] lbbelBytes,
+            byte[] seed, int outputLength, MessbgeDigest md5,
+            MessbgeDigest shb) throws DigestException {
         /*
-         * Split the secret into two halves S1 and S2 of same length.
-         * S1 is taken from the first half of the secret, S2 from the
-         * second half.
-         * Their length is created by rounding up the length of the
-         * overall secret divided by two; thus, if the original secret
-         * is an odd number of bytes long, the last byte of S1 will be
-         * the same as the first byte of S2.
+         * Split the secret into two hblves S1 bnd S2 of sbme length.
+         * S1 is tbken from the first hblf of the secret, S2 from the
+         * second hblf.
+         * Their length is crebted by rounding up the length of the
+         * overbll secret divided by two; thus, if the originbl secret
+         * is bn odd number of bytes long, the lbst byte of S1 will be
+         * the sbme bs the first byte of S2.
          *
-         * Note: Instead of creating S1 and S2, we determine the offset into
-         * the overall secret where S2 starts.
+         * Note: Instebd of crebting S1 bnd S2, we determine the offset into
+         * the overbll secret where S2 stbrts.
          */
 
         if (secret == null) {
@@ -245,139 +245,139 @@ abstract class TlsPrfGenerator extends KeyGeneratorSpi {
         int keyLen = seclen;
         byte[] output = new byte[outputLength];
 
-        // P_MD5(S1, label + seed)
-        // If we have a long secret, digest it first.
+        // P_MD5(S1, lbbel + seed)
+        // If we hbve b long secret, digest it first.
         if (seclen > 64) {              // 64: block size of HMAC-MD5
-            md5.update(secret, 0, seclen);
+            md5.updbte(secret, 0, seclen);
             secKey = md5.digest();
             keyLen = secKey.length;
         }
-        expand(md5, 16, secKey, 0, keyLen, labelBytes, seed, output,
-            HMAC_ipad64.clone(), HMAC_opad64.clone());
+        expbnd(md5, 16, secKey, 0, keyLen, lbbelBytes, seed, output,
+            HMAC_ipbd64.clone(), HMAC_opbd64.clone());
 
-        // P_SHA-1(S2, label + seed)
-        // If we have a long secret, digest it first.
+        // P_SHA-1(S2, lbbel + seed)
+        // If we hbve b long secret, digest it first.
         if (seclen > 64) {              // 64: block size of HMAC-SHA1
-            sha.update(secret, off, seclen);
-            secKey = sha.digest();
+            shb.updbte(secret, off, seclen);
+            secKey = shb.digest();
             keyLen = secKey.length;
             off = 0;
         }
-        expand(sha, 20, secKey, off, keyLen, labelBytes, seed, output,
-            HMAC_ipad64.clone(), HMAC_opad64.clone());
+        expbnd(shb, 20, secKey, off, keyLen, lbbelBytes, seed, output,
+            HMAC_ipbd64.clone(), HMAC_opbd64.clone());
 
         return output;
     }
 
     /*
-     * @param digest the MessageDigest to produce the HMAC
-     * @param hmacSize the HMAC size
-     * @param secret the secret
-     * @param secOff the offset into the secret
-     * @param secLen the secret length
-     * @param label the label
-     * @param seed the seed
-     * @param output the output array
+     * @pbrbm digest the MessbgeDigest to produce the HMAC
+     * @pbrbm hmbcSize the HMAC size
+     * @pbrbm secret the secret
+     * @pbrbm secOff the offset into the secret
+     * @pbrbm secLen the secret length
+     * @pbrbm lbbel the lbbel
+     * @pbrbm seed the seed
+     * @pbrbm output the output brrby
      */
-    private static void expand(MessageDigest digest, int hmacSize,
-            byte[] secret, int secOff, int secLen, byte[] label, byte[] seed,
-            byte[] output, byte[] pad1, byte[] pad2) throws DigestException {
+    privbte stbtic void expbnd(MessbgeDigest digest, int hmbcSize,
+            byte[] secret, int secOff, int secLen, byte[] lbbel, byte[] seed,
+            byte[] output, byte[] pbd1, byte[] pbd2) throws DigestException {
         /*
-         * modify the padding used, by XORing the key into our copy of that
-         * padding.  That's to avoid doing that for each HMAC computation.
+         * modify the pbdding used, by XORing the key into our copy of thbt
+         * pbdding.  Thbt's to bvoid doing thbt for ebch HMAC computbtion.
          */
         for (int i = 0; i < secLen; i++) {
-            pad1[i] ^= secret[i + secOff];
-            pad2[i] ^= secret[i + secOff];
+            pbd1[i] ^= secret[i + secOff];
+            pbd2[i] ^= secret[i + secOff];
         }
 
-        byte[] tmp = new byte[hmacSize];
-        byte[] aBytes = null;
+        byte[] tmp = new byte[hmbcSize];
+        byte[] bBytes = null;
 
         /*
          * compute:
          *
-         *     P_hash(secret, seed) = HMAC_hash(secret, A(1) + seed) +
-         *                            HMAC_hash(secret, A(2) + seed) +
-         *                            HMAC_hash(secret, A(3) + seed) + ...
-         * A() is defined as:
+         *     P_hbsh(secret, seed) = HMAC_hbsh(secret, A(1) + seed) +
+         *                            HMAC_hbsh(secret, A(2) + seed) +
+         *                            HMAC_hbsh(secret, A(3) + seed) + ...
+         * A() is defined bs:
          *
          *     A(0) = seed
-         *     A(i) = HMAC_hash(secret, A(i-1))
+         *     A(i) = HMAC_hbsh(secret, A(i-1))
          */
-        int remaining = output.length;
+        int rembining = output.length;
         int ofs = 0;
-        while (remaining > 0) {
+        while (rembining > 0) {
             /*
              * compute A() ...
              */
             // inner digest
-            digest.update(pad1);
-            if (aBytes == null) {
-                digest.update(label);
-                digest.update(seed);
+            digest.updbte(pbd1);
+            if (bBytes == null) {
+                digest.updbte(lbbel);
+                digest.updbte(seed);
             } else {
-                digest.update(aBytes);
+                digest.updbte(bBytes);
             }
-            digest.digest(tmp, 0, hmacSize);
+            digest.digest(tmp, 0, hmbcSize);
 
             // outer digest
-            digest.update(pad2);
-            digest.update(tmp);
-            if (aBytes == null) {
-                aBytes = new byte[hmacSize];
+            digest.updbte(pbd2);
+            digest.updbte(tmp);
+            if (bBytes == null) {
+                bBytes = new byte[hmbcSize];
             }
-            digest.digest(aBytes, 0, hmacSize);
+            digest.digest(bBytes, 0, hmbcSize);
 
             /*
-             * compute HMAC_hash() ...
+             * compute HMAC_hbsh() ...
              */
             // inner digest
-            digest.update(pad1);
-            digest.update(aBytes);
-            digest.update(label);
-            digest.update(seed);
-            digest.digest(tmp, 0, hmacSize);
+            digest.updbte(pbd1);
+            digest.updbte(bBytes);
+            digest.updbte(lbbel);
+            digest.updbte(seed);
+            digest.digest(tmp, 0, hmbcSize);
 
             // outer digest
-            digest.update(pad2);
-            digest.update(tmp);
-            digest.digest(tmp, 0, hmacSize);
+            digest.updbte(pbd2);
+            digest.updbte(tmp);
+            digest.digest(tmp, 0, hmbcSize);
 
-            int k = Math.min(hmacSize, remaining);
+            int k = Mbth.min(hmbcSize, rembining);
             for (int i = 0; i < k; i++) {
                 output[ofs++] ^= tmp[i];
             }
-            remaining -= k;
+            rembining -= k;
         }
     }
 
     /**
-     * A KeyGenerator implementation that supports TLS 1.2.
+     * A KeyGenerbtor implementbtion thbt supports TLS 1.2.
      * <p>
-     * TLS 1.2 uses a different hash algorithm than 1.0/1.1 for the PRF
-     * calculations.  As of 2010, there is no PKCS11-level support for TLS
-     * 1.2 PRF calculations, and no known OS's have an internal variant
-     * we could use.  Therefore for TLS 1.2, we are updating JSSE to request
-     * a different provider algorithm:  "SunTls12Prf".  If we reused the
-     * name "SunTlsPrf", the PKCS11 provider would need be updated to
-     * fail correctly when presented with the wrong version number
-     * (via Provider.Service.supportsParameters()), and add the
-     * appropriate supportsParamters() checks into KeyGenerators (not
+     * TLS 1.2 uses b different hbsh blgorithm thbn 1.0/1.1 for the PRF
+     * cblculbtions.  As of 2010, there is no PKCS11-level support for TLS
+     * 1.2 PRF cblculbtions, bnd no known OS's hbve bn internbl vbribnt
+     * we could use.  Therefore for TLS 1.2, we bre updbting JSSE to request
+     * b different provider blgorithm:  "SunTls12Prf".  If we reused the
+     * nbme "SunTlsPrf", the PKCS11 provider would need be updbted to
+     * fbil correctly when presented with the wrong version number
+     * (vib Provider.Service.supportsPbrbmeters()), bnd bdd the
+     * bppropribte supportsPbrbmters() checks into KeyGenerbtors (not
      * currently there).
      */
-    static public class V12 extends TlsPrfGenerator {
-        protected SecretKey engineGenerateKey() {
-            return engineGenerateKey0(true);
+    stbtic public clbss V12 extends TlsPrfGenerbtor {
+        protected SecretKey engineGenerbteKey() {
+            return engineGenerbteKey0(true);
         }
     }
 
     /**
-     * A KeyGenerator implementation that supports TLS 1.0/1.1.
+     * A KeyGenerbtor implementbtion thbt supports TLS 1.0/1.1.
      */
-    static public class V10 extends TlsPrfGenerator {
-        protected SecretKey engineGenerateKey() {
-            return engineGenerateKey0(false);
+    stbtic public clbss V10 extends TlsPrfGenerbtor {
+        protected SecretKey engineGenerbteKey() {
+            return engineGenerbteKey0(fblse);
         }
     }
 }

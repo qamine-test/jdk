@@ -1,19 +1,19 @@
-Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
+Redistribution bnd use in source bnd binbry forms, with or without
+modificbtion, bre permitted provided thbt the following conditions
+bre met:
 
-  - Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
+  - Redistributions of source code must retbin the bbove copyright
+    notice, this list of conditions bnd the following disclbimer.
 
-  - Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in the
-    documentation and/or other materials provided with the distribution.
+  - Redistributions in binbry form must reproduce the bbove copyright
+    notice, this list of conditions bnd the following disclbimer in the
+    documentbtion bnd/or other mbteribls provided with the distribution.
 
-  - Neither the name of Oracle nor the names of its
-    contributors may be used to endorse or promote products derived
-    from this software without specific prior written permission.
+  - Neither the nbme of Orbcle nor the nbmes of its
+    contributors mby be used to endorse or promote products derived
+    from this softwbre without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -28,59 +28,59 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-Header for -agentlib:hprof (or -Xrunhprof) ASCII Output (JDK 5.0 JVMTI based)
+Hebder for -bgentlib:hprof (or -Xrunhprof) ASCII Output (JDK 5.0 JVMTI bbsed)
 
-WARNING!  This file format is under development, and is subject to
-change without notice.
+WARNING!  This file formbt is under development, bnd is subject to
+chbnge without notice.
 
-This file contains the following types of records:
+This file contbins the following types of records:
 
 THREAD START
-THREAD END      mark the lifetime of Java threads
+THREAD END      mbrk the lifetime of Jbvb threbds
 
-TRACE           represents a Java stack trace.  Each trace consists
-                of a series of stack frames.  Other records refer to
-                TRACEs to identify (1) where object allocations have
-                taken place, (2) the frames in which GC roots were
-                found, and (3) frequently executed methods.
+TRACE           represents b Jbvb stbck trbce.  Ebch trbce consists
+                of b series of stbck frbmes.  Other records refer to
+                TRACEs to identify (1) where object bllocbtions hbve
+                tbken plbce, (2) the frbmes in which GC roots were
+                found, bnd (3) frequently executed methods.
 
-HEAP DUMP       is a complete snapshot of all live objects in the Java
-                heap.  Following distinctions are made:
+HEAP DUMP       is b complete snbpshot of bll live objects in the Jbvb
+                hebp.  Following distinctions bre mbde:
 
-                ROOT    root set as determined by GC
-                CLS     classes 
-                OBJ     instances
-                ARR     arrays
+                ROOT    root set bs determined by GC
+                CLS     clbsses 
+                OBJ     instbnces
+                ARR     brrbys
 
-SITES           is a sorted list of allocation sites.  This identifies
-                the most heavily allocated object types, and the TRACE
-                at which those allocations occurred.
+SITES           is b sorted list of bllocbtion sites.  This identifies
+                the most hebvily bllocbted object types, bnd the TRACE
+                bt which those bllocbtions occurred.
 
-CPU SAMPLES     is a statistical profile of program execution.  The VM
-                periodically samples all running threads, and assigns
-                a quantum to active TRACEs in those threads.  Entries
-                in this record are TRACEs ranked by the percentage of
-                total quanta they consumed; top-ranked TRACEs are
-                typically hot spots in the program.
+CPU SAMPLES     is b stbtisticbl profile of progrbm execution.  The VM
+                periodicblly sbmples bll running threbds, bnd bssigns
+                b qubntum to bctive TRACEs in those threbds.  Entries
+                in this record bre TRACEs rbnked by the percentbge of
+                totbl qubntb they consumed; top-rbnked TRACEs bre
+                typicblly hot spots in the progrbm.
 
-CPU TIME        is a profile of program execution obtained by measuring
-                the time spent in individual methods (excluding the time
-                spent in callees), as well as by counting the number of
-                times each method is called. Entries in this record are
-                TRACEs ranked by the percentage of total CPU time. The
-                "count" field indicates the number of times each TRACE 
+CPU TIME        is b profile of progrbm execution obtbined by mebsuring
+                the time spent in individubl methods (excluding the time
+                spent in cbllees), bs well bs by counting the number of
+                times ebch method is cblled. Entries in this record bre
+                TRACEs rbnked by the percentbge of totbl CPU time. The
+                "count" field indicbtes the number of times ebch TRACE 
                 is invoked.
 
-MONITOR TIME    is a profile of monitor contention obtained by measuring
-                the time spent by a thread waiting to enter a monitor.
-                Entries in this record are TRACEs ranked by the percentage
-                of total monitor contention time and a brief description
-                of the monitor.  The "count" field indicates the number of 
-                times the monitor was contended at that TRACE.
+MONITOR TIME    is b profile of monitor contention obtbined by mebsuring
+                the time spent by b threbd wbiting to enter b monitor.
+                Entries in this record bre TRACEs rbnked by the percentbge
+                of totbl monitor contention time bnd b brief description
+                of the monitor.  The "count" field indicbtes the number of 
+                times the monitor wbs contended bt thbt TRACE.
 
-MONITOR DUMP    is a complete snapshot of all the monitors and threads in 
+MONITOR DUMP    is b complete snbpshot of bll the monitors bnd threbds in 
                 the System.
 
-HEAP DUMP, SITES, CPU SAMPLES|TIME and MONITOR DUMP|TIME records are generated 
-at program exit.  They can also be obtained during program execution by typing 
-Ctrl-\ (on Solaris) or by typing Ctrl-Break (on Win32).
+HEAP DUMP, SITES, CPU SAMPLES|TIME bnd MONITOR DUMP|TIME records bre generbted 
+bt progrbm exit.  They cbn blso be obtbined during progrbm execution by typing 
+Ctrl-\ (on Solbris) or by typing Ctrl-Brebk (on Win32).

@@ -1,331 +1,331 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * Interface of methods to get/set socket options.  This interface is
- * implemented by: <B>SocketImpl</B> and  <B>DatagramSocketImpl</B>.
- * Subclasses of these should override the methods
- * of this interface in order to support their own options.
+ * Interfbce of methods to get/set socket options.  This interfbce is
+ * implemented by: <B>SocketImpl</B> bnd  <B>DbtbgrbmSocketImpl</B>.
+ * Subclbsses of these should override the methods
+ * of this interfbce in order to support their own options.
  * <P>
- * The methods and constants which specify options in this interface are
- * for implementation only.  If you're not subclassing SocketImpl or
- * DatagramSocketImpl, <B>you won't use these directly.</B> There are
- * type-safe methods to get/set each of these options in Socket, ServerSocket,
- * DatagramSocket and MulticastSocket.
+ * The methods bnd constbnts which specify options in this interfbce bre
+ * for implementbtion only.  If you're not subclbssing SocketImpl or
+ * DbtbgrbmSocketImpl, <B>you won't use these directly.</B> There bre
+ * type-sbfe methods to get/set ebch of these options in Socket, ServerSocket,
+ * DbtbgrbmSocket bnd MulticbstSocket.
  *
- * @author David Brown
+ * @buthor Dbvid Brown
  */
 
 
-public interface SocketOptions {
+public interfbce SocketOptions {
 
     /**
-     * Enable/disable the option specified by <I>optID</I>.  If the option
-     * is to be enabled, and it takes an option-specific "value",  this is
-     * passed in <I>value</I>.  The actual type of value is option-specific,
-     * and it is an error to pass something that isn't of the expected type:
+     * Enbble/disbble the option specified by <I>optID</I>.  If the option
+     * is to be enbbled, bnd it tbkes bn option-specific "vblue",  this is
+     * pbssed in <I>vblue</I>.  The bctubl type of vblue is option-specific,
+     * bnd it is bn error to pbss something thbt isn't of the expected type:
      * <BR><PRE>
      * SocketImpl s;
      * ...
      * s.setOption(SO_LINGER, new Integer(10));
      *    // OK - set SO_LINGER w/ timeout of 10 sec.
      * s.setOption(SO_LINGER, new Double(10));
-     *    // ERROR - expects java.lang.Integer
+     *    // ERROR - expects jbvb.lbng.Integer
      *</PRE>
-     * If the requested option is binary, it can be set using this method by
-     * a java.lang.Boolean:
+     * If the requested option is binbry, it cbn be set using this method by
+     * b jbvb.lbng.Boolebn:
      * <BR><PRE>
-     * s.setOption(TCP_NODELAY, new Boolean(true));
-     *    // OK - enables TCP_NODELAY, a binary option
+     * s.setOption(TCP_NODELAY, new Boolebn(true));
+     *    // OK - enbbles TCP_NODELAY, b binbry option
      * </PRE>
      * <BR>
-     * Any option can be disabled using this method with a Boolean(false):
+     * Any option cbn be disbbled using this method with b Boolebn(fblse):
      * <BR><PRE>
-     * s.setOption(TCP_NODELAY, new Boolean(false));
-     *    // OK - disables TCP_NODELAY
-     * s.setOption(SO_LINGER, new Boolean(false));
-     *    // OK - disables SO_LINGER
+     * s.setOption(TCP_NODELAY, new Boolebn(fblse));
+     *    // OK - disbbles TCP_NODELAY
+     * s.setOption(SO_LINGER, new Boolebn(fblse));
+     *    // OK - disbbles SO_LINGER
      * </PRE>
      * <BR>
-     * For an option that has a notion of on and off, and requires
-     * a non-boolean parameter, setting its value to anything other than
-     * <I>Boolean(false)</I> implicitly enables it.
+     * For bn option thbt hbs b notion of on bnd off, bnd requires
+     * b non-boolebn pbrbmeter, setting its vblue to bnything other thbn
+     * <I>Boolebn(fblse)</I> implicitly enbbles it.
      * <BR>
      * Throws SocketException if the option is unrecognized,
      * the socket is closed, or some low-level error occurred
      * <BR>
-     * @param optID identifies the option
-     * @param value the parameter of the socket option
+     * @pbrbm optID identifies the option
+     * @pbrbm vblue the pbrbmeter of the socket option
      * @throws SocketException if the option is unrecognized,
      * the socket is closed, or some low-level error occurred
      * @see #getOption(int)
      */
     public void
-        setOption(int optID, Object value) throws SocketException;
+        setOption(int optID, Object vblue) throws SocketException;
 
     /**
-     * Fetch the value of an option.
-     * Binary options will return java.lang.Boolean(true)
-     * if enabled, java.lang.Boolean(false) if disabled, e.g.:
+     * Fetch the vblue of bn option.
+     * Binbry options will return jbvb.lbng.Boolebn(true)
+     * if enbbled, jbvb.lbng.Boolebn(fblse) if disbbled, e.g.:
      * <BR><PRE>
      * SocketImpl s;
      * ...
-     * Boolean noDelay = (Boolean)(s.getOption(TCP_NODELAY));
-     * if (noDelay.booleanValue()) {
-     *     // true if TCP_NODELAY is enabled...
+     * Boolebn noDelby = (Boolebn)(s.getOption(TCP_NODELAY));
+     * if (noDelby.boolebnVblue()) {
+     *     // true if TCP_NODELAY is enbbled...
      * ...
      * }
      * </PRE>
      * <P>
-     * For options that take a particular type as a parameter,
-     * getOption(int) will return the parameter's value, else
-     * it will return java.lang.Boolean(false):
+     * For options thbt tbke b pbrticulbr type bs b pbrbmeter,
+     * getOption(int) will return the pbrbmeter's vblue, else
+     * it will return jbvb.lbng.Boolebn(fblse):
      * <PRE>
      * Object o = s.getOption(SO_LINGER);
-     * if (o instanceof Integer) {
-     *     System.out.print("Linger time is " + ((Integer)o).intValue());
+     * if (o instbnceof Integer) {
+     *     System.out.print("Linger time is " + ((Integer)o).intVblue());
      * } else {
-     *   // the true type of o is java.lang.Boolean(false);
+     *   // the true type of o is jbvb.lbng.Boolebn(fblse);
      * }
      * </PRE>
      *
-     * @param optID an {@code int} identifying the option to fetch
-     * @return the value of the option
+     * @pbrbm optID bn {@code int} identifying the option to fetch
+     * @return the vblue of the option
      * @throws SocketException if the socket is closed
-     * @throws SocketException if <I>optID</I> is unknown along the
-     *         protocol stack (including the SocketImpl)
-     * @see #setOption(int, java.lang.Object)
+     * @throws SocketException if <I>optID</I> is unknown blong the
+     *         protocol stbck (including the SocketImpl)
+     * @see #setOption(int, jbvb.lbng.Object)
      */
     public Object getOption(int optID) throws SocketException;
 
     /**
-     * The java-supported BSD-style options.
+     * The jbvb-supported BSD-style options.
      */
 
     /**
-     * Disable Nagle's algorithm for this connection.  Written data
-     * to the network is not buffered pending acknowledgement of
-     * previously written data.
+     * Disbble Nbgle's blgorithm for this connection.  Written dbtb
+     * to the network is not buffered pending bcknowledgement of
+     * previously written dbtb.
      *<P>
-     * Valid for TCP only: SocketImpl.
+     * Vblid for TCP only: SocketImpl.
      *
-     * @see Socket#setTcpNoDelay
-     * @see Socket#getTcpNoDelay
+     * @see Socket#setTcpNoDelby
+     * @see Socket#getTcpNoDelby
      */
 
-    @Native public final static int TCP_NODELAY = 0x0001;
+    @Nbtive public finbl stbtic int TCP_NODELAY = 0x0001;
 
     /**
-     * Fetch the local address binding of a socket (this option cannot
-     * be "set" only "gotten", since sockets are bound at creation time,
-     * and so the locally bound address cannot be changed).  The default local
-     * address of a socket is INADDR_ANY, meaning any local address on a
-     * multi-homed host.  A multi-homed host can use this option to accept
-     * connections to only one of its addresses (in the case of a
-     * ServerSocket or DatagramSocket), or to specify its return address
-     * to the peer (for a Socket or DatagramSocket).  The parameter of
-     * this option is an InetAddress.
+     * Fetch the locbl bddress binding of b socket (this option cbnnot
+     * be "set" only "gotten", since sockets bre bound bt crebtion time,
+     * bnd so the locblly bound bddress cbnnot be chbnged).  The defbult locbl
+     * bddress of b socket is INADDR_ANY, mebning bny locbl bddress on b
+     * multi-homed host.  A multi-homed host cbn use this option to bccept
+     * connections to only one of its bddresses (in the cbse of b
+     * ServerSocket or DbtbgrbmSocket), or to specify its return bddress
+     * to the peer (for b Socket or DbtbgrbmSocket).  The pbrbmeter of
+     * this option is bn InetAddress.
      * <P>
      * This option <B>must</B> be specified in the constructor.
      * <P>
-     * Valid for: SocketImpl, DatagramSocketImpl
+     * Vblid for: SocketImpl, DbtbgrbmSocketImpl
      *
-     * @see Socket#getLocalAddress
-     * @see DatagramSocket#getLocalAddress
+     * @see Socket#getLocblAddress
+     * @see DbtbgrbmSocket#getLocblAddress
      */
 
-    @Native public final static int SO_BINDADDR = 0x000F;
+    @Nbtive public finbl stbtic int SO_BINDADDR = 0x000F;
 
-    /** Sets SO_REUSEADDR for a socket.  This is used only for MulticastSockets
-     * in java, and it is set by default for MulticastSockets.
+    /** Sets SO_REUSEADDR for b socket.  This is used only for MulticbstSockets
+     * in jbvb, bnd it is set by defbult for MulticbstSockets.
      * <P>
-     * Valid for: DatagramSocketImpl
+     * Vblid for: DbtbgrbmSocketImpl
      */
 
-    @Native public final static int SO_REUSEADDR = 0x04;
+    @Nbtive public finbl stbtic int SO_REUSEADDR = 0x04;
 
     /**
-     * Sets SO_BROADCAST for a socket. This option enables and disables
-     * the ability of the process to send broadcast messages. It is supported
-     * for only datagram sockets and only on networks that support
-     * the concept of a broadcast message (e.g. Ethernet, token ring, etc.),
-     * and it is set by default for DatagramSockets.
+     * Sets SO_BROADCAST for b socket. This option enbbles bnd disbbles
+     * the bbility of the process to send brobdcbst messbges. It is supported
+     * for only dbtbgrbm sockets bnd only on networks thbt support
+     * the concept of b brobdcbst messbge (e.g. Ethernet, token ring, etc.),
+     * bnd it is set by defbult for DbtbgrbmSockets.
      * @since 1.4
      */
 
-    @Native public final static int SO_BROADCAST = 0x0020;
+    @Nbtive public finbl stbtic int SO_BROADCAST = 0x0020;
 
-    /** Set which outgoing interface on which to send multicast packets.
-     * Useful on hosts with multiple network interfaces, where applications
-     * want to use other than the system default.  Takes/returns an InetAddress.
+    /** Set which outgoing interfbce on which to send multicbst pbckets.
+     * Useful on hosts with multiple network interfbces, where bpplicbtions
+     * wbnt to use other thbn the system defbult.  Tbkes/returns bn InetAddress.
      * <P>
-     * Valid for Multicast: DatagramSocketImpl
+     * Vblid for Multicbst: DbtbgrbmSocketImpl
      *
-     * @see MulticastSocket#setInterface(InetAddress)
-     * @see MulticastSocket#getInterface()
+     * @see MulticbstSocket#setInterfbce(InetAddress)
+     * @see MulticbstSocket#getInterfbce()
      */
 
-    @Native public final static int IP_MULTICAST_IF = 0x10;
+    @Nbtive public finbl stbtic int IP_MULTICAST_IF = 0x10;
 
-    /** Same as above. This option is introduced so that the behaviour
-     *  with IP_MULTICAST_IF will be kept the same as before, while
-     *  this new option can support setting outgoing interfaces with either
-     *  IPv4 and IPv6 addresses.
+    /** Sbme bs bbove. This option is introduced so thbt the behbviour
+     *  with IP_MULTICAST_IF will be kept the sbme bs before, while
+     *  this new option cbn support setting outgoing interfbces with either
+     *  IPv4 bnd IPv6 bddresses.
      *
-     *  NOTE: make sure there is no conflict with this
-     * @see MulticastSocket#setNetworkInterface(NetworkInterface)
-     * @see MulticastSocket#getNetworkInterface()
+     *  NOTE: mbke sure there is no conflict with this
+     * @see MulticbstSocket#setNetworkInterfbce(NetworkInterfbce)
+     * @see MulticbstSocket#getNetworkInterfbce()
      * @since 1.4
      */
-    @Native public final static int IP_MULTICAST_IF2 = 0x1f;
+    @Nbtive public finbl stbtic int IP_MULTICAST_IF2 = 0x1f;
 
     /**
-     * This option enables or disables local loopback of multicast datagrams.
-     * This option is enabled by default for Multicast Sockets.
-     * @since 1.4
-     */
-
-    @Native public final static int IP_MULTICAST_LOOP = 0x12;
-
-    /**
-     * This option sets the type-of-service or traffic class field
-     * in the IP header for a TCP or UDP socket.
+     * This option enbbles or disbbles locbl loopbbck of multicbst dbtbgrbms.
+     * This option is enbbled by defbult for Multicbst Sockets.
      * @since 1.4
      */
 
-    @Native public final static int IP_TOS = 0x3;
+    @Nbtive public finbl stbtic int IP_MULTICAST_LOOP = 0x12;
 
     /**
-     * Specify a linger-on-close timeout.  This option disables/enables
-     * immediate return from a <B>close()</B> of a TCP Socket.  Enabling
-     * this option with a non-zero Integer <I>timeout</I> means that a
-     * <B>close()</B> will block pending the transmission and acknowledgement
-     * of all data written to the peer, at which point the socket is closed
-     * <I>gracefully</I>.  Upon reaching the linger timeout, the socket is
-     * closed <I>forcefully</I>, with a TCP RST. Enabling the option with a
-     * timeout of zero does a forceful close immediately. If the specified
-     * timeout value exceeds 65,535 it will be reduced to 65,535.
+     * This option sets the type-of-service or trbffic clbss field
+     * in the IP hebder for b TCP or UDP socket.
+     * @since 1.4
+     */
+
+    @Nbtive public finbl stbtic int IP_TOS = 0x3;
+
+    /**
+     * Specify b linger-on-close timeout.  This option disbbles/enbbles
+     * immedibte return from b <B>close()</B> of b TCP Socket.  Enbbling
+     * this option with b non-zero Integer <I>timeout</I> mebns thbt b
+     * <B>close()</B> will block pending the trbnsmission bnd bcknowledgement
+     * of bll dbtb written to the peer, bt which point the socket is closed
+     * <I>grbcefully</I>.  Upon rebching the linger timeout, the socket is
+     * closed <I>forcefully</I>, with b TCP RST. Enbbling the option with b
+     * timeout of zero does b forceful close immedibtely. If the specified
+     * timeout vblue exceeds 65,535 it will be reduced to 65,535.
      * <P>
-     * Valid only for TCP: SocketImpl
+     * Vblid only for TCP: SocketImpl
      *
      * @see Socket#setSoLinger
      * @see Socket#getSoLinger
      */
-    @Native public final static int SO_LINGER = 0x0080;
+    @Nbtive public finbl stbtic int SO_LINGER = 0x0080;
 
-    /** Set a timeout on blocking Socket operations:
+    /** Set b timeout on blocking Socket operbtions:
      * <PRE>
-     * ServerSocket.accept();
-     * SocketInputStream.read();
-     * DatagramSocket.receive();
+     * ServerSocket.bccept();
+     * SocketInputStrebm.rebd();
+     * DbtbgrbmSocket.receive();
      * </PRE>
      *
-     * <P> The option must be set prior to entering a blocking
-     * operation to take effect.  If the timeout expires and the
-     * operation would continue to block,
-     * <B>java.io.InterruptedIOException</B> is raised.  The Socket is
-     * not closed in this case.
+     * <P> The option must be set prior to entering b blocking
+     * operbtion to tbke effect.  If the timeout expires bnd the
+     * operbtion would continue to block,
+     * <B>jbvb.io.InterruptedIOException</B> is rbised.  The Socket is
+     * not closed in this cbse.
      *
-     * <P> Valid for all sockets: SocketImpl, DatagramSocketImpl
+     * <P> Vblid for bll sockets: SocketImpl, DbtbgrbmSocketImpl
      *
      * @see Socket#setSoTimeout
      * @see ServerSocket#setSoTimeout
-     * @see DatagramSocket#setSoTimeout
+     * @see DbtbgrbmSocket#setSoTimeout
      */
-    @Native public final static int SO_TIMEOUT = 0x1006;
+    @Nbtive public finbl stbtic int SO_TIMEOUT = 0x1006;
 
     /**
-     * Set a hint the size of the underlying buffers used by the
-     * platform for outgoing network I/O. When used in set, this is a
-     * suggestion to the kernel from the application about the size of
-     * buffers to use for the data to be sent over the socket. When
-     * used in get, this must return the size of the buffer actually
-     * used by the platform when sending out data on this socket.
+     * Set b hint the size of the underlying buffers used by the
+     * plbtform for outgoing network I/O. When used in set, this is b
+     * suggestion to the kernel from the bpplicbtion bbout the size of
+     * buffers to use for the dbtb to be sent over the socket. When
+     * used in get, this must return the size of the buffer bctublly
+     * used by the plbtform when sending out dbtb on this socket.
      *
-     * Valid for all sockets: SocketImpl, DatagramSocketImpl
+     * Vblid for bll sockets: SocketImpl, DbtbgrbmSocketImpl
      *
      * @see Socket#setSendBufferSize
      * @see Socket#getSendBufferSize
-     * @see DatagramSocket#setSendBufferSize
-     * @see DatagramSocket#getSendBufferSize
+     * @see DbtbgrbmSocket#setSendBufferSize
+     * @see DbtbgrbmSocket#getSendBufferSize
      */
-    @Native public final static int SO_SNDBUF = 0x1001;
+    @Nbtive public finbl stbtic int SO_SNDBUF = 0x1001;
 
     /**
-     * Set a hint the size of the underlying buffers used by the
-     * platform for incoming network I/O. When used in set, this is a
-     * suggestion to the kernel from the application about the size of
-     * buffers to use for the data to be received over the
+     * Set b hint the size of the underlying buffers used by the
+     * plbtform for incoming network I/O. When used in set, this is b
+     * suggestion to the kernel from the bpplicbtion bbout the size of
+     * buffers to use for the dbtb to be received over the
      * socket. When used in get, this must return the size of the
-     * buffer actually used by the platform when receiving in data on
+     * buffer bctublly used by the plbtform when receiving in dbtb on
      * this socket.
      *
-     * Valid for all sockets: SocketImpl, DatagramSocketImpl
+     * Vblid for bll sockets: SocketImpl, DbtbgrbmSocketImpl
      *
      * @see Socket#setReceiveBufferSize
      * @see Socket#getReceiveBufferSize
-     * @see DatagramSocket#setReceiveBufferSize
-     * @see DatagramSocket#getReceiveBufferSize
+     * @see DbtbgrbmSocket#setReceiveBufferSize
+     * @see DbtbgrbmSocket#getReceiveBufferSize
      */
-    @Native public final static int SO_RCVBUF = 0x1002;
+    @Nbtive public finbl stbtic int SO_RCVBUF = 0x1002;
 
     /**
-     * When the keepalive option is set for a TCP socket and no data
-     * has been exchanged across the socket in either direction for
-     * 2 hours (NOTE: the actual value is implementation dependent),
-     * TCP automatically sends a keepalive probe to the peer. This probe is a
+     * When the keepblive option is set for b TCP socket bnd no dbtb
+     * hbs been exchbnged bcross the socket in either direction for
+     * 2 hours (NOTE: the bctubl vblue is implementbtion dependent),
+     * TCP butombticblly sends b keepblive probe to the peer. This probe is b
      * TCP segment to which the peer must respond.
      * One of three responses is expected:
-     * 1. The peer responds with the expected ACK. The application is not
-     *    notified (since everything is OK). TCP will send another probe
-     *    following another 2 hours of inactivity.
-     * 2. The peer responds with an RST, which tells the local TCP that
-     *    the peer host has crashed and rebooted. The socket is closed.
+     * 1. The peer responds with the expected ACK. The bpplicbtion is not
+     *    notified (since everything is OK). TCP will send bnother probe
+     *    following bnother 2 hours of inbctivity.
+     * 2. The peer responds with bn RST, which tells the locbl TCP thbt
+     *    the peer host hbs crbshed bnd rebooted. The socket is closed.
      * 3. There is no response from the peer. The socket is closed.
      *
-     * The purpose of this option is to detect if the peer host crashes.
+     * The purpose of this option is to detect if the peer host crbshes.
      *
-     * Valid only for TCP socket: SocketImpl
+     * Vblid only for TCP socket: SocketImpl
      *
      * @see Socket#setKeepAlive
      * @see Socket#getKeepAlive
      */
-    @Native public final static int SO_KEEPALIVE = 0x0008;
+    @Nbtive public finbl stbtic int SO_KEEPALIVE = 0x0008;
 
     /**
-     * When the OOBINLINE option is set, any TCP urgent data received on
-     * the socket will be received through the socket input stream.
-     * When the option is disabled (which is the default) urgent data
-     * is silently discarded.
+     * When the OOBINLINE option is set, bny TCP urgent dbtb received on
+     * the socket will be received through the socket input strebm.
+     * When the option is disbbled (which is the defbult) urgent dbtb
+     * is silently discbrded.
      *
      * @see Socket#setOOBInline
      * @see Socket#getOOBInline
      */
-    @Native public final static int SO_OOBINLINE = 0x1003;
+    @Nbtive public finbl stbtic int SO_OOBINLINE = 0x1003;
 }

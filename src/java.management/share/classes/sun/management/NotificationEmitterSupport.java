@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.Notification;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.ListIterator;
-import java.util.Collections;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.ListIterbtor;
+import jbvb.util.Collections;
 
 /**
- * Abstract helper class for notification emitter support.
+ * Abstrbct helper clbss for notificbtion emitter support.
  */
-abstract class NotificationEmitterSupport implements NotificationEmitter {
+bbstrbct clbss NotificbtionEmitterSupport implements NotificbtionEmitter {
 
-    protected NotificationEmitterSupport() {
+    protected NotificbtionEmitterSupport() {
     }
 
-    private Object listenerLock = new Object();
+    privbte Object listenerLock = new Object();
 
-    // Implementation of NotificationEmitter interface
-    // Cloned from JMX NotificationBroadcasterSupport class.
-    public void addNotificationListener(NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback) {
+    // Implementbtion of NotificbtionEmitter interfbce
+    // Cloned from JMX NotificbtionBrobdcbsterSupport clbss.
+    public void bddNotificbtionListener(NotificbtionListener listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck) {
 
         if (listener == null) {
-            throw new IllegalArgumentException ("Listener can't be null") ;
+            throw new IllegblArgumentException ("Listener cbn't be null") ;
         }
 
-        /* Adding a new listener takes O(n) time where n is the number
-           of existing listeners.  If you have a very large number of
-           listeners performance could degrade.  That's a fairly
-           surprising configuration, and it is hard to avoid this
-           behaviour while still retaining the property that the
-           listenerList is not synchronized while notifications are
-           being sent through it.  If this becomes a problem, a
-           possible solution would be a multiple-readers single-writer
-           setup, so any number of sendNotification() calls could run
-           concurrently but they would exclude an
-           add/removeNotificationListener.  A simpler but less
+        /* Adding b new listener tbkes O(n) time where n is the number
+           of existing listeners.  If you hbve b very lbrge number of
+           listeners performbnce could degrbde.  Thbt's b fbirly
+           surprising configurbtion, bnd it is hbrd to bvoid this
+           behbviour while still retbining the property thbt the
+           listenerList is not synchronized while notificbtions bre
+           being sent through it.  If this becomes b problem, b
+           possible solution would be b multiple-rebders single-writer
+           setup, so bny number of sendNotificbtion() cblls could run
+           concurrently but they would exclude bn
+           bdd/removeNotificbtionListener.  A simpler but less
            efficient solution would be to clone the listener list
-           every time a notification is sent.  */
+           every time b notificbtion is sent.  */
         synchronized (listenerLock) {
-            List<ListenerInfo> newList = new ArrayList<>(listenerList.size() + 1);
-            newList.addAll(listenerList);
-            newList.add(new ListenerInfo(listener, filter, handback));
+            List<ListenerInfo> newList = new ArrbyList<>(listenerList.size() + 1);
+            newList.bddAll(listenerList);
+            newList.bdd(new ListenerInfo(listener, filter, hbndbbck));
             listenerList = newList;
         }
     }
 
-    public void removeNotificationListener(NotificationListener listener)
+    public void removeNotificbtionListener(NotificbtionListener listener)
         throws ListenerNotFoundException {
 
         synchronized (listenerLock) {
-            List<ListenerInfo> newList = new ArrayList<>(listenerList);
-            /* We scan the list of listeners in reverse order because
-               in forward order we would have to repeat the loop with
-               the same index after a remove.  */
+            List<ListenerInfo> newList = new ArrbyList<>(listenerList);
+            /* We scbn the list of listeners in reverse order becbuse
+               in forwbrd order we would hbve to repebt the loop with
+               the sbme index bfter b remove.  */
             for (int i=newList.size()-1; i>=0; i--) {
                 ListenerInfo li = newList.get(i);
 
@@ -98,23 +98,23 @@ abstract class NotificationEmitterSupport implements NotificationEmitter {
         }
     }
 
-    public void removeNotificationListener(NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
+    public void removeNotificbtionListener(NotificbtionListener listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
             throws ListenerNotFoundException {
 
-        boolean found = false;
+        boolebn found = fblse;
 
         synchronized (listenerLock) {
-            List<ListenerInfo> newList = new ArrayList<>(listenerList);
-            final int size = newList.size();
+            List<ListenerInfo> newList = new ArrbyList<>(listenerList);
+            finbl int size = newList.size();
             for (int i = 0; i < size; i++) {
                 ListenerInfo li =  newList.get(i);
 
                 if (li.listener == listener) {
                     found = true;
                     if (li.filter == filter
-                        && li.handback == handback) {
+                        && li.hbndbbck == hbndbbck) {
                         newList.remove(i);
                         listenerList = newList;
                         return;
@@ -125,19 +125,19 @@ abstract class NotificationEmitterSupport implements NotificationEmitter {
 
         if (found) {
             /* We found this listener, but not with the given filter
-             * and handback.  A more informative exception message may
-             * make debugging easier.  */
+             * bnd hbndbbck.  A more informbtive exception messbge mby
+             * mbke debugging ebsier.  */
             throw new ListenerNotFoundException("Listener not registered " +
-                                                "with this filter and " +
-                                                "handback");
+                                                "with this filter bnd " +
+                                                "hbndbbck");
         } else {
             throw new ListenerNotFoundException("Listener not registered");
         }
     }
 
-    void sendNotification(Notification notification) {
+    void sendNotificbtion(Notificbtion notificbtion) {
 
-        if (notification == null) {
+        if (notificbtion == null) {
             return;
         }
 
@@ -146,53 +146,53 @@ abstract class NotificationEmitterSupport implements NotificationEmitter {
             currentList = listenerList;
         }
 
-        final int size = currentList.size();
+        finbl int size = currentList.size();
         for (int i = 0; i < size; i++) {
             ListenerInfo li =  currentList.get(i);
 
             if (li.filter == null
-                || li.filter.isNotificationEnabled(notification)) {
+                || li.filter.isNotificbtionEnbbled(notificbtion)) {
                 try {
-                    li.listener.handleNotification(notification, li.handback);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    li.listener.hbndleNotificbtion(notificbtion, li.hbndbbck);
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                     throw new AssertionError("Error in invoking listener");
                 }
             }
         }
     }
 
-    boolean hasListeners() {
+    boolebn hbsListeners() {
         synchronized (listenerLock) {
             return !listenerList.isEmpty();
         }
     }
 
-    private class ListenerInfo {
-        public NotificationListener listener;
-        NotificationFilter filter;
-        Object handback;
+    privbte clbss ListenerInfo {
+        public NotificbtionListener listener;
+        NotificbtionFilter filter;
+        Object hbndbbck;
 
-        public ListenerInfo(NotificationListener listener,
-                            NotificationFilter filter,
-                            Object handback) {
+        public ListenerInfo(NotificbtionListener listener,
+                            NotificbtionFilter filter,
+                            Object hbndbbck) {
             this.listener = listener;
             this.filter = filter;
-            this.handback = handback;
+            this.hbndbbck = hbndbbck;
         }
     }
 
     /**
-     * Current list of listeners, a List of ListenerInfo.  The object
-     * referenced by this field is never modified.  Instead, the field
-     * is set to a new object when a listener is added or removed,
-     * within a synchronized(this).  In this way, there is no need to
-     * synchronize when traversing the list to send a notification to
-     * the listeners in it.  That avoids potential deadlocks if the
-     * listeners end up depending on other threads that are themselves
-     * accessing this NotificationBroadcasterSupport.
+     * Current list of listeners, b List of ListenerInfo.  The object
+     * referenced by this field is never modified.  Instebd, the field
+     * is set to b new object when b listener is bdded or removed,
+     * within b synchronized(this).  In this wby, there is no need to
+     * synchronize when trbversing the list to send b notificbtion to
+     * the listeners in it.  Thbt bvoids potentibl debdlocks if the
+     * listeners end up depending on other threbds thbt bre themselves
+     * bccessing this NotificbtionBrobdcbsterSupport.
      */
-    private List<ListenerInfo> listenerList = Collections.emptyList();
+    privbte List<ListenerInfo> listenerList = Collections.emptyList();
 
-    abstract public MBeanNotificationInfo[] getNotificationInfo();
+    bbstrbct public MBebnNotificbtionInfo[] getNotificbtionInfo();
 }

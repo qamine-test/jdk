@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <string.h>
 
-#include "java_net_Inet4Address.h"
+#include "jbvb_net_Inet4Address.h"
 #include "net_util.h"
 
 /************************************************************************
  * Inet4Address
  */
-jclass ia4_class;
-jmethodID ia4_ctrID;
+jclbss ib4_clbss;
+jmethodID ib4_ctrID;
 
-static int ia4_initialized = 0;
+stbtic int ib4_initiblized = 0;
 
 /*
- * Class:     java_net_Inet4Address
+ * Clbss:     jbvb_net_Inet4Address
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_net_Inet4Address_init(JNIEnv *env, jclass cls) {
-    if (!ia4_initialized) {
-        jclass c = (*env)->FindClass(env, "java/net/Inet4Address");
+Jbvb_jbvb_net_Inet4Address_init(JNIEnv *env, jclbss cls) {
+    if (!ib4_initiblized) {
+        jclbss c = (*env)->FindClbss(env, "jbvb/net/Inet4Address");
         CHECK_NULL(c);
-        ia4_class = (*env)->NewGlobalRef(env, c);
-        CHECK_NULL(ia4_class);
-        ia4_ctrID = (*env)->GetMethodID(env, ia4_class, "<init>", "()V");
-        CHECK_NULL(ia4_ctrID);
-        ia4_initialized = 1;
+        ib4_clbss = (*env)->NewGlobblRef(env, c);
+        CHECK_NULL(ib4_clbss);
+        ib4_ctrID = (*env)->GetMethodID(env, ib4_clbss, "<init>", "()V");
+        CHECK_NULL(ib4_ctrID);
+        ib4_initiblized = 1;
     }
 }

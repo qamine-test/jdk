@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.File;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import javax.swing.filechooser.*;
+import jbvb.io.File;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvbx.swing.filechooser.*;
 
-//### Renamed from 'ExampleFileFilter.java' provided with Swing demos.
+//### Renbmed from 'ExbmpleFileFilter.jbvb' provided with Swing demos.
 
 /**
- * A convenience implementation of FileFilter that filters out
- * all files except for those type extensions that it knows about.
+ * A convenience implementbtion of FileFilter thbt filters out
+ * bll files except for those type extensions thbt it knows bbout.
  *
- * Extensions are of the type ".foo", which is typically found on
- * Windows and Unix boxes, but not on Macinthosh. Case is ignored.
+ * Extensions bre of the type ".foo", which is typicblly found on
+ * Windows bnd Unix boxes, but not on Mbcinthosh. Cbse is ignored.
  *
- * Example - create a new filter that filerts out all files
- * but gif and jpg image files:
+ * Exbmple - crebte b new filter thbt filerts out bll files
+ * but gif bnd jpg imbge files:
  *
  *     JFileChooser chooser = new JFileChooser();
- *     ExampleFileFilter filter = new ExampleFileFilter(
- *                   new String{"gif", "jpg"}, "JPEG & GIF Images")
- *     chooser.addChoosableFileFilter(filter);
- *     chooser.showOpenDialog(this);
+ *     ExbmpleFileFilter filter = new ExbmpleFileFilter(
+ *                   new String{"gif", "jpg"}, "JPEG & GIF Imbges")
+ *     chooser.bddChoosbbleFileFilter(filter);
+ *     chooser.showOpenDiblog(this);
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
 
-public class JDBFileFilter extends FileFilter {
+public clbss JDBFileFilter extends FileFilter {
 
-    private static String TYPE_UNKNOWN = "Type Unknown";
-    private static String HIDDEN_FILE = "Hidden File";
+    privbte stbtic String TYPE_UNKNOWN = "Type Unknown";
+    privbte stbtic String HIDDEN_FILE = "Hidden File";
 
-    private Hashtable<String, JDBFileFilter> filters = null;
-    private String description = null;
-    private String fullDescription = null;
-    private boolean useExtensionsInDescription = true;
+    privbte Hbshtbble<String, JDBFileFilter> filters = null;
+    privbte String description = null;
+    privbte String fullDescription = null;
+    privbte boolebn useExtensionsInDescription = true;
 
     /**
-     * Creates a file filter. If no filters are added, then all
-     * files are accepted.
+     * Crebtes b file filter. If no filters bre bdded, then bll
+     * files bre bccepted.
      *
-     * @see #addExtension
+     * @see #bddExtension
      */
     public JDBFileFilter() {
-        this.filters = new Hashtable<String, JDBFileFilter>();
+        this.filters = new Hbshtbble<String, JDBFileFilter>();
     }
 
     /**
-     * Creates a file filter that accepts files with the given extension.
-     * Example: new JDBFileFilter("jpg");
+     * Crebtes b file filter thbt bccepts files with the given extension.
+     * Exbmple: new JDBFileFilter("jpg");
      *
-     * @see #addExtension
+     * @see #bddExtension
      */
     public JDBFileFilter(String extension) {
         this(extension,null);
     }
 
     /**
-     * Creates a file filter that accepts the given file type.
-     * Example: new JDBFileFilter("jpg", "JPEG Image Images");
+     * Crebtes b file filter thbt bccepts the given file type.
+     * Exbmple: new JDBFileFilter("jpg", "JPEG Imbge Imbges");
      *
-     * Note that the "." before the extension is not needed. If
+     * Note thbt the "." before the extension is not needed. If
      * provided, it will be ignored.
      *
-     * @see #addExtension
+     * @see #bddExtension
      */
     public JDBFileFilter(String extension, String description) {
         this();
         if(extension!=null) {
-         addExtension(extension);
+         bddExtension(extension);
       }
         if(description!=null) {
          setDescription(description);
@@ -110,31 +110,31 @@ public class JDBFileFilter extends FileFilter {
     }
 
     /**
-     * Creates a file filter from the given string array.
-     * Example: new JDBFileFilter(String {"gif", "jpg"});
+     * Crebtes b file filter from the given string brrby.
+     * Exbmple: new JDBFileFilter(String {"gif", "jpg"});
      *
-     * Note that the "." before the extension is not needed adn
+     * Note thbt the "." before the extension is not needed bdn
      * will be ignored.
      *
-     * @see #addExtension
+     * @see #bddExtension
      */
     public JDBFileFilter(String[] filters) {
         this(filters, null);
     }
 
     /**
-     * Creates a file filter from the given string array and description.
-     * Example: new JDBFileFilter(String {"gif", "jpg"}, "Gif and JPG Images");
+     * Crebtes b file filter from the given string brrby bnd description.
+     * Exbmple: new JDBFileFilter(String {"gif", "jpg"}, "Gif bnd JPG Imbges");
      *
-     * Note that the "." before the extension is not needed and will be ignored.
+     * Note thbt the "." before the extension is not needed bnd will be ignored.
      *
-     * @see #addExtension
+     * @see #bddExtension
      */
     public JDBFileFilter(String[] filters, String description) {
         this();
         for (String filter : filters) {
-            // add filters one by one
-            addExtension(filter);
+            // bdd filters one by one
+            bddExtension(filter);
         }
         if(description!=null) {
          setDescription(description);
@@ -142,16 +142,16 @@ public class JDBFileFilter extends FileFilter {
     }
 
     /**
-     * Return true if this file should be shown in the directory pane,
-     * false if it shouldn't.
+     * Return true if this file should be shown in the directory pbne,
+     * fblse if it shouldn't.
      *
-     * Files that begin with "." are ignored.
+     * Files thbt begin with "." bre ignored.
      *
      * @see #getExtension
-     * @see FileFilter#accepts
+     * @see FileFilter#bccepts
      */
     @Override
-    public boolean accept(File f) {
+    public boolebn bccept(File f) {
         if(f != null) {
             if(f.isDirectory()) {
                 return true;
@@ -161,50 +161,50 @@ public class JDBFileFilter extends FileFilter {
                 return true;
             };
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Return the extension portion of the file's name .
+     * Return the extension portion of the file's nbme .
      *
      * @see #getExtension
-     * @see FileFilter#accept
+     * @see FileFilter#bccept
      */
      public String getExtension(File f) {
         if(f != null) {
-            String filename = f.getName();
-            int i = filename.lastIndexOf('.');
-            if(i>0 && i<filename.length()-1) {
-                return filename.substring(i+1).toLowerCase();
+            String filenbme = f.getNbme();
+            int i = filenbme.lbstIndexOf('.');
+            if(i>0 && i<filenbme.length()-1) {
+                return filenbme.substring(i+1).toLowerCbse();
             };
         }
         return null;
     }
 
     /**
-     * Adds a filetype "dot" extension to filter against.
+     * Adds b filetype "dot" extension to filter bgbinst.
      *
-     * For example: the following code will create a filter that filters
-     * out all files except those that end in ".jpg" and ".tif":
+     * For exbmple: the following code will crebte b filter thbt filters
+     * out bll files except those thbt end in ".jpg" bnd ".tif":
      *
      *   JDBFileFilter filter = new JDBFileFilter();
-     *   filter.addExtension("jpg");
-     *   filter.addExtension("tif");
+     *   filter.bddExtension("jpg");
+     *   filter.bddExtension("tif");
      *
-     * Note that the "." before the extension is not needed and will be ignored.
+     * Note thbt the "." before the extension is not needed bnd will be ignored.
      */
-    public void addExtension(String extension) {
+    public void bddExtension(String extension) {
         if(filters == null) {
-            filters = new Hashtable<String, JDBFileFilter>(5);
+            filters = new Hbshtbble<String, JDBFileFilter>(5);
         }
-        filters.put(extension.toLowerCase(), this);
+        filters.put(extension.toLowerCbse(), this);
         fullDescription = null;
     }
 
 
     /**
-     * Returns the human readable description of this filter. For
-     * example: "JPEG and GIF Image Files (*.jpg, *.gif)"
+     * Returns the humbn rebdbble description of this filter. For
+     * exbmple: "JPEG bnd GIF Imbge Files (*.jpg, *.gif)"
      *
      * @see setDescription
      * @see setExtensionListInDescription
@@ -217,10 +217,10 @@ public class JDBFileFilter extends FileFilter {
             if(description == null || isExtensionListInDescription()) {
                 fullDescription = description==null ? "(" : description + " (";
                 // build the description from the extension list
-                Enumeration<String> extensions = filters.keys();
+                Enumerbtion<String> extensions = filters.keys();
                 if(extensions != null) {
                     fullDescription += "." + extensions.nextElement();
-                    while (extensions.hasMoreElements()) {
+                    while (extensions.hbsMoreElements()) {
                         fullDescription += ", " + extensions.nextElement();
                     }
                 }
@@ -233,8 +233,8 @@ public class JDBFileFilter extends FileFilter {
     }
 
     /**
-     * Sets the human readable description of this filter. For
-     * example: filter.setDescription("Gif and JPG Images");
+     * Sets the humbn rebdbble description of this filter. For
+     * exbmple: filter.setDescription("Gif bnd JPG Imbges");
      *
      * @see setDescription
      * @see setExtensionListInDescription
@@ -247,32 +247,32 @@ public class JDBFileFilter extends FileFilter {
 
     /**
      * Determines whether the extension list (.jpg, .gif, etc) should
-     * show up in the human readable description.
+     * show up in the humbn rebdbble description.
      *
-     * Only relevent if a description was provided in the constructor
+     * Only relevent if b description wbs provided in the constructor
      * or using setDescription();
      *
      * @see getDescription
      * @see setDescription
      * @see isExtensionListInDescription
      */
-    public void setExtensionListInDescription(boolean b) {
+    public void setExtensionListInDescription(boolebn b) {
         useExtensionsInDescription = b;
         fullDescription = null;
     }
 
     /**
      * Returns whether the extension list (.jpg, .gif, etc) should
-     * show up in the human readable description.
+     * show up in the humbn rebdbble description.
      *
-     * Only relevent if a description was provided in the constructor
+     * Only relevent if b description wbs provided in the constructor
      * or using setDescription();
      *
      * @see getDescription
      * @see setDescription
      * @see setExtensionListInDescription
      */
-    public boolean isExtensionListInDescription() {
+    public boolebn isExtensionListInDescription() {
         return useExtensionsInDescription;
     }
 }

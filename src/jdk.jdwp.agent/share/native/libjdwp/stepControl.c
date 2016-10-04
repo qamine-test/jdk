@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
 #include "stepControl.h"
-#include "eventHandler.h"
+#include "eventHbndler.h"
 #include "eventHelper.h"
-#include "threadControl.h"
+#include "threbdControl.h"
 #include "SDE.h"
 
-static jrawMonitorID stepLock;
+stbtic jrbwMonitorID stepLock;
 
-static jint
-getFrameCount(jthread thread)
+stbtic jint
+getFrbmeCount(jthrebd threbd)
 {
     jint count = 0;
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameCount)
-                    (gdata->jvmti, thread, &count);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetFrbmeCount)
+                    (gdbtb->jvmti, threbd, &count);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "getting frame count");
+        EXIT_ERROR(error, "getting frbme count");
     }
     return count;
 }
 
 /*
- * Most enabling/disabling of JVMTI events happens implicitly through
- * the inserting and freeing of handlers for those events. Stepping is
- * different because requested steps are usually not identical to JVMTI steps.
- * They usually require multiple events step, and otherwise, before they
- * complete. While a step request is pending, we may need to temporarily
- * disable and re-enable stepping, but we can't just remove the handlers
- * because that would break the application's ability to remove the
- * events. So, for step events only, we directly enable and disable stepping.
- * This is safe because there can only ever be one pending step request
- * per thread.
+ * Most enbbling/disbbling of JVMTI events hbppens implicitly through
+ * the inserting bnd freeing of hbndlers for those events. Stepping is
+ * different becbuse requested steps bre usublly not identicbl to JVMTI steps.
+ * They usublly require multiple events step, bnd otherwise, before they
+ * complete. While b step request is pending, we mby need to temporbrily
+ * disbble bnd re-enbble stepping, but we cbn't just remove the hbndlers
+ * becbuse thbt would brebk the bpplicbtion's bbility to remove the
+ * events. So, for step events only, we directly enbble bnd disbble stepping.
+ * This is sbfe becbuse there cbn only ever be one pending step request
+ * per threbd.
  */
-static void
-enableStepping(jthread thread)
+stbtic void
+enbbleStepping(jthrebd threbd)
 {
     jvmtiError error;
 
-    LOG_STEP(("enableStepping: thread=%p", thread));
+    LOG_STEP(("enbbleStepping: threbd=%p", threbd));
 
-    error = threadControl_setEventMode(JVMTI_ENABLE, EI_SINGLE_STEP,
-                                            thread);
+    error = threbdControl_setEventMode(JVMTI_ENABLE, EI_SINGLE_STEP,
+                                            threbd);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "enabling single step");
+        EXIT_ERROR(error, "enbbling single step");
     }
 }
 
-static void
-disableStepping(jthread thread)
+stbtic void
+disbbleStepping(jthrebd threbd)
 {
     jvmtiError error;
 
-    LOG_STEP(("disableStepping: thread=%p", thread));
+    LOG_STEP(("disbbleStepping: threbd=%p", threbd));
 
-    error = threadControl_setEventMode(JVMTI_DISABLE, EI_SINGLE_STEP,
-                                            thread);
+    error = threbdControl_setEventMode(JVMTI_DISABLE, EI_SINGLE_STEP,
+                                            threbd);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "disabling single step");
+        EXIT_ERROR(error, "disbbling single step");
     }
 }
 
-static jvmtiError
-getFrameLocation(jthread thread,
-        jclass *pclazz, jmethodID *pmethod, jlocation *plocation)
+stbtic jvmtiError
+getFrbmeLocbtion(jthrebd threbd,
+        jclbss *pclbzz, jmethodID *pmethod, jlocbtion *plocbtion)
 {
     jvmtiError error;
 
-    *pclazz = NULL;
+    *pclbzz = NULL;
     *pmethod = NULL;
-    *plocation = -1;
+    *plocbtion = -1;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameLocation)
-            (gdata->jvmti, thread, 0, pmethod, plocation);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetFrbmeLocbtion)
+            (gdbtb->jvmti, threbd, 0, pmethod, plocbtion);
     if (error == JVMTI_ERROR_NONE && *pmethod!=NULL ) {
-        /* This also serves to verify that the methodID is valid */
-        error = methodClass(*pmethod, pclazz);
+        /* This blso serves to verify thbt the methodID is vblid */
+        error = methodClbss(*pmethod, pclbzz);
     }
     return error;
 }
 
-static void
-getLineNumberTable(jmethodID method, jint *pcount,
-                jvmtiLineNumberEntry **ptable)
+stbtic void
+getLineNumberTbble(jmethodID method, jint *pcount,
+                jvmtiLineNumberEntry **ptbble)
 {
     jvmtiError error;
 
     *pcount = 0;
-    *ptable = NULL;
+    *ptbble = NULL;
 
-    /* If the method is native or obsolete, don't even ask for the line table */
-    if ( isMethodObsolete(method) || isMethodNative(method)) {
+    /* If the method is nbtive or obsolete, don't even bsk for the line tbble */
+    if ( isMethodObsolete(method) || isMethodNbtive(method)) {
         return;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLineNumberTable)
-                (gdata->jvmti, method, pcount, ptable);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLineNumberTbble)
+                (gdbtb->jvmti, method, pcount, ptbble);
     if (error != JVMTI_ERROR_NONE) {
         *pcount = 0;
     }
 }
 
-static jint
-findLineNumber(jthread thread, jlocation location,
+stbtic jint
+findLineNumber(jthrebd threbd, jlocbtion locbtion,
                jvmtiLineNumberEntry *lines, jint count)
 {
     jint line = -1;
 
-    if (location != -1) {
+    if (locbtion != -1) {
         if (count > 0) {
             jint i;
-            /* any preface before first line is assigned to first line */
+            /* bny prefbce before first line is bssigned to first line */
             for (i=1; i<count; i++) {
-                if (location < lines[i].start_location) {
-                    break;
+                if (locbtion < lines[i].stbrt_locbtion) {
+                    brebk;
                 }
             }
             line = lines[i-1].line_number;
@@ -147,101 +147,101 @@ findLineNumber(jthread thread, jlocation location,
     return line;
 }
 
-static jboolean
-hasLineNumbers(jmethodID method)
+stbtic jboolebn
+hbsLineNumbers(jmethodID method)
 {
     jint count;
-    jvmtiLineNumberEntry *table;
+    jvmtiLineNumberEntry *tbble;
 
-    getLineNumberTable(method, &count, &table);
+    getLineNumberTbble(method, &count, &tbble);
     if ( count == 0 ) {
         return JNI_FALSE;
     } else {
-        jvmtiDeallocate(table);
+        jvmtiDebllocbte(tbble);
     }
     return JNI_TRUE;
 }
 
-static jvmtiError
-initState(JNIEnv *env, jthread thread, StepRequest *step)
+stbtic jvmtiError
+initStbte(JNIEnv *env, jthrebd threbd, StepRequest *step)
 {
     jvmtiError error;
 
     /*
-     * Initial values that may be changed below
+     * Initibl vblues thbt mby be chbnged below
      */
     step->fromLine = -1;
-    step->fromNative = JNI_FALSE;
-    step->frameExited = JNI_FALSE;
-    step->fromStackDepth = getFrameCount(thread);
+    step->fromNbtive = JNI_FALSE;
+    step->frbmeExited = JNI_FALSE;
+    step->fromStbckDepth = getFrbmeCount(threbd);
 
-    if (step->fromStackDepth <= 0) {
+    if (step->fromStbckDepth <= 0) {
         /*
-         * If there are no stack frames, treat the step as though
-         * from a native frame. This is most likely to occur at the
-         * beginning of a debug session, right after the VM_INIT event,
+         * If there bre no stbck frbmes, trebt the step bs though
+         * from b nbtive frbme. This is most likely to occur bt the
+         * beginning of b debug session, right bfter the VM_INIT event,
          * so we need to do something intelligent.
          */
-        step->fromNative = JNI_TRUE;
+        step->fromNbtive = JNI_TRUE;
         return JVMTI_ERROR_NONE;
     }
 
     /*
-     * Try to get a notification on frame pop. If we're in an opaque frame
-     * we won't be able to, but we can use other methods to detect that
-     * a native frame has exited.
+     * Try to get b notificbtion on frbme pop. If we're in bn opbque frbme
+     * we won't be bble to, but we cbn use other methods to detect thbt
+     * b nbtive frbme hbs exited.
      *
-     * TO DO: explain the need for this notification.
+     * TO DO: explbin the need for this notificbtion.
      */
-    error = JVMTI_FUNC_PTR(gdata->jvmti,NotifyFramePop)
-                (gdata->jvmti, thread, 0);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,NotifyFrbmePop)
+                (gdbtb->jvmti, threbd, 0);
     if (error == JVMTI_ERROR_OPAQUE_FRAME) {
-        step->fromNative = JNI_TRUE;
+        step->fromNbtive = JNI_TRUE;
         error = JVMTI_ERROR_NONE;
         /* continue without error */
     } else if (error == JVMTI_ERROR_DUPLICATE) {
         error = JVMTI_ERROR_NONE;
-        /* Already being notified, continue without error */
+        /* Alrebdy being notified, continue without error */
     } else if (error != JVMTI_ERROR_NONE) {
         return error;
     }
 
-    LOG_STEP(("initState(): frame=%d", step->fromStackDepth));
+    LOG_STEP(("initStbte(): frbme=%d", step->fromStbckDepth));
 
     /*
-     * Note: we can't undo the frame pop notify, so
-     * we'll just have to let the handler ignore it if
-     * there are any errors below.
+     * Note: we cbn't undo the frbme pop notify, so
+     * we'll just hbve to let the hbndler ignore it if
+     * there bre bny errors below.
      */
 
-    if (step->granularity == JDWP_STEP_SIZE(LINE) ) {
+    if (step->grbnulbrity == JDWP_STEP_SIZE(LINE) ) {
 
-        LOG_STEP(("initState(): Begin line step"));
+        LOG_STEP(("initStbte(): Begin line step"));
 
         WITH_LOCAL_REFS(env, 1) {
 
-            jclass clazz;
+            jclbss clbzz;
             jmethodID method;
-            jlocation location;
+            jlocbtion locbtion;
 
-            error = getFrameLocation(thread, &clazz, &method, &location);
+            error = getFrbmeLocbtion(threbd, &clbzz, &method, &locbtion);
             if (error == JVMTI_ERROR_NONE) {
-                /* Clear out previous line table only if we changed methods */
+                /* Clebr out previous line tbble only if we chbnged methods */
                 if ( method != step->method ) {
                     step->lineEntryCount = 0;
                     if (step->lineEntries != NULL) {
-                        jvmtiDeallocate(step->lineEntries);
+                        jvmtiDebllocbte(step->lineEntries);
                         step->lineEntries = NULL;
                     }
                     step->method = method;
-                    getLineNumberTable(step->method,
+                    getLineNumberTbble(step->method,
                                  &step->lineEntryCount, &step->lineEntries);
                     if (step->lineEntryCount > 0) {
-                        convertLineNumberTable(env, clazz,
+                        convertLineNumberTbble(env, clbzz,
                                 &step->lineEntryCount, &step->lineEntries);
                     }
                 }
-                step->fromLine = findLineNumber(thread, location,
+                step->fromLine = findLineNumber(threbd, locbtion,
                                      step->lineEntries, step->lineEntryCount);
             }
 
@@ -253,276 +253,276 @@ initState(JNIEnv *env, jthread thread, StepRequest *step)
 }
 
 /*
- * TO DO: The step handlers (handleFrameChange and handleStep can
- * be broken down and made simpler now that we can install and de-install event
- * handlers.
+ * TO DO: The step hbndlers (hbndleFrbmeChbnge bnd hbndleStep cbn
+ * be broken down bnd mbde simpler now thbt we cbn instbll bnd de-instbll event
+ * hbndlers.
  */
-static void
-handleFramePopEvent(JNIEnv *env, EventInfo *evinfo,
-                    HandlerNode *node,
-                    struct bag *eventBag)
+stbtic void
+hbndleFrbmePopEvent(JNIEnv *env, EventInfo *evinfo,
+                    HbndlerNode *node,
+                    struct bbg *eventBbg)
 {
     StepRequest *step;
-    jthread thread = evinfo->thread;
+    jthrebd threbd = evinfo->threbd;
 
     stepControl_lock();
 
-    step = threadControl_getStepRequest(thread);
+    step = threbdControl_getStepRequest(threbd);
     if (step == NULL) {
         EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
     }
 
     if (step->pending) {
         /*
-         * Note: current depth is reported as *before* the pending frame
+         * Note: current depth is reported bs *before* the pending frbme
          * pop.
          */
         jint currentDepth;
         jint fromDepth;
-        jint afterPopDepth;
+        jint bfterPopDepth;
 
-        currentDepth = getFrameCount(thread);
-        fromDepth = step->fromStackDepth;
-        afterPopDepth = currentDepth-1;
+        currentDepth = getFrbmeCount(threbd);
+        fromDepth = step->fromStbckDepth;
+        bfterPopDepth = currentDepth-1;
 
-        LOG_STEP(("handleFramePopEvent: BEGIN fromDepth=%d, currentDepth=%d",
+        LOG_STEP(("hbndleFrbmePopEvent: BEGIN fromDepth=%d, currentDepth=%d",
                         fromDepth, currentDepth));
 
         /*
-         * If we are exiting the original stepping frame, record that
-         * fact here. Once the next step event comes in, we can safely
+         * If we bre exiting the originbl stepping frbme, record thbt
+         * fbct here. Once the next step event comes in, we cbn sbfely
          * stop stepping there.
          */
-        if (fromDepth > afterPopDepth ) {
-            step->frameExited = JNI_TRUE;
+        if (fromDepth > bfterPopDepth ) {
+            step->frbmeExited = JNI_TRUE;
         }
 
         if (step->depth == JDWP_STEP_DEPTH(OVER)) {
             /*
              * Either
-             * 1) the original stepping frame is about to be popped
-             *    [fromDepth == currentDepth]. Re-enable stepping to
-             *    reach a point where we can stop.
-             * 2) a method called from the stepping frame has returned
-             *    (during which we had stepping disabled)
-             *    [fromDepth == currentDepth - 1]. Re-enable stepping
-             *    so that we can continue instructions steps in the
-             *    original stepping frame.
-             * 3) a method further down the call chain has notified
-             *    of a frame pop [fromDepth < currentDepth - 1]. This
-             *    *might* represent case (2) above if the stepping frame
-             *    was calling a native method which in turn called a
-             *    java method. If so, we must enable stepping to
-             *    ensure that we get control back after the intervening
-             *    native frame is popped (you can't get frame pop
-             *    notifications on native frames). If the native caller
-             *    calls another Java method before returning,
-             *    stepping will be diabled again and another frame pop
-             *    will be awaited.
+             * 1) the originbl stepping frbme is bbout to be popped
+             *    [fromDepth == currentDepth]. Re-enbble stepping to
+             *    rebch b point where we cbn stop.
+             * 2) b method cblled from the stepping frbme hbs returned
+             *    (during which we hbd stepping disbbled)
+             *    [fromDepth == currentDepth - 1]. Re-enbble stepping
+             *    so thbt we cbn continue instructions steps in the
+             *    originbl stepping frbme.
+             * 3) b method further down the cbll chbin hbs notified
+             *    of b frbme pop [fromDepth < currentDepth - 1]. This
+             *    *might* represent cbse (2) bbove if the stepping frbme
+             *    wbs cblling b nbtive method which in turn cblled b
+             *    jbvb method. If so, we must enbble stepping to
+             *    ensure thbt we get control bbck bfter the intervening
+             *    nbtive frbme is popped (you cbn't get frbme pop
+             *    notificbtions on nbtive frbmes). If the nbtive cbller
+             *    cblls bnother Jbvb method before returning,
+             *    stepping will be dibbled bgbin bnd bnother frbme pop
+             *    will be bwbited.
              *
-             *    If it turns out that this is not case (2) with native
-             *    methods, then the enabled stepping is benign and
-             *    will be disabled again on the next step event.
+             *    If it turns out thbt this is not cbse (2) with nbtive
+             *    methods, then the enbbled stepping is benign bnd
+             *    will be disbbled bgbin on the next step event.
              *
-             * Note that the condition not covered above,
-             * [fromDepth > currentDepth] shouldn't happen since it means
-             * that too many frames have been popped. For robustness,
-             * we enable stepping in that case too, so that the errant
-             * step-over can be stopped.
+             * Note thbt the condition not covered bbove,
+             * [fromDepth > currentDepth] shouldn't hbppen since it mebns
+             * thbt too mbny frbmes hbve been popped. For robustness,
+             * we enbble stepping in thbt cbse too, so thbt the errbnt
+             * step-over cbn be stopped.
              *
              */
-            LOG_STEP(("handleFramePopEvent: starting singlestep, depth==OVER"));
-            enableStepping(thread);
+            LOG_STEP(("hbndleFrbmePopEvent: stbrting singlestep, depth==OVER"));
+            enbbleStepping(threbd);
         } else if (step->depth == JDWP_STEP_DEPTH(OUT) &&
-                   fromDepth > afterPopDepth) {
+                   fromDepth > bfterPopDepth) {
             /*
-             * The original stepping frame is about to be popped. Step
-             * until we reach the next safe place to stop.
+             * The originbl stepping frbme is bbout to be popped. Step
+             * until we rebch the next sbfe plbce to stop.
              */
-            LOG_STEP(("handleFramePopEvent: starting singlestep, depth==OUT && fromDepth > afterPopDepth (%d>%d)",fromDepth, afterPopDepth));
-            enableStepping(thread);
-        } else if (step->methodEnterHandlerNode != NULL &&
-                   fromDepth >= afterPopDepth) {
+            LOG_STEP(("hbndleFrbmePopEvent: stbrting singlestep, depth==OUT && fromDepth > bfterPopDepth (%d>%d)",fromDepth, bfterPopDepth));
+            enbbleStepping(threbd);
+        } else if (step->methodEnterHbndlerNode != NULL &&
+                   fromDepth >= bfterPopDepth) {
             /*
-             * We installed a method entry event handler as part of a
-             * step into operation. We've popped back to the original
-             * stepping frame without finding a place to stop.
-             * Resume stepping in the original frame.
+             * We instblled b method entry event hbndler bs pbrt of b
+             * step into operbtion. We've popped bbck to the originbl
+             * stepping frbme without finding b plbce to stop.
+             * Resume stepping in the originbl frbme.
              */
-            LOG_STEP(("handleFramePopEvent: starting singlestep, have methodEnter handler && depth==OUT && fromDepth >= afterPopDepth (%d>%d)",fromDepth, afterPopDepth));
-            enableStepping(thread);
-            (void)eventHandler_free(step->methodEnterHandlerNode);
-            step->methodEnterHandlerNode = NULL;
+            LOG_STEP(("hbndleFrbmePopEvent: stbrting singlestep, hbve methodEnter hbndler && depth==OUT && fromDepth >= bfterPopDepth (%d>%d)",fromDepth, bfterPopDepth));
+            enbbleStepping(threbd);
+            (void)eventHbndler_free(step->methodEnterHbndlerNode);
+            step->methodEnterHbndlerNode = NULL;
         }
-        LOG_STEP(("handleFramePopEvent: finished"));
+        LOG_STEP(("hbndleFrbmePopEvent: finished"));
     }
 
     stepControl_unlock();
 }
 
-static void
-handleExceptionCatchEvent(JNIEnv *env, EventInfo *evinfo,
-                          HandlerNode *node,
-                          struct bag *eventBag)
+stbtic void
+hbndleExceptionCbtchEvent(JNIEnv *env, EventInfo *evinfo,
+                          HbndlerNode *node,
+                          struct bbg *eventBbg)
 {
     StepRequest *step;
-    jthread thread = evinfo->thread;
+    jthrebd threbd = evinfo->threbd;
 
     stepControl_lock();
 
-    step = threadControl_getStepRequest(thread);
+    step = threbdControl_getStepRequest(threbd);
     if (step == NULL) {
         EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
     }
 
     if (step->pending) {
         /*
-         *  Determine where we are on the call stack relative to where
-         *  we started.
+         *  Determine where we bre on the cbll stbck relbtive to where
+         *  we stbrted.
          */
-        jint currentDepth = getFrameCount(thread);
-        jint fromDepth = step->fromStackDepth;
+        jint currentDepth = getFrbmeCount(threbd);
+        jint fromDepth = step->fromStbckDepth;
 
-        LOG_STEP(("handleExceptionCatchEvent: fromDepth=%d, currentDepth=%d",
+        LOG_STEP(("hbndleExceptionCbtchEvent: fromDepth=%d, currentDepth=%d",
                         fromDepth, currentDepth));
 
         /*
-         * If we are exiting the original stepping frame, record that
-         * fact here. Once the next step event comes in, we can safely
+         * If we bre exiting the originbl stepping frbme, record thbt
+         * fbct here. Once the next step event comes in, we cbn sbfely
          * stop stepping there.
          */
         if (fromDepth > currentDepth) {
-            step->frameExited = JNI_TRUE;
+            step->frbmeExited = JNI_TRUE;
         }
 
         if (step->depth == JDWP_STEP_DEPTH(OVER) &&
             fromDepth >= currentDepth) {
             /*
-             * Either the original stepping frame is done,
-             * or a called method has returned (during which we had stepping
-             * disabled). In either case we must resume stepping.
+             * Either the originbl stepping frbme is done,
+             * or b cblled method hbs returned (during which we hbd stepping
+             * disbbled). In either cbse we must resume stepping.
              */
-            enableStepping(thread);
+            enbbleStepping(threbd);
         } else if (step->depth == JDWP_STEP_DEPTH(OUT) &&
                    fromDepth > currentDepth) {
             /*
-             * The original stepping frame is done. Step
-             * until we reach the next safe place to stop.
+             * The originbl stepping frbme is done. Step
+             * until we rebch the next sbfe plbce to stop.
              */
-            enableStepping(thread);
-        } else if (step->methodEnterHandlerNode != NULL &&
+            enbbleStepping(threbd);
+        } else if (step->methodEnterHbndlerNode != NULL &&
                    fromDepth >= currentDepth) {
             /*
-             * We installed a method entry event handler as part of a
-             * step into operation. We've popped back to the original
-             * stepping frame or higher without finding a place to stop.
-             * Resume stepping in the original frame.
+             * We instblled b method entry event hbndler bs pbrt of b
+             * step into operbtion. We've popped bbck to the originbl
+             * stepping frbme or higher without finding b plbce to stop.
+             * Resume stepping in the originbl frbme.
              */
-            enableStepping(thread);
-            (void)eventHandler_free(step->methodEnterHandlerNode);
-            step->methodEnterHandlerNode = NULL;
+            enbbleStepping(threbd);
+            (void)eventHbndler_free(step->methodEnterHbndlerNode);
+            step->methodEnterHbndlerNode = NULL;
         }
     }
 
     stepControl_unlock();
 }
 
-static void
-handleMethodEnterEvent(JNIEnv *env, EventInfo *evinfo,
-                       HandlerNode *node,
-                       struct bag *eventBag)
+stbtic void
+hbndleMethodEnterEvent(JNIEnv *env, EventInfo *evinfo,
+                       HbndlerNode *node,
+                       struct bbg *eventBbg)
 {
     StepRequest *step;
-    jthread thread;
+    jthrebd threbd;
 
-    thread = evinfo->thread;
+    threbd = evinfo->threbd;
 
     stepControl_lock();
 
-    step = threadControl_getStepRequest(thread);
+    step = threbdControl_getStepRequest(threbd);
     if (step == NULL) {
         EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
     }
 
     if (step->pending) {
-        jclass    clazz;
+        jclbss    clbzz;
         jmethodID method;
-        char     *classname;
+        chbr     *clbssnbme;
 
-        LOG_STEP(("handleMethodEnterEvent: thread=%p", thread));
+        LOG_STEP(("hbndleMethodEnterEvent: threbd=%p", threbd));
 
-        clazz     = evinfo->clazz;
+        clbzz     = evinfo->clbzz;
         method    = evinfo->method;
-        classname = getClassname(clazz);
+        clbssnbme = getClbssnbme(clbzz);
 
         /*
-         * This handler is relevant only to step into
+         * This hbndler is relevbnt only to step into
          */
         JDI_ASSERT(step->depth == JDWP_STEP_DEPTH(INTO));
 
-        if (    (!eventFilter_predictFiltering(step->stepHandlerNode,
-                                               clazz, classname))
-             && (   step->granularity != JDWP_STEP_SIZE(LINE)
-                 || hasLineNumbers(method) ) ) {
+        if (    (!eventFilter_predictFiltering(step->stepHbndlerNode,
+                                               clbzz, clbssnbme))
+             && (   step->grbnulbrity != JDWP_STEP_SIZE(LINE)
+                 || hbsLineNumbers(method) ) ) {
             /*
-             * We've found a suitable method in which to stop. Step
-             * until we reach the next safe location to complete the step->,
-             * and we can get rid of the method entry handler.
+             * We've found b suitbble method in which to stop. Step
+             * until we rebch the next sbfe locbtion to complete the step->,
+             * bnd we cbn get rid of the method entry hbndler.
              */
-            enableStepping(thread);
-            if ( step->methodEnterHandlerNode != NULL ) {
-                (void)eventHandler_free(step->methodEnterHandlerNode);
-                step->methodEnterHandlerNode = NULL;
+            enbbleStepping(threbd);
+            if ( step->methodEnterHbndlerNode != NULL ) {
+                (void)eventHbndler_free(step->methodEnterHbndlerNode);
+                step->methodEnterHbndlerNode = NULL;
             }
         }
-        jvmtiDeallocate(classname);
-        classname = NULL;
+        jvmtiDebllocbte(clbssnbme);
+        clbssnbme = NULL;
     }
 
     stepControl_unlock();
 }
 
-static void
-completeStep(JNIEnv *env, jthread thread, StepRequest *step)
+stbtic void
+completeStep(JNIEnv *env, jthrebd threbd, StepRequest *step)
 {
     jvmtiError error;
 
     /*
-     * We've completed a step; reset state for the next one, if any
+     * We've completed b step; reset stbte for the next one, if bny
      */
 
-    LOG_STEP(("completeStep: thread=%p", thread));
+    LOG_STEP(("completeStep: threbd=%p", threbd));
 
-    if (step->methodEnterHandlerNode != NULL) {
-        (void)eventHandler_free(step->methodEnterHandlerNode);
-        step->methodEnterHandlerNode = NULL;
+    if (step->methodEnterHbndlerNode != NULL) {
+        (void)eventHbndler_free(step->methodEnterHbndlerNode);
+        step->methodEnterHbndlerNode = NULL;
     }
 
-    error = initState(env, thread, step);
+    error = initStbte(env, threbd, step);
     if (error != JVMTI_ERROR_NONE) {
         /*
-         * None of the initState errors should happen after one step
-         * has successfully completed.
+         * None of the initStbte errors should hbppen bfter one step
+         * hbs successfully completed.
          */
-        EXIT_ERROR(error, "initializing step state");
+        EXIT_ERROR(error, "initiblizing step stbte");
     }
 }
 
-jboolean
-stepControl_handleStep(JNIEnv *env, jthread thread,
-                       jclass clazz, jmethodID method)
+jboolebn
+stepControl_hbndleStep(JNIEnv *env, jthrebd threbd,
+                       jclbss clbzz, jmethodID method)
 {
-    jboolean completed = JNI_FALSE;
+    jboolebn completed = JNI_FALSE;
     StepRequest *step;
     jint currentDepth;
     jint fromDepth;
     jvmtiError error;
-    char *classname;
+    chbr *clbssnbme;
 
-    classname = NULL;
+    clbssnbme = NULL;
     stepControl_lock();
 
-    step = threadControl_getStepRequest(thread);
+    step = threbdControl_getStepRequest(threbd);
     if (step == NULL) {
         EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
     }
@@ -534,148 +534,148 @@ stepControl_handleStep(JNIEnv *env, jthread thread,
         goto done;
     }
 
-    LOG_STEP(("stepControl_handleStep: thread=%p", thread));
+    LOG_STEP(("stepControl_hbndleStep: threbd=%p", threbd));
 
     /*
-     * We never filter step into instruction. It's always over on the
+     * We never filter step into instruction. It's blwbys over on the
      * first step event.
      */
     if (step->depth == JDWP_STEP_DEPTH(INTO) &&
-        step->granularity == JDWP_STEP_SIZE(MIN)) {
+        step->grbnulbrity == JDWP_STEP_SIZE(MIN)) {
         completed = JNI_TRUE;
-        LOG_STEP(("stepControl_handleStep: completed, into min"));
+        LOG_STEP(("stepControl_hbndleStep: completed, into min"));
         goto done;
     }
 
     /*
-     * If we have left the method in which
-     * stepping started, the step is always complete.
+     * If we hbve left the method in which
+     * stepping stbrted, the step is blwbys complete.
      */
-    if (step->frameExited) {
+    if (step->frbmeExited) {
         completed = JNI_TRUE;
-        LOG_STEP(("stepControl_handleStep: completed, frame exited"));
+        LOG_STEP(("stepControl_hbndleStep: completed, frbme exited"));
         goto done;
     }
 
     /*
-     *  Determine where we are on the call stack relative to where
-     *  we started.
+     *  Determine where we bre on the cbll stbck relbtive to where
+     *  we stbrted.
      */
-    currentDepth = getFrameCount(thread);
-    fromDepth = step->fromStackDepth;
+    currentDepth = getFrbmeCount(threbd);
+    fromDepth = step->fromStbckDepth;
 
     if (fromDepth > currentDepth) {
         /*
-         * We have returned from the caller. There are cases where
-         * we don't get frame pop notifications
-         * (e.g. stepping from opaque frames), and that's when
-         * this code will be reached. Complete the step->
+         * We hbve returned from the cbller. There bre cbses where
+         * we don't get frbme pop notificbtions
+         * (e.g. stepping from opbque frbmes), bnd thbt's when
+         * this code will be rebched. Complete the step->
          */
         completed = JNI_TRUE;
-        LOG_STEP(("stepControl_handleStep: completed, fromDepth>currentDepth(%d>%d)", fromDepth, currentDepth));
+        LOG_STEP(("stepControl_hbndleStep: completed, fromDepth>currentDepth(%d>%d)", fromDepth, currentDepth));
     } else if (fromDepth < currentDepth) {
-        /* We have dropped into a called method. */
+        /* We hbve dropped into b cblled method. */
         if (   step->depth == JDWP_STEP_DEPTH(INTO)
-            && (!eventFilter_predictFiltering(step->stepHandlerNode, clazz,
-                                          (classname = getClassname(clazz))))
-            && hasLineNumbers(method) ) {
+            && (!eventFilter_predictFiltering(step->stepHbndlerNode, clbzz,
+                                          (clbssnbme = getClbssnbme(clbzz))))
+            && hbsLineNumbers(method) ) {
 
-            /* Stepped into a method with lines, so we're done */
+            /* Stepped into b method with lines, so we're done */
             completed = JNI_TRUE;
-            LOG_STEP(("stepControl_handleStep: completed, fromDepth<currentDepth(%d<%d) and into method with lines", fromDepth, currentDepth));
+            LOG_STEP(("stepControl_hbndleStep: completed, fromDepth<currentDepth(%d<%d) bnd into method with lines", fromDepth, currentDepth));
         } else {
             /*
-             * We need to continue, but don't want the overhead of step
-             * events from this method. So, we disable stepping and
-             * enable a frame pop. If we're stepping into, we also
-             * enable method enter events because a called frame may be
-             * where we want to stop.
+             * We need to continue, but don't wbnt the overhebd of step
+             * events from this method. So, we disbble stepping bnd
+             * enbble b frbme pop. If we're stepping into, we blso
+             * enbble method enter events becbuse b cblled frbme mby be
+             * where we wbnt to stop.
              */
-            disableStepping(thread);
+            disbbleStepping(threbd);
 
             if (step->depth == JDWP_STEP_DEPTH(INTO)) {
-                step->methodEnterHandlerNode =
-                    eventHandler_createInternalThreadOnly(
+                step->methodEnterHbndlerNode =
+                    eventHbndler_crebteInternblThrebdOnly(
                                        EI_METHOD_ENTRY,
-                                       handleMethodEnterEvent, thread);
-                if (step->methodEnterHandlerNode == NULL) {
+                                       hbndleMethodEnterEvent, threbd);
+                if (step->methodEnterHbndlerNode == NULL) {
                     EXIT_ERROR(AGENT_ERROR_INVALID_EVENT_TYPE,
-                                "installing event method enter handler");
+                                "instblling event method enter hbndler");
                 }
             }
 
-            error = JVMTI_FUNC_PTR(gdata->jvmti,NotifyFramePop)
-                        (gdata->jvmti, thread, 0);
+            error = JVMTI_FUNC_PTR(gdbtb->jvmti,NotifyFrbmePop)
+                        (gdbtb->jvmti, threbd, 0);
             if (error == JVMTI_ERROR_DUPLICATE) {
                 error = JVMTI_ERROR_NONE;
             } else if (error != JVMTI_ERROR_NONE) {
-                EXIT_ERROR(error, "setting up notify frame pop");
+                EXIT_ERROR(error, "setting up notify frbme pop");
             }
         }
-        jvmtiDeallocate(classname);
-        classname = NULL;
+        jvmtiDebllocbte(clbssnbme);
+        clbssnbme = NULL;
     } else {
         /*
-         * We are at the same stack depth where stepping started.
-         * Instruction steps are complete at this point. For line
-         * steps we must check to see whether we've moved to a
+         * We bre bt the sbme stbck depth where stepping stbrted.
+         * Instruction steps bre complete bt this point. For line
+         * steps we must check to see whether we've moved to b
          * different line.
          */
-        if (step->granularity == JDWP_STEP_SIZE(MIN)) {
+        if (step->grbnulbrity == JDWP_STEP_SIZE(MIN)) {
             completed = JNI_TRUE;
-            LOG_STEP(("stepControl_handleStep: completed, fromDepth==currentDepth(%d) and min", fromDepth));
+            LOG_STEP(("stepControl_hbndleStep: completed, fromDepth==currentDepth(%d) bnd min", fromDepth));
         } else {
             if (step->fromLine != -1) {
                 jint line = -1;
-                jlocation location;
+                jlocbtion locbtion;
                 jmethodID method;
                 WITH_LOCAL_REFS(env, 1) {
-                    jclass clazz;
-                    error = getFrameLocation(thread,
-                                        &clazz, &method, &location);
+                    jclbss clbzz;
+                    error = getFrbmeLocbtion(threbd,
+                                        &clbzz, &method, &locbtion);
                     if ( isMethodObsolete(method)) {
                         method = NULL;
-                        location = -1;
+                        locbtion = -1;
                     }
-                    if (error != JVMTI_ERROR_NONE || location == -1) {
-                        EXIT_ERROR(error, "getting frame location");
+                    if (error != JVMTI_ERROR_NONE || locbtion == -1) {
+                        EXIT_ERROR(error, "getting frbme locbtion");
                     }
                     if ( method == step->method ) {
-                        LOG_STEP(("stepControl_handleStep: checking line location"));
-                        log_debugee_location("stepControl_handleStep: checking line loc",
-                                thread, method, location);
-                        line = findLineNumber(thread, location,
+                        LOG_STEP(("stepControl_hbndleStep: checking line locbtion"));
+                        log_debugee_locbtion("stepControl_hbndleStep: checking line loc",
+                                threbd, method, locbtion);
+                        line = findLineNumber(threbd, locbtion,
                                       step->lineEntries, step->lineEntryCount);
                     }
                     if (line != step->fromLine) {
                         completed = JNI_TRUE;
-                        LOG_STEP(("stepControl_handleStep: completed, fromDepth==currentDepth(%d) and different line", fromDepth));
+                        LOG_STEP(("stepControl_hbndleStep: completed, fromDepth==currentDepth(%d) bnd different line", fromDepth));
                     }
                 } END_WITH_LOCAL_REFS(env);
             } else {
                 /*
-                 * This is a rare case. We have stepped from a location
-                 * inside a native method to a location within a Java
-                 * method at the same stack depth. This means that
-                 * the original native method returned to another
-                 * native method which, in turn, invoked a Java method.
+                 * This is b rbre cbse. We hbve stepped from b locbtion
+                 * inside b nbtive method to b locbtion within b Jbvb
+                 * method bt the sbme stbck depth. This mebns thbt
+                 * the originbl nbtive method returned to bnother
+                 * nbtive method which, in turn, invoked b Jbvb method.
                  *
-                 * Since the original frame was  native, we were unable
-                 * to ask for a frame pop event, and, thus, could not
-                 * set the step->frameExited flag when the original
-                 * method was done. Instead we end up here
-                 * and act just as though the frameExited flag was set
-                 * and complete the step immediately.
+                 * Since the originbl frbme wbs  nbtive, we were unbble
+                 * to bsk for b frbme pop event, bnd, thus, could not
+                 * set the step->frbmeExited flbg when the originbl
+                 * method wbs done. Instebd we end up here
+                 * bnd bct just bs though the frbmeExited flbg wbs set
+                 * bnd complete the step immedibtely.
                  */
                 completed = JNI_TRUE;
-                LOG_STEP(("stepControl_handleStep: completed, fromDepth==currentDepth(%d) and no line", fromDepth));
+                LOG_STEP(("stepControl_hbndleStep: completed, fromDepth==currentDepth(%d) bnd no line", fromDepth));
             }
         }
-        LOG_STEP(("stepControl_handleStep: finished"));
+        LOG_STEP(("stepControl_hbndleStep: finished"));
     }
 done:
     if (completed) {
-        completeStep(env, thread, step);
+        completeStep(env, threbd, step);
     }
     stepControl_unlock();
     return completed;
@@ -683,9 +683,9 @@ done:
 
 
 void
-stepControl_initialize(void)
+stepControl_initiblize(void)
 {
-    stepLock = debugMonitorCreate("JDWP Step Handler Lock");
+    stepLock = debugMonitorCrebte("JDWP Step Hbndler Lock");
 }
 
 void
@@ -694,27 +694,27 @@ stepControl_reset(void)
 }
 
 /*
- * Reset step control request stack depth and line number.
+ * Reset step control request stbck depth bnd line number.
  */
 void
-stepControl_resetRequest(jthread thread)
+stepControl_resetRequest(jthrebd threbd)
 {
 
     StepRequest *step;
     jvmtiError error;
 
-    LOG_STEP(("stepControl_resetRequest: thread=%p", thread));
+    LOG_STEP(("stepControl_resetRequest: threbd=%p", threbd));
 
     stepControl_lock();
 
-    step = threadControl_getStepRequest(thread);
+    step = threbdControl_getStepRequest(threbd);
 
     if (step != NULL) {
         JNIEnv *env;
         env = getEnv();
-        error = initState(env, thread, step);
+        error = initStbte(env, threbd, step);
         if (error != JVMTI_ERROR_NONE) {
-            EXIT_ERROR(error, "initializing step state");
+            EXIT_ERROR(error, "initiblizing step stbte");
         }
     } else {
         EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting step request");
@@ -723,152 +723,152 @@ stepControl_resetRequest(jthread thread)
     stepControl_unlock();
 }
 
-static void
-initEvents(jthread thread, StepRequest *step)
+stbtic void
+initEvents(jthrebd threbd, StepRequest *step)
 {
-    /* Need to install frame pop handler and exception catch handler when
-     * single-stepping is enabled (i.e. step-into or step-over/step-out
-     * when fromStackDepth > 0).
+    /* Need to instbll frbme pop hbndler bnd exception cbtch hbndler when
+     * single-stepping is enbbled (i.e. step-into or step-over/step-out
+     * when fromStbckDepth > 0).
      */
-    if (step->depth == JDWP_STEP_DEPTH(INTO) || step->fromStackDepth > 0) {
+    if (step->depth == JDWP_STEP_DEPTH(INTO) || step->fromStbckDepth > 0) {
         /*
-         * TO DO: These might be able to applied more selectively to
-         * boost performance.
+         * TO DO: These might be bble to bpplied more selectively to
+         * boost performbnce.
          */
-        step->catchHandlerNode = eventHandler_createInternalThreadOnly(
+        step->cbtchHbndlerNode = eventHbndler_crebteInternblThrebdOnly(
                                      EI_EXCEPTION_CATCH,
-                                     handleExceptionCatchEvent,
-                                     thread);
-        step->framePopHandlerNode = eventHandler_createInternalThreadOnly(
+                                     hbndleExceptionCbtchEvent,
+                                     threbd);
+        step->frbmePopHbndlerNode = eventHbndler_crebteInternblThrebdOnly(
                                         EI_FRAME_POP,
-                                        handleFramePopEvent,
-                                        thread);
+                                        hbndleFrbmePopEvent,
+                                        threbd);
 
-        if (step->catchHandlerNode == NULL ||
-            step->framePopHandlerNode == NULL) {
+        if (step->cbtchHbndlerNode == NULL ||
+            step->frbmePopHbndlerNode == NULL) {
             EXIT_ERROR(AGENT_ERROR_INVALID_EVENT_TYPE,
-                        "installing step event handlers");
+                        "instblling step event hbndlers");
         }
 
     }
     /*
-     * Initially enable stepping:
-     * 1) For step into, always
-     * 2) For step over, unless right after the VM_INIT.
-     *    Enable stepping for STEP_MIN or STEP_LINE with or without line numbers.
-     *    If the class is redefined then non EMCP methods may not have line
-     *    number info. So enable line stepping for non line number so that it
-     *    behaves like STEP_MIN/STEP_OVER.
-     * 3) For step out, only if stepping from native, except right after VM_INIT
+     * Initiblly enbble stepping:
+     * 1) For step into, blwbys
+     * 2) For step over, unless right bfter the VM_INIT.
+     *    Enbble stepping for STEP_MIN or STEP_LINE with or without line numbers.
+     *    If the clbss is redefined then non EMCP methods mby not hbve line
+     *    number info. So enbble line stepping for non line number so thbt it
+     *    behbves like STEP_MIN/STEP_OVER.
+     * 3) For step out, only if stepping from nbtive, except right bfter VM_INIT
      *
-     * (right after VM_INIT, a step->over or out is identical to running
+     * (right bfter VM_INIT, b step->over or out is identicbl to running
      * forever)
      */
     switch (step->depth) {
-        case JDWP_STEP_DEPTH(INTO):
-            enableStepping(thread);
-            break;
-        case JDWP_STEP_DEPTH(OVER):
-            if (step->fromStackDepth > 0 && !step->fromNative ) {
-              enableStepping(thread);
+        cbse JDWP_STEP_DEPTH(INTO):
+            enbbleStepping(threbd);
+            brebk;
+        cbse JDWP_STEP_DEPTH(OVER):
+            if (step->fromStbckDepth > 0 && !step->fromNbtive ) {
+              enbbleStepping(threbd);
             }
-            break;
-        case JDWP_STEP_DEPTH(OUT):
-            if (step->fromNative &&
-                (step->fromStackDepth > 0)) {
-                enableStepping(thread);
+            brebk;
+        cbse JDWP_STEP_DEPTH(OUT):
+            if (step->fromNbtive &&
+                (step->fromStbckDepth > 0)) {
+                enbbleStepping(threbd);
             }
-            break;
-        default:
+            brebk;
+        defbult:
             JDI_ASSERT(JNI_FALSE);
     }
 }
 
 jvmtiError
-stepControl_beginStep(JNIEnv *env, jthread thread, jint size, jint depth,
-                      HandlerNode *node)
+stepControl_beginStep(JNIEnv *env, jthrebd threbd, jint size, jint depth,
+                      HbndlerNode *node)
 {
     StepRequest *step;
     jvmtiError error;
     jvmtiError error2;
 
-    LOG_STEP(("stepControl_beginStep: thread=%p,size=%d,depth=%d",
-                        thread, size, depth));
+    LOG_STEP(("stepControl_beginStep: threbd=%p,size=%d,depth=%d",
+                        threbd, size, depth));
 
-    eventHandler_lock(); /* for proper lock order */
+    eventHbndler_lock(); /* for proper lock order */
     stepControl_lock();
 
-    step = threadControl_getStepRequest(thread);
+    step = threbdControl_getStepRequest(threbd);
     if (step == NULL) {
         error = AGENT_ERROR_INVALID_THREAD;
-        /* Normally not getting a StepRequest struct pointer is a fatal error
-         *   but on a beginStep, we just return an error code.
+        /* Normblly not getting b StepRequest struct pointer is b fbtbl error
+         *   but on b beginStep, we just return bn error code.
          */
     } else {
         /*
-         * In case the thread isn't already suspended, do it again.
+         * In cbse the threbd isn't blrebdy suspended, do it bgbin.
          */
-        error = threadControl_suspendThread(thread, JNI_FALSE);
+        error = threbdControl_suspendThrebd(threbd, JNI_FALSE);
         if (error == JVMTI_ERROR_NONE) {
             /*
-             * Overwrite any currently executing step.
+             * Overwrite bny currently executing step.
              */
-            step->granularity = size;
+            step->grbnulbrity = size;
             step->depth = depth;
-            step->catchHandlerNode = NULL;
-            step->framePopHandlerNode = NULL;
-            step->methodEnterHandlerNode = NULL;
-            step->stepHandlerNode = node;
-            error = initState(env, thread, step);
+            step->cbtchHbndlerNode = NULL;
+            step->frbmePopHbndlerNode = NULL;
+            step->methodEnterHbndlerNode = NULL;
+            step->stepHbndlerNode = node;
+            error = initStbte(env, threbd, step);
             if (error == JVMTI_ERROR_NONE) {
-                initEvents(thread, step);
+                initEvents(threbd, step);
             }
-            /* false means it is not okay to unblock the commandLoop thread */
-            error2 = threadControl_resumeThread(thread, JNI_FALSE);
+            /* fblse mebns it is not okby to unblock the commbndLoop threbd */
+            error2 = threbdControl_resumeThrebd(threbd, JNI_FALSE);
             if (error2 != JVMTI_ERROR_NONE && error == JVMTI_ERROR_NONE) {
                 error = error2;
             }
 
             /*
-             * If everything went ok, indicate a step is pending.
+             * If everything went ok, indicbte b step is pending.
              */
             if (error == JVMTI_ERROR_NONE) {
                 step->pending = JNI_TRUE;
             }
         } else {
-            EXIT_ERROR(error, "stepControl_beginStep: cannot suspend thread");
+            EXIT_ERROR(error, "stepControl_beginStep: cbnnot suspend threbd");
         }
     }
 
     stepControl_unlock();
-    eventHandler_unlock();
+    eventHbndler_unlock();
 
     return error;
 }
 
 
-static void
-clearStep(jthread thread, StepRequest *step)
+stbtic void
+clebrStep(jthrebd threbd, StepRequest *step)
 {
     if (step->pending) {
 
-        disableStepping(thread);
-        if ( step->catchHandlerNode != NULL ) {
-            (void)eventHandler_free(step->catchHandlerNode);
-            step->catchHandlerNode = NULL;
+        disbbleStepping(threbd);
+        if ( step->cbtchHbndlerNode != NULL ) {
+            (void)eventHbndler_free(step->cbtchHbndlerNode);
+            step->cbtchHbndlerNode = NULL;
         }
-        if ( step->framePopHandlerNode!= NULL ) {
-            (void)eventHandler_free(step->framePopHandlerNode);
-            step->framePopHandlerNode = NULL;
+        if ( step->frbmePopHbndlerNode!= NULL ) {
+            (void)eventHbndler_free(step->frbmePopHbndlerNode);
+            step->frbmePopHbndlerNode = NULL;
         }
-        if ( step->methodEnterHandlerNode != NULL ) {
-            (void)eventHandler_free(step->methodEnterHandlerNode);
-            step->methodEnterHandlerNode = NULL;
+        if ( step->methodEnterHbndlerNode != NULL ) {
+            (void)eventHbndler_free(step->methodEnterHbndlerNode);
+            step->methodEnterHbndlerNode = NULL;
         }
         step->pending = JNI_FALSE;
 
         /*
-         * Warning: Do not clear step->method, step->lineEntryCount,
+         * Wbrning: Do not clebr step->method, step->lineEntryCount,
          *          or step->lineEntries here, they will likely
          *          be needed on the next step.
          */
@@ -877,40 +877,40 @@ clearStep(jthread thread, StepRequest *step)
 }
 
 jvmtiError
-stepControl_endStep(jthread thread)
+stepControl_endStep(jthrebd threbd)
 {
     StepRequest *step;
     jvmtiError error;
 
-    LOG_STEP(("stepControl_endStep: thread=%p", thread));
+    LOG_STEP(("stepControl_endStep: threbd=%p", threbd));
 
-    eventHandler_lock(); /* for proper lock order */
+    eventHbndler_lock(); /* for proper lock order */
     stepControl_lock();
 
-    step = threadControl_getStepRequest(thread);
+    step = threbdControl_getStepRequest(threbd);
     if (step != NULL) {
-        clearStep(thread, step);
+        clebrStep(threbd, step);
         error = JVMTI_ERROR_NONE;
     } else {
-        /* If the stepRequest can't be gotten, then this thread no longer
-         *   exists, just return, don't die here, this is normal at
-         *   termination time. Return JVMTI_ERROR_NONE so the thread Ref
-         *   can be tossed.
+        /* If the stepRequest cbn't be gotten, then this threbd no longer
+         *   exists, just return, don't die here, this is normbl bt
+         *   terminbtion time. Return JVMTI_ERROR_NONE so the threbd Ref
+         *   cbn be tossed.
          */
          error = JVMTI_ERROR_NONE;
     }
 
     stepControl_unlock();
-    eventHandler_unlock();
+    eventHbndler_unlock();
 
     return error;
 }
 
 void
-stepControl_clearRequest(jthread thread, StepRequest *step)
+stepControl_clebrRequest(jthrebd threbd, StepRequest *step)
 {
-    LOG_STEP(("stepControl_clearRequest: thread=%p", thread));
-    clearStep(thread, step);
+    LOG_STEP(("stepControl_clebrRequest: threbd=%p", threbd));
+    clebrStep(threbd, step);
 }
 
 void

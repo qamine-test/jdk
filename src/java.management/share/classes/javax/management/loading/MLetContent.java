@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.loading;
+pbckbge jbvbx.mbnbgement.lobding;
 
 
-// java import
+// jbvb import
 
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * This class represents the contents of the <CODE>MLET</CODE> tag.
- * It can be consulted by a subclass of {@link MLet} that overrides
+ * This clbss represents the contents of the <CODE>MLET</CODE> tbg.
+ * It cbn be consulted by b subclbss of {@link MLet} thbt overrides
  * the {@link MLet#check MLet.check} method.
  *
  * @since 1.6
  */
-public class MLetContent {
+public clbss MLetContent {
 
 
     /**
-     * A map of the attributes of the <CODE>MLET</CODE> tag
-     * and their values.
+     * A mbp of the bttributes of the <CODE>MLET</CODE> tbg
+     * bnd their vblues.
      */
-    private Map<String,String> attributes;
+    privbte Mbp<String,String> bttributes;
 
     /**
-     * An ordered list of the TYPE attributes that appeared in nested
-     * &lt;PARAM&gt; tags.
+     * An ordered list of the TYPE bttributes thbt bppebred in nested
+     * &lt;PARAM&gt; tbgs.
      */
-    private List<String> types;
+    privbte List<String> types;
 
     /**
-     * An ordered list of the VALUE attributes that appeared in nested
-     * &lt;PARAM&gt; tags.
+     * An ordered list of the VALUE bttributes thbt bppebred in nested
+     * &lt;PARAM&gt; tbgs.
      */
-    private List<String> values;
+    privbte List<String> vblues;
 
     /**
-     * The MLet text file's base URL.
+     * The MLet text file's bbse URL.
      */
-    private URL documentURL;
+    privbte URL documentURL;
     /**
-     * The base URL.
+     * The bbse URL.
      */
-    private URL baseURL;
+    privbte URL bbseURL;
 
 
     /**
-     * Creates an <CODE>MLet</CODE> instance initialized with attributes read
-     * from an <CODE>MLET</CODE> tag in an MLet text file.
+     * Crebtes bn <CODE>MLet</CODE> instbnce initiblized with bttributes rebd
+     * from bn <CODE>MLET</CODE> tbg in bn MLet text file.
      *
-     * @param url The URL of the MLet text file containing the
-     * <CODE>MLET</CODE> tag.
-     * @param attributes A map of the attributes of the <CODE>MLET</CODE> tag.
-     * The keys in this map are the attribute names in lowercase, for
-     * example <code>codebase</code>.  The values are the associated attribute
-     * values.
-     * @param types A list of the TYPE attributes that appeared in nested
-     * &lt;PARAM&gt; tags.
-     * @param values A list of the VALUE attributes that appeared in nested
-     * &lt;PARAM&gt; tags.
+     * @pbrbm url The URL of the MLet text file contbining the
+     * <CODE>MLET</CODE> tbg.
+     * @pbrbm bttributes A mbp of the bttributes of the <CODE>MLET</CODE> tbg.
+     * The keys in this mbp bre the bttribute nbmes in lowercbse, for
+     * exbmple <code>codebbse</code>.  The vblues bre the bssocibted bttribute
+     * vblues.
+     * @pbrbm types A list of the TYPE bttributes thbt bppebred in nested
+     * &lt;PARAM&gt; tbgs.
+     * @pbrbm vblues A list of the VALUE bttributes thbt bppebred in nested
+     * &lt;PARAM&gt; tbgs.
      */
-    public MLetContent(URL url, Map<String,String> attributes,
-                       List<String> types, List<String> values) {
+    public MLetContent(URL url, Mbp<String,String> bttributes,
+                       List<String> types, List<String> vblues) {
         this.documentURL = url;
-        this.attributes = Collections.unmodifiableMap(attributes);
-        this.types = Collections.unmodifiableList(types);
-        this.values = Collections.unmodifiableList(values);
+        this.bttributes = Collections.unmodifibbleMbp(bttributes);
+        this.types = Collections.unmodifibbleList(types);
+        this.vblues = Collections.unmodifibbleList(vblues);
 
-        // Initialize baseURL
+        // Initiblize bbseURL
         //
-        String att = getParameter("codebase");
-        if (att != null) {
-            if (!att.endsWith("/")) {
-                att += "/";
+        String btt = getPbrbmeter("codebbse");
+        if (btt != null) {
+            if (!btt.endsWith("/")) {
+                btt += "/";
             }
             try {
-                baseURL = new URL(documentURL, att);
-            } catch (MalformedURLException e) {
-                // OK : Move to next block as baseURL could not be initialized.
+                bbseURL = new URL(documentURL, btt);
+            } cbtch (MblformedURLException e) {
+                // OK : Move to next block bs bbseURL could not be initiblized.
             }
         }
-        if (baseURL == null) {
+        if (bbseURL == null) {
             String file = documentURL.getFile();
-            int i = file.lastIndexOf('/');
+            int i = file.lbstIndexOf('/');
             if (i >= 0 && i < file.length() - 1) {
                 try {
-                    baseURL = new URL(documentURL, file.substring(0, i + 1));
-                } catch (MalformedURLException e) {
-                    // OK : Move to next block as baseURL could not be initialized.
+                    bbseURL = new URL(documentURL, file.substring(0, i + 1));
+                } cbtch (MblformedURLException e) {
+                    // OK : Move to next block bs bbseURL could not be initiblized.
                 }
             }
         }
-        if (baseURL == null)
-            baseURL = documentURL;
+        if (bbseURL == null)
+            bbseURL = documentURL;
 
     }
 
@@ -127,113 +127,113 @@ public class MLetContent {
     //--------------------
 
     /**
-     * Gets the attributes of the <CODE>MLET</CODE> tag.  The keys in
-     * the returned map are the attribute names in lowercase, for
-     * example <code>codebase</code>.  The values are the associated
-     * attribute values.
-     * @return A map of the attributes of the <CODE>MLET</CODE> tag
-     * and their values.
+     * Gets the bttributes of the <CODE>MLET</CODE> tbg.  The keys in
+     * the returned mbp bre the bttribute nbmes in lowercbse, for
+     * exbmple <code>codebbse</code>.  The vblues bre the bssocibted
+     * bttribute vblues.
+     * @return A mbp of the bttributes of the <CODE>MLET</CODE> tbg
+     * bnd their vblues.
      */
-    public Map<String,String> getAttributes() {
-        return attributes;
+    public Mbp<String,String> getAttributes() {
+        return bttributes;
     }
 
     /**
-     * Gets the MLet text file's base URL.
-     * @return The MLet text file's base URL.
+     * Gets the MLet text file's bbse URL.
+     * @return The MLet text file's bbse URL.
      */
-    public URL getDocumentBase() {
+    public URL getDocumentBbse() {
         return documentURL;
     }
 
     /**
-     * Gets the code base URL.
-     * @return The code base URL.
+     * Gets the code bbse URL.
+     * @return The code bbse URL.
      */
-    public URL getCodeBase() {
-        return baseURL;
+    public URL getCodeBbse() {
+        return bbseURL;
     }
 
     /**
-     * Gets the list of <CODE>.jar</CODE> files specified by the <CODE>ARCHIVE</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
-     * @return A comma-separated list of <CODE>.jar</CODE> file names.
+     * Gets the list of <CODE>.jbr</CODE> files specified by the <CODE>ARCHIVE</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
+     * @return A commb-sepbrbted list of <CODE>.jbr</CODE> file nbmes.
      */
-    public String getJarFiles() {
-        return getParameter("archive");
+    public String getJbrFiles() {
+        return getPbrbmeter("brchive");
     }
 
     /**
-     * Gets the value of the <CODE>CODE</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
-     * @return The value of the <CODE>CODE</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
+     * Gets the vblue of the <CODE>CODE</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
+     * @return The vblue of the <CODE>CODE</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
      */
     public String getCode() {
-        return getParameter("code");
+        return getPbrbmeter("code");
     }
 
     /**
-     * Gets the value of the <CODE>OBJECT</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
-     * @return The value of the <CODE>OBJECT</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
+     * Gets the vblue of the <CODE>OBJECT</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
+     * @return The vblue of the <CODE>OBJECT</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
      */
-    public String getSerializedObject() {
-        return getParameter("object");
+    public String getSeriblizedObject() {
+        return getPbrbmeter("object");
     }
 
     /**
-     * Gets the value of the <CODE>NAME</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
-     * @return The value of the <CODE>NAME</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
+     * Gets the vblue of the <CODE>NAME</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
+     * @return The vblue of the <CODE>NAME</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
      */
-    public String getName() {
-        return getParameter("name");
+    public String getNbme() {
+        return getPbrbmeter("nbme");
     }
 
 
     /**
-     * Gets the value of the <CODE>VERSION</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
-     * @return The value of the <CODE>VERSION</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
+     * Gets the vblue of the <CODE>VERSION</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
+     * @return The vblue of the <CODE>VERSION</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
      */
     public String getVersion() {
-        return getParameter("version");
+        return getPbrbmeter("version");
     }
 
     /**
-     * Gets the list of values of the <code>TYPE</code> attribute in
-     * each nested &lt;PARAM&gt; tag within the <code>MLET</code>
-     * tag.
+     * Gets the list of vblues of the <code>TYPE</code> bttribute in
+     * ebch nested &lt;PARAM&gt; tbg within the <code>MLET</code>
+     * tbg.
      * @return the list of types.
      */
-    public List<String> getParameterTypes() {
+    public List<String> getPbrbmeterTypes() {
         return types;
     }
 
     /**
-     * Gets the list of values of the <code>VALUE</code> attribute in
-     * each nested &lt;PARAM&gt; tag within the <code>MLET</code>
-     * tag.
-     * @return the list of values.
+     * Gets the list of vblues of the <code>VALUE</code> bttribute in
+     * ebch nested &lt;PARAM&gt; tbg within the <code>MLET</code>
+     * tbg.
+     * @return the list of vblues.
      */
-    public List<String> getParameterValues() {
-        return values;
+    public List<String> getPbrbmeterVblues() {
+        return vblues;
     }
 
     /**
-     * Gets the value of the specified
-     * attribute of the <CODE>MLET</CODE> tag.
+     * Gets the vblue of the specified
+     * bttribute of the <CODE>MLET</CODE> tbg.
      *
-     * @param name A string representing the name of the attribute.
-     * @return The value of the specified
-     * attribute of the <CODE>MLET</CODE> tag.
+     * @pbrbm nbme A string representing the nbme of the bttribute.
+     * @return The vblue of the specified
+     * bttribute of the <CODE>MLET</CODE> tbg.
      */
-    private String getParameter(String name) {
-        return attributes.get(name.toLowerCase());
+    privbte String getPbrbmeter(String nbme) {
+        return bttributes.get(nbme.toLowerCbse());
     }
 
 }

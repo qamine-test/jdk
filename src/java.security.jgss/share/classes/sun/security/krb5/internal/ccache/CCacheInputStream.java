@@ -1,406 +1,406 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.ccache;
+pbckbge sun.security.krb5.internbl.ccbche;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.StringTokenizer;
 
 import sun.misc.IOUtils;
 import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.util.KrbDataInputStream;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.util.KrbDbtbInputStrebm;
 
 /**
- * This class extends KrbDataInputStream. It is used for parsing FCC-format
- * data from file to memory.
+ * This clbss extends KrbDbtbInputStrebm. It is used for pbrsing FCC-formbt
+ * dbtb from file to memory.
  *
- * @author Yanni Zhang
+ * @buthor Ybnni Zhbng
  *
  */
-public class CCacheInputStream extends KrbDataInputStream implements FileCCacheConstants {
+public clbss CCbcheInputStrebm extends KrbDbtbInputStrebm implements FileCCbcheConstbnts {
 
     /*
-     * FCC version 2 contains type information for principals.  FCC
+     * FCC version 2 contbins type informbtion for principbls.  FCC
      * version 1 does not.
      *
-     * FCC version 3 contains keyblock encryption type information, and is
-     * architecture independent.  Previous versions are not.
+     * FCC version 3 contbins keyblock encryption type informbtion, bnd is
+     * brchitecture independent.  Previous versions bre not.
      *
-     * The code will accept version 1, 2, and 3 ccaches, and depending
-     * what KRB5_FCC_DEFAULT_FVNO is set to, it will create version 1, 2,
-     * or 3 FCC caches.
+     * The code will bccept version 1, 2, bnd 3 ccbches, bnd depending
+     * whbt KRB5_FCC_DEFAULT_FVNO is set to, it will crebte version 1, 2,
+     * or 3 FCC cbches.
      *
-     * The default credentials cache should be type 3 for now (see
+     * The defbult credentibls cbche should be type 3 for now (see
      * init_ctx.c).
      */
-    /* V4 of the credentials cache format allows for header tags */
+    /* V4 of the credentibls cbche formbt bllows for hebder tbgs */
 
-    private static boolean DEBUG = Krb5.DEBUG;
+    privbte stbtic boolebn DEBUG = Krb5.DEBUG;
 
-    public CCacheInputStream(InputStream is){
+    public CCbcheInputStrebm(InputStrebm is){
         super(is);
     }
 
-    /* Read tag field introduced in KRB5_FCC_FVNO_4 */
+    /* Rebd tbg field introduced in KRB5_FCC_FVNO_4 */
     // this needs to be public for Kinit.
-    public Tag readTag() throws IOException {
-        char[] buf = new char[1024];
+    public Tbg rebdTbg() throws IOException {
+        chbr[] buf = new chbr[1024];
         int len;
-        int tag = -1;
-        int taglen;
+        int tbg = -1;
+        int tbglen;
         Integer time_offset = null;
         Integer usec_offset = null;
 
-        len = read(2);
+        len = rebd(2);
         if (len < 0) {
             throw new IOException("stop.");
         }
         if (len > buf.length) {
-            throw new IOException("Invalid tag length.");
+            throw new IOException("Invblid tbg length.");
         }
         while (len > 0) {
-            tag    = read(2);
-            taglen = read(2);
-            switch (tag) {
-            case FCC_TAG_DELTATIME:
-                time_offset = read(4);
-                usec_offset = read(4);
-                break;
-            default:
+            tbg    = rebd(2);
+            tbglen = rebd(2);
+            switch (tbg) {
+            cbse FCC_TAG_DELTATIME:
+                time_offset = rebd(4);
+                usec_offset = rebd(4);
+                brebk;
+            defbult:
             }
-            len = len - (4 + taglen);
+            len = len - (4 + tbglen);
         }
-        return new Tag(len, tag, time_offset, usec_offset);
+        return new Tbg(len, tbg, time_offset, usec_offset);
     }
     /*
-     * In file-based credential cache, the realm name is stored as part of
-     * principal name at the first place.
+     * In file-bbsed credentibl cbche, the reblm nbme is stored bs pbrt of
+     * principbl nbme bt the first plbce.
      */
-    // made public for KinitOptions to call directly
-    public PrincipalName readPrincipal(int version) throws IOException, RealmException {
-        int type, length, namelength, kret;
-        String[] pname = null;
-        String realm;
-        /* Read principal type */
+    // mbde public for KinitOptions to cbll directly
+    public PrincipblNbme rebdPrincipbl(int version) throws IOException, ReblmException {
+        int type, length, nbmelength, kret;
+        String[] pnbme = null;
+        String reblm;
+        /* Rebd principbl type */
         if (version == KRB5_FCC_FVNO_1) {
             type = KRB5_NT_UNKNOWN;
         } else {
-            type = read(4);
+            type = rebd(4);
         }
-        length = read(4);
-        List<String> result = new ArrayList<String>();
+        length = rebd(4);
+        List<String> result = new ArrbyList<String>();
         /*
-         * DCE includes the principal's realm in the count; the new format
+         * DCE includes the principbl's reblm in the count; the new formbt
          * does not.
          */
         if (version == KRB5_FCC_FVNO_1)
             length--;
         for (int i = 0; i <= length; i++) {
-            namelength = read(4);
-            byte[] bytes = IOUtils.readFully(this, namelength, true);
-            result.add(new String(bytes));
+            nbmelength = rebd(4);
+            byte[] bytes = IOUtils.rebdFully(this, nbmelength, true);
+            result.bdd(new String(bytes));
         }
         if (result.isEmpty()) {
-            throw new IOException("No realm or principal");
+            throw new IOException("No reblm or principbl");
         }
-        if (isRealm(result.get(0))) {
-            realm = result.remove(0);
+        if (isReblm(result.get(0))) {
+            reblm = result.remove(0);
             if (result.isEmpty()) {
-                throw new IOException("No principal name components");
+                throw new IOException("No principbl nbme components");
             }
-            return new PrincipalName(
+            return new PrincipblNbme(
                     type,
-                    result.toArray(new String[result.size()]),
-                    new Realm(realm));
+                    result.toArrby(new String[result.size()]),
+                    new Reblm(reblm));
         }
         try {
-            return new PrincipalName(
-                    result.toArray(new String[result.size()]),
+            return new PrincipblNbme(
+                    result.toArrby(new String[result.size()]),
                     type);
-        } catch (RealmException re) {
+        } cbtch (ReblmException re) {
             return null;
         }
     }
 
     /*
-     * In practice, a realm is named by uppercasing the DNS domain name. we currently
-     * rely on this to determine if the string within the principal identifier is realm
-     * name.
+     * In prbctice, b reblm is nbmed by uppercbsing the DNS dombin nbme. we currently
+     * rely on this to determine if the string within the principbl identifier is reblm
+     * nbme.
      *
      */
-    boolean isRealm(String str) {
+    boolebn isReblm(String str) {
         try {
-            Realm r = new Realm(str);
+            Reblm r = new Reblm(str);
         }
-        catch (Exception e) {
-            return false;
+        cbtch (Exception e) {
+            return fblse;
         }
         StringTokenizer st = new StringTokenizer(str, ".");
         String s;
-        while (st.hasMoreTokens()) {
+        while (st.hbsMoreTokens()) {
             s = st.nextToken();
             for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) >= 141) {
-                    return false;
+                if (s.chbrAt(i) >= 141) {
+                    return fblse;
                 }
             }
         }
         return true;
     }
 
-    EncryptionKey readKey(int version) throws IOException {
+    EncryptionKey rebdKey(int version) throws IOException {
         int keyType, keyLen;
-        keyType = read(2);
+        keyType = rebd(2);
         if (version == KRB5_FCC_FVNO_3)
-            read(2); /* keytype recorded twice in fvno 3 */
-        keyLen = read(4);
-        byte[] bytes = IOUtils.readFully(this, keyLen, true);
+            rebd(2); /* keytype recorded twice in fvno 3 */
+        keyLen = rebd(4);
+        byte[] bytes = IOUtils.rebdFully(this, keyLen, true);
         return new EncryptionKey(bytes, keyType, version);
     }
 
-    long[] readTimes() throws IOException {
+    long[] rebdTimes() throws IOException {
         long[] times = new long[4];
-        times[0] = (long)read(4) * 1000;
-        times[1] = (long)read(4) * 1000;
-        times[2] = (long)read(4) * 1000;
-        times[3] = (long)read(4) * 1000;
+        times[0] = (long)rebd(4) * 1000;
+        times[1] = (long)rebd(4) * 1000;
+        times[2] = (long)rebd(4) * 1000;
+        times[3] = (long)rebd(4) * 1000;
         return times;
     }
 
-    boolean readskey() throws IOException {
-        if (read() == 0) {
-            return false;
+    boolebn rebdskey() throws IOException {
+        if (rebd() == 0) {
+            return fblse;
         }
         else return true;
     }
 
-    HostAddress[] readAddr() throws IOException, KrbApErrException {
-        int numAddrs, addrType, addrLength;
-        numAddrs = read(4);
+    HostAddress[] rebdAddr() throws IOException, KrbApErrException {
+        int numAddrs, bddrType, bddrLength;
+        numAddrs = rebd(4);
         if (numAddrs > 0) {
-            List<HostAddress> addrs = new ArrayList<>();
+            List<HostAddress> bddrs = new ArrbyList<>();
             for (int i = 0; i < numAddrs; i++) {
-                addrType = read(2);
-                addrLength = read(4);
-                if (!(addrLength == 4 || addrLength == 16)) {
+                bddrType = rebd(2);
+                bddrLength = rebd(4);
+                if (!(bddrLength == 4 || bddrLength == 16)) {
                     if (DEBUG) {
-                        System.out.println("Incorrect address format.");
+                        System.out.println("Incorrect bddress formbt.");
                     }
                     return null;
                 }
-                byte[] result = new byte[addrLength];
-                for (int j = 0; j < addrLength; j++)
-                    result[j] = (byte)read(1);
-                addrs.add(new HostAddress(addrType, result));
+                byte[] result = new byte[bddrLength];
+                for (int j = 0; j < bddrLength; j++)
+                    result[j] = (byte)rebd(1);
+                bddrs.bdd(new HostAddress(bddrType, result));
             }
-            return addrs.toArray(new HostAddress[addrs.size()]);
+            return bddrs.toArrby(new HostAddress[bddrs.size()]);
         }
         return null;
     }
 
-    AuthorizationDataEntry[] readAuth() throws IOException {
-        int num, adtype, adlength;
-        num = read(4);
+    AuthorizbtionDbtbEntry[] rebdAuth() throws IOException {
+        int num, bdtype, bdlength;
+        num = rebd(4);
         if (num > 0) {
-            List<AuthorizationDataEntry> auData = new ArrayList<>();
-            byte[] data = null;
+            List<AuthorizbtionDbtbEntry> buDbtb = new ArrbyList<>();
+            byte[] dbtb = null;
             for (int i = 0; i < num; i++) {
-                adtype = read(2);
-                adlength = read(4);
-                data = IOUtils.readFully(this, adlength, true);
-                auData.add(new AuthorizationDataEntry(adtype, data));
+                bdtype = rebd(2);
+                bdlength = rebd(4);
+                dbtb = IOUtils.rebdFully(this, bdlength, true);
+                buDbtb.bdd(new AuthorizbtionDbtbEntry(bdtype, dbtb));
             }
-            return auData.toArray(new AuthorizationDataEntry[auData.size()]);
+            return buDbtb.toArrby(new AuthorizbtionDbtbEntry[buDbtb.size()]);
         }
         else return null;
     }
 
-    byte[] readData() throws IOException {
+    byte[] rebdDbtb() throws IOException {
         int length;
-        length = read(4);
+        length = rebd(4);
         if (length == 0) {
             return null;
         } else {
-            return IOUtils.readFully(this, length, true);
+            return IOUtils.rebdFully(this, length, true);
         }
     }
 
-    boolean[] readFlags() throws IOException {
-        boolean[] flags = new boolean[Krb5.TKT_OPTS_MAX+1];
-        int ticketFlags;
-        ticketFlags = read(4);
-        if ((ticketFlags & 0x40000000) == TKT_FLG_FORWARDABLE)
-        flags[1] = true;
-        if ((ticketFlags & 0x20000000) == TKT_FLG_FORWARDED)
-        flags[2] = true;
-        if ((ticketFlags & 0x10000000) == TKT_FLG_PROXIABLE)
-        flags[3] = true;
-        if ((ticketFlags & 0x08000000) == TKT_FLG_PROXY)
-        flags[4] = true;
-        if ((ticketFlags & 0x04000000) == TKT_FLG_MAY_POSTDATE)
-        flags[5] = true;
-        if ((ticketFlags & 0x02000000) == TKT_FLG_POSTDATED)
-        flags[6] = true;
-        if ((ticketFlags & 0x01000000) == TKT_FLG_INVALID)
-        flags[7] = true;
-        if ((ticketFlags & 0x00800000) == TKT_FLG_RENEWABLE)
-        flags[8] = true;
-        if ((ticketFlags & 0x00400000) == TKT_FLG_INITIAL)
-        flags[9] = true;
-        if ((ticketFlags & 0x00200000) == TKT_FLG_PRE_AUTH)
-        flags[10] = true;
-        if ((ticketFlags & 0x00100000) == TKT_FLG_HW_AUTH)
-        flags[11] = true;
+    boolebn[] rebdFlbgs() throws IOException {
+        boolebn[] flbgs = new boolebn[Krb5.TKT_OPTS_MAX+1];
+        int ticketFlbgs;
+        ticketFlbgs = rebd(4);
+        if ((ticketFlbgs & 0x40000000) == TKT_FLG_FORWARDABLE)
+        flbgs[1] = true;
+        if ((ticketFlbgs & 0x20000000) == TKT_FLG_FORWARDED)
+        flbgs[2] = true;
+        if ((ticketFlbgs & 0x10000000) == TKT_FLG_PROXIABLE)
+        flbgs[3] = true;
+        if ((ticketFlbgs & 0x08000000) == TKT_FLG_PROXY)
+        flbgs[4] = true;
+        if ((ticketFlbgs & 0x04000000) == TKT_FLG_MAY_POSTDATE)
+        flbgs[5] = true;
+        if ((ticketFlbgs & 0x02000000) == TKT_FLG_POSTDATED)
+        flbgs[6] = true;
+        if ((ticketFlbgs & 0x01000000) == TKT_FLG_INVALID)
+        flbgs[7] = true;
+        if ((ticketFlbgs & 0x00800000) == TKT_FLG_RENEWABLE)
+        flbgs[8] = true;
+        if ((ticketFlbgs & 0x00400000) == TKT_FLG_INITIAL)
+        flbgs[9] = true;
+        if ((ticketFlbgs & 0x00200000) == TKT_FLG_PRE_AUTH)
+        flbgs[10] = true;
+        if ((ticketFlbgs & 0x00100000) == TKT_FLG_HW_AUTH)
+        flbgs[11] = true;
         if (DEBUG) {
-            String msg = ">>> CCacheInputStream: readFlags() ";
-            if (flags[1] == true) {
+            String msg = ">>> CCbcheInputStrebm: rebdFlbgs() ";
+            if (flbgs[1] == true) {
                 msg += " FORWARDABLE;";
             }
-            if (flags[2] == true) {
+            if (flbgs[2] == true) {
                 msg += " FORWARDED;";
             }
-            if (flags[3] == true) {
+            if (flbgs[3] == true) {
                 msg += " PROXIABLE;";
             }
-            if (flags[4] == true) {
+            if (flbgs[4] == true) {
                 msg += " PROXY;";
             }
-            if (flags[5] == true) {
+            if (flbgs[5] == true) {
                 msg += " MAY_POSTDATE;";
             }
-            if (flags[6] == true) {
+            if (flbgs[6] == true) {
                 msg += " POSTDATED;";
             }
-            if (flags[7] == true) {
+            if (flbgs[7] == true) {
                 msg += " INVALID;";
             }
-            if (flags[8] == true) {
+            if (flbgs[8] == true) {
                 msg += " RENEWABLE;";
             }
 
-            if (flags[9] == true) {
+            if (flbgs[9] == true) {
                 msg += " INITIAL;";
             }
-            if (flags[10] == true) {
+            if (flbgs[10] == true) {
                 msg += " PRE_AUTH;";
             }
-            if (flags[11] == true) {
+            if (flbgs[11] == true) {
                 msg += " HW_AUTH;";
             }
             System.out.println(msg);
         }
-        return flags;
+        return flbgs;
     }
 
     /**
-     * Reads the next cred in stream.
-     * @return the next cred, null if ticket or second_ticket unparseable.
+     * Rebds the next cred in strebm.
+     * @return the next cred, null if ticket or second_ticket unpbrsebble.
      *
-     * Note: MIT krb5 1.8.1 might generate a config entry with server principal
-     * X-CACHECONF:/krb5_ccache_conf_data/fast_avail/krbtgt/REALM@REALM. The
-     * entry is used by KDC to inform the client that it support certain
-     * features. Its ticket is not a valid krb5 ticket and thus this method
+     * Note: MIT krb5 1.8.1 might generbte b config entry with server principbl
+     * X-CACHECONF:/krb5_ccbche_conf_dbtb/fbst_bvbil/krbtgt/REALM@REALM. The
+     * entry is used by KDC to inform the client thbt it support certbin
+     * febtures. Its ticket is not b vblid krb5 ticket bnd thus this method
      * returns null.
      */
-    Credentials readCred(int version) throws IOException,RealmException, KrbApErrException, Asn1Exception {
-        PrincipalName cpname = null;
+    Credentibls rebdCred(int version) throws IOException,ReblmException, KrbApErrException, Asn1Exception {
+        PrincipblNbme cpnbme = null;
         try {
-            cpname = readPrincipal(version);
-        } catch (Exception e) {
-            // Do not return here. All data for this cred should be fully
-            // consumed so that we can read the next one.
+            cpnbme = rebdPrincipbl(version);
+        } cbtch (Exception e) {
+            // Do not return here. All dbtb for this cred should be fully
+            // consumed so thbt we cbn rebd the next one.
         }
         if (DEBUG) {
-            System.out.println(">>>DEBUG <CCacheInputStream>  client principal is " + cpname);
+            System.out.println(">>>DEBUG <CCbcheInputStrebm>  client principbl is " + cpnbme);
         }
-        PrincipalName spname = null;
+        PrincipblNbme spnbme = null;
         try {
-            spname = readPrincipal(version);
-        } catch (Exception e) {
-            // same as above
+            spnbme = rebdPrincipbl(version);
+        } cbtch (Exception e) {
+            // sbme bs bbove
         }
         if (DEBUG) {
-            System.out.println(">>>DEBUG <CCacheInputStream> server principal is " + spname);
+            System.out.println(">>>DEBUG <CCbcheInputStrebm> server principbl is " + spnbme);
         }
-        EncryptionKey key = readKey(version);
+        EncryptionKey key = rebdKey(version);
         if (DEBUG) {
-            System.out.println(">>>DEBUG <CCacheInputStream> key type: " + key.getEType());
+            System.out.println(">>>DEBUG <CCbcheInputStrebm> key type: " + key.getEType());
         }
-        long times[] = readTimes();
-        KerberosTime authtime = new KerberosTime(times[0]);
-        KerberosTime starttime =
+        long times[] = rebdTimes();
+        KerberosTime buthtime = new KerberosTime(times[0]);
+        KerberosTime stbrttime =
                 (times[1]==0) ? null : new KerberosTime(times[1]);
         KerberosTime endtime = new KerberosTime(times[2]);
         KerberosTime renewTill =
                 (times[3]==0) ? null : new KerberosTime(times[3]);
 
         if (DEBUG) {
-            System.out.println(">>>DEBUG <CCacheInputStream> auth time: " + authtime.toDate().toString());
-            System.out.println(">>>DEBUG <CCacheInputStream> start time: " +
-                    ((starttime==null)?"null":starttime.toDate().toString()));
-            System.out.println(">>>DEBUG <CCacheInputStream> end time: " + endtime.toDate().toString());
-            System.out.println(">>>DEBUG <CCacheInputStream> renew_till time: " +
-                    ((renewTill==null)?"null":renewTill.toDate().toString()));
+            System.out.println(">>>DEBUG <CCbcheInputStrebm> buth time: " + buthtime.toDbte().toString());
+            System.out.println(">>>DEBUG <CCbcheInputStrebm> stbrt time: " +
+                    ((stbrttime==null)?"null":stbrttime.toDbte().toString()));
+            System.out.println(">>>DEBUG <CCbcheInputStrebm> end time: " + endtime.toDbte().toString());
+            System.out.println(">>>DEBUG <CCbcheInputStrebm> renew_till time: " +
+                    ((renewTill==null)?"null":renewTill.toDbte().toString()));
         }
-        boolean skey = readskey();
-        boolean flags[] = readFlags();
-        TicketFlags tFlags = new TicketFlags(flags);
-        HostAddress addr[] = readAddr();
-        HostAddresses addrs = null;
-        if (addr != null) {
-            addrs = new HostAddresses(addr);
+        boolebn skey = rebdskey();
+        boolebn flbgs[] = rebdFlbgs();
+        TicketFlbgs tFlbgs = new TicketFlbgs(flbgs);
+        HostAddress bddr[] = rebdAddr();
+        HostAddresses bddrs = null;
+        if (bddr != null) {
+            bddrs = new HostAddresses(bddr);
         }
-        AuthorizationDataEntry[] auDataEntry = readAuth();
-        AuthorizationData auData = null;
-        if (auDataEntry != null) {
-            auData = new AuthorizationData(auDataEntry);
+        AuthorizbtionDbtbEntry[] buDbtbEntry = rebdAuth();
+        AuthorizbtionDbtb buDbtb = null;
+        if (buDbtbEntry != null) {
+            buDbtb = new AuthorizbtionDbtb(buDbtbEntry);
         }
-        byte[] ticketData = readData();
-        byte[] ticketData2 = readData();
+        byte[] ticketDbtb = rebdDbtb();
+        byte[] ticketDbtb2 = rebdDbtb();
 
-        // Skip this cred if either cpname or spname isn't created.
-        if (cpname == null || spname == null) {
+        // Skip this cred if either cpnbme or spnbme isn't crebted.
+        if (cpnbme == null || spnbme == null) {
             return null;
         }
 
         try {
-            return new Credentials(cpname, spname, key, authtime, starttime,
-                endtime, renewTill, skey, tFlags,
-                addrs, auData,
-                ticketData != null ? new Ticket(ticketData) : null,
-                ticketData2 != null ? new Ticket(ticketData2) : null);
-        } catch (Exception e) {     // If any of new Ticket(*) fails.
+            return new Credentibls(cpnbme, spnbme, key, buthtime, stbrttime,
+                endtime, renewTill, skey, tFlbgs,
+                bddrs, buDbtb,
+                ticketDbtb != null ? new Ticket(ticketDbtb) : null,
+                ticketDbtb2 != null ? new Ticket(ticketDbtb2) : null);
+        } cbtch (Exception e) {     // If bny of new Ticket(*) fbils.
             return null;
         }
     }

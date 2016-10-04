@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.util.*;
+import jbvb.util.*;
 
-final public class ClassTypeImpl extends InvokableTypeImpl
-    implements ClassType
+finbl public clbss ClbssTypeImpl extends InvokbbleTypeImpl
+    implements ClbssType
 {
-    private static class IResult implements InvocationResult {
-        final private JDWP.ClassType.InvokeMethod rslt;
+    privbte stbtic clbss IResult implements InvocbtionResult {
+        finbl privbte JDWP.ClbssType.InvokeMethod rslt;
 
-        public IResult(JDWP.ClassType.InvokeMethod rslt) {
+        public IResult(JDWP.ClbssType.InvokeMethod rslt) {
             this.rslt = rslt;
         }
 
@@ -45,65 +45,65 @@ final public class ClassTypeImpl extends InvokableTypeImpl
         }
 
         @Override
-        public ValueImpl getResult() {
-            return rslt.returnValue;
+        public VblueImpl getResult() {
+            return rslt.returnVblue;
         }
     }
 
-    private boolean cachedSuperclass = false;
-    private ClassType superclass = null;
-    private int lastLine = -1;
-    private List<InterfaceType> interfaces = null;
+    privbte boolebn cbchedSuperclbss = fblse;
+    privbte ClbssType superclbss = null;
+    privbte int lbstLine = -1;
+    privbte List<InterfbceType> interfbces = null;
 
-    protected ClassTypeImpl(VirtualMachine aVm,long aRef) {
-        super(aVm, aRef);
+    protected ClbssTypeImpl(VirtublMbchine bVm,long bRef) {
+        super(bVm, bRef);
     }
 
-    public ClassType superclass() {
-        if(!cachedSuperclass)  {
-            ClassTypeImpl sup = null;
+    public ClbssType superclbss() {
+        if(!cbchedSuperclbss)  {
+            ClbssTypeImpl sup = null;
             try {
-                sup = JDWP.ClassType.Superclass.
-                    process(vm, this).superclass;
-            } catch (JDWPException exc) {
+                sup = JDWP.ClbssType.Superclbss.
+                    process(vm, this).superclbss;
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
 
             /*
-             * If there is a superclass, cache its
-             * ClassType here. Otherwise,
-             * leave the cache reference null.
+             * If there is b superclbss, cbche its
+             * ClbssType here. Otherwise,
+             * lebve the cbche reference null.
              */
             if (sup != null) {
-                superclass = sup;
+                superclbss = sup;
             }
-            cachedSuperclass = true;
+            cbchedSuperclbss = true;
         }
 
-        return superclass;
+        return superclbss;
     }
 
     @Override
-    public List<InterfaceType> interfaces()  {
-        if (interfaces == null) {
-            interfaces = getInterfaces();
+    public List<InterfbceType> interfbces()  {
+        if (interfbces == null) {
+            interfbces = getInterfbces();
         }
-        return interfaces;
+        return interfbces;
     }
 
     @Override
-    public List<InterfaceType> allInterfaces() {
-        return getAllInterfaces();
+    public List<InterfbceType> bllInterfbces() {
+        return getAllInterfbces();
     }
 
-    public List<ClassType> subclasses() {
-        List<ClassType> subs = new ArrayList<ClassType>();
-        for (ReferenceType refType : vm.allClasses()) {
-            if (refType instanceof ClassType) {
-                ClassType clazz = (ClassType)refType;
-                ClassType superclass = clazz.superclass();
-                if ((superclass != null) && superclass.equals(this)) {
-                    subs.add((ClassType)refType);
+    public List<ClbssType> subclbsses() {
+        List<ClbssType> subs = new ArrbyList<ClbssType>();
+        for (ReferenceType refType : vm.bllClbsses()) {
+            if (refType instbnceof ClbssType) {
+                ClbssType clbzz = (ClbssType)refType;
+                ClbssType superclbss = clbzz.superclbss();
+                if ((superclbss != null) && superclbss.equbls(this)) {
+                    subs.bdd((ClbssType)refType);
                 }
             }
         }
@@ -111,186 +111,186 @@ final public class ClassTypeImpl extends InvokableTypeImpl
         return subs;
     }
 
-    public boolean isEnum() {
-        ClassType superclass = superclass();
-        if (superclass != null &&
-            superclass.name().equals("java.lang.Enum")) {
+    public boolebn isEnum() {
+        ClbssType superclbss = superclbss();
+        if (superclbss != null &&
+            superclbss.nbme().equbls("jbvb.lbng.Enum")) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    public void setValue(Field field, Value value)
-        throws InvalidTypeException, ClassNotLoadedException {
+    public void setVblue(Field field, Vblue vblue)
+        throws InvblidTypeException, ClbssNotLobdedException {
 
-        validateMirror(field);
-        validateMirrorOrNull(value);
-        validateFieldSet(field);
+        vblidbteMirror(field);
+        vblidbteMirrorOrNull(vblue);
+        vblidbteFieldSet(field);
 
-        // More validation specific to setting from a ClassType
-        if(!field.isStatic()) {
-            throw new IllegalArgumentException(
-                            "Must set non-static field through an instance");
+        // More vblidbtion specific to setting from b ClbssType
+        if(!field.isStbtic()) {
+            throw new IllegblArgumentException(
+                            "Must set non-stbtic field through bn instbnce");
         }
 
         try {
-            JDWP.ClassType.SetValues.FieldValue[] values =
-                          new JDWP.ClassType.SetValues.FieldValue[1];
-            values[0] = new JDWP.ClassType.SetValues.FieldValue(
+            JDWP.ClbssType.SetVblues.FieldVblue[] vblues =
+                          new JDWP.ClbssType.SetVblues.FieldVblue[1];
+            vblues[0] = new JDWP.ClbssType.SetVblues.FieldVblue(
                     ((FieldImpl)field).ref(),
-                    // validate and convert if necessary
-                    ValueImpl.prepareForAssignment(value, (FieldImpl)field));
+                    // vblidbte bnd convert if necessbry
+                    VblueImpl.prepbreForAssignment(vblue, (FieldImpl)field));
 
             try {
-                JDWP.ClassType.SetValues.process(vm, this, values);
-            } catch (JDWPException exc) {
+                JDWP.ClbssType.SetVblues.process(vm, this, vblues);
+            } cbtch (JDWPException exc) {
                 throw exc.toJDIException();
             }
-        } catch (ClassNotLoadedException e) {
+        } cbtch (ClbssNotLobdedException e) {
             /*
              * Since we got this exception,
-             * the field type must be a reference type. The value
+             * the field type must be b reference type. The vblue
              * we're trying to set is null, but if the field's
-             * class has not yet been loaded through the enclosing
-             * class loader, then setting to null is essentially a
-             * no-op, and we should allow it without an exception.
+             * clbss hbs not yet been lobded through the enclosing
+             * clbss lobder, then setting to null is essentiblly b
+             * no-op, bnd we should bllow it without bn exception.
              */
-            if (value != null) {
+            if (vblue != null) {
                 throw e;
             }
         }
     }
 
-    PacketStream sendNewInstanceCommand(final ThreadReferenceImpl thread,
-                                   final MethodImpl method,
-                                   final ValueImpl[] args,
-                                   final int options) {
-        CommandSender sender =
-            new CommandSender() {
-                public PacketStream send() {
-                    return JDWP.ClassType.NewInstance.enqueueCommand(
-                                          vm, ClassTypeImpl.this, thread,
-                                          method.ref(), args, options);
+    PbcketStrebm sendNewInstbnceCommbnd(finbl ThrebdReferenceImpl threbd,
+                                   finbl MethodImpl method,
+                                   finbl VblueImpl[] brgs,
+                                   finbl int options) {
+        CommbndSender sender =
+            new CommbndSender() {
+                public PbcketStrebm send() {
+                    return JDWP.ClbssType.NewInstbnce.enqueueCommbnd(
+                                          vm, ClbssTypeImpl.this, threbd,
+                                          method.ref(), brgs, options);
                 }
         };
 
-        PacketStream stream;
+        PbcketStrebm strebm;
         if ((options & INVOKE_SINGLE_THREADED) != 0) {
-            stream = thread.sendResumingCommand(sender);
+            strebm = threbd.sendResumingCommbnd(sender);
         } else {
-            stream = vm.sendResumingCommand(sender);
+            strebm = vm.sendResumingCommbnd(sender);
         }
-        return stream;
+        return strebm;
     }
 
-    public ObjectReference newInstance(ThreadReference threadIntf,
+    public ObjectReference newInstbnce(ThrebdReference threbdIntf,
                                        Method methodIntf,
-                                       List<? extends Value> origArguments,
+                                       List<? extends Vblue> origArguments,
                                        int options)
-                                   throws InvalidTypeException,
-                                          ClassNotLoadedException,
-                                          IncompatibleThreadStateException,
-                                          InvocationException {
-        validateMirror(threadIntf);
-        validateMirror(methodIntf);
-        validateMirrorsOrNulls(origArguments);
+                                   throws InvblidTypeException,
+                                          ClbssNotLobdedException,
+                                          IncompbtibleThrebdStbteException,
+                                          InvocbtionException {
+        vblidbteMirror(threbdIntf);
+        vblidbteMirror(methodIntf);
+        vblidbteMirrorsOrNulls(origArguments);
 
         MethodImpl method = (MethodImpl)methodIntf;
-        ThreadReferenceImpl thread = (ThreadReferenceImpl)threadIntf;
+        ThrebdReferenceImpl threbd = (ThrebdReferenceImpl)threbdIntf;
 
-        validateConstructorInvocation(method);
+        vblidbteConstructorInvocbtion(method);
 
-        List<Value> arguments = method.validateAndPrepareArgumentsForInvoke(
+        List<Vblue> brguments = method.vblidbteAndPrepbreArgumentsForInvoke(
                                                        origArguments);
-        ValueImpl[] args = arguments.toArray(new ValueImpl[0]);
-        JDWP.ClassType.NewInstance ret = null;
+        VblueImpl[] brgs = brguments.toArrby(new VblueImpl[0]);
+        JDWP.ClbssType.NewInstbnce ret = null;
         try {
-            PacketStream stream =
-                sendNewInstanceCommand(thread, method, args, options);
-            ret = JDWP.ClassType.NewInstance.waitForReply(vm, stream);
-        } catch (JDWPException exc) {
+            PbcketStrebm strebm =
+                sendNewInstbnceCommbnd(threbd, method, brgs, options);
+            ret = JDWP.ClbssType.NewInstbnce.wbitForReply(vm, strebm);
+        } cbtch (JDWPException exc) {
             if (exc.errorCode() == JDWP.Error.INVALID_THREAD) {
-                throw new IncompatibleThreadStateException();
+                throw new IncompbtibleThrebdStbteException();
             } else {
                 throw exc.toJDIException();
             }
         }
 
         /*
-         * There is an implict VM-wide suspend at the conclusion
-         * of a normal (non-single-threaded) method invoke
+         * There is bn implict VM-wide suspend bt the conclusion
+         * of b normbl (non-single-threbded) method invoke
          */
         if ((options & INVOKE_SINGLE_THREADED) == 0) {
             vm.notifySuspend();
         }
 
         if (ret.exception != null) {
-            throw new InvocationException(ret.exception);
+            throw new InvocbtionException(ret.exception);
         } else {
             return ret.newObject;
         }
     }
 
-    public Method concreteMethodByName(String name, String signature)  {
+    public Method concreteMethodByNbme(String nbme, String signbture)  {
        Method method = null;
-       for (Method candidate : visibleMethods()) {
-           if (candidate.name().equals(name) &&
-               candidate.signature().equals(signature) &&
-               !candidate.isAbstract()) {
+       for (Method cbndidbte : visibleMethods()) {
+           if (cbndidbte.nbme().equbls(nbme) &&
+               cbndidbte.signbture().equbls(signbture) &&
+               !cbndidbte.isAbstrbct()) {
 
-               method = candidate;
-               break;
+               method = cbndidbte;
+               brebk;
            }
        }
        return method;
    }
 
-    void validateConstructorInvocation(Method method)
-                                   throws InvalidTypeException,
-                                          InvocationException {
+    void vblidbteConstructorInvocbtion(Method method)
+                                   throws InvblidTypeException,
+                                          InvocbtionException {
         /*
-         * Method must be in this class.
+         * Method must be in this clbss.
          */
-        ReferenceTypeImpl declType = (ReferenceTypeImpl)method.declaringType();
-        if (!declType.equals(this)) {
-            throw new IllegalArgumentException("Invalid constructor");
+        ReferenceTypeImpl declType = (ReferenceTypeImpl)method.declbringType();
+        if (!declType.equbls(this)) {
+            throw new IllegblArgumentException("Invblid constructor");
         }
 
         /*
-         * Method must be a constructor
+         * Method must be b constructor
          */
         if (!method.isConstructor()) {
-            throw new IllegalArgumentException("Cannot create instance with non-constructor");
+            throw new IllegblArgumentException("Cbnnot crebte instbnce with non-constructor");
         }
     }
 
 
     public String toString() {
-       return "class " + name() + " (" + loaderString() + ")";
+       return "clbss " + nbme() + " (" + lobderString() + ")";
     }
 
     @Override
-    CommandSender getInvokeMethodSender(ThreadReferenceImpl thread,
+    CommbndSender getInvokeMethodSender(ThrebdReferenceImpl threbd,
                                         MethodImpl method,
-                                        ValueImpl[] args,
+                                        VblueImpl[] brgs,
                                         int options) {
         return () ->
-            JDWP.ClassType.InvokeMethod.enqueueCommand(vm,
-                                                       ClassTypeImpl.this,
-                                                       thread,
+            JDWP.ClbssType.InvokeMethod.enqueueCommbnd(vm,
+                                                       ClbssTypeImpl.this,
+                                                       threbd,
                                                        method.ref(),
-                                                       args,
+                                                       brgs,
                                                        options);
     }
 
     @Override
-    InvocationResult waitForReply(PacketStream stream) throws JDWPException {
-        return new IResult(JDWP.ClassType.InvokeMethod.waitForReply(vm, stream));
+    InvocbtionResult wbitForReply(PbcketStrebm strebm) throws JDWPException {
+        return new IResult(JDWP.ClbssType.InvokeMethod.wbitForReply(vm, strebm));
     }
 
     @Override
-    boolean canInvoke(Method method) {
-        // Method must be in this class or a superclass.
-        return ((ReferenceTypeImpl)method.declaringType()).isAssignableFrom(this);
+    boolebn cbnInvoke(Method method) {
+        // Method must be in this clbss or b superclbss.
+        return ((ReferenceTypeImpl)method.declbringType()).isAssignbbleFrom(this);
     }
 }

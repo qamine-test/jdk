@@ -1,29 +1,29 @@
-1)Copy Parser.jjt in a dedicated directory.
+1)Copy Pbrser.jjt in b dedicbted directory.
 
-2) Grammar modificatiobns:
-Grammar located in file Parser.jjt :
+2) Grbmmbr modificbtiobns:
+Grbmmbr locbted in file Pbrser.jjt :
 
-3) Command :
-/usr/lang/JAVA/JavaCC_2.0/bin/jjtree Parser.jjt
-/usr/lang/JAVA/JavaCC_2.0/bin/javacc Parser.jj
+3) Commbnd :
+/usr/lbng/JAVA/JbvbCC_2.0/bin/jjtree Pbrser.jjt
+/usr/lbng/JAVA/JbvbCC_2.0/bin/jbvbcc Pbrser.jj
 
-4) Files to copy back in IPAcl directory:
-If you added new node (eg :IpV6Address()) copy the JDM file (eg:JDMIpV6Address.java)
-In any cases copy back (These files must be checkedout in IPAcl directory):
-ASCII_CharStream.java
-JJTParserState.java
-ParseException.java
-Parser.java
-ParserConstants.java
-ParserTokenManager.java
-ParserTreeConstants.java
-TokenMgrError.java
+4) Files to copy bbck in IPAcl directory:
+If you bdded new node (eg :IpV6Address()) copy the JDM file (eg:JDMIpV6Address.jbvb)
+In bny cbses copy bbck (These files must be checkedout in IPAcl directory):
+ASCII_ChbrStrebm.jbvb
+JJTPbrserStbte.jbvb
+PbrseException.jbvb
+Pbrser.jbvb
+PbrserConstbnts.jbvb
+PbrserTokenMbnbger.jbvb
+PbrserTreeConstbnts.jbvb
+TokenMgrError.jbvb
 
-5) You need to modify any JDM files you copied back. Lauch the compilation and you will see what is wrong.
-Have a look to similar nodes in order to see how to modify. Some protected methods have to be overloaded.
+5) You need to modify bny JDM files you copied bbck. Lbuch the compilbtion bnd you will see whbt is wrong.
+Hbve b look to similbr nodes in order to see how to modify. Some protected methods hbve to be overlobded.
 
-6) Once your updates are running, copy back:
-Parser.jj
-Parser.jjt
+6) Once your updbtes bre running, copy bbck:
+Pbrser.jj
+Pbrser.jjt
 
 7) DONE.

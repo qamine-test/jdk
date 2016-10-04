@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * The class implements a buffered output stream. By setting up such
- * an output stream, an application can write bytes to the underlying
- * output stream without necessarily causing a call to the underlying
- * system for each byte written.
+ * The clbss implements b buffered output strebm. By setting up such
+ * bn output strebm, bn bpplicbtion cbn write bytes to the underlying
+ * output strebm without necessbrily cbusing b cbll to the underlying
+ * system for ebch byte written.
  *
- * @author  Arthur van Hoff
+ * @buthor  Arthur vbn Hoff
  * @since   1.0
  */
 public
-class BufferedOutputStream extends FilterOutputStream {
+clbss BufferedOutputStrebm extends FilterOutputStrebm {
     /**
-     * The internal buffer where data is stored.
+     * The internbl buffer where dbtb is stored.
      */
     protected byte buf[];
 
     /**
-     * The number of valid bytes in the buffer. This value is always
-     * in the range <tt>0</tt> through <tt>buf.length</tt>; elements
-     * <tt>buf[0]</tt> through <tt>buf[count-1]</tt> contain valid
-     * byte data.
+     * The number of vblid bytes in the buffer. This vblue is blwbys
+     * in the rbnge <tt>0</tt> through <tt>buf.length</tt>; elements
+     * <tt>buf[0]</tt> through <tt>buf[count-1]</tt> contbin vblid
+     * byte dbtb.
      */
     protected int count;
 
     /**
-     * Creates a new buffered output stream to write data to the
-     * specified underlying output stream.
+     * Crebtes b new buffered output strebm to write dbtb to the
+     * specified underlying output strebm.
      *
-     * @param   out   the underlying output stream.
+     * @pbrbm   out   the underlying output strebm.
      */
-    public BufferedOutputStream(OutputStream out) {
+    public BufferedOutputStrebm(OutputStrebm out) {
         this(out, 8192);
     }
 
     /**
-     * Creates a new buffered output stream to write data to the
-     * specified underlying output stream with the specified buffer
+     * Crebtes b new buffered output strebm to write dbtb to the
+     * specified underlying output strebm with the specified buffer
      * size.
      *
-     * @param   out    the underlying output stream.
-     * @param   size   the buffer size.
-     * @exception IllegalArgumentException if size &lt;= 0.
+     * @pbrbm   out    the underlying output strebm.
+     * @pbrbm   size   the buffer size.
+     * @exception IllegblArgumentException if size &lt;= 0.
      */
-    public BufferedOutputStream(OutputStream out, int size) {
+    public BufferedOutputStrebm(OutputStrebm out, int size) {
         super(out);
         if (size <= 0) {
-            throw new IllegalArgumentException("Buffer size <= 0");
+            throw new IllegblArgumentException("Buffer size <= 0");
         }
         buf = new byte[size];
     }
 
-    /** Flush the internal buffer */
-    private void flushBuffer() throws IOException {
+    /** Flush the internbl buffer */
+    privbte void flushBuffer() throws IOException {
         if (count > 0) {
             out.write(buf, 0, count);
             count = 0;
@@ -85,10 +85,10 @@ class BufferedOutputStream extends FilterOutputStream {
     }
 
     /**
-     * Writes the specified byte to this buffered output stream.
+     * Writes the specified byte to this buffered output strebm.
      *
-     * @param      b   the byte to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b   the byte to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public synchronized void write(int b) throws IOException {
         if (count >= buf.length) {
@@ -98,26 +98,26 @@ class BufferedOutputStream extends FilterOutputStream {
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to this buffered output stream.
+     * Writes <code>len</code> bytes from the specified byte brrby
+     * stbrting bt offset <code>off</code> to this buffered output strebm.
      *
-     * <p> Ordinarily this method stores bytes from the given array into this
-     * stream's buffer, flushing the buffer to the underlying output stream as
-     * needed.  If the requested length is at least as large as this stream's
-     * buffer, however, then this method will flush the buffer and write the
-     * bytes directly to the underlying output stream.  Thus redundant
-     * <code>BufferedOutputStream</code>s will not copy data unnecessarily.
+     * <p> Ordinbrily this method stores bytes from the given brrby into this
+     * strebm's buffer, flushing the buffer to the underlying output strebm bs
+     * needed.  If the requested length is bt lebst bs lbrge bs this strebm's
+     * buffer, however, then this method will flush the buffer bnd write the
+     * bytes directly to the underlying output strebm.  Thus redundbnt
+     * <code>BufferedOutputStrebm</code>s will not copy dbtb unnecessbrily.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b     the dbtb.
+     * @pbrbm      off   the stbrt offset in the dbtb.
+     * @pbrbm      len   the number of bytes to write.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public synchronized void write(byte b[], int off, int len) throws IOException {
         if (len >= buf.length) {
             /* If the request length exceeds the size of the output buffer,
-               flush the output buffer and then write the data directly.
-               In this way buffered streams will cascade harmlessly. */
+               flush the output buffer bnd then write the dbtb directly.
+               In this wby buffered strebms will cbscbde hbrmlessly. */
             flushBuffer();
             out.write(b, off, len);
             return;
@@ -125,16 +125,16 @@ class BufferedOutputStream extends FilterOutputStream {
         if (len > buf.length - count) {
             flushBuffer();
         }
-        System.arraycopy(b, off, buf, count, len);
+        System.brrbycopy(b, off, buf, count, len);
         count += len;
     }
 
     /**
-     * Flushes this buffered output stream. This forces any buffered
-     * output bytes to be written out to the underlying output stream.
+     * Flushes this buffered output strebm. This forces bny buffered
+     * output bytes to be written out to the underlying output strebm.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
     public synchronized void flush() throws IOException {
         flushBuffer();

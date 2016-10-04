@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-public class JNITypeParser {
+public clbss JNITypePbrser {
 
-    static final char SIGNATURE_ENDCLASS = ';';
-    static final char SIGNATURE_FUNC = '(';
-    static final char SIGNATURE_ENDFUNC = ')';
+    stbtic finbl chbr SIGNATURE_ENDCLASS = ';';
+    stbtic finbl chbr SIGNATURE_FUNC = '(';
+    stbtic finbl chbr SIGNATURE_ENDFUNC = ')';
 
-    private String signature;
-    private List<String> typeNameList;
-    private List<String> signatureList;
-    private int currentIndex;
+    privbte String signbture;
+    privbte List<String> typeNbmeList;
+    privbte List<String> signbtureList;
+    privbte int currentIndex;
 
-    JNITypeParser(String signature) {
-        this.signature = signature;
+    JNITypePbrser(String signbture) {
+        this.signbture = signbture;
     }
 
-    static String typeNameToSignature(String signature) {
+    stbtic String typeNbmeToSignbture(String signbture) {
         StringBuilder sb = new StringBuilder();
-        int firstIndex = signature.indexOf('[');
+        int firstIndex = signbture.indexOf('[');
         int index = firstIndex;
         while (index != -1) {
-            sb.append('[');
-            index = signature.indexOf('[', index + 1);
+            sb.bppend('[');
+            index = signbture.indexOf('[', index + 1);
         }
 
         if (firstIndex != -1) {
-            signature = signature.substring(0, firstIndex);
+            signbture = signbture.substring(0, firstIndex);
         }
 
-        if (signature.equals("boolean")) {
-            sb.append('Z');
-        } else if (signature.equals("byte")) {
-            sb.append('B');
-        } else if (signature.equals("char")) {
-            sb.append('C');
-        } else if (signature.equals("short")) {
-            sb.append('S');
-        } else if (signature.equals("int")) {
-            sb.append('I');
-        } else if (signature.equals("long")) {
-            sb.append('J');
-        } else if (signature.equals("float")) {
-            sb.append('F');
-        } else if (signature.equals("double")) {
-            sb.append('D');
+        if (signbture.equbls("boolebn")) {
+            sb.bppend('Z');
+        } else if (signbture.equbls("byte")) {
+            sb.bppend('B');
+        } else if (signbture.equbls("chbr")) {
+            sb.bppend('C');
+        } else if (signbture.equbls("short")) {
+            sb.bppend('S');
+        } else if (signbture.equbls("int")) {
+            sb.bppend('I');
+        } else if (signbture.equbls("long")) {
+            sb.bppend('J');
+        } else if (signbture.equbls("flobt")) {
+            sb.bppend('F');
+        } else if (signbture.equbls("double")) {
+            sb.bppend('D');
         } else {
-            sb.append('L');
-            sb.append(signature.replace('.', '/'));
-            sb.append(';');
+            sb.bppend('L');
+            sb.bppend(signbture.replbce('.', '/'));
+            sb.bppend(';');
         }
 
         return sb.toString();
     }
 
-    String typeName() {
-        return typeNameList().get(typeNameList().size()-1);
+    String typeNbme() {
+        return typeNbmeList().get(typeNbmeList().size()-1);
     }
 
-    List<String> argumentTypeNames() {
-        return typeNameList().subList(0, typeNameList().size() - 1);
+    List<String> brgumentTypeNbmes() {
+        return typeNbmeList().subList(0, typeNbmeList().size() - 1);
     }
 
-    String signature() {
-        return signatureList().get(signatureList().size()-1);
+    String signbture() {
+        return signbtureList().get(signbtureList().size()-1);
     }
 
-    List<String> argumentSignatures() {
-        return signatureList().subList(0, signatureList().size() - 1);
+    List<String> brgumentSignbtures() {
+        return signbtureList().subList(0, signbtureList().size() - 1);
     }
 
     int dimensionCount() {
         int count = 0;
-        String signature = signature();
-        while (signature.charAt(count) == '[') {
+        String signbture = signbture();
+        while (signbture.chbrAt(count) == '[') {
             count++;
         }
         return count;
     }
 
-    String componentSignature(int level) {
-        return signature().substring(level);
+    String componentSignbture(int level) {
+        return signbture().substring(level);
     }
 
-    private synchronized List<String> signatureList() {
-        if (signatureList == null) {
-            signatureList = new ArrayList<String>(10);
+    privbte synchronized List<String> signbtureList() {
+        if (signbtureList == null) {
+            signbtureList = new ArrbyList<String>(10);
             String elem;
 
             currentIndex = 0;
 
-            while(currentIndex < signature.length()) {
-                elem = nextSignature();
-                signatureList.add(elem);
+            while(currentIndex < signbture.length()) {
+                elem = nextSignbture();
+                signbtureList.bdd(elem);
             }
-            if (signatureList.size() == 0) {
-                throw new IllegalArgumentException("Invalid JNI signature '" +
-                                                   signature + "'");
+            if (signbtureList.size() == 0) {
+                throw new IllegblArgumentException("Invblid JNI signbture '" +
+                                                   signbture + "'");
             }
         }
-        return signatureList;
+        return signbtureList;
     }
 
-    private synchronized List<String> typeNameList() {
-        if (typeNameList == null) {
-            typeNameList = new ArrayList<String>(10);
+    privbte synchronized List<String> typeNbmeList() {
+        if (typeNbmeList == null) {
+            typeNbmeList = new ArrbyList<String>(10);
             String elem;
 
             currentIndex = 0;
 
-            while(currentIndex < signature.length()) {
-                elem = nextTypeName();
-                typeNameList.add(elem);
+            while(currentIndex < signbture.length()) {
+                elem = nextTypeNbme();
+                typeNbmeList.bdd(elem);
             }
-            if (typeNameList.size() == 0) {
-                throw new IllegalArgumentException("Invalid JNI signature '" +
-                                                   signature + "'");
+            if (typeNbmeList.size() == 0) {
+                throw new IllegblArgumentException("Invblid JNI signbture '" +
+                                                   signbture + "'");
             }
         }
-        return typeNameList;
+        return typeNbmeList;
     }
 
-    private String nextSignature() {
-        char key = signature.charAt(currentIndex++);
+    privbte String nextSignbture() {
+        chbr key = signbture.chbrAt(currentIndex++);
 
         switch(key) {
-            case (JDWP.Tag.ARRAY):
-                return  key + nextSignature();
+            cbse (JDWP.Tbg.ARRAY):
+                return  key + nextSignbture();
 
-            case (JDWP.Tag.OBJECT):
-                int endClass = signature.indexOf(SIGNATURE_ENDCLASS,
+            cbse (JDWP.Tbg.OBJECT):
+                int endClbss = signbture.indexOf(SIGNATURE_ENDCLASS,
                                                  currentIndex);
-                String retVal = signature.substring(currentIndex - 1,
-                                                    endClass + 1);
-                currentIndex = endClass + 1;
-                return retVal;
+                String retVbl = signbture.substring(currentIndex - 1,
+                                                    endClbss + 1);
+                currentIndex = endClbss + 1;
+                return retVbl;
 
-            case (JDWP.Tag.VOID):
-            case (JDWP.Tag.BOOLEAN):
-            case (JDWP.Tag.BYTE):
-            case (JDWP.Tag.CHAR):
-            case (JDWP.Tag.SHORT):
-            case (JDWP.Tag.INT):
-            case (JDWP.Tag.LONG):
-            case (JDWP.Tag.FLOAT):
-            case (JDWP.Tag.DOUBLE):
-                return String.valueOf(key);
+            cbse (JDWP.Tbg.VOID):
+            cbse (JDWP.Tbg.BOOLEAN):
+            cbse (JDWP.Tbg.BYTE):
+            cbse (JDWP.Tbg.CHAR):
+            cbse (JDWP.Tbg.SHORT):
+            cbse (JDWP.Tbg.INT):
+            cbse (JDWP.Tbg.LONG):
+            cbse (JDWP.Tbg.FLOAT):
+            cbse (JDWP.Tbg.DOUBLE):
+                return String.vblueOf(key);
 
-            case SIGNATURE_ENDFUNC:
-            case SIGNATURE_FUNC:
-                return nextSignature();
+            cbse SIGNATURE_ENDFUNC:
+            cbse SIGNATURE_FUNC:
+                return nextSignbture();
 
-            default:
-                throw new IllegalArgumentException(
-                    "Invalid JNI signature character '" + key + "'");
+            defbult:
+                throw new IllegblArgumentException(
+                    "Invblid JNI signbture chbrbcter '" + key + "'");
 
         }
     }
 
-    private String nextTypeName() {
-        char key = signature.charAt(currentIndex++);
+    privbte String nextTypeNbme() {
+        chbr key = signbture.chbrAt(currentIndex++);
 
         switch(key) {
-            case (JDWP.Tag.ARRAY):
-                return  nextTypeName() + "[]";
+            cbse (JDWP.Tbg.ARRAY):
+                return  nextTypeNbme() + "[]";
 
-            case (JDWP.Tag.BYTE):
+            cbse (JDWP.Tbg.BYTE):
                 return "byte";
 
-            case (JDWP.Tag.CHAR):
-                return "char";
+            cbse (JDWP.Tbg.CHAR):
+                return "chbr";
 
-            case (JDWP.Tag.OBJECT):
-                int endClass = signature.indexOf(SIGNATURE_ENDCLASS,
+            cbse (JDWP.Tbg.OBJECT):
+                int endClbss = signbture.indexOf(SIGNATURE_ENDCLASS,
                                                  currentIndex);
-                String retVal = signature.substring(currentIndex,
-                                                    endClass);
-                retVal = retVal.replace('/','.');
-                currentIndex = endClass + 1;
-                return retVal;
+                String retVbl = signbture.substring(currentIndex,
+                                                    endClbss);
+                retVbl = retVbl.replbce('/','.');
+                currentIndex = endClbss + 1;
+                return retVbl;
 
-            case (JDWP.Tag.FLOAT):
-                return "float";
+            cbse (JDWP.Tbg.FLOAT):
+                return "flobt";
 
-            case (JDWP.Tag.DOUBLE):
+            cbse (JDWP.Tbg.DOUBLE):
                 return "double";
 
-            case (JDWP.Tag.INT):
+            cbse (JDWP.Tbg.INT):
                 return "int";
 
-            case (JDWP.Tag.LONG):
+            cbse (JDWP.Tbg.LONG):
                 return "long";
 
-            case (JDWP.Tag.SHORT):
+            cbse (JDWP.Tbg.SHORT):
                 return "short";
 
-            case (JDWP.Tag.VOID):
+            cbse (JDWP.Tbg.VOID):
                 return "void";
 
-            case (JDWP.Tag.BOOLEAN):
-                return "boolean";
+            cbse (JDWP.Tbg.BOOLEAN):
+                return "boolebn";
 
-            case SIGNATURE_ENDFUNC:
-            case SIGNATURE_FUNC:
-                return nextTypeName();
+            cbse SIGNATURE_ENDFUNC:
+            cbse SIGNATURE_FUNC:
+                return nextTypeNbme();
 
-            default:
-                throw new IllegalArgumentException(
-                    "Invalid JNI signature character '" + key + "'");
+            defbult:
+                throw new IllegblArgumentException(
+                    "Invblid JNI signbture chbrbcter '" + key + "'");
 
         }
     }

@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net;
+pbckbge sun.net;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.net.URL;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.net.URL;
 
 /**
- * ProgressMonitor is a class for monitoring progress in network input stream.
+ * ProgressMonitor is b clbss for monitoring progress in network input strebm.
  *
- * @author Stanley Man-Kit Ho
+ * @buthor Stbnley Mbn-Kit Ho
  */
-public class ProgressMonitor
+public clbss ProgressMonitor
 {
     /**
-     * Return default ProgressMonitor.
+     * Return defbult ProgressMonitor.
      */
-    public static synchronized ProgressMonitor getDefault() {
+    public stbtic synchronized ProgressMonitor getDefbult() {
         return pm;
     }
 
     /**
-     * Change default ProgressMonitor implementation.
+     * Chbnge defbult ProgressMonitor implementbtion.
      */
-    public static synchronized void setDefault(ProgressMonitor m)   {
+    public stbtic synchronized void setDefbult(ProgressMonitor m)   {
         if (m != null)
             pm = m;
     }
 
     /**
-     * Change progress metering policy.
+     * Chbnge progress metering policy.
      */
-    public static synchronized void setMeteringPolicy(ProgressMeteringPolicy policy)    {
+    public stbtic synchronized void setMeteringPolicy(ProgressMeteringPolicy policy)    {
         if (policy != null)
             meteringPolicy = policy;
     }
 
 
     /**
-     * Return a snapshot of the ProgressSource list
+     * Return b snbpshot of the ProgressSource list
      */
-    public ArrayList<ProgressSource> getProgressSources()    {
-        ArrayList<ProgressSource> snapshot = new ArrayList<ProgressSource>();
+    public ArrbyList<ProgressSource> getProgressSources()    {
+        ArrbyList<ProgressSource> snbpshot = new ArrbyList<ProgressSource>();
 
         try {
             synchronized(progressSourceList)    {
-                for (Iterator<ProgressSource> iter = progressSourceList.iterator(); iter.hasNext();)    {
+                for (Iterbtor<ProgressSource> iter = progressSourceList.iterbtor(); iter.hbsNext();)    {
                     ProgressSource pi = iter.next();
 
-                    // Clone ProgressSource and add to snapshot
-                    snapshot.add((ProgressSource)pi.clone());
+                    // Clone ProgressSource bnd bdd to snbpshot
+                    snbpshot.bdd((ProgressSource)pi.clone());
                 }
             }
         }
-        catch(CloneNotSupportedException e) {
-            e.printStackTrace();
+        cbtch(CloneNotSupportedException e) {
+            e.printStbckTrbce();
         }
 
-        return snapshot;
+        return snbpshot;
     }
 
     /**
-     * Return update notification threshold
+     * Return updbte notificbtion threshold
      */
-    public synchronized int getProgressUpdateThreshold()    {
-        return meteringPolicy.getProgressUpdateThreshold();
+    public synchronized int getProgressUpdbteThreshold()    {
+        return meteringPolicy.getProgressUpdbteThreshold();
     }
 
     /**
      * Return true if metering should be turned on
-     * for a particular URL input stream.
+     * for b pbrticulbr URL input strebm.
      */
-    public boolean shouldMeterInput(URL url, String method) {
+    public boolebn shouldMeterInput(URL url, String method) {
         return meteringPolicy.shouldMeterInput(url, method);
     }
 
     /**
-     * Register progress source when progress is began.
+     * Register progress source when progress is begbn.
      */
     public void registerSource(ProgressSource pi) {
 
         synchronized(progressSourceList)    {
-            if (progressSourceList.contains(pi))
+            if (progressSourceList.contbins(pi))
                 return;
 
-            progressSourceList.add(pi);
+            progressSourceList.bdd(pi);
         }
 
-        // Notify only if there is at least one listener
+        // Notify only if there is bt lebst one listener
         if (progressListenerList.size() > 0)
         {
-            // Notify progress listener if there is progress change
-            ArrayList<ProgressListener> listeners = new ArrayList<ProgressListener>();
+            // Notify progress listener if there is progress chbnge
+            ArrbyList<ProgressListener> listeners = new ArrbyList<ProgressListener>();
 
-            // Copy progress listeners to another list to avoid holding locks
+            // Copy progress listeners to bnother list to bvoid holding locks
             synchronized(progressListenerList) {
-                for (Iterator<ProgressListener> iter = progressListenerList.iterator(); iter.hasNext();) {
-                    listeners.add(iter.next());
+                for (Iterbtor<ProgressListener> iter = progressListenerList.iterbtor(); iter.hbsNext();) {
+                    listeners.bdd(iter.next());
                 }
             }
 
-            // Fire event on each progress listener
-            for (Iterator<ProgressListener> iter = listeners.iterator(); iter.hasNext();) {
+            // Fire event on ebch progress listener
+            for (Iterbtor<ProgressListener> iter = listeners.iterbtor(); iter.hbsNext();) {
                 ProgressListener pl = iter.next();
-                ProgressEvent pe = new ProgressEvent(pi, pi.getURL(), pi.getMethod(), pi.getContentType(), pi.getState(), pi.getProgress(), pi.getExpected());
-                pl.progressStart(pe);
+                ProgressEvent pe = new ProgressEvent(pi, pi.getURL(), pi.getMethod(), pi.getContentType(), pi.getStbte(), pi.getProgress(), pi.getExpected());
+                pl.progressStbrt(pe);
             }
         }
     }
@@ -139,64 +139,64 @@ public class ProgressMonitor
 
         synchronized(progressSourceList) {
             // Return if ProgressEvent does not exist
-            if (progressSourceList.contains(pi) == false)
+            if (progressSourceList.contbins(pi) == fblse)
                 return;
 
-            // Close entry and remove from map
+            // Close entry bnd remove from mbp
             pi.close();
             progressSourceList.remove(pi);
         }
 
-        // Notify only if there is at least one listener
+        // Notify only if there is bt lebst one listener
         if (progressListenerList.size() > 0)
         {
-            // Notify progress listener if there is progress change
-            ArrayList<ProgressListener> listeners = new ArrayList<ProgressListener>();
+            // Notify progress listener if there is progress chbnge
+            ArrbyList<ProgressListener> listeners = new ArrbyList<ProgressListener>();
 
-            // Copy progress listeners to another list to avoid holding locks
+            // Copy progress listeners to bnother list to bvoid holding locks
             synchronized(progressListenerList) {
-                for (Iterator<ProgressListener> iter = progressListenerList.iterator(); iter.hasNext();) {
-                    listeners.add(iter.next());
+                for (Iterbtor<ProgressListener> iter = progressListenerList.iterbtor(); iter.hbsNext();) {
+                    listeners.bdd(iter.next());
                 }
             }
 
-            // Fire event on each progress listener
-            for (Iterator<ProgressListener> iter = listeners.iterator(); iter.hasNext();) {
+            // Fire event on ebch progress listener
+            for (Iterbtor<ProgressListener> iter = listeners.iterbtor(); iter.hbsNext();) {
                 ProgressListener pl = iter.next();
-                ProgressEvent pe = new ProgressEvent(pi, pi.getURL(), pi.getMethod(), pi.getContentType(), pi.getState(), pi.getProgress(), pi.getExpected());
+                ProgressEvent pe = new ProgressEvent(pi, pi.getURL(), pi.getMethod(), pi.getContentType(), pi.getStbte(), pi.getProgress(), pi.getExpected());
                 pl.progressFinish(pe);
             }
         }
     }
 
     /**
-     * Progress source is updated.
+     * Progress source is updbted.
      */
-    public void updateProgress(ProgressSource pi)   {
+    public void updbteProgress(ProgressSource pi)   {
 
         synchronized (progressSourceList)   {
-            if (progressSourceList.contains(pi) == false)
+            if (progressSourceList.contbins(pi) == fblse)
                 return;
         }
 
-        // Notify only if there is at least one listener
+        // Notify only if there is bt lebst one listener
         if (progressListenerList.size() > 0)
         {
-            // Notify progress listener if there is progress change
-            ArrayList<ProgressListener> listeners = new ArrayList<ProgressListener>();
+            // Notify progress listener if there is progress chbnge
+            ArrbyList<ProgressListener> listeners = new ArrbyList<ProgressListener>();
 
-            // Copy progress listeners to another list to avoid holding locks
+            // Copy progress listeners to bnother list to bvoid holding locks
             synchronized(progressListenerList)  {
-                for (Iterator<ProgressListener> iter = progressListenerList.iterator(); iter.hasNext();) {
-                    listeners.add(iter.next());
+                for (Iterbtor<ProgressListener> iter = progressListenerList.iterbtor(); iter.hbsNext();) {
+                    listeners.bdd(iter.next());
                 }
             }
 
-            // Fire event on each progress listener
-            for (Iterator<ProgressListener> iter = listeners.iterator(); iter.hasNext();) {
+            // Fire event on ebch progress listener
+            for (Iterbtor<ProgressListener> iter = listeners.iterbtor(); iter.hbsNext();) {
                 ProgressListener pl = iter.next();
-                ProgressEvent pe = new ProgressEvent(pi, pi.getURL(), pi.getMethod(), pi.getContentType(), pi.getState(), pi.getProgress(), pi.getExpected());
-                pl.progressUpdate(pe);
+                ProgressEvent pe = new ProgressEvent(pi, pi.getURL(), pi.getMethod(), pi.getContentType(), pi.getStbte(), pi.getProgress(), pi.getExpected());
+                pl.progressUpdbte(pe);
             }
         }
     }
@@ -204,9 +204,9 @@ public class ProgressMonitor
     /**
      * Add progress listener in progress monitor.
      */
-    public void addProgressListener(ProgressListener l) {
+    public void bddProgressListener(ProgressListener l) {
         synchronized(progressListenerList) {
-            progressListenerList.add(l);
+            progressListenerList.bdd(l);
         }
     }
 
@@ -220,38 +220,38 @@ public class ProgressMonitor
     }
 
     // Metering policy
-    private static ProgressMeteringPolicy meteringPolicy = new DefaultProgressMeteringPolicy();
+    privbte stbtic ProgressMeteringPolicy meteringPolicy = new DefbultProgressMeteringPolicy();
 
-    // Default implementation
-    private static ProgressMonitor pm = new ProgressMonitor();
+    // Defbult implementbtion
+    privbte stbtic ProgressMonitor pm = new ProgressMonitor();
 
-    // ArrayList for outstanding progress sources
-    private ArrayList<ProgressSource> progressSourceList = new ArrayList<ProgressSource>();
+    // ArrbyList for outstbnding progress sources
+    privbte ArrbyList<ProgressSource> progressSourceList = new ArrbyList<ProgressSource>();
 
-    // ArrayList for progress listeners
-    private ArrayList<ProgressListener> progressListenerList = new ArrayList<ProgressListener>();
+    // ArrbyList for progress listeners
+    privbte ArrbyList<ProgressListener> progressListenerList = new ArrbyList<ProgressListener>();
 }
 
 
 /**
- * Default progress metering policy.
+ * Defbult progress metering policy.
  */
-class DefaultProgressMeteringPolicy implements ProgressMeteringPolicy  {
+clbss DefbultProgressMeteringPolicy implements ProgressMeteringPolicy  {
     /**
-     * Return true if metering should be turned on for a particular network input stream.
+     * Return true if metering should be turned on for b pbrticulbr network input strebm.
      */
-    public boolean shouldMeterInput(URL url, String method)
+    public boolebn shouldMeterInput(URL url, String method)
     {
-        // By default, no URL input stream is metered for
-        // performance reason.
-        return false;
+        // By defbult, no URL input strebm is metered for
+        // performbnce rebson.
+        return fblse;
     }
 
     /**
-     * Return update notification threshold.
+     * Return updbte notificbtion threshold.
      */
-    public int getProgressUpdateThreshold() {
-        // 8K - same as default I/O buffer size
+    public int getProgressUpdbteThreshold() {
+        // 8K - sbme bs defbult I/O buffer size
         return 8192;
     }
 }

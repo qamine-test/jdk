@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
 
-import java.awt.*;
-import java.io.*;
+import jbvb.bwt.*;
+import jbvb.io.*;
 
 /**
-  * Center-positioning layout manager.
-  * @author Tom Santos
-  * @author Steve Wilson
+  * Center-positioning lbyout mbnbger.
+  * @buthor Tom Sbntos
+  * @buthor Steve Wilson
   */
-@SuppressWarnings("serial") // Same-version serialization only
-class CenterLayout implements LayoutManager, Serializable {
-    public void addLayoutComponent(String name, Component comp) { }
-    public void removeLayoutComponent(Component comp) { }
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+clbss CenterLbyout implements LbyoutMbnbger, Seriblizbble {
+    public void bddLbyoutComponent(String nbme, Component comp) { }
+    public void removeLbyoutComponent(Component comp) { }
 
-    public Dimension preferredLayoutSize( Container container ) {
-        Component c = container.getComponent( 0 );
+    public Dimension preferredLbyoutSize( Contbiner contbiner ) {
+        Component c = contbiner.getComponent( 0 );
         if ( c != null ) {
             Dimension size = c.getPreferredSize();
-            Insets insets = container.getInsets();
+            Insets insets = contbiner.getInsets();
 
             return new Dimension(size.width + insets.left + insets.right,
                                  size.height + insets.top + insets.bottom);
@@ -53,27 +53,27 @@ class CenterLayout implements LayoutManager, Serializable {
         }
     }
 
-    public Dimension minimumLayoutSize(Container cont) {
-        return preferredLayoutSize(cont);
+    public Dimension minimumLbyoutSize(Contbiner cont) {
+        return preferredLbyoutSize(cont);
     }
 
-    public void layoutContainer(Container container) {
-        if (container.getComponentCount() > 0) {
-            Component c = container.getComponent(0);
+    public void lbyoutContbiner(Contbiner contbiner) {
+        if (contbiner.getComponentCount() > 0) {
+            Component c = contbiner.getComponent(0);
             Dimension pref = c.getPreferredSize();
-            int containerWidth = container.getWidth();
-            int containerHeight = container.getHeight();
-            Insets containerInsets = container.getInsets();
+            int contbinerWidth = contbiner.getWidth();
+            int contbinerHeight = contbiner.getHeight();
+            Insets contbinerInsets = contbiner.getInsets();
 
-            containerWidth -= containerInsets.left +
-                              containerInsets.right;
-            containerHeight -= containerInsets.top +
-                               containerInsets.bottom;
+            contbinerWidth -= contbinerInsets.left +
+                              contbinerInsets.right;
+            contbinerHeight -= contbinerInsets.top +
+                               contbinerInsets.bottom;
 
-            int left = (containerWidth - pref.width) / 2 +
-                            containerInsets.left;
-            int right = (containerHeight - pref.height) / 2 +
-                            containerInsets.top;
+            int left = (contbinerWidth - pref.width) / 2 +
+                            contbinerInsets.left;
+            int right = (contbinerHeight - pref.height) / 2 +
+                            contbinerInsets.top;
 
             c.setBounds(left, right, pref.width, pref.height);
         }

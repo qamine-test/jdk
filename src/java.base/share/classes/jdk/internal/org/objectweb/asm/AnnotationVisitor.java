@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,143 +56,143 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * A visitor to visit a Java annotation. The methods of this class must be
- * called in the following order: ( <tt>visit</tt> | <tt>visitEnum</tt> |
- * <tt>visitAnnotation</tt> | <tt>visitArray</tt> )* <tt>visitEnd</tt>.
+ * A visitor to visit b Jbvb bnnotbtion. The methods of this clbss must be
+ * cblled in the following order: ( <tt>visit</tt> | <tt>visitEnum</tt> |
+ * <tt>visitAnnotbtion</tt> | <tt>visitArrby</tt> )* <tt>visitEnd</tt>.
  *
- * @author Eric Bruneton
- * @author Eugene Kuleshov
+ * @buthor Eric Bruneton
+ * @buthor Eugene Kuleshov
  */
-public abstract class AnnotationVisitor {
+public bbstrbct clbss AnnotbtionVisitor {
 
     /**
-     * The ASM API version implemented by this visitor. The value of this field
+     * The ASM API version implemented by this visitor. The vblue of this field
      * must be one of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
-    protected final int api;
+    protected finbl int bpi;
 
     /**
-     * The annotation visitor to which this visitor must delegate method calls.
-     * May be null.
+     * The bnnotbtion visitor to which this visitor must delegbte method cblls.
+     * Mby be null.
      */
-    protected AnnotationVisitor av;
+    protected AnnotbtionVisitor bv;
 
     /**
-     * Constructs a new {@link AnnotationVisitor}.
+     * Constructs b new {@link AnnotbtionVisitor}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
-    public AnnotationVisitor(final int api) {
-        this(api, null);
+    public AnnotbtionVisitor(finbl int bpi) {
+        this(bpi, null);
     }
 
     /**
-     * Constructs a new {@link AnnotationVisitor}.
+     * Constructs b new {@link AnnotbtionVisitor}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param av
-     *            the annotation visitor to which this visitor must delegate
-     *            method calls. May be null.
+     * @pbrbm bv
+     *            the bnnotbtion visitor to which this visitor must delegbte
+     *            method cblls. Mby be null.
      */
-    public AnnotationVisitor(final int api, final AnnotationVisitor av) {
-        if (api != Opcodes.ASM4 && api != Opcodes.ASM5) {
-            throw new IllegalArgumentException();
+    public AnnotbtionVisitor(finbl int bpi, finbl AnnotbtionVisitor bv) {
+        if (bpi != Opcodes.ASM4 && bpi != Opcodes.ASM5) {
+            throw new IllegblArgumentException();
         }
-        this.api = api;
-        this.av = av;
+        this.bpi = bpi;
+        this.bv = bv;
     }
 
     /**
-     * Visits a primitive value of the annotation.
+     * Visits b primitive vblue of the bnnotbtion.
      *
-     * @param name
-     *            the value name.
-     * @param value
-     *            the actual value, whose type must be {@link Byte},
-     *            {@link Boolean}, {@link Character}, {@link Short},
-     *            {@link Integer} , {@link Long}, {@link Float}, {@link Double},
+     * @pbrbm nbme
+     *            the vblue nbme.
+     * @pbrbm vblue
+     *            the bctubl vblue, whose type must be {@link Byte},
+     *            {@link Boolebn}, {@link Chbrbcter}, {@link Short},
+     *            {@link Integer} , {@link Long}, {@link Flobt}, {@link Double},
      *            {@link String} or {@link Type} or OBJECT or ARRAY sort. This
-     *            value can also be an array of byte, boolean, short, char, int,
-     *            long, float or double values (this is equivalent to using
-     *            {@link #visitArray visitArray} and visiting each array element
+     *            vblue cbn blso be bn brrby of byte, boolebn, short, chbr, int,
+     *            long, flobt or double vblues (this is equivblent to using
+     *            {@link #visitArrby visitArrby} bnd visiting ebch brrby element
      *            in turn, but is more convenient).
      */
-    public void visit(String name, Object value) {
-        if (av != null) {
-            av.visit(name, value);
+    public void visit(String nbme, Object vblue) {
+        if (bv != null) {
+            bv.visit(nbme, vblue);
         }
     }
 
     /**
-     * Visits an enumeration value of the annotation.
+     * Visits bn enumerbtion vblue of the bnnotbtion.
      *
-     * @param name
-     *            the value name.
-     * @param desc
-     *            the class descriptor of the enumeration class.
-     * @param value
-     *            the actual enumeration value.
+     * @pbrbm nbme
+     *            the vblue nbme.
+     * @pbrbm desc
+     *            the clbss descriptor of the enumerbtion clbss.
+     * @pbrbm vblue
+     *            the bctubl enumerbtion vblue.
      */
-    public void visitEnum(String name, String desc, String value) {
-        if (av != null) {
-            av.visitEnum(name, desc, value);
+    public void visitEnum(String nbme, String desc, String vblue) {
+        if (bv != null) {
+            bv.visitEnum(nbme, desc, vblue);
         }
     }
 
     /**
-     * Visits a nested annotation value of the annotation.
+     * Visits b nested bnnotbtion vblue of the bnnotbtion.
      *
-     * @param name
-     *            the value name.
-     * @param desc
-     *            the class descriptor of the nested annotation class.
-     * @return a visitor to visit the actual nested annotation value, or
+     * @pbrbm nbme
+     *            the vblue nbme.
+     * @pbrbm desc
+     *            the clbss descriptor of the nested bnnotbtion clbss.
+     * @return b visitor to visit the bctubl nested bnnotbtion vblue, or
      *         <tt>null</tt> if this visitor is not interested in visiting this
-     *         nested annotation. <i>The nested annotation value must be fully
-     *         visited before calling other methods on this annotation
+     *         nested bnnotbtion. <i>The nested bnnotbtion vblue must be fully
+     *         visited before cblling other methods on this bnnotbtion
      *         visitor</i>.
      */
-    public AnnotationVisitor visitAnnotation(String name, String desc) {
-        if (av != null) {
-            return av.visitAnnotation(name, desc);
+    public AnnotbtionVisitor visitAnnotbtion(String nbme, String desc) {
+        if (bv != null) {
+            return bv.visitAnnotbtion(nbme, desc);
         }
         return null;
     }
 
     /**
-     * Visits an array value of the annotation. Note that arrays of primitive
-     * types (such as byte, boolean, short, char, int, long, float or double)
-     * can be passed as value to {@link #visit visit}. This is what
-     * {@link ClassReader} does.
+     * Visits bn brrby vblue of the bnnotbtion. Note thbt brrbys of primitive
+     * types (such bs byte, boolebn, short, chbr, int, long, flobt or double)
+     * cbn be pbssed bs vblue to {@link #visit visit}. This is whbt
+     * {@link ClbssRebder} does.
      *
-     * @param name
-     *            the value name.
-     * @return a visitor to visit the actual array value elements, or
+     * @pbrbm nbme
+     *            the vblue nbme.
+     * @return b visitor to visit the bctubl brrby vblue elements, or
      *         <tt>null</tt> if this visitor is not interested in visiting these
-     *         values. The 'name' parameters passed to the methods of this
-     *         visitor are ignored. <i>All the array values must be visited
-     *         before calling other methods on this annotation visitor</i>.
+     *         vblues. The 'nbme' pbrbmeters pbssed to the methods of this
+     *         visitor bre ignored. <i>All the brrby vblues must be visited
+     *         before cblling other methods on this bnnotbtion visitor</i>.
      */
-    public AnnotationVisitor visitArray(String name) {
-        if (av != null) {
-            return av.visitArray(name);
+    public AnnotbtionVisitor visitArrby(String nbme) {
+        if (bv != null) {
+            return bv.visitArrby(nbme);
         }
         return null;
     }
 
     /**
-     * Visits the end of the annotation.
+     * Visits the end of the bnnotbtion.
      */
     public void visitEnd() {
-        if (av != null) {
-            av.visitEnd();
+        if (bv != null) {
+            bv.visitEnd();
         }
     }
 }

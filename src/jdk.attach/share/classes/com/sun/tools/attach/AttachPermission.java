@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.attach;
+pbckbge com.sun.tools.bttbch;
 
 /**
- * When a {@link java.lang.SecurityManager SecurityManager} set, this
+ * When b {@link jbvb.lbng.SecurityMbnbger SecurityMbnbger} set, this
  * is the permission which will be checked when code invokes {@link
- * VirtualMachine#attach VirtalMachine.attach} to attach to a target virtual
- * machine.
- * This permission is also checked when an {@link
- * com.sun.tools.attach.spi.AttachProvider AttachProvider} is created. </p>
+ * VirtublMbchine#bttbch VirtblMbchine.bttbch} to bttbch to b tbrget virtubl
+ * mbchine.
+ * This permission is blso checked when bn {@link
+ * com.sun.tools.bttbch.spi.AttbchProvider AttbchProvider} is crebted. </p>
  *
- * <p> An <code>AttachPermission</code> object contains a name (also referred
- * to as a "target name") but no actions list; you either have the
- * named permission or you don't.
- * The following table provides a summary description of what the
- * permission allows, and discusses the risks of granting code the
+ * <p> An <code>AttbchPermission</code> object contbins b nbme (blso referred
+ * to bs b "tbrget nbme") but no bctions list; you either hbve the
+ * nbmed permission or you don't.
+ * The following tbble provides b summbry description of whbt the
+ * permission bllows, bnd discusses the risks of grbnting code the
  * permission.
  * <P>
- * <table border=1 cellpadding=5 summary="Table shows permission
- * target name, what the permission allows, and associated risks">
+ * <tbble border=1 cellpbdding=5 summbry="Tbble shows permission
+ * tbrget nbme, whbt the permission bllows, bnd bssocibted risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
+ * <th>Permission Tbrget Nbme</th>
+ * <th>Whbt the Permission Allows</th>
  * <th>Risks of Allowing this Permission</th>
  * </tr>
  *
  * <tr>
- *   <td>attachVirtualMachine</td>
- *   <td>Ability to attach to another Java virtual machine and load agents
- *       into that VM.
+ *   <td>bttbchVirtublMbchine</td>
+ *   <td>Ability to bttbch to bnother Jbvb virtubl mbchine bnd lobd bgents
+ *       into thbt VM.
  *   </td>
- *   <td>This allows an attacker to control the target VM which can potentially
- *       cause it to misbehave.
+ *   <td>This bllows bn bttbcker to control the tbrget VM which cbn potentiblly
+ *       cbuse it to misbehbve.
  *   </td>
  * </tr>
  *
  * <tr>
- *   <td>createAttachProvider</td>
- *   <td>Ability to create an <code>AttachProvider</code> instance.
+ *   <td>crebteAttbchProvider</td>
+ *   <td>Ability to crebte bn <code>AttbchProvider</code> instbnce.
  *   </td>
- *   <td>This allows an attacker to create an AttachProvider which can
- *       potentially be used to attach to other Java virtual machines.
+ *   <td>This bllows bn bttbcker to crebte bn AttbchProvider which cbn
+ *       potentiblly be used to bttbch to other Jbvb virtubl mbchines.
  *   </td>
  * </tr>
 
  *
- * </table>
+ * </tbble>
 
  * <p>
- * Programmers do not normally create AttachPermission objects directly.
- * Instead they are created by the security policy code based on reading
+ * Progrbmmers do not normblly crebte AttbchPermission objects directly.
+ * Instebd they bre crebted by the security policy code bbsed on rebding
  * the security policy file.
  *
- * @see com.sun.tools.attach.VirtualMachine
- * @see com.sun.tools.attach.spi.AttachProvider
+ * @see com.sun.tools.bttbch.VirtublMbchine
+ * @see com.sun.tools.bttbch.spi.AttbchProvider
  */
 
 @jdk.Exported
-public final class AttachPermission extends java.security.BasicPermission {
+public finbl clbss AttbchPermission extends jbvb.security.BbsicPermission {
 
-    /** use serialVersionUID for interoperability */
-    static final long serialVersionUID = -4619447669752976181L;
+    /** use seriblVersionUID for interoperbbility */
+    stbtic finbl long seriblVersionUID = -4619447669752976181L;
 
     /**
-     * Constructs a new AttachPermission object.
+     * Constructs b new AttbchPermission object.
      *
-     * @param name Permission name. Must be either "attachVirtualMachine",
-     *             or "createAttachProvider".
+     * @pbrbm nbme Permission nbme. Must be either "bttbchVirtublMbchine",
+     *             or "crebteAttbchProvider".
      *
-     * @throws NullPointerException if name is <code>null</code>.
-     * @throws IllegalArgumentException if the name is invalid.
+     * @throws NullPointerException if nbme is <code>null</code>.
+     * @throws IllegblArgumentException if the nbme is invblid.
      */
-    public AttachPermission(String name) {
-        super(name);
-        if (!name.equals("attachVirtualMachine") && !name.equals("createAttachProvider")) {
-            throw new IllegalArgumentException("name: " + name);
+    public AttbchPermission(String nbme) {
+        super(nbme);
+        if (!nbme.equbls("bttbchVirtublMbchine") && !nbme.equbls("crebteAttbchProvider")) {
+            throw new IllegblArgumentException("nbme: " + nbme);
         }
     }
 
     /**
-     * Constructs a new AttachPermission object.
+     * Constructs b new AttbchPermission object.
      *
-     * @param name Permission name.   Must be either "attachVirtualMachine",
-     *             or "createAttachProvider".
+     * @pbrbm nbme Permission nbme.   Must be either "bttbchVirtublMbchine",
+     *             or "crebteAttbchProvider".
      *
-     * @param actions Not used and should be <code>null</code>, or
+     * @pbrbm bctions Not used bnd should be <code>null</code>, or
      *                the empty string.
      *
-     * @throws NullPointerException if name is <code>null</code>.
-     * @throws IllegalArgumentException if arguments are invalid.
+     * @throws NullPointerException if nbme is <code>null</code>.
+     * @throws IllegblArgumentException if brguments bre invblid.
      */
-    public AttachPermission(String name, String actions) {
-        super(name);
-        if (!name.equals("attachVirtualMachine") && !name.equals("createAttachProvider")) {
-            throw new IllegalArgumentException("name: " + name);
+    public AttbchPermission(String nbme, String bctions) {
+        super(nbme);
+        if (!nbme.equbls("bttbchVirtublMbchine") && !nbme.equbls("crebteAttbchProvider")) {
+            throw new IllegblArgumentException("nbme: " + nbme);
         }
-        if (actions != null && actions.length() > 0) {
-            throw new IllegalArgumentException("actions: " + actions);
+        if (bctions != null && bctions.length() > 0) {
+            throw new IllegblArgumentException("bctions: " + bctions);
         }
     }
 }

@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import sun.misc.Unsafe;
-import java.util.Vector;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import sun.misc.Unsbfe;
+import jbvb.util.Vector;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * This class contains the collection of utility functions to help work with
- * native data types on different platforms similarly.
+ * This clbss contbins the collection of utility functions to help work with
+ * nbtive dbtb types on different plbtforms similbrly.
  */
 
-class Native {
+clbss Nbtive {
 
-    private static Unsafe unsafe = XlibWrapper.unsafe;
+    privbte stbtic Unsbfe unsbfe = XlibWrbpper.unsbfe;
 
-    static int longSize;
+    stbtic int longSize;
 
-    static int dataModel;
-    static {
-        String dataModelProp = AccessController.doPrivileged(
+    stbtic int dbtbModel;
+    stbtic {
+        String dbtbModelProp = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
                 public String run() {
-                    return System.getProperty("sun.arch.data.model");
+                    return System.getProperty("sun.brch.dbtb.model");
                 }
             });
         try {
-            dataModel = Integer.parseInt(dataModelProp);
-        } catch (Exception e) {
-            dataModel = 32;
+            dbtbModel = Integer.pbrseInt(dbtbModelProp);
+        } cbtch (Exception e) {
+            dbtbModel = 32;
         }
-        if (dataModel == 32) {
+        if (dbtbModel == 32) {
             longSize = 4;
         } else {
             longSize = 8;
@@ -62,61 +62,61 @@ class Native {
     }
 
     /**
-     * Set of helper function to read data of different PLATFORM types
+     * Set of helper function to rebd dbtb of different PLATFORM types
      * from memory pointer by <code>ptr</code>
-     * Note, names of types in function are NATIVE PLATFORM types
-     * and they have the same size as they would have in C compiler
-     * on the same platform.
+     * Note, nbmes of types in function bre NATIVE PLATFORM types
+     * bnd they hbve the sbme size bs they would hbve in C compiler
+     * on the sbme plbtform.
      */
 
-    static boolean getBool(long ptr) { return getInt(ptr) != 0; }
-    static boolean getBool(long ptr, int index) { return getInt(ptr, index) != 0; }
-    static void putBool(long ptr, boolean data) { putInt(ptr, (data)?(1):(0)); }
-    static void putBool(long ptr, int index, boolean data) { putInt(ptr, index, (data)?(1):(0)); }
+    stbtic boolebn getBool(long ptr) { return getInt(ptr) != 0; }
+    stbtic boolebn getBool(long ptr, int index) { return getInt(ptr, index) != 0; }
+    stbtic void putBool(long ptr, boolebn dbtb) { putInt(ptr, (dbtb)?(1):(0)); }
+    stbtic void putBool(long ptr, int index, boolebn dbtb) { putInt(ptr, index, (dbtb)?(1):(0)); }
 
 
     /**
-     * Access to C byte data(one byte)
+     * Access to C byte dbtb(one byte)
      */
-    static int getByteSize() { return 1; }
-    static byte getByte(long ptr) { return unsafe.getByte(ptr); }
+    stbtic int getByteSize() { return 1; }
+    stbtic byte getByte(long ptr) { return unsbfe.getByte(ptr); }
 
-    static byte getByte(long ptr, int index) {
+    stbtic byte getByte(long ptr, int index) {
         return getByte(ptr+index);
     }
     /**
-     * Stores to C byte data(one byte)
+     * Stores to C byte dbtb(one byte)
      */
-    static void putByte(long ptr, byte data) { unsafe.putByte(ptr, data); }
+    stbtic void putByte(long ptr, byte dbtb) { unsbfe.putByte(ptr, dbtb); }
 
-    static void putByte(long ptr, int index, byte data) {
-        putByte(ptr+index, data);
+    stbtic void putByte(long ptr, int index, byte dbtb) {
+        putByte(ptr+index, dbtb);
     }
     /**
-     * Converts length bytes of data pointed by <code>data</code> into byte array
-     * Returns null if data is zero
-     * @param data native pointer to native memory
-     * @param length size in bytes of native memory
+     * Converts length bytes of dbtb pointed by <code>dbtb</code> into byte brrby
+     * Returns null if dbtb is zero
+     * @pbrbm dbtb nbtive pointer to nbtive memory
+     * @pbrbm length size in bytes of nbtive memory
      */
-    static byte[] toBytes(long data, int length) {
-        if (data == 0) {
+    stbtic byte[] toBytes(long dbtb, int length) {
+        if (dbtb == 0) {
             return null;
         }
         byte[] res = new byte[length];
-        for (int i = 0; i < length; i++, data++) {
-            res[i] = getByte(data);
+        for (int i = 0; i < length; i++, dbtb++) {
+            res[i] = getByte(dbtb);
         }
         return res;
     }
     /**
-     * Stores byte array into native memory and returns pointer to this memory
+     * Stores byte brrby into nbtive memory bnd returns pointer to this memory
      * Returns 0 if bytes is null
      */
-    static long toData(byte[] bytes) {
+    stbtic long toDbtb(byte[] bytes) {
         if (bytes == null) {
             return 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(bytes.length);
+        long res = XlibWrbpper.unsbfe.bllocbteMemory(bytes.length);
         for (int i = 0; i < bytes.length; i++) {
             putByte(res+i, bytes[i]);
         }
@@ -124,51 +124,51 @@ class Native {
     }
 
     /**
-     * Access to C unsigned byte data(one byte)
+     * Access to C unsigned byte dbtb(one byte)
      */
-    static int getUByteSize() { return 1; }
-    static short getUByte(long ptr) { return (short)(0xFF & unsafe.getByte(ptr));  }
+    stbtic int getUByteSize() { return 1; }
+    stbtic short getUByte(long ptr) { return (short)(0xFF & unsbfe.getByte(ptr));  }
 
-    static short getUByte(long ptr, int index) {
+    stbtic short getUByte(long ptr, int index) {
         return getUByte(ptr+index);
     }
 
     /**
-     * Stores to C unsigned byte data(one byte)
+     * Stores to C unsigned byte dbtb(one byte)
      */
-    static void putUByte(long ptr, short data) { unsafe.putByte(ptr, (byte)data); }
+    stbtic void putUByte(long ptr, short dbtb) { unsbfe.putByte(ptr, (byte)dbtb); }
 
-    static void putUByte(long ptr, int index, short data) {
-        putUByte(ptr+index, data);
+    stbtic void putUByte(long ptr, int index, short dbtb) {
+        putUByte(ptr+index, dbtb);
     }
 
     /**
-     * Converts length usnigned bytes of data pointed by <code>data</code> into
-     * short array
-     * Returns null if data is zero
-     * @param data native pointer to native memory
-     * @param length size in bytes of native memory
+     * Converts length usnigned bytes of dbtb pointed by <code>dbtb</code> into
+     * short brrby
+     * Returns null if dbtb is zero
+     * @pbrbm dbtb nbtive pointer to nbtive memory
+     * @pbrbm length size in bytes of nbtive memory
      */
-    static short[] toUBytes(long data, int length) {
-        if (data == 0) {
+    stbtic short[] toUBytes(long dbtb, int length) {
+        if (dbtb == 0) {
             return null;
         }
         short[] res = new short[length];
-        for (int i = 0; i < length; i++, data++) {
-            res[i] = getUByte(data);
+        for (int i = 0; i < length; i++, dbtb++) {
+            res[i] = getUByte(dbtb);
         }
         return res;
     }
     /**
-     * Stores short array as unsigned bytes into native memory and returns pointer
+     * Stores short brrby bs unsigned bytes into nbtive memory bnd returns pointer
      * to this memory
      * Returns 0 if bytes is null
      */
-    static long toUData(short[] bytes) {
+    stbtic long toUDbtb(short[] bytes) {
         if (bytes == null) {
             return 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(bytes.length);
+        long res = XlibWrbpper.unsbfe.bllocbteMemory(bytes.length);
         for (int i = 0; i < bytes.length; i++) {
             putUByte(res+i, bytes[i]);
         }
@@ -176,22 +176,22 @@ class Native {
     }
 
     /**
-     * Access to C short data(two bytes)
+     * Access to C short dbtb(two bytes)
      */
-    static int getShortSize() { return 2; }
-    static short getShort(long ptr) { return unsafe.getShort(ptr); }
+    stbtic int getShortSize() { return 2; }
+    stbtic short getShort(long ptr) { return unsbfe.getShort(ptr); }
     /**
-     * Stores to C short data(two bytes)
+     * Stores to C short dbtb(two bytes)
      */
-    static void putShort(long ptr, short data) { unsafe.putShort(ptr, data); }
-    static void putShort(long ptr, int index, short data) {
-        putShort(ptr + index*getShortSize(), data);
+    stbtic void putShort(long ptr, short dbtb) { unsbfe.putShort(ptr, dbtb); }
+    stbtic void putShort(long ptr, int index, short dbtb) {
+        putShort(ptr + index*getShortSize(), dbtb);
     }
-    static long toData(short[] shorts) {
+    stbtic long toDbtb(short[] shorts) {
         if (shorts == null) {
             return 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(shorts.length*getShortSize());
+        long res = XlibWrbpper.unsbfe.bllocbteMemory(shorts.length*getShortSize());
         for (int i = 0; i < shorts.length; i++) {
             putShort(res, i, shorts[i]);
         }
@@ -199,29 +199,29 @@ class Native {
     }
 
     /**
-     * Access to C unsigned short data(two bytes)
+     * Access to C unsigned short dbtb(two bytes)
      */
-    static int getUShortSize() { return 2; }
+    stbtic int getUShortSize() { return 2; }
 
-    static int getUShort(long ptr) { return 0xFFFF & unsafe.getShort(ptr); }
+    stbtic int getUShort(long ptr) { return 0xFFFF & unsbfe.getShort(ptr); }
     /**
-     * Stores to C unsigned short data(two bytes)
+     * Stores to C unsigned short dbtb(two bytes)
      */
-    static void putUShort(long ptr, int data) { unsafe.putShort(ptr, (short)data); }
-    static void putUShort(long ptr, int index, int data) {
-        putUShort(ptr + index*getShortSize(), data);
+    stbtic void putUShort(long ptr, int dbtb) { unsbfe.putShort(ptr, (short)dbtb); }
+    stbtic void putUShort(long ptr, int index, int dbtb) {
+        putUShort(ptr + index*getShortSize(), dbtb);
     }
 
     /**
-     * Stores int array as unsigned shorts into native memory and returns pointer
+     * Stores int brrby bs unsigned shorts into nbtive memory bnd returns pointer
      * to this memory
      * Returns 0 if bytes is null
      */
-    static long toUData(int[] shorts) {
+    stbtic long toUDbtb(int[] shorts) {
         if (shorts == null) {
             return 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(shorts.length*getShortSize());
+        long res = XlibWrbpper.unsbfe.bllocbteMemory(shorts.length*getShortSize());
         for (int i = 0; i < shorts.length; i++) {
             putUShort(res, i, shorts[i]);
         }
@@ -229,23 +229,23 @@ class Native {
     }
 
     /**
-     * Access to C int data(four bytes)
+     * Access to C int dbtb(four bytes)
      */
-    static int getIntSize() { return 4; }
-    static int getInt(long ptr) { return unsafe.getInt(ptr); }
-    static int getInt(long ptr, int index) { return getInt(ptr +getIntSize()*index); }
+    stbtic int getIntSize() { return 4; }
+    stbtic int getInt(long ptr) { return unsbfe.getInt(ptr); }
+    stbtic int getInt(long ptr, int index) { return getInt(ptr +getIntSize()*index); }
     /**
-     * Stores to C int data(four bytes)
+     * Stores to C int dbtb(four bytes)
      */
-    static void putInt(long ptr, int data) { unsafe.putInt(ptr, data); }
-    static void putInt(long ptr, int index, int data) {
-        putInt(ptr + index*getIntSize(), data);
+    stbtic void putInt(long ptr, int dbtb) { unsbfe.putInt(ptr, dbtb); }
+    stbtic void putInt(long ptr, int index, int dbtb) {
+        putInt(ptr + index*getIntSize(), dbtb);
     }
-    static long toData(int[] ints) {
+    stbtic long toDbtb(int[] ints) {
         if (ints == null) {
             return 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(ints.length*getIntSize());
+        long res = XlibWrbpper.unsbfe.bllocbteMemory(ints.length*getIntSize());
         for (int i = 0; i < ints.length; i++) {
             putInt(res, i, ints[i]);
         }
@@ -253,29 +253,29 @@ class Native {
     }
 
     /**
-     * Access to C unsigned int data(four bytes)
+     * Access to C unsigned int dbtb(four bytes)
      */
-    static int getUIntSize() { return 4; }
-    static long getUInt(long ptr) { return 0xFFFFFFFFL & unsafe.getInt(ptr); }
-    static long getUInt(long ptr, int index) { return getUInt(ptr +getIntSize()*index); }
+    stbtic int getUIntSize() { return 4; }
+    stbtic long getUInt(long ptr) { return 0xFFFFFFFFL & unsbfe.getInt(ptr); }
+    stbtic long getUInt(long ptr, int index) { return getUInt(ptr +getIntSize()*index); }
     /**
-     * Stores to C unsigned int data(four bytes)
+     * Stores to C unsigned int dbtb(four bytes)
      */
-    static void putUInt(long ptr, long data) { unsafe.putInt(ptr, (int)data); }
-    static void putUInt(long ptr, int index, long data) {
-        putUInt(ptr + index*getIntSize(), data);
+    stbtic void putUInt(long ptr, long dbtb) { unsbfe.putInt(ptr, (int)dbtb); }
+    stbtic void putUInt(long ptr, int index, long dbtb) {
+        putUInt(ptr + index*getIntSize(), dbtb);
     }
 
     /**
-     * Stores long array as unsigned intss into native memory and returns pointer
+     * Stores long brrby bs unsigned intss into nbtive memory bnd returns pointer
      * to this memory
      * Returns 0 if bytes is null
      */
-    static long toUData(long[] ints) {
+    stbtic long toUDbtb(long[] ints) {
         if (ints == null) {
             return 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(ints.length*getIntSize());
+        long res = XlibWrbpper.unsbfe.bllocbteMemory(ints.length*getIntSize());
         for (int i = 0; i < ints.length; i++) {
             putUInt(res, i, ints[i]);
         }
@@ -283,91 +283,91 @@ class Native {
     }
 
     /**
-     * Access to C long data(size depends on platform)
+     * Access to C long dbtb(size depends on plbtform)
      */
-    static int getLongSize() {
+    stbtic int getLongSize() {
         return longSize;
     }
-    static long getLong(long ptr) {
-        if (XlibWrapper.dataModel == 32) {
-            return unsafe.getInt(ptr);
+    stbtic long getLong(long ptr) {
+        if (XlibWrbpper.dbtbModel == 32) {
+            return unsbfe.getInt(ptr);
         } else {
-            return unsafe.getLong(ptr);
+            return unsbfe.getLong(ptr);
         }
     }
     /**
-     * Stores to C long data(four bytes)
-     * Note: <code>data</code> has <code>long</code> type
-     * to be able to keep 64-bit C <code>long</code> data
+     * Stores to C long dbtb(four bytes)
+     * Note: <code>dbtb</code> hbs <code>long</code> type
+     * to be bble to keep 64-bit C <code>long</code> dbtb
      */
-    static void putLong(long ptr, long data) {
-        if (XlibWrapper.dataModel == 32) {
-            unsafe.putInt(ptr, (int)data);
+    stbtic void putLong(long ptr, long dbtb) {
+        if (XlibWrbpper.dbtbModel == 32) {
+            unsbfe.putInt(ptr, (int)dbtb);
         } else {
-            unsafe.putLong(ptr, data);
+            unsbfe.putLong(ptr, dbtb);
         }
     }
 
-    static void putLong(long ptr, int index, long data) {
-        putLong(ptr+index*getLongSize(), data);
+    stbtic void putLong(long ptr, int index, long dbtb) {
+        putLong(ptr+index*getLongSize(), dbtb);
     }
 
     /**
-     * Returns index's element of the array of native long pointed by ptr
+     * Returns index's element of the brrby of nbtive long pointed by ptr
      */
-    static long getLong(long ptr, int index) {
+    stbtic long getLong(long ptr, int index) {
         return getLong(ptr + index*getLongSize());
     }
     /**
-     * Stores Java long[] array into memory. Memory location is treated as array
-     * of native <code>long</code>s
+     * Stores Jbvb long[] brrby into memory. Memory locbtion is trebted bs brrby
+     * of nbtive <code>long</code>s
      */
-    static void put(long ptr, long[] arr) {
-        for (int i = 0; i < arr.length; i ++, ptr += getLongSize()) {
-            putLong(ptr, arr[i]);
+    stbtic void put(long ptr, long[] brr) {
+        for (int i = 0; i < brr.length; i ++, ptr += getLongSize()) {
+            putLong(ptr, brr[i]);
         }
     }
 
     /**
-     * Stores Java Vector of Longs into memory. Memory location is treated as array
-     * of native <code>long</code>s
+     * Stores Jbvb Vector of Longs into memory. Memory locbtion is trebted bs brrby
+     * of nbtive <code>long</code>s
      */
-    static void putLong(long ptr, Vector<Long> arr) {
-        for (int i = 0; i < arr.size(); i ++, ptr += getLongSize()) {
-            putLong(ptr, arr.elementAt(i).longValue());
+    stbtic void putLong(long ptr, Vector<Long> brr) {
+        for (int i = 0; i < brr.size(); i ++, ptr += getLongSize()) {
+            putLong(ptr, brr.elementAt(i).longVblue());
         }
     }
 
     /**
-     * Stores Java Vector of Longs into memory. Memory location is treated as array
-     * of native <code>long</code>s. Array is stored in reverse order
+     * Stores Jbvb Vector of Longs into memory. Memory locbtion is trebted bs brrby
+     * of nbtive <code>long</code>s. Arrby is stored in reverse order
      */
-    static void putLongReverse(long ptr, Vector<Long> arr) {
-        for (int i = arr.size()-1; i >= 0; i--, ptr += getLongSize()) {
-            putLong(ptr, arr.elementAt(i).longValue());
+    stbtic void putLongReverse(long ptr, Vector<Long> brr) {
+        for (int i = brr.size()-1; i >= 0; i--, ptr += getLongSize()) {
+            putLong(ptr, brr.elementAt(i).longVblue());
         }
     }
     /**
-     * Converts length bytes of data pointed by <code>data</code> into byte array
-     * Returns null if data is zero
-     * @param data native pointer to native memory
-     * @param length size in longs(platform dependent) of native memory
+     * Converts length bytes of dbtb pointed by <code>dbtb</code> into byte brrby
+     * Returns null if dbtb is zero
+     * @pbrbm dbtb nbtive pointer to nbtive memory
+     * @pbrbm length size in longs(plbtform dependent) of nbtive memory
      */
-    static long[] toLongs(long data, int length) {
-        if (data == 0) {
+    stbtic long[] toLongs(long dbtb, int length) {
+        if (dbtb == 0) {
             return null;
         }
         long[] res = new long[length];
-        for (int i = 0; i < length; i++, data += getLongSize()) {
-            res[i] = getLong(data);
+        for (int i = 0; i < length; i++, dbtb += getLongSize()) {
+            res[i] = getLong(dbtb);
         }
         return res;
     }
-    static long toData(long[] longs) {
+    stbtic long toDbtb(long[] longs) {
         if (longs == null) {
             return 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(longs.length*getLongSize());
+        long res = XlibWrbpper.unsbfe.bllocbteMemory(longs.length*getLongSize());
         for (int i = 0; i < longs.length; i++) {
             putLong(res, i, longs[i]);
         }
@@ -376,79 +376,79 @@ class Native {
 
 
     /**
-     * Access to C "unsigned long" date type, which is XID in X
+     * Access to C "unsigned long" dbte type, which is XID in X
      */
-    static long getULong(long ptr) {
-        if (XlibWrapper.dataModel == 32) {
-            // Compensate sign-expansion
-            return ((long)unsafe.getInt(ptr)) & 0xFFFFFFFFL;
+    stbtic long getULong(long ptr) {
+        if (XlibWrbpper.dbtbModel == 32) {
+            // Compensbte sign-expbnsion
+            return ((long)unsbfe.getInt(ptr)) & 0xFFFFFFFFL;
         } else {
-            // Can't do anything!!!
-            return unsafe.getLong(ptr);
+            // Cbn't do bnything!!!
+            return unsbfe.getLong(ptr);
         }
     }
 
-    static void putULong(long ptr, long value) {
-        putLong(ptr, value);
+    stbtic void putULong(long ptr, long vblue) {
+        putLong(ptr, vblue);
     }
 
     /**
-     * Allocates memory for array of native <code>long</code>s of the size <code>length</code>
+     * Allocbtes memory for brrby of nbtive <code>long</code>s of the size <code>length</code>
      */
-    static long allocateLongArray(int length) {
-        return unsafe.allocateMemory(getLongSize() * length);
+    stbtic long bllocbteLongArrby(int length) {
+        return unsbfe.bllocbteMemory(getLongSize() * length);
     }
 
 
-    static long getWindow(long ptr) {
+    stbtic long getWindow(long ptr) {
         return getLong(ptr);
     }
-    static long getWindow(long ptr, int index) {
+    stbtic long getWindow(long ptr, int index) {
         return getLong(ptr + getWindowSize()*index);
     }
 
-    static void putWindow(long ptr, long window) {
+    stbtic void putWindow(long ptr, long window) {
         putLong(ptr, window);
     }
 
-    static void putWindow(long ptr, int index, long window) {
+    stbtic void putWindow(long ptr, int index, long window) {
         putLong(ptr, index, window);
     }
 
     /**
-     * Set of function to return sizes of C data of the appropriate
+     * Set of function to return sizes of C dbtb of the bppropribte
      * type.
      */
-    static int getWindowSize() {
+    stbtic int getWindowSize() {
         return getLongSize();
     }
 
 
     /**
-     * Set of function to access CARD32 type. All data which types are derived
-     * from CARD32 should be accessed using this accessors.
-     * These types are: XID(Window, Drawable, Font, Pixmap, Cursor, Colormap, GContext, KeySym),
-     *                  Atom, Mask, VisualID, Time
+     * Set of function to bccess CARD32 type. All dbtb which types bre derived
+     * from CARD32 should be bccessed using this bccessors.
+     * These types bre: XID(Window, Drbwbble, Font, Pixmbp, Cursor, Colormbp, GContext, KeySym),
+     *                  Atom, Mbsk, VisublID, Time
      */
-    static long getCard32(long ptr) {
+    stbtic long getCbrd32(long ptr) {
         return getLong(ptr);
     }
-    static void putCard32(long ptr, long value) {
-        putLong(ptr, value);
+    stbtic void putCbrd32(long ptr, long vblue) {
+        putLong(ptr, vblue);
     }
-    static long getCard32(long ptr, int index) {
+    stbtic long getCbrd32(long ptr, int index) {
         return getLong(ptr, index);
     }
-    static void putCard32(long ptr, int index, long value) {
-        putLong(ptr, index, value);
+    stbtic void putCbrd32(long ptr, int index, long vblue) {
+        putLong(ptr, index, vblue);
     }
-    static int getCard32Size() {
+    stbtic int getCbrd32Size() {
         return getLongSize();
     }
-    static long[] card32ToArray(long ptr, int length) {
+    stbtic long[] cbrd32ToArrby(long ptr, int length) {
         return toLongs(ptr, length);
     }
-    static long card32ToData(long[] arr) {
-        return toData(arr);
+    stbtic long cbrd32ToDbtb(long[] brr) {
+        return toDbtb(brr);
     }
 }

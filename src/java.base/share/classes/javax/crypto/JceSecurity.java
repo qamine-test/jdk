@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.util.*;
-import java.util.jar.*;
-import java.io.*;
-import java.net.URL;
-import java.security.*;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
+import jbvb.io.*;
+import jbvb.net.URL;
+import jbvb.security.*;
 
-import java.security.Provider.Service;
+import jbvb.security.Provider.Service;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.security.jcb.*;
+import sun.security.jcb.GetInstbnce.Instbnce;
 
 /**
- * This class instantiates implementations of JCE engine classes from
- * providers registered with the java.security.Security object.
+ * This clbss instbntibtes implementbtions of JCE engine clbsses from
+ * providers registered with the jbvb.security.Security object.
  *
- * @author Jan Luehe
- * @author Sharon Liu
+ * @buthor Jbn Luehe
+ * @buthor Shbron Liu
  * @since 1.4
  */
 
-final class JceSecurity {
+finbl clbss JceSecurity {
 
-    static final SecureRandom RANDOM = new SecureRandom();
+    stbtic finbl SecureRbndom RANDOM = new SecureRbndom();
 
-    // The defaultPolicy and exemptPolicy will be set up
-    // in the static initializer.
-    private static CryptoPermissions defaultPolicy = null;
-    private static CryptoPermissions exemptPolicy = null;
+    // The defbultPolicy bnd exemptPolicy will be set up
+    // in the stbtic initiblizer.
+    privbte stbtic CryptoPermissions defbultPolicy = null;
+    privbte stbtic CryptoPermissions exemptPolicy = null;
 
-    // Map<Provider,?> of the providers we already have verified
-    // value == PROVIDER_VERIFIED is successfully verified
-    // value is failure cause Exception in error case
-    private final static Map<Provider, Object> verificationResults =
-            new IdentityHashMap<>();
+    // Mbp<Provider,?> of the providers we blrebdy hbve verified
+    // vblue == PROVIDER_VERIFIED is successfully verified
+    // vblue is fbilure cbuse Exception in error cbse
+    privbte finbl stbtic Mbp<Provider, Object> verificbtionResults =
+            new IdentityHbshMbp<>();
 
-    // Map<Provider,?> of the providers currently being verified
-    private final static Map<Provider, Object> verifyingProviders =
-            new IdentityHashMap<>();
+    // Mbp<Provider,?> of the providers currently being verified
+    privbte finbl stbtic Mbp<Provider, Object> verifyingProviders =
+            new IdentityHbshMbp<>();
 
-    // Set the default value. May be changed in the static initializer.
-    private static boolean isRestricted = true;
+    // Set the defbult vblue. Mby be chbnged in the stbtic initiblizer.
+    privbte stbtic boolebn isRestricted = true;
 
     /*
-     * Don't let anyone instantiate this.
+     * Don't let bnyone instbntibte this.
      */
-    private JceSecurity() {
+    privbte JceSecurity() {
     }
 
-    static {
+    stbtic {
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Object>() {
@@ -83,197 +83,197 @@ final class JceSecurity {
                     }
                 });
 
-            isRestricted = defaultPolicy.implies(
-                CryptoAllPermission.INSTANCE) ? false : true;
-        } catch (Exception e) {
+            isRestricted = defbultPolicy.implies(
+                CryptoAllPermission.INSTANCE) ? fblse : true;
+        } cbtch (Exception e) {
             throw new SecurityException(
-                    "Can not initialize cryptographic mechanism", e);
+                    "Cbn not initiblize cryptogrbphic mechbnism", e);
         }
     }
 
-    static Instance getInstance(String type, Class<?> clazz, String algorithm,
+    stbtic Instbnce getInstbnce(String type, Clbss<?> clbzz, String blgorithm,
             String provider) throws NoSuchAlgorithmException,
             NoSuchProviderException {
-        Service s = GetInstance.getService(type, algorithm, provider);
-        Exception ve = getVerificationResult(s.getProvider());
+        Service s = GetInstbnce.getService(type, blgorithm, provider);
+        Exception ve = getVerificbtionResult(s.getProvider());
         if (ve != null) {
-            String msg = "JCE cannot authenticate the provider " + provider;
+            String msg = "JCE cbnnot buthenticbte the provider " + provider;
             throw (NoSuchProviderException)
-                                new NoSuchProviderException(msg).initCause(ve);
+                                new NoSuchProviderException(msg).initCbuse(ve);
         }
-        return GetInstance.getInstance(s, clazz);
+        return GetInstbnce.getInstbnce(s, clbzz);
     }
 
-    static Instance getInstance(String type, Class<?> clazz, String algorithm,
+    stbtic Instbnce getInstbnce(String type, Clbss<?> clbzz, String blgorithm,
             Provider provider) throws NoSuchAlgorithmException {
-        Service s = GetInstance.getService(type, algorithm, provider);
-        Exception ve = JceSecurity.getVerificationResult(provider);
+        Service s = GetInstbnce.getService(type, blgorithm, provider);
+        Exception ve = JceSecurity.getVerificbtionResult(provider);
         if (ve != null) {
-            String msg = "JCE cannot authenticate the provider "
-                + provider.getName();
+            String msg = "JCE cbnnot buthenticbte the provider "
+                + provider.getNbme();
             throw new SecurityException(msg, ve);
         }
-        return GetInstance.getInstance(s, clazz);
+        return GetInstbnce.getInstbnce(s, clbzz);
     }
 
-    static Instance getInstance(String type, Class<?> clazz, String algorithm)
+    stbtic Instbnce getInstbnce(String type, Clbss<?> clbzz, String blgorithm)
             throws NoSuchAlgorithmException {
-        List<Service> services = GetInstance.getServices(type, algorithm);
-        NoSuchAlgorithmException failure = null;
+        List<Service> services = GetInstbnce.getServices(type, blgorithm);
+        NoSuchAlgorithmException fbilure = null;
         for (Service s : services) {
-            if (canUseProvider(s.getProvider()) == false) {
-                // allow only signed providers
+            if (cbnUseProvider(s.getProvider()) == fblse) {
+                // bllow only signed providers
                 continue;
             }
             try {
-                Instance instance = GetInstance.getInstance(s, clazz);
-                return instance;
-            } catch (NoSuchAlgorithmException e) {
-                failure = e;
+                Instbnce instbnce = GetInstbnce.getInstbnce(s, clbzz);
+                return instbnce;
+            } cbtch (NoSuchAlgorithmException e) {
+                fbilure = e;
             }
         }
-        throw new NoSuchAlgorithmException("Algorithm " + algorithm
-                + " not available", failure);
+        throw new NoSuchAlgorithmException("Algorithm " + blgorithm
+                + " not bvbilbble", fbilure);
     }
 
     /**
-     * Verify if the JAR at URL codeBase is a signed exempt application
-     * JAR file and returns the permissions bundled with the JAR.
+     * Verify if the JAR bt URL codeBbse is b signed exempt bpplicbtion
+     * JAR file bnd returns the permissions bundled with the JAR.
      *
      * @throws Exception on error
      */
-    static CryptoPermissions verifyExemptJar(URL codeBase) throws Exception {
-        JarVerifier jv = new JarVerifier(codeBase, true);
+    stbtic CryptoPermissions verifyExemptJbr(URL codeBbse) throws Exception {
+        JbrVerifier jv = new JbrVerifier(codeBbse, true);
         jv.verify();
         return jv.getPermissions();
     }
 
     /**
-     * Verify if the JAR at URL codeBase is a signed provider JAR file.
+     * Verify if the JAR bt URL codeBbse is b signed provider JAR file.
      *
      * @throws Exception on error
      */
-    static void verifyProviderJar(URL codeBase) throws Exception {
-        // Verify the provider JAR file and all
-        // supporting JAR files if there are any.
-        JarVerifier jv = new JarVerifier(codeBase, false);
+    stbtic void verifyProviderJbr(URL codeBbse) throws Exception {
+        // Verify the provider JAR file bnd bll
+        // supporting JAR files if there bre bny.
+        JbrVerifier jv = new JbrVerifier(codeBbse, fblse);
         jv.verify();
     }
 
-    private final static Object PROVIDER_VERIFIED = Boolean.TRUE;
+    privbte finbl stbtic Object PROVIDER_VERIFIED = Boolebn.TRUE;
 
     /*
-     * Verify that the provider JAR files are signed properly, which
-     * means the signer's certificate can be traced back to a
+     * Verify thbt the provider JAR files bre signed properly, which
+     * mebns the signer's certificbte cbn be trbced bbck to b
      * JCE trusted CA.
-     * Return null if ok, failure Exception if verification failed.
+     * Return null if ok, fbilure Exception if verificbtion fbiled.
      */
-    static synchronized Exception getVerificationResult(Provider p) {
-        Object o = verificationResults.get(p);
+    stbtic synchronized Exception getVerificbtionResult(Provider p) {
+        Object o = verificbtionResults.get(p);
         if (o == PROVIDER_VERIFIED) {
             return null;
         } else if (o != null) {
             return (Exception)o;
         }
         if (verifyingProviders.get(p) != null) {
-            // this method is static synchronized, must be recursion
-            // return failure now but do not save the result
-            return new NoSuchProviderException("Recursion during verification");
+            // this method is stbtic synchronized, must be recursion
+            // return fbilure now but do not sbve the result
+            return new NoSuchProviderException("Recursion during verificbtion");
         }
         try {
-            verifyingProviders.put(p, Boolean.FALSE);
-            URL providerURL = getCodeBase(p.getClass());
-            verifyProviderJar(providerURL);
-            // Verified ok, cache result
-            verificationResults.put(p, PROVIDER_VERIFIED);
+            verifyingProviders.put(p, Boolebn.FALSE);
+            URL providerURL = getCodeBbse(p.getClbss());
+            verifyProviderJbr(providerURL);
+            // Verified ok, cbche result
+            verificbtionResults.put(p, PROVIDER_VERIFIED);
             return null;
-        } catch (Exception e) {
-            verificationResults.put(p, e);
+        } cbtch (Exception e) {
+            verificbtionResults.put(p, e);
             return e;
-        } finally {
+        } finblly {
             verifyingProviders.remove(p);
         }
     }
 
-    // return whether this provider is properly signed and can be used by JCE
-    static boolean canUseProvider(Provider p) {
-        return getVerificationResult(p) == null;
+    // return whether this provider is properly signed bnd cbn be used by JCE
+    stbtic boolebn cbnUseProvider(Provider p) {
+        return getVerificbtionResult(p) == null;
     }
 
     // dummy object to represent null
-    private static final URL NULL_URL;
+    privbte stbtic finbl URL NULL_URL;
 
-    static {
+    stbtic {
         try {
             NULL_URL = new URL("http://null.sun.com/");
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    // reference to a Map we use as a cache for codebases
-    private static final Map<Class<?>, URL> codeBaseCacheRef =
-            new WeakHashMap<>();
+    // reference to b Mbp we use bs b cbche for codebbses
+    privbte stbtic finbl Mbp<Clbss<?>, URL> codeBbseCbcheRef =
+            new WebkHbshMbp<>();
 
     /*
-     * Returns the CodeBase for the given class.
+     * Returns the CodeBbse for the given clbss.
      */
-    static URL getCodeBase(final Class<?> clazz) {
-        synchronized (codeBaseCacheRef) {
-            URL url = codeBaseCacheRef.get(clazz);
+    stbtic URL getCodeBbse(finbl Clbss<?> clbzz) {
+        synchronized (codeBbseCbcheRef) {
+            URL url = codeBbseCbcheRef.get(clbzz);
             if (url == null) {
                 url = AccessController.doPrivileged(new PrivilegedAction<URL>() {
                     public URL run() {
-                        ProtectionDomain pd = clazz.getProtectionDomain();
+                        ProtectionDombin pd = clbzz.getProtectionDombin();
                         if (pd != null) {
                             CodeSource cs = pd.getCodeSource();
                             if (cs != null) {
-                                return cs.getLocation();
+                                return cs.getLocbtion();
                             }
                         }
                         return NULL_URL;
                     }
                 });
-                codeBaseCacheRef.put(clazz, url);
+                codeBbseCbcheRef.put(clbzz, url);
             }
             return (url == NULL_URL) ? null : url;
         }
     }
 
-    private static void setupJurisdictionPolicies() throws Exception {
-        String javaHomeDir = System.getProperty("java.home");
-        String sep = File.separator;
-        String pathToPolicyJar = javaHomeDir + sep + "lib" + sep +
+    privbte stbtic void setupJurisdictionPolicies() throws Exception {
+        String jbvbHomeDir = System.getProperty("jbvb.home");
+        String sep = File.sepbrbtor;
+        String pbthToPolicyJbr = jbvbHomeDir + sep + "lib" + sep +
             "security" + sep;
 
-        File exportJar = new File(pathToPolicyJar, "US_export_policy.jar");
-        File importJar = new File(pathToPolicyJar, "local_policy.jar");
-        URL jceCipherURL = ClassLoader.getSystemResource
-                ("javax/crypto/Cipher.class");
+        File exportJbr = new File(pbthToPolicyJbr, "US_export_policy.jbr");
+        File importJbr = new File(pbthToPolicyJbr, "locbl_policy.jbr");
+        URL jceCipherURL = ClbssLobder.getSystemResource
+                ("jbvbx/crypto/Cipher.clbss");
 
         if ((jceCipherURL == null) ||
-                !exportJar.exists() || !importJar.exists()) {
+                !exportJbr.exists() || !importJbr.exists()) {
             throw new SecurityException
-                                ("Cannot locate policy or framework files!");
+                                ("Cbnnot locbte policy or frbmework files!");
         }
 
-        // Read jurisdiction policies.
-        CryptoPermissions defaultExport = new CryptoPermissions();
+        // Rebd jurisdiction policies.
+        CryptoPermissions defbultExport = new CryptoPermissions();
         CryptoPermissions exemptExport = new CryptoPermissions();
-        loadPolicies(exportJar, defaultExport, exemptExport);
+        lobdPolicies(exportJbr, defbultExport, exemptExport);
 
-        CryptoPermissions defaultImport = new CryptoPermissions();
+        CryptoPermissions defbultImport = new CryptoPermissions();
         CryptoPermissions exemptImport = new CryptoPermissions();
-        loadPolicies(importJar, defaultImport, exemptImport);
+        lobdPolicies(importJbr, defbultImport, exemptImport);
 
-        // Merge the export and import policies for default applications.
-        if (defaultExport.isEmpty() || defaultImport.isEmpty()) {
-            throw new SecurityException("Missing mandatory jurisdiction " +
+        // Merge the export bnd import policies for defbult bpplicbtions.
+        if (defbultExport.isEmpty() || defbultImport.isEmpty()) {
+            throw new SecurityException("Missing mbndbtory jurisdiction " +
                                         "policy files");
         }
-        defaultPolicy = defaultExport.getMinimum(defaultImport);
+        defbultPolicy = defbultExport.getMinimum(defbultImport);
 
-        // Merge the export and import policies for exempt applications.
+        // Merge the export bnd import policies for exempt bpplicbtions.
         if (exemptExport.isEmpty())  {
             exemptPolicy = exemptImport.isEmpty() ? null : exemptImport;
         } else {
@@ -282,55 +282,55 @@ final class JceSecurity {
     }
 
     /**
-     * Load the policies from the specified file. Also checks that the
-     * policies are correctly signed.
+     * Lobd the policies from the specified file. Also checks thbt the
+     * policies bre correctly signed.
      */
-    private static void loadPolicies(File jarPathName,
-                                     CryptoPermissions defaultPolicy,
+    privbte stbtic void lobdPolicies(File jbrPbthNbme,
+                                     CryptoPermissions defbultPolicy,
                                      CryptoPermissions exemptPolicy)
         throws Exception {
 
-        JarFile jf = new JarFile(jarPathName);
+        JbrFile jf = new JbrFile(jbrPbthNbme);
 
-        Enumeration<JarEntry> entries = jf.entries();
-        while (entries.hasMoreElements()) {
-            JarEntry je = entries.nextElement();
-            InputStream is = null;
+        Enumerbtion<JbrEntry> entries = jf.entries();
+        while (entries.hbsMoreElements()) {
+            JbrEntry je = entries.nextElement();
+            InputStrebm is = null;
             try {
-                if (je.getName().startsWith("default_")) {
-                    is = jf.getInputStream(je);
-                    defaultPolicy.load(is);
-                } else if (je.getName().startsWith("exempt_")) {
-                    is = jf.getInputStream(je);
-                    exemptPolicy.load(is);
+                if (je.getNbme().stbrtsWith("defbult_")) {
+                    is = jf.getInputStrebm(je);
+                    defbultPolicy.lobd(is);
+                } else if (je.getNbme().stbrtsWith("exempt_")) {
+                    is = jf.getInputStrebm(je);
+                    exemptPolicy.lobd(is);
                 } else {
                     continue;
                 }
-            } finally {
+            } finblly {
                 if (is != null) {
                     is.close();
                 }
             }
 
-            // Enforce the signer restraint, i.e. signer of JCE framework
-            // jar should also be the signer of the two jurisdiction policy
-            // jar files.
-            JarVerifier.verifyPolicySigned(je.getCertificates());
+            // Enforce the signer restrbint, i.e. signer of JCE frbmework
+            // jbr should blso be the signer of the two jurisdiction policy
+            // jbr files.
+            JbrVerifier.verifyPolicySigned(je.getCertificbtes());
         }
-        // Close and nullify the JarFile reference to help GC.
+        // Close bnd nullify the JbrFile reference to help GC.
         jf.close();
         jf = null;
     }
 
-    static CryptoPermissions getDefaultPolicy() {
-        return defaultPolicy;
+    stbtic CryptoPermissions getDefbultPolicy() {
+        return defbultPolicy;
     }
 
-    static CryptoPermissions getExemptPolicy() {
+    stbtic CryptoPermissions getExemptPolicy() {
         return exemptPolicy;
     }
 
-    static boolean isRestricted() {
+    stbtic boolebn isRestricted() {
         return isRestricted;
     }
 }

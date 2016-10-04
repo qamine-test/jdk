@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import javax.swing.plaf.basic.*;
-import javax.swing.*;
-import javax.swing.plaf.TextUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.TextUI;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.text.*;
 
 /**
  * Windows text rendering.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  */
-public abstract class WindowsTextUI extends BasicTextUI {
+public bbstrbct clbss WindowsTextUI extends BbsicTextUI {
     /**
-     * Creates the object to use for a caret.  By default an
-     * instance of WindowsCaret is created.  This method
-     * can be redefined to provide something else that implements
-     * the InputPosition interface or a subclass of DefaultCaret.
+     * Crebtes the object to use for b cbret.  By defbult bn
+     * instbnce of WindowsCbret is crebted.  This method
+     * cbn be redefined to provide something else thbt implements
+     * the InputPosition interfbce or b subclbss of DefbultCbret.
      *
-     * @return the caret object
+     * @return the cbret object
      */
-    protected Caret createCaret() {
-        return new WindowsCaret();
+    protected Cbret crebteCbret() {
+        return new WindowsCbret();
     }
 
     /* public */
-    static LayeredHighlighter.LayerPainter WindowsPainter = new WindowsHighlightPainter(null);
+    stbtic LbyeredHighlighter.LbyerPbinter WindowsPbinter = new WindowsHighlightPbinter(null);
 
     /* public */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class WindowsCaret extends DefaultCaret
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss WindowsCbret extends DefbultCbret
                      implements UIResource {
         /**
-         * Gets the painter for the Highlighter.
+         * Gets the pbinter for the Highlighter.
          *
-         * @return the painter
+         * @return the pbinter
          */
-        protected Highlighter.HighlightPainter getSelectionPainter() {
-            return WindowsTextUI.WindowsPainter;
+        protected Highlighter.HighlightPbinter getSelectionPbinter() {
+            return WindowsTextUI.WindowsPbinter;
         }
     }
 
     /* public */
-    static class WindowsHighlightPainter extends
-                     DefaultHighlighter.DefaultHighlightPainter {
-        WindowsHighlightPainter(Color c) {
+    stbtic clbss WindowsHighlightPbinter extends
+                     DefbultHighlighter.DefbultHighlightPbinter {
+        WindowsHighlightPbinter(Color c) {
             super(c);
         }
 
-        // --- HighlightPainter methods ---------------------------------------
+        // --- HighlightPbinter methods ---------------------------------------
 
         /**
-         * Paints a highlight.
+         * Pbints b highlight.
          *
-         * @param g the graphics context
-         * @param offs0 the starting model offset >= 0
-         * @param offs1 the ending model offset >= offs1
-         * @param bounds the bounding box for the highlight
-         * @param c the editor
+         * @pbrbm g the grbphics context
+         * @pbrbm offs0 the stbrting model offset >= 0
+         * @pbrbm offs1 the ending model offset >= offs1
+         * @pbrbm bounds the bounding box for the highlight
+         * @pbrbm c the editor
          */
-        public void paint(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c) {
-            Rectangle alloc = bounds.getBounds();
+        public void pbint(Grbphics g, int offs0, int offs1, Shbpe bounds, JTextComponent c) {
+            Rectbngle blloc = bounds.getBounds();
             try {
-                // --- determine locations ---
-                TextUI mapper = c.getUI();
-                Rectangle p0 = mapper.modelToView(c, offs0);
-                Rectangle p1 = mapper.modelToView(c, offs1);
+                // --- determine locbtions ---
+                TextUI mbpper = c.getUI();
+                Rectbngle p0 = mbpper.modelToView(c, offs0);
+                Rectbngle p1 = mbpper.modelToView(c, offs1);
 
                 // --- render ---
                 Color color = getColor();
@@ -110,16 +110,16 @@ public abstract class WindowsTextUI extends BasicTextUI {
                 else {
                     g.setColor(color);
                 }
-                boolean firstIsDot = false;
-                boolean secondIsDot = false;
-                if (c.isEditable()) {
-                    int dot = c.getCaretPosition();
+                boolebn firstIsDot = fblse;
+                boolebn secondIsDot = fblse;
+                if (c.isEditbble()) {
+                    int dot = c.getCbretPosition();
                     firstIsDot = (offs0 == dot);
                     secondIsDot = (offs1 == dot);
                 }
                 if (p0.y == p1.y) {
-                    // same line, render a rectangle
-                    Rectangle r = p0.union(p1);
+                    // sbme line, render b rectbngle
+                    Rectbngle r = p0.union(p1);
                     if (r.width > 0) {
                         if (firstIsDot) {
                             r.x++;
@@ -132,41 +132,41 @@ public abstract class WindowsTextUI extends BasicTextUI {
                     g.fillRect(r.x, r.y, r.width, r.height);
                 } else {
                     // different lines
-                    int p0ToMarginWidth = alloc.x + alloc.width - p0.x;
-                    if (firstIsDot && p0ToMarginWidth > 0) {
+                    int p0ToMbrginWidth = blloc.x + blloc.width - p0.x;
+                    if (firstIsDot && p0ToMbrginWidth > 0) {
                         p0.x++;
-                        p0ToMarginWidth--;
+                        p0ToMbrginWidth--;
                     }
-                    g.fillRect(p0.x, p0.y, p0ToMarginWidth, p0.height);
+                    g.fillRect(p0.x, p0.y, p0ToMbrginWidth, p0.height);
                     if ((p0.y + p0.height) != p1.y) {
-                        g.fillRect(alloc.x, p0.y + p0.height, alloc.width,
+                        g.fillRect(blloc.x, p0.y + p0.height, blloc.width,
                                    p1.y - (p0.y + p0.height));
                     }
-                    if (secondIsDot && p1.x > alloc.x) {
+                    if (secondIsDot && p1.x > blloc.x) {
                         p1.x--;
                     }
-                    g.fillRect(alloc.x, p1.y, (p1.x - alloc.x), p1.height);
+                    g.fillRect(blloc.x, p1.y, (p1.x - blloc.x), p1.height);
                 }
-            } catch (BadLocationException e) {
-                // can't render
+            } cbtch (BbdLocbtionException e) {
+                // cbn't render
             }
         }
 
-        // --- LayerPainter methods ----------------------------
+        // --- LbyerPbinter methods ----------------------------
         /**
-         * Paints a portion of a highlight.
+         * Pbints b portion of b highlight.
          *
-         * @param g the graphics context
-         * @param offs0 the starting model offset >= 0
-         * @param offs1 the ending model offset >= offs1
-         * @param bounds the bounding box of the view, which is not
-         *        necessarily the region to paint.
-         * @param c the editor
-         * @param view View painting for
-         * @return region drawing occurred in
+         * @pbrbm g the grbphics context
+         * @pbrbm offs0 the stbrting model offset >= 0
+         * @pbrbm offs1 the ending model offset >= offs1
+         * @pbrbm bounds the bounding box of the view, which is not
+         *        necessbrily the region to pbint.
+         * @pbrbm c the editor
+         * @pbrbm view View pbinting for
+         * @return region drbwing occurred in
          */
-        public Shape paintLayer(Graphics g, int offs0, int offs1,
-                                Shape bounds, JTextComponent c, View view) {
+        public Shbpe pbintLbyer(Grbphics g, int offs0, int offs1,
+                                Shbpe bounds, JTextComponent c, View view) {
             Color color = getColor();
 
             if (color == null) {
@@ -175,45 +175,45 @@ public abstract class WindowsTextUI extends BasicTextUI {
             else {
                 g.setColor(color);
             }
-            boolean firstIsDot = false;
-            boolean secondIsDot = false;
-            if (c.isEditable()) {
-                int dot = c.getCaretPosition();
+            boolebn firstIsDot = fblse;
+            boolebn secondIsDot = fblse;
+            if (c.isEditbble()) {
+                int dot = c.getCbretPosition();
                 firstIsDot = (offs0 == dot);
                 secondIsDot = (offs1 == dot);
             }
-            if (offs0 == view.getStartOffset() &&
+            if (offs0 == view.getStbrtOffset() &&
                 offs1 == view.getEndOffset()) {
-                // Contained in view, can just use bounds.
-                Rectangle alloc;
-                if (bounds instanceof Rectangle) {
-                    alloc = (Rectangle)bounds;
+                // Contbined in view, cbn just use bounds.
+                Rectbngle blloc;
+                if (bounds instbnceof Rectbngle) {
+                    blloc = (Rectbngle)bounds;
                 }
                 else {
-                    alloc = bounds.getBounds();
+                    blloc = bounds.getBounds();
                 }
-                if (firstIsDot && alloc.width > 0) {
-                    g.fillRect(alloc.x + 1, alloc.y, alloc.width - 1,
-                               alloc.height);
+                if (firstIsDot && blloc.width > 0) {
+                    g.fillRect(blloc.x + 1, blloc.y, blloc.width - 1,
+                               blloc.height);
                 }
-                else if (secondIsDot && alloc.width > 0) {
-                    g.fillRect(alloc.x, alloc.y, alloc.width - 1,
-                               alloc.height);
+                else if (secondIsDot && blloc.width > 0) {
+                    g.fillRect(blloc.x, blloc.y, blloc.width - 1,
+                               blloc.height);
                 }
                 else {
-                    g.fillRect(alloc.x, alloc.y, alloc.width, alloc.height);
+                    g.fillRect(blloc.x, blloc.y, blloc.width, blloc.height);
                 }
-                return alloc;
+                return blloc;
             }
             else {
-                // Should only render part of View.
+                // Should only render pbrt of View.
                 try {
-                    // --- determine locations ---
-                    Shape shape = view.modelToView(offs0, Position.Bias.Forward,
-                                                   offs1,Position.Bias.Backward,
+                    // --- determine locbtions ---
+                    Shbpe shbpe = view.modelToView(offs0, Position.Bibs.Forwbrd,
+                                                   offs1,Position.Bibs.Bbckwbrd,
                                                    bounds);
-                    Rectangle r = (shape instanceof Rectangle) ?
-                                  (Rectangle)shape : shape.getBounds();
+                    Rectbngle r = (shbpe instbnceof Rectbngle) ?
+                                  (Rectbngle)shbpe : shbpe.getBounds();
                     if (firstIsDot && r.width > 0) {
                         g.fillRect(r.x + 1, r.y, r.width - 1, r.height);
                     }
@@ -224,8 +224,8 @@ public abstract class WindowsTextUI extends BasicTextUI {
                         g.fillRect(r.x, r.y, r.width, r.height);
                     }
                     return r;
-                } catch (BadLocationException e) {
-                    // can't render
+                } cbtch (BbdLocbtionException e) {
+                    // cbn't render
                 }
             }
             // Only if exception

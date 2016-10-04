@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-import javax.imageio.IIOException;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
+import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbNode;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 import org.w3c.dom.Node;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 
 /**
- * An Adobe APP14 (Application-Specific) marker segment.
+ * An Adobe APP14 (Applicbtion-Specific) mbrker segment.
  */
-class AdobeMarkerSegment extends MarkerSegment {
+clbss AdobeMbrkerSegment extends MbrkerSegment {
     int version;
-    int flags0;
-    int flags1;
-    int transform;
-    private static final int ID_SIZE = 5;
+    int flbgs0;
+    int flbgs1;
+    int trbnsform;
+    privbte stbtic finbl int ID_SIZE = 5;
 
-    AdobeMarkerSegment(int transform) {
+    AdobeMbrkerSegment(int trbnsform) {
         super(JPEG.APP14);
         version = 101;
-        flags0 = 0;
-        flags1 = 0;
-        this.transform = transform;
+        flbgs0 = 0;
+        flbgs1 = 0;
+        this.trbnsform = trbnsform;
     }
 
-    AdobeMarkerSegment(JPEGBuffer buffer) throws IOException {
+    AdobeMbrkerSegment(JPEGBuffer buffer) throws IOException {
         super(buffer);
         buffer.bufPtr += ID_SIZE; // Skip the id
         version = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
         version |= buffer.buf[buffer.bufPtr++] & 0xff;
-        flags0 = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-        flags0 |= buffer.buf[buffer.bufPtr++] & 0xff;
-        flags1 = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-        flags1 |= buffer.buf[buffer.bufPtr++] & 0xff;
-        transform = buffer.buf[buffer.bufPtr++] & 0xff;
-        buffer.bufAvail -= length;
+        flbgs0 = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
+        flbgs0 |= buffer.buf[buffer.bufPtr++] & 0xff;
+        flbgs1 = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
+        flbgs1 |= buffer.buf[buffer.bufPtr++] & 0xff;
+        trbnsform = buffer.buf[buffer.bufPtr++] & 0xff;
+        buffer.bufAvbil -= length;
     }
 
-    AdobeMarkerSegment(Node node) throws IIOInvalidTreeException {
-        this(0); // default transform will be changed
-        updateFromNativeNode(node, true);
+    AdobeMbrkerSegment(Node node) throws IIOInvblidTreeException {
+        this(0); // defbult trbnsform will be chbnged
+        updbteFromNbtiveNode(node, true);
     }
 
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("app14Adobe");
+    IIOMetbdbtbNode getNbtiveNode() {
+        IIOMetbdbtbNode node = new IIOMetbdbtbNode("bpp14Adobe");
         node.setAttribute("version", Integer.toString(version));
-        node.setAttribute("flags0", Integer.toString(flags0));
-        node.setAttribute("flags1", Integer.toString(flags1));
-        node.setAttribute("transform", Integer.toString(transform));
+        node.setAttribute("flbgs0", Integer.toString(flbgs0));
+        node.setAttribute("flbgs1", Integer.toString(flbgs1));
+        node.setAttribute("trbnsform", Integer.toString(trbnsform));
 
         return node;
     }
 
-    void updateFromNativeNode(Node node, boolean fromScratch)
-        throws IIOInvalidTreeException {
-        // Only the transform is required
-        NamedNodeMap attrs = node.getAttributes();
-        transform = getAttributeValue(node, attrs, "transform", 0, 2, true);
-        int count = attrs.getLength();
+    void updbteFromNbtiveNode(Node node, boolebn fromScrbtch)
+        throws IIOInvblidTreeException {
+        // Only the trbnsform is required
+        NbmedNodeMbp bttrs = node.getAttributes();
+        trbnsform = getAttributeVblue(node, bttrs, "trbnsform", 0, 2, true);
+        int count = bttrs.getLength();
         if (count > 4) {
-            throw new IIOInvalidTreeException
-                ("Adobe APP14 node cannot have > 4 attributes", node);
+            throw new IIOInvblidTreeException
+                ("Adobe APP14 node cbnnot hbve > 4 bttributes", node);
         }
         if (count > 1) {
-            int value = getAttributeValue(node, attrs, "version",
-                                          100, 255, false);
-            version = (value != -1) ? value : version;
-            value = getAttributeValue(node, attrs, "flags0", 0, 65535, false);
-            flags0 = (value != -1) ? value : flags0;
-            value = getAttributeValue(node, attrs, "flags1", 0, 65535, false);
-            flags1 = (value != -1) ? value : flags1;
+            int vblue = getAttributeVblue(node, bttrs, "version",
+                                          100, 255, fblse);
+            version = (vblue != -1) ? vblue : version;
+            vblue = getAttributeVblue(node, bttrs, "flbgs0", 0, 65535, fblse);
+            flbgs0 = (vblue != -1) ? vblue : flbgs0;
+            vblue = getAttributeVblue(node, bttrs, "flbgs1", 0, 65535, fblse);
+            flbgs1 = (vblue != -1) ? vblue : flbgs1;
         }
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.
+     * Writes the dbtb for this segment to the strebm in
+     * vblid JPEG formbt.
      */
-    void write(ImageOutputStream ios) throws IOException {
+    void write(ImbgeOutputStrebm ios) throws IOException {
         length = 14;
-        writeTag(ios);
+        writeTbg(ios);
         byte [] id = {0x41, 0x64, 0x6F, 0x62, 0x65};
         ios.write(id);
         write2bytes(ios, version);
-        write2bytes(ios, flags0);
-        write2bytes(ios, flags1);
-        ios.write(transform);
+        write2bytes(ios, flbgs0);
+        write2bytes(ios, flbgs1);
+        ios.write(trbnsform);
     }
 
-    static void writeAdobeSegment(ImageOutputStream ios, int transform)
+    stbtic void writeAdobeSegment(ImbgeOutputStrebm ios, int trbnsform)
         throws IOException {
-        (new AdobeMarkerSegment(transform)).write(ios);
+        (new AdobeMbrkerSegment(trbnsform)).write(ios);
     }
 
     void print () {
-        printTag("Adobe APP14");
+        printTbg("Adobe APP14");
         System.out.print("Version: ");
         System.out.println(version);
-        System.out.print("Flags0: 0x");
-        System.out.println(Integer.toHexString(flags0));
-        System.out.print("Flags1: 0x");
-        System.out.println(Integer.toHexString(flags1));
-        System.out.print("Transform: ");
-        System.out.println(transform);
+        System.out.print("Flbgs0: 0x");
+        System.out.println(Integer.toHexString(flbgs0));
+        System.out.print("Flbgs1: 0x");
+        System.out.println(Integer.toHexString(flbgs1));
+        System.out.print("Trbnsform: ");
+        System.out.println(trbnsform);
     }
 }

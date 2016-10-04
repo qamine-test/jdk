@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Control;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineUnavailableException;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.Control;
+import jbvbx.sound.sbmpled.DbtbLine;
+import jbvbx.sound.sbmpled.LineEvent;
+import jbvbx.sound.sbmpled.LineUnbvbilbbleException;
 
 
 /**
- * AbstractDataLine
+ * AbstrbctDbtbLine
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
-abstract class AbstractDataLine extends AbstractLine implements DataLine {
+bbstrbct clbss AbstrbctDbtbLine extends AbstrbctLine implements DbtbLine {
 
     // DEFAULTS
 
-    // default format
-    private final AudioFormat defaultFormat;
+    // defbult formbt
+    privbte finbl AudioFormbt defbultFormbt;
 
-    // default buffer size in bytes
-    private final int defaultBufferSize;
+    // defbult buffer size in bytes
+    privbte finbl int defbultBufferSize;
 
-    // the lock for synchronization
-    protected final Object lock = new Object();
+    // the lock for synchronizbtion
+    protected finbl Object lock = new Object();
 
     // STATE
 
-    // current format
-    protected AudioFormat format;
+    // current formbt
+    protected AudioFormbt formbt;
 
     // current buffer size in bytes
     protected int bufferSize;
 
-    protected boolean running = false;
-    private boolean started = false;
-    private boolean active = false;
+    protected boolebn running = fblse;
+    privbte boolebn stbrted = fblse;
+    privbte boolebn bctive = fblse;
 
 
     /**
-     * Constructs a new AbstractLine.
+     * Constructs b new AbstrbctLine.
      */
-    protected AbstractDataLine(DataLine.Info info, AbstractMixer mixer, Control[] controls) {
+    protected AbstrbctDbtbLine(DbtbLine.Info info, AbstrbctMixer mixer, Control[] controls) {
         this(info, mixer, controls, null, AudioSystem.NOT_SPECIFIED);
     }
 
     /**
-     * Constructs a new AbstractLine.
+     * Constructs b new AbstrbctLine.
      */
-    protected AbstractDataLine(DataLine.Info info, AbstractMixer mixer, Control[] controls, AudioFormat format, int bufferSize) {
+    protected AbstrbctDbtbLine(DbtbLine.Info info, AbstrbctMixer mixer, Control[] controls, AudioFormbt formbt, int bufferSize) {
 
         super(info, mixer, controls);
 
-        // record the default values
-        if (format != null) {
-            defaultFormat = format;
+        // record the defbult vblues
+        if (formbt != null) {
+            defbultFormbt = formbt;
         } else {
-            // default CD-quality
-            defaultFormat = new AudioFormat(44100.0f, 16, 2, true, Platform.isBigEndian());
+            // defbult CD-qublity
+            defbultFormbt = new AudioFormbt(44100.0f, 16, 2, true, Plbtform.isBigEndibn());
         }
         if (bufferSize > 0) {
-            defaultBufferSize = bufferSize;
+            defbultBufferSize = bufferSize;
         } else {
             // 0.5 seconds buffer
-            defaultBufferSize = ((int) (defaultFormat.getFrameRate() / 2)) * defaultFormat.getFrameSize();
+            defbultBufferSize = ((int) (defbultFormbt.getFrbmeRbte() / 2)) * defbultFormbt.getFrbmeSize();
         }
 
-        // set the initial values to the defaults
-        this.format = defaultFormat;
-        this.bufferSize = defaultBufferSize;
+        // set the initibl vblues to the defbults
+        this.formbt = defbultFormbt;
+        this.bufferSize = defbultBufferSize;
     }
 
 
     // DATA LINE METHODS
 
-    public final void open(AudioFormat format, int bufferSize) throws LineUnavailableException {
-        //$$fb 2001-10-09: Bug #4517739: avoiding deadlock by synchronizing to mixer !
+    public finbl void open(AudioFormbt formbt, int bufferSize) throws LineUnbvbilbbleException {
+        //$$fb 2001-10-09: Bug #4517739: bvoiding debdlock by synchronizing to mixer !
         synchronized (mixer) {
-            if (Printer.trace) Printer.trace("> AbstractDataLine.open(format, bufferSize) (class: "+getClass().getName());
+            if (Printer.trbce) Printer.trbce("> AbstrbctDbtbLine.open(formbt, bufferSize) (clbss: "+getClbss().getNbme());
 
-            // if the line is not currently open, try to open it with this format and buffer size
+            // if the line is not currently open, try to open it with this formbt bnd buffer size
             if (!isOpen()) {
-                // make sure that the format is specified correctly
-                // $$fb part of fix for 4679187: Clip.open() throws unexpected Exceptions
-                Toolkit.isFullySpecifiedAudioFormat(format);
+                // mbke sure thbt the formbt is specified correctly
+                // $$fb pbrt of fix for 4679187: Clip.open() throws unexpected Exceptions
+                Toolkit.isFullySpecifiedAudioFormbt(formbt);
 
                 if (Printer.debug) Printer.debug("  need to open the mixer...");
                 // reserve mixer resources for this line
-                //mixer.open(this, format, bufferSize);
+                //mixer.open(this, formbt, bufferSize);
                 mixer.open(this);
 
                 try {
-                    // open the data line.  may throw LineUnavailableException.
-                    implOpen(format, bufferSize);
+                    // open the dbtb line.  mby throw LineUnbvbilbbleException.
+                    implOpen(formbt, bufferSize);
 
-                    // if we succeeded, set the open state to true and send events
+                    // if we succeeded, set the open stbte to true bnd send events
                     setOpen(true);
 
-                } catch (LineUnavailableException e) {
-                    // release mixer resources for this line and then throw the exception
+                } cbtch (LineUnbvbilbbleException e) {
+                    // relebse mixer resources for this line bnd then throw the exception
                     mixer.close(this);
                     throw e;
                 }
             } else {
-                if (Printer.debug) Printer.debug("  dataline already open");
+                if (Printer.debug) Printer.debug("  dbtbline blrebdy open");
 
-                // if the line is already open and the requested format differs from the
-                // current settings, throw an IllegalStateException
+                // if the line is blrebdy open bnd the requested formbt differs from the
+                // current settings, throw bn IllegblStbteException
                 //$$fb 2002-04-02: fix for 4661602: Buffersize is checked when re-opening line
-                if (!format.matches(getFormat())) {
-                    throw new IllegalStateException("Line is already open with format " + getFormat() +
-                                                    " and bufferSize " + getBufferSize());
+                if (!formbt.mbtches(getFormbt())) {
+                    throw new IllegblStbteException("Line is blrebdy open with formbt " + getFormbt() +
+                                                    " bnd bufferSize " + getBufferSize());
                 }
-                //$$fb 2002-07-26: allow changing the buffersize of already open lines
+                //$$fb 2002-07-26: bllow chbnging the buffersize of blrebdy open lines
                 if (bufferSize > 0) {
                     setBufferSize(bufferSize);
                 }
             }
 
-            if (Printer.trace) Printer.trace("< AbstractDataLine.open(format, bufferSize) completed");
+            if (Printer.trbce) Printer.trbce("< AbstrbctDbtbLine.open(formbt, bufferSize) completed");
         }
     }
 
 
-    public final void open(AudioFormat format) throws LineUnavailableException {
-        open(format, AudioSystem.NOT_SPECIFIED);
+    public finbl void open(AudioFormbt formbt) throws LineUnbvbilbbleException {
+        open(formbt, AudioSystem.NOT_SPECIFIED);
     }
 
 
     /**
-     * This implementation always returns 0.
+     * This implementbtion blwbys returns 0.
      */
-    public int available() {
+    public int bvbilbble() {
         return 0;
     }
 
 
     /**
-     * This implementation does nothing.
+     * This implementbtion does nothing.
      */
-    public void drain() {
-        if (Printer.trace) Printer.trace("AbstractDataLine: drain");
+    public void drbin() {
+        if (Printer.trbce) Printer.trbce("AbstrbctDbtbLine: drbin");
     }
 
 
     /**
-     * This implementation does nothing.
+     * This implementbtion does nothing.
      */
     public void flush() {
-        if (Printer.trace) Printer.trace("AbstractDataLine: flush");
+        if (Printer.trbce) Printer.trbce("AbstrbctDbtbLine: flush");
     }
 
 
-    public final void start() {
-        //$$fb 2001-10-09: Bug #4517739: avoiding deadlock by synchronizing to mixer !
+    public finbl void stbrt() {
+        //$$fb 2001-10-09: Bug #4517739: bvoiding debdlock by synchronizing to mixer !
         synchronized(mixer) {
-            if (Printer.trace) Printer.trace("> "+getClass().getName()+".start() - AbstractDataLine");
+            if (Printer.trbce) Printer.trbce("> "+getClbss().getNbme()+".stbrt() - AbstrbctDbtbLine");
 
             // $$kk: 06.06.99: if not open, this doesn't work....???
             if (isOpen()) {
 
-                if (!isStartedRunning()) {
-                    mixer.start(this);
-                    implStart();
+                if (!isStbrtedRunning()) {
+                    mixer.stbrt(this);
+                    implStbrt();
                     running = true;
                 }
             }
@@ -198,29 +198,29 @@ abstract class AbstractDataLine extends AbstractLine implements DataLine {
             lock.notifyAll();
         }
 
-        if (Printer.trace) Printer.trace("< "+getClass().getName()+".start() - AbstractDataLine");
+        if (Printer.trbce) Printer.trbce("< "+getClbss().getNbme()+".stbrt() - AbstrbctDbtbLine");
     }
 
 
-    public final void stop() {
+    public finbl void stop() {
 
-        //$$fb 2001-10-09: Bug #4517739: avoiding deadlock by synchronizing to mixer !
+        //$$fb 2001-10-09: Bug #4517739: bvoiding debdlock by synchronizing to mixer !
         synchronized(mixer) {
-            if (Printer.trace) Printer.trace("> "+getClass().getName()+".stop() - AbstractDataLine");
+            if (Printer.trbce) Printer.trbce("> "+getClbss().getNbme()+".stop() - AbstrbctDbtbLine");
 
             // $$kk: 06.06.99: if not open, this doesn't work.
             if (isOpen()) {
 
-                if (isStartedRunning()) {
+                if (isStbrtedRunning()) {
 
                     implStop();
                     mixer.stop(this);
 
-                    running = false;
+                    running = fblse;
 
-                    // $$kk: 11.10.99: this is not exactly correct, but will probably work
-                    if (started && (!isActive())) {
-                        setStarted(false);
+                    // $$kk: 11.10.99: this is not exbctly correct, but will probbbly work
+                    if (stbrted && (!isActive())) {
+                        setStbrted(fblse);
                     }
                 }
             }
@@ -230,113 +230,113 @@ abstract class AbstractDataLine extends AbstractLine implements DataLine {
             lock.notifyAll();
         }
 
-        if (Printer.trace) Printer.trace("< "+getClass().getName()+".stop() - AbstractDataLine");
+        if (Printer.trbce) Printer.trbce("< "+getClbss().getNbme()+".stop() - AbstrbctDbtbLine");
     }
 
-    // $$jb: 12.10.99: The official API for this is isRunning().
+    // $$jb: 12.10.99: The officibl API for this is isRunning().
     // Per the denied RFE 4297981,
-    // the change to isStarted() is technically an unapproved API change.
-    // The 'started' variable is false when playback of data stops.
-    // It is changed throughout the implementation with setStarted().
-    // This state is what should be returned by isRunning() in the API.
-    // Note that the 'running' variable is true between calls to
-    // start() and stop().  This state is accessed now through the
-    // isStartedRunning() method, defined below.  I have not changed
-    // the variable names at this point, since 'running' is accessed
-    // in MixerSourceLine and MixerClip, and I want to touch as little
-    // code as possible to change isStarted() back to isRunning().
+    // the chbnge to isStbrted() is technicblly bn unbpproved API chbnge.
+    // The 'stbrted' vbribble is fblse when plbybbck of dbtb stops.
+    // It is chbnged throughout the implementbtion with setStbrted().
+    // This stbte is whbt should be returned by isRunning() in the API.
+    // Note thbt the 'running' vbribble is true between cblls to
+    // stbrt() bnd stop().  This stbte is bccessed now through the
+    // isStbrtedRunning() method, defined below.  I hbve not chbnged
+    // the vbribble nbmes bt this point, since 'running' is bccessed
+    // in MixerSourceLine bnd MixerClip, bnd I wbnt to touch bs little
+    // code bs possible to chbnge isStbrted() bbck to isRunning().
 
-    public final boolean isRunning() {
-        return started;
+    public finbl boolebn isRunning() {
+        return stbrted;
     }
 
-    public final boolean isActive() {
-        return active;
+    public finbl boolebn isActive() {
+        return bctive;
     }
 
 
-    public final long getMicrosecondPosition() {
+    public finbl long getMicrosecondPosition() {
 
-        long microseconds = getLongFramePosition();
+        long microseconds = getLongFrbmePosition();
         if (microseconds != AudioSystem.NOT_SPECIFIED) {
-            microseconds = Toolkit.frames2micros(getFormat(), microseconds);
+            microseconds = Toolkit.frbmes2micros(getFormbt(), microseconds);
         }
         return microseconds;
     }
 
 
-    public final AudioFormat getFormat() {
-        return format;
+    public finbl AudioFormbt getFormbt() {
+        return formbt;
     }
 
 
-    public final int getBufferSize() {
+    public finbl int getBufferSize() {
         return bufferSize;
     }
 
     /**
-     * This implementation does NOT change the buffer size
+     * This implementbtion does NOT chbnge the buffer size
      */
-    public final int setBufferSize(int newSize) {
+    public finbl int setBufferSize(int newSize) {
         return getBufferSize();
     }
 
     /**
-     * This implementation returns AudioSystem.NOT_SPECIFIED.
+     * This implementbtion returns AudioSystem.NOT_SPECIFIED.
      */
-    public final float getLevel() {
-        return (float)AudioSystem.NOT_SPECIFIED;
+    public finbl flobt getLevel() {
+        return (flobt)AudioSystem.NOT_SPECIFIED;
     }
 
 
     // HELPER METHODS
 
     /**
-     * running is true after start is called and before stop is called,
-     * regardless of whether data is actually being presented.
+     * running is true bfter stbrt is cblled bnd before stop is cblled,
+     * regbrdless of whether dbtb is bctublly being presented.
      */
-    // $$jb: 12.10.99: calling this method isRunning() conflicts with
-    // the official API that was once called isStarted().  Since we
-    // use this method throughout the implementation, I am renaming
-    // it to isStartedRunning().  This is part of backing out the
-    // change denied in RFE 4297981.
+    // $$jb: 12.10.99: cblling this method isRunning() conflicts with
+    // the officibl API thbt wbs once cblled isStbrted().  Since we
+    // use this method throughout the implementbtion, I bm renbming
+    // it to isStbrtedRunning().  This is pbrt of bbcking out the
+    // chbnge denied in RFE 4297981.
 
-    final boolean isStartedRunning() {
+    finbl boolebn isStbrtedRunning() {
         return running;
     }
 
     /**
-     * This method sets the active state and generates
-     * events if it changes.
+     * This method sets the bctive stbte bnd generbtes
+     * events if it chbnges.
      */
-    final void setActive(boolean active) {
+    finbl void setActive(boolebn bctive) {
 
-        if (Printer.trace) Printer.trace("> AbstractDataLine: setActive(" + active + ")");
+        if (Printer.trbce) Printer.trbce("> AbstrbctDbtbLine: setActive(" + bctive + ")");
 
-        //boolean sendEvents = false;
-        //long position = getLongFramePosition();
+        //boolebn sendEvents = fblse;
+        //long position = getLongFrbmePosition();
 
         synchronized (this) {
 
-            //if (Printer.debug) Printer.debug("    AbstractDataLine: setActive: this.active: " + this.active);
-            //if (Printer.debug) Printer.debug("                                 active: " + active);
+            //if (Printer.debug) Printer.debug("    AbstrbctDbtbLine: setActive: this.bctive: " + this.bctive);
+            //if (Printer.debug) Printer.debug("                                 bctive: " + bctive);
 
-            if (this.active != active) {
-                this.active = active;
+            if (this.bctive != bctive) {
+                this.bctive = bctive;
                 //sendEvents = true;
             }
         }
 
-        //if (Printer.debug) Printer.debug("                                 this.active: " + this.active);
+        //if (Printer.debug) Printer.debug("                                 this.bctive: " + this.bctive);
         //if (Printer.debug) Printer.debug("                                 sendEvents: " + sendEvents);
 
 
-        // $$kk: 11.19.99: take ACTIVE / INACTIVE / EOM events out;
-        // putting them in is technically an API change.
-        // do not generate ACTIVE / INACTIVE events for now
+        // $$kk: 11.19.99: tbke ACTIVE / INACTIVE / EOM events out;
+        // putting them in is technicblly bn API chbnge.
+        // do not generbte ACTIVE / INACTIVE events for now
         // if (sendEvents) {
         //
-        //      if (active) {
+        //      if (bctive) {
         //              sendEvents(new LineEvent(this, LineEvent.Type.ACTIVE, position));
         //      } else {
         //              sendEvents(new LineEvent(this, LineEvent.Type.INACTIVE, position));
@@ -345,53 +345,53 @@ abstract class AbstractDataLine extends AbstractLine implements DataLine {
     }
 
     /**
-     * This method sets the started state and generates
-     * events if it changes.
+     * This method sets the stbrted stbte bnd generbtes
+     * events if it chbnges.
      */
-    final void setStarted(boolean started) {
+    finbl void setStbrted(boolebn stbrted) {
 
-        if (Printer.trace) Printer.trace("> AbstractDataLine: setStarted(" + started + ")");
+        if (Printer.trbce) Printer.trbce("> AbstrbctDbtbLine: setStbrted(" + stbrted + ")");
 
-        boolean sendEvents = false;
-        long position = getLongFramePosition();
+        boolebn sendEvents = fblse;
+        long position = getLongFrbmePosition();
 
         synchronized (this) {
 
-            //if (Printer.debug) Printer.debug("    AbstractDataLine: setStarted: this.started: " + this.started);
-            //if (Printer.debug) Printer.debug("                                  started: " + started);
+            //if (Printer.debug) Printer.debug("    AbstrbctDbtbLine: setStbrted: this.stbrted: " + this.stbrted);
+            //if (Printer.debug) Printer.debug("                                  stbrted: " + stbrted);
 
-            if (this.started != started) {
-                this.started = started;
+            if (this.stbrted != stbrted) {
+                this.stbrted = stbrted;
                 sendEvents = true;
             }
         }
 
-        //if (Printer.debug) Printer.debug("                                  this.started: " + this.started);
+        //if (Printer.debug) Printer.debug("                                  this.stbrted: " + this.stbrted);
         //if (Printer.debug) Printer.debug("                                  sendEvents: " + sendEvents);
 
         if (sendEvents) {
 
-            if (started) {
+            if (stbrted) {
                 sendEvents(new LineEvent(this, LineEvent.Type.START, position));
             } else {
                 sendEvents(new LineEvent(this, LineEvent.Type.STOP, position));
             }
         }
-        if (Printer.trace) Printer.trace("< AbstractDataLine: setStarted completed");
+        if (Printer.trbce) Printer.trbce("< AbstrbctDbtbLine: setStbrted completed");
     }
 
 
     /**
-     * This method generates a STOP event and sets the started state to false.
-     * It is here for historic reasons when an EOM event existed.
+     * This method generbtes b STOP event bnd sets the stbrted stbte to fblse.
+     * It is here for historic rebsons when bn EOM event existed.
      */
-    final void setEOM() {
+    finbl void setEOM() {
 
-        if (Printer.trace) Printer.trace("> AbstractDataLine: setEOM()");
-        //$$fb 2002-04-21: sometimes, 2 STOP events are generated.
-        // better use setStarted() to send STOP event.
-        setStarted(false);
-        if (Printer.trace) Printer.trace("< AbstractDataLine: setEOM() completed");
+        if (Printer.trbce) Printer.trbce("> AbstrbctDbtbLine: setEOM()");
+        //$$fb 2002-04-21: sometimes, 2 STOP events bre generbted.
+        // better use setStbrted() to send STOP event.
+        setStbrted(fblse);
+        if (Printer.trbce) Printer.trbce("< AbstrbctDbtbLine: setEOM() completed");
     }
 
 
@@ -400,50 +400,50 @@ abstract class AbstractDataLine extends AbstractLine implements DataLine {
     // OVERRIDES OF ABSTRACT LINE METHODS
 
     /**
-     * Try to open the line with the current format and buffer size values.
-     * If the line is not open, these will be the defaults.  If the
-     * line is open, this should return quietly because the values
-     * requested will match the current ones.
+     * Try to open the line with the current formbt bnd buffer size vblues.
+     * If the line is not open, these will be the defbults.  If the
+     * line is open, this should return quietly becbuse the vblues
+     * requested will mbtch the current ones.
      */
-    public final void open() throws LineUnavailableException {
+    public finbl void open() throws LineUnbvbilbbleException {
 
-        if (Printer.trace) Printer.trace("> "+getClass().getName()+".open() - AbstractDataLine");
+        if (Printer.trbce) Printer.trbce("> "+getClbss().getNbme()+".open() - AbstrbctDbtbLine");
 
-        // this may throw a LineUnavailableException.
-        open(format, bufferSize);
-        if (Printer.trace) Printer.trace("< "+getClass().getName()+".open() - AbstractDataLine");
+        // this mby throw b LineUnbvbilbbleException.
+        open(formbt, bufferSize);
+        if (Printer.trbce) Printer.trbce("< "+getClbss().getNbme()+".open() - AbstrbctDbtbLine");
     }
 
 
     /**
-     * This should also stop the line.  The closed line should not be running or active.
-     * After we close the line, we reset the format and buffer size to the defaults.
+     * This should blso stop the line.  The closed line should not be running or bctive.
+     * After we close the line, we reset the formbt bnd buffer size to the defbults.
      */
-    public final void close() {
-        //$$fb 2001-10-09: Bug #4517739: avoiding deadlock by synchronizing to mixer !
+    public finbl void close() {
+        //$$fb 2001-10-09: Bug #4517739: bvoiding debdlock by synchronizing to mixer !
         synchronized (mixer) {
-            if (Printer.trace) Printer.trace("> "+getClass().getName()+".close() - in AbstractDataLine.");
+            if (Printer.trbce) Printer.trbce("> "+getClbss().getNbme()+".close() - in AbstrbctDbtbLine.");
 
             if (isOpen()) {
 
                 // stop
                 stop();
 
-                // set the open state to false and send events
-                setOpen(false);
+                // set the open stbte to fblse bnd send events
+                setOpen(fblse);
 
                 // close resources for this line
                 implClose();
 
-                // release mixer resources for this line
+                // relebse mixer resources for this line
                 mixer.close(this);
 
-                // reset format and buffer size to the defaults
-                format = defaultFormat;
-                bufferSize = defaultBufferSize;
+                // reset formbt bnd buffer size to the defbults
+                formbt = defbultFormbt;
+                bufferSize = defbultBufferSize;
             }
         }
-        if (Printer.trace) Printer.trace("< "+getClass().getName()+".close() - in AbstractDataLine");
+        if (Printer.trbce) Printer.trbce("< "+getClbss().getNbme()+".close() - in AbstrbctDbtbLine");
     }
 
 
@@ -452,9 +452,9 @@ abstract class AbstractDataLine extends AbstractLine implements DataLine {
 
     // ABSTRACT METHODS
 
-    abstract void implOpen(AudioFormat format, int bufferSize) throws LineUnavailableException;
-    abstract void implClose();
+    bbstrbct void implOpen(AudioFormbt formbt, int bufferSize) throws LineUnbvbilbbleException;
+    bbstrbct void implClose();
 
-    abstract void implStart();
-    abstract void implStop();
+    bbstrbct void implStbrt();
+    bbstrbct void implStop();
 }

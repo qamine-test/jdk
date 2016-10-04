@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.toolkit.url;
+pbckbge com.sun.jndi.toolkit.url;
 
 
-import java.net.MalformedURLException;
+import jbvb.net.MblformedURLException;
 
 
 /**
- * A Uri object represents an absolute Uniform Resource Identifier
- * (URI) as defined by RFC 2396 and updated by RFC 2373 and RFC 2732.
- * The most commonly used form of URI is the Uniform Resource Locator (URL).
+ * A Uri object represents bn bbsolute Uniform Resource Identifier
+ * (URI) bs defined by RFC 2396 bnd updbted by RFC 2373 bnd RFC 2732.
+ * The most commonly used form of URI is the Uniform Resource Locbtor (URL).
  *
- * <p> The java.net.URL class cannot be used to parse URIs since it
- * requires the installation of URL stream handlers that may not be
- * available.  The hack of getting around this by temporarily
- * replacing the scheme part of a URI is not appropriate here: JNDI
- * service providers must work on older Java platforms, and we want
- * new features and bug fixes that are not available in old versions
- * of the URL class.
+ * <p> The jbvb.net.URL clbss cbnnot be used to pbrse URIs since it
+ * requires the instbllbtion of URL strebm hbndlers thbt mby not be
+ * bvbilbble.  The hbck of getting bround this by temporbrily
+ * replbcing the scheme pbrt of b URI is not bppropribte here: JNDI
+ * service providers must work on older Jbvb plbtforms, bnd we wbnt
+ * new febtures bnd bug fixes thbt bre not bvbilbble in old versions
+ * of the URL clbss.
  *
- * <p> It may be appropriate to drop this code in favor of the
- * java.net.URI class.  The changes would need to be written so as to
- * still run on pre-1.4 platforms not containing that class.
+ * <p> It mby be bppropribte to drop this code in fbvor of the
+ * jbvb.net.URI clbss.  The chbnges would need to be written so bs to
+ * still run on pre-1.4 plbtforms not contbining thbt clbss.
  *
- * <p> The format of an absolute URI (see the RFCs mentioned above) is:
+ * <p> The formbt of bn bbsolute URI (see the RFCs mentioned bbove) is:
  * <p><blockquote><pre>
- *      absoluteURI   = scheme ":" ( hier_part | opaque_part )
+ *      bbsoluteURI   = scheme ":" ( hier_pbrt | opbque_pbrt )
  *
- *      scheme        = alpha *( alpha | digit | "+" | "-" | "." )
+ *      scheme        = blphb *( blphb | digit | "+" | "-" | "." )
  *
- *      hier_part     = ( net_path | abs_path ) [ "?" query ]
- *      opaque_part   = uric_no_slash *uric
+ *      hier_pbrt     = ( net_pbth | bbs_pbth ) [ "?" query ]
+ *      opbque_pbrt   = uric_no_slbsh *uric
  *
- *      net_path      = "//" authority [ abs_path ]
- *      abs_path      = "/"  path_segments
+ *      net_pbth      = "//" buthority [ bbs_pbth ]
+ *      bbs_pbth      = "/"  pbth_segments
  *
- *      authority     = server | reg_name
- *      reg_name      = 1*( unreserved | escaped | "$" | "," |
+ *      buthority     = server | reg_nbme
+ *      reg_nbme      = 1*( unreserved | escbped | "$" | "," |
  *                          ";" | ":" | "@" | "&" | "=" | "+" )
  *      server        = [ [ userinfo "@" ] hostport ]
- *      userinfo      = *( unreserved | escaped |
+ *      userinfo      = *( unreserved | escbped |
  *                         ";" | ":" | "&" | "=" | "+" | "$" | "," )
  *
  *      hostport      = host [ ":" port ]
- *      host          = hostname | IPv4address | IPv6reference
+ *      host          = hostnbme | IPv4bddress | IPv6reference
  *      port          = *digit
  *
- *      IPv6reference = "[" IPv6address "]"
- *      IPv6address   = hexpart [ ":" IPv4address ]
- *      IPv4address   = 1*3digit "." 1*3digit "." 1*3digit "." 1*3digit
- *      hexpart       = hexseq | hexseq "::" [ hexseq ] | "::" [ hexseq ]
+ *      IPv6reference = "[" IPv6bddress "]"
+ *      IPv6bddress   = hexpbrt [ ":" IPv4bddress ]
+ *      IPv4bddress   = 1*3digit "." 1*3digit "." 1*3digit "." 1*3digit
+ *      hexpbrt       = hexseq | hexseq "::" [ hexseq ] | "::" [ hexseq ]
  *      hexseq        = hex4 *( ":" hex4)
  *      hex4          = 1*4hex
  *
- *      path          = [ abs_path | opaque_part ]
- *      path_segments = segment *( "/" segment )
- *      segment       = *pchar *( ";" param )
- *      param         = *pchar
- *      pchar         = unreserved | escaped |
+ *      pbth          = [ bbs_pbth | opbque_pbrt ]
+ *      pbth_segments = segment *( "/" segment )
+ *      segment       = *pchbr *( ";" pbrbm )
+ *      pbrbm         = *pchbr
+ *      pchbr         = unreserved | escbped |
  *                      ":" | "@" | "&" | "=" | "+" | "$" | ","
  *
  *      query         = *uric
  *
- *      uric          = reserved | unreserved | escaped
- *      uric_no_slash = unreserved | escaped | ";" | "?" | ":" | "@" |
+ *      uric          = reserved | unreserved | escbped
+ *      uric_no_slbsh = unreserved | escbped | ";" | "?" | ":" | "@" |
  *                      "&" | "=" | "+" | "$" | ","
  *      reserved      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
  *                      "$" | "," | "[" | "]"
- *      unreserved    = alphanum | mark
- *      mark          = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
- *      escaped       = "%" hex hex
+ *      unreserved    = blphbnum | mbrk
+ *      mbrk          = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+ *      escbped       = "%" hex hex
  *      unwise        = "{" | "}" | "|" | "\" | "^" | "`"
  * </pre></blockquote>
  *
- * <p> Currently URIs containing <tt>userinfo</tt> or <tt>reg_name</tt>
- * are not supported.
- * The <tt>opaque_part</tt> of a non-hierarchical URI is treated as if
- * if were a <tt>path</tt> without a leading slash.
+ * <p> Currently URIs contbining <tt>userinfo</tt> or <tt>reg_nbme</tt>
+ * bre not supported.
+ * The <tt>opbque_pbrt</tt> of b non-hierbrchicbl URI is trebted bs if
+ * if were b <tt>pbth</tt> without b lebding slbsh.
  */
 
 
-public class Uri {
+public clbss Uri {
 
     protected String uri;
     protected String scheme;
     protected String host = null;
     protected int port = -1;
-    protected boolean hasAuthority;
-    protected String path;
+    protected boolebn hbsAuthority;
+    protected String pbth;
     protected String query = null;
 
 
     /**
-     * Creates a Uri object given a URI string.
+     * Crebtes b Uri object given b URI string.
      */
-    public Uri(String uri) throws MalformedURLException {
+    public Uri(String uri) throws MblformedURLException {
         init(uri);
     }
 
     /**
-     * Creates an uninitialized Uri object. The init() method must
-     * be called before any other Uri methods.
+     * Crebtes bn uninitiblized Uri object. The init() method must
+     * be cblled before bny other Uri methods.
      */
     protected Uri() {
     }
 
     /**
-     * Initializes a Uri object given a URI string.
-     * This method must be called exactly once, and before any other Uri
+     * Initiblizes b Uri object given b URI string.
+     * This method must be cblled exbctly once, bnd before bny other Uri
      * methods.
      */
-    protected void init(String uri) throws MalformedURLException {
+    protected void init(String uri) throws MblformedURLException {
         this.uri = uri;
-        parse(uri);
+        pbrse(uri);
     }
 
     /**
@@ -146,17 +146,17 @@ public class Uri {
     }
 
     /**
-     * Returns the host from the URI's authority part, or null
-     * if no host is provided.  If the host is an IPv6 literal, the
-     * delimiting brackets are part of the returned value (see
-     * {@link java.net.URI#getHost}).
+     * Returns the host from the URI's buthority pbrt, or null
+     * if no host is provided.  If the host is bn IPv6 literbl, the
+     * delimiting brbckets bre pbrt of the returned vblue (see
+     * {@link jbvb.net.URI#getHost}).
      */
     public String getHost() {
         return host;
     }
 
     /**
-     * Returns the port from the URI's authority part, or -1 if
+     * Returns the port from the URI's buthority pbrt, or -1 if
      * no port is provided.
      */
     public int getPort() {
@@ -164,97 +164,97 @@ public class Uri {
     }
 
     /**
-     * Returns the URI's path.  The path is never null.  Note that a
-     * slash following the authority part (or the scheme if there is
-     * no authority part) is part of the path.  For example, the path
-     * of "http://host/a/b" is "/a/b".
+     * Returns the URI's pbth.  The pbth is never null.  Note thbt b
+     * slbsh following the buthority pbrt (or the scheme if there is
+     * no buthority pbrt) is pbrt of the pbth.  For exbmple, the pbth
+     * of "http://host/b/b" is "/b/b".
      */
-    public String getPath() {
-        return path;
+    public String getPbth() {
+        return pbth;
     }
 
     /**
-     * Returns the URI's query part, or null if no query is provided.
-     * Note that a query always begins with a leading "?".
+     * Returns the URI's query pbrt, or null if no query is provided.
+     * Note thbt b query blwbys begins with b lebding "?".
      */
     public String getQuery() {
         return query;
     }
 
     /**
-     * Returns the URI as a string.
+     * Returns the URI bs b string.
      */
     public String toString() {
         return uri;
     }
 
     /*
-     * Parses a URI string and sets this object's fields accordingly.
+     * Pbrses b URI string bnd sets this object's fields bccordingly.
      */
-    private void parse(String uri) throws MalformedURLException {
+    privbte void pbrse(String uri) throws MblformedURLException {
         int i;  // index into URI
 
-        i = uri.indexOf(':');                           // parse scheme
+        i = uri.indexOf(':');                           // pbrse scheme
         if (i < 0) {
-            throw new MalformedURLException("Invalid URI: " + uri);
+            throw new MblformedURLException("Invblid URI: " + uri);
         }
         scheme = uri.substring(0, i);
-        i++;                                            // skip past ":"
+        i++;                                            // skip pbst ":"
 
-        hasAuthority = uri.startsWith("//", i);
-        if (hasAuthority) {                             // parse "//host:port"
-            i += 2;                                     // skip past "//"
-            int slash = uri.indexOf('/', i);
-            if (slash < 0) {
-                slash = uri.length();
+        hbsAuthority = uri.stbrtsWith("//", i);
+        if (hbsAuthority) {                             // pbrse "//host:port"
+            i += 2;                                     // skip pbst "//"
+            int slbsh = uri.indexOf('/', i);
+            if (slbsh < 0) {
+                slbsh = uri.length();
             }
-            if (uri.startsWith("[", i)) {               // at IPv6 literal
-                int brac = uri.indexOf(']', i + 1);
-                if (brac < 0 || brac > slash) {
-                    throw new MalformedURLException("Invalid URI: " + uri);
+            if (uri.stbrtsWith("[", i)) {               // bt IPv6 literbl
+                int brbc = uri.indexOf(']', i + 1);
+                if (brbc < 0 || brbc > slbsh) {
+                    throw new MblformedURLException("Invblid URI: " + uri);
                 }
-                host = uri.substring(i, brac + 1);      // include brackets
-                i = brac + 1;                           // skip past "[...]"
-            } else {                                    // at host name or IPv4
+                host = uri.substring(i, brbc + 1);      // include brbckets
+                i = brbc + 1;                           // skip pbst "[...]"
+            } else {                                    // bt host nbme or IPv4
                 int colon = uri.indexOf(':', i);
-                int hostEnd = (colon < 0 || colon > slash)
-                    ? slash
+                int hostEnd = (colon < 0 || colon > slbsh)
+                    ? slbsh
                     : colon;
                 if (i < hostEnd) {
                     host = uri.substring(i, hostEnd);
                 }
-                i = hostEnd;                            // skip past host
+                i = hostEnd;                            // skip pbst host
             }
 
-            if ((i + 1 < slash) &&
-                        uri.startsWith(":", i)) {       // parse port
-                i++;                                    // skip past ":"
-                port = Integer.parseInt(uri.substring(i, slash));
+            if ((i + 1 < slbsh) &&
+                        uri.stbrtsWith(":", i)) {       // pbrse port
+                i++;                                    // skip pbst ":"
+                port = Integer.pbrseInt(uri.substring(i, slbsh));
             }
-            i = slash;                                  // skip to path
+            i = slbsh;                                  // skip to pbth
         }
-        int qmark = uri.indexOf('?', i);                // look for query
-        if (qmark < 0) {
-            path = uri.substring(i);
+        int qmbrk = uri.indexOf('?', i);                // look for query
+        if (qmbrk < 0) {
+            pbth = uri.substring(i);
         } else {
-            path = uri.substring(i, qmark);
-            query = uri.substring(qmark);
+            pbth = uri.substring(i, qmbrk);
+            query = uri.substring(qmbrk);
         }
     }
 
 /*
     // Debug
-    public static void main(String args[]) throws MalformedURLException {
-        for (int i = 0; i < args.length; i++) {
-            Uri uri = new Uri(args[i]);
+    public stbtic void mbin(String brgs[]) throws MblformedURLException {
+        for (int i = 0; i < brgs.length; i++) {
+            Uri uri = new Uri(brgs[i]);
 
             String h = (uri.getHost() != null) ? uri.getHost() : "";
             String p = (uri.getPort() != -1) ? (":" + uri.getPort()) : "";
-            String a = uri.hasAuthority ? ("//" + h + p) : "";
+            String b = uri.hbsAuthority ? ("//" + h + p) : "";
             String q = (uri.getQuery() != null) ? uri.getQuery() : "";
 
-            String str = uri.getScheme() + ":" + a + uri.getPath() + q;
-            if (! uri.toString().equals(str)) {
+            String str = uri.getScheme() + ":" + b + uri.getPbth() + q;
+            if (! uri.toString().equbls(str)) {
                 System.out.println(str);
             }
             System.out.println(h);

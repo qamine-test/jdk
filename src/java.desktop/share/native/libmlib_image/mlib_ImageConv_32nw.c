@@ -1,38 +1,38 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *   Internal functions for mlib_ImageConv* on S32 type and
- *   MLIB_EDGE_DST_NO_WRITE mask
+ *   Internbl functions for mlib_ImbgeConv* on S32 type bnd
+ *   MLIB_EDGE_DST_NO_WRITE mbsk
  *
  */
 
-#include "mlib_image.h"
-#include "mlib_ImageConv.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeConv.h"
 
 /***************************************************************/
 #define BUFF_LINE  256
@@ -58,14 +58,14 @@
 
 /***************************************************************/
 #define GET_SRC_DST_PARAMETERS(type)                            \
-  mlib_s32 hgt = mlib_ImageGetHeight(src);                      \
-  mlib_s32 wid = mlib_ImageGetWidth(src);                       \
-  mlib_s32 sll = mlib_ImageGetStride(src) / sizeof(type);       \
-  mlib_s32 dll = mlib_ImageGetStride(dst) / sizeof(type);       \
-  type*    adr_src = mlib_ImageGetData(src);                    \
-  type*    adr_dst = mlib_ImageGetData(dst);                    \
-  mlib_s32 chan1 = mlib_ImageGetChannels(src)
-/*  mlib_s32 chan2 = chan1 + chan1 */
+  mlib_s32 hgt = mlib_ImbgeGetHeight(src);                      \
+  mlib_s32 wid = mlib_ImbgeGetWidth(src);                       \
+  mlib_s32 sll = mlib_ImbgeGetStride(src) / sizeof(type);       \
+  mlib_s32 dll = mlib_ImbgeGetStride(dst) / sizeof(type);       \
+  type*    bdr_src = mlib_ImbgeGetDbtb(src);                    \
+  type*    bdr_dst = mlib_ImbgeGetDbtb(dst);                    \
+  mlib_s32 chbn1 = mlib_ImbgeGetChbnnels(src)
+/*  mlib_s32 chbn2 = chbn1 + chbn1 */
 
 /***************************************************************/
 #define DEF_VARS(type)                                          \
@@ -73,7 +73,7 @@
   type     *sl, *sp, *sl1, *dl, *dp;                            \
   mlib_d64 *pbuff = buff, *buff0, *buff1, *buff2, *buffT;       \
   mlib_s32 i, j, c;                                             \
-  mlib_d64 scalef, d0, d1
+  mlib_d64 scblef, d0, d1
 
 /***************************************************************/
 #define DEF_VARS_MxN(type)                                      \
@@ -84,23 +84,23 @@
 
 /***************************************************************/
 #define CALC_SCALE()                                            \
-  scalef = 1.0;                                                 \
-  while (scalef_expon > 30) {                                   \
-    scalef /= (1 << 30);                                        \
-    scalef_expon -= 30;                                         \
+  scblef = 1.0;                                                 \
+  while (scblef_expon > 30) {                                   \
+    scblef /= (1 << 30);                                        \
+    scblef_expon -= 30;                                         \
   }                                                             \
                                                                 \
-  scalef /= (1 << scalef_expon)
+  scblef /= (1 << scblef_expon)
 
 /***************************************************************/
 #undef  KSIZE
 #define KSIZE 2
 
-mlib_status CONV_FUNC(2x2)(mlib_image       *dst,
-                           const mlib_image *src,
+mlib_stbtus CONV_FUNC(2x2)(mlib_imbge       *dst,
+                           const mlib_imbge *src,
                            const mlib_s32   *kern,
-                           mlib_s32         scalef_expon,
-                           mlib_s32         cmask)
+                           mlib_s32         scblef_expon,
+                           mlib_s32         cmbsk)
 {
   mlib_d64 buff[(KSIZE + 1)*BUFF_LINE];
   mlib_d64 k0, k1, k2, k3;
@@ -108,11 +108,11 @@ mlib_status CONV_FUNC(2x2)(mlib_image       *dst,
            p10, p11, p12, p13;
   mlib_d64 d2;
   DEF_VARS(mlib_s32);
-  mlib_s32 chan2 = chan1 + chan1;
-  mlib_s32 chan3 = chan1 + chan2;
+  mlib_s32 chbn2 = chbn1 + chbn1;
+  mlib_s32 chbn3 = chbn1 + chbn2;
 
   if (wid > BUFF_LINE) {
-    pbuff = mlib_malloc((KSIZE + 1)*sizeof(mlib_d64)*wid);
+    pbuff = mlib_mblloc((KSIZE + 1)*sizeof(mlib_d64)*wid);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -126,22 +126,22 @@ mlib_status CONV_FUNC(2x2)(mlib_image       *dst,
 
   /* keep kernel in regs */
   CALC_SCALE();
-  k0 = scalef * kern[0];  k1 = scalef * kern[1];
-  k2 = scalef * kern[2];  k3 = scalef * kern[3];
+  k0 = scblef * kern[0];  k1 = scblef * kern[1];
+  k2 = scblef * kern[2];  k3 = scblef * kern[3];
 
-  for (c = 0; c < chan1; c++) {
-    if (!(cmask & (1 << (chan1 - 1 - c)))) continue;
+  for (c = 0; c < chbn1; c++) {
+    if (!(cmbsk & (1 << (chbn1 - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     sl1 = sl + sll;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid + (KSIZE - 1); i++) {
-      buff0[i] = (mlib_d64)sl[i*chan1];
-      buff1[i] = (mlib_d64)sl1[i*chan1];
+      buff0[i] = (mlib_d64)sl[i*chbn1];
+      buff1[i] = (mlib_d64)sl1[i*chbn1];
     }
 
     sl += KSIZE*sll;
@@ -154,7 +154,7 @@ mlib_status CONV_FUNC(2x2)(mlib_image       *dst,
       dp = dl;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 3); i += 3) {
 
@@ -165,19 +165,19 @@ mlib_status CONV_FUNC(2x2)(mlib_image       *dst,
         p03 = buff0[i + 3]; p13 = buff1[i + 3];
 
         buff2[i    ] = (mlib_d64)sp[0];
-        buff2[i + 1] = (mlib_d64)sp[chan1];
-        buff2[i + 2] = (mlib_d64)sp[chan2];
+        buff2[i + 1] = (mlib_d64)sp[chbn1];
+        buff2[i + 2] = (mlib_d64)sp[chbn2];
 
         d0 = p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3;
         d1 = p01 * k0 + p02 * k1 + p11 * k2 + p12 * k3;
         d2 = p02 * k0 + p03 * k1 + p12 * k2 + p13 * k3;
 
         CLAMP_S32(dp[0    ], d0);
-        CLAMP_S32(dp[chan1], d1);
-        CLAMP_S32(dp[chan2], d2);
+        CLAMP_S32(dp[chbn1], d1);
+        CLAMP_S32(dp[chbn2], d2);
 
-        sp += chan3;
-        dp += chan3;
+        sp += chbn3;
+        dp += chbn3;
       }
 
       for (; i < wid; i++) {
@@ -189,8 +189,8 @@ mlib_status CONV_FUNC(2x2)(mlib_image       *dst,
         d0 = p00 * k0 + p01 * k1 + p10 * k2 + p11 * k3;
         CLAMP_S32(dp[0], d0);
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       buff2[wid] = (mlib_d64)sp[0];
@@ -214,11 +214,11 @@ mlib_status CONV_FUNC(2x2)(mlib_image       *dst,
 #undef  KSIZE
 #define KSIZE 3
 
-mlib_status CONV_FUNC(3x3)(mlib_image       *dst,
-                           const mlib_image *src,
+mlib_stbtus CONV_FUNC(3x3)(mlib_imbge       *dst,
+                           const mlib_imbge *src,
                            const mlib_s32   *kern,
-                           mlib_s32         scalef_expon,
-                           mlib_s32         cmask)
+                           mlib_s32         scblef_expon,
+                           mlib_s32         cmbsk)
 {
   mlib_d64 buff[(KSIZE + 1)*BUFF_LINE], *buff3;
   mlib_d64 k0, k1, k2, k3, k4, k5, k6, k7, k8;
@@ -227,10 +227,10 @@ mlib_status CONV_FUNC(3x3)(mlib_image       *dst,
            p20, p21, p22, p23;
   mlib_s32 *sl2;
   DEF_VARS(mlib_s32);
-  mlib_s32 chan2 = chan1 + chan1;
+  mlib_s32 chbn2 = chbn1 + chbn1;
 
   if (wid > BUFF_LINE) {
-    pbuff = mlib_malloc((KSIZE + 1)*sizeof(mlib_d64)*wid);
+    pbuff = mlib_mblloc((KSIZE + 1)*sizeof(mlib_d64)*wid);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -243,28 +243,28 @@ mlib_status CONV_FUNC(3x3)(mlib_image       *dst,
   wid -= (KSIZE - 1);
   hgt -= (KSIZE - 1);
 
-  adr_dst += ((KSIZE - 1)/2)*(dll + chan1);
+  bdr_dst += ((KSIZE - 1)/2)*(dll + chbn1);
 
   CALC_SCALE();
-  k0 = scalef * kern[0];  k1 = scalef * kern[1];  k2 = scalef * kern[2];
-  k3 = scalef * kern[3];  k4 = scalef * kern[4];  k5 = scalef * kern[5];
-  k6 = scalef * kern[6];  k7 = scalef * kern[7];  k8 = scalef * kern[8];
+  k0 = scblef * kern[0];  k1 = scblef * kern[1];  k2 = scblef * kern[2];
+  k3 = scblef * kern[3];  k4 = scblef * kern[4];  k5 = scblef * kern[5];
+  k6 = scblef * kern[6];  k7 = scblef * kern[7];  k8 = scblef * kern[8];
 
-  for (c = 0; c < chan1; c++) {
-    if (!(cmask & (1 << (chan1 - 1 - c)))) continue;
+  for (c = 0; c < chbn1; c++) {
+    if (!(cmbsk & (1 << (chbn1 - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     sl1 = sl  + sll;
     sl2 = sl1 + sll;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid + (KSIZE - 1); i++) {
-      buff0[i] = (mlib_d64)sl[i*chan1];
-      buff1[i] = (mlib_d64)sl1[i*chan1];
-      buff2[i] = (mlib_d64)sl2[i*chan1];
+      buff0[i] = (mlib_d64)sl[i*chbn1];
+      buff1[i] = (mlib_d64)sl1[i*chbn1];
+      buff2[i] = (mlib_d64)sl2[i*chbn1];
     }
 
     sl += KSIZE*sll;
@@ -287,26 +287,26 @@ mlib_status CONV_FUNC(3x3)(mlib_image       *dst,
       s1 = p03 * k0 + p13 * k3 + p23 * k6;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
         p02 = buff0[i + 2]; p12 = buff1[i + 2]; p22 = buff2[i + 2];
         p03 = buff0[i + 3]; p13 = buff1[i + 3]; p23 = buff2[i + 3];
 
         buff3[i    ] = (mlib_d64)sp[0];
-        buff3[i + 1] = (mlib_d64)sp[chan1];
+        buff3[i + 1] = (mlib_d64)sp[chbn1];
 
         d0 = s0 + p02 * k2 + p12 * k5 + p22 * k8;
         d1 = s1 + p02 * k1 + p03 * k2 + p12 * k4 + p13 * k5 + p22 * k7 + p23 * k8;
 
         CLAMP_S32(dp[0    ], d0);
-        CLAMP_S32(dp[chan1], d1);
+        CLAMP_S32(dp[chbn1], d1);
 
         s0 = p02 * k0 + p03 * k1 + p12 * k3 + p13 * k4 + p22 * k6 + p23 * k7;
         s1 = p03 * k0 + p13 * k3 + p23 * k6;
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       for (; i < wid; i++) {
@@ -321,12 +321,12 @@ mlib_status CONV_FUNC(3x3)(mlib_image       *dst,
 
         CLAMP_S32(dp[0], d0);
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       buff3[wid    ] = (mlib_d64)sp[0];
-      buff3[wid + 1] = (mlib_d64)sp[chan1];
+      buff3[wid + 1] = (mlib_d64)sp[chbn1];
 
       sl += sll;
       dl += dll;
@@ -348,11 +348,11 @@ mlib_status CONV_FUNC(3x3)(mlib_image       *dst,
 #undef  KSIZE
 #define KSIZE 4
 
-mlib_status CONV_FUNC(4x4)(mlib_image       *dst,
-                           const mlib_image *src,
+mlib_stbtus CONV_FUNC(4x4)(mlib_imbge       *dst,
+                           const mlib_imbge *src,
                            const mlib_s32   *kern,
-                           mlib_s32         scalef_expon,
-                           mlib_s32         cmask)
+                           mlib_s32         scblef_expon,
+                           mlib_s32         cmbsk)
 {
   mlib_d64 buff[(KSIZE + 2)*BUFF_LINE], *buff3, *buff4, *buff5;
   mlib_d64 k[KSIZE*KSIZE];
@@ -363,10 +363,10 @@ mlib_status CONV_FUNC(4x4)(mlib_image       *dst,
            p30, p31, p32, p33;
   mlib_s32 *sl2, *sl3;
   DEF_VARS(mlib_s32);
-  mlib_s32 chan2 = chan1 + chan1;
+  mlib_s32 chbn2 = chbn1 + chbn1;
 
   if (wid > BUFF_LINE) {
-    pbuff = mlib_malloc((KSIZE + 2)*sizeof(mlib_d64)*wid);
+    pbuff = mlib_mblloc((KSIZE + 2)*sizeof(mlib_d64)*wid);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -381,28 +381,28 @@ mlib_status CONV_FUNC(4x4)(mlib_image       *dst,
   wid -= (KSIZE - 1);
   hgt -= (KSIZE - 1);
 
-  adr_dst += ((KSIZE - 1)/2)*(dll + chan1);
+  bdr_dst += ((KSIZE - 1)/2)*(dll + chbn1);
 
   CALC_SCALE();
-  for (j = 0; j < 16; j++) k[j] = scalef * kern[j];
+  for (j = 0; j < 16; j++) k[j] = scblef * kern[j];
 
-  for (c = 0; c < chan1; c++) {
-    if (!(cmask & (1 << (chan1 - 1 - c)))) continue;
+  for (c = 0; c < chbn1; c++) {
+    if (!(cmbsk & (1 << (chbn1 - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     sl1 = sl  + sll;
     sl2 = sl1 + sll;
     sl3 = sl2 + sll;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid + (KSIZE - 1); i++) {
-      buff0[i] = (mlib_d64)sl[i*chan1];
-      buff1[i] = (mlib_d64)sl1[i*chan1];
-      buff2[i] = (mlib_d64)sl2[i*chan1];
-      buff3[i] = (mlib_d64)sl3[i*chan1];
+      buff0[i] = (mlib_d64)sl[i*chbn1];
+      buff1[i] = (mlib_d64)sl1[i*chbn1];
+      buff2[i] = (mlib_d64)sl2[i*chbn1];
+      buff3[i] = (mlib_d64)sl3[i*chbn1];
     }
 
     sl += KSIZE*sll;
@@ -424,7 +424,7 @@ mlib_status CONV_FUNC(4x4)(mlib_image       *dst,
       p04 = buff0[2];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
         p00 = p02; p10 = p12;
@@ -434,19 +434,19 @@ mlib_status CONV_FUNC(4x4)(mlib_image       *dst,
         p04 = buff0[i + 4]; p14 = buff1[i + 4];
 
         buff4[i] = (mlib_d64)sp[0];
-        buff4[i + 1] = (mlib_d64)sp[chan1];
+        buff4[i + 1] = (mlib_d64)sp[chbn1];
 
         buff5[i    ] = (p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 +
                         p10 * k4 + p11 * k5 + p12 * k6 + p13 * k7);
         buff5[i + 1] = (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 +
                         p11 * k4 + p12 * k5 + p13 * k6 + p14 * k7);
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       /*
-       *  Second loop on two last lines of kernel
+       *  Second loop on two lbst lines of kernel
        */
       k0 = k[ 8]; k1 = k[ 9]; k2 = k[10]; k3 = k[11];
       k4 = k[12]; k5 = k[13]; k6 = k[14]; k7 = k[15];
@@ -461,7 +461,7 @@ mlib_status CONV_FUNC(4x4)(mlib_image       *dst,
       p04 = buff2[2];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
         p00 = p02; p10 = p12;
@@ -476,13 +476,13 @@ mlib_status CONV_FUNC(4x4)(mlib_image       *dst,
               p11 * k4 + p12 * k5 + p13 * k6 + p14 * k7 + buff5[i + 1]);
 
         CLAMP_S32(dp[0    ], d0);
-        CLAMP_S32(dp[chan1], d1);
+        CLAMP_S32(dp[chbn1], d1);
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
-      /* last pixels */
+      /* lbst pixels */
       for (; i < wid; i++) {
         p00 = buff0[i];     p10 = buff1[i];     p20 = buff2[i];     p30 = buff3[i];
         p01 = buff0[i + 1]; p11 = buff1[i + 1]; p21 = buff2[i + 1]; p31 = buff3[i + 1];
@@ -498,13 +498,13 @@ mlib_status CONV_FUNC(4x4)(mlib_image       *dst,
 
         CLAMP_S32(dp[0], d0);
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       buff4[wid    ] = (mlib_d64)sp[0];
-      buff4[wid + 1] = (mlib_d64)sp[chan1];
-      buff4[wid + 2] = (mlib_d64)sp[chan2];
+      buff4[wid + 1] = (mlib_d64)sp[chbn1];
+      buff4[wid + 2] = (mlib_d64)sp[chbn2];
 
       /* next line */
       sl += sll;
@@ -528,11 +528,11 @@ mlib_status CONV_FUNC(4x4)(mlib_image       *dst,
 #undef  KSIZE
 #define KSIZE 5
 
-mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
-                           const mlib_image *src,
+mlib_stbtus CONV_FUNC(5x5)(mlib_imbge       *dst,
+                           const mlib_imbge *src,
                            const mlib_s32   *kern,
-                           mlib_s32         scalef_expon,
-                           mlib_s32         cmask)
+                           mlib_s32         scblef_expon,
+                           mlib_s32         cmbsk)
 {
   mlib_d64 buff[(KSIZE + 2)*BUFF_LINE], *buff3, *buff4, *buff5, *buff6;
   mlib_d64 k[KSIZE*KSIZE];
@@ -544,11 +544,11 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
            p40, p41, p42, p43, p44;
   mlib_s32 *sl2, *sl3, *sl4;
   DEF_VARS(mlib_s32);
-  mlib_s32 chan2 = chan1 + chan1;
-  mlib_s32 chan3 = chan1 + chan2;
+  mlib_s32 chbn2 = chbn1 + chbn1;
+  mlib_s32 chbn3 = chbn1 + chbn2;
 
   if (wid > BUFF_LINE) {
-    pbuff = mlib_malloc((KSIZE + 2)*sizeof(mlib_d64)*wid);
+    pbuff = mlib_mblloc((KSIZE + 2)*sizeof(mlib_d64)*wid);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -564,30 +564,30 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
   wid -= (KSIZE - 1);
   hgt -= (KSIZE - 1);
 
-  adr_dst += ((KSIZE - 1)/2)*(dll + chan1);
+  bdr_dst += ((KSIZE - 1)/2)*(dll + chbn1);
 
   CALC_SCALE();
-  for (j = 0; j < 25; j++) k[j] = scalef * kern[j];
+  for (j = 0; j < 25; j++) k[j] = scblef * kern[j];
 
-  for (c = 0; c < chan1; c++) {
-    if (!(cmask & (1 << (chan1 - 1 - c)))) continue;
+  for (c = 0; c < chbn1; c++) {
+    if (!(cmbsk & (1 << (chbn1 - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     sl1 = sl  + sll;
     sl2 = sl1 + sll;
     sl3 = sl2 + sll;
     sl4 = sl3 + sll;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid + (KSIZE - 1); i++) {
-      buff0[i] = (mlib_d64)sl[i*chan1];
-      buff1[i] = (mlib_d64)sl1[i*chan1];
-      buff2[i] = (mlib_d64)sl2[i*chan1];
-      buff3[i] = (mlib_d64)sl3[i*chan1];
-      buff4[i] = (mlib_d64)sl4[i*chan1];
+      buff0[i] = (mlib_d64)sl[i*chbn1];
+      buff1[i] = (mlib_d64)sl1[i*chbn1];
+      buff2[i] = (mlib_d64)sl2[i*chbn1];
+      buff3[i] = (mlib_d64)sl3[i*chbn1];
+      buff4[i] = (mlib_d64)sl4[i*chbn1];
     }
 
     sl += KSIZE*sll;
@@ -610,7 +610,7 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
       p14 = buff1[2];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
         p00 = p02; p10 = p12;
@@ -626,8 +626,8 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
         buff6[i + 1] = (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 +
                         p11 * k5 + p12 * k6 + p13 * k7 + p14 * k8 + p15 * k9);
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       /*
@@ -645,7 +645,7 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
       p13 = buff3[1];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
         p00 = p02; p10 = p12;
@@ -661,8 +661,8 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
         buff6[i + 1] += (p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 +
                          p11 * k5 + p12 * k6 + p13 * k7 + p14 * k8 + p15 * k9);
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
       /*
@@ -679,7 +679,7 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
       p05 = buff4[3];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i <= (wid - 2); i += 2) {
         p00 = p02; p01 = p03; p02 = p04; p03 = p05;
@@ -687,19 +687,19 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
         p04 = buff4[i + 4]; p05 = buff4[i + 5];
 
         buff5[i    ] = (mlib_d64)sp[0];
-        buff5[i + 1] = (mlib_d64)sp[chan1];
+        buff5[i + 1] = (mlib_d64)sp[chbn1];
 
         d0 = p00 * k0 + p01 * k1 + p02 * k2 + p03 * k3 + p04 * k4 + buff6[i];
         d1 = p01 * k0 + p02 * k1 + p03 * k2 + p04 * k3 + p05 * k4 + buff6[i + 1];
 
         CLAMP_S32(dp[0    ], d0);
-        CLAMP_S32(dp[chan1], d1);
+        CLAMP_S32(dp[chbn1], d1);
 
-        sp += chan2;
-        dp += chan2;
+        sp += chbn2;
+        dp += chbn2;
       }
 
-      /* last pixels */
+      /* lbst pixels */
       for (; i < wid; i++) {
         p00 = buff0[i];     p10 = buff1[i];     p20 = buff2[i];     p30 = buff3[i];
         p01 = buff0[i + 1]; p11 = buff1[i + 1]; p21 = buff2[i + 1]; p31 = buff3[i + 1];
@@ -720,14 +720,14 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
 
         CLAMP_S32(dp[0], d0);
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
       buff5[wid    ] = (mlib_d64)sp[0];
-      buff5[wid + 1] = (mlib_d64)sp[chan1];
-      buff5[wid + 2] = (mlib_d64)sp[chan2];
-      buff5[wid + 3] = (mlib_d64)sp[chan3];
+      buff5[wid + 1] = (mlib_d64)sp[chbn1];
+      buff5[wid + 2] = (mlib_d64)sp[chbn2];
+      buff5[wid + 3] = (mlib_d64)sp[chbn3];
 
       /* next line */
       sl += sll;
@@ -752,11 +752,11 @@ mlib_status CONV_FUNC(5x5)(mlib_image       *dst,
 #undef  KSIZE
 #define KSIZE 7
 
-mlib_status CONV_FUNC(7x7)(mlib_image       *dst,
-                           const mlib_image *src,
+mlib_stbtus CONV_FUNC(7x7)(mlib_imbge       *dst,
+                           const mlib_imbge *src,
                            const mlib_s32   *kern,
-                           mlib_s32         scalef_expon,
-                           mlib_s32         cmask)
+                           mlib_s32         scblef_expon,
+                           mlib_s32         cmbsk)
 {
   mlib_d64 buff[(KSIZE + 2)*BUFF_LINE], *buffs[2*(KSIZE + 1)], *buffd;
   mlib_d64 k[KSIZE*KSIZE];
@@ -764,13 +764,13 @@ mlib_status CONV_FUNC(7x7)(mlib_image       *dst,
   mlib_d64 p0, p1, p2, p3, p4, p5, p6, p7;
   mlib_d64 d0, d1;
   mlib_s32 l, m, buff_ind, *sl2, *sl3, *sl4, *sl5, *sl6;
-  mlib_d64 scalef;
+  mlib_d64 scblef;
   DEF_VARS_MxN(mlib_s32);
-  mlib_s32 chan2 = chan1 + chan1;
+  mlib_s32 chbn2 = chbn1 + chbn1;
   mlib_s32 *sl1;
 
   if (wid > BUFF_LINE) {
-    pbuff = mlib_malloc((KSIZE + 2)*sizeof(mlib_d64)*wid);
+    pbuff = mlib_mblloc((KSIZE + 2)*sizeof(mlib_d64)*wid);
 
     if (pbuff == NULL) return MLIB_FAILURE;
   }
@@ -782,16 +782,16 @@ mlib_status CONV_FUNC(7x7)(mlib_image       *dst,
   wid -= (KSIZE - 1);
   hgt -= (KSIZE - 1);
 
-  adr_dst += ((KSIZE - 1)/2)*(dll + chan1);
+  bdr_dst += ((KSIZE - 1)/2)*(dll + chbn1);
 
   CALC_SCALE();
-  for (j = 0; j < 49; j++) k[j] = scalef * kern[j];
+  for (j = 0; j < 49; j++) k[j] = scblef * kern[j];
 
-  for (c = 0; c < chan1; c++) {
-    if (!(cmask & (1 << (chan1 - 1 - c)))) continue;
+  for (c = 0; c < chbn1; c++) {
+    if (!(cmbsk & (1 << (chbn1 - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     sl1 = sl  + sll;
     sl2 = sl1 + sll;
@@ -800,22 +800,22 @@ mlib_status CONV_FUNC(7x7)(mlib_image       *dst,
     sl5 = sl4 + sll;
     sl6 = sl5 + sll;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid + (KSIZE - 1); i++) {
-      buffs[0][i] = (mlib_d64)sl[i*chan1];
-      buffs[1][i] = (mlib_d64)sl1[i*chan1];
-      buffs[2][i] = (mlib_d64)sl2[i*chan1];
-      buffs[3][i] = (mlib_d64)sl3[i*chan1];
-      buffs[4][i] = (mlib_d64)sl4[i*chan1];
-      buffs[5][i] = (mlib_d64)sl5[i*chan1];
-      buffs[6][i] = (mlib_d64)sl6[i*chan1];
+      buffs[0][i] = (mlib_d64)sl[i*chbn1];
+      buffs[1][i] = (mlib_d64)sl1[i*chbn1];
+      buffs[2][i] = (mlib_d64)sl2[i*chbn1];
+      buffs[3][i] = (mlib_d64)sl3[i*chbn1];
+      buffs[4][i] = (mlib_d64)sl4[i*chbn1];
+      buffs[5][i] = (mlib_d64)sl5[i*chbn1];
+      buffs[6][i] = (mlib_d64)sl6[i*chbn1];
     }
 
     buff_ind = 0;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid; i++) buffd[i] = 0.0;
 
@@ -840,7 +840,7 @@ mlib_status CONV_FUNC(7x7)(mlib_image       *dst,
 
         if (l < (KSIZE - 1)) {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
           for (i = 0; i <= (wid - 2); i += 2) {
             p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
@@ -853,7 +853,7 @@ mlib_status CONV_FUNC(7x7)(mlib_image       *dst,
 
         } else {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
           for (i = 0; i <= (wid - 2); i += 2) {
             p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
@@ -861,24 +861,24 @@ mlib_status CONV_FUNC(7x7)(mlib_image       *dst,
             p6 = buff[i + 6]; p7 = buff[i + 7];
 
             buffn[i    ] = (mlib_d64)sp[0];
-            buffn[i + 1] = (mlib_d64)sp[chan1];
+            buffn[i + 1] = (mlib_d64)sp[chbn1];
 
             d0 = p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6 + buffd[i    ];
             d1 = p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6 + buffd[i + 1];
 
             CLAMP_S32(dp[0    ], d0);
-            CLAMP_S32(dp[chan1], d1);
+            CLAMP_S32(dp[chbn1], d1);
 
             buffd[i    ] = 0.0;
             buffd[i + 1] = 0.0;
 
-            sp += chan2;
-            dp += chan2;
+            sp += chbn2;
+            dp += chbn2;
           }
         }
       }
 
-      /* last pixels */
+      /* lbst pixels */
       for (; i < wid; i++) {
         mlib_d64 *pk = k, s = 0;
 
@@ -892,11 +892,11 @@ mlib_status CONV_FUNC(7x7)(mlib_image       *dst,
 
         buffn[i] = (mlib_d64)sp[0];
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
-      for (l = 0; l < (KSIZE - 1); l++) buffn[wid + l] = sp[l*chan1];
+      for (l = 0; l < (KSIZE - 1); l++) buffn[wid + l] = sp[l*chbn1];
 
       /* next line */
       sl += sll;
@@ -919,12 +919,12 @@ mlib_status CONV_FUNC(7x7)(mlib_image       *dst,
 
 #define BUFF_SIZE  1600
 
-static mlib_status mlib_ImageConv1xN(mlib_image       *dst,
-                                     const mlib_image *src,
+stbtic mlib_stbtus mlib_ImbgeConv1xN(mlib_imbge       *dst,
+                                     const mlib_imbge *src,
                                      const mlib_d64   *k,
                                      mlib_s32         n,
                                      mlib_s32         dn,
-                                     mlib_s32         cmask)
+                                     mlib_s32         cmbsk)
 {
   FTYPE    buff[BUFF_SIZE];
   mlib_s32 off, kh;
@@ -932,36 +932,36 @@ static mlib_status mlib_ImageConv1xN(mlib_image       *dst,
   FTYPE    k0, k1, k2, k3, d0, d1;
   FTYPE    p0, p1, p2, p3, p4;
   DTYPE    *sl_c, *dl_c, *sl0;
-  mlib_s32 l, hsize, max_hsize;
+  mlib_s32 l, hsize, mbx_hsize;
   DEF_VARS_MxN(DTYPE);
 
   hgt -= (n - 1);
-  adr_dst += dn*dll;
+  bdr_dst += dn*dll;
 
-  max_hsize = (CACHE_SIZE/sizeof(DTYPE))/sll;
+  mbx_hsize = (CACHE_SIZE/sizeof(DTYPE))/sll;
 
-  if (!max_hsize) max_hsize = 1;
+  if (!mbx_hsize) mbx_hsize = 1;
 
-  if (max_hsize > BUFF_SIZE) {
-    pbuff = mlib_malloc(sizeof(FTYPE)*max_hsize);
+  if (mbx_hsize > BUFF_SIZE) {
+    pbuff = mlib_mblloc(sizeof(FTYPE)*mbx_hsize);
   }
 
-  sl_c = adr_src;
-  dl_c = adr_dst;
+  sl_c = bdr_src;
+  dl_c = bdr_dst;
 
   for (l = 0; l < hgt; l += hsize) {
     hsize = hgt - l;
 
-    if (hsize > max_hsize) hsize = max_hsize;
+    if (hsize > mbx_hsize) hsize = mbx_hsize;
 
-    for (c = 0; c < chan1; c++) {
-    if (!(cmask & (1 << (chan1 - 1 - c)))) continue;
+    for (c = 0; c < chbn1; c++) {
+    if (!(cmbsk & (1 << (chbn1 - 1 - c)))) continue;
 
       sl = sl_c + c;
       dl = dl_c + c;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (j = 0; j < hsize; j++) pbuff[j] = 0.0;
 
@@ -977,7 +977,7 @@ static mlib_status mlib_ImageConv1xN(mlib_image       *dst,
           sp += 3*sll;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
           for (j = 0; j < hsize; j += 2) {
             p0 = p2; p1 = p3; p2 = p4;
@@ -1006,7 +1006,7 @@ static mlib_status mlib_ImageConv1xN(mlib_image       *dst,
           sp += 3*sll;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
           for (j = 0; j <= (hsize - 2); j += 2) {
             p0 = p2; p1 = p3; p2 = p4;
@@ -1039,7 +1039,7 @@ static mlib_status mlib_ImageConv1xN(mlib_image       *dst,
           sp += 2*sll;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
           for (j = 0; j <= (hsize - 2); j += 2) {
             p0 = p2; p1 = p3;
@@ -1072,7 +1072,7 @@ static mlib_status mlib_ImageConv1xN(mlib_image       *dst,
           sp += sll;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
           for (j = 0; j <= (hsize - 2); j += 2) {
             p0 = p2;
@@ -1103,7 +1103,7 @@ static mlib_status mlib_ImageConv1xN(mlib_image       *dst,
 
         } else /* if (kh == 1) */ {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
           for (j = 0; j < hsize; j++) {
             p0 = sp[0];
@@ -1118,13 +1118,13 @@ static mlib_status mlib_ImageConv1xN(mlib_image       *dst,
           }
         }
 
-        sl += chan1;
-        dl += chan1;
+        sl += chbn1;
+        dl += chbn1;
       }
     }
 
-    sl_c += max_hsize*sll;
-    dl_c += max_hsize*dll;
+    sl_c += mbx_hsize*sll;
+    dl_c += mbx_hsize*dll;
   }
 
   if (pbuff != buff) mlib_free(pbuff);
@@ -1140,59 +1140,59 @@ static mlib_status mlib_ImageConv1xN(mlib_image       *dst,
 #undef  BUFF_SIZE
 #define BUFF_SIZE 1500
 
-mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
-                           const mlib_image *src,
+mlib_stbtus CONV_FUNC(MxN)(mlib_imbge       *dst,
+                           const mlib_imbge *src,
                            const mlib_s32   *kernel,
                            mlib_s32         m,
                            mlib_s32         n,
                            mlib_s32         dm,
                            mlib_s32         dn,
-                           mlib_s32         scale,
-                           mlib_s32         cmask)
+                           mlib_s32         scble,
+                           mlib_s32         cmbsk)
 {
-  mlib_d64  buff[BUFF_SIZE], *buffs_arr[2*(MAX_N + 1)];
-  mlib_d64  **buffs = buffs_arr, *buffd;
-  mlib_d64  akernel[256], *k = akernel, fscale = 1.0;
+  mlib_d64  buff[BUFF_SIZE], *buffs_brr[2*(MAX_N + 1)];
+  mlib_d64  **buffs = buffs_brr, *buffd;
+  mlib_d64  bkernel[256], *k = bkernel, fscble = 1.0;
   mlib_s32  l, off, kw, bsize, buff_ind, mn;
   mlib_d64  d0, d1;
   mlib_d64  k0, k1, k2, k3, k4, k5, k6;
   mlib_d64  p0, p1, p2, p3, p4, p5, p6, p7;
   DEF_VARS_MxN(mlib_s32);
-  mlib_s32 chan2 = chan1 + chan1;
+  mlib_s32 chbn2 = chbn1 + chbn1;
 
-  mlib_status status = MLIB_SUCCESS;
+  mlib_stbtus stbtus = MLIB_SUCCESS;
 
-  if (scale > 30) {
-    fscale *= 1.0/(1 << 30);
-    scale -= 30;
+  if (scble > 30) {
+    fscble *= 1.0/(1 << 30);
+    scble -= 30;
   }
 
-  fscale /= (1 << scale);
+  fscble /= (1 << scble);
 
   mn = m*n;
 
   if (mn > 256) {
-    k = mlib_malloc(mn*sizeof(mlib_d64));
+    k = mlib_mblloc(mn*sizeof(mlib_d64));
 
     if (k == NULL) return MLIB_FAILURE;
   }
 
   for (i = 0; i < mn; i++) {
-    k[i] = kernel[i]*fscale;
+    k[i] = kernel[i]*fscble;
   }
 
   if (m == 1) {
-    status = mlib_ImageConv1xN(dst, src, k, n, dn, cmask);
+    stbtus = mlib_ImbgeConv1xN(dst, src, k, n, dn, cmbsk);
     FREE_AND_RETURN_STATUS;
   }
 
   bsize = (n + 2)*wid;
 
   if ((bsize > BUFF_SIZE) || (n > MAX_N)) {
-    pbuff = mlib_malloc(sizeof(mlib_d64)*bsize + sizeof(mlib_d64*)*2*(n + 1));
+    pbuff = mlib_mblloc(sizeof(mlib_d64)*bsize + sizeof(mlib_d64*)*2*(n + 1));
 
     if (pbuff == NULL) {
-      status = MLIB_FAILURE;
+      stbtus = MLIB_FAILURE;
       FREE_AND_RETURN_STATUS;
     }
     buffs = (mlib_d64**)(pbuff + bsize);
@@ -1204,22 +1204,22 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
   wid -= (m - 1);
   hgt -= (n - 1);
-  adr_dst += dn*dll + dm*chan1;
+  bdr_dst += dn*dll + dm*chbn1;
 
-  for (c = 0; c < chan1; c++) {
-    if (!(cmask & (1 << (chan1 - 1 - c)))) continue;
+  for (c = 0; c < chbn1; c++) {
+    if (!(cmbsk & (1 << (chbn1 - 1 - c)))) continue;
 
-    sl = adr_src + c;
-    dl = adr_dst + c;
+    sl = bdr_src + c;
+    dl = bdr_dst + c;
 
     for (l = 0; l < n; l++) {
       mlib_d64 *buff = buffs[l];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i < wid + (m - 1); i++) {
-        buff[i] = (mlib_d64)sl[i*chan1];
+        buff[i] = (mlib_d64)sl[i*chbn1];
       }
 
       sl += sll;
@@ -1228,7 +1228,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
     buff_ind = 0;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < wid; i++) buffd[i] = 0.0;
 
@@ -1263,7 +1263,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             if (l < (n - 1) || off < m) {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
@@ -1276,7 +1276,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             } else {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6; p5 = p7;
@@ -1284,19 +1284,19 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
                 p6 = buff[i + 6]; p7 = buff[i + 7];
 
                 buffn[i    ] = (mlib_d64)sp[0];
-                buffn[i + 1] = (mlib_d64)sp[chan1];
+                buffn[i + 1] = (mlib_d64)sp[chbn1];
 
                 d0 = p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + p6*k6 + buffd[i    ];
                 d1 = p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + p7*k6 + buffd[i + 1];
 
                 CLAMP_S32(dp[0],     d0);
-                CLAMP_S32(dp[chan1], d1);
+                CLAMP_S32(dp[chbn1], d1);
 
                 buffd[i    ] = 0.0;
                 buffd[i + 1] = 0.0;
 
-                sp += chan2;
-                dp += chan2;
+                sp += chbn2;
+                dp += chbn2;
               }
             }
 
@@ -1304,7 +1304,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             if (l < (n - 1) || off < m) {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
@@ -1317,7 +1317,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             } else {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3; p2 = p4; p3 = p5; p4 = p6;
@@ -1325,19 +1325,19 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
                 p5 = buff[i + 5]; p6 = buff[i + 6];
 
                 buffn[i    ] = (mlib_d64)sp[0];
-                buffn[i + 1] = (mlib_d64)sp[chan1];
+                buffn[i + 1] = (mlib_d64)sp[chbn1];
 
                 d0 = p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + p5*k5 + buffd[i    ];
                 d1 = p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + p6*k5 + buffd[i + 1];
 
                 CLAMP_S32(dp[0],     d0);
-                CLAMP_S32(dp[chan1], d1);
+                CLAMP_S32(dp[chbn1], d1);
 
                 buffd[i    ] = 0.0;
                 buffd[i + 1] = 0.0;
 
-                sp += chan2;
-                dp += chan2;
+                sp += chbn2;
+                dp += chbn2;
               }
             }
 
@@ -1345,7 +1345,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             if (l < (n - 1) || off < m) {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3; p2 = p4; p3 = p5;
@@ -1358,7 +1358,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             } else {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3; p2 = p4; p3 = p5;
@@ -1366,19 +1366,19 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
                 p4 = buff[i + 4]; p5 = buff[i + 5];
 
                 buffn[i    ] = (mlib_d64)sp[0];
-                buffn[i + 1] = (mlib_d64)sp[chan1];
+                buffn[i + 1] = (mlib_d64)sp[chbn1];
 
                 d0 = p0*k0 + p1*k1 + p2*k2 + p3*k3 + p4*k4 + buffd[i    ];
                 d1 = p1*k0 + p2*k1 + p3*k2 + p4*k3 + p5*k4 + buffd[i + 1];
 
                 CLAMP_S32(dp[0],     d0);
-                CLAMP_S32(dp[chan1], d1);
+                CLAMP_S32(dp[chbn1], d1);
 
                 buffd[i    ] = 0.0;
                 buffd[i + 1] = 0.0;
 
-                sp += chan2;
-                dp += chan2;
+                sp += chbn2;
+                dp += chbn2;
               }
             }
 
@@ -1386,7 +1386,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             if (l < (n - 1) || off < m) {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3; p2 = p4;
@@ -1399,7 +1399,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             } else {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3; p2 = p4;
@@ -1407,19 +1407,19 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
                 p3 = buff[i + 3]; p4 = buff[i + 4];
 
                 buffn[i    ] = (mlib_d64)sp[0];
-                buffn[i + 1] = (mlib_d64)sp[chan1];
+                buffn[i + 1] = (mlib_d64)sp[chbn1];
 
                 d0 = p0*k0 + p1*k1 + p2*k2 + p3*k3 + buffd[i    ];
                 d1 = p1*k0 + p2*k1 + p3*k2 + p4*k3 + buffd[i + 1];
 
                 CLAMP_S32(dp[0],     d0);
-                CLAMP_S32(dp[chan1], d1);
+                CLAMP_S32(dp[chbn1], d1);
 
                 buffd[i    ] = 0.0;
                 buffd[i + 1] = 0.0;
 
-                sp += chan2;
-                dp += chan2;
+                sp += chbn2;
+                dp += chbn2;
               }
             }
 
@@ -1427,7 +1427,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             if (l < (n - 1) || off < m) {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3;
@@ -1440,7 +1440,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             } else {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2; p1 = p3;
@@ -1448,19 +1448,19 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
                 p2 = buff[i + 2]; p3 = buff[i + 3];
 
                 buffn[i    ] = (mlib_d64)sp[0];
-                buffn[i + 1] = (mlib_d64)sp[chan1];
+                buffn[i + 1] = (mlib_d64)sp[chbn1];
 
                 d0 = p0*k0 + p1*k1 + p2*k2 + buffd[i    ];
                 d1 = p1*k0 + p2*k1 + p3*k2 + buffd[i + 1];
 
                 CLAMP_S32(dp[0],     d0);
-                CLAMP_S32(dp[chan1], d1);
+                CLAMP_S32(dp[chbn1], d1);
 
                 buffd[i    ] = 0.0;
                 buffd[i + 1] = 0.0;
 
-                sp += chan2;
-                dp += chan2;
+                sp += chbn2;
+                dp += chbn2;
               }
             }
 
@@ -1468,7 +1468,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             if (l < (n - 1) || off < m) {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2;
@@ -1481,7 +1481,7 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
             } else {
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
               for (i = 0; i <= (wid - 2); i += 2) {
                 p0 = p2;
@@ -1489,26 +1489,26 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
                 p1 = buff[i + 1]; p2 = buff[i + 2];
 
                 buffn[i    ] = (mlib_d64)sp[0];
-                buffn[i + 1] = (mlib_d64)sp[chan1];
+                buffn[i + 1] = (mlib_d64)sp[chbn1];
 
                 d0 = p0*k0 + p1*k1 + buffd[i    ];
                 d1 = p1*k0 + p2*k1 + buffd[i + 1];
 
                 CLAMP_S32(dp[0],     d0);
-                CLAMP_S32(dp[chan1], d1);
+                CLAMP_S32(dp[chbn1], d1);
 
                 buffd[i    ] = 0.0;
                 buffd[i + 1] = 0.0;
 
-                sp += chan2;
-                dp += chan2;
+                sp += chbn2;
+                dp += chbn2;
               }
             }
           }
         }
       }
 
-      /* last pixels */
+      /* lbst pixels */
       for (; i < wid; i++) {
         mlib_d64 *pk = k, s = 0;
         mlib_s32 x;
@@ -1523,11 +1523,11 @@ mlib_status CONV_FUNC(MxN)(mlib_image       *dst,
 
         buffn[i] = (mlib_d64)sp[0];
 
-        sp += chan1;
-        dp += chan1;
+        sp += chbn1;
+        dp += chbn1;
       }
 
-      for (l = 0; l < (m - 1); l++) buffn[wid + l] = sp[l*chan1];
+      for (l = 0; l < (m - 1); l++) buffn[wid + l] = sp[l*chbn1];
 
       /* next line */
       sl += sll;

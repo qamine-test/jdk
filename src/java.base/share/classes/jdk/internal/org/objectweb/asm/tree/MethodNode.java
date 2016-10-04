@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,39 +56,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbckbge jdk.internbl.org.objectweb.bsm.tree;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Attribute;
+import jdk.internbl.org.objectweb.bsm.ClbssVisitor;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
 
 /**
- * A node that represents a method.
+ * A node thbt represents b method.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class MethodNode extends MethodVisitor {
+public clbss MethodNode extends MethodVisitor {
 
     /**
-     * The method's access flags (see {@link Opcodes}). This field also
-     * indicates if the method is synthetic and/or deprecated.
+     * The method's bccess flbgs (see {@link Opcodes}). This field blso
+     * indicbtes if the method is synthetic bnd/or deprecbted.
      */
-    public int access;
+    public int bccess;
 
     /**
-     * The method's name.
+     * The method's nbme.
      */
-    public String name;
+    public String nbme;
 
     /**
      * The method's descriptor (see {@link Type}).
@@ -96,343 +96,343 @@ public class MethodNode extends MethodVisitor {
     public String desc;
 
     /**
-     * The method's signature. May be <tt>null</tt>.
+     * The method's signbture. Mby be <tt>null</tt>.
      */
-    public String signature;
+    public String signbture;
 
     /**
-     * The internal names of the method's exception classes (see
-     * {@link Type#getInternalName() getInternalName}). This list is a list of
+     * The internbl nbmes of the method's exception clbsses (see
+     * {@link Type#getInternblNbme() getInternblNbme}). This list is b list of
      * {@link String} objects.
      */
     public List<String> exceptions;
 
     /**
-     * The method parameter info (access flags and name)
+     * The method pbrbmeter info (bccess flbgs bnd nbme)
      */
-    public List<ParameterNode> parameters;
+    public List<PbrbmeterNode> pbrbmeters;
 
     /**
-     * The runtime visible annotations of this method. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime visible bnnotbtions of this method. This list is b list of
+     * {@link AnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label visible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.AnnotbtionNode
+     * @lbbel visible
      */
-    public List<AnnotationNode> visibleAnnotations;
+    public List<AnnotbtionNode> visibleAnnotbtions;
 
     /**
-     * The runtime invisible annotations of this method. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime invisible bnnotbtions of this method. This list is b list of
+     * {@link AnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label invisible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.AnnotbtionNode
+     * @lbbel invisible
      */
-    public List<AnnotationNode> invisibleAnnotations;
+    public List<AnnotbtionNode> invisibleAnnotbtions;
 
     /**
-     * The runtime visible type annotations of this method. This list is a list
-     * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime visible type bnnotbtions of this method. This list is b list
+     * of {@link TypeAnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label visible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel visible
      */
-    public List<TypeAnnotationNode> visibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> visibleTypeAnnotbtions;
 
     /**
-     * The runtime invisible type annotations of this method. This list is a
-     * list of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime invisible type bnnotbtions of this method. This list is b
+     * list of {@link TypeAnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label invisible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel invisible
      */
-    public List<TypeAnnotationNode> invisibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> invisibleTypeAnnotbtions;
 
     /**
-     * The non standard attributes of this method. This list is a list of
-     * {@link Attribute} objects. May be <tt>null</tt>.
+     * The non stbndbrd bttributes of this method. This list is b list of
+     * {@link Attribute} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.Attribute
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.Attribute
      */
-    public List<Attribute> attrs;
+    public List<Attribute> bttrs;
 
     /**
-     * The default value of this annotation interface method. This field must be
-     * a {@link Byte}, {@link Boolean}, {@link Character}, {@link Short},
-     * {@link Integer}, {@link Long}, {@link Float}, {@link Double},
-     * {@link String} or {@link Type}, or an two elements String array (for
-     * enumeration values), a {@link AnnotationNode}, or a {@link List} of
-     * values of one of the preceding types. May be <tt>null</tt>.
+     * The defbult vblue of this bnnotbtion interfbce method. This field must be
+     * b {@link Byte}, {@link Boolebn}, {@link Chbrbcter}, {@link Short},
+     * {@link Integer}, {@link Long}, {@link Flobt}, {@link Double},
+     * {@link String} or {@link Type}, or bn two elements String brrby (for
+     * enumerbtion vblues), b {@link AnnotbtionNode}, or b {@link List} of
+     * vblues of one of the preceding types. Mby be <tt>null</tt>.
      */
-    public Object annotationDefault;
+    public Object bnnotbtionDefbult;
 
     /**
-     * The runtime visible parameter annotations of this method. These lists are
-     * lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime visible pbrbmeter bnnotbtions of this method. These lists bre
+     * lists of {@link AnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label invisible parameters
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.AnnotbtionNode
+     * @lbbel invisible pbrbmeters
      */
-    public List<AnnotationNode>[] visibleParameterAnnotations;
+    public List<AnnotbtionNode>[] visiblePbrbmeterAnnotbtions;
 
     /**
-     * The runtime invisible parameter annotations of this method. These lists
-     * are lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime invisible pbrbmeter bnnotbtions of this method. These lists
+     * bre lists of {@link AnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label visible parameters
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.AnnotbtionNode
+     * @lbbel visible pbrbmeters
      */
-    public List<AnnotationNode>[] invisibleParameterAnnotations;
+    public List<AnnotbtionNode>[] invisiblePbrbmeterAnnotbtions;
 
     /**
-     * The instructions of this method. This list is a list of
-     * {@link AbstractInsnNode} objects.
+     * The instructions of this method. This list is b list of
+     * {@link AbstrbctInsnNode} objects.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AbstractInsnNode
-     * @label instructions
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.AbstrbctInsnNode
+     * @lbbel instructions
      */
     public InsnList instructions;
 
     /**
-     * The try catch blocks of this method. This list is a list of
-     * {@link TryCatchBlockNode} objects.
+     * The try cbtch blocks of this method. This list is b list of
+     * {@link TryCbtchBlockNode} objects.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TryCbtchBlockNode
      */
-    public List<TryCatchBlockNode> tryCatchBlocks;
+    public List<TryCbtchBlockNode> tryCbtchBlocks;
 
     /**
-     * The maximum stack size of this method.
+     * The mbximum stbck size of this method.
      */
-    public int maxStack;
+    public int mbxStbck;
 
     /**
-     * The maximum number of local variables of this method.
+     * The mbximum number of locbl vbribbles of this method.
      */
-    public int maxLocals;
+    public int mbxLocbls;
 
     /**
-     * The local variables of this method. This list is a list of
-     * {@link LocalVariableNode} objects. May be <tt>null</tt>
+     * The locbl vbribbles of this method. This list is b list of
+     * {@link LocblVbribbleNode} objects. Mby be <tt>null</tt>
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.LocalVariableNode
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.LocblVbribbleNode
      */
-    public List<LocalVariableNode> localVariables;
+    public List<LocblVbribbleNode> locblVbribbles;
 
     /**
-     * The visible local variable annotations of this method. This list is a
-     * list of {@link LocalVariableAnnotationNode} objects. May be <tt>null</tt>
+     * The visible locbl vbribble bnnotbtions of this method. This list is b
+     * list of {@link LocblVbribbleAnnotbtionNode} objects. Mby be <tt>null</tt>
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.LocalVariableAnnotationNode
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.LocblVbribbleAnnotbtionNode
      */
-    public List<LocalVariableAnnotationNode> visibleLocalVariableAnnotations;
+    public List<LocblVbribbleAnnotbtionNode> visibleLocblVbribbleAnnotbtions;
 
     /**
-     * The invisible local variable annotations of this method. This list is a
-     * list of {@link LocalVariableAnnotationNode} objects. May be <tt>null</tt>
+     * The invisible locbl vbribble bnnotbtions of this method. This list is b
+     * list of {@link LocblVbribbleAnnotbtionNode} objects. Mby be <tt>null</tt>
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.LocalVariableAnnotationNode
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.LocblVbribbleAnnotbtionNode
      */
-    public List<LocalVariableAnnotationNode> invisibleLocalVariableAnnotations;
+    public List<LocblVbribbleAnnotbtionNode> invisibleLocblVbribbleAnnotbtions;
 
     /**
-     * If the accept method has been called on this object.
+     * If the bccept method hbs been cblled on this object.
      */
-    private boolean visited;
+    privbte boolebn visited;
 
     /**
-     * Constructs an uninitialized {@link MethodNode}. <i>Subclasses must not
-     * use this constructor</i>. Instead, they must use the
+     * Constructs bn uninitiblized {@link MethodNode}. <i>Subclbsses must not
+     * use this constructor</i>. Instebd, they must use the
      * {@link #MethodNode(int)} version.
      *
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
     public MethodNode() {
         this(Opcodes.ASM5);
-        if (getClass() != MethodNode.class) {
-            throw new IllegalStateException();
+        if (getClbss() != MethodNode.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Constructs an uninitialized {@link MethodNode}.
+     * Constructs bn uninitiblized {@link MethodNode}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
-    public MethodNode(final int api) {
-        super(api);
+    public MethodNode(finbl int bpi) {
+        super(bpi);
         this.instructions = new InsnList();
     }
 
     /**
-     * Constructs a new {@link MethodNode}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
+     * Constructs b new {@link MethodNode}. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the
      * {@link #MethodNode(int, int, String, String, String, String[])} version.
      *
-     * @param access
-     *            the method's access flags (see {@link Opcodes}). This
-     *            parameter also indicates if the method is synthetic and/or
-     *            deprecated.
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}). This
+     *            pbrbmeter blso indicbtes if the method is synthetic bnd/or
+     *            deprecbted.
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type}).
-     * @param signature
-     *            the method's signature. May be <tt>null</tt>.
-     * @param exceptions
-     *            the internal names of the method's exception classes (see
-     *            {@link Type#getInternalName() getInternalName}). May be
+     * @pbrbm signbture
+     *            the method's signbture. Mby be <tt>null</tt>.
+     * @pbrbm exceptions
+     *            the internbl nbmes of the method's exception clbsses (see
+     *            {@link Type#getInternblNbme() getInternblNbme}). Mby be
      *            <tt>null</tt>.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public MethodNode(final int access, final String name, final String desc,
-            final String signature, final String[] exceptions) {
-        this(Opcodes.ASM5, access, name, desc, signature, exceptions);
-        if (getClass() != MethodNode.class) {
-            throw new IllegalStateException();
+    public MethodNode(finbl int bccess, finbl String nbme, finbl String desc,
+            finbl String signbture, finbl String[] exceptions) {
+        this(Opcodes.ASM5, bccess, nbme, desc, signbture, exceptions);
+        if (getClbss() != MethodNode.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Constructs a new {@link MethodNode}.
+     * Constructs b new {@link MethodNode}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}). This
-     *            parameter also indicates if the method is synthetic and/or
-     *            deprecated.
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}). This
+     *            pbrbmeter blso indicbtes if the method is synthetic bnd/or
+     *            deprecbted.
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type}).
-     * @param signature
-     *            the method's signature. May be <tt>null</tt>.
-     * @param exceptions
-     *            the internal names of the method's exception classes (see
-     *            {@link Type#getInternalName() getInternalName}). May be
+     * @pbrbm signbture
+     *            the method's signbture. Mby be <tt>null</tt>.
+     * @pbrbm exceptions
+     *            the internbl nbmes of the method's exception clbsses (see
+     *            {@link Type#getInternblNbme() getInternblNbme}). Mby be
      *            <tt>null</tt>.
      */
-    public MethodNode(final int api, final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
-        super(api);
-        this.access = access;
-        this.name = name;
+    public MethodNode(finbl int bpi, finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl String[] exceptions) {
+        super(bpi);
+        this.bccess = bccess;
+        this.nbme = nbme;
         this.desc = desc;
-        this.signature = signature;
-        this.exceptions = new ArrayList<String>(exceptions == null ? 0
+        this.signbture = signbture;
+        this.exceptions = new ArrbyList<String>(exceptions == null ? 0
                 : exceptions.length);
-        boolean isAbstract = (access & Opcodes.ACC_ABSTRACT) != 0;
-        if (!isAbstract) {
-            this.localVariables = new ArrayList<LocalVariableNode>(5);
+        boolebn isAbstrbct = (bccess & Opcodes.ACC_ABSTRACT) != 0;
+        if (!isAbstrbct) {
+            this.locblVbribbles = new ArrbyList<LocblVbribbleNode>(5);
         }
-        this.tryCatchBlocks = new ArrayList<TryCatchBlockNode>();
+        this.tryCbtchBlocks = new ArrbyList<TryCbtchBlockNode>();
         if (exceptions != null) {
-            this.exceptions.addAll(Arrays.asList(exceptions));
+            this.exceptions.bddAll(Arrbys.bsList(exceptions));
         }
         this.instructions = new InsnList();
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the MethodVisitor abstract class
+    // Implementbtion of the MethodVisitor bbstrbct clbss
     // ------------------------------------------------------------------------
 
     @Override
-    public void visitParameter(String name, int access) {
-        if (parameters == null) {
-            parameters = new ArrayList<ParameterNode>(5);
+    public void visitPbrbmeter(String nbme, int bccess) {
+        if (pbrbmeters == null) {
+            pbrbmeters = new ArrbyList<PbrbmeterNode>(5);
         }
-        parameters.add(new ParameterNode(name, access));
+        pbrbmeters.bdd(new PbrbmeterNode(nbme, bccess));
     }
 
     @Override
-    @SuppressWarnings("serial")
-    public AnnotationVisitor visitAnnotationDefault() {
-        return new AnnotationNode(new ArrayList<Object>(0) {
+    @SuppressWbrnings("seribl")
+    public AnnotbtionVisitor visitAnnotbtionDefbult() {
+        return new AnnotbtionNode(new ArrbyList<Object>(0) {
             @Override
-            public boolean add(final Object o) {
-                annotationDefault = o;
-                return super.add(o);
+            public boolebn bdd(finbl Object o) {
+                bnnotbtionDefbult = o;
+                return super.bdd(o);
             }
         });
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        AnnotationNode an = new AnnotationNode(desc);
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
+        AnnotbtionNode bn = new AnnotbtionNode(desc);
         if (visible) {
-            if (visibleAnnotations == null) {
-                visibleAnnotations = new ArrayList<AnnotationNode>(1);
+            if (visibleAnnotbtions == null) {
+                visibleAnnotbtions = new ArrbyList<AnnotbtionNode>(1);
             }
-            visibleAnnotations.add(an);
+            visibleAnnotbtions.bdd(bn);
         } else {
-            if (invisibleAnnotations == null) {
-                invisibleAnnotations = new ArrayList<AnnotationNode>(1);
+            if (invisibleAnnotbtions == null) {
+                invisibleAnnotbtions = new ArrbyList<AnnotbtionNode>(1);
             }
-            invisibleAnnotations.add(an);
+            invisibleAnnotbtions.bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
+    public AnnotbtionVisitor visitTypeAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        TypeAnnotbtionNode bn = new TypeAnnotbtionNode(typeRef, typePbth, desc);
         if (visible) {
-            if (visibleTypeAnnotations == null) {
-                visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+            if (visibleTypeAnnotbtions == null) {
+                visibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(1);
             }
-            visibleTypeAnnotations.add(an);
+            visibleTypeAnnotbtions.bdd(bn);
         } else {
-            if (invisibleTypeAnnotations == null) {
-                invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+            if (invisibleTypeAnnotbtions == null) {
+                invisibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(1);
             }
-            invisibleTypeAnnotations.add(an);
+            invisibleTypeAnnotbtions.bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public AnnotationVisitor visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible) {
-        AnnotationNode an = new AnnotationNode(desc);
+    @SuppressWbrnings("unchecked")
+    public AnnotbtionVisitor visitPbrbmeterAnnotbtion(finbl int pbrbmeter,
+            finbl String desc, finbl boolebn visible) {
+        AnnotbtionNode bn = new AnnotbtionNode(desc);
         if (visible) {
-            if (visibleParameterAnnotations == null) {
-                int params = Type.getArgumentTypes(this.desc).length;
-                visibleParameterAnnotations = (List<AnnotationNode>[]) new List<?>[params];
+            if (visiblePbrbmeterAnnotbtions == null) {
+                int pbrbms = Type.getArgumentTypes(this.desc).length;
+                visiblePbrbmeterAnnotbtions = (List<AnnotbtionNode>[]) new List<?>[pbrbms];
             }
-            if (visibleParameterAnnotations[parameter] == null) {
-                visibleParameterAnnotations[parameter] = new ArrayList<AnnotationNode>(
+            if (visiblePbrbmeterAnnotbtions[pbrbmeter] == null) {
+                visiblePbrbmeterAnnotbtions[pbrbmeter] = new ArrbyList<AnnotbtionNode>(
                         1);
             }
-            visibleParameterAnnotations[parameter].add(an);
+            visiblePbrbmeterAnnotbtions[pbrbmeter].bdd(bn);
         } else {
-            if (invisibleParameterAnnotations == null) {
-                int params = Type.getArgumentTypes(this.desc).length;
-                invisibleParameterAnnotations = (List<AnnotationNode>[]) new List<?>[params];
+            if (invisiblePbrbmeterAnnotbtions == null) {
+                int pbrbms = Type.getArgumentTypes(this.desc).length;
+                invisiblePbrbmeterAnnotbtions = (List<AnnotbtionNode>[]) new List<?>[pbrbms];
             }
-            if (invisibleParameterAnnotations[parameter] == null) {
-                invisibleParameterAnnotations[parameter] = new ArrayList<AnnotationNode>(
+            if (invisiblePbrbmeterAnnotbtions[pbrbmeter] == null) {
+                invisiblePbrbmeterAnnotbtions[pbrbmeter] = new ArrbyList<AnnotbtionNode>(
                         1);
             }
-            invisibleParameterAnnotations[parameter].add(an);
+            invisiblePbrbmeterAnnotbtions[pbrbmeter].bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
-        if (attrs == null) {
-            attrs = new ArrayList<Attribute>(1);
+    public void visitAttribute(finbl Attribute bttr) {
+        if (bttrs == null) {
+            bttrs = new ArrbyList<Attribute>(1);
         }
-        attrs.add(attr);
+        bttrs.bdd(bttr);
     }
 
     @Override
@@ -440,200 +440,200 @@ public class MethodNode extends MethodVisitor {
     }
 
     @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        instructions.add(new FrameNode(type, nLocal, local == null ? null
-                : getLabelNodes(local), nStack, stack == null ? null
-                : getLabelNodes(stack)));
+    public void visitFrbme(finbl int type, finbl int nLocbl,
+            finbl Object[] locbl, finbl int nStbck, finbl Object[] stbck) {
+        instructions.bdd(new FrbmeNode(type, nLocbl, locbl == null ? null
+                : getLbbelNodes(locbl), nStbck, stbck == null ? null
+                : getLbbelNodes(stbck)));
     }
 
     @Override
-    public void visitInsn(final int opcode) {
-        instructions.add(new InsnNode(opcode));
+    public void visitInsn(finbl int opcode) {
+        instructions.bdd(new InsnNode(opcode));
     }
 
     @Override
-    public void visitIntInsn(final int opcode, final int operand) {
-        instructions.add(new IntInsnNode(opcode, operand));
+    public void visitIntInsn(finbl int opcode, finbl int operbnd) {
+        instructions.bdd(new IntInsnNode(opcode, operbnd));
     }
 
     @Override
-    public void visitVarInsn(final int opcode, final int var) {
-        instructions.add(new VarInsnNode(opcode, var));
+    public void visitVbrInsn(finbl int opcode, finbl int vbr) {
+        instructions.bdd(new VbrInsnNode(opcode, vbr));
     }
 
     @Override
-    public void visitTypeInsn(final int opcode, final String type) {
-        instructions.add(new TypeInsnNode(opcode, type));
+    public void visitTypeInsn(finbl int opcode, finbl String type) {
+        instructions.bdd(new TypeInsnNode(opcode, type));
     }
 
     @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        instructions.add(new FieldInsnNode(opcode, owner, name, desc));
+    public void visitFieldInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        instructions.bdd(new FieldInsnNode(opcode, owner, nbme, desc));
     }
 
-    @Deprecated
+    @Deprecbted
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
+    public void visitMethodInsn(int opcode, String owner, String nbme,
             String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
+        if (bpi >= Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc);
             return;
         }
-        instructions.add(new MethodInsnNode(opcode, owner, name, desc));
+        instructions.bdd(new MethodInsnNode(opcode, owner, nbme, desc));
     }
 
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
+    public void visitMethodInsn(int opcode, String owner, String nbme,
+            String desc, boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc, itf);
             return;
         }
-        instructions.add(new MethodInsnNode(opcode, owner, name, desc, itf));
+        instructions.bdd(new MethodInsnNode(opcode, owner, nbme, desc, itf));
     }
 
     @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
+    public void visitInvokeDynbmicInsn(String nbme, String desc, Hbndle bsm,
             Object... bsmArgs) {
-        instructions.add(new InvokeDynamicInsnNode(name, desc, bsm, bsmArgs));
+        instructions.bdd(new InvokeDynbmicInsnNode(nbme, desc, bsm, bsmArgs));
     }
 
     @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
-        instructions.add(new JumpInsnNode(opcode, getLabelNode(label)));
+    public void visitJumpInsn(finbl int opcode, finbl Lbbel lbbel) {
+        instructions.bdd(new JumpInsnNode(opcode, getLbbelNode(lbbel)));
     }
 
     @Override
-    public void visitLabel(final Label label) {
-        instructions.add(getLabelNode(label));
+    public void visitLbbel(finbl Lbbel lbbel) {
+        instructions.bdd(getLbbelNode(lbbel));
     }
 
     @Override
-    public void visitLdcInsn(final Object cst) {
-        instructions.add(new LdcInsnNode(cst));
+    public void visitLdcInsn(finbl Object cst) {
+        instructions.bdd(new LdcInsnNode(cst));
     }
 
     @Override
-    public void visitIincInsn(final int var, final int increment) {
-        instructions.add(new IincInsnNode(var, increment));
+    public void visitIincInsn(finbl int vbr, finbl int increment) {
+        instructions.bdd(new IincInsnNode(vbr, increment));
     }
 
     @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        instructions.add(new TableSwitchInsnNode(min, max, getLabelNode(dflt),
-                getLabelNodes(labels)));
+    public void visitTbbleSwitchInsn(finbl int min, finbl int mbx,
+            finbl Lbbel dflt, finbl Lbbel... lbbels) {
+        instructions.bdd(new TbbleSwitchInsnNode(min, mbx, getLbbelNode(dflt),
+                getLbbelNodes(lbbels)));
     }
 
     @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        instructions.add(new LookupSwitchInsnNode(getLabelNode(dflt), keys,
-                getLabelNodes(labels)));
+    public void visitLookupSwitchInsn(finbl Lbbel dflt, finbl int[] keys,
+            finbl Lbbel[] lbbels) {
+        instructions.bdd(new LookupSwitchInsnNode(getLbbelNode(dflt), keys,
+                getLbbelNodes(lbbels)));
     }
 
     @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        instructions.add(new MultiANewArrayInsnNode(desc, dims));
+    public void visitMultiANewArrbyInsn(finbl String desc, finbl int dims) {
+        instructions.bdd(new MultiANewArrbyInsnNode(desc, dims));
     }
 
     @Override
-    public AnnotationVisitor visitInsnAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        // Finds the last real instruction, i.e. the instruction targeted by
-        // this annotation.
-        AbstractInsnNode insn = instructions.getLast();
+    public AnnotbtionVisitor visitInsnAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        // Finds the lbst rebl instruction, i.e. the instruction tbrgeted by
+        // this bnnotbtion.
+        AbstrbctInsnNode insn = instructions.getLbst();
         while (insn.getOpcode() == -1) {
             insn = insn.getPrevious();
         }
-        // Adds the annotation to this instruction.
-        TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
+        // Adds the bnnotbtion to this instruction.
+        TypeAnnotbtionNode bn = new TypeAnnotbtionNode(typeRef, typePbth, desc);
         if (visible) {
-            if (insn.visibleTypeAnnotations == null) {
-                insn.visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(
+            if (insn.visibleTypeAnnotbtions == null) {
+                insn.visibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(
                         1);
             }
-            insn.visibleTypeAnnotations.add(an);
+            insn.visibleTypeAnnotbtions.bdd(bn);
         } else {
-            if (insn.invisibleTypeAnnotations == null) {
-                insn.invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(
+            if (insn.invisibleTypeAnnotbtions == null) {
+                insn.invisibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(
                         1);
             }
-            insn.invisibleTypeAnnotations.add(an);
+            insn.invisibleTypeAnnotbtions.bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    public void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type) {
-        tryCatchBlocks.add(new TryCatchBlockNode(getLabelNode(start),
-                getLabelNode(end), getLabelNode(handler), type));
+    public void visitTryCbtchBlock(finbl Lbbel stbrt, finbl Lbbel end,
+            finbl Lbbel hbndler, finbl String type) {
+        tryCbtchBlocks.bdd(new TryCbtchBlockNode(getLbbelNode(stbrt),
+                getLbbelNode(end), getLbbelNode(hbndler), type));
     }
 
     @Override
-    public AnnotationVisitor visitTryCatchAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        TryCatchBlockNode tcb = tryCatchBlocks.get((typeRef & 0x00FFFF00) >> 8);
-        TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
+    public AnnotbtionVisitor visitTryCbtchAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        TryCbtchBlockNode tcb = tryCbtchBlocks.get((typeRef & 0x00FFFF00) >> 8);
+        TypeAnnotbtionNode bn = new TypeAnnotbtionNode(typeRef, typePbth, desc);
         if (visible) {
-            if (tcb.visibleTypeAnnotations == null) {
-                tcb.visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(
+            if (tcb.visibleTypeAnnotbtions == null) {
+                tcb.visibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(
                         1);
             }
-            tcb.visibleTypeAnnotations.add(an);
+            tcb.visibleTypeAnnotbtions.bdd(bn);
         } else {
-            if (tcb.invisibleTypeAnnotations == null) {
-                tcb.invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(
+            if (tcb.invisibleTypeAnnotbtions == null) {
+                tcb.invisibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(
                         1);
             }
-            tcb.invisibleTypeAnnotations.add(an);
+            tcb.invisibleTypeAnnotbtions.bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    public void visitLocalVariable(final String name, final String desc,
-            final String signature, final Label start, final Label end,
-            final int index) {
-        localVariables.add(new LocalVariableNode(name, desc, signature,
-                getLabelNode(start), getLabelNode(end), index));
+    public void visitLocblVbribble(finbl String nbme, finbl String desc,
+            finbl String signbture, finbl Lbbel stbrt, finbl Lbbel end,
+            finbl int index) {
+        locblVbribbles.bdd(new LocblVbribbleNode(nbme, desc, signbture,
+                getLbbelNode(stbrt), getLbbelNode(end), index));
     }
 
     @Override
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
-        LocalVariableAnnotationNode an = new LocalVariableAnnotationNode(
-                typeRef, typePath, getLabelNodes(start), getLabelNodes(end),
+    public AnnotbtionVisitor visitLocblVbribbleAnnotbtion(int typeRef,
+            TypePbth typePbth, Lbbel[] stbrt, Lbbel[] end, int[] index,
+            String desc, boolebn visible) {
+        LocblVbribbleAnnotbtionNode bn = new LocblVbribbleAnnotbtionNode(
+                typeRef, typePbth, getLbbelNodes(stbrt), getLbbelNodes(end),
                 index, desc);
         if (visible) {
-            if (visibleLocalVariableAnnotations == null) {
-                visibleLocalVariableAnnotations = new ArrayList<LocalVariableAnnotationNode>(
+            if (visibleLocblVbribbleAnnotbtions == null) {
+                visibleLocblVbribbleAnnotbtions = new ArrbyList<LocblVbribbleAnnotbtionNode>(
                         1);
             }
-            visibleLocalVariableAnnotations.add(an);
+            visibleLocblVbribbleAnnotbtions.bdd(bn);
         } else {
-            if (invisibleLocalVariableAnnotations == null) {
-                invisibleLocalVariableAnnotations = new ArrayList<LocalVariableAnnotationNode>(
+            if (invisibleLocblVbribbleAnnotbtions == null) {
+                invisibleLocblVbribbleAnnotbtions = new ArrbyList<LocblVbribbleAnnotbtionNode>(
                         1);
             }
-            invisibleLocalVariableAnnotations.add(an);
+            invisibleLocblVbribbleAnnotbtions.bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    public void visitLineNumber(final int line, final Label start) {
-        instructions.add(new LineNumberNode(line, getLabelNode(start)));
+    public void visitLineNumber(finbl int line, finbl Lbbel stbrt) {
+        instructions.bdd(new LineNumberNode(line, getLbbelNode(stbrt)));
     }
 
     @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
-        this.maxStack = maxStack;
-        this.maxLocals = maxLocals;
+    public void visitMbxs(finbl int mbxStbck, finbl int mbxLocbls) {
+        this.mbxStbck = mbxStbck;
+        this.mbxLocbls = mbxLocbls;
     }
 
     @Override
@@ -641,36 +641,36 @@ public class MethodNode extends MethodVisitor {
     }
 
     /**
-     * Returns the LabelNode corresponding to the given Label. Creates a new
-     * LabelNode if necessary. The default implementation of this method uses
-     * the {@link Label#info} field to store associations between labels and
-     * label nodes.
+     * Returns the LbbelNode corresponding to the given Lbbel. Crebtes b new
+     * LbbelNode if necessbry. The defbult implementbtion of this method uses
+     * the {@link Lbbel#info} field to store bssocibtions between lbbels bnd
+     * lbbel nodes.
      *
-     * @param l
-     *            a Label.
-     * @return the LabelNode corresponding to l.
+     * @pbrbm l
+     *            b Lbbel.
+     * @return the LbbelNode corresponding to l.
      */
-    protected LabelNode getLabelNode(final Label l) {
-        if (!(l.info instanceof LabelNode)) {
-            l.info = new LabelNode();
+    protected LbbelNode getLbbelNode(finbl Lbbel l) {
+        if (!(l.info instbnceof LbbelNode)) {
+            l.info = new LbbelNode();
         }
-        return (LabelNode) l.info;
+        return (LbbelNode) l.info;
     }
 
-    private LabelNode[] getLabelNodes(final Label[] l) {
-        LabelNode[] nodes = new LabelNode[l.length];
+    privbte LbbelNode[] getLbbelNodes(finbl Lbbel[] l) {
+        LbbelNode[] nodes = new LbbelNode[l.length];
         for (int i = 0; i < l.length; ++i) {
-            nodes[i] = getLabelNode(l[i]);
+            nodes[i] = getLbbelNode(l[i]);
         }
         return nodes;
     }
 
-    private Object[] getLabelNodes(final Object[] objs) {
+    privbte Object[] getLbbelNodes(finbl Object[] objs) {
         Object[] nodes = new Object[objs.length];
         for (int i = 0; i < objs.length; ++i) {
             Object o = objs[i];
-            if (o instanceof Label) {
-                o = getLabelNode((Label) o);
+            if (o instbnceof Lbbel) {
+                o = getLbbelNode((Lbbel) o);
             }
             nodes[i] = o;
         }
@@ -682,186 +682,186 @@ public class MethodNode extends MethodVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Checks that this method node is compatible with the given ASM API
-     * version. This methods checks that this node, and all its nodes
-     * recursively, do not contain elements that were introduced in more recent
-     * versions of the ASM API than the given version.
+     * Checks thbt this method node is compbtible with the given ASM API
+     * version. This methods checks thbt this node, bnd bll its nodes
+     * recursively, do not contbin elements thbt were introduced in more recent
+     * versions of the ASM API thbn the given version.
      *
-     * @param api
-     *            an ASM API version. Must be one of {@link Opcodes#ASM4} or
+     * @pbrbm bpi
+     *            bn ASM API version. Must be one of {@link Opcodes#ASM4} or
      *            {@link Opcodes#ASM5}.
      */
-    public void check(final int api) {
-        if (api == Opcodes.ASM4) {
-            if (visibleTypeAnnotations != null
-                    && visibleTypeAnnotations.size() > 0) {
+    public void check(finbl int bpi) {
+        if (bpi == Opcodes.ASM4) {
+            if (visibleTypeAnnotbtions != null
+                    && visibleTypeAnnotbtions.size() > 0) {
                 throw new RuntimeException();
             }
-            if (invisibleTypeAnnotations != null
-                    && invisibleTypeAnnotations.size() > 0) {
+            if (invisibleTypeAnnotbtions != null
+                    && invisibleTypeAnnotbtions.size() > 0) {
                 throw new RuntimeException();
             }
-            int n = tryCatchBlocks == null ? 0 : tryCatchBlocks.size();
+            int n = tryCbtchBlocks == null ? 0 : tryCbtchBlocks.size();
             for (int i = 0; i < n; ++i) {
-                TryCatchBlockNode tcb = tryCatchBlocks.get(i);
-                if (tcb.visibleTypeAnnotations != null
-                        && tcb.visibleTypeAnnotations.size() > 0) {
+                TryCbtchBlockNode tcb = tryCbtchBlocks.get(i);
+                if (tcb.visibleTypeAnnotbtions != null
+                        && tcb.visibleTypeAnnotbtions.size() > 0) {
                     throw new RuntimeException();
                 }
-                if (tcb.invisibleTypeAnnotations != null
-                        && tcb.invisibleTypeAnnotations.size() > 0) {
+                if (tcb.invisibleTypeAnnotbtions != null
+                        && tcb.invisibleTypeAnnotbtions.size() > 0) {
                     throw new RuntimeException();
                 }
             }
             for (int i = 0; i < instructions.size(); ++i) {
-                AbstractInsnNode insn = instructions.get(i);
-                if (insn.visibleTypeAnnotations != null
-                        && insn.visibleTypeAnnotations.size() > 0) {
+                AbstrbctInsnNode insn = instructions.get(i);
+                if (insn.visibleTypeAnnotbtions != null
+                        && insn.visibleTypeAnnotbtions.size() > 0) {
                     throw new RuntimeException();
                 }
-                if (insn.invisibleTypeAnnotations != null
-                        && insn.invisibleTypeAnnotations.size() > 0) {
+                if (insn.invisibleTypeAnnotbtions != null
+                        && insn.invisibleTypeAnnotbtions.size() > 0) {
                     throw new RuntimeException();
                 }
-                if (insn instanceof MethodInsnNode) {
-                    boolean itf = ((MethodInsnNode) insn).itf;
+                if (insn instbnceof MethodInsnNode) {
+                    boolebn itf = ((MethodInsnNode) insn).itf;
                     if (itf != (insn.opcode == Opcodes.INVOKEINTERFACE)) {
                         throw new RuntimeException();
                     }
                 }
             }
-            if (visibleLocalVariableAnnotations != null
-                    && visibleLocalVariableAnnotations.size() > 0) {
+            if (visibleLocblVbribbleAnnotbtions != null
+                    && visibleLocblVbribbleAnnotbtions.size() > 0) {
                 throw new RuntimeException();
             }
-            if (invisibleLocalVariableAnnotations != null
-                    && invisibleLocalVariableAnnotations.size() > 0) {
+            if (invisibleLocblVbribbleAnnotbtions != null
+                    && invisibleLocblVbribbleAnnotbtions.size() > 0) {
                 throw new RuntimeException();
             }
         }
     }
 
     /**
-     * Makes the given class visitor visit this method.
+     * Mbkes the given clbss visitor visit this method.
      *
-     * @param cv
-     *            a class visitor.
+     * @pbrbm cv
+     *            b clbss visitor.
      */
-    public void accept(final ClassVisitor cv) {
+    public void bccept(finbl ClbssVisitor cv) {
         String[] exceptions = new String[this.exceptions.size()];
-        this.exceptions.toArray(exceptions);
-        MethodVisitor mv = cv.visitMethod(access, name, desc, signature,
+        this.exceptions.toArrby(exceptions);
+        MethodVisitor mv = cv.visitMethod(bccess, nbme, desc, signbture,
                 exceptions);
         if (mv != null) {
-            accept(mv);
+            bccept(mv);
         }
     }
 
     /**
-     * Makes the given method visitor visit this method.
+     * Mbkes the given method visitor visit this method.
      *
-     * @param mv
-     *            a method visitor.
+     * @pbrbm mv
+     *            b method visitor.
      */
-    public void accept(final MethodVisitor mv) {
-        // visits the method parameters
+    public void bccept(finbl MethodVisitor mv) {
+        // visits the method pbrbmeters
         int i, j, n;
-        n = parameters == null ? 0 : parameters.size();
+        n = pbrbmeters == null ? 0 : pbrbmeters.size();
         for (i = 0; i < n; i++) {
-            ParameterNode parameter = parameters.get(i);
-            mv.visitParameter(parameter.name, parameter.access);
+            PbrbmeterNode pbrbmeter = pbrbmeters.get(i);
+            mv.visitPbrbmeter(pbrbmeter.nbme, pbrbmeter.bccess);
         }
-        // visits the method attributes
-        if (annotationDefault != null) {
-            AnnotationVisitor av = mv.visitAnnotationDefault();
-            AnnotationNode.accept(av, null, annotationDefault);
-            if (av != null) {
-                av.visitEnd();
+        // visits the method bttributes
+        if (bnnotbtionDefbult != null) {
+            AnnotbtionVisitor bv = mv.visitAnnotbtionDefbult();
+            AnnotbtionNode.bccept(bv, null, bnnotbtionDefbult);
+            if (bv != null) {
+                bv.visitEnd();
             }
         }
-        n = visibleAnnotations == null ? 0 : visibleAnnotations.size();
+        n = visibleAnnotbtions == null ? 0 : visibleAnnotbtions.size();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = visibleAnnotations.get(i);
-            an.accept(mv.visitAnnotation(an.desc, true));
+            AnnotbtionNode bn = visibleAnnotbtions.get(i);
+            bn.bccept(mv.visitAnnotbtion(bn.desc, true));
         }
-        n = invisibleAnnotations == null ? 0 : invisibleAnnotations.size();
+        n = invisibleAnnotbtions == null ? 0 : invisibleAnnotbtions.size();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = invisibleAnnotations.get(i);
-            an.accept(mv.visitAnnotation(an.desc, false));
+            AnnotbtionNode bn = invisibleAnnotbtions.get(i);
+            bn.bccept(mv.visitAnnotbtion(bn.desc, fblse));
         }
-        n = visibleTypeAnnotations == null ? 0 : visibleTypeAnnotations.size();
+        n = visibleTypeAnnotbtions == null ? 0 : visibleTypeAnnotbtions.size();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = visibleTypeAnnotations.get(i);
-            an.accept(mv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
+            TypeAnnotbtionNode bn = visibleTypeAnnotbtions.get(i);
+            bn.bccept(mv.visitTypeAnnotbtion(bn.typeRef, bn.typePbth, bn.desc,
                     true));
         }
-        n = invisibleTypeAnnotations == null ? 0 : invisibleTypeAnnotations
+        n = invisibleTypeAnnotbtions == null ? 0 : invisibleTypeAnnotbtions
                 .size();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = invisibleTypeAnnotations.get(i);
-            an.accept(mv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
-                    false));
+            TypeAnnotbtionNode bn = invisibleTypeAnnotbtions.get(i);
+            bn.bccept(mv.visitTypeAnnotbtion(bn.typeRef, bn.typePbth, bn.desc,
+                    fblse));
         }
-        n = visibleParameterAnnotations == null ? 0
-                : visibleParameterAnnotations.length;
+        n = visiblePbrbmeterAnnotbtions == null ? 0
+                : visiblePbrbmeterAnnotbtions.length;
         for (i = 0; i < n; ++i) {
-            List<?> l = visibleParameterAnnotations[i];
+            List<?> l = visiblePbrbmeterAnnotbtions[i];
             if (l == null) {
                 continue;
             }
             for (j = 0; j < l.size(); ++j) {
-                AnnotationNode an = (AnnotationNode) l.get(j);
-                an.accept(mv.visitParameterAnnotation(i, an.desc, true));
+                AnnotbtionNode bn = (AnnotbtionNode) l.get(j);
+                bn.bccept(mv.visitPbrbmeterAnnotbtion(i, bn.desc, true));
             }
         }
-        n = invisibleParameterAnnotations == null ? 0
-                : invisibleParameterAnnotations.length;
+        n = invisiblePbrbmeterAnnotbtions == null ? 0
+                : invisiblePbrbmeterAnnotbtions.length;
         for (i = 0; i < n; ++i) {
-            List<?> l = invisibleParameterAnnotations[i];
+            List<?> l = invisiblePbrbmeterAnnotbtions[i];
             if (l == null) {
                 continue;
             }
             for (j = 0; j < l.size(); ++j) {
-                AnnotationNode an = (AnnotationNode) l.get(j);
-                an.accept(mv.visitParameterAnnotation(i, an.desc, false));
+                AnnotbtionNode bn = (AnnotbtionNode) l.get(j);
+                bn.bccept(mv.visitPbrbmeterAnnotbtion(i, bn.desc, fblse));
             }
         }
         if (visited) {
-            instructions.resetLabels();
+            instructions.resetLbbels();
         }
-        n = attrs == null ? 0 : attrs.size();
+        n = bttrs == null ? 0 : bttrs.size();
         for (i = 0; i < n; ++i) {
-            mv.visitAttribute(attrs.get(i));
+            mv.visitAttribute(bttrs.get(i));
         }
         // visits the method's code
         if (instructions.size() > 0) {
             mv.visitCode();
-            // visits try catch blocks
-            n = tryCatchBlocks == null ? 0 : tryCatchBlocks.size();
+            // visits try cbtch blocks
+            n = tryCbtchBlocks == null ? 0 : tryCbtchBlocks.size();
             for (i = 0; i < n; ++i) {
-                tryCatchBlocks.get(i).updateIndex(i);
-                tryCatchBlocks.get(i).accept(mv);
+                tryCbtchBlocks.get(i).updbteIndex(i);
+                tryCbtchBlocks.get(i).bccept(mv);
             }
             // visits instructions
-            instructions.accept(mv);
-            // visits local variables
-            n = localVariables == null ? 0 : localVariables.size();
+            instructions.bccept(mv);
+            // visits locbl vbribbles
+            n = locblVbribbles == null ? 0 : locblVbribbles.size();
             for (i = 0; i < n; ++i) {
-                localVariables.get(i).accept(mv);
+                locblVbribbles.get(i).bccept(mv);
             }
-            // visits local variable annotations
-            n = visibleLocalVariableAnnotations == null ? 0
-                    : visibleLocalVariableAnnotations.size();
+            // visits locbl vbribble bnnotbtions
+            n = visibleLocblVbribbleAnnotbtions == null ? 0
+                    : visibleLocblVbribbleAnnotbtions.size();
             for (i = 0; i < n; ++i) {
-                visibleLocalVariableAnnotations.get(i).accept(mv, true);
+                visibleLocblVbribbleAnnotbtions.get(i).bccept(mv, true);
             }
-            n = invisibleLocalVariableAnnotations == null ? 0
-                    : invisibleLocalVariableAnnotations.size();
+            n = invisibleLocblVbribbleAnnotbtions == null ? 0
+                    : invisibleLocblVbribbleAnnotbtions.size();
             for (i = 0; i < n; ++i) {
-                invisibleLocalVariableAnnotations.get(i).accept(mv, false);
+                invisibleLocblVbribbleAnnotbtions.get(i).bccept(mv, fblse);
             }
-            // visits maxs
-            mv.visitMaxs(maxStack, maxLocals);
+            // visits mbxs
+            mv.visitMbxs(mbxStbck, mbxLocbls);
             visited = true;
         }
         mv.visitEnd();

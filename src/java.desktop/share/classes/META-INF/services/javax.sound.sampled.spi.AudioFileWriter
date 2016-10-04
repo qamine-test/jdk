@@ -1,4 +1,4 @@
-# Providers for writing audio files
-com.sun.media.sound.AuFileWriter
-com.sun.media.sound.AiffFileWriter
-com.sun.media.sound.WaveFileWriter
+# Providers for writing budio files
+com.sun.medib.sound.AuFileWriter
+com.sun.medib.sound.AiffFileWriter
+com.sun.medib.sound.WbveFileWriter

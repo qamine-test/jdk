@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import javax.crypto.KeyGeneratorSpi;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.DESedeKeySpec;
-import java.security.SecureRandom;
-import java.security.InvalidParameterException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvbx.crypto.KeyGenerbtorSpi;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.DESedeKeySpec;
+import jbvb.security.SecureRbndom;
+import jbvb.security.InvblidPbrbmeterException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 /**
- * This class generates a Triple DES key.
+ * This clbss generbtes b Triple DES key.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
 
-public final class DESedeKeyGenerator extends KeyGeneratorSpi {
+public finbl clbss DESedeKeyGenerbtor extends KeyGenerbtorSpi {
 
-    private SecureRandom random = null;
-    private int keysize = 168;
+    privbte SecureRbndom rbndom = null;
+    privbte int keysize = 168;
 
     /**
      * Empty constructor
      */
-    public DESedeKeyGenerator() {
+    public DESedeKeyGenerbtor() {
     }
 
     /**
-     * Initializes this key generator.
+     * Initiblizes this key generbtor.
      *
-     * @param random the source of randomness for this generator
+     * @pbrbm rbndom the source of rbndomness for this generbtor
      */
-    protected void engineInit(SecureRandom random) {
-        this.random = random;
+    protected void engineInit(SecureRbndom rbndom) {
+        this.rbndom = rbndom;
     }
 
     /**
-     * Initializes this key generator with the specified parameter
-     * set and a user-provided source of randomness.
+     * Initiblizes this key generbtor with the specified pbrbmeter
+     * set bnd b user-provided source of rbndomness.
      *
-     * @param params the key generation parameters
-     * @param random the source of randomness for this key generator
+     * @pbrbm pbrbms the key generbtion pbrbmeters
+     * @pbrbm rbndom the source of rbndomness for this key generbtor
      *
-     * @exception InvalidAlgorithmParameterException if <code>params</code> is
-     * inappropriate for this key generator
+     * @exception InvblidAlgorithmPbrbmeterException if <code>pbrbms</code> is
+     * inbppropribte for this key generbtor
      */
-    protected void engineInit(AlgorithmParameterSpec params,
-                              SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-            throw new InvalidAlgorithmParameterException
-                ("Triple DES key generation does not take any parameters");
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbms,
+                              SecureRbndom rbndom)
+        throws InvblidAlgorithmPbrbmeterException {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Triple DES key generbtion does not tbke bny pbrbmeters");
     }
 
     /**
-     * Initializes this key generator for a certain keysize, using the given
-     * source of randomness.
+     * Initiblizes this key generbtor for b certbin keysize, using the given
+     * source of rbndomness.
      *
-     * @param keysize the keysize. This is an algorithm-specific
+     * @pbrbm keysize the keysize. This is bn blgorithm-specific
      * metric specified in number of bits. A keysize with 112 bits of entropy
-     * corresponds to a Triple DES key with 2 intermediate keys, and a keysize
-     * with 168 bits of entropy corresponds to a Triple DES key with 3
-     * intermediate keys.
-     * @param random the source of randomness for this key generator
+     * corresponds to b Triple DES key with 2 intermedibte keys, bnd b keysize
+     * with 168 bits of entropy corresponds to b Triple DES key with 3
+     * intermedibte keys.
+     * @pbrbm rbndom the source of rbndomness for this key generbtor
      */
-    protected void engineInit(int keysize, SecureRandom random) {
+    protected void engineInit(int keysize, SecureRbndom rbndom) {
         if ((keysize != 112) && (keysize != 168)) {
-            throw new InvalidParameterException("Wrong keysize: must be "
-                                                + "equal to 112 or 168");
+            throw new InvblidPbrbmeterException("Wrong keysize: must be "
+                                                + "equbl to 112 or 168");
         }
         this.keysize = keysize;
-        this.engineInit(random);
+        this.engineInit(rbndom);
     }
 
     /**
-     * Generates the Triple DES key.
+     * Generbtes the Triple DES key.
      *
      * @return the new Triple DES key
      */
-    protected SecretKey engineGenerateKey() {
-        if (this.random == null) {
-            this.random = SunJCE.getRandom();
+    protected SecretKey engineGenerbteKey() {
+        if (this.rbndom == null) {
+            this.rbndom = SunJCE.getRbndom();
         }
 
-        byte[] rawkey = new byte[DESedeKeySpec.DES_EDE_KEY_LEN];
+        byte[] rbwkey = new byte[DESedeKeySpec.DES_EDE_KEY_LEN];
 
         if (keysize == 168) {
-            // 3 intermediate keys
-            this.random.nextBytes(rawkey);
+            // 3 intermedibte keys
+            this.rbndom.nextBytes(rbwkey);
 
-            // Do parity adjustment for each intermediate key
-            DESKeyGenerator.setParityBit(rawkey, 0);
-            DESKeyGenerator.setParityBit(rawkey, 8);
-            DESKeyGenerator.setParityBit(rawkey, 16);
+            // Do pbrity bdjustment for ebch intermedibte key
+            DESKeyGenerbtor.setPbrityBit(rbwkey, 0);
+            DESKeyGenerbtor.setPbrityBit(rbwkey, 8);
+            DESKeyGenerbtor.setPbrityBit(rbwkey, 16);
         } else {
-            // 2 intermediate keys
+            // 2 intermedibte keys
             byte[] tmpkey = new byte[16];
-            this.random.nextBytes(tmpkey);
-            DESKeyGenerator.setParityBit(tmpkey, 0);
-            DESKeyGenerator.setParityBit(tmpkey, 8);
-            System.arraycopy(tmpkey, 0, rawkey, 0, tmpkey.length);
-            // Copy the first 8 bytes into the last
-            System.arraycopy(tmpkey, 0, rawkey, 16, 8);
-            java.util.Arrays.fill(tmpkey, (byte)0x00);
+            this.rbndom.nextBytes(tmpkey);
+            DESKeyGenerbtor.setPbrityBit(tmpkey, 0);
+            DESKeyGenerbtor.setPbrityBit(tmpkey, 8);
+            System.brrbycopy(tmpkey, 0, rbwkey, 0, tmpkey.length);
+            // Copy the first 8 bytes into the lbst
+            System.brrbycopy(tmpkey, 0, rbwkey, 16, 8);
+            jbvb.util.Arrbys.fill(tmpkey, (byte)0x00);
         }
 
         DESedeKey desEdeKey = null;
         try {
-            desEdeKey = new DESedeKey(rawkey);
-        } catch (InvalidKeyException ike) {
-            // this never happens
-            throw new RuntimeException(ike.getMessage());
+            desEdeKey = new DESedeKey(rbwkey);
+        } cbtch (InvblidKeyException ike) {
+            // this never hbppens
+            throw new RuntimeException(ike.getMessbge());
         }
 
-        java.util.Arrays.fill(rawkey, (byte)0x00);
+        jbvb.util.Arrbys.fill(rbwkey, (byte)0x00);
 
         return desEdeKey;
     }

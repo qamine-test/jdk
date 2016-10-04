@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.event.ActionEvent;
-import java.awt.KeyboardFocusManager;
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvb.bwt.Component;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
 
 /**
- * Basic implementation of RootPaneUI, there is one shared between all
- * JRootPane instances.
+ * Bbsic implementbtion of RootPbneUI, there is one shbred between bll
+ * JRootPbne instbnces.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  * @since 1.3
  */
-public class BasicRootPaneUI extends RootPaneUI implements
-                  PropertyChangeListener {
-    private static RootPaneUI rootPaneUI = new BasicRootPaneUI();
+public clbss BbsicRootPbneUI extends RootPbneUI implements
+                  PropertyChbngeListener {
+    privbte stbtic RootPbneUI rootPbneUI = new BbsicRootPbneUI();
 
     /**
-     * Returns a new instance of {@code BasicRootPaneUI}.
+     * Returns b new instbnce of {@code BbsicRootPbneUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicRootPaneUI}
+     * @pbrbm c b component
+     * @return b new instbnce of {@code BbsicRootPbneUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return rootPaneUI;
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return rootPbneUI;
     }
 
-    public void installUI(JComponent c) {
-        installDefaults((JRootPane)c);
-        installComponents((JRootPane)c);
-        installListeners((JRootPane)c);
-        installKeyboardActions((JRootPane)c);
+    public void instbllUI(JComponent c) {
+        instbllDefbults((JRootPbne)c);
+        instbllComponents((JRootPbne)c);
+        instbllListeners((JRootPbne)c);
+        instbllKeybobrdActions((JRootPbne)c);
     }
 
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults((JRootPane)c);
-        uninstallComponents((JRootPane)c);
-        uninstallListeners((JRootPane)c);
-        uninstallKeyboardActions((JRootPane)c);
-    }
-
-    /**
-     * Installs default properties.
-     *
-     * @param c an instance of {@code JRootPane}
-     */
-    protected void installDefaults(JRootPane c){
-        LookAndFeel.installProperty(c, "opaque", Boolean.FALSE);
+    public void uninstbllUI(JComponent c) {
+        uninstbllDefbults((JRootPbne)c);
+        uninstbllComponents((JRootPbne)c);
+        uninstbllListeners((JRootPbne)c);
+        uninstbllKeybobrdActions((JRootPbne)c);
     }
 
     /**
-     * Installs components.
+     * Instblls defbult properties.
      *
-     * @param root an instance of {@code JRootPane}
+     * @pbrbm c bn instbnce of {@code JRootPbne}
      */
-    protected void installComponents(JRootPane root) {
+    protected void instbllDefbults(JRootPbne c){
+        LookAndFeel.instbllProperty(c, "opbque", Boolebn.FALSE);
+    }
+
+    /**
+     * Instblls components.
+     *
+     * @pbrbm root bn instbnce of {@code JRootPbne}
+     */
+    protected void instbllComponents(JRootPbne root) {
     }
 
     /**
      * Registers listeners.
      *
-     * @param root an instance of {@code JRootPane}
+     * @pbrbm root bn instbnce of {@code JRootPbne}
      */
-    protected void installListeners(JRootPane root) {
-        root.addPropertyChangeListener(this);
+    protected void instbllListeners(JRootPbne root) {
+        root.bddPropertyChbngeListener(this);
     }
 
     /**
-     * Registers keyboard actions.
+     * Registers keybobrd bctions.
      *
-     * @param root an instance of {@code JRootPane}
+     * @pbrbm root bn instbnce of {@code JRootPbne}
      */
-    protected void installKeyboardActions(JRootPane root) {
-        InputMap km = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, root);
-        SwingUtilities.replaceUIInputMap(root,
+    protected void instbllKeybobrdActions(JRootPbne root) {
+        InputMbp km = getInputMbp(JComponent.WHEN_IN_FOCUSED_WINDOW, root);
+        SwingUtilities.replbceUIInputMbp(root,
                 JComponent.WHEN_IN_FOCUSED_WINDOW, km);
-        km = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
+        km = getInputMbp(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
                 root);
-        SwingUtilities.replaceUIInputMap(root,
+        SwingUtilities.replbceUIInputMbp(root,
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, km);
 
-        LazyActionMap.installLazyActionMap(root, BasicRootPaneUI.class,
-                "RootPane.actionMap");
-        updateDefaultButtonBindings(root);
+        LbzyActionMbp.instbllLbzyActionMbp(root, BbsicRootPbneUI.clbss,
+                "RootPbne.bctionMbp");
+        updbteDefbultButtonBindings(root);
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      *
-     * @param root an instance of {@code JRootPane}
+     * @pbrbm root bn instbnce of {@code JRootPbne}
      */
-    protected void uninstallDefaults(JRootPane root) {
+    protected void uninstbllDefbults(JRootPbne root) {
     }
 
     /**
      * Unregisters components.
      *
-     * @param root an instance of {@code JRootPane}
+     * @pbrbm root bn instbnce of {@code JRootPbne}
      */
-    protected void uninstallComponents(JRootPane root) {
+    protected void uninstbllComponents(JRootPbne root) {
     }
 
     /**
      * Unregisters listeners.
      *
-     * @param root an instance of {@code JRootPane}
+     * @pbrbm root bn instbnce of {@code JRootPbne}
      */
-    protected void uninstallListeners(JRootPane root) {
-        root.removePropertyChangeListener(this);
+    protected void uninstbllListeners(JRootPbne root) {
+        root.removePropertyChbngeListener(this);
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unregisters keybobrd bctions.
      *
-     * @param root an instance of {@code JRootPane}
+     * @pbrbm root bn instbnce of {@code JRootPbne}
      */
-    protected void uninstallKeyboardActions(JRootPane root) {
-        SwingUtilities.replaceUIInputMap(root, JComponent.
+    protected void uninstbllKeybobrdActions(JRootPbne root) {
+        SwingUtilities.replbceUIInputMbp(root, JComponent.
                 WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIActionMap(root, null);
+        SwingUtilities.replbceUIActionMbp(root, null);
     }
 
-    InputMap getInputMap(int condition, JComponent c) {
+    InputMbp getInputMbp(int condition, JComponent c) {
         if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            return (InputMap)DefaultLookup.get(c, this,
-                                       "RootPane.ancestorInputMap");
+            return (InputMbp)DefbultLookup.get(c, this,
+                                       "RootPbne.bncestorInputMbp");
         }
 
         if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
-            return createInputMap(condition, c);
+            return crebteInputMbp(condition, c);
         }
         return null;
     }
 
-    ComponentInputMap createInputMap(int condition, JComponent c) {
-        return new RootPaneInputMap(c);
+    ComponentInputMbp crebteInputMbp(int condition, JComponent c) {
+        return new RootPbneInputMbp(c);
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.PRESS));
-        map.put(new Actions(Actions.RELEASE));
-        map.put(new Actions(Actions.POST_POPUP));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.PRESS));
+        mbp.put(new Actions(Actions.RELEASE));
+        mbp.put(new Actions(Actions.POST_POPUP));
     }
 
     /**
-     * Invoked when the default button property has changed. This reloads
-     * the bindings from the defaults table with name
-     * <code>RootPane.defaultButtonWindowKeyBindings</code>.
+     * Invoked when the defbult button property hbs chbnged. This relobds
+     * the bindings from the defbults tbble with nbme
+     * <code>RootPbne.defbultButtonWindowKeyBindings</code>.
      */
-    void updateDefaultButtonBindings(JRootPane root) {
-        InputMap km = SwingUtilities.getUIInputMap(root, JComponent.
+    void updbteDefbultButtonBindings(JRootPbne root) {
+        InputMbp km = SwingUtilities.getUIInputMbp(root, JComponent.
                                                WHEN_IN_FOCUSED_WINDOW);
-        while (km != null && !(km instanceof RootPaneInputMap)) {
-            km = km.getParent();
+        while (km != null && !(km instbnceof RootPbneInputMbp)) {
+            km = km.getPbrent();
         }
         if (km != null) {
-            km.clear();
-            if (root.getDefaultButton() != null) {
-                Object[] bindings = (Object[])DefaultLookup.get(root, this,
-                           "RootPane.defaultButtonWindowKeyBindings");
+            km.clebr();
+            if (root.getDefbultButton() != null) {
+                Object[] bindings = (Object[])DefbultLookup.get(root, this,
+                           "RootPbne.defbultButtonWindowKeyBindings");
                 if (bindings != null) {
-                    LookAndFeel.loadKeyBindings(km, bindings);
+                    LookAndFeel.lobdKeyBindings(km, bindings);
                 }
             }
         }
     }
 
     /**
-     * Invoked when a property changes on the root pane. If the event
-     * indicates the <code>defaultButton</code> has changed, this will
-     * reinstall the keyboard actions.
+     * Invoked when b property chbnges on the root pbne. If the event
+     * indicbtes the <code>defbultButton</code> hbs chbnged, this will
+     * reinstbll the keybobrd bctions.
      */
-    public void propertyChange(PropertyChangeEvent e) {
-        if(e.getPropertyName().equals("defaultButton")) {
-            JRootPane rootpane = (JRootPane)e.getSource();
-            updateDefaultButtonBindings(rootpane);
-            if (rootpane.getClientProperty("temporaryDefaultButton") == null) {
-                rootpane.putClientProperty("initialDefaultButton", e.getNewValue());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if(e.getPropertyNbme().equbls("defbultButton")) {
+            JRootPbne rootpbne = (JRootPbne)e.getSource();
+            updbteDefbultButtonBindings(rootpbne);
+            if (rootpbne.getClientProperty("temporbryDefbultButton") == null) {
+                rootpbne.putClientProperty("initiblDefbultButton", e.getNewVblue());
             }
         }
     }
 
 
-    static class Actions extends UIAction {
-        public static final String PRESS = "press";
-        public static final String RELEASE = "release";
-        public static final String POST_POPUP = "postPopup";
+    stbtic clbss Actions extends UIAction {
+        public stbtic finbl String PRESS = "press";
+        public stbtic finbl String RELEASE = "relebse";
+        public stbtic finbl String POST_POPUP = "postPopup";
 
-        Actions(String name) {
-            super(name);
+        Actions(String nbme) {
+            super(nbme);
         }
 
-        public void actionPerformed(ActionEvent evt) {
-            JRootPane root = (JRootPane)evt.getSource();
-            JButton owner = root.getDefaultButton();
-            String key = getName();
+        public void bctionPerformed(ActionEvent evt) {
+            JRootPbne root = (JRootPbne)evt.getSource();
+            JButton owner = root.getDefbultButton();
+            String key = getNbme();
 
             if (key == POST_POPUP) { // Action to post popup
-                Component c = KeyboardFocusManager
-                        .getCurrentKeyboardFocusManager()
+                Component c = KeybobrdFocusMbnbger
+                        .getCurrentKeybobrdFocusMbnbger()
                          .getFocusOwner();
 
-                if(c instanceof JComponent) {
+                if(c instbnceof JComponent) {
                     JComponent src = (JComponent) c;
                     JPopupMenu jpm = src.getComponentPopupMenu();
                     if(jpm != null) {
-                        Point pt = src.getPopupLocation(null);
+                        Point pt = src.getPopupLocbtion(null);
                         if(pt == null) {
-                            Rectangle vis = src.getVisibleRect();
+                            Rectbngle vis = src.getVisibleRect();
                             pt = new Point(vis.x+vis.width/2,
                                            vis.y+vis.height/2);
                         }
@@ -249,46 +249,46 @@ public class BasicRootPaneUI extends RootPaneUI implements
                 }
             }
             else if (owner != null
-                     && SwingUtilities.getRootPane(owner) == root) {
+                     && SwingUtilities.getRootPbne(owner) == root) {
                 if (key == PRESS) {
                     owner.doClick(20);
                 }
             }
         }
 
-        public boolean isEnabled(Object sender) {
-            String key = getName();
+        public boolebn isEnbbled(Object sender) {
+            String key = getNbme();
             if(key == POST_POPUP) {
-                MenuElement[] elems = MenuSelectionManager
-                        .defaultManager()
-                        .getSelectedPath();
+                MenuElement[] elems = MenuSelectionMbnbger
+                        .defbultMbnbger()
+                        .getSelectedPbth();
                 if(elems != null && elems.length != 0) {
-                    return false;
-                    // We shall not interfere with already opened menu
+                    return fblse;
+                    // We shbll not interfere with blrebdy opened menu
                 }
 
-                Component c = KeyboardFocusManager
-                       .getCurrentKeyboardFocusManager()
+                Component c = KeybobrdFocusMbnbger
+                       .getCurrentKeybobrdFocusMbnbger()
                         .getFocusOwner();
-                if(c instanceof JComponent) {
+                if(c instbnceof JComponent) {
                     JComponent src = (JComponent) c;
                     return src.getComponentPopupMenu() != null;
                 }
 
-                return false;
+                return fblse;
             }
 
-            if (sender != null && sender instanceof JRootPane) {
-                JButton owner = ((JRootPane)sender).getDefaultButton();
-                return (owner != null && owner.getModel().isEnabled());
+            if (sender != null && sender instbnceof JRootPbne) {
+                JButton owner = ((JRootPbne)sender).getDefbultButton();
+                return (owner != null && owner.getModel().isEnbbled());
             }
             return true;
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private static class RootPaneInputMap extends ComponentInputMapUIResource {
-        public RootPaneInputMap(JComponent c) {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    privbte stbtic clbss RootPbneInputMbp extends ComponentInputMbpUIResource {
+        public RootPbneInputMbp(JComponent c) {
             super(c);
         }
     }

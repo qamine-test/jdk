@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import java.awt.im.*;
-import java.awt.im.spi.InputMethodContext;
-import java.awt.font.*;
-import java.text.*;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.lang.Character.Subset;
-import java.lang.Character.UnicodeBlock;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import sun.awt.im.InputMethodAdapter;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.im.*;
+import jbvb.bwt.im.spi.InputMethodContext;
+import jbvb.bwt.font.*;
+import jbvb.text.*;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
+import jbvb.lbng.Chbrbcter.Subset;
+import jbvb.lbng.Chbrbcter.UnicodeBlock;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import sun.bwt.im.InputMethodAdbpter;
 
-final class WInputMethod extends InputMethodAdapter
+finbl clbss WInputMethod extends InputMethodAdbpter
 {
     /**
-     * The input method context, which is used to dispatch input method
-     * events to the client component and to request information from
+     * The input method context, which is used to dispbtch input method
+     * events to the client component bnd to request informbtion from
      * the client component.
      */
-    private InputMethodContext inputContext;
+    privbte InputMethodContext inputContext;
 
-    private Component awtFocussedComponent;
-    private WComponentPeer awtFocussedComponentPeer = null;
-    private WComponentPeer lastFocussedComponentPeer = null;
-    private boolean isLastFocussedActiveClient = false;
-    private boolean isActive;
-    private int context;
-    private boolean open; //default open status;
-    private int cmode;    //default conversion mode;
-    private Locale currentLocale;
-    // indicate whether status window is hidden or not.
-    private boolean statusWindowHidden = false;
+    privbte Component bwtFocussedComponent;
+    privbte WComponentPeer bwtFocussedComponentPeer = null;
+    privbte WComponentPeer lbstFocussedComponentPeer = null;
+    privbte boolebn isLbstFocussedActiveClient = fblse;
+    privbte boolebn isActive;
+    privbte int context;
+    privbte boolebn open; //defbult open stbtus;
+    privbte int cmode;    //defbult conversion mode;
+    privbte Locble currentLocble;
+    // indicbte whether stbtus window is hidden or not.
+    privbte boolebn stbtusWindowHidden = fblse;
 
-    // attribute definition in Win32 (in IMM.H)
-    public final static byte ATTR_INPUT                 = 0x00;
-    public final static byte ATTR_TARGET_CONVERTED      = 0x01;
-    public final static byte ATTR_CONVERTED             = 0x02;
-    public final static byte ATTR_TARGET_NOTCONVERTED   = 0x03;
-    public final static byte ATTR_INPUT_ERROR           = 0x04;
+    // bttribute definition in Win32 (in IMM.H)
+    public finbl stbtic byte ATTR_INPUT                 = 0x00;
+    public finbl stbtic byte ATTR_TARGET_CONVERTED      = 0x01;
+    public finbl stbtic byte ATTR_CONVERTED             = 0x02;
+    public finbl stbtic byte ATTR_TARGET_NOTCONVERTED   = 0x03;
+    public finbl stbtic byte ATTR_INPUT_ERROR           = 0x04;
     // cmode definition in Win32 (in IMM.H)
-    public final static int  IME_CMODE_ALPHANUMERIC     = 0x0000;
-    public final static int  IME_CMODE_NATIVE           = 0x0001;
-    public final static int  IME_CMODE_KATAKANA         = 0x0002;
-    public final static int  IME_CMODE_LANGUAGE         = 0x0003;
-    public final static int  IME_CMODE_FULLSHAPE        = 0x0008;
-    public final static int  IME_CMODE_HANJACONVERT     = 0x0040;
-    public final static int  IME_CMODE_ROMAN            = 0x0010;
+    public finbl stbtic int  IME_CMODE_ALPHANUMERIC     = 0x0000;
+    public finbl stbtic int  IME_CMODE_NATIVE           = 0x0001;
+    public finbl stbtic int  IME_CMODE_KATAKANA         = 0x0002;
+    public finbl stbtic int  IME_CMODE_LANGUAGE         = 0x0003;
+    public finbl stbtic int  IME_CMODE_FULLSHAPE        = 0x0008;
+    public finbl stbtic int  IME_CMODE_HANJACONVERT     = 0x0040;
+    public finbl stbtic int  IME_CMODE_ROMAN            = 0x0010;
 
-    // flag values for endCompositionNative() behavior
-    private final static boolean COMMIT_INPUT           = true;
-    private final static boolean DISCARD_INPUT          = false;
+    // flbg vblues for endCompositionNbtive() behbvior
+    privbte finbl stbtic boolebn COMMIT_INPUT           = true;
+    privbte finbl stbtic boolebn DISCARD_INPUT          = fblse;
 
-    private static Map<TextAttribute,Object> [] highlightStyles;
+    privbte stbtic Mbp<TextAttribute,Object> [] highlightStyles;
 
-    // Initialize highlight mapping table
-    static {
-        @SuppressWarnings({"rawtypes", "unchecked"})
-        Map<TextAttribute,Object> styles[] = new Map[4];
-        HashMap<TextAttribute,Object> map;
+    // Initiblize highlight mbpping tbble
+    stbtic {
+        @SuppressWbrnings({"rbwtypes", "unchecked"})
+        Mbp<TextAttribute,Object> styles[] = new Mbp[4];
+        HbshMbp<TextAttribute,Object> mbp;
 
         // UNSELECTED_RAW_TEXT_HIGHLIGHT
-        map = new HashMap<>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE, TextAttribute.UNDERLINE_LOW_DOTTED);
-        styles[0] = Collections.unmodifiableMap(map);
+        mbp = new HbshMbp<>(1);
+        mbp.put(TextAttribute.INPUT_METHOD_UNDERLINE, TextAttribute.UNDERLINE_LOW_DOTTED);
+        styles[0] = Collections.unmodifibbleMbp(mbp);
 
         // SELECTED_RAW_TEXT_HIGHLIGHT
-        map = new HashMap<>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE, TextAttribute.UNDERLINE_LOW_GRAY);
-        styles[1] = Collections.unmodifiableMap(map);
+        mbp = new HbshMbp<>(1);
+        mbp.put(TextAttribute.INPUT_METHOD_UNDERLINE, TextAttribute.UNDERLINE_LOW_GRAY);
+        styles[1] = Collections.unmodifibbleMbp(mbp);
 
         // UNSELECTED_CONVERTED_TEXT_HIGHLIGHT
-        map = new HashMap<>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE, TextAttribute.UNDERLINE_LOW_DOTTED);
-        styles[2] = Collections.unmodifiableMap(map);
+        mbp = new HbshMbp<>(1);
+        mbp.put(TextAttribute.INPUT_METHOD_UNDERLINE, TextAttribute.UNDERLINE_LOW_DOTTED);
+        styles[2] = Collections.unmodifibbleMbp(mbp);
 
         // SELECTED_CONVERTED_TEXT_HIGHLIGHT
-        map = new HashMap<>(4);
-        Color navyBlue = new Color(0, 0, 128);
-        map.put(TextAttribute.FOREGROUND, navyBlue);
-        map.put(TextAttribute.BACKGROUND, Color.white);
-        map.put(TextAttribute.SWAP_COLORS, TextAttribute.SWAP_COLORS_ON);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-        styles[3] = Collections.unmodifiableMap(map);
+        mbp = new HbshMbp<>(4);
+        Color nbvyBlue = new Color(0, 0, 128);
+        mbp.put(TextAttribute.FOREGROUND, nbvyBlue);
+        mbp.put(TextAttribute.BACKGROUND, Color.white);
+        mbp.put(TextAttribute.SWAP_COLORS, TextAttribute.SWAP_COLORS_ON);
+        mbp.put(TextAttribute.INPUT_METHOD_UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
+        styles[3] = Collections.unmodifibbleMbp(mbp);
 
         highlightStyles = styles;
     }
 
     public WInputMethod()
     {
-        context = createNativeContext();
-        cmode = getConversionStatus(context);
-        open = getOpenStatus(context);
-        currentLocale = getNativeLocale();
-        if (currentLocale == null) {
-            currentLocale = Locale.getDefault();
+        context = crebteNbtiveContext();
+        cmode = getConversionStbtus(context);
+        open = getOpenStbtus(context);
+        currentLocble = getNbtiveLocble();
+        if (currentLocble == null) {
+            currentLocble = Locble.getDefbult();
         }
     }
 
     @Override
-    protected void finalize() throws Throwable
+    protected void finblize() throws Throwbble
     {
-        // Release the resources used by the native input context.
+        // Relebse the resources used by the nbtive input context.
         if (context!=0) {
-            destroyNativeContext(context);
+            destroyNbtiveContext(context);
             context=0;
         }
-        super.finalize();
+        super.finblize();
     }
 
     @Override
@@ -145,16 +145,16 @@ final class WInputMethod extends InputMethodAdapter
     }
 
     @Override
-    public final void dispose() {
-        // Due to a memory management problem in Windows 98, we should retain
-        // the native input context until this object is finalized. So do
+    public finbl void dispose() {
+        // Due to b memory mbnbgement problem in Windows 98, we should retbin
+        // the nbtive input context until this object is finblized. So do
         // nothing here.
     }
 
     /**
      * Returns null.
      *
-     * @see java.awt.im.spi.InputMethod#getControlObject
+     * @see jbvb.bwt.im.spi.InputMethod#getControlObject
      */
     @Override
     public Object getControlObject() {
@@ -162,66 +162,66 @@ final class WInputMethod extends InputMethodAdapter
     }
 
     @Override
-    public boolean setLocale(Locale lang) {
-        return setLocale(lang, false);
+    public boolebn setLocble(Locble lbng) {
+        return setLocble(lbng, fblse);
     }
 
-    private boolean setLocale(Locale lang, boolean onActivate) {
-        Locale[] available = WInputMethodDescriptor.getAvailableLocalesInternal();
-        for (int i = 0; i < available.length; i++) {
-            Locale locale = available[i];
-            if (lang.equals(locale) ||
-                    // special compatibility rule for Japanese and Korean
-                    locale.equals(Locale.JAPAN) && lang.equals(Locale.JAPANESE) ||
-                    locale.equals(Locale.KOREA) && lang.equals(Locale.KOREAN)) {
+    privbte boolebn setLocble(Locble lbng, boolebn onActivbte) {
+        Locble[] bvbilbble = WInputMethodDescriptor.getAvbilbbleLocblesInternbl();
+        for (int i = 0; i < bvbilbble.length; i++) {
+            Locble locble = bvbilbble[i];
+            if (lbng.equbls(locble) ||
+                    // specibl compbtibility rule for Jbpbnese bnd Korebn
+                    locble.equbls(Locble.JAPAN) && lbng.equbls(Locble.JAPANESE) ||
+                    locble.equbls(Locble.KOREA) && lbng.equbls(Locble.KOREAN)) {
                 if (isActive) {
-                    setNativeLocale(locale.toLanguageTag(), onActivate);
+                    setNbtiveLocble(locble.toLbngubgeTbg(), onActivbte);
                 }
-                currentLocale = locale;
+                currentLocble = locble;
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public Locale getLocale() {
+    public Locble getLocble() {
         if (isActive) {
-            currentLocale = getNativeLocale();
-            if (currentLocale == null) {
-                currentLocale = Locale.getDefault();
+            currentLocble = getNbtiveLocble();
+            if (currentLocble == null) {
+                currentLocble = Locble.getDefbult();
             }
         }
-        return currentLocale;
+        return currentLocble;
     }
 
     /**
-     * Implements InputMethod.setCharacterSubsets for Windows.
+     * Implements InputMethod.setChbrbcterSubsets for Windows.
      *
-     * @see java.awt.im.spi.InputMethod#setCharacterSubsets
+     * @see jbvb.bwt.im.spi.InputMethod#setChbrbcterSubsets
      */
     @Override
-    public void setCharacterSubsets(Subset[] subsets) {
+    public void setChbrbcterSubsets(Subset[] subsets) {
         if (subsets == null){
-            setConversionStatus(context, cmode);
-            setOpenStatus(context, open);
+            setConversionStbtus(context, cmode);
+            setOpenStbtus(context, open);
             return;
         }
 
-        // Use first subset only. Other subsets in array is ignored.
-        // This is restriction of Win32 implementation.
+        // Use first subset only. Other subsets in brrby is ignored.
+        // This is restriction of Win32 implementbtion.
         Subset subset1 = subsets[0];
 
-        Locale locale = getNativeLocale();
+        Locble locble = getNbtiveLocble();
         int newmode;
 
-        if (locale == null) {
+        if (locble == null) {
             return;
         }
 
-        if (locale.getLanguage().equals(Locale.JAPANESE.getLanguage())) {
+        if (locble.getLbngubge().equbls(Locble.JAPANESE.getLbngubge())) {
             if (subset1 == UnicodeBlock.BASIC_LATIN || subset1 == InputSubset.LATIN_DIGITS) {
-                setOpenStatus(context, false);
+                setOpenStbtus(context, fblse);
             } else {
                 if (subset1 == UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
                     || subset1 == InputSubset.KANJI
@@ -235,13 +235,13 @@ final class WInputMethod extends InputMethodAdapter
                     newmode = IME_CMODE_FULLSHAPE;
                 else
                     return;
-                setOpenStatus(context, true);
-                newmode |= (getConversionStatus(context)&IME_CMODE_ROMAN);   // reserve ROMAN input mode
-                setConversionStatus(context, newmode);
+                setOpenStbtus(context, true);
+                newmode |= (getConversionStbtus(context)&IME_CMODE_ROMAN);   // reserve ROMAN input mode
+                setConversionStbtus(context, newmode);
             }
-        } else if (locale.getLanguage().equals(Locale.KOREAN.getLanguage())) {
+        } else if (locble.getLbngubge().equbls(Locble.KOREAN.getLbngubge())) {
             if (subset1 == UnicodeBlock.BASIC_LATIN || subset1 == InputSubset.LATIN_DIGITS) {
-                setOpenStatus(context, false);
+                setOpenStbtus(context, fblse);
             } else {
                 if (subset1 == UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
                     || subset1 == InputSubset.HANJA
@@ -253,12 +253,12 @@ final class WInputMethod extends InputMethodAdapter
                     newmode = IME_CMODE_FULLSHAPE;
                 else
                     return;
-                setOpenStatus(context, true);
-                setConversionStatus(context, newmode);
+                setOpenStbtus(context, true);
+                setConversionStbtus(context, newmode);
             }
-        } else if (locale.getLanguage().equals(Locale.CHINESE.getLanguage())) {
+        } else if (locble.getLbngubge().equbls(Locble.CHINESE.getLbngubge())) {
             if (subset1 == UnicodeBlock.BASIC_LATIN || subset1 == InputSubset.LATIN_DIGITS) {
-                setOpenStatus(context, false);
+                setOpenStbtus(context, fblse);
             } else {
                 if (subset1 == UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
                     || subset1 == InputSubset.TRADITIONAL_HANZI
@@ -268,171 +268,171 @@ final class WInputMethod extends InputMethodAdapter
                     newmode = IME_CMODE_FULLSHAPE;
                 else
                     return;
-                setOpenStatus(context, true);
-                setConversionStatus(context, newmode);
+                setOpenStbtus(context, true);
+                setConversionStbtus(context, newmode);
             }
         }
     }
 
     @Override
-    public void dispatchEvent(AWTEvent e) {
-        if (e instanceof ComponentEvent) {
+    public void dispbtchEvent(AWTEvent e) {
+        if (e instbnceof ComponentEvent) {
             Component comp = ((ComponentEvent) e).getComponent();
-            if (comp == awtFocussedComponent) {
-                if (awtFocussedComponentPeer == null ||
-                    awtFocussedComponentPeer.isDisposed()) {
-                    awtFocussedComponentPeer = getNearestNativePeer(comp);
+            if (comp == bwtFocussedComponent) {
+                if (bwtFocussedComponentPeer == null ||
+                    bwtFocussedComponentPeer.isDisposed()) {
+                    bwtFocussedComponentPeer = getNebrestNbtivePeer(comp);
                 }
-                if (awtFocussedComponentPeer != null) {
-                    handleNativeIMEEvent(awtFocussedComponentPeer, e);
+                if (bwtFocussedComponentPeer != null) {
+                    hbndleNbtiveIMEEvent(bwtFocussedComponentPeer, e);
                 }
             }
         }
     }
 
     @Override
-    public void activate() {
-        boolean isAc = haveActiveClient();
+    public void bctivbte() {
+        boolebn isAc = hbveActiveClient();
 
-        // When the last focussed component peer is different from the
-        // current focussed component or if they are different client
-        // (active or passive), disable native IME for the old focussed
-        // component and enable for the new one.
-        if (lastFocussedComponentPeer != awtFocussedComponentPeer ||
-            isLastFocussedActiveClient != isAc) {
-            if (lastFocussedComponentPeer != null) {
-                disableNativeIME(lastFocussedComponentPeer);
+        // When the lbst focussed component peer is different from the
+        // current focussed component or if they bre different client
+        // (bctive or pbssive), disbble nbtive IME for the old focussed
+        // component bnd enbble for the new one.
+        if (lbstFocussedComponentPeer != bwtFocussedComponentPeer ||
+            isLbstFocussedActiveClient != isAc) {
+            if (lbstFocussedComponentPeer != null) {
+                disbbleNbtiveIME(lbstFocussedComponentPeer);
             }
-            if (awtFocussedComponentPeer != null) {
-                enableNativeIME(awtFocussedComponentPeer, context, !isAc);
+            if (bwtFocussedComponentPeer != null) {
+                enbbleNbtiveIME(bwtFocussedComponentPeer, context, !isAc);
             }
-            lastFocussedComponentPeer = awtFocussedComponentPeer;
-            isLastFocussedActiveClient = isAc;
+            lbstFocussedComponentPeer = bwtFocussedComponentPeer;
+            isLbstFocussedActiveClient = isAc;
         }
         isActive = true;
-        if (currentLocale != null) {
-            setLocale(currentLocale, true);
+        if (currentLocble != null) {
+            setLocble(currentLocble, true);
         }
 
-        /* If the status window or Windows language bar is turned off due to
-           native input method was switched to java input method, we
-           have to turn it on otherwise it is gone for good until next time
-           the user turns it on through Windows Control Panel. See details
+        /* If the stbtus window or Windows lbngubge bbr is turned off due to
+           nbtive input method wbs switched to jbvb input method, we
+           hbve to turn it on otherwise it is gone for good until next time
+           the user turns it on through Windows Control Pbnel. See detbils
            from bug 6252674.
         */
-        if (statusWindowHidden) {
-            setStatusWindowVisible(awtFocussedComponentPeer, true);
-            statusWindowHidden = false;
+        if (stbtusWindowHidden) {
+            setStbtusWindowVisible(bwtFocussedComponentPeer, true);
+            stbtusWindowHidden = fblse;
         }
 
     }
 
     @Override
-    public void deactivate(boolean isTemporary)
+    public void debctivbte(boolebn isTemporbry)
     {
-        // Sync currentLocale with the Windows keyboard layout which might be changed
+        // Sync currentLocble with the Windows keybobrd lbyout which might be chbnged
         // by hot key
-        getLocale();
+        getLocble();
 
-        // Delay calling disableNativeIME until activate is called and the newly
-        // focussed component has a different peer as the last focussed component.
-        if (awtFocussedComponentPeer != null) {
-            lastFocussedComponentPeer = awtFocussedComponentPeer;
-            isLastFocussedActiveClient = haveActiveClient();
+        // Delby cblling disbbleNbtiveIME until bctivbte is cblled bnd the newly
+        // focussed component hbs b different peer bs the lbst focussed component.
+        if (bwtFocussedComponentPeer != null) {
+            lbstFocussedComponentPeer = bwtFocussedComponentPeer;
+            isLbstFocussedActiveClient = hbveActiveClient();
         }
-        isActive = false;
+        isActive = fblse;
     }
 
     /**
-     * Explicitly disable the native IME. Native IME is not disabled when
-     * deactivate is called.
+     * Explicitly disbble the nbtive IME. Nbtive IME is not disbbled when
+     * debctivbte is cblled.
      */
     @Override
-    public void disableInputMethod() {
-        if (lastFocussedComponentPeer != null) {
-            disableNativeIME(lastFocussedComponentPeer);
-            lastFocussedComponentPeer = null;
-            isLastFocussedActiveClient = false;
+    public void disbbleInputMethod() {
+        if (lbstFocussedComponentPeer != null) {
+            disbbleNbtiveIME(lbstFocussedComponentPeer);
+            lbstFocussedComponentPeer = null;
+            isLbstFocussedActiveClient = fblse;
         }
     }
 
     /**
-     * Returns a string with information about the windows input method,
+     * Returns b string with informbtion bbout the windows input method,
      * or null.
      */
     @Override
-    public String getNativeInputMethodInfo() {
-        return getNativeIMMDescription();
+    public String getNbtiveInputMethodInfo() {
+        return getNbtiveIMMDescription();
     }
 
      /**
-     * @see sun.awt.im.InputMethodAdapter#stopListening
-     * This method is called when the input method is swapped out.
-     * Calling stopListening to give other input method the keybaord input
+     * @see sun.bwt.im.InputMethodAdbpter#stopListening
+     * This method is cblled when the input method is swbpped out.
+     * Cblling stopListening to give other input method the keybbord input
      * focus.
      */
     @Override
     protected void stopListening() {
-        // Since the native input method is not disabled when deactivate is
-        // called, we need to call disableInputMethod to explicitly turn off the
-        // native IME.
-        disableInputMethod();
+        // Since the nbtive input method is not disbbled when debctivbte is
+        // cblled, we need to cbll disbbleInputMethod to explicitly turn off the
+        // nbtive IME.
+        disbbleInputMethod();
     }
 
-    // implements sun.awt.im.InputMethodAdapter.setAWTFocussedComponent
+    // implements sun.bwt.im.InputMethodAdbpter.setAWTFocussedComponent
     @Override
     protected void setAWTFocussedComponent(Component component) {
         if (component == null) {
             return;
         }
-        WComponentPeer peer = getNearestNativePeer(component);
+        WComponentPeer peer = getNebrestNbtivePeer(component);
         if (isActive) {
-            // deactivate/activate are being suppressed during a focus change -
-            // this may happen when an input method window is made visible
-            if (awtFocussedComponentPeer != null) {
-                disableNativeIME(awtFocussedComponentPeer);
+            // debctivbte/bctivbte bre being suppressed during b focus chbnge -
+            // this mby hbppen when bn input method window is mbde visible
+            if (bwtFocussedComponentPeer != null) {
+                disbbleNbtiveIME(bwtFocussedComponentPeer);
             }
             if (peer != null) {
-                enableNativeIME(peer, context, !haveActiveClient());
+                enbbleNbtiveIME(peer, context, !hbveActiveClient());
             }
         }
-        awtFocussedComponent = component;
-        awtFocussedComponentPeer = peer;
+        bwtFocussedComponent = component;
+        bwtFocussedComponentPeer = peer;
     }
 
-    // implements java.awt.im.spi.InputMethod.hideWindows
+    // implements jbvb.bwt.im.spi.InputMethod.hideWindows
     @Override
     public void hideWindows() {
-        if (awtFocussedComponentPeer != null) {
-            /* Hide the native status window including the Windows language
-               bar if it is on. One typical senario this method
-               gets called is when the native input method is
-               switched to java input method, for example.
+        if (bwtFocussedComponentPeer != null) {
+            /* Hide the nbtive stbtus window including the Windows lbngubge
+               bbr if it is on. One typicbl senbrio this method
+               gets cblled is when the nbtive input method is
+               switched to jbvb input method, for exbmple.
             */
-            setStatusWindowVisible(awtFocussedComponentPeer, false);
-            statusWindowHidden = true;
+            setStbtusWindowVisible(bwtFocussedComponentPeer, fblse);
+            stbtusWindowHidden = true;
         }
     }
 
     /**
-     * @see java.awt.im.spi.InputMethod#removeNotify
+     * @see jbvb.bwt.im.spi.InputMethod#removeNotify
      */
     @Override
     public void removeNotify() {
-        endCompositionNative(context, DISCARD_INPUT);
-        awtFocussedComponent = null;
-        awtFocussedComponentPeer = null;
+        endCompositionNbtive(context, DISCARD_INPUT);
+        bwtFocussedComponent = null;
+        bwtFocussedComponentPeer = null;
     }
 
     /**
-     * @see java.awt.Toolkit#mapInputMethodHighlight
+     * @see jbvb.bwt.Toolkit#mbpInputMethodHighlight
      */
-    static Map<TextAttribute,?> mapInputMethodHighlight(InputMethodHighlight highlight) {
+    stbtic Mbp<TextAttribute,?> mbpInputMethodHighlight(InputMethodHighlight highlight) {
         int index;
-        int state = highlight.getState();
-        if (state == InputMethodHighlight.RAW_TEXT) {
+        int stbte = highlight.getStbte();
+        if (stbte == InputMethodHighlight.RAW_TEXT) {
             index = 0;
-        } else if (state == InputMethodHighlight.CONVERTED_TEXT) {
+        } else if (stbte == InputMethodHighlight.CONVERTED_TEXT) {
             index = 2;
         } else {
             return null;
@@ -443,113 +443,113 @@ final class WInputMethod extends InputMethodAdapter
         return highlightStyles[index];
     }
 
-    // see sun.awt.im.InputMethodAdapter.supportsBelowTheSpot
+    // see sun.bwt.im.InputMethodAdbpter.supportsBelowTheSpot
     @Override
-    protected boolean supportsBelowTheSpot() {
+    protected boolebn supportsBelowTheSpot() {
         return true;
     }
 
     @Override
     public void endComposition()
     {
-        //right now the native endCompositionNative() just cancel
-        //the composition string, maybe a commtting is desired
-        endCompositionNative(context,
-            (haveActiveClient() ? COMMIT_INPUT : DISCARD_INPUT));
+        //right now the nbtive endCompositionNbtive() just cbncel
+        //the composition string, mbybe b commtting is desired
+        endCompositionNbtive(context,
+            (hbveActiveClient() ? COMMIT_INPUT : DISCARD_INPUT));
     }
 
     /**
-     * @see java.awt.im.spi.InputMethod#setCompositionEnabled(boolean)
+     * @see jbvb.bwt.im.spi.InputMethod#setCompositionEnbbled(boolebn)
      */
     @Override
-    public void setCompositionEnabled(boolean enable) {
-        setOpenStatus(context, enable);
+    public void setCompositionEnbbled(boolebn enbble) {
+        setOpenStbtus(context, enbble);
     }
 
     /**
-     * @see java.awt.im.spi.InputMethod#isCompositionEnabled
+     * @see jbvb.bwt.im.spi.InputMethod#isCompositionEnbbled
      */
     @Override
-    public boolean isCompositionEnabled() {
-        return getOpenStatus(context);
+    public boolebn isCompositionEnbbled() {
+        return getOpenStbtus(context);
     }
 
     public void sendInputMethodEvent(int id, long when, String text,
-                                     int[] clauseBoundary, String[] clauseReading,
-                                     int[] attributeBoundary, byte[] attributeValue,
-                                     int commitedTextLength, int caretPos, int visiblePos)
+                                     int[] clbuseBoundbry, String[] clbuseRebding,
+                                     int[] bttributeBoundbry, byte[] bttributeVblue,
+                                     int commitedTextLength, int cbretPos, int visiblePos)
     {
 
-        AttributedCharacterIterator iterator = null;
+        AttributedChbrbcterIterbtor iterbtor = null;
 
         if (text!=null) {
 
             // construct AttributedString
-            AttributedString attrStr = new AttributedString(text);
+            AttributedString bttrStr = new AttributedString(text);
 
-            // set Language Information
-            attrStr.addAttribute(Attribute.LANGUAGE,
-                                            Locale.getDefault(), 0, text.length());
+            // set Lbngubge Informbtion
+            bttrStr.bddAttribute(Attribute.LANGUAGE,
+                                            Locble.getDefbult(), 0, text.length());
 
-            // set Clause and Reading Information
-            if (clauseBoundary!=null && clauseReading!=null &&
-                clauseReading.length!=0 && clauseBoundary.length==clauseReading.length+1 &&
-                clauseBoundary[0]==0 && clauseBoundary[clauseReading.length]==text.length() )
+            // set Clbuse bnd Rebding Informbtion
+            if (clbuseBoundbry!=null && clbuseRebding!=null &&
+                clbuseRebding.length!=0 && clbuseBoundbry.length==clbuseRebding.length+1 &&
+                clbuseBoundbry[0]==0 && clbuseBoundbry[clbuseRebding.length]==text.length() )
             {
-                for (int i=0; i<clauseBoundary.length-1; i++) {
-                    attrStr.addAttribute(Attribute.INPUT_METHOD_SEGMENT,
-                                            new Annotation(null), clauseBoundary[i], clauseBoundary[i+1]);
-                    attrStr.addAttribute(Attribute.READING,
-                                            new Annotation(clauseReading[i]), clauseBoundary[i], clauseBoundary[i+1]);
+                for (int i=0; i<clbuseBoundbry.length-1; i++) {
+                    bttrStr.bddAttribute(Attribute.INPUT_METHOD_SEGMENT,
+                                            new Annotbtion(null), clbuseBoundbry[i], clbuseBoundbry[i+1]);
+                    bttrStr.bddAttribute(Attribute.READING,
+                                            new Annotbtion(clbuseRebding[i]), clbuseBoundbry[i], clbuseBoundbry[i+1]);
                 }
             } else {
-                // if (clauseBoundary != null)
-                //    System.out.println("Invalid clause information!");
+                // if (clbuseBoundbry != null)
+                //    System.out.println("Invblid clbuse informbtion!");
 
-                attrStr.addAttribute(Attribute.INPUT_METHOD_SEGMENT,
-                                        new Annotation(null), 0, text.length());
-                attrStr.addAttribute(Attribute.READING,
-                                     new Annotation(""), 0, text.length());
+                bttrStr.bddAttribute(Attribute.INPUT_METHOD_SEGMENT,
+                                        new Annotbtion(null), 0, text.length());
+                bttrStr.bddAttribute(Attribute.READING,
+                                     new Annotbtion(""), 0, text.length());
             }
 
-            // set Hilight Information
-            if (attributeBoundary!=null && attributeValue!=null &&
-                attributeValue.length!=0 && attributeBoundary.length==attributeValue.length+1 &&
-                attributeBoundary[0]==0 && attributeBoundary[attributeValue.length]==text.length() )
+            // set Hilight Informbtion
+            if (bttributeBoundbry!=null && bttributeVblue!=null &&
+                bttributeVblue.length!=0 && bttributeBoundbry.length==bttributeVblue.length+1 &&
+                bttributeBoundbry[0]==0 && bttributeBoundbry[bttributeVblue.length]==text.length() )
             {
-                for (int i=0; i<attributeBoundary.length-1; i++) {
+                for (int i=0; i<bttributeBoundbry.length-1; i++) {
                     InputMethodHighlight highlight;
-                    switch (attributeValue[i]) {
-                        case ATTR_TARGET_CONVERTED:
+                    switch (bttributeVblue[i]) {
+                        cbse ATTR_TARGET_CONVERTED:
                             highlight = InputMethodHighlight.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
-                            break;
-                        case ATTR_CONVERTED:
+                            brebk;
+                        cbse ATTR_CONVERTED:
                             highlight = InputMethodHighlight.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
-                            break;
-                        case ATTR_TARGET_NOTCONVERTED:
+                            brebk;
+                        cbse ATTR_TARGET_NOTCONVERTED:
                             highlight = InputMethodHighlight.SELECTED_RAW_TEXT_HIGHLIGHT;
-                            break;
-                        case ATTR_INPUT:
-                        case ATTR_INPUT_ERROR:
-                        default:
+                            brebk;
+                        cbse ATTR_INPUT:
+                        cbse ATTR_INPUT_ERROR:
+                        defbult:
                             highlight = InputMethodHighlight.UNSELECTED_RAW_TEXT_HIGHLIGHT;
-                            break;
+                            brebk;
                     }
-                    attrStr.addAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT,
+                    bttrStr.bddAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT,
                                          highlight,
-                                         attributeBoundary[i], attributeBoundary[i+1]);
+                                         bttributeBoundbry[i], bttributeBoundbry[i+1]);
                 }
             } else {
-                // if (attributeBoundary != null)
-                //    System.out.println("Invalid attribute information!");
+                // if (bttributeBoundbry != null)
+                //    System.out.println("Invblid bttribute informbtion!");
 
-                attrStr.addAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT,
+                bttrStr.bddAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT,
                              InputMethodHighlight.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT,
                              0, text.length());
             }
 
-            // get iterator
-            iterator = attrStr.getIterator();
+            // get iterbtor
+            iterbtor = bttrStr.getIterbtor();
 
         }
 
@@ -560,24 +560,24 @@ final class WInputMethod extends InputMethodAdapter
         InputMethodEvent event = new InputMethodEvent(source,
                                                       id,
                                                       when,
-                                                      iterator,
+                                                      iterbtor,
                                                       commitedTextLength,
-                                                      TextHitInfo.leading(caretPos),
-                                                      TextHitInfo.leading(visiblePos));
-        WToolkit.postEvent(WToolkit.targetToAppContext(source), event);
+                                                      TextHitInfo.lebding(cbretPos),
+                                                      TextHitInfo.lebding(visiblePos));
+        WToolkit.postEvent(WToolkit.tbrgetToAppContext(source), event);
     }
 
-    public void inquireCandidatePosition()
+    public void inquireCbndidbtePosition()
     {
         Component source = getClientComponent();
         if (source == null) {
             return;
         }
-        // This call should return immediately just to cause
-        // InputMethodRequests.getTextLocation be called within
-        // AWT Event thread.  Otherwise, a potential deadlock
-        // could happen.
-        Runnable r = new Runnable() {
+        // This cbll should return immedibtely just to cbuse
+        // InputMethodRequests.getTextLocbtion be cblled within
+        // AWT Event threbd.  Otherwise, b potentibl debdlock
+        // could hbppen.
+        Runnbble r = new Runnbble() {
             @Override
             public void run() {
                 int x = 0;
@@ -585,61 +585,61 @@ final class WInputMethod extends InputMethodAdapter
                 Component client = getClientComponent();
 
                 if (client != null) {
-                    if (haveActiveClient()) {
-                            Rectangle rc = inputContext.getTextLocation(TextHitInfo.leading(0));
+                    if (hbveActiveClient()) {
+                            Rectbngle rc = inputContext.getTextLocbtion(TextHitInfo.lebding(0));
                             x = rc.x;
                             y = rc.y + rc.height;
                     } else {
-                            Point pt = client.getLocationOnScreen();
+                            Point pt = client.getLocbtionOnScreen();
                             Dimension size = client.getSize();
                             x = pt.x;
                             y = pt.y + size.height;
                     }
                 }
 
-                openCandidateWindow(awtFocussedComponentPeer, x, y);
+                openCbndidbteWindow(bwtFocussedComponentPeer, x, y);
             }
         };
-        WToolkit.postEvent(WToolkit.targetToAppContext(source),
-                           new InvocationEvent(source, r));
+        WToolkit.postEvent(WToolkit.tbrgetToAppContext(source),
+                           new InvocbtionEvent(source, r));
     }
 
-    // java.awt.Toolkit#getNativeContainer() is not available
-    //  from this package
-    private WComponentPeer getNearestNativePeer(Component comp)
+    // jbvb.bwt.Toolkit#getNbtiveContbiner() is not bvbilbble
+    //  from this pbckbge
+    privbte WComponentPeer getNebrestNbtivePeer(Component comp)
     {
         if (comp==null)     return null;
 
         ComponentPeer peer = comp.getPeer();
         if (peer==null)     return null;
 
-        while (peer instanceof java.awt.peer.LightweightPeer) {
-            comp = comp.getParent();
+        while (peer instbnceof jbvb.bwt.peer.LightweightPeer) {
+            comp = comp.getPbrent();
             if (comp==null) return null;
             peer = comp.getPeer();
             if (peer==null) return null;
         }
 
-        if (peer instanceof WComponentPeer)
+        if (peer instbnceof WComponentPeer)
             return (WComponentPeer)peer;
         else
             return null;
 
     }
 
-    private native int createNativeContext();
-    private native void destroyNativeContext(int context);
-    private native void enableNativeIME(WComponentPeer peer, int context, boolean useNativeCompWindow);
-    private native void disableNativeIME(WComponentPeer peer);
-    private native void handleNativeIMEEvent(WComponentPeer peer, AWTEvent e);
-    private native void endCompositionNative(int context, boolean flag);
-    private native void setConversionStatus(int context, int cmode);
-    private native int  getConversionStatus(int context);
-    private native void setOpenStatus(int context, boolean flag);
-    private native boolean getOpenStatus(int context);
-    private native void setStatusWindowVisible(WComponentPeer peer, boolean visible);
-    private native String getNativeIMMDescription();
-    static native Locale getNativeLocale();
-    static native boolean setNativeLocale(String localeName, boolean onActivate);
-    private native void openCandidateWindow(WComponentPeer peer, int x, int y);
+    privbte nbtive int crebteNbtiveContext();
+    privbte nbtive void destroyNbtiveContext(int context);
+    privbte nbtive void enbbleNbtiveIME(WComponentPeer peer, int context, boolebn useNbtiveCompWindow);
+    privbte nbtive void disbbleNbtiveIME(WComponentPeer peer);
+    privbte nbtive void hbndleNbtiveIMEEvent(WComponentPeer peer, AWTEvent e);
+    privbte nbtive void endCompositionNbtive(int context, boolebn flbg);
+    privbte nbtive void setConversionStbtus(int context, int cmode);
+    privbte nbtive int  getConversionStbtus(int context);
+    privbte nbtive void setOpenStbtus(int context, boolebn flbg);
+    privbte nbtive boolebn getOpenStbtus(int context);
+    privbte nbtive void setStbtusWindowVisible(WComponentPeer peer, boolebn visible);
+    privbte nbtive String getNbtiveIMMDescription();
+    stbtic nbtive Locble getNbtiveLocble();
+    stbtic nbtive boolebn setNbtiveLocble(String locbleNbme, boolebn onActivbte);
+    privbte nbtive void openCbndidbteWindow(WComponentPeer peer, int x, int y);
 }

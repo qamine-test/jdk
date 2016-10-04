@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.datatransfer;
+pbckbge sun.bwt.dbtbtrbnsfer;
 
-import java.awt.EventQueue;
+import jbvb.bwt.EventQueue;
 
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.FlavorTable;
-import java.awt.datatransfer.SystemFlavorMap;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.FlavorListener;
-import java.awt.datatransfer.FlavorEvent;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import jbvb.bwt.dbtbtrbnsfer.Clipbobrd;
+import jbvb.bwt.dbtbtrbnsfer.FlbvorTbble;
+import jbvb.bwt.dbtbtrbnsfer.SystemFlbvorMbp;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.ClipbobrdOwner;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.FlbvorListener;
+import jbvb.bwt.dbtbtrbnsfer.FlbvorEvent;
+import jbvb.bwt.dbtbtrbnsfer.UnsupportedFlbvorException;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
-import java.util.Objects;
-import java.util.Set;
-import java.util.HashSet;
+import jbvb.util.Objects;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import sun.awt.AppContext;
-import sun.awt.PeerEvent;
-import sun.awt.SunToolkit;
+import sun.bwt.AppContext;
+import sun.bwt.PeerEvent;
+import sun.bwt.SunToolkit;
 
 
 /**
- * Serves as a common, helper superclass for the Win32 and X11 system
- * Clipboards.
+ * Serves bs b common, helper superclbss for the Win32 bnd X11 system
+ * Clipbobrds.
  *
- * @author Danila Sinopalnikov
- * @author Alexander Gerasimov
+ * @buthor Dbnilb Sinopblnikov
+ * @buthor Alexbnder Gerbsimov
  *
  * @since 1.3
  */
-public abstract class SunClipboard extends Clipboard
-    implements PropertyChangeListener {
+public bbstrbct clbss SunClipbobrd extends Clipbobrd
+    implements PropertyChbngeListener {
 
-    private AppContext contentsContext = null;
+    privbte AppContext contentsContext = null;
 
-    private final Object CLIPBOARD_FLAVOR_LISTENER_KEY;
-
-    /**
-     * A number of <code>FlavorListener</code>s currently registered
-     * on this clipboard across all <code>AppContext</code>s.
-     */
-    private volatile int numberOfFlavorListeners = 0;
+    privbte finbl Object CLIPBOARD_FLAVOR_LISTENER_KEY;
 
     /**
-     * A set of <code>DataFlavor</code>s that is available on
-     * this clipboard. It is used for tracking changes
-     * of <code>DataFlavor</code>s available on this clipboard.
+     * A number of <code>FlbvorListener</code>s currently registered
+     * on this clipbobrd bcross bll <code>AppContext</code>s.
      */
-    private volatile Set<DataFlavor> currentDataFlavors;
+    privbte volbtile int numberOfFlbvorListeners = 0;
+
+    /**
+     * A set of <code>DbtbFlbvor</code>s thbt is bvbilbble on
+     * this clipbobrd. It is used for trbcking chbnges
+     * of <code>DbtbFlbvor</code>s bvbilbble on this clipbobrd.
+     */
+    privbte volbtile Set<DbtbFlbvor> currentDbtbFlbvors;
 
 
-    public SunClipboard(String name) {
-        super(name);
-        CLIPBOARD_FLAVOR_LISTENER_KEY = new StringBuffer(name + "_CLIPBOARD_FLAVOR_LISTENER_KEY");
+    public SunClipbobrd(String nbme) {
+        super(nbme);
+        CLIPBOARD_FLAVOR_LISTENER_KEY = new StringBuffer(nbme + "_CLIPBOARD_FLAVOR_LISTENER_KEY");
     }
 
-    public synchronized void setContents(Transferable contents,
-                                         ClipboardOwner owner) {
-        // 4378007 : Toolkit.getSystemClipboard().setContents(null, null)
+    public synchronized void setContents(Trbnsferbble contents,
+                                         ClipbobrdOwner owner) {
+        // 4378007 : Toolkit.getSystemClipbobrd().setContents(null, null)
         // should throw NPE
         if (contents == null) {
             throw new NullPointerException("contents");
@@ -96,356 +96,356 @@ public abstract class SunClipboard extends Clipboard
 
         initContext();
 
-        final ClipboardOwner oldOwner = this.owner;
-        final Transferable oldContents = this.contents;
+        finbl ClipbobrdOwner oldOwner = this.owner;
+        finbl Trbnsferbble oldContents = this.contents;
 
         try {
             this.owner = owner;
-            this.contents = new TransferableProxy(contents, true);
+            this.contents = new TrbnsferbbleProxy(contents, true);
 
-            setContentsNative(contents);
-        } finally {
+            setContentsNbtive(contents);
+        } finblly {
             if (oldOwner != null && oldOwner != owner) {
-                EventQueue.invokeLater(() -> oldOwner.lostOwnership(SunClipboard.this, oldContents));
+                EventQueue.invokeLbter(() -> oldOwner.lostOwnership(SunClipbobrd.this, oldContents));
             }
         }
     }
 
-    private synchronized void initContext() {
-        final AppContext context = AppContext.getAppContext();
+    privbte synchronized void initContext() {
+        finbl AppContext context = AppContext.getAppContext();
 
         if (contentsContext != context) {
-            // Need to synchronize on the AppContext to guarantee that it cannot
-            // be disposed after the check, but before the listener is added.
+            // Need to synchronize on the AppContext to gubrbntee thbt it cbnnot
+            // be disposed bfter the check, but before the listener is bdded.
             synchronized (context) {
                 if (context.isDisposed()) {
-                    throw new IllegalStateException("Can't set contents from disposed AppContext");
+                    throw new IllegblStbteException("Cbn't set contents from disposed AppContext");
                 }
-                context.addPropertyChangeListener
+                context.bddPropertyChbngeListener
                     (AppContext.DISPOSED_PROPERTY_NAME, this);
             }
             if (contentsContext != null) {
-                contentsContext.removePropertyChangeListener
+                contentsContext.removePropertyChbngeListener
                     (AppContext.DISPOSED_PROPERTY_NAME, this);
             }
             contentsContext = context;
         }
     }
 
-    public synchronized Transferable getContents(Object requestor) {
+    public synchronized Trbnsferbble getContents(Object requestor) {
         if (contents != null) {
             return contents;
         }
-        return new ClipboardTransferable(this);
+        return new ClipbobrdTrbnsferbble(this);
     }
 
 
     /**
-     * @return the contents of this clipboard if it has been set from the same
-     *         AppContext as it is currently retrieved or null otherwise
+     * @return the contents of this clipbobrd if it hbs been set from the sbme
+     *         AppContext bs it is currently retrieved or null otherwise
      * @since 1.5
      */
-    private synchronized Transferable getContextContents() {
+    privbte synchronized Trbnsferbble getContextContents() {
         AppContext context = AppContext.getAppContext();
         return (context == contentsContext) ? contents : null;
     }
 
 
     /**
-     * @see java.awt.Clipboard#getAvailableDataFlavors
+     * @see jbvb.bwt.Clipbobrd#getAvbilbbleDbtbFlbvors
      * @since 1.5
      */
-    public DataFlavor[] getAvailableDataFlavors() {
-        Transferable cntnts = getContextContents();
+    public DbtbFlbvor[] getAvbilbbleDbtbFlbvors() {
+        Trbnsferbble cntnts = getContextContents();
         if (cntnts != null) {
-            return cntnts.getTransferDataFlavors();
+            return cntnts.getTrbnsferDbtbFlbvors();
         }
 
-        long[] formats = getClipboardFormatsOpenClose();
+        long[] formbts = getClipbobrdFormbtsOpenClose();
 
-        return DataTransferer.getInstance().
-            getFlavorsForFormatsAsArray(formats, getDefaultFlavorTable());
+        return DbtbTrbnsferer.getInstbnce().
+            getFlbvorsForFormbtsAsArrby(formbts, getDefbultFlbvorTbble());
     }
 
     /**
-     * @see java.awt.Clipboard#isDataFlavorAvailable
+     * @see jbvb.bwt.Clipbobrd#isDbtbFlbvorAvbilbble
      * @since 1.5
      */
-    public boolean isDataFlavorAvailable(DataFlavor flavor) {
-        if (flavor == null) {
-            throw new NullPointerException("flavor");
+    public boolebn isDbtbFlbvorAvbilbble(DbtbFlbvor flbvor) {
+        if (flbvor == null) {
+            throw new NullPointerException("flbvor");
         }
 
-        Transferable cntnts = getContextContents();
+        Trbnsferbble cntnts = getContextContents();
         if (cntnts != null) {
-            return cntnts.isDataFlavorSupported(flavor);
+            return cntnts.isDbtbFlbvorSupported(flbvor);
         }
 
-        long[] formats = getClipboardFormatsOpenClose();
+        long[] formbts = getClipbobrdFormbtsOpenClose();
 
-        return formatArrayAsDataFlavorSet(formats).contains(flavor);
+        return formbtArrbyAsDbtbFlbvorSet(formbts).contbins(flbvor);
     }
 
     /**
-     * @see java.awt.Clipboard#getData
+     * @see jbvb.bwt.Clipbobrd#getDbtb
      * @since 1.5
      */
-    public Object getData(DataFlavor flavor)
-        throws UnsupportedFlavorException, IOException {
-        if (flavor == null) {
-            throw new NullPointerException("flavor");
+    public Object getDbtb(DbtbFlbvor flbvor)
+        throws UnsupportedFlbvorException, IOException {
+        if (flbvor == null) {
+            throw new NullPointerException("flbvor");
         }
 
-        Transferable cntnts = getContextContents();
+        Trbnsferbble cntnts = getContextContents();
         if (cntnts != null) {
-            return cntnts.getTransferData(flavor);
+            return cntnts.getTrbnsferDbtb(flbvor);
         }
 
-        long format = 0;
-        byte[] data = null;
-        Transferable localeTransferable = null;
+        long formbt = 0;
+        byte[] dbtb = null;
+        Trbnsferbble locbleTrbnsferbble = null;
 
         try {
-            openClipboard(null);
+            openClipbobrd(null);
 
-            long[] formats = getClipboardFormats();
-            Long lFormat = DataTransferer.getInstance().
-                    getFlavorsForFormats(formats, getDefaultFlavorTable()).get(flavor);
+            long[] formbts = getClipbobrdFormbts();
+            Long lFormbt = DbtbTrbnsferer.getInstbnce().
+                    getFlbvorsForFormbts(formbts, getDefbultFlbvorTbble()).get(flbvor);
 
-            if (lFormat == null) {
-                throw new UnsupportedFlavorException(flavor);
+            if (lFormbt == null) {
+                throw new UnsupportedFlbvorException(flbvor);
             }
 
-            format = lFormat.longValue();
-            data = getClipboardData(format);
+            formbt = lFormbt.longVblue();
+            dbtb = getClipbobrdDbtb(formbt);
 
-            if (DataTransferer.getInstance().isLocaleDependentTextFormat(format)) {
-                localeTransferable = createLocaleTransferable(formats);
+            if (DbtbTrbnsferer.getInstbnce().isLocbleDependentTextFormbt(formbt)) {
+                locbleTrbnsferbble = crebteLocbleTrbnsferbble(formbts);
             }
 
-        } finally {
-            closeClipboard();
+        } finblly {
+            closeClipbobrd();
         }
 
-        return DataTransferer.getInstance().
-                translateBytes(data, flavor, format, localeTransferable);
+        return DbtbTrbnsferer.getInstbnce().
+                trbnslbteBytes(dbtb, flbvor, formbt, locbleTrbnsferbble);
     }
 
     /**
-     * The clipboard must be opened.
+     * The clipbobrd must be opened.
      *
      * @since 1.5
      */
-    protected Transferable createLocaleTransferable(long[] formats) throws IOException {
+    protected Trbnsferbble crebteLocbleTrbnsferbble(long[] formbts) throws IOException {
         return null;
     }
 
     /**
-     * @throws IllegalStateException if the clipboard has not been opened
+     * @throws IllegblStbteException if the clipbobrd hbs not been opened
      */
-    public void openClipboard(SunClipboard newOwner) {}
-    public void closeClipboard() {}
+    public void openClipbobrd(SunClipbobrd newOwner) {}
+    public void closeClipbobrd() {}
 
-    public abstract long getID();
+    public bbstrbct long getID();
 
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (AppContext.DISPOSED_PROPERTY_NAME.equals(evt.getPropertyName()) &&
-            Boolean.TRUE.equals(evt.getNewValue())) {
-            final AppContext disposedContext = (AppContext)evt.getSource();
-            lostOwnershipLater(disposedContext);
+    public void propertyChbnge(PropertyChbngeEvent evt) {
+        if (AppContext.DISPOSED_PROPERTY_NAME.equbls(evt.getPropertyNbme()) &&
+            Boolebn.TRUE.equbls(evt.getNewVblue())) {
+            finbl AppContext disposedContext = (AppContext)evt.getSource();
+            lostOwnershipLbter(disposedContext);
         }
     }
 
     protected void lostOwnershipImpl() {
-        lostOwnershipLater(null);
+        lostOwnershipLbter(null);
     }
 
     /**
-     * Clears the clipboard state (contents, owner and contents context) and
-     * notifies the current owner that ownership is lost. Does nothing if the
-     * argument is not <code>null</code> and is not equal to the current
+     * Clebrs the clipbobrd stbte (contents, owner bnd contents context) bnd
+     * notifies the current owner thbt ownership is lost. Does nothing if the
+     * brgument is not <code>null</code> bnd is not equbl to the current
      * contents context.
      *
-     * @param disposedContext the AppContext that is disposed or
-     *        <code>null</code> if the ownership is lost because another
-     *        application acquired ownership.
+     * @pbrbm disposedContext the AppContext thbt is disposed or
+     *        <code>null</code> if the ownership is lost becbuse bnother
+     *        bpplicbtion bcquired ownership.
      */
-    protected void lostOwnershipLater(final AppContext disposedContext) {
-        final AppContext context = this.contentsContext;
+    protected void lostOwnershipLbter(finbl AppContext disposedContext) {
+        finbl AppContext context = this.contentsContext;
         if (context == null) {
             return;
         }
 
-        final Runnable runnable = new Runnable() {
+        finbl Runnbble runnbble = new Runnbble() {
                 public void run() {
-                    final SunClipboard sunClipboard = SunClipboard.this;
-                    ClipboardOwner owner = null;
-                    Transferable contents = null;
+                    finbl SunClipbobrd sunClipbobrd = SunClipbobrd.this;
+                    ClipbobrdOwner owner = null;
+                    Trbnsferbble contents = null;
 
-                    synchronized (sunClipboard) {
-                        final AppContext context = sunClipboard.contentsContext;
+                    synchronized (sunClipbobrd) {
+                        finbl AppContext context = sunClipbobrd.contentsContext;
 
                         if (context == null) {
                             return;
                         }
 
                         if (disposedContext == null || context == disposedContext) {
-                            owner = sunClipboard.owner;
-                            contents = sunClipboard.contents;
-                            sunClipboard.contentsContext = null;
-                            sunClipboard.owner = null;
-                            sunClipboard.contents = null;
-                            sunClipboard.clearNativeContext();
-                            context.removePropertyChangeListener
-                                (AppContext.DISPOSED_PROPERTY_NAME, sunClipboard);
+                            owner = sunClipbobrd.owner;
+                            contents = sunClipbobrd.contents;
+                            sunClipbobrd.contentsContext = null;
+                            sunClipbobrd.owner = null;
+                            sunClipbobrd.contents = null;
+                            sunClipbobrd.clebrNbtiveContext();
+                            context.removePropertyChbngeListener
+                                (AppContext.DISPOSED_PROPERTY_NAME, sunClipbobrd);
                         } else {
                             return;
                         }
                     }
                     if (owner != null) {
-                        owner.lostOwnership(sunClipboard, contents);
+                        owner.lostOwnership(sunClipbobrd, contents);
                     }
                 }
             };
 
-        SunToolkit.postEvent(context, new PeerEvent(this, runnable,
+        SunToolkit.postEvent(context, new PeerEvent(this, runnbble,
                                                     PeerEvent.PRIORITY_EVENT));
     }
 
-    protected abstract void clearNativeContext();
+    protected bbstrbct void clebrNbtiveContext();
 
-    protected abstract void setContentsNative(Transferable contents);
+    protected bbstrbct void setContentsNbtive(Trbnsferbble contents);
 
     /**
      * @since 1.5
      */
-    protected long[] getClipboardFormatsOpenClose() {
+    protected long[] getClipbobrdFormbtsOpenClose() {
         try {
-            openClipboard(null);
-            return getClipboardFormats();
-        } finally {
-            closeClipboard();
+            openClipbobrd(null);
+            return getClipbobrdFormbts();
+        } finblly {
+            closeClipbobrd();
         }
     }
 
     /**
-     * Returns zero-length array (not null) if the number of available formats is zero.
+     * Returns zero-length brrby (not null) if the number of bvbilbble formbts is zero.
      *
-     * @throws IllegalStateException if formats could not be retrieved
+     * @throws IllegblStbteException if formbts could not be retrieved
      */
-    protected abstract long[] getClipboardFormats();
+    protected bbstrbct long[] getClipbobrdFormbts();
 
-    protected abstract byte[] getClipboardData(long format) throws IOException;
+    protected bbstrbct byte[] getClipbobrdDbtb(long formbt) throws IOException;
 
 
-    private static Set<DataFlavor> formatArrayAsDataFlavorSet(long[] formats) {
-        return (formats == null) ? null :
-                DataTransferer.getInstance().
-                getFlavorsForFormatsAsSet(formats, getDefaultFlavorTable());
+    privbte stbtic Set<DbtbFlbvor> formbtArrbyAsDbtbFlbvorSet(long[] formbts) {
+        return (formbts == null) ? null :
+                DbtbTrbnsferer.getInstbnce().
+                getFlbvorsForFormbtsAsSet(formbts, getDefbultFlbvorTbble());
     }
 
 
-    public synchronized void addFlavorListener(FlavorListener listener) {
+    public synchronized void bddFlbvorListener(FlbvorListener listener) {
         if (listener == null) {
             return;
         }
-        AppContext appContext = AppContext.getAppContext();
-        Set<FlavorListener> flavorListeners = getFlavorListeners(appContext);
-        if (flavorListeners == null) {
-            flavorListeners = new HashSet<>();
-            appContext.put(CLIPBOARD_FLAVOR_LISTENER_KEY, flavorListeners);
+        AppContext bppContext = AppContext.getAppContext();
+        Set<FlbvorListener> flbvorListeners = getFlbvorListeners(bppContext);
+        if (flbvorListeners == null) {
+            flbvorListeners = new HbshSet<>();
+            bppContext.put(CLIPBOARD_FLAVOR_LISTENER_KEY, flbvorListeners);
         }
-        flavorListeners.add(listener);
+        flbvorListeners.bdd(listener);
 
-        if (numberOfFlavorListeners++ == 0) {
-            long[] currentFormats = null;
+        if (numberOfFlbvorListeners++ == 0) {
+            long[] currentFormbts = null;
             try {
-                openClipboard(null);
-                currentFormats = getClipboardFormats();
-            } catch (IllegalStateException exc) {
-            } finally {
-                closeClipboard();
+                openClipbobrd(null);
+                currentFormbts = getClipbobrdFormbts();
+            } cbtch (IllegblStbteException exc) {
+            } finblly {
+                closeClipbobrd();
             }
-            currentDataFlavors = formatArrayAsDataFlavorSet(currentFormats);
+            currentDbtbFlbvors = formbtArrbyAsDbtbFlbvorSet(currentFormbts);
 
-            registerClipboardViewerChecked();
+            registerClipbobrdViewerChecked();
         }
     }
 
-    public synchronized void removeFlavorListener(FlavorListener listener) {
+    public synchronized void removeFlbvorListener(FlbvorListener listener) {
         if (listener == null) {
             return;
         }
-        Set<FlavorListener> flavorListeners = getFlavorListeners(AppContext.getAppContext());
-        if (flavorListeners == null){
+        Set<FlbvorListener> flbvorListeners = getFlbvorListeners(AppContext.getAppContext());
+        if (flbvorListeners == null){
             //else we throw NullPointerException, but it is forbidden
             return;
         }
-        if (flavorListeners.remove(listener) && --numberOfFlavorListeners == 0) {
-            unregisterClipboardViewerChecked();
-            currentDataFlavors = null;
+        if (flbvorListeners.remove(listener) && --numberOfFlbvorListeners == 0) {
+            unregisterClipbobrdViewerChecked();
+            currentDbtbFlbvors = null;
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private Set<FlavorListener> getFlavorListeners(AppContext appContext) {
-        return (Set<FlavorListener>)appContext.get(CLIPBOARD_FLAVOR_LISTENER_KEY);
+    @SuppressWbrnings("unchecked")
+    privbte Set<FlbvorListener> getFlbvorListeners(AppContext bppContext) {
+        return (Set<FlbvorListener>)bppContext.get(CLIPBOARD_FLAVOR_LISTENER_KEY);
     }
 
-    public synchronized FlavorListener[] getFlavorListeners() {
-        Set<FlavorListener> flavorListeners = getFlavorListeners(AppContext.getAppContext());
-        return flavorListeners == null ? new FlavorListener[0]
-                : flavorListeners.toArray(new FlavorListener[flavorListeners.size()]);
+    public synchronized FlbvorListener[] getFlbvorListeners() {
+        Set<FlbvorListener> flbvorListeners = getFlbvorListeners(AppContext.getAppContext());
+        return flbvorListeners == null ? new FlbvorListener[0]
+                : flbvorListeners.toArrby(new FlbvorListener[flbvorListeners.size()]);
     }
 
-    public boolean areFlavorListenersRegistered() {
-        return (numberOfFlavorListeners > 0);
+    public boolebn breFlbvorListenersRegistered() {
+        return (numberOfFlbvorListeners > 0);
     }
 
-    protected abstract void registerClipboardViewerChecked();
+    protected bbstrbct void registerClipbobrdViewerChecked();
 
-    protected abstract void unregisterClipboardViewerChecked();
+    protected bbstrbct void unregisterClipbobrdViewerChecked();
 
     /**
-     * Checks change of the <code>DataFlavor</code>s and, if necessary,
-     * posts notifications on <code>FlavorEvent</code>s to the
+     * Checks chbnge of the <code>DbtbFlbvor</code>s bnd, if necessbry,
+     * posts notificbtions on <code>FlbvorEvent</code>s to the
      * AppContexts' EDTs.
-     * The parameter <code>formats</code> is null iff we have just
-     * failed to get formats available on the clipboard.
+     * The pbrbmeter <code>formbts</code> is null iff we hbve just
+     * fbiled to get formbts bvbilbble on the clipbobrd.
      *
-     * @param formats data formats that have just been retrieved from
-     *        this clipboard
+     * @pbrbm formbts dbtb formbts thbt hbve just been retrieved from
+     *        this clipbobrd
      */
-    public void checkChange(long[] formats) {
-        Set<DataFlavor> prevDataFlavors = currentDataFlavors;
-        currentDataFlavors = formatArrayAsDataFlavorSet(formats);
+    public void checkChbnge(long[] formbts) {
+        Set<DbtbFlbvor> prevDbtbFlbvors = currentDbtbFlbvors;
+        currentDbtbFlbvors = formbtArrbyAsDbtbFlbvorSet(formbts);
 
-        if (Objects.equals(prevDataFlavors, currentDataFlavors)) {
-            // we've been able to successfully get available on the clipboard
-            // DataFlavors this and previous time and they are coincident;
+        if (Objects.equbls(prevDbtbFlbvors, currentDbtbFlbvors)) {
+            // we've been bble to successfully get bvbilbble on the clipbobrd
+            // DbtbFlbvors this bnd previous time bnd they bre coincident;
             // don't notify
             return;
         }
 
-        for (AppContext appContext : AppContext.getAppContexts()) {
-            if (appContext == null || appContext.isDisposed()) {
+        for (AppContext bppContext : AppContext.getAppContexts()) {
+            if (bppContext == null || bppContext.isDisposed()) {
                 continue;
             }
-            Set<FlavorListener> flavorListeners = getFlavorListeners(appContext);
-            if (flavorListeners != null) {
-                for (FlavorListener listener : flavorListeners) {
+            Set<FlbvorListener> flbvorListeners = getFlbvorListeners(bppContext);
+            if (flbvorListeners != null) {
+                for (FlbvorListener listener : flbvorListeners) {
                     if (listener != null) {
                         PeerEvent peerEvent = new PeerEvent(this,
-                                () -> listener.flavorsChanged(new FlavorEvent(SunClipboard.this)),
+                                () -> listener.flbvorsChbnged(new FlbvorEvent(SunClipbobrd.this)),
                                 PeerEvent.PRIORITY_EVENT);
-                        SunToolkit.postEvent(appContext, peerEvent);
+                        SunToolkit.postEvent(bppContext, peerEvent);
                     }
                 }
             }
         }
     }
 
-    public static FlavorTable getDefaultFlavorTable() {
-        return (FlavorTable) SystemFlavorMap.getDefaultFlavorMap();
+    public stbtic FlbvorTbble getDefbultFlbvorTbble() {
+        return (FlbvorTbble) SystemFlbvorMbp.getDefbultFlbvorMbp();
     }
 }

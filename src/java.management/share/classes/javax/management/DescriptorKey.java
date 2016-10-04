@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.lang.annotation.*;
+import jbvb.lbng.bnnotbtion.*;
 
 /**
- * <p>Meta-annotation that describes how an annotation element relates
- * to a field in a {@link Descriptor}.  This can be the Descriptor for
- * an MBean, or for an attribute, operation, or constructor in an
- * MBean, or for a parameter of an operation or constructor.</p>
+ * <p>Metb-bnnotbtion thbt describes how bn bnnotbtion element relbtes
+ * to b field in b {@link Descriptor}.  This cbn be the Descriptor for
+ * bn MBebn, or for bn bttribute, operbtion, or constructor in bn
+ * MBebn, or for b pbrbmeter of bn operbtion or constructor.</p>
  *
- * <p>Consider this annotation for example:</p>
+ * <p>Consider this bnnotbtion for exbmple:</p>
  *
  * <pre>
  * &#64;Documented
- * &#64;Target(ElementType.METHOD)
+ * &#64;Tbrget(ElementType.METHOD)
  * &#64;Retention(RetentionPolicy.RUNTIME)
- * public &#64;interface Units {
+ * public &#64;interfbce Units {
  *     <b>&#64;DescriptorKey("units")</b>
- *     String value();
+ *     String vblue();
  * }
  * </pre>
  *
- * <p>and this use of the annotation:</p>
+ * <p>bnd this use of the bnnotbtion:</p>
  *
  * <pre>
- * public interface CacheControlMBean {
+ * public interfbce CbcheControlMBebn {
  *     <b>&#64;Units("bytes")</b>
- *     public long getCacheSize();
+ *     public long getCbcheSize();
  * }
  * </pre>
  *
- * <p>When a Standard MBean is made from the {@code CacheControlMBean},
- * the usual rules mean that it will have an attribute called
- * {@code CacheSize} of type {@code long}.  The {@code @Units}
- * annotation, given the above definition, will ensure that the
- * {@link MBeanAttributeInfo} for this attribute will have a
- * {@code Descriptor} that has a field called {@code units} with
- * corresponding value {@code bytes}.</p>
+ * <p>When b Stbndbrd MBebn is mbde from the {@code CbcheControlMBebn},
+ * the usubl rules mebn thbt it will hbve bn bttribute cblled
+ * {@code CbcheSize} of type {@code long}.  The {@code @Units}
+ * bnnotbtion, given the bbove definition, will ensure thbt the
+ * {@link MBebnAttributeInfo} for this bttribute will hbve b
+ * {@code Descriptor} thbt hbs b field cblled {@code units} with
+ * corresponding vblue {@code bytes}.</p>
  *
- * <p>Similarly, if the annotation looks like this:</p>
+ * <p>Similbrly, if the bnnotbtion looks like this:</p>
  *
  * <pre>
  * &#64;Documented
- * &#64;Target(ElementType.METHOD)
+ * &#64;Tbrget(ElementType.METHOD)
  * &#64;Retention(RetentionPolicy.RUNTIME)
- * public &#64;interface Units {
+ * public &#64;interfbce Units {
  *     <b>&#64;DescriptorKey("units")</b>
- *     String value();
+ *     String vblue();
  *
  *     <b>&#64;DescriptorKey("descriptionResourceKey")</b>
- *     String resourceKey() default "";
+ *     String resourceKey() defbult "";
  *
- *     <b>&#64;DescriptorKey("descriptionResourceBundleBaseName")</b>
- *     String resourceBundleBaseName() default "";
+ *     <b>&#64;DescriptorKey("descriptionResourceBundleBbseNbme")</b>
+ *     String resourceBundleBbseNbme() defbult "";
  * }
  * </pre>
  *
- * <p>and it is used like this:</p>
+ * <p>bnd it is used like this:</p>
  *
  * <pre>
- * public interface CacheControlMBean {
+ * public interfbce CbcheControlMBebn {
  *     <b>&#64;Units("bytes",
  *            resourceKey="bytes.key",
- *            resourceBundleBaseName="com.example.foo.MBeanResources")</b>
- *     public long getCacheSize();
+ *            resourceBundleBbseNbme="com.exbmple.foo.MBebnResources")</b>
+ *     public long getCbcheSize();
  * }
  * </pre>
  *
- * <p>then the resulting {@code Descriptor} will contain the following
+ * <p>then the resulting {@code Descriptor} will contbin the following
  * fields:</p>
  *
- * <table border="2" summary="Descriptor Fields">
- * <tr><th>Name</th><th>Value</th></tr>
+ * <tbble border="2" summbry="Descriptor Fields">
+ * <tr><th>Nbme</th><th>Vblue</th></tr>
  * <tr><td>units</td><td>"bytes"</td></tr>
  * <tr><td>descriptionResourceKey</td><td>"bytes.key"</td></tr>
- * <tr><td>descriptionResourceBundleBaseName</td>
- *     <td>"com.example.foo.MBeanResources"</td></tr>
- * </table>
+ * <tr><td>descriptionResourceBundleBbseNbme</td>
+ *     <td>"com.exbmple.foo.MBebnResources"</td></tr>
+ * </tbble>
  *
- * <p>An annotation such as {@code @Units} can be applied to:</p>
+ * <p>An bnnotbtion such bs {@code @Units} cbn be bpplied to:</p>
  *
  * <ul>
- * <li>a Standard MBean or MXBean interface;
- * <li>a method in such an interface;
- * <li>a parameter of a method in a Standard MBean or MXBean interface
- * when that method is an operation (not a getter or setter for an attribute);
- * <li>a public constructor in the class that implements a Standard MBean
- * or MXBean;
- * <li>a parameter in such a constructor.
+ * <li>b Stbndbrd MBebn or MXBebn interfbce;
+ * <li>b method in such bn interfbce;
+ * <li>b pbrbmeter of b method in b Stbndbrd MBebn or MXBebn interfbce
+ * when thbt method is bn operbtion (not b getter or setter for bn bttribute);
+ * <li>b public constructor in the clbss thbt implements b Stbndbrd MBebn
+ * or MXBebn;
+ * <li>b pbrbmeter in such b constructor.
  * </ul>
  *
- * <p>Other uses of the annotation are ignored.</p>
+ * <p>Other uses of the bnnotbtion bre ignored.</p>
  *
- * <p>Interface annotations are checked only on the exact interface
- * that defines the management interface of a Standard MBean or an
- * MXBean, not on its parent interfaces.  Method annotations are
- * checked only in the most specific interface in which the method
- * appears; in other words, if a child interface overrides a method
- * from a parent interface, only {@code @DescriptorKey} annotations in
- * the method in the child interface are considered.
+ * <p>Interfbce bnnotbtions bre checked only on the exbct interfbce
+ * thbt defines the mbnbgement interfbce of b Stbndbrd MBebn or bn
+ * MXBebn, not on its pbrent interfbces.  Method bnnotbtions bre
+ * checked only in the most specific interfbce in which the method
+ * bppebrs; in other words, if b child interfbce overrides b method
+ * from b pbrent interfbce, only {@code @DescriptorKey} bnnotbtions in
+ * the method in the child interfbce bre considered.
  *
- * <p>The Descriptor fields contributed in this way by different
- * annotations on the same program element must be consistent.  That
- * is, two different annotations, or two members of the same
- * annotation, must not define a different value for the same
- * Descriptor field.  Fields from annotations on a getter method must
- * also be consistent with fields from annotations on the
+ * <p>The Descriptor fields contributed in this wby by different
+ * bnnotbtions on the sbme progrbm element must be consistent.  Thbt
+ * is, two different bnnotbtions, or two members of the sbme
+ * bnnotbtion, must not define b different vblue for the sbme
+ * Descriptor field.  Fields from bnnotbtions on b getter method must
+ * blso be consistent with fields from bnnotbtions on the
  * corresponding setter method.</p>
  *
- * <p>The Descriptor resulting from these annotations will be merged
- * with any Descriptor fields provided by the implementation, such as
- * the <a href="Descriptor.html#immutableInfo">{@code
- * immutableInfo}</a> field for an MBean.  The fields from the annotations
- * must be consistent with these fields provided by the implementation.</p>
+ * <p>The Descriptor resulting from these bnnotbtions will be merged
+ * with bny Descriptor fields provided by the implementbtion, such bs
+ * the <b href="Descriptor.html#immutbbleInfo">{@code
+ * immutbbleInfo}</b> field for bn MBebn.  The fields from the bnnotbtions
+ * must be consistent with these fields provided by the implementbtion.</p>
  *
- * <p>An annotation element to be converted into a descriptor field
- * can be of any type allowed by the Java language, except an annotation
- * or an array of annotations.  The value of the field is derived from
- * the value of the annotation element as follows:</p>
+ * <p>An bnnotbtion element to be converted into b descriptor field
+ * cbn be of bny type bllowed by the Jbvb lbngubge, except bn bnnotbtion
+ * or bn brrby of bnnotbtions.  The vblue of the field is derived from
+ * the vblue of the bnnotbtion element bs follows:</p>
  *
- * <table border="2" summary="Descriptor Field Types">
- * <tr><th>Annotation element</th><th>Descriptor field</th></tr>
- * <tr><td>Primitive value ({@code 5}, {@code false}, etc)</td>
- *     <td>Wrapped value ({@code Integer.valueOf(5)},
- *         {@code Boolean.FALSE}, etc)</td></tr>
- * <tr><td>Class constant (e.g. {@code Thread.class})</td>
- *     <td>Class name from {@link Class#getName()}
- *         (e.g. {@code "java.lang.Thread"})</td></tr>
- * <tr><td>Enum constant (e.g. {@link ElementType#FIELD})</td>
- *     <td>Constant name from {@link Enum#name()}
+ * <tbble border="2" summbry="Descriptor Field Types">
+ * <tr><th>Annotbtion element</th><th>Descriptor field</th></tr>
+ * <tr><td>Primitive vblue ({@code 5}, {@code fblse}, etc)</td>
+ *     <td>Wrbpped vblue ({@code Integer.vblueOf(5)},
+ *         {@code Boolebn.FALSE}, etc)</td></tr>
+ * <tr><td>Clbss constbnt (e.g. {@code Threbd.clbss})</td>
+ *     <td>Clbss nbme from {@link Clbss#getNbme()}
+ *         (e.g. {@code "jbvb.lbng.Threbd"})</td></tr>
+ * <tr><td>Enum constbnt (e.g. {@link ElementType#FIELD})</td>
+ *     <td>Constbnt nbme from {@link Enum#nbme()}
  *         (e.g. {@code "FIELD"})</td></tr>
- * <tr><td>Array of class constants or enum constants</td>
- *     <td>String array derived by applying these rules to each
+ * <tr><td>Arrby of clbss constbnts or enum constbnts</td>
+ *     <td>String brrby derived by bpplying these rules to ebch
  *         element</td></tr>
- * <tr><td>Value of any other type<br>
+ * <tr><td>Vblue of bny other type<br>
  *         ({@code String}, {@code String[]}, {@code int[]}, etc)</td>
- *     <td>The same value</td></tr>
- * </table>
+ *     <td>The sbme vblue</td></tr>
+ * </tbble>
  *
  * @since 1.6
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface DescriptorKey {
-    String value();
+@Tbrget(ElementType.METHOD)
+public @interfbce DescriptorKey {
+    String vblue();
 }

@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import javax.swing.JToolBar;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicSeparatorUI;
+import jbvbx.swing.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Rectbngle;
+import jbvbx.swing.JToolBbr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicSepbrbtorUI;
 
 
 /**
- * A Basic L&amp;F implementation of ToolBarSeparatorUI.  This implementation
- * is a "combined" view/controller.
+ * A Bbsic L&bmp;F implementbtion of ToolBbrSepbrbtorUI.  This implementbtion
+ * is b "combined" view/controller.
  *
- * @author Jeff Shapiro
+ * @buthor Jeff Shbpiro
  */
 
-public class BasicToolBarSeparatorUI extends BasicSeparatorUI
+public clbss BbsicToolBbrSepbrbtorUI extends BbsicSepbrbtorUI
 {
     /**
-     * Returns a new instance of {@code BasicToolBarSeparatorUI}.
+     * Returns b new instbnce of {@code BbsicToolBbrSepbrbtorUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicToolBarSeparatorUI}
+     * @pbrbm c b component
+     * @return b new instbnce of {@code BbsicToolBbrSepbrbtorUI}
      */
-    public static ComponentUI createUI( JComponent c )
+    public stbtic ComponentUI crebteUI( JComponent c )
     {
-        return new BasicToolBarSeparatorUI();
+        return new BbsicToolBbrSepbrbtorUI();
     }
 
-    protected void installDefaults( JSeparator s )
+    protected void instbllDefbults( JSepbrbtor s )
     {
-        Dimension size = ( (JToolBar.Separator)s ).getSeparatorSize();
+        Dimension size = ( (JToolBbr.Sepbrbtor)s ).getSepbrbtorSize();
 
-        if ( size == null || size instanceof UIResource )
+        if ( size == null || size instbnceof UIResource )
         {
-            JToolBar.Separator sep = (JToolBar.Separator)s;
-            size = (Dimension)(UIManager.get("ToolBar.separatorSize"));
+            JToolBbr.Sepbrbtor sep = (JToolBbr.Sepbrbtor)s;
+            size = (Dimension)(UIMbnbger.get("ToolBbr.sepbrbtorSize"));
             if (size != null) {
-                if (sep.getOrientation() == JSeparator.HORIZONTAL) {
+                if (sep.getOrientbtion() == JSepbrbtor.HORIZONTAL) {
                     size = new Dimension(size.height, size.width);
                 }
-                sep.setSeparatorSize(size);
+                sep.setSepbrbtorSize(size);
             }
         }
     }
 
-    public void paint( Graphics g, JComponent c )
+    public void pbint( Grbphics g, JComponent c )
     {
     }
 
     public Dimension getPreferredSize( JComponent c )
     {
-        Dimension size = ( (JToolBar.Separator)c ).getSeparatorSize();
+        Dimension size = ( (JToolBbr.Sepbrbtor)c ).getSepbrbtorSize();
 
         if ( size != null )
         {

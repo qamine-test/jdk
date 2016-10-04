@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.smartcardio;
+pbckbge jbvbx.smbrtcbrdio;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * The TerminalFactorySpi class defines the service provider interface.
- * Applications do not access this class directly, instead see
- * {@linkplain TerminalFactory}.
+ * The TerminblFbctorySpi clbss defines the service provider interfbce.
+ * Applicbtions do not bccess this clbss directly, instebd see
+ * {@linkplbin TerminblFbctory}.
  *
- * <P>Service providers that want to write a new implementation should define
- * a concrete subclass of TerminalFactorySpi with a constructor that takes
- * an <code>Object</code> as parameter. That class needs to be registered
- * in a {@linkplain java.security.Provider}. The engine
- * {@linkplain java.security.Provider.Service#getType type} is
- * <code>TerminalFactory</code>.
- * Service providers also need to implement subclasses of the abstract classes
- * {@linkplain CardTerminals}, {@linkplain CardTerminal}, {@linkplain Card},
- * and {@linkplain CardChannel}.
+ * <P>Service providers thbt wbnt to write b new implementbtion should define
+ * b concrete subclbss of TerminblFbctorySpi with b constructor thbt tbkes
+ * bn <code>Object</code> bs pbrbmeter. Thbt clbss needs to be registered
+ * in b {@linkplbin jbvb.security.Provider}. The engine
+ * {@linkplbin jbvb.security.Provider.Service#getType type} is
+ * <code>TerminblFbctory</code>.
+ * Service providers blso need to implement subclbsses of the bbstrbct clbsses
+ * {@linkplbin CbrdTerminbls}, {@linkplbin CbrdTerminbl}, {@linkplbin Cbrd},
+ * bnd {@linkplbin CbrdChbnnel}.
  *
- * <p>For example:
- * <pre><em>file MyProvider.java:</em>
+ * <p>For exbmple:
+ * <pre><em>file MyProvider.jbvb:</em>
  *
- * package com.somedomain.card;
+ * pbckbge com.somedombin.cbrd;
  *
- * import java.security.Provider;
+ * import jbvb.security.Provider;
  *
- * public class MyProvider extends Provider {
+ * public clbss MyProvider extends Provider {
  *     public MyProvider() {
- *         super("MyProvider", 1.0d, "Smart Card Example");
- *         put("TerminalFactory.MyType", "com.somedomain.card.MySpi");
+ *         super("MyProvider", 1.0d, "Smbrt Cbrd Exbmple");
+ *         put("TerminblFbctory.MyType", "com.somedombin.cbrd.MySpi");
  *     }
  * }
  *
- *<em>file MySpi.java</em>
+ *<em>file MySpi.jbvb</em>
  *
- * package com.somedomain.card;
+ * pbckbge com.somedombin.cbrd;
  *
- * import javax.smartcardio.*;
+ * import jbvbx.smbrtcbrdio.*;
  *
- * public class MySpi extends TerminalFactoySpi {
- *      public MySpi(Object parameter) {
- *          // initialize as appropriate
+ * public clbss MySpi extends TerminblFbctoySpi {
+ *      public MySpi(Object pbrbmeter) {
+ *          // initiblize bs bppropribte
  *      }
- *      protected CardTerminals engineTerminals() {
- *          // add implementation code here
+ *      protected CbrdTerminbls engineTerminbls() {
+ *          // bdd implementbtion code here
  *      }
  * }
  * </pre>
  *
- * @see TerminalFactory
- * @see java.security.Provider
+ * @see TerminblFbctory
+ * @see jbvb.security.Provider
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @author  JSR 268 Expert Group
+ * @buthor  Andrebs Sterbenz
+ * @buthor  JSR 268 Expert Group
  */
-public abstract class TerminalFactorySpi {
+public bbstrbct clbss TerminblFbctorySpi {
 
     /**
-     * Constructs a new TerminalFactorySpi object.
+     * Constructs b new TerminblFbctorySpi object.
      *
-     * <p>This class is part of the service provider interface and not accessed
-     * directly by applications. Applications
-     * should use TerminalFactory objects, which can be obtained by calling
+     * <p>This clbss is pbrt of the service provider interfbce bnd not bccessed
+     * directly by bpplicbtions. Applicbtions
+     * should use TerminblFbctory objects, which cbn be obtbined by cblling
      * one of the
-     * {@linkplain TerminalFactory#getInstance TerminalFactory.getInstance()}
+     * {@linkplbin TerminblFbctory#getInstbnce TerminblFbctory.getInstbnce()}
      * methods.
      *
-     * <p>Concrete subclasses should define a constructor that takes an
-     * <code>Object</code> as parameter. It will be invoked when an
-     * application calls one of the {@linkplain TerminalFactory#getInstance
-     * TerminalFactory.getInstance()} methods and receives the <code>params</code>
-     * object specified by the application.
+     * <p>Concrete subclbsses should define b constructor thbt tbkes bn
+     * <code>Object</code> bs pbrbmeter. It will be invoked when bn
+     * bpplicbtion cblls one of the {@linkplbin TerminblFbctory#getInstbnce
+     * TerminblFbctory.getInstbnce()} methods bnd receives the <code>pbrbms</code>
+     * object specified by the bpplicbtion.
      */
-    protected TerminalFactorySpi() {
+    protected TerminblFbctorySpi() {
         // empty
     }
 
     /**
-     * Returns the CardTerminals created by this factory.
+     * Returns the CbrdTerminbls crebted by this fbctory.
      *
-     * @return the CardTerminals created by this factory.
+     * @return the CbrdTerminbls crebted by this fbctory.
      */
-    protected abstract CardTerminals engineTerminals();
+    protected bbstrbct CbrdTerminbls engineTerminbls();
 
 }

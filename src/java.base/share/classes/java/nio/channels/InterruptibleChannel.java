@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 
 /**
- * A channel that can be asynchronously closed and interrupted.
+ * A chbnnel thbt cbn be bsynchronously closed bnd interrupted.
  *
- * <p> A channel that implements this interface is <i>asynchronously
- * closeable:</i> If a thread is blocked in an I/O operation on an
- * interruptible channel then another thread may invoke the channel's {@link
- * #close close} method.  This will cause the blocked thread to receive an
+ * <p> A chbnnel thbt implements this interfbce is <i>bsynchronously
+ * closebble:</i> If b threbd is blocked in bn I/O operbtion on bn
+ * interruptible chbnnel then bnother threbd mby invoke the chbnnel's {@link
+ * #close close} method.  This will cbuse the blocked threbd to receive bn
  * {@link AsynchronousCloseException}.
  *
- * <p> A channel that implements this interface is also <i>interruptible:</i>
- * If a thread is blocked in an I/O operation on an interruptible channel then
- * another thread may invoke the blocked thread's {@link Thread#interrupt()
- * interrupt} method.  This will cause the channel to be closed, the blocked
- * thread to receive a {@link ClosedByInterruptException}, and the blocked
- * thread's interrupt status to be set.
+ * <p> A chbnnel thbt implements this interfbce is blso <i>interruptible:</i>
+ * If b threbd is blocked in bn I/O operbtion on bn interruptible chbnnel then
+ * bnother threbd mby invoke the blocked threbd's {@link Threbd#interrupt()
+ * interrupt} method.  This will cbuse the chbnnel to be closed, the blocked
+ * threbd to receive b {@link ClosedByInterruptException}, bnd the blocked
+ * threbd's interrupt stbtus to be set.
  *
- * <p> If a thread's interrupt status is already set and it invokes a blocking
- * I/O operation upon a channel then the channel will be closed and the thread
- * will immediately receive a {@link ClosedByInterruptException}; its interrupt
- * status will remain set.
+ * <p> If b threbd's interrupt stbtus is blrebdy set bnd it invokes b blocking
+ * I/O operbtion upon b chbnnel then the chbnnel will be closed bnd the threbd
+ * will immedibtely receive b {@link ClosedByInterruptException}; its interrupt
+ * stbtus will rembin set.
  *
- * <p> A channel supports asynchronous closing and interruption if, and only
- * if, it implements this interface.  This can be tested at runtime, if
- * necessary, via the <tt>instanceof</tt> operator.
+ * <p> A chbnnel supports bsynchronous closing bnd interruption if, bnd only
+ * if, it implements this interfbce.  This cbn be tested bt runtime, if
+ * necessbry, vib the <tt>instbnceof</tt> operbtor.
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public interface InterruptibleChannel
-    extends Channel
+public interfbce InterruptibleChbnnel
+    extends Chbnnel
 {
 
     /**
-     * Closes this channel.
+     * Closes this chbnnel.
      *
-     * <p> Any thread currently blocked in an I/O operation upon this channel
-     * will receive an {@link AsynchronousCloseException}.
+     * <p> Any threbd currently blocked in bn I/O operbtion upon this chbnnel
+     * will receive bn {@link AsynchronousCloseException}.
      *
-     * <p> This method otherwise behaves exactly as specified by the {@link
-     * Channel#close Channel} interface.  </p>
+     * <p> This method otherwise behbves exbctly bs specified by the {@link
+     * Chbnnel#close Chbnnel} interfbce.  </p>
      *
-     * @throws  IOException  If an I/O error occurs
+     * @throws  IOException  If bn I/O error occurs
      */
     public void close() throws IOException;
 

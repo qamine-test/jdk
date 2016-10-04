@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package org.ietf.jgss;
+pbckbge org.ietf.jgss;
 
-import java.net.InetAddress;
-import java.util.Arrays;
+import jbvb.net.InetAddress;
+import jbvb.util.Arrbys;
 
 /**
- * This class encapsulates the concept of caller-provided channel
- * binding information. Channel bindings are used to strengthen the
- * quality with which peer entity authentication is provided during
- * context establishment.  They enable the GSS-API callers to bind the
- * establishment of the security context to relevant characteristics
- * like addresses or to application specific data.<p>
+ * This clbss encbpsulbtes the concept of cbller-provided chbnnel
+ * binding informbtion. Chbnnel bindings bre used to strengthen the
+ * qublity with which peer entity buthenticbtion is provided during
+ * context estbblishment.  They enbble the GSS-API cbllers to bind the
+ * estbblishment of the security context to relevbnt chbrbcteristics
+ * like bddresses or to bpplicbtion specific dbtb.<p>
  *
- * The caller initiating the security context must determine the
- * appropriate channel binding values to set in the GSSContext object.
- * The acceptor must provide an identical binding in order to validate
- * that received tokens possess correct channel-related characteristics.<p>
+ * The cbller initibting the security context must determine the
+ * bppropribte chbnnel binding vblues to set in the GSSContext object.
+ * The bcceptor must provide bn identicbl binding in order to vblidbte
+ * thbt received tokens possess correct chbnnel-relbted chbrbcteristics.<p>
  *
- * Use of channel bindings is optional in GSS-API. ChannelBinding can be
+ * Use of chbnnel bindings is optionbl in GSS-API. ChbnnelBinding cbn be
  * set for the {@link GSSContext GSSContext} using the {@link
- * GSSContext#setChannelBinding(ChannelBinding) setChannelBinding} method
- * before the first call to {@link GSSContext#initSecContext(byte[], int, int)
- * initSecContext} or {@link GSSContext#acceptSecContext(byte[], int, int)
- * acceptSecContext} has been performed.  Unless the <code>setChannelBinding</code>
- * method has been used to set the ChannelBinding for a GSSContext object,
- * <code>null</code> ChannelBinding will be assumed. <p>
+ * GSSContext#setChbnnelBinding(ChbnnelBinding) setChbnnelBinding} method
+ * before the first cbll to {@link GSSContext#initSecContext(byte[], int, int)
+ * initSecContext} or {@link GSSContext#bcceptSecContext(byte[], int, int)
+ * bcceptSecContext} hbs been performed.  Unless the <code>setChbnnelBinding</code>
+ * method hbs been used to set the ChbnnelBinding for b GSSContext object,
+ * <code>null</code> ChbnnelBinding will be bssumed. <p>
  *
- * Conceptually, the GSS-API concatenates the initiator and acceptor
- * address information, and the application supplied byte array to form an
- * octet string.  The mechanism calculates a MIC over this octet string and
- * binds the MIC to the context establishment token emitted by
+ * Conceptublly, the GSS-API concbtenbtes the initibtor bnd bcceptor
+ * bddress informbtion, bnd the bpplicbtion supplied byte brrby to form bn
+ * octet string.  The mechbnism cblculbtes b MIC over this octet string bnd
+ * binds the MIC to the context estbblishment token emitted by
  * <code>initSecContext</code> method of the <code>GSSContext</code>
- * interface.  The same bindings are set by the context acceptor for its
- * <code>GSSContext</code> object and during processing of the
- * <code>acceptSecContext</code> method a MIC is calculated in the same
- * way. The calculated MIC is compared with that found in the token, and if
- * the MICs differ, accept will throw a <code>GSSException</code> with the
- * major code set to {@link GSSException#BAD_BINDINGS BAD_BINDINGS}, and
- * the context will not be established. Some mechanisms may include the
- * actual channel binding data in the token (rather than just a MIC);
- * applications should therefore not use confidential data as
- * channel-binding components.<p>
+ * interfbce.  The sbme bindings bre set by the context bcceptor for its
+ * <code>GSSContext</code> object bnd during processing of the
+ * <code>bcceptSecContext</code> method b MIC is cblculbted in the sbme
+ * wby. The cblculbted MIC is compbred with thbt found in the token, bnd if
+ * the MICs differ, bccept will throw b <code>GSSException</code> with the
+ * mbjor code set to {@link GSSException#BAD_BINDINGS BAD_BINDINGS}, bnd
+ * the context will not be estbblished. Some mechbnisms mby include the
+ * bctubl chbnnel binding dbtb in the token (rbther thbn just b MIC);
+ * bpplicbtions should therefore not use confidentibl dbtb bs
+ * chbnnel-binding components.<p>
  *
- *  Individual mechanisms may impose additional constraints on addresses
- *  that may appear in channel bindings.  For example, a mechanism may
- *  verify that the initiator address field of the channel binding
- *  contains the correct network address of the host system.  Portable
- *  applications should therefore ensure that they either provide correct
- *  information for the address fields, or omit setting of the addressing
- *  information.
+ *  Individubl mechbnisms mby impose bdditionbl constrbints on bddresses
+ *  thbt mby bppebr in chbnnel bindings.  For exbmple, b mechbnism mby
+ *  verify thbt the initibtor bddress field of the chbnnel binding
+ *  contbins the correct network bddress of the host system.  Portbble
+ *  bpplicbtions should therefore ensure thbt they either provide correct
+ *  informbtion for the bddress fields, or omit setting of the bddressing
+ *  informbtion.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
-public class ChannelBinding {
+public clbss ChbnnelBinding {
 
-    private InetAddress initiator;
-    private InetAddress acceptor;
-    private  byte[] appData;
+    privbte InetAddress initibtor;
+    privbte InetAddress bcceptor;
+    privbte  byte[] bppDbtb;
 
     /**
-     * Create a ChannelBinding object with user supplied address information
-     * and data.  <code>null</code> values can be used for any fields which the
-     * application does not want to specify.
+     * Crebte b ChbnnelBinding object with user supplied bddress informbtion
+     * bnd dbtb.  <code>null</code> vblues cbn be used for bny fields which the
+     * bpplicbtion does not wbnt to specify.
      *
-     * @param initAddr the address of the context initiator.
-     * <code>null</code> value can be supplied to indicate that the
-     * application does not want to set this value.
-     * @param acceptAddr the address of the context
-     * acceptor. <code>null</code> value can be supplied to indicate that
-     * the application does not want to set this value.
-     * @param appData application supplied data to be used as part of the
-     * channel bindings. <code>null</code> value can be supplied to
-     * indicate that the application does not want to set this value.
+     * @pbrbm initAddr the bddress of the context initibtor.
+     * <code>null</code> vblue cbn be supplied to indicbte thbt the
+     * bpplicbtion does not wbnt to set this vblue.
+     * @pbrbm bcceptAddr the bddress of the context
+     * bcceptor. <code>null</code> vblue cbn be supplied to indicbte thbt
+     * the bpplicbtion does not wbnt to set this vblue.
+     * @pbrbm bppDbtb bpplicbtion supplied dbtb to be used bs pbrt of the
+     * chbnnel bindings. <code>null</code> vblue cbn be supplied to
+     * indicbte thbt the bpplicbtion does not wbnt to set this vblue.
      */
-    public ChannelBinding(InetAddress initAddr, InetAddress acceptAddr,
-                        byte[] appData) {
+    public ChbnnelBinding(InetAddress initAddr, InetAddress bcceptAddr,
+                        byte[] bppDbtb) {
 
-        initiator = initAddr;
-        acceptor = acceptAddr;
+        initibtor = initAddr;
+        bcceptor = bcceptAddr;
 
-        if (appData != null) {
-            this.appData = new byte[appData.length];
-            java.lang.System.arraycopy(appData, 0, this.appData, 0,
-                                appData.length);
+        if (bppDbtb != null) {
+            this.bppDbtb = new byte[bppDbtb.length];
+            jbvb.lbng.System.brrbycopy(bppDbtb, 0, this.bppDbtb, 0,
+                                bppDbtb.length);
         }
     }
 
     /**
-     * Creates a ChannelBinding object without any addressing information.
+     * Crebtes b ChbnnelBinding object without bny bddressing informbtion.
      *
-     * @param appData application supplied data to be used as part of the
-     * channel bindings.
+     * @pbrbm bppDbtb bpplicbtion supplied dbtb to be used bs pbrt of the
+     * chbnnel bindings.
      */
-    public ChannelBinding(byte[] appData) {
-        this(null, null, appData);
+    public ChbnnelBinding(byte[] bppDbtb) {
+        this(null, null, bppDbtb);
     }
 
     /**
-     * Get the initiator's address for this channel binding.
+     * Get the initibtor's bddress for this chbnnel binding.
      *
-     * @return the initiator's address. <code>null</code> is returned if
-     * the address has not been set.
+     * @return the initibtor's bddress. <code>null</code> is returned if
+     * the bddress hbs not been set.
      */
-    public InetAddress getInitiatorAddress() {
-        return initiator;
+    public InetAddress getInitibtorAddress() {
+        return initibtor;
     }
 
     /**
-     * Get the acceptor's address for this channel binding.
+     * Get the bcceptor's bddress for this chbnnel binding.
      *
-     * @return the acceptor's address. null is returned if the address has
+     * @return the bcceptor's bddress. null is returned if the bddress hbs
      * not been set.
      */
     public InetAddress getAcceptorAddress() {
-        return acceptor;
+        return bcceptor;
     }
 
     /**
-     * Get the application specified data for this channel binding.
+     * Get the bpplicbtion specified dbtb for this chbnnel binding.
      *
-     * @return the application data being used as part of the
-     * ChannelBinding. <code>null</code> is returned if no application data
-     * has been specified for the channel binding.
+     * @return the bpplicbtion dbtb being used bs pbrt of the
+     * ChbnnelBinding. <code>null</code> is returned if no bpplicbtion dbtb
+     * hbs been specified for the chbnnel binding.
      */
-    public byte[] getApplicationData() {
+    public byte[] getApplicbtionDbtb() {
 
-        if (appData == null) {
+        if (bppDbtb == null) {
             return null;
         }
 
-        byte[] retVal = new byte[appData.length];
-        System.arraycopy(appData, 0, retVal, 0, appData.length);
-        return retVal;
+        byte[] retVbl = new byte[bppDbtb.length];
+        System.brrbycopy(bppDbtb, 0, retVbl, 0, bppDbtb.length);
+        return retVbl;
     }
 
     /**
-     * Compares two instances of ChannelBinding.
+     * Compbres two instbnces of ChbnnelBinding.
      *
-     * @param obj another ChannelBinding to compare this one with
-     * @return true if the two ChannelBinding's contain
-     * the same values for the initiator and acceptor addresses and the
-     * application data.
+     * @pbrbm obj bnother ChbnnelBinding to compbre this one with
+     * @return true if the two ChbnnelBinding's contbin
+     * the sbme vblues for the initibtor bnd bcceptor bddresses bnd the
+     * bpplicbtion dbtb.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
 
         if (this == obj)
             return true;
 
-        if (! (obj instanceof ChannelBinding))
-            return false;
+        if (! (obj instbnceof ChbnnelBinding))
+            return fblse;
 
-        ChannelBinding cb = (ChannelBinding) obj;
+        ChbnnelBinding cb = (ChbnnelBinding) obj;
 
-        if ((initiator != null && cb.initiator == null) ||
-            (initiator == null && cb.initiator != null))
-            return false;
+        if ((initibtor != null && cb.initibtor == null) ||
+            (initibtor == null && cb.initibtor != null))
+            return fblse;
 
-        if (initiator != null && !initiator.equals(cb.initiator))
-            return false;
+        if (initibtor != null && !initibtor.equbls(cb.initibtor))
+            return fblse;
 
-        if ((acceptor != null && cb.acceptor == null) ||
-            (acceptor == null && cb.acceptor != null))
-            return false;
+        if ((bcceptor != null && cb.bcceptor == null) ||
+            (bcceptor == null && cb.bcceptor != null))
+            return fblse;
 
-        if (acceptor != null && !acceptor.equals(cb.acceptor))
-            return false;
+        if (bcceptor != null && !bcceptor.equbls(cb.bcceptor))
+            return fblse;
 
-        return Arrays.equals(appData, cb.appData);
+        return Arrbys.equbls(bppDbtb, cb.bppDbtb);
     }
 
     /**
-     * Returns a hashcode value for this ChannelBinding object.
+     * Returns b hbshcode vblue for this ChbnnelBinding object.
      *
-     * @return a hashCode value
+     * @return b hbshCode vblue
      */
-    public int hashCode() {
-        if (initiator != null)
-            return initiator.hashCode();
-        else if (acceptor != null)
-            return acceptor.hashCode();
-        else if (appData != null)
-            return new String(appData).hashCode();
+    public int hbshCode() {
+        if (initibtor != null)
+            return initibtor.hbshCode();
+        else if (bcceptor != null)
+            return bcceptor.hbshCode();
+        else if (bppDbtb != null)
+            return new String(bppDbtb).hbshCode();
         else
             return 1;
     }

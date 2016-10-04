@@ -1,166 +1,166 @@
 <html>
-<head> <title>JVM TI Demonstration Code</title> </head>
+<hebd> <title>JVM TI Demonstrbtion Code</title> </hebd>
 
-<h1>JVM TI Demonstration Code</h1>
+<h1>JVM TI Demonstrbtion Code</h1>
 
 <p>
 The 
-Java<sup><font size=-2>TM</font></sup> Virtual Machine Tools Interface (JVM TI)
-is a native tool interface provided in JDK 5.0 and newer.
-Native libraries that use JVM TI and are loaded into the 
-Java Virtual Machine
-via the -agentlib, -agentpath, or -Xrun (deprecated) interfaces, are
-called Agents.
+Jbvb<sup><font size=-2>TM</font></sup> Virtubl Mbchine Tools Interfbce (JVM TI)
+is b nbtive tool interfbce provided in JDK 5.0 bnd newer.
+Nbtive librbries thbt use JVM TI bnd bre lobded into the 
+Jbvb Virtubl Mbchine
+vib the -bgentlib, -bgentpbth, or -Xrun (deprecbted) interfbces, bre
+cblled Agents.
 <p>
-<A HREF="http://java.sun.com/j2se/latest/docs/guide/jvmti">JVM TI</A>
-was designed to work with the
-Java Native Interface 
-(<A HREF="http://java.sun.com/j2se/latest/docs/guide/jni">JNI</A>),
-and eventually displace the 
-Java Virtual Machine Debugging Interface 
-(<A HREF="http://java.sun.com/j2se/1.5.0/docs/guide/jpda/jvmdi-spec.html">JVMDI</A>)
-and the 
-Java Virtual Machine Profiling Interface 
-(<A HREF="http://java.sun.com/j2se/1.5.0/docs/guide/jvmpi/index.html">JVMPI</A>).
+<A HREF="http://jbvb.sun.com/j2se/lbtest/docs/guide/jvmti">JVM TI</A>
+wbs designed to work with the
+Jbvb Nbtive Interfbce 
+(<A HREF="http://jbvb.sun.com/j2se/lbtest/docs/guide/jni">JNI</A>),
+bnd eventublly displbce the 
+Jbvb Virtubl Mbchine Debugging Interfbce 
+(<A HREF="http://jbvb.sun.com/j2se/1.5.0/docs/guide/jpdb/jvmdi-spec.html">JVMDI</A>)
+bnd the 
+Jbvb Virtubl Mbchine Profiling Interfbce 
+(<A HREF="http://jbvb.sun.com/j2se/1.5.0/docs/guide/jvmpi/index.html">JVMPI</A>).
 
 <p>
-We have created a set of demonstration agents that should
-help show many of the features and abilities of the
-interface. This list of demonstration agents will change over time.
-They are provided as educational tools and as starting
-points for Java tool development.
+We hbve crebted b set of demonstrbtion bgents thbt should
+help show mbny of the febtures bnd bbilities of the
+interfbce. This list of demonstrbtion bgents will chbnge over time.
+They bre provided bs educbtionbl tools bnd bs stbrting
+points for Jbvb tool development.
 
 <p>
-These agents are built with every JDK build and some basic testing is performed
-on a regular basis, but no extensive testbases currently
-exist for these agents.
-Every JDK installation should include all the pre-built binaries and sources for
-all these agents, just look in the demo/jvmti directory of your JDK.
+These bgents bre built with every JDK build bnd some bbsic testing is performed
+on b regulbr bbsis, but no extensive testbbses currently
+exist for these bgents.
+Every JDK instbllbtion should include bll the pre-built binbries bnd sources for
+bll these bgents, just look in the demo/jvmti directory of your JDK.
 
 
 <h2>Using or Running These Agents</h2>
 
 <p>
-Using these agents will require the VM to locate the shared library file
-before any actual Java code is run.
-The JDK installation should contain all the agent libraries in 
-the ${JAVA_HOME}/demo/jvmti/<i>agent-name</i>/lib directories.
-The Solaris 64bit version would be contained in the sparcv9 or amd64
+Using these bgents will require the VM to locbte the shbred librbry file
+before bny bctubl Jbvb code is run.
+The JDK instbllbtion should contbin bll the bgent librbries in 
+the ${JAVA_HOME}/demo/jvmti/<i>bgent-nbme</i>/lib directories.
+The Solbris 64bit version would be contbined in the spbrcv9 or bmd64
 subdirectory.
-If 'java' complains that it can't find the library,
-you may need to add the directory containing the library into the
-LD_LIBRARY_PATH environment variable (Unix), or the PATH environment
-variable (Windows).
-This is system and platform specific.
-If you are using 64bit Solaris (e.g. 'java -d64'), 
+If 'jbvb' complbins thbt it cbn't find the librbry,
+you mby need to bdd the directory contbining the librbry into the
+LD_LIBRARY_PATH environment vbribble (Unix), or the PATH environment
+vbribble (Windows).
+This is system bnd plbtform specific.
+If you bre using 64bit Solbris (e.g. 'jbvb -d64'), 
 you should use LD_LIBRARY_PATH64.
-Some agents such as hprof (heap/cpu profiler) and jdwp (debugger backend)
-are located inside the primary JDK directories and will always be found
-in those locations.
+Some bgents such bs hprof (hebp/cpu profiler) bnd jdwp (debugger bbckend)
+bre locbted inside the primbry JDK directories bnd will blwbys be found
+in those locbtions.
 
 <p>
-The agents that instrument classfiles 
-(i.e. BCI, usually through the java_crw_demo library) 
-such as hprof, heapTracker, mtrace, and minst, 
-also need to have the Java classes they use available in the bootclasspath.
-The one used by hprof is already in the bootclasspath, and the
-other agents will make attempts at automatically adding their jar file
-(e.g. heapTracker.jar, mtrace.jar, or minst.jar) to the bootclasspath
-with AddToBootstrapClassLoaderSearch from JVM TI at startup
-(see the agent_util code).
-This is done by locating this jar file at 
-${JAVA_HOME}/demo/jvmti/<i>agent-name</i>
-where JAVA_HOME is obtained by calling GetSystemProperty from JVM TI
-with "java.home".
-We recognize that this is not ideal, but felt that as just demonstration
-code it was acceptable.
-Ideally the agent could find out the actual directory it came from and
-locate the jar file relative to that location. 
-Our demonstration agents currently do not do this.
+The bgents thbt instrument clbssfiles 
+(i.e. BCI, usublly through the jbvb_crw_demo librbry) 
+such bs hprof, hebpTrbcker, mtrbce, bnd minst, 
+blso need to hbve the Jbvb clbsses they use bvbilbble in the bootclbsspbth.
+The one used by hprof is blrebdy in the bootclbsspbth, bnd the
+other bgents will mbke bttempts bt butombticblly bdding their jbr file
+(e.g. hebpTrbcker.jbr, mtrbce.jbr, or minst.jbr) to the bootclbsspbth
+with AddToBootstrbpClbssLobderSebrch from JVM TI bt stbrtup
+(see the bgent_util code).
+This is done by locbting this jbr file bt 
+${JAVA_HOME}/demo/jvmti/<i>bgent-nbme</i>
+where JAVA_HOME is obtbined by cblling GetSystemProperty from JVM TI
+with "jbvb.home".
+We recognize thbt this is not idebl, but felt thbt bs just demonstrbtion
+code it wbs bcceptbble.
+Ideblly the bgent could find out the bctubl directory it cbme from bnd
+locbte the jbr file relbtive to thbt locbtion. 
+Our demonstrbtion bgents currently do not do this.
 
 <p>
-If you choose to modify or change these agents, the above information
-is important in making everything is found.
-It is recommended that you change the name of the agent when you
-modify it to avoid conflicts with the existing demo agents.
-Or better yet, go to http://jdk.dev.java.net and submit your
-changes to the agent as an RFE to the JDK.
+If you choose to modify or chbnge these bgents, the bbove informbtion
+is importbnt in mbking everything is found.
+It is recommended thbt you chbnge the nbme of the bgent when you
+modify it to bvoid conflicts with the existing demo bgents.
+Or better yet, go to http://jdk.dev.jbvb.net bnd submit your
+chbnges to the bgent bs bn RFE to the JDK.
 
 
-<h2> Demonstration Agents Available </h2>
+<h2> Demonstrbtion Agents Avbilbble </h2>
 
 <ul>
 
 <li>
 <A HREF="versionCheck">versionCheck</A>
 <br>
-This is a extremely small agent that does nothing but check the
+This is b extremely smbll bgent thbt does nothing but check the
 version string supplied in the jvmti.h file, with the version
-number supplied by the VM at runtime.
+number supplied by the VM bt runtime.
 </li>
 
 <li>
-<A HREF="compiledMethodLoad">compiledMethodLoad</A>
+<A HREF="compiledMethodLobd">compiledMethodLobd</A>
 <br>
-This is a small agent that traces CompiledMethodLoad events along
-with the HotSpot specific compile_info parameter.
+This is b smbll bgent thbt trbces CompiledMethodLobd events blong
+with the HotSpot specific compile_info pbrbmeter.
 </li>
 
 <li>
-<A HREF="mtrace">mtrace</A>
+<A HREF="mtrbce">mtrbce</A>
 <br>
-This is a small agent that does method tracing.
-It uses Bytecode Instrumentation (BCI) via the java_crw_demo library.
+This is b smbll bgent thbt does method trbcing.
+It uses Bytecode Instrumentbtion (BCI) vib the jbvb_crw_demo librbry.
 </li>
 
 <li>
 <A HREF="minst">minst</A>
 <br>
-This is an even smaller agent that does just method entry tracing.
-It also uses Bytecode Instrumentation (BCI) via the java_crw_demo library,
-but the instrumentation code is pure Java (no Java native methods used).
-NOTE: Be sure to check out java.lang.instrument for a way to avoid
-native code agents completely.
+This is bn even smbller bgent thbt does just method entry trbcing.
+It blso uses Bytecode Instrumentbtion (BCI) vib the jbvb_crw_demo librbry,
+but the instrumentbtion code is pure Jbvb (no Jbvb nbtive methods used).
+NOTE: Be sure to check out jbvb.lbng.instrument for b wby to bvoid
+nbtive code bgents completely.
 </li>
 
 <li>
 <A HREF="gctest">gctest</A>
 <br>
-This is a small agent that does garbage collection counting.
+This is b smbll bgent thbt does gbrbbge collection counting.
 </li>
 
 <li>
-<A HREF="heapViewer">heapViewer</A>
+<A HREF="hebpViewer">hebpViewer</A>
 <br>
-This is a small agent that does some basic heap inspections.
+This is b smbll bgent thbt does some bbsic hebp inspections.
 </li>
 
 <li>
-<A HREF="heapTracker">heapTracker</A>
+<A HREF="hebpTrbcker">hebpTrbcker</A>
 <br>
-This is a small agent that does BCI to capture object creation
-and track them.
-It uses Bytecode Instrumentation (BCI) via the java_crw_demo library.
+This is b smbll bgent thbt does BCI to cbpture object crebtion
+bnd trbck them.
+It uses Bytecode Instrumentbtion (BCI) vib the jbvb_crw_demo librbry.
 </li>
 
 <li>
-<A HREF="waiters">waiters</A>
+<A HREF="wbiters">wbiters</A>
 <br>
-This is a small agent that gets information about threads
-waiting on monitors.
+This is b smbll bgent thbt gets informbtion bbout threbds
+wbiting on monitors.
 </li>
 
 <li>
 <A HREF="hprof">hprof</A>
 <br>
-This is a large agent that does heap and cpu profiling.
-This demo agent is actually built into the 
+This is b lbrge bgent thbt does hebp bnd cpu profiling.
+This demo bgent is bctublly built into the 
 
-Java Runtime Environment (JRE).
-It uses Bytecode Instrumentation (BCI) via the java_crw_demo library.
+Jbvb Runtime Environment (JRE).
+It uses Bytecode Instrumentbtion (BCI) vib the jbvb_crw_demo librbry.
 <br>
-<b>Note:</b> hprof is NOT a small or simple agent, the other smaller demos
-should be looked at first.
+<b>Note:</b> hprof is NOT b smbll or simple bgent, the other smbller demos
+should be looked bt first.
 </li>
 
 </ul>
@@ -172,11 +172,11 @@ should be looked at first.
 <ul>
 
 <li>
-<A HREF="java_crw_demo">java_crw_demo</A>
+<A HREF="jbvb_crw_demo">jbvb_crw_demo</A>
 <br>
-This is a demo C library that does class file to class file
-transformations or BCI (Bytecode Instrumentation).
-It is used by several of the above agents.
+This is b demo C librbry thbt does clbss file to clbss file
+trbnsformbtions or BCI (Bytecode Instrumentbtion).
+It is used by severbl of the bbove bgents.
 </li>
 
 
@@ -184,61 +184,61 @@ It is used by several of the above agents.
 
 
 
-<h2>Native Library Build Hints</h2>
+<h2>Nbtive Librbry Build Hints</h2>
 
 <p>
-All libraries loaded into java are assumed to be MT-safe (Multi-thread safe).
-This means that multiple threads could be executing the code at the same
-time, and static or global data may need to be placed in critical
-sections. See the Raw Monitor interfaces for more information.
+All librbries lobded into jbvb bre bssumed to be MT-sbfe (Multi-threbd sbfe).
+This mebns thbt multiple threbds could be executing the code bt the sbme
+time, bnd stbtic or globbl dbtb mby need to be plbced in criticbl
+sections. See the Rbw Monitor interfbces for more informbtion.
 
 <p>
-All native libraries loaded into the 
-Java Virtual Machine,
-including Agent libraries,
-need to be compiled and built in a compatible way.
-Certain native compilation options or optimizations should be avoided,
-and some are required.
-More information on this options is available in the man pages for
-the various compilers.
+All nbtive librbries lobded into the 
+Jbvb Virtubl Mbchine,
+including Agent librbries,
+need to be compiled bnd built in b compbtible wby.
+Certbin nbtive compilbtion options or optimizbtions should be bvoided,
+bnd some bre required.
+More informbtion on this options is bvbilbble in the mbn pbges for
+the vbrious compilers.
 
 <p>
-Some native compiler and linker options can create fatal or 
-erroneous behavior when native agent libraries are operating
-inside the Java Virtual Machine.
-It would take too many words to describe all the possible issues with all
-the native compiler options, optimizations, and settings.
-Here are some recommendations on the basic compiler and linker options
+Some nbtive compiler bnd linker options cbn crebte fbtbl or 
+erroneous behbvior when nbtive bgent librbries bre operbting
+inside the Jbvb Virtubl Mbchine.
+It would tbke too mbny words to describe bll the possible issues with bll
+the nbtive compiler options, optimizbtions, bnd settings.
+Here bre some recommendbtions on the bbsic compiler bnd linker options
 we recommend:
 
 <ul>
 
-<h3> Solaris </h3>
+<h3> Solbris </h3>
 
 <li>
-On Solaris, using the Sun Studio 11 C compiler,
-the typical compile and link command lines might look something like:
+On Solbris, using the Sun Studio 11 C compiler,
+the typicbl compile bnd link commbnd lines might look something like:
 <br>
 For 32bit SPARC:
 <br>
 <code><ul>
-cc -xO2 -mt -xregs=no%appl -xmemalign=4s -xarch=v8 -KPIC -c <i>*.c</i>
+cc -xO2 -mt -xregs=no%bppl -xmemblign=4s -xbrch=v8 -KPIC -c <i>*.c</i>
 <br>
-cc -mt -xarch=v8 -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
+cc -mt -xbrch=v8 -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
 </code></ul>
 <br>
 For 64bit SPARC:
 <br>
 <code><ul>
-cc -xO2 -mt -xregs=no%appl -xarch=v9 -KPIC -c <i>*.c</i>
+cc -xO2 -mt -xregs=no%bppl -xbrch=v9 -KPIC -c <i>*.c</i>
 <br>
-cc -mt -xarch=v9 -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
+cc -mt -xbrch=v9 -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
 </code></ul>
 <br>
 For X86:
 <br>
 <code><ul>
-cc -xO2 -mt -xregs=no%frameptr -KPIC -c <i>*.c</i>
+cc -xO2 -mt -xregs=no%frbmeptr -KPIC -c <i>*.c</i>
 <br>
 cc -mt -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
 </code></ul>
@@ -246,84 +246,84 @@ cc -mt -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
 For AMD64:
 <br>
 <code><ul>
-cc -xO2 -mt -xregs=no%frameptr -xarch=amd64 -KPIC -c <i>*.c</i>
+cc -xO2 -mt -xregs=no%frbmeptr -xbrch=bmd64 -KPIC -c <i>*.c</i>
 <br>
-cc -mt -xarch=amd64 -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
+cc -mt -xbrch=bmd64 -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
 </code></ul>
 <br>
 </li>
 
 <li>
-Architecture/File Format: 
-For SPARC 32bit use <code>-xarch=v8</code>, 
-for SPARC 64bit use <code>-xarch=v9</code>, 
+Architecture/File Formbt: 
+For SPARC 32bit use <code>-xbrch=v8</code>, 
+for SPARC 64bit use <code>-xbrch=v9</code>, 
 for X86 (32-bit) 
 <i>
-leave the option off or use <code>-xarch=generic</code>
+lebve the option off or use <code>-xbrch=generic</code>
 </i>,
-and for AMD64 (64bit) use <code>-xarch=amd64</code>
-with both C and C++.
+bnd for AMD64 (64bit) use <code>-xbrch=bmd64</code>
+with both C bnd C++.
 <br>
-This is to be specific as to the architecture and the file format
-of the .o files (and ultimately of the .so). 
+This is to be specific bs to the brchitecture bnd the file formbt
+of the .o files (bnd ultimbtely of the .so). 
 </li>
 
 <li>
-MT-Safe, Position Independent: Use <code>-KPIC -mt</code> 
-with both C and C++.
+MT-Sbfe, Position Independent: Use <code>-KPIC -mt</code> 
+with both C bnd C++.
 </li>
 
 <li>
-Register usage: For SPARC (both 32bit and 64bit) use 
-<code>-xregs=no%appl</code> and for X86 and AMD64 use <code>-xregs=no%frameptr</code>
-with both C and C++.
+Register usbge: For SPARC (both 32bit bnd 64bit) use 
+<code>-xregs=no%bppl</code> bnd for X86 bnd AMD64 use <code>-xregs=no%frbmeptr</code>
+with both C bnd C++.
 </li>
 
 <li>
-Alignment: For SPARC 32bit use -xmemalign=4s and for SPARC 64bit do NOT use <code>-xmemalign=4</code>
-with both C and C++.
+Alignment: For SPARC 32bit use -xmemblign=4s bnd for SPARC 64bit do NOT use <code>-xmemblign=4</code>
+with both C bnd C++.
 </li>
 
 <li>
-Dependencies: Use <code>ldd -r <i>LibraryName</i></code>.
+Dependencies: Use <code>ldd -r <i>LibrbryNbme</i></code>.
 <br>
-After the shared library has been built, the utility
-<code>ldd</code> can be used to verify that all dependent libraries 
-have been satisfied, and all externs can be found.
-If <code>ldd</code> says anything is missing, it is very likely that the JVM will also
-be unable to load this library.
-This usually means that you missed some <code>-l<i>name</i></code>
-options when building the library, or perhaps forgot a <code>-R path</code>
-option that tells the library where to look for libraries at runtime.
+After the shbred librbry hbs been built, the utility
+<code>ldd</code> cbn be used to verify thbt bll dependent librbries 
+hbve been sbtisfied, bnd bll externs cbn be found.
+If <code>ldd</code> sbys bnything is missing, it is very likely thbt the JVM will blso
+be unbble to lobd this librbry.
+This usublly mebns thbt you missed some <code>-l<i>nbme</i></code>
+options when building the librbry, or perhbps forgot b <code>-R pbth</code>
+option thbt tells the librbry where to look for librbries bt runtime.
 </li>
 
 <h3> Linux </h3>
 
 <li>
 On Linux, using the gcc version 3.2, 
-the typical compile and link command lines might look something like:
+the typicbl compile bnd link commbnd lines might look something like:
 <br>
 For X86:
 <br>
 <code><ul>
-gcc -O2 -fPIC -pthread -DLINUX -c <i>*.c</i>
+gcc -O2 -fPIC -pthrebd -DLINUX -c <i>*.c</i>
 <br>
-gcc -z defs -static-libgcc -shared -o <i>libXXX.so *.o</i> -lc
+gcc -z defs -stbtic-libgcc -shbred -o <i>libXXX.so *.o</i> -lc
 </code></ul>
 <br>
 For AMD64:
 <br>
 <code><ul>
-gcc -O2 -fPIC -pthread -DLINUX -D_LP64=1 -c <i>*.c</i>
+gcc -O2 -fPIC -pthrebd -DLINUX -D_LP64=1 -c <i>*.c</i>
 <br>
-gcc -z defs -static-libgcc -shared -o <i>libXXX.so *.o</i> -lc
+gcc -z defs -stbtic-libgcc -shbred -o <i>libXXX.so *.o</i> -lc
 </code></ul>
 <br>
 </li>
 
 <li>
-MT-Safe, Position Independent: 
-Use <code>-fPIC -pthread</code>.
+MT-Sbfe, Position Independent: 
+Use <code>-fPIC -pthrebd</code>.
 </li>
 
 <li>
@@ -331,38 +331,38 @@ Agent Demo Code: Needs -DLINUX
 </li>
 
 <li>
-Register Usage: Use <code>-fno-omit-frame-pointer</code>.
+Register Usbge: Use <code>-fno-omit-frbme-pointer</code>.
 <br>
-It is important that these libraries have frame pointer register usage, see the above comments on the Solaris 
-<code>-xregs=no%frameptr</code>
+It is importbnt thbt these librbries hbve frbme pointer register usbge, see the bbove comments on the Solbris 
+<code>-xregs=no%frbmeptr</code>
 option.
 </li>
 
 <li>
-Library: Use -static-libgcc.
+Librbry: Use -stbtic-libgcc.
 <br>
-When building the shared library (-shared option), this option
-allows for maximum portability of the library between different
-flavors of Linux.
-The problem we have seen with Linux is that we cannot depend
-on a compatible shared gcc library existing on all the versions of
-Linux we can run on.
-By doing this static link, the version script becomes more
-important, making sure you don't expose any extern symbols
+When building the shbred librbry (-shbred option), this option
+bllows for mbximum portbbility of the librbry between different
+flbvors of Linux.
+The problem we hbve seen with Linux is thbt we cbnnot depend
+on b compbtible shbred gcc librbry existing on bll the versions of
+Linux we cbn run on.
+By doing this stbtic link, the version script becomes more
+importbnt, mbking sure you don't expose bny extern symbols
 you didn't intend to.
 </li>
 
 <li>
-Dependencies: Use <code>ldd -r <i>LibraryName</i></code>.
+Dependencies: Use <code>ldd -r <i>LibrbryNbme</i></code>.
 <br>
-Provides the same checking as Solaris (see above).
+Provides the sbme checking bs Solbris (see bbove).
 </li>
 
 <h3> Windows </h3>
 
 <li>
-On Windows and using the Microsoft C++ Compiler Visual Studio .NET 2003,
-the typical compile and link command lines might look something like:
+On Windows bnd using the Microsoft C++ Compiler Visubl Studio .NET 2003,
+the typicbl compile bnd link commbnd lines might look something like:
 <br>
 For X86:
 <br>
@@ -383,61 +383,61 @@ link /dll /opt:REF /out:<i>XXX.dll *.obj</i>
 </li>
 
 <li>
-Library: Use <code>/opt:REF </code> when building the dll.
+Librbry: Use <code>/opt:REF </code> when building the dll.
 </li>
 
 <li>
 MS DLL Runtime: Use the <code>/MD /D _STATIC_CPPLIB</code> option.
 <br>
-This causes your dll to become dependent on just MSVCR*.DLL.
+This cbuses your dll to become dependent on just MSVCR*.DLL.
 The option /D _STATIC_CPPLIB prevents you from becoming dependent on the
-C++ library MSVCP*.DLL.
-This is what we use in the JDK, but there are probably many combinations
-that you could safely use, unfortunately there are many combinations
-of runtimes that will not work. 
+C++ librbry MSVCP*.DLL.
+This is whbt we use in the JDK, but there bre probbbly mbny combinbtions
+thbt you could sbfely use, unfortunbtely there bre mbny combinbtions
+of runtimes thbt will not work. 
 Check the Microsoft site on proper use of runtimes.
 </li>
 
 <li>
-Dependencies: Use VC++ <code>dumpbin /exports</code> and the VC++ "Dependency Walker".
+Dependencies: Use VC++ <code>dumpbin /exports</code> bnd the VC++ "Dependency Wblker".
 <br>
-Provides dependency information similar to <code>ldd</code>.
+Provides dependency informbtion similbr to <code>ldd</code>.
 </li>
 
 </ul>
 
 
-<h2>For More Information</h2>
+<h2>For More Informbtion</h2>
 
 <p>
-Remember, the complete source to all these agents is contained in the JDK
-installations at demo/jvmti.
+Remember, the complete source to bll these bgents is contbined in the JDK
+instbllbtions bt demo/jvmti.
 
 <p>
-For more detailed information on JVM TI, refer to 
-<A HREF="http://java.sun.com/j2se/latest/docs/guide/jvmti">
-http://java.sun.com/j2se/latest/docs/guide/jvmti.</A>
+For more detbiled informbtion on JVM TI, refer to 
+<A HREF="http://jbvb.sun.com/j2se/lbtest/docs/guide/jvmti">
+http://jbvb.sun.com/j2se/lbtest/docs/guide/jvmti.</A>
  
 <p>
-More information on using JNI and building native libraries refer to:
-<A HREF="http://java.sun.com/j2se/latest/docs/guide/jni">
-http://java.sun.com/j2se/latest/docs/guide/jni</A>.
+More informbtion on using JNI bnd building nbtive librbries refer to:
+<A HREF="http://jbvb.sun.com/j2se/lbtest/docs/guide/jni">
+http://jbvb.sun.com/j2se/lbtest/docs/guide/jni</A>.
 
 <p>
-Additional information can also be found by doing a search on "jvmti" at
-<A HREF="http://java.sun.com/j2se">http://java.sun.com/j2se</A>.
-Various technical articles are also available through this website.
+Additionbl informbtion cbn blso be found by doing b sebrch on "jvmti" bt
+<A HREF="http://jbvb.sun.com/j2se">http://jbvb.sun.com/j2se</A>.
+Vbrious technicbl brticles bre blso bvbilbble through this website.
 And don't forget the 
-Java Tutorials at 
-<A HREF="http://java.sun.com/docs/books/tutorial">http://java.sun.com/docs/books/tutorial</A>
-for getting a quick start on all the various interfaces.
+Jbvb Tutoribls bt 
+<A HREF="http://jbvb.sun.com/docs/books/tutoribl">http://jbvb.sun.com/docs/books/tutoribl</A>
+for getting b quick stbrt on bll the vbrious interfbces.
 
-<h2>Comments and Feedback</h2>
+<h2>Comments bnd Feedbbck</h2>
 
 <p>
-Comments regarding JVM TI or on any of these demonstrations should be
+Comments regbrding JVM TI or on bny of these demonstrbtions should be
 sent through 
-<A HREF="http://java.sun.com/mail">http://java.sun.com/mail/</A>
+<A HREF="http://jbvb.sun.com/mbil">http://jbvb.sun.com/mbil/</A>
 
 
 

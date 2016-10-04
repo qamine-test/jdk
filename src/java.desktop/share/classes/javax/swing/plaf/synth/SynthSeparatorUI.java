@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.beans.*;
-import javax.swing.*;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.SeparatorUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.DimensionUIResource;
+import jbvb.bebns.*;
+import jbvbx.swing.*;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.SepbrbtorUI;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.plbf.DimensionUIResource;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JSeparator}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JSepbrbtor}.
  *
- * @author Shannon Hickey
- * @author Joshua Outwater
+ * @buthor Shbnnon Hickey
+ * @buthor Joshub Outwbter
  * @since 1.7
  */
-public class SynthSeparatorUI extends SeparatorUI
-                              implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+public clbss SynthSepbrbtorUI extends SepbrbtorUI
+                              implements PropertyChbngeListener, SynthUI {
+    privbte SynthStyle style;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthSeparatorUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new SynthSepbrbtorUI();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void installUI(JComponent c) {
-        installDefaults((JSeparator)c);
-        installListeners((JSeparator)c);
+    public void instbllUI(JComponent c) {
+        instbllDefbults((JSepbrbtor)c);
+        instbllListeners((JSepbrbtor)c);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void uninstallUI(JComponent c) {
-        uninstallListeners((JSeparator)c);
-        uninstallDefaults((JSeparator)c);
+    public void uninstbllUI(JComponent c) {
+        uninstbllListeners((JSepbrbtor)c);
+        uninstbllDefbults((JSepbrbtor)c);
     }
 
     /**
-     * Installs default setting. This method is called when a
-     * {@code LookAndFeel} is installed.
+     * Instblls defbult setting. This method is cblled when b
+     * {@code LookAndFeel} is instblled.
      *
-     * @param c specifies the {@code JSeparator} for the installed
+     * @pbrbm c specifies the {@code JSepbrbtor} for the instblled
      * {@code LookAndFeel}.
      */
-    public void installDefaults(JSeparator c) {
-        updateStyle(c);
+    public void instbllDefbults(JSepbrbtor c) {
+        updbteStyle(c);
     }
 
-    private void updateStyle(JSeparator sep) {
+    privbte void updbteStyle(JSepbrbtor sep) {
         SynthContext context = getContext(sep, ENABLED);
         SynthStyle oldStyle = style;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
 
         if (style != oldStyle) {
-            if (sep instanceof JToolBar.Separator) {
-                Dimension size = ((JToolBar.Separator)sep).getSeparatorSize();
-                if (size == null || size instanceof UIResource) {
+            if (sep instbnceof JToolBbr.Sepbrbtor) {
+                Dimension size = ((JToolBbr.Sepbrbtor)sep).getSepbrbtorSize();
+                if (size == null || size instbnceof UIResource) {
                     size = (DimensionUIResource)style.get(
-                                      context, "ToolBar.separatorSize");
+                                      context, "ToolBbr.sepbrbtorSize");
                     if (size == null) {
                         size = new DimensionUIResource(10, 10);
                     }
-                    ((JToolBar.Separator)sep).setSeparatorSize(size);
+                    ((JToolBbr.Sepbrbtor)sep).setSepbrbtorSize(size);
                 }
             }
         }
@@ -110,107 +110,107 @@ public class SynthSeparatorUI extends SeparatorUI
     }
 
     /**
-     * Uninstalls default setting. This method is called when a
-     * {@code LookAndFeel} is uninstalled.
+     * Uninstblls defbult setting. This method is cblled when b
+     * {@code LookAndFeel} is uninstblled.
      *
-     * @param c specifies the {@code JSeparator} for the (un)installed
+     * @pbrbm c specifies the {@code JSepbrbtor} for the (un)instblled
      * {@code LookAndFeel}.
      */
-    public void uninstallDefaults(JSeparator c) {
+    public void uninstbllDefbults(JSepbrbtor c) {
         SynthContext context = getContext(c, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
     }
 
     /**
-     * Installs listeners. This method is called when a
-     * {@code LookAndFeel} is installed.
+     * Instblls listeners. This method is cblled when b
+     * {@code LookAndFeel} is instblled.
      *
-     * @param c specifies the {@code JSeparator} for the installed
+     * @pbrbm c specifies the {@code JSepbrbtor} for the instblled
      * {@code LookAndFeel}.
      */
-    public void installListeners(JSeparator c) {
-        c.addPropertyChangeListener(this);
+    public void instbllListeners(JSepbrbtor c) {
+        c.bddPropertyChbngeListener(this);
     }
 
     /**
-     * Uninstalls listeners. This method is called when a
-     * {@code LookAndFeel} is uninstalled.
+     * Uninstblls listeners. This method is cblled when b
+     * {@code LookAndFeel} is uninstblled.
      *
-     * @param c specifies the {@code JSeparator} for the (un)installed
+     * @pbrbm c specifies the {@code JSepbrbtor} for the (un)instblled
      * {@code LookAndFeel}.
      */
-    public void uninstallListeners(JSeparator c) {
-        c.removePropertyChangeListener(this);
+    public void uninstbllListeners(JSepbrbtor c) {
+        c.removePropertyChbngeListener(this);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        JSeparator separator = (JSeparator)context.getComponent();
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintSeparatorBackground(context,
+        JSepbrbtor sepbrbtor = (JSepbrbtor)context.getComponent();
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintSepbrbtorBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight(),
-                          separator.getOrientation());
-        paint(context, g);
+                          sepbrbtor.getOrientbtion());
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        JSeparator separator = (JSeparator)context.getComponent();
-        context.getPainter().paintSeparatorForeground(context, g, 0, 0,
-                             separator.getWidth(), separator.getHeight(),
-                             separator.getOrientation());
+    protected void pbint(SynthContext context, Grbphics g) {
+        JSepbrbtor sepbrbtor = (JSepbrbtor)context.getComponent();
+        context.getPbinter().pbintSepbrbtorForeground(context, g, 0, 0,
+                             sepbrbtor.getWidth(), sepbrbtor.getHeight(),
+                             sepbrbtor.getOrientbtion());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        JSeparator separator = (JSeparator)context.getComponent();
-        context.getPainter().paintSeparatorBorder(context, g, x, y, w, h,
-                                                  separator.getOrientation());
+        JSepbrbtor sepbrbtor = (JSepbrbtor)context.getComponent();
+        context.getPbinter().pbintSepbrbtorBorder(context, g, x, y, w, h,
+                                                  sepbrbtor.getOrientbtion());
     }
 
     /**
@@ -220,11 +220,11 @@ public class SynthSeparatorUI extends SeparatorUI
     public Dimension getPreferredSize(JComponent c) {
         SynthContext context = getContext(c);
 
-        int thickness = style.getInt(context, "Separator.thickness", 2);
+        int thickness = style.getInt(context, "Sepbrbtor.thickness", 2);
         Insets insets = c.getInsets();
         Dimension size;
 
-        if (((JSeparator)c).getOrientation() == JSeparator.VERTICAL) {
+        if (((JSepbrbtor)c).getOrientbtion() == JSepbrbtor.VERTICAL) {
             size = new Dimension(insets.left + insets.right + thickness,
                                  insets.top + insets.bottom);
         } else {
@@ -247,7 +247,7 @@ public class SynthSeparatorUI extends SeparatorUI
      * {@inheritDoc}
      */
     @Override
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
 
@@ -256,16 +256,16 @@ public class SynthSeparatorUI extends SeparatorUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+        return getContext(c, SynthLookAndFeel.getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-            updateStyle((JSeparator)evt.getSource());
+    public void propertyChbnge(PropertyChbngeEvent evt) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(evt)) {
+            updbteStyle((JSepbrbtor)evt.getSource());
         }
     }
 }

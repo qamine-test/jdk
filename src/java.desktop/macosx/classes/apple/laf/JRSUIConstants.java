@@ -1,844 +1,844 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package apple.laf;
+pbckbge bpple.lbf;
 
-import java.lang.reflect.Field;
-import java.nio.ByteBuffer;
+import jbvb.lbng.reflect.Field;
+import jbvb.nio.ByteBuffer;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
-public final class JRSUIConstants {
+public finbl clbss JRSUIConstbnts {
 
     /**
-     * There is no way to get width of focus border, so it is hardcoded here.
-     * All components, which can be focused should take care about it.
+     * There is no wby to get width of focus border, so it is hbrdcoded here.
+     * All components, which cbn be focused should tbke cbre bbout it.
      */
-    public static final int FOCUS_SIZE = 4;
+    public stbtic finbl int FOCUS_SIZE = 4;
 
-    private static native long getPtrForConstant(final int constant);
+    privbte stbtic nbtive long getPtrForConstbnt(finbl int constbnt);
 
-    static class Key {
-        @Native protected static final int _value = 20;
-        public static final Key VALUE = new Key(_value);
+    stbtic clbss Key {
+        @Nbtive protected stbtic finbl int _vblue = 20;
+        public stbtic finbl Key VALUE = new Key(_vblue);
 
-        @Native protected static final int _thumbProportion = 24;
-        public static final Key THUMB_PROPORTION = new Key(_thumbProportion);
+        @Nbtive protected stbtic finbl int _thumbProportion = 24;
+        public stbtic finbl Key THUMB_PROPORTION = new Key(_thumbProportion);
 
-        @Native protected static final int _thumbStart = 25;
-        public static final Key THUMB_START = new Key(_thumbStart);
+        @Nbtive protected stbtic finbl int _thumbStbrt = 25;
+        public stbtic finbl Key THUMB_START = new Key(_thumbStbrt);
 
-        @Native protected static final int _windowTitleBarHeight = 28;
-        public static final Key WINDOW_TITLE_BAR_HEIGHT = new Key(_windowTitleBarHeight);
+        @Nbtive protected stbtic finbl int _windowTitleBbrHeight = 28;
+        public stbtic finbl Key WINDOW_TITLE_BAR_HEIGHT = new Key(_windowTitleBbrHeight);
 
-        @Native protected static final int _animationFrame = 23;
-        public static final Key ANIMATION_FRAME = new Key(_animationFrame);
+        @Nbtive protected stbtic finbl int _bnimbtionFrbme = 23;
+        public stbtic finbl Key ANIMATION_FRAME = new Key(_bnimbtionFrbme);
 
-        final int constant;
-        private long ptr;
+        finbl int constbnt;
+        privbte long ptr;
 
-        private Key(final int constant) {
-            this.constant = constant;
+        privbte Key(finbl int constbnt) {
+            this.constbnt = constbnt;
         }
 
-        long getConstantPtr() {
+        long getConstbntPtr() {
             if (ptr != 0) return ptr;
-            ptr = getPtrForConstant(constant);
+            ptr = getPtrForConstbnt(constbnt);
             if (ptr != 0) return ptr;
-            throw new RuntimeException("Constant not implemented in native: " + this);
+            throw new RuntimeException("Constbnt not implemented in nbtive: " + this);
         }
 
         public String toString() {
-            return getConstantName(this) + (ptr == 0 ? "(unlinked)" : "");
+            return getConstbntNbme(this) + (ptr == 0 ? "(unlinked)" : "");
         }
     }
 
-    static class DoubleValue {
-        @Native protected static final byte TYPE_CODE = 1;
+    stbtic clbss DoubleVblue {
+        @Nbtive protected stbtic finbl byte TYPE_CODE = 1;
 
-        final double doubleValue;
+        finbl double doubleVblue;
 
-        DoubleValue(final double doubleValue) {
-            this.doubleValue = doubleValue;
+        DoubleVblue(finbl double doubleVblue) {
+            this.doubleVblue = doubleVblue;
         }
 
         public byte getTypeCode() {
             return TYPE_CODE;
         }
 
-        public void putValueInBuffer(final ByteBuffer buffer) {
-            buffer.putDouble(doubleValue);
+        public void putVblueInBuffer(finbl ByteBuffer buffer) {
+            buffer.putDouble(doubleVblue);
         }
 
-        public boolean equals(final Object obj) {
-            return (obj instanceof DoubleValue) && (((DoubleValue)obj).doubleValue == doubleValue);
+        public boolebn equbls(finbl Object obj) {
+            return (obj instbnceof DoubleVblue) && (((DoubleVblue)obj).doubleVblue == doubleVblue);
         }
 
-        public int hashCode() {
-            final long bits = Double.doubleToLongBits(doubleValue);
+        public int hbshCode() {
+            finbl long bits = Double.doubleToLongBits(doubleVblue);
             return (int)(bits ^ (bits >>> 32));
         }
 
         public String toString() {
-            return Double.toString(doubleValue);
+            return Double.toString(doubleVblue);
         }
     }
 
 
-    static class PropertyEncoding {
-        final long mask;
-        final byte shift;
+    stbtic clbss PropertyEncoding {
+        finbl long mbsk;
+        finbl byte shift;
 
-        PropertyEncoding(final long mask, final byte shift) {
-            this.mask = mask;
+        PropertyEncoding(finbl long mbsk, finbl byte shift) {
+            this.mbsk = mbsk;
             this.shift = shift;
         }
     }
 
-    static class Property {
-        final PropertyEncoding encoding;
-        final long value;
-        final byte ordinal;
+    stbtic clbss Property {
+        finbl PropertyEncoding encoding;
+        finbl long vblue;
+        finbl byte ordinbl;
 
-        Property(final PropertyEncoding encoding, final byte ordinal) {
+        Property(finbl PropertyEncoding encoding, finbl byte ordinbl) {
             this.encoding = encoding;
-            this.value = ((long)ordinal) << encoding.shift;
-            this.ordinal = ordinal;
+            this.vblue = ((long)ordinbl) << encoding.shift;
+            this.ordinbl = ordinbl;
         }
 
         /**
-         * Applies this property value to the provided state
-         * @param encodedState the incoming JRSUI encoded state
-         * @return the composite of the provided JRSUI encoded state and this value
+         * Applies this property vblue to the provided stbte
+         * @pbrbm encodedStbte the incoming JRSUI encoded stbte
+         * @return the composite of the provided JRSUI encoded stbte bnd this vblue
          */
-        public long apply(final long encodedState) {
-            return (encodedState & ~encoding.mask) | value;
+        public long bpply(finbl long encodedStbte) {
+            return (encodedStbte & ~encoding.mbsk) | vblue;
         }
 
         public String toString() {
-            return getConstantName(this);
+            return getConstbntNbme(this);
         }
     }
 
-    public static class Size extends Property {
-        @Native private static final byte SHIFT = 0;
-        @Native private static final byte SIZE = 3;
-        @Native private static final long MASK = (long)0x7 << SHIFT;
-        private static final PropertyEncoding size = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss Size extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = 0;
+        @Nbtive privbte stbtic finbl byte SIZE = 3;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x7 << SHIFT;
+        privbte stbtic finbl PropertyEncoding size = new PropertyEncoding(MASK, SHIFT);
 
-        Size(final byte value) {
-            super(size, value);
+        Size(finbl byte vblue) {
+            super(size, vblue);
         }
 
-        @Native private static final byte _mini = 1;
-        public static final Size MINI = new Size(_mini);
-        @Native private static final byte _small = 2;
-        public static final Size SMALL = new Size(_small);
-        @Native private static final byte _regular = 3;
-        public static final Size REGULAR = new Size(_regular);
-        @Native private static final byte _large = 4;
-        public static final Size LARGE = new Size(_large);
+        @Nbtive privbte stbtic finbl byte _mini = 1;
+        public stbtic finbl Size MINI = new Size(_mini);
+        @Nbtive privbte stbtic finbl byte _smbll = 2;
+        public stbtic finbl Size SMALL = new Size(_smbll);
+        @Nbtive privbte stbtic finbl byte _regulbr = 3;
+        public stbtic finbl Size REGULAR = new Size(_regulbr);
+        @Nbtive privbte stbtic finbl byte _lbrge = 4;
+        public stbtic finbl Size LARGE = new Size(_lbrge);
     }
 
-    public static class State extends Property {
-        @Native private static final byte SHIFT = Size.SHIFT + Size.SIZE;
-        @Native private static final byte SIZE = 4;
-        @Native private static final long MASK = (long)0xF << SHIFT;
-        private static final PropertyEncoding state = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss Stbte extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = Size.SHIFT + Size.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 4;
+        @Nbtive privbte stbtic finbl long MASK = (long)0xF << SHIFT;
+        privbte stbtic finbl PropertyEncoding stbte = new PropertyEncoding(MASK, SHIFT);
 
-        State(final byte value) {
-            super(state, value);
+        Stbte(finbl byte vblue) {
+            super(stbte, vblue);
         }
 
-        @Native private static final byte _active = 1;
-        public static final State ACTIVE = new State(_active);
-        @Native private static final byte _inactive = 2;
-        public static final State INACTIVE = new State(_inactive);
-        @Native private static final byte _disabled = 3;
-        public static final State DISABLED = new State(_disabled);
-        @Native private static final byte _pressed = 4;
-        public static final State PRESSED = new State(_pressed);
-        @Native private static final byte _pulsed = 5;
-        public static final State PULSED = new State(_pulsed);
-        @Native private static final byte _rollover = 6;
-        public static final State ROLLOVER = new State(_rollover);
-        @Native private static final byte _drag = 7;
-        public static final State DRAG = new State(_drag);
+        @Nbtive privbte stbtic finbl byte _bctive = 1;
+        public stbtic finbl Stbte ACTIVE = new Stbte(_bctive);
+        @Nbtive privbte stbtic finbl byte _inbctive = 2;
+        public stbtic finbl Stbte INACTIVE = new Stbte(_inbctive);
+        @Nbtive privbte stbtic finbl byte _disbbled = 3;
+        public stbtic finbl Stbte DISABLED = new Stbte(_disbbled);
+        @Nbtive privbte stbtic finbl byte _pressed = 4;
+        public stbtic finbl Stbte PRESSED = new Stbte(_pressed);
+        @Nbtive privbte stbtic finbl byte _pulsed = 5;
+        public stbtic finbl Stbte PULSED = new Stbte(_pulsed);
+        @Nbtive privbte stbtic finbl byte _rollover = 6;
+        public stbtic finbl Stbte ROLLOVER = new Stbte(_rollover);
+        @Nbtive privbte stbtic finbl byte _drbg = 7;
+        public stbtic finbl Stbte DRAG = new Stbte(_drbg);
     }
 
-    public static class Direction extends Property {
-        @Native private static final byte SHIFT = State.SHIFT + State.SIZE;
-        @Native private static final byte SIZE = 4;
-        @Native private static final long MASK = (long)0xF << SHIFT;
-        private static final PropertyEncoding direction = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss Direction extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = Stbte.SHIFT + Stbte.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 4;
+        @Nbtive privbte stbtic finbl long MASK = (long)0xF << SHIFT;
+        privbte stbtic finbl PropertyEncoding direction = new PropertyEncoding(MASK, SHIFT);
 
-        Direction(final byte value) {
-            super(direction, value);
+        Direction(finbl byte vblue) {
+            super(direction, vblue);
         }
 
-        @Native private static final byte _none = 1;
-        public static final Direction NONE = new Direction(_none);
-        @Native private static final byte _up = 2;
-        public static final Direction UP = new Direction(_up);
-        @Native private static final byte _down = 3;
-        public static final Direction DOWN = new Direction(_down);
-        @Native private static final byte _left = 4;
-        public static final Direction LEFT = new Direction(_left);
-        @Native private static final byte _right = 5;
-        public static final Direction RIGHT = new Direction(_right);
-        @Native private static final byte _north = 6;
-        public static final Direction NORTH = new Direction(_north);
-        @Native private static final byte _south = 7;
-        public static final Direction SOUTH = new Direction(_south);
-        @Native private static final byte _east = 8;
-        public static final Direction EAST = new Direction(_east);
-        @Native private static final byte _west = 9;
-        public static final Direction WEST = new Direction(_west);
+        @Nbtive privbte stbtic finbl byte _none = 1;
+        public stbtic finbl Direction NONE = new Direction(_none);
+        @Nbtive privbte stbtic finbl byte _up = 2;
+        public stbtic finbl Direction UP = new Direction(_up);
+        @Nbtive privbte stbtic finbl byte _down = 3;
+        public stbtic finbl Direction DOWN = new Direction(_down);
+        @Nbtive privbte stbtic finbl byte _left = 4;
+        public stbtic finbl Direction LEFT = new Direction(_left);
+        @Nbtive privbte stbtic finbl byte _right = 5;
+        public stbtic finbl Direction RIGHT = new Direction(_right);
+        @Nbtive privbte stbtic finbl byte _north = 6;
+        public stbtic finbl Direction NORTH = new Direction(_north);
+        @Nbtive privbte stbtic finbl byte _south = 7;
+        public stbtic finbl Direction SOUTH = new Direction(_south);
+        @Nbtive privbte stbtic finbl byte _ebst = 8;
+        public stbtic finbl Direction EAST = new Direction(_ebst);
+        @Nbtive privbte stbtic finbl byte _west = 9;
+        public stbtic finbl Direction WEST = new Direction(_west);
     }
 
-    public static class Orientation extends Property {
-        @Native private static final byte SHIFT = Direction.SHIFT + Direction.SIZE;
-        @Native private static final byte SIZE = 2;
-        @Native private static final long MASK = (long)0x3 << SHIFT;
-        private static final PropertyEncoding orientation = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss Orientbtion extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = Direction.SHIFT + Direction.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 2;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x3 << SHIFT;
+        privbte stbtic finbl PropertyEncoding orientbtion = new PropertyEncoding(MASK, SHIFT);
 
-        Orientation(final byte value) {
-            super(orientation, value);
+        Orientbtion(finbl byte vblue) {
+            super(orientbtion, vblue);
         }
 
-        @Native private static final byte _horizontal = 1;
-        public static final Orientation HORIZONTAL = new Orientation(_horizontal);
-        @Native private static final byte _vertical = 2;
-        public static final Orientation VERTICAL = new Orientation(_vertical);
+        @Nbtive privbte stbtic finbl byte _horizontbl = 1;
+        public stbtic finbl Orientbtion HORIZONTAL = new Orientbtion(_horizontbl);
+        @Nbtive privbte stbtic finbl byte _verticbl = 2;
+        public stbtic finbl Orientbtion VERTICAL = new Orientbtion(_verticbl);
     }
 
-    public static class AlignmentVertical extends Property {
-        @Native private static final byte SHIFT = Orientation.SHIFT + Orientation.SIZE;
-        @Native private static final byte SIZE = 2;
-        @Native private static final long MASK = (long)0x3 << SHIFT;
-        private static final PropertyEncoding alignmentVertical = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss AlignmentVerticbl extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = Orientbtion.SHIFT + Orientbtion.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 2;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x3 << SHIFT;
+        privbte stbtic finbl PropertyEncoding blignmentVerticbl = new PropertyEncoding(MASK, SHIFT);
 
-        AlignmentVertical(final byte value){
-            super(alignmentVertical, value);
+        AlignmentVerticbl(finbl byte vblue){
+            super(blignmentVerticbl, vblue);
         }
 
-        @Native private static final byte _top = 1;
-        public static final AlignmentVertical TOP = new AlignmentVertical(_top);
-        @Native private static final byte _center = 2;
-        public static final AlignmentVertical CENTER = new AlignmentVertical(_center);
-        @Native private static final byte _bottom = 3;
-        public static final AlignmentVertical BOTTOM = new AlignmentVertical(_bottom);
+        @Nbtive privbte stbtic finbl byte _top = 1;
+        public stbtic finbl AlignmentVerticbl TOP = new AlignmentVerticbl(_top);
+        @Nbtive privbte stbtic finbl byte _center = 2;
+        public stbtic finbl AlignmentVerticbl CENTER = new AlignmentVerticbl(_center);
+        @Nbtive privbte stbtic finbl byte _bottom = 3;
+        public stbtic finbl AlignmentVerticbl BOTTOM = new AlignmentVerticbl(_bottom);
     }
 
-    public static class AlignmentHorizontal extends Property {
-        @Native private static final byte SHIFT = AlignmentVertical.SHIFT + AlignmentVertical.SIZE;
-        @Native private static final byte SIZE = 2;
-        @Native private static final long MASK = (long)0x3 << SHIFT;
-        private static final PropertyEncoding alignmentHorizontal = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss AlignmentHorizontbl extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = AlignmentVerticbl.SHIFT + AlignmentVerticbl.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 2;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x3 << SHIFT;
+        privbte stbtic finbl PropertyEncoding blignmentHorizontbl = new PropertyEncoding(MASK, SHIFT);
 
-        AlignmentHorizontal(final byte value){
-            super(alignmentHorizontal, value);
+        AlignmentHorizontbl(finbl byte vblue){
+            super(blignmentHorizontbl, vblue);
         }
 
-        @Native private static final byte _left = 1;
-        public static final AlignmentHorizontal LEFT = new AlignmentHorizontal(_left);
-        @Native private static final byte _center =  2;
-        public static final AlignmentHorizontal CENTER = new AlignmentHorizontal(_center);
-        @Native private static final byte _right = 3;
-        public static final AlignmentHorizontal RIGHT = new AlignmentHorizontal(_right);
+        @Nbtive privbte stbtic finbl byte _left = 1;
+        public stbtic finbl AlignmentHorizontbl LEFT = new AlignmentHorizontbl(_left);
+        @Nbtive privbte stbtic finbl byte _center =  2;
+        public stbtic finbl AlignmentHorizontbl CENTER = new AlignmentHorizontbl(_center);
+        @Nbtive privbte stbtic finbl byte _right = 3;
+        public stbtic finbl AlignmentHorizontbl RIGHT = new AlignmentHorizontbl(_right);
     }
 
-    public static class SegmentPosition extends Property {
-        @Native private static final byte SHIFT = AlignmentHorizontal.SHIFT + AlignmentHorizontal.SIZE;
-        @Native private static final byte SIZE = 3;
-        @Native private static final long MASK = (long)0x7 << SHIFT;
-        private static final PropertyEncoding segmentPosition = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss SegmentPosition extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = AlignmentHorizontbl.SHIFT + AlignmentHorizontbl.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 3;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x7 << SHIFT;
+        privbte stbtic finbl PropertyEncoding segmentPosition = new PropertyEncoding(MASK, SHIFT);
 
-        SegmentPosition(final byte value) {
-            super(segmentPosition, value);
+        SegmentPosition(finbl byte vblue) {
+            super(segmentPosition, vblue);
         }
 
-        @Native private static final byte _first = 1;
-        public static final SegmentPosition FIRST = new SegmentPosition(_first);
-        @Native private static final byte _middle = 2;
-        public static final SegmentPosition MIDDLE = new SegmentPosition(_middle);
-        @Native private static final byte _last = 3;
-        public static final SegmentPosition LAST = new SegmentPosition(_last);
-        @Native private static final byte _only = 4;
-        public static final SegmentPosition ONLY = new SegmentPosition(_only);
+        @Nbtive privbte stbtic finbl byte _first = 1;
+        public stbtic finbl SegmentPosition FIRST = new SegmentPosition(_first);
+        @Nbtive privbte stbtic finbl byte _middle = 2;
+        public stbtic finbl SegmentPosition MIDDLE = new SegmentPosition(_middle);
+        @Nbtive privbte stbtic finbl byte _lbst = 3;
+        public stbtic finbl SegmentPosition LAST = new SegmentPosition(_lbst);
+        @Nbtive privbte stbtic finbl byte _only = 4;
+        public stbtic finbl SegmentPosition ONLY = new SegmentPosition(_only);
     }
 
-    public static class ScrollBarPart extends Property {
-        @Native private static final byte SHIFT = SegmentPosition.SHIFT + SegmentPosition.SIZE;
-        @Native private static final byte SIZE = 4;
-        @Native private static final long MASK = (long)0xF << SHIFT;
-        private static final PropertyEncoding scrollBarPart = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss ScrollBbrPbrt extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = SegmentPosition.SHIFT + SegmentPosition.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 4;
+        @Nbtive privbte stbtic finbl long MASK = (long)0xF << SHIFT;
+        privbte stbtic finbl PropertyEncoding scrollBbrPbrt = new PropertyEncoding(MASK, SHIFT);
 
-        ScrollBarPart(final byte value) {
-            super(scrollBarPart, value);
+        ScrollBbrPbrt(finbl byte vblue) {
+            super(scrollBbrPbrt, vblue);
         }
 
-        @Native private static final byte _none = 1;
-        public static final ScrollBarPart NONE = new ScrollBarPart(_none);
-        @Native private static final byte _thumb = 2;
-        public static final ScrollBarPart THUMB = new ScrollBarPart(_thumb);
-        @Native private static final byte _arrowMin = 3;
-        public static final ScrollBarPart ARROW_MIN = new ScrollBarPart(_arrowMin);
-        @Native private static final byte _arrowMax = 4;
-        public static final ScrollBarPart ARROW_MAX = new ScrollBarPart(_arrowMax);
-        @Native private static final byte _arrowMaxInside = 5;
-        public static final ScrollBarPart ARROW_MAX_INSIDE = new ScrollBarPart(_arrowMaxInside);
-        @Native private static final byte _arrowMinInside = 6;
-        public static final ScrollBarPart ARROW_MIN_INSIDE = new ScrollBarPart(_arrowMinInside);
-        @Native private static final byte _trackMin = 7;
-        public static final ScrollBarPart TRACK_MIN = new ScrollBarPart(_trackMin);
-        @Native private static final byte _trackMax = 8;
-        public static final ScrollBarPart TRACK_MAX = new ScrollBarPart(_trackMax);
+        @Nbtive privbte stbtic finbl byte _none = 1;
+        public stbtic finbl ScrollBbrPbrt NONE = new ScrollBbrPbrt(_none);
+        @Nbtive privbte stbtic finbl byte _thumb = 2;
+        public stbtic finbl ScrollBbrPbrt THUMB = new ScrollBbrPbrt(_thumb);
+        @Nbtive privbte stbtic finbl byte _brrowMin = 3;
+        public stbtic finbl ScrollBbrPbrt ARROW_MIN = new ScrollBbrPbrt(_brrowMin);
+        @Nbtive privbte stbtic finbl byte _brrowMbx = 4;
+        public stbtic finbl ScrollBbrPbrt ARROW_MAX = new ScrollBbrPbrt(_brrowMbx);
+        @Nbtive privbte stbtic finbl byte _brrowMbxInside = 5;
+        public stbtic finbl ScrollBbrPbrt ARROW_MAX_INSIDE = new ScrollBbrPbrt(_brrowMbxInside);
+        @Nbtive privbte stbtic finbl byte _brrowMinInside = 6;
+        public stbtic finbl ScrollBbrPbrt ARROW_MIN_INSIDE = new ScrollBbrPbrt(_brrowMinInside);
+        @Nbtive privbte stbtic finbl byte _trbckMin = 7;
+        public stbtic finbl ScrollBbrPbrt TRACK_MIN = new ScrollBbrPbrt(_trbckMin);
+        @Nbtive privbte stbtic finbl byte _trbckMbx = 8;
+        public stbtic finbl ScrollBbrPbrt TRACK_MAX = new ScrollBbrPbrt(_trbckMbx);
     }
 
-    public static class Variant extends Property {
-        @Native private static final byte SHIFT = ScrollBarPart.SHIFT + ScrollBarPart.SIZE;
-        @Native private static final byte SIZE = 4;
-        @Native private static final long MASK = (long)0xF << SHIFT;
-        private static final PropertyEncoding variant = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss Vbribnt extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = ScrollBbrPbrt.SHIFT + ScrollBbrPbrt.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 4;
+        @Nbtive privbte stbtic finbl long MASK = (long)0xF << SHIFT;
+        privbte stbtic finbl PropertyEncoding vbribnt = new PropertyEncoding(MASK, SHIFT);
 
-        Variant(final byte value) {
-            super(variant, value);
+        Vbribnt(finbl byte vblue) {
+            super(vbribnt, vblue);
         }
 
-        @Native private static final byte _menuGlyph = 1;
-        public static final Variant MENU_GLYPH = new Variant(_menuGlyph);
-        @Native private static final byte _menuPopup = Variant._menuGlyph + 1;
-        public static final Variant MENU_POPUP = new Variant(_menuPopup);
-        @Native private static final byte _menuPulldown = Variant._menuPopup + 1;
-        public static final Variant MENU_PULLDOWN = new Variant(_menuPulldown);
-        @Native private static final byte _menuHierarchical = Variant._menuPulldown + 1;
-        public static final Variant MENU_HIERARCHICAL = new Variant(_menuHierarchical);
+        @Nbtive privbte stbtic finbl byte _menuGlyph = 1;
+        public stbtic finbl Vbribnt MENU_GLYPH = new Vbribnt(_menuGlyph);
+        @Nbtive privbte stbtic finbl byte _menuPopup = Vbribnt._menuGlyph + 1;
+        public stbtic finbl Vbribnt MENU_POPUP = new Vbribnt(_menuPopup);
+        @Nbtive privbte stbtic finbl byte _menuPulldown = Vbribnt._menuPopup + 1;
+        public stbtic finbl Vbribnt MENU_PULLDOWN = new Vbribnt(_menuPulldown);
+        @Nbtive privbte stbtic finbl byte _menuHierbrchicbl = Vbribnt._menuPulldown + 1;
+        public stbtic finbl Vbribnt MENU_HIERARCHICAL = new Vbribnt(_menuHierbrchicbl);
 
-        @Native private static final byte _gradientListBackgroundEven = Variant._menuHierarchical + 1;
-        public static final Variant GRADIENT_LIST_BACKGROUND_EVEN = new Variant(_gradientListBackgroundEven);
-        @Native private static final byte _gradientListBackgroundOdd = Variant._gradientListBackgroundEven + 1;
-        public static final Variant GRADIENT_LIST_BACKGROUND_ODD = new Variant(_gradientListBackgroundOdd);
-        @Native private static final byte _gradientSideBar = Variant._gradientListBackgroundOdd + 1;
-        public static final Variant GRADIENT_SIDE_BAR = new Variant(_gradientSideBar);
-        @Native private static final byte _gradientSideBarSelection = Variant._gradientSideBar + 1;
-        public static final Variant GRADIENT_SIDE_BAR_SELECTION = new Variant(_gradientSideBarSelection);
-        @Native private static final byte _gradientSideBarFocusedSelection = Variant._gradientSideBarSelection + 1;
-        public static final Variant GRADIENT_SIDE_BAR_FOCUSED_SELECTION = new Variant(_gradientSideBarFocusedSelection);
+        @Nbtive privbte stbtic finbl byte _grbdientListBbckgroundEven = Vbribnt._menuHierbrchicbl + 1;
+        public stbtic finbl Vbribnt GRADIENT_LIST_BACKGROUND_EVEN = new Vbribnt(_grbdientListBbckgroundEven);
+        @Nbtive privbte stbtic finbl byte _grbdientListBbckgroundOdd = Vbribnt._grbdientListBbckgroundEven + 1;
+        public stbtic finbl Vbribnt GRADIENT_LIST_BACKGROUND_ODD = new Vbribnt(_grbdientListBbckgroundOdd);
+        @Nbtive privbte stbtic finbl byte _grbdientSideBbr = Vbribnt._grbdientListBbckgroundOdd + 1;
+        public stbtic finbl Vbribnt GRADIENT_SIDE_BAR = new Vbribnt(_grbdientSideBbr);
+        @Nbtive privbte stbtic finbl byte _grbdientSideBbrSelection = Vbribnt._grbdientSideBbr + 1;
+        public stbtic finbl Vbribnt GRADIENT_SIDE_BAR_SELECTION = new Vbribnt(_grbdientSideBbrSelection);
+        @Nbtive privbte stbtic finbl byte _grbdientSideBbrFocusedSelection = Vbribnt._grbdientSideBbrSelection + 1;
+        public stbtic finbl Vbribnt GRADIENT_SIDE_BAR_FOCUSED_SELECTION = new Vbribnt(_grbdientSideBbrFocusedSelection);
     }
 
-    public static class WindowType extends Property {
-        @Native private static final byte SHIFT = Variant.SHIFT + Variant.SIZE;
-        @Native private static final byte SIZE = 2;
-        @Native private static final long MASK = (long)0x3 << SHIFT;
-        private static final PropertyEncoding windowType = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss WindowType extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = Vbribnt.SHIFT + Vbribnt.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 2;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x3 << SHIFT;
+        privbte stbtic finbl PropertyEncoding windowType = new PropertyEncoding(MASK, SHIFT);
 
-        WindowType(final byte value){
-            super(windowType, value);
+        WindowType(finbl byte vblue){
+            super(windowType, vblue);
         }
 
-        @Native private static final byte _document = 1;
-        public static final WindowType DOCUMENT = new WindowType(_document);
-        @Native private static final byte _utility = 2;
-        public static final WindowType UTILITY = new WindowType(_utility);
-        @Native private static final byte _titlelessUtility = 3;
-        public static final WindowType TITLELESS_UTILITY = new WindowType(_titlelessUtility);
+        @Nbtive privbte stbtic finbl byte _document = 1;
+        public stbtic finbl WindowType DOCUMENT = new WindowType(_document);
+        @Nbtive privbte stbtic finbl byte _utility = 2;
+        public stbtic finbl WindowType UTILITY = new WindowType(_utility);
+        @Nbtive privbte stbtic finbl byte _titlelessUtility = 3;
+        public stbtic finbl WindowType TITLELESS_UTILITY = new WindowType(_titlelessUtility);
     }
 
-    public static class Focused extends Property {
-        @Native private static final byte SHIFT = WindowType.SHIFT + WindowType.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss Focused extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = WindowType.SHIFT + WindowType.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
 
-        Focused(final byte value) {
-            super(focused, value);
+        Focused(finbl byte vblue) {
+            super(focused, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final Focused NO = new Focused(_no);
-        @Native private static final byte _yes = 1;
-        public static final Focused YES = new Focused(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl Focused NO = new Focused(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl Focused YES = new Focused(_yes);
     }
 
-    public static class IndicatorOnly extends Property {
-        @Native private static final byte SHIFT = Focused.SHIFT + Focused.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding indicatorOnly = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss IndicbtorOnly extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = Focused.SHIFT + Focused.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding indicbtorOnly = new PropertyEncoding(MASK, SHIFT);
 
-        IndicatorOnly(final byte value) {
-            super(indicatorOnly, value);
+        IndicbtorOnly(finbl byte vblue) {
+            super(indicbtorOnly, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final IndicatorOnly NO = new IndicatorOnly(_no);
-        @Native private static final byte _yes = 1;
-        public static final IndicatorOnly YES = new IndicatorOnly(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl IndicbtorOnly NO = new IndicbtorOnly(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl IndicbtorOnly YES = new IndicbtorOnly(_yes);
     }
 
-    public static class NoIndicator extends Property {
-        @Native private static final byte SHIFT = IndicatorOnly.SHIFT + IndicatorOnly.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding noIndicator = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss NoIndicbtor extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = IndicbtorOnly.SHIFT + IndicbtorOnly.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding noIndicbtor = new PropertyEncoding(MASK, SHIFT);
 
-        NoIndicator(final byte value) {
-            super(noIndicator, value);
+        NoIndicbtor(finbl byte vblue) {
+            super(noIndicbtor, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final NoIndicator NO = new NoIndicator(_no);
-        @Native private static final byte _yes = 1;
-        public static final NoIndicator YES = new NoIndicator(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl NoIndicbtor NO = new NoIndicbtor(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl NoIndicbtor YES = new NoIndicbtor(_yes);
     }
 
-    public static class ArrowsOnly extends Property {
-        @Native private static final byte SHIFT = NoIndicator.SHIFT + NoIndicator.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss ArrowsOnly extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = NoIndicbtor.SHIFT + NoIndicbtor.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
 
-        ArrowsOnly(final byte value) {
-            super(focused, value);
+        ArrowsOnly(finbl byte vblue) {
+            super(focused, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final ArrowsOnly NO = new ArrowsOnly(_no);
-        @Native private static final byte _yes = 1;
-        public static final ArrowsOnly YES = new ArrowsOnly(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl ArrowsOnly NO = new ArrowsOnly(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl ArrowsOnly YES = new ArrowsOnly(_yes);
     }
 
-    public static class FrameOnly extends Property {
-        @Native private static final byte SHIFT = ArrowsOnly.SHIFT + ArrowsOnly.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss FrbmeOnly extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = ArrowsOnly.SHIFT + ArrowsOnly.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
 
-        FrameOnly(final byte value) {
-            super(focused, value);
+        FrbmeOnly(finbl byte vblue) {
+            super(focused, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final FrameOnly NO = new FrameOnly(_no);
-        @Native private static final byte _yes = 1;
-        public static final FrameOnly YES = new FrameOnly(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl FrbmeOnly NO = new FrbmeOnly(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl FrbmeOnly YES = new FrbmeOnly(_yes);
     }
 
-    public static class SegmentTrailingSeparator extends Property {
-        @Native private static final byte SHIFT = FrameOnly.SHIFT + FrameOnly.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss SegmentTrbilingSepbrbtor extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = FrbmeOnly.SHIFT + FrbmeOnly.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
 
-        SegmentTrailingSeparator(final byte value) {
-            super(focused, value);
+        SegmentTrbilingSepbrbtor(finbl byte vblue) {
+            super(focused, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final SegmentTrailingSeparator NO = new SegmentTrailingSeparator(_no);
-        @Native private static final byte _yes = 1;
-        public static final SegmentTrailingSeparator YES = new SegmentTrailingSeparator(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl SegmentTrbilingSepbrbtor NO = new SegmentTrbilingSepbrbtor(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl SegmentTrbilingSepbrbtor YES = new SegmentTrbilingSepbrbtor(_yes);
     }
 
-    public static class SegmentLeadingSeparator extends Property {
-        @Native private static final byte SHIFT = SegmentTrailingSeparator.SHIFT + SegmentTrailingSeparator.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding leadingSeparator = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss SegmentLebdingSepbrbtor extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = SegmentTrbilingSepbrbtor.SHIFT + SegmentTrbilingSepbrbtor.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding lebdingSepbrbtor = new PropertyEncoding(MASK, SHIFT);
 
-        SegmentLeadingSeparator(final byte value) {
-            super(leadingSeparator, value);
+        SegmentLebdingSepbrbtor(finbl byte vblue) {
+            super(lebdingSepbrbtor, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final SegmentLeadingSeparator NO = new SegmentLeadingSeparator(_no);
-        @Native private static final byte _yes = 1;
-        public static final SegmentLeadingSeparator YES = new SegmentLeadingSeparator(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl SegmentLebdingSepbrbtor NO = new SegmentLebdingSepbrbtor(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl SegmentLebdingSepbrbtor YES = new SegmentLebdingSepbrbtor(_yes);
     }
 
-    public static class NothingToScroll extends Property {
-        @Native private static final byte SHIFT = SegmentLeadingSeparator.SHIFT + SegmentLeadingSeparator.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss NothingToScroll extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = SegmentLebdingSepbrbtor.SHIFT + SegmentLebdingSepbrbtor.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
 
-        NothingToScroll(final byte value) {
-            super(focused, value);
+        NothingToScroll(finbl byte vblue) {
+            super(focused, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final NothingToScroll NO = new NothingToScroll(_no);
-        @Native private static final byte _yes = 1;
-        public static final NothingToScroll YES = new NothingToScroll(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl NothingToScroll NO = new NothingToScroll(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl NothingToScroll YES = new NothingToScroll(_yes);
     }
 
-    public static class WindowTitleBarSeparator extends Property {
-        @Native private static final byte SHIFT = NothingToScroll.SHIFT + NothingToScroll.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss WindowTitleBbrSepbrbtor extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = NothingToScroll.SHIFT + NothingToScroll.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
 
-        WindowTitleBarSeparator(final byte value) {
-            super(focused, value);
+        WindowTitleBbrSepbrbtor(finbl byte vblue) {
+            super(focused, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final WindowTitleBarSeparator NO = new WindowTitleBarSeparator(_no);
-        @Native private static final byte _yes = 1;
-        public static final WindowTitleBarSeparator YES = new WindowTitleBarSeparator(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl WindowTitleBbrSepbrbtor NO = new WindowTitleBbrSepbrbtor(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl WindowTitleBbrSepbrbtor YES = new WindowTitleBbrSepbrbtor(_yes);
     }
 
-    public static class WindowClipCorners extends Property {
-        @Native private static final byte SHIFT = WindowTitleBarSeparator.SHIFT + WindowTitleBarSeparator.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss WindowClipCorners extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = WindowTitleBbrSepbrbtor.SHIFT + WindowTitleBbrSepbrbtor.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding focused = new PropertyEncoding(MASK, SHIFT);
 
-        WindowClipCorners(final byte value) {
-            super(focused, value);
+        WindowClipCorners(finbl byte vblue) {
+            super(focused, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final WindowClipCorners NO = new WindowClipCorners(_no);
-        @Native private static final byte _yes = 1;
-        public static final WindowClipCorners YES = new WindowClipCorners(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl WindowClipCorners NO = new WindowClipCorners(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl WindowClipCorners YES = new WindowClipCorners(_yes);
     }
 
-    public static class ShowArrows extends Property {
-        @Native private static final byte SHIFT = WindowClipCorners.SHIFT + WindowClipCorners.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding showArrows = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss ShowArrows extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = WindowClipCorners.SHIFT + WindowClipCorners.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding showArrows = new PropertyEncoding(MASK, SHIFT);
 
-        ShowArrows(final byte value) {
-            super(showArrows, value);
+        ShowArrows(finbl byte vblue) {
+            super(showArrows, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final ShowArrows NO = new ShowArrows(_no);
-        @Native private static final byte _yes = 1;
-        public static final ShowArrows YES = new ShowArrows(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl ShowArrows NO = new ShowArrows(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl ShowArrows YES = new ShowArrows(_yes);
     }
 
-    public static class BooleanValue extends Property {
-        @Native private static final byte SHIFT = ShowArrows.SHIFT + ShowArrows.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding booleanValue = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss BoolebnVblue extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = ShowArrows.SHIFT + ShowArrows.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding boolebnVblue = new PropertyEncoding(MASK, SHIFT);
 
-        BooleanValue(final byte value) {
-            super(booleanValue, value);
+        BoolebnVblue(finbl byte vblue) {
+            super(boolebnVblue, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final BooleanValue NO = new BooleanValue(_no);
-        @Native private static final byte _yes = 1;
-        public static final BooleanValue YES = new BooleanValue(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl BoolebnVblue NO = new BoolebnVblue(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl BoolebnVblue YES = new BoolebnVblue(_yes);
     }
 
-    public static class Animating extends Property {
-        @Native private static final byte SHIFT = BooleanValue.SHIFT + BooleanValue.SIZE;
-        @Native private static final byte SIZE = 1;
-        @Native private static final long MASK = (long)0x1 << SHIFT;
-        private static final PropertyEncoding animating = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss Animbting extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = BoolebnVblue.SHIFT + BoolebnVblue.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 1;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x1 << SHIFT;
+        privbte stbtic finbl PropertyEncoding bnimbting = new PropertyEncoding(MASK, SHIFT);
 
-        Animating(final byte value) {
-            super(animating, value);
+        Animbting(finbl byte vblue) {
+            super(bnimbting, vblue);
         }
 
-        @Native private static final byte _no = 0;
-        public static final Animating NO = new Animating(_no);
-        @Native private static final byte _yes = 1;
-        public static final Animating YES = new Animating(_yes);
+        @Nbtive privbte stbtic finbl byte _no = 0;
+        public stbtic finbl Animbting NO = new Animbting(_no);
+        @Nbtive privbte stbtic finbl byte _yes = 1;
+        public stbtic finbl Animbting YES = new Animbting(_yes);
     }
 
-    public static class Widget extends Property {
-        @Native private static final byte SHIFT = Animating.SHIFT + Animating.SIZE;
-        @Native private static final byte SIZE = 7;
-        @Native private static final long MASK = (long)0x7F << SHIFT;
-        private static final PropertyEncoding widget = new PropertyEncoding(MASK, SHIFT);
+    public stbtic clbss Widget extends Property {
+        @Nbtive privbte stbtic finbl byte SHIFT = Animbting.SHIFT + Animbting.SIZE;
+        @Nbtive privbte stbtic finbl byte SIZE = 7;
+        @Nbtive privbte stbtic finbl long MASK = (long)0x7F << SHIFT;
+        privbte stbtic finbl PropertyEncoding widget = new PropertyEncoding(MASK, SHIFT);
 
-        Widget(final byte constant) {
-            super(widget, constant);
+        Widget(finbl byte constbnt) {
+            super(widget, constbnt);
         }
 
-        @Native private static final byte _background = 1;
-        public static final Widget BACKGROUND = new Widget(_background);
+        @Nbtive privbte stbtic finbl byte _bbckground = 1;
+        public stbtic finbl Widget BACKGROUND = new Widget(_bbckground);
 
-        @Native private static final byte _buttonBevel = _background + 1;
-        public static final Widget BUTTON_BEVEL = new Widget(_buttonBevel);
-        @Native private static final byte _buttonBevelInset = _buttonBevel + 1;
-        public static final Widget BUTTON_BEVEL_INSET = new Widget(_buttonBevelInset);
-        @Native private static final byte _buttonBevelRound = _buttonBevelInset + 1;
-        public static final Widget BUTTON_BEVEL_ROUND = new Widget(_buttonBevelRound);
+        @Nbtive privbte stbtic finbl byte _buttonBevel = _bbckground + 1;
+        public stbtic finbl Widget BUTTON_BEVEL = new Widget(_buttonBevel);
+        @Nbtive privbte stbtic finbl byte _buttonBevelInset = _buttonBevel + 1;
+        public stbtic finbl Widget BUTTON_BEVEL_INSET = new Widget(_buttonBevelInset);
+        @Nbtive privbte stbtic finbl byte _buttonBevelRound = _buttonBevelInset + 1;
+        public stbtic finbl Widget BUTTON_BEVEL_ROUND = new Widget(_buttonBevelRound);
 
-        @Native private static final byte _buttonCheckBox = _buttonBevelRound + 1;
-        public static final Widget BUTTON_CHECK_BOX = new Widget(_buttonCheckBox);
+        @Nbtive privbte stbtic finbl byte _buttonCheckBox = _buttonBevelRound + 1;
+        public stbtic finbl Widget BUTTON_CHECK_BOX = new Widget(_buttonCheckBox);
 
-        @Native private static final byte _buttonComboBox = _buttonCheckBox + 1;
-        public static final Widget BUTTON_COMBO_BOX = new Widget(_buttonComboBox);
-        @Native private static final byte _buttonComboBoxInset = _buttonComboBox + 1;
-        public static final Widget BUTTON_COMBO_BOX_INSET = new Widget(_buttonComboBoxInset); // not hooked up in JRSUIConstants.m
+        @Nbtive privbte stbtic finbl byte _buttonComboBox = _buttonCheckBox + 1;
+        public stbtic finbl Widget BUTTON_COMBO_BOX = new Widget(_buttonComboBox);
+        @Nbtive privbte stbtic finbl byte _buttonComboBoxInset = _buttonComboBox + 1;
+        public stbtic finbl Widget BUTTON_COMBO_BOX_INSET = new Widget(_buttonComboBoxInset); // not hooked up in JRSUIConstbnts.m
 
-        @Native private static final byte _buttonDisclosure = _buttonComboBoxInset + 1;
-        public static final Widget BUTTON_DISCLOSURE = new Widget(_buttonDisclosure);
+        @Nbtive privbte stbtic finbl byte _buttonDisclosure = _buttonComboBoxInset + 1;
+        public stbtic finbl Widget BUTTON_DISCLOSURE = new Widget(_buttonDisclosure);
 
-        @Native private static final byte _buttonListHeader = _buttonDisclosure + 1;
-        public static final Widget BUTTON_LIST_HEADER = new Widget(_buttonListHeader);
+        @Nbtive privbte stbtic finbl byte _buttonListHebder = _buttonDisclosure + 1;
+        public stbtic finbl Widget BUTTON_LIST_HEADER = new Widget(_buttonListHebder);
 
-        @Native private static final byte _buttonLittleArrows = _buttonListHeader + 1;
-        public static final Widget BUTTON_LITTLE_ARROWS = new Widget(_buttonLittleArrows);
+        @Nbtive privbte stbtic finbl byte _buttonLittleArrows = _buttonListHebder + 1;
+        public stbtic finbl Widget BUTTON_LITTLE_ARROWS = new Widget(_buttonLittleArrows);
 
-        @Native private static final byte _buttonPopDown = _buttonLittleArrows + 1;
-        public static final Widget BUTTON_POP_DOWN = new Widget(_buttonPopDown);
-        @Native private static final byte _buttonPopDownInset = _buttonPopDown + 1;
-        public static final Widget BUTTON_POP_DOWN_INSET = new Widget(_buttonPopDownInset);
-        @Native private static final byte _buttonPopDownSquare = _buttonPopDownInset + 1;
-        public static final Widget BUTTON_POP_DOWN_SQUARE = new Widget(_buttonPopDownSquare);
+        @Nbtive privbte stbtic finbl byte _buttonPopDown = _buttonLittleArrows + 1;
+        public stbtic finbl Widget BUTTON_POP_DOWN = new Widget(_buttonPopDown);
+        @Nbtive privbte stbtic finbl byte _buttonPopDownInset = _buttonPopDown + 1;
+        public stbtic finbl Widget BUTTON_POP_DOWN_INSET = new Widget(_buttonPopDownInset);
+        @Nbtive privbte stbtic finbl byte _buttonPopDownSqubre = _buttonPopDownInset + 1;
+        public stbtic finbl Widget BUTTON_POP_DOWN_SQUARE = new Widget(_buttonPopDownSqubre);
 
-        @Native private static final byte _buttonPopUp = _buttonPopDownSquare + 1;
-        public static final Widget BUTTON_POP_UP = new Widget(_buttonPopUp);
-        @Native private static final byte _buttonPopUpInset = _buttonPopUp + 1;
-        public static final Widget BUTTON_POP_UP_INSET = new Widget(_buttonPopUpInset);
-        @Native private static final byte _buttonPopUpSquare = _buttonPopUpInset + 1;
-        public static final Widget BUTTON_POP_UP_SQUARE = new Widget(_buttonPopUpSquare);
+        @Nbtive privbte stbtic finbl byte _buttonPopUp = _buttonPopDownSqubre + 1;
+        public stbtic finbl Widget BUTTON_POP_UP = new Widget(_buttonPopUp);
+        @Nbtive privbte stbtic finbl byte _buttonPopUpInset = _buttonPopUp + 1;
+        public stbtic finbl Widget BUTTON_POP_UP_INSET = new Widget(_buttonPopUpInset);
+        @Nbtive privbte stbtic finbl byte _buttonPopUpSqubre = _buttonPopUpInset + 1;
+        public stbtic finbl Widget BUTTON_POP_UP_SQUARE = new Widget(_buttonPopUpSqubre);
 
-        @Native private static final byte _buttonPush = _buttonPopUpSquare + 1;
-        public static final Widget BUTTON_PUSH = new Widget(_buttonPush);
-        @Native private static final byte _buttonPushScope = _buttonPush + 1;
-        public static final Widget BUTTON_PUSH_SCOPE = new Widget(_buttonPushScope);
-        @Native private static final byte _buttonPushScope2 = _buttonPushScope + 1;
-        public static final Widget BUTTON_PUSH_SCOPE2 = new Widget(_buttonPushScope2);
-        @Native private static final byte _buttonPushTextured = _buttonPushScope2 + 1;
-        public static final Widget BUTTON_PUSH_TEXTURED = new Widget(_buttonPushTextured);
-        @Native private static final byte _buttonPushInset = _buttonPushTextured + 1;
-        public static final Widget BUTTON_PUSH_INSET = new Widget(_buttonPushInset);
-        @Native private static final byte _buttonPushInset2 = _buttonPushInset + 1;
-        public static final Widget BUTTON_PUSH_INSET2 = new Widget(_buttonPushInset2);
+        @Nbtive privbte stbtic finbl byte _buttonPush = _buttonPopUpSqubre + 1;
+        public stbtic finbl Widget BUTTON_PUSH = new Widget(_buttonPush);
+        @Nbtive privbte stbtic finbl byte _buttonPushScope = _buttonPush + 1;
+        public stbtic finbl Widget BUTTON_PUSH_SCOPE = new Widget(_buttonPushScope);
+        @Nbtive privbte stbtic finbl byte _buttonPushScope2 = _buttonPushScope + 1;
+        public stbtic finbl Widget BUTTON_PUSH_SCOPE2 = new Widget(_buttonPushScope2);
+        @Nbtive privbte stbtic finbl byte _buttonPushTextured = _buttonPushScope2 + 1;
+        public stbtic finbl Widget BUTTON_PUSH_TEXTURED = new Widget(_buttonPushTextured);
+        @Nbtive privbte stbtic finbl byte _buttonPushInset = _buttonPushTextured + 1;
+        public stbtic finbl Widget BUTTON_PUSH_INSET = new Widget(_buttonPushInset);
+        @Nbtive privbte stbtic finbl byte _buttonPushInset2 = _buttonPushInset + 1;
+        public stbtic finbl Widget BUTTON_PUSH_INSET2 = new Widget(_buttonPushInset2);
 
-        @Native private static final byte _buttonRadio = _buttonPushInset2 + 1;
-        public static final Widget BUTTON_RADIO = new Widget(_buttonRadio);
+        @Nbtive privbte stbtic finbl byte _buttonRbdio = _buttonPushInset2 + 1;
+        public stbtic finbl Widget BUTTON_RADIO = new Widget(_buttonRbdio);
 
-        @Native private static final byte _buttonRound = _buttonRadio + 1;
-        public static final Widget BUTTON_ROUND = new Widget(_buttonRound);
-        @Native private static final byte _buttonRoundHelp = _buttonRound + 1;
-        public static final Widget BUTTON_ROUND_HELP = new Widget(_buttonRoundHelp);
-        @Native private static final byte _buttonRoundInset = _buttonRoundHelp + 1;
-        public static final Widget BUTTON_ROUND_INSET = new Widget(_buttonRoundInset);
-        @Native private static final byte _buttonRoundInset2 =_buttonRoundInset + 1;
-        public static final Widget BUTTON_ROUND_INSET2 = new Widget(_buttonRoundInset2);
+        @Nbtive privbte stbtic finbl byte _buttonRound = _buttonRbdio + 1;
+        public stbtic finbl Widget BUTTON_ROUND = new Widget(_buttonRound);
+        @Nbtive privbte stbtic finbl byte _buttonRoundHelp = _buttonRound + 1;
+        public stbtic finbl Widget BUTTON_ROUND_HELP = new Widget(_buttonRoundHelp);
+        @Nbtive privbte stbtic finbl byte _buttonRoundInset = _buttonRoundHelp + 1;
+        public stbtic finbl Widget BUTTON_ROUND_INSET = new Widget(_buttonRoundInset);
+        @Nbtive privbte stbtic finbl byte _buttonRoundInset2 =_buttonRoundInset + 1;
+        public stbtic finbl Widget BUTTON_ROUND_INSET2 = new Widget(_buttonRoundInset2);
 
-        @Native private static final byte _buttonSearchFieldCancel = _buttonRoundInset2 + 1;
-        public static final Widget BUTTON_SEARCH_FIELD_CANCEL = new Widget(_buttonSearchFieldCancel);
-        @Native private static final byte _buttonSearchFieldFind = _buttonSearchFieldCancel + 1;
-        public static final Widget BUTTON_SEARCH_FIELD_FIND = new Widget(_buttonSearchFieldFind);
+        @Nbtive privbte stbtic finbl byte _buttonSebrchFieldCbncel = _buttonRoundInset2 + 1;
+        public stbtic finbl Widget BUTTON_SEARCH_FIELD_CANCEL = new Widget(_buttonSebrchFieldCbncel);
+        @Nbtive privbte stbtic finbl byte _buttonSebrchFieldFind = _buttonSebrchFieldCbncel + 1;
+        public stbtic finbl Widget BUTTON_SEARCH_FIELD_FIND = new Widget(_buttonSebrchFieldFind);
 
-        @Native private static final byte _buttonSegmented = _buttonSearchFieldFind + 1;
-        public static final Widget BUTTON_SEGMENTED = new Widget(_buttonSegmented);
-        @Native private static final byte _buttonSegmentedInset = _buttonSegmented + 1;
-        public static final Widget BUTTON_SEGMENTED_INSET = new Widget(_buttonSegmentedInset);
-        @Native private static final byte _buttonSegmentedInset2 = _buttonSegmentedInset + 1;
-        public static final Widget BUTTON_SEGMENTED_INSET2 = new Widget(_buttonSegmentedInset2);
-        @Native private static final byte _buttonSegmentedSCurve = _buttonSegmentedInset2 + 1;
-        public static final Widget BUTTON_SEGMENTED_SCURVE = new Widget(_buttonSegmentedSCurve);
-        @Native private static final byte _buttonSegmentedTextured = _buttonSegmentedSCurve + 1;
-        public static final Widget BUTTON_SEGMENTED_TEXTURED = new Widget(_buttonSegmentedTextured);
-        @Native private static final byte _buttonSegmentedToolbar = _buttonSegmentedTextured + 1;
-        public static final Widget BUTTON_SEGMENTED_TOOLBAR = new Widget(_buttonSegmentedToolbar);
+        @Nbtive privbte stbtic finbl byte _buttonSegmented = _buttonSebrchFieldFind + 1;
+        public stbtic finbl Widget BUTTON_SEGMENTED = new Widget(_buttonSegmented);
+        @Nbtive privbte stbtic finbl byte _buttonSegmentedInset = _buttonSegmented + 1;
+        public stbtic finbl Widget BUTTON_SEGMENTED_INSET = new Widget(_buttonSegmentedInset);
+        @Nbtive privbte stbtic finbl byte _buttonSegmentedInset2 = _buttonSegmentedInset + 1;
+        public stbtic finbl Widget BUTTON_SEGMENTED_INSET2 = new Widget(_buttonSegmentedInset2);
+        @Nbtive privbte stbtic finbl byte _buttonSegmentedSCurve = _buttonSegmentedInset2 + 1;
+        public stbtic finbl Widget BUTTON_SEGMENTED_SCURVE = new Widget(_buttonSegmentedSCurve);
+        @Nbtive privbte stbtic finbl byte _buttonSegmentedTextured = _buttonSegmentedSCurve + 1;
+        public stbtic finbl Widget BUTTON_SEGMENTED_TEXTURED = new Widget(_buttonSegmentedTextured);
+        @Nbtive privbte stbtic finbl byte _buttonSegmentedToolbbr = _buttonSegmentedTextured + 1;
+        public stbtic finbl Widget BUTTON_SEGMENTED_TOOLBAR = new Widget(_buttonSegmentedToolbbr);
 
-        @Native private static final byte _dial = _buttonSegmentedToolbar + 1;
-        public static final Widget DIAL = new Widget(_dial);
+        @Nbtive privbte stbtic finbl byte _dibl = _buttonSegmentedToolbbr + 1;
+        public stbtic finbl Widget DIAL = new Widget(_dibl);
 
-        @Native private static final byte _disclosureTriangle = _dial + 1;
-        public static final Widget DISCLOSURE_TRIANGLE = new Widget(_disclosureTriangle);
+        @Nbtive privbte stbtic finbl byte _disclosureTribngle = _dibl + 1;
+        public stbtic finbl Widget DISCLOSURE_TRIANGLE = new Widget(_disclosureTribngle);
 
-        @Native private static final byte _dividerGrabber = _disclosureTriangle + 1;
-        public static final Widget DIVIDER_GRABBER = new Widget(_dividerGrabber);
-        @Native private static final byte _dividerSeparatorBar = _dividerGrabber + 1;
-        public static final Widget DIVIDER_SEPARATOR_BAR = new Widget(_dividerSeparatorBar);
-        @Native private static final byte _dividerSplitter = _dividerSeparatorBar + 1;
-        public static final Widget DIVIDER_SPLITTER = new Widget(_dividerSplitter);
+        @Nbtive privbte stbtic finbl byte _dividerGrbbber = _disclosureTribngle + 1;
+        public stbtic finbl Widget DIVIDER_GRABBER = new Widget(_dividerGrbbber);
+        @Nbtive privbte stbtic finbl byte _dividerSepbrbtorBbr = _dividerGrbbber + 1;
+        public stbtic finbl Widget DIVIDER_SEPARATOR_BAR = new Widget(_dividerSepbrbtorBbr);
+        @Nbtive privbte stbtic finbl byte _dividerSplitter = _dividerSepbrbtorBbr + 1;
+        public stbtic finbl Widget DIVIDER_SPLITTER = new Widget(_dividerSplitter);
 
-        @Native private static final byte _focus = _dividerSplitter + 1;
-        public static final Widget FOCUS = new Widget(_focus);
+        @Nbtive privbte stbtic finbl byte _focus = _dividerSplitter + 1;
+        public stbtic finbl Widget FOCUS = new Widget(_focus);
 
-        @Native private static final byte _frameGroupBox = _focus + 1;
-        public static final Widget FRAME_GROUP_BOX = new Widget(_frameGroupBox);
-        @Native private static final byte _frameGroupBoxSecondary = _frameGroupBox + 1;
-        public static final Widget FRAME_GROUP_BOX_SECONDARY = new Widget(_frameGroupBoxSecondary);
+        @Nbtive privbte stbtic finbl byte _frbmeGroupBox = _focus + 1;
+        public stbtic finbl Widget FRAME_GROUP_BOX = new Widget(_frbmeGroupBox);
+        @Nbtive privbte stbtic finbl byte _frbmeGroupBoxSecondbry = _frbmeGroupBox + 1;
+        public stbtic finbl Widget FRAME_GROUP_BOX_SECONDARY = new Widget(_frbmeGroupBoxSecondbry);
 
-        @Native private static final byte _frameListBox = _frameGroupBoxSecondary + 1;
-        public static final Widget FRAME_LIST_BOX = new Widget(_frameListBox);
+        @Nbtive privbte stbtic finbl byte _frbmeListBox = _frbmeGroupBoxSecondbry + 1;
+        public stbtic finbl Widget FRAME_LIST_BOX = new Widget(_frbmeListBox);
 
-        @Native private static final byte _framePlacard = _frameListBox + 1;
-        public static final Widget FRAME_PLACARD = new Widget(_framePlacard);
+        @Nbtive privbte stbtic finbl byte _frbmePlbcbrd = _frbmeListBox + 1;
+        public stbtic finbl Widget FRAME_PLACARD = new Widget(_frbmePlbcbrd);
 
-        @Native private static final byte _frameTextField = _framePlacard + 1;
-        public static final Widget FRAME_TEXT_FIELD = new Widget(_frameTextField);
-        @Native private static final byte _frameTextFieldRound = _frameTextField + 1;
-        public static final Widget FRAME_TEXT_FIELD_ROUND = new Widget(_frameTextFieldRound);
+        @Nbtive privbte stbtic finbl byte _frbmeTextField = _frbmePlbcbrd + 1;
+        public stbtic finbl Widget FRAME_TEXT_FIELD = new Widget(_frbmeTextField);
+        @Nbtive privbte stbtic finbl byte _frbmeTextFieldRound = _frbmeTextField + 1;
+        public stbtic finbl Widget FRAME_TEXT_FIELD_ROUND = new Widget(_frbmeTextFieldRound);
 
-        @Native private static final byte _frameWell = _frameTextFieldRound + 1;
-        public static final Widget FRAME_WELL = new Widget(_frameWell);
+        @Nbtive privbte stbtic finbl byte _frbmeWell = _frbmeTextFieldRound + 1;
+        public stbtic finbl Widget FRAME_WELL = new Widget(_frbmeWell);
 
-        @Native private static final byte _growBox = _frameWell + 1;
-        public static final Widget GROW_BOX = new Widget(_growBox);
-        @Native private static final byte _growBoxTextured = _growBox + 1;
-        public static final Widget GROW_BOX_TEXTURED = new Widget(_growBoxTextured);
+        @Nbtive privbte stbtic finbl byte _growBox = _frbmeWell + 1;
+        public stbtic finbl Widget GROW_BOX = new Widget(_growBox);
+        @Nbtive privbte stbtic finbl byte _growBoxTextured = _growBox + 1;
+        public stbtic finbl Widget GROW_BOX_TEXTURED = new Widget(_growBoxTextured);
 
-        @Native private static final byte _gradient = _growBoxTextured + 1;
-        public static final Widget GRADIENT = new Widget(_gradient);
+        @Nbtive privbte stbtic finbl byte _grbdient = _growBoxTextured + 1;
+        public stbtic finbl Widget GRADIENT = new Widget(_grbdient);
 
-        @Native private static final byte _menu = _gradient + 1;
-        public static final Widget MENU = new Widget(_menu);
-        @Native private static final byte _menuItem = _menu + 1;
-        public static final Widget MENU_ITEM = new Widget(_menuItem);
-        @Native private static final byte _menuBar = _menuItem + 1;
-        public static final Widget MENU_BAR = new Widget(_menuBar);
-        @Native private static final byte _menuTitle = _menuBar + 1;
-        public static final Widget MENU_TITLE = new Widget(_menuTitle);
+        @Nbtive privbte stbtic finbl byte _menu = _grbdient + 1;
+        public stbtic finbl Widget MENU = new Widget(_menu);
+        @Nbtive privbte stbtic finbl byte _menuItem = _menu + 1;
+        public stbtic finbl Widget MENU_ITEM = new Widget(_menuItem);
+        @Nbtive privbte stbtic finbl byte _menuBbr = _menuItem + 1;
+        public stbtic finbl Widget MENU_BAR = new Widget(_menuBbr);
+        @Nbtive privbte stbtic finbl byte _menuTitle = _menuBbr + 1;
+        public stbtic finbl Widget MENU_TITLE = new Widget(_menuTitle);
 
-        @Native private static final byte _progressBar = _menuTitle + 1;
-        public static final Widget PROGRESS_BAR = new Widget(_progressBar);
-        @Native private static final byte _progressIndeterminateBar = _progressBar + 1;
-        public static final Widget PROGRESS_INDETERMINATE_BAR = new Widget(_progressIndeterminateBar);
-        @Native private static final byte _progressRelevance = _progressIndeterminateBar + 1;
-        public static final Widget PROGRESS_RELEVANCE = new Widget(_progressRelevance);
-        @Native private static final byte _progressSpinner = _progressRelevance + 1;
-        public static final Widget PROGRESS_SPINNER = new Widget(_progressSpinner);
+        @Nbtive privbte stbtic finbl byte _progressBbr = _menuTitle + 1;
+        public stbtic finbl Widget PROGRESS_BAR = new Widget(_progressBbr);
+        @Nbtive privbte stbtic finbl byte _progressIndeterminbteBbr = _progressBbr + 1;
+        public stbtic finbl Widget PROGRESS_INDETERMINATE_BAR = new Widget(_progressIndeterminbteBbr);
+        @Nbtive privbte stbtic finbl byte _progressRelevbnce = _progressIndeterminbteBbr + 1;
+        public stbtic finbl Widget PROGRESS_RELEVANCE = new Widget(_progressRelevbnce);
+        @Nbtive privbte stbtic finbl byte _progressSpinner = _progressRelevbnce + 1;
+        public stbtic finbl Widget PROGRESS_SPINNER = new Widget(_progressSpinner);
 
-        @Native private static final byte _scrollBar = _progressSpinner + 1;
-        public static final Widget SCROLL_BAR = new Widget(_scrollBar);
+        @Nbtive privbte stbtic finbl byte _scrollBbr = _progressSpinner + 1;
+        public stbtic finbl Widget SCROLL_BAR = new Widget(_scrollBbr);
 
-        @Native private static final byte _scrollColumnSizer = _scrollBar + 1;
-        public static final Widget SCROLL_COLUMN_SIZER = new Widget(_scrollColumnSizer);
+        @Nbtive privbte stbtic finbl byte _scrollColumnSizer = _scrollBbr + 1;
+        public stbtic finbl Widget SCROLL_COLUMN_SIZER = new Widget(_scrollColumnSizer);
 
-        @Native private static final byte _slider = _scrollColumnSizer + 1;
-        public static final Widget SLIDER = new Widget(_slider);
-        @Native private static final byte _sliderThumb = _slider + 1;
-        public static final Widget SLIDER_THUMB = new Widget(_sliderThumb);
+        @Nbtive privbte stbtic finbl byte _slider = _scrollColumnSizer + 1;
+        public stbtic finbl Widget SLIDER = new Widget(_slider);
+        @Nbtive privbte stbtic finbl byte _sliderThumb = _slider + 1;
+        public stbtic finbl Widget SLIDER_THUMB = new Widget(_sliderThumb);
 
-        @Native private static final byte _synchronization = _sliderThumb + 1;
-        public static final Widget SYNCHRONIZATION = new Widget(_synchronization);
+        @Nbtive privbte stbtic finbl byte _synchronizbtion = _sliderThumb + 1;
+        public stbtic finbl Widget SYNCHRONIZATION = new Widget(_synchronizbtion);
 
-        @Native private static final byte _tab = _synchronization + 1;
-        public static final Widget TAB = new Widget(_tab);
+        @Nbtive privbte stbtic finbl byte _tbb = _synchronizbtion + 1;
+        public stbtic finbl Widget TAB = new Widget(_tbb);
 
-        @Native private static final byte _titleBarCloseBox = _tab + 1;
-        public static final Widget TITLE_BAR_CLOSE_BOX = new Widget(_titleBarCloseBox);
-        @Native private static final byte _titleBarCollapseBox = _titleBarCloseBox + 1;
-        public static final Widget TITLE_BAR_COLLAPSE_BOX = new Widget(_titleBarCollapseBox);
-        @Native private static final byte _titleBarZoomBox = _titleBarCollapseBox + 1;
-        public static final Widget TITLE_BAR_ZOOM_BOX = new Widget(_titleBarZoomBox);
+        @Nbtive privbte stbtic finbl byte _titleBbrCloseBox = _tbb + 1;
+        public stbtic finbl Widget TITLE_BAR_CLOSE_BOX = new Widget(_titleBbrCloseBox);
+        @Nbtive privbte stbtic finbl byte _titleBbrCollbpseBox = _titleBbrCloseBox + 1;
+        public stbtic finbl Widget TITLE_BAR_COLLAPSE_BOX = new Widget(_titleBbrCollbpseBox);
+        @Nbtive privbte stbtic finbl byte _titleBbrZoomBox = _titleBbrCollbpseBox + 1;
+        public stbtic finbl Widget TITLE_BAR_ZOOM_BOX = new Widget(_titleBbrZoomBox);
 
-        @Native private static final byte _titleBarToolbarButton = _titleBarZoomBox + 1;
-        public static final Widget TITLE_BAR_TOOLBAR_BUTTON = new Widget(_titleBarToolbarButton);
+        @Nbtive privbte stbtic finbl byte _titleBbrToolbbrButton = _titleBbrZoomBox + 1;
+        public stbtic finbl Widget TITLE_BAR_TOOLBAR_BUTTON = new Widget(_titleBbrToolbbrButton);
 
-        @Native private static final byte _toolbarItemWell = _titleBarToolbarButton + 1;
-        public static final Widget TOOLBAR_ITEM_WELL = new Widget(_toolbarItemWell);
+        @Nbtive privbte stbtic finbl byte _toolbbrItemWell = _titleBbrToolbbrButton + 1;
+        public stbtic finbl Widget TOOLBAR_ITEM_WELL = new Widget(_toolbbrItemWell);
 
-        @Native private static final byte _windowFrame = _toolbarItemWell + 1;
-        public static final Widget WINDOW_FRAME = new Widget(_windowFrame);
+        @Nbtive privbte stbtic finbl byte _windowFrbme = _toolbbrItemWell + 1;
+        public stbtic finbl Widget WINDOW_FRAME = new Widget(_windowFrbme);
     }
 
-    public static class Hit {
-        @Native private static final int _unknown = -1;
-        public static final Hit UNKNOWN = new Hit(_unknown);
-        @Native private static final int _none = 0;
-        public static final Hit NONE = new Hit(_none);
-        @Native private static final int _hit = 1;
-        public static final Hit HIT = new Hit(_hit);
+    public stbtic clbss Hit {
+        @Nbtive privbte stbtic finbl int _unknown = -1;
+        public stbtic finbl Hit UNKNOWN = new Hit(_unknown);
+        @Nbtive privbte stbtic finbl int _none = 0;
+        public stbtic finbl Hit NONE = new Hit(_none);
+        @Nbtive privbte stbtic finbl int _hit = 1;
+        public stbtic finbl Hit HIT = new Hit(_hit);
 
-        final int hit;
-        Hit(final int hit) { this.hit = hit; }
+        finbl int hit;
+        Hit(finbl int hit) { this.hit = hit; }
 
-        public boolean isHit() {
+        public boolebn isHit() {
             return hit > 0;
         }
 
         public String toString() {
-            return getConstantName(this);
+            return getConstbntNbme(this);
         }
     }
 
-    public static class ScrollBarHit extends Hit {
-        @Native private static final int _thumb = 2;
-        public static final ScrollBarHit THUMB = new ScrollBarHit(_thumb);
+    public stbtic clbss ScrollBbrHit extends Hit {
+        @Nbtive privbte stbtic finbl int _thumb = 2;
+        public stbtic finbl ScrollBbrHit THUMB = new ScrollBbrHit(_thumb);
 
-        @Native private static final int _trackMin = 3;
-        public static final ScrollBarHit TRACK_MIN = new ScrollBarHit(_trackMin);
-        @Native private static final int _trackMax = 4;
-        public static final ScrollBarHit TRACK_MAX = new ScrollBarHit(_trackMax);
+        @Nbtive privbte stbtic finbl int _trbckMin = 3;
+        public stbtic finbl ScrollBbrHit TRACK_MIN = new ScrollBbrHit(_trbckMin);
+        @Nbtive privbte stbtic finbl int _trbckMbx = 4;
+        public stbtic finbl ScrollBbrHit TRACK_MAX = new ScrollBbrHit(_trbckMbx);
 
-        @Native private static final int _arrowMin = 5;
-        public static final ScrollBarHit ARROW_MIN = new ScrollBarHit(_arrowMin);
-        @Native private static final int _arrowMax = 6;
-        public static final ScrollBarHit ARROW_MAX = new ScrollBarHit(_arrowMax);
-        @Native private static final int _arrowMaxInside = 7;
-        public static final ScrollBarHit ARROW_MAX_INSIDE = new ScrollBarHit(_arrowMaxInside);
-        @Native private static final int _arrowMinInside = 8;
-        public static final ScrollBarHit ARROW_MIN_INSIDE = new ScrollBarHit(_arrowMinInside);
+        @Nbtive privbte stbtic finbl int _brrowMin = 5;
+        public stbtic finbl ScrollBbrHit ARROW_MIN = new ScrollBbrHit(_brrowMin);
+        @Nbtive privbte stbtic finbl int _brrowMbx = 6;
+        public stbtic finbl ScrollBbrHit ARROW_MAX = new ScrollBbrHit(_brrowMbx);
+        @Nbtive privbte stbtic finbl int _brrowMbxInside = 7;
+        public stbtic finbl ScrollBbrHit ARROW_MAX_INSIDE = new ScrollBbrHit(_brrowMbxInside);
+        @Nbtive privbte stbtic finbl int _brrowMinInside = 8;
+        public stbtic finbl ScrollBbrHit ARROW_MIN_INSIDE = new ScrollBbrHit(_brrowMinInside);
 
-        ScrollBarHit(final int hit) { super(hit); }
+        ScrollBbrHit(finbl int hit) { super(hit); }
     }
 
-    static Hit getHit(final int hit) {
+    stbtic Hit getHit(finbl int hit) {
         switch (hit) {
-            case Hit._none:
+            cbse Hit._none:
                 return Hit.NONE;
-            case Hit._hit:
+            cbse Hit._hit:
                 return Hit.HIT;
 
-            case ScrollBarHit._thumb:
-                return ScrollBarHit.THUMB;
-            case ScrollBarHit._trackMin:
-                return ScrollBarHit.TRACK_MIN;
-            case ScrollBarHit._trackMax:
-                return ScrollBarHit.TRACK_MAX;
-            case ScrollBarHit._arrowMin:
-                return ScrollBarHit.ARROW_MIN;
-            case ScrollBarHit._arrowMax:
-                return ScrollBarHit.ARROW_MAX;
-            case ScrollBarHit._arrowMaxInside:
-                return ScrollBarHit.ARROW_MAX_INSIDE;
-            case ScrollBarHit._arrowMinInside:
-                return ScrollBarHit.ARROW_MIN_INSIDE;
+            cbse ScrollBbrHit._thumb:
+                return ScrollBbrHit.THUMB;
+            cbse ScrollBbrHit._trbckMin:
+                return ScrollBbrHit.TRACK_MIN;
+            cbse ScrollBbrHit._trbckMbx:
+                return ScrollBbrHit.TRACK_MAX;
+            cbse ScrollBbrHit._brrowMin:
+                return ScrollBbrHit.ARROW_MIN;
+            cbse ScrollBbrHit._brrowMbx:
+                return ScrollBbrHit.ARROW_MAX;
+            cbse ScrollBbrHit._brrowMbxInside:
+                return ScrollBbrHit.ARROW_MAX_INSIDE;
+            cbse ScrollBbrHit._brrowMinInside:
+                return ScrollBbrHit.ARROW_MIN_INSIDE;
         }
         return Hit.UNKNOWN;
     }
 
-    static String getConstantName(final Object object) {
-        final Class<? extends Object> clazz = object.getClass();
+    stbtic String getConstbntNbme(finbl Object object) {
+        finbl Clbss<? extends Object> clbzz = object.getClbss();
         try {
-            for (final Field field : clazz.getFields()) {
+            for (finbl Field field : clbzz.getFields()) {
                 if (field.get(null) == object) {
-                    return field.getName();
+                    return field.getNbme();
                 }
             }
-        } catch (final Exception e) {}
-        return clazz.getSimpleName();
+        } cbtch (finbl Exception e) {}
+        return clbzz.getSimpleNbme();
     }
 }

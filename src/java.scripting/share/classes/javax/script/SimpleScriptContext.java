@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.script;
+pbckbge jbvbx.script;
 
-import java.util.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
 /**
- * Simple implementation of ScriptContext.
+ * Simple implementbtion of ScriptContext.
  *
- * @author Mike Grogan
+ * @buthor Mike Grogbn
  * @since 1.6
  */
-public class SimpleScriptContext  implements ScriptContext {
+public clbss SimpleScriptContext  implements ScriptContext {
 
     /**
      * This is the writer to be used to output from scripts.
-     * By default, a <code>PrintWriter</code> based on <code>System.out</code>
-     * is used. Accessor methods getWriter, setWriter are used to manage
+     * By defbult, b <code>PrintWriter</code> bbsed on <code>System.out</code>
+     * is used. Accessor methods getWriter, setWriter bre used to mbnbge
      * this field.
-     * @see java.lang.System#out
-     * @see java.io.PrintWriter
+     * @see jbvb.lbng.System#out
+     * @see jbvb.io.PrintWriter
      */
     protected Writer writer;
 
     /**
      * This is the writer to be used to output errors from scripts.
-     * By default, a <code>PrintWriter</code> based on <code>System.err</code> is
-     * used. Accessor methods getErrorWriter, setErrorWriter are used to manage
+     * By defbult, b <code>PrintWriter</code> bbsed on <code>System.err</code> is
+     * used. Accessor methods getErrorWriter, setErrorWriter bre used to mbnbge
      * this field.
-     * @see java.lang.System#err
-     * @see java.io.PrintWriter
+     * @see jbvb.lbng.System#err
+     * @see jbvb.io.PrintWriter
      */
     protected Writer errorWriter;
 
     /**
-     * This is the reader to be used for input from scripts.
-     * By default, a <code>InputStreamReader</code> based on <code>System.in</code>
-     * is used and default charset is used by this reader. Accessor methods
-     * getReader, setReader are used to manage this field.
-     * @see java.lang.System#in
-     * @see java.io.InputStreamReader
+     * This is the rebder to be used for input from scripts.
+     * By defbult, b <code>InputStrebmRebder</code> bbsed on <code>System.in</code>
+     * is used bnd defbult chbrset is used by this rebder. Accessor methods
+     * getRebder, setRebder bre used to mbnbge this field.
+     * @see jbvb.lbng.System#in
+     * @see jbvb.io.InputStrebmRebder
      */
-    protected Reader reader;
+    protected Rebder rebder;
 
 
     /**
      * This is the engine scope bindings.
-     * By default, a <code>SimpleBindings</code> is used. Accessor
-     * methods setBindings, getBindings are used to manage this field.
+     * By defbult, b <code>SimpleBindings</code> is used. Accessor
+     * methods setBindings, getBindings bre used to mbnbge this field.
      * @see SimpleBindings
      */
     protected Bindings engineScope;
 
     /**
-     * This is the global scope bindings.
-     * By default, a null value (which means no global scope) is used. Accessor
-     * methods setBindings, getBindings are used to manage this field.
+     * This is the globbl scope bindings.
+     * By defbult, b null vblue (which mebns no globbl scope) is used. Accessor
+     * methods setBindings, getBindings bre used to mbnbge this field.
      */
-    protected Bindings globalScope;
+    protected Bindings globblScope;
 
     /**
-     * Create a {@code SimpleScriptContext}.
+     * Crebte b {@code SimpleScriptContext}.
      */
     public SimpleScriptContext() {
         engineScope = new SimpleBindings();
-        globalScope = null;
-        reader = new InputStreamReader(System.in);
+        globblScope = null;
+        rebder = new InputStrebmRebder(System.in);
         writer = new PrintWriter(System.out , true);
         errorWriter = new PrintWriter(System.err, true);
     }
 
     /**
-     * Sets a <code>Bindings</code> of attributes for the given scope.  If the value
-     * of scope is <code>ENGINE_SCOPE</code> the given <code>Bindings</code> replaces the
-     * <code>engineScope</code> field.  If the value
-     * of scope is <code>GLOBAL_SCOPE</code> the given <code>Bindings</code> replaces the
-     * <code>globalScope</code> field.
+     * Sets b <code>Bindings</code> of bttributes for the given scope.  If the vblue
+     * of scope is <code>ENGINE_SCOPE</code> the given <code>Bindings</code> replbces the
+     * <code>engineScope</code> field.  If the vblue
+     * of scope is <code>GLOBAL_SCOPE</code> the given <code>Bindings</code> replbces the
+     * <code>globblScope</code> field.
      *
-     * @param bindings The <code>Bindings</code> of attributes to set.
-     * @param scope The value of the scope in which the attributes are set.
+     * @pbrbm bindings The <code>Bindings</code> of bttributes to set.
+     * @pbrbm scope The vblue of the scope in which the bttributes bre set.
      *
-     * @throws IllegalArgumentException if scope is invalid.
-     * @throws NullPointerException if the value of scope is <code>ENGINE_SCOPE</code> and
+     * @throws IllegblArgumentException if scope is invblid.
+     * @throws NullPointerException if the vblue of scope is <code>ENGINE_SCOPE</code> bnd
      * the specified <code>Bindings</code> is null.
      */
     public void setBindings(Bindings bindings, int scope) {
 
         switch (scope) {
 
-            case ENGINE_SCOPE:
+            cbse ENGINE_SCOPE:
                 if (bindings == null) {
-                    throw new NullPointerException("Engine scope cannot be null.");
+                    throw new NullPointerException("Engine scope cbnnot be null.");
                 }
                 engineScope = bindings;
-                break;
-            case GLOBAL_SCOPE:
-                globalScope = bindings;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid scope value.");
+                brebk;
+            cbse GLOBAL_SCOPE:
+                globblScope = bindings;
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("Invblid scope vblue.");
         }
     }
 
 
     /**
-     * Retrieves the value of the attribute with the given name in
-     * the scope occurring earliest in the search order.  The order
-     * is determined by the numeric value of the scope parameter (lowest
-     * scope values first.)
+     * Retrieves the vblue of the bttribute with the given nbme in
+     * the scope occurring ebrliest in the sebrch order.  The order
+     * is determined by the numeric vblue of the scope pbrbmeter (lowest
+     * scope vblues first.)
      *
-     * @param name The name of the the attribute to retrieve.
-     * @return The value of the attribute in the lowest scope for
-     * which an attribute with the given name is defined.  Returns
-     * null if no attribute with the name exists in any scope.
-     * @throws NullPointerException if the name is null.
-     * @throws IllegalArgumentException if the name is empty.
+     * @pbrbm nbme The nbme of the the bttribute to retrieve.
+     * @return The vblue of the bttribute in the lowest scope for
+     * which bn bttribute with the given nbme is defined.  Returns
+     * null if no bttribute with the nbme exists in bny scope.
+     * @throws NullPointerException if the nbme is null.
+     * @throws IllegblArgumentException if the nbme is empty.
      */
-    public Object getAttribute(String name) {
-        if (engineScope.containsKey(name)) {
-            return getAttribute(name, ENGINE_SCOPE);
-        } else if (globalScope != null && globalScope.containsKey(name)) {
-            return getAttribute(name, GLOBAL_SCOPE);
+    public Object getAttribute(String nbme) {
+        if (engineScope.contbinsKey(nbme)) {
+            return getAttribute(nbme, ENGINE_SCOPE);
+        } else if (globblScope != null && globblScope.contbinsKey(nbme)) {
+            return getAttribute(nbme, GLOBAL_SCOPE);
         }
 
         return null;
     }
 
     /**
-     * Gets the value of an attribute in a given scope.
+     * Gets the vblue of bn bttribute in b given scope.
      *
-     * @param name The name of the attribute to retrieve.
-     * @param scope The scope in which to retrieve the attribute.
-     * @return The value of the attribute. Returns <code>null</code> is the name
+     * @pbrbm nbme The nbme of the bttribute to retrieve.
+     * @pbrbm scope The scope in which to retrieve the bttribute.
+     * @return The vblue of the bttribute. Returns <code>null</code> is the nbme
      * does not exist in the given scope.
      *
-     * @throws IllegalArgumentException
-     *         if the name is empty or if the value of scope is invalid.
-     * @throws NullPointerException if the name is null.
+     * @throws IllegblArgumentException
+     *         if the nbme is empty or if the vblue of scope is invblid.
+     * @throws NullPointerException if the nbme is null.
      */
-    public Object getAttribute(String name, int scope) {
+    public Object getAttribute(String nbme, int scope) {
 
         switch (scope) {
 
-            case ENGINE_SCOPE:
-                return engineScope.get(name);
+            cbse ENGINE_SCOPE:
+                return engineScope.get(nbme);
 
-            case GLOBAL_SCOPE:
-                if (globalScope != null) {
-                    return globalScope.get(name);
+            cbse GLOBAL_SCOPE:
+                if (globblScope != null) {
+                    return globblScope.get(nbme);
                 }
                 return null;
 
-            default:
-                throw new IllegalArgumentException("Illegal scope value.");
+            defbult:
+                throw new IllegblArgumentException("Illegbl scope vblue.");
         }
     }
 
     /**
-     * Remove an attribute in a given scope.
+     * Remove bn bttribute in b given scope.
      *
-     * @param name The name of the attribute to remove
-     * @param scope The scope in which to remove the attribute
+     * @pbrbm nbme The nbme of the bttribute to remove
+     * @pbrbm scope The scope in which to remove the bttribute
      *
-     * @return The removed value.
-     * @throws IllegalArgumentException
-     *         if the name is empty or if the scope is invalid.
-     * @throws NullPointerException if the name is null.
+     * @return The removed vblue.
+     * @throws IllegblArgumentException
+     *         if the nbme is empty or if the scope is invblid.
+     * @throws NullPointerException if the nbme is null.
      */
-    public Object removeAttribute(String name, int scope) {
+    public Object removeAttribute(String nbme, int scope) {
 
         switch (scope) {
 
-            case ENGINE_SCOPE:
+            cbse ENGINE_SCOPE:
                 if (getBindings(ENGINE_SCOPE) != null) {
-                    return getBindings(ENGINE_SCOPE).remove(name);
+                    return getBindings(ENGINE_SCOPE).remove(nbme);
                 }
                 return null;
 
-            case GLOBAL_SCOPE:
+            cbse GLOBAL_SCOPE:
                 if (getBindings(GLOBAL_SCOPE) != null) {
-                    return getBindings(GLOBAL_SCOPE).remove(name);
+                    return getBindings(GLOBAL_SCOPE).remove(nbme);
                 }
                 return null;
 
-            default:
-                throw new IllegalArgumentException("Illegal scope value.");
+            defbult:
+                throw new IllegblArgumentException("Illegbl scope vblue.");
         }
     }
 
     /**
-     * Sets the value of an attribute in a given scope.
+     * Sets the vblue of bn bttribute in b given scope.
      *
-     * @param name The name of the attribute to set
-     * @param value The value of the attribute
-     * @param scope The scope in which to set the attribute
+     * @pbrbm nbme The nbme of the bttribute to set
+     * @pbrbm vblue The vblue of the bttribute
+     * @pbrbm scope The scope in which to set the bttribute
      *
-     * @throws IllegalArgumentException
-     *         if the name is empty or if the scope is invalid.
-     * @throws NullPointerException if the name is null.
+     * @throws IllegblArgumentException
+     *         if the nbme is empty or if the scope is invblid.
+     * @throws NullPointerException if the nbme is null.
      */
-    public void setAttribute(String name, Object value, int scope) {
+    public void setAttribute(String nbme, Object vblue, int scope) {
 
         switch (scope) {
 
-            case ENGINE_SCOPE:
-                engineScope.put(name, value);
+            cbse ENGINE_SCOPE:
+                engineScope.put(nbme, vblue);
                 return;
 
-            case GLOBAL_SCOPE:
-                if (globalScope != null) {
-                    globalScope.put(name, value);
+            cbse GLOBAL_SCOPE:
+                if (globblScope != null) {
+                    globblScope.put(nbme, vblue);
                 }
                 return;
 
-            default:
-                throw new IllegalArgumentException("Illegal scope value.");
+            defbult:
+                throw new IllegblArgumentException("Illegbl scope vblue.");
         }
     }
 
@@ -247,13 +247,13 @@ public class SimpleScriptContext  implements ScriptContext {
     }
 
     /** {@inheritDoc} */
-    public Reader getReader() {
-        return reader;
+    public Rebder getRebder() {
+        return rebder;
     }
 
     /** {@inheritDoc} */
-    public void setReader(Reader reader) {
-        this.reader = reader;
+    public void setRebder(Rebder rebder) {
+        this.rebder = rebder;
     }
 
     /** {@inheritDoc} */
@@ -272,18 +272,18 @@ public class SimpleScriptContext  implements ScriptContext {
     }
 
     /**
-     * Get the lowest scope in which an attribute is defined.
-     * @param name Name of the attribute
+     * Get the lowest scope in which bn bttribute is defined.
+     * @pbrbm nbme Nbme of the bttribute
      * .
-     * @return The lowest scope.  Returns -1 if no attribute with the given
-     * name is defined in any scope.
-     * @throws NullPointerException if name is null.
-     * @throws IllegalArgumentException if name is empty.
+     * @return The lowest scope.  Returns -1 if no bttribute with the given
+     * nbme is defined in bny scope.
+     * @throws NullPointerException if nbme is null.
+     * @throws IllegblArgumentException if nbme is empty.
      */
-    public int getAttributesScope(String name) {
-        if (engineScope.containsKey(name)) {
+    public int getAttributesScope(String nbme) {
+        if (engineScope.contbinsKey(nbme)) {
             return ENGINE_SCOPE;
-        } else if (globalScope != null && globalScope.containsKey(name)) {
+        } else if (globblScope != null && globblScope.contbinsKey(nbme)) {
             return GLOBAL_SCOPE;
         } else {
             return -1;
@@ -291,21 +291,21 @@ public class SimpleScriptContext  implements ScriptContext {
     }
 
     /**
-     * Returns the value of the <code>engineScope</code> field if specified scope is
-     * <code>ENGINE_SCOPE</code>.  Returns the value of the <code>globalScope</code> field if the specified scope is
+     * Returns the vblue of the <code>engineScope</code> field if specified scope is
+     * <code>ENGINE_SCOPE</code>.  Returns the vblue of the <code>globblScope</code> field if the specified scope is
      * <code>GLOBAL_SCOPE</code>.
      *
-     * @param scope The specified scope
-     * @return The value of either the  <code>engineScope</code> or <code>globalScope</code> field.
-     * @throws IllegalArgumentException if the value of scope is invalid.
+     * @pbrbm scope The specified scope
+     * @return The vblue of either the  <code>engineScope</code> or <code>globblScope</code> field.
+     * @throws IllegblArgumentException if the vblue of scope is invblid.
      */
     public Bindings getBindings(int scope) {
         if (scope == ENGINE_SCOPE) {
             return engineScope;
         } else if (scope == GLOBAL_SCOPE) {
-            return globalScope;
+            return globblScope;
         } else {
-            throw new IllegalArgumentException("Illegal scope value.");
+            throw new IllegblArgumentException("Illegbl scope vblue.");
         }
     }
 
@@ -314,11 +314,11 @@ public class SimpleScriptContext  implements ScriptContext {
         return scopes;
     }
 
-    private static List<Integer> scopes;
-    static {
-        scopes = new ArrayList<Integer>(2);
-        scopes.add(ENGINE_SCOPE);
-        scopes.add(GLOBAL_SCOPE);
-        scopes = Collections.unmodifiableList(scopes);
+    privbte stbtic List<Integer> scopes;
+    stbtic {
+        scopes = new ArrbyList<Integer>(2);
+        scopes.bdd(ENGINE_SCOPE);
+        scopes.bdd(GLOBAL_SCOPE);
+        scopes = Collections.unmodifibbleList(scopes);
     }
 }

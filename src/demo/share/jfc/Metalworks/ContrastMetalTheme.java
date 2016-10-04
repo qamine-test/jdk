@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,90 +30,90 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import javax.swing.UIDefaults;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.plaf.metal.DefaultMetalTheme;
+import jbvbx.swing.UIDefbults;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.border.CompoundBorder;
+import jbvbx.swing.border.LineBorder;
+import jbvbx.swing.plbf.BorderUIResource;
+import jbvbx.swing.plbf.ColorUIResource;
+import jbvbx.swing.plbf.bbsic.BbsicBorders;
+import jbvbx.swing.plbf.metbl.DefbultMetblTheme;
 
 
 /**
- * This class describes a higher-contrast Metal Theme.
+ * This clbss describes b higher-contrbst Metbl Theme.
  *
- * @author Michael C. Albers
- * @author Alexander Kouznetsov
+ * @buthor Michbel C. Albers
+ * @buthor Alexbnder Kouznetsov
  */
-public class ContrastMetalTheme extends DefaultMetalTheme {
+public clbss ContrbstMetblTheme extends DefbultMetblTheme {
 
     @Override
-    public String getName() {
-        return "Contrast";
+    public String getNbme() {
+        return "Contrbst";
     }
-    private final ColorUIResource primary1 = new ColorUIResource(0, 0, 0);
-    private final ColorUIResource primary2 = new ColorUIResource(204, 204, 204);
-    private final ColorUIResource primary3 = new ColorUIResource(255, 255, 255);
-    private final ColorUIResource primaryHighlight = new ColorUIResource(102,
+    privbte finbl ColorUIResource primbry1 = new ColorUIResource(0, 0, 0);
+    privbte finbl ColorUIResource primbry2 = new ColorUIResource(204, 204, 204);
+    privbte finbl ColorUIResource primbry3 = new ColorUIResource(255, 255, 255);
+    privbte finbl ColorUIResource primbryHighlight = new ColorUIResource(102,
             102, 102);
-    private final ColorUIResource secondary2 =
+    privbte finbl ColorUIResource secondbry2 =
             new ColorUIResource(204, 204, 204);
-    private final ColorUIResource secondary3 =
+    privbte finbl ColorUIResource secondbry3 =
             new ColorUIResource(255, 255, 255);
 
     @Override
-    protected ColorUIResource getPrimary1() {
-        return primary1;
+    protected ColorUIResource getPrimbry1() {
+        return primbry1;
     }
 
     @Override
-    protected ColorUIResource getPrimary2() {
-        return primary2;
+    protected ColorUIResource getPrimbry2() {
+        return primbry2;
     }
 
     @Override
-    protected ColorUIResource getPrimary3() {
-        return primary3;
+    protected ColorUIResource getPrimbry3() {
+        return primbry3;
     }
 
     @Override
-    public ColorUIResource getPrimaryControlHighlight() {
-        return primaryHighlight;
+    public ColorUIResource getPrimbryControlHighlight() {
+        return primbryHighlight;
     }
 
     @Override
-    protected ColorUIResource getSecondary2() {
-        return secondary2;
+    protected ColorUIResource getSecondbry2() {
+        return secondbry2;
     }
 
     @Override
-    protected ColorUIResource getSecondary3() {
-        return secondary3;
+    protected ColorUIResource getSecondbry3() {
+        return secondbry3;
     }
 
     @Override
     public ColorUIResource getControlHighlight() {
-        return super.getSecondary3();
+        return super.getSecondbry3();
     }
 
     @Override
     public ColorUIResource getFocusColor() {
-        return getBlack();
+        return getBlbck();
     }
 
     @Override
     public ColorUIResource getTextHighlightColor() {
-        return getBlack();
+        return getBlbck();
     }
 
     @Override
@@ -122,8 +122,8 @@ public class ContrastMetalTheme extends DefaultMetalTheme {
     }
 
     @Override
-    public ColorUIResource getMenuSelectedBackground() {
-        return getBlack();
+    public ColorUIResource getMenuSelectedBbckground() {
+        return getBlbck();
     }
 
     @Override
@@ -132,36 +132,36 @@ public class ContrastMetalTheme extends DefaultMetalTheme {
     }
 
     @Override
-    public ColorUIResource getAcceleratorForeground() {
-        return getBlack();
+    public ColorUIResource getAccelerbtorForeground() {
+        return getBlbck();
     }
 
     @Override
-    public ColorUIResource getAcceleratorSelectedForeground() {
+    public ColorUIResource getAccelerbtorSelectedForeground() {
         return getWhite();
     }
 
     @Override
-    public void addCustomEntriesToTable(UIDefaults table) {
+    public void bddCustomEntriesToTbble(UIDefbults tbble) {
 
-        Border blackLineBorder =
-                new BorderUIResource(new LineBorder(getBlack()));
+        Border blbckLineBorder =
+                new BorderUIResource(new LineBorder(getBlbck()));
         Border whiteLineBorder =
                 new BorderUIResource(new LineBorder(getWhite()));
 
         Object textBorder = new BorderUIResource(new CompoundBorder(
-                blackLineBorder,
-                new BasicBorders.MarginBorder()));
+                blbckLineBorder,
+                new BbsicBorders.MbrginBorder()));
 
-        table.put("ToolTip.border", blackLineBorder);
-        table.put("TitledBorder.border", blackLineBorder);
-        table.put("Table.focusCellHighlightBorder", whiteLineBorder);
-        table.put("Table.focusCellForeground", getWhite());
+        tbble.put("ToolTip.border", blbckLineBorder);
+        tbble.put("TitledBorder.border", blbckLineBorder);
+        tbble.put("Tbble.focusCellHighlightBorder", whiteLineBorder);
+        tbble.put("Tbble.focusCellForeground", getWhite());
 
-        table.put("TextField.border", textBorder);
-        table.put("PasswordField.border", textBorder);
-        table.put("TextArea.border", textBorder);
-        table.put("TextPane.font", textBorder);
+        tbble.put("TextField.border", textBorder);
+        tbble.put("PbsswordField.border", textBorder);
+        tbble.put("TextAreb.border", textBorder);
+        tbble.put("TextPbne.font", textBorder);
 
 
     }

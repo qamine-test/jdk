@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,155 +30,155 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion, bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import jbvb.io.IOException;
+import jbvb.io.UncheckedIOException;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbth;
+import jbvb.nio.file.Pbths;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.regex.Pbttern;
+import jbvb.util.strebm.Strebm;
 
-import static java.util.stream.Collectors.toList;
+import stbtic jbvb.util.strebm.Collectors.toList;
 
 /**
- * Grep prints lines matching a regex. See {@link #printUsageAndExit(String...)}
- * method for instructions and command line parameters. This sample shows
- * examples of using next features:
+ * Grep prints lines mbtching b regex. See {@link #printUsbgeAndExit(String...)}
+ * method for instructions bnd commbnd line pbrbmeters. This sbmple shows
+ * exbmples of using next febtures:
  * <ul>
- * <li>Lambda and bulk operations. Working with streams:
- * map(...),filter(...),flatMap(...),limit(...) methods.</li>
- * <li>Static method reference for printing values.</li>
- * <li>New Collections API forEach(...) method.</li>
- * <li>Try-with-resources feature.</li>
- * <li>new Files.walk(...), Files.lines(...) API.</li>
- * <li>Streams that need to be closed.</li>
+ * <li>Lbmbdb bnd bulk operbtions. Working with strebms:
+ * mbp(...),filter(...),flbtMbp(...),limit(...) methods.</li>
+ * <li>Stbtic method reference for printing vblues.</li>
+ * <li>New Collections API forEbch(...) method.</li>
+ * <li>Try-with-resources febture.</li>
+ * <li>new Files.wblk(...), Files.lines(...) API.</li>
+ * <li>Strebms thbt need to be closed.</li>
  * </ul>
  *
  */
-public class Grep {
+public clbss Grep {
 
-    private static void printUsageAndExit(String... str) {
-        System.out.println("Usage: " + Grep.class.getSimpleName()
+    privbte stbtic void printUsbgeAndExit(String... str) {
+        System.out.println("Usbge: " + Grep.clbss.getSimpleNbme()
                 + " [OPTION]... PATTERN FILE...");
-        System.out.println("Search for PATTERN in each FILE. "
-                + "If FILE is a directory then whole file tree of the directory"
+        System.out.println("Sebrch for PATTERN in ebch FILE. "
+                + "If FILE is b directory then whole file tree of the directory"
                 + " will be processed.");
-        System.out.println("Example: grep -m 100 'hello world' menu.h main.c");
+        System.out.println("Exbmple: grep -m 100 'hello world' menu.h mbin.c");
         System.out.println("Options:");
-        System.out.println("    -m NUM: stop analysis after NUM matches");
-        Arrays.asList(str).forEach(System.err::println);
+        System.out.println("    -m NUM: stop bnblysis bfter NUM mbtches");
+        Arrbys.bsList(str).forEbch(System.err::println);
         System.exit(1);
     }
 
     /**
-     * The main method for the Grep program. Run program with empty argument
-     * list to see possible arguments.
+     * The mbin method for the Grep progrbm. Run progrbm with empty brgument
+     * list to see possible brguments.
      *
-     * @param args the argument list for Grep.
-     * @throws java.io.IOException If an I/O error occurs.
+     * @pbrbm brgs the brgument list for Grep.
+     * @throws jbvb.io.IOException If bn I/O error occurs.
      */
-    public static void main(String[] args) throws IOException {
-        long maxCount = Long.MAX_VALUE;
-        if (args.length < 2) {
-            printUsageAndExit();
+    public stbtic void mbin(String[] brgs) throws IOException {
+        long mbxCount = Long.MAX_VALUE;
+        if (brgs.length < 2) {
+            printUsbgeAndExit();
         }
         int i = 0;
-        //parse OPTIONS
-        while (args[i].startsWith("-")) {
-            switch (args[i]) {
-                case "-m":
+        //pbrse OPTIONS
+        while (brgs[i].stbrtsWith("-")) {
+            switch (brgs[i]) {
+                cbse "-m":
                     try {
-                        maxCount = Long.parseLong(args[++i]);
-                    } catch (NumberFormatException ex) {
-                        printUsageAndExit(ex.toString());
+                        mbxCount = Long.pbrseLong(brgs[++i]);
+                    } cbtch (NumberFormbtException ex) {
+                        printUsbgeAndExit(ex.toString());
                     }
-                    break;
-                default:
-                    printUsageAndExit("Unexpected option " + args[i]);
+                    brebk;
+                defbult:
+                    printUsbgeAndExit("Unexpected option " + brgs[i]);
             }
             i++;
         }
-        //parse PATTERN
-        Pattern pattern = Pattern.compile(args[i++]);
-        if (i == args.length) {
-            printUsageAndExit("There are no files for input");
+        //pbrse PATTERN
+        Pbttern pbttern = Pbttern.compile(brgs[i++]);
+        if (i == brgs.length) {
+            printUsbgeAndExit("There bre no files for input");
         }
 
         try {
             /*
-            * First obtain the list of all paths.
-            * For a small number of arguments there is little to be gained
-            * by producing this list in parallel. For one argument
-            * there will be no parallelism.
+            * First obtbin the list of bll pbths.
+            * For b smbll number of brguments there is little to be gbined
+            * by producing this list in pbrbllel. For one brgument
+            * there will be no pbrbllelism.
             *
-            * File names are converted to paths. If a path is a directory then
-            * Stream is populated with whole file tree of the directory by
-            * flatMap() method. Files are filtered from directories.
+            * File nbmes bre converted to pbths. If b pbth is b directory then
+            * Strebm is populbted with whole file tree of the directory by
+            * flbtMbp() method. Files bre filtered from directories.
             */
-            List<Path> files = Arrays.stream(args, i, args.length)
-                    .map(Paths::get)
-                    // flatMap will ensure each I/O-based stream will be closed
-                    .flatMap(Grep::getPathStream)
-                    .filter(Files::isRegularFile)
+            List<Pbth> files = Arrbys.strebm(brgs, i, brgs.length)
+                    .mbp(Pbths::get)
+                    // flbtMbp will ensure ebch I/O-bbsed strebm will be closed
+                    .flbtMbp(Grep::getPbthStrebm)
+                    .filter(Files::isRegulbrFile)
                     .collect(toList());
             /*
-            * Then operate on that list in parallel.
-            * This is likely to give a more even distribution of work for
-            * parallel execution.
+            * Then operbte on thbt list in pbrbllel.
+            * This is likely to give b more even distribution of work for
+            * pbrbllel execution.
             *
-            * Lines are extracted from files. Lines are filtered by pattern.
-            * Stream is limited by number of matches. Each remaining string is
-            * displayed in std output by method reference System.out::println.
+            * Lines bre extrbcted from files. Lines bre filtered by pbttern.
+            * Strebm is limited by number of mbtches. Ebch rembining string is
+            * displbyed in std output by method reference System.out::println.
             */
-            files.parallelStream()
-                    // flatMap will ensure each I/O-based stream will be closed
-                    .flatMap(Grep::path2Lines)
-                    .filter(pattern.asPredicate())
-                    .limit(maxCount)
-                    .forEachOrdered(System.out::println);
-        } catch (UncheckedIOException ioe) {
-            printUsageAndExit(ioe.toString());
+            files.pbrbllelStrebm()
+                    // flbtMbp will ensure ebch I/O-bbsed strebm will be closed
+                    .flbtMbp(Grep::pbth2Lines)
+                    .filter(pbttern.bsPredicbte())
+                    .limit(mbxCount)
+                    .forEbchOrdered(System.out::println);
+        } cbtch (UncheckedIOException ioe) {
+            printUsbgeAndExit(ioe.toString());
         }
     }
 
     /**
-     * Flattens file system hierarchy into a stream. This code is not inlined
-     * for the reason of Files.walk() throwing a checked IOException that must
-     * be caught.
+     * Flbttens file system hierbrchy into b strebm. This code is not inlined
+     * for the rebson of Files.wblk() throwing b checked IOException thbt must
+     * be cbught.
      *
-     * @param path - the file or directory
-     * @return Whole file tree starting from path, a stream with one element -
-     * the path itself - if it is a file.
+     * @pbrbm pbth - the file or directory
+     * @return Whole file tree stbrting from pbth, b strebm with one element -
+     * the pbth itself - if it is b file.
      */
-    private static Stream<Path> getPathStream(Path path) {
+    privbte stbtic Strebm<Pbth> getPbthStrebm(Pbth pbth) {
         try {
-            return Files.walk(path);
-        } catch (IOException e) {
+            return Files.wblk(pbth);
+        } cbtch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
     /**
-     * Produces a stream of lines from a file. The result is a stream in order
-     * to close it later. This code is not inlined for the reason of
-     * Files.lines() throwing a checked IOException that must be caught.
+     * Produces b strebm of lines from b file. The result is b strebm in order
+     * to close it lbter. This code is not inlined for the rebson of
+     * Files.lines() throwing b checked IOException thbt must be cbught.
      *
-     * @param path - the file to read
-     * @return stream of lines from the file
+     * @pbrbm pbth - the file to rebd
+     * @return strebm of lines from the file
      */
-    private static Stream<String> path2Lines(Path path) {
+    privbte stbtic Strebm<String> pbth2Lines(Pbth pbth) {
         try {
-            return Files.lines(path);
-        } catch (IOException e) {
+            return Files.lines(pbth);
+        } cbtch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }

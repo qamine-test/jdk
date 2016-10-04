@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,48 +30,48 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
- * This file defines heapdump function to heap dump
- * in binary format. User can call this function
- * based on events. For example, a timer thread can
- * keep checking heap threshold and depending on 
- * specific expected threshold value, it can call
- * heapdump to dump the keep. File name can contain
- * timestamp so that multiple heapdumps can be generated
- * for the same process.
+ * This file defines hebpdump function to hebp dump
+ * in binbry formbt. User cbn cbll this function
+ * bbsed on events. For exbmple, b timer threbd cbn
+ * keep checking hebp threshold bnd depending on 
+ * specific expected threshold vblue, it cbn cbll
+ * hebpdump to dump the keep. File nbme cbn contbin
+ * timestbmp so thbt multiple hebpdumps cbn be generbted
+ * for the sbme process.
  */
 
 /**
- * Function to dump heap in binary format.
+ * Function to dump hebp in binbry formbt.
  *
- * @param file heap dump file name [optional]
+ * @pbrbm file hebp dump file nbme [optionbl]
  */
-function heapdump(file) {
-    // no file specified, show file open dialog
+function hebpdump(file) {
+    // no file specified, show file open diblog
     if (file == undefined) {
-        file = fileDialog();
-        // check whether user cancelled the dialog
+        file = fileDiblog();
+        // check whether user cbncelled the diblog
         if (file == null) return;
     }
 
     /* 
-     * Get HotSpotDiagnostic MBean and wrap it as convenient
-     * script wrapper using 'mbean' function. Instead of using
-     * MBean proxies 'mbean' function creates a script wrapper 
-     * that provides similar convenience but uses explicit 
-     * invocation behind the scene. This implies that mbean 
-     * wrapper would the same for dynamic MBeans as well.
+     * Get HotSpotDibgnostic MBebn bnd wrbp it bs convenient
+     * script wrbpper using 'mbebn' function. Instebd of using
+     * MBebn proxies 'mbebn' function crebtes b script wrbpper 
+     * thbt provides similbr convenience but uses explicit 
+     * invocbtion behind the scene. This implies thbt mbebn 
+     * wrbpper would the sbme for dynbmic MBebns bs well.
      */
-    var diagBean = mbean("com.sun.management:type=HotSpotDiagnostic");
+    vbr dibgBebn = mbebn("com.sun.mbnbgement:type=HotSpotDibgnostic");
 
-    // dump the heap in the file
-    diagBean.dumpHeap(file, true);
+    // dump the hebp in the file
+    dibgBebn.dumpHebp(file, true);
 }

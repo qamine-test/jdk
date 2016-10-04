@@ -1,375 +1,375 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
-import java.util.Vector;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
 
 /**
- * <P>Class AccessibleState describes a component's particular state.  The actual
- * state of the component is defined as an AccessibleStateSet, which is a
- * composed set of AccessibleStates.
- * <p>The toDisplayString method allows you to obtain the localized string
- * for a locale independent key from a predefined ResourceBundle for the
- * keys defined in this class.
- * <p>The constants in this class present a strongly typed enumeration
- * of common object roles.  A public constructor for this class has been
- * purposely omitted and applications should use one of the constants
- * from this class.  If the constants in this class are not sufficient
- * to describe the role of an object, a subclass should be generated
- * from this class and it should provide constants in a similar manner.
+ * <P>Clbss AccessibleStbte describes b component's pbrticulbr stbte.  The bctubl
+ * stbte of the component is defined bs bn AccessibleStbteSet, which is b
+ * composed set of AccessibleStbtes.
+ * <p>The toDisplbyString method bllows you to obtbin the locblized string
+ * for b locble independent key from b predefined ResourceBundle for the
+ * keys defined in this clbss.
+ * <p>The constbnts in this clbss present b strongly typed enumerbtion
+ * of common object roles.  A public constructor for this clbss hbs been
+ * purposely omitted bnd bpplicbtions should use one of the constbnts
+ * from this clbss.  If the constbnts in this clbss bre not sufficient
+ * to describe the role of bn object, b subclbss should be generbted
+ * from this clbss bnd it should provide constbnts in b similbr mbnner.
  *
- * @author      Willie Walker
- * @author      Peter Korn
+ * @buthor      Willie Wblker
+ * @buthor      Peter Korn
  */
-public class AccessibleState extends AccessibleBundle {
+public clbss AccessibleStbte extends AccessibleBundle {
 
-    // If you add or remove anything from here, make sure you
-    // update AccessibleResourceBundle.java.
+    // If you bdd or remove bnything from here, mbke sure you
+    // updbte AccessibleResourceBundle.jbvb.
 
     /**
-     * Indicates a window is currently the active window.  This includes
-     * windows, dialogs, frames, etc.  In addition, this state is used
-     * to indicate the currently active child of a component such as a
-     * list, table, or tree.  For example, the active child of a list
-     * is the child that is drawn with a rectangle around it.
+     * Indicbtes b window is currently the bctive window.  This includes
+     * windows, diblogs, frbmes, etc.  In bddition, this stbte is used
+     * to indicbte the currently bctive child of b component such bs b
+     * list, tbble, or tree.  For exbmple, the bctive child of b list
+     * is the child thbt is drbwn with b rectbngle bround it.
      * @see AccessibleRole#WINDOW
      * @see AccessibleRole#FRAME
      * @see AccessibleRole#DIALOG
      */
-    public static final AccessibleState ACTIVE
-            = new AccessibleState("active");
+    public stbtic finbl AccessibleStbte ACTIVE
+            = new AccessibleStbte("bctive");
 
     /**
-     * Indicates this object is currently pressed.  This is usually
-     * associated with buttons and indicates the user has pressed a
-     * mouse button while the pointer was over the button and has
-     * not yet released the mouse button.
+     * Indicbtes this object is currently pressed.  This is usublly
+     * bssocibted with buttons bnd indicbtes the user hbs pressed b
+     * mouse button while the pointer wbs over the button bnd hbs
+     * not yet relebsed the mouse button.
      * @see AccessibleRole#PUSH_BUTTON
      */
-    public static final AccessibleState PRESSED
-            = new AccessibleState("pressed");
+    public stbtic finbl AccessibleStbte PRESSED
+            = new AccessibleStbte("pressed");
 
     /**
-     * Indicates that the object is armed.  This is usually used on buttons
-     * that have been pressed but not yet released, and the mouse pointer
+     * Indicbtes thbt the object is brmed.  This is usublly used on buttons
+     * thbt hbve been pressed but not yet relebsed, bnd the mouse pointer
      * is still over the button.
      * @see AccessibleRole#PUSH_BUTTON
      */
-    public static final AccessibleState ARMED
-            = new AccessibleState("armed");
+    public stbtic finbl AccessibleStbte ARMED
+            = new AccessibleStbte("brmed");
 
     /**
-     * Indicates the current object is busy.  This is usually used on objects
-     * such as progress bars, sliders, or scroll bars to indicate they are
-     * in a state of transition.
+     * Indicbtes the current object is busy.  This is usublly used on objects
+     * such bs progress bbrs, sliders, or scroll bbrs to indicbte they bre
+     * in b stbte of trbnsition.
      * @see AccessibleRole#PROGRESS_BAR
      * @see AccessibleRole#SCROLL_BAR
      * @see AccessibleRole#SLIDER
      */
-    public static final AccessibleState BUSY
-            = new AccessibleState("busy");
+    public stbtic finbl AccessibleStbte BUSY
+            = new AccessibleStbte("busy");
 
     /**
-     * Indicates this object is currently checked.  This is usually used on
-     * objects such as toggle buttons, radio buttons, and check boxes.
+     * Indicbtes this object is currently checked.  This is usublly used on
+     * objects such bs toggle buttons, rbdio buttons, bnd check boxes.
      * @see AccessibleRole#TOGGLE_BUTTON
      * @see AccessibleRole#RADIO_BUTTON
      * @see AccessibleRole#CHECK_BOX
      */
-    public static final AccessibleState CHECKED
-            = new AccessibleState("checked");
+    public stbtic finbl AccessibleStbte CHECKED
+            = new AccessibleStbte("checked");
 
     /**
-     * Indicates the user can change the contents of this object.  This
-     * is usually used primarily for objects that allow the user to
-     * enter text.  Other objects, such as scroll bars and sliders,
-     * are automatically editable if they are enabled.
+     * Indicbtes the user cbn chbnge the contents of this object.  This
+     * is usublly used primbrily for objects thbt bllow the user to
+     * enter text.  Other objects, such bs scroll bbrs bnd sliders,
+     * bre butombticblly editbble if they bre enbbled.
      * @see #ENABLED
      */
-    public static final AccessibleState EDITABLE
-            = new AccessibleState("editable");
+    public stbtic finbl AccessibleStbte EDITABLE
+            = new AccessibleStbte("editbble");
 
     /**
-     * Indicates this object allows progressive disclosure of its children.
-     * This is usually used with hierarchical objects such as trees and
-     * is often paired with the EXPANDED or COLLAPSED states.
+     * Indicbtes this object bllows progressive disclosure of its children.
+     * This is usublly used with hierbrchicbl objects such bs trees bnd
+     * is often pbired with the EXPANDED or COLLAPSED stbtes.
      * @see #EXPANDED
      * @see #COLLAPSED
      * @see AccessibleRole#TREE
      */
-    public static final AccessibleState EXPANDABLE
-            = new AccessibleState("expandable");
+    public stbtic finbl AccessibleStbte EXPANDABLE
+            = new AccessibleStbte("expbndbble");
 
     /**
-     * Indicates this object is collapsed.  This is usually paired with the
-     * EXPANDABLE state and is used on objects that provide progressive
-     * disclosure such as trees.
+     * Indicbtes this object is collbpsed.  This is usublly pbired with the
+     * EXPANDABLE stbte bnd is used on objects thbt provide progressive
+     * disclosure such bs trees.
      * @see #EXPANDABLE
      * @see #EXPANDED
      * @see AccessibleRole#TREE
      */
-    public static final AccessibleState COLLAPSED
-            = new AccessibleState("collapsed");
+    public stbtic finbl AccessibleStbte COLLAPSED
+            = new AccessibleStbte("collbpsed");
 
     /**
-     * Indicates this object is expanded.  This is usually paired with the
-     * EXPANDABLE state and is used on objects that provide progressive
-     * disclosure such as trees.
+     * Indicbtes this object is expbnded.  This is usublly pbired with the
+     * EXPANDABLE stbte bnd is used on objects thbt provide progressive
+     * disclosure such bs trees.
      * @see #EXPANDABLE
      * @see #COLLAPSED
      * @see AccessibleRole#TREE
      */
-    public static final AccessibleState EXPANDED
-            = new AccessibleState("expanded");
+    public stbtic finbl AccessibleStbte EXPANDED
+            = new AccessibleStbte("expbnded");
 
     /**
-     * Indicates this object is enabled.  The absence of this state from an
-     * object's state set indicates this object is not enabled.  An object
-     * that is not enabled cannot be manipulated by the user.  In a graphical
-     * display, it is usually grayed out.
+     * Indicbtes this object is enbbled.  The bbsence of this stbte from bn
+     * object's stbte set indicbtes this object is not enbbled.  An object
+     * thbt is not enbbled cbnnot be mbnipulbted by the user.  In b grbphicbl
+     * displby, it is usublly grbyed out.
      */
-    public static final AccessibleState ENABLED
-            = new AccessibleState("enabled");
+    public stbtic finbl AccessibleStbte ENABLED
+            = new AccessibleStbte("enbbled");
 
     /**
-     * Indicates this object can accept keyboard focus, which means all
-     * events resulting from typing on the keyboard will normally be
-     * passed to it when it has focus.
+     * Indicbtes this object cbn bccept keybobrd focus, which mebns bll
+     * events resulting from typing on the keybobrd will normblly be
+     * pbssed to it when it hbs focus.
      * @see #FOCUSED
      */
-    public static final AccessibleState FOCUSABLE
-            = new AccessibleState("focusable");
+    public stbtic finbl AccessibleStbte FOCUSABLE
+            = new AccessibleStbte("focusbble");
 
     /**
-     * Indicates this object currently has the keyboard focus.
+     * Indicbtes this object currently hbs the keybobrd focus.
      * @see #FOCUSABLE
      */
-    public static final AccessibleState FOCUSED
-            = new AccessibleState("focused");
+    public stbtic finbl AccessibleStbte FOCUSED
+            = new AccessibleStbte("focused");
 
     /**
-     * Indicates this object is minimized and is represented only by an
-     * icon.  This is usually only associated with frames and internal
-     * frames.
+     * Indicbtes this object is minimized bnd is represented only by bn
+     * icon.  This is usublly only bssocibted with frbmes bnd internbl
+     * frbmes.
      * @see AccessibleRole#FRAME
      * @see AccessibleRole#INTERNAL_FRAME
      */
-    public static final AccessibleState ICONIFIED
-            = new AccessibleState("iconified");
+    public stbtic finbl AccessibleStbte ICONIFIED
+            = new AccessibleStbte("iconified");
 
     /**
-     * Indicates something must be done with this object before the
-     * user can interact with an object in a different window.  This
-     * is usually associated only with dialogs.
+     * Indicbtes something must be done with this object before the
+     * user cbn interbct with bn object in b different window.  This
+     * is usublly bssocibted only with diblogs.
      * @see AccessibleRole#DIALOG
      */
-    public static final AccessibleState MODAL
-            = new AccessibleState("modal");
+    public stbtic finbl AccessibleStbte MODAL
+            = new AccessibleStbte("modbl");
 
     /**
-     * Indicates this object paints every pixel within its
-     * rectangular region. A non-opaque component paints only some of
-     * its pixels, allowing the pixels underneath it to "show through".
-     * A component that does not fully paint its pixels therefore
-     * provides a degree of transparency.
+     * Indicbtes this object pbints every pixel within its
+     * rectbngulbr region. A non-opbque component pbints only some of
+     * its pixels, bllowing the pixels undernebth it to "show through".
+     * A component thbt does not fully pbint its pixels therefore
+     * provides b degree of trbnspbrency.
      * @see Accessible#getAccessibleContext
      * @see AccessibleContext#getAccessibleComponent
      * @see AccessibleComponent#getBounds
      */
-    public static final AccessibleState OPAQUE
-            = new AccessibleState("opaque");
+    public stbtic finbl AccessibleStbte OPAQUE
+            = new AccessibleStbte("opbque");
 
     /**
-     * Indicates the size of this object is not fixed.
+     * Indicbtes the size of this object is not fixed.
      * @see Accessible#getAccessibleContext
      * @see AccessibleContext#getAccessibleComponent
      * @see AccessibleComponent#getSize
      * @see AccessibleComponent#setSize
      */
-    public static final AccessibleState RESIZABLE
-            = new AccessibleState("resizable");
+    public stbtic finbl AccessibleStbte RESIZABLE
+            = new AccessibleStbte("resizbble");
 
 
     /**
-     * Indicates this object allows more than one of its children to
-     * be selected at the same time.
+     * Indicbtes this object bllows more thbn one of its children to
+     * be selected bt the sbme time.
      * @see Accessible#getAccessibleContext
      * @see AccessibleContext#getAccessibleSelection
      * @see AccessibleSelection
      */
-    public static final AccessibleState MULTISELECTABLE
-            = new AccessibleState("multiselectable");
+    public stbtic finbl AccessibleStbte MULTISELECTABLE
+            = new AccessibleStbte("multiselectbble");
 
     /**
-     * Indicates this object is the child of an object that allows its
-     * children to be selected, and that this child is one of those
-     * children that can be selected.
+     * Indicbtes this object is the child of bn object thbt bllows its
+     * children to be selected, bnd thbt this child is one of those
+     * children thbt cbn be selected.
      * @see #SELECTED
      * @see Accessible#getAccessibleContext
      * @see AccessibleContext#getAccessibleSelection
      * @see AccessibleSelection
      */
-    public static final AccessibleState SELECTABLE
-            = new AccessibleState("selectable");
+    public stbtic finbl AccessibleStbte SELECTABLE
+            = new AccessibleStbte("selectbble");
 
     /**
-     * Indicates this object is the child of an object that allows its
-     * children to be selected, and that this child is one of those
-     * children that has been selected.
+     * Indicbtes this object is the child of bn object thbt bllows its
+     * children to be selected, bnd thbt this child is one of those
+     * children thbt hbs been selected.
      * @see #SELECTABLE
      * @see Accessible#getAccessibleContext
      * @see AccessibleContext#getAccessibleSelection
      * @see AccessibleSelection
      */
-    public static final AccessibleState SELECTED
-            = new AccessibleState("selected");
+    public stbtic finbl AccessibleStbte SELECTED
+            = new AccessibleStbte("selected");
 
     /**
-     * Indicates this object, the object's parent, the object's parent's
-     * parent, and so on, are all visible.  Note that this does not
-     * necessarily mean the object is painted on the screen.  It might
+     * Indicbtes this object, the object's pbrent, the object's pbrent's
+     * pbrent, bnd so on, bre bll visible.  Note thbt this does not
+     * necessbrily mebn the object is pbinted on the screen.  It might
      * be occluded by some other showing object.
      * @see #VISIBLE
      */
-    public static final AccessibleState SHOWING
-            = new AccessibleState("showing");
+    public stbtic finbl AccessibleStbte SHOWING
+            = new AccessibleStbte("showing");
 
     /**
-     * Indicates this object is visible.  Note: this means that the
-     * object intends to be visible; however, it may not in fact be
-     * showing on the screen because one of the objects that this object
-     * is contained by is not visible.
+     * Indicbtes this object is visible.  Note: this mebns thbt the
+     * object intends to be visible; however, it mby not in fbct be
+     * showing on the screen becbuse one of the objects thbt this object
+     * is contbined by is not visible.
      * @see #SHOWING
      */
-    public static final AccessibleState VISIBLE
-            = new AccessibleState("visible");
+    public stbtic finbl AccessibleStbte VISIBLE
+            = new AccessibleStbte("visible");
 
     /**
-     * Indicates the orientation of this object is vertical.  This is
-     * usually associated with objects such as scrollbars, sliders, and
-     * progress bars.
+     * Indicbtes the orientbtion of this object is verticbl.  This is
+     * usublly bssocibted with objects such bs scrollbbrs, sliders, bnd
+     * progress bbrs.
      * @see #VERTICAL
      * @see AccessibleRole#SCROLL_BAR
      * @see AccessibleRole#SLIDER
      * @see AccessibleRole#PROGRESS_BAR
      */
-    public static final AccessibleState VERTICAL
-            = new AccessibleState("vertical");
+    public stbtic finbl AccessibleStbte VERTICAL
+            = new AccessibleStbte("verticbl");
 
     /**
-     * Indicates the orientation of this object is horizontal.  This is
-     * usually associated with objects such as scrollbars, sliders, and
-     * progress bars.
+     * Indicbtes the orientbtion of this object is horizontbl.  This is
+     * usublly bssocibted with objects such bs scrollbbrs, sliders, bnd
+     * progress bbrs.
      * @see #HORIZONTAL
      * @see AccessibleRole#SCROLL_BAR
      * @see AccessibleRole#SLIDER
      * @see AccessibleRole#PROGRESS_BAR
      */
-    public static final AccessibleState HORIZONTAL
-            = new AccessibleState("horizontal");
+    public stbtic finbl AccessibleStbte HORIZONTAL
+            = new AccessibleStbte("horizontbl");
 
     /**
-     * Indicates this (text) object can contain only a single line of text
+     * Indicbtes this (text) object cbn contbin only b single line of text
      */
-    public static final AccessibleState SINGLE_LINE
-            = new AccessibleState("singleline");
+    public stbtic finbl AccessibleStbte SINGLE_LINE
+            = new AccessibleStbte("singleline");
 
     /**
-     * Indicates this (text) object can contain multiple lines of text
+     * Indicbtes this (text) object cbn contbin multiple lines of text
      */
-    public static final AccessibleState MULTI_LINE
-            = new AccessibleState("multiline");
+    public stbtic finbl AccessibleStbte MULTI_LINE
+            = new AccessibleStbte("multiline");
 
     /**
-     * Indicates this object is transient.  An assistive technology should
-     * not add a PropertyChange listener to an object with transient state,
-     * as that object will never generate any events.  Transient objects
-     * are typically created to answer Java Accessibility method queries,
-     * but otherwise do not remain linked to the underlying object (for
-     * example, those objects underneath lists, tables, and trees in Swing,
-     * where only one actual UI Component does shared rendering duty for
-     * all of the data objects underneath the actual list/table/tree elements).
+     * Indicbtes this object is trbnsient.  An bssistive technology should
+     * not bdd b PropertyChbnge listener to bn object with trbnsient stbte,
+     * bs thbt object will never generbte bny events.  Trbnsient objects
+     * bre typicblly crebted to bnswer Jbvb Accessibility method queries,
+     * but otherwise do not rembin linked to the underlying object (for
+     * exbmple, those objects undernebth lists, tbbles, bnd trees in Swing,
+     * where only one bctubl UI Component does shbred rendering duty for
+     * bll of the dbtb objects undernebth the bctubl list/tbble/tree elements).
      *
      * @since 1.5
      *
      */
-    public static final AccessibleState TRANSIENT
-            = new AccessibleState("transient");
+    public stbtic finbl AccessibleStbte TRANSIENT
+            = new AccessibleStbte("trbnsient");
 
     /**
-     * Indicates this object is responsible for managing its
-     * subcomponents.  This is typically used for trees and tables
-     * that have a large number of subcomponents and where the
-     * objects are created only when needed and otherwise remain virtual.
-     * The application should not manage the subcomponents directly.
+     * Indicbtes this object is responsible for mbnbging its
+     * subcomponents.  This is typicblly used for trees bnd tbbles
+     * thbt hbve b lbrge number of subcomponents bnd where the
+     * objects bre crebted only when needed bnd otherwise rembin virtubl.
+     * The bpplicbtion should not mbnbge the subcomponents directly.
      *
      * @since 1.5
      */
-    public static final AccessibleState MANAGES_DESCENDANTS
-            = new AccessibleState ("managesDescendants");
+    public stbtic finbl AccessibleStbte MANAGES_DESCENDANTS
+            = new AccessibleStbte ("mbnbgesDescendbnts");
 
     /**
-     * Indicates that the object state is indeterminate.  An example
-     * is selected text that is partially bold and partially not
-     * bold. In this case the attributes associated with the selected
-     * text are indeterminate.
+     * Indicbtes thbt the object stbte is indeterminbte.  An exbmple
+     * is selected text thbt is pbrtiblly bold bnd pbrtiblly not
+     * bold. In this cbse the bttributes bssocibted with the selected
+     * text bre indeterminbte.
      *
      * @since 1.5
      */
-    public static final AccessibleState INDETERMINATE
-           = new AccessibleState ("indeterminate");
+    public stbtic finbl AccessibleStbte INDETERMINATE
+           = new AccessibleStbte ("indeterminbte");
 
     /**
-     * A state indicating that text is truncated by a bounding rectangle
-     * and that some of the text is not displayed on the screen.  An example
-     * is text in a spreadsheet cell that is truncated by the bounds of
+     * A stbte indicbting thbt text is truncbted by b bounding rectbngle
+     * bnd thbt some of the text is not displbyed on the screen.  An exbmple
+     * is text in b sprebdsheet cell thbt is truncbted by the bounds of
      * the cell.
      *
      * @since 1.5
      */
-    static public final AccessibleState TRUNCATED
-           =  new AccessibleState("truncated");
+    stbtic public finbl AccessibleStbte TRUNCATED
+           =  new AccessibleStbte("truncbted");
 
     /**
-     * Creates a new AccessibleState using the given locale independent key.
-     * This should not be a public method.  Instead, it is used to create
-     * the constants in this file to make it a strongly typed enumeration.
-     * Subclasses of this class should enforce similar policy.
+     * Crebtes b new AccessibleStbte using the given locble independent key.
+     * This should not be b public method.  Instebd, it is used to crebte
+     * the constbnts in this file to mbke it b strongly typed enumerbtion.
+     * Subclbsses of this clbss should enforce similbr policy.
      * <p>
-     * The key String should be a locale independent key for the state.
-     * It is not intended to be used as the actual String to display
-     * to the user.  To get the localized string, use toDisplayString.
+     * The key String should be b locble independent key for the stbte.
+     * It is not intended to be used bs the bctubl String to displby
+     * to the user.  To get the locblized string, use toDisplbyString.
      *
-     * @param key the locale independent name of the state.
-     * @see AccessibleBundle#toDisplayString
+     * @pbrbm key the locble independent nbme of the stbte.
+     * @see AccessibleBundle#toDisplbyString
      */
-    protected AccessibleState(String key) {
+    protected AccessibleStbte(String key) {
         this.key = key;
     }
 }

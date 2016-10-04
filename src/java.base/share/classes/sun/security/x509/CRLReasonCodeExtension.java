@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.CRLReason;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.security.cert.CRLRebson;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * The reasonCode is a non-critical CRL entry extension that identifies
- * the reason for the certificate revocation.
- * @author Hemma Prafullchandra
- * @see java.security.cert.CRLReason
+ * The rebsonCode is b non-criticbl CRL entry extension thbt identifies
+ * the rebson for the certificbte revocbtion.
+ * @buthor Hemmb Prbfullchbndrb
+ * @see jbvb.security.cert.CRLRebson
  * @see Extension
  * @see CertAttrSet
  */
-public class CRLReasonCodeExtension extends Extension
+public clbss CRLRebsonCodeExtension extends Extension
         implements CertAttrSet<String> {
 
     /**
-     * Attribute name
+     * Attribute nbme
      */
-    public static final String NAME = "CRLReasonCode";
-    public static final String REASON = "reason";
+    public stbtic finbl String NAME = "CRLRebsonCode";
+    public stbtic finbl String REASON = "rebson";
 
-    private static CRLReason[] values = CRLReason.values();
+    privbte stbtic CRLRebson[] vblues = CRLRebson.vblues();
 
-    private int reasonCode = 0;
+    privbte int rebsonCode = 0;
 
-    private void encodeThis() throws IOException {
-        if (reasonCode == 0) {
-            this.extensionValue = null;
+    privbte void encodeThis() throws IOException {
+        if (rebsonCode == 0) {
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream dos = new DerOutputStream();
-        dos.putEnumerated(reasonCode);
-        this.extensionValue = dos.toByteArray();
+        DerOutputStrebm dos = new DerOutputStrebm();
+        dos.putEnumerbted(rebsonCode);
+        this.extensionVblue = dos.toByteArrby();
     }
 
     /**
-     * Create a CRLReasonCodeExtension with the passed in reason.
-     * Criticality automatically set to false.
+     * Crebte b CRLRebsonCodeExtension with the pbssed in rebson.
+     * Criticblity butombticblly set to fblse.
      *
-     * @param reason the enumerated value for the reason code.
+     * @pbrbm rebson the enumerbted vblue for the rebson code.
      */
-    public CRLReasonCodeExtension(int reason) throws IOException {
-        this(false, reason);
+    public CRLRebsonCodeExtension(int rebson) throws IOException {
+        this(fblse, rebson);
     }
 
     /**
-     * Create a CRLReasonCodeExtension with the passed in reason.
+     * Crebte b CRLRebsonCodeExtension with the pbssed in rebson.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param reason the enumerated value for the reason code.
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm rebson the enumerbted vblue for the rebson code.
      */
-    public CRLReasonCodeExtension(boolean critical, int reason)
+    public CRLRebsonCodeExtension(boolebn criticbl, int rebson)
     throws IOException {
-        this.extensionId = PKIXExtensions.ReasonCode_Id;
-        this.critical = critical;
-        this.reasonCode = reason;
+        this.extensionId = PKIXExtensions.RebsonCode_Id;
+        this.criticbl = criticbl;
+        this.rebsonCode = rebson;
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crebte the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public CRLReasonCodeExtension(Boolean critical, Object value)
+    public CRLRebsonCodeExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        this.extensionId = PKIXExtensions.ReasonCode_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        this.reasonCode = val.getEnumerated();
+        this.extensionId = PKIXExtensions.RebsonCode_Id;
+        this.criticbl = criticbl.boolebnVblue();
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        this.rebsonCode = vbl.getEnumerbted();
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Integer)) {
+    public void set(String nbme, Object obj) throws IOException {
+        if (!(obj instbnceof Integer)) {
             throw new IOException("Attribute must be of type Integer.");
         }
-        if (name.equalsIgnoreCase(REASON)) {
-            reasonCode = ((Integer)obj).intValue();
+        if (nbme.equblsIgnoreCbse(REASON)) {
+            rebsonCode = ((Integer)obj).intVblue();
         } else {
             throw new IOException
-                ("Name not supported by CRLReasonCodeExtension");
+                ("Nbme not supported by CRLRebsonCodeExtension");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Integer get(String name) throws IOException {
-        if (name.equalsIgnoreCase(REASON)) {
-            return reasonCode;
+    public Integer get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(REASON)) {
+            return rebsonCode;
         } else {
             throw new IOException
-                ("Name not supported by CRLReasonCodeExtension");
+                ("Nbme not supported by CRLRebsonCodeExtension");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(REASON)) {
-            reasonCode = 0;
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(REASON)) {
+            rebsonCode = 0;
         } else {
             throw new IOException
-                ("Name not supported by CRLReasonCodeExtension");
+                ("Nbme not supported by CRLRebsonCodeExtension");
         }
         encodeThis();
     }
 
     /**
-     * Returns a printable representation of the Reason code.
+     * Returns b printbble representbtion of the Rebson code.
      */
     public String toString() {
-        return super.toString() + "    Reason Code: " + getReasonCode();
+        return super.toString() + "    Rebson Code: " + getRebsonCode();
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream  tmp = new DerOutputStream();
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm  tmp = new DerOutputStrebm();
 
-        if (this.extensionValue == null) {
-            this.extensionId = PKIXExtensions.ReasonCode_Id;
-            this.critical = false;
+        if (this.extensionVblue == null) {
+            this.extensionId = PKIXExtensions.RebsonCode_Id;
+            this.criticbl = fblse;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(REASON);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(REASON);
 
         return elements.elements();
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return NAME;
     }
 
     /**
-     * Return the reason as a CRLReason enum.
+     * Return the rebson bs b CRLRebson enum.
      */
-    public CRLReason getReasonCode() {
-        // if out-of-range, return UNSPECIFIED
-        if (reasonCode > 0 && reasonCode < values.length) {
-            return values[reasonCode];
+    public CRLRebson getRebsonCode() {
+        // if out-of-rbnge, return UNSPECIFIED
+        if (rebsonCode > 0 && rebsonCode < vblues.length) {
+            return vblues[rebsonCode];
         } else {
-            return CRLReason.UNSPECIFIED;
+            return CRLRebson.UNSPECIFIED;
         }
     }
 }

@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.Date;
-import sun.util.calendar.CalendarDate;
-import sun.util.calendar.CalendarSystem;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Dbte;
+import sun.util.cblendbr.CblendbrDbte;
+import sun.util.cblendbr.CblendbrSystem;
 
 /**
- * DER input buffer ... this is the main abstraction in the DER library
- * which actively works with the "untyped byte stream" abstraction.  It
+ * DER input buffer ... this is the mbin bbstrbction in the DER librbry
+ * which bctively works with the "untyped byte strebm" bbstrbction.  It
  * does so with impunity, since it's not intended to be exposed to
- * anyone who could violate the "typed value stream" DER model and hence
- * corrupt the input stream of DER values.
+ * bnyone who could violbte the "typed vblue strebm" DER model bnd hence
+ * corrupt the input strebm of DER vblues.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-class DerInputBuffer extends ByteArrayInputStream implements Cloneable {
+clbss DerInputBuffer extends ByteArrbyInputStrebm implements Clonebble {
 
     DerInputBuffer(byte[] buf) { super(buf); }
 
@@ -52,102 +52,102 @@ class DerInputBuffer extends ByteArrayInputStream implements Cloneable {
 
     DerInputBuffer dup() {
         try {
-            DerInputBuffer retval = (DerInputBuffer)clone();
+            DerInputBuffer retvbl = (DerInputBuffer)clone();
 
-            retval.mark(Integer.MAX_VALUE);
-            return retval;
-        } catch (CloneNotSupportedException e) {
-            throw new IllegalArgumentException(e.toString());
+            retvbl.mbrk(Integer.MAX_VALUE);
+            return retvbl;
+        } cbtch (CloneNotSupportedException e) {
+            throw new IllegblArgumentException(e.toString());
         }
     }
 
-    byte[] toByteArray() {
-        int     len = available();
+    byte[] toByteArrby() {
+        int     len = bvbilbble();
         if (len <= 0)
             return null;
-        byte[]  retval = new byte[len];
+        byte[]  retvbl = new byte[len];
 
-        System.arraycopy(buf, pos, retval, 0, len);
-        return retval;
+        System.brrbycopy(buf, pos, retvbl, 0, len);
+        return retvbl;
     }
 
     int peek() throws IOException {
         if (pos >= count)
-            throw new IOException("out of data");
+            throw new IOException("out of dbtb");
         else
             return buf[pos];
     }
 
     /**
-     * Compares this DerInputBuffer for equality with the specified
+     * Compbres this DerInputBuffer for equblity with the specified
      * object.
      */
-    public boolean equals(Object other) {
-        if (other instanceof DerInputBuffer)
-            return equals((DerInputBuffer)other);
+    public boolebn equbls(Object other) {
+        if (other instbnceof DerInputBuffer)
+            return equbls((DerInputBuffer)other);
         else
-            return false;
+            return fblse;
     }
 
-    boolean equals(DerInputBuffer other) {
+    boolebn equbls(DerInputBuffer other) {
         if (this == other)
             return true;
 
-        int max = this.available();
-        if (other.available() != max)
-            return false;
-        for (int i = 0; i < max; i++) {
+        int mbx = this.bvbilbble();
+        if (other.bvbilbble() != mbx)
+            return fblse;
+        for (int i = 0; i < mbx; i++) {
             if (this.buf[this.pos + i] != other.buf[other.pos + i]) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Returns a hashcode for this DerInputBuffer.
+     * Returns b hbshcode for this DerInputBuffer.
      *
-     * @return a hashcode for this DerInputBuffer.
+     * @return b hbshcode for this DerInputBuffer.
      */
-    public int hashCode() {
-        int retval = 0;
+    public int hbshCode() {
+        int retvbl = 0;
 
-        int len = available();
+        int len = bvbilbble();
         int p = pos;
 
         for (int i = 0; i < len; i++)
-            retval += buf[p + i] * i;
-        return retval;
+            retvbl += buf[p + i] * i;
+        return retvbl;
     }
 
-    void truncate(int len) throws IOException {
-        if (len > available())
-            throw new IOException("insufficient data");
+    void truncbte(int len) throws IOException {
+        if (len > bvbilbble())
+            throw new IOException("insufficient dbtb");
         count = pos + len;
     }
 
     /**
-     * Returns the integer which takes up the specified number
-     * of bytes in this buffer as a BigInteger.
-     * @param len the number of bytes to use.
-     * @param makePositive whether to always return a positive value,
-     *   irrespective of actual encoding
-     * @return the integer as a BigInteger.
+     * Returns the integer which tbkes up the specified number
+     * of bytes in this buffer bs b BigInteger.
+     * @pbrbm len the number of bytes to use.
+     * @pbrbm mbkePositive whether to blwbys return b positive vblue,
+     *   irrespective of bctubl encoding
+     * @return the integer bs b BigInteger.
      */
-    BigInteger getBigInteger(int len, boolean makePositive) throws IOException {
-        if (len > available())
-            throw new IOException("short read of integer");
+    BigInteger getBigInteger(int len, boolebn mbkePositive) throws IOException {
+        if (len > bvbilbble())
+            throw new IOException("short rebd of integer");
 
         if (len == 0) {
-            throw new IOException("Invalid encoding: zero length Int value");
+            throw new IOException("Invblid encoding: zero length Int vblue");
         }
 
         byte[] bytes = new byte[len];
 
-        System.arraycopy(buf, pos, bytes, 0, len);
+        System.brrbycopy(buf, pos, bytes, 0, len);
         skip(len);
 
-        if (makePositive) {
+        if (mbkePositive) {
             return new BigInteger(1, bytes);
         } else {
             return new BigInteger(bytes);
@@ -155,195 +155,195 @@ class DerInputBuffer extends ByteArrayInputStream implements Cloneable {
     }
 
     /**
-     * Returns the integer which takes up the specified number
+     * Returns the integer which tbkes up the specified number
      * of bytes in this buffer.
-     * @throws IOException if the result is not within the valid
-     * range for integer, i.e. between Integer.MIN_VALUE and
+     * @throws IOException if the result is not within the vblid
+     * rbnge for integer, i.e. between Integer.MIN_VALUE bnd
      * Integer.MAX_VALUE.
-     * @param len the number of bytes to use.
+     * @pbrbm len the number of bytes to use.
      * @return the integer.
      */
     public int getInteger(int len) throws IOException {
 
-        BigInteger result = getBigInteger(len, false);
-        if (result.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
-            throw new IOException("Integer below minimum valid value");
+        BigInteger result = getBigInteger(len, fblse);
+        if (result.compbreTo(BigInteger.vblueOf(Integer.MIN_VALUE)) < 0) {
+            throw new IOException("Integer below minimum vblid vblue");
         }
-        if (result.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
-            throw new IOException("Integer exceeds maximum valid value");
+        if (result.compbreTo(BigInteger.vblueOf(Integer.MAX_VALUE)) > 0) {
+            throw new IOException("Integer exceeds mbximum vblid vblue");
         }
-        return result.intValue();
+        return result.intVblue();
     }
 
     /**
-     * Returns the bit string which takes up the specified
+     * Returns the bit string which tbkes up the specified
      * number of bytes in this buffer.
      */
     public byte[] getBitString(int len) throws IOException {
-        if (len > available())
-            throw new IOException("short read of bit string");
+        if (len > bvbilbble())
+            throw new IOException("short rebd of bit string");
 
         if (len == 0) {
-            throw new IOException("Invalid encoding: zero length bit string");
+            throw new IOException("Invblid encoding: zero length bit string");
         }
 
-        int numOfPadBits = buf[pos];
-        if ((numOfPadBits < 0) || (numOfPadBits > 7)) {
-            throw new IOException("Invalid number of padding bits");
+        int numOfPbdBits = buf[pos];
+        if ((numOfPbdBits < 0) || (numOfPbdBits > 7)) {
+            throw new IOException("Invblid number of pbdding bits");
         }
-        // minus the first byte which indicates the number of padding bits
-        byte[] retval = new byte[len - 1];
-        System.arraycopy(buf, pos + 1, retval, 0, len - 1);
-        if (numOfPadBits != 0) {
-            // get rid of the padding bits
-            retval[len - 2] &= (0xff << numOfPadBits);
+        // minus the first byte which indicbtes the number of pbdding bits
+        byte[] retvbl = new byte[len - 1];
+        System.brrbycopy(buf, pos + 1, retvbl, 0, len - 1);
+        if (numOfPbdBits != 0) {
+            // get rid of the pbdding bits
+            retvbl[len - 2] &= (0xff << numOfPbdBits);
         }
         skip(len);
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Returns the bit string which takes up the rest of this buffer.
+     * Returns the bit string which tbkes up the rest of this buffer.
      */
     byte[] getBitString() throws IOException {
-        return getBitString(available());
+        return getBitString(bvbilbble());
     }
 
     /**
-     * Returns the bit string which takes up the rest of this buffer.
-     * The bit string need not be byte-aligned.
+     * Returns the bit string which tbkes up the rest of this buffer.
+     * The bit string need not be byte-bligned.
      */
-    BitArray getUnalignedBitString() throws IOException {
+    BitArrby getUnblignedBitString() throws IOException {
         if (pos >= count)
             return null;
         /*
-         * Just copy the data into an aligned, padded octet buffer,
-         * and consume the rest of the buffer.
+         * Just copy the dbtb into bn bligned, pbdded octet buffer,
+         * bnd consume the rest of the buffer.
          */
-        int len = available();
+        int len = bvbilbble();
         int unusedBits = buf[pos] & 0xff;
         if (unusedBits > 7 ) {
-            throw new IOException("Invalid value for unused bits: " + unusedBits);
+            throw new IOException("Invblid vblue for unused bits: " + unusedBits);
         }
         byte[] bits = new byte[len - 1];
-        // number of valid bits
+        // number of vblid bits
         int length = (bits.length == 0) ? 0 : bits.length * 8 - unusedBits;
 
-        System.arraycopy(buf, pos + 1, bits, 0, len - 1);
+        System.brrbycopy(buf, pos + 1, bits, 0, len - 1);
 
-        BitArray bitArray = new BitArray(length, bits);
+        BitArrby bitArrby = new BitArrby(length, bits);
         pos = count;
-        return bitArray;
+        return bitArrby;
     }
 
     /**
-     * Returns the UTC Time value that takes up the specified number
+     * Returns the UTC Time vblue thbt tbkes up the specified number
      * of bytes in this buffer.
-     * @param len the number of bytes to use
+     * @pbrbm len the number of bytes to use
      */
-    public Date getUTCTime(int len) throws IOException {
-        if (len > available())
-            throw new IOException("short read of DER UTC Time");
+    public Dbte getUTCTime(int len) throws IOException {
+        if (len > bvbilbble())
+            throw new IOException("short rebd of DER UTC Time");
 
         if (len < 11 || len > 17)
             throw new IOException("DER UTC Time length error");
 
-        return getTime(len, false);
+        return getTime(len, fblse);
     }
 
     /**
-     * Returns the Generalized Time value that takes up the specified
+     * Returns the Generblized Time vblue thbt tbkes up the specified
      * number of bytes in this buffer.
-     * @param len the number of bytes to use
+     * @pbrbm len the number of bytes to use
      */
-    public Date getGeneralizedTime(int len) throws IOException {
-        if (len > available())
-            throw new IOException("short read of DER Generalized Time");
+    public Dbte getGenerblizedTime(int len) throws IOException {
+        if (len > bvbilbble())
+            throw new IOException("short rebd of DER Generblized Time");
 
         if (len < 13 || len > 23)
-            throw new IOException("DER Generalized Time length error");
+            throw new IOException("DER Generblized Time length error");
 
         return getTime(len, true);
 
     }
 
     /**
-     * Private helper routine to extract time from the der value.
-     * @param len the number of bytes to use
-     * @param generalized true if Generalized Time is to be read, false
-     * if UTC Time is to be read.
+     * Privbte helper routine to extrbct time from the der vblue.
+     * @pbrbm len the number of bytes to use
+     * @pbrbm generblized true if Generblized Time is to be rebd, fblse
+     * if UTC Time is to be rebd.
      */
-    private Date getTime(int len, boolean generalized) throws IOException {
+    privbte Dbte getTime(int len, boolebn generblized) throws IOException {
 
         /*
-         * UTC time encoded as ASCII chars:
+         * UTC time encoded bs ASCII chbrs:
          *       YYMMDDhhmmZ
          *       YYMMDDhhmmssZ
          *       YYMMDDhhmm+hhmm
          *       YYMMDDhhmm-hhmm
          *       YYMMDDhhmmss+hhmm
          *       YYMMDDhhmmss-hhmm
-         * UTC Time is broken in storing only two digits of year.
-         * If YY < 50, we assume 20YY;
-         * if YY >= 50, we assume 19YY, as per RFC 3280.
+         * UTC Time is broken in storing only two digits of yebr.
+         * If YY < 50, we bssume 20YY;
+         * if YY >= 50, we bssume 19YY, bs per RFC 3280.
          *
-         * Generalized time has a four-digit year and allows any
+         * Generblized time hbs b four-digit yebr bnd bllows bny
          * precision specified in ISO 8601. However, for our purposes,
-         * we will only allow the same format as UTC time, except that
-         * fractional seconds (millisecond precision) are supported.
+         * we will only bllow the sbme formbt bs UTC time, except thbt
+         * frbctionbl seconds (millisecond precision) bre supported.
          */
 
-        int year, month, day, hour, minute, second, millis;
+        int yebr, month, dby, hour, minute, second, millis;
         String type = null;
 
-        if (generalized) {
-            type = "Generalized";
-            year = 1000 * Character.digit((char)buf[pos++], 10);
-            year += 100 * Character.digit((char)buf[pos++], 10);
-            year += 10 * Character.digit((char)buf[pos++], 10);
-            year += Character.digit((char)buf[pos++], 10);
-            len -= 2; // For the two extra YY
+        if (generblized) {
+            type = "Generblized";
+            yebr = 1000 * Chbrbcter.digit((chbr)buf[pos++], 10);
+            yebr += 100 * Chbrbcter.digit((chbr)buf[pos++], 10);
+            yebr += 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+            yebr += Chbrbcter.digit((chbr)buf[pos++], 10);
+            len -= 2; // For the two extrb YY
         } else {
             type = "UTC";
-            year = 10 * Character.digit((char)buf[pos++], 10);
-            year += Character.digit((char)buf[pos++], 10);
+            yebr = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+            yebr += Chbrbcter.digit((chbr)buf[pos++], 10);
 
-            if (year < 50)              // origin 2000
-                year += 2000;
+            if (yebr < 50)              // origin 2000
+                yebr += 2000;
             else
-                year += 1900;   // origin 1900
+                yebr += 1900;   // origin 1900
         }
 
-        month = 10 * Character.digit((char)buf[pos++], 10);
-        month += Character.digit((char)buf[pos++], 10);
+        month = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+        month += Chbrbcter.digit((chbr)buf[pos++], 10);
 
-        day = 10 * Character.digit((char)buf[pos++], 10);
-        day += Character.digit((char)buf[pos++], 10);
+        dby = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+        dby += Chbrbcter.digit((chbr)buf[pos++], 10);
 
-        hour = 10 * Character.digit((char)buf[pos++], 10);
-        hour += Character.digit((char)buf[pos++], 10);
+        hour = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+        hour += Chbrbcter.digit((chbr)buf[pos++], 10);
 
-        minute = 10 * Character.digit((char)buf[pos++], 10);
-        minute += Character.digit((char)buf[pos++], 10);
+        minute = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+        minute += Chbrbcter.digit((chbr)buf[pos++], 10);
 
         len -= 10; // YYMMDDhhmm
 
         /*
-         * We allow for non-encoded seconds, even though the
-         * IETF-PKIX specification says that the seconds should
-         * always be encoded even if it is zero.
+         * We bllow for non-encoded seconds, even though the
+         * IETF-PKIX specificbtion sbys thbt the seconds should
+         * blwbys be encoded even if it is zero.
          */
 
         millis = 0;
         if (len > 2 && len < 12) {
-            second = 10 * Character.digit((char)buf[pos++], 10);
-            second += Character.digit((char)buf[pos++], 10);
+            second = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+            second += Chbrbcter.digit((chbr)buf[pos++], 10);
             len -= 2;
-            // handle fractional seconds (if present)
+            // hbndle frbctionbl seconds (if present)
             if (buf[pos] == '.' || buf[pos] == ',') {
                 len --;
                 pos++;
-                // handle upto milisecond precision only
+                // hbndle upto milisecond precision only
                 int precision = 0;
                 int peek = pos;
                 while (buf[peek] != 'Z' &&
@@ -353,81 +353,81 @@ class DerInputBuffer extends ByteArrayInputStream implements Cloneable {
                     precision++;
                 }
                 switch (precision) {
-                case 3:
-                    millis += 100 * Character.digit((char)buf[pos++], 10);
-                    millis += 10 * Character.digit((char)buf[pos++], 10);
-                    millis += Character.digit((char)buf[pos++], 10);
-                    break;
-                case 2:
-                    millis += 100 * Character.digit((char)buf[pos++], 10);
-                    millis += 10 * Character.digit((char)buf[pos++], 10);
-                    break;
-                case 1:
-                    millis += 100 * Character.digit((char)buf[pos++], 10);
-                    break;
-                default:
-                        throw new IOException("Parse " + type +
-                            " time, unsupported precision for seconds value");
+                cbse 3:
+                    millis += 100 * Chbrbcter.digit((chbr)buf[pos++], 10);
+                    millis += 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+                    millis += Chbrbcter.digit((chbr)buf[pos++], 10);
+                    brebk;
+                cbse 2:
+                    millis += 100 * Chbrbcter.digit((chbr)buf[pos++], 10);
+                    millis += 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+                    brebk;
+                cbse 1:
+                    millis += 100 * Chbrbcter.digit((chbr)buf[pos++], 10);
+                    brebk;
+                defbult:
+                        throw new IOException("Pbrse " + type +
+                            " time, unsupported precision for seconds vblue");
                 }
                 len -= precision;
             }
         } else
             second = 0;
 
-        if (month == 0 || day == 0
-            || month > 12 || day > 31
+        if (month == 0 || dby == 0
+            || month > 12 || dby > 31
             || hour >= 24 || minute >= 60 || second >= 60)
-            throw new IOException("Parse " + type + " time, invalid format");
+            throw new IOException("Pbrse " + type + " time, invblid formbt");
 
         /*
-         * Generalized time can theoretically allow any precision,
-         * but we're not supporting that.
+         * Generblized time cbn theoreticblly bllow bny precision,
+         * but we're not supporting thbt.
          */
-        CalendarSystem gcal = CalendarSystem.getGregorianCalendar();
-        CalendarDate date = gcal.newCalendarDate(null); // no time zone
-        date.setDate(year, month, day);
-        date.setTimeOfDay(hour, minute, second, millis);
-        long time = gcal.getTime(date);
+        CblendbrSystem gcbl = CblendbrSystem.getGregoribnCblendbr();
+        CblendbrDbte dbte = gcbl.newCblendbrDbte(null); // no time zone
+        dbte.setDbte(yebr, month, dby);
+        dbte.setTimeOfDby(hour, minute, second, millis);
+        long time = gcbl.getTime(dbte);
 
         /*
-         * Finally, "Z" or "+hhmm" or "-hhmm" ... offsets change hhmm
+         * Finblly, "Z" or "+hhmm" or "-hhmm" ... offsets chbnge hhmm
          */
         if (! (len == 1 || len == 5))
-            throw new IOException("Parse " + type + " time, invalid offset");
+            throw new IOException("Pbrse " + type + " time, invblid offset");
 
         int hr, min;
 
         switch (buf[pos++]) {
-        case '+':
-            hr = 10 * Character.digit((char)buf[pos++], 10);
-            hr += Character.digit((char)buf[pos++], 10);
-            min = 10 * Character.digit((char)buf[pos++], 10);
-            min += Character.digit((char)buf[pos++], 10);
+        cbse '+':
+            hr = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+            hr += Chbrbcter.digit((chbr)buf[pos++], 10);
+            min = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+            min += Chbrbcter.digit((chbr)buf[pos++], 10);
 
             if (hr >= 24 || min >= 60)
-                throw new IOException("Parse " + type + " time, +hhmm");
+                throw new IOException("Pbrse " + type + " time, +hhmm");
 
             time -= ((hr * 60) + min) * 60 * 1000;
-            break;
+            brebk;
 
-        case '-':
-            hr = 10 * Character.digit((char)buf[pos++], 10);
-            hr += Character.digit((char)buf[pos++], 10);
-            min = 10 * Character.digit((char)buf[pos++], 10);
-            min += Character.digit((char)buf[pos++], 10);
+        cbse '-':
+            hr = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+            hr += Chbrbcter.digit((chbr)buf[pos++], 10);
+            min = 10 * Chbrbcter.digit((chbr)buf[pos++], 10);
+            min += Chbrbcter.digit((chbr)buf[pos++], 10);
 
             if (hr >= 24 || min >= 60)
-                throw new IOException("Parse " + type + " time, -hhmm");
+                throw new IOException("Pbrse " + type + " time, -hhmm");
 
             time += ((hr * 60) + min) * 60 * 1000;
-            break;
+            brebk;
 
-        case 'Z':
-            break;
+        cbse 'Z':
+            brebk;
 
-        default:
-            throw new IOException("Parse " + type + " time, garbage offset");
+        defbult:
+            throw new IOException("Pbrse " + type + " time, gbrbbge offset");
         }
-        return new Date(time);
+        return new Dbte(time);
     }
 }

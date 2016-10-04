@@ -1,193 +1,193 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
-import java.util.TreeSet;
-import java.util.Comparator;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.util.List;
+import jbvb.util.TreeSet;
+import jbvb.util.Compbrbtor;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
 
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
 
 
-import static sun.tools.jconsole.Utilities.*;
+import stbtic sun.tools.jconsole.Utilities.*;
 
-@SuppressWarnings("serial")
-public class CreateMBeanDialog extends InternalDialog
+@SuppressWbrnings("seribl")
+public clbss CrebteMBebnDiblog extends InternblDiblog
                 implements ActionListener {
     JConsole jConsole;
     JComboBox<ProxyClient> connections;
-    JButton createMBeanButton, unregisterMBeanButton, cancelButton;
+    JButton crebteMBebnButton, unregisterMBebnButton, cbncelButton;
 
-    private static final String HOTSPOT_MBEAN =
-        "sun.management.HotspotInternal";
-    private static final String HOTSPOT_MBEAN_OBJECTNAME =
-        "sun.management:type=HotspotInternal";
-    public CreateMBeanDialog(JConsole jConsole) {
-        super(jConsole, "JConsole: Hotspot MBeans", true);
+    privbte stbtic finbl String HOTSPOT_MBEAN =
+        "sun.mbnbgement.HotspotInternbl";
+    privbte stbtic finbl String HOTSPOT_MBEAN_OBJECTNAME =
+        "sun.mbnbgement:type=HotspotInternbl";
+    public CrebteMBebnDiblog(JConsole jConsole) {
+        super(jConsole, "JConsole: Hotspot MBebns", true);
 
         this.jConsole = jConsole;
         setAccessibleDescription(this,
-                                 Messages.HOTSPOT_MBEANS_DIALOG_ACCESSIBLE_DESCRIPTION);
-        Container cp = getContentPane();
+                                 Messbges.HOTSPOT_MBEANS_DIALOG_ACCESSIBLE_DESCRIPTION);
+        Contbiner cp = getContentPbne();
         ((JComponent)cp).setBorder(new EmptyBorder(10, 10, 4, 10));
 
-        JPanel centerPanel = new JPanel(new VariableGridLayout(0,
+        JPbnel centerPbnel = new JPbnel(new VbribbleGridLbyout(0,
                                                         1,
                                                         4,
                                                         4,
-                                                        false,
+                                                        fblse,
                                                         true));
-        cp.add(centerPanel, BorderLayout.CENTER);
+        cp.bdd(centerPbnel, BorderLbyout.CENTER);
         connections = new JComboBox<ProxyClient>();
-        updateConnections();
+        updbteConnections();
 
-        centerPanel.add(new LabeledComponent(Resources.format(Messages.MANAGE_HOTSPOT_MBEANS_IN_COLON_),
+        centerPbnel.bdd(new LbbeledComponent(Resources.formbt(Messbges.MANAGE_HOTSPOT_MBEANS_IN_COLON_),
                                              connections));
 
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        cp.add(bottomPanel, BorderLayout.SOUTH);
+        JPbnel bottomPbnel = new JPbnel(new BorderLbyout());
+        cp.bdd(bottomPbnel, BorderLbyout.SOUTH);
 
-        JPanel buttonPanel = new JPanel();
-        bottomPanel.add(buttonPanel, BorderLayout.NORTH);
-        buttonPanel.add(createMBeanButton =
-                        new JButton(Messages.CREATE));
-        buttonPanel.add(unregisterMBeanButton =
-                        new JButton(Messages.UNREGISTER));
-        buttonPanel.add(cancelButton =
-                        new JButton(Messages.CANCEL));
+        JPbnel buttonPbnel = new JPbnel();
+        bottomPbnel.bdd(buttonPbnel, BorderLbyout.NORTH);
+        buttonPbnel.bdd(crebteMBebnButton =
+                        new JButton(Messbges.CREATE));
+        buttonPbnel.bdd(unregisterMBebnButton =
+                        new JButton(Messbges.UNREGISTER));
+        buttonPbnel.bdd(cbncelButton =
+                        new JButton(Messbges.CANCEL));
 
-        statusBar = new JLabel(" ", JLabel.CENTER);
-        bottomPanel.add(statusBar, BorderLayout.SOUTH);
+        stbtusBbr = new JLbbel(" ", JLbbel.CENTER);
+        bottomPbnel.bdd(stbtusBbr, BorderLbyout.SOUTH);
 
-        createMBeanButton.addActionListener(this);
-        unregisterMBeanButton.addActionListener(this);
-        cancelButton.addActionListener(this);
+        crebteMBebnButton.bddActionListener(this);
+        unregisterMBebnButton.bddActionListener(this);
+        cbncelButton.bddActionListener(this);
 
-        LabeledComponent.layout(centerPanel);
-        pack();
-        setLocationRelativeTo(jConsole);
+        LbbeledComponent.lbyout(centerPbnel);
+        pbck();
+        setLocbtionRelbtiveTo(jConsole);
     }
 
-    private void updateConnections() {
-        List<VMInternalFrame> frames = jConsole.getInternalFrames();
-        TreeSet<ProxyClient> data =
-            new TreeSet<ProxyClient>(new Comparator<ProxyClient>() {
-            public int compare(ProxyClient o1, ProxyClient o2) {
-                // TODO: Need to understand how this method being used?
-                return o1.connectionName().compareTo(o2.connectionName());
+    privbte void updbteConnections() {
+        List<VMInternblFrbme> frbmes = jConsole.getInternblFrbmes();
+        TreeSet<ProxyClient> dbtb =
+            new TreeSet<ProxyClient>(new Compbrbtor<ProxyClient>() {
+            public int compbre(ProxyClient o1, ProxyClient o2) {
+                // TODO: Need to understbnd how this method being used?
+                return o1.connectionNbme().compbreTo(o2.connectionNbme());
             }
         });
 
-        if (frames.size() == 0) {
-            JComponent cp = (JComponent)jConsole.getContentPane();
-            Component comp = ((BorderLayout)cp.getLayout()).
-                getLayoutComponent(BorderLayout.CENTER);
-            if (comp instanceof VMPanel) {
-                VMPanel vmpanel = (VMPanel) comp;
-                ProxyClient client = vmpanel.getProxyClient(false);
-                if (client != null && client.hasPlatformMXBeans()) {
-                    data.add(client);
+        if (frbmes.size() == 0) {
+            JComponent cp = (JComponent)jConsole.getContentPbne();
+            Component comp = ((BorderLbyout)cp.getLbyout()).
+                getLbyoutComponent(BorderLbyout.CENTER);
+            if (comp instbnceof VMPbnel) {
+                VMPbnel vmpbnel = (VMPbnel) comp;
+                ProxyClient client = vmpbnel.getProxyClient(fblse);
+                if (client != null && client.hbsPlbtformMXBebns()) {
+                    dbtb.bdd(client);
                 }
             }
         } else {
-            for (VMInternalFrame f : frames) {
-                ProxyClient client = f.getVMPanel().getProxyClient(false);
-                if (client != null && client.hasPlatformMXBeans()) {
-                    data.add(client);
+            for (VMInternblFrbme f : frbmes) {
+                ProxyClient client = f.getVMPbnel().getProxyClient(fblse);
+                if (client != null && client.hbsPlbtformMXBebns()) {
+                    dbtb.bdd(client);
                 }
             }
         }
-        connections.invalidate();
-        connections.setModel(new DefaultComboBoxModel<ProxyClient>
-            (data.toArray(new ProxyClient[data.size()])));
-        connections.validate();
+        connections.invblidbte();
+        connections.setModel(new DefbultComboBoxModel<ProxyClient>
+            (dbtb.toArrby(new ProxyClient[dbtb.size()])));
+        connections.vblidbte();
     }
 
-    public void actionPerformed(final ActionEvent ev) {
-        setVisible(false);
-        statusBar.setText("");
-        if (ev.getSource() != cancelButton) {
-            new Thread("CreateMBeanDialog.actionPerformed") {
+    public void bctionPerformed(finbl ActionEvent ev) {
+        setVisible(fblse);
+        stbtusBbr.setText("");
+        if (ev.getSource() != cbncelButton) {
+            new Threbd("CrebteMBebnDiblog.bctionPerformed") {
                     public void run() {
                         try {
                             Object c = connections.getSelectedItem();
                             if(c == null) return;
-                            if(ev.getSource() == createMBeanButton) {
-                                MBeanServerConnection connection =
+                            if(ev.getSource() == crebteMBebnButton) {
+                                MBebnServerConnection connection =
                                     ((ProxyClient) c).
-                                    getMBeanServerConnection();
-                                connection.createMBean(HOTSPOT_MBEAN, null);
+                                    getMBebnServerConnection();
+                                connection.crebteMBebn(HOTSPOT_MBEAN, null);
                             } else {
-                                if(ev.getSource() == unregisterMBeanButton) {
-                                    MBeanServerConnection connection =
+                                if(ev.getSource() == unregisterMBebnButton) {
+                                    MBebnServerConnection connection =
                                         ((ProxyClient) c).
-                                        getMBeanServerConnection();
-                                    connection.unregisterMBean(new
-                                        ObjectName(HOTSPOT_MBEAN_OBJECTNAME));
+                                        getMBebnServerConnection();
+                                    connection.unregisterMBebn(new
+                                        ObjectNbme(HOTSPOT_MBEAN_OBJECTNAME));
                                 }
                             }
                             return;
-                        } catch(InstanceAlreadyExistsException e) {
-                            statusBar.setText(Messages.ERROR_COLON_MBEANS_ALREADY_EXIST);
-                        } catch(InstanceNotFoundException e) {
-                            statusBar.setText(Messages.ERROR_COLON_MBEANS_DO_NOT_EXIST);
-                        } catch(Exception e) {
-                            statusBar.setText(e.toString());
+                        } cbtch(InstbnceAlrebdyExistsException e) {
+                            stbtusBbr.setText(Messbges.ERROR_COLON_MBEANS_ALREADY_EXIST);
+                        } cbtch(InstbnceNotFoundException e) {
+                            stbtusBbr.setText(Messbges.ERROR_COLON_MBEANS_DO_NOT_EXIST);
+                        } cbtch(Exception e) {
+                            stbtusBbr.setText(e.toString());
                         }
                         setVisible(true);
                     }
-                }.start();
+                }.stbrt();
         }
     }
 
-    public void setVisible(boolean b) {
-        boolean wasVisible = isVisible();
+    public void setVisible(boolebn b) {
+        boolebn wbsVisible = isVisible();
 
         if(b) {
-            setLocationRelativeTo(jConsole);
-            invalidate();
-            updateConnections();
-            validate();
-            repaint();
+            setLocbtionRelbtiveTo(jConsole);
+            invblidbte();
+            updbteConnections();
+            vblidbte();
+            repbint();
         }
 
         super.setVisible(b);
 
 
-        if (b && !wasVisible) {
-            // Need to delay this to make focus stick
-            SwingUtilities.invokeLater(new Runnable() {
+        if (b && !wbsVisible) {
+            // Need to delby this to mbke focus stick
+            SwingUtilities.invokeLbter(new Runnbble() {
                 public void run() {
                     connections.requestFocus();
                 }

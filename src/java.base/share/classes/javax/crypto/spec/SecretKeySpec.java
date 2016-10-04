@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.security.spec.KeySpec;
-import java.util.Locale;
-import javax.crypto.SecretKey;
+import jbvb.security.spec.KeySpec;
+import jbvb.util.Locble;
+import jbvbx.crypto.SecretKey;
 
 /**
- * This class specifies a secret key in a provider-independent fashion.
+ * This clbss specifies b secret key in b provider-independent fbshion.
  *
- * <p>It can be used to construct a <code>SecretKey</code> from a byte array,
- * without having to go through a (provider-based)
- * <code>SecretKeyFactory</code>.
+ * <p>It cbn be used to construct b <code>SecretKey</code> from b byte brrby,
+ * without hbving to go through b (provider-bbsed)
+ * <code>SecretKeyFbctory</code>.
  *
- * <p>This class is only useful for raw secret keys that can be represented as
- * a byte array and have no key parameters associated with them, e.g., DES or
+ * <p>This clbss is only useful for rbw secret keys thbt cbn be represented bs
+ * b byte brrby bnd hbve no key pbrbmeters bssocibted with them, e.g., DES or
  * Triple DES keys.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
- * @see javax.crypto.SecretKey
- * @see javax.crypto.SecretKeyFactory
+ * @see jbvbx.crypto.SecretKey
+ * @see jbvbx.crypto.SecretKeyFbctory
  * @since 1.4
  */
-public class SecretKeySpec implements KeySpec, SecretKey {
+public clbss SecretKeySpec implements KeySpec, SecretKey {
 
-    private static final long serialVersionUID = 6577238317307289933L;
+    privbte stbtic finbl long seriblVersionUID = 6577238317307289933L;
 
     /**
      * The secret key.
      *
-     * @serial
+     * @seribl
      */
-    private byte[] key;
+    privbte byte[] key;
 
     /**
-     * The name of the algorithm associated with this key.
+     * The nbme of the blgorithm bssocibted with this key.
      *
-     * @serial
+     * @seribl
      */
-    private String algorithm;
+    privbte String blgorithm;
 
     /**
-     * Constructs a secret key from the given byte array.
+     * Constructs b secret key from the given byte brrby.
      *
-     * <p>This constructor does not check if the given bytes indeed specify a
-     * secret key of the specified algorithm. For example, if the algorithm is
+     * <p>This constructor does not check if the given bytes indeed specify b
+     * secret key of the specified blgorithm. For exbmple, if the blgorithm is
      * DES, this constructor does not check if <code>key</code> is 8 bytes
-     * long, and also does not check for weak or semi-weak keys.
-     * In order for those checks to be performed, an algorithm-specific
-     * <i>key specification</i> class (in this case:
+     * long, bnd blso does not check for webk or semi-webk keys.
+     * In order for those checks to be performed, bn blgorithm-specific
+     * <i>key specificbtion</i> clbss (in this cbse:
      * {@link DESKeySpec DESKeySpec})
      * should be used.
      *
-     * @param key the key material of the secret key. The contents of
-     * the array are copied to protect against subsequent modification.
-     * @param algorithm the name of the secret-key algorithm to be associated
-     * with the given key material.
-     * See Appendix A in the <a href=
+     * @pbrbm key the key mbteribl of the secret key. The contents of
+     * the brrby bre copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm blgorithm the nbme of the secret-key blgorithm to be bssocibted
+     * with the given key mbteribl.
+     * See Appendix A in the <b href=
      *   "{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture Reference Guide</a>
-     * for information about standard algorithm names.
-     * @exception IllegalArgumentException if <code>algorithm</code>
+     * Jbvb Cryptogrbphy Architecture Reference Guide</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
+     * @exception IllegblArgumentException if <code>blgorithm</code>
      * is null or <code>key</code> is null or empty.
      */
-    public SecretKeySpec(byte[] key, String algorithm) {
-        if (key == null || algorithm == null) {
-            throw new IllegalArgumentException("Missing argument");
+    public SecretKeySpec(byte[] key, String blgorithm) {
+        if (key == null || blgorithm == null) {
+            throw new IllegblArgumentException("Missing brgument");
         }
         if (key.length == 0) {
-            throw new IllegalArgumentException("Empty key");
+            throw new IllegblArgumentException("Empty key");
         }
         this.key = key.clone();
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
     }
 
     /**
-     * Constructs a secret key from the given byte array, using the first
-     * <code>len</code> bytes of <code>key</code>, starting at
+     * Constructs b secret key from the given byte brrby, using the first
+     * <code>len</code> bytes of <code>key</code>, stbrting bt
      * <code>offset</code> inclusive.
      *
-     * <p> The bytes that constitute the secret key are
-     * those between <code>key[offset]</code> and
+     * <p> The bytes thbt constitute the secret key bre
+     * those between <code>key[offset]</code> bnd
      * <code>key[offset+len-1]</code> inclusive.
      *
-     * <p>This constructor does not check if the given bytes indeed specify a
-     * secret key of the specified algorithm. For example, if the algorithm is
+     * <p>This constructor does not check if the given bytes indeed specify b
+     * secret key of the specified blgorithm. For exbmple, if the blgorithm is
      * DES, this constructor does not check if <code>key</code> is 8 bytes
-     * long, and also does not check for weak or semi-weak keys.
-     * In order for those checks to be performed, an algorithm-specific key
-     * specification class (in this case:
+     * long, bnd blso does not check for webk or semi-webk keys.
+     * In order for those checks to be performed, bn blgorithm-specific key
+     * specificbtion clbss (in this cbse:
      * {@link DESKeySpec DESKeySpec})
      * must be used.
      *
-     * @param key the key material of the secret key. The first
-     * <code>len</code> bytes of the array beginning at
-     * <code>offset</code> inclusive are copied to protect
-     * against subsequent modification.
-     * @param offset the offset in <code>key</code> where the key material
-     * starts.
-     * @param len the length of the key material.
-     * @param algorithm the name of the secret-key algorithm to be associated
-     * with the given key material.
-     * See Appendix A in the <a href=
+     * @pbrbm key the key mbteribl of the secret key. The first
+     * <code>len</code> bytes of the brrby beginning bt
+     * <code>offset</code> inclusive bre copied to protect
+     * bgbinst subsequent modificbtion.
+     * @pbrbm offset the offset in <code>key</code> where the key mbteribl
+     * stbrts.
+     * @pbrbm len the length of the key mbteribl.
+     * @pbrbm blgorithm the nbme of the secret-key blgorithm to be bssocibted
+     * with the given key mbteribl.
+     * See Appendix A in the <b href=
      *   "{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture Reference Guide</a>
-     * for information about standard algorithm names.
-     * @exception IllegalArgumentException if <code>algorithm</code>
+     * Jbvb Cryptogrbphy Architecture Reference Guide</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
+     * @exception IllegblArgumentException if <code>blgorithm</code>
      * is null or <code>key</code> is null, empty, or too short,
      * i.e. {@code key.length-offset<len}.
-     * @exception ArrayIndexOutOfBoundsException is thrown if
+     * @exception ArrbyIndexOutOfBoundsException is thrown if
      * <code>offset</code> or <code>len</code> index bytes outside the
      * <code>key</code>.
      */
-    public SecretKeySpec(byte[] key, int offset, int len, String algorithm) {
-        if (key == null || algorithm == null) {
-            throw new IllegalArgumentException("Missing argument");
+    public SecretKeySpec(byte[] key, int offset, int len, String blgorithm) {
+        if (key == null || blgorithm == null) {
+            throw new IllegblArgumentException("Missing brgument");
         }
         if (key.length == 0) {
-            throw new IllegalArgumentException("Empty key");
+            throw new IllegblArgumentException("Empty key");
         }
         if (key.length-offset < len) {
-            throw new IllegalArgumentException
-                ("Invalid offset/length combination");
+            throw new IllegblArgumentException
+                ("Invblid offset/length combinbtion");
         }
         if (len < 0) {
-            throw new ArrayIndexOutOfBoundsException("len is negative");
+            throw new ArrbyIndexOutOfBoundsException("len is negbtive");
         }
         this.key = new byte[len];
-        System.arraycopy(key, offset, this.key, 0, len);
-        this.algorithm = algorithm;
+        System.brrbycopy(key, offset, this.key, 0, len);
+        this.blgorithm = blgorithm;
     }
 
     /**
-     * Returns the name of the algorithm associated with this secret key.
+     * Returns the nbme of the blgorithm bssocibted with this secret key.
      *
-     * @return the secret key algorithm.
+     * @return the secret key blgorithm.
      */
     public String getAlgorithm() {
-        return this.algorithm;
+        return this.blgorithm;
     }
 
     /**
-     * Returns the name of the encoding format for this secret key.
+     * Returns the nbme of the encoding formbt for this secret key.
      *
      * @return the string "RAW".
      */
-    public String getFormat() {
+    public String getFormbt() {
         return "RAW";
     }
 
     /**
-     * Returns the key material of this secret key.
+     * Returns the key mbteribl of this secret key.
      *
-     * @return the key material. Returns a new array
-     * each time this method is called.
+     * @return the key mbteribl. Returns b new brrby
+     * ebch time this method is cblled.
      */
     public byte[] getEncoded() {
         return this.key.clone();
     }
 
     /**
-     * Calculates a hash code value for the object.
-     * Objects that are equal will also have the same hashcode.
+     * Cblculbtes b hbsh code vblue for the object.
+     * Objects thbt bre equbl will blso hbve the sbme hbshcode.
      */
-    public int hashCode() {
-        int retval = 0;
+    public int hbshCode() {
+        int retvbl = 0;
         for (int i = 1; i < this.key.length; i++) {
-            retval += this.key[i] * i;
+            retvbl += this.key[i] * i;
         }
-        if (this.algorithm.equalsIgnoreCase("TripleDES"))
-            return (retval ^= "desede".hashCode());
+        if (this.blgorithm.equblsIgnoreCbse("TripleDES"))
+            return (retvbl ^= "desede".hbshCode());
         else
-            return (retval ^=
-                    this.algorithm.toLowerCase(Locale.ENGLISH).hashCode());
+            return (retvbl ^=
+                    this.blgorithm.toLowerCbse(Locble.ENGLISH).hbshCode());
     }
 
    /**
-     * Tests for equality between the specified object and this
-     * object. Two SecretKeySpec objects are considered equal if
-     * they are both SecretKey instances which have the
-     * same case-insensitive algorithm name and key encoding.
+     * Tests for equblity between the specified object bnd this
+     * object. Two SecretKeySpec objects bre considered equbl if
+     * they bre both SecretKey instbnces which hbve the
+     * sbme cbse-insensitive blgorithm nbme bnd key encoding.
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj the object to test for equblity with this object.
      *
-     * @return true if the objects are considered equal, false if
+     * @return true if the objects bre considered equbl, fblse if
      * <code>obj</code> is null or otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj)
             return true;
 
-        if (!(obj instanceof SecretKey))
-            return false;
+        if (!(obj instbnceof SecretKey))
+            return fblse;
 
-        String thatAlg = ((SecretKey)obj).getAlgorithm();
-        if (!(thatAlg.equalsIgnoreCase(this.algorithm))) {
-            if ((!(thatAlg.equalsIgnoreCase("DESede"))
-                 || !(this.algorithm.equalsIgnoreCase("TripleDES")))
-                && (!(thatAlg.equalsIgnoreCase("TripleDES"))
-                    || !(this.algorithm.equalsIgnoreCase("DESede"))))
-            return false;
+        String thbtAlg = ((SecretKey)obj).getAlgorithm();
+        if (!(thbtAlg.equblsIgnoreCbse(this.blgorithm))) {
+            if ((!(thbtAlg.equblsIgnoreCbse("DESede"))
+                 || !(this.blgorithm.equblsIgnoreCbse("TripleDES")))
+                && (!(thbtAlg.equblsIgnoreCbse("TripleDES"))
+                    || !(this.blgorithm.equblsIgnoreCbse("DESede"))))
+            return fblse;
         }
 
-        byte[] thatKey = ((SecretKey)obj).getEncoded();
+        byte[] thbtKey = ((SecretKey)obj).getEncoded();
 
-        return java.util.Arrays.equals(this.key, thatKey);
+        return jbvb.util.Arrbys.equbls(this.key, thbtKey);
     }
 }

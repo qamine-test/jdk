@@ -1,861 +1,861 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryNotificationInfo;
-import java.lang.management.MonitorInfo;
-import java.lang.management.LockInfo;
-import java.lang.management.ThreadInfo;
-import java.lang.reflect.*;
-import java.util.List;
-import java.util.Map;
-import java.util.*;
-import java.io.InvalidObjectException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import javax.management.*;
-import javax.management.openmbean.*;
-import static javax.management.openmbean.SimpleType.*;
-import com.sun.management.VMOption;
+pbckbge sun.mbnbgement;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvb.lbng.mbnbgement.MemoryNotificbtionInfo;
+import jbvb.lbng.mbnbgement.MonitorInfo;
+import jbvb.lbng.mbnbgement.LockInfo;
+import jbvb.lbng.mbnbgement.ThrebdInfo;
+import jbvb.lbng.reflect.*;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.*;
+import jbvb.io.InvblidObjectException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvbx.mbnbgement.*;
+import jbvbx.mbnbgement.openmbebn.*;
+import stbtic jbvbx.mbnbgement.openmbebn.SimpleType.*;
+import com.sun.mbnbgement.VMOption;
 
 /**
- * A mapped mxbean type maps a Java type to an open type.
- * Only the following Java types are mappable
- * (currently required by the platform MXBeans):
+ * A mbpped mxbebn type mbps b Jbvb type to bn open type.
+ * Only the following Jbvb types bre mbppbble
+ * (currently required by the plbtform MXBebns):
  *   1. Primitive types
- *   2. Wrapper classes such java.lang.Integer, etc
- *   3. Classes with only getter methods and with a static "from" method
- *      that takes a CompositeData argument.
- *   4. E[] where E is a type of 1-4 (can be multi-dimensional array)
- *   5. List<E> where E is a type of 1-3
- *   6. Map<K, V> where K and V are a type of 1-4
+ *   2. Wrbpper clbsses such jbvb.lbng.Integer, etc
+ *   3. Clbsses with only getter methods bnd with b stbtic "from" method
+ *      thbt tbkes b CompositeDbtb brgument.
+ *   4. E[] where E is b type of 1-4 (cbn be multi-dimensionbl brrby)
+ *   5. List<E> where E is b type of 1-3
+ *   6. Mbp<K, V> where K bnd V bre b type of 1-4
  *
- * OpenDataException will be thrown if a Java type is not supported.
+ * OpenDbtbException will be thrown if b Jbvb type is not supported.
  */
-// Suppress unchecked cast warnings at line 442, 523 and 546
-// Suppress unchecked calls at line 235, 284, 380 and 430.
-@SuppressWarnings("unchecked")
-public abstract class MappedMXBeanType {
-    private static final WeakHashMap<Type,MappedMXBeanType> convertedTypes =
-        new WeakHashMap<>();
+// Suppress unchecked cbst wbrnings bt line 442, 523 bnd 546
+// Suppress unchecked cblls bt line 235, 284, 380 bnd 430.
+@SuppressWbrnings("unchecked")
+public bbstrbct clbss MbppedMXBebnType {
+    privbte stbtic finbl WebkHbshMbp<Type,MbppedMXBebnType> convertedTypes =
+        new WebkHbshMbp<>();
 
-    boolean  isBasicType = false;
+    boolebn  isBbsicType = fblse;
     OpenType<?> openType = inProgress;
-    Class<?>    mappedTypeClass;
+    Clbss<?>    mbppedTypeClbss;
 
-    static synchronized MappedMXBeanType newMappedType(Type javaType)
-            throws OpenDataException {
+    stbtic synchronized MbppedMXBebnType newMbppedType(Type jbvbType)
+            throws OpenDbtbException {
 
-        MappedMXBeanType mt = null;
-        if (javaType instanceof Class) {
-            final Class<?> c = (Class<?>) javaType;
+        MbppedMXBebnType mt = null;
+        if (jbvbType instbnceof Clbss) {
+            finbl Clbss<?> c = (Clbss<?>) jbvbType;
             if (c.isEnum()) {
-                mt = new EnumMXBeanType(c);
-            } else if (c.isArray()) {
-                mt = new ArrayMXBeanType(c);
+                mt = new EnumMXBebnType(c);
+            } else if (c.isArrby()) {
+                mt = new ArrbyMXBebnType(c);
             } else {
-                mt = new CompositeDataMXBeanType(c);
+                mt = new CompositeDbtbMXBebnType(c);
             }
-        } else if (javaType instanceof ParameterizedType) {
-            final ParameterizedType pt = (ParameterizedType) javaType;
-            final Type rawType = pt.getRawType();
-            if (rawType instanceof Class) {
-                final Class<?> rc = (Class<?>) rawType;
-                if (rc == List.class) {
-                    mt = new ListMXBeanType(pt);
-                } else if (rc == Map.class) {
-                    mt = new MapMXBeanType(pt);
+        } else if (jbvbType instbnceof PbrbmeterizedType) {
+            finbl PbrbmeterizedType pt = (PbrbmeterizedType) jbvbType;
+            finbl Type rbwType = pt.getRbwType();
+            if (rbwType instbnceof Clbss) {
+                finbl Clbss<?> rc = (Clbss<?>) rbwType;
+                if (rc == List.clbss) {
+                    mt = new ListMXBebnType(pt);
+                } else if (rc == Mbp.clbss) {
+                    mt = new MbpMXBebnType(pt);
                 }
             }
-        } else if (javaType instanceof GenericArrayType) {
-           final GenericArrayType t = (GenericArrayType) javaType;
-           mt = new GenericArrayMXBeanType(t);
+        } else if (jbvbType instbnceof GenericArrbyType) {
+           finbl GenericArrbyType t = (GenericArrbyType) jbvbType;
+           mt = new GenericArrbyMXBebnType(t);
         }
-        // No open type mapped for the javaType
+        // No open type mbpped for the jbvbType
         if (mt == null) {
-            throw new OpenDataException(javaType +
-                " is not a supported MXBean type.");
+            throw new OpenDbtbException(jbvbType +
+                " is not b supported MXBebn type.");
         }
-        convertedTypes.put(javaType, mt);
+        convertedTypes.put(jbvbType, mt);
         return mt;
     }
 
-    // basic types do not require data mapping
-    static synchronized MappedMXBeanType newBasicType(Class<?> c, OpenType<?> ot)
-            throws OpenDataException {
-        MappedMXBeanType mt = new BasicMXBeanType(c, ot);
+    // bbsic types do not require dbtb mbpping
+    stbtic synchronized MbppedMXBebnType newBbsicType(Clbss<?> c, OpenType<?> ot)
+            throws OpenDbtbException {
+        MbppedMXBebnType mt = new BbsicMXBebnType(c, ot);
         convertedTypes.put(c, mt);
         return mt;
     }
 
-    static synchronized MappedMXBeanType getMappedType(Type t)
-            throws OpenDataException {
-        MappedMXBeanType mt = convertedTypes.get(t);
+    stbtic synchronized MbppedMXBebnType getMbppedType(Type t)
+            throws OpenDbtbException {
+        MbppedMXBebnType mt = convertedTypes.get(t);
         if (mt == null) {
-            mt = newMappedType(t);
+            mt = newMbppedType(t);
         }
 
-        if (mt.getOpenType() instanceof InProgress) {
-            throw new OpenDataException("Recursive data structure");
+        if (mt.getOpenType() instbnceof InProgress) {
+            throw new OpenDbtbException("Recursive dbtb structure");
         }
         return mt;
     }
 
-    // Convert a class to an OpenType
-    public static synchronized OpenType<?> toOpenType(Type t)
-            throws OpenDataException {
-        MappedMXBeanType mt = getMappedType(t);
+    // Convert b clbss to bn OpenType
+    public stbtic synchronized OpenType<?> toOpenType(Type t)
+            throws OpenDbtbException {
+        MbppedMXBebnType mt = getMbppedType(t);
         return mt.getOpenType();
     }
 
-    public static Object toJavaTypeData(Object openData, Type t)
-            throws OpenDataException, InvalidObjectException {
-        if (openData == null) {
+    public stbtic Object toJbvbTypeDbtb(Object openDbtb, Type t)
+            throws OpenDbtbException, InvblidObjectException {
+        if (openDbtb == null) {
             return null;
         }
-        MappedMXBeanType mt = getMappedType(t);
-        return mt.toJavaTypeData(openData);
+        MbppedMXBebnType mt = getMbppedType(t);
+        return mt.toJbvbTypeDbtb(openDbtb);
     }
 
-    public static Object toOpenTypeData(Object data, Type t)
-            throws OpenDataException {
-        if (data == null) {
+    public stbtic Object toOpenTypeDbtb(Object dbtb, Type t)
+            throws OpenDbtbException {
+        if (dbtb == null) {
             return null;
         }
-        MappedMXBeanType mt = getMappedType(t);
-        return mt.toOpenTypeData(data);
+        MbppedMXBebnType mt = getMbppedType(t);
+        return mt.toOpenTypeDbtb(dbtb);
     }
 
-    // Return the mapped open type
+    // Return the mbpped open type
     OpenType<?> getOpenType() {
         return openType;
     }
 
-    boolean isBasicType() {
-        return isBasicType;
+    boolebn isBbsicType() {
+        return isBbsicType;
     }
 
-    // Return the type name of the mapped open type
-    // For primitive types, the type name is the same as the javaType
-    // but the mapped open type is the wrapper class
-    String getTypeName() {
-        return getMappedTypeClass().getName();
+    // Return the type nbme of the mbpped open type
+    // For primitive types, the type nbme is the sbme bs the jbvbType
+    // but the mbpped open type is the wrbpper clbss
+    String getTypeNbme() {
+        return getMbppedTypeClbss().getNbme();
     }
 
-    // Return the mapped open type
-    Class<?> getMappedTypeClass() {
-        return mappedTypeClass;
+    // Return the mbpped open type
+    Clbss<?> getMbppedTypeClbss() {
+        return mbppedTypeClbss;
     }
 
-    abstract Type getJavaType();
+    bbstrbct Type getJbvbType();
 
-    // return name of the class or the generic type
-    abstract String getName();
+    // return nbme of the clbss or the generic type
+    bbstrbct String getNbme();
 
-    abstract Object toOpenTypeData(Object javaTypeData)
-        throws OpenDataException;
+    bbstrbct Object toOpenTypeDbtb(Object jbvbTypeDbtb)
+        throws OpenDbtbException;
 
-    abstract Object toJavaTypeData(Object openTypeData)
-        throws OpenDataException, InvalidObjectException;
+    bbstrbct Object toJbvbTypeDbtb(Object openTypeDbtb)
+        throws OpenDbtbException, InvblidObjectException;
 
-    // Basic Types - Classes that do not require data conversion
-    //               including primitive types and all SimpleType
+    // Bbsic Types - Clbsses thbt do not require dbtb conversion
+    //               including primitive types bnd bll SimpleType
     //
-    //   Mapped open type: SimpleType for corresponding basic type
+    //   Mbpped open type: SimpleType for corresponding bbsic type
     //
-    // Data Mapping:
+    // Dbtb Mbpping:
     //   T <-> T (no conversion)
     //
-    static class BasicMXBeanType extends MappedMXBeanType {
-        final Class<?> basicType;
-        BasicMXBeanType(Class<?> c, OpenType<?> openType) {
-            this.basicType = c;
+    stbtic clbss BbsicMXBebnType extends MbppedMXBebnType {
+        finbl Clbss<?> bbsicType;
+        BbsicMXBebnType(Clbss<?> c, OpenType<?> openType) {
+            this.bbsicType = c;
             this.openType = openType;
-            this.mappedTypeClass = c;
-            this.isBasicType = true;
+            this.mbppedTypeClbss = c;
+            this.isBbsicType = true;
         }
 
-        Type getJavaType() {
-            return basicType;
+        Type getJbvbType() {
+            return bbsicType;
         }
 
-        String getName() {
-            return basicType.getName();
+        String getNbme() {
+            return bbsicType.getNbme();
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            return data;
+        Object toOpenTypeDbtb(Object dbtb) throws OpenDbtbException {
+            return dbtb;
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Object toJbvbTypeDbtb(Object dbtb)
+            throws OpenDbtbException, InvblidObjectException {
 
-            return data;
+            return dbtb;
         }
     }
 
 
-    // Enum subclasses
-    //   Mapped open type - String
+    // Enum subclbsses
+    //   Mbpped open type - String
     //
-    // Data Mapping:
-    //   Enum <-> enum's name
+    // Dbtb Mbpping:
+    //   Enum <-> enum's nbme
     //
-    static class EnumMXBeanType extends MappedMXBeanType {
-        @SuppressWarnings("rawtypes")
-        final Class enumClass;
-        EnumMXBeanType(Class<?> c) {
-            this.enumClass = c;
+    stbtic clbss EnumMXBebnType extends MbppedMXBebnType {
+        @SuppressWbrnings("rbwtypes")
+        finbl Clbss enumClbss;
+        EnumMXBebnType(Clbss<?> c) {
+            this.enumClbss = c;
             this.openType = STRING;
-            this.mappedTypeClass = String.class;
+            this.mbppedTypeClbss = String.clbss;
         }
 
-        Type getJavaType() {
-            return enumClass;
+        Type getJbvbType() {
+            return enumClbss;
         }
 
-        String getName() {
-            return enumClass.getName();
+        String getNbme() {
+            return enumClbss.getNbme();
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            return ((Enum) data).name();
+        Object toOpenTypeDbtb(Object dbtb) throws OpenDbtbException {
+            return ((Enum) dbtb).nbme();
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Object toJbvbTypeDbtb(Object dbtb)
+            throws OpenDbtbException, InvblidObjectException {
 
             try {
-                return Enum.valueOf(enumClass, (String) data);
-            } catch (IllegalArgumentException e) {
-                // missing enum constants
-                final InvalidObjectException ioe =
-                    new InvalidObjectException("Enum constant named " +
-                    (String) data + " is missing");
-                ioe.initCause(e);
+                return Enum.vblueOf(enumClbss, (String) dbtb);
+            } cbtch (IllegblArgumentException e) {
+                // missing enum constbnts
+                finbl InvblidObjectException ioe =
+                    new InvblidObjectException("Enum constbnt nbmed " +
+                    (String) dbtb + " is missing");
+                ioe.initCbuse(e);
                 throw ioe;
             }
         }
     }
 
-    // Array E[]
-    //   Mapped open type - Array with element of OpenType for E
+    // Arrby E[]
+    //   Mbpped open type - Arrby with element of OpenType for E
     //
-    // Data Mapping:
-    //   E[] <-> openTypeData(E)[]
+    // Dbtb Mbpping:
+    //   E[] <-> openTypeDbtb(E)[]
     //
-    static class ArrayMXBeanType extends MappedMXBeanType {
-        final Class<?> arrayClass;
-        protected MappedMXBeanType componentType;
-        protected MappedMXBeanType baseElementType;
+    stbtic clbss ArrbyMXBebnType extends MbppedMXBebnType {
+        finbl Clbss<?> brrbyClbss;
+        protected MbppedMXBebnType componentType;
+        protected MbppedMXBebnType bbseElementType;
 
-        ArrayMXBeanType(Class<?> c) throws OpenDataException {
-            this.arrayClass = c;
-            this.componentType = getMappedType(c.getComponentType());
+        ArrbyMXBebnType(Clbss<?> c) throws OpenDbtbException {
+            this.brrbyClbss = c;
+            this.componentType = getMbppedType(c.getComponentType());
 
-            StringBuilder className = new StringBuilder();
-            Class<?> et = c;
+            StringBuilder clbssNbme = new StringBuilder();
+            Clbss<?> et = c;
             int dim;
-            for (dim = 0; et.isArray(); dim++) {
-                className.append('[');
+            for (dim = 0; et.isArrby(); dim++) {
+                clbssNbme.bppend('[');
                 et = et.getComponentType();
             }
-            baseElementType = getMappedType(et);
+            bbseElementType = getMbppedType(et);
             if (et.isPrimitive()) {
-                className = new StringBuilder(c.getName());
+                clbssNbme = new StringBuilder(c.getNbme());
             } else {
-                className.append("L" + baseElementType.getTypeName() + ";");
+                clbssNbme.bppend("L" + bbseElementType.getTypeNbme() + ";");
             }
             try {
-                mappedTypeClass = Class.forName(className.toString());
-            } catch (ClassNotFoundException e) {
-                final OpenDataException ode =
-                    new OpenDataException("Cannot obtain array class");
-                ode.initCause(e);
+                mbppedTypeClbss = Clbss.forNbme(clbssNbme.toString());
+            } cbtch (ClbssNotFoundException e) {
+                finbl OpenDbtbException ode =
+                    new OpenDbtbException("Cbnnot obtbin brrby clbss");
+                ode.initCbuse(e);
                 throw ode;
             }
 
-            openType = new ArrayType<>(dim, baseElementType.getOpenType());
+            openType = new ArrbyType<>(dim, bbseElementType.getOpenType());
         }
 
-        protected ArrayMXBeanType() {
-            arrayClass = null;
+        protected ArrbyMXBebnType() {
+            brrbyClbss = null;
         };
 
-        Type getJavaType() {
-            return arrayClass;
+        Type getJbvbType() {
+            return brrbyClbss;
         }
 
-        String getName() {
-            return arrayClass.getName();
+        String getNbme() {
+            return brrbyClbss.getNbme();
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            // If the base element type is a basic type
-            // return the data as no conversion is needed.
-            // Primitive types are not converted to wrappers.
-            if (baseElementType.isBasicType()) {
-                return data;
+        Object toOpenTypeDbtb(Object dbtb) throws OpenDbtbException {
+            // If the bbse element type is b bbsic type
+            // return the dbtb bs no conversion is needed.
+            // Primitive types bre not converted to wrbppers.
+            if (bbseElementType.isBbsicType()) {
+                return dbtb;
             }
 
-            final Object[] array = (Object[]) data;
-            final Object[] openArray = (Object[])
-                Array.newInstance(componentType.getMappedTypeClass(),
-                                  array.length);
+            finbl Object[] brrby = (Object[]) dbtb;
+            finbl Object[] openArrby = (Object[])
+                Arrby.newInstbnce(componentType.getMbppedTypeClbss(),
+                                  brrby.length);
             int i = 0;
-            for (Object o : array) {
+            for (Object o : brrby) {
                 if (o == null) {
-                    openArray[i] = null;
+                    openArrby[i] = null;
                 } else {
-                    openArray[i] = componentType.toOpenTypeData(o);
+                    openArrby[i] = componentType.toOpenTypeDbtb(o);
                 }
                 i++;
             }
-            return openArray;
+            return openArrby;
         }
 
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Object toJbvbTypeDbtb(Object dbtb)
+            throws OpenDbtbException, InvblidObjectException {
 
-            // If the base element type is a basic type
-            // return the data as no conversion is needed.
-            if (baseElementType.isBasicType()) {
-                return data;
+            // If the bbse element type is b bbsic type
+            // return the dbtb bs no conversion is needed.
+            if (bbseElementType.isBbsicType()) {
+                return dbtb;
             }
 
-            final Object[] openArray = (Object[]) data;
-            final Object[] array = (Object[])
-                Array.newInstance((Class) componentType.getJavaType(),
-                                  openArray.length);
+            finbl Object[] openArrby = (Object[]) dbtb;
+            finbl Object[] brrby = (Object[])
+                Arrby.newInstbnce((Clbss) componentType.getJbvbType(),
+                                  openArrby.length);
             int i = 0;
-            for (Object o : openArray) {
+            for (Object o : openArrby) {
                 if (o == null) {
-                    array[i] = null;
+                    brrby[i] = null;
                 } else {
-                    array[i] = componentType.toJavaTypeData(o);
+                    brrby[i] = componentType.toJbvbTypeDbtb(o);
                 }
                 i++;
             }
-            return array;
+            return brrby;
         }
 
     }
 
-    static class GenericArrayMXBeanType extends ArrayMXBeanType {
-        final GenericArrayType gtype;
-        GenericArrayMXBeanType(GenericArrayType gat) throws OpenDataException {
-            this.gtype = gat;
-            this.componentType = getMappedType(gat.getGenericComponentType());
+    stbtic clbss GenericArrbyMXBebnType extends ArrbyMXBebnType {
+        finbl GenericArrbyType gtype;
+        GenericArrbyMXBebnType(GenericArrbyType gbt) throws OpenDbtbException {
+            this.gtype = gbt;
+            this.componentType = getMbppedType(gbt.getGenericComponentType());
 
-            StringBuilder className = new StringBuilder();
-            Type elementType = gat;
+            StringBuilder clbssNbme = new StringBuilder();
+            Type elementType = gbt;
             int dim;
-            for (dim = 0; elementType instanceof GenericArrayType; dim++) {
-                className.append('[');
-                GenericArrayType et = (GenericArrayType) elementType;
+            for (dim = 0; elementType instbnceof GenericArrbyType; dim++) {
+                clbssNbme.bppend('[');
+                GenericArrbyType et = (GenericArrbyType) elementType;
                 elementType = et.getGenericComponentType();
             }
-            baseElementType = getMappedType(elementType);
-            if (elementType instanceof Class && ((Class) elementType).isPrimitive()) {
-                className = new StringBuilder(gat.toString());
+            bbseElementType = getMbppedType(elementType);
+            if (elementType instbnceof Clbss && ((Clbss) elementType).isPrimitive()) {
+                clbssNbme = new StringBuilder(gbt.toString());
             } else {
-                className.append("L" + baseElementType.getTypeName() + ";");
+                clbssNbme.bppend("L" + bbseElementType.getTypeNbme() + ";");
             }
             try {
-                mappedTypeClass = Class.forName(className.toString());
-            } catch (ClassNotFoundException e) {
-                final OpenDataException ode =
-                    new OpenDataException("Cannot obtain array class");
-                ode.initCause(e);
+                mbppedTypeClbss = Clbss.forNbme(clbssNbme.toString());
+            } cbtch (ClbssNotFoundException e) {
+                finbl OpenDbtbException ode =
+                    new OpenDbtbException("Cbnnot obtbin brrby clbss");
+                ode.initCbuse(e);
                 throw ode;
             }
 
-            openType = new ArrayType<>(dim, baseElementType.getOpenType());
+            openType = new ArrbyType<>(dim, bbseElementType.getOpenType());
         }
 
-        Type getJavaType() {
+        Type getJbvbType() {
             return gtype;
         }
 
-        String getName() {
+        String getNbme() {
             return gtype.toString();
         }
     }
 
     // List<E>
-    //   Mapped open type - Array with element of OpenType for E
+    //   Mbpped open type - Arrby with element of OpenType for E
     //
-    // Data Mapping:
-    //   List<E> <-> openTypeData(E)[]
+    // Dbtb Mbpping:
+    //   List<E> <-> openTypeDbtb(E)[]
     //
-    static class ListMXBeanType extends MappedMXBeanType {
-        final ParameterizedType javaType;
-        final MappedMXBeanType paramType;
-        final String typeName;
+    stbtic clbss ListMXBebnType extends MbppedMXBebnType {
+        finbl PbrbmeterizedType jbvbType;
+        finbl MbppedMXBebnType pbrbmType;
+        finbl String typeNbme;
 
-        ListMXBeanType(ParameterizedType pt) throws OpenDataException {
-            this.javaType = pt;
+        ListMXBebnType(PbrbmeterizedType pt) throws OpenDbtbException {
+            this.jbvbType = pt;
 
-            final Type[] argTypes = pt.getActualTypeArguments();
-            assert(argTypes.length == 1);
+            finbl Type[] brgTypes = pt.getActublTypeArguments();
+            bssert(brgTypes.length == 1);
 
-            if (!(argTypes[0] instanceof Class)) {
-                throw new OpenDataException("Element Type for " + pt +
+            if (!(brgTypes[0] instbnceof Clbss)) {
+                throw new OpenDbtbException("Element Type for " + pt +
                    " not supported");
             }
-            final Class<?> et = (Class<?>) argTypes[0];
-            if (et.isArray()) {
-                throw new OpenDataException("Element Type for " + pt +
+            finbl Clbss<?> et = (Clbss<?>) brgTypes[0];
+            if (et.isArrby()) {
+                throw new OpenDbtbException("Element Type for " + pt +
                    " not supported");
             }
-            paramType = getMappedType(et);
-            typeName = "List<" + paramType.getName() + ">";
+            pbrbmType = getMbppedType(et);
+            typeNbme = "List<" + pbrbmType.getNbme() + ">";
 
             try {
-                mappedTypeClass = Class.forName(
-                    "[L" + paramType.getTypeName() + ";");
-            } catch (ClassNotFoundException e) {
-                final OpenDataException ode =
-                    new OpenDataException("Array class not found");
-                ode.initCause(e);
+                mbppedTypeClbss = Clbss.forNbme(
+                    "[L" + pbrbmType.getTypeNbme() + ";");
+            } cbtch (ClbssNotFoundException e) {
+                finbl OpenDbtbException ode =
+                    new OpenDbtbException("Arrby clbss not found");
+                ode.initCbuse(e);
                 throw ode;
             }
-            openType = new ArrayType<>(1, paramType.getOpenType());
+            openType = new ArrbyType<>(1, pbrbmType.getOpenType());
         }
 
-        Type getJavaType() {
-            return javaType;
+        Type getJbvbType() {
+            return jbvbType;
         }
 
-        String getName() {
-            return typeName;
+        String getNbme() {
+            return typeNbme;
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            final List<Object> list = (List<Object>) data;
+        Object toOpenTypeDbtb(Object dbtb) throws OpenDbtbException {
+            finbl List<Object> list = (List<Object>) dbtb;
 
-            final Object[] openArray = (Object[])
-                Array.newInstance(paramType.getMappedTypeClass(),
+            finbl Object[] openArrby = (Object[])
+                Arrby.newInstbnce(pbrbmType.getMbppedTypeClbss(),
                                   list.size());
             int i = 0;
             for (Object o : list) {
-                openArray[i++] = paramType.toOpenTypeData(o);
+                openArrby[i++] = pbrbmType.toOpenTypeDbtb(o);
             }
-            return openArray;
+            return openArrby;
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Object toJbvbTypeDbtb(Object dbtb)
+            throws OpenDbtbException, InvblidObjectException {
 
-            final Object[] openArray = (Object[]) data;
-            List<Object> result = new ArrayList<>(openArray.length);
-            for (Object o : openArray) {
-                result.add(paramType.toJavaTypeData(o));
+            finbl Object[] openArrby = (Object[]) dbtb;
+            List<Object> result = new ArrbyList<>(openArrby.length);
+            for (Object o : openArrby) {
+                result.bdd(pbrbmType.toJbvbTypeDbtb(o));
             }
             return result;
         }
     }
 
-    private static final String KEY   = "key";
-    private static final String VALUE = "value";
-    private static final String[] mapIndexNames = {KEY};
-    private static final String[] mapItemNames = {KEY, VALUE};
+    privbte stbtic finbl String KEY   = "key";
+    privbte stbtic finbl String VALUE = "vblue";
+    privbte stbtic finbl String[] mbpIndexNbmes = {KEY};
+    privbte stbtic finbl String[] mbpItemNbmes = {KEY, VALUE};
 
-    // Map<K,V>
-    //   Mapped open type - TabularType with row type:
+    // Mbp<K,V>
+    //   Mbpped open type - TbbulbrType with row type:
     //                        CompositeType:
-    //                          "key"   of openDataType(K)
-    //                          "value" of openDataType(V)
-    //                        "key" is the index name
+    //                          "key"   of openDbtbType(K)
+    //                          "vblue" of openDbtbType(V)
+    //                        "key" is the index nbme
     //
-    // Data Mapping:
-    //   Map<K,V> <-> TabularData
+    // Dbtb Mbpping:
+    //   Mbp<K,V> <-> TbbulbrDbtb
     //
-    static class MapMXBeanType extends MappedMXBeanType {
-        final ParameterizedType javaType;
-        final MappedMXBeanType keyType;
-        final MappedMXBeanType valueType;
-        final String typeName;
+    stbtic clbss MbpMXBebnType extends MbppedMXBebnType {
+        finbl PbrbmeterizedType jbvbType;
+        finbl MbppedMXBebnType keyType;
+        finbl MbppedMXBebnType vblueType;
+        finbl String typeNbme;
 
-        MapMXBeanType(ParameterizedType pt) throws OpenDataException {
-            this.javaType = pt;
+        MbpMXBebnType(PbrbmeterizedType pt) throws OpenDbtbException {
+            this.jbvbType = pt;
 
-            final Type[] argTypes = pt.getActualTypeArguments();
-            assert(argTypes.length == 2);
-            this.keyType = getMappedType(argTypes[0]);
-            this.valueType = getMappedType(argTypes[1]);
+            finbl Type[] brgTypes = pt.getActublTypeArguments();
+            bssert(brgTypes.length == 2);
+            this.keyType = getMbppedType(brgTypes[0]);
+            this.vblueType = getMbppedType(brgTypes[1]);
 
 
-            // FIXME: generate typeName for generic
-            typeName = "Map<" + keyType.getName() + "," +
-                                valueType.getName() + ">";
-            final OpenType<?>[] mapItemTypes = new OpenType<?>[] {
+            // FIXME: generbte typeNbme for generic
+            typeNbme = "Mbp<" + keyType.getNbme() + "," +
+                                vblueType.getNbme() + ">";
+            finbl OpenType<?>[] mbpItemTypes = new OpenType<?>[] {
                                                 keyType.getOpenType(),
-                                                valueType.getOpenType(),
+                                                vblueType.getOpenType(),
                                             };
-            final CompositeType rowType =
-                new CompositeType(typeName,
-                                  typeName,
-                                  mapItemNames,
-                                  mapItemNames,
-                                  mapItemTypes);
+            finbl CompositeType rowType =
+                new CompositeType(typeNbme,
+                                  typeNbme,
+                                  mbpItemNbmes,
+                                  mbpItemNbmes,
+                                  mbpItemTypes);
 
-            openType = new TabularType(typeName, typeName, rowType, mapIndexNames);
-            mappedTypeClass = javax.management.openmbean.TabularData.class;
+            openType = new TbbulbrType(typeNbme, typeNbme, rowType, mbpIndexNbmes);
+            mbppedTypeClbss = jbvbx.mbnbgement.openmbebn.TbbulbrDbtb.clbss;
         }
 
-        Type getJavaType() {
-            return javaType;
+        Type getJbvbType() {
+            return jbvbType;
         }
 
-        String getName() {
-            return typeName;
+        String getNbme() {
+            return typeNbme;
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            final Map<Object,Object> map = (Map<Object,Object>) data;
-            final TabularType tabularType = (TabularType) openType;
-            final TabularData table = new TabularDataSupport(tabularType);
-            final CompositeType rowType = tabularType.getRowType();
+        Object toOpenTypeDbtb(Object dbtb) throws OpenDbtbException {
+            finbl Mbp<Object,Object> mbp = (Mbp<Object,Object>) dbtb;
+            finbl TbbulbrType tbbulbrType = (TbbulbrType) openType;
+            finbl TbbulbrDbtb tbble = new TbbulbrDbtbSupport(tbbulbrType);
+            finbl CompositeType rowType = tbbulbrType.getRowType();
 
-            for (Map.Entry<Object, Object> entry : map.entrySet()) {
-                final Object key = keyType.toOpenTypeData(entry.getKey());
-                final Object value = valueType.toOpenTypeData(entry.getValue());
-                final CompositeData row =
-                    new CompositeDataSupport(rowType,
-                                             mapItemNames,
-                                             new Object[] {key, value});
-                table.put(row);
+            for (Mbp.Entry<Object, Object> entry : mbp.entrySet()) {
+                finbl Object key = keyType.toOpenTypeDbtb(entry.getKey());
+                finbl Object vblue = vblueType.toOpenTypeDbtb(entry.getVblue());
+                finbl CompositeDbtb row =
+                    new CompositeDbtbSupport(rowType,
+                                             mbpItemNbmes,
+                                             new Object[] {key, vblue});
+                tbble.put(row);
             }
-            return table;
+            return tbble;
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Object toJbvbTypeDbtb(Object dbtb)
+            throws OpenDbtbException, InvblidObjectException {
 
-            final TabularData td = (TabularData) data;
+            finbl TbbulbrDbtb td = (TbbulbrDbtb) dbtb;
 
-            Map<Object, Object> result = new HashMap<>();
-            for (CompositeData row : (Collection<CompositeData>) td.values()) {
-                Object key = keyType.toJavaTypeData(row.get(KEY));
-                Object value = valueType.toJavaTypeData(row.get(VALUE));
-                result.put(key, value);
+            Mbp<Object, Object> result = new HbshMbp<>();
+            for (CompositeDbtb row : (Collection<CompositeDbtb>) td.vblues()) {
+                Object key = keyType.toJbvbTypeDbtb(row.get(KEY));
+                Object vblue = vblueType.toJbvbTypeDbtb(row.get(VALUE));
+                result.put(key, vblue);
             }
             return result;
         }
     }
 
-    private static final Class<?> COMPOSITE_DATA_CLASS =
-        javax.management.openmbean.CompositeData.class;
+    privbte stbtic finbl Clbss<?> COMPOSITE_DATA_CLASS =
+        jbvbx.mbnbgement.openmbebn.CompositeDbtb.clbss;
 
-    // Classes that have a static from method
-    //   Mapped open type - CompositeData
+    // Clbsses thbt hbve b stbtic from method
+    //   Mbpped open type - CompositeDbtb
     //
-    // Data Mapping:
-    //   Classes <-> CompositeData
+    // Dbtb Mbpping:
+    //   Clbsses <-> CompositeDbtb
     //
-    // The name and type of items for a class are identified from
-    // the getter methods. For example, a class defines a method:
+    // The nbme bnd type of items for b clbss bre identified from
+    // the getter methods. For exbmple, b clbss defines b method:
     //
     //    public FooType getFoo();
     //
-    // The composite data view for this class will contain one
-    // item entry for a "foo" attribute and the item type is
-    // one of the open types defined in the OpenType class that
-    // can be determined in the following manner:
-    // o If FooType is a primitive type, the item type a wrapper
-    //   class for the corresponding primitive type (such as
-    //   Integer, Long, Boolean, etc).
-    // o If FooType is of type CompositeData or TabularData,
+    // The composite dbtb view for this clbss will contbin one
+    // item entry for b "foo" bttribute bnd the item type is
+    // one of the open types defined in the OpenType clbss thbt
+    // cbn be determined in the following mbnner:
+    // o If FooType is b primitive type, the item type b wrbpper
+    //   clbss for the corresponding primitive type (such bs
+    //   Integer, Long, Boolebn, etc).
+    // o If FooType is of type CompositeDbtb or TbbulbrDbtb,
     //   the item type is FooType.
-    // o If FooType is an Enum, the item type is a String and
-    //   the value is the name of the enum constant.
-    // o If FooType is a class or an interface other than the above,
-    //   the item type is CompositeData. The same convention
-    //   can be recursively applied to the FooType class when
-    //   constructing the composite data for the "foo" attribute.
-    // o If FooType is an array, the item type is an array and
-    //   its element type is determined as described above.
+    // o If FooType is bn Enum, the item type is b String bnd
+    //   the vblue is the nbme of the enum constbnt.
+    // o If FooType is b clbss or bn interfbce other thbn the bbove,
+    //   the item type is CompositeDbtb. The sbme convention
+    //   cbn be recursively bpplied to the FooType clbss when
+    //   constructing the composite dbtb for the "foo" bttribute.
+    // o If FooType is bn brrby, the item type is bn brrby bnd
+    //   its element type is determined bs described bbove.
     //
-    static class CompositeDataMXBeanType extends MappedMXBeanType {
-        final Class<?> javaClass;
-        final boolean isCompositeData;
+    stbtic clbss CompositeDbtbMXBebnType extends MbppedMXBebnType {
+        finbl Clbss<?> jbvbClbss;
+        finbl boolebn isCompositeDbtb;
         Method fromMethod = null;
 
-        CompositeDataMXBeanType(Class<?> c) throws OpenDataException {
-            this.javaClass = c;
-            this.mappedTypeClass = COMPOSITE_DATA_CLASS;
+        CompositeDbtbMXBebnType(Clbss<?> c) throws OpenDbtbException {
+            this.jbvbClbss = c;
+            this.mbppedTypeClbss = COMPOSITE_DATA_CLASS;
 
-            // check if a static from method exists
+            // check if b stbtic from method exists
             try {
                 fromMethod = AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
                         public Method run() throws NoSuchMethodException {
-                            return javaClass.getMethod("from", COMPOSITE_DATA_CLASS);
+                            return jbvbClbss.getMethod("from", COMPOSITE_DATA_CLASS);
                         }
                     });
-            } catch (PrivilegedActionException e) {
-                // ignore NoSuchMethodException since we allow classes
-                // that has no from method to be embeded in another class.
+            } cbtch (PrivilegedActionException e) {
+                // ignore NoSuchMethodException since we bllow clbsses
+                // thbt hbs no from method to be embeded in bnother clbss.
             }
 
-            if (COMPOSITE_DATA_CLASS.isAssignableFrom(c)) {
-                // c implements CompositeData - set openType to null
-                // defer generating the CompositeType
+            if (COMPOSITE_DATA_CLASS.isAssignbbleFrom(c)) {
+                // c implements CompositeDbtb - set openType to null
+                // defer generbting the CompositeType
                 // until the object is constructed
-                this.isCompositeData = true;
+                this.isCompositeDbtb = true;
                 this.openType = null;
             } else {
-                this.isCompositeData = false;
+                this.isCompositeDbtb = fblse;
 
-                // Make a CompositeData containing all the getters
-                final Method[] methods =
+                // Mbke b CompositeDbtb contbining bll the getters
+                finbl Method[] methods =
                     AccessController.doPrivileged(new PrivilegedAction<Method[]>() {
                         public Method[] run() {
-                            return javaClass.getMethods();
+                            return jbvbClbss.getMethods();
                         }
                     });
-                final List<String> names = new ArrayList<>();
-                final List<OpenType<?>> types = new ArrayList<>();
+                finbl List<String> nbmes = new ArrbyList<>();
+                finbl List<OpenType<?>> types = new ArrbyList<>();
 
-                /* Select public methods that look like "T getX()" or "boolean
-                   isX()", where T is not void and X is not the empty
-                   string.  Exclude "Class getClass()" inherited from Object.  */
+                /* Select public methods thbt look like "T getX()" or "boolebn
+                   isX()", where T is not void bnd X is not the empty
+                   string.  Exclude "Clbss getClbss()" inherited from Object.  */
                 for (int i = 0; i < methods.length; i++) {
-                    final Method method = methods[i];
-                    final String name = method.getName();
-                    final Type type = method.getGenericReturnType();
-                    final String rest;
-                    if (name.startsWith("get")) {
-                        rest = name.substring(3);
-                    } else if (name.startsWith("is") &&
-                               type instanceof Class &&
-                               ((Class) type) == boolean.class) {
-                        rest = name.substring(2);
+                    finbl Method method = methods[i];
+                    finbl String nbme = method.getNbme();
+                    finbl Type type = method.getGenericReturnType();
+                    finbl String rest;
+                    if (nbme.stbrtsWith("get")) {
+                        rest = nbme.substring(3);
+                    } else if (nbme.stbrtsWith("is") &&
+                               type instbnceof Clbss &&
+                               ((Clbss) type) == boolebn.clbss) {
+                        rest = nbme.substring(2);
                     } else {
                         // ignore non-getter methods
                         continue;
                     }
 
-                    if (rest.equals("") ||
-                        method.getParameterTypes().length > 0 ||
-                        type == void.class ||
-                        rest.equals("Class")) {
+                    if (rest.equbls("") ||
+                        method.getPbrbmeterTypes().length > 0 ||
+                        type == void.clbss ||
+                        rest.equbls("Clbss")) {
 
                         // ignore non-getter methods
                         continue;
                     }
-                    names.add(decapitalize(rest));
-                    types.add(toOpenType(type));
+                    nbmes.bdd(decbpitblize(rest));
+                    types.bdd(toOpenType(type));
                 }
 
-                final String[] nameArray = names.toArray(new String[0]);
-                openType = new CompositeType(c.getName(),
-                                             c.getName(),
-                                             nameArray, // field names
-                                             nameArray, // field descriptions
-                                             types.toArray(new OpenType<?>[0]));
+                finbl String[] nbmeArrby = nbmes.toArrby(new String[0]);
+                openType = new CompositeType(c.getNbme(),
+                                             c.getNbme(),
+                                             nbmeArrby, // field nbmes
+                                             nbmeArrby, // field descriptions
+                                             types.toArrby(new OpenType<?>[0]));
             }
         }
 
-        Type getJavaType() {
-            return javaClass;
+        Type getJbvbType() {
+            return jbvbClbss;
         }
 
-        String getName() {
-            return javaClass.getName();
+        String getNbme() {
+            return jbvbClbss.getNbme();
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            if (data instanceof MemoryUsage) {
-                return MemoryUsageCompositeData.toCompositeData((MemoryUsage) data);
+        Object toOpenTypeDbtb(Object dbtb) throws OpenDbtbException {
+            if (dbtb instbnceof MemoryUsbge) {
+                return MemoryUsbgeCompositeDbtb.toCompositeDbtb((MemoryUsbge) dbtb);
             }
 
-            if (data instanceof ThreadInfo) {
-                return ThreadInfoCompositeData.toCompositeData((ThreadInfo) data);
+            if (dbtb instbnceof ThrebdInfo) {
+                return ThrebdInfoCompositeDbtb.toCompositeDbtb((ThrebdInfo) dbtb);
             }
 
-            if (data instanceof LockInfo) {
-                if (data instanceof java.lang.management.MonitorInfo) {
-                    return MonitorInfoCompositeData.toCompositeData((MonitorInfo) data);
+            if (dbtb instbnceof LockInfo) {
+                if (dbtb instbnceof jbvb.lbng.mbnbgement.MonitorInfo) {
+                    return MonitorInfoCompositeDbtb.toCompositeDbtb((MonitorInfo) dbtb);
                 }
-                return LockInfoCompositeData.toCompositeData((LockInfo) data);
+                return LockInfoCompositeDbtb.toCompositeDbtb((LockInfo) dbtb);
             }
 
-            if (data instanceof MemoryNotificationInfo) {
-                return MemoryNotifInfoCompositeData.
-                    toCompositeData((MemoryNotificationInfo) data);
+            if (dbtb instbnceof MemoryNotificbtionInfo) {
+                return MemoryNotifInfoCompositeDbtb.
+                    toCompositeDbtb((MemoryNotificbtionInfo) dbtb);
             }
 
-            if (data instanceof VMOption) {
-                return VMOptionCompositeData.toCompositeData((VMOption) data);
+            if (dbtb instbnceof VMOption) {
+                return VMOptionCompositeDbtb.toCompositeDbtb((VMOption) dbtb);
             }
 
-            if (isCompositeData) {
-                // Classes that implement CompositeData
+            if (isCompositeDbtb) {
+                // Clbsses thbt implement CompositeDbtb
                 //
-                // construct a new CompositeDataSupport object
-                // so that no other classes are sent over the wire
-                CompositeData cd = (CompositeData) data;
+                // construct b new CompositeDbtbSupport object
+                // so thbt no other clbsses bre sent over the wire
+                CompositeDbtb cd = (CompositeDbtb) dbtb;
                 CompositeType ct = cd.getCompositeType();
-                String[] itemNames = ct.keySet().toArray(new String[0]);
-                Object[] itemValues = cd.getAll(itemNames);
-                return new CompositeDataSupport(ct, itemNames, itemValues);
+                String[] itemNbmes = ct.keySet().toArrby(new String[0]);
+                Object[] itemVblues = cd.getAll(itemNbmes);
+                return new CompositeDbtbSupport(ct, itemNbmes, itemVblues);
             }
 
-            throw new OpenDataException(javaClass.getName() +
-                " is not supported for platform MXBeans");
+            throw new OpenDbtbException(jbvbClbss.getNbme() +
+                " is not supported for plbtform MXBebns");
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Object toJbvbTypeDbtb(Object dbtb)
+            throws OpenDbtbException, InvblidObjectException {
 
             if (fromMethod == null) {
-                throw new AssertionError("Does not support data conversion");
+                throw new AssertionError("Does not support dbtb conversion");
             }
 
             try {
-                return fromMethod.invoke(null, data);
-            } catch (IllegalAccessException e) {
-                // should never reach here
+                return fromMethod.invoke(null, dbtb);
+            } cbtch (IllegblAccessException e) {
+                // should never rebch here
                 throw new AssertionError(e);
-            } catch (InvocationTargetException e) {
-                final OpenDataException ode =
-                    new OpenDataException("Failed to invoke " +
-                        fromMethod.getName() + " to convert CompositeData " +
-                        " to " + javaClass.getName());
-                ode.initCause(e);
+            } cbtch (InvocbtionTbrgetException e) {
+                finbl OpenDbtbException ode =
+                    new OpenDbtbException("Fbiled to invoke " +
+                        fromMethod.getNbme() + " to convert CompositeDbtb " +
+                        " to " + jbvbClbss.getNbme());
+                ode.initCbuse(e);
                 throw ode;
             }
         }
     }
 
-    private static class InProgress<T> extends OpenType<T> {
-        private static final String description =
-                  "Marker to detect recursive type use -- internal use only!";
+    privbte stbtic clbss InProgress<T> extends OpenType<T> {
+        privbte stbtic finbl String description =
+                  "Mbrker to detect recursive type use -- internbl use only!";
 
-        InProgress() throws OpenDataException {
-            super("java.lang.String", "java.lang.String", description);
+        InProgress() throws OpenDbtbException {
+            super("jbvb.lbng.String", "jbvb.lbng.String", description);
         }
 
         public String toString() {
             return description;
         }
 
-        public int hashCode() {
+        public int hbshCode() {
             return 0;
         }
 
-        public boolean equals(Object o) {
-            return false;
+        public boolebn equbls(Object o) {
+            return fblse;
         }
 
-        public boolean isValue(Object o) {
-            return false;
+        public boolebn isVblue(Object o) {
+            return fblse;
         }
-        private static final long serialVersionUID = -3413063475064374490L;
+        privbte stbtic finbl long seriblVersionUID = -3413063475064374490L;
     }
-    private static final OpenType<?> inProgress;
-    static {
+    privbte stbtic finbl OpenType<?> inProgress;
+    stbtic {
         OpenType<?> t;
         try {
             t = new InProgress<>();
-        } catch (OpenDataException e) {
-            // Should not reach here
+        } cbtch (OpenDbtbException e) {
+            // Should not rebch here
             throw new AssertionError(e);
         }
         inProgress = t;
     }
 
-    private static final OpenType<?>[] simpleTypes = {
+    privbte stbtic finbl OpenType<?>[] simpleTypes = {
         BIGDECIMAL, BIGINTEGER, BOOLEAN, BYTE, CHARACTER, DATE,
         DOUBLE, FLOAT, INTEGER, LONG, OBJECTNAME, SHORT, STRING,
         VOID,
     };
-    static {
+    stbtic {
         try {
             for (int i = 0; i < simpleTypes.length; i++) {
-                final OpenType<?> t = simpleTypes[i];
-                Class<?> c;
+                finbl OpenType<?> t = simpleTypes[i];
+                Clbss<?> c;
                 try {
-                    c = Class.forName(t.getClassName(), false,
-                                      MappedMXBeanType.class.getClassLoader());
-                    MappedMXBeanType.newBasicType(c, t);
-                } catch (ClassNotFoundException e) {
-                    // the classes that these predefined types declare
+                    c = Clbss.forNbme(t.getClbssNbme(), fblse,
+                                      MbppedMXBebnType.clbss.getClbssLobder());
+                    MbppedMXBebnType.newBbsicType(c, t);
+                } cbtch (ClbssNotFoundException e) {
+                    // the clbsses thbt these predefined types declbre
                     // must exist!
                     throw new AssertionError(e);
-                } catch (OpenDataException e) {
+                } cbtch (OpenDbtbException e) {
                     throw new AssertionError(e);
                 }
 
-                if (c.getName().startsWith("java.lang.")) {
+                if (c.getNbme().stbrtsWith("jbvb.lbng.")) {
                     try {
-                        final Field typeField = c.getField("TYPE");
-                        final Class<?> primitiveType = (Class<?>) typeField.get(null);
-                        MappedMXBeanType.newBasicType(primitiveType, t);
-                    } catch (NoSuchFieldException e) {
-                        // OK: must not be a primitive wrapper
-                    } catch (IllegalAccessException e) {
-                        // Should not reach here
+                        finbl Field typeField = c.getField("TYPE");
+                        finbl Clbss<?> primitiveType = (Clbss<?>) typeField.get(null);
+                        MbppedMXBebnType.newBbsicType(primitiveType, t);
+                    } cbtch (NoSuchFieldException e) {
+                        // OK: must not be b primitive wrbpper
+                    } cbtch (IllegblAccessException e) {
+                        // Should not rebch here
                        throw new AssertionError(e);
                     }
                 }
             }
-        } catch (OpenDataException e) {
+        } cbtch (OpenDbtbException e) {
             throw new AssertionError(e);
         }
     }
 
     /**
-     * Utility method to take a string and convert it to normal Java variable
-     * name capitalization.  This normally means converting the first
-     * character from upper case to lower case, but in the (unusual) special
-     * case when there is more than one character and both the first and
-     * second characters are upper case, we leave it alone.
+     * Utility method to tbke b string bnd convert it to normbl Jbvb vbribble
+     * nbme cbpitblizbtion.  This normblly mebns converting the first
+     * chbrbcter from upper cbse to lower cbse, but in the (unusubl) specibl
+     * cbse when there is more thbn one chbrbcter bnd both the first bnd
+     * second chbrbcters bre upper cbse, we lebve it blone.
      * <p>
-     * Thus "FooBah" becomes "fooBah" and "X" becomes "x", but "URL" stays
-     * as "URL".
+     * Thus "FooBbh" becomes "fooBbh" bnd "X" becomes "x", but "URL" stbys
+     * bs "URL".
      *
-     * @param  name The string to be decapitalized.
-     * @return  The decapitalized version of the string.
+     * @pbrbm  nbme The string to be decbpitblized.
+     * @return  The decbpitblized version of the string.
      */
-    private static String decapitalize(String name) {
-        if (name == null || name.length() == 0) {
-            return name;
+    privbte stbtic String decbpitblize(String nbme) {
+        if (nbme == null || nbme.length() == 0) {
+            return nbme;
         }
-        if (name.length() > 1 && Character.isUpperCase(name.charAt(1)) &&
-                        Character.isUpperCase(name.charAt(0))){
-            return name;
+        if (nbme.length() > 1 && Chbrbcter.isUpperCbse(nbme.chbrAt(1)) &&
+                        Chbrbcter.isUpperCbse(nbme.chbrAt(0))){
+            return nbme;
         }
-        char chars[] = name.toCharArray();
-        chars[0] = Character.toLowerCase(chars[0]);
-        return new String(chars);
+        chbr chbrs[] = nbme.toChbrArrby();
+        chbrs[0] = Chbrbcter.toLowerCbse(chbrs[0]);
+        return new String(chbrs);
     }
 
 }

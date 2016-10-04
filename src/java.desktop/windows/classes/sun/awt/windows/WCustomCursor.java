@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import sun.awt.CustomCursor;
-import java.awt.*;
-import java.awt.image.*;
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.IntegerComponentRaster;
-import sun.awt.image.ToolkitImage;
+import sun.bwt.CustomCursor;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import sun.bwt.imbge.ImbgeRepresentbtion;
+import sun.bwt.imbge.IntegerComponentRbster;
+import sun.bwt.imbge.ToolkitImbge;
 
 /**
- * A class to encapsulate a custom image-based cursor.
+ * A clbss to encbpsulbte b custom imbge-bbsed cursor.
  *
  * @see Component#setCursor
- * @author      ThomasBall
+ * @buthor      ThombsBbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-final class WCustomCursor extends CustomCursor {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+finbl clbss WCustomCursor extends CustomCursor {
 
-    WCustomCursor(Image cursor, Point hotSpot, String name)
+    WCustomCursor(Imbge cursor, Point hotSpot, String nbme)
             throws IndexOutOfBoundsException {
-        super(cursor, hotSpot, name);
+        super(cursor, hotSpot, nbme);
     }
 
     @Override
-    protected void createNativeCursor(Image im, int[] pixels, int w, int h,
+    protected void crebteNbtiveCursor(Imbge im, int[] pixels, int w, int h,
                                       int xHotSpot, int yHotSpot) {
-        BufferedImage bimage = new BufferedImage(w, h,
-                               BufferedImage.TYPE_INT_RGB);
-        Graphics g = bimage.getGraphics();
+        BufferedImbge bimbge = new BufferedImbge(w, h,
+                               BufferedImbge.TYPE_INT_RGB);
+        Grbphics g = bimbge.getGrbphics();
         try {
-            if (im instanceof ToolkitImage) {
-                ImageRepresentation ir = ((ToolkitImage)im).getImageRep();
-                ir.reconstruct(ImageObserver.ALLBITS);
+            if (im instbnceof ToolkitImbge) {
+                ImbgeRepresentbtion ir = ((ToolkitImbge)im).getImbgeRep();
+                ir.reconstruct(ImbgeObserver.ALLBITS);
             }
-            g.drawImage(im, 0, 0, w, h, null);
-        } finally {
+            g.drbwImbge(im, 0, 0, w, h, null);
+        } finblly {
             g.dispose();
         }
-        Raster  raster = bimage.getRaster();
-        DataBuffer buffer = raster.getDataBuffer();
-        // REMIND: native code should use ScanStride _AND_ width
-        int data[] = ((DataBufferInt)buffer).getData();
+        Rbster  rbster = bimbge.getRbster();
+        DbtbBuffer buffer = rbster.getDbtbBuffer();
+        // REMIND: nbtive code should use ScbnStride _AND_ width
+        int dbtb[] = ((DbtbBufferInt)buffer).getDbtb();
 
-        byte[] andMask = new byte[w * h / 8];
+        byte[] bndMbsk = new byte[w * h / 8];
         int npixels = pixels.length;
         for (int i = 0; i < npixels; i++) {
             int ibyte = i / 8;
-            int omask = 1 << (7 - (i % 8));
+            int ombsk = 1 << (7 - (i % 8));
             if ((pixels[i] & 0xff000000) == 0) {
-                // Transparent bit
-                andMask[ibyte] |= omask;
+                // Trbnspbrent bit
+                bndMbsk[ibyte] |= ombsk;
             }
         }
 
         {
-            int     ficW = raster.getWidth();
-            if( raster instanceof IntegerComponentRaster ) {
-                ficW = ((IntegerComponentRaster)raster).getScanlineStride();
+            int     ficW = rbster.getWidth();
+            if( rbster instbnceof IntegerComponentRbster ) {
+                ficW = ((IntegerComponentRbster)rbster).getScbnlineStride();
             }
-            createCursorIndirect(
-                ((DataBufferInt)bimage.getRaster().getDataBuffer()).getData(),
-                andMask, ficW, raster.getWidth(), raster.getHeight(),
+            crebteCursorIndirect(
+                ((DbtbBufferInt)bimbge.getRbster().getDbtbBuffer()).getDbtb(),
+                bndMbsk, ficW, rbster.getWidth(), rbster.getHeight(),
                 xHotSpot, yHotSpot);
         }
     }
 
-    private native void createCursorIndirect(int[] rData, byte[] andMask,
-                                             int nScanStride, int width,
+    privbte nbtive void crebteCursorIndirect(int[] rDbtb, byte[] bndMbsk,
+                                             int nScbnStride, int width,
                                              int height, int xHotSpot,
                                              int yHotSpot);
     /**
-     * Return the current value of SM_CXCURSOR.
+     * Return the current vblue of SM_CXCURSOR.
      */
-    static native int getCursorWidth();
+    stbtic nbtive int getCursorWidth();
 
     /**
-     * Return the current value of SM_CYCURSOR.
+     * Return the current vblue of SM_CYCURSOR.
      */
-    static native int getCursorHeight();
+    stbtic nbtive int getCursorHeight();
 }

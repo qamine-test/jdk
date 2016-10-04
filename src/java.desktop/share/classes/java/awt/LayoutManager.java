@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
 /**
- * Defines the interface for classes that know how to lay out
- * <code>Container</code>s.
+ * Defines the interfbce for clbsses thbt know how to lby out
+ * <code>Contbiner</code>s.
  * <p>
- * Swing's painting architecture assumes the children of a
- * <code>JComponent</code> do not overlap.  If a
- * <code>JComponent</code>'s <code>LayoutManager</code> allows
- * children to overlap, the <code>JComponent</code> must override
- * <code>isOptimizedDrawingEnabled</code> to return false.
+ * Swing's pbinting brchitecture bssumes the children of b
+ * <code>JComponent</code> do not overlbp.  If b
+ * <code>JComponent</code>'s <code>LbyoutMbnbger</code> bllows
+ * children to overlbp, the <code>JComponent</code> must override
+ * <code>isOptimizedDrbwingEnbbled</code> to return fblse.
  *
- * @see Container
- * @see javax.swing.JComponent#isOptimizedDrawingEnabled
+ * @see Contbiner
+ * @see jbvbx.swing.JComponent#isOptimizedDrbwingEnbbled
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
  */
-public interface LayoutManager {
+public interfbce LbyoutMbnbger {
     /**
-     * If the layout manager uses a per-component string,
-     * adds the component <code>comp</code> to the layout,
-     * associating it
-     * with the string specified by <code>name</code>.
+     * If the lbyout mbnbger uses b per-component string,
+     * bdds the component <code>comp</code> to the lbyout,
+     * bssocibting it
+     * with the string specified by <code>nbme</code>.
      *
-     * @param name the string to be associated with the component
-     * @param comp the component to be added
+     * @pbrbm nbme the string to be bssocibted with the component
+     * @pbrbm comp the component to be bdded
      */
-    void addLayoutComponent(String name, Component comp);
+    void bddLbyoutComponent(String nbme, Component comp);
 
     /**
-     * Removes the specified component from the layout.
-     * @param comp the component to be removed
+     * Removes the specified component from the lbyout.
+     * @pbrbm comp the component to be removed
      */
-    void removeLayoutComponent(Component comp);
+    void removeLbyoutComponent(Component comp);
 
     /**
-     * Calculates the preferred size dimensions for the specified
-     * container, given the components it contains.
+     * Cblculbtes the preferred size dimensions for the specified
+     * contbiner, given the components it contbins.
      *
-     * @param  parent the container to be laid out
-     * @return the preferred dimension for the container
+     * @pbrbm  pbrent the contbiner to be lbid out
+     * @return the preferred dimension for the contbiner
      *
-     * @see #minimumLayoutSize
+     * @see #minimumLbyoutSize
      */
-    Dimension preferredLayoutSize(Container parent);
+    Dimension preferredLbyoutSize(Contbiner pbrent);
 
     /**
-     * Calculates the minimum size dimensions for the specified
-     * container, given the components it contains.
+     * Cblculbtes the minimum size dimensions for the specified
+     * contbiner, given the components it contbins.
      *
-     * @param  parent the component to be laid out
-     * @return the minimum dimension for the container
+     * @pbrbm  pbrent the component to be lbid out
+     * @return the minimum dimension for the contbiner
      *
-     * @see #preferredLayoutSize
+     * @see #preferredLbyoutSize
      */
-    Dimension minimumLayoutSize(Container parent);
+    Dimension minimumLbyoutSize(Contbiner pbrent);
 
     /**
-     * Lays out the specified container.
-     * @param parent the container to be laid out
+     * Lbys out the specified contbiner.
+     * @pbrbm pbrent the contbiner to be lbid out
      */
-    void layoutContainer(Container parent);
+    void lbyoutContbiner(Contbiner pbrent);
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,11 +30,11 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
@@ -45,41 +45,41 @@
 #include "jni.h"
 #include "jvmti.h"
 
-#include "agent_util.h"
+#include "bgent_util.h"
 
-/* Create major.minor.micro version string */
-static void
+/* Crebte mbjor.minor.micro version string */
+stbtic void
 version_check(jint cver, jint rver)
 {
-    jint cmajor, cminor, cmicro;
-    jint rmajor, rminor, rmicro;
+    jint cmbjor, cminor, cmicro;
+    jint rmbjor, rminor, rmicro;
 
-    cmajor = (cver & JVMTI_VERSION_MASK_MAJOR) >> JVMTI_VERSION_SHIFT_MAJOR;
+    cmbjor = (cver & JVMTI_VERSION_MASK_MAJOR) >> JVMTI_VERSION_SHIFT_MAJOR;
     cminor = (cver & JVMTI_VERSION_MASK_MINOR) >> JVMTI_VERSION_SHIFT_MINOR;
     cmicro = (cver & JVMTI_VERSION_MASK_MICRO) >> JVMTI_VERSION_SHIFT_MICRO;
-    rmajor = (rver & JVMTI_VERSION_MASK_MAJOR) >> JVMTI_VERSION_SHIFT_MAJOR;
+    rmbjor = (rver & JVMTI_VERSION_MASK_MAJOR) >> JVMTI_VERSION_SHIFT_MAJOR;
     rminor = (rver & JVMTI_VERSION_MASK_MINOR) >> JVMTI_VERSION_SHIFT_MINOR;
     rmicro = (rver & JVMTI_VERSION_MASK_MICRO) >> JVMTI_VERSION_SHIFT_MICRO;
-    stdout_message("Compile Time JVMTI Version: %d.%d.%d (0x%08x)\n",
-                        cmajor, cminor, cmicro, cver);
-    stdout_message("Run Time JVMTI Version: %d.%d.%d (0x%08x)\n",
-                        rmajor, rminor, rmicro, rver);
-    if ( (cmajor > rmajor) || (cmajor == rmajor && cminor > rminor) ) {
-        fatal_error(
-            "ERROR: Compile Time JVMTI and Run Time JVMTI are incompatible\n");
+    stdout_messbge("Compile Time JVMTI Version: %d.%d.%d (0x%08x)\n",
+                        cmbjor, cminor, cmicro, cver);
+    stdout_messbge("Run Time JVMTI Version: %d.%d.%d (0x%08x)\n",
+                        rmbjor, rminor, rmicro, rver);
+    if ( (cmbjor > rmbjor) || (cmbjor == rmbjor && cminor > rminor) ) {
+        fbtbl_error(
+            "ERROR: Compile Time JVMTI bnd Run Time JVMTI bre incompbtible\n");
     }
 }
 
-/* Callback for JVMTI_EVENT_VM_INIT */
-static void JNICALL
-vm_init(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Cbllbbck for JVMTI_EVENT_VM_INIT */
+stbtic void JNICALL
+vm_init(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
     jvmtiError err;
     jint       runtime_version;
 
-    /* The exact JVMTI version doesn't have to match, however this
-     *  code demonstrates how you can check that the JVMTI version seen
-     *  in the jvmti.h include file matches that being supplied at runtime
+    /* The exbct JVMTI version doesn't hbve to mbtch, however this
+     *  code demonstrbtes how you cbn check thbt the JVMTI version seen
+     *  in the jvmti.h include file mbtches thbt being supplied bt runtime
      *  by the VM.
      */
     err = (*jvmti)->GetVersionNumber(jvmti, &runtime_version);
@@ -87,35 +87,35 @@ vm_init(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
     version_check(JVMTI_VERSION, runtime_version);
 }
 
-/* Agent_OnLoad() is called first, we prepare for a VM_INIT event here. */
+/* Agent_OnLobd() is cblled first, we prepbre for b VM_INIT event here. */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agent_OnLobd(JbvbVM *vm, chbr *options, void *reserved)
 {
     jint                rc;
     jvmtiError          err;
-    jvmtiEventCallbacks callbacks;
+    jvmtiEventCbllbbcks cbllbbcks;
     jvmtiEnv           *jvmti;
 
     /* Get JVMTI environment */
     rc = (*vm)->GetEnv(vm, (void **)&jvmti, JVMTI_VERSION);
     if (rc != JNI_OK) {
-        fatal_error("ERROR: Unable to create jvmtiEnv, GetEnv failed, error=%d\n", rc);
+        fbtbl_error("ERROR: Unbble to crebte jvmtiEnv, GetEnv fbiled, error=%d\n", rc);
         return -1;
     }
 
-    /* Set callbacks and enable event notifications */
-    memset(&callbacks, 0, sizeof(callbacks));
-    callbacks.VMInit                  = &vm_init;
-    err = (*jvmti)->SetEventCallbacks(jvmti, &callbacks, sizeof(callbacks));
-    check_jvmti_error(jvmti, err, "set event callbacks");
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    /* Set cbllbbcks bnd enbble event notificbtions */
+    memset(&cbllbbcks, 0, sizeof(cbllbbcks));
+    cbllbbcks.VMInit                  = &vm_init;
+    err = (*jvmti)->SetEventCbllbbcks(jvmti, &cbllbbcks, sizeof(cbllbbcks));
+    check_jvmti_error(jvmti, err, "set event cbllbbcks");
+    err = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_VM_INIT, NULL);
     check_jvmti_error(jvmti, err, "set event notify");
     return 0;
 }
 
-/* Agent_OnUnload() is called last */
+/* Agent_OnUnlobd() is cblled lbst */
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agent_OnUnlobd(JbvbVM *vm)
 {
 }

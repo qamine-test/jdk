@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.net;
+pbckbge jdk.net;
 
-import java.net.SocketOption;
+import jbvb.net.SocketOption;
 
 /**
  * Defines extended socket options, beyond those defined in
- * {@link java.net.StandardSocketOptions}. These options may be platform
+ * {@link jbvb.net.StbndbrdSocketOptions}. These options mby be plbtform
  * specific.
  *
  * @since 1.8
  */
 @jdk.Exported
-public final class ExtendedSocketOptions {
+public finbl clbss ExtendedSocketOptions {
 
-    private static class ExtSocketOption<T> implements SocketOption<T> {
-        private final String name;
-        private final Class<T> type;
-        ExtSocketOption(String name, Class<T> type) {
-            this.name = name;
+    privbte stbtic clbss ExtSocketOption<T> implements SocketOption<T> {
+        privbte finbl String nbme;
+        privbte finbl Clbss<T> type;
+        ExtSocketOption(String nbme, Clbss<T> type) {
+            this.nbme = nbme;
             this.type = type;
         }
-        @Override public String name() { return name; }
-        @Override public Class<T> type() { return type; }
-        @Override public String toString() { return name; }
+        @Override public String nbme() { return nbme; }
+        @Override public Clbss<T> type() { return type; }
+        @Override public String toString() { return nbme; }
     }
 
-    private ExtendedSocketOptions() {}
+    privbte ExtendedSocketOptions() {}
 
     /**
-     * Service level properties. When a security manager is installed,
-     * setting or getting this option requires a {@link NetworkPermission}
+     * Service level properties. When b security mbnbger is instblled,
+     * setting or getting this option requires b {@link NetworkPermission}
      * {@code ("setOption.SO_FLOW_SLA")} or {@code "getOption.SO_FLOW_SLA"}
      * respectively.
      */
-    public static final SocketOption<SocketFlow> SO_FLOW_SLA = new
-        ExtSocketOption<SocketFlow>("SO_FLOW_SLA", SocketFlow.class);
+    public stbtic finbl SocketOption<SocketFlow> SO_FLOW_SLA = new
+        ExtSocketOption<SocketFlow>("SO_FLOW_SLA", SocketFlow.clbss);
 }

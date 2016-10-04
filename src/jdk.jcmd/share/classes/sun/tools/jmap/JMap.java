@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jmap;
+pbckbge sun.tools.jmbp;
 
-import java.lang.reflect.Method;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.lbng.reflect.Method;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
 
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.AttachNotSupportedException;
-import sun.tools.attach.HotSpotVirtualMachine;
+import com.sun.tools.bttbch.VirtublMbchine;
+import com.sun.tools.bttbch.AttbchNotSupportedException;
+import sun.tools.bttbch.HotSpotVirtublMbchine;
 
 /*
- * This class is the main class for the JMap utility. It parses its arguments
- * and decides if the command should be satisfied using the VM attach mechanism
- * or an SA tool. At this time the only option that uses the VM attach mechanism
- * is the -dump option to get a heap dump of a running application. All other
- * options are mapped to SA tools.
+ * This clbss is the mbin clbss for the JMbp utility. It pbrses its brguments
+ * bnd decides if the commbnd should be sbtisfied using the VM bttbch mechbnism
+ * or bn SA tool. At this time the only option thbt uses the VM bttbch mechbnism
+ * is the -dump option to get b hebp dump of b running bpplicbtion. All other
+ * options bre mbpped to SA tools.
  */
-public class JMap {
+public clbss JMbp {
 
-    // Options handled by the attach mechanism
-    private static String HISTO_OPTION = "-histo";
-    private static String LIVE_HISTO_OPTION = "-histo:live";
-    private static String DUMP_OPTION_PREFIX = "-dump:";
+    // Options hbndled by the bttbch mechbnism
+    privbte stbtic String HISTO_OPTION = "-histo";
+    privbte stbtic String LIVE_HISTO_OPTION = "-histo:live";
+    privbte stbtic String DUMP_OPTION_PREFIX = "-dump:";
 
-    // These options imply the use of a SA tool
-    private static String SA_TOOL_OPTIONS =
-      "-heap|-heap:format=b|-clstats|-finalizerinfo";
+    // These options imply the use of b SA tool
+    privbte stbtic String SA_TOOL_OPTIONS =
+      "-hebp|-hebp:formbt=b|-clstbts|-finblizerinfo";
 
-    // The -F (force) option is currently not passed through to SA
-    private static String FORCE_SA_OPTION = "-F";
+    // The -F (force) option is currently not pbssed through to SA
+    privbte stbtic String FORCE_SA_OPTION = "-F";
 
-    // Default option (if nothing provided)
-    private static String DEFAULT_OPTION = "-pmap";
+    // Defbult option (if nothing provided)
+    privbte stbtic String DEFAULT_OPTION = "-pmbp";
 
-    public static void main(String[] args) throws Exception {
-        if (args.length == 0) {
-            usage(1); // no arguments
+    public stbtic void mbin(String[] brgs) throws Exception {
+        if (brgs.length == 0) {
+            usbge(1); // no brguments
         }
 
-        // used to indicate if we should use SA
-        boolean useSA = false;
+        // used to indicbte if we should use SA
+        boolebn useSA = fblse;
 
-        // the chosen option (-heap, -dump:*, ... )
+        // the chosen option (-hebp, -dump:*, ... )
         String option = null;
 
-        // First iterate over the options (arguments starting with -).  There should be
-        // one (but maybe two if -F is also used).
+        // First iterbte over the options (brguments stbrting with -).  There should be
+        // one (but mbybe two if -F is blso used).
         int optionCount = 0;
-        while (optionCount < args.length) {
-            String arg = args[optionCount];
-            if (!arg.startsWith("-")) {
-                break;
+        while (optionCount < brgs.length) {
+            String brg = brgs[optionCount];
+            if (!brg.stbrtsWith("-")) {
+                brebk;
             }
-            if (arg.equals("-help") || arg.equals("-h")) {
-                usage(0);
-            } else if (arg.equals(FORCE_SA_OPTION)) {
+            if (brg.equbls("-help") || brg.equbls("-h")) {
+                usbge(0);
+            } else if (brg.equbls(FORCE_SA_OPTION)) {
                 useSA = true;
             } else {
                 if (option != null) {
-                    usage(1);  // option already specified
+                    usbge(1);  // option blrebdy specified
                 }
-                option = arg;
+                option = brg;
             }
             optionCount++;
         }
 
-        // if no option provided then use default.
+        // if no option provided then use defbult.
         if (option == null) {
             option = DEFAULT_OPTION;
         }
-        if (option.matches(SA_TOOL_OPTIONS)) {
+        if (option.mbtches(SA_TOOL_OPTIONS)) {
             useSA = true;
         }
 
-        // Next we check the parameter count. For the SA tools there are
-        // one or two parameters. For the built-in -dump option there is
-        // only one parameter (the process-id)
-        int paramCount = args.length - optionCount;
-        if (paramCount == 0 || paramCount > 2) {
-            usage(1);
+        // Next we check the pbrbmeter count. For the SA tools there bre
+        // one or two pbrbmeters. For the built-in -dump option there is
+        // only one pbrbmeter (the process-id)
+        int pbrbmCount = brgs.length - optionCount;
+        if (pbrbmCount == 0 || pbrbmCount > 2) {
+            usbge(1);
         }
 
-        if (optionCount == 0 || paramCount != 1) {
+        if (optionCount == 0 || pbrbmCount != 1) {
             useSA = true;
         } else {
-            // the parameter for the -dump option is a process-id.
-            // If it doesn't parse to a number then it must be SA
+            // the pbrbmeter for the -dump option is b process-id.
+            // If it doesn't pbrse to b number then it must be SA
             // debug server
-            if (!args[optionCount].matches("[0-9]+")) {
+            if (!brgs[optionCount].mbtches("[0-9]+")) {
                 useSA = true;
             }
         }
 
 
-        // at this point we know if we are executing an SA tool or a built-in
+        // bt this point we know if we bre executing bn SA tool or b built-in
         // option.
 
         if (useSA) {
-            // parameters (<pid> or <exe> <core>)
-            String params[] = new String[paramCount];
-            for (int i=optionCount; i<args.length; i++ ){
-                params[i-optionCount] = args[i];
+            // pbrbmeters (<pid> or <exe> <core>)
+            String pbrbms[] = new String[pbrbmCount];
+            for (int i=optionCount; i<brgs.length; i++ ){
+                pbrbms[i-optionCount] = brgs[i];
             }
-            runTool(option, params);
+            runTool(option, pbrbms);
 
         } else {
-            String pid = args[1];
-            // Here we handle the built-in options
-            // As more options are added we should create an abstract tool class and
-            // have a table to map the options
-            if (option.equals(HISTO_OPTION)) {
-                histo(pid, false);
-            } else if (option.equals(LIVE_HISTO_OPTION)) {
+            String pid = brgs[1];
+            // Here we hbndle the built-in options
+            // As more options bre bdded we should crebte bn bbstrbct tool clbss bnd
+            // hbve b tbble to mbp the options
+            if (option.equbls(HISTO_OPTION)) {
+                histo(pid, fblse);
+            } else if (option.equbls(LIVE_HISTO_OPTION)) {
                 histo(pid, true);
-            } else if (option.startsWith(DUMP_OPTION_PREFIX)) {
+            } else if (option.stbrtsWith(DUMP_OPTION_PREFIX)) {
                 dump(pid, option);
             } else {
-                usage(1);
+                usbge(1);
             }
         }
     }
 
-    // Invoke SA tool  with the given arguments
-    private static void runTool(String option, String args[]) throws Exception {
+    // Invoke SA tool  with the given brguments
+    privbte stbtic void runTool(String option, String brgs[]) throws Exception {
         String[][] tools = {
-            { "-pmap",          "sun.jvm.hotspot.tools.PMap"             },
-            { "-heap",          "sun.jvm.hotspot.tools.HeapSummary"      },
-            { "-heap:format=b", "sun.jvm.hotspot.tools.HeapDumper"       },
-            { "-histo",         "sun.jvm.hotspot.tools.ObjectHistogram"  },
-            { "-clstats",       "sun.jvm.hotspot.tools.ClassLoaderStats" },
-            { "-finalizerinfo", "sun.jvm.hotspot.tools.FinalizerInfo"    },
+            { "-pmbp",          "sun.jvm.hotspot.tools.PMbp"             },
+            { "-hebp",          "sun.jvm.hotspot.tools.HebpSummbry"      },
+            { "-hebp:formbt=b", "sun.jvm.hotspot.tools.HebpDumper"       },
+            { "-histo",         "sun.jvm.hotspot.tools.ObjectHistogrbm"  },
+            { "-clstbts",       "sun.jvm.hotspot.tools.ClbssLobderStbts" },
+            { "-finblizerinfo", "sun.jvm.hotspot.tools.FinblizerInfo"    },
         };
 
         String tool = null;
 
-        // -dump option needs to be handled in a special way
-        if (option.startsWith(DUMP_OPTION_PREFIX)) {
-            // first check that the option can be parsed
-            String fn = parseDumpOptions(option);
+        // -dump option needs to be hbndled in b specibl wby
+        if (option.stbrtsWith(DUMP_OPTION_PREFIX)) {
+            // first check thbt the option cbn be pbrsed
+            String fn = pbrseDumpOptions(option);
             if (fn == null) {
-                usage(1);
+                usbge(1);
             }
 
-            // tool for heap dumping
-            tool = "sun.jvm.hotspot.tools.HeapDumper";
+            // tool for hebp dumping
+            tool = "sun.jvm.hotspot.tools.HebpDumper";
 
-            // HeapDumper -f <file>
-            args = prepend(fn, args);
-            args = prepend("-f", args);
+            // HebpDumper -f <file>
+            brgs = prepend(fn, brgs);
+            brgs = prepend("-f", brgs);
         } else {
             int i=0;
             while (i < tools.length) {
-                if (option.equals(tools[i][0])) {
+                if (option.equbls(tools[i][0])) {
                     tool = tools[i][1];
-                    break;
+                    brebk;
                 }
                 i++;
             }
         }
         if (tool == null) {
-            usage(1);   // no mapping to tool
+            usbge(1);   // no mbpping to tool
         }
 
-        // Tool not available on this  platform.
-        Class<?> c = loadClass(tool);
+        // Tool not bvbilbble on this  plbtform.
+        Clbss<?> c = lobdClbss(tool);
         if (c == null) {
-            usage(1);
+            usbge(1);
         }
 
-        // invoke the main method with the arguments
-        Class<?>[] argTypes = { String[].class } ;
-        Method m = c.getDeclaredMethod("main", argTypes);
+        // invoke the mbin method with the brguments
+        Clbss<?>[] brgTypes = { String[].clbss } ;
+        Method m = c.getDeclbredMethod("mbin", brgTypes);
 
-        Object[] invokeArgs = { args };
+        Object[] invokeArgs = { brgs };
         m.invoke(null, invokeArgs);
     }
 
-    // loads the given class using the system class loader
-    private static Class<?> loadClass(String name) {
+    // lobds the given clbss using the system clbss lobder
+    privbte stbtic Clbss<?> lobdClbss(String nbme) {
         //
-        // We specify the system clas loader so as to cater for development
-        // environments where this class is on the boot class path but sa-jdi.jar
-        // is on the system class path. Once the JDK is deployed then both
-        // tools.jar and sa-jdi.jar are on the system class path.
+        // We specify the system clbs lobder so bs to cbter for development
+        // environments where this clbss is on the boot clbss pbth but sb-jdi.jbr
+        // is on the system clbss pbth. Once the JDK is deployed then both
+        // tools.jbr bnd sb-jdi.jbr bre on the system clbss pbth.
         //
         try {
-            return Class.forName(name, true,
-                                 ClassLoader.getSystemClassLoader());
-        } catch (Exception x)  { }
+            return Clbss.forNbme(nbme, true,
+                                 ClbssLobder.getSystemClbssLobder());
+        } cbtch (Exception x)  { }
         return null;
     }
 
-    private static final String LIVE_OBJECTS_OPTION = "-live";
-    private static final String ALL_OBJECTS_OPTION = "-all";
-    private static void histo(String pid, boolean live) throws IOException {
-        VirtualMachine vm = attach(pid);
-        InputStream in = ((HotSpotVirtualMachine)vm).
-            heapHisto(live ? LIVE_OBJECTS_OPTION : ALL_OBJECTS_OPTION);
-        drain(vm, in);
+    privbte stbtic finbl String LIVE_OBJECTS_OPTION = "-live";
+    privbte stbtic finbl String ALL_OBJECTS_OPTION = "-bll";
+    privbte stbtic void histo(String pid, boolebn live) throws IOException {
+        VirtublMbchine vm = bttbch(pid);
+        InputStrebm in = ((HotSpotVirtublMbchine)vm).
+            hebpHisto(live ? LIVE_OBJECTS_OPTION : ALL_OBJECTS_OPTION);
+        drbin(vm, in);
     }
 
-    private static void dump(String pid, String options) throws IOException {
-        // parse the options to get the dump filename
-        String filename = parseDumpOptions(options);
-        if (filename == null) {
-            usage(1);  // invalid options or no filename
+    privbte stbtic void dump(String pid, String options) throws IOException {
+        // pbrse the options to get the dump filenbme
+        String filenbme = pbrseDumpOptions(options);
+        if (filenbme == null) {
+            usbge(1);  // invblid options or no filenbme
         }
 
-        // get the canonical path - important to avoid just passing
-        // a "heap.bin" and having the dump created in the target VM
-        // working directory rather than the directory where jmap
+        // get the cbnonicbl pbth - importbnt to bvoid just pbssing
+        // b "hebp.bin" bnd hbving the dump crebted in the tbrget VM
+        // working directory rbther thbn the directory where jmbp
         // is executed.
-        filename = new File(filename).getCanonicalPath();
+        filenbme = new File(filenbme).getCbnonicblPbth();
 
         // dump live objects only or not
-        boolean live = isDumpLiveObjects(options);
+        boolebn live = isDumpLiveObjects(options);
 
-        VirtualMachine vm = attach(pid);
-        System.out.println("Dumping heap to " + filename + " ...");
-        InputStream in = ((HotSpotVirtualMachine)vm).
-            dumpHeap((Object)filename,
+        VirtublMbchine vm = bttbch(pid);
+        System.out.println("Dumping hebp to " + filenbme + " ...");
+        InputStrebm in = ((HotSpotVirtublMbchine)vm).
+            dumpHebp((Object)filenbme,
                      (live ? LIVE_OBJECTS_OPTION : ALL_OBJECTS_OPTION));
-        drain(vm, in);
+        drbin(vm, in);
     }
 
-    // Parse the options to the -dump option. Valid options are format=b and
+    // Pbrse the options to the -dump option. Vblid options bre formbt=b bnd
     // file=<file>. Returns <file> if provided. Returns null if <file> not
-    // provided, or invalid option.
-    private static String parseDumpOptions(String arg) {
-        assert arg.startsWith(DUMP_OPTION_PREFIX);
+    // provided, or invblid option.
+    privbte stbtic String pbrseDumpOptions(String brg) {
+        bssert brg.stbrtsWith(DUMP_OPTION_PREFIX);
 
-        String filename = null;
+        String filenbme = null;
 
-        // options are separated by comma (,)
-        String options[] = arg.substring(DUMP_OPTION_PREFIX.length()).split(",");
+        // options bre sepbrbted by commb (,)
+        String options[] = brg.substring(DUMP_OPTION_PREFIX.length()).split(",");
 
         for (int i=0; i<options.length; i++) {
             String option = options[i];
 
-            if (option.equals("format=b")) {
-                // ignore format (not needed at this time)
-            } else if (option.equals("live")) {
-                // a valid suboption
+            if (option.equbls("formbt=b")) {
+                // ignore formbt (not needed bt this time)
+            } else if (option.equbls("live")) {
+                // b vblid suboption
             } else {
 
-                // file=<file> - check that <file> is specified
-                if (option.startsWith("file=")) {
-                    filename = option.substring(5);
-                    if (filename.length() == 0) {
+                // file=<file> - check thbt <file> is specified
+                if (option.stbrtsWith("file=")) {
+                    filenbme = option.substring(5);
+                    if (filenbme.length() == 0) {
                         return null;
                     }
                 } else {
@@ -280,112 +280,112 @@ public class JMap {
                 }
             }
         }
-        return filename;
+        return filenbme;
     }
 
-    private static boolean isDumpLiveObjects(String arg) {
-        // options are separated by comma (,)
-        String options[] = arg.substring(DUMP_OPTION_PREFIX.length()).split(",");
+    privbte stbtic boolebn isDumpLiveObjects(String brg) {
+        // options bre sepbrbted by commb (,)
+        String options[] = brg.substring(DUMP_OPTION_PREFIX.length()).split(",");
         for (String suboption : options) {
-            if (suboption.equals("live")) {
+            if (suboption.equbls("live")) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    // Attach to <pid>, existing if we fail to attach
-    private static VirtualMachine attach(String pid) {
+    // Attbch to <pid>, existing if we fbil to bttbch
+    privbte stbtic VirtublMbchine bttbch(String pid) {
         try {
-            return VirtualMachine.attach(pid);
-        } catch (Exception x) {
-            String msg = x.getMessage();
+            return VirtublMbchine.bttbch(pid);
+        } cbtch (Exception x) {
+            String msg = x.getMessbge();
             if (msg != null) {
                 System.err.println(pid + ": " + msg);
             } else {
-                x.printStackTrace();
+                x.printStbckTrbce();
             }
-            if ((x instanceof AttachNotSupportedException) && haveSA()) {
-                System.err.println("The -F option can be used when the " +
-                  "target process is not responding");
+            if ((x instbnceof AttbchNotSupportedException) && hbveSA()) {
+                System.err.println("The -F option cbn be used when the " +
+                  "tbrget process is not responding");
             }
             System.exit(1);
-            return null; // keep compiler happy
+            return null; // keep compiler hbppy
         }
     }
 
-    // Read the stream from the target VM until EOF, then detach
-    private static void drain(VirtualMachine vm, InputStream in) throws IOException {
-        // read to EOF and just print output
+    // Rebd the strebm from the tbrget VM until EOF, then detbch
+    privbte stbtic void drbin(VirtublMbchine vm, InputStrebm in) throws IOException {
+        // rebd to EOF bnd just print output
         byte b[] = new byte[256];
         int n;
         do {
-            n = in.read(b);
+            n = in.rebd(b);
             if (n > 0) {
                 String s = new String(b, 0, n, "UTF-8");
                 System.out.print(s);
             }
         } while (n > 0);
         in.close();
-        vm.detach();
+        vm.detbch();
     }
 
-    // return a new string array with arg as the first element
-    private static String[] prepend(String arg, String args[]) {
-        String[] newargs = new String[args.length+1];
-        newargs[0] = arg;
-        System.arraycopy(args, 0, newargs, 1, args.length);
-        return newargs;
+    // return b new string brrby with brg bs the first element
+    privbte stbtic String[] prepend(String brg, String brgs[]) {
+        String[] newbrgs = new String[brgs.length+1];
+        newbrgs[0] = brg;
+        System.brrbycopy(brgs, 0, newbrgs, 1, brgs.length);
+        return newbrgs;
     }
 
-    // returns true if SA is available
-    private static boolean haveSA() {
-        Class<?> c = loadClass("sun.jvm.hotspot.tools.HeapSummary");
+    // returns true if SA is bvbilbble
+    privbte stbtic boolebn hbveSA() {
+        Clbss<?> c = lobdClbss("sun.jvm.hotspot.tools.HebpSummbry");
         return (c != null);
     }
 
-    // print usage message
-    private static void usage(int exit) {
-        System.err.println("Usage:");
-        if (haveSA()) {
-            System.err.println("    jmap [option] <pid>");
+    // print usbge messbge
+    privbte stbtic void usbge(int exit) {
+        System.err.println("Usbge:");
+        if (hbveSA()) {
+            System.err.println("    jmbp [option] <pid>");
             System.err.println("        (to connect to running process)");
-            System.err.println("    jmap [option] <executable <core>");
-            System.err.println("        (to connect to a core file)");
-            System.err.println("    jmap [option] [server_id@]<remote server IP or hostname>");
+            System.err.println("    jmbp [option] <executbble <core>");
+            System.err.println("        (to connect to b core file)");
+            System.err.println("    jmbp [option] [server_id@]<remote server IP or hostnbme>");
             System.err.println("        (to connect to remote debug server)");
             System.err.println("");
             System.err.println("where <option> is one of:");
-            System.err.println("    <none>               to print same info as Solaris pmap");
-            System.err.println("    -heap                to print java heap summary");
-            System.err.println("    -histo[:live]        to print histogram of java object heap; if the \"live\"");
+            System.err.println("    <none>               to print sbme info bs Solbris pmbp");
+            System.err.println("    -hebp                to print jbvb hebp summbry");
+            System.err.println("    -histo[:live]        to print histogrbm of jbvb object hebp; if the \"live\"");
             System.err.println("                         suboption is specified, only count live objects");
-            System.err.println("    -clstats             to print class loader statistics");
-            System.err.println("    -finalizerinfo       to print information on objects awaiting finalization");
-            System.err.println("    -dump:<dump-options> to dump java heap in hprof binary format");
+            System.err.println("    -clstbts             to print clbss lobder stbtistics");
+            System.err.println("    -finblizerinfo       to print informbtion on objects bwbiting finblizbtion");
+            System.err.println("    -dump:<dump-options> to dump jbvb hebp in hprof binbry formbt");
             System.err.println("                         dump-options:");
             System.err.println("                           live         dump only live objects; if not specified,");
-            System.err.println("                                        all objects in the heap are dumped.");
-            System.err.println("                           format=b     binary format");
-            System.err.println("                           file=<file>  dump heap to <file>");
-            System.err.println("                         Example: jmap -dump:live,format=b,file=heap.bin <pid>");
+            System.err.println("                                        bll objects in the hebp bre dumped.");
+            System.err.println("                           formbt=b     binbry formbt");
+            System.err.println("                           file=<file>  dump hebp to <file>");
+            System.err.println("                         Exbmple: jmbp -dump:live,formbt=b,file=hebp.bin <pid>");
             System.err.println("    -F                   force. Use with -dump:<dump-options> <pid> or -histo");
-            System.err.println("                         to force a heap dump or histogram when <pid> does not");
+            System.err.println("                         to force b hebp dump or histogrbm when <pid> does not");
             System.err.println("                         respond. The \"live\" suboption is not supported");
             System.err.println("                         in this mode.");
-            System.err.println("    -h | -help           to print this help message");
-            System.err.println("    -J<flag>             to pass <flag> directly to the runtime system");
+            System.err.println("    -h | -help           to print this help messbge");
+            System.err.println("    -J<flbg>             to pbss <flbg> directly to the runtime system");
         } else {
-            System.err.println("    jmap -histo <pid>");
-            System.err.println("      (to connect to running process and print histogram of java object heap");
-            System.err.println("    jmap -dump:<dump-options> <pid>");
-            System.err.println("      (to connect to running process and dump java heap)");
+            System.err.println("    jmbp -histo <pid>");
+            System.err.println("      (to connect to running process bnd print histogrbm of jbvb object hebp");
+            System.err.println("    jmbp -dump:<dump-options> <pid>");
+            System.err.println("      (to connect to running process bnd dump jbvb hebp)");
             System.err.println("");
             System.err.println("    dump-options:");
-            System.err.println("      format=b     binary default");
-            System.err.println("      file=<file>  dump heap to <file>");
+            System.err.println("      formbt=b     binbry defbult");
+            System.err.println("      file=<file>  dump hebp to <file>");
             System.err.println("");
-            System.err.println("    Example:       jmap -dump:format=b,file=heap.bin <pid>");
+            System.err.println("    Exbmple:       jmbp -dump:formbt=b,file=hebp.bin <pid>");
         }
 
         System.exit(exit);

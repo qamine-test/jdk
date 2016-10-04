@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import java.awt.GradientPaint;
-import java.awt.LinearGradientPaint;
-import java.awt.MultipleGradientPaint;
-import java.awt.MultipleGradientPaint.ColorSpaceType;
-import java.awt.MultipleGradientPaint.CycleMethod;
-import java.awt.RadialGradientPaint;
-import java.awt.TexturePaint;
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.CompositeType;
-import static sun.java2d.pipe.BufferedPaints.*;
-import static sun.java2d.opengl.OGLContext.OGLContextCaps.*;
+import jbvb.bwt.GrbdientPbint;
+import jbvb.bwt.LinebrGrbdientPbint;
+import jbvb.bwt.MultipleGrbdientPbint;
+import jbvb.bwt.MultipleGrbdientPbint.ColorSpbceType;
+import jbvb.bwt.MultipleGrbdientPbint.CycleMethod;
+import jbvb.bwt.RbdiblGrbdientPbint;
+import jbvb.bwt.TexturePbint;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.CompositeType;
+import stbtic sun.jbvb2d.pipe.BufferedPbints.*;
+import stbtic sun.jbvb2d.opengl.OGLContext.OGLContextCbps.*;
 
-abstract class OGLPaints {
+bbstrbct clbss OGLPbints {
 
     /**
-     * Holds all registered implementations, using the corresponding
-     * SunGraphics2D.PAINT_* constant as the hash key.
+     * Holds bll registered implementbtions, using the corresponding
+     * SunGrbphics2D.PAINT_* constbnt bs the hbsh key.
      */
-    private static Map<Integer, OGLPaints> impls =
-        new HashMap<Integer, OGLPaints>(4, 1.0f);
+    privbte stbtic Mbp<Integer, OGLPbints> impls =
+        new HbshMbp<Integer, OGLPbints>(4, 1.0f);
 
-    static {
-        impls.put(SunGraphics2D.PAINT_GRADIENT, new Gradient());
-        impls.put(SunGraphics2D.PAINT_LIN_GRADIENT, new LinearGradient());
-        impls.put(SunGraphics2D.PAINT_RAD_GRADIENT, new RadialGradient());
-        impls.put(SunGraphics2D.PAINT_TEXTURE, new Texture());
+    stbtic {
+        impls.put(SunGrbphics2D.PAINT_GRADIENT, new Grbdient());
+        impls.put(SunGrbphics2D.PAINT_LIN_GRADIENT, new LinebrGrbdient());
+        impls.put(SunGrbphics2D.PAINT_RAD_GRADIENT, new RbdiblGrbdient());
+        impls.put(SunGrbphics2D.PAINT_TEXTURE, new Texture());
     }
 
     /**
-     * Attempts to locate an implementation corresponding to the paint state
-     * of the provided SunGraphics2D object.  If no implementation can be
-     * found, or if the paint cannot be accelerated under the conditions
-     * of the SunGraphics2D, this method returns false; otherwise, returns
+     * Attempts to locbte bn implementbtion corresponding to the pbint stbte
+     * of the provided SunGrbphics2D object.  If no implementbtion cbn be
+     * found, or if the pbint cbnnot be bccelerbted under the conditions
+     * of the SunGrbphics2D, this method returns fblse; otherwise, returns
      * true.
      */
-    static boolean isValid(SunGraphics2D sg2d) {
-        OGLPaints impl = impls.get(sg2d.paintState);
-        return (impl != null && impl.isPaintValid(sg2d));
+    stbtic boolebn isVblid(SunGrbphics2D sg2d) {
+        OGLPbints impl = impls.get(sg2d.pbintStbte);
+        return (impl != null && impl.isPbintVblid(sg2d));
     }
 
     /**
-     * Returns true if this implementation is able to accelerate the
-     * Paint object associated with, and under the conditions of, the
-     * provided SunGraphics2D instance; otherwise returns false.
+     * Returns true if this implementbtion is bble to bccelerbte the
+     * Pbint object bssocibted with, bnd under the conditions of, the
+     * provided SunGrbphics2D instbnce; otherwise returns fblse.
      */
-    abstract boolean isPaintValid(SunGraphics2D sg2d);
+    bbstrbct boolebn isPbintVblid(SunGrbphics2D sg2d);
 
-/************************* GradientPaint support ****************************/
+/************************* GrbdientPbint support ****************************/
 
-    private static class Gradient extends OGLPaints {
-        private Gradient() {}
+    privbte stbtic clbss Grbdient extends OGLPbints {
+        privbte Grbdient() {}
 
         /**
-         * There are no restrictions for accelerating GradientPaint, so
-         * this method always returns true.
+         * There bre no restrictions for bccelerbting GrbdientPbint, so
+         * this method blwbys returns true.
          */
         @Override
-        boolean isPaintValid(SunGraphics2D sg2d) {
+        boolebn isPbintVblid(SunGrbphics2D sg2d) {
             return true;
         }
     }
 
-/************************** TexturePaint support ****************************/
+/************************** TexturePbint support ****************************/
 
-    private static class Texture extends OGLPaints {
-        private Texture() {}
+    privbte stbtic clbss Texture extends OGLPbints {
+        privbte Texture() {}
 
         /**
-         * Returns true if the given TexturePaint instance can be used by the
-         * accelerated OGLPaints.Texture implementation.  A TexturePaint is
-         * considered valid if the following conditions are met:
-         *   - the texture image dimensions are power-of-two (or the
+         * Returns true if the given TexturePbint instbnce cbn be used by the
+         * bccelerbted OGLPbints.Texture implementbtion.  A TexturePbint is
+         * considered vblid if the following conditions bre met:
+         *   - the texture imbge dimensions bre power-of-two (or the
          *     GL_ARB_texture_non_power_of_two extension is present)
-         *   - the texture image can be (or is already) cached in an OpenGL
+         *   - the texture imbge cbn be (or is blrebdy) cbched in bn OpenGL
          *     texture object
          */
         @Override
-        boolean isPaintValid(SunGraphics2D sg2d) {
-            TexturePaint paint = (TexturePaint)sg2d.paint;
-            OGLSurfaceData dstData = (OGLSurfaceData)sg2d.surfaceData;
-            BufferedImage bi = paint.getImage();
+        boolebn isPbintVblid(SunGrbphics2D sg2d) {
+            TexturePbint pbint = (TexturePbint)sg2d.pbint;
+            OGLSurfbceDbtb dstDbtb = (OGLSurfbceDbtb)sg2d.surfbceDbtb;
+            BufferedImbge bi = pbint.getImbge();
 
-            // see if texture-non-pow2 extension is available
-            if (!dstData.isTexNonPow2Available()) {
+            // see if texture-non-pow2 extension is bvbilbble
+            if (!dstDbtb.isTexNonPow2Avbilbble()) {
                 int imgw = bi.getWidth();
                 int imgh = bi.getHeight();
 
-                // verify that the texture image dimensions are pow2
+                // verify thbt the texture imbge dimensions bre pow2
                 if ((imgw & (imgw - 1)) != 0 || (imgh & (imgh - 1)) != 0) {
-                    return false;
+                    return fblse;
                 }
             }
 
-            SurfaceData srcData =
-                dstData.getSourceSurfaceData(bi,
-                                             SunGraphics2D.TRANSFORM_ISIDENT,
+            SurfbceDbtb srcDbtb =
+                dstDbtb.getSourceSurfbceDbtb(bi,
+                                             SunGrbphics2D.TRANSFORM_ISIDENT,
                                              CompositeType.SrcOver, null);
-            if (!(srcData instanceof OGLSurfaceData)) {
-                // REMIND: this is a hack that attempts to cache the system
-                //         memory image from the TexturePaint instance into an
+            if (!(srcDbtb instbnceof OGLSurfbceDbtb)) {
+                // REMIND: this is b hbck thbt bttempts to cbche the system
+                //         memory imbge from the TexturePbint instbnce into bn
                 //         OpenGL texture...
-                srcData =
-                    dstData.getSourceSurfaceData(bi,
-                                                 SunGraphics2D.TRANSFORM_ISIDENT,
+                srcDbtb =
+                    dstDbtb.getSourceSurfbceDbtb(bi,
+                                                 SunGrbphics2D.TRANSFORM_ISIDENT,
                                                  CompositeType.SrcOver, null);
-                if (!(srcData instanceof OGLSurfaceData)) {
-                    return false;
+                if (!(srcDbtb instbnceof OGLSurfbceDbtb)) {
+                    return fblse;
                 }
             }
 
-            // verify that the source surface is actually a texture
-            OGLSurfaceData oglData = (OGLSurfaceData)srcData;
-            if (oglData.getType() != OGLSurfaceData.TEXTURE) {
-                return false;
+            // verify thbt the source surfbce is bctublly b texture
+            OGLSurfbceDbtb oglDbtb = (OGLSurfbceDbtb)srcDbtb;
+            if (oglDbtb.getType() != OGLSurfbceDbtb.TEXTURE) {
+                return fblse;
             }
 
             return true;
         }
     }
 
-/****************** Shared MultipleGradientPaint support ********************/
+/****************** Shbred MultipleGrbdientPbint support ********************/
 
-    private static abstract class MultiGradient extends OGLPaints {
-        protected MultiGradient() {}
+    privbte stbtic bbstrbct clbss MultiGrbdient extends OGLPbints {
+        protected MultiGrbdient() {}
 
         /**
-         * Returns true if the given MultipleGradientPaint instance can be
-         * used by the accelerated OGLPaints.MultiGradient implementation.
-         * A MultipleGradientPaint is considered valid if the following
-         * conditions are met:
-         *   - the number of gradient "stops" is <= MAX_FRACTIONS
-         *   - the destination has support for fragment shaders
+         * Returns true if the given MultipleGrbdientPbint instbnce cbn be
+         * used by the bccelerbted OGLPbints.MultiGrbdient implementbtion.
+         * A MultipleGrbdientPbint is considered vblid if the following
+         * conditions bre met:
+         *   - the number of grbdient "stops" is <= MAX_FRACTIONS
+         *   - the destinbtion hbs support for frbgment shbders
          */
         @Override
-        boolean isPaintValid(SunGraphics2D sg2d) {
-            MultipleGradientPaint paint = (MultipleGradientPaint)sg2d.paint;
-            // REMIND: ugh, this creates garbage; would be nicer if
-            // we had a MultipleGradientPaint.getNumStops() method...
-            if (paint.getFractions().length > MULTI_MAX_FRACTIONS) {
-                return false;
+        boolebn isPbintVblid(SunGrbphics2D sg2d) {
+            MultipleGrbdientPbint pbint = (MultipleGrbdientPbint)sg2d.pbint;
+            // REMIND: ugh, this crebtes gbrbbge; would be nicer if
+            // we hbd b MultipleGrbdientPbint.getNumStops() method...
+            if (pbint.getFrbctions().length > MULTI_MAX_FRACTIONS) {
+                return fblse;
             }
 
-            OGLSurfaceData dstData = (OGLSurfaceData)sg2d.surfaceData;
-            OGLGraphicsConfig gc = dstData.getOGLGraphicsConfig();
-            if (!gc.isCapPresent(CAPS_EXT_GRAD_SHADER)) {
-                return false;
+            OGLSurfbceDbtb dstDbtb = (OGLSurfbceDbtb)sg2d.surfbceDbtb;
+            OGLGrbphicsConfig gc = dstDbtb.getOGLGrbphicsConfig();
+            if (!gc.isCbpPresent(CAPS_EXT_GRAD_SHADER)) {
+                return fblse;
             }
 
             return true;
         }
     }
 
-/********************** LinearGradientPaint support *************************/
+/********************** LinebrGrbdientPbint support *************************/
 
-    private static class LinearGradient extends MultiGradient {
-        private LinearGradient() {}
+    privbte stbtic clbss LinebrGrbdient extends MultiGrbdient {
+        privbte LinebrGrbdient() {}
 
         @Override
-        boolean isPaintValid(SunGraphics2D sg2d) {
-            LinearGradientPaint paint = (LinearGradientPaint)sg2d.paint;
+        boolebn isPbintVblid(SunGrbphics2D sg2d) {
+            LinebrGrbdientPbint pbint = (LinebrGrbdientPbint)sg2d.pbint;
 
-            if (paint.getFractions().length == 2 &&
-                paint.getCycleMethod() != CycleMethod.REPEAT &&
-                paint.getColorSpace() != ColorSpaceType.LINEAR_RGB)
+            if (pbint.getFrbctions().length == 2 &&
+                pbint.getCycleMethod() != CycleMethod.REPEAT &&
+                pbint.getColorSpbce() != ColorSpbceType.LINEAR_RGB)
             {
-                // we can delegate to the optimized two-color gradient
-                // codepath, which does not require fragment shader support
+                // we cbn delegbte to the optimized two-color grbdient
+                // codepbth, which does not require frbgment shbder support
                 return true;
             }
 
-            return super.isPaintValid(sg2d);
+            return super.isPbintVblid(sg2d);
         }
     }
 
-/********************** RadialGradientPaint support *************************/
+/********************** RbdiblGrbdientPbint support *************************/
 
-    private static class RadialGradient extends MultiGradient {
-        private RadialGradient() {}
+    privbte stbtic clbss RbdiblGrbdient extends MultiGrbdient {
+        privbte RbdiblGrbdient() {}
     }
 }

@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.*;
 import com.sun.jdi.*;
-import com.sun.tools.example.debug.bdi.*;
+import com.sun.tools.exbmple.debug.bdi.*;
 
-public class StackTraceTool extends JPanel {
+public clbss StbckTrbceTool extends JPbnel {
 
-    private static final long serialVersionUID = 9140041989427965718L;
+    privbte stbtic finbl long seriblVersionUID = 9140041989427965718L;
 
-    private Environment env;
+    privbte Environment env;
 
-    private ExecutionManager runtime;
-    private ContextManager context;
+    privbte ExecutionMbnbger runtime;
+    privbte ContextMbnbger context;
 
-    private ThreadInfo tinfo;
+    privbte ThrebdInfo tinfo;
 
-    private JList list;
-    private ListModel stackModel;
+    privbte JList list;
+    privbte ListModel stbckModel;
 
-    public StackTraceTool(Environment env) {
+    public StbckTrbceTool(Environment env) {
 
-        super(new BorderLayout());
+        super(new BorderLbyout());
 
         this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.context = env.getContextManager();
+        this.runtime = env.getExecutionMbnbger();
+        this.context = env.getContextMbnbger();
 
-        stackModel = new DefaultListModel();  // empty
+        stbckModel = new DefbultListModel();  // empty
 
-        list = new JList(stackModel);
-        list.setCellRenderer(new StackFrameRenderer());
+        list = new JList(stbckModel);
+        list.setCellRenderer(new StbckFrbmeRenderer());
 
-        JScrollPane listView = new JScrollPane(list);
-        add(listView);
+        JScrollPbne listView = new JScrollPbne(list);
+        bdd(listView);
 
-        // Create listener.
-        StackTraceToolListener listener = new StackTraceToolListener();
-        context.addContextListener(listener);
-        list.addListSelectionListener(listener);
+        // Crebte listener.
+        StbckTrbceToolListener listener = new StbckTrbceToolListener();
+        context.bddContextListener(listener);
+        list.bddListSelectionListener(listener);
 
         //### remove listeners on exit!
     }
 
-    private class StackTraceToolListener
+    privbte clbss StbckTrbceToolListener
         implements ContextListener, ListSelectionListener
     {
 
         // ContextListener
 
-        // If the user selects a new current frame, display it in
+        // If the user selects b new current frbme, displby it in
         // this view.
 
-        //### I suspect we handle the case badly that the VM is not interrupted.
+        //### I suspect we hbndle the cbse bbdly thbt the VM is not interrupted.
 
         @Override
-        public void currentFrameChanged(CurrentFrameChangedEvent e) {
-            // If the current frame of the thread appearing in this
-            // view is changed, move the selection to track it.
-            int frameIndex = e.getIndex();
-            ThreadInfo ti = e.getThreadInfo();
-            if (e.getInvalidate() || tinfo != ti) {
+        public void currentFrbmeChbnged(CurrentFrbmeChbngedEvent e) {
+            // If the current frbme of the threbd bppebring in this
+            // view is chbnged, move the selection to trbck it.
+            int frbmeIndex = e.getIndex();
+            ThrebdInfo ti = e.getThrebdInfo();
+            if (e.getInvblidbte() || tinfo != ti) {
                 tinfo = ti;
-                showStack(ti, frameIndex);
+                showStbck(ti, frbmeIndex);
             } else {
-                if (frameIndex < stackModel.getSize()) {
-                    list.setSelectedIndex(frameIndex);
-                    list.ensureIndexIsVisible(frameIndex);
+                if (frbmeIndex < stbckModel.getSize()) {
+                    list.setSelectedIndex(frbmeIndex);
+                    list.ensureIndexIsVisible(frbmeIndex);
                 }
             }
         }
@@ -109,45 +109,45 @@ public class StackTraceTool extends JPanel {
         // ListSelectionListener
 
         @Override
-        public void valueChanged(ListSelectionEvent e) {
+        public void vblueChbnged(ListSelectionEvent e) {
             int index = list.getSelectedIndex();
             if (index != -1) {
                 //### should use listener?
                 try {
-                    context.setCurrentFrameIndex(index);
-                } catch (VMNotInterruptedException exc) {
+                    context.setCurrentFrbmeIndex(index);
+                } cbtch (VMNotInterruptedException exc) {
                 }
             }
         }
     }
 
-    private class StackFrameRenderer extends DefaultListCellRenderer {
+    privbte clbss StbckFrbmeRenderer extends DefbultListCellRenderer {
 
         @Override
         public Component getListCellRendererComponent(JList list,
-                                                      Object value,
+                                                      Object vblue,
                                                       int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
+                                                      boolebn isSelected,
+                                                      boolebn cellHbsFocus) {
 
-            //### We should indicate the current thread independently of the
-            //### selection, e.g., with an icon, because the user may change
-            //### the selection graphically without affecting the current
-            //### thread.
+            //### We should indicbte the current threbd independently of the
+            //### selection, e.g., with bn icon, becbuse the user mby chbnge
+            //### the selection grbphicblly without bffecting the current
+            //### threbd.
 
-            super.getListCellRendererComponent(list, value, index,
-                                               isSelected, cellHasFocus);
-            if (value == null) {
-                this.setText("<unavailable>");
+            super.getListCellRendererComponent(list, vblue, index,
+                                               isSelected, cellHbsFocus);
+            if (vblue == null) {
+                this.setText("<unbvbilbble>");
             } else {
-                StackFrame frame = (StackFrame)value;
-                Location loc = frame.location();
+                StbckFrbme frbme = (StbckFrbme)vblue;
+                Locbtion loc = frbme.locbtion();
                 Method meth = loc.method();
-                String methName =
-                    meth.declaringType().name() + '.' + meth.name();
+                String methNbme =
+                    meth.declbringType().nbme() + '.' + meth.nbme();
                 String position = "";
-                if (meth.isNative()) {
-                    position = " (native method)";
+                if (meth.isNbtive()) {
+                    position = " (nbtive method)";
                 } else if (loc.lineNumber() != -1) {
                     position = ":" + loc.lineNumber();
                 } else {
@@ -156,40 +156,40 @@ public class StackTraceTool extends JPanel {
                         position = ", pc = " + pc;
                     }
                 }
-                // Indices are presented to the user starting from 1, not 0.
-                this.setText("[" + (index+1) +"] " + methName + position);
+                // Indices bre presented to the user stbrting from 1, not 0.
+                this.setText("[" + (index+1) +"] " + methNbme + position);
             }
             return this;
         }
     }
 
-    // Point this view at the given thread and frame.
+    // Point this view bt the given threbd bnd frbme.
 
-    private void showStack(ThreadInfo tinfo, int selectFrame) {
-        StackTraceListModel model = new StackTraceListModel(tinfo);
-        stackModel = model;
-        list.setModel(stackModel);
-        list.setSelectedIndex(selectFrame);
-        list.ensureIndexIsVisible(selectFrame);
+    privbte void showStbck(ThrebdInfo tinfo, int selectFrbme) {
+        StbckTrbceListModel model = new StbckTrbceListModel(tinfo);
+        stbckModel = model;
+        list.setModel(stbckModel);
+        list.setSelectedIndex(selectFrbme);
+        list.ensureIndexIsVisible(selectFrbme);
     }
 
-    private static class StackTraceListModel extends AbstractListModel {
+    privbte stbtic clbss StbckTrbceListModel extends AbstrbctListModel {
 
-        private final ThreadInfo tinfo;
+        privbte finbl ThrebdInfo tinfo;
 
-        public StackTraceListModel(ThreadInfo tinfo) {
+        public StbckTrbceListModel(ThrebdInfo tinfo) {
             this.tinfo = tinfo;
         }
 
         @Override
         public Object getElementAt(int index) {
             try {
-                return tinfo == null? null : tinfo.getFrame(index);
-            } catch (VMNotInterruptedException e) {
-                //### Is this the right way to handle this?
-                //### Would happen if user scrolled stack trace
-                //### while not interrupted -- should probably
-                //### block user interaction in this case.
+                return tinfo == null? null : tinfo.getFrbme(index);
+            } cbtch (VMNotInterruptedException e) {
+                //### Is this the right wby to hbndle this?
+                //### Would hbppen if user scrolled stbck trbce
+                //### while not interrupted -- should probbbly
+                //### block user interbction in this cbse.
                 return null;
             }
         }
@@ -197,9 +197,9 @@ public class StackTraceTool extends JPanel {
         @Override
         public int getSize() {
             try {
-                return tinfo == null? 1 : tinfo.getFrameCount();
-            } catch (VMNotInterruptedException e) {
-                //### Is this the right way to handle this?
+                return tinfo == null? 1 : tinfo.getFrbmeCount();
+            } cbtch (VMNotInterruptedException e) {
+                //### Is this the right wby to hbndle this?
                 return 0;
             }
         }

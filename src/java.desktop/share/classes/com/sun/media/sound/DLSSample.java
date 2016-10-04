@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.InputStream;
-import java.util.Arrays;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.SoundbankResource;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
+import jbvb.io.InputStrebm;
+import jbvb.util.Arrbys;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkResource;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
 
 /**
- * This class is used to store the sample data itself.
- * A sample is encoded as PCM audio stream
- * and in DLS Level 1 files it is always a mono 8/16 bit stream.
- * They are stored just like RIFF WAVE files are stored.
- * It is stored inside a "wave" List Chunk inside DLS files.
+ * This clbss is used to store the sbmple dbtb itself.
+ * A sbmple is encoded bs PCM budio strebm
+ * bnd in DLS Level 1 files it is blwbys b mono 8/16 bit strebm.
+ * They bre stored just like RIFF WAVE files bre stored.
+ * It is stored inside b "wbve" List Chunk inside DLS files.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class DLSSample extends SoundbankResource {
+public finbl clbss DLSSbmple extends SoundbbnkResource {
 
     byte[] guid = null;
     DLSInfo info = new DLSInfo();
-    DLSSampleOptions sampleoptions;
-    ModelByteBuffer data;
-    AudioFormat format;
+    DLSSbmpleOptions sbmpleoptions;
+    ModelByteBuffer dbtb;
+    AudioFormbt formbt;
 
-    public DLSSample(Soundbank soundBank) {
-        super(soundBank, null, AudioInputStream.class);
+    public DLSSbmple(Soundbbnk soundBbnk) {
+        super(soundBbnk, null, AudioInputStrebm.clbss);
     }
 
-    public DLSSample() {
-        super(null, null, AudioInputStream.class);
+    public DLSSbmple() {
+        super(null, null, AudioInputStrebm.clbss);
     }
 
     public DLSInfo getInfo() {
         return info;
     }
 
-    public Object getData() {
-        AudioFormat format = getFormat();
+    public Object getDbtb() {
+        AudioFormbt formbt = getFormbt();
 
-        InputStream is = data.getInputStream();
+        InputStrebm is = dbtb.getInputStrebm();
         if (is == null)
             return null;
-        return new AudioInputStream(is, format, data.capacity());
+        return new AudioInputStrebm(is, formbt, dbtb.cbpbcity());
     }
 
-    public ModelByteBuffer getDataBuffer() {
-        return data;
+    public ModelByteBuffer getDbtbBuffer() {
+        return dbtb;
     }
 
-    public AudioFormat getFormat() {
-        return format;
+    public AudioFormbt getFormbt() {
+        return formbt;
     }
 
-    public void setFormat(AudioFormat format) {
-        this.format = format;
+    public void setFormbt(AudioFormbt formbt) {
+        this.formbt = formbt;
     }
 
-    public void setData(ModelByteBuffer data) {
-        this.data = data;
+    public void setDbtb(ModelByteBuffer dbtb) {
+        this.dbtb = dbtb;
     }
 
-    public void setData(byte[] data) {
-        this.data = new ModelByteBuffer(data);
+    public void setDbtb(byte[] dbtb) {
+        this.dbtb = new ModelByteBuffer(dbtb);
     }
 
-    public void setData(byte[] data, int offset, int length) {
-        this.data = new ModelByteBuffer(data, offset, length);
+    public void setDbtb(byte[] dbtb, int offset, int length) {
+        this.dbtb = new ModelByteBuffer(dbtb, offset, length);
     }
 
-    public String getName() {
-        return info.name;
+    public String getNbme() {
+        return info.nbme;
     }
 
-    public void setName(String name) {
-        info.name = name;
+    public void setNbme(String nbme) {
+        info.nbme = nbme;
     }
 
-    public DLSSampleOptions getSampleoptions() {
-        return sampleoptions;
+    public DLSSbmpleOptions getSbmpleoptions() {
+        return sbmpleoptions;
     }
 
-    public void setSampleoptions(DLSSampleOptions sampleOptions) {
-        this.sampleoptions = sampleOptions;
+    public void setSbmpleoptions(DLSSbmpleOptions sbmpleOptions) {
+        this.sbmpleoptions = sbmpleOptions;
     }
 
     public String toString() {
-        return "Sample: " + info.name;
+        return "Sbmple: " + info.nbme;
     }
 
     public byte[] getGuid() {
-        return guid == null ? null : Arrays.copyOf(guid, guid.length);
+        return guid == null ? null : Arrbys.copyOf(guid, guid.length);
     }
 
     public void setGuid(byte[] guid) {
-        this.guid = guid == null ? null : Arrays.copyOf(guid, guid.length);
+        this.guid = guid == null ? null : Arrbys.copyOf(guid, guid.length);
     }
 }

@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbckbge com.sun.imbgeio.plugins.gif;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbNode;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbt;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
 import org.w3c.dom.Node;
 
-public class GIFImageMetadata extends GIFMetadata {
+public clbss GIFImbgeMetbdbtb extends GIFMetbdbtb {
 
-    // package scope
-    static final String
-        nativeMetadataFormatName = "javax_imageio_gif_image_1.0";
+    // pbckbge scope
+    stbtic finbl String
+        nbtiveMetbdbtbFormbtNbme = "jbvbx_imbgeio_gif_imbge_1.0";
 
-    static final String[] disposalMethodNames = {
+    stbtic finbl String[] disposblMethodNbmes = {
         "none",
         "doNotDispose",
-        "restoreToBackgroundColor",
+        "restoreToBbckgroundColor",
         "restoreToPrevious",
-        "undefinedDisposalMethod4",
-        "undefinedDisposalMethod5",
-        "undefinedDisposalMethod6",
-        "undefinedDisposalMethod7"
+        "undefinedDisposblMethod4",
+        "undefinedDisposblMethod5",
+        "undefinedDisposblMethod6",
+        "undefinedDisposblMethod7"
     };
 
-    // Fields from Image Descriptor
-    public int imageLeftPosition;
-    public int imageTopPosition;
-    public int imageWidth;
-    public int imageHeight;
-    public boolean interlaceFlag = false;
-    public boolean sortFlag = false;
-    public byte[] localColorTable = null;
+    // Fields from Imbge Descriptor
+    public int imbgeLeftPosition;
+    public int imbgeTopPosition;
+    public int imbgeWidth;
+    public int imbgeHeight;
+    public boolebn interlbceFlbg = fblse;
+    public boolebn sortFlbg = fblse;
+    public byte[] locblColorTbble = null;
 
-    // Fields from Graphic Control Extension
-    public int disposalMethod = 0;
-    public boolean userInputFlag = false;
-    public boolean transparentColorFlag = false;
-    public int delayTime = 0;
-    public int transparentColorIndex = 0;
+    // Fields from Grbphic Control Extension
+    public int disposblMethod = 0;
+    public boolebn userInputFlbg = fblse;
+    public boolebn trbnspbrentColorFlbg = fblse;
+    public int delbyTime = 0;
+    public int trbnspbrentColorIndex = 0;
 
-    // Fields from Plain Text Extension
-    public boolean hasPlainTextExtension = false;
+    // Fields from Plbin Text Extension
+    public boolebn hbsPlbinTextExtension = fblse;
     public int textGridLeft;
     public int textGridTop;
     public int textGridWidth;
     public int textGridHeight;
-    public int characterCellWidth;
-    public int characterCellHeight;
+    public int chbrbcterCellWidth;
+    public int chbrbcterCellHeight;
     public int textForegroundColor;
-    public int textBackgroundColor;
+    public int textBbckgroundColor;
     public byte[] text;
 
-    // Fields from ApplicationExtension
+    // Fields from ApplicbtionExtension
     // List of byte[]
-    public List<byte[]> applicationIDs = null;
+    public List<byte[]> bpplicbtionIDs = null;
 
     // List of byte[]
-    public List<byte[]> authenticationCodes = null;
+    public List<byte[]> buthenticbtionCodes = null;
 
     // List of byte[]
-    public List<byte[]> applicationData = null;
+    public List<byte[]> bpplicbtionDbtb = null;
 
     // Fields from CommentExtension
     // List of byte[]
     public List<byte[]> comments = null;
 
-    protected GIFImageMetadata(boolean standardMetadataFormatSupported,
-                               String nativeMetadataFormatName,
-                               String nativeMetadataFormatClassName,
-                               String[] extraMetadataFormatNames,
-                               String[] extraMetadataFormatClassNames)
+    protected GIFImbgeMetbdbtb(boolebn stbndbrdMetbdbtbFormbtSupported,
+                               String nbtiveMetbdbtbFormbtNbme,
+                               String nbtiveMetbdbtbFormbtClbssNbme,
+                               String[] extrbMetbdbtbFormbtNbmes,
+                               String[] extrbMetbdbtbFormbtClbssNbmes)
     {
-        super(standardMetadataFormatSupported,
-              nativeMetadataFormatName,
-              nativeMetadataFormatClassName,
-              extraMetadataFormatNames,
-              extraMetadataFormatClassNames);
+        super(stbndbrdMetbdbtbFormbtSupported,
+              nbtiveMetbdbtbFormbtNbme,
+              nbtiveMetbdbtbFormbtClbssNbme,
+              extrbMetbdbtbFormbtNbmes,
+              extrbMetbdbtbFormbtClbssNbmes);
     }
 
-    public GIFImageMetadata() {
+    public GIFImbgeMetbdbtb() {
         this(true,
-              nativeMetadataFormatName,
-              "com.sun.imageio.plugins.gif.GIFImageMetadataFormat",
+              nbtiveMetbdbtbFormbtNbme,
+              "com.sun.imbgeio.plugins.gif.GIFImbgeMetbdbtbFormbt",
               null, null);
     }
 
-    public boolean isReadOnly() {
+    public boolebn isRebdOnly() {
         return true;
     }
 
-    public Node getAsTree(String formatName) {
-        if (formatName.equals(nativeMetadataFormatName)) {
-            return getNativeTree();
-        } else if (formatName.equals
-                   (IIOMetadataFormatImpl.standardMetadataFormatName)) {
-            return getStandardTree();
+    public Node getAsTree(String formbtNbme) {
+        if (formbtNbme.equbls(nbtiveMetbdbtbFormbtNbme)) {
+            return getNbtiveTree();
+        } else if (formbtNbme.equbls
+                   (IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme)) {
+            return getStbndbrdTree();
         } else {
-            throw new IllegalArgumentException("Not a recognized format!");
+            throw new IllegblArgumentException("Not b recognized formbt!");
         }
     }
 
-    private String toISO8859(byte[] data) {
+    privbte String toISO8859(byte[] dbtb) {
         try {
-            return new String(data, "ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
+            return new String(dbtb, "ISO-8859-1");
+        } cbtch (UnsupportedEncodingException e) {
             return "";
         }
     }
 
-    private Node getNativeTree() {
-        IIOMetadataNode node; // scratch node
-        IIOMetadataNode root =
-            new IIOMetadataNode(nativeMetadataFormatName);
+    privbte Node getNbtiveTree() {
+        IIOMetbdbtbNode node; // scrbtch node
+        IIOMetbdbtbNode root =
+            new IIOMetbdbtbNode(nbtiveMetbdbtbFormbtNbme);
 
-        // Image descriptor
-        node = new IIOMetadataNode("ImageDescriptor");
-        node.setAttribute("imageLeftPosition",
-                          Integer.toString(imageLeftPosition));
-        node.setAttribute("imageTopPosition",
-                          Integer.toString(imageTopPosition));
-        node.setAttribute("imageWidth", Integer.toString(imageWidth));
-        node.setAttribute("imageHeight", Integer.toString(imageHeight));
-        node.setAttribute("interlaceFlag",
-                          interlaceFlag ? "TRUE" : "FALSE");
-        root.appendChild(node);
+        // Imbge descriptor
+        node = new IIOMetbdbtbNode("ImbgeDescriptor");
+        node.setAttribute("imbgeLeftPosition",
+                          Integer.toString(imbgeLeftPosition));
+        node.setAttribute("imbgeTopPosition",
+                          Integer.toString(imbgeTopPosition));
+        node.setAttribute("imbgeWidth", Integer.toString(imbgeWidth));
+        node.setAttribute("imbgeHeight", Integer.toString(imbgeHeight));
+        node.setAttribute("interlbceFlbg",
+                          interlbceFlbg ? "TRUE" : "FALSE");
+        root.bppendChild(node);
 
-        // Local color table
-        if (localColorTable != null) {
-            node = new IIOMetadataNode("LocalColorTable");
-            int numEntries = localColorTable.length/3;
-            node.setAttribute("sizeOfLocalColorTable",
+        // Locbl color tbble
+        if (locblColorTbble != null) {
+            node = new IIOMetbdbtbNode("LocblColorTbble");
+            int numEntries = locblColorTbble.length/3;
+            node.setAttribute("sizeOfLocblColorTbble",
                               Integer.toString(numEntries));
-            node.setAttribute("sortFlag",
-                              sortFlag ? "TRUE" : "FALSE");
+            node.setAttribute("sortFlbg",
+                              sortFlbg ? "TRUE" : "FALSE");
 
             for (int i = 0; i < numEntries; i++) {
-                IIOMetadataNode entry =
-                    new IIOMetadataNode("ColorTableEntry");
+                IIOMetbdbtbNode entry =
+                    new IIOMetbdbtbNode("ColorTbbleEntry");
                 entry.setAttribute("index", Integer.toString(i));
-                int r = localColorTable[3*i] & 0xff;
-                int g = localColorTable[3*i + 1] & 0xff;
-                int b = localColorTable[3*i + 2] & 0xff;
+                int r = locblColorTbble[3*i] & 0xff;
+                int g = locblColorTbble[3*i + 1] & 0xff;
+                int b = locblColorTbble[3*i + 2] & 0xff;
                 entry.setAttribute("red", Integer.toString(r));
                 entry.setAttribute("green", Integer.toString(g));
                 entry.setAttribute("blue", Integer.toString(b));
-                node.appendChild(entry);
+                node.bppendChild(entry);
             }
-            root.appendChild(node);
+            root.bppendChild(node);
         }
 
-        // Graphic control extension
-        node = new IIOMetadataNode("GraphicControlExtension");
-        node.setAttribute("disposalMethod",
-                          disposalMethodNames[disposalMethod]);
-        node.setAttribute("userInputFlag",
-                          userInputFlag ? "TRUE" : "FALSE");
-        node.setAttribute("transparentColorFlag",
-                          transparentColorFlag ? "TRUE" : "FALSE");
-        node.setAttribute("delayTime",
-                          Integer.toString(delayTime));
-        node.setAttribute("transparentColorIndex",
-                          Integer.toString(transparentColorIndex));
-        root.appendChild(node);
+        // Grbphic control extension
+        node = new IIOMetbdbtbNode("GrbphicControlExtension");
+        node.setAttribute("disposblMethod",
+                          disposblMethodNbmes[disposblMethod]);
+        node.setAttribute("userInputFlbg",
+                          userInputFlbg ? "TRUE" : "FALSE");
+        node.setAttribute("trbnspbrentColorFlbg",
+                          trbnspbrentColorFlbg ? "TRUE" : "FALSE");
+        node.setAttribute("delbyTime",
+                          Integer.toString(delbyTime));
+        node.setAttribute("trbnspbrentColorIndex",
+                          Integer.toString(trbnspbrentColorIndex));
+        root.bppendChild(node);
 
-        if (hasPlainTextExtension) {
-            node = new IIOMetadataNode("PlainTextExtension");
+        if (hbsPlbinTextExtension) {
+            node = new IIOMetbdbtbNode("PlbinTextExtension");
             node.setAttribute("textGridLeft",
                               Integer.toString(textGridLeft));
             node.setAttribute("textGridTop",
@@ -204,243 +204,243 @@ public class GIFImageMetadata extends GIFMetadata {
                               Integer.toString(textGridWidth));
             node.setAttribute("textGridHeight",
                               Integer.toString(textGridHeight));
-            node.setAttribute("characterCellWidth",
-                              Integer.toString(characterCellWidth));
-            node.setAttribute("characterCellHeight",
-                              Integer.toString(characterCellHeight));
+            node.setAttribute("chbrbcterCellWidth",
+                              Integer.toString(chbrbcterCellWidth));
+            node.setAttribute("chbrbcterCellHeight",
+                              Integer.toString(chbrbcterCellHeight));
             node.setAttribute("textForegroundColor",
                               Integer.toString(textForegroundColor));
-            node.setAttribute("textBackgroundColor",
-                              Integer.toString(textBackgroundColor));
+            node.setAttribute("textBbckgroundColor",
+                              Integer.toString(textBbckgroundColor));
             node.setAttribute("text", toISO8859(text));
 
-            root.appendChild(node);
+            root.bppendChild(node);
         }
 
-        // Application extensions
-        int numAppExtensions = applicationIDs == null ?
-            0 : applicationIDs.size();
+        // Applicbtion extensions
+        int numAppExtensions = bpplicbtionIDs == null ?
+            0 : bpplicbtionIDs.size();
         if (numAppExtensions > 0) {
-            node = new IIOMetadataNode("ApplicationExtensions");
+            node = new IIOMetbdbtbNode("ApplicbtionExtensions");
             for (int i = 0; i < numAppExtensions; i++) {
-                IIOMetadataNode appExtNode =
-                    new IIOMetadataNode("ApplicationExtension");
-                byte[] applicationID = applicationIDs.get(i);
-                appExtNode.setAttribute("applicationID",
-                                        toISO8859(applicationID));
-                byte[] authenticationCode = authenticationCodes.get(i);
-                appExtNode.setAttribute("authenticationCode",
-                                        toISO8859(authenticationCode));
-                byte[] appData = applicationData.get(i);
-                appExtNode.setUserObject(appData.clone());
-                node.appendChild(appExtNode);
+                IIOMetbdbtbNode bppExtNode =
+                    new IIOMetbdbtbNode("ApplicbtionExtension");
+                byte[] bpplicbtionID = bpplicbtionIDs.get(i);
+                bppExtNode.setAttribute("bpplicbtionID",
+                                        toISO8859(bpplicbtionID));
+                byte[] buthenticbtionCode = buthenticbtionCodes.get(i);
+                bppExtNode.setAttribute("buthenticbtionCode",
+                                        toISO8859(buthenticbtionCode));
+                byte[] bppDbtb = bpplicbtionDbtb.get(i);
+                bppExtNode.setUserObject(bppDbtb.clone());
+                node.bppendChild(bppExtNode);
             }
 
-            root.appendChild(node);
+            root.bppendChild(node);
         }
 
         // Comment extensions
         int numComments = comments == null ? 0 : comments.size();
         if (numComments > 0) {
-            node = new IIOMetadataNode("CommentExtensions");
+            node = new IIOMetbdbtbNode("CommentExtensions");
             for (int i = 0; i < numComments; i++) {
-                IIOMetadataNode commentNode =
-                    new IIOMetadataNode("CommentExtension");
+                IIOMetbdbtbNode commentNode =
+                    new IIOMetbdbtbNode("CommentExtension");
                 byte[] comment = comments.get(i);
-                commentNode.setAttribute("value", toISO8859(comment));
-                node.appendChild(commentNode);
+                commentNode.setAttribute("vblue", toISO8859(comment));
+                node.bppendChild(commentNode);
             }
 
-            root.appendChild(node);
+            root.bppendChild(node);
         }
 
         return root;
     }
 
-    public IIOMetadataNode getStandardChromaNode() {
-        IIOMetadataNode chroma_node = new IIOMetadataNode("Chroma");
-        IIOMetadataNode node = null; // scratch node
+    public IIOMetbdbtbNode getStbndbrdChrombNode() {
+        IIOMetbdbtbNode chromb_node = new IIOMetbdbtbNode("Chromb");
+        IIOMetbdbtbNode node = null; // scrbtch node
 
-        node = new IIOMetadataNode("ColorSpaceType");
-        node.setAttribute("name", "RGB");
-        chroma_node.appendChild(node);
+        node = new IIOMetbdbtbNode("ColorSpbceType");
+        node.setAttribute("nbme", "RGB");
+        chromb_node.bppendChild(node);
 
-        node = new IIOMetadataNode("NumChannels");
-        node.setAttribute("value", transparentColorFlag ? "4" : "3");
-        chroma_node.appendChild(node);
+        node = new IIOMetbdbtbNode("NumChbnnels");
+        node.setAttribute("vblue", trbnspbrentColorFlbg ? "4" : "3");
+        chromb_node.bppendChild(node);
 
-        // Gamma not in format
+        // Gbmmb not in formbt
 
-        node = new IIOMetadataNode("BlackIsZero");
-        node.setAttribute("value", "TRUE");
-        chroma_node.appendChild(node);
+        node = new IIOMetbdbtbNode("BlbckIsZero");
+        node.setAttribute("vblue", "TRUE");
+        chromb_node.bppendChild(node);
 
-        if (localColorTable != null) {
-            node = new IIOMetadataNode("Palette");
-            int numEntries = localColorTable.length/3;
+        if (locblColorTbble != null) {
+            node = new IIOMetbdbtbNode("Pblette");
+            int numEntries = locblColorTbble.length/3;
             for (int i = 0; i < numEntries; i++) {
-                IIOMetadataNode entry =
-                    new IIOMetadataNode("PaletteEntry");
+                IIOMetbdbtbNode entry =
+                    new IIOMetbdbtbNode("PbletteEntry");
                 entry.setAttribute("index", Integer.toString(i));
                 entry.setAttribute("red",
-                           Integer.toString(localColorTable[3*i] & 0xff));
+                           Integer.toString(locblColorTbble[3*i] & 0xff));
                 entry.setAttribute("green",
-                           Integer.toString(localColorTable[3*i + 1] & 0xff));
+                           Integer.toString(locblColorTbble[3*i + 1] & 0xff));
                 entry.setAttribute("blue",
-                           Integer.toString(localColorTable[3*i + 2] & 0xff));
-                node.appendChild(entry);
+                           Integer.toString(locblColorTbble[3*i + 2] & 0xff));
+                node.bppendChild(entry);
             }
-            chroma_node.appendChild(node);
+            chromb_node.bppendChild(node);
         }
 
-        // BackgroundIndex not in image
-        // BackgroundColor not in format
+        // BbckgroundIndex not in imbge
+        // BbckgroundColor not in formbt
 
-        return chroma_node;
+        return chromb_node;
     }
 
-    public IIOMetadataNode getStandardCompressionNode() {
-        IIOMetadataNode compression_node = new IIOMetadataNode("Compression");
-        IIOMetadataNode node = null; // scratch node
+    public IIOMetbdbtbNode getStbndbrdCompressionNode() {
+        IIOMetbdbtbNode compression_node = new IIOMetbdbtbNode("Compression");
+        IIOMetbdbtbNode node = null; // scrbtch node
 
-        node = new IIOMetadataNode("CompressionTypeName");
-        node.setAttribute("value", "lzw");
-        compression_node.appendChild(node);
+        node = new IIOMetbdbtbNode("CompressionTypeNbme");
+        node.setAttribute("vblue", "lzw");
+        compression_node.bppendChild(node);
 
-        node = new IIOMetadataNode("Lossless");
-        node.setAttribute("value", "TRUE");
-        compression_node.appendChild(node);
+        node = new IIOMetbdbtbNode("Lossless");
+        node.setAttribute("vblue", "TRUE");
+        compression_node.bppendChild(node);
 
-        node = new IIOMetadataNode("NumProgressiveScans");
-        node.setAttribute("value", interlaceFlag ? "4" : "1");
-        compression_node.appendChild(node);
+        node = new IIOMetbdbtbNode("NumProgressiveScbns");
+        node.setAttribute("vblue", interlbceFlbg ? "4" : "1");
+        compression_node.bppendChild(node);
 
-        // BitRate not in format
+        // BitRbte not in formbt
 
         return compression_node;
     }
 
-    public IIOMetadataNode getStandardDataNode() {
-        IIOMetadataNode data_node = new IIOMetadataNode("Data");
-        IIOMetadataNode node = null; // scratch node
+    public IIOMetbdbtbNode getStbndbrdDbtbNode() {
+        IIOMetbdbtbNode dbtb_node = new IIOMetbdbtbNode("Dbtb");
+        IIOMetbdbtbNode node = null; // scrbtch node
 
-        // PlanarConfiguration not in format
+        // PlbnbrConfigurbtion not in formbt
 
-        node = new IIOMetadataNode("SampleFormat");
-        node.setAttribute("value", "Index");
-        data_node.appendChild(node);
+        node = new IIOMetbdbtbNode("SbmpleFormbt");
+        node.setAttribute("vblue", "Index");
+        dbtb_node.bppendChild(node);
 
-        // BitsPerSample not in image
-        // SignificantBitsPerSample not in format
-        // SampleMSB not in format
+        // BitsPerSbmple not in imbge
+        // SignificbntBitsPerSbmple not in formbt
+        // SbmpleMSB not in formbt
 
-        return data_node;
+        return dbtb_node;
     }
 
-    public IIOMetadataNode getStandardDimensionNode() {
-        IIOMetadataNode dimension_node = new IIOMetadataNode("Dimension");
-        IIOMetadataNode node = null; // scratch node
+    public IIOMetbdbtbNode getStbndbrdDimensionNode() {
+        IIOMetbdbtbNode dimension_node = new IIOMetbdbtbNode("Dimension");
+        IIOMetbdbtbNode node = null; // scrbtch node
 
-        // PixelAspectRatio not in image
+        // PixelAspectRbtio not in imbge
 
-        node = new IIOMetadataNode("ImageOrientation");
-        node.setAttribute("value", "Normal");
-        dimension_node.appendChild(node);
+        node = new IIOMetbdbtbNode("ImbgeOrientbtion");
+        node.setAttribute("vblue", "Normbl");
+        dimension_node.bppendChild(node);
 
-        // HorizontalPixelSize not in format
-        // VerticalPixelSize not in format
-        // HorizontalPhysicalPixelSpacing not in format
-        // VerticalPhysicalPixelSpacing not in format
-        // HorizontalPosition not in format
-        // VerticalPosition not in format
+        // HorizontblPixelSize not in formbt
+        // VerticblPixelSize not in formbt
+        // HorizontblPhysicblPixelSpbcing not in formbt
+        // VerticblPhysicblPixelSpbcing not in formbt
+        // HorizontblPosition not in formbt
+        // VerticblPosition not in formbt
 
-        node = new IIOMetadataNode("HorizontalPixelOffset");
-        node.setAttribute("value", Integer.toString(imageLeftPosition));
-        dimension_node.appendChild(node);
+        node = new IIOMetbdbtbNode("HorizontblPixelOffset");
+        node.setAttribute("vblue", Integer.toString(imbgeLeftPosition));
+        dimension_node.bppendChild(node);
 
-        node = new IIOMetadataNode("VerticalPixelOffset");
-        node.setAttribute("value", Integer.toString(imageTopPosition));
-        dimension_node.appendChild(node);
+        node = new IIOMetbdbtbNode("VerticblPixelOffset");
+        node.setAttribute("vblue", Integer.toString(imbgeTopPosition));
+        dimension_node.bppendChild(node);
 
-        // HorizontalScreenSize not in image
-        // VerticalScreenSize not in image
+        // HorizontblScreenSize not in imbge
+        // VerticblScreenSize not in imbge
 
         return dimension_node;
     }
 
-    // Document not in image
+    // Document not in imbge
 
-    public IIOMetadataNode getStandardTextNode() {
+    public IIOMetbdbtbNode getStbndbrdTextNode() {
         if (comments == null) {
             return null;
         }
-        Iterator<byte[]> commentIter = comments.iterator();
-        if (!commentIter.hasNext()) {
+        Iterbtor<byte[]> commentIter = comments.iterbtor();
+        if (!commentIter.hbsNext()) {
             return null;
         }
 
-        IIOMetadataNode text_node = new IIOMetadataNode("Text");
-        IIOMetadataNode node = null; // scratch node
+        IIOMetbdbtbNode text_node = new IIOMetbdbtbNode("Text");
+        IIOMetbdbtbNode node = null; // scrbtch node
 
-        while (commentIter.hasNext()) {
+        while (commentIter.hbsNext()) {
             byte[] comment = commentIter.next();
             String s = null;
             try {
                 s = new String(comment, "ISO-8859-1");
-            } catch (UnsupportedEncodingException e) {
+            } cbtch (UnsupportedEncodingException e) {
                 throw new RuntimeException("Encoding ISO-8859-1 unknown!");
             }
 
-            node = new IIOMetadataNode("TextEntry");
-            node.setAttribute("value", s);
+            node = new IIOMetbdbtbNode("TextEntry");
+            node.setAttribute("vblue", s);
             node.setAttribute("encoding", "ISO-8859-1");
             node.setAttribute("compression", "none");
-            text_node.appendChild(node);
+            text_node.bppendChild(node);
         }
 
         return text_node;
     }
 
-    public IIOMetadataNode getStandardTransparencyNode() {
-        if (!transparentColorFlag) {
+    public IIOMetbdbtbNode getStbndbrdTrbnspbrencyNode() {
+        if (!trbnspbrentColorFlbg) {
             return null;
         }
 
-        IIOMetadataNode transparency_node =
-            new IIOMetadataNode("Transparency");
-        IIOMetadataNode node = null; // scratch node
+        IIOMetbdbtbNode trbnspbrency_node =
+            new IIOMetbdbtbNode("Trbnspbrency");
+        IIOMetbdbtbNode node = null; // scrbtch node
 
-        // Alpha not in format
+        // Alphb not in formbt
 
-        node = new IIOMetadataNode("TransparentIndex");
-        node.setAttribute("value",
-                          Integer.toString(transparentColorIndex));
-        transparency_node.appendChild(node);
+        node = new IIOMetbdbtbNode("TrbnspbrentIndex");
+        node.setAttribute("vblue",
+                          Integer.toString(trbnspbrentColorIndex));
+        trbnspbrency_node.bppendChild(node);
 
-        // TransparentColor not in format
-        // TileTransparencies not in format
-        // TileOpacities not in format
+        // TrbnspbrentColor not in formbt
+        // TileTrbnspbrencies not in formbt
+        // TileOpbcities not in formbt
 
-        return transparency_node;
+        return trbnspbrency_node;
     }
 
-    public void setFromTree(String formatName, Node root)
-        throws IIOInvalidTreeException
+    public void setFromTree(String formbtNbme, Node root)
+        throws IIOInvblidTreeException
     {
-        throw new IllegalStateException("Metadata is read-only!");
+        throw new IllegblStbteException("Metbdbtb is rebd-only!");
     }
 
-    protected void mergeNativeTree(Node root) throws IIOInvalidTreeException
+    protected void mergeNbtiveTree(Node root) throws IIOInvblidTreeException
     {
-        throw new IllegalStateException("Metadata is read-only!");
+        throw new IllegblStbteException("Metbdbtb is rebd-only!");
     }
 
-    protected void mergeStandardTree(Node root) throws IIOInvalidTreeException
+    protected void mergeStbndbrdTree(Node root) throws IIOInvblidTreeException
     {
-        throw new IllegalStateException("Metadata is read-only!");
+        throw new IllegblStbteException("Metbdbtb is rebd-only!");
     }
 
     public void reset() {
-        throw new IllegalStateException("Metadata is read-only!");
+        throw new IllegblStbteException("Metbdbtb is rebd-only!");
     }
 }

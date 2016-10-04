@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.util.Locale;
-import java.util.Arrays; // JDK 1.2
-import java.io.OutputStream;
-import javax.naming.ldap.Control;
-import java.lang.reflect.Method;
-import javax.net.SocketFactory;
+import jbvb.util.Locble;
+import jbvb.util.Arrbys; // JDK 1.2
+import jbvb.io.OutputStrebm;
+import jbvbx.nbming.ldbp.Control;
+import jbvb.lbng.reflect.Method;
+import jbvbx.net.SocketFbctory;
 
 /**
- * Represents identity information about an anonymous LDAP connection.
- * This base class contains the following information:
+ * Represents identity informbtion bbout bn bnonymous LDAP connection.
+ * This bbse clbss contbins the following informbtion:
  * - protocol version number
- * - server's hostname (case-insensitive)
+ * - server's hostnbme (cbse-insensitive)
  * - server's port number
- * - prototype type (plain or ssl)
+ * - prototype type (plbin or ssl)
  * - controls to be sent with the LDAP bind request
  *
- * All other identity classes must be a subclass of ClientId.
- * Identity subclasses would add more distinguishing information, depending
- * on the type of authentication that the connection is to have.
+ * All other identity clbsses must be b subclbss of ClientId.
+ * Identity subclbsses would bdd more distinguishing informbtion, depending
+ * on the type of buthenticbtion thbt the connection is to hbve.
  *
- * The equals() and hashCode() methods of this class and its subclasses are
- * important because they are used to determine whether two requests for
- * the same connection are identical, and thus whether the same connection
- * may be shared. This is especially important for authenticated connections
- * because a mistake would result in a serious security violation.
+ * The equbls() bnd hbshCode() methods of this clbss bnd its subclbsses bre
+ * importbnt becbuse they bre used to determine whether two requests for
+ * the sbme connection bre identicbl, bnd thus whether the sbme connection
+ * mby be shbred. This is especiblly importbnt for buthenticbted connections
+ * becbuse b mistbke would result in b serious security violbtion.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
-class ClientId {
-    final private int version;
-    final private String hostname;
-    final private int port;
-    final private String protocol;
-    final private Control[] bindCtls;
-    final private OutputStream trace;
-    final private String socketFactory;
-    final private int myHash;
-    final private int ctlHash;
+clbss ClientId {
+    finbl privbte int version;
+    finbl privbte String hostnbme;
+    finbl privbte int port;
+    finbl privbte String protocol;
+    finbl privbte Control[] bindCtls;
+    finbl privbte OutputStrebm trbce;
+    finbl privbte String socketFbctory;
+    finbl privbte int myHbsh;
+    finbl privbte int ctlHbsh;
 
-    private SocketFactory factory = null;
-    private Method sockComparator = null;
-    private boolean isDefaultSockFactory = false;
-    final public static boolean debug = false;
+    privbte SocketFbctory fbctory = null;
+    privbte Method sockCompbrbtor = null;
+    privbte boolebn isDefbultSockFbctory = fblse;
+    finbl public stbtic boolebn debug = fblse;
 
-    ClientId(int version, String hostname, int port, String protocol,
-            Control[] bindCtls, OutputStream trace, String socketFactory) {
+    ClientId(int version, String hostnbme, int port, String protocol,
+            Control[] bindCtls, OutputStrebm trbce, String socketFbctory) {
         this.version = version;
-        this.hostname = hostname.toLowerCase(Locale.ENGLISH);  // ignore case
+        this.hostnbme = hostnbme.toLowerCbse(Locble.ENGLISH);  // ignore cbse
         this.port = port;
         this.protocol = protocol;
         this.bindCtls = (bindCtls != null ? bindCtls.clone() : null);
-        this.trace = trace;
+        this.trbce = trbce;
         //
-        // Needed for custom socket factory pooling
+        // Needed for custom socket fbctory pooling
         //
-        this.socketFactory = socketFactory;
-        if ((socketFactory != null) &&
-             !socketFactory.equals(LdapCtx.DEFAULT_SSL_FACTORY)) {
+        this.socketFbctory = socketFbctory;
+        if ((socketFbctory != null) &&
+             !socketFbctory.equbls(LdbpCtx.DEFAULT_SSL_FACTORY)) {
             try {
-                Class<?> socketFactoryClass =
-                        Obj.helper.loadClass(socketFactory);
-                this.sockComparator = socketFactoryClass.getMethod(
-                                "compare", new Class<?>[]{Object.class, Object.class});
-                Method getDefault = socketFactoryClass.getMethod(
-                                            "getDefault", new Class<?>[]{});
-                this.factory =
-                        (SocketFactory)getDefault.invoke(null, new Object[]{});
-            } catch (Exception e) {
-                // Ignore it here, the same exceptions are/will be handled by
-                // LdapPoolManager and Connection classes.
+                Clbss<?> socketFbctoryClbss =
+                        Obj.helper.lobdClbss(socketFbctory);
+                this.sockCompbrbtor = socketFbctoryClbss.getMethod(
+                                "compbre", new Clbss<?>[]{Object.clbss, Object.clbss});
+                Method getDefbult = socketFbctoryClbss.getMethod(
+                                            "getDefbult", new Clbss<?>[]{});
+                this.fbctory =
+                        (SocketFbctory)getDefbult.invoke(null, new Object[]{});
+            } cbtch (Exception e) {
+                // Ignore it here, the sbme exceptions bre/will be hbndled by
+                // LdbpPoolMbnbger bnd Connection clbsses.
                 if (debug) {
-                    System.out.println("ClientId received an exception");
-                    e.printStackTrace();
+                    System.out.println("ClientId received bn exception");
+                    e.printStbckTrbce();
                 }
             }
         } else {
-             isDefaultSockFactory = true;
+             isDefbultSockFbctory = true;
         }
 
-        // The SocketFactory field is not used in the myHash
-        // computation as there is no right way to compute the hash code
-        // for this field. There is no harm in skipping it from the hash
-        // computation
-        myHash = version + port
-            + (trace != null ? trace.hashCode() : 0)
-            + (this.hostname != null ? this.hostname.hashCode() : 0)
-            + (protocol != null ? protocol.hashCode() : 0)
-            + (ctlHash=hashCodeControls(bindCtls));
+        // The SocketFbctory field is not used in the myHbsh
+        // computbtion bs there is no right wby to compute the hbsh code
+        // for this field. There is no hbrm in skipping it from the hbsh
+        // computbtion
+        myHbsh = version + port
+            + (trbce != null ? trbce.hbshCode() : 0)
+            + (this.hostnbme != null ? this.hostnbme.hbshCode() : 0)
+            + (protocol != null ? protocol.hbshCode() : 0)
+            + (ctlHbsh=hbshCodeControls(bindCtls));
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ClientId)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof ClientId)) {
+            return fblse;
         }
 
         ClientId other = (ClientId)obj;
 
-        return myHash == other.myHash
+        return myHbsh == other.myHbsh
             && version == other.version
             && port == other.port
-            && trace == other.trace
-            && (hostname == other.hostname // null OK
-                || (hostname != null && hostname.equals(other.hostname)))
+            && trbce == other.trbce
+            && (hostnbme == other.hostnbme // null OK
+                || (hostnbme != null && hostnbme.equbls(other.hostnbme)))
             && (protocol == other.protocol // null OK
-                || (protocol != null && protocol.equals(other.protocol)))
-            && ctlHash == other.ctlHash
-            && (equalsControls(bindCtls, other.bindCtls))
-            && (equalsSockFactory(other));
+                || (protocol != null && protocol.equbls(other.protocol)))
+            && ctlHbsh == other.ctlHbsh
+            && (equblsControls(bindCtls, other.bindCtls))
+            && (equblsSockFbctory(other));
     }
 
-    public int hashCode() {
-        return myHash;
+    public int hbshCode() {
+        return myHbsh;
     }
 
-    private static int hashCodeControls(Control[] c) {
+    privbte stbtic int hbshCodeControls(Control[] c) {
         if (c == null) {
             return 0;
         }
 
         int code = 0;
         for (int i = 0; i < c.length; i++) {
-            code = code * 31 + c[i].getID().hashCode();
+            code = code * 31 + c[i].getID().hbshCode();
         }
         return code;
     }
 
-    private static boolean equalsControls(Control[] a, Control[] b) {
-        if (a == b) {
-            return true;  // both null or same
+    privbte stbtic boolebn equblsControls(Control[] b, Control[] b) {
+        if (b == b) {
+            return true;  // both null or sbme
         }
-        if (a == null || b == null) {
-            return false; // one is non-null
+        if (b == null || b == null) {
+            return fblse; // one is non-null
         }
-        if (a.length != b.length) {
-            return false;
+        if (b.length != b.length) {
+            return fblse;
         }
 
-        for (int i = 0; i < a.length; i++) {
-            if (!a[i].getID().equals(b[i].getID())
-                || a[i].isCritical() != b[i].isCritical()
-                || !Arrays.equals(a[i].getEncodedValue(),
-                    b[i].getEncodedValue())) {
-                return false;
+        for (int i = 0; i < b.length; i++) {
+            if (!b[i].getID().equbls(b[i].getID())
+                || b[i].isCriticbl() != b[i].isCriticbl()
+                || !Arrbys.equbls(b[i].getEncodedVblue(),
+                    b[i].getEncodedVblue())) {
+                return fblse;
             }
         }
         return true;
     }
 
-    private boolean equalsSockFactory(ClientId other) {
-        if (this.isDefaultSockFactory && other.isDefaultSockFactory) {
+    privbte boolebn equblsSockFbctory(ClientId other) {
+        if (this.isDefbultSockFbctory && other.isDefbultSockFbctory) {
             return true;
         }
-        else if (!other.isDefaultSockFactory) {
-             return invokeComparator(other, this);
+        else if (!other.isDefbultSockFbctory) {
+             return invokeCompbrbtor(other, this);
         } else {
-             return invokeComparator(this, other);
+             return invokeCompbrbtor(this, other);
         }
     }
 
-    // delegate the comparison work to the SocketFactory class
-    // as there is no enough information here, to do the comparison
-    private boolean invokeComparator(ClientId c1, ClientId c2) {
+    // delegbte the compbrison work to the SocketFbctory clbss
+    // bs there is no enough informbtion here, to do the compbrison
+    privbte boolebn invokeCompbrbtor(ClientId c1, ClientId c2) {
         Object ret;
         try {
-            ret = (c1.sockComparator).invoke(
-                        c1.factory, c1.socketFactory, c2.socketFactory);
-        } catch(Exception e) {
+            ret = (c1.sockCompbrbtor).invoke(
+                        c1.fbctory, c1.socketFbctory, c2.socketFbctory);
+        } cbtch(Exception e) {
             if (debug) {
-                System.out.println("ClientId received an exception");
-                e.printStackTrace();
+                System.out.println("ClientId received bn exception");
+                e.printStbckTrbce();
             }
-            // Failed to invoke the comparator; flag inequality
-            return false;
+            // Fbiled to invoke the compbrbtor; flbg inequblity
+            return fblse;
         }
         if (((Integer) ret) == 0) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    private static String toStringControls(Control[] ctls) {
+    privbte stbtic String toStringControls(Control[] ctls) {
         if (ctls == null) {
             return "";
         }
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < ctls.length; i++) {
-            str.append(ctls[i].getID());
-            str.append(' ');
+            str.bppend(ctls[i].getID());
+            str.bppend(' ');
         }
         return str.toString();
     }
 
     public String toString() {
-        return (hostname + ":" + port + ":" +
+        return (hostnbme + ":" + port + ":" +
             (protocol != null ? protocol : "") + ":" +
             toStringControls(bindCtls) + ":" +
-            socketFactory);
+            socketFbctory);
     }
 }

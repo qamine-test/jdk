@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.asm;
+pbckbge sun.tools.bsm;
 
-import sun.tools.java.*;
+import sun.tools.jbvb.*;
 import sun.tools.tree.StringExpression;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.io.IOException;
-import java.io.DataOutputStream;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.io.IOException;
+import jbvb.io.DbtbOutputStrebm;
 
 /**
- * A table of constants
+ * A tbble of constbnts
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
-public final
-class ConstantPool implements RuntimeConstants {
-    Hashtable<Object, ConstantPoolData> hash = new Hashtable<>(101);
+public finbl
+clbss ConstbntPool implements RuntimeConstbnts {
+    Hbshtbble<Object, ConstbntPoolDbtb> hbsh = new Hbshtbble<>(101);
 
     /**
-     * Find an entry, may return 0
+     * Find bn entry, mby return 0
      */
     public int index(Object obj) {
-        return hash.get(obj).index;
+        return hbsh.get(obj).index;
     }
 
     /**
-     * Add an entry
+     * Add bn entry
      */
     public void put(Object obj) {
-        ConstantPoolData data = hash.get(obj);
-        if (data == null) {
-            if (obj instanceof String) {
-                data = new StringConstantData(this, (String)obj);
-            } else if (obj instanceof StringExpression) {
-                data = new StringExpressionConstantData(this, (StringExpression)obj);
-            } else if (obj instanceof ClassDeclaration) {
-                data = new ClassConstantData(this, (ClassDeclaration)obj);
-            } else if (obj instanceof Type) {
-                data = new ClassConstantData(this, (Type)obj);
-            } else if (obj instanceof MemberDefinition) {
-                data = new FieldConstantData(this, (MemberDefinition)obj);
-            } else if (obj instanceof NameAndTypeData) {
-                data = new NameAndTypeConstantData(this, (NameAndTypeData)obj);
-            } else if (obj instanceof Number) {
-                data = new NumberConstantData(this, (Number)obj);
+        ConstbntPoolDbtb dbtb = hbsh.get(obj);
+        if (dbtb == null) {
+            if (obj instbnceof String) {
+                dbtb = new StringConstbntDbtb(this, (String)obj);
+            } else if (obj instbnceof StringExpression) {
+                dbtb = new StringExpressionConstbntDbtb(this, (StringExpression)obj);
+            } else if (obj instbnceof ClbssDeclbrbtion) {
+                dbtb = new ClbssConstbntDbtb(this, (ClbssDeclbrbtion)obj);
+            } else if (obj instbnceof Type) {
+                dbtb = new ClbssConstbntDbtb(this, (Type)obj);
+            } else if (obj instbnceof MemberDefinition) {
+                dbtb = new FieldConstbntDbtb(this, (MemberDefinition)obj);
+            } else if (obj instbnceof NbmeAndTypeDbtb) {
+                dbtb = new NbmeAndTypeConstbntDbtb(this, (NbmeAndTypeDbtb)obj);
+            } else if (obj instbnceof Number) {
+                dbtb = new NumberConstbntDbtb(this, (Number)obj);
             }
-            hash.put(obj, data);
+            hbsh.put(obj, dbtb);
         }
     }
 
     /**
      * Write to output
      */
-    public void write(Environment env, DataOutputStream out) throws IOException {
-        ConstantPoolData list[] = new ConstantPoolData[hash.size()];
+    public void write(Environment env, DbtbOutputStrebm out) throws IOException {
+        ConstbntPoolDbtb list[] = new ConstbntPoolDbtb[hbsh.size()];
         String keys[] = new String[list.length];
         int index = 1, count = 0;
 
-        // Make a list of all the constant pool items
+        // Mbke b list of bll the constbnt pool items
         for (int n = 0 ; n < 5 ; n++) {
             int first = count;
-            for (Enumeration<ConstantPoolData> e = hash.elements() ; e.hasMoreElements() ;) {
-                ConstantPoolData data = e.nextElement();
-                if (data.order() == n) {
-                    keys[count] = sortKey(data);
-                    list[count++] = data;
+            for (Enumerbtion<ConstbntPoolDbtb> e = hbsh.elements() ; e.hbsMoreElements() ;) {
+                ConstbntPoolDbtb dbtb = e.nextElement();
+                if (dbtb.order() == n) {
+                    keys[count] = sortKey(dbtb);
+                    list[count++] = dbtb;
                 }
             }
             xsort(list, keys, first, count-1);
         }
 
-        // Assign an index to each constant pool item
+        // Assign bn index to ebch constbnt pool item
         for (int n = 0 ; n < list.length ; n++) {
-            ConstantPoolData data = list[n];
-            data.index = index;
-            index += data.width();
+            ConstbntPoolDbtb dbtb = list[n];
+            dbtb.index = index;
+            index += dbtb.width();
         }
 
         // Write length
         out.writeShort(index);
 
-        // Write each constant pool item
+        // Write ebch constbnt pool item
         for (int n = 0 ; n < count ; n++) {
             list[n].write(env, out, this);
         }
     }
 
-    private
-    static String sortKey(ConstantPoolData f) {
-        if (f instanceof NumberConstantData) {
-            Number num = ((NumberConstantData)f).num;
+    privbte
+    stbtic String sortKey(ConstbntPoolDbtb f) {
+        if (f instbnceof NumberConstbntDbtb) {
+            Number num = ((NumberConstbntDbtb)f).num;
             String str = num.toString();
             int key = 3;
-            if (num instanceof Integer)  key = 0;
-            else if (num instanceof Float)  key = 1;
-            else if (num instanceof Long)  key = 2;
-            return "\0" + (char)(str.length() + key<<8) + str;
+            if (num instbnceof Integer)  key = 0;
+            else if (num instbnceof Flobt)  key = 1;
+            else if (num instbnceof Long)  key = 2;
+            return "\0" + (chbr)(str.length() + key<<8) + str;
         }
-        if (f instanceof StringExpressionConstantData)
-            return (String)((StringExpressionConstantData)f).str.getValue();
-        if (f instanceof FieldConstantData) {
-            MemberDefinition fd = ((FieldConstantData)f).field;
-            return fd.getName()+" "+fd.getType().getTypeSignature()
-                +" "+fd.getClassDeclaration().getName();
+        if (f instbnceof StringExpressionConstbntDbtb)
+            return (String)((StringExpressionConstbntDbtb)f).str.getVblue();
+        if (f instbnceof FieldConstbntDbtb) {
+            MemberDefinition fd = ((FieldConstbntDbtb)f).field;
+            return fd.getNbme()+" "+fd.getType().getTypeSignbture()
+                +" "+fd.getClbssDeclbrbtion().getNbme();
         }
-        if (f instanceof NameAndTypeConstantData)
-            return  ((NameAndTypeConstantData)f).name+
-                " "+((NameAndTypeConstantData)f).type;
-        if (f instanceof ClassConstantData)
-            return ((ClassConstantData)f).name;
-        return ((StringConstantData)f).str;
+        if (f instbnceof NbmeAndTypeConstbntDbtb)
+            return  ((NbmeAndTypeConstbntDbtb)f).nbme+
+                " "+((NbmeAndTypeConstbntDbtb)f).type;
+        if (f instbnceof ClbssConstbntDbtb)
+            return ((ClbssConstbntDbtb)f).nbme;
+        return ((StringConstbntDbtb)f).str;
     }
 
     /**
-     * Quick sort an array of pool entries and a corresponding array of Strings
-     * that are the sort keys for the field.
+     * Quick sort bn brrby of pool entries bnd b corresponding brrby of Strings
+     * thbt bre the sort keys for the field.
      */
-    private
-    static void xsort(ConstantPoolData ff[], String ss[], int left, int right) {
+    privbte
+    stbtic void xsort(ConstbntPoolDbtb ff[], String ss[], int left, int right) {
         if (left >= right)
             return;
         String pivot = ss[left];
         int l = left;
         int r = right;
         while (l < r) {
-            while (l <= right && ss[l].compareTo(pivot) <= 0)
+            while (l <= right && ss[l].compbreTo(pivot) <= 0)
                 l++;
-            while (r >= left && ss[r].compareTo(pivot) > 0)
+            while (r >= left && ss[r].compbreTo(pivot) > 0)
                 r--;
             if (l < r) {
-                // swap items at l and at r
-                ConstantPoolData def = ff[l];
-                String name = ss[l];
+                // swbp items bt l bnd bt r
+                ConstbntPoolDbtb def = ff[l];
+                String nbme = ss[l];
                 ff[l] = ff[r]; ff[r] = def;
-                ss[l] = ss[r]; ss[r] = name;
+                ss[l] = ss[r]; ss[r] = nbme;
             }
         }
         int middle = r;
-        // swap left and middle
-        ConstantPoolData def = ff[left];
-        String name = ss[left];
+        // swbp left bnd middle
+        ConstbntPoolDbtb def = ff[left];
+        String nbme = ss[left];
         ff[left] = ff[middle]; ff[middle] = def;
-        ss[left] = ss[middle]; ss[middle] = name;
+        ss[left] = ss[middle]; ss[middle] = nbme;
         xsort(ff, ss, left, middle-1);
         xsort(ff, ss, middle + 1, right);
     }

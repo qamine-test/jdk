@@ -3,54 +3,54 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions;
 
-import java.security.PublicKey;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
-import java.util.Iterator;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.Iterbtor;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.X509Data;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509IssuerSerial;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.X509Dbtb;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509IssuerSeribl;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverException;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
 import org.w3c.dom.Element;
 
-public class X509IssuerSerialResolver extends KeyResolverSpi {
+public clbss X509IssuerSeriblResolver extends KeyResolverSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(X509IssuerSerialResolver.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(X509IssuerSeriblResolver.clbss.getNbme());
 
 
     /** @inheritDoc */
     public PublicKey engineLookupAndResolvePublicKey(
-        Element element, String baseURI, StorageResolver storage
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
 
-        X509Certificate cert =
-            this.engineLookupResolveX509Certificate(element, baseURI, storage);
+        X509Certificbte cert =
+            this.engineLookupResolveX509Certificbte(element, bbseURI, storbge);
 
         if (cert != null) {
             return cert.getPublicKey();
@@ -60,90 +60,90 @@ public class X509IssuerSerialResolver extends KeyResolverSpi {
     }
 
     /** @inheritDoc */
-    public X509Certificate engineLookupResolveX509Certificate(
-        Element element, String baseURI, StorageResolver storage
+    public X509Certificbte engineLookupResolveX509Certificbte(
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName() + "?");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve " + element.getTbgNbme() + "?");
         }
 
-        X509Data x509data = null;
+        X509Dbtb x509dbtb = null;
         try {
-            x509data = new X509Data(element, baseURI);
-        } catch (XMLSignatureException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "I can't");
+            x509dbtb = new X509Dbtb(element, bbseURI);
+        } cbtch (XMLSignbtureException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "I cbn't");
             }
             return null;
-        } catch (XMLSecurityException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "I can't");
+        } cbtch (XMLSecurityException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "I cbn't");
             }
             return null;
         }
 
-        if (!x509data.containsIssuerSerial()) {
+        if (!x509dbtb.contbinsIssuerSeribl()) {
             return null;
         }
         try {
-            if (storage == null) {
-                Object exArgs[] = { Constants._TAG_X509ISSUERSERIAL };
+            if (storbge == null) {
+                Object exArgs[] = { Constbnts._TAG_X509ISSUERSERIAL };
                 KeyResolverException ex =
-                    new KeyResolverException("KeyResolver.needStorageResolver", exArgs);
+                    new KeyResolverException("KeyResolver.needStorbgeResolver", exArgs);
 
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "", ex);
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "", ex);
                 }
                 throw ex;
             }
 
-            int noOfISS = x509data.lengthIssuerSerial();
+            int noOfISS = x509dbtb.lengthIssuerSeribl();
 
-            Iterator<Certificate> storageIterator = storage.getIterator();
-            while (storageIterator.hasNext()) {
-                X509Certificate cert = (X509Certificate)storageIterator.next();
-                XMLX509IssuerSerial certSerial = new XMLX509IssuerSerial(element.getOwnerDocument(), cert);
+            Iterbtor<Certificbte> storbgeIterbtor = storbge.getIterbtor();
+            while (storbgeIterbtor.hbsNext()) {
+                X509Certificbte cert = (X509Certificbte)storbgeIterbtor.next();
+                XMLX509IssuerSeribl certSeribl = new XMLX509IssuerSeribl(element.getOwnerDocument(), cert);
 
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Found Certificate Issuer: " + certSerial.getIssuerName());
-                    log.log(java.util.logging.Level.FINE, "Found Certificate Serial: " + certSerial.getSerialNumber().toString());
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Found Certificbte Issuer: " + certSeribl.getIssuerNbme());
+                    log.log(jbvb.util.logging.Level.FINE, "Found Certificbte Seribl: " + certSeribl.getSeriblNumber().toString());
                 }
 
                 for (int i = 0; i < noOfISS; i++) {
-                    XMLX509IssuerSerial xmliss = x509data.itemIssuerSerial(i);
+                    XMLX509IssuerSeribl xmliss = x509dbtb.itemIssuerSeribl(i);
 
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, "Found Element Issuer:     "
-                                  + xmliss.getIssuerName());
-                        log.log(java.util.logging.Level.FINE, "Found Element Serial:     "
-                                  + xmliss.getSerialNumber().toString());
+                    if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                        log.log(jbvb.util.logging.Level.FINE, "Found Element Issuer:     "
+                                  + xmliss.getIssuerNbme());
+                        log.log(jbvb.util.logging.Level.FINE, "Found Element Seribl:     "
+                                  + xmliss.getSeriblNumber().toString());
                     }
 
-                    if (certSerial.equals(xmliss)) {
-                        if (log.isLoggable(java.util.logging.Level.FINE)) {
-                            log.log(java.util.logging.Level.FINE, "match !!! ");
+                    if (certSeribl.equbls(xmliss)) {
+                        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                            log.log(jbvb.util.logging.Level.FINE, "mbtch !!! ");
                         }
                         return cert;
                     }
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, "no match...");
+                    if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                        log.log(jbvb.util.logging.Level.FINE, "no mbtch...");
                     }
                 }
             }
 
             return null;
-        } catch (XMLSecurityException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", ex);
+        } cbtch (XMLSecurityException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", ex);
             }
 
-            throw new KeyResolverException("generic.EmptyMessage", ex);
+            throw new KeyResolverException("generic.EmptyMessbge", ex);
         }
     }
 
     /** @inheritDoc */
-    public javax.crypto.SecretKey engineLookupAndResolveSecretKey(
-        Element element, String baseURI, StorageResolver storage
+    public jbvbx.crypto.SecretKey engineLookupAndResolveSecretKey(
+        Element element, String bbseURI, StorbgeResolver storbge
     ) {
         return null;
     }

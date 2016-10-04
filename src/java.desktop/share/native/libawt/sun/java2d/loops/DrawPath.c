@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include <math.h>
-#include <float.h>
+#include <mbth.h>
+#include <flobt.h>
 #include "jni_util.h"
 
-#include "GraphicsPrimitiveMgr.h"
+#include "GrbphicsPrimitiveMgr.h"
 #include "LineUtils.h"
-#include "ProcessPath.h"
-#include "DrawPath.h"
+#include "ProcessPbth.h"
+#include "DrbwPbth.h"
 
-#include "sun_java2d_loops_DrawPath.h"
+#include "sun_jbvb2d_loops_DrbwPbth.h"
 
-static void processLine(DrawHandler* hnd,
+stbtic void processLine(DrbwHbndler* hnd,
                         jint x0, jint y0, jint x1, jint y1)
 {
-    LineUtils_ProcessLine(DHND(hnd)->pRasInfo,
+    LineUtils_ProcessLine(DHND(hnd)->pRbsInfo,
                           DHND(hnd)->pixel,
-                          DHND(hnd)->pPrim->funcs.drawline,
+                          DHND(hnd)->pPrim->funcs.drbwline,
                           DHND(hnd)->pPrim,
                           DHND(hnd)->pCompInfo,
                           x0, y0, x1, y1, 0);
 }
 
-static void processPoint(DrawHandler* hnd, jint x0, jint y0)
+stbtic void processPoint(DrbwHbndler* hnd, jint x0, jint y0)
 {
-    DHND(hnd)->pPrim->funcs.drawline(
-        DHND(hnd)->pRasInfo, x0, y0, DHND(hnd)->pixel, 1, 0,
+    DHND(hnd)->pPrim->funcs.drbwline(
+        DHND(hnd)->pRbsInfo, x0, y0, DHND(hnd)->pixel, 1, 0,
         BUMP_POS_PIXEL, 0, BUMP_NOOP, 0,
         DHND(hnd)->pPrim, DHND(hnd)->pCompInfo);
 }
 
  /*
-  * Class:     sun_java2d_loops_DrawPath
-  * Method:    DrawPath
-  * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;IILjava/awt/geom/Path2D.Float;)V
+  * Clbss:     sun_jbvb2d_loops_DrbwPbth
+  * Method:    DrbwPbth
+  * Signbture: (Lsun/jbvb2d/SunGrbphics2D;Lsun/jbvb2d/SurfbceDbtb;IILjbvb/bwt/geom/Pbth2D.Flobt;)V
   */
-JNIEXPORT void JNICALL Java_sun_java2d_loops_DrawPath_DrawPath
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_loops_DrbwPbth_DrbwPbth
    (JNIEnv *env, jobject self,
-    jobject sg2d, jobject sData,
-    jint transX, jint transY, jobject p2df)
+    jobject sg2d, jobject sDbtb,
+    jint trbnsX, jint trbnsY, jobject p2df)
 {
-    jarray typesArray;
-    jarray coordsArray;
+    jbrrby typesArrby;
+    jbrrby coordsArrby;
     jint numTypes;
-    jboolean ok = JNI_TRUE;
+    jboolebn ok = JNI_TRUE;
     jint pixel = GrPrim_Sg2dGetPixel(env, sg2d);
-    jint maxCoords;
-    jfloat *coords;
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
+    jint mbxCoords;
+    jflobt *coords;
+    SurfbceDbtbOps *sdOps;
+    SurfbceDbtbRbsInfo rbsInfo;
     CompositeInfo compInfo;
     jint ret;
-    NativePrimitive *pPrim = GetNativePrim(env, self);
+    NbtivePrimitive *pPrim = GetNbtivePrim(env, self);
     jint stroke;
-    jboolean throwExc = JNI_FALSE;
+    jboolebn throwExc = JNI_FALSE;
 
     if (pPrim == NULL) {
         return;
@@ -87,54 +87,54 @@ JNIEXPORT void JNICALL Java_sun_java2d_loops_DrawPath_DrawPath
 
     stroke = (*env)->GetIntField(env, sg2d, sg2dStrokeHintID);
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbceDbtb_GetOps(env, sDbtb);
     if (sdOps == 0) {
         return;
     }
 
-    typesArray = (jarray)(*env)->GetObjectField(env, p2df, path2DTypesID);
-    coordsArray = (jarray)(*env)->GetObjectField(env, p2df,
-                                                 path2DFloatCoordsID);
-    if (coordsArray == NULL) {
-        JNU_ThrowNullPointerException(env, "coordinates array");
+    typesArrby = (jbrrby)(*env)->GetObjectField(env, p2df, pbth2DTypesID);
+    coordsArrby = (jbrrby)(*env)->GetObjectField(env, p2df,
+                                                 pbth2DFlobtCoordsID);
+    if (coordsArrby == NULL) {
+        JNU_ThrowNullPointerException(env, "coordinbtes brrby");
         return;
     }
-    numTypes = (*env)->GetIntField(env, p2df, path2DNumTypesID);
-    if ((*env)->GetArrayLength(env, typesArray) < numTypes) {
-        JNU_ThrowArrayIndexOutOfBoundsException(env, "types array");
+    numTypes = (*env)->GetIntField(env, p2df, pbth2DNumTypesID);
+    if ((*env)->GetArrbyLength(env, typesArrby) < numTypes) {
+        JNU_ThrowArrbyIndexOutOfBoundsException(env, "types brrby");
         return;
     }
 
-    GrPrim_Sg2dGetClip(env, sg2d, &rasInfo.bounds);
+    GrPrim_Sg2dGetClip(env, sg2d, &rbsInfo.bounds);
 
-    ret = sdOps->Lock(env, sdOps, &rasInfo, SD_LOCK_FASTEST | pPrim->dstflags);
+    ret = sdOps->Lock(env, sdOps, &rbsInfo, SD_LOCK_FASTEST | pPrim->dstflbgs);
     if (ret == SD_FAILURE) {
         return;
     }
 
-    maxCoords = (*env)->GetArrayLength(env, coordsArray);
-    coords = (jfloat*)(*env)->GetPrimitiveArrayCritical(
-            env, coordsArray, NULL);
+    mbxCoords = (*env)->GetArrbyLength(env, coordsArrby);
+    coords = (jflobt*)(*env)->GetPrimitiveArrbyCriticbl(
+            env, coordsArrby, NULL);
     if (coords == NULL) {
-        SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+        SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
         return;
     }
 
     if (ret == SD_SLOWLOCK) {
-        GrPrim_RefineBounds(&rasInfo.bounds, transX, transY,
-                     coords, maxCoords);
-        ok = (rasInfo.bounds.x2 > rasInfo.bounds.x1 &&
-              rasInfo.bounds.y2 > rasInfo.bounds.y1);
+        GrPrim_RefineBounds(&rbsInfo.bounds, trbnsX, trbnsY,
+                     coords, mbxCoords);
+        ok = (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+              rbsInfo.bounds.y2 > rbsInfo.bounds.y1);
     }
 
     if (ok) {
-        sdOps->GetRasInfo(env, sdOps, &rasInfo);
-        if (rasInfo.rasBase) {
-            if (rasInfo.bounds.x2 > rasInfo.bounds.x1 &&
-                rasInfo.bounds.y2 > rasInfo.bounds.y1)
+        sdOps->GetRbsInfo(env, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbse) {
+            if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+                rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
             {
-                DrawHandlerData dHData;
-                DrawHandler drawHandler =
+                DrbwHbndlerDbtb dHDbtb;
+                DrbwHbndler drbwHbndler =
                 {
                     &processLine,
                     &processPoint,
@@ -144,49 +144,49 @@ JNIEXPORT void JNICALL Java_sun_java2d_loops_DrawPath_DrawPath
                     NULL
                 };
 
-                jbyte *types = (jbyte*)(*env)->GetPrimitiveArrayCritical(
-                    env, typesArray, NULL);
+                jbyte *types = (jbyte*)(*env)->GetPrimitiveArrbyCriticbl(
+                    env, typesArrby, NULL);
 
-                /* Initialization of the following fields in the declaration of
-                 * the dHData and drawHandler above causes warnings on sun
+                /* Initiblizbtion of the following fields in the declbrbtion of
+                 * the dHDbtb bnd drbwHbndler bbove cbuses wbrnings on sun
                  * studio compiler with
-                 * -xc99=%none option applied (this option means compliance
-                 *  with C90 standard instead of C99)
+                 * -xc99=%none option bpplied (this option mebns complibnce
+                 *  with C90 stbndbrd instebd of C99)
                  */
-                dHData.pRasInfo = &rasInfo;
-                dHData.pixel = pixel;
-                dHData.pPrim = pPrim;
-                dHData.pCompInfo = &compInfo;
+                dHDbtb.pRbsInfo = &rbsInfo;
+                dHDbtb.pixel = pixel;
+                dHDbtb.pPrim = pPrim;
+                dHDbtb.pCompInfo = &compInfo;
 
-                drawHandler.xMin = rasInfo.bounds.x1;
-                drawHandler.yMin = rasInfo.bounds.y1;
-                drawHandler.xMax = rasInfo.bounds.x2;
-                drawHandler.yMax = rasInfo.bounds.y2;
-                drawHandler.pData = &dHData;
+                drbwHbndler.xMin = rbsInfo.bounds.x1;
+                drbwHbndler.yMin = rbsInfo.bounds.y1;
+                drbwHbndler.xMbx = rbsInfo.bounds.x2;
+                drbwHbndler.yMbx = rbsInfo.bounds.y2;
+                drbwHbndler.pDbtb = &dHDbtb;
 
                 if (types != NULL) {
-                    if (!doDrawPath(&drawHandler, NULL, transX, transY,
-                                    coords, maxCoords, types, numTypes,
+                    if (!doDrbwPbth(&drbwHbndler, NULL, trbnsX, trbnsY,
+                                    coords, mbxCoords, types, numTypes,
                                     (stroke == sunHints_INTVAL_STROKE_PURE)?
                                             PH_STROKE_PURE : PH_STROKE_DEFAULT))
                     {
                         throwExc = JNI_TRUE;
                     }
 
-                    (*env)->ReleasePrimitiveArrayCritical(env, typesArray, types,
+                    (*env)->RelebsePrimitiveArrbyCriticbl(env, typesArrby, types,
                                                           JNI_ABORT);
                 }
             }
         }
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
+        SurfbceDbtb_InvokeRelebse(env, sdOps, &rbsInfo);
     }
-    (*env)->ReleasePrimitiveArrayCritical(env, coordsArray, coords,
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, coordsArrby, coords,
                                           JNI_ABORT);
 
     if (throwExc) {
-        JNU_ThrowArrayIndexOutOfBoundsException(env,
-                                                "coords array");
+        JNU_ThrowArrbyIndexOutOfBoundsException(env,
+                                                "coords brrby");
     }
 
-    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
 }

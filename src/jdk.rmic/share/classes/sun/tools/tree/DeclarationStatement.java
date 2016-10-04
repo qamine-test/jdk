@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import java.io.PrintStream;
-import sun.tools.asm.Assembler;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import jbvb.io.PrintStrebm;
+import sun.tools.bsm.Assembler;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class DeclarationStatement extends Statement {
+clbss DeclbrbtionStbtement extends Stbtement {
     int mod;
     Expression type;
-    Statement args[];
+    Stbtement brgs[];
 
     /**
      * Constructor
      */
-    public DeclarationStatement(long where, int mod, Expression type, Statement args[]) {
+    public DeclbrbtionStbtement(long where, int mod, Expression type, Stbtement brgs[]) {
         super(DECLARATION, where);
         this.mod = mod;
         this.type = type;
-        this.args = args;
+        this.brgs = brgs;
     }
 
     /**
-     * Check statement
-     * Report an error unless the call is checkBlockStatement.
+     * Check stbtement
+     * Report bn error unless the cbll is checkBlockStbtement.
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        env.error(where, "invalid.decl");
-        return checkBlockStatement(env, ctx, vset, exp);
+    Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        env.error(where, "invblid.decl");
+        return checkBlockStbtement(env, ctx, vset, exp);
     }
-    Vset checkBlockStatement(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        if (labels != null) {
-            env.error(where, "declaration.with.label", labels[0]);
+    Vset checkBlockStbtement(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        if (lbbels != null) {
+            env.error(where, "declbrbtion.with.lbbel", lbbels[0]);
         }
-        vset = reach(env, vset);
+        vset = rebch(env, vset);
         Type t = type.toType(env, ctx);
 
-        for (int i = 0 ; i < args.length ; i++) {
-            vset = args[i].checkDeclaration(env, ctx, vset, mod, t, exp);
+        for (int i = 0 ; i < brgs.length ; i++) {
+            vset = brgs[i].checkDeclbrbtion(env, ctx, vset, mod, t, exp);
         }
 
         return vset;
@@ -76,10 +76,10 @@ class DeclarationStatement extends Statement {
     /**
      * Inline
      */
-    public Statement inline(Environment env, Context ctx) {
+    public Stbtement inline(Environment env, Context ctx) {
         int n = 0;
-        for (int i = 0 ; i < args.length ; i++) {
-            if ((args[i] = args[i].inline(env, ctx)) != null) {
+        for (int i = 0 ; i < brgs.length ; i++) {
+            if ((brgs[i] = brgs[i].inline(env, ctx)) != null) {
                 n++;
             }
         }
@@ -87,30 +87,30 @@ class DeclarationStatement extends Statement {
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crebte b copy of the stbtement for method inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        DeclarationStatement s = (DeclarationStatement)clone();
+    public Stbtement copyInline(Context ctx, boolebn vblNeeded) {
+        DeclbrbtionStbtement s = (DeclbrbtionStbtement)clone();
         if (type != null) {
             s.type = type.copyInline(ctx);
         }
-        s.args = new Statement[args.length];
-        for (int i = 0; i < args.length; i++){
-            if (args[i] != null){
-                s.args[i] = args[i].copyInline(ctx, valNeeded);
+        s.brgs = new Stbtement[brgs.length];
+        for (int i = 0; i < brgs.length; i++){
+            if (brgs[i] != null){
+                s.brgs[i] = brgs[i].copyInline(ctx, vblNeeded);
             }
         }
         return s;
     }
 
     /**
-     * The cost of inlining this statement
+     * The cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         int cost = 1;
-        for (int i = 0; i < args.length; i++){
-            if (args[i] != null){
-                cost += args[i].costInline(thresh, env, ctx);
+        for (int i = 0; i < brgs.length; i++){
+            if (brgs[i] != null){
+                cost += brgs[i].costInline(thresh, env, ctx);
             }
         }
         return cost;
@@ -120,10 +120,10 @@ class DeclarationStatement extends Statement {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                args[i].code(env, ctx, asm);
+    public void code(Environment env, Context ctx, Assembler bsm) {
+        for (int i = 0 ; i < brgs.length ; i++) {
+            if (brgs[i] != null) {
+                brgs[i].code(env, ctx, bsm);
             }
         }
     }
@@ -131,17 +131,17 @@ class DeclarationStatement extends Statement {
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        out.print("declare ");
+    public void print(PrintStrebm out, int indent) {
+        out.print("declbre ");
         super.print(out, indent);
         type.print(out);
         out.print(" ");
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0 ; i < brgs.length ; i++) {
             if (i > 0) {
                 out.print(", ");
             }
-            if (args[i] != null)  {
-                args[i].print(out);
+            if (brgs[i] != null)  {
+                brgs[i].print(out);
             } else {
                 out.print("<empty>");
             }

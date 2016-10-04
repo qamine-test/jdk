@@ -1,554 +1,554 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.rmi.MarshalException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.ServerError;
-import java.rmi.ServerException;
-import java.rmi.UnmarshalException;
-import java.rmi.server.ExportException;
-import java.rmi.server.RemoteCall;
-import java.rmi.server.RemoteRef;
-import java.rmi.server.RemoteStub;
-import java.rmi.server.ServerNotActiveException;
-import java.rmi.server.ServerRef;
-import java.rmi.server.Skeleton;
-import java.rmi.server.SkeletonNotFoundException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.io.PrintStrebm;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.rmi.MbrshblException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.ServerError;
+import jbvb.rmi.ServerException;
+import jbvb.rmi.UnmbrshblException;
+import jbvb.rmi.server.ExportException;
+import jbvb.rmi.server.RemoteCbll;
+import jbvb.rmi.server.RemoteRef;
+import jbvb.rmi.server.RemoteStub;
+import jbvb.rmi.server.ServerNotActiveException;
+import jbvb.rmi.server.ServerRef;
+import jbvb.rmi.server.Skeleton;
+import jbvb.rmi.server.SkeletonNotFoundException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Collections;
+import jbvb.util.Dbte;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
 import sun.rmi.runtime.Log;
-import sun.rmi.transport.LiveRef;
-import sun.rmi.transport.Target;
-import sun.rmi.transport.tcp.TCPTransport;
+import sun.rmi.trbnsport.LiveRef;
+import sun.rmi.trbnsport.Tbrget;
+import sun.rmi.trbnsport.tcp.TCPTrbnsport;
 
 /**
- * UnicastServerRef implements the remote reference layer server-side
- * behavior for remote objects exported with the "UnicastRef" reference
+ * UnicbstServerRef implements the remote reference lbyer server-side
+ * behbvior for remote objects exported with the "UnicbstRef" reference
  * type.
  *
- * @author  Ann Wollrath
- * @author  Roger Riggs
- * @author  Peter Jones
+ * @buthor  Ann Wollrbth
+ * @buthor  Roger Riggs
+ * @buthor  Peter Jones
  */
-@SuppressWarnings("deprecation")
-public class UnicastServerRef extends UnicastRef
-    implements ServerRef, Dispatcher
+@SuppressWbrnings("deprecbtion")
+public clbss UnicbstServerRef extends UnicbstRef
+    implements ServerRef, Dispbtcher
 {
-    /** value of server call log property */
-    public static final boolean logCalls = AccessController.doPrivileged(
-        (PrivilegedAction<Boolean>) () -> Boolean.getBoolean("java.rmi.server.logCalls"));
+    /** vblue of server cbll log property */
+    public stbtic finbl boolebn logCblls = AccessController.doPrivileged(
+        (PrivilegedAction<Boolebn>) () -> Boolebn.getBoolebn("jbvb.rmi.server.logCblls"));
 
-    /** server call log */
-    public static final Log callLog =
-        Log.getLog("sun.rmi.server.call", "RMI", logCalls);
+    /** server cbll log */
+    public stbtic finbl Log cbllLog =
+        Log.getLog("sun.rmi.server.cbll", "RMI", logCblls);
 
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = -7384275867073752268L;
+    // use seriblVersionUID from JDK 1.2.2 for interoperbbility
+    privbte stbtic finbl long seriblVersionUID = -7384275867073752268L;
 
-    /** flag to enable writing exceptions to System.err */
-    private static final boolean wantExceptionLog =
-        AccessController.doPrivileged((PrivilegedAction<Boolean>) () ->
-            Boolean.getBoolean("sun.rmi.server.exceptionTrace"));
+    /** flbg to enbble writing exceptions to System.err */
+    privbte stbtic finbl boolebn wbntExceptionLog =
+        AccessController.doPrivileged((PrivilegedAction<Boolebn>) () ->
+            Boolebn.getBoolebn("sun.rmi.server.exceptionTrbce"));
 
-    private boolean forceStubUse = false;
+    privbte boolebn forceStubUse = fblse;
 
     /**
-     * flag to remove server-side stack traces before marshalling
-     * exceptions thrown by remote invocations to this VM
+     * flbg to remove server-side stbck trbces before mbrshblling
+     * exceptions thrown by remote invocbtions to this VM
      */
-    private static final boolean suppressStackTraces =
-        AccessController.doPrivileged((PrivilegedAction<Boolean>) () ->
-            Boolean.getBoolean("sun.rmi.server.suppressStackTraces"));
+    privbte stbtic finbl boolebn suppressStbckTrbces =
+        AccessController.doPrivileged((PrivilegedAction<Boolebn>) () ->
+            Boolebn.getBoolebn("sun.rmi.server.suppressStbckTrbces"));
 
     /**
-     * skeleton to dispatch remote calls through, for 1.1 stub protocol
-     * (may be null if stub class only uses 1.2 stub protocol)
+     * skeleton to dispbtch remote cblls through, for 1.1 stub protocol
+     * (mby be null if stub clbss only uses 1.2 stub protocol)
      */
-    private transient Skeleton skel;
+    privbte trbnsient Skeleton skel;
 
-    /** maps method hash to Method object for each remote method */
-    private transient Map<Long,Method> hashToMethod_Map = null;
+    /** mbps method hbsh to Method object for ebch remote method */
+    privbte trbnsient Mbp<Long,Method> hbshToMethod_Mbp = null;
 
     /**
-     * A weak hash map, mapping classes to hash maps that map method
-     * hashes to method objects.
+     * A webk hbsh mbp, mbpping clbsses to hbsh mbps thbt mbp method
+     * hbshes to method objects.
      **/
-    private static final WeakClassHashMap<Map<Long,Method>> hashToMethod_Maps =
-        new HashToMethod_Maps();
+    privbte stbtic finbl WebkClbssHbshMbp<Mbp<Long,Method>> hbshToMethod_Mbps =
+        new HbshToMethod_Mbps();
 
-    /** cache of impl classes that have no corresponding skeleton class */
-    private static final Map<Class<?>,?> withoutSkeletons =
-        Collections.synchronizedMap(new WeakHashMap<Class<?>,Void>());
+    /** cbche of impl clbsses thbt hbve no corresponding skeleton clbss */
+    privbte stbtic finbl Mbp<Clbss<?>,?> withoutSkeletons =
+        Collections.synchronizedMbp(new WebkHbshMbp<Clbss<?>,Void>());
 
     /**
-     * Create a new (empty) Unicast server remote reference.
+     * Crebte b new (empty) Unicbst server remote reference.
      */
-    public UnicastServerRef() {
+    public UnicbstServerRef() {
     }
 
     /**
-     * Construct a Unicast server remote reference for a specified
+     * Construct b Unicbst server remote reference for b specified
      * liveRef.
      */
-    public UnicastServerRef(LiveRef ref) {
+    public UnicbstServerRef(LiveRef ref) {
         super(ref);
     }
 
     /**
-     * Construct a Unicast server remote reference to be exported
+     * Construct b Unicbst server remote reference to be exported
      * on the specified port.
      */
-    public UnicastServerRef(int port) {
+    public UnicbstServerRef(int port) {
         super(new LiveRef(port));
     }
 
     /**
-     * Constructs a UnicastServerRef to be exported on an
-     * anonymous port (i.e., 0) and that uses a pregenerated stub class
-     * (NOT a dynamic proxy instance) if 'forceStubUse' is 'true'.
+     * Constructs b UnicbstServerRef to be exported on bn
+     * bnonymous port (i.e., 0) bnd thbt uses b pregenerbted stub clbss
+     * (NOT b dynbmic proxy instbnce) if 'forceStubUse' is 'true'.
      *
-     * This constructor is only called by the method
-     * UnicastRemoteObject.exportObject(Remote) passing 'true' for
-     * 'forceStubUse'.  The UnicastRemoteObject.exportObject(Remote) method
-     * returns RemoteStub, so it must ensure that the stub for the
-     * exported object is an instance of a pregenerated stub class that
-     * extends RemoteStub (instead of an instance of a dynamic proxy class
-     * which is not an instance of RemoteStub).
+     * This constructor is only cblled by the method
+     * UnicbstRemoteObject.exportObject(Remote) pbssing 'true' for
+     * 'forceStubUse'.  The UnicbstRemoteObject.exportObject(Remote) method
+     * returns RemoteStub, so it must ensure thbt the stub for the
+     * exported object is bn instbnce of b pregenerbted stub clbss thbt
+     * extends RemoteStub (instebd of bn instbnce of b dynbmic proxy clbss
+     * which is not bn instbnce of RemoteStub).
      **/
-    public UnicastServerRef(boolean forceStubUse) {
+    public UnicbstServerRef(boolebn forceStubUse) {
         this(0);
         this.forceStubUse = forceStubUse;
     }
 
     /**
-     * With the addition of support for dynamic proxies as stubs, this
-     * method is obsolete because it returns RemoteStub instead of the more
-     * general Remote.  It should not be called.  It sets the
-     * 'forceStubUse' flag to true so that the stub for the exported object
-     * is forced to be an instance of the pregenerated stub class, which
+     * With the bddition of support for dynbmic proxies bs stubs, this
+     * method is obsolete becbuse it returns RemoteStub instebd of the more
+     * generbl Remote.  It should not be cblled.  It sets the
+     * 'forceStubUse' flbg to true so thbt the stub for the exported object
+     * is forced to be bn instbnce of the pregenerbted stub clbss, which
      * extends RemoteStub.
      *
-     * Export this object, create the skeleton and stubs for this
-     * dispatcher.  Create a stub based on the type of the impl,
-     * initialize it with the appropriate remote reference. Create the
-     * target defined by the impl, dispatcher (this) and stub.
-     * Export that target via the Ref.
+     * Export this object, crebte the skeleton bnd stubs for this
+     * dispbtcher.  Crebte b stub bbsed on the type of the impl,
+     * initiblize it with the bppropribte remote reference. Crebte the
+     * tbrget defined by the impl, dispbtcher (this) bnd stub.
+     * Export thbt tbrget vib the Ref.
      **/
-    public RemoteStub exportObject(Remote impl, Object data)
+    public RemoteStub exportObject(Remote impl, Object dbtb)
         throws RemoteException
     {
         forceStubUse = true;
-        return (RemoteStub) exportObject(impl, data, false);
+        return (RemoteStub) exportObject(impl, dbtb, fblse);
     }
 
     /**
-     * Export this object, create the skeleton and stubs for this
-     * dispatcher.  Create a stub based on the type of the impl,
-     * initialize it with the appropriate remote reference. Create the
-     * target defined by the impl, dispatcher (this) and stub.
-     * Export that target via the Ref.
+     * Export this object, crebte the skeleton bnd stubs for this
+     * dispbtcher.  Crebte b stub bbsed on the type of the impl,
+     * initiblize it with the bppropribte remote reference. Crebte the
+     * tbrget defined by the impl, dispbtcher (this) bnd stub.
+     * Export thbt tbrget vib the Ref.
      */
-    public Remote exportObject(Remote impl, Object data,
-                               boolean permanent)
+    public Remote exportObject(Remote impl, Object dbtb,
+                               boolebn permbnent)
         throws RemoteException
     {
-        Class<?> implClass = impl.getClass();
+        Clbss<?> implClbss = impl.getClbss();
         Remote stub;
 
         try {
-            stub = Util.createProxy(implClass, getClientRef(), forceStubUse);
-        } catch (IllegalArgumentException e) {
+            stub = Util.crebteProxy(implClbss, getClientRef(), forceStubUse);
+        } cbtch (IllegblArgumentException e) {
             throw new ExportException(
-                "remote object implements illegal remote interface", e);
+                "remote object implements illegbl remote interfbce", e);
         }
-        if (stub instanceof RemoteStub) {
+        if (stub instbnceof RemoteStub) {
             setSkeleton(impl);
         }
 
-        Target target =
-            new Target(impl, this, stub, ref.getObjID(), permanent);
-        ref.exportObject(target);
-        hashToMethod_Map = hashToMethod_Maps.get(implClass);
+        Tbrget tbrget =
+            new Tbrget(impl, this, stub, ref.getObjID(), permbnent);
+        ref.exportObject(tbrget);
+        hbshToMethod_Mbp = hbshToMethod_Mbps.get(implClbss);
         return stub;
     }
 
     /**
-     * Return the hostname of the current client.  When called from a
-     * thread actively handling a remote method invocation the
-     * hostname of the client is returned.
-     * @exception ServerNotActiveException If called outside of servicing
-     * a remote method invocation.
+     * Return the hostnbme of the current client.  When cblled from b
+     * threbd bctively hbndling b remote method invocbtion the
+     * hostnbme of the client is returned.
+     * @exception ServerNotActiveException If cblled outside of servicing
+     * b remote method invocbtion.
      */
     public String getClientHost() throws ServerNotActiveException {
-        return TCPTransport.getClientHost();
+        return TCPTrbnsport.getClientHost();
     }
 
     /**
-     * Discovers and sets the appropriate skeleton for the impl.
+     * Discovers bnd sets the bppropribte skeleton for the impl.
      */
     public void setSkeleton(Remote impl) throws RemoteException {
-        if (!withoutSkeletons.containsKey(impl.getClass())) {
+        if (!withoutSkeletons.contbinsKey(impl.getClbss())) {
             try {
-                skel = Util.createSkeleton(impl);
-            } catch (SkeletonNotFoundException e) {
+                skel = Util.crebteSkeleton(impl);
+            } cbtch (SkeletonNotFoundException e) {
                 /*
-                 * Ignore exception for skeleton class not found, because a
-                 * skeleton class is not necessary with the 1.2 stub protocol.
-                 * Remember that this impl's class does not have a skeleton
-                 * class so we don't waste time searching for it again.
+                 * Ignore exception for skeleton clbss not found, becbuse b
+                 * skeleton clbss is not necessbry with the 1.2 stub protocol.
+                 * Remember thbt this impl's clbss does not hbve b skeleton
+                 * clbss so we don't wbste time sebrching for it bgbin.
                  */
-                withoutSkeletons.put(impl.getClass(), null);
+                withoutSkeletons.put(impl.getClbss(), null);
             }
         }
     }
 
     /**
-     * Call to dispatch to the remote object (on the server side).
-     * The up-call to the server and the marshalling of return result
-     * (or exception) should be handled before returning from this
+     * Cbll to dispbtch to the remote object (on the server side).
+     * The up-cbll to the server bnd the mbrshblling of return result
+     * (or exception) should be hbndled before returning from this
      * method.
-     * @param obj the target remote object for the call
-     * @param call the "remote call" from which operation and
-     * method arguments can be obtained.
-     * @exception IOException If unable to marshal return result or
-     * release input or output streams
+     * @pbrbm obj the tbrget remote object for the cbll
+     * @pbrbm cbll the "remote cbll" from which operbtion bnd
+     * method brguments cbn be obtbined.
+     * @exception IOException If unbble to mbrshbl return result or
+     * relebse input or output strebms
      */
-    public void dispatch(Remote obj, RemoteCall call) throws IOException {
-        // positive operation number in 1.1 stubs;
-        // negative version number in 1.2 stubs and beyond...
+    public void dispbtch(Remote obj, RemoteCbll cbll) throws IOException {
+        // positive operbtion number in 1.1 stubs;
+        // negbtive version number in 1.2 stubs bnd beyond...
         int num;
         long op;
 
         try {
-            // read remote call header
+            // rebd remote cbll hebder
             ObjectInput in;
             try {
-                in = call.getInputStream();
-                num = in.readInt();
+                in = cbll.getInputStrebm();
+                num = in.rebdInt();
                 if (num >= 0) {
                     if (skel != null) {
-                        oldDispatch(obj, call, num);
+                        oldDispbtch(obj, cbll, num);
                         return;
                     } else {
-                        throw new UnmarshalException(
-                            "skeleton class not found but required " +
+                        throw new UnmbrshblException(
+                            "skeleton clbss not found but required " +
                             "for client version");
                     }
                 }
-                op = in.readLong();
-            } catch (Exception readEx) {
-                throw new UnmarshalException("error unmarshalling call header",
-                                             readEx);
+                op = in.rebdLong();
+            } cbtch (Exception rebdEx) {
+                throw new UnmbrshblException("error unmbrshblling cbll hebder",
+                                             rebdEx);
             }
 
             /*
-             * Since only system classes (with null class loaders) will be on
-             * the execution stack during parameter unmarshalling for the 1.2
-             * stub protocol, tell the MarshalInputStream not to bother trying
-             * to resolve classes using its superclasses's default method of
-             * consulting the first non-null class loader on the stack.
+             * Since only system clbsses (with null clbss lobders) will be on
+             * the execution stbck during pbrbmeter unmbrshblling for the 1.2
+             * stub protocol, tell the MbrshblInputStrebm not to bother trying
+             * to resolve clbsses using its superclbsses's defbult method of
+             * consulting the first non-null clbss lobder on the stbck.
              */
-            MarshalInputStream marshalStream = (MarshalInputStream) in;
-            marshalStream.skipDefaultResolveClass();
+            MbrshblInputStrebm mbrshblStrebm = (MbrshblInputStrebm) in;
+            mbrshblStrebm.skipDefbultResolveClbss();
 
-            Method method = hashToMethod_Map.get(op);
+            Method method = hbshToMethod_Mbp.get(op);
             if (method == null) {
-                throw new UnmarshalException("unrecognized method hash: " +
+                throw new UnmbrshblException("unrecognized method hbsh: " +
                     "method not supported by remote object");
             }
 
-            // if calls are being logged, write out object id and operation
-            logCall(obj, method);
+            // if cblls bre being logged, write out object id bnd operbtion
+            logCbll(obj, method);
 
-            // unmarshal parameters
-            Class<?>[] types = method.getParameterTypes();
-            Object[] params = new Object[types.length];
+            // unmbrshbl pbrbmeters
+            Clbss<?>[] types = method.getPbrbmeterTypes();
+            Object[] pbrbms = new Object[types.length];
 
             try {
-                unmarshalCustomCallData(in);
+                unmbrshblCustomCbllDbtb(in);
                 for (int i = 0; i < types.length; i++) {
-                    params[i] = unmarshalValue(types[i], in);
+                    pbrbms[i] = unmbrshblVblue(types[i], in);
                 }
-            } catch (java.io.IOException e) {
-                throw new UnmarshalException(
-                    "error unmarshalling arguments", e);
-            } catch (ClassNotFoundException e) {
-                throw new UnmarshalException(
-                    "error unmarshalling arguments", e);
-            } finally {
-                call.releaseInputStream();
+            } cbtch (jbvb.io.IOException e) {
+                throw new UnmbrshblException(
+                    "error unmbrshblling brguments", e);
+            } cbtch (ClbssNotFoundException e) {
+                throw new UnmbrshblException(
+                    "error unmbrshblling brguments", e);
+            } finblly {
+                cbll.relebseInputStrebm();
             }
 
-            // make upcall on remote object
+            // mbke upcbll on remote object
             Object result;
             try {
-                result = method.invoke(obj, params);
-            } catch (InvocationTargetException e) {
-                throw e.getTargetException();
+                result = method.invoke(obj, pbrbms);
+            } cbtch (InvocbtionTbrgetException e) {
+                throw e.getTbrgetException();
             }
 
-            // marshal return value
+            // mbrshbl return vblue
             try {
-                ObjectOutput out = call.getResultStream(true);
-                Class<?> rtype = method.getReturnType();
-                if (rtype != void.class) {
-                    marshalValue(rtype, result, out);
+                ObjectOutput out = cbll.getResultStrebm(true);
+                Clbss<?> rtype = method.getReturnType();
+                if (rtype != void.clbss) {
+                    mbrshblVblue(rtype, result, out);
                 }
-            } catch (IOException ex) {
-                throw new MarshalException("error marshalling return", ex);
+            } cbtch (IOException ex) {
+                throw new MbrshblException("error mbrshblling return", ex);
                 /*
-                 * This throw is problematic because when it is caught below,
-                 * we attempt to marshal it back to the client, but at this
-                 * point, a "normal return" has already been indicated,
-                 * so marshalling an exception will corrupt the stream.
-                 * This was the case with skeletons as well; there is no
-                 * immediately obvious solution without a protocol change.
+                 * This throw is problembtic becbuse when it is cbught below,
+                 * we bttempt to mbrshbl it bbck to the client, but bt this
+                 * point, b "normbl return" hbs blrebdy been indicbted,
+                 * so mbrshblling bn exception will corrupt the strebm.
+                 * This wbs the cbse with skeletons bs well; there is no
+                 * immedibtely obvious solution without b protocol chbnge.
                  */
             }
-        } catch (Throwable e) {
-            logCallException(e);
+        } cbtch (Throwbble e) {
+            logCbllException(e);
 
-            ObjectOutput out = call.getResultStream(false);
-            if (e instanceof Error) {
+            ObjectOutput out = cbll.getResultStrebm(fblse);
+            if (e instbnceof Error) {
                 e = new ServerError(
-                    "Error occurred in server thread", (Error) e);
-            } else if (e instanceof RemoteException) {
+                    "Error occurred in server threbd", (Error) e);
+            } else if (e instbnceof RemoteException) {
                 e = new ServerException(
-                    "RemoteException occurred in server thread",
+                    "RemoteException occurred in server threbd",
                     (Exception) e);
             }
-            if (suppressStackTraces) {
-                clearStackTraces(e);
+            if (suppressStbckTrbces) {
+                clebrStbckTrbces(e);
             }
             out.writeObject(e);
-        } finally {
-            call.releaseInputStream(); // in case skeleton doesn't
-            call.releaseOutputStream();
+        } finblly {
+            cbll.relebseInputStrebm(); // in cbse skeleton doesn't
+            cbll.relebseOutputStrebm();
         }
     }
 
-    protected void unmarshalCustomCallData(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    protected void unmbrshblCustomCbllDbtb(ObjectInput in)
+        throws IOException, ClbssNotFoundException
     {}
 
     /**
-     * Handle server-side dispatch using the RMI 1.1 stub/skeleton
-     * protocol, given a non-negative operation number that has
-     * already been read from the call stream.
+     * Hbndle server-side dispbtch using the RMI 1.1 stub/skeleton
+     * protocol, given b non-negbtive operbtion number thbt hbs
+     * blrebdy been rebd from the cbll strebm.
      *
-     * @param obj the target remote object for the call
-     * @param call the "remote call" from which operation and
-     * method arguments can be obtained.
-     * @param op the operation number
-     * @exception IOException if unable to marshal return result or
-     * release input or output streams
+     * @pbrbm obj the tbrget remote object for the cbll
+     * @pbrbm cbll the "remote cbll" from which operbtion bnd
+     * method brguments cbn be obtbined.
+     * @pbrbm op the operbtion number
+     * @exception IOException if unbble to mbrshbl return result or
+     * relebse input or output strebms
      */
-    public void oldDispatch(Remote obj, RemoteCall call, int op)
+    public void oldDispbtch(Remote obj, RemoteCbll cbll, int op)
         throws IOException
     {
-        long hash;              // hash for matching stub with skeleton
+        long hbsh;              // hbsh for mbtching stub with skeleton
 
         try {
-            // read remote call header
+            // rebd remote cbll hebder
             ObjectInput in;
             try {
-                in = call.getInputStream();
+                in = cbll.getInputStrebm();
                 try {
-                    Class<?> clazz = Class.forName("sun.rmi.transport.DGCImpl_Skel");
-                    if (clazz.isAssignableFrom(skel.getClass())) {
-                        ((MarshalInputStream)in).useCodebaseOnly();
+                    Clbss<?> clbzz = Clbss.forNbme("sun.rmi.trbnsport.DGCImpl_Skel");
+                    if (clbzz.isAssignbbleFrom(skel.getClbss())) {
+                        ((MbrshblInputStrebm)in).useCodebbseOnly();
                     }
-                } catch (ClassNotFoundException ignore) { }
-                hash = in.readLong();
-            } catch (Exception readEx) {
-                throw new UnmarshalException("error unmarshalling call header",
-                                             readEx);
+                } cbtch (ClbssNotFoundException ignore) { }
+                hbsh = in.rebdLong();
+            } cbtch (Exception rebdEx) {
+                throw new UnmbrshblException("error unmbrshblling cbll hebder",
+                                             rebdEx);
             }
 
-            // if calls are being logged, write out object id and operation
-            logCall(obj, skel.getOperations()[op]);
-            unmarshalCustomCallData(in);
-            // dispatch to skeleton for remote object
-            skel.dispatch(obj, call, op, hash);
+            // if cblls bre being logged, write out object id bnd operbtion
+            logCbll(obj, skel.getOperbtions()[op]);
+            unmbrshblCustomCbllDbtb(in);
+            // dispbtch to skeleton for remote object
+            skel.dispbtch(obj, cbll, op, hbsh);
 
-        } catch (Throwable e) {
-            logCallException(e);
+        } cbtch (Throwbble e) {
+            logCbllException(e);
 
-            ObjectOutput out = call.getResultStream(false);
-            if (e instanceof Error) {
+            ObjectOutput out = cbll.getResultStrebm(fblse);
+            if (e instbnceof Error) {
                 e = new ServerError(
-                    "Error occurred in server thread", (Error) e);
-            } else if (e instanceof RemoteException) {
+                    "Error occurred in server threbd", (Error) e);
+            } else if (e instbnceof RemoteException) {
                 e = new ServerException(
-                    "RemoteException occurred in server thread",
+                    "RemoteException occurred in server threbd",
                     (Exception) e);
             }
-            if (suppressStackTraces) {
-                clearStackTraces(e);
+            if (suppressStbckTrbces) {
+                clebrStbckTrbces(e);
             }
             out.writeObject(e);
-        } finally {
-            call.releaseInputStream(); // in case skeleton doesn't
-            call.releaseOutputStream();
+        } finblly {
+            cbll.relebseInputStrebm(); // in cbse skeleton doesn't
+            cbll.relebseOutputStrebm();
         }
     }
 
     /**
-     * Clear the stack trace of the given Throwable by replacing it with
-     * an empty StackTraceElement array, and do the same for all of its
-     * chained causative exceptions.
+     * Clebr the stbck trbce of the given Throwbble by replbcing it with
+     * bn empty StbckTrbceElement brrby, bnd do the sbme for bll of its
+     * chbined cbusbtive exceptions.
      */
-    public static void clearStackTraces(Throwable t) {
-        StackTraceElement[] empty = new StackTraceElement[0];
+    public stbtic void clebrStbckTrbces(Throwbble t) {
+        StbckTrbceElement[] empty = new StbckTrbceElement[0];
         while (t != null) {
-            t.setStackTrace(empty);
-            t = t.getCause();
+            t.setStbckTrbce(empty);
+            t = t.getCbuse();
         }
     }
 
     /**
-     * Log the details of an incoming call.  The method parameter is either of
-     * type java.lang.reflect.Method or java.rmi.server.Operation.
+     * Log the detbils of bn incoming cbll.  The method pbrbmeter is either of
+     * type jbvb.lbng.reflect.Method or jbvb.rmi.server.Operbtion.
      */
-    private void logCall(Remote obj, Object method) {
-        if (callLog.isLoggable(Log.VERBOSE)) {
+    privbte void logCbll(Remote obj, Object method) {
+        if (cbllLog.isLoggbble(Log.VERBOSE)) {
             String clientHost;
             try {
                 clientHost = getClientHost();
-            } catch (ServerNotActiveException snae) {
-                clientHost = "(local)"; // shouldn't happen
+            } cbtch (ServerNotActiveException snbe) {
+                clientHost = "(locbl)"; // shouldn't hbppen
             }
-            callLog.log(Log.VERBOSE, "[" + clientHost + ": " +
-                              obj.getClass().getName() +
+            cbllLog.log(Log.VERBOSE, "[" + clientHost + ": " +
+                              obj.getClbss().getNbme() +
                               ref.getObjID().toString() + ": " +
                               method + "]");
         }
     }
 
     /**
-     * Log the exception detail of an incoming call.
+     * Log the exception detbil of bn incoming cbll.
      */
-    private void logCallException(Throwable e) {
-        // if calls are being logged, log them
-        if (callLog.isLoggable(Log.BRIEF)) {
+    privbte void logCbllException(Throwbble e) {
+        // if cblls bre being logged, log them
+        if (cbllLog.isLoggbble(Log.BRIEF)) {
             String clientHost = "";
             try {
                 clientHost = "[" + getClientHost() + "] ";
-            } catch (ServerNotActiveException snae) {
+            } cbtch (ServerNotActiveException snbe) {
             }
-            callLog.log(Log.BRIEF, clientHost + "exception: ", e);
+            cbllLog.log(Log.BRIEF, clientHost + "exception: ", e);
         }
 
         // write exceptions (only) to System.err if desired
-        if (wantExceptionLog) {
-            java.io.PrintStream log = System.err;
+        if (wbntExceptionLog) {
+            jbvb.io.PrintStrebm log = System.err;
             synchronized (log) {
                 log.println();
-                log.println("Exception dispatching call to " +
-                            ref.getObjID() + " in thread \"" +
-                            Thread.currentThread().getName() +
-                            "\" at " + (new Date()) + ":");
-                e.printStackTrace(log);
+                log.println("Exception dispbtching cbll to " +
+                            ref.getObjID() + " in threbd \"" +
+                            Threbd.currentThrebd().getNbme() +
+                            "\" bt " + (new Dbte()) + ":");
+                e.printStbckTrbce(log);
             }
         }
     }
 
     /**
-     * Returns the class of the ref type to be serialized.
+     * Returns the clbss of the ref type to be seriblized.
      */
-    public String getRefClass(ObjectOutput out) {
-        return "UnicastServerRef";
+    public String getRefClbss(ObjectOutput out) {
+        return "UnicbstServerRef";
     }
 
     /**
      * Return the client remote reference for this remoteRef.
-     * In the case of a client RemoteRef "this" is the answer.
-     * For a server remote reference, a client side one will have to
-     * found or created.
+     * In the cbse of b client RemoteRef "this" is the bnswer.
+     * For b server remote reference, b client side one will hbve to
+     * found or crebted.
      */
     protected RemoteRef getClientRef() {
-        return new UnicastRef(ref);
+        return new UnicbstRef(ref);
     }
 
     /**
-     * Write out external representation for remote ref.
+     * Write out externbl representbtion for remote ref.
      */
-    public void writeExternal(ObjectOutput out) throws IOException {
+    public void writeExternbl(ObjectOutput out) throws IOException {
     }
 
     /**
-     * Read in external representation for remote ref.
-     * @exception ClassNotFoundException If the class for an object
-     * being restored cannot be found.
+     * Rebd in externbl representbtion for remote ref.
+     * @exception ClbssNotFoundException If the clbss for bn object
+     * being restored cbnnot be found.
      */
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    public void rebdExternbl(ObjectInput in)
+        throws IOException, ClbssNotFoundException
     {
-        // object is re-exported elsewhere (e.g., by UnicastRemoteObject)
+        // object is re-exported elsewhere (e.g., by UnicbstRemoteObject)
         ref = null;
         skel = null;
     }
 
 
     /**
-     * A weak hash map, mapping classes to hash maps that map method
-     * hashes to method objects.
+     * A webk hbsh mbp, mbpping clbsses to hbsh mbps thbt mbp method
+     * hbshes to method objects.
      **/
-    private static class HashToMethod_Maps
-        extends WeakClassHashMap<Map<Long,Method>>
+    privbte stbtic clbss HbshToMethod_Mbps
+        extends WebkClbssHbshMbp<Mbp<Long,Method>>
     {
-        HashToMethod_Maps() {}
+        HbshToMethod_Mbps() {}
 
-        protected Map<Long,Method> computeValue(Class<?> remoteClass) {
-            Map<Long,Method> map = new HashMap<>();
-            for (Class<?> cl = remoteClass;
+        protected Mbp<Long,Method> computeVblue(Clbss<?> remoteClbss) {
+            Mbp<Long,Method> mbp = new HbshMbp<>();
+            for (Clbss<?> cl = remoteClbss;
                  cl != null;
-                 cl = cl.getSuperclass())
+                 cl = cl.getSuperclbss())
             {
-                for (Class<?> intf : cl.getInterfaces()) {
-                    if (Remote.class.isAssignableFrom(intf)) {
+                for (Clbss<?> intf : cl.getInterfbces()) {
+                    if (Remote.clbss.isAssignbbleFrom(intf)) {
                         for (Method method : intf.getMethods()) {
-                            final Method m = method;
+                            finbl Method m = method;
                             /*
-                             * Set this Method object to override language
-                             * access checks so that the dispatcher can invoke
-                             * methods from non-public remote interfaces.
+                             * Set this Method object to override lbngubge
+                             * bccess checks so thbt the dispbtcher cbn invoke
+                             * methods from non-public remote interfbces.
                              */
                             AccessController.doPrivileged(
                                 new PrivilegedAction<Void>() {
@@ -557,12 +557,12 @@ public class UnicastServerRef extends UnicastRef
                                     return null;
                                 }
                             });
-                            map.put(Util.computeMethodHash(m), m);
+                            mbp.put(Util.computeMethodHbsh(m), m);
                         }
                     }
                 }
             }
-            return map;
+            return mbp;
         }
     }
 }

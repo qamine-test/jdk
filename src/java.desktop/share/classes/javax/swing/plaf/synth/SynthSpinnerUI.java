@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicSpinnerUI;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicSpinnerUI;
+import jbvb.bebns.*;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JSpinner}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JSpinner}.
  *
- * @author Hans Muller
- * @author Joshua Outwater
+ * @buthor Hbns Muller
+ * @buthor Joshub Outwbter
  * @since 1.7
  */
-public class SynthSpinnerUI extends BasicSpinnerUI
-                            implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+public clbss SynthSpinnerUI extends BbsicSpinnerUI
+                            implements PropertyChbngeListener, SynthUI {
+    privbte SynthStyle style;
     /**
-     * A FocusListener implementation which causes the entire spinner to be
-     * repainted whenever the editor component (typically a text field) becomes
-     * focused, or loses focus. This is necessary because since SynthSpinnerUI
-     * is composed of an editor and two buttons, it is necessary that all three
-     * components indicate that they are "focused" so that they can be drawn
-     * appropriately. The repaint is used to ensure that the buttons are drawn
-     * in the new focused or unfocused state, mirroring that of the editor.
+     * A FocusListener implementbtion which cbuses the entire spinner to be
+     * repbinted whenever the editor component (typicblly b text field) becomes
+     * focused, or loses focus. This is necessbry becbuse since SynthSpinnerUI
+     * is composed of bn editor bnd two buttons, it is necessbry thbt bll three
+     * components indicbte thbt they bre "focused" so thbt they cbn be drbwn
+     * bppropribtely. The repbint is used to ensure thbt the buttons bre drbwn
+     * in the new focused or unfocused stbte, mirroring thbt of the editor.
      */
-    private EditorFocusHandler editorFocusHandler = new EditorFocusHandler();
+    privbte EditorFocusHbndler editorFocusHbndler = new EditorFocusHbndler();
 
     /**
-     * Returns a new instance of SynthSpinnerUI.
+     * Returns b new instbnce of SynthSpinnerUI.
      *
-     * @param c the JSpinner (not used)
-     * @see ComponentUI#createUI
-     * @return a new SynthSpinnerUI object
+     * @pbrbm c the JSpinner (not used)
+     * @see ComponentUI#crebteUI
+     * @return b new SynthSpinnerUI object
      */
-    public static ComponentUI createUI(JComponent c) {
+    public stbtic ComponentUI crebteUI(JComponent c) {
         return new SynthSpinnerUI();
     }
 
@@ -68,14 +68,14 @@ public class SynthSpinnerUI extends BasicSpinnerUI
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        spinner.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        spinner.bddPropertyChbngeListener(this);
         JComponent editor = spinner.getEditor();
-        if (editor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)editor).getTextField();
+        if (editor instbnceof JSpinner.DefbultEditor) {
+            JTextField tf = ((JSpinner.DefbultEditor)editor).getTextField();
             if (tf != null) {
-                tf.addFocusListener(editorFocusHandler);
+                tf.bddFocusListener(editorFocusHbndler);
             }
         }
     }
@@ -84,51 +84,51 @@ public class SynthSpinnerUI extends BasicSpinnerUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        spinner.removePropertyChangeListener(this);
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
+        spinner.removePropertyChbngeListener(this);
         JComponent editor = spinner.getEditor();
-        if (editor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)editor).getTextField();
+        if (editor instbnceof JSpinner.DefbultEditor) {
+            JTextField tf = ((JSpinner.DefbultEditor)editor).getTextField();
             if (tf != null) {
-                tf.removeFocusListener(editorFocusHandler);
+                tf.removeFocusListener(editorFocusHbndler);
             }
         }
     }
 
     /**
-     * Initializes the <code>JSpinner</code> <code>border</code>,
-     * <code>foreground</code>, and <code>background</code>, properties
-     * based on the corresponding "Spinner.*" properties from defaults table.
-     * The <code>JSpinners</code> layout is set to the value returned by
-     * <code>createLayout</code>.  This method is called by <code>installUI</code>.
+     * Initiblizes the <code>JSpinner</code> <code>border</code>,
+     * <code>foreground</code>, bnd <code>bbckground</code>, properties
+     * bbsed on the corresponding "Spinner.*" properties from defbults tbble.
+     * The <code>JSpinners</code> lbyout is set to the vblue returned by
+     * <code>crebteLbyout</code>.  This method is cblled by <code>instbllUI</code>.
      *
-     * @see #uninstallDefaults
-     * @see #installUI
-     * @see #createLayout
-     * @see LookAndFeel#installBorder
-     * @see LookAndFeel#installColors
+     * @see #uninstbllDefbults
+     * @see #instbllUI
+     * @see #crebteLbyout
+     * @see LookAndFeel#instbllBorder
+     * @see LookAndFeel#instbllColors
      */
     @Override
-    protected void installDefaults() {
-        LayoutManager layout = spinner.getLayout();
+    protected void instbllDefbults() {
+        LbyoutMbnbger lbyout = spinner.getLbyout();
 
-        if (layout == null || layout instanceof UIResource) {
-            spinner.setLayout(createLayout());
+        if (lbyout == null || lbyout instbnceof UIResource) {
+            spinner.setLbyout(crebteLbyout());
         }
-        updateStyle(spinner);
+        updbteStyle(spinner);
     }
 
 
-    private void updateStyle(JSpinner c) {
+    privbte void updbteStyle(JSpinner c) {
         SynthContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (style != oldStyle) {
             if (oldStyle != null) {
-                // Only call installKeyboardActions as uninstall is not
+                // Only cbll instbllKeybobrdActions bs uninstbll is not
                 // public.
-                installKeyboardActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
@@ -136,21 +136,21 @@ public class SynthSpinnerUI extends BasicSpinnerUI
 
 
     /**
-     * Sets the <code>JSpinner's</code> layout manager to null.  This
-     * method is called by <code>uninstallUI</code>.
+     * Sets the <code>JSpinner's</code> lbyout mbnbger to null.  This
+     * method is cblled by <code>uninstbllUI</code>.
      *
-     * @see #installDefaults
-     * @see #uninstallUI
+     * @see #instbllDefbults
+     * @see #uninstbllUI
      */
     @Override
-    protected void uninstallDefaults() {
-        if (spinner.getLayout() instanceof UIResource) {
-            spinner.setLayout(null);
+    protected void uninstbllDefbults() {
+        if (spinner.getLbyout() instbnceof UIResource) {
+            spinner.setLbyout(null);
         }
 
         SynthContext context = getContext(spinner, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
     }
@@ -159,8 +159,8 @@ public class SynthSpinnerUI extends BasicSpinnerUI
      * {@inheritDoc}
      */
     @Override
-    protected LayoutManager createLayout() {
-        return new SpinnerLayout();
+    protected LbyoutMbnbger crebteLbyout() {
+        return new SpinnerLbyout();
     }
 
 
@@ -168,10 +168,10 @@ public class SynthSpinnerUI extends BasicSpinnerUI
      * {@inheritDoc}
      */
     @Override
-    protected Component createPreviousButton() {
-        JButton b = new SynthArrowButton(SwingConstants.SOUTH);
-        b.setName("Spinner.previousButton");
-        installPreviousButtonListeners(b);
+    protected Component crebtePreviousButton() {
+        JButton b = new SynthArrowButton(SwingConstbnts.SOUTH);
+        b.setNbme("Spinner.previousButton");
+        instbllPreviousButtonListeners(b);
         return b;
     }
 
@@ -180,92 +180,92 @@ public class SynthSpinnerUI extends BasicSpinnerUI
      * {@inheritDoc}
      */
     @Override
-    protected Component createNextButton() {
-        JButton b = new SynthArrowButton(SwingConstants.NORTH);
-        b.setName("Spinner.nextButton");
-        installNextButtonListeners(b);
+    protected Component crebteNextButton() {
+        JButton b = new SynthArrowButton(SwingConstbnts.NORTH);
+        b.setNbme("Spinner.nextButton");
+        instbllNextButtonListeners(b);
         return b;
     }
 
 
     /**
-     * This method is called by installUI to get the editor component
-     * of the <code>JSpinner</code>.  By default it just returns
-     * <code>JSpinner.getEditor()</code>.  Subclasses can override
-     * <code>createEditor</code> to return a component that contains
-     * the spinner's editor or null, if they're going to handle adding
-     * the editor to the <code>JSpinner</code> in an
-     * <code>installUI</code> override.
+     * This method is cblled by instbllUI to get the editor component
+     * of the <code>JSpinner</code>.  By defbult it just returns
+     * <code>JSpinner.getEditor()</code>.  Subclbsses cbn override
+     * <code>crebteEditor</code> to return b component thbt contbins
+     * the spinner's editor or null, if they're going to hbndle bdding
+     * the editor to the <code>JSpinner</code> in bn
+     * <code>instbllUI</code> override.
      * <p>
-     * Typically this method would be overridden to wrap the editor
-     * with a container with a custom border, since one can't assume
-     * that the editors border can be set directly.
+     * Typicblly this method would be overridden to wrbp the editor
+     * with b contbiner with b custom border, since one cbn't bssume
+     * thbt the editors border cbn be set directly.
      * <p>
-     * The <code>replaceEditor</code> method is called when the spinners
-     * editor is changed with <code>JSpinner.setEditor</code>.  If you've
-     * overriden this method, then you'll probably want to override
-     * <code>replaceEditor</code> as well.
+     * The <code>replbceEditor</code> method is cblled when the spinners
+     * editor is chbnged with <code>JSpinner.setEditor</code>.  If you've
+     * overriden this method, then you'll probbbly wbnt to override
+     * <code>replbceEditor</code> bs well.
      *
-     * @return the JSpinners editor JComponent, spinner.getEditor() by default
-     * @see #installUI
-     * @see #replaceEditor
+     * @return the JSpinners editor JComponent, spinner.getEditor() by defbult
+     * @see #instbllUI
+     * @see #replbceEditor
      * @see JSpinner#getEditor
      */
     @Override
-    protected JComponent createEditor() {
+    protected JComponent crebteEditor() {
         JComponent editor = spinner.getEditor();
-        editor.setName("Spinner.editor");
-        updateEditorAlignment(editor);
+        editor.setNbme("Spinner.editor");
+        updbteEditorAlignment(editor);
         return editor;
     }
 
 
     /**
-     * Called by the <code>PropertyChangeListener</code> when the
-     * <code>JSpinner</code> editor property changes.  It's the responsibility
-     * of this method to remove the old editor and add the new one.  By
-     * default this operation is just:
+     * Cblled by the <code>PropertyChbngeListener</code> when the
+     * <code>JSpinner</code> editor property chbnges.  It's the responsibility
+     * of this method to remove the old editor bnd bdd the new one.  By
+     * defbult this operbtion is just:
      * <pre>
      * spinner.remove(oldEditor);
-     * spinner.add(newEditor, "Editor");
+     * spinner.bdd(newEditor, "Editor");
      * </pre>
-     * The implementation of <code>replaceEditor</code> should be coordinated
-     * with the <code>createEditor</code> method.
+     * The implementbtion of <code>replbceEditor</code> should be coordinbted
+     * with the <code>crebteEditor</code> method.
      *
-     * @see #createEditor
-     * @see #createPropertyChangeListener
+     * @see #crebteEditor
+     * @see #crebtePropertyChbngeListener
      */
     @Override
-    protected void replaceEditor(JComponent oldEditor, JComponent newEditor) {
+    protected void replbceEditor(JComponent oldEditor, JComponent newEditor) {
         spinner.remove(oldEditor);
-        spinner.add(newEditor, "Editor");
-        if (oldEditor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)oldEditor).getTextField();
+        spinner.bdd(newEditor, "Editor");
+        if (oldEditor instbnceof JSpinner.DefbultEditor) {
+            JTextField tf = ((JSpinner.DefbultEditor)oldEditor).getTextField();
             if (tf != null) {
-                tf.removeFocusListener(editorFocusHandler);
+                tf.removeFocusListener(editorFocusHbndler);
             }
         }
-        if (newEditor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)newEditor).getTextField();
+        if (newEditor instbnceof JSpinner.DefbultEditor) {
+            JTextField tf = ((JSpinner.DefbultEditor)newEditor).getTextField();
             if (tf != null) {
-                tf.addFocusListener(editorFocusHandler);
+                tf.bddFocusListener(editorFocusHbndler);
             }
         }
     }
 
-    private void updateEditorAlignment(JComponent editor) {
-        if (editor instanceof JSpinner.DefaultEditor) {
+    privbte void updbteEditorAlignment(JComponent editor) {
+        if (editor instbnceof JSpinner.DefbultEditor) {
             SynthContext context = getContext(spinner);
-            Integer alignment = (Integer)context.getStyle().get(
+            Integer blignment = (Integer)context.getStyle().get(
                     context, "Spinner.editorAlignment");
-            JTextField text = ((JSpinner.DefaultEditor)editor).getTextField();
-            if (alignment != null) {
-                text.setHorizontalAlignment(alignment);
+            JTextField text = ((JSpinner.DefbultEditor)editor).getTextField();
+            if (blignment != null) {
+                text.setHorizontblAlignment(blignment);
 
             }
-            // copy across the sizeVariant property to the editor
-            text.putClientProperty("JComponent.sizeVariant",
-                    spinner.getClientProperty("JComponent.sizeVariant"));
+            // copy bcross the sizeVbribnt property to the editor
+            text.putClientProperty("JComponent.sizeVbribnt",
+                    spinner.getClientProperty("JComponent.sizeVbribnt"));
         }
     }
 
@@ -274,97 +274,97 @@ public class SynthSpinnerUI extends BasicSpinnerUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+        return getContext(c, SynthLookAndFeel.getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintSpinnerBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintSpinnerBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints the specified component. This implementbtion does nothing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
+    protected void pbint(SynthContext context, Grbphics g) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintSpinnerBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintSpinnerBorder(context, g, x, y, w, h);
     }
 
     /**
-     * A simple layout manager for the editor and the next/previous buttons.
-     * See the SynthSpinnerUI javadoc for more information about exactly
-     * how the components are arranged.
+     * A simple lbyout mbnbger for the editor bnd the next/previous buttons.
+     * See the SynthSpinnerUI jbvbdoc for more informbtion bbout exbctly
+     * how the components bre brrbnged.
      */
-    private static class SpinnerLayout implements LayoutManager, UIResource
+    privbte stbtic clbss SpinnerLbyout implements LbyoutMbnbger, UIResource
     {
-        private Component nextButton = null;
-        private Component previousButton = null;
-        private Component editor = null;
+        privbte Component nextButton = null;
+        privbte Component previousButton = null;
+        privbte Component editor = null;
 
-        public void addLayoutComponent(String name, Component c) {
-            if ("Next".equals(name)) {
+        public void bddLbyoutComponent(String nbme, Component c) {
+            if ("Next".equbls(nbme)) {
                 nextButton = c;
             }
-            else if ("Previous".equals(name)) {
+            else if ("Previous".equbls(nbme)) {
                 previousButton = c;
             }
-            else if ("Editor".equals(name)) {
+            else if ("Editor".equbls(nbme)) {
                 editor = c;
             }
         }
 
-        public void removeLayoutComponent(Component c) {
+        public void removeLbyoutComponent(Component c) {
             if (c == nextButton) {
                 nextButton = null;
             }
@@ -376,52 +376,52 @@ public class SynthSpinnerUI extends BasicSpinnerUI
             }
         }
 
-        private Dimension preferredSize(Component c) {
+        privbte Dimension preferredSize(Component c) {
             return (c == null) ? new Dimension(0, 0) : c.getPreferredSize();
         }
 
-        public Dimension preferredLayoutSize(Container parent) {
+        public Dimension preferredLbyoutSize(Contbiner pbrent) {
             Dimension nextD = preferredSize(nextButton);
             Dimension previousD = preferredSize(previousButton);
             Dimension editorD = preferredSize(editor);
 
-            /* Force the editors height to be a multiple of 2
+            /* Force the editors height to be b multiple of 2
              */
             editorD.height = ((editorD.height + 1) / 2) * 2;
 
             Dimension size = new Dimension(editorD.width, editorD.height);
-            size.width += Math.max(nextD.width, previousD.width);
-            Insets insets = parent.getInsets();
+            size.width += Mbth.mbx(nextD.width, previousD.width);
+            Insets insets = pbrent.getInsets();
             size.width += insets.left + insets.right;
             size.height += insets.top + insets.bottom;
             return size;
         }
 
-        public Dimension minimumLayoutSize(Container parent) {
-            return preferredLayoutSize(parent);
+        public Dimension minimumLbyoutSize(Contbiner pbrent) {
+            return preferredLbyoutSize(pbrent);
         }
 
-        private void setBounds(Component c, int x, int y, int width, int height) {
+        privbte void setBounds(Component c, int x, int y, int width, int height) {
             if (c != null) {
                 c.setBounds(x, y, width, height);
             }
         }
 
-        public void layoutContainer(Container parent) {
-            Insets insets = parent.getInsets();
-            int availWidth = parent.getWidth() - (insets.left + insets.right);
-            int availHeight = parent.getHeight() - (insets.top + insets.bottom);
+        public void lbyoutContbiner(Contbiner pbrent) {
+            Insets insets = pbrent.getInsets();
+            int bvbilWidth = pbrent.getWidth() - (insets.left + insets.right);
+            int bvbilHeight = pbrent.getHeight() - (insets.top + insets.bottom);
             Dimension nextD = preferredSize(nextButton);
             Dimension previousD = preferredSize(previousButton);
-            int nextHeight = availHeight / 2;
-            int previousHeight = availHeight - nextHeight;
-            int buttonsWidth = Math.max(nextD.width, previousD.width);
-            int editorWidth = availWidth - buttonsWidth;
+            int nextHeight = bvbilHeight / 2;
+            int previousHeight = bvbilHeight - nextHeight;
+            int buttonsWidth = Mbth.mbx(nextD.width, previousD.width);
+            int editorWidth = bvbilWidth - buttonsWidth;
 
-            /* Deal with the spinners componentOrientation property.
+            /* Debl with the spinners componentOrientbtion property.
              */
             int editorX, buttonsX;
-            if (parent.getComponentOrientation().isLeftToRight()) {
+            if (pbrent.getComponentOrientbtion().isLeftToRight()) {
                 editorX = insets.left;
                 buttonsX = editorX + editorWidth;
             }
@@ -431,7 +431,7 @@ public class SynthSpinnerUI extends BasicSpinnerUI
             }
 
             int previousY = insets.top + nextHeight;
-            setBounds(editor, editorX, insets.top, editorWidth, availHeight);
+            setBounds(editor, editorX, insets.top, editorWidth, bvbilHeight);
             setBounds(nextButton, buttonsX, insets.top, buttonsWidth, nextHeight);
             setBounds(previousButton, buttonsX, previousY, buttonsWidth, previousHeight);
         }
@@ -441,29 +441,29 @@ public class SynthSpinnerUI extends BasicSpinnerUI
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
+    public void propertyChbnge(PropertyChbngeEvent e) {
         JSpinner spinner = (JSpinner)(e.getSource());
         SpinnerUI spinnerUI = spinner.getUI();
 
-        if (spinnerUI instanceof SynthSpinnerUI) {
+        if (spinnerUI instbnceof SynthSpinnerUI) {
             SynthSpinnerUI ui = (SynthSpinnerUI)spinnerUI;
 
-            if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-                ui.updateStyle(spinner);
+            if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+                ui.updbteStyle(spinner);
             }
         }
     }
 
-    /** Listen to editor text field focus changes and repaint whole spinner */
-    private class EditorFocusHandler implements FocusListener{
-        /** Invoked when a editor text field gains the keyboard focus. */
-        @Override public void focusGained(FocusEvent e) {
-            spinner.repaint();
+    /** Listen to editor text field focus chbnges bnd repbint whole spinner */
+    privbte clbss EditorFocusHbndler implements FocusListener{
+        /** Invoked when b editor text field gbins the keybobrd focus. */
+        @Override public void focusGbined(FocusEvent e) {
+            spinner.repbint();
         }
 
-        /** Invoked when a editor text field loses the keyboard focus. */
+        /** Invoked when b editor text field loses the keybobrd focus. */
         @Override public void focusLost(FocusEvent e) {
-            spinner.repaint();
+            spinner.repbint();
         }
     }
 }

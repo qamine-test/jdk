@@ -1,33 +1,33 @@
 /*
- * Copyright (c) 2001, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/param.h>
-#include <signal.h>
-#include <pthread.h>
+#include <sys/pbrbm.h>
+#include <signbl.h>
+#include <pthrebd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/select.h>
@@ -39,162 +39,162 @@
 #include <sys/poll.h>
 
 /*
- * Stack allocated by thread when doing blocking operation
+ * Stbck bllocbted by threbd when doing blocking operbtion
  */
-typedef struct threadEntry {
-    pthread_t thr;                      /* this thread */
-    struct threadEntry *next;           /* next thread */
+typedef struct threbdEntry {
+    pthrebd_t thr;                      /* this threbd */
+    struct threbdEntry *next;           /* next threbd */
     int intr;                           /* interrupted */
-} threadEntry_t;
+} threbdEntry_t;
 
 /*
- * Heap allocated during initialized - one entry per fd
+ * Hebp bllocbted during initiblized - one entry per fd
  */
 typedef struct {
-    pthread_mutex_t lock;               /* fd lock */
-    threadEntry_t *threads;             /* threads blocked on fd */
+    pthrebd_mutex_t lock;               /* fd lock */
+    threbdEntry_t *threbds;             /* threbds blocked on fd */
 } fdEntry_t;
 
 /*
- * Signal to unblock thread
+ * Signbl to unblock threbd
  */
-static int sigWakeup = SIGIO;
+stbtic int sigWbkeup = SIGIO;
 
 /*
- * The fd table and the number of file descriptors
+ * The fd tbble bnd the number of file descriptors
  */
-static fdEntry_t *fdTable;
-static int fdCount;
+stbtic fdEntry_t *fdTbble;
+stbtic int fdCount;
 
 /*
- * This limit applies if getlimit() returns unlimited.
- * Unfortunately, this means if someone wants a higher limit
- * then they have to set an explicit limit, higher than this,
- * which is probably counter-intuitive.
+ * This limit bpplies if getlimit() returns unlimited.
+ * Unfortunbtely, this mebns if someone wbnts b higher limit
+ * then they hbve to set bn explicit limit, higher thbn this,
+ * which is probbbly counter-intuitive.
  */
 #define MAX_FD_COUNT 4096
 
 /*
- * Null signal handler
+ * Null signbl hbndler
  */
-static void sig_wakeup(int sig) {
+stbtic void sig_wbkeup(int sig) {
 }
 
 /*
- * Initialization routine (executed when library is loaded)
- * Allocate fd tables and sets up signal handler.
+ * Initiblizbtion routine (executed when librbry is lobded)
+ * Allocbte fd tbbles bnd sets up signbl hbndler.
  */
-static void __attribute((constructor)) init() {
+stbtic void __bttribute((constructor)) init() {
     struct rlimit nbr_files;
     sigset_t sigset;
-    struct sigaction sa;
+    struct sigbction sb;
     int i;
 
     /*
-     * Allocate table based on the maximum number of
+     * Allocbte tbble bbsed on the mbximum number of
      * file descriptors.
      */
     getrlimit(RLIMIT_NOFILE, &nbr_files);
-    if (nbr_files.rlim_max == RLIM_INFINITY) {
+    if (nbr_files.rlim_mbx == RLIM_INFINITY) {
         fdCount = MAX_FD_COUNT;
     } else {
-        fdCount = nbr_files.rlim_max;
+        fdCount = nbr_files.rlim_mbx;
     }
-    fdTable = (fdEntry_t *)calloc(fdCount, sizeof(fdEntry_t));
-    if (fdTable == NULL) {
-        fprintf(stderr, "library initialization failed - "
-                "unable to allocate file descriptor table - out of memory");
-        abort();
+    fdTbble = (fdEntry_t *)cblloc(fdCount, sizeof(fdEntry_t));
+    if (fdTbble == NULL) {
+        fprintf(stderr, "librbry initiblizbtion fbiled - "
+                "unbble to bllocbte file descriptor tbble - out of memory");
+        bbort();
     }
     for (i=0; i<fdCount; i++) {
-        pthread_mutex_init(&fdTable[i].lock, NULL);
+        pthrebd_mutex_init(&fdTbble[i].lock, NULL);
     }
 
     /*
-     * Setup the signal handler
+     * Setup the signbl hbndler
      */
-    sa.sa_handler = sig_wakeup;
-    sa.sa_flags   = 0;
-    sigemptyset(&sa.sa_mask);
-    sigaction(sigWakeup, &sa, NULL);
+    sb.sb_hbndler = sig_wbkeup;
+    sb.sb_flbgs   = 0;
+    sigemptyset(&sb.sb_mbsk);
+    sigbction(sigWbkeup, &sb, NULL);
 
     sigemptyset(&sigset);
-    sigaddset(&sigset, sigWakeup);
-    sigprocmask(SIG_UNBLOCK, &sigset, NULL);
+    sigbddset(&sigset, sigWbkeup);
+    sigprocmbsk(SIG_UNBLOCK, &sigset, NULL);
 }
 
 /*
- * Return the fd table for this fd or NULL is fd out
- * of range.
+ * Return the fd tbble for this fd or NULL is fd out
+ * of rbnge.
  */
-static inline fdEntry_t *getFdEntry(int fd)
+stbtic inline fdEntry_t *getFdEntry(int fd)
 {
     if (fd < 0 || fd >= fdCount) {
         return NULL;
     }
-    return &fdTable[fd];
+    return &fdTbble[fd];
 }
 
 /*
- * Start a blocking operation :-
- *    Insert thread onto thread list for the fd.
+ * Stbrt b blocking operbtion :-
+ *    Insert threbd onto threbd list for the fd.
  */
-static inline void startOp(fdEntry_t *fdEntry, threadEntry_t *self)
+stbtic inline void stbrtOp(fdEntry_t *fdEntry, threbdEntry_t *self)
 {
-    self->thr = pthread_self();
+    self->thr = pthrebd_self();
     self->intr = 0;
 
-    pthread_mutex_lock(&(fdEntry->lock));
+    pthrebd_mutex_lock(&(fdEntry->lock));
     {
-        self->next = fdEntry->threads;
-        fdEntry->threads = self;
+        self->next = fdEntry->threbds;
+        fdEntry->threbds = self;
     }
-    pthread_mutex_unlock(&(fdEntry->lock));
+    pthrebd_mutex_unlock(&(fdEntry->lock));
 }
 
 /*
- * End a blocking operation :-
- *     Remove thread from thread list for the fd
- *     If fd has been interrupted then set errno to EBADF
+ * End b blocking operbtion :-
+ *     Remove threbd from threbd list for the fd
+ *     If fd hbs been interrupted then set errno to EBADF
  */
-static inline void endOp
-    (fdEntry_t *fdEntry, threadEntry_t *self)
+stbtic inline void endOp
+    (fdEntry_t *fdEntry, threbdEntry_t *self)
 {
     int orig_errno = errno;
-    pthread_mutex_lock(&(fdEntry->lock));
+    pthrebd_mutex_lock(&(fdEntry->lock));
     {
-        threadEntry_t *curr, *prev=NULL;
-        curr = fdEntry->threads;
+        threbdEntry_t *curr, *prev=NULL;
+        curr = fdEntry->threbds;
         while (curr != NULL) {
             if (curr == self) {
                 if (curr->intr) {
                     orig_errno = EBADF;
                 }
                 if (prev == NULL) {
-                    fdEntry->threads = curr->next;
+                    fdEntry->threbds = curr->next;
                 } else {
                     prev->next = curr->next;
                 }
-                break;
+                brebk;
             }
             prev = curr;
             curr = curr->next;
         }
     }
-    pthread_mutex_unlock(&(fdEntry->lock));
+    pthrebd_mutex_unlock(&(fdEntry->lock));
     errno = orig_errno;
 }
 
 /*
- * Close or dup2 a file descriptor ensuring that all threads blocked on
- * the file descriptor are notified via a wakeup signal.
+ * Close or dup2 b file descriptor ensuring thbt bll threbds blocked on
+ * the file descriptor bre notified vib b wbkeup signbl.
  *
  *      fd1 < 0    => close(fd2)
  *      fd1 >= 0   => dup2(fd1, fd2)
  *
- * Returns -1 with errno set if operation fails.
+ * Returns -1 with errno set if operbtion fbils.
  */
-static int closefd(int fd1, int fd2) {
+stbtic int closefd(int fd1, int fd2) {
     int rv, orig_errno;
     fdEntry_t *fdEntry = getFdEntry(fd2);
     if (fdEntry == NULL) {
@@ -203,25 +203,25 @@ static int closefd(int fd1, int fd2) {
     }
 
     /*
-     * Lock the fd to hold-off additional I/O on this fd.
+     * Lock the fd to hold-off bdditionbl I/O on this fd.
      */
-    pthread_mutex_lock(&(fdEntry->lock));
+    pthrebd_mutex_lock(&(fdEntry->lock));
 
     {
         /*
-         * Send a wakeup signal to all threads blocked on this
+         * Send b wbkeup signbl to bll threbds blocked on this
          * file descriptor.
          */
-        threadEntry_t *curr = fdEntry->threads;
+        threbdEntry_t *curr = fdEntry->threbds;
         while (curr != NULL) {
             curr->intr = 1;
-            pthread_kill( curr->thr, sigWakeup );
+            pthrebd_kill( curr->thr, sigWbkeup );
             curr = curr->next;
         }
 
         /*
          * And close/dup the file descriptor
-         * (restart if interrupted by signal)
+         * (restbrt if interrupted by signbl)
          */
         do {
             if (fd1 < 0) {
@@ -237,16 +237,16 @@ static int closefd(int fd1, int fd2) {
      * Unlock without destroying errno
      */
     orig_errno = errno;
-    pthread_mutex_unlock(&(fdEntry->lock));
+    pthrebd_mutex_unlock(&(fdEntry->lock));
     errno = orig_errno;
 
     return rv;
 }
 
 /*
- * Wrapper for dup2 - same semantics as dup2 system call except
- * that any threads blocked in an I/O system call on fd2 will be
- * preempted and return -1/EBADF;
+ * Wrbpper for dup2 - sbme sembntics bs dup2 system cbll except
+ * thbt bny threbds blocked in bn I/O system cbll on fd2 will be
+ * preempted bnd return -1/EBADF;
  */
 int NET_Dup2(int fd, int fd2) {
     if (fd < 0) {
@@ -257,52 +257,52 @@ int NET_Dup2(int fd, int fd2) {
 }
 
 /*
- * Wrapper for close - same semantics as close system call
- * except that any threads blocked in an I/O on fd will be
- * preempted and the I/O system call will return -1/EBADF.
+ * Wrbpper for close - sbme sembntics bs close system cbll
+ * except thbt bny threbds blocked in bn I/O on fd will be
+ * preempted bnd the I/O system cbll will return -1/EBADF.
  */
 int NET_SocketClose(int fd) {
     return closefd(-1, fd);
 }
 
-/************** Basic I/O operations here ***************/
+/************** Bbsic I/O operbtions here ***************/
 
 /*
- * Macro to perform a blocking IO operation. Restarts
- * automatically if interrupted by signal (other than
- * our wakeup signal)
+ * Mbcro to perform b blocking IO operbtion. Restbrts
+ * butombticblly if interrupted by signbl (other thbn
+ * our wbkeup signbl)
  */
 #define BLOCKING_IO_RETURN_INT(FD, FUNC) {      \
     int ret;                                    \
-    threadEntry_t self;                         \
+    threbdEntry_t self;                         \
     fdEntry_t *fdEntry = getFdEntry(FD);        \
     if (fdEntry == NULL) {                      \
         errno = EBADF;                          \
         return -1;                              \
     }                                           \
     do {                                        \
-        startOp(fdEntry, &self);                \
+        stbrtOp(fdEntry, &self);                \
         ret = FUNC;                             \
         endOp(fdEntry, &self);                  \
     } while (ret == -1 && errno == EINTR);      \
     return ret;                                 \
 }
 
-int NET_Read(int s, void* buf, size_t len) {
+int NET_Rebd(int s, void* buf, size_t len) {
     BLOCKING_IO_RETURN_INT( s, recv(s, buf, len, 0) );
 }
 
-int NET_ReadV(int s, const struct iovec * vector, int count) {
-    BLOCKING_IO_RETURN_INT( s, readv(s, vector, count) );
+int NET_RebdV(int s, const struct iovec * vector, int count) {
+    BLOCKING_IO_RETURN_INT( s, rebdv(s, vector, count) );
 }
 
-int NET_RecvFrom(int s, void *buf, int len, unsigned int flags,
-       struct sockaddr *from, socklen_t *fromlen) {
-    BLOCKING_IO_RETURN_INT( s, recvfrom(s, buf, len, flags, from, fromlen) );
+int NET_RecvFrom(int s, void *buf, int len, unsigned int flbgs,
+       struct sockbddr *from, socklen_t *fromlen) {
+    BLOCKING_IO_RETURN_INT( s, recvfrom(s, buf, len, flbgs, from, fromlen) );
 }
 
-int NET_Send(int s, void *msg, int len, unsigned int flags) {
-    BLOCKING_IO_RETURN_INT( s, send(s, msg, len, flags) );
+int NET_Send(int s, void *msg, int len, unsigned int flbgs) {
+    BLOCKING_IO_RETURN_INT( s, send(s, msg, len, flbgs) );
 }
 
 int NET_WriteV(int s, const struct iovec * vector, int count) {
@@ -310,16 +310,16 @@ int NET_WriteV(int s, const struct iovec * vector, int count) {
 }
 
 int NET_SendTo(int s, const void *msg, int len,  unsigned  int
-       flags, const struct sockaddr *to, int tolen) {
-    BLOCKING_IO_RETURN_INT( s, sendto(s, msg, len, flags, to, tolen) );
+       flbgs, const struct sockbddr *to, int tolen) {
+    BLOCKING_IO_RETURN_INT( s, sendto(s, msg, len, flbgs, to, tolen) );
 }
 
-int NET_Accept(int s, struct sockaddr *addr, socklen_t *addrlen) {
-    BLOCKING_IO_RETURN_INT( s, accept(s, addr, addrlen) );
+int NET_Accept(int s, struct sockbddr *bddr, socklen_t *bddrlen) {
+    BLOCKING_IO_RETURN_INT( s, bccept(s, bddr, bddrlen) );
 }
 
-int NET_Connect(int s, struct sockaddr *addr, int addrlen) {
-    BLOCKING_IO_RETURN_INT( s, connect(s, addr, addrlen) );
+int NET_Connect(int s, struct sockbddr *bddr, int bddrlen) {
+    BLOCKING_IO_RETURN_INT( s, connect(s, bddr, bddrlen) );
 }
 
 int NET_Poll(struct pollfd *ufds, unsigned int nfds, int timeout) {
@@ -327,21 +327,21 @@ int NET_Poll(struct pollfd *ufds, unsigned int nfds, int timeout) {
 }
 
 /*
- * Wrapper for select(s, timeout). We are using select() on Mac OS due to Bug 7131399.
- * Auto restarts with adjusted timeout if interrupted by
- * signal other than our wakeup signal.
+ * Wrbpper for select(s, timeout). We bre using select() on Mbc OS due to Bug 7131399.
+ * Auto restbrts with bdjusted timeout if interrupted by
+ * signbl other thbn our wbkeup signbl.
  */
 int NET_Timeout(int s, long timeout) {
     long prevtime = 0, newtime;
-    struct timeval t, *tp = &t;
+    struct timevbl t, *tp = &t;
     fd_set fds;
     fd_set* fdsp = NULL;
-    int allocated = 0;
-    threadEntry_t self;
+    int bllocbted = 0;
+    threbdEntry_t self;
     fdEntry_t *fdEntry = getFdEntry(s);
 
     /*
-     * Check that fd hasn't been closed.
+     * Check thbt fd hbsn't been closed.
      */
     if (fdEntry == NULL) {
         errno = EBADF;
@@ -349,12 +349,12 @@ int NET_Timeout(int s, long timeout) {
     }
 
     /*
-     * Pick up current time as may need to adjust timeout
+     * Pick up current time bs mby need to bdjust timeout
      */
     if (timeout > 0) {
         /* Timed */
-        struct timeval now;
-        gettimeofday(&now, NULL);
+        struct timevbl now;
+        gettimeofdby(&now, NULL);
         prevtime = now.tv_sec * 1000  +  now.tv_usec / 1000;
         t.tv_sec = timeout / 1000;
         t.tv_usec = (timeout % 1000) * 1000;
@@ -371,12 +371,12 @@ int NET_Timeout(int s, long timeout) {
         fdsp = &fds;
         FD_ZERO(fdsp);
     } else {
-        int length = (howmany(s+1, NFDBITS)) * sizeof(int);
-        fdsp = (fd_set *) calloc(1, length);
+        int length = (howmbny(s+1, NFDBITS)) * sizeof(int);
+        fdsp = (fd_set *) cblloc(1, length);
         if (fdsp == NULL) {
             return -1;   // errno will be set to ENOMEM
         }
-        allocated = 1;
+        bllocbted = 1;
     }
     FD_SET(s, fdsp);
 
@@ -384,26 +384,26 @@ int NET_Timeout(int s, long timeout) {
         int rv;
 
         /*
-         * call select on the fd. If interrupted by our wakeup signal
+         * cbll select on the fd. If interrupted by our wbkeup signbl
          * errno will be set to EBADF.
          */
 
-        startOp(fdEntry, &self);
+        stbrtOp(fdEntry, &self);
         rv = select(s+1, fdsp, 0, 0, tp);
         endOp(fdEntry, &self);
 
         /*
-         * If interrupted then adjust timeout. If timeout
-         * has expired return 0 (indicating timeout expired).
+         * If interrupted then bdjust timeout. If timeout
+         * hbs expired return 0 (indicbting timeout expired).
          */
         if (rv < 0 && errno == EINTR) {
             if (timeout > 0) {
-                struct timeval now;
-                gettimeofday(&now, NULL);
+                struct timevbl now;
+                gettimeofdby(&now, NULL);
                 newtime = now.tv_sec * 1000  +  now.tv_usec / 1000;
                 timeout -= newtime - prevtime;
                 if (timeout <= 0) {
-                    if (allocated != 0)
+                    if (bllocbted != 0)
                         free(fdsp);
                     return 0;
                 }
@@ -412,7 +412,7 @@ int NET_Timeout(int s, long timeout) {
                 t.tv_usec = (timeout % 1000) * 1000;
             }
         } else {
-            if (allocated != 0)
+            if (bllocbted != 0)
                 free(fdsp);
             return rv;
         }

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,41 +56,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbckbge jdk.internbl.org.objectweb.bsm.tree.bnblysis;
 
-import java.util.AbstractSet;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
 
 /**
- * A set of at most two elements.
+ * A set of bt most two elements.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-class SmallSet<E> extends AbstractSet<E> implements Iterator<E> {
+clbss SmbllSet<E> extends AbstrbctSet<E> implements Iterbtor<E> {
 
     // if e1 is null, e2 must be null; otherwise e2 must be different from e1
 
     E e1, e2;
 
-    static final <T> Set<T> emptySet() {
-        return new SmallSet<T>(null, null);
+    stbtic finbl <T> Set<T> emptySet() {
+        return new SmbllSet<T>(null, null);
     }
 
-    SmallSet(final E e1, final E e2) {
+    SmbllSet(finbl E e1, finbl E e2) {
         this.e1 = e1;
         this.e2 = e2;
     }
 
     // -------------------------------------------------------------------------
-    // Implementation of inherited abstract methods
+    // Implementbtion of inherited bbstrbct methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Iterator<E> iterator() {
-        return new SmallSet<E>(e1, e2);
+    public Iterbtor<E> iterbtor() {
+        return new SmbllSet<E>(e1, e2);
     }
 
     @Override
@@ -99,10 +99,10 @@ class SmallSet<E> extends AbstractSet<E> implements Iterator<E> {
     }
 
     // -------------------------------------------------------------------------
-    // Implementation of the Iterator interface
+    // Implementbtion of the Iterbtor interfbce
     // -------------------------------------------------------------------------
 
-    public boolean hasNext() {
+    public boolebn hbsNext() {
         return e1 != null;
     }
 
@@ -123,9 +123,9 @@ class SmallSet<E> extends AbstractSet<E> implements Iterator<E> {
     // Utility methods
     // -------------------------------------------------------------------------
 
-    Set<E> union(final SmallSet<E> s) {
+    Set<E> union(finbl SmbllSet<E> s) {
         if ((s.e1 == e1 && s.e2 == e2) || (s.e1 == e2 && s.e2 == e1)) {
-            return this; // if the two sets are equal, return this
+            return this; // if the two sets bre equbl, return this
         }
         if (s.e1 == null) {
             return this; // if s is empty, return this
@@ -133,30 +133,30 @@ class SmallSet<E> extends AbstractSet<E> implements Iterator<E> {
         if (e1 == null) {
             return s; // if this is empty, return s
         }
-        if (s.e2 == null) { // s contains exactly one element
+        if (s.e2 == null) { // s contbins exbctly one element
             if (e2 == null) {
-                return new SmallSet<E>(e1, s.e1); // necessarily e1 != s.e1
+                return new SmbllSet<E>(e1, s.e1); // necessbrily e1 != s.e1
             } else if (s.e1 == e1 || s.e1 == e2) { // s is included in this
                 return this;
             }
         }
-        if (e2 == null) { // this contains exactly one element
-            // if (s.e2 == null) { // cannot happen
-            // return new SmallSet(e1, s.e1); // necessarily e1 != s.e1
+        if (e2 == null) { // this contbins exbctly one element
+            // if (s.e2 == null) { // cbnnot hbppen
+            // return new SmbllSet(e1, s.e1); // necessbrily e1 != s.e1
             // } else
             if (e1 == s.e1 || e1 == s.e2) { // this in included in s
                 return s;
             }
         }
-        // here we know that there are at least 3 distinct elements
-        HashSet<E> r = new HashSet<E>(4);
-        r.add(e1);
+        // here we know thbt there bre bt lebst 3 distinct elements
+        HbshSet<E> r = new HbshSet<E>(4);
+        r.bdd(e1);
         if (e2 != null) {
-            r.add(e2);
+            r.bdd(e2);
         }
-        r.add(s.e1);
+        r.bdd(s.e1);
         if (s.e2 != null) {
-            r.add(s.e2);
+            r.bdd(s.e2);
         }
         return r;
     }

@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.smartcardio;
+pbckbge jbvbx.smbrtcbrdio;
 
-import java.nio.*;
+import jbvb.nio.*;
 
 /**
- * A logical channel connection to a Smart Card. It is used to exchange APDUs
- * with a Smart Card.
- * A CardChannel object can be obtained by calling the method
- * {@linkplain Card#getBasicChannel} or {@linkplain Card#openLogicalChannel}.
+ * A logicbl chbnnel connection to b Smbrt Cbrd. It is used to exchbnge APDUs
+ * with b Smbrt Cbrd.
+ * A CbrdChbnnel object cbn be obtbined by cblling the method
+ * {@linkplbin Cbrd#getBbsicChbnnel} or {@linkplbin Cbrd#openLogicblChbnnel}.
  *
- * @see Card
- * @see CommandAPDU
+ * @see Cbrd
+ * @see CommbndAPDU
  * @see ResponseAPDU
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @author  JSR 268 Expert Group
+ * @buthor  Andrebs Sterbenz
+ * @buthor  JSR 268 Expert Group
  */
-public abstract class CardChannel {
+public bbstrbct clbss CbrdChbnnel {
 
     /**
-     * Constructs a new CardChannel object.
+     * Constructs b new CbrdChbnnel object.
      *
-     * <p>This constructor is called by subclasses only. Application should
-     * call the {@linkplain Card#getBasicChannel} and
-     * {@linkplain Card#openLogicalChannel} methods to obtain a CardChannel
+     * <p>This constructor is cblled by subclbsses only. Applicbtion should
+     * cbll the {@linkplbin Cbrd#getBbsicChbnnel} bnd
+     * {@linkplbin Cbrd#openLogicblChbnnel} methods to obtbin b CbrdChbnnel
      * object.
      */
-    protected CardChannel() {
+    protected CbrdChbnnel() {
         // empty
     }
 
     /**
-     * Returns the Card this channel is associated with.
+     * Returns the Cbrd this chbnnel is bssocibted with.
      *
-     * @return the Card this channel is associated with
+     * @return the Cbrd this chbnnel is bssocibted with
      */
-    public abstract Card getCard();
+    public bbstrbct Cbrd getCbrd();
 
     /**
-     * Returns the channel number of this CardChannel. A channel number of
-     * 0 indicates the basic logical channel.
+     * Returns the chbnnel number of this CbrdChbnnel. A chbnnel number of
+     * 0 indicbtes the bbsic logicbl chbnnel.
      *
-     * @return the channel number of this CardChannel.
+     * @return the chbnnel number of this CbrdChbnnel.
      *
-     * @throws IllegalStateException if this channel has been
-     *   {@linkplain #close closed} or if the corresponding Card has been
-     *   {@linkplain Card#disconnect disconnected}.
+     * @throws IllegblStbteException if this chbnnel hbs been
+     *   {@linkplbin #close closed} or if the corresponding Cbrd hbs been
+     *   {@linkplbin Cbrd#disconnect disconnected}.
      */
-    public abstract int getChannelNumber();
+    public bbstrbct int getChbnnelNumber();
 
     /**
-     * Transmits the specified command APDU to the Smart Card and returns the
+     * Trbnsmits the specified commbnd APDU to the Smbrt Cbrd bnd returns the
      * response APDU.
      *
-     * <p>The CLA byte of the command APDU is automatically adjusted to
-     * match the channel number of this CardChannel.
+     * <p>The CLA byte of the commbnd APDU is butombticblly bdjusted to
+     * mbtch the chbnnel number of this CbrdChbnnel.
      *
-     * <p>Note that this method cannot be used to transmit
-     * <code>MANAGE CHANNEL</code> APDUs. Logical channels should be managed
-     * using the {@linkplain Card#openLogicalChannel} and {@linkplain
-     * CardChannel#close CardChannel.close()} methods.
+     * <p>Note thbt this method cbnnot be used to trbnsmit
+     * <code>MANAGE CHANNEL</code> APDUs. Logicbl chbnnels should be mbnbged
+     * using the {@linkplbin Cbrd#openLogicblChbnnel} bnd {@linkplbin
+     * CbrdChbnnel#close CbrdChbnnel.close()} methods.
      *
-     * <p>Implementations should transparently handle artifacts
-     * of the transmission protocol.
-     * For example, when using the T=0 protocol, the following processing
-     * should occur as described in ISO/IEC 7816-4:
+     * <p>Implementbtions should trbnspbrently hbndle brtifbcts
+     * of the trbnsmission protocol.
+     * For exbmple, when using the T=0 protocol, the following processing
+     * should occur bs described in ISO/IEC 7816-4:
      *
      * <ul>
-     * <li><p>if the response APDU has an SW1 of <code>61</code>, the
-     * implementation should issue a <code>GET RESPONSE</code> command
-     * using <code>SW2</code> as the <code>Le</code>field.
-     * This process is repeated as long as an SW1 of <code>61</code> is
-     * received. The response body of these exchanges is concatenated
-     * to form the final response body.
+     * <li><p>if the response APDU hbs bn SW1 of <code>61</code>, the
+     * implementbtion should issue b <code>GET RESPONSE</code> commbnd
+     * using <code>SW2</code> bs the <code>Le</code>field.
+     * This process is repebted bs long bs bn SW1 of <code>61</code> is
+     * received. The response body of these exchbnges is concbtenbted
+     * to form the finbl response body.
      *
-     * <li><p>if the response APDU is <code>6C XX</code>, the implementation
-     * should reissue the command using <code>XX</code> as the
+     * <li><p>if the response APDU is <code>6C XX</code>, the implementbtion
+     * should reissue the commbnd using <code>XX</code> bs the
      * <code>Le</code> field.
      * </ul>
      *
      * <p>The ResponseAPDU returned by this method is the result
-     * after this processing has been performed.
+     * bfter this processing hbs been performed.
      *
-     * @param command the command APDU
-     * @return the response APDU received from the card
+     * @pbrbm commbnd the commbnd APDU
+     * @return the response APDU received from the cbrd
      *
-     * @throws IllegalStateException if this channel has been
-     *   {@linkplain #close closed} or if the corresponding Card has been
-     *   {@linkplain Card#disconnect disconnected}.
-     * @throws IllegalArgumentException if the APDU encodes a
-     *   <code>MANAGE CHANNEL</code> command
-     * @throws NullPointerException if command is null
-     * @throws CardException if the card operation failed
+     * @throws IllegblStbteException if this chbnnel hbs been
+     *   {@linkplbin #close closed} or if the corresponding Cbrd hbs been
+     *   {@linkplbin Cbrd#disconnect disconnected}.
+     * @throws IllegblArgumentException if the APDU encodes b
+     *   <code>MANAGE CHANNEL</code> commbnd
+     * @throws NullPointerException if commbnd is null
+     * @throws CbrdException if the cbrd operbtion fbiled
      */
-    public abstract ResponseAPDU transmit(CommandAPDU command) throws CardException;
+    public bbstrbct ResponseAPDU trbnsmit(CommbndAPDU commbnd) throws CbrdException;
 
     /**
-     * Transmits the command APDU stored in the command ByteBuffer and receives
+     * Trbnsmits the commbnd APDU stored in the commbnd ByteBuffer bnd receives
      * the response APDU in the response ByteBuffer.
      *
-     * <p>The command buffer must contain valid command APDU data starting
-     * at <code>command.position()</code> and the APDU must be
-     * <code>command.remaining()</code> bytes long.
-     * Upon return, the command buffer's position will be equal
-     * to its limit; its limit will not have changed. The output buffer
-     * will have received the response APDU bytes. Its position will have
-     * advanced by the number of bytes received, which is also the return
-     * value of this method.
+     * <p>The commbnd buffer must contbin vblid commbnd APDU dbtb stbrting
+     * bt <code>commbnd.position()</code> bnd the APDU must be
+     * <code>commbnd.rembining()</code> bytes long.
+     * Upon return, the commbnd buffer's position will be equbl
+     * to its limit; its limit will not hbve chbnged. The output buffer
+     * will hbve received the response APDU bytes. Its position will hbve
+     * bdvbnced by the number of bytes received, which is blso the return
+     * vblue of this method.
      *
-     * <p>The CLA byte of the command APDU is automatically adjusted to
-     * match the channel number of this CardChannel.
+     * <p>The CLA byte of the commbnd APDU is butombticblly bdjusted to
+     * mbtch the chbnnel number of this CbrdChbnnel.
      *
-     * <p>Note that this method cannot be used to transmit
-     * <code>MANAGE CHANNEL</code> APDUs. Logical channels should be managed
-     * using the {@linkplain Card#openLogicalChannel} and {@linkplain
-     * CardChannel#close CardChannel.close()} methods.
+     * <p>Note thbt this method cbnnot be used to trbnsmit
+     * <code>MANAGE CHANNEL</code> APDUs. Logicbl chbnnels should be mbnbged
+     * using the {@linkplbin Cbrd#openLogicblChbnnel} bnd {@linkplbin
+     * CbrdChbnnel#close CbrdChbnnel.close()} methods.
      *
-     * <p>See {@linkplain #transmit transmit()} for a discussion of the handling
-     * of response APDUs with the SW1 values <code>61</code> or <code>6C</code>.
+     * <p>See {@linkplbin #trbnsmit trbnsmit()} for b discussion of the hbndling
+     * of response APDUs with the SW1 vblues <code>61</code> or <code>6C</code>.
      *
-     * @param command the buffer containing the command APDU
-     * @param response the buffer that shall receive the response APDU from
-     *   the card
+     * @pbrbm commbnd the buffer contbining the commbnd APDU
+     * @pbrbm response the buffer thbt shbll receive the response APDU from
+     *   the cbrd
      * @return the length of the received response APDU
      *
-     * @throws IllegalStateException if this channel has been
-     *   {@linkplain #close closed} or if the corresponding Card has been
-     *   {@linkplain Card#disconnect disconnected}.
-     * @throws NullPointerException if command or response is null
-     * @throws ReadOnlyBufferException if the response buffer is read-only
-     * @throws IllegalArgumentException if command and response are the
-     *   same object, if <code>response</code> may not have
-     *   sufficient space to receive the response APDU
-     *   or if the APDU encodes a <code>MANAGE CHANNEL</code> command
-     * @throws CardException if the card operation failed
+     * @throws IllegblStbteException if this chbnnel hbs been
+     *   {@linkplbin #close closed} or if the corresponding Cbrd hbs been
+     *   {@linkplbin Cbrd#disconnect disconnected}.
+     * @throws NullPointerException if commbnd or response is null
+     * @throws RebdOnlyBufferException if the response buffer is rebd-only
+     * @throws IllegblArgumentException if commbnd bnd response bre the
+     *   sbme object, if <code>response</code> mby not hbve
+     *   sufficient spbce to receive the response APDU
+     *   or if the APDU encodes b <code>MANAGE CHANNEL</code> commbnd
+     * @throws CbrdException if the cbrd operbtion fbiled
      */
-    public abstract int transmit(ByteBuffer command, ByteBuffer response)
-        throws CardException;
+    public bbstrbct int trbnsmit(ByteBuffer commbnd, ByteBuffer response)
+        throws CbrdException;
 
     /**
-     * Closes this CardChannel. The logical channel is closed by issuing
-     * a <code>MANAGE CHANNEL</code> command that should use the format
-     * <code>[xx 70 80 0n]</code> where <code>n</code> is the channel number
-     * of this channel and <code>xx</code> is the <code>CLA</code>
-     * byte that encodes this logical channel and has all other bits set to 0.
-     * After this method returns, calling other
-     * methods in this class will raise an IllegalStateException.
+     * Closes this CbrdChbnnel. The logicbl chbnnel is closed by issuing
+     * b <code>MANAGE CHANNEL</code> commbnd thbt should use the formbt
+     * <code>[xx 70 80 0n]</code> where <code>n</code> is the chbnnel number
+     * of this chbnnel bnd <code>xx</code> is the <code>CLA</code>
+     * byte thbt encodes this logicbl chbnnel bnd hbs bll other bits set to 0.
+     * After this method returns, cblling other
+     * methods in this clbss will rbise bn IllegblStbteException.
      *
-     * <p>Note that the basic logical channel cannot be closed using this
-     * method. It can be closed by calling {@link Card#disconnect}.
+     * <p>Note thbt the bbsic logicbl chbnnel cbnnot be closed using this
+     * method. It cbn be closed by cblling {@link Cbrd#disconnect}.
      *
-     * @throws CardException if the card operation failed
-     * @throws IllegalStateException if this CardChannel represents a
-     *   connection the basic logical channel
+     * @throws CbrdException if the cbrd operbtion fbiled
+     * @throws IllegblStbteException if this CbrdChbnnel represents b
+     *   connection the bbsic logicbl chbnnel
      */
-    public abstract void close() throws CardException;
+    public bbstrbct void close() throws CbrdException;
 
 }

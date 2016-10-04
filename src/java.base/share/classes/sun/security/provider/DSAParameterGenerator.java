@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.math.BigInteger;
-import java.security.AlgorithmParameterGeneratorSpi;
-import java.security.AlgorithmParameters;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.InvalidParameterException;
-import java.security.MessageDigest;
-import java.security.SecureRandom;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import java.security.spec.DSAParameterSpec;
-import java.security.spec.DSAGenParameterSpec;
+import jbvb.mbth.BigInteger;
+import jbvb.security.AlgorithmPbrbmeterGenerbtorSpi;
+import jbvb.security.AlgorithmPbrbmeters;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.NoSuchProviderException;
+import jbvb.security.InvblidPbrbmeterException;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.SecureRbndom;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvb.security.spec.DSAPbrbmeterSpec;
+import jbvb.security.spec.DSAGenPbrbmeterSpec;
 
 /**
- * This class generates parameters for the DSA algorithm. It uses a default
- * prime modulus size of 1024 bits, which can be overwritten during
- * initialization.
+ * This clbss generbtes pbrbmeters for the DSA blgorithm. It uses b defbult
+ * prime modulus size of 1024 bits, which cbn be overwritten during
+ * initiblizbtion.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  *
- * @see java.security.AlgorithmParameters
- * @see java.security.spec.AlgorithmParameterSpec
- * @see DSAParameters
+ * @see jbvb.security.AlgorithmPbrbmeters
+ * @see jbvb.security.spec.AlgorithmPbrbmeterSpec
+ * @see DSAPbrbmeters
  *
  * @since 1.2
  */
 
-public class DSAParameterGenerator extends AlgorithmParameterGeneratorSpi {
+public clbss DSAPbrbmeterGenerbtor extends AlgorithmPbrbmeterGenerbtorSpi {
 
-    // the default parameters
-    private static final DSAGenParameterSpec DEFAULTS =
-        new DSAGenParameterSpec(1024, 160, 160);
+    // the defbult pbrbmeters
+    privbte stbtic finbl DSAGenPbrbmeterSpec DEFAULTS =
+        new DSAGenPbrbmeterSpec(1024, 160, 160);
 
-    // the length of prime P, subPrime Q, and seed in bits
-    private int valueL = -1;
-    private int valueN = -1;
-    private int seedLen = -1;
+    // the length of prime P, subPrime Q, bnd seed in bits
+    privbte int vblueL = -1;
+    privbte int vblueN = -1;
+    privbte int seedLen = -1;
 
-    // the source of randomness
-    private SecureRandom random;
+    // the source of rbndomness
+    privbte SecureRbndom rbndom;
 
-    // useful constants
-    private static final BigInteger ZERO = BigInteger.valueOf(0);
-    private static final BigInteger ONE = BigInteger.valueOf(1);
-    private static final BigInteger TWO = BigInteger.valueOf(2);
+    // useful constbnts
+    privbte stbtic finbl BigInteger ZERO = BigInteger.vblueOf(0);
+    privbte stbtic finbl BigInteger ONE = BigInteger.vblueOf(1);
+    privbte stbtic finbl BigInteger TWO = BigInteger.vblueOf(2);
 
-    public DSAParameterGenerator() {
+    public DSAPbrbmeterGenerbtor() {
     }
 
     /**
-     * Initializes this parameter generator for a certain strength
-     * and source of randomness.
+     * Initiblizes this pbrbmeter generbtor for b certbin strength
+     * bnd source of rbndomness.
      *
-     * @param strength the strength (size of prime) in bits
-     * @param random the source of randomness
+     * @pbrbm strength the strength (size of prime) in bits
+     * @pbrbm rbndom the source of rbndomness
      */
-    protected void engineInit(int strength, SecureRandom random) {
+    protected void engineInit(int strength, SecureRbndom rbndom) {
         if ((strength >= 512) && (strength <= 1024) && (strength % 64 == 0)) {
-            this.valueN = 160;
+            this.vblueN = 160;
         } else if (strength == 2048) {
-            this.valueN = 224;
+            this.vblueN = 224;
 //      } else if (strength == 3072) {
-//          this.valueN = 256;
+//          this.vblueN = 256;
         } else {
-            throw new InvalidParameterException
+            throw new InvblidPbrbmeterException
                 ("Prime size should be 512 - 1024, or 2048");
         }
-        this.valueL = strength;
-        this.seedLen = valueN;
-        this.random = random;
+        this.vblueL = strength;
+        this.seedLen = vblueN;
+        this.rbndom = rbndom;
     }
 
     /**
-     * Initializes this parameter generator with a set of
-     * algorithm-specific parameter generation values.
+     * Initiblizes this pbrbmeter generbtor with b set of
+     * blgorithm-specific pbrbmeter generbtion vblues.
      *
-     * @param genParamSpec the set of algorithm-specific parameter generation values
-     * @param random the source of randomness
+     * @pbrbm genPbrbmSpec the set of blgorithm-specific pbrbmeter generbtion vblues
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidAlgorithmParameterException if the given parameter
-     * generation values are inappropriate for this parameter generator
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeter
+     * generbtion vblues bre inbppropribte for this pbrbmeter generbtor
      */
-    protected void engineInit(AlgorithmParameterSpec genParamSpec,
-                              SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-        if (!(genParamSpec instanceof DSAGenParameterSpec)) {
-            throw new InvalidAlgorithmParameterException("Invalid parameter");
+    protected void engineInit(AlgorithmPbrbmeterSpec genPbrbmSpec,
+                              SecureRbndom rbndom)
+        throws InvblidAlgorithmPbrbmeterException {
+        if (!(genPbrbmSpec instbnceof DSAGenPbrbmeterSpec)) {
+            throw new InvblidAlgorithmPbrbmeterException("Invblid pbrbmeter");
         }
-        DSAGenParameterSpec dsaGenParams = (DSAGenParameterSpec) genParamSpec;
-        int primePLen = dsaGenParams.getPrimePLength();
+        DSAGenPbrbmeterSpec dsbGenPbrbms = (DSAGenPbrbmeterSpec) genPbrbmSpec;
+        int primePLen = dsbGenPbrbms.getPrimePLength();
         if (primePLen > 2048) {
-            throw new InvalidParameterException
+            throw new InvblidPbrbmeterException
                 ("No support for prime size " + primePLen);
         }
-        // directly initialize using the already validated values
-        this.valueL = primePLen;
-        this.valueN = dsaGenParams.getSubprimeQLength();
-        this.seedLen = dsaGenParams.getSeedLength();
-        this.random = random;
+        // directly initiblize using the blrebdy vblidbted vblues
+        this.vblueL = primePLen;
+        this.vblueN = dsbGenPbrbms.getSubprimeQLength();
+        this.seedLen = dsbGenPbrbms.getSeedLength();
+        this.rbndom = rbndom;
     }
 
     /**
-     * Generates the parameters.
+     * Generbtes the pbrbmeters.
      *
-     * @return the new AlgorithmParameters object
+     * @return the new AlgorithmPbrbmeters object
      */
-    protected AlgorithmParameters engineGenerateParameters() {
-        AlgorithmParameters algParams = null;
+    protected AlgorithmPbrbmeters engineGenerbtePbrbmeters() {
+        AlgorithmPbrbmeters blgPbrbms = null;
         try {
-            if (this.random == null) {
-                this.random = new SecureRandom();
+            if (this.rbndom == null) {
+                this.rbndom = new SecureRbndom();
             }
-            if (valueL == -1) {
+            if (vblueL == -1) {
                 try {
-                    engineInit(DEFAULTS, this.random);
-                } catch (InvalidAlgorithmParameterException iape) {
-                    // should never happen
+                    engineInit(DEFAULTS, this.rbndom);
+                } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+                    // should never hbppen
                 }
             }
-            BigInteger[] pAndQ = generatePandQ(this.random, valueL,
-                                               valueN, seedLen);
-            BigInteger paramP = pAndQ[0];
-            BigInteger paramQ = pAndQ[1];
-            BigInteger paramG = generateG(paramP, paramQ);
+            BigInteger[] pAndQ = generbtePbndQ(this.rbndom, vblueL,
+                                               vblueN, seedLen);
+            BigInteger pbrbmP = pAndQ[0];
+            BigInteger pbrbmQ = pAndQ[1];
+            BigInteger pbrbmG = generbteG(pbrbmP, pbrbmQ);
 
-            DSAParameterSpec dsaParamSpec =
-                new DSAParameterSpec(paramP, paramQ, paramG);
-            algParams = AlgorithmParameters.getInstance("DSA", "SUN");
-            algParams.init(dsaParamSpec);
-        } catch (InvalidParameterSpecException e) {
-            // this should never happen
-            throw new RuntimeException(e.getMessage());
-        } catch (NoSuchAlgorithmException e) {
-            // this should never happen, because we provide it
-            throw new RuntimeException(e.getMessage());
-        } catch (NoSuchProviderException e) {
-            // this should never happen, because we provide it
-            throw new RuntimeException(e.getMessage());
+            DSAPbrbmeterSpec dsbPbrbmSpec =
+                new DSAPbrbmeterSpec(pbrbmP, pbrbmQ, pbrbmG);
+            blgPbrbms = AlgorithmPbrbmeters.getInstbnce("DSA", "SUN");
+            blgPbrbms.init(dsbPbrbmSpec);
+        } cbtch (InvblidPbrbmeterSpecException e) {
+            // this should never hbppen
+            throw new RuntimeException(e.getMessbge());
+        } cbtch (NoSuchAlgorithmException e) {
+            // this should never hbppen, becbuse we provide it
+            throw new RuntimeException(e.getMessbge());
+        } cbtch (NoSuchProviderException e) {
+            // this should never hbppen, becbuse we provide it
+            throw new RuntimeException(e.getMessbge());
         }
 
-        return algParams;
+        return blgPbrbms;
     }
 
     /*
-     * Generates the prime and subprime parameters for DSA,
-     * using the provided source of randomness.
-     * This method will generate new seeds until a suitable
-     * seed has been found.
+     * Generbtes the prime bnd subprime pbrbmeters for DSA,
+     * using the provided source of rbndomness.
+     * This method will generbte new seeds until b suitbble
+     * seed hbs been found.
      *
-     * @param random the source of randomness to generate the
+     * @pbrbm rbndom the source of rbndomness to generbte the
      * seed
-     * @param valueL the size of <code>p</code>, in bits.
-     * @param valueN the size of <code>q</code>, in bits.
-     * @param seedLen the length of <code>seed</code>, in bits.
+     * @pbrbm vblueL the size of <code>p</code>, in bits.
+     * @pbrbm vblueN the size of <code>q</code>, in bits.
+     * @pbrbm seedLen the length of <code>seed</code>, in bits.
      *
-     * @return an array of BigInteger, with <code>p</code> at index 0 and
-     * <code>q</code> at index 1, the seed at index 2, and the counter value
-     * at index 3.
+     * @return bn brrby of BigInteger, with <code>p</code> bt index 0 bnd
+     * <code>q</code> bt index 1, the seed bt index 2, bnd the counter vblue
+     * bt index 3.
      */
-    private static BigInteger[] generatePandQ(SecureRandom random, int valueL,
-                                              int valueN, int seedLen) {
-        String hashAlg = null;
-        if (valueN == 160) {
-            hashAlg = "SHA";
-        } else if (valueN == 224) {
-            hashAlg = "SHA-224";
-        } else if (valueN == 256) {
-            hashAlg = "SHA-256";
+    privbte stbtic BigInteger[] generbtePbndQ(SecureRbndom rbndom, int vblueL,
+                                              int vblueN, int seedLen) {
+        String hbshAlg = null;
+        if (vblueN == 160) {
+            hbshAlg = "SHA";
+        } else if (vblueN == 224) {
+            hbshAlg = "SHA-224";
+        } else if (vblueN == 256) {
+            hbshAlg = "SHA-256";
         }
-        MessageDigest hashObj = null;
+        MessbgeDigest hbshObj = null;
         try {
-            hashObj = MessageDigest.getInstance(hashAlg);
-        } catch (NoSuchAlgorithmException nsae) {
-            // should never happen
-            nsae.printStackTrace();
+            hbshObj = MessbgeDigest.getInstbnce(hbshAlg);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            // should never hbppen
+            nsbe.printStbckTrbce();
         }
 
-        /* Step 3, 4: Useful variables */
-        int outLen = hashObj.getDigestLength()*8;
-        int n = (valueL - 1) / outLen;
-        int b = (valueL - 1) % outLen;
+        /* Step 3, 4: Useful vbribbles */
+        int outLen = hbshObj.getDigestLength()*8;
+        int n = (vblueL - 1) / outLen;
+        int b = (vblueL - 1) % outLen;
         byte[] seedBytes = new byte[seedLen/8];
         BigInteger twoSl = TWO.pow(seedLen);
-        int primeCertainty = 80; // for 1024-bit prime P
-        if (valueL == 2048) {
-            primeCertainty = 112;
-            //} else if (valueL == 3072) {
-            //    primeCertainty = 128;
+        int primeCertbinty = 80; // for 1024-bit prime P
+        if (vblueL == 2048) {
+            primeCertbinty = 112;
+            //} else if (vblueL == 3072) {
+            //    primeCertbinty = 128;
         }
 
         BigInteger resultP, resultQ, seed = null;
@@ -222,86 +222,86 @@ public class DSAParameterGenerator extends AlgorithmParameterGeneratorSpi {
         while (true) {
             do {
                 /* Step 5 */
-                random.nextBytes(seedBytes);
+                rbndom.nextBytes(seedBytes);
                 seed = new BigInteger(1, seedBytes);
 
                 /* Step 6 */
-                BigInteger U = new BigInteger(1, hashObj.digest(seedBytes)).
-                    mod(TWO.pow(valueN - 1));
+                BigInteger U = new BigInteger(1, hbshObj.digest(seedBytes)).
+                    mod(TWO.pow(vblueN - 1));
 
                 /* Step 7 */
-                resultQ = TWO.pow(valueN - 1).add(U).add(ONE). subtract(U.mod(TWO));
-            } while (!resultQ.isProbablePrime(primeCertainty));
+                resultQ = TWO.pow(vblueN - 1).bdd(U).bdd(ONE). subtrbct(U.mod(TWO));
+            } while (!resultQ.isProbbblePrime(primeCertbinty));
 
             /* Step 10 */
             BigInteger offset = ONE;
             /* Step 11 */
-            for (counter = 0; counter < 4*valueL; counter++) {
+            for (counter = 0; counter < 4*vblueL; counter++) {
                 BigInteger V[] = new BigInteger[n + 1];
                 /* Step 11.1 */
                 for (int j = 0; j <= n; j++) {
-                    BigInteger J = BigInteger.valueOf(j);
-                    BigInteger tmp = (seed.add(offset).add(J)).mod(twoSl);
-                    byte[] vjBytes = hashObj.digest(toByteArray(tmp));
+                    BigInteger J = BigInteger.vblueOf(j);
+                    BigInteger tmp = (seed.bdd(offset).bdd(J)).mod(twoSl);
+                    byte[] vjBytes = hbshObj.digest(toByteArrby(tmp));
                     V[j] = new BigInteger(1, vjBytes);
                 }
                 /* Step 11.2 */
                 BigInteger W = V[0];
                 for (int i = 1; i < n; i++) {
-                    W = W.add(V[i].multiply(TWO.pow(i * outLen)));
+                    W = W.bdd(V[i].multiply(TWO.pow(i * outLen)));
                 }
-                W = W.add((V[n].mod(TWO.pow(b))).multiply(TWO.pow(n * outLen)));
+                W = W.bdd((V[n].mod(TWO.pow(b))).multiply(TWO.pow(n * outLen)));
                 /* Step 11.3 */
-                BigInteger twoLm1 = TWO.pow(valueL - 1);
-                BigInteger X = W.add(twoLm1);
+                BigInteger twoLm1 = TWO.pow(vblueL - 1);
+                BigInteger X = W.bdd(twoLm1);
                 /* Step 11.4, 11.5 */
                 BigInteger c = X.mod(resultQ.multiply(TWO));
-                resultP = X.subtract(c.subtract(ONE));
+                resultP = X.subtrbct(c.subtrbct(ONE));
                 /* Step 11.6, 11.7 */
-                if (resultP.compareTo(twoLm1) > -1
-                    && resultP.isProbablePrime(primeCertainty)) {
+                if (resultP.compbreTo(twoLm1) > -1
+                    && resultP.isProbbblePrime(primeCertbinty)) {
                     /* Step 11.8 */
                     BigInteger[] result = {resultP, resultQ, seed,
-                                           BigInteger.valueOf(counter)};
+                                           BigInteger.vblueOf(counter)};
                     return result;
                 }
                 /* Step 11.9 */
-                offset = offset.add(BigInteger.valueOf(n)).add(ONE);
+                offset = offset.bdd(BigInteger.vblueOf(n)).bdd(ONE);
              }
         }
 
     }
 
     /*
-     * Generates the <code>g</code> parameter for DSA.
+     * Generbtes the <code>g</code> pbrbmeter for DSA.
      *
-     * @param p the prime, <code>p</code>.
-     * @param q the subprime, <code>q</code>.
+     * @pbrbm p the prime, <code>p</code>.
+     * @pbrbm q the subprime, <code>q</code>.
      *
-     * @param the <code>g</code>
+     * @pbrbm the <code>g</code>
      */
-    private static BigInteger generateG(BigInteger p, BigInteger q) {
+    privbte stbtic BigInteger generbteG(BigInteger p, BigInteger q) {
         BigInteger h = ONE;
         /* Step 1 */
-        BigInteger pMinusOneOverQ = (p.subtract(ONE)).divide(q);
+        BigInteger pMinusOneOverQ = (p.subtrbct(ONE)).divide(q);
         BigInteger resultG = ONE;
-        while (resultG.compareTo(TWO) < 0) {
+        while (resultG.compbreTo(TWO) < 0) {
             /* Step 3 */
             resultG = h.modPow(pMinusOneOverQ, p);
-            h = h.add(ONE);
+            h = h.bdd(ONE);
         }
         return resultG;
     }
 
     /*
-     * Converts the result of a BigInteger.toByteArray call to an exact
-     * signed magnitude representation for any positive number.
+     * Converts the result of b BigInteger.toByteArrby cbll to bn exbct
+     * signed mbgnitude representbtion for bny positive number.
      */
-    private static byte[] toByteArray(BigInteger bigInt) {
-        byte[] result = bigInt.toByteArray();
+    privbte stbtic byte[] toByteArrby(BigInteger bigInt) {
+        byte[] result = bigInt.toByteArrby();
         if (result[0] == 0) {
             byte[] tmp = new byte[result.length - 1];
-            System.arraycopy(result, 1, tmp, 0, tmp.length);
+            System.brrbycopy(result, 1, tmp, 0, tmp.length);
             result = tmp;
         }
         return result;

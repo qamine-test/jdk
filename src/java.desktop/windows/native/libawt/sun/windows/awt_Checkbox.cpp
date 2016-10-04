@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
-#include "awt_Toolkit.h"
-#include "awt_Checkbox.h"
-#include "awt_Canvas.h"
-#include "awt_Window.h"
+#include "bwt.h"
+#include "bwt_Toolkit.h"
+#include "bwt_Checkbox.h"
+#include "bwt_Cbnvbs.h"
+#include "bwt_Window.h"
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rebd the README.JNI file for notes on JNI converted AWT code.
  */
 
 /***********************************************************************/
-// Struct for _SetLabel() method
-struct SetLabelStruct {
+// Struct for _SetLbbel() method
+struct SetLbbelStruct {
     jobject checkbox;
-    jstring label;
+    jstring lbbel;
 };
-// Struct for _SetState() method
-struct SetStateStruct {
+// Struct for _SetStbte() method
+struct SetStbteStruct {
     jobject checkbox;
-    jboolean state;
+    jboolebn stbte;
 };
 
 /************************************************************************
  * AwtCheckbox fields
  */
 
-/* java.awt.Checkbox field IDs */
-jfieldID AwtCheckbox::labelID;
+/* jbvb.bwt.Checkbox field IDs */
+jfieldID AwtCheckbox::lbbelID;
 jfieldID AwtCheckbox::groupID;
-jfieldID AwtCheckbox::stateID;
+jfieldID AwtCheckbox::stbteID;
 
 const int AwtCheckbox::CHECK_SIZE = 13;
 
@@ -64,90 +64,90 @@ AwtCheckbox::AwtCheckbox() {
     m_fLButtonDowned = FALSE;
 }
 
-LPCTSTR AwtCheckbox::GetClassName() {
-    return TEXT("BUTTON");  /* System provided checkbox class (a type of button) */
+LPCTSTR AwtCheckbox::GetClbssNbme() {
+    return TEXT("BUTTON");  /* System provided checkbox clbss (b type of button) */
 }
 
-AwtCheckbox* AwtCheckbox::Create(jobject peer, jobject parent)
+AwtCheckbox* AwtCheckbox::Crebte(jobject peer, jobject pbrent)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    jstring label = NULL;
-    jobject target = NULL;
+    jstring lbbel = NULL;
+    jobject tbrget = NULL;
     AwtCheckbox *checkbox = NULL;
 
     try {
-        if (env->EnsureLocalCapacity(2) < 0) {
+        if (env->EnsureLocblCbpbcity(2) < 0) {
             return NULL;
         }
 
-        AwtComponent* awtParent;
-        JNI_CHECK_NULL_GOTO(parent, "null parent", done);
+        AwtComponent* bwtPbrent;
+        JNI_CHECK_NULL_GOTO(pbrent, "null pbrent", done);
 
-        awtParent = (AwtComponent*)JNI_GET_PDATA(parent);
-        JNI_CHECK_NULL_GOTO(awtParent, "null awtParent", done);
+        bwtPbrent = (AwtComponent*)JNI_GET_PDATA(pbrent);
+        JNI_CHECK_NULL_GOTO(bwtPbrent, "null bwtPbrent", done);
 
-        target = env->GetObjectField(peer, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "null target", done);
+        tbrget = env->GetObjectField(peer, AwtObject::tbrgetID);
+        JNI_CHECK_NULL_GOTO(tbrget, "null tbrget", done);
 
         checkbox = new AwtCheckbox();
 
         {
             DWORD style = WS_CHILD | WS_CLIPSIBLINGS | BS_OWNERDRAW;
-            LPCWSTR defaultLabelStr = L"";
-            LPCWSTR labelStr = defaultLabelStr;
+            LPCWSTR defbultLbbelStr = L"";
+            LPCWSTR lbbelStr = defbultLbbelStr;
             DWORD exStyle = 0;
 
             if (GetRTL()) {
                 exStyle |= WS_EX_RIGHT;
-                if (GetRTLReadingOrder())
+                if (GetRTLRebdingOrder())
                     exStyle |= WS_EX_RTLREADING;
             }
 
-            label = (jstring)env->GetObjectField(target, AwtCheckbox::labelID);
-            if (label != NULL) {
-                labelStr = JNU_GetStringPlatformChars(env, label, 0);
+            lbbel = (jstring)env->GetObjectField(tbrget, AwtCheckbox::lbbelID);
+            if (lbbel != NULL) {
+                lbbelStr = JNU_GetStringPlbtformChbrs(env, lbbel, 0);
             }
-            if (labelStr != 0) {
-                jint x = env->GetIntField(target, AwtComponent::xID);
-                jint y = env->GetIntField(target, AwtComponent::yID);
-                jint width = env->GetIntField(target, AwtComponent::widthID);
-                jint height = env->GetIntField(target, AwtComponent::heightID);
-                checkbox->CreateHWnd(env, labelStr, style, exStyle,
+            if (lbbelStr != 0) {
+                jint x = env->GetIntField(tbrget, AwtComponent::xID);
+                jint y = env->GetIntField(tbrget, AwtComponent::yID);
+                jint width = env->GetIntField(tbrget, AwtComponent::widthID);
+                jint height = env->GetIntField(tbrget, AwtComponent::heightID);
+                checkbox->CrebteHWnd(env, lbbelStr, style, exStyle,
                                      x, y, width, height,
-                                     awtParent->GetHWnd(),
-                                     reinterpret_cast<HMENU>(static_cast<INT_PTR>(
-                         awtParent->CreateControlID())),
+                                     bwtPbrent->GetHWnd(),
+                                     reinterpret_cbst<HMENU>(stbtic_cbst<INT_PTR>(
+                         bwtPbrent->CrebteControlID())),
                                      ::GetSysColor(COLOR_WINDOWTEXT),
                                      ::GetSysColor(COLOR_BTNFACE),
                                      peer);
 
-                if (labelStr != defaultLabelStr) {
-                    JNU_ReleaseStringPlatformChars(env, label, labelStr);
+                if (lbbelStr != defbultLbbelStr) {
+                    JNU_RelebseStringPlbtformChbrs(env, lbbel, lbbelStr);
                 }
             } else {
-                throw std::bad_alloc();
+                throw std::bbd_blloc();
             }
         }
-    } catch (...) {
-        env->DeleteLocalRef(label);
-        env->DeleteLocalRef(target);
+    } cbtch (...) {
+        env->DeleteLocblRef(lbbel);
+        env->DeleteLocblRef(tbrget);
         throw;
     }
 
 done:
-    env->DeleteLocalRef(label);
-    env->DeleteLocalRef(target);
+    env->DeleteLocblRef(lbbel);
+    env->DeleteLocblRef(tbrget);
 
     return checkbox;
 }
 
 MsgRouting
-AwtCheckbox::WmMouseUp(UINT flags, int x, int y, int button)
+AwtCheckbox::WmMouseUp(UINT flbgs, int x, int y, int button)
 {
-    MsgRouting mrResult = AwtComponent::WmMouseUp(flags, x, y, button);
+    MsgRouting mrResult = AwtComponent::WmMouseUp(flbgs, x, y, button);
 
-    if (::IsWindow(AwtWindow::GetModalBlocker(AwtComponent::GetTopLevelParentForWindow(GetHWnd()))))
+    if (::IsWindow(AwtWindow::GetModblBlocker(AwtComponent::GetTopLevelPbrentForWindow(GetHWnd()))))
     {
         return mrConsume;
     }
@@ -164,87 +164,87 @@ AwtCheckbox::WmMouseUp(UINT flags, int x, int y, int button)
 }
 
 MsgRouting
-AwtCheckbox::WmMouseDown(UINT flags, int x, int y, int button)
+AwtCheckbox::WmMouseDown(UINT flbgs, int x, int y, int button)
 {
     m_fLButtonDowned = TRUE;
-    return AwtComponent::WmMouseDown(flags, x, y, button);
+    return AwtComponent::WmMouseDown(flbgs, x, y, button);
 }
 
 MsgRouting
 AwtCheckbox::WmNotify(UINT notifyCode)
 {
     if (notifyCode == BN_CLICKED) {
-        BOOL fChecked = !GetState();
-        DoCallback("handleAction", "(Z)V", fChecked);
+        BOOL fChecked = !GetStbte();
+        DoCbllbbck("hbndleAction", "(Z)V", fChecked);
     }
-    return mrDoDefault;
+    return mrDoDefbult;
 }
 
-BOOL AwtCheckbox::GetState()
+BOOL AwtCheckbox::GetStbte()
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    if (env->EnsureLocalCapacity(2) < 0) {
+    if (env->EnsureLocblCbpbcity(2) < 0) {
         return NULL;
     }
-    jobject target = GetTarget(env);
-    jboolean result = JNI_FALSE;
-    if (target != NULL) {
-        result = env->GetBooleanField(target, AwtCheckbox::stateID);
+    jobject tbrget = GetTbrget(env);
+    jboolebn result = JNI_FALSE;
+    if (tbrget != NULL) {
+        result = env->GetBoolebnField(tbrget, AwtCheckbox::stbteID);
     }
 
-    env->DeleteLocalRef(target);
+    env->DeleteLocblRef(tbrget);
 
     return (BOOL)result;
 }
 
 int AwtCheckbox::GetCheckSize()
 {
-    /* using height of small icon for check mark size */
+    /* using height of smbll icon for check mbrk size */
     return CHECK_SIZE;
 }
 
 MsgRouting
-AwtCheckbox::OwnerDrawItem(UINT /*ctrlId*/, DRAWITEMSTRUCT& drawInfo)
+AwtCheckbox::OwnerDrbwItem(UINT /*ctrlId*/, DRAWITEMSTRUCT& drbwInfo)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    if (env->EnsureLocalCapacity(4) < 0) {
+    if (env->EnsureLocblCbpbcity(4) < 0) {
         return mrConsume;
     }
 
     jobject self = GetPeer(env);
-    jobject target = env->GetObjectField(self, AwtObject::targetID);
+    jobject tbrget = env->GetObjectField(self, AwtObject::tbrgetID);
 
-    HDC hDC = drawInfo.hDC;
-    RECT rect = drawInfo.rcItem;
+    HDC hDC = drbwInfo.hDC;
+    RECT rect = drbwInfo.rcItem;
     int checkSize;
-    UINT nState;
+    UINT nStbte;
     SIZE size;
 
-    jobject font = GET_FONT(target, self);
-    jstring str = (jstring)env->GetObjectField(target, AwtCheckbox::labelID);
+    jobject font = GET_FONT(tbrget, self);
+    jstring str = (jstring)env->GetObjectField(tbrget, AwtCheckbox::lbbelID);
     size = AwtFont::getMFStringSize(hDC, font, str);
 
-    jobject group = env->GetObjectField(target, AwtCheckbox::groupID);
+    jobject group = env->GetObjectField(tbrget, AwtCheckbox::groupID);
     if (group != NULL)
-        nState = DFCS_BUTTONRADIO;
+        nStbte = DFCS_BUTTONRADIO;
     else
-        nState = DFCS_BUTTONCHECK;
+        nStbte = DFCS_BUTTONCHECK;
 
-    if (GetState())
-        nState |= DFCS_CHECKED;
+    if (GetStbte())
+        nStbte |= DFCS_CHECKED;
     else
-        nState &= ~DFCS_CHECKED;
+        nStbte &= ~DFCS_CHECKED;
 
-    if (drawInfo.itemState & ODS_SELECTED)
-        nState |= DFCS_PUSHED;
+    if (drbwInfo.itemStbte & ODS_SELECTED)
+        nStbte |= DFCS_PUSHED;
 
-    if (drawInfo.itemAction & ODA_DRAWENTIRE) {
-        VERIFY(::FillRect (hDC, &rect, GetBackgroundBrush()));
+    if (drbwInfo.itemAction & ODA_DRAWENTIRE) {
+        VERIFY(::FillRect (hDC, &rect, GetBbckgroundBrush()));
     }
 
-    /* draw check mark */
+    /* drbw check mbrk */
     checkSize = GetCheckSize();
     RECT boxRect;
 
@@ -252,90 +252,90 @@ AwtCheckbox::OwnerDrawItem(UINT /*ctrlId*/, DRAWITEMSTRUCT& drawInfo)
     boxRect.top = (rect.bottom - rect.top - checkSize)/2;
     boxRect.right = boxRect.left + checkSize;
     boxRect.bottom = boxRect.top + checkSize;
-    ::DrawFrameControl(hDC, &boxRect, DFC_BUTTON, nState);
+    ::DrbwFrbmeControl(hDC, &boxRect, DFC_BUTTON, nStbte);
 
     /*
-     * draw string
+     * drbw string
      *
-     * 4 is a heuristic number
+     * 4 is b heuristic number
      */
     rect.left = rect.left + checkSize + checkSize/4;
-    if (drawInfo.itemAction & ODA_DRAWENTIRE) {
-        BOOL bEnabled = isEnabled();
+    if (drbwInfo.itemAction & ODA_DRAWENTIRE) {
+        BOOL bEnbbled = isEnbbled();
 
         int x = (GetRTL()) ? rect.right - (checkSize + checkSize / 4 + size.cx)
                            : rect.left;
         int y = (rect.top + rect.bottom - size.cy) / 2;
-        if (bEnabled) {
-            AwtComponent::DrawWindowText(hDC, font, str, x, y);
+        if (bEnbbled) {
+            AwtComponent::DrbwWindowText(hDC, font, str, x, y);
         } else {
-            AwtComponent::DrawGrayText(hDC, font, str, x, y);
+            AwtComponent::DrbwGrbyText(hDC, font, str, x, y);
         }
     }
 
-    /* Draw focus rect */
+    /* Drbw focus rect */
     RECT focusRect;
-    const int margin = 2; /*  2 is a heuristic number */
+    const int mbrgin = 2; /*  2 is b heuristic number */
 
     focusRect.left = (GetRTL()) ? rect.right - checkSize - checkSize / 4 -
-                                      2 * margin - size.cx
-                                : rect.left - margin;
+                                      2 * mbrgin - size.cx
+                                : rect.left - mbrgin;
     focusRect.top = (rect.top+rect.bottom-size.cy)/2;
     focusRect.right = (GetRTL()) ? rect.right - checkSize - checkSize / 4 +
-                                      margin
-                                 : focusRect.left + size.cx + 2 * margin;
+                                      mbrgin
+                                 : focusRect.left + size.cx + 2 * mbrgin;
     focusRect.bottom = focusRect.top + size.cy;
 
-    /*  draw focus rect */
-    if ((drawInfo.itemState & ODS_FOCUS) &&
-        ((drawInfo.itemAction & ODA_FOCUS)||
-         (drawInfo.itemAction &ODA_DRAWENTIRE))) {
-        VERIFY(::DrawFocusRect(hDC, &focusRect));
+    /*  drbw focus rect */
+    if ((drbwInfo.itemStbte & ODS_FOCUS) &&
+        ((drbwInfo.itemAction & ODA_FOCUS)||
+         (drbwInfo.itemAction &ODA_DRAWENTIRE))) {
+        VERIFY(::DrbwFocusRect(hDC, &focusRect));
     }
-    /*  erase focus rect */
-    else if (!(drawInfo.itemState & ODS_FOCUS) &&
-             (drawInfo.itemAction & ODA_FOCUS)) {
-        VERIFY(::DrawFocusRect(hDC, &focusRect));
+    /*  erbse focus rect */
+    else if (!(drbwInfo.itemStbte & ODS_FOCUS) &&
+             (drbwInfo.itemAction & ODA_FOCUS)) {
+        VERIFY(::DrbwFocusRect(hDC, &focusRect));
     }
 
-    /*  Notify any subclasses */
-    rect = drawInfo.rcItem;
-    DoCallback("handlePaint", "(IIII)V", rect.left, rect.top,
+    /*  Notify bny subclbsses */
+    rect = drbwInfo.rcItem;
+    DoCbllbbck("hbndlePbint", "(IIII)V", rect.left, rect.top,
                rect.right-rect.left, rect.bottom-rect.top);
 
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(font);
-    env->DeleteLocalRef(str);
-    env->DeleteLocalRef(group);
+    env->DeleteLocblRef(tbrget);
+    env->DeleteLocblRef(font);
+    env->DeleteLocblRef(str);
+    env->DeleteLocblRef(group);
 
     return mrConsume;
 }
 
-MsgRouting AwtCheckbox::WmPaint(HDC)
+MsgRouting AwtCheckbox::WmPbint(HDC)
 {
-    /*  Suppress peer notification, because it's handled in WmDrawItem. */
-    return mrDoDefault;
+    /*  Suppress peer notificbtion, becbuse it's hbndled in WmDrbwItem. */
+    return mrDoDefbult;
 }
 
-BOOL AwtCheckbox::IsFocusingMouseMessage(MSG *pMsg) {
-    return pMsg->message == WM_LBUTTONDOWN || pMsg->message == WM_LBUTTONUP;
+BOOL AwtCheckbox::IsFocusingMouseMessbge(MSG *pMsg) {
+    return pMsg->messbge == WM_LBUTTONDOWN || pMsg->messbge == WM_LBUTTONUP;
 }
 
-BOOL AwtCheckbox::IsFocusingKeyMessage(MSG *pMsg) {
-    return (pMsg->message == WM_KEYDOWN || pMsg->message == WM_KEYUP) &&
-            pMsg->wParam == VK_SPACE;
+BOOL AwtCheckbox::IsFocusingKeyMessbge(MSG *pMsg) {
+    return (pMsg->messbge == WM_KEYDOWN || pMsg->messbge == WM_KEYUP) &&
+            pMsg->wPbrbm == VK_SPACE;
 }
 
-MsgRouting AwtCheckbox::HandleEvent(MSG *msg, BOOL synthetic)
+MsgRouting AwtCheckbox::HbndleEvent(MSG *msg, BOOL synthetic)
 {
-    if (IsFocusingMouseMessage(msg)) {
-        SendMessage(BM_SETSTATE, (WPARAM)(msg->message == WM_LBUTTONDOWN ? TRUE : FALSE));
+    if (IsFocusingMouseMessbge(msg)) {
+        SendMessbge(BM_SETSTATE, (WPARAM)(msg->messbge == WM_LBUTTONDOWN ? TRUE : FALSE));
         delete msg;
         return mrConsume;
     }
-    if (IsFocusingKeyMessage(msg)) {
-        SendMessage(BM_SETSTATE, (WPARAM)(msg->message == WM_KEYDOWN ? TRUE : FALSE));
-        if (msg->message == WM_KEYDOWN) {
+    if (IsFocusingKeyMessbge(msg)) {
+        SendMessbge(BM_SETSTATE, (WPARAM)(msg->messbge == WM_KEYDOWN ? TRUE : FALSE));
+        if (msg->messbge == WM_KEYDOWN) {
             m_fLButtonDowned = TRUE;
         } else if (m_fLButtonDowned == TRUE) {
             WmNotify(BN_CLICKED);
@@ -344,86 +344,86 @@ MsgRouting AwtCheckbox::HandleEvent(MSG *msg, BOOL synthetic)
         delete msg;
         return mrConsume;
     }
-    return AwtComponent::HandleEvent(msg, synthetic);
+    return AwtComponent::HbndleEvent(msg, synthetic);
 }
 
-void AwtCheckbox::_SetLabel(void *param)
+void AwtCheckbox::_SetLbbel(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetLabelStruct *sls = (SetLabelStruct *)param;
+    SetLbbelStruct *sls = (SetLbbelStruct *)pbrbm;
     jobject checkbox = sls->checkbox;
-    jstring label = sls->label;
+    jstring lbbel = sls->lbbel;
 
-    int badAlloc = 0;
+    int bbdAlloc = 0;
     AwtCheckbox *c = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(checkbox, done);
 
-    c = (AwtCheckbox *)pData;
+    c = (AwtCheckbox *)pDbtb;
     if (::IsWindow(c->GetHWnd()))
     {
-        LPCTSTR labelStr = NULL;
+        LPCTSTR lbbelStr = NULL;
 
-        // By convension null label means empty string
-        if (label == NULL)
+        // By convension null lbbel mebns empty string
+        if (lbbel == NULL)
         {
-            labelStr = TEXT("");
+            lbbelStr = TEXT("");
         }
         else
         {
-            labelStr = JNU_GetStringPlatformChars(env, label, JNI_FALSE);
+            lbbelStr = JNU_GetStringPlbtformChbrs(env, lbbel, JNI_FALSE);
         }
 
-        if (labelStr == NULL)
+        if (lbbelStr == NULL)
         {
-            badAlloc = 1;
+            bbdAlloc = 1;
         }
         else
         {
-            c->SetText(labelStr);
-            c->VerifyState();
-            if (label != NULL) {
-                JNU_ReleaseStringPlatformChars(env, label, labelStr);
+            c->SetText(lbbelStr);
+            c->VerifyStbte();
+            if (lbbel != NULL) {
+                JNU_RelebseStringPlbtformChbrs(env, lbbel, lbbelStr);
             }
         }
     }
 
 done:
-    env->DeleteGlobalRef(checkbox);
-    if (label != NULL)
+    env->DeleteGlobblRef(checkbox);
+    if (lbbel != NULL)
     {
-        env->DeleteGlobalRef(label);
+        env->DeleteGlobblRef(lbbel);
     }
 
     delete sls;
 
-    if (badAlloc) {
-        throw std::bad_alloc();
+    if (bbdAlloc) {
+        throw std::bbd_blloc();
     }
 }
 
-void AwtCheckbox::_SetCheckboxGroup(void *param)
+void AwtCheckbox::_SetCheckboxGroup(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    jobject *jos = (jobject *)param;
+    jobject *jos = (jobject *)pbrbm;
     jobject checkbox = jos[0];
     jobject group = jos[1];
 
     AwtCheckbox *c = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(checkbox, done);
 
-    c = (AwtCheckbox *)pData;
+    c = (AwtCheckbox *)pDbtb;
     if (::IsWindow(c->GetHWnd()))
     {
 /*
 #ifdef DEBUG
         if (group != NULL) {
-            DASSERT(IsInstanceOf((HObject*)group, "java/awt/CheckboxGroup"));
+            DASSERT(IsInstbnceOf((HObject*)group, "jbvb/bwt/CheckboxGroup"));
         }
 #endif
 */
@@ -436,138 +436,138 @@ void AwtCheckbox::_SetCheckboxGroup(void *param)
             style = style | BS_AUTORADIOBUTTON;
         }
         c->SetStyle(style);
-        c->SendMessage(BM_SETSTYLE, (WPARAM)BS_OWNERDRAW, (LPARAM)TRUE);
-        c->VerifyState();
+        c->SendMessbge(BM_SETSTYLE, (WPARAM)BS_OWNERDRAW, (LPARAM)TRUE);
+        c->VerifyStbte();
     }
 
 done:
-    env->DeleteGlobalRef(checkbox);
+    env->DeleteGlobblRef(checkbox);
     if (group != NULL) {
-      env->DeleteGlobalRef(group);
+      env->DeleteGlobblRef(group);
     }
 
     delete[] jos;
 }
 
-void AwtCheckbox::_SetState(void *param)
+void AwtCheckbox::_SetStbte(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetStateStruct *sss = (SetStateStruct *)param;
+    SetStbteStruct *sss = (SetStbteStruct *)pbrbm;
     jobject checkbox = sss->checkbox;
-    jboolean state = sss->state;
+    jboolebn stbte = sss->stbte;
 
     AwtCheckbox *c = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(checkbox, done);
 
-    c = (AwtCheckbox *)pData;
+    c = (AwtCheckbox *)pDbtb;
     if (::IsWindow(c->GetHWnd()))
     {
         /*
-         * when multifont and group checkbox receive setState native
-         * method, it must be redraw to display correct check mark
+         * when multifont bnd group checkbox receive setStbte nbtive
+         * method, it must be redrbw to displby correct check mbrk
          */
-        jobject target = env->GetObjectField(checkbox, AwtObject::targetID);
-        jobject group = env->GetObjectField(target, AwtCheckbox::groupID);
+        jobject tbrget = env->GetObjectField(checkbox, AwtObject::tbrgetID);
+        jobject group = env->GetObjectField(tbrget, AwtCheckbox::groupID);
         HWND hWnd = c->GetHWnd();
         if (group != NULL) {
             RECT rect;
             VERIFY(::GetWindowRect(hWnd, &rect));
             VERIFY(::ScreenToClient(hWnd, (LPPOINT)&rect));
             VERIFY(::ScreenToClient(hWnd, ((LPPOINT)&rect) + 1));
-            VERIFY(::InvalidateRect(hWnd, &rect,TRUE));
-            VERIFY(::UpdateWindow(hWnd));
+            VERIFY(::InvblidbteRect(hWnd, &rect,TRUE));
+            VERIFY(::UpdbteWindow(hWnd));
         } else {
-            c->SendMessage(BM_SETCHECK, (WPARAM)(state ? BST_CHECKED : BST_UNCHECKED));
-            VERIFY(::InvalidateRect(hWnd, NULL, FALSE));
+            c->SendMessbge(BM_SETCHECK, (WPARAM)(stbte ? BST_CHECKED : BST_UNCHECKED));
+            VERIFY(::InvblidbteRect(hWnd, NULL, FALSE));
         }
-        c->VerifyState();
-        env->DeleteLocalRef(target);
-        env->DeleteLocalRef(group);
+        c->VerifyStbte();
+        env->DeleteLocblRef(tbrget);
+        env->DeleteLocblRef(group);
     }
 
 done:
-    env->DeleteGlobalRef(checkbox);
+    env->DeleteGlobblRef(checkbox);
 
     delete sss;
 }
 
 #ifdef DEBUG
-void AwtCheckbox::VerifyState()
+void AwtCheckbox::VerifyStbte()
 {
-    if (AwtToolkit::GetInstance().VerifyComponents() == FALSE) {
+    if (AwtToolkit::GetInstbnce().VerifyComponents() == FALSE) {
         return;
     }
 
-    if (m_callbacksEnabled == FALSE) {
+    if (m_cbllbbcksEnbbled == FALSE) {
         /*  Component is not fully setup yet. */
         return;
     }
 
-    AwtComponent::VerifyState();
+    AwtComponent::VerifyStbte();
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    if (env->EnsureLocalCapacity(2) < 0) {
+    if (env->EnsureLocblCbpbcity(2) < 0) {
         return;
     }
 
-    jobject target = GetTarget(env);
+    jobject tbrget = GetTbrget(env);
 
     /*  Check button style */
     DWORD style = ::GetWindowLong(GetHWnd(), GWL_STYLE);
     DASSERT(style & BS_OWNERDRAW);
 
-    /*  Check label */
+    /*  Check lbbel */
     int len = ::GetWindowTextLength(GetHWnd());
     LPTSTR peerStr;
     try {
         peerStr = new TCHAR[len+1];
-    } catch (std::bad_alloc&) {
-        env->DeleteLocalRef(target);
+    } cbtch (std::bbd_blloc&) {
+        env->DeleteLocblRef(tbrget);
         throw;
     }
 
     GetText(peerStr, len+1);
-    jstring label = (jstring)env->GetObjectField(target, AwtCheckbox::labelID);
-    DASSERT(_tcscmp(peerStr, JavaStringBuffer(env, label)) == 0);
+    jstring lbbel = (jstring)env->GetObjectField(tbrget, AwtCheckbox::lbbelID);
+    DASSERT(_tcscmp(peerStr, JbvbStringBuffer(env, lbbel)) == 0);
     delete [] peerStr;
 
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(label);
+    env->DeleteLocblRef(tbrget);
+    env->DeleteLocblRef(lbbel);
 }
 #endif
 
 
 /************************************************************************
- * Checkbox native methods
+ * Checkbox nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WButtonPeer
+ * Clbss:     sun_bwt_windows_WButtonPeer
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_Checkbox_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Checkbox_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtCheckbox::labelID =
-      env->GetFieldID(cls, "label", "Ljava/lang/String;");
-    DASSERT(AwtCheckbox::labelID != NULL);
-    CHECK_NULL(AwtCheckbox::labelID);
+    AwtCheckbox::lbbelID =
+      env->GetFieldID(cls, "lbbel", "Ljbvb/lbng/String;");
+    DASSERT(AwtCheckbox::lbbelID != NULL);
+    CHECK_NULL(AwtCheckbox::lbbelID);
 
     AwtCheckbox::groupID =
-      env->GetFieldID(cls, "group", "Ljava/awt/CheckboxGroup;");
+      env->GetFieldID(cls, "group", "Ljbvb/bwt/CheckboxGroup;");
     DASSERT(AwtCheckbox::groupID != NULL);
     CHECK_NULL(AwtCheckbox::groupID);
 
-    AwtCheckbox::stateID = env->GetFieldID(cls, "state", "Z");
-    DASSERT(AwtCheckbox::stateID != NULL);
+    AwtCheckbox::stbteID = env->GetFieldID(cls, "stbte", "Z");
+    DASSERT(AwtCheckbox::stbteID != NULL);
 
     CATCH_BAD_ALLOC;
 }
@@ -576,106 +576,106 @@ Java_java_awt_Checkbox_initIDs(JNIEnv *env, jclass cls)
 
 
 /************************************************************************
- * WCheckboxPeer native methods
+ * WCheckboxPeer nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WCheckboxPeer
- * Method:    getCheckMarkSize
- * Signature: ()I
+ * Clbss:     sun_bwt_windows_WCheckboxPeer
+ * Method:    getCheckMbrkSize
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WCheckboxPeer_getCheckMarkSize(JNIEnv *env,
-                                                          jclass cls)
+Jbvb_sun_bwt_windows_WCheckboxPeer_getCheckMbrkSize(JNIEnv *env,
+                                                          jclbss cls)
 {
     return (jint)AwtCheckbox::GetCheckSize();
 }
 
 /*
- * Class:     sun_awt_windows_WCheckboxPeer
- * Method:    setState
- * Signature: (Z)V
+ * Clbss:     sun_bwt_windows_WCheckboxPeer
+ * Method:    setStbte
+ * Signbture: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WCheckboxPeer_setState(JNIEnv *env, jobject self,
-                                            jboolean state)
+Jbvb_sun_bwt_windows_WCheckboxPeer_setStbte(JNIEnv *env, jobject self,
+                                            jboolebn stbte)
 {
     TRY;
 
-    SetStateStruct *sss = new SetStateStruct;
-    sss->checkbox = env->NewGlobalRef(self);
-    sss->state = state;
+    SetStbteStruct *sss = new SetStbteStruct;
+    sss->checkbox = env->NewGlobblRef(self);
+    sss->stbte = stbte;
 
-    AwtToolkit::GetInstance().SyncCall(AwtCheckbox::_SetState, sss);
-    // global refs and sss are deleted in _SetState()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtCheckbox::_SetStbte, sss);
+    // globbl refs bnd sss bre deleted in _SetStbte()
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WCheckboxPeer
+ * Clbss:     sun_bwt_windows_WCheckboxPeer
  * Method:    setCheckboxGroup
- * Signature: (Ljava/awt/CheckboxGroup;)V
+ * Signbture: (Ljbvb/bwt/CheckboxGroup;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WCheckboxPeer_setCheckboxGroup(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WCheckboxPeer_setCheckboxGroup(JNIEnv *env, jobject self,
                                                     jobject group)
 {
     TRY;
 
     jobject *jos = new jobject[2];
-    jos[0] = env->NewGlobalRef(self);
-    jos[1] = env->NewGlobalRef(group);
+    jos[0] = env->NewGlobblRef(self);
+    jos[1] = env->NewGlobblRef(group);
 
-    AwtToolkit::GetInstance().SyncCall(AwtCheckbox::_SetCheckboxGroup, jos);
-    // global refs and jos are deleted in _SetLabel()
-
-    CATCH_BAD_ALLOC;
-}
-
-/*
- * Class:     sun_awt_windows_WCheckboxPeer
- * Method:    setLabel
- * Signature: (Ljava/lang/String;)V
- */
-JNIEXPORT void JNICALL
-Java_sun_awt_windows_WCheckboxPeer_setLabel(JNIEnv *env, jobject self,
-                                            jstring label)
-{
-    TRY;
-
-    SetLabelStruct *sls = new SetLabelStruct;
-    sls->checkbox = env->NewGlobalRef(self);
-    sls->label = (label != NULL) ? (jstring)env->NewGlobalRef(label) : NULL;
-
-    AwtToolkit::GetInstance().SyncCall(AwtCheckbox::_SetLabel, sls);
-    // global refs and sls are deleted in _SetLabel()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtCheckbox::_SetCheckboxGroup, jos);
+    // globbl refs bnd jos bre deleted in _SetLbbel()
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WCheckboxPeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WCheckboxPeer
+ * Method:    setLbbel
+ * Signbture: (Ljbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WCheckboxPeer_create(JNIEnv *env, jobject self,
-                                          jobject parent)
+Jbvb_sun_bwt_windows_WCheckboxPeer_setLbbel(JNIEnv *env, jobject self,
+                                            jstring lbbel)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(parent);
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtCheckbox::Create);
+    SetLbbelStruct *sls = new SetLbbelStruct;
+    sls->checkbox = env->NewGlobblRef(self);
+    sls->lbbel = (lbbel != NULL) ? (jstring)env->NewGlobblRef(lbbel) : NULL;
+
+    AwtToolkit::GetInstbnce().SyncCbll(AwtCheckbox::_SetLbbel, sls);
+    // globbl refs bnd sls bre deleted in _SetLbbel()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WCheckboxPeer
+ * Method:    crebte
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WCheckboxPeer_crebte(JNIEnv *env, jobject self,
+                                          jobject pbrent)
+{
+    TRY;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrent);
+    AwtToolkit::CrebteComponent(self, pbrent,
+                                (AwtToolkit::ComponentFbctory)
+                                AwtCheckbox::Crebte);
     JNI_CHECK_PEER_CREATION_RETURN(self);
 
 #ifdef DEBUG
-    ((AwtComponent*)JNI_GET_PDATA(self))->VerifyState();
+    ((AwtComponent*)JNI_GET_PDATA(self))->VerifyStbte();
 #endif
 
     CATCH_BAD_ALLOC;

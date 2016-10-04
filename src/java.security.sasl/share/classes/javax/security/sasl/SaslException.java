@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.sasl;
+pbckbge jbvbx.security.sbsl;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * This class represents an error that has occurred when using SASL.
+ * This clbss represents bn error thbt hbs occurred when using SASL.
  *
  * @since 1.5
  *
- * @author Rosanna Lee
- * @author Rob Weltman
+ * @buthor Rosbnnb Lee
+ * @buthor Rob Weltmbn
  */
 
-public class SaslException extends IOException {
+public clbss SbslException extends IOException {
     /**
-     * The possibly null root cause exception.
-     * @serial
+     * The possibly null root cbuse exception.
+     * @seribl
      */
-    // Required for serialization interoperability with JSR 28
-    private Throwable _exception;
+    // Required for seriblizbtion interoperbbility with JSR 28
+    privbte Throwbble _exception;
 
     /**
-     * Constructs a new instance of {@code SaslException}.
-     * The root exception and the detailed message are null.
+     * Constructs b new instbnce of {@code SbslException}.
+     * The root exception bnd the detbiled messbge bre null.
      */
-    public SaslException () {
+    public SbslException () {
         super();
     }
 
     /**
-     * Constructs a new instance of {@code SaslException} with a detailed message.
+     * Constructs b new instbnce of {@code SbslException} with b detbiled messbge.
      * The root exception is null.
-     * @param detail A possibly null string containing details of the exception.
+     * @pbrbm detbil A possibly null string contbining detbils of the exception.
      *
-     * @see java.lang.Throwable#getMessage
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public SaslException (String detail) {
-        super(detail);
+    public SbslException (String detbil) {
+        super(detbil);
     }
 
     /**
-     * Constructs a new instance of {@code SaslException} with a detailed message
-     * and a root exception.
-     * For example, a SaslException might result from a problem with
-     * the callback handler, which might throw a NoSuchCallbackException if
-     * it does not support the requested callback, or throw an IOException
-     * if it had problems obtaining data for the callback. The
-     * SaslException's root exception would be then be the exception thrown
-     * by the callback handler.
+     * Constructs b new instbnce of {@code SbslException} with b detbiled messbge
+     * bnd b root exception.
+     * For exbmple, b SbslException might result from b problem with
+     * the cbllbbck hbndler, which might throw b NoSuchCbllbbckException if
+     * it does not support the requested cbllbbck, or throw bn IOException
+     * if it hbd problems obtbining dbtb for the cbllbbck. The
+     * SbslException's root exception would be then be the exception thrown
+     * by the cbllbbck hbndler.
      *
-     * @param detail A possibly null string containing details of the exception.
-     * @param ex A possibly null root exception that caused this exception.
+     * @pbrbm detbil A possibly null string contbining detbils of the exception.
+     * @pbrbm ex A possibly null root exception thbt cbused this exception.
      *
-     * @see java.lang.Throwable#getMessage
-     * @see #getCause
+     * @see jbvb.lbng.Throwbble#getMessbge
+     * @see #getCbuse
      */
-    public SaslException (String detail, Throwable ex) {
-        super(detail);
+    public SbslException (String detbil, Throwbble ex) {
+        super(detbil);
         if (ex != null) {
-            initCause(ex);
+            initCbuse(ex);
         }
     }
 
     /*
-     * Override Throwable.getCause() to ensure deserialized object from
-     * JSR 28 would return same value for getCause() (i.e., _exception).
+     * Override Throwbble.getCbuse() to ensure deseriblized object from
+     * JSR 28 would return sbme vblue for getCbuse() (i.e., _exception).
      */
-    public Throwable getCause() {
+    public Throwbble getCbuse() {
         return _exception;
     }
 
     /*
-     * Override Throwable.initCause() to match getCause() by updating
-     * _exception as well.
+     * Override Throwbble.initCbuse() to mbtch getCbuse() by updbting
+     * _exception bs well.
      */
-    public Throwable initCause(Throwable cause) {
-        super.initCause(cause);
-        _exception = cause;
+    public Throwbble initCbuse(Throwbble cbuse) {
+        super.initCbuse(cbuse);
+        _exception = cbuse;
         return this;
     }
 
     /**
-     * Returns the string representation of this exception.
-     * The string representation contains
-     * this exception's class name, its detailed message, and if
-     * it has a root exception, the string representation of the root
-     * exception. This string representation
-     * is meant for debugging and not meant to be interpreted
-     * programmatically.
-     * @return The non-null string representation of this exception.
-     * @see java.lang.Throwable#getMessage
+     * Returns the string representbtion of this exception.
+     * The string representbtion contbins
+     * this exception's clbss nbme, its detbiled messbge, bnd if
+     * it hbs b root exception, the string representbtion of the root
+     * exception. This string representbtion
+     * is mebnt for debugging bnd not mebnt to be interpreted
+     * progrbmmbticblly.
+     * @return The non-null string representbtion of this exception.
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    // Override Throwable.toString() to conform to JSR 28
+    // Override Throwbble.toString() to conform to JSR 28
     public String toString() {
-        String answer = super.toString();
+        String bnswer = super.toString();
         if (_exception != null && _exception != this) {
-            answer += " [Caused by " + _exception.toString() + "]";
+            bnswer += " [Cbused by " + _exception.toString() + "]";
         }
-        return answer;
+        return bnswer;
     }
 
-    /** Use serialVersionUID from JSR 28 RI for interoperability */
-    private static final long serialVersionUID = 4579784287983423626L;
+    /** Use seriblVersionUID from JSR 28 RI for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = 4579784287983423626L;
 }

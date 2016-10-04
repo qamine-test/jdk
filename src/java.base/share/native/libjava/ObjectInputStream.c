@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,93 +28,93 @@
 #include "jni_util.h"
 #include "jlong.h"
 
-#include "java_lang_Float.h"
-#include "java_lang_Double.h"
-#include "java_io_ObjectInputStream.h"
+#include "jbvb_lbng_Flobt.h"
+#include "jbvb_lbng_Double.h"
+#include "jbvb_io_ObjectInputStrebm.h"
 
 
 /*
- * Class:     java_io_ObjectInputStream
- * Method:    bytesToFloats
- * Signature: ([BI[FII)V
+ * Clbss:     jbvb_io_ObjectInputStrebm
+ * Method:    bytesToFlobts
+ * Signbture: ([BI[FII)V
  *
- * Reconstitutes nfloats float values from their byte representations.  Byte
- * values are read from array src starting at offset srcpos; the resulting
- * float values are written to array dst starting at dstpos.
+ * Reconstitutes nflobts flobt vblues from their byte representbtions.  Byte
+ * vblues bre rebd from brrby src stbrting bt offset srcpos; the resulting
+ * flobt vblues bre written to brrby dst stbrting bt dstpos.
  */
 JNIEXPORT void JNICALL
-Java_java_io_ObjectInputStream_bytesToFloats(JNIEnv *env,
-                                             jclass this,
-                                             jbyteArray src,
+Jbvb_jbvb_io_ObjectInputStrebm_bytesToFlobts(JNIEnv *env,
+                                             jclbss this,
+                                             jbyteArrby src,
                                              jint srcpos,
-                                             jfloatArray dst,
+                                             jflobtArrby dst,
                                              jint dstpos,
-                                             jint nfloats)
+                                             jint nflobts)
 {
     union {
         int i;
-        float f;
+        flobt f;
     } u;
-    jfloat *floats;
+    jflobt *flobts;
     jbyte *bytes;
     jsize dstend;
-    jint ival;
+    jint ivbl;
 
-    if (nfloats == 0)
+    if (nflobts == 0)
         return;
 
-    /* fetch source array */
+    /* fetch source brrby */
     if (src == NULL) {
         JNU_ThrowNullPointerException(env, NULL);
         return;
     }
-    bytes = (*env)->GetPrimitiveArrayCritical(env, src, NULL);
+    bytes = (*env)->GetPrimitiveArrbyCriticbl(env, src, NULL);
     if (bytes == NULL)          /* exception thrown */
         return;
 
-    /* fetch dest array */
+    /* fetch dest brrby */
     if (dst == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, src, bytes, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, src, bytes, JNI_ABORT);
         JNU_ThrowNullPointerException(env, NULL);
         return;
     }
-    floats = (*env)->GetPrimitiveArrayCritical(env, dst, NULL);
-    if (floats == NULL) {       /* exception thrown */
-        (*env)->ReleasePrimitiveArrayCritical(env, src, bytes, JNI_ABORT);
+    flobts = (*env)->GetPrimitiveArrbyCriticbl(env, dst, NULL);
+    if (flobts == NULL) {       /* exception thrown */
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, src, bytes, JNI_ABORT);
         return;
     }
 
     /* do conversion */
-    dstend = dstpos + nfloats;
+    dstend = dstpos + nflobts;
     for ( ; dstpos < dstend; dstpos++) {
-        ival = ((bytes[srcpos + 0] & 0xFF) << 24) +
+        ivbl = ((bytes[srcpos + 0] & 0xFF) << 24) +
                ((bytes[srcpos + 1] & 0xFF) << 16) +
                ((bytes[srcpos + 2] & 0xFF) << 8) +
                ((bytes[srcpos + 3] & 0xFF) << 0);
-        u.i = (long) ival;
-        floats[dstpos] = (jfloat) u.f;
+        u.i = (long) ivbl;
+        flobts[dstpos] = (jflobt) u.f;
         srcpos += 4;
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, src, bytes, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, dst, floats, 0);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, src, bytes, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, dst, flobts, 0);
 }
 
 /*
- * Class:     java_io_ObjectInputStream
+ * Clbss:     jbvb_io_ObjectInputStrebm
  * Method:    bytesToDoubles
- * Signature: ([BI[DII)V
+ * Signbture: ([BI[DII)V
  *
- * Reconstitutes ndoubles double values from their byte representations.
- * Byte values are read from array src starting at offset srcpos; the
- * resulting double values are written to array dst starting at dstpos.
+ * Reconstitutes ndoubles double vblues from their byte representbtions.
+ * Byte vblues bre rebd from brrby src stbrting bt offset srcpos; the
+ * resulting double vblues bre written to brrby dst stbrting bt dstpos.
  */
 JNIEXPORT void JNICALL
-Java_java_io_ObjectInputStream_bytesToDoubles(JNIEnv *env,
-                                              jclass this,
-                                              jbyteArray src,
+Jbvb_jbvb_io_ObjectInputStrebm_bytesToDoubles(JNIEnv *env,
+                                              jclbss this,
+                                              jbyteArrby src,
                                               jint srcpos,
-                                              jdoubleArray dst,
+                                              jdoubleArrby dst,
                                               jint dstpos,
                                               jint ndoubles)
 
@@ -126,36 +126,36 @@ Java_java_io_ObjectInputStream_bytesToDoubles(JNIEnv *env,
     jdouble *doubles;
     jbyte *bytes;
     jsize dstend;
-    jlong lval;
+    jlong lvbl;
 
     if (ndoubles == 0)
         return;
 
-    /* fetch source array */
+    /* fetch source brrby */
     if (src == NULL) {
         JNU_ThrowNullPointerException(env, NULL);
         return;
     }
-    bytes = (*env)->GetPrimitiveArrayCritical(env, src, NULL);
+    bytes = (*env)->GetPrimitiveArrbyCriticbl(env, src, NULL);
     if (bytes == NULL)          /* exception thrown */
         return;
 
-    /* fetch dest array */
+    /* fetch dest brrby */
     if (dst == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, src, bytes, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, src, bytes, JNI_ABORT);
         JNU_ThrowNullPointerException(env, NULL);
         return;
     }
-    doubles = (*env)->GetPrimitiveArrayCritical(env, dst, NULL);
+    doubles = (*env)->GetPrimitiveArrbyCriticbl(env, dst, NULL);
     if (doubles == NULL) {      /* exception thrown */
-        (*env)->ReleasePrimitiveArrayCritical(env, src, bytes, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, src, bytes, JNI_ABORT);
         return;
     }
 
     /* do conversion */
     dstend = dstpos + ndoubles;
     for ( ; dstpos < dstend; dstpos++) {
-        lval = (((jlong) bytes[srcpos + 0] & 0xFF) << 56) +
+        lvbl = (((jlong) bytes[srcpos + 0] & 0xFF) << 56) +
                (((jlong) bytes[srcpos + 1] & 0xFF) << 48) +
                (((jlong) bytes[srcpos + 2] & 0xFF) << 40) +
                (((jlong) bytes[srcpos + 3] & 0xFF) << 32) +
@@ -163,13 +163,13 @@ Java_java_io_ObjectInputStream_bytesToDoubles(JNIEnv *env,
                (((jlong) bytes[srcpos + 5] & 0xFF) << 16) +
                (((jlong) bytes[srcpos + 6] & 0xFF) << 8) +
                (((jlong) bytes[srcpos + 7] & 0xFF) << 0);
-        jlong_to_jdouble_bits(&lval);
-        u.l = lval;
+        jlong_to_jdouble_bits(&lvbl);
+        u.l = lvbl;
         doubles[dstpos] = (jdouble) u.d;
         srcpos += 8;
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, src, bytes, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, dst, doubles, 0);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, src, bytes, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, dst, doubles, 0);
 }
 

@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Insets;
-import java.awt.SystemColor;
-import java.awt.TextComponent;
-import java.awt.event.TextEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.im.InputMethodRequests;
-import java.awt.peer.TextComponentPeer;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.SystemColor;
+import jbvb.bwt.TextComponent;
+import jbvb.bwt.event.TextEvent;
+import jbvb.bwt.event.InputMethodListener;
+import jbvb.bwt.event.InputMethodEvent;
+import jbvb.bwt.im.InputMethodRequests;
+import jbvb.bwt.peer.TextComponentPeer;
+import sun.bwt.AWTAccessor;
 
-import javax.swing.JComponent;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.event.DocumentListener;
+import jbvbx.swing.text.Document;
+import jbvbx.swing.text.JTextComponent;
 
 /**
- * Lightweight implementation of {@link TextComponentPeer}. Provides useful
- * methods for {@link LWTextAreaPeer} and {@link LWTextFieldPeer}
+ * Lightweight implementbtion of {@link TextComponentPeer}. Provides useful
+ * methods for {@link LWTextArebPeer} bnd {@link LWTextFieldPeer}
  */
-abstract class LWTextComponentPeer<T extends TextComponent, D extends JComponent>
+bbstrbct clbss LWTextComponentPeer<T extends TextComponent, D extends JComponent>
         extends LWComponentPeer<T, D>
         implements DocumentListener, TextComponentPeer, InputMethodListener {
 
-    private volatile boolean firstChangeSkipped;
+    privbte volbtile boolebn firstChbngeSkipped;
 
-    LWTextComponentPeer(final T target,
-                        final PlatformComponent platformComponent) {
-        super(target, platformComponent);
-        if (!getTarget().isBackgroundSet()) {
-            getTarget().setBackground(SystemColor.text);
+    LWTextComponentPeer(finbl T tbrget,
+                        finbl PlbtformComponent plbtformComponent) {
+        super(tbrget, plbtformComponent);
+        if (!getTbrget().isBbckgroundSet()) {
+            getTbrget().setBbckground(SystemColor.text);
         }
     }
 
     @Override
-    void initializeImpl() {
-        super.initializeImpl();
-        synchronized (getDelegateLock()) {
-            // This listener should be added before setText().
-            getTextComponent().getDocument().addDocumentListener(this);
+    void initiblizeImpl() {
+        super.initiblizeImpl();
+        synchronized (getDelegbteLock()) {
+            // This listener should be bdded before setText().
+            getTextComponent().getDocument().bddDocumentListener(this);
         }
-        setEditable(getTarget().isEditable());
-        setText(getTarget().getText());
-        setCaretPosition(getTarget().getCaretPosition());
-        getTarget().addInputMethodListener(this);
-        final int start = getTarget().getSelectionStart();
-        final int end = getTarget().getSelectionEnd();
-        if (end > start) {
-            // Should be called after setText() and setCaretPosition()
-            select(start, end);
+        setEditbble(getTbrget().isEditbble());
+        setText(getTbrget().getText());
+        setCbretPosition(getTbrget().getCbretPosition());
+        getTbrget().bddInputMethodListener(this);
+        finbl int stbrt = getTbrget().getSelectionStbrt();
+        finbl int end = getTbrget().getSelectionEnd();
+        if (end > stbrt) {
+            // Should be cblled bfter setText() bnd setCbretPosition()
+            select(stbrt, end);
         }
-        firstChangeSkipped = true;
+        firstChbngeSkipped = true;
     }
 
     @Override
-    protected final void disposeImpl() {
-        synchronized (getDelegateLock()) {
-            // visible caret has a timer thread which must be stopped
-            getTextComponent().getCaret().setVisible(false);
+    protected finbl void disposeImpl() {
+        synchronized (getDelegbteLock()) {
+            // visible cbret hbs b timer threbd which must be stopped
+            getTextComponent().getCbret().setVisible(fblse);
         }
         super.disposeImpl();
     }
 
     /**
-     * This method should be called under getDelegateLock().
+     * This method should be cblled under getDelegbteLock().
      */
-    abstract JTextComponent getTextComponent();
+    bbstrbct JTextComponent getTextComponent();
 
-    public Dimension getMinimumSize(final int rows, final int columns) {
-        final Insets insets;
-        synchronized (getDelegateLock()) {
+    public Dimension getMinimumSize(finbl int rows, finbl int columns) {
+        finbl Insets insets;
+        synchronized (getDelegbteLock()) {
             insets = getTextComponent().getInsets();
         }
-        final int borderHeight = insets.top + insets.bottom;
-        final int borderWidth = insets.left + insets.right;
-        final FontMetrics fm = getFontMetrics(getFont());
-        return new Dimension(fm.charWidth(WIDE_CHAR) * columns + borderWidth,
+        finbl int borderHeight = insets.top + insets.bottom;
+        finbl int borderWidth = insets.left + insets.right;
+        finbl FontMetrics fm = getFontMetrics(getFont());
+        return new Dimension(fm.chbrWidth(WIDE_CHAR) * columns + borderWidth,
                              fm.getHeight() * rows + borderHeight);
     }
 
     @Override
-    public final void setEditable(final boolean editable) {
-        synchronized (getDelegateLock()) {
-            getTextComponent().setEditable(editable);
+    public finbl void setEditbble(finbl boolebn editbble) {
+        synchronized (getDelegbteLock()) {
+            getTextComponent().setEditbble(editbble);
         }
     }
 
     @Override
-    public final String getText() {
-        synchronized (getDelegateLock()) {
+    public finbl String getText() {
+        synchronized (getDelegbteLock()) {
             return getTextComponent().getText();
         }
     }
 
     @Override
-    public final void setText(final String text) {
-        synchronized (getDelegateLock()) {
-            // JTextArea.setText() posts two different events (remove & insert).
-            // Since we make no differences between text events,
-            // the document listener has to be disabled while
-            // JTextArea.setText() is called.
-            final Document document = getTextComponent().getDocument();
+    public finbl void setText(finbl String text) {
+        synchronized (getDelegbteLock()) {
+            // JTextAreb.setText() posts two different events (remove & insert).
+            // Since we mbke no differences between text events,
+            // the document listener hbs to be disbbled while
+            // JTextAreb.setText() is cblled.
+            finbl Document document = getTextComponent().getDocument();
             document.removeDocumentListener(this);
             getTextComponent().setText(text);
-            revalidate();
-            if (firstChangeSkipped) {
-                postEvent(new TextEvent(getTarget(),
+            revblidbte();
+            if (firstChbngeSkipped) {
+                postEvent(new TextEvent(getTbrget(),
                                         TextEvent.TEXT_VALUE_CHANGED));
             }
-            document.addDocumentListener(this);
+            document.bddDocumentListener(this);
         }
-        repaintPeer();
+        repbintPeer();
     }
 
     @Override
-    public final int getSelectionStart() {
-        synchronized (getDelegateLock()) {
-            return getTextComponent().getSelectionStart();
+    public finbl int getSelectionStbrt() {
+        synchronized (getDelegbteLock()) {
+            return getTextComponent().getSelectionStbrt();
         }
     }
 
     @Override
-    public final int getSelectionEnd() {
-        synchronized (getDelegateLock()) {
+    public finbl int getSelectionEnd() {
+        synchronized (getDelegbteLock()) {
             return getTextComponent().getSelectionEnd();
         }
     }
 
     @Override
-    public final void select(final int selStart, final int selEnd) {
-        synchronized (getDelegateLock()) {
-            getTextComponent().select(selStart, selEnd);
+    public finbl void select(finbl int selStbrt, finbl int selEnd) {
+        synchronized (getDelegbteLock()) {
+            getTextComponent().select(selStbrt, selEnd);
         }
-        repaintPeer();
+        repbintPeer();
     }
 
     @Override
-    public final void setCaretPosition(final int pos) {
-        synchronized (getDelegateLock()) {
-            getTextComponent().setCaretPosition(pos);
+    public finbl void setCbretPosition(finbl int pos) {
+        synchronized (getDelegbteLock()) {
+            getTextComponent().setCbretPosition(pos);
         }
-        repaintPeer();
+        repbintPeer();
     }
 
     @Override
-    public final int getCaretPosition() {
-        synchronized (getDelegateLock()) {
-            return getTextComponent().getCaretPosition();
+    public finbl int getCbretPosition() {
+        synchronized (getDelegbteLock()) {
+            return getTextComponent().getCbretPosition();
         }
     }
 
     @Override
-    public final InputMethodRequests getInputMethodRequests() {
-        synchronized (getDelegateLock()) {
+    public finbl InputMethodRequests getInputMethodRequests() {
+        synchronized (getDelegbteLock()) {
             return getTextComponent().getInputMethodRequests();
         }
     }
 
     //TODO IN XAWT we just return true..
     @Override
-    public final boolean isFocusable() {
-        return getTarget().isFocusable();
+    public finbl boolebn isFocusbble() {
+        return getTbrget().isFocusbble();
     }
 
-    protected final void revalidate() {
-        synchronized (getDelegateLock()) {
-            getTextComponent().invalidate();
-            getDelegate().validate();
+    protected finbl void revblidbte() {
+        synchronized (getDelegbteLock()) {
+            getTextComponent().invblidbte();
+            getDelegbte().vblidbte();
         }
     }
 
-    protected final void postTextEvent() {
-        postEvent(new TextEvent(getTarget(), TextEvent.TEXT_VALUE_CHANGED));
-        synchronized (getDelegateLock()) {
-            revalidate();
+    protected finbl void postTextEvent() {
+        postEvent(new TextEvent(getTbrget(), TextEvent.TEXT_VALUE_CHANGED));
+        synchronized (getDelegbteLock()) {
+            revblidbte();
         }
     }
 
     @Override
-    public final void changedUpdate(final DocumentEvent e) {
+    public finbl void chbngedUpdbte(finbl DocumentEvent e) {
         postTextEvent();
     }
 
     @Override
-    public final void insertUpdate(final DocumentEvent e) {
+    public finbl void insertUpdbte(finbl DocumentEvent e) {
         postTextEvent();
     }
 
     @Override
-    public final void removeUpdate(final DocumentEvent e) {
+    public finbl void removeUpdbte(finbl DocumentEvent e) {
         postTextEvent();
     }
 
     @Override
-    public void inputMethodTextChanged(final InputMethodEvent event) {
-        synchronized (getDelegateLock()) {
+    public void inputMethodTextChbnged(finbl InputMethodEvent event) {
+        synchronized (getDelegbteLock()) {
             AWTAccessor.getComponentAccessor().processEvent(getTextComponent(), event);
         }
     }
 
     @Override
-    public void caretPositionChanged(final InputMethodEvent event) {
-        synchronized (getDelegateLock()) {
+    public void cbretPositionChbnged(finbl InputMethodEvent event) {
+        synchronized (getDelegbteLock()) {
             AWTAccessor.getComponentAccessor().processEvent(getTextComponent(), event);
         }
     }

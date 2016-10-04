@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.tools.attach;
+pbckbge sun.tools.bttbch;
 
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.spi.AttachProvider;
+import com.sun.tools.bttbch.VirtublMbchine;
+import com.sun.tools.bttbch.VirtublMbchineDescriptor;
+import com.sun.tools.bttbch.AttbchNotSupportedException;
+import com.sun.tools.bttbch.spi.AttbchProvider;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /*
- * An AttachProvider implementation for Bsd that uses a UNIX domain
+ * An AttbchProvider implementbtion for Bsd thbt uses b UNIX dombin
  * socket.
  */
-public class BsdAttachProvider extends HotSpotAttachProvider {
+public clbss BsdAttbchProvider extends HotSpotAttbchProvider {
 
     // perf counter for the JVM version
-    private static final String JVM_VERSION = "java.property.java.vm.version";
+    privbte stbtic finbl String JVM_VERSION = "jbvb.property.jbvb.vm.version";
 
-    public BsdAttachProvider() {
+    public BsdAttbchProvider() {
     }
 
-    public String name() {
+    public String nbme() {
         return "sun";
     }
 
@@ -51,33 +51,33 @@ public class BsdAttachProvider extends HotSpotAttachProvider {
         return "socket";
     }
 
-    public VirtualMachine attachVirtualMachine(String vmid)
-        throws AttachNotSupportedException, IOException
+    public VirtublMbchine bttbchVirtublMbchine(String vmid)
+        throws AttbchNotSupportedException, IOException
     {
-        checkAttachPermission();
+        checkAttbchPermission();
 
-        // AttachNotSupportedException will be thrown if the target VM can be determined
-        // to be not attachable.
-        testAttachable(vmid);
+        // AttbchNotSupportedException will be thrown if the tbrget VM cbn be determined
+        // to be not bttbchbble.
+        testAttbchbble(vmid);
 
-        return new BsdVirtualMachine(this, vmid);
+        return new BsdVirtublMbchine(this, vmid);
     }
 
-    public VirtualMachine attachVirtualMachine(VirtualMachineDescriptor vmd)
-        throws AttachNotSupportedException, IOException
+    public VirtublMbchine bttbchVirtublMbchine(VirtublMbchineDescriptor vmd)
+        throws AttbchNotSupportedException, IOException
     {
         if (vmd.provider() != this) {
-            throw new AttachNotSupportedException("provider mismatch");
+            throw new AttbchNotSupportedException("provider mismbtch");
         }
-        // To avoid re-checking if the VM if attachable, we check if the descriptor
-        // is for a hotspot VM - these descriptors are created by the listVirtualMachines
-        // implementation which only returns a list of attachable VMs.
-        if (vmd instanceof HotSpotVirtualMachineDescriptor) {
-            assert ((HotSpotVirtualMachineDescriptor)vmd).isAttachable();
-            checkAttachPermission();
-            return new BsdVirtualMachine(this, vmd.id());
+        // To bvoid re-checking if the VM if bttbchbble, we check if the descriptor
+        // is for b hotspot VM - these descriptors bre crebted by the listVirtublMbchines
+        // implementbtion which only returns b list of bttbchbble VMs.
+        if (vmd instbnceof HotSpotVirtublMbchineDescriptor) {
+            bssert ((HotSpotVirtublMbchineDescriptor)vmd).isAttbchbble();
+            checkAttbchPermission();
+            return new BsdVirtublMbchine(this, vmd.id());
         } else {
-            return attachVirtualMachine(vmd.id());
+            return bttbchVirtublMbchine(vmd.id());
         }
     }
 

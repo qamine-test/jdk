@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jca;
+pbckbge sun.security.jcb;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.Provider.Service;
+import jbvb.security.*;
+import jbvb.security.Provider.Service;
 
 /**
  * List of Providers. Used to represent the provider preferences.
  *
- * The system starts out with a ProviderList that only has the classNames
- * of the Providers. Providers are loaded on demand only when needed.
+ * The system stbrts out with b ProviderList thbt only hbs the clbssNbmes
+ * of the Providers. Providers bre lobded on dembnd only when needed.
  *
- * For compatibility reasons, Providers that could not be loaded are ignored
- * and internally presented as the instance EMPTY_PROVIDER. However, those
- * objects cannot be presented to applications. Call the convert() method
- * to force all Providers to be loaded and to obtain a ProviderList with
- * invalid entries removed. All this is handled by the Security class.
+ * For compbtibility rebsons, Providers thbt could not be lobded bre ignored
+ * bnd internblly presented bs the instbnce EMPTY_PROVIDER. However, those
+ * objects cbnnot be presented to bpplicbtions. Cbll the convert() method
+ * to force bll Providers to be lobded bnd to obtbin b ProviderList with
+ * invblid entries removed. All this is hbndled by the Security clbss.
  *
- * Note that all indices used by this class are 0-based per general Java
- * convention. These must be converted to the 1-based indices used by the
- * Security class externally when needed.
+ * Note thbt bll indices used by this clbss bre 0-bbsed per generbl Jbvb
+ * convention. These must be converted to the 1-bbsed indices used by the
+ * Security clbss externblly when needed.
  *
- * Instances of this class are immutable. This eliminates the need for
- * cloning and synchronization in consumers. The add() and remove() style
- * methods are static in order to avoid confusion about the immutability.
+ * Instbnces of this clbss bre immutbble. This eliminbtes the need for
+ * cloning bnd synchronizbtion in consumers. The bdd() bnd remove() style
+ * methods bre stbtic in order to bvoid confusion bbout the immutbbility.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-public final class ProviderList {
+public finbl clbss ProviderList {
 
-    final static sun.security.util.Debug debug =
-        sun.security.util.Debug.getInstance("jca", "ProviderList");
+    finbl stbtic sun.security.util.Debug debug =
+        sun.security.util.Debug.getInstbnce("jcb", "ProviderList");
 
-    private final static ProviderConfig[] PC0 = new ProviderConfig[0];
+    privbte finbl stbtic ProviderConfig[] PC0 = new ProviderConfig[0];
 
-    private final static Provider[] P0 = new Provider[0];
+    privbte finbl stbtic Provider[] P0 = new Provider[0];
 
-    // constant for an ProviderList with no elements
-    static final ProviderList EMPTY = new ProviderList(PC0, true);
+    // constbnt for bn ProviderList with no elements
+    stbtic finbl ProviderList EMPTY = new ProviderList(PC0, true);
 
-    // dummy provider object to use during initialization
-    // used to avoid explicit null checks in various places
-    private static final Provider EMPTY_PROVIDER =
-        new Provider("##Empty##", 1.0d, "initialization in progress") {
-            private static final long serialVersionUID = 1151354171352296389L;
-            // override getService() to return null slightly faster
-            public Service getService(String type, String algorithm) {
+    // dummy provider object to use during initiblizbtion
+    // used to bvoid explicit null checks in vbrious plbces
+    privbte stbtic finbl Provider EMPTY_PROVIDER =
+        new Provider("##Empty##", 1.0d, "initiblizbtion in progress") {
+            privbte stbtic finbl long seriblVersionUID = 1151354171352296389L;
+            // override getService() to return null slightly fbster
+            public Service getService(String type, String blgorithm) {
                 return null;
             }
         };
 
-    // construct a ProviderList from the security properties
-    // (static provider configuration in the java.security file)
-    static ProviderList fromSecurityProperties() {
-        // doPrivileged() because of Security.getProperty()
+    // construct b ProviderList from the security properties
+    // (stbtic provider configurbtion in the jbvb.security file)
+    stbtic ProviderList fromSecurityProperties() {
+        // doPrivileged() becbuse of Security.getProperty()
         return AccessController.doPrivileged(
                         new PrivilegedAction<ProviderList>() {
             public ProviderList run() {
@@ -88,44 +88,44 @@ public final class ProviderList {
         });
     }
 
-    public static ProviderList add(ProviderList providerList, Provider p) {
+    public stbtic ProviderList bdd(ProviderList providerList, Provider p) {
         return insertAt(providerList, p, -1);
     }
 
-    public static ProviderList insertAt(ProviderList providerList, Provider p,
+    public stbtic ProviderList insertAt(ProviderList providerList, Provider p,
             int position) {
-        if (providerList.getProvider(p.getName()) != null) {
+        if (providerList.getProvider(p.getNbme()) != null) {
             return providerList;
         }
-        List<ProviderConfig> list = new ArrayList<>
-                                    (Arrays.asList(providerList.configs));
+        List<ProviderConfig> list = new ArrbyList<>
+                                    (Arrbys.bsList(providerList.configs));
         int n = list.size();
         if ((position < 0) || (position > n)) {
             position = n;
         }
-        list.add(position, new ProviderConfig(p));
-        return new ProviderList(list.toArray(PC0), true);
+        list.bdd(position, new ProviderConfig(p));
+        return new ProviderList(list.toArrby(PC0), true);
     }
 
-    public static ProviderList remove(ProviderList providerList, String name) {
-        // make sure provider exists
-        if (providerList.getProvider(name) == null) {
+    public stbtic ProviderList remove(ProviderList providerList, String nbme) {
+        // mbke sure provider exists
+        if (providerList.getProvider(nbme) == null) {
             return providerList;
         }
-        // copy all except matching to new list
+        // copy bll except mbtching to new list
         ProviderConfig[] configs = new ProviderConfig[providerList.size() - 1];
         int j = 0;
         for (ProviderConfig config : providerList.configs) {
-            if (config.getProvider().getName().equals(name) == false) {
+            if (config.getProvider().getNbme().equbls(nbme) == fblse) {
                 configs[j++] = config;
             }
         }
         return new ProviderList(configs, true);
     }
 
-    // Create a new ProviderList from the specified Providers.
+    // Crebte b new ProviderList from the specified Providers.
     // This method is for use by SunJSSE.
-    public static ProviderList newList(Provider ... providers) {
+    public stbtic ProviderList newList(Provider ... providers) {
         ProviderConfig[] configs = new ProviderConfig[providers.length];
         for (int i = 0; i < providers.length; i++) {
             configs[i] = new ProviderConfig(providers[i]);
@@ -133,14 +133,14 @@ public final class ProviderList {
         return new ProviderList(configs, true);
     }
 
-    // configuration of the providers
-    private final ProviderConfig[] configs;
+    // configurbtion of the providers
+    privbte finbl ProviderConfig[] configs;
 
-    // flag indicating whether all configs have been loaded successfully
-    private volatile boolean allLoaded;
+    // flbg indicbting whether bll configs hbve been lobded successfully
+    privbte volbtile boolebn bllLobded;
 
     // List returned by providers()
-    private final List<Provider> userList = new AbstractList<Provider>() {
+    privbte finbl List<Provider> userList = new AbstrbctList<Provider>() {
         public int size() {
             return configs.length;
         }
@@ -150,75 +150,75 @@ public final class ProviderList {
     };
 
     /**
-     * Create a new ProviderList from an array of configs
+     * Crebte b new ProviderList from bn brrby of configs
      */
-    private ProviderList(ProviderConfig[] configs, boolean allLoaded) {
+    privbte ProviderList(ProviderConfig[] configs, boolebn bllLobded) {
         this.configs = configs;
-        this.allLoaded = allLoaded;
+        this.bllLobded = bllLobded;
     }
 
     /**
-     * Return a new ProviderList parsed from the java.security Properties.
+     * Return b new ProviderList pbrsed from the jbvb.security Properties.
      */
-    private ProviderList() {
-        List<ProviderConfig> configList = new ArrayList<>();
+    privbte ProviderList() {
+        List<ProviderConfig> configList = new ArrbyList<>();
         for (int i = 1; true; i++) {
             String entry = Security.getProperty("security.provider." + i);
             if (entry == null) {
-                break;
+                brebk;
             }
             entry = entry.trim();
             if (entry.length() == 0) {
-                System.err.println("invalid entry for " +
+                System.err.println("invblid entry for " +
                                    "security.provider." + i);
-                break;
+                brebk;
             }
             int k = entry.indexOf(' ');
             ProviderConfig config;
             if (k == -1) {
                 config = new ProviderConfig(entry);
             } else {
-                String className = entry.substring(0, k);
-                String argument = entry.substring(k + 1).trim();
-                config = new ProviderConfig(className, argument);
+                String clbssNbme = entry.substring(0, k);
+                String brgument = entry.substring(k + 1).trim();
+                config = new ProviderConfig(clbssNbme, brgument);
             }
 
-            // Get rid of duplicate providers.
-            if (configList.contains(config) == false) {
-                configList.add(config);
+            // Get rid of duplicbte providers.
+            if (configList.contbins(config) == fblse) {
+                configList.bdd(config);
             }
         }
-        configs = configList.toArray(PC0);
+        configs = configList.toArrby(PC0);
         if (debug != null) {
-            debug.println("provider configuration: " + configList);
+            debug.println("provider configurbtion: " + configList);
         }
     }
 
     /**
-     * Construct a special ProviderList for JAR verification. It consists
-     * of the providers specified via jarClassNames, which must be on the
-     * bootclasspath and cannot be in signed JAR files. This is to avoid
-     * possible recursion and deadlock during verification.
+     * Construct b specibl ProviderList for JAR verificbtion. It consists
+     * of the providers specified vib jbrClbssNbmes, which must be on the
+     * bootclbsspbth bnd cbnnot be in signed JAR files. This is to bvoid
+     * possible recursion bnd debdlock during verificbtion.
      */
-    ProviderList getJarList(String[] jarClassNames) {
-        List<ProviderConfig> newConfigs = new ArrayList<>();
-        for (String className : jarClassNames) {
-            ProviderConfig newConfig = new ProviderConfig(className);
+    ProviderList getJbrList(String[] jbrClbssNbmes) {
+        List<ProviderConfig> newConfigs = new ArrbyList<>();
+        for (String clbssNbme : jbrClbssNbmes) {
+            ProviderConfig newConfig = new ProviderConfig(clbssNbme);
             for (ProviderConfig config : configs) {
-                // if the equivalent object is present in this provider list,
-                // use the old object rather than the new object.
-                // this ensures that when the provider is loaded in the
-                // new thread local list, it will also become available
+                // if the equivblent object is present in this provider list,
+                // use the old object rbther thbn the new object.
+                // this ensures thbt when the provider is lobded in the
+                // new threbd locbl list, it will blso become bvbilbble
                 // in this provider list
-                if (config.equals(newConfig)) {
+                if (config.equbls(newConfig)) {
                     newConfig = config;
-                    break;
+                    brebk;
                 }
             }
-            newConfigs.add(newConfig);
+            newConfigs.bdd(newConfig);
         }
-        ProviderConfig[] configArray = newConfigs.toArray(PC0);
-        return new ProviderList(configArray, false);
+        ProviderConfig[] configArrby = newConfigs.toArrby(PC0);
+        return new ProviderList(configArrby, fblse);
     }
 
     public int size() {
@@ -226,8 +226,8 @@ public final class ProviderList {
     }
 
     /**
-     * Return the Provider at the specified index. Returns EMPTY_PROVIDER
-     * if the provider could not be loaded at this time.
+     * Return the Provider bt the specified index. Returns EMPTY_PROVIDER
+     * if the provider could not be lobded bt this time.
      */
     Provider getProvider(int index) {
         Provider p = configs[index].getProvider();
@@ -235,47 +235,47 @@ public final class ProviderList {
     }
 
     /**
-     * Return an unmodifiable List of all Providers in this List. The
-     * individual Providers are loaded on demand. Elements that could not
-     * be initialized are replaced with EMPTY_PROVIDER.
+     * Return bn unmodifibble List of bll Providers in this List. The
+     * individubl Providers bre lobded on dembnd. Elements thbt could not
+     * be initiblized bre replbced with EMPTY_PROVIDER.
      */
     public List<Provider> providers() {
         return userList;
     }
 
-    private ProviderConfig getProviderConfig(String name) {
-        int index = getIndex(name);
+    privbte ProviderConfig getProviderConfig(String nbme) {
+        int index = getIndex(nbme);
         return (index != -1) ? configs[index] : null;
     }
 
-    // return the Provider with the specified name or null
-    public Provider getProvider(String name) {
-        ProviderConfig config = getProviderConfig(name);
+    // return the Provider with the specified nbme or null
+    public Provider getProvider(String nbme) {
+        ProviderConfig config = getProviderConfig(nbme);
         return (config == null) ? null : config.getProvider();
     }
 
     /**
-     * Return the index at which the provider with the specified name is
-     * installed or -1 if it is not present in this ProviderList.
+     * Return the index bt which the provider with the specified nbme is
+     * instblled or -1 if it is not present in this ProviderList.
      */
-    public int getIndex(String name) {
+    public int getIndex(String nbme) {
         for (int i = 0; i < configs.length; i++) {
             Provider p = getProvider(i);
-            if (p.getName().equals(name)) {
+            if (p.getNbme().equbls(nbme)) {
                 return i;
             }
         }
         return -1;
     }
 
-    // attempt to load all Providers not already loaded
-    private int loadAll() {
-        if (allLoaded) {
+    // bttempt to lobd bll Providers not blrebdy lobded
+    privbte int lobdAll() {
+        if (bllLobded) {
             return configs.length;
         }
         if (debug != null) {
-            debug.println("Loading all providers");
-            new Exception("Call trace").printStackTrace();
+            debug.println("Lobding bll providers");
+            new Exception("Cbll trbce").printStbckTrbce();
         }
         int n = 0;
         for (int i = 0; i < configs.length; i++) {
@@ -285,51 +285,51 @@ public final class ProviderList {
             }
         }
         if (n == configs.length) {
-            allLoaded = true;
+            bllLobded = true;
         }
         return n;
     }
 
     /**
-     * Try to load all Providers and return the ProviderList. If one or
-     * more Providers could not be loaded, a new ProviderList with those
+     * Try to lobd bll Providers bnd return the ProviderList. If one or
+     * more Providers could not be lobded, b new ProviderList with those
      * entries removed is returned. Otherwise, the method returns this.
      */
-    ProviderList removeInvalid() {
-        int n = loadAll();
+    ProviderList removeInvblid() {
+        int n = lobdAll();
         if (n == configs.length) {
             return this;
         }
         ProviderConfig[] newConfigs = new ProviderConfig[n];
         for (int i = 0, j = 0; i < configs.length; i++) {
             ProviderConfig config = configs[i];
-            if (config.isLoaded()) {
+            if (config.isLobded()) {
                 newConfigs[j++] = config;
             }
         }
         return new ProviderList(newConfigs, true);
     }
 
-    // return the providers as an array
-    public Provider[] toArray() {
-        return providers().toArray(P0);
+    // return the providers bs bn brrby
+    public Provider[] toArrby() {
+        return providers().toArrby(P0);
     }
 
-    // return a String representation of this ProviderList
+    // return b String representbtion of this ProviderList
     public String toString() {
-        return Arrays.asList(configs).toString();
+        return Arrbys.bsList(configs).toString();
     }
 
     /**
-     * Return a Service describing an implementation of the specified
-     * algorithm from the Provider with the highest precedence that
-     * supports that algorithm. Return null if no Provider supports this
-     * algorithm.
+     * Return b Service describing bn implementbtion of the specified
+     * blgorithm from the Provider with the highest precedence thbt
+     * supports thbt blgorithm. Return null if no Provider supports this
+     * blgorithm.
      */
-    public Service getService(String type, String name) {
+    public Service getService(String type, String nbme) {
         for (int i = 0; i < configs.length; i++) {
             Provider p = getProvider(i);
-            Service s = p.getService(type, name);
+            Service s = p.getService(type, nbme);
             if (s != null) {
                 return s;
             }
@@ -338,28 +338,28 @@ public final class ProviderList {
     }
 
     /**
-     * Return a List containing all the Services describing implementations
-     * of the specified algorithms in precedence order. If no implementation
-     * exists, this method returns an empty List.
+     * Return b List contbining bll the Services describing implementbtions
+     * of the specified blgorithms in precedence order. If no implementbtion
+     * exists, this method returns bn empty List.
      *
-     * The elements of this list are determined lazily on demand.
+     * The elements of this list bre determined lbzily on dembnd.
      *
-     * The List returned is NOT thread safe.
+     * The List returned is NOT threbd sbfe.
      */
-    public List<Service> getServices(String type, String algorithm) {
-        return new ServiceList(type, algorithm);
+    public List<Service> getServices(String type, String blgorithm) {
+        return new ServiceList(type, blgorithm);
     }
 
     /**
-     * This method exists for compatibility with JCE only. It will be removed
-     * once JCE has been changed to use the replacement method.
-     * @deprecated use getServices(List<ServiceId>) instead
+     * This method exists for compbtibility with JCE only. It will be removed
+     * once JCE hbs been chbnged to use the replbcement method.
+     * @deprecbted use getServices(List<ServiceId>) instebd
      */
-    @Deprecated
-    public List<Service> getServices(String type, List<String> algorithms) {
-        List<ServiceId> ids = new ArrayList<>();
-        for (String alg : algorithms) {
-            ids.add(new ServiceId(type, alg));
+    @Deprecbted
+    public List<Service> getServices(String type, List<String> blgorithms) {
+        List<ServiceId> ids = new ArrbyList<>();
+        for (String blg : blgorithms) {
+            ids.bdd(new ServiceId(type, blg));
         }
         return getServices(ids);
     }
@@ -369,58 +369,58 @@ public final class ProviderList {
     }
 
     /**
-     * Inner class for a List of Services. Custom List implementation in
-     * order to delay Provider initialization and lookup.
-     * Not thread safe.
+     * Inner clbss for b List of Services. Custom List implementbtion in
+     * order to delby Provider initiblizbtion bnd lookup.
+     * Not threbd sbfe.
      */
-    private final class ServiceList extends AbstractList<Service> {
+    privbte finbl clbss ServiceList extends AbstrbctList<Service> {
 
-        // type and algorithm for simple lookup
-        // avoid allocating/traversing the ServiceId list for these lookups
-        private final String type;
-        private final String algorithm;
+        // type bnd blgorithm for simple lookup
+        // bvoid bllocbting/trbversing the ServiceId list for these lookups
+        privbte finbl String type;
+        privbte finbl String blgorithm;
 
-        // list of ids for parallel lookup
-        // if ids is non-null, type and algorithm are null
-        private final List<ServiceId> ids;
+        // list of ids for pbrbllel lookup
+        // if ids is non-null, type bnd blgorithm bre null
+        privbte finbl List<ServiceId> ids;
 
-        // first service we have found
-        // it is stored in a separate variable so that we can avoid
-        // allocating the services list if we do not need the second service.
-        // this is the case if we don't failover (failovers are typically rare)
-        private Service firstService;
+        // first service we hbve found
+        // it is stored in b sepbrbte vbribble so thbt we cbn bvoid
+        // bllocbting the services list if we do not need the second service.
+        // this is the cbse if we don't fbilover (fbilovers bre typicblly rbre)
+        privbte Service firstService;
 
-        // list of the services we have found so far
-        private List<Service> services;
+        // list of the services we hbve found so fbr
+        privbte List<Service> services;
 
         // index into config[] of the next provider we need to query
-        private int providerIndex;
+        privbte int providerIndex;
 
-        ServiceList(String type, String algorithm) {
+        ServiceList(String type, String blgorithm) {
             this.type = type;
-            this.algorithm = algorithm;
+            this.blgorithm = blgorithm;
             this.ids = null;
         }
 
         ServiceList(List<ServiceId> ids) {
             this.type = null;
-            this.algorithm = null;
+            this.blgorithm = null;
             this.ids = ids;
         }
 
-        private void addService(Service s) {
+        privbte void bddService(Service s) {
             if (firstService == null) {
                 firstService = s;
             } else {
                 if (services == null) {
-                    services = new ArrayList<Service>(4);
-                    services.add(firstService);
+                    services = new ArrbyList<Service>(4);
+                    services.bdd(firstService);
                 }
-                services.add(s);
+                services.bdd(s);
             }
         }
 
-        private Service tryGet(int index) {
+        privbte Service tryGet(int index) {
             while (true) {
                 if ((index == 0) && (firstService != null)) {
                     return firstService;
@@ -430,20 +430,20 @@ public final class ProviderList {
                 if (providerIndex >= configs.length) {
                     return null;
                 }
-                // check all algorithms in this provider before moving on
+                // check bll blgorithms in this provider before moving on
                 Provider p = getProvider(providerIndex++);
                 if (type != null) {
                     // simple lookup
-                    Service s = p.getService(type, algorithm);
+                    Service s = p.getService(type, blgorithm);
                     if (s != null) {
-                        addService(s);
+                        bddService(s);
                     }
                 } else {
-                    // parallel lookup
+                    // pbrbllel lookup
                     for (ServiceId id : ids) {
-                        Service s = p.getService(id.type, id.algorithm);
+                        Service s = p.getService(id.type, id.blgorithm);
                         if (s != null) {
-                            addService(s);
+                            bddService(s);
                         }
                     }
                 }
@@ -471,18 +471,18 @@ public final class ProviderList {
             return n;
         }
 
-        // override isEmpty() and iterator() to not call size()
-        // this avoids loading + checking all Providers
+        // override isEmpty() bnd iterbtor() to not cbll size()
+        // this bvoids lobding + checking bll Providers
 
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return (tryGet(0) == null);
         }
 
-        public Iterator<Service> iterator() {
-            return new Iterator<Service>() {
+        public Iterbtor<Service> iterbtor() {
+            return new Iterbtor<Service>() {
                 int index;
 
-                public boolean hasNext() {
+                public boolebn hbsNext() {
                     return tryGet(index) != null;
                 }
 
@@ -496,7 +496,7 @@ public final class ProviderList {
                 }
 
                 public void remove() {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
             };
         }

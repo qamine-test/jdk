@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.nimbus;
+pbckbge jbvbx.swing.plbf.nimbus;
 
-import java.awt.BorderLayout;
-import static java.awt.BorderLayout.*;
-import javax.swing.JComponent;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.plaf.synth.Region;
-import javax.swing.plaf.synth.SynthLookAndFeel;
-import javax.swing.plaf.synth.SynthStyle;
-import javax.swing.plaf.synth.SynthStyleFactory;
-import javax.swing.plaf.UIResource;
-import java.security.AccessController;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Graphics2D;
-import java.awt.LayoutManager;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.*;
-import javax.swing.GrayFilter;
-import javax.swing.Icon;
-import javax.swing.JToolBar;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.ColorUIResource;
-import sun.swing.ImageIconUIResource;
-import sun.swing.plaf.synth.SynthIcon;
-import sun.swing.plaf.GTKKeybindings;
-import sun.swing.plaf.WindowsKeybindings;
-import sun.security.action.GetPropertyAction;
+import jbvb.bwt.BorderLbyout;
+import stbtic jbvb.bwt.BorderLbyout.*;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.UIDefbults;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.plbf.synth.Region;
+import jbvbx.swing.plbf.synth.SynthLookAndFeel;
+import jbvbx.swing.plbf.synth.SynthStyle;
+import jbvbx.swing.plbf.synth.SynthStyleFbctory;
+import jbvbx.swing.plbf.UIResource;
+import jbvb.security.AccessController;
+import jbvb.bwt.Color;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.util.*;
+import jbvbx.swing.GrbyFilter;
+import jbvbx.swing.Icon;
+import jbvbx.swing.JToolBbr;
+import jbvbx.swing.border.TitledBorder;
+import jbvbx.swing.plbf.BorderUIResource;
+import jbvbx.swing.plbf.ColorUIResource;
+import sun.swing.ImbgeIconUIResource;
+import sun.swing.plbf.synth.SynthIcon;
+import sun.swing.plbf.GTKKeybindings;
+import sun.swing.plbf.WindowsKeybindings;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * <p>The NimbusLookAndFeel class.</p>
+ * <p>The NimbusLookAndFeel clbss.</p>
  *
- * @author Jasper Potts
- * @author Richard Bair
+ * @buthor Jbsper Potts
+ * @buthor Richbrd Bbir
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class NimbusLookAndFeel extends SynthLookAndFeel {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss NimbusLookAndFeel extends SynthLookAndFeel {
 
-    /** Set of standard region names for UIDefaults Keys */
-    private static final String[] COMPONENT_KEYS = new String[]{"ArrowButton", "Button",
+    /** Set of stbndbrd region nbmes for UIDefbults Keys */
+    privbte stbtic finbl String[] COMPONENT_KEYS = new String[]{"ArrowButton", "Button",
                     "CheckBox", "CheckBoxMenuItem", "ColorChooser", "ComboBox",
-                    "DesktopPane", "DesktopIcon", "EditorPane", "FileChooser",
-                    "FormattedTextField", "InternalFrame",
-                    "InternalFrameTitlePane", "Label", "List", "Menu",
-                    "MenuBar", "MenuItem", "OptionPane", "Panel",
-                    "PasswordField", "PopupMenu", "PopupMenuSeparator",
-                    "ProgressBar", "RadioButton", "RadioButtonMenuItem",
-                    "RootPane", "ScrollBar", "ScrollBarTrack", "ScrollBarThumb",
-                    "ScrollPane", "Separator", "Slider", "SliderTrack",
-                    "SliderThumb", "Spinner", "SplitPane", "TabbedPane",
-                    "Table", "TableHeader", "TextArea", "TextField", "TextPane",
-                    "ToggleButton", "ToolBar", "ToolTip", "Tree", "Viewport"};
+                    "DesktopPbne", "DesktopIcon", "EditorPbne", "FileChooser",
+                    "FormbttedTextField", "InternblFrbme",
+                    "InternblFrbmeTitlePbne", "Lbbel", "List", "Menu",
+                    "MenuBbr", "MenuItem", "OptionPbne", "Pbnel",
+                    "PbsswordField", "PopupMenu", "PopupMenuSepbrbtor",
+                    "ProgressBbr", "RbdioButton", "RbdioButtonMenuItem",
+                    "RootPbne", "ScrollBbr", "ScrollBbrTrbck", "ScrollBbrThumb",
+                    "ScrollPbne", "Sepbrbtor", "Slider", "SliderTrbck",
+                    "SliderThumb", "Spinner", "SplitPbne", "TbbbedPbne",
+                    "Tbble", "TbbleHebder", "TextAreb", "TextField", "TextPbne",
+                    "ToggleButton", "ToolBbr", "ToolTip", "Tree", "Viewport"};
 
     /**
-     * A reference to the auto-generated file NimbusDefaults. This file contains
-     * the default mappings and values for the look and feel as specified in the
-     * visual designer.
+     * A reference to the buto-generbted file NimbusDefbults. This file contbins
+     * the defbult mbppings bnd vblues for the look bnd feel bs specified in the
+     * visubl designer.
      */
-    private NimbusDefaults defaults;
+    privbte NimbusDefbults defbults;
 
     /**
-     * Reference to populated LAD uidefaults
+     * Reference to populbted LAD uidefbults
      */
-    private UIDefaults uiDefaults;
+    privbte UIDefbults uiDefbults;
 
-    private DefaultsListener defaultsListener = new DefaultsListener();
+    privbte DefbultsListener defbultsListener = new DefbultsListener();
 
     /**
-     * Create a new NimbusLookAndFeel.
+     * Crebte b new NimbusLookAndFeel.
      */
     public NimbusLookAndFeel() {
         super();
-        defaults = new NimbusDefaults();
+        defbults = new NimbusDefbults();
     }
 
-    /** Called by UIManager when this look and feel is installed. */
-    @Override public void initialize() {
-        super.initialize();
-        defaults.initialize();
-        // create synth style factory
-        setStyleFactory(new SynthStyleFactory() {
+    /** Cblled by UIMbnbger when this look bnd feel is instblled. */
+    @Override public void initiblize() {
+        super.initiblize();
+        defbults.initiblize();
+        // crebte synth style fbctory
+        setStyleFbctory(new SynthStyleFbctory() {
             @Override
             public SynthStyle getStyle(JComponent c, Region r) {
-                return defaults.getStyle(c, r);
+                return defbults.getStyle(c, r);
             }
         });
     }
 
 
-    /** Called by UIManager when this look and feel is uninstalled. */
-    @Override public void uninitialize() {
-        super.uninitialize();
-        defaults.uninitialize();
-        // clear all cached images to free memory
-        ImageCache.getInstance().flush();
-        UIManager.getDefaults().removePropertyChangeListener(defaultsListener);
+    /** Cblled by UIMbnbger when this look bnd feel is uninstblled. */
+    @Override public void uninitiblize() {
+        super.uninitiblize();
+        defbults.uninitiblize();
+        // clebr bll cbched imbges to free memory
+        ImbgeCbche.getInstbnce().flush();
+        UIMbnbger.getDefbults().removePropertyChbngeListener(defbultsListener);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override public UIDefaults getDefaults() {
-        if (uiDefaults == null){
-            // Detect platform
-            String osName = getSystemProperty("os.name");
-            boolean isWindows = osName != null && osName.contains("Windows");
+    @Override public UIDefbults getDefbults() {
+        if (uiDefbults == null){
+            // Detect plbtform
+            String osNbme = getSystemProperty("os.nbme");
+            boolebn isWindows = osNbme != null && osNbme.contbins("Windows");
 
-            // We need to call super for basic's properties file.
-            uiDefaults = super.getDefaults();
-            defaults.initializeDefaults(uiDefaults);
+            // We need to cbll super for bbsic's properties file.
+            uiDefbults = super.getDefbults();
+            defbults.initiblizeDefbults(uiDefbults);
 
-            // Install Keybindings
+            // Instbll Keybindings
             if (isWindows) {
-                WindowsKeybindings.installKeybindings(uiDefaults);
+                WindowsKeybindings.instbllKeybindings(uiDefbults);
             } else {
-                GTKKeybindings.installKeybindings(uiDefaults);
+                GTKKeybindings.instbllKeybindings(uiDefbults);
             }
 
             // Add Titled Border
-            uiDefaults.put("TitledBorder.titlePosition",
+            uiDefbults.put("TitledBorder.titlePosition",
                     TitledBorder.ABOVE_TOP);
-            uiDefaults.put("TitledBorder.border", new BorderUIResource(
+            uiDefbults.put("TitledBorder.border", new BorderUIResource(
                     new LoweredBorder()));
-            uiDefaults.put("TitledBorder.titleColor",
+            uiDefbults.put("TitledBorder.titleColor",
                     getDerivedColor("text",0.0f,0.0f,0.23f,0,true));
-            uiDefaults.put("TitledBorder.font",
-                    new NimbusDefaults.DerivedFont("defaultFont",
+            uiDefbults.put("TitledBorder.font",
+                    new NimbusDefbults.DerivedFont("defbultFont",
                             1f, true, null));
 
-            // Choose Dialog button positions
-            uiDefaults.put("OptionPane.isYesLast", !isWindows);
+            // Choose Diblog button positions
+            uiDefbults.put("OptionPbne.isYesLbst", !isWindows);
 
-            // Store Table ScrollPane Corner Component
-            uiDefaults.put("Table.scrollPaneCornerComponent",
-                    new UIDefaults.ActiveValue() {
+            // Store Tbble ScrollPbne Corner Component
+            uiDefbults.put("Tbble.scrollPbneCornerComponent",
+                    new UIDefbults.ActiveVblue() {
                         @Override
-                        public Object createValue(UIDefaults table) {
-                            return new TableScrollPaneCorner();
+                        public Object crebteVblue(UIDefbults tbble) {
+                            return new TbbleScrollPbneCorner();
                         }
                     });
 
-            // Setup the settings for ToolBarSeparator which is custom
-            // installed for Nimbus
-            uiDefaults.put("ToolBarSeparator[Enabled].backgroundPainter",
-                    new ToolBarSeparatorPainter());
+            // Setup the settings for ToolBbrSepbrbtor which is custom
+            // instblled for Nimbus
+            uiDefbults.put("ToolBbrSepbrbtor[Enbbled].bbckgroundPbinter",
+                    new ToolBbrSepbrbtorPbinter());
 
-            // Populate UIDefaults with a standard set of properties
+            // Populbte UIDefbults with b stbndbrd set of properties
             for (String componentKey : COMPONENT_KEYS) {
                 String key = componentKey+".foreground";
-                if (!uiDefaults.containsKey(key)){
-                    uiDefaults.put(key,
+                if (!uiDefbults.contbinsKey(key)){
+                    uiDefbults.put(key,
                             new NimbusProperty(componentKey,"textForeground"));
                 }
-                key = componentKey+".background";
-                if (!uiDefaults.containsKey(key)){
-                    uiDefaults.put(key,
-                            new NimbusProperty(componentKey,"background"));
+                key = componentKey+".bbckground";
+                if (!uiDefbults.contbinsKey(key)){
+                    uiDefbults.put(key,
+                            new NimbusProperty(componentKey,"bbckground"));
                 }
                 key = componentKey+".font";
-                if (!uiDefaults.containsKey(key)){
-                    uiDefaults.put(key,
+                if (!uiDefbults.contbinsKey(key)){
+                    uiDefbults.put(key,
                             new NimbusProperty(componentKey,"font"));
                 }
-                key = componentKey+".disabledText";
-                if (!uiDefaults.containsKey(key)){
-                    uiDefaults.put(key,
-                            new NimbusProperty(componentKey,"Disabled",
+                key = componentKey+".disbbledText";
+                if (!uiDefbults.contbinsKey(key)){
+                    uiDefbults.put(key,
+                            new NimbusProperty(componentKey,"Disbbled",
                                    "textForeground"));
                 }
-                key = componentKey+".disabled";
-                if (!uiDefaults.containsKey(key)){
-                    uiDefaults.put(key,
-                            new NimbusProperty(componentKey,"Disabled",
-                                    "background"));
+                key = componentKey+".disbbled";
+                if (!uiDefbults.contbinsKey(key)){
+                    uiDefbults.put(key,
+                            new NimbusProperty(componentKey,"Disbbled",
+                                    "bbckground"));
                 }
             }
 
-            // FileView icon keys are used by some applications, we don't have
-            // a computer icon at the moment so using home icon for now
-            uiDefaults.put("FileView.computerIcon",
+            // FileView icon keys bre used by some bpplicbtions, we don't hbve
+            // b computer icon bt the moment so using home icon for now
+            uiDefbults.put("FileView.computerIcon",
                     new LinkProperty("FileChooser.homeFolderIcon"));
-            uiDefaults.put("FileView.directoryIcon",
+            uiDefbults.put("FileView.directoryIcon",
                     new LinkProperty("FileChooser.directoryIcon"));
-            uiDefaults.put("FileView.fileIcon",
+            uiDefbults.put("FileView.fileIcon",
                     new LinkProperty("FileChooser.fileIcon"));
-            uiDefaults.put("FileView.floppyDriveIcon",
+            uiDefbults.put("FileView.floppyDriveIcon",
                     new LinkProperty("FileChooser.floppyDriveIcon"));
-            uiDefaults.put("FileView.hardDriveIcon",
-                    new LinkProperty("FileChooser.hardDriveIcon"));
+            uiDefbults.put("FileView.hbrdDriveIcon",
+                    new LinkProperty("FileChooser.hbrdDriveIcon"));
         }
-        return uiDefaults;
+        return uiDefbults;
     }
 
     /**
-     * Gets the style associated with the given component and region. This
-     * will never return null. If an appropriate component and region cannot
-     * be determined, then a default style is returned.
+     * Gets the style bssocibted with the given component bnd region. This
+     * will never return null. If bn bppropribte component bnd region cbnnot
+     * be determined, then b defbult style is returned.
      *
-     * @param c a non-null reference to a JComponent
-     * @param r a non-null reference to the region of the component c
-     * @return a non-null reference to a NimbusStyle.
+     * @pbrbm c b non-null reference to b JComponent
+     * @pbrbm r b non-null reference to the region of the component c
+     * @return b non-null reference to b NimbusStyle.
      */
-    public static NimbusStyle getStyle(JComponent c, Region r) {
+    public stbtic NimbusStyle getStyle(JComponent c, Region r) {
         return (NimbusStyle)SynthLookAndFeel.getStyle(c, r);
     }
 
     /**
-     * Return a short string that identifies this look and feel. This
+     * Return b short string thbt identifies this look bnd feel. This
      * String will be the unquoted String "Nimbus".
      *
-     * @return a short string identifying this look and feel.
+     * @return b short string identifying this look bnd feel.
      */
-    @Override public String getName() {
+    @Override public String getNbme() {
         return "Nimbus";
     }
 
     /**
-     * Return a string that identifies this look and feel. This String will
+     * Return b string thbt identifies this look bnd feel. This String will
      * be the unquoted String "Nimbus".
      *
-     * @return a short string identifying this look and feel.
+     * @return b short string identifying this look bnd feel.
      */
     @Override public String getID() {
         return "Nimbus";
     }
 
     /**
-     * Returns a textual description of this look and feel.
+     * Returns b textubl description of this look bnd feel.
      *
-     * @return textual description of this look and feel.
+     * @return textubl description of this look bnd feel.
      */
     @Override public String getDescription() {
-        return "Nimbus Look and Feel";
+        return "Nimbus Look bnd Feel";
     }
 
     /**
      * {@inheritDoc}
      * @return {@code true}
      */
-    @Override public boolean shouldUpdateStyleOnAncestorChanged() {
+    @Override public boolebn shouldUpdbteStyleOnAncestorChbnged() {
         return true;
     }
 
@@ -273,189 +273,189 @@ public class NimbusLookAndFeel extends SynthLookAndFeel {
      * {@inheritDoc}
      *
      * <p>Overridden to return {@code true} when one of the following
-     * properties change:
+     * properties chbnge:
      * <ul>
      *   <li>{@code "Nimbus.Overrides"}
-     *   <li>{@code "Nimbus.Overrides.InheritDefaults"}
-     *   <li>{@code "JComponent.sizeVariant"}
+     *   <li>{@code "Nimbus.Overrides.InheritDefbults"}
+     *   <li>{@code "JComponent.sizeVbribnt"}
      * </ul>
      *
      * @since 1.7
      */
     @Override
-    protected boolean shouldUpdateStyleOnEvent(PropertyChangeEvent ev) {
-        String eName = ev.getPropertyName();
+    protected boolebn shouldUpdbteStyleOnEvent(PropertyChbngeEvent ev) {
+        String eNbme = ev.getPropertyNbme();
 
-        // These properties affect style cached inside NimbusDefaults (6860433)
-        if ("name" == eName ||
-            "ancestor" == eName ||
-            "Nimbus.Overrides" == eName ||
-            "Nimbus.Overrides.InheritDefaults" == eName ||
-            "JComponent.sizeVariant" == eName) {
+        // These properties bffect style cbched inside NimbusDefbults (6860433)
+        if ("nbme" == eNbme ||
+            "bncestor" == eNbme ||
+            "Nimbus.Overrides" == eNbme ||
+            "Nimbus.Overrides.InheritDefbults" == eNbme ||
+            "JComponent.sizeVbribnt" == eNbme) {
 
             JComponent c = (JComponent) ev.getSource();
-            defaults.clearOverridesCache(c);
+            defbults.clebrOverridesCbche(c);
             return true;
         }
 
-        return super.shouldUpdateStyleOnEvent(ev);
+        return super.shouldUpdbteStyleOnEvent(ev);
     }
 
     /**
-     * <p>Registers a third party component with the NimbusLookAndFeel.</p>
+     * <p>Registers b third pbrty component with the NimbusLookAndFeel.</p>
      *
-     * <p>Regions represent Components and areas within Components that act as
-     * independent painting areas. Once registered with the NimbusLookAndFeel,
-     * NimbusStyles for these Regions can be retrieved via the
+     * <p>Regions represent Components bnd brebs within Components thbt bct bs
+     * independent pbinting brebs. Once registered with the NimbusLookAndFeel,
+     * NimbusStyles for these Regions cbn be retrieved vib the
      * <code>getStyle</code> method.</p>
      *
-     * <p>The NimbusLookAndFeel uses a standard naming scheme for entries in the
-     * UIDefaults table. The key for each property, state, painter, and other
-     * default registered in UIDefaults for a specific Region will begin with
+     * <p>The NimbusLookAndFeel uses b stbndbrd nbming scheme for entries in the
+     * UIDefbults tbble. The key for ebch property, stbte, pbinter, bnd other
+     * defbult registered in UIDefbults for b specific Region will begin with
      * the specified <code>prefix</code></p>
      *
-     * <p>For example, suppose I had a component named JFoo. Suppose I then registered
-     * this component with the NimbusLookAndFeel in this manner:</p>
+     * <p>For exbmple, suppose I hbd b component nbmed JFoo. Suppose I then registered
+     * this component with the NimbusLookAndFeel in this mbnner:</p>
      *
      * <pre><code>
-     *     laf.register(NimbusFooUI.FOO_REGION, "Foo");
+     *     lbf.register(NimbusFooUI.FOO_REGION, "Foo");
      * </code></pre>
      *
-     * <p>In this case, I could then register properties for this component with
-     * UIDefaults in the following manner:</p>
+     * <p>In this cbse, I could then register properties for this component with
+     * UIDefbults in the following mbnner:</p>
      *
      * <pre><code>
-     *     UIManager.put("Foo.background", new ColorUIResource(Color.BLACK));
-     *     UIManager.put("Foo.Enabled.backgroundPainter", new FooBackgroundPainter());
+     *     UIMbnbger.put("Foo.bbckground", new ColorUIResource(Color.BLACK));
+     *     UIMbnbger.put("Foo.Enbbled.bbckgroundPbinter", new FooBbckgroundPbinter());
      * </code></pre>
      *
-     * <p>It is also possible to register a named component with Nimbus.
-     * For example, suppose you wanted to style the background of a JPanel
-     * named "MyPanel" differently from other JPanels. You could accomplish this
+     * <p>It is blso possible to register b nbmed component with Nimbus.
+     * For exbmple, suppose you wbnted to style the bbckground of b JPbnel
+     * nbmed "MyPbnel" differently from other JPbnels. You could bccomplish this
      * by doing the following:</p>
      *
      * <pre><code>
-     *     laf.register(Region.PANEL, "\"MyPanel\"");
-     *     UIManager.put("\"MyPanel\".background", new ColorUIResource(Color.RED));
+     *     lbf.register(Region.PANEL, "\"MyPbnel\"");
+     *     UIMbnbger.put("\"MyPbnel\".bbckground", new ColorUIResource(Color.RED));
      * </code></pre>
      *
-     * @param region The Synth Region that is being registered. Such as Button, or
-     *        ScrollBarThumb, or NimbusFooUI.FOO_REGION.
-     * @param prefix The UIDefault prefix. For example, could be ComboBox, or if
-     *        a named components, "MyComboBox", or even something like
-     *        ToolBar."MyComboBox"."ComboBox.arrowButton"
+     * @pbrbm region The Synth Region thbt is being registered. Such bs Button, or
+     *        ScrollBbrThumb, or NimbusFooUI.FOO_REGION.
+     * @pbrbm prefix The UIDefbult prefix. For exbmple, could be ComboBox, or if
+     *        b nbmed components, "MyComboBox", or even something like
+     *        ToolBbr."MyComboBox"."ComboBox.brrowButton"
      */
     public void register(Region region, String prefix) {
-        defaults.register(region, prefix);
+        defbults.register(region, prefix);
     }
 
     /**
-     * Simple utility method that reads system keys.
+     * Simple utility method thbt rebds system keys.
      */
-    private String getSystemProperty(String key) {
+    privbte String getSystemProperty(String key) {
         return AccessController.doPrivileged(new GetPropertyAction(key));
     }
 
     @Override
-    public Icon getDisabledIcon(JComponent component, Icon icon) {
-        if (icon instanceof SynthIcon) {
+    public Icon getDisbbledIcon(JComponent component, Icon icon) {
+        if (icon instbnceof SynthIcon) {
             SynthIcon si = (SynthIcon)icon;
-            BufferedImage img = EffectUtils.createCompatibleTranslucentImage(
+            BufferedImbge img = EffectUtils.crebteCompbtibleTrbnslucentImbge(
                     si.getIconWidth(), si.getIconHeight());
-            Graphics2D gfx = img.createGraphics();
-            si.paintIcon(component, gfx, 0, 0);
+            Grbphics2D gfx = img.crebteGrbphics();
+            si.pbintIcon(component, gfx, 0, 0);
             gfx.dispose();
-            return new ImageIconUIResource(GrayFilter.createDisabledImage(img));
+            return new ImbgeIconUIResource(GrbyFilter.crebteDisbbledImbge(img));
         } else {
-            return super.getDisabledIcon(component, icon);
+            return super.getDisbbledIcon(component, icon);
         }
     }
 
     /**
-     * Get a derived color, derived colors are shared instances and is color
-     * value will change when its parent UIDefault color changes.
+     * Get b derived color, derived colors bre shbred instbnces bnd is color
+     * vblue will chbnge when its pbrent UIDefbult color chbnges.
      *
-     * @param uiDefaultParentName The parent UIDefault key
-     * @param hOffset             The hue offset
-     * @param sOffset             The saturation offset
-     * @param bOffset             The brightness offset
-     * @param aOffset             The alpha offset
-     * @param uiResource          True if the derived color should be a
-     *                            UIResource, false if it should not be
+     * @pbrbm uiDefbultPbrentNbme The pbrent UIDefbult key
+     * @pbrbm hOffset             The hue offset
+     * @pbrbm sOffset             The sbturbtion offset
+     * @pbrbm bOffset             The brightness offset
+     * @pbrbm bOffset             The blphb offset
+     * @pbrbm uiResource          True if the derived color should be b
+     *                            UIResource, fblse if it should not be
      * @return The stored derived color
      */
-    public Color getDerivedColor(String uiDefaultParentName,
-                                 float hOffset, float sOffset,
-                                 float bOffset, int aOffset,
-                                 boolean uiResource) {
-        return defaults.getDerivedColor(uiDefaultParentName, hOffset, sOffset,
-                bOffset, aOffset, uiResource);
+    public Color getDerivedColor(String uiDefbultPbrentNbme,
+                                 flobt hOffset, flobt sOffset,
+                                 flobt bOffset, int bOffset,
+                                 boolebn uiResource) {
+        return defbults.getDerivedColor(uiDefbultPbrentNbme, hOffset, sOffset,
+                bOffset, bOffset, uiResource);
     }
 
     /**
-     * Decodes and returns a color, which is derived from an offset between two
+     * Decodes bnd returns b color, which is derived from bn offset between two
      * other colors.
      *
-     * @param color1   The first color
-     * @param color2   The second color
-     * @param midPoint The offset between color 1 and color 2, a value of 0.0 is
-     *                 color 1 and 1.0 is color 2;
-     * @param uiResource True if the derived color should be a UIResource
+     * @pbrbm color1   The first color
+     * @pbrbm color2   The second color
+     * @pbrbm midPoint The offset between color 1 bnd color 2, b vblue of 0.0 is
+     *                 color 1 bnd 1.0 is color 2;
+     * @pbrbm uiResource True if the derived color should be b UIResource
      * @return The derived color
      */
-    protected final Color getDerivedColor(Color color1, Color color2,
-                                      float midPoint, boolean uiResource) {
-        int argb = deriveARGB(color1, color2, midPoint);
+    protected finbl Color getDerivedColor(Color color1, Color color2,
+                                      flobt midPoint, boolebn uiResource) {
+        int brgb = deriveARGB(color1, color2, midPoint);
         if (uiResource) {
-            return new ColorUIResource(argb);
+            return new ColorUIResource(brgb);
         } else {
-            return new Color(argb);
+            return new Color(brgb);
         }
     }
 
     /**
-     * Decodes and returns a color, which is derived from a offset between two
+     * Decodes bnd returns b color, which is derived from b offset between two
      * other colors.
      *
-     * @param color1   The first color
-     * @param color2   The second color
-     * @param midPoint The offset between color 1 and color 2, a value of 0.0 is
-     *                 color 1 and 1.0 is color 2;
-     * @return The derived color, which will be a UIResource
+     * @pbrbm color1   The first color
+     * @pbrbm color2   The second color
+     * @pbrbm midPoint The offset between color 1 bnd color 2, b vblue of 0.0 is
+     *                 color 1 bnd 1.0 is color 2;
+     * @return The derived color, which will be b UIResource
      */
-    protected final Color getDerivedColor(Color color1, Color color2,
-                                      float midPoint) {
+    protected finbl Color getDerivedColor(Color color1, Color color2,
+                                      flobt midPoint) {
         return getDerivedColor(color1, color2, midPoint, true);
     }
 
     /**
-     * Package private method which returns either BorderLayout.NORTH,
-     * BorderLayout.SOUTH, BorderLayout.EAST, or BorderLayout.WEST depending
-     * on the location of the toolbar in its parent. The toolbar might be
+     * Pbckbge privbte method which returns either BorderLbyout.NORTH,
+     * BorderLbyout.SOUTH, BorderLbyout.EAST, or BorderLbyout.WEST depending
+     * on the locbtion of the toolbbr in its pbrent. The toolbbr might be
      * in PAGE_START, PAGE_END, CENTER, or some other position, but will be
-     * resolved to either NORTH,SOUTH,EAST, or WEST based on where the toolbar
-     * actually IS, with CENTER being NORTH.
+     * resolved to either NORTH,SOUTH,EAST, or WEST bbsed on where the toolbbr
+     * bctublly IS, with CENTER being NORTH.
      *
-     * This code is used to determine where the border line should be drawn
-     * by the custom toolbar states, and also used by NimbusIcon to determine
-     * whether the handle icon needs to be shifted to look correct.
+     * This code is used to determine where the border line should be drbwn
+     * by the custom toolbbr stbtes, bnd blso used by NimbusIcon to determine
+     * whether the hbndle icon needs to be shifted to look correct.
      *
-     * Toollbars are unfortunately odd in the way these things are handled,
-     * and so this code exists to unify the logic related to toolbars so it can
-     * be shared among the static files such as NimbusIcon and generated files
-     * such as the ToolBar state classes.
+     * Toollbbrs bre unfortunbtely odd in the wby these things bre hbndled,
+     * bnd so this code exists to unify the logic relbted to toolbbrs so it cbn
+     * be shbred bmong the stbtic files such bs NimbusIcon bnd generbted files
+     * such bs the ToolBbr stbte clbsses.
      */
-    static Object resolveToolbarConstraint(JToolBar toolbar) {
-        //NOTE: we don't worry about component orientation or PAGE_END etc
-        //because the BasicToolBarUI always uses an absolute position of
+    stbtic Object resolveToolbbrConstrbint(JToolBbr toolbbr) {
+        //NOTE: we don't worry bbout component orientbtion or PAGE_END etc
+        //becbuse the BbsicToolBbrUI blwbys uses bn bbsolute position of
         //NORTH/SOUTH/EAST/WEST.
-        if (toolbar != null) {
-            Container parent = toolbar.getParent();
-            if (parent != null) {
-                LayoutManager m = parent.getLayout();
-                if (m instanceof BorderLayout) {
-                    BorderLayout b = (BorderLayout)m;
-                    Object con = b.getConstraints(toolbar);
+        if (toolbbr != null) {
+            Contbiner pbrent = toolbbr.getPbrent();
+            if (pbrent != null) {
+                LbyoutMbnbger m = pbrent.getLbyout();
+                if (m instbnceof BorderLbyout) {
+                    BorderLbyout b = (BorderLbyout)m;
+                    Object con = b.getConstrbints(toolbbr);
                     if (con == SOUTH || con == EAST || con == WEST) {
                         return con;
                     }
@@ -467,107 +467,107 @@ public class NimbusLookAndFeel extends SynthLookAndFeel {
     }
 
     /**
-     * Derives the ARGB value for a color based on an offset between two
+     * Derives the ARGB vblue for b color bbsed on bn offset between two
      * other colors.
      *
-     * @param color1   The first color
-     * @param color2   The second color
-     * @param midPoint The offset between color 1 and color 2, a value of 0.0 is
-     *                 color 1 and 1.0 is color 2;
-     * @return the ARGB value for a new color based on this derivation
+     * @pbrbm color1   The first color
+     * @pbrbm color2   The second color
+     * @pbrbm midPoint The offset between color 1 bnd color 2, b vblue of 0.0 is
+     *                 color 1 bnd 1.0 is color 2;
+     * @return the ARGB vblue for b new color bbsed on this derivbtion
      */
-    static int deriveARGB(Color color1, Color color2, float midPoint) {
+    stbtic int deriveARGB(Color color1, Color color2, flobt midPoint) {
         int r = color1.getRed() +
-                Math.round((color2.getRed() - color1.getRed()) * midPoint);
+                Mbth.round((color2.getRed() - color1.getRed()) * midPoint);
         int g = color1.getGreen() +
-                Math.round((color2.getGreen() - color1.getGreen()) * midPoint);
+                Mbth.round((color2.getGreen() - color1.getGreen()) * midPoint);
         int b = color1.getBlue() +
-                Math.round((color2.getBlue() - color1.getBlue()) * midPoint);
-        int a = color1.getAlpha() +
-                Math.round((color2.getAlpha() - color1.getAlpha()) * midPoint);
-        return ((a & 0xFF) << 24) |
+                Mbth.round((color2.getBlue() - color1.getBlue()) * midPoint);
+        int b = color1.getAlphb() +
+                Mbth.round((color2.getAlphb() - color1.getAlphb()) * midPoint);
+        return ((b & 0xFF) << 24) |
                 ((r & 0xFF) << 16) |
                 ((g & 0xFF) << 8) |
                 (b & 0xFF);
     }
 
     /**
-     * Simple Symbolic Link style UIDefalts Property
+     * Simple Symbolic Link style UIDefblts Property
      */
-    private class LinkProperty implements UIDefaults.ActiveValue, UIResource{
-        private String dstPropName;
+    privbte clbss LinkProperty implements UIDefbults.ActiveVblue, UIResource{
+        privbte String dstPropNbme;
 
-        private LinkProperty(String dstPropName) {
-            this.dstPropName = dstPropName;
+        privbte LinkProperty(String dstPropNbme) {
+            this.dstPropNbme = dstPropNbme;
         }
 
         @Override
-        public Object createValue(UIDefaults table) {
-            return UIManager.get(dstPropName);
+        public Object crebteVblue(UIDefbults tbble) {
+            return UIMbnbger.get(dstPropNbme);
         }
     }
 
     /**
-     * Nimbus Property that looks up Nimbus keys for standard key names. For
-     * example "Button.background" --> "Button[Enabled].backgound"
+     * Nimbus Property thbt looks up Nimbus keys for stbndbrd key nbmes. For
+     * exbmple "Button.bbckground" --> "Button[Enbbled].bbckgound"
      */
-    private class NimbusProperty implements UIDefaults.ActiveValue, UIResource {
-        private String prefix;
-        private String state = null;
-        private String suffix;
-        private boolean isFont;
+    privbte clbss NimbusProperty implements UIDefbults.ActiveVblue, UIResource {
+        privbte String prefix;
+        privbte String stbte = null;
+        privbte String suffix;
+        privbte boolebn isFont;
 
-        private NimbusProperty(String prefix, String suffix) {
+        privbte NimbusProperty(String prefix, String suffix) {
             this.prefix = prefix;
             this.suffix = suffix;
-            isFont = "font".equals(suffix);
+            isFont = "font".equbls(suffix);
         }
 
-        private NimbusProperty(String prefix, String state, String suffix) {
+        privbte NimbusProperty(String prefix, String stbte, String suffix) {
             this(prefix,suffix);
-            this.state = state;
+            this.stbte = stbte;
         }
 
         /**
-         * Creates the value retrieved from the <code>UIDefaults</code> table.
-         * The object is created each time it is accessed.
+         * Crebtes the vblue retrieved from the <code>UIDefbults</code> tbble.
+         * The object is crebted ebch time it is bccessed.
          *
-         * @param table a <code>UIDefaults</code> table
-         * @return the created <code>Object</code>
+         * @pbrbm tbble b <code>UIDefbults</code> tbble
+         * @return the crebted <code>Object</code>
          */
         @Override
-        public Object createValue(UIDefaults table) {
+        public Object crebteVblue(UIDefbults tbble) {
             Object obj = null;
-            // check specified state
-            if (state!=null){
-                obj = uiDefaults.get(prefix+"["+state+"]."+suffix);
+            // check specified stbte
+            if (stbte!=null){
+                obj = uiDefbults.get(prefix+"["+stbte+"]."+suffix);
             }
-            // check enabled state
+            // check enbbled stbte
             if (obj==null){
-                obj = uiDefaults.get(prefix+"[Enabled]."+suffix);
+                obj = uiDefbults.get(prefix+"[Enbbled]."+suffix);
             }
-            // check for defaults
+            // check for defbults
             if (obj==null){
                 if (isFont) {
-                    obj = uiDefaults.get("defaultFont");
+                    obj = uiDefbults.get("defbultFont");
                 } else {
-                    obj = uiDefaults.get(suffix);
+                    obj = uiDefbults.get(suffix);
                 }
             }
             return obj;
         }
     }
 
-    private Map<String, Map<String, Object>> compiledDefaults = null;
-    private boolean defaultListenerAdded = false;
+    privbte Mbp<String, Mbp<String, Object>> compiledDefbults = null;
+    privbte boolebn defbultListenerAdded = fblse;
 
-    static String parsePrefix(String key) {
+    stbtic String pbrsePrefix(String key) {
         if (key == null) {
             return null;
         }
-        boolean inquotes = false;
+        boolebn inquotes = fblse;
         for (int i = 0; i < key.length(); i++) {
-            char c = key.charAt(i);
+            chbr c = key.chbrAt(i);
             if (c == '"') {
                 inquotes = !inquotes;
             } else if ((c == '[' || c == '.') && !inquotes) {
@@ -577,45 +577,45 @@ public class NimbusLookAndFeel extends SynthLookAndFeel {
         return null;
     }
 
-    Map<String, Object> getDefaultsForPrefix(String prefix) {
-        if (compiledDefaults == null) {
-            compiledDefaults = new HashMap<String, Map<String, Object>>();
-            for (Map.Entry<Object, Object> entry: UIManager.getDefaults().entrySet()) {
-                if (entry.getKey() instanceof String) {
-                    addDefault((String) entry.getKey(), entry.getValue());
+    Mbp<String, Object> getDefbultsForPrefix(String prefix) {
+        if (compiledDefbults == null) {
+            compiledDefbults = new HbshMbp<String, Mbp<String, Object>>();
+            for (Mbp.Entry<Object, Object> entry: UIMbnbger.getDefbults().entrySet()) {
+                if (entry.getKey() instbnceof String) {
+                    bddDefbult((String) entry.getKey(), entry.getVblue());
                 }
             }
-            if (! defaultListenerAdded) {
-                UIManager.getDefaults().addPropertyChangeListener(defaultsListener);
-                defaultListenerAdded = true;
+            if (! defbultListenerAdded) {
+                UIMbnbger.getDefbults().bddPropertyChbngeListener(defbultsListener);
+                defbultListenerAdded = true;
             }
         }
-        return compiledDefaults.get(prefix);
+        return compiledDefbults.get(prefix);
     }
 
-    private void addDefault(String key, Object value) {
-        if (compiledDefaults == null) {
+    privbte void bddDefbult(String key, Object vblue) {
+        if (compiledDefbults == null) {
             return;
         }
 
-        String prefix = parsePrefix(key);
+        String prefix = pbrsePrefix(key);
         if (prefix != null) {
-            Map<String, Object> keys = compiledDefaults.get(prefix);
+            Mbp<String, Object> keys = compiledDefbults.get(prefix);
             if (keys == null) {
-                keys = new HashMap<String, Object>();
-                compiledDefaults.put(prefix, keys);
+                keys = new HbshMbp<String, Object>();
+                compiledDefbults.put(prefix, keys);
             }
-            keys.put(key, value);
+            keys.put(key, vblue);
         }
     }
 
-    private class DefaultsListener implements PropertyChangeListener {
-        @Override public void propertyChange(PropertyChangeEvent ev) {
-            String key = ev.getPropertyName();
-            if ("UIDefaults".equals(key)) {
-                compiledDefaults = null;
+    privbte clbss DefbultsListener implements PropertyChbngeListener {
+        @Override public void propertyChbnge(PropertyChbngeEvent ev) {
+            String key = ev.getPropertyNbme();
+            if ("UIDefbults".equbls(key)) {
+                compiledDefbults = null;
             } else {
-                addDefault(key, ev.getNewValue());
+                bddDefbult(key, ev.getNewVblue());
             }
         }
     }

@@ -1,363 +1,363 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import sun.security.krb5.internal.*;
+import sun.security.krb5.internbl.*;
 import sun.security.util.*;
-import java.net.*;
-import java.util.Vector;
-import java.util.Locale;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.Arrays;
-import sun.security.krb5.internal.ccache.CCacheOutputStream;
-import sun.security.krb5.internal.util.KerberosString;
+import jbvb.net.*;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Arrbys;
+import sun.security.krb5.internbl.ccbche.CCbcheOutputStrebm;
+import sun.security.krb5.internbl.util.KerberosString;
 
 
 /**
- * Implements the ASN.1 PrincipalName type and its realm in a single class.
+ * Implements the ASN.1 PrincipblNbme type bnd its reblm in b single clbss.
  * <xmp>
- *    Realm           ::= KerberosString
+ *    Reblm           ::= KerberosString
  *
- *    PrincipalName   ::= SEQUENCE {
- *            name-type       [0] Int32,
- *            name-string     [1] SEQUENCE OF KerberosString
+ *    PrincipblNbme   ::= SEQUENCE {
+ *            nbme-type       [0] Int32,
+ *            nbme-string     [1] SEQUENCE OF KerberosString
  *    }
  * </xmp>
- * This class is immutable.
- * @see Realm
+ * This clbss is immutbble.
+ * @see Reblm
  */
-public class PrincipalName implements Cloneable {
+public clbss PrincipblNbme implements Clonebble {
 
-    //name types
-
-    /**
-     * Name type not known
-     */
-    public static final int KRB_NT_UNKNOWN =   0;
+    //nbme types
 
     /**
-     * Just the name of the principal as in DCE, or for users
+     * Nbme type not known
      */
-    public static final int KRB_NT_PRINCIPAL = 1;
+    public stbtic finbl int KRB_NT_UNKNOWN =   0;
 
     /**
-     * Service and other unique instance (krbtgt)
+     * Just the nbme of the principbl bs in DCE, or for users
      */
-    public static final int KRB_NT_SRV_INST =  2;
+    public stbtic finbl int KRB_NT_PRINCIPAL = 1;
 
     /**
-     * Service with host name as instance (telnet, rcommands)
+     * Service bnd other unique instbnce (krbtgt)
      */
-    public static final int KRB_NT_SRV_HST =   3;
+    public stbtic finbl int KRB_NT_SRV_INST =  2;
 
     /**
-     * Service with host as remaining components
+     * Service with host nbme bs instbnce (telnet, rcommbnds)
      */
-    public static final int KRB_NT_SRV_XHST =  4;
+    public stbtic finbl int KRB_NT_SRV_HST =   3;
+
+    /**
+     * Service with host bs rembining components
+     */
+    public stbtic finbl int KRB_NT_SRV_XHST =  4;
 
     /**
      * Unique ID
      */
-    public static final int KRB_NT_UID = 5;
+    public stbtic finbl int KRB_NT_UID = 5;
 
     /**
-     * TGS Name
+     * TGS Nbme
      */
-    public static final String TGS_DEFAULT_SRV_NAME = "krbtgt";
-    public static final int TGS_DEFAULT_NT = KRB_NT_SRV_INST;
+    public stbtic finbl String TGS_DEFAULT_SRV_NAME = "krbtgt";
+    public stbtic finbl int TGS_DEFAULT_NT = KRB_NT_SRV_INST;
 
-    public static final char NAME_COMPONENT_SEPARATOR = '/';
-    public static final char NAME_REALM_SEPARATOR = '@';
-    public static final char REALM_COMPONENT_SEPARATOR = '.';
+    public stbtic finbl chbr NAME_COMPONENT_SEPARATOR = '/';
+    public stbtic finbl chbr NAME_REALM_SEPARATOR = '@';
+    public stbtic finbl chbr REALM_COMPONENT_SEPARATOR = '.';
 
-    public static final String NAME_COMPONENT_SEPARATOR_STR = "/";
-    public static final String NAME_REALM_SEPARATOR_STR = "@";
-    public static final String REALM_COMPONENT_SEPARATOR_STR = ".";
+    public stbtic finbl String NAME_COMPONENT_SEPARATOR_STR = "/";
+    public stbtic finbl String NAME_REALM_SEPARATOR_STR = "@";
+    public stbtic finbl String REALM_COMPONENT_SEPARATOR_STR = ".";
 
-    // Instance fields.
+    // Instbnce fields.
 
     /**
-     * The name type, from PrincipalName's name-type field.
+     * The nbme type, from PrincipblNbme's nbme-type field.
      */
-    private final int nameType;
+    privbte finbl int nbmeType;
 
     /**
-     * The name strings, from PrincipalName's name-strings field. This field
-     * must be neither null nor empty. Each entry of it must also be neither
-     * null nor empty. Make sure to clone the field when it's passed in or out.
+     * The nbme strings, from PrincipblNbme's nbme-strings field. This field
+     * must be neither null nor empty. Ebch entry of it must blso be neither
+     * null nor empty. Mbke sure to clone the field when it's pbssed in or out.
      */
-    private final String[] nameStrings;
+    privbte finbl String[] nbmeStrings;
 
     /**
-     * The realm this principal belongs to.
+     * The reblm this principbl belongs to.
      */
-    private final Realm nameRealm;      // not null
+    privbte finbl Reblm nbmeReblm;      // not null
 
-    // cached default salt, not used in clone
-    private transient String salt = null;
+    // cbched defbult sblt, not used in clone
+    privbte trbnsient String sblt = null;
 
-    // There are 3 basic constructors. All other constructors must call them.
-    // All basic constructors must call validateNameStrings.
-    // 1. From name components
-    // 2. From name
+    // There bre 3 bbsic constructors. All other constructors must cbll them.
+    // All bbsic constructors must cbll vblidbteNbmeStrings.
+    // 1. From nbme components
+    // 2. From nbme
     // 3. From DER encoding
 
     /**
-     * Creates a PrincipalName.
+     * Crebtes b PrincipblNbme.
      */
-    public PrincipalName(int nameType, String[] nameStrings, Realm nameRealm) {
-        if (nameRealm == null) {
-            throw new IllegalArgumentException("Null realm not allowed");
+    public PrincipblNbme(int nbmeType, String[] nbmeStrings, Reblm nbmeReblm) {
+        if (nbmeReblm == null) {
+            throw new IllegblArgumentException("Null reblm not bllowed");
         }
-        validateNameStrings(nameStrings);
-        this.nameType = nameType;
-        this.nameStrings = nameStrings.clone();
-        this.nameRealm = nameRealm;
+        vblidbteNbmeStrings(nbmeStrings);
+        this.nbmeType = nbmeType;
+        this.nbmeStrings = nbmeStrings.clone();
+        this.nbmeReblm = nbmeReblm;
     }
 
-    // This method is called by Windows NativeCred.c
-    public PrincipalName(String[] nameParts, String realm) throws RealmException {
-        this(KRB_NT_UNKNOWN, nameParts, new Realm(realm));
+    // This method is cblled by Windows NbtiveCred.c
+    public PrincipblNbme(String[] nbmePbrts, String reblm) throws ReblmException {
+        this(KRB_NT_UNKNOWN, nbmePbrts, new Reblm(reblm));
     }
 
-    public PrincipalName(String[] nameParts, int type)
-            throws IllegalArgumentException, RealmException {
-        this(type, nameParts, Realm.getDefault());
+    public PrincipblNbme(String[] nbmePbrts, int type)
+            throws IllegblArgumentException, ReblmException {
+        this(type, nbmePbrts, Reblm.getDefbult());
     }
 
-    // Validate a nameStrings argument
-    private static void validateNameStrings(String[] ns) {
+    // Vblidbte b nbmeStrings brgument
+    privbte stbtic void vblidbteNbmeStrings(String[] ns) {
         if (ns == null) {
-            throw new IllegalArgumentException("Null nameStrings not allowed");
+            throw new IllegblArgumentException("Null nbmeStrings not bllowed");
         }
         if (ns.length == 0) {
-            throw new IllegalArgumentException("Empty nameStrings not allowed");
+            throw new IllegblArgumentException("Empty nbmeStrings not bllowed");
         }
         for (String s: ns) {
             if (s == null) {
-                throw new IllegalArgumentException("Null nameString not allowed");
+                throw new IllegblArgumentException("Null nbmeString not bllowed");
             }
             if (s.isEmpty()) {
-                throw new IllegalArgumentException("Empty nameString not allowed");
+                throw new IllegblArgumentException("Empty nbmeString not bllowed");
             }
         }
     }
 
     public Object clone() {
         try {
-            PrincipalName pName = (PrincipalName) super.clone();
-            UNSAFE.putObject(this, NAME_STRINGS_OFFSET, nameStrings.clone());
-            return pName;
-        } catch (CloneNotSupportedException ex) {
-            throw new AssertionError("Should never happen");
+            PrincipblNbme pNbme = (PrincipblNbme) super.clone();
+            UNSAFE.putObject(this, NAME_STRINGS_OFFSET, nbmeStrings.clone());
+            return pNbme;
+        } cbtch (CloneNotSupportedException ex) {
+            throw new AssertionError("Should never hbppen");
         }
     }
 
-    private static final long NAME_STRINGS_OFFSET;
-    private static final sun.misc.Unsafe UNSAFE;
-    static {
+    privbte stbtic finbl long NAME_STRINGS_OFFSET;
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    stbtic {
         try {
-            sun.misc.Unsafe unsafe = sun.misc.Unsafe.getUnsafe();
-            NAME_STRINGS_OFFSET = unsafe.objectFieldOffset(
-                    PrincipalName.class.getDeclaredField("nameStrings"));
-            UNSAFE = unsafe;
-        } catch (ReflectiveOperationException e) {
+            sun.misc.Unsbfe unsbfe = sun.misc.Unsbfe.getUnsbfe();
+            NAME_STRINGS_OFFSET = unsbfe.objectFieldOffset(
+                    PrincipblNbme.clbss.getDeclbredField("nbmeStrings"));
+            UNSAFE = unsbfe;
+        } cbtch (ReflectiveOperbtionException e) {
             throw new Error(e);
         }
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
-        if (o instanceof PrincipalName) {
-            PrincipalName other = (PrincipalName)o;
-            return nameRealm.equals(other.nameRealm) &&
-                    Arrays.equals(nameStrings, other.nameStrings);
+        if (o instbnceof PrincipblNbme) {
+            PrincipblNbme other = (PrincipblNbme)o;
+            return nbmeReblm.equbls(other.nbmeReblm) &&
+                    Arrbys.equbls(nbmeStrings, other.nbmeStrings);
         }
-        return false;
+        return fblse;
     }
 
     /**
      * Returns the ASN.1 encoding of the
      * <xmp>
-     * PrincipalName    ::= SEQUENCE {
-     *          name-type       [0] Int32,
-     *          name-string     [1] SEQUENCE OF KerberosString
+     * PrincipblNbme    ::= SEQUENCE {
+     *          nbme-type       [0] Int32,
+     *          nbme-string     [1] SEQUENCE OF KerberosString
      * }
      *
-     * KerberosString   ::= GeneralString (IA5String)
+     * KerberosString   ::= GenerblString (IA5String)
      * </xmp>
      *
      * <p>
      * This definition reflects the Network Working Group RFC 4120
-     * specification available at
-     * <a href="http://www.ietf.org/rfc/rfc4120.txt">
-     * http://www.ietf.org/rfc/rfc4120.txt</a>.
+     * specificbtion bvbilbble bt
+     * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+     * http://www.ietf.org/rfc/rfc4120.txt</b>.
      *
-     * @param encoding a Der-encoded data.
-     * @param realm the realm for this name
-     * @exception Asn1Exception if an error occurs while decoding
-     * an ASN1 encoded data.
-     * @exception Asn1Exception if there is an ASN1 encoding error
-     * @exception IOException if an I/O error occurs
-     * @exception IllegalArgumentException if encoding is null
-     * reading encoded data.
+     * @pbrbm encoding b Der-encoded dbtb.
+     * @pbrbm reblm the reblm for this nbme
+     * @exception Asn1Exception if bn error occurs while decoding
+     * bn ASN1 encoded dbtb.
+     * @exception Asn1Exception if there is bn ASN1 encoding error
+     * @exception IOException if bn I/O error occurs
+     * @exception IllegblArgumentException if encoding is null
+     * rebding encoded dbtb.
      */
-    public PrincipalName(DerValue encoding, Realm realm)
+    public PrincipblNbme(DerVblue encoding, Reblm reblm)
             throws Asn1Exception, IOException {
-        if (realm == null) {
-            throw new IllegalArgumentException("Null realm not allowed");
+        if (reblm == null) {
+            throw new IllegblArgumentException("Null reblm not bllowed");
         }
-        nameRealm = realm;
-        DerValue der;
+        nbmeReblm = reblm;
+        DerVblue der;
         if (encoding == null) {
-            throw new IllegalArgumentException("Null encoding not allowed");
+            throw new IllegblArgumentException("Null encoding not bllowed");
         }
-        if (encoding.getTag() != DerValue.tag_Sequence) {
+        if (encoding.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x1F) == 0x00) {
-            BigInteger bint = der.getData().getBigInteger();
-            nameType = bint.intValue();
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & 0x1F) == 0x00) {
+            BigInteger bint = der.getDbtb().getBigInteger();
+            nbmeType = bint.intVblue();
         } else {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x01F) == 0x01) {
-            DerValue subDer = der.getData().getDerValue();
-            if (subDer.getTag() != DerValue.tag_SequenceOf) {
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & 0x01F) == 0x01) {
+            DerVblue subDer = der.getDbtb().getDerVblue();
+            if (subDer.getTbg() != DerVblue.tbg_SequenceOf) {
                 throw new Asn1Exception(Krb5.ASN1_BAD_ID);
             }
             Vector<String> v = new Vector<>();
-            DerValue subSubDer;
-            while(subDer.getData().available() > 0) {
-                subSubDer = subDer.getData().getDerValue();
-                String namePart = new KerberosString(subSubDer).toString();
-                v.addElement(namePart);
+            DerVblue subSubDer;
+            while(subDer.getDbtb().bvbilbble() > 0) {
+                subSubDer = subDer.getDbtb().getDerVblue();
+                String nbmePbrt = new KerberosString(subSubDer).toString();
+                v.bddElement(nbmePbrt);
             }
-            nameStrings = new String[v.size()];
-            v.copyInto(nameStrings);
-            validateNameStrings(nameStrings);
+            nbmeStrings = new String[v.size()];
+            v.copyInto(nbmeStrings);
+            vblidbteNbmeStrings(nbmeStrings);
         } else  {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Parse (unmarshal) a <code>PrincipalName</code> from a DER
-     * input stream.  This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * Pbrse (unmbrshbl) b <code>PrincipblNbme</code> from b DER
+     * input strebm.  This form
+     * pbrsing might be used when expbnding b vblue which is pbrt of
+     * b constructed sequence bnd uses explicitly tbgged type.
      *
      * @exception Asn1Exception on error.
-     * @param data the Der input stream value, which contains one or
-     * more marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicate if this data field is optional
-     * @param realm the realm for the name
-     * @return an instance of <code>PrincipalName</code>, or null if the
-     * field is optional and missing.
+     * @pbrbm dbtb the Der input strebm vblue, which contbins one or
+     * more mbrshbled vblue.
+     * @pbrbm explicitTbg tbg number.
+     * @pbrbm optionbl indicbte if this dbtb field is optionbl
+     * @pbrbm reblm the reblm for the nbme
+     * @return bn instbnce of <code>PrincipblNbme</code>, or null if the
+     * field is optionbl bnd missing.
      */
-    public static PrincipalName parse(DerInputStream data,
-                                      byte explicitTag, boolean
-                                      optional,
-                                      Realm realm)
-        throws Asn1Exception, IOException, RealmException {
+    public stbtic PrincipblNbme pbrse(DerInputStrebm dbtb,
+                                      byte explicitTbg, boolebn
+                                      optionbl,
+                                      Reblm reblm)
+        throws Asn1Exception, IOException, ReblmException {
 
-        if ((optional) && (((byte)data.peekByte() & (byte)0x1F) !=
-                           explicitTag))
+        if ((optionbl) && (((byte)dbtb.peekByte() & (byte)0x1F) !=
+                           explicitTbg))
             return null;
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F)) {
+        DerVblue der = dbtb.getDerVblue();
+        if (explicitTbg != (der.getTbg() & (byte)0x1F)) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         } else {
-            DerValue subDer = der.getData().getDerValue();
-            if (realm == null) {
-                realm = Realm.getDefault();
+            DerVblue subDer = der.getDbtb().getDerVblue();
+            if (reblm == null) {
+                reblm = Reblm.getDefbult();
             }
-            return new PrincipalName(subDer, realm);
+            return new PrincipblNbme(subDer, reblm);
         }
     }
 
 
-    // XXX Error checkin consistent with MIT krb5_parse_name
-    // Code repetition, realm parsed again by class Realm
-    private static String[] parseName(String name) {
+    // XXX Error checkin consistent with MIT krb5_pbrse_nbme
+    // Code repetition, reblm pbrsed bgbin by clbss Reblm
+    privbte stbtic String[] pbrseNbme(String nbme) {
 
         Vector<String> tempStrings = new Vector<>();
-        String temp = name;
+        String temp = nbme;
         int i = 0;
-        int componentStart = 0;
+        int componentStbrt = 0;
         String component;
 
         while (i < temp.length()) {
-            if (temp.charAt(i) == NAME_COMPONENT_SEPARATOR) {
+            if (temp.chbrAt(i) == NAME_COMPONENT_SEPARATOR) {
                 /*
-                 * If this separator is escaped then don't treat it
-                 * as a separator
+                 * If this sepbrbtor is escbped then don't trebt it
+                 * bs b sepbrbtor
                  */
-                if (i > 0 && temp.charAt(i - 1) == '\\') {
+                if (i > 0 && temp.chbrAt(i - 1) == '\\') {
                     temp = temp.substring(0, i - 1) +
                         temp.substring(i, temp.length());
                     continue;
                 }
                 else {
-                    if (componentStart <= i) {
-                        component = temp.substring(componentStart, i);
-                        tempStrings.addElement(component);
+                    if (componentStbrt <= i) {
+                        component = temp.substring(componentStbrt, i);
+                        tempStrings.bddElement(component);
                     }
-                    componentStart = i + 1;
+                    componentStbrt = i + 1;
                 }
             } else {
-                if (temp.charAt(i) == NAME_REALM_SEPARATOR) {
+                if (temp.chbrAt(i) == NAME_REALM_SEPARATOR) {
                     /*
-                     * If this separator is escaped then don't treat it
-                     * as a separator
+                     * If this sepbrbtor is escbped then don't trebt it
+                     * bs b sepbrbtor
                      */
-                    if (i > 0 && temp.charAt(i - 1) == '\\') {
+                    if (i > 0 && temp.chbrAt(i - 1) == '\\') {
                         temp = temp.substring(0, i - 1) +
                             temp.substring(i, temp.length());
                         continue;
                     } else {
-                        if (componentStart < i) {
-                            component = temp.substring(componentStart, i);
-                            tempStrings.addElement(component);
+                        if (componentStbrt < i) {
+                            component = temp.substring(componentStbrt, i);
+                            tempStrings.bddElement(component);
                         }
-                        componentStart = i + 1;
-                        break;
+                        componentStbrt = i + 1;
+                        brebk;
                     }
                 }
             }
@@ -365,8 +365,8 @@ public class PrincipalName implements Cloneable {
         }
 
         if (i == temp.length()) {
-            component = temp.substring(componentStart, i);
-            tempStrings.addElement(component);
+            component = temp.substring(componentStbrt, i);
+            tempStrings.bddElement(component);
         }
 
         String[] result = new String[tempStrings.size()];
@@ -375,307 +375,307 @@ public class PrincipalName implements Cloneable {
     }
 
     /**
-     * Constructs a PrincipalName from a string.
-     * @param name the name
-     * @param type the type
-     * @param realm the realm, null if not known. Note that when realm is not
-     * null, it will be always used even if there is a realm part in name. When
-     * realm is null, will read realm part from name, or try to map a realm
-     * (for KRB_NT_SRV_HST), or use the default realm, or fail
-     * @throws RealmException
+     * Constructs b PrincipblNbme from b string.
+     * @pbrbm nbme the nbme
+     * @pbrbm type the type
+     * @pbrbm reblm the reblm, null if not known. Note thbt when reblm is not
+     * null, it will be blwbys used even if there is b reblm pbrt in nbme. When
+     * reblm is null, will rebd reblm pbrt from nbme, or try to mbp b reblm
+     * (for KRB_NT_SRV_HST), or use the defbult reblm, or fbil
+     * @throws ReblmException
      */
-    public PrincipalName(String name, int type, String realm)
-            throws RealmException {
-        if (name == null) {
-            throw new IllegalArgumentException("Null name not allowed");
+    public PrincipblNbme(String nbme, int type, String reblm)
+            throws ReblmException {
+        if (nbme == null) {
+            throw new IllegblArgumentException("Null nbme not bllowed");
         }
-        String[] nameParts = parseName(name);
-        validateNameStrings(nameParts);
-        if (realm == null) {
-            realm = Realm.parseRealmAtSeparator(name);
+        String[] nbmePbrts = pbrseNbme(nbme);
+        vblidbteNbmeStrings(nbmePbrts);
+        if (reblm == null) {
+            reblm = Reblm.pbrseReblmAtSepbrbtor(nbme);
         }
         switch (type) {
-        case KRB_NT_SRV_HST:
-            if (nameParts.length >= 2) {
-                String hostName = nameParts[1];
+        cbse KRB_NT_SRV_HST:
+            if (nbmePbrts.length >= 2) {
+                String hostNbme = nbmePbrts[1];
                 try {
-                    // RFC4120 does not recommend canonicalizing a hostname.
-                    // However, for compatibility reason, we will try
-                    // canonicalize it and see if the output looks better.
+                    // RFC4120 does not recommend cbnonicblizing b hostnbme.
+                    // However, for compbtibility rebson, we will try
+                    // cbnonicblize it bnd see if the output looks better.
 
-                    String canonicalized = (InetAddress.getByName(hostName)).
-                            getCanonicalHostName();
+                    String cbnonicblized = (InetAddress.getByNbme(hostNbme)).
+                            getCbnonicblHostNbme();
 
-                    // Looks if canonicalized is a longer format of hostName,
-                    // we accept cases like
-                    //     bunny -> bunny.rabbit.hole
-                    if (canonicalized.toLowerCase(Locale.ENGLISH).startsWith(
-                                hostName.toLowerCase(Locale.ENGLISH)+".")) {
-                        hostName = canonicalized;
+                    // Looks if cbnonicblized is b longer formbt of hostNbme,
+                    // we bccept cbses like
+                    //     bunny -> bunny.rbbbit.hole
+                    if (cbnonicblized.toLowerCbse(Locble.ENGLISH).stbrtsWith(
+                                hostNbme.toLowerCbse(Locble.ENGLISH)+".")) {
+                        hostNbme = cbnonicblized;
                     }
-                } catch (UnknownHostException e) {
-                    // no canonicalization, use old
+                } cbtch (UnknownHostException e) {
+                    // no cbnonicblizbtion, use old
                 }
-                nameParts[1] = hostName.toLowerCase(Locale.ENGLISH);
+                nbmePbrts[1] = hostNbme.toLowerCbse(Locble.ENGLISH);
             }
-            nameStrings = nameParts;
-            nameType = type;
+            nbmeStrings = nbmePbrts;
+            nbmeType = type;
 
-            if (realm != null) {
-                nameRealm = new Realm(realm);
+            if (reblm != null) {
+                nbmeReblm = new Reblm(reblm);
             } else {
-                // We will try to get realm name from the mapping in
-                // the configuration. If it is not specified
-                // we will use the default realm. This nametype does
-                // not allow a realm to be specified. The name string must of
-                // the form service@host and this is internally changed into
+                // We will try to get reblm nbme from the mbpping in
+                // the configurbtion. If it is not specified
+                // we will use the defbult reblm. This nbmetype does
+                // not bllow b reblm to be specified. The nbme string must of
+                // the form service@host bnd this is internblly chbnged into
                 // service/host by Kerberos
-                String mapRealm =  mapHostToRealm(nameParts[1]);
-                if (mapRealm != null) {
-                    nameRealm = new Realm(mapRealm);
+                String mbpReblm =  mbpHostToReblm(nbmePbrts[1]);
+                if (mbpReblm != null) {
+                    nbmeReblm = new Reblm(mbpReblm);
                 } else {
-                    nameRealm = Realm.getDefault();
+                    nbmeReblm = Reblm.getDefbult();
                 }
             }
-            break;
-        case KRB_NT_UNKNOWN:
-        case KRB_NT_PRINCIPAL:
-        case KRB_NT_SRV_INST:
-        case KRB_NT_SRV_XHST:
-        case KRB_NT_UID:
-            nameStrings = nameParts;
-            nameType = type;
-            if (realm != null) {
-                nameRealm = new Realm(realm);
+            brebk;
+        cbse KRB_NT_UNKNOWN:
+        cbse KRB_NT_PRINCIPAL:
+        cbse KRB_NT_SRV_INST:
+        cbse KRB_NT_SRV_XHST:
+        cbse KRB_NT_UID:
+            nbmeStrings = nbmePbrts;
+            nbmeType = type;
+            if (reblm != null) {
+                nbmeReblm = new Reblm(reblm);
             } else {
-                nameRealm = Realm.getDefault();
+                nbmeReblm = Reblm.getDefbult();
             }
-            break;
-        default:
-            throw new IllegalArgumentException("Illegal name type");
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("Illegbl nbme type");
         }
     }
 
-    public PrincipalName(String name, int type) throws RealmException {
-        this(name, type, (String)null);
+    public PrincipblNbme(String nbme, int type) throws ReblmException {
+        this(nbme, type, (String)null);
     }
 
-    public PrincipalName(String name) throws RealmException {
-        this(name, KRB_NT_UNKNOWN);
+    public PrincipblNbme(String nbme) throws ReblmException {
+        this(nbme, KRB_NT_UNKNOWN);
     }
 
-    public PrincipalName(String name, String realm) throws RealmException {
-        this(name, KRB_NT_UNKNOWN, realm);
+    public PrincipblNbme(String nbme, String reblm) throws ReblmException {
+        this(nbme, KRB_NT_UNKNOWN, reblm);
     }
 
-    public static PrincipalName tgsService(String r1, String r2)
+    public stbtic PrincipblNbme tgsService(String r1, String r2)
             throws KrbException {
-        return new PrincipalName(PrincipalName.KRB_NT_SRV_INST,
-                new String[] {PrincipalName.TGS_DEFAULT_SRV_NAME, r1},
-                new Realm(r2));
+        return new PrincipblNbme(PrincipblNbme.KRB_NT_SRV_INST,
+                new String[] {PrincipblNbme.TGS_DEFAULT_SRV_NAME, r1},
+                new Reblm(r2));
     }
 
-    public String getRealmAsString() {
-        return getRealmString();
+    public String getReblmAsString() {
+        return getReblmString();
     }
 
-    public String getPrincipalNameAsString() {
-        StringBuilder temp = new StringBuilder(nameStrings[0]);
-        for (int i = 1; i < nameStrings.length; i++)
-            temp.append(nameStrings[i]);
+    public String getPrincipblNbmeAsString() {
+        StringBuilder temp = new StringBuilder(nbmeStrings[0]);
+        for (int i = 1; i < nbmeStrings.length; i++)
+            temp.bppend(nbmeStrings[i]);
         return temp.toString();
     }
 
-    public int hashCode() {
-        return toString().hashCode();
+    public int hbshCode() {
+        return toString().hbshCode();
     }
 
-    public String getName() {
+    public String getNbme() {
         return toString();
     }
 
-    public int getNameType() {
-        return nameType;
+    public int getNbmeType() {
+        return nbmeType;
     }
 
-    public String[] getNameStrings() {
-        return nameStrings.clone();
+    public String[] getNbmeStrings() {
+        return nbmeStrings.clone();
     }
 
-    public byte[][] toByteArray() {
-        byte[][] result = new byte[nameStrings.length][];
-        for (int i = 0; i < nameStrings.length; i++) {
-            result[i] = new byte[nameStrings[i].length()];
-            result[i] = nameStrings[i].getBytes();
+    public byte[][] toByteArrby() {
+        byte[][] result = new byte[nbmeStrings.length][];
+        for (int i = 0; i < nbmeStrings.length; i++) {
+            result[i] = new byte[nbmeStrings[i].length()];
+            result[i] = nbmeStrings[i].getBytes();
         }
         return result;
     }
 
-    public String getRealmString() {
-        return nameRealm.toString();
+    public String getReblmString() {
+        return nbmeReblm.toString();
     }
 
-    public Realm getRealm() {
-        return nameRealm;
+    public Reblm getReblm() {
+        return nbmeReblm;
     }
 
-    public String getSalt() {
-        if (salt == null) {
-            StringBuilder salt = new StringBuilder();
-            salt.append(nameRealm.toString());
-            for (int i = 0; i < nameStrings.length; i++) {
-                salt.append(nameStrings[i]);
+    public String getSblt() {
+        if (sblt == null) {
+            StringBuilder sblt = new StringBuilder();
+            sblt.bppend(nbmeReblm.toString());
+            for (int i = 0; i < nbmeStrings.length; i++) {
+                sblt.bppend(nbmeStrings[i]);
             }
-            return salt.toString();
+            return sblt.toString();
         }
-        return salt;
+        return sblt;
     }
 
     public String toString() {
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < nameStrings.length; i++) {
+        for (int i = 0; i < nbmeStrings.length; i++) {
             if (i > 0)
-                str.append("/");
-            str.append(nameStrings[i]);
+                str.bppend("/");
+            str.bppend(nbmeStrings[i]);
         }
-        str.append("@");
-        str.append(nameRealm.toString());
+        str.bppend("@");
+        str.bppend(nbmeReblm.toString());
         return str.toString();
     }
 
-    public String getNameString() {
+    public String getNbmeString() {
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < nameStrings.length; i++) {
+        for (int i = 0; i < nbmeStrings.length; i++) {
             if (i > 0)
-                str.append("/");
-            str.append(nameStrings[i]);
+                str.bppend("/");
+            str.bppend(nbmeStrings[i]);
         }
         return str.toString();
     }
 
     /**
-     * Encodes a <code>PrincipalName</code> object. Note that only the type and
-     * names are encoded. To encode the realm, call getRealm().asn1Encode().
-     * @return the byte array of the encoded PrncipalName object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Encodes b <code>PrincipblNbme</code> object. Note thbt only the type bnd
+     * nbmes bre encoded. To encode the reblm, cbll getReblm().bsn1Encode().
+     * @return the byte brrby of the encoded PrncipblNbme object.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      *
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        BigInteger bint = BigInteger.valueOf(this.nameType);
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
+        BigInteger bint = BigInteger.vblueOf(this.nbmeType);
         temp.putInteger(bint);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x00), temp);
-        temp = new DerOutputStream();
-        DerValue der[] = new DerValue[nameStrings.length];
-        for (int i = 0; i < nameStrings.length; i++) {
-            der[i] = new KerberosString(nameStrings[i]).toDerValue();
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x00), temp);
+        temp = new DerOutputStrebm();
+        DerVblue der[] = new DerVblue[nbmeStrings.length];
+        for (int i = 0; i < nbmeStrings.length; i++) {
+            der[i] = new KerberosString(nbmeStrings[i]).toDerVblue();
         }
         temp.putSequence(der);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x01), temp);
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x01), temp);
+        temp = new DerOutputStrebm();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        return temp.toByteArrby();
     }
 
 
     /**
-     * Checks if two <code>PrincipalName</code> objects have identical values in their corresponding data fields.
+     * Checks if two <code>PrincipblNbme</code> objects hbve identicbl vblues in their corresponding dbtb fields.
      *
-     * @param pname the other <code>PrincipalName</code> object.
-     * @return true if two have identical values, otherwise, return false.
+     * @pbrbm pnbme the other <code>PrincipblNbme</code> object.
+     * @return true if two hbve identicbl vblues, otherwise, return fblse.
      */
-    // It is used in <code>sun.security.krb5.internal.ccache</code> package.
-    public boolean match(PrincipalName pname) {
-        boolean matched = true;
-        //name type is just a hint, no two names can be the same ignoring name type.
-        // if (this.nameType != pname.nameType) {
-        //      matched = false;
+    // It is used in <code>sun.security.krb5.internbl.ccbche</code> pbckbge.
+    public boolebn mbtch(PrincipblNbme pnbme) {
+        boolebn mbtched = true;
+        //nbme type is just b hint, no two nbmes cbn be the sbme ignoring nbme type.
+        // if (this.nbmeType != pnbme.nbmeType) {
+        //      mbtched = fblse;
         // }
-        if ((this.nameRealm != null) && (pname.nameRealm != null)) {
-            if (!(this.nameRealm.toString().equalsIgnoreCase(pname.nameRealm.toString()))) {
-                matched = false;
+        if ((this.nbmeReblm != null) && (pnbme.nbmeReblm != null)) {
+            if (!(this.nbmeReblm.toString().equblsIgnoreCbse(pnbme.nbmeReblm.toString()))) {
+                mbtched = fblse;
             }
         }
-        if (this.nameStrings.length != pname.nameStrings.length) {
-            matched = false;
+        if (this.nbmeStrings.length != pnbme.nbmeStrings.length) {
+            mbtched = fblse;
         } else {
-            for (int i = 0; i < this.nameStrings.length; i++) {
-                if (!(this.nameStrings[i].equalsIgnoreCase(pname.nameStrings[i]))) {
-                    matched = false;
+            for (int i = 0; i < this.nbmeStrings.length; i++) {
+                if (!(this.nbmeStrings[i].equblsIgnoreCbse(pnbme.nbmeStrings[i]))) {
+                    mbtched = fblse;
                 }
             }
         }
-        return matched;
+        return mbtched;
     }
 
     /**
-     * Writes data field values of <code>PrincipalName</code> in FCC format to an output stream.
+     * Writes dbtb field vblues of <code>PrincipblNbme</code> in FCC formbt to bn output strebm.
      *
-     * @param cos a <code>CCacheOutputStream</code> for writing data.
-     * @exception IOException if an I/O exception occurs.
-     * @see sun.security.krb5.internal.ccache.CCacheOutputStream
+     * @pbrbm cos b <code>CCbcheOutputStrebm</code> for writing dbtb.
+     * @exception IOException if bn I/O exception occurs.
+     * @see sun.security.krb5.internbl.ccbche.CCbcheOutputStrebm
      */
-    public void writePrincipal(CCacheOutputStream cos) throws IOException {
-        cos.write32(nameType);
-        cos.write32(nameStrings.length);
-        byte[] realmBytes = null;
-        realmBytes = nameRealm.toString().getBytes();
-        cos.write32(realmBytes.length);
-        cos.write(realmBytes, 0, realmBytes.length);
+    public void writePrincipbl(CCbcheOutputStrebm cos) throws IOException {
+        cos.write32(nbmeType);
+        cos.write32(nbmeStrings.length);
+        byte[] reblmBytes = null;
+        reblmBytes = nbmeReblm.toString().getBytes();
+        cos.write32(reblmBytes.length);
+        cos.write(reblmBytes, 0, reblmBytes.length);
         byte[] bytes = null;
-        for (int i = 0; i < nameStrings.length; i++) {
-            bytes = nameStrings[i].getBytes();
+        for (int i = 0; i < nbmeStrings.length; i++) {
+            bytes = nbmeStrings[i].getBytes();
             cos.write32(bytes.length);
             cos.write(bytes, 0, bytes.length);
         }
     }
 
     /**
-     * Returns the instance component of a name.
-     * In a multi-component name such as a KRB_NT_SRV_INST
-     * name, the second component is returned.
-     * Null is returned if there are not two or more
-     * components in the name.
-     * @returns instance component of a multi-component name.
+     * Returns the instbnce component of b nbme.
+     * In b multi-component nbme such bs b KRB_NT_SRV_INST
+     * nbme, the second component is returned.
+     * Null is returned if there bre not two or more
+     * components in the nbme.
+     * @returns instbnce component of b multi-component nbme.
      */
-    public String getInstanceComponent()
+    public String getInstbnceComponent()
     {
-        if (nameStrings != null && nameStrings.length >= 2)
+        if (nbmeStrings != null && nbmeStrings.length >= 2)
             {
-                return new String(nameStrings[1]);
+                return new String(nbmeStrings[1]);
             }
 
         return null;
     }
 
-    static String mapHostToRealm(String name) {
+    stbtic String mbpHostToReblm(String nbme) {
         String result = null;
         try {
-            String subname = null;
-            Config c = Config.getInstance();
-            if ((result = c.get("domain_realm", name)) != null)
+            String subnbme = null;
+            Config c = Config.getInstbnce();
+            if ((result = c.get("dombin_reblm", nbme)) != null)
                 return result;
             else {
-                for (int i = 1; i < name.length(); i++) {
-                    if ((name.charAt(i) == '.') && (i != name.length() - 1)) { //mapping could be .ibm.com = AUSTIN.IBM.COM
-                        subname = name.substring(i);
-                        result = c.get("domain_realm", subname);
+                for (int i = 1; i < nbme.length(); i++) {
+                    if ((nbme.chbrAt(i) == '.') && (i != nbme.length() - 1)) { //mbpping could be .ibm.com = AUSTIN.IBM.COM
+                        subnbme = nbme.substring(i);
+                        result = c.get("dombin_reblm", subnbme);
                         if (result != null) {
-                            break;
+                            brebk;
                         }
                         else {
-                            subname = name.substring(i + 1);      //or mapping could be ibm.com = AUSTIN.IBM.COM
-                            result = c.get("domain_realm", subname);
+                            subnbme = nbme.substring(i + 1);      //or mbpping could be ibm.com = AUSTIN.IBM.COM
+                            result = c.get("dombin_reblm", subnbme);
                             if (result != null) {
-                                break;
+                                brebk;
                             }
                         }
                     }
                 }
             }
-        } catch (KrbException e) {
+        } cbtch (KrbException e) {
         }
         return result;
     }

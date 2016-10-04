@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,7 +31,7 @@
 #define _ZIP_H_
 
 /*
- * Header signatures
+ * Hebder signbtures
  */
 #define LOCSIG 0x04034b50L          /* "PK\003\004" */
 #define EXTSIG 0x08074b50L          /* "PK\007\008" */
@@ -42,7 +42,7 @@
 #define ZIP64_LOCSIG 0x07064b50L    /* "PK\006\007" */
 
 /*
- * Header sizes including signatures
+ * Hebder sizes including signbtures
  */
 
 #define LOCHDR 30
@@ -50,91 +50,91 @@
 #define CENHDR 46
 #define ENDHDR 22
 
-#define ZIP64_ENDHDR 56       // ZIP64 end header size
-#define ZIP64_LOCHDR 20       // ZIP64 end loc header size
-#define ZIP64_EXTHDR 24       // EXT header size
-#define ZIP64_EXTID   1       // Extra field Zip64 header ID
+#define ZIP64_ENDHDR 56       // ZIP64 end hebder size
+#define ZIP64_LOCHDR 20       // ZIP64 end loc hebder size
+#define ZIP64_EXTHDR 24       // EXT hebder size
+#define ZIP64_EXTID   1       // Extrb field Zip64 hebder ID
 
 #define ZIP64_MAGICVAL 0xffffffffLL
 #define ZIP64_MAGICCOUNT 0xffff
 
 
 /*
- * Header field access macros
+ * Hebder field bccess mbcros
  */
-#define CH(b, n) (((unsigned char *)(b))[n])
+#define CH(b, n) (((unsigned chbr *)(b))[n])
 #define SH(b, n) (CH(b, n) | (CH(b, n+1) << 8))
 #define LG(b, n) ((SH(b, n) | (SH(b, n+2) << 16)) &0xffffffffUL)
 #define LL(b, n) (((jlong)LG(b, n)) | (((jlong)LG(b, n+4)) << 32))
 #define GETSIG(b) LG(b, 0)
 
 /*
- * Macros for getting local file (LOC) header fields
+ * Mbcros for getting locbl file (LOC) hebder fields
  */
-#define LOCVER(b) SH(b, 4)          /* version needed to extract */
-#define LOCFLG(b) SH(b, 6)          /* general purpose bit flags */
+#define LOCVER(b) SH(b, 4)          /* version needed to extrbct */
+#define LOCFLG(b) SH(b, 6)          /* generbl purpose bit flbgs */
 #define LOCHOW(b) SH(b, 8)          /* compression method */
-#define LOCTIM(b) LG(b, 10)         /* modification time */
-#define LOCCRC(b) LG(b, 14)         /* crc of uncompressed data */
-#define LOCSIZ(b) LG(b, 18)         /* compressed data size */
-#define LOCLEN(b) LG(b, 22)         /* uncompressed data size */
-#define LOCNAM(b) SH(b, 26)         /* filename length */
-#define LOCEXT(b) SH(b, 28)         /* extra field length */
+#define LOCTIM(b) LG(b, 10)         /* modificbtion time */
+#define LOCCRC(b) LG(b, 14)         /* crc of uncompressed dbtb */
+#define LOCSIZ(b) LG(b, 18)         /* compressed dbtb size */
+#define LOCLEN(b) LG(b, 22)         /* uncompressed dbtb size */
+#define LOCNAM(b) SH(b, 26)         /* filenbme length */
+#define LOCEXT(b) SH(b, 28)         /* extrb field length */
 
 /*
- * Macros for getting extra local (EXT) header fields
+ * Mbcros for getting extrb locbl (EXT) hebder fields
  */
-#define EXTCRC(b) LG(b, 4)          /* crc of uncompressed data */
+#define EXTCRC(b) LG(b, 4)          /* crc of uncompressed dbtb */
 #define EXTSIZ(b) LG(b, 8)          /* compressed size */
 #define EXTLEN(b) LG(b, 12)         /* uncompressed size */
 
 /*
- * Macros for getting central directory header (CEN) fields
+ * Mbcros for getting centrbl directory hebder (CEN) fields
  */
-#define CENVEM(b) SH(b, 4)          /* version made by */
-#define CENVER(b) SH(b, 6)          /* version needed to extract */
-#define CENFLG(b) SH(b, 8)          /* general purpose bit flags */
+#define CENVEM(b) SH(b, 4)          /* version mbde by */
+#define CENVER(b) SH(b, 6)          /* version needed to extrbct */
+#define CENFLG(b) SH(b, 8)          /* generbl purpose bit flbgs */
 #define CENHOW(b) SH(b, 10)         /* compression method */
-#define CENTIM(b) LG(b, 12)         /* modification time */
-#define CENCRC(b) LG(b, 16)         /* crc of uncompressed data */
+#define CENTIM(b) LG(b, 12)         /* modificbtion time */
+#define CENCRC(b) LG(b, 16)         /* crc of uncompressed dbtb */
 #define CENSIZ(b) LG(b, 20)         /* compressed size */
 #define CENLEN(b) LG(b, 24)         /* uncompressed size */
-#define CENNAM(b) SH(b, 28)         /* length of filename */
-#define CENEXT(b) SH(b, 30)         /* length of extra field */
+#define CENNAM(b) SH(b, 28)         /* length of filenbme */
+#define CENEXT(b) SH(b, 30)         /* length of extrb field */
 #define CENCOM(b) SH(b, 32)         /* file comment length */
-#define CENDSK(b) SH(b, 34)         /* disk number start */
-#define CENATT(b) SH(b, 36)         /* internal file attributes */
-#define CENATX(b) LG(b, 38)         /* external file attributes */
-#define CENOFF(b) LG(b, 42)         /* offset of local header */
+#define CENDSK(b) SH(b, 34)         /* disk number stbrt */
+#define CENATT(b) SH(b, 36)         /* internbl file bttributes */
+#define CENATX(b) LG(b, 38)         /* externbl file bttributes */
+#define CENOFF(b) LG(b, 42)         /* offset of locbl hebder */
 
 /*
- * Macros for getting end of central directory header (END) fields
+ * Mbcros for getting end of centrbl directory hebder (END) fields
  */
 #define ENDSUB(b) SH(b, 8)          /* number of entries on this disk */
-#define ENDTOT(b) SH(b, 10)         /* total number of entries */
-#define ENDSIZ(b) LG(b, 12)         /* central directory size */
-#define ENDOFF(b) LG(b, 16)         /* central directory offset */
+#define ENDTOT(b) SH(b, 10)         /* totbl number of entries */
+#define ENDSIZ(b) LG(b, 12)         /* centrbl directory size */
+#define ENDOFF(b) LG(b, 16)         /* centrbl directory offset */
 #define ENDCOM(b) SH(b, 20)         /* size of zip file comment */
 
 /*
- * Macros for getting Zip64 end of central directory header fields
+ * Mbcros for getting Zip64 end of centrbl directory hebder fields
  */
-#define ZIP64_ENDLEN(b) LL(b, 4)      /* size of zip64 end of central dir */
-#define ZIP64_ENDVEM(b) SH(b, 12)     /* version made by */
-#define ZIP64_ENDVER(b) SH(b, 14)     /* version needed to extract */
+#define ZIP64_ENDLEN(b) LL(b, 4)      /* size of zip64 end of centrbl dir */
+#define ZIP64_ENDVEM(b) SH(b, 12)     /* version mbde by */
+#define ZIP64_ENDVER(b) SH(b, 14)     /* version needed to extrbct */
 #define ZIP64_ENDNMD(b) LG(b, 16)     /* number of this disk */
-#define ZIP64_ENDDSK(b) LG(b, 20)     /* disk number of start */
-#define ZIP64_ENDTOD(b) LL(b, 24)     /* total number of entries on this disk */
-#define ZIP64_ENDTOT(b) LL(b, 32)     /* total number of entries */
-#define ZIP64_ENDSIZ(b) LL(b, 40)     /* central directory size in bytes */
-#define ZIP64_ENDOFF(b) LL(b, 48)     /* offset of first CEN header */
+#define ZIP64_ENDDSK(b) LG(b, 20)     /* disk number of stbrt */
+#define ZIP64_ENDTOD(b) LL(b, 24)     /* totbl number of entries on this disk */
+#define ZIP64_ENDTOT(b) LL(b, 32)     /* totbl number of entries */
+#define ZIP64_ENDSIZ(b) LL(b, 40)     /* centrbl directory size in bytes */
+#define ZIP64_ENDOFF(b) LL(b, 48)     /* offset of first CEN hebder */
 
 /*
- * Macros for getting Zip64 end of central directory locator fields
+ * Mbcros for getting Zip64 end of centrbl directory locbtor fields
  */
-#define ZIP64_LOCDSK(b) LG(b, 4)      /* disk number start */
+#define ZIP64_LOCDSK(b) LG(b, 4)      /* disk number stbrt */
 #define ZIP64_LOCOFF(b) LL(b, 8)      /* offset of zip64 end */
-#define ZIP64_LOCTOT(b) LG(b, 16)     /* total number of disks */
+#define ZIP64_LOCTOT(b) LG(b, 16)     /* totbl number of disks */
 
 /*
  * Supported compression methods
@@ -143,52 +143,52 @@
 #define DEFLATED    8
 
 /*
- * Support for reading ZIP/JAR files. Some things worth noting:
+ * Support for rebding ZIP/JAR files. Some things worth noting:
  *
- * - Zip file entries larger than 2**32 bytes are not supported.
- * - jzentry time and crc fields are signed even though they really
- *   represent unsigned quantities.
+ * - Zip file entries lbrger thbn 2**32 bytes bre not supported.
+ * - jzentry time bnd crc fields bre signed even though they reblly
+ *   represent unsigned qubntities.
  * - If csize is zero then the entry is uncompressed.
- * - If extra != 0 then the first two bytes are the length of the extra
- *   data in intel byte order.
- * - If pos <= 0 then it is the position of entry LOC header.
- *   If pos > 0 then it is the position of entry data.
- *   pos should not be accessed directly, but only by ZIP_GetEntryDataOffset.
+ * - If extrb != 0 then the first two bytes bre the length of the extrb
+ *   dbtb in intel byte order.
+ * - If pos <= 0 then it is the position of entry LOC hebder.
+ *   If pos > 0 then it is the position of entry dbtb.
+ *   pos should not be bccessed directly, but only by ZIP_GetEntryDbtbOffset.
  */
 
 typedef struct jzentry {  /* Zip file entry */
-    char *name;           /* entry name */
-    jlong time;           /* modification time */
-    jlong size;           /* size of uncompressed data */
-    jlong csize;          /* size of compressed data (zero if uncompressed) */
-    jint crc;             /* crc of uncompressed data */
-    char *comment;        /* optional zip file comment */
-    jbyte *extra;         /* optional extra data */
-    jlong pos;            /* position of LOC header or entry data */
-    jint flag;            /* general purpose flag */
+    chbr *nbme;           /* entry nbme */
+    jlong time;           /* modificbtion time */
+    jlong size;           /* size of uncompressed dbtb */
+    jlong csize;          /* size of compressed dbtb (zero if uncompressed) */
+    jint crc;             /* crc of uncompressed dbtb */
+    chbr *comment;        /* optionbl zip file comment */
+    jbyte *extrb;         /* optionbl extrb dbtb */
+    jlong pos;            /* position of LOC hebder or entry dbtb */
+    jint flbg;            /* generbl purpose flbg */
 } jzentry;
 
 /*
- * In-memory hash table cell.
- * In a typical system we have a *lot* of these, as we have one for
- * every entry in every active JAR.
- * Note that in order to save space we don't keep the name in memory,
- * but merely remember a 32 bit hash.
+ * In-memory hbsh tbble cell.
+ * In b typicbl system we hbve b *lot* of these, bs we hbve one for
+ * every entry in every bctive JAR.
+ * Note thbt in order to sbve spbce we don't keep the nbme in memory,
+ * but merely remember b 32 bit hbsh.
  */
 typedef struct jzcell {
-    unsigned int hash;    /* 32 bit hashcode on name */
-    unsigned int next;    /* hash chain: index into jzfile->entries */
-    jlong cenpos;         /* Offset of central directory file header */
+    unsigned int hbsh;    /* 32 bit hbshcode on nbme */
+    unsigned int next;    /* hbsh chbin: index into jzfile->entries */
+    jlong cenpos;         /* Offset of centrbl directory file hebder */
 } jzcell;
 
-typedef struct cencache {
-    char *data;           /* A cached page of CEN headers */
-    jlong pos;            /* file offset of data */
-} cencache;
+typedef struct cencbche {
+    chbr *dbtb;           /* A cbched pbge of CEN hebders */
+    jlong pos;            /* file offset of dbtb */
+} cencbche;
 
 /*
- * Use ZFILE to represent access to a file in a platform-indepenent
- * fashion.
+ * Use ZFILE to represent bccess to b file in b plbtform-indepenent
+ * fbshion.
  */
 #ifdef WIN32
 #define ZFILE jlong
@@ -197,77 +197,77 @@ typedef struct cencache {
 #endif
 
 /*
- * Descriptor for a ZIP file.
+ * Descriptor for b ZIP file.
  */
 typedef struct jzfile {   /* Zip file */
-    char *name;           /* zip file name */
-    jint refs;            /* number of active references */
+    chbr *nbme;           /* zip file nbme */
+    jint refs;            /* number of bctive references */
     jlong len;            /* length (in bytes) of zip file */
 #ifdef USE_MMAP
-    unsigned char *maddr; /* beginning address of the CEN & ENDHDR */
-    jlong mlen;           /* length (in bytes) mmaped */
-    jlong offset;         /* offset of the mmapped region from the
-                             start of the file. */
-    jboolean usemmap;     /* if mmap is used. */
+    unsigned chbr *mbddr; /* beginning bddress of the CEN & ENDHDR */
+    jlong mlen;           /* length (in bytes) mmbped */
+    jlong offset;         /* offset of the mmbpped region from the
+                             stbrt of the file. */
+    jboolebn usemmbp;     /* if mmbp is used. */
 #endif
-    jboolean locsig;      /* if zip file starts with LOCSIG */
-    cencache cencache;    /* CEN header cache */
+    jboolebn locsig;      /* if zip file stbrts with LOCSIG */
+    cencbche cencbche;    /* CEN hebder cbche */
     ZFILE zfd;            /* open file descriptor */
-    void *lock;           /* read lock */
-    char *comment;        /* zip file comment */
+    void *lock;           /* rebd lock */
+    chbr *comment;        /* zip file comment */
     jint clen;            /* length of the zip file comment */
-    char *msg;            /* zip error message */
-    jzcell *entries;      /* array of hash cells */
-    jint total;           /* total number of entries */
-    jint *table;          /* Hash chain heads: indexes into entries */
-    jint tablelen;        /* number of hash heads */
-    struct jzfile *next;  /* next zip file in search list */
-    jzentry *cache;       /* we cache the most recently freed jzentry */
-    /* Information on metadata names in META-INF directory */
-    char **metanames;     /* array of meta names (may have null names) */
-    jint metacurrent;     /* the next empty slot in metanames array */
-    jint metacount;       /* number of slots in metanames array */
-    jlong lastModified;   /* last modified time */
-    jlong locpos;         /* position of first LOC header (usually 0) */
+    chbr *msg;            /* zip error messbge */
+    jzcell *entries;      /* brrby of hbsh cells */
+    jint totbl;           /* totbl number of entries */
+    jint *tbble;          /* Hbsh chbin hebds: indexes into entries */
+    jint tbblelen;        /* number of hbsh hebds */
+    struct jzfile *next;  /* next zip file in sebrch list */
+    jzentry *cbche;       /* we cbche the most recently freed jzentry */
+    /* Informbtion on metbdbtb nbmes in META-INF directory */
+    chbr **metbnbmes;     /* brrby of metb nbmes (mby hbve null nbmes) */
+    jint metbcurrent;     /* the next empty slot in metbnbmes brrby */
+    jint metbcount;       /* number of slots in metbnbmes brrby */
+    jlong lbstModified;   /* lbst modified time */
+    jlong locpos;         /* position of first LOC hebder (usublly 0) */
 } jzfile;
 
 /*
- * Index representing end of hash chain
+ * Index representing end of hbsh chbin
  */
 #define ZIP_ENDCHAIN ((jint)-1)
 
 jzentry * JNICALL
-ZIP_FindEntry(jzfile *zip, char *name, jint *sizeP, jint *nameLenP);
+ZIP_FindEntry(jzfile *zip, chbr *nbme, jint *sizeP, jint *nbmeLenP);
 
-jboolean JNICALL
-ZIP_ReadEntry(jzfile *zip, jzentry *entry, unsigned char *buf, char *entrynm);
+jboolebn JNICALL
+ZIP_RebdEntry(jzfile *zip, jzentry *entry, unsigned chbr *buf, chbr *entrynm);
 
 jzentry * JNICALL
 ZIP_GetNextEntry(jzfile *zip, jint n);
 
 jzfile * JNICALL
-ZIP_Open(const char *name, char **pmsg);
+ZIP_Open(const chbr *nbme, chbr **pmsg);
 
 jzfile *
-ZIP_Open_Generic(const char *name, char **pmsg, int mode, jlong lastModified);
+ZIP_Open_Generic(const chbr *nbme, chbr **pmsg, int mode, jlong lbstModified);
 
 jzfile *
-ZIP_Get_From_Cache(const char *name, char **pmsg, jlong lastModified);
+ZIP_Get_From_Cbche(const chbr *nbme, chbr **pmsg, jlong lbstModified);
 
 jzfile *
-ZIP_Put_In_Cache(const char *name, ZFILE zfd, char **pmsg, jlong lastModified);
+ZIP_Put_In_Cbche(const chbr *nbme, ZFILE zfd, chbr **pmsg, jlong lbstModified);
 
 jzfile *
-ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified, jboolean usemmap);
+ZIP_Put_In_Cbche0(const chbr *nbme, ZFILE zfd, chbr **pmsg, jlong lbstModified, jboolebn usemmbp);
 
 void JNICALL
 ZIP_Close(jzfile *zip);
 
-jzentry * ZIP_GetEntry(jzfile *zip, char *name, jint ulen);
+jzentry * ZIP_GetEntry(jzfile *zip, chbr *nbme, jint ulen);
 void ZIP_Lock(jzfile *zip);
 void ZIP_Unlock(jzfile *zip);
-jint ZIP_Read(jzfile *zip, jzentry *entry, jlong pos, void *buf, jint len);
+jint ZIP_Rebd(jzfile *zip, jzentry *entry, jlong pos, void *buf, jint len);
 void ZIP_FreeEntry(jzfile *zip, jzentry *ze);
-jlong ZIP_GetEntryDataOffset(jzfile *zip, jzentry *entry);
+jlong ZIP_GetEntryDbtbOffset(jzfile *zip, jzentry *entry);
 
 #endif /* !_ZIP_H_ */

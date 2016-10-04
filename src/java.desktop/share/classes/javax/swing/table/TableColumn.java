@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.table;
+pbckbge jbvbx.swing.tbble;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.SwingPropertyChangeSupport;
-import java.lang.Integer;
-import java.awt.Color;
-import java.awt.Component;
-import java.io.Serializable;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.SwingPropertyChbngeSupport;
+import jbvb.lbng.Integer;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.io.Seriblizbble;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
 /**
- *  A <code>TableColumn</code> represents all the attributes of a column in a
- *  <code>JTable</code>, such as width, resizability, minimum and maximum width.
- *  In addition, the <code>TableColumn</code> provides slots for a renderer and
- *  an editor that can be used to display and edit the values in this column.
+ *  A <code>TbbleColumn</code> represents bll the bttributes of b column in b
+ *  <code>JTbble</code>, such bs width, resizbbility, minimum bnd mbximum width.
+ *  In bddition, the <code>TbbleColumn</code> provides slots for b renderer bnd
+ *  bn editor thbt cbn be used to displby bnd edit the vblues in this column.
  *  <p>
- *  It is also possible to specify renderers and editors on a per type basis
- *  rather than a per column basis - see the
- *  <code>setDefaultRenderer</code> method in the <code>JTable</code> class.
- *  This default mechanism is only used when the renderer (or
- *  editor) in the <code>TableColumn</code> is <code>null</code>.
+ *  It is blso possible to specify renderers bnd editors on b per type bbsis
+ *  rbther thbn b per column bbsis - see the
+ *  <code>setDefbultRenderer</code> method in the <code>JTbble</code> clbss.
+ *  This defbult mechbnism is only used when the renderer (or
+ *  editor) in the <code>TbbleColumn</code> is <code>null</code>.
  * <p>
- *  The <code>TableColumn</code> stores the link between the columns in the
- *  <code>JTable</code> and the columns in the <code>TableModel</code>.
+ *  The <code>TbbleColumn</code> stores the link between the columns in the
+ *  <code>JTbble</code> bnd the columns in the <code>TbbleModel</code>.
  *  The <code>modelIndex</code> is the column in the
- *  <code>TableModel</code>, which will be queried for the data values for the
- *  cells in this column. As the column moves around in the view this
- *  <code>modelIndex</code> does not change.
+ *  <code>TbbleModel</code>, which will be queried for the dbtb vblues for the
+ *  cells in this column. As the column moves bround in the view this
+ *  <code>modelIndex</code> does not chbnge.
  *  <p>
- * <b>Note:</b> Some implementations may assume that all
- *    <code>TableColumnModel</code>s are unique, therefore we would
- *    recommend that the same <code>TableColumn</code> instance
- *    not be added more than once to a <code>TableColumnModel</code>.
- *    To show <code>TableColumn</code>s with the same column of
- *    data from the model, create a new instance with the same
+ * <b>Note:</b> Some implementbtions mby bssume thbt bll
+ *    <code>TbbleColumnModel</code>s bre unique, therefore we would
+ *    recommend thbt the sbme <code>TbbleColumn</code> instbnce
+ *    not be bdded more thbn once to b <code>TbbleColumnModel</code>.
+ *    To show <code>TbbleColumn</code>s with the sbme column of
+ *    dbtb from the model, crebte b new instbnce with the sbme
  *    <code>modelIndex</code>.
  *  <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @see javax.swing.table.TableColumnModel
+ * @buthor Albn Chung
+ * @buthor Philip Milne
+ * @see jbvbx.swing.tbble.TbbleColumnModel
  *
- * @see javax.swing.table.DefaultTableColumnModel
- * @see javax.swing.table.JTableHeader#getDefaultRenderer()
- * @see JTable#getDefaultRenderer(Class)
- * @see JTable#getDefaultEditor(Class)
- * @see JTable#getCellRenderer(int, int)
- * @see JTable#getCellEditor(int, int)
+ * @see jbvbx.swing.tbble.DefbultTbbleColumnModel
+ * @see jbvbx.swing.tbble.JTbbleHebder#getDefbultRenderer()
+ * @see JTbble#getDefbultRenderer(Clbss)
+ * @see JTbble#getDefbultEditor(Clbss)
+ * @see JTbble#getCellRenderer(int, int)
+ * @see JTbble#getCellEditor(int, int)
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TableColumn extends Object implements Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss TbbleColumn extends Object implements Seriblizbble {
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use string literals to identify
+     * Obsolete bs of Jbvb 2 plbtform v1.3.  Plebse use string literbls to identify
      * properties.
      */
     /*
-     * Warning: The value of this constant, "columWidth" is wrong as the
-     * name of the property is "columnWidth".
+     * Wbrning: The vblue of this constbnt, "columWidth" is wrong bs the
+     * nbme of the property is "columnWidth".
      */
-    public final static String COLUMN_WIDTH_PROPERTY = "columWidth";
+    public finbl stbtic String COLUMN_WIDTH_PROPERTY = "columWidth";
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use string literals to identify
+     * Obsolete bs of Jbvb 2 plbtform v1.3.  Plebse use string literbls to identify
      * properties.
      */
-    public final static String HEADER_VALUE_PROPERTY = "headerValue";
+    public finbl stbtic String HEADER_VALUE_PROPERTY = "hebderVblue";
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use string literals to identify
+     * Obsolete bs of Jbvb 2 plbtform v1.3.  Plebse use string literbls to identify
      * properties.
      */
-    public final static String HEADER_RENDERER_PROPERTY = "headerRenderer";
+    public finbl stbtic String HEADER_RENDERER_PROPERTY = "hebderRenderer";
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use string literals to identify
+     * Obsolete bs of Jbvb 2 plbtform v1.3.  Plebse use string literbls to identify
      * properties.
      */
-    public final static String CELL_RENDERER_PROPERTY = "cellRenderer";
+    public finbl stbtic String CELL_RENDERER_PROPERTY = "cellRenderer";
 
 //
-//  Instance Variables
+//  Instbnce Vbribbles
 //
 
     /**
-      * The index of the column in the model which is to be displayed by
-      * this <code>TableColumn</code>. As columns are moved around in the
-      * view <code>modelIndex</code> remains constant.
+      * The index of the column in the model which is to be displbyed by
+      * this <code>TbbleColumn</code>. As columns bre moved bround in the
+      * view <code>modelIndex</code> rembins constbnt.
       */
     protected int       modelIndex;
 
     /**
-     *  This object is not used internally by the drawing machinery of
-     *  the <code>JTable</code>; identifiers may be set in the
-     *  <code>TableColumn</code> as as an
-     *  optional way to tag and locate table columns. The table package does
-     *  not modify or invoke any methods in these identifier objects other
-     *  than the <code>equals</code> method which is used in the
+     *  This object is not used internblly by the drbwing mbchinery of
+     *  the <code>JTbble</code>; identifiers mby be set in the
+     *  <code>TbbleColumn</code> bs bs bn
+     *  optionbl wby to tbg bnd locbte tbble columns. The tbble pbckbge does
+     *  not modify or invoke bny methods in these identifier objects other
+     *  thbn the <code>equbls</code> method which is used in the
      *  <code>getColumnIndex()</code> method in the
-     *  <code>DefaultTableColumnModel</code>.
+     *  <code>DefbultTbbleColumnModel</code>.
      */
     protected Object    identifier;
 
@@ -143,180 +143,180 @@ public class TableColumn extends Object implements Serializable {
     protected int       minWidth;
 
     /** The preferred width of the column. */
-    private int         preferredWidth;
+    privbte int         preferredWidth;
 
-    /** The maximum width of the column. */
-    protected int       maxWidth;
+    /** The mbximum width of the column. */
+    protected int       mbxWidth;
 
-    /** The renderer used to draw the header of the column. */
-    protected TableCellRenderer headerRenderer;
+    /** The renderer used to drbw the hebder of the column. */
+    protected TbbleCellRenderer hebderRenderer;
 
-    /** The header value of the column. */
-    protected Object            headerValue;
+    /** The hebder vblue of the column. */
+    protected Object            hebderVblue;
 
-    /** The renderer used to draw the data cells of the column. */
-    protected TableCellRenderer cellRenderer;
+    /** The renderer used to drbw the dbtb cells of the column. */
+    protected TbbleCellRenderer cellRenderer;
 
-    /** The editor used to edit the data cells of the column. */
-    protected TableCellEditor   cellEditor;
+    /** The editor used to edit the dbtb cells of the column. */
+    protected TbbleCellEditor   cellEditor;
 
-    /** If true, the user is allowed to resize the column; the default is true. */
-    protected boolean   isResizable;
+    /** If true, the user is bllowed to resize the column; the defbult is true. */
+    protected boolebn   isResizbble;
 
     /**
-     * This field was not used in previous releases and there are
-     * currently no plans to support it in the future.
+     * This field wbs not used in previous relebses bnd there bre
+     * currently no plbns to support it in the future.
      *
-     * @deprecated as of Java 2 platform v1.3
+     * @deprecbted bs of Jbvb 2 plbtform v1.3
      */
     /*
-     *  Counter used to disable posting of resizing notifications until the
+     *  Counter used to disbble posting of resizing notificbtions until the
      *  end of the resize.
      */
-    @Deprecated
-    transient protected int     resizedPostingDisableCount;
+    @Deprecbted
+    trbnsient protected int     resizedPostingDisbbleCount;
 
     /**
-     * If any <code>PropertyChangeListeners</code> have been registered, the
-     * <code>changeSupport</code> field describes them.
+     * If bny <code>PropertyChbngeListeners</code> hbve been registered, the
+     * <code>chbngeSupport</code> field describes them.
      */
-    private SwingPropertyChangeSupport changeSupport;
+    privbte SwingPropertyChbngeSupport chbngeSupport;
 
 //
 // Constructors
 //
 
     /**
-     *  Cover method, using a default model index of 0,
-     *  default width of 75, a <code>null</code> renderer and a
+     *  Cover method, using b defbult model index of 0,
+     *  defbult width of 75, b <code>null</code> renderer bnd b
      *  <code>null</code> editor.
-     *  This method is intended for serialization.
-     *  @see #TableColumn(int, int, TableCellRenderer, TableCellEditor)
+     *  This method is intended for seriblizbtion.
+     *  @see #TbbleColumn(int, int, TbbleCellRenderer, TbbleCellEditor)
      */
-    public TableColumn() {
+    public TbbleColumn() {
         this(0);
     }
 
     /**
-     *  Cover method, using a default width of 75, a <code>null</code>
-     *  renderer and a <code>null</code> editor.
-     *  @see #TableColumn(int, int, TableCellRenderer, TableCellEditor)
+     *  Cover method, using b defbult width of 75, b <code>null</code>
+     *  renderer bnd b <code>null</code> editor.
+     *  @see #TbbleColumn(int, int, TbbleCellRenderer, TbbleCellEditor)
      *
-     *  @param modelIndex  the index of the column in the model
-     *  that supplies the data for this column in the table;
-     *  the model index remains the same even when columns
-     *  are reordered in the view
+     *  @pbrbm modelIndex  the index of the column in the model
+     *  thbt supplies the dbtb for this column in the tbble;
+     *  the model index rembins the sbme even when columns
+     *  bre reordered in the view
      */
-    public TableColumn(int modelIndex) {
+    public TbbleColumn(int modelIndex) {
         this(modelIndex, 75, null, null);
     }
 
     /**
-     *  Cover method, using a <code>null</code> renderer and a
+     *  Cover method, using b <code>null</code> renderer bnd b
      *  <code>null</code> editor.
-     *  @see #TableColumn(int, int, TableCellRenderer, TableCellEditor)
+     *  @see #TbbleColumn(int, int, TbbleCellRenderer, TbbleCellEditor)
      *
-     *  @param modelIndex  the index of the column in the model
-     *  that supplies the data for this column in the table;
-     *  the model index remains the same even when columns
-     *  are reordered in the view
-     *  @param width  this column's preferred width and initial width
+     *  @pbrbm modelIndex  the index of the column in the model
+     *  thbt supplies the dbtb for this column in the tbble;
+     *  the model index rembins the sbme even when columns
+     *  bre reordered in the view
+     *  @pbrbm width  this column's preferred width bnd initibl width
      */
-    public TableColumn(int modelIndex, int width) {
+    public TbbleColumn(int modelIndex, int width) {
         this(modelIndex, width, null, null);
     }
 
     /**
-     *  Creates and initializes an instance of
-     *  <code>TableColumn</code> with the specified model index,
-     *  width, cell renderer, and cell editor;
-     *  all <code>TableColumn</code> constructors delegate to this one.
-     *  The value of <code>width</code> is used
-     *  for both the initial and preferred width;
-     *  if <code>width</code> is negative,
+     *  Crebtes bnd initiblizes bn instbnce of
+     *  <code>TbbleColumn</code> with the specified model index,
+     *  width, cell renderer, bnd cell editor;
+     *  bll <code>TbbleColumn</code> constructors delegbte to this one.
+     *  The vblue of <code>width</code> is used
+     *  for both the initibl bnd preferred width;
+     *  if <code>width</code> is negbtive,
      *  they're set to 0.
-     *  The minimum width is set to 15 unless the initial width is less,
-     *  in which case the minimum width is set to
-     *  the initial width.
+     *  The minimum width is set to 15 unless the initibl width is less,
+     *  in which cbse the minimum width is set to
+     *  the initibl width.
      *
      *  <p>
      *  When the <code>cellRenderer</code>
-     *  or <code>cellEditor</code> parameter is <code>null</code>,
-     *  a default value provided by the <code>JTable</code>
-     *  <code>getDefaultRenderer</code>
-     *  or <code>getDefaultEditor</code> method, respectively,
+     *  or <code>cellEditor</code> pbrbmeter is <code>null</code>,
+     *  b defbult vblue provided by the <code>JTbble</code>
+     *  <code>getDefbultRenderer</code>
+     *  or <code>getDefbultEditor</code> method, respectively,
      *  is used to
-     *  provide defaults based on the type of the data in this column.
-     *  This column-centric rendering strategy can be circumvented by overriding
-     *  the <code>getCellRenderer</code> methods in <code>JTable</code>.
+     *  provide defbults bbsed on the type of the dbtb in this column.
+     *  This column-centric rendering strbtegy cbn be circumvented by overriding
+     *  the <code>getCellRenderer</code> methods in <code>JTbble</code>.
      *
-     * @param modelIndex the index of the column
-     *  in the model that supplies the data for this column in the table;
-     *  the model index remains the same
-     *  even when columns are reordered in the view
-     * @param width this column's preferred width and initial width
-     * @param cellRenderer the object used to render values in this column
-     * @param cellEditor the object used to edit values in this column
+     * @pbrbm modelIndex the index of the column
+     *  in the model thbt supplies the dbtb for this column in the tbble;
+     *  the model index rembins the sbme
+     *  even when columns bre reordered in the view
+     * @pbrbm width this column's preferred width bnd initibl width
+     * @pbrbm cellRenderer the object used to render vblues in this column
+     * @pbrbm cellEditor the object used to edit vblues in this column
      * @see #getMinWidth()
-     * @see JTable#getDefaultRenderer(Class)
-     * @see JTable#getDefaultEditor(Class)
-     * @see JTable#getCellRenderer(int, int)
-     * @see JTable#getCellEditor(int, int)
+     * @see JTbble#getDefbultRenderer(Clbss)
+     * @see JTbble#getDefbultEditor(Clbss)
+     * @see JTbble#getCellRenderer(int, int)
+     * @see JTbble#getCellEditor(int, int)
      */
-    public TableColumn(int modelIndex, int width,
-                                 TableCellRenderer cellRenderer,
-                                 TableCellEditor cellEditor) {
+    public TbbleColumn(int modelIndex, int width,
+                                 TbbleCellRenderer cellRenderer,
+                                 TbbleCellEditor cellEditor) {
         super();
         this.modelIndex = modelIndex;
-        preferredWidth = this.width = Math.max(width, 0);
+        preferredWidth = this.width = Mbth.mbx(width, 0);
 
         this.cellRenderer = cellRenderer;
         this.cellEditor = cellEditor;
 
-        // Set other instance variables to default values.
-        minWidth = Math.min(15, this.width);
-        maxWidth = Integer.MAX_VALUE;
-        isResizable = true;
-        resizedPostingDisableCount = 0;
-        headerValue = null;
+        // Set other instbnce vbribbles to defbult vblues.
+        minWidth = Mbth.min(15, this.width);
+        mbxWidth = Integer.MAX_VALUE;
+        isResizbble = true;
+        resizedPostingDisbbleCount = 0;
+        hebderVblue = null;
     }
 
 //
-// Modifying and Querying attributes
+// Modifying bnd Querying bttributes
 //
 
-    private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        if (changeSupport != null) {
-            changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    privbte void firePropertyChbnge(String propertyNbme, Object oldVblue, Object newVblue) {
+        if (chbngeSupport != null) {
+            chbngeSupport.firePropertyChbnge(propertyNbme, oldVblue, newVblue);
         }
     }
 
-    private void firePropertyChange(String propertyName, int oldValue, int newValue) {
-        if (oldValue != newValue) {
-            firePropertyChange(propertyName, Integer.valueOf(oldValue), Integer.valueOf(newValue));
+    privbte void firePropertyChbnge(String propertyNbme, int oldVblue, int newVblue) {
+        if (oldVblue != newVblue) {
+            firePropertyChbnge(propertyNbme, Integer.vblueOf(oldVblue), Integer.vblueOf(newVblue));
         }
     }
 
-    private void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
-        if (oldValue != newValue) {
-            firePropertyChange(propertyName, Boolean.valueOf(oldValue), Boolean.valueOf(newValue));
+    privbte void firePropertyChbnge(String propertyNbme, boolebn oldVblue, boolebn newVblue) {
+        if (oldVblue != newVblue) {
+            firePropertyChbnge(propertyNbme, Boolebn.vblueOf(oldVblue), Boolebn.vblueOf(newVblue));
         }
     }
 
     /**
      * Sets the model index for this column. The model index is the
-     * index of the column in the model that will be displayed by this
-     * <code>TableColumn</code>. As the <code>TableColumn</code>
-     * is moved around in the view the model index remains constant.
-     * @param  modelIndex  the new modelIndex
-     * @beaninfo
+     * index of the column in the model thbt will be displbyed by this
+     * <code>TbbleColumn</code>. As the <code>TbbleColumn</code>
+     * is moved bround in the view the model index rembins constbnt.
+     * @pbrbm  modelIndex  the new modelIndex
+     * @bebninfo
      *  bound: true
      *  description: The model index.
      */
     public void setModelIndex(int modelIndex) {
         int old = this.modelIndex;
         this.modelIndex = modelIndex;
-        firePropertyChange("modelIndex", old, modelIndex);
+        firePropertyChbnge("modelIndex", old, modelIndex);
     }
 
     /**
@@ -328,206 +328,206 @@ public class TableColumn extends Object implements Serializable {
     }
 
     /**
-     * Sets the <code>TableColumn</code>'s identifier to
-     * <code>anIdentifier</code>. <p>
-     * Note: identifiers are not used by the <code>JTable</code>,
-     * they are purely a
-     * convenience for the external tagging and location of columns.
+     * Sets the <code>TbbleColumn</code>'s identifier to
+     * <code>bnIdentifier</code>. <p>
+     * Note: identifiers bre not used by the <code>JTbble</code>,
+     * they bre purely b
+     * convenience for the externbl tbgging bnd locbtion of columns.
      *
-     * @param      identifier           an identifier for this column
+     * @pbrbm      identifier           bn identifier for this column
      * @see        #getIdentifier
-     * @beaninfo
+     * @bebninfo
      *  bound: true
      *  description: A unique identifier for this column.
      */
     public void setIdentifier(Object identifier) {
         Object old = this.identifier;
         this.identifier = identifier;
-        firePropertyChange("identifier", old, identifier);
+        firePropertyChbnge("identifier", old, identifier);
     }
 
 
     /**
      *  Returns the <code>identifier</code> object for this column.
-     *  Note identifiers are not used by <code>JTable</code>,
-     *  they are purely a convenience for external use.
+     *  Note identifiers bre not used by <code>JTbble</code>,
+     *  they bre purely b convenience for externbl use.
      *  If the <code>identifier</code> is <code>null</code>,
-     *  <code>getIdentifier()</code> returns <code>getHeaderValue</code>
-     *  as a default.
+     *  <code>getIdentifier()</code> returns <code>getHebderVblue</code>
+     *  bs b defbult.
      *
      * @return  the <code>identifier</code> property
      * @see     #setIdentifier
      */
     public Object getIdentifier() {
-        return (identifier != null) ? identifier : getHeaderValue();
+        return (identifier != null) ? identifier : getHebderVblue();
 
     }
 
     /**
-     * Sets the <code>Object</code> whose string representation will be
-     * used as the value for the <code>headerRenderer</code>.  When the
-     * <code>TableColumn</code> is created, the default <code>headerValue</code>
+     * Sets the <code>Object</code> whose string representbtion will be
+     * used bs the vblue for the <code>hebderRenderer</code>.  When the
+     * <code>TbbleColumn</code> is crebted, the defbult <code>hebderVblue</code>
      * is <code>null</code>.
-     * @param headerValue  the new headerValue
-     * @see       #getHeaderValue
-     * @beaninfo
+     * @pbrbm hebderVblue  the new hebderVblue
+     * @see       #getHebderVblue
+     * @bebninfo
      *  bound: true
-     *  description: The text to be used by the header renderer.
+     *  description: The text to be used by the hebder renderer.
      */
-    public void setHeaderValue(Object headerValue) {
-        Object old = this.headerValue;
-        this.headerValue = headerValue;
-        firePropertyChange("headerValue", old, headerValue);
+    public void setHebderVblue(Object hebderVblue) {
+        Object old = this.hebderVblue;
+        this.hebderVblue = hebderVblue;
+        firePropertyChbnge("hebderVblue", old, hebderVblue);
     }
 
     /**
-     * Returns the <code>Object</code> used as the value for the header
+     * Returns the <code>Object</code> used bs the vblue for the hebder
      * renderer.
      *
-     * @return  the <code>headerValue</code> property
-     * @see     #setHeaderValue
+     * @return  the <code>hebderVblue</code> property
+     * @see     #setHebderVblue
      */
-    public Object getHeaderValue() {
-        return headerValue;
+    public Object getHebderVblue() {
+        return hebderVblue;
     }
 
     //
-    // Renderers and Editors
+    // Renderers bnd Editors
     //
 
     /**
-     * Sets the <code>TableCellRenderer</code> used to draw the
-     * <code>TableColumn</code>'s header to <code>headerRenderer</code>.
+     * Sets the <code>TbbleCellRenderer</code> used to drbw the
+     * <code>TbbleColumn</code>'s hebder to <code>hebderRenderer</code>.
      * <p>
-     * It is the header renderers responsibility to render the sorting
-     * indicator.  If you are using sorting and specify a renderer your
-     * renderer must render the sorting indication.
+     * It is the hebder renderers responsibility to render the sorting
+     * indicbtor.  If you bre using sorting bnd specify b renderer your
+     * renderer must render the sorting indicbtion.
      *
-     * @param headerRenderer  the new headerRenderer
+     * @pbrbm hebderRenderer  the new hebderRenderer
      *
-     * @see       #getHeaderRenderer
-     * @beaninfo
+     * @see       #getHebderRenderer
+     * @bebninfo
      *  bound: true
-     *  description: The header renderer.
+     *  description: The hebder renderer.
      */
-    public void setHeaderRenderer(TableCellRenderer headerRenderer) {
-        TableCellRenderer old = this.headerRenderer;
-        this.headerRenderer = headerRenderer;
-        firePropertyChange("headerRenderer", old, headerRenderer);
+    public void setHebderRenderer(TbbleCellRenderer hebderRenderer) {
+        TbbleCellRenderer old = this.hebderRenderer;
+        this.hebderRenderer = hebderRenderer;
+        firePropertyChbnge("hebderRenderer", old, hebderRenderer);
     }
 
     /**
-     * Returns the <code>TableCellRenderer</code> used to draw the header of the
-     * <code>TableColumn</code>. When the <code>headerRenderer</code> is
-     * <code>null</code>, the <code>JTableHeader</code>
-     * uses its <code>defaultRenderer</code>. The default value for a
-     * <code>headerRenderer</code> is <code>null</code>.
+     * Returns the <code>TbbleCellRenderer</code> used to drbw the hebder of the
+     * <code>TbbleColumn</code>. When the <code>hebderRenderer</code> is
+     * <code>null</code>, the <code>JTbbleHebder</code>
+     * uses its <code>defbultRenderer</code>. The defbult vblue for b
+     * <code>hebderRenderer</code> is <code>null</code>.
      *
-     * @return  the <code>headerRenderer</code> property
-     * @see     #setHeaderRenderer
-     * @see     #setHeaderValue
-     * @see     javax.swing.table.JTableHeader#getDefaultRenderer()
+     * @return  the <code>hebderRenderer</code> property
+     * @see     #setHebderRenderer
+     * @see     #setHebderVblue
+     * @see     jbvbx.swing.tbble.JTbbleHebder#getDefbultRenderer()
      */
-    public TableCellRenderer getHeaderRenderer() {
-        return headerRenderer;
+    public TbbleCellRenderer getHebderRenderer() {
+        return hebderRenderer;
     }
 
     /**
-     * Sets the <code>TableCellRenderer</code> used by <code>JTable</code>
-     * to draw individual values for this column.
+     * Sets the <code>TbbleCellRenderer</code> used by <code>JTbble</code>
+     * to drbw individubl vblues for this column.
      *
-     * @param cellRenderer  the new cellRenderer
+     * @pbrbm cellRenderer  the new cellRenderer
      * @see     #getCellRenderer
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *  description: The renderer to use for cell values.
+     *  description: The renderer to use for cell vblues.
      */
-    public void setCellRenderer(TableCellRenderer cellRenderer) {
-        TableCellRenderer old = this.cellRenderer;
+    public void setCellRenderer(TbbleCellRenderer cellRenderer) {
+        TbbleCellRenderer old = this.cellRenderer;
         this.cellRenderer = cellRenderer;
-        firePropertyChange("cellRenderer", old, cellRenderer);
+        firePropertyChbnge("cellRenderer", old, cellRenderer);
     }
 
     /**
-     * Returns the <code>TableCellRenderer</code> used by the
-     * <code>JTable</code> to draw
-     * values for this column.  The <code>cellRenderer</code> of the column
-     * not only controls the visual look for the column, but is also used to
-     * interpret the value object supplied by the <code>TableModel</code>.
+     * Returns the <code>TbbleCellRenderer</code> used by the
+     * <code>JTbble</code> to drbw
+     * vblues for this column.  The <code>cellRenderer</code> of the column
+     * not only controls the visubl look for the column, but is blso used to
+     * interpret the vblue object supplied by the <code>TbbleModel</code>.
      * When the <code>cellRenderer</code> is <code>null</code>,
-     * the <code>JTable</code> uses a default renderer based on the
-     * class of the cells in that column. The default value for a
+     * the <code>JTbble</code> uses b defbult renderer bbsed on the
+     * clbss of the cells in thbt column. The defbult vblue for b
      * <code>cellRenderer</code> is <code>null</code>.
      *
      * @return  the <code>cellRenderer</code> property
      * @see     #setCellRenderer
-     * @see     JTable#setDefaultRenderer
+     * @see     JTbble#setDefbultRenderer
      */
-    public TableCellRenderer getCellRenderer() {
+    public TbbleCellRenderer getCellRenderer() {
         return cellRenderer;
     }
 
     /**
-     * Sets the editor to used by when a cell in this column is edited.
+     * Sets the editor to used by when b cell in this column is edited.
      *
-     * @param cellEditor  the new cellEditor
+     * @pbrbm cellEditor  the new cellEditor
      * @see     #getCellEditor
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *  description: The editor to use for cell values.
+     *  description: The editor to use for cell vblues.
      */
-    public void setCellEditor(TableCellEditor cellEditor){
-        TableCellEditor old = this.cellEditor;
+    public void setCellEditor(TbbleCellEditor cellEditor){
+        TbbleCellEditor old = this.cellEditor;
         this.cellEditor = cellEditor;
-        firePropertyChange("cellEditor", old, cellEditor);
+        firePropertyChbnge("cellEditor", old, cellEditor);
     }
 
     /**
-     * Returns the <code>TableCellEditor</code> used by the
-     * <code>JTable</code> to edit values for this column.  When the
-     * <code>cellEditor</code> is <code>null</code>, the <code>JTable</code>
-     * uses a default editor based on the
-     * class of the cells in that column. The default value for a
+     * Returns the <code>TbbleCellEditor</code> used by the
+     * <code>JTbble</code> to edit vblues for this column.  When the
+     * <code>cellEditor</code> is <code>null</code>, the <code>JTbble</code>
+     * uses b defbult editor bbsed on the
+     * clbss of the cells in thbt column. The defbult vblue for b
      * <code>cellEditor</code> is <code>null</code>.
      *
      * @return  the <code>cellEditor</code> property
      * @see     #setCellEditor
-     * @see     JTable#setDefaultEditor
+     * @see     JTbble#setDefbultEditor
      */
-    public TableCellEditor getCellEditor() {
+    public TbbleCellEditor getCellEditor() {
         return cellEditor;
     }
 
     /**
      * This method should not be used to set the widths of columns in the
-     * <code>JTable</code>, use <code>setPreferredWidth</code> instead.
-     * Like a layout manager in the
-     * AWT, the <code>JTable</code> adjusts a column's width automatically
+     * <code>JTbble</code>, use <code>setPreferredWidth</code> instebd.
+     * Like b lbyout mbnbger in the
+     * AWT, the <code>JTbble</code> bdjusts b column's width butombticblly
      * whenever the
-     * table itself changes size, or a column's preferred width is changed.
-     * Setting widths programmatically therefore has no long term effect.
+     * tbble itself chbnges size, or b column's preferred width is chbnged.
+     * Setting widths progrbmmbticblly therefore hbs no long term effect.
      * <p>
      * This method sets this column's width to <code>width</code>.
-     * If <code>width</code> exceeds the minimum or maximum width,
-     * it is adjusted to the appropriate limiting value.
-     * @param  width  the new width
+     * If <code>width</code> exceeds the minimum or mbximum width,
+     * it is bdjusted to the bppropribte limiting vblue.
+     * @pbrbm  width  the new width
      * @see     #getWidth
      * @see     #setMinWidth
-     * @see     #setMaxWidth
+     * @see     #setMbxWidth
      * @see     #setPreferredWidth
-     * @see     JTable#doLayout()
-     * @beaninfo
+     * @see     JTbble#doLbyout()
+     * @bebninfo
      *  bound: true
      *  description: The width of the column.
      */
     public void setWidth(int width) {
         int old = this.width;
-        this.width = Math.min(Math.max(width, minWidth), maxWidth);
-        firePropertyChange("width", old, this.width);
+        this.width = Mbth.min(Mbth.mbx(width, minWidth), mbxWidth);
+        firePropertyChbnge("width", old, this.width);
     }
 
     /**
-     * Returns the width of the <code>TableColumn</code>. The default width is
+     * Returns the width of the <code>TbbleColumn</code>. The defbult width is
      * 75.
      *
      * @return  the <code>width</code> property
@@ -539,30 +539,30 @@ public class TableColumn extends Object implements Serializable {
 
     /**
      * Sets this column's preferred width to <code>preferredWidth</code>.
-     * If <code>preferredWidth</code> exceeds the minimum or maximum width,
-     * it is adjusted to the appropriate limiting value.
+     * If <code>preferredWidth</code> exceeds the minimum or mbximum width,
+     * it is bdjusted to the bppropribte limiting vblue.
      * <p>
-     * For details on how the widths of columns in the <code>JTable</code>
-     * (and <code>JTableHeader</code>) are calculated from the
+     * For detbils on how the widths of columns in the <code>JTbble</code>
+     * (bnd <code>JTbbleHebder</code>) bre cblculbted from the
      * <code>preferredWidth</code>,
-     * see the <code>doLayout</code> method in <code>JTable</code>.
+     * see the <code>doLbyout</code> method in <code>JTbble</code>.
      *
-     * @param  preferredWidth the new preferred width
+     * @pbrbm  preferredWidth the new preferred width
      * @see     #getPreferredWidth
-     * @see     JTable#doLayout()
-     * @beaninfo
+     * @see     JTbble#doLbyout()
+     * @bebninfo
      *  bound: true
      *  description: The preferred width of the column.
      */
     public void setPreferredWidth(int preferredWidth) {
         int old = this.preferredWidth;
-        this.preferredWidth = Math.min(Math.max(preferredWidth, minWidth), maxWidth);
-        firePropertyChange("preferredWidth", old, this.preferredWidth);
+        this.preferredWidth = Mbth.min(Mbth.mbx(preferredWidth, minWidth), mbxWidth);
+        firePropertyChbnge("preferredWidth", old, this.preferredWidth);
     }
 
     /**
-     * Returns the preferred width of the <code>TableColumn</code>.
-     * The default preferred width is 75.
+     * Returns the preferred width of the <code>TbbleColumn</code>.
+     * The defbult preferred width is 75.
      *
      * @return  the <code>preferredWidth</code> property
      * @see     #setPreferredWidth
@@ -572,229 +572,229 @@ public class TableColumn extends Object implements Serializable {
     }
 
     /**
-     * Sets the <code>TableColumn</code>'s minimum width to
+     * Sets the <code>TbbleColumn</code>'s minimum width to
      * <code>minWidth</code>,
-     * adjusting the new minimum width if necessary to ensure that
-     * 0 &lt;= <code>minWidth</code> &lt;= <code>maxWidth</code>.
-     * For example, if the <code>minWidth</code> argument is negative,
+     * bdjusting the new minimum width if necessbry to ensure thbt
+     * 0 &lt;= <code>minWidth</code> &lt;= <code>mbxWidth</code>.
+     * For exbmple, if the <code>minWidth</code> brgument is negbtive,
      * this method sets the <code>minWidth</code> property to 0.
      *
      * <p>
-     * If the value of the
+     * If the vblue of the
      * <code>width</code> or <code>preferredWidth</code> property
-     * is less than the new minimum width,
-     * this method sets that property to the new minimum width.
+     * is less thbn the new minimum width,
+     * this method sets thbt property to the new minimum width.
      *
-     * @param minWidth  the new minimum width
+     * @pbrbm minWidth  the new minimum width
      * @see     #getMinWidth
      * @see     #setPreferredWidth
-     * @see     #setMaxWidth
-     * @beaninfo
+     * @see     #setMbxWidth
+     * @bebninfo
      *  bound: true
      *  description: The minimum width of the column.
      */
     public void setMinWidth(int minWidth) {
         int old = this.minWidth;
-        this.minWidth = Math.max(Math.min(minWidth, maxWidth), 0);
+        this.minWidth = Mbth.mbx(Mbth.min(minWidth, mbxWidth), 0);
         if (width < this.minWidth) {
             setWidth(this.minWidth);
         }
         if (preferredWidth < this.minWidth) {
             setPreferredWidth(this.minWidth);
         }
-        firePropertyChange("minWidth", old, this.minWidth);
+        firePropertyChbnge("minWidth", old, this.minWidth);
     }
 
     /**
-     * Returns the minimum width for the <code>TableColumn</code>. The
-     * <code>TableColumn</code>'s width can't be made less than this either
-     * by the user or programmatically.
+     * Returns the minimum width for the <code>TbbleColumn</code>. The
+     * <code>TbbleColumn</code>'s width cbn't be mbde less thbn this either
+     * by the user or progrbmmbticblly.
      *
      * @return  the <code>minWidth</code> property
      * @see     #setMinWidth
-     * @see     #TableColumn(int, int, TableCellRenderer, TableCellEditor)
+     * @see     #TbbleColumn(int, int, TbbleCellRenderer, TbbleCellEditor)
      */
     public int getMinWidth() {
         return minWidth;
     }
 
     /**
-     * Sets the <code>TableColumn</code>'s maximum width to
-     * <code>maxWidth</code> or,
-     * if <code>maxWidth</code> is less than the minimum width,
+     * Sets the <code>TbbleColumn</code>'s mbximum width to
+     * <code>mbxWidth</code> or,
+     * if <code>mbxWidth</code> is less thbn the minimum width,
      * to the minimum width.
      *
      * <p>
-     * If the value of the
+     * If the vblue of the
      * <code>width</code> or <code>preferredWidth</code> property
-     * is more than the new maximum width,
-     * this method sets that property to the new maximum width.
+     * is more thbn the new mbximum width,
+     * this method sets thbt property to the new mbximum width.
      *
-     * @param maxWidth  the new maximum width
-     * @see     #getMaxWidth
+     * @pbrbm mbxWidth  the new mbximum width
+     * @see     #getMbxWidth
      * @see     #setPreferredWidth
      * @see     #setMinWidth
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *  description: The maximum width of the column.
+     *  description: The mbximum width of the column.
      */
-    public void setMaxWidth(int maxWidth) {
-        int old = this.maxWidth;
-        this.maxWidth = Math.max(minWidth, maxWidth);
-        if (width > this.maxWidth) {
-            setWidth(this.maxWidth);
+    public void setMbxWidth(int mbxWidth) {
+        int old = this.mbxWidth;
+        this.mbxWidth = Mbth.mbx(minWidth, mbxWidth);
+        if (width > this.mbxWidth) {
+            setWidth(this.mbxWidth);
         }
-        if (preferredWidth > this.maxWidth) {
-            setPreferredWidth(this.maxWidth);
+        if (preferredWidth > this.mbxWidth) {
+            setPreferredWidth(this.mbxWidth);
         }
-        firePropertyChange("maxWidth", old, this.maxWidth);
+        firePropertyChbnge("mbxWidth", old, this.mbxWidth);
     }
 
     /**
-     * Returns the maximum width for the <code>TableColumn</code>. The
-     * <code>TableColumn</code>'s width can't be made larger than this
-     * either by the user or programmatically.  The default maxWidth
+     * Returns the mbximum width for the <code>TbbleColumn</code>. The
+     * <code>TbbleColumn</code>'s width cbn't be mbde lbrger thbn this
+     * either by the user or progrbmmbticblly.  The defbult mbxWidth
      * is Integer.MAX_VALUE.
      *
-     * @return  the <code>maxWidth</code> property
-     * @see     #setMaxWidth
+     * @return  the <code>mbxWidth</code> property
+     * @see     #setMbxWidth
      */
-    public int getMaxWidth() {
-        return maxWidth;
+    public int getMbxWidth() {
+        return mbxWidth;
     }
 
     /**
-     * Sets whether this column can be resized.
+     * Sets whether this column cbn be resized.
      *
-     * @param isResizable  if true, resizing is allowed; otherwise false
-     * @see     #getResizable
-     * @beaninfo
+     * @pbrbm isResizbble  if true, resizing is bllowed; otherwise fblse
+     * @see     #getResizbble
+     * @bebninfo
      *  bound: true
-     *  description: Whether or not this column can be resized.
+     *  description: Whether or not this column cbn be resized.
      */
-    public void setResizable(boolean isResizable) {
-        boolean old = this.isResizable;
-        this.isResizable = isResizable;
-        firePropertyChange("isResizable", old, this.isResizable);
+    public void setResizbble(boolebn isResizbble) {
+        boolebn old = this.isResizbble;
+        this.isResizbble = isResizbble;
+        firePropertyChbnge("isResizbble", old, this.isResizbble);
     }
 
     /**
-     * Returns true if the user is allowed to resize the
-     * <code>TableColumn</code>'s
-     * width, false otherwise. You can change the width programmatically
-     * regardless of this setting.  The default is true.
+     * Returns true if the user is bllowed to resize the
+     * <code>TbbleColumn</code>'s
+     * width, fblse otherwise. You cbn chbnge the width progrbmmbticblly
+     * regbrdless of this setting.  The defbult is true.
      *
-     * @return  the <code>isResizable</code> property
-     * @see     #setResizable
+     * @return  the <code>isResizbble</code> property
+     * @see     #setResizbble
      */
-    public boolean getResizable() {
-        return isResizable;
+    public boolebn getResizbble() {
+        return isResizbble;
     }
 
     /**
-     * Resizes the <code>TableColumn</code> to fit the width of its header cell.
-     * This method does nothing if the header renderer is <code>null</code>
-     * (the default case). Otherwise, it sets the minimum, maximum and preferred
-     * widths of this column to the widths of the minimum, maximum and preferred
-     * sizes of the Component delivered by the header renderer.
-     * The transient "width" property of this TableColumn is also set to the
-     * preferred width. Note this method is not used internally by the table
-     * package.
+     * Resizes the <code>TbbleColumn</code> to fit the width of its hebder cell.
+     * This method does nothing if the hebder renderer is <code>null</code>
+     * (the defbult cbse). Otherwise, it sets the minimum, mbximum bnd preferred
+     * widths of this column to the widths of the minimum, mbximum bnd preferred
+     * sizes of the Component delivered by the hebder renderer.
+     * The trbnsient "width" property of this TbbleColumn is blso set to the
+     * preferred width. Note this method is not used internblly by the tbble
+     * pbckbge.
      *
      * @see     #setPreferredWidth
      */
     public void sizeWidthToFit() {
-        if (headerRenderer == null) {
+        if (hebderRenderer == null) {
             return;
         }
-        Component c = headerRenderer.getTableCellRendererComponent(null,
-                                getHeaderValue(), false, false, 0, 0);
+        Component c = hebderRenderer.getTbbleCellRendererComponent(null,
+                                getHebderVblue(), fblse, fblse, 0, 0);
 
         setMinWidth(c.getMinimumSize().width);
-        setMaxWidth(c.getMaximumSize().width);
+        setMbxWidth(c.getMbximumSize().width);
         setPreferredWidth(c.getPreferredSize().width);
 
         setWidth(getPreferredWidth());
     }
 
     /**
-     * This field was not used in previous releases and there are
-     * currently no plans to support it in the future.
+     * This field wbs not used in previous relebses bnd there bre
+     * currently no plbns to support it in the future.
      *
-     * @deprecated as of Java 2 platform v1.3
+     * @deprecbted bs of Jbvb 2 plbtform v1.3
      */
-    @Deprecated
-    public void disableResizedPosting() {
-        resizedPostingDisableCount++;
+    @Deprecbted
+    public void disbbleResizedPosting() {
+        resizedPostingDisbbleCount++;
     }
 
     /**
-     * This field was not used in previous releases and there are
-     * currently no plans to support it in the future.
+     * This field wbs not used in previous relebses bnd there bre
+     * currently no plbns to support it in the future.
      *
-     * @deprecated as of Java 2 platform v1.3
+     * @deprecbted bs of Jbvb 2 plbtform v1.3
      */
-    @Deprecated
-    public void enableResizedPosting() {
-        resizedPostingDisableCount--;
+    @Deprecbted
+    public void enbbleResizedPosting() {
+        resizedPostingDisbbleCount--;
     }
 
 //
-// Property Change Support
+// Property Chbnge Support
 //
 
     /**
-     * Adds a <code>PropertyChangeListener</code> to the listener list.
-     * The listener is registered for all properties.
+     * Adds b <code>PropertyChbngeListener</code> to the listener list.
+     * The listener is registered for bll properties.
      * <p>
-     * A <code>PropertyChangeEvent</code> will get fired in response to an
-     * explicit call to <code>setFont</code>, <code>setBackground</code>,
+     * A <code>PropertyChbngeEvent</code> will get fired in response to bn
+     * explicit cbll to <code>setFont</code>, <code>setBbckground</code>,
      * or <code>setForeground</code> on the
-     * current component.  Note that if the current component is
-     * inheriting its foreground, background, or font from its
-     * container, then no event will be fired in response to a
-     * change in the inherited property.
+     * current component.  Note thbt if the current component is
+     * inheriting its foreground, bbckground, or font from its
+     * contbiner, then no event will be fired in response to b
+     * chbnge in the inherited property.
      *
-     * @param listener  the listener to be added
+     * @pbrbm listener  the listener to be bdded
      *
      */
-    public synchronized void addPropertyChangeListener(
-                                PropertyChangeListener listener) {
-        if (changeSupport == null) {
-            changeSupport = new SwingPropertyChangeSupport(this);
+    public synchronized void bddPropertyChbngeListener(
+                                PropertyChbngeListener listener) {
+        if (chbngeSupport == null) {
+            chbngeSupport = new SwingPropertyChbngeSupport(this);
         }
-        changeSupport.addPropertyChangeListener(listener);
+        chbngeSupport.bddPropertyChbngeListener(listener);
     }
 
     /**
-     * Removes a <code>PropertyChangeListener</code> from the listener list.
-     * The <code>PropertyChangeListener</code> to be removed was registered
-     * for all properties.
+     * Removes b <code>PropertyChbngeListener</code> from the listener list.
+     * The <code>PropertyChbngeListener</code> to be removed wbs registered
+     * for bll properties.
      *
-     * @param listener  the listener to be removed
+     * @pbrbm listener  the listener to be removed
      *
      */
 
-    public synchronized void removePropertyChangeListener(
-                                PropertyChangeListener listener) {
-        if (changeSupport != null) {
-            changeSupport.removePropertyChangeListener(listener);
+    public synchronized void removePropertyChbngeListener(
+                                PropertyChbngeListener listener) {
+        if (chbngeSupport != null) {
+            chbngeSupport.removePropertyChbngeListener(listener);
         }
     }
 
     /**
-     * Returns an array of all the <code>PropertyChangeListener</code>s added
-     * to this TableColumn with addPropertyChangeListener().
+     * Returns bn brrby of bll the <code>PropertyChbngeListener</code>s bdded
+     * to this TbbleColumn with bddPropertyChbngeListener().
      *
-     * @return all of the <code>PropertyChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>PropertyChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public synchronized PropertyChangeListener[] getPropertyChangeListeners() {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
+    public synchronized PropertyChbngeListener[] getPropertyChbngeListeners() {
+        if (chbngeSupport == null) {
+            return new PropertyChbngeListener[0];
         }
-        return changeSupport.getPropertyChangeListeners();
+        return chbngeSupport.getPropertyChbngeListeners();
     }
 
 //
@@ -802,36 +802,36 @@ public class TableColumn extends Object implements Serializable {
 //
 
     /**
-     * As of Java 2 platform v1.3, this method is not called by the <code>TableColumn</code>
-     * constructor.  Previously this method was used by the
-     * <code>TableColumn</code> to create a default header renderer.
-     * As of Java 2 platform v1.3, the default header renderer is <code>null</code>.
-     * <code>JTableHeader</code> now provides its own shared default
-     * renderer, just as the <code>JTable</code> does for its cell renderers.
+     * As of Jbvb 2 plbtform v1.3, this method is not cblled by the <code>TbbleColumn</code>
+     * constructor.  Previously this method wbs used by the
+     * <code>TbbleColumn</code> to crebte b defbult hebder renderer.
+     * As of Jbvb 2 plbtform v1.3, the defbult hebder renderer is <code>null</code>.
+     * <code>JTbbleHebder</code> now provides its own shbred defbult
+     * renderer, just bs the <code>JTbble</code> does for its cell renderers.
      *
-     * @return the default header renderer
-     * @see javax.swing.table.JTableHeader#createDefaultRenderer()
+     * @return the defbult hebder renderer
+     * @see jbvbx.swing.tbble.JTbbleHebder#crebteDefbultRenderer()
      */
-    protected TableCellRenderer createDefaultHeaderRenderer() {
-        DefaultTableCellRenderer label = new DefaultTableCellRenderer() {
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                         boolean isSelected, boolean hasFocus, int row, int column) {
-                if (table != null) {
-                    JTableHeader header = table.getTableHeader();
-                    if (header != null) {
-                        setForeground(header.getForeground());
-                        setBackground(header.getBackground());
-                        setFont(header.getFont());
+    protected TbbleCellRenderer crebteDefbultHebderRenderer() {
+        DefbultTbbleCellRenderer lbbel = new DefbultTbbleCellRenderer() {
+            public Component getTbbleCellRendererComponent(JTbble tbble, Object vblue,
+                         boolebn isSelected, boolebn hbsFocus, int row, int column) {
+                if (tbble != null) {
+                    JTbbleHebder hebder = tbble.getTbbleHebder();
+                    if (hebder != null) {
+                        setForeground(hebder.getForeground());
+                        setBbckground(hebder.getBbckground());
+                        setFont(hebder.getFont());
                     }
                 }
 
-                setText((value == null) ? "" : value.toString());
-                setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+                setText((vblue == null) ? "" : vblue.toString());
+                setBorder(UIMbnbger.getBorder("TbbleHebder.cellBorder"));
                 return this;
             }
         };
-        label.setHorizontalAlignment(JLabel.CENTER);
-        return label;
+        lbbel.setHorizontblAlignment(JLbbel.CENTER);
+        return lbbel;
     }
 
-} // End of class TableColumn
+} // End of clbss TbbleColumn

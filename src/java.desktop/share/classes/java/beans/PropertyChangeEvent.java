@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.util.EventObject;
+import jbvb.util.EventObject;
 
 /**
- * A "PropertyChange" event gets delivered whenever a bean changes a "bound"
- * or "constrained" property.  A PropertyChangeEvent object is sent as an
- * argument to the PropertyChangeListener and VetoableChangeListener methods.
+ * A "PropertyChbnge" event gets delivered whenever b bebn chbnges b "bound"
+ * or "constrbined" property.  A PropertyChbngeEvent object is sent bs bn
+ * brgument to the PropertyChbngeListener bnd VetobbleChbngeListener methods.
  * <P>
- * Normally PropertyChangeEvents are accompanied by the name and the old
- * and new value of the changed property.  If the new value is a primitive
- * type (such as int or boolean) it must be wrapped as the
- * corresponding java.lang.* Object type (such as Integer or Boolean).
+ * Normblly PropertyChbngeEvents bre bccompbnied by the nbme bnd the old
+ * bnd new vblue of the chbnged property.  If the new vblue is b primitive
+ * type (such bs int or boolebn) it must be wrbpped bs the
+ * corresponding jbvb.lbng.* Object type (such bs Integer or Boolebn).
  * <P>
- * Null values may be provided for the old and the new values if their
- * true values are not known.
+ * Null vblues mby be provided for the old bnd the new vblues if their
+ * true vblues bre not known.
  * <P>
- * An event source may send a null object as the name to indicate that an
- * arbitrary set of if its properties have changed.  In this case the
- * old and new values should also be null.
+ * An event source mby send b null object bs the nbme to indicbte thbt bn
+ * brbitrbry set of if its properties hbve chbnged.  In this cbse the
+ * old bnd new vblues should blso be null.
  *
  * @since 1.1
  */
-public class PropertyChangeEvent extends EventObject {
-    private static final long serialVersionUID = 7042693688939648123L;
+public clbss PropertyChbngeEvent extends EventObject {
+    privbte stbtic finbl long seriblVersionUID = 7042693688939648123L;
 
     /**
-     * Constructs a new {@code PropertyChangeEvent}.
+     * Constructs b new {@code PropertyChbngeEvent}.
      *
-     * @param source        the bean that fired the event
-     * @param propertyName  the programmatic name of the property that was changed
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @pbrbm source        the bebn thbt fired the event
+     * @pbrbm propertyNbme  the progrbmmbtic nbme of the property thbt wbs chbnged
+     * @pbrbm oldVblue      the old vblue of the property
+     * @pbrbm newVblue      the new vblue of the property
      *
-     * @throws IllegalArgumentException if {@code source} is {@code null}
+     * @throws IllegblArgumentException if {@code source} is {@code null}
      */
-    public PropertyChangeEvent(Object source, String propertyName,
-                               Object oldValue, Object newValue) {
+    public PropertyChbngeEvent(Object source, String propertyNbme,
+                               Object oldVblue, Object newVblue) {
         super(source);
-        this.propertyName = propertyName;
-        this.newValue = newValue;
-        this.oldValue = oldValue;
+        this.propertyNbme = propertyNbme;
+        this.newVblue = newVblue;
+        this.oldVblue = oldVblue;
     }
 
     /**
-     * Gets the programmatic name of the property that was changed.
+     * Gets the progrbmmbtic nbme of the property thbt wbs chbnged.
      *
-     * @return  The programmatic name of the property that was changed.
-     *          May be null if multiple properties have changed.
+     * @return  The progrbmmbtic nbme of the property thbt wbs chbnged.
+     *          Mby be null if multiple properties hbve chbnged.
      */
-    public String getPropertyName() {
-        return propertyName;
+    public String getPropertyNbme() {
+        return propertyNbme;
     }
 
     /**
-     * Gets the new value for the property, expressed as an Object.
+     * Gets the new vblue for the property, expressed bs bn Object.
      *
-     * @return  The new value for the property, expressed as an Object.
-     *          May be null if multiple properties have changed.
+     * @return  The new vblue for the property, expressed bs bn Object.
+     *          Mby be null if multiple properties hbve chbnged.
      */
-    public Object getNewValue() {
-        return newValue;
+    public Object getNewVblue() {
+        return newVblue;
     }
 
     /**
-     * Gets the old value for the property, expressed as an Object.
+     * Gets the old vblue for the property, expressed bs bn Object.
      *
-     * @return  The old value for the property, expressed as an Object.
-     *          May be null if multiple properties have changed.
+     * @return  The old vblue for the property, expressed bs bn Object.
+     *          Mby be null if multiple properties hbve chbnged.
      */
-    public Object getOldValue() {
-        return oldValue;
+    public Object getOldVblue() {
+        return oldVblue;
     }
 
     /**
-     * Sets the propagationId object for the event.
+     * Sets the propbgbtionId object for the event.
      *
-     * @param propagationId  The propagationId object for the event.
+     * @pbrbm propbgbtionId  The propbgbtionId object for the event.
      */
-    public void setPropagationId(Object propagationId) {
-        this.propagationId = propagationId;
+    public void setPropbgbtionId(Object propbgbtionId) {
+        this.propbgbtionId = propbgbtionId;
     }
 
     /**
-     * The "propagationId" field is reserved for future use.  In Beans 1.0
-     * the sole requirement is that if a listener catches a PropertyChangeEvent
-     * and then fires a PropertyChangeEvent of its own, then it should
-     * make sure that it propagates the propagationId field from its
+     * The "propbgbtionId" field is reserved for future use.  In Bebns 1.0
+     * the sole requirement is thbt if b listener cbtches b PropertyChbngeEvent
+     * bnd then fires b PropertyChbngeEvent of its own, then it should
+     * mbke sure thbt it propbgbtes the propbgbtionId field from its
      * incoming event to its outgoing event.
      *
-     * @return the propagationId object associated with a bound/constrained
-     *          property update.
+     * @return the propbgbtionId object bssocibted with b bound/constrbined
+     *          property updbte.
      */
-    public Object getPropagationId() {
-        return propagationId;
+    public Object getPropbgbtionId() {
+        return propbgbtionId;
     }
 
     /**
-     * name of the property that changed.  May be null, if not known.
-     * @serial
+     * nbme of the property thbt chbnged.  Mby be null, if not known.
+     * @seribl
      */
-    private String propertyName;
+    privbte String propertyNbme;
 
     /**
-     * New value for property.  May be null if not known.
-     * @serial
+     * New vblue for property.  Mby be null if not known.
+     * @seribl
      */
-    private Object newValue;
+    privbte Object newVblue;
 
     /**
-     * Previous value for property.  May be null if not known.
-     * @serial
+     * Previous vblue for property.  Mby be null if not known.
+     * @seribl
      */
-    private Object oldValue;
+    privbte Object oldVblue;
 
     /**
-     * Propagation ID.  May be null.
-     * @serial
-     * @see #getPropagationId
+     * Propbgbtion ID.  Mby be null.
+     * @seribl
+     * @see #getPropbgbtionId
      */
-    private Object propagationId;
+    privbte Object propbgbtionId;
 
     /**
-     * Returns a string representation of the object.
+     * Returns b string representbtion of the object.
      *
-     * @return a string representation of the object
+     * @return b string representbtion of the object
      *
      * @since 1.7
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder(getClass().getName());
-        sb.append("[propertyName=").append(getPropertyName());
-        appendTo(sb);
-        sb.append("; oldValue=").append(getOldValue());
-        sb.append("; newValue=").append(getNewValue());
-        sb.append("; propagationId=").append(getPropagationId());
-        sb.append("; source=").append(getSource());
-        return sb.append("]").toString();
+        StringBuilder sb = new StringBuilder(getClbss().getNbme());
+        sb.bppend("[propertyNbme=").bppend(getPropertyNbme());
+        bppendTo(sb);
+        sb.bppend("; oldVblue=").bppend(getOldVblue());
+        sb.bppend("; newVblue=").bppend(getNewVblue());
+        sb.bppend("; propbgbtionId=").bppend(getPropbgbtionId());
+        sb.bppend("; source=").bppend(getSource());
+        return sb.bppend("]").toString();
     }
 
-    void appendTo(StringBuilder sb) {
+    void bppendTo(StringBuilder sb) {
     }
 }

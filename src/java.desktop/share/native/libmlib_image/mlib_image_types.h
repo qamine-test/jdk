@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -32,18 +32,18 @@ extern "C" {
 #endif
 
 typedef enum {
-  MLIB_BIT    = 0,      /* 1-bit data                   */
-  MLIB_BYTE   = 1,      /* 8-bit unsigned integer data  */
-  MLIB_SHORT  = 2,      /* 16-bit signed integer data   */
-  MLIB_INT    = 3,      /* 32-bit signed integer data   */
-  MLIB_FLOAT  = 4,      /* 32-bit floating-point data   */
-  MLIB_DOUBLE = 5,      /* 64-bit floating-point data   */
-  MLIB_USHORT = 6       /* 16-bit unsigned integer data */
+  MLIB_BIT    = 0,      /* 1-bit dbtb                   */
+  MLIB_BYTE   = 1,      /* 8-bit unsigned integer dbtb  */
+  MLIB_SHORT  = 2,      /* 16-bit signed integer dbtb   */
+  MLIB_INT    = 3,      /* 32-bit signed integer dbtb   */
+  MLIB_FLOAT  = 4,      /* 32-bit flobting-point dbtb   */
+  MLIB_DOUBLE = 5,      /* 64-bit flobting-point dbtb   */
+  MLIB_USHORT = 6       /* 16-bit unsigned integer dbtb */
 } mlib_type;
 
 typedef enum {
-  MLIB_NEAREST  = 0,    /* nearest neighbor filter      */
-  MLIB_BILINEAR = 1,    /* bilinear filter              */
+  MLIB_NEAREST  = 0,    /* nebrest neighbor filter      */
+  MLIB_BILINEAR = 1,    /* bilinebr filter              */
   MLIB_BICUBIC  = 2,    /* bicubic filter               */
   MLIB_BICUBIC2 = 3     /* bicubic2 filter              */
 } mlib_filter;
@@ -52,15 +52,15 @@ typedef enum {
   MLIB_EDGE_DST_NO_WRITE      = 0,      /* no write to dst edge */
   MLIB_EDGE_DST_FILL_ZERO     = 1,      /* set dst edge to zero */
   MLIB_EDGE_DST_COPY_SRC      = 2,      /* copy src edge to dst edge */
-  MLIB_EDGE_OP_NEAREST        = 3,      /* use nearest neighbor interpolation
+  MLIB_EDGE_OP_NEAREST        = 3,      /* use nebrest neighbor interpolbtion
                                            for edge pixels */
-  MLIB_EDGE_OP_DEGRADED       = 4,      /* use degraded interpolation for
+  MLIB_EDGE_OP_DEGRADED       = 4,      /* use degrbded interpolbtion for
                                            edge pixels, i.e., bicubic ->
-                                           bilinear -> nearest neighbor */
-  MLIB_EDGE_SRC_EXTEND        = 5,      /* extend src edge by replication */
+                                           bilinebr -> nebrest neighbor */
+  MLIB_EDGE_SRC_EXTEND        = 5,      /* extend src edge by replicbtion */
   MLIB_EDGE_SRC_EXTEND_ZERO   = 6,      /* extend src edge with zeros */
-  MLIB_EDGE_SRC_EXTEND_MIRROR = 7,      /* extend src edge with mirrored data */
-  MLIB_EDGE_SRC_PADDED        = 8       /* use borders specified in mlib_image structure */
+  MLIB_EDGE_SRC_EXTEND_MIRROR = 7,      /* extend src edge with mirrored dbtb */
+  MLIB_EDGE_SRC_PADDED        = 8       /* use borders specified in mlib_imbge structure */
 } mlib_edge;
 
 typedef enum {
@@ -78,26 +78,26 @@ typedef enum {
 } mlib_blend;
 
 typedef enum {
-  MLIB_DFT_SCALE_NONE     = 0,  /* forward transform without scaling */
-  MLIB_DFT_SCALE_MXN      = 1,  /* forward transform with scaling of
+  MLIB_DFT_SCALE_NONE     = 0,  /* forwbrd trbnsform without scbling */
+  MLIB_DFT_SCALE_MXN      = 1,  /* forwbrd trbnsform with scbling of
                                    1/(M*N) */
-  MLIB_DFT_SCALE_SQRT     = 2,  /* forward transform with scaling of
+  MLIB_DFT_SCALE_SQRT     = 2,  /* forwbrd trbnsform with scbling of
                                    1/sqrt(M*N) */
-  MLIB_IDFT_SCALE_NONE    = 3,  /* inverse transform without scaling */
-  MLIB_IDFT_SCALE_MXN     = 4,  /* inverse transform with scaling of
+  MLIB_IDFT_SCALE_NONE    = 3,  /* inverse trbnsform without scbling */
+  MLIB_IDFT_SCALE_MXN     = 4,  /* inverse trbnsform with scbling of
                                    1/(M*N) */
-  MLIB_IDFT_SCALE_SQRT    = 5   /* inverse transform with scaling of
+  MLIB_IDFT_SCALE_SQRT    = 5   /* inverse trbnsform with scbling of
                                    1/sqrt(M*N) */
 } mlib_fourier_mode;
 
 typedef enum {
-  MLIB_MEDIAN_MASK_RECT             = 0, /* Rectangle shaped mask */
-  MLIB_MEDIAN_MASK_PLUS             = 1, /* Plus shaped mask */
-  MLIB_MEDIAN_MASK_X                = 2, /* X shaped mask */
-  MLIB_MEDIAN_MASK_RECT_SEPARABLE   = 3  /* Separable rectangle mask */
-} mlib_median_mask;
+  MLIB_MEDIAN_MASK_RECT             = 0, /* Rectbngle shbped mbsk */
+  MLIB_MEDIAN_MASK_PLUS             = 1, /* Plus shbped mbsk */
+  MLIB_MEDIAN_MASK_X                = 2, /* X shbped mbsk */
+  MLIB_MEDIAN_MASK_RECT_SEPARABLE   = 3  /* Sepbrbble rectbngle mbsk */
+} mlib_medibn_mbsk;
 
-typedef enum { /* constants used for pixel format */
+typedef enum { /* constbnts used for pixel formbt */
   MLIB_FORMAT_UNKNOWN         =  0,
   MLIB_FORMAT_INDEXED         =  1,
   MLIB_FORMAT_GRAYSCALE       =  2,
@@ -109,29 +109,29 @@ typedef enum { /* constants used for pixel format */
   MLIB_FORMAT_PACKED_ABGR     =  8,
   MLIB_FORMAT_GRAYSCALE_ALPHA =  9,
   MLIB_FORMAT_RGBA            = 10
-} mlib_format;
+} mlib_formbt;
 
 typedef struct {
-  mlib_type   type;        /* data type of image                       */
-  mlib_s32    channels;    /* number of channels                       */
-  mlib_s32    width;       /* width of image in pixels, x dimension    */
-  mlib_s32    height;      /* height of image in pixels, y dimension   */
+  mlib_type   type;        /* dbtb type of imbge                       */
+  mlib_s32    chbnnels;    /* number of chbnnels                       */
+  mlib_s32    width;       /* width of imbge in pixels, x dimension    */
+  mlib_s32    height;      /* height of imbge in pixels, y dimension   */
   mlib_s32    stride;      /* linestride = bytes to next row           */
-  mlib_s32    flags;       /* collection of helpful hints              */
-  void        *data;       /* pointer to first data pixel              */
-  void        *state;      /* internal state structure                 */
-  mlib_u8     paddings[4]; /* left, top, right, bottom                 */
+  mlib_s32    flbgs;       /* collection of helpful hints              */
+  void        *dbtb;       /* pointer to first dbtb pixel              */
+  void        *stbte;      /* internbl stbte structure                 */
+  mlib_u8     pbddings[4]; /* left, top, right, bottom                 */
   mlib_s32    bitoffset;   /* the offset in bits from the beginning    */
-                           /* of the data buffer to the first pixel    */
-  mlib_format format;      /* pixels format                            */
+                           /* of the dbtb buffer to the first pixel    */
+  mlib_formbt formbt;      /* pixels formbt                            */
   mlib_s32    reserved[7 - 2*sizeof(void*)/4];
-                           /* Reserved for future use. Also makes      */
+                           /* Reserved for future use. Also mbkes      */
                            /* size of this structure = 64 bytes, which */
-                           /* is the size of the cache line.           */
-} mlib_image;
+                           /* is the size of the cbche line.           */
+} mlib_imbge;
 
 /*
- * Flags or hints are contained in a 32-bit integer. The bit structure is
+ * Flbgs or hints bre contbined in b 32-bit integer. The bit structure is
  * shown below:
  *
  *      3                   2                   1
@@ -140,22 +140,22 @@ typedef struct {
  *   |S|                 |U|V| shint | hhint | whint |     dhint     |
  *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  *
- *      S = 0   - attributes have been set (attribute field >= 0)
- *          1   - attributes have not been set (attribute field < 0)
+ *      S = 0   - bttributes hbve been set (bttribute field >= 0)
+ *          1   - bttributes hbve not been set (bttribute field < 0)
  *
- *      U = 0   - mediaLib allocated data space
- *          1   - user allocated data space
+ *      U = 0   - medibLib bllocbted dbtb spbce
+ *          1   - user bllocbted dbtb spbce
  *
  *      V = 0   - stride == width => 1-D vector
  *          1   - stride != width
  *
- *      shint   - last 4 bits of stride
+ *      shint   - lbst 4 bits of stride
  *
- *      hhint   - last 4 bits of height
+ *      hhint   - lbst 4 bits of height
  *
- *      whint   - last 4 bits of width
+ *      whint   - lbst 4 bits of width
  *
- *      dhint   - last 8 bits of data address
+ *      dhint   - lbst 8 bits of dbtb bddress
  */
 
 enum {

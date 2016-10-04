@@ -1,564 +1,564 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.PrintStream;
-import java.util.Arrays;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Arrbys;
 import sun.misc.VM;
 
 /**
- * A thread group represents a set of threads. In addition, a thread
- * group can also include other thread groups. The thread groups form
- * a tree in which every thread group except the initial thread group
- * has a parent.
+ * A threbd group represents b set of threbds. In bddition, b threbd
+ * group cbn blso include other threbd groups. The threbd groups form
+ * b tree in which every threbd group except the initibl threbd group
+ * hbs b pbrent.
  * <p>
- * A thread is allowed to access information about its own thread
- * group, but not to access information about its thread group's
- * parent thread group or any other thread groups.
+ * A threbd is bllowed to bccess informbtion bbout its own threbd
+ * group, but not to bccess informbtion bbout its threbd group's
+ * pbrent threbd group or bny other threbd groups.
  *
- * @author  unascribed
+ * @buthor  unbscribed
  * @since   1.0
  */
-/* The locking strategy for this code is to try to lock only one level of the
+/* The locking strbtegy for this code is to try to lock only one level of the
  * tree wherever possible, but otherwise to lock from the bottom up.
- * That is, from child thread groups to parents.
- * This has the advantage of limiting the number of locks that need to be held
- * and in particular avoids having to grab the lock for the root thread group,
- * (or a global lock) which would be a source of contention on a
- * multi-processor system with many thread groups.
- * This policy often leads to taking a snapshot of the state of a thread group
- * and working off of that snapshot, rather than holding the thread group locked
+ * Thbt is, from child threbd groups to pbrents.
+ * This hbs the bdvbntbge of limiting the number of locks thbt need to be held
+ * bnd in pbrticulbr bvoids hbving to grbb the lock for the root threbd group,
+ * (or b globbl lock) which would be b source of contention on b
+ * multi-processor system with mbny threbd groups.
+ * This policy often lebds to tbking b snbpshot of the stbte of b threbd group
+ * bnd working off of thbt snbpshot, rbther thbn holding the threbd group locked
  * while we work on the children.
  */
 public
-class ThreadGroup implements Thread.UncaughtExceptionHandler {
-    private final ThreadGroup parent;
-    String name;
-    int maxPriority;
-    boolean destroyed;
-    boolean daemon;
-    boolean vmAllowSuspension;
+clbss ThrebdGroup implements Threbd.UncbughtExceptionHbndler {
+    privbte finbl ThrebdGroup pbrent;
+    String nbme;
+    int mbxPriority;
+    boolebn destroyed;
+    boolebn dbemon;
+    boolebn vmAllowSuspension;
 
-    int nUnstartedThreads = 0;
-    int nthreads;
-    Thread threads[];
+    int nUnstbrtedThrebds = 0;
+    int nthrebds;
+    Threbd threbds[];
 
     int ngroups;
-    ThreadGroup groups[];
+    ThrebdGroup groups[];
 
     /**
-     * Creates an empty Thread group that is not in any Thread group.
-     * This method is used to create the system Thread group.
+     * Crebtes bn empty Threbd group thbt is not in bny Threbd group.
+     * This method is used to crebte the system Threbd group.
      */
-    private ThreadGroup() {     // called from C code
-        this.name = "system";
-        this.maxPriority = Thread.MAX_PRIORITY;
-        this.parent = null;
+    privbte ThrebdGroup() {     // cblled from C code
+        this.nbme = "system";
+        this.mbxPriority = Threbd.MAX_PRIORITY;
+        this.pbrent = null;
     }
 
     /**
-     * Constructs a new thread group. The parent of this new group is
-     * the thread group of the currently running thread.
+     * Constructs b new threbd group. The pbrent of this new group is
+     * the threbd group of the currently running threbd.
      * <p>
-     * The <code>checkAccess</code> method of the parent thread group is
-     * called with no arguments; this may result in a security exception.
+     * The <code>checkAccess</code> method of the pbrent threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      *
-     * @param   name   the name of the new thread group.
-     * @exception  SecurityException  if the current thread cannot create a
-     *               thread in the specified thread group.
-     * @see     java.lang.ThreadGroup#checkAccess()
+     * @pbrbm   nbme   the nbme of the new threbd group.
+     * @exception  SecurityException  if the current threbd cbnnot crebte b
+     *               threbd in the specified threbd group.
+     * @see     jbvb.lbng.ThrebdGroup#checkAccess()
      * @since   1.0
      */
-    public ThreadGroup(String name) {
-        this(Thread.currentThread().getThreadGroup(), name);
+    public ThrebdGroup(String nbme) {
+        this(Threbd.currentThrebd().getThrebdGroup(), nbme);
     }
 
     /**
-     * Creates a new thread group. The parent of this new group is the
-     * specified thread group.
+     * Crebtes b new threbd group. The pbrent of this new group is the
+     * specified threbd group.
      * <p>
-     * The <code>checkAccess</code> method of the parent thread group is
-     * called with no arguments; this may result in a security exception.
+     * The <code>checkAccess</code> method of the pbrent threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      *
-     * @param     parent   the parent thread group.
-     * @param     name     the name of the new thread group.
-     * @exception  NullPointerException  if the thread group argument is
+     * @pbrbm     pbrent   the pbrent threbd group.
+     * @pbrbm     nbme     the nbme of the new threbd group.
+     * @exception  NullPointerException  if the threbd group brgument is
      *               <code>null</code>.
-     * @exception  SecurityException  if the current thread cannot create a
-     *               thread in the specified thread group.
-     * @see     java.lang.SecurityException
-     * @see     java.lang.ThreadGroup#checkAccess()
+     * @exception  SecurityException  if the current threbd cbnnot crebte b
+     *               threbd in the specified threbd group.
+     * @see     jbvb.lbng.SecurityException
+     * @see     jbvb.lbng.ThrebdGroup#checkAccess()
      * @since   1.0
      */
-    public ThreadGroup(ThreadGroup parent, String name) {
-        this(checkParentAccess(parent), parent, name);
+    public ThrebdGroup(ThrebdGroup pbrent, String nbme) {
+        this(checkPbrentAccess(pbrent), pbrent, nbme);
     }
 
-    private ThreadGroup(Void unused, ThreadGroup parent, String name) {
-        this.name = name;
-        this.maxPriority = parent.maxPriority;
-        this.daemon = parent.daemon;
-        this.vmAllowSuspension = parent.vmAllowSuspension;
-        this.parent = parent;
-        parent.add(this);
+    privbte ThrebdGroup(Void unused, ThrebdGroup pbrent, String nbme) {
+        this.nbme = nbme;
+        this.mbxPriority = pbrent.mbxPriority;
+        this.dbemon = pbrent.dbemon;
+        this.vmAllowSuspension = pbrent.vmAllowSuspension;
+        this.pbrent = pbrent;
+        pbrent.bdd(this);
     }
 
     /*
-     * @throws  NullPointerException  if the parent argument is {@code null}
-     * @throws  SecurityException     if the current thread cannot create a
-     *                                thread in the specified thread group.
+     * @throws  NullPointerException  if the pbrent brgument is {@code null}
+     * @throws  SecurityException     if the current threbd cbnnot crebte b
+     *                                threbd in the specified threbd group.
      */
-    private static Void checkParentAccess(ThreadGroup parent) {
-        parent.checkAccess();
+    privbte stbtic Void checkPbrentAccess(ThrebdGroup pbrent) {
+        pbrent.checkAccess();
         return null;
     }
 
     /**
-     * Returns the name of this thread group.
+     * Returns the nbme of this threbd group.
      *
-     * @return  the name of this thread group.
+     * @return  the nbme of this threbd group.
      * @since   1.0
      */
-    public final String getName() {
-        return name;
+    public finbl String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns the parent of this thread group.
+     * Returns the pbrent of this threbd group.
      * <p>
-     * First, if the parent is not <code>null</code>, the
-     * <code>checkAccess</code> method of the parent thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, if the pbrent is not <code>null</code>, the
+     * <code>checkAccess</code> method of the pbrent threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      *
-     * @return  the parent of this thread group. The top-level thread group
-     *          is the only thread group whose parent is <code>null</code>.
-     * @exception  SecurityException  if the current thread cannot modify
-     *               this thread group.
-     * @see        java.lang.ThreadGroup#checkAccess()
-     * @see        java.lang.SecurityException
-     * @see        java.lang.RuntimePermission
+     * @return  the pbrent of this threbd group. The top-level threbd group
+     *          is the only threbd group whose pbrent is <code>null</code>.
+     * @exception  SecurityException  if the current threbd cbnnot modify
+     *               this threbd group.
+     * @see        jbvb.lbng.ThrebdGroup#checkAccess()
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.RuntimePermission
      * @since   1.0
      */
-    public final ThreadGroup getParent() {
-        if (parent != null)
-            parent.checkAccess();
-        return parent;
+    public finbl ThrebdGroup getPbrent() {
+        if (pbrent != null)
+            pbrent.checkAccess();
+        return pbrent;
     }
 
     /**
-     * Returns the maximum priority of this thread group. Threads that are
-     * part of this group cannot have a higher priority than the maximum
+     * Returns the mbximum priority of this threbd group. Threbds thbt bre
+     * pbrt of this group cbnnot hbve b higher priority thbn the mbximum
      * priority.
      *
-     * @return  the maximum priority that a thread in this thread group
-     *          can have.
-     * @see     #setMaxPriority
+     * @return  the mbximum priority thbt b threbd in this threbd group
+     *          cbn hbve.
+     * @see     #setMbxPriority
      * @since   1.0
      */
-    public final int getMaxPriority() {
-        return maxPriority;
+    public finbl int getMbxPriority() {
+        return mbxPriority;
     }
 
     /**
-     * Tests if this thread group is a daemon thread group. A
-     * daemon thread group is automatically destroyed when its last
-     * thread is stopped or its last thread group is destroyed.
+     * Tests if this threbd group is b dbemon threbd group. A
+     * dbemon threbd group is butombticblly destroyed when its lbst
+     * threbd is stopped or its lbst threbd group is destroyed.
      *
-     * @return  <code>true</code> if this thread group is a daemon thread group;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if this threbd group is b dbemon threbd group;
+     *          <code>fblse</code> otherwise.
      * @since   1.0
      */
-    public final boolean isDaemon() {
-        return daemon;
+    public finbl boolebn isDbemon() {
+        return dbemon;
     }
 
     /**
-     * Tests if this thread group has been destroyed.
+     * Tests if this threbd group hbs been destroyed.
      *
      * @return  true if this object is destroyed
      * @since   1.1
      */
-    public synchronized boolean isDestroyed() {
+    public synchronized boolebn isDestroyed() {
         return destroyed;
     }
 
     /**
-     * Changes the daemon status of this thread group.
+     * Chbnges the dbemon stbtus of this threbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, the <code>checkAccess</code> method of this threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      * <p>
-     * A daemon thread group is automatically destroyed when its last
-     * thread is stopped or its last thread group is destroyed.
+     * A dbemon threbd group is butombticblly destroyed when its lbst
+     * threbd is stopped or its lbst threbd group is destroyed.
      *
-     * @param      daemon   if <code>true</code>, marks this thread group as
-     *                      a daemon thread group; otherwise, marks this
-     *                      thread group as normal.
-     * @exception  SecurityException  if the current thread cannot modify
-     *               this thread group.
-     * @see        java.lang.SecurityException
-     * @see        java.lang.ThreadGroup#checkAccess()
+     * @pbrbm      dbemon   if <code>true</code>, mbrks this threbd group bs
+     *                      b dbemon threbd group; otherwise, mbrks this
+     *                      threbd group bs normbl.
+     * @exception  SecurityException  if the current threbd cbnnot modify
+     *               this threbd group.
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.ThrebdGroup#checkAccess()
      * @since      1.0
      */
-    public final void setDaemon(boolean daemon) {
+    public finbl void setDbemon(boolebn dbemon) {
         checkAccess();
-        this.daemon = daemon;
+        this.dbemon = dbemon;
     }
 
     /**
-     * Sets the maximum priority of the group. Threads in the thread
-     * group that already have a higher priority are not affected.
+     * Sets the mbximum priority of the group. Threbds in the threbd
+     * group thbt blrebdy hbve b higher priority bre not bffected.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, the <code>checkAccess</code> method of this threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      * <p>
-     * If the <code>pri</code> argument is less than
-     * {@link Thread#MIN_PRIORITY} or greater than
-     * {@link Thread#MAX_PRIORITY}, the maximum priority of the group
-     * remains unchanged.
+     * If the <code>pri</code> brgument is less thbn
+     * {@link Threbd#MIN_PRIORITY} or grebter thbn
+     * {@link Threbd#MAX_PRIORITY}, the mbximum priority of the group
+     * rembins unchbnged.
      * <p>
-     * Otherwise, the priority of this ThreadGroup object is set to the
-     * smaller of the specified <code>pri</code> and the maximum permitted
-     * priority of the parent of this thread group. (If this thread group
-     * is the system thread group, which has no parent, then its maximum
+     * Otherwise, the priority of this ThrebdGroup object is set to the
+     * smbller of the specified <code>pri</code> bnd the mbximum permitted
+     * priority of the pbrent of this threbd group. (If this threbd group
+     * is the system threbd group, which hbs no pbrent, then its mbximum
      * priority is simply set to <code>pri</code>.) Then this method is
-     * called recursively, with <code>pri</code> as its argument, for
-     * every thread group that belongs to this thread group.
+     * cblled recursively, with <code>pri</code> bs its brgument, for
+     * every threbd group thbt belongs to this threbd group.
      *
-     * @param      pri   the new priority of the thread group.
-     * @exception  SecurityException  if the current thread cannot modify
-     *               this thread group.
-     * @see        #getMaxPriority
-     * @see        java.lang.SecurityException
-     * @see        java.lang.ThreadGroup#checkAccess()
+     * @pbrbm      pri   the new priority of the threbd group.
+     * @exception  SecurityException  if the current threbd cbnnot modify
+     *               this threbd group.
+     * @see        #getMbxPriority
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.ThrebdGroup#checkAccess()
      * @since      1.0
      */
-    public final void setMaxPriority(int pri) {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
+    public finbl void setMbxPriority(int pri) {
+        int ngroupsSnbpshot;
+        ThrebdGroup[] groupsSnbpshot;
         synchronized (this) {
             checkAccess();
-            if (pri < Thread.MIN_PRIORITY || pri > Thread.MAX_PRIORITY) {
+            if (pri < Threbd.MIN_PRIORITY || pri > Threbd.MAX_PRIORITY) {
                 return;
             }
-            maxPriority = (parent != null) ? Math.min(pri, parent.maxPriority) : pri;
-            ngroupsSnapshot = ngroups;
+            mbxPriority = (pbrent != null) ? Mbth.min(pri, pbrent.mbxPriority) : pri;
+            ngroupsSnbpshot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
             } else {
-                groupsSnapshot = null;
+                groupsSnbpshot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            groupsSnapshot[i].setMaxPriority(pri);
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            groupsSnbpshot[i].setMbxPriority(pri);
         }
     }
 
     /**
-     * Tests if this thread group is either the thread group
-     * argument or one of its ancestor thread groups.
+     * Tests if this threbd group is either the threbd group
+     * brgument or one of its bncestor threbd groups.
      *
-     * @param   g   a thread group.
-     * @return  <code>true</code> if this thread group is the thread group
-     *          argument or one of its ancestor thread groups;
-     *          <code>false</code> otherwise.
+     * @pbrbm   g   b threbd group.
+     * @return  <code>true</code> if this threbd group is the threbd group
+     *          brgument or one of its bncestor threbd groups;
+     *          <code>fblse</code> otherwise.
      * @since   1.0
      */
-    public final boolean parentOf(ThreadGroup g) {
-        for (; g != null ; g = g.parent) {
+    public finbl boolebn pbrentOf(ThrebdGroup g) {
+        for (; g != null ; g = g.pbrent) {
             if (g == this) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Determines if the currently running thread has permission to
-     * modify this thread group.
+     * Determines if the currently running threbd hbs permission to
+     * modify this threbd group.
      * <p>
-     * If there is a security manager, its <code>checkAccess</code> method
-     * is called with this thread group as its argument. This may result
-     * in throwing a <code>SecurityException</code>.
+     * If there is b security mbnbger, its <code>checkAccess</code> method
+     * is cblled with this threbd group bs its brgument. This mby result
+     * in throwing b <code>SecurityException</code>.
      *
-     * @exception  SecurityException  if the current thread is not allowed to
-     *               access this thread group.
-     * @see        java.lang.SecurityManager#checkAccess(java.lang.ThreadGroup)
+     * @exception  SecurityException  if the current threbd is not bllowed to
+     *               bccess this threbd group.
+     * @see        jbvb.lbng.SecurityMbnbger#checkAccess(jbvb.lbng.ThrebdGroup)
      * @since      1.0
      */
-    public final void checkAccess() {
-        SecurityManager security = System.getSecurityManager();
+    public finbl void checkAccess() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkAccess(this);
         }
     }
 
     /**
-     * Returns an estimate of the number of active threads in this thread
-     * group and its subgroups. Recursively iterates over all subgroups in
-     * this thread group.
+     * Returns bn estimbte of the number of bctive threbds in this threbd
+     * group bnd its subgroups. Recursively iterbtes over bll subgroups in
+     * this threbd group.
      *
-     * <p> The value returned is only an estimate because the number of
-     * threads may change dynamically while this method traverses internal
-     * data structures, and might be affected by the presence of certain
-     * system threads. This method is intended primarily for debugging
-     * and monitoring purposes.
+     * <p> The vblue returned is only bn estimbte becbuse the number of
+     * threbds mby chbnge dynbmicblly while this method trbverses internbl
+     * dbtb structures, bnd might be bffected by the presence of certbin
+     * system threbds. This method is intended primbrily for debugging
+     * bnd monitoring purposes.
      *
-     * @return  an estimate of the number of active threads in this thread
-     *          group and in any other thread group that has this thread
-     *          group as an ancestor
+     * @return  bn estimbte of the number of bctive threbds in this threbd
+     *          group bnd in bny other threbd group thbt hbs this threbd
+     *          group bs bn bncestor
      *
      * @since   1.0
      */
-    public int activeCount() {
+    public int bctiveCount() {
         int result;
-        // Snapshot sub-group data so we don't hold this lock
-        // while our children are computing.
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
+        // Snbpshot sub-group dbtb so we don't hold this lock
+        // while our children bre computing.
+        int ngroupsSnbpshot;
+        ThrebdGroup[] groupsSnbpshot;
         synchronized (this) {
             if (destroyed) {
                 return 0;
             }
-            result = nthreads;
-            ngroupsSnapshot = ngroups;
+            result = nthrebds;
+            ngroupsSnbpshot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
             } else {
-                groupsSnapshot = null;
+                groupsSnbpshot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            result += groupsSnapshot[i].activeCount();
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            result += groupsSnbpshot[i].bctiveCount();
         }
         return result;
     }
 
     /**
-     * Copies into the specified array every active thread in this
-     * thread group and its subgroups.
+     * Copies into the specified brrby every bctive threbd in this
+     * threbd group bnd its subgroups.
      *
-     * <p> An invocation of this method behaves in exactly the same
-     * way as the invocation
+     * <p> An invocbtion of this method behbves in exbctly the sbme
+     * wby bs the invocbtion
      *
      * <blockquote>
-     * {@linkplain #enumerate(Thread[], boolean) enumerate}{@code (list, true)}
+     * {@linkplbin #enumerbte(Threbd[], boolebn) enumerbte}{@code (list, true)}
      * </blockquote>
      *
-     * @param  list
-     *         an array into which to put the list of threads
+     * @pbrbm  list
+     *         bn brrby into which to put the list of threbds
      *
-     * @return  the number of threads put into the array
+     * @return  the number of threbds put into the brrby
      *
      * @throws  SecurityException
-     *          if {@linkplain #checkAccess checkAccess} determines that
-     *          the current thread cannot access this thread group
+     *          if {@linkplbin #checkAccess checkAccess} determines thbt
+     *          the current threbd cbnnot bccess this threbd group
      *
      * @since   1.0
      */
-    public int enumerate(Thread list[]) {
+    public int enumerbte(Threbd list[]) {
         checkAccess();
-        return enumerate(list, 0, true);
+        return enumerbte(list, 0, true);
     }
 
     /**
-     * Copies into the specified array every active thread in this
-     * thread group. If {@code recurse} is {@code true},
-     * this method recursively enumerates all subgroups of this
-     * thread group and references to every active thread in these
-     * subgroups are also included. If the array is too short to
-     * hold all the threads, the extra threads are silently ignored.
+     * Copies into the specified brrby every bctive threbd in this
+     * threbd group. If {@code recurse} is {@code true},
+     * this method recursively enumerbtes bll subgroups of this
+     * threbd group bnd references to every bctive threbd in these
+     * subgroups bre blso included. If the brrby is too short to
+     * hold bll the threbds, the extrb threbds bre silently ignored.
      *
-     * <p> An application might use the {@linkplain #activeCount activeCount}
-     * method to get an estimate of how big the array should be, however
-     * <i>if the array is too short to hold all the threads, the extra threads
-     * are silently ignored.</i>  If it is critical to obtain every active
-     * thread in this thread group, the caller should verify that the returned
-     * int value is strictly less than the length of {@code list}.
+     * <p> An bpplicbtion might use the {@linkplbin #bctiveCount bctiveCount}
+     * method to get bn estimbte of how big the brrby should be, however
+     * <i>if the brrby is too short to hold bll the threbds, the extrb threbds
+     * bre silently ignored.</i>  If it is criticbl to obtbin every bctive
+     * threbd in this threbd group, the cbller should verify thbt the returned
+     * int vblue is strictly less thbn the length of {@code list}.
      *
-     * <p> Due to the inherent race condition in this method, it is recommended
-     * that the method only be used for debugging and monitoring purposes.
+     * <p> Due to the inherent rbce condition in this method, it is recommended
+     * thbt the method only be used for debugging bnd monitoring purposes.
      *
-     * @param  list
-     *         an array into which to put the list of threads
+     * @pbrbm  list
+     *         bn brrby into which to put the list of threbds
      *
-     * @param  recurse
-     *         if {@code true}, recursively enumerate all subgroups of this
-     *         thread group
+     * @pbrbm  recurse
+     *         if {@code true}, recursively enumerbte bll subgroups of this
+     *         threbd group
      *
-     * @return  the number of threads put into the array
+     * @return  the number of threbds put into the brrby
      *
      * @throws  SecurityException
-     *          if {@linkplain #checkAccess checkAccess} determines that
-     *          the current thread cannot access this thread group
+     *          if {@linkplbin #checkAccess checkAccess} determines thbt
+     *          the current threbd cbnnot bccess this threbd group
      *
      * @since   1.0
      */
-    public int enumerate(Thread list[], boolean recurse) {
+    public int enumerbte(Threbd list[], boolebn recurse) {
         checkAccess();
-        return enumerate(list, 0, recurse);
+        return enumerbte(list, 0, recurse);
     }
 
-    private int enumerate(Thread list[], int n, boolean recurse) {
-        int ngroupsSnapshot = 0;
-        ThreadGroup[] groupsSnapshot = null;
+    privbte int enumerbte(Threbd list[], int n, boolebn recurse) {
+        int ngroupsSnbpshot = 0;
+        ThrebdGroup[] groupsSnbpshot = null;
         synchronized (this) {
             if (destroyed) {
                 return 0;
             }
-            int nt = nthreads;
+            int nt = nthrebds;
             if (nt > list.length - n) {
                 nt = list.length - n;
             }
             for (int i = 0; i < nt; i++) {
-                if (threads[i].isAlive()) {
-                    list[n++] = threads[i];
+                if (threbds[i].isAlive()) {
+                    list[n++] = threbds[i];
                 }
             }
             if (recurse) {
-                ngroupsSnapshot = ngroups;
+                ngroupsSnbpshot = ngroups;
                 if (groups != null) {
-                    groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                    groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
                 } else {
-                    groupsSnapshot = null;
+                    groupsSnbpshot = null;
                 }
             }
         }
         if (recurse) {
-            for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-                n = groupsSnapshot[i].enumerate(list, n, true);
+            for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+                n = groupsSnbpshot[i].enumerbte(list, n, true);
             }
         }
         return n;
     }
 
     /**
-     * Returns an estimate of the number of active groups in this
-     * thread group and its subgroups. Recursively iterates over
-     * all subgroups in this thread group.
+     * Returns bn estimbte of the number of bctive groups in this
+     * threbd group bnd its subgroups. Recursively iterbtes over
+     * bll subgroups in this threbd group.
      *
-     * <p> The value returned is only an estimate because the number of
-     * thread groups may change dynamically while this method traverses
-     * internal data structures. This method is intended primarily for
-     * debugging and monitoring purposes.
+     * <p> The vblue returned is only bn estimbte becbuse the number of
+     * threbd groups mby chbnge dynbmicblly while this method trbverses
+     * internbl dbtb structures. This method is intended primbrily for
+     * debugging bnd monitoring purposes.
      *
-     * @return  the number of active thread groups with this thread group as
-     *          an ancestor
+     * @return  the number of bctive threbd groups with this threbd group bs
+     *          bn bncestor
      *
      * @since   1.0
      */
-    public int activeGroupCount() {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
+    public int bctiveGroupCount() {
+        int ngroupsSnbpshot;
+        ThrebdGroup[] groupsSnbpshot;
         synchronized (this) {
             if (destroyed) {
                 return 0;
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpshot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
             } else {
-                groupsSnapshot = null;
+                groupsSnbpshot = null;
             }
         }
-        int n = ngroupsSnapshot;
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            n += groupsSnapshot[i].activeGroupCount();
+        int n = ngroupsSnbpshot;
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            n += groupsSnbpshot[i].bctiveGroupCount();
         }
         return n;
     }
 
     /**
-     * Copies into the specified array references to every active
-     * subgroup in this thread group and its subgroups.
+     * Copies into the specified brrby references to every bctive
+     * subgroup in this threbd group bnd its subgroups.
      *
-     * <p> An invocation of this method behaves in exactly the same
-     * way as the invocation
+     * <p> An invocbtion of this method behbves in exbctly the sbme
+     * wby bs the invocbtion
      *
      * <blockquote>
-     * {@linkplain #enumerate(ThreadGroup[], boolean) enumerate}{@code (list, true)}
+     * {@linkplbin #enumerbte(ThrebdGroup[], boolebn) enumerbte}{@code (list, true)}
      * </blockquote>
      *
-     * @param  list
-     *         an array into which to put the list of thread groups
+     * @pbrbm  list
+     *         bn brrby into which to put the list of threbd groups
      *
-     * @return  the number of thread groups put into the array
+     * @return  the number of threbd groups put into the brrby
      *
      * @throws  SecurityException
-     *          if {@linkplain #checkAccess checkAccess} determines that
-     *          the current thread cannot access this thread group
+     *          if {@linkplbin #checkAccess checkAccess} determines thbt
+     *          the current threbd cbnnot bccess this threbd group
      *
      * @since   1.0
      */
-    public int enumerate(ThreadGroup list[]) {
+    public int enumerbte(ThrebdGroup list[]) {
         checkAccess();
-        return enumerate(list, 0, true);
+        return enumerbte(list, 0, true);
     }
 
     /**
-     * Copies into the specified array references to every active
-     * subgroup in this thread group. If {@code recurse} is
-     * {@code true}, this method recursively enumerates all subgroups of this
-     * thread group and references to every active thread group in these
-     * subgroups are also included.
+     * Copies into the specified brrby references to every bctive
+     * subgroup in this threbd group. If {@code recurse} is
+     * {@code true}, this method recursively enumerbtes bll subgroups of this
+     * threbd group bnd references to every bctive threbd group in these
+     * subgroups bre blso included.
      *
-     * <p> An application might use the
-     * {@linkplain #activeGroupCount activeGroupCount} method to
-     * get an estimate of how big the array should be, however <i>if the
-     * array is too short to hold all the thread groups, the extra thread
-     * groups are silently ignored.</i>  If it is critical to obtain every
-     * active subgroup in this thread group, the caller should verify that
-     * the returned int value is strictly less than the length of
+     * <p> An bpplicbtion might use the
+     * {@linkplbin #bctiveGroupCount bctiveGroupCount} method to
+     * get bn estimbte of how big the brrby should be, however <i>if the
+     * brrby is too short to hold bll the threbd groups, the extrb threbd
+     * groups bre silently ignored.</i>  If it is criticbl to obtbin every
+     * bctive subgroup in this threbd group, the cbller should verify thbt
+     * the returned int vblue is strictly less thbn the length of
      * {@code list}.
      *
-     * <p> Due to the inherent race condition in this method, it is recommended
-     * that the method only be used for debugging and monitoring purposes.
+     * <p> Due to the inherent rbce condition in this method, it is recommended
+     * thbt the method only be used for debugging bnd monitoring purposes.
      *
-     * @param  list
-     *         an array into which to put the list of thread groups
+     * @pbrbm  list
+     *         bn brrby into which to put the list of threbd groups
      *
-     * @param  recurse
-     *         if {@code true}, recursively enumerate all subgroups
+     * @pbrbm  recurse
+     *         if {@code true}, recursively enumerbte bll subgroups
      *
-     * @return  the number of thread groups put into the array
+     * @return  the number of threbd groups put into the brrby
      *
      * @throws  SecurityException
-     *          if {@linkplain #checkAccess checkAccess} determines that
-     *          the current thread cannot access this thread group
+     *          if {@linkplbin #checkAccess checkAccess} determines thbt
+     *          the current threbd cbnnot bccess this threbd group
      *
      * @since   1.0
      */
-    public int enumerate(ThreadGroup list[], boolean recurse) {
+    public int enumerbte(ThrebdGroup list[], boolebn recurse) {
         checkAccess();
-        return enumerate(list, 0, recurse);
+        return enumerbte(list, 0, recurse);
     }
 
-    private int enumerate(ThreadGroup list[], int n, boolean recurse) {
-        int ngroupsSnapshot = 0;
-        ThreadGroup[] groupsSnapshot = null;
+    privbte int enumerbte(ThrebdGroup list[], int n, boolebn recurse) {
+        int ngroupsSnbpshot = 0;
+        ThrebdGroup[] groupsSnbpshot = null;
         synchronized (this) {
             if (destroyed) {
                 return 0;
@@ -568,266 +568,266 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
                 ng = list.length - n;
             }
             if (ng > 0) {
-                System.arraycopy(groups, 0, list, n, ng);
+                System.brrbycopy(groups, 0, list, n, ng);
                 n += ng;
             }
             if (recurse) {
-                ngroupsSnapshot = ngroups;
+                ngroupsSnbpshot = ngroups;
                 if (groups != null) {
-                    groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                    groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
                 } else {
-                    groupsSnapshot = null;
+                    groupsSnbpshot = null;
                 }
             }
         }
         if (recurse) {
-            for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-                n = groupsSnapshot[i].enumerate(list, n, true);
+            for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+                n = groupsSnbpshot[i].enumerbte(list, n, true);
             }
         }
         return n;
     }
 
     /**
-     * Stops all threads in this thread group.
+     * Stops bll threbds in this threbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, the <code>checkAccess</code> method of this threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      * <p>
-     * This method then calls the <code>stop</code> method on all the
-     * threads in this thread group and in all of its subgroups.
+     * This method then cblls the <code>stop</code> method on bll the
+     * threbds in this threbd group bnd in bll of its subgroups.
      *
-     * @exception  SecurityException  if the current thread is not allowed
-     *               to access this thread group or any of the threads in
-     *               the thread group.
-     * @see        java.lang.SecurityException
-     * @see        java.lang.Thread#stop()
-     * @see        java.lang.ThreadGroup#checkAccess()
+     * @exception  SecurityException  if the current threbd is not bllowed
+     *               to bccess this threbd group or bny of the threbds in
+     *               the threbd group.
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.Threbd#stop()
+     * @see        jbvb.lbng.ThrebdGroup#checkAccess()
      * @since      1.0
-     * @deprecated    This method is inherently unsafe.  See
-     *     {@link Thread#stop} for details.
+     * @deprecbted    This method is inherently unsbfe.  See
+     *     {@link Threbd#stop} for detbils.
      */
-    @Deprecated
-    public final void stop() {
-        if (stopOrSuspend(false))
-            Thread.currentThread().stop();
+    @Deprecbted
+    public finbl void stop() {
+        if (stopOrSuspend(fblse))
+            Threbd.currentThrebd().stop();
     }
 
     /**
-     * Interrupts all threads in this thread group.
+     * Interrupts bll threbds in this threbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, the <code>checkAccess</code> method of this threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      * <p>
-     * This method then calls the <code>interrupt</code> method on all the
-     * threads in this thread group and in all of its subgroups.
+     * This method then cblls the <code>interrupt</code> method on bll the
+     * threbds in this threbd group bnd in bll of its subgroups.
      *
-     * @exception  SecurityException  if the current thread is not allowed
-     *               to access this thread group or any of the threads in
-     *               the thread group.
-     * @see        java.lang.Thread#interrupt()
-     * @see        java.lang.SecurityException
-     * @see        java.lang.ThreadGroup#checkAccess()
+     * @exception  SecurityException  if the current threbd is not bllowed
+     *               to bccess this threbd group or bny of the threbds in
+     *               the threbd group.
+     * @see        jbvb.lbng.Threbd#interrupt()
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.ThrebdGroup#checkAccess()
      * @since      1.2
      */
-    public final void interrupt() {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
+    public finbl void interrupt() {
+        int ngroupsSnbpshot;
+        ThrebdGroup[] groupsSnbpshot;
         synchronized (this) {
             checkAccess();
-            for (int i = 0 ; i < nthreads ; i++) {
-                threads[i].interrupt();
+            for (int i = 0 ; i < nthrebds ; i++) {
+                threbds[i].interrupt();
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpshot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
             } else {
-                groupsSnapshot = null;
+                groupsSnbpshot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            groupsSnapshot[i].interrupt();
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            groupsSnbpshot[i].interrupt();
         }
     }
 
     /**
-     * Suspends all threads in this thread group.
+     * Suspends bll threbds in this threbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, the <code>checkAccess</code> method of this threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      * <p>
-     * This method then calls the <code>suspend</code> method on all the
-     * threads in this thread group and in all of its subgroups.
+     * This method then cblls the <code>suspend</code> method on bll the
+     * threbds in this threbd group bnd in bll of its subgroups.
      *
-     * @exception  SecurityException  if the current thread is not allowed
-     *               to access this thread group or any of the threads in
-     *               the thread group.
-     * @see        java.lang.Thread#suspend()
-     * @see        java.lang.SecurityException
-     * @see        java.lang.ThreadGroup#checkAccess()
+     * @exception  SecurityException  if the current threbd is not bllowed
+     *               to bccess this threbd group or bny of the threbds in
+     *               the threbd group.
+     * @see        jbvb.lbng.Threbd#suspend()
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.ThrebdGroup#checkAccess()
      * @since      1.0
-     * @deprecated    This method is inherently deadlock-prone.  See
-     *     {@link Thread#suspend} for details.
+     * @deprecbted    This method is inherently debdlock-prone.  See
+     *     {@link Threbd#suspend} for detbils.
      */
-    @Deprecated
-    @SuppressWarnings("deprecation")
-    public final void suspend() {
+    @Deprecbted
+    @SuppressWbrnings("deprecbtion")
+    public finbl void suspend() {
         if (stopOrSuspend(true))
-            Thread.currentThread().suspend();
+            Threbd.currentThrebd().suspend();
     }
 
     /**
-     * Helper method: recursively stops or suspends (as directed by the
-     * boolean argument) all of the threads in this thread group and its
-     * subgroups, except the current thread.  This method returns true
-     * if (and only if) the current thread is found to be in this thread
+     * Helper method: recursively stops or suspends (bs directed by the
+     * boolebn brgument) bll of the threbds in this threbd group bnd its
+     * subgroups, except the current threbd.  This method returns true
+     * if (bnd only if) the current threbd is found to be in this threbd
      * group or one of its subgroups.
      */
-    @SuppressWarnings("deprecation")
-    private boolean stopOrSuspend(boolean suspend) {
-        boolean suicide = false;
-        Thread us = Thread.currentThread();
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot = null;
+    @SuppressWbrnings("deprecbtion")
+    privbte boolebn stopOrSuspend(boolebn suspend) {
+        boolebn suicide = fblse;
+        Threbd us = Threbd.currentThrebd();
+        int ngroupsSnbpshot;
+        ThrebdGroup[] groupsSnbpshot = null;
         synchronized (this) {
             checkAccess();
-            for (int i = 0 ; i < nthreads ; i++) {
-                if (threads[i]==us)
+            for (int i = 0 ; i < nthrebds ; i++) {
+                if (threbds[i]==us)
                     suicide = true;
                 else if (suspend)
-                    threads[i].suspend();
+                    threbds[i].suspend();
                 else
-                    threads[i].stop();
+                    threbds[i].stop();
             }
 
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpshot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++)
-            suicide = groupsSnapshot[i].stopOrSuspend(suspend) || suicide;
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++)
+            suicide = groupsSnbpshot[i].stopOrSuspend(suspend) || suicide;
 
         return suicide;
     }
 
     /**
-     * Resumes all threads in this thread group.
+     * Resumes bll threbds in this threbd group.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, the <code>checkAccess</code> method of this threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      * <p>
-     * This method then calls the <code>resume</code> method on all the
-     * threads in this thread group and in all of its sub groups.
+     * This method then cblls the <code>resume</code> method on bll the
+     * threbds in this threbd group bnd in bll of its sub groups.
      *
-     * @exception  SecurityException  if the current thread is not allowed to
-     *               access this thread group or any of the threads in the
-     *               thread group.
-     * @see        java.lang.SecurityException
-     * @see        java.lang.Thread#resume()
-     * @see        java.lang.ThreadGroup#checkAccess()
+     * @exception  SecurityException  if the current threbd is not bllowed to
+     *               bccess this threbd group or bny of the threbds in the
+     *               threbd group.
+     * @see        jbvb.lbng.SecurityException
+     * @see        jbvb.lbng.Threbd#resume()
+     * @see        jbvb.lbng.ThrebdGroup#checkAccess()
      * @since      1.0
-     * @deprecated    This method is used solely in conjunction with
-     *      <tt>Thread.suspend</tt> and <tt>ThreadGroup.suspend</tt>,
-     *       both of which have been deprecated, as they are inherently
-     *       deadlock-prone.  See {@link Thread#suspend} for details.
+     * @deprecbted    This method is used solely in conjunction with
+     *      <tt>Threbd.suspend</tt> bnd <tt>ThrebdGroup.suspend</tt>,
+     *       both of which hbve been deprecbted, bs they bre inherently
+     *       debdlock-prone.  See {@link Threbd#suspend} for detbils.
      */
-    @Deprecated
-    @SuppressWarnings("deprecation")
-    public final void resume() {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
+    @Deprecbted
+    @SuppressWbrnings("deprecbtion")
+    public finbl void resume() {
+        int ngroupsSnbpshot;
+        ThrebdGroup[] groupsSnbpshot;
         synchronized (this) {
             checkAccess();
-            for (int i = 0 ; i < nthreads ; i++) {
-                threads[i].resume();
+            for (int i = 0 ; i < nthrebds ; i++) {
+                threbds[i].resume();
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpshot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
             } else {
-                groupsSnapshot = null;
+                groupsSnbpshot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            groupsSnapshot[i].resume();
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            groupsSnbpshot[i].resume();
         }
     }
 
     /**
-     * Destroys this thread group and all of its subgroups. This thread
-     * group must be empty, indicating that all threads that had been in
-     * this thread group have since stopped.
+     * Destroys this threbd group bnd bll of its subgroups. This threbd
+     * group must be empty, indicbting thbt bll threbds thbt hbd been in
+     * this threbd group hbve since stopped.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread group is
-     * called with no arguments; this may result in a security exception.
+     * First, the <code>checkAccess</code> method of this threbd group is
+     * cblled with no brguments; this mby result in b security exception.
      *
-     * @exception  IllegalThreadStateException  if the thread group is not
-     *               empty or if the thread group has already been destroyed.
-     * @exception  SecurityException  if the current thread cannot modify this
-     *               thread group.
-     * @see        java.lang.ThreadGroup#checkAccess()
+     * @exception  IllegblThrebdStbteException  if the threbd group is not
+     *               empty or if the threbd group hbs blrebdy been destroyed.
+     * @exception  SecurityException  if the current threbd cbnnot modify this
+     *               threbd group.
+     * @see        jbvb.lbng.ThrebdGroup#checkAccess()
      * @since      1.0
      */
-    public final void destroy() {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
+    public finbl void destroy() {
+        int ngroupsSnbpshot;
+        ThrebdGroup[] groupsSnbpshot;
         synchronized (this) {
             checkAccess();
-            if (destroyed || (nthreads > 0)) {
-                throw new IllegalThreadStateException();
+            if (destroyed || (nthrebds > 0)) {
+                throw new IllegblThrebdStbteException();
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpshot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
             } else {
-                groupsSnapshot = null;
+                groupsSnbpshot = null;
             }
-            if (parent != null) {
+            if (pbrent != null) {
                 destroyed = true;
                 ngroups = 0;
                 groups = null;
-                nthreads = 0;
-                threads = null;
+                nthrebds = 0;
+                threbds = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i += 1) {
-            groupsSnapshot[i].destroy();
+        for (int i = 0 ; i < ngroupsSnbpshot ; i += 1) {
+            groupsSnbpshot[i].destroy();
         }
-        if (parent != null) {
-            parent.remove(this);
+        if (pbrent != null) {
+            pbrent.remove(this);
         }
     }
 
     /**
-     * Adds the specified Thread group to this group.
-     * @param g the specified Thread group to be added
-     * @exception IllegalThreadStateException If the Thread group has been destroyed.
+     * Adds the specified Threbd group to this group.
+     * @pbrbm g the specified Threbd group to be bdded
+     * @exception IllegblThrebdStbteException If the Threbd group hbs been destroyed.
      */
-    private final void add(ThreadGroup g){
+    privbte finbl void bdd(ThrebdGroup g){
         synchronized (this) {
             if (destroyed) {
-                throw new IllegalThreadStateException();
+                throw new IllegblThrebdStbteException();
             }
             if (groups == null) {
-                groups = new ThreadGroup[4];
+                groups = new ThrebdGroup[4];
             } else if (ngroups == groups.length) {
-                groups = Arrays.copyOf(groups, ngroups * 2);
+                groups = Arrbys.copyOf(groups, ngroups * 2);
             }
             groups[ngroups] = g;
 
-            // This is done last so it doesn't matter in case the
-            // thread is killed
+            // This is done lbst so it doesn't mbtter in cbse the
+            // threbd is killed
             ngroups++;
         }
     }
 
     /**
-     * Removes the specified Thread group from this group.
-     * @param g the Thread group to be removed
-     * @return if this Thread has already been destroyed.
+     * Removes the specified Threbd group from this group.
+     * @pbrbm g the Threbd group to be removed
+     * @return if this Threbd hbs blrebdy been destroyed.
      */
-    private void remove(ThreadGroup g) {
+    privbte void remove(ThrebdGroup g) {
         synchronized (this) {
             if (destroyed) {
                 return;
@@ -835,18 +835,18 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
             for (int i = 0 ; i < ngroups ; i++) {
                 if (groups[i] == g) {
                     ngroups -= 1;
-                    System.arraycopy(groups, i + 1, groups, i, ngroups - i);
-                    // Zap dangling reference to the dead group so that
-                    // the garbage collector will collect it.
+                    System.brrbycopy(groups, i + 1, groups, i, ngroups - i);
+                    // Zbp dbngling reference to the debd group so thbt
+                    // the gbrbbge collector will collect it.
                     groups[ngroups] = null;
-                    break;
+                    brebk;
                 }
             }
-            if (nthreads == 0) {
+            if (nthrebds == 0) {
                 notifyAll();
             }
-            if (daemon && (nthreads == 0) &&
-                (nUnstartedThreads == 0) && (ngroups == 0))
+            if (dbemon && (nthrebds == 0) &&
+                (nUnstbrtedThrebds == 0) && (ngroups == 0))
             {
                 destroy();
             }
@@ -855,97 +855,97 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
 
 
     /**
-     * Increments the count of unstarted threads in the thread group.
-     * Unstarted threads are not added to the thread group so that they
-     * can be collected if they are never started, but they must be
-     * counted so that daemon thread groups with unstarted threads in
-     * them are not destroyed.
+     * Increments the count of unstbrted threbds in the threbd group.
+     * Unstbrted threbds bre not bdded to the threbd group so thbt they
+     * cbn be collected if they bre never stbrted, but they must be
+     * counted so thbt dbemon threbd groups with unstbrted threbds in
+     * them bre not destroyed.
      */
-    void addUnstarted() {
+    void bddUnstbrted() {
         synchronized(this) {
             if (destroyed) {
-                throw new IllegalThreadStateException();
+                throw new IllegblThrebdStbteException();
             }
-            nUnstartedThreads++;
+            nUnstbrtedThrebds++;
         }
     }
 
     /**
-     * Adds the specified thread to this thread group.
+     * Adds the specified threbd to this threbd group.
      *
-     * <p> Note: This method is called from both library code
-     * and the Virtual Machine. It is called from VM to add
-     * certain system threads to the system thread group.
+     * <p> Note: This method is cblled from both librbry code
+     * bnd the Virtubl Mbchine. It is cblled from VM to bdd
+     * certbin system threbds to the system threbd group.
      *
-     * @param  t
-     *         the Thread to be added
+     * @pbrbm  t
+     *         the Threbd to be bdded
      *
-     * @throws  IllegalThreadStateException
-     *          if the Thread group has been destroyed
+     * @throws  IllegblThrebdStbteException
+     *          if the Threbd group hbs been destroyed
      */
-    void add(Thread t) {
+    void bdd(Threbd t) {
         synchronized (this) {
             if (destroyed) {
-                throw new IllegalThreadStateException();
+                throw new IllegblThrebdStbteException();
             }
-            if (threads == null) {
-                threads = new Thread[4];
-            } else if (nthreads == threads.length) {
-                threads = Arrays.copyOf(threads, nthreads * 2);
+            if (threbds == null) {
+                threbds = new Threbd[4];
+            } else if (nthrebds == threbds.length) {
+                threbds = Arrbys.copyOf(threbds, nthrebds * 2);
             }
-            threads[nthreads] = t;
+            threbds[nthrebds] = t;
 
-            // This is done last so it doesn't matter in case the
-            // thread is killed
-            nthreads++;
+            // This is done lbst so it doesn't mbtter in cbse the
+            // threbd is killed
+            nthrebds++;
 
-            // The thread is now a fully fledged member of the group, even
-            // though it may, or may not, have been started yet. It will prevent
-            // the group from being destroyed so the unstarted Threads count is
+            // The threbd is now b fully fledged member of the group, even
+            // though it mby, or mby not, hbve been stbrted yet. It will prevent
+            // the group from being destroyed so the unstbrted Threbds count is
             // decremented.
-            nUnstartedThreads--;
+            nUnstbrtedThrebds--;
         }
     }
 
     /**
-     * Notifies the group that the thread {@code t} has failed
-     * an attempt to start.
+     * Notifies the group thbt the threbd {@code t} hbs fbiled
+     * bn bttempt to stbrt.
      *
-     * <p> The state of this thread group is rolled back as if the
-     * attempt to start the thread has never occurred. The thread is again
-     * considered an unstarted member of the thread group, and a subsequent
-     * attempt to start the thread is permitted.
+     * <p> The stbte of this threbd group is rolled bbck bs if the
+     * bttempt to stbrt the threbd hbs never occurred. The threbd is bgbin
+     * considered bn unstbrted member of the threbd group, bnd b subsequent
+     * bttempt to stbrt the threbd is permitted.
      *
-     * @param  t
-     *         the Thread whose start method was invoked
+     * @pbrbm  t
+     *         the Threbd whose stbrt method wbs invoked
      */
-    void threadStartFailed(Thread t) {
+    void threbdStbrtFbiled(Threbd t) {
         synchronized(this) {
             remove(t);
-            nUnstartedThreads++;
+            nUnstbrtedThrebds++;
         }
     }
 
     /**
-     * Notifies the group that the thread {@code t} has terminated.
+     * Notifies the group thbt the threbd {@code t} hbs terminbted.
      *
-     * <p> Destroy the group if all of the following conditions are
-     * true: this is a daemon thread group; there are no more alive
-     * or unstarted threads in the group; there are no subgroups in
-     * this thread group.
+     * <p> Destroy the group if bll of the following conditions bre
+     * true: this is b dbemon threbd group; there bre no more blive
+     * or unstbrted threbds in the group; there bre no subgroups in
+     * this threbd group.
      *
-     * @param  t
-     *         the Thread that has terminated
+     * @pbrbm  t
+     *         the Threbd thbt hbs terminbted
      */
-    void threadTerminated(Thread t) {
+    void threbdTerminbted(Threbd t) {
         synchronized (this) {
             remove(t);
 
-            if (nthreads == 0) {
+            if (nthrebds == 0) {
                 notifyAll();
             }
-            if (daemon && (nthreads == 0) &&
-                (nUnstartedThreads == 0) && (ngroups == 0))
+            if (dbemon && (nthrebds == 0) &&
+                (nUnstbrtedThrebds == 0) && (ngroups == 0))
             {
                 destroy();
             }
@@ -953,31 +953,31 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
     }
 
     /**
-     * Removes the specified Thread from this group. Invoking this method
-     * on a thread group that has been destroyed has no effect.
+     * Removes the specified Threbd from this group. Invoking this method
+     * on b threbd group thbt hbs been destroyed hbs no effect.
      *
-     * @param  t
-     *         the Thread to be removed
+     * @pbrbm  t
+     *         the Threbd to be removed
      */
-    private void remove(Thread t) {
+    privbte void remove(Threbd t) {
         synchronized (this) {
             if (destroyed) {
                 return;
             }
-            for (int i = 0 ; i < nthreads ; i++) {
-                if (threads[i] == t) {
-                    System.arraycopy(threads, i + 1, threads, i, --nthreads - i);
-                    // Zap dangling reference to the dead thread so that
-                    // the garbage collector will collect it.
-                    threads[nthreads] = null;
-                    break;
+            for (int i = 0 ; i < nthrebds ; i++) {
+                if (threbds[i] == t) {
+                    System.brrbycopy(threbds, i + 1, threbds, i, --nthrebds - i);
+                    // Zbp dbngling reference to the debd threbd so thbt
+                    // the gbrbbge collector will collect it.
+                    threbds[nthrebds] = null;
+                    brebk;
                 }
             }
         }
     }
 
     /**
-     * Prints information about this thread group to the standard
+     * Prints informbtion bbout this threbd group to the stbndbrd
      * output. This method is useful only for debugging.
      *
      * @since   1.0
@@ -985,80 +985,80 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
     public void list() {
         list(System.out, 0);
     }
-    void list(PrintStream out, int indent) {
-        int ngroupsSnapshot;
-        ThreadGroup[] groupsSnapshot;
+    void list(PrintStrebm out, int indent) {
+        int ngroupsSnbpshot;
+        ThrebdGroup[] groupsSnbpshot;
         synchronized (this) {
             for (int j = 0 ; j < indent ; j++) {
                 out.print(" ");
             }
             out.println(this);
             indent += 4;
-            for (int i = 0 ; i < nthreads ; i++) {
+            for (int i = 0 ; i < nthrebds ; i++) {
                 for (int j = 0 ; j < indent ; j++) {
                     out.print(" ");
                 }
-                out.println(threads[i]);
+                out.println(threbds[i]);
             }
-            ngroupsSnapshot = ngroups;
+            ngroupsSnbpshot = ngroups;
             if (groups != null) {
-                groupsSnapshot = Arrays.copyOf(groups, ngroupsSnapshot);
+                groupsSnbpshot = Arrbys.copyOf(groups, ngroupsSnbpshot);
             } else {
-                groupsSnapshot = null;
+                groupsSnbpshot = null;
             }
         }
-        for (int i = 0 ; i < ngroupsSnapshot ; i++) {
-            groupsSnapshot[i].list(out, indent);
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            groupsSnbpshot[i].list(out, indent);
         }
     }
 
     /**
-     * Called by the Java Virtual Machine when a thread in this
-     * thread group stops because of an uncaught exception, and the thread
-     * does not have a specific {@link Thread.UncaughtExceptionHandler}
-     * installed.
+     * Cblled by the Jbvb Virtubl Mbchine when b threbd in this
+     * threbd group stops becbuse of bn uncbught exception, bnd the threbd
+     * does not hbve b specific {@link Threbd.UncbughtExceptionHbndler}
+     * instblled.
      * <p>
-     * The <code>uncaughtException</code> method of
-     * <code>ThreadGroup</code> does the following:
+     * The <code>uncbughtException</code> method of
+     * <code>ThrebdGroup</code> does the following:
      * <ul>
-     * <li>If this thread group has a parent thread group, the
-     *     <code>uncaughtException</code> method of that parent is called
-     *     with the same two arguments.
-     * <li>Otherwise, this method checks to see if there is a
-     *     {@linkplain Thread#getDefaultUncaughtExceptionHandler default
-     *     uncaught exception handler} installed, and if so, its
-     *     <code>uncaughtException</code> method is called with the same
-     *     two arguments.
-     * <li>Otherwise, this method determines if the <code>Throwable</code>
-     *     argument is an instance of {@link ThreadDeath}. If so, nothing
-     *     special is done. Otherwise, a message containing the
-     *     thread's name, as returned from the thread's {@link
-     *     Thread#getName getName} method, and a stack backtrace,
-     *     using the <code>Throwable</code>'s {@link
-     *     Throwable#printStackTrace printStackTrace} method, is
-     *     printed to the {@linkplain System#err standard error stream}.
+     * <li>If this threbd group hbs b pbrent threbd group, the
+     *     <code>uncbughtException</code> method of thbt pbrent is cblled
+     *     with the sbme two brguments.
+     * <li>Otherwise, this method checks to see if there is b
+     *     {@linkplbin Threbd#getDefbultUncbughtExceptionHbndler defbult
+     *     uncbught exception hbndler} instblled, bnd if so, its
+     *     <code>uncbughtException</code> method is cblled with the sbme
+     *     two brguments.
+     * <li>Otherwise, this method determines if the <code>Throwbble</code>
+     *     brgument is bn instbnce of {@link ThrebdDebth}. If so, nothing
+     *     specibl is done. Otherwise, b messbge contbining the
+     *     threbd's nbme, bs returned from the threbd's {@link
+     *     Threbd#getNbme getNbme} method, bnd b stbck bbcktrbce,
+     *     using the <code>Throwbble</code>'s {@link
+     *     Throwbble#printStbckTrbce printStbckTrbce} method, is
+     *     printed to the {@linkplbin System#err stbndbrd error strebm}.
      * </ul>
      * <p>
-     * Applications can override this method in subclasses of
-     * <code>ThreadGroup</code> to provide alternative handling of
-     * uncaught exceptions.
+     * Applicbtions cbn override this method in subclbsses of
+     * <code>ThrebdGroup</code> to provide blternbtive hbndling of
+     * uncbught exceptions.
      *
-     * @param   t   the thread that is about to exit.
-     * @param   e   the uncaught exception.
+     * @pbrbm   t   the threbd thbt is bbout to exit.
+     * @pbrbm   e   the uncbught exception.
      * @since   1.0
      */
-    public void uncaughtException(Thread t, Throwable e) {
-        if (parent != null) {
-            parent.uncaughtException(t, e);
+    public void uncbughtException(Threbd t, Throwbble e) {
+        if (pbrent != null) {
+            pbrent.uncbughtException(t, e);
         } else {
-            Thread.UncaughtExceptionHandler ueh =
-                Thread.getDefaultUncaughtExceptionHandler();
+            Threbd.UncbughtExceptionHbndler ueh =
+                Threbd.getDefbultUncbughtExceptionHbndler();
             if (ueh != null) {
-                ueh.uncaughtException(t, e);
-            } else if (!(e instanceof ThreadDeath)) {
-                System.err.print("Exception in thread \""
-                                 + t.getName() + "\" ");
-                e.printStackTrace(System.err);
+                ueh.uncbughtException(t, e);
+            } else if (!(e instbnceof ThrebdDebth)) {
+                System.err.print("Exception in threbd \""
+                                 + t.getNbme() + "\" ");
+                e.printStbckTrbce(System.err);
             }
         }
     }
@@ -1066,29 +1066,29 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
     /**
      * Used by VM to control lowmem implicit suspension.
      *
-     * @param b boolean to allow or disallow suspension
+     * @pbrbm b boolebn to bllow or disbllow suspension
      * @return true on success
      * @since   1.1
-     * @deprecated The definition of this call depends on {@link #suspend},
-     *             which is deprecated.  Further, the behavior of this call
-     *             was never specified.
+     * @deprecbted The definition of this cbll depends on {@link #suspend},
+     *             which is deprecbted.  Further, the behbvior of this cbll
+     *             wbs never specified.
      */
-    @Deprecated
-    public boolean allowThreadSuspension(boolean b) {
+    @Deprecbted
+    public boolebn bllowThrebdSuspension(boolebn b) {
         this.vmAllowSuspension = b;
         if (!b) {
-            VM.unsuspendSomeThreads();
+            VM.unsuspendSomeThrebds();
         }
         return true;
     }
 
     /**
-     * Returns a string representation of this Thread group.
+     * Returns b string representbtion of this Threbd group.
      *
-     * @return  a string representation of this thread group.
+     * @return  b string representbtion of this threbd group.
      * @since   1.0
      */
     public String toString() {
-        return getClass().getName() + "[name=" + getName() + ",maxpri=" + maxPriority + "]";
+        return getClbss().getNbme() + "[nbme=" + getNbme() + ",mbxpri=" + mbxPriority + "]";
     }
 }

@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "jlong.h"
-#include "awtmsg.h"
-#include "awt_AWTEvent.h"
-#include "awt_Component.h"
-#include "awt_Toolkit.h"
-#include "locale_str.h"
-#include <sun_awt_windows_WInputMethod.h>
-#include <sun_awt_windows_WInputMethodDescriptor.h>
-#include <java_awt_event_InputMethodEvent.h>
+#include "bwtmsg.h"
+#include "bwt_AWTEvent.h"
+#include "bwt_Component.h"
+#include "bwt_Toolkit.h"
+#include "locble_str.h"
+#include <sun_bwt_windows_WInputMethod.h>
+#include <sun_bwt_windows_WInputMethodDescriptor.h>
+#include <jbvb_bwt_event_InputMethodEvent.h>
 
 const UINT SYSCOMMAND_IMM = 0xF000 - 100;
 
 /************************************************************************
- * WInputMethod native methods
+ * WInputMethod nbtive methods
  */
 
 extern "C" {
 
-jobject CreateLocaleObject(JNIEnv *env, const char * name);
-HKL getDefaultKeyboardLayout();
+jobject CrebteLocbleObject(JNIEnv *env, const chbr * nbme);
+HKL getDefbultKeybobrdLbyout();
 
-extern BOOL g_bUserHasChangedInputLang;
+extern BOOL g_bUserHbsChbngedInputLbng;
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    createNativeContext
- * Signature: ()I
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    crebteNbtiveContext
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WInputMethod_createNativeContext(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WInputMethod_crebteNbtiveContext(JNIEnv *env, jobject self)
 {
     TRY;
 
-    // use special message to call ImmCreateContext() in main thread.
-    return (jint)AwtToolkit::GetInstance().SendMessage(WM_AWT_CREATECONTEXT);
+    // use specibl messbge to cbll ImmCrebteContext() in mbin threbd.
+    return (jint)AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_CREATECONTEXT);
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    destroyNativeContext
- * Signature: (I)V
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    destroyNbtiveContext
+ * Signbture: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WInputMethod_destroyNativeContext(JNIEnv *env, jobject self, jint context)
+Jbvb_sun_bwt_windows_WInputMethod_destroyNbtiveContext(JNIEnv *env, jobject self, jint context)
 {
     TRY_NO_VERIFY;
 
-    // use special message to call ImmDestroyContext() in main thread.
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_DESTROYCONTEXT, context, 0);
+    // use specibl messbge to cbll ImmDestroyContext() in mbin threbd.
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_DESTROYCONTEXT, context, 0);
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    enableNativeIME
- * Signature: (Lsun/awt/windows/WComponentPeer;I)V
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    enbbleNbtiveIME
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WInputMethod_enableNativeIME(JNIEnv *env, jobject self, jobject peer,
-                                                  jint context, jboolean useNativeCompWindow)
+Jbvb_sun_bwt_windows_WInputMethod_enbbleNbtiveIME(JNIEnv *env, jobject self, jobject peer,
+                                                  jint context, jboolebn useNbtiveCompWindow)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
-    jobject peerGlobalRef = env->NewGlobalRef(peer);
+    jobject selfGlobblRef = env->NewGlobblRef(self);
+    jobject peerGlobblRef = env->NewGlobblRef(peer);
 
-    EnableNativeIMEStruct *enis = new EnableNativeIMEStruct;
+    EnbbleNbtiveIMEStruct *enis = new EnbbleNbtiveIMEStruct;
 
-    enis->self = selfGlobalRef;
-    enis->peer = peerGlobalRef;
+    enis->self = selfGlobblRef;
+    enis->peer = peerGlobblRef;
     enis->context = context;
-    enis->useNativeCompWindow = useNativeCompWindow;
+    enis->useNbtiveCompWindow = useNbtiveCompWindow;
 
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_ASSOCIATECONTEXT,
-                                          reinterpret_cast<WPARAM>(enis), (LPARAM)0);
-    // global refs are deleted in message handler
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_ASSOCIATECONTEXT,
+                                          reinterpret_cbst<WPARAM>(enis), (LPARAM)0);
+    // globbl refs bre deleted in messbge hbndler
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    disableNativeIME
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    disbbleNbtiveIME
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WInputMethod_disableNativeIME(JNIEnv *env, jobject self, jobject peer)
+Jbvb_sun_bwt_windows_WInputMethod_disbbleNbtiveIME(JNIEnv *env, jobject self, jobject peer)
 {
     TRY_NO_VERIFY;
 
-    jobject peerGlobalRef = env->NewGlobalRef(peer);
+    jobject peerGlobblRef = env->NewGlobblRef(peer);
     // self reference is not used
 
-    EnableNativeIMEStruct *enis = new EnableNativeIMEStruct;
+    EnbbleNbtiveIMEStruct *enis = new EnbbleNbtiveIMEStruct;
     enis->self = NULL;
-    enis->peer = peerGlobalRef;
+    enis->peer = peerGlobblRef;
     enis->context = NULL;
-    enis->useNativeCompWindow = JNI_TRUE;
+    enis->useNbtiveCompWindow = JNI_TRUE;
 
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_ASSOCIATECONTEXT,
-                                          reinterpret_cast<WPARAM>(enis), (LPARAM)0);
-    // global refs are deleted in message handler
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_ASSOCIATECONTEXT,
+                                          reinterpret_cbst<WPARAM>(enis), (LPARAM)0);
+    // globbl refs bre deleted in messbge hbndler
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_WComponentPeer
- * Method:    handleEvent
- * Signature: (Lsun/awt/windows/WComponentPeer;Ljava/awt/AWTEvent;)V
+ * Clbss:     sun_bwt_windows_WComponentPeer
+ * Method:    hbndleEvent
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;Ljbvb/bwt/AWTEvent;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WInputMethod_handleNativeIMEEvent(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WInputMethod_hbndleNbtiveIMEEvent(JNIEnv *env, jobject self,
                                                        jobject peer, jobject event)
 {
     TRY;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_RETURN(peer);
-    AwtComponent* p = (AwtComponent *)pData;
+    AwtComponent* p = (AwtComponent *)pDbtb;
 
     JNI_CHECK_NULL_RETURN(event, "null AWTEvent");
-    if (env->EnsureLocalCapacity(1) < 0) {
+    if (env->EnsureLocblCbpbcity(1) < 0) {
         return;
     }
-    jbyteArray bdata = (jbyteArray)(env)->GetObjectField(event, AwtAWTEvent::bdataID);
-    if (bdata == 0) {
+    jbyteArrby bdbtb = (jbyteArrby)(env)->GetObjectField(event, AwtAWTEvent::bdbtbID);
+    if (bdbtb == 0) {
         return;
     }
     MSG msg;
-    (env)->GetByteArrayRegion(bdata, 0, sizeof(MSG), (jbyte *)&msg);
-    (env)->DeleteLocalRef(bdata);
+    (env)->GetByteArrbyRegion(bdbtb, 0, sizeof(MSG), (jbyte *)&msg);
+    (env)->DeleteLocblRef(bdbtb);
     BOOL isConsumed =
-      (BOOL)(env)->GetBooleanField(event, AwtAWTEvent::consumedID);
+      (BOOL)(env)->GetBoolebnField(event, AwtAWTEvent::consumedID);
     int id = (env)->GetIntField(event, AwtAWTEvent::idID);
-    DASSERT(!safe_ExceptionOccurred(env));
+    DASSERT(!sbfe_ExceptionOccurred(env));
 
     if (isConsumed || p==NULL)  return;
 
-    if (id >= java_awt_event_InputMethodEvent_INPUT_METHOD_FIRST &&
-        id <= java_awt_event_InputMethodEvent_INPUT_METHOD_LAST)
+    if (id >= jbvb_bwt_event_InputMethodEvent_INPUT_METHOD_FIRST &&
+        id <= jbvb_bwt_event_InputMethodEvent_INPUT_METHOD_LAST)
     {
-        jobject peerGlobalRef = env->NewGlobalRef(peer);
+        jobject peerGlobblRef = env->NewGlobblRef(peer);
 
-        // use special message to access pData on the toolkit thread
-        AwtToolkit::GetInstance().SendMessage(WM_AWT_HANDLE_NATIVE_IME_EVENT,
-                                              reinterpret_cast<WPARAM>(peerGlobalRef),
-                                              reinterpret_cast<LPARAM>(&msg));
-        // global ref is deleted in message handler
+        // use specibl messbge to bccess pDbtb on the toolkit threbd
+        AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_HANDLE_NATIVE_IME_EVENT,
+                                              reinterpret_cbst<WPARAM>(peerGlobblRef),
+                                              reinterpret_cbst<LPARAM>(&msg));
+        // globbl ref is deleted in messbge hbndler
 
-        (env)->SetBooleanField(event, AwtAWTEvent::consumedID, JNI_TRUE);
+        (env)->SetBoolebnField(event, AwtAWTEvent::consumedID, JNI_TRUE);
     }
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    notifyNativeIME
- * Signature: (Lsun/awt/windows/WComponentPeer;I)V
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    notifyNbtiveIME
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WInputMethod_endCompositionNative(JNIEnv *env, jobject self,
-                                                       jint context, jboolean flag)
+Jbvb_sun_bwt_windows_WInputMethod_endCompositionNbtive(JNIEnv *env, jobject self,
+                                                       jint context, jboolebn flbg)
 {
     TRY;
 
-    // TODO: currently the flag parameter is ignored and the outstanding input is
-    //       always discarded.
-    //       If the flag value is Java_sun_awt_windows_WInputMethod_COMMIT_INPUT,
-    //       then input text should be committed. Otherwise, should be discarded.
+    // TODO: currently the flbg pbrbmeter is ignored bnd the outstbnding input is
+    //       blwbys discbrded.
+    //       If the flbg vblue is Jbvb_sun_bwt_windows_WInputMethod_COMMIT_INPUT,
+    //       then input text should be committed. Otherwise, should be discbrded.
     //
-    // 10/29/98 - Changed to commit it according to the flag.
+    // 10/29/98 - Chbnged to commit it bccording to the flbg.
 
-    // use special message to call ImmNotifyIME() in main thread.
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_ENDCOMPOSITION, context,
-        (LPARAM)(flag != sun_awt_windows_WInputMethod_DISCARD_INPUT));
+    // use specibl messbge to cbll ImmNotifyIME() in mbin threbd.
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_ENDCOMPOSITION, context,
+        (LPARAM)(flbg != sun_bwt_windows_WInputMethod_DISCARD_INPUT));
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    setConversionStatus
- * Signature: (II)V
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    setConversionStbtus
+ * Signbture: (II)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WInputMethod_setConversionStatus(JNIEnv *env, jobject self, jint context, jint request)
+Jbvb_sun_bwt_windows_WInputMethod_setConversionStbtus(JNIEnv *env, jobject self, jint context, jint request)
 {
     TRY;
 
-    // use special message to call ImmSetConversionStatus() in main thread.
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_SETCONVERSIONSTATUS,
+    // use specibl messbge to cbll ImmSetConversionStbtus() in mbin threbd.
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_SETCONVERSIONSTATUS,
                                           context,
                                           MAKELPARAM((WORD)request, (WORD)0));
 
@@ -230,74 +230,74 @@ Java_sun_awt_windows_WInputMethod_setConversionStatus(JNIEnv *env, jobject self,
 }
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    getConversionStatus
- * Signature: (I)I
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    getConversionStbtus
+ * Signbture: (I)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WInputMethod_getConversionStatus(JNIEnv *env, jobject self, jint context)
+Jbvb_sun_bwt_windows_WInputMethod_getConversionStbtus(JNIEnv *env, jobject self, jint context)
 {
     TRY;
 
-    // use special message to call ImmSetConversionStatus() in main thread.
-    return (jint) AwtToolkit::GetInstance().SendMessage(
+    // use specibl messbge to cbll ImmSetConversionStbtus() in mbin threbd.
+    return (jint) AwtToolkit::GetInstbnce().SendMessbge(
         WM_AWT_GETCONVERSIONSTATUS, context, 0);
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    setOpenStatus
- * Signature: (IZ)V
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    setOpenStbtus
+ * Signbture: (IZ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WInputMethod_setOpenStatus(JNIEnv *env, jobject self, jint context, jboolean flag)
+Jbvb_sun_bwt_windows_WInputMethod_setOpenStbtus(JNIEnv *env, jobject self, jint context, jboolebn flbg)
 {
     TRY;
 
-    // use special message to call ImmSetConversionStatus() in main thread.
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_SETOPENSTATUS,
-                                          context, flag);
+    // use specibl messbge to cbll ImmSetConversionStbtus() in mbin threbd.
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_SETOPENSTATUS,
+                                          context, flbg);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    getConversionStatus
- * Signature: (I)Z
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    getConversionStbtus
+ * Signbture: (I)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WInputMethod_getOpenStatus(JNIEnv *env, jobject self, jint context)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_windows_WInputMethod_getOpenStbtus(JNIEnv *env, jobject self, jint context)
 {
     TRY;
 
-    // use special message to call ImmSetConversionStatus() in main thread.
-    return (jboolean)(AwtToolkit::GetInstance().SendMessage(
+    // use specibl messbge to cbll ImmSetConversionStbtus() in mbin threbd.
+    return (jboolebn)(AwtToolkit::GetInstbnce().SendMessbge(
                                                        WM_AWT_GETOPENSTATUS,
                                                        context, 0));
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    getNativeLocale
- * Signature: ()Ljava/util/Locale;
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    getNbtiveLocble
+ * Signbture: ()Ljbvb/util/Locble;
  */
-JNIEXPORT jobject JNICALL Java_sun_awt_windows_WInputMethod_getNativeLocale
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jobject JNICALL Jbvb_sun_bwt_windows_WInputMethod_getNbtiveLocble
+  (JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    const char * javaLocaleName = getJavaIDFromLangID(AwtComponent::GetInputLanguage());
-    if (javaLocaleName != NULL) {
-        // Now WInputMethod.currentLocale and AwtComponent::m_idLang are get sync'ed,
-        // so we can reset this flag.
-        g_bUserHasChangedInputLang = FALSE;
+    const chbr * jbvbLocbleNbme = getJbvbIDFromLbngID(AwtComponent::GetInputLbngubge());
+    if (jbvbLocbleNbme != NULL) {
+        // Now WInputMethod.currentLocble bnd AwtComponent::m_idLbng bre get sync'ed,
+        // so we cbn reset this flbg.
+        g_bUserHbsChbngedInputLbng = FALSE;
 
-        jobject ret = CreateLocaleObject(env, javaLocaleName);
-        free((void *)javaLocaleName);
+        jobject ret = CrebteLocbleObject(env, jbvbLocbleNbme);
+        free((void *)jbvbLocbleNbme);
         return ret;
     } else {
         return NULL;
@@ -307,253 +307,253 @@ JNIEXPORT jobject JNICALL Java_sun_awt_windows_WInputMethod_getNativeLocale
 }
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    setNativeLocale
- * Signature: (Ljava/lang/String;Z)Z
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    setNbtiveLocble
+ * Signbture: (Ljbvb/lbng/String;Z)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_windows_WInputMethod_setNativeLocale
-  (JNIEnv *env, jclass cls, jstring localeString, jboolean onActivate)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_windows_WInputMethod_setNbtiveLocble
+  (JNIEnv *env, jclbss cls, jstring locbleString, jboolebn onActivbte)
 {
     TRY;
 
-    // check if current language ID is the requested one.  Note that the
-    // current language ID (returned from 'getJavaIDFromLangID') is in
-    // ASCII encoding, so we use 'GetStringUTFChars' to retrieve requested
-    // language ID from the 'localeString' object.
-    jboolean isCopy;
-    const char * requested = env->GetStringUTFChars(localeString, &isCopy);
+    // check if current lbngubge ID is the requested one.  Note thbt the
+    // current lbngubge ID (returned from 'getJbvbIDFromLbngID') is in
+    // ASCII encoding, so we use 'GetStringUTFChbrs' to retrieve requested
+    // lbngubge ID from the 'locbleString' object.
+    jboolebn isCopy;
+    const chbr * requested = env->GetStringUTFChbrs(locbleString, &isCopy);
     CHECK_NULL_RETURN(requested, JNI_FALSE);
 
-    const char * current = getJavaIDFromLangID(AwtComponent::GetInputLanguage());
+    const chbr * current = getJbvbIDFromLbngID(AwtComponent::GetInputLbngubge());
     if (current != NULL) {
         if (strcmp(current, requested) == 0) {
-            env->ReleaseStringUTFChars(localeString, requested);
+            env->RelebseStringUTFChbrs(locbleString, requested);
             free((void *)current);
             return JNI_TRUE;
         }
         free((void *)current);
     }
 
-    // get list of available HKLs.  Adding the user's preferred layout on top of the layout
-    // list which is returned by GetKeyboardLayoutList ensures to match first when
-    // looking up suitable layout.
-    int layoutCount = ::GetKeyboardLayoutList(0, NULL) + 1;  // +1 for user's preferred HKL
-    HKL FAR * hKLList = (HKL FAR *)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, sizeof(HKL), layoutCount);
+    // get list of bvbilbble HKLs.  Adding the user's preferred lbyout on top of the lbyout
+    // list which is returned by GetKeybobrdLbyoutList ensures to mbtch first when
+    // looking up suitbble lbyout.
+    int lbyoutCount = ::GetKeybobrdLbyoutList(0, NULL) + 1;  // +1 for user's preferred HKL
+    HKL FAR * hKLList = (HKL FAR *)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, sizeof(HKL), lbyoutCount);
     if (hKLList == NULL) {
-        env->ReleaseStringUTFChars(localeString, requested);
+        env->RelebseStringUTFChbrs(locbleString, requested);
         return JNI_FALSE;
     }
-    ::GetKeyboardLayoutList(layoutCount - 1, &(hKLList[1]));
-    hKLList[0] = getDefaultKeyboardLayout(); // put user's preferred layout on top of the list
+    ::GetKeybobrdLbyoutList(lbyoutCount - 1, &(hKLList[1]));
+    hKLList[0] = getDefbultKeybobrdLbyout(); // put user's preferred lbyout on top of the list
 
-    // lookup matching LangID
-    jboolean retValue = JNI_FALSE;
-    for (int i = 0; i < layoutCount; i++) {
-        const char * supported = getJavaIDFromLangID(LOWORD(hKLList[i]));
+    // lookup mbtching LbngID
+    jboolebn retVblue = JNI_FALSE;
+    for (int i = 0; i < lbyoutCount; i++) {
+        const chbr * supported = getJbvbIDFromLbngID(LOWORD(hKLList[i]));
         if (supported != NULL) {
             if (strcmp(supported, requested) == 0) {
-                // use special message to call ActivateKeyboardLayout() in main thread.
-                if (AwtToolkit::GetInstance().SendMessage(WM_AWT_ACTIVATEKEYBOARDLAYOUT, (WPARAM)onActivate, (LPARAM)hKLList[i])) {
-                    //also need to change the same keyboard layout for the Java AWT-EventQueue thread
-                    AwtToolkit::activateKeyboardLayout(hKLList[i]);
-                    retValue = JNI_TRUE;
+                // use specibl messbge to cbll ActivbteKeybobrdLbyout() in mbin threbd.
+                if (AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_ACTIVATEKEYBOARDLAYOUT, (WPARAM)onActivbte, (LPARAM)hKLList[i])) {
+                    //blso need to chbnge the sbme keybobrd lbyout for the Jbvb AWT-EventQueue threbd
+                    AwtToolkit::bctivbteKeybobrdLbyout(hKLList[i]);
+                    retVblue = JNI_TRUE;
                 }
                 free((void *)supported);
-                break;
+                brebk;
             }
             free((void *)supported);
         }
     }
 
-    env->ReleaseStringUTFChars(localeString, requested);
+    env->RelebseStringUTFChbrs(locbleString, requested);
     free(hKLList);
-    return retValue;
+    return retVblue;
 
     CATCH_BAD_ALLOC_RET(JNI_FALSE);
 }
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    hideWindowsNative
- * Signature: (Lsun/awt/windows/WComponentPeer;Z)V
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    hideWindowsNbtive
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;Z)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WInputMethod_setStatusWindowVisible
-  (JNIEnv *env, jobject self, jobject peer, jboolean visible)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WInputMethod_setStbtusWindowVisible
+  (JNIEnv *env, jobject self, jobject peer, jboolebn visible)
 {
-    /* Retrieve the default input method Window handler from AwtToolkit.
-       Windows system creates a default input method window for the
-       toolkit thread.
+    /* Retrieve the defbult input method Window hbndler from AwtToolkit.
+       Windows system crebtes b defbult input method window for the
+       toolkit threbd.
     */
 
-    HWND defaultIMEHandler = AwtToolkit::GetInstance().GetInputMethodWindow();
+    HWND defbultIMEHbndler = AwtToolkit::GetInstbnce().GetInputMethodWindow();
 
-    if (defaultIMEHandler == NULL)
+    if (defbultIMEHbndler == NULL)
     {
-        jobject peerGlobalRef = env->NewGlobalRef(peer);
+        jobject peerGlobblRef = env->NewGlobblRef(peer);
 
-        // use special message to access pData on the toolkit thread
-        LRESULT res = AwtToolkit::GetInstance().SendMessage(WM_AWT_GET_DEFAULT_IME_HANDLER,
-                                          reinterpret_cast<WPARAM>(peerGlobalRef), 0);
-        // global ref is deleted in message handler
+        // use specibl messbge to bccess pDbtb on the toolkit threbd
+        LRESULT res = AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_GET_DEFAULT_IME_HANDLER,
+                                          reinterpret_cbst<WPARAM>(peerGlobblRef), 0);
+        // globbl ref is deleted in messbge hbndler
 
         if (res == TRUE) {
-            defaultIMEHandler = AwtToolkit::GetInstance().GetInputMethodWindow();
+            defbultIMEHbndler = AwtToolkit::GetInstbnce().GetInputMethodWindow();
         }
     }
 
-    if (defaultIMEHandler != NULL) {
-        ::SendMessage(defaultIMEHandler, WM_IME_CONTROL,
+    if (defbultIMEHbndler != NULL) {
+        ::SendMessbge(defbultIMEHbndler, WM_IME_CONTROL,
                       visible ? IMC_OPENSTATUSWINDOW : IMC_CLOSESTATUSWINDOW, 0);
     }
 }
 
 /*
- * Class:     sun_awt_windows_WInputMethod
- * Method:    openCandidateWindow
- * Signature: (Lsun/awt/windows/WComponentPeer;II)V
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    openCbndidbteWindow
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;II)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_WInputMethod_openCandidateWindow
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WInputMethod_openCbndidbteWindow
   (JNIEnv *env, jobject self, jobject peer, jint x, jint y)
 {
     TRY;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_RETURN(peer);
 
-    jobject peerGlobalRef = env->NewGlobalRef(peer);
+    jobject peerGlobblRef = env->NewGlobblRef(peer);
 
-    // WARNING! MAKELONG macro treats the given values as unsigned.
-    //   This may lead to some bugs in multiscreen configurations, as
-    //   coordinates can be negative numbers. So, while handling
-    //   WM_AWT_OPENCANDIDATEWINDOW message in AwtToolkit, we should
-    //   carefully extract right x and y values using GET_X_LPARAM and
-    //   GET_Y_LPARAM, not LOWORD and HIWORD
+    // WARNING! MAKELONG mbcro trebts the given vblues bs unsigned.
+    //   This mby lebd to some bugs in multiscreen configurbtions, bs
+    //   coordinbtes cbn be negbtive numbers. So, while hbndling
+    //   WM_AWT_OPENCANDIDATEWINDOW messbge in AwtToolkit, we should
+    //   cbrefully extrbct right x bnd y vblues using GET_X_LPARAM bnd
+    //   GET_Y_LPARAM, not LOWORD bnd HIWORD
     // See CR 4805862, AwtToolkit::WndProc
 
-    // use special message to open candidate window in main thread.
-    AwtToolkit::GetInstance().SendMessage(WM_AWT_OPENCANDIDATEWINDOW,
-                                          (WPARAM)peerGlobalRef, MAKELONG(x, y));
-    // global ref is deleted in message handler
+    // use specibl messbge to open cbndidbte window in mbin threbd.
+    AwtToolkit::GetInstbnce().SendMessbge(WM_AWT_OPENCANDIDATEWINDOW,
+                                          (WPARAM)peerGlobblRef, MAKELONG(x, y));
+    // globbl ref is deleted in messbge hbndler
 
     CATCH_BAD_ALLOC;
 }
 
 
 /************************************************************************
- * WInputMethodDescriptor native methods
+ * WInputMethodDescriptor nbtive methods
  */
 
 /*
- * Class:     sun_awt_windows_WInputMethodDescriptor
- * Method:    getNativeAvailableLocales
- * Signature: ()[Ljava/util/Locale;
+ * Clbss:     sun_bwt_windows_WInputMethodDescriptor
+ * Method:    getNbtiveAvbilbbleLocbles
+ * Signbture: ()[Ljbvb/util/Locble;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_awt_windows_WInputMethodDescriptor_getNativeAvailableLocales
-  (JNIEnv *env, jclass self)
+JNIEXPORT jobjectArrby JNICALL Jbvb_sun_bwt_windows_WInputMethodDescriptor_getNbtiveAvbilbbleLocbles
+  (JNIEnv *env, jclbss self)
 {
     TRY;
 
-    // get list of available HKLs
-    const int layoutCount = ::GetKeyboardLayoutList(0, NULL);
-    HKL FAR * hKLList = (HKL FAR *)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, sizeof(HKL), layoutCount);
+    // get list of bvbilbble HKLs
+    const int lbyoutCount = ::GetKeybobrdLbyoutList(0, NULL);
+    HKL FAR * hKLList = (HKL FAR *)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, sizeof(HKL), lbyoutCount);
     CHECK_NULL_RETURN(hKLList, NULL);
-    ::GetKeyboardLayoutList(layoutCount, hKLList);
+    ::GetKeybobrdLbyoutList(lbyoutCount, hKLList);
 
-    // get list of Java locale names while getting rid of duplicates
+    // get list of Jbvb locble nbmes while getting rid of duplicbtes
     int srcIndex = 0;
     int destIndex = 0;
-    int javaLocaleNameCount = 0;
+    int jbvbLocbleNbmeCount = 0;
     int current = 0;
 
-    const char ** javaLocaleNames = (const char **)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, sizeof(char *), layoutCount);
-    if (javaLocaleNames == NULL) {
+    const chbr ** jbvbLocbleNbmes = (const chbr **)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, sizeof(chbr *), lbyoutCount);
+    if (jbvbLocbleNbmes == NULL) {
         free(hKLList);
         return NULL;
     }
 
-    for (; srcIndex < layoutCount; srcIndex++) {
-        const char * srcLocaleName = getJavaIDFromLangID(LOWORD(hKLList[srcIndex]));
+    for (; srcIndex < lbyoutCount; srcIndex++) {
+        const chbr * srcLocbleNbme = getJbvbIDFromLbngID(LOWORD(hKLList[srcIndex]));
 
-        if (srcLocaleName == NULL) {
-            // could not find corresponding Java locale name for this HKL.
+        if (srcLocbleNbme == NULL) {
+            // could not find corresponding Jbvb locble nbme for this HKL.
             continue;
         }
 
         for (current = 0; current < destIndex; current++) {
-            if (strcmp(javaLocaleNames[current], srcLocaleName) == 0) {
-                // duplicated. ignore this HKL
-                break;
+            if (strcmp(jbvbLocbleNbmes[current], srcLocbleNbme) == 0) {
+                // duplicbted. ignore this HKL
+                brebk;
             }
         }
 
         if (current == destIndex) {
-            javaLocaleNameCount++;
+            jbvbLocbleNbmeCount++;
             destIndex++;
-            javaLocaleNames[current] = srcLocaleName;
+            jbvbLocbleNbmes[current] = srcLocbleNbme;
         }
     }
 
-    jobjectArray locales = NULL;
-    // convert it to an array of Java locale objects
-    jclass localeClass = env->FindClass("java/util/Locale");
-    if (localeClass != NULL) {
-        locales = env->NewObjectArray(javaLocaleNameCount, localeClass, NULL);
-        if (locales != NULL) {
+    jobjectArrby locbles = NULL;
+    // convert it to bn brrby of Jbvb locble objects
+    jclbss locbleClbss = env->FindClbss("jbvb/util/Locble");
+    if (locbleClbss != NULL) {
+        locbles = env->NewObjectArrby(jbvbLocbleNbmeCount, locbleClbss, NULL);
+        if (locbles != NULL) {
 
-            for (current = 0; current < javaLocaleNameCount; current++) {
-                jobject obj = CreateLocaleObject(env, javaLocaleNames[current]);
+            for (current = 0; current < jbvbLocbleNbmeCount; current++) {
+                jobject obj = CrebteLocbleObject(env, jbvbLocbleNbmes[current]);
                 if (env->ExceptionCheck()) {
-                    env->DeleteLocalRef(locales);
-                    locales = NULL;
-                    break;
+                    env->DeleteLocblRef(locbles);
+                    locbles = NULL;
+                    brebk;
                 }
-                env->SetObjectArrayElement(locales,
+                env->SetObjectArrbyElement(locbles,
                                            current,
                                            obj);
             }
 
         }
-        env->DeleteLocalRef(localeClass);
+        env->DeleteLocblRef(locbleClbss);
     }
 
-    for (current = 0; current < javaLocaleNameCount; current++) {
-        free((void *)javaLocaleNames[current]);
+    for (current = 0; current < jbvbLocbleNbmeCount; current++) {
+        free((void *)jbvbLocbleNbmes[current]);
     }
 
     free(hKLList);
-    free(javaLocaleNames);
-    return locales;
+    free(jbvbLocbleNbmes);
+    return locbles;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /**
- * Class:     sun_awt_windows_WInputMethod
- * Method:    getNativeIMMDescription
- * Signature: ()Ljava/lang/String;
+ * Clbss:     sun_bwt_windows_WInputMethod
+ * Method:    getNbtiveIMMDescription
+ * Signbture: ()Ljbvb/lbng/String;
  *
- * This method tries to get the information about the input method associated with
- * the current active thread.
+ * This method tries to get the informbtion bbout the input method bssocibted with
+ * the current bctive threbd.
  *
  */
-JNIEXPORT jstring JNICALL Java_sun_awt_windows_WInputMethod_getNativeIMMDescription
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_windows_WInputMethod_getNbtiveIMMDescription
   (JNIEnv *env, jobject self) {
 
     TRY;
 
-    // Get the keyboard layout of the active thread.
-    HKL hkl = AwtComponent::GetKeyboardLayout();
+    // Get the keybobrd lbyout of the bctive threbd.
+    HKL hkl = AwtComponent::GetKeybobrdLbyout();
     LPTSTR szImmDescription = NULL;
     UINT buffSize = 0;
     jstring infojStr = NULL;
 
     if ((buffSize = ::ImmGetDescription(hkl, szImmDescription, 0)) > 0) {
-        szImmDescription = (LPTSTR) SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, (buffSize+1), sizeof(TCHAR));
+        szImmDescription = (LPTSTR) SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, (buffSize+1), sizeof(TCHAR));
 
         if (szImmDescription != NULL) {
             ImmGetDescription(hkl, szImmDescription, (buffSize+1));
 
-            infojStr = JNU_NewStringPlatform(env, szImmDescription);
+            infojStr = JNU_NewStringPlbtform(env, szImmDescription);
 
             free(szImmDescription);
         }
@@ -565,34 +565,34 @@ JNIEXPORT jstring JNICALL Java_sun_awt_windows_WInputMethod_getNativeIMMDescript
 }
 
 /*
- * Create a Java locale object from its name string
+ * Crebte b Jbvb locble object from its nbme string
  */
-jobject CreateLocaleObject(JNIEnv *env, const char * name)
+jobject CrebteLocbleObject(JNIEnv *env, const chbr * nbme)
 {
     TRY;
 
-    // create Locale object
-    jobject langtagObj = env->NewStringUTF(name);
-    CHECK_NULL_RETURN(langtagObj, NULL);
-    jobject localeObj = JNU_CallStaticMethodByName(env,
+    // crebte Locble object
+    jobject lbngtbgObj = env->NewStringUTF(nbme);
+    CHECK_NULL_RETURN(lbngtbgObj, NULL);
+    jobject locbleObj = JNU_CbllStbticMethodByNbme(env,
                                                    NULL,
-                                                   "java/util/Locale",
-                                                   "forLanguageTag",
-                                                   "(Ljava/lang/String;)Ljava/util/Locale;",
-                                                   langtagObj).l;
-    env->DeleteLocalRef(langtagObj);
+                                                   "jbvb/util/Locble",
+                                                   "forLbngubgeTbg",
+                                                   "(Ljbvb/lbng/String;)Ljbvb/util/Locble;",
+                                                   lbngtbgObj).l;
+    env->DeleteLocblRef(lbngtbgObj);
 
-    return localeObj;
+    return locbleObj;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 
 /*
- * Gets user's preferred keyboard layout
- * Warning: This is version dependent code
+ * Gets user's preferred keybobrd lbyout
+ * Wbrning: This is version dependent code
  */
-HKL getDefaultKeyboardLayout() {
+HKL getDefbultKeybobrdLbyout() {
     LONG ret;
     HKL hkl = 0;
     HKEY hKey;
@@ -600,13 +600,13 @@ HKL getDefaultKeyboardLayout() {
     DWORD cbHKL = 16;
     LPTSTR end;
 
-    ret = ::RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Keyboard Layout\\Preload"), NULL, KEY_READ, &hKey);
+    ret = ::RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("Keybobrd Lbyout\\Prelobd"), NULL, KEY_READ, &hKey);
 
     if (ret == ERROR_SUCCESS) {
-        ret = ::RegQueryValueEx(hKey, TEXT("1"), 0, 0, szHKL, &cbHKL);
+        ret = ::RegQueryVblueEx(hKey, TEXT("1"), 0, 0, szHKL, &cbHKL);
 
         if (ret == ERROR_SUCCESS) {
-            hkl = reinterpret_cast<HKL>(static_cast<INT_PTR>(
+            hkl = reinterpret_cbst<HKL>(stbtic_cbst<INT_PTR>(
                 _tcstoul((LPCTSTR)szHKL, &end, 16)));
         }
 

@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
- * jrunscript JavaScript built-in functions and objects.
+ * jrunscript JbvbScript built-in functions bnd objects.
  */
 
 /**
- * Creates an object that delegates all method calls on
- * it to the 'invoke' method on the given delegate object.<br>
+ * Crebtes bn object thbt delegbtes bll method cblls on
+ * it to the 'invoke' method on the given delegbte object.<br>
  *
- * Example:
+ * Exbmple:
  * <pre>
  * <code>
- *     var x  = { invoke: function(name, args) { //code...}
- *     var y = new JSInvoker(x);
- *     y.func(3, 3); // calls x.invoke('func', args); where args is array of arguments
+ *     vbr x  = { invoke: function(nbme, brgs) { //code...}
+ *     vbr y = new JSInvoker(x);
+ *     y.func(3, 3); // cblls x.invoke('func', brgs); where brgs is brrby of brguments
  * </code>
  * </pre>
- * @param obj object to be wrapped by JSInvoker
+ * @pbrbm obj object to be wrbpped by JSInvoker
  * @constructor
  */
 function JSInvoker(obj) {
-    return new JSAdapter({
-        __get__ : function(name) {
+    return new JSAdbpter({
+        __get__ : function(nbme) {
             return function() {
-                return obj.invoke(name, arguments);
+                return obj.invoke(nbme, brguments);
             }
         }
     });
 }
 
 /**
- * This variable represents OS environment. Environment
- * variables can be accessed as fields of this object. For
- * example, env.PATH will return PATH value configured.
+ * This vbribble represents OS environment. Environment
+ * vbribbles cbn be bccessed bs fields of this object. For
+ * exbmple, env.PATH will return PATH vblue configured.
  */
-var env = new JSAdapter({
-    __get__ : function (name) {
-        return java.lang.System.getenv(name);
+vbr env = new JSAdbpter({
+    __get__ : function (nbme) {
+        return jbvb.lbng.System.getenv(nbme);
     },
-    __has__ : function (name) {
-        return java.lang.System.getenv().containsKey(name);
+    __hbs__ : function (nbme) {
+        return jbvb.lbng.System.getenv().contbinsKey(nbme);
     },
     __getIds__ : function() {
-        return java.lang.System.getenv().keySet().toArray();
+        return jbvb.lbng.System.getenv().keySet().toArrby();
     },
-    __delete__ : function(name) {
-        println("can't delete env item");
+    __delete__ : function(nbme) {
+        println("cbn't delete env item");
     },
-    __put__ : function (name, value) {
-        println("can't change env item");
+    __put__ : function (nbme, vblue) {
+        println("cbn't chbnge env item");
     },
     toString: function() {
-        return java.lang.System.getenv().toString();
+        return jbvb.lbng.System.getenv().toString();
     }
 });
 
 /**
- * Creates a convenient script object to deal with java.util.Map instances.
- * The result script object's field names are keys of the Map. For example,
- * scriptObj.keyName can be used to access value associated with given key.<br>
- * Example:
+ * Crebtes b convenient script object to debl with jbvb.util.Mbp instbnces.
+ * The result script object's field nbmes bre keys of the Mbp. For exbmple,
+ * scriptObj.keyNbme cbn be used to bccess vblue bssocibted with given key.<br>
+ * Exbmple:
  * <pre>
  * <code>
- *     var x = java.lang.SystemProperties();
- *     var y = jmap(x);
- *     println(y['java.class.path']); // prints java.class.path System property
- *     delete y['java.class.path']; // remove java.class.path System property
+ *     vbr x = jbvb.lbng.SystemProperties();
+ *     vbr y = jmbp(x);
+ *     println(y['jbvb.clbss.pbth']); // prints jbvb.clbss.pbth System property
+ *     delete y['jbvb.clbss.pbth']; // remove jbvb.clbss.pbth System property
  * </code>
  * </pre>
  *
- * @param map java.util.Map instance that will be wrapped
+ * @pbrbm mbp jbvb.util.Mbp instbnce thbt will be wrbpped
  * @constructor
  */
-function jmap(map) {
-    return new JSAdapter({
-        __get__ : function(name) {
-            if (map.containsKey(name)) {
-                return map.get(name);
+function jmbp(mbp) {
+    return new JSAdbpter({
+        __get__ : function(nbme) {
+            if (mbp.contbinsKey(nbme)) {
+                return mbp.get(nbme);
             } else {
                 return undefined;
             }
         },
-        __has__ :  function(name) {
-            return map.containsKey(name);
+        __hbs__ :  function(nbme) {
+            return mbp.contbinsKey(nbme);
         },
 
-        __delete__ : function (name) {
-            return map.remove(name);
+        __delete__ : function (nbme) {
+            return mbp.remove(nbme);
         },
-        __put__ : function(name, value) {
-            map.put(name, value);
+        __put__ : function(nbme, vblue) {
+            mbp.put(nbme, vblue);
         },
         __getIds__ : function() {
-            return map.keySet().toArray();
+            return mbp.keySet().toArrby();
         },
         toString: function() {
-            return map.toString();
+            return mbp.toString();
         }
     });
 }
 
 /**
- * Creates a convenient script object to deal with java.util.List instances.
- * The result script object behaves like an array. For example,
- * scriptObj[index] syntax can be used to access values in the List instance.
+ * Crebtes b convenient script object to debl with jbvb.util.List instbnces.
+ * The result script object behbves like bn brrby. For exbmple,
+ * scriptObj[index] syntbx cbn be used to bccess vblues in the List instbnce.
  * 'length' field gives size of the List. <br>
  *
- * Example:
+ * Exbmple:
  * <pre>
  * <code>
- *    var x = new java.util.ArrayList(4);
- *    x.add('Java');
- *    x.add('JavaScript');
- *    x.add('SQL');
- *    x.add('XML');
+ *    vbr x = new jbvb.util.ArrbyList(4);
+ *    x.bdd('Jbvb');
+ *    x.bdd('JbvbScript');
+ *    x.bdd('SQL');
+ *    x.bdd('XML');
  *
- *    var y = jlist(x);
+ *    vbr y = jlist(x);
  *    println(y[2]); // prints third element of list
  *    println(y.length); // prints size of the list
  *
- * @param map java.util.List instance that will be wrapped
+ * @pbrbm mbp jbvb.util.List instbnce thbt will be wrbpped
  * @constructor
  */
 function jlist(list) {
-    function isValid(index) {
+    function isVblid(index) {
         return typeof(index) == 'number' &&
             index > -1 && index < list.size();
     }
-    return new JSAdapter({
-        __get__ :  function(name) {
-            if (isValid(name)) {
-                return list.get(name);
-            } else if (name == 'length') {
+    return new JSAdbpter({
+        __get__ :  function(nbme) {
+            if (isVblid(nbme)) {
+                return list.get(nbme);
+            } else if (nbme == 'length') {
                 return list.size();
             } else {
                 return undefined;
             }
         },
-        __has__ : function (name) {
-            return isValid(name) || name == 'length';
+        __hbs__ : function (nbme) {
+            return isVblid(nbme) || nbme == 'length';
         },
-        __delete__ : function(name) {
-            if (isValid(name)) {
-                list.remove(name);
+        __delete__ : function(nbme) {
+            if (isVblid(nbme)) {
+                list.remove(nbme);
             }
         },
-        __put__ : function(name, value) {
-            if (isValid(name)) {
-                list.set(name, value);
+        __put__ : function(nbme, vblue) {
+            if (isVblid(nbme)) {
+                list.set(nbme, vblue);
             }
         },
         __getIds__: function() {
-            var res = new Array(list.size());
-            for (var i = 0; i < res.length; i++) {
+            vbr res = new Arrby(list.size());
+            for (vbr i = 0; i < res.length; i++) {
                 res[i] = i;
             }
             return res;
@@ -187,26 +187,26 @@ function jlist(list) {
 }
 
 /**
- * This is java.lang.System properties wrapped by JSAdapter.
- * For eg. to access java.class.path property, you can use
- * the syntax sysProps["java.class.path"]
+ * This is jbvb.lbng.System properties wrbpped by JSAdbpter.
+ * For eg. to bccess jbvb.clbss.pbth property, you cbn use
+ * the syntbx sysProps["jbvb.clbss.pbth"]
  */
-var sysProps = new JSAdapter({
-    __get__ : function (name) {
-        return java.lang.System.getProperty(name);
+vbr sysProps = new JSAdbpter({
+    __get__ : function (nbme) {
+        return jbvb.lbng.System.getProperty(nbme);
     },
-    __has__ : function (name) {
-        return java.lang.System.getProperty(name) != null;
+    __hbs__ : function (nbme) {
+        return jbvb.lbng.System.getProperty(nbme) != null;
     },
     __getIds__ : function() {
-        return java.lang.System.getProperties().keySet().toArray();
+        return jbvb.lbng.System.getProperties().keySet().toArrby();
     },
-    __delete__ : function(name) {
-        java.lang.System.clearProperty(name);
+    __delete__ : function(nbme) {
+        jbvb.lbng.System.clebrProperty(nbme);
         return true;
     },
-    __put__ : function (name, value) {
-        java.lang.System.setProperty(name, value);
+    __put__ : function (nbme, vblue) {
+        jbvb.lbng.System.setProperty(nbme, vblue);
     },
     toString: function() {
         return "<system properties>";
@@ -214,104 +214,104 @@ var sysProps = new JSAdapter({
 });
 
 // stdout, stderr & stdin
-var out = java.lang.System.out;
-var err = java.lang.System.err;
-// can't use 'in' because it is a JavaScript keyword :-(
-var inp = java.lang.System["in"];
+vbr out = jbvb.lbng.System.out;
+vbr err = jbvb.lbng.System.err;
+// cbn't use 'in' becbuse it is b JbvbScript keyword :-(
+vbr inp = jbvb.lbng.System["in"];
 
-var BufferedInputStream = java.io.BufferedInputStream;
-var BufferedOutputStream = java.io.BufferedOutputStream;
-var BufferedReader = java.io.BufferedReader;
-var DataInputStream = java.io.DataInputStream;
-var File = java.io.File;
-var FileInputStream = java.io.FileInputStream;
-var FileOutputStream = java.io.FileOutputStream;
-var InputStream = java.io.InputStream;
-var InputStreamReader = java.io.InputStreamReader;
-var OutputStream = java.io.OutputStream;
-var Reader = java.io.Reader;
-var URL = java.net.URL;
+vbr BufferedInputStrebm = jbvb.io.BufferedInputStrebm;
+vbr BufferedOutputStrebm = jbvb.io.BufferedOutputStrebm;
+vbr BufferedRebder = jbvb.io.BufferedRebder;
+vbr DbtbInputStrebm = jbvb.io.DbtbInputStrebm;
+vbr File = jbvb.io.File;
+vbr FileInputStrebm = jbvb.io.FileInputStrebm;
+vbr FileOutputStrebm = jbvb.io.FileOutputStrebm;
+vbr InputStrebm = jbvb.io.InputStrebm;
+vbr InputStrebmRebder = jbvb.io.InputStrebmRebder;
+vbr OutputStrebm = jbvb.io.OutputStrebm;
+vbr Rebder = jbvb.io.Rebder;
+vbr URL = jbvb.net.URL;
 
 /**
- * Generic any object to input stream mapper
- * @param str input file name, URL or InputStream
- * @return InputStream object
- * @private
+ * Generic bny object to input strebm mbpper
+ * @pbrbm str input file nbme, URL or InputStrebm
+ * @return InputStrebm object
+ * @privbte
  */
-function inStream(str) {
+function inStrebm(str) {
     if (typeof(str) == "string") {
-        // '-' means standard input
+        // '-' mebns stbndbrd input
         if (str == '-') {
-            return java.lang.System["in"];
+            return jbvb.lbng.System["in"];
         }
         // try file first
-        var file = null;
+        vbr file = null;
         try {
-            file = pathToFile(str);
-        } catch (e) {
+            file = pbthToFile(str);
+        } cbtch (e) {
         }
         if (file && file.exists()) {
-            return new FileInputStream(file);
+            return new FileInputStrebm(file);
         } else {
             try {
-                // treat the string as URL
-                return new URL(str).openStream();
-            } catch (e) {
+                // trebt the string bs URL
+                return new URL(str).openStrebm();
+            } cbtch (e) {
                 throw 'file or URL ' + str + ' not found';
             }
         }
     } else {
-        if (str instanceof InputStream) {
+        if (str instbnceof InputStrebm) {
             return str;
-        } else if (str instanceof URL) {
-            return str.openStream();
-        } else if (str instanceof File) {
-            return new FileInputStream(str);
+        } else if (str instbnceof URL) {
+            return str.openStrebm();
+        } else if (str instbnceof File) {
+            return new FileInputStrebm(str);
         }
     }
-    // everything failed, just give input stream
-    return java.lang.System["in"];
+    // everything fbiled, just give input strebm
+    return jbvb.lbng.System["in"];
 }
 
 /**
- * Generic any object to output stream mapper
+ * Generic bny object to output strebm mbpper
  *
- * @param out output file name or stream
- * @return OutputStream object
- * @private
+ * @pbrbm out output file nbme or strebm
+ * @return OutputStrebm object
+ * @privbte
  */
-function outStream(out) {
+function outStrebm(out) {
     if (typeof(out) == "string") {
         if (out == '>') {
-            return java.lang.System.out;
+            return jbvb.lbng.System.out;
         } else {
-            // treat it as file
-            return new FileOutputStream(pathToFile(out));
+            // trebt it bs file
+            return new FileOutputStrebm(pbthToFile(out));
         }
     } else {
-        if (out instanceof OutputStream) {
+        if (out instbnceof OutputStrebm) {
             return out;
-        } else if (out instanceof File) {
-            return new FileOutputStream(out);
+        } else if (out instbnceof File) {
+            return new FileOutputStrebm(out);
         }
     }
 
-    // everything failed, just return System.out
-    return java.lang.System.out;
+    // everything fbiled, just return System.out
+    return jbvb.lbng.System.out;
 }
 
 /**
- * stream close takes care not to close stdin, out & err.
- * @private
+ * strebm close tbkes cbre not to close stdin, out & err.
+ * @privbte
  */
-function streamClose(stream) {
-    if (stream) {
-        if (stream != java.lang.System["in"] &&
-            stream != java.lang.System.out &&
-            stream != java.lang.System.err) {
+function strebmClose(strebm) {
+    if (strebm) {
+        if (strebm != jbvb.lbng.System["in"] &&
+            strebm != jbvb.lbng.System.out &&
+            strebm != jbvb.lbng.System.err) {
             try {
-                stream.close();
-            } catch (e) {
+                strebm.close();
+            } cbtch (e) {
                 println(e);
             }
         }
@@ -319,30 +319,30 @@ function streamClose(stream) {
 }
 
 /**
- * Loads and evaluates JavaScript code from a stream or file or URL<br>
+ * Lobds bnd evblubtes JbvbScript code from b strebm or file or URL<br>
  *
- * Examples:
+ * Exbmples:
  * <pre>
  * <code>
- *    load('test.js'); // load script file 'test.js'
- *    load('http://java.sun.com/foo.js'); // load from a URL
+ *    lobd('test.js'); // lobd script file 'test.js'
+ *    lobd('http://jbvb.sun.com/foo.js'); // lobd from b URL
  * </code>
  * </pre>
  *
- * @param str input from which script is loaded and evaluated
+ * @pbrbm str input from which script is lobded bnd evblubted
  */
-if (typeof(load) == 'undefined') {
-    this.load = function(str) {
-        var stream = inStream(str);
-        var bstream = new BufferedInputStream(stream);
-        var reader = new BufferedReader(new InputStreamReader(bstream));
-        var oldFilename = engine.get(engine.FILENAME);
+if (typeof(lobd) == 'undefined') {
+    this.lobd = function(str) {
+        vbr strebm = inStrebm(str);
+        vbr bstrebm = new BufferedInputStrebm(strebm);
+        vbr rebder = new BufferedRebder(new InputStrebmRebder(bstrebm));
+        vbr oldFilenbme = engine.get(engine.FILENAME);
         engine.put(engine.FILENAME, str);
         try {
-            engine.eval(reader);
-        } finally {
-            engine.put(engine.FILENAME, oldFilename);
-            streamClose(stream);
+            engine.evbl(rebder);
+        } finblly {
+            engine.put(engine.FILENAME, oldFilenbme);
+            strebmClose(strebm);
         }
     }
 }
@@ -350,200 +350,200 @@ if (typeof(load) == 'undefined') {
 // file system utilities
 
 /**
- * Creates a Java byte[] of given length
- * @param len size of the array to create
- * @private
+ * Crebtes b Jbvb byte[] of given length
+ * @pbrbm len size of the brrby to crebte
+ * @privbte
  */
-function javaByteArray(len) {
-    return java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, len);
+function jbvbByteArrby(len) {
+    return jbvb.lbng.reflect.Arrby.newInstbnce(jbvb.lbng.Byte.TYPE, len);
 }
 
-var curDir = new File('.');
+vbr curDir = new File('.');
 
 /**
  * Print present working directory
  */
 function pwd() {
-    println(curDir.getAbsolutePath());
+    println(curDir.getAbsolutePbth());
 }
 
 /**
- * Changes present working directory to given directory
- * @param target directory to change to. optional, defaults to user's HOME
+ * Chbnges present working directory to given directory
+ * @pbrbm tbrget directory to chbnge to. optionbl, defbults to user's HOME
  */
-function cd(target) {
-    if (target == undefined) {
-        target = sysProps["user.home"];
+function cd(tbrget) {
+    if (tbrget == undefined) {
+        tbrget = sysProps["user.home"];
     }
-    if (!(target instanceof File)) {
-        target = pathToFile(target);
+    if (!(tbrget instbnceof File)) {
+        tbrget = pbthToFile(tbrget);
     }
-    if (target.exists() && target.isDirectory()) {
-        curDir = target;
+    if (tbrget.exists() && tbrget.isDirectory()) {
+        curDir = tbrget;
     } else {
-        println(target + " is not a directory");
+        println(tbrget + " is not b directory");
     }
 }
 
 /**
- * Converts path to java.io.File taking care of shell present working dir
+ * Converts pbth to jbvb.io.File tbking cbre of shell present working dir
  *
- * @param pathname file path to be converted
- * @private
+ * @pbrbm pbthnbme file pbth to be converted
+ * @privbte
  */
-function pathToFile(pathname) {
-    var tmp = pathname;
-    if (!(tmp instanceof File)) {
+function pbthToFile(pbthnbme) {
+    vbr tmp = pbthnbme;
+    if (!(tmp instbnceof File)) {
         tmp = new File(tmp);
     }
     if (!tmp.isAbsolute()) {
-        return new File(curDir, pathname);
+        return new File(curDir, pbthnbme);
     } else {
         return tmp;
     }
 }
 
 /**
- * Copies a file or URL or stream to another file or stream
+ * Copies b file or URL or strebm to bnother file or strebm
  *
- * @param from input file or URL or stream
- * @param to output stream or file
+ * @pbrbm from input file or URL or strebm
+ * @pbrbm to output strebm or file
  */
 function cp(from, to) {
     if (from == to) {
-        println("file " + from + " cannot be copied onto itself!");
+        println("file " + from + " cbnnot be copied onto itself!");
         return;
     }
-    var inp = inStream(from);
-    var out = outStream(to);
-    var binp = new BufferedInputStream(inp);
-    var bout = new BufferedOutputStream(out);
-    var buff = javaByteArray(1024);
-    var len;
-    while ((len = binp.read(buff)) > 0 )
+    vbr inp = inStrebm(from);
+    vbr out = outStrebm(to);
+    vbr binp = new BufferedInputStrebm(inp);
+    vbr bout = new BufferedOutputStrebm(out);
+    vbr buff = jbvbByteArrby(1024);
+    vbr len;
+    while ((len = binp.rebd(buff)) > 0 )
         bout.write(buff, 0, len);
 
     bout.flush();
-    streamClose(inp);
-    streamClose(out);
+    strebmClose(inp);
+    strebmClose(out);
 }
 
 /**
- * Shows the content of a file or URL or any InputStream<br>
- * Examples:
+ * Shows the content of b file or URL or bny InputStrebm<br>
+ * Exbmples:
  * <pre>
  * <code>
- *    cat('test.txt'); // show test.txt file contents
- *    cat('http://java.net'); // show the contents from the URL http://java.net
+ *    cbt('test.txt'); // show test.txt file contents
+ *    cbt('http://jbvb.net'); // show the contents from the URL http://jbvb.net
  * </code>
  * </pre>
- * @param obj input to show
- * @param pattern optional. show only the lines matching the pattern
+ * @pbrbm obj input to show
+ * @pbrbm pbttern optionbl. show only the lines mbtching the pbttern
  */
-function cat(obj, pattern) {
-    if (obj instanceof File && obj.isDirectory()) {
+function cbt(obj, pbttern) {
+    if (obj instbnceof File && obj.isDirectory()) {
         ls(obj);
         return;
     }
 
-    var inp = null;
-    if (!(obj instanceof Reader)) {
-        inp = inStream(obj);
-        obj = new BufferedReader(new InputStreamReader(inp));
+    vbr inp = null;
+    if (!(obj instbnceof Rebder)) {
+        inp = inStrebm(obj);
+        obj = new BufferedRebder(new InputStrebmRebder(inp));
     }
-    var line;
-    if (pattern) {
-        var count = 1;
-        while ((line=obj.readLine()) != null) {
-            if (line.match(pattern)) {
+    vbr line;
+    if (pbttern) {
+        vbr count = 1;
+        while ((line=obj.rebdLine()) != null) {
+            if (line.mbtch(pbttern)) {
                 println(count + "\t: " + line);
             }
             count++;
         }
     } else {
-        while ((line=obj.readLine()) != null) {
+        while ((line=obj.rebdLine()) != null) {
             println(line);
         }
     }
 }
 
 /**
- * Returns directory part of a filename
+ * Returns directory pbrt of b filenbme
  *
- * @param pathname input path name
- * @return directory part of the given file name
+ * @pbrbm pbthnbme input pbth nbme
+ * @return directory pbrt of the given file nbme
  */
-function dirname(pathname) {
-    var dirName = ".";
-    // Normalize '/' to local file separator before work.
-    var i = pathname.replace('/', File.separatorChar ).lastIndexOf(
-        File.separator );
+function dirnbme(pbthnbme) {
+    vbr dirNbme = ".";
+    // Normblize '/' to locbl file sepbrbtor before work.
+    vbr i = pbthnbme.replbce('/', File.sepbrbtorChbr ).lbstIndexOf(
+        File.sepbrbtor );
     if ( i != -1 )
-        dirName = pathname.substring(0, i);
-    return dirName;
+        dirNbme = pbthnbme.substring(0, i);
+    return dirNbme;
 }
 
 /**
- * Creates a new dir of given name
+ * Crebtes b new dir of given nbme
  *
- * @param dir name of the new directory
+ * @pbrbm dir nbme of the new directory
  */
 function mkdir(dir) {
-    dir = pathToFile(dir);
-    println(dir.mkdir()? "created" : "can not create dir");
+    dir = pbthToFile(dir);
+    println(dir.mkdir()? "crebted" : "cbn not crebte dir");
 }
 
 /**
- * Creates the directory named by given pathname, including
- * any necessary but nonexistent parent directories.
+ * Crebtes the directory nbmed by given pbthnbme, including
+ * bny necessbry but nonexistent pbrent directories.
  *
- * @param dir input path name
+ * @pbrbm dir input pbth nbme
  */
 function mkdirs(dir) {
-    dir = pathToFile(dir);
-    println(dir.mkdirs()? "created" : "can not create dirs");
+    dir = pbthToFile(dir);
+    println(dir.mkdirs()? "crebted" : "cbn not crebte dirs");
 }
 
 /**
- * Removes a given file
+ * Removes b given file
  *
- * @param pathname name of the file
+ * @pbrbm pbthnbme nbme of the file
  */
-function rm(pathname) {
-    var file = pathToFile(pathname);
+function rm(pbthnbme) {
+    vbr file = pbthToFile(pbthnbme);
     if (!file.exists()) {
-        println("file not found: " + pathname);
-        return false;
+        println("file not found: " + pbthnbme);
+        return fblse;
     }
-    // note that delete is a keyword in JavaScript!
-    println(file["delete"]()? "deleted" : "can not delete");
+    // note thbt delete is b keyword in JbvbScript!
+    println(file["delete"]()? "deleted" : "cbn not delete");
 }
 
 /**
- * Removes a given directory
+ * Removes b given directory
  *
- * @param pathname name of the directory
+ * @pbrbm pbthnbme nbme of the directory
  */
-function rmdir(pathname) {
-    rm(pathname);
+function rmdir(pbthnbme) {
+    rm(pbthnbme);
 }
 
 /**
  * Synonym for 'rm'
  */
-function del(pathname) {
-    rm(pathname);
+function del(pbthnbme) {
+    rm(pbthnbme);
 }
 
 /**
- * Moves a file to another
+ * Moves b file to bnother
  *
- * @param from original name of the file
- * @param to new name for the file
+ * @pbrbm from originbl nbme of the file
+ * @pbrbm to new nbme for the file
  */
 function mv(from, to) {
-    println(pathToFile(from).renameTo(pathToFile(to))?
-        "moved" : "can not move");
+    println(pbthToFile(from).renbmeTo(pbthToFile(to))?
+        "moved" : "cbn not move");
 }
 
 /**
@@ -553,71 +553,71 @@ function ren(from, to) {
     mv(from, to);
 }
 
-var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+vbr months = [ "Jbn", "Feb", "Mbr", "Apr", "Mby", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
 /**
- * Helper function called by ls
- * @private
+ * Helper function cblled by ls
+ * @privbte
  */
 function printFile(f) {
-    var sb = new java.lang.StringBuffer();
-    sb.append(f.isDirectory()? "d" : "-");
-    sb.append(f.canRead() ? "r": "-" );
-    sb.append(f.canWrite() ? "w": "-" );
-    sb.append(" ");
+    vbr sb = new jbvb.lbng.StringBuffer();
+    sb.bppend(f.isDirectory()? "d" : "-");
+    sb.bppend(f.cbnRebd() ? "r": "-" );
+    sb.bppend(f.cbnWrite() ? "w": "-" );
+    sb.bppend(" ");
 
-    var d = new java.util.Date(f.lastModified());
-    var c = new java.util.GregorianCalendar();
+    vbr d = new jbvb.util.Dbte(f.lbstModified());
+    vbr c = new jbvb.util.GregoribnCblendbr();
     c.setTime(d);
-    var day    = c.get(java.util.Calendar.DAY_OF_MONTH);
-    sb.append(months[c.get(java.util.Calendar.MONTH)]
-         + " " + day );
-    if (day < 10) {
-        sb.append(" ");
+    vbr dby    = c.get(jbvb.util.Cblendbr.DAY_OF_MONTH);
+    sb.bppend(months[c.get(jbvb.util.Cblendbr.MONTH)]
+         + " " + dby );
+    if (dby < 10) {
+        sb.bppend(" ");
     }
 
     // to get fixed length 'length' field
-    var fieldlen = 8;
-    var len = new java.lang.StringBuffer();
-    for(var j=0; j<fieldlen; j++)
-        len.append(" ");
-    len.insert(0, java.lang.Long.toString(f.length()));
+    vbr fieldlen = 8;
+    vbr len = new jbvb.lbng.StringBuffer();
+    for(vbr j=0; j<fieldlen; j++)
+        len.bppend(" ");
+    len.insert(0, jbvb.lbng.Long.toString(f.length()));
     len.setLength(fieldlen);
-    // move the spaces to the front
-    var si = len.toString().indexOf(" ");
+    // move the spbces to the front
+    vbr si = len.toString().indexOf(" ");
     if ( si != -1 ) {
-        var pad = len.toString().substring(si);
+        vbr pbd = len.toString().substring(si);
         len.setLength(si);
-        len.insert(0, pad);
+        len.insert(0, pbd);
     }
-    sb.append(len.toString());
-    sb.append(" ");
-    sb.append(f.getName());
+    sb.bppend(len.toString());
+    sb.bppend(" ");
+    sb.bppend(f.getNbme());
     if (f.isDirectory()) {
-        sb.append('/');
+        sb.bppend('/');
     }
     println(sb.toString());
 }
 
 /**
- * Lists the files in a directory
+ * Lists the files in b directory
  *
- * @param dir directory from which to list the files. optional, default to pwd
- * @param filter pattern to filter the files listed. optional, default is '.'.
+ * @pbrbm dir directory from which to list the files. optionbl, defbult to pwd
+ * @pbrbm filter pbttern to filter the files listed. optionbl, defbult is '.'.
  */
 function ls(dir, filter) {
     if (dir) {
-        dir = pathToFile(dir);
+        dir = pbthToFile(dir);
     } else {
         dir = curDir;
     }
     if (dir.isDirectory()) {
-        var files = dir.listFiles();
-        for (var i in files) {
-            var f = files[i];
+        vbr files = dir.listFiles();
+        for (vbr i in files) {
+            vbr f = files[i];
             if (filter) {
-                if(!f.getName().match(filter)) {
+                if(!f.getNbme().mbtch(filter)) {
                     continue;
                 }
             }
@@ -636,52 +636,52 @@ function dir(d, filter) {
 }
 
 /**
- * Unix-like grep, but accepts JavaScript regex patterns
+ * Unix-like grep, but bccepts JbvbScript regex pbtterns
  *
- * @param pattern to search in files
- * @param files one or more files
+ * @pbrbm pbttern to sebrch in files
+ * @pbrbm files one or more files
  */
-function grep(pattern, files /*, one or more files */) {
-    if (arguments.length < 2) return;
-    for (var i = 1; i < arguments.length; i++) {
-        println(arguments[i] + ":");
-        cat(arguments[i], pattern);
+function grep(pbttern, files /*, one or more files */) {
+    if (brguments.length < 2) return;
+    for (vbr i = 1; i < brguments.length; i++) {
+        println(brguments[i] + ":");
+        cbt(brguments[i], pbttern);
     }
 }
 
 /**
- * Find in files. Calls arbitrary callback function
- * for each matching file.<br>
+ * Find in files. Cblls brbitrbry cbllbbck function
+ * for ebch mbtching file.<br>
  *
- * Examples:
+ * Exbmples:
  * <pre>
  * <code>
  *    find('.')
- *    find('.', '.*\.class', rm);  // remove all .class files
- *    find('.', '.*\.java');       // print fullpath of each .java file
- *    find('.', '.*\.java', cat);  // print all .java files
+ *    find('.', '.*\.clbss', rm);  // remove bll .clbss files
+ *    find('.', '.*\.jbvb');       // print fullpbth of ebch .jbvb file
+ *    find('.', '.*\.jbvb', cbt);  // print bll .jbvb files
  * </code>
  * </pre>
  *
- * @param dir directory to search files
- * @param pattern to search in the files
- * @param callback function to call for matching files
+ * @pbrbm dir directory to sebrch files
+ * @pbrbm pbttern to sebrch in the files
+ * @pbrbm cbllbbck function to cbll for mbtching files
  */
-function find(dir, pattern, callback) {
-    dir = pathToFile(dir);
-    if (!callback) callback = print;
-    var files = dir.listFiles();
-    for (var f in files) {
-        var file = files[f];
+function find(dir, pbttern, cbllbbck) {
+    dir = pbthToFile(dir);
+    if (!cbllbbck) cbllbbck = print;
+    vbr files = dir.listFiles();
+    for (vbr f in files) {
+        vbr file = files[f];
         if (file.isDirectory()) {
-            find(file, pattern, callback);
+            find(file, pbttern, cbllbbck);
         } else {
-            if (pattern) {
-                if (file.getName().match(pattern)) {
-                    callback(file);
+            if (pbttern) {
+                if (file.getNbme().mbtch(pbttern)) {
+                    cbllbbck(file);
                 }
             } else {
-                callback(file);
+                cbllbbck(file);
             }
         }
     }
@@ -690,33 +690,33 @@ function find(dir, pattern, callback) {
 // process utilities
 
 /**
- * Exec's a child process, waits for completion &amp; returns exit code
+ * Exec's b child process, wbits for completion &bmp; returns exit code
  *
- * @param cmd command to execute in child process
+ * @pbrbm cmd commbnd to execute in child process
  */
 function exec(cmd) {
-    var process = java.lang.Runtime.getRuntime().exec(cmd);
-    var inp = new DataInputStream(process.getInputStream());
-    var line = null;
-    while ((line = inp.readLine()) != null) {
+    vbr process = jbvb.lbng.Runtime.getRuntime().exec(cmd);
+    vbr inp = new DbtbInputStrebm(process.getInputStrebm());
+    vbr line = null;
+    while ((line = inp.rebdLine()) != null) {
         println(line);
     }
-    process.waitFor();
-    $exit = process.exitValue();
+    process.wbitFor();
+    $exit = process.exitVblue();
 }
 
 if (typeof(exit) == 'undefined') {
     /**
-     * Exit the shell program.
+     * Exit the shell progrbm.
      *
-     * @param exitCode integer code returned to OS shell.
-     * optional, defaults to 0
+     * @pbrbm exitCode integer code returned to OS shell.
+     * optionbl, defbults to 0
      */
     this.exit = function (code) {
         if (code) {
-            java.lang.System.exit(code + 0);
+            jbvb.lbng.System.exit(code + 0);
         } else {
-            java.lang.System.exit(0);
+            jbvb.lbng.System.exit(0);
         }
     }
 }
@@ -735,18 +735,18 @@ if (typeof(quit) == 'undefined') {
 /**
  * Converts input to DOM Document object
  *
- * @param inp file or reader. optional, without this param,
- * this function returns a new DOM Document.
- * @return returns a DOM Document object
+ * @pbrbm inp file or rebder. optionbl, without this pbrbm,
+ * this function returns b new DOM Document.
+ * @return returns b DOM Document object
  */
 function XMLDocument(inp) {
-    var factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
-    var builder = factory.newDocumentBuilder();
+    vbr fbctory = jbvbx.xml.pbrsers.DocumentBuilderFbctory.newInstbnce();
+    vbr builder = fbctory.newDocumentBuilder();
     if (inp) {
         if (typeof(inp) == "string") {
-            return builder.parse(pathToFile(inp));
+            return builder.pbrse(pbthToFile(inp));
         } else {
-            return builder.parse(inp);
+            return builder.pbrse(inp);
         }
     } else {
         return builder.newDocument();
@@ -754,123 +754,123 @@ function XMLDocument(inp) {
 }
 
 /**
- * Converts arbitrary stream, file, URL to XMLSource
+ * Converts brbitrbry strebm, file, URL to XMLSource
  *
- * @param inp input stream or file or URL
+ * @pbrbm inp input strebm or file or URL
  * @return XMLSource object
  */
 function XMLSource(inp) {
-    if (inp instanceof javax.xml.transform.Source) {
+    if (inp instbnceof jbvbx.xml.trbnsform.Source) {
         return inp;
-    } else if (inp instanceof Packages.org.w3c.dom.Document) {
-        return new javax.xml.transform.dom.DOMSource(inp);
+    } else if (inp instbnceof Pbckbges.org.w3c.dom.Document) {
+        return new jbvbx.xml.trbnsform.dom.DOMSource(inp);
     } else {
-        inp = new BufferedInputStream(inStream(inp));
-        return new javax.xml.transform.stream.StreamSource(inp);
+        inp = new BufferedInputStrebm(inStrebm(inp));
+        return new jbvbx.xml.trbnsform.strebm.StrebmSource(inp);
     }
 }
 
 /**
- * Converts arbitrary stream, file to XMLResult
+ * Converts brbitrbry strebm, file to XMLResult
  *
- * @param inp output stream or file
+ * @pbrbm inp output strebm or file
  * @return XMLResult object
  */
 function XMLResult(out) {
-    if (out instanceof javax.xml.transform.Result) {
+    if (out instbnceof jbvbx.xml.trbnsform.Result) {
         return out;
-    } else if (out instanceof Packages.org.w3c.dom.Document) {
-        return new javax.xml.transform.dom.DOMResult(out);
+    } else if (out instbnceof Pbckbges.org.w3c.dom.Document) {
+        return new jbvbx.xml.trbnsform.dom.DOMResult(out);
     } else {
-        out = new BufferedOutputStream(outStream(out));
-        return new javax.xml.transform.stream.StreamResult(out);
+        out = new BufferedOutputStrebm(outStrebm(out));
+        return new jbvbx.xml.trbnsform.strebm.StrebmResult(out);
     }
 }
 
 /**
- * Perform XSLT transform
+ * Perform XSLT trbnsform
  *
- * @param inp Input XML to transform (URL, File or InputStream)
- * @param style XSL Stylesheet to be used (URL, File or InputStream). optional.
- * @param out Output XML (File or OutputStream
+ * @pbrbm inp Input XML to trbnsform (URL, File or InputStrebm)
+ * @pbrbm style XSL Stylesheet to be used (URL, File or InputStrebm). optionbl.
+ * @pbrbm out Output XML (File or OutputStrebm
  */
-function XSLTransform(inp, style, out) {
-    switch (arguments.length) {
-    case 2:
-        inp = arguments[0];
-        out = arguments[1];
-        break;
-    case 3:
-        inp = arguments[0];
-        style = arguments[1];
-        out = arguments[2];
-        break;
-    default:
-        println("XSL transform requires 2 or 3 arguments");
+function XSLTrbnsform(inp, style, out) {
+    switch (brguments.length) {
+    cbse 2:
+        inp = brguments[0];
+        out = brguments[1];
+        brebk;
+    cbse 3:
+        inp = brguments[0];
+        style = brguments[1];
+        out = brguments[2];
+        brebk;
+    defbult:
+        println("XSL trbnsform requires 2 or 3 brguments");
         return;
     }
 
-    var factory = javax.xml.transform.TransformerFactory.newInstance();
-    var transformer;
+    vbr fbctory = jbvbx.xml.trbnsform.TrbnsformerFbctory.newInstbnce();
+    vbr trbnsformer;
     if (style) {
-        transformer = factory.newTransformer(XMLSource(style));
+        trbnsformer = fbctory.newTrbnsformer(XMLSource(style));
     } else {
-        transformer = factory.newTransformer();
+        trbnsformer = fbctory.newTrbnsformer();
     }
-    var source = XMLSource(inp);
-    var result = XMLResult(out);
-    transformer.transform(source, result);
-    if (source.getInputStream) {
-        streamClose(source.getInputStream());
+    vbr source = XMLSource(inp);
+    vbr result = XMLResult(out);
+    trbnsformer.trbnsform(source, result);
+    if (source.getInputStrebm) {
+        strebmClose(source.getInputStrebm());
     }
-    if (result.getOutputStream) {
-        streamClose(result.getOutputStream());
+    if (result.getOutputStrebm) {
+        strebmClose(result.getOutputStrebm());
     }
 }
 
-// miscellaneous utilities
+// miscellbneous utilities
 
 /**
- * Prints which command is selected from PATH
+ * Prints which commbnd is selected from PATH
  *
- * @param cmd name of the command searched from PATH
+ * @pbrbm cmd nbme of the commbnd sebrched from PATH
  */
 function which(cmd) {
-    var st = new java.util.StringTokenizer(env.PATH, File.pathSeparator);
-    while (st.hasMoreTokens()) {
-        var file = new File(st.nextToken(), cmd);
+    vbr st = new jbvb.util.StringTokenizer(env.PATH, File.pbthSepbrbtor);
+    while (st.hbsMoreTokens()) {
+        vbr file = new File(st.nextToken(), cmd);
         if (file.exists()) {
-            println(file.getAbsolutePath());
+            println(file.getAbsolutePbth());
             return;
         }
     }
 }
 
 /**
- * Prints IP addresses of given domain name
+ * Prints IP bddresses of given dombin nbme
  *
- * @param name domain name
+ * @pbrbm nbme dombin nbme
  */
-function ip(name) {
-    var addrs = InetAddress.getAllByName(name);
-    for (var i in addrs) {
-        println(addrs[i]);
+function ip(nbme) {
+    vbr bddrs = InetAddress.getAllByNbme(nbme);
+    for (vbr i in bddrs) {
+        println(bddrs[i]);
     }
 }
 
 /**
- * Prints current date in current locale
+ * Prints current dbte in current locble
  */
-function date() {
-    println(new Date().toLocaleString());
+function dbte() {
+    println(new Dbte().toLocbleString());
 }
 
 /**
- * Echoes the given string arguments
+ * Echoes the given string brguments
  */
 function echo(x) {
-    for (var i = 0; i < arguments.length; i++) {
-        println(arguments[i]);
+    for (vbr i = 0; i < brguments.length; i++) {
+        println(brguments[i]);
     }
 }
 
@@ -878,45 +878,45 @@ if (typeof(printf) == 'undefined') {
     /**
      * This is C-like printf 
      *
-     * @param format string to format the rest of the print items
-     * @param args variadic argument list
+     * @pbrbm formbt string to formbt the rest of the print items
+     * @pbrbm brgs vbribdic brgument list
      */
-    this.printf = function (format, args/*, more args*/) {  
-        var array = java.lang.reflect.Array.newInstance(java.lang.Object, 
-                    arguments.length - 1);
-        for (var i = 0; i < array.length; i++) {
-            array[i] = arguments[i+1];
+    this.printf = function (formbt, brgs/*, more brgs*/) {  
+        vbr brrby = jbvb.lbng.reflect.Arrby.newInstbnce(jbvb.lbng.Object, 
+                    brguments.length - 1);
+        for (vbr i = 0; i < brrby.length; i++) {
+            brrby[i] = brguments[i+1];
         }
-        java.lang.System.out.printf(format, array);
+        jbvb.lbng.System.out.printf(formbt, brrby);
     }
 }
 
 /**
- * Reads one or more lines from stdin after printing prompt
+ * Rebds one or more lines from stdin bfter printing prompt
  *
- * @param prompt optional, default is '>'
- * @param multiline to tell whether to read single line or multiple lines
+ * @pbrbm prompt optionbl, defbult is '>'
+ * @pbrbm multiline to tell whether to rebd single line or multiple lines
  */
-function read(prompt, multiline) {
+function rebd(prompt, multiline) {
     if (!prompt) {
         prompt = '>';
     }
-    var inp = java.lang.System["in"];
-    var reader = new BufferedReader(new InputStreamReader(inp));
+    vbr inp = jbvb.lbng.System["in"];
+    vbr rebder = new BufferedRebder(new InputStrebmRebder(inp));
     if (multiline) {
-        var line = '';
+        vbr line = '';
         while (true) {
-            java.lang.System.err.print(prompt);
-            java.lang.System.err.flush();
-            var tmp = reader.readLine();
-            if (tmp == '' || tmp == null) break;
+            jbvb.lbng.System.err.print(prompt);
+            jbvb.lbng.System.err.flush();
+            vbr tmp = rebder.rebdLine();
+            if (tmp == '' || tmp == null) brebk;
             line += tmp + '\n';
         }
         return line;
     } else {
-        java.lang.System.err.print(prompt);
-        java.lang.System.err.flush();
-        return reader.readLine();
+        jbvb.lbng.System.err.print(prompt);
+        jbvb.lbng.System.err.flush();
+        return rebder.rebdLine();
     }
 }
 

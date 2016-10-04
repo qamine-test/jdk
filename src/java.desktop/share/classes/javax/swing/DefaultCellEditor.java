@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.event.*;
-import java.beans.ConstructorProperties;
-import java.lang.Boolean;
-import javax.swing.table.*;
-import javax.swing.event.*;
-import java.util.EventObject;
-import javax.swing.tree.*;
-import java.io.Serializable;
+import jbvb.bwt.Component;
+import jbvb.bwt.event.*;
+import jbvb.bebns.ConstructorProperties;
+import jbvb.lbng.Boolebn;
+import jbvbx.swing.tbble.*;
+import jbvbx.swing.event.*;
+import jbvb.util.EventObject;
+import jbvbx.swing.tree.*;
+import jbvb.io.Seriblizbble;
 
 /**
- * The default editor for table and tree cells.
+ * The defbult editor for tbble bnd tree cells.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Alan Chung
- * @author Philip Milne
+ * @buthor Albn Chung
+ * @buthor Philip Milne
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultCellEditor extends AbstractCellEditor
-    implements TableCellEditor, TreeCellEditor {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultCellEditor extends AbstrbctCellEditor
+    implements TbbleCellEditor, TreeCellEditor {
 
 //
-//  Instance Variables
+//  Instbnce Vbribbles
 //
 
     /** The Swing component being edited. */
     protected JComponent editorComponent;
     /**
-     * The delegate class which handles all methods sent from the
+     * The delegbte clbss which hbndles bll methods sent from the
      * <code>CellEditor</code>.
      */
-    protected EditorDelegate delegate;
+    protected EditorDelegbte delegbte;
     /**
-     * An integer specifying the number of clicks needed to start editing.
-     * Even if <code>clickCountToStart</code> is defined as zero, it
-     * will not initiate until a click occurs.
+     * An integer specifying the number of clicks needed to stbrt editing.
+     * Even if <code>clickCountToStbrt</code> is defined bs zero, it
+     * will not initibte until b click occurs.
      */
-    protected int clickCountToStart = 1;
+    protected int clickCountToStbrt = 1;
 
 //
 //  Constructors
 //
 
     /**
-     * Constructs a <code>DefaultCellEditor</code> that uses a text field.
+     * Constructs b <code>DefbultCellEditor</code> thbt uses b text field.
      *
-     * @param textField  a <code>JTextField</code> object
+     * @pbrbm textField  b <code>JTextField</code> object
      */
     @ConstructorProperties({"component"})
-    public DefaultCellEditor(final JTextField textField) {
+    public DefbultCellEditor(finbl JTextField textField) {
         editorComponent = textField;
-        this.clickCountToStart = 2;
-        delegate = new EditorDelegate() {
-            public void setValue(Object value) {
-                textField.setText((value != null) ? value.toString() : "");
+        this.clickCountToStbrt = 2;
+        delegbte = new EditorDelegbte() {
+            public void setVblue(Object vblue) {
+                textField.setText((vblue != null) ? vblue.toString() : "");
             }
 
-            public Object getCellEditorValue() {
+            public Object getCellEditorVblue() {
                 return textField.getText();
             }
         };
-        textField.addActionListener(delegate);
+        textField.bddActionListener(delegbte);
     }
 
     /**
-     * Constructs a <code>DefaultCellEditor</code> object that uses a check box.
+     * Constructs b <code>DefbultCellEditor</code> object thbt uses b check box.
      *
-     * @param checkBox  a <code>JCheckBox</code> object
+     * @pbrbm checkBox  b <code>JCheckBox</code> object
      */
-    public DefaultCellEditor(final JCheckBox checkBox) {
+    public DefbultCellEditor(finbl JCheckBox checkBox) {
         editorComponent = checkBox;
-        delegate = new EditorDelegate() {
-            public void setValue(Object value) {
-                boolean selected = false;
-                if (value instanceof Boolean) {
-                    selected = ((Boolean)value).booleanValue();
+        delegbte = new EditorDelegbte() {
+            public void setVblue(Object vblue) {
+                boolebn selected = fblse;
+                if (vblue instbnceof Boolebn) {
+                    selected = ((Boolebn)vblue).boolebnVblue();
                 }
-                else if (value instanceof String) {
-                    selected = value.equals("true");
+                else if (vblue instbnceof String) {
+                    selected = vblue.equbls("true");
                 }
                 checkBox.setSelected(selected);
             }
 
-            public Object getCellEditorValue() {
-                return Boolean.valueOf(checkBox.isSelected());
+            public Object getCellEditorVblue() {
+                return Boolebn.vblueOf(checkBox.isSelected());
             }
         };
-        checkBox.addActionListener(delegate);
-        checkBox.setRequestFocusEnabled(false);
+        checkBox.bddActionListener(delegbte);
+        checkBox.setRequestFocusEnbbled(fblse);
     }
 
     /**
-     * Constructs a <code>DefaultCellEditor</code> object that uses a
+     * Constructs b <code>DefbultCellEditor</code> object thbt uses b
      * combo box.
      *
-     * @param comboBox  a <code>JComboBox</code> object
+     * @pbrbm comboBox  b <code>JComboBox</code> object
      */
-    public DefaultCellEditor(final JComboBox<?> comboBox) {
+    public DefbultCellEditor(finbl JComboBox<?> comboBox) {
         editorComponent = comboBox;
-        comboBox.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
-        delegate = new EditorDelegate() {
-            public void setValue(Object value) {
-                comboBox.setSelectedItem(value);
+        comboBox.putClientProperty("JComboBox.isTbbleCellEditor", Boolebn.TRUE);
+        delegbte = new EditorDelegbte() {
+            public void setVblue(Object vblue) {
+                comboBox.setSelectedItem(vblue);
             }
 
-            public Object getCellEditorValue() {
+            public Object getCellEditorVblue() {
                 return comboBox.getSelectedItem();
             }
 
-            public boolean shouldSelectCell(EventObject anEvent) {
-                if (anEvent instanceof MouseEvent) {
-                    MouseEvent e = (MouseEvent)anEvent;
+            public boolebn shouldSelectCell(EventObject bnEvent) {
+                if (bnEvent instbnceof MouseEvent) {
+                    MouseEvent e = (MouseEvent)bnEvent;
                     return e.getID() != MouseEvent.MOUSE_DRAGGED;
                 }
                 return true;
             }
-            public boolean stopCellEditing() {
-                if (comboBox.isEditable()) {
-                    // Commit edited value.
-                    comboBox.actionPerformed(new ActionEvent(
-                                     DefaultCellEditor.this, 0, ""));
+            public boolebn stopCellEditing() {
+                if (comboBox.isEditbble()) {
+                    // Commit edited vblue.
+                    comboBox.bctionPerformed(new ActionEvent(
+                                     DefbultCellEditor.this, 0, ""));
                 }
                 return super.stopCellEditing();
             }
         };
-        comboBox.addActionListener(delegate);
+        comboBox.bddActionListener(delegbte);
     }
 
     /**
-     * Returns a reference to the editor component.
+     * Returns b reference to the editor component.
      *
      * @return the editor <code>Component</code>
      */
@@ -176,115 +176,115 @@ public class DefaultCellEditor extends AbstractCellEditor
 //
 
     /**
-     * Specifies the number of clicks needed to start editing.
+     * Specifies the number of clicks needed to stbrt editing.
      *
-     * @param count  an int specifying the number of clicks needed to start editing
-     * @see #getClickCountToStart
+     * @pbrbm count  bn int specifying the number of clicks needed to stbrt editing
+     * @see #getClickCountToStbrt
      */
-    public void setClickCountToStart(int count) {
-        clickCountToStart = count;
+    public void setClickCountToStbrt(int count) {
+        clickCountToStbrt = count;
     }
 
     /**
-     * Returns the number of clicks needed to start editing.
-     * @return the number of clicks needed to start editing
+     * Returns the number of clicks needed to stbrt editing.
+     * @return the number of clicks needed to stbrt editing
      */
-    public int getClickCountToStart() {
-        return clickCountToStart;
+    public int getClickCountToStbrt() {
+        return clickCountToStbrt;
     }
 
 //
-//  Override the implementations of the superclass, forwarding all methods
-//  from the CellEditor interface to our delegate.
+//  Override the implementbtions of the superclbss, forwbrding bll methods
+//  from the CellEditor interfbce to our delegbte.
 //
 
     /**
-     * Forwards the message from the <code>CellEditor</code> to
-     * the <code>delegate</code>.
-     * @see EditorDelegate#getCellEditorValue
+     * Forwbrds the messbge from the <code>CellEditor</code> to
+     * the <code>delegbte</code>.
+     * @see EditorDelegbte#getCellEditorVblue
      */
-    public Object getCellEditorValue() {
-        return delegate.getCellEditorValue();
+    public Object getCellEditorVblue() {
+        return delegbte.getCellEditorVblue();
     }
 
     /**
-     * Forwards the message from the <code>CellEditor</code> to
-     * the <code>delegate</code>.
-     * @see EditorDelegate#isCellEditable(EventObject)
+     * Forwbrds the messbge from the <code>CellEditor</code> to
+     * the <code>delegbte</code>.
+     * @see EditorDelegbte#isCellEditbble(EventObject)
      */
-    public boolean isCellEditable(EventObject anEvent) {
-        return delegate.isCellEditable(anEvent);
+    public boolebn isCellEditbble(EventObject bnEvent) {
+        return delegbte.isCellEditbble(bnEvent);
     }
 
     /**
-     * Forwards the message from the <code>CellEditor</code> to
-     * the <code>delegate</code>.
-     * @see EditorDelegate#shouldSelectCell(EventObject)
+     * Forwbrds the messbge from the <code>CellEditor</code> to
+     * the <code>delegbte</code>.
+     * @see EditorDelegbte#shouldSelectCell(EventObject)
      */
-    public boolean shouldSelectCell(EventObject anEvent) {
-        return delegate.shouldSelectCell(anEvent);
+    public boolebn shouldSelectCell(EventObject bnEvent) {
+        return delegbte.shouldSelectCell(bnEvent);
     }
 
     /**
-     * Forwards the message from the <code>CellEditor</code> to
-     * the <code>delegate</code>.
-     * @see EditorDelegate#stopCellEditing
+     * Forwbrds the messbge from the <code>CellEditor</code> to
+     * the <code>delegbte</code>.
+     * @see EditorDelegbte#stopCellEditing
      */
-    public boolean stopCellEditing() {
-        return delegate.stopCellEditing();
+    public boolebn stopCellEditing() {
+        return delegbte.stopCellEditing();
     }
 
     /**
-     * Forwards the message from the <code>CellEditor</code> to
-     * the <code>delegate</code>.
-     * @see EditorDelegate#cancelCellEditing
+     * Forwbrds the messbge from the <code>CellEditor</code> to
+     * the <code>delegbte</code>.
+     * @see EditorDelegbte#cbncelCellEditing
      */
-    public void cancelCellEditing() {
-        delegate.cancelCellEditing();
+    public void cbncelCellEditing() {
+        delegbte.cbncelCellEditing();
     }
 
 //
-//  Implementing the TreeCellEditor Interface
+//  Implementing the TreeCellEditor Interfbce
 //
 
-    /** Implements the <code>TreeCellEditor</code> interface. */
-    public Component getTreeCellEditorComponent(JTree tree, Object value,
-                                                boolean isSelected,
-                                                boolean expanded,
-                                                boolean leaf, int row) {
-        String         stringValue = tree.convertValueToText(value, isSelected,
-                                            expanded, leaf, row, false);
+    /** Implements the <code>TreeCellEditor</code> interfbce. */
+    public Component getTreeCellEditorComponent(JTree tree, Object vblue,
+                                                boolebn isSelected,
+                                                boolebn expbnded,
+                                                boolebn lebf, int row) {
+        String         stringVblue = tree.convertVblueToText(vblue, isSelected,
+                                            expbnded, lebf, row, fblse);
 
-        delegate.setValue(stringValue);
+        delegbte.setVblue(stringVblue);
         return editorComponent;
     }
 
 //
-//  Implementing the CellEditor Interface
+//  Implementing the CellEditor Interfbce
 //
-    /** Implements the <code>TableCellEditor</code> interface. */
-    public Component getTableCellEditorComponent(JTable table, Object value,
-                                                 boolean isSelected,
+    /** Implements the <code>TbbleCellEditor</code> interfbce. */
+    public Component getTbbleCellEditorComponent(JTbble tbble, Object vblue,
+                                                 boolebn isSelected,
                                                  int row, int column) {
-        delegate.setValue(value);
-        if (editorComponent instanceof JCheckBox) {
-            //in order to avoid a "flashing" effect when clicking a checkbox
-            //in a table, it is important for the editor to have as a border
-            //the same border that the renderer has, and have as the background
-            //the same color as the renderer has. This is primarily only
-            //needed for JCheckBox since this editor doesn't fill all the
-            //visual space of the table cell, unlike a text field.
-            TableCellRenderer renderer = table.getCellRenderer(row, column);
-            Component c = renderer.getTableCellRendererComponent(table, value,
+        delegbte.setVblue(vblue);
+        if (editorComponent instbnceof JCheckBox) {
+            //in order to bvoid b "flbshing" effect when clicking b checkbox
+            //in b tbble, it is importbnt for the editor to hbve bs b border
+            //the sbme border thbt the renderer hbs, bnd hbve bs the bbckground
+            //the sbme color bs the renderer hbs. This is primbrily only
+            //needed for JCheckBox since this editor doesn't fill bll the
+            //visubl spbce of the tbble cell, unlike b text field.
+            TbbleCellRenderer renderer = tbble.getCellRenderer(row, column);
+            Component c = renderer.getTbbleCellRendererComponent(tbble, vblue,
                     isSelected, true, row, column);
             if (c != null) {
-                editorComponent.setOpaque(true);
-                editorComponent.setBackground(c.getBackground());
-                if (c instanceof JComponent) {
+                editorComponent.setOpbque(true);
+                editorComponent.setBbckground(c.getBbckground());
+                if (c instbnceof JComponent) {
                     editorComponent.setBorder(((JComponent)c).getBorder());
                 }
             } else {
-                editorComponent.setOpaque(false);
+                editorComponent.setOpbque(fblse);
             }
         }
         return editorComponent;
@@ -292,109 +292,109 @@ public class DefaultCellEditor extends AbstractCellEditor
 
 
 //
-//  Protected EditorDelegate class
+//  Protected EditorDelegbte clbss
 //
 
     /**
-     * The protected <code>EditorDelegate</code> class.
+     * The protected <code>EditorDelegbte</code> clbss.
      */
-    protected class EditorDelegate implements ActionListener, ItemListener, Serializable {
+    protected clbss EditorDelegbte implements ActionListener, ItemListener, Seriblizbble {
 
-        /**  The value of this cell. */
-        protected Object value;
+        /**  The vblue of this cell. */
+        protected Object vblue;
 
        /**
-        * Returns the value of this cell.
-        * @return the value of this cell
+        * Returns the vblue of this cell.
+        * @return the vblue of this cell
         */
-        public Object getCellEditorValue() {
-            return value;
+        public Object getCellEditorVblue() {
+            return vblue;
         }
 
        /**
-        * Sets the value of this cell.
-        * @param value the new value of this cell
+        * Sets the vblue of this cell.
+        * @pbrbm vblue the new vblue of this cell
         */
-        public void setValue(Object value) {
-            this.value = value;
+        public void setVblue(Object vblue) {
+            this.vblue = vblue;
         }
 
        /**
-        * Returns true if <code>anEvent</code> is <b>not</b> a
+        * Returns true if <code>bnEvent</code> is <b>not</b> b
         * <code>MouseEvent</code>.  Otherwise, it returns true
-        * if the necessary number of clicks have occurred, and
-        * returns false otherwise.
+        * if the necessbry number of clicks hbve occurred, bnd
+        * returns fblse otherwise.
         *
-        * @param   anEvent         the event
-        * @return  true  if cell is ready for editing, false otherwise
-        * @see #setClickCountToStart
+        * @pbrbm   bnEvent         the event
+        * @return  true  if cell is rebdy for editing, fblse otherwise
+        * @see #setClickCountToStbrt
         * @see #shouldSelectCell
         */
-        public boolean isCellEditable(EventObject anEvent) {
-            if (anEvent instanceof MouseEvent) {
-                return ((MouseEvent)anEvent).getClickCount() >= clickCountToStart;
+        public boolebn isCellEditbble(EventObject bnEvent) {
+            if (bnEvent instbnceof MouseEvent) {
+                return ((MouseEvent)bnEvent).getClickCount() >= clickCountToStbrt;
             }
             return true;
         }
 
        /**
-        * Returns true to indicate that the editing cell may
+        * Returns true to indicbte thbt the editing cell mby
         * be selected.
         *
-        * @param   anEvent         the event
+        * @pbrbm   bnEvent         the event
         * @return  true
-        * @see #isCellEditable
+        * @see #isCellEditbble
         */
-        public boolean shouldSelectCell(EventObject anEvent) {
+        public boolebn shouldSelectCell(EventObject bnEvent) {
             return true;
         }
 
        /**
-        * Returns true to indicate that editing has begun.
+        * Returns true to indicbte thbt editing hbs begun.
         *
-        * @param anEvent          the event
-        * @return true to indicate editing has begun
+        * @pbrbm bnEvent          the event
+        * @return true to indicbte editing hbs begun
         */
-        public boolean startCellEditing(EventObject anEvent) {
+        public boolebn stbrtCellEditing(EventObject bnEvent) {
             return true;
         }
 
        /**
-        * Stops editing and
-        * returns true to indicate that editing has stopped.
-        * This method calls <code>fireEditingStopped</code>.
+        * Stops editing bnd
+        * returns true to indicbte thbt editing hbs stopped.
+        * This method cblls <code>fireEditingStopped</code>.
         *
         * @return  true
         */
-        public boolean stopCellEditing() {
+        public boolebn stopCellEditing() {
             fireEditingStopped();
             return true;
         }
 
        /**
-        * Cancels editing.  This method calls <code>fireEditingCanceled</code>.
+        * Cbncels editing.  This method cblls <code>fireEditingCbnceled</code>.
         */
-       public void cancelCellEditing() {
-           fireEditingCanceled();
+       public void cbncelCellEditing() {
+           fireEditingCbnceled();
        }
 
        /**
-        * When an action is performed, editing is ended.
-        * @param e the action event
+        * When bn bction is performed, editing is ended.
+        * @pbrbm e the bction event
         * @see #stopCellEditing
         */
-        public void actionPerformed(ActionEvent e) {
-            DefaultCellEditor.this.stopCellEditing();
+        public void bctionPerformed(ActionEvent e) {
+            DefbultCellEditor.this.stopCellEditing();
         }
 
        /**
-        * When an item's state changes, editing is ended.
-        * @param e the action event
+        * When bn item's stbte chbnges, editing is ended.
+        * @pbrbm e the bction event
         * @see #stopCellEditing
         */
-        public void itemStateChanged(ItemEvent e) {
-            DefaultCellEditor.this.stopCellEditing();
+        public void itemStbteChbnged(ItemEvent e) {
+            DefbultCellEditor.this.stopCellEditing();
         }
     }
 
-} // End of class JCellEditor
+} // End of clbss JCellEditor

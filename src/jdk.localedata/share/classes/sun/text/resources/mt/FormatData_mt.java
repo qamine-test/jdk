@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
 /*
@@ -8,19 +8,19 @@
  * Copyright (C) 1991-2012 Unicode, Inc. All rights reserved. Distributed under
  * the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of the Unicode data files and any associated documentation (the "Data
- * Files") or Unicode software and any associated documentation (the
- * "Software") to deal in the Data Files or Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, and/or sell copies of the Data Files or Software, and
- * to permit persons to whom the Data Files or Software are furnished to do so,
- * provided that (a) the above copyright notice(s) and this permission notice
- * appear with all copies of the Data Files or Software, (b) both the above
- * copyright notice(s) and this permission notice appear in associated
- * documentation, and (c) there is clear notice in each modified Data File or
- * in the Software as well as in the documentation associated with the Data
- * File(s) or Software that the data or software has been modified.
+ * Permission is hereby grbnted, free of chbrge, to bny person obtbining b copy
+ * of the Unicode dbtb files bnd bny bssocibted documentbtion (the "Dbtb
+ * Files") or Unicode softwbre bnd bny bssocibted documentbtion (the
+ * "Softwbre") to debl in the Dbtb Files or Softwbre without restriction,
+ * including without limitbtion the rights to use, copy, modify, merge,
+ * publish, distribute, bnd/or sell copies of the Dbtb Files or Softwbre, bnd
+ * to permit persons to whom the Dbtb Files or Softwbre bre furnished to do so,
+ * provided thbt (b) the bbove copyright notice(s) bnd this permission notice
+ * bppebr with bll copies of the Dbtb Files or Softwbre, (b) both the bbove
+ * copyright notice(s) bnd this permission notice bppebr in bssocibted
+ * documentbtion, bnd (c) there is clebr notice in ebch modified Dbtb File or
+ * in the Softwbre bs well bs in the documentbtion bssocibted with the Dbtb
+ * File(s) or Softwbre thbt the dbtb or softwbre hbs been modified.
  *
  * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -32,24 +32,24 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THE DATA FILES OR SOFTWARE.
  *
- * Except as contained in this notice, the name of a copyright holder shall not
- * be used in advertising or otherwise to promote the sale, use or other
- * dealings in these Data Files or Software without prior written authorization
+ * Except bs contbined in this notice, the nbme of b copyright holder shbll not
+ * be used in bdvertising or otherwise to promote the sble, use or other
+ * deblings in these Dbtb Files or Softwbre without prior written buthorizbtion
  * of the copyright holder.
  */
 
-package sun.text.resources.mt;
+pbckbge sun.text.resources.mt;
 
-import sun.util.resources.ParallelListResourceBundle;
+import sun.util.resources.PbrbllelListResourceBundle;
 
-public class FormatData_mt extends ParallelListResourceBundle {
-    protected final Object[][] getContents() {
+public clbss FormbtDbtb_mt extends PbrbllelListResourceBundle {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
-            { "MonthNames",
+            { "MonthNbmes",
                 new String[] {
-                    "Jannar",
-                    "Frar",
-                    "Marzu",
+                    "Jbnnbr",
+                    "Frbr",
+                    "Mbrzu",
                     "April",
                     "Mejju",
                     "\u0120unju",
@@ -62,11 +62,11 @@ public class FormatData_mt extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "MonthAbbreviations",
+            { "MonthAbbrevibtions",
                 new String[] {
-                    "Jan",
-                    "Fra",
-                    "Mar",
+                    "Jbn",
+                    "Frb",
+                    "Mbr",
                     "Apr",
                     "Mej",
                     "\u0120un",
@@ -79,7 +79,7 @@ public class FormatData_mt extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "MonthNarrows",
+            { "MonthNbrrows",
                 new String[] {
                     "J",
                     "F",
@@ -96,29 +96,29 @@ public class FormatData_mt extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "DayNames",
+            { "DbyNbmes",
                 new String[] {
-                    "Il-\u0126add",
+                    "Il-\u0126bdd",
                     "It-Tnejn",
-                    "It-Tlieta",
-                    "L-Erbg\u0127a",
-                    "Il-\u0126amis",
-                    "Il-\u0120img\u0127a",
+                    "It-Tlietb",
+                    "L-Erbg\u0127b",
+                    "Il-\u0126bmis",
+                    "Il-\u0120img\u0127b",
                     "Is-Sibt",
                 }
             },
-            { "DayAbbreviations",
+            { "DbyAbbrevibtions",
                 new String[] {
-                    "\u0126ad",
+                    "\u0126bd",
                     "Tne",
                     "Tli",
                     "Erb",
-                    "\u0126am",
+                    "\u0126bm",
                     "\u0120im",
                     "Sib",
                 }
             },
-            { "DayNarrows",
+            { "DbyNbrrows",
                 new String[] {
                     "\u0126",
                     "T",
@@ -129,22 +129,22 @@ public class FormatData_mt extends ParallelListResourceBundle {
                     "S",
                 }
             },
-            { "AmPmMarkers",
+            { "AmPmMbrkers",
                 new String[] {
                     "QN",
                     "WN",
                 }
             },
-            { "Eras",
+            { "Erbs",
                 new String[] {
                     "QK",
                     "WK",
                 }
             },
-            { "NumberPatterns",
+            { "NumberPbtterns",
                 new String[] {
                     "#,##0.###",
-                    "\u00a4 #,##0.00",
+                    "\u00b4 #,##0.00",
                     "#,##0%",
                 }
             },
@@ -160,10 +160,10 @@ public class FormatData_mt extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "TimePatterns",
+            { "TimePbtterns",
                 new String[] {
                     "HH:mm:ss z",
                     "HH:mm:ss z",
@@ -171,15 +171,15 @@ public class FormatData_mt extends ParallelListResourceBundle {
                     "HH:mm",
                 }
             },
-            { "DatePatterns",
+            { "DbtePbtterns",
                 new String[] {
-                    "EEEE, d 'ta\u2019' MMMM yyyy",
-                    "d 'ta\u2019' MMMM yyyy",
+                    "EEEE, d 'tb\u2019' MMMM yyyy",
+                    "d 'tb\u2019' MMMM yyyy",
                     "dd MMM yyyy",
                     "dd/MM/yyyy",
                 }
             },
-            { "DateTimePatterns",
+            { "DbteTimePbtterns",
                 new String[] {
                     "{1} {0}",
                 }

@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http;
+pbckbge sun.net.www.protocol.http;
 
-import java.net.URL;
-import java.io.IOException;
-import java.net.Authenticator.RequestorType;
-import java.util.Base64;
-import java.util.HashMap;
-import sun.net.www.HeaderParser;
-import sun.util.logging.PlatformLogger;
-import static sun.net.www.protocol.http.AuthScheme.NEGOTIATE;
-import static sun.net.www.protocol.http.AuthScheme.KERBEROS;
+import jbvb.net.URL;
+import jbvb.io.IOException;
+import jbvb.net.Authenticbtor.RequestorType;
+import jbvb.util.Bbse64;
+import jbvb.util.HbshMbp;
+import sun.net.www.HebderPbrser;
+import sun.util.logging.PlbtformLogger;
+import stbtic sun.net.www.protocol.http.AuthScheme.NEGOTIATE;
+import stbtic sun.net.www.protocol.http.AuthScheme.KERBEROS;
 
 /**
- * NegotiateAuthentication:
+ * NegotibteAuthenticbtion:
  *
- * @author weijun.wang@sun.com
+ * @buthor weijun.wbng@sun.com
  * @since 1.6
  */
 
-class NegotiateAuthentication extends AuthenticationInfo {
+clbss NegotibteAuthenticbtion extends AuthenticbtionInfo {
 
-    private static final long serialVersionUID = 100L;
-    private static final PlatformLogger logger = HttpURLConnection.getHttpLogger();
+    privbte stbtic finbl long seriblVersionUID = 100L;
+    privbte stbtic finbl PlbtformLogger logger = HttpURLConnection.getHttpLogger();
 
-    final private HttpCallerInfo hci;
+    finbl privbte HttpCbllerInfo hci;
 
-    // These maps are used to manage the GSS availability for diffrent
-    // hosts. The key for both maps is the host name.
+    // These mbps bre used to mbnbge the GSS bvbilbbility for diffrent
+    // hosts. The key for both mbps is the host nbme.
     // <code>supported</code> is set when isSupported is checked,
-    // if it's true, a cached Negotiator is put into <code>cache</code>.
-    // the cache can be used only once, so after the first use, it's cleaned.
-    static HashMap <String, Boolean> supported = null;
-    static HashMap <String, Negotiator> cache = null;
+    // if it's true, b cbched Negotibtor is put into <code>cbche</code>.
+    // the cbche cbn be used only once, so bfter the first use, it's clebned.
+    stbtic HbshMbp <String, Boolebn> supported = null;
+    stbtic HbshMbp <String, Negotibtor> cbche = null;
 
-    // The HTTP Negotiate Helper
-    private Negotiator negotiator = null;
+    // The HTTP Negotibte Helper
+    privbte Negotibtor negotibtor = null;
 
    /**
-    * Constructor used for both WWW and proxy entries.
-    * @param hci a schemed object.
+    * Constructor used for both WWW bnd proxy entries.
+    * @pbrbm hci b schemed object.
     */
-    public NegotiateAuthentication(HttpCallerInfo hci) {
-        super(RequestorType.PROXY==hci.authType ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
-              hci.scheme.equalsIgnoreCase("Negotiate") ? NEGOTIATE : KERBEROS,
+    public NegotibteAuthenticbtion(HttpCbllerInfo hci) {
+        super(RequestorType.PROXY==hci.buthType ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              hci.scheme.equblsIgnoreCbse("Negotibte") ? NEGOTIATE : KERBEROS,
               hci.url,
               "");
         this.hci = hci;
     }
 
     /**
-     * @return true if this authentication supports preemptive authorization
+     * @return true if this buthenticbtion supports preemptive buthorizbtion
      */
     @Override
-    public boolean supportsPreemptiveAuthorization() {
-        return false;
+    public boolebn supportsPreemptiveAuthorizbtion() {
+        return fblse;
     }
 
     /**
-     * Find out if the HttpCallerInfo supports Negotiate protocol.
+     * Find out if the HttpCbllerInfo supports Negotibte protocol.
      * @return true if supported
      */
-    public static boolean isSupported(HttpCallerInfo hci) {
-        ClassLoader loader = null;
+    public stbtic boolebn isSupported(HttpCbllerInfo hci) {
+        ClbssLobder lobder = null;
         try {
-            loader = Thread.currentThread().getContextClassLoader();
-        } catch (SecurityException se) {
-            if (logger.isLoggable(PlatformLogger.Level.FINER)) {
-                logger.finer("NegotiateAuthentication: " +
-                    "Attempt to get the context class loader failed - " + se);
+            lobder = Threbd.currentThrebd().getContextClbssLobder();
+        } cbtch (SecurityException se) {
+            if (logger.isLoggbble(PlbtformLogger.Level.FINER)) {
+                logger.finer("NegotibteAuthenticbtion: " +
+                    "Attempt to get the context clbss lobder fbiled - " + se);
             }
         }
 
-        if (loader != null) {
-            // Lock on the class loader instance to avoid the deadlock engaging
-            // the lock in "ClassLoader.loadClass(String, boolean)" method.
-            synchronized (loader) {
+        if (lobder != null) {
+            // Lock on the clbss lobder instbnce to bvoid the debdlock engbging
+            // the lock in "ClbssLobder.lobdClbss(String, boolebn)" method.
+            synchronized (lobder) {
                 return isSupportedImpl(hci);
             }
         }
@@ -106,132 +106,132 @@ class NegotiateAuthentication extends AuthenticationInfo {
     }
 
     /**
-     * Find out if the HttpCallerInfo supports Negotiate protocol. In order to
-     * find out yes or no, an initialization of a Negotiator object against it
-     * is tried. The generated object will be cached under the name of ths
-     * hostname at a success try.<br>
+     * Find out if the HttpCbllerInfo supports Negotibte protocol. In order to
+     * find out yes or no, bn initiblizbtion of b Negotibtor object bgbinst it
+     * is tried. The generbted object will be cbched under the nbme of ths
+     * hostnbme bt b success try.<br>
      *
-     * If this method is called for the second time on an HttpCallerInfo with
-     * the same hostname, the answer is retrieved from cache.
+     * If this method is cblled for the second time on bn HttpCbllerInfo with
+     * the sbme hostnbme, the bnswer is retrieved from cbche.
      *
      * @return true if supported
      */
-    private static synchronized boolean isSupportedImpl(HttpCallerInfo hci) {
+    privbte stbtic synchronized boolebn isSupportedImpl(HttpCbllerInfo hci) {
         if (supported == null) {
-            supported = new HashMap <String, Boolean>();
-            cache = new HashMap <String, Negotiator>();
+            supported = new HbshMbp <String, Boolebn>();
+            cbche = new HbshMbp <String, Negotibtor>();
         }
-        String hostname = hci.host;
-        hostname = hostname.toLowerCase();
-        if (supported.containsKey(hostname)) {
-            return supported.get(hostname);
+        String hostnbme = hci.host;
+        hostnbme = hostnbme.toLowerCbse();
+        if (supported.contbinsKey(hostnbme)) {
+            return supported.get(hostnbme);
         }
 
-        Negotiator neg = Negotiator.getNegotiator(hci);
+        Negotibtor neg = Negotibtor.getNegotibtor(hci);
         if (neg != null) {
-            supported.put(hostname, true);
-            // the only place cache.put is called. here we can make sure
-            // the object is valid and the oneToken inside is not null
-            cache.put(hostname, neg);
+            supported.put(hostnbme, true);
+            // the only plbce cbche.put is cblled. here we cbn mbke sure
+            // the object is vblid bnd the oneToken inside is not null
+            cbche.put(hostnbme, neg);
             return true;
         } else {
-            supported.put(hostname, false);
-            return false;
+            supported.put(hostnbme, fblse);
+            return fblse;
         }
     }
 
     /**
-     * Not supported. Must use the setHeaders() method
+     * Not supported. Must use the setHebders() method
      */
     @Override
-    public String getHeaderValue(URL url, String method) {
-        throw new RuntimeException ("getHeaderValue not supported");
+    public String getHebderVblue(URL url, String method) {
+        throw new RuntimeException ("getHebderVblue not supported");
     }
 
     /**
-     * Check if the header indicates that the current auth. parameters are stale.
-     * If so, then replace the relevant field with the new value
-     * and return true. Otherwise return false.
-     * returning true means the request can be retried with the same userid/password
-     * returning false means we have to go back to the user to ask for a new
-     * username password.
+     * Check if the hebder indicbtes thbt the current buth. pbrbmeters bre stble.
+     * If so, then replbce the relevbnt field with the new vblue
+     * bnd return true. Otherwise return fblse.
+     * returning true mebns the request cbn be retried with the sbme userid/pbssword
+     * returning fblse mebns we hbve to go bbck to the user to bsk for b new
+     * usernbme pbssword.
      */
     @Override
-    public boolean isAuthorizationStale (String header) {
-        return false; /* should not be called for Negotiate */
+    public boolebn isAuthorizbtionStble (String hebder) {
+        return fblse; /* should not be cblled for Negotibte */
     }
 
     /**
-     * Set header(s) on the given connection.
-     * @param conn The connection to apply the header(s) to
-     * @param p A source of header values for this connection, not used because
-     *          HeaderParser converts the fields to lower case, use raw instead
-     * @param raw The raw header field.
-     * @return true if all goes well, false if no headers were set.
+     * Set hebder(s) on the given connection.
+     * @pbrbm conn The connection to bpply the hebder(s) to
+     * @pbrbm p A source of hebder vblues for this connection, not used becbuse
+     *          HebderPbrser converts the fields to lower cbse, use rbw instebd
+     * @pbrbm rbw The rbw hebder field.
+     * @return true if bll goes well, fblse if no hebders were set.
      */
     @Override
-    public synchronized boolean setHeaders(HttpURLConnection conn, HeaderParser p, String raw) {
+    public synchronized boolebn setHebders(HttpURLConnection conn, HebderPbrser p, String rbw) {
 
         try {
             String response;
             byte[] incoming = null;
-            String[] parts = raw.split("\\s+");
-            if (parts.length > 1) {
-                incoming = Base64.getDecoder().decode(parts[1]);
+            String[] pbrts = rbw.split("\\s+");
+            if (pbrts.length > 1) {
+                incoming = Bbse64.getDecoder().decode(pbrts[1]);
             }
-            response = hci.scheme + " " + Base64.getEncoder().encodeToString(
+            response = hci.scheme + " " + Bbse64.getEncoder().encodeToString(
                         incoming==null?firstToken():nextToken(incoming));
 
-            conn.setAuthenticationProperty(getHeaderName(), response);
+            conn.setAuthenticbtionProperty(getHebderNbme(), response);
             return true;
-        } catch (IOException e) {
-            return false;
+        } cbtch (IOException e) {
+            return fblse;
         }
     }
 
     /**
      * return the first token.
      * @returns the token
-     * @throws IOException if <code>Negotiator.getNegotiator()</code> or
-     *                     <code>Negotiator.firstToken()</code> failed.
+     * @throws IOException if <code>Negotibtor.getNegotibtor()</code> or
+     *                     <code>Negotibtor.firstToken()</code> fbiled.
      */
-    private byte[] firstToken() throws IOException {
-        negotiator = null;
-        if (cache != null) {
-            synchronized(cache) {
-                negotiator = cache.get(getHost());
-                if (negotiator != null) {
-                    cache.remove(getHost()); // so that it is only used once
+    privbte byte[] firstToken() throws IOException {
+        negotibtor = null;
+        if (cbche != null) {
+            synchronized(cbche) {
+                negotibtor = cbche.get(getHost());
+                if (negotibtor != null) {
+                    cbche.remove(getHost()); // so thbt it is only used once
                 }
             }
         }
-        if (negotiator == null) {
-            negotiator = Negotiator.getNegotiator(hci);
-            if (negotiator == null) {
-                IOException ioe = new IOException("Cannot initialize Negotiator");
+        if (negotibtor == null) {
+            negotibtor = Negotibtor.getNegotibtor(hci);
+            if (negotibtor == null) {
+                IOException ioe = new IOException("Cbnnot initiblize Negotibtor");
                 throw ioe;
             }
         }
 
-        return negotiator.firstToken();
+        return negotibtor.firstToken();
     }
 
     /**
      * return more tokens
-     * @param token the token to be fed into <code>negotiator.nextToken()</code>
+     * @pbrbm token the token to be fed into <code>negotibtor.nextToken()</code>
      * @returns the token
-     * @throws IOException if <code>negotiator.nextToken()</code> throws Exception.
-     *  May happen if the input token is invalid.
+     * @throws IOException if <code>negotibtor.nextToken()</code> throws Exception.
+     *  Mby hbppen if the input token is invblid.
      */
-    private byte[] nextToken(byte[] token) throws IOException {
-        return negotiator.nextToken(token);
+    privbte byte[] nextToken(byte[] token) throws IOException {
+        return negotibtor.nextToken(token);
     }
 
-    // MS will send a final WWW-Authenticate even if the status is already
-    // 200 OK. The token can be fed into initSecContext() again to determine
-    // if the server can be trusted. This is not the same concept as Digest's
-    // Authentication-Info header.
+    // MS will send b finbl WWW-Authenticbte even if the stbtus is blrebdy
+    // 200 OK. The token cbn be fed into initSecContext() bgbin to determine
+    // if the server cbn be trusted. This is not the sbme concept bs Digest's
+    // Authenticbtion-Info hebder.
     //
-    // Currently we ignore this header.
+    // Currently we ignore this hebder.
 
 }

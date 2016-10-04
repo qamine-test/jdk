@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
 /**
- * Thrown to indicate that the requested class has
- * not yet been loaded through the appropriate class loader.
+ * Thrown to indicbte thbt the requested clbss hbs
+ * not yet been lobded through the bppropribte clbss lobder.
  * <p>
- * Due to the lazy class linking performed by many VMs, it is
- * possible for a field or variable to be visible in a program
- * before the associated class is loaded. Until the class is loaded
- * all that is available is a signature string. If an attempt is made to
- * set the value of such a field or variable from JDI, the appropriate
- * type checking cannot be done because the destination class has not been
- * loaded. The same is true for the element class of array elements.
+ * Due to the lbzy clbss linking performed by mbny VMs, it is
+ * possible for b field or vbribble to be visible in b progrbm
+ * before the bssocibted clbss is lobded. Until the clbss is lobded
+ * bll thbt is bvbilbble is b signbture string. If bn bttempt is mbde to
+ * set the vblue of such b field or vbribble from JDI, the bppropribte
+ * type checking cbnnot be done becbuse the destinbtion clbss hbs not been
+ * lobded. The sbme is true for the element clbss of brrby elements.
  * <p>
- * It is not advisable to solve this problem by attempting a class load on
- * the fly in this case. There are two problems in having the debugger load
- * a class instead of waiting for it to load over the normal course
+ * It is not bdvisbble to solve this problem by bttempting b clbss lobd on
+ * the fly in this cbse. There bre two problems in hbving the debugger lobd
+ * b clbss instebd of wbiting for it to lobd over the normbl course
  * of events.
  * <ul>
- * <li>There can be no guarantee that running the appropriate class
- * loader won't cause a deadlock in loading the
- * class. Class loaders can consist of arbitrary
- * Java<sup><font size=-2>TM</font></sup> programming language code and the
- * class loading methods are usually synchronized. Most of the work
- * done by a debugger happens when threads are suspended. If another
- * application thread is suspended within the same class loader,
- *  a deadlock is very possible.
- * <li>Changing the order in which classes are normally loaded may either mask
- * or reveal bugs in the application. An unintrusive debugger should strive
- * to leave unchanged the behavior of the application being debugged.
+ * <li>There cbn be no gubrbntee thbt running the bppropribte clbss
+ * lobder won't cbuse b debdlock in lobding the
+ * clbss. Clbss lobders cbn consist of brbitrbry
+ * Jbvb<sup><font size=-2>TM</font></sup> progrbmming lbngubge code bnd the
+ * clbss lobding methods bre usublly synchronized. Most of the work
+ * done by b debugger hbppens when threbds bre suspended. If bnother
+ * bpplicbtion threbd is suspended within the sbme clbss lobder,
+ *  b debdlock is very possible.
+ * <li>Chbnging the order in which clbsses bre normblly lobded mby either mbsk
+ * or revebl bugs in the bpplicbtion. An unintrusive debugger should strive
+ * to lebve unchbnged the behbvior of the bpplicbtion being debugged.
  * </ul>
- * To avoid these potential problems, this exception is thrown.
+ * To bvoid these potentibl problems, this exception is thrown.
  * <p>
- * Note that this exception will be thrown until the class in question
- * is visible to the class loader of enclosing class. (That is, the
- * class loader of the enclosing class must be an <i>initiating</i> class
- * loader for the class in question.)
+ * Note thbt this exception will be thrown until the clbss in question
+ * is visible to the clbss lobder of enclosing clbss. (Thbt is, the
+ * clbss lobder of the enclosing clbss must be bn <i>initibting</i> clbss
+ * lobder for the clbss in question.)
  * See
- * <cite>The Java&trade; Virtual Machine Specification</cite>
- * for more details.
+ * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
+ * for more detbils.
  *
- * @author Gordon Hirsch
+ * @buthor Gordon Hirsch
  * @since  1.3
  */
 @jdk.Exported
-public class ClassNotLoadedException extends Exception
+public clbss ClbssNotLobdedException extends Exception
 {
-    private static final long serialVersionUID = -6242978768444298722L;
-    private String className;
+    privbte stbtic finbl long seriblVersionUID = -6242978768444298722L;
+    privbte String clbssNbme;
 
-    public ClassNotLoadedException(String className) {
+    public ClbssNotLobdedException(String clbssNbme) {
         super();
-        this.className = className;
+        this.clbssNbme = clbssNbme;
     }
 
-    public ClassNotLoadedException(String className, String message) {
-        super(message);
-        this.className = className;
+    public ClbssNotLobdedException(String clbssNbme, String messbge) {
+        super(messbge);
+        this.clbssNbme = clbssNbme;
     }
 
-    public String className() {
-        return className;
+    public String clbssNbme() {
+        return clbssNbme;
     }
 }

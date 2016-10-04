@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.metadata.IIOInvalidTreeException;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbNode;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
 
 import org.w3c.dom.Node;
 
 /**
- * A Comment marker segment.  Retains an array of bytes representing the
- * comment data as it is read from the stream.  If the marker segment is
- * constructed from a String, then local default encoding is assumed
- * when creating the byte array.  If the marker segment is created from
- * an <code>IIOMetadataNode</code>, the user object, if present is
- * assumed to be a byte array containing the comment data.  If there is
- * no user object then the comment attribute is used to create the
- * byte array, again assuming the default local encoding.
+ * A Comment mbrker segment.  Retbins bn brrby of bytes representing the
+ * comment dbtb bs it is rebd from the strebm.  If the mbrker segment is
+ * constructed from b String, then locbl defbult encoding is bssumed
+ * when crebting the byte brrby.  If the mbrker segment is crebted from
+ * bn <code>IIOMetbdbtbNode</code>, the user object, if present is
+ * bssumed to be b byte brrby contbining the comment dbtb.  If there is
+ * no user object then the comment bttribute is used to crebte the
+ * byte brrby, bgbin bssuming the defbult locbl encoding.
  */
-class COMMarkerSegment extends MarkerSegment {
-    private static final String ENCODING = "ISO-8859-1";
+clbss COMMbrkerSegment extends MbrkerSegment {
+    privbte stbtic finbl String ENCODING = "ISO-8859-1";
 
     /**
-     * Constructs a marker segment from the given buffer, which contains
-     * data from an <code>ImageInputStream</code>.  This is used when
-     * reading metadata from a stream.
+     * Constructs b mbrker segment from the given buffer, which contbins
+     * dbtb from bn <code>ImbgeInputStrebm</code>.  This is used when
+     * rebding metbdbtb from b strebm.
      */
-    COMMarkerSegment(JPEGBuffer buffer) throws IOException {
+    COMMbrkerSegment(JPEGBuffer buffer) throws IOException {
         super(buffer);
-        loadData(buffer);
+        lobdDbtb(buffer);
     }
 
     /**
-     * Constructs a marker segment from a String.  This is used when
-     * modifying metadata from a non-native tree and when transcoding.
-     * The default encoding is used to construct the byte array.
+     * Constructs b mbrker segment from b String.  This is used when
+     * modifying metbdbtb from b non-nbtive tree bnd when trbnscoding.
+     * The defbult encoding is used to construct the byte brrby.
      */
-    COMMarkerSegment(String comment) {
+    COMMbrkerSegment(String comment) {
         super(JPEG.COM);
-        data = comment.getBytes(); // Default encoding
+        dbtb = comment.getBytes(); // Defbult encoding
     }
 
     /**
-     * Constructs a marker segment from a native tree node.  If the node
-     * is an <code>IIOMetadataNode</code> and contains a user object,
-     * that object is used rather than the string attribute.  If the
-     * string attribute is used, the default encoding is used.
+     * Constructs b mbrker segment from b nbtive tree node.  If the node
+     * is bn <code>IIOMetbdbtbNode</code> bnd contbins b user object,
+     * thbt object is used rbther thbn the string bttribute.  If the
+     * string bttribute is used, the defbult encoding is used.
      */
-    COMMarkerSegment(Node node) throws IIOInvalidTreeException{
+    COMMbrkerSegment(Node node) throws IIOInvblidTreeException{
         super(JPEG.COM);
-        if (node instanceof IIOMetadataNode) {
-            IIOMetadataNode ourNode = (IIOMetadataNode) node;
-            data = (byte []) ourNode.getUserObject();
+        if (node instbnceof IIOMetbdbtbNode) {
+            IIOMetbdbtbNode ourNode = (IIOMetbdbtbNode) node;
+            dbtb = (byte []) ourNode.getUserObject();
         }
-        if (data == null) {
+        if (dbtb == null) {
             String comment =
-                node.getAttributes().getNamedItem("comment").getNodeValue();
+                node.getAttributes().getNbmedItem("comment").getNodeVblue();
             if (comment != null) {
-                data = comment.getBytes(); // Default encoding
+                dbtb = comment.getBytes(); // Defbult encoding
             } else {
-                throw new IIOInvalidTreeException("Empty comment node!", node);
+                throw new IIOInvblidTreeException("Empty comment node!", node);
             }
         }
     }
 
     /**
-     * Returns the array encoded as a String, using ISO-Latin-1 encoding.
-     * If an application needs another encoding, the data array must be
+     * Returns the brrby encoded bs b String, using ISO-Lbtin-1 encoding.
+     * If bn bpplicbtion needs bnother encoding, the dbtb brrby must be
      * consulted directly.
      */
     String getComment() {
         try {
-            return new String (data, ENCODING);
-        } catch (UnsupportedEncodingException e) {}  // Won't happen
+            return new String (dbtb, ENCODING);
+        } cbtch (UnsupportedEncodingException e) {}  // Won't hbppen
         return null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> containing the data array
-     * as a user object and a string encoded using ISO-8895-1, as an
-     * attribute.
+     * Returns bn <code>IIOMetbdbtbNode</code> contbining the dbtb brrby
+     * bs b user object bnd b string encoded using ISO-8895-1, bs bn
+     * bttribute.
      */
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("com");
+    IIOMetbdbtbNode getNbtiveNode() {
+        IIOMetbdbtbNode node = new IIOMetbdbtbNode("com");
         node.setAttribute("comment", getComment());
-        if (data != null) {
-            node.setUserObject(data.clone());
+        if (dbtb != null) {
+            node.setUserObject(dbtb.clone());
         }
         return node;
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format, directly from the data array.
+     * Writes the dbtb for this segment to the strebm in
+     * vblid JPEG formbt, directly from the dbtb brrby.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        length = 2 + data.length;
-        writeTag(ios);
-        ios.write(data);
+    void write(ImbgeOutputStrebm ios) throws IOException {
+        length = 2 + dbtb.length;
+        writeTbg(ios);
+        ios.write(dbtb);
     }
 
     void print() {
-        printTag("COM");
+        printTbg("COM");
         System.out.println("<" + getComment() + ">");
     }
 }

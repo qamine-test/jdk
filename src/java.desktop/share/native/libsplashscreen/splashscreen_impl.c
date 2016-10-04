@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "splashscreen_impl.h"
-#include "splashscreen_gfx_impl.h"
+#include "splbshscreen_impl.h"
+#include "splbshscreen_gfx_impl.h"
 
-int splashIsVisible = 0;
+int splbshIsVisible = 0;
 
-Splash *
-SplashGetInstance()
+Splbsh *
+SplbshGetInstbnce()
 {
-    static Splash splash;
-    static int preInitialized = 0;
-    if (!preInitialized) {
-        memset(&splash, 0, sizeof(Splash));
-        splash.currentFrame = -1;
-        preInitialized = 1;
+    stbtic Splbsh splbsh;
+    stbtic int preInitiblized = 0;
+    if (!preInitiblized) {
+        memset(&splbsh, 0, sizeof(Splbsh));
+        splbsh.currentFrbme = -1;
+        preInitiblized = 1;
     }
-    return &splash;
+    return &splbsh;
 }
 
 SPLASHEXPORT void
-SplashSetFileJarName(const char* fileName, const char* jarName) {
-    Splash *splash = SplashGetInstance();
+SplbshSetFileJbrNbme(const chbr* fileNbme, const chbr* jbrNbme) {
+    Splbsh *splbsh = SplbshGetInstbnce();
 
-    free(splash->fileName);
-    splash->fileName = SplashConvertStringAlloc(fileName, &splash->fileNameLen);
+    free(splbsh->fileNbme);
+    splbsh->fileNbme = SplbshConvertStringAlloc(fileNbme, &splbsh->fileNbmeLen);
 
-    free(splash->jarName);
-    splash->jarName = SplashConvertStringAlloc(jarName, &splash->jarNameLen);
+    free(splbsh->jbrNbme);
+    splbsh->jbrNbme = SplbshConvertStringAlloc(jbrNbme, &splbsh->jbrNbmeLen);
 }
 
 SPLASHEXPORT void
-SplashInit()
+SplbshInit()
 {
-    Splash *splash = SplashGetInstance();
+    Splbsh *splbsh = SplbshGetInstbnce();
 
-    memset(splash, 0, sizeof(Splash));
-    splash->currentFrame = -1;
-    splash->scaleFactor = 1;
-    initFormat(&splash->imageFormat, QUAD_RED_MASK, QUAD_GREEN_MASK,
+    memset(splbsh, 0, sizeof(Splbsh));
+    splbsh->currentFrbme = -1;
+    splbsh->scbleFbctor = 1;
+    initFormbt(&splbsh->imbgeFormbt, QUAD_RED_MASK, QUAD_GREEN_MASK,
         QUAD_BLUE_MASK, QUAD_ALPHA_MASK);
-    SplashInitPlatform(splash);
+    SplbshInitPlbtform(splbsh);
 }
 
 SPLASHEXPORT void
-SplashClose()
+SplbshClose()
 {
-    Splash *splash = SplashGetInstance();
+    Splbsh *splbsh = SplbshGetInstbnce();
 
-    if (splash->isVisible > 0) {
-        SplashLock(splash);
-        splash->isVisible = -1;
-        SplashClosePlatform(splash);
-        SplashUnlock(splash);
+    if (splbsh->isVisible > 0) {
+        SplbshLock(splbsh);
+        splbsh->isVisible = -1;
+        SplbshClosePlbtform(splbsh);
+        SplbshUnlock(splbsh);
     }
 }
 
 void
-SplashCleanup(Splash * splash)
+SplbshClebnup(Splbsh * splbsh)
 {
     int i;
 
-    splash->currentFrame = -1;
-    SplashCleanupPlatform(splash);
-    if (splash->frames) {
-        for (i = 0; i < splash->frameCount; i++) {
-            if (splash->frames[i].bitmapBits) {
-                free(splash->frames[i].bitmapBits);
-                splash->frames[i].bitmapBits = NULL;
+    splbsh->currentFrbme = -1;
+    SplbshClebnupPlbtform(splbsh);
+    if (splbsh->frbmes) {
+        for (i = 0; i < splbsh->frbmeCount; i++) {
+            if (splbsh->frbmes[i].bitmbpBits) {
+                free(splbsh->frbmes[i].bitmbpBits);
+                splbsh->frbmes[i].bitmbpBits = NULL;
             }
         }
-        free(splash->frames);
-        splash->frames = NULL;
+        free(splbsh->frbmes);
+        splbsh->frbmes = NULL;
     }
-    if (splash->overlayData) {
-        free(splash->overlayData);
-        splash->overlayData = NULL;
+    if (splbsh->overlbyDbtb) {
+        free(splbsh->overlbyDbtb);
+        splbsh->overlbyDbtb = NULL;
     }
-    SplashSetFileJarName(NULL, NULL);
+    SplbshSetFileJbrNbme(NULL, NULL);
 }
 
 SPLASHEXPORT void
-SplashSetScaleFactor(float scaleFactor)
+SplbshSetScbleFbctor(flobt scbleFbctor)
 {
-    Splash *splash = SplashGetInstance();
-    splash->scaleFactor = scaleFactor;
+    Splbsh *splbsh = SplbshGetInstbnce();
+    splbsh->scbleFbctor = scbleFbctor;
 }
 
 void
-SplashDone(Splash * splash)
+SplbshDone(Splbsh * splbsh)
 {
-    SplashCleanup(splash);
-    SplashDonePlatform(splash);
+    SplbshClebnup(splbsh);
+    SplbshDonePlbtform(splbsh);
 }
 
 int
-SplashIsStillLooping(Splash * splash)
+SplbshIsStillLooping(Splbsh * splbsh)
 {
-    if (splash->currentFrame < 0) {
+    if (splbsh->currentFrbme < 0) {
         return 0;
     }
-    return splash->loopCount != 1 ||
-        splash->currentFrame + 1 < splash->frameCount;
+    return splbsh->loopCount != 1 ||
+        splbsh->currentFrbme + 1 < splbsh->frbmeCount;
 }
 
 void
-SplashUpdateScreenData(Splash * splash)
+SplbshUpdbteScreenDbtb(Splbsh * splbsh)
 {
-    ImageRect srcRect, dstRect;
-    if (splash->currentFrame < 0) {
+    ImbgeRect srcRect, dstRect;
+    if (splbsh->currentFrbme < 0) {
         return;
     }
 
-    initRect(&srcRect, 0, 0, splash->width, splash->height, 1,
-        splash->width * sizeof(rgbquad_t),
-        splash->frames[splash->currentFrame].bitmapBits, &splash->imageFormat);
-    if (splash->screenData) {
-        free(splash->screenData);
+    initRect(&srcRect, 0, 0, splbsh->width, splbsh->height, 1,
+        splbsh->width * sizeof(rgbqubd_t),
+        splbsh->frbmes[splbsh->currentFrbme].bitmbpBits, &splbsh->imbgeFormbt);
+    if (splbsh->screenDbtb) {
+        free(splbsh->screenDbtb);
     }
-    splash->screenStride = splash->width * splash->screenFormat.depthBytes;
-    if (splash->byteAlignment > 1) {
-        splash->screenStride =
-            (splash->screenStride + splash->byteAlignment - 1) &
-            ~(splash->byteAlignment - 1);
+    splbsh->screenStride = splbsh->width * splbsh->screenFormbt.depthBytes;
+    if (splbsh->byteAlignment > 1) {
+        splbsh->screenStride =
+            (splbsh->screenStride + splbsh->byteAlignment - 1) &
+            ~(splbsh->byteAlignment - 1);
     }
-    splash->screenData = malloc(splash->height * splash->screenStride);
-    initRect(&dstRect, 0, 0, splash->width, splash->height, 1,
-        splash->screenStride, splash->screenData, &splash->screenFormat);
-    if (splash->overlayData) {
-        convertRect2(&srcRect, &dstRect, CVT_BLEND, &splash->overlayRect);
+    splbsh->screenDbtb = mblloc(splbsh->height * splbsh->screenStride);
+    initRect(&dstRect, 0, 0, splbsh->width, splbsh->height, 1,
+        splbsh->screenStride, splbsh->screenDbtb, &splbsh->screenFormbt);
+    if (splbsh->overlbyDbtb) {
+        convertRect2(&srcRect, &dstRect, CVT_BLEND, &splbsh->overlbyRect);
     }
     else {
         convertRect(&srcRect, &dstRect, CVT_COPY);
@@ -158,28 +158,28 @@ SplashUpdateScreenData(Splash * splash)
 }
 
 void
-SplashNextFrame(Splash * splash)
+SplbshNextFrbme(Splbsh * splbsh)
 {
-    if (splash->currentFrame < 0) {
+    if (splbsh->currentFrbme < 0) {
         return;
     }
     do {
-        if (!SplashIsStillLooping(splash)) {
+        if (!SplbshIsStillLooping(splbsh)) {
             return;
         }
-        splash->time += splash->frames[splash->currentFrame].delay;
-        if (++splash->currentFrame >= splash->frameCount) {
-            splash->currentFrame = 0;
-            if (splash->loopCount > 0) {
-                splash->loopCount--;
+        splbsh->time += splbsh->frbmes[splbsh->currentFrbme].delby;
+        if (++splbsh->currentFrbme >= splbsh->frbmeCount) {
+            splbsh->currentFrbme = 0;
+            if (splbsh->loopCount > 0) {
+                splbsh->loopCount--;
             }
         }
-    } while (splash->time + splash->frames[splash->currentFrame].delay -
-        SplashTime() <= 0);
+    } while (splbsh->time + splbsh->frbmes[splbsh->currentFrbme].delby -
+        SplbshTime() <= 0);
 }
 
 int
-BitmapToYXBandedRectangles(ImageRect * pSrcRect, RECT_T * out)
+BitmbpToYXBbndedRectbngles(ImbgeRect * pSrcRect, RECT_T * out)
 {
     RECT_T *pPrevLine = NULL, *pFirst = out, *pThis = pFirst;
     int i, j, i0;
@@ -187,7 +187,7 @@ BitmapToYXBandedRectangles(ImageRect * pSrcRect, RECT_T * out)
 
     for (j = 0; j < pSrcRect->numLines; j++) {
 
-        /* generate data for a scanline */
+        /* generbte dbtb for b scbnline */
 
         byte_t *pSrc = (byte_t *) pSrcRect->pBits + j * pSrcRect->stride;
         RECT_T *pLine = pThis;
@@ -195,27 +195,27 @@ BitmapToYXBandedRectangles(ImageRect * pSrcRect, RECT_T * out)
         i = 0;
 
         do {
-            while (i < pSrcRect->numSamples &&
-                   getRGBA(pSrc, pSrcRect->format) < ALPHA_THRESHOLD) {
+            while (i < pSrcRect->numSbmples &&
+                   getRGBA(pSrc, pSrcRect->formbt) < ALPHA_THRESHOLD) {
                 pSrc += pSrcRect->depthBytes;
                 ++i;
             }
-            if (i >= pSrcRect->numSamples) {
-                break;
+            if (i >= pSrcRect->numSbmples) {
+                brebk;
             }
             i0 = i;
-            while (i < pSrcRect->numSamples &&
-                   getRGBA(pSrc, pSrcRect->format) >= ALPHA_THRESHOLD) {
+            while (i < pSrcRect->numSbmples &&
+                   getRGBA(pSrc, pSrcRect->formbt) >= ALPHA_THRESHOLD) {
                 pSrc += pSrcRect->depthBytes;
                 ++i;
             }
             RECT_SET(*pThis, i0, j, i - i0, 1);
             ++pThis;
-        } while (i < pSrcRect->numSamples);
+        } while (i < pSrcRect->numSbmples);
 
-        /*  check if the previous scanline is exactly the same, merge if so
-           (this is the only optimization we can use for YXBanded rectangles, and win32 supports
-           YXBanded only */
+        /*  check if the previous scbnline is exbctly the sbme, merge if so
+           (this is the only optimizbtion we cbn use for YXBbnded rectbngles, bnd win32 supports
+           YXBbnded only */
 
         length = pThis - pLine;
         if (pPrevLine && pLine - pPrevLine == length) {
@@ -230,7 +230,7 @@ BitmapToYXBandedRectangles(ImageRect * pSrcRect, RECT_T * out)
                 continue;
             }
         }
-        /* or else use the generated scanline */
+        /* or else use the generbted scbnline */
 
         pPrevLine = pLine;
     }
@@ -240,98 +240,98 @@ BitmapToYXBandedRectangles(ImageRect * pSrcRect, RECT_T * out)
 typedef struct FILEFORMAT
 {
     int sign;
-    int (*decodeStream) (Splash * splash, SplashStream * stream);
+    int (*decodeStrebm) (Splbsh * splbsh, SplbshStrebm * strebm);
 } FILEFORMAT;
 
-static const FILEFORMAT formats[] = {
-    {0x47, SplashDecodeGifStream},
-    {0x89, SplashDecodePngStream},
-    {0xFF, SplashDecodeJpegStream}
+stbtic const FILEFORMAT formbts[] = {
+    {0x47, SplbshDecodeGifStrebm},
+    {0x89, SplbshDecodePngStrebm},
+    {0xFF, SplbshDecodeJpegStrebm}
 };
 
-static int
-SplashLoadStream(SplashStream * stream)
+stbtic int
+SplbshLobdStrebm(SplbshStrebm * strebm)
 {
     int success = 0;
     int c;
     size_t i;
 
-    Splash *splash = SplashGetInstance();
-    if (splash->isVisible < 0) {
+    Splbsh *splbsh = SplbshGetInstbnce();
+    if (splbsh->isVisible < 0) {
         return 0;
     }
 
-    SplashLock(splash);
+    SplbshLock(splbsh);
 
-    /* the formats we support can be easily distinguished by the first byte */
-    c = stream->peek(stream);
+    /* the formbts we support cbn be ebsily distinguished by the first byte */
+    c = strebm->peek(strebm);
     if (c != -1) {
-        for (i = 0; i < sizeof(formats) / sizeof(FILEFORMAT); i++) {
-            if (c == formats[i].sign) {
-                success = formats[i].decodeStream(splash, stream);
-                break;
+        for (i = 0; i < sizeof(formbts) / sizeof(FILEFORMAT); i++) {
+            if (c == formbts[i].sign) {
+                success = formbts[i].decodeStrebm(splbsh, strebm);
+                brebk;
             }
         }
     }
-    stream->close(stream);
+    strebm->close(strebm);
 
-    if (!success) {             // failed to decode
-        if (splash->isVisible == 0) {
-            SplashCleanup(splash);
+    if (!success) {             // fbiled to decode
+        if (splbsh->isVisible == 0) {
+            SplbshClebnup(splbsh);
         }
-        SplashUnlock(splash);   // SplashClose locks
-        if (splash->isVisible == 0) {
-            SplashClose();
+        SplbshUnlock(splbsh);   // SplbshClose locks
+        if (splbsh->isVisible == 0) {
+            SplbshClose();
         }
     }
     else {
-        splash->currentFrame = 0;
-        if (splash->isVisible == 0) {
-            SplashStart(splash);
+        splbsh->currentFrbme = 0;
+        if (splbsh->isVisible == 0) {
+            SplbshStbrt(splbsh);
         } else {
-            SplashReconfigure(splash);
-            splash->time = SplashTime();
+            SplbshReconfigure(splbsh);
+            splbsh->time = SplbshTime();
         }
-        SplashUnlock(splash);
+        SplbshUnlock(splbsh);
     }
     return success;
 }
 
 SPLASHEXPORT int
-SplashLoadFile(const char *filename)
+SplbshLobdFile(const chbr *filenbme)
 {
-    SplashStream stream;
-    return SplashStreamInitFile(&stream, filename) &&
-                SplashLoadStream(&stream);
+    SplbshStrebm strebm;
+    return SplbshStrebmInitFile(&strebm, filenbme) &&
+                SplbshLobdStrebm(&strebm);
 }
 
 SPLASHEXPORT int
-SplashLoadMemory(void *data, int size)
+SplbshLobdMemory(void *dbtb, int size)
 {
-    SplashStream stream;
-    return SplashStreamInitMemory(&stream, data, size) &&
-                SplashLoadStream(&stream);
+    SplbshStrebm strebm;
+    return SplbshStrebmInitMemory(&strebm, dbtb, size) &&
+                SplbshLobdStrebm(&strebm);
 }
 
-/* SplashStart MUST be called from under the lock */
+/* SplbshStbrt MUST be cblled from under the lock */
 
 void
-SplashStart(Splash * splash)
+SplbshStbrt(Splbsh * splbsh)
 {
-    if (splash->isVisible == 0) {
-        SplashCreateThread(splash);
-        splash->isVisible = 1;
+    if (splbsh->isVisible == 0) {
+        SplbshCrebteThrebd(splbsh);
+        splbsh->isVisible = 1;
     }
 }
 
-/* SplashStream functions */
+/* SplbshStrebm functions */
 
-static int readFile(void* pStream, void* pData, int nBytes) {
-    FILE* f = ((SplashStream*)pStream)->arg.stdio.f;
-    return fread(pData, 1, nBytes, f);
+stbtic int rebdFile(void* pStrebm, void* pDbtb, int nBytes) {
+    FILE* f = ((SplbshStrebm*)pStrebm)->brg.stdio.f;
+    return frebd(pDbtb, 1, nBytes, f);
 }
-static int peekFile(void* pStream) {
-    FILE* f = ((SplashStream*)pStream)->arg.stdio.f;
+stbtic int peekFile(void* pStrebm) {
+    FILE* f = ((SplbshStrebm*)pStrebm)->brg.stdio.f;
     int c = fgetc(f);
     if (c != EOF) {
         ungetc(c, f);
@@ -341,28 +341,28 @@ static int peekFile(void* pStream) {
     }
 }
 
-static void closeFile(void* pStream) {
-    FILE* f = ((SplashStream*)pStream)->arg.stdio.f;
+stbtic void closeFile(void* pStrebm) {
+    FILE* f = ((SplbshStrebm*)pStrebm)->brg.stdio.f;
     fclose(f);
 }
 
-static int readMem(void* pStream, void* pData, int nBytes) {
-    unsigned char* pSrc = (unsigned char*)(((SplashStream*)pStream)->arg.mem.pData);
-    unsigned char* pSrcEnd = (unsigned char*)(((SplashStream*)pStream)->arg.mem.pDataEnd);
+stbtic int rebdMem(void* pStrebm, void* pDbtb, int nBytes) {
+    unsigned chbr* pSrc = (unsigned chbr*)(((SplbshStrebm*)pStrebm)->brg.mem.pDbtb);
+    unsigned chbr* pSrcEnd = (unsigned chbr*)(((SplbshStrebm*)pStrebm)->brg.mem.pDbtbEnd);
     if (nBytes > pSrcEnd - pSrc) {
         nBytes = pSrcEnd - pSrc;
     }
     if (nBytes>0) {
-        memcpy(pData, pSrc, nBytes);
+        memcpy(pDbtb, pSrc, nBytes);
         pSrc += nBytes;
-        ((SplashStream*)pStream)->arg.mem.pData = (void*)pSrc;
+        ((SplbshStrebm*)pStrebm)->brg.mem.pDbtb = (void*)pSrc;
     }
     return nBytes;
 }
 
-static int peekMem(void* pStream) {
-    unsigned char* pSrc = (unsigned char*)(((SplashStream*)pStream)->arg.mem.pData);
-    unsigned char* pSrcEnd = (unsigned char*)(((SplashStream*)pStream)->arg.mem.pDataEnd);
+stbtic int peekMem(void* pStrebm) {
+    unsigned chbr* pSrc = (unsigned chbr*)(((SplbshStrebm*)pStrebm)->brg.mem.pDbtb);
+    unsigned chbr* pSrcEnd = (unsigned chbr*)(((SplbshStrebm*)pStrebm)->brg.mem.pDbtbEnd);
     if (pSrc >= pSrcEnd) {
         return -1;
     } else {
@@ -370,22 +370,22 @@ static int peekMem(void* pStream) {
     }
 }
 
-static void closeMem(void* pStream) {
+stbtic void closeMem(void* pStrebm) {
 }
 
-int SplashStreamInitFile(SplashStream * pStream, const char* filename) {
-    pStream->arg.stdio.f = fopen(filename, "rb");
-    pStream->read = readFile;
-    pStream->peek = peekFile;
-    pStream->close = closeFile;
-    return pStream->arg.stdio.f != 0;
+int SplbshStrebmInitFile(SplbshStrebm * pStrebm, const chbr* filenbme) {
+    pStrebm->brg.stdio.f = fopen(filenbme, "rb");
+    pStrebm->rebd = rebdFile;
+    pStrebm->peek = peekFile;
+    pStrebm->close = closeFile;
+    return pStrebm->brg.stdio.f != 0;
 }
 
-int SplashStreamInitMemory(SplashStream * pStream, void* pData, int size) {
-    pStream->arg.mem.pData = (unsigned char*)pData;
-    pStream->arg.mem.pDataEnd = (unsigned char*)pData + size;
-    pStream->read = readMem;
-    pStream->peek = peekMem;
-    pStream->close = closeMem;
+int SplbshStrebmInitMemory(SplbshStrebm * pStrebm, void* pDbtb, int size) {
+    pStrebm->brg.mem.pDbtb = (unsigned chbr*)pDbtb;
+    pStrebm->brg.mem.pDbtbEnd = (unsigned chbr*)pDbtb + size;
+    pStrebm->rebd = rebdMem;
+    pStrebm->peek = peekMem;
+    pStrebm->close = closeMem;
     return 1;
 }

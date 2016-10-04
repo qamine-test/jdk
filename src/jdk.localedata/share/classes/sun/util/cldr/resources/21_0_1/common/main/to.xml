@@ -3,607 +3,607 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="to"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="to"/>
 	</identity>
-	<fallback/>
-	<localeDisplayNames>
-		<localeDisplayPattern>
-			<localePattern draft="unconfirmed">{0} ({1})</localePattern>
-			<localeSeparator draft="unconfirmed">, </localeSeparator>
-		</localeDisplayPattern>
-		<languages>
-			<language type="ab">lea fakaʻapakasi</language>
-			<language type="af">lea fakaʻafilikana</language>
-			<language type="am">lea ʻameliki</language>
-			<language type="ar">lea fakaʻalepea</language>
-			<language type="art">lea faʻu</language>
-			<language type="as">lea ʻasamisi</language>
-			<language type="ay">lea ʻaimala</language>
-			<language type="az">lea fakaʻasapaisani</language>
-			<language type="be">lea fakapelelusi</language>
-			<language type="bg">lea fakapokalia</language>
-			<language type="bn">lea fakapengila</language>
-			<language type="bo">lea fakataipeti</language>
-			<language type="bs">lea fakaposinia</language>
-			<language type="ca">lea fakaketalani</language>
-			<language type="cs">lea fakaseki</language>
-			<language type="cy">lea fakauēlesi</language>
-			<language type="da">lea fakatenimaʻake</language>
-			<language type="de">lea fakasiamane</language>
-			<language type="de_AT">lea fakasiamani ʻaositulia</language>
-			<language type="de_CH">lea fakasiamani suitisālani ma'olunga</language>
-			<language type="dv">lea tivehi</language>
-			<language type="dz">lea fakaputeni</language>
-			<language type="efi">lea ʻefiki</language>
-			<language type="el">lea fakakalisi</language>
-			<language type="en">lea fakapālangi</language>
-			<language type="en_AU">lea fakapālangi ʻaositelēlia</language>
-			<language type="en_CA">lea fakapālangi kānata</language>
-			<language type="en_GB">lea fakapilitānia</language>
-			<language type="en_US">lea fakapālangi ʻamelika</language>
-			<language type="eo">lea fakaʻesipulanito</language>
-			<language type="es">lea fakasīpenisi</language>
-			<language type="es_419">lea fakasipēnisi lātini ʻamelika</language>
-			<language type="es_ES">lea fakasipēnisi ʻaipilieni</language>
-			<language type="et">lea fakaʻesitōnia</language>
-			<language type="eu">lea pasiki</language>
-			<language type="fa">lea fakapēsia</language>
-			<language type="fi">lea fakafinilani</language>
-			<language type="fil">lea fakafilipaini</language>
-			<language type="fj">lea fakafisi</language>
-			<language type="fr">lea fakafalanisē</language>
-			<language type="fr_CA">lea fakafalanisē kānata</language>
-			<language type="fr_CH">lea fakafalanisē suitisālani</language>
-			<language type="ga">lea fakaʻaelani</language>
-			<language type="gil">lea fakakilipasi</language>
-			<language type="gl">lea kalisieni</language>
-			<language type="gn">lea kualani</language>
-			<language type="grc">lea fakakalisimuʻa</language>
-			<language type="gsw">lea fakasiamani suitisālani</language>
-			<language type="gu">lea kutalati</language>
-			<language type="ha">lea hausa</language>
-			<language type="haw">lea fakahauaiʻi</language>
-			<language type="he">lea fakahepelū</language>
-			<language type="hi">lea fakahinitī</language>
-			<language type="hr">lea fakakuloisia</language>
-			<language type="ht">lea fakahaiti</language>
-			<language type="hu">lea fakahangakalia</language>
-			<language type="hy">lea fakaʻaminiume</language>
-			<language type="id">lea fakaʻinitōnesia</language>
-			<language type="ig">lea ʻikipō</language>
-			<language type="is">lea fakaʻaisilani</language>
-			<language type="it">lea fakaʻītali</language>
-			<language type="ja">lea fakasiapani</language>
-			<language type="jv">lea fakasava</language>
-			<language type="ka">lea fakasōsia</language>
-			<language type="kk">lea fakakasakiteni</language>
-			<language type="km">lea fakakemipōtia</language>
-			<language type="kn">lea kanata</language>
-			<language type="ko">lea fakakōlea</language>
-			<language type="ks">lea fakakesimia</language>
-			<language type="ku">lea kētisi</language>
-			<language type="ky">lea fakakekisiteni</language>
-			<language type="la">lea fakalatina</language>
-			<language type="lah">lea lanita</language>
-			<language type="lb">lea fakalakisimipeki</language>
-			<language type="ln">lea lingikala</language>
-			<language type="lo">lea fakalau</language>
-			<language type="lt">lea fakalifiuenia</language>
-			<language type="lv">lea fakalativia</language>
-			<language type="mg">lea fakamatakasika</language>
-			<language type="mh">lea fakamāsolo</language>
-			<language type="mi">lea fakamauli</language>
-			<language type="mis">lea kehekehe</language>
-			<language type="mk">lea fakamasitōnia</language>
-			<language type="ml">lea fakaʻinitia malāialemi</language>
-			<language type="mn">lea fakamongokōlia</language>
-			<language type="mr">lea malati</language>
-			<language type="ms">lea fakamalei</language>
-			<language type="mt">lea fakamolota</language>
-			<language type="mul">lea tuifio</language>
-			<language type="my">lea fakapema</language>
-			<language type="na">lea fakanaulu</language>
-			<language type="nb">lea fakanouei pokimali</language>
-			<language type="nd">lea netepele fakatokelau</language>
-			<language type="ne">lea fakanepali</language>
-			<language type="niu">lea fakaniuē</language>
-			<language type="nl">lea fakahōlani</language>
-			<language type="nl_BE">lea fakahōlani pelesiume</language>
-			<language type="nn">lea fakanouei nosiki</language>
-			<language type="no">lea fakanouē</language>
-			<language type="nso">lea sofo fakatokelau</language>
-			<language type="ny">lea sua</language>
-			<language type="or">lea fakaʻinitia ʻolāea</language>
-			<language type="os">lea ʻosetiki</language>
-			<language type="pa">lea punusapi</language>
-			<language type="pl">lea fakapōlani</language>
-			<language type="ps">lea pasito</language>
-			<language type="pt">lea fakapotukali</language>
-			<language type="pt_BR">lea fakapotukali-palāsili</language>
-			<language type="pt_PT">lea fakapotukali ʻaipilieni</language>
-			<language type="qu">lea kuetisa</language>
-			<language type="rap">lea fakalapanui</language>
-			<language type="rar">lea fakalalotonga</language>
-			<language type="rm">lea laito-lomēnia</language>
-			<language type="rn">lea luaniti</language>
-			<language type="ro">lea fakalōmenia</language>
-			<language type="ru">lea fakalūsia</language>
-			<language type="rw">lea fakaluanita</language>
-			<language type="sa">lea sanisukuliti</language>
-			<language type="sah" draft="unconfirmed">lea saka</language>
-			<language type="sco">lea fakasikotilani</language>
-			<language type="sd">lea siniti</language>
-			<language type="se">lea sami fakatokelau</language>
-			<language type="sg">lea sango</language>
-			<language type="sgn">lea fakaʻilonga</language>
-			<language type="sh">lea sēpia-kuloisia</language>
-			<language type="si">lea fakaselengika</language>
-			<language type="sk">lea fakasolāvaki</language>
-			<language type="sl">lea fakasolovenia</language>
-			<language type="sm">lea fakahaʻamoa</language>
-			<language type="sn">lea sona</language>
-			<language type="so">lea fakasomali</language>
-			<language type="sq">lea fakaʻalapēnia</language>
-			<language type="sr">lea fakasēpia</language>
-			<language type="ss">lea fakasuasilani</language>
-			<language type="st">lea sofo fakatonga</language>
-			<language type="su">lea sanita</language>
-			<language type="sv">lea fakasueteni</language>
-			<language type="sw">lea suahile</language>
-			<language type="swb">lea fakakomolo</language>
-			<language type="ta">lea fakatemole</language>
-			<language type="te">lea fakaʻinitia teluku</language>
-			<language type="tet">lea fakatētamu</language>
-			<language type="tg">lea fakatetiki</language>
-			<language type="th">lea fakataileni</language>
-			<language type="ti">lea fakatikilina</language>
-			<language type="tk">lea tekimeni</language>
-			<language type="tkl">lea fakatokelau</language>
-			<language type="tl">lea fakatekaloka</language>
-			<language type="tn">lea suana</language>
-			<language type="to">lea fakatonga</language>
-			<language type="tpi">lea toki pisini</language>
-			<language type="tr">lea fakatoake</language>
-			<language type="ts">lea songa</language>
-			<language type="tvl">lea fakatūvalu</language>
-			<language type="ty">lea fakatahiti</language>
-			<language type="ug">lea fakaʻuika</language>
-			<language type="uk">lea fakaʻiukālia</language>
-			<language type="und">lea taʻeʻiloa</language>
-			<language type="ur">lea fakaʻetiu</language>
-			<language type="uz">lea fakaʻusipeki</language>
-			<language type="ve">lea fakavenitā</language>
-			<language type="vi">lea fakavietinemi</language>
-			<language type="wo">lea fakaʻuolofo</language>
-			<language type="xh">lea fakatōsa</language>
-			<language type="yo">lea fakaʻiōlupa</language>
-			<language type="yue">lea kenitēnisi</language>
-			<language type="zh">lea fakasiaina</language>
-			<language type="zh_Hans">lea fakasiaina fakangofua</language>
-			<language type="zh_Hant">lea fakasiaina tukufakaholo</language>
-			<language type="zu">lea fakasulu</language>
-			<language type="zxx">ʻikai ha lea</language>
-		</languages>
+	<fbllbbck/>
+	<locbleDisplbyNbmes>
+		<locbleDisplbyPbttern>
+			<locblePbttern drbft="unconfirmed">{0} ({1})</locblePbttern>
+			<locbleSepbrbtor drbft="unconfirmed">, </locbleSepbrbtor>
+		</locbleDisplbyPbttern>
+		<lbngubges>
+			<lbngubge type="bb">leb fbkbʻbpbkbsi</lbngubge>
+			<lbngubge type="bf">leb fbkbʻbfilikbnb</lbngubge>
+			<lbngubge type="bm">leb ʻbmeliki</lbngubge>
+			<lbngubge type="br">leb fbkbʻblepeb</lbngubge>
+			<lbngubge type="brt">leb fbʻu</lbngubge>
+			<lbngubge type="bs">leb ʻbsbmisi</lbngubge>
+			<lbngubge type="by">leb ʻbimblb</lbngubge>
+			<lbngubge type="bz">leb fbkbʻbsbpbisbni</lbngubge>
+			<lbngubge type="be">leb fbkbpelelusi</lbngubge>
+			<lbngubge type="bg">leb fbkbpokblib</lbngubge>
+			<lbngubge type="bn">leb fbkbpengilb</lbngubge>
+			<lbngubge type="bo">leb fbkbtbipeti</lbngubge>
+			<lbngubge type="bs">leb fbkbposinib</lbngubge>
+			<lbngubge type="cb">leb fbkbketblbni</lbngubge>
+			<lbngubge type="cs">leb fbkbseki</lbngubge>
+			<lbngubge type="cy">leb fbkbuēlesi</lbngubge>
+			<lbngubge type="db">leb fbkbtenimbʻbke</lbngubge>
+			<lbngubge type="de">leb fbkbsibmbne</lbngubge>
+			<lbngubge type="de_AT">leb fbkbsibmbni ʻbositulib</lbngubge>
+			<lbngubge type="de_CH">leb fbkbsibmbni suitisālbni mb'olungb</lbngubge>
+			<lbngubge type="dv">leb tivehi</lbngubge>
+			<lbngubge type="dz">leb fbkbputeni</lbngubge>
+			<lbngubge type="efi">leb ʻefiki</lbngubge>
+			<lbngubge type="el">leb fbkbkblisi</lbngubge>
+			<lbngubge type="en">leb fbkbpālbngi</lbngubge>
+			<lbngubge type="en_AU">leb fbkbpālbngi ʻbositelēlib</lbngubge>
+			<lbngubge type="en_CA">leb fbkbpālbngi kānbtb</lbngubge>
+			<lbngubge type="en_GB">leb fbkbpilitānib</lbngubge>
+			<lbngubge type="en_US">leb fbkbpālbngi ʻbmelikb</lbngubge>
+			<lbngubge type="eo">leb fbkbʻesipulbnito</lbngubge>
+			<lbngubge type="es">leb fbkbsīpenisi</lbngubge>
+			<lbngubge type="es_419">leb fbkbsipēnisi lātini ʻbmelikb</lbngubge>
+			<lbngubge type="es_ES">leb fbkbsipēnisi ʻbipilieni</lbngubge>
+			<lbngubge type="et">leb fbkbʻesitōnib</lbngubge>
+			<lbngubge type="eu">leb pbsiki</lbngubge>
+			<lbngubge type="fb">leb fbkbpēsib</lbngubge>
+			<lbngubge type="fi">leb fbkbfinilbni</lbngubge>
+			<lbngubge type="fil">leb fbkbfilipbini</lbngubge>
+			<lbngubge type="fj">leb fbkbfisi</lbngubge>
+			<lbngubge type="fr">leb fbkbfblbnisē</lbngubge>
+			<lbngubge type="fr_CA">leb fbkbfblbnisē kānbtb</lbngubge>
+			<lbngubge type="fr_CH">leb fbkbfblbnisē suitisālbni</lbngubge>
+			<lbngubge type="gb">leb fbkbʻbelbni</lbngubge>
+			<lbngubge type="gil">leb fbkbkilipbsi</lbngubge>
+			<lbngubge type="gl">leb kblisieni</lbngubge>
+			<lbngubge type="gn">leb kublbni</lbngubge>
+			<lbngubge type="grc">leb fbkbkblisimuʻb</lbngubge>
+			<lbngubge type="gsw">leb fbkbsibmbni suitisālbni</lbngubge>
+			<lbngubge type="gu">leb kutblbti</lbngubge>
+			<lbngubge type="hb">leb hbusb</lbngubge>
+			<lbngubge type="hbw">leb fbkbhbubiʻi</lbngubge>
+			<lbngubge type="he">leb fbkbhepelū</lbngubge>
+			<lbngubge type="hi">leb fbkbhinitī</lbngubge>
+			<lbngubge type="hr">leb fbkbkuloisib</lbngubge>
+			<lbngubge type="ht">leb fbkbhbiti</lbngubge>
+			<lbngubge type="hu">leb fbkbhbngbkblib</lbngubge>
+			<lbngubge type="hy">leb fbkbʻbminiume</lbngubge>
+			<lbngubge type="id">leb fbkbʻinitōnesib</lbngubge>
+			<lbngubge type="ig">leb ʻikipō</lbngubge>
+			<lbngubge type="is">leb fbkbʻbisilbni</lbngubge>
+			<lbngubge type="it">leb fbkbʻītbli</lbngubge>
+			<lbngubge type="jb">leb fbkbsibpbni</lbngubge>
+			<lbngubge type="jv">leb fbkbsbvb</lbngubge>
+			<lbngubge type="kb">leb fbkbsōsib</lbngubge>
+			<lbngubge type="kk">leb fbkbkbsbkiteni</lbngubge>
+			<lbngubge type="km">leb fbkbkemipōtib</lbngubge>
+			<lbngubge type="kn">leb kbnbtb</lbngubge>
+			<lbngubge type="ko">leb fbkbkōleb</lbngubge>
+			<lbngubge type="ks">leb fbkbkesimib</lbngubge>
+			<lbngubge type="ku">leb kētisi</lbngubge>
+			<lbngubge type="ky">leb fbkbkekisiteni</lbngubge>
+			<lbngubge type="lb">leb fbkblbtinb</lbngubge>
+			<lbngubge type="lbh">leb lbnitb</lbngubge>
+			<lbngubge type="lb">leb fbkblbkisimipeki</lbngubge>
+			<lbngubge type="ln">leb lingikblb</lbngubge>
+			<lbngubge type="lo">leb fbkblbu</lbngubge>
+			<lbngubge type="lt">leb fbkblifiuenib</lbngubge>
+			<lbngubge type="lv">leb fbkblbtivib</lbngubge>
+			<lbngubge type="mg">leb fbkbmbtbkbsikb</lbngubge>
+			<lbngubge type="mh">leb fbkbmāsolo</lbngubge>
+			<lbngubge type="mi">leb fbkbmbuli</lbngubge>
+			<lbngubge type="mis">leb kehekehe</lbngubge>
+			<lbngubge type="mk">leb fbkbmbsitōnib</lbngubge>
+			<lbngubge type="ml">leb fbkbʻinitib mblāiblemi</lbngubge>
+			<lbngubge type="mn">leb fbkbmongokōlib</lbngubge>
+			<lbngubge type="mr">leb mblbti</lbngubge>
+			<lbngubge type="ms">leb fbkbmblei</lbngubge>
+			<lbngubge type="mt">leb fbkbmolotb</lbngubge>
+			<lbngubge type="mul">leb tuifio</lbngubge>
+			<lbngubge type="my">leb fbkbpemb</lbngubge>
+			<lbngubge type="nb">leb fbkbnbulu</lbngubge>
+			<lbngubge type="nb">leb fbkbnouei pokimbli</lbngubge>
+			<lbngubge type="nd">leb netepele fbkbtokelbu</lbngubge>
+			<lbngubge type="ne">leb fbkbnepbli</lbngubge>
+			<lbngubge type="niu">leb fbkbniuē</lbngubge>
+			<lbngubge type="nl">leb fbkbhōlbni</lbngubge>
+			<lbngubge type="nl_BE">leb fbkbhōlbni pelesiume</lbngubge>
+			<lbngubge type="nn">leb fbkbnouei nosiki</lbngubge>
+			<lbngubge type="no">leb fbkbnouē</lbngubge>
+			<lbngubge type="nso">leb sofo fbkbtokelbu</lbngubge>
+			<lbngubge type="ny">leb sub</lbngubge>
+			<lbngubge type="or">leb fbkbʻinitib ʻolāeb</lbngubge>
+			<lbngubge type="os">leb ʻosetiki</lbngubge>
+			<lbngubge type="pb">leb punusbpi</lbngubge>
+			<lbngubge type="pl">leb fbkbpōlbni</lbngubge>
+			<lbngubge type="ps">leb pbsito</lbngubge>
+			<lbngubge type="pt">leb fbkbpotukbli</lbngubge>
+			<lbngubge type="pt_BR">leb fbkbpotukbli-pblāsili</lbngubge>
+			<lbngubge type="pt_PT">leb fbkbpotukbli ʻbipilieni</lbngubge>
+			<lbngubge type="qu">leb kuetisb</lbngubge>
+			<lbngubge type="rbp">leb fbkblbpbnui</lbngubge>
+			<lbngubge type="rbr">leb fbkblblotongb</lbngubge>
+			<lbngubge type="rm">leb lbito-lomēnib</lbngubge>
+			<lbngubge type="rn">leb lubniti</lbngubge>
+			<lbngubge type="ro">leb fbkblōmenib</lbngubge>
+			<lbngubge type="ru">leb fbkblūsib</lbngubge>
+			<lbngubge type="rw">leb fbkblubnitb</lbngubge>
+			<lbngubge type="sb">leb sbnisukuliti</lbngubge>
+			<lbngubge type="sbh" drbft="unconfirmed">leb sbkb</lbngubge>
+			<lbngubge type="sco">leb fbkbsikotilbni</lbngubge>
+			<lbngubge type="sd">leb siniti</lbngubge>
+			<lbngubge type="se">leb sbmi fbkbtokelbu</lbngubge>
+			<lbngubge type="sg">leb sbngo</lbngubge>
+			<lbngubge type="sgn">leb fbkbʻilongb</lbngubge>
+			<lbngubge type="sh">leb sēpib-kuloisib</lbngubge>
+			<lbngubge type="si">leb fbkbselengikb</lbngubge>
+			<lbngubge type="sk">leb fbkbsolāvbki</lbngubge>
+			<lbngubge type="sl">leb fbkbsolovenib</lbngubge>
+			<lbngubge type="sm">leb fbkbhbʻbmob</lbngubge>
+			<lbngubge type="sn">leb sonb</lbngubge>
+			<lbngubge type="so">leb fbkbsombli</lbngubge>
+			<lbngubge type="sq">leb fbkbʻblbpēnib</lbngubge>
+			<lbngubge type="sr">leb fbkbsēpib</lbngubge>
+			<lbngubge type="ss">leb fbkbsubsilbni</lbngubge>
+			<lbngubge type="st">leb sofo fbkbtongb</lbngubge>
+			<lbngubge type="su">leb sbnitb</lbngubge>
+			<lbngubge type="sv">leb fbkbsueteni</lbngubge>
+			<lbngubge type="sw">leb subhile</lbngubge>
+			<lbngubge type="swb">leb fbkbkomolo</lbngubge>
+			<lbngubge type="tb">leb fbkbtemole</lbngubge>
+			<lbngubge type="te">leb fbkbʻinitib teluku</lbngubge>
+			<lbngubge type="tet">leb fbkbtētbmu</lbngubge>
+			<lbngubge type="tg">leb fbkbtetiki</lbngubge>
+			<lbngubge type="th">leb fbkbtbileni</lbngubge>
+			<lbngubge type="ti">leb fbkbtikilinb</lbngubge>
+			<lbngubge type="tk">leb tekimeni</lbngubge>
+			<lbngubge type="tkl">leb fbkbtokelbu</lbngubge>
+			<lbngubge type="tl">leb fbkbtekblokb</lbngubge>
+			<lbngubge type="tn">leb subnb</lbngubge>
+			<lbngubge type="to">leb fbkbtongb</lbngubge>
+			<lbngubge type="tpi">leb toki pisini</lbngubge>
+			<lbngubge type="tr">leb fbkbtobke</lbngubge>
+			<lbngubge type="ts">leb songb</lbngubge>
+			<lbngubge type="tvl">leb fbkbtūvblu</lbngubge>
+			<lbngubge type="ty">leb fbkbtbhiti</lbngubge>
+			<lbngubge type="ug">leb fbkbʻuikb</lbngubge>
+			<lbngubge type="uk">leb fbkbʻiukālib</lbngubge>
+			<lbngubge type="und">leb tbʻeʻilob</lbngubge>
+			<lbngubge type="ur">leb fbkbʻetiu</lbngubge>
+			<lbngubge type="uz">leb fbkbʻusipeki</lbngubge>
+			<lbngubge type="ve">leb fbkbvenitā</lbngubge>
+			<lbngubge type="vi">leb fbkbvietinemi</lbngubge>
+			<lbngubge type="wo">leb fbkbʻuolofo</lbngubge>
+			<lbngubge type="xh">leb fbkbtōsb</lbngubge>
+			<lbngubge type="yo">leb fbkbʻiōlupb</lbngubge>
+			<lbngubge type="yue">leb kenitēnisi</lbngubge>
+			<lbngubge type="zh">leb fbkbsibinb</lbngubge>
+			<lbngubge type="zh_Hbns">leb fbkbsibinb fbkbngofub</lbngubge>
+			<lbngubge type="zh_Hbnt">leb fbkbsibinb tukufbkbholo</lbngubge>
+			<lbngubge type="zu">leb fbkbsulu</lbngubge>
+			<lbngubge type="zxx">ʻikbi hb leb</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab">tohinima fakaʻalepea</script>
-			<script type="Armn">tohinima fakaʻamīnia</script>
-			<script type="Beng">tohinima fakapengila</script>
-			<script type="Bopo">tohinima ongo fakasiaina</script>
-			<script type="Brai">tohinima laukonga ki he kui</script>
-			<script type="Cyrl">tohinima fakalūsia</script>
-			<script type="Deva">tohinima fakaʻinitia tēvanakali</script>
-			<script type="Ethi">tohinima fakaʻitiopea</script>
-			<script type="Geor">tohinima fakasōsia</script>
-			<script type="Grek">tohinima fakakalisi</script>
-			<script type="Gujr">tohinima fakaʻinitia kutalati</script>
-			<script type="Guru">tohinima fakapūnusapi</script>
-			<script type="Hang">tohinima fakakōlea hāngūlu</script>
-			<script type="Hani">tohinima fakasiaina</script>
-			<script type="Hans">tohinima fakasiaina fakafaingofua</script>
-			<script type="Hant">tohinima tukufakaholo fakasiaina</script>
-			<script type="Hebr">tohinima fakahepelū</script>
-			<script type="Hira">tohinima fakasiapani hilakana</script>
-			<script type="Jpan">tohinima fakasiapani</script>
-			<script type="Kana">tohinima fakasiapani katakana</script>
-			<script type="Khmr">tohinima fakakemipōtia</script>
-			<script type="Knda">tohinima fakaʻinitia kānatā</script>
-			<script type="Kore">tohinima fakakōlea</script>
-			<script type="Laoo">tohinima fakalau</script>
-			<script type="Latn">tohinima fakalatina</script>
-			<script type="Mlym">tohinima fakaʻinitia malāialemi</script>
-			<script type="Mong">tohinima fakamongokōlia</script>
-			<script type="Mymr">tohinima fakapema</script>
-			<script type="Orya">tohinima fakaʻinitia ʻolāea</script>
-			<script type="Sinh">tohinima fakaselengika</script>
-			<script type="Taml">tohinima fakatemole</script>
-			<script type="Telu">tohinima fakaʻinitia teluku</script>
-			<script type="Thaa">tohinima fakatāna</script>
-			<script type="Thai">tohinima fakataileni</script>
-			<script type="Tibt">tohinima fakataipeti</script>
-			<script type="Zsym">tohinima fakaʻilonga</script>
-			<script type="Zxxx">tohinima taʻetohitohiʻi</script>
-			<script type="Zyyy">tohinima fakatatau</script>
-			<script type="Zzzz">tohinima taʻeʻiloa</script>
+			<script type="Arbb">tohinimb fbkbʻblepeb</script>
+			<script type="Armn">tohinimb fbkbʻbmīnib</script>
+			<script type="Beng">tohinimb fbkbpengilb</script>
+			<script type="Bopo">tohinimb ongo fbkbsibinb</script>
+			<script type="Brbi">tohinimb lbukongb ki he kui</script>
+			<script type="Cyrl">tohinimb fbkblūsib</script>
+			<script type="Devb">tohinimb fbkbʻinitib tēvbnbkbli</script>
+			<script type="Ethi">tohinimb fbkbʻitiopeb</script>
+			<script type="Geor">tohinimb fbkbsōsib</script>
+			<script type="Grek">tohinimb fbkbkblisi</script>
+			<script type="Gujr">tohinimb fbkbʻinitib kutblbti</script>
+			<script type="Guru">tohinimb fbkbpūnusbpi</script>
+			<script type="Hbng">tohinimb fbkbkōleb hāngūlu</script>
+			<script type="Hbni">tohinimb fbkbsibinb</script>
+			<script type="Hbns">tohinimb fbkbsibinb fbkbfbingofub</script>
+			<script type="Hbnt">tohinimb tukufbkbholo fbkbsibinb</script>
+			<script type="Hebr">tohinimb fbkbhepelū</script>
+			<script type="Hirb">tohinimb fbkbsibpbni hilbkbnb</script>
+			<script type="Jpbn">tohinimb fbkbsibpbni</script>
+			<script type="Kbnb">tohinimb fbkbsibpbni kbtbkbnb</script>
+			<script type="Khmr">tohinimb fbkbkemipōtib</script>
+			<script type="Kndb">tohinimb fbkbʻinitib kānbtā</script>
+			<script type="Kore">tohinimb fbkbkōleb</script>
+			<script type="Lboo">tohinimb fbkblbu</script>
+			<script type="Lbtn">tohinimb fbkblbtinb</script>
+			<script type="Mlym">tohinimb fbkbʻinitib mblāiblemi</script>
+			<script type="Mong">tohinimb fbkbmongokōlib</script>
+			<script type="Mymr">tohinimb fbkbpemb</script>
+			<script type="Oryb">tohinimb fbkbʻinitib ʻolāeb</script>
+			<script type="Sinh">tohinimb fbkbselengikb</script>
+			<script type="Tbml">tohinimb fbkbtemole</script>
+			<script type="Telu">tohinimb fbkbʻinitib teluku</script>
+			<script type="Thbb">tohinimb fbkbtānb</script>
+			<script type="Thbi">tohinimb fbkbtbileni</script>
+			<script type="Tibt">tohinimb fbkbtbipeti</script>
+			<script type="Zsym">tohinimb fbkbʻilongb</script>
+			<script type="Zxxx">tohinimb tbʻetohitohiʻi</script>
+			<script type="Zyyy">tohinimb fbkbtbtbu</script>
+			<script type="Zzzz">tohinimb tbʻeʻilob</script>
 		</scripts>
 		<territories>
-			<territory type="001">Māmani</territory>
-			<territory type="002">ʻAfilika</territory>
-			<territory type="003">ʻAmelika tokelau</territory>
-			<territory type="005">ʻAmelika tonga</territory>
-			<territory type="009">ʻOsenia</territory>
-			<territory type="011">ʻAfilika hihifo</territory>
-			<territory type="013">ʻAmelika lotoloto</territory>
-			<territory type="014">ʻAfilika hahake</territory>
-			<territory type="015">ʻAfilika tokelau</territory>
-			<territory type="017">ʻAfilika lotoloto</territory>
-			<territory type="018">ʻAfilika fakatonga</territory>
-			<territory type="019">Ongo ʻAmelika</territory>
-			<territory type="021">ʻAmelika fakatokelau</territory>
-			<territory type="029">Kalipiane</territory>
-			<territory type="030">ʻĒsia hahake</territory>
-			<territory type="034">ʻĒsia fakatonga</territory>
-			<territory type="035">ʻĒsia tongahahake</territory>
-			<territory type="039">ʻIulope fakatonga</territory>
-			<territory type="053">ʻAositelēlia mo Nuʻusila</territory>
-			<territory type="054">Melanisia</territory>
-			<territory type="057">Potu fonua Mikolonisia</territory>
-			<territory type="061">Polinīsia</territory>
-			<territory type="142">ʻĒsia</territory>
-			<territory type="143">ʻĒsia lotoloto</territory>
-			<territory type="145">ʻĒsia hihifo</territory>
+			<territory type="001">Māmbni</territory>
+			<territory type="002">ʻAfilikb</territory>
+			<territory type="003">ʻAmelikb tokelbu</territory>
+			<territory type="005">ʻAmelikb tongb</territory>
+			<territory type="009">ʻOsenib</territory>
+			<territory type="011">ʻAfilikb hihifo</territory>
+			<territory type="013">ʻAmelikb lotoloto</territory>
+			<territory type="014">ʻAfilikb hbhbke</territory>
+			<territory type="015">ʻAfilikb tokelbu</territory>
+			<territory type="017">ʻAfilikb lotoloto</territory>
+			<territory type="018">ʻAfilikb fbkbtongb</territory>
+			<territory type="019">Ongo ʻAmelikb</territory>
+			<territory type="021">ʻAmelikb fbkbtokelbu</territory>
+			<territory type="029">Kblipibne</territory>
+			<territory type="030">ʻĒsib hbhbke</territory>
+			<territory type="034">ʻĒsib fbkbtongb</territory>
+			<territory type="035">ʻĒsib tongbhbhbke</territory>
+			<territory type="039">ʻIulope fbkbtongb</territory>
+			<territory type="053">ʻAositelēlib mo Nuʻusilb</territory>
+			<territory type="054">Melbnisib</territory>
+			<territory type="057">Potu fonub Mikolonisib</territory>
+			<territory type="061">Polinīsib</territory>
+			<territory type="142">ʻĒsib</territory>
+			<territory type="143">ʻĒsib lotoloto</territory>
+			<territory type="145">ʻĒsib hihifo</territory>
 			<territory type="150">ʻIulope</territory>
-			<territory type="151">ʻIulope hahake</territory>
-			<territory type="154">ʻIulope tokelau</territory>
+			<territory type="151">ʻIulope hbhbke</territory>
+			<territory type="154">ʻIulope tokelbu</territory>
 			<territory type="155">ʻIulope hihifo</territory>
-			<territory type="419">ʻAmelika fakalatina</territory>
+			<territory type="419">ʻAmelikb fbkblbtinb</territory>
 			<territory type="AC">Motu ʻAsenisini</territory>
-			<territory type="AD">ʻEnitola</territory>
-			<territory type="AE">ʻAlepea Fakatahataha</territory>
-			<territory type="AF">ʻAfikānisitani</territory>
-			<territory type="AG">Anitikua mo Palaputa</territory>
-			<territory type="AI">Anikuila</territory>
-			<territory type="AL">ʻAlipania</territory>
-			<territory type="AM">ʻĀminia</territory>
-			<territory type="AN">Netaleni ʻEnitilisi</territory>
-			<territory type="AO">ʻEnikola</territory>
-			<territory type="AQ">ʻAnitātika</territory>
-			<territory type="AR">ʻAsenitina</territory>
-			<territory type="AS">Haʻamoa ʻAmelika</territory>
-			<territory type="AT">ʻAositulia</territory>
-			<territory type="AU">ʻAositelēlia</territory>
-			<territory type="AW">ʻAlupa</territory>
-			<territory type="AX">ʻOtumotu ʻAlani</territory>
-			<territory type="AZ">ʻAsapaisani</territory>
-			<territory type="BA">Posinia mo Hesikōvinia</territory>
+			<territory type="AD">ʻEnitolb</territory>
+			<territory type="AE">ʻAlepeb Fbkbtbhbtbhb</territory>
+			<territory type="AF">ʻAfikānisitbni</territory>
+			<territory type="AG">Anitikub mo Pblbputb</territory>
+			<territory type="AI">Anikuilb</territory>
+			<territory type="AL">ʻAlipbnib</territory>
+			<territory type="AM">ʻĀminib</territory>
+			<territory type="AN">Netbleni ʻEnitilisi</territory>
+			<territory type="AO">ʻEnikolb</territory>
+			<territory type="AQ">ʻAnitātikb</territory>
+			<territory type="AR">ʻAsenitinb</territory>
+			<territory type="AS">Hbʻbmob ʻAmelikb</territory>
+			<territory type="AT">ʻAositulib</territory>
+			<territory type="AU">ʻAositelēlib</territory>
+			<territory type="AW">ʻAlupb</territory>
+			<territory type="AX">ʻOtumotu ʻAlbni</territory>
+			<territory type="AZ">ʻAsbpbisbni</territory>
+			<territory type="BA">Posinib mo Hesikōvinib</territory>
 			<territory type="BB">Pāpeitosi</territory>
 			<territory type="BD">Pengilātesi</territory>
 			<territory type="BE">Pelesiume</territory>
-			<territory type="BF">Pekano Faso</territory>
-			<territory type="BG">Pokalia</territory>
-			<territory type="BH">Paleini</territory>
-			<territory type="BI">Pelaniti</territory>
+			<territory type="BF">Pekbno Fbso</territory>
+			<territory type="BG">Pokblib</territory>
+			<territory type="BH">Pbleini</territory>
+			<territory type="BI">Pelbniti</territory>
 			<territory type="BJ">Penini</territory>
-			<territory type="BL">Seini Pafelemi</territory>
-			<territory type="BM">Pēmuta</territory>
+			<territory type="BL">Seini Pbfelemi</territory>
+			<territory type="BM">Pēmutb</territory>
 			<territory type="BN">Pulunei</territory>
-			<territory type="BO">Polīvia</territory>
-			<territory type="BR">Palāsili</territory>
-			<territory type="BS">Pahama</territory>
-			<territory type="BT">Pūtani</territory>
+			<territory type="BO">Polīvib</territory>
+			<territory type="BR">Pblāsili</territory>
+			<territory type="BS">Pbhbmb</territory>
+			<territory type="BT">Pūtbni</territory>
 			<territory type="BV">Motu Puveti</territory>
-			<territory type="BW">Potisiuana</territory>
+			<territory type="BW">Potisiubnb</territory>
 			<territory type="BY">Pelelusi</territory>
 			<territory type="BZ">Pelise</territory>
-			<territory type="CA">Kānata</territory>
+			<territory type="CA">Kānbtb</territory>
 			<territory type="CC">ʻOtumotu Koko</territory>
-			<territory type="CD">Kongo - Kinisasa</territory>
-			<territory type="CD" alt="variant">Kongo [DRC]</territory>
-			<territory type="CF">Lipapilika ʻAfilika Lotoloto</territory>
-			<territory type="CG">Kongo - Palasavila</territory>
-			<territory type="CG" alt="variant">Lipapilika Kongo</territory>
-			<territory type="CH">Suisilani</territory>
-			<territory type="CI">Matafonua ʻAivili</territory>
-			<territory type="CI" alt="variant">Matafonua ʻAivili</territory>
+			<territory type="CD">Kongo - Kinisbsb</territory>
+			<territory type="CD" blt="vbribnt">Kongo [DRC]</territory>
+			<territory type="CF">Lipbpilikb ʻAfilikb Lotoloto</territory>
+			<territory type="CG">Kongo - Pblbsbvilb</territory>
+			<territory type="CG" blt="vbribnt">Lipbpilikb Kongo</territory>
+			<territory type="CH">Suisilbni</territory>
+			<territory type="CI">Mbtbfonub ʻAivili</territory>
+			<territory type="CI" blt="vbribnt">Mbtbfonub ʻAivili</territory>
 			<territory type="CK">ʻOtumotu Kuki</territory>
 			<territory type="CL">Sili</territory>
-			<territory type="CM">Kemaluni</territory>
-			<territory type="CN">Siaina</territory>
-			<territory type="CO">Kolomipia</territory>
-			<territory type="CP">Motu Kilipatoni</territory>
-			<territory type="CR">Kosita Lika</territory>
-			<territory type="CU">Kiupa</territory>
+			<territory type="CM">Kembluni</territory>
+			<territory type="CN">Sibinb</territory>
+			<territory type="CO">Kolomipib</territory>
+			<territory type="CP">Motu Kilipbtoni</territory>
+			<territory type="CR">Kositb Likb</territory>
+			<territory type="CU">Kiupb</territory>
 			<territory type="CV">Muiʻi Veti</territory>
-			<territory type="CX">Motu Kilisimasi</territory>
-			<territory type="CY">Saipalesi</territory>
-			<territory type="CZ">Lipapilika Seki</territory>
-			<territory type="DE">Siamane</territory>
-			<territory type="DG">Tieko Kāsia</territory>
+			<territory type="CX">Motu Kilisimbsi</territory>
+			<territory type="CY">Sbipblesi</territory>
+			<territory type="CZ">Lipbpilikb Seki</territory>
+			<territory type="DE">Sibmbne</territory>
+			<territory type="DG">Tieko Kāsib</territory>
 			<territory type="DJ">Siputi</territory>
-			<territory type="DK">Tenimaʻake</territory>
-			<territory type="DM">Tominika</territory>
-			<territory type="DO">Lipapilika Tominika</territory>
-			<territory type="DZ">ʻAisilia</territory>
-			<territory type="EA">Siuta mo Melila</territory>
-			<territory type="EC">ʻEkuetoa</territory>
-			<territory type="EE">ʻEsitōnia</territory>
+			<territory type="DK">Tenimbʻbke</territory>
+			<territory type="DM">Tominikb</territory>
+			<territory type="DO">Lipbpilikb Tominikb</territory>
+			<territory type="DZ">ʻAisilib</territory>
+			<territory type="EA">Siutb mo Melilb</territory>
+			<territory type="EC">ʻEkuetob</territory>
+			<territory type="EE">ʻEsitōnib</territory>
 			<territory type="EG">ʻIsipite</territory>
-			<territory type="EH">Sahala fakahihifo</territory>
-			<territory type="ER">ʻElitulia</territory>
+			<territory type="EH">Sbhblb fbkbhihifo</territory>
+			<territory type="ER">ʻElitulib</territory>
 			<territory type="ES">Sipeini</territory>
-			<territory type="ET">ʻItiōpea</territory>
-			<territory type="EU">ʻIulope fakatahataha</territory>
-			<territory type="FI">Finilani</territory>
+			<territory type="ET">ʻItiōpeb</territory>
+			<territory type="EU">ʻIulope fbkbtbhbtbhb</territory>
+			<territory type="FI">Finilbni</territory>
 			<territory type="FJ">Fisi</territory>
 			<territory type="FK">ʻOtumotu Fokuleni</territory>
-			<territory type="FK" alt="variant">ʻOtumotu Fokuleni</territory>
-			<territory type="FM">Mikolonisia</territory>
+			<territory type="FK" blt="vbribnt">ʻOtumotu Fokuleni</territory>
+			<territory type="FM">Mikolonisib</territory>
 			<territory type="FO">ʻOtumotu Felou</territory>
-			<territory type="FR">Falanisē</territory>
-			<territory type="GA">Kaponi</territory>
-			<territory type="GB">Pilitānia</territory>
-			<territory type="GD">Kelenatā</territory>
-			<territory type="GE">Sōsia</territory>
-			<territory type="GF">Falanise Kuiana</territory>
+			<territory type="FR">Fblbnisē</territory>
+			<territory type="GA">Kbponi</territory>
+			<territory type="GB">Pilitānib</territory>
+			<territory type="GD">Kelenbtā</territory>
+			<territory type="GE">Sōsib</territory>
+			<territory type="GF">Fblbnise Kuibnb</territory>
 			<territory type="GG">Kuenisī</territory>
-			<territory type="GH">Kana</territory>
-			<territory type="GI">Sipalālitā</territory>
+			<territory type="GH">Kbnb</territory>
+			<territory type="GI">Sipblālitā</territory>
 			<territory type="GL">Kulinileni</territory>
-			<territory type="GM">Kamipia</territory>
+			<territory type="GM">Kbmipib</territory>
 			<territory type="GN">Kini</territory>
-			<territory type="GP">Kuatalupe</territory>
-			<territory type="GQ">ʻEkueta Kini</territory>
-			<territory type="GR">Kalisi</territory>
-			<territory type="GS">ʻOtumotu Siosia-tonga mo Saniuisi-tonga</territory>
-			<territory type="GT">Kuatamala</territory>
-			<territory type="GU">Kuamu</territory>
-			<territory type="GW">Kini-Pisau</territory>
-			<territory type="GY">Kuiana</territory>
-			<territory type="HK">Hongi Kongi SAR Siaina</territory>
-			<territory type="HK" alt="short">Hongi Kongi</territory>
-			<territory type="HM">ʻOtumotu Heati mo Makitonali</territory>
-			<territory type="HN">Honitulasi</territory>
-			<territory type="HR">Kuloisia</territory>
-			<territory type="HT">Haiti</territory>
-			<territory type="HU">Hangakalia</territory>
-			<territory type="IC">ʻOtumotu Kaneli</territory>
-			<territory type="ID">ʻInitonēsia</territory>
-			<territory type="IE">ʻAealani</territory>
+			<territory type="GP">Kubtblupe</territory>
+			<territory type="GQ">ʻEkuetb Kini</territory>
+			<territory type="GR">Kblisi</territory>
+			<territory type="GS">ʻOtumotu Siosib-tongb mo Sbniuisi-tongb</territory>
+			<territory type="GT">Kubtbmblb</territory>
+			<territory type="GU">Kubmu</territory>
+			<territory type="GW">Kini-Pisbu</territory>
+			<territory type="GY">Kuibnb</territory>
+			<territory type="HK">Hongi Kongi SAR Sibinb</territory>
+			<territory type="HK" blt="short">Hongi Kongi</territory>
+			<territory type="HM">ʻOtumotu Hebti mo Mbkitonbli</territory>
+			<territory type="HN">Honitulbsi</territory>
+			<territory type="HR">Kuloisib</territory>
+			<territory type="HT">Hbiti</territory>
+			<territory type="HU">Hbngbkblib</territory>
+			<territory type="IC">ʻOtumotu Kbneli</territory>
+			<territory type="ID">ʻInitonēsib</territory>
+			<territory type="IE">ʻAeblbni</territory>
 			<territory type="IL">ʻIsileli</territory>
-			<territory type="IM">Motu Mani</territory>
-			<territory type="IN">ʻInitia</territory>
-			<territory type="IO">Potu fonua moana ʻInitia fakapilitānia</territory>
-			<territory type="IQ">ʻIulaaki</territory>
-			<territory type="IR">ʻIulaani</territory>
-			<territory type="IS">ʻAisilani</territory>
-			<territory type="IT">ʻĪtali</territory>
+			<territory type="IM">Motu Mbni</territory>
+			<territory type="IN">ʻInitib</territory>
+			<territory type="IO">Potu fonub mobnb ʻInitib fbkbpilitānib</territory>
+			<territory type="IQ">ʻIulbbki</territory>
+			<territory type="IR">ʻIulbbni</territory>
+			<territory type="IS">ʻAisilbni</territory>
+			<territory type="IT">ʻĪtbli</territory>
 			<territory type="JE">Selusī</territory>
-			<territory type="JM">Samaika</territory>
-			<territory type="JO">Soatane</territory>
-			<territory type="JP">Siapani</territory>
-			<territory type="KE">Kenia</territory>
+			<territory type="JM">Sbmbikb</territory>
+			<territory type="JO">Sobtbne</territory>
+			<territory type="JP">Sibpbni</territory>
+			<territory type="KE">Kenib</territory>
 			<territory type="KG">Kekisiteni</territory>
-			<territory type="KH">Kemipōtia</territory>
-			<territory type="KI">Kilipasi</territory>
+			<territory type="KH">Kemipōtib</territory>
+			<territory type="KI">Kilipbsi</territory>
 			<territory type="KM">Komolosi</territory>
 			<territory type="KN">Seini Kitisi mo Nevisi</territory>
-			<territory type="KP">Kōlea tokelau</territory>
-			<territory type="KR">Kōlea tonga</territory>
+			<territory type="KP">Kōleb tokelbu</territory>
+			<territory type="KR">Kōleb tongb</territory>
 			<territory type="KW">Kueiti</territory>
 			<territory type="KY">ʻOtumotu Keimeni</territory>
-			<territory type="KZ">Kasakiteni</territory>
-			<territory type="LA">Lau</territory>
-			<territory type="LB">Lepanoni</territory>
-			<territory type="LC">Seini Lusia</territory>
-			<territory type="LI">Lekitenisaini</territory>
-			<territory type="LK">Silangikā</territory>
-			<territory type="LR">Laipelia</territory>
+			<territory type="KZ">Kbsbkiteni</territory>
+			<territory type="LA">Lbu</territory>
+			<territory type="LB">Lepbnoni</territory>
+			<territory type="LC">Seini Lusib</territory>
+			<territory type="LI">Lekitenisbini</territory>
+			<territory type="LK">Silbngikā</territory>
+			<territory type="LR">Lbipelib</territory>
 			<territory type="LS">Lesoto</territory>
-			<territory type="LT">Lifiuenia</territory>
-			<territory type="LU">Lakisimipeki</territory>
-			<territory type="LV">Lativia</territory>
-			<territory type="LY">Lipia</territory>
-			<territory type="MA">Molako</territory>
-			<territory type="MC">Manako</territory>
-			<territory type="MD">Molotova</territory>
-			<territory type="ME">Monitenikalo</territory>
-			<territory type="MF">Seini Matini</territory>
-			<territory type="MG">Matakasika</territory>
+			<territory type="LT">Lifiuenib</territory>
+			<territory type="LU">Lbkisimipeki</territory>
+			<territory type="LV">Lbtivib</territory>
+			<territory type="LY">Lipib</territory>
+			<territory type="MA">Molbko</territory>
+			<territory type="MC">Mbnbko</territory>
+			<territory type="MD">Molotovb</territory>
+			<territory type="ME">Monitenikblo</territory>
+			<territory type="MF">Seini Mbtini</territory>
+			<territory type="MG">Mbtbkbsikb</territory>
 			<territory type="MH">ʻOtumotu Māsolo</territory>
-			<territory type="MK">Masitōnia</territory>
-			<territory type="MK" alt="variant">Masitōnia [FYROM]</territory>
+			<territory type="MK">Mbsitōnib</territory>
+			<territory type="MK" blt="vbribnt">Mbsitōnib [FYROM]</territory>
 			<territory type="ML">Māli</territory>
-			<territory type="MM">Pema</territory>
-			<territory type="MN">Mongokōlia</territory>
-			<territory type="MO">Makau SAR Siaina</territory>
-			<territory type="MO" alt="short">Makau</territory>
-			<territory type="MP">ʻOtumotu Maliana tokelau</territory>
-			<territory type="MQ">Mateniki</territory>
-			<territory type="MR">Maulitenia</territory>
-			<territory type="MS">Moʻungaselati</territory>
-			<territory type="MT">Malita</territory>
-			<territory type="MU">Maulitiusi</territory>
-			<territory type="MV">Malativisi</territory>
-			<territory type="MW">Malaui</territory>
+			<territory type="MM">Pemb</territory>
+			<territory type="MN">Mongokōlib</territory>
+			<territory type="MO">Mbkbu SAR Sibinb</territory>
+			<territory type="MO" blt="short">Mbkbu</territory>
+			<territory type="MP">ʻOtumotu Mblibnb tokelbu</territory>
+			<territory type="MQ">Mbteniki</territory>
+			<territory type="MR">Mbulitenib</territory>
+			<territory type="MS">Moʻungbselbti</territory>
+			<territory type="MT">Mblitb</territory>
+			<territory type="MU">Mbulitiusi</territory>
+			<territory type="MV">Mblbtivisi</territory>
+			<territory type="MW">Mblbui</territory>
 			<territory type="MX">Mekisikou</territory>
-			<territory type="MY">Malēsia</territory>
+			<territory type="MY">Mblēsib</territory>
 			<territory type="MZ">Mosenipiki</territory>
-			<territory type="NA">Namipia</territory>
-			<territory type="NC">Niu Kaletōnia</territory>
-			<territory type="NE">Naisia</territory>
+			<territory type="NA">Nbmipib</territory>
+			<territory type="NC">Niu Kbletōnib</territory>
+			<territory type="NE">Nbisib</territory>
 			<territory type="NF">Motu Nōfoliki</territory>
-			<territory type="NG">Naisilia</territory>
-			<territory type="NI">Nikalakua</territory>
-			<territory type="NL">Hōlani</territory>
-			<territory type="NO">Noauē</territory>
-			<territory type="NP">Nepali</territory>
-			<territory type="NR">Naulu</territory>
+			<territory type="NG">Nbisilib</territory>
+			<territory type="NI">Nikblbkub</territory>
+			<territory type="NL">Hōlbni</territory>
+			<territory type="NO">Nobuē</territory>
+			<territory type="NP">Nepbli</territory>
+			<territory type="NR">Nbulu</territory>
 			<territory type="NU">Niuē</territory>
-			<territory type="NZ">Nuʻusila</territory>
-			<territory type="OM">ʻOmani</territory>
-			<territory type="PA">Panamā</territory>
+			<territory type="NZ">Nuʻusilb</territory>
+			<territory type="OM">ʻOmbni</territory>
+			<territory type="PA">Pbnbmā</territory>
 			<territory type="PE">Pelū</territory>
-			<territory type="PF">Polinisia fakafalanisē</territory>
-			<territory type="PG">Papuaniukini</territory>
-			<territory type="PH">Filipaini</territory>
-			<territory type="PK">Pākisitani</territory>
+			<territory type="PF">Polinisib fbkbfblbnisē</territory>
+			<territory type="PG">Pbpubniukini</territory>
+			<territory type="PH">Filipbini</territory>
+			<territory type="PK">Pākisitbni</territory>
 			<territory type="PL">Poleni</territory>
-			<territory type="PM">Seini Piea mo Mikaloni</territory>
+			<territory type="PM">Seini Pieb mo Mikbloni</territory>
 			<territory type="PN">ʻOtumotu Pitikeni</territory>
 			<territory type="PR">Pueto Liko</territory>
-			<territory type="PS">Potu Palesitaine</territory>
-			<territory type="PT">Potukali</territory>
-			<territory type="PW">Palau</territory>
-			<territory type="PY">Palakuei</territory>
-			<territory type="QA">Katā</territory>
-			<territory type="QO">ʻOsenia Mamaʻo</territory>
+			<territory type="PS">Potu Pblesitbine</territory>
+			<territory type="PT">Potukbli</territory>
+			<territory type="PW">Pblbu</territory>
+			<territory type="PY">Pblbkuei</territory>
+			<territory type="QA">Kbtā</territory>
+			<territory type="QO">ʻOsenib Mbmbʻo</territory>
 			<territory type="RE">Liʻiunioni</territory>
-			<territory type="RO">Lomēnia</territory>
-			<territory type="RS">Sēpia</territory>
-			<territory type="RU">Lūsia</territory>
-			<territory type="RW">Luanitā</territory>
-			<territory type="SA">Saute ʻAlepea</territory>
+			<territory type="RO">Lomēnib</territory>
+			<territory type="RS">Sēpib</territory>
+			<territory type="RU">Lūsib</territory>
+			<territory type="RW">Lubnitā</territory>
+			<territory type="SA">Sbute ʻAlepeb</territory>
 			<territory type="SB">ʻOtumotu Solomone</territory>
 			<territory type="SC">ʻOtumotu Seiseli</territory>
 			<territory type="SD">Sūteni</territory>
 			<territory type="SE">Suēteni</territory>
-			<territory type="SG">Singapoa</territory>
-			<territory type="SH">Seini Helena</territory>
-			<territory type="SI">Silōvenia</territory>
-			<territory type="SJ">Sivolopaati mo Seni Meini</territory>
-			<territory type="SK">Silōvakia</territory>
-			<territory type="SL">Siela Lione</territory>
-			<territory type="SM">Seni Malino</territory>
-			<territory type="SN">Senikalo</territory>
-			<territory type="SO">Sōmalia</territory>
-			<territory type="SR">Sulinami</territory>
-			<territory type="ST">Sao Tome mo Pilinisipe</territory>
-			<territory type="SV">ʻEle Salavatoa</territory>
-			<territory type="SY">Sīlia</territory>
-			<territory type="SZ">Suasileni</territory>
-			<territory type="TA">Tulisiteni ta Kunuha</territory>
+			<territory type="SG">Singbpob</territory>
+			<territory type="SH">Seini Helenb</territory>
+			<territory type="SI">Silōvenib</territory>
+			<territory type="SJ">Sivolopbbti mo Seni Meini</territory>
+			<territory type="SK">Silōvbkib</territory>
+			<territory type="SL">Sielb Lione</territory>
+			<territory type="SM">Seni Mblino</territory>
+			<territory type="SN">Senikblo</territory>
+			<territory type="SO">Sōmblib</territory>
+			<territory type="SR">Sulinbmi</territory>
+			<territory type="ST">Sbo Tome mo Pilinisipe</territory>
+			<territory type="SV">ʻEle Sblbvbtob</territory>
+			<territory type="SY">Sīlib</territory>
+			<territory type="SZ">Subsileni</territory>
+			<territory type="TA">Tulisiteni tb Kunuhb</territory>
 			<territory type="TC">ʻOtumotu Teki mo Keikosi</territory>
 			<territory type="TD">Seti</territory>
-			<territory type="TF">Potu fonua tonga fakafalanisē</territory>
+			<territory type="TF">Potu fonub tongb fbkbfblbnisē</territory>
 			<territory type="TG">Toko</territory>
-			<territory type="TH">Taileni</territory>
-			<territory type="TJ">Tasikitani</territory>
-			<territory type="TK">Tokelau</territory>
-			<territory type="TL">Timoa Hahake</territory>
-			<territory type="TL" alt="variant">Timoa Hahake</territory>
+			<territory type="TH">Tbileni</territory>
+			<territory type="TJ">Tbsikitbni</territory>
+			<territory type="TK">Tokelbu</territory>
+			<territory type="TL">Timob Hbhbke</territory>
+			<territory type="TL" blt="vbribnt">Timob Hbhbke</territory>
 			<territory type="TM">Tekimenisiteni</territory>
-			<territory type="TN">Tunīsia</territory>
-			<territory type="TO">Tonga</territory>
-			<territory type="TR">Toake</territory>
-			<territory type="TT">Tilinitati mo Topako</territory>
-			<territory type="TV">Tūvalu</territory>
-			<territory type="TW">Taiuani</territory>
-			<territory type="TZ">Tenisania</territory>
+			<territory type="TN">Tunīsib</territory>
+			<territory type="TO">Tongb</territory>
+			<territory type="TR">Tobke</territory>
+			<territory type="TT">Tilinitbti mo Topbko</territory>
+			<territory type="TV">Tūvblu</territory>
+			<territory type="TW">Tbiubni</territory>
+			<territory type="TZ">Tenisbnib</territory>
 			<territory type="UA">ʻIukuleini</territory>
-			<territory type="UG">ʻIukanitā</territory>
-			<territory type="UM">ʻOtumotu siʻi ʻo ʻAmelika</territory>
-			<territory type="US">Puleʻanga fakatahataha ʻAmelika</territory>
+			<territory type="UG">ʻIukbnitā</territory>
+			<territory type="UM">ʻOtumotu siʻi ʻo ʻAmelikb</territory>
+			<territory type="US">Puleʻbngb fbkbtbhbtbhb ʻAmelikb</territory>
 			<territory type="UY">ʻUlukuei</territory>
 			<territory type="UZ">ʻUsipekitēni</territory>
-			<territory type="VA">Vatikani</territory>
-			<territory type="VC">Seini Viniseni mo Kulenatini</territory>
-			<territory type="VE">Venisuela</territory>
-			<territory type="VG">ʻOtumotu Vilikini fakapilitānia</territory>
-			<territory type="VI">ʻOtumotu Vilikini fakaʻamelika</territory>
+			<territory type="VA">Vbtikbni</territory>
+			<territory type="VC">Seini Viniseni mo Kulenbtini</territory>
+			<territory type="VE">Venisuelb</territory>
+			<territory type="VG">ʻOtumotu Vilikini fbkbpilitānib</territory>
+			<territory type="VI">ʻOtumotu Vilikini fbkbʻbmelikb</territory>
 			<territory type="VN">Vietinemi</territory>
-			<territory type="VU">Vanuatu</territory>
-			<territory type="WF">ʻUvea mo Futuna</territory>
-			<territory type="WS">Haʻamoa</territory>
+			<territory type="VU">Vbnubtu</territory>
+			<territory type="WF">ʻUveb mo Futunb</territory>
+			<territory type="WS">Hbʻbmob</territory>
 			<territory type="YE">Iemeni</territory>
 			<territory type="YT">Meioti</territory>
-			<territory type="ZA">ʻAfilika tonga</territory>
-			<territory type="ZM">Semipia</territory>
-			<territory type="ZW">Simipapuei</territory>
-			<territory type="ZZ">Potu fonua taʻeʻiloa pe hala</territory>
+			<territory type="ZA">ʻAfilikb tongb</territory>
+			<territory type="ZM">Semipib</territory>
+			<territory type="ZW">Simipbpuei</territory>
+			<territory type="ZZ">Potu fonub tbʻeʻilob pe hblb</territory>
 		</territories>
 		<keys>
-			<key type="calendar">tohi māhina</key>
-			<key type="collation">tohi hokohoko</key>
-			<key type="currency">paʻanga</key>
-			<key type="numbers" draft="unconfirmed">fika</key>
+			<key type="cblendbr">tohi māhinb</key>
+			<key type="collbtion">tohi hokohoko</key>
+			<key type="currency">pbʻbngb</key>
+			<key type="numbers" drbft="unconfirmed">fikb</key>
 		</keys>
 		<types>
-			<type type="buddhist" key="calendar">fakaputa</type>
-			<type type="chinese" key="calendar">fakasiaina</type>
-			<type type="ducet" key="collation" draft="unconfirmed">fakahokohoko unikoti</type>
-			<type type="gregorian" key="calendar">fakakelekolia</type>
-			<type type="hebrew" key="calendar">fakahepelū</type>
-			<type type="indian" key="calendar">fakaʻinitia</type>
-			<type type="islamic" key="calendar">fakamohameti</type>
-			<type type="islamic-civil" key="calendar">fakamohameti-sivile</type>
-			<type type="japanese" key="calendar">fakasiapani</type>
-			<type type="latn" key="numbers" draft="unconfirmed">fika fakalatina</type>
-			<type type="phonebook" key="collation">fika telefoni</type>
-			<type type="search" key="collation" draft="unconfirmed">fakakumi ʻi hono anga lahi</type>
-			<type type="traditional" key="collation">tukufakaholo</type>
+			<type type="buddhist" key="cblendbr">fbkbputb</type>
+			<type type="chinese" key="cblendbr">fbkbsibinb</type>
+			<type type="ducet" key="collbtion" drbft="unconfirmed">fbkbhokohoko unikoti</type>
+			<type type="gregoribn" key="cblendbr">fbkbkelekolib</type>
+			<type type="hebrew" key="cblendbr">fbkbhepelū</type>
+			<type type="indibn" key="cblendbr">fbkbʻinitib</type>
+			<type type="islbmic" key="cblendbr">fbkbmohbmeti</type>
+			<type type="islbmic-civil" key="cblendbr">fbkbmohbmeti-sivile</type>
+			<type type="jbpbnese" key="cblendbr">fbkbsibpbni</type>
+			<type type="lbtn" key="numbers" drbft="unconfirmed">fikb fbkblbtinb</type>
+			<type type="phonebook" key="collbtion">fikb telefoni</type>
+			<type type="sebrch" key="collbtion" drbft="unconfirmed">fbkbkumi ʻi hono bngb lbhi</type>
+			<type type="trbditionbl" key="collbtion">tukufbkbholo</type>
 		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">fakamita</measurementSystemName>
-			<measurementSystemName type="UK" draft="unconfirmed">fakapilitānia</measurementSystemName>
-			<measurementSystemName type="US">fakaʻamelika</measurementSystemName>
-		</measurementSystemNames>
-		<codePatterns>
-			<codePattern type="language">Lea: {0}</codePattern>
-			<codePattern type="script">Tohinima Fakaha: {0}</codePattern>
-			<codePattern type="territory">Feituʻu: {0}</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a ā e ē f h ʻ i ī k l m n {ng} o ō p s t u ū v]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[à ă â å ä æ b c ç d è ĕ ê ë g ì ĭ î ï j ñ ò ŏ ô ö ø œ q r ù ŭ û ü w x y ÿ z]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A Ā B C D E Ē F G H ʻ I Ī J K L M N O Ō P Q R S T U Ū V W X Y Z]</exemplarCharacters>
-	</characters>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">fbkbmitb</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="UK" drbft="unconfirmed">fbkbpilitānib</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US">fbkbʻbmelikb</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+		<codePbtterns>
+			<codePbttern type="lbngubge">Leb: {0}</codePbttern>
+			<codePbttern type="script">Tohinimb Fbkbhb: {0}</codePbttern>
+			<codePbttern type="territory">Feituʻu: {0}</codePbttern>
+		</codePbtterns>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b ā e ē f h ʻ i ī k l m n {ng} o ō p s t u ū v]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[à ă â å ä æ b c ç d è ĕ ê ë g ì ĭ î ï j ñ ò ŏ ô ö ø œ q r ù ŭ û ü w x y ÿ z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="currencySymbol">[b b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[A Ā B C D E Ē F G H ʻ I Ī J K L M N O Ō P Q R S T U Ū V W X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‘</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>’</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">Sān</month>
 							<month type="2">Fēp</month>
-							<month type="3">Maʻa</month>
+							<month type="3">Mbʻb</month>
 							<month type="4">ʻEpe</month>
 							<month type="5">Mē</month>
 							<month type="6">Sun</month>
 							<month type="7">Siu</month>
 							<month type="8">ʻAok</month>
 							<month type="9">Sep</month>
-							<month type="10">ʻOka</month>
+							<month type="10">ʻOkb</month>
 							<month type="11">Nōv</month>
 							<month type="12">Tīs</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Sānuali</month>
+							<month type="1">Sānubli</month>
 							<month type="2">Fēpueli</month>
-							<month type="3">Maʻasi</month>
+							<month type="3">Mbʻbsi</month>
 							<month type="4">ʻEpeleli</month>
 							<month type="5">Mē</month>
 							<month type="6">Sune</month>
-							<month type="7">Siulai</month>
+							<month type="7">Siulbi</month>
 							<month type="8">ʻAokosi</month>
-							<month type="9">Sepitema</month>
-							<month type="10">ʻOkatopa</month>
-							<month type="11">Nōvema</month>
-							<month type="12">Tīsema</month>
+							<month type="9">Sepitemb</month>
+							<month type="10">ʻOkbtopb</month>
+							<month type="11">Nōvemb</month>
+							<month type="12">Tīsemb</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<month type="9" draft="unconfirmed">Sēp</month>
+					<monthContext type="stbnd-blone">
+						<monthWidth type="bbbrevibted">
+							<month type="9" drbft="unconfirmed">Sēp</month>
 						</monthWidth>
-						<monthWidth type="narrow">
+						<monthWidth type="nbrrow">
 							<month type="1">S</month>
 							<month type="2">F</month>
 							<month type="3">M</month>
@@ -618,454 +618,454 @@
 							<month type="12">T</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="9" draft="unconfirmed">Sēpitema</month>
+							<month type="9" drbft="unconfirmed">Sēpitemb</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Sāp</day>
-							<day type="mon">Mōn</day>
-							<day type="tue">Tūs</day>
-							<day type="wed">Pul</day>
-							<day type="thu">Tuʻa</day>
-							<day type="fri">Fal</day>
-							<day type="sat">Tok</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Sāpate</day>
-							<day type="mon">Mōnite</day>
-							<day type="tue">Tūsite</day>
-							<day type="wed">Pulelulu</day>
-							<day type="thu">Tuʻapulelulu</day>
-							<day type="fri">Falaite</day>
-							<day type="sat">Tokonaki</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">S</day>
-							<day type="mon">M</day>
-							<day type="tue">T</day>
-							<day type="wed">P</day>
-							<day type="thu">T</day>
-							<day type="fri">F</day>
-							<day type="sat">T</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">K1</quarter>
-							<quarter type="2">K2</quarter>
-							<quarter type="3">K3</quarter>
-							<quarter type="4">K4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">kuata ʻuluaki</quarter>
-							<quarter type="2">kuata ua</quarter>
-							<quarter type="3">kuata tolu</quarter>
-							<quarter type="4">kuata fā</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="wide">
-							<quarter type="1">kuata 1</quarter>
-							<quarter type="2">kuata 2</quarter>
-							<quarter type="3">kuata 3</quarter>
-							<quarter type="4">kuata 4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">AM</dayPeriod>
-							<dayPeriod type="pm">PM</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">ki muʻa</era>
-						<era type="1">taʻu ʻo Sīsū</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">KM</era>
-						<era type="1">TS</era>
-					</eraAbbr>
-					<eraNarrow>
-						<era type="0">KāMā</era>
-						<era type="1">TāSā</era>
-					</eraNarrow>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">d E</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">H:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M-yyyy</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d/M/yyyy</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">yyyy Q</dateFormatItem>
-						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
-						<dateFormatItem id="yyMM">MM-yy</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d">d–d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="a">h a – h a</greatestDifference>
-							<greatestDifference id="h">h–h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
-							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
-							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
-							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
-							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="a">h a – h a v</greatestDifference>
-							<greatestDifference id="h">h–h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M">M–M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">d/M - d/M</greatestDifference>
-							<greatestDifference id="M">d/M - d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">E, d/M - E, d/M</greatestDifference>
-							<greatestDifference id="M">E, d/M - E, d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">LLL–LLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">d-d MMM</greatestDifference>
-							<greatestDifference id="M">d MMM - d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">E, d MMM - E, d MMM</greatestDifference>
-							<greatestDifference id="M">E, d MMM - E, d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y">y–y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M">M/yy - M/yy</greatestDifference>
-							<greatestDifference id="y">M/yy - M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">d/M/yy - d/M/yy</greatestDifference>
-							<greatestDifference id="M">d/M/yy - d/M/yy</greatestDifference>
-							<greatestDifference id="y">d/M/yy - d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, d/M/yy - E, d/M/yy</greatestDifference>
-							<greatestDifference id="M">E, d/M/yy - E, d/M/yy</greatestDifference>
-							<greatestDifference id="y">E, d/M/yy - E, d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM-MMM y</greatestDifference>
-							<greatestDifference id="y">MMM y - MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">MMM d-d, y</greatestDifference>
-							<greatestDifference id="M">d MMM - d MMM y</greatestDifference>
-							<greatestDifference id="y">d MMM y - d MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d MMM - E, d MMM y</greatestDifference>
-							<greatestDifference id="M">E, d MMM - E, d MMM y</greatestDifference>
-							<greatestDifference id="y">E, d MMM y - E, d MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MMMM - MMMM y</greatestDifference>
-							<greatestDifference id="y">MMMM y - MMMM y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">Sāp</dby>
+							<dby type="mon">Mōn</dby>
+							<dby type="tue">Tūs</dby>
+							<dby type="wed">Pul</dby>
+							<dby type="thu">Tuʻb</dby>
+							<dby type="fri">Fbl</dby>
+							<dby type="sbt">Tok</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">Sāpbte</dby>
+							<dby type="mon">Mōnite</dby>
+							<dby type="tue">Tūsite</dby>
+							<dby type="wed">Pulelulu</dby>
+							<dby type="thu">Tuʻbpulelulu</dby>
+							<dby type="fri">Fblbite</dby>
+							<dby type="sbt">Tokonbki</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">S</dby>
+							<dby type="mon">M</dby>
+							<dby type="tue">T</dby>
+							<dby type="wed">P</dby>
+							<dby type="thu">T</dby>
+							<dby type="fri">F</dby>
+							<dby type="sbt">T</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">K1</qubrter>
+							<qubrter type="2">K2</qubrter>
+							<qubrter type="3">K3</qubrter>
+							<qubrter type="4">K4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">kubtb ʻulubki</qubrter>
+							<qubrter type="2">kubtb ub</qubrter>
+							<qubrter type="3">kubtb tolu</qubrter>
+							<qubrter type="4">kubtb fā</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+					<qubrterContext type="stbnd-blone">
+						<qubrterWidth type="wide">
+							<qubrter type="1">kubtb 1</qubrter>
+							<qubrter type="2">kubtb 2</qubrter>
+							<qubrter type="3">kubtb 3</qubrter>
+							<qubrter type="4">kubtb 4</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">AM</dbyPeriod>
+							<dbyPeriod type="pm">PM</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">ki muʻb</erb>
+						<erb type="1">tbʻu ʻo Sīsū</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">KM</erb>
+						<erb type="1">TS</erb>
+					</erbAbbr>
+					<erbNbrrow>
+						<erb type="0">KāMā</erb>
+						<erb type="1">TāSā</erb>
+					</erbNbrrow>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="Ed">d E</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h:mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">H:mm</dbteFormbtItem>
+						<dbteFormbtItem id="hms">h:mm:ss b</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">H:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">d/M</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E, d/M</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">d MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E d MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="ms">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M-yyyy</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, d/M/yyyy</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM">MMMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">yyyy Q</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">y QQQ</dbteFormbtItem>
+						<dbteFormbtItem id="yyMM">MM-yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMM">MMM yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">Q yy</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtFbllbbck>{0} – {1}</intervblFormbtFbllbbck>
+						<intervblFormbtItem id="d">
+							<grebtestDifference id="d">d–d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="h">
+							<grebtestDifference id="b">h b – h b</grebtestDifference>
+							<grebtestDifference id="h">h–h b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hm">
+							<grebtestDifference id="b">h:mm b – h:mm b</grebtestDifference>
+							<grebtestDifference id="h">h:mm–h:mm b</grebtestDifference>
+							<grebtestDifference id="m">h:mm–h:mm b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hmv">
+							<grebtestDifference id="b">h:mm b – h:mm b v</grebtestDifference>
+							<grebtestDifference id="h">h:mm–h:mm b v</grebtestDifference>
+							<grebtestDifference id="m">h:mm–h:mm b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hv">
+							<grebtestDifference id="b">h b – h b v</grebtestDifference>
+							<grebtestDifference id="h">h–h b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="M">
+							<grebtestDifference id="M">M–M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d">d/M - d/M</grebtestDifference>
+							<grebtestDifference id="M">d/M - d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d">E, d/M - E, d/M</grebtestDifference>
+							<grebtestDifference id="M">E, d/M - E, d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMM">
+							<grebtestDifference id="M">LLL–LLL</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d">d-d MMM</grebtestDifference>
+							<grebtestDifference id="M">d MMM - d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMEd">
+							<grebtestDifference id="d">E, d MMM - E, d MMM</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM - E, d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="y">
+							<grebtestDifference id="y">y–y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yM">
+							<grebtestDifference id="M">M/yy - M/yy</grebtestDifference>
+							<grebtestDifference id="y">M/yy - M/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d">d/M/yy - d/M/yy</grebtestDifference>
+							<grebtestDifference id="M">d/M/yy - d/M/yy</grebtestDifference>
+							<grebtestDifference id="y">d/M/yy - d/M/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d">E, d/M/yy - E, d/M/yy</grebtestDifference>
+							<grebtestDifference id="M">E, d/M/yy - E, d/M/yy</grebtestDifference>
+							<grebtestDifference id="y">E, d/M/yy - E, d/M/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMM">
+							<grebtestDifference id="M">MMM-MMM y</grebtestDifference>
+							<grebtestDifference id="y">MMM y - MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="d">MMM d-d, y</grebtestDifference>
+							<grebtestDifference id="M">d MMM - d MMM y</grebtestDifference>
+							<grebtestDifference id="y">d MMM y - d MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMEd">
+							<grebtestDifference id="d">E, d MMM - E, d MMM y</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM - E, d MMM y</grebtestDifference>
+							<grebtestDifference id="y">E, d MMM y - E, d MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMM">
+							<grebtestDifference id="M">MMMM - MMMM y</grebtestDifference>
+							<grebtestDifference id="y">MMMM y - MMMM y</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>kuonga</displayName>
+					<field type="erb">
+						<displbyNbme>kuongb</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>taʻu</displayName>
+					<field type="yebr">
+						<displbyNbme>tbʻu</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>māhina</displayName>
+						<displbyNbme>māhinb</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>uike</displayName>
+						<displbyNbme>uike</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>ʻaho</displayName>
-						<relative type="-2">ʻaneheafi</relative>
-						<relative type="-1">ʻaneafi</relative>
-						<relative type="0">ʻaho⸍ni</relative>
-						<relative type="1">ʻapongipongi</relative>
-						<relative type="2">ʻahepongipongi</relative>
+					<field type="dby">
+						<displbyNbme>ʻbho</displbyNbme>
+						<relbtive type="-2">ʻbnehebfi</relbtive>
+						<relbtive type="-1">ʻbnebfi</relbtive>
+						<relbtive type="0">ʻbho⸍ni</relbtive>
+						<relbtive type="1">ʻbpongipongi</relbtive>
+						<relbtive type="2">ʻbhepongipongi</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>ʻaho ʻo e uike</displayName>
+					<field type="weekdby">
+						<displbyNbme>ʻbho ʻo e uike</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>AM/PM</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>AM/PM</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>houa</displayName>
+						<displbyNbme>houb</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>miniti</displayName>
+						<displbyNbme>miniti</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>sekoni</displayName>
+						<displbyNbme>sekoni</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>taimi fakavahe</displayName>
+						<displbyNbme>tbimi fbkbvbhe</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<hourFormat>+HH:mm;-HH:mm</hourFormat>
-			<gmtFormat>GMT{0}</gmtFormat>
-			<regionFormat>Houa {0}</regionFormat>
-			<fallbackFormat>{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat draft="contributed">Houa {1} ({0})</fallbackRegionFormat>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<hourFormbt>+HH:mm;-HH:mm</hourFormbt>
+			<gmtFormbt>GMT{0}</gmtFormbt>
+			<regionFormbt>Houb {0}</regionFormbt>
+			<fbllbbckFormbt>{1} ({0})</fbllbbckFormbt>
+			<fbllbbckRegionFormbt drbft="contributed">Houb {1} ({0})</fbllbbckRegionFormbt>
 			<zone type="Etc/Unknown">
-				<exemplarCity>Halaʻata</exemplarCity>
+				<exemplbrCity>Hblbʻbtb</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity draft="unconfirmed">pole tonga</exemplarCity>
+			<zone type="Antbrcticb/South_Pole">
+				<exemplbrCity drbft="unconfirmed">pole tongb</exemplbrCity>
 			</zone>
-			<zone type="Australia/Adelaide">
-				<exemplarCity>Atelaite</exemplarCity>
+			<zone type="Austrblib/Adelbide">
+				<exemplbrCity>Atelbite</exemplbrCity>
 			</zone>
-			<zone type="Australia/Melbourne">
-				<exemplarCity draft="unconfirmed">Melipoane</exemplarCity>
+			<zone type="Austrblib/Melbourne">
+				<exemplbrCity drbft="unconfirmed">Melipobne</exemplbrCity>
 			</zone>
-			<zone type="Australia/Sydney">
-				<exemplarCity draft="unconfirmed">Senē</exemplarCity>
+			<zone type="Austrblib/Sydney">
+				<exemplbrCity drbft="unconfirmed">Senē</exemplbrCity>
 			</zone>
-			<zone type="Australia/Brisbane">
-				<exemplarCity>Pelisipane</exemplarCity>
+			<zone type="Austrblib/Brisbbne">
+				<exemplbrCity>Pelisipbne</exemplbrCity>
 			</zone>
-			<zone type="America/Rio_Branco">
-				<exemplarCity>Houa Palāsili (Rio Branco)</exemplarCity>
+			<zone type="Americb/Rio_Brbnco">
+				<exemplbrCity>Houb Pblāsili (Rio Brbnco)</exemplbrCity>
 			</zone>
-			<zone type="America/Campo_Grande">
-				<exemplarCity>Houa Palāsili (Campo Grande)</exemplarCity>
+			<zone type="Americb/Cbmpo_Grbnde">
+				<exemplbrCity>Houb Pblāsili (Cbmpo Grbnde)</exemplbrCity>
 			</zone>
-			<zone type="America/Sao_Paulo">
-				<exemplarCity>Houa Palāsili (Sao Paulo)</exemplarCity>
+			<zone type="Americb/Sbo_Pbulo">
+				<exemplbrCity>Houb Pblāsili (Sbo Pbulo)</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Easter">
-				<exemplarCity>Lapanui</exemplarCity>
+			<zone type="Pbcific/Ebster">
+				<exemplbrCity>Lbpbnui</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Honolulu">
-				<exemplarCity>Houa Puleʻanga fakataha ʻAmelika (Honolulu)</exemplarCity>
+			<zone type="Pbcific/Honolulu">
+				<exemplbrCity>Houb Puleʻbngb fbkbtbhb ʻAmelikb (Honolulu)</exemplbrCity>
 			</zone>
-			<zone type="America/Anchorage">
-				<exemplarCity>Houa Puleʻanga fakataha ʻAmelika (Anchorage)</exemplarCity>
+			<zone type="Americb/Anchorbge">
+				<exemplbrCity>Houb Puleʻbngb fbkbtbhb ʻAmelikb (Anchorbge)</exemplbrCity>
 			</zone>
-			<zone type="America/Los_Angeles">
-				<exemplarCity>Houa Puleʻanga fakataha ʻAmelika (Los Angeles)</exemplarCity>
+			<zone type="Americb/Los_Angeles">
+				<exemplbrCity>Houb Puleʻbngb fbkbtbhb ʻAmelikb (Los Angeles)</exemplbrCity>
 			</zone>
-			<zone type="America/Phoenix">
-				<exemplarCity>Houa Puleʻanga fakataha ʻAmelika (Phoenix)</exemplarCity>
+			<zone type="Americb/Phoenix">
+				<exemplbrCity>Houb Puleʻbngb fbkbtbhb ʻAmelikb (Phoenix)</exemplbrCity>
 			</zone>
-			<zone type="America/Denver">
-				<exemplarCity>Houa Puleʻanga fakataha ʻAmelika (Denver)</exemplarCity>
+			<zone type="Americb/Denver">
+				<exemplbrCity>Houb Puleʻbngb fbkbtbhb ʻAmelikb (Denver)</exemplbrCity>
 			</zone>
-			<zone type="America/Chicago">
-				<exemplarCity>Houa Puleʻanga fakataha ʻAmelika (Chicago)</exemplarCity>
+			<zone type="Americb/Chicbgo">
+				<exemplbrCity>Houb Puleʻbngb fbkbtbhb ʻAmelikb (Chicbgo)</exemplbrCity>
 			</zone>
-			<zone type="America/Indianapolis">
-				<exemplarCity>Houa Puleʻanga fakataha ʻAmelika (Indianapolis)</exemplarCity>
+			<zone type="Americb/Indibnbpolis">
+				<exemplbrCity>Houb Puleʻbngb fbkbtbhb ʻAmelikb (Indibnbpolis)</exemplbrCity>
 			</zone>
-			<zone type="America/Detroit">
-				<exemplarCity draft="unconfirmed">Houa Puleʻanga fakatahataha ʻAmelika (Detroit)</exemplarCity>
+			<zone type="Americb/Detroit">
+				<exemplbrCity drbft="unconfirmed">Houb Puleʻbngb fbkbtbhbtbhb ʻAmelikb (Detroit)</exemplbrCity>
 			</zone>
-			<zone type="America/New_York">
-				<exemplarCity>Houa Puleʻanga fakataha ʻAmelika (New York)</exemplarCity>
+			<zone type="Americb/New_York">
+				<exemplbrCity>Houb Puleʻbngb fbkbtbhb ʻAmelikb (New York)</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Wallis">
-				<exemplarCity draft="unconfirmed">ʻUvea</exemplarCity>
+			<zone type="Pbcific/Wbllis">
+				<exemplbrCity drbft="unconfirmed">ʻUveb</exemplbrCity>
 			</zone>
-			<metazone type="Fiji">
+			<metbzone type="Fiji">
 				<long>
-					<generic>houa fakafisi</generic>
-					<standard>houa fakafisi fakasīpinga</standard>
-					<daylight>houa fakafisi fakamaama</daylight>
+					<generic>houb fbkbfisi</generic>
+					<stbndbrd>houb fbkbfisi fbkbsīpingb</stbndbrd>
+					<dbylight>houb fbkbfisi fbkbmbbmb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Hawaii_Aleutian">
+			</metbzone>
+			<metbzone type="Hbwbii_Aleutibn">
 				<long>
-					<generic>houa fakahauaʻi</generic>
-					<standard>houa fakahauaʻi fakasīpinga</standard>
-					<daylight>houa fakahauaʻi fakamaama</daylight>
+					<generic>houb fbkbhbubʻi</generic>
+					<stbndbrd>houb fbkbhbubʻi fbkbsīpingb</stbndbrd>
+					<dbylight>houb fbkbhbubʻi fbkbmbbmb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="New_Zealand">
+			</metbzone>
+			<metbzone type="New_Zeblbnd">
 				<long>
-					<generic>houa fakanuʻusila</generic>
-					<standard>houa fakanuʻusila fakasīpinga</standard>
-					<daylight>houa fakanuʻusila fakamaama</daylight>
+					<generic>houb fbkbnuʻusilb</generic>
+					<stbndbrd>houb fbkbnuʻusilb fbkbsīpingb</stbndbrd>
+					<dbylight>houb fbkbnuʻusilb fbkbmbbmb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Niue">
+			</metbzone>
+			<metbzone type="Niue">
 				<long>
-					<standard>houa fakaniuē</standard>
+					<stbndbrd>houb fbkbniuē</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Samoa">
+			</metbzone>
+			<metbzone type="Sbmob">
 				<long>
-					<standard>houa fakahaʻamoa</standard>
+					<stbndbrd>houb fbkbhbʻbmob</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Tahiti">
+			</metbzone>
+			<metbzone type="Tbhiti">
 				<long>
-					<standard>houa fakatahisi</standard>
+					<stbndbrd>houb fbkbtbhisi</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Tokelau">
+			</metbzone>
+			<metbzone type="Tokelbu">
 				<long>
-					<standard>houa fakatokelau</standard>
+					<stbndbrd>houb fbkbtokelbu</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Tonga">
+			</metbzone>
+			<metbzone type="Tongb">
 				<long>
-					<generic>houa fakatonga</generic>
-					<standard>houa fakatonga fakasīpinga</standard>
-					<daylight>houa fakatonga lotohē</daylight>
+					<generic>houb fbkbtongb</generic>
+					<stbndbrd>houb fbkbtongb fbkbsīpingb</stbndbrd>
+					<dbylight>houb fbkbtongb lotohē</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Tuvalu">
+			</metbzone>
+			<metbzone type="Tuvblu">
 				<long>
-					<standard>houa fakatūvalu</standard>
+					<stbndbrd>houb fbkbtūvblu</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Wallis">
+			</metbzone>
+			<metbzone type="Wbllis">
 				<long>
-					<standard>houa fakaʻuvea mo futuna</standard>
+					<stbndbrd>houb fbkbʻuveb mo futunb</stbndbrd>
 				</long>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal draft="unconfirmed">.</decimal>
-			<group draft="unconfirmed">,</group>
-			<list draft="unconfirmed">;</list>
-			<percentSign draft="unconfirmed">%</percentSign>
-			<plusSign draft="unconfirmed">+</plusSign>
-			<minusSign draft="unconfirmed">-</minusSign>
-			<exponential draft="unconfirmed">E</exponential>
-			<perMille draft="unconfirmed">‰</perMille>
-			<infinity draft="unconfirmed">∞</infinity>
-			<nan draft="unconfirmed">NaN</nan>
+		<symbols numberSystem="lbtn">
+			<decimbl drbft="unconfirmed">.</decimbl>
+			<group drbft="unconfirmed">,</group>
+			<list drbft="unconfirmed">;</list>
+			<percentSign drbft="unconfirmed">%</percentSign>
+			<plusSign drbft="unconfirmed">+</plusSign>
+			<minusSign drbft="unconfirmed">-</minusSign>
+			<exponentibl drbft="unconfirmed">E</exponentibl>
+			<perMille drbft="unconfirmed">‰</perMille>
+			<infinity drbft="unconfirmed">∞</infinity>
+			<nbn drbft="unconfirmed">NbN</nbn>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern draft="unconfirmed">#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<scientificFormats numberSystem="latn">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern draft="unconfirmed">#E0</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern draft="unconfirmed">#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern draft="unconfirmed">¤ #,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-			<unitPattern count="other" draft="unconfirmed">{0} {1}</unitPattern>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern drbft="unconfirmed">#,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<scientificFormbts numberSystem="lbtn">
+			<scientificFormbtLength>
+				<scientificFormbt>
+					<pbttern drbft="unconfirmed">#E0</pbttern>
+				</scientificFormbt>
+			</scientificFormbtLength>
+		</scientificFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern drbft="unconfirmed">#,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern drbft="unconfirmed">¤ #,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+			<unitPbttern count="other" drbft="unconfirmed">{0} {1}</unitPbttern>
+		</currencyFormbts>
 		<currencies>
 			<currency type="TOP">
 				<symbol>T$</symbol>
@@ -1073,74 +1073,74 @@
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="other">{0} ʻa</unitPattern>
+		<unit type="dby">
+			<unitPbttern count="other">{0} ʻb</unitPbttern>
 		</unit>
-		<unit type="day-future">
-			<unitPattern count="other" draft="unconfirmed">ʻi he ʻaho ʻe {0}</unitPattern>
+		<unit type="dby-future">
+			<unitPbttern count="other" drbft="unconfirmed">ʻi he ʻbho ʻe {0}</unitPbttern>
 		</unit>
-		<unit type="day-past">
-			<unitPattern count="other" draft="unconfirmed">ʻosi ʻaho ʻe {0}</unitPattern>
+		<unit type="dby-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">ʻosi ʻbho ʻe {0}</unitPbttern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="other">{0} h</unitPattern>
+			<unitPbttern count="other">{0} h</unitPbttern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="other" draft="unconfirmed">ʻi he houa ʻe {0}</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">ʻi he houb ʻe {0}</unitPbttern>
 		</unit>
-		<unit type="hour-past">
-			<unitPattern count="other" draft="unconfirmed">ʻosi houa ʻe {0}</unitPattern>
+		<unit type="hour-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">ʻosi houb ʻe {0}</unitPbttern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="other">{0} m</unitPattern>
+			<unitPbttern count="other">{0} m</unitPbttern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="other" draft="unconfirmed">ʻi he miniti ʻe {0}</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">ʻi he miniti ʻe {0}</unitPbttern>
 		</unit>
-		<unit type="minute-past">
-			<unitPattern count="other" draft="unconfirmed">ʻosi miniti ʻe {0}</unitPattern>
+		<unit type="minute-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">ʻosi miniti ʻe {0}</unitPbttern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="other">{0} m</unitPattern>
+			<unitPbttern count="other">{0} m</unitPbttern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="other" draft="unconfirmed">ʻi he māhina ʻe {0}</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">ʻi he māhinb ʻe {0}</unitPbttern>
 		</unit>
-		<unit type="month-past">
-			<unitPattern count="other" draft="unconfirmed">māhina ʻe {0} kuo hili</unitPattern>
+		<unit type="month-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">māhinb ʻe {0} kuo hili</unitPbttern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="other">{0} s</unitPattern>
+			<unitPbttern count="other">{0} s</unitPbttern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="other" draft="unconfirmed">ʻi he sekoni ʻe {0}</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">ʻi he sekoni ʻe {0}</unitPbttern>
 		</unit>
-		<unit type="second-past">
-			<unitPattern count="other" draft="unconfirmed">ʻosi sekoni ʻe {0}</unitPattern>
+		<unit type="second-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">ʻosi sekoni ʻe {0}</unitPbttern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="other">{0} u</unitPattern>
+			<unitPbttern count="other">{0} u</unitPbttern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="other" draft="unconfirmed">ʻi he uike ʻe {0}</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">ʻi he uike ʻe {0}</unitPbttern>
 		</unit>
-		<unit type="week-past">
-			<unitPattern count="other" draft="unconfirmed">uike ʻe {0} kuo hili</unitPattern>
+		<unit type="week-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">uike ʻe {0} kuo hili</unitPbttern>
 		</unit>
-		<unit type="year">
-			<unitPattern count="other">{0} t</unitPattern>
+		<unit type="yebr">
+			<unitPbttern count="other">{0} t</unitPbttern>
 		</unit>
-		<unit type="year-future">
-			<unitPattern count="other" draft="unconfirmed">ʻi he taʻu ʻe {0}</unitPattern>
+		<unit type="yebr-future">
+			<unitPbttern count="other" drbft="unconfirmed">ʻi he tbʻu ʻe {0}</unitPbttern>
 		</unit>
-		<unit type="year-past">
-			<unitPattern count="other" draft="unconfirmed">taʻu ʻe {0} kuo hili</unitPattern>
+		<unit type="yebr-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">tbʻu ʻe {0} kuo hili</unitPbttern>
 		</unit>
 	</units>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>ʻio</yesstr>
-			<nostr>ʻikai</nostr>
-		</messages>
+			<nostr>ʻikbi</nostr>
+		</messbges>
 	</posix>
 </ldml>

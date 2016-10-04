@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * Private implementation class for EnumSet, for "regular sized" enum types
- * (i.e., those with 64 or fewer enum constants).
+ * Privbte implementbtion clbss for EnumSet, for "regulbr sized" enum types
+ * (i.e., those with 64 or fewer enum constbnts).
  *
- * @author Josh Bloch
+ * @buthor Josh Bloch
  * @since 1.5
- * @serial exclude
+ * @seribl exclude
  */
-class RegularEnumSet<E extends Enum<E>> extends EnumSet<E> {
-    private static final long serialVersionUID = 3411599620347842686L;
+clbss RegulbrEnumSet<E extends Enum<E>> extends EnumSet<E> {
+    privbte stbtic finbl long seriblVersionUID = 3411599620347842686L;
     /**
-     * Bit vector representation of this set.  The 2^k bit indicates the
+     * Bit vector representbtion of this set.  The 2^k bit indicbtes the
      * presence of universe[k] in this set.
      */
-    private long elements = 0L;
+    privbte long elements = 0L;
 
-    RegularEnumSet(Class<E>elementType, Enum<?>[] universe) {
+    RegulbrEnumSet(Clbss<E>elementType, Enum<?>[] universe) {
         super(elementType, universe);
     }
 
-    void addRange(E from, E to) {
-        elements = (-1L >>>  (from.ordinal() - to.ordinal() - 1)) << from.ordinal();
+    void bddRbnge(E from, E to) {
+        elements = (-1L >>>  (from.ordinbl() - to.ordinbl() - 1)) << from.ordinbl();
     }
 
-    void addAll() {
+    void bddAll() {
         if (universe.length != 0)
             elements = -1L >>> -universe.length;
     }
@@ -57,59 +57,59 @@ class RegularEnumSet<E extends Enum<E>> extends EnumSet<E> {
     void complement() {
         if (universe.length != 0) {
             elements = ~elements;
-            elements &= -1L >>> -universe.length;  // Mask unused bits
+            elements &= -1L >>> -universe.length;  // Mbsk unused bits
         }
     }
 
     /**
-     * Returns an iterator over the elements contained in this set.  The
-     * iterator traverses the elements in their <i>natural order</i> (which is
-     * the order in which the enum constants are declared). The returned
-     * Iterator is a "snapshot" iterator that will never throw {@link
-     * ConcurrentModificationException}; the elements are traversed as they
-     * existed when this call was invoked.
+     * Returns bn iterbtor over the elements contbined in this set.  The
+     * iterbtor trbverses the elements in their <i>nbturbl order</i> (which is
+     * the order in which the enum constbnts bre declbred). The returned
+     * Iterbtor is b "snbpshot" iterbtor thbt will never throw {@link
+     * ConcurrentModificbtionException}; the elements bre trbversed bs they
+     * existed when this cbll wbs invoked.
      *
-     * @return an iterator over the elements contained in this set
+     * @return bn iterbtor over the elements contbined in this set
      */
-    public Iterator<E> iterator() {
-        return new EnumSetIterator<>();
+    public Iterbtor<E> iterbtor() {
+        return new EnumSetIterbtor<>();
     }
 
-    private class EnumSetIterator<E extends Enum<E>> implements Iterator<E> {
+    privbte clbss EnumSetIterbtor<E extends Enum<E>> implements Iterbtor<E> {
         /**
          * A bit vector representing the elements in the set not yet
-         * returned by this iterator.
+         * returned by this iterbtor.
          */
         long unseen;
 
         /**
-         * The bit representing the last element returned by this iterator
+         * The bit representing the lbst element returned by this iterbtor
          * but not removed, or zero if no such element exists.
          */
-        long lastReturned = 0;
+        long lbstReturned = 0;
 
-        EnumSetIterator() {
+        EnumSetIterbtor() {
             unseen = elements;
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return unseen != 0;
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public E next() {
             if (unseen == 0)
                 throw new NoSuchElementException();
-            lastReturned = unseen & -unseen;
-            unseen -= lastReturned;
-            return (E) universe[Long.numberOfTrailingZeros(lastReturned)];
+            lbstReturned = unseen & -unseen;
+            unseen -= lbstReturned;
+            return (E) universe[Long.numberOfTrbilingZeros(lbstReturned)];
         }
 
         public void remove() {
-            if (lastReturned == 0)
-                throw new IllegalStateException();
-            elements &= ~lastReturned;
-            lastReturned = 0;
+            if (lbstReturned == 0)
+                throw new IllegblStbteException();
+            elements &= ~lbstReturned;
+            lbstReturned = 0;
         }
     }
 
@@ -123,82 +123,82 @@ class RegularEnumSet<E extends Enum<E>> extends EnumSet<E> {
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Returns <tt>true</tt> if this set contbins no elements.
      *
-     * @return <tt>true</tt> if this set contains no elements
+     * @return <tt>true</tt> if this set contbins no elements
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return elements == 0;
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains the specified element.
+     * Returns <tt>true</tt> if this set contbins the specified element.
      *
-     * @param e element to be checked for containment in this collection
-     * @return <tt>true</tt> if this set contains the specified element
+     * @pbrbm e element to be checked for contbinment in this collection
+     * @return <tt>true</tt> if this set contbins the specified element
      */
-    public boolean contains(Object e) {
+    public boolebn contbins(Object e) {
         if (e == null)
-            return false;
-        Class<?> eClass = e.getClass();
-        if (eClass != elementType && eClass.getSuperclass() != elementType)
-            return false;
+            return fblse;
+        Clbss<?> eClbss = e.getClbss();
+        if (eClbss != elementType && eClbss.getSuperclbss() != elementType)
+            return fblse;
 
-        return (elements & (1L << ((Enum<?>)e).ordinal())) != 0;
+        return (elements & (1L << ((Enum<?>)e).ordinbl())) != 0;
     }
 
-    // Modification Operations
+    // Modificbtion Operbtions
 
     /**
-     * Adds the specified element to this set if it is not already present.
+     * Adds the specified element to this set if it is not blrebdy present.
      *
-     * @param e element to be added to this set
-     * @return <tt>true</tt> if the set changed as a result of the call
+     * @pbrbm e element to be bdded to this set
+     * @return <tt>true</tt> if the set chbnged bs b result of the cbll
      *
      * @throws NullPointerException if <tt>e</tt> is null
      */
-    public boolean add(E e) {
+    public boolebn bdd(E e) {
         typeCheck(e);
 
         long oldElements = elements;
-        elements |= (1L << ((Enum<?>)e).ordinal());
+        elements |= (1L << ((Enum<?>)e).ordinbl());
         return elements != oldElements;
     }
 
     /**
      * Removes the specified element from this set if it is present.
      *
-     * @param e element to be removed from this set, if present
-     * @return <tt>true</tt> if the set contained the specified element
+     * @pbrbm e element to be removed from this set, if present
+     * @return <tt>true</tt> if the set contbined the specified element
      */
-    public boolean remove(Object e) {
+    public boolebn remove(Object e) {
         if (e == null)
-            return false;
-        Class<?> eClass = e.getClass();
-        if (eClass != elementType && eClass.getSuperclass() != elementType)
-            return false;
+            return fblse;
+        Clbss<?> eClbss = e.getClbss();
+        if (eClbss != elementType && eClbss.getSuperclbss() != elementType)
+            return fblse;
 
         long oldElements = elements;
-        elements &= ~(1L << ((Enum<?>)e).ordinal());
+        elements &= ~(1L << ((Enum<?>)e).ordinbl());
         return elements != oldElements;
     }
 
-    // Bulk Operations
+    // Bulk Operbtions
 
     /**
-     * Returns <tt>true</tt> if this set contains all of the elements
+     * Returns <tt>true</tt> if this set contbins bll of the elements
      * in the specified collection.
      *
-     * @param c collection to be checked for containment in this set
-     * @return <tt>true</tt> if this set contains all of the elements
+     * @pbrbm c collection to be checked for contbinment in this set
+     * @return <tt>true</tt> if this set contbins bll of the elements
      *        in the specified collection
      * @throws NullPointerException if the specified collection is null
      */
-    public boolean containsAll(Collection<?> c) {
-        if (!(c instanceof RegularEnumSet))
-            return super.containsAll(c);
+    public boolebn contbinsAll(Collection<?> c) {
+        if (!(c instbnceof RegulbrEnumSet))
+            return super.contbinsAll(c);
 
-        RegularEnumSet<?> es = (RegularEnumSet<?>)c;
+        RegulbrEnumSet<?> es = (RegulbrEnumSet<?>)c;
         if (es.elementType != elementType)
             return es.isEmpty();
 
@@ -206,23 +206,23 @@ class RegularEnumSet<E extends Enum<E>> extends EnumSet<E> {
     }
 
     /**
-     * Adds all of the elements in the specified collection to this set.
+     * Adds bll of the elements in the specified collection to this set.
      *
-     * @param c collection whose elements are to be added to this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws NullPointerException if the specified collection or any
-     *     of its elements are null
+     * @pbrbm c collection whose elements bre to be bdded to this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
+     * @throws NullPointerException if the specified collection or bny
+     *     of its elements bre null
      */
-    public boolean addAll(Collection<? extends E> c) {
-        if (!(c instanceof RegularEnumSet))
-            return super.addAll(c);
+    public boolebn bddAll(Collection<? extends E> c) {
+        if (!(c instbnceof RegulbrEnumSet))
+            return super.bddAll(c);
 
-        RegularEnumSet<?> es = (RegularEnumSet<?>)c;
+        RegulbrEnumSet<?> es = (RegulbrEnumSet<?>)c;
         if (es.elementType != elementType) {
             if (es.isEmpty())
-                return false;
+                return fblse;
             else
-                throw new ClassCastException(
+                throw new ClbssCbstException(
                     es.elementType + " != " + elementType);
         }
 
@@ -232,20 +232,20 @@ class RegularEnumSet<E extends Enum<E>> extends EnumSet<E> {
     }
 
     /**
-     * Removes from this set all of its elements that are contained in
+     * Removes from this set bll of its elements thbt bre contbined in
      * the specified collection.
      *
-     * @param c elements to be removed from this set
-     * @return <tt>true</tt> if this set changed as a result of the call
+     * @pbrbm c elements to be removed from this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
      * @throws NullPointerException if the specified collection is null
      */
-    public boolean removeAll(Collection<?> c) {
-        if (!(c instanceof RegularEnumSet))
+    public boolebn removeAll(Collection<?> c) {
+        if (!(c instbnceof RegulbrEnumSet))
             return super.removeAll(c);
 
-        RegularEnumSet<?> es = (RegularEnumSet<?>)c;
+        RegulbrEnumSet<?> es = (RegulbrEnumSet<?>)c;
         if (es.elementType != elementType)
-            return false;
+            return fblse;
 
         long oldElements = elements;
         elements &= ~es.elements;
@@ -253,22 +253,22 @@ class RegularEnumSet<E extends Enum<E>> extends EnumSet<E> {
     }
 
     /**
-     * Retains only the elements in this set that are contained in the
+     * Retbins only the elements in this set thbt bre contbined in the
      * specified collection.
      *
-     * @param c elements to be retained in this set
-     * @return <tt>true</tt> if this set changed as a result of the call
+     * @pbrbm c elements to be retbined in this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
      * @throws NullPointerException if the specified collection is null
      */
-    public boolean retainAll(Collection<?> c) {
-        if (!(c instanceof RegularEnumSet))
-            return super.retainAll(c);
+    public boolebn retbinAll(Collection<?> c) {
+        if (!(c instbnceof RegulbrEnumSet))
+            return super.retbinAll(c);
 
-        RegularEnumSet<?> es = (RegularEnumSet<?>)c;
+        RegulbrEnumSet<?> es = (RegulbrEnumSet<?>)c;
         if (es.elementType != elementType) {
-            boolean changed = (elements != 0);
+            boolebn chbnged = (elements != 0);
             elements = 0;
-            return changed;
+            return chbnged;
         }
 
         long oldElements = elements;
@@ -277,26 +277,26 @@ class RegularEnumSet<E extends Enum<E>> extends EnumSet<E> {
     }
 
     /**
-     * Removes all of the elements from this set.
+     * Removes bll of the elements from this set.
      */
-    public void clear() {
+    public void clebr() {
         elements = 0;
     }
 
     /**
-     * Compares the specified object with this set for equality.  Returns
-     * <tt>true</tt> if the given object is also a set, the two sets have
-     * the same size, and every member of the given set is contained in
+     * Compbres the specified object with this set for equblity.  Returns
+     * <tt>true</tt> if the given object is blso b set, the two sets hbve
+     * the sbme size, bnd every member of the given set is contbined in
      * this set.
      *
-     * @param o object to be compared for equality with this set
-     * @return <tt>true</tt> if the specified object is equal to this set
+     * @pbrbm o object to be compbred for equblity with this set
+     * @return <tt>true</tt> if the specified object is equbl to this set
      */
-    public boolean equals(Object o) {
-        if (!(o instanceof RegularEnumSet))
-            return super.equals(o);
+    public boolebn equbls(Object o) {
+        if (!(o instbnceof RegulbrEnumSet))
+            return super.equbls(o);
 
-        RegularEnumSet<?> es = (RegularEnumSet<?>)o;
+        RegulbrEnumSet<?> es = (RegulbrEnumSet<?>)o;
         if (es.elementType != elementType)
             return elements == 0 && es.elements == 0;
         return es.elements == elements;

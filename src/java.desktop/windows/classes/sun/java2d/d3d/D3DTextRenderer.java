@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.d3d;
+pbckbge sun.jbvb2d.d3d;
 
-import java.awt.Composite;
+import jbvb.bwt.Composite;
 import sun.font.GlyphList;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.pipe.BufferedTextPipe;
-import sun.java2d.pipe.RenderQueue;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.pipe.BufferedTextPipe;
+import sun.jbvb2d.pipe.RenderQueue;
 
-class D3DTextRenderer extends BufferedTextPipe {
+clbss D3DTextRenderer extends BufferedTextPipe {
 
     D3DTextRenderer(RenderQueue rq) {
         super(rq);
     }
 
     @Override
-    protected native void drawGlyphList(int numGlyphs, boolean usePositions,
-                                        boolean subPixPos, boolean rgbOrder,
-                                        int lcdContrast,
-                                        float glOrigX, float glOrigY,
-                                        long[] images, float[] positions);
+    protected nbtive void drbwGlyphList(int numGlyphs, boolebn usePositions,
+                                        boolebn subPixPos, boolebn rgbOrder,
+                                        int lcdContrbst,
+                                        flobt glOrigX, flobt glOrigY,
+                                        long[] imbges, flobt[] positions);
 
     @Override
-    protected void validateContext(SunGraphics2D sg2d, Composite comp) {
-        // assert rq.lock.isHeldByCurrentThread();
-        D3DSurfaceData d3dDst = (D3DSurfaceData)sg2d.surfaceData;
-        D3DContext.validateContext(d3dDst, d3dDst,
+    protected void vblidbteContext(SunGrbphics2D sg2d, Composite comp) {
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        D3DSurfbceDbtb d3dDst = (D3DSurfbceDbtb)sg2d.surfbceDbtb;
+        D3DContext.vblidbteContext(d3dDst, d3dDst,
                                    sg2d.getCompClip(), comp,
-                                   null, sg2d.paint, sg2d,
+                                   null, sg2d.pbint, sg2d,
                                    D3DContext.NO_CONTEXT_FLAGS);
     }
 
-    D3DTextRenderer traceWrap() {
-        return new Tracer(this);
+    D3DTextRenderer trbceWrbp() {
+        return new Trbcer(this);
     }
 
-    private static class Tracer extends D3DTextRenderer {
-        Tracer(D3DTextRenderer d3dtr) {
+    privbte stbtic clbss Trbcer extends D3DTextRenderer {
+        Trbcer(D3DTextRenderer d3dtr) {
             super(d3dtr.rq);
         }
-        protected void drawGlyphList(SunGraphics2D sg2d, GlyphList gl) {
-            GraphicsPrimitive.tracePrimitive("D3DDrawGlyphs");
-            super.drawGlyphList(sg2d, gl);
+        protected void drbwGlyphList(SunGrbphics2D sg2d, GlyphList gl) {
+            GrbphicsPrimitive.trbcePrimitive("D3DDrbwGlyphs");
+            super.drbwGlyphList(sg2d, gl);
         }
     }
 }

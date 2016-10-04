@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import java.io.*;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.io.*;
 
 
 /**
- * A representation of a content model. A content model is
- * basically a restricted BNF expression. It is restricted in
- * the sense that it must be deterministic. This means that you
- * don't have to represent it as a finite state automaton.<p>
- * See Annex H on page 556 of the SGML handbook for more information.
+ * A representbtion of b content model. A content model is
+ * bbsicblly b restricted BNF expression. It is restricted in
+ * the sense thbt it must be deterministic. This mebns thbt you
+ * don't hbve to represent it bs b finite stbte butombton.<p>
+ * See Annex H on pbge 556 of the SGML hbndbook for more informbtion.
  *
- * @author   Arthur van Hoff
+ * @buthor   Arthur vbn Hoff
  *
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public final class ContentModel implements Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public finbl clbss ContentModel implements Seriblizbble {
     /**
-     * Type. Either '*', '?', '+', ',', '|', '&amp;'.
+     * Type. Either '*', '?', '+', ',', '|', '&bmp;'.
      */
     public int type;
 
     /**
-     * The content. Either an Element or a ContentModel.
+     * The content. Either bn Element or b ContentModel.
      */
     public Object content;
 
     /**
-     * The next content model (in a ',', '|' or '&amp;' expression).
+     * The next content model (in b ',', '|' or '&bmp;' expression).
      */
     public ContentModel next;
 
     /**
-     * Creates {@code ContentModel}
+     * Crebtes {@code ContentModel}
      */
     public ContentModel() {
     }
 
     /**
-     * Create a content model for an element.
+     * Crebte b content model for bn element.
      *
-     * @param content  the element
+     * @pbrbm content  the element
      */
     public ContentModel(Element content) {
         this(0, content, null);
     }
 
     /**
-     * Create a content model of a particular type.
+     * Crebte b content model of b pbrticulbr type.
      *
-     * @param type     the type
-     * @param content  the content
+     * @pbrbm type     the type
+     * @pbrbm content  the content
      */
     public ContentModel(int type, ContentModel content) {
         this(type, content, null);
     }
 
     /**
-     * Create a content model of a particular type.
+     * Crebte b content model of b pbrticulbr type.
      *
-     * @param type     the type
-     * @param content  the content
-     * @param next     the next content model
+     * @pbrbm type     the type
+     * @pbrbm content  the content
+     * @pbrbm next     the next content model
      */
     public ContentModel(int type, Object content, ContentModel next) {
         this.type = type;
@@ -97,185 +97,185 @@ public final class ContentModel implements Serializable {
 
     /**
      * Return true if the content model could
-     * match an empty input stream.
+     * mbtch bn empty input strebm.
      *
      * @return {@code true} if the content model could
-     *         match an empty input stream
+     *         mbtch bn empty input strebm
      */
-    public boolean empty() {
+    public boolebn empty() {
         switch (type) {
-          case '*':
-          case '?':
+          cbse '*':
+          cbse '?':
             return true;
 
-          case '+':
-          case '|':
+          cbse '+':
+          cbse '|':
             for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
                 if (m.empty()) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
 
-          case ',':
-          case '&':
+          cbse ',':
+          cbse '&':
             for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
                 if (!m.empty()) {
-                    return false;
+                    return fblse;
                 }
             }
             return true;
 
-          default:
-            return false;
+          defbult:
+            return fblse;
         }
     }
 
     /**
-     * Update elemVec with the list of elements that are
-     * part of the this contentModel.
+     * Updbte elemVec with the list of elements thbt bre
+     * pbrt of the this contentModel.
      *
-     * @param elemVec  the list of elements
+     * @pbrbm elemVec  the list of elements
      */
      public void getElements(Vector<Element> elemVec) {
          switch (type) {
-         case '*':
-         case '?':
-         case '+':
+         cbse '*':
+         cbse '?':
+         cbse '+':
              ((ContentModel)content).getElements(elemVec);
-             break;
-         case ',':
-         case '|':
-         case '&':
+             brebk;
+         cbse ',':
+         cbse '|':
+         cbse '&':
              for (ContentModel m=(ContentModel)content; m != null; m=m.next){
                  m.getElements(elemVec);
              }
-             break;
-         default:
-             elemVec.addElement((Element)content);
+             brebk;
+         defbult:
+             elemVec.bddElement((Element)content);
          }
      }
 
-     private boolean valSet[];
-     private boolean val[];
-     // A cache used by first().  This cache was found to speed parsing
-     // by about 10% (based on measurements of the 4-12 code base after
-     // buffering was fixed).
+     privbte boolebn vblSet[];
+     privbte boolebn vbl[];
+     // A cbche used by first().  This cbche wbs found to speed pbrsing
+     // by bbout 10% (bbsed on mebsurements of the 4-12 code bbse bfter
+     // buffering wbs fixed).
 
     /**
-     * Return true if the token could potentially be the
-     * first token in the input stream.
+     * Return true if the token could potentiblly be the
+     * first token in the input strebm.
      *
-     * @param token  the token
+     * @pbrbm token  the token
      *
-     * @return {@code true} if the token could potentially be the first token
-     *         in the input stream
+     * @return {@code true} if the token could potentiblly be the first token
+     *         in the input strebm
      */
-    public boolean first(Object token) {
+    public boolebn first(Object token) {
         switch (type) {
-          case '*':
-          case '?':
-          case '+':
+          cbse '*':
+          cbse '?':
+          cbse '+':
             return ((ContentModel)content).first(token);
 
-          case ',':
+          cbse ',':
             for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
                 if (m.first(token)) {
                     return true;
                 }
                 if (!m.empty()) {
-                    return false;
+                    return fblse;
                 }
             }
-            return false;
+            return fblse;
 
-          case '|':
-          case '&': {
+          cbse '|':
+          cbse '&': {
             Element e = (Element) token;
-            if (valSet == null) {
-                valSet = new boolean[Element.getMaxIndex() + 1];
-                val = new boolean[valSet.length];
-                // All Element instances are created before this ever executes
+            if (vblSet == null) {
+                vblSet = new boolebn[Element.getMbxIndex() + 1];
+                vbl = new boolebn[vblSet.length];
+                // All Element instbnces bre crebted before this ever executes
             }
-            if (valSet[e.index]) {
-                return val[e.index];
+            if (vblSet[e.index]) {
+                return vbl[e.index];
             }
             for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
                 if (m.first(token)) {
-                    val[e.index] = true;
-                    break;
+                    vbl[e.index] = true;
+                    brebk;
                 }
             }
-            valSet[e.index] = true;
-            return val[e.index];
+            vblSet[e.index] = true;
+            return vbl[e.index];
           }
 
-          default:
+          defbult:
             return (content == token);
-            // PENDING: refer to comment in ContentModelState
+            // PENDING: refer to comment in ContentModelStbte
 /*
               if (content == token) {
                   return true;
               }
               Element e = (Element)content;
-              if (e.omitStart() && e.content != null) {
+              if (e.omitStbrt() && e.content != null) {
                   return e.content.first(token);
               }
-              return false;
+              return fblse;
 */
         }
     }
 
     /**
-     * Return the element that must be next.
+     * Return the element thbt must be next.
      *
-     * @return the element that must be next
+     * @return the element thbt must be next
      */
     public Element first() {
         switch (type) {
-          case '&':
-          case '|':
-          case '*':
-          case '?':
+          cbse '&':
+          cbse '|':
+          cbse '*':
+          cbse '?':
             return null;
 
-          case '+':
-          case ',':
+          cbse '+':
+          cbse ',':
             return ((ContentModel)content).first();
 
-          default:
+          defbult:
             return (Element)content;
         }
     }
 
     /**
-     * Convert to a string.
+     * Convert to b string.
      *
-     * @return the string representation of this {@code ContentModel}
+     * @return the string representbtion of this {@code ContentModel}
      */
     public String toString() {
         switch (type) {
-          case '*':
+          cbse '*':
             return content + "*";
-          case '?':
+          cbse '?':
             return content + "?";
-          case '+':
+          cbse '+':
             return content + "+";
 
-          case ',':
-          case '|':
-          case '&':
-            char data[] = {' ', (char)type, ' '};
+          cbse ',':
+          cbse '|':
+          cbse '&':
+            chbr dbtb[] = {' ', (chbr)type, ' '};
             String str = "";
             for (ContentModel m = (ContentModel)content ; m != null ; m = m.next) {
                 str = str + m;
                 if (m.next != null) {
-                    str += new String(data);
+                    str += new String(dbtb);
                 }
             }
             return "(" + str + ")";
 
-          default:
+          defbult:
             return content.toString();
         }
     }

@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.motif;
+pbckbge sun.bwt.motif;
 
-import java.nio.CharBuffer;
-import java.nio.ByteBuffer;
-import java.nio.charset.*;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbrset.*;
 import sun.nio.cs.ext.*;
-import static sun.nio.cs.CharsetMapping.*;
+import stbtic sun.nio.cs.ChbrsetMbpping.*;
 
-public class X11KSC5601 extends Charset {
+public clbss X11KSC5601 extends Chbrset {
     public X11KSC5601 () {
         super("X11KSC5601", null);
     }
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         return new Decoder(this);
     }
 
-    public boolean contains(Charset cs) {
-        return cs instanceof X11KSC5601;
+    public boolebn contbins(Chbrset cs) {
+        return cs instbnceof X11KSC5601;
     }
 
-    private class Encoder extends CharsetEncoder {
-        private DoubleByte.Encoder enc = (DoubleByte.Encoder)new EUC_KR().newEncoder();
+    privbte clbss Encoder extends ChbrsetEncoder {
+        privbte DoubleByte.Encoder enc = (DoubleByte.Encoder)new EUC_KR().newEncoder();
 
-        public Encoder(Charset cs) {
+        public Encoder(Chbrset cs) {
             super(cs, 2.0f, 2.0f);
         }
 
-        public boolean canEncode(char c) {
+        public boolebn cbnEncode(chbr c) {
             if (c <= 0x7F) {
-                return false;
+                return fblse;
             }
-            return enc.canEncode(c);
+            return enc.cbnEncode(c);
         }
 
-        protected int encodeDouble(char c) {
-            return enc.encodeChar(c);
+        protected int encodeDouble(chbr c) {
+            return enc.encodeChbr(c);
         }
 
-        protected CoderResult encodeLoop(CharBuffer src, ByteBuffer dst) {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
+        protected CoderResult encodeLoop(ChbrBuffer src, ByteBuffer dst) {
+            chbr[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            byte[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
 
             try {
                 while (sp < sl) {
-                    char c = sa[sp];
+                    chbr c = sb[sp];
                     if (c <= '\u007f')
-                        return CoderResult.unmappableForLength(1);
+                        return CoderResult.unmbppbbleForLength(1);
                     int ncode = encodeDouble(c);
                     if (ncode != 0 && c != '\u0000' ) {
-                        da[dp++] = (byte) ((ncode  >> 8) & 0x7f);
-                        da[dp++] = (byte) (ncode & 0x7f);
+                        db[dp++] = (byte) ((ncode  >> 8) & 0x7f);
+                        db[dp++] = (byte) (ncode & 0x7f);
                         sp++;
                         continue;
                     }
-                    return CoderResult.unmappableForLength(1);
+                    return CoderResult.unmbppbbleForLength(1);
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
-        public boolean isLegalReplacement(byte[] repl) {
+        public boolebn isLegblReplbcement(byte[] repl) {
             return true;
         }
     }
 
-    private class Decoder extends  CharsetDecoder {
-        private DoubleByte.Decoder dec = (DoubleByte.Decoder)new EUC_KR().newDecoder();
+    privbte clbss Decoder extends  ChbrsetDecoder {
+        privbte DoubleByte.Decoder dec = (DoubleByte.Decoder)new EUC_KR().newDecoder();
 
-        public Decoder(Charset cs) {
+        public Decoder(Chbrset cs) {
             super(cs, 0.5f, 1.0f);
         }
 
-        protected char decodeDouble(int b1, int b2) {
+        protected chbr decodeDouble(int b1, int b2) {
             return dec.decodeDouble(b1, b2);
         }
 
-        protected CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+        protected CoderResult decodeLoop(ByteBuffer src, ChbrBuffer dst) {
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
 
@@ -126,21 +126,21 @@ public class X11KSC5601 extends Charset {
                     if ( sl - sp < 2) {
                         return CoderResult.UNDERFLOW;
                     }
-                    int b1 = sa[sp] & 0xFF | 0x80;
-                    int b2 = sa[sp + 1] & 0xFF | 0x80;
-                    char c = decodeDouble(b1, b2);
+                    int b1 = sb[sp] & 0xFF | 0x80;
+                    int b2 = sb[sp + 1] & 0xFF | 0x80;
+                    chbr c = decodeDouble(b1, b2);
                     if (c == UNMAPPABLE_DECODING) {
-                        return CoderResult.unmappableForLength(2);
+                        return CoderResult.unmbppbbleForLength(2);
                     }
                     if (dl - dp < 1)
                         return CoderResult.OVERFLOW;
-                    da[dp++] = c;
+                    db[dp++] = c;
                     sp +=2;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
 
         }

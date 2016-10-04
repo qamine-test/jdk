@@ -1,463 +1,463 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.DataOutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Method;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.StubNotFoundException;
-import java.rmi.registry.Registry;
-import java.rmi.server.LogStream;
-import java.rmi.server.ObjID;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RemoteObjectInvocationHandler;
-import java.rmi.server.RemoteRef;
-import java.rmi.server.RemoteStub;
-import java.rmi.server.Skeleton;
-import java.rmi.server.SkeletonNotFoundException;
-import java.security.AccessController;
-import java.security.MessageDigest;
-import java.security.DigestOutputStream;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionHbndler;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.lbng.reflect.Method;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.StubNotFoundException;
+import jbvb.rmi.registry.Registry;
+import jbvb.rmi.server.LogStrebm;
+import jbvb.rmi.server.ObjID;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RemoteObjectInvocbtionHbndler;
+import jbvb.rmi.server.RemoteRef;
+import jbvb.rmi.server.RemoteStub;
+import jbvb.rmi.server.Skeleton;
+import jbvb.rmi.server.SkeletonNotFoundException;
+import jbvb.security.AccessController;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.DigestOutputStrebm;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
 import sun.rmi.registry.RegistryImpl;
 import sun.rmi.runtime.Log;
-import sun.rmi.transport.LiveRef;
-import sun.rmi.transport.tcp.TCPEndpoint;
+import sun.rmi.trbnsport.LiveRef;
+import sun.rmi.trbnsport.tcp.TCPEndpoint;
 
 /**
- * A utility class with static methods for creating stubs/proxies and
+ * A utility clbss with stbtic methods for crebting stubs/proxies bnd
  * skeletons for remote objects.
  */
-@SuppressWarnings("deprecation")
-public final class Util {
+@SuppressWbrnings("deprecbtion")
+public finbl clbss Util {
 
-    /** "server" package log level */
-    static final int logLevel = LogStream.parseLevel(
+    /** "server" pbckbge log level */
+    stbtic finbl int logLevel = LogStrebm.pbrseLevel(
         AccessController.doPrivileged(
             (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.server.logLevel")));
 
     /** server reference log */
-    public static final Log serverRefLog =
-        Log.getLog("sun.rmi.server.ref", "transport", Util.logLevel);
+    public stbtic finbl Log serverRefLog =
+        Log.getLog("sun.rmi.server.ref", "trbnsport", Util.logLevel);
 
-    /** cached value of property java.rmi.server.ignoreStubClasses */
-    private static final boolean ignoreStubClasses =
+    /** cbched vblue of property jbvb.rmi.server.ignoreStubClbsses */
+    privbte stbtic finbl boolebn ignoreStubClbsses =
         AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> Boolean.getBoolean("java.rmi.server.ignoreStubClasses"));
+            (PrivilegedAction<Boolebn>) () -> Boolebn.getBoolebn("jbvb.rmi.server.ignoreStubClbsses"));
 
-    /** cache of  impl classes that have no corresponding stub class */
-    private static final Map<Class<?>, Void> withoutStubs =
-        Collections.synchronizedMap(new WeakHashMap<Class<?>, Void>(11));
+    /** cbche of  impl clbsses thbt hbve no corresponding stub clbss */
+    privbte stbtic finbl Mbp<Clbss<?>, Void> withoutStubs =
+        Collections.synchronizedMbp(new WebkHbshMbp<Clbss<?>, Void>(11));
 
-    /** parameter types for stub constructor */
-    private static final Class<?>[] stubConsParamTypes = { RemoteRef.class };
+    /** pbrbmeter types for stub constructor */
+    privbte stbtic finbl Clbss<?>[] stubConsPbrbmTypes = { RemoteRef.clbss };
 
-    private Util() {
+    privbte Util() {
     }
 
     /**
-     * Returns a proxy for the specified implClass.
+     * Returns b proxy for the specified implClbss.
      *
-     * If both of the following criteria is satisfied, a dynamic proxy for
-     * the specified implClass is returned (otherwise a RemoteStub instance
-     * for the specified implClass is returned):
+     * If both of the following criterib is sbtisfied, b dynbmic proxy for
+     * the specified implClbss is returned (otherwise b RemoteStub instbnce
+     * for the specified implClbss is returned):
      *
-     *    a) either the property java.rmi.server.ignoreStubClasses is true or
-     *       a pregenerated stub class does not exist for the impl class, and
-     *    b) forceStubUse is false.
+     *    b) either the property jbvb.rmi.server.ignoreStubClbsses is true or
+     *       b pregenerbted stub clbss does not exist for the impl clbss, bnd
+     *    b) forceStubUse is fblse.
      *
-     * If the above criteria are satisfied, this method constructs a
-     * dynamic proxy instance (that implements the remote interfaces of
-     * implClass) constructed with a RemoteObjectInvocationHandler instance
+     * If the bbove criterib bre sbtisfied, this method constructs b
+     * dynbmic proxy instbnce (thbt implements the remote interfbces of
+     * implClbss) constructed with b RemoteObjectInvocbtionHbndler instbnce
      * constructed with the clientRef.
      *
-     * Otherwise, this method loads the pregenerated stub class (which
-     * extends RemoteStub and implements the remote interfaces of
-     * implClass) and constructs an instance of the pregenerated stub
-     * class with the clientRef.
+     * Otherwise, this method lobds the pregenerbted stub clbss (which
+     * extends RemoteStub bnd implements the remote interfbces of
+     * implClbss) bnd constructs bn instbnce of the pregenerbted stub
+     * clbss with the clientRef.
      *
-     * @param implClass the class to obtain remote interfaces from
-     * @param clientRef the remote ref to use in the invocation handler
-     * @param forceStubUse if true, forces creation of a RemoteStub
-     * @throws IllegalArgumentException if implClass implements illegal
-     * remote interfaces
-     * @throws StubNotFoundException if problem locating/creating stub or
-     * creating the dynamic proxy instance
+     * @pbrbm implClbss the clbss to obtbin remote interfbces from
+     * @pbrbm clientRef the remote ref to use in the invocbtion hbndler
+     * @pbrbm forceStubUse if true, forces crebtion of b RemoteStub
+     * @throws IllegblArgumentException if implClbss implements illegbl
+     * remote interfbces
+     * @throws StubNotFoundException if problem locbting/crebting stub or
+     * crebting the dynbmic proxy instbnce
      **/
-    public static Remote createProxy(Class<?> implClass,
+    public stbtic Remote crebteProxy(Clbss<?> implClbss,
                                      RemoteRef clientRef,
-                                     boolean forceStubUse)
+                                     boolebn forceStubUse)
         throws StubNotFoundException
     {
-        Class<?> remoteClass;
+        Clbss<?> remoteClbss;
 
         try {
-            remoteClass = getRemoteClass(implClass);
-        } catch (ClassNotFoundException ex ) {
+            remoteClbss = getRemoteClbss(implClbss);
+        } cbtch (ClbssNotFoundException ex ) {
             throw new StubNotFoundException(
-                "object does not implement a remote interface: " +
-                implClass.getName());
+                "object does not implement b remote interfbce: " +
+                implClbss.getNbme());
         }
 
         if (forceStubUse ||
-            !(ignoreStubClasses || !stubClassExists(remoteClass)))
+            !(ignoreStubClbsses || !stubClbssExists(remoteClbss)))
         {
-            return createStub(remoteClass, clientRef);
+            return crebteStub(remoteClbss, clientRef);
         }
 
-        final ClassLoader loader = implClass.getClassLoader();
-        final Class<?>[] interfaces = getRemoteInterfaces(implClass);
-        final InvocationHandler handler =
-            new RemoteObjectInvocationHandler(clientRef);
+        finbl ClbssLobder lobder = implClbss.getClbssLobder();
+        finbl Clbss<?>[] interfbces = getRemoteInterfbces(implClbss);
+        finbl InvocbtionHbndler hbndler =
+            new RemoteObjectInvocbtionHbndler(clientRef);
 
-        /* REMIND: private remote interfaces? */
+        /* REMIND: privbte remote interfbces? */
 
         try {
             return AccessController.doPrivileged(new PrivilegedAction<Remote>() {
                 public Remote run() {
-                    return (Remote) Proxy.newProxyInstance(loader,
-                                                           interfaces,
-                                                           handler);
+                    return (Remote) Proxy.newProxyInstbnce(lobder,
+                                                           interfbces,
+                                                           hbndler);
                 }});
-        } catch (IllegalArgumentException e) {
-            throw new StubNotFoundException("unable to create proxy", e);
+        } cbtch (IllegblArgumentException e) {
+            throw new StubNotFoundException("unbble to crebte proxy", e);
         }
     }
 
     /**
-     * Returns true if a stub class for the given impl class can be loaded,
-     * otherwise returns false.
+     * Returns true if b stub clbss for the given impl clbss cbn be lobded,
+     * otherwise returns fblse.
      *
-     * @param remoteClass the class to obtain remote interfaces from
+     * @pbrbm remoteClbss the clbss to obtbin remote interfbces from
      */
-    private static boolean stubClassExists(Class<?> remoteClass) {
-        if (!withoutStubs.containsKey(remoteClass)) {
+    privbte stbtic boolebn stubClbssExists(Clbss<?> remoteClbss) {
+        if (!withoutStubs.contbinsKey(remoteClbss)) {
             try {
-                Class.forName(remoteClass.getName() + "_Stub",
-                              false,
-                              remoteClass.getClassLoader());
+                Clbss.forNbme(remoteClbss.getNbme() + "_Stub",
+                              fblse,
+                              remoteClbss.getClbssLobder());
                 return true;
 
-            } catch (ClassNotFoundException cnfe) {
-                withoutStubs.put(remoteClass, null);
+            } cbtch (ClbssNotFoundException cnfe) {
+                withoutStubs.put(remoteClbss, null);
             }
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Returns the class/superclass that implements the remote interface.
-     * @throws ClassNotFoundException if no class is found to have a
-     * remote interface
+     * Returns the clbss/superclbss thbt implements the remote interfbce.
+     * @throws ClbssNotFoundException if no clbss is found to hbve b
+     * remote interfbce
      */
-    private static Class<?> getRemoteClass(Class<?> cl)
-        throws ClassNotFoundException
+    privbte stbtic Clbss<?> getRemoteClbss(Clbss<?> cl)
+        throws ClbssNotFoundException
     {
         while (cl != null) {
-            Class<?>[] interfaces = cl.getInterfaces();
-            for (int i = interfaces.length -1; i >= 0; i--) {
-                if (Remote.class.isAssignableFrom(interfaces[i]))
-                    return cl;          // this class implements remote object
+            Clbss<?>[] interfbces = cl.getInterfbces();
+            for (int i = interfbces.length -1; i >= 0; i--) {
+                if (Remote.clbss.isAssignbbleFrom(interfbces[i]))
+                    return cl;          // this clbss implements remote object
             }
-            cl = cl.getSuperclass();
+            cl = cl.getSuperclbss();
         }
-        throw new ClassNotFoundException(
-                "class does not implement java.rmi.Remote");
+        throw new ClbssNotFoundException(
+                "clbss does not implement jbvb.rmi.Remote");
     }
 
     /**
-     * Returns an array containing the remote interfaces implemented
-     * by the given class.
+     * Returns bn brrby contbining the remote interfbces implemented
+     * by the given clbss.
      *
-     * @param   remoteClass the class to obtain remote interfaces from
-     * @throws  IllegalArgumentException if remoteClass implements
-     *          any illegal remote interfaces
-     * @throws  NullPointerException if remoteClass is null
+     * @pbrbm   remoteClbss the clbss to obtbin remote interfbces from
+     * @throws  IllegblArgumentException if remoteClbss implements
+     *          bny illegbl remote interfbces
+     * @throws  NullPointerException if remoteClbss is null
      */
-    private static Class<?>[] getRemoteInterfaces(Class<?> remoteClass) {
-        ArrayList<Class<?>> list = new ArrayList<>();
-        getRemoteInterfaces(list, remoteClass);
-        return list.toArray(new Class<?>[list.size()]);
+    privbte stbtic Clbss<?>[] getRemoteInterfbces(Clbss<?> remoteClbss) {
+        ArrbyList<Clbss<?>> list = new ArrbyList<>();
+        getRemoteInterfbces(list, remoteClbss);
+        return list.toArrby(new Clbss<?>[list.size()]);
     }
 
     /**
-     * Fills the given array list with the remote interfaces implemented
-     * by the given class.
+     * Fills the given brrby list with the remote interfbces implemented
+     * by the given clbss.
      *
-     * @throws  IllegalArgumentException if the specified class implements
-     *          any illegal remote interfaces
-     * @throws  NullPointerException if the specified class or list is null
+     * @throws  IllegblArgumentException if the specified clbss implements
+     *          bny illegbl remote interfbces
+     * @throws  NullPointerException if the specified clbss or list is null
      */
-    private static void getRemoteInterfaces(ArrayList<Class<?>> list, Class<?> cl) {
-        Class<?> superclass = cl.getSuperclass();
-        if (superclass != null) {
-            getRemoteInterfaces(list, superclass);
+    privbte stbtic void getRemoteInterfbces(ArrbyList<Clbss<?>> list, Clbss<?> cl) {
+        Clbss<?> superclbss = cl.getSuperclbss();
+        if (superclbss != null) {
+            getRemoteInterfbces(list, superclbss);
         }
 
-        Class<?>[] interfaces = cl.getInterfaces();
-        for (int i = 0; i < interfaces.length; i++) {
-            Class<?> intf = interfaces[i];
+        Clbss<?>[] interfbces = cl.getInterfbces();
+        for (int i = 0; i < interfbces.length; i++) {
+            Clbss<?> intf = interfbces[i];
             /*
-             * If it is a remote interface (if it extends from
-             * java.rmi.Remote) and is not already in the list,
-             * then add the interface to the list.
+             * If it is b remote interfbce (if it extends from
+             * jbvb.rmi.Remote) bnd is not blrebdy in the list,
+             * then bdd the interfbce to the list.
              */
-            if (Remote.class.isAssignableFrom(intf)) {
-                if (!(list.contains(intf))) {
+            if (Remote.clbss.isAssignbbleFrom(intf)) {
+                if (!(list.contbins(intf))) {
                     Method[] methods = intf.getMethods();
                     for (int j = 0; j < methods.length; j++) {
                         checkMethod(methods[j]);
                     }
-                    list.add(intf);
+                    list.bdd(intf);
                 }
             }
         }
     }
 
     /**
-     * Verifies that the supplied method has at least one declared exception
-     * type that is RemoteException or one of its superclasses.  If not,
-     * then this method throws IllegalArgumentException.
+     * Verifies thbt the supplied method hbs bt lebst one declbred exception
+     * type thbt is RemoteException or one of its superclbsses.  If not,
+     * then this method throws IllegblArgumentException.
      *
-     * @throws IllegalArgumentException if m is an illegal remote method
+     * @throws IllegblArgumentException if m is bn illegbl remote method
      */
-    private static void checkMethod(Method m) {
-        Class<?>[] ex = m.getExceptionTypes();
+    privbte stbtic void checkMethod(Method m) {
+        Clbss<?>[] ex = m.getExceptionTypes();
         for (int i = 0; i < ex.length; i++) {
-            if (ex[i].isAssignableFrom(RemoteException.class))
+            if (ex[i].isAssignbbleFrom(RemoteException.clbss))
                 return;
         }
-        throw new IllegalArgumentException(
-            "illegal remote method encountered: " + m);
+        throw new IllegblArgumentException(
+            "illegbl remote method encountered: " + m);
     }
 
     /**
-     * Creates a RemoteStub instance for the specified class, constructed
-     * with the specified RemoteRef.  The supplied class must be the most
-     * derived class in the remote object's superclass chain that
-     * implements a remote interface.  The stub class name is the name of
-     * the specified remoteClass with the suffix "_Stub".  The loading of
-     * the stub class is initiated from class loader of the specified class
-     * (which may be the bootstrap class loader).
+     * Crebtes b RemoteStub instbnce for the specified clbss, constructed
+     * with the specified RemoteRef.  The supplied clbss must be the most
+     * derived clbss in the remote object's superclbss chbin thbt
+     * implements b remote interfbce.  The stub clbss nbme is the nbme of
+     * the specified remoteClbss with the suffix "_Stub".  The lobding of
+     * the stub clbss is initibted from clbss lobder of the specified clbss
+     * (which mby be the bootstrbp clbss lobder).
      **/
-    private static RemoteStub createStub(Class<?> remoteClass, RemoteRef ref)
+    privbte stbtic RemoteStub crebteStub(Clbss<?> remoteClbss, RemoteRef ref)
         throws StubNotFoundException
     {
-        String stubname = remoteClass.getName() + "_Stub";
+        String stubnbme = remoteClbss.getNbme() + "_Stub";
 
-        /* Make sure to use the local stub loader for the stub classes.
-         * When loaded by the local loader the load path can be
-         * propagated to remote clients, by the MarshalOutputStream/InStream
+        /* Mbke sure to use the locbl stub lobder for the stub clbsses.
+         * When lobded by the locbl lobder the lobd pbth cbn be
+         * propbgbted to remote clients, by the MbrshblOutputStrebm/InStrebm
          * pickle methods
          */
         try {
-            Class<?> stubcl =
-                Class.forName(stubname, false, remoteClass.getClassLoader());
-            Constructor<?> cons = stubcl.getConstructor(stubConsParamTypes);
-            return (RemoteStub) cons.newInstance(new Object[] { ref });
+            Clbss<?> stubcl =
+                Clbss.forNbme(stubnbme, fblse, remoteClbss.getClbssLobder());
+            Constructor<?> cons = stubcl.getConstructor(stubConsPbrbmTypes);
+            return (RemoteStub) cons.newInstbnce(new Object[] { ref });
 
-        } catch (ClassNotFoundException e) {
+        } cbtch (ClbssNotFoundException e) {
             throw new StubNotFoundException(
-                "Stub class not found: " + stubname, e);
-        } catch (NoSuchMethodException e) {
+                "Stub clbss not found: " + stubnbme, e);
+        } cbtch (NoSuchMethodException e) {
             throw new StubNotFoundException(
-                "Stub class missing constructor: " + stubname, e);
-        } catch (InstantiationException e) {
+                "Stub clbss missing constructor: " + stubnbme, e);
+        } cbtch (InstbntibtionException e) {
             throw new StubNotFoundException(
-                "Can't create instance of stub class: " + stubname, e);
-        } catch (IllegalAccessException e) {
+                "Cbn't crebte instbnce of stub clbss: " + stubnbme, e);
+        } cbtch (IllegblAccessException e) {
             throw new StubNotFoundException(
-                "Stub class constructor not public: " + stubname, e);
-        } catch (InvocationTargetException e) {
+                "Stub clbss constructor not public: " + stubnbme, e);
+        } cbtch (InvocbtionTbrgetException e) {
             throw new StubNotFoundException(
-                "Exception creating instance of stub class: " + stubname, e);
-        } catch (ClassCastException e) {
+                "Exception crebting instbnce of stub clbss: " + stubnbme, e);
+        } cbtch (ClbssCbstException e) {
             throw new StubNotFoundException(
-                "Stub class not instance of RemoteStub: " + stubname, e);
+                "Stub clbss not instbnce of RemoteStub: " + stubnbme, e);
         }
     }
 
     /**
-     * Locate and return the Skeleton for the specified remote object
+     * Locbte bnd return the Skeleton for the specified remote object
      */
-    static Skeleton createSkeleton(Remote object)
+    stbtic Skeleton crebteSkeleton(Remote object)
         throws SkeletonNotFoundException
     {
-        Class<?> cl;
+        Clbss<?> cl;
         try {
-            cl = getRemoteClass(object.getClass());
-        } catch (ClassNotFoundException ex ) {
+            cl = getRemoteClbss(object.getClbss());
+        } cbtch (ClbssNotFoundException ex ) {
             throw new SkeletonNotFoundException(
-                "object does not implement a remote interface: " +
-                object.getClass().getName());
+                "object does not implement b remote interfbce: " +
+                object.getClbss().getNbme());
         }
 
-        // now try to load the skeleton based ont he name of the class
-        String skelname = cl.getName() + "_Skel";
+        // now try to lobd the skeleton bbsed ont he nbme of the clbss
+        String skelnbme = cl.getNbme() + "_Skel";
         try {
-            Class<?> skelcl = Class.forName(skelname, false, cl.getClassLoader());
+            Clbss<?> skelcl = Clbss.forNbme(skelnbme, fblse, cl.getClbssLobder());
 
-            return (Skeleton)skelcl.newInstance();
-        } catch (ClassNotFoundException ex) {
-            throw new SkeletonNotFoundException("Skeleton class not found: " +
-                                                skelname, ex);
-        } catch (InstantiationException ex) {
-            throw new SkeletonNotFoundException("Can't create skeleton: " +
-                                                skelname, ex);
-        } catch (IllegalAccessException ex) {
+            return (Skeleton)skelcl.newInstbnce();
+        } cbtch (ClbssNotFoundException ex) {
+            throw new SkeletonNotFoundException("Skeleton clbss not found: " +
+                                                skelnbme, ex);
+        } cbtch (InstbntibtionException ex) {
+            throw new SkeletonNotFoundException("Cbn't crebte skeleton: " +
+                                                skelnbme, ex);
+        } cbtch (IllegblAccessException ex) {
             throw new SkeletonNotFoundException("No public constructor: " +
-                                                skelname, ex);
-        } catch (ClassCastException ex) {
+                                                skelnbme, ex);
+        } cbtch (ClbssCbstException ex) {
             throw new SkeletonNotFoundException(
-                "Skeleton not of correct class: " + skelname, ex);
+                "Skeleton not of correct clbss: " + skelnbme, ex);
         }
     }
 
     /**
-     * Compute the "method hash" of a remote method.  The method hash
-     * is a long containing the first 64 bits of the SHA digest from
-     * the UTF encoded string of the method name and descriptor.
+     * Compute the "method hbsh" of b remote method.  The method hbsh
+     * is b long contbining the first 64 bits of the SHA digest from
+     * the UTF encoded string of the method nbme bnd descriptor.
      */
-    public static long computeMethodHash(Method m) {
-        long hash = 0;
-        ByteArrayOutputStream sink = new ByteArrayOutputStream(127);
+    public stbtic long computeMethodHbsh(Method m) {
+        long hbsh = 0;
+        ByteArrbyOutputStrebm sink = new ByteArrbyOutputStrebm(127);
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA");
-            DataOutputStream out = new DataOutputStream(
-                new DigestOutputStream(sink, md));
+            MessbgeDigest md = MessbgeDigest.getInstbnce("SHA");
+            DbtbOutputStrebm out = new DbtbOutputStrebm(
+                new DigestOutputStrebm(sink, md));
 
-            String s = getMethodNameAndDescriptor(m);
-            if (serverRefLog.isLoggable(Log.VERBOSE)) {
+            String s = getMethodNbmeAndDescriptor(m);
+            if (serverRefLog.isLoggbble(Log.VERBOSE)) {
                 serverRefLog.log(Log.VERBOSE,
-                    "string used for method hash: \"" + s + "\"");
+                    "string used for method hbsh: \"" + s + "\"");
             }
             out.writeUTF(s);
 
-            // use only the first 64 bits of the digest for the hash
+            // use only the first 64 bits of the digest for the hbsh
             out.flush();
-            byte hasharray[] = md.digest();
-            for (int i = 0; i < Math.min(8, hasharray.length); i++) {
-                hash += ((long) (hasharray[i] & 0xFF)) << (i * 8);
+            byte hbshbrrby[] = md.digest();
+            for (int i = 0; i < Mbth.min(8, hbshbrrby.length); i++) {
+                hbsh += ((long) (hbshbrrby[i] & 0xFF)) << (i * 8);
             }
-        } catch (IOException ignore) {
-            /* can't happen, but be deterministic anyway. */
-            hash = -1;
-        } catch (NoSuchAlgorithmException complain) {
-            throw new SecurityException(complain.getMessage());
+        } cbtch (IOException ignore) {
+            /* cbn't hbppen, but be deterministic bnywby. */
+            hbsh = -1;
+        } cbtch (NoSuchAlgorithmException complbin) {
+            throw new SecurityException(complbin.getMessbge());
         }
-        return hash;
+        return hbsh;
     }
 
     /**
-     * Return a string consisting of the given method's name followed by
-     * its "method descriptor", as appropriate for use in the computation
-     * of the "method hash".
+     * Return b string consisting of the given method's nbme followed by
+     * its "method descriptor", bs bppropribte for use in the computbtion
+     * of the "method hbsh".
      *
-     * See section 4.3.3 of The Java Virtual Machine Specification for
-     * the definition of a "method descriptor".
+     * See section 4.3.3 of The Jbvb Virtubl Mbchine Specificbtion for
+     * the definition of b "method descriptor".
      */
-    private static String getMethodNameAndDescriptor(Method m) {
-        StringBuilder desc = new StringBuilder(m.getName());
-        desc.append('(');
-        Class<?>[] paramTypes = m.getParameterTypes();
-        for (int i = 0; i < paramTypes.length; i++) {
-            desc.append(getTypeDescriptor(paramTypes[i]));
+    privbte stbtic String getMethodNbmeAndDescriptor(Method m) {
+        StringBuilder desc = new StringBuilder(m.getNbme());
+        desc.bppend('(');
+        Clbss<?>[] pbrbmTypes = m.getPbrbmeterTypes();
+        for (int i = 0; i < pbrbmTypes.length; i++) {
+            desc.bppend(getTypeDescriptor(pbrbmTypes[i]));
         }
-        desc.append(')');
-        Class<?> returnType = m.getReturnType();
-        if (returnType == void.class) { // optimization: handle void here
-            desc.append('V');
+        desc.bppend(')');
+        Clbss<?> returnType = m.getReturnType();
+        if (returnType == void.clbss) { // optimizbtion: hbndle void here
+            desc.bppend('V');
         } else {
-            desc.append(getTypeDescriptor(returnType));
+            desc.bppend(getTypeDescriptor(returnType));
         }
         return desc.toString();
     }
 
     /**
-     * Get the descriptor of a particular type, as appropriate for either
-     * a parameter or return type in a method descriptor.
+     * Get the descriptor of b pbrticulbr type, bs bppropribte for either
+     * b pbrbmeter or return type in b method descriptor.
      */
-    private static String getTypeDescriptor(Class<?> type) {
+    privbte stbtic String getTypeDescriptor(Clbss<?> type) {
         if (type.isPrimitive()) {
-            if (type == int.class) {
+            if (type == int.clbss) {
                 return "I";
-            } else if (type == boolean.class) {
+            } else if (type == boolebn.clbss) {
                 return "Z";
-            } else if (type == byte.class) {
+            } else if (type == byte.clbss) {
                 return "B";
-            } else if (type == char.class) {
+            } else if (type == chbr.clbss) {
                 return "C";
-            } else if (type == short.class) {
+            } else if (type == short.clbss) {
                 return "S";
-            } else if (type == long.class) {
+            } else if (type == long.clbss) {
                 return "J";
-            } else if (type == float.class) {
+            } else if (type == flobt.clbss) {
                 return "F";
-            } else if (type == double.class) {
+            } else if (type == double.clbss) {
                 return "D";
-            } else if (type == void.class) {
+            } else if (type == void.clbss) {
                 return "V";
             } else {
                 throw new Error("unrecognized primitive type: " + type);
             }
-        } else if (type.isArray()) {
+        } else if (type.isArrby()) {
             /*
-             * According to JLS 20.3.2, the getName() method on Class does
-             * return the VM type descriptor format for array classes (only);
-             * using that should be quicker than the otherwise obvious code:
+             * According to JLS 20.3.2, the getNbme() method on Clbss does
+             * return the VM type descriptor formbt for brrby clbsses (only);
+             * using thbt should be quicker thbn the otherwise obvious code:
              *
              *     return "[" + getTypeDescriptor(type.getComponentType());
              */
-            return type.getName().replace('.', '/');
+            return type.getNbme().replbce('.', '/');
         } else {
-            return "L" + type.getName().replace('.', '/') + ";";
+            return "L" + type.getNbme().replbce('.', '/') + ";";
         }
     }
 
     /**
-     * Returns the binary name of the given type without package
-     * qualification.  Nested types are treated no differently from
-     * top-level types, so for a nested type, the returned name will
-     * still be qualified with the simple name of its enclosing
-     * top-level type (and perhaps other enclosing types), the
-     * separator will be '$', etc.
+     * Returns the binbry nbme of the given type without pbckbge
+     * qublificbtion.  Nested types bre trebted no differently from
+     * top-level types, so for b nested type, the returned nbme will
+     * still be qublified with the simple nbme of its enclosing
+     * top-level type (bnd perhbps other enclosing types), the
+     * sepbrbtor will be '$', etc.
      **/
-    public static String getUnqualifiedName(Class<?> c) {
-        String binaryName = c.getName();
-        return binaryName.substring(binaryName.lastIndexOf('.') + 1);
+    public stbtic String getUnqublifiedNbme(Clbss<?> c) {
+        String binbryNbme = c.getNbme();
+        return binbryNbme.substring(binbryNbme.lbstIndexOf('.') + 1);
     }
 }

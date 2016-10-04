@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.rmi.registry;
+pbckbge com.sun.jndi.rmi.registry;
 
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
 
-import javax.naming.*;
-import javax.naming.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.*;
 
-import com.sun.jndi.url.rmi.rmiURLContextFactory;
+import com.sun.jndi.url.rmi.rmiURLContextFbctory;
 
 /**
- * A RegistryContextFactory takes an RMI registry reference, and
- * creates the corresponding RMI object or registry context.  In
- * addition, it serves as the initial context factory when using an
- * RMI registry as an initial context.
+ * A RegistryContextFbctory tbkes bn RMI registry reference, bnd
+ * crebtes the corresponding RMI object or registry context.  In
+ * bddition, it serves bs the initibl context fbctory when using bn
+ * RMI registry bs bn initibl context.
  *<p>
- * When an initial context is being created, the environment
- * property "java.naming.provider.url" should contain the RMI URL of
- * the appropriate registry.  Otherwise, the default URL "rmi:" is used.
+ * When bn initibl context is being crebted, the environment
+ * property "jbvb.nbming.provider.url" should contbin the RMI URL of
+ * the bppropribte registry.  Otherwise, the defbult URL "rmi:" is used.
  *<p>
- * An RMI registry reference contains one or more StringRefAddrs of
- * type "URL", each containing a single RMI URL.  Other addresses
- * are ignored.  Multiple URLs represent alternative addresses for the
- * same logical resource.  The order of the addresses is not significant.
+ * An RMI registry reference contbins one or more StringRefAddrs of
+ * type "URL", ebch contbining b single RMI URL.  Other bddresses
+ * bre ignored.  Multiple URLs represent blternbtive bddresses for the
+ * sbme logicbl resource.  The order of the bddresses is not significbnt.
  *
- * @author Scott Seligman
+ * @buthor Scott Seligmbn
  */
 
 
-public class RegistryContextFactory
-        implements ObjectFactory, InitialContextFactory
+public clbss RegistryContextFbctory
+        implements ObjectFbctory, InitiblContextFbctory
 {
     /**
-     * The type of each address in an RMI registry reference.
+     * The type of ebch bddress in bn RMI registry reference.
      */
-    public final static String ADDRESS_TYPE = "URL";
+    public finbl stbtic String ADDRESS_TYPE = "URL";
 
-    public Context getInitialContext(Hashtable<?,?> env) throws NamingException {
+    public Context getInitiblContext(Hbshtbble<?,?> env) throws NbmingException {
 
         if (env != null) {
-            env = (Hashtable) env.clone();
+            env = (Hbshtbble) env.clone();
         }
         return URLToContext(getInitCtxURL(env), env);
     }
 
-    public Object getObjectInstance(Object ref, Name name, Context nameCtx,
-                                    Hashtable<?,?> env)
-            throws NamingException
+    public Object getObjectInstbnce(Object ref, Nbme nbme, Context nbmeCtx,
+                                    Hbshtbble<?,?> env)
+            throws NbmingException
     {
         if (!isRegistryRef(ref)) {
             return null;
         }
         /*
-         * No need to clone env here.  If getObjectInstance()
-         * returns something other than a RegistryContext (which
-         * happens if you're looking up an object bound in the
-         * registry, as opposed to looking up the registry itself),
-         * then the context is GCed right away and there's no need to
-         * clone the environment.  If getObjectInstance() returns a
+         * No need to clone env here.  If getObjectInstbnce()
+         * returns something other thbn b RegistryContext (which
+         * hbppens if you're looking up bn object bound in the
+         * registry, bs opposed to looking up the registry itself),
+         * then the context is GCed right bwby bnd there's no need to
+         * clone the environment.  If getObjectInstbnce() returns b
          * RegistryContext, then it still goes through
-         * GenericURLContext, which calls RegistryContext.lookup()
-         * with an empty name, which clones the environment.
+         * GenericURLContext, which cblls RegistryContext.lookup()
+         * with bn empty nbme, which clones the environment.
          */
         Object obj = URLsToObject(getURLs((Reference)ref), env);
-        if (obj instanceof RegistryContext) {
+        if (obj instbnceof RegistryContext) {
             RegistryContext ctx = (RegistryContext)obj;
             ctx.reference = (Reference)ref;
         }
         return obj;
     }
 
-    private static Context URLToContext(String url, Hashtable<?,?> env)
-            throws NamingException
+    privbte stbtic Context URLToContext(String url, Hbshtbble<?,?> env)
+            throws NbmingException
     {
-        rmiURLContextFactory factory = new rmiURLContextFactory();
-        Object obj = factory.getObjectInstance(url, null, null, env);
+        rmiURLContextFbctory fbctory = new rmiURLContextFbctory();
+        Object obj = fbctory.getObjectInstbnce(url, null, null, env);
 
-        if (obj instanceof Context) {
+        if (obj instbnceof Context) {
             return (Context)obj;
         } else {
             throw (new NotContextException(url));
         }
     }
 
-    private static Object URLsToObject(String[] urls, Hashtable<?,?> env)
-            throws NamingException
+    privbte stbtic Object URLsToObject(String[] urls, Hbshtbble<?,?> env)
+            throws NbmingException
     {
-        rmiURLContextFactory factory = new rmiURLContextFactory();
-        return factory.getObjectInstance(urls, null, null, env);
+        rmiURLContextFbctory fbctory = new rmiURLContextFbctory();
+        return fbctory.getObjectInstbnce(urls, null, null, env);
     }
 
     /**
-     * Reads environment to find URL of initial context.
-     * The default URL is "rmi:".
+     * Rebds environment to find URL of initibl context.
+     * The defbult URL is "rmi:".
      */
-    private static String getInitCtxURL(Hashtable<?,?> env) {
+    privbte stbtic String getInitCtxURL(Hbshtbble<?,?> env) {
 
-        final String defaultURL = "rmi:";
+        finbl String defbultURL = "rmi:";
 
         String url = null;
         if (env != null) {
             url = (String)env.get(Context.PROVIDER_URL);
         }
-        return ((url != null) ? url : defaultURL);
+        return ((url != null) ? url : defbultURL);
     }
 
     /**
-     * Returns true if argument is an RMI registry reference.
+     * Returns true if brgument is bn RMI registry reference.
      */
-    private static boolean isRegistryRef(Object obj) {
+    privbte stbtic boolebn isRegistryRef(Object obj) {
 
-        if (!(obj instanceof Reference)) {
-            return false;
+        if (!(obj instbnceof Reference)) {
+            return fblse;
         }
-        String thisClassName = RegistryContextFactory.class.getName();
+        String thisClbssNbme = RegistryContextFbctory.clbss.getNbme();
         Reference ref = (Reference)obj;
 
-        return thisClassName.equals(ref.getFactoryClassName());
+        return thisClbssNbme.equbls(ref.getFbctoryClbssNbme());
     }
 
     /**
-     * Returns the URLs contained within an RMI registry reference.
+     * Returns the URLs contbined within bn RMI registry reference.
      */
-    private static String[] getURLs(Reference ref) throws NamingException {
+    privbte stbtic String[] getURLs(Reference ref) throws NbmingException {
 
         int size = 0;   // number of URLs
         String[] urls = new String[ref.size()];
 
-        Enumeration<RefAddr> addrs = ref.getAll();
-        while (addrs.hasMoreElements()) {
-            RefAddr addr = addrs.nextElement();
+        Enumerbtion<RefAddr> bddrs = ref.getAll();
+        while (bddrs.hbsMoreElements()) {
+            RefAddr bddr = bddrs.nextElement();
 
-            if ((addr instanceof StringRefAddr) &&
-                addr.getType().equals(ADDRESS_TYPE)) {
+            if ((bddr instbnceof StringRefAddr) &&
+                bddr.getType().equbls(ADDRESS_TYPE)) {
 
-                urls[size++] = (String)addr.getContent();
+                urls[size++] = (String)bddr.getContent();
             }
         }
         if (size == 0) {
-            throw (new ConfigurationException(
-                    "Reference contains no valid addresses"));
+            throw (new ConfigurbtionException(
+                    "Reference contbins no vblid bddresses"));
         }
 
-        // Trim URL array down to size.
+        // Trim URL brrby down to size.
         if (size == ref.size()) {
             return urls;
         }
         String[] urls2 = new String[size];
-        System.arraycopy(urls, 0, urls2, 0, size);
+        System.brrbycopy(urls, 0, urls2, 0, size);
         return urls2;
     }
 }

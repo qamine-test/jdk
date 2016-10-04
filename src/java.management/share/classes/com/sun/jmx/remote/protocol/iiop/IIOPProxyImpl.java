@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2009,2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009,2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.protocol.iiop;
+pbckbge com.sun.jmx.remote.protocol.iiop;
 
 import org.omg.CORBA.ORB;
-import org.omg.CORBA.portable.Delegate;
-import javax.rmi.PortableRemoteObject;
-import javax.rmi.CORBA.Stub;
+import org.omg.CORBA.portbble.Delegbte;
+import jbvbx.rmi.PortbbleRemoteObject;
+import jbvbx.rmi.CORBA.Stub;
 
-import java.util.Properties;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.NoSuchObjectException;
+import jbvb.util.Properties;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.NoSuchObjectException;
 
-import com.sun.jmx.remote.internal.IIOPProxy;
-import java.io.SerializablePermission;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.Permissions;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.ProtectionDomain;
+import com.sun.jmx.remote.internbl.IIOPProxy;
+import jbvb.io.SeriblizbblePermission;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.Permissions;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.ProtectionDombin;
 
 /**
- * An implementation of IIOPProxy that simply delegates to the appropriate
- * RMI-IIOP and CORBA APIs.
+ * An implementbtion of IIOPProxy thbt simply delegbtes to the bppropribte
+ * RMI-IIOP bnd CORBA APIs.
  */
 
-public class IIOPProxyImpl implements IIOPProxy {
-    // special ACC used to initialize the IIOP stub
-    // the only allowed privilege is SerializablePermission("enableSubclassImplementation")
-    private static final AccessControlContext STUB_ACC;
+public clbss IIOPProxyImpl implements IIOPProxy {
+    // specibl ACC used to initiblize the IIOP stub
+    // the only bllowed privilege is SeriblizbblePermission("enbbleSubclbssImplementbtion")
+    privbte stbtic finbl AccessControlContext STUB_ACC;
 
-    static {
+    stbtic {
         Permissions p = new Permissions();
-        p.add(new SerializablePermission("enableSubclassImplementation"));
+        p.bdd(new SeriblizbblePermission("enbbleSubclbssImplementbtion"));
         STUB_ACC = new AccessControlContext(
-            new ProtectionDomain[]{
-                new ProtectionDomain(null, p)
+            new ProtectionDombin[]{
+                new ProtectionDombin(null, p)
             }
         );
     }
@@ -67,26 +67,26 @@ public class IIOPProxyImpl implements IIOPProxy {
     public IIOPProxyImpl() { }
 
     @Override
-    public boolean isStub(Object obj) {
-        return (obj instanceof Stub);
+    public boolebn isStub(Object obj) {
+        return (obj instbnceof Stub);
     }
 
     @Override
-    public Object getDelegate(Object stub) {
-        return ((Stub)stub)._get_delegate();
+    public Object getDelegbte(Object stub) {
+        return ((Stub)stub)._get_delegbte();
     }
 
     @Override
-    public void setDelegate(Object stub, Object delegate) {
-        ((Stub)stub)._set_delegate((Delegate)delegate);
+    public void setDelegbte(Object stub, Object delegbte) {
+        ((Stub)stub)._set_delegbte((Delegbte)delegbte);
     }
 
     @Override
     public Object getOrb(Object stub) {
         try {
             return ((Stub)stub)._orb();
-        } catch (org.omg.CORBA.BAD_OPERATION x) {
-            throw new UnsupportedOperationException(x);
+        } cbtch (org.omg.CORBA.BAD_OPERATION x) {
+            throw new UnsupportedOperbtionException(x);
         }
     }
 
@@ -98,13 +98,13 @@ public class IIOPProxyImpl implements IIOPProxy {
     }
 
     @Override
-    public boolean isOrb(Object obj) {
-        return (obj instanceof ORB);
+    public boolebn isOrb(Object obj) {
+        return (obj instbnceof ORB);
     }
 
     @Override
-    public Object createOrb(String[] args, Properties props) {
-        return ORB.init(args, props);
+    public Object crebteOrb(String[] brgs, Properties props) {
+        return ORB.init(brgs, props);
     }
 
     @Override
@@ -118,36 +118,36 @@ public class IIOPProxyImpl implements IIOPProxy {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T narrow(Object narrowFrom, Class<T> narrowTo) {
-        return (T)PortableRemoteObject.narrow(narrowFrom, narrowTo);
+    @SuppressWbrnings("unchecked")
+    public <T> T nbrrow(Object nbrrowFrom, Clbss<T> nbrrowTo) {
+        return (T)PortbbleRemoteObject.nbrrow(nbrrowFrom, nbrrowTo);
     }
 
     @Override
     public void exportObject(Remote obj) throws RemoteException {
-        PortableRemoteObject.exportObject(obj);
+        PortbbleRemoteObject.exportObject(obj);
     }
 
     @Override
     public void unexportObject(Remote obj) throws NoSuchObjectException {
-        PortableRemoteObject.unexportObject(obj);
+        PortbbleRemoteObject.unexportObject(obj);
     }
 
     @Override
-    public Remote toStub(final Remote obj) throws NoSuchObjectException {
-        if (System.getSecurityManager() == null) {
-            return PortableRemoteObject.toStub(obj);
+    public Remote toStub(finbl Remote obj) throws NoSuchObjectException {
+        if (System.getSecurityMbnbger() == null) {
+            return PortbbleRemoteObject.toStub(obj);
         } else {
             try {
                 return AccessController.doPrivileged(new PrivilegedExceptionAction<Remote>() {
 
                     @Override
                     public Remote run() throws Exception {
-                        return PortableRemoteObject.toStub(obj);
+                        return PortbbleRemoteObject.toStub(obj);
                     }
                 }, STUB_ACC);
-            } catch (PrivilegedActionException e) {
-                if (e.getException() instanceof NoSuchObjectException) {
+            } cbtch (PrivilegedActionException e) {
+                if (e.getException() instbnceof NoSuchObjectException) {
                     throw (NoSuchObjectException)e.getException();
                 }
                 throw new RuntimeException("Unexpected exception type", e.getException());

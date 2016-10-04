@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1996, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.io.*;
-import java.rmi.Remote;
-import java.rmi.server.RemoteStub;
-import sun.rmi.transport.ObjectTable;
-import sun.rmi.transport.Target;
+import jbvb.io.*;
+import jbvb.rmi.Remote;
+import jbvb.rmi.server.RemoteStub;
+import sun.rmi.trbnsport.ObjectTbble;
+import sun.rmi.trbnsport.Tbrget;
 
 /**
- * A MarshalOutputStream extends ObjectOutputStream to add functions
- * specific to marshaling of remote object references. If it is
- * necessary to serialize remote objects or objects that contain
- * references to remote objects a MarshalOutputStream must be used
- * instead of ObjectOutputStream. <p>
+ * A MbrshblOutputStrebm extends ObjectOutputStrebm to bdd functions
+ * specific to mbrshbling of remote object references. If it is
+ * necessbry to seriblize remote objects or objects thbt contbin
+ * references to remote objects b MbrshblOutputStrebm must be used
+ * instebd of ObjectOutputStrebm. <p>
  *
- * A new MarshalOutputStream is constructed to serialize remote
- * objects or graphs containing remote objects. Objects are written to
- * the stream using the ObjectOutputStream.writeObject method. <p>
+ * A new MbrshblOutputStrebm is constructed to seriblize remote
+ * objects or grbphs contbining remote objects. Objects bre written to
+ * the strebm using the ObjectOutputStrebm.writeObject method. <p>
  *
- * MarshalOutputStream maps remote objects to the corresponding remote
- * stub and embeds the location from which to load the stub
- * classes. The location may be ignored by the client but is supplied.
+ * MbrshblOutputStrebm mbps remote objects to the corresponding remote
+ * stub bnd embeds the locbtion from which to lobd the stub
+ * clbsses. The locbtion mby be ignored by the client but is supplied.
  */
-public class MarshalOutputStream extends ObjectOutputStream
+public clbss MbrshblOutputStrebm extends ObjectOutputStrebm
 {
     /**
-     * Creates a marshal output stream with protocol version 1.
+     * Crebtes b mbrshbl output strebm with protocol version 1.
      */
-    public MarshalOutputStream(OutputStream out) throws IOException {
-        this(out, ObjectStreamConstants.PROTOCOL_VERSION_1);
+    public MbrshblOutputStrebm(OutputStrebm out) throws IOException {
+        this(out, ObjectStrebmConstbnts.PROTOCOL_VERSION_1);
     }
 
     /**
-     * Creates a marshal output stream with the given protocol version.
+     * Crebtes b mbrshbl output strebm with the given protocol version.
      */
-    public MarshalOutputStream(OutputStream out, int protocolVersion)
+    public MbrshblOutputStrebm(OutputStrebm out, int protocolVersion)
         throws IOException
     {
         super(out);
         this.useProtocolVersion(protocolVersion);
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                enableReplaceObject(true);
+                enbbleReplbceObject(true);
                 return null;
             }
         });
     }
 
     /**
-     * Checks for objects that are instances of java.rmi.Remote
-     * that need to be serialized as proxy objects.
+     * Checks for objects thbt bre instbnces of jbvb.rmi.Remote
+     * thbt need to be seriblized bs proxy objects.
      */
-    protected final Object replaceObject(Object obj) throws IOException {
-        if ((obj instanceof Remote) && !(obj instanceof RemoteStub)) {
-            Target target = ObjectTable.getTarget((Remote) obj);
-            if (target != null) {
-                return target.getStub();
+    protected finbl Object replbceObject(Object obj) throws IOException {
+        if ((obj instbnceof Remote) && !(obj instbnceof RemoteStub)) {
+            Tbrget tbrget = ObjectTbble.getTbrget((Remote) obj);
+            if (tbrget != null) {
+                return tbrget.getStub();
             }
         }
         return obj;
     }
 
     /**
-     * Serializes a location from which to load the the specified class.
+     * Seriblizes b locbtion from which to lobd the the specified clbss.
      */
-    protected void annotateClass(Class<?> cl) throws IOException {
-        writeLocation(java.rmi.server.RMIClassLoader.getClassAnnotation(cl));
+    protected void bnnotbteClbss(Clbss<?> cl) throws IOException {
+        writeLocbtion(jbvb.rmi.server.RMIClbssLobder.getClbssAnnotbtion(cl));
     }
 
     /**
-     * Serializes a location from which to load the specified class.
+     * Seriblizes b locbtion from which to lobd the specified clbss.
      */
-    protected void annotateProxyClass(Class<?> cl) throws IOException {
-        annotateClass(cl);
+    protected void bnnotbteProxyClbss(Clbss<?> cl) throws IOException {
+        bnnotbteClbss(cl);
     }
 
     /**
-     * Writes the location for the class into the stream.  This method can
-     * be overridden by subclasses that store this annotation somewhere
-     * else than as the next object in the stream, as is done by this class.
+     * Writes the locbtion for the clbss into the strebm.  This method cbn
+     * be overridden by subclbsses thbt store this bnnotbtion somewhere
+     * else thbn bs the next object in the strebm, bs is done by this clbss.
      */
-    protected void writeLocation(String location) throws IOException {
-        writeObject(location);
+    protected void writeLocbtion(String locbtion) throws IOException {
+        writeObject(locbtion);
     }
 }

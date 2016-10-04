@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.sasl.util;
+pbckbge com.sun.security.sbsl.util;
 
-import javax.security.sasl.Sasl;
-import java.util.Map;
+import jbvbx.security.sbsl.Sbsl;
+import jbvb.util.Mbp;
 
 /**
- * Static class that contains utilities for dealing with Java SASL
- * security policy-related properties.
+ * Stbtic clbss thbt contbins utilities for debling with Jbvb SASL
+ * security policy-relbted properties.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
-final public class PolicyUtils {
-    // Can't create one of these
-    private PolicyUtils() {
+finbl public clbss PolicyUtils {
+    // Cbn't crebte one of these
+    privbte PolicyUtils() {
     }
 
-    public final static int NOPLAINTEXT = 0x0001;
-    public final static int NOACTIVE = 0x0002;
-    public final static int NODICTIONARY = 0x0004;
-    public final static int FORWARD_SECRECY = 0x0008;
-    public final static int NOANONYMOUS = 0x0010;
-    public final static int PASS_CREDENTIALS = 0x0200;
+    public finbl stbtic int NOPLAINTEXT = 0x0001;
+    public finbl stbtic int NOACTIVE = 0x0002;
+    public finbl stbtic int NODICTIONARY = 0x0004;
+    public finbl stbtic int FORWARD_SECRECY = 0x0008;
+    public finbl stbtic int NOANONYMOUS = 0x0010;
+    public finbl stbtic int PASS_CREDENTIALS = 0x0200;
 
     /**
-     * Determines whether a mechanism's characteristics, as defined in flags,
+     * Determines whether b mechbnism's chbrbcteristics, bs defined in flbgs,
      * fits the security policy properties found in props.
-     * @param flags The mechanism's security characteristics
-     * @param props The security policy properties to check
-     * @return true if passes; false if fails
+     * @pbrbm flbgs The mechbnism's security chbrbcteristics
+     * @pbrbm props The security policy properties to check
+     * @return true if pbsses; fblse if fbils
      */
-    public static boolean checkPolicy(int flags, Map<String, ?> props) {
+    public stbtic boolebn checkPolicy(int flbgs, Mbp<String, ?> props) {
         if (props == null) {
             return true;
         }
 
-        if ("true".equalsIgnoreCase((String)props.get(Sasl.POLICY_NOPLAINTEXT))
-            && (flags&NOPLAINTEXT) == 0) {
-            return false;
+        if ("true".equblsIgnoreCbse((String)props.get(Sbsl.POLICY_NOPLAINTEXT))
+            && (flbgs&NOPLAINTEXT) == 0) {
+            return fblse;
         }
-        if ("true".equalsIgnoreCase((String)props.get(Sasl.POLICY_NOACTIVE))
-            && (flags&NOACTIVE) == 0) {
-            return false;
+        if ("true".equblsIgnoreCbse((String)props.get(Sbsl.POLICY_NOACTIVE))
+            && (flbgs&NOACTIVE) == 0) {
+            return fblse;
         }
-        if ("true".equalsIgnoreCase((String)props.get(Sasl.POLICY_NODICTIONARY))
-            && (flags&NODICTIONARY) == 0) {
-            return false;
+        if ("true".equblsIgnoreCbse((String)props.get(Sbsl.POLICY_NODICTIONARY))
+            && (flbgs&NODICTIONARY) == 0) {
+            return fblse;
         }
-        if ("true".equalsIgnoreCase((String)props.get(Sasl.POLICY_NOANONYMOUS))
-            && (flags&NOANONYMOUS) == 0) {
-            return false;
+        if ("true".equblsIgnoreCbse((String)props.get(Sbsl.POLICY_NOANONYMOUS))
+            && (flbgs&NOANONYMOUS) == 0) {
+            return fblse;
         }
-        if ("true".equalsIgnoreCase((String)props.get(Sasl.POLICY_FORWARD_SECRECY))
-            && (flags&FORWARD_SECRECY) == 0) {
-            return false;
+        if ("true".equblsIgnoreCbse((String)props.get(Sbsl.POLICY_FORWARD_SECRECY))
+            && (flbgs&FORWARD_SECRECY) == 0) {
+            return fblse;
         }
-        if ("true".equalsIgnoreCase((String)props.get(Sasl.POLICY_PASS_CREDENTIALS))
-            && (flags&PASS_CREDENTIALS) == 0) {
-            return false;
+        if ("true".equblsIgnoreCbse((String)props.get(Sbsl.POLICY_PASS_CREDENTIALS))
+            && (flbgs&PASS_CREDENTIALS) == 0) {
+            return fblse;
         }
 
         return true;
     }
 
     /**
-     * Given a list of mechanisms and their characteristics, select the
-     * subset that conforms to the policies defined in props.
-     * Useful for SaslXXXFactory.getMechanismNames(props) implementations.
+     * Given b list of mechbnisms bnd their chbrbcteristics, select the
+     * subset thbt conforms to the policies defined in props.
+     * Useful for SbslXXXFbctory.getMechbnismNbmes(props) implementbtions.
      *
      */
-    public static String[] filterMechs(String[] mechs, int[] policies,
-        Map<String, ?> props) {
+    public stbtic String[] filterMechs(String[] mechs, int[] policies,
+        Mbp<String, ?> props) {
         if (props == null) {
             return mechs.clone();
         }
 
-        boolean[] passed = new boolean[mechs.length];
+        boolebn[] pbssed = new boolebn[mechs.length];
         int count = 0;
         for (int i = 0; i< mechs.length; i++) {
-            if (passed[i] = checkPolicy(policies[i], props)) {
+            if (pbssed[i] = checkPolicy(policies[i], props)) {
                 ++count;
             }
         }
-        String[] answer = new String[count];
+        String[] bnswer = new String[count];
         for (int i = 0, j=0; i< mechs.length; i++) {
-            if (passed[i]) {
-                answer[j++] = mechs[i];
+            if (pbssed[i]) {
+                bnswer[j++] = mechs[i];
             }
         }
 
-        return answer;
+        return bnswer;
     }
 }

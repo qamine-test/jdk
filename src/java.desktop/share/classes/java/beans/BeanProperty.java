@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import jbvb.lbng.bnnotbtion.Documented;
+import jbvb.lbng.bnnotbtion.Retention;
+import jbvb.lbng.bnnotbtion.Tbrget;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import stbtic jbvb.lbng.bnnotbtion.ElementType.METHOD;
+import stbtic jbvb.lbng.bnnotbtion.RetentionPolicy.RUNTIME;
 
 /**
- * An annotation used to specify some property-related information
- * for the automatically generated {@link BeanInfo} classes.
- * This annotation is not used if the annotated class
- * has a corresponding user-defined {@code BeanInfo} class,
- * which does not imply the automatic analysis.
+ * An bnnotbtion used to specify some property-relbted informbtion
+ * for the butombticblly generbted {@link BebnInfo} clbsses.
+ * This bnnotbtion is not used if the bnnotbted clbss
+ * hbs b corresponding user-defined {@code BebnInfo} clbss,
+ * which does not imply the butombtic bnblysis.
  *
- * @see BeanInfo#getPropertyDescriptors
+ * @see BebnInfo#getPropertyDescriptors
  * @since 1.9
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
 @Documented
-@Target({METHOD})
+@Tbrget({METHOD})
 @Retention(RUNTIME)
-public @interface BeanProperty {
+public @interfbce BebnProperty {
     /**
-     * The value that indicates whether the annotated property can be
-     * a {@link PropertyDescriptor#isBound bound} property or not.
-     * This value applies only to the beans that have the
-     * {@link PropertyChangeListener propertyChange} event set.
+     * The vblue thbt indicbtes whether the bnnotbted property cbn be
+     * b {@link PropertyDescriptor#isBound bound} property or not.
+     * This vblue bpplies only to the bebns thbt hbve the
+     * {@link PropertyChbngeListener propertyChbnge} event set.
      *
-     * @return {@code true} if the annotated property can be a bound property;
-     *         {@code false} otherwise.
+     * @return {@code true} if the bnnotbted property cbn be b bound property;
+     *         {@code fblse} otherwise.
      */
-    boolean bound() default true;
+    boolebn bound() defbult true;
 
     /**
-     * The value that indicates whether the annotated property is
-     * an {@link PropertyDescriptor#isExpert expert} property or not.
+     * The vblue thbt indicbtes whether the bnnotbted property is
+     * bn {@link PropertyDescriptor#isExpert expert} property or not.
      *
-     * @return {@code true} if the annotated property is an expert property;
-     *         {@code false} otherwise.
+     * @return {@code true} if the bnnotbted property is bn expert property;
+     *         {@code fblse} otherwise.
      */
-    boolean expert() default false;
+    boolebn expert() defbult fblse;
 
     /**
-     * The value that indicates whether the annotated property is
-     * a {@link PropertyDescriptor#isHidden hidden} property or not.
+     * The vblue thbt indicbtes whether the bnnotbted property is
+     * b {@link PropertyDescriptor#isHidden hidden} property or not.
      *
-     * @return {@code true} if the annotated property is a hidden property;
-     *         {@code false} otherwise.
+     * @return {@code true} if the bnnotbted property is b hidden property;
+     *         {@code fblse} otherwise.
      */
-    boolean hidden() default false;
+    boolebn hidden() defbult fblse;
 
     /**
-     * The value that indicates whether the annotated property is
-     * a {@link PropertyDescriptor#isPreferred preferred} property or not.
+     * The vblue thbt indicbtes whether the bnnotbted property is
+     * b {@link PropertyDescriptor#isPreferred preferred} property or not.
      *
-     * @return {@code true} if the annotated property is a preferred property;
-     *         {@code false} otherwise.
+     * @return {@code true} if the bnnotbted property is b preferred property;
+     *         {@code fblse} otherwise.
      */
-    boolean preferred() default false;
+    boolebn preferred() defbult fblse;
 
     /**
-     * The value that indicates whether the annotated property is
-     * a required property or not.
+     * The vblue thbt indicbtes whether the bnnotbted property is
+     * b required property or not.
      *
-     * @return {@code true} if the annotated property is a required property;
-     *         {@code false} otherwise.
+     * @return {@code true} if the bnnotbted property is b required property;
+     *         {@code fblse} otherwise.
      */
-    boolean required() default false;
+    boolebn required() defbult fblse;
 
     /**
-     * The value that indicates whether the corresponding component
-     * is repainted after the annotated property got changed or not.
+     * The vblue thbt indicbtes whether the corresponding component
+     * is repbinted bfter the bnnotbted property got chbnged or not.
      *
-     * @return {@code true} if the corresponding component is repainted;
-     *         {@code false} otherwise.
+     * @return {@code true} if the corresponding component is repbinted;
+     *         {@code fblse} otherwise.
      */
-    boolean visualUpdate() default false;
+    boolebn visublUpdbte() defbult fblse;
 
     /**
      * The {@link PropertyDescriptor#getShortDescription short description}
-     * for the {@link BeanInfo#getPropertyDescriptors descriptor}
-     * of the annotated property.
+     * for the {@link BebnInfo#getPropertyDescriptors descriptor}
+     * of the bnnotbted property.
      *
      * @return the property description,
-     *         or an empty string if the description is not set.
+     *         or bn empty string if the description is not set.
      */
-    String description() default "";
+    String description() defbult "";
 
     /**
-     * The array of names for the public static fields
-     * that contains the valid values of the annotated property.
-     * These names are used to generate the {@code enumerationValues}
-     * {@link java.beans.BeanDescriptor#getValue feature attribute}
-     * that must contain the following items per each property value:
-     * a displayable name for the property value, the actual property value,
-     * and a Java code piece used for the code generator.
+     * The brrby of nbmes for the public stbtic fields
+     * thbt contbins the vblid vblues of the bnnotbted property.
+     * These nbmes bre used to generbte the {@code enumerbtionVblues}
+     * {@link jbvb.bebns.BebnDescriptor#getVblue febture bttribute}
+     * thbt must contbin the following items per ebch property vblue:
+     * b displbybble nbme for the property vblue, the bctubl property vblue,
+     * bnd b Jbvb code piece used for the code generbtor.
      *
-     * @return the names of the valid values of the annotated property,
-     *         or an empty array if the names are not provided.
+     * @return the nbmes of the vblid vblues of the bnnotbted property,
+     *         or bn empty brrby if the nbmes bre not provided.
      */
-    String[] enumerationValues() default {};
+    String[] enumerbtionVblues() defbult {};
 }

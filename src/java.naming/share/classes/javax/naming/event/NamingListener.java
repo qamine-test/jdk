@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.event;
+pbckbge jbvbx.nbming.event;
 
 /**
-  * This interface is the root of listener interfaces that
-  * handle <tt>NamingEvent</tt>s.
-  * It does not make sense for a listener to implement just this interface.
-  * A listener typically implements a subinterface of <tt>NamingListener</tt>,
-  * such as <tt>ObjectChangeListener</tt> or <tt>NamespaceChangeListener</tt>.
+  * This interfbce is the root of listener interfbces thbt
+  * hbndle <tt>NbmingEvent</tt>s.
+  * It does not mbke sense for b listener to implement just this interfbce.
+  * A listener typicblly implements b subinterfbce of <tt>NbmingListener</tt>,
+  * such bs <tt>ObjectChbngeListener</tt> or <tt>NbmespbceChbngeListener</tt>.
   *<p>
-  * This interface contains a single method, <tt>namingExceptionThrown()</tt>,
-  * that must be implemented so that the listener can be notified of
-  * exceptions that are thrown (by the service provider) while gathering
-  * information about the events that they're interested in.
-  * When this method is invoked, the listener has been automatically deregistered
-  * from the <tt>EventContext</tt> with which it has registered.
+  * This interfbce contbins b single method, <tt>nbmingExceptionThrown()</tt>,
+  * thbt must be implemented so thbt the listener cbn be notified of
+  * exceptions thbt bre thrown (by the service provider) while gbthering
+  * informbtion bbout the events thbt they're interested in.
+  * When this method is invoked, the listener hbs been butombticblly deregistered
+  * from the <tt>EventContext</tt> with which it hbs registered.
   *<p>
-  * For example, suppose a listener implements <tt>ObjectChangeListener</tt> and
-  * registers with a <tt>EventContext</tt>.
+  * For exbmple, suppose b listener implements <tt>ObjectChbngeListener</tt> bnd
+  * registers with b <tt>EventContext</tt>.
   * Then, if the connection to the server is subsequently broken,
-  * the listener will receive a <tt>NamingExceptionEvent</tt> and may
-  * take some corrective action, such as notifying the user of the application.
+  * the listener will receive b <tt>NbmingExceptionEvent</tt> bnd mby
+  * tbke some corrective bction, such bs notifying the user of the bpplicbtion.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see NamingEvent
-  * @see NamingExceptionEvent
+  * @see NbmingEvent
+  * @see NbmingExceptionEvent
   * @see EventContext
   * @see EventDirContext
   * @since 1.3
   */
-public interface NamingListener extends java.util.EventListener {
+public interfbce NbmingListener extends jbvb.util.EventListener {
     /**
-     * Called when a naming exception is thrown while attempting
-     * to fire a <tt>NamingEvent</tt>.
+     * Cblled when b nbming exception is thrown while bttempting
+     * to fire b <tt>NbmingEvent</tt>.
      *
-     * @param evt The nonnull event.
+     * @pbrbm evt The nonnull event.
      */
-    void namingExceptionThrown(NamingExceptionEvent evt);
+    void nbmingExceptionThrown(NbmingExceptionEvent evt);
 }

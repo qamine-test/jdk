@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.security.PrivateKey;
-import java.security.Principal;
-import java.security.cert.X509Certificate;
-import java.net.Socket;
+import jbvb.security.PrivbteKey;
+import jbvb.security.Principbl;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.net.Socket;
 
 /**
- * Instances of this interface manage which X509 certificate-based
- * key pairs are used to authenticate the local side of a secure
+ * Instbnces of this interfbce mbnbge which X509 certificbte-bbsed
+ * key pbirs bre used to buthenticbte the locbl side of b secure
  * socket.
  * <P>
- * During secure socket negotiations, implentations
- * call methods in this interface to:
+ * During secure socket negotibtions, implentbtions
+ * cbll methods in this interfbce to:
  * <UL>
- * <LI> determine the set of aliases that are available for negotiations
- *      based on the criteria presented,
- * <LI> select the <i> best alias</i> based on
- *      the criteria presented, and
- * <LI> obtain the corresponding key material for given aliases.
+ * <LI> determine the set of blibses thbt bre bvbilbble for negotibtions
+ *      bbsed on the criterib presented,
+ * <LI> select the <i> best blibs</i> bbsed on
+ *      the criterib presented, bnd
+ * <LI> obtbin the corresponding key mbteribl for given blibses.
  * </UL>
  * <P>
- * Note: the X509ExtendedKeyManager should be used in favor of this
- * class.
+ * Note: the X509ExtendedKeyMbnbger should be used in fbvor of this
+ * clbss.
  *
  * @since 1.4
  */
-public interface X509KeyManager extends KeyManager {
+public interfbce X509KeyMbnbger extends KeyMbnbger {
     /**
-     * Get the matching aliases for authenticating the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Get the mbtching blibses for buthenticbting the client side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      *
-     * @param keyType the key algorithm type name
-     * @param issuers the list of acceptable CA issuer subject names,
-     *          or null if it does not matter which issuers are used.
-     * @return an array of the matching alias names, or null if there
-     *          were no matches.
+     * @pbrbm keyType the key blgorithm type nbme
+     * @pbrbm issuers the list of bcceptbble CA issuer subject nbmes,
+     *          or null if it does not mbtter which issuers bre used.
+     * @return bn brrby of the mbtching blibs nbmes, or null if there
+     *          were no mbtches.
      */
-    public String[] getClientAliases(String keyType, Principal[] issuers);
+    public String[] getClientAlibses(String keyType, Principbl[] issuers);
 
     /**
-     * Choose an alias to authenticate the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Choose bn blibs to buthenticbte the client side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      *
-     * @param keyType the key algorithm type name(s), ordered
+     * @pbrbm keyType the key blgorithm type nbme(s), ordered
      *          with the most-preferred key type first.
-     * @param issuers the list of acceptable CA issuer subject names
-     *           or null if it does not matter which issuers are used.
-     * @param socket the socket to be used for this connection.  This
-     *          parameter can be null, which indicates that
-     *          implementations are free to select an alias applicable
-     *          to any socket.
-     * @return the alias name for the desired key, or null if there
-     *          are no matches.
+     * @pbrbm issuers the list of bcceptbble CA issuer subject nbmes
+     *           or null if it does not mbtter which issuers bre used.
+     * @pbrbm socket the socket to be used for this connection.  This
+     *          pbrbmeter cbn be null, which indicbtes thbt
+     *          implementbtions bre free to select bn blibs bpplicbble
+     *          to bny socket.
+     * @return the blibs nbme for the desired key, or null if there
+     *          bre no mbtches.
      */
-    public String chooseClientAlias(String[] keyType, Principal[] issuers,
+    public String chooseClientAlibs(String[] keyType, Principbl[] issuers,
         Socket socket);
 
     /**
-     * Get the matching aliases for authenticating the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Get the mbtching blibses for buthenticbting the server side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      *
-     * @param keyType the key algorithm type name
-     * @param issuers the list of acceptable CA issuer subject names
-     *          or null if it does not matter which issuers are used.
-     * @return an array of the matching alias names, or null
-     *          if there were no matches.
+     * @pbrbm keyType the key blgorithm type nbme
+     * @pbrbm issuers the list of bcceptbble CA issuer subject nbmes
+     *          or null if it does not mbtter which issuers bre used.
+     * @return bn brrby of the mbtching blibs nbmes, or null
+     *          if there were no mbtches.
      */
-    public String[] getServerAliases(String keyType, Principal[] issuers);
+    public String[] getServerAlibses(String keyType, Principbl[] issuers);
 
     /**
-     * Choose an alias to authenticate the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Choose bn blibs to buthenticbte the server side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      *
-     * @param keyType the key algorithm type name.
-     * @param issuers the list of acceptable CA issuer subject names
-     *          or null if it does not matter which issuers are used.
-     * @param socket the socket to be used for this connection.  This
-     *          parameter can be null, which indicates that
-     *          implementations are free to select an alias applicable
-     *          to any socket.
-     * @return the alias name for the desired key, or null if there
-     *          are no matches.
+     * @pbrbm keyType the key blgorithm type nbme.
+     * @pbrbm issuers the list of bcceptbble CA issuer subject nbmes
+     *          or null if it does not mbtter which issuers bre used.
+     * @pbrbm socket the socket to be used for this connection.  This
+     *          pbrbmeter cbn be null, which indicbtes thbt
+     *          implementbtions bre free to select bn blibs bpplicbble
+     *          to bny socket.
+     * @return the blibs nbme for the desired key, or null if there
+     *          bre no mbtches.
      */
-    public String chooseServerAlias(String keyType, Principal[] issuers,
+    public String chooseServerAlibs(String keyType, Principbl[] issuers,
         Socket socket);
 
     /**
-     * Returns the certificate chain associated with the given alias.
+     * Returns the certificbte chbin bssocibted with the given blibs.
      *
-     * @param alias the alias name
-     * @return the certificate chain (ordered with the user's certificate first
-     *          and the root certificate authority last), or null
-     *          if the alias can't be found.
+     * @pbrbm blibs the blibs nbme
+     * @return the certificbte chbin (ordered with the user's certificbte first
+     *          bnd the root certificbte buthority lbst), or null
+     *          if the blibs cbn't be found.
      */
-    public X509Certificate[] getCertificateChain(String alias);
+    public X509Certificbte[] getCertificbteChbin(String blibs);
 
     /**
-     * Returns the key associated with the given alias.
+     * Returns the key bssocibted with the given blibs.
      *
-     * @param alias the alias name
-     * @return the requested key, or null if the alias can't be found.
+     * @pbrbm blibs the blibs nbme
+     * @return the requested key, or null if the blibs cbn't be found.
      */
-    public PrivateKey getPrivateKey(String alias);
+    public PrivbteKey getPrivbteKey(String blibs);
 }

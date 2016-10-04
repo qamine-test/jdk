@@ -1,277 +1,277 @@
 <!--
- Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
 <html>
-<head>
+<hebd>
 <title></title>
-</head>
+</hebd>
 <body bgcolor=white>
 
-<h1 align=center>AWT Desktop Properties</h1>
+<h1 blign=center>AWT Desktop Properties</h1>
 
-The following refers to standard AWT desktop properties that
-may be obtained via the
-<a href="../Toolkit.html#getDesktopProperty(java.lang.String)">
-<code>Toolkit.getDesktopProperty</code></a> method.
+The following refers to stbndbrd AWT desktop properties thbt
+mby be obtbined vib the
+<b href="../Toolkit.html#getDesktopProperty(jbvb.lbng.String)">
+<code>Toolkit.getDesktopProperty</code></b> method.
 <p>
-Each desktop property is named by a unique string, which
-is the "name" of that property.
+Ebch desktop property is nbmed by b unique string, which
+is the "nbme" of thbt property.
 <p>
 Desktop properties supported by the AWT but not documented
-elsewhere - typically because there is no suitable
-method or class - are documented here.
+elsewhere - typicblly becbuse there is no suitbble
+method or clbss - bre documented here.
 <p>
-Desktop properties documented elsewhere are those which are
-tightly coupled with a method or class which documents them.
+Desktop properties documented elsewhere bre those which bre
+tightly coupled with b method or clbss which documents them.
 <p>
-Since desktop properties abstract an underlying platform
-setting, they may not be available in environments that do
-not support them. In the event that a desktop property is
-unavailable for any reason, the implementation will return
+Since desktop properties bbstrbct bn underlying plbtform
+setting, they mby not be bvbilbble in environments thbt do
+not support them. In the event thbt b desktop property is
+unbvbilbble for bny rebson, the implementbtion will return
 <code>null</code>.
 <p>
-The following table summarizes the desktop properties documented
-here, and their value types.
+The following tbble summbrizes the desktop properties documented
+here, bnd their vblue types.
 <br><br>
-<table align="center" border="0" cellspacing="0" cellpadding="2"
-  summary="Standard AWT Desktop Properties">
+<tbble blign="center" border="0" cellspbcing="0" cellpbdding="2"
+  summbry="Stbndbrd AWT Desktop Properties">
 <tr bgcolor="#ccccff">
-<th valign="TOP" align="LEFT">Property Name</th>
-<th valign="TOP" align="LEFT">Value Type</th>
-<th valign="TOP" align="LEFT">Summary Description</th>
+<th vblign="TOP" blign="LEFT">Property Nbme</th>
+<th vblign="TOP" blign="LEFT">Vblue Type</th>
+<th vblign="TOP" blign="LEFT">Summbry Description</th>
 </tr>
 <tr>
-<td valign="TOP"><A href="#awt.font.desktophints">awt.font.desktophints</A></td>
-<td valign="TOP"><a href="../../util/Map.html">java.util.Map</a></td>
-<td valign="TOP">Font smoothing (text antialiasing) settings.</td>
+<td vblign="TOP"><A href="#bwt.font.desktophints">bwt.font.desktophints</A></td>
+<td vblign="TOP"><b href="../../util/Mbp.html">jbvb.util.Mbp</b></td>
+<td vblign="TOP">Font smoothing (text bntiblibsing) settings.</td>
 </tr>
 <tr>
-<td valign="TOP"><A href="#sun.awt.enableExtraMouseButtons">sun.awt.enableExtraMouseButtons</A></td>
-<td valign="TOP"><a href="../../lang/Boolean.html">java.lang.Boolean</a></td>
-<td valign="TOP">Controls if mouse events from extra buttons are to be generated or not</td>
+<td vblign="TOP"><A href="#sun.bwt.enbbleExtrbMouseButtons">sun.bwt.enbbleExtrbMouseButtons</A></td>
+<td vblign="TOP"><b href="../../lbng/Boolebn.html">jbvb.lbng.Boolebn</b></td>
+<td vblign="TOP">Controls if mouse events from extrb buttons bre to be generbted or not</td>
 </tr>
-</table>
+</tbble>
 
 <h2>Desktop Font Rendering Hints</h2>
-<b>Desktop Property: <A name="awt.font.desktophints">"awt.font.desktophints"</A></b>
+<b>Desktop Property: <A nbme="bwt.font.desktophints">"bwt.font.desktophints"</A></b>
 <p>
-Modern desktops support various forms of text antialiasing (font smoothing).
+Modern desktops support vbrious forms of text bntiblibsing (font smoothing).
 <p>
-These are applied by platform-specific heavyweight components.
-However an application may want to render text using the same text
-antialiasing on a drawing surface or lightweight (non-platform) component using
-<a href="../Graphics2D.html"> <code>Graphics2D</code></a> methods.
-This is particularly important when creating
-<a href="../../../javax/swing/JComponent.html"> Swing components</a> which
-are required to appear consistent with native desktop components or other
+These bre bpplied by plbtform-specific hebvyweight components.
+However bn bpplicbtion mby wbnt to render text using the sbme text
+bntiblibsing on b drbwing surfbce or lightweight (non-plbtform) component using
+<b href="../Grbphics2D.html"> <code>Grbphics2D</code></b> methods.
+This is pbrticulbrly importbnt when crebting
+<b href="../../../jbvbx/swing/JComponent.html"> Swing components</b> which
+bre required to bppebr consistent with nbtive desktop components or other
 Swing components.
 
-<h3>Basic Usage</h3>
-The standard desktop property named
-<b>"awt.font.desktophints"</b>
-can be used to obtain the rendering hints that best match the desktop settings.
+<h3>Bbsic Usbge</h3>
+The stbndbrd desktop property nbmed
+<b>"bwt.font.desktophints"</b>
+cbn be used to obtbin the rendering hints thbt best mbtch the desktop settings.
 
-The return value is a
-<a href="../../util/Map.html"> Map</a> of
-<a href="../RenderingHints.html"> <code>RenderingHints</code></a> which
-can be directly applied to a <code>Graphics2D</code>.
+The return vblue is b
+<b href="../../util/Mbp.html"> Mbp</b> of
+<b href="../RenderingHints.html"> <code>RenderingHints</code></b> which
+cbn be directly bpplied to b <code>Grbphics2D</code>.
 <p>
-It is a <code>Map</code> as more than one hint may be needed.
-If non-null this can be directly applied to the <code>Graphics2D</code>.
+It is b <code>Mbp</code> bs more thbn one hint mby be needed.
+If non-null this cbn be directly bpplied to the <code>Grbphics2D</code>.
 <pre><code>
-Toolkit tk = Toolkit.getDefaultToolkit();
-Map map = (Map)(tk.getDesktopProperty("awt.font.desktophints"));
-if (map != null) {
-    graphics2D.addRenderingHints(map);
+Toolkit tk = Toolkit.getDefbultToolkit();
+Mbp mbp = (Mbp)(tk.getDesktopProperty("bwt.font.desktophints"));
+if (mbp != null) {
+    grbphics2D.bddRenderingHints(mbp);
 }
 </code></pre>
-<h3>Advanced Usage Tips</h3>
+<h3>Advbnced Usbge Tips</h3>
 
-<h4>Listening for changes</h4>
+<h4>Listening for chbnges</h4>
 <p>
-An application can listen for changes in the property
-using a <a href="../../beans/PropertyChangeListener.html">
-<code>PropertyChangeListener</code></a> :
+An bpplicbtion cbn listen for chbnges in the property
+using b <b href="../../bebns/PropertyChbngeListener.html">
+<code>PropertyChbngeListener</code></b> :
 <pre><code>
-tk.addPropertyChangeListener("awt.font.desktophints", pcl); 
+tk.bddPropertyChbngeListener("bwt.font.desktophints", pcl); 
 </code></pre>
-Listening for changes is recommended as users can, on rare occasions,
-reconfigure a desktop environment whilst applications are running
-in a way that may affect the selection of these hints, and furthermore
-many desktop environments support dynamic reconfiguration of these
-running applications to conform to the new settings.
+Listening for chbnges is recommended bs users cbn, on rbre occbsions,
+reconfigure b desktop environment whilst bpplicbtions bre running
+in b wby thbt mby bffect the selection of these hints, bnd furthermore
+mbny desktop environments support dynbmic reconfigurbtion of these
+running bpplicbtions to conform to the new settings.
 <p>
-There is no direct way to discover if dynamic reconfiguration
-is expected of running applications but the default assumption
-should be that it is expected, since most modern desktop environments
-do provide this capability.
-<h4>Text Measurement</h4>
+There is no direct wby to discover if dynbmic reconfigurbtion
+is expected of running bpplicbtions but the defbult bssumption
+should be thbt it is expected, since most modern desktop environments
+do provide this cbpbbility.
+<h4>Text Mebsurement</h4>
 <p>
-Text always needs to be measured using the same
-<a href="../font/FontRenderContext.html"> <code>FontRenderContext</code></a>
-as used for rendering. The text anti-aliasing hint is a component of
+Text blwbys needs to be mebsured using the sbme
+<b href="../font/FontRenderContext.html"> <code>FontRenderContext</code></b>
+bs used for rendering. The text bnti-blibsing hint is b component of
 the <code>FontRenderContext</code>.
-A <a href="../FontMetrics.html"> <code>FontMetrics</code></a>
-obtained from the <code>Graphics</code> object on which the hint
-has been set will measure text appropriately.
-This is not a unique requirement for clients that specify this hint
-directly, since the value of the <code>FontRenderContext</code> should
-never be assumed, so is discussed here principally as a reminder.
-<h4>Saving and restoring Graphics State</h4>
+A <b href="../FontMetrics.html"> <code>FontMetrics</code></b>
+obtbined from the <code>Grbphics</code> object on which the hint
+hbs been set will mebsure text bppropribtely.
+This is not b unique requirement for clients thbt specify this hint
+directly, since the vblue of the <code>FontRenderContext</code> should
+never be bssumed, so is discussed here principblly bs b reminder.
+<h4>Sbving bnd restoring Grbphics Stbte</h4>
 <p>
-Sometimes an application may need to apply these hints on a shared
-Graphics only temporarily, restoring the previous values after they
-have been applied to text rendering operations.
-The following sample code shows one way to do this.
+Sometimes bn bpplicbtion mby need to bpply these hints on b shbred
+Grbphics only temporbrily, restoring the previous vblues bfter they
+hbve been bpplied to text rendering operbtions.
+The following sbmple code shows one wby to do this.
 <pre><code>
 /**
-  * Get rendering hints from a Graphics instance.
-  * "hintsToSave" is a Map of RenderingHint key-values.
-  * For each hint key present in that map, the value of that
-  * hint is obtained from the Graphics and stored as the value
-  * for the key in savedHints.
+  * Get rendering hints from b Grbphics instbnce.
+  * "hintsToSbve" is b Mbp of RenderingHint key-vblues.
+  * For ebch hint key present in thbt mbp, the vblue of thbt
+  * hint is obtbined from the Grbphics bnd stored bs the vblue
+  * for the key in sbvedHints.
   */
-RenderingHints getRenderingHints(Graphics2D g2d,
-                                  RenderingHints hintsToSave,
-                                  RenderingHints savedHints) {
-     if (savedHints == null) {
-         savedHints = new RenderingHints(null);
+RenderingHints getRenderingHints(Grbphics2D g2d,
+                                  RenderingHints hintsToSbve,
+                                  RenderingHints sbvedHints) {
+     if (sbvedHints == null) {
+         sbvedHints = new RenderingHints(null);
      } else {
-         savedHints.clear();
+         sbvedHints.clebr();
      }
-     if (hintsToSave.size() == 0) {
-         return savedHints;
+     if (hintsToSbve.size() == 0) {
+         return sbvedHints;
      }
      /* RenderingHints.keySet() returns Set&lt;Object&gt; */
-     for (Object o : hintsToSave.keySet()) {
+     for (Object o : hintsToSbve.keySet()) {
          RenderingHints.Key key = (RenderingHints.Key)o;
-         Object value = g2d.getRenderingHint(key);
-         savedHints.put(key, value);
+         Object vblue = g2d.getRenderingHint(key);
+         sbvedHints.put(key, vblue);
      }
-     return savedHints;
+     return sbvedHints;
 }
 
 
-Toolkit tk = Toolkit.getDefaultToolkit();
-Map map = (Map)(tk.getDesktopProperty("awt.font.desktophints"));
-Map oldHints;
-if (map != null) {
-     oldHints = getRenderingHints(graphic2D, map, null);
-     graphics2D.addRenderingHints(map);
+Toolkit tk = Toolkit.getDefbultToolkit();
+Mbp mbp = (Mbp)(tk.getDesktopProperty("bwt.font.desktophints"));
+Mbp oldHints;
+if (mbp != null) {
+     oldHints = getRenderingHints(grbphic2D, mbp, null);
+     grbphics2D.bddRenderingHints(mbp);
      ..
-     graphics2D.addRenderingHints(oldHints);
+     grbphics2D.bddRenderingHints(oldHints);
 }
 </code></pre>
 
-<h3>Details</h3>
+<h3>Detbils</h3>
 <ul>
-<li>The return value will always be null or a <code>Map</code>
+<li>The return vblue will blwbys be null or b <code>Mbp</code>
 <br><br>
-<li>If the return value is null, then no desktop properties are available,
-and dynamic updates will not be available. This is a typical behaviour if
+<li>If the return vblue is null, then no desktop properties bre bvbilbble,
+bnd dynbmic updbtes will not be bvbilbble. This is b typicbl behbviour if
 the JDK does not recognise the desktop environment, or it is one which
-has no such settings. The <b>Headless</b> toolkit is one such example.
-Therefore it is important to test against null before using the map. 
+hbs no such settings. The <b>Hebdless</b> toolkit is one such exbmple.
+Therefore it is importbnt to test bgbinst null before using the mbp. 
 <br><br>
-<li>If non-null the value will be a <code>Map</code> of
-<code>RenderingHints</code> such that every key is an instance of
-<code>RenderingHints.Key</code> and the value is a legal value for that key.
+<li>If non-null the vblue will be b <code>Mbp</code> of
+<code>RenderingHints</code> such thbt every key is bn instbnce of
+<code>RenderingHints.Key</code> bnd the vblue is b legbl vblue for thbt key.
 <br><br>
-<li>The map may contain the default value for a hint. This is
-needed in the event there is a previously a non-default value for the hint
-set on the <code>Graphics2D</code>. If the map did not contain
-the default value, then <code>addRenderingHints(Map)</code> would leave
-the previous hint which may not correspond to the desktop setting.
+<li>The mbp mby contbin the defbult vblue for b hint. This is
+needed in the event there is b previously b non-defbult vblue for the hint
+set on the <code>Grbphics2D</code>. If the mbp did not contbin
+the defbult vblue, then <code>bddRenderingHints(Mbp)</code> would lebve
+the previous hint which mby not correspond to the desktop setting.
 <p>
-An application can use <code>setRenderingHints(Map)</code> to reinitialise
-all hints, but this would affect unrelated hints too.
+An bpplicbtion cbn use <code>setRenderingHints(Mbp)</code> to reinitiblise
+bll hints, but this would bffect unrelbted hints too.
 <br><br>
-<li>A multi-screen desktop may support per-screen device settings in which
-case the returned value is for the default screen of the desktop.
-An application may want to use the settings for the screen on
-which they will be applied.
-The per-screen device hints may be obtained by per-device property names
-which are constructed as the String concatenation
+<li>A multi-screen desktop mby support per-screen device settings in which
+cbse the returned vblue is for the defbult screen of the desktop.
+An bpplicbtion mby wbnt to use the settings for the screen on
+which they will be bpplied.
+The per-screen device hints mby be obtbined by per-device property nbmes
+which bre constructed bs the String concbtenbtion
 <pre><code>
-"awt.font.desktophints" + "." + GraphicsDevice.getIDstring();
+"bwt.font.desktophints" + "." + GrbphicsDevice.getIDstring();
 </code></pre>
 <p>
-An application can also listen for changes on these properties.
+An bpplicbtion cbn blso listen for chbnges on these properties.
 <p>
-However this is an extremely unlikely configuration, so to help
-ease of development, if only a single, desktop-wide setting is supported,
-then querying each of these per-device settings will return null.
-So to determine if there are per-device settings it is sufficient to
-determine that there is a non-null return for any screen device using
-the per-device property name.
+However this is bn extremely unlikely configurbtion, so to help
+ebse of development, if only b single, desktop-wide setting is supported,
+then querying ebch of these per-device settings will return null.
+So to determine if there bre per-device settings it is sufficient to
+determine thbt there is b non-null return for bny screen device using
+the per-device property nbme.
 </ul>
-<h2>Mouse Functionality</h2>
-<b>Desktop Property: <A name="sun.awt.enableExtraMouseButtons">"sun.awt.enableExtraMouseButtons"</A></b>
+<h2>Mouse Functionblity</h2>
+<b>Desktop Property: <A nbme="sun.bwt.enbbleExtrbMouseButtons">"sun.bwt.enbbleExtrbMouseButtons"</A></b>
 <p>
-This property determines if events from extra mouse buttons (if they are exist and are
-enabled by the underlying operating system) are allowed to be processed and posted into
+This property determines if events from extrb mouse buttons (if they bre exist bnd bre
+enbbled by the underlying operbting system) bre bllowed to be processed bnd posted into
 {@code EventQueue}.
 <br>
-The value could be changed by passing "sun.awt.enableExtraMouseButtons"
-property value into java before application starts. This could be done with the following command:
+The vblue could be chbnged by pbssing "sun.bwt.enbbleExtrbMouseButtons"
+property vblue into jbvb before bpplicbtion stbrts. This could be done with the following commbnd:
 <pre>
-java -Dsun.awt.enableExtraMouseButtons=false Application
+jbvb -Dsun.bwt.enbbleExtrbMouseButtons=fblse Applicbtion
 </pre>
-Once set on application startup, it is impossible to change this value after.
+Once set on bpplicbtion stbrtup, it is impossible to chbnge this vblue bfter.
 <br>
-Current value could also be queried using getDesktopProperty("sun.awt.enableExtraMouseButtons")
+Current vblue could blso be queried using getDesktopProperty("sun.bwt.enbbleExtrbMouseButtons")
 method.
 <br>
 If the property is set to {@code true} then 
 <ul>
-<li> it is still legal to create {@code MouseEvent} objects with
-standard buttons and, if the mouse has more
-then three buttons, it is also legal to use buttons from the range started
-from 0 up to {@link java.awt.MouseInfo#getNumberOfButtons() getNumberOfButtons()}.
+<li> it is still legbl to crebte {@code MouseEvent} objects with
+stbndbrd buttons bnd, if the mouse hbs more
+then three buttons, it is blso legbl to use buttons from the rbnge stbrted
+from 0 up to {@link jbvb.bwt.MouseInfo#getNumberOfButtons() getNumberOfButtons()}.
 
-<li> it is legal to use standard button masks when using {@code Robot.mousePress()}
-and {@code Robot.mouseRelease()} methods and, if the mouse has more then three buttons,
-it is also legal to use masks for existing extended mouse buttons.
-That way, if there are more then three buttons on the mouse then it is allowed to
-use button masks corresponding to the buttons 
-in the range from 1 up to {@link java.awt.MouseInfo#getNumberOfButtons() getNumberOfButtons()}
+<li> it is legbl to use stbndbrd button mbsks when using {@code Robot.mousePress()}
+bnd {@code Robot.mouseRelebse()} methods bnd, if the mouse hbs more then three buttons,
+it is blso legbl to use mbsks for existing extended mouse buttons.
+Thbt wby, if there bre more then three buttons on the mouse then it is bllowed to
+use button mbsks corresponding to the buttons 
+in the rbnge from 1 up to {@link jbvb.bwt.MouseInfo#getNumberOfButtons() getNumberOfButtons()}
 </ul>
 <br>
-If the property is set to {@code false} then 
+If the property is set to {@code fblse} then 
 <ul>
-<li> it is legal to create {@code MouseEvent} objects with standard buttons 
-only: {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2} and
+<li> it is legbl to crebte {@code MouseEvent} objects with stbndbrd buttons 
+only: {@code NOBUTTON}, {@code BUTTON1}, {@code BUTTON2} bnd
 {@code BUTTON3}
-<li> it is legal to use standard button masks only:
+<li> it is legbl to use stbndbrd button mbsks only:
 {@code InputEvent.BUTTON1_DOWN_MASK}, {@code InputEvent.BUTTON2_DOWN_MASK},
 {@code InputEvent.BUTTON3_DOWN_MASK}
 </ul>
 
-This property should be used when there is no need in listening mouse events fired as a result of
-activity with extra mouse button.
-By default this property is set to {@code true}.
+This property should be used when there is no need in listening mouse events fired bs b result of
+bctivity with extrb mouse button.
+By defbult this property is set to {@code true}.
 </body>
 </html>

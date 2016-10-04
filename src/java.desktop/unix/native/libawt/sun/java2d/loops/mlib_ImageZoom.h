@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,15 +27,15 @@
 #define __MLIB_IMAGEZOOM_H
 
 #include <mlib_types.h>
-#include <mlib_image_types.h>
-#include <mlib_status.h>
-#include <mlib_ImageCopy.h>
+#include <mlib_imbge_types.h>
+#include <mlib_stbtus.h>
+#include <mlib_ImbgeCopy.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-typedef void (*mlib_pack_func)(void *, void *, mlib_s32, void *);
+typedef void (*mlib_pbck_func)(void *, void *, mlib_s32, void *);
 
 /***************************************************************/
 typedef struct {
@@ -53,53 +53,53 @@ typedef struct {
 } mlib_edge_box;
 
 /***************************************************************/
-typedef struct mlib_work_image {
+typedef struct mlib_work_imbge {
   mlib_clipping
-                *nearest,        /* nearest neighbor state of image */
-                *current;        /* current state of image*/
+                *nebrest,        /* nebrest neighbor stbte of imbge */
+                *current;        /* current stbte of imbge*/
   mlib_s32
-                channels,        /* channels in image */
+                chbnnels,        /* chbnnels in imbge */
                 src_stride, dst_stride,
-                width, height,   /* vertical and horizontal size src image */
+                width, height,   /* verticbl bnd horizontbl size src imbge */
                 DX, DY,
                 color;
   void
                 *sp, *dp,
                 *src_end,
                 *buffer_dp,
-                *colormap;
+                *colormbp;
   mlib_d64
                 zoomx, zoomy;
   mlib_d64
                 rzoomx, rzoomy;
   mlib_d64
-                xstart, ystart;
-  mlib_s32      tshift;           /* shift for size of data type */
+                xstbrt, ystbrt;
+  mlib_s32      tshift;           /* shift for size of dbtb type */
   mlib_s32      filter;
   mlib_u8       *filter1, *filter3, *filter4;
-  mlib_s32      alpha;
+  mlib_s32      blphb;
   mlib_edge_box edges[4];
   mlib_edge_box edges_blend[4];
-  mlib_s32      chan_d;
-  mlib_s32      alp_ind;
+  mlib_s32      chbn_d;
+  mlib_s32      blp_ind;
   mlib_s32      sline_size;
-  mlib_s32      y_max;
-} mlib_work_image;
+  mlib_s32      y_mbx;
+} mlib_work_imbge;
 
 /***************************************************************/
-#define GetElemSubStruct(struct, par)          (param->struct->par)
-#define GetElemStruct(x)                       (param->x)
+#define GetElemSubStruct(struct, pbr)          (pbrbm->struct->pbr)
+#define GetElemStruct(x)                       (pbrbm->x)
 
 /***************************************************************/
-#define SetElemSubStruct(struct, par, val)     (param->struct->par = val)
-#define SetElemStruct(x, val)                  (param->x = val)
+#define SetElemSubStruct(struct, pbr, vbl)     (pbrbm->struct->pbr = vbl)
+#define SetElemStruct(x, vbl)                  (pbrbm->x = vbl)
 
 /***************************************************************/
 
 #define VARIABLE_EDGE(FORMAT)                           \
-  mlib_edge_box *edges = param->edges;                  \
+  mlib_edge_box *edges = pbrbm->edges;                  \
   mlib_s32 i, j, ch;                                    \
-  mlib_s32 channels = param->channels;                  \
+  mlib_s32 chbnnels = pbrbm->chbnnels;                  \
   mlib_s32 w1 = edges[0].w;                             \
   mlib_s32 w2 = edges[1].w;                             \
   mlib_s32 w3 = edges[2].w;                             \
@@ -129,402 +129,402 @@ typedef struct mlib_work_image {
 #define  MLIB_SCALE_BC_S16              (1.0 / (1 << 30))
 
 /***************************************************************/
-typedef mlib_status (*mlib_zoom_fun_type)(mlib_work_image *param);
+typedef mlib_stbtus (*mlib_zoom_fun_type)(mlib_work_imbge *pbrbm);
 
-typedef mlib_status (*mlib_zoom_fun2type)(mlib_work_image *param,
-                                          const mlib_f32  *flt_table);
+typedef mlib_stbtus (*mlib_zoom_fun2type)(mlib_work_imbge *pbrbm,
+                                          const mlib_f32  *flt_tbble);
 
 /***************************************************************/
-mlib_status mlib_ImageZoom_BIT_1_Nearest(mlib_work_image *param,
+mlib_stbtus mlib_ImbgeZoom_BIT_1_Nebrest(mlib_work_imbge *pbrbm,
                                          mlib_s32        s_bitoff,
                                          mlib_s32        d_bitoff);
 
-mlib_status mlib_ImageZoom_BitToGray_1_Nearest(mlib_work_image *param,
+mlib_stbtus mlib_ImbgeZoom_BitToGrby_1_Nebrest(mlib_work_imbge *pbrbm,
                                                mlib_s32        s_bitoff,
                                                const mlib_s32  *ghigh,
                                                const mlib_s32  *glow);
 
-mlib_status mlib_ImageZoom_U8_1_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_U8_2_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_U8_3_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_U8_4_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S16_1_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S16_2_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S16_3_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S16_4_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_1_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_2_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_3_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_4_Nearest(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_U8_1_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_U8_2_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_U8_3_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_U8_4_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S16_1_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S16_2_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S16_3_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S16_4_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_1_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_2_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_3_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_4_Nebrest(mlib_work_imbge *pbrbm);
 
-mlib_status mlib_ImageZoom_S32_1_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_2_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_3_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_4_Bilinear(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_S32_1_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_2_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_3_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_4_Bilinebr(mlib_work_imbge *pbrbm);
 
-mlib_status mlib_ImageZoom_S32_1_1_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_2_1_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_3_1_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_4_1_Bilinear(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_S32_1_1_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_2_1_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_3_1_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_4_1_Bilinebr(mlib_work_imbge *pbrbm);
 
-mlib_status mlib_ImageZoom_S32_1_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_2_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_3_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_S32_4_Bicubic(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_S32_1_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_2_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_3_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_S32_4_Bicubic(mlib_work_imbge *pbrbm);
 
 /***************************************************************/
 #define FUNC_PROT(NAME)                                         \
-  mlib_status NAME##_1(mlib_work_image *param);                 \
-  mlib_status NAME##_2(mlib_work_image *param);                 \
-  mlib_status NAME##_3(mlib_work_image *param);                 \
-  mlib_status NAME##_4(mlib_work_image *param);                 \
-  mlib_status NAME##_1s(mlib_work_image *param);                \
-  mlib_status NAME##_2s(mlib_work_image *param);                \
-  mlib_status NAME##_3s(mlib_work_image *param);                \
-  mlib_status NAME##_4s(mlib_work_image *param)
+  mlib_stbtus NAME##_1(mlib_work_imbge *pbrbm);                 \
+  mlib_stbtus NAME##_2(mlib_work_imbge *pbrbm);                 \
+  mlib_stbtus NAME##_3(mlib_work_imbge *pbrbm);                 \
+  mlib_stbtus NAME##_4(mlib_work_imbge *pbrbm);                 \
+  mlib_stbtus NAME##_1s(mlib_work_imbge *pbrbm);                \
+  mlib_stbtus NAME##_2s(mlib_work_imbge *pbrbm);                \
+  mlib_stbtus NAME##_3s(mlib_work_imbge *pbrbm);                \
+  mlib_stbtus NAME##_4s(mlib_work_imbge *pbrbm)
 
 /***************************************************************/
 #define FUNC_PROT_WO_S_FUNC(NAME)                               \
-  mlib_status NAME##_1(mlib_work_image *param);                 \
-  mlib_status NAME##_2(mlib_work_image *param);                 \
-  mlib_status NAME##_3(mlib_work_image *param);                 \
-  mlib_status NAME##_4(mlib_work_image *param)
+  mlib_stbtus NAME##_1(mlib_work_imbge *pbrbm);                 \
+  mlib_stbtus NAME##_2(mlib_work_imbge *pbrbm);                 \
+  mlib_stbtus NAME##_3(mlib_work_imbge *pbrbm);                 \
+  mlib_stbtus NAME##_4(mlib_work_imbge *pbrbm)
 
 /***************************************************************/
 #define FUNC_PROT_BC(NAME)                                                  \
-  mlib_status NAME##_1(mlib_work_image *param,  const mlib_f32 *flt_table); \
-  mlib_status NAME##_2(mlib_work_image *param,  const mlib_f32 *flt_table); \
-  mlib_status NAME##_3(mlib_work_image *param,  const mlib_f32 *flt_table); \
-  mlib_status NAME##_4(mlib_work_image *param,  const mlib_f32 *flt_table); \
-  mlib_status NAME##_1s(mlib_work_image *param, const mlib_f32 *flt_table); \
-  mlib_status NAME##_2s(mlib_work_image *param, const mlib_f32 *flt_table); \
-  mlib_status NAME##_3s(mlib_work_image *param, const mlib_f32 *flt_table); \
-  mlib_status NAME##_4s(mlib_work_image *param, const mlib_f32 *flt_table)
+  mlib_stbtus NAME##_1(mlib_work_imbge *pbrbm,  const mlib_f32 *flt_tbble); \
+  mlib_stbtus NAME##_2(mlib_work_imbge *pbrbm,  const mlib_f32 *flt_tbble); \
+  mlib_stbtus NAME##_3(mlib_work_imbge *pbrbm,  const mlib_f32 *flt_tbble); \
+  mlib_stbtus NAME##_4(mlib_work_imbge *pbrbm,  const mlib_f32 *flt_tbble); \
+  mlib_stbtus NAME##_1s(mlib_work_imbge *pbrbm, const mlib_f32 *flt_tbble); \
+  mlib_stbtus NAME##_2s(mlib_work_imbge *pbrbm, const mlib_f32 *flt_tbble); \
+  mlib_stbtus NAME##_3s(mlib_work_imbge *pbrbm, const mlib_f32 *flt_tbble); \
+  mlib_stbtus NAME##_4s(mlib_work_imbge *pbrbm, const mlib_f32 *flt_tbble)
 
-FUNC_PROT(mlib_c_ImageZoomBilinear_U8);
-FUNC_PROT(mlib_c_ImageZoomBilinear_S16);
-FUNC_PROT(mlib_c_ImageZoomBilinear_U16);
+FUNC_PROT(mlib_c_ImbgeZoomBilinebr_U8);
+FUNC_PROT(mlib_c_ImbgeZoomBilinebr_S16);
+FUNC_PROT(mlib_c_ImbgeZoomBilinebr_U16);
 
-FUNC_PROT_BC(mlib_c_ImageZoomBicubic_U8);
-FUNC_PROT_BC(mlib_c_ImageZoomBicubic_S16);
-FUNC_PROT_BC(mlib_c_ImageZoomBicubic_U16);
+FUNC_PROT_BC(mlib_c_ImbgeZoomBicubic_U8);
+FUNC_PROT_BC(mlib_c_ImbgeZoomBicubic_S16);
+FUNC_PROT_BC(mlib_c_ImbgeZoomBicubic_U16);
 
-FUNC_PROT(mlib_v_ImageZoomBilinear_U8);
-FUNC_PROT(mlib_v_ImageZoomBilinear_S16);
-FUNC_PROT(mlib_v_ImageZoomBilinear_U16);
+FUNC_PROT(mlib_v_ImbgeZoomBilinebr_U8);
+FUNC_PROT(mlib_v_ImbgeZoomBilinebr_S16);
+FUNC_PROT(mlib_v_ImbgeZoomBilinebr_U16);
 
-FUNC_PROT(mlib_v_ImageZoomBicubic_U8);
-FUNC_PROT(mlib_v_ImageZoomBicubic_S16);
-FUNC_PROT(mlib_v_ImageZoomBicubic_U16);
+FUNC_PROT(mlib_v_ImbgeZoomBicubic_U8);
+FUNC_PROT(mlib_v_ImbgeZoomBicubic_S16);
+FUNC_PROT(mlib_v_ImbgeZoomBicubic_U16);
 
-FUNC_PROT(mlib_ImageZoomBilinear_S32);
-FUNC_PROT(mlib_ImageZoomBicubic_S32);
+FUNC_PROT(mlib_ImbgeZoomBilinebr_S32);
+FUNC_PROT(mlib_ImbgeZoomBicubic_S32);
 
-FUNC_PROT(mlib_ImageZoomBilinear_F32);
-FUNC_PROT_WO_S_FUNC(mlib_ImageZoomBicubic_F32);
+FUNC_PROT(mlib_ImbgeZoomBilinebr_F32);
+FUNC_PROT_WO_S_FUNC(mlib_ImbgeZoomBicubic_F32);
 
-FUNC_PROT(mlib_ImageZoomBilinear_D64);
-FUNC_PROT_WO_S_FUNC(mlib_ImageZoomBicubic_D64);
-
-/***************************************************************/
-/* Index image part */
-mlib_status mlib_c_ImageZoomIndex_U8_U8_3_Bilinear(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_U8_S16_3_Bilinear(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_U8_3_Bilinear(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_S16_3_Bilinear(mlib_work_image *param);
-
-mlib_status mlib_c_ImageZoomIndex_U8_U8_4_Bilinear(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_U8_S16_4_Bilinear(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_U8_4_Bilinear(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_S16_4_Bilinear(mlib_work_image *param);
-
-mlib_status mlib_c_ImageZoomIndex_U8_U8_3_Bicubic(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_U8_S16_3_Bicubic(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_U8_3_Bicubic(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_S16_3_Bicubic(mlib_work_image *param);
-
-mlib_status mlib_c_ImageZoomIndex_U8_U8_4_Bicubic(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_U8_S16_4_Bicubic(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_U8_4_Bicubic(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_S16_4_Bicubic(mlib_work_image *param);
-
-mlib_status mlib_c_ImageZoomIndex_U8_U8_3_Bicubic2(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_U8_S16_3_Bicubic2(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_U8_3_Bicubic2(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_S16_3_Bicubic2(mlib_work_image *param);
-
-mlib_status mlib_c_ImageZoomIndex_U8_U8_4_Bicubic2(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_U8_S16_4_Bicubic2(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_U8_4_Bicubic2(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomIndex_S16_S16_4_Bicubic2(mlib_work_image *param);
-
-mlib_status mlib_v_ImageZoomIndex_U8_U8_Bilinear(mlib_work_image *param);
-mlib_status mlib_v_ImageZoomIndex_U8_S16_Bilinear(mlib_work_image *param);
-mlib_status mlib_v_ImageZoomIndex_S16_U8_Bilinear(mlib_work_image *param);
-mlib_status mlib_v_ImageZoomIndex_S16_S16_Bilinear(mlib_work_image *param);
-
-mlib_status mlib_v_ImageZoomIndex_U8_U8_Bicubic(mlib_work_image *param);
-mlib_status mlib_v_ImageZoomIndex_U8_S16_Bicubic(mlib_work_image *param);
-mlib_status mlib_v_ImageZoomIndex_S16_U8_Bicubic(mlib_work_image *param);
-mlib_status mlib_v_ImageZoomIndex_S16_S16_Bicubic(mlib_work_image *param);
+FUNC_PROT(mlib_ImbgeZoomBilinebr_D64);
+FUNC_PROT_WO_S_FUNC(mlib_ImbgeZoomBicubic_D64);
 
 /***************************************************************/
-/*  Define function and rules for computing edges  */
+/* Index imbge pbrt */
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_U8_3_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_S16_3_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_U8_3_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_S16_3_Bilinebr(mlib_work_imbge *pbrbm);
+
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_U8_4_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_S16_4_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_U8_4_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_S16_4_Bilinebr(mlib_work_imbge *pbrbm);
+
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_U8_3_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_S16_3_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_U8_3_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_S16_3_Bicubic(mlib_work_imbge *pbrbm);
+
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_U8_4_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_S16_4_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_U8_4_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_S16_4_Bicubic(mlib_work_imbge *pbrbm);
+
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_U8_3_Bicubic2(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_S16_3_Bicubic2(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_U8_3_Bicubic2(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_S16_3_Bicubic2(mlib_work_imbge *pbrbm);
+
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_U8_4_Bicubic2(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_U8_S16_4_Bicubic2(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_U8_4_Bicubic2(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomIndex_S16_S16_4_Bicubic2(mlib_work_imbge *pbrbm);
+
+mlib_stbtus mlib_v_ImbgeZoomIndex_U8_U8_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_v_ImbgeZoomIndex_U8_S16_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_v_ImbgeZoomIndex_S16_U8_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_v_ImbgeZoomIndex_S16_S16_Bilinebr(mlib_work_imbge *pbrbm);
+
+mlib_stbtus mlib_v_ImbgeZoomIndex_U8_U8_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_v_ImbgeZoomIndex_U8_S16_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_v_ImbgeZoomIndex_S16_U8_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_v_ImbgeZoomIndex_S16_S16_Bicubic(mlib_work_imbge *pbrbm);
+
+/***************************************************************/
+/*  Define function bnd rules for computing edges  */
 #define MLIB_EDGE_RULES                                 \
   switch(edge) {                                        \
                                                         \
-    case MLIB_EDGE_DST_FILL_ZERO:                       \
+    cbse MLIB_EDGE_DST_FILL_ZERO:                       \
                                                         \
-      switch(mlib_ImageGetType(src)) {                  \
-        case MLIB_BYTE:                                 \
-          mlib_ImageZoomZeroEdge_U8(param);             \
-          break;                                        \
+      switch(mlib_ImbgeGetType(src)) {                  \
+        cbse MLIB_BYTE:                                 \
+          mlib_ImbgeZoomZeroEdge_U8(pbrbm);             \
+          brebk;                                        \
                                                         \
-        case MLIB_SHORT:                                \
-        case MLIB_USHORT:                               \
-          mlib_ImageZoomZeroEdge_S16(param);            \
-          break;                                        \
+        cbse MLIB_SHORT:                                \
+        cbse MLIB_USHORT:                               \
+          mlib_ImbgeZoomZeroEdge_S16(pbrbm);            \
+          brebk;                                        \
                                                         \
-        case MLIB_INT:                                  \
-          mlib_ImageZoomZeroEdge_S32(param);            \
-          break;                                        \
+        cbse MLIB_INT:                                  \
+          mlib_ImbgeZoomZeroEdge_S32(pbrbm);            \
+          brebk;                                        \
       }                                                 \
-      break;                                            \
+      brebk;                                            \
                                                         \
-    case MLIB_EDGE_OP_NEAREST:                          \
+    cbse MLIB_EDGE_OP_NEAREST:                          \
                                                         \
-      switch(mlib_ImageGetType(src)) {                  \
-        case MLIB_BYTE:                                 \
-          mlib_ImageZoomUpNearest_U8(param);            \
-          break;                                        \
+      switch(mlib_ImbgeGetType(src)) {                  \
+        cbse MLIB_BYTE:                                 \
+          mlib_ImbgeZoomUpNebrest_U8(pbrbm);            \
+          brebk;                                        \
                                                         \
-        case MLIB_SHORT:                                \
-        case MLIB_USHORT:                               \
-          mlib_ImageZoomUpNearest_S16(param);           \
-          break;                                        \
+        cbse MLIB_SHORT:                                \
+        cbse MLIB_USHORT:                               \
+          mlib_ImbgeZoomUpNebrest_S16(pbrbm);           \
+          brebk;                                        \
                                                         \
-        case MLIB_INT:                                  \
-          mlib_ImageZoomUpNearest_S32(param);           \
-          break;                                        \
+        cbse MLIB_INT:                                  \
+          mlib_ImbgeZoomUpNebrest_S32(pbrbm);           \
+          brebk;                                        \
       }                                                 \
-      break;                                            \
+      brebk;                                            \
                                                         \
-    case MLIB_EDGE_SRC_EXTEND:                          \
+    cbse MLIB_EDGE_SRC_EXTEND:                          \
                                                         \
-      switch(mlib_ImageGetType(src)) {                  \
-        case MLIB_BYTE:                                 \
+      switch(mlib_ImbgeGetType(src)) {                  \
+        cbse MLIB_BYTE:                                 \
                                                         \
           switch(filter) {                              \
-            case MLIB_BILINEAR:                         \
-              mlib_ImageZoomExtend_U8_Bilinear(param);  \
-              break;                                    \
+            cbse MLIB_BILINEAR:                         \
+              mlib_ImbgeZoomExtend_U8_Bilinebr(pbrbm);  \
+              brebk;                                    \
                                                         \
-            case MLIB_BICUBIC:                          \
-              mlib_ImageZoomExtend_U8_Bicubic(param);   \
-              break;                                    \
+            cbse MLIB_BICUBIC:                          \
+              mlib_ImbgeZoomExtend_U8_Bicubic(pbrbm);   \
+              brebk;                                    \
                                                         \
-            case MLIB_BICUBIC2:                         \
-              mlib_ImageZoomExtend_U8_Bicubic2(param);  \
-              break;                                    \
+            cbse MLIB_BICUBIC2:                         \
+              mlib_ImbgeZoomExtend_U8_Bicubic2(pbrbm);  \
+              brebk;                                    \
           }                                             \
-        break;                                          \
+        brebk;                                          \
                                                         \
-        case MLIB_SHORT:                                \
+        cbse MLIB_SHORT:                                \
           switch(filter) {                              \
-            case MLIB_BILINEAR:                         \
-              mlib_ImageZoomExtend_S16_Bilinear(param); \
-              break;                                    \
+            cbse MLIB_BILINEAR:                         \
+              mlib_ImbgeZoomExtend_S16_Bilinebr(pbrbm); \
+              brebk;                                    \
                                                         \
-            case MLIB_BICUBIC:                          \
-              mlib_ImageZoomExtend_S16_Bicubic(param);  \
-              break;                                    \
+            cbse MLIB_BICUBIC:                          \
+              mlib_ImbgeZoomExtend_S16_Bicubic(pbrbm);  \
+              brebk;                                    \
                                                         \
-            case MLIB_BICUBIC2:                         \
-              mlib_ImageZoomExtend_S16_Bicubic2(param); \
-              break;                                    \
+            cbse MLIB_BICUBIC2:                         \
+              mlib_ImbgeZoomExtend_S16_Bicubic2(pbrbm); \
+              brebk;                                    \
           }                                             \
-        break;                                          \
+        brebk;                                          \
                                                         \
-        case MLIB_USHORT:                               \
+        cbse MLIB_USHORT:                               \
           switch(filter) {                              \
-            case MLIB_BILINEAR:                         \
-              mlib_ImageZoomExtend_U16_Bilinear(param); \
-              break;                                    \
+            cbse MLIB_BILINEAR:                         \
+              mlib_ImbgeZoomExtend_U16_Bilinebr(pbrbm); \
+              brebk;                                    \
                                                         \
-            case MLIB_BICUBIC:                          \
-              mlib_ImageZoomExtend_U16_Bicubic(param);  \
-              break;                                    \
+            cbse MLIB_BICUBIC:                          \
+              mlib_ImbgeZoomExtend_U16_Bicubic(pbrbm);  \
+              brebk;                                    \
                                                         \
-            case MLIB_BICUBIC2:                         \
-              mlib_ImageZoomExtend_U16_Bicubic2(param); \
-              break;                                    \
+            cbse MLIB_BICUBIC2:                         \
+              mlib_ImbgeZoomExtend_U16_Bicubic2(pbrbm); \
+              brebk;                                    \
           }                                             \
-        break;                                          \
+        brebk;                                          \
                                                         \
-        case MLIB_INT:                                  \
+        cbse MLIB_INT:                                  \
           switch(filter) {                              \
-            case MLIB_BILINEAR:                         \
-              mlib_ImageZoomExtend_S32_Bilinear(param); \
-              break;                                    \
+            cbse MLIB_BILINEAR:                         \
+              mlib_ImbgeZoomExtend_S32_Bilinebr(pbrbm); \
+              brebk;                                    \
                                                         \
-            case MLIB_BICUBIC:                          \
-              mlib_ImageZoomExtend_S32_Bicubic(param);  \
-              break;                                    \
+            cbse MLIB_BICUBIC:                          \
+              mlib_ImbgeZoomExtend_S32_Bicubic(pbrbm);  \
+              brebk;                                    \
                                                         \
-            case MLIB_BICUBIC2:                         \
-              mlib_ImageZoomExtend_S32_Bicubic2(param); \
-              break;                                    \
+            cbse MLIB_BICUBIC2:                         \
+              mlib_ImbgeZoomExtend_S32_Bicubic2(pbrbm); \
+              brebk;                                    \
           }                                             \
-        break;                                          \
+        brebk;                                          \
       }                                                 \
-    break;                                              \
+    brebk;                                              \
                                                         \
-    default:                                            \
+    defbult:                                            \
       return MLIB_SUCCESS;                              \
   }
 
 /***************************************************************/
 
-void mlib_ImageZoomZeroEdge_U8(mlib_work_image *param);
-void mlib_ImageZoomZeroEdge_S16(mlib_work_image *param);
-void mlib_ImageZoomZeroEdge_S32(mlib_work_image *param);
+void mlib_ImbgeZoomZeroEdge_U8(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomZeroEdge_S16(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomZeroEdge_S32(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomUpNearest_U8(mlib_work_image *param);
-void mlib_ImageZoomUpNearest_S16(mlib_work_image *param);
-void mlib_ImageZoomUpNearest_S32(mlib_work_image *param);
+void mlib_ImbgeZoomUpNebrest_U8(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomUpNebrest_S16(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomUpNebrest_S32(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomExtend_U8_Bilinear(mlib_work_image *param);
-void mlib_ImageZoomExtend_S16_Bilinear(mlib_work_image *param);
-void mlib_ImageZoomExtend_U16_Bilinear(mlib_work_image *param);
-void mlib_ImageZoomExtend_S32_Bilinear(mlib_work_image *param);
+void mlib_ImbgeZoomExtend_U8_Bilinebr(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_S16_Bilinebr(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_U16_Bilinebr(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_S32_Bilinebr(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomExtend_U8_Bicubic(mlib_work_image *param);
-void mlib_ImageZoomExtend_S16_Bicubic(mlib_work_image *param);
-void mlib_ImageZoomExtend_U16_Bicubic(mlib_work_image *param);
-void mlib_ImageZoomExtend_S32_Bicubic(mlib_work_image *param);
+void mlib_ImbgeZoomExtend_U8_Bicubic(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_S16_Bicubic(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_U16_Bicubic(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_S32_Bicubic(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomExtend_U8_Bicubic2(mlib_work_image *param);
-void mlib_ImageZoomExtend_S16_Bicubic2(mlib_work_image *param);
-void mlib_ImageZoomExtend_U16_Bicubic2(mlib_work_image *param);
-void mlib_ImageZoomExtend_S32_Bicubic2(mlib_work_image *param);
+void mlib_ImbgeZoomExtend_U8_Bicubic2(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_S16_Bicubic2(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_U16_Bicubic2(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_S32_Bicubic2(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomIndexExtend_U8_Bilinear(mlib_work_image *param);
-void mlib_ImageZoomIndexExtend_S16_Bilinear(mlib_work_image *param);
+void mlib_ImbgeZoomIndexExtend_U8_Bilinebr(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomIndexExtend_S16_Bilinebr(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomIndexExtend_U8_Bicubic(mlib_work_image *param);
-void mlib_ImageZoomIndexExtend_S16_Bicubic(mlib_work_image *param);
-void mlib_ImageZoomIndexExtend_U8_Bicubic2(mlib_work_image *param);
-void mlib_ImageZoomIndexExtend_S16_Bicubic2(mlib_work_image *param);
+void mlib_ImbgeZoomIndexExtend_U8_Bicubic(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomIndexExtend_S16_Bicubic(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomIndexExtend_U8_Bicubic2(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomIndexExtend_S16_Bicubic2(mlib_work_imbge *pbrbm);
 
-/* Float image part */
-mlib_status mlib_ImageZoom_F32_1_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_1_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_1_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_1_Bicubic2(mlib_work_image *param);
+/* Flobt imbge pbrt */
+mlib_stbtus mlib_ImbgeZoom_F32_1_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_1_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_1_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_1_Bicubic2(mlib_work_imbge *pbrbm);
 
-mlib_status mlib_ImageZoom_F32_2_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_2_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_2_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_2_Bicubic2(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_F32_2_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_2_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_2_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_2_Bicubic2(mlib_work_imbge *pbrbm);
 
-mlib_status mlib_ImageZoom_F32_3_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_3_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_3_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_3_Bicubic2(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_F32_3_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_3_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_3_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_3_Bicubic2(mlib_work_imbge *pbrbm);
 
-mlib_status mlib_ImageZoom_F32_4_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_4_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_4_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_F32_4_Bicubic2(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_F32_4_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_4_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_4_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_F32_4_Bicubic2(mlib_work_imbge *pbrbm);
 
-/* Double image part*/
-mlib_status mlib_ImageZoom_D64_1_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_1_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_1_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_1_Bicubic2(mlib_work_image *param);
+/* Double imbge pbrt*/
+mlib_stbtus mlib_ImbgeZoom_D64_1_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_1_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_1_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_1_Bicubic2(mlib_work_imbge *pbrbm);
 
-mlib_status mlib_ImageZoom_D64_2_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_2_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_2_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_2_Bicubic2(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_D64_2_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_2_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_2_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_2_Bicubic2(mlib_work_imbge *pbrbm);
 
-mlib_status mlib_ImageZoom_D64_3_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_3_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_3_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_3_Bicubic2(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_D64_3_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_3_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_3_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_3_Bicubic2(mlib_work_imbge *pbrbm);
 
-mlib_status mlib_ImageZoom_D64_4_Nearest(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_4_Bilinear(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_4_Bicubic(mlib_work_image *param);
-mlib_status mlib_ImageZoom_D64_4_Bicubic2(mlib_work_image *param);
+mlib_stbtus mlib_ImbgeZoom_D64_4_Nebrest(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_4_Bilinebr(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_4_Bicubic(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_ImbgeZoom_D64_4_Bicubic2(mlib_work_imbge *pbrbm);
 
 /* Edge's */
-void mlib_ImageZoomZeroEdge_F32(mlib_work_image *param);
-void mlib_ImageZoomZeroEdge_D64(mlib_work_image *param);
+void mlib_ImbgeZoomZeroEdge_F32(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomZeroEdge_D64(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomUpNearest_F32(mlib_work_image *param);
-void mlib_ImageZoomUpNearest_D64(mlib_work_image *param);
+void mlib_ImbgeZoomUpNebrest_F32(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomUpNebrest_D64(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomExtend_F32_Bilinear(mlib_work_image *param);
-void mlib_ImageZoomExtend_D64_Bilinear(mlib_work_image *param);
+void mlib_ImbgeZoomExtend_F32_Bilinebr(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_D64_Bilinebr(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomExtend_F32_Bicubic(mlib_work_image *param);
-void mlib_ImageZoomExtend_D64_Bicubic(mlib_work_image *param);
+void mlib_ImbgeZoomExtend_F32_Bicubic(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_D64_Bicubic(mlib_work_imbge *pbrbm);
 
-void mlib_ImageZoomExtend_F32_Bicubic2(mlib_work_image *param);
-void mlib_ImageZoomExtend_D64_Bicubic2(mlib_work_image *param);
-
-/***************************************************************/
-
-typedef mlib_status (*mlib_zoomblend_fun_type)(mlib_work_image *param, mlib_s32 alp_ind);
-typedef mlib_status (*mlib_zoomblend_bc_type)(mlib_work_image *param,
-                                              const mlib_f32  *flt_table,
-                                              mlib_s32 alp);
-
-mlib_status mlib_ImageZoom_U8_33_Nearest(mlib_work_image *param, mlib_s32 alp_ind);
-mlib_status mlib_ImageZoom_U8_43_Nearest(mlib_work_image *param, mlib_s32 alp_ind);
-mlib_status mlib_ImageZoom_U8_34_Nearest(mlib_work_image *param, mlib_s32 alp_ind);
-mlib_status mlib_ImageZoom_U8_44_Nearest(mlib_work_image *param, mlib_s32 alp_ind);
-
-mlib_status mlib_c_ImageZoomBilinear_U8_3to34(mlib_work_image *param);
-mlib_status mlib_c_ImageZoomBilinear_U8_4to34(mlib_work_image *param);
-
-mlib_status mlib_c_ImageZoomBilinear_U8_33(mlib_work_image *param, mlib_s32 alp_ind);
-mlib_status mlib_c_ImageZoomBilinear_U8_43(mlib_work_image *param, mlib_s32 alp_ind);
-mlib_status mlib_c_ImageZoomBilinear_U8_34(mlib_work_image *param, mlib_s32 alp_ind);
-mlib_status mlib_c_ImageZoomBilinear_U8_44(mlib_work_image *param, mlib_s32 alp_ind);
-
-mlib_status mlib_c_ImageZoomBicubic_U8_33(mlib_work_image *param,
-                                          const mlib_f32  *flt_table,
-                                          mlib_s32 alp);
-mlib_status mlib_c_ImageZoomBicubic_U8_43(mlib_work_image *param,
-                                          const mlib_f32  *flt_table,
-                                          mlib_s32 alp);
-mlib_status mlib_c_ImageZoomBicubic_U8_34(mlib_work_image *param,
-                                          const mlib_f32  *flt_table,
-                                          mlib_s32 alp);
-mlib_status mlib_c_ImageZoomBicubic_U8_44(mlib_work_image *param,
-                                          const mlib_f32  *flt_table,
-                                          mlib_s32 alp);
+void mlib_ImbgeZoomExtend_F32_Bicubic2(mlib_work_imbge *pbrbm);
+void mlib_ImbgeZoomExtend_D64_Bicubic2(mlib_work_imbge *pbrbm);
 
 /***************************************************************/
 
-mlib_status mlib_ZoomBlendEdge(mlib_image *dst,
-                               const mlib_image *src,
-                               mlib_work_image *param,
+typedef mlib_stbtus (*mlib_zoomblend_fun_type)(mlib_work_imbge *pbrbm, mlib_s32 blp_ind);
+typedef mlib_stbtus (*mlib_zoomblend_bc_type)(mlib_work_imbge *pbrbm,
+                                              const mlib_f32  *flt_tbble,
+                                              mlib_s32 blp);
+
+mlib_stbtus mlib_ImbgeZoom_U8_33_Nebrest(mlib_work_imbge *pbrbm, mlib_s32 blp_ind);
+mlib_stbtus mlib_ImbgeZoom_U8_43_Nebrest(mlib_work_imbge *pbrbm, mlib_s32 blp_ind);
+mlib_stbtus mlib_ImbgeZoom_U8_34_Nebrest(mlib_work_imbge *pbrbm, mlib_s32 blp_ind);
+mlib_stbtus mlib_ImbgeZoom_U8_44_Nebrest(mlib_work_imbge *pbrbm, mlib_s32 blp_ind);
+
+mlib_stbtus mlib_c_ImbgeZoomBilinebr_U8_3to34(mlib_work_imbge *pbrbm);
+mlib_stbtus mlib_c_ImbgeZoomBilinebr_U8_4to34(mlib_work_imbge *pbrbm);
+
+mlib_stbtus mlib_c_ImbgeZoomBilinebr_U8_33(mlib_work_imbge *pbrbm, mlib_s32 blp_ind);
+mlib_stbtus mlib_c_ImbgeZoomBilinebr_U8_43(mlib_work_imbge *pbrbm, mlib_s32 blp_ind);
+mlib_stbtus mlib_c_ImbgeZoomBilinebr_U8_34(mlib_work_imbge *pbrbm, mlib_s32 blp_ind);
+mlib_stbtus mlib_c_ImbgeZoomBilinebr_U8_44(mlib_work_imbge *pbrbm, mlib_s32 blp_ind);
+
+mlib_stbtus mlib_c_ImbgeZoomBicubic_U8_33(mlib_work_imbge *pbrbm,
+                                          const mlib_f32  *flt_tbble,
+                                          mlib_s32 blp);
+mlib_stbtus mlib_c_ImbgeZoomBicubic_U8_43(mlib_work_imbge *pbrbm,
+                                          const mlib_f32  *flt_tbble,
+                                          mlib_s32 blp);
+mlib_stbtus mlib_c_ImbgeZoomBicubic_U8_34(mlib_work_imbge *pbrbm,
+                                          const mlib_f32  *flt_tbble,
+                                          mlib_s32 blp);
+mlib_stbtus mlib_c_ImbgeZoomBicubic_U8_44(mlib_work_imbge *pbrbm,
+                                          const mlib_f32  *flt_tbble,
+                                          mlib_s32 blp);
+
+/***************************************************************/
+
+mlib_stbtus mlib_ZoomBlendEdge(mlib_imbge *dst,
+                               const mlib_imbge *src,
+                               mlib_work_imbge *pbrbm,
                                mlib_filter filter,
                                mlib_edge   edge,
-                               mlib_s32    alp_ind);
+                               mlib_s32    blp_ind);
 
-mlib_status mlib_ImageZoomClipping(mlib_image       *dst,
-                                   const mlib_image *src,
+mlib_stbtus mlib_ImbgeZoomClipping(mlib_imbge       *dst,
+                                   const mlib_imbge *src,
                                    mlib_d64         zoomx,
                                    mlib_d64         zoomy,
                                    mlib_d64         tx,
                                    mlib_d64         ty,
                                    mlib_filter      filter,
                                    mlib_edge        edge,
-                                   mlib_work_image  *param);
+                                   mlib_work_imbge  *pbrbm);
 
 #ifdef __cplusplus
 }

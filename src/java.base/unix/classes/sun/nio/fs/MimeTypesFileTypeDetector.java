@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import jbvb.io.IOException;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbth;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.regex.Mbtcher;
+import jbvb.util.regex.Pbttern;
 
 /**
- * File type detector that uses a file extension to look up its MIME type
- * based on a mime.types file.
+ * File type detector thbt uses b file extension to look up its MIME type
+ * bbsed on b mime.types file.
  */
 
-class MimeTypesFileTypeDetector extends AbstractFileTypeDetector {
+clbss MimeTypesFileTypeDetector extends AbstrbctFileTypeDetector {
 
-    // path to mime.types file
-    private final Path mimeTypesFile;
+    // pbth to mime.types file
+    privbte finbl Pbth mimeTypesFile;
 
-    // map of extension to MIME type
-    private Map<String,String> mimeTypeMap;
+    // mbp of extension to MIME type
+    privbte Mbp<String,String> mimeTypeMbp;
 
-    // set to true when file loaded
-    private volatile boolean loaded = false;
+    // set to true when file lobded
+    privbte volbtile boolebn lobded = fblse;
 
-    public MimeTypesFileTypeDetector(Path filePath) {
-        mimeTypesFile = filePath;
+    public MimeTypesFileTypeDetector(Pbth filePbth) {
+        mimeTypesFile = filePbth;
     }
 
     @Override
-    protected String implProbeContentType(Path path) {
-        Path fn = path.getFileName();
+    protected String implProbeContentType(Pbth pbth) {
+        Pbth fn = pbth.getFileNbme();
         if (fn == null)
-            return null;  // no file name
+            return null;  // no file nbme
 
         String ext = getExtension(fn.toString());
         if (ext.isEmpty())
             return null;  // no extension
 
-        loadMimeTypes();
-        if (mimeTypeMap == null || mimeTypeMap.isEmpty())
+        lobdMimeTypes();
+        if (mimeTypeMbp == null || mimeTypeMbp.isEmpty())
             return null;
 
-        // Case-sensitive search
+        // Cbse-sensitive sebrch
         String mimeType;
         do {
-            mimeType = mimeTypeMap.get(ext);
+            mimeType = mimeTypeMbp.get(ext);
             if (mimeType == null)
                 ext = getExtension(ext);
         } while (mimeType == null && !ext.isEmpty());
@@ -83,42 +83,42 @@ class MimeTypesFileTypeDetector extends AbstractFileTypeDetector {
         return mimeType;
     }
 
-    // Get the extension of a file name.
-    private static String getExtension(String name) {
+    // Get the extension of b file nbme.
+    privbte stbtic String getExtension(String nbme) {
         String ext = "";
-        if (name != null && !name.isEmpty()) {
-            int dot = name.indexOf('.');
-            if ((dot >= 0) && (dot < name.length() - 1)) {
-                ext = name.substring(dot + 1);
+        if (nbme != null && !nbme.isEmpty()) {
+            int dot = nbme.indexOf('.');
+            if ((dot >= 0) && (dot < nbme.length() - 1)) {
+                ext = nbme.substring(dot + 1);
             }
         }
         return ext;
     }
 
     /**
-     * Parse the mime types file, and store the type-extension mappings into
-     * mimeTypeMap. The mime types file is not loaded until the first probe
-     * to achieve the lazy initialization. It adopts double-checked locking
-     * optimization to reduce the locking overhead.
+     * Pbrse the mime types file, bnd store the type-extension mbppings into
+     * mimeTypeMbp. The mime types file is not lobded until the first probe
+     * to bchieve the lbzy initiblizbtion. It bdopts double-checked locking
+     * optimizbtion to reduce the locking overhebd.
      */
-    private void loadMimeTypes() {
-        if (!loaded) {
+    privbte void lobdMimeTypes() {
+        if (!lobded) {
             synchronized (this) {
-                if (!loaded) {
+                if (!lobded) {
                     List<String> lines = AccessController.doPrivileged(
                         new PrivilegedAction<List<String>>() {
                             @Override
                             public List<String> run() {
                                 try {
-                                    return Files.readAllLines(mimeTypesFile,
-                                                              Charset.defaultCharset());
-                                } catch (IOException ignore) {
+                                    return Files.rebdAllLines(mimeTypesFile,
+                                                              Chbrset.defbultChbrset());
+                                } cbtch (IOException ignore) {
                                     return Collections.emptyList();
                                 }
                             }
                         });
 
-                    mimeTypeMap = new HashMap<>(lines.size());
+                    mimeTypeMbp = new HbshMbp<>(lines.size());
                     String entry = "";
                     for (String line : lines) {
                         entry += line;
@@ -126,69 +126,69 @@ class MimeTypesFileTypeDetector extends AbstractFileTypeDetector {
                             entry = entry.substring(0, entry.length() - 1);
                             continue;
                         }
-                        parseMimeEntry(entry);
+                        pbrseMimeEntry(entry);
                         entry = "";
                     }
                     if (!entry.isEmpty()) {
-                        parseMimeEntry(entry);
+                        pbrseMimeEntry(entry);
                     }
-                    loaded = true;
+                    lobded = true;
                 }
             }
         }
     }
 
     /**
-     * Parse a mime-types entry, which can have the following formats.
-     * 1) Simple space-delimited format
-     * image/jpeg   jpeg jpg jpe JPG
+     * Pbrse b mime-types entry, which cbn hbve the following formbts.
+     * 1) Simple spbce-delimited formbt
+     * imbge/jpeg   jpeg jpg jpe JPG
      *
-     * 2) Netscape key-value pair format
-     * type=application/x-java-jnlp-file desc="Java Web Start" exts="jnlp"
+     * 2) Netscbpe key-vblue pbir formbt
+     * type=bpplicbtion/x-jbvb-jnlp-file desc="Jbvb Web Stbrt" exts="jnlp"
      * or
      * type=text/html exts=htm,html
      */
-    private void parseMimeEntry(String entry) {
+    privbte void pbrseMimeEntry(String entry) {
         entry = entry.trim();
-        if (entry.isEmpty() || entry.charAt(0) == '#')
+        if (entry.isEmpty() || entry.chbrAt(0) == '#')
             return;
 
-        entry = entry.replaceAll("\\s*#.*", "");
-        int equalIdx = entry.indexOf('=');
-        if (equalIdx > 0) {
-            // Parse a mime-types command having the key-value pair format
-            final String TYPEEQUAL = "type=";
+        entry = entry.replbceAll("\\s*#.*", "");
+        int equblIdx = entry.indexOf('=');
+        if (equblIdx > 0) {
+            // Pbrse b mime-types commbnd hbving the key-vblue pbir formbt
+            finbl String TYPEEQUAL = "type=";
             String typeRegex = "\\b" + TYPEEQUAL +
-                    "(\"\\p{Graph}+?/\\p{Graph}+?\"|\\p{Graph}+/\\p{Graph}+\\b)";
-            Pattern typePattern = Pattern.compile(typeRegex);
-            Matcher typeMatcher = typePattern.matcher(entry);
+                    "(\"\\p{Grbph}+?/\\p{Grbph}+?\"|\\p{Grbph}+/\\p{Grbph}+\\b)";
+            Pbttern typePbttern = Pbttern.compile(typeRegex);
+            Mbtcher typeMbtcher = typePbttern.mbtcher(entry);
 
-            if (typeMatcher.find()) {
-                String type = typeMatcher.group().substring(TYPEEQUAL.length());
-                if (type.charAt(0) == '"') {
+            if (typeMbtcher.find()) {
+                String type = typeMbtcher.group().substring(TYPEEQUAL.length());
+                if (type.chbrAt(0) == '"') {
                     type = type.substring(1, type.length() - 1);
                 }
 
-                final String EXTEQUAL = "exts=";
+                finbl String EXTEQUAL = "exts=";
                 String extRegex = "\\b" + EXTEQUAL +
-                        "(\"[\\p{Graph}|\\p{Blank}]+?\"|\\p{Graph}+\\b)";
-                Pattern extPattern = Pattern.compile(extRegex);
-                Matcher extMatcher = extPattern.matcher(entry);
+                        "(\"[\\p{Grbph}|\\p{Blbnk}]+?\"|\\p{Grbph}+\\b)";
+                Pbttern extPbttern = Pbttern.compile(extRegex);
+                Mbtcher extMbtcher = extPbttern.mbtcher(entry);
 
-                if (extMatcher.find()) {
+                if (extMbtcher.find()) {
                     String exts =
-                            extMatcher.group().substring(EXTEQUAL.length());
-                    if (exts.charAt(0) == '"') {
+                            extMbtcher.group().substring(EXTEQUAL.length());
+                    if (exts.chbrAt(0) == '"') {
                         exts = exts.substring(1, exts.length() - 1);
                     }
-                    String[] extList = exts.split("[\\p{Blank}|\\p{Punct}]+");
+                    String[] extList = exts.split("[\\p{Blbnk}|\\p{Punct}]+");
                     for (String ext : extList) {
                         putIfAbsent(ext, type);
                     }
                 }
             }
         } else {
-            // Parse a mime-types command having the space-delimited format
+            // Pbrse b mime-types commbnd hbving the spbce-delimited formbt
             String[] elements = entry.split("\\s+");
             int i = 1;
             while (i < elements.length) {
@@ -197,12 +197,12 @@ class MimeTypesFileTypeDetector extends AbstractFileTypeDetector {
         }
     }
 
-    private void putIfAbsent(String key, String value) {
+    privbte void putIfAbsent(String key, String vblue) {
         if (key != null && !key.isEmpty() &&
-            value != null && !value.isEmpty() &&
-            !mimeTypeMap.containsKey(key))
+            vblue != null && !vblue.isEmpty() &&
+            !mimeTypeMbp.contbinsKey(key))
         {
-            mimeTypeMap.put(key, value);
+            mimeTypeMbp.put(key, vblue);
         }
     }
 }

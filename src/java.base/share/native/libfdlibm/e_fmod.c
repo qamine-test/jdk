@@ -1,41 +1,41 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  * __ieee754_fmod(x,y)
- * Return x mod y in exact arithmetic
- * Method: shift and subtract
+ * Return x mod y in exbct brithmetic
+ * Method: shift bnd subtrbct
  */
 
 #include "fdlibm.h"
 
 #ifdef __STDC__
-static const double one = 1.0, Zero[] = {0.0, -0.0,};
+stbtic const double one = 1.0, Zero[] = {0.0, -0.0,};
 #else
-static double one = 1.0, Zero[] = {0.0, -0.0,};
+stbtic double one = 1.0, Zero[] = {0.0, -0.0,};
 #endif
 
 #ifdef __STDC__
@@ -56,9 +56,9 @@ static double one = 1.0, Zero[] = {0.0, -0.0,};
         hx ^=sx;                /* |x| */
         hy &= 0x7fffffff;       /* |y| */
 
-    /* purge off exception values */
+    /* purge off exception vblues */
         if((hy|ly)==0||(hx>=0x7ff00000)||       /* y=0,or x not finite */
-          ((hy|((ly|-ly)>>31))>0x7ff00000))     /* or y is NaN */
+          ((hy|((ly|-ly)>>31))>0x7ff00000))     /* or y is NbN */
             return (x*y)/(x*y);
         if(hx<=hy) {
             if((hx<hy)||(lx<ly)) return x;      /* |x|<|y| return x */
@@ -67,7 +67,7 @@ static double one = 1.0, Zero[] = {0.0, -0.0,};
         }
 
     /* determine ix = ilogb(x) */
-        if(hx<0x00100000) {     /* subnormal x */
+        if(hx<0x00100000) {     /* subnormbl x */
             if(hx==0) {
                 for (ix = -1043, i=lx; i>0; i<<=1) ix -=1;
             } else {
@@ -76,7 +76,7 @@ static double one = 1.0, Zero[] = {0.0, -0.0,};
         } else ix = (hx>>20)-1023;
 
     /* determine iy = ilogb(y) */
-        if(hy<0x00100000) {     /* subnormal y */
+        if(hy<0x00100000) {     /* subnormbl y */
             if(hy==0) {
                 for (iy = -1043, i=ly; i>0; i<<=1) iy -=1;
             } else {
@@ -84,10 +84,10 @@ static double one = 1.0, Zero[] = {0.0, -0.0,};
             }
         } else iy = (hy>>20)-1023;
 
-    /* set up {hx,lx}, {hy,ly} and align y to x */
+    /* set up {hx,lx}, {hy,ly} bnd blign y to x */
         if(ix >= -1022)
             hx = 0x00100000|(0x000fffff&hx);
-        else {          /* subnormal x, shift x to normal */
+        else {          /* subnormbl x, shift x to normbl */
             n = -1022-ix;
             if(n<=31) {
                 hx = (hx<<n)|(lx>>(32-n));
@@ -99,7 +99,7 @@ static double one = 1.0, Zero[] = {0.0, -0.0,};
         }
         if(iy >= -1022)
             hy = 0x00100000|(0x000fffff&hy);
-        else {          /* subnormal y, shift y to normal */
+        else {          /* subnormbl y, shift y to normbl */
             n = -1022-iy;
             if(n<=31) {
                 hy = (hy<<n)|(ly>>(32-n));
@@ -124,18 +124,18 @@ static double one = 1.0, Zero[] = {0.0, -0.0,};
         hz=hx-hy;lz=lx-ly; if(lx<ly) hz -= 1;
         if(hz>=0) {hx=hz;lx=lz;}
 
-    /* convert back to floating value and restore the sign */
+    /* convert bbck to flobting vblue bnd restore the sign */
         if((hx|lx)==0)                  /* return sign(x)*0 */
             return Zero[(unsigned)sx>>31];
-        while(hx<0x00100000) {          /* normalize x */
+        while(hx<0x00100000) {          /* normblize x */
             hx = hx+hx+(lx>>31); lx = lx+lx;
             iy -= 1;
         }
-        if(iy>= -1022) {        /* normalize output */
+        if(iy>= -1022) {        /* normblize output */
             hx = ((hx-0x00100000)|((iy+1023)<<20));
             __HI(x) = hx|sx;
             __LO(x) = lx;
-        } else {                /* subnormal output */
+        } else {                /* subnormbl output */
             n = -1022 - iy;
             if(n<=20) {
                 lx = (lx>>n)|((unsigned)hx<<(32-n));
@@ -147,7 +147,7 @@ static double one = 1.0, Zero[] = {0.0, -0.0,};
             }
             __HI(x) = hx|sx;
             __LO(x) = lx;
-            x *= one;           /* create necessary signal */
+            x *= one;           /* crebte necessbry signbl */
         }
-        return x;               /* exact output */
+        return x;               /* exbct output */
 }

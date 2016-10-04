@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.event.KeyEvent;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.Collections;
+import jbvb.util.IdentityHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
 
 /**
- * Toolkit that provides resource support for JConsole.
+ * Toolkit thbt provides resource support for JConsole.
  */
-public final class Resources {
-    private static Map<String, Integer> MNEMONIC_LOOKUP = Collections
-            .synchronizedMap(new IdentityHashMap<String, Integer>());
+public finbl clbss Resources {
+    privbte stbtic Mbp<String, Integer> MNEMONIC_LOOKUP = Collections
+            .synchronizedMbp(new IdentityHbshMbp<String, Integer>());
 
-    private Resources() {
+    privbte Resources() {
         throw new AssertionError();
     }
 
     /**
-     * Convenience method for {@link MessageFormat#format(String, Object...)}.
+     * Convenience method for {@link MessbgeFormbt#formbt(String, Object...)}.
      *
-     * @param pattern the pattern
-     * @param objects the arguments for the pattern
+     * @pbrbm pbttern the pbttern
+     * @pbrbm objects the brguments for the pbttern
      *
-     * @return a formatted string
+     * @return b formbtted string
      */
-    public static String format(String pattern, Object... arguments) {
-            return MessageFormat.format(pattern, arguments);
+    public stbtic String formbt(String pbttern, Object... brguments) {
+            return MessbgeFormbt.formbt(pbttern, brguments);
     }
 
     /**
-     * Returns the mnemonic for a message.
+     * Returns the mnemonic for b messbge.
      *
-     * @param message the message
+     * @pbrbm messbge the messbge
      *
      * @return the mnemonic <code>int</code>
      */
-    public static int getMnemonicInt(String message) {
-        Integer integer = MNEMONIC_LOOKUP.get(message);
+    public stbtic int getMnemonicInt(String messbge) {
+        Integer integer = MNEMONIC_LOOKUP.get(messbge);
         if (integer != null) {
-            return integer.intValue();
+            return integer.intVblue();
         }
         return 0;
     }
 
     /**
-     * Initializes all non-final public static fields in the given class with
-     * messages from a {@link ResourceBundle}.
+     * Initiblizes bll non-finbl public stbtic fields in the given clbss with
+     * messbges from b {@link ResourceBundle}.
      *
-     * @param clazz the class containing the fields
+     * @pbrbm clbzz the clbss contbining the fields
      */
-    public static void initializeMessages(Class<?> clazz, String rbName) {
+    public stbtic void initiblizeMessbges(Clbss<?> clbzz, String rbNbme) {
         ResourceBundle rb = null;
         try {
-            rb = ResourceBundle.getBundle(rbName);
-        } catch (MissingResourceException mre) {
-            // fall through, handled later
+            rb = ResourceBundle.getBundle(rbNbme);
+        } cbtch (MissingResourceException mre) {
+            // fbll through, hbndled lbter
         }
-        for (Field field : clazz.getFields()) {
-            if (isWritableField(field)) {
-                String key = field.getName();
-                String message = getMessage(rb, key);
-                int mnemonicInt = findMnemonicInt(message);
-                message = removeMnemonicAmpersand(message);
-                message = replaceWithPlatformLineFeed(message);
-                setFieldValue(field, message);
-                MNEMONIC_LOOKUP.put(message, mnemonicInt);
+        for (Field field : clbzz.getFields()) {
+            if (isWritbbleField(field)) {
+                String key = field.getNbme();
+                String messbge = getMessbge(rb, key);
+                int mnemonicInt = findMnemonicInt(messbge);
+                messbge = removeMnemonicAmpersbnd(messbge);
+                messbge = replbceWithPlbtformLineFeed(messbge);
+                setFieldVblue(field, messbge);
+                MNEMONIC_LOOKUP.put(messbge, mnemonicInt);
             }
         }
     }
 
-    private static boolean isWritableField(Field field) {
+    privbte stbtic boolebn isWritbbleField(Field field) {
         int modifiers = field.getModifiers();
-        return Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers)
-                && !Modifier.isFinal(modifiers);
+        return Modifier.isPublic(modifiers) && Modifier.isStbtic(modifiers)
+                && !Modifier.isFinbl(modifiers);
     }
 
     /**
-     * Returns the message corresponding to the key in the bundle or a text
+     * Returns the messbge corresponding to the key in the bundle or b text
      * describing it's missing.
      *
-     * @param rb the resource bundle
-     * @param key the key
+     * @pbrbm rb the resource bundle
+     * @pbrbm key the key
      *
-     * @return the message
+     * @return the messbge
      */
-    private static String getMessage(ResourceBundle rb, String key) {
+    privbte stbtic String getMessbge(ResourceBundle rb, String key) {
         if (rb == null) {
             return "missing resource bundle";
         }
         try {
             return rb.getString(key);
-        } catch (MissingResourceException mre) {
-            return "missing message for key = \"" + key
+        } cbtch (MissingResourceException mre) {
+            return "missing messbge for key = \"" + key
                     + "\" in resource bundle ";
         }
     }
 
-    private static void setFieldValue(Field field, String value) {
+    privbte stbtic void setFieldVblue(Field field, String vblue) {
         try {
-            field.set(null, value);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new Error("Unable to access or set message for field " + field.getName());
+            field.set(null, vblue);
+        } cbtch (IllegblArgumentException | IllegblAccessException e) {
+            throw new Error("Unbble to bccess or set messbge for field " + field.getNbme());
         }
     }
 
     /**
-     * Returns a {@link String} where all <code>\n</code> in the <text> have
-     * been replaced with the line separator for the platform.
+     * Returns b {@link String} where bll <code>\n</code> in the <text> hbve
+     * been replbced with the line sepbrbtor for the plbtform.
      *
-     * @param text the to be replaced
+     * @pbrbm text the to be replbced
      *
-     * @return the replaced text
+     * @return the replbced text
      */
-    private static String replaceWithPlatformLineFeed(String text) {
-        return text.replace("\n", System.getProperty("line.separator"));
+    privbte stbtic String replbceWithPlbtformLineFeed(String text) {
+        return text.replbce("\n", System.getProperty("line.sepbrbtor"));
     }
 
     /**
-     * Removes the mnemonic identifier (<code>&</code>) from a string unless
-     * it's escaped by <code>&&</code> or placed at the end.
+     * Removes the mnemonic identifier (<code>&</code>) from b string unless
+     * it's escbped by <code>&&</code> or plbced bt the end.
      *
-     * @param message the message
+     * @pbrbm messbge the messbge
      *
-     * @return a message with the mnemonic identifier removed
+     * @return b messbge with the mnemonic identifier removed
      */
-    private static String removeMnemonicAmpersand(String message) {
+    privbte stbtic String removeMnemonicAmpersbnd(String messbge) {
         StringBuilder s = new StringBuilder();
-        for (int i = 0; i < message.length(); i++) {
-            char current = message.charAt(i);
-            if (current != '&' || i == message.length() - 1
-                    || message.charAt(i + 1) == '&') {
-                s.append(current);
+        for (int i = 0; i < messbge.length(); i++) {
+            chbr current = messbge.chbrAt(i);
+            if (current != '&' || i == messbge.length() - 1
+                    || messbge.chbrAt(i + 1) == '&') {
+                s.bppend(current);
             }
         }
         return s.toString();
     }
 
     /**
-     * Finds the mnemonic character in a message.
+     * Finds the mnemonic chbrbcter in b messbge.
      *
-     * The mnemonic character is the first character followed by the first
-     * <code>&</code> that is not followed by another <code>&</code>.
+     * The mnemonic chbrbcter is the first chbrbcter followed by the first
+     * <code>&</code> thbt is not followed by bnother <code>&</code>.
      *
-     * @return the mnemonic as an <code>int</code>, or <code>0</code> if it
-     *         can't be found.
+     * @return the mnemonic bs bn <code>int</code>, or <code>0</code> if it
+     *         cbn't be found.
      */
-    private static int findMnemonicInt(String s) {
+    privbte stbtic int findMnemonicInt(String s) {
         for (int i = 0; i < s.length() - 1; i++) {
-            if (s.charAt(i) == '&') {
-                if (s.charAt(i + 1) != '&') {
+            if (s.chbrAt(i) == '&') {
+                if (s.chbrAt(i + 1) != '&') {
                     return lookupMnemonicInt(s.substring(i + 1, i + 2));
                 } else {
                     i++;
@@ -189,20 +189,20 @@ public final class Resources {
     }
 
     /**
-     * Lookups the mnemonic for a key in the {@link KeyEvent} class.
+     * Lookups the mnemonic for b key in the {@link KeyEvent} clbss.
      *
-     * @param c the character to lookup
+     * @pbrbm c the chbrbcter to lookup
      *
-     * @return the mnemonic as an <code>int</code>, or <code>0</code> if it
-     *         can't be found.
+     * @return the mnemonic bs bn <code>int</code>, or <code>0</code> if it
+     *         cbn't be found.
      */
-    private static int lookupMnemonicInt(String c) {
+    privbte stbtic int lookupMnemonicInt(String c) {
         try {
-            return KeyEvent.class.getDeclaredField("VK_" + c.toUpperCase())
+            return KeyEvent.clbss.getDeclbredField("VK_" + c.toUpperCbse())
                     .getInt(null);
-        } catch (IllegalArgumentException | IllegalAccessException
+        } cbtch (IllegblArgumentException | IllegblAccessException
                 | NoSuchFieldException | SecurityException e) {
-            // Missing VK is okay
+            // Missing VK is okby
             return 0;
         }
     }

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Redistribution bnd use in source bnd binbry forms, with or without
+ modificbtion, bre permitted provided thbt the following conditions
+ bre met:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Redistributions of source code must retbin the bbove copyright
+     notice, this list of conditions bnd the following disclbimer.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Redistributions in binbry form must reproduce the bbove copyright
+     notice, this list of conditions bnd the following disclbimer in the
+     documentbtion bnd/or other mbteribls provided with the distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Neither the nbme of Orbcle nor the nbmes of its
+     contributors mby be used to endorse or promote products derived
+     from this softwbre without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -33,143 +33,143 @@
 
 
 <!-- 
-  This is ant (http://ant.apache.org) build script to build the
-  "jmx-scandir" sample. Either this build.xml can be used standalone 
-  with "ant" tool or can be opened as a project with NetBeans IDE
-  (http://www.netbeans.org).
+  This is bnt (http://bnt.bpbche.org) build script to build the
+  "jmx-scbndir" sbmple. Either this build.xml cbn be used stbndblone 
+  with "bnt" tool or cbn be opened bs b project with NetBebns IDE
+  (http://www.netbebns.org).
 -->
 
-<project name="jmx-scandir" default="jar" basedir=".">
+<project nbme="jmx-scbndir" defbult="jbr" bbsedir=".">
 
     <import file="nbproject/jdk.xml"/>
     
 
-    <target name="-prop-init">
+    <tbrget nbme="-prop-init">
         <property file="user.build.properties"/>
         <property file="build.properties"/>
-    </target>
+    </tbrget>
 
-    <target name="-init" depends="-prop-init,-jdk-init"/>
+    <tbrget nbme="-init" depends="-prop-init,-jdk-init"/>
 
-    <target name="compile" depends="-init" description="Compile main sources.">
-        <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" deprecation="${deprecation}">
-            <classpath path="${cp}"/>
-        </javac>
-        <copy todir="${classes.dir}">
+    <tbrget nbme="compile" depends="-init" description="Compile mbin sources.">
+        <mkdir dir="${clbsses.dir}"/>
+        <jbvbc srcdir="${src.dir}" destdir="${clbsses.dir}" debug="${debug}" deprecbtion="${deprecbtion}">
+            <clbsspbth pbth="${cp}"/>
+        </jbvbc>
+        <copy todir="${clbsses.dir}">
             <fileset dir="${src.dir}"/>
         </copy>
-    </target>
+    </tbrget>
 
-    <target name="jar" depends="compile" description="Build JAR file for main sources.">
+    <tbrget nbme="jbr" depends="compile" description="Build JAR file for mbin sources.">
         <mkdir dir="${dist.dir}" />
-        <jar jarfile="${jar}" compress="true">
-            <manifest>
-                <attribute name="Main-Class" value="${main.agent.class}"/>
-            </manifest>
-            <fileset dir="${classes.dir}"/>
-        </jar>
-    </target>
+        <jbr jbrfile="${jbr}" compress="true">
+            <mbnifest>
+                <bttribute nbme="Mbin-Clbss" vblue="${mbin.bgent.clbss}"/>
+            </mbnifest>
+            <fileset dir="${clbsses.dir}"/>
+        </jbr>
+    </tbrget>
 
-    <target name="run-client" depends="compile" description="Run client.">
-        <fail unless="main.client.class">Must set property 'main.client.class' (e.g. in build.properties)</fail>
-        <java classname="${main.client.class}" fork="true" failonerror="true">
-            <classpath path="${run.cp}"/>
-            <jvmarg line="${client.jvmargs}" />
-            <arg line="${client.args}" />
-        </java>
-    </target>
+    <tbrget nbme="run-client" depends="compile" description="Run client.">
+        <fbil unless="mbin.client.clbss">Must set property 'mbin.client.clbss' (e.g. in build.properties)</fbil>
+        <jbvb clbssnbme="${mbin.client.clbss}" fork="true" fbilonerror="true">
+            <clbsspbth pbth="${run.cp}"/>
+            <jvmbrg line="${client.jvmbrgs}" />
+            <brg line="${client.brgs}" />
+        </jbvb>
+    </tbrget>
 
-    <target name="run-agent" depends="compile" description="Run agent.">
-        <fail unless="main.agent.class">Must set property 'main.agent.class' (e.g. in build.properties)</fail>
-        <java classname="${main.agent.class}" fork="true" failonerror="true">
-            <classpath path="${run.cp}"/>
-            <jvmarg line="${agent.jvmargs}" />
-        </java>
-    </target>
+    <tbrget nbme="run-bgent" depends="compile" description="Run bgent.">
+        <fbil unless="mbin.bgent.clbss">Must set property 'mbin.bgent.clbss' (e.g. in build.properties)</fbil>
+        <jbvb clbssnbme="${mbin.bgent.clbss}" fork="true" fbilonerror="true">
+            <clbsspbth pbth="${run.cp}"/>
+            <jvmbrg line="${bgent.jvmbrgs}" />
+        </jbvb>
+    </tbrget>
 
-    <target name="run" depends="run-agent" description="Run agent." />
+    <tbrget nbme="run" depends="run-bgent" description="Run bgent." />
 
-    <target name="run-single" depends="-init,compile">
-        <fail unless="run.class">Must select one file in the IDE or set run.class</fail>
-        <java classname="${run.class}" fork="true" failonerror="true">
-            <classpath path="${run.cp}"/>
-        </java>
-    </target>
+    <tbrget nbme="run-single" depends="-init,compile">
+        <fbil unless="run.clbss">Must select one file in the IDE or set run.clbss</fbil>
+        <jbvb clbssnbme="${run.clbss}" fork="true" fbilonerror="true">
+            <clbsspbth pbth="${run.cp}"/>
+        </jbvb>
+    </tbrget>
 
-    <target name="javadoc" depends="-init" description="Build Javadoc.">
-        <mkdir dir="${javadoc.dir}"/>
-        <javadoc destdir="${javadoc.dir}">
-            <classpath path="${cp}"/>
-            <sourcepath>
-                <pathelement location="${src.dir}"/>
-            </sourcepath>
+    <tbrget nbme="jbvbdoc" depends="-init" description="Build Jbvbdoc.">
+        <mkdir dir="${jbvbdoc.dir}"/>
+        <jbvbdoc destdir="${jbvbdoc.dir}">
+            <clbsspbth pbth="${cp}"/>
+            <sourcepbth>
+                <pbthelement locbtion="${src.dir}"/>
+            </sourcepbth>
             <fileset dir="${src.dir}"/>
-        </javadoc>
-    </target>
+        </jbvbdoc>
+    </tbrget>
 
-    <target name="clean" depends="-init" description="Clean build products.">
+    <tbrget nbme="clebn" depends="-init" description="Clebn build products.">
         <delete dir="${build.dir}"/>
-        <delete file="${jar}"/>
+        <delete file="${jbr}"/>
         <delete dir="${dist.dir}"/>
-    </target>
+    </tbrget>
 
-    <target name="profile">
-        <ant antfile="nbproject/netbeans-targets.xml" target="profile"/>
-    </target>
+    <tbrget nbme="profile">
+        <bnt bntfile="nbproject/netbebns-tbrgets.xml" tbrget="profile"/>
+    </tbrget>
 
-    <!-- JUnit targets -->
+    <!-- JUnit tbrgets -->
 
-    <target name="compile-test" depends="-init,compile">
-        <fail unless="libs.junit.classpath">Must set libs.junit.classpath variable to the JUnit classpath in the build.properties file.</fail>
-        <mkdir dir="${build.test.classes.dir}"/>
-        <javac srcdir="${test.src.dir}" destdir="${build.test.classes.dir}" debug="${debug}" classpath="${javac.test.classpath}"/>
-        <copy todir="${build.test.classes.dir}">
-            <fileset dir="${test.src.dir}" excludes="**/*.java"/>
+    <tbrget nbme="compile-test" depends="-init,compile">
+        <fbil unless="libs.junit.clbsspbth">Must set libs.junit.clbsspbth vbribble to the JUnit clbsspbth in the build.properties file.</fbil>
+        <mkdir dir="${build.test.clbsses.dir}"/>
+        <jbvbc srcdir="${test.src.dir}" destdir="${build.test.clbsses.dir}" debug="${debug}" clbsspbth="${jbvbc.test.clbsspbth}"/>
+        <copy todir="${build.test.clbsses.dir}">
+            <fileset dir="${test.src.dir}" excludes="**/*.jbvb"/>
         </copy>
-    </target>
+    </tbrget>
 
-    <target name="-do-test-run" depends="-init,compile-test">
+    <tbrget nbme="-do-test-run" depends="-init,compile-test">
         <mkdir dir="${build.test.results.dir}"/>
-        <junit showoutput="true" fork="true" dir="${basedir}" failureproperty="tests.failed" errorproperty="tests.failed">
-            <batchtest todir="${build.test.results.dir}">
-                <fileset dir="${test.src.dir}" includes="**/*Test.java"/>
-            </batchtest>
-            <classpath>
-                <path path="${run.test.classpath}"/>
-            </classpath>
+        <junit showoutput="true" fork="true" dir="${bbsedir}" fbilureproperty="tests.fbiled" errorproperty="tests.fbiled">
+            <bbtchtest todir="${build.test.results.dir}">
+                <fileset dir="${test.src.dir}" includes="**/*Test.jbvb"/>
+            </bbtchtest>
+            <clbsspbth>
+                <pbth pbth="${run.test.clbsspbth}"/>
+            </clbsspbth>
             <syspropertyset>
                 <propertyref prefix="test-sys-prop."/>
-                <mapper type="glob" from="test-sys-prop.*" to="*"/>
+                <mbpper type="glob" from="test-sys-prop.*" to="*"/>
             </syspropertyset>
-            <formatter type="brief" usefile="false"/>
-            <formatter type="xml"/>
-            <jvmarg line="${run.jvmargs}"/>
+            <formbtter type="brief" usefile="fblse"/>
+            <formbtter type="xml"/>
+            <jvmbrg line="${run.jvmbrgs}"/>
         </junit>
-        <fail if="tests.failed">Some tests failed; see details above.</fail>
-    </target>
+        <fbil if="tests.fbiled">Some tests fbiled; see detbils bbove.</fbil>
+    </tbrget>
     
-    <target name="test" depends="-init,compile-test,-do-test-run" description="Run unit tests."/>
+    <tbrget nbme="test" depends="-init,compile-test,-do-test-run" description="Run unit tests."/>
 
-    <target name="-do-test-run-single" depends="-init,compile-test">
-        <fail unless="test.includes">Must select some files in the IDE or set test.includes</fail>
-        <junit showoutput="true" fork="true" dir="${basedir}" failureproperty="tests.failed" errorproperty="tests.failed">
-            <batchtest todir="${build.test.results.dir}">
+    <tbrget nbme="-do-test-run-single" depends="-init,compile-test">
+        <fbil unless="test.includes">Must select some files in the IDE or set test.includes</fbil>
+        <junit showoutput="true" fork="true" dir="${bbsedir}" fbilureproperty="tests.fbiled" errorproperty="tests.fbiled">
+            <bbtchtest todir="${build.test.results.dir}">
                 <fileset dir="${test.src.dir}" includes="${test.includes}"/>
-            </batchtest>
-            <classpath>
-                <path path="${run.test.classpath}"/>
-            </classpath>
+            </bbtchtest>
+            <clbsspbth>
+                <pbth pbth="${run.test.clbsspbth}"/>
+            </clbsspbth>
             <syspropertyset>
                 <propertyref prefix="test-sys-prop."/>
-                <mapper type="glob" from="test-sys-prop.*" to="*"/>
+                <mbpper type="glob" from="test-sys-prop.*" to="*"/>
             </syspropertyset>
-            <formatter type="brief" usefile="false"/>
-            <formatter type="xml"/>
-            <jvmarg line="${run.jvmargs}"/>
+            <formbtter type="brief" usefile="fblse"/>
+            <formbtter type="xml"/>
+            <jvmbrg line="${run.jvmbrgs}"/>
         </junit>
-        <fail if="tests.failed">Some tests failed; see details above.</fail>
-    </target>
+        <fbil if="tests.fbiled">Some tests fbiled; see detbils bbove.</fbil>
+    </tbrget>
 
-    <target name="test-single" depends="-init,compile-test,-do-test-run-single" description="Run single unit test."/>
+    <tbrget nbme="test-single" depends="-init,compile-test,-do-test-run-single" description="Run single unit test."/>
 </project>

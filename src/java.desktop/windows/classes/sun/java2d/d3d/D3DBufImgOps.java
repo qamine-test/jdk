@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.d3d;
+pbckbge sun.jbvb2d.d3d;
 
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ConvolveOp;
-import java.awt.image.LookupOp;
-import java.awt.image.RescaleOp;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.pipe.BufferedBufImgOps;
-import static sun.java2d.d3d.D3DContext.D3DContextCaps.*;
+import jbvb.bwt.imbge.AffineTrbnsformOp;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.bwt.imbge.ConvolveOp;
+import jbvb.bwt.imbge.LookupOp;
+import jbvb.bwt.imbge.RescbleOp;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.pipe.BufferedBufImgOps;
+import stbtic sun.jbvb2d.d3d.D3DContext.D3DContextCbps.*;
 
-class D3DBufImgOps extends BufferedBufImgOps {
+clbss D3DBufImgOps extends BufferedBufImgOps {
 
     /**
-     * This method is called from D3DDrawImage.transformImage() only.  It
-     * validates the provided BufferedImageOp to determine whether the op
-     * is one that can be accelerated by the D3D pipeline.  If the operation
-     * cannot be completed for any reason, this method returns false;
-     * otherwise, the given BufferedImage is rendered to the destination
-     * using the provided BufferedImageOp and this method returns true.
+     * This method is cblled from D3DDrbwImbge.trbnsformImbge() only.  It
+     * vblidbtes the provided BufferedImbgeOp to determine whether the op
+     * is one thbt cbn be bccelerbted by the D3D pipeline.  If the operbtion
+     * cbnnot be completed for bny rebson, this method returns fblse;
+     * otherwise, the given BufferedImbge is rendered to the destinbtion
+     * using the provided BufferedImbgeOp bnd this method returns true.
      */
-    static boolean renderImageWithOp(SunGraphics2D sg, BufferedImage img,
-                                     BufferedImageOp biop, int x, int y)
+    stbtic boolebn renderImbgeWithOp(SunGrbphics2D sg, BufferedImbge img,
+                                     BufferedImbgeOp biop, int x, int y)
     {
-        // Validate the provided BufferedImage (make sure it is one that
-        // is supported, and that its properties are acceleratable)
-        if (biop instanceof ConvolveOp) {
-            if (!isConvolveOpValid((ConvolveOp)biop)) {
-                return false;
+        // Vblidbte the provided BufferedImbge (mbke sure it is one thbt
+        // is supported, bnd thbt its properties bre bccelerbtbble)
+        if (biop instbnceof ConvolveOp) {
+            if (!isConvolveOpVblid((ConvolveOp)biop)) {
+                return fblse;
             }
-        } else if (biop instanceof RescaleOp) {
-            if (!isRescaleOpValid((RescaleOp)biop, img)) {
-                return false;
+        } else if (biop instbnceof RescbleOp) {
+            if (!isRescbleOpVblid((RescbleOp)biop, img)) {
+                return fblse;
             }
-        } else if (biop instanceof LookupOp) {
-            if (!isLookupOpValid((LookupOp)biop, img)) {
-                return false;
+        } else if (biop instbnceof LookupOp) {
+            if (!isLookupOpVblid((LookupOp)biop, img)) {
+                return fblse;
             }
         } else {
-            // No acceleration for other BufferedImageOps (yet)
-            return false;
+            // No bccelerbtion for other BufferedImbgeOps (yet)
+            return fblse;
         }
 
-        SurfaceData dstData = sg.surfaceData;
-        if (!(dstData instanceof D3DSurfaceData) ||
-            (sg.interpolationType == AffineTransformOp.TYPE_BICUBIC) ||
-            (sg.compositeState > SunGraphics2D.COMP_ALPHA))
+        SurfbceDbtb dstDbtb = sg.surfbceDbtb;
+        if (!(dstDbtb instbnceof D3DSurfbceDbtb) ||
+            (sg.interpolbtionType == AffineTrbnsformOp.TYPE_BICUBIC) ||
+            (sg.compositeStbte > SunGrbphics2D.COMP_ALPHA))
         {
-            return false;
+            return fblse;
         }
 
-        SurfaceData srcData =
-            dstData.getSourceSurfaceData(img, SunGraphics2D.TRANSFORM_ISIDENT,
+        SurfbceDbtb srcDbtb =
+            dstDbtb.getSourceSurfbceDbtb(img, SunGrbphics2D.TRANSFORM_ISIDENT,
                                          CompositeType.SrcOver, null);
-        if (!(srcData instanceof D3DSurfaceData)) {
-            // REMIND: this hack tries to ensure that we have a cached texture
-            srcData =
-                dstData.getSourceSurfaceData(img, SunGraphics2D.TRANSFORM_ISIDENT,
+        if (!(srcDbtb instbnceof D3DSurfbceDbtb)) {
+            // REMIND: this hbck tries to ensure thbt we hbve b cbched texture
+            srcDbtb =
+                dstDbtb.getSourceSurfbceDbtb(img, SunGrbphics2D.TRANSFORM_ISIDENT,
                                              CompositeType.SrcOver, null);
-            if (!(srcData instanceof D3DSurfaceData)) {
-                return false;
+            if (!(srcDbtb instbnceof D3DSurfbceDbtb)) {
+                return fblse;
             }
         }
 
-        // Verify that the source surface is actually a texture and that
-        // shaders are supported
-        D3DSurfaceData d3dSrc = (D3DSurfaceData)srcData;
-        D3DGraphicsDevice gd =
-            (D3DGraphicsDevice)d3dSrc.getDeviceConfiguration().getDevice();
-        if (d3dSrc.getType() != D3DSurfaceData.TEXTURE ||
-            !gd.isCapPresent(CAPS_LCD_SHADER))
+        // Verify thbt the source surfbce is bctublly b texture bnd thbt
+        // shbders bre supported
+        D3DSurfbceDbtb d3dSrc = (D3DSurfbceDbtb)srcDbtb;
+        D3DGrbphicsDevice gd =
+            (D3DGrbphicsDevice)d3dSrc.getDeviceConfigurbtion().getDevice();
+        if (d3dSrc.getType() != D3DSurfbceDbtb.TEXTURE ||
+            !gd.isCbpPresent(CAPS_LCD_SHADER))
         {
-            return false;
+            return fblse;
         }
 
         int sw = img.getWidth();
         int sh = img.getHeight();
-        D3DBlitLoops.IsoBlit(srcData, dstData,
+        D3DBlitLoops.IsoBlit(srcDbtb, dstDbtb,
                              img, biop,
                              sg.composite, sg.getCompClip(),
-                             sg.transform, sg.interpolationType,
+                             sg.trbnsform, sg.interpolbtionType,
                              0, 0, sw, sh,
                              x, y, x+sw, y+sh,
                              true);

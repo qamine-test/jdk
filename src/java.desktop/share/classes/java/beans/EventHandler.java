@@ -1,492 +1,492 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Method;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.reflect.InvocbtionHbndler;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.lbng.reflect.Method;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 import sun.reflect.misc.MethodUtil;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * The <code>EventHandler</code> class provides
- * support for dynamically generating event listeners whose methods
- * execute a simple statement involving an incoming event object
- * and a target object.
+ * The <code>EventHbndler</code> clbss provides
+ * support for dynbmicblly generbting event listeners whose methods
+ * execute b simple stbtement involving bn incoming event object
+ * bnd b tbrget object.
  * <p>
- * The <code>EventHandler</code> class is intended to be used by interactive tools, such as
- * application builders, that allow developers to make connections between
- * beans. Typically connections are made from a user interface bean
+ * The <code>EventHbndler</code> clbss is intended to be used by interbctive tools, such bs
+ * bpplicbtion builders, thbt bllow developers to mbke connections between
+ * bebns. Typicblly connections bre mbde from b user interfbce bebn
  * (the event <em>source</em>)
- * to an application logic bean (the <em>target</em>). The most effective
- * connections of this kind isolate the application logic from the user
- * interface.  For example, the <code>EventHandler</code> for a
- * connection from a <code>JCheckBox</code> to a method
- * that accepts a boolean value can deal with extracting the state
- * of the check box and passing it directly to the method so that
- * the method is isolated from the user interface layer.
+ * to bn bpplicbtion logic bebn (the <em>tbrget</em>). The most effective
+ * connections of this kind isolbte the bpplicbtion logic from the user
+ * interfbce.  For exbmple, the <code>EventHbndler</code> for b
+ * connection from b <code>JCheckBox</code> to b method
+ * thbt bccepts b boolebn vblue cbn debl with extrbcting the stbte
+ * of the check box bnd pbssing it directly to the method so thbt
+ * the method is isolbted from the user interfbce lbyer.
  * <p>
- * Inner classes are another, more general way to handle events from
- * user interfaces.  The <code>EventHandler</code> class
- * handles only a subset of what is possible using inner
- * classes. However, <code>EventHandler</code> works better
- * with the long-term persistence scheme than inner classes.
- * Also, using <code>EventHandler</code> in large applications in
- * which the same interface is implemented many times can
- * reduce the disk and memory footprint of the application.
+ * Inner clbsses bre bnother, more generbl wby to hbndle events from
+ * user interfbces.  The <code>EventHbndler</code> clbss
+ * hbndles only b subset of whbt is possible using inner
+ * clbsses. However, <code>EventHbndler</code> works better
+ * with the long-term persistence scheme thbn inner clbsses.
+ * Also, using <code>EventHbndler</code> in lbrge bpplicbtions in
+ * which the sbme interfbce is implemented mbny times cbn
+ * reduce the disk bnd memory footprint of the bpplicbtion.
  * <p>
- * The reason that listeners created with <code>EventHandler</code>
- * have such a small
- * footprint is that the <code>Proxy</code> class, on which
- * the <code>EventHandler</code> relies, shares implementations
- * of identical
- * interfaces. For example, if you use
- * the <code>EventHandler</code> <code>create</code> methods to make
- * all the <code>ActionListener</code>s in an application,
- * all the action listeners will be instances of a single class
- * (one created by the <code>Proxy</code> class).
- * In general, listeners based on
- * the <code>Proxy</code> class require one listener class
- * to be created per <em>listener type</em> (interface),
- * whereas the inner class
- * approach requires one class to be created per <em>listener</em>
- * (object that implements the interface).
+ * The rebson thbt listeners crebted with <code>EventHbndler</code>
+ * hbve such b smbll
+ * footprint is thbt the <code>Proxy</code> clbss, on which
+ * the <code>EventHbndler</code> relies, shbres implementbtions
+ * of identicbl
+ * interfbces. For exbmple, if you use
+ * the <code>EventHbndler</code> <code>crebte</code> methods to mbke
+ * bll the <code>ActionListener</code>s in bn bpplicbtion,
+ * bll the bction listeners will be instbnces of b single clbss
+ * (one crebted by the <code>Proxy</code> clbss).
+ * In generbl, listeners bbsed on
+ * the <code>Proxy</code> clbss require one listener clbss
+ * to be crebted per <em>listener type</em> (interfbce),
+ * wherebs the inner clbss
+ * bpprobch requires one clbss to be crebted per <em>listener</em>
+ * (object thbt implements the interfbce).
  *
  * <p>
- * You don't generally deal directly with <code>EventHandler</code>
- * instances.
- * Instead, you use one of the <code>EventHandler</code>
- * <code>create</code> methods to create
- * an object that implements a given listener interface.
- * This listener object uses an <code>EventHandler</code> object
- * behind the scenes to encapsulate information about the
- * event, the object to be sent a message when the event occurs,
- * the message (method) to be sent, and any argument
+ * You don't generblly debl directly with <code>EventHbndler</code>
+ * instbnces.
+ * Instebd, you use one of the <code>EventHbndler</code>
+ * <code>crebte</code> methods to crebte
+ * bn object thbt implements b given listener interfbce.
+ * This listener object uses bn <code>EventHbndler</code> object
+ * behind the scenes to encbpsulbte informbtion bbout the
+ * event, the object to be sent b messbge when the event occurs,
+ * the messbge (method) to be sent, bnd bny brgument
  * to the method.
- * The following section gives examples of how to create listener
- * objects using the <code>create</code> methods.
+ * The following section gives exbmples of how to crebte listener
+ * objects using the <code>crebte</code> methods.
  *
- * <h2>Examples of Using EventHandler</h2>
+ * <h2>Exbmples of Using EventHbndler</h2>
  *
- * The simplest use of <code>EventHandler</code> is to install
- * a listener that calls a method on the target object with no arguments.
- * In the following example we create an <code>ActionListener</code>
- * that invokes the <code>toFront</code> method on an instance
- * of <code>javax.swing.JFrame</code>.
+ * The simplest use of <code>EventHbndler</code> is to instbll
+ * b listener thbt cblls b method on the tbrget object with no brguments.
+ * In the following exbmple we crebte bn <code>ActionListener</code>
+ * thbt invokes the <code>toFront</code> method on bn instbnce
+ * of <code>jbvbx.swing.JFrbme</code>.
  *
  * <blockquote>
  *<pre>
- *myButton.addActionListener(
- *    (ActionListener)EventHandler.create(ActionListener.class, frame, "toFront"));
+ *myButton.bddActionListener(
+ *    (ActionListener)EventHbndler.crebte(ActionListener.clbss, frbme, "toFront"));
  *</pre>
  * </blockquote>
  *
- * When <code>myButton</code> is pressed, the statement
- * <code>frame.toFront()</code> will be executed.  One could get
- * the same effect, with some additional compile-time type safety,
- * by defining a new implementation of the <code>ActionListener</code>
- * interface and adding an instance of it to the button:
+ * When <code>myButton</code> is pressed, the stbtement
+ * <code>frbme.toFront()</code> will be executed.  One could get
+ * the sbme effect, with some bdditionbl compile-time type sbfety,
+ * by defining b new implementbtion of the <code>ActionListener</code>
+ * interfbce bnd bdding bn instbnce of it to the button:
  *
  * <blockquote>
  *<pre>
-//Equivalent code using an inner class instead of EventHandler.
- *myButton.addActionListener(new ActionListener() {
- *    public void actionPerformed(ActionEvent e) {
- *        frame.toFront();
+//Equivblent code using bn inner clbss instebd of EventHbndler.
+ *myButton.bddActionListener(new ActionListener() {
+ *    public void bctionPerformed(ActionEvent e) {
+ *        frbme.toFront();
  *    }
  *});
  *</pre>
  * </blockquote>
  *
- * The next simplest use of <code>EventHandler</code> is
- * to extract a property value from the first argument
- * of the method in the listener interface (typically an event object)
- * and use it to set the value of a property in the target object.
- * In the following example we create an <code>ActionListener</code> that
- * sets the <code>nextFocusableComponent</code> property of the target
- * (myButton) object to the value of the "source" property of the event.
+ * The next simplest use of <code>EventHbndler</code> is
+ * to extrbct b property vblue from the first brgument
+ * of the method in the listener interfbce (typicblly bn event object)
+ * bnd use it to set the vblue of b property in the tbrget object.
+ * In the following exbmple we crebte bn <code>ActionListener</code> thbt
+ * sets the <code>nextFocusbbleComponent</code> property of the tbrget
+ * (myButton) object to the vblue of the "source" property of the event.
  *
  * <blockquote>
  *<pre>
- *EventHandler.create(ActionListener.class, myButton, "nextFocusableComponent", "source")
+ *EventHbndler.crebte(ActionListener.clbss, myButton, "nextFocusbbleComponent", "source")
  *</pre>
  * </blockquote>
  *
- * This would correspond to the following inner class implementation:
+ * This would correspond to the following inner clbss implementbtion:
  *
  * <blockquote>
  *<pre>
-//Equivalent code using an inner class instead of EventHandler.
+//Equivblent code using bn inner clbss instebd of EventHbndler.
  *new ActionListener() {
- *    public void actionPerformed(ActionEvent e) {
- *        myButton.setNextFocusableComponent((Component)e.getSource());
+ *    public void bctionPerformed(ActionEvent e) {
+ *        myButton.setNextFocusbbleComponent((Component)e.getSource());
  *    }
  *}
  *</pre>
  * </blockquote>
  *
- * It's also possible to create an <code>EventHandler</code> that
- * just passes the incoming event object to the target's action.
- * If the fourth <code>EventHandler.create</code> argument is
- * an empty string, then the event is just passed along:
+ * It's blso possible to crebte bn <code>EventHbndler</code> thbt
+ * just pbsses the incoming event object to the tbrget's bction.
+ * If the fourth <code>EventHbndler.crebte</code> brgument is
+ * bn empty string, then the event is just pbssed blong:
  *
  * <blockquote>
  *<pre>
- *EventHandler.create(ActionListener.class, target, "doActionEvent", "")
+ *EventHbndler.crebte(ActionListener.clbss, tbrget, "doActionEvent", "")
  *</pre>
  * </blockquote>
  *
- * This would correspond to the following inner class implementation:
+ * This would correspond to the following inner clbss implementbtion:
  *
  * <blockquote>
  *<pre>
-//Equivalent code using an inner class instead of EventHandler.
+//Equivblent code using bn inner clbss instebd of EventHbndler.
  *new ActionListener() {
- *    public void actionPerformed(ActionEvent e) {
- *        target.doActionEvent(e);
+ *    public void bctionPerformed(ActionEvent e) {
+ *        tbrget.doActionEvent(e);
  *    }
  *}
  *</pre>
  * </blockquote>
  *
- * Probably the most common use of <code>EventHandler</code>
- * is to extract a property value from the
- * <em>source</em> of the event object and set this value as
- * the value of a property of the target object.
- * In the following example we create an <code>ActionListener</code> that
- * sets the "label" property of the target
- * object to the value of the "text" property of the
- * source (the value of the "source" property) of the event.
+ * Probbbly the most common use of <code>EventHbndler</code>
+ * is to extrbct b property vblue from the
+ * <em>source</em> of the event object bnd set this vblue bs
+ * the vblue of b property of the tbrget object.
+ * In the following exbmple we crebte bn <code>ActionListener</code> thbt
+ * sets the "lbbel" property of the tbrget
+ * object to the vblue of the "text" property of the
+ * source (the vblue of the "source" property) of the event.
  *
  * <blockquote>
  *<pre>
- *EventHandler.create(ActionListener.class, myButton, "label", "source.text")
+ *EventHbndler.crebte(ActionListener.clbss, myButton, "lbbel", "source.text")
  *</pre>
  * </blockquote>
  *
- * This would correspond to the following inner class implementation:
+ * This would correspond to the following inner clbss implementbtion:
  *
  * <blockquote>
  *<pre>
-//Equivalent code using an inner class instead of EventHandler.
+//Equivblent code using bn inner clbss instebd of EventHbndler.
  *new ActionListener {
- *    public void actionPerformed(ActionEvent e) {
- *        myButton.setLabel(((JTextField)e.getSource()).getText());
+ *    public void bctionPerformed(ActionEvent e) {
+ *        myButton.setLbbel(((JTextField)e.getSource()).getText());
  *    }
  *}
  *</pre>
  * </blockquote>
  *
- * The event property may be "qualified" with an arbitrary number
- * of property prefixes delimited with the "." character. The "qualifying"
- * names that appear before the "." characters are taken as the names of
- * properties that should be applied, left-most first, to
+ * The event property mby be "qublified" with bn brbitrbry number
+ * of property prefixes delimited with the "." chbrbcter. The "qublifying"
+ * nbmes thbt bppebr before the "." chbrbcters bre tbken bs the nbmes of
+ * properties thbt should be bpplied, left-most first, to
  * the event object.
  * <p>
- * For example, the following action listener
+ * For exbmple, the following bction listener
  *
  * <blockquote>
  *<pre>
- *EventHandler.create(ActionListener.class, target, "a", "b.c.d")
+ *EventHbndler.crebte(ActionListener.clbss, tbrget, "b", "b.c.d")
  *</pre>
  * </blockquote>
  *
- * might be written as the following inner class
- * (assuming all the properties had canonical getter methods and
- * returned the appropriate types):
+ * might be written bs the following inner clbss
+ * (bssuming bll the properties hbd cbnonicbl getter methods bnd
+ * returned the bppropribte types):
  *
  * <blockquote>
  *<pre>
-//Equivalent code using an inner class instead of EventHandler.
+//Equivblent code using bn inner clbss instebd of EventHbndler.
  *new ActionListener {
- *    public void actionPerformed(ActionEvent e) {
- *        target.setA(e.getB().getC().isD());
+ *    public void bctionPerformed(ActionEvent e) {
+ *        tbrget.setA(e.getB().getC().isD());
  *    }
  *}
  *</pre>
  * </blockquote>
- * The target property may also be "qualified" with an arbitrary number
- * of property prefixs delimited with the "." character.  For example, the
- * following action listener:
+ * The tbrget property mby blso be "qublified" with bn brbitrbry number
+ * of property prefixs delimited with the "." chbrbcter.  For exbmple, the
+ * following bction listener:
  * <pre>
- *   EventHandler.create(ActionListener.class, target, "a.b", "c.d")
+ *   EventHbndler.crebte(ActionListener.clbss, tbrget, "b.b", "c.d")
  * </pre>
- * might be written as the following inner class
- * (assuming all the properties had canonical getter methods and
- * returned the appropriate types):
+ * might be written bs the following inner clbss
+ * (bssuming bll the properties hbd cbnonicbl getter methods bnd
+ * returned the bppropribte types):
  * <pre>
- *   //Equivalent code using an inner class instead of EventHandler.
+ *   //Equivblent code using bn inner clbss instebd of EventHbndler.
  *   new ActionListener {
- *     public void actionPerformed(ActionEvent e) {
- *         target.getA().setB(e.getC().isD());
+ *     public void bctionPerformed(ActionEvent e) {
+ *         tbrget.getA().setB(e.getC().isD());
  *    }
  *}
  *</pre>
  * <p>
- * As <code>EventHandler</code> ultimately relies on reflection to invoke
- * a method we recommend against targeting an overloaded method.  For example,
- * if the target is an instance of the class <code>MyTarget</code> which is
- * defined as:
+ * As <code>EventHbndler</code> ultimbtely relies on reflection to invoke
+ * b method we recommend bgbinst tbrgeting bn overlobded method.  For exbmple,
+ * if the tbrget is bn instbnce of the clbss <code>MyTbrget</code> which is
+ * defined bs:
  * <pre>
- *   public class MyTarget {
+ *   public clbss MyTbrget {
  *     public void doIt(String);
  *     public void doIt(Object);
  *   }
  * </pre>
- * Then the method <code>doIt</code> is overloaded.  EventHandler will invoke
- * the method that is appropriate based on the source.  If the source is
- * null, then either method is appropriate and the one that is invoked is
- * undefined.  For that reason we recommend against targeting overloaded
+ * Then the method <code>doIt</code> is overlobded.  EventHbndler will invoke
+ * the method thbt is bppropribte bbsed on the source.  If the source is
+ * null, then either method is bppropribte bnd the one thbt is invoked is
+ * undefined.  For thbt rebson we recommend bgbinst tbrgeting overlobded
  * methods.
  *
- * @see java.lang.reflect.Proxy
- * @see java.util.EventObject
+ * @see jbvb.lbng.reflect.Proxy
+ * @see jbvb.util.EventObject
  *
  * @since 1.4
  *
- * @author Mark Davidson
- * @author Philip Milne
- * @author Hans Muller
+ * @buthor Mbrk Dbvidson
+ * @buthor Philip Milne
+ * @buthor Hbns Muller
  *
  */
-public class EventHandler implements InvocationHandler {
-    private Object target;
-    private String action;
-    private final String eventPropertyName;
-    private final String listenerMethodName;
-    private final AccessControlContext acc = AccessController.getContext();
+public clbss EventHbndler implements InvocbtionHbndler {
+    privbte Object tbrget;
+    privbte String bction;
+    privbte finbl String eventPropertyNbme;
+    privbte finbl String listenerMethodNbme;
+    privbte finbl AccessControlContext bcc = AccessController.getContext();
 
     /**
-     * Creates a new <code>EventHandler</code> object;
-     * you generally use one of the <code>create</code> methods
-     * instead of invoking this constructor directly.  Refer to
-     * {@link java.beans.EventHandler#create(Class, Object, String, String)
-     * the general version of create} for a complete description of
-     * the <code>eventPropertyName</code> and <code>listenerMethodName</code>
-     * parameter.
+     * Crebtes b new <code>EventHbndler</code> object;
+     * you generblly use one of the <code>crebte</code> methods
+     * instebd of invoking this constructor directly.  Refer to
+     * {@link jbvb.bebns.EventHbndler#crebte(Clbss, Object, String, String)
+     * the generbl version of crebte} for b complete description of
+     * the <code>eventPropertyNbme</code> bnd <code>listenerMethodNbme</code>
+     * pbrbmeter.
      *
-     * @param target the object that will perform the action
-     * @param action the name of a (possibly qualified) property or method on
-     *        the target
-     * @param eventPropertyName the (possibly qualified) name of a readable property of the incoming event
-     * @param listenerMethodName the name of the method in the listener interface that should trigger the action
+     * @pbrbm tbrget the object thbt will perform the bction
+     * @pbrbm bction the nbme of b (possibly qublified) property or method on
+     *        the tbrget
+     * @pbrbm eventPropertyNbme the (possibly qublified) nbme of b rebdbble property of the incoming event
+     * @pbrbm listenerMethodNbme the nbme of the method in the listener interfbce thbt should trigger the bction
      *
-     * @throws NullPointerException if <code>target</code> is null
-     * @throws NullPointerException if <code>action</code> is null
+     * @throws NullPointerException if <code>tbrget</code> is null
+     * @throws NullPointerException if <code>bction</code> is null
      *
-     * @see EventHandler
-     * @see #create(Class, Object, String, String, String)
-     * @see #getTarget
+     * @see EventHbndler
+     * @see #crebte(Clbss, Object, String, String, String)
+     * @see #getTbrget
      * @see #getAction
-     * @see #getEventPropertyName
-     * @see #getListenerMethodName
+     * @see #getEventPropertyNbme
+     * @see #getListenerMethodNbme
      */
-    @ConstructorProperties({"target", "action", "eventPropertyName", "listenerMethodName"})
-    public EventHandler(Object target, String action, String eventPropertyName, String listenerMethodName) {
-        this.target = target;
-        this.action = action;
-        if (target == null) {
-            throw new NullPointerException("target must be non-null");
+    @ConstructorProperties({"tbrget", "bction", "eventPropertyNbme", "listenerMethodNbme"})
+    public EventHbndler(Object tbrget, String bction, String eventPropertyNbme, String listenerMethodNbme) {
+        this.tbrget = tbrget;
+        this.bction = bction;
+        if (tbrget == null) {
+            throw new NullPointerException("tbrget must be non-null");
         }
-        if (action == null) {
-            throw new NullPointerException("action must be non-null");
+        if (bction == null) {
+            throw new NullPointerException("bction must be non-null");
         }
-        this.eventPropertyName = eventPropertyName;
-        this.listenerMethodName = listenerMethodName;
+        this.eventPropertyNbme = eventPropertyNbme;
+        this.listenerMethodNbme = listenerMethodNbme;
     }
 
     /**
-     * Returns the object to which this event handler will send a message.
+     * Returns the object to which this event hbndler will send b messbge.
      *
-     * @return the target of this event handler
-     * @see #EventHandler(Object, String, String, String)
+     * @return the tbrget of this event hbndler
+     * @see #EventHbndler(Object, String, String, String)
      */
-    public Object getTarget()  {
-        return target;
+    public Object getTbrget()  {
+        return tbrget;
     }
 
     /**
-     * Returns the name of the target's writable property
-     * that this event handler will set,
-     * or the name of the method that this event handler
-     * will invoke on the target.
+     * Returns the nbme of the tbrget's writbble property
+     * thbt this event hbndler will set,
+     * or the nbme of the method thbt this event hbndler
+     * will invoke on the tbrget.
      *
-     * @return the action of this event handler
-     * @see #EventHandler(Object, String, String, String)
+     * @return the bction of this event hbndler
+     * @see #EventHbndler(Object, String, String, String)
      */
     public String getAction()  {
-        return action;
+        return bction;
     }
 
     /**
-     * Returns the property of the event that should be
-     * used in the action applied to the target.
+     * Returns the property of the event thbt should be
+     * used in the bction bpplied to the tbrget.
      *
      * @return the property of the event
      *
-     * @see #EventHandler(Object, String, String, String)
+     * @see #EventHbndler(Object, String, String, String)
      */
-    public String getEventPropertyName()  {
-        return eventPropertyName;
+    public String getEventPropertyNbme()  {
+        return eventPropertyNbme;
     }
 
     /**
-     * Returns the name of the method that will trigger the action.
-     * A return value of <code>null</code> signifies that all methods in the
-     * listener interface trigger the action.
+     * Returns the nbme of the method thbt will trigger the bction.
+     * A return vblue of <code>null</code> signifies thbt bll methods in the
+     * listener interfbce trigger the bction.
      *
-     * @return the name of the method that will trigger the action
+     * @return the nbme of the method thbt will trigger the bction
      *
-     * @see #EventHandler(Object, String, String, String)
+     * @see #EventHbndler(Object, String, String, String)
      */
-    public String getListenerMethodName()  {
-        return listenerMethodName;
+    public String getListenerMethodNbme()  {
+        return listenerMethodNbme;
     }
 
-    private Object applyGetters(Object target, String getters) {
-        if (getters == null || getters.equals("")) {
-            return target;
+    privbte Object bpplyGetters(Object tbrget, String getters) {
+        if (getters == null || getters.equbls("")) {
+            return tbrget;
         }
         int firstDot = getters.indexOf('.');
         if (firstDot == -1) {
             firstDot = getters.length();
         }
         String first = getters.substring(0, firstDot);
-        String rest = getters.substring(Math.min(firstDot + 1, getters.length()));
+        String rest = getters.substring(Mbth.min(firstDot + 1, getters.length()));
 
         try {
             Method getter = null;
-            if (target != null) {
-                getter = Statement.getMethod(target.getClass(),
-                                      "get" + NameGenerator.capitalize(first),
-                                      new Class<?>[]{});
+            if (tbrget != null) {
+                getter = Stbtement.getMethod(tbrget.getClbss(),
+                                      "get" + NbmeGenerbtor.cbpitblize(first),
+                                      new Clbss<?>[]{});
                 if (getter == null) {
-                    getter = Statement.getMethod(target.getClass(),
-                                   "is" + NameGenerator.capitalize(first),
-                                   new Class<?>[]{});
+                    getter = Stbtement.getMethod(tbrget.getClbss(),
+                                   "is" + NbmeGenerbtor.cbpitblize(first),
+                                   new Clbss<?>[]{});
                 }
                 if (getter == null) {
-                    getter = Statement.getMethod(target.getClass(), first, new Class<?>[]{});
+                    getter = Stbtement.getMethod(tbrget.getClbss(), first, new Clbss<?>[]{});
                 }
             }
             if (getter == null) {
-                throw new RuntimeException("No method called: " + first +
-                                           " defined on " + target);
+                throw new RuntimeException("No method cblled: " + first +
+                                           " defined on " + tbrget);
             }
-            Object newTarget = MethodUtil.invoke(getter, target, new Object[]{});
-            return applyGetters(newTarget, rest);
+            Object newTbrget = MethodUtil.invoke(getter, tbrget, new Object[]{});
+            return bpplyGetters(newTbrget, rest);
         }
-        catch (Exception e) {
-            throw new RuntimeException("Failed to call method: " + first +
-                                       " on " + target, e);
+        cbtch (Exception e) {
+            throw new RuntimeException("Fbiled to cbll method: " + first +
+                                       " on " + tbrget, e);
         }
     }
 
     /**
-     * Extract the appropriate property value from the event and
-     * pass it to the action associated with
-     * this <code>EventHandler</code>.
+     * Extrbct the bppropribte property vblue from the event bnd
+     * pbss it to the bction bssocibted with
+     * this <code>EventHbndler</code>.
      *
-     * @param proxy the proxy object
-     * @param method the method in the listener interface
-     * @return the result of applying the action to the target
+     * @pbrbm proxy the proxy object
+     * @pbrbm method the method in the listener interfbce
+     * @return the result of bpplying the bction to the tbrget
      *
-     * @see EventHandler
+     * @see EventHbndler
      */
-    public Object invoke(final Object proxy, final Method method, final Object[] arguments) {
-        AccessControlContext acc = this.acc;
-        if ((acc == null) && (System.getSecurityManager() != null)) {
+    public Object invoke(finbl Object proxy, finbl Method method, finbl Object[] brguments) {
+        AccessControlContext bcc = this.bcc;
+        if ((bcc == null) && (System.getSecurityMbnbger() != null)) {
             throw new SecurityException("AccessControlContext is not set");
         }
         return AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
-                return invokeInternal(proxy, method, arguments);
+                return invokeInternbl(proxy, method, brguments);
             }
-        }, acc);
+        }, bcc);
     }
 
-    private Object invokeInternal(Object proxy, Method method, Object[] arguments) {
-        String methodName = method.getName();
-        if (method.getDeclaringClass() == Object.class)  {
-            // Handle the Object public methods.
-            if (methodName.equals("hashCode"))  {
-                return System.identityHashCode(proxy);
-            } else if (methodName.equals("equals")) {
-                return (proxy == arguments[0] ? Boolean.TRUE : Boolean.FALSE);
-            } else if (methodName.equals("toString")) {
-                return proxy.getClass().getName() + '@' + Integer.toHexString(proxy.hashCode());
+    privbte Object invokeInternbl(Object proxy, Method method, Object[] brguments) {
+        String methodNbme = method.getNbme();
+        if (method.getDeclbringClbss() == Object.clbss)  {
+            // Hbndle the Object public methods.
+            if (methodNbme.equbls("hbshCode"))  {
+                return System.identityHbshCode(proxy);
+            } else if (methodNbme.equbls("equbls")) {
+                return (proxy == brguments[0] ? Boolebn.TRUE : Boolebn.FALSE);
+            } else if (methodNbme.equbls("toString")) {
+                return proxy.getClbss().getNbme() + '@' + Integer.toHexString(proxy.hbshCode());
             }
         }
 
-        if (listenerMethodName == null || listenerMethodName.equals(methodName)) {
-            Class<?>[] argTypes = null;
+        if (listenerMethodNbme == null || listenerMethodNbme.equbls(methodNbme)) {
+            Clbss<?>[] brgTypes = null;
             Object[] newArgs = null;
 
-            if (eventPropertyName == null) {     // Nullary method.
+            if (eventPropertyNbme == null) {     // Nullbry method.
                 newArgs = new Object[]{};
-                argTypes = new Class<?>[]{};
+                brgTypes = new Clbss<?>[]{};
             }
             else {
-                Object input = applyGetters(arguments[0], getEventPropertyName());
+                Object input = bpplyGetters(brguments[0], getEventPropertyNbme());
                 newArgs = new Object[]{input};
-                argTypes = new Class<?>[]{input == null ? null :
-                                       input.getClass()};
+                brgTypes = new Clbss<?>[]{input == null ? null :
+                                       input.getClbss()};
             }
             try {
-                int lastDot = action.lastIndexOf('.');
-                if (lastDot != -1) {
-                    target = applyGetters(target, action.substring(0, lastDot));
-                    action = action.substring(lastDot + 1);
+                int lbstDot = bction.lbstIndexOf('.');
+                if (lbstDot != -1) {
+                    tbrget = bpplyGetters(tbrget, bction.substring(0, lbstDot));
+                    bction = bction.substring(lbstDot + 1);
                 }
-                Method targetMethod = Statement.getMethod(
-                             target.getClass(), action, argTypes);
-                if (targetMethod == null) {
-                    targetMethod = Statement.getMethod(target.getClass(),
-                             "set" + NameGenerator.capitalize(action), argTypes);
+                Method tbrgetMethod = Stbtement.getMethod(
+                             tbrget.getClbss(), bction, brgTypes);
+                if (tbrgetMethod == null) {
+                    tbrgetMethod = Stbtement.getMethod(tbrget.getClbss(),
+                             "set" + NbmeGenerbtor.cbpitblize(bction), brgTypes);
                 }
-                if (targetMethod == null) {
-                    String argTypeString = (argTypes.length == 0)
-                        ? " with no arguments"
-                        : " with argument " + argTypes[0];
+                if (tbrgetMethod == null) {
+                    String brgTypeString = (brgTypes.length == 0)
+                        ? " with no brguments"
+                        : " with brgument " + brgTypes[0];
                     throw new RuntimeException(
-                        "No method called " + action + " on " +
-                        target.getClass() + argTypeString);
+                        "No method cblled " + bction + " on " +
+                        tbrget.getClbss() + brgTypeString);
                 }
-                return MethodUtil.invoke(targetMethod, target, newArgs);
+                return MethodUtil.invoke(tbrgetMethod, tbrget, newArgs);
             }
-            catch (IllegalAccessException ex) {
+            cbtch (IllegblAccessException ex) {
                 throw new RuntimeException(ex);
             }
-            catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                throw (th instanceof RuntimeException)
+            cbtch (InvocbtionTbrgetException ex) {
+                Throwbble th = ex.getTbrgetException();
+                throw (th instbnceof RuntimeException)
                         ? (RuntimeException) th
                         : new RuntimeException(th);
             }
@@ -495,221 +495,221 @@ public class EventHandler implements InvocationHandler {
     }
 
     /**
-     * Creates an implementation of <code>listenerInterface</code> in which
-     * <em>all</em> of the methods in the listener interface apply
-     * the handler's <code>action</code> to the <code>target</code>. This
-     * method is implemented by calling the other, more general,
-     * implementation of the <code>create</code> method with both
-     * the <code>eventPropertyName</code> and the <code>listenerMethodName</code>
-     * taking the value <code>null</code>. Refer to
-     * {@link java.beans.EventHandler#create(Class, Object, String, String)
-     * the general version of create} for a complete description of
-     * the <code>action</code> parameter.
+     * Crebtes bn implementbtion of <code>listenerInterfbce</code> in which
+     * <em>bll</em> of the methods in the listener interfbce bpply
+     * the hbndler's <code>bction</code> to the <code>tbrget</code>. This
+     * method is implemented by cblling the other, more generbl,
+     * implementbtion of the <code>crebte</code> method with both
+     * the <code>eventPropertyNbme</code> bnd the <code>listenerMethodNbme</code>
+     * tbking the vblue <code>null</code>. Refer to
+     * {@link jbvb.bebns.EventHbndler#crebte(Clbss, Object, String, String)
+     * the generbl version of crebte} for b complete description of
+     * the <code>bction</code> pbrbmeter.
      * <p>
-     * To create an <code>ActionListener</code> that shows a
-     * <code>JDialog</code> with <code>dialog.show()</code>,
-     * one can write:
+     * To crebte bn <code>ActionListener</code> thbt shows b
+     * <code>JDiblog</code> with <code>diblog.show()</code>,
+     * one cbn write:
      *
      *<blockquote>
      *<pre>
-     *EventHandler.create(ActionListener.class, dialog, "show")
+     *EventHbndler.crebte(ActionListener.clbss, diblog, "show")
      *</pre>
      *</blockquote>
      *
-     * @param <T> the type to create
-     * @param listenerInterface the listener interface to create a proxy for
-     * @param target the object that will perform the action
-     * @param action the name of a (possibly qualified) property or method on
-     *        the target
-     * @return an object that implements <code>listenerInterface</code>
+     * @pbrbm <T> the type to crebte
+     * @pbrbm listenerInterfbce the listener interfbce to crebte b proxy for
+     * @pbrbm tbrget the object thbt will perform the bction
+     * @pbrbm bction the nbme of b (possibly qublified) property or method on
+     *        the tbrget
+     * @return bn object thbt implements <code>listenerInterfbce</code>
      *
-     * @throws NullPointerException if <code>listenerInterface</code> is null
-     * @throws NullPointerException if <code>target</code> is null
-     * @throws NullPointerException if <code>action</code> is null
+     * @throws NullPointerException if <code>listenerInterfbce</code> is null
+     * @throws NullPointerException if <code>tbrget</code> is null
+     * @throws NullPointerException if <code>bction</code> is null
      *
-     * @see #create(Class, Object, String, String)
+     * @see #crebte(Clbss, Object, String, String)
      */
-    public static <T> T create(Class<T> listenerInterface,
-                               Object target, String action)
+    public stbtic <T> T crebte(Clbss<T> listenerInterfbce,
+                               Object tbrget, String bction)
     {
-        return create(listenerInterface, target, action, null, null);
+        return crebte(listenerInterfbce, tbrget, bction, null, null);
     }
 
     /**
     /**
-     * Creates an implementation of <code>listenerInterface</code> in which
-     * <em>all</em> of the methods pass the value of the event
-     * expression, <code>eventPropertyName</code>, to the final method in the
-     * statement, <code>action</code>, which is applied to the <code>target</code>.
-     * This method is implemented by calling the
-     * more general, implementation of the <code>create</code> method with
-     * the <code>listenerMethodName</code> taking the value <code>null</code>.
+     * Crebtes bn implementbtion of <code>listenerInterfbce</code> in which
+     * <em>bll</em> of the methods pbss the vblue of the event
+     * expression, <code>eventPropertyNbme</code>, to the finbl method in the
+     * stbtement, <code>bction</code>, which is bpplied to the <code>tbrget</code>.
+     * This method is implemented by cblling the
+     * more generbl, implementbtion of the <code>crebte</code> method with
+     * the <code>listenerMethodNbme</code> tbking the vblue <code>null</code>.
      * Refer to
-     * {@link java.beans.EventHandler#create(Class, Object, String, String)
-     * the general version of create} for a complete description of
-     * the <code>action</code> and <code>eventPropertyName</code> parameters.
+     * {@link jbvb.bebns.EventHbndler#crebte(Clbss, Object, String, String)
+     * the generbl version of crebte} for b complete description of
+     * the <code>bction</code> bnd <code>eventPropertyNbme</code> pbrbmeters.
      * <p>
-     * To create an <code>ActionListener</code> that sets the
-     * the text of a <code>JLabel</code> to the text value of
+     * To crebte bn <code>ActionListener</code> thbt sets the
+     * the text of b <code>JLbbel</code> to the text vblue of
      * the <code>JTextField</code> source of the incoming event,
-     * you can use the following code:
+     * you cbn use the following code:
      *
      *<blockquote>
      *<pre>
-     *EventHandler.create(ActionListener.class, label, "text", "source.text");
+     *EventHbndler.crebte(ActionListener.clbss, lbbel, "text", "source.text");
      *</pre>
      *</blockquote>
      *
-     * This is equivalent to the following code:
+     * This is equivblent to the following code:
      *<blockquote>
      *<pre>
-//Equivalent code using an inner class instead of EventHandler.
+//Equivblent code using bn inner clbss instebd of EventHbndler.
      *new ActionListener() {
-     *    public void actionPerformed(ActionEvent event) {
-     *        label.setText(((JTextField)(event.getSource())).getText());
+     *    public void bctionPerformed(ActionEvent event) {
+     *        lbbel.setText(((JTextField)(event.getSource())).getText());
      *     }
      *};
      *</pre>
      *</blockquote>
      *
-     * @param <T> the type to create
-     * @param listenerInterface the listener interface to create a proxy for
-     * @param target the object that will perform the action
-     * @param action the name of a (possibly qualified) property or method on
-     *        the target
-     * @param eventPropertyName the (possibly qualified) name of a readable property of the incoming event
+     * @pbrbm <T> the type to crebte
+     * @pbrbm listenerInterfbce the listener interfbce to crebte b proxy for
+     * @pbrbm tbrget the object thbt will perform the bction
+     * @pbrbm bction the nbme of b (possibly qublified) property or method on
+     *        the tbrget
+     * @pbrbm eventPropertyNbme the (possibly qublified) nbme of b rebdbble property of the incoming event
      *
-     * @return an object that implements <code>listenerInterface</code>
+     * @return bn object thbt implements <code>listenerInterfbce</code>
      *
-     * @throws NullPointerException if <code>listenerInterface</code> is null
-     * @throws NullPointerException if <code>target</code> is null
-     * @throws NullPointerException if <code>action</code> is null
+     * @throws NullPointerException if <code>listenerInterfbce</code> is null
+     * @throws NullPointerException if <code>tbrget</code> is null
+     * @throws NullPointerException if <code>bction</code> is null
      *
-     * @see #create(Class, Object, String, String, String)
+     * @see #crebte(Clbss, Object, String, String, String)
      */
-    public static <T> T create(Class<T> listenerInterface,
-                               Object target, String action,
-                               String eventPropertyName)
+    public stbtic <T> T crebte(Clbss<T> listenerInterfbce,
+                               Object tbrget, String bction,
+                               String eventPropertyNbme)
     {
-        return create(listenerInterface, target, action, eventPropertyName, null);
+        return crebte(listenerInterfbce, tbrget, bction, eventPropertyNbme, null);
     }
 
     /**
-     * Creates an implementation of <code>listenerInterface</code> in which
-     * the method named <code>listenerMethodName</code>
-     * passes the value of the event expression, <code>eventPropertyName</code>,
-     * to the final method in the statement, <code>action</code>, which
-     * is applied to the <code>target</code>. All of the other listener
+     * Crebtes bn implementbtion of <code>listenerInterfbce</code> in which
+     * the method nbmed <code>listenerMethodNbme</code>
+     * pbsses the vblue of the event expression, <code>eventPropertyNbme</code>,
+     * to the finbl method in the stbtement, <code>bction</code>, which
+     * is bpplied to the <code>tbrget</code>. All of the other listener
      * methods do nothing.
      * <p>
-     * The <code>eventPropertyName</code> string is used to extract a value
-     * from the incoming event object that is passed to the target
-     * method.  The common case is the target method takes no arguments, in
-     * which case a value of null should be used for the
-     * <code>eventPropertyName</code>.  Alternatively if you want
-     * the incoming event object passed directly to the target method use
+     * The <code>eventPropertyNbme</code> string is used to extrbct b vblue
+     * from the incoming event object thbt is pbssed to the tbrget
+     * method.  The common cbse is the tbrget method tbkes no brguments, in
+     * which cbse b vblue of null should be used for the
+     * <code>eventPropertyNbme</code>.  Alternbtively if you wbnt
+     * the incoming event object pbssed directly to the tbrget method use
      * the empty string.
-     * The format of the <code>eventPropertyName</code> string is a sequence of
-     * methods or properties where each method or
-     * property is applied to the value returned by the preceding method
-     * starting from the incoming event object.
-     * The syntax is: <code>propertyName{.propertyName}*</code>
-     * where <code>propertyName</code> matches a method or
-     * property.  For example, to extract the <code>point</code>
-     * property from a <code>MouseEvent</code>, you could use either
-     * <code>"point"</code> or <code>"getPoint"</code> as the
-     * <code>eventPropertyName</code>.  To extract the "text" property from
-     * a <code>MouseEvent</code> with a <code>JLabel</code> source use any
-     * of the following as <code>eventPropertyName</code>:
+     * The formbt of the <code>eventPropertyNbme</code> string is b sequence of
+     * methods or properties where ebch method or
+     * property is bpplied to the vblue returned by the preceding method
+     * stbrting from the incoming event object.
+     * The syntbx is: <code>propertyNbme{.propertyNbme}*</code>
+     * where <code>propertyNbme</code> mbtches b method or
+     * property.  For exbmple, to extrbct the <code>point</code>
+     * property from b <code>MouseEvent</code>, you could use either
+     * <code>"point"</code> or <code>"getPoint"</code> bs the
+     * <code>eventPropertyNbme</code>.  To extrbct the "text" property from
+     * b <code>MouseEvent</code> with b <code>JLbbel</code> source use bny
+     * of the following bs <code>eventPropertyNbme</code>:
      * <code>"source.text"</code>,
      * <code>"getSource.text"</code> <code>"getSource.getText"</code> or
-     * <code>"source.getText"</code>.  If a method can not be found, or an
-     * exception is generated as part of invoking a method a
-     * <code>RuntimeException</code> will be thrown at dispatch time.  For
-     * example, if the incoming event object is null, and
-     * <code>eventPropertyName</code> is non-null and not empty, a
+     * <code>"source.getText"</code>.  If b method cbn not be found, or bn
+     * exception is generbted bs pbrt of invoking b method b
+     * <code>RuntimeException</code> will be thrown bt dispbtch time.  For
+     * exbmple, if the incoming event object is null, bnd
+     * <code>eventPropertyNbme</code> is non-null bnd not empty, b
      * <code>RuntimeException</code> will be thrown.
      * <p>
-     * The <code>action</code> argument is of the same format as the
-     * <code>eventPropertyName</code> argument where the last property name
-     * identifies either a method name or writable property.
+     * The <code>bction</code> brgument is of the sbme formbt bs the
+     * <code>eventPropertyNbme</code> brgument where the lbst property nbme
+     * identifies either b method nbme or writbble property.
      * <p>
-     * If the <code>listenerMethodName</code> is <code>null</code>
-     * <em>all</em> methods in the interface trigger the <code>action</code> to be
-     * executed on the <code>target</code>.
+     * If the <code>listenerMethodNbme</code> is <code>null</code>
+     * <em>bll</em> methods in the interfbce trigger the <code>bction</code> to be
+     * executed on the <code>tbrget</code>.
      * <p>
-     * For example, to create a <code>MouseListener</code> that sets the target
+     * For exbmple, to crebte b <code>MouseListener</code> thbt sets the tbrget
      * object's <code>origin</code> property to the incoming <code>MouseEvent</code>'s
-     * location (that's the value of <code>mouseEvent.getPoint()</code>) each
-     * time a mouse button is pressed, one would write:
+     * locbtion (thbt's the vblue of <code>mouseEvent.getPoint()</code>) ebch
+     * time b mouse button is pressed, one would write:
      *<blockquote>
      *<pre>
-     *EventHandler.create(MouseListener.class, target, "origin", "point", "mousePressed");
+     *EventHbndler.crebte(MouseListener.clbss, tbrget, "origin", "point", "mousePressed");
      *</pre>
      *</blockquote>
      *
-     * This is comparable to writing a <code>MouseListener</code> in which all
-     * of the methods except <code>mousePressed</code> are no-ops:
+     * This is compbrbble to writing b <code>MouseListener</code> in which bll
+     * of the methods except <code>mousePressed</code> bre no-ops:
      *
      *<blockquote>
      *<pre>
-//Equivalent code using an inner class instead of EventHandler.
-     *new MouseAdapter() {
+//Equivblent code using bn inner clbss instebd of EventHbndler.
+     *new MouseAdbpter() {
      *    public void mousePressed(MouseEvent e) {
-     *        target.setOrigin(e.getPoint());
+     *        tbrget.setOrigin(e.getPoint());
      *    }
      *};
      * </pre>
      *</blockquote>
      *
-     * @param <T> the type to create
-     * @param listenerInterface the listener interface to create a proxy for
-     * @param target the object that will perform the action
-     * @param action the name of a (possibly qualified) property or method on
-     *        the target
-     * @param eventPropertyName the (possibly qualified) name of a readable property of the incoming event
-     * @param listenerMethodName the name of the method in the listener interface that should trigger the action
+     * @pbrbm <T> the type to crebte
+     * @pbrbm listenerInterfbce the listener interfbce to crebte b proxy for
+     * @pbrbm tbrget the object thbt will perform the bction
+     * @pbrbm bction the nbme of b (possibly qublified) property or method on
+     *        the tbrget
+     * @pbrbm eventPropertyNbme the (possibly qublified) nbme of b rebdbble property of the incoming event
+     * @pbrbm listenerMethodNbme the nbme of the method in the listener interfbce thbt should trigger the bction
      *
-     * @return an object that implements <code>listenerInterface</code>
+     * @return bn object thbt implements <code>listenerInterfbce</code>
      *
-     * @throws NullPointerException if <code>listenerInterface</code> is null
-     * @throws NullPointerException if <code>target</code> is null
-     * @throws NullPointerException if <code>action</code> is null
+     * @throws NullPointerException if <code>listenerInterfbce</code> is null
+     * @throws NullPointerException if <code>tbrget</code> is null
+     * @throws NullPointerException if <code>bction</code> is null
      *
-     * @see EventHandler
+     * @see EventHbndler
      */
-    public static <T> T create(Class<T> listenerInterface,
-                               Object target, String action,
-                               String eventPropertyName,
-                               String listenerMethodName)
+    public stbtic <T> T crebte(Clbss<T> listenerInterfbce,
+                               Object tbrget, String bction,
+                               String eventPropertyNbme,
+                               String listenerMethodNbme)
     {
-        // Create this first to verify target/action are non-null
-        final EventHandler handler = new EventHandler(target, action,
-                                                     eventPropertyName,
-                                                     listenerMethodName);
-        if (listenerInterface == null) {
+        // Crebte this first to verify tbrget/bction bre non-null
+        finbl EventHbndler hbndler = new EventHbndler(tbrget, bction,
+                                                     eventPropertyNbme,
+                                                     listenerMethodNbme);
+        if (listenerInterfbce == null) {
             throw new NullPointerException(
-                          "listenerInterface must be non-null");
+                          "listenerInterfbce must be non-null");
         }
-        final ClassLoader loader = getClassLoader(listenerInterface);
-        final Class<?>[] interfaces = {listenerInterface};
+        finbl ClbssLobder lobder = getClbssLobder(listenerInterfbce);
+        finbl Clbss<?>[] interfbces = {listenerInterfbce};
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             public T run() {
-                return (T) Proxy.newProxyInstance(loader, interfaces, handler);
+                return (T) Proxy.newProxyInstbnce(lobder, interfbces, hbndler);
             }
         });
     }
 
-    private static ClassLoader getClassLoader(Class<?> type) {
-        ReflectUtil.checkPackageAccess(type);
-        ClassLoader loader = type.getClassLoader();
-        if (loader == null) {
-            loader = Thread.currentThread().getContextClassLoader(); // avoid use of BCP
-            if (loader == null) {
-                loader = ClassLoader.getSystemClassLoader();
+    privbte stbtic ClbssLobder getClbssLobder(Clbss<?> type) {
+        ReflectUtil.checkPbckbgeAccess(type);
+        ClbssLobder lobder = type.getClbssLobder();
+        if (lobder == null) {
+            lobder = Threbd.currentThrebd().getContextClbssLobder(); // bvoid use of BCP
+            if (lobder == null) {
+                lobder = ClbssLobder.getSystemClbssLobder();
             }
         }
-        return loader;
+        return lobder;
     }
 }

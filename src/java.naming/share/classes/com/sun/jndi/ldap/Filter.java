@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.NamingException;
-import javax.naming.directory.InvalidSearchFilterException;
+import jbvbx.nbming.NbmingException;
+import jbvbx.nbming.directory.InvblidSebrchFilterException;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * LDAP (RFC-1960) and LDAPv3 (RFC-2254) search filters.
+ * LDAP (RFC-1960) bnd LDAPv3 (RFC-2254) sebrch filters.
  *
- * @author Xuelei Fan
- * @author Vincent Ryan
- * @author Jagane Sundar
- * @author Rosanna Lee
+ * @buthor Xuelei Fbn
+ * @buthor Vincent Rybn
+ * @buthor Jbgbne Sundbr
+ * @buthor Rosbnnb Lee
  */
 
-final class Filter {
+finbl clbss Filter {
 
     /**
      * First convert filter string into byte[].
      * For LDAP v3, the conversion uses Unicode -> UTF8
-     * For LDAP v2, the conversion uses Unicode -> ISO 8859 (Latin-1)
+     * For LDAP v2, the conversion uses Unicode -> ISO 8859 (Lbtin-1)
      *
-     * Then parse the byte[] as a filter, converting \hh to
-     * a single byte, and encoding the resulting filter
+     * Then pbrse the byte[] bs b filter, converting \hh to
+     * b single byte, bnd encoding the resulting filter
      * into the supplied BER buffer
      */
-    static void encodeFilterString(BerEncoder ber, String filterStr,
-        boolean isLdapv3) throws IOException, NamingException {
+    stbtic void encodeFilterString(BerEncoder ber, String filterStr,
+        boolebn isLdbpv3) throws IOException, NbmingException {
 
-        if ((filterStr == null) || (filterStr.equals(""))) {
-            throw new InvalidSearchFilterException("Empty filter");
+        if ((filterStr == null) || (filterStr.equbls(""))) {
+            throw new InvblidSebrchFilterException("Empty filter");
         }
         byte[] filter;
         int filterLen;
-        if (isLdapv3) {
+        if (isLdbpv3) {
             filter = filterStr.getBytes("UTF8");
         } else {
             filter = filterStr.getBytes("8859_1");
@@ -68,119 +68,119 @@ final class Filter {
             dbgIndent = 0;
             System.err.println("String filter: " + filterStr);
             System.err.println("size: " + filterLen);
-            dprint("original: ", filter, 0, filterLen);
+            dprint("originbl: ", filter, 0, filterLen);
         }
 
         encodeFilter(ber, filter, 0, filterLen);
     }
 
-    private static void encodeFilter(BerEncoder ber, byte[] filter,
-        int filterStart, int filterEnd) throws IOException, NamingException {
+    privbte stbtic void encodeFilter(BerEncoder ber, byte[] filter,
+        int filterStbrt, int filterEnd) throws IOException, NbmingException {
 
         if (dbg) {
-            dprint("encFilter: ",  filter, filterStart, filterEnd);
+            dprint("encFilter: ",  filter, filterStbrt, filterEnd);
             dbgIndent++;
         }
 
-        if ((filterEnd - filterStart) <= 0) {
-            throw new InvalidSearchFilterException("Empty filter");
+        if ((filterEnd - filterStbrt) <= 0) {
+            throw new InvblidSebrchFilterException("Empty filter");
         }
 
         int nextOffset;
-        int parens, balance;
-        boolean escape;
+        int pbrens, bblbnce;
+        boolebn escbpe;
 
-        parens = 0;
+        pbrens = 0;
 
         int filtOffset[] = new int[1];
 
-        for (filtOffset[0] = filterStart; filtOffset[0] < filterEnd;) {
+        for (filtOffset[0] = filterStbrt; filtOffset[0] < filterEnd;) {
             switch (filter[filtOffset[0]]) {
-            case '(':
+            cbse '(':
                 filtOffset[0]++;
-                parens++;
+                pbrens++;
                 switch (filter[filtOffset[0]]) {
-                case '&':
+                cbse '&':
                     encodeComplexFilter(ber, filter,
                         LDAP_FILTER_AND, filtOffset, filterEnd);
-                    // filtOffset[0] has pointed to char after right paren
-                    parens--;
-                    break;
+                    // filtOffset[0] hbs pointed to chbr bfter right pbren
+                    pbrens--;
+                    brebk;
 
-                case '|':
+                cbse '|':
                     encodeComplexFilter(ber, filter,
                         LDAP_FILTER_OR, filtOffset, filterEnd);
-                    // filtOffset[0] has pointed to char after right paren
-                    parens--;
-                    break;
+                    // filtOffset[0] hbs pointed to chbr bfter right pbren
+                    pbrens--;
+                    brebk;
 
-                case '!':
+                cbse '!':
                     encodeComplexFilter(ber, filter,
                         LDAP_FILTER_NOT, filtOffset, filterEnd);
-                    // filtOffset[0] has pointed to char after right paren
-                    parens--;
-                    break;
+                    // filtOffset[0] hbs pointed to chbr bfter right pbren
+                    pbrens--;
+                    brebk;
 
-                default:
-                    balance = 1;
-                    escape = false;
+                defbult:
+                    bblbnce = 1;
+                    escbpe = fblse;
                     nextOffset = filtOffset[0];
-                    while (nextOffset < filterEnd && balance > 0) {
-                        if (!escape) {
+                    while (nextOffset < filterEnd && bblbnce > 0) {
+                        if (!escbpe) {
                             if (filter[nextOffset] == '(')
-                                balance++;
+                                bblbnce++;
                             else if (filter[nextOffset] == ')')
-                                balance--;
+                                bblbnce--;
                         }
-                        if (filter[nextOffset] == '\\' && !escape)
-                            escape = true;
+                        if (filter[nextOffset] == '\\' && !escbpe)
+                            escbpe = true;
                         else
-                            escape = false;
-                        if (balance > 0)
+                            escbpe = fblse;
+                        if (bblbnce > 0)
                             nextOffset++;
                     }
-                    if (balance != 0)
-                        throw new InvalidSearchFilterException(
-                                  "Unbalanced parenthesis");
+                    if (bblbnce != 0)
+                        throw new InvblidSebrchFilterException(
+                                  "Unbblbnced pbrenthesis");
 
                     encodeSimpleFilter(ber, filter, filtOffset[0], nextOffset);
 
-                    // points to the char after right paren.
+                    // points to the chbr bfter right pbren.
                     filtOffset[0] = nextOffset + 1;
 
-                    parens--;
-                    break;
+                    pbrens--;
+                    brebk;
 
                 }
-                break;
+                brebk;
 
-            case ')':
+            cbse ')':
                 //
                 // End of sequence
                 //
                 ber.endSeq();
                 filtOffset[0]++;
-                parens--;
-                break;
+                pbrens--;
+                brebk;
 
-            case ' ':
+            cbse ' ':
                 filtOffset[0]++;
-                break;
+                brebk;
 
-            default:    // assume simple type=value filter
+            defbult:    // bssume simple type=vblue filter
                 encodeSimpleFilter(ber, filter, filtOffset[0], filterEnd);
-                filtOffset[0] = filterEnd; // force break from outer
-                break;
+                filtOffset[0] = filterEnd; // force brebk from outer
+                brebk;
             }
 
-            if (parens < 0) {
-                throw new InvalidSearchFilterException(
-                                                "Unbalanced parenthesis");
+            if (pbrens < 0) {
+                throw new InvblidSebrchFilterException(
+                                                "Unbblbnced pbrenthesis");
             }
         }
 
-        if (parens != 0) {
-            throw new InvalidSearchFilterException("Unbalanced parenthesis");
+        if (pbrens != 0) {
+            throw new InvblidSebrchFilterException("Unbblbnced pbrenthesis");
         }
 
         if (dbg) {
@@ -190,93 +190,93 @@ final class Filter {
     }
 
     /**
-     * convert character 'c' that represents a hexadecimal digit to an integer.
-     * if 'c' is not a hexadecimal digit [0-9A-Fa-f], -1 is returned.
-     * otherwise the converted value is returned.
+     * convert chbrbcter 'c' thbt represents b hexbdecimbl digit to bn integer.
+     * if 'c' is not b hexbdecimbl digit [0-9A-Fb-f], -1 is returned.
+     * otherwise the converted vblue is returned.
      */
-    private static int hexchar2int( byte c ) {
+    privbte stbtic int hexchbr2int( byte c ) {
         if ( c >= '0' && c <= '9' ) {
             return( c - '0' );
         }
         if ( c >= 'A' && c <= 'F' ) {
             return( c - 'A' + 10 );
         }
-        if ( c >= 'a' && c <= 'f' ) {
-            return( c - 'a' + 10 );
+        if ( c >= 'b' && c <= 'f' ) {
+            return( c - 'b' + 10 );
         }
         return( -1 );
     }
 
-    // called by the LdapClient.compare method
-    static byte[] unescapeFilterValue(byte[] orig, int start, int end)
-        throws NamingException {
-        boolean escape = false, escStart = false;
-        int ival;
+    // cblled by the LdbpClient.compbre method
+    stbtic byte[] unescbpeFilterVblue(byte[] orig, int stbrt, int end)
+        throws NbmingException {
+        boolebn escbpe = fblse, escStbrt = fblse;
+        int ivbl;
         byte ch;
 
         if (dbg) {
-            dprint("unescape: " , orig, start, end);
+            dprint("unescbpe: " , orig, stbrt, end);
         }
 
-        int len = end - start;
+        int len = end - stbrt;
         byte tbuf[] = new byte[len];
         int j = 0;
-        for (int i = start; i < end; i++) {
+        for (int i = stbrt; i < end; i++) {
             ch = orig[i];
-            if (escape) {
-                // Try LDAP V3 escape (\xx)
-                if ((ival = hexchar2int(ch)) < 0) {
+            if (escbpe) {
+                // Try LDAP V3 escbpe (\xx)
+                if ((ivbl = hexchbr2int(ch)) < 0) {
 
                     /**
-                     * If there is no hex char following a '\' when
-                     * parsing a LDAP v3 filter (illegal by v3 way)
-                     * we fallback to the way we unescape in v2.
+                     * If there is no hex chbr following b '\' when
+                     * pbrsing b LDAP v3 filter (illegbl by v3 wby)
+                     * we fbllbbck to the wby we unescbpe in v2.
                      */
-                    if (escStart) {
+                    if (escStbrt) {
                         // V2: \* \( \)
-                        escape = false;
+                        escbpe = fblse;
                         tbuf[j++] = ch;
                     } else {
-                        // escaping already started but we can't find 2nd hex
-                        throw new InvalidSearchFilterException("invalid escape sequence: " + orig);
+                        // escbping blrebdy stbrted but we cbn't find 2nd hex
+                        throw new InvblidSebrchFilterException("invblid escbpe sequence: " + orig);
                     }
                 } else {
-                    if (escStart) {
-                        tbuf[j] = (byte)(ival<<4);
-                        escStart = false;
+                    if (escStbrt) {
+                        tbuf[j] = (byte)(ivbl<<4);
+                        escStbrt = fblse;
                     } else {
-                        tbuf[j++] |= (byte)ival;
-                        escape = false;
+                        tbuf[j++] |= (byte)ivbl;
+                        escbpe = fblse;
                     }
                 }
             } else if (ch != '\\') {
                 tbuf[j++] = ch;
-                escape = false;
+                escbpe = fblse;
             } else {
-                escStart = escape = true;
+                escStbrt = escbpe = true;
             }
         }
-        byte[] answer = new byte[j];
-        System.arraycopy(tbuf, 0, answer, 0, j);
+        byte[] bnswer = new byte[j];
+        System.brrbycopy(tbuf, 0, bnswer, 0, j);
         if (dbg) {
-            Ber.dumpBER(System.err, "", answer, 0, j);
+            Ber.dumpBER(System.err, "", bnswer, 0, j);
         }
-        return answer;
+        return bnswer;
     }
 
-    private static int indexOf(byte[] str, char ch, int start, int end) {
-        for (int i = start; i < end; i++) {
+    privbte stbtic int indexOf(byte[] str, chbr ch, int stbrt, int end) {
+        for (int i = stbrt; i < end; i++) {
             if (str[i] == ch)
                 return i;
         }
         return -1;
     }
 
-    private static int indexOf(byte[] str, String target, int start, int end) {
-        int where = indexOf(str, target.charAt(0), start, end);
+    privbte stbtic int indexOf(byte[] str, String tbrget, int stbrt, int end) {
+        int where = indexOf(str, tbrget.chbrAt(0), stbrt, end);
         if (where >= 0) {
-            for (int i = 1; i < target.length(); i++) {
-                if (str[where+i] != target.charAt(i)) {
+            for (int i = 1; i < tbrget.length(); i++) {
+                if (str[where+i] != tbrget.chbrAt(i)) {
                     return -1;
                 }
             }
@@ -284,137 +284,137 @@ final class Filter {
         return where;
     }
 
-    private static int findUnescaped(byte[] str, char ch, int start, int end) {
-        while (start < end) {
-            int where = indexOf(str, ch, start, end);
+    privbte stbtic int findUnescbped(byte[] str, chbr ch, int stbrt, int end) {
+        while (stbrt < end) {
+            int where = indexOf(str, ch, stbrt, end);
 
             /*
-             * Count the immediate preceding '\' to find out if
-             * this is an escaped '*'. This is a made-up way for
-             * parsing an escaped '*' in v2. This is how the other leading
+             * Count the immedibte preceding '\' to find out if
+             * this is bn escbped '*'. This is b mbde-up wby for
+             * pbrsing bn escbped '*' in v2. This is how the other lebding
              * SDK vendors interpret v2.
-             * For v3 we fallback to the way we parse "\*" in v2.
-             * It's not legal in v3 to use "\*" to escape '*'; the right
-             * way is to use "\2a" instead.
+             * For v3 we fbllbbck to the wby we pbrse "\*" in v2.
+             * It's not legbl in v3 to use "\*" to escbpe '*'; the right
+             * wby is to use "\2b" instebd.
              */
-            int backSlashPos;
-            int backSlashCnt = 0;
-            for (backSlashPos = where - 1;
-                    ((backSlashPos >= start) && (str[backSlashPos] == '\\'));
-                    backSlashPos--, backSlashCnt++);
+            int bbckSlbshPos;
+            int bbckSlbshCnt = 0;
+            for (bbckSlbshPos = where - 1;
+                    ((bbckSlbshPos >= stbrt) && (str[bbckSlbshPos] == '\\'));
+                    bbckSlbshPos--, bbckSlbshCnt++);
 
-            // if at start of string, or not there at all, or if not escaped
-            if (where == start || where == -1 || ((backSlashCnt % 2) == 0))
+            // if bt stbrt of string, or not there bt bll, or if not escbped
+            if (where == stbrt || where == -1 || ((bbckSlbshCnt % 2) == 0))
                 return where;
 
-            // start search after escaped star
-            start = where + 1;
+            // stbrt sebrch bfter escbped stbr
+            stbrt = where + 1;
         }
         return -1;
     }
 
 
-    private static void encodeSimpleFilter(BerEncoder ber, byte[] filter,
-        int filtStart, int filtEnd) throws IOException, NamingException {
+    privbte stbtic void encodeSimpleFilter(BerEncoder ber, byte[] filter,
+        int filtStbrt, int filtEnd) throws IOException, NbmingException {
 
         if (dbg) {
-            dprint("encSimpleFilter: ", filter, filtStart, filtEnd);
+            dprint("encSimpleFilter: ", filter, filtStbrt, filtEnd);
             dbgIndent++;
         }
 
-        String type, value;
-        int valueStart, valueEnd, typeStart, typeEnd;
+        String type, vblue;
+        int vblueStbrt, vblueEnd, typeStbrt, typeEnd;
 
         int eq;
-        if ((eq = indexOf(filter, '=', filtStart, filtEnd)) == -1) {
-            throw new InvalidSearchFilterException("Missing 'equals'");
+        if ((eq = indexOf(filter, '=', filtStbrt, filtEnd)) == -1) {
+            throw new InvblidSebrchFilterException("Missing 'equbls'");
         }
 
 
-        valueStart = eq + 1;        // value starts after equal sign
-        valueEnd = filtEnd;
-        typeStart = filtStart;      // beginning of string
+        vblueStbrt = eq + 1;        // vblue stbrts bfter equbl sign
+        vblueEnd = filtEnd;
+        typeStbrt = filtStbrt;      // beginning of string
 
         int ftype;
 
         switch (filter[eq - 1]) {
-        case '<':
+        cbse '<':
             ftype = LDAP_FILTER_LE;
             typeEnd = eq - 1;
-            break;
-        case '>':
+            brebk;
+        cbse '>':
             ftype = LDAP_FILTER_GE;
             typeEnd = eq - 1;
-            break;
-        case '~':
+            brebk;
+        cbse '~':
             ftype = LDAP_FILTER_APPROX;
             typeEnd = eq - 1;
-            break;
-        case ':':
+            brebk;
+        cbse ':':
             ftype = LDAP_FILTER_EXT;
             typeEnd = eq - 1;
-            break;
-        default:
+            brebk;
+        defbult:
             typeEnd = eq;
-            //initializing ftype to make the compiler happy
+            //initiblizing ftype to mbke the compiler hbppy
             ftype = 0x00;
-            break;
+            brebk;
         }
 
         if (dbg) {
-            System.err.println("type: " + typeStart + ", " + typeEnd);
-            System.err.println("value: " + valueStart + ", " + valueEnd);
+            System.err.println("type: " + typeStbrt + ", " + typeEnd);
+            System.err.println("vblue: " + vblueStbrt + ", " + vblueEnd);
         }
 
-        // check validity of type
+        // check vblidity of type
         //
-        // RFC4512 defines the type as the following ABNF:
-        //     attr = attributedescription
-        //     attributedescription = attributetype options
-        //     attributetype = oid
+        // RFC4512 defines the type bs the following ABNF:
+        //     bttr = bttributedescription
+        //     bttributedescription = bttributetype options
+        //     bttributetype = oid
         //     oid = descr / numericoid
         //     descr = keystring
-        //     keystring = leadkeychar *keychar
-        //     leadkeychar = ALPHA
-        //     keychar = ALPHA / DIGIT / HYPHEN
+        //     keystring = lebdkeychbr *keychbr
+        //     lebdkeychbr = ALPHA
+        //     keychbr = ALPHA / DIGIT / HYPHEN
         //     numericoid = number 1*( DOT number )
         //     number  = DIGIT / ( LDIGIT 1*DIGIT )
         //     options = *( SEMI option )
-        //     option = 1*keychar
+        //     option = 1*keychbr
         //
-        // And RFC4515 defines the extensible type as the following ABNF:
-        //     attr [dnattrs] [matchingrule] / [dnattrs] matchingrule
-        int optionsStart = -1;
-        int extensibleStart = -1;
-        if ((filter[typeStart] >= '0' && filter[typeStart] <= '9') ||
-            (filter[typeStart] >= 'A' && filter[typeStart] <= 'Z') ||
-            (filter[typeStart] >= 'a' && filter[typeStart] <= 'z')) {
+        // And RFC4515 defines the extensible type bs the following ABNF:
+        //     bttr [dnbttrs] [mbtchingrule] / [dnbttrs] mbtchingrule
+        int optionsStbrt = -1;
+        int extensibleStbrt = -1;
+        if ((filter[typeStbrt] >= '0' && filter[typeStbrt] <= '9') ||
+            (filter[typeStbrt] >= 'A' && filter[typeStbrt] <= 'Z') ||
+            (filter[typeStbrt] >= 'b' && filter[typeStbrt] <= 'z')) {
 
-            boolean isNumericOid =
-                filter[typeStart] >= '0' && filter[typeStart] <= '9';
-            for (int i = typeStart + 1; i < typeEnd; i++) {
-                // ';' is an indicator of attribute options
+            boolebn isNumericOid =
+                filter[typeStbrt] >= '0' && filter[typeStbrt] <= '9';
+            for (int i = typeStbrt + 1; i < typeEnd; i++) {
+                // ';' is bn indicbtor of bttribute options
                 if (filter[i] == ';') {
                     if (isNumericOid && filter[i - 1] == '.') {
-                        throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+                        throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
                     }
 
-                    // attribute options
-                    optionsStart = i;
-                    break;
+                    // bttribute options
+                    optionsStbrt = i;
+                    brebk;
                 }
 
-                // ':' is an indicator of extensible rules
+                // ':' is bn indicbtor of extensible rules
                 if (filter[i] == ':' && ftype == LDAP_FILTER_EXT) {
                     if (isNumericOid && filter[i - 1] == '.') {
-                        throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+                        throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
                     }
 
-                    // extensible matching
-                    extensibleStart = i;
-                    break;
+                    // extensible mbtching
+                    extensibleStbrt = i;
+                    brebk;
                 }
 
                 if (isNumericOid) {
@@ -422,93 +422,93 @@ final class Filter {
                     if ((filter[i] == '.' && filter[i - 1] == '.') ||
                         (filter[i] != '.' &&
                             !(filter[i] >= '0' && filter[i] <= '9'))) {
-                        throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+                        throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
                     }
                 } else {
                     // descriptor
-                    // The underscore ("_") character is not allowed by
-                    // the LDAP specification. We allow it here to
-                    // tolerate the incorrect use in practice.
+                    // The underscore ("_") chbrbcter is not bllowed by
+                    // the LDAP specificbtion. We bllow it here to
+                    // tolerbte the incorrect use in prbctice.
                     if (filter[i] != '-' && filter[i] != '_' &&
                         !(filter[i] >= '0' && filter[i] <= '9') &&
                         !(filter[i] >= 'A' && filter[i] <= 'Z') &&
-                        !(filter[i] >= 'a' && filter[i] <= 'z')) {
-                        throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+                        !(filter[i] >= 'b' && filter[i] <= 'z')) {
+                        throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
                     }
                 }
             }
-        } else if (ftype == LDAP_FILTER_EXT && filter[typeStart] == ':') {
-            // extensible matching
-            extensibleStart = typeStart;
+        } else if (ftype == LDAP_FILTER_EXT && filter[typeStbrt] == ':') {
+            // extensible mbtching
+            extensibleStbrt = typeStbrt;
         } else {
-            throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+            throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
         }
 
-        // check attribute options
-        if (optionsStart > 0) {
-            for (int i = optionsStart + 1; i < typeEnd; i++) {
+        // check bttribute options
+        if (optionsStbrt > 0) {
+            for (int i = optionsStbrt + 1; i < typeEnd; i++) {
                 if (filter[i] == ';') {
                     if (filter[i - 1] == ';') {
-                        throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+                        throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
                     }
                     continue;
                 }
 
-                // ':' is an indicator of extensible rules
+                // ':' is bn indicbtor of extensible rules
                 if (filter[i] == ':' && ftype == LDAP_FILTER_EXT) {
                     if (filter[i - 1] == ';') {
-                        throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+                        throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
                     }
 
-                    // extensible matching
-                    extensibleStart = i;
-                    break;
+                    // extensible mbtching
+                    extensibleStbrt = i;
+                    brebk;
                 }
 
-                // The underscore ("_") character is not allowed by
-                // the LDAP specification. We allow it here to
-                // tolerate the incorrect use in practice.
+                // The underscore ("_") chbrbcter is not bllowed by
+                // the LDAP specificbtion. We bllow it here to
+                // tolerbte the incorrect use in prbctice.
                 if (filter[i] != '-' && filter[i] != '_' &&
                         !(filter[i] >= '0' && filter[i] <= '9') &&
                         !(filter[i] >= 'A' && filter[i] <= 'Z') &&
-                        !(filter[i] >= 'a' && filter[i] <= 'z')) {
-                    throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+                        !(filter[i] >= 'b' && filter[i] <= 'z')) {
+                    throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
                 }
             }
         }
 
-        // check extensible matching
-        if (extensibleStart > 0) {
-            boolean isMatchingRule = false;
-            for (int i = extensibleStart + 1; i < typeEnd; i++) {
+        // check extensible mbtching
+        if (extensibleStbrt > 0) {
+            boolebn isMbtchingRule = fblse;
+            for (int i = extensibleStbrt + 1; i < typeEnd; i++) {
                 if (filter[i] == ':') {
-                    throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+                    throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
                 } else if ((filter[i] >= '0' && filter[i] <= '9') ||
                            (filter[i] >= 'A' && filter[i] <= 'Z') ||
-                           (filter[i] >= 'a' && filter[i] <= 'z')) {
-                    boolean isNumericOid = filter[i] >= '0' && filter[i] <= '9';
+                           (filter[i] >= 'b' && filter[i] <= 'z')) {
+                    boolebn isNumericOid = filter[i] >= '0' && filter[i] <= '9';
                     i++;
                     for (int j = i; j < typeEnd; j++, i++) {
-                        // allows no more than two extensible rules
+                        // bllows no more thbn two extensible rules
                         if (filter[j] == ':') {
-                            if (isMatchingRule) {
-                                throw new InvalidSearchFilterException(
-                                            "invalid attribute description");
+                            if (isMbtchingRule) {
+                                throw new InvblidSebrchFilterException(
+                                            "invblid bttribute description");
                             }
                             if (isNumericOid && filter[j - 1] == '.') {
-                                throw new InvalidSearchFilterException(
-                                            "invalid attribute description");
+                                throw new InvblidSebrchFilterException(
+                                            "invblid bttribute description");
                             }
 
-                            isMatchingRule = true;
-                            break;
+                            isMbtchingRule = true;
+                            brebk;
                         }
 
                         if (isNumericOid) {
@@ -516,61 +516,61 @@ final class Filter {
                             if ((filter[j] == '.' && filter[j - 1] == '.') ||
                                 (filter[j] != '.' &&
                                     !(filter[j] >= '0' && filter[j] <= '9'))) {
-                                throw new InvalidSearchFilterException(
-                                            "invalid attribute description");
+                                throw new InvblidSebrchFilterException(
+                                            "invblid bttribute description");
                             }
                         } else {
                             // descriptor
-                            // The underscore ("_") character is not allowed by
-                            // the LDAP specification. We allow it here to
-                            // tolerate the incorrect use in practice.
+                            // The underscore ("_") chbrbcter is not bllowed by
+                            // the LDAP specificbtion. We bllow it here to
+                            // tolerbte the incorrect use in prbctice.
                             if (filter[j] != '-' && filter[j] != '_' &&
                                 !(filter[j] >= '0' && filter[j] <= '9') &&
                                 !(filter[j] >= 'A' && filter[j] <= 'Z') &&
-                                !(filter[j] >= 'a' && filter[j] <= 'z')) {
-                                throw new InvalidSearchFilterException(
-                                            "invalid attribute description");
+                                !(filter[j] >= 'b' && filter[j] <= 'z')) {
+                                throw new InvblidSebrchFilterException(
+                                            "invblid bttribute description");
                             }
                         }
                     }
                 } else {
-                    throw new InvalidSearchFilterException(
-                                    "invalid attribute description");
+                    throw new InvblidSebrchFilterException(
+                                    "invblid bttribute description");
                 }
             }
         }
 
-        // ensure the latest byte is not isolated
+        // ensure the lbtest byte is not isolbted
         if (filter[typeEnd - 1] == '.' || filter[typeEnd - 1] == ';' ||
                                           filter[typeEnd - 1] == ':') {
-            throw new InvalidSearchFilterException(
-                "invalid attribute description");
+            throw new InvblidSebrchFilterException(
+                "invblid bttribute description");
         }
 
-        if (typeEnd == eq) { // filter type is of "equal"
-            if (findUnescaped(filter, '*', valueStart, valueEnd) == -1) {
+        if (typeEnd == eq) { // filter type is of "equbl"
+            if (findUnescbped(filter, '*', vblueStbrt, vblueEnd) == -1) {
                 ftype = LDAP_FILTER_EQUALITY;
-            } else if (filter[valueStart] == '*' &&
-                            valueStart == (valueEnd - 1)) {
+            } else if (filter[vblueStbrt] == '*' &&
+                            vblueStbrt == (vblueEnd - 1)) {
                 ftype = LDAP_FILTER_PRESENT;
             } else {
                 encodeSubstringFilter(ber, filter,
-                    typeStart, typeEnd, valueStart, valueEnd);
+                    typeStbrt, typeEnd, vblueStbrt, vblueEnd);
                 return;
             }
         }
 
         if (ftype == LDAP_FILTER_PRESENT) {
-            ber.encodeOctetString(filter, ftype, typeStart, typeEnd-typeStart);
+            ber.encodeOctetString(filter, ftype, typeStbrt, typeEnd-typeStbrt);
         } else if (ftype == LDAP_FILTER_EXT) {
-            encodeExtensibleMatch(ber, filter,
-                typeStart, typeEnd, valueStart, valueEnd);
+            encodeExtensibleMbtch(ber, filter,
+                typeStbrt, typeEnd, vblueStbrt, vblueEnd);
         } else {
             ber.beginSeq(ftype);
                 ber.encodeOctetString(filter, Ber.ASN_OCTET_STR,
-                    typeStart, typeEnd - typeStart);
+                    typeStbrt, typeEnd - typeStbrt);
                 ber.encodeOctetString(
-                    unescapeFilterValue(filter, valueStart, valueEnd),
+                    unescbpeFilterVblue(filter, vblueStbrt, vblueEnd),
                     Ber.ASN_OCTET_STR);
             ber.endSeq();
         }
@@ -580,48 +580,48 @@ final class Filter {
         }
     }
 
-    private static void encodeSubstringFilter(BerEncoder ber, byte[] filter,
-        int typeStart, int typeEnd, int valueStart, int valueEnd)
-        throws IOException, NamingException {
+    privbte stbtic void encodeSubstringFilter(BerEncoder ber, byte[] filter,
+        int typeStbrt, int typeEnd, int vblueStbrt, int vblueEnd)
+        throws IOException, NbmingException {
 
         if (dbg) {
-            dprint("encSubstringFilter: type ", filter, typeStart, typeEnd);
-            dprint(", val : ", filter, valueStart, valueEnd);
+            dprint("encSubstringFilter: type ", filter, typeStbrt, typeEnd);
+            dprint(", vbl : ", filter, vblueStbrt, vblueEnd);
             dbgIndent++;
         }
 
         ber.beginSeq(LDAP_FILTER_SUBSTRINGS);
             ber.encodeOctetString(filter, Ber.ASN_OCTET_STR,
-                    typeStart, typeEnd-typeStart);
-            ber.beginSeq(LdapClient.LBER_SEQUENCE);
+                    typeStbrt, typeEnd-typeStbrt);
+            ber.beginSeq(LdbpClient.LBER_SEQUENCE);
                 int index;
-                int previndex = valueStart;
-                while ((index = findUnescaped(filter, '*', previndex, valueEnd)) != -1) {
-                    if (previndex == valueStart) {
+                int previndex = vblueStbrt;
+                while ((index = findUnescbped(filter, '*', previndex, vblueEnd)) != -1) {
+                    if (previndex == vblueStbrt) {
                       if (previndex < index) {
                           if (dbg)
                               System.err.println(
-                                  "initial: " + previndex + "," + index);
+                                  "initibl: " + previndex + "," + index);
                         ber.encodeOctetString(
-                            unescapeFilterValue(filter, previndex, index),
+                            unescbpeFilterVblue(filter, previndex, index),
                             LDAP_SUBSTRING_INITIAL);
                       }
                     } else {
                       if (previndex < index) {
                           if (dbg)
-                              System.err.println("any: " + previndex + "," + index);
+                              System.err.println("bny: " + previndex + "," + index);
                         ber.encodeOctetString(
-                            unescapeFilterValue(filter, previndex, index),
+                            unescbpeFilterVblue(filter, previndex, index),
                             LDAP_SUBSTRING_ANY);
                       }
                     }
                     previndex = index + 1;
                 }
-                if (previndex < valueEnd) {
+                if (previndex < vblueEnd) {
                     if (dbg)
-                        System.err.println("final: " + previndex + "," + valueEnd);
+                        System.err.println("finbl: " + previndex + "," + vblueEnd);
                   ber.encodeOctetString(
-                      unescapeFilterValue(filter, previndex, valueEnd),
+                      unescbpeFilterVblue(filter, previndex, vblueEnd),
                       LDAP_SUBSTRING_FINAL);
                 }
             ber.endSeq();
@@ -633,15 +633,15 @@ final class Filter {
     }
 
     // The complex filter types look like:
-    //     "&(type=val)(type=val)"
-    //     "|(type=val)(type=val)"
-    //     "!(type=val)"
+    //     "&(type=vbl)(type=vbl)"
+    //     "|(type=vbl)(type=vbl)"
+    //     "!(type=vbl)"
     //
     // The filtOffset[0] pointing to the '&', '|', or '!'.
     //
-    private static void encodeComplexFilter(BerEncoder ber, byte[] filter,
+    privbte stbtic void encodeComplexFilter(BerEncoder ber, byte[] filter,
         int filterType, int filtOffset[], int filtEnd)
-        throws IOException, NamingException {
+        throws IOException, NbmingException {
 
         if (dbg) {
             dprint("encComplexFilter: ", filter, filtOffset[0], filtEnd);
@@ -653,8 +653,8 @@ final class Filter {
 
         ber.beginSeq(filterType);
 
-            int[] parens = findRightParen(filter, filtOffset, filtEnd);
-            encodeFilterList(ber, filter, filterType, parens[0], parens[1]);
+            int[] pbrens = findRightPbren(filter, filtOffset, filtEnd);
+            encodeFilterList(ber, filter, filterType, pbrens[0], pbrens[1]);
 
         ber.endSeq();
 
@@ -665,33 +665,33 @@ final class Filter {
     }
 
     //
-    // filter at filtOffset[0] - 1 points to a (. Find ) that matches it
-    // and return substring between the parens. Adjust filtOffset[0] to
-    // point to char after right paren
+    // filter bt filtOffset[0] - 1 points to b (. Find ) thbt mbtches it
+    // bnd return substring between the pbrens. Adjust filtOffset[0] to
+    // point to chbr bfter right pbren
     //
-    private static int[] findRightParen(byte[] filter, int filtOffset[], int end)
-    throws IOException, NamingException {
+    privbte stbtic int[] findRightPbren(byte[] filter, int filtOffset[], int end)
+    throws IOException, NbmingException {
 
-        int balance = 1;
-        boolean escape = false;
+        int bblbnce = 1;
+        boolebn escbpe = fblse;
         int nextOffset = filtOffset[0];
 
-        while (nextOffset < end && balance > 0) {
-            if (!escape) {
+        while (nextOffset < end && bblbnce > 0) {
+            if (!escbpe) {
                 if (filter[nextOffset] == '(')
-                    balance++;
+                    bblbnce++;
                 else if (filter[nextOffset] == ')')
-                    balance--;
+                    bblbnce--;
             }
-            if (filter[nextOffset] == '\\' && !escape)
-                escape = true;
+            if (filter[nextOffset] == '\\' && !escbpe)
+                escbpe = true;
             else
-                escape = false;
-            if (balance > 0)
+                escbpe = fblse;
+            if (bblbnce > 0)
                 nextOffset++;
         }
-        if (balance != 0) {
-            throw new InvalidSearchFilterException("Unbalanced parenthesis");
+        if (bblbnce != 0) {
+            throw new InvblidSebrchFilterException("Unbblbnced pbrenthesis");
         }
 
         // String tmp = filter.substring(filtOffset[0], nextOffset);
@@ -707,35 +707,35 @@ final class Filter {
     //
     // Encode filter list of type "(filter1)(filter2)..."
     //
-    private static void encodeFilterList(BerEncoder ber, byte[] filter,
-        int filterType, int start, int end) throws IOException, NamingException {
+    privbte stbtic void encodeFilterList(BerEncoder ber, byte[] filter,
+        int filterType, int stbrt, int end) throws IOException, NbmingException {
 
         if (dbg) {
-            dprint("encFilterList: ", filter, start, end);
+            dprint("encFilterList: ", filter, stbrt, end);
             dbgIndent++;
         }
 
         int filtOffset[] = new int[1];
         int listNumber = 0;
-        for (filtOffset[0] = start; filtOffset[0] < end; filtOffset[0]++) {
-            if (Character.isSpaceChar((char)filter[filtOffset[0]]))
+        for (filtOffset[0] = stbrt; filtOffset[0] < end; filtOffset[0]++) {
+            if (Chbrbcter.isSpbceChbr((chbr)filter[filtOffset[0]]))
                 continue;
 
             if ((filterType == LDAP_FILTER_NOT) && (listNumber > 0)) {
-                throw new InvalidSearchFilterException(
-                    "Filter (!) cannot be followed by more than one filters");
+                throw new InvblidSebrchFilterException(
+                    "Filter (!) cbnnot be followed by more thbn one filters");
             }
 
             if (filter[filtOffset[0]] == '(') {
                 continue;
             }
 
-            int[] parens = findRightParen(filter, filtOffset, end);
+            int[] pbrens = findRightPbren(filter, filtOffset, end);
 
-            // add enclosing parens
-            int len = parens[1]-parens[0];
+            // bdd enclosing pbrens
+            int len = pbrens[1]-pbrens[0];
             byte[] newfilter = new byte[len+2];
-            System.arraycopy(filter, parens[0], newfilter, 1, len);
+            System.brrbycopy(filter, pbrens[0], newfilter, 1, len);
             newfilter[0] = (byte)'(';
             newfilter[len+1] = (byte)')';
             encodeFilter(ber, newfilter, 0, newfilter.length);
@@ -750,34 +750,34 @@ final class Filter {
     }
 
     //
-    // Encode extensible match
+    // Encode extensible mbtch
     //
-    private static void encodeExtensibleMatch(BerEncoder ber, byte[] filter,
-        int matchStart, int matchEnd, int valueStart, int valueEnd)
-        throws IOException, NamingException {
+    privbte stbtic void encodeExtensibleMbtch(BerEncoder ber, byte[] filter,
+        int mbtchStbrt, int mbtchEnd, int vblueStbrt, int vblueEnd)
+        throws IOException, NbmingException {
 
-        boolean matchDN = false;
+        boolebn mbtchDN = fblse;
         int colon;
         int colon2;
         int i;
 
         ber.beginSeq(LDAP_FILTER_EXT);
 
-            // test for colon separator
-            if ((colon = indexOf(filter, ':', matchStart, matchEnd)) >= 0) {
+            // test for colon sepbrbtor
+            if ((colon = indexOf(filter, ':', mbtchStbrt, mbtchEnd)) >= 0) {
 
-                // test for match DN
-                if ((i = indexOf(filter, ":dn", colon, matchEnd)) >= 0) {
-                    matchDN = true;
+                // test for mbtch DN
+                if ((i = indexOf(filter, ":dn", colon, mbtchEnd)) >= 0) {
+                    mbtchDN = true;
                 }
 
-                // test for matching rule
-                if (((colon2 = indexOf(filter, ':', colon + 1, matchEnd)) >= 0)
+                // test for mbtching rule
+                if (((colon2 = indexOf(filter, ':', colon + 1, mbtchEnd)) >= 0)
                     || (i == -1)) {
 
                     if (i == colon) {
                         ber.encodeOctetString(filter, LDAP_FILTER_EXT_RULE,
-                            colon2 + 1, matchEnd - (colon2 + 1));
+                            colon2 + 1, mbtchEnd - (colon2 + 1));
 
                     } else if ((i == colon2) && (i >= 0)) {
                         ber.encodeOctetString(filter, LDAP_FILTER_EXT_RULE,
@@ -785,53 +785,53 @@ final class Filter {
 
                     } else {
                         ber.encodeOctetString(filter, LDAP_FILTER_EXT_RULE,
-                            colon + 1, matchEnd - (colon + 1));
+                            colon + 1, mbtchEnd - (colon + 1));
                     }
                 }
 
-                // test for attribute type
-                if (colon > matchStart) {
+                // test for bttribute type
+                if (colon > mbtchStbrt) {
                     ber.encodeOctetString(filter,
-                        LDAP_FILTER_EXT_TYPE, matchStart, colon - matchStart);
+                        LDAP_FILTER_EXT_TYPE, mbtchStbrt, colon - mbtchStbrt);
                 }
             } else {
-                ber.encodeOctetString(filter, LDAP_FILTER_EXT_TYPE, matchStart,
-                    matchEnd - matchStart);
+                ber.encodeOctetString(filter, LDAP_FILTER_EXT_TYPE, mbtchStbrt,
+                    mbtchEnd - mbtchStbrt);
             }
 
             ber.encodeOctetString(
-                unescapeFilterValue(filter, valueStart, valueEnd),
+                unescbpeFilterVblue(filter, vblueStbrt, vblueEnd),
                 LDAP_FILTER_EXT_VAL);
 
             /*
-             * This element is defined in RFC-2251 with an ASN.1 DEFAULT tag.
-             * However, for Active Directory interoperability it is transmitted
+             * This element is defined in RFC-2251 with bn ASN.1 DEFAULT tbg.
+             * However, for Active Directory interoperbbility it is trbnsmitted
              * even when FALSE.
              */
-            ber.encodeBoolean(matchDN, LDAP_FILTER_EXT_DN);
+            ber.encodeBoolebn(mbtchDN, LDAP_FILTER_EXT_DN);
 
         ber.endSeq();
     }
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // some debug print code that does indenting. Useful for debugging
-    // the filter generation code
+    // some debug print code thbt does indenting. Useful for debugging
+    // the filter generbtion code
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    private static final boolean dbg = false;
-    private static int dbgIndent = 0;
+    privbte stbtic finbl boolebn dbg = fblse;
+    privbte stbtic int dbgIndent = 0;
 
-    private static void dprint(String msg) {
+    privbte stbtic void dprint(String msg) {
         dprint(msg, new byte[0], 0, 0);
     }
 
-    private static void dprint(String msg, byte[] str) {
+    privbte stbtic void dprint(String msg, byte[] str) {
         dprint(msg, str, 0, str.length);
     }
 
-    private static void dprint(String msg, byte[] str, int start, int end) {
+    privbte stbtic void dprint(String msg, byte[] str, int stbrt, int end) {
         String dstr = "  ";
         int i = dbgIndent;
         while (i-- > 0) {
@@ -840,31 +840,31 @@ final class Filter {
         dstr += msg;
 
         System.err.print(dstr);
-        for (int j = start; j < end; j++) {
-            System.err.print((char)str[j]);
+        for (int j = stbrt; j < end; j++) {
+            System.err.print((chbr)str[j]);
         }
         System.err.println();
     }
 
-    /////////////// Constants used for encoding filter //////////////
+    /////////////// Constbnts used for encoding filter //////////////
 
-    static final int LDAP_FILTER_AND = 0xa0;
-    static final int LDAP_FILTER_OR = 0xa1;
-    static final int LDAP_FILTER_NOT = 0xa2;
-    static final int LDAP_FILTER_EQUALITY = 0xa3;
-    static final int LDAP_FILTER_SUBSTRINGS = 0xa4;
-    static final int LDAP_FILTER_GE = 0xa5;
-    static final int LDAP_FILTER_LE = 0xa6;
-    static final int LDAP_FILTER_PRESENT = 0x87;
-    static final int LDAP_FILTER_APPROX = 0xa8;
-    static final int LDAP_FILTER_EXT = 0xa9;            // LDAPv3
+    stbtic finbl int LDAP_FILTER_AND = 0xb0;
+    stbtic finbl int LDAP_FILTER_OR = 0xb1;
+    stbtic finbl int LDAP_FILTER_NOT = 0xb2;
+    stbtic finbl int LDAP_FILTER_EQUALITY = 0xb3;
+    stbtic finbl int LDAP_FILTER_SUBSTRINGS = 0xb4;
+    stbtic finbl int LDAP_FILTER_GE = 0xb5;
+    stbtic finbl int LDAP_FILTER_LE = 0xb6;
+    stbtic finbl int LDAP_FILTER_PRESENT = 0x87;
+    stbtic finbl int LDAP_FILTER_APPROX = 0xb8;
+    stbtic finbl int LDAP_FILTER_EXT = 0xb9;            // LDAPv3
 
-    static final int LDAP_FILTER_EXT_RULE = 0x81;       // LDAPv3
-    static final int LDAP_FILTER_EXT_TYPE = 0x82;       // LDAPv3
-    static final int LDAP_FILTER_EXT_VAL = 0x83;        // LDAPv3
-    static final int LDAP_FILTER_EXT_DN = 0x84;         // LDAPv3
+    stbtic finbl int LDAP_FILTER_EXT_RULE = 0x81;       // LDAPv3
+    stbtic finbl int LDAP_FILTER_EXT_TYPE = 0x82;       // LDAPv3
+    stbtic finbl int LDAP_FILTER_EXT_VAL = 0x83;        // LDAPv3
+    stbtic finbl int LDAP_FILTER_EXT_DN = 0x84;         // LDAPv3
 
-    static final int LDAP_SUBSTRING_INITIAL = 0x80;
-    static final int LDAP_SUBSTRING_ANY = 0x81;
-    static final int LDAP_SUBSTRING_FINAL = 0x82;
+    stbtic finbl int LDAP_SUBSTRING_INITIAL = 0x80;
+    stbtic finbl int LDAP_SUBSTRING_ANY = 0x81;
+    stbtic finbl int LDAP_SUBSTRING_FINAL = 0x82;
 }

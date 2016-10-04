@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.*;
-import java.awt.Dimension;
-import java.util.*;
-import java.lang.reflect.Array;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.tbble.*;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.Component;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.event.*;
+import jbvb.bwt.Dimension;
+import jbvb.util.*;
+import jbvb.lbng.reflect.Arrby;
 
-import javax.management.openmbean.*;
+import jbvbx.mbnbgement.openmbebn.*;
 
 import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.Messages;
+import sun.tools.jconsole.Messbges;
 import sun.tools.jconsole.Resources;
 
-@SuppressWarnings("serial")
-public class XOpenTypeViewer extends JPanel implements ActionListener {
-    JButton prev, incr, decr, tabularPrev, tabularNext;
-    JLabel compositeLabel, tabularLabel;
-    JScrollPane container;
-    XOpenTypeData current;
-    XOpenTypeDataListener listener = new XOpenTypeDataListener();
+@SuppressWbrnings("seribl")
+public clbss XOpenTypeViewer extends JPbnel implements ActionListener {
+    JButton prev, incr, decr, tbbulbrPrev, tbbulbrNext;
+    JLbbel compositeLbbel, tbbulbrLbbel;
+    JScrollPbne contbiner;
+    XOpenTypeDbtb current;
+    XOpenTypeDbtbListener listener = new XOpenTypeDbtbListener();
 
-    private static final String compositeNavigationSingle =
-            Messages.MBEANS_TAB_COMPOSITE_NAVIGATION_SINGLE;
-    private static final String tabularNavigationSingle =
-            Messages.MBEANS_TAB_TABULAR_NAVIGATION_SINGLE;
+    privbte stbtic finbl String compositeNbvigbtionSingle =
+            Messbges.MBEANS_TAB_COMPOSITE_NAVIGATION_SINGLE;
+    privbte stbtic finbl String tbbulbrNbvigbtionSingle =
+            Messbges.MBEANS_TAB_TABULAR_NAVIGATION_SINGLE;
 
-    private static TableCellEditor editor =
-            new Utils.ReadOnlyTableCellEditor(new JTextField());
+    privbte stbtic TbbleCellEditor editor =
+            new Utils.RebdOnlyTbbleCellEditor(new JTextField());
 
-    class XOpenTypeDataListener extends MouseAdapter {
-        XOpenTypeDataListener() {
+    clbss XOpenTypeDbtbListener extends MouseAdbpter {
+        XOpenTypeDbtbListener() {
         }
 
         public void mousePressed(MouseEvent e) {
             if(e.getButton() == MouseEvent.BUTTON1) {
                 if(e.getClickCount() >= 2) {
-                    XOpenTypeData elem = getSelectedViewedOpenType();
+                    XOpenTypeDbtb elem = getSelectedViewedOpenType();
                     if(elem != null) {
                         try {
                             elem.viewed(XOpenTypeViewer.this);
-                        }catch(Exception ex) {
-                            //Nothing to change, the element
-                            //can't be displayed
+                        }cbtch(Exception ex) {
+                            //Nothing to chbnge, the element
+                            //cbn't be displbyed
                         }
                     }
                 }
             }
         }
 
-        private XOpenTypeData getSelectedViewedOpenType() {
+        privbte XOpenTypeDbtb getSelectedViewedOpenType() {
             int row = XOpenTypeViewer.this.current.getSelectedRow();
             int col = XOpenTypeViewer.this.current.getSelectedColumn();
             Object elem =
-                    XOpenTypeViewer.this.current.getModel().getValueAt(row, col);
-            if(elem instanceof XOpenTypeData)
-                return (XOpenTypeData) elem;
+                    XOpenTypeViewer.this.current.getModel().getVblueAt(row, col);
+            if(elem instbnceof XOpenTypeDbtb)
+                return (XOpenTypeDbtb) elem;
             else
                 return null;
         }
     }
 
-    static interface Navigatable {
+    stbtic interfbce Nbvigbtbble {
         public void incrElement();
         public void decrElement();
-        public boolean canDecrement();
-        public boolean canIncrement();
+        public boolebn cbnDecrement();
+        public boolebn cbnIncrement();
         public int getElementCount();
         public int getSelectedElementIndex();
     }
 
-    static interface XViewedTabularData extends Navigatable {
+    stbtic interfbce XViewedTbbulbrDbtb extends Nbvigbtbble {
     }
 
-    static interface XViewedArrayData extends Navigatable {
+    stbtic interfbce XViewedArrbyDbtb extends Nbvigbtbble {
     }
 
-    static abstract class XOpenTypeData extends JTable {
-        XOpenTypeData parent;
+    stbtic bbstrbct clbss XOpenTypeDbtb extends JTbble {
+        XOpenTypeDbtb pbrent;
         protected int col1Width = -1;
         protected int col2Width = -1;
-        private boolean init;
-        private Font normalFont, boldFont;
-        protected XOpenTypeData(XOpenTypeData parent) {
-            this.parent = parent;
+        privbte boolebn init;
+        privbte Font normblFont, boldFont;
+        protected XOpenTypeDbtb(XOpenTypeDbtb pbrent) {
+            this.pbrent = pbrent;
         }
 
-        public XOpenTypeData getViewedParent() {
-            return parent;
+        public XOpenTypeDbtb getViewedPbrent() {
+            return pbrent;
         }
 
         public String getToolTip(int row, int col) {
             if(col == 1) {
-                Object value = getModel().getValueAt(row, col);
-                if (value != null) {
-                    if(isClickableElement(value))
-                        return Messages.DOUBLE_CLICK_TO_VISUALIZE
-                        + ". " + value.toString();
+                Object vblue = getModel().getVblueAt(row, col);
+                if (vblue != null) {
+                    if(isClickbbleElement(vblue))
+                        return Messbges.DOUBLE_CLICK_TO_VISUALIZE
+                        + ". " + vblue.toString();
                     else
-                        return value.toString();
+                        return vblue.toString();
                 }
             }
             return null;
         }
 
-        public TableCellRenderer getCellRenderer(int row, int column) {
-            DefaultTableCellRenderer tcr =
-                    (DefaultTableCellRenderer)super.getCellRenderer(row,column);
+        public TbbleCellRenderer getCellRenderer(int row, int column) {
+            DefbultTbbleCellRenderer tcr =
+                    (DefbultTbbleCellRenderer)super.getCellRenderer(row,column);
             tcr.setToolTipText(getToolTip(row,column));
             return tcr;
         }
 
         public void renderKey(String key,  Component comp) {
-            comp.setFont(normalFont);
+            comp.setFont(normblFont);
         }
 
-        public Component prepareRenderer(TableCellRenderer renderer,
+        public Component prepbreRenderer(TbbleCellRenderer renderer,
                 int row, int column) {
-            Component comp = super.prepareRenderer(renderer, row, column);
+            Component comp = super.prepbreRenderer(renderer, row, column);
 
-            if (normalFont == null) {
-                normalFont = comp.getFont();
-                boldFont = normalFont.deriveFont(Font.BOLD);
+            if (normblFont == null) {
+                normblFont = comp.getFont();
+                boldFont = normblFont.deriveFont(Font.BOLD);
             }
 
-            Object o = ((DefaultTableModel) getModel()).getValueAt(row, column);
+            Object o = ((DefbultTbbleModel) getModel()).getVblueAt(row, column);
             if (column == 0) {
                 String key = o.toString();
                 renderKey(key, comp);
             } else {
-                if (isClickableElement(o)) {
+                if (isClickbbleElement(o)) {
                     comp.setFont(boldFont);
                 } else {
-                    comp.setFont(normalFont);
+                    comp.setFont(normblFont);
                 }
             }
 
             return comp;
         }
 
-        protected boolean isClickableElement(Object obj) {
-            if (obj instanceof XOpenTypeData) {
-                if (obj instanceof Navigatable) {
-                    return (((Navigatable) obj).getElementCount() != 0);
+        protected boolebn isClickbbleElement(Object obj) {
+            if (obj instbnceof XOpenTypeDbtb) {
+                if (obj instbnceof Nbvigbtbble) {
+                    return (((Nbvigbtbble) obj).getElementCount() != 0);
                 } else {
-                    return (obj instanceof XCompositeData);
+                    return (obj instbnceof XCompositeDbtb);
                 }
             }
-            return false;
+            return fblse;
         }
 
-        protected void updateColumnWidth() {
+        protected void updbteColumnWidth() {
             if (!init) {
-                TableColumnModel colModel = getColumnModel();
+                TbbleColumnModel colModel = getColumnModel();
                 if (col2Width == -1) {
                     col1Width = col1Width * 7;
                     if (col1Width <
-                            getPreferredScrollableViewportSize().getWidth()) {
+                            getPreferredScrollbbleViewportSize().getWidth()) {
                         col1Width = (int)
-                        getPreferredScrollableViewportSize().getWidth();
+                        getPreferredScrollbbleViewportSize().getWidth();
                     }
                     colModel.getColumn(0).setPreferredWidth(col1Width);
                     init = true;
                     return;
                 }
                 col1Width = (col1Width * 7) + 7;
-                col1Width = Math.max(col1Width, 70);
+                col1Width = Mbth.mbx(col1Width, 70);
                 col2Width = (col2Width * 7) + 7;
                 if (col1Width + col2Width <
-                        getPreferredScrollableViewportSize().getWidth()) {
+                        getPreferredScrollbbleViewportSize().getWidth()) {
                     col2Width = (int)
-                    getPreferredScrollableViewportSize().getWidth() -
+                    getPreferredScrollbbleViewportSize().getWidth() -
                             col1Width;
                 }
                 colModel.getColumn(0).setPreferredWidth(col1Width);
@@ -210,49 +210,49 @@ public class XOpenTypeViewer extends JPanel implements ActionListener {
             }
         }
 
-        public abstract void viewed(XOpenTypeViewer viewer) throws Exception;
+        public bbstrbct void viewed(XOpenTypeViewer viewer) throws Exception;
 
-        protected void initTable(String[] columnNames) {
-            setRowSelectionAllowed(false);
-            setColumnSelectionAllowed(false);
-            getTableHeader().setReorderingAllowed(false);
-            ((DefaultTableModel) getModel()).setColumnIdentifiers(columnNames);
-            for (Enumeration<TableColumn> e = getColumnModel().getColumns();
-            e.hasMoreElements();) {
-                TableColumn tc = e.nextElement();
+        protected void initTbble(String[] columnNbmes) {
+            setRowSelectionAllowed(fblse);
+            setColumnSelectionAllowed(fblse);
+            getTbbleHebder().setReorderingAllowed(fblse);
+            ((DefbultTbbleModel) getModel()).setColumnIdentifiers(columnNbmes);
+            for (Enumerbtion<TbbleColumn> e = getColumnModel().getColumns();
+            e.hbsMoreElements();) {
+                TbbleColumn tc = e.nextElement();
                 tc.setCellEditor(editor);
             }
-            addKeyListener(new Utils.CopyKeyAdapter());
-            setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-            setPreferredScrollableViewportSize(new Dimension(350, 200));
+            bddKeyListener(new Utils.CopyKeyAdbpter());
+            setAutoResizeMode(JTbble.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+            setPreferredScrollbbleViewportSize(new Dimension(350, 200));
         }
 
-        protected void emptyTable() {
-            invalidate();
+        protected void emptyTbble() {
+            invblidbte();
             while (getModel().getRowCount()>0)
-                ((DefaultTableModel) getModel()).removeRow(0);
-            validate();
+                ((DefbultTbbleModel) getModel()).removeRow(0);
+            vblidbte();
         }
 
-        public void setValueAt(Object value, int row, int col) {
+        public void setVblueAt(Object vblue, int row, int col) {
         }
     }
 
-    static class TabularDataComparator implements Comparator<CompositeData> {
+    stbtic clbss TbbulbrDbtbCompbrbtor implements Compbrbtor<CompositeDbtb> {
 
-        private final List<String> indexNames;
+        privbte finbl List<String> indexNbmes;
 
-        public TabularDataComparator(TabularType type) {
-            indexNames = type.getIndexNames();
+        public TbbulbrDbtbCompbrbtor(TbbulbrType type) {
+            indexNbmes = type.getIndexNbmes();
         }
 
-        @SuppressWarnings("unchecked")
-        public int compare(CompositeData o1, CompositeData o2) {
-            for (String key : indexNames) {
+        @SuppressWbrnings("unchecked")
+        public int compbre(CompositeDbtb o1, CompositeDbtb o2) {
+            for (String key : indexNbmes) {
                 Object c1 = o1.get(key);
                 Object c2 = o2.get(key);
-                if (c1 instanceof Comparable && c2 instanceof Comparable) {
-                    int result = ((Comparable<Object>) c1).compareTo(c2);
+                if (c1 instbnceof Compbrbble && c2 instbnceof Compbrbble) {
+                    int result = ((Compbrbble<Object>) c1).compbreTo(c2);
                     if (result != 0)
                         return result;
                 }
@@ -261,47 +261,47 @@ public class XOpenTypeViewer extends JPanel implements ActionListener {
         }
     }
 
-    static class XTabularData extends XCompositeData
-            implements XViewedTabularData {
+    stbtic clbss XTbbulbrDbtb extends XCompositeDbtb
+            implements XViewedTbbulbrDbtb {
 
-        final TabularData tabular;
-        final TabularType type;
+        finbl TbbulbrDbtb tbbulbr;
+        finbl TbbulbrType type;
         int currentIndex = 0;
-        final Object[] elements;
-        final int size;
-        private Font normalFont, italicFont;
+        finbl Object[] elements;
+        finbl int size;
+        privbte Font normblFont, itblicFont;
 
-        @SuppressWarnings("unchecked")
-        public XTabularData(XOpenTypeData parent, TabularData tabular) {
-            super(parent, accessFirstElement(tabular));
-            this.tabular = tabular;
-            type = tabular.getTabularType();
-            size = tabular.values().size();
+        @SuppressWbrnings("unchecked")
+        public XTbbulbrDbtb(XOpenTypeDbtb pbrent, TbbulbrDbtb tbbulbr) {
+            super(pbrent, bccessFirstElement(tbbulbr));
+            this.tbbulbr = tbbulbr;
+            type = tbbulbr.getTbbulbrType();
+            size = tbbulbr.vblues().size();
             if (size > 0) {
-                // Order tabular data elements using index names
-                List<CompositeData> data = new ArrayList<CompositeData>(
-                        (Collection<CompositeData>) tabular.values());
-                Collections.sort(data, new TabularDataComparator(type));
-                elements = data.toArray();
-                loadCompositeData((CompositeData) elements[0]);
+                // Order tbbulbr dbtb elements using index nbmes
+                List<CompositeDbtb> dbtb = new ArrbyList<CompositeDbtb>(
+                        (Collection<CompositeDbtb>) tbbulbr.vblues());
+                Collections.sort(dbtb, new TbbulbrDbtbCompbrbtor(type));
+                elements = dbtb.toArrby();
+                lobdCompositeDbtb((CompositeDbtb) elements[0]);
             } else {
                 elements = new Object[0];
             }
         }
 
-        private static CompositeData accessFirstElement(TabularData tabular) {
-            if(tabular.values().size() == 0) return null;
-            return (CompositeData) tabular.values().toArray()[0];
+        privbte stbtic CompositeDbtb bccessFirstElement(TbbulbrDbtb tbbulbr) {
+            if(tbbulbr.vblues().size() == 0) return null;
+            return (CompositeDbtb) tbbulbr.vblues().toArrby()[0];
         }
 
         public void renderKey(String key,  Component comp) {
-            if (normalFont == null) {
-                normalFont = comp.getFont();
-                italicFont = normalFont.deriveFont(Font.ITALIC);
+            if (normblFont == null) {
+                normblFont = comp.getFont();
+                itblicFont = normblFont.deriveFont(Font.ITALIC);
             }
-            for(Object k : type.getIndexNames()) {
-                if(key.equals(k))
-                    comp.setFont(italicFont);
+            for(Object k : type.getIndexNbmes()) {
+                if(key.equbls(k))
+                    comp.setFont(itblicFont);
             }
         }
 
@@ -315,25 +315,25 @@ public class XOpenTypeViewer extends JPanel implements ActionListener {
 
         public void incrElement() {
             currentIndex++;
-            loadCompositeData((CompositeData)elements[currentIndex]);
+            lobdCompositeDbtb((CompositeDbtb)elements[currentIndex]);
         }
 
         public void decrElement() {
             currentIndex--;
-            loadCompositeData((CompositeData)elements[currentIndex]);
+            lobdCompositeDbtb((CompositeDbtb)elements[currentIndex]);
         }
 
-        public boolean canDecrement() {
+        public boolebn cbnDecrement() {
             if(currentIndex == 0)
-                return false;
+                return fblse;
             else
                 return true;
         }
 
-        public boolean canIncrement(){
+        public boolebn cbnIncrement(){
             if(size == 0 ||
                     currentIndex == size -1)
-                return false;
+                return fblse;
             else
                 return true;
         }
@@ -343,139 +343,139 @@ public class XOpenTypeViewer extends JPanel implements ActionListener {
         }
     }
 
-    static class XCompositeData extends XOpenTypeData {
-        protected final String[] columnNames = {
-            Messages.NAME, Messages.VALUE
+    stbtic clbss XCompositeDbtb extends XOpenTypeDbtb {
+        protected finbl String[] columnNbmes = {
+            Messbges.NAME, Messbges.VALUE
         };
-        CompositeData composite;
+        CompositeDbtb composite;
 
-        public XCompositeData() {
+        public XCompositeDbtb() {
             super(null);
-            initTable(columnNames);
+            initTbble(columnNbmes);
         }
 
-        //In sync with array, no init table.
-        public XCompositeData(XOpenTypeData parent) {
-            super(parent);
+        //In sync with brrby, no init tbble.
+        public XCompositeDbtb(XOpenTypeDbtb pbrent) {
+            super(pbrent);
         }
 
-        public XCompositeData(XOpenTypeData parent,
-                CompositeData composite) {
-            super(parent);
-            initTable(columnNames);
+        public XCompositeDbtb(XOpenTypeDbtb pbrent,
+                CompositeDbtb composite) {
+            super(pbrent);
+            initTbble(columnNbmes);
             if(composite != null) {
                 this.composite = composite;
-                loadCompositeData(composite);
+                lobdCompositeDbtb(composite);
             }
         }
 
         public void viewed(XOpenTypeViewer viewer) throws Exception {
             viewer.setOpenType(this);
-            updateColumnWidth();
+            updbteColumnWidth();
         }
 
         public String toString() {
             return composite == null ? "" :
-                composite.getCompositeType().getTypeName();
+                composite.getCompositeType().getTypeNbme();
         }
 
-        protected Object formatKey(String key) {
+        protected Object formbtKey(String key) {
             return key;
         }
 
-        private void load(CompositeData data) {
-            CompositeType type = data.getCompositeType();
+        privbte void lobd(CompositeDbtb dbtb) {
+            CompositeType type = dbtb.getCompositeType();
             Set<String> keys = type.keySet();
-            Iterator<String> it = keys.iterator();
-            Object[] rowData = new Object[2];
-            while (it.hasNext()) {
+            Iterbtor<String> it = keys.iterbtor();
+            Object[] rowDbtb = new Object[2];
+            while (it.hbsNext()) {
                 String key = it.next();
-                Object val = data.get(key);
-                rowData[0] = formatKey(key);
-                if (val == null) {
-                    rowData[1] = "";
+                Object vbl = dbtb.get(key);
+                rowDbtb[0] = formbtKey(key);
+                if (vbl == null) {
+                    rowDbtb[1] = "";
                 } else {
                     OpenType<?> openType = type.getType(key);
-                    if (openType instanceof CompositeType) {
-                        rowData[1] =
-                                new XCompositeData(this, (CompositeData) val);
-                    } else if (openType instanceof ArrayType) {
-                        rowData[1] =
-                                new XArrayData(this, (ArrayType<?>) openType, val);
-                    } else if (openType instanceof SimpleType) {
-                        rowData[1] = val;
-                    } else if (openType instanceof TabularType) {
-                        rowData[1] = new XTabularData(this, (TabularData) val);
+                    if (openType instbnceof CompositeType) {
+                        rowDbtb[1] =
+                                new XCompositeDbtb(this, (CompositeDbtb) vbl);
+                    } else if (openType instbnceof ArrbyType) {
+                        rowDbtb[1] =
+                                new XArrbyDbtb(this, (ArrbyType<?>) openType, vbl);
+                    } else if (openType instbnceof SimpleType) {
+                        rowDbtb[1] = vbl;
+                    } else if (openType instbnceof TbbulbrType) {
+                        rowDbtb[1] = new XTbbulbrDbtb(this, (TbbulbrDbtb) vbl);
                     }
                 }
-                // Update column width
+                // Updbte column width
                 String str = null;
-                if (rowData[0] != null) {
-                    str = rowData[0].toString();
+                if (rowDbtb[0] != null) {
+                    str = rowDbtb[0].toString();
                     if (str.length() > col1Width) {
                         col1Width = str.length();
                     }
                 }
-                if (rowData[1] != null) {
-                    str = rowData[1].toString();
+                if (rowDbtb[1] != null) {
+                    str = rowDbtb[1].toString();
                     if (str.length() > col2Width) {
                         col2Width = str.length();
                     }
                 }
-                ((DefaultTableModel) getModel()).addRow(rowData);
+                ((DefbultTbbleModel) getModel()).bddRow(rowDbtb);
             }
         }
 
-        protected void loadCompositeData(CompositeData data) {
-            composite = data;
-            emptyTable();
-            load(data);
-            DefaultTableModel tableModel = (DefaultTableModel) getModel();
-            tableModel.newDataAvailable(new TableModelEvent(tableModel));
+        protected void lobdCompositeDbtb(CompositeDbtb dbtb) {
+            composite = dbtb;
+            emptyTbble();
+            lobd(dbtb);
+            DefbultTbbleModel tbbleModel = (DefbultTbbleModel) getModel();
+            tbbleModel.newDbtbAvbilbble(new TbbleModelEvent(tbbleModel));
         }
     }
 
-    static class XArrayData extends XCompositeData
-            implements XViewedArrayData {
+    stbtic clbss XArrbyDbtb extends XCompositeDbtb
+            implements XViewedArrbyDbtb {
 
-        private int dimension;
-        private int size;
-        private OpenType<?> elemType;
-        private Object val;
-        private boolean isCompositeType;
-        private boolean isTabularType;
-        private int currentIndex;
-        private CompositeData[] elements;
-        private final String[] arrayColumns = {Messages.VALUE};
-        private Font normalFont, boldFont;
+        privbte int dimension;
+        privbte int size;
+        privbte OpenType<?> elemType;
+        privbte Object vbl;
+        privbte boolebn isCompositeType;
+        privbte boolebn isTbbulbrType;
+        privbte int currentIndex;
+        privbte CompositeDbtb[] elements;
+        privbte finbl String[] brrbyColumns = {Messbges.VALUE};
+        privbte Font normblFont, boldFont;
 
-        XArrayData(XOpenTypeData parent, ArrayType<?> type, Object val) {
-            this(parent, type.getDimension(), type.getElementOpenType(), val);
+        XArrbyDbtb(XOpenTypeDbtb pbrent, ArrbyType<?> type, Object vbl) {
+            this(pbrent, type.getDimension(), type.getElementOpenType(), vbl);
         }
 
-        XArrayData(XOpenTypeData parent, int dimension,
-                OpenType<?> elemType, Object val) {
-            super(parent);
+        XArrbyDbtb(XOpenTypeDbtb pbrent, int dimension,
+                OpenType<?> elemType, Object vbl) {
+            super(pbrent);
             this.dimension = dimension;
             this.elemType = elemType;
-            this.val = val;
+            this.vbl = vbl;
             String[] columns = null;
 
             if (dimension > 1) return;
 
-            isCompositeType = (elemType instanceof CompositeType);
-            isTabularType = (elemType instanceof TabularType);
-            columns = isCompositeType ? columnNames : arrayColumns;
+            isCompositeType = (elemType instbnceof CompositeType);
+            isTbbulbrType = (elemType instbnceof TbbulbrType);
+            columns = isCompositeType ? columnNbmes : brrbyColumns;
 
-            initTable(columns);
-            loadArray();
+            initTbble(columns);
+            lobdArrby();
         }
 
         public void viewed(XOpenTypeViewer viewer) throws Exception {
             if (size == 0)
-                throw new Exception(Messages.EMPTY_ARRAY);
+                throw new Exception(Messbges.EMPTY_ARRAY);
             if (dimension > 1)
-                throw new Exception(Messages.DIMENSION_IS_NOT_SUPPORTED_COLON +
+                throw new Exception(Messbges.DIMENSION_IS_NOT_SUPPORTED_COLON +
                         dimension);
             super.viewed(viewer);
         }
@@ -489,327 +489,327 @@ public class XOpenTypeViewer extends JPanel implements ActionListener {
         }
 
         public void renderKey(String key,  Component comp) {
-            if (normalFont == null) {
-                normalFont = comp.getFont();
-                boldFont = normalFont.deriveFont(Font.BOLD);
+            if (normblFont == null) {
+                normblFont = comp.getFont();
+                boldFont = normblFont.deriveFont(Font.BOLD);
             }
-            if (isTabularType) {
+            if (isTbbulbrType) {
                 comp.setFont(boldFont);
             }
         }
 
         public void incrElement() {
             currentIndex++;
-            loadCompositeData(elements[currentIndex]);
+            lobdCompositeDbtb(elements[currentIndex]);
         }
 
         public void decrElement() {
             currentIndex--;
-            loadCompositeData(elements[currentIndex]);
+            lobdCompositeDbtb(elements[currentIndex]);
         }
 
-        public boolean canDecrement() {
+        public boolebn cbnDecrement() {
             if (isCompositeType && currentIndex > 0) {
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public boolean canIncrement() {
+        public boolebn cbnIncrement() {
             if (isCompositeType && currentIndex < size - 1) {
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        private void loadArray() {
+        privbte void lobdArrby() {
             if (isCompositeType) {
-                elements = (CompositeData[]) val;
+                elements = (CompositeDbtb[]) vbl;
                 size = elements.length;
                 if (size != 0) {
-                    loadCompositeData(elements[0]);
+                    lobdCompositeDbtb(elements[0]);
                 }
             } else {
-                load();
+                lobd();
             }
         }
 
-        private void load() {
-            Object[] rowData = new Object[1];
-            size = Array.getLength(val);
+        privbte void lobd() {
+            Object[] rowDbtb = new Object[1];
+            size = Arrby.getLength(vbl);
             for (int i = 0; i < size; i++) {
-                rowData[0] = isTabularType ?
-                    new XTabularData(this, (TabularData) Array.get(val, i)) :
-                    Array.get(val, i);
-                String str = rowData[0].toString();
+                rowDbtb[0] = isTbbulbrType ?
+                    new XTbbulbrDbtb(this, (TbbulbrDbtb) Arrby.get(vbl, i)) :
+                    Arrby.get(vbl, i);
+                String str = rowDbtb[0].toString();
                 if (str.length() > col1Width) {
                     col1Width = str.length();
                 }
-                ((DefaultTableModel) getModel()).addRow(rowData);
+                ((DefbultTbbleModel) getModel()).bddRow(rowDbtb);
             }
         }
 
         public String toString() {
             if (dimension > 1) {
-                return Messages.DIMENSION_IS_NOT_SUPPORTED_COLON +
+                return Messbges.DIMENSION_IS_NOT_SUPPORTED_COLON +
                         dimension;
             } else {
-                return elemType.getTypeName() + "[" + size + "]";
+                return elemType.getTypeNbme() + "[" + size + "]";
             }
         }
     }
 
     /**
-     * The supplied value is viewable iff:
-     * - it's a CompositeData/TabularData, or
-     * - it's a non-empty array of CompositeData/TabularData, or
-     * - it's a non-empty Collection of CompositeData/TabularData.
+     * The supplied vblue is viewbble iff:
+     * - it's b CompositeDbtb/TbbulbrDbtb, or
+     * - it's b non-empty brrby of CompositeDbtb/TbbulbrDbtb, or
+     * - it's b non-empty Collection of CompositeDbtb/TbbulbrDbtb.
      */
-    public static boolean isViewableValue(Object value) {
-        // Check for CompositeData/TabularData
+    public stbtic boolebn isViewbbleVblue(Object vblue) {
+        // Check for CompositeDbtb/TbbulbrDbtb
         //
-        if (value instanceof CompositeData || value instanceof TabularData) {
+        if (vblue instbnceof CompositeDbtb || vblue instbnceof TbbulbrDbtb) {
             return true;
         }
-        // Check for non-empty array of CompositeData/TabularData
+        // Check for non-empty brrby of CompositeDbtb/TbbulbrDbtb
         //
-        if (value instanceof CompositeData[] || value instanceof TabularData[]) {
-            return Array.getLength(value) > 0;
+        if (vblue instbnceof CompositeDbtb[] || vblue instbnceof TbbulbrDbtb[]) {
+            return Arrby.getLength(vblue) > 0;
         }
-        // Check for non-empty Collection of CompositeData/TabularData
+        // Check for non-empty Collection of CompositeDbtb/TbbulbrDbtb
         //
-        if (value instanceof Collection) {
-            Collection<?> c = (Collection<?>) value;
+        if (vblue instbnceof Collection) {
+            Collection<?> c = (Collection<?>) vblue;
             if (c.isEmpty()) {
-                // Empty Collections are not viewable
+                // Empty Collections bre not viewbble
                 //
-                return false;
+                return fblse;
             } else {
-                // Only Collections of CompositeData/TabularData are viewable
+                // Only Collections of CompositeDbtb/TbbulbrDbtb bre viewbble
                 //
-                return Utils.isUniformCollection(c, CompositeData.class) ||
-                        Utils.isUniformCollection(c, TabularData.class);
+                return Utils.isUniformCollection(c, CompositeDbtb.clbss) ||
+                        Utils.isUniformCollection(c, TbbulbrDbtb.clbss);
             }
         }
-        return false;
+        return fblse;
     }
 
-    public static Component loadOpenType(Object value) {
+    public stbtic Component lobdOpenType(Object vblue) {
         Component comp = null;
-        if(isViewableValue(value)) {
+        if(isViewbbleVblue(vblue)) {
             XOpenTypeViewer open =
-                    new XOpenTypeViewer(value);
+                    new XOpenTypeViewer(vblue);
             comp = open;
         }
         return comp;
     }
 
-    private XOpenTypeViewer(Object value) {
-        XOpenTypeData comp = null;
-        if (value instanceof CompositeData) {
-            comp = new XCompositeData(null, (CompositeData) value);
-        } else if (value instanceof TabularData) {
-            comp = new XTabularData(null, (TabularData) value);
-        } else if (value instanceof CompositeData[]) {
-            CompositeData cda[] = (CompositeData[]) value;
-            CompositeType ct = cda[0].getCompositeType();
-            comp = new XArrayData(null, 1, ct, cda);
-        } else if (value instanceof TabularData[]) {
-            TabularData tda[] = (TabularData[]) value;
-            TabularType tt = tda[0].getTabularType();
-            comp = new XArrayData(null, 1, tt, tda);
-        } else if (value instanceof Collection) {
-            // At this point we know 'value' is a uniform collection, either
-            // Collection<CompositeData> or Collection<TabularData>, because
-            // isViewableValue() has been called before calling the private
+    privbte XOpenTypeViewer(Object vblue) {
+        XOpenTypeDbtb comp = null;
+        if (vblue instbnceof CompositeDbtb) {
+            comp = new XCompositeDbtb(null, (CompositeDbtb) vblue);
+        } else if (vblue instbnceof TbbulbrDbtb) {
+            comp = new XTbbulbrDbtb(null, (TbbulbrDbtb) vblue);
+        } else if (vblue instbnceof CompositeDbtb[]) {
+            CompositeDbtb cdb[] = (CompositeDbtb[]) vblue;
+            CompositeType ct = cdb[0].getCompositeType();
+            comp = new XArrbyDbtb(null, 1, ct, cdb);
+        } else if (vblue instbnceof TbbulbrDbtb[]) {
+            TbbulbrDbtb tdb[] = (TbbulbrDbtb[]) vblue;
+            TbbulbrType tt = tdb[0].getTbbulbrType();
+            comp = new XArrbyDbtb(null, 1, tt, tdb);
+        } else if (vblue instbnceof Collection) {
+            // At this point we know 'vblue' is b uniform collection, either
+            // Collection<CompositeDbtb> or Collection<TbbulbrDbtb>, becbuse
+            // isViewbbleVblue() hbs been cblled before cblling the privbte
             // XOpenTypeViewer() constructor.
             //
-            Object e = ((Collection<?>) value).iterator().next();
-            if (e instanceof CompositeData) {
-                Collection<?> cdc = (Collection<?>) value;
-                CompositeData cda[] = cdc.toArray(new CompositeData[0]);
-                CompositeType ct = cda[0].getCompositeType();
-                comp = new XArrayData(null, 1, ct, cda);
-            } else if (e instanceof TabularData) {
-                Collection<?> tdc = (Collection<?>) value;
-                TabularData tda[] = tdc.toArray(new TabularData[0]);
-                TabularType tt = tda[0].getTabularType();
-                comp = new XArrayData(null, 1, tt, tda);
+            Object e = ((Collection<?>) vblue).iterbtor().next();
+            if (e instbnceof CompositeDbtb) {
+                Collection<?> cdc = (Collection<?>) vblue;
+                CompositeDbtb cdb[] = cdc.toArrby(new CompositeDbtb[0]);
+                CompositeType ct = cdb[0].getCompositeType();
+                comp = new XArrbyDbtb(null, 1, ct, cdb);
+            } else if (e instbnceof TbbulbrDbtb) {
+                Collection<?> tdc = (Collection<?>) vblue;
+                TbbulbrDbtb tdb[] = tdc.toArrby(new TbbulbrDbtb[0]);
+                TbbulbrType tt = tdb[0].getTbbulbrType();
+                comp = new XArrbyDbtb(null, 1, tt, tdb);
             }
         }
-        setupDisplay(comp);
+        setupDisplby(comp);
         try {
             comp.viewed(this);
-        } catch (Exception e) {
-            // Nothing to change, the element can't be displayed
+        } cbtch (Exception e) {
+            // Nothing to chbnge, the element cbn't be displbyed
             if (JConsole.isDebug()) {
                 System.out.println("Exception viewing openType : " + e);
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
         }
     }
 
-    void setOpenType(XOpenTypeData data) {
+    void setOpenType(XOpenTypeDbtb dbtb) {
         if (current != null) {
             current.removeMouseListener(listener);
         }
 
-        current = data;
+        current = dbtb;
 
-        // Enable/Disable the previous (<<) button
-        if (current.getViewedParent() == null) {
-            prev.setEnabled(false);
+        // Enbble/Disbble the previous (<<) button
+        if (current.getViewedPbrent() == null) {
+            prev.setEnbbled(fblse);
         } else {
-            prev.setEnabled(true);
+            prev.setEnbbled(true);
         }
 
-        // Set the listener to handle double-click mouse events
-        current.addMouseListener(listener);
+        // Set the listener to hbndle double-click mouse events
+        current.bddMouseListener(listener);
 
-        // Enable/Disable the tabular buttons
-        if (!(data instanceof XViewedTabularData)) {
-            tabularPrev.setEnabled(false);
-            tabularNext.setEnabled(false);
-            tabularLabel.setText(tabularNavigationSingle);
-            tabularLabel.setEnabled(false);
+        // Enbble/Disbble the tbbulbr buttons
+        if (!(dbtb instbnceof XViewedTbbulbrDbtb)) {
+            tbbulbrPrev.setEnbbled(fblse);
+            tbbulbrNext.setEnbbled(fblse);
+            tbbulbrLbbel.setText(tbbulbrNbvigbtionSingle);
+            tbbulbrLbbel.setEnbbled(fblse);
         } else {
-            XViewedTabularData tabular = (XViewedTabularData) data;
-            tabularNext.setEnabled(tabular.canIncrement());
-            tabularPrev.setEnabled(tabular.canDecrement());
-            boolean hasMoreThanOneElement =
-                    tabular.canIncrement() || tabular.canDecrement();
-            if (hasMoreThanOneElement) {
-                tabularLabel.setText(
-                        Resources.format(Messages.MBEANS_TAB_TABULAR_NAVIGATION_MULTIPLE,
-                        String.format("%d", tabular.getSelectedElementIndex() + 1),
-                        String.format("%d", tabular.getElementCount())));
+            XViewedTbbulbrDbtb tbbulbr = (XViewedTbbulbrDbtb) dbtb;
+            tbbulbrNext.setEnbbled(tbbulbr.cbnIncrement());
+            tbbulbrPrev.setEnbbled(tbbulbr.cbnDecrement());
+            boolebn hbsMoreThbnOneElement =
+                    tbbulbr.cbnIncrement() || tbbulbr.cbnDecrement();
+            if (hbsMoreThbnOneElement) {
+                tbbulbrLbbel.setText(
+                        Resources.formbt(Messbges.MBEANS_TAB_TABULAR_NAVIGATION_MULTIPLE,
+                        String.formbt("%d", tbbulbr.getSelectedElementIndex() + 1),
+                        String.formbt("%d", tbbulbr.getElementCount())));
             } else {
-                tabularLabel.setText(tabularNavigationSingle);
+                tbbulbrLbbel.setText(tbbulbrNbvigbtionSingle);
             }
-            tabularLabel.setEnabled(hasMoreThanOneElement);
+            tbbulbrLbbel.setEnbbled(hbsMoreThbnOneElement);
         }
 
-        // Enable/Disable the composite buttons
-        if (!(data instanceof XViewedArrayData)) {
-            incr.setEnabled(false);
-            decr.setEnabled(false);
-            compositeLabel.setText(compositeNavigationSingle);
-            compositeLabel.setEnabled(false);
+        // Enbble/Disbble the composite buttons
+        if (!(dbtb instbnceof XViewedArrbyDbtb)) {
+            incr.setEnbbled(fblse);
+            decr.setEnbbled(fblse);
+            compositeLbbel.setText(compositeNbvigbtionSingle);
+            compositeLbbel.setEnbbled(fblse);
         } else {
-            XViewedArrayData array = (XViewedArrayData) data;
-            incr.setEnabled(array.canIncrement());
-            decr.setEnabled(array.canDecrement());
-            boolean hasMoreThanOneElement =
-                    array.canIncrement() || array.canDecrement();
-            if (hasMoreThanOneElement) {
-                compositeLabel.setText(
-                        Resources.format(Messages.MBEANS_TAB_COMPOSITE_NAVIGATION_MULTIPLE,
-                        String.format("%d", array.getSelectedElementIndex() + 1),
-                        String.format("%d", array.getElementCount())));
+            XViewedArrbyDbtb brrby = (XViewedArrbyDbtb) dbtb;
+            incr.setEnbbled(brrby.cbnIncrement());
+            decr.setEnbbled(brrby.cbnDecrement());
+            boolebn hbsMoreThbnOneElement =
+                    brrby.cbnIncrement() || brrby.cbnDecrement();
+            if (hbsMoreThbnOneElement) {
+                compositeLbbel.setText(
+                        Resources.formbt(Messbges.MBEANS_TAB_COMPOSITE_NAVIGATION_MULTIPLE,
+                        String.formbt("%d", brrby.getSelectedElementIndex() + 1),
+                        String.formbt("%d", brrby.getElementCount())));
             } else {
-                compositeLabel.setText(compositeNavigationSingle);
+                compositeLbbel.setText(compositeNbvigbtionSingle);
             }
-            compositeLabel.setEnabled(hasMoreThanOneElement);
+            compositeLbbel.setEnbbled(hbsMoreThbnOneElement);
         }
 
-        container.invalidate();
-        container.setViewportView(current);
-        container.validate();
+        contbiner.invblidbte();
+        contbiner.setViewportView(current);
+        contbiner.vblidbte();
     }
 
-    public void actionPerformed(ActionEvent event) {
-        if (event.getSource() instanceof JButton) {
+    public void bctionPerformed(ActionEvent event) {
+        if (event.getSource() instbnceof JButton) {
             JButton b = (JButton) event.getSource();
             if (b == prev) {
-                XOpenTypeData parent = current.getViewedParent();
+                XOpenTypeDbtb pbrent = current.getViewedPbrent();
                 try {
-                    parent.viewed(this);
-                } catch (Exception e) {
-                    //Nothing to change, the element can't be displayed
+                    pbrent.viewed(this);
+                } cbtch (Exception e) {
+                    //Nothing to chbnge, the element cbn't be displbyed
                 }
             } else if (b == incr) {
-                ((XViewedArrayData) current).incrElement();
+                ((XViewedArrbyDbtb) current).incrElement();
                 try {
                     current.viewed(this);
-                } catch (Exception e) {
-                    //Nothing to change, the element can't be displayed
+                } cbtch (Exception e) {
+                    //Nothing to chbnge, the element cbn't be displbyed
                 }
             } else if (b == decr) {
-                ((XViewedArrayData) current).decrElement();
+                ((XViewedArrbyDbtb) current).decrElement();
                 try {
                     current.viewed(this);
-                } catch (Exception e) {
-                    //Nothing to change, the element can't be displayed
+                } cbtch (Exception e) {
+                    //Nothing to chbnge, the element cbn't be displbyed
                 }
-            } else if (b == tabularNext) {
-                ((XViewedTabularData) current).incrElement();
+            } else if (b == tbbulbrNext) {
+                ((XViewedTbbulbrDbtb) current).incrElement();
                 try {
                     current.viewed(this);
-                } catch (Exception e) {
-                    //Nothing to change, the element can't be displayed
+                } cbtch (Exception e) {
+                    //Nothing to chbnge, the element cbn't be displbyed
                 }
-            } else if (b == tabularPrev) {
-                ((XViewedTabularData) current).decrElement();
+            } else if (b == tbbulbrPrev) {
+                ((XViewedTbbulbrDbtb) current).decrElement();
                 try {
                     current.viewed(this);
-                } catch (Exception e) {
-                    //Nothing to change, the element can't be displayed
+                } cbtch (Exception e) {
+                    //Nothing to chbnge, the element cbn't be displbyed
                 }
             }
         }
     }
 
-    private void setupDisplay(XOpenTypeData data) {
-        setBackground(Color.white);
-        container =
-                new JScrollPane(data,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    privbte void setupDisplby(XOpenTypeDbtb dbtb) {
+        setBbckground(Color.white);
+        contbiner =
+                new JScrollPbne(dbtb,
+                JScrollPbne.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPbne.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        tabularPrev = new JButton(Messages.LESS_THAN);
-        tabularNext = new JButton(Messages.GREATER_THAN);
-        JPanel tabularButtons = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        tabularButtons.add(tabularPrev);
-        tabularPrev.addActionListener(this);
-        tabularLabel = new JLabel(tabularNavigationSingle);
-        tabularLabel.setEnabled(false);
-        tabularButtons.add(tabularLabel);
-        tabularButtons.add(tabularNext);
-        tabularNext.addActionListener(this);
-        tabularButtons.setBackground(Color.white);
+        JPbnel buttons = new JPbnel(new FlowLbyout(FlowLbyout.LEFT));
+        tbbulbrPrev = new JButton(Messbges.LESS_THAN);
+        tbbulbrNext = new JButton(Messbges.GREATER_THAN);
+        JPbnel tbbulbrButtons = new JPbnel(new FlowLbyout(FlowLbyout.LEFT));
+        tbbulbrButtons.bdd(tbbulbrPrev);
+        tbbulbrPrev.bddActionListener(this);
+        tbbulbrLbbel = new JLbbel(tbbulbrNbvigbtionSingle);
+        tbbulbrLbbel.setEnbbled(fblse);
+        tbbulbrButtons.bdd(tbbulbrLbbel);
+        tbbulbrButtons.bdd(tbbulbrNext);
+        tbbulbrNext.bddActionListener(this);
+        tbbulbrButtons.setBbckground(Color.white);
 
-        prev = new JButton(Messages.A_LOT_LESS_THAN);
-        prev.addActionListener(this);
-        buttons.add(prev);
+        prev = new JButton(Messbges.A_LOT_LESS_THAN);
+        prev.bddActionListener(this);
+        buttons.bdd(prev);
 
-        incr = new JButton(Messages.GREATER_THAN);
-        incr.addActionListener(this);
-        decr = new JButton(Messages.LESS_THAN);
-        decr.addActionListener(this);
+        incr = new JButton(Messbges.GREATER_THAN);
+        incr.bddActionListener(this);
+        decr = new JButton(Messbges.LESS_THAN);
+        decr.bddActionListener(this);
 
-        JPanel array = new JPanel();
-        array.setBackground(Color.white);
-        array.add(decr);
-        compositeLabel = new JLabel(compositeNavigationSingle);
-        compositeLabel.setEnabled(false);
-        array.add(compositeLabel);
-        array.add(incr);
+        JPbnel brrby = new JPbnel();
+        brrby.setBbckground(Color.white);
+        brrby.bdd(decr);
+        compositeLbbel = new JLbbel(compositeNbvigbtionSingle);
+        compositeLbbel.setEnbbled(fblse);
+        brrby.bdd(compositeLbbel);
+        brrby.bdd(incr);
 
-        buttons.add(array);
-        setLayout(new BorderLayout());
-        buttons.setBackground(Color.white);
+        buttons.bdd(brrby);
+        setLbyout(new BorderLbyout());
+        buttons.setBbckground(Color.white);
 
-        JPanel navigationPanel = new JPanel(new BorderLayout());
-        navigationPanel.setBackground(Color.white);
-        navigationPanel.add(tabularButtons, BorderLayout.NORTH);
-        navigationPanel.add(buttons, BorderLayout.WEST);
-        add(navigationPanel, BorderLayout.NORTH);
+        JPbnel nbvigbtionPbnel = new JPbnel(new BorderLbyout());
+        nbvigbtionPbnel.setBbckground(Color.white);
+        nbvigbtionPbnel.bdd(tbbulbrButtons, BorderLbyout.NORTH);
+        nbvigbtionPbnel.bdd(buttons, BorderLbyout.WEST);
+        bdd(nbvigbtionPbnel, BorderLbyout.NORTH);
 
-        add(container, BorderLayout.CENTER);
-        Dimension d = new Dimension((int)container.getPreferredSize().
+        bdd(contbiner, BorderLbyout.CENTER);
+        Dimension d = new Dimension((int)contbiner.getPreferredSize().
                 getWidth() + 20,
-                (int)container.getPreferredSize().
+                (int)contbiner.getPreferredSize().
                 getHeight() + 20);
         setPreferredSize(d);
     }

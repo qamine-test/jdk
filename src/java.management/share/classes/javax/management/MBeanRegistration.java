@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * <p>Can be implemented by an MBean in order to
- * carry out operations before and after being registered or unregistered from
- * the MBean Server.  An MBean can also implement this interface in order
- * to get a reference to the MBean Server and/or its name within that
- * MBean Server.</p>
+ * <p>Cbn be implemented by bn MBebn in order to
+ * cbrry out operbtions before bnd bfter being registered or unregistered from
+ * the MBebn Server.  An MBebn cbn blso implement this interfbce in order
+ * to get b reference to the MBebn Server bnd/or its nbme within thbt
+ * MBebn Server.</p>
  *
  * @since 1.5
  */
-public interface MBeanRegistration   {
+public interfbce MBebnRegistrbtion   {
 
 
     /**
-     * Allows the MBean to perform any operations it needs before
-     * being registered in the MBean Server.  If the name of the MBean
-     * is not specified, the MBean can provide a name for its
-     * registration.  If any exception is raised, the MBean will not be
-     * registered in the MBean Server.
+     * Allows the MBebn to perform bny operbtions it needs before
+     * being registered in the MBebn Server.  If the nbme of the MBebn
+     * is not specified, the MBebn cbn provide b nbme for its
+     * registrbtion.  If bny exception is rbised, the MBebn will not be
+     * registered in the MBebn Server.
      *
-     * @param server The MBean Server in which the MBean will be registered.
+     * @pbrbm server The MBebn Server in which the MBebn will be registered.
      *
-     * @param name The object name of the MBean.  This name is null if
-     * the name parameter to one of the <code>createMBean</code> or
-     * <code>registerMBean</code> methods in the {@link MBeanServer}
-     * interface is null.  In that case, this method must return a
-     * non-null ObjectName for the new MBean.
+     * @pbrbm nbme The object nbme of the MBebn.  This nbme is null if
+     * the nbme pbrbmeter to one of the <code>crebteMBebn</code> or
+     * <code>registerMBebn</code> methods in the {@link MBebnServer}
+     * interfbce is null.  In thbt cbse, this method must return b
+     * non-null ObjectNbme for the new MBebn.
      *
-     * @return The name under which the MBean is to be registered.
-     * This value must not be null.  If the <code>name</code>
-     * parameter is not null, it will usually but not necessarily be
-     * the returned value.
+     * @return The nbme under which the MBebn is to be registered.
+     * This vblue must not be null.  If the <code>nbme</code>
+     * pbrbmeter is not null, it will usublly but not necessbrily be
+     * the returned vblue.
      *
-     * @exception java.lang.Exception This exception will be caught by
-     * the MBean Server and re-thrown as an {@link
-     * MBeanRegistrationException}.
+     * @exception jbvb.lbng.Exception This exception will be cbught by
+     * the MBebn Server bnd re-thrown bs bn {@link
+     * MBebnRegistrbtionException}.
      */
-    public ObjectName preRegister(MBeanServer server,
-                                  ObjectName name) throws java.lang.Exception;
+    public ObjectNbme preRegister(MBebnServer server,
+                                  ObjectNbme nbme) throws jbvb.lbng.Exception;
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * registered in the MBean server or after the registration has failed.
-     * <p>If the implementation of this method throws a {@link RuntimeException}
-     * or an {@link Error}, the MBean Server will rethrow those inside
-     * a {@link RuntimeMBeanException} or {@link RuntimeErrorException},
-     * respectively. However, throwing an exception in {@code postRegister}
-     * will not change the state of the MBean:
-     * if the MBean was already registered ({@code registrationDone} is
-     * {@code true}), the MBean will remain registered. </p>
-     * <p>This might be confusing for the code calling {@code createMBean()}
-     * or {@code registerMBean()}, as such code might assume that MBean
-     * registration has failed when such an exception is raised.
-     * Therefore it is recommended that implementations of
+     * Allows the MBebn to perform bny operbtions needed bfter hbving been
+     * registered in the MBebn server or bfter the registrbtion hbs fbiled.
+     * <p>If the implementbtion of this method throws b {@link RuntimeException}
+     * or bn {@link Error}, the MBebn Server will rethrow those inside
+     * b {@link RuntimeMBebnException} or {@link RuntimeErrorException},
+     * respectively. However, throwing bn exception in {@code postRegister}
+     * will not chbnge the stbte of the MBebn:
+     * if the MBebn wbs blrebdy registered ({@code registrbtionDone} is
+     * {@code true}), the MBebn will rembin registered. </p>
+     * <p>This might be confusing for the code cblling {@code crebteMBebn()}
+     * or {@code registerMBebn()}, bs such code might bssume thbt MBebn
+     * registrbtion hbs fbiled when such bn exception is rbised.
+     * Therefore it is recommended thbt implementbtions of
      * {@code postRegister} do not throw Runtime Exceptions or Errors if it
-     * can be avoided.</p>
-     * @param registrationDone Indicates whether or not the MBean has
-     * been successfully registered in the MBean server. The value
-     * false means that the registration phase has failed.
+     * cbn be bvoided.</p>
+     * @pbrbm registrbtionDone Indicbtes whether or not the MBebn hbs
+     * been successfully registered in the MBebn server. The vblue
+     * fblse mebns thbt the registrbtion phbse hbs fbiled.
      */
-    public void postRegister(Boolean registrationDone);
+    public void postRegister(Boolebn registrbtionDone);
 
     /**
-     * Allows the MBean to perform any operations it needs before
-     * being unregistered by the MBean server.
+     * Allows the MBebn to perform bny operbtions it needs before
+     * being unregistered by the MBebn server.
      *
-     * @exception java.lang.Exception This exception will be caught by
-     * the MBean server and re-thrown as an {@link
-     * MBeanRegistrationException}.
+     * @exception jbvb.lbng.Exception This exception will be cbught by
+     * the MBebn server bnd re-thrown bs bn {@link
+     * MBebnRegistrbtionException}.
      */
-    public void preDeregister() throws java.lang.Exception ;
+    public void preDeregister() throws jbvb.lbng.Exception ;
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * unregistered in the MBean server.
-     * <p>If the implementation of this method throws a {@link RuntimeException}
-     * or an {@link Error}, the MBean Server will rethrow those inside
-     * a {@link RuntimeMBeanException} or {@link RuntimeErrorException},
-     * respectively. However, throwing an exception in {@code postDeregister}
-     * will not change the state of the MBean:
-     * the MBean was already successfully deregistered and will remain so. </p>
-     * <p>This might be confusing for the code calling
-     * {@code unregisterMBean()}, as it might assume that MBean deregistration
-     * has failed. Therefore it is recommended that implementations of
+     * Allows the MBebn to perform bny operbtions needed bfter hbving been
+     * unregistered in the MBebn server.
+     * <p>If the implementbtion of this method throws b {@link RuntimeException}
+     * or bn {@link Error}, the MBebn Server will rethrow those inside
+     * b {@link RuntimeMBebnException} or {@link RuntimeErrorException},
+     * respectively. However, throwing bn exception in {@code postDeregister}
+     * will not chbnge the stbte of the MBebn:
+     * the MBebn wbs blrebdy successfully deregistered bnd will rembin so. </p>
+     * <p>This might be confusing for the code cblling
+     * {@code unregisterMBebn()}, bs it might bssume thbt MBebn deregistrbtion
+     * hbs fbiled. Therefore it is recommended thbt implementbtions of
      * {@code postDeregister} do not throw Runtime Exceptions or Errors if it
-     * can be avoided.</p>
+     * cbn be bvoided.</p>
      */
     public void postDeregister();
 

@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2008-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2008-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,79 +59,79 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbckbge jbvb.time.formbt;
 
 /**
- * Enumeration of ways to handle the positive/negative sign.
+ * Enumerbtion of wbys to hbndle the positive/negbtive sign.
  * <p>
- * The formatting engine allows the positive and negative signs of numbers
+ * The formbtting engine bllows the positive bnd negbtive signs of numbers
  * to be controlled using this enum.
- * See {@link DateTimeFormatterBuilder} for usage.
+ * See {@link DbteTimeFormbtterBuilder} for usbge.
  *
  * @implSpec
- * This is an immutable and thread-safe enum.
+ * This is bn immutbble bnd threbd-sbfe enum.
  *
  * @since 1.8
  */
 public enum SignStyle {
 
     /**
-     * Style to output the sign only if the value is negative.
+     * Style to output the sign only if the vblue is negbtive.
      * <p>
-     * In strict parsing, the negative sign will be accepted and the positive sign rejected.
-     * In lenient parsing, any sign will be accepted.
+     * In strict pbrsing, the negbtive sign will be bccepted bnd the positive sign rejected.
+     * In lenient pbrsing, bny sign will be bccepted.
      */
     NORMAL,
     /**
-     * Style to always output the sign, where zero will output '+'.
+     * Style to blwbys output the sign, where zero will output '+'.
      * <p>
-     * In strict parsing, the absence of a sign will be rejected.
-     * In lenient parsing, any sign will be accepted, with the absence
-     * of a sign treated as a positive number.
+     * In strict pbrsing, the bbsence of b sign will be rejected.
+     * In lenient pbrsing, bny sign will be bccepted, with the bbsence
+     * of b sign trebted bs b positive number.
      */
     ALWAYS,
     /**
-     * Style to never output sign, only outputting the absolute value.
+     * Style to never output sign, only outputting the bbsolute vblue.
      * <p>
-     * In strict parsing, any sign will be rejected.
-     * In lenient parsing, any sign will be accepted unless the width is fixed.
+     * In strict pbrsing, bny sign will be rejected.
+     * In lenient pbrsing, bny sign will be bccepted unless the width is fixed.
      */
     NEVER,
     /**
-     * Style to block negative values, throwing an exception on printing.
+     * Style to block negbtive vblues, throwing bn exception on printing.
      * <p>
-     * In strict parsing, any sign will be rejected.
-     * In lenient parsing, any sign will be accepted unless the width is fixed.
+     * In strict pbrsing, bny sign will be rejected.
+     * In lenient pbrsing, bny sign will be bccepted unless the width is fixed.
      */
     NOT_NEGATIVE,
     /**
-     * Style to always output the sign if the value exceeds the pad width.
-     * A negative value will always output the '-' sign.
+     * Style to blwbys output the sign if the vblue exceeds the pbd width.
+     * A negbtive vblue will blwbys output the '-' sign.
      * <p>
-     * In strict parsing, the sign will be rejected unless the pad width is exceeded.
-     * In lenient parsing, any sign will be accepted, with the absence
-     * of a sign treated as a positive number.
+     * In strict pbrsing, the sign will be rejected unless the pbd width is exceeded.
+     * In lenient pbrsing, bny sign will be bccepted, with the bbsence
+     * of b sign trebted bs b positive number.
      */
     EXCEEDS_PAD;
 
     /**
-     * Parse helper.
+     * Pbrse helper.
      *
-     * @param positive  true if positive sign parsed, false for negative sign
-     * @param strict  true if strict, false if lenient
-     * @param fixedWidth  true if fixed width, false if not
+     * @pbrbm positive  true if positive sign pbrsed, fblse for negbtive sign
+     * @pbrbm strict  true if strict, fblse if lenient
+     * @pbrbm fixedWidth  true if fixed width, fblse if not
      * @return
      */
-    boolean parse(boolean positive, boolean strict, boolean fixedWidth) {
-        switch (ordinal()) {
-            case 0: // NORMAL
-                // valid if negative or (positive and lenient)
+    boolebn pbrse(boolebn positive, boolebn strict, boolebn fixedWidth) {
+        switch (ordinbl()) {
+            cbse 0: // NORMAL
+                // vblid if negbtive or (positive bnd lenient)
                 return !positive || !strict;
-            case 1: // ALWAYS
-            case 4: // EXCEEDS_PAD
+            cbse 1: // ALWAYS
+            cbse 4: // EXCEEDS_PAD
                 return true;
-            default:
-                // valid if lenient and not fixed width
+            defbult:
+                // vblid if lenient bnd not fixed width
                 return !strict && !fixedWidth;
         }
     }

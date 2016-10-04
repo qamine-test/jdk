@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-/** DesktopManager objects are owned by a JDesktopPane object. They are responsible
-  * for implementing L&amp;F specific behaviors for the JDesktopPane. JInternalFrame
-  * implementations should delegate specific behaviors to the DesktopManager. For
-  * instance, if a JInternalFrame was asked to iconify, it should try:
+/** DesktopMbnbger objects bre owned by b JDesktopPbne object. They bre responsible
+  * for implementing L&bmp;F specific behbviors for the JDesktopPbne. JInternblFrbme
+  * implementbtions should delegbte specific behbviors to the DesktopMbnbger. For
+  * instbnce, if b JInternblFrbme wbs bsked to iconify, it should try:
   * <PRE>
-  *    getDesktopPane().getDesktopManager().iconifyFrame(frame);
+  *    getDesktopPbne().getDesktopMbnbger().iconifyFrbme(frbme);
   * </PRE>
-  * This delegation allows each L&amp;F to provide custom behaviors for desktop-specific
-  * actions. (For example, how and where the internal frame's icon would appear.)
-  * <p>This class provides a policy for the various JInternalFrame methods, it is not
-  * meant to be called directly rather the various JInternalFrame methods will call
-  * into the DesktopManager.</p>
+  * This delegbtion bllows ebch L&bmp;F to provide custom behbviors for desktop-specific
+  * bctions. (For exbmple, how bnd where the internbl frbme's icon would bppebr.)
+  * <p>This clbss provides b policy for the vbrious JInternblFrbme methods, it is not
+  * mebnt to be cblled directly rbther the vbrious JInternblFrbme methods will cbll
+  * into the DesktopMbnbger.</p>
   *
-  * @see JDesktopPane
-  * @see JInternalFrame
-  * @see JInternalFrame.JDesktopIcon
+  * @see JDesktopPbne
+  * @see JInternblFrbme
+  * @see JInternblFrbme.JDesktopIcon
   *
-  * @author David Kloba
+  * @buthor Dbvid Klobb
   * @since 1.2
   */
-public interface DesktopManager
+public interfbce DesktopMbnbger
 {
     /**
-     * If possible, display this frame in an appropriate location.
-     * Normally, this is not called, as the creator of the JInternalFrame
-     * will add the frame to the appropriate parent.
+     * If possible, displby this frbme in bn bppropribte locbtion.
+     * Normblly, this is not cblled, bs the crebtor of the JInternblFrbme
+     * will bdd the frbme to the bppropribte pbrent.
      *
-     * @param f  the {@code JInternalFrame} to be displayed
+     * @pbrbm f  the {@code JInternblFrbme} to be displbyed
      */
-    void openFrame(JInternalFrame f);
+    void openFrbme(JInternblFrbme f);
 
     /**
-     * Generally, this call should remove the frame from its parent.
+     * Generblly, this cbll should remove the frbme from its pbrent.
      *
-     * @param f  the {@code JInternalFrame} to be removed
+     * @pbrbm f  the {@code JInternblFrbme} to be removed
      */
-    void closeFrame(JInternalFrame f);
+    void closeFrbme(JInternblFrbme f);
 
     /**
-     * Generally, the frame should be resized to match its parents bounds.
+     * Generblly, the frbme should be resized to mbtch its pbrents bounds.
      *
-     * @param f  the {@code JInternalFrame} to be resized
+     * @pbrbm f  the {@code JInternblFrbme} to be resized
      */
-    void maximizeFrame(JInternalFrame f);
+    void mbximizeFrbme(JInternblFrbme f);
 
     /**
-     * Generally, this indicates that the frame should be restored to its
-     * size and position prior to a maximizeFrame() call.
+     * Generblly, this indicbtes thbt the frbme should be restored to its
+     * size bnd position prior to b mbximizeFrbme() cbll.
      *
-     * @param f  the {@code JInternalFrame} to be restored
+     * @pbrbm f  the {@code JInternblFrbme} to be restored
      */
-    void minimizeFrame(JInternalFrame f);
+    void minimizeFrbme(JInternblFrbme f);
 
     /**
-     * Generally, remove this frame from its parent and add an iconic representation.
+     * Generblly, remove this frbme from its pbrent bnd bdd bn iconic representbtion.
      *
-     * @param f  the {@code JInternalFrame} to be iconified
+     * @pbrbm f  the {@code JInternblFrbme} to be iconified
      */
-    void iconifyFrame(JInternalFrame f);
+    void iconifyFrbme(JInternblFrbme f);
 
     /**
-     * Generally, remove any iconic representation that is present and restore the
-     * frame to it's original size and location.
+     * Generblly, remove bny iconic representbtion thbt is present bnd restore the
+     * frbme to it's originbl size bnd locbtion.
      *
-     * @param f  the {@code JInternalFrame} to be de-iconified
+     * @pbrbm f  the {@code JInternblFrbme} to be de-iconified
      */
-    void deiconifyFrame(JInternalFrame f);
+    void deiconifyFrbme(JInternblFrbme f);
 
     /**
-     * Generally, indicate that this frame has focus. This is usually called after
-     * the JInternalFrame's IS_SELECTED_PROPERTY has been set to true.
+     * Generblly, indicbte thbt this frbme hbs focus. This is usublly cblled bfter
+     * the JInternblFrbme's IS_SELECTED_PROPERTY hbs been set to true.
      *
-     * @param f  the {@code JInternalFrame} to be activated
+     * @pbrbm f  the {@code JInternblFrbme} to be bctivbted
      */
-    void activateFrame(JInternalFrame f);
+    void bctivbteFrbme(JInternblFrbme f);
 
     /**
-     * Generally, indicate that this frame has lost focus. This is usually called
-     * after the JInternalFrame's IS_SELECTED_PROPERTY has been set to false.
+     * Generblly, indicbte thbt this frbme hbs lost focus. This is usublly cblled
+     * bfter the JInternblFrbme's IS_SELECTED_PROPERTY hbs been set to fblse.
      *
-     * @param f  the {@code JInternalFrame} to be deactivated
+     * @pbrbm f  the {@code JInternblFrbme} to be debctivbted
      */
-    void deactivateFrame(JInternalFrame f);
+    void debctivbteFrbme(JInternblFrbme f);
 
     /**
-     * This method is normally called when the user has indicated that
-     * they will begin dragging a component around. This method should be called
-     * prior to any dragFrame() calls to allow the DesktopManager to prepare any
-     * necessary state. Normally <b>f</b> will be a JInternalFrame.
+     * This method is normblly cblled when the user hbs indicbted thbt
+     * they will begin drbgging b component bround. This method should be cblled
+     * prior to bny drbgFrbme() cblls to bllow the DesktopMbnbger to prepbre bny
+     * necessbry stbte. Normblly <b>f</b> will be b JInternblFrbme.
      *
-     * @param f  the {@code JComponent} being dragged
+     * @pbrbm f  the {@code JComponent} being drbgged
      */
-    void beginDraggingFrame(JComponent f);
+    void beginDrbggingFrbme(JComponent f);
 
     /**
-     * The user has moved the frame. Calls to this method will be preceded by calls
-     * to beginDraggingFrame().
-     * Normally <b>f</b> will be a JInternalFrame.
+     * The user hbs moved the frbme. Cblls to this method will be preceded by cblls
+     * to beginDrbggingFrbme().
+     * Normblly <b>f</b> will be b JInternblFrbme.
      *
-     * @param f  the {@code JComponent} being dragged
-     * @param newX  the new x-coordinate
-     * @param newY  the new y-coordinate
+     * @pbrbm f  the {@code JComponent} being drbgged
+     * @pbrbm newX  the new x-coordinbte
+     * @pbrbm newY  the new y-coordinbte
      */
-    void dragFrame(JComponent f, int newX, int newY);
+    void drbgFrbme(JComponent f, int newX, int newY);
 
     /**
-     * This method signals the end of the dragging session. Any state maintained by
-     * the DesktopManager can be removed here.  Normally <b>f</b> will be a JInternalFrame.
+     * This method signbls the end of the drbgging session. Any stbte mbintbined by
+     * the DesktopMbnbger cbn be removed here.  Normblly <b>f</b> will be b JInternblFrbme.
      *
-     * @param f  the {@code JComponent} being dragged
+     * @pbrbm f  the {@code JComponent} being drbgged
      */
-    void endDraggingFrame(JComponent f);
+    void endDrbggingFrbme(JComponent f);
 
     /**
-     * This method is normally called when the user has indicated that
-     * they will begin resizing the frame. This method should be called
-     * prior to any resizeFrame() calls to allow the DesktopManager to prepare any
-     * necessary state.  Normally <b>f</b> will be a JInternalFrame.
+     * This method is normblly cblled when the user hbs indicbted thbt
+     * they will begin resizing the frbme. This method should be cblled
+     * prior to bny resizeFrbme() cblls to bllow the DesktopMbnbger to prepbre bny
+     * necessbry stbte.  Normblly <b>f</b> will be b JInternblFrbme.
      *
-     * @param f  the {@code JComponent} being resized
+     * @pbrbm f  the {@code JComponent} being resized
      */
-    void beginResizingFrame(JComponent f, int direction);
+    void beginResizingFrbme(JComponent f, int direction);
 
     /**
-     * The user has resized the component. Calls to this method will be preceded by calls
-     * to beginResizingFrame().
-     * Normally <b>f</b> will be a JInternalFrame.
+     * The user hbs resized the component. Cblls to this method will be preceded by cblls
+     * to beginResizingFrbme().
+     * Normblly <b>f</b> will be b JInternblFrbme.
      *
-     * @param f  the {@code JComponent} being resized
-     * @param newX  the new x-coordinate
-     * @param newY  the new y-coordinate
-     * @param newWidth  the new width
-     * @param newHeight  the new height
+     * @pbrbm f  the {@code JComponent} being resized
+     * @pbrbm newX  the new x-coordinbte
+     * @pbrbm newY  the new y-coordinbte
+     * @pbrbm newWidth  the new width
+     * @pbrbm newHeight  the new height
      */
-    void resizeFrame(JComponent f, int newX, int newY, int newWidth, int newHeight);
+    void resizeFrbme(JComponent f, int newX, int newY, int newWidth, int newHeight);
 
     /**
-     * This method signals the end of the resize session. Any state maintained by
-     * the DesktopManager can be removed here.  Normally <b>f</b> will be a JInternalFrame.
+     * This method signbls the end of the resize session. Any stbte mbintbined by
+     * the DesktopMbnbger cbn be removed here.  Normblly <b>f</b> will be b JInternblFrbme.
      *
-     * @param f  the {@code JComponent} being resized
+     * @pbrbm f  the {@code JComponent} being resized
      */
-    void endResizingFrame(JComponent f);
+    void endResizingFrbme(JComponent f);
 
     /**
-     * This is a primitive reshape method.
+     * This is b primitive reshbpe method.
      *
-     * @param f  the {@code JComponent} being moved or resized
-     * @param newX  the new x-coordinate
-     * @param newY  the new y-coordinate
-     * @param newWidth  the new width
-     * @param newHeight  the new height
+     * @pbrbm f  the {@code JComponent} being moved or resized
+     * @pbrbm newX  the new x-coordinbte
+     * @pbrbm newY  the new y-coordinbte
+     * @pbrbm newWidth  the new width
+     * @pbrbm newHeight  the new height
      */
-    void setBoundsForFrame(JComponent f, int newX, int newY, int newWidth, int newHeight);
+    void setBoundsForFrbme(JComponent f, int newX, int newY, int newWidth, int newHeight);
 }

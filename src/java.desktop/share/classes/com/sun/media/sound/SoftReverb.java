@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * Reverb effect based on allpass/comb filters. First audio is send to 8
- * parelled comb filters and then mixed together and then finally send thru 3
- * different allpass filters.
+ * Reverb effect bbsed on bllpbss/comb filters. First budio is send to 8
+ * pbrelled comb filters bnd then mixed together bnd then finblly send thru 3
+ * different bllpbss filters.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftReverb implements SoftAudioProcessor {
+public finbl clbss SoftReverb implements SoftAudioProcessor {
 
-    private final static class Delay {
+    privbte finbl stbtic clbss Delby {
 
-        private float[] delaybuffer;
-        private int rovepos = 0;
+        privbte flobt[] delbybuffer;
+        privbte int rovepos = 0;
 
-        Delay() {
-            delaybuffer = null;
+        Delby() {
+            delbybuffer = null;
         }
 
-        public void setDelay(int delay) {
-            if (delay == 0)
-                delaybuffer = null;
+        public void setDelby(int delby) {
+            if (delby == 0)
+                delbybuffer = null;
             else
-                delaybuffer = new float[delay];
+                delbybuffer = new flobt[delby];
             rovepos = 0;
         }
 
-        public void processReplace(float[] inout) {
-            if (delaybuffer == null)
+        public void processReplbce(flobt[] inout) {
+            if (delbybuffer == null)
                 return;
             int len = inout.length;
-            int rnlen = delaybuffer.length;
+            int rnlen = delbybuffer.length;
             int rovepos = this.rovepos;
 
             for (int i = 0; i < len; i++) {
-                float x = inout[i];
-                inout[i] = delaybuffer[rovepos];
-                delaybuffer[rovepos] = x;
+                flobt x = inout[i];
+                inout[i] = delbybuffer[rovepos];
+                delbybuffer[rovepos] = x;
                 if (++rovepos == rnlen)
                     rovepos = 0;
             }
@@ -70,193 +70,193 @@ public final class SoftReverb implements SoftAudioProcessor {
         }
     }
 
-    private final static class AllPass {
+    privbte finbl stbtic clbss AllPbss {
 
-        private final float[] delaybuffer;
-        private final int delaybuffersize;
-        private int rovepos = 0;
-        private float feedback;
+        privbte finbl flobt[] delbybuffer;
+        privbte finbl int delbybuffersize;
+        privbte int rovepos = 0;
+        privbte flobt feedbbck;
 
-        AllPass(int size) {
-            delaybuffer = new float[size];
-            delaybuffersize = size;
+        AllPbss(int size) {
+            delbybuffer = new flobt[size];
+            delbybuffersize = size;
         }
 
-        public void setFeedBack(float feedback) {
-            this.feedback = feedback;
+        public void setFeedBbck(flobt feedbbck) {
+            this.feedbbck = feedbbck;
         }
 
-        public void processReplace(float inout[]) {
+        public void processReplbce(flobt inout[]) {
             int len = inout.length;
-            int delaybuffersize = this.delaybuffersize;
+            int delbybuffersize = this.delbybuffersize;
             int rovepos = this.rovepos;
             for (int i = 0; i < len; i++) {
-                float delayout = delaybuffer[rovepos];
-                float input = inout[i];
-                inout[i] = delayout - input;
-                delaybuffer[rovepos] = input + delayout * feedback;
-                if (++rovepos == delaybuffersize)
+                flobt delbyout = delbybuffer[rovepos];
+                flobt input = inout[i];
+                inout[i] = delbyout - input;
+                delbybuffer[rovepos] = input + delbyout * feedbbck;
+                if (++rovepos == delbybuffersize)
                     rovepos = 0;
             }
             this.rovepos = rovepos;
         }
 
-        public void processReplace(float in[], float out[]) {
+        public void processReplbce(flobt in[], flobt out[]) {
             int len = in.length;
-            int delaybuffersize = this.delaybuffersize;
+            int delbybuffersize = this.delbybuffersize;
             int rovepos = this.rovepos;
             for (int i = 0; i < len; i++) {
-                float delayout = delaybuffer[rovepos];
-                float input = in[i];
-                out[i] = delayout - input;
-                delaybuffer[rovepos] = input + delayout * feedback;
-                if (++rovepos == delaybuffersize)
+                flobt delbyout = delbybuffer[rovepos];
+                flobt input = in[i];
+                out[i] = delbyout - input;
+                delbybuffer[rovepos] = input + delbyout * feedbbck;
+                if (++rovepos == delbybuffersize)
                     rovepos = 0;
             }
             this.rovepos = rovepos;
         }
     }
 
-    private final static class Comb {
+    privbte finbl stbtic clbss Comb {
 
-        private final float[] delaybuffer;
-        private final int delaybuffersize;
-        private int rovepos = 0;
-        private float feedback;
-        private float filtertemp = 0;
-        private float filtercoeff1 = 0;
-        private float filtercoeff2 = 1;
+        privbte finbl flobt[] delbybuffer;
+        privbte finbl int delbybuffersize;
+        privbte int rovepos = 0;
+        privbte flobt feedbbck;
+        privbte flobt filtertemp = 0;
+        privbte flobt filtercoeff1 = 0;
+        privbte flobt filtercoeff2 = 1;
 
         Comb(int size) {
-            delaybuffer = new float[size];
-            delaybuffersize = size;
+            delbybuffer = new flobt[size];
+            delbybuffersize = size;
         }
 
-        public void setFeedBack(float feedback) {
-            this.feedback = feedback;
-            filtercoeff2 = (1 - filtercoeff1)* feedback;
+        public void setFeedBbck(flobt feedbbck) {
+            this.feedbbck = feedbbck;
+            filtercoeff2 = (1 - filtercoeff1)* feedbbck;
         }
 
-        public void processMix(float in[], float out[]) {
+        public void processMix(flobt in[], flobt out[]) {
             int len = in.length;
-            int delaybuffersize = this.delaybuffersize;
+            int delbybuffersize = this.delbybuffersize;
             int rovepos = this.rovepos;
-            float filtertemp = this.filtertemp;
-            float filtercoeff1 = this.filtercoeff1;
-            float filtercoeff2 = this.filtercoeff2;
+            flobt filtertemp = this.filtertemp;
+            flobt filtercoeff1 = this.filtercoeff1;
+            flobt filtercoeff2 = this.filtercoeff2;
             for (int i = 0; i < len; i++) {
-                float delayout = delaybuffer[rovepos];
-                // One Pole Lowpass Filter
-                filtertemp = (delayout * filtercoeff2)
+                flobt delbyout = delbybuffer[rovepos];
+                // One Pole Lowpbss Filter
+                filtertemp = (delbyout * filtercoeff2)
                         + (filtertemp * filtercoeff1);
-                out[i] += delayout;
-                delaybuffer[rovepos] = in[i] + filtertemp;
-                if (++rovepos == delaybuffersize)
+                out[i] += delbyout;
+                delbybuffer[rovepos] = in[i] + filtertemp;
+                if (++rovepos == delbybuffersize)
                     rovepos = 0;
             }
             this.filtertemp  = filtertemp;
             this.rovepos = rovepos;
         }
 
-        public void processReplace(float in[], float out[]) {
+        public void processReplbce(flobt in[], flobt out[]) {
             int len = in.length;
-            int delaybuffersize = this.delaybuffersize;
+            int delbybuffersize = this.delbybuffersize;
             int rovepos = this.rovepos;
-            float filtertemp = this.filtertemp;
-            float filtercoeff1 = this.filtercoeff1;
-            float filtercoeff2 = this.filtercoeff2;
+            flobt filtertemp = this.filtertemp;
+            flobt filtercoeff1 = this.filtercoeff1;
+            flobt filtercoeff2 = this.filtercoeff2;
             for (int i = 0; i < len; i++) {
-                float delayout = delaybuffer[rovepos];
-                // One Pole Lowpass Filter
-                filtertemp = (delayout * filtercoeff2)
+                flobt delbyout = delbybuffer[rovepos];
+                // One Pole Lowpbss Filter
+                filtertemp = (delbyout * filtercoeff2)
                         + (filtertemp * filtercoeff1);
-                out[i] = delayout;
-                delaybuffer[rovepos] = in[i] + filtertemp;
-                if (++rovepos == delaybuffersize)
+                out[i] = delbyout;
+                delbybuffer[rovepos] = in[i] + filtertemp;
+                if (++rovepos == delbybuffersize)
                     rovepos = 0;
             }
             this.filtertemp  = filtertemp;
             this.rovepos = rovepos;
         }
 
-        public void setDamp(float val) {
-            filtercoeff1 = val;
-            filtercoeff2 = (1 - filtercoeff1)* feedback;
+        public void setDbmp(flobt vbl) {
+            filtercoeff1 = vbl;
+            filtercoeff2 = (1 - filtercoeff1)* feedbbck;
         }
     }
-    private float roomsize;
-    private float damp;
-    private float gain = 1;
-    private Delay delay;
-    private Comb[] combL;
-    private Comb[] combR;
-    private AllPass[] allpassL;
-    private AllPass[] allpassR;
-    private float[] input;
-    private float[] out;
-    private float[] pre1;
-    private float[] pre2;
-    private float[] pre3;
-    private boolean denormal_flip = false;
-    private boolean mix = true;
-    private SoftAudioBuffer inputA;
-    private SoftAudioBuffer left;
-    private SoftAudioBuffer right;
-    private boolean dirty = true;
-    private float dirty_roomsize;
-    private float dirty_damp;
-    private float dirty_predelay;
-    private float dirty_gain;
-    private float samplerate;
-    private boolean light = true;
+    privbte flobt roomsize;
+    privbte flobt dbmp;
+    privbte flobt gbin = 1;
+    privbte Delby delby;
+    privbte Comb[] combL;
+    privbte Comb[] combR;
+    privbte AllPbss[] bllpbssL;
+    privbte AllPbss[] bllpbssR;
+    privbte flobt[] input;
+    privbte flobt[] out;
+    privbte flobt[] pre1;
+    privbte flobt[] pre2;
+    privbte flobt[] pre3;
+    privbte boolebn denormbl_flip = fblse;
+    privbte boolebn mix = true;
+    privbte SoftAudioBuffer inputA;
+    privbte SoftAudioBuffer left;
+    privbte SoftAudioBuffer right;
+    privbte boolebn dirty = true;
+    privbte flobt dirty_roomsize;
+    privbte flobt dirty_dbmp;
+    privbte flobt dirty_predelby;
+    privbte flobt dirty_gbin;
+    privbte flobt sbmplerbte;
+    privbte boolebn light = true;
 
-    public void init(float samplerate, float controlrate) {
-        this.samplerate = samplerate;
+    public void init(flobt sbmplerbte, flobt controlrbte) {
+        this.sbmplerbte = sbmplerbte;
 
-        double freqscale = ((double) samplerate) / 44100.0;
-        // freqscale = 1.0/ freqscale;
+        double freqscble = ((double) sbmplerbte) / 44100.0;
+        // freqscble = 1.0/ freqscble;
 
-        int stereospread = 23;
+        int stereosprebd = 23;
 
-        delay = new Delay();
+        delby = new Delby();
 
         combL = new Comb[8];
         combR = new Comb[8];
-        combL[0] = new Comb((int) (freqscale * (1116)));
-        combR[0] = new Comb((int) (freqscale * (1116 + stereospread)));
-        combL[1] = new Comb((int) (freqscale * (1188)));
-        combR[1] = new Comb((int) (freqscale * (1188 + stereospread)));
-        combL[2] = new Comb((int) (freqscale * (1277)));
-        combR[2] = new Comb((int) (freqscale * (1277 + stereospread)));
-        combL[3] = new Comb((int) (freqscale * (1356)));
-        combR[3] = new Comb((int) (freqscale * (1356 + stereospread)));
-        combL[4] = new Comb((int) (freqscale * (1422)));
-        combR[4] = new Comb((int) (freqscale * (1422 + stereospread)));
-        combL[5] = new Comb((int) (freqscale * (1491)));
-        combR[5] = new Comb((int) (freqscale * (1491 + stereospread)));
-        combL[6] = new Comb((int) (freqscale * (1557)));
-        combR[6] = new Comb((int) (freqscale * (1557 + stereospread)));
-        combL[7] = new Comb((int) (freqscale * (1617)));
-        combR[7] = new Comb((int) (freqscale * (1617 + stereospread)));
+        combL[0] = new Comb((int) (freqscble * (1116)));
+        combR[0] = new Comb((int) (freqscble * (1116 + stereosprebd)));
+        combL[1] = new Comb((int) (freqscble * (1188)));
+        combR[1] = new Comb((int) (freqscble * (1188 + stereosprebd)));
+        combL[2] = new Comb((int) (freqscble * (1277)));
+        combR[2] = new Comb((int) (freqscble * (1277 + stereosprebd)));
+        combL[3] = new Comb((int) (freqscble * (1356)));
+        combR[3] = new Comb((int) (freqscble * (1356 + stereosprebd)));
+        combL[4] = new Comb((int) (freqscble * (1422)));
+        combR[4] = new Comb((int) (freqscble * (1422 + stereosprebd)));
+        combL[5] = new Comb((int) (freqscble * (1491)));
+        combR[5] = new Comb((int) (freqscble * (1491 + stereosprebd)));
+        combL[6] = new Comb((int) (freqscble * (1557)));
+        combR[6] = new Comb((int) (freqscble * (1557 + stereosprebd)));
+        combL[7] = new Comb((int) (freqscble * (1617)));
+        combR[7] = new Comb((int) (freqscble * (1617 + stereosprebd)));
 
-        allpassL = new AllPass[4];
-        allpassR = new AllPass[4];
-        allpassL[0] = new AllPass((int) (freqscale * (556)));
-        allpassR[0] = new AllPass((int) (freqscale * (556 + stereospread)));
-        allpassL[1] = new AllPass((int) (freqscale * (441)));
-        allpassR[1] = new AllPass((int) (freqscale * (441 + stereospread)));
-        allpassL[2] = new AllPass((int) (freqscale * (341)));
-        allpassR[2] = new AllPass((int) (freqscale * (341 + stereospread)));
-        allpassL[3] = new AllPass((int) (freqscale * (225)));
-        allpassR[3] = new AllPass((int) (freqscale * (225 + stereospread)));
+        bllpbssL = new AllPbss[4];
+        bllpbssR = new AllPbss[4];
+        bllpbssL[0] = new AllPbss((int) (freqscble * (556)));
+        bllpbssR[0] = new AllPbss((int) (freqscble * (556 + stereosprebd)));
+        bllpbssL[1] = new AllPbss((int) (freqscble * (441)));
+        bllpbssR[1] = new AllPbss((int) (freqscble * (441 + stereosprebd)));
+        bllpbssL[2] = new AllPbss((int) (freqscble * (341)));
+        bllpbssR[2] = new AllPbss((int) (freqscble * (341 + stereosprebd)));
+        bllpbssL[3] = new AllPbss((int) (freqscble * (225)));
+        bllpbssR[3] = new AllPbss((int) (freqscble * (225 + stereosprebd)));
 
-        for (int i = 0; i < allpassL.length; i++) {
-            allpassL[i].setFeedBack(0.5f);
-            allpassR[i].setFeedBack(0.5f);
+        for (int i = 0; i < bllpbssL.length; i++) {
+            bllpbssL[i].setFeedBbck(0.5f);
+            bllpbssR[i].setFeedBbck(0.5f);
         }
 
         /* Init other settings */
-        globalParameterControlChange(new int[]{0x01 * 128 + 0x01}, 0, 4);
+        globblPbrbmeterControlChbnge(new int[]{0x01 * 128 + 0x01}, 0, 4);
 
     }
 
@@ -272,106 +272,106 @@ public final class SoftReverb implements SoftAudioProcessor {
             right = output;
     }
 
-    public void setMixMode(boolean mix) {
+    public void setMixMode(boolebn mix) {
         this.mix = mix;
     }
 
-    private boolean silent = true;
+    privbte boolebn silent = true;
 
     public void processAudio() {
-        boolean silent_input = this.inputA.isSilent();
+        boolebn silent_input = this.inputA.isSilent();
         if(!silent_input)
-            silent = false;
+            silent = fblse;
         if(silent)
         {
             if (!mix) {
-                left.clear();
-                right.clear();
+                left.clebr();
+                right.clebr();
             }
             return;
         }
 
-        float[] inputA = this.inputA.array();
-        float[] left = this.left.array();
-        float[] right = this.right == null ? null : this.right.array();
+        flobt[] inputA = this.inputA.brrby();
+        flobt[] left = this.left.brrby();
+        flobt[] right = this.right == null ? null : this.right.brrby();
 
-        int numsamples = inputA.length;
-        if (input == null || input.length < numsamples)
-            input = new float[numsamples];
+        int numsbmples = inputA.length;
+        if (input == null || input.length < numsbmples)
+            input = new flobt[numsbmples];
 
-        float again = gain * 0.018f / 2;
+        flobt bgbin = gbin * 0.018f / 2;
 
-        denormal_flip = !denormal_flip;
-        if(denormal_flip)
-            for (int i = 0; i < numsamples; i++)
-                input[i] = inputA[i] * again + 1E-20f;
+        denormbl_flip = !denormbl_flip;
+        if(denormbl_flip)
+            for (int i = 0; i < numsbmples; i++)
+                input[i] = inputA[i] * bgbin + 1E-20f;
         else
-            for (int i = 0; i < numsamples; i++)
-                input[i] = inputA[i] * again - 1E-20f;
+            for (int i = 0; i < numsbmples; i++)
+                input[i] = inputA[i] * bgbin - 1E-20f;
 
-        delay.processReplace(input);
+        delby.processReplbce(input);
 
         if(light && (right != null))
         {
-            if (pre1 == null || pre1.length < numsamples)
+            if (pre1 == null || pre1.length < numsbmples)
             {
-                pre1 = new float[numsamples];
-                pre2 = new float[numsamples];
-                pre3 = new float[numsamples];
+                pre1 = new flobt[numsbmples];
+                pre2 = new flobt[numsbmples];
+                pre3 = new flobt[numsbmples];
             }
 
-            for (int i = 0; i < allpassL.length; i++)
-                allpassL[i].processReplace(input);
+            for (int i = 0; i < bllpbssL.length; i++)
+                bllpbssL[i].processReplbce(input);
 
-            combL[0].processReplace(input, pre3);
-            combL[1].processReplace(input, pre3);
+            combL[0].processReplbce(input, pre3);
+            combL[1].processReplbce(input, pre3);
 
-            combL[2].processReplace(input, pre1);
+            combL[2].processReplbce(input, pre1);
             for (int i = 4; i < combL.length-2; i+=2)
                 combL[i].processMix(input, pre1);
 
-            combL[3].processReplace(input, pre2);;
+            combL[3].processReplbce(input, pre2);;
             for (int i = 5; i < combL.length-2; i+=2)
                 combL[i].processMix(input, pre2);
 
             if (!mix)
             {
-                Arrays.fill(right, 0);
-                Arrays.fill(left, 0);
+                Arrbys.fill(right, 0);
+                Arrbys.fill(left, 0);
             }
             for (int i = combR.length-2; i < combR.length; i++)
                 combR[i].processMix(input, right);
             for (int i = combL.length-2; i < combL.length; i++)
                 combL[i].processMix(input, left);
 
-            for (int i = 0; i < numsamples; i++)
+            for (int i = 0; i < numsbmples; i++)
             {
-                float p = pre1[i] - pre2[i];
-                float m = pre3[i];
+                flobt p = pre1[i] - pre2[i];
+                flobt m = pre3[i];
                 left[i] += m + p;
                 right[i] += m - p;
             }
         }
         else
         {
-            if (out == null || out.length < numsamples)
-                out = new float[numsamples];
+            if (out == null || out.length < numsbmples)
+                out = new flobt[numsbmples];
 
             if (right != null) {
                 if (!mix)
-                    Arrays.fill(right, 0);
-                allpassR[0].processReplace(input, out);
-                for (int i = 1; i < allpassR.length; i++)
-                    allpassR[i].processReplace(out);
+                    Arrbys.fill(right, 0);
+                bllpbssR[0].processReplbce(input, out);
+                for (int i = 1; i < bllpbssR.length; i++)
+                    bllpbssR[i].processReplbce(out);
                 for (int i = 0; i < combR.length; i++)
                     combR[i].processMix(out, right);
             }
 
             if (!mix)
-                Arrays.fill(left, 0);
-            allpassL[0].processReplace(input, out);
-            for (int i = 1; i < allpassL.length; i++)
-                allpassL[i].processReplace(out);
+                Arrbys.fill(left, 0);
+            bllpbssL[0].processReplbce(input, out);
+            for (int i = 1; i < bllpbssL.length; i++)
+                bllpbssL[i].processReplbce(out);
             for (int i = 0; i < combL.length; i++)
                 combL[i].processMix(out, left);
         }
@@ -383,79 +383,79 @@ public final class SoftReverb implements SoftAudioProcessor {
 
         if (silent_input) {
             silent = true;
-            for (int i = 0; i < numsamples; i++)
+            for (int i = 0; i < numsbmples; i++)
             {
-                float v = left[i];
+                flobt v = left[i];
                 if(v > 1E-10 || v < -1E-10)
                 {
-                    silent = false;
-                    break;
+                    silent = fblse;
+                    brebk;
                 }
             }
         }
 
     }
 
-    public void globalParameterControlChange(int[] slothpath, long param,
-            long value) {
-        if (slothpath.length == 1) {
-            if (slothpath[0] == 0x01 * 128 + 0x01) {
+    public void globblPbrbmeterControlChbnge(int[] slothpbth, long pbrbm,
+            long vblue) {
+        if (slothpbth.length == 1) {
+            if (slothpbth[0] == 0x01 * 128 + 0x01) {
 
-                if (param == 0) {
-                    if (value == 0) {
-                        // Small Room A small size room with a length
+                if (pbrbm == 0) {
+                    if (vblue == 0) {
+                        // Smbll Room A smbll size room with b length
                         // of 5m or so.
                         dirty_roomsize = (1.1f);
-                        dirty_damp = (5000);
-                        dirty_predelay = (0);
-                        dirty_gain = (4);
+                        dirty_dbmp = (5000);
+                        dirty_predelby = (0);
+                        dirty_gbin = (4);
                         dirty = true;
                     }
-                    if (value == 1) {
-                        // Medium Room A medium size room with a length
+                    if (vblue == 1) {
+                        // Medium Room A medium size room with b length
                         // of 10m or so.
                         dirty_roomsize = (1.3f);
-                        dirty_damp = (5000);
-                        dirty_predelay = (0);
-                        dirty_gain = (3);
+                        dirty_dbmp = (5000);
+                        dirty_predelby = (0);
+                        dirty_gbin = (3);
                         dirty = true;
                     }
-                    if (value == 2) {
-                        // Large Room A large size room suitable for
-                        // live performances.
+                    if (vblue == 2) {
+                        // Lbrge Room A lbrge size room suitbble for
+                        // live performbnces.
                         dirty_roomsize = (1.5f);
-                        dirty_damp = (5000);
-                        dirty_predelay = (0);
-                        dirty_gain = (2);
+                        dirty_dbmp = (5000);
+                        dirty_predelby = (0);
+                        dirty_gbin = (2);
                         dirty = true;
                     }
-                    if (value == 3) {
-                        // Medium Hall A medium size concert hall.
+                    if (vblue == 3) {
+                        // Medium Hbll A medium size concert hbll.
                         dirty_roomsize = (1.8f);
-                        dirty_damp = (24000);
-                        dirty_predelay = (0.02f);
-                        dirty_gain = (1.5f);
+                        dirty_dbmp = (24000);
+                        dirty_predelby = (0.02f);
+                        dirty_gbin = (1.5f);
                         dirty = true;
                     }
-                    if (value == 4) {
-                        // Large Hall A large size concert hall
-                        // suitable for a full orchestra.
+                    if (vblue == 4) {
+                        // Lbrge Hbll A lbrge size concert hbll
+                        // suitbble for b full orchestrb.
                         dirty_roomsize = (1.8f);
-                        dirty_damp = (24000);
-                        dirty_predelay = (0.03f);
-                        dirty_gain = (1.5f);
+                        dirty_dbmp = (24000);
+                        dirty_predelby = (0.03f);
+                        dirty_gbin = (1.5f);
                         dirty = true;
                     }
-                    if (value == 8) {
-                        // Plate A plate reverb simulation.
+                    if (vblue == 8) {
+                        // Plbte A plbte reverb simulbtion.
                         dirty_roomsize = (1.3f);
-                        dirty_damp = (2500);
-                        dirty_predelay = (0);
-                        dirty_gain = (6);
+                        dirty_dbmp = (2500);
+                        dirty_predelby = (0);
+                        dirty_gbin = (6);
                         dirty = true;
                     }
-                } else if (param == 1) {
-                    dirty_roomsize = ((float) (Math.exp((value - 40) * 0.025)));
+                } else if (pbrbm == 1) {
+                    dirty_roomsize = ((flobt) (Mbth.exp((vblue - 40) * 0.025)));
                     dirty = true;
                 }
 
@@ -465,49 +465,49 @@ public final class SoftReverb implements SoftAudioProcessor {
 
     public void processControlLogic() {
         if (dirty) {
-            dirty = false;
+            dirty = fblse;
             setRoomSize(dirty_roomsize);
-            setDamp(dirty_damp);
-            setPreDelay(dirty_predelay);
-            setGain(dirty_gain);
+            setDbmp(dirty_dbmp);
+            setPreDelby(dirty_predelby);
+            setGbin(dirty_gbin);
         }
     }
 
-    public void setRoomSize(float value) {
-        roomsize = 1 - (0.17f / value);
+    public void setRoomSize(flobt vblue) {
+        roomsize = 1 - (0.17f / vblue);
 
         for (int i = 0; i < combL.length; i++) {
-            combL[i].feedback = roomsize;
-            combR[i].feedback = roomsize;
+            combL[i].feedbbck = roomsize;
+            combR[i].feedbbck = roomsize;
         }
     }
 
-    public void setPreDelay(float value) {
-        delay.setDelay((int)(value * samplerate));
+    public void setPreDelby(flobt vblue) {
+        delby.setDelby((int)(vblue * sbmplerbte));
     }
 
-    public void setGain(float gain) {
-        this.gain = gain;
+    public void setGbin(flobt gbin) {
+        this.gbin = gbin;
     }
 
-    public void setDamp(float value) {
-        double x = (value / samplerate) * (2 * Math.PI);
-        double cx = 2 - Math.cos(x);
-        damp = (float)(cx - Math.sqrt(cx * cx - 1));
-        if (damp > 1)
-            damp = 1;
-        if (damp < 0)
-            damp = 0;
+    public void setDbmp(flobt vblue) {
+        double x = (vblue / sbmplerbte) * (2 * Mbth.PI);
+        double cx = 2 - Mbth.cos(x);
+        dbmp = (flobt)(cx - Mbth.sqrt(cx * cx - 1));
+        if (dbmp > 1)
+            dbmp = 1;
+        if (dbmp < 0)
+            dbmp = 0;
 
-        // damp = value * 0.4f;
+        // dbmp = vblue * 0.4f;
         for (int i = 0; i < combL.length; i++) {
-            combL[i].setDamp(damp);
-            combR[i].setDamp(damp);
+            combL[i].setDbmp(dbmp);
+            combR[i].setDbmp(dbmp);
         }
 
     }
 
-    public void setLightMode(boolean light)
+    public void setLightMode(boolebn light)
     {
         this.light = light;
     }

@@ -3,16 +3,16 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jdmaster.c
+ * jdmbster.c
  *
- * Copyright (C) 1991-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1997, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains master control logic for the JPEG decompressor.
- * These routines are concerned with selecting the modules to be executed
- * and with determining the number of passes and the work to be done in each
- * pass.
+ * This file contbins mbster control logic for the JPEG decompressor.
+ * These routines bre concerned with selecting the modules to be executed
+ * bnd with determining the number of pbsses bnd the work to be done in ebch
+ * pbss.
  */
 
 #define JPEG_INTERNALS
@@ -20,56 +20,56 @@
 #include "jpeglib.h"
 
 
-/* Private state */
+/* Privbte stbte */
 
 typedef struct {
-  struct jpeg_decomp_master pub; /* public fields */
+  struct jpeg_decomp_mbster pub; /* public fields */
 
-  int pass_number;              /* # of passes completed */
+  int pbss_number;              /* # of pbsses completed */
 
-  boolean using_merged_upsample; /* TRUE if using merged upsample/cconvert */
+  boolebn using_merged_upsbmple; /* TRUE if using merged upsbmple/cconvert */
 
-  /* Saved references to initialized quantizer modules,
-   * in case we need to switch modes.
+  /* Sbved references to initiblized qubntizer modules,
+   * in cbse we need to switch modes.
    */
-  struct jpeg_color_quantizer * quantizer_1pass;
-  struct jpeg_color_quantizer * quantizer_2pass;
-} my_decomp_master;
+  struct jpeg_color_qubntizer * qubntizer_1pbss;
+  struct jpeg_color_qubntizer * qubntizer_2pbss;
+} my_decomp_mbster;
 
-typedef my_decomp_master * my_master_ptr;
+typedef my_decomp_mbster * my_mbster_ptr;
 
 
 /*
- * Determine whether merged upsample/color conversion should be used.
- * CRUCIAL: this must match the actual capabilities of jdmerge.c!
+ * Determine whether merged upsbmple/color conversion should be used.
+ * CRUCIAL: this must mbtch the bctubl cbpbbilities of jdmerge.c!
  */
 
-LOCAL(boolean)
-use_merged_upsample (j_decompress_ptr cinfo)
+LOCAL(boolebn)
+use_merged_upsbmple (j_decompress_ptr cinfo)
 {
 #ifdef UPSAMPLE_MERGING_SUPPORTED
-  /* Merging is the equivalent of plain box-filter upsampling */
-  if (cinfo->do_fancy_upsampling || cinfo->CCIR601_sampling)
+  /* Merging is the equivblent of plbin box-filter upsbmpling */
+  if (cinfo->do_fbncy_upsbmpling || cinfo->CCIR601_sbmpling)
     return FALSE;
   /* jdmerge.c only supports YCC=>RGB color conversion */
-  if (cinfo->jpeg_color_space != JCS_YCbCr || cinfo->num_components != 3 ||
-      cinfo->out_color_space != JCS_RGB ||
+  if (cinfo->jpeg_color_spbce != JCS_YCbCr || cinfo->num_components != 3 ||
+      cinfo->out_color_spbce != JCS_RGB ||
       cinfo->out_color_components != RGB_PIXELSIZE)
     return FALSE;
-  /* and it only handles 2h1v or 2h2v sampling ratios */
-  if (cinfo->comp_info[0].h_samp_factor != 2 ||
-      cinfo->comp_info[1].h_samp_factor != 1 ||
-      cinfo->comp_info[2].h_samp_factor != 1 ||
-      cinfo->comp_info[0].v_samp_factor >  2 ||
-      cinfo->comp_info[1].v_samp_factor != 1 ||
-      cinfo->comp_info[2].v_samp_factor != 1)
+  /* bnd it only hbndles 2h1v or 2h2v sbmpling rbtios */
+  if (cinfo->comp_info[0].h_sbmp_fbctor != 2 ||
+      cinfo->comp_info[1].h_sbmp_fbctor != 1 ||
+      cinfo->comp_info[2].h_sbmp_fbctor != 1 ||
+      cinfo->comp_info[0].v_sbmp_fbctor >  2 ||
+      cinfo->comp_info[1].v_sbmp_fbctor != 1 ||
+      cinfo->comp_info[2].v_sbmp_fbctor != 1)
     return FALSE;
-  /* furthermore, it doesn't work if we've scaled the IDCTs differently */
-  if (cinfo->comp_info[0].DCT_scaled_size != cinfo->min_DCT_scaled_size ||
-      cinfo->comp_info[1].DCT_scaled_size != cinfo->min_DCT_scaled_size ||
-      cinfo->comp_info[2].DCT_scaled_size != cinfo->min_DCT_scaled_size)
+  /* furthermore, it doesn't work if we've scbled the IDCTs differently */
+  if (cinfo->comp_info[0].DCT_scbled_size != cinfo->min_DCT_scbled_size ||
+      cinfo->comp_info[1].DCT_scbled_size != cinfo->min_DCT_scbled_size ||
+      cinfo->comp_info[2].DCT_scbled_size != cinfo->min_DCT_scbled_size)
     return FALSE;
-  /* ??? also need to test for upsample-time rescaling, when & if supported */
+  /* ??? blso need to test for upsbmple-time rescbling, when & if supported */
   return TRUE;                  /* by golly, it'll work... */
 #else
   return FALSE;
@@ -78,305 +78,305 @@ use_merged_upsample (j_decompress_ptr cinfo)
 
 
 /*
- * Compute output image dimensions and related values.
- * NOTE: this is exported for possible use by application.
- * Hence it mustn't do anything that can't be done twice.
- * Also note that it may be called before the master module is initialized!
+ * Compute output imbge dimensions bnd relbted vblues.
+ * NOTE: this is exported for possible use by bpplicbtion.
+ * Hence it mustn't do bnything thbt cbn't be done twice.
+ * Also note thbt it mby be cblled before the mbster module is initiblized!
  */
 
 GLOBAL(void)
-jpeg_calc_output_dimensions (j_decompress_ptr cinfo)
-/* Do computations that are needed before master selection phase */
+jpeg_cblc_output_dimensions (j_decompress_ptr cinfo)
+/* Do computbtions thbt bre needed before mbster selection phbse */
 {
 #ifdef IDCT_SCALING_SUPPORTED
   int ci;
   jpeg_component_info *compptr;
 #endif
 
-  /* Prevent application from calling me at wrong times */
-  if (cinfo->global_state != DSTATE_READY)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  /* Prevent bpplicbtion from cblling me bt wrong times */
+  if (cinfo->globbl_stbte != DSTATE_READY)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
 #ifdef IDCT_SCALING_SUPPORTED
 
-  /* Compute actual output image dimensions and DCT scaling choices. */
-  if (cinfo->scale_num * 8 <= cinfo->scale_denom) {
-    /* Provide 1/8 scaling */
+  /* Compute bctubl output imbge dimensions bnd DCT scbling choices. */
+  if (cinfo->scble_num * 8 <= cinfo->scble_denom) {
+    /* Provide 1/8 scbling */
     cinfo->output_width = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_width, 8L);
+      jdiv_round_up((long) cinfo->imbge_width, 8L);
     cinfo->output_height = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_height, 8L);
-    cinfo->min_DCT_scaled_size = 1;
-  } else if (cinfo->scale_num * 4 <= cinfo->scale_denom) {
-    /* Provide 1/4 scaling */
+      jdiv_round_up((long) cinfo->imbge_height, 8L);
+    cinfo->min_DCT_scbled_size = 1;
+  } else if (cinfo->scble_num * 4 <= cinfo->scble_denom) {
+    /* Provide 1/4 scbling */
     cinfo->output_width = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_width, 4L);
+      jdiv_round_up((long) cinfo->imbge_width, 4L);
     cinfo->output_height = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_height, 4L);
-    cinfo->min_DCT_scaled_size = 2;
-  } else if (cinfo->scale_num * 2 <= cinfo->scale_denom) {
-    /* Provide 1/2 scaling */
+      jdiv_round_up((long) cinfo->imbge_height, 4L);
+    cinfo->min_DCT_scbled_size = 2;
+  } else if (cinfo->scble_num * 2 <= cinfo->scble_denom) {
+    /* Provide 1/2 scbling */
     cinfo->output_width = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_width, 2L);
+      jdiv_round_up((long) cinfo->imbge_width, 2L);
     cinfo->output_height = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_height, 2L);
-    cinfo->min_DCT_scaled_size = 4;
+      jdiv_round_up((long) cinfo->imbge_height, 2L);
+    cinfo->min_DCT_scbled_size = 4;
   } else {
-    /* Provide 1/1 scaling */
-    cinfo->output_width = cinfo->image_width;
-    cinfo->output_height = cinfo->image_height;
-    cinfo->min_DCT_scaled_size = DCTSIZE;
+    /* Provide 1/1 scbling */
+    cinfo->output_width = cinfo->imbge_width;
+    cinfo->output_height = cinfo->imbge_height;
+    cinfo->min_DCT_scbled_size = DCTSIZE;
   }
-  /* In selecting the actual DCT scaling for each component, we try to
-   * scale up the chroma components via IDCT scaling rather than upsampling.
-   * This saves time if the upsampler gets to use 1:1 scaling.
-   * Note this code assumes that the supported DCT scalings are powers of 2.
+  /* In selecting the bctubl DCT scbling for ebch component, we try to
+   * scble up the chromb components vib IDCT scbling rbther thbn upsbmpling.
+   * This sbves time if the upsbmpler gets to use 1:1 scbling.
+   * Note this code bssumes thbt the supported DCT scblings bre powers of 2.
    */
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
-    int ssize = cinfo->min_DCT_scaled_size;
+    int ssize = cinfo->min_DCT_scbled_size;
     while (ssize < DCTSIZE &&
-           (compptr->h_samp_factor * ssize * 2 <=
-            cinfo->max_h_samp_factor * cinfo->min_DCT_scaled_size) &&
-           (compptr->v_samp_factor * ssize * 2 <=
-            cinfo->max_v_samp_factor * cinfo->min_DCT_scaled_size)) {
+           (compptr->h_sbmp_fbctor * ssize * 2 <=
+            cinfo->mbx_h_sbmp_fbctor * cinfo->min_DCT_scbled_size) &&
+           (compptr->v_sbmp_fbctor * ssize * 2 <=
+            cinfo->mbx_v_sbmp_fbctor * cinfo->min_DCT_scbled_size)) {
       ssize = ssize * 2;
     }
-    compptr->DCT_scaled_size = ssize;
+    compptr->DCT_scbled_size = ssize;
   }
 
-  /* Recompute downsampled dimensions of components;
-   * application needs to know these if using raw downsampled data.
+  /* Recompute downsbmpled dimensions of components;
+   * bpplicbtion needs to know these if using rbw downsbmpled dbtb.
    */
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
-    /* Size in samples, after IDCT scaling */
-    compptr->downsampled_width = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_width *
-                    (long) (compptr->h_samp_factor * compptr->DCT_scaled_size),
-                    (long) (cinfo->max_h_samp_factor * DCTSIZE));
-    compptr->downsampled_height = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_height *
-                    (long) (compptr->v_samp_factor * compptr->DCT_scaled_size),
-                    (long) (cinfo->max_v_samp_factor * DCTSIZE));
+    /* Size in sbmples, bfter IDCT scbling */
+    compptr->downsbmpled_width = (JDIMENSION)
+      jdiv_round_up((long) cinfo->imbge_width *
+                    (long) (compptr->h_sbmp_fbctor * compptr->DCT_scbled_size),
+                    (long) (cinfo->mbx_h_sbmp_fbctor * DCTSIZE));
+    compptr->downsbmpled_height = (JDIMENSION)
+      jdiv_round_up((long) cinfo->imbge_height *
+                    (long) (compptr->v_sbmp_fbctor * compptr->DCT_scbled_size),
+                    (long) (cinfo->mbx_v_sbmp_fbctor * DCTSIZE));
   }
 
 #else /* !IDCT_SCALING_SUPPORTED */
 
-  /* Hardwire it to "no scaling" */
-  cinfo->output_width = cinfo->image_width;
-  cinfo->output_height = cinfo->image_height;
-  /* jdinput.c has already initialized DCT_scaled_size to DCTSIZE,
-   * and has computed unscaled downsampled_width and downsampled_height.
+  /* Hbrdwire it to "no scbling" */
+  cinfo->output_width = cinfo->imbge_width;
+  cinfo->output_height = cinfo->imbge_height;
+  /* jdinput.c hbs blrebdy initiblized DCT_scbled_size to DCTSIZE,
+   * bnd hbs computed unscbled downsbmpled_width bnd downsbmpled_height.
    */
 
 #endif /* IDCT_SCALING_SUPPORTED */
 
-  /* Report number of components in selected colorspace. */
-  /* Probably this should be in the color conversion module... */
-  switch (cinfo->out_color_space) {
-  case JCS_GRAYSCALE:
+  /* Report number of components in selected colorspbce. */
+  /* Probbbly this should be in the color conversion module... */
+  switch (cinfo->out_color_spbce) {
+  cbse JCS_GRAYSCALE:
     cinfo->out_color_components = 1;
-    break;
-  case JCS_RGB:
+    brebk;
+  cbse JCS_RGB:
 #if RGB_PIXELSIZE != 3
     cinfo->out_color_components = RGB_PIXELSIZE;
-    break;
-#endif /* else share code with YCbCr */
-  case JCS_YCbCr:
+    brebk;
+#endif /* else shbre code with YCbCr */
+  cbse JCS_YCbCr:
     cinfo->out_color_components = 3;
-    break;
-  case JCS_CMYK:
-  case JCS_YCCK:
+    brebk;
+  cbse JCS_CMYK:
+  cbse JCS_YCCK:
     cinfo->out_color_components = 4;
-    break;
-  default:                      /* else must be same colorspace as in file */
+    brebk;
+  defbult:                      /* else must be sbme colorspbce bs in file */
     cinfo->out_color_components = cinfo->num_components;
-    break;
+    brebk;
   }
-  cinfo->output_components = (cinfo->quantize_colors ? 1 :
+  cinfo->output_components = (cinfo->qubntize_colors ? 1 :
                               cinfo->out_color_components);
 
-  /* See if upsampler will want to emit more than one row at a time */
-  if (use_merged_upsample(cinfo))
-    cinfo->rec_outbuf_height = cinfo->max_v_samp_factor;
+  /* See if upsbmpler will wbnt to emit more thbn one row bt b time */
+  if (use_merged_upsbmple(cinfo))
+    cinfo->rec_outbuf_height = cinfo->mbx_v_sbmp_fbctor;
   else
     cinfo->rec_outbuf_height = 1;
 }
 
 
 /*
- * Several decompression processes need to range-limit values to the range
- * 0..MAXJSAMPLE; the input value may fall somewhat outside this range
- * due to noise introduced by quantization, roundoff error, etc.  These
- * processes are inner loops and need to be as fast as possible.  On most
- * machines, particularly CPUs with pipelines or instruction prefetch,
- * a (subscript-check-less) C table lookup
- *              x = sample_range_limit[x];
- * is faster than explicit tests
+ * Severbl decompression processes need to rbnge-limit vblues to the rbnge
+ * 0..MAXJSAMPLE; the input vblue mby fbll somewhbt outside this rbnge
+ * due to noise introduced by qubntizbtion, roundoff error, etc.  These
+ * processes bre inner loops bnd need to be bs fbst bs possible.  On most
+ * mbchines, pbrticulbrly CPUs with pipelines or instruction prefetch,
+ * b (subscript-check-less) C tbble lookup
+ *              x = sbmple_rbnge_limit[x];
+ * is fbster thbn explicit tests
  *              if (x < 0)  x = 0;
  *              else if (x > MAXJSAMPLE)  x = MAXJSAMPLE;
- * These processes all use a common table prepared by the routine below.
+ * These processes bll use b common tbble prepbred by the routine below.
  *
- * For most steps we can mathematically guarantee that the initial value
- * of x is within MAXJSAMPLE+1 of the legal range, so a table running from
- * -(MAXJSAMPLE+1) to 2*MAXJSAMPLE+1 is sufficient.  But for the initial
- * limiting step (just after the IDCT), a wildly out-of-range value is
- * possible if the input data is corrupt.  To avoid any chance of indexing
- * off the end of memory and getting a bad-pointer trap, we perform the
+ * For most steps we cbn mbthembticblly gubrbntee thbt the initibl vblue
+ * of x is within MAXJSAMPLE+1 of the legbl rbnge, so b tbble running from
+ * -(MAXJSAMPLE+1) to 2*MAXJSAMPLE+1 is sufficient.  But for the initibl
+ * limiting step (just bfter the IDCT), b wildly out-of-rbnge vblue is
+ * possible if the input dbtb is corrupt.  To bvoid bny chbnce of indexing
+ * off the end of memory bnd getting b bbd-pointer trbp, we perform the
  * post-IDCT limiting thus:
- *              x = range_limit[x & MASK];
- * where MASK is 2 bits wider than legal sample data, ie 10 bits for 8-bit
- * samples.  Under normal circumstances this is more than enough range and
- * a correct output will be generated; with bogus input data the mask will
- * cause wraparound, and we will safely generate a bogus-but-in-range output.
- * For the post-IDCT step, we want to convert the data from signed to unsigned
- * representation by adding CENTERJSAMPLE at the same time that we limit it.
- * So the post-IDCT limiting table ends up looking like this:
+ *              x = rbnge_limit[x & MASK];
+ * where MASK is 2 bits wider thbn legbl sbmple dbtb, ie 10 bits for 8-bit
+ * sbmples.  Under normbl circumstbnces this is more thbn enough rbnge bnd
+ * b correct output will be generbted; with bogus input dbtb the mbsk will
+ * cbuse wrbpbround, bnd we will sbfely generbte b bogus-but-in-rbnge output.
+ * For the post-IDCT step, we wbnt to convert the dbtb from signed to unsigned
+ * representbtion by bdding CENTERJSAMPLE bt the sbme time thbt we limit it.
+ * So the post-IDCT limiting tbble ends up looking like this:
  *   CENTERJSAMPLE,CENTERJSAMPLE+1,...,MAXJSAMPLE,
- *   MAXJSAMPLE (repeat 2*(MAXJSAMPLE+1)-CENTERJSAMPLE times),
- *   0          (repeat 2*(MAXJSAMPLE+1)-CENTERJSAMPLE times),
+ *   MAXJSAMPLE (repebt 2*(MAXJSAMPLE+1)-CENTERJSAMPLE times),
+ *   0          (repebt 2*(MAXJSAMPLE+1)-CENTERJSAMPLE times),
  *   0,1,...,CENTERJSAMPLE-1
- * Negative inputs select values from the upper half of the table after
- * masking.
+ * Negbtive inputs select vblues from the upper hblf of the tbble bfter
+ * mbsking.
  *
- * We can save some space by overlapping the start of the post-IDCT table
- * with the simpler range limiting table.  The post-IDCT table begins at
- * sample_range_limit + CENTERJSAMPLE.
+ * We cbn sbve some spbce by overlbpping the stbrt of the post-IDCT tbble
+ * with the simpler rbnge limiting tbble.  The post-IDCT tbble begins bt
+ * sbmple_rbnge_limit + CENTERJSAMPLE.
  *
- * Note that the table is allocated in near data space on PCs; it's small
- * enough and used often enough to justify this.
+ * Note thbt the tbble is bllocbted in nebr dbtb spbce on PCs; it's smbll
+ * enough bnd used often enough to justify this.
  */
 
 LOCAL(void)
-prepare_range_limit_table (j_decompress_ptr cinfo)
-/* Allocate and fill in the sample_range_limit table */
+prepbre_rbnge_limit_tbble (j_decompress_ptr cinfo)
+/* Allocbte bnd fill in the sbmple_rbnge_limit tbble */
 {
-  JSAMPLE * table;
+  JSAMPLE * tbble;
   int i;
 
-  table = (JSAMPLE *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  tbble = (JSAMPLE *)
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                 (5 * (MAXJSAMPLE+1) + CENTERJSAMPLE) * SIZEOF(JSAMPLE));
-  table += (MAXJSAMPLE+1);      /* allow negative subscripts of simple table */
-  cinfo->sample_range_limit = table;
-  /* First segment of "simple" table: limit[x] = 0 for x < 0 */
-  MEMZERO(table - (MAXJSAMPLE+1), (MAXJSAMPLE+1) * SIZEOF(JSAMPLE));
-  /* Main part of "simple" table: limit[x] = x */
+  tbble += (MAXJSAMPLE+1);      /* bllow negbtive subscripts of simple tbble */
+  cinfo->sbmple_rbnge_limit = tbble;
+  /* First segment of "simple" tbble: limit[x] = 0 for x < 0 */
+  MEMZERO(tbble - (MAXJSAMPLE+1), (MAXJSAMPLE+1) * SIZEOF(JSAMPLE));
+  /* Mbin pbrt of "simple" tbble: limit[x] = x */
   for (i = 0; i <= MAXJSAMPLE; i++)
-    table[i] = (JSAMPLE) i;
-  table += CENTERJSAMPLE;       /* Point to where post-IDCT table starts */
-  /* End of simple table, rest of first half of post-IDCT table */
+    tbble[i] = (JSAMPLE) i;
+  tbble += CENTERJSAMPLE;       /* Point to where post-IDCT tbble stbrts */
+  /* End of simple tbble, rest of first hblf of post-IDCT tbble */
   for (i = CENTERJSAMPLE; i < 2*(MAXJSAMPLE+1); i++)
-    table[i] = MAXJSAMPLE;
-  /* Second half of post-IDCT table */
-  MEMZERO(table + (2 * (MAXJSAMPLE+1)),
+    tbble[i] = MAXJSAMPLE;
+  /* Second hblf of post-IDCT tbble */
+  MEMZERO(tbble + (2 * (MAXJSAMPLE+1)),
           (2 * (MAXJSAMPLE+1) - CENTERJSAMPLE) * SIZEOF(JSAMPLE));
-  MEMCOPY(table + (4 * (MAXJSAMPLE+1) - CENTERJSAMPLE),
-          cinfo->sample_range_limit, CENTERJSAMPLE * SIZEOF(JSAMPLE));
+  MEMCOPY(tbble + (4 * (MAXJSAMPLE+1) - CENTERJSAMPLE),
+          cinfo->sbmple_rbnge_limit, CENTERJSAMPLE * SIZEOF(JSAMPLE));
 }
 
 
 /*
- * Master selection of decompression modules.
- * This is done once at jpeg_start_decompress time.  We determine
- * which modules will be used and give them appropriate initialization calls.
- * We also initialize the decompressor input side to begin consuming data.
+ * Mbster selection of decompression modules.
+ * This is done once bt jpeg_stbrt_decompress time.  We determine
+ * which modules will be used bnd give them bppropribte initiblizbtion cblls.
+ * We blso initiblize the decompressor input side to begin consuming dbtb.
  *
- * Since jpeg_read_header has finished, we know what is in the SOF
- * and (first) SOS markers.  We also have all the application parameter
+ * Since jpeg_rebd_hebder hbs finished, we know whbt is in the SOF
+ * bnd (first) SOS mbrkers.  We blso hbve bll the bpplicbtion pbrbmeter
  * settings.
  */
 
 LOCAL(void)
-master_selection (j_decompress_ptr cinfo)
+mbster_selection (j_decompress_ptr cinfo)
 {
-  my_master_ptr master = (my_master_ptr) cinfo->master;
-  boolean use_c_buffer;
-  long samplesperrow;
-  JDIMENSION jd_samplesperrow;
+  my_mbster_ptr mbster = (my_mbster_ptr) cinfo->mbster;
+  boolebn use_c_buffer;
+  long sbmplesperrow;
+  JDIMENSION jd_sbmplesperrow;
 
-  /* Initialize dimensions and other stuff */
-  jpeg_calc_output_dimensions(cinfo);
-  prepare_range_limit_table(cinfo);
+  /* Initiblize dimensions bnd other stuff */
+  jpeg_cblc_output_dimensions(cinfo);
+  prepbre_rbnge_limit_tbble(cinfo);
 
-  /* Width of an output scanline must be representable as JDIMENSION. */
-  samplesperrow = (long) cinfo->output_width * (long) cinfo->out_color_components;
-  jd_samplesperrow = (JDIMENSION) samplesperrow;
-  if ((long) jd_samplesperrow != samplesperrow)
+  /* Width of bn output scbnline must be representbble bs JDIMENSION. */
+  sbmplesperrow = (long) cinfo->output_width * (long) cinfo->out_color_components;
+  jd_sbmplesperrow = (JDIMENSION) sbmplesperrow;
+  if ((long) jd_sbmplesperrow != sbmplesperrow)
     ERREXIT(cinfo, JERR_WIDTH_OVERFLOW);
 
-  /* Initialize my private state */
-  master->pass_number = 0;
-  master->using_merged_upsample = use_merged_upsample(cinfo);
+  /* Initiblize my privbte stbte */
+  mbster->pbss_number = 0;
+  mbster->using_merged_upsbmple = use_merged_upsbmple(cinfo);
 
-  /* Color quantizer selection */
-  master->quantizer_1pass = NULL;
-  master->quantizer_2pass = NULL;
-  /* No mode changes if not using buffered-image mode. */
-  if (! cinfo->quantize_colors || ! cinfo->buffered_image) {
-    cinfo->enable_1pass_quant = FALSE;
-    cinfo->enable_external_quant = FALSE;
-    cinfo->enable_2pass_quant = FALSE;
+  /* Color qubntizer selection */
+  mbster->qubntizer_1pbss = NULL;
+  mbster->qubntizer_2pbss = NULL;
+  /* No mode chbnges if not using buffered-imbge mode. */
+  if (! cinfo->qubntize_colors || ! cinfo->buffered_imbge) {
+    cinfo->enbble_1pbss_qubnt = FALSE;
+    cinfo->enbble_externbl_qubnt = FALSE;
+    cinfo->enbble_2pbss_qubnt = FALSE;
   }
-  if (cinfo->quantize_colors) {
-    if (cinfo->raw_data_out)
+  if (cinfo->qubntize_colors) {
+    if (cinfo->rbw_dbtb_out)
       ERREXIT(cinfo, JERR_NOTIMPL);
-    /* 2-pass quantizer only works in 3-component color space. */
+    /* 2-pbss qubntizer only works in 3-component color spbce. */
     if (cinfo->out_color_components != 3) {
-      cinfo->enable_1pass_quant = TRUE;
-      cinfo->enable_external_quant = FALSE;
-      cinfo->enable_2pass_quant = FALSE;
-      cinfo->colormap = NULL;
-    } else if (cinfo->colormap != NULL) {
-      cinfo->enable_external_quant = TRUE;
-    } else if (cinfo->two_pass_quantize) {
-      cinfo->enable_2pass_quant = TRUE;
+      cinfo->enbble_1pbss_qubnt = TRUE;
+      cinfo->enbble_externbl_qubnt = FALSE;
+      cinfo->enbble_2pbss_qubnt = FALSE;
+      cinfo->colormbp = NULL;
+    } else if (cinfo->colormbp != NULL) {
+      cinfo->enbble_externbl_qubnt = TRUE;
+    } else if (cinfo->two_pbss_qubntize) {
+      cinfo->enbble_2pbss_qubnt = TRUE;
     } else {
-      cinfo->enable_1pass_quant = TRUE;
+      cinfo->enbble_1pbss_qubnt = TRUE;
     }
 
-    if (cinfo->enable_1pass_quant) {
+    if (cinfo->enbble_1pbss_qubnt) {
 #ifdef QUANT_1PASS_SUPPORTED
-      jinit_1pass_quantizer(cinfo);
-      master->quantizer_1pass = cinfo->cquantize;
+      jinit_1pbss_qubntizer(cinfo);
+      mbster->qubntizer_1pbss = cinfo->cqubntize;
 #else
       ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
     }
 
-    /* We use the 2-pass code to map to external colormaps. */
-    if (cinfo->enable_2pass_quant || cinfo->enable_external_quant) {
+    /* We use the 2-pbss code to mbp to externbl colormbps. */
+    if (cinfo->enbble_2pbss_qubnt || cinfo->enbble_externbl_qubnt) {
 #ifdef QUANT_2PASS_SUPPORTED
-      jinit_2pass_quantizer(cinfo);
-      master->quantizer_2pass = cinfo->cquantize;
+      jinit_2pbss_qubntizer(cinfo);
+      mbster->qubntizer_2pbss = cinfo->cqubntize;
 #else
       ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
     }
-    /* If both quantizers are initialized, the 2-pass one is left active;
-     * this is necessary for starting with quantization to an external map.
+    /* If both qubntizers bre initiblized, the 2-pbss one is left bctive;
+     * this is necessbry for stbrting with qubntizbtion to bn externbl mbp.
      */
   }
 
-  /* Post-processing: in particular, color conversion first */
-  if (! cinfo->raw_data_out) {
-    if (master->using_merged_upsample) {
+  /* Post-processing: in pbrticulbr, color conversion first */
+  if (! cinfo->rbw_dbtb_out) {
+    if (mbster->using_merged_upsbmple) {
 #ifdef UPSAMPLE_MERGING_SUPPORTED
-      jinit_merged_upsampler(cinfo); /* does color conversion too */
+      jinit_merged_upsbmpler(cinfo); /* does color conversion too */
 #else
       ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
     } else {
       jinit_color_deconverter(cinfo);
-      jinit_upsampler(cinfo);
+      jinit_upsbmpler(cinfo);
     }
-    jinit_d_post_controller(cinfo, cinfo->enable_2pass_quant);
+    jinit_d_post_controller(cinfo, cinfo->enbble_2pbss_qubnt);
   }
   /* Inverse DCT */
   jinit_inverse_dct(cinfo);
-  /* Entropy decoding: either Huffman or arithmetic coding. */
-  if (cinfo->arith_code) {
+  /* Entropy decoding: either Huffmbn or brithmetic coding. */
+  if (cinfo->brith_code) {
     ERREXIT(cinfo, JERR_ARITH_NOTIMPL);
   } else {
     if (cinfo->progressive_mode) {
@@ -389,148 +389,148 @@ master_selection (j_decompress_ptr cinfo)
       jinit_huff_decoder(cinfo);
   }
 
-  /* Initialize principal buffer controllers. */
-  use_c_buffer = cinfo->inputctl->has_multiple_scans || cinfo->buffered_image;
+  /* Initiblize principbl buffer controllers. */
+  use_c_buffer = cinfo->inputctl->hbs_multiple_scbns || cinfo->buffered_imbge;
   jinit_d_coef_controller(cinfo, use_c_buffer);
 
-  if (! cinfo->raw_data_out)
-    jinit_d_main_controller(cinfo, FALSE /* never need full buffer here */);
+  if (! cinfo->rbw_dbtb_out)
+    jinit_d_mbin_controller(cinfo, FALSE /* never need full buffer here */);
 
-  /* We can now tell the memory manager to allocate virtual arrays. */
-  (*cinfo->mem->realize_virt_arrays) ((j_common_ptr) cinfo);
+  /* We cbn now tell the memory mbnbger to bllocbte virtubl brrbys. */
+  (*cinfo->mem->reblize_virt_brrbys) ((j_common_ptr) cinfo);
 
-  /* Initialize input side of decompressor to consume first scan. */
-  (*cinfo->inputctl->start_input_pass) (cinfo);
+  /* Initiblize input side of decompressor to consume first scbn. */
+  (*cinfo->inputctl->stbrt_input_pbss) (cinfo);
 
 #ifdef D_MULTISCAN_FILES_SUPPORTED
-  /* If jpeg_start_decompress will read the whole file, initialize
-   * progress monitoring appropriately.  The input step is counted
-   * as one pass.
+  /* If jpeg_stbrt_decompress will rebd the whole file, initiblize
+   * progress monitoring bppropribtely.  The input step is counted
+   * bs one pbss.
    */
-  if (cinfo->progress != NULL && ! cinfo->buffered_image &&
-      cinfo->inputctl->has_multiple_scans) {
-    int nscans;
-    /* Estimate number of scans to set pass_limit. */
+  if (cinfo->progress != NULL && ! cinfo->buffered_imbge &&
+      cinfo->inputctl->hbs_multiple_scbns) {
+    int nscbns;
+    /* Estimbte number of scbns to set pbss_limit. */
     if (cinfo->progressive_mode) {
-      /* Arbitrarily estimate 2 interleaved DC scans + 3 AC scans/component. */
-      nscans = 2 + 3 * cinfo->num_components;
+      /* Arbitrbrily estimbte 2 interlebved DC scbns + 3 AC scbns/component. */
+      nscbns = 2 + 3 * cinfo->num_components;
     } else {
-      /* For a nonprogressive multiscan file, estimate 1 scan per component. */
-      nscans = cinfo->num_components;
+      /* For b nonprogressive multiscbn file, estimbte 1 scbn per component. */
+      nscbns = cinfo->num_components;
     }
-    cinfo->progress->pass_counter = 0L;
-    cinfo->progress->pass_limit = (long) cinfo->total_iMCU_rows * nscans;
-    cinfo->progress->completed_passes = 0;
-    cinfo->progress->total_passes = (cinfo->enable_2pass_quant ? 3 : 2);
-    /* Count the input pass as done */
-    master->pass_number++;
+    cinfo->progress->pbss_counter = 0L;
+    cinfo->progress->pbss_limit = (long) cinfo->totbl_iMCU_rows * nscbns;
+    cinfo->progress->completed_pbsses = 0;
+    cinfo->progress->totbl_pbsses = (cinfo->enbble_2pbss_qubnt ? 3 : 2);
+    /* Count the input pbss bs done */
+    mbster->pbss_number++;
   }
 #endif /* D_MULTISCAN_FILES_SUPPORTED */
 }
 
 
 /*
- * Per-pass setup.
- * This is called at the beginning of each output pass.  We determine which
- * modules will be active during this pass and give them appropriate
- * start_pass calls.  We also set is_dummy_pass to indicate whether this
- * is a "real" output pass or a dummy pass for color quantization.
- * (In the latter case, jdapistd.c will crank the pass to completion.)
+ * Per-pbss setup.
+ * This is cblled bt the beginning of ebch output pbss.  We determine which
+ * modules will be bctive during this pbss bnd give them bppropribte
+ * stbrt_pbss cblls.  We blso set is_dummy_pbss to indicbte whether this
+ * is b "rebl" output pbss or b dummy pbss for color qubntizbtion.
+ * (In the lbtter cbse, jdbpistd.c will crbnk the pbss to completion.)
  */
 
 METHODDEF(void)
-prepare_for_output_pass (j_decompress_ptr cinfo)
+prepbre_for_output_pbss (j_decompress_ptr cinfo)
 {
-  my_master_ptr master = (my_master_ptr) cinfo->master;
+  my_mbster_ptr mbster = (my_mbster_ptr) cinfo->mbster;
 
-  if (master->pub.is_dummy_pass) {
+  if (mbster->pub.is_dummy_pbss) {
 #ifdef QUANT_2PASS_SUPPORTED
-    /* Final pass of 2-pass quantization */
-    master->pub.is_dummy_pass = FALSE;
-    (*cinfo->cquantize->start_pass) (cinfo, FALSE);
-    (*cinfo->post->start_pass) (cinfo, JBUF_CRANK_DEST);
-    (*cinfo->main->start_pass) (cinfo, JBUF_CRANK_DEST);
+    /* Finbl pbss of 2-pbss qubntizbtion */
+    mbster->pub.is_dummy_pbss = FALSE;
+    (*cinfo->cqubntize->stbrt_pbss) (cinfo, FALSE);
+    (*cinfo->post->stbrt_pbss) (cinfo, JBUF_CRANK_DEST);
+    (*cinfo->mbin->stbrt_pbss) (cinfo, JBUF_CRANK_DEST);
 #else
     ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif /* QUANT_2PASS_SUPPORTED */
   } else {
-    if (cinfo->quantize_colors && cinfo->colormap == NULL) {
-      /* Select new quantization method */
-      if (cinfo->two_pass_quantize && cinfo->enable_2pass_quant) {
-        cinfo->cquantize = master->quantizer_2pass;
-        master->pub.is_dummy_pass = TRUE;
-      } else if (cinfo->enable_1pass_quant) {
-        cinfo->cquantize = master->quantizer_1pass;
+    if (cinfo->qubntize_colors && cinfo->colormbp == NULL) {
+      /* Select new qubntizbtion method */
+      if (cinfo->two_pbss_qubntize && cinfo->enbble_2pbss_qubnt) {
+        cinfo->cqubntize = mbster->qubntizer_2pbss;
+        mbster->pub.is_dummy_pbss = TRUE;
+      } else if (cinfo->enbble_1pbss_qubnt) {
+        cinfo->cqubntize = mbster->qubntizer_1pbss;
       } else {
         ERREXIT(cinfo, JERR_MODE_CHANGE);
       }
     }
-    (*cinfo->idct->start_pass) (cinfo);
-    (*cinfo->coef->start_output_pass) (cinfo);
-    if (! cinfo->raw_data_out) {
-      if (! master->using_merged_upsample)
-        (*cinfo->cconvert->start_pass) (cinfo);
-      (*cinfo->upsample->start_pass) (cinfo);
-      if (cinfo->quantize_colors)
-        (*cinfo->cquantize->start_pass) (cinfo, master->pub.is_dummy_pass);
-      (*cinfo->post->start_pass) (cinfo,
-            (master->pub.is_dummy_pass ? JBUF_SAVE_AND_PASS : JBUF_PASS_THRU));
-      (*cinfo->main->start_pass) (cinfo, JBUF_PASS_THRU);
+    (*cinfo->idct->stbrt_pbss) (cinfo);
+    (*cinfo->coef->stbrt_output_pbss) (cinfo);
+    if (! cinfo->rbw_dbtb_out) {
+      if (! mbster->using_merged_upsbmple)
+        (*cinfo->cconvert->stbrt_pbss) (cinfo);
+      (*cinfo->upsbmple->stbrt_pbss) (cinfo);
+      if (cinfo->qubntize_colors)
+        (*cinfo->cqubntize->stbrt_pbss) (cinfo, mbster->pub.is_dummy_pbss);
+      (*cinfo->post->stbrt_pbss) (cinfo,
+            (mbster->pub.is_dummy_pbss ? JBUF_SAVE_AND_PASS : JBUF_PASS_THRU));
+      (*cinfo->mbin->stbrt_pbss) (cinfo, JBUF_PASS_THRU);
     }
   }
 
-  /* Set up progress monitor's pass info if present */
+  /* Set up progress monitor's pbss info if present */
   if (cinfo->progress != NULL) {
-    cinfo->progress->completed_passes = master->pass_number;
-    cinfo->progress->total_passes = master->pass_number +
-                                    (master->pub.is_dummy_pass ? 2 : 1);
-    /* In buffered-image mode, we assume one more output pass if EOI not
-     * yet reached, but no more passes if EOI has been reached.
+    cinfo->progress->completed_pbsses = mbster->pbss_number;
+    cinfo->progress->totbl_pbsses = mbster->pbss_number +
+                                    (mbster->pub.is_dummy_pbss ? 2 : 1);
+    /* In buffered-imbge mode, we bssume one more output pbss if EOI not
+     * yet rebched, but no more pbsses if EOI hbs been rebched.
      */
-    if (cinfo->buffered_image && ! cinfo->inputctl->eoi_reached) {
-      cinfo->progress->total_passes += (cinfo->enable_2pass_quant ? 2 : 1);
+    if (cinfo->buffered_imbge && ! cinfo->inputctl->eoi_rebched) {
+      cinfo->progress->totbl_pbsses += (cinfo->enbble_2pbss_qubnt ? 2 : 1);
     }
   }
 }
 
 
 /*
- * Finish up at end of an output pass.
+ * Finish up bt end of bn output pbss.
  */
 
 METHODDEF(void)
-finish_output_pass (j_decompress_ptr cinfo)
+finish_output_pbss (j_decompress_ptr cinfo)
 {
-  my_master_ptr master = (my_master_ptr) cinfo->master;
+  my_mbster_ptr mbster = (my_mbster_ptr) cinfo->mbster;
 
-  if (cinfo->quantize_colors)
-    (*cinfo->cquantize->finish_pass) (cinfo);
-  master->pass_number++;
+  if (cinfo->qubntize_colors)
+    (*cinfo->cqubntize->finish_pbss) (cinfo);
+  mbster->pbss_number++;
 }
 
 
 #ifdef D_MULTISCAN_FILES_SUPPORTED
 
 /*
- * Switch to a new external colormap between output passes.
+ * Switch to b new externbl colormbp between output pbsses.
  */
 
 GLOBAL(void)
-jpeg_new_colormap (j_decompress_ptr cinfo)
+jpeg_new_colormbp (j_decompress_ptr cinfo)
 {
-  my_master_ptr master = (my_master_ptr) cinfo->master;
+  my_mbster_ptr mbster = (my_mbster_ptr) cinfo->mbster;
 
-  /* Prevent application from calling me at wrong times */
-  if (cinfo->global_state != DSTATE_BUFIMAGE)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  /* Prevent bpplicbtion from cblling me bt wrong times */
+  if (cinfo->globbl_stbte != DSTATE_BUFIMAGE)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
-  if (cinfo->quantize_colors && cinfo->enable_external_quant &&
-      cinfo->colormap != NULL) {
-    /* Select 2-pass quantizer for external colormap use */
-    cinfo->cquantize = master->quantizer_2pass;
-    /* Notify quantizer of colormap change */
-    (*cinfo->cquantize->new_color_map) (cinfo);
-    master->pub.is_dummy_pass = FALSE; /* just in case */
+  if (cinfo->qubntize_colors && cinfo->enbble_externbl_qubnt &&
+      cinfo->colormbp != NULL) {
+    /* Select 2-pbss qubntizer for externbl colormbp use */
+    cinfo->cqubntize = mbster->qubntizer_2pbss;
+    /* Notify qubntizer of colormbp chbnge */
+    (*cinfo->cqubntize->new_color_mbp) (cinfo);
+    mbster->pub.is_dummy_pbss = FALSE; /* just in cbse */
   } else
     ERREXIT(cinfo, JERR_MODE_CHANGE);
 }
@@ -539,23 +539,23 @@ jpeg_new_colormap (j_decompress_ptr cinfo)
 
 
 /*
- * Initialize master decompression control and select active modules.
- * This is performed at the start of jpeg_start_decompress.
+ * Initiblize mbster decompression control bnd select bctive modules.
+ * This is performed bt the stbrt of jpeg_stbrt_decompress.
  */
 
 GLOBAL(void)
-jinit_master_decompress (j_decompress_ptr cinfo)
+jinit_mbster_decompress (j_decompress_ptr cinfo)
 {
-  my_master_ptr master;
+  my_mbster_ptr mbster;
 
-  master = (my_master_ptr)
-      (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                  SIZEOF(my_decomp_master));
-  cinfo->master = (struct jpeg_decomp_master *) master;
-  master->pub.prepare_for_output_pass = prepare_for_output_pass;
-  master->pub.finish_output_pass = finish_output_pass;
+  mbster = (my_mbster_ptr)
+      (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+                                  SIZEOF(my_decomp_mbster));
+  cinfo->mbster = (struct jpeg_decomp_mbster *) mbster;
+  mbster->pub.prepbre_for_output_pbss = prepbre_for_output_pbss;
+  mbster->pub.finish_output_pbss = finish_output_pbss;
 
-  master->pub.is_dummy_pass = FALSE;
+  mbster->pub.is_dummy_pbss = FALSE;
 
-  master_selection(cinfo);
+  mbster_selection(cinfo);
 }

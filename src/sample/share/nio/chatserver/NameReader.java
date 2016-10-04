@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011 Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,91 +30,91 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 
 /**
- * The first state a newly connected {@code Client} is in, this
- * handles writing out the welcoming message and reads the response
- * up to a newline. When a newline character have been received
- * it changes the handler from NameReader to MessageReader on the
+ * The first stbte b newly connected {@code Client} is in, this
+ * hbndles writing out the welcoming messbge bnd rebds the response
+ * up to b newline. When b newline chbrbcter hbve been received
+ * it chbnges the hbndler from NbmeRebder to MessbgeRebder on the
  * client.
  */
-class NameReader implements DataReader {
-    private final StringBuilder buffer = new StringBuilder();
-    private final ChatServer chatServer;
-    private boolean once = true;
-    private static final String NEWLINE = "\n";
+clbss NbmeRebder implements DbtbRebder {
+    privbte finbl StringBuilder buffer = new StringBuilder();
+    privbte finbl ChbtServer chbtServer;
+    privbte boolebn once = true;
+    privbte stbtic finbl String NEWLINE = "\n";
 
-    public NameReader(ChatServer chatServer) {
-        this.chatServer = chatServer;
+    public NbmeRebder(ChbtServer chbtServer) {
+        this.chbtServer = chbtServer;
     }
 
     /**
-     * Writes the welcoming message to the client the first time this method
-     * is called.
+     * Writes the welcoming messbge to the client the first time this method
+     * is cblled.
      *
-     * @param client the client to receive the message
+     * @pbrbm client the client to receive the messbge
      */
     @Override
-    public void beforeRead(Client client) {
-        // if it is a long name that takes more than one read we only want to display Name: once.
+    public void beforeRebd(Client client) {
+        // if it is b long nbme thbt tbkes more thbn one rebd we only wbnt to displby Nbme: once.
         if (once) {
-            client.writeStringMessage("Name: ");
-            once = false;
+            client.writeStringMessbge("Nbme: ");
+            once = fblse;
         }
     }
 
-    public boolean acceptsMessages() {
-        return false;
+    public boolebn bcceptsMessbges() {
+        return fblse;
     }
 
     /**
-     * Receives incoming data from the socket, searches for a newline
-     * and tries to set the username if one is found
+     * Receives incoming dbtb from the socket, sebrches for b newline
+     * bnd tries to set the usernbme if one is found
      */
     @Override
-    public void onData(Client client, ByteBuffer buffer, int bytes) {
+    public void onDbtb(Client client, ByteBuffer buffer, int bytes) {
         buffer.flip();
-        String name;
-        name = this.buffer.append(new String(buffer.array(), 0, bytes)).toString();
-        if (name.contains(NEWLINE)) {
-            onUserNameRead(client, name);
+        String nbme;
+        nbme = this.buffer.bppend(new String(buffer.brrby(), 0, bytes)).toString();
+        if (nbme.contbins(NEWLINE)) {
+            onUserNbmeRebd(client, nbme);
         }
     }
 
     /**
-     * Splits the name on the newlines, takes the first as the username
-     * and appends everything else to the clients message buffer.
-     * Sets the clients handler to MessageReader.
+     * Splits the nbme on the newlines, tbkes the first bs the usernbme
+     * bnd bppends everything else to the clients messbge buffer.
+     * Sets the clients hbndler to MessbgeRebder.
      *
-     * @param client the client to set the username for
-     * @param name the string containing the buffered input
+     * @pbrbm client the client to set the usernbme for
+     * @pbrbm nbme the string contbining the buffered input
      */
-    private void onUserNameRead(Client client, String name) {
-        String[] strings = name.split(NEWLINE, 2);
-        client.setUserName(strings[0].trim());
-        sendRemainingParts(client, strings);
-        client.setReader(new ClientReader(chatServer, new MessageReader(chatServer)));
-        client.writeStringMessage("Welcome " + client.getUserName() + "\n");
+    privbte void onUserNbmeRebd(Client client, String nbme) {
+        String[] strings = nbme.split(NEWLINE, 2);
+        client.setUserNbme(strings[0].trim());
+        sendRembiningPbrts(client, strings);
+        client.setRebder(new ClientRebder(chbtServer, new MessbgeRebder(chbtServer)));
+        client.writeStringMessbge("Welcome " + client.getUserNbme() + "\n");
     }
 
     /**
-     * Appends the remaining parts to the clients message buffer
+     * Appends the rembining pbrts to the clients messbge buffer
      *
-     * @param client the client
-     * @param strings the messages to append to the buffer
+     * @pbrbm client the client
+     * @pbrbm strings the messbges to bppend to the buffer
      */
-    private void sendRemainingParts(Client client, String[] strings) {
+    privbte void sendRembiningPbrts(Client client, String[] strings) {
         for (int i = 1; i < strings.length; ++i) {
-            client.appendMessage(strings[i]);
+            client.bppendMessbge(strings[i]);
         }
     }
 }

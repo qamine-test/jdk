@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,411 +30,411 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import static com.sun.jmx.examples.scandir.ScanManager.getNextSeqNumber;
-import static com.sun.jmx.examples.scandir.ScanDirConfigMXBean.SaveState.*;
-import com.sun.jmx.examples.scandir.config.XmlConfigUtils;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import com.sun.jmx.examples.scandir.config.FileMatch;
-import com.sun.jmx.examples.scandir.config.ScanManagerConfig;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.management.*;
-import javax.xml.bind.JAXBException;
+import stbtic com.sun.jmx.exbmples.scbndir.ScbnMbnbger.getNextSeqNumber;
+import stbtic com.sun.jmx.exbmples.scbndir.ScbnDirConfigMXBebn.SbveStbte.*;
+import com.sun.jmx.exbmples.scbndir.config.XmlConfigUtils;
+import com.sun.jmx.exbmples.scbndir.config.DirectoryScbnnerConfig;
+import com.sun.jmx.exbmples.scbndir.config.FileMbtch;
+import com.sun.jmx.exbmples.scbndir.config.ScbnMbnbgerConfig;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Dbte;
+import jbvb.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvbx.mbnbgement.*;
+import jbvbx.xml.bind.JAXBException;
 
 /**
- * <p>The <code>ScanDirConfig</code> MBean is in charge of the
- * <i>scandir</i> application configuration.
+ * <p>The <code>ScbnDirConfig</code> MBebn is in chbrge of the
+ * <i>scbndir</i> bpplicbtion configurbtion.
  * </p>
- * <p>The <code>ScanDirConfig</code> MBean is able to
- * load and save the <i>scandir</i> application configuration to and from an
+ * <p>The <code>ScbnDirConfig</code> MBebn is bble to
+ * lobd bnd sbve the <i>scbndir</i> bpplicbtion configurbtion to bnd from bn
  * XML file.
  * </p>
  * <p>
- * It will let you also interactively modify that configuration, which you
- * can later save to the file, by calling {@link #save}, or discard, by
- * reloading the file without saving - see {@link #load}.
+ * It will let you blso interbctively modify thbt configurbtion, which you
+ * cbn lbter sbve to the file, by cblling {@link #sbve}, or discbrd, by
+ * relobding the file without sbving - see {@link #lobd}.
  * </p>
  * <p>
- * There can be as many <code>ScanDirConfigMXBean</code> registered
- * in the MBeanServer as you like, but only one of them will be identified as
- * the current configuration of the {@link ScanManagerMXBean}.
- * You can switch to another configuration by calling {@link
- * ScanManagerMXBean#setConfigurationMBean
- * ScanManagerMXBean.setConfigurationMBean}.
+ * There cbn be bs mbny <code>ScbnDirConfigMXBebn</code> registered
+ * in the MBebnServer bs you like, but only one of them will be identified bs
+ * the current configurbtion of the {@link ScbnMbnbgerMXBebn}.
+ * You cbn switch to bnother configurbtion by cblling {@link
+ * ScbnMbnbgerMXBebn#setConfigurbtionMBebn
+ * ScbnMbnbgerMXBebn.setConfigurbtionMBebn}.
  * </p>
  * <p>
- * Once the current configuration has been loaded (by calling {@link #load})
- * or modified (by calling one of {@link #addDirectoryScanner
- * addDirectoryScanner}, {@link #removeDirectoryScanner removeDirectoryScanner}
- * or {@link #setConfiguration setConfiguration}) it can be pushed
- * to the {@link ScanManagerMXBean} by calling {@link
- * ScanManagerMXBean#applyConfiguration
- * ScanManagerMXBean.applyConfiguration(true)} -
- * <code>true</code> means that we apply the configuration from memory,
- * without first reloading the file.
+ * Once the current configurbtion hbs been lobded (by cblling {@link #lobd})
+ * or modified (by cblling one of {@link #bddDirectoryScbnner
+ * bddDirectoryScbnner}, {@link #removeDirectoryScbnner removeDirectoryScbnner}
+ * or {@link #setConfigurbtion setConfigurbtion}) it cbn be pushed
+ * to the {@link ScbnMbnbgerMXBebn} by cblling {@link
+ * ScbnMbnbgerMXBebn#bpplyConfigurbtion
+ * ScbnMbnbgerMXBebn.bpplyConfigurbtion(true)} -
+ * <code>true</code> mebns thbt we bpply the configurbtion from memory,
+ * without first relobding the file.
  * </p>
  * <p>
- * The <code>ScanDirConfig</code> uses the XML annotated Java Beans defined
- * in the {@link com.sun.jmx.examples.scandir.config} package.
+ * The <code>ScbnDirConfig</code> uses the XML bnnotbted Jbvb Bebns defined
+ * in the {@link com.sun.jmx.exbmples.scbndir.config} pbckbge.
  * </p>
  * <p>
- * <u>Note:</u> The <code>ScanDirConfig</code> should probably use
- * {@code java.nio.channels.FileLock} and lock its configuration file so that
- * two <code>ScanDirConfig</code> object do not share the same file, but it
- * doesn't. Feel free to improve the application in that way.
+ * <u>Note:</u> The <code>ScbnDirConfig</code> should probbbly use
+ * {@code jbvb.nio.chbnnels.FileLock} bnd lock its configurbtion file so thbt
+ * two <code>ScbnDirConfig</code> object do not shbre the sbme file, but it
+ * doesn't. Feel free to improve the bpplicbtion in thbt wby.
  * </p>
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public class ScanDirConfig extends NotificationBroadcasterSupport
-        implements ScanDirConfigMXBean, MBeanRegistration {
+public clbss ScbnDirConfig extends NotificbtionBrobdcbsterSupport
+        implements ScbnDirConfigMXBebn, MBebnRegistrbtion {
 
     /**
-     * A logger for this class.
+     * A logger for this clbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(ScanDirConfig.class.getName());
+    privbte stbtic finbl Logger LOG =
+            Logger.getLogger(ScbnDirConfig.clbss.getNbme());
 
-    // We will emit a notification when the save state of this object
-    // chenges. We use directly the base notification class, with a
-    // notification type that indicates the new state at which the
-    // object has arrived.
+    // We will emit b notificbtion when the sbve stbte of this object
+    // chenges. We use directly the bbse notificbtion clbss, with b
+    // notificbtion type thbt indicbtes the new stbte bt which the
+    // object hbs brrived.
     //
-    // All these notification types will have the same prefix, which is
-    // 'com.sun.jmx.examples.scandir.config'.
+    // All these notificbtion types will hbve the sbme prefix, which is
+    // 'com.sun.jmx.exbmples.scbndir.config'.
     //
-    private final static String NOTIFICATION_PREFIX =
-            ScanManagerConfig.class.getPackage().getName();
+    privbte finbl stbtic String NOTIFICATION_PREFIX =
+            ScbnMbnbgerConfig.clbss.getPbckbge().getNbme();
 
     /**
-     * The <i>com.sun.jmx.examples.scandir.config.saved</i> notification
-     * indicates that the configuration data was saved.
+     * The <i>com.sun.jmx.exbmples.scbndir.config.sbved</i> notificbtion
+     * indicbtes thbt the configurbtion dbtb wbs sbved.
      **/
-    public final static String NOTIFICATION_SAVED =
-            NOTIFICATION_PREFIX+".saved";
+    public finbl stbtic String NOTIFICATION_SAVED =
+            NOTIFICATION_PREFIX+".sbved";
     /**
-     * The <i>com.sun.jmx.examples.scandir.config.loaded</i> notification
-     * indicates that the configuration data was loaded.
+     * The <i>com.sun.jmx.exbmples.scbndir.config.lobded</i> notificbtion
+     * indicbtes thbt the configurbtion dbtb wbs lobded.
      **/
-    public final static String NOTIFICATION_LOADED =
-            NOTIFICATION_PREFIX+".loaded";
+    public finbl stbtic String NOTIFICATION_LOADED =
+            NOTIFICATION_PREFIX+".lobded";
 
     /**
-     * The <i>com.sun.jmx.examples.scandir.config.modified</i> notification
-     * indicates that the configuration data was modified.
+     * The <i>com.sun.jmx.exbmples.scbndir.config.modified</i> notificbtion
+     * indicbtes thbt the configurbtion dbtb wbs modified.
      **/
-    public final static String NOTIFICATION_MODIFIED =
+    public finbl stbtic String NOTIFICATION_MODIFIED =
             NOTIFICATION_PREFIX+".modified";
 
-    // The array of MBeanNotificationInfo that will be exposed in the
-    // ScanDirConfigMXBean MBeanInfo.
-    // We will pass this array to the NotificationBroadcasterSupport
+    // The brrby of MBebnNotificbtionInfo thbt will be exposed in the
+    // ScbnDirConfigMXBebn MBebnInfo.
+    // We will pbss this brrby to the NotificbtionBrobdcbsterSupport
     // constructor.
     //
-    private static MBeanNotificationInfo[] NOTIFICATION_INFO = {
-        new MBeanNotificationInfo(
+    privbte stbtic MBebnNotificbtionInfo[] NOTIFICATION_INFO = {
+        new MBebnNotificbtionInfo(
                 new String[] {NOTIFICATION_SAVED},
-                Notification.class.getName(),
-                "Emitted when the configuration is saved"),
-        new MBeanNotificationInfo(
+                Notificbtion.clbss.getNbme(),
+                "Emitted when the configurbtion is sbved"),
+        new MBebnNotificbtionInfo(
                 new String[] {NOTIFICATION_LOADED},
-                Notification.class.getName(),
-                "Emitted when the configuration is loaded"),
-        new MBeanNotificationInfo(
+                Notificbtion.clbss.getNbme(),
+                "Emitted when the configurbtion is lobded"),
+        new MBebnNotificbtionInfo(
                 new String[] {NOTIFICATION_MODIFIED},
-                Notification.class.getName(),
-                "Emitted when the configuration is modified"),
+                Notificbtion.clbss.getNbme(),
+                "Emitted when the configurbtion is modified"),
     };
 
-     // The ScanDirConfigMXBean configuration data.
-    private volatile ScanManagerConfig config;
+     // The ScbnDirConfigMXBebn configurbtion dbtb.
+    privbte volbtile ScbnMbnbgerConfig config;
 
-    // The name of the configuration file
-    private String filename = null;
+    // The nbme of the configurbtion file
+    privbte String filenbme = null;
 
-    // The name of this configuration. This is usually both equal to
-    // config.getName() and objectName.getKeyProperty(name).
-    private volatile String configname = null;
+    // The nbme of this configurbtion. This is usublly both equbl to
+    // config.getNbme() bnd objectNbme.getKeyProperty(nbme).
+    privbte volbtile String confignbme = null;
 
-    // This object save state. CREATED is the initial state.
+    // This object sbve stbte. CREATED is the initibl stbte.
     //
-    private volatile SaveState status = CREATED;
+    privbte volbtile SbveStbte stbtus = CREATED;
 
     /**
-     * Creates a new {@link ScanDirConfigMXBean}.
-     * <p>{@code ScanDirConfigMXBean} can be created by the {@link
-     * ScanManagerMXBean}, or directly by a remote client, using
-     * {@code createMBean} or {@code registerMBean}.
+     * Crebtes b new {@link ScbnDirConfigMXBebn}.
+     * <p>{@code ScbnDirConfigMXBebn} cbn be crebted by the {@link
+     * ScbnMbnbgerMXBebn}, or directly by b remote client, using
+     * {@code crebteMBebn} or {@code registerMBebn}.
      * </p>
-     * <p>{@code ScanDirConfigMXBean} created by the {@link
-     * ScanManagerMXBean} will be unregistered by the
-     * {@code ScanManagerMXBean}. {@code ScanDirConfigMXBean} created
-     * directly by a remote client will not be unregistered by the
-     * {@code ScanManagerMXBean} - this will remain to the responsibility of
-     * the code/client that created them.
+     * <p>{@code ScbnDirConfigMXBebn} crebted by the {@link
+     * ScbnMbnbgerMXBebn} will be unregistered by the
+     * {@code ScbnMbnbgerMXBebn}. {@code ScbnDirConfigMXBebn} crebted
+     * directly by b remote client will not be unregistered by the
+     * {@code ScbnMbnbgerMXBebn} - this will rembin to the responsibility of
+     * the code/client thbt crebted them.
      * </p>
-     * <p>This object is created empty, you should call load() if you want it
-     *    to load its data from the configuration file.
+     * <p>This object is crebted empty, you should cbll lobd() if you wbnt it
+     *    to lobd its dbtb from the configurbtion file.
      * </p>
-     * @param  filename The configuration file used by this MBean.
-     *         Can be null (in which case load() and save() will fail).
-     *         Can point to a file that does not exists yet (in which case
-     *         load() will fail if called before save(), and save() will
-     *         attempt to create that file). Can point to an existing file,
-     *         in which case load() will load that file and save() will save
-     *         to that file.
+     * @pbrbm  filenbme The configurbtion file used by this MBebn.
+     *         Cbn be null (in which cbse lobd() bnd sbve() will fbil).
+     *         Cbn point to b file thbt does not exists yet (in which cbse
+     *         lobd() will fbil if cblled before sbve(), bnd sbve() will
+     *         bttempt to crebte thbt file). Cbn point to bn existing file,
+     *         in which cbse lobd() will lobd thbt file bnd sbve() will sbve
+     *         to thbt file.
      *
      **/
-    public ScanDirConfig(String filename) {
-        this(filename,null);
+    public ScbnDirConfig(String filenbme) {
+        this(filenbme,null);
     }
 
     /**
-     * Create a new ScanDirConfig MBean with an initial configuration.
-     * @param filename The name of the configuration file.
-     * @param initialConfig an initial configuration.
+     * Crebte b new ScbnDirConfig MBebn with bn initibl configurbtion.
+     * @pbrbm filenbme The nbme of the configurbtion file.
+     * @pbrbm initiblConfig bn initibl configurbtion.
      **/
-    public ScanDirConfig(String filename, ScanManagerConfig initialConfig) {
+    public ScbnDirConfig(String filenbme, ScbnMbnbgerConfig initiblConfig) {
         super(NOTIFICATION_INFO);
-        this.filename = filename;
-        this.config = initialConfig;
+        this.filenbme = filenbme;
+        this.config = initiblConfig;
     }
 
 
-    // see ScanDirConfigMXBean
-    public void load() throws IOException {
-        if (filename == null)
-            throw new UnsupportedOperationException("load");
+    // see ScbnDirConfigMXBebn
+    public void lobd() throws IOException {
+        if (filenbme == null)
+            throw new UnsupportedOperbtionException("lobd");
 
         synchronized(this) {
-            config = new XmlConfigUtils(filename).readFromFile();
-            if (configname != null) config = config.copy(configname);
-            else configname = config.getName();
+            config = new XmlConfigUtils(filenbme).rebdFromFile();
+            if (confignbme != null) config = config.copy(confignbme);
+            else confignbme = config.getNbme();
 
-            status=LOADED;
+            stbtus=LOADED;
         }
-        sendNotification(NOTIFICATION_LOADED);
+        sendNotificbtion(NOTIFICATION_LOADED);
     }
 
-    // see ScanDirConfigMXBean
-    public void save() throws IOException {
-        if (filename == null)
-            throw new UnsupportedOperationException("load");
+    // see ScbnDirConfigMXBebn
+    public void sbve() throws IOException {
+        if (filenbme == null)
+            throw new UnsupportedOperbtionException("lobd");
         synchronized (this) {
-            new XmlConfigUtils(filename).writeToFile(config);
-            status = SAVED;
+            new XmlConfigUtils(filenbme).writeToFile(config);
+            stbtus = SAVED;
         }
-        sendNotification(NOTIFICATION_SAVED);
+        sendNotificbtion(NOTIFICATION_SAVED);
     }
 
-    // see ScanDirConfigMXBean
-    public ScanManagerConfig getConfiguration() {
+    // see ScbnDirConfigMXBebn
+    public ScbnMbnbgerConfig getConfigurbtion() {
         synchronized (this) {
             return XmlConfigUtils.xmlClone(config);
         }
     }
 
 
-    // sends a notification indicating the new save state.
-    private void sendNotification(String type) {
-        final Object source = (objectName==null)?this:objectName;
-        final Notification n = new Notification(type,source,
+    // sends b notificbtion indicbting the new sbve stbte.
+    privbte void sendNotificbtion(String type) {
+        finbl Object source = (objectNbme==null)?this:objectNbme;
+        finbl Notificbtion n = new Notificbtion(type,source,
                 getNextSeqNumber(),
-                "The configuration is "+
-                type.substring(type.lastIndexOf('.')+1));
-        sendNotification(n);
+                "The configurbtion is "+
+                type.substring(type.lbstIndexOf('.')+1));
+        sendNotificbtion(n);
     }
 
 
     /**
-     * Allows the MBean to perform any operations it needs before being
-     * registered in the MBean server. If the name of the MBean is not
-     * specified, the MBean can provide a name for its registration. If
-     * any exception is raised, the MBean will not be registered in the
-     * MBean server.
-     * @param server The MBean server in which the MBean will be registered.
-     * @param name The object name of the MBean. This name is null if the
-     * name parameter to one of the createMBean or registerMBean methods in
-     * the MBeanServer interface is null. In that case, this method will
-     * try to guess its MBean name by examining its configuration data.
-     * If its configuration data is null (nothing was provided in the
-     * constructor) or doesn't contain a name, this method returns {@code null},
-     * and registration will fail.
+     * Allows the MBebn to perform bny operbtions it needs before being
+     * registered in the MBebn server. If the nbme of the MBebn is not
+     * specified, the MBebn cbn provide b nbme for its registrbtion. If
+     * bny exception is rbised, the MBebn will not be registered in the
+     * MBebn server.
+     * @pbrbm server The MBebn server in which the MBebn will be registered.
+     * @pbrbm nbme The object nbme of the MBebn. This nbme is null if the
+     * nbme pbrbmeter to one of the crebteMBebn or registerMBebn methods in
+     * the MBebnServer interfbce is null. In thbt cbse, this method will
+     * try to guess its MBebn nbme by exbmining its configurbtion dbtb.
+     * If its configurbtion dbtb is null (nothing wbs provided in the
+     * constructor) or doesn't contbin b nbme, this method returns {@code null},
+     * bnd registrbtion will fbil.
      * <p>
-     * Otherwise, if {@code name} wasn't {@code null} or if a default name could
-     * be constructed, the name of the configuration will be set to
-     * the value of the ObjectName's {@code name=} key, and the configuration
-     * data will always be renamed to reflect this change.
+     * Otherwise, if {@code nbme} wbsn't {@code null} or if b defbult nbme could
+     * be constructed, the nbme of the configurbtion will be set to
+     * the vblue of the ObjectNbme's {@code nbme=} key, bnd the configurbtion
+     * dbtb will blwbys be renbmed to reflect this chbnge.
      * </p>
      *
-     * @return The name under which the MBean is to be registered.
-     * @throws Exception This exception will be caught by the MBean server and
-     * re-thrown as an MBeanRegistrationException.
+     * @return The nbme under which the MBebn is to be registered.
+     * @throws Exception This exception will be cbught by the MBebn server bnd
+     * re-thrown bs bn MBebnRegistrbtionException.
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
+    public ObjectNbme preRegister(MBebnServer server, ObjectNbme nbme)
         throws Exception {
-        if (name == null) {
+        if (nbme == null) {
             if (config == null) return null;
-            if (config.getName() == null) return null;
-            name = ScanManager.
-                    makeMBeanName(ScanDirConfigMXBean.class,config.getName());
+            if (config.getNbme() == null) return null;
+            nbme = ScbnMbnbger.
+                    mbkeMBebnNbme(ScbnDirConfigMXBebn.clbss,config.getNbme());
         }
-        objectName = name;
-        mbeanServer = server;
+        objectNbme = nbme;
+        mbebnServer = server;
         synchronized (this) {
-            configname = name.getKeyProperty("name");
-            if (config == null) config = new ScanManagerConfig(configname);
-            else config = config.copy(configname);
+            confignbme = nbme.getKeyProperty("nbme");
+            if (config == null) config = new ScbnMbnbgerConfig(confignbme);
+            else config = config.copy(confignbme);
         }
-        return name;
+        return nbme;
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having
-     * been registered in the MBean server or after the registration has
-     * failed.
-     * <p>This implementation does nothing</p>
-     * @param registrationDone Indicates whether or not the MBean has been
-     * successfully registered in the MBean server. The value false means
-     * that the registration has failed.
+     * Allows the MBebn to perform bny operbtions needed bfter hbving
+     * been registered in the MBebn server or bfter the registrbtion hbs
+     * fbiled.
+     * <p>This implementbtion does nothing</p>
+     * @pbrbm registrbtionDone Indicbtes whether or not the MBebn hbs been
+     * successfully registered in the MBebn server. The vblue fblse mebns
+     * thbt the registrbtion hbs fbiled.
      */
-    public void postRegister(Boolean registrationDone) {
+    public void postRegister(Boolebn registrbtionDone) {
         // Nothing to do here.
     }
 
     /**
-     * Allows the MBean to perform any operations it needs before being
-     * unregistered by the MBean server.
-     * <p>This implementation does nothing</p>
-     * @throws Exception This exception will be caught by the MBean server and
-     * re-thrown as an MBeanRegistrationException.
+     * Allows the MBebn to perform bny operbtions it needs before being
+     * unregistered by the MBebn server.
+     * <p>This implementbtion does nothing</p>
+     * @throws Exception This exception will be cbught by the MBebn server bnd
+     * re-thrown bs bn MBebnRegistrbtionException.
      */
     public void preDeregister() throws Exception {
         // Nothing to do here.
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * unregistered in the MBean server.
-     * <p>This implementation does nothing</p>
+     * Allows the MBebn to perform bny operbtions needed bfter hbving been
+     * unregistered in the MBebn server.
+     * <p>This implementbtion does nothing</p>
      */
     public void postDeregister() {
         // Nothing to do here.
     }
 
-    // see ScanDirConfigMXBean
-    public String getConfigFilename() {
-        return filename;
+    // see ScbnDirConfigMXBebn
+    public String getConfigFilenbme() {
+        return filenbme;
     }
 
-    // see ScanDirConfigMXBean
-    public void setConfiguration(ScanManagerConfig config) {
+    // see ScbnDirConfigMXBebn
+    public void setConfigurbtion(ScbnMbnbgerConfig config) {
         synchronized (this) {
             if (config == null) {
                 this.config = null;
                 return;
             }
 
-            if (configname == null)
-                configname = config.getName();
+            if (confignbme == null)
+                confignbme = config.getNbme();
 
-            this.config = config.copy(configname);
-            status = MODIFIED;
+            this.config = config.copy(confignbme);
+            stbtus = MODIFIED;
         }
-        sendNotification(NOTIFICATION_MODIFIED);
+        sendNotificbtion(NOTIFICATION_MODIFIED);
     }
 
-    // see ScanDirConfigMXBean
-    public DirectoryScannerConfig
-            addDirectoryScanner(String name, String dir, String filePattern,
-                                long sizeExceedsMaxBytes, long sinceLastModified) {
-         final DirectoryScannerConfig scanner =
-                 new DirectoryScannerConfig(name);
-         scanner.setRootDirectory(dir);
-         if (filePattern!=null||sizeExceedsMaxBytes>0||sinceLastModified>0) {
-            final FileMatch filter = new FileMatch();
-            filter.setFilePattern(filePattern);
-            filter.setSizeExceedsMaxBytes(sizeExceedsMaxBytes);
-            if (sinceLastModified > 0)
-                filter.setLastModifiedBefore(new Date(new Date().getTime()
-                                                -sinceLastModified));
-            scanner.addIncludeFiles(filter);
+    // see ScbnDirConfigMXBebn
+    public DirectoryScbnnerConfig
+            bddDirectoryScbnner(String nbme, String dir, String filePbttern,
+                                long sizeExceedsMbxBytes, long sinceLbstModified) {
+         finbl DirectoryScbnnerConfig scbnner =
+                 new DirectoryScbnnerConfig(nbme);
+         scbnner.setRootDirectory(dir);
+         if (filePbttern!=null||sizeExceedsMbxBytes>0||sinceLbstModified>0) {
+            finbl FileMbtch filter = new FileMbtch();
+            filter.setFilePbttern(filePbttern);
+            filter.setSizeExceedsMbxBytes(sizeExceedsMbxBytes);
+            if (sinceLbstModified > 0)
+                filter.setLbstModifiedBefore(new Dbte(new Dbte().getTime()
+                                                -sinceLbstModified));
+            scbnner.bddIncludeFiles(filter);
          }
          synchronized (this) {
-            config.putScan(scanner);
-            status = MODIFIED;
+            config.putScbn(scbnner);
+            stbtus = MODIFIED;
          }
          LOG.fine("config: "+config);
-         sendNotification(NOTIFICATION_MODIFIED);
-         return scanner;
+         sendNotificbtion(NOTIFICATION_MODIFIED);
+         return scbnner;
     }
 
-    // see ScanDirConfigMXBean
-    public DirectoryScannerConfig removeDirectoryScanner(String name)
-        throws IOException, InstanceNotFoundException {
-        final DirectoryScannerConfig scanner;
+    // see ScbnDirConfigMXBebn
+    public DirectoryScbnnerConfig removeDirectoryScbnner(String nbme)
+        throws IOException, InstbnceNotFoundException {
+        finbl DirectoryScbnnerConfig scbnner;
         synchronized (this) {
-            scanner = config.removeScan(name);
-            if (scanner == null)
-                throw new IllegalArgumentException(name+": scanner not found");
-            status = MODIFIED;
+            scbnner = config.removeScbn(nbme);
+            if (scbnner == null)
+                throw new IllegblArgumentException(nbme+": scbnner not found");
+            stbtus = MODIFIED;
         }
-        sendNotification(NOTIFICATION_MODIFIED);
-        return scanner;
+        sendNotificbtion(NOTIFICATION_MODIFIED);
+        return scbnner;
     }
 
-    // see ScanDirConfigMXBean
-    public SaveState getSaveState() {
-        return status;
+    // see ScbnDirConfigMXBebn
+    public SbveStbte getSbveStbte() {
+        return stbtus;
     }
 
-    // These methods are used by ScanManager to guess a configuration name from
-    // a configuration filename.
+    // These methods bre used by ScbnMbnbger to guess b configurbtion nbme from
+    // b configurbtion filenbme.
     //
-    static String DEFAULT = "DEFAULT";
+    stbtic String DEFAULT = "DEFAULT";
 
-    private static String getBasename(String name) {
-        final int dot = name.indexOf('.');
-        if (dot<0)  return name;
-        if (dot==0) return getBasename(name.substring(1));
-        return name.substring(0,dot);
+    privbte stbtic String getBbsenbme(String nbme) {
+        finbl int dot = nbme.indexOf('.');
+        if (dot<0)  return nbme;
+        if (dot==0) return getBbsenbme(nbme.substring(1));
+        return nbme.substring(0,dot);
     }
 
-    static String guessConfigName(String configFileName,String defaultFile) {
+    stbtic String guessConfigNbme(String configFileNbme,String defbultFile) {
         try {
-            if (configFileName == null) return DEFAULT;
-            final File f = new File(configFileName);
-            if (f.canRead()) {
-                final String confname = XmlConfigUtils.read(f).getName();
-                if (confname != null && confname.length()>0) return confname;
+            if (configFileNbme == null) return DEFAULT;
+            finbl File f = new File(configFileNbme);
+            if (f.cbnRebd()) {
+                finbl String confnbme = XmlConfigUtils.rebd(f).getNbme();
+                if (confnbme != null && confnbme.length()>0) return confnbme;
             }
-            final File f2 = new File(defaultFile);
-            if (f.equals(f2)) return DEFAULT;
-            final String guess = getBasename(f.getName());
+            finbl File f2 = new File(defbultFile);
+            if (f.equbls(f2)) return DEFAULT;
+            finbl String guess = getBbsenbme(f.getNbme());
             if (guess == null) return DEFAULT;
             if (guess.length()==0) return DEFAULT;
             return guess;
-        } catch (Exception x) {
+        } cbtch (Exception x) {
             return DEFAULT;
         }
     }
 
     // Set by preRegister()
-    private volatile MBeanServer mbeanServer;
-    private volatile ObjectName objectName;
+    privbte volbtile MBebnServer mbebnServer;
+    privbte volbtile ObjectNbme objectNbme;
 
 }

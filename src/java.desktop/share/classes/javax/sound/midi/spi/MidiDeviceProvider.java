@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi.spi;
+pbckbge jbvbx.sound.midi.spi;
 
-import javax.sound.midi.MidiDevice;
+import jbvbx.sound.midi.MidiDevice;
 
 /**
- * A {@code MidiDeviceProvider} is a factory or provider for a particular type
- * of MIDI device. This mechanism allows the implementation to determine how
- * resources are managed in the creation and management of a device.
+ * A {@code MidiDeviceProvider} is b fbctory or provider for b pbrticulbr type
+ * of MIDI device. This mechbnism bllows the implementbtion to determine how
+ * resources bre mbnbged in the crebtion bnd mbnbgement of b device.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
-public abstract class MidiDeviceProvider {
+public bbstrbct clbss MidiDeviceProvider {
 
     /**
-     * Indicates whether the device provider supports the device represented by
+     * Indicbtes whether the device provider supports the device represented by
      * the specified device info object.
      *
-     * @param  info an info object that describes the device for which support
+     * @pbrbm  info bn info object thbt describes the device for which support
      *         is queried
      * @return {@code true} if the specified device is supported, otherwise
-     *         {@code false}
+     *         {@code fblse}
      */
-    public boolean isDeviceSupported(MidiDevice.Info info) {
+    public boolebn isDeviceSupported(MidiDevice.Info info) {
 
         MidiDevice.Info infos[] = getDeviceInfo();
 
         for(int i=0; i<infos.length; i++) {
-            if( info.equals( infos[i] ) ) {
+            if( info.equbls( infos[i] ) ) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Obtains the set of info objects representing the device or devices
+     * Obtbins the set of info objects representing the device or devices
      * provided by this {@code MidiDeviceProvider}.
      *
      * @return set of device info objects
      */
-    public abstract MidiDevice.Info[] getDeviceInfo();
+    public bbstrbct MidiDevice.Info[] getDeviceInfo();
 
     /**
-     * Obtains an instance of the device represented by the info object.
+     * Obtbins bn instbnce of the device represented by the info object.
      *
-     * @param  info an info object that describes the desired device
-     * @return device instance
-     * @throws IllegalArgumentException if the info object specified does not
-     *         match the info object for a device supported by this
+     * @pbrbm  info bn info object thbt describes the desired device
+     * @return device instbnce
+     * @throws IllegblArgumentException if the info object specified does not
+     *         mbtch the info object for b device supported by this
      *         {@code MidiDeviceProvider}
      */
-    public abstract MidiDevice getDevice(MidiDevice.Info info);
+    public bbstrbct MidiDevice getDevice(MidiDevice.Info info);
 }

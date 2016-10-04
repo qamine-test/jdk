@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <stdlib.h>
@@ -28,58 +28,58 @@
 #include "jni_util.h"
 #include <windows.h>
 
-static jstring
+stbtic jstring
 environmentBlock9x(JNIEnv *env)
 {
     int i;
     jmethodID String_init_ID;
-    jbyteArray bytes;
+    jbyteArrby bytes;
     jbyte *blockA;
-    jclass string_class;
+    jclbss string_clbss;
 
-    string_class = JNU_ClassString(env);
-    CHECK_NULL_RETURN(string_class, NULL);
+    string_clbss = JNU_ClbssString(env);
+    CHECK_NULL_RETURN(string_clbss, NULL);
 
     String_init_ID =
-        (*env)->GetMethodID(env, string_class, "<init>", "([B)V");
+        (*env)->GetMethodID(env, string_clbss, "<init>", "([B)V");
     CHECK_NULL_RETURN(String_init_ID, NULL);
 
     blockA = (jbyte *) GetEnvironmentStringsA();
     if (blockA == NULL) {
-        /* Both GetEnvironmentStringsW and GetEnvironmentStringsA
-         * failed.  Out of memory is our best guess.  */
-        JNU_ThrowOutOfMemoryError(env, "GetEnvironmentStrings failed");
+        /* Both GetEnvironmentStringsW bnd GetEnvironmentStringsA
+         * fbiled.  Out of memory is our best guess.  */
+        JNU_ThrowOutOfMemoryError(env, "GetEnvironmentStrings fbiled");
         return NULL;
     }
 
-    /* Don't search for "\0\0", since an empty environment block may
-       legitimately consist of a single "\0". */
+    /* Don't sebrch for "\0\0", since bn empty environment block mby
+       legitimbtely consist of b single "\0". */
     for (i = 0; blockA[i];)
         while (blockA[i++])
             ;
 
-    if ((bytes = (*env)->NewByteArray(env, i)) == NULL) {
+    if ((bytes = (*env)->NewByteArrby(env, i)) == NULL) {
         FreeEnvironmentStringsA(blockA);
         return NULL;
     }
-    (*env)->SetByteArrayRegion(env, bytes, 0, i, blockA);
+    (*env)->SetByteArrbyRegion(env, bytes, 0, i, blockA);
     FreeEnvironmentStringsA(blockA);
-    return (*env)->NewObject(env, string_class,
+    return (*env)->NewObject(env, string_clbss,
                              String_init_ID, bytes);
 }
 
-/* Returns a Windows style environment block, discarding final trailing NUL */
+/* Returns b Windows style environment block, discbrding finbl trbiling NUL */
 JNIEXPORT jstring JNICALL
-Java_java_lang_ProcessEnvironment_environmentBlock(JNIEnv *env, jclass klass)
+Jbvb_jbvb_lbng_ProcessEnvironment_environmentBlock(JNIEnv *env, jclbss klbss)
 {
     int i;
     jstring envblock;
-    jchar *blockW = (jchar *) GetEnvironmentStringsW();
+    jchbr *blockW = (jchbr *) GetEnvironmentStringsW();
     if (blockW == NULL)
         return environmentBlock9x(env);
 
-    /* Don't search for "\u0000\u0000", since an empty environment
-       block may legitimately consist of a single "\u0000".  */
+    /* Don't sebrch for "\u0000\u0000", since bn empty environment
+       block mby legitimbtely consist of b single "\u0000".  */
     for (i = 0; blockW[i];)
         while (blockW[i++])
             ;

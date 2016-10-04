@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,102 +30,102 @@
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "AnchorTables.h"
-#include "MarkArrays.h"
-#include "GlyphPositioningTables.h"
-#include "AttachmentPosnSubtables.h"
-#include "MarkToMarkPosnSubtables.h"
-#include "GlyphIterator.h"
-#include "LESwaps.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "AnchorTbbles.h"
+#include "MbrkArrbys.h"
+#include "GlyphPositioningTbbles.h"
+#include "AttbchmentPosnSubtbbles.h"
+#include "MbrkToMbrkPosnSubtbbles.h"
+#include "GlyphIterbtor.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-LEGlyphID MarkToMarkPositioningSubtable::findMark2Glyph(GlyphIterator *glyphIterator) const
+LEGlyphID MbrkToMbrkPositioningSubtbble::findMbrk2Glyph(GlyphIterbtor *glyphIterbtor) const
 {
-    if (glyphIterator->findMark2Glyph()) {
-        return glyphIterator->getCurrGlyphID();
+    if (glyphIterbtor->findMbrk2Glyph()) {
+        return glyphIterbtor->getCurrGlyphID();
     }
 
     return 0xFFFF;
 }
 
-le_int32 MarkToMarkPositioningSubtable::process(const LETableReference &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+le_int32 MbrkToMbrkPositioningSubtbble::process(const LETbbleReference &bbse, GlyphIterbtor *glyphIterbtor, const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const
 {
-    LEGlyphID markGlyph = glyphIterator->getCurrGlyphID();
-    le_int32 markCoverage = getGlyphCoverage(base, (LEGlyphID) markGlyph, success);
+    LEGlyphID mbrkGlyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 mbrkCoverbge = getGlyphCoverbge(bbse, (LEGlyphID) mbrkGlyph, success);
 
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (markCoverage < 0) {
-        // markGlyph isn't a covered mark glyph
+    if (mbrkCoverbge < 0) {
+        // mbrkGlyph isn't b covered mbrk glyph
         return 0;
     }
 
-    LEPoint markAnchor;
-    LEReferenceTo<MarkArray> markArray(base, success, SWAPW(markArrayOffset));
+    LEPoint mbrkAnchor;
+    LEReferenceTo<MbrkArrby> mbrkArrby(bbse, success, SWAPW(mbrkArrbyOffset));
     if(LE_FAILURE(success)) {
       return 0;
     }
-    le_int32 markClass = markArray->getMarkClass(markArray, markGlyph, markCoverage, fontInstance, markAnchor, success);
-    le_uint16 mcCount = SWAPW(classCount);
+    le_int32 mbrkClbss = mbrkArrby->getMbrkClbss(mbrkArrby, mbrkGlyph, mbrkCoverbge, fontInstbnce, mbrkAnchor, success);
+    le_uint16 mcCount = SWAPW(clbssCount);
 
-    if (markClass < 0 || markClass >= mcCount) {
-        // markGlyph isn't in the mark array or its
-        // mark class is too big. The table is mal-formed!
+    if (mbrkClbss < 0 || mbrkClbss >= mcCount) {
+        // mbrkGlyph isn't in the mbrk brrby or its
+        // mbrk clbss is too big. The tbble is mbl-formed!
         return 0;
     }
 
-    GlyphIterator mark2Iterator(*glyphIterator);
-    LEGlyphID mark2Glyph = findMark2Glyph(&mark2Iterator);
-    le_int32 mark2Coverage = getBaseCoverage(base, (LEGlyphID) mark2Glyph, success);
-    LEReferenceTo<Mark2Array>  mark2Array(base, success, (const Mark2Array *) ((char *) this + SWAPW(baseArrayOffset)));
+    GlyphIterbtor mbrk2Iterbtor(*glyphIterbtor);
+    LEGlyphID mbrk2Glyph = findMbrk2Glyph(&mbrk2Iterbtor);
+    le_int32 mbrk2Coverbge = getBbseCoverbge(bbse, (LEGlyphID) mbrk2Glyph, success);
+    LEReferenceTo<Mbrk2Arrby>  mbrk2Arrby(bbse, success, (const Mbrk2Arrby *) ((chbr *) this + SWAPW(bbseArrbyOffset)));
     if(LE_FAILURE(success)) return 0;
-    le_uint16 mark2Count = SWAPW(mark2Array->mark2RecordCount);
+    le_uint16 mbrk2Count = SWAPW(mbrk2Arrby->mbrk2RecordCount);
 
-    if (mark2Coverage < 0 || mark2Coverage >= mark2Count) {
-        // The mark2 glyph isn't covered, or the coverage
-        // index is too big. The latter means that the
-        // table is mal-formed...
+    if (mbrk2Coverbge < 0 || mbrk2Coverbge >= mbrk2Count) {
+        // The mbrk2 glyph isn't covered, or the coverbge
+        // index is too big. The lbtter mebns thbt the
+        // tbble is mbl-formed...
         return 0;
     }
 
-    LEReferenceTo<Mark2Record> mark2Record(base, success, &mark2Array->mark2RecordArray[mark2Coverage * mcCount]);
+    LEReferenceTo<Mbrk2Record> mbrk2Record(bbse, success, &mbrk2Arrby->mbrk2RecordArrby[mbrk2Coverbge * mcCount]);
     if(LE_FAILURE(success)) return 0;
-    Offset anchorTableOffset = SWAPW(mark2Record->mark2AnchorTableOffsetArray[markClass]);
-    LEReferenceTo<AnchorTable> anchorTable(mark2Array, success, anchorTableOffset);
+    Offset bnchorTbbleOffset = SWAPW(mbrk2Record->mbrk2AnchorTbbleOffsetArrby[mbrkClbss]);
+    LEReferenceTo<AnchorTbble> bnchorTbble(mbrk2Arrby, success, bnchorTbbleOffset);
     if(LE_FAILURE(success)) return 0;
-    LEPoint mark2Anchor, markAdvance, pixels;
+    LEPoint mbrk2Anchor, mbrkAdvbnce, pixels;
 
-    if (anchorTableOffset == 0) {
-        // this seems to mean that the marks don't attach...
+    if (bnchorTbbleOffset == 0) {
+        // this seems to mebn thbt the mbrks don't bttbch...
         return 0;
     }
 
-    anchorTable->getAnchor(anchorTable, mark2Glyph, fontInstance, mark2Anchor, success);
+    bnchorTbble->getAnchor(bnchorTbble, mbrk2Glyph, fontInstbnce, mbrk2Anchor, success);
 
-    fontInstance->getGlyphAdvance(markGlyph, pixels);
-    fontInstance->pixelsToUnits(pixels, markAdvance);
+    fontInstbnce->getGlyphAdvbnce(mbrkGlyph, pixels);
+    fontInstbnce->pixelsToUnits(pixels, mbrkAdvbnce);
 
-    float anchorDiffX = mark2Anchor.fX - markAnchor.fX;
-    float anchorDiffY = mark2Anchor.fY - markAnchor.fY;
+    flobt bnchorDiffX = mbrk2Anchor.fX - mbrkAnchor.fX;
+    flobt bnchorDiffY = mbrk2Anchor.fY - mbrkAnchor.fY;
 
-    _LETRACE("Offset: (%.2f, %.2f) glyph 0x%X mark2 0x%X", anchorDiffX, anchorDiffY, markGlyph, mark2Glyph);
+    _LETRACE("Offset: (%.2f, %.2f) glyph 0x%X mbrk2 0x%X", bnchorDiffX, bnchorDiffY, mbrkGlyph, mbrk2Glyph);
 
-    glyphIterator->setCurrGlyphBaseOffset(mark2Iterator.getCurrStreamPosition());
+    glyphIterbtor->setCurrGlyphBbseOffset(mbrk2Iterbtor.getCurrStrebmPosition());
 
-    if (glyphIterator->isRightToLeft()) {
-        glyphIterator->setCurrGlyphPositionAdjustment(anchorDiffX, anchorDiffY, -markAdvance.fX, -markAdvance.fY);
+    if (glyphIterbtor->isRightToLeft()) {
+        glyphIterbtor->setCurrGlyphPositionAdjustment(bnchorDiffX, bnchorDiffY, -mbrkAdvbnce.fX, -mbrkAdvbnce.fY);
     } else {
-        LEPoint mark2Advance;
+        LEPoint mbrk2Advbnce;
 
-        fontInstance->getGlyphAdvance(mark2Glyph, pixels);
-        fontInstance->pixelsToUnits(pixels, mark2Advance);
+        fontInstbnce->getGlyphAdvbnce(mbrk2Glyph, pixels);
+        fontInstbnce->pixelsToUnits(pixels, mbrk2Advbnce);
 
-        glyphIterator->setCurrGlyphPositionAdjustment(anchorDiffX - mark2Advance.fX, anchorDiffY - mark2Advance.fY, -markAdvance.fX, -markAdvance.fY);
+        glyphIterbtor->setCurrGlyphPositionAdjustment(bnchorDiffX - mbrk2Advbnce.fX, bnchorDiffY - mbrk2Advbnce.fY, -mbrkAdvbnce.fX, -mbrkAdvbnce.fY);
     }
 
     return 1;

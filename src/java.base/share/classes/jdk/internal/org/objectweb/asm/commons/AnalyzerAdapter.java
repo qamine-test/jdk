@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,270 +56,270 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
 
 /**
- * A {@link MethodVisitor} that keeps track of stack map frame changes between
- * {@link #visitFrame(int, int, Object[], int, Object[]) visitFrame} calls. This
- * adapter must be used with the
- * {@link jdk.internal.org.objectweb.asm.ClassReader#EXPAND_FRAMES} option. Each
- * visit<i>X</i> instruction delegates to the next visitor in the chain, if any,
- * and then simulates the effect of this instruction on the stack map frame,
- * represented by {@link #locals} and {@link #stack}. The next visitor in the
- * chain can get the state of the stack map frame <i>before</i> each instruction
- * by reading the value of these fields in its visit<i>X</i> methods (this
- * requires a reference to the AnalyzerAdapter that is before it in the chain).
- * If this adapter is used with a class that does not contain stack map table
- * attributes (i.e., pre Java 6 classes) then this adapter may not be able to
- * compute the stack map frame for each instruction. In this case no exception
- * is thrown but the {@link #locals} and {@link #stack} fields will be null for
+ * A {@link MethodVisitor} thbt keeps trbck of stbck mbp frbme chbnges between
+ * {@link #visitFrbme(int, int, Object[], int, Object[]) visitFrbme} cblls. This
+ * bdbpter must be used with the
+ * {@link jdk.internbl.org.objectweb.bsm.ClbssRebder#EXPAND_FRAMES} option. Ebch
+ * visit<i>X</i> instruction delegbtes to the next visitor in the chbin, if bny,
+ * bnd then simulbtes the effect of this instruction on the stbck mbp frbme,
+ * represented by {@link #locbls} bnd {@link #stbck}. The next visitor in the
+ * chbin cbn get the stbte of the stbck mbp frbme <i>before</i> ebch instruction
+ * by rebding the vblue of these fields in its visit<i>X</i> methods (this
+ * requires b reference to the AnblyzerAdbpter thbt is before it in the chbin).
+ * If this bdbpter is used with b clbss thbt does not contbin stbck mbp tbble
+ * bttributes (i.e., pre Jbvb 6 clbsses) then this bdbpter mby not be bble to
+ * compute the stbck mbp frbme for ebch instruction. In this cbse no exception
+ * is thrown but the {@link #locbls} bnd {@link #stbck} fields will be null for
  * these instructions.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class AnalyzerAdapter extends MethodVisitor {
+public clbss AnblyzerAdbpter extends MethodVisitor {
 
     /**
-     * <code>List</code> of the local variable slots for current execution
-     * frame. Primitive types are represented by {@link Opcodes#TOP},
+     * <code>List</code> of the locbl vbribble slots for current execution
+     * frbme. Primitive types bre represented by {@link Opcodes#TOP},
      * {@link Opcodes#INTEGER}, {@link Opcodes#FLOAT}, {@link Opcodes#LONG},
      * {@link Opcodes#DOUBLE},{@link Opcodes#NULL} or
-     * {@link Opcodes#UNINITIALIZED_THIS} (long and double are represented by
-     * two elements, the second one being TOP). Reference types are represented
-     * by String objects (representing internal names), and uninitialized types
-     * by Label objects (this label designates the NEW instruction that created
-     * this uninitialized value). This field is <tt>null</tt> for unreachable
+     * {@link Opcodes#UNINITIALIZED_THIS} (long bnd double bre represented by
+     * two elements, the second one being TOP). Reference types bre represented
+     * by String objects (representing internbl nbmes), bnd uninitiblized types
+     * by Lbbel objects (this lbbel designbtes the NEW instruction thbt crebted
+     * this uninitiblized vblue). This field is <tt>null</tt> for unrebchbble
      * instructions.
      */
-    public List<Object> locals;
+    public List<Object> locbls;
 
     /**
-     * <code>List</code> of the operand stack slots for current execution frame.
-     * Primitive types are represented by {@link Opcodes#TOP},
+     * <code>List</code> of the operbnd stbck slots for current execution frbme.
+     * Primitive types bre represented by {@link Opcodes#TOP},
      * {@link Opcodes#INTEGER}, {@link Opcodes#FLOAT}, {@link Opcodes#LONG},
      * {@link Opcodes#DOUBLE},{@link Opcodes#NULL} or
-     * {@link Opcodes#UNINITIALIZED_THIS} (long and double are represented by
-     * two elements, the second one being TOP). Reference types are represented
-     * by String objects (representing internal names), and uninitialized types
-     * by Label objects (this label designates the NEW instruction that created
-     * this uninitialized value). This field is <tt>null</tt> for unreachable
+     * {@link Opcodes#UNINITIALIZED_THIS} (long bnd double bre represented by
+     * two elements, the second one being TOP). Reference types bre represented
+     * by String objects (representing internbl nbmes), bnd uninitiblized types
+     * by Lbbel objects (this lbbel designbtes the NEW instruction thbt crebted
+     * this uninitiblized vblue). This field is <tt>null</tt> for unrebchbble
      * instructions.
      */
-    public List<Object> stack;
+    public List<Object> stbck;
 
     /**
-     * The labels that designate the next instruction to be visited. May be
+     * The lbbels thbt designbte the next instruction to be visited. Mby be
      * <tt>null</tt>.
      */
-    private List<Label> labels;
+    privbte List<Lbbel> lbbels;
 
     /**
-     * Information about uninitialized types in the current execution frame.
-     * This map associates internal names to Label objects. Each label
-     * designates a NEW instruction that created the currently uninitialized
-     * types, and the associated internal name represents the NEW operand, i.e.
-     * the final, initialized type value.
+     * Informbtion bbout uninitiblized types in the current execution frbme.
+     * This mbp bssocibtes internbl nbmes to Lbbel objects. Ebch lbbel
+     * designbtes b NEW instruction thbt crebted the currently uninitiblized
+     * types, bnd the bssocibted internbl nbme represents the NEW operbnd, i.e.
+     * the finbl, initiblized type vblue.
      */
-    public Map<Object, Object> uninitializedTypes;
+    public Mbp<Object, Object> uninitiblizedTypes;
 
     /**
-     * The maximum stack size of this method.
+     * The mbximum stbck size of this method.
      */
-    private int maxStack;
+    privbte int mbxStbck;
 
     /**
-     * The maximum number of local variables of this method.
+     * The mbximum number of locbl vbribbles of this method.
      */
-    private int maxLocals;
+    privbte int mbxLocbls;
 
     /**
-     * The owner's class name.
+     * The owner's clbss nbme.
      */
-    private String owner;
+    privbte String owner;
 
     /**
-     * Creates a new {@link AnalyzerAdapter}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #AnalyzerAdapter(int, String, int, String, String, MethodVisitor)}
+     * Crebtes b new {@link AnblyzerAdbpter}. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the
+     * {@link #AnblyzerAdbpter(int, String, int, String, String, MethodVisitor)}
      * version.
      *
-     * @param owner
-     *            the owner's class name.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm owner
+     *            the owner's clbss nbme.
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}).
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type Type}).
-     * @param mv
-     *            the method visitor to which this adapter delegates calls. May
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls. Mby
      *            be <tt>null</tt>.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public AnalyzerAdapter(final String owner, final int access,
-            final String name, final String desc, final MethodVisitor mv) {
-        this(Opcodes.ASM5, owner, access, name, desc, mv);
-        if (getClass() != AnalyzerAdapter.class) {
-            throw new IllegalStateException();
+    public AnblyzerAdbpter(finbl String owner, finbl int bccess,
+            finbl String nbme, finbl String desc, finbl MethodVisitor mv) {
+        this(Opcodes.ASM5, owner, bccess, nbme, desc, mv);
+        if (getClbss() != AnblyzerAdbpter.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Creates a new {@link AnalyzerAdapter}.
+     * Crebtes b new {@link AnblyzerAdbpter}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param owner
-     *            the owner's class name.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm owner
+     *            the owner's clbss nbme.
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}).
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type Type}).
-     * @param mv
-     *            the method visitor to which this adapter delegates calls. May
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls. Mby
      *            be <tt>null</tt>.
      */
-    protected AnalyzerAdapter(final int api, final String owner,
-            final int access, final String name, final String desc,
-            final MethodVisitor mv) {
-        super(api, mv);
+    protected AnblyzerAdbpter(finbl int bpi, finbl String owner,
+            finbl int bccess, finbl String nbme, finbl String desc,
+            finbl MethodVisitor mv) {
+        super(bpi, mv);
         this.owner = owner;
-        locals = new ArrayList<Object>();
-        stack = new ArrayList<Object>();
-        uninitializedTypes = new HashMap<Object, Object>();
+        locbls = new ArrbyList<Object>();
+        stbck = new ArrbyList<Object>();
+        uninitiblizedTypes = new HbshMbp<Object, Object>();
 
-        if ((access & Opcodes.ACC_STATIC) == 0) {
-            if ("<init>".equals(name)) {
-                locals.add(Opcodes.UNINITIALIZED_THIS);
+        if ((bccess & Opcodes.ACC_STATIC) == 0) {
+            if ("<init>".equbls(nbme)) {
+                locbls.bdd(Opcodes.UNINITIALIZED_THIS);
             } else {
-                locals.add(owner);
+                locbls.bdd(owner);
             }
         }
         Type[] types = Type.getArgumentTypes(desc);
         for (int i = 0; i < types.length; ++i) {
             Type type = types[i];
             switch (type.getSort()) {
-            case Type.BOOLEAN:
-            case Type.CHAR:
-            case Type.BYTE:
-            case Type.SHORT:
-            case Type.INT:
-                locals.add(Opcodes.INTEGER);
-                break;
-            case Type.FLOAT:
-                locals.add(Opcodes.FLOAT);
-                break;
-            case Type.LONG:
-                locals.add(Opcodes.LONG);
-                locals.add(Opcodes.TOP);
-                break;
-            case Type.DOUBLE:
-                locals.add(Opcodes.DOUBLE);
-                locals.add(Opcodes.TOP);
-                break;
-            case Type.ARRAY:
-                locals.add(types[i].getDescriptor());
-                break;
-            // case Type.OBJECT:
-            default:
-                locals.add(types[i].getInternalName());
+            cbse Type.BOOLEAN:
+            cbse Type.CHAR:
+            cbse Type.BYTE:
+            cbse Type.SHORT:
+            cbse Type.INT:
+                locbls.bdd(Opcodes.INTEGER);
+                brebk;
+            cbse Type.FLOAT:
+                locbls.bdd(Opcodes.FLOAT);
+                brebk;
+            cbse Type.LONG:
+                locbls.bdd(Opcodes.LONG);
+                locbls.bdd(Opcodes.TOP);
+                brebk;
+            cbse Type.DOUBLE:
+                locbls.bdd(Opcodes.DOUBLE);
+                locbls.bdd(Opcodes.TOP);
+                brebk;
+            cbse Type.ARRAY:
+                locbls.bdd(types[i].getDescriptor());
+                brebk;
+            // cbse Type.OBJECT:
+            defbult:
+                locbls.bdd(types[i].getInternblNbme());
             }
         }
-        maxLocals = locals.size();
+        mbxLocbls = locbls.size();
     }
 
     @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        if (type != Opcodes.F_NEW) { // uncompressed frame
-            throw new IllegalStateException(
-                    "ClassReader.accept() should be called with EXPAND_FRAMES flag");
+    public void visitFrbme(finbl int type, finbl int nLocbl,
+            finbl Object[] locbl, finbl int nStbck, finbl Object[] stbck) {
+        if (type != Opcodes.F_NEW) { // uncompressed frbme
+            throw new IllegblStbteException(
+                    "ClbssRebder.bccept() should be cblled with EXPAND_FRAMES flbg");
         }
 
         if (mv != null) {
-            mv.visitFrame(type, nLocal, local, nStack, stack);
+            mv.visitFrbme(type, nLocbl, locbl, nStbck, stbck);
         }
 
-        if (this.locals != null) {
-            this.locals.clear();
-            this.stack.clear();
+        if (this.locbls != null) {
+            this.locbls.clebr();
+            this.stbck.clebr();
         } else {
-            this.locals = new ArrayList<Object>();
-            this.stack = new ArrayList<Object>();
+            this.locbls = new ArrbyList<Object>();
+            this.stbck = new ArrbyList<Object>();
         }
-        visitFrameTypes(nLocal, local, this.locals);
-        visitFrameTypes(nStack, stack, this.stack);
-        maxStack = Math.max(maxStack, this.stack.size());
+        visitFrbmeTypes(nLocbl, locbl, this.locbls);
+        visitFrbmeTypes(nStbck, stbck, this.stbck);
+        mbxStbck = Mbth.mbx(mbxStbck, this.stbck.size());
     }
 
-    private static void visitFrameTypes(final int n, final Object[] types,
-            final List<Object> result) {
+    privbte stbtic void visitFrbmeTypes(finbl int n, finbl Object[] types,
+            finbl List<Object> result) {
         for (int i = 0; i < n; ++i) {
             Object type = types[i];
-            result.add(type);
+            result.bdd(type);
             if (type == Opcodes.LONG || type == Opcodes.DOUBLE) {
-                result.add(Opcodes.TOP);
+                result.bdd(Opcodes.TOP);
             }
         }
     }
 
     @Override
-    public void visitInsn(final int opcode) {
+    public void visitInsn(finbl int opcode) {
         if (mv != null) {
             mv.visitInsn(opcode);
         }
         execute(opcode, 0, null);
         if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)
                 || opcode == Opcodes.ATHROW) {
-            this.locals = null;
-            this.stack = null;
+            this.locbls = null;
+            this.stbck = null;
         }
     }
 
     @Override
-    public void visitIntInsn(final int opcode, final int operand) {
+    public void visitIntInsn(finbl int opcode, finbl int operbnd) {
         if (mv != null) {
-            mv.visitIntInsn(opcode, operand);
+            mv.visitIntInsn(opcode, operbnd);
         }
-        execute(opcode, operand, null);
+        execute(opcode, operbnd, null);
     }
 
     @Override
-    public void visitVarInsn(final int opcode, final int var) {
+    public void visitVbrInsn(finbl int opcode, finbl int vbr) {
         if (mv != null) {
-            mv.visitVarInsn(opcode, var);
+            mv.visitVbrInsn(opcode, vbr);
         }
-        execute(opcode, var, null);
+        execute(opcode, vbr, null);
     }
 
     @Override
-    public void visitTypeInsn(final int opcode, final String type) {
+    public void visitTypeInsn(finbl int opcode, finbl String type) {
         if (opcode == Opcodes.NEW) {
-            if (labels == null) {
-                Label l = new Label();
-                labels = new ArrayList<Label>(3);
-                labels.add(l);
+            if (lbbels == null) {
+                Lbbel l = new Lbbel();
+                lbbels = new ArrbyList<Lbbel>(3);
+                lbbels.bdd(l);
                 if (mv != null) {
-                    mv.visitLabel(l);
+                    mv.visitLbbel(l);
                 }
             }
-            for (int i = 0; i < labels.size(); ++i) {
-                uninitializedTypes.put(labels.get(i), type);
+            for (int i = 0; i < lbbels.size(); ++i) {
+                uninitiblizedTypes.put(lbbels.get(i), type);
             }
         }
         if (mv != null) {
@@ -329,246 +329,246 @@ public class AnalyzerAdapter extends MethodVisitor {
     }
 
     @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
+    public void visitFieldInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
         if (mv != null) {
-            mv.visitFieldInsn(opcode, owner, name, desc);
+            mv.visitFieldInsn(opcode, owner, nbme, desc);
         }
         execute(opcode, 0, desc);
     }
 
-    @Deprecated
+    @Deprecbted
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        if (bpi >= Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc,
+        doVisitMethodInsn(opcode, owner, nbme, desc,
                 opcode == Opcodes.INVOKEINTERFACE);
     }
 
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc, itf);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
+        doVisitMethodInsn(opcode, owner, nbme, desc, itf);
     }
 
-    private void doVisitMethodInsn(int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
+    privbte void doVisitMethodInsn(int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
         if (mv != null) {
-            mv.visitMethodInsn(opcode, owner, name, desc, itf);
+            mv.visitMethodInsn(opcode, owner, nbme, desc, itf);
         }
-        if (this.locals == null) {
-            labels = null;
+        if (this.locbls == null) {
+            lbbels = null;
             return;
         }
         pop(desc);
         if (opcode != Opcodes.INVOKESTATIC) {
             Object t = pop();
-            if (opcode == Opcodes.INVOKESPECIAL && name.charAt(0) == '<') {
+            if (opcode == Opcodes.INVOKESPECIAL && nbme.chbrAt(0) == '<') {
                 Object u;
                 if (t == Opcodes.UNINITIALIZED_THIS) {
                     u = this.owner;
                 } else {
-                    u = uninitializedTypes.get(t);
+                    u = uninitiblizedTypes.get(t);
                 }
-                for (int i = 0; i < locals.size(); ++i) {
-                    if (locals.get(i) == t) {
-                        locals.set(i, u);
+                for (int i = 0; i < locbls.size(); ++i) {
+                    if (locbls.get(i) == t) {
+                        locbls.set(i, u);
                     }
                 }
-                for (int i = 0; i < stack.size(); ++i) {
-                    if (stack.get(i) == t) {
-                        stack.set(i, u);
+                for (int i = 0; i < stbck.size(); ++i) {
+                    if (stbck.get(i) == t) {
+                        stbck.set(i, u);
                     }
                 }
             }
         }
         pushDesc(desc);
-        labels = null;
+        lbbels = null;
     }
 
     @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
+    public void visitInvokeDynbmicInsn(String nbme, String desc, Hbndle bsm,
             Object... bsmArgs) {
         if (mv != null) {
-            mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+            mv.visitInvokeDynbmicInsn(nbme, desc, bsm, bsmArgs);
         }
-        if (this.locals == null) {
-            labels = null;
+        if (this.locbls == null) {
+            lbbels = null;
             return;
         }
         pop(desc);
         pushDesc(desc);
-        labels = null;
+        lbbels = null;
     }
 
     @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
+    public void visitJumpInsn(finbl int opcode, finbl Lbbel lbbel) {
         if (mv != null) {
-            mv.visitJumpInsn(opcode, label);
+            mv.visitJumpInsn(opcode, lbbel);
         }
         execute(opcode, 0, null);
         if (opcode == Opcodes.GOTO) {
-            this.locals = null;
-            this.stack = null;
+            this.locbls = null;
+            this.stbck = null;
         }
     }
 
     @Override
-    public void visitLabel(final Label label) {
+    public void visitLbbel(finbl Lbbel lbbel) {
         if (mv != null) {
-            mv.visitLabel(label);
+            mv.visitLbbel(lbbel);
         }
-        if (labels == null) {
-            labels = new ArrayList<Label>(3);
+        if (lbbels == null) {
+            lbbels = new ArrbyList<Lbbel>(3);
         }
-        labels.add(label);
+        lbbels.bdd(lbbel);
     }
 
     @Override
-    public void visitLdcInsn(final Object cst) {
+    public void visitLdcInsn(finbl Object cst) {
         if (mv != null) {
             mv.visitLdcInsn(cst);
         }
-        if (this.locals == null) {
-            labels = null;
+        if (this.locbls == null) {
+            lbbels = null;
             return;
         }
-        if (cst instanceof Integer) {
+        if (cst instbnceof Integer) {
             push(Opcodes.INTEGER);
-        } else if (cst instanceof Long) {
+        } else if (cst instbnceof Long) {
             push(Opcodes.LONG);
             push(Opcodes.TOP);
-        } else if (cst instanceof Float) {
+        } else if (cst instbnceof Flobt) {
             push(Opcodes.FLOAT);
-        } else if (cst instanceof Double) {
+        } else if (cst instbnceof Double) {
             push(Opcodes.DOUBLE);
             push(Opcodes.TOP);
-        } else if (cst instanceof String) {
-            push("java/lang/String");
-        } else if (cst instanceof Type) {
+        } else if (cst instbnceof String) {
+            push("jbvb/lbng/String");
+        } else if (cst instbnceof Type) {
             int sort = ((Type) cst).getSort();
             if (sort == Type.OBJECT || sort == Type.ARRAY) {
-                push("java/lang/Class");
+                push("jbvb/lbng/Clbss");
             } else if (sort == Type.METHOD) {
-                push("java/lang/invoke/MethodType");
+                push("jbvb/lbng/invoke/MethodType");
             } else {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
-        } else if (cst instanceof Handle) {
-            push("java/lang/invoke/MethodHandle");
+        } else if (cst instbnceof Hbndle) {
+            push("jbvb/lbng/invoke/MethodHbndle");
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
-        labels = null;
+        lbbels = null;
     }
 
     @Override
-    public void visitIincInsn(final int var, final int increment) {
+    public void visitIincInsn(finbl int vbr, finbl int increment) {
         if (mv != null) {
-            mv.visitIincInsn(var, increment);
+            mv.visitIincInsn(vbr, increment);
         }
-        execute(Opcodes.IINC, var, null);
+        execute(Opcodes.IINC, vbr, null);
     }
 
     @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
+    public void visitTbbleSwitchInsn(finbl int min, finbl int mbx,
+            finbl Lbbel dflt, finbl Lbbel... lbbels) {
         if (mv != null) {
-            mv.visitTableSwitchInsn(min, max, dflt, labels);
+            mv.visitTbbleSwitchInsn(min, mbx, dflt, lbbels);
         }
         execute(Opcodes.TABLESWITCH, 0, null);
-        this.locals = null;
-        this.stack = null;
+        this.locbls = null;
+        this.stbck = null;
     }
 
     @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
+    public void visitLookupSwitchInsn(finbl Lbbel dflt, finbl int[] keys,
+            finbl Lbbel[] lbbels) {
         if (mv != null) {
-            mv.visitLookupSwitchInsn(dflt, keys, labels);
+            mv.visitLookupSwitchInsn(dflt, keys, lbbels);
         }
         execute(Opcodes.LOOKUPSWITCH, 0, null);
-        this.locals = null;
-        this.stack = null;
+        this.locbls = null;
+        this.stbck = null;
     }
 
     @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
+    public void visitMultiANewArrbyInsn(finbl String desc, finbl int dims) {
         if (mv != null) {
-            mv.visitMultiANewArrayInsn(desc, dims);
+            mv.visitMultiANewArrbyInsn(desc, dims);
         }
         execute(Opcodes.MULTIANEWARRAY, dims, desc);
     }
 
     @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
+    public void visitMbxs(finbl int mbxStbck, finbl int mbxLocbls) {
         if (mv != null) {
-            this.maxStack = Math.max(this.maxStack, maxStack);
-            this.maxLocals = Math.max(this.maxLocals, maxLocals);
-            mv.visitMaxs(this.maxStack, this.maxLocals);
+            this.mbxStbck = Mbth.mbx(this.mbxStbck, mbxStbck);
+            this.mbxLocbls = Mbth.mbx(this.mbxLocbls, mbxLocbls);
+            mv.visitMbxs(this.mbxStbck, this.mbxLocbls);
         }
     }
 
     // ------------------------------------------------------------------------
 
-    private Object get(final int local) {
-        maxLocals = Math.max(maxLocals, local + 1);
-        return local < locals.size() ? locals.get(local) : Opcodes.TOP;
+    privbte Object get(finbl int locbl) {
+        mbxLocbls = Mbth.mbx(mbxLocbls, locbl + 1);
+        return locbl < locbls.size() ? locbls.get(locbl) : Opcodes.TOP;
     }
 
-    private void set(final int local, final Object type) {
-        maxLocals = Math.max(maxLocals, local + 1);
-        while (local >= locals.size()) {
-            locals.add(Opcodes.TOP);
+    privbte void set(finbl int locbl, finbl Object type) {
+        mbxLocbls = Mbth.mbx(mbxLocbls, locbl + 1);
+        while (locbl >= locbls.size()) {
+            locbls.bdd(Opcodes.TOP);
         }
-        locals.set(local, type);
+        locbls.set(locbl, type);
     }
 
-    private void push(final Object type) {
-        stack.add(type);
-        maxStack = Math.max(maxStack, stack.size());
+    privbte void push(finbl Object type) {
+        stbck.bdd(type);
+        mbxStbck = Mbth.mbx(mbxStbck, stbck.size());
     }
 
-    private void pushDesc(final String desc) {
-        int index = desc.charAt(0) == '(' ? desc.indexOf(')') + 1 : 0;
-        switch (desc.charAt(index)) {
-        case 'V':
+    privbte void pushDesc(finbl String desc) {
+        int index = desc.chbrAt(0) == '(' ? desc.indexOf(')') + 1 : 0;
+        switch (desc.chbrAt(index)) {
+        cbse 'V':
             return;
-        case 'Z':
-        case 'C':
-        case 'B':
-        case 'S':
-        case 'I':
+        cbse 'Z':
+        cbse 'C':
+        cbse 'B':
+        cbse 'S':
+        cbse 'I':
             push(Opcodes.INTEGER);
             return;
-        case 'F':
+        cbse 'F':
             push(Opcodes.FLOAT);
             return;
-        case 'J':
+        cbse 'J':
             push(Opcodes.LONG);
             push(Opcodes.TOP);
             return;
-        case 'D':
+        cbse 'D':
             push(Opcodes.DOUBLE);
             push(Opcodes.TOP);
             return;
-        case '[':
+        cbse '[':
             if (index == 0) {
                 push(desc);
             } else {
                 push(desc.substring(index, desc.length()));
             }
-            break;
-        // case 'L':
-        default:
+            brebk;
+        // cbse 'L':
+        defbult:
             if (index == 0) {
                 push(desc.substring(1, desc.length() - 1));
             } else {
@@ -577,20 +577,20 @@ public class AnalyzerAdapter extends MethodVisitor {
         }
     }
 
-    private Object pop() {
-        return stack.remove(stack.size() - 1);
+    privbte Object pop() {
+        return stbck.remove(stbck.size() - 1);
     }
 
-    private void pop(final int n) {
-        int size = stack.size();
+    privbte void pop(finbl int n) {
+        int size = stbck.size();
         int end = size - n;
         for (int i = size - 1; i >= end; --i) {
-            stack.remove(i);
+            stbck.remove(i);
         }
     }
 
-    private void pop(final String desc) {
-        char c = desc.charAt(0);
+    privbte void pop(finbl String desc) {
+        chbr c = desc.chbrAt(0);
         if (c == '(') {
             int n = 0;
             Type[] types = Type.getArgumentTypes(desc);
@@ -605,177 +605,177 @@ public class AnalyzerAdapter extends MethodVisitor {
         }
     }
 
-    private void execute(final int opcode, final int iarg, final String sarg) {
-        if (this.locals == null) {
-            labels = null;
+    privbte void execute(finbl int opcode, finbl int ibrg, finbl String sbrg) {
+        if (this.locbls == null) {
+            lbbels = null;
             return;
         }
         Object t1, t2, t3, t4;
         switch (opcode) {
-        case Opcodes.NOP:
-        case Opcodes.INEG:
-        case Opcodes.LNEG:
-        case Opcodes.FNEG:
-        case Opcodes.DNEG:
-        case Opcodes.I2B:
-        case Opcodes.I2C:
-        case Opcodes.I2S:
-        case Opcodes.GOTO:
-        case Opcodes.RETURN:
-            break;
-        case Opcodes.ACONST_NULL:
+        cbse Opcodes.NOP:
+        cbse Opcodes.INEG:
+        cbse Opcodes.LNEG:
+        cbse Opcodes.FNEG:
+        cbse Opcodes.DNEG:
+        cbse Opcodes.I2B:
+        cbse Opcodes.I2C:
+        cbse Opcodes.I2S:
+        cbse Opcodes.GOTO:
+        cbse Opcodes.RETURN:
+            brebk;
+        cbse Opcodes.ACONST_NULL:
             push(Opcodes.NULL);
-            break;
-        case Opcodes.ICONST_M1:
-        case Opcodes.ICONST_0:
-        case Opcodes.ICONST_1:
-        case Opcodes.ICONST_2:
-        case Opcodes.ICONST_3:
-        case Opcodes.ICONST_4:
-        case Opcodes.ICONST_5:
-        case Opcodes.BIPUSH:
-        case Opcodes.SIPUSH:
+            brebk;
+        cbse Opcodes.ICONST_M1:
+        cbse Opcodes.ICONST_0:
+        cbse Opcodes.ICONST_1:
+        cbse Opcodes.ICONST_2:
+        cbse Opcodes.ICONST_3:
+        cbse Opcodes.ICONST_4:
+        cbse Opcodes.ICONST_5:
+        cbse Opcodes.BIPUSH:
+        cbse Opcodes.SIPUSH:
             push(Opcodes.INTEGER);
-            break;
-        case Opcodes.LCONST_0:
-        case Opcodes.LCONST_1:
+            brebk;
+        cbse Opcodes.LCONST_0:
+        cbse Opcodes.LCONST_1:
             push(Opcodes.LONG);
             push(Opcodes.TOP);
-            break;
-        case Opcodes.FCONST_0:
-        case Opcodes.FCONST_1:
-        case Opcodes.FCONST_2:
+            brebk;
+        cbse Opcodes.FCONST_0:
+        cbse Opcodes.FCONST_1:
+        cbse Opcodes.FCONST_2:
             push(Opcodes.FLOAT);
-            break;
-        case Opcodes.DCONST_0:
-        case Opcodes.DCONST_1:
+            brebk;
+        cbse Opcodes.DCONST_0:
+        cbse Opcodes.DCONST_1:
             push(Opcodes.DOUBLE);
             push(Opcodes.TOP);
-            break;
-        case Opcodes.ILOAD:
-        case Opcodes.FLOAD:
-        case Opcodes.ALOAD:
-            push(get(iarg));
-            break;
-        case Opcodes.LLOAD:
-        case Opcodes.DLOAD:
-            push(get(iarg));
+            brebk;
+        cbse Opcodes.ILOAD:
+        cbse Opcodes.FLOAD:
+        cbse Opcodes.ALOAD:
+            push(get(ibrg));
+            brebk;
+        cbse Opcodes.LLOAD:
+        cbse Opcodes.DLOAD:
+            push(get(ibrg));
             push(Opcodes.TOP);
-            break;
-        case Opcodes.IALOAD:
-        case Opcodes.BALOAD:
-        case Opcodes.CALOAD:
-        case Opcodes.SALOAD:
+            brebk;
+        cbse Opcodes.IALOAD:
+        cbse Opcodes.BALOAD:
+        cbse Opcodes.CALOAD:
+        cbse Opcodes.SALOAD:
             pop(2);
             push(Opcodes.INTEGER);
-            break;
-        case Opcodes.LALOAD:
-        case Opcodes.D2L:
+            brebk;
+        cbse Opcodes.LALOAD:
+        cbse Opcodes.D2L:
             pop(2);
             push(Opcodes.LONG);
             push(Opcodes.TOP);
-            break;
-        case Opcodes.FALOAD:
+            brebk;
+        cbse Opcodes.FALOAD:
             pop(2);
             push(Opcodes.FLOAT);
-            break;
-        case Opcodes.DALOAD:
-        case Opcodes.L2D:
+            brebk;
+        cbse Opcodes.DALOAD:
+        cbse Opcodes.L2D:
             pop(2);
             push(Opcodes.DOUBLE);
             push(Opcodes.TOP);
-            break;
-        case Opcodes.AALOAD:
+            brebk;
+        cbse Opcodes.AALOAD:
             pop(1);
             t1 = pop();
-            if (t1 instanceof String) {
+            if (t1 instbnceof String) {
                 pushDesc(((String) t1).substring(1));
             } else {
-                push("java/lang/Object");
+                push("jbvb/lbng/Object");
             }
-            break;
-        case Opcodes.ISTORE:
-        case Opcodes.FSTORE:
-        case Opcodes.ASTORE:
+            brebk;
+        cbse Opcodes.ISTORE:
+        cbse Opcodes.FSTORE:
+        cbse Opcodes.ASTORE:
             t1 = pop();
-            set(iarg, t1);
-            if (iarg > 0) {
-                t2 = get(iarg - 1);
+            set(ibrg, t1);
+            if (ibrg > 0) {
+                t2 = get(ibrg - 1);
                 if (t2 == Opcodes.LONG || t2 == Opcodes.DOUBLE) {
-                    set(iarg - 1, Opcodes.TOP);
+                    set(ibrg - 1, Opcodes.TOP);
                 }
             }
-            break;
-        case Opcodes.LSTORE:
-        case Opcodes.DSTORE:
+            brebk;
+        cbse Opcodes.LSTORE:
+        cbse Opcodes.DSTORE:
             pop(1);
             t1 = pop();
-            set(iarg, t1);
-            set(iarg + 1, Opcodes.TOP);
-            if (iarg > 0) {
-                t2 = get(iarg - 1);
+            set(ibrg, t1);
+            set(ibrg + 1, Opcodes.TOP);
+            if (ibrg > 0) {
+                t2 = get(ibrg - 1);
                 if (t2 == Opcodes.LONG || t2 == Opcodes.DOUBLE) {
-                    set(iarg - 1, Opcodes.TOP);
+                    set(ibrg - 1, Opcodes.TOP);
                 }
             }
-            break;
-        case Opcodes.IASTORE:
-        case Opcodes.BASTORE:
-        case Opcodes.CASTORE:
-        case Opcodes.SASTORE:
-        case Opcodes.FASTORE:
-        case Opcodes.AASTORE:
+            brebk;
+        cbse Opcodes.IASTORE:
+        cbse Opcodes.BASTORE:
+        cbse Opcodes.CASTORE:
+        cbse Opcodes.SASTORE:
+        cbse Opcodes.FASTORE:
+        cbse Opcodes.AASTORE:
             pop(3);
-            break;
-        case Opcodes.LASTORE:
-        case Opcodes.DASTORE:
+            brebk;
+        cbse Opcodes.LASTORE:
+        cbse Opcodes.DASTORE:
             pop(4);
-            break;
-        case Opcodes.POP:
-        case Opcodes.IFEQ:
-        case Opcodes.IFNE:
-        case Opcodes.IFLT:
-        case Opcodes.IFGE:
-        case Opcodes.IFGT:
-        case Opcodes.IFLE:
-        case Opcodes.IRETURN:
-        case Opcodes.FRETURN:
-        case Opcodes.ARETURN:
-        case Opcodes.TABLESWITCH:
-        case Opcodes.LOOKUPSWITCH:
-        case Opcodes.ATHROW:
-        case Opcodes.MONITORENTER:
-        case Opcodes.MONITOREXIT:
-        case Opcodes.IFNULL:
-        case Opcodes.IFNONNULL:
+            brebk;
+        cbse Opcodes.POP:
+        cbse Opcodes.IFEQ:
+        cbse Opcodes.IFNE:
+        cbse Opcodes.IFLT:
+        cbse Opcodes.IFGE:
+        cbse Opcodes.IFGT:
+        cbse Opcodes.IFLE:
+        cbse Opcodes.IRETURN:
+        cbse Opcodes.FRETURN:
+        cbse Opcodes.ARETURN:
+        cbse Opcodes.TABLESWITCH:
+        cbse Opcodes.LOOKUPSWITCH:
+        cbse Opcodes.ATHROW:
+        cbse Opcodes.MONITORENTER:
+        cbse Opcodes.MONITOREXIT:
+        cbse Opcodes.IFNULL:
+        cbse Opcodes.IFNONNULL:
             pop(1);
-            break;
-        case Opcodes.POP2:
-        case Opcodes.IF_ICMPEQ:
-        case Opcodes.IF_ICMPNE:
-        case Opcodes.IF_ICMPLT:
-        case Opcodes.IF_ICMPGE:
-        case Opcodes.IF_ICMPGT:
-        case Opcodes.IF_ICMPLE:
-        case Opcodes.IF_ACMPEQ:
-        case Opcodes.IF_ACMPNE:
-        case Opcodes.LRETURN:
-        case Opcodes.DRETURN:
+            brebk;
+        cbse Opcodes.POP2:
+        cbse Opcodes.IF_ICMPEQ:
+        cbse Opcodes.IF_ICMPNE:
+        cbse Opcodes.IF_ICMPLT:
+        cbse Opcodes.IF_ICMPGE:
+        cbse Opcodes.IF_ICMPGT:
+        cbse Opcodes.IF_ICMPLE:
+        cbse Opcodes.IF_ACMPEQ:
+        cbse Opcodes.IF_ACMPNE:
+        cbse Opcodes.LRETURN:
+        cbse Opcodes.DRETURN:
             pop(2);
-            break;
-        case Opcodes.DUP:
+            brebk;
+        cbse Opcodes.DUP:
             t1 = pop();
             push(t1);
             push(t1);
-            break;
-        case Opcodes.DUP_X1:
+            brebk;
+        cbse Opcodes.DUP_X1:
             t1 = pop();
             t2 = pop();
             push(t1);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.DUP_X2:
+            brebk;
+        cbse Opcodes.DUP_X2:
             t1 = pop();
             t2 = pop();
             t3 = pop();
@@ -783,16 +783,16 @@ public class AnalyzerAdapter extends MethodVisitor {
             push(t3);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.DUP2:
+            brebk;
+        cbse Opcodes.DUP2:
             t1 = pop();
             t2 = pop();
             push(t2);
             push(t1);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.DUP2_X1:
+            brebk;
+        cbse Opcodes.DUP2_X1:
             t1 = pop();
             t2 = pop();
             t3 = pop();
@@ -801,8 +801,8 @@ public class AnalyzerAdapter extends MethodVisitor {
             push(t3);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.DUP2_X2:
+            brebk;
+        cbse Opcodes.DUP2_X2:
             t1 = pop();
             t2 = pop();
             t3 = pop();
@@ -813,164 +813,164 @@ public class AnalyzerAdapter extends MethodVisitor {
             push(t3);
             push(t2);
             push(t1);
-            break;
-        case Opcodes.SWAP:
+            brebk;
+        cbse Opcodes.SWAP:
             t1 = pop();
             t2 = pop();
             push(t1);
             push(t2);
-            break;
-        case Opcodes.IADD:
-        case Opcodes.ISUB:
-        case Opcodes.IMUL:
-        case Opcodes.IDIV:
-        case Opcodes.IREM:
-        case Opcodes.IAND:
-        case Opcodes.IOR:
-        case Opcodes.IXOR:
-        case Opcodes.ISHL:
-        case Opcodes.ISHR:
-        case Opcodes.IUSHR:
-        case Opcodes.L2I:
-        case Opcodes.D2I:
-        case Opcodes.FCMPL:
-        case Opcodes.FCMPG:
+            brebk;
+        cbse Opcodes.IADD:
+        cbse Opcodes.ISUB:
+        cbse Opcodes.IMUL:
+        cbse Opcodes.IDIV:
+        cbse Opcodes.IREM:
+        cbse Opcodes.IAND:
+        cbse Opcodes.IOR:
+        cbse Opcodes.IXOR:
+        cbse Opcodes.ISHL:
+        cbse Opcodes.ISHR:
+        cbse Opcodes.IUSHR:
+        cbse Opcodes.L2I:
+        cbse Opcodes.D2I:
+        cbse Opcodes.FCMPL:
+        cbse Opcodes.FCMPG:
             pop(2);
             push(Opcodes.INTEGER);
-            break;
-        case Opcodes.LADD:
-        case Opcodes.LSUB:
-        case Opcodes.LMUL:
-        case Opcodes.LDIV:
-        case Opcodes.LREM:
-        case Opcodes.LAND:
-        case Opcodes.LOR:
-        case Opcodes.LXOR:
+            brebk;
+        cbse Opcodes.LADD:
+        cbse Opcodes.LSUB:
+        cbse Opcodes.LMUL:
+        cbse Opcodes.LDIV:
+        cbse Opcodes.LREM:
+        cbse Opcodes.LAND:
+        cbse Opcodes.LOR:
+        cbse Opcodes.LXOR:
             pop(4);
             push(Opcodes.LONG);
             push(Opcodes.TOP);
-            break;
-        case Opcodes.FADD:
-        case Opcodes.FSUB:
-        case Opcodes.FMUL:
-        case Opcodes.FDIV:
-        case Opcodes.FREM:
-        case Opcodes.L2F:
-        case Opcodes.D2F:
+            brebk;
+        cbse Opcodes.FADD:
+        cbse Opcodes.FSUB:
+        cbse Opcodes.FMUL:
+        cbse Opcodes.FDIV:
+        cbse Opcodes.FREM:
+        cbse Opcodes.L2F:
+        cbse Opcodes.D2F:
             pop(2);
             push(Opcodes.FLOAT);
-            break;
-        case Opcodes.DADD:
-        case Opcodes.DSUB:
-        case Opcodes.DMUL:
-        case Opcodes.DDIV:
-        case Opcodes.DREM:
+            brebk;
+        cbse Opcodes.DADD:
+        cbse Opcodes.DSUB:
+        cbse Opcodes.DMUL:
+        cbse Opcodes.DDIV:
+        cbse Opcodes.DREM:
             pop(4);
             push(Opcodes.DOUBLE);
             push(Opcodes.TOP);
-            break;
-        case Opcodes.LSHL:
-        case Opcodes.LSHR:
-        case Opcodes.LUSHR:
+            brebk;
+        cbse Opcodes.LSHL:
+        cbse Opcodes.LSHR:
+        cbse Opcodes.LUSHR:
             pop(3);
             push(Opcodes.LONG);
             push(Opcodes.TOP);
-            break;
-        case Opcodes.IINC:
-            set(iarg, Opcodes.INTEGER);
-            break;
-        case Opcodes.I2L:
-        case Opcodes.F2L:
+            brebk;
+        cbse Opcodes.IINC:
+            set(ibrg, Opcodes.INTEGER);
+            brebk;
+        cbse Opcodes.I2L:
+        cbse Opcodes.F2L:
             pop(1);
             push(Opcodes.LONG);
             push(Opcodes.TOP);
-            break;
-        case Opcodes.I2F:
+            brebk;
+        cbse Opcodes.I2F:
             pop(1);
             push(Opcodes.FLOAT);
-            break;
-        case Opcodes.I2D:
-        case Opcodes.F2D:
+            brebk;
+        cbse Opcodes.I2D:
+        cbse Opcodes.F2D:
             pop(1);
             push(Opcodes.DOUBLE);
             push(Opcodes.TOP);
-            break;
-        case Opcodes.F2I:
-        case Opcodes.ARRAYLENGTH:
-        case Opcodes.INSTANCEOF:
+            brebk;
+        cbse Opcodes.F2I:
+        cbse Opcodes.ARRAYLENGTH:
+        cbse Opcodes.INSTANCEOF:
             pop(1);
             push(Opcodes.INTEGER);
-            break;
-        case Opcodes.LCMP:
-        case Opcodes.DCMPL:
-        case Opcodes.DCMPG:
+            brebk;
+        cbse Opcodes.LCMP:
+        cbse Opcodes.DCMPL:
+        cbse Opcodes.DCMPG:
             pop(4);
             push(Opcodes.INTEGER);
-            break;
-        case Opcodes.JSR:
-        case Opcodes.RET:
-            throw new RuntimeException("JSR/RET are not supported");
-        case Opcodes.GETSTATIC:
-            pushDesc(sarg);
-            break;
-        case Opcodes.PUTSTATIC:
-            pop(sarg);
-            break;
-        case Opcodes.GETFIELD:
+            brebk;
+        cbse Opcodes.JSR:
+        cbse Opcodes.RET:
+            throw new RuntimeException("JSR/RET bre not supported");
+        cbse Opcodes.GETSTATIC:
+            pushDesc(sbrg);
+            brebk;
+        cbse Opcodes.PUTSTATIC:
+            pop(sbrg);
+            brebk;
+        cbse Opcodes.GETFIELD:
             pop(1);
-            pushDesc(sarg);
-            break;
-        case Opcodes.PUTFIELD:
-            pop(sarg);
+            pushDesc(sbrg);
+            brebk;
+        cbse Opcodes.PUTFIELD:
+            pop(sbrg);
             pop();
-            break;
-        case Opcodes.NEW:
-            push(labels.get(0));
-            break;
-        case Opcodes.NEWARRAY:
+            brebk;
+        cbse Opcodes.NEW:
+            push(lbbels.get(0));
+            brebk;
+        cbse Opcodes.NEWARRAY:
             pop();
-            switch (iarg) {
-            case Opcodes.T_BOOLEAN:
+            switch (ibrg) {
+            cbse Opcodes.T_BOOLEAN:
                 pushDesc("[Z");
-                break;
-            case Opcodes.T_CHAR:
+                brebk;
+            cbse Opcodes.T_CHAR:
                 pushDesc("[C");
-                break;
-            case Opcodes.T_BYTE:
+                brebk;
+            cbse Opcodes.T_BYTE:
                 pushDesc("[B");
-                break;
-            case Opcodes.T_SHORT:
+                brebk;
+            cbse Opcodes.T_SHORT:
                 pushDesc("[S");
-                break;
-            case Opcodes.T_INT:
+                brebk;
+            cbse Opcodes.T_INT:
                 pushDesc("[I");
-                break;
-            case Opcodes.T_FLOAT:
+                brebk;
+            cbse Opcodes.T_FLOAT:
                 pushDesc("[F");
-                break;
-            case Opcodes.T_DOUBLE:
+                brebk;
+            cbse Opcodes.T_DOUBLE:
                 pushDesc("[D");
-                break;
-            // case Opcodes.T_LONG:
-            default:
+                brebk;
+            // cbse Opcodes.T_LONG:
+            defbult:
                 pushDesc("[J");
-                break;
+                brebk;
             }
-            break;
-        case Opcodes.ANEWARRAY:
+            brebk;
+        cbse Opcodes.ANEWARRAY:
             pop();
-            pushDesc("[" + Type.getObjectType(sarg));
-            break;
-        case Opcodes.CHECKCAST:
+            pushDesc("[" + Type.getObjectType(sbrg));
+            brebk;
+        cbse Opcodes.CHECKCAST:
             pop();
-            pushDesc(Type.getObjectType(sarg).getDescriptor());
-            break;
-        // case Opcodes.MULTIANEWARRAY:
-        default:
-            pop(iarg);
-            pushDesc(sarg);
-            break;
+            pushDesc(Type.getObjectType(sbrg).getDescriptor());
+            brebk;
+        // cbse Opcodes.MULTIANEWARRAY:
+        defbult:
+            pop(ibrg);
+            pushDesc(sbrg);
+            brebk;
         }
-        labels = null;
+        lbbels = null;
     }
 }

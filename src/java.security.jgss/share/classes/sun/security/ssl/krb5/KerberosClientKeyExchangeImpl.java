@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl.krb5;
+pbckbge sun.security.ssl.krb5;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.SecureRandom;
-import java.net.InetAddress;
-import java.security.PrivilegedAction;
+import jbvb.io.IOException;
+import jbvb.io.PrintStrebm;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.SecureRbndom;
+import jbvb.net.InetAddress;
+import jbvb.security.PrivilegedAction;
 
-import javax.security.auth.kerberos.KerberosTicket;
-import javax.security.auth.kerberos.KerberosKey;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import javax.security.auth.kerberos.ServicePermission;
-import sun.security.jgss.GSSCaller;
+import jbvbx.security.buth.kerberos.KerberosTicket;
+import jbvbx.security.buth.kerberos.KerberosKey;
+import jbvbx.security.buth.kerberos.KerberosPrincipbl;
+import jbvbx.security.buth.kerberos.ServicePermission;
+import sun.security.jgss.GSSCbller;
 
 import sun.security.krb5.EncryptionKey;
-import sun.security.krb5.EncryptedData;
-import sun.security.krb5.PrincipalName;
-import sun.security.krb5.internal.Ticket;
-import sun.security.krb5.internal.EncTicketPart;
-import sun.security.krb5.internal.crypto.KeyUsage;
+import sun.security.krb5.EncryptedDbtb;
+import sun.security.krb5.PrincipblNbme;
+import sun.security.krb5.internbl.Ticket;
+import sun.security.krb5.internbl.EncTicketPbrt;
+import sun.security.krb5.internbl.crypto.KeyUsbge;
 
 import sun.security.jgss.krb5.Krb5Util;
 import sun.security.jgss.krb5.ServiceCreds;
 import sun.security.krb5.KrbException;
-import sun.security.krb5.internal.Krb5;
+import sun.security.krb5.internbl.Krb5;
 
 import sun.security.ssl.Debug;
-import sun.security.ssl.HandshakeInStream;
-import sun.security.ssl.HandshakeOutStream;
+import sun.security.ssl.HbndshbkeInStrebm;
+import sun.security.ssl.HbndshbkeOutStrebm;
 import sun.security.ssl.Krb5Helper;
 import sun.security.ssl.ProtocolVersion;
 
 /**
- * This is Kerberos option in the client key exchange message
- * (CLIENT -> SERVER). It holds the Kerberos ticket and the encrypted
- * premaster secret encrypted with the session key sealed in the ticket.
+ * This is Kerberos option in the client key exchbnge messbge
+ * (CLIENT -> SERVER). It holds the Kerberos ticket bnd the encrypted
+ * prembster secret encrypted with the session key sebled in the ticket.
  * From RFC 2712:
  *  struct
  *  {
- *    opaque Ticket;
- *    opaque authenticator;            // optional
- *    opaque EncryptedPreMasterSecret; // encrypted with the session key
- *                                     // which is sealed in the ticket
- *  } KerberosWrapper;
+ *    opbque Ticket;
+ *    opbque buthenticbtor;            // optionbl
+ *    opbque EncryptedPreMbsterSecret; // encrypted with the session key
+ *                                     // which is sebled in the ticket
+ *  } KerberosWrbpper;
  *
  *
- * Ticket and authenticator are encrypted as per RFC 1510 (in ASN.1)
- * Encrypted pre-master secret has the same structure as it does for RSA
- * except for Kerberos, the encryption key is the session key instead of
+ * Ticket bnd buthenticbtor bre encrypted bs per RFC 1510 (in ASN.1)
+ * Encrypted pre-mbster secret hbs the sbme structure bs it does for RSA
+ * except for Kerberos, the encryption key is the session key instebd of
  * the RSA public key.
  *
- * XXX authenticator currently ignored
+ * XXX buthenticbtor currently ignored
  *
  */
-public final class KerberosClientKeyExchangeImpl
-    extends sun.security.ssl.KerberosClientKeyExchange {
+public finbl clbss KerberosClientKeyExchbngeImpl
+    extends sun.security.ssl.KerberosClientKeyExchbnge {
 
-    private KerberosPreMasterSecret preMaster;
-    private byte[] encodedTicket;
-    private KerberosPrincipal peerPrincipal;
-    private KerberosPrincipal localPrincipal;
+    privbte KerberosPreMbsterSecret preMbster;
+    privbte byte[] encodedTicket;
+    privbte KerberosPrincipbl peerPrincipbl;
+    privbte KerberosPrincipbl locblPrincipbl;
 
-    public KerberosClientKeyExchangeImpl() {
+    public KerberosClientKeyExchbngeImpl() {
     }
 
     /**
-     * Creates an instance of KerberosClientKeyExchange consisting of the
-     * Kerberos service ticket, authenticator and encrypted premaster secret.
-     * Called by client handshaker.
+     * Crebtes bn instbnce of KerberosClientKeyExchbnge consisting of the
+     * Kerberos service ticket, buthenticbtor bnd encrypted prembster secret.
+     * Cblled by client hbndshbker.
      *
-     * @param serverName name of server with which to do handshake;
+     * @pbrbm serverNbme nbme of server with which to do hbndshbke;
      *             this is used to get the Kerberos service ticket
-     * @param protocolVersion Maximum version supported by client (i.e,
+     * @pbrbm protocolVersion Mbximum version supported by client (i.e,
      *          version it requested in client hello)
-     * @param rand random number generator to use for generating pre-master
+     * @pbrbm rbnd rbndom number generbtor to use for generbting pre-mbster
      *          secret
      */
     @Override
-    public void init(String serverName,
-        AccessControlContext acc, ProtocolVersion protocolVersion,
-        SecureRandom rand) throws IOException {
+    public void init(String serverNbme,
+        AccessControlContext bcc, ProtocolVersion protocolVersion,
+        SecureRbndom rbnd) throws IOException {
 
          // Get service ticket
-         KerberosTicket ticket = getServiceTicket(serverName, acc);
+         KerberosTicket ticket = getServiceTicket(serverNbme, bcc);
          encodedTicket = ticket.getEncoded();
 
-         // Record the Kerberos principals
-         peerPrincipal = ticket.getServer();
-         localPrincipal = ticket.getClient();
+         // Record the Kerberos principbls
+         peerPrincipbl = ticket.getServer();
+         locblPrincipbl = ticket.getClient();
 
-         // Optional authenticator, encrypted using session key,
+         // Optionbl buthenticbtor, encrypted using session key,
          // currently ignored
 
-         // Generate premaster secret and encrypt it using session key
+         // Generbte prembster secret bnd encrypt it using session key
          EncryptionKey sessionKey = new EncryptionKey(
                                         ticket.getSessionKeyType(),
                                         ticket.getSessionKey().getEncoded());
 
-         preMaster = new KerberosPreMasterSecret(protocolVersion,
-             rand, sessionKey);
+         preMbster = new KerberosPreMbsterSecret(protocolVersion,
+             rbnd, sessionKey);
     }
 
     /**
-     * Creates an instance of KerberosClientKeyExchange from its ASN.1 encoding.
-     * Used by ServerHandshaker to verify and obtain premaster secret.
+     * Crebtes bn instbnce of KerberosClientKeyExchbnge from its ASN.1 encoding.
+     * Used by ServerHbndshbker to verify bnd obtbin prembster secret.
      *
-     * @param protocolVersion current protocol version
-     * @param clientVersion version requested by client in its ClientHello;
-     *          used by premaster secret version check
-     * @param rand random number generator used for generating random
-     *          premaster secret if ticket and/or premaster verification fails
-     * @param input inputstream from which to get ASN.1-encoded KerberosWrapper
-     * @param acc the AccessControlContext of the handshaker
-     * @param serviceCreds server's creds
+     * @pbrbm protocolVersion current protocol version
+     * @pbrbm clientVersion version requested by client in its ClientHello;
+     *          used by prembster secret version check
+     * @pbrbm rbnd rbndom number generbtor used for generbting rbndom
+     *          prembster secret if ticket bnd/or prembster verificbtion fbils
+     * @pbrbm input inputstrebm from which to get ASN.1-encoded KerberosWrbpper
+     * @pbrbm bcc the AccessControlContext of the hbndshbker
+     * @pbrbm serviceCreds server's creds
      */
     @Override
     public void init(ProtocolVersion protocolVersion,
         ProtocolVersion clientVersion,
-        SecureRandom rand, HandshakeInStream input, AccessControlContext acc, Object serviceCreds)
+        SecureRbndom rbnd, HbndshbkeInStrebm input, AccessControlContext bcc, Object serviceCreds)
         throws IOException {
 
-        // Read ticket
+        // Rebd ticket
         encodedTicket = input.getBytes16();
 
         if (debug != null && Debug.isOn("verbose")) {
@@ -161,30 +161,30 @@ public final class KerberosClientKeyExchangeImpl
         try {
             Ticket t = new Ticket(encodedTicket);
 
-            EncryptedData encPart = t.encPart;
-            PrincipalName ticketSname = t.sname;
+            EncryptedDbtb encPbrt = t.encPbrt;
+            PrincipblNbme ticketSnbme = t.snbme;
 
-            final ServiceCreds creds = (ServiceCreds)serviceCreds;
-            final KerberosPrincipal princ =
-                    new KerberosPrincipal(ticketSname.toString());
+            finbl ServiceCreds creds = (ServiceCreds)serviceCreds;
+            finbl KerberosPrincipbl princ =
+                    new KerberosPrincipbl(ticketSnbme.toString());
 
-            // For bound service, permission already checked at setup
-            if (creds.getName() == null) {
-                SecurityManager sm = System.getSecurityManager();
+            // For bound service, permission blrebdy checked bt setup
+            if (creds.getNbme() == null) {
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 try {
                     if (sm != null) {
-                        // Eliminate dependency on ServicePermission
+                        // Eliminbte dependency on ServicePermission
                         sm.checkPermission(Krb5Helper.getServicePermission(
-                                ticketSname.toString(), "accept"), acc);
+                                ticketSnbme.toString(), "bccept"), bcc);
                     }
-                } catch (SecurityException se) {
+                } cbtch (SecurityException se) {
                     serviceCreds = null;
-                    // Do not destroy keys. Will affect Subject
-                    if (debug != null && Debug.isOn("handshake")) {
-                        System.out.println("Permission to access Kerberos"
+                    // Do not destroy keys. Will bffect Subject
+                    if (debug != null && Debug.isOn("hbndshbke")) {
+                        System.out.println("Permission to bccess Kerberos"
                                 + " secret key denied");
                     }
-                    throw new IOException("Kerberos service not allowedy");
+                    throw new IOException("Kerberos service not bllowedy");
                 }
             }
             KerberosKey[] serverKeys = AccessController.doPrivileged(
@@ -196,159 +196,159 @@ public final class KerberosClientKeyExchangeImpl
                     });
             if (serverKeys.length == 0) {
                 throw new IOException("Found no key for " + princ +
-                        (creds.getName() == null ? "" :
-                        (", this keytab is for " + creds.getName() + " only")));
+                        (creds.getNbme() == null ? "" :
+                        (", this keytbb is for " + creds.getNbme() + " only")));
             }
 
             /*
-             * permission to access and use the secret key of the Kerberized
-             * "host" service is done in ServerHandshaker.getKerberosKeys()
-             * to ensure server has the permission to use the secret key
+             * permission to bccess bnd use the secret key of the Kerberized
+             * "host" service is done in ServerHbndshbker.getKerberosKeys()
+             * to ensure server hbs the permission to use the secret key
              * before promising the client
              */
 
-            // See if we have the right key to decrypt the ticket to get
+            // See if we hbve the right key to decrypt the ticket to get
             // the session key.
-            int encPartKeyType = encPart.getEType();
-            Integer encPartKeyVersion = encPart.getKeyVersionNumber();
+            int encPbrtKeyType = encPbrt.getEType();
+            Integer encPbrtKeyVersion = encPbrt.getKeyVersionNumber();
             KerberosKey dkey = null;
             try {
-                dkey = findKey(encPartKeyType, encPartKeyVersion, serverKeys);
-            } catch (KrbException ke) { // a kvno mismatch
+                dkey = findKey(encPbrtKeyType, encPbrtKeyVersion, serverKeys);
+            } cbtch (KrbException ke) { // b kvno mismbtch
                 throw new IOException(
-                        "Cannot find key matching version number", ke);
+                        "Cbnnot find key mbtching version number", ke);
             }
             if (dkey == null) {
                 // %%% Should print string repr of etype
-                throw new IOException("Cannot find key of appropriate type" +
-                        " to decrypt ticket - need etype " + encPartKeyType);
+                throw new IOException("Cbnnot find key of bppropribte type" +
+                        " to decrypt ticket - need etype " + encPbrtKeyType);
             }
 
             EncryptionKey secretKey = new EncryptionKey(
-                encPartKeyType,
+                encPbrtKeyType,
                 dkey.getEncoded());
 
-            // Decrypt encPart using server's secret key
-            byte[] bytes = encPart.decrypt(secretKey, KeyUsage.KU_TICKET);
+            // Decrypt encPbrt using server's secret key
+            byte[] bytes = encPbrt.decrypt(secretKey, KeyUsbge.KU_TICKET);
 
-            // Reset data stream after decryption, remove redundant bytes
-            byte[] temp = encPart.reset(bytes);
-            EncTicketPart encTicketPart = new EncTicketPart(temp);
+            // Reset dbtb strebm bfter decryption, remove redundbnt bytes
+            byte[] temp = encPbrt.reset(bytes);
+            EncTicketPbrt encTicketPbrt = new EncTicketPbrt(temp);
 
-            // Record the Kerberos Principals
-            peerPrincipal =
-                new KerberosPrincipal(encTicketPart.cname.getName());
-            localPrincipal = new KerberosPrincipal(ticketSname.getName());
+            // Record the Kerberos Principbls
+            peerPrincipbl =
+                new KerberosPrincipbl(encTicketPbrt.cnbme.getNbme());
+            locblPrincipbl = new KerberosPrincipbl(ticketSnbme.getNbme());
 
-            sessionKey = encTicketPart.key;
+            sessionKey = encTicketPbrt.key;
 
-            if (debug != null && Debug.isOn("handshake")) {
-                System.out.println("server principal: " + ticketSname);
-                System.out.println("cname: " + encTicketPart.cname.toString());
+            if (debug != null && Debug.isOn("hbndshbke")) {
+                System.out.println("server principbl: " + ticketSnbme);
+                System.out.println("cnbme: " + encTicketPbrt.cnbme.toString());
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw e;
-        } catch (Exception e) {
-            if (debug != null && Debug.isOn("handshake")) {
-                System.out.println("KerberosWrapper error getting session key,"
-                        + " generating random secret (" + e.getMessage() + ")");
+        } cbtch (Exception e) {
+            if (debug != null && Debug.isOn("hbndshbke")) {
+                System.out.println("KerberosWrbpper error getting session key,"
+                        + " generbting rbndom secret (" + e.getMessbge() + ")");
             }
             sessionKey = null;
         }
 
-        input.getBytes16();   // XXX Read and ignore authenticator
+        input.getBytes16();   // XXX Rebd bnd ignore buthenticbtor
 
         if (sessionKey != null) {
-            preMaster = new KerberosPreMasterSecret(protocolVersion,
-                clientVersion, rand, input, sessionKey);
+            preMbster = new KerberosPreMbsterSecret(protocolVersion,
+                clientVersion, rbnd, input, sessionKey);
         } else {
-            // Generate bogus premaster secret
-            preMaster = new KerberosPreMasterSecret(clientVersion, rand);
+            // Generbte bogus prembster secret
+            preMbster = new KerberosPreMbsterSecret(clientVersion, rbnd);
         }
     }
 
     @Override
-    public int messageLength() {
-        return (6 + encodedTicket.length + preMaster.getEncrypted().length);
+    public int messbgeLength() {
+        return (6 + encodedTicket.length + preMbster.getEncrypted().length);
     }
 
     @Override
-    public void send(HandshakeOutStream s) throws IOException {
+    public void send(HbndshbkeOutStrebm s) throws IOException {
         s.putBytes16(encodedTicket);
-        s.putBytes16(null); // XXX no authenticator
-        s.putBytes16(preMaster.getEncrypted());
+        s.putBytes16(null); // XXX no buthenticbtor
+        s.putBytes16(preMbster.getEncrypted());
     }
 
     @Override
-    public void print(PrintStream s) throws IOException {
-        s.println("*** ClientKeyExchange, Kerberos");
+    public void print(PrintStrebm s) throws IOException {
+        s.println("*** ClientKeyExchbnge, Kerberos");
 
         if (debug != null && Debug.isOn("verbose")) {
             Debug.println(s, "Kerberos service ticket", encodedTicket);
-            Debug.println(s, "Random Secret", preMaster.getUnencrypted());
-            Debug.println(s, "Encrypted random Secret",
-                preMaster.getEncrypted());
+            Debug.println(s, "Rbndom Secret", preMbster.getUnencrypted());
+            Debug.println(s, "Encrypted rbndom Secret",
+                preMbster.getEncrypted());
         }
     }
 
-    // Similar to sun.security.jgss.krb5.Krb5InitCredenetial/Krb5Context
-    private static KerberosTicket getServiceTicket(String serverName,
-        final AccessControlContext acc) throws IOException {
+    // Similbr to sun.security.jgss.krb5.Krb5InitCredenetibl/Krb5Context
+    privbte stbtic KerberosTicket getServiceTicket(String serverNbme,
+        finbl AccessControlContext bcc) throws IOException {
 
-        if ("localhost".equals(serverName) ||
-                "localhost.localdomain".equals(serverName)) {
+        if ("locblhost".equbls(serverNbme) ||
+                "locblhost.locbldombin".equbls(serverNbme)) {
 
-            if (debug != null && Debug.isOn("handshake")) {
-                System.out.println("Get the local hostname");
+            if (debug != null && Debug.isOn("hbndshbke")) {
+                System.out.println("Get the locbl hostnbme");
             }
-            String localHost = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<String>() {
+            String locblHost = jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<String>() {
                 public String run() {
                     try {
-                        return InetAddress.getLocalHost().getHostName();
-                    } catch (java.net.UnknownHostException e) {
-                        if (debug != null && Debug.isOn("handshake")) {
-                            System.out.println("Warning,"
-                                + " cannot get the local hostname: "
-                                + e.getMessage());
+                        return InetAddress.getLocblHost().getHostNbme();
+                    } cbtch (jbvb.net.UnknownHostException e) {
+                        if (debug != null && Debug.isOn("hbndshbke")) {
+                            System.out.println("Wbrning,"
+                                + " cbnnot get the locbl hostnbme: "
+                                + e.getMessbge());
                         }
                         return null;
                     }
                 }
             });
-            if (localHost != null) {
-                serverName = localHost;
+            if (locblHost != null) {
+                serverNbme = locblHost;
             }
         }
 
-        // Resolve serverName (possibly in IP addr form) to Kerberos principal
-        // name for service with hostname
-        String serviceName = "host/" + serverName;
-        PrincipalName principal;
+        // Resolve serverNbme (possibly in IP bddr form) to Kerberos principbl
+        // nbme for service with hostnbme
+        String serviceNbme = "host/" + serverNbme;
+        PrincipblNbme principbl;
         try {
-            principal = new PrincipalName(serviceName,
-                                PrincipalName.KRB_NT_SRV_HST);
-        } catch (SecurityException se) {
+            principbl = new PrincipblNbme(serviceNbme,
+                                PrincipblNbme.KRB_NT_SRV_HST);
+        } cbtch (SecurityException se) {
             throw se;
-        } catch (Exception e) {
-            IOException ioe = new IOException("Invalid service principal" +
-                                " name: " + serviceName);
-            ioe.initCause(e);
+        } cbtch (Exception e) {
+            IOException ioe = new IOException("Invblid service principbl" +
+                                " nbme: " + serviceNbme);
+            ioe.initCbuse(e);
             throw ioe;
         }
-        String realm = principal.getRealmAsString();
+        String reblm = principbl.getReblmAsString();
 
-        final String serverPrincipal = principal.toString();
-        final String tgsPrincipal = "krbtgt/" + realm + "@" + realm;
-        final String clientPrincipal = null;  // use default
+        finbl String serverPrincipbl = principbl.toString();
+        finbl String tgsPrincipbl = "krbtgt/" + reblm + "@" + reblm;
+        finbl String clientPrincipbl = null;  // use defbult
 
 
-        // check permission to obtain a service ticket to initiate a
+        // check permission to obtbin b service ticket to initibte b
         // context with the "host" service
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-           sm.checkPermission(new ServicePermission(serverPrincipal,
-                                "initiate"), acc);
+           sm.checkPermission(new ServicePermission(serverPrincipbl,
+                                "initibte"), bcc);
         }
 
         try {
@@ -356,63 +356,63 @@ public final class KerberosClientKeyExchangeImpl
                 new PrivilegedExceptionAction<KerberosTicket>() {
                 public KerberosTicket run() throws Exception {
                     return Krb5Util.getTicketFromSubjectAndTgs(
-                        GSSCaller.CALLER_SSL_CLIENT,
-                        clientPrincipal, serverPrincipal,
-                        tgsPrincipal, acc);
+                        GSSCbller.CALLER_SSL_CLIENT,
+                        clientPrincipbl, serverPrincipbl,
+                        tgsPrincipbl, bcc);
                         }});
 
             if (ticket == null) {
-                throw new IOException("Failed to find any kerberos service" +
-                        " ticket for " + serverPrincipal);
+                throw new IOException("Fbiled to find bny kerberos service" +
+                        " ticket for " + serverPrincipbl);
             }
             return ticket;
-        } catch (PrivilegedActionException e) {
+        } cbtch (PrivilegedActionException e) {
             IOException ioe = new IOException(
-                "Attempt to obtain kerberos service ticket for " +
-                        serverPrincipal + " failed!");
-            ioe.initCause(e);
+                "Attempt to obtbin kerberos service ticket for " +
+                        serverPrincipbl + " fbiled!");
+            ioe.initCbuse(e);
             throw ioe;
         }
     }
 
     @Override
-    public byte[] getUnencryptedPreMasterSecret() {
-        return preMaster.getUnencrypted();
+    public byte[] getUnencryptedPreMbsterSecret() {
+        return preMbster.getUnencrypted();
     }
 
     @Override
-    public KerberosPrincipal getPeerPrincipal() {
-        return peerPrincipal;
+    public KerberosPrincipbl getPeerPrincipbl() {
+        return peerPrincipbl;
     }
 
     @Override
-    public KerberosPrincipal getLocalPrincipal() {
-        return localPrincipal;
+    public KerberosPrincipbl getLocblPrincipbl() {
+        return locblPrincipbl;
     }
 
     /**
-     * Determines if a kvno matches another kvno. Used in the method
-     * findKey(etype, version, keys). Always returns true if either input
-     * is null or zero, in case any side does not have kvno info available.
+     * Determines if b kvno mbtches bnother kvno. Used in the method
+     * findKey(etype, version, keys). Alwbys returns true if either input
+     * is null or zero, in cbse bny side does not hbve kvno info bvbilbble.
      *
-     * Note: zero is included because N/A is not a legal value for kvno
-     * in javax.security.auth.kerberos.KerberosKey. Therefore, the info
-     * that the kvno is N/A might be lost when converting between
-     * EncryptionKey and KerberosKey.
+     * Note: zero is included becbuse N/A is not b legbl vblue for kvno
+     * in jbvbx.security.buth.kerberos.KerberosKey. Therefore, the info
+     * thbt the kvno is N/A might be lost when converting between
+     * EncryptionKey bnd KerberosKey.
      */
-    private static boolean versionMatches(Integer v1, int v2) {
+    privbte stbtic boolebn versionMbtches(Integer v1, int v2) {
         if (v1 == null || v1 == 0 || v2 == 0) {
             return true;
         }
-        return v1.equals(v2);
+        return v1.equbls(v2);
     }
 
-    private static KerberosKey findKey(int etype, Integer version,
+    privbte stbtic KerberosKey findKey(int etype, Integer version,
             KerberosKey[] keys) throws KrbException {
         int ktype;
-        boolean etypeFound = false;
+        boolebn etypeFound = fblse;
 
-        // When no matched kvno is found, returns tke key of the same
+        // When no mbtched kvno is found, returns tke key of the sbme
         // etype with the highest kvno
         int kvno_found = 0;
         KerberosKey key_found = null;
@@ -422,7 +422,7 @@ public final class KerberosClientKeyExchangeImpl
             if (etype == ktype) {
                 int kv = keys[i].getVersionNumber();
                 etypeFound = true;
-                if (versionMatches(version, kv)) {
+                if (versionMbtches(version, kv)) {
                     return keys[i];
                 } else if (kv > kvno_found) {
                     key_found = keys[i];
@@ -431,22 +431,22 @@ public final class KerberosClientKeyExchangeImpl
             }
         }
         // Key not found.
-        // %%% kludge to allow DES keys to be used for diff etypes
-        if ((etype == EncryptedData.ETYPE_DES_CBC_CRC ||
-            etype == EncryptedData.ETYPE_DES_CBC_MD5)) {
+        // %%% kludge to bllow DES keys to be used for diff etypes
+        if ((etype == EncryptedDbtb.ETYPE_DES_CBC_CRC ||
+            etype == EncryptedDbtb.ETYPE_DES_CBC_MD5)) {
             for (int i = 0; i < keys.length; i++) {
                 ktype = keys[i].getKeyType();
-                if (ktype == EncryptedData.ETYPE_DES_CBC_CRC ||
-                        ktype == EncryptedData.ETYPE_DES_CBC_MD5) {
+                if (ktype == EncryptedDbtb.ETYPE_DES_CBC_CRC ||
+                        ktype == EncryptedDbtb.ETYPE_DES_CBC_MD5) {
                     int kv = keys[i].getVersionNumber();
                     etypeFound = true;
-                    if (versionMatches(version, kv)) {
-                        return new KerberosKey(keys[i].getPrincipal(),
+                    if (versionMbtches(version, kv)) {
+                        return new KerberosKey(keys[i].getPrincipbl(),
                             keys[i].getEncoded(),
                             etype,
                             kv);
                     } else if (kv > kvno_found) {
-                        key_found = new KerberosKey(keys[i].getPrincipal(),
+                        key_found = new KerberosKey(keys[i].getPrincipbl(),
                                 keys[i].getEncoded(),
                                 etype,
                                 kv);

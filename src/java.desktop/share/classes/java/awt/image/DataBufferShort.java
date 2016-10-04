@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* ****************************************************************
  ******************************************************************
  ******************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997
- *** As  an unpublished  work pursuant to Title 17 of the United
- *** States Code.  All rights reserved.
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublished  work pursubnt to Title 17 of the United
+ *** Stbtes Code.  All rights reserved.
  ******************************************************************
  ******************************************************************
  ******************************************************************/
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import static sun.java2d.StateTrackable.State.*;
+import stbtic sun.jbvb2d.StbteTrbckbble.Stbte.*;
 
 /**
- * This class extends <CODE>DataBuffer</CODE> and stores data internally as shorts.
+ * This clbss extends <CODE>DbtbBuffer</CODE> bnd stores dbtb internblly bs shorts.
  * <p>
- * <a name="optimizations">
- * Note that some implementations may function more efficiently
- * if they can maintain control over how the data for an image is
+ * <b nbme="optimizbtions">
+ * Note thbt some implementbtions mby function more efficiently
+ * if they cbn mbintbin control over how the dbtb for bn imbge is
  * stored.
- * For example, optimizations such as caching an image in video
- * memory require that the implementation track all modifications
- * to that data.
- * Other implementations may operate better if they can store the
- * data in locations other than a Java array.
- * To maintain optimum compatibility with various optimizations
- * it is best to avoid constructors and methods which expose the
- * underlying storage as a Java array as noted below in the
- * documentation for those methods.
- * </a>
+ * For exbmple, optimizbtions such bs cbching bn imbge in video
+ * memory require thbt the implementbtion trbck bll modificbtions
+ * to thbt dbtb.
+ * Other implementbtions mby operbte better if they cbn store the
+ * dbtb in locbtions other thbn b Jbvb brrby.
+ * To mbintbin optimum compbtibility with vbrious optimizbtions
+ * it is best to bvoid constructors bnd methods which expose the
+ * underlying storbge bs b Jbvb brrby bs noted below in the
+ * documentbtion for those methods.
+ * </b>
  */
-public final class DataBufferShort extends DataBuffer
+public finbl clbss DbtbBufferShort extends DbtbBuffer
 {
-    /** The default data bank. */
-    short data[];
+    /** The defbult dbtb bbnk. */
+    short dbtb[];
 
-    /** All data banks */
-    short bankdata[][];
+    /** All dbtb bbnks */
+    short bbnkdbtb[][];
 
     /**
-     * Constructs a short-based <CODE>DataBuffer</CODE> with a single bank and the
+     * Constructs b short-bbsed <CODE>DbtbBuffer</CODE> with b single bbnk bnd the
      * specified size.
      *
-     * @param size The size of the <CODE>DataBuffer</CODE>.
+     * @pbrbm size The size of the <CODE>DbtbBuffer</CODE>.
      */
-    public DataBufferShort(int size) {
+    public DbtbBufferShort(int size) {
         super(STABLE, TYPE_SHORT,size);
-        data = new short[size];
-        bankdata = new short[1][];
-        bankdata[0] = data;
+        dbtb = new short[size];
+        bbnkdbtb = new short[1][];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Constructs a short-based <CODE>DataBuffer</CODE> with the specified number of
-     * banks all of which are the specified size.
+     * Constructs b short-bbsed <CODE>DbtbBuffer</CODE> with the specified number of
+     * bbnks bll of which bre the specified size.
      *
-     * @param size The size of the banks in the <CODE>DataBuffer</CODE>.
-     * @param numBanks The number of banks in the a<CODE>DataBuffer</CODE>.
+     * @pbrbm size The size of the bbnks in the <CODE>DbtbBuffer</CODE>.
+     * @pbrbm numBbnks The number of bbnks in the b<CODE>DbtbBuffer</CODE>.
      */
-    public DataBufferShort(int size, int numBanks) {
-        super(STABLE, TYPE_SHORT,size,numBanks);
-        bankdata = new short[numBanks][];
-        for (int i= 0; i < numBanks; i++) {
-            bankdata[i] = new short[size];
+    public DbtbBufferShort(int size, int numBbnks) {
+        super(STABLE, TYPE_SHORT,size,numBbnks);
+        bbnkdbtb = new short[numBbnks][];
+        for (int i= 0; i < numBbnks; i++) {
+            bbnkdbtb[i] = new short[size];
         }
-        data = bankdata[0];
+        dbtb = bbnkdbtb[0];
     }
 
     /**
-     * Constructs a short-based <CODE>DataBuffer</CODE> with a single bank using the
-     * specified array.
-     * Only the first <CODE>size</CODE> elements should be used by accessors of
-     * this <CODE>DataBuffer</CODE>.  <CODE>dataArray</CODE> must be large enough to
+     * Constructs b short-bbsed <CODE>DbtbBuffer</CODE> with b single bbnk using the
+     * specified brrby.
+     * Only the first <CODE>size</CODE> elements should be used by bccessors of
+     * this <CODE>DbtbBuffer</CODE>.  <CODE>dbtbArrby</CODE> must be lbrge enough to
      * hold <CODE>size</CODE> elements.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt {@code DbtbBuffer} objects crebted by this constructor
+     * mby be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param dataArray The short array for the <CODE>DataBuffer</CODE>.
-     * @param size The size of the <CODE>DataBuffer</CODE> bank.
+     * @pbrbm dbtbArrby The short brrby for the <CODE>DbtbBuffer</CODE>.
+     * @pbrbm size The size of the <CODE>DbtbBuffer</CODE> bbnk.
      */
-    public DataBufferShort(short dataArray[], int size) {
+    public DbtbBufferShort(short dbtbArrby[], int size) {
         super(UNTRACKABLE, TYPE_SHORT, size);
-        data = dataArray;
-        bankdata = new short[1][];
-        bankdata[0] = data;
+        dbtb = dbtbArrby;
+        bbnkdbtb = new short[1][];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Constructs a short-based <CODE>DataBuffer</CODE> with a single bank using the
-     * specified array, size, and offset.  <CODE>dataArray</CODE> must have at least
+     * Constructs b short-bbsed <CODE>DbtbBuffer</CODE> with b single bbnk using the
+     * specified brrby, size, bnd offset.  <CODE>dbtbArrby</CODE> must hbve bt lebst
      * <CODE>offset</CODE> + <CODE>size</CODE> elements.  Only elements <CODE>offset</CODE>
      * through <CODE>offset</CODE> + <CODE>size</CODE> - 1
-     * should be used by accessors of this <CODE>DataBuffer</CODE>.
+     * should be used by bccessors of this <CODE>DbtbBuffer</CODE>.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt {@code DbtbBuffer} objects crebted by this constructor
+     * mby be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param dataArray The short array for the <CODE>DataBuffer</CODE>.
-     * @param size The size of the <CODE>DataBuffer</CODE> bank.
-     * @param offset The offset into the <CODE>dataArray</CODE>.
+     * @pbrbm dbtbArrby The short brrby for the <CODE>DbtbBuffer</CODE>.
+     * @pbrbm size The size of the <CODE>DbtbBuffer</CODE> bbnk.
+     * @pbrbm offset The offset into the <CODE>dbtbArrby</CODE>.
      */
-    public DataBufferShort(short dataArray[], int size, int offset) {
+    public DbtbBufferShort(short dbtbArrby[], int size, int offset) {
         super(UNTRACKABLE, TYPE_SHORT, size, 1, offset);
-        data = dataArray;
-        bankdata = new short[1][];
-        bankdata[0] = data;
+        dbtb = dbtbArrby;
+        bbnkdbtb = new short[1][];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Constructs a short-based <CODE>DataBuffer</CODE> with the specified arrays.
-     * The number of banks will be equal to <CODE>dataArray.length</CODE>.
-     * Only the first <CODE>size</CODE> elements of each array should be used by
-     * accessors of this <CODE>DataBuffer</CODE>.
+     * Constructs b short-bbsed <CODE>DbtbBuffer</CODE> with the specified brrbys.
+     * The number of bbnks will be equbl to <CODE>dbtbArrby.length</CODE>.
+     * Only the first <CODE>size</CODE> elements of ebch brrby should be used by
+     * bccessors of this <CODE>DbtbBuffer</CODE>.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt {@code DbtbBuffer} objects crebted by this constructor
+     * mby be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param dataArray The short arrays for the <CODE>DataBuffer</CODE>.
-     * @param size The size of the banks in the <CODE>DataBuffer</CODE>.
+     * @pbrbm dbtbArrby The short brrbys for the <CODE>DbtbBuffer</CODE>.
+     * @pbrbm size The size of the bbnks in the <CODE>DbtbBuffer</CODE>.
      */
-    public DataBufferShort(short dataArray[][], int size) {
-        super(UNTRACKABLE, TYPE_SHORT, size, dataArray.length);
-        bankdata = dataArray.clone();
-        data = bankdata[0];
+    public DbtbBufferShort(short dbtbArrby[][], int size) {
+        super(UNTRACKABLE, TYPE_SHORT, size, dbtbArrby.length);
+        bbnkdbtb = dbtbArrby.clone();
+        dbtb = bbnkdbtb[0];
     }
 
     /**
-     * Constructs a short-based <CODE>DataBuffer</CODE> with the specified arrays, size,
-     * and offsets.
-     * The number of banks is equal to <CODE>dataArray.length</CODE>.  Each array must
-     * be at least as large as <CODE>size</CODE> + the corresponding offset.   There must
-     * be an entry in the offset array for each <CODE>dataArray</CODE> entry.  For each
-     * bank, only elements <CODE>offset</CODE> through
+     * Constructs b short-bbsed <CODE>DbtbBuffer</CODE> with the specified brrbys, size,
+     * bnd offsets.
+     * The number of bbnks is equbl to <CODE>dbtbArrby.length</CODE>.  Ebch brrby must
+     * be bt lebst bs lbrge bs <CODE>size</CODE> + the corresponding offset.   There must
+     * be bn entry in the offset brrby for ebch <CODE>dbtbArrby</CODE> entry.  For ebch
+     * bbnk, only elements <CODE>offset</CODE> through
      * <CODE>offset</CODE> + <CODE>size</CODE> - 1 should be
-     * used by accessors of this <CODE>DataBuffer</CODE>.
+     * used by bccessors of this <CODE>DbtbBuffer</CODE>.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt {@code DbtbBuffer} objects crebted by this constructor
+     * mby be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param dataArray The short arrays for the <CODE>DataBuffer</CODE>.
-     * @param size The size of the banks in the <CODE>DataBuffer</CODE>.
-     * @param offsets The offsets into each array.
+     * @pbrbm dbtbArrby The short brrbys for the <CODE>DbtbBuffer</CODE>.
+     * @pbrbm size The size of the bbnks in the <CODE>DbtbBuffer</CODE>.
+     * @pbrbm offsets The offsets into ebch brrby.
      */
-    public DataBufferShort(short dataArray[][], int size, int offsets[]) {
-        super(UNTRACKABLE, TYPE_SHORT, size, dataArray.length, offsets);
-        bankdata = dataArray.clone();
-        data = bankdata[0];
+    public DbtbBufferShort(short dbtbArrby[][], int size, int offsets[]) {
+        super(UNTRACKABLE, TYPE_SHORT, size, dbtbArrby.length, offsets);
+        bbnkdbtb = dbtbArrby.clone();
+        dbtb = bbnkdbtb[0];
     }
 
     /**
-     * Returns the default (first) byte data array.
+     * Returns the defbult (first) byte dbtb brrby.
      * <p>
-     * Note that calling this method may cause this {@code DataBuffer}
-     * object to be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt cblling this method mby cbuse this {@code DbtbBuffer}
+     * object to be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @return The first short data array.
+     * @return The first short dbtb brrby.
      */
-    public short[] getData() {
-        theTrackable.setUntrackable();
-        return data;
+    public short[] getDbtb() {
+        theTrbckbble.setUntrbckbble();
+        return dbtb;
     }
 
     /**
-     * Returns the data array for the specified bank.
+     * Returns the dbtb brrby for the specified bbnk.
      * <p>
-     * Note that calling this method may cause this {@code DataBuffer}
-     * object to be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt cblling this method mby cbuse this {@code DbtbBuffer}
+     * object to be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @param bank The bank whose data array you want to get.
-     * @return The data array for the specified bank.
+     * @pbrbm bbnk The bbnk whose dbtb brrby you wbnt to get.
+     * @return The dbtb brrby for the specified bbnk.
      */
-    public short[] getData(int bank) {
-        theTrackable.setUntrackable();
-        return bankdata[bank];
+    public short[] getDbtb(int bbnk) {
+        theTrbckbble.setUntrbckbble();
+        return bbnkdbtb[bbnk];
     }
 
     /**
-     * Returns the data arrays for all banks.
+     * Returns the dbtb brrbys for bll bbnks.
      * <p>
-     * Note that calling this method may cause this {@code DataBuffer}
-     * object to be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Note thbt cblling this method mby cbuse this {@code DbtbBuffer}
+     * object to be incompbtible with <b href="#optimizbtions">performbnce
+     * optimizbtions</b> used by some implementbtions (such bs cbching
+     * bn bssocibted imbge in video memory).
      *
-     * @return All of the data arrays.
+     * @return All of the dbtb brrbys.
      */
-    public short[][] getBankData() {
-        theTrackable.setUntrackable();
-        return bankdata.clone();
+    public short[][] getBbnkDbtb() {
+        theTrbckbble.setUntrbckbble();
+        return bbnkdbtb.clone();
     }
 
     /**
-     * Returns the requested data array element from the first (default) bank.
+     * Returns the requested dbtb brrby element from the first (defbult) bbnk.
      *
-     * @param i The data array element you want to get.
-     * @return The requested data array element as an integer.
+     * @pbrbm i The dbtb brrby element you wbnt to get.
+     * @return The requested dbtb brrby element bs bn integer.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
     public int getElem(int i) {
-        return (int)(data[i+offset]);
+        return (int)(dbtb[i+offset]);
     }
 
     /**
-     * Returns the requested data array element from the specified bank.
+     * Returns the requested dbtb brrby element from the specified bbnk.
      *
-     * @param bank The bank from which you want to get a data array element.
-     * @param i The data array element you want to get.
-     * @return The requested data array element as an integer.
+     * @pbrbm bbnk The bbnk from which you wbnt to get b dbtb brrby element.
+     * @pbrbm i The dbtb brrby element you wbnt to get.
+     * @return The requested dbtb brrby element bs bn integer.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
-    public int getElem(int bank, int i) {
-        return (int)(bankdata[bank][i+offsets[bank]]);
+    public int getElem(int bbnk, int i) {
+        return (int)(bbnkdbtb[bbnk][i+offsets[bbnk]]);
     }
 
     /**
-     * Sets the requested data array element in the first (default) bank
-     * to the specified value.
+     * Sets the requested dbtb brrby element in the first (defbult) bbnk
+     * to the specified vblue.
      *
-     * @param i The data array element you want to set.
-     * @param val The integer value to which you want to set the data array element.
+     * @pbrbm i The dbtb brrby element you wbnt to set.
+     * @pbrbm vbl The integer vblue to which you wbnt to set the dbtb brrby element.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
-    public void setElem(int i, int val) {
-        data[i+offset] = (short)val;
-        theTrackable.markDirty();
+    public void setElem(int i, int vbl) {
+        dbtb[i+offset] = (short)vbl;
+        theTrbckbble.mbrkDirty();
     }
 
     /**
-     * Sets the requested data array element in the specified bank
+     * Sets the requested dbtb brrby element in the specified bbnk
      * from the given integer.
-     * @param bank The bank in which you want to set the data array element.
-     * @param i The data array element you want to set.
-     * @param val The integer value to which you want to set the specified data array element.
+     * @pbrbm bbnk The bbnk in which you wbnt to set the dbtb brrby element.
+     * @pbrbm i The dbtb brrby element you wbnt to set.
+     * @pbrbm vbl The integer vblue to which you wbnt to set the specified dbtb brrby element.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
-    public void setElem(int bank, int i, int val) {
-        bankdata[bank][i+offsets[bank]] = (short)val;
-        theTrackable.markDirty();
+    public void setElem(int bbnk, int i, int vbl) {
+        bbnkdbtb[bbnk][i+offsets[bbnk]] = (short)vbl;
+        theTrbckbble.mbrkDirty();
     }
 }

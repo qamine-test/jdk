@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -32,7 +32,7 @@
 #include <netinet/in.h>
 #endif
 
-#if defined(__solaris__) && !defined(_SOCKLEN_T)
+#if defined(__solbris__) && !defined(_SOCKLEN_T)
 typedef size_t socklen_t;       /* New in SunOS 5.7, so need this for 5.6 */
 #endif
 
@@ -41,90 +41,90 @@ typedef size_t socklen_t;       /* New in SunOS 5.7, so need this for 5.6 */
 #include "net_util.h"
 #include "jvm.h"
 #include "jlong.h"
-#include "sun_nio_ch_ServerSocketChannelImpl.h"
+#include "sun_nio_ch_ServerSocketChbnnelImpl.h"
 #include "nio.h"
 #include "nio_util.h"
 
 
-static jfieldID fd_fdID;        /* java.io.FileDescriptor.fd */
-static jclass isa_class;        /* java.net.InetSocketAddress */
-static jmethodID isa_ctorID;    /*   .InetSocketAddress(InetAddress, int) */
+stbtic jfieldID fd_fdID;        /* jbvb.io.FileDescriptor.fd */
+stbtic jclbss isb_clbss;        /* jbvb.net.InetSocketAddress */
+stbtic jmethodID isb_ctorID;    /*   .InetSocketAddress(InetAddress, int) */
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_ServerSocketChannelImpl_initIDs(JNIEnv *env, jclass c)
+Jbvb_sun_nio_ch_ServerSocketChbnnelImpl_initIDs(JNIEnv *env, jclbss c)
 {
-    jclass cls;
+    jclbss cls;
 
-    cls = (*env)->FindClass(env, "java/io/FileDescriptor");
+    cls = (*env)->FindClbss(env, "jbvb/io/FileDescriptor");
     CHECK_NULL(cls);
     fd_fdID = (*env)->GetFieldID(env, cls, "fd", "I");
     CHECK_NULL(fd_fdID);
 
-    cls = (*env)->FindClass(env, "java/net/InetSocketAddress");
+    cls = (*env)->FindClbss(env, "jbvb/net/InetSocketAddress");
     CHECK_NULL(cls);
-    isa_class = (*env)->NewGlobalRef(env, cls);
-    if (isa_class == NULL) {
+    isb_clbss = (*env)->NewGlobblRef(env, cls);
+    if (isb_clbss == NULL) {
         JNU_ThrowOutOfMemoryError(env, NULL);
         return;
     }
-    isa_ctorID = (*env)->GetMethodID(env, cls, "<init>",
-                                     "(Ljava/net/InetAddress;I)V");
-    CHECK_NULL(isa_ctorID);
+    isb_ctorID = (*env)->GetMethodID(env, cls, "<init>",
+                                     "(Ljbvb/net/InetAddress;I)V");
+    CHECK_NULL(isb_ctorID);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_ServerSocketChannelImpl_accept0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_ch_ServerSocketChbnnelImpl_bccept0(JNIEnv *env, jobject this,
                                                 jobject ssfdo, jobject newfdo,
-                                                jobjectArray isaa)
+                                                jobjectArrby isbb)
 {
     jint ssfd = (*env)->GetIntField(env, ssfdo, fd_fdID);
     jint newfd;
-    struct sockaddr *sa;
-    int alloc_len;
-    jobject remote_ia = 0;
-    jobject isa;
+    struct sockbddr *sb;
+    int blloc_len;
+    jobject remote_ib = 0;
+    jobject isb;
     jint remote_port;
 
-    NET_AllocSockaddr(&sa, &alloc_len);
-    if (sa == NULL) {
+    NET_AllocSockbddr(&sb, &blloc_len);
+    if (sb == NULL) {
         JNU_ThrowOutOfMemoryError(env, NULL);
         return IOS_THROWN;
     }
 
     /*
-     * accept connection but ignore ECONNABORTED indicating that
-     * a connection was eagerly accepted but was reset before
-     * accept() was called.
+     * bccept connection but ignore ECONNABORTED indicbting thbt
+     * b connection wbs ebgerly bccepted but wbs reset before
+     * bccept() wbs cblled.
      */
     for (;;) {
-        socklen_t sa_len = alloc_len;
-        newfd = accept(ssfd, sa, &sa_len);
+        socklen_t sb_len = blloc_len;
+        newfd = bccept(ssfd, sb, &sb_len);
         if (newfd >= 0) {
-            break;
+            brebk;
         }
         if (errno != ECONNABORTED) {
-            break;
+            brebk;
         }
-        /* ECONNABORTED => restart accept */
+        /* ECONNABORTED => restbrt bccept */
     }
 
     if (newfd < 0) {
-        free((void *)sa);
+        free((void *)sb);
         if (errno == EAGAIN)
             return IOS_UNAVAILABLE;
         if (errno == EINTR)
             return IOS_INTERRUPTED;
-        JNU_ThrowIOExceptionWithLastError(env, "Accept failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Accept fbiled");
         return IOS_THROWN;
     }
 
     (*env)->SetIntField(env, newfdo, fd_fdID, newfd);
-    remote_ia = NET_SockaddrToInetAddress(env, sa, (int *)&remote_port);
-    free((void *)sa);
-    CHECK_NULL_RETURN(remote_ia, IOS_THROWN);
-    isa = (*env)->NewObject(env, isa_class, isa_ctorID, remote_ia, remote_port);
-    CHECK_NULL_RETURN(isa, IOS_THROWN);
-    (*env)->SetObjectArrayElement(env, isaa, 0, isa);
+    remote_ib = NET_SockbddrToInetAddress(env, sb, (int *)&remote_port);
+    free((void *)sb);
+    CHECK_NULL_RETURN(remote_ib, IOS_THROWN);
+    isb = (*env)->NewObject(env, isb_clbss, isb_ctorID, remote_ib, remote_port);
+    CHECK_NULL_RETURN(isb, IOS_THROWN);
+    (*env)->SetObjectArrbyElement(env, isbb, 0, isb);
     return 1;
 }

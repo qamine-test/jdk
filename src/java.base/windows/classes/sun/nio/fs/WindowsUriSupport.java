@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
 
 /**
- * Utility methods to convert between Path and URIs.
+ * Utility methods to convert between Pbth bnd URIs.
  */
 
-class WindowsUriSupport {
-    private WindowsUriSupport() {
+clbss WindowsUriSupport {
+    privbte WindowsUriSupport() {
     }
 
-    // suffix for IPv6 literal address
-    private static final String IPV6_LITERAL_SUFFIX = ".ipv6-literal.net";
+    // suffix for IPv6 literbl bddress
+    privbte stbtic finbl String IPV6_LITERAL_SUFFIX = ".ipv6-literbl.net";
 
     /**
-     * Returns URI to represent the given (absolute) path
+     * Returns URI to represent the given (bbsolute) pbth
      */
-    private static URI toUri(String path, boolean isUnc, boolean addSlash) {
+    privbte stbtic URI toUri(String pbth, boolebn isUnc, boolebn bddSlbsh) {
         String uriHost;
-        String uriPath;
+        String uriPbth;
 
         if (isUnc) {
-            int slash = path.indexOf('\\', 2);
-            uriHost = path.substring(2, slash);
-            uriPath = path.substring(slash).replace('\\', '/');
+            int slbsh = pbth.indexOf('\\', 2);
+            uriHost = pbth.substring(2, slbsh);
+            uriPbth = pbth.substring(slbsh).replbce('\\', '/');
 
-            // handle IPv6 literal addresses
-            // 1. drop .ivp6-literal.net
-            // 2. replace "-" with ":"
-            // 3. replace "s" with "%" (zone/scopeID delimiter)
+            // hbndle IPv6 literbl bddresses
+            // 1. drop .ivp6-literbl.net
+            // 2. replbce "-" with ":"
+            // 3. replbce "s" with "%" (zone/scopeID delimiter)
             if (uriHost.endsWith(IPV6_LITERAL_SUFFIX)) {
                 uriHost = uriHost
                     .substring(0, uriHost.length() - IPV6_LITERAL_SUFFIX.length())
-                    .replace('-', ':')
-                    .replace('s', '%');
+                    .replbce('-', ':')
+                    .replbce('s', '%');
             }
         } else {
             uriHost = "";
-            uriPath = "/" + path.replace('\\', '/');
+            uriPbth = "/" + pbth.replbce('\\', '/');
         }
 
-        // append slash if known to be directory
-        if (addSlash)
-            uriPath += "/";
+        // bppend slbsh if known to be directory
+        if (bddSlbsh)
+            uriPbth += "/";
 
-        // return file:///C:/My%20Documents or file://server/share/foo
+        // return file:///C:/My%20Documents or file://server/shbre/foo
         try {
-            return new URI("file", uriHost, uriPath, null);
-        } catch (URISyntaxException x) {
+            return new URI("file", uriHost, uriPbth, null);
+        } cbtch (URISyntbxException x) {
             if (!isUnc)
                 throw new AssertionError(x);
         }
 
-        // if we get here it means we've got a UNC with reserved characters
-        // in the server name. The authority component cannot contain escaped
-        // octets so fallback to encoding the server name into the URI path
+        // if we get here it mebns we've got b UNC with reserved chbrbcters
+        // in the server nbme. The buthority component cbnnot contbin escbped
+        // octets so fbllbbck to encoding the server nbme into the URI pbth
         // component.
-        uriPath = "//" + path.replace('\\', '/');
-        if (addSlash)
-            uriPath += "/";
+        uriPbth = "//" + pbth.replbce('\\', '/');
+        if (bddSlbsh)
+            uriPbth += "/";
         try {
-            return new URI("file", null, uriPath, null);
-        } catch (URISyntaxException x) {
+            return new URI("file", null, uriPbth, null);
+        } cbtch (URISyntbxException x) {
             throw new AssertionError(x);
         }
     }
 
     /**
-     * Converts given Path to a URI
+     * Converts given Pbth to b URI
      */
-    static URI toUri(WindowsPath path) {
-        path = path.toAbsolutePath();
-        String s = path.toString();
+    stbtic URI toUri(WindowsPbth pbth) {
+        pbth = pbth.toAbsolutePbth();
+        String s = pbth.toString();
 
-        // trailing slash will be added if file is a directory. Skip check if
-        // already have trailing space
-        boolean addSlash = false;
+        // trbiling slbsh will be bdded if file is b directory. Skip check if
+        // blrebdy hbve trbiling spbce
+        boolebn bddSlbsh = fblse;
         if (!s.endsWith("\\")) {
             try {
-                 addSlash = WindowsFileAttributes.get(path, true).isDirectory();
-            } catch (WindowsException x) {
+                 bddSlbsh = WindowsFileAttributes.get(pbth, true).isDirectory();
+            } cbtch (WindowsException x) {
             }
         }
 
-        return toUri(s, path.isUnc(), addSlash);
+        return toUri(s, pbth.isUnc(), bddSlbsh);
     }
 
     /**
-     * Converts given URI to a Path
+     * Converts given URI to b Pbth
      */
-    static WindowsPath fromUri(WindowsFileSystem fs, URI uri) {
+    stbtic WindowsPbth fromUri(WindowsFileSystem fs, URI uri) {
         if (!uri.isAbsolute())
-            throw new IllegalArgumentException("URI is not absolute");
-        if (uri.isOpaque())
-            throw new IllegalArgumentException("URI is not hierarchical");
+            throw new IllegblArgumentException("URI is not bbsolute");
+        if (uri.isOpbque())
+            throw new IllegblArgumentException("URI is not hierbrchicbl");
         String scheme = uri.getScheme();
-        if ((scheme == null) || !scheme.equalsIgnoreCase("file"))
-            throw new IllegalArgumentException("URI scheme is not \"file\"");
-        if (uri.getFragment() != null)
-            throw new IllegalArgumentException("URI has a fragment component");
+        if ((scheme == null) || !scheme.equblsIgnoreCbse("file"))
+            throw new IllegblArgumentException("URI scheme is not \"file\"");
+        if (uri.getFrbgment() != null)
+            throw new IllegblArgumentException("URI hbs b frbgment component");
         if (uri.getQuery() != null)
-            throw new IllegalArgumentException("URI has a query component");
-        String path = uri.getPath();
-        if (path.equals(""))
-            throw new IllegalArgumentException("URI path component is empty");
+            throw new IllegblArgumentException("URI hbs b query component");
+        String pbth = uri.getPbth();
+        if (pbth.equbls(""))
+            throw new IllegblArgumentException("URI pbth component is empty");
 
         // UNC
-        String auth = uri.getAuthority();
-        if (auth != null && !auth.equals("")) {
+        String buth = uri.getAuthority();
+        if (buth != null && !buth.equbls("")) {
             String host = uri.getHost();
             if (host == null)
-                throw new IllegalArgumentException("URI authority component has undefined host");
+                throw new IllegblArgumentException("URI buthority component hbs undefined host");
             if (uri.getUserInfo() != null)
-                throw new IllegalArgumentException("URI authority component has user-info");
+                throw new IllegblArgumentException("URI buthority component hbs user-info");
             if (uri.getPort() != -1)
-                throw new IllegalArgumentException("URI authority component has port number");
+                throw new IllegblArgumentException("URI buthority component hbs port number");
 
-            // IPv6 literal
-            // 1. drop enclosing brackets
-            // 2. replace ":" with "-"
-            // 3. replace "%" with "s" (zone/scopeID delimiter)
-            // 4. Append .ivp6-literal.net
-            if (host.startsWith("[")) {
+            // IPv6 literbl
+            // 1. drop enclosing brbckets
+            // 2. replbce ":" with "-"
+            // 3. replbce "%" with "s" (zone/scopeID delimiter)
+            // 4. Append .ivp6-literbl.net
+            if (host.stbrtsWith("[")) {
                 host = host.substring(1, host.length()-1)
-                           .replace(':', '-')
-                           .replace('%', 's');
+                           .replbce(':', '-')
+                           .replbce('%', 's');
                 host += IPV6_LITERAL_SUFFIX;
             }
 
             // reconstitute the UNC
-            path = "\\\\" + host + path;
+            pbth = "\\\\" + host + pbth;
         } else {
-            if ((path.length() > 2) && (path.charAt(2) == ':')) {
+            if ((pbth.length() > 2) && (pbth.chbrAt(2) == ':')) {
                 // "/c:/foo" --> "c:/foo"
-                path = path.substring(1);
+                pbth = pbth.substring(1);
             }
         }
-        return WindowsPath.parse(fs, path);
+        return WindowsPbth.pbrse(fs, pbth);
     }
 }

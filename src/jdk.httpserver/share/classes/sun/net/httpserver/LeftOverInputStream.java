@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2005, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
+pbckbge sun.net.httpserver;
 
-import java.io.*;
+import jbvb.io.*;
 import com.sun.net.httpserver.*;
 import com.sun.net.httpserver.spi.*;
 
 /**
- * a (filter) input stream which can tell us if bytes are "left over"
- * on the underlying stream which can be read (without blocking)
- * on another instance of this class.
+ * b (filter) input strebm which cbn tell us if bytes bre "left over"
+ * on the underlying strebm which cbn be rebd (without blocking)
+ * on bnother instbnce of this clbss.
  *
- * The class can also report if all bytes "expected" to be read
- * were read, by the time close() was called. In that case,
- * bytes may be drained to consume them (by calling drain() ).
+ * The clbss cbn blso report if bll bytes "expected" to be rebd
+ * were rebd, by the time close() wbs cblled. In thbt cbse,
+ * bytes mby be drbined to consume them (by cblling drbin() ).
  *
- * isEOF() returns true, when all expected bytes have been read
+ * isEOF() returns true, when bll expected bytes hbve been rebd
  */
-abstract class LeftOverInputStream extends FilterInputStream {
-    ExchangeImpl t;
+bbstrbct clbss LeftOverInputStrebm extends FilterInputStrebm {
+    ExchbngeImpl t;
     ServerImpl server;
-    protected boolean closed = false;
-    protected boolean eof = false;
+    protected boolebn closed = fblse;
+    protected boolebn eof = fblse;
     byte[] one = new byte [1];
 
-    public LeftOverInputStream (ExchangeImpl t, InputStream src) {
+    public LeftOverInputStrebm (ExchbngeImpl t, InputStrebm src) {
         super (src);
         this.t = t;
         this.server = t.getServerImpl();
     }
     /**
-     * if bytes are left over buffered on *the UNDERLYING* stream
+     * if bytes bre left over buffered on *the UNDERLYING* strebm
      */
-    public boolean isDataBuffered () throws IOException {
-        assert eof;
-        return super.available() > 0;
+    public boolebn isDbtbBuffered () throws IOException {
+        bssert eof;
+        return super.bvbilbble() > 0;
     }
 
     public void close () throws IOException {
@@ -66,25 +66,25 @@ abstract class LeftOverInputStream extends FilterInputStream {
         }
         closed = true;
         if (!eof) {
-            eof = drain (ServerConfig.getDrainAmount());
+            eof = drbin (ServerConfig.getDrbinAmount());
         }
     }
 
-    public boolean isClosed () {
+    public boolebn isClosed () {
         return closed;
     }
 
-    public boolean isEOF () {
+    public boolebn isEOF () {
         return eof;
     }
 
-    protected abstract int readImpl (byte[]b, int off, int len) throws IOException;
+    protected bbstrbct int rebdImpl (byte[]b, int off, int len) throws IOException;
 
-    public synchronized int read () throws IOException {
+    public synchronized int rebd () throws IOException {
         if (closed) {
-            throw new IOException ("Stream is closed");
+            throw new IOException ("Strebm is closed");
         }
-        int c = readImpl (one, 0, 1);
+        int c = rebdImpl (one, 0, 1);
         if (c == -1 || c == 0) {
             return c;
         } else {
@@ -92,24 +92,24 @@ abstract class LeftOverInputStream extends FilterInputStream {
         }
     }
 
-    public synchronized int read (byte[]b, int off, int len) throws IOException {
+    public synchronized int rebd (byte[]b, int off, int len) throws IOException {
         if (closed) {
-            throw new IOException ("Stream is closed");
+            throw new IOException ("Strebm is closed");
         }
-        return readImpl (b, off, len);
+        return rebdImpl (b, off, len);
     }
 
     /**
-     * read and discard up to l bytes or "eof" occurs,
-     * (whichever is first). Then return true if the stream
-     * is at eof (ie. all bytes were read) or false if not
-     * (still bytes to be read)
+     * rebd bnd discbrd up to l bytes or "eof" occurs,
+     * (whichever is first). Then return true if the strebm
+     * is bt eof (ie. bll bytes were rebd) or fblse if not
+     * (still bytes to be rebd)
      */
-    public boolean drain (long l) throws IOException {
+    public boolebn drbin (long l) throws IOException {
         int bufSize = 2048;
         byte[] db = new byte [bufSize];
         while (l > 0) {
-            long len = readImpl (db, 0, bufSize);
+            long len = rebdImpl (db, 0, bufSize);
             if (len == -1) {
                 eof = true;
                 return true;
@@ -117,6 +117,6 @@ abstract class LeftOverInputStream extends FilterInputStream {
                 l = l - len;
             }
         }
-        return false;
+        return fblse;
     }
 }

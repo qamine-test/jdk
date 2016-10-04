@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.gtk;
+pbckbge com.sun.jbvb.swing.plbf.gtk;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.File;
-import java.lang.ref.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Locale;
-import javax.swing.*;
-import javax.swing.colorchooser.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.synth.*;
-import javax.swing.text.DefaultEditorKit;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.io.File;
+import jbvb.lbng.ref.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Locble;
+import jbvbx.swing.*;
+import jbvbx.swing.colorchooser.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.synth.*;
+import jbvbx.swing.text.DefbultEditorKit;
 
-import com.sun.java.swing.plaf.gtk.GTKConstants.PositionType;
-import com.sun.java.swing.plaf.gtk.GTKConstants.StateType;
-import sun.awt.SunToolkit;
-import sun.awt.UNIXToolkit;
-import sun.awt.OSInfo;
-import sun.security.action.GetPropertyAction;
-import sun.swing.DefaultLayoutStyle;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.PositionType;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.StbteType;
+import sun.bwt.SunToolkit;
+import sun.bwt.UNIXToolkit;
+import sun.bwt.OSInfo;
+import sun.security.bction.GetPropertyAction;
+import sun.swing.DefbultLbyoutStyle;
 import sun.swing.SwingUtilities2;
 
 /**
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Superclass not serializable
-public class GTKLookAndFeel extends SynthLookAndFeel {
-    private static final boolean IS_22;
+@SuppressWbrnings("seribl") // Superclbss not seriblizbble
+public clbss GTKLookAndFeel extends SynthLookAndFeel {
+    privbte stbtic finbl boolebn IS_22;
 
     /**
-     * Whether or not text is drawn antialiased.  This keys off the
-     * desktop property 'gnome.Xft/Antialias' and 'gnome.Xft/RGBA'
-     * We should assume ON - or some variation of ON as no GTK desktop
+     * Whether or not text is drbwn bntiblibsed.  This keys off the
+     * desktop property 'gnome.Xft/Antiblibs' bnd 'gnome.Xft/RGBA'
+     * We should bssume ON - or some vbribtion of ON bs no GTK desktop
      * ships with it OFF.
      */
-    static Object aaTextInfo;
+    stbtic Object bbTextInfo;
 
     /**
-     * Solaris, or Linux with Sun JDS in a CJK Locale.
-     * Used to determine if Sun's high quality CJK fonts are present.
+     * Solbris, or Linux with Sun JDS in b CJK Locble.
+     * Used to determine if Sun's high qublity CJK fonts bre present.
      */
-    private static boolean isSunCJK;
+    privbte stbtic boolebn isSunCJK;
 
     /*
-     * Used to override if system (desktop) text anti-aliasing settings should
-     * be used. The reasons for this are are is that currently its "off"
-     * for CJK locales which is not likely to be a good universal answer, and
-     * also its off for remote display. So this provides an unsupported
-     * way to explicitly request that it be "on".
+     * Used to override if system (desktop) text bnti-blibsing settings should
+     * be used. The rebsons for this bre bre is thbt currently its "off"
+     * for CJK locbles which is not likely to be b good universbl bnswer, bnd
+     * blso its off for remote displby. So this provides bn unsupported
+     * wby to explicitly request thbt it be "on".
      */
-    private static boolean gtkAAFontSettingsCond;
+    privbte stbtic boolebn gtkAAFontSettingsCond;
 
     /**
-     * Font to use in places where there is no widget.
+     * Font to use in plbces where there is no widget.
      */
-    private Font fallbackFont;
+    privbte Font fbllbbckFont;
 
     /**
-     * If true, GTKLookAndFeel is inside the <code>initialize</code>
+     * If true, GTKLookAndFeel is inside the <code>initiblize</code>
      * method.
      */
-    private boolean inInitialize;
+    privbte boolebn inInitiblize;
 
     /**
-     * If true, PropertyChangeListeners have been installed for the
+     * If true, PropertyChbngeListeners hbve been instblled for the
      * Toolkit.
      */
-    private boolean pclInstalled;
+    privbte boolebn pclInstblled;
 
     /**
-     * StyleFactory needs to be created only the first time.
+     * StyleFbctory needs to be crebted only the first time.
      */
-    private GTKStyleFactory styleFactory;
+    privbte GTKStyleFbctory styleFbctory;
 
     /**
-     * Cached theme name. Used by GTKGraphicsUtils
+     * Cbched theme nbme. Used by GTKGrbphicsUtils
      */
-    private static String gtkThemeName = "Default";
+    privbte stbtic String gtkThemeNbme = "Defbult";
 
-    static {
-        // Backup for specifying the version, this isn't currently documented.
-        // If you pass in anything but 2.2 you got the 2.0 colors/look.
+    stbtic {
+        // Bbckup for specifying the version, this isn't currently documented.
+        // If you pbss in bnything but 2.2 you got the 2.0 colors/look.
         String version = AccessController.doPrivileged(
                new GetPropertyAction("swing.gtk.version"));
         if (version != null) {
-            IS_22 = version.equals("2.2");
+            IS_22 = version.equbls("2.2");
         }
         else {
             IS_22 = true;
         }
 
-        String language = Locale.getDefault().getLanguage();
-        boolean cjkLocale =
-            (Locale.CHINESE.getLanguage().equals(language) ||
-             Locale.JAPANESE.getLanguage().equals(language) ||
-             Locale.KOREAN.getLanguage().equals(language));
+        String lbngubge = Locble.getDefbult().getLbngubge();
+        boolebn cjkLocble =
+            (Locble.CHINESE.getLbngubge().equbls(lbngubge) ||
+             Locble.JAPANESE.getLbngubge().equbls(lbngubge) ||
+             Locble.KOREAN.getLbngubge().equbls(lbngubge));
 
-        if (cjkLocale) {
-            boolean isSunDesktop = false;
+        if (cjkLocble) {
+            boolebn isSunDesktop = fblse;
             switch (OSInfo.getOSType()) {
-                case SOLARIS:
+                cbse SOLARIS:
                     isSunDesktop = true;
-                    break;
+                    brebk;
 
-                case LINUX:
-                    Boolean val = AccessController.doPrivileged(
-                                    new PrivilegedAction<Boolean>() {
-                                        public Boolean run() {
-                                            File f = new File("/etc/sun-release");
-                                            return Boolean.valueOf(f.exists());
+                cbse LINUX:
+                    Boolebn vbl = AccessController.doPrivileged(
+                                    new PrivilegedAction<Boolebn>() {
+                                        public Boolebn run() {
+                                            File f = new File("/etc/sun-relebse");
+                                            return Boolebn.vblueOf(f.exists());
                                         }
                                     });
-                    isSunDesktop = val.booleanValue();
+                    isSunDesktop = vbl.boolebnVblue();
             }
-            if (isSunDesktop && !sun.java2d.SunGraphicsEnvironment.isOpenSolaris) {
+            if (isSunDesktop && !sun.jbvb2d.SunGrbphicsEnvironment.isOpenSolbris) {
                 isSunCJK = true;
             }
         }
     }
 
     /**
-     * Returns true if running on system containing at least 2.2.
+     * Returns true if running on system contbining bt lebst 2.2.
      */
-    static boolean is2_2() {
-        // NOTE: We're currently hard coding to use 2.2.
-        // If we want to support both GTK 2.0 and 2.2, we'll
-        // need to get the major/minor/micro version from the .so.
-        // Refer to bug 4912613 for details.
+    stbtic boolebn is2_2() {
+        // NOTE: We're currently hbrd coding to use 2.2.
+        // If we wbnt to support both GTK 2.0 bnd 2.2, we'll
+        // need to get the mbjor/minor/micro version from the .so.
+        // Refer to bug 4912613 for detbils.
         return IS_22;
     }
 
     /**
-     * Maps a swing constant to a GTK constant.
+     * Mbps b swing constbnt to b GTK constbnt.
      */
-    static PositionType SwingOrientationConstantToGTK(int side) {
+    stbtic PositionType SwingOrientbtionConstbntToGTK(int side) {
         switch (side) {
-        case SwingConstants.LEFT:
+        cbse SwingConstbnts.LEFT:
             return PositionType.LEFT;
-        case SwingConstants.RIGHT:
+        cbse SwingConstbnts.RIGHT:
             return PositionType.RIGHT;
-        case SwingConstants.TOP:
+        cbse SwingConstbnts.TOP:
             return PositionType.TOP;
-        case SwingConstants.BOTTOM:
+        cbse SwingConstbnts.BOTTOM:
             return PositionType.BOTTOM;
         }
-        assert false : "Unknown orientation: " + side;
+        bssert fblse : "Unknown orientbtion: " + side;
         return PositionType.TOP;
     }
 
     /**
-     * Maps from Synth state to native GTK state using typesafe enumeration
-     * StateType.  This is only used by GTKEngine.
+     * Mbps from Synth stbte to nbtive GTK stbte using typesbfe enumerbtion
+     * StbteType.  This is only used by GTKEngine.
      */
-    static StateType synthStateToGTKStateType(int state) {
-        StateType result;
-        switch (state) {
-            case SynthConstants.PRESSED:
-                result = StateType.ACTIVE;
-                break;
-            case SynthConstants.MOUSE_OVER:
-                result = StateType.PRELIGHT;
-                break;
-            case SynthConstants.SELECTED:
-                result = StateType.SELECTED;
-                break;
-            case SynthConstants.DISABLED:
-                result = StateType.INSENSITIVE;
-                break;
-            case SynthConstants.ENABLED:
-            default:
-                result = StateType.NORMAL;
-                break;
+    stbtic StbteType synthStbteToGTKStbteType(int stbte) {
+        StbteType result;
+        switch (stbte) {
+            cbse SynthConstbnts.PRESSED:
+                result = StbteType.ACTIVE;
+                brebk;
+            cbse SynthConstbnts.MOUSE_OVER:
+                result = StbteType.PRELIGHT;
+                brebk;
+            cbse SynthConstbnts.SELECTED:
+                result = StbteType.SELECTED;
+                brebk;
+            cbse SynthConstbnts.DISABLED:
+                result = StbteType.INSENSITIVE;
+                brebk;
+            cbse SynthConstbnts.ENABLED:
+            defbult:
+                result = StbteType.NORMAL;
+                brebk;
         }
         return result;
     }
 
     /**
-     * Maps from a Synth state to the corresponding GTK state.
-     * The GTK states are named differently than Synth's states, the
-     * following gives the mapping:
-     * <table><tr><td>Synth<td>GTK
-     * <tr><td>SynthConstants.PRESSED<td>ACTIVE
-     * <tr><td>SynthConstants.SELECTED<td>SELECTED
-     * <tr><td>SynthConstants.MOUSE_OVER<td>PRELIGHT
-     * <tr><td>SynthConstants.DISABLED<td>INSENSITIVE
-     * <tr><td>SynthConstants.ENABLED<td>NORMAL
-     * </table>
-     * Additionally some widgets are special cased.
+     * Mbps from b Synth stbte to the corresponding GTK stbte.
+     * The GTK stbtes bre nbmed differently thbn Synth's stbtes, the
+     * following gives the mbpping:
+     * <tbble><tr><td>Synth<td>GTK
+     * <tr><td>SynthConstbnts.PRESSED<td>ACTIVE
+     * <tr><td>SynthConstbnts.SELECTED<td>SELECTED
+     * <tr><td>SynthConstbnts.MOUSE_OVER<td>PRELIGHT
+     * <tr><td>SynthConstbnts.DISABLED<td>INSENSITIVE
+     * <tr><td>SynthConstbnts.ENABLED<td>NORMAL
+     * </tbble>
+     * Additionblly some widgets bre specibl cbsed.
      */
-    static int synthStateToGTKState(Region region, int state) {
-        if ((state & SynthConstants.PRESSED) != 0) {
+    stbtic int synthStbteToGTKStbte(Region region, int stbte) {
+        if ((stbte & SynthConstbnts.PRESSED) != 0) {
             if (region == Region.RADIO_BUTTON
                     || region == Region.CHECK_BOX
                     || region == Region.MENU
@@ -224,64 +224,64 @@ public class GTKLookAndFeel extends SynthLookAndFeel {
                     || region == Region.RADIO_BUTTON_MENU_ITEM
                     || region == Region.CHECK_BOX_MENU_ITEM
                     || region == Region.SPLIT_PANE) {
-                state = SynthConstants.MOUSE_OVER;
+                stbte = SynthConstbnts.MOUSE_OVER;
             } else {
-                state = SynthConstants.PRESSED;
+                stbte = SynthConstbnts.PRESSED;
             }
 
         } else if (region == Region.TABBED_PANE_TAB) {
-            if ((state & SynthConstants.DISABLED) != 0) {
-                state = SynthConstants.DISABLED;
+            if ((stbte & SynthConstbnts.DISABLED) != 0) {
+                stbte = SynthConstbnts.DISABLED;
             }
-            else if ((state & SynthConstants.SELECTED) != 0) {
-                state = SynthConstants.ENABLED;
+            else if ((stbte & SynthConstbnts.SELECTED) != 0) {
+                stbte = SynthConstbnts.ENABLED;
             } else {
-                state = SynthConstants.PRESSED;
+                stbte = SynthConstbnts.PRESSED;
             }
 
-        } else if ((state & SynthConstants.SELECTED) != 0) {
+        } else if ((stbte & SynthConstbnts.SELECTED) != 0) {
             if (region == Region.MENU) {
-                state = SynthConstants.MOUSE_OVER;
+                stbte = SynthConstbnts.MOUSE_OVER;
             } else if (region == Region.RADIO_BUTTON ||
                           region == Region.TOGGLE_BUTTON ||
                           region == Region.RADIO_BUTTON_MENU_ITEM ||
                           region == Region.CHECK_BOX_MENU_ITEM ||
                           region == Region.CHECK_BOX ||
                           region == Region.BUTTON) {
-                if ((state & SynthConstants.DISABLED) != 0) {
-                    state = SynthConstants.DISABLED;
+                if ((stbte & SynthConstbnts.DISABLED) != 0) {
+                    stbte = SynthConstbnts.DISABLED;
                 }
-                // If the button is SELECTED and is PRELIGHT we need to
-                // make the state MOUSE_OVER otherwise we don't paint the
+                // If the button is SELECTED bnd is PRELIGHT we need to
+                // mbke the stbte MOUSE_OVER otherwise we don't pbint the
                 // PRELIGHT.
-                else if ((state & SynthConstants.MOUSE_OVER) != 0) {
-                    state = SynthConstants.MOUSE_OVER;
+                else if ((stbte & SynthConstbnts.MOUSE_OVER) != 0) {
+                    stbte = SynthConstbnts.MOUSE_OVER;
                 } else {
-                    state = SynthConstants.PRESSED;
+                    stbte = SynthConstbnts.PRESSED;
                 }
             } else {
-                state = SynthConstants.SELECTED;
+                stbte = SynthConstbnts.SELECTED;
             }
         }
 
-        else if ((state & SynthConstants.MOUSE_OVER) != 0) {
-            state = SynthConstants.MOUSE_OVER;
+        else if ((stbte & SynthConstbnts.MOUSE_OVER) != 0) {
+            stbte = SynthConstbnts.MOUSE_OVER;
         }
-        else if ((state & SynthConstants.DISABLED) != 0) {
-            state = SynthConstants.DISABLED;
+        else if ((stbte & SynthConstbnts.DISABLED) != 0) {
+            stbte = SynthConstbnts.DISABLED;
         }
         else {
             if (region == Region.SLIDER_TRACK) {
-                state = SynthConstants.PRESSED;
+                stbte = SynthConstbnts.PRESSED;
             } else {
-                state = SynthConstants.ENABLED;
+                stbte = SynthConstbnts.ENABLED;
             }
         }
-        return state;
+        return stbte;
     }
 
-    static boolean isText(Region region) {
-        // These Regions treat FOREGROUND as TEXT.
+    stbtic boolebn isText(Region region) {
+        // These Regions trebt FOREGROUND bs TEXT.
         return (region == Region.TEXT_FIELD ||
                 region == Region.FORMATTED_TEXT_FIELD ||
                 region == Region.LIST ||
@@ -294,76 +294,76 @@ public class GTKLookAndFeel extends SynthLookAndFeel {
                 region == Region.TREE);
     }
 
-    public UIDefaults getDefaults() {
-        // We need to call super for basic's properties file.
-        UIDefaults table = super.getDefaults();
+    public UIDefbults getDefbults() {
+        // We need to cbll super for bbsic's properties file.
+        UIDefbults tbble = super.getDefbults();
 
-        // SynthTabbedPaneUI supports rollover on tabs, GTK does not
-        table.put("TabbedPane.isTabRollover", Boolean.FALSE);
+        // SynthTbbbedPbneUI supports rollover on tbbs, GTK does not
+        tbble.put("TbbbedPbne.isTbbRollover", Boolebn.FALSE);
 
         // Prevents Synth from setting text AA by itself
-        table.put("Synth.doNotSetTextAA", true);
+        tbble.put("Synth.doNotSetTextAA", true);
 
-        initResourceBundle(table);
-        // For compatibility with apps expecting certain defaults we'll
-        // populate the table with the values from basic.
-        initSystemColorDefaults(table);
-        initComponentDefaults(table);
-        installPropertyChangeListeners();
-        return table;
+        initResourceBundle(tbble);
+        // For compbtibility with bpps expecting certbin defbults we'll
+        // populbte the tbble with the vblues from bbsic.
+        initSystemColorDefbults(tbble);
+        initComponentDefbults(tbble);
+        instbllPropertyChbngeListeners();
+        return tbble;
     }
 
-    private void installPropertyChangeListeners() {
-        if(!pclInstalled) {
-            Toolkit kit = Toolkit.getDefaultToolkit();
-            WeakPCL pcl = new WeakPCL(this, kit, "gnome.Net/ThemeName");
-            kit.addPropertyChangeListener(pcl.getKey(), pcl);
-            pcl = new WeakPCL(this, kit, "gnome.Gtk/FontName");
-            kit.addPropertyChangeListener(pcl.getKey(), pcl);
-            pcl = new WeakPCL(this, kit, "gnome.Xft/DPI");
-            kit.addPropertyChangeListener(pcl.getKey(), pcl);
+    privbte void instbllPropertyChbngeListeners() {
+        if(!pclInstblled) {
+            Toolkit kit = Toolkit.getDefbultToolkit();
+            WebkPCL pcl = new WebkPCL(this, kit, "gnome.Net/ThemeNbme");
+            kit.bddPropertyChbngeListener(pcl.getKey(), pcl);
+            pcl = new WebkPCL(this, kit, "gnome.Gtk/FontNbme");
+            kit.bddPropertyChbngeListener(pcl.getKey(), pcl);
+            pcl = new WebkPCL(this, kit, "gnome.Xft/DPI");
+            kit.bddPropertyChbngeListener(pcl.getKey(), pcl);
 
             flushUnreferenced();
-            pclInstalled = true;
+            pclInstblled = true;
         }
     }
 
-    private void initResourceBundle(UIDefaults table) {
-        table.addResourceBundle("com.sun.java.swing.plaf.gtk.resources.gtk");
+    privbte void initResourceBundle(UIDefbults tbble) {
+        tbble.bddResourceBundle("com.sun.jbvb.swing.plbf.gtk.resources.gtk");
     }
 
-    protected void initComponentDefaults(UIDefaults table) {
-        // For compatibility with apps expecting certain defaults we'll
-        // populate the table with the values from basic.
-        super.initComponentDefaults(table);
+    protected void initComponentDefbults(UIDefbults tbble) {
+        // For compbtibility with bpps expecting certbin defbults we'll
+        // populbte the tbble with the vblues from bbsic.
+        super.initComponentDefbults(tbble);
 
-        UIDefaults.LazyValue zeroBorder =
+        UIDefbults.LbzyVblue zeroBorder =
             t -> new BorderUIResource.EmptyBorderUIResource(0, 0, 0, 0);
 
-        Object focusBorder = new GTKStyle.GTKLazyValue(
-            "com.sun.java.swing.plaf.gtk.GTKPainter$ListTableFocusBorder",
+        Object focusBorder = new GTKStyle.GTKLbzyVblue(
+            "com.sun.jbvb.swing.plbf.gtk.GTKPbinter$ListTbbleFocusBorder",
             "getUnselectedCellBorder");
-        Object focusSelectedBorder = new GTKStyle.GTKLazyValue(
-            "com.sun.java.swing.plaf.gtk.GTKPainter$ListTableFocusBorder",
+        Object focusSelectedBorder = new GTKStyle.GTKLbzyVblue(
+            "com.sun.jbvb.swing.plbf.gtk.GTKPbinter$ListTbbleFocusBorder",
             "getSelectedCellBorder");
-        Object noFocusBorder = new GTKStyle.GTKLazyValue(
-            "com.sun.java.swing.plaf.gtk.GTKPainter$ListTableFocusBorder",
+        Object noFocusBorder = new GTKStyle.GTKLbzyVblue(
+            "com.sun.jbvb.swing.plbf.gtk.GTKPbinter$ListTbbleFocusBorder",
             "getNoFocusCellBorder");
 
-        GTKStyleFactory factory = (GTKStyleFactory)getStyleFactory();
-        GTKStyle tableStyle = (GTKStyle)factory.getStyle(null, Region.TREE);
-        Color tableBg = tableStyle.getGTKColor(SynthConstants.ENABLED,
+        GTKStyleFbctory fbctory = (GTKStyleFbctory)getStyleFbctory();
+        GTKStyle tbbleStyle = (GTKStyle)fbctory.getStyle(null, Region.TREE);
+        Color tbbleBg = tbbleStyle.getGTKColor(SynthConstbnts.ENABLED,
                 GTKColorType.TEXT_BACKGROUND);
-        Color tableFocusCellBg = tableStyle.getGTKColor(SynthConstants.ENABLED,
+        Color tbbleFocusCellBg = tbbleStyle.getGTKColor(SynthConstbnts.ENABLED,
                 GTKColorType.BACKGROUND);
-        Color tableFocusCellFg = tableStyle.getGTKColor(SynthConstants.ENABLED,
+        Color tbbleFocusCellFg = tbbleStyle.getGTKColor(SynthConstbnts.ENABLED,
                 GTKColorType.FOREGROUND);
 
-        // The following progress bar size calculations come from
-        // gtkprogressbar.c (version 2.8.20), see MIN_* constants and
-        // the gtk_progress_bar_size_request() method.
+        // The following progress bbr size cblculbtions come from
+        // gtkprogressbbr.c (version 2.8.20), see MIN_* constbnts bnd
+        // the gtk_progress_bbr_size_request() method.
         GTKStyle progStyle = (GTKStyle)
-            factory.getStyle(null, Region.PROGRESS_BAR);
+            fbctory.getStyle(null, Region.PROGRESS_BAR);
         int progXThickness = progStyle.getXThickness();
         int progYThickness = progStyle.getYThickness();
         int hProgWidth  = 150 - (progXThickness * 2);
@@ -371,343 +371,343 @@ public class GTKLookAndFeel extends SynthLookAndFeel {
         int vProgWidth  =  22 - (progXThickness * 2);
         int vProgHeight =  80 - (progYThickness * 2);
 
-        Integer caretBlinkRate = Integer.valueOf(500);
+        Integer cbretBlinkRbte = Integer.vblueOf(500);
         Insets zeroInsets = new InsetsUIResource(0, 0, 0, 0);
 
-        Double defaultCaretAspectRatio = new Double(0.025);
-        Color caretColor = table.getColor("caretColor");
-        Color controlText = table.getColor("controlText");
+        Double defbultCbretAspectRbtio = new Double(0.025);
+        Color cbretColor = tbble.getColor("cbretColor");
+        Color controlText = tbble.getColor("controlText");
 
-        Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[] {
-                       "ctrl C", DefaultEditorKit.copyAction,
-                       "ctrl V", DefaultEditorKit.pasteAction,
-                       "ctrl X", DefaultEditorKit.cutAction,
-                         "COPY", DefaultEditorKit.copyAction,
-                        "PASTE", DefaultEditorKit.pasteAction,
-                          "CUT", DefaultEditorKit.cutAction,
-               "control INSERT", DefaultEditorKit.copyAction,
-                 "shift INSERT", DefaultEditorKit.pasteAction,
-                 "shift DELETE", DefaultEditorKit.cutAction,
-                   "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                  "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-               "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                    "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                 "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                   "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-              "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-           "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-             "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-          "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                       "ctrl A", DefaultEditorKit.selectAllAction,
-                         "HOME", DefaultEditorKit.beginLineAction,
-                          "END", DefaultEditorKit.endLineAction,
-                   "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                    "shift END", DefaultEditorKit.selectionEndLineAction,
-                   "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-             "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                       "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                       "DELETE", DefaultEditorKit.deleteNextCharAction,
-                  "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-              "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                        "RIGHT", DefaultEditorKit.forwardAction,
-                         "LEFT", DefaultEditorKit.backwardAction,
-                     "KP_RIGHT", DefaultEditorKit.forwardAction,
-                      "KP_LEFT", DefaultEditorKit.backwardAction,
+        Object fieldInputMbp = new UIDefbults.LbzyInputMbp(new Object[] {
+                       "ctrl C", DefbultEditorKit.copyAction,
+                       "ctrl V", DefbultEditorKit.pbsteAction,
+                       "ctrl X", DefbultEditorKit.cutAction,
+                         "COPY", DefbultEditorKit.copyAction,
+                        "PASTE", DefbultEditorKit.pbsteAction,
+                          "CUT", DefbultEditorKit.cutAction,
+               "control INSERT", DefbultEditorKit.copyAction,
+                 "shift INSERT", DefbultEditorKit.pbsteAction,
+                 "shift DELETE", DefbultEditorKit.cutAction,
+                   "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                  "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+               "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                    "ctrl LEFT", DefbultEditorKit.previousWordAction,
+                 "ctrl KP_LEFT", DefbultEditorKit.previousWordAction,
+                   "ctrl RIGHT", DefbultEditorKit.nextWordAction,
+                "ctrl KP_RIGHT", DefbultEditorKit.nextWordAction,
+              "ctrl shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+           "ctrl shift KP_LEFT", DefbultEditorKit.selectionPreviousWordAction,
+             "ctrl shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+          "ctrl shift KP_RIGHT", DefbultEditorKit.selectionNextWordAction,
+                       "ctrl A", DefbultEditorKit.selectAllAction,
+                         "HOME", DefbultEditorKit.beginLineAction,
+                          "END", DefbultEditorKit.endLineAction,
+                   "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+                    "shift END", DefbultEditorKit.selectionEndLineAction,
+                   "BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+             "shift BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                       "ctrl H", DefbultEditorKit.deletePrevChbrAction,
+                       "DELETE", DefbultEditorKit.deleteNextChbrAction,
+                  "ctrl DELETE", DefbultEditorKit.deleteNextWordAction,
+              "ctrl BACK_SPACE", DefbultEditorKit.deletePrevWordAction,
+                        "RIGHT", DefbultEditorKit.forwbrdAction,
+                         "LEFT", DefbultEditorKit.bbckwbrdAction,
+                     "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+                      "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
                         "ENTER", JTextField.notifyAction,
-              "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-               "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+              "ctrl BACK_SLASH", "unselect"/*DefbultEditorKit.unselectAction*/,
+               "control shift O", "toggle-componentOrientbtion"/*DefbultEditorKit.toggleComponentOrientbtion*/
             });
 
-        Object passwordInputMap = new UIDefaults.LazyInputMap(new Object[] {
-                       "ctrl C", DefaultEditorKit.copyAction,
-                       "ctrl V", DefaultEditorKit.pasteAction,
-                       "ctrl X", DefaultEditorKit.cutAction,
-                         "COPY", DefaultEditorKit.copyAction,
-                        "PASTE", DefaultEditorKit.pasteAction,
-                          "CUT", DefaultEditorKit.cutAction,
-               "control INSERT", DefaultEditorKit.copyAction,
-                 "shift INSERT", DefaultEditorKit.pasteAction,
-                 "shift DELETE", DefaultEditorKit.cutAction,
-                   "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                  "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-               "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                    "ctrl LEFT", DefaultEditorKit.beginLineAction,
-                 "ctrl KP_LEFT", DefaultEditorKit.beginLineAction,
-                   "ctrl RIGHT", DefaultEditorKit.endLineAction,
-                "ctrl KP_RIGHT", DefaultEditorKit.endLineAction,
-              "ctrl shift LEFT", DefaultEditorKit.selectionBeginLineAction,
-           "ctrl shift KP_LEFT", DefaultEditorKit.selectionBeginLineAction,
-             "ctrl shift RIGHT", DefaultEditorKit.selectionEndLineAction,
-          "ctrl shift KP_RIGHT", DefaultEditorKit.selectionEndLineAction,
-                       "ctrl A", DefaultEditorKit.selectAllAction,
-                         "HOME", DefaultEditorKit.beginLineAction,
-                          "END", DefaultEditorKit.endLineAction,
-                   "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                    "shift END", DefaultEditorKit.selectionEndLineAction,
-                   "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-             "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                       "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                       "DELETE", DefaultEditorKit.deleteNextCharAction,
-                        "RIGHT", DefaultEditorKit.forwardAction,
-                         "LEFT", DefaultEditorKit.backwardAction,
-                     "KP_RIGHT", DefaultEditorKit.forwardAction,
-                      "KP_LEFT", DefaultEditorKit.backwardAction,
+        Object pbsswordInputMbp = new UIDefbults.LbzyInputMbp(new Object[] {
+                       "ctrl C", DefbultEditorKit.copyAction,
+                       "ctrl V", DefbultEditorKit.pbsteAction,
+                       "ctrl X", DefbultEditorKit.cutAction,
+                         "COPY", DefbultEditorKit.copyAction,
+                        "PASTE", DefbultEditorKit.pbsteAction,
+                          "CUT", DefbultEditorKit.cutAction,
+               "control INSERT", DefbultEditorKit.copyAction,
+                 "shift INSERT", DefbultEditorKit.pbsteAction,
+                 "shift DELETE", DefbultEditorKit.cutAction,
+                   "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                  "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+               "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                    "ctrl LEFT", DefbultEditorKit.beginLineAction,
+                 "ctrl KP_LEFT", DefbultEditorKit.beginLineAction,
+                   "ctrl RIGHT", DefbultEditorKit.endLineAction,
+                "ctrl KP_RIGHT", DefbultEditorKit.endLineAction,
+              "ctrl shift LEFT", DefbultEditorKit.selectionBeginLineAction,
+           "ctrl shift KP_LEFT", DefbultEditorKit.selectionBeginLineAction,
+             "ctrl shift RIGHT", DefbultEditorKit.selectionEndLineAction,
+          "ctrl shift KP_RIGHT", DefbultEditorKit.selectionEndLineAction,
+                       "ctrl A", DefbultEditorKit.selectAllAction,
+                         "HOME", DefbultEditorKit.beginLineAction,
+                          "END", DefbultEditorKit.endLineAction,
+                   "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+                    "shift END", DefbultEditorKit.selectionEndLineAction,
+                   "BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+             "shift BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                       "ctrl H", DefbultEditorKit.deletePrevChbrAction,
+                       "DELETE", DefbultEditorKit.deleteNextChbrAction,
+                        "RIGHT", DefbultEditorKit.forwbrdAction,
+                         "LEFT", DefbultEditorKit.bbckwbrdAction,
+                     "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+                      "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
                         "ENTER", JTextField.notifyAction,
-              "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-               "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+              "ctrl BACK_SLASH", "unselect"/*DefbultEditorKit.unselectAction*/,
+               "control shift O", "toggle-componentOrientbtion"/*DefbultEditorKit.toggleComponentOrientbtion*/
             });
 
-        Object editorMargin = new InsetsUIResource(3,3,3,3);
+        Object editorMbrgin = new InsetsUIResource(3,3,3,3);
 
-        Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[] {
-                           "ctrl C", DefaultEditorKit.copyAction,
-                           "ctrl V", DefaultEditorKit.pasteAction,
-                           "ctrl X", DefaultEditorKit.cutAction,
-                             "COPY", DefaultEditorKit.copyAction,
-                            "PASTE", DefaultEditorKit.pasteAction,
-                              "CUT", DefaultEditorKit.cutAction,
-                   "control INSERT", DefaultEditorKit.copyAction,
-                     "shift INSERT", DefaultEditorKit.pasteAction,
-                     "shift DELETE", DefaultEditorKit.cutAction,
-                       "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                      "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                        "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                     "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                       "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                    "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                  "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-               "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-              "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                           "ctrl A", DefaultEditorKit.selectAllAction,
-                             "HOME", DefaultEditorKit.beginLineAction,
-                              "END", DefaultEditorKit.endLineAction,
-                       "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                        "shift END", DefaultEditorKit.selectionEndLineAction,
+        Object multilineInputMbp = new UIDefbults.LbzyInputMbp(new Object[] {
+                           "ctrl C", DefbultEditorKit.copyAction,
+                           "ctrl V", DefbultEditorKit.pbsteAction,
+                           "ctrl X", DefbultEditorKit.cutAction,
+                             "COPY", DefbultEditorKit.copyAction,
+                            "PASTE", DefbultEditorKit.pbsteAction,
+                              "CUT", DefbultEditorKit.cutAction,
+                   "control INSERT", DefbultEditorKit.copyAction,
+                     "shift INSERT", DefbultEditorKit.pbsteAction,
+                     "shift DELETE", DefbultEditorKit.cutAction,
+                       "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                    "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                      "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                   "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                        "ctrl LEFT", DefbultEditorKit.previousWordAction,
+                     "ctrl KP_LEFT", DefbultEditorKit.previousWordAction,
+                       "ctrl RIGHT", DefbultEditorKit.nextWordAction,
+                    "ctrl KP_RIGHT", DefbultEditorKit.nextWordAction,
+                  "ctrl shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+               "ctrl shift KP_LEFT", DefbultEditorKit.selectionPreviousWordAction,
+                 "ctrl shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+              "ctrl shift KP_RIGHT", DefbultEditorKit.selectionNextWordAction,
+                           "ctrl A", DefbultEditorKit.selectAllAction,
+                             "HOME", DefbultEditorKit.beginLineAction,
+                              "END", DefbultEditorKit.endLineAction,
+                       "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+                        "shift END", DefbultEditorKit.selectionEndLineAction,
 
-                               "UP", DefaultEditorKit.upAction,
-                            "KP_UP", DefaultEditorKit.upAction,
-                             "DOWN", DefaultEditorKit.downAction,
-                          "KP_DOWN", DefaultEditorKit.downAction,
-                          "PAGE_UP", DefaultEditorKit.pageUpAction,
-                        "PAGE_DOWN", DefaultEditorKit.pageDownAction,
-                    "shift PAGE_UP", "selection-page-up",
-                  "shift PAGE_DOWN", "selection-page-down",
-               "ctrl shift PAGE_UP", "selection-page-left",
-             "ctrl shift PAGE_DOWN", "selection-page-right",
-                         "shift UP", DefaultEditorKit.selectionUpAction,
-                      "shift KP_UP", DefaultEditorKit.selectionUpAction,
-                       "shift DOWN", DefaultEditorKit.selectionDownAction,
-                    "shift KP_DOWN", DefaultEditorKit.selectionDownAction,
-                            "ENTER", DefaultEditorKit.insertBreakAction,
-                       "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                 "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                           "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                           "DELETE", DefaultEditorKit.deleteNextCharAction,
-                      "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-                  "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                            "RIGHT", DefaultEditorKit.forwardAction,
-                             "LEFT", DefaultEditorKit.backwardAction,
-                         "KP_RIGHT", DefaultEditorKit.forwardAction,
-                          "KP_LEFT", DefaultEditorKit.backwardAction,
-                              "TAB", DefaultEditorKit.insertTabAction,
-                  "ctrl BACK_SLASH", "unselect"/*DefaultEditorKit.unselectAction*/,
-                        "ctrl HOME", DefaultEditorKit.beginAction,
-                         "ctrl END", DefaultEditorKit.endAction,
-                  "ctrl shift HOME", DefaultEditorKit.selectionBeginAction,
-                   "ctrl shift END", DefaultEditorKit.selectionEndAction,
-                           "ctrl T", "next-link-action",
-                     "ctrl shift T", "previous-link-action",
-                       "ctrl SPACE", "activate-link-action",
-                   "control shift O", "toggle-componentOrientation"/*DefaultEditorKit.toggleComponentOrientation*/
+                               "UP", DefbultEditorKit.upAction,
+                            "KP_UP", DefbultEditorKit.upAction,
+                             "DOWN", DefbultEditorKit.downAction,
+                          "KP_DOWN", DefbultEditorKit.downAction,
+                          "PAGE_UP", DefbultEditorKit.pbgeUpAction,
+                        "PAGE_DOWN", DefbultEditorKit.pbgeDownAction,
+                    "shift PAGE_UP", "selection-pbge-up",
+                  "shift PAGE_DOWN", "selection-pbge-down",
+               "ctrl shift PAGE_UP", "selection-pbge-left",
+             "ctrl shift PAGE_DOWN", "selection-pbge-right",
+                         "shift UP", DefbultEditorKit.selectionUpAction,
+                      "shift KP_UP", DefbultEditorKit.selectionUpAction,
+                       "shift DOWN", DefbultEditorKit.selectionDownAction,
+                    "shift KP_DOWN", DefbultEditorKit.selectionDownAction,
+                            "ENTER", DefbultEditorKit.insertBrebkAction,
+                       "BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                 "shift BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                           "ctrl H", DefbultEditorKit.deletePrevChbrAction,
+                           "DELETE", DefbultEditorKit.deleteNextChbrAction,
+                      "ctrl DELETE", DefbultEditorKit.deleteNextWordAction,
+                  "ctrl BACK_SPACE", DefbultEditorKit.deletePrevWordAction,
+                            "RIGHT", DefbultEditorKit.forwbrdAction,
+                             "LEFT", DefbultEditorKit.bbckwbrdAction,
+                         "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+                          "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
+                              "TAB", DefbultEditorKit.insertTbbAction,
+                  "ctrl BACK_SLASH", "unselect"/*DefbultEditorKit.unselectAction*/,
+                        "ctrl HOME", DefbultEditorKit.beginAction,
+                         "ctrl END", DefbultEditorKit.endAction,
+                  "ctrl shift HOME", DefbultEditorKit.selectionBeginAction,
+                   "ctrl shift END", DefbultEditorKit.selectionEndAction,
+                           "ctrl T", "next-link-bction",
+                     "ctrl shift T", "previous-link-bction",
+                       "ctrl SPACE", "bctivbte-link-bction",
+                   "control shift O", "toggle-componentOrientbtion"/*DefbultEditorKit.toggleComponentOrientbtion*/
             });
 
-        class FontLazyValue implements UIDefaults.LazyValue {
-            private Region region;
-            FontLazyValue(Region region) {
+        clbss FontLbzyVblue implements UIDefbults.LbzyVblue {
+            privbte Region region;
+            FontLbzyVblue(Region region) {
                 this.region = region;
             }
-            public Object createValue(UIDefaults table) {
-                GTKStyleFactory factory = (GTKStyleFactory)getStyleFactory();
-                GTKStyle style = (GTKStyle)factory.getStyle(null, region);
-                return style.getFontForState(null);
+            public Object crebteVblue(UIDefbults tbble) {
+                GTKStyleFbctory fbctory = (GTKStyleFbctory)getStyleFbctory();
+                GTKStyle style = (GTKStyle)fbctory.getStyle(null, region);
+                return style.getFontForStbte(null);
             }
         }
 
-        Object[] defaults = new Object[] {
-            "ArrowButton.size", Integer.valueOf(13),
+        Object[] defbults = new Object[] {
+            "ArrowButton.size", Integer.vblueOf(13),
 
 
-            "Button.defaultButtonFollowsFocus", Boolean.FALSE,
-            "Button.focusInputMap", new UIDefaults.LazyInputMap(new Object[] {
+            "Button.defbultButtonFollowsFocus", Boolebn.FALSE,
+            "Button.focusInputMbp", new UIDefbults.LbzyInputMbp(new Object[] {
                          "SPACE", "pressed",
-                "released SPACE", "released",
+                "relebsed SPACE", "relebsed",
                          "ENTER", "pressed",
-                "released ENTER", "released"
+                "relebsed ENTER", "relebsed"
               }),
-            "Button.font", new FontLazyValue(Region.BUTTON),
-            "Button.margin", zeroInsets,
+            "Button.font", new FontLbzyVblue(Region.BUTTON),
+            "Button.mbrgin", zeroInsets,
 
 
-            "CheckBox.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
+            "CheckBox.focusInputMbp", new UIDefbults.LbzyInputMbp(new Object[]{
                          "SPACE", "pressed",
-                "released SPACE", "released"
+                "relebsed SPACE", "relebsed"
               }),
-            "CheckBox.icon", new GTKStyle.GTKLazyValue(
-                              "com.sun.java.swing.plaf.gtk.GTKIconFactory",
+            "CheckBox.icon", new GTKStyle.GTKLbzyVblue(
+                              "com.sun.jbvb.swing.plbf.gtk.GTKIconFbctory",
                               "getCheckBoxIcon"),
-            "CheckBox.font", new FontLazyValue(Region.CHECK_BOX),
-            "CheckBox.margin", zeroInsets,
+            "CheckBox.font", new FontLbzyVblue(Region.CHECK_BOX),
+            "CheckBox.mbrgin", zeroInsets,
 
 
-            "CheckBoxMenuItem.arrowIcon", null,
-            "CheckBoxMenuItem.checkIcon", new GTKStyle.GTKLazyValue(
-                              "com.sun.java.swing.plaf.gtk.GTKIconFactory",
+            "CheckBoxMenuItem.brrowIcon", null,
+            "CheckBoxMenuItem.checkIcon", new GTKStyle.GTKLbzyVblue(
+                              "com.sun.jbvb.swing.plbf.gtk.GTKIconFbctory",
                               "getCheckBoxMenuItemCheckIcon"),
             "CheckBoxMenuItem.font",
-                new FontLazyValue(Region.CHECK_BOX_MENU_ITEM),
-            "CheckBoxMenuItem.margin", zeroInsets,
-            "CheckBoxMenuItem.alignAcceleratorText", Boolean.FALSE,
+                new FontLbzyVblue(Region.CHECK_BOX_MENU_ITEM),
+            "CheckBoxMenuItem.mbrgin", zeroInsets,
+            "CheckBoxMenuItem.blignAccelerbtorText", Boolebn.FALSE,
 
 
-            "ColorChooser.showPreviewPanelText", Boolean.FALSE,
-            "ColorChooser.panels", new UIDefaults.ActiveValue() {
-                public Object createValue(UIDefaults table) {
-                    return new AbstractColorChooserPanel[] {
-                                       new GTKColorChooserPanel() };
+            "ColorChooser.showPreviewPbnelText", Boolebn.FALSE,
+            "ColorChooser.pbnels", new UIDefbults.ActiveVblue() {
+                public Object crebteVblue(UIDefbults tbble) {
+                    return new AbstrbctColorChooserPbnel[] {
+                                       new GTKColorChooserPbnel() };
                 }
             },
-            "ColorChooser.font", new FontLazyValue(Region.COLOR_CHOOSER),
+            "ColorChooser.font", new FontLbzyVblue(Region.COLOR_CHOOSER),
 
 
-            "ComboBox.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "ComboBox.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                      "ESCAPE", "hidePopup",
-                    "PAGE_UP", "pageUpPassThrough",
-                  "PAGE_DOWN", "pageDownPassThrough",
-                       "HOME", "homePassThrough",
-                        "END", "endPassThrough",
+                    "PAGE_UP", "pbgeUpPbssThrough",
+                  "PAGE_DOWN", "pbgeDownPbssThrough",
+                       "HOME", "homePbssThrough",
+                        "END", "endPbssThrough",
                        "DOWN", "selectNext",
                     "KP_DOWN", "selectNext",
-                   "alt DOWN", "togglePopup",
-                "alt KP_DOWN", "togglePopup",
-                     "alt UP", "togglePopup",
-                  "alt KP_UP", "togglePopup",
-                      "SPACE", "spacePopup",
+                   "blt DOWN", "togglePopup",
+                "blt KP_DOWN", "togglePopup",
+                     "blt UP", "togglePopup",
+                  "blt KP_UP", "togglePopup",
+                      "SPACE", "spbcePopup",
                       "ENTER", "enterPressed",
                          "UP", "selectPrevious",
                       "KP_UP", "selectPrevious"
 
                  }),
-            "ComboBox.font", new FontLazyValue(Region.COMBO_BOX),
-            "ComboBox.isEnterSelectablePopup", Boolean.TRUE,
+            "ComboBox.font", new FontLbzyVblue(Region.COMBO_BOX),
+            "ComboBox.isEnterSelectbblePopup", Boolebn.TRUE,
 
 
-            "EditorPane.caretForeground", caretColor,
-            "EditorPane.caretAspectRatio", defaultCaretAspectRatio,
-            "EditorPane.caretBlinkRate", caretBlinkRate,
-            "EditorPane.margin", editorMargin,
-            "EditorPane.focusInputMap", multilineInputMap,
-            "EditorPane.font", new FontLazyValue(Region.EDITOR_PANE),
+            "EditorPbne.cbretForeground", cbretColor,
+            "EditorPbne.cbretAspectRbtio", defbultCbretAspectRbtio,
+            "EditorPbne.cbretBlinkRbte", cbretBlinkRbte,
+            "EditorPbne.mbrgin", editorMbrgin,
+            "EditorPbne.focusInputMbp", multilineInputMbp,
+            "EditorPbne.font", new FontLbzyVblue(Region.EDITOR_PANE),
 
 
-            "FileChooser.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                     "ESCAPE", "cancelSelection",
-                 "ctrl ENTER", "approveSelection"
+            "FileChooser.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                     "ESCAPE", "cbncelSelection",
+                 "ctrl ENTER", "bpproveSelection"
                  }),
-            "FileChooserUI", "com.sun.java.swing.plaf.gtk.GTKLookAndFeel",
+            "FileChooserUI", "com.sun.jbvb.swing.plbf.gtk.GTKLookAndFeel",
 
 
-            "FormattedTextField.caretForeground", caretColor,
-            "FormattedTextField.caretAspectRatio", defaultCaretAspectRatio,
-            "FormattedTextField.caretBlinkRate", caretBlinkRate,
-            "FormattedTextField.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
-                           "ctrl C", DefaultEditorKit.copyAction,
-                           "ctrl V", DefaultEditorKit.pasteAction,
-                           "ctrl X", DefaultEditorKit.cutAction,
-                             "COPY", DefaultEditorKit.copyAction,
-                            "PASTE", DefaultEditorKit.pasteAction,
-                              "CUT", DefaultEditorKit.cutAction,
-                   "control INSERT", DefaultEditorKit.copyAction,
-                     "shift INSERT", DefaultEditorKit.pasteAction,
-                     "shift DELETE", DefaultEditorKit.cutAction,
-                       "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                    "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                      "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                   "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                        "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                     "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                       "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                    "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                  "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-               "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                 "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-              "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                           "ctrl A", DefaultEditorKit.selectAllAction,
-                             "HOME", DefaultEditorKit.beginLineAction,
-                              "END", DefaultEditorKit.endLineAction,
-                       "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                        "shift END", DefaultEditorKit.selectionEndLineAction,
-                       "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                 "shift BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-                           "ctrl H", DefaultEditorKit.deletePrevCharAction,
-                           "DELETE", DefaultEditorKit.deleteNextCharAction,
-                      "ctrl DELETE", DefaultEditorKit.deleteNextWordAction,
-                  "ctrl BACK_SPACE", DefaultEditorKit.deletePrevWordAction,
-                            "RIGHT", DefaultEditorKit.forwardAction,
-                             "LEFT", DefaultEditorKit.backwardAction,
-                         "KP_RIGHT", DefaultEditorKit.forwardAction,
-                          "KP_LEFT", DefaultEditorKit.backwardAction,
+            "FormbttedTextField.cbretForeground", cbretColor,
+            "FormbttedTextField.cbretAspectRbtio", defbultCbretAspectRbtio,
+            "FormbttedTextField.cbretBlinkRbte", cbretBlinkRbte,
+            "FormbttedTextField.focusInputMbp",
+              new UIDefbults.LbzyInputMbp(new Object[] {
+                           "ctrl C", DefbultEditorKit.copyAction,
+                           "ctrl V", DefbultEditorKit.pbsteAction,
+                           "ctrl X", DefbultEditorKit.cutAction,
+                             "COPY", DefbultEditorKit.copyAction,
+                            "PASTE", DefbultEditorKit.pbsteAction,
+                              "CUT", DefbultEditorKit.cutAction,
+                   "control INSERT", DefbultEditorKit.copyAction,
+                     "shift INSERT", DefbultEditorKit.pbsteAction,
+                     "shift DELETE", DefbultEditorKit.cutAction,
+                       "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                    "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                      "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                   "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                        "ctrl LEFT", DefbultEditorKit.previousWordAction,
+                     "ctrl KP_LEFT", DefbultEditorKit.previousWordAction,
+                       "ctrl RIGHT", DefbultEditorKit.nextWordAction,
+                    "ctrl KP_RIGHT", DefbultEditorKit.nextWordAction,
+                  "ctrl shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+               "ctrl shift KP_LEFT", DefbultEditorKit.selectionPreviousWordAction,
+                 "ctrl shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+              "ctrl shift KP_RIGHT", DefbultEditorKit.selectionNextWordAction,
+                           "ctrl A", DefbultEditorKit.selectAllAction,
+                             "HOME", DefbultEditorKit.beginLineAction,
+                              "END", DefbultEditorKit.endLineAction,
+                       "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+                        "shift END", DefbultEditorKit.selectionEndLineAction,
+                       "BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                 "shift BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+                           "ctrl H", DefbultEditorKit.deletePrevChbrAction,
+                           "DELETE", DefbultEditorKit.deleteNextChbrAction,
+                      "ctrl DELETE", DefbultEditorKit.deleteNextWordAction,
+                  "ctrl BACK_SPACE", DefbultEditorKit.deletePrevWordAction,
+                            "RIGHT", DefbultEditorKit.forwbrdAction,
+                             "LEFT", DefbultEditorKit.bbckwbrdAction,
+                         "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+                          "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
                             "ENTER", JTextField.notifyAction,
                   "ctrl BACK_SLASH", "unselect",
-                  "control shift O", "toggle-componentOrientation",
+                  "control shift O", "toggle-componentOrientbtion",
                            "ESCAPE", "reset-field-edit",
                                "UP", "increment",
                             "KP_UP", "increment",
                              "DOWN", "decrement",
                           "KP_DOWN", "decrement",
               }),
-            "FormattedTextField.font",
-                new FontLazyValue(Region.FORMATTED_TEXT_FIELD),
+            "FormbttedTextField.font",
+                new FontLbzyVblue(Region.FORMATTED_TEXT_FIELD),
 
 
-            "InternalFrameTitlePane.titlePaneLayout",
-                                new GTKStyle.GTKLazyValue("com.sun.java.swing.plaf.gtk.Metacity",
-                                                 "getTitlePaneLayout"),
-            "InternalFrame.windowBindings", new Object[] {
+            "InternblFrbmeTitlePbne.titlePbneLbyout",
+                                new GTKStyle.GTKLbzyVblue("com.sun.jbvb.swing.plbf.gtk.Metbcity",
+                                                 "getTitlePbneLbyout"),
+            "InternblFrbme.windowBindings", new Object[] {
                   "shift ESCAPE", "showSystemMenu",
                     "ctrl SPACE", "showSystemMenu",
                         "ESCAPE", "hideSystemMenu" },
-            "InternalFrame.layoutTitlePaneAtOrigin", Boolean.TRUE,
-            "InternalFrame.useTaskBar", Boolean.TRUE,
+            "InternblFrbme.lbyoutTitlePbneAtOrigin", Boolebn.TRUE,
+            "InternblFrbme.useTbskBbr", Boolebn.TRUE,
 
-            "InternalFrameTitlePane.iconifyButtonOpacity", null,
-            "InternalFrameTitlePane.maximizeButtonOpacity", null,
-            "InternalFrameTitlePane.closeButtonOpacity", null,
+            "InternblFrbmeTitlePbne.iconifyButtonOpbcity", null,
+            "InternblFrbmeTitlePbne.mbximizeButtonOpbcity", null,
+            "InternblFrbmeTitlePbne.closeButtonOpbcity", null,
 
-            "Label.font", new FontLazyValue(Region.LABEL),
+            "Lbbel.font", new FontLbzyVblue(Region.LABEL),
 
-            "List.background", tableBg,
+            "List.bbckground", tbbleBg,
             "List.focusCellHighlightBorder", focusBorder,
             "List.focusSelectedCellHighlightBorder", focusSelectedBorder,
             "List.noFocusBorder", noFocusBorder,
-            "List.focusInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "List.focusInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                            "ctrl C", "copy",
-                           "ctrl V", "paste",
+                           "ctrl V", "pbste",
                            "ctrl X", "cut",
                              "COPY", "copy",
-                            "PASTE", "paste",
+                            "PASTE", "pbste",
                               "CUT", "cut",
                    "control INSERT", "copy",
-                     "shift INSERT", "paste",
+                     "shift INSERT", "pbste",
                      "shift DELETE", "cut",
                                "UP", "selectPreviousRow",
                             "KP_UP", "selectPreviousRow",
@@ -715,221 +715,221 @@ public class GTKLookAndFeel extends SynthLookAndFeel {
                       "shift KP_UP", "selectPreviousRowExtendSelection",
                     "ctrl shift UP", "selectPreviousRowExtendSelection",
                  "ctrl shift KP_UP", "selectPreviousRowExtendSelection",
-                          "ctrl UP", "selectPreviousRowChangeLead",
-                       "ctrl KP_UP", "selectPreviousRowChangeLead",
+                          "ctrl UP", "selectPreviousRowChbngeLebd",
+                       "ctrl KP_UP", "selectPreviousRowChbngeLebd",
                              "DOWN", "selectNextRow",
                           "KP_DOWN", "selectNextRow",
                        "shift DOWN", "selectNextRowExtendSelection",
                     "shift KP_DOWN", "selectNextRowExtendSelection",
                   "ctrl shift DOWN", "selectNextRowExtendSelection",
                "ctrl shift KP_DOWN", "selectNextRowExtendSelection",
-                        "ctrl DOWN", "selectNextRowChangeLead",
-                     "ctrl KP_DOWN", "selectNextRowChangeLead",
+                        "ctrl DOWN", "selectNextRowChbngeLebd",
+                     "ctrl KP_DOWN", "selectNextRowChbngeLebd",
                              "LEFT", "selectPreviousColumn",
                           "KP_LEFT", "selectPreviousColumn",
                        "shift LEFT", "selectPreviousColumnExtendSelection",
                     "shift KP_LEFT", "selectPreviousColumnExtendSelection",
                   "ctrl shift LEFT", "selectPreviousColumnExtendSelection",
                "ctrl shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                        "ctrl LEFT", "selectPreviousColumnChangeLead",
-                     "ctrl KP_LEFT", "selectPreviousColumnChangeLead",
+                        "ctrl LEFT", "selectPreviousColumnChbngeLebd",
+                     "ctrl KP_LEFT", "selectPreviousColumnChbngeLebd",
                             "RIGHT", "selectNextColumn",
                          "KP_RIGHT", "selectNextColumn",
                       "shift RIGHT", "selectNextColumnExtendSelection",
                    "shift KP_RIGHT", "selectNextColumnExtendSelection",
                  "ctrl shift RIGHT", "selectNextColumnExtendSelection",
               "ctrl shift KP_RIGHT", "selectNextColumnExtendSelection",
-                       "ctrl RIGHT", "selectNextColumnChangeLead",
-                    "ctrl KP_RIGHT", "selectNextColumnChangeLead",
+                       "ctrl RIGHT", "selectNextColumnChbngeLebd",
+                    "ctrl KP_RIGHT", "selectNextColumnChbngeLebd",
                              "HOME", "selectFirstRow",
                        "shift HOME", "selectFirstRowExtendSelection",
                   "ctrl shift HOME", "selectFirstRowExtendSelection",
-                        "ctrl HOME", "selectFirstRowChangeLead",
-                              "END", "selectLastRow",
-                        "shift END", "selectLastRowExtendSelection",
-                   "ctrl shift END", "selectLastRowExtendSelection",
-                         "ctrl END", "selectLastRowChangeLead",
+                        "ctrl HOME", "selectFirstRowChbngeLebd",
+                              "END", "selectLbstRow",
+                        "shift END", "selectLbstRowExtendSelection",
+                   "ctrl shift END", "selectLbstRowExtendSelection",
+                         "ctrl END", "selectLbstRowChbngeLebd",
                           "PAGE_UP", "scrollUp",
                     "shift PAGE_UP", "scrollUpExtendSelection",
                "ctrl shift PAGE_UP", "scrollUpExtendSelection",
-                     "ctrl PAGE_UP", "scrollUpChangeLead",
+                     "ctrl PAGE_UP", "scrollUpChbngeLebd",
                         "PAGE_DOWN", "scrollDown",
                   "shift PAGE_DOWN", "scrollDownExtendSelection",
              "ctrl shift PAGE_DOWN", "scrollDownExtendSelection",
-                   "ctrl PAGE_DOWN", "scrollDownChangeLead",
+                   "ctrl PAGE_DOWN", "scrollDownChbngeLebd",
                            "ctrl A", "selectAll",
                        "ctrl SLASH", "selectAll",
-                  "ctrl BACK_SLASH", "clearSelection",
-                            "SPACE", "addToSelection",
+                  "ctrl BACK_SLASH", "clebrSelection",
+                            "SPACE", "bddToSelection",
                        "ctrl SPACE", "toggleAndAnchor",
                       "shift SPACE", "extendTo",
                  "ctrl shift SPACE", "moveSelectionTo"
                  }),
-            "List.focusInputMap.RightToLeft",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "List.focusInputMbp.RightToLeft",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                              "LEFT", "selectNextColumn",
                           "KP_LEFT", "selectNextColumn",
                        "shift LEFT", "selectNextColumnExtendSelection",
                     "shift KP_LEFT", "selectNextColumnExtendSelection",
                   "ctrl shift LEFT", "selectNextColumnExtendSelection",
                "ctrl shift KP_LEFT", "selectNextColumnExtendSelection",
-                        "ctrl LEFT", "selectNextColumnChangeLead",
-                     "ctrl KP_LEFT", "selectNextColumnChangeLead",
+                        "ctrl LEFT", "selectNextColumnChbngeLebd",
+                     "ctrl KP_LEFT", "selectNextColumnChbngeLebd",
                             "RIGHT", "selectPreviousColumn",
                          "KP_RIGHT", "selectPreviousColumn",
                       "shift RIGHT", "selectPreviousColumnExtendSelection",
                    "shift KP_RIGHT", "selectPreviousColumnExtendSelection",
                  "ctrl shift RIGHT", "selectPreviousColumnExtendSelection",
               "ctrl shift KP_RIGHT", "selectPreviousColumnExtendSelection",
-                       "ctrl RIGHT", "selectPreviousColumnChangeLead",
-                    "ctrl KP_RIGHT", "selectPreviousColumnChangeLead",
+                       "ctrl RIGHT", "selectPreviousColumnChbngeLebd",
+                    "ctrl KP_RIGHT", "selectPreviousColumnChbngeLebd",
                  }),
-            "List.font", new FontLazyValue(Region.LIST),
-            "List.rendererUseUIBorder", Boolean.FALSE,
+            "List.font", new FontLbzyVblue(Region.LIST),
+            "List.rendererUseUIBorder", Boolebn.FALSE,
 
-            "Menu.arrowIcon", new GTKStyle.GTKLazyValue(
-                              "com.sun.java.swing.plaf.gtk.GTKIconFactory",
+            "Menu.brrowIcon", new GTKStyle.GTKLbzyVblue(
+                              "com.sun.jbvb.swing.plbf.gtk.GTKIconFbctory",
                               "getMenuArrowIcon"),
             "Menu.checkIcon", null,
-            "Menu.font", new FontLazyValue(Region.MENU),
-            "Menu.margin", zeroInsets,
-            "Menu.cancelMode", "hideMenuTree",
-            "Menu.alignAcceleratorText", Boolean.FALSE,
-            "Menu.useMenuBarForTopLevelMenus", Boolean.TRUE,
+            "Menu.font", new FontLbzyVblue(Region.MENU),
+            "Menu.mbrgin", zeroInsets,
+            "Menu.cbncelMode", "hideMenuTree",
+            "Menu.blignAccelerbtorText", Boolebn.FALSE,
+            "Menu.useMenuBbrForTopLevelMenus", Boolebn.TRUE,
 
 
-                "MenuBar.windowBindings", new Object[] {
-                "F10", "takeFocus" },
-            "MenuBar.font", new FontLazyValue(Region.MENU_BAR),
+                "MenuBbr.windowBindings", new Object[] {
+                "F10", "tbkeFocus" },
+            "MenuBbr.font", new FontLbzyVblue(Region.MENU_BAR),
 
 
-            "MenuItem.arrowIcon", null,
+            "MenuItem.brrowIcon", null,
             "MenuItem.checkIcon", null,
-            "MenuItem.font", new FontLazyValue(Region.MENU_ITEM),
-            "MenuItem.margin", zeroInsets,
-            "MenuItem.alignAcceleratorText", Boolean.FALSE,
+            "MenuItem.font", new FontLbzyVblue(Region.MENU_ITEM),
+            "MenuItem.mbrgin", zeroInsets,
+            "MenuItem.blignAccelerbtorText", Boolebn.FALSE,
 
 
-            "OptionPane.setButtonMargin", Boolean.FALSE,
-            "OptionPane.sameSizeButtons", Boolean.TRUE,
-            "OptionPane.buttonOrientation", SwingConstants.RIGHT,
-            "OptionPane.minimumSize", new DimensionUIResource(262, 90),
-            "OptionPane.buttonPadding", 10,
-            "OptionPane.windowBindings", new Object[] {
+            "OptionPbne.setButtonMbrgin", Boolebn.FALSE,
+            "OptionPbne.sbmeSizeButtons", Boolebn.TRUE,
+            "OptionPbne.buttonOrientbtion", SwingConstbnts.RIGHT,
+            "OptionPbne.minimumSize", new DimensionUIResource(262, 90),
+            "OptionPbne.buttonPbdding", 10,
+            "OptionPbne.windowBindings", new Object[] {
                 "ESCAPE", "close" },
-            "OptionPane.buttonClickThreshhold", 500,
-            "OptionPane.isYesLast", Boolean.TRUE,
-            "OptionPane.font", new FontLazyValue(Region.OPTION_PANE),
+            "OptionPbne.buttonClickThreshhold", 500,
+            "OptionPbne.isYesLbst", Boolebn.TRUE,
+            "OptionPbne.font", new FontLbzyVblue(Region.OPTION_PANE),
 
-            "Panel.font", new FontLazyValue(Region.PANEL),
+            "Pbnel.font", new FontLbzyVblue(Region.PANEL),
 
-            "PasswordField.caretForeground", caretColor,
-            "PasswordField.caretAspectRatio", defaultCaretAspectRatio,
-            "PasswordField.caretBlinkRate", caretBlinkRate,
-            "PasswordField.margin", zeroInsets,
-            "PasswordField.focusInputMap", passwordInputMap,
-            "PasswordField.font", new FontLazyValue(Region.PASSWORD_FIELD),
+            "PbsswordField.cbretForeground", cbretColor,
+            "PbsswordField.cbretAspectRbtio", defbultCbretAspectRbtio,
+            "PbsswordField.cbretBlinkRbte", cbretBlinkRbte,
+            "PbsswordField.mbrgin", zeroInsets,
+            "PbsswordField.focusInputMbp", pbsswordInputMbp,
+            "PbsswordField.font", new FontLbzyVblue(Region.PASSWORD_FIELD),
 
 
-            "PopupMenu.consumeEventOnClose", Boolean.TRUE,
-            "PopupMenu.selectedWindowInputMapBindings", new Object[] {
-                  "ESCAPE", "cancel",
+            "PopupMenu.consumeEventOnClose", Boolebn.TRUE,
+            "PopupMenu.selectedWindowInputMbpBindings", new Object[] {
+                  "ESCAPE", "cbncel",
                     "DOWN", "selectNext",
                  "KP_DOWN", "selectNext",
                       "UP", "selectPrevious",
                    "KP_UP", "selectPrevious",
-                    "LEFT", "selectParent",
-                 "KP_LEFT", "selectParent",
+                    "LEFT", "selectPbrent",
+                 "KP_LEFT", "selectPbrent",
                    "RIGHT", "selectChild",
                 "KP_RIGHT", "selectChild",
                    "ENTER", "return",
                    "SPACE", "return"
             },
-            "PopupMenu.selectedWindowInputMapBindings.RightToLeft",
+            "PopupMenu.selectedWindowInputMbpBindings.RightToLeft",
                   new Object[] {
                     "LEFT", "selectChild",
                  "KP_LEFT", "selectChild",
-                   "RIGHT", "selectParent",
-                "KP_RIGHT", "selectParent",
+                   "RIGHT", "selectPbrent",
+                "KP_RIGHT", "selectPbrent",
             },
-            "PopupMenu.font", new FontLazyValue(Region.POPUP_MENU),
+            "PopupMenu.font", new FontLbzyVblue(Region.POPUP_MENU),
 
-            "ProgressBar.horizontalSize",
+            "ProgressBbr.horizontblSize",
                 new DimensionUIResource(hProgWidth, hProgHeight),
-            "ProgressBar.verticalSize",
+            "ProgressBbr.verticblSize",
                 new DimensionUIResource(vProgWidth, vProgHeight),
-            "ProgressBar.font", new FontLazyValue(Region.PROGRESS_BAR),
+            "ProgressBbr.font", new FontLbzyVblue(Region.PROGRESS_BAR),
 
-            "RadioButton.focusInputMap",
-                   new UIDefaults.LazyInputMap(new Object[] {
+            "RbdioButton.focusInputMbp",
+                   new UIDefbults.LbzyInputMbp(new Object[] {
                             "SPACE", "pressed",
-                   "released SPACE", "released",
+                   "relebsed SPACE", "relebsed",
                            "RETURN", "pressed"
                    }),
-            "RadioButton.icon", new GTKStyle.GTKLazyValue(
-                              "com.sun.java.swing.plaf.gtk.GTKIconFactory",
-                              "getRadioButtonIcon"),
-            "RadioButton.font", new FontLazyValue(Region.RADIO_BUTTON),
-            "RadioButton.margin", zeroInsets,
+            "RbdioButton.icon", new GTKStyle.GTKLbzyVblue(
+                              "com.sun.jbvb.swing.plbf.gtk.GTKIconFbctory",
+                              "getRbdioButtonIcon"),
+            "RbdioButton.font", new FontLbzyVblue(Region.RADIO_BUTTON),
+            "RbdioButton.mbrgin", zeroInsets,
 
 
-            "RadioButtonMenuItem.arrowIcon", null,
-            "RadioButtonMenuItem.checkIcon", new GTKStyle.GTKLazyValue(
-                              "com.sun.java.swing.plaf.gtk.GTKIconFactory",
-                              "getRadioButtonMenuItemCheckIcon"),
-            "RadioButtonMenuItem.font", new FontLazyValue(Region.RADIO_BUTTON_MENU_ITEM),
-            "RadioButtonMenuItem.margin", zeroInsets,
-            "RadioButtonMenuItem.alignAcceleratorText", Boolean.FALSE,
+            "RbdioButtonMenuItem.brrowIcon", null,
+            "RbdioButtonMenuItem.checkIcon", new GTKStyle.GTKLbzyVblue(
+                              "com.sun.jbvb.swing.plbf.gtk.GTKIconFbctory",
+                              "getRbdioButtonMenuItemCheckIcon"),
+            "RbdioButtonMenuItem.font", new FontLbzyVblue(Region.RADIO_BUTTON_MENU_ITEM),
+            "RbdioButtonMenuItem.mbrgin", zeroInsets,
+            "RbdioButtonMenuItem.blignAccelerbtorText", Boolebn.FALSE,
 
 
-            // These bindings are only enabled when there is a default
-            // button set on the rootpane.
-            "RootPane.defaultButtonWindowKeyBindings", new Object[] {
+            // These bindings bre only enbbled when there is b defbult
+            // button set on the rootpbne.
+            "RootPbne.defbultButtonWindowKeyBindings", new Object[] {
                                "ENTER", "press",
-                      "released ENTER", "release",
+                      "relebsed ENTER", "relebse",
                           "ctrl ENTER", "press",
-                 "ctrl released ENTER", "release"
+                 "ctrl relebsed ENTER", "relebse"
             },
 
 
-            "ScrollBar.squareButtons", Boolean.FALSE,
-            "ScrollBar.thumbHeight", Integer.valueOf(14),
-            "ScrollBar.width", Integer.valueOf(16),
-            "ScrollBar.minimumThumbSize", new Dimension(8, 8),
-            "ScrollBar.maximumThumbSize", new Dimension(4096, 4096),
-            "ScrollBar.allowsAbsolutePositioning", Boolean.TRUE,
-            "ScrollBar.alwaysShowThumb", Boolean.TRUE,
-            "ScrollBar.ancestorInputMap",
-                   new UIDefaults.LazyInputMap(new Object[] {
+            "ScrollBbr.squbreButtons", Boolebn.FALSE,
+            "ScrollBbr.thumbHeight", Integer.vblueOf(14),
+            "ScrollBbr.width", Integer.vblueOf(16),
+            "ScrollBbr.minimumThumbSize", new Dimension(8, 8),
+            "ScrollBbr.mbximumThumbSize", new Dimension(4096, 4096),
+            "ScrollBbr.bllowsAbsolutePositioning", Boolebn.TRUE,
+            "ScrollBbr.blwbysShowThumb", Boolebn.TRUE,
+            "ScrollBbr.bncestorInputMbp",
+                   new UIDefbults.LbzyInputMbp(new Object[] {
                        "RIGHT", "positiveUnitIncrement",
                     "KP_RIGHT", "positiveUnitIncrement",
                         "DOWN", "positiveUnitIncrement",
                      "KP_DOWN", "positiveUnitIncrement",
                    "PAGE_DOWN", "positiveBlockIncrement",
-                        "LEFT", "negativeUnitIncrement",
-                     "KP_LEFT", "negativeUnitIncrement",
-                          "UP", "negativeUnitIncrement",
-                       "KP_UP", "negativeUnitIncrement",
-                     "PAGE_UP", "negativeBlockIncrement",
+                        "LEFT", "negbtiveUnitIncrement",
+                     "KP_LEFT", "negbtiveUnitIncrement",
+                          "UP", "negbtiveUnitIncrement",
+                       "KP_UP", "negbtiveUnitIncrement",
+                     "PAGE_UP", "negbtiveBlockIncrement",
                         "HOME", "minScroll",
-                         "END", "maxScroll"
+                         "END", "mbxScroll"
                    }),
-            "ScrollBar.ancestorInputMap.RightToLeft",
-                    new UIDefaults.LazyInputMap(new Object[] {
-                       "RIGHT", "negativeUnitIncrement",
-                    "KP_RIGHT", "negativeUnitIncrement",
+            "ScrollBbr.bncestorInputMbp.RightToLeft",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
+                       "RIGHT", "negbtiveUnitIncrement",
+                    "KP_RIGHT", "negbtiveUnitIncrement",
                         "LEFT", "positiveUnitIncrement",
                      "KP_LEFT", "positiveUnitIncrement",
                     }),
 
 
-            "Spinner.disableOnBoundaryValues", Boolean.TRUE,
+            "Spinner.disbbleOnBoundbryVblues", Boolebn.TRUE,
 
 
-            "ScrollPane.fillUpperCorner", Boolean.TRUE,
-            "ScrollPane.fillLowerCorner", Boolean.TRUE,
-            "ScrollPane.ancestorInputMap",
-                    new UIDefaults.LazyInputMap(new Object[] {
+            "ScrollPbne.fillUpperCorner", Boolebn.TRUE,
+            "ScrollPbne.fillLowerCorner", Boolebn.TRUE,
+            "ScrollPbne.bncestorInputMbp",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
                            "RIGHT", "unitScrollRight",
                         "KP_RIGHT", "unitScrollRight",
                             "DOWN", "unitScrollDown",
@@ -945,125 +945,125 @@ public class GTKLookAndFeel extends SynthLookAndFeel {
                        "ctrl HOME", "scrollHome",
                         "ctrl END", "scrollEnd"
                     }),
-            "ScrollPane.ancestorInputMap.RightToLeft",
-                    new UIDefaults.LazyInputMap(new Object[] {
+            "ScrollPbne.bncestorInputMbp.RightToLeft",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
                     "ctrl PAGE_UP", "scrollRight",
                   "ctrl PAGE_DOWN", "scrollLeft",
                     }),
-            "ScrollPane.font", new FontLazyValue(Region.SCROLL_PANE),
+            "ScrollPbne.font", new FontLbzyVblue(Region.SCROLL_PANE),
 
 
-            "Separator.insets", zeroInsets,
-            "Separator.thickness", Integer.valueOf(2),
+            "Sepbrbtor.insets", zeroInsets,
+            "Sepbrbtor.thickness", Integer.vblueOf(2),
 
 
-            "Slider.paintValue", Boolean.TRUE,
-            "Slider.thumbWidth", Integer.valueOf(30),
-            "Slider.thumbHeight", Integer.valueOf(14),
-            "Slider.focusInputMap",
-                    new UIDefaults.LazyInputMap(new Object[] {
+            "Slider.pbintVblue", Boolebn.TRUE,
+            "Slider.thumbWidth", Integer.vblueOf(30),
+            "Slider.thumbHeight", Integer.vblueOf(14),
+            "Slider.focusInputMbp",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
                             "RIGHT", "positiveUnitIncrement",
                          "KP_RIGHT", "positiveUnitIncrement",
-                             "DOWN", "negativeUnitIncrement",
-                          "KP_DOWN", "negativeUnitIncrement",
-                        "PAGE_DOWN", "negativeBlockIncrement",
-                             "LEFT", "negativeUnitIncrement",
-                          "KP_LEFT", "negativeUnitIncrement",
+                             "DOWN", "negbtiveUnitIncrement",
+                          "KP_DOWN", "negbtiveUnitIncrement",
+                        "PAGE_DOWN", "negbtiveBlockIncrement",
+                             "LEFT", "negbtiveUnitIncrement",
+                          "KP_LEFT", "negbtiveUnitIncrement",
                                "UP", "positiveUnitIncrement",
                             "KP_UP", "positiveUnitIncrement",
                           "PAGE_UP", "positiveBlockIncrement",
                              "HOME", "minScroll",
-                              "END", "maxScroll"
+                              "END", "mbxScroll"
                         }),
-            "Slider.focusInputMap.RightToLeft",
-                    new UIDefaults.LazyInputMap(new Object[] {
-                            "RIGHT", "negativeUnitIncrement",
-                         "KP_RIGHT", "negativeUnitIncrement",
+            "Slider.focusInputMbp.RightToLeft",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
+                            "RIGHT", "negbtiveUnitIncrement",
+                         "KP_RIGHT", "negbtiveUnitIncrement",
                              "LEFT", "positiveUnitIncrement",
                           "KP_LEFT", "positiveUnitIncrement",
                          }),
-            "Slider.onlyLeftMouseButtonDrag", Boolean.FALSE,
+            "Slider.onlyLeftMouseButtonDrbg", Boolebn.FALSE,
 
-            "Spinner.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
+            "Spinner.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
                                "UP", "increment",
                             "KP_UP", "increment",
                              "DOWN", "decrement",
                           "KP_DOWN", "decrement",
                }),
-            "Spinner.font", new FontLazyValue(Region.SPINNER),
+            "Spinner.font", new FontLbzyVblue(Region.SPINNER),
             "Spinner.editorAlignment", JTextField.LEADING,
 
-            "SplitPane.ancestorInputMap",
-                    new UIDefaults.LazyInputMap(new Object[] {
-                        "UP", "negativeIncrement",
+            "SplitPbne.bncestorInputMbp",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
+                        "UP", "negbtiveIncrement",
                       "DOWN", "positiveIncrement",
-                      "LEFT", "negativeIncrement",
+                      "LEFT", "negbtiveIncrement",
                      "RIGHT", "positiveIncrement",
-                     "KP_UP", "negativeIncrement",
+                     "KP_UP", "negbtiveIncrement",
                    "KP_DOWN", "positiveIncrement",
-                   "KP_LEFT", "negativeIncrement",
+                   "KP_LEFT", "negbtiveIncrement",
                   "KP_RIGHT", "positiveIncrement",
                       "HOME", "selectMin",
-                       "END", "selectMax",
-                        "F8", "startResize",
+                       "END", "selectMbx",
+                        "F8", "stbrtResize",
                         "F6", "toggleFocus",
-                  "ctrl TAB", "focusOutForward",
-            "ctrl shift TAB", "focusOutBackward"
+                  "ctrl TAB", "focusOutForwbrd",
+            "ctrl shift TAB", "focusOutBbckwbrd"
                     }),
 
 
-            "SplitPane.size", Integer.valueOf(7),
-            "SplitPane.oneTouchOffset", Integer.valueOf(2),
-            "SplitPane.oneTouchButtonSize", Integer.valueOf(5),
-            "SplitPane.supportsOneTouchButtons", Boolean.FALSE,
+            "SplitPbne.size", Integer.vblueOf(7),
+            "SplitPbne.oneTouchOffset", Integer.vblueOf(2),
+            "SplitPbne.oneTouchButtonSize", Integer.vblueOf(5),
+            "SplitPbne.supportsOneTouchButtons", Boolebn.FALSE,
 
 
-            "TabbedPane.focusInputMap",
-              new UIDefaults.LazyInputMap(new Object[] {
-                         "RIGHT", "navigateRight",
-                      "KP_RIGHT", "navigateRight",
-                          "LEFT", "navigateLeft",
-                       "KP_LEFT", "navigateLeft",
-                            "UP", "navigateUp",
-                         "KP_UP", "navigateUp",
-                          "DOWN", "navigateDown",
-                       "KP_DOWN", "navigateDown",
+            "TbbbedPbne.focusInputMbp",
+              new UIDefbults.LbzyInputMbp(new Object[] {
+                         "RIGHT", "nbvigbteRight",
+                      "KP_RIGHT", "nbvigbteRight",
+                          "LEFT", "nbvigbteLeft",
+                       "KP_LEFT", "nbvigbteLeft",
+                            "UP", "nbvigbteUp",
+                         "KP_UP", "nbvigbteUp",
+                          "DOWN", "nbvigbteDown",
+                       "KP_DOWN", "nbvigbteDown",
                      "ctrl DOWN", "requestFocusForVisibleComponent",
                   "ctrl KP_DOWN", "requestFocusForVisibleComponent",
-                         "SPACE", "selectTabWithFocus"
+                         "SPACE", "selectTbbWithFocus"
                 }),
-            "TabbedPane.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                         "ctrl TAB", "navigateNext",
-                   "ctrl shift TAB", "navigatePrevious",
-                   "ctrl PAGE_DOWN", "navigatePageDown",
-                     "ctrl PAGE_UP", "navigatePageUp",
+            "TbbbedPbne.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                         "ctrl TAB", "nbvigbteNext",
+                   "ctrl shift TAB", "nbvigbtePrevious",
+                   "ctrl PAGE_DOWN", "nbvigbtePbgeDown",
+                     "ctrl PAGE_UP", "nbvigbtePbgeUp",
                           "ctrl UP", "requestFocus",
                        "ctrl KP_UP", "requestFocus",
                  }),
 
-            "TabbedPane.labelShift", 3,
-            "TabbedPane.selectedLabelShift", 3,
-            "TabbedPane.font", new FontLazyValue(Region.TABBED_PANE),
-            "TabbedPane.selectedTabPadInsets", new InsetsUIResource(2, 2, 0, 1),
+            "TbbbedPbne.lbbelShift", 3,
+            "TbbbedPbne.selectedLbbelShift", 3,
+            "TbbbedPbne.font", new FontLbzyVblue(Region.TABBED_PANE),
+            "TbbbedPbne.selectedTbbPbdInsets", new InsetsUIResource(2, 2, 0, 1),
 
-            "Table.scrollPaneBorder", zeroBorder,
-            "Table.background", tableBg,
-            "Table.focusCellBackground", tableFocusCellBg,
-            "Table.focusCellForeground", tableFocusCellFg,
-            "Table.focusCellHighlightBorder", focusBorder,
-            "Table.focusSelectedCellHighlightBorder", focusSelectedBorder,
-            "Table.ancestorInputMap",
-                    new UIDefaults.LazyInputMap(new Object[] {
+            "Tbble.scrollPbneBorder", zeroBorder,
+            "Tbble.bbckground", tbbleBg,
+            "Tbble.focusCellBbckground", tbbleFocusCellBg,
+            "Tbble.focusCellForeground", tbbleFocusCellFg,
+            "Tbble.focusCellHighlightBorder", focusBorder,
+            "Tbble.focusSelectedCellHighlightBorder", focusSelectedBorder,
+            "Tbble.bncestorInputMbp",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
                                "ctrl C", "copy",
-                               "ctrl V", "paste",
+                               "ctrl V", "pbste",
                                "ctrl X", "cut",
                                  "COPY", "copy",
-                                "PASTE", "paste",
+                                "PASTE", "pbste",
                                   "CUT", "cut",
                        "control INSERT", "copy",
-                         "shift INSERT", "paste",
+                         "shift INSERT", "pbste",
                          "shift DELETE", "cut",
                                 "RIGHT", "selectNextColumn",
                              "KP_RIGHT", "selectNextColumn",
@@ -1071,189 +1071,189 @@ public class GTKLookAndFeel extends SynthLookAndFeel {
                        "shift KP_RIGHT", "selectNextColumnExtendSelection",
                      "ctrl shift RIGHT", "selectNextColumnExtendSelection",
                   "ctrl shift KP_RIGHT", "selectNextColumnExtendSelection",
-                           "ctrl RIGHT", "selectNextColumnChangeLead",
-                        "ctrl KP_RIGHT", "selectNextColumnChangeLead",
+                           "ctrl RIGHT", "selectNextColumnChbngeLebd",
+                        "ctrl KP_RIGHT", "selectNextColumnChbngeLebd",
                                  "LEFT", "selectPreviousColumn",
                               "KP_LEFT", "selectPreviousColumn",
                            "shift LEFT", "selectPreviousColumnExtendSelection",
                         "shift KP_LEFT", "selectPreviousColumnExtendSelection",
                       "ctrl shift LEFT", "selectPreviousColumnExtendSelection",
                    "ctrl shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                            "ctrl LEFT", "selectPreviousColumnChangeLead",
-                         "ctrl KP_LEFT", "selectPreviousColumnChangeLead",
+                            "ctrl LEFT", "selectPreviousColumnChbngeLebd",
+                         "ctrl KP_LEFT", "selectPreviousColumnChbngeLebd",
                                  "DOWN", "selectNextRow",
                               "KP_DOWN", "selectNextRow",
                            "shift DOWN", "selectNextRowExtendSelection",
                         "shift KP_DOWN", "selectNextRowExtendSelection",
                       "ctrl shift DOWN", "selectNextRowExtendSelection",
                    "ctrl shift KP_DOWN", "selectNextRowExtendSelection",
-                            "ctrl DOWN", "selectNextRowChangeLead",
-                         "ctrl KP_DOWN", "selectNextRowChangeLead",
+                            "ctrl DOWN", "selectNextRowChbngeLebd",
+                         "ctrl KP_DOWN", "selectNextRowChbngeLebd",
                                    "UP", "selectPreviousRow",
                                 "KP_UP", "selectPreviousRow",
                              "shift UP", "selectPreviousRowExtendSelection",
                           "shift KP_UP", "selectPreviousRowExtendSelection",
                         "ctrl shift UP", "selectPreviousRowExtendSelection",
                      "ctrl shift KP_UP", "selectPreviousRowExtendSelection",
-                              "ctrl UP", "selectPreviousRowChangeLead",
-                           "ctrl KP_UP", "selectPreviousRowChangeLead",
+                              "ctrl UP", "selectPreviousRowChbngeLebd",
+                           "ctrl KP_UP", "selectPreviousRowChbngeLebd",
                                  "HOME", "selectFirstColumn",
                            "shift HOME", "selectFirstColumnExtendSelection",
                       "ctrl shift HOME", "selectFirstRowExtendSelection",
                             "ctrl HOME", "selectFirstRow",
-                                  "END", "selectLastColumn",
-                            "shift END", "selectLastColumnExtendSelection",
-                       "ctrl shift END", "selectLastRowExtendSelection",
-                             "ctrl END", "selectLastRow",
-                              "PAGE_UP", "scrollUpChangeSelection",
+                                  "END", "selectLbstColumn",
+                            "shift END", "selectLbstColumnExtendSelection",
+                       "ctrl shift END", "selectLbstRowExtendSelection",
+                             "ctrl END", "selectLbstRow",
+                              "PAGE_UP", "scrollUpChbngeSelection",
                         "shift PAGE_UP", "scrollUpExtendSelection",
                    "ctrl shift PAGE_UP", "scrollLeftExtendSelection",
-                         "ctrl PAGE_UP", "scrollLeftChangeSelection",
-                            "PAGE_DOWN", "scrollDownChangeSelection",
+                         "ctrl PAGE_UP", "scrollLeftChbngeSelection",
+                            "PAGE_DOWN", "scrollDownChbngeSelection",
                       "shift PAGE_DOWN", "scrollDownExtendSelection",
                  "ctrl shift PAGE_DOWN", "scrollRightExtendSelection",
-                       "ctrl PAGE_DOWN", "scrollRightChangeSelection",
+                       "ctrl PAGE_DOWN", "scrollRightChbngeSelection",
                                   "TAB", "selectNextColumnCell",
                             "shift TAB", "selectPreviousColumnCell",
                                 "ENTER", "selectNextRowCell",
                           "shift ENTER", "selectPreviousRowCell",
                                "ctrl A", "selectAll",
                            "ctrl SLASH", "selectAll",
-                      "ctrl BACK_SLASH", "clearSelection",
-                               "ESCAPE", "cancel",
-                                   "F2", "startEditing",
-                                "SPACE", "addToSelection",
+                      "ctrl BACK_SLASH", "clebrSelection",
+                               "ESCAPE", "cbncel",
+                                   "F2", "stbrtEditing",
+                                "SPACE", "bddToSelection",
                            "ctrl SPACE", "toggleAndAnchor",
                           "shift SPACE", "extendTo",
                      "ctrl shift SPACE", "moveSelectionTo",
-                                   "F8", "focusHeader"
+                                   "F8", "focusHebder"
                     }),
-            "Table.ancestorInputMap.RightToLeft",
-                    new UIDefaults.LazyInputMap(new Object[] {
+            "Tbble.bncestorInputMbp.RightToLeft",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
                                 "RIGHT", "selectPreviousColumn",
                              "KP_RIGHT", "selectPreviousColumn",
                           "shift RIGHT", "selectPreviousColumnExtendSelection",
                        "shift KP_RIGHT", "selectPreviousColumnExtendSelection",
                      "ctrl shift RIGHT", "selectPreviousColumnExtendSelection",
                   "ctrl shift KP_RIGHT", "selectPreviousColumnExtendSelection",
-                          "shift RIGHT", "selectPreviousColumnChangeLead",
-                       "shift KP_RIGHT", "selectPreviousColumnChangeLead",
+                          "shift RIGHT", "selectPreviousColumnChbngeLebd",
+                       "shift KP_RIGHT", "selectPreviousColumnChbngeLebd",
                                  "LEFT", "selectNextColumn",
                               "KP_LEFT", "selectNextColumn",
                            "shift LEFT", "selectNextColumnExtendSelection",
                         "shift KP_LEFT", "selectNextColumnExtendSelection",
                       "ctrl shift LEFT", "selectNextColumnExtendSelection",
                    "ctrl shift KP_LEFT", "selectNextColumnExtendSelection",
-                            "ctrl LEFT", "selectNextColumnChangeLead",
-                         "ctrl KP_LEFT", "selectNextColumnChangeLead",
-                         "ctrl PAGE_UP", "scrollRightChangeSelection",
-                       "ctrl PAGE_DOWN", "scrollLeftChangeSelection",
+                            "ctrl LEFT", "selectNextColumnChbngeLebd",
+                         "ctrl KP_LEFT", "selectNextColumnChbngeLebd",
+                         "ctrl PAGE_UP", "scrollRightChbngeSelection",
+                       "ctrl PAGE_DOWN", "scrollLeftChbngeSelection",
                    "ctrl shift PAGE_UP", "scrollRightExtendSelection",
                  "ctrl shift PAGE_DOWN", "scrollLeftExtendSelection",
                     }),
-            "Table.font", new FontLazyValue(Region.TABLE),
-            "Table.ascendingSortIcon",  new GTKStyle.GTKLazyValue(
-                              "com.sun.java.swing.plaf.gtk.GTKIconFactory",
+            "Tbble.font", new FontLbzyVblue(Region.TABLE),
+            "Tbble.bscendingSortIcon",  new GTKStyle.GTKLbzyVblue(
+                              "com.sun.jbvb.swing.plbf.gtk.GTKIconFbctory",
                               "getAscendingSortIcon"),
-            "Table.descendingSortIcon",  new GTKStyle.GTKLazyValue(
-                              "com.sun.java.swing.plaf.gtk.GTKIconFactory",
+            "Tbble.descendingSortIcon",  new GTKStyle.GTKLbzyVblue(
+                              "com.sun.jbvb.swing.plbf.gtk.GTKIconFbctory",
                               "getDescendingSortIcon"),
 
-            "TableHeader.font", new FontLazyValue(Region.TABLE_HEADER),
-            "TableHeader.alignSorterArrow", Boolean.TRUE,
+            "TbbleHebder.font", new FontLbzyVblue(Region.TABLE_HEADER),
+            "TbbleHebder.blignSorterArrow", Boolebn.TRUE,
 
-            "TextArea.caretForeground", caretColor,
-            "TextArea.caretAspectRatio", defaultCaretAspectRatio,
-            "TextArea.caretBlinkRate", caretBlinkRate,
-            "TextArea.margin", zeroInsets,
-            "TextArea.focusInputMap", multilineInputMap,
-            "TextArea.font", new FontLazyValue(Region.TEXT_AREA),
-
-
-            "TextField.caretForeground", caretColor,
-            "TextField.caretAspectRatio", defaultCaretAspectRatio,
-            "TextField.caretBlinkRate", caretBlinkRate,
-            "TextField.margin", zeroInsets,
-            "TextField.focusInputMap", fieldInputMap,
-            "TextField.font", new FontLazyValue(Region.TEXT_FIELD),
+            "TextAreb.cbretForeground", cbretColor,
+            "TextAreb.cbretAspectRbtio", defbultCbretAspectRbtio,
+            "TextAreb.cbretBlinkRbte", cbretBlinkRbte,
+            "TextAreb.mbrgin", zeroInsets,
+            "TextAreb.focusInputMbp", multilineInputMbp,
+            "TextAreb.font", new FontLbzyVblue(Region.TEXT_AREA),
 
 
-            "TextPane.caretForeground", caretColor,
-            "TextPane.caretAspectRatio", defaultCaretAspectRatio,
-            "TextPane.caretBlinkRate", caretBlinkRate,
-            "TextPane.margin", editorMargin,
-            "TextPane.focusInputMap", multilineInputMap,
-            "TextPane.font", new FontLazyValue(Region.TEXT_PANE),
+            "TextField.cbretForeground", cbretColor,
+            "TextField.cbretAspectRbtio", defbultCbretAspectRbtio,
+            "TextField.cbretBlinkRbte", cbretBlinkRbte,
+            "TextField.mbrgin", zeroInsets,
+            "TextField.focusInputMbp", fieldInputMbp,
+            "TextField.font", new FontLbzyVblue(Region.TEXT_FIELD),
+
+
+            "TextPbne.cbretForeground", cbretColor,
+            "TextPbne.cbretAspectRbtio", defbultCbretAspectRbtio,
+            "TextPbne.cbretBlinkRbte", cbretBlinkRbte,
+            "TextPbne.mbrgin", editorMbrgin,
+            "TextPbne.focusInputMbp", multilineInputMbp,
+            "TextPbne.font", new FontLbzyVblue(Region.TEXT_PANE),
 
 
             "TitledBorder.titleColor", controlText,
-            "TitledBorder.border", new UIDefaults.LazyValue() {
-                public Object createValue(UIDefaults table) {
-                    return new GTKPainter.TitledBorder();
+            "TitledBorder.border", new UIDefbults.LbzyVblue() {
+                public Object crebteVblue(UIDefbults tbble) {
+                    return new GTKPbinter.TitledBorder();
                 }
             },
 
-            "ToggleButton.focusInputMap",
-                   new UIDefaults.LazyInputMap(new Object[] {
+            "ToggleButton.focusInputMbp",
+                   new UIDefbults.LbzyInputMbp(new Object[] {
                             "SPACE", "pressed",
-                   "released SPACE", "released"
+                   "relebsed SPACE", "relebsed"
                    }),
-            "ToggleButton.font", new FontLazyValue(Region.TOGGLE_BUTTON),
-            "ToggleButton.margin", zeroInsets,
+            "ToggleButton.font", new FontLbzyVblue(Region.TOGGLE_BUTTON),
+            "ToggleButton.mbrgin", zeroInsets,
 
 
-            "ToolBar.separatorSize", new DimensionUIResource(10, 10),
-            "ToolBar.handleIcon", new UIDefaults.ActiveValue() {
-                public Object createValue(UIDefaults table) {
-                    return GTKIconFactory.getToolBarHandleIcon();
+            "ToolBbr.sepbrbtorSize", new DimensionUIResource(10, 10),
+            "ToolBbr.hbndleIcon", new UIDefbults.ActiveVblue() {
+                public Object crebteVblue(UIDefbults tbble) {
+                    return GTKIconFbctory.getToolBbrHbndleIcon();
                 }
             },
-            "ToolBar.ancestorInputMap",
-               new UIDefaults.LazyInputMap(new Object[] {
-                        "UP", "navigateUp",
-                     "KP_UP", "navigateUp",
-                      "DOWN", "navigateDown",
-                   "KP_DOWN", "navigateDown",
-                      "LEFT", "navigateLeft",
-                   "KP_LEFT", "navigateLeft",
-                     "RIGHT", "navigateRight",
-                  "KP_RIGHT", "navigateRight"
+            "ToolBbr.bncestorInputMbp",
+               new UIDefbults.LbzyInputMbp(new Object[] {
+                        "UP", "nbvigbteUp",
+                     "KP_UP", "nbvigbteUp",
+                      "DOWN", "nbvigbteDown",
+                   "KP_DOWN", "nbvigbteDown",
+                      "LEFT", "nbvigbteLeft",
+                   "KP_LEFT", "nbvigbteLeft",
+                     "RIGHT", "nbvigbteRight",
+                  "KP_RIGHT", "nbvigbteRight"
                  }),
-            "ToolBar.font", new FontLazyValue(Region.TOOL_BAR),
+            "ToolBbr.font", new FontLbzyVblue(Region.TOOL_BAR),
 
-            "ToolTip.font", new FontLazyValue(Region.TOOL_TIP),
+            "ToolTip.font", new FontLbzyVblue(Region.TOOL_TIP),
 
-            "Tree.padding", Integer.valueOf(4),
-            "Tree.background", tableBg,
-            "Tree.drawHorizontalLines", Boolean.FALSE,
-            "Tree.drawVerticalLines", Boolean.FALSE,
-            "Tree.rowHeight", Integer.valueOf(-1),
-            "Tree.scrollsOnExpand", Boolean.FALSE,
-            "Tree.expanderSize", Integer.valueOf(10),
-            "Tree.repaintWholeRow", Boolean.TRUE,
+            "Tree.pbdding", Integer.vblueOf(4),
+            "Tree.bbckground", tbbleBg,
+            "Tree.drbwHorizontblLines", Boolebn.FALSE,
+            "Tree.drbwVerticblLines", Boolebn.FALSE,
+            "Tree.rowHeight", Integer.vblueOf(-1),
+            "Tree.scrollsOnExpbnd", Boolebn.FALSE,
+            "Tree.expbnderSize", Integer.vblueOf(10),
+            "Tree.repbintWholeRow", Boolebn.TRUE,
             "Tree.closedIcon", null,
-            "Tree.leafIcon", null,
+            "Tree.lebfIcon", null,
             "Tree.openIcon", null,
-            "Tree.expandedIcon", new GTKStyle.GTKLazyValue(
-                              "com.sun.java.swing.plaf.gtk.GTKIconFactory",
-                              "getTreeExpandedIcon"),
-            "Tree.collapsedIcon", new GTKStyle.GTKLazyValue(
-                              "com.sun.java.swing.plaf.gtk.GTKIconFactory",
-                              "getTreeCollapsedIcon"),
-            "Tree.leftChildIndent", Integer.valueOf(2),
-            "Tree.rightChildIndent", Integer.valueOf(12),
-            "Tree.scrollsHorizontallyAndVertically", Boolean.FALSE,
-            "Tree.drawsFocusBorder", Boolean.TRUE,
-            "Tree.focusInputMap",
-                    new UIDefaults.LazyInputMap(new Object[] {
+            "Tree.expbndedIcon", new GTKStyle.GTKLbzyVblue(
+                              "com.sun.jbvb.swing.plbf.gtk.GTKIconFbctory",
+                              "getTreeExpbndedIcon"),
+            "Tree.collbpsedIcon", new GTKStyle.GTKLbzyVblue(
+                              "com.sun.jbvb.swing.plbf.gtk.GTKIconFbctory",
+                              "getTreeCollbpsedIcon"),
+            "Tree.leftChildIndent", Integer.vblueOf(2),
+            "Tree.rightChildIndent", Integer.vblueOf(12),
+            "Tree.scrollsHorizontbllyAndVerticblly", Boolebn.FALSE,
+            "Tree.drbwsFocusBorder", Boolebn.TRUE,
+            "Tree.focusInputMbp",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
                                  "ctrl C", "copy",
-                                 "ctrl V", "paste",
+                                 "ctrl V", "pbste",
                                  "ctrl X", "cut",
                                    "COPY", "copy",
-                                  "PASTE", "paste",
+                                  "PASTE", "pbste",
                                     "CUT", "cut",
                          "control INSERT", "copy",
-                           "shift INSERT", "paste",
+                           "shift INSERT", "pbste",
                            "shift DELETE", "cut",
                                      "UP", "selectPrevious",
                                   "KP_UP", "selectPrevious",
@@ -1261,266 +1261,266 @@ public class GTKLookAndFeel extends SynthLookAndFeel {
                             "shift KP_UP", "selectPreviousExtendSelection",
                           "ctrl shift UP", "selectPreviousExtendSelection",
                        "ctrl shift KP_UP", "selectPreviousExtendSelection",
-                                "ctrl UP", "selectPreviousChangeLead",
-                             "ctrl KP_UP", "selectPreviousChangeLead",
+                                "ctrl UP", "selectPreviousChbngeLebd",
+                             "ctrl KP_UP", "selectPreviousChbngeLebd",
                                    "DOWN", "selectNext",
                                 "KP_DOWN", "selectNext",
                              "shift DOWN", "selectNextExtendSelection",
                           "shift KP_DOWN", "selectNextExtendSelection",
                         "ctrl shift DOWN", "selectNextExtendSelection",
                      "ctrl shift KP_DOWN", "selectNextExtendSelection",
-                              "ctrl DOWN", "selectNextChangeLead",
-                           "ctrl KP_DOWN", "selectNextChangeLead",
+                              "ctrl DOWN", "selectNextChbngeLebd",
+                           "ctrl KP_DOWN", "selectNextChbngeLebd",
                                   "RIGHT", "selectChild",
                                "KP_RIGHT", "selectChild",
-                                   "LEFT", "selectParent",
-                                "KP_LEFT", "selectParent",
-                                "typed +", "expand",
-                                "typed -", "collapse",
-                             "BACK_SPACE", "moveSelectionToParent",
-                                "PAGE_UP", "scrollUpChangeSelection",
+                                   "LEFT", "selectPbrent",
+                                "KP_LEFT", "selectPbrent",
+                                "typed +", "expbnd",
+                                "typed -", "collbpse",
+                             "BACK_SPACE", "moveSelectionToPbrent",
+                                "PAGE_UP", "scrollUpChbngeSelection",
                           "shift PAGE_UP", "scrollUpExtendSelection",
                      "ctrl shift PAGE_UP", "scrollUpExtendSelection",
-                           "ctrl PAGE_UP", "scrollUpChangeLead",
-                              "PAGE_DOWN", "scrollDownChangeSelection",
+                           "ctrl PAGE_UP", "scrollUpChbngeLebd",
+                              "PAGE_DOWN", "scrollDownChbngeSelection",
                         "shift PAGE_DOWN", "scrollDownExtendSelection",
                    "ctrl shift PAGE_DOWN", "scrollDownExtendSelection",
-                         "ctrl PAGE_DOWN", "scrollDownChangeLead",
+                         "ctrl PAGE_DOWN", "scrollDownChbngeLebd",
                                    "HOME", "selectFirst",
                              "shift HOME", "selectFirstExtendSelection",
                         "ctrl shift HOME", "selectFirstExtendSelection",
-                              "ctrl HOME", "selectFirstChangeLead",
-                                    "END", "selectLast",
-                              "shift END", "selectLastExtendSelection",
-                         "ctrl shift END", "selectLastExtendSelection",
-                               "ctrl END", "selectLastChangeLead",
-                                     "F2", "startEditing",
+                              "ctrl HOME", "selectFirstChbngeLebd",
+                                    "END", "selectLbst",
+                              "shift END", "selectLbstExtendSelection",
+                         "ctrl shift END", "selectLbstExtendSelection",
+                               "ctrl END", "selectLbstChbngeLebd",
+                                     "F2", "stbrtEditing",
                                  "ctrl A", "selectAll",
                              "ctrl SLASH", "selectAll",
-                        "ctrl BACK_SLASH", "clearSelection",
+                        "ctrl BACK_SLASH", "clebrSelection",
                               "ctrl LEFT", "scrollLeft",
                            "ctrl KP_LEFT", "scrollLeft",
                              "ctrl RIGHT", "scrollRight",
                           "ctrl KP_RIGHT", "scrollRight",
-                                  "SPACE", "addToSelection",
+                                  "SPACE", "bddToSelection",
                              "ctrl SPACE", "toggleAndAnchor",
                             "shift SPACE", "extendTo",
                        "ctrl shift SPACE", "moveSelectionTo"
                     }),
-            "Tree.focusInputMap.RightToLeft",
-                    new UIDefaults.LazyInputMap(new Object[] {
-                                  "RIGHT", "selectParent",
-                               "KP_RIGHT", "selectParent",
+            "Tree.focusInputMbp.RightToLeft",
+                    new UIDefbults.LbzyInputMbp(new Object[] {
+                                  "RIGHT", "selectPbrent",
+                               "KP_RIGHT", "selectPbrent",
                                    "LEFT", "selectChild",
                                 "KP_LEFT", "selectChild",
                  }),
-            "Tree.ancestorInputMap",
-                      new UIDefaults.LazyInputMap(new Object[] {
-                         "ESCAPE", "cancel"
+            "Tree.bncestorInputMbp",
+                      new UIDefbults.LbzyInputMbp(new Object[] {
+                         "ESCAPE", "cbncel"
                       }),
-            "Tree.font", new FontLazyValue(Region.TREE),
+            "Tree.font", new FontLbzyVblue(Region.TREE),
 
-            "Viewport.font", new FontLazyValue(Region.VIEWPORT)
+            "Viewport.font", new FontLbzyVblue(Region.VIEWPORT)
         };
-        table.putDefaults(defaults);
+        tbble.putDefbults(defbults);
 
-        if (fallbackFont != null) {
-            table.put("TitledBorder.font", fallbackFont);
+        if (fbllbbckFont != null) {
+            tbble.put("TitledBorder.font", fbllbbckFont);
         }
-        table.put(SwingUtilities2.AA_TEXT_PROPERTY_KEY, aaTextInfo);
+        tbble.put(SwingUtilities2.AA_TEXT_PROPERTY_KEY, bbTextInfo);
     }
 
-    protected void initSystemColorDefaults(UIDefaults table) {
-        GTKStyleFactory factory = (GTKStyleFactory)getStyleFactory();
+    protected void initSystemColorDefbults(UIDefbults tbble) {
+        GTKStyleFbctory fbctory = (GTKStyleFbctory)getStyleFbctory();
         GTKStyle windowStyle =
-                (GTKStyle)factory.getStyle(null, Region.INTERNAL_FRAME);
-        table.put("window", windowStyle.getGTKColor(SynthConstants.ENABLED,
+                (GTKStyle)fbctory.getStyle(null, Region.INTERNAL_FRAME);
+        tbble.put("window", windowStyle.getGTKColor(SynthConstbnts.ENABLED,
                 GTKColorType.BACKGROUND));
-        table.put("windowText", windowStyle.getGTKColor(SynthConstants.ENABLED,
+        tbble.put("windowText", windowStyle.getGTKColor(SynthConstbnts.ENABLED,
                 GTKColorType.TEXT_FOREGROUND));
 
-        GTKStyle entryStyle = (GTKStyle)factory.getStyle(null, Region.TEXT_FIELD);
-        table.put("text", entryStyle.getGTKColor(SynthConstants.ENABLED,
+        GTKStyle entryStyle = (GTKStyle)fbctory.getStyle(null, Region.TEXT_FIELD);
+        tbble.put("text", entryStyle.getGTKColor(SynthConstbnts.ENABLED,
                                            GTKColorType.TEXT_BACKGROUND));
-        table.put("textText", entryStyle.getGTKColor(SynthConstants.ENABLED,
+        tbble.put("textText", entryStyle.getGTKColor(SynthConstbnts.ENABLED,
                                            GTKColorType.TEXT_FOREGROUND));
-        table.put("textHighlight",
-                entryStyle.getGTKColor(SynthConstants.SELECTED,
+        tbble.put("textHighlight",
+                entryStyle.getGTKColor(SynthConstbnts.SELECTED,
                                          GTKColorType.TEXT_BACKGROUND));
-        table.put("textHighlightText",
-                  entryStyle.getGTKColor(SynthConstants.SELECTED,
+        tbble.put("textHighlightText",
+                  entryStyle.getGTKColor(SynthConstbnts.SELECTED,
                                          GTKColorType.TEXT_FOREGROUND));
-        table.put("textInactiveText",
-                  entryStyle.getGTKColor(SynthConstants.DISABLED,
+        tbble.put("textInbctiveText",
+                  entryStyle.getGTKColor(SynthConstbnts.DISABLED,
                                          GTKColorType.TEXT_FOREGROUND));
-        Object caretColor =
-            entryStyle.getClassSpecificValue("cursor-color");
-        if (caretColor == null) {
-            caretColor = GTKStyle.BLACK_COLOR;
+        Object cbretColor =
+            entryStyle.getClbssSpecificVblue("cursor-color");
+        if (cbretColor == null) {
+            cbretColor = GTKStyle.BLACK_COLOR;
         }
-        table.put("caretColor", caretColor);
+        tbble.put("cbretColor", cbretColor);
 
-        GTKStyle menuStyle = (GTKStyle)factory.getStyle(null, Region.MENU_ITEM);
-        table.put("menu", menuStyle.getGTKColor(SynthConstants.ENABLED,
+        GTKStyle menuStyle = (GTKStyle)fbctory.getStyle(null, Region.MENU_ITEM);
+        tbble.put("menu", menuStyle.getGTKColor(SynthConstbnts.ENABLED,
                                            GTKColorType.BACKGROUND));
-        table.put("menuText", menuStyle.getGTKColor(SynthConstants.ENABLED,
+        tbble.put("menuText", menuStyle.getGTKColor(SynthConstbnts.ENABLED,
                                            GTKColorType.TEXT_FOREGROUND));
 
-        GTKStyle scrollbarStyle = (GTKStyle)factory.getStyle(null, Region.SCROLL_BAR);
-        table.put("scrollbar", scrollbarStyle.getGTKColor(SynthConstants.ENABLED,
+        GTKStyle scrollbbrStyle = (GTKStyle)fbctory.getStyle(null, Region.SCROLL_BAR);
+        tbble.put("scrollbbr", scrollbbrStyle.getGTKColor(SynthConstbnts.ENABLED,
                                            GTKColorType.BACKGROUND));
 
-        GTKStyle infoStyle = (GTKStyle)factory.getStyle(null, Region.OPTION_PANE);
-        table.put("info", infoStyle.getGTKColor(SynthConstants.ENABLED,
+        GTKStyle infoStyle = (GTKStyle)fbctory.getStyle(null, Region.OPTION_PANE);
+        tbble.put("info", infoStyle.getGTKColor(SynthConstbnts.ENABLED,
                                            GTKColorType.BACKGROUND));
-        table.put("infoText", infoStyle.getGTKColor(SynthConstants.ENABLED,
+        tbble.put("infoText", infoStyle.getGTKColor(SynthConstbnts.ENABLED,
                                            GTKColorType.TEXT_FOREGROUND));
 
-        GTKStyle desktopStyle = (GTKStyle)factory.getStyle(null, Region.DESKTOP_PANE);
-        table.put("desktop", desktopStyle.getGTKColor(SynthConstants.ENABLED,
+        GTKStyle desktopStyle = (GTKStyle)fbctory.getStyle(null, Region.DESKTOP_PANE);
+        tbble.put("desktop", desktopStyle.getGTKColor(SynthConstbnts.ENABLED,
                                            GTKColorType.BACKGROUND));
 
         // colors specific only for GTK
-        // It is impossible to create a simple GtkWidget without specifying the
-        // type. So for GtkWidget we can use any appropriate concrete type of
-        // wigdet. LABEL in this case.
-        GTKStyle widgetStyle = (GTKStyle)factory.getStyle(null, Region.LABEL);
-        Color bg = widgetStyle.getGTKColor(SynthConstants.ENABLED,
+        // It is impossible to crebte b simple GtkWidget without specifying the
+        // type. So for GtkWidget we cbn use bny bppropribte concrete type of
+        // wigdet. LABEL in this cbse.
+        GTKStyle widgetStyle = (GTKStyle)fbctory.getStyle(null, Region.LABEL);
+        Color bg = widgetStyle.getGTKColor(SynthConstbnts.ENABLED,
                                            GTKColorType.BACKGROUND);
-        table.put("control", bg);
-        table.put("controlHighlight", bg);
-        table.put("controlText", widgetStyle.getGTKColor(SynthConstants.ENABLED,
+        tbble.put("control", bg);
+        tbble.put("controlHighlight", bg);
+        tbble.put("controlText", widgetStyle.getGTKColor(SynthConstbnts.ENABLED,
                                                GTKColorType.TEXT_FOREGROUND));
-        table.put("controlLtHighlight", widgetStyle.getGTKColor(
-                SynthConstants.ENABLED, GTKColorType.LIGHT));
-        table.put("controlShadow", widgetStyle.getGTKColor(
-                SynthConstants.ENABLED, GTKColorType.DARK));
-        table.put("controlDkShadow", widgetStyle.getGTKColor(
-                SynthConstants.ENABLED, GTKColorType.BLACK));
-        table.put("light", widgetStyle.getGTKColor(
-                SynthConstants.ENABLED, GTKColorType.LIGHT));
-        table.put("mid", widgetStyle.getGTKColor(
-                SynthConstants.ENABLED, GTKColorType.MID));
-        table.put("dark", widgetStyle.getGTKColor(
-                SynthConstants.ENABLED, GTKColorType.DARK));
-        table.put("black", widgetStyle.getGTKColor(
-                SynthConstants.ENABLED, GTKColorType.BLACK));
-        table.put("white", widgetStyle.getGTKColor(
-                SynthConstants.ENABLED, GTKColorType.WHITE));
+        tbble.put("controlLtHighlight", widgetStyle.getGTKColor(
+                SynthConstbnts.ENABLED, GTKColorType.LIGHT));
+        tbble.put("controlShbdow", widgetStyle.getGTKColor(
+                SynthConstbnts.ENABLED, GTKColorType.DARK));
+        tbble.put("controlDkShbdow", widgetStyle.getGTKColor(
+                SynthConstbnts.ENABLED, GTKColorType.BLACK));
+        tbble.put("light", widgetStyle.getGTKColor(
+                SynthConstbnts.ENABLED, GTKColorType.LIGHT));
+        tbble.put("mid", widgetStyle.getGTKColor(
+                SynthConstbnts.ENABLED, GTKColorType.MID));
+        tbble.put("dbrk", widgetStyle.getGTKColor(
+                SynthConstbnts.ENABLED, GTKColorType.DARK));
+        tbble.put("blbck", widgetStyle.getGTKColor(
+                SynthConstbnts.ENABLED, GTKColorType.BLACK));
+        tbble.put("white", widgetStyle.getGTKColor(
+                SynthConstbnts.ENABLED, GTKColorType.WHITE));
     }
 
     /**
-     * Creates the GTK look and feel class for the passed in Component.
+     * Crebtes the GTK look bnd feel clbss for the pbssed in Component.
      */
-    public static ComponentUI createUI(JComponent c) {
-        String key = c.getUIClassID().intern();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        String key = c.getUIClbssID().intern();
 
         if (key == "FileChooserUI") {
-            return GTKFileChooserUI.createUI(c);
+            return GTKFileChooserUI.crebteUI(c);
         }
-        return SynthLookAndFeel.createUI(c);
+        return SynthLookAndFeel.crebteUI(c);
     }
 
     /**
-     * Returns the cached gtkThemeName
+     * Returns the cbched gtkThemeNbme
      */
-    static String getGtkThemeName() {
-        return gtkThemeName;
+    stbtic String getGtkThemeNbme() {
+        return gtkThemeNbme;
     }
 
-    static boolean isLeftToRight(Component c) {
-        return c.getComponentOrientation().isLeftToRight();
+    stbtic boolebn isLeftToRight(Component c) {
+        return c.getComponentOrientbtion().isLeftToRight();
     }
 
-    public void initialize() {
+    public void initiblize() {
         /*
-         * We need to call loadGTK() to ensure that the native GTK
-         * libraries are loaded.  It is very unlikely that this call will
-         * fail (since we've already verified native GTK support in
-         * isSupportedLookAndFeel()), but we can throw an error in the
-         * failure situation just in case.
+         * We need to cbll lobdGTK() to ensure thbt the nbtive GTK
+         * librbries bre lobded.  It is very unlikely thbt this cbll will
+         * fbil (since we've blrebdy verified nbtive GTK support in
+         * isSupportedLookAndFeel()), but we cbn throw bn error in the
+         * fbilure situbtion just in cbse.
          */
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        if (toolkit instanceof UNIXToolkit &&
-            !((UNIXToolkit)toolkit).loadGTK())
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
+        if (toolkit instbnceof UNIXToolkit &&
+            !((UNIXToolkit)toolkit).lobdGTK())
         {
-            throw new InternalError("Unable to load native GTK libraries");
+            throw new InternblError("Unbble to lobd nbtive GTK librbries");
         }
 
-        super.initialize();
-        inInitialize = true;
-        loadStyles();
-        inInitialize = false;
+        super.initiblize();
+        inInitiblize = true;
+        lobdStyles();
+        inInitiblize = fblse;
 
         /*
          * Check if system AA font settings should be used.
-         * Sun's JDS (for Linux and Solaris) ships with high quality CJK
-         * fonts and specifies via fontconfig that these be rendered in
-         * B&W to take advantage of the embedded bitmaps.
-         * If is a Sun CJK locale or remote display, indicate by the condition
-         * variable that in this case the L&F recommends ignoring desktop
-         * settings. On other Unixes (eg Linux) this doesn't apply.
-         * REMIND 1: The isSunCJK test is really just a place holder
-         * until we can properly query fontconfig and use the properties
+         * Sun's JDS (for Linux bnd Solbris) ships with high qublity CJK
+         * fonts bnd specifies vib fontconfig thbt these be rendered in
+         * B&W to tbke bdvbntbge of the embedded bitmbps.
+         * If is b Sun CJK locble or remote displby, indicbte by the condition
+         * vbribble thbt in this cbse the L&F recommends ignoring desktop
+         * settings. On other Unixes (eg Linux) this doesn't bpply.
+         * REMIND 1: The isSunCJK test is reblly just b plbce holder
+         * until we cbn properly query fontconfig bnd use the properties
          * set for specific fonts.
-         * REMIND 2: See comment on isLocalDisplay() definition regarding
+         * REMIND 2: See comment on isLocblDisplby() definition regbrding
          * XRender.
          */
-        gtkAAFontSettingsCond = !isSunCJK && SwingUtilities2.isLocalDisplay();
-        aaTextInfo = SwingUtilities2.AATextInfo.getAATextInfo(gtkAAFontSettingsCond);
+        gtkAAFontSettingsCond = !isSunCJK && SwingUtilities2.isLocblDisplby();
+        bbTextInfo = SwingUtilities2.AATextInfo.getAATextInfo(gtkAAFontSettingsCond);
     }
 
-    static ReferenceQueue<GTKLookAndFeel> queue = new ReferenceQueue<GTKLookAndFeel>();
+    stbtic ReferenceQueue<GTKLookAndFeel> queue = new ReferenceQueue<GTKLookAndFeel>();
 
-    private static void flushUnreferenced() {
-        WeakPCL pcl;
+    privbte stbtic void flushUnreferenced() {
+        WebkPCL pcl;
 
-        while ((pcl = (WeakPCL)queue.poll()) != null) {
+        while ((pcl = (WebkPCL)queue.poll()) != null) {
             pcl.dispose();
         }
     }
 
-    static class WeakPCL extends WeakReference<GTKLookAndFeel> implements
-            PropertyChangeListener {
-        private Toolkit kit;
-        private String key;
+    stbtic clbss WebkPCL extends WebkReference<GTKLookAndFeel> implements
+            PropertyChbngeListener {
+        privbte Toolkit kit;
+        privbte String key;
 
-        WeakPCL(GTKLookAndFeel target, Toolkit kit, String key) {
-            super(target, queue);
+        WebkPCL(GTKLookAndFeel tbrget, Toolkit kit, String key) {
+            super(tbrget, queue);
             this.kit = kit;
             this.key = key;
         }
 
         public String getKey() { return key; }
 
-        public void propertyChange(final PropertyChangeEvent pce) {
-            final GTKLookAndFeel lnf = get();
+        public void propertyChbnge(finbl PropertyChbngeEvent pce) {
+            finbl GTKLookAndFeel lnf = get();
 
-            if (lnf == null || UIManager.getLookAndFeel() != lnf) {
-                // The property was GC'ed, we're no longer interested in
-                // PropertyChanges, remove the listener.
+            if (lnf == null || UIMbnbger.getLookAndFeel() != lnf) {
+                // The property wbs GC'ed, we're no longer interested in
+                // PropertyChbnges, remove the listener.
                 dispose();
             }
             else {
-                // We are using invokeLater here because we are getting called
-                // on the AWT-Motif thread which can cause a deadlock.
-                SwingUtilities.invokeLater(new Runnable() {
+                // We bre using invokeLbter here becbuse we bre getting cblled
+                // on the AWT-Motif threbd which cbn cbuse b debdlock.
+                SwingUtilities.invokeLbter(new Runnbble() {
                     public void run() {
-                        String name = pce.getPropertyName();
-                        /* We are listening for GTK desktop text AA settings:
-                         * "gnome.Xft/Antialias" and "gnome.Xft/RGBA".
-                         * However we don't need to read these here as
-                         * the UIDefaults reads them and this event causes
-                         * those to be reinitialised.
+                        String nbme = pce.getPropertyNbme();
+                        /* We bre listening for GTK desktop text AA settings:
+                         * "gnome.Xft/Antiblibs" bnd "gnome.Xft/RGBA".
+                         * However we don't need to rebd these here bs
+                         * the UIDefbults rebds them bnd this event cbuses
+                         * those to be reinitiblised.
                          */
-                        if ("gnome.Net/ThemeName".equals(name)) {
-                            GTKEngine.INSTANCE.themeChanged();
-                            GTKIconFactory.resetIcons();
+                        if ("gnome.Net/ThemeNbme".equbls(nbme)) {
+                            GTKEngine.INSTANCE.themeChbnged();
+                            GTKIconFbctory.resetIcons();
                         }
-                        lnf.loadStyles();
-                        Window appWindows[] = Window.getWindows();
-                        for (int i = 0; i < appWindows.length; i++) {
-                            SynthLookAndFeel.updateStyles(appWindows[i]);
+                        lnf.lobdStyles();
+                        Window bppWindows[] = Window.getWindows();
+                        for (int i = 0; i < bppWindows.length; i++) {
+                            SynthLookAndFeel.updbteStyles(bppWindows[i]);
                         }
                     }
                 });
@@ -1528,127 +1528,127 @@ public class GTKLookAndFeel extends SynthLookAndFeel {
         }
 
         void dispose() {
-            kit.removePropertyChangeListener(key, this);
+            kit.removePropertyChbngeListener(key, this);
         }
     }
 
-    public boolean isSupportedLookAndFeel() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        return (toolkit instanceof SunToolkit &&
-                ((SunToolkit)toolkit).isNativeGTKAvailable());
+    public boolebn isSupportedLookAndFeel() {
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
+        return (toolkit instbnceof SunToolkit &&
+                ((SunToolkit)toolkit).isNbtiveGTKAvbilbble());
     }
 
-    public boolean isNativeLookAndFeel() {
+    public boolebn isNbtiveLookAndFeel() {
         return true;
     }
 
     public String getDescription() {
-        return "GTK look and feel";
+        return "GTK look bnd feel";
     }
 
-    public String getName() {
-        return "GTK look and feel";
+    public String getNbme() {
+        return "GTK look bnd feel";
     }
 
     public String getID() {
         return "GTK";
     }
 
-    // Subclassed to pass in false to the superclass, we don't want to try
-    // and load the system colors.
-    protected void loadSystemColors(UIDefaults table, String[] systemColors, boolean useNative) {
-        super.loadSystemColors(table, systemColors, false);
+    // Subclbssed to pbss in fblse to the superclbss, we don't wbnt to try
+    // bnd lobd the system colors.
+    protected void lobdSystemColors(UIDefbults tbble, String[] systemColors, boolebn useNbtive) {
+        super.lobdSystemColors(tbble, systemColors, fblse);
     }
 
-    private void loadStyles() {
-        gtkThemeName = (String)Toolkit.getDefaultToolkit().
-                getDesktopProperty("gnome.Net/ThemeName");
+    privbte void lobdStyles() {
+        gtkThemeNbme = (String)Toolkit.getDefbultToolkit().
+                getDesktopProperty("gnome.Net/ThemeNbme");
 
-        setStyleFactory(getGTKStyleFactory());
+        setStyleFbctory(getGTKStyleFbctory());
 
-        // If we are in initialize initializations will be
-        // called later, don't do it now.
-        if (!inInitialize) {
-            UIDefaults table = UIManager.getLookAndFeelDefaults();
-            initSystemColorDefaults(table);
-            initComponentDefaults(table);
+        // If we bre in initiblize initiblizbtions will be
+        // cblled lbter, don't do it now.
+        if (!inInitiblize) {
+            UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+            initSystemColorDefbults(tbble);
+            initComponentDefbults(tbble);
         }
     }
 
-    private GTKStyleFactory getGTKStyleFactory() {
+    privbte GTKStyleFbctory getGTKStyleFbctory() {
 
         GTKEngine engine = GTKEngine.INSTANCE;
         Object iconSizes = engine.getSetting(GTKEngine.Settings.GTK_ICON_SIZES);
-        if (iconSizes instanceof String) {
+        if (iconSizes instbnceof String) {
             if (!configIconSizes((String)iconSizes)) {
-                System.err.println("Error parsing gtk-icon-sizes string: '" + iconSizes + "'");
+                System.err.println("Error pbrsing gtk-icon-sizes string: '" + iconSizes + "'");
             }
         }
 
-        // Desktop property appears to have preference over rc font.
-        Object fontName = Toolkit.getDefaultToolkit().getDesktopProperty(
-                                  "gnome.Gtk/FontName");
+        // Desktop property bppebrs to hbve preference over rc font.
+        Object fontNbme = Toolkit.getDefbultToolkit().getDesktopProperty(
+                                  "gnome.Gtk/FontNbme");
 
-       if (!(fontName instanceof String)) {
-            fontName = engine.getSetting(GTKEngine.Settings.GTK_FONT_NAME);
-            if (!(fontName instanceof String)) {
-               fontName = "sans 10";
+       if (!(fontNbme instbnceof String)) {
+            fontNbme = engine.getSetting(GTKEngine.Settings.GTK_FONT_NAME);
+            if (!(fontNbme instbnceof String)) {
+               fontNbme = "sbns 10";
             }
         }
 
-        if (styleFactory == null) {
-            styleFactory = new GTKStyleFactory();
+        if (styleFbctory == null) {
+            styleFbctory = new GTKStyleFbctory();
         }
 
-        Font defaultFont = PangoFonts.lookupFont((String)fontName);
-        fallbackFont = defaultFont;
-        styleFactory.initStyles(defaultFont);
+        Font defbultFont = PbngoFonts.lookupFont((String)fontNbme);
+        fbllbbckFont = defbultFont;
+        styleFbctory.initStyles(defbultFont);
 
-        return styleFactory;
+        return styleFbctory;
     }
 
-    private boolean configIconSizes(String sizeString) {
+    privbte boolebn configIconSizes(String sizeString) {
         String[] sizes = sizeString.split(":");
         for (int i = 0; i < sizes.length; i++) {
             String[] splits = sizes[i].split("=");
 
             if (splits.length != 2) {
-                return false;
+                return fblse;
             }
 
             String size = splits[0].trim().intern();
             if (size.length() < 1) {
-                return false;
+                return fblse;
             }
 
             splits = splits[1].split(",");
 
             if (splits.length != 2) {
-                return false;
+                return fblse;
             }
 
             String width = splits[0].trim();
             String height = splits[1].trim();
 
             if (width.length() < 1 || height.length() < 1) {
-                return false;
+                return fblse;
             }
 
             int w;
             int h;
 
             try {
-                w = Integer.parseInt(width);
-                h = Integer.parseInt(height);
-            } catch (NumberFormatException nfe) {
-                return false;
+                w = Integer.pbrseInt(width);
+                h = Integer.pbrseInt(height);
+            } cbtch (NumberFormbtException nfe) {
+                return fblse;
             }
 
             if (w > 0 && h > 0) {
                 int type = GTKStyle.GTKStockIconInfo.getIconType(size);
                 GTKStyle.GTKStockIconInfo.setIconSize(type, w, h);
             } else {
-                System.err.println("Invalid size in gtk-icon-sizes: " + w + "," + h);
+                System.err.println("Invblid size in gtk-icon-sizes: " + w + "," + h);
             }
         }
 
@@ -1656,83 +1656,83 @@ public class GTKLookAndFeel extends SynthLookAndFeel {
     }
 
     /**
-     * Returns whether or not the UIs should update their
-     * <code>SynthStyles</code> from the <code>SynthStyleFactory</code>
-     * when the ancestor of the Component changes.
+     * Returns whether or not the UIs should updbte their
+     * <code>SynthStyles</code> from the <code>SynthStyleFbctory</code>
+     * when the bncestor of the Component chbnges.
      *
-     * @return whether or not the UIs should update their
-     * <code>SynthStyles</code> from the <code>SynthStyleFactory</code>
-     * when the ancestor changed.
+     * @return whether or not the UIs should updbte their
+     * <code>SynthStyles</code> from the <code>SynthStyleFbctory</code>
+     * when the bncestor chbnged.
      */
-    public boolean shouldUpdateStyleOnAncestorChanged() {
+    public boolebn shouldUpdbteStyleOnAncestorChbnged() {
         return true;
     }
 
     /**
      * {@inheritDoc}
      */
-    public LayoutStyle getLayoutStyle() {
-        return GnomeLayoutStyle.INSTANCE;
+    public LbyoutStyle getLbyoutStyle() {
+        return GnomeLbyoutStyle.INSTANCE;
     }
 
 
     /**
-     * Gnome layout style.  From:
-     * http://developer.gnome.org/projects/gup/hig/2.0/design-window.html#window-layout-spacing
-     * You'll notice this doesn't do the radiobutton/checkbox border
-     * adjustments that windows/metal do.  This is because gtk doesn't
-     * provide margins/insets for checkbox/radiobuttons.
+     * Gnome lbyout style.  From:
+     * http://developer.gnome.org/projects/gup/hig/2.0/design-window.html#window-lbyout-spbcing
+     * You'll notice this doesn't do the rbdiobutton/checkbox border
+     * bdjustments thbt windows/metbl do.  This is becbuse gtk doesn't
+     * provide mbrgins/insets for checkbox/rbdiobuttons.
      */
-    @SuppressWarnings("fallthrough")
-    private static class GnomeLayoutStyle extends DefaultLayoutStyle {
-        private static GnomeLayoutStyle INSTANCE = new GnomeLayoutStyle();
+    @SuppressWbrnings("fbllthrough")
+    privbte stbtic clbss GnomeLbyoutStyle extends DefbultLbyoutStyle {
+        privbte stbtic GnomeLbyoutStyle INSTANCE = new GnomeLbyoutStyle();
 
         @Override
-        public int getPreferredGap(JComponent component1,
-                JComponent component2, ComponentPlacement type, int position,
-                Container parent) {
-            // Checks args
-            super.getPreferredGap(component1, component2, type, position,
-                                  parent);
+        public int getPreferredGbp(JComponent component1,
+                JComponent component2, ComponentPlbcement type, int position,
+                Contbiner pbrent) {
+            // Checks brgs
+            super.getPreferredGbp(component1, component2, type, position,
+                                  pbrent);
 
             switch(type) {
-            case INDENT:
-                if (position == SwingConstants.EAST ||
-                        position == SwingConstants.WEST) {
-                    // Indent group members 12 pixels to denote hierarchy and
-                    // association.
+            cbse INDENT:
+                if (position == SwingConstbnts.EAST ||
+                        position == SwingConstbnts.WEST) {
+                    // Indent group members 12 pixels to denote hierbrchy bnd
+                    // bssocibtion.
                     return 12;
                 }
-                // Fall through to related
-            // As a basic rule of thumb, leave space between user
-            // interface components in increments of 6 pixels, going up as
-            // the relationship between related elements becomes more
-            // distant. For example, between icon labels and associated
-            // graphics within an icon, 6 pixels are adequate. Between
-            // labels and associated components, leave 12 horizontal
-            // pixels. For vertical spacing between groups of components,
-            // 18 pixels is adequate.
+                // Fbll through to relbted
+            // As b bbsic rule of thumb, lebve spbce between user
+            // interfbce components in increments of 6 pixels, going up bs
+            // the relbtionship between relbted elements becomes more
+            // distbnt. For exbmple, between icon lbbels bnd bssocibted
+            // grbphics within bn icon, 6 pixels bre bdequbte. Between
+            // lbbels bnd bssocibted components, lebve 12 horizontbl
+            // pixels. For verticbl spbcing between groups of components,
+            // 18 pixels is bdequbte.
             //
-            // The first part of this is handled automatically by Icon (which
+            // The first pbrt of this is hbndled butombticblly by Icon (which
             // won't give you 6 pixels).
-            case RELATED:
-                if (isLabelAndNonlabel(component1, component2, position)) {
+            cbse RELATED:
+                if (isLbbelAndNonlbbel(component1, component2, position)) {
                     return 12;
                 }
                 return 6;
-            case UNRELATED:
+            cbse UNRELATED:
                 return 12;
             }
             return 0;
         }
 
         @Override
-        public int getContainerGap(JComponent component, int position,
-                                   Container parent) {
-            // Checks args
-            super.getContainerGap(component, position, parent);
-            // A general padding of 12 pixels is
-            // recommended between the contents of a dialog window and the
+        public int getContbinerGbp(JComponent component, int position,
+                                   Contbiner pbrent) {
+            // Checks brgs
+            super.getContbinerGbp(component, position, pbrent);
+            // A generbl pbdding of 12 pixels is
+            // recommended between the contents of b diblog window bnd the
             // window borders.
             return 12;
         }

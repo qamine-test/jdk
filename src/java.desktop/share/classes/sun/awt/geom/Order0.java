@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.geom;
+pbckbge sun.bwt.geom;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.PathIterator;
-import java.util.Vector;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.util.Vector;
 
-final class Order0 extends Curve {
-    private double x;
-    private double y;
+finbl clbss Order0 extends Curve {
+    privbte double x;
+    privbte double y;
 
     public Order0(double x, double y) {
         super(INCREASING);
@@ -63,7 +63,7 @@ final class Order0 extends Curve {
         return x;
     }
 
-    public double getXMax() {
+    public double getXMbx() {
         return x;
     }
 
@@ -107,7 +107,7 @@ final class Order0 extends Curve {
         return 0;
     }
 
-    public double nextVertical(double t0, double t1) {
+    public double nextVerticbl(double t0, double t1) {
         return t1;
     }
 
@@ -115,18 +115,18 @@ final class Order0 extends Curve {
         return 0;
     }
 
-    public boolean accumulateCrossings(Crossings c) {
+    public boolebn bccumulbteCrossings(Crossings c) {
         return (x > c.getXLo() &&
                 x < c.getXHi() &&
                 y > c.getYLo() &&
                 y < c.getYHi());
     }
 
-    public void enlarge(Rectangle2D r) {
-        r.add(x, y);
+    public void enlbrge(Rectbngle2D r) {
+        r.bdd(x, y);
     }
 
-    public Curve getSubCurve(double ystart, double yend, int dir) {
+    public Curve getSubCurve(double ystbrt, double yend, int dir) {
         return this;
     }
 
@@ -137,6 +137,6 @@ final class Order0 extends Curve {
     public int getSegment(double coords[]) {
         coords[0] = x;
         coords[1] = y;
-        return PathIterator.SEG_MOVETO;
+        return PbthIterbtor.SEG_MOVETO;
     }
 }

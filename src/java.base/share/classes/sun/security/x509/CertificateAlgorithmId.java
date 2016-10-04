@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * This class defines the AlgorithmId for the Certificate.
+ * This clbss defines the AlgorithmId for the Certificbte.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class CertificateAlgorithmId implements CertAttrSet<String> {
-    private AlgorithmId algId;
+public clbss CertificbteAlgorithmId implements CertAttrSet<String> {
+    privbte AlgorithmId blgId;
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.algorithmID";
+    public stbtic finbl String IDENT = "x509.info.blgorithmID";
     /**
-     * Sub attributes name for this CertAttrSet.
+     * Sub bttributes nbme for this CertAttrSet.
      */
-    public static final String NAME = "algorithmID";
+    public stbtic finbl String NAME = "blgorithmID";
 
     /**
-     * Identifier to be used with get, set, and delete methods. When
-     * using this identifier the associated object being passed in or
-     * returned is an instance of AlgorithmId.
+     * Identifier to be used with get, set, bnd delete methods. When
+     * using this identifier the bssocibted object being pbssed in or
+     * returned is bn instbnce of AlgorithmId.
      * @see sun.security.x509.AlgorithmId
      */
-    public static final String ALGORITHM = "algorithm";
+    public stbtic finbl String ALGORITHM = "blgorithm";
 
     /**
-     * Default constructor for the certificate attribute.
+     * Defbult constructor for the certificbte bttribute.
      *
-     * @param algId the Algorithm identifier
+     * @pbrbm blgId the Algorithm identifier
      */
-    public CertificateAlgorithmId(AlgorithmId algId) {
-        this.algId = algId;
+    public CertificbteAlgorithmId(AlgorithmId blgId) {
+        this.blgId = blgId;
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crebte the object, decoding the vblues from the pbssed DER strebm.
      *
-     * @param in the DerInputStream to read the serial number from.
+     * @pbrbm in the DerInputStrebm to rebd the seribl number from.
      * @exception IOException on decoding errors.
      */
-    public CertificateAlgorithmId(DerInputStream in) throws IOException {
-        DerValue val = in.getDerValue();
-        algId = AlgorithmId.parse(val);
+    public CertificbteAlgorithmId(DerInputStrebm in) throws IOException {
+        DerVblue vbl = in.getDerVblue();
+        blgId = AlgorithmId.pbrse(vbl);
     }
 
     /**
-     * Create the object, decoding the values from the passed stream.
+     * Crebte the object, decoding the vblues from the pbssed strebm.
      *
-     * @param in the InputStream to read the serial number from.
+     * @pbrbm in the InputStrebm to rebd the seribl number from.
      * @exception IOException on decoding errors.
      */
-    public CertificateAlgorithmId(InputStream in) throws IOException {
-        DerValue val = new DerValue(in);
-        algId = AlgorithmId.parse(val);
+    public CertificbteAlgorithmId(InputStrebm in) throws IOException {
+        DerVblue vbl = new DerVblue(in);
+        blgId = AlgorithmId.pbrse(vbl);
     }
 
     /**
-     * Return the algorithm identifier as user readable string.
+     * Return the blgorithm identifier bs user rebdbble string.
      */
     public String toString() {
-        if (algId == null) return "";
-        return (algId.toString() +
-                ", OID = " + (algId.getOID()).toString() + "\n");
+        if (blgId == null) return "";
+        return (blgId.toString() +
+                ", OID = " + (blgId.getOID()).toString() + "\n");
     }
 
     /**
-     * Encode the algorithm identifier in DER form to the stream.
+     * Encode the blgorithm identifier in DER form to the strebm.
      *
-     * @param out the DerOutputStream to marshal the contents to.
+     * @pbrbm out the DerOutputStrebm to mbrshbl the contents to.
      * @exception IOException on errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        algId.encode(tmp);
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        blgId.encode(tmp);
 
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof AlgorithmId)) {
+    public void set(String nbme, Object obj) throws IOException {
+        if (!(obj instbnceof AlgorithmId)) {
             throw new IOException("Attribute must be of type AlgorithmId.");
         }
-        if (name.equalsIgnoreCase(ALGORITHM)) {
-            algId = (AlgorithmId)obj;
+        if (nbme.equblsIgnoreCbse(ALGORITHM)) {
+            blgId = (AlgorithmId)obj;
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                              "CertAttrSet:CertificateAlgorithmId.");
+            throw new IOException("Attribute nbme not recognized by " +
+                              "CertAttrSet:CertificbteAlgorithmId.");
         }
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public AlgorithmId get(String name) throws IOException {
-        if (name.equalsIgnoreCase(ALGORITHM)) {
-            return (algId);
+    public AlgorithmId get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(ALGORITHM)) {
+            return (blgId);
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                               "CertAttrSet:CertificateAlgorithmId.");
+            throw new IOException("Attribute nbme not recognized by " +
+                               "CertAttrSet:CertificbteAlgorithmId.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(ALGORITHM)) {
-            algId = null;
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(ALGORITHM)) {
+            blgId = null;
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                               "CertAttrSet:CertificateAlgorithmId.");
+            throw new IOException("Attribute nbme not recognized by " +
+                               "CertAttrSet:CertificbteAlgorithmId.");
         }
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(ALGORITHM);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(ALGORITHM);
         return (elements.elements());
     }
 
    /**
-    * Return the name of this attribute.
+    * Return the nbme of this bttribute.
     */
-   public String getName() {
+   public String getNbme() {
       return (NAME);
    }
 }

@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicInternblFrbmeUI;
+import jbvb.bebns.*;
 
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JInternalFrame}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JInternblFrbme}.
  *
- * @author David Kloba
- * @author Joshua Outwater
- * @author Rich Schiavi
+ * @buthor Dbvid Klobb
+ * @buthor Joshub Outwbter
+ * @buthor Rich Schibvi
  * @since 1.7
  */
-public class SynthInternalFrameUI extends BasicInternalFrameUI
-                                  implements SynthUI, PropertyChangeListener {
-    private SynthStyle style;
+public clbss SynthInternblFrbmeUI extends BbsicInternblFrbmeUI
+                                  implements SynthUI, PropertyChbngeListener {
+    privbte SynthStyle style;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param b component to create UI object for
+     * @pbrbm b component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent b) {
-        return new SynthInternalFrameUI((JInternalFrame)b);
+    public stbtic ComponentUI crebteUI(JComponent b) {
+        return new SynthInternblFrbmeUI((JInternblFrbme)b);
     }
 
-    protected SynthInternalFrameUI(JInternalFrame b) {
+    protected SynthInternblFrbmeUI(JInternblFrbme b) {
         super(b);
     }
 
@@ -64,54 +64,54 @@ public class SynthInternalFrameUI extends BasicInternalFrameUI
      * {@inheritDoc}
      */
     @Override
-    public void installDefaults() {
-        frame.setLayout(internalFrameLayout = createLayoutManager());
-        updateStyle(frame);
+    public void instbllDefbults() {
+        frbme.setLbyout(internblFrbmeLbyout = crebteLbyoutMbnbger());
+        updbteStyle(frbme);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        frame.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        frbme.bddPropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallComponents() {
-        if (frame.getComponentPopupMenu() instanceof UIResource) {
-            frame.setComponentPopupMenu(null);
+    protected void uninstbllComponents() {
+        if (frbme.getComponentPopupMenu() instbnceof UIResource) {
+            frbme.setComponentPopupMenu(null);
         }
-        super.uninstallComponents();
+        super.uninstbllComponents();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        frame.removePropertyChangeListener(this);
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        frbme.removePropertyChbngeListener(this);
+        super.uninstbllListeners();
     }
 
-    private void updateStyle(JComponent c) {
+    privbte void updbteStyle(JComponent c) {
         SynthContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (style != oldStyle) {
-            Icon frameIcon = frame.getFrameIcon();
-            if (frameIcon == null || frameIcon instanceof UIResource) {
-                frame.setFrameIcon(context.getStyle().getIcon(
-                                   context, "InternalFrame.icon"));
+            Icon frbmeIcon = frbme.getFrbmeIcon();
+            if (frbmeIcon == null || frbmeIcon instbnceof UIResource) {
+                frbme.setFrbmeIcon(context.getStyle().getIcon(
+                                   context, "InternblFrbme.icon"));
             }
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
@@ -121,13 +121,13 @@ public class SynthInternalFrameUI extends BasicInternalFrameUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(frame, ENABLED);
-        style.uninstallDefaults(context);
+    protected void uninstbllDefbults() {
+        SynthContext context = getContext(frbme, ENABLED);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
-        if(frame.getLayout() == internalFrameLayout) {
-            frame.setLayout(null);
+        if(frbme.getLbyout() == internblFrbmeLbyout) {
+            frbme.setLbyout(null);
         }
 
     }
@@ -137,118 +137,118 @@ public class SynthInternalFrameUI extends BasicInternalFrameUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private int getComponentState(JComponent c) {
-        return SynthLookAndFeel.getComponentState(c);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected JComponent createNorthPane(JInternalFrame w) {
-        titlePane = new SynthInternalFrameTitlePane(w);
-        titlePane.setName("InternalFrame.northPane");
-        return titlePane;
+    privbte int getComponentStbte(JComponent c) {
+        return SynthLookAndFeel.getComponentStbte(c);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected ComponentListener createComponentListener() {
-        if (UIManager.getBoolean("InternalFrame.useTaskBar")) {
-            return new ComponentHandler() {
+    protected JComponent crebteNorthPbne(JInternblFrbme w) {
+        titlePbne = new SynthInternblFrbmeTitlePbne(w);
+        titlePbne.setNbme("InternblFrbme.northPbne");
+        return titlePbne;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected ComponentListener crebteComponentListener() {
+        if (UIMbnbger.getBoolebn("InternblFrbme.useTbskBbr")) {
+            return new ComponentHbndler() {
                 @Override public void componentResized(ComponentEvent e) {
-                    if (frame != null && frame.isMaximum()) {
-                        JDesktopPane desktop = (JDesktopPane)e.getSource();
+                    if (frbme != null && frbme.isMbximum()) {
+                        JDesktopPbne desktop = (JDesktopPbne)e.getSource();
                         for (Component comp : desktop.getComponents()) {
-                            if (comp instanceof SynthDesktopPaneUI.TaskBar) {
-                                frame.setBounds(0, 0,
+                            if (comp instbnceof SynthDesktopPbneUI.TbskBbr) {
+                                frbme.setBounds(0, 0,
                                                 desktop.getWidth(),
                                                 desktop.getHeight() - comp.getHeight());
-                                frame.revalidate();
-                                break;
+                                frbme.revblidbte();
+                                brebk;
                             }
                         }
                     }
 
-                    // Update the new parent bounds for next resize, but don't
-                    // let the super method touch this frame
-                    JInternalFrame f = frame;
-                    frame = null;
+                    // Updbte the new pbrent bounds for next resize, but don't
+                    // let the super method touch this frbme
+                    JInternblFrbme f = frbme;
+                    frbme = null;
                     super.componentResized(e);
-                    frame = f;
+                    frbme = f;
                 }
             };
         } else {
-            return super.createComponentListener();
+            return super.crebteComponentListener();
         }
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintInternalFrameBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintInternblFrbmeBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints the specified component. This implementbtion does nothing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
+    protected void pbint(SynthContext context, Grbphics g) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintInternalFrameBorder(context,
+        context.getPbinter().pbintInternblFrbmeBorder(context,
                                                             g, x, y, w, h);
     }
 
@@ -256,22 +256,22 @@ public class SynthInternalFrameUI extends BasicInternalFrameUI
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChbnge(PropertyChbngeEvent evt) {
         SynthStyle oldStyle = style;
-        JInternalFrame f = (JInternalFrame)evt.getSource();
-        String prop = evt.getPropertyName();
+        JInternblFrbme f = (JInternblFrbme)evt.getSource();
+        String prop = evt.getPropertyNbme();
 
-        if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-            updateStyle(f);
+        if (SynthLookAndFeel.shouldUpdbteStyle(evt)) {
+            updbteStyle(f);
         }
 
         if (style == oldStyle &&
-            (prop == JInternalFrame.IS_MAXIMUM_PROPERTY ||
-             prop == JInternalFrame.IS_SELECTED_PROPERTY)) {
-            // Border (and other defaults) may need to change
+            (prop == JInternblFrbme.IS_MAXIMUM_PROPERTY ||
+             prop == JInternblFrbme.IS_SELECTED_PROPERTY)) {
+            // Border (bnd other defbults) mby need to chbnge
             SynthContext context = getContext(f, ENABLED);
-            style.uninstallDefaults(context);
-            style.installDefaults(context, this);
+            style.uninstbllDefbults(context);
+            style.instbllDefbults(context, this);
         }
     }
 }

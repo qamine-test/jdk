@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.io.Serializable;
-import java.util.*;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.OpenType;
-import javax.management.openmbean.TabularType;
+import jbvb.io.Seriblizbble;
+import jbvb.util.*;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvbx.mbnbgement.openmbebn.OpenType;
+import jbvbx.mbnbgement.openmbebn.TbbulbrType;
 
 /**
- * This abstract class provides the implementation of the CompositeData
- * interface.  A CompositeData object will be lazily created only when
- * the CompositeData interface is used.
+ * This bbstrbct clbss provides the implementbtion of the CompositeDbtb
+ * interfbce.  A CompositeDbtb object will be lbzily crebted only when
+ * the CompositeDbtb interfbce is used.
  *
- * Classes that extends this abstract class will implement the
- * getCompositeData() method. The object returned by the
- * getCompositeData() is an instance of CompositeData such that
- * the instance serializes itself as the type CompositeDataSupport.
+ * Clbsses thbt extends this bbstrbct clbss will implement the
+ * getCompositeDbtb() method. The object returned by the
+ * getCompositeDbtb() is bn instbnce of CompositeDbtb such thbt
+ * the instbnce seriblizes itself bs the type CompositeDbtbSupport.
  */
-public abstract class LazyCompositeData
-        implements CompositeData, Serializable {
+public bbstrbct clbss LbzyCompositeDbtb
+        implements CompositeDbtb, Seriblizbble {
 
-    private CompositeData compositeData;
+    privbte CompositeDbtb compositeDbtb;
 
-    // Implementation of the CompositeData interface
-    public boolean containsKey(String key) {
-        return compositeData().containsKey(key);
+    // Implementbtion of the CompositeDbtb interfbce
+    public boolebn contbinsKey(String key) {
+        return compositeDbtb().contbinsKey(key);
     }
 
-    public boolean containsValue(Object value) {
-        return compositeData().containsValue(value);
+    public boolebn contbinsVblue(Object vblue) {
+        return compositeDbtb().contbinsVblue(vblue);
     }
 
-    public boolean equals(Object obj) {
-        return compositeData().equals(obj);
+    public boolebn equbls(Object obj) {
+        return compositeDbtb().equbls(obj);
     }
 
     public Object get(String key) {
-        return compositeData().get(key);
+        return compositeDbtb().get(key);
     }
 
     public Object[] getAll(String[] keys) {
-        return compositeData().getAll(keys);
+        return compositeDbtb().getAll(keys);
     }
 
     public CompositeType getCompositeType() {
-        return compositeData().getCompositeType();
+        return compositeDbtb().getCompositeType();
     }
 
-    public int hashCode() {
-        return compositeData().hashCode();
+    public int hbshCode() {
+        return compositeDbtb().hbshCode();
     }
 
     public String toString() {
-        /** FIXME: What should this be?? */
-        return compositeData().toString();
+        /** FIXME: Whbt should this be?? */
+        return compositeDbtb().toString();
     }
 
-    public Collection<?> values() {
-        return compositeData().values();
+    public Collection<?> vblues() {
+        return compositeDbtb().vblues();
     }
 
-    /* Lazy creation of a CompositeData object
-     * only when the CompositeData interface is used.
+    /* Lbzy crebtion of b CompositeDbtb object
+     * only when the CompositeDbtb interfbce is used.
      */
-    private synchronized CompositeData compositeData() {
-        if (compositeData != null)
-            return compositeData;
-        compositeData = getCompositeData();
-        return compositeData;
+    privbte synchronized CompositeDbtb compositeDbtb() {
+        if (compositeDbtb != null)
+            return compositeDbtb;
+        compositeDbtb = getCompositeDbtb();
+        return compositeDbtb;
     }
 
     /**
-     * Designate to a CompositeData object when writing to an
-     * output stream during serialization so that the receiver
-     * only requires JMX 1.2 classes but not any implementation
-     * specific class.
+     * Designbte to b CompositeDbtb object when writing to bn
+     * output strebm during seriblizbtion so thbt the receiver
+     * only requires JMX 1.2 clbsses but not bny implementbtion
+     * specific clbss.
      */
-    protected Object writeReplace() throws java.io.ObjectStreamException {
-        return compositeData();
+    protected Object writeReplbce() throws jbvb.io.ObjectStrebmException {
+        return compositeDbtb();
     }
 
     /**
-     * Returns the CompositeData representing this object.
-     * The returned CompositeData object must be an instance
-     * of javax.management.openmbean.CompositeDataSupport class
-     * so that no implementation specific class is required
-     * for unmarshalling besides JMX 1.2 classes.
+     * Returns the CompositeDbtb representing this object.
+     * The returned CompositeDbtb object must be bn instbnce
+     * of jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport clbss
+     * so thbt no implementbtion specific clbss is required
+     * for unmbrshblling besides JMX 1.2 clbsses.
      */
-    protected abstract CompositeData getCompositeData();
+    protected bbstrbct CompositeDbtb getCompositeDbtb();
 
     // Helper methods
-    static String getString(CompositeData cd, String itemName) {
+    stbtic String getString(CompositeDbtb cd, String itemNbme) {
         if (cd == null)
-            throw new IllegalArgumentException("Null CompositeData");
+            throw new IllegblArgumentException("Null CompositeDbtb");
 
-        return (String) cd.get(itemName);
+        return (String) cd.get(itemNbme);
     }
 
-    static boolean getBoolean(CompositeData cd, String itemName) {
+    stbtic boolebn getBoolebn(CompositeDbtb cd, String itemNbme) {
         if (cd == null)
-            throw new IllegalArgumentException("Null CompositeData");
+            throw new IllegblArgumentException("Null CompositeDbtb");
 
-        return ((Boolean) cd.get(itemName)).booleanValue();
+        return ((Boolebn) cd.get(itemNbme)).boolebnVblue();
     }
 
-    static long getLong(CompositeData cd, String itemName) {
+    stbtic long getLong(CompositeDbtb cd, String itemNbme) {
         if (cd == null)
-            throw new IllegalArgumentException("Null CompositeData");
+            throw new IllegblArgumentException("Null CompositeDbtb");
 
-        return ((Long) cd.get(itemName)).longValue();
+        return ((Long) cd.get(itemNbme)).longVblue();
     }
 
-    static int getInt(CompositeData cd, String itemName) {
+    stbtic int getInt(CompositeDbtb cd, String itemNbme) {
         if (cd == null)
-            throw new IllegalArgumentException("Null CompositeData");
+            throw new IllegblArgumentException("Null CompositeDbtb");
 
-        return ((Integer) cd.get(itemName)).intValue();
+        return ((Integer) cd.get(itemNbme)).intVblue();
     }
 
     /**
-     * Compares two CompositeTypes and returns true if
-     * all items in type1 exist in type2 and their item types
-     * are the same.
+     * Compbres two CompositeTypes bnd returns true if
+     * bll items in type1 exist in type2 bnd their item types
+     * bre the sbme.
      */
-    protected static boolean isTypeMatched(CompositeType type1, CompositeType type2) {
+    protected stbtic boolebn isTypeMbtched(CompositeType type1, CompositeType type2) {
         if (type1 == type2) return true;
 
-        // We can't use CompositeType.isValue() since it returns false
-        // if the type name doesn't match.
-        Set<String> allItems = type1.keySet();
+        // We cbn't use CompositeType.isVblue() since it returns fblse
+        // if the type nbme doesn't mbtch.
+        Set<String> bllItems = type1.keySet();
 
-        // Check all items in the type1 exist in type2
-        if (!type2.keySet().containsAll(allItems))
-            return false;
+        // Check bll items in the type1 exist in type2
+        if (!type2.keySet().contbinsAll(bllItems))
+            return fblse;
 
-        for (String item: allItems) {
+        for (String item: bllItems) {
             OpenType<?> ot1 = type1.getType(item);
             OpenType<?> ot2 = type2.getType(item);
-            if (ot1 instanceof CompositeType) {
-                if (! (ot2 instanceof CompositeType))
-                    return false;
-                if (!isTypeMatched((CompositeType) ot1, (CompositeType) ot2))
-                    return false;
-            } else if (ot1 instanceof TabularType) {
-                if (! (ot2 instanceof TabularType))
-                    return false;
-                if (!isTypeMatched((TabularType) ot1, (TabularType) ot2))
-                    return false;
-            } else if (!ot1.equals(ot2)) {
-                return false;
+            if (ot1 instbnceof CompositeType) {
+                if (! (ot2 instbnceof CompositeType))
+                    return fblse;
+                if (!isTypeMbtched((CompositeType) ot1, (CompositeType) ot2))
+                    return fblse;
+            } else if (ot1 instbnceof TbbulbrType) {
+                if (! (ot2 instbnceof TbbulbrType))
+                    return fblse;
+                if (!isTypeMbtched((TbbulbrType) ot1, (TbbulbrType) ot2))
+                    return fblse;
+            } else if (!ot1.equbls(ot2)) {
+                return fblse;
             }
         }
         return true;
     }
 
-    protected static boolean isTypeMatched(TabularType type1, TabularType type2) {
+    protected stbtic boolebn isTypeMbtched(TbbulbrType type1, TbbulbrType type2) {
         if (type1 == type2) return true;
 
-        List<String> list1 = type1.getIndexNames();
-        List<String> list2 = type2.getIndexNames();
+        List<String> list1 = type1.getIndexNbmes();
+        List<String> list2 = type2.getIndexNbmes();
 
-        // check if the list of index names are the same
-        if (!list1.equals(list2))
-            return false;
+        // check if the list of index nbmes bre the sbme
+        if (!list1.equbls(list2))
+            return fblse;
 
-        return isTypeMatched(type1.getRowType(), type2.getRowType());
+        return isTypeMbtched(type1.getRowType(), type2.getRowType());
     }
 
-    private static final long serialVersionUID = -2190411934472666714L;
+    privbte stbtic finbl long seriblVersionUID = -2190411934472666714L;
 }

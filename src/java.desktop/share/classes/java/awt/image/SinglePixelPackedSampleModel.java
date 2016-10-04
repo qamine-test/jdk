@@ -1,801 +1,801 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* ****************************************************************
  ******************************************************************
  ******************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997
- *** As  an unpublished  work pursuant to Title 17 of the United
- *** States Code.  All rights reserved.
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublished  work pursubnt to Title 17 of the United
+ *** Stbtes Code.  All rights reserved.
  ******************************************************************
  ******************************************************************
  ******************************************************************/
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- *  This class represents pixel data packed such that the N samples which make
- *  up a single pixel are stored in a single data array element, and each data
- *  data array element holds samples for only one pixel.
- *  This class supports
- *  {@link DataBuffer#TYPE_BYTE TYPE_BYTE},
- *  {@link DataBuffer#TYPE_USHORT TYPE_USHORT},
- *  {@link DataBuffer#TYPE_INT TYPE_INT} data types.
- *  All data array elements reside
- *  in the first bank of a DataBuffer.  Accessor methods are provided so
- *  that the image data can be manipulated directly. Scanline stride is the
- *  number of data array elements between a given sample and the corresponding
- *  sample in the same column of the next scanline. Bit masks are the masks
- *  required to extract the samples representing the bands of the pixel.
- *  Bit offsets are the offsets in bits into the data array
- *  element of the samples representing the bands of the pixel.
+ *  This clbss represents pixel dbtb pbcked such thbt the N sbmples which mbke
+ *  up b single pixel bre stored in b single dbtb brrby element, bnd ebch dbtb
+ *  dbtb brrby element holds sbmples for only one pixel.
+ *  This clbss supports
+ *  {@link DbtbBuffer#TYPE_BYTE TYPE_BYTE},
+ *  {@link DbtbBuffer#TYPE_USHORT TYPE_USHORT},
+ *  {@link DbtbBuffer#TYPE_INT TYPE_INT} dbtb types.
+ *  All dbtb brrby elements reside
+ *  in the first bbnk of b DbtbBuffer.  Accessor methods bre provided so
+ *  thbt the imbge dbtb cbn be mbnipulbted directly. Scbnline stride is the
+ *  number of dbtb brrby elements between b given sbmple bnd the corresponding
+ *  sbmple in the sbme column of the next scbnline. Bit mbsks bre the mbsks
+ *  required to extrbct the sbmples representing the bbnds of the pixel.
+ *  Bit offsets bre the offsets in bits into the dbtb brrby
+ *  element of the sbmples representing the bbnds of the pixel.
  * <p>
- * The following code illustrates extracting the bits of the sample
- * representing band <code>b</code> for pixel <code>x,y</code>
- * from DataBuffer <code>data</code>:
+ * The following code illustrbtes extrbcting the bits of the sbmple
+ * representing bbnd <code>b</code> for pixel <code>x,y</code>
+ * from DbtbBuffer <code>dbtb</code>:
  * <pre>{@code
- *      int sample = data.getElem(y * scanlineStride + x);
- *      sample = (sample & bitMasks[b]) >>> bitOffsets[b];
+ *      int sbmple = dbtb.getElem(y * scbnlineStride + x);
+ *      sbmple = (sbmple & bitMbsks[b]) >>> bitOffsets[b];
  * }</pre>
  */
 
-public class SinglePixelPackedSampleModel extends SampleModel
+public clbss SinglePixelPbckedSbmpleModel extends SbmpleModel
 {
-    /** Bit masks for all bands of the image data. */
-    private int bitMasks[];
+    /** Bit mbsks for bll bbnds of the imbge dbtb. */
+    privbte int bitMbsks[];
 
-    /** Bit Offsets for all bands of the image data. */
-    private int bitOffsets[];
+    /** Bit Offsets for bll bbnds of the imbge dbtb. */
+    privbte int bitOffsets[];
 
-    /** Bit sizes for all the bands of the image data. */
-    private int bitSizes[];
+    /** Bit sizes for bll the bbnds of the imbge dbtb. */
+    privbte int bitSizes[];
 
-    /** Maximum bit size. */
-    private int maxBitSize;
+    /** Mbximum bit size. */
+    privbte int mbxBitSize;
 
-    /** Line stride of the region of image data described by this
-     *  SinglePixelPackedSampleModel.
+    /** Line stride of the region of imbge dbtb described by this
+     *  SinglePixelPbckedSbmpleModel.
      */
-    private int scanlineStride;
+    privbte int scbnlineStride;
 
-    private static native void initIDs();
-    static {
-        ColorModel.loadLibraries();
+    privbte stbtic nbtive void initIDs();
+    stbtic {
+        ColorModel.lobdLibrbries();
         initIDs();
     }
 
     /**
-     * Constructs a SinglePixelPackedSampleModel with bitMasks.length bands.
-     * Each sample is stored in a data array element in the position of
-     * its corresponding bit mask.  Each bit mask must be contiguous and
-     * masks must not overlap. Bit masks exceeding data type capacity are
-     * truncated.
-     * @param dataType  The data type for storing samples.
-     * @param w         The width (in pixels) of the region of the
-     *                  image data described.
-     * @param h         The height (in pixels) of the region of the
-     *                  image data described.
-     * @param bitMasks  The bit masks for all bands.
-     * @throws IllegalArgumentException if <code>dataType</code> is not
-     *         either <code>DataBuffer.TYPE_BYTE</code>,
-     *         <code>DataBuffer.TYPE_USHORT</code>, or
-     *         <code>DataBuffer.TYPE_INT</code>
+     * Constructs b SinglePixelPbckedSbmpleModel with bitMbsks.length bbnds.
+     * Ebch sbmple is stored in b dbtb brrby element in the position of
+     * its corresponding bit mbsk.  Ebch bit mbsk must be contiguous bnd
+     * mbsks must not overlbp. Bit mbsks exceeding dbtb type cbpbcity bre
+     * truncbted.
+     * @pbrbm dbtbType  The dbtb type for storing sbmples.
+     * @pbrbm w         The width (in pixels) of the region of the
+     *                  imbge dbtb described.
+     * @pbrbm h         The height (in pixels) of the region of the
+     *                  imbge dbtb described.
+     * @pbrbm bitMbsks  The bit mbsks for bll bbnds.
+     * @throws IllegblArgumentException if <code>dbtbType</code> is not
+     *         either <code>DbtbBuffer.TYPE_BYTE</code>,
+     *         <code>DbtbBuffer.TYPE_USHORT</code>, or
+     *         <code>DbtbBuffer.TYPE_INT</code>
      */
-    public SinglePixelPackedSampleModel(int dataType, int w, int h,
-                                   int bitMasks[]) {
-        this(dataType, w, h, w, bitMasks);
-        if (dataType != DataBuffer.TYPE_BYTE &&
-            dataType != DataBuffer.TYPE_USHORT &&
-            dataType != DataBuffer.TYPE_INT) {
-            throw new IllegalArgumentException("Unsupported data type "+
-                                               dataType);
+    public SinglePixelPbckedSbmpleModel(int dbtbType, int w, int h,
+                                   int bitMbsks[]) {
+        this(dbtbType, w, h, w, bitMbsks);
+        if (dbtbType != DbtbBuffer.TYPE_BYTE &&
+            dbtbType != DbtbBuffer.TYPE_USHORT &&
+            dbtbType != DbtbBuffer.TYPE_INT) {
+            throw new IllegblArgumentException("Unsupported dbtb type "+
+                                               dbtbType);
         }
     }
 
     /**
-     * Constructs a SinglePixelPackedSampleModel with bitMasks.length bands
-     * and a scanline stride equal to scanlineStride data array elements.
-     * Each sample is stored in a data array element in the position of
-     * its corresponding bit mask.  Each bit mask must be contiguous and
-     * masks must not overlap. Bit masks exceeding data type capacity are
-     * truncated.
-     * @param dataType  The data type for storing samples.
-     * @param w         The width (in pixels) of the region of
-     *                  image data described.
-     * @param h         The height (in pixels) of the region of
-     *                  image data described.
-     * @param scanlineStride The line stride of the image data.
-     * @param bitMasks The bit masks for all bands.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
-     * @throws IllegalArgumentException if any mask in
-     *         <code>bitMask</code> is not contiguous
-     * @throws IllegalArgumentException if <code>dataType</code> is not
-     *         either <code>DataBuffer.TYPE_BYTE</code>,
-     *         <code>DataBuffer.TYPE_USHORT</code>, or
-     *         <code>DataBuffer.TYPE_INT</code>
+     * Constructs b SinglePixelPbckedSbmpleModel with bitMbsks.length bbnds
+     * bnd b scbnline stride equbl to scbnlineStride dbtb brrby elements.
+     * Ebch sbmple is stored in b dbtb brrby element in the position of
+     * its corresponding bit mbsk.  Ebch bit mbsk must be contiguous bnd
+     * mbsks must not overlbp. Bit mbsks exceeding dbtb type cbpbcity bre
+     * truncbted.
+     * @pbrbm dbtbType  The dbtb type for storing sbmples.
+     * @pbrbm w         The width (in pixels) of the region of
+     *                  imbge dbtb described.
+     * @pbrbm h         The height (in pixels) of the region of
+     *                  imbge dbtb described.
+     * @pbrbm scbnlineStride The line stride of the imbge dbtb.
+     * @pbrbm bitMbsks The bit mbsks for bll bbnds.
+     * @throws IllegblArgumentException if <code>w</code> or
+     *         <code>h</code> is not grebter thbn 0
+     * @throws IllegblArgumentException if bny mbsk in
+     *         <code>bitMbsk</code> is not contiguous
+     * @throws IllegblArgumentException if <code>dbtbType</code> is not
+     *         either <code>DbtbBuffer.TYPE_BYTE</code>,
+     *         <code>DbtbBuffer.TYPE_USHORT</code>, or
+     *         <code>DbtbBuffer.TYPE_INT</code>
      */
-    public SinglePixelPackedSampleModel(int dataType, int w, int h,
-                                   int scanlineStride, int bitMasks[]) {
-        super(dataType, w, h, bitMasks.length);
-        if (dataType != DataBuffer.TYPE_BYTE &&
-            dataType != DataBuffer.TYPE_USHORT &&
-            dataType != DataBuffer.TYPE_INT) {
-            throw new IllegalArgumentException("Unsupported data type "+
-                                               dataType);
+    public SinglePixelPbckedSbmpleModel(int dbtbType, int w, int h,
+                                   int scbnlineStride, int bitMbsks[]) {
+        super(dbtbType, w, h, bitMbsks.length);
+        if (dbtbType != DbtbBuffer.TYPE_BYTE &&
+            dbtbType != DbtbBuffer.TYPE_USHORT &&
+            dbtbType != DbtbBuffer.TYPE_INT) {
+            throw new IllegblArgumentException("Unsupported dbtb type "+
+                                               dbtbType);
         }
-        this.dataType = dataType;
-        this.bitMasks = bitMasks.clone();
-        this.scanlineStride = scanlineStride;
+        this.dbtbType = dbtbType;
+        this.bitMbsks = bitMbsks.clone();
+        this.scbnlineStride = scbnlineStride;
 
-        this.bitOffsets = new int[numBands];
-        this.bitSizes = new int[numBands];
+        this.bitOffsets = new int[numBbnds];
+        this.bitSizes = new int[numBbnds];
 
-        int maxMask = (int)((1L << DataBuffer.getDataTypeSize(dataType)) - 1);
+        int mbxMbsk = (int)((1L << DbtbBuffer.getDbtbTypeSize(dbtbType)) - 1);
 
-        this.maxBitSize = 0;
-        for (int i=0; i<numBands; i++) {
-            int bitOffset = 0, bitSize = 0, mask;
-            this.bitMasks[i] &= maxMask;
-            mask = this.bitMasks[i];
-            if (mask != 0) {
-                while ((mask & 1) == 0) {
-                    mask = mask >>> 1;
+        this.mbxBitSize = 0;
+        for (int i=0; i<numBbnds; i++) {
+            int bitOffset = 0, bitSize = 0, mbsk;
+            this.bitMbsks[i] &= mbxMbsk;
+            mbsk = this.bitMbsks[i];
+            if (mbsk != 0) {
+                while ((mbsk & 1) == 0) {
+                    mbsk = mbsk >>> 1;
                     bitOffset++;
                 }
-                while ((mask & 1) == 1) {
-                    mask = mask >>> 1;
+                while ((mbsk & 1) == 1) {
+                    mbsk = mbsk >>> 1;
                     bitSize++;
                 }
-                if (mask != 0) {
-                    throw new IllegalArgumentException("Mask "+bitMasks[i]+
+                if (mbsk != 0) {
+                    throw new IllegblArgumentException("Mbsk "+bitMbsks[i]+
                                                        " must be contiguous");
                 }
             }
             bitOffsets[i] = bitOffset;
             bitSizes[i] = bitSize;
-            if (bitSize > maxBitSize) {
-                maxBitSize = bitSize;
+            if (bitSize > mbxBitSize) {
+                mbxBitSize = bitSize;
             }
         }
     }
 
     /**
-     * Returns the number of data elements needed to transfer one pixel
-     * via the getDataElements and setDataElements methods.
-     * For a SinglePixelPackedSampleModel, this is one.
+     * Returns the number of dbtb elements needed to trbnsfer one pixel
+     * vib the getDbtbElements bnd setDbtbElements methods.
+     * For b SinglePixelPbckedSbmpleModel, this is one.
      */
-    public int getNumDataElements() {
+    public int getNumDbtbElements() {
         return 1;
     }
 
     /**
-     * Returns the size of the buffer (in data array elements)
-     * needed for a data buffer that matches this
-     * SinglePixelPackedSampleModel.
+     * Returns the size of the buffer (in dbtb brrby elements)
+     * needed for b dbtb buffer thbt mbtches this
+     * SinglePixelPbckedSbmpleModel.
      */
-    private long getBufferSize() {
-      long size = scanlineStride * (height-1) + width;
+    privbte long getBufferSize() {
+      long size = scbnlineStride * (height-1) + width;
       return size;
     }
 
     /**
-     * Creates a new SinglePixelPackedSampleModel with the specified
-     * width and height.  The new SinglePixelPackedSampleModel will have the
-     * same storage data type and bit masks as this
-     * SinglePixelPackedSampleModel.
-     * @param w the width of the resulting <code>SampleModel</code>
-     * @param h the height of the resulting <code>SampleModel</code>
-     * @return a <code>SinglePixelPackedSampleModel</code> with the
-     *         specified width and height.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
+     * Crebtes b new SinglePixelPbckedSbmpleModel with the specified
+     * width bnd height.  The new SinglePixelPbckedSbmpleModel will hbve the
+     * sbme storbge dbtb type bnd bit mbsks bs this
+     * SinglePixelPbckedSbmpleModel.
+     * @pbrbm w the width of the resulting <code>SbmpleModel</code>
+     * @pbrbm h the height of the resulting <code>SbmpleModel</code>
+     * @return b <code>SinglePixelPbckedSbmpleModel</code> with the
+     *         specified width bnd height.
+     * @throws IllegblArgumentException if <code>w</code> or
+     *         <code>h</code> is not grebter thbn 0
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-      SampleModel sampleModel = new SinglePixelPackedSampleModel(dataType, w, h,
-                                                              bitMasks);
-      return sampleModel;
+    public SbmpleModel crebteCompbtibleSbmpleModel(int w, int h) {
+      SbmpleModel sbmpleModel = new SinglePixelPbckedSbmpleModel(dbtbType, w, h,
+                                                              bitMbsks);
+      return sbmpleModel;
     }
 
     /**
-     * Creates a DataBuffer that corresponds to this
-     * SinglePixelPackedSampleModel.  The DataBuffer's data type and size
-     * will be consistent with this SinglePixelPackedSampleModel.  The
-     * DataBuffer will have a single bank.
+     * Crebtes b DbtbBuffer thbt corresponds to this
+     * SinglePixelPbckedSbmpleModel.  The DbtbBuffer's dbtb type bnd size
+     * will be consistent with this SinglePixelPbckedSbmpleModel.  The
+     * DbtbBuffer will hbve b single bbnk.
      */
-    public DataBuffer createDataBuffer() {
-        DataBuffer dataBuffer = null;
+    public DbtbBuffer crebteDbtbBuffer() {
+        DbtbBuffer dbtbBuffer = null;
 
         int size = (int)getBufferSize();
-        switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            dataBuffer = new DataBufferByte(size);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            dataBuffer = new DataBufferUShort(size);
-            break;
-        case DataBuffer.TYPE_INT:
-            dataBuffer = new DataBufferInt(size);
-            break;
+        switch (dbtbType) {
+        cbse DbtbBuffer.TYPE_BYTE:
+            dbtbBuffer = new DbtbBufferByte(size);
+            brebk;
+        cbse DbtbBuffer.TYPE_USHORT:
+            dbtbBuffer = new DbtbBufferUShort(size);
+            brebk;
+        cbse DbtbBuffer.TYPE_INT:
+            dbtbBuffer = new DbtbBufferInt(size);
+            brebk;
         }
-        return dataBuffer;
+        return dbtbBuffer;
     }
 
-    /** Returns the number of bits per sample for all bands. */
-    public int[] getSampleSize() {
+    /** Returns the number of bits per sbmple for bll bbnds. */
+    public int[] getSbmpleSize() {
         return bitSizes.clone();
     }
 
-    /** Returns the number of bits per sample for the specified band. */
-    public int getSampleSize(int band) {
-        return bitSizes[band];
+    /** Returns the number of bits per sbmple for the specified bbnd. */
+    public int getSbmpleSize(int bbnd) {
+        return bitSizes[bbnd];
     }
 
-    /** Returns the offset (in data array elements) of pixel (x,y).
-     *  The data element containing pixel <code>x,y</code>
-     *  can be retrieved from a DataBuffer <code>data</code> with a
-     *  SinglePixelPackedSampleModel <code>sppsm</code> as:
+    /** Returns the offset (in dbtb brrby elements) of pixel (x,y).
+     *  The dbtb element contbining pixel <code>x,y</code>
+     *  cbn be retrieved from b DbtbBuffer <code>dbtb</code> with b
+     *  SinglePixelPbckedSbmpleModel <code>sppsm</code> bs:
      * <pre>
-     *        data.getElem(sppsm.getOffset(x, y));
+     *        dbtb.getElem(sppsm.getOffset(x, y));
      * </pre>
-     * @param x the X coordinate of the specified pixel
-     * @param y the Y coordinate of the specified pixel
+     * @pbrbm x the X coordinbte of the specified pixel
+     * @pbrbm y the Y coordinbte of the specified pixel
      * @return the offset of the specified pixel.
      */
     public int getOffset(int x, int y) {
-        int offset = y * scanlineStride + x;
+        int offset = y * scbnlineStride + x;
         return offset;
     }
 
-    /** Returns the bit offsets into the data array element representing
-     *  a pixel for all bands.
-     *  @return the bit offsets representing a pixel for all bands.
+    /** Returns the bit offsets into the dbtb brrby element representing
+     *  b pixel for bll bbnds.
+     *  @return the bit offsets representing b pixel for bll bbnds.
      */
     public int [] getBitOffsets() {
       return bitOffsets.clone();
     }
 
-    /** Returns the bit masks for all bands.
-     *  @return the bit masks for all bands.
+    /** Returns the bit mbsks for bll bbnds.
+     *  @return the bit mbsks for bll bbnds.
      */
-    public int [] getBitMasks() {
-      return bitMasks.clone();
+    public int [] getBitMbsks() {
+      return bitMbsks.clone();
     }
 
-    /** Returns the scanline stride of this SinglePixelPackedSampleModel.
-     *  @return the scanline stride of this
-     *          <code>SinglePixelPackedSampleModel</code>.
+    /** Returns the scbnline stride of this SinglePixelPbckedSbmpleModel.
+     *  @return the scbnline stride of this
+     *          <code>SinglePixelPbckedSbmpleModel</code>.
      */
-    public int getScanlineStride() {
-      return scanlineStride;
-    }
-
-    /**
-     * This creates a new SinglePixelPackedSampleModel with a subset of the
-     * bands of this SinglePixelPackedSampleModel.  The new
-     * SinglePixelPackedSampleModel can be used with any DataBuffer that the
-     * existing SinglePixelPackedSampleModel can be used with.  The new
-     * SinglePixelPackedSampleModel/DataBuffer combination will represent
-     * an image with a subset of the bands of the original
-     * SinglePixelPackedSampleModel/DataBuffer combination.
-     * @exception RasterFormatException if the length of the bands argument is
-     *                                  greater than the number of bands in
-     *                                  the sample model.
-     */
-    public SampleModel createSubsetSampleModel(int bands[]) {
-        if (bands.length > numBands)
-            throw new RasterFormatException("There are only " +
-                                            numBands +
-                                            " bands");
-        int newBitMasks[] = new int[bands.length];
-        for (int i=0; i<bands.length; i++)
-            newBitMasks[i] = bitMasks[bands[i]];
-
-        return new SinglePixelPackedSampleModel(this.dataType, width, height,
-                                           this.scanlineStride, newBitMasks);
+    public int getScbnlineStride() {
+      return scbnlineStride;
     }
 
     /**
-     * Returns data for a single pixel in a primitive array of type
-     * TransferType.  For a SinglePixelPackedSampleModel, the array will
-     * have one element, and the type will be the same as the storage
-     * data type.  Generally, obj
-     * should be passed in as null, so that the Object will be created
-     * automatically and will be of the right primitive data type.
+     * This crebtes b new SinglePixelPbckedSbmpleModel with b subset of the
+     * bbnds of this SinglePixelPbckedSbmpleModel.  The new
+     * SinglePixelPbckedSbmpleModel cbn be used with bny DbtbBuffer thbt the
+     * existing SinglePixelPbckedSbmpleModel cbn be used with.  The new
+     * SinglePixelPbckedSbmpleModel/DbtbBuffer combinbtion will represent
+     * bn imbge with b subset of the bbnds of the originbl
+     * SinglePixelPbckedSbmpleModel/DbtbBuffer combinbtion.
+     * @exception RbsterFormbtException if the length of the bbnds brgument is
+     *                                  grebter thbn the number of bbnds in
+     *                                  the sbmple model.
+     */
+    public SbmpleModel crebteSubsetSbmpleModel(int bbnds[]) {
+        if (bbnds.length > numBbnds)
+            throw new RbsterFormbtException("There bre only " +
+                                            numBbnds +
+                                            " bbnds");
+        int newBitMbsks[] = new int[bbnds.length];
+        for (int i=0; i<bbnds.length; i++)
+            newBitMbsks[i] = bitMbsks[bbnds[i]];
+
+        return new SinglePixelPbckedSbmpleModel(this.dbtbType, width, height,
+                                           this.scbnlineStride, newBitMbsks);
+    }
+
+    /**
+     * Returns dbtb for b single pixel in b primitive brrby of type
+     * TrbnsferType.  For b SinglePixelPbckedSbmpleModel, the brrby will
+     * hbve one element, bnd the type will be the sbme bs the storbge
+     * dbtb type.  Generblly, obj
+     * should be pbssed in bs null, so thbt the Object will be crebted
+     * butombticblly bnd will be of the right primitive dbtb type.
      * <p>
-     * The following code illustrates transferring data for one pixel from
-     * DataBuffer <code>db1</code>, whose storage layout is described by
-     * SinglePixelPackedSampleModel <code>sppsm1</code>, to
-     * DataBuffer <code>db2</code>, whose storage layout is described by
-     * SinglePixelPackedSampleModel <code>sppsm2</code>.
-     * The transfer will generally be more efficient than using
+     * The following code illustrbtes trbnsferring dbtb for one pixel from
+     * DbtbBuffer <code>db1</code>, whose storbge lbyout is described by
+     * SinglePixelPbckedSbmpleModel <code>sppsm1</code>, to
+     * DbtbBuffer <code>db2</code>, whose storbge lbyout is described by
+     * SinglePixelPbckedSbmpleModel <code>sppsm2</code>.
+     * The trbnsfer will generblly be more efficient thbn using
      * getPixel/setPixel.
      * <pre>
-     *       SinglePixelPackedSampleModel sppsm1, sppsm2;
-     *       DataBufferInt db1, db2;
-     *       sppsm2.setDataElements(x, y, sppsm1.getDataElements(x, y, null,
+     *       SinglePixelPbckedSbmpleModel sppsm1, sppsm2;
+     *       DbtbBufferInt db1, db2;
+     *       sppsm2.setDbtbElements(x, y, sppsm1.getDbtbElements(x, y, null,
      *                              db1), db2);
      * </pre>
-     * Using getDataElements/setDataElements to transfer between two
-     * DataBuffer/SampleModel pairs is legitimate if the SampleModels have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the TransferTypes are the same.
+     * Using getDbtbElements/setDbtbElements to trbnsfer between two
+     * DbtbBuffer/SbmpleModel pbirs is legitimbte if the SbmpleModels hbve
+     * the sbme number of bbnds, corresponding bbnds hbve the sbme number of
+     * bits per sbmple, bnd the TrbnsferTypes bre the sbme.
      * <p>
-     * If obj is non-null, it should be a primitive array of type TransferType.
-     * Otherwise, a ClassCastException is thrown.  An
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if obj is non-null and is not large enough to hold
-     * the pixel data.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param obj       If non-null, a primitive array in which to return
-     *                  the pixel data.
-     * @param data      The DataBuffer containing the image data.
-     * @return the data for the specified pixel.
-     * @see #setDataElements(int, int, Object, DataBuffer)
+     * If obj is non-null, it should be b primitive brrby of type TrbnsferType.
+     * Otherwise, b ClbssCbstException is thrown.  An
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
+     * not in bounds, or if obj is non-null bnd is not lbrge enough to hold
+     * the pixel dbtb.
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm obj       If non-null, b primitive brrby in which to return
+     *                  the pixel dbtb.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the dbtb for the specified pixel.
+     * @see #setDbtbElements(int, int, Object, DbtbBuffer)
      */
-    public Object getDataElements(int x, int y, Object obj, DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public Object getDbtbElements(int x, int y, Object obj, DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
 
-        int type = getTransferType();
+        int type = getTrbnsferType();
 
         switch(type) {
 
-        case DataBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_BYTE:
 
-            byte[] bdata;
-
-            if (obj == null)
-                bdata = new byte[1];
-            else
-                bdata = (byte[])obj;
-
-            bdata[0] = (byte)data.getElem(y * scanlineStride + x);
-
-            obj = (Object)bdata;
-            break;
-
-        case DataBuffer.TYPE_USHORT:
-
-            short[] sdata;
+            byte[] bdbtb;
 
             if (obj == null)
-                sdata = new short[1];
+                bdbtb = new byte[1];
             else
-                sdata = (short[])obj;
+                bdbtb = (byte[])obj;
 
-            sdata[0] = (short)data.getElem(y * scanlineStride + x);
+            bdbtb[0] = (byte)dbtb.getElem(y * scbnlineStride + x);
 
-            obj = (Object)sdata;
-            break;
+            obj = (Object)bdbtb;
+            brebk;
 
-        case DataBuffer.TYPE_INT:
+        cbse DbtbBuffer.TYPE_USHORT:
 
-            int[] idata;
+            short[] sdbtb;
 
             if (obj == null)
-                idata = new int[1];
+                sdbtb = new short[1];
             else
-                idata = (int[])obj;
+                sdbtb = (short[])obj;
 
-            idata[0] = data.getElem(y * scanlineStride + x);
+            sdbtb[0] = (short)dbtb.getElem(y * scbnlineStride + x);
 
-            obj = (Object)idata;
-            break;
+            obj = (Object)sdbtb;
+            brebk;
+
+        cbse DbtbBuffer.TYPE_INT:
+
+            int[] idbtb;
+
+            if (obj == null)
+                idbtb = new int[1];
+            else
+                idbtb = (int[])obj;
+
+            idbtb[0] = dbtb.getElem(y * scbnlineStride + x);
+
+            obj = (Object)idbtb;
+            brebk;
         }
 
         return obj;
     }
 
     /**
-     * Returns all samples in for the specified pixel in an int array.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns bll sbmples in for the specified pixel in bn int brrby.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param iArray    If non-null, returns the samples in this array
-     * @param data      The DataBuffer containing the image data.
-     * @return all samples for the specified pixel.
-     * @see #setPixel(int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm iArrby    If non-null, returns the sbmples in this brrby
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return bll sbmples for the specified pixel.
+     * @see #setPixel(int, int, int[], DbtbBuffer)
      */
-    public int [] getPixel(int x, int y, int iArray[], DataBuffer data) {
+    public int [] getPixel(int x, int y, int iArrby[], DbtbBuffer dbtb) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
         int pixels[];
-        if (iArray == null) {
-            pixels = new int [numBands];
+        if (iArrby == null) {
+            pixels = new int [numBbnds];
         } else {
-            pixels = iArray;
+            pixels = iArrby;
         }
 
-        int value = data.getElem(y * scanlineStride + x);
-        for (int i=0; i<numBands; i++) {
-            pixels[i] = (value & bitMasks[i]) >>> bitOffsets[i];
+        int vblue = dbtb.getElem(y * scbnlineStride + x);
+        for (int i=0; i<numBbnds; i++) {
+            pixels[i] = (vblue & bitMbsks[i]) >>> bitOffsets[i];
         }
         return pixels;
     }
 
     /**
-     * Returns all samples for the specified rectangle of pixels in
-     * an int array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns bll sbmples for the specified rectbngle of pixels in
+     * bn int brrby, one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param iArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return all samples for the specified region of pixels.
-     * @see #setPixels(int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm iArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return bll sbmples for the specified region of pixels.
+     * @see #setPixels(int, int, int, int, int[], DbtbBuffer)
      */
     public int[] getPixels(int x, int y, int w, int h,
-                           int iArray[], DataBuffer data) {
+                           int iArrby[], DbtbBuffer dbtb) {
         int x1 = x + w;
         int y1 = y + h;
 
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 >  height)
         {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
         int pixels[];
-        if (iArray != null) {
-           pixels = iArray;
+        if (iArrby != null) {
+           pixels = iArrby;
         } else {
-           pixels = new int [w*h*numBands];
+           pixels = new int [w*h*numBbnds];
         }
-        int lineOffset = y*scanlineStride + x;
+        int lineOffset = y*scbnlineStride + x;
         int dstOffset = 0;
 
         for (int i = 0; i < h; i++) {
            for (int j = 0; j < w; j++) {
-              int value = data.getElem(lineOffset+j);
-              for (int k=0; k < numBands; k++) {
+              int vblue = dbtb.getElem(lineOffset+j);
+              for (int k=0; k < numBbnds; k++) {
                   pixels[dstOffset++] =
-                     ((value & bitMasks[k]) >>> bitOffsets[k]);
+                     ((vblue & bitMbsks[k]) >>> bitOffsets[k]);
               }
            }
-           lineOffset += scanlineStride;
+           lineOffset += scbnlineStride;
         }
         return pixels;
     }
 
     /**
-     * Returns as int the sample in a specified band for the pixel
-     * located at (x,y).
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns bs int the sbmple in b specified bbnd for the pixel
+     * locbted bt (x,y).
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to return.
-     * @param data      The DataBuffer containing the image data.
-     * @return the sample in a specified band for the specified
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm b         The bbnd to return.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmple in b specified bbnd for the specified
      *         pixel.
-     * @see #setSample(int, int, int, int, DataBuffer)
+     * @see #setSbmple(int, int, int, int, DbtbBuffer)
      */
-    public int getSample(int x, int y, int b, DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public int getSbmple(int x, int y, int b, DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int sample = data.getElem(y * scanlineStride + x);
-        return ((sample & bitMasks[b]) >>> bitOffsets[b]);
+        int sbmple = dbtb.getElem(y * scbnlineStride + x);
+        return ((sbmple & bitMbsks[b]) >>> bitOffsets[b]);
     }
 
     /**
-     * Returns the samples for a specified band for the specified rectangle
-     * of pixels in an int array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Returns the sbmples for b specified bbnd for the specified rectbngle
+     * of pixels in bn int brrby, one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to return.
-     * @param iArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified band for the specified
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm b         The bbnd to return.
+     * @pbrbm iArrby    If non-null, returns the sbmples in this brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @return the sbmples for the specified bbnd for the specified
      *         region of pixels.
-     * @see #setSamples(int, int, int, int, int, int[], DataBuffer)
+     * @see #setSbmples(int, int, int, int, int, int[], DbtbBuffer)
      */
-    public int[] getSamples(int x, int y, int w, int h, int b,
-                           int iArray[], DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public int[] getSbmples(int x, int y, int w, int h, int b,
+                           int iArrby[], DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x + w > width) || (y + h > height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int samples[];
-        if (iArray != null) {
-           samples = iArray;
+        int sbmples[];
+        if (iArrby != null) {
+           sbmples = iArrby;
         } else {
-           samples = new int [w*h];
+           sbmples = new int [w*h];
         }
-        int lineOffset = y*scanlineStride + x;
+        int lineOffset = y*scbnlineStride + x;
         int dstOffset = 0;
 
         for (int i = 0; i < h; i++) {
            for (int j = 0; j < w; j++) {
-              int value = data.getElem(lineOffset+j);
-              samples[dstOffset++] =
-                 ((value & bitMasks[b]) >>> bitOffsets[b]);
+              int vblue = dbtb.getElem(lineOffset+j);
+              sbmples[dstOffset++] =
+                 ((vblue & bitMbsks[b]) >>> bitOffsets[b]);
            }
-           lineOffset += scanlineStride;
+           lineOffset += scbnlineStride;
         }
-        return samples;
+        return sbmples;
     }
 
     /**
-     * Sets the data for a single pixel in the specified DataBuffer from a
-     * primitive array of type TransferType.  For a
-     * SinglePixelPackedSampleModel, only the first element of the array
-     * will hold valid data, and the type of the array must be the same as
-     * the storage data type of the SinglePixelPackedSampleModel.
+     * Sets the dbtb for b single pixel in the specified DbtbBuffer from b
+     * primitive brrby of type TrbnsferType.  For b
+     * SinglePixelPbckedSbmpleModel, only the first element of the brrby
+     * will hold vblid dbtb, bnd the type of the brrby must be the sbme bs
+     * the storbge dbtb type of the SinglePixelPbckedSbmpleModel.
      * <p>
-     * The following code illustrates transferring data for one pixel from
-     * DataBuffer <code>db1</code>, whose storage layout is described by
-     * SinglePixelPackedSampleModel <code>sppsm1</code>,
-     * to DataBuffer <code>db2</code>, whose storage layout is described by
-     * SinglePixelPackedSampleModel <code>sppsm2</code>.
-     * The transfer will generally be more efficient than using
+     * The following code illustrbtes trbnsferring dbtb for one pixel from
+     * DbtbBuffer <code>db1</code>, whose storbge lbyout is described by
+     * SinglePixelPbckedSbmpleModel <code>sppsm1</code>,
+     * to DbtbBuffer <code>db2</code>, whose storbge lbyout is described by
+     * SinglePixelPbckedSbmpleModel <code>sppsm2</code>.
+     * The trbnsfer will generblly be more efficient thbn using
      * getPixel/setPixel.
      * <pre>
-     *       SinglePixelPackedSampleModel sppsm1, sppsm2;
-     *       DataBufferInt db1, db2;
-     *       sppsm2.setDataElements(x, y, sppsm1.getDataElements(x, y, null,
+     *       SinglePixelPbckedSbmpleModel sppsm1, sppsm2;
+     *       DbtbBufferInt db1, db2;
+     *       sppsm2.setDbtbElements(x, y, sppsm1.getDbtbElements(x, y, null,
      *                              db1), db2);
      * </pre>
-     * Using getDataElements/setDataElements to transfer between two
-     * DataBuffer/SampleModel pairs is legitimate if the SampleModels have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the TransferTypes are the same.
+     * Using getDbtbElements/setDbtbElements to trbnsfer between two
+     * DbtbBuffer/SbmpleModel pbirs is legitimbte if the SbmpleModels hbve
+     * the sbme number of bbnds, corresponding bbnds hbve the sbme number of
+     * bits per sbmple, bnd the TrbnsferTypes bre the sbme.
      * <p>
-     * obj must be a primitive array of type TransferType.  Otherwise,
-     * a ClassCastException is thrown.  An
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if obj is not large enough to hold the pixel data.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param obj       A primitive array containing pixel data.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getDataElements(int, int, Object, DataBuffer)
+     * obj must be b primitive brrby of type TrbnsferType.  Otherwise,
+     * b ClbssCbstException is thrown.  An
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
+     * not in bounds, or if obj is not lbrge enough to hold the pixel dbtb.
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm obj       A primitive brrby contbining pixel dbtb.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getDbtbElements(int, int, Object, DbtbBuffer)
      */
-    public void setDataElements(int x, int y, Object obj, DataBuffer data) {
+    public void setDbtbElements(int x, int y, Object obj, DbtbBuffer dbtb) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
 
-        int type = getTransferType();
+        int type = getTrbnsferType();
 
         switch(type) {
 
-        case DataBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_BYTE:
 
-            byte[] barray = (byte[])obj;
-            data.setElem(y*scanlineStride+x, ((int)barray[0])&0xff);
-            break;
+            byte[] bbrrby = (byte[])obj;
+            dbtb.setElem(y*scbnlineStride+x, ((int)bbrrby[0])&0xff);
+            brebk;
 
-        case DataBuffer.TYPE_USHORT:
+        cbse DbtbBuffer.TYPE_USHORT:
 
-            short[] sarray = (short[])obj;
-            data.setElem(y*scanlineStride+x, ((int)sarray[0])&0xffff);
-            break;
+            short[] sbrrby = (short[])obj;
+            dbtb.setElem(y*scbnlineStride+x, ((int)sbrrby[0])&0xffff);
+            brebk;
 
-        case DataBuffer.TYPE_INT:
+        cbse DbtbBuffer.TYPE_INT:
 
-            int[] iarray = (int[])obj;
-            data.setElem(y*scanlineStride+x, iarray[0]);
-            break;
+            int[] ibrrby = (int[])obj;
+            dbtb.setElem(y*scbnlineStride+x, ibrrby[0]);
+            brebk;
         }
     }
 
     /**
-     * Sets a pixel in the DataBuffer using an int array of samples for input.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b pixel in the DbtbBuffer using bn int brrby of sbmples for input.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param iArray    The input samples in an int array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixel(int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm iArrby    The input sbmples in bn int brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getPixel(int, int, int[], DbtbBuffer)
      */
     public void setPixel(int x, int y,
-                         int iArray[],
-                         DataBuffer data) {
+                         int iArrby[],
+                         DbtbBuffer dbtb) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int lineOffset = y * scanlineStride + x;
-        int value = data.getElem(lineOffset);
-        for (int i=0; i < numBands; i++) {
-            value &= ~bitMasks[i];
-            value |= ((iArray[i] << bitOffsets[i]) & bitMasks[i]);
+        int lineOffset = y * scbnlineStride + x;
+        int vblue = dbtb.getElem(lineOffset);
+        for (int i=0; i < numBbnds; i++) {
+            vblue &= ~bitMbsks[i];
+            vblue |= ((iArrby[i] << bitOffsets[i]) & bitMbsks[i]);
         }
-        data.setElem(lineOffset, value);
+        dbtb.setElem(lineOffset, vblue);
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from an int array containing
-     * one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets bll sbmples for b rectbngle of pixels from bn int brrby contbining
+     * one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param iArray    The input samples in an int array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixels(int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm iArrby    The input sbmples in bn int brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getPixels(int, int, int, int, int[], DbtbBuffer)
      */
     public void setPixels(int x, int y, int w, int h,
-                          int iArray[], DataBuffer data) {
+                          int iArrby[], DbtbBuffer dbtb) {
         int x1 = x + w;
         int y1 = y + h;
 
         if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
             y < 0 || y >= height || h > height || y1 < 0 || y1 >  height)
         {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
 
-        int lineOffset = y*scanlineStride + x;
+        int lineOffset = y*scbnlineStride + x;
         int srcOffset = 0;
 
         for (int i = 0; i < h; i++) {
            for (int j = 0; j < w; j++) {
-               int value = data.getElem(lineOffset+j);
-               for (int k=0; k < numBands; k++) {
-                   value &= ~bitMasks[k];
-                   int srcValue = iArray[srcOffset++];
-                   value |= ((srcValue << bitOffsets[k])
-                             & bitMasks[k]);
+               int vblue = dbtb.getElem(lineOffset+j);
+               for (int k=0; k < numBbnds; k++) {
+                   vblue &= ~bitMbsks[k];
+                   int srcVblue = iArrby[srcOffset++];
+                   vblue |= ((srcVblue << bitOffsets[k])
+                             & bitMbsks[k]);
                }
-               data.setElem(lineOffset+j, value);
+               dbtb.setElem(lineOffset+j, vblue);
            }
-           lineOffset += scanlineStride;
+           lineOffset += scbnlineStride;
         }
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the DataBuffer using an int for input.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the DbtbBuffer using bn int for input.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to set.
-     * @param s         The input sample as an int.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSample(int, int, int, DataBuffer)
+     * @pbrbm x         The X coordinbte of the pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the pixel locbtion.
+     * @pbrbm b         The bbnd to set.
+     * @pbrbm s         The input sbmple bs bn int.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getSbmple(int, int, int, DbtbBuffer)
      */
-    public void setSample(int x, int y, int b, int s,
-                          DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public void setSbmple(int x, int y, int b, int s,
+                          DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int value = data.getElem(y*scanlineStride + x);
-        value &= ~bitMasks[b];
-        value |= (s << bitOffsets[b]) & bitMasks[b];
-        data.setElem(y*scanlineStride + x,value);
+        int vblue = dbtb.getElem(y*scbnlineStride + x);
+        vblue &= ~bitMbsks[b];
+        vblue |= (s << bitOffsets[b]) & bitMbsks[b];
+        dbtb.setElem(y*scbnlineStride + x,vblue);
     }
 
     /**
-     * Sets the samples in the specified band for the specified rectangle
-     * of pixels from an int array containing one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets the sbmples in the specified bbnd for the specified rectbngle
+     * of pixels from bn int brrby contbining one sbmple per brrby element.
+     * ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to set.
-     * @param iArray    The input samples in an int array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSamples(int, int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y         The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w         The width of the pixel rectbngle.
+     * @pbrbm h         The height of the pixel rectbngle.
+     * @pbrbm b         The bbnd to set.
+     * @pbrbm iArrby    The input sbmples in bn int brrby.
+     * @pbrbm dbtb      The DbtbBuffer contbining the imbge dbtb.
+     * @see #getSbmples(int, int, int, int, int, int[], DbtbBuffer)
      */
-    public void setSamples(int x, int y, int w, int h, int b,
-                          int iArray[], DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
+    public void setSbmples(int x, int y, int w, int h, int b,
+                          int iArrby[], DbtbBuffer dbtb) {
+        // Bounds check for 'b' will be performed butombticblly
         if ((x < 0) || (y < 0) || (x + w > width) || (y + h > height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        int lineOffset = y*scanlineStride + x;
+        int lineOffset = y*scbnlineStride + x;
         int srcOffset = 0;
 
         for (int i = 0; i < h; i++) {
            for (int j = 0; j < w; j++) {
-              int value = data.getElem(lineOffset+j);
-              value &= ~bitMasks[b];
-              int sample = iArray[srcOffset++];
-              value |= (sample << bitOffsets[b]) & bitMasks[b];
-              data.setElem(lineOffset+j,value);
+              int vblue = dbtb.getElem(lineOffset+j);
+              vblue &= ~bitMbsks[b];
+              int sbmple = iArrby[srcOffset++];
+              vblue |= (sbmple << bitOffsets[b]) & bitMbsks[b];
+              dbtb.setElem(lineOffset+j,vblue);
            }
-           lineOffset += scanlineStride;
+           lineOffset += scbnlineStride;
         }
     }
 
-    public boolean equals(Object o) {
-        if ((o == null) || !(o instanceof SinglePixelPackedSampleModel)) {
-            return false;
+    public boolebn equbls(Object o) {
+        if ((o == null) || !(o instbnceof SinglePixelPbckedSbmpleModel)) {
+            return fblse;
         }
 
-        SinglePixelPackedSampleModel that = (SinglePixelPackedSampleModel)o;
-        return this.width == that.width &&
-            this.height == that.height &&
-            this.numBands == that.numBands &&
-            this.dataType == that.dataType &&
-            Arrays.equals(this.bitMasks, that.bitMasks) &&
-            Arrays.equals(this.bitOffsets, that.bitOffsets) &&
-            Arrays.equals(this.bitSizes, that.bitSizes) &&
-            this.maxBitSize == that.maxBitSize &&
-            this.scanlineStride == that.scanlineStride;
+        SinglePixelPbckedSbmpleModel thbt = (SinglePixelPbckedSbmpleModel)o;
+        return this.width == thbt.width &&
+            this.height == thbt.height &&
+            this.numBbnds == thbt.numBbnds &&
+            this.dbtbType == thbt.dbtbType &&
+            Arrbys.equbls(this.bitMbsks, thbt.bitMbsks) &&
+            Arrbys.equbls(this.bitOffsets, thbt.bitOffsets) &&
+            Arrbys.equbls(this.bitSizes, thbt.bitSizes) &&
+            this.mbxBitSize == thbt.mbxBitSize &&
+            this.scbnlineStride == thbt.scbnlineStride;
     }
 
-    // If we implement equals() we must also implement hashCode
-    public int hashCode() {
-        int hash = 0;
-        hash = width;
-        hash <<= 8;
-        hash ^= height;
-        hash <<= 8;
-        hash ^= numBands;
-        hash <<= 8;
-        hash ^= dataType;
-        hash <<= 8;
-        for (int i = 0; i < bitMasks.length; i++) {
-            hash ^= bitMasks[i];
-            hash <<= 8;
+    // If we implement equbls() we must blso implement hbshCode
+    public int hbshCode() {
+        int hbsh = 0;
+        hbsh = width;
+        hbsh <<= 8;
+        hbsh ^= height;
+        hbsh <<= 8;
+        hbsh ^= numBbnds;
+        hbsh <<= 8;
+        hbsh ^= dbtbType;
+        hbsh <<= 8;
+        for (int i = 0; i < bitMbsks.length; i++) {
+            hbsh ^= bitMbsks[i];
+            hbsh <<= 8;
         }
         for (int i = 0; i < bitOffsets.length; i++) {
-            hash ^= bitOffsets[i];
-            hash <<= 8;
+            hbsh ^= bitOffsets[i];
+            hbsh <<= 8;
         }
         for (int i = 0; i < bitSizes.length; i++) {
-            hash ^= bitSizes[i];
-            hash <<= 8;
+            hbsh ^= bitSizes[i];
+            hbsh <<= 8;
         }
-        hash ^= maxBitSize;
-        hash <<= 8;
-        hash ^= scanlineStride;
-        return hash;
+        hbsh ^= mbxBitSize;
+        hbsh <<= 8;
+        hbsh ^= scbnlineStride;
+        return hbsh;
     }
 }

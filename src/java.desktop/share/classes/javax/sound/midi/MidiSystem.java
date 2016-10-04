@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
-import java.io.FileInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.File;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Set;
 
-import java.net.URL;
+import jbvb.net.URL;
 
-import javax.sound.midi.spi.MidiFileWriter;
-import javax.sound.midi.spi.MidiFileReader;
-import javax.sound.midi.spi.SoundbankReader;
-import javax.sound.midi.spi.MidiDeviceProvider;
+import jbvbx.sound.midi.spi.MidiFileWriter;
+import jbvbx.sound.midi.spi.MidiFileRebder;
+import jbvbx.sound.midi.spi.SoundbbnkRebder;
+import jbvbx.sound.midi.spi.MidiDeviceProvider;
 
-import com.sun.media.sound.JDK13Services;
-import com.sun.media.sound.ReferenceCountingDevice;
-import com.sun.media.sound.AutoConnectSequencer;
-import com.sun.media.sound.MidiDeviceReceiverEnvelope;
-import com.sun.media.sound.MidiDeviceTransmitterEnvelope;
+import com.sun.medib.sound.JDK13Services;
+import com.sun.medib.sound.ReferenceCountingDevice;
+import com.sun.medib.sound.AutoConnectSequencer;
+import com.sun.medib.sound.MidiDeviceReceiverEnvelope;
+import com.sun.medib.sound.MidiDeviceTrbnsmitterEnvelope;
 
 
 /**
- * The <code>MidiSystem</code> class provides access to the installed MIDI
- * system resources, including devices such as synthesizers, sequencers, and
- * MIDI input and output ports.  A typical simple MIDI application might
- * begin by invoking one or more <code>MidiSystem</code> methods to learn
- * what devices are installed and to obtain the ones needed in that
- * application.
+ * The <code>MidiSystem</code> clbss provides bccess to the instblled MIDI
+ * system resources, including devices such bs synthesizers, sequencers, bnd
+ * MIDI input bnd output ports.  A typicbl simple MIDI bpplicbtion might
+ * begin by invoking one or more <code>MidiSystem</code> methods to lebrn
+ * whbt devices bre instblled bnd to obtbin the ones needed in thbt
+ * bpplicbtion.
  * <p>
- * The class also has methods for reading files, streams, and  URLs that
- * contain standard MIDI file data or soundbanks.  You can query the
- * <code>MidiSystem</code> for the format of a specified MIDI file.
+ * The clbss blso hbs methods for rebding files, strebms, bnd  URLs thbt
+ * contbin stbndbrd MIDI file dbtb or soundbbnks.  You cbn query the
+ * <code>MidiSystem</code> for the formbt of b specified MIDI file.
  * <p>
- * You cannot instantiate a <code>MidiSystem</code>; all the methods are
- * static.
+ * You cbnnot instbntibte b <code>MidiSystem</code>; bll the methods bre
+ * stbtic.
  *
- * <p>Properties can be used to specify default MIDI devices.
- * Both system properties and a properties file are considered.
- * The <code>sound.properties</code> properties file is read from
- * an implementation-specific location (typically it is the <code>lib</code>
- * directory in the Java installation directory).
- * If a property exists both as a system property and in the
- * properties file, the system property takes precedence. If none is
- * specified, a suitable default is chosen among the available devices.
- * The syntax of the properties file is specified in
- * {@link java.util.Properties#load(InputStream) Properties.load}. The
- * following table lists the available property keys and which methods
+ * <p>Properties cbn be used to specify defbult MIDI devices.
+ * Both system properties bnd b properties file bre considered.
+ * The <code>sound.properties</code> properties file is rebd from
+ * bn implementbtion-specific locbtion (typicblly it is the <code>lib</code>
+ * directory in the Jbvb instbllbtion directory).
+ * If b property exists both bs b system property bnd in the
+ * properties file, the system property tbkes precedence. If none is
+ * specified, b suitbble defbult is chosen bmong the bvbilbble devices.
+ * The syntbx of the properties file is specified in
+ * {@link jbvb.util.Properties#lobd(InputStrebm) Properties.lobd}. The
+ * following tbble lists the bvbilbble property keys bnd which methods
  * consider them:
  *
- * <table border=0>
- *  <caption>MIDI System Property Keys</caption>
+ * <tbble border=0>
+ *  <cbption>MIDI System Property Keys</cbption>
  *  <tr>
  *   <th>Property Key</th>
- *   <th>Interface</th>
+ *   <th>Interfbce</th>
  *   <th>Affected Method</th>
  *  </tr>
  *  <tr>
- *   <td><code>javax.sound.midi.Receiver</code></td>
+ *   <td><code>jbvbx.sound.midi.Receiver</code></td>
  *   <td>{@link Receiver}</td>
  *   <td>{@link #getReceiver}</td>
  *  </tr>
  *  <tr>
- *   <td><code>javax.sound.midi.Sequencer</code></td>
+ *   <td><code>jbvbx.sound.midi.Sequencer</code></td>
  *   <td>{@link Sequencer}</td>
  *   <td>{@link #getSequencer}</td>
  *  </tr>
  *  <tr>
- *   <td><code>javax.sound.midi.Synthesizer</code></td>
+ *   <td><code>jbvbx.sound.midi.Synthesizer</code></td>
  *   <td>{@link Synthesizer}</td>
  *   <td>{@link #getSynthesizer}</td>
  *  </tr>
  *  <tr>
- *   <td><code>javax.sound.midi.Transmitter</code></td>
- *   <td>{@link Transmitter}</td>
- *   <td>{@link #getTransmitter}</td>
+ *   <td><code>jbvbx.sound.midi.Trbnsmitter</code></td>
+ *   <td>{@link Trbnsmitter}</td>
+ *   <td>{@link #getTrbnsmitter}</td>
  *  </tr>
- * </table>
+ * </tbble>
  *
- * The property value consists of the provider class name
- * and the device name, separated by the hash mark (&quot;#&quot;).
- * The provider class name is the fully-qualified
- * name of a concrete {@link javax.sound.midi.spi.MidiDeviceProvider
- * MIDI device provider} class. The device name is matched against
- * the <code>String</code> returned by the <code>getName</code>
+ * The property vblue consists of the provider clbss nbme
+ * bnd the device nbme, sepbrbted by the hbsh mbrk (&quot;#&quot;).
+ * The provider clbss nbme is the fully-qublified
+ * nbme of b concrete {@link jbvbx.sound.midi.spi.MidiDeviceProvider
+ * MIDI device provider} clbss. The device nbme is mbtched bgbinst
+ * the <code>String</code> returned by the <code>getNbme</code>
  * method of <code>MidiDevice.Info</code>.
- * Either the class name, or the device name may be omitted.
- * If only the class name is specified, the trailing hash mark
- * is optional.
+ * Either the clbss nbme, or the device nbme mby be omitted.
+ * If only the clbss nbme is specified, the trbiling hbsh mbrk
+ * is optionbl.
  *
- * <p>If the provider class is specified, and it can be
- * successfully retrieved from the installed providers,
+ * <p>If the provider clbss is specified, bnd it cbn be
+ * successfully retrieved from the instblled providers,
  * the list of
  * <code>MidiDevice.Info</code> objects is retrieved
  * from the provider. Otherwise, or when these devices
- * do not provide a subsequent match, the list is retrieved
- * from {@link #getMidiDeviceInfo} to contain
- * all available <code>MidiDevice.Info</code> objects.
+ * do not provide b subsequent mbtch, the list is retrieved
+ * from {@link #getMidiDeviceInfo} to contbin
+ * bll bvbilbble <code>MidiDevice.Info</code> objects.
  *
- * <p>If a device name is specified, the resulting list of
- * <code>MidiDevice.Info</code> objects is searched:
- * the first one with a matching name, and whose
+ * <p>If b device nbme is specified, the resulting list of
+ * <code>MidiDevice.Info</code> objects is sebrched:
+ * the first one with b mbtching nbme, bnd whose
  * <code>MidiDevice</code> implements the
- * respective interface, will be returned.
- * If no matching <code>MidiDevice.Info</code> object
- * is found, or the device name is not specified,
- * the first suitable device from the resulting
- * list will be returned. For Sequencer and Synthesizer,
- * a device is suitable if it implements the respective
- * interface; whereas for Receiver and Transmitter, a device is
- * suitable if it
- * implements neither Sequencer nor Synthesizer and provides
- * at least one Receiver or Transmitter, respectively.
+ * respective interfbce, will be returned.
+ * If no mbtching <code>MidiDevice.Info</code> object
+ * is found, or the device nbme is not specified,
+ * the first suitbble device from the resulting
+ * list will be returned. For Sequencer bnd Synthesizer,
+ * b device is suitbble if it implements the respective
+ * interfbce; wherebs for Receiver bnd Trbnsmitter, b device is
+ * suitbble if it
+ * implements neither Sequencer nor Synthesizer bnd provides
+ * bt lebst one Receiver or Trbnsmitter, respectively.
  *
- * For example, the property <code>javax.sound.midi.Receiver</code>
- * with a value
- * <code>&quot;com.sun.media.sound.MidiProvider#SunMIDI1&quot;</code>
- * will have the following consequences when
- * <code>getReceiver</code> is called:
- * if the class <code>com.sun.media.sound.MidiProvider</code> exists
- * in the list of installed MIDI device providers,
- * the first <code>Receiver</code> device with name
- * <code>&quot;SunMIDI1&quot;</code> will be returned. If it cannot
- * be found, the first <code>Receiver</code> from that provider
- * will be returned, regardless of name.
- * If there is none, the first <code>Receiver</code> with name
- * <code>&quot;SunMIDI1&quot;</code> in the list of all devices
- * (as returned by <code>getMidiDeviceInfo</code>) will be returned,
- * or, if not found, the first <code>Receiver</code> that can
- * be found in the list of all devices is returned.
- * If that fails, too, a <code>MidiUnavailableException</code>
+ * For exbmple, the property <code>jbvbx.sound.midi.Receiver</code>
+ * with b vblue
+ * <code>&quot;com.sun.medib.sound.MidiProvider#SunMIDI1&quot;</code>
+ * will hbve the following consequences when
+ * <code>getReceiver</code> is cblled:
+ * if the clbss <code>com.sun.medib.sound.MidiProvider</code> exists
+ * in the list of instblled MIDI device providers,
+ * the first <code>Receiver</code> device with nbme
+ * <code>&quot;SunMIDI1&quot;</code> will be returned. If it cbnnot
+ * be found, the first <code>Receiver</code> from thbt provider
+ * will be returned, regbrdless of nbme.
+ * If there is none, the first <code>Receiver</code> with nbme
+ * <code>&quot;SunMIDI1&quot;</code> in the list of bll devices
+ * (bs returned by <code>getMidiDeviceInfo</code>) will be returned,
+ * or, if not found, the first <code>Receiver</code> thbt cbn
+ * be found in the list of bll devices is returned.
+ * If thbt fbils, too, b <code>MidiUnbvbilbbleException</code>
  * is thrown.
  *
- * @author Kara Kytle
- * @author Florian Bomers
- * @author Matthias Pfisterer
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
+ * @buthor Mbtthibs Pfisterer
  */
-public class MidiSystem {
+public clbss MidiSystem {
 
     /**
-     * Private no-args constructor for ensuring against instantiation.
+     * Privbte no-brgs constructor for ensuring bgbinst instbntibtion.
      */
-    private MidiSystem() {
+    privbte MidiSystem() {
     }
 
 
     /**
-     * Obtains an array of information objects representing
-     * the set of all MIDI devices available on the system.
-     * A returned information object can then be used to obtain the
+     * Obtbins bn brrby of informbtion objects representing
+     * the set of bll MIDI devices bvbilbble on the system.
+     * A returned informbtion object cbn then be used to obtbin the
      * corresponding device object, by invoking
      * {@link #getMidiDevice(MidiDevice.Info) getMidiDevice}.
      *
-     * @return an array of <code>MidiDevice.Info</code> objects, one
-     * for each installed MIDI device.  If no such devices are installed,
-     * an array of length 0 is returned.
+     * @return bn brrby of <code>MidiDevice.Info</code> objects, one
+     * for ebch instblled MIDI device.  If no such devices bre instblled,
+     * bn brrby of length 0 is returned.
      */
-    public static MidiDevice.Info[] getMidiDeviceInfo() {
-        List<MidiDevice.Info> allInfos = new ArrayList<>();
+    public stbtic MidiDevice.Info[] getMidiDeviceInfo() {
+        List<MidiDevice.Info> bllInfos = new ArrbyList<>();
         List<MidiDeviceProvider> providers = getMidiDeviceProviders();
 
         for(int i = 0; i < providers.size(); i++) {
             MidiDeviceProvider provider = providers.get(i);
             MidiDevice.Info[] tmpinfo = provider.getDeviceInfo();
             for (int j = 0; j < tmpinfo.length; j++) {
-                allInfos.add( tmpinfo[j] );
+                bllInfos.bdd( tmpinfo[j] );
             }
         }
-        MidiDevice.Info[] infosArray = allInfos.toArray(new MidiDevice.Info[0]);
-        return infosArray;
+        MidiDevice.Info[] infosArrby = bllInfos.toArrby(new MidiDevice.Info[0]);
+        return infosArrby;
     }
 
 
     /**
-     * Obtains the requested MIDI device.
+     * Obtbins the requested MIDI device.
      *
-     * @param info a device information object representing the desired device.
+     * @pbrbm info b device informbtion object representing the desired device.
      * @return the requested device
-     * @throws MidiUnavailableException if the requested device is not available
+     * @throws MidiUnbvbilbbleException if the requested device is not bvbilbble
      * due to resource restrictions
-     * @throws IllegalArgumentException if the info object does not represent
-     * a MIDI device installed on the system
+     * @throws IllegblArgumentException if the info object does not represent
+     * b MIDI device instblled on the system
      * @see #getMidiDeviceInfo
      */
-    public static MidiDevice getMidiDevice(MidiDevice.Info info) throws MidiUnavailableException {
+    public stbtic MidiDevice getMidiDevice(MidiDevice.Info info) throws MidiUnbvbilbbleException {
         List<MidiDeviceProvider> providers = getMidiDeviceProviders();
 
         for(int i = 0; i < providers.size(); i++) {
@@ -223,58 +223,58 @@ public class MidiSystem {
                 return device;
             }
         }
-        throw new IllegalArgumentException("Requested device not installed: " + info);
+        throw new IllegblArgumentException("Requested device not instblled: " + info);
     }
 
 
     /**
-     * Obtains a MIDI receiver from an external MIDI port
-     * or other default device.
-     * The returned receiver always implements
-     * the {@code MidiDeviceReceiver} interface.
+     * Obtbins b MIDI receiver from bn externbl MIDI port
+     * or other defbult device.
+     * The returned receiver blwbys implements
+     * the {@code MidiDeviceReceiver} interfbce.
      *
      * <p>If the system property
-     * <code>javax.sound.midi.Receiver</code>
+     * <code>jbvbx.sound.midi.Receiver</code>
      * is defined or it is defined in the file &quot;sound.properties&quot;,
-     * it is used to identify the device that provides the default receiver.
-     * For details, refer to the {@link MidiSystem class description}.
+     * it is used to identify the device thbt provides the defbult receiver.
+     * For detbils, refer to the {@link MidiSystem clbss description}.
      *
-     * If a suitable MIDI port is not available, the Receiver is
-     * retrieved from an installed synthesizer.
+     * If b suitbble MIDI port is not bvbilbble, the Receiver is
+     * retrieved from bn instblled synthesizer.
      *
-     * <p>If a native receiver provided by the default device does not implement
-     * the {@code MidiDeviceReceiver} interface, it will be wrapped in a
-     * wrapper class that implements the {@code MidiDeviceReceiver} interface.
-     * The corresponding {@code Receiver} method calls will be forwarded
-     * to the native receiver.
+     * <p>If b nbtive receiver provided by the defbult device does not implement
+     * the {@code MidiDeviceReceiver} interfbce, it will be wrbpped in b
+     * wrbpper clbss thbt implements the {@code MidiDeviceReceiver} interfbce.
+     * The corresponding {@code Receiver} method cblls will be forwbrded
+     * to the nbtive receiver.
      *
      * <p>If this method returns successfully, the {@link
-     * javax.sound.midi.MidiDevice MidiDevice} the
+     * jbvbx.sound.midi.MidiDevice MidiDevice} the
      * <code>Receiver</code> belongs to is opened implicitly, if it is
-     * not already open. It is possible to close an implicitly opened
-     * device by calling {@link javax.sound.midi.Receiver#close close}
+     * not blrebdy open. It is possible to close bn implicitly opened
+     * device by cblling {@link jbvbx.sound.midi.Receiver#close close}
      * on the returned <code>Receiver</code>. All open <code>Receiver</code>
-     * instances have to be closed in order to release system resources
-     * hold by the <code>MidiDevice</code>. For a
-     * detailed description of open/close behaviour see the class
-     * description of {@link javax.sound.midi.MidiDevice MidiDevice}.
+     * instbnces hbve to be closed in order to relebse system resources
+     * hold by the <code>MidiDevice</code>. For b
+     * detbiled description of open/close behbviour see the clbss
+     * description of {@link jbvbx.sound.midi.MidiDevice MidiDevice}.
      *
      *
-     * @return the default MIDI receiver
-     * @throws MidiUnavailableException if the default receiver is not
-     *         available due to resource restrictions,
-     *         or no device providing receivers is installed in the system
+     * @return the defbult MIDI receiver
+     * @throws MidiUnbvbilbbleException if the defbult receiver is not
+     *         bvbilbble due to resource restrictions,
+     *         or no device providing receivers is instblled in the system
      */
-    public static Receiver getReceiver() throws MidiUnavailableException {
-        // may throw MidiUnavailableException
-        MidiDevice device = getDefaultDeviceWrapper(Receiver.class);
+    public stbtic Receiver getReceiver() throws MidiUnbvbilbbleException {
+        // mby throw MidiUnbvbilbbleException
+        MidiDevice device = getDefbultDeviceWrbpper(Receiver.clbss);
         Receiver receiver;
-        if (device instanceof ReferenceCountingDevice) {
+        if (device instbnceof ReferenceCountingDevice) {
             receiver = ((ReferenceCountingDevice) device).getReceiverReferenceCounting();
         } else {
             receiver = device.getReceiver();
         }
-        if (!(receiver instanceof MidiDeviceReceiver)) {
+        if (!(receiver instbnceof MidiDeviceReceiver)) {
             receiver = new MidiDeviceReceiverEnvelope(device, receiver);
         }
         return receiver;
@@ -282,220 +282,220 @@ public class MidiSystem {
 
 
     /**
-     * Obtains a MIDI transmitter from an external MIDI port
-     * or other default source.
-     * The returned transmitter always implements
-     * the {@code MidiDeviceTransmitter} interface.
+     * Obtbins b MIDI trbnsmitter from bn externbl MIDI port
+     * or other defbult source.
+     * The returned trbnsmitter blwbys implements
+     * the {@code MidiDeviceTrbnsmitter} interfbce.
      *
      * <p>If the system property
-     * <code>javax.sound.midi.Transmitter</code>
+     * <code>jbvbx.sound.midi.Trbnsmitter</code>
      * is defined or it is defined in the file &quot;sound.properties&quot;,
-     * it is used to identify the device that provides the default transmitter.
-     * For details, refer to the {@link MidiSystem class description}.
+     * it is used to identify the device thbt provides the defbult trbnsmitter.
+     * For detbils, refer to the {@link MidiSystem clbss description}.
      *
-     * <p>If a native transmitter provided by the default device does not implement
-     * the {@code MidiDeviceTransmitter} interface, it will be wrapped in a
-     * wrapper class that implements the {@code MidiDeviceTransmitter} interface.
-     * The corresponding {@code Transmitter} method calls will be forwarded
-     * to the native transmitter.
+     * <p>If b nbtive trbnsmitter provided by the defbult device does not implement
+     * the {@code MidiDeviceTrbnsmitter} interfbce, it will be wrbpped in b
+     * wrbpper clbss thbt implements the {@code MidiDeviceTrbnsmitter} interfbce.
+     * The corresponding {@code Trbnsmitter} method cblls will be forwbrded
+     * to the nbtive trbnsmitter.
      *
      * <p>If this method returns successfully, the {@link
-     * javax.sound.midi.MidiDevice MidiDevice} the
-     * <code>Transmitter</code> belongs to is opened implicitly, if it
-     * is not already open. It is possible to close an implicitly
-     * opened device by calling {@link
-     * javax.sound.midi.Transmitter#close close} on the returned
-     * <code>Transmitter</code>. All open <code>Transmitter</code>
-     * instances have to be closed in order to release system resources
-     * hold by the <code>MidiDevice</code>. For a detailed description
-     * of open/close behaviour see the class description of {@link
-     * javax.sound.midi.MidiDevice MidiDevice}.
+     * jbvbx.sound.midi.MidiDevice MidiDevice} the
+     * <code>Trbnsmitter</code> belongs to is opened implicitly, if it
+     * is not blrebdy open. It is possible to close bn implicitly
+     * opened device by cblling {@link
+     * jbvbx.sound.midi.Trbnsmitter#close close} on the returned
+     * <code>Trbnsmitter</code>. All open <code>Trbnsmitter</code>
+     * instbnces hbve to be closed in order to relebse system resources
+     * hold by the <code>MidiDevice</code>. For b detbiled description
+     * of open/close behbviour see the clbss description of {@link
+     * jbvbx.sound.midi.MidiDevice MidiDevice}.
      *
-     * @return the default MIDI transmitter
-     * @throws MidiUnavailableException if the default transmitter is not
-     *         available due to resource restrictions,
-     *         or no device providing transmitters is installed in the system
+     * @return the defbult MIDI trbnsmitter
+     * @throws MidiUnbvbilbbleException if the defbult trbnsmitter is not
+     *         bvbilbble due to resource restrictions,
+     *         or no device providing trbnsmitters is instblled in the system
      */
-    public static Transmitter getTransmitter() throws MidiUnavailableException {
-        // may throw MidiUnavailableException
-        MidiDevice device = getDefaultDeviceWrapper(Transmitter.class);
-        Transmitter transmitter;
-        if (device instanceof ReferenceCountingDevice) {
-            transmitter = ((ReferenceCountingDevice) device).getTransmitterReferenceCounting();
+    public stbtic Trbnsmitter getTrbnsmitter() throws MidiUnbvbilbbleException {
+        // mby throw MidiUnbvbilbbleException
+        MidiDevice device = getDefbultDeviceWrbpper(Trbnsmitter.clbss);
+        Trbnsmitter trbnsmitter;
+        if (device instbnceof ReferenceCountingDevice) {
+            trbnsmitter = ((ReferenceCountingDevice) device).getTrbnsmitterReferenceCounting();
         } else {
-            transmitter = device.getTransmitter();
+            trbnsmitter = device.getTrbnsmitter();
         }
-        if (!(transmitter instanceof MidiDeviceTransmitter)) {
-            transmitter = new MidiDeviceTransmitterEnvelope(device, transmitter);
+        if (!(trbnsmitter instbnceof MidiDeviceTrbnsmitter)) {
+            trbnsmitter = new MidiDeviceTrbnsmitterEnvelope(device, trbnsmitter);
         }
-        return transmitter;
+        return trbnsmitter;
     }
 
 
     /**
-     * Obtains the default synthesizer.
+     * Obtbins the defbult synthesizer.
      *
      * <p>If the system property
-     * <code>javax.sound.midi.Synthesizer</code>
+     * <code>jbvbx.sound.midi.Synthesizer</code>
      * is defined or it is defined in the file &quot;sound.properties&quot;,
-     * it is used to identify the default synthesizer.
-     * For details, refer to the {@link MidiSystem class description}.
+     * it is used to identify the defbult synthesizer.
+     * For detbils, refer to the {@link MidiSystem clbss description}.
      *
-     * @return the default synthesizer
-     * @throws MidiUnavailableException if the synthesizer is not
-     *         available due to resource restrictions,
-     *         or no synthesizer is installed in the system
+     * @return the defbult synthesizer
+     * @throws MidiUnbvbilbbleException if the synthesizer is not
+     *         bvbilbble due to resource restrictions,
+     *         or no synthesizer is instblled in the system
      */
-    public static Synthesizer getSynthesizer() throws MidiUnavailableException {
-        // may throw MidiUnavailableException
-        return (Synthesizer) getDefaultDeviceWrapper(Synthesizer.class);
+    public stbtic Synthesizer getSynthesizer() throws MidiUnbvbilbbleException {
+        // mby throw MidiUnbvbilbbleException
+        return (Synthesizer) getDefbultDeviceWrbpper(Synthesizer.clbss);
     }
 
 
     /**
-     * Obtains the default <code>Sequencer</code>, connected to
-     * a default device.
-     * The returned <code>Sequencer</code> instance is
-     * connected to the default <code>Synthesizer</code>,
-     * as returned by {@link #getSynthesizer}.
+     * Obtbins the defbult <code>Sequencer</code>, connected to
+     * b defbult device.
+     * The returned <code>Sequencer</code> instbnce is
+     * connected to the defbult <code>Synthesizer</code>,
+     * bs returned by {@link #getSynthesizer}.
      * If there is no <code>Synthesizer</code>
-     * available, or the default <code>Synthesizer</code>
-     * cannot be opened, the <code>sequencer</code> is connected
-     * to the default <code>Receiver</code>, as returned
+     * bvbilbble, or the defbult <code>Synthesizer</code>
+     * cbnnot be opened, the <code>sequencer</code> is connected
+     * to the defbult <code>Receiver</code>, bs returned
      * by {@link #getReceiver}.
-     * The connection is made by retrieving a <code>Transmitter</code>
-     * instance from the <code>Sequencer</code> and setting its
+     * The connection is mbde by retrieving b <code>Trbnsmitter</code>
+     * instbnce from the <code>Sequencer</code> bnd setting its
      * <code>Receiver</code>.
-     * Closing and re-opening the sequencer will restore the
-     * connection to the default device.
+     * Closing bnd re-opening the sequencer will restore the
+     * connection to the defbult device.
      *
-     * <p>This method is equivalent to calling
+     * <p>This method is equivblent to cblling
      * <code>getSequencer(true)</code>.
      *
      * <p>If the system property
-     * <code>javax.sound.midi.Sequencer</code>
+     * <code>jbvbx.sound.midi.Sequencer</code>
      * is defined or it is defined in the file &quot;sound.properties&quot;,
-     * it is used to identify the default sequencer.
-     * For details, refer to the {@link MidiSystem class description}.
+     * it is used to identify the defbult sequencer.
+     * For detbils, refer to the {@link MidiSystem clbss description}.
      *
-     * @return the default sequencer, connected to a default Receiver
-     * @throws MidiUnavailableException if the sequencer is not
-     *         available due to resource restrictions,
-     *         or there is no <code>Receiver</code> available by any
-     *         installed <code>MidiDevice</code>,
-     *         or no sequencer is installed in the system.
-     * @see #getSequencer(boolean)
+     * @return the defbult sequencer, connected to b defbult Receiver
+     * @throws MidiUnbvbilbbleException if the sequencer is not
+     *         bvbilbble due to resource restrictions,
+     *         or there is no <code>Receiver</code> bvbilbble by bny
+     *         instblled <code>MidiDevice</code>,
+     *         or no sequencer is instblled in the system.
+     * @see #getSequencer(boolebn)
      * @see #getSynthesizer
      * @see #getReceiver
      */
-    public static Sequencer getSequencer() throws MidiUnavailableException {
+    public stbtic Sequencer getSequencer() throws MidiUnbvbilbbleException {
         return getSequencer(true);
     }
 
 
 
     /**
-     * Obtains the default <code>Sequencer</code>, optionally
-     * connected to a default device.
+     * Obtbins the defbult <code>Sequencer</code>, optionblly
+     * connected to b defbult device.
      *
      * <p>If <code>connected</code> is true, the returned
-     * <code>Sequencer</code> instance is
-     * connected to the default <code>Synthesizer</code>,
-     * as returned by {@link #getSynthesizer}.
+     * <code>Sequencer</code> instbnce is
+     * connected to the defbult <code>Synthesizer</code>,
+     * bs returned by {@link #getSynthesizer}.
      * If there is no <code>Synthesizer</code>
-     * available, or the default <code>Synthesizer</code>
-     * cannot be opened, the <code>sequencer</code> is connected
-     * to the default <code>Receiver</code>, as returned
+     * bvbilbble, or the defbult <code>Synthesizer</code>
+     * cbnnot be opened, the <code>sequencer</code> is connected
+     * to the defbult <code>Receiver</code>, bs returned
      * by {@link #getReceiver}.
-     * The connection is made by retrieving a <code>Transmitter</code>
-     * instance from the <code>Sequencer</code> and setting its
+     * The connection is mbde by retrieving b <code>Trbnsmitter</code>
+     * instbnce from the <code>Sequencer</code> bnd setting its
      * <code>Receiver</code>.
-     * Closing and re-opening the sequencer will restore the
-     * connection to the default device.
+     * Closing bnd re-opening the sequencer will restore the
+     * connection to the defbult device.
      *
-     * <p>If <code>connected</code> is false, the returned
-     * <code>Sequencer</code> instance is not connected, it
-     * has no open <code>Transmitters</code>. In order to
-     * play the sequencer on a MIDI device, or a <code>Synthesizer</code>,
-     * it is necessary to get a <code>Transmitter</code> and set its
+     * <p>If <code>connected</code> is fblse, the returned
+     * <code>Sequencer</code> instbnce is not connected, it
+     * hbs no open <code>Trbnsmitters</code>. In order to
+     * plby the sequencer on b MIDI device, or b <code>Synthesizer</code>,
+     * it is necessbry to get b <code>Trbnsmitter</code> bnd set its
      * <code>Receiver</code>.
      *
      * <p>If the system property
-     * <code>javax.sound.midi.Sequencer</code>
+     * <code>jbvbx.sound.midi.Sequencer</code>
      * is defined or it is defined in the file "sound.properties",
-     * it is used to identify the default sequencer.
-     * For details, refer to the {@link MidiSystem class description}.
+     * it is used to identify the defbult sequencer.
+     * For detbils, refer to the {@link MidiSystem clbss description}.
      *
-     * @param connected whether or not the returned {@code Sequencer}
-     * is connected to the default {@code Synthesizer}
-     * @return the default sequencer
-     * @throws MidiUnavailableException if the sequencer is not
-     *         available due to resource restrictions,
-     *         or no sequencer is installed in the system,
-     *         or if <code>connected</code> is true, and there is
-     *         no <code>Receiver</code> available by any installed
+     * @pbrbm connected whether or not the returned {@code Sequencer}
+     * is connected to the defbult {@code Synthesizer}
+     * @return the defbult sequencer
+     * @throws MidiUnbvbilbbleException if the sequencer is not
+     *         bvbilbble due to resource restrictions,
+     *         or no sequencer is instblled in the system,
+     *         or if <code>connected</code> is true, bnd there is
+     *         no <code>Receiver</code> bvbilbble by bny instblled
      *         <code>MidiDevice</code>
      * @see #getSynthesizer
      * @see #getReceiver
      * @since 1.5
      */
-    public static Sequencer getSequencer(boolean connected)
-        throws MidiUnavailableException {
-        Sequencer seq = (Sequencer) getDefaultDeviceWrapper(Sequencer.class);
+    public stbtic Sequencer getSequencer(boolebn connected)
+        throws MidiUnbvbilbbleException {
+        Sequencer seq = (Sequencer) getDefbultDeviceWrbpper(Sequencer.clbss);
 
         if (connected) {
             // IMPORTANT: this code needs to be synch'ed with
-            //            all AutoConnectSequencer instances,
-            //            (e.g. RealTimeSequencer) because the
-            //            same algorithm for synth retrieval
+            //            bll AutoConnectSequencer instbnces,
+            //            (e.g. ReblTimeSequencer) becbuse the
+            //            sbme blgorithm for synth retrievbl
             //            needs to be used!
 
             Receiver rec = null;
-            MidiUnavailableException mue = null;
+            MidiUnbvbilbbleException mue = null;
 
-            // first try to connect to the default synthesizer
+            // first try to connect to the defbult synthesizer
             try {
                 Synthesizer synth = getSynthesizer();
-                if (synth instanceof ReferenceCountingDevice) {
+                if (synth instbnceof ReferenceCountingDevice) {
                     rec = ((ReferenceCountingDevice) synth).getReceiverReferenceCounting();
                 } else {
                     synth.open();
                     try {
                         rec = synth.getReceiver();
-                    } finally {
-                        // make sure that the synth is properly closed
+                    } finblly {
+                        // mbke sure thbt the synth is properly closed
                         if (rec == null) {
                             synth.close();
                         }
                     }
                 }
-            } catch (MidiUnavailableException e) {
+            } cbtch (MidiUnbvbilbbleException e) {
                 // something went wrong with synth
-                if (e instanceof MidiUnavailableException) {
+                if (e instbnceof MidiUnbvbilbbleException) {
                     mue = e;
                 }
             }
             if (rec == null) {
-                // then try to connect to the default Receiver
+                // then try to connect to the defbult Receiver
                 try {
                     rec = MidiSystem.getReceiver();
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     // something went wrong. Nothing to do then!
-                    if (e instanceof MidiUnavailableException) {
-                        mue = (MidiUnavailableException) e;
+                    if (e instbnceof MidiUnbvbilbbleException) {
+                        mue = (MidiUnbvbilbbleException) e;
                     }
                 }
             }
             if (rec != null) {
-                seq.getTransmitter().setReceiver(rec);
-                if (seq instanceof AutoConnectSequencer) {
+                seq.getTrbnsmitter().setReceiver(rec);
+                if (seq instbnceof AutoConnectSequencer) {
                     ((AutoConnectSequencer) seq).setAutoConnect(rec);
                 }
             } else {
                 if (mue != null) {
                     throw mue;
                 }
-                throw new MidiUnavailableException("no receiver available");
+                throw new MidiUnbvbilbbleException("no receiver bvbilbble");
             }
         }
         return seq;
@@ -505,304 +505,304 @@ public class MidiSystem {
 
 
     /**
-     * Constructs a MIDI sound bank by reading it from the specified stream.
-     * The stream must point to
-     * a valid MIDI soundbank file.  In general, MIDI soundbank providers may
-     * need to read some data from the stream before determining whether they
-     * support it.  These parsers must
-     * be able to mark the stream, read enough data to determine whether they
-     * support the stream, and, if not, reset the stream's read pointer to
-     * its original position.  If the input stream does not support this,
-     * this method may fail with an IOException.
-     * @param stream the source of the sound bank data.
-     * @return the sound bank
-     * @throws InvalidMidiDataException if the stream does not point to
-     * valid MIDI soundbank data recognized by the system
-     * @throws IOException if an I/O error occurred when loading the soundbank
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * Constructs b MIDI sound bbnk by rebding it from the specified strebm.
+     * The strebm must point to
+     * b vblid MIDI soundbbnk file.  In generbl, MIDI soundbbnk providers mby
+     * need to rebd some dbtb from the strebm before determining whether they
+     * support it.  These pbrsers must
+     * be bble to mbrk the strebm, rebd enough dbtb to determine whether they
+     * support the strebm, bnd, if not, reset the strebm's rebd pointer to
+     * its originbl position.  If the input strebm does not support this,
+     * this method mby fbil with bn IOException.
+     * @pbrbm strebm the source of the sound bbnk dbtb.
+     * @return the sound bbnk
+     * @throws InvblidMidiDbtbException if the strebm does not point to
+     * vblid MIDI soundbbnk dbtb recognized by the system
+     * @throws IOException if bn I/O error occurred when lobding the soundbbnk
+     * @see InputStrebm#mbrkSupported
+     * @see InputStrebm#mbrk
      */
-    public static Soundbank getSoundbank(InputStream stream)
-        throws InvalidMidiDataException, IOException {
+    public stbtic Soundbbnk getSoundbbnk(InputStrebm strebm)
+        throws InvblidMidiDbtbException, IOException {
 
-        SoundbankReader sp = null;
-        Soundbank s = null;
+        SoundbbnkRebder sp = null;
+        Soundbbnk s = null;
 
-        List<SoundbankReader> providers = getSoundbankReaders();
+        List<SoundbbnkRebder> providers = getSoundbbnkRebders();
 
         for(int i = 0; i < providers.size(); i++) {
             sp = providers.get(i);
-            s = sp.getSoundbank(stream);
+            s = sp.getSoundbbnk(strebm);
 
             if( s!= null) {
                 return s;
             }
         }
-        throw new InvalidMidiDataException("cannot get soundbank from stream");
+        throw new InvblidMidiDbtbException("cbnnot get soundbbnk from strebm");
 
     }
 
 
     /**
-     * Constructs a <code>Soundbank</code> by reading it from the specified URL.
-     * The URL must point to a valid MIDI soundbank file.
+     * Constructs b <code>Soundbbnk</code> by rebding it from the specified URL.
+     * The URL must point to b vblid MIDI soundbbnk file.
      *
-     * @param url the source of the sound bank data
-     * @return the sound bank
-     * @throws InvalidMidiDataException if the URL does not point to valid MIDI
-     * soundbank data recognized by the system
-     * @throws IOException if an I/O error occurred when loading the soundbank
+     * @pbrbm url the source of the sound bbnk dbtb
+     * @return the sound bbnk
+     * @throws InvblidMidiDbtbException if the URL does not point to vblid MIDI
+     * soundbbnk dbtb recognized by the system
+     * @throws IOException if bn I/O error occurred when lobding the soundbbnk
      */
-    public static Soundbank getSoundbank(URL url)
-        throws InvalidMidiDataException, IOException {
+    public stbtic Soundbbnk getSoundbbnk(URL url)
+        throws InvblidMidiDbtbException, IOException {
 
-        SoundbankReader sp = null;
-        Soundbank s = null;
+        SoundbbnkRebder sp = null;
+        Soundbbnk s = null;
 
-        List<SoundbankReader> providers = getSoundbankReaders();
+        List<SoundbbnkRebder> providers = getSoundbbnkRebders();
 
         for(int i = 0; i < providers.size(); i++) {
             sp = providers.get(i);
-            s = sp.getSoundbank(url);
+            s = sp.getSoundbbnk(url);
 
             if( s!= null) {
                 return s;
             }
         }
-        throw new InvalidMidiDataException("cannot get soundbank from stream");
+        throw new InvblidMidiDbtbException("cbnnot get soundbbnk from strebm");
 
     }
 
 
     /**
-     * Constructs a <code>Soundbank</code> by reading it from the specified
+     * Constructs b <code>Soundbbnk</code> by rebding it from the specified
      * <code>File</code>.
-     * The <code>File</code> must point to a valid MIDI soundbank file.
+     * The <code>File</code> must point to b vblid MIDI soundbbnk file.
      *
-     * @param file the source of the sound bank data
-     * @return the sound bank
-     * @throws InvalidMidiDataException if the <code>File</code> does not
-     * point to valid MIDI soundbank data recognized by the system
-     * @throws IOException if an I/O error occurred when loading the soundbank
+     * @pbrbm file the source of the sound bbnk dbtb
+     * @return the sound bbnk
+     * @throws InvblidMidiDbtbException if the <code>File</code> does not
+     * point to vblid MIDI soundbbnk dbtb recognized by the system
+     * @throws IOException if bn I/O error occurred when lobding the soundbbnk
      */
-    public static Soundbank getSoundbank(File file)
-        throws InvalidMidiDataException, IOException {
+    public stbtic Soundbbnk getSoundbbnk(File file)
+        throws InvblidMidiDbtbException, IOException {
 
-        SoundbankReader sp = null;
-        Soundbank s = null;
+        SoundbbnkRebder sp = null;
+        Soundbbnk s = null;
 
-        List<SoundbankReader> providers = getSoundbankReaders();
+        List<SoundbbnkRebder> providers = getSoundbbnkRebders();
 
         for(int i = 0; i < providers.size(); i++) {
             sp = providers.get(i);
-            s = sp.getSoundbank(file);
+            s = sp.getSoundbbnk(file);
 
             if( s!= null) {
                 return s;
             }
         }
-        throw new InvalidMidiDataException("cannot get soundbank from stream");
+        throw new InvblidMidiDbtbException("cbnnot get soundbbnk from strebm");
     }
 
 
 
     /**
-     * Obtains the MIDI file format of the data in the specified input stream.
-     * The stream must point to valid MIDI file data for a file type recognized
+     * Obtbins the MIDI file formbt of the dbtb in the specified input strebm.
+     * The strebm must point to vblid MIDI file dbtb for b file type recognized
      * by the system.
      * <p>
-     * This method and/or the code it invokes may need to read some data from
-     * the stream to determine whether its data format is supported.  The
-     * implementation may therefore
-     * need to mark the stream, read enough data to determine whether it is in
-     * a supported format, and reset the stream's read pointer to its original
-     * position.  If the input stream does not permit this set of operations,
-     * this method may fail with an <code>IOException</code>.
+     * This method bnd/or the code it invokes mby need to rebd some dbtb from
+     * the strebm to determine whether its dbtb formbt is supported.  The
+     * implementbtion mby therefore
+     * need to mbrk the strebm, rebd enough dbtb to determine whether it is in
+     * b supported formbt, bnd reset the strebm's rebd pointer to its originbl
+     * position.  If the input strebm does not permit this set of operbtions,
+     * this method mby fbil with bn <code>IOException</code>.
      * <p>
-     * This operation can only succeed for files of a type which can be parsed
-     * by an installed file reader.  It may fail with an InvalidMidiDataException
-     * even for valid files if no compatible file reader is installed.  It
-     * will also fail with an InvalidMidiDataException if a compatible file reader
-     * is installed, but encounters errors while determining the file format.
+     * This operbtion cbn only succeed for files of b type which cbn be pbrsed
+     * by bn instblled file rebder.  It mby fbil with bn InvblidMidiDbtbException
+     * even for vblid files if no compbtible file rebder is instblled.  It
+     * will blso fbil with bn InvblidMidiDbtbException if b compbtible file rebder
+     * is instblled, but encounters errors while determining the file formbt.
      *
-     * @param stream the input stream from which file format information
-     * should be extracted
-     * @return an <code>MidiFileFormat</code> object describing the MIDI file
-     * format
-     * @throws InvalidMidiDataException if the stream does not point to valid
-     * MIDI file data recognized by the system
-     * @throws IOException if an I/O exception occurs while accessing the
-     * stream
-     * @see #getMidiFileFormat(URL)
-     * @see #getMidiFileFormat(File)
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * @pbrbm strebm the input strebm from which file formbt informbtion
+     * should be extrbcted
+     * @return bn <code>MidiFileFormbt</code> object describing the MIDI file
+     * formbt
+     * @throws InvblidMidiDbtbException if the strebm does not point to vblid
+     * MIDI file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs while bccessing the
+     * strebm
+     * @see #getMidiFileFormbt(URL)
+     * @see #getMidiFileFormbt(File)
+     * @see InputStrebm#mbrkSupported
+     * @see InputStrebm#mbrk
      */
-    public static MidiFileFormat getMidiFileFormat(InputStream stream)
-        throws InvalidMidiDataException, IOException {
+    public stbtic MidiFileFormbt getMidiFileFormbt(InputStrebm strebm)
+        throws InvblidMidiDbtbException, IOException {
 
-        List<MidiFileReader> providers = getMidiFileReaders();
-        MidiFileFormat format = null;
+        List<MidiFileRebder> providers = getMidiFileRebders();
+        MidiFileFormbt formbt = null;
 
         for(int i = 0; i < providers.size(); i++) {
-            MidiFileReader reader =  providers.get(i);
+            MidiFileRebder rebder =  providers.get(i);
             try {
-                format = reader.getMidiFileFormat( stream ); // throws IOException
-                break;
-            } catch (InvalidMidiDataException e) {
+                formbt = rebder.getMidiFileFormbt( strebm ); // throws IOException
+                brebk;
+            } cbtch (InvblidMidiDbtbException e) {
                 continue;
             }
         }
 
-        if( format==null ) {
-            throw new InvalidMidiDataException("input stream is not a supported file type");
+        if( formbt==null ) {
+            throw new InvblidMidiDbtbException("input strebm is not b supported file type");
         } else {
-            return format;
+            return formbt;
         }
     }
 
 
     /**
-     * Obtains the MIDI file format of the data in the specified URL.  The URL
-     * must point to valid MIDI file data for a file type recognized
+     * Obtbins the MIDI file formbt of the dbtb in the specified URL.  The URL
+     * must point to vblid MIDI file dbtb for b file type recognized
      * by the system.
      * <p>
-     * This operation can only succeed for files of a type which can be parsed
-     * by an installed file reader.  It may fail with an InvalidMidiDataException
-     * even for valid files if no compatible file reader is installed.  It
-     * will also fail with an InvalidMidiDataException if a compatible file reader
-     * is installed, but encounters errors while determining the file format.
+     * This operbtion cbn only succeed for files of b type which cbn be pbrsed
+     * by bn instblled file rebder.  It mby fbil with bn InvblidMidiDbtbException
+     * even for vblid files if no compbtible file rebder is instblled.  It
+     * will blso fbil with bn InvblidMidiDbtbException if b compbtible file rebder
+     * is instblled, but encounters errors while determining the file formbt.
      *
-     * @param url the URL from which file format information should be
-     * extracted
-     * @return a <code>MidiFileFormat</code> object describing the MIDI file
-     * format
-     * @throws InvalidMidiDataException if the URL does not point to valid MIDI
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs while accessing the URL
+     * @pbrbm url the URL from which file formbt informbtion should be
+     * extrbcted
+     * @return b <code>MidiFileFormbt</code> object describing the MIDI file
+     * formbt
+     * @throws InvblidMidiDbtbException if the URL does not point to vblid MIDI
+     * file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs while bccessing the URL
      *
-     * @see #getMidiFileFormat(InputStream)
-     * @see #getMidiFileFormat(File)
+     * @see #getMidiFileFormbt(InputStrebm)
+     * @see #getMidiFileFormbt(File)
      */
-    public static MidiFileFormat getMidiFileFormat(URL url)
-        throws InvalidMidiDataException, IOException {
+    public stbtic MidiFileFormbt getMidiFileFormbt(URL url)
+        throws InvblidMidiDbtbException, IOException {
 
-        List<MidiFileReader> providers = getMidiFileReaders();
-        MidiFileFormat format = null;
+        List<MidiFileRebder> providers = getMidiFileRebders();
+        MidiFileFormbt formbt = null;
 
         for(int i = 0; i < providers.size(); i++) {
-            MidiFileReader reader = providers.get(i);
+            MidiFileRebder rebder = providers.get(i);
             try {
-                format = reader.getMidiFileFormat( url ); // throws IOException
-                break;
-            } catch (InvalidMidiDataException e) {
+                formbt = rebder.getMidiFileFormbt( url ); // throws IOException
+                brebk;
+            } cbtch (InvblidMidiDbtbException e) {
                 continue;
             }
         }
 
-        if( format==null ) {
-            throw new InvalidMidiDataException("url is not a supported file type");
+        if( formbt==null ) {
+            throw new InvblidMidiDbtbException("url is not b supported file type");
         } else {
-            return format;
+            return formbt;
         }
     }
 
 
     /**
-     * Obtains the MIDI file format of the specified <code>File</code>.  The
-     * <code>File</code> must point to valid MIDI file data for a file type
+     * Obtbins the MIDI file formbt of the specified <code>File</code>.  The
+     * <code>File</code> must point to vblid MIDI file dbtb for b file type
      * recognized by the system.
      * <p>
-     * This operation can only succeed for files of a type which can be parsed
-     * by an installed file reader.  It may fail with an InvalidMidiDataException
-     * even for valid files if no compatible file reader is installed.  It
-     * will also fail with an InvalidMidiDataException if a compatible file reader
-     * is installed, but encounters errors while determining the file format.
+     * This operbtion cbn only succeed for files of b type which cbn be pbrsed
+     * by bn instblled file rebder.  It mby fbil with bn InvblidMidiDbtbException
+     * even for vblid files if no compbtible file rebder is instblled.  It
+     * will blso fbil with bn InvblidMidiDbtbException if b compbtible file rebder
+     * is instblled, but encounters errors while determining the file formbt.
      *
-     * @param file the <code>File</code> from which file format information
-     * should be extracted
-     * @return a <code>MidiFileFormat</code> object describing the MIDI file
-     * format
-     * @throws InvalidMidiDataException if the <code>File</code> does not point
-     *  to valid MIDI file data recognized by the system
-     * @throws IOException if an I/O exception occurs while accessing the file
+     * @pbrbm file the <code>File</code> from which file formbt informbtion
+     * should be extrbcted
+     * @return b <code>MidiFileFormbt</code> object describing the MIDI file
+     * formbt
+     * @throws InvblidMidiDbtbException if the <code>File</code> does not point
+     *  to vblid MIDI file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs while bccessing the file
      *
-     * @see #getMidiFileFormat(InputStream)
-     * @see #getMidiFileFormat(URL)
+     * @see #getMidiFileFormbt(InputStrebm)
+     * @see #getMidiFileFormbt(URL)
      */
-    public static MidiFileFormat getMidiFileFormat(File file)
-        throws InvalidMidiDataException, IOException {
+    public stbtic MidiFileFormbt getMidiFileFormbt(File file)
+        throws InvblidMidiDbtbException, IOException {
 
-        List<MidiFileReader> providers = getMidiFileReaders();
-        MidiFileFormat format = null;
+        List<MidiFileRebder> providers = getMidiFileRebders();
+        MidiFileFormbt formbt = null;
 
         for(int i = 0; i < providers.size(); i++) {
-            MidiFileReader reader = providers.get(i);
+            MidiFileRebder rebder = providers.get(i);
             try {
-                format = reader.getMidiFileFormat( file ); // throws IOException
-                break;
-            } catch (InvalidMidiDataException e) {
+                formbt = rebder.getMidiFileFormbt( file ); // throws IOException
+                brebk;
+            } cbtch (InvblidMidiDbtbException e) {
                 continue;
             }
         }
 
-        if( format==null ) {
-            throw new InvalidMidiDataException("file is not a supported file type");
+        if( formbt==null ) {
+            throw new InvblidMidiDbtbException("file is not b supported file type");
         } else {
-            return format;
+            return formbt;
         }
     }
 
 
     /**
-     * Obtains a MIDI sequence from the specified input stream.  The stream must
-     * point to valid MIDI file data for a file type recognized
+     * Obtbins b MIDI sequence from the specified input strebm.  The strebm must
+     * point to vblid MIDI file dbtb for b file type recognized
      * by the system.
      * <p>
-     * This method and/or the code it invokes may need to read some data
-     * from the stream to determine whether
-     * its data format is supported.  The implementation may therefore
-     * need to mark the stream, read enough data to determine whether it is in
-     * a supported format, and reset the stream's read pointer to its original
-     * position.  If the input stream does not permit this set of operations,
-     * this method may fail with an <code>IOException</code>.
+     * This method bnd/or the code it invokes mby need to rebd some dbtb
+     * from the strebm to determine whether
+     * its dbtb formbt is supported.  The implementbtion mby therefore
+     * need to mbrk the strebm, rebd enough dbtb to determine whether it is in
+     * b supported formbt, bnd reset the strebm's rebd pointer to its originbl
+     * position.  If the input strebm does not permit this set of operbtions,
+     * this method mby fbil with bn <code>IOException</code>.
      * <p>
-     * This operation can only succeed for files of a type which can be parsed
-     * by an installed file reader.  It may fail with an InvalidMidiDataException
-     * even for valid files if no compatible file reader is installed.  It
-     * will also fail with an InvalidMidiDataException if a compatible file reader
-     * is installed, but encounters errors while constructing the <code>Sequence</code>
-     * object from the file data.
+     * This operbtion cbn only succeed for files of b type which cbn be pbrsed
+     * by bn instblled file rebder.  It mby fbil with bn InvblidMidiDbtbException
+     * even for vblid files if no compbtible file rebder is instblled.  It
+     * will blso fbil with bn InvblidMidiDbtbException if b compbtible file rebder
+     * is instblled, but encounters errors while constructing the <code>Sequence</code>
+     * object from the file dbtb.
      *
-     * @param stream the input stream from which the <code>Sequence</code>
+     * @pbrbm strebm the input strebm from which the <code>Sequence</code>
      * should be constructed
-     * @return a <code>Sequence</code> object based on the MIDI file data
-     * contained in the input stream
-     * @throws InvalidMidiDataException if the stream does not point to
-     * valid MIDI file data recognized by the system
-     * @throws IOException if an I/O exception occurs while accessing the
-     * stream
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * @return b <code>Sequence</code> object bbsed on the MIDI file dbtb
+     * contbined in the input strebm
+     * @throws InvblidMidiDbtbException if the strebm does not point to
+     * vblid MIDI file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs while bccessing the
+     * strebm
+     * @see InputStrebm#mbrkSupported
+     * @see InputStrebm#mbrk
      */
-    public static Sequence getSequence(InputStream stream)
-        throws InvalidMidiDataException, IOException {
+    public stbtic Sequence getSequence(InputStrebm strebm)
+        throws InvblidMidiDbtbException, IOException {
 
-        List<MidiFileReader> providers = getMidiFileReaders();
+        List<MidiFileRebder> providers = getMidiFileRebders();
         Sequence sequence = null;
 
         for(int i = 0; i < providers.size(); i++) {
-            MidiFileReader reader = providers.get(i);
+            MidiFileRebder rebder = providers.get(i);
             try {
-                sequence = reader.getSequence( stream ); // throws IOException
-                break;
-            } catch (InvalidMidiDataException e) {
+                sequence = rebder.getSequence( strebm ); // throws IOException
+                brebk;
+            } cbtch (InvblidMidiDbtbException e) {
                 continue;
             }
         }
 
         if( sequence==null ) {
-            throw new InvalidMidiDataException("could not get sequence from input stream");
+            throw new InvblidMidiDbtbException("could not get sequence from input strebm");
         } else {
             return sequence;
         }
@@ -810,43 +810,43 @@ public class MidiSystem {
 
 
     /**
-     * Obtains a MIDI sequence from the specified URL.  The URL must
-     * point to valid MIDI file data for a file type recognized
+     * Obtbins b MIDI sequence from the specified URL.  The URL must
+     * point to vblid MIDI file dbtb for b file type recognized
      * by the system.
      * <p>
-     * This operation can only succeed for files of a type which can be parsed
-     * by an installed file reader.  It may fail with an InvalidMidiDataException
-     * even for valid files if no compatible file reader is installed.  It
-     * will also fail with an InvalidMidiDataException if a compatible file reader
-     * is installed, but encounters errors while constructing the <code>Sequence</code>
-     * object from the file data.
+     * This operbtion cbn only succeed for files of b type which cbn be pbrsed
+     * by bn instblled file rebder.  It mby fbil with bn InvblidMidiDbtbException
+     * even for vblid files if no compbtible file rebder is instblled.  It
+     * will blso fbil with bn InvblidMidiDbtbException if b compbtible file rebder
+     * is instblled, but encounters errors while constructing the <code>Sequence</code>
+     * object from the file dbtb.
      *
-     * @param url the URL from which the <code>Sequence</code> should be
+     * @pbrbm url the URL from which the <code>Sequence</code> should be
      * constructed
-     * @return a <code>Sequence</code> object based on the MIDI file data
+     * @return b <code>Sequence</code> object bbsed on the MIDI file dbtb
      * pointed to by the URL
-     * @throws InvalidMidiDataException if the URL does not point to valid MIDI
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs while accessing the URL
+     * @throws InvblidMidiDbtbException if the URL does not point to vblid MIDI
+     * file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs while bccessing the URL
      */
-    public static Sequence getSequence(URL url)
-        throws InvalidMidiDataException, IOException {
+    public stbtic Sequence getSequence(URL url)
+        throws InvblidMidiDbtbException, IOException {
 
-        List<MidiFileReader> providers = getMidiFileReaders();
+        List<MidiFileRebder> providers = getMidiFileRebders();
         Sequence sequence = null;
 
         for(int i = 0; i < providers.size(); i++) {
-            MidiFileReader reader = providers.get(i);
+            MidiFileRebder rebder = providers.get(i);
             try {
-                sequence = reader.getSequence( url ); // throws IOException
-                break;
-            } catch (InvalidMidiDataException e) {
+                sequence = rebder.getSequence( url ); // throws IOException
+                brebk;
+            } cbtch (InvblidMidiDbtbException e) {
                 continue;
             }
         }
 
         if( sequence==null ) {
-            throw new InvalidMidiDataException("could not get sequence from URL");
+            throw new InvblidMidiDbtbException("could not get sequence from URL");
         } else {
             return sequence;
         }
@@ -854,43 +854,43 @@ public class MidiSystem {
 
 
     /**
-     * Obtains a MIDI sequence from the specified <code>File</code>.
-     * The <code>File</code> must point to valid MIDI file data
-     * for a file type recognized by the system.
+     * Obtbins b MIDI sequence from the specified <code>File</code>.
+     * The <code>File</code> must point to vblid MIDI file dbtb
+     * for b file type recognized by the system.
      * <p>
-     * This operation can only succeed for files of a type which can be parsed
-     * by an installed file reader.  It may fail with an InvalidMidiDataException
-     * even for valid files if no compatible file reader is installed.  It
-     * will also fail with an InvalidMidiDataException if a compatible file reader
-     * is installed, but encounters errors while constructing the <code>Sequence</code>
-     * object from the file data.
+     * This operbtion cbn only succeed for files of b type which cbn be pbrsed
+     * by bn instblled file rebder.  It mby fbil with bn InvblidMidiDbtbException
+     * even for vblid files if no compbtible file rebder is instblled.  It
+     * will blso fbil with bn InvblidMidiDbtbException if b compbtible file rebder
+     * is instblled, but encounters errors while constructing the <code>Sequence</code>
+     * object from the file dbtb.
      *
-     * @param file the <code>File</code> from which the <code>Sequence</code>
+     * @pbrbm file the <code>File</code> from which the <code>Sequence</code>
      * should be constructed
-     * @return a <code>Sequence</code> object based on the MIDI file data
+     * @return b <code>Sequence</code> object bbsed on the MIDI file dbtb
      * pointed to by the File
-     * @throws InvalidMidiDataException if the File does not point to valid MIDI
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * @throws InvblidMidiDbtbException if the File does not point to vblid MIDI
+     * file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public static Sequence getSequence(File file)
-        throws InvalidMidiDataException, IOException {
+    public stbtic Sequence getSequence(File file)
+        throws InvblidMidiDbtbException, IOException {
 
-        List<MidiFileReader> providers = getMidiFileReaders();
+        List<MidiFileRebder> providers = getMidiFileRebders();
         Sequence sequence = null;
 
         for(int i = 0; i < providers.size(); i++) {
-            MidiFileReader reader = providers.get(i);
+            MidiFileRebder rebder = providers.get(i);
             try {
-                sequence = reader.getSequence( file ); // throws IOException
-                break;
-            } catch (InvalidMidiDataException e) {
+                sequence = rebder.getSequence( file ); // throws IOException
+                brebk;
+            } cbtch (InvblidMidiDbtbException e) {
                 continue;
             }
         }
 
         if( sequence==null ) {
-            throw new InvalidMidiDataException("could not get sequence from file");
+            throw new InvblidMidiDbtbException("could not get sequence from file");
         } else {
             return sequence;
         }
@@ -898,44 +898,44 @@ public class MidiSystem {
 
 
     /**
-     * Obtains the set of MIDI file types for which file writing support is
+     * Obtbins the set of MIDI file types for which file writing support is
      * provided by the system.
-     * @return array of unique file types.  If no file types are supported,
-     * an array of length 0 is returned.
+     * @return brrby of unique file types.  If no file types bre supported,
+     * bn brrby of length 0 is returned.
      */
-    public static int[] getMidiFileTypes() {
+    public stbtic int[] getMidiFileTypes() {
 
         List<MidiFileWriter> providers = getMidiFileWriters();
-        Set<Integer> allTypes = new HashSet<>();
+        Set<Integer> bllTypes = new HbshSet<>();
 
-        // gather from all the providers
+        // gbther from bll the providers
 
         for (int i = 0; i < providers.size(); i++ ) {
             MidiFileWriter writer = providers.get(i);
             int[] types = writer.getMidiFileTypes();
             for (int j = 0; j < types.length; j++ ) {
-                allTypes.add(types[j]);
+                bllTypes.bdd(types[j]);
             }
         }
-        int resultTypes[] = new int[allTypes.size()];
+        int resultTypes[] = new int[bllTypes.size()];
         int index = 0;
-        Iterator<Integer> iterator = allTypes.iterator();
-        while (iterator.hasNext()) {
-            Integer integer = iterator.next();
-            resultTypes[index++] = integer.intValue();
+        Iterbtor<Integer> iterbtor = bllTypes.iterbtor();
+        while (iterbtor.hbsNext()) {
+            Integer integer = iterbtor.next();
+            resultTypes[index++] = integer.intVblue();
         }
         return resultTypes;
     }
 
 
     /**
-     * Indicates whether file writing support for the specified MIDI file type
+     * Indicbtes whether file writing support for the specified MIDI file type
      * is provided by the system.
-     * @param fileType the file type for which write capabilities are queried
+     * @pbrbm fileType the file type for which write cbpbbilities bre queried
      * @return <code>true</code> if the file type is supported,
-     * otherwise <code>false</code>
+     * otherwise <code>fblse</code>
      */
-    public static boolean isFileTypeSupported(int fileType) {
+    public stbtic boolebn isFileTypeSupported(int fileType) {
 
         List<MidiFileWriter> providers = getMidiFileWriters();
 
@@ -945,53 +945,53 @@ public class MidiSystem {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Obtains the set of MIDI file types that the system can write from the
+     * Obtbins the set of MIDI file types thbt the system cbn write from the
      * sequence specified.
-     * @param sequence the sequence for which MIDI file type support
+     * @pbrbm sequence the sequence for which MIDI file type support
      * is queried
-     * @return the set of unique supported file types.  If no file types are supported,
-     * returns an array of length 0.
+     * @return the set of unique supported file types.  If no file types bre supported,
+     * returns bn brrby of length 0.
      */
-    public static int[] getMidiFileTypes(Sequence sequence) {
+    public stbtic int[] getMidiFileTypes(Sequence sequence) {
 
         List<MidiFileWriter> providers = getMidiFileWriters();
-        Set<Integer> allTypes = new HashSet<>();
+        Set<Integer> bllTypes = new HbshSet<>();
 
-        // gather from all the providers
+        // gbther from bll the providers
 
         for (int i = 0; i < providers.size(); i++ ) {
             MidiFileWriter writer = providers.get(i);
             int[] types = writer.getMidiFileTypes(sequence);
             for (int j = 0; j < types.length; j++ ) {
-                allTypes.add(types[j]);
+                bllTypes.bdd(types[j]);
             }
         }
-        int resultTypes[] = new int[allTypes.size()];
+        int resultTypes[] = new int[bllTypes.size()];
         int index = 0;
-        Iterator<Integer> iterator = allTypes.iterator();
-        while (iterator.hasNext()) {
-            Integer integer = iterator.next();
-            resultTypes[index++] = integer.intValue();
+        Iterbtor<Integer> iterbtor = bllTypes.iterbtor();
+        while (iterbtor.hbsNext()) {
+            Integer integer = iterbtor.next();
+            resultTypes[index++] = integer.intVblue();
         }
         return resultTypes;
     }
 
 
     /**
-     * Indicates whether a MIDI file of the file type specified can be written
-     * from the sequence indicated.
-     * @param fileType the file type for which write capabilities
-     * are queried
-     * @param sequence the sequence for which file writing support is queried
+     * Indicbtes whether b MIDI file of the file type specified cbn be written
+     * from the sequence indicbted.
+     * @pbrbm fileType the file type for which write cbpbbilities
+     * bre queried
+     * @pbrbm sequence the sequence for which file writing support is queried
      * @return <code>true</code> if the file type is supported for this
-     * sequence, otherwise <code>false</code>
+     * sequence, otherwise <code>fblse</code>
      */
-    public static boolean isFileTypeSupported(int fileType, Sequence sequence) {
+    public stbtic boolebn isFileTypeSupported(int fileType, Sequence sequence) {
 
         List<MidiFileWriter> providers = getMidiFileWriters();
 
@@ -1001,27 +1001,27 @@ public class MidiSystem {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Writes a stream of bytes representing a file of the MIDI file type
-     * indicated to the output stream provided.
-     * @param in sequence containing MIDI data to be written to the file
-     * @param fileType the file type of the file to be written to the output stream
-     * @param out stream to which the file data should be written
-     * @return the number of bytes written to the output stream
-     * @throws IOException if an I/O exception occurs
-     * @throws IllegalArgumentException if the file format is not supported by
+     * Writes b strebm of bytes representing b file of the MIDI file type
+     * indicbted to the output strebm provided.
+     * @pbrbm in sequence contbining MIDI dbtb to be written to the file
+     * @pbrbm fileType the file type of the file to be written to the output strebm
+     * @pbrbm out strebm to which the file dbtb should be written
+     * @return the number of bytes written to the output strebm
+     * @throws IOException if bn I/O exception occurs
+     * @throws IllegblArgumentException if the file formbt is not supported by
      * the system
      * @see #isFileTypeSupported(int, Sequence)
      * @see     #getMidiFileTypes(Sequence)
      */
-    public static int write(Sequence in, int fileType, OutputStream out) throws IOException {
+    public stbtic int write(Sequence in, int fileType, OutputStrebm out) throws IOException {
 
         List<MidiFileWriter> providers = getMidiFileWriters();
-        //$$fb 2002-04-17: Fix for 4635287: Standard MidiFileWriter cannot write empty Sequences
+        //$$fb 2002-04-17: Fix for 4635287: Stbndbrd MidiFileWriter cbnnot write empty Sequences
         int bytesWritten = -2;
 
         for (int i = 0; i < providers.size(); i++ ) {
@@ -1029,33 +1029,33 @@ public class MidiSystem {
             if( writer.isFileTypeSupported( fileType, in ) ) {
 
                 bytesWritten = writer.write(in, fileType, out);
-                break;
+                brebk;
             }
         }
         if (bytesWritten == -2) {
-            throw new IllegalArgumentException("MIDI file type is not supported");
+            throw new IllegblArgumentException("MIDI file type is not supported");
         }
         return bytesWritten;
     }
 
 
     /**
-     * Writes a stream of bytes representing a file of the MIDI file type
-     * indicated to the external file provided.
-     * @param in sequence containing MIDI data to be written to the file
-     * @param type the file type of the file to be written to the output stream
-     * @param out external file to which the file data should be written
+     * Writes b strebm of bytes representing b file of the MIDI file type
+     * indicbted to the externbl file provided.
+     * @pbrbm in sequence contbining MIDI dbtb to be written to the file
+     * @pbrbm type the file type of the file to be written to the output strebm
+     * @pbrbm out externbl file to which the file dbtb should be written
      * @return the number of bytes written to the file
-     * @throws IOException if an I/O exception occurs
-     * @throws IllegalArgumentException if the file type is not supported by
+     * @throws IOException if bn I/O exception occurs
+     * @throws IllegblArgumentException if the file type is not supported by
      * the system
      * @see #isFileTypeSupported(int, Sequence)
      * @see     #getMidiFileTypes(Sequence)
      */
-    public static int write(Sequence in, int type, File out) throws IOException {
+    public stbtic int write(Sequence in, int type, File out) throws IOException {
 
         List<MidiFileWriter> providers = getMidiFileWriters();
-        //$$fb 2002-04-17: Fix for 4635287: Standard MidiFileWriter cannot write empty Sequences
+        //$$fb 2002-04-17: Fix for 4635287: Stbndbrd MidiFileWriter cbnnot write empty Sequences
         int bytesWritten = -2;
 
         for (int i = 0; i < providers.size(); i++ ) {
@@ -1063,11 +1063,11 @@ public class MidiSystem {
             if( writer.isFileTypeSupported( type, in ) ) {
 
                 bytesWritten = writer.write(in, type, out);
-                break;
+                brebk;
             }
         }
         if (bytesWritten == -2) {
-            throw new IllegalArgumentException("MIDI file type is not supported");
+            throw new IllegblArgumentException("MIDI file type is not supported");
         }
         return bytesWritten;
     }
@@ -1075,115 +1075,115 @@ public class MidiSystem {
 
 
     // HELPER METHODS
-    @SuppressWarnings("unchecked")
-    private static List<MidiDeviceProvider> getMidiDeviceProviders() {
-        return (List<MidiDeviceProvider>) getProviders(MidiDeviceProvider.class);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic List<MidiDeviceProvider> getMidiDeviceProviders() {
+        return (List<MidiDeviceProvider>) getProviders(MidiDeviceProvider.clbss);
     }
 
-    @SuppressWarnings("unchecked")
-    private static List<SoundbankReader> getSoundbankReaders() {
-        return (List<SoundbankReader>) getProviders(SoundbankReader.class);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic List<SoundbbnkRebder> getSoundbbnkRebders() {
+        return (List<SoundbbnkRebder>) getProviders(SoundbbnkRebder.clbss);
     }
 
-    @SuppressWarnings("unchecked")
-    private static List<MidiFileWriter> getMidiFileWriters() {
-        return (List<MidiFileWriter>) getProviders(MidiFileWriter.class);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic List<MidiFileWriter> getMidiFileWriters() {
+        return (List<MidiFileWriter>) getProviders(MidiFileWriter.clbss);
     }
 
-    @SuppressWarnings("unchecked")
-    private static List<MidiFileReader> getMidiFileReaders() {
-        return (List<MidiFileReader>) getProviders(MidiFileReader.class);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic List<MidiFileRebder> getMidiFileRebders() {
+        return (List<MidiFileRebder>) getProviders(MidiFileRebder.clbss);
     }
 
 
-    /** Attempts to locate and return a default MidiDevice of the specified
+    /** Attempts to locbte bnd return b defbult MidiDevice of the specified
      * type.
      *
-     * This method wraps {@link #getDefaultDevice}. It catches the
-     * <code>IllegalArgumentException</code> thrown by
-     * <code>getDefaultDevice</code> and instead throws a
-     * <code>MidiUnavailableException</code>, with the catched
-     * exception chained.
+     * This method wrbps {@link #getDefbultDevice}. It cbtches the
+     * <code>IllegblArgumentException</code> thrown by
+     * <code>getDefbultDevice</code> bnd instebd throws b
+     * <code>MidiUnbvbilbbleException</code>, with the cbtched
+     * exception chbined.
      *
-     * @param deviceClass The requested device type, one of Synthesizer.class,
-     * Sequencer.class, Receiver.class or Transmitter.class.
-     * @throws  MidiUnavalableException on failure.
+     * @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+     * Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
+     * @throws  MidiUnbvblbbleException on fbilure.
      */
-    private static MidiDevice getDefaultDeviceWrapper(Class<?> deviceClass)
-        throws MidiUnavailableException{
+    privbte stbtic MidiDevice getDefbultDeviceWrbpper(Clbss<?> deviceClbss)
+        throws MidiUnbvbilbbleException{
         try {
-            return getDefaultDevice(deviceClass);
-        } catch (IllegalArgumentException iae) {
-            MidiUnavailableException mae = new MidiUnavailableException();
-            mae.initCause(iae);
-            throw mae;
+            return getDefbultDevice(deviceClbss);
+        } cbtch (IllegblArgumentException ibe) {
+            MidiUnbvbilbbleException mbe = new MidiUnbvbilbbleException();
+            mbe.initCbuse(ibe);
+            throw mbe;
         }
     }
 
 
-    /** Attempts to locate and return a default MidiDevice of the specified
+    /** Attempts to locbte bnd return b defbult MidiDevice of the specified
      * type.
      *
-     * @param deviceClass The requested device type, one of Synthesizer.class,
-     * Sequencer.class, Receiver.class or Transmitter.class.
-     * @throws  IllegalArgumentException on failure.
+     * @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+     * Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
+     * @throws  IllegblArgumentException on fbilure.
      */
-    private static MidiDevice getDefaultDevice(Class<?> deviceClass) {
+    privbte stbtic MidiDevice getDefbultDevice(Clbss<?> deviceClbss) {
         List<MidiDeviceProvider> providers = getMidiDeviceProviders();
-        String providerClassName = JDK13Services.getDefaultProviderClassName(deviceClass);
-        String instanceName = JDK13Services.getDefaultInstanceName(deviceClass);
+        String providerClbssNbme = JDK13Services.getDefbultProviderClbssNbme(deviceClbss);
+        String instbnceNbme = JDK13Services.getDefbultInstbnceNbme(deviceClbss);
         MidiDevice device;
 
-        if (providerClassName != null) {
-            MidiDeviceProvider defaultProvider = getNamedProvider(providerClassName, providers);
-            if (defaultProvider != null) {
-                if (instanceName != null) {
-                    device = getNamedDevice(instanceName, defaultProvider, deviceClass);
+        if (providerClbssNbme != null) {
+            MidiDeviceProvider defbultProvider = getNbmedProvider(providerClbssNbme, providers);
+            if (defbultProvider != null) {
+                if (instbnceNbme != null) {
+                    device = getNbmedDevice(instbnceNbme, defbultProvider, deviceClbss);
                     if (device != null) {
                         return device;
                     }
                 }
-                device = getFirstDevice(defaultProvider, deviceClass);
+                device = getFirstDevice(defbultProvider, deviceClbss);
                 if (device != null) {
                     return device;
                 }
             }
         }
 
-        /* Provider class not specified or cannot be found, or
-           provider class specified, and no appropriate device available or
-           provider class and instance specified and instance cannot be found or is not appropriate */
-        if (instanceName != null) {
-            device = getNamedDevice(instanceName, providers, deviceClass);
+        /* Provider clbss not specified or cbnnot be found, or
+           provider clbss specified, bnd no bppropribte device bvbilbble or
+           provider clbss bnd instbnce specified bnd instbnce cbnnot be found or is not bppropribte */
+        if (instbnceNbme != null) {
+            device = getNbmedDevice(instbnceNbme, providers, deviceClbss);
             if (device != null) {
                 return device;
             }
         }
 
-        /* No default are specified, or if something is specified, everything
-           failed. */
-        device = getFirstDevice(providers, deviceClass);
+        /* No defbult bre specified, or if something is specified, everything
+           fbiled. */
+        device = getFirstDevice(providers, deviceClbss);
         if (device != null) {
             return device;
         }
-        throw new IllegalArgumentException("Requested device not installed");
+        throw new IllegblArgumentException("Requested device not instblled");
     }
 
 
 
-    /** Return a MidiDeviceProcider of a given class from the list of
+    /** Return b MidiDeviceProcider of b given clbss from the list of
         MidiDeviceProviders.
 
-        @param providerClassName The class name of the provider to be returned.
-        @param provider The list of MidiDeviceProviders that is searched.
-        @return A MidiDeviceProvider of the requested class, or null if none
+        @pbrbm providerClbssNbme The clbss nbme of the provider to be returned.
+        @pbrbm provider The list of MidiDeviceProviders thbt is sebrched.
+        @return A MidiDeviceProvider of the requested clbss, or null if none
         is found.
     */
-    private static MidiDeviceProvider getNamedProvider(String providerClassName,
+    privbte stbtic MidiDeviceProvider getNbmedProvider(String providerClbssNbme,
                                                        List<MidiDeviceProvider> providers) {
         for(int i = 0; i < providers.size(); i++) {
             MidiDeviceProvider provider = providers.get(i);
-            if (provider.getClass().getName().equals(providerClassName)) {
+            if (provider.getClbss().getNbme().equbls(providerClbssNbme)) {
                 return provider;
             }
         }
@@ -1191,29 +1191,29 @@ public class MidiSystem {
     }
 
 
-    /** Return a MidiDevice with a given name from a given MidiDeviceProvider.
-        @param deviceName The name of the MidiDevice to be returned.
-        @param provider The MidiDeviceProvider to check for MidiDevices.
-        @param deviceClass The requested device type, one of Synthesizer.class,
-        Sequencer.class, Receiver.class or Transmitter.class.
+    /** Return b MidiDevice with b given nbme from b given MidiDeviceProvider.
+        @pbrbm deviceNbme The nbme of the MidiDevice to be returned.
+        @pbrbm provider The MidiDeviceProvider to check for MidiDevices.
+        @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+        Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
 
-        @return A MidiDevice matching the requirements, or null if none is found.
+        @return A MidiDevice mbtching the requirements, or null if none is found.
     */
-    private static MidiDevice getNamedDevice(String deviceName,
+    privbte stbtic MidiDevice getNbmedDevice(String deviceNbme,
                                              MidiDeviceProvider provider,
-                                             Class<?> deviceClass) {
+                                             Clbss<?> deviceClbss) {
         MidiDevice device;
         // try to get MIDI port
-        device = getNamedDevice(deviceName, provider, deviceClass,
-                                 false, false);
+        device = getNbmedDevice(deviceNbme, provider, deviceClbss,
+                                 fblse, fblse);
         if (device != null) {
             return device;
         }
 
-        if (deviceClass == Receiver.class) {
+        if (deviceClbss == Receiver.clbss) {
             // try to get Synthesizer
-            device = getNamedDevice(deviceName, provider, deviceClass,
-                                     true, false);
+            device = getNbmedDevice(deviceNbme, provider, deviceClbss,
+                                     true, fblse);
             if (device != null) {
                 return device;
             }
@@ -1223,25 +1223,25 @@ public class MidiSystem {
     }
 
 
-    /** Return a MidiDevice with a given name from a given MidiDeviceProvider.
-      @param deviceName The name of the MidiDevice to be returned.
-      @param provider The MidiDeviceProvider to check for MidiDevices.
-      @param deviceClass The requested device type, one of Synthesizer.class,
-      Sequencer.class, Receiver.class or Transmitter.class.
+    /** Return b MidiDevice with b given nbme from b given MidiDeviceProvider.
+      @pbrbm deviceNbme The nbme of the MidiDevice to be returned.
+      @pbrbm provider The MidiDeviceProvider to check for MidiDevices.
+      @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+      Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
 
-      @return A MidiDevice matching the requirements, or null if none is found.
+      @return A MidiDevice mbtching the requirements, or null if none is found.
      */
-    private static MidiDevice getNamedDevice(String deviceName,
+    privbte stbtic MidiDevice getNbmedDevice(String deviceNbme,
                                              MidiDeviceProvider provider,
-                                             Class<?> deviceClass,
-                                             boolean allowSynthesizer,
-                                             boolean allowSequencer) {
+                                             Clbss<?> deviceClbss,
+                                             boolebn bllowSynthesizer,
+                                             boolebn bllowSequencer) {
         MidiDevice.Info[] infos = provider.getDeviceInfo();
         for (int i = 0; i < infos.length; i++) {
-            if (infos[i].getName().equals(deviceName)) {
+            if (infos[i].getNbme().equbls(deviceNbme)) {
                 MidiDevice device = provider.getDevice(infos[i]);
-                if (isAppropriateDevice(device, deviceClass,
-                                        allowSynthesizer, allowSequencer)) {
+                if (isAppropribteDevice(device, deviceClbss,
+                                        bllowSynthesizer, bllowSequencer)) {
                     return device;
                 }
             }
@@ -1250,30 +1250,30 @@ public class MidiSystem {
     }
 
 
-    /** Return a MidiDevice with a given name from a list of
+    /** Return b MidiDevice with b given nbme from b list of
         MidiDeviceProviders.
-        @param deviceName The name of the MidiDevice to be returned.
-        @param providers The List of MidiDeviceProviders to check for
+        @pbrbm deviceNbme The nbme of the MidiDevice to be returned.
+        @pbrbm providers The List of MidiDeviceProviders to check for
         MidiDevices.
-        @param deviceClass The requested device type, one of Synthesizer.class,
-        Sequencer.class, Receiver.class or Transmitter.class.
-        @return A Mixer matching the requirements, or null if none is found.
+        @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+        Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
+        @return A Mixer mbtching the requirements, or null if none is found.
     */
-    private static MidiDevice getNamedDevice(String deviceName,
+    privbte stbtic MidiDevice getNbmedDevice(String deviceNbme,
                                              List<MidiDeviceProvider> providers,
-                                             Class<?> deviceClass) {
+                                             Clbss<?> deviceClbss) {
         MidiDevice device;
         // try to get MIDI port
-        device = getNamedDevice(deviceName, providers, deviceClass,
-                                 false, false);
+        device = getNbmedDevice(deviceNbme, providers, deviceClbss,
+                                 fblse, fblse);
         if (device != null) {
             return device;
         }
 
-        if (deviceClass == Receiver.class) {
+        if (deviceClbss == Receiver.clbss) {
             // try to get Synthesizer
-            device = getNamedDevice(deviceName, providers, deviceClass,
-                                     true, false);
+            device = getNbmedDevice(deviceNbme, providers, deviceClbss,
+                                     true, fblse);
             if (device != null) {
                 return device;
             }
@@ -1283,26 +1283,26 @@ public class MidiSystem {
     }
 
 
-    /** Return a MidiDevice with a given name from a list of
+    /** Return b MidiDevice with b given nbme from b list of
         MidiDeviceProviders.
-        @param deviceName The name of the MidiDevice to be returned.
-        @param providers The List of MidiDeviceProviders to check for
+        @pbrbm deviceNbme The nbme of the MidiDevice to be returned.
+        @pbrbm providers The List of MidiDeviceProviders to check for
         MidiDevices.
-        @param deviceClass The requested device type, one of Synthesizer.class,
-        Sequencer.class, Receiver.class or Transmitter.class.
-        @return A Mixer matching the requirements, or null if none is found.
+        @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+        Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
+        @return A Mixer mbtching the requirements, or null if none is found.
      */
-    private static MidiDevice getNamedDevice(String deviceName,
+    privbte stbtic MidiDevice getNbmedDevice(String deviceNbme,
                                              List<MidiDeviceProvider> providers,
-                                             Class<?> deviceClass,
-                                             boolean allowSynthesizer,
-                                             boolean allowSequencer) {
+                                             Clbss<?> deviceClbss,
+                                             boolebn bllowSynthesizer,
+                                             boolebn bllowSequencer) {
         for(int i = 0; i < providers.size(); i++) {
             MidiDeviceProvider provider = providers.get(i);
-            MidiDevice device = getNamedDevice(deviceName, provider,
-                                               deviceClass,
-                                               allowSynthesizer,
-                                               allowSequencer);
+            MidiDevice device = getNbmedDevice(deviceNbme, provider,
+                                               deviceClbss,
+                                               bllowSynthesizer,
+                                               bllowSequencer);
             if (device != null) {
                 return device;
             }
@@ -1311,27 +1311,27 @@ public class MidiSystem {
     }
 
 
-    /** From a given MidiDeviceProvider, return the first appropriate device.
-        @param provider The MidiDeviceProvider to check for MidiDevices.
-        @param deviceClass The requested device type, one of Synthesizer.class,
-        Sequencer.class, Receiver.class or Transmitter.class.
-        @return A MidiDevice is considered appropriate, or null if no
-        appropriate device is found.
+    /** From b given MidiDeviceProvider, return the first bppropribte device.
+        @pbrbm provider The MidiDeviceProvider to check for MidiDevices.
+        @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+        Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
+        @return A MidiDevice is considered bppropribte, or null if no
+        bppropribte device is found.
     */
-    private static MidiDevice getFirstDevice(MidiDeviceProvider provider,
-                                             Class<?> deviceClass) {
+    privbte stbtic MidiDevice getFirstDevice(MidiDeviceProvider provider,
+                                             Clbss<?> deviceClbss) {
         MidiDevice device;
         // try to get MIDI port
-        device = getFirstDevice(provider, deviceClass,
-                                false, false);
+        device = getFirstDevice(provider, deviceClbss,
+                                fblse, fblse);
         if (device != null) {
             return device;
         }
 
-        if (deviceClass == Receiver.class) {
+        if (deviceClbss == Receiver.clbss) {
             // try to get Synthesizer
-            device = getFirstDevice(provider, deviceClass,
-                                    true, false);
+            device = getFirstDevice(provider, deviceClbss,
+                                    true, fblse);
             if (device != null) {
                 return device;
             }
@@ -1341,22 +1341,22 @@ public class MidiSystem {
     }
 
 
-    /** From a given MidiDeviceProvider, return the first appropriate device.
-        @param provider The MidiDeviceProvider to check for MidiDevices.
-        @param deviceClass The requested device type, one of Synthesizer.class,
-        Sequencer.class, Receiver.class or Transmitter.class.
-        @return A MidiDevice is considered appropriate, or null if no
-        appropriate device is found.
+    /** From b given MidiDeviceProvider, return the first bppropribte device.
+        @pbrbm provider The MidiDeviceProvider to check for MidiDevices.
+        @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+        Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
+        @return A MidiDevice is considered bppropribte, or null if no
+        bppropribte device is found.
      */
-    private static MidiDevice getFirstDevice(MidiDeviceProvider provider,
-                                             Class<?> deviceClass,
-                                             boolean allowSynthesizer,
-                                             boolean allowSequencer) {
+    privbte stbtic MidiDevice getFirstDevice(MidiDeviceProvider provider,
+                                             Clbss<?> deviceClbss,
+                                             boolebn bllowSynthesizer,
+                                             boolebn bllowSequencer) {
         MidiDevice.Info[] infos = provider.getDeviceInfo();
         for (int j = 0; j < infos.length; j++) {
             MidiDevice device = provider.getDevice(infos[j]);
-            if (isAppropriateDevice(device, deviceClass,
-                                    allowSynthesizer, allowSequencer)) {
+            if (isAppropribteDevice(device, deviceClbss,
+                                    bllowSynthesizer, bllowSequencer)) {
                 return device;
             }
         }
@@ -1364,28 +1364,28 @@ public class MidiSystem {
     }
 
 
-    /** From a List of MidiDeviceProviders, return the first appropriate
+    /** From b List of MidiDeviceProviders, return the first bppropribte
         MidiDevice.
-        @param providers The List of MidiDeviceProviders to search.
-        @param deviceClass The requested device type, one of Synthesizer.class,
-        Sequencer.class, Receiver.class or Transmitter.class.
-        @return A MidiDevice that is considered appropriate, or null
+        @pbrbm providers The List of MidiDeviceProviders to sebrch.
+        @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+        Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
+        @return A MidiDevice thbt is considered bppropribte, or null
         if none is found.
     */
-    private static MidiDevice getFirstDevice(List<MidiDeviceProvider> providers,
-                                             Class<?> deviceClass) {
+    privbte stbtic MidiDevice getFirstDevice(List<MidiDeviceProvider> providers,
+                                             Clbss<?> deviceClbss) {
         MidiDevice device;
         // try to get MIDI port
-        device = getFirstDevice(providers, deviceClass,
-                                false, false);
+        device = getFirstDevice(providers, deviceClbss,
+                                fblse, fblse);
         if (device != null) {
             return device;
         }
 
-        if (deviceClass == Receiver.class) {
+        if (deviceClbss == Receiver.clbss) {
             // try to get Synthesizer
-            device = getFirstDevice(providers, deviceClass,
-                                    true, false);
+            device = getFirstDevice(providers, deviceClbss,
+                                    true, fblse);
             if (device != null) {
                 return device;
             }
@@ -1395,23 +1395,23 @@ public class MidiSystem {
     }
 
 
-    /** From a List of MidiDeviceProviders, return the first appropriate
+    /** From b List of MidiDeviceProviders, return the first bppropribte
         MidiDevice.
-        @param providers The List of MidiDeviceProviders to search.
-        @param deviceClass The requested device type, one of Synthesizer.class,
-        Sequencer.class, Receiver.class or Transmitter.class.
-        @return A MidiDevice that is considered appropriate, or null
+        @pbrbm providers The List of MidiDeviceProviders to sebrch.
+        @pbrbm deviceClbss The requested device type, one of Synthesizer.clbss,
+        Sequencer.clbss, Receiver.clbss or Trbnsmitter.clbss.
+        @return A MidiDevice thbt is considered bppropribte, or null
         if none is found.
      */
-    private static MidiDevice getFirstDevice(List<MidiDeviceProvider> providers,
-                                             Class<?> deviceClass,
-                                             boolean allowSynthesizer,
-                                             boolean allowSequencer) {
+    privbte stbtic MidiDevice getFirstDevice(List<MidiDeviceProvider> providers,
+                                             Clbss<?> deviceClbss,
+                                             boolebn bllowSynthesizer,
+                                             boolebn bllowSequencer) {
         for(int i = 0; i < providers.size(); i++) {
             MidiDeviceProvider provider = providers.get(i);
-            MidiDevice device = getFirstDevice(provider, deviceClass,
-                                               allowSynthesizer,
-                                               allowSequencer);
+            MidiDevice device = getFirstDevice(provider, deviceClbss,
+                                               bllowSynthesizer,
+                                               bllowSequencer);
             if (device != null) {
                 return device;
             }
@@ -1420,67 +1420,67 @@ public class MidiSystem {
     }
 
 
-    /** Checks if a MidiDevice is appropriate.
-        If deviceClass is Synthesizer or Sequencer, a device implementing
-        the respective interface is considered appropriate. If deviceClass
-        is Receiver or Transmitter, a device is considered appropriate if
-        it implements neither Synthesizer nor Transmitter, and if it can
-        provide at least one Receiver or Transmitter, respectively.
+    /** Checks if b MidiDevice is bppropribte.
+        If deviceClbss is Synthesizer or Sequencer, b device implementing
+        the respective interfbce is considered bppropribte. If deviceClbss
+        is Receiver or Trbnsmitter, b device is considered bppropribte if
+        it implements neither Synthesizer nor Trbnsmitter, bnd if it cbn
+        provide bt lebst one Receiver or Trbnsmitter, respectively.
 
-        @param device the MidiDevice to test
-        @param allowSynthesizer if true, Synthesizers are considered
-        appropriate. Otherwise only pure MidiDevices are considered
-        appropriate (unless allowSequencer is true). This flag only has an
-        effect for deviceClass Receiver and Transmitter. For other device
-        classes (Sequencer and Synthesizer), this flag has no effect.
-        @param allowSequencer if true, Sequencers are considered
-        appropriate. Otherwise only pure MidiDevices are considered
-        appropriate (unless allowSynthesizer is true). This flag only has an
-        effect for deviceClass Receiver and Transmitter. For other device
-        classes (Sequencer and Synthesizer), this flag has no effect.
-        @return true if the device is considered appropriate according to the
-        rules given above, false otherwise.
+        @pbrbm device the MidiDevice to test
+        @pbrbm bllowSynthesizer if true, Synthesizers bre considered
+        bppropribte. Otherwise only pure MidiDevices bre considered
+        bppropribte (unless bllowSequencer is true). This flbg only hbs bn
+        effect for deviceClbss Receiver bnd Trbnsmitter. For other device
+        clbsses (Sequencer bnd Synthesizer), this flbg hbs no effect.
+        @pbrbm bllowSequencer if true, Sequencers bre considered
+        bppropribte. Otherwise only pure MidiDevices bre considered
+        bppropribte (unless bllowSynthesizer is true). This flbg only hbs bn
+        effect for deviceClbss Receiver bnd Trbnsmitter. For other device
+        clbsses (Sequencer bnd Synthesizer), this flbg hbs no effect.
+        @return true if the device is considered bppropribte bccording to the
+        rules given bbove, fblse otherwise.
     */
-    private static boolean isAppropriateDevice(MidiDevice device,
-                                               Class<?> deviceClass,
-                                               boolean allowSynthesizer,
-                                               boolean allowSequencer) {
-        if (deviceClass.isInstance(device)) {
-           // This clause is for deviceClass being either Synthesizer
+    privbte stbtic boolebn isAppropribteDevice(MidiDevice device,
+                                               Clbss<?> deviceClbss,
+                                               boolebn bllowSynthesizer,
+                                               boolebn bllowSequencer) {
+        if (deviceClbss.isInstbnce(device)) {
+           // This clbuse is for deviceClbss being either Synthesizer
             // or Sequencer.
             return true;
         } else {
-            // Now the case that deviceClass is Transmitter or
-            // Receiver. If neither allowSynthesizer nor allowSequencer is
-            // true, we require device instances to be
-            // neither Synthesizer nor Sequencer, since we only want
+            // Now the cbse thbt deviceClbss is Trbnsmitter or
+            // Receiver. If neither bllowSynthesizer nor bllowSequencer is
+            // true, we require device instbnces to be
+            // neither Synthesizer nor Sequencer, since we only wbnt
             // devices representing MIDI ports.
-            // Otherwise, the respective type is accepted, too
-            if ( (! (device instanceof Sequencer) &&
-                  ! (device instanceof Synthesizer) ) ||
-                 ((device instanceof Sequencer) && allowSequencer) ||
-                 ((device instanceof Synthesizer) && allowSynthesizer)) {
-                // And of cource, the device has to be able to provide
-                // Receivers or Transmitters.
-                if ((deviceClass == Receiver.class &&
-                     device.getMaxReceivers() != 0) ||
-                    (deviceClass == Transmitter.class &&
-                     device.getMaxTransmitters() != 0)) {
+            // Otherwise, the respective type is bccepted, too
+            if ( (! (device instbnceof Sequencer) &&
+                  ! (device instbnceof Synthesizer) ) ||
+                 ((device instbnceof Sequencer) && bllowSequencer) ||
+                 ((device instbnceof Synthesizer) && bllowSynthesizer)) {
+                // And of cource, the device hbs to be bble to provide
+                // Receivers or Trbnsmitters.
+                if ((deviceClbss == Receiver.clbss &&
+                     device.getMbxReceivers() != 0) ||
+                    (deviceClbss == Trbnsmitter.clbss &&
+                     device.getMbxTrbnsmitters() != 0)) {
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Obtains the set of services currently installed on the system
-     * using the SPI mechanism in 1.3.
-     * @return a List of instances of providers for the requested service.
-     * If no providers are available, a List of length 0 will be returned.
+     * Obtbins the set of services currently instblled on the system
+     * using the SPI mechbnism in 1.3.
+     * @return b List of instbnces of providers for the requested service.
+     * If no providers bre bvbilbble, b List of length 0 will be returned.
      */
-     private static List<?> getProviders(Class<?> providerClass) {
-         return JDK13Services.getProviders(providerClass);
+     privbte stbtic List<?> getProviders(Clbss<?> providerClbss) {
+         return JDK13Services.getProviders(providerClbss);
     }
 }

@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.text.View;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
 import sun.swing.SwingUtilities2;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JTabbedPane}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JTbbbedPbne}.
  *
- * <p>Looks up the {@code selectedTabPadInsets} property from the Style,
- * which represents additional insets for the selected tab.
+ * <p>Looks up the {@code selectedTbbPbdInsets} property from the Style,
+ * which represents bdditionbl insets for the selected tbb.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  * @since 1.7
  */
-public class SynthTabbedPaneUI extends BasicTabbedPaneUI
-                               implements PropertyChangeListener, SynthUI {
+public clbss SynthTbbbedPbneUI extends BbsicTbbbedPbneUI
+                               implements PropertyChbngeListener, SynthUI {
 
     /**
-     * <p>If non-zero, tabOverlap indicates the amount that the tab bounds
-     * should be altered such that they would overlap with a tab on either the
-     * leading or trailing end of a run (ie: in TOP, this would be on the left
+     * <p>If non-zero, tbbOverlbp indicbtes the bmount thbt the tbb bounds
+     * should be bltered such thbt they would overlbp with b tbb on either the
+     * lebding or trbiling end of b run (ie: in TOP, this would be on the left
      * or right).</p>
 
-     * <p>A positive overlap indicates that tabs should overlap right/down,
-     * while a negative overlap indicates tha tabs should overlap left/up.</p>
+     * <p>A positive overlbp indicbtes thbt tbbs should overlbp right/down,
+     * while b negbtive overlbp indicbtes thb tbbs should overlbp left/up.</p>
      *
-     * <p>When tabOverlap is specified, it both changes the x position and width
-     * of the tab if in TOP or BOTTOM placement, and changes the y position and
-     * height if in LEFT or RIGHT placement.</p>
+     * <p>When tbbOverlbp is specified, it both chbnges the x position bnd width
+     * of the tbb if in TOP or BOTTOM plbcement, bnd chbnges the y position bnd
+     * height if in LEFT or RIGHT plbcement.</p>
      *
-     * <p>This is done for the following reason. Consider a run of 10 tabs.
-     * There are 9 gaps between these tabs. If you specified a tabOverlap of
-     * "-1", then each of the tabs "x" values will be shifted left. This leaves
-     * 9 pixels of space to the right of the right-most tab unpainted. So, each
-     * tab's width is also extended by 1 pixel to make up the difference.</p>
+     * <p>This is done for the following rebson. Consider b run of 10 tbbs.
+     * There bre 9 gbps between these tbbs. If you specified b tbbOverlbp of
+     * "-1", then ebch of the tbbs "x" vblues will be shifted left. This lebves
+     * 9 pixels of spbce to the right of the right-most tbb unpbinted. So, ebch
+     * tbb's width is blso extended by 1 pixel to mbke up the difference.</p>
      *
-     * <p>This property respects the RTL component orientation.</p>
+     * <p>This property respects the RTL component orientbtion.</p>
      */
-    private int tabOverlap = 0;
+    privbte int tbbOverlbp = 0;
 
     /**
-     * When a tabbed pane has multiple rows of tabs, this indicates whether
-     * the tabs in the upper row(s) should extend to the base of the tab area,
-     * or whether they should remain at their normal tab height. This does not
-     * affect the bounds of the tabs, only the bounds of area painted by the
-     * tabs. The text position does not change. The result is that the bottom
-     * border of the upper row of tabs becomes fully obscured by the lower tabs,
-     * resulting in a cleaner look.
+     * When b tbbbed pbne hbs multiple rows of tbbs, this indicbtes whether
+     * the tbbs in the upper row(s) should extend to the bbse of the tbb breb,
+     * or whether they should rembin bt their normbl tbb height. This does not
+     * bffect the bounds of the tbbs, only the bounds of breb pbinted by the
+     * tbbs. The text position does not chbnge. The result is thbt the bottom
+     * border of the upper row of tbbs becomes fully obscured by the lower tbbs,
+     * resulting in b clebner look.
      */
-    private boolean extendTabsToBase = false;
+    privbte boolebn extendTbbsToBbse = fblse;
 
-    private SynthContext tabAreaContext;
-    private SynthContext tabContext;
-    private SynthContext tabContentContext;
+    privbte SynthContext tbbArebContext;
+    privbte SynthContext tbbContext;
+    privbte SynthContext tbbContentContext;
 
-    private SynthStyle style;
-    private SynthStyle tabStyle;
-    private SynthStyle tabAreaStyle;
-    private SynthStyle tabContentStyle;
+    privbte SynthStyle style;
+    privbte SynthStyle tbbStyle;
+    privbte SynthStyle tbbArebStyle;
+    privbte SynthStyle tbbContentStyle;
 
-    private Rectangle textRect = new Rectangle();
-    private Rectangle iconRect = new Rectangle();
+    privbte Rectbngle textRect = new Rectbngle();
+    privbte Rectbngle iconRect = new Rectbngle();
 
-    private Rectangle tabAreaBounds = new Rectangle();
+    privbte Rectbngle tbbArebBounds = new Rectbngle();
 
-    //added for the Nimbus look and feel, where the tab area is painted differently depending on the
-    //state for the selected tab
-    private boolean tabAreaStatesMatchSelectedTab = false;
-    //added for the Nimbus LAF to ensure that the labels don't move whether the tab is selected or not
-    private boolean nudgeSelectedLabel = true;
+    //bdded for the Nimbus look bnd feel, where the tbb breb is pbinted differently depending on the
+    //stbte for the selected tbb
+    privbte boolebn tbbArebStbtesMbtchSelectedTbb = fblse;
+    //bdded for the Nimbus LAF to ensure thbt the lbbels don't move whether the tbb is selected or not
+    privbte boolebn nudgeSelectedLbbel = true;
 
-    private boolean selectedTabIsPressed = false;
+    privbte boolebn selectedTbbIsPressed = fblse;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthTabbedPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new SynthTbbbedPbneUI();
     }
 
-     private boolean scrollableTabLayoutEnabled() {
-        return (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT);
+     privbte boolebn scrollbbleTbbLbyoutEnbbled() {
+        return (tbbPbne.getTbbLbyoutPolicy() == JTbbbedPbne.SCROLL_TAB_LAYOUT);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
-        updateStyle(tabPane);
+    protected void instbllDefbults() {
+        updbteStyle(tbbPbne);
     }
 
-    private void updateStyle(JTabbedPane c) {
+    privbte void updbteStyle(JTbbbedPbne c) {
         SynthContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
-        // Add properties other than JComponent colors, Borders and
-        // opacity settings here:
+        style = SynthLookAndFeel.updbteStyle(context, this);
+        // Add properties other thbn JComponent colors, Borders bnd
+        // opbcity settings here:
         if (style != oldStyle) {
-            tabRunOverlay =
-                style.getInt(context, "TabbedPane.tabRunOverlay", 0);
-            tabOverlap = style.getInt(context, "TabbedPane.tabOverlap", 0);
-            extendTabsToBase = style.getBoolean(context,
-                    "TabbedPane.extendTabsToBase", false);
-            textIconGap = style.getInt(context, "TabbedPane.textIconGap", 0);
-            selectedTabPadInsets = (Insets)style.get(context,
-                "TabbedPane.selectedTabPadInsets");
-            if (selectedTabPadInsets == null) {
-                selectedTabPadInsets = new Insets(0, 0, 0, 0);
+            tbbRunOverlby =
+                style.getInt(context, "TbbbedPbne.tbbRunOverlby", 0);
+            tbbOverlbp = style.getInt(context, "TbbbedPbne.tbbOverlbp", 0);
+            extendTbbsToBbse = style.getBoolebn(context,
+                    "TbbbedPbne.extendTbbsToBbse", fblse);
+            textIconGbp = style.getInt(context, "TbbbedPbne.textIconGbp", 0);
+            selectedTbbPbdInsets = (Insets)style.get(context,
+                "TbbbedPbne.selectedTbbPbdInsets");
+            if (selectedTbbPbdInsets == null) {
+                selectedTbbPbdInsets = new Insets(0, 0, 0, 0);
             }
-            tabAreaStatesMatchSelectedTab = style.getBoolean(context,
-                    "TabbedPane.tabAreaStatesMatchSelectedTab", false);
-            nudgeSelectedLabel = style.getBoolean(context,
-                    "TabbedPane.nudgeSelectedLabel", true);
+            tbbArebStbtesMbtchSelectedTbb = style.getBoolebn(context,
+                    "TbbbedPbne.tbbArebStbtesMbtchSelectedTbb", fblse);
+            nudgeSelectedLbbel = style.getBoolebn(context,
+                    "TbbbedPbne.nudgeSelectedLbbel", true);
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
 
-        if (tabContext != null) {
-            tabContext.dispose();
+        if (tbbContext != null) {
+            tbbContext.dispose();
         }
-        tabContext = getContext(c, Region.TABBED_PANE_TAB, ENABLED);
-        this.tabStyle = SynthLookAndFeel.updateStyle(tabContext, this);
-        tabInsets = tabStyle.getInsets(tabContext, null);
+        tbbContext = getContext(c, Region.TABBED_PANE_TAB, ENABLED);
+        this.tbbStyle = SynthLookAndFeel.updbteStyle(tbbContext, this);
+        tbbInsets = tbbStyle.getInsets(tbbContext, null);
 
 
-        if (tabAreaContext != null) {
-            tabAreaContext.dispose();
+        if (tbbArebContext != null) {
+            tbbArebContext.dispose();
         }
-        tabAreaContext = getContext(c, Region.TABBED_PANE_TAB_AREA, ENABLED);
-        this.tabAreaStyle = SynthLookAndFeel.updateStyle(tabAreaContext, this);
-        tabAreaInsets = tabAreaStyle.getInsets(tabAreaContext, null);
+        tbbArebContext = getContext(c, Region.TABBED_PANE_TAB_AREA, ENABLED);
+        this.tbbArebStyle = SynthLookAndFeel.updbteStyle(tbbArebContext, this);
+        tbbArebInsets = tbbArebStyle.getInsets(tbbArebContext, null);
 
 
-        if (tabContentContext != null) {
-            tabContentContext.dispose();
+        if (tbbContentContext != null) {
+            tbbContentContext.dispose();
         }
-        tabContentContext = getContext(c, Region.TABBED_PANE_CONTENT, ENABLED);
-        this.tabContentStyle = SynthLookAndFeel.updateStyle(tabContentContext,
+        tbbContentContext = getContext(c, Region.TABBED_PANE_CONTENT, ENABLED);
+        this.tbbContentStyle = SynthLookAndFeel.updbteStyle(tbbContentContext,
                                                             this);
         contentBorderInsets =
-            tabContentStyle.getInsets(tabContentContext, null);
+            tbbContentStyle.getInsets(tbbContentContext, null);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        tabPane.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        tbbPbne.bddPropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        tabPane.removePropertyChangeListener(this);
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
+        tbbPbne.removePropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(tabPane, ENABLED);
-        style.uninstallDefaults(context);
+    protected void uninstbllDefbults() {
+        SynthContext context = getContext(tbbPbne, ENABLED);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
 
-        tabStyle.uninstallDefaults(tabContext);
-        tabContext.dispose();
-        tabContext = null;
-        tabStyle = null;
+        tbbStyle.uninstbllDefbults(tbbContext);
+        tbbContext.dispose();
+        tbbContext = null;
+        tbbStyle = null;
 
-        tabAreaStyle.uninstallDefaults(tabAreaContext);
-        tabAreaContext.dispose();
-        tabAreaContext = null;
-        tabAreaStyle = null;
+        tbbArebStyle.uninstbllDefbults(tbbArebContext);
+        tbbArebContext.dispose();
+        tbbArebContext = null;
+        tbbArebStyle = null;
 
-        tabContentStyle.uninstallDefaults(tabContentContext);
-        tabContentContext.dispose();
-        tabContentContext = null;
-        tabContentStyle = null;
+        tbbContentStyle.uninstbllDefbults(tbbContentContext);
+        tbbContentContext.dispose();
+        tbbContentContext = null;
+        tbbContentStyle = null;
     }
 
     /**
@@ -231,101 +231,101 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+        return getContext(c, SynthLookAndFeel.getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private SynthContext getContext(JComponent c, Region subregion, int state){
+    privbte SynthContext getContext(JComponent c, Region subregion, int stbte){
         SynthStyle style = null;
 
         if (subregion == Region.TABBED_PANE_TAB) {
-            style = tabStyle;
+            style = tbbStyle;
         }
         else if (subregion == Region.TABBED_PANE_TAB_AREA) {
-            style = tabAreaStyle;
+            style = tbbArebStyle;
         }
         else if (subregion == Region.TABBED_PANE_CONTENT) {
-            style = tabContentStyle;
+            style = tbbContentStyle;
         }
-        return SynthContext.getContext(c, subregion, style, state);
+        return SynthContext.getContext(c, subregion, style, stbte);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected JButton createScrollButton(int direction) {
-        // added for Nimbus LAF so that it can use the basic arrow buttons
-        // UIManager is queried directly here because this is called before
-        // updateStyle is called so the style can not be queried directly
-        if (UIManager.getBoolean("TabbedPane.useBasicArrows")) {
-            JButton btn = super.createScrollButton(direction);
-            btn.setBorder(BorderFactory.createEmptyBorder());
+    protected JButton crebteScrollButton(int direction) {
+        // bdded for Nimbus LAF so thbt it cbn use the bbsic brrow buttons
+        // UIMbnbger is queried directly here becbuse this is cblled before
+        // updbteStyle is cblled so the style cbn not be queried directly
+        if (UIMbnbger.getBoolebn("TbbbedPbne.useBbsicArrows")) {
+            JButton btn = super.crebteScrollButton(direction);
+            btn.setBorder(BorderFbctory.crebteEmptyBorder());
             return btn;
         }
-        return new SynthScrollableTabButton(direction);
+        return new SynthScrollbbleTbbButton(direction);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle(tabPane);
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+            updbteStyle(tbbPbne);
         }
     }
 
     /**
      * {@inheritDoc}
      *
-     * Overridden to keep track of whether the selected tab is also pressed.
+     * Overridden to keep trbck of whether the selected tbb is blso pressed.
      */
     @Override
-    protected MouseListener createMouseListener() {
-        final MouseListener delegate = super.createMouseListener();
-        final MouseMotionListener delegate2 = (MouseMotionListener)delegate;
+    protected MouseListener crebteMouseListener() {
+        finbl MouseListener delegbte = super.crebteMouseListener();
+        finbl MouseMotionListener delegbte2 = (MouseMotionListener)delegbte;
         return new MouseListener() {
-            public void mouseClicked(MouseEvent e) { delegate.mouseClicked(e); }
-            public void mouseEntered(MouseEvent e) { delegate.mouseEntered(e); }
-            public void mouseExited(MouseEvent e) { delegate.mouseExited(e); }
+            public void mouseClicked(MouseEvent e) { delegbte.mouseClicked(e); }
+            public void mouseEntered(MouseEvent e) { delegbte.mouseEntered(e); }
+            public void mouseExited(MouseEvent e) { delegbte.mouseExited(e); }
 
             public void mousePressed(MouseEvent e) {
-                if (!tabPane.isEnabled()) {
+                if (!tbbPbne.isEnbbled()) {
                     return;
                 }
 
-                int tabIndex = tabForCoordinate(tabPane, e.getX(), e.getY());
-                if (tabIndex >= 0 && tabPane.isEnabledAt(tabIndex)) {
-                    if (tabIndex == tabPane.getSelectedIndex()) {
-                        // Clicking on selected tab
-                        selectedTabIsPressed = true;
-                        //TODO need to just repaint the tab area!
-                        tabPane.repaint();
+                int tbbIndex = tbbForCoordinbte(tbbPbne, e.getX(), e.getY());
+                if (tbbIndex >= 0 && tbbPbne.isEnbbledAt(tbbIndex)) {
+                    if (tbbIndex == tbbPbne.getSelectedIndex()) {
+                        // Clicking on selected tbb
+                        selectedTbbIsPressed = true;
+                        //TODO need to just repbint the tbb breb!
+                        tbbPbne.repbint();
                     }
                 }
 
-                //forward the event (this will set the selected index, or none at all
-                delegate.mousePressed(e);
+                //forwbrd the event (this will set the selected index, or none bt bll
+                delegbte.mousePressed(e);
             }
 
-            public void mouseReleased(MouseEvent e) {
-                if (selectedTabIsPressed) {
-                    selectedTabIsPressed = false;
-                    //TODO need to just repaint the tab area!
-                    tabPane.repaint();
+            public void mouseRelebsed(MouseEvent e) {
+                if (selectedTbbIsPressed) {
+                    selectedTbbIsPressed = fblse;
+                    //TODO need to just repbint the tbb breb!
+                    tbbPbne.repbint();
                 }
-                //forward the event
-                delegate.mouseReleased(e);
+                //forwbrd the event
+                delegbte.mouseRelebsed(e);
 
-                //hack: The super method *should* be setting the mouse-over property correctly
-                //here, but it doesn't. That is, when the mouse is released, whatever tab is below the
-                //released mouse should be in rollover state. But, if you select a tab and don't
-                //move the mouse, this doesn't happen. Hence, forwarding the event.
-                delegate2.mouseMoved(e);
+                //hbck: The super method *should* be setting the mouse-over property correctly
+                //here, but it doesn't. Thbt is, when the mouse is relebsed, whbtever tbb is below the
+                //relebsed mouse should be in rollover stbte. But, if you select b tbb bnd don't
+                //move the mouse, this doesn't hbppen. Hence, forwbrding the event.
+                delegbte2.mouseMoved(e);
             }
         };
     }
@@ -334,9 +334,9 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected int getTabLabelShiftX(int tabPlacement, int tabIndex, boolean isSelected) {
-        if (nudgeSelectedLabel) {
-            return super.getTabLabelShiftX(tabPlacement, tabIndex, isSelected);
+    protected int getTbbLbbelShiftX(int tbbPlbcement, int tbbIndex, boolebn isSelected) {
+        if (nudgeSelectedLbbel) {
+            return super.getTbbLbbelShiftX(tbbPlbcement, tbbIndex, isSelected);
         } else {
             return 0;
         }
@@ -346,34 +346,34 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected int getTabLabelShiftY(int tabPlacement, int tabIndex, boolean isSelected) {
-        if (nudgeSelectedLabel) {
-            return super.getTabLabelShiftY(tabPlacement, tabIndex, isSelected);
+    protected int getTbbLbbelShiftY(int tbbPlbcement, int tbbIndex, boolebn isSelected) {
+        if (nudgeSelectedLbbel) {
+            return super.getTbbLbbelShiftY(tbbPlbcement, tbbIndex, isSelected);
         } else {
             return 0;
         }
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintTabbedPaneBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintTbbbedPbneBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
@@ -381,165 +381,165 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected int getBaseline(int tab) {
-        if (tabPane.getTabComponentAt(tab) != null ||
-                getTextViewForTab(tab) != null) {
-            return super.getBaseline(tab);
+    protected int getBbseline(int tbb) {
+        if (tbbPbne.getTbbComponentAt(tbb) != null ||
+                getTextViewForTbb(tbb) != null) {
+            return super.getBbseline(tbb);
         }
-        String title = tabPane.getTitleAt(tab);
-        Font font = tabContext.getStyle().getFont(tabContext);
+        String title = tbbPbne.getTitleAt(tbb);
+        Font font = tbbContext.getStyle().getFont(tbbContext);
         FontMetrics metrics = getFontMetrics(font);
-        Icon icon = getIconForTab(tab);
+        Icon icon = getIconForTbb(tbb);
         textRect.setBounds(0, 0, 0, 0);
         iconRect.setBounds(0, 0, 0, 0);
-        calcRect.setBounds(0, 0, Short.MAX_VALUE, maxTabHeight);
-        tabContext.getStyle().getGraphicsUtils(tabContext).layoutText(
-                tabContext, metrics, title, icon, SwingUtilities.CENTER,
+        cblcRect.setBounds(0, 0, Short.MAX_VALUE, mbxTbbHeight);
+        tbbContext.getStyle().getGrbphicsUtils(tbbContext).lbyoutText(
+                tbbContext, metrics, title, icon, SwingUtilities.CENTER,
                 SwingUtilities.CENTER, SwingUtilities.LEADING,
-                SwingUtilities.CENTER, calcRect,
-                iconRect, textRect, textIconGap);
-        return textRect.y + metrics.getAscent() + getBaselineOffset();
+                SwingUtilities.CENTER, cblcRect,
+                iconRect, textRect, textIconGbp);
+        return textRect.y + metrics.getAscent() + getBbselineOffset();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintTabbedPaneBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintTbbbedPbneBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        int selectedIndex = tabPane.getSelectedIndex();
-        int tabPlacement = tabPane.getTabPlacement();
+    protected void pbint(SynthContext context, Grbphics g) {
+        int selectedIndex = tbbPbne.getSelectedIndex();
+        int tbbPlbcement = tbbPbne.getTbbPlbcement();
 
-        ensureCurrentLayout();
+        ensureCurrentLbyout();
 
-        // Paint tab area
-        // If scrollable tabs are enabled, the tab area will be
-        // painted by the scrollable tab panel instead.
+        // Pbint tbb breb
+        // If scrollbble tbbs bre enbbled, the tbb breb will be
+        // pbinted by the scrollbble tbb pbnel instebd.
         //
-        if (!scrollableTabLayoutEnabled()) { // WRAP_TAB_LAYOUT
-            Insets insets = tabPane.getInsets();
+        if (!scrollbbleTbbLbyoutEnbbled()) { // WRAP_TAB_LAYOUT
+            Insets insets = tbbPbne.getInsets();
             int x = insets.left;
             int y = insets.top;
-            int width = tabPane.getWidth() - insets.left - insets.right;
-            int height = tabPane.getHeight() - insets.top - insets.bottom;
+            int width = tbbPbne.getWidth() - insets.left - insets.right;
+            int height = tbbPbne.getHeight() - insets.top - insets.bottom;
             int size;
-            switch(tabPlacement) {
-            case LEFT:
-                width = calculateTabAreaWidth(tabPlacement, runCount,
-                                              maxTabWidth);
-                break;
-            case RIGHT:
-                size = calculateTabAreaWidth(tabPlacement, runCount,
-                                             maxTabWidth);
+            switch(tbbPlbcement) {
+            cbse LEFT:
+                width = cblculbteTbbArebWidth(tbbPlbcement, runCount,
+                                              mbxTbbWidth);
+                brebk;
+            cbse RIGHT:
+                size = cblculbteTbbArebWidth(tbbPlbcement, runCount,
+                                             mbxTbbWidth);
                 x = x + width - size;
                 width = size;
-                break;
-            case BOTTOM:
-                size = calculateTabAreaHeight(tabPlacement, runCount,
-                                              maxTabHeight);
+                brebk;
+            cbse BOTTOM:
+                size = cblculbteTbbArebHeight(tbbPlbcement, runCount,
+                                              mbxTbbHeight);
                 y = y + height - size;
                 height = size;
-                break;
-            case TOP:
-            default:
-                height = calculateTabAreaHeight(tabPlacement, runCount,
-                                                maxTabHeight);
+                brebk;
+            cbse TOP:
+            defbult:
+                height = cblculbteTbbArebHeight(tbbPlbcement, runCount,
+                                                mbxTbbHeight);
             }
 
-            tabAreaBounds.setBounds(x, y, width, height);
+            tbbArebBounds.setBounds(x, y, width, height);
 
-            if (g.getClipBounds().intersects(tabAreaBounds)) {
-                paintTabArea(tabAreaContext, g, tabPlacement,
-                         selectedIndex, tabAreaBounds);
+            if (g.getClipBounds().intersects(tbbArebBounds)) {
+                pbintTbbAreb(tbbArebContext, g, tbbPlbcement,
+                         selectedIndex, tbbArebBounds);
             }
         }
 
-        // Paint content border
-        paintContentBorder(tabContentContext, g, tabPlacement, selectedIndex);
+        // Pbint content border
+        pbintContentBorder(tbbContentContext, g, tbbPlbcement, selectedIndex);
     }
 
-    protected void paintTabArea(Graphics g, int tabPlacement,
+    protected void pbintTbbAreb(Grbphics g, int tbbPlbcement,
                                 int selectedIndex) {
-        // This can be invoked from ScrollabeTabPanel
-        Insets insets = tabPane.getInsets();
+        // This cbn be invoked from ScrollbbeTbbPbnel
+        Insets insets = tbbPbne.getInsets();
         int x = insets.left;
         int y = insets.top;
-        int width = tabPane.getWidth() - insets.left - insets.right;
-        int height = tabPane.getHeight() - insets.top - insets.bottom;
+        int width = tbbPbne.getWidth() - insets.left - insets.right;
+        int height = tbbPbne.getHeight() - insets.top - insets.bottom;
 
-        paintTabArea(tabAreaContext, g, tabPlacement, selectedIndex,
-                     new Rectangle(x, y, width, height));
+        pbintTbbAreb(tbbArebContext, g, tbbPlbcement, selectedIndex,
+                     new Rectbngle(x, y, width, height));
     }
 
-    private void paintTabArea(SynthContext ss, Graphics g,
-                                int tabPlacement, int selectedIndex,
-                                Rectangle tabAreaBounds) {
-        Rectangle clipRect = g.getClipBounds();
+    privbte void pbintTbbAreb(SynthContext ss, Grbphics g,
+                                int tbbPlbcement, int selectedIndex,
+                                Rectbngle tbbArebBounds) {
+        Rectbngle clipRect = g.getClipBounds();
 
-        //if the tab area's states should match that of the selected tab, then
-        //first update the selected tab's states, then set the state
-        //for the tab area to match
-        //otherwise, restore the tab area's state to ENABLED (which is the
-        //only supported state otherwise).
-        if (tabAreaStatesMatchSelectedTab && selectedIndex >= 0) {
-            updateTabContext(selectedIndex, true, selectedTabIsPressed,
-                              (getRolloverTab() == selectedIndex),
+        //if the tbb breb's stbtes should mbtch thbt of the selected tbb, then
+        //first updbte the selected tbb's stbtes, then set the stbte
+        //for the tbb breb to mbtch
+        //otherwise, restore the tbb breb's stbte to ENABLED (which is the
+        //only supported stbte otherwise).
+        if (tbbArebStbtesMbtchSelectedTbb && selectedIndex >= 0) {
+            updbteTbbContext(selectedIndex, true, selectedTbbIsPressed,
+                              (getRolloverTbb() == selectedIndex),
                               (getFocusIndex() == selectedIndex));
-            ss.setComponentState(tabContext.getComponentState());
+            ss.setComponentStbte(tbbContext.getComponentStbte());
         } else {
-            ss.setComponentState(SynthConstants.ENABLED);
+            ss.setComponentStbte(SynthConstbnts.ENABLED);
         }
 
-        // Paint the tab area.
-        SynthLookAndFeel.updateSubregion(ss, g, tabAreaBounds);
-        ss.getPainter().paintTabbedPaneTabAreaBackground(ss, g,
-             tabAreaBounds.x, tabAreaBounds.y, tabAreaBounds.width,
-             tabAreaBounds.height, tabPlacement);
-        ss.getPainter().paintTabbedPaneTabAreaBorder(ss, g, tabAreaBounds.x,
-             tabAreaBounds.y, tabAreaBounds.width, tabAreaBounds.height,
-             tabPlacement);
+        // Pbint the tbb breb.
+        SynthLookAndFeel.updbteSubregion(ss, g, tbbArebBounds);
+        ss.getPbinter().pbintTbbbedPbneTbbArebBbckground(ss, g,
+             tbbArebBounds.x, tbbArebBounds.y, tbbArebBounds.width,
+             tbbArebBounds.height, tbbPlbcement);
+        ss.getPbinter().pbintTbbbedPbneTbbArebBorder(ss, g, tbbArebBounds.x,
+             tbbArebBounds.y, tbbArebBounds.width, tbbArebBounds.height,
+             tbbPlbcement);
 
-        int tabCount = tabPane.getTabCount();
+        int tbbCount = tbbPbne.getTbbCount();
 
         iconRect.setBounds(0, 0, 0, 0);
         textRect.setBounds(0, 0, 0, 0);
 
-        // Paint tabRuns of tabs from back to front
+        // Pbint tbbRuns of tbbs from bbck to front
         for (int i = runCount - 1; i >= 0; i--) {
-            int start = tabRuns[i];
-            int next = tabRuns[(i == runCount - 1)? 0 : i + 1];
-            int end = (next != 0? next - 1: tabCount - 1);
-            for (int j = start; j <= end; j++) {
+            int stbrt = tbbRuns[i];
+            int next = tbbRuns[(i == runCount - 1)? 0 : i + 1];
+            int end = (next != 0? next - 1: tbbCount - 1);
+            for (int j = stbrt; j <= end; j++) {
                 if (rects[j].intersects(clipRect) && selectedIndex != j) {
-                    paintTab(tabContext, g, tabPlacement, rects, j, iconRect,
+                    pbintTbb(tbbContext, g, tbbPlbcement, rects, j, iconRect,
                              textRect);
                 }
             }
@@ -547,7 +547,7 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
 
         if (selectedIndex >= 0) {
             if (rects[selectedIndex].intersects(clipRect)) {
-                paintTab(tabContext, g, tabPlacement, rects, selectedIndex,
+                pbintTbb(tbbContext, g, tbbPlbcement, rects, selectedIndex,
                          iconRect, textRect);
             }
         }
@@ -557,193 +557,193 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected void setRolloverTab(int index) {
-        int oldRolloverTab = getRolloverTab();
-        super.setRolloverTab(index);
+    protected void setRolloverTbb(int index) {
+        int oldRolloverTbb = getRolloverTbb();
+        super.setRolloverTbb(index);
 
-        Rectangle r = null;
+        Rectbngle r = null;
 
-        if (oldRolloverTab != index && tabAreaStatesMatchSelectedTab) {
-            //TODO need to just repaint the tab area!
-            tabPane.repaint();
+        if (oldRolloverTbb != index && tbbArebStbtesMbtchSelectedTbb) {
+            //TODO need to just repbint the tbb breb!
+            tbbPbne.repbint();
         } else {
-            if ((oldRolloverTab >= 0) && (oldRolloverTab < tabPane.getTabCount())) {
-                r = getTabBounds(tabPane, oldRolloverTab);
+            if ((oldRolloverTbb >= 0) && (oldRolloverTbb < tbbPbne.getTbbCount())) {
+                r = getTbbBounds(tbbPbne, oldRolloverTbb);
                 if (r != null) {
-                    tabPane.repaint(r);
+                    tbbPbne.repbint(r);
                 }
             }
 
             if (index >= 0) {
-                r = getTabBounds(tabPane, index);
+                r = getTbbBounds(tbbPbne, index);
                 if (r != null) {
-                    tabPane.repaint(r);
+                    tbbPbne.repbint(r);
                 }
             }
         }
     }
 
-    private void paintTab(SynthContext ss, Graphics g,
-                            int tabPlacement, Rectangle[] rects, int tabIndex,
-                            Rectangle iconRect, Rectangle textRect) {
-        Rectangle tabRect = rects[tabIndex];
-        int selectedIndex = tabPane.getSelectedIndex();
-        boolean isSelected = selectedIndex == tabIndex;
-        updateTabContext(tabIndex, isSelected, isSelected && selectedTabIsPressed,
-                            (getRolloverTab() == tabIndex),
-                            (getFocusIndex() == tabIndex));
+    privbte void pbintTbb(SynthContext ss, Grbphics g,
+                            int tbbPlbcement, Rectbngle[] rects, int tbbIndex,
+                            Rectbngle iconRect, Rectbngle textRect) {
+        Rectbngle tbbRect = rects[tbbIndex];
+        int selectedIndex = tbbPbne.getSelectedIndex();
+        boolebn isSelected = selectedIndex == tbbIndex;
+        updbteTbbContext(tbbIndex, isSelected, isSelected && selectedTbbIsPressed,
+                            (getRolloverTbb() == tbbIndex),
+                            (getFocusIndex() == tbbIndex));
 
-        SynthLookAndFeel.updateSubregion(ss, g, tabRect);
-        int x = tabRect.x;
-        int y = tabRect.y;
-        int height = tabRect.height;
-        int width = tabRect.width;
-        int placement = tabPane.getTabPlacement();
-        if (extendTabsToBase && runCount > 1) {
-            //paint this tab such that its edge closest to the base is equal to
-            //edge of the selected tab closest to the base. In terms of the TOP
-            //tab placement, this will cause the bottom of each tab to be
-            //painted even with the bottom of the selected tab. This is because
-            //in each tab placement (TOP, LEFT, BOTTOM, RIGHT) the selected tab
-            //is closest to the base.
+        SynthLookAndFeel.updbteSubregion(ss, g, tbbRect);
+        int x = tbbRect.x;
+        int y = tbbRect.y;
+        int height = tbbRect.height;
+        int width = tbbRect.width;
+        int plbcement = tbbPbne.getTbbPlbcement();
+        if (extendTbbsToBbse && runCount > 1) {
+            //pbint this tbb such thbt its edge closest to the bbse is equbl to
+            //edge of the selected tbb closest to the bbse. In terms of the TOP
+            //tbb plbcement, this will cbuse the bottom of ebch tbb to be
+            //pbinted even with the bottom of the selected tbb. This is becbuse
+            //in ebch tbb plbcement (TOP, LEFT, BOTTOM, RIGHT) the selected tbb
+            //is closest to the bbse.
             if (selectedIndex >= 0) {
-                Rectangle r = rects[selectedIndex];
-                switch (placement) {
-                    case TOP:
+                Rectbngle r = rects[selectedIndex];
+                switch (plbcement) {
+                    cbse TOP:
                         int bottomY = r.y + r.height;
-                        height = bottomY - tabRect.y;
-                        break;
-                    case LEFT:
+                        height = bottomY - tbbRect.y;
+                        brebk;
+                    cbse LEFT:
                         int rightX = r.x + r.width;
-                        width = rightX - tabRect.x;
-                        break;
-                    case BOTTOM:
+                        width = rightX - tbbRect.x;
+                        brebk;
+                    cbse BOTTOM:
                         int topY = r.y;
-                        height = (tabRect.y + tabRect.height) - topY;
+                        height = (tbbRect.y + tbbRect.height) - topY;
                         y = topY;
-                        break;
-                    case RIGHT:
+                        brebk;
+                    cbse RIGHT:
                         int leftX = r.x;
-                        width = (tabRect.x + tabRect.width) - leftX;
+                        width = (tbbRect.x + tbbRect.width) - leftX;
                         x = leftX;
-                        break;
+                        brebk;
                 }
             }
         }
-        tabContext.getPainter().paintTabbedPaneTabBackground(tabContext, g,
-                x, y, width, height, tabIndex, placement);
-        tabContext.getPainter().paintTabbedPaneTabBorder(tabContext, g,
-                x, y, width, height, tabIndex, placement);
+        tbbContext.getPbinter().pbintTbbbedPbneTbbBbckground(tbbContext, g,
+                x, y, width, height, tbbIndex, plbcement);
+        tbbContext.getPbinter().pbintTbbbedPbneTbbBorder(tbbContext, g,
+                x, y, width, height, tbbIndex, plbcement);
 
-        if (tabPane.getTabComponentAt(tabIndex) == null) {
-            String title = tabPane.getTitleAt(tabIndex);
+        if (tbbPbne.getTbbComponentAt(tbbIndex) == null) {
+            String title = tbbPbne.getTitleAt(tbbIndex);
             Font font = ss.getStyle().getFont(ss);
-            FontMetrics metrics = SwingUtilities2.getFontMetrics(tabPane, g, font);
-            Icon icon = getIconForTab(tabIndex);
+            FontMetrics metrics = SwingUtilities2.getFontMetrics(tbbPbne, g, font);
+            Icon icon = getIconForTbb(tbbIndex);
 
-            layoutLabel(ss, tabPlacement, metrics, tabIndex, title, icon,
-                    tabRect, iconRect, textRect, isSelected);
+            lbyoutLbbel(ss, tbbPlbcement, metrics, tbbIndex, title, icon,
+                    tbbRect, iconRect, textRect, isSelected);
 
-            paintText(ss, g, tabPlacement, font, metrics,
-                    tabIndex, title, textRect, isSelected);
+            pbintText(ss, g, tbbPlbcement, font, metrics,
+                    tbbIndex, title, textRect, isSelected);
 
-            paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
+            pbintIcon(g, tbbPlbcement, tbbIndex, icon, iconRect, isSelected);
         }
     }
 
-    private void layoutLabel(SynthContext ss, int tabPlacement,
-                               FontMetrics metrics, int tabIndex,
+    privbte void lbyoutLbbel(SynthContext ss, int tbbPlbcement,
+                               FontMetrics metrics, int tbbIndex,
                                String title, Icon icon,
-                               Rectangle tabRect, Rectangle iconRect,
-                               Rectangle textRect, boolean isSelected ) {
-        View v = getTextViewForTab(tabIndex);
+                               Rectbngle tbbRect, Rectbngle iconRect,
+                               Rectbngle textRect, boolebn isSelected ) {
+        View v = getTextViewForTbb(tbbIndex);
         if (v != null) {
-            tabPane.putClientProperty("html", v);
+            tbbPbne.putClientProperty("html", v);
         }
 
         textRect.x = textRect.y = iconRect.x = iconRect.y = 0;
 
-        ss.getStyle().getGraphicsUtils(ss).layoutText(ss, metrics, title,
+        ss.getStyle().getGrbphicsUtils(ss).lbyoutText(ss, metrics, title,
                          icon, SwingUtilities.CENTER, SwingUtilities.CENTER,
                          SwingUtilities.LEADING, SwingUtilities.CENTER,
-                         tabRect, iconRect, textRect, textIconGap);
+                         tbbRect, iconRect, textRect, textIconGbp);
 
-        tabPane.putClientProperty("html", null);
+        tbbPbne.putClientProperty("html", null);
 
-        int xNudge = getTabLabelShiftX(tabPlacement, tabIndex, isSelected);
-        int yNudge = getTabLabelShiftY(tabPlacement, tabIndex, isSelected);
+        int xNudge = getTbbLbbelShiftX(tbbPlbcement, tbbIndex, isSelected);
+        int yNudge = getTbbLbbelShiftY(tbbPlbcement, tbbIndex, isSelected);
         iconRect.x += xNudge;
         iconRect.y += yNudge;
         textRect.x += xNudge;
         textRect.y += yNudge;
     }
 
-    private void paintText(SynthContext ss,
-                             Graphics g, int tabPlacement,
-                             Font font, FontMetrics metrics, int tabIndex,
-                             String title, Rectangle textRect,
-                             boolean isSelected) {
+    privbte void pbintText(SynthContext ss,
+                             Grbphics g, int tbbPlbcement,
+                             Font font, FontMetrics metrics, int tbbIndex,
+                             String title, Rectbngle textRect,
+                             boolebn isSelected) {
         g.setFont(font);
 
-        View v = getTextViewForTab(tabIndex);
+        View v = getTextViewForTbb(tbbIndex);
         if (v != null) {
             // html
-            v.paint(g, textRect);
+            v.pbint(g, textRect);
         } else {
-            // plain text
-            int mnemIndex = tabPane.getDisplayedMnemonicIndexAt(tabIndex);
+            // plbin text
+            int mnemIndex = tbbPbne.getDisplbyedMnemonicIndexAt(tbbIndex);
 
             g.setColor(ss.getStyle().getColor(ss, ColorType.TEXT_FOREGROUND));
-            ss.getStyle().getGraphicsUtils(ss).paintText(ss, g, title,
+            ss.getStyle().getGrbphicsUtils(ss).pbintText(ss, g, title,
                                   textRect, mnemIndex);
         }
     }
 
 
-    private void paintContentBorder(SynthContext ss, Graphics g,
-                                      int tabPlacement, int selectedIndex) {
-        int width = tabPane.getWidth();
-        int height = tabPane.getHeight();
-        Insets insets = tabPane.getInsets();
+    privbte void pbintContentBorder(SynthContext ss, Grbphics g,
+                                      int tbbPlbcement, int selectedIndex) {
+        int width = tbbPbne.getWidth();
+        int height = tbbPbne.getHeight();
+        Insets insets = tbbPbne.getInsets();
 
         int x = insets.left;
         int y = insets.top;
         int w = width - insets.right - insets.left;
         int h = height - insets.top - insets.bottom;
 
-        switch(tabPlacement) {
-          case LEFT:
-              x += calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
+        switch(tbbPlbcement) {
+          cbse LEFT:
+              x += cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth);
               w -= (x - insets.left);
-              break;
-          case RIGHT:
-              w -= calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-              break;
-          case BOTTOM:
-              h -= calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-              break;
-          case TOP:
-          default:
-              y += calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
+              brebk;
+          cbse RIGHT:
+              w -= cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth);
+              brebk;
+          cbse BOTTOM:
+              h -= cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight);
+              brebk;
+          cbse TOP:
+          defbult:
+              y += cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight);
               h -= (y - insets.top);
         }
-        SynthLookAndFeel.updateSubregion(ss, g, new Rectangle(x, y, w, h));
-        ss.getPainter().paintTabbedPaneContentBackground(ss, g, x, y,
+        SynthLookAndFeel.updbteSubregion(ss, g, new Rectbngle(x, y, w, h));
+        ss.getPbinter().pbintTbbbedPbneContentBbckground(ss, g, x, y,
                                                            w, h);
-        ss.getPainter().paintTabbedPaneContentBorder(ss, g, x, y, w, h);
+        ss.getPbinter().pbintTbbbedPbneContentBorder(ss, g, x, y, w, h);
     }
 
-    private void ensureCurrentLayout() {
-        if (!tabPane.isValid()) {
-            tabPane.validate();
+    privbte void ensureCurrentLbyout() {
+        if (!tbbPbne.isVblid()) {
+            tbbPbne.vblidbte();
         }
-        /* If tabPane doesn't have a peer yet, the validate() call will
-         * silently fail.  We handle that by forcing a layout if tabPane
-         * is still invalid.  See bug 4237677.
+        /* If tbbPbne doesn't hbve b peer yet, the vblidbte() cbll will
+         * silently fbil.  We hbndle thbt by forcing b lbyout if tbbPbne
+         * is still invblid.  See bug 4237677.
          */
-        if (!tabPane.isValid()) {
-            TabbedPaneLayout layout = (TabbedPaneLayout)tabPane.getLayout();
-            layout.calculateLayoutInfo();
+        if (!tbbPbne.isVblid()) {
+            TbbbedPbneLbyout lbyout = (TbbbedPbneLbyout)tbbPbne.getLbyout();
+            lbyout.cblculbteLbyoutInfo();
         }
     }
 
@@ -751,14 +751,14 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected int calculateMaxTabHeight(int tabPlacement) {
-        FontMetrics metrics = getFontMetrics(tabContext.getStyle().getFont(
-                                             tabContext));
-        int tabCount = tabPane.getTabCount();
+    protected int cblculbteMbxTbbHeight(int tbbPlbcement) {
+        FontMetrics metrics = getFontMetrics(tbbContext.getStyle().getFont(
+                                             tbbContext));
+        int tbbCount = tbbPbne.getTbbCount();
         int result = 0;
         int fontHeight = metrics.getHeight();
-        for(int i = 0; i < tabCount; i++) {
-            result = Math.max(calculateTabHeight(tabPlacement, i, fontHeight), result);
+        for(int i = 0; i < tbbCount; i++) {
+            result = Mbth.mbx(cblculbteTbbHeight(tbbPlbcement, i, fontHeight), result);
         }
         return result;
     }
@@ -767,27 +767,27 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected int calculateTabWidth(int tabPlacement, int tabIndex,
+    protected int cblculbteTbbWidth(int tbbPlbcement, int tbbIndex,
                                     FontMetrics metrics) {
-        Icon icon = getIconForTab(tabIndex);
-        Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
-        int width = tabInsets.left + tabInsets.right;
-        Component tabComponent = tabPane.getTabComponentAt(tabIndex);
-        if (tabComponent != null) {
-            width += tabComponent.getPreferredSize().width;
+        Icon icon = getIconForTbb(tbbIndex);
+        Insets tbbInsets = getTbbInsets(tbbPlbcement, tbbIndex);
+        int width = tbbInsets.left + tbbInsets.right;
+        Component tbbComponent = tbbPbne.getTbbComponentAt(tbbIndex);
+        if (tbbComponent != null) {
+            width += tbbComponent.getPreferredSize().width;
         } else {
             if (icon != null) {
-                width += icon.getIconWidth() + textIconGap;
+                width += icon.getIconWidth() + textIconGbp;
             }
-            View v = getTextViewForTab(tabIndex);
+            View v = getTextViewForTbb(tbbIndex);
             if (v != null) {
                 // html
-                width += (int) v.getPreferredSpan(View.X_AXIS);
+                width += (int) v.getPreferredSpbn(View.X_AXIS);
             } else {
-                // plain text
-                String title = tabPane.getTitleAt(tabIndex);
-                width += tabContext.getStyle().getGraphicsUtils(tabContext).
-                        computeStringWidth(tabContext, metrics.getFont(),
+                // plbin text
+                String title = tbbPbne.getTitleAt(tbbIndex);
+                width += tbbContext.getStyle().getGrbphicsUtils(tbbContext).
+                        computeStringWidth(tbbContext, metrics.getFont(),
                                 metrics, title);
             }
         }
@@ -798,13 +798,13 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected int calculateMaxTabWidth(int tabPlacement) {
-        FontMetrics metrics = getFontMetrics(tabContext.getStyle().getFont(
-                                     tabContext));
-        int tabCount = tabPane.getTabCount();
+    protected int cblculbteMbxTbbWidth(int tbbPlbcement) {
+        FontMetrics metrics = getFontMetrics(tbbContext.getStyle().getFont(
+                                     tbbContext));
+        int tbbCount = tbbPbne.getTbbCount();
         int result = 0;
-        for(int i = 0; i < tabCount; i++) {
-            result = Math.max(calculateTabWidth(tabPlacement, i, metrics),
+        for(int i = 0; i < tbbCount; i++) {
+            result = Mbth.mbx(cblculbteTbbWidth(tbbPlbcement, i, metrics),
                               result);
         }
         return result;
@@ -814,10 +814,10 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      * {@inheritDoc}
      */
     @Override
-    protected Insets getTabInsets(int tabPlacement, int tabIndex) {
-        updateTabContext(tabIndex, false, false, false,
-                          (getFocusIndex() == tabIndex));
-        return tabInsets;
+    protected Insets getTbbInsets(int tbbPlbcement, int tbbIndex) {
+        updbteTbbContext(tbbIndex, fblse, fblse, fblse,
+                          (getFocusIndex() == tbbIndex));
+        return tbbInsets;
     }
 
     /**
@@ -825,93 +825,93 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
      */
     @Override
     protected FontMetrics getFontMetrics() {
-        return getFontMetrics(tabContext.getStyle().getFont(tabContext));
+        return getFontMetrics(tbbContext.getStyle().getFont(tbbContext));
     }
 
-    private FontMetrics getFontMetrics(Font font) {
-        return tabPane.getFontMetrics(font);
+    privbte FontMetrics getFontMetrics(Font font) {
+        return tbbPbne.getFontMetrics(font);
     }
 
-    private void updateTabContext(int index, boolean selected,
-                                  boolean isMouseDown, boolean isMouseOver, boolean hasFocus) {
-        int state = 0;
-        if (!tabPane.isEnabled() || !tabPane.isEnabledAt(index)) {
-            state |= SynthConstants.DISABLED;
+    privbte void updbteTbbContext(int index, boolebn selected,
+                                  boolebn isMouseDown, boolebn isMouseOver, boolebn hbsFocus) {
+        int stbte = 0;
+        if (!tbbPbne.isEnbbled() || !tbbPbne.isEnbbledAt(index)) {
+            stbte |= SynthConstbnts.DISABLED;
             if (selected) {
-                state |= SynthConstants.SELECTED;
+                stbte |= SynthConstbnts.SELECTED;
             }
         }
         else if (selected) {
-            state |= (SynthConstants.ENABLED | SynthConstants.SELECTED);
-            if (isMouseOver && UIManager.getBoolean("TabbedPane.isTabRollover")) {
-                state |= SynthConstants.MOUSE_OVER;
+            stbte |= (SynthConstbnts.ENABLED | SynthConstbnts.SELECTED);
+            if (isMouseOver && UIMbnbger.getBoolebn("TbbbedPbne.isTbbRollover")) {
+                stbte |= SynthConstbnts.MOUSE_OVER;
             }
         }
         else if (isMouseOver) {
-            state |= (SynthConstants.ENABLED | SynthConstants.MOUSE_OVER);
+            stbte |= (SynthConstbnts.ENABLED | SynthConstbnts.MOUSE_OVER);
         }
         else {
-            state = SynthLookAndFeel.getComponentState(tabPane);
-            state &= ~SynthConstants.FOCUSED; // don't use tabbedpane focus state
+            stbte = SynthLookAndFeel.getComponentStbte(tbbPbne);
+            stbte &= ~SynthConstbnts.FOCUSED; // don't use tbbbedpbne focus stbte
         }
-        if (hasFocus && tabPane.hasFocus()) {
-            state |= SynthConstants.FOCUSED; // individual tab has focus
+        if (hbsFocus && tbbPbne.hbsFocus()) {
+            stbte |= SynthConstbnts.FOCUSED; // individubl tbb hbs focus
         }
         if (isMouseDown) {
-            state |= SynthConstants.PRESSED;
+            stbte |= SynthConstbnts.PRESSED;
         }
 
-        tabContext.setComponentState(state);
+        tbbContext.setComponentStbte(stbte);
     }
 
     /**
      * {@inheritDoc}
      *
-     * Overridden to create a TabbedPaneLayout subclass which takes into
-     * account tabOverlap.
+     * Overridden to crebte b TbbbedPbneLbyout subclbss which tbkes into
+     * bccount tbbOverlbp.
      */
     @Override
-    protected LayoutManager createLayoutManager() {
-        if (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT) {
-            return super.createLayoutManager();
+    protected LbyoutMbnbger crebteLbyoutMbnbger() {
+        if (tbbPbne.getTbbLbyoutPolicy() == JTbbbedPbne.SCROLL_TAB_LAYOUT) {
+            return super.crebteLbyoutMbnbger();
         } else { /* WRAP_TAB_LAYOUT */
-            return new TabbedPaneLayout() {
+            return new TbbbedPbneLbyout() {
                 @Override
-                public void calculateLayoutInfo() {
-                    super.calculateLayoutInfo();
-                    //shift all the tabs, if necessary
-                    if (tabOverlap != 0) {
-                        int tabCount = tabPane.getTabCount();
-                        //left-to-right/right-to-left only affects layout
-                        //when placement is TOP or BOTTOM
-                        boolean ltr = tabPane.getComponentOrientation().isLeftToRight();
+                public void cblculbteLbyoutInfo() {
+                    super.cblculbteLbyoutInfo();
+                    //shift bll the tbbs, if necessbry
+                    if (tbbOverlbp != 0) {
+                        int tbbCount = tbbPbne.getTbbCount();
+                        //left-to-right/right-to-left only bffects lbyout
+                        //when plbcement is TOP or BOTTOM
+                        boolebn ltr = tbbPbne.getComponentOrientbtion().isLeftToRight();
                         for (int i = runCount - 1; i >= 0; i--) {
-                            int start = tabRuns[i];
-                            int next = tabRuns[(i == runCount - 1)? 0 : i + 1];
-                            int end = (next != 0? next - 1: tabCount - 1);
-                            for (int j = start+1; j <= end; j++) {
-                                // xshift and yshift represent the amount &
-                                // direction to shift the tab in their
-                                // respective axis.
+                            int stbrt = tbbRuns[i];
+                            int next = tbbRuns[(i == runCount - 1)? 0 : i + 1];
+                            int end = (next != 0? next - 1: tbbCount - 1);
+                            for (int j = stbrt+1; j <= end; j++) {
+                                // xshift bnd yshift represent the bmount &
+                                // direction to shift the tbb in their
+                                // respective bxis.
                                 int xshift = 0;
                                 int yshift = 0;
-                                // configure xshift and y shift based on tab
-                                // position and ltr/rtl
-                                switch (tabPane.getTabPlacement()) {
-                                    case JTabbedPane.TOP:
-                                    case JTabbedPane.BOTTOM:
-                                        xshift = ltr ? tabOverlap : -tabOverlap;
-                                        break;
-                                    case JTabbedPane.LEFT:
-                                    case JTabbedPane.RIGHT:
-                                        yshift = tabOverlap;
-                                        break;
-                                    default: //do nothing
+                                // configure xshift bnd y shift bbsed on tbb
+                                // position bnd ltr/rtl
+                                switch (tbbPbne.getTbbPlbcement()) {
+                                    cbse JTbbbedPbne.TOP:
+                                    cbse JTbbbedPbne.BOTTOM:
+                                        xshift = ltr ? tbbOverlbp : -tbbOverlbp;
+                                        brebk;
+                                    cbse JTbbbedPbne.LEFT:
+                                    cbse JTbbbedPbne.RIGHT:
+                                        yshift = tbbOverlbp;
+                                        brebk;
+                                    defbult: //do nothing
                                 }
                                 rects[j].x += xshift;
                                 rects[j].y += yshift;
-                                rects[j].width += Math.abs(xshift);
-                                rects[j].height += Math.abs(yshift);
+                                rects[j].width += Mbth.bbs(xshift);
+                                rects[j].height += Mbth.bbs(yshift);
                             }
                         }
                     }
@@ -920,12 +920,12 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SynthScrollableTabButton extends SynthArrowButton implements
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss SynthScrollbbleTbbButton extends SynthArrowButton implements
             UIResource {
-        public SynthScrollableTabButton(int direction) {
+        public SynthScrollbbleTbbButton(int direction) {
             super(direction);
-            setName("TabbedPane.button");
+            setNbme("TbbbedPbne.button");
         }
     }
 }

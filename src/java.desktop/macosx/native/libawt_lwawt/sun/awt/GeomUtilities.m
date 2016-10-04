@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import "GeomUtilities.h"
 
-static JNF_CLASS_CACHE(sjc_Point2D, "java/awt/geom/Point2D");
-static JNF_MEMBER_CACHE(jm_pt_getX, sjc_Point2D, "getX", "()D");
-static JNF_MEMBER_CACHE(jm_pt_getY, sjc_Point2D, "getY", "()D");
+stbtic JNF_CLASS_CACHE(sjc_Point2D, "jbvb/bwt/geom/Point2D");
+stbtic JNF_MEMBER_CACHE(jm_pt_getX, sjc_Point2D, "getX", "()D");
+stbtic JNF_MEMBER_CACHE(jm_pt_getY, sjc_Point2D, "getY", "()D");
 
-static JNF_CLASS_CACHE(sjc_Dimension2D, "java/awt/geom/Dimension2D");
-static JNF_MEMBER_CACHE(jm_sz_getWidth, sjc_Dimension2D, "getWidth", "()D");
-static JNF_MEMBER_CACHE(jm_sz_getHeight, sjc_Dimension2D, "getHeight", "()D");
+stbtic JNF_CLASS_CACHE(sjc_Dimension2D, "jbvb/bwt/geom/Dimension2D");
+stbtic JNF_MEMBER_CACHE(jm_sz_getWidth, sjc_Dimension2D, "getWidth", "()D");
+stbtic JNF_MEMBER_CACHE(jm_sz_getHeight, sjc_Dimension2D, "getHeight", "()D");
 
-static JNF_CLASS_CACHE(sjc_Rectangle2D, "java/awt/geom/Rectangle2D");
-static JNF_MEMBER_CACHE(jm_rect_getX, sjc_Rectangle2D, "getX", "()D");
-static JNF_MEMBER_CACHE(jm_rect_getY, sjc_Rectangle2D, "getY", "()D");
-static JNF_MEMBER_CACHE(jm_rect_getWidth, sjc_Rectangle2D, "getWidth", "()D");
-static JNF_MEMBER_CACHE(jm_rect_getHeight, sjc_Rectangle2D, "getHeight", "()D");
+stbtic JNF_CLASS_CACHE(sjc_Rectbngle2D, "jbvb/bwt/geom/Rectbngle2D");
+stbtic JNF_MEMBER_CACHE(jm_rect_getX, sjc_Rectbngle2D, "getX", "()D");
+stbtic JNF_MEMBER_CACHE(jm_rect_getY, sjc_Rectbngle2D, "getY", "()D");
+stbtic JNF_MEMBER_CACHE(jm_rect_getWidth, sjc_Rectbngle2D, "getWidth", "()D");
+stbtic JNF_MEMBER_CACHE(jm_rect_getHeight, sjc_Rectbngle2D, "getHeight", "()D");
 
 
-static jobject NewJavaRect(JNIEnv *env, jdouble x, jdouble y, jdouble w, jdouble h) {
-    static JNF_CLASS_CACHE(sjc_Rectangle2DDouble, "java/awt/geom/Rectangle2D$Double");
-    static JNF_CTOR_CACHE(ctor_Rectangle2DDouble, sjc_Rectangle2DDouble, "(DDDD)V");
-    return JNFNewObject(env, ctor_Rectangle2DDouble, x, y, w, h);
+stbtic jobject NewJbvbRect(JNIEnv *env, jdouble x, jdouble y, jdouble w, jdouble h) {
+    stbtic JNF_CLASS_CACHE(sjc_Rectbngle2DDouble, "jbvb/bwt/geom/Rectbngle2D$Double");
+    stbtic JNF_CTOR_CACHE(ctor_Rectbngle2DDouble, sjc_Rectbngle2DDouble, "(DDDD)V");
+    return JNFNewObject(env, ctor_Rectbngle2DDouble, x, y, w, h);
 }
 
-jobject CGToJavaRect(JNIEnv *env, CGRect rect) {
-   return NewJavaRect(env,
+jobject CGToJbvbRect(JNIEnv *env, CGRect rect) {
+   return NewJbvbRect(env,
                       rect.origin.x,
                       rect.origin.y,
                       rect.size.width,
                       rect.size.height);
 }
 
-jobject NSToJavaRect(JNIEnv *env, NSRect rect) {
-    return NewJavaRect(env,
+jobject NSToJbvbRect(JNIEnv *env, NSRect rect) {
+    return NewJbvbRect(env,
                        rect.origin.x,
                        rect.origin.y,
                        rect.size.width,
                        rect.size.height);
 }
 
-CGRect JavaToCGRect(JNIEnv *env, jobject rect) {
-    return CGRectMake(JNFCallDoubleMethod(env, rect, jm_rect_getX),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getY),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getWidth),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getHeight));
+CGRect JbvbToCGRect(JNIEnv *env, jobject rect) {
+    return CGRectMbke(JNFCbllDoubleMethod(env, rect, jm_rect_getX),
+                      JNFCbllDoubleMethod(env, rect, jm_rect_getY),
+                      JNFCbllDoubleMethod(env, rect, jm_rect_getWidth),
+                      JNFCbllDoubleMethod(env, rect, jm_rect_getHeight));
 }
 
-NSRect JavaToNSRect(JNIEnv *env, jobject rect) {
-    return NSMakeRect(JNFCallDoubleMethod(env, rect, jm_rect_getX),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getY),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getWidth),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getHeight));
+NSRect JbvbToNSRect(JNIEnv *env, jobject rect) {
+    return NSMbkeRect(JNFCbllDoubleMethod(env, rect, jm_rect_getX),
+                      JNFCbllDoubleMethod(env, rect, jm_rect_getY),
+                      JNFCbllDoubleMethod(env, rect, jm_rect_getWidth),
+                      JNFCbllDoubleMethod(env, rect, jm_rect_getHeight));
 }
 
-jobject NSToJavaPoint(JNIEnv *env, NSPoint point) {
-    static JNF_CLASS_CACHE(sjc_Point2DDouble, "java/awt/geom/Point2D$Double");
-    static JNF_CTOR_CACHE(ctor_Point2DDouble, sjc_Point2DDouble, "(DD)V");
+jobject NSToJbvbPoint(JNIEnv *env, NSPoint point) {
+    stbtic JNF_CLASS_CACHE(sjc_Point2DDouble, "jbvb/bwt/geom/Point2D$Double");
+    stbtic JNF_CTOR_CACHE(ctor_Point2DDouble, sjc_Point2DDouble, "(DD)V");
     return JNFNewObject(env, ctor_Point2DDouble, (jdouble)point.x, (jdouble)point.y);
 }
 
-NSPoint JavaToNSPoint(JNIEnv *env, jobject point) {
-    return NSMakePoint(JNFCallDoubleMethod(env, point, jm_pt_getX),
-                       JNFCallDoubleMethod(env, point, jm_pt_getY));
+NSPoint JbvbToNSPoint(JNIEnv *env, jobject point) {
+    return NSMbkePoint(JNFCbllDoubleMethod(env, point, jm_pt_getX),
+                       JNFCbllDoubleMethod(env, point, jm_pt_getY));
 }
 
-jobject NSToJavaSize(JNIEnv *env, NSSize size) {
-    static JNF_CLASS_CACHE(sjc_Dimension2DDouble, "java/awt/Dimension"); // No Dimension2D$Double :-(
-    static JNF_CTOR_CACHE(ctor_Dimension2DDouble, sjc_Dimension2DDouble, "(II)V");
+jobject NSToJbvbSize(JNIEnv *env, NSSize size) {
+    stbtic JNF_CLASS_CACHE(sjc_Dimension2DDouble, "jbvb/bwt/Dimension"); // No Dimension2D$Double :-(
+    stbtic JNF_CTOR_CACHE(ctor_Dimension2DDouble, sjc_Dimension2DDouble, "(II)V");
     return JNFNewObject(env, ctor_Dimension2DDouble, (jint)size.width, (jint)size.height);
 }
 
-NSSize JavaToNSSize(JNIEnv *env, jobject dimension) {
-    return NSMakeSize(JNFCallDoubleMethod(env, dimension, jm_sz_getWidth),
-                      JNFCallDoubleMethod(env, dimension, jm_sz_getHeight));
+NSSize JbvbToNSSize(JNIEnv *env, jobject dimension) {
+    return NSMbkeSize(JNFCbllDoubleMethod(env, dimension, jm_sz_getWidth),
+                      JNFCbllDoubleMethod(env, dimension, jm_sz_getHeight));
 }
 
-static NSScreen *primaryScreen(JNIEnv *env) {
-    NSScreen *primaryScreen = [[NSScreen screens] objectAtIndex:0];
-    if (primaryScreen != nil) return primaryScreen;
-    if (env != NULL) [JNFException raise:env as:kRuntimeException reason:"Failed to convert, no screen."];
+stbtic NSScreen *primbryScreen(JNIEnv *env) {
+    NSScreen *primbryScreen = [[NSScreen screens] objectAtIndex:0];
+    if (primbryScreen != nil) return primbryScreen;
+    if (env != NULL) [JNFException rbise:env bs:kRuntimeException rebson:"Fbiled to convert, no screen."];
     return nil;
 }
 
 NSPoint ConvertNSScreenPoint(JNIEnv *env, NSPoint point) {
-    point.y = [primaryScreen(env) frame].size.height - point.y;
+    point.y = [primbryScreen(env) frbme].size.height - point.y;
     return point;
 }
 
 NSRect ConvertNSScreenRect(JNIEnv *env, NSRect rect) {
-    rect.origin.y = [primaryScreen(env) frame].size.height - rect.origin.y - rect.size.height;
+    rect.origin.y = [primbryScreen(env) frbme].size.height - rect.origin.y - rect.size.height;
     return rect;
 }

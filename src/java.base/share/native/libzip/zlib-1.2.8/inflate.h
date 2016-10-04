@@ -1,146 +1,146 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* inflate.h -- internal inflate state definition
- * Copyright (C) 1995-2009 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* inflbte.h -- internbl inflbte stbte definition
+ * Copyright (C) 1995-2009 Mbrk Adler
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
-/* WARNING: this file should *not* be used by applications. It is
-   part of the implementation of the compression library and is
-   subject to change. Applications should only use zlib.h.
+/* WARNING: this file should *not* be used by bpplicbtions. It is
+   pbrt of the implementbtion of the compression librbry bnd is
+   subject to chbnge. Applicbtions should only use zlib.h.
  */
 
-/* define NO_GZIP when compiling if you want to disable gzip header and
-   trailer decoding by inflate().  NO_GZIP would be used to avoid linking in
-   the crc code when it is not needed.  For shared libraries, gzip decoding
-   should be left enabled. */
+/* define NO_GZIP when compiling if you wbnt to disbble gzip hebder bnd
+   trbiler decoding by inflbte().  NO_GZIP would be used to bvoid linking in
+   the crc code when it is not needed.  For shbred librbries, gzip decoding
+   should be left enbbled. */
 #ifndef NO_GZIP
 #  define GUNZIP
 #endif
 
-/* Possible inflate modes between inflate() calls */
+/* Possible inflbte modes between inflbte() cblls */
 typedef enum {
-    HEAD,       /* i: waiting for magic header */
-    FLAGS,      /* i: waiting for method and flags (gzip) */
-    TIME,       /* i: waiting for modification time (gzip) */
-    OS,         /* i: waiting for extra flags and operating system (gzip) */
-    EXLEN,      /* i: waiting for extra length (gzip) */
-    EXTRA,      /* i: waiting for extra bytes (gzip) */
-    NAME,       /* i: waiting for end of file name (gzip) */
-    COMMENT,    /* i: waiting for end of comment (gzip) */
-    HCRC,       /* i: waiting for header crc (gzip) */
-    DICTID,     /* i: waiting for dictionary check value */
-    DICT,       /* waiting for inflateSetDictionary() call */
-        TYPE,       /* i: waiting for type bits, including last-flag bit */
-        TYPEDO,     /* i: same, but skip check to exit inflate on new block */
-        STORED,     /* i: waiting for stored size (length and complement) */
-        COPY_,      /* i/o: same as COPY below, but only first time in */
-        COPY,       /* i/o: waiting for input or output to copy stored block */
-        TABLE,      /* i: waiting for dynamic block table lengths */
-        LENLENS,    /* i: waiting for code length code lengths */
-        CODELENS,   /* i: waiting for length/lit and distance code lengths */
-            LEN_,       /* i: same as LEN below, but only first time in */
-            LEN,        /* i: waiting for length/lit/eob code */
-            LENEXT,     /* i: waiting for length extra bits */
-            DIST,       /* i: waiting for distance code */
-            DISTEXT,    /* i: waiting for distance extra bits */
-            MATCH,      /* o: waiting for output space to copy string */
-            LIT,        /* o: waiting for output space to write literal */
-    CHECK,      /* i: waiting for 32-bit check value */
-    LENGTH,     /* i: waiting for 32-bit length (gzip) */
-    DONE,       /* finished check, done -- remain here until reset */
-    BAD,        /* got a data error -- remain here until reset */
-    MEM,        /* got an inflate() memory error -- remain here until reset */
-    SYNC        /* looking for synchronization bytes to restart inflate() */
-} inflate_mode;
+    HEAD,       /* i: wbiting for mbgic hebder */
+    FLAGS,      /* i: wbiting for method bnd flbgs (gzip) */
+    TIME,       /* i: wbiting for modificbtion time (gzip) */
+    OS,         /* i: wbiting for extrb flbgs bnd operbting system (gzip) */
+    EXLEN,      /* i: wbiting for extrb length (gzip) */
+    EXTRA,      /* i: wbiting for extrb bytes (gzip) */
+    NAME,       /* i: wbiting for end of file nbme (gzip) */
+    COMMENT,    /* i: wbiting for end of comment (gzip) */
+    HCRC,       /* i: wbiting for hebder crc (gzip) */
+    DICTID,     /* i: wbiting for dictionbry check vblue */
+    DICT,       /* wbiting for inflbteSetDictionbry() cbll */
+        TYPE,       /* i: wbiting for type bits, including lbst-flbg bit */
+        TYPEDO,     /* i: sbme, but skip check to exit inflbte on new block */
+        STORED,     /* i: wbiting for stored size (length bnd complement) */
+        COPY_,      /* i/o: sbme bs COPY below, but only first time in */
+        COPY,       /* i/o: wbiting for input or output to copy stored block */
+        TABLE,      /* i: wbiting for dynbmic block tbble lengths */
+        LENLENS,    /* i: wbiting for code length code lengths */
+        CODELENS,   /* i: wbiting for length/lit bnd distbnce code lengths */
+            LEN_,       /* i: sbme bs LEN below, but only first time in */
+            LEN,        /* i: wbiting for length/lit/eob code */
+            LENEXT,     /* i: wbiting for length extrb bits */
+            DIST,       /* i: wbiting for distbnce code */
+            DISTEXT,    /* i: wbiting for distbnce extrb bits */
+            MATCH,      /* o: wbiting for output spbce to copy string */
+            LIT,        /* o: wbiting for output spbce to write literbl */
+    CHECK,      /* i: wbiting for 32-bit check vblue */
+    LENGTH,     /* i: wbiting for 32-bit length (gzip) */
+    DONE,       /* finished check, done -- rembin here until reset */
+    BAD,        /* got b dbtb error -- rembin here until reset */
+    MEM,        /* got bn inflbte() memory error -- rembin here until reset */
+    SYNC        /* looking for synchronizbtion bytes to restbrt inflbte() */
+} inflbte_mode;
 
 /*
-    State transitions between above modes -
+    Stbte trbnsitions between bbove modes -
 
-    (most modes can go to BAD or MEM on error -- not shown for clarity)
+    (most modes cbn go to BAD or MEM on error -- not shown for clbrity)
 
-    Process header:
-        HEAD -> (gzip) or (zlib) or (raw)
+    Process hebder:
+        HEAD -> (gzip) or (zlib) or (rbw)
         (gzip) -> FLAGS -> TIME -> OS -> EXLEN -> EXTRA -> NAME -> COMMENT ->
                   HCRC -> TYPE
         (zlib) -> DICTID or TYPE
         DICTID -> DICT -> TYPE
-        (raw) -> TYPEDO
-    Read deflate blocks:
+        (rbw) -> TYPEDO
+    Rebd deflbte blocks:
             TYPE -> TYPEDO -> STORED or TABLE or LEN_ or CHECK
             STORED -> COPY_ -> COPY -> TYPE
             TABLE -> LENLENS -> CODELENS -> LEN_
             LEN_ -> LEN
-    Read deflate codes in fixed or dynamic block:
+    Rebd deflbte codes in fixed or dynbmic block:
                 LEN -> LENEXT or LIT or TYPE
                 LENEXT -> DIST -> DISTEXT -> MATCH -> LEN
                 LIT -> LEN
-    Process trailer:
+    Process trbiler:
         CHECK -> LENGTH -> DONE
  */
 
-/* state maintained between inflate() calls.  Approximately 10K bytes. */
-struct inflate_state {
-    inflate_mode mode;          /* current inflate mode */
-    int last;                   /* true if processing last block */
-    int wrap;                   /* bit 0 true for zlib, bit 1 true for gzip */
-    int havedict;               /* true if dictionary provided */
-    int flags;                  /* gzip header method and flags (0 if zlib) */
-    unsigned dmax;              /* zlib header max distance (INFLATE_STRICT) */
-    unsigned long check;        /* protected copy of check value */
-    unsigned long total;        /* protected copy of output count */
-    gz_headerp head;            /* where to save gzip header information */
+/* stbte mbintbined between inflbte() cblls.  Approximbtely 10K bytes. */
+struct inflbte_stbte {
+    inflbte_mode mode;          /* current inflbte mode */
+    int lbst;                   /* true if processing lbst block */
+    int wrbp;                   /* bit 0 true for zlib, bit 1 true for gzip */
+    int hbvedict;               /* true if dictionbry provided */
+    int flbgs;                  /* gzip hebder method bnd flbgs (0 if zlib) */
+    unsigned dmbx;              /* zlib hebder mbx distbnce (INFLATE_STRICT) */
+    unsigned long check;        /* protected copy of check vblue */
+    unsigned long totbl;        /* protected copy of output count */
+    gz_hebderp hebd;            /* where to sbve gzip hebder informbtion */
         /* sliding window */
-    unsigned wbits;             /* log base 2 of requested window size */
+    unsigned wbits;             /* log bbse 2 of requested window size */
     unsigned wsize;             /* window size or zero if not using window */
-    unsigned whave;             /* valid bytes in the window */
+    unsigned whbve;             /* vblid bytes in the window */
     unsigned wnext;             /* window write index */
-    unsigned char FAR *window;  /* allocated sliding window, if needed */
-        /* bit accumulator */
-    unsigned long hold;         /* input bit accumulator */
+    unsigned chbr FAR *window;  /* bllocbted sliding window, if needed */
+        /* bit bccumulbtor */
+    unsigned long hold;         /* input bit bccumulbtor */
     unsigned bits;              /* number of bits in "in" */
-        /* for string and stored block copying */
-    unsigned length;            /* literal or length of data to copy */
-    unsigned offset;            /* distance back to copy string from */
-        /* for table and code decoding */
-    unsigned extra;             /* extra bits needed */
-        /* fixed and dynamic code tables */
-    code const FAR *lencode;    /* starting table for length/literal codes */
-    code const FAR *distcode;   /* starting table for distance codes */
+        /* for string bnd stored block copying */
+    unsigned length;            /* literbl or length of dbtb to copy */
+    unsigned offset;            /* distbnce bbck to copy string from */
+        /* for tbble bnd code decoding */
+    unsigned extrb;             /* extrb bits needed */
+        /* fixed bnd dynbmic code tbbles */
+    code const FAR *lencode;    /* stbrting tbble for length/literbl codes */
+    code const FAR *distcode;   /* stbrting tbble for distbnce codes */
     unsigned lenbits;           /* index bits for lencode */
     unsigned distbits;          /* index bits for distcode */
-        /* dynamic table building */
+        /* dynbmic tbble building */
     unsigned ncode;             /* number of code length code lengths */
     unsigned nlen;              /* number of length code lengths */
-    unsigned ndist;             /* number of distance code lengths */
-    unsigned have;              /* number of code lengths in lens[] */
-    code FAR *next;             /* next available space in codes[] */
-    unsigned short lens[320];   /* temporary storage for code lengths */
-    unsigned short work[288];   /* work area for code table building */
-    code codes[ENOUGH];         /* space for code tables */
-    int sane;                   /* if false, allow invalid distance too far */
-    int back;                   /* bits back of last unprocessed length/lit */
-    unsigned was;               /* initial length of match */
+    unsigned ndist;             /* number of distbnce code lengths */
+    unsigned hbve;              /* number of code lengths in lens[] */
+    code FAR *next;             /* next bvbilbble spbce in codes[] */
+    unsigned short lens[320];   /* temporbry storbge for code lengths */
+    unsigned short work[288];   /* work breb for code tbble building */
+    code codes[ENOUGH];         /* spbce for code tbbles */
+    int sbne;                   /* if fblse, bllow invblid distbnce too fbr */
+    int bbck;                   /* bits bbck of lbst unprocessed length/lit */
+    unsigned wbs;               /* initibl length of mbtch */
 };

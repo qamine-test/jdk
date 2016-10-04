@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.concurrent.CopyOnWriteArrayList;
-import sun.reflect.CallerSensitive;
+import jbvb.util.Iterbtor;
+import jbvb.util.ServiceLobder;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.concurrent.CopyOnWriteArrbyList;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 
 
 /**
- * <P>The basic service for managing a set of JDBC drivers.<br>
- * <B>NOTE:</B> The {@link javax.sql.DataSource} interface, new in the
- * JDBC 2.0 API, provides another way to connect to a data source.
- * The use of a <code>DataSource</code> object is the preferred means of
- * connecting to a data source.
+ * <P>The bbsic service for mbnbging b set of JDBC drivers.<br>
+ * <B>NOTE:</B> The {@link jbvbx.sql.DbtbSource} interfbce, new in the
+ * JDBC 2.0 API, provides bnother wby to connect to b dbtb source.
+ * The use of b <code>DbtbSource</code> object is the preferred mebns of
+ * connecting to b dbtb source.
  *
- * <P>As part of its initialization, the <code>DriverManager</code> class will
- * attempt to load the driver classes referenced in the "jdbc.drivers"
- * system property. This allows a user to customize the JDBC Drivers
- * used by their applications. For example in your
- * ~/.hotjava/properties file you might specify:
+ * <P>As pbrt of its initiblizbtion, the <code>DriverMbnbger</code> clbss will
+ * bttempt to lobd the driver clbsses referenced in the "jdbc.drivers"
+ * system property. This bllows b user to customize the JDBC Drivers
+ * used by their bpplicbtions. For exbmple in your
+ * ~/.hotjbvb/properties file you might specify:
  * <pre>
- * <CODE>jdbc.drivers=foo.bah.Driver:wombat.sql.Driver:bad.taste.ourDriver</CODE>
+ * <CODE>jdbc.drivers=foo.bbh.Driver:wombbt.sql.Driver:bbd.tbste.ourDriver</CODE>
  * </pre>
- *<P> The <code>DriverManager</code> methods <code>getConnection</code> and
- * <code>getDrivers</code> have been enhanced to support the Java Standard Edition
- * <a href="../../../technotes/guides/jar/jar.html#Service%20Provider">Service Provider</a> mechanism. JDBC 4.0 Drivers must
- * include the file <code>META-INF/services/java.sql.Driver</code>. This file contains the name of the JDBC drivers
- * implementation of <code>java.sql.Driver</code>.  For example, to load the <code>my.sql.Driver</code> class,
- * the <code>META-INF/services/java.sql.Driver</code> file would contain the entry:
+ *<P> The <code>DriverMbnbger</code> methods <code>getConnection</code> bnd
+ * <code>getDrivers</code> hbve been enhbnced to support the Jbvb Stbndbrd Edition
+ * <b href="../../../technotes/guides/jbr/jbr.html#Service%20Provider">Service Provider</b> mechbnism. JDBC 4.0 Drivers must
+ * include the file <code>META-INF/services/jbvb.sql.Driver</code>. This file contbins the nbme of the JDBC drivers
+ * implementbtion of <code>jbvb.sql.Driver</code>.  For exbmple, to lobd the <code>my.sql.Driver</code> clbss,
+ * the <code>META-INF/services/jbvb.sql.Driver</code> file would contbin the entry:
  * <pre>
  * <code>my.sql.Driver</code>
  * </pre>
  *
- * <P>Applications no longer need to explicitly load JDBC drivers using <code>Class.forName()</code>. Existing programs
- * which currently load JDBC drivers using <code>Class.forName()</code> will continue to work without
- * modification.
+ * <P>Applicbtions no longer need to explicitly lobd JDBC drivers using <code>Clbss.forNbme()</code>. Existing progrbms
+ * which currently lobd JDBC drivers using <code>Clbss.forNbme()</code> will continue to work without
+ * modificbtion.
  *
- * <P>When the method <code>getConnection</code> is called,
- * the <code>DriverManager</code> will attempt to
- * locate a suitable driver from amongst those loaded at
- * initialization and those loaded explicitly using the same classloader
- * as the current applet or application.
+ * <P>When the method <code>getConnection</code> is cblled,
+ * the <code>DriverMbnbger</code> will bttempt to
+ * locbte b suitbble driver from bmongst those lobded bt
+ * initiblizbtion bnd those lobded explicitly using the sbme clbsslobder
+ * bs the current bpplet or bpplicbtion.
  *
  * <P>
- * Starting with the Java 2 SDK, Standard Edition, version 1.3, a
- * logging stream can be set only if the proper
- * permission has been granted.  Normally this will be done with
- * the tool PolicyTool, which can be used to grant <code>permission
- * java.sql.SQLPermission "setLog"</code>.
+ * Stbrting with the Jbvb 2 SDK, Stbndbrd Edition, version 1.3, b
+ * logging strebm cbn be set only if the proper
+ * permission hbs been grbnted.  Normblly this will be done with
+ * the tool PolicyTool, which cbn be used to grbnt <code>permission
+ * jbvb.sql.SQLPermission "setLog"</code>.
  * @see Driver
  * @see Connection
  */
-public class DriverManager {
+public clbss DriverMbnbger {
 
 
     // List of registered JDBC drivers
-    private final static CopyOnWriteArrayList<DriverInfo> registeredDrivers = new CopyOnWriteArrayList<>();
-    private static volatile int loginTimeout = 0;
-    private static volatile java.io.PrintWriter logWriter = null;
-    private static volatile java.io.PrintStream logStream = null;
+    privbte finbl stbtic CopyOnWriteArrbyList<DriverInfo> registeredDrivers = new CopyOnWriteArrbyList<>();
+    privbte stbtic volbtile int loginTimeout = 0;
+    privbte stbtic volbtile jbvb.io.PrintWriter logWriter = null;
+    privbte stbtic volbtile jbvb.io.PrintStrebm logStrebm = null;
     // Used in println() to synchronize logWriter
-    private final static  Object logSync = new Object();
+    privbte finbl stbtic  Object logSync = new Object();
 
-    /* Prevent the DriverManager class from being instantiated. */
-    private DriverManager(){}
+    /* Prevent the DriverMbnbger clbss from being instbntibted. */
+    privbte DriverMbnbger(){}
 
 
     /**
-     * Load the initial JDBC drivers by checking the System property
-     * jdbc.properties and then use the {@code ServiceLoader} mechanism
+     * Lobd the initibl JDBC drivers by checking the System property
+     * jdbc.properties bnd then use the {@code ServiceLobder} mechbnism
      */
-    static {
-        loadInitialDrivers();
-        println("JDBC DriverManager initialized");
+    stbtic {
+        lobdInitiblDrivers();
+        println("JDBC DriverMbnbger initiblized");
     }
 
     /**
-     * The <code>SQLPermission</code> constant that allows the
-     * setting of the logging stream.
+     * The <code>SQLPermission</code> constbnt thbt bllows the
+     * setting of the logging strebm.
      * @since 1.3
      */
-    final static SQLPermission SET_LOG_PERMISSION =
+    finbl stbtic SQLPermission SET_LOG_PERMISSION =
         new SQLPermission("setLog");
 
     /**
-     * The {@code SQLPermission} constant that allows the
-     * un-register a registered JDBC driver.
+     * The {@code SQLPermission} constbnt thbt bllows the
+     * un-register b registered JDBC driver.
      * @since 1.8
      */
-    final static SQLPermission DEREGISTER_DRIVER_PERMISSION =
+    finbl stbtic SQLPermission DEREGISTER_DRIVER_PERMISSION =
         new SQLPermission("deregisterDriver");
 
     //--------------------------JDBC 2.0-----------------------------
@@ -123,54 +123,54 @@ public class DriverManager {
     /**
      * Retrieves the log writer.
      *
-     * The <code>getLogWriter</code> and <code>setLogWriter</code>
-     * methods should be used instead
-     * of the <code>get/setlogStream</code> methods, which are deprecated.
-     * @return a <code>java.io.PrintWriter</code> object
+     * The <code>getLogWriter</code> bnd <code>setLogWriter</code>
+     * methods should be used instebd
+     * of the <code>get/setlogStrebm</code> methods, which bre deprecbted.
+     * @return b <code>jbvb.io.PrintWriter</code> object
      * @see #setLogWriter
      * @since 1.2
      */
-    public static java.io.PrintWriter getLogWriter() {
+    public stbtic jbvb.io.PrintWriter getLogWriter() {
             return logWriter;
     }
 
     /**
-     * Sets the logging/tracing <code>PrintWriter</code> object
-     * that is used by the <code>DriverManager</code> and all drivers.
+     * Sets the logging/trbcing <code>PrintWriter</code> object
+     * thbt is used by the <code>DriverMbnbger</code> bnd bll drivers.
      * <P>
-     * There is a minor versioning problem created by the introduction
+     * There is b minor versioning problem crebted by the introduction
      * of the method <code>setLogWriter</code>.  The
-     * method <code>setLogWriter</code> cannot create a <code>PrintStream</code> object
-     * that will be returned by <code>getLogStream</code>---the Java platform does
-     * not provide a backward conversion.  As a result, a new application
-     * that uses <code>setLogWriter</code> and also uses a JDBC 1.0 driver that uses
-     * <code>getLogStream</code> will likely not see debugging information written
-     * by that driver.
+     * method <code>setLogWriter</code> cbnnot crebte b <code>PrintStrebm</code> object
+     * thbt will be returned by <code>getLogStrebm</code>---the Jbvb plbtform does
+     * not provide b bbckwbrd conversion.  As b result, b new bpplicbtion
+     * thbt uses <code>setLogWriter</code> bnd blso uses b JDBC 1.0 driver thbt uses
+     * <code>getLogStrebm</code> will likely not see debugging informbtion written
+     * by thbt driver.
      *<P>
-     * Starting with the Java 2 SDK, Standard Edition, version 1.3 release, this method checks
-     * to see that there is an <code>SQLPermission</code> object before setting
-     * the logging stream.  If a <code>SecurityManager</code> exists and its
+     * Stbrting with the Jbvb 2 SDK, Stbndbrd Edition, version 1.3 relebse, this method checks
+     * to see thbt there is bn <code>SQLPermission</code> object before setting
+     * the logging strebm.  If b <code>SecurityMbnbger</code> exists bnd its
      * <code>checkPermission</code> method denies setting the log writer, this
-     * method throws a <code>java.lang.SecurityException</code>.
+     * method throws b <code>jbvb.lbng.SecurityException</code>.
      *
-     * @param out the new logging/tracing <code>PrintStream</code> object;
-     *      <code>null</code> to disable logging and tracing
+     * @pbrbm out the new logging/trbcing <code>PrintStrebm</code> object;
+     *      <code>null</code> to disbble logging bnd trbcing
      * @throws SecurityException
-     *    if a security manager exists and its
+     *    if b security mbnbger exists bnd its
      *    <code>checkPermission</code> method denies
      *    setting the log writer
      *
-     * @see SecurityManager#checkPermission
+     * @see SecurityMbnbger#checkPermission
      * @see #getLogWriter
      * @since 1.2
      */
-    public static void setLogWriter(java.io.PrintWriter out) {
+    public stbtic void setLogWriter(jbvb.io.PrintWriter out) {
 
-        SecurityManager sec = System.getSecurityManager();
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         if (sec != null) {
             sec.checkPermission(SET_LOG_PERMISSION);
         }
-            logStream = null;
+            logStrebm = null;
             logWriter = out;
     }
 
@@ -178,186 +178,186 @@ public class DriverManager {
     //---------------------------------------------------------------
 
     /**
-     * Attempts to establish a connection to the given database URL.
-     * The <code>DriverManager</code> attempts to select an appropriate driver from
+     * Attempts to estbblish b connection to the given dbtbbbse URL.
+     * The <code>DriverMbnbger</code> bttempts to select bn bppropribte driver from
      * the set of registered JDBC drivers.
      *<p>
-     * <B>Note:</B> If a property is specified as part of the {@code url} and
-     * is also specified in the {@code Properties} object, it is
-     * implementation-defined as to which value will take precedence.
-     * For maximum portability, an application should only specify a
+     * <B>Note:</B> If b property is specified bs pbrt of the {@code url} bnd
+     * is blso specified in the {@code Properties} object, it is
+     * implementbtion-defined bs to which vblue will tbke precedence.
+     * For mbximum portbbility, bn bpplicbtion should only specify b
      * property once.
      *
-     * @param url a database url of the form
-     * <code> jdbc:<em>subprotocol</em>:<em>subname</em></code>
-     * @param info a list of arbitrary string tag/value pairs as
-     * connection arguments; normally at least a "user" and
-     * "password" property should be included
-     * @return a Connection to the URL
-     * @exception SQLException if a database access error occurs or the url is
+     * @pbrbm url b dbtbbbse url of the form
+     * <code> jdbc:<em>subprotocol</em>:<em>subnbme</em></code>
+     * @pbrbm info b list of brbitrbry string tbg/vblue pbirs bs
+     * connection brguments; normblly bt lebst b "user" bnd
+     * "pbssword" property should be included
+     * @return b Connection to the URL
+     * @exception SQLException if b dbtbbbse bccess error occurs or the url is
      * {@code null}
-     * @throws SQLTimeoutException  when the driver has determined that the
-     * timeout value specified by the {@code setLoginTimeout} method
-     * has been exceeded and has at least tried to cancel the
-     * current database connection attempt
+     * @throws SQLTimeoutException  when the driver hbs determined thbt the
+     * timeout vblue specified by the {@code setLoginTimeout} method
+     * hbs been exceeded bnd hbs bt lebst tried to cbncel the
+     * current dbtbbbse connection bttempt
      */
-    @CallerSensitive
-    public static Connection getConnection(String url,
-        java.util.Properties info) throws SQLException {
+    @CbllerSensitive
+    public stbtic Connection getConnection(String url,
+        jbvb.util.Properties info) throws SQLException {
 
-        return (getConnection(url, info, Reflection.getCallerClass()));
+        return (getConnection(url, info, Reflection.getCbllerClbss()));
     }
 
     /**
-     * Attempts to establish a connection to the given database URL.
-     * The <code>DriverManager</code> attempts to select an appropriate driver from
+     * Attempts to estbblish b connection to the given dbtbbbse URL.
+     * The <code>DriverMbnbger</code> bttempts to select bn bppropribte driver from
      * the set of registered JDBC drivers.
      *<p>
-     * <B>Note:</B> If the {@code user} or {@code password} property are
-     * also specified as part of the {@code url}, it is
-     * implementation-defined as to which value will take precedence.
-     * For maximum portability, an application should only specify a
+     * <B>Note:</B> If the {@code user} or {@code pbssword} property bre
+     * blso specified bs pbrt of the {@code url}, it is
+     * implementbtion-defined bs to which vblue will tbke precedence.
+     * For mbximum portbbility, bn bpplicbtion should only specify b
      * property once.
      *
-     * @param url a database url of the form
-     * <code>jdbc:<em>subprotocol</em>:<em>subname</em></code>
-     * @param user the database user on whose behalf the connection is being
-     *   made
-     * @param password the user's password
-     * @return a connection to the URL
-     * @exception SQLException if a database access error occurs or the url is
+     * @pbrbm url b dbtbbbse url of the form
+     * <code>jdbc:<em>subprotocol</em>:<em>subnbme</em></code>
+     * @pbrbm user the dbtbbbse user on whose behblf the connection is being
+     *   mbde
+     * @pbrbm pbssword the user's pbssword
+     * @return b connection to the URL
+     * @exception SQLException if b dbtbbbse bccess error occurs or the url is
      * {@code null}
-     * @throws SQLTimeoutException  when the driver has determined that the
-     * timeout value specified by the {@code setLoginTimeout} method
-     * has been exceeded and has at least tried to cancel the
-     * current database connection attempt
+     * @throws SQLTimeoutException  when the driver hbs determined thbt the
+     * timeout vblue specified by the {@code setLoginTimeout} method
+     * hbs been exceeded bnd hbs bt lebst tried to cbncel the
+     * current dbtbbbse connection bttempt
      */
-    @CallerSensitive
-    public static Connection getConnection(String url,
-        String user, String password) throws SQLException {
-        java.util.Properties info = new java.util.Properties();
+    @CbllerSensitive
+    public stbtic Connection getConnection(String url,
+        String user, String pbssword) throws SQLException {
+        jbvb.util.Properties info = new jbvb.util.Properties();
 
         if (user != null) {
             info.put("user", user);
         }
-        if (password != null) {
-            info.put("password", password);
+        if (pbssword != null) {
+            info.put("pbssword", pbssword);
         }
 
-        return (getConnection(url, info, Reflection.getCallerClass()));
+        return (getConnection(url, info, Reflection.getCbllerClbss()));
     }
 
     /**
-     * Attempts to establish a connection to the given database URL.
-     * The <code>DriverManager</code> attempts to select an appropriate driver from
+     * Attempts to estbblish b connection to the given dbtbbbse URL.
+     * The <code>DriverMbnbger</code> bttempts to select bn bppropribte driver from
      * the set of registered JDBC drivers.
      *
-     * @param url a database url of the form
-     *  <code> jdbc:<em>subprotocol</em>:<em>subname</em></code>
-     * @return a connection to the URL
-     * @exception SQLException if a database access error occurs or the url is
+     * @pbrbm url b dbtbbbse url of the form
+     *  <code> jdbc:<em>subprotocol</em>:<em>subnbme</em></code>
+     * @return b connection to the URL
+     * @exception SQLException if b dbtbbbse bccess error occurs or the url is
      * {@code null}
-     * @throws SQLTimeoutException  when the driver has determined that the
-     * timeout value specified by the {@code setLoginTimeout} method
-     * has been exceeded and has at least tried to cancel the
-     * current database connection attempt
+     * @throws SQLTimeoutException  when the driver hbs determined thbt the
+     * timeout vblue specified by the {@code setLoginTimeout} method
+     * hbs been exceeded bnd hbs bt lebst tried to cbncel the
+     * current dbtbbbse connection bttempt
      */
-    @CallerSensitive
-    public static Connection getConnection(String url)
+    @CbllerSensitive
+    public stbtic Connection getConnection(String url)
         throws SQLException {
 
-        java.util.Properties info = new java.util.Properties();
-        return (getConnection(url, info, Reflection.getCallerClass()));
+        jbvb.util.Properties info = new jbvb.util.Properties();
+        return (getConnection(url, info, Reflection.getCbllerClbss()));
     }
 
     /**
-     * Attempts to locate a driver that understands the given URL.
-     * The <code>DriverManager</code> attempts to select an appropriate driver from
+     * Attempts to locbte b driver thbt understbnds the given URL.
+     * The <code>DriverMbnbger</code> bttempts to select bn bppropribte driver from
      * the set of registered JDBC drivers.
      *
-     * @param url a database URL of the form
-     *     <code>jdbc:<em>subprotocol</em>:<em>subname</em></code>
-     * @return a <code>Driver</code> object representing a driver
-     * that can connect to the given URL
-     * @exception SQLException if a database access error occurs
+     * @pbrbm url b dbtbbbse URL of the form
+     *     <code>jdbc:<em>subprotocol</em>:<em>subnbme</em></code>
+     * @return b <code>Driver</code> object representing b driver
+     * thbt cbn connect to the given URL
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    @CallerSensitive
-    public static Driver getDriver(String url)
+    @CbllerSensitive
+    public stbtic Driver getDriver(String url)
         throws SQLException {
 
-        println("DriverManager.getDriver(\"" + url + "\")");
+        println("DriverMbnbger.getDriver(\"" + url + "\")");
 
-        Class<?> callerClass = Reflection.getCallerClass();
+        Clbss<?> cbllerClbss = Reflection.getCbllerClbss();
 
-        // Walk through the loaded registeredDrivers attempting to locate someone
-        // who understands the given URL.
-        for (DriverInfo aDriver : registeredDrivers) {
-            // If the caller does not have permission to load the driver then
+        // Wblk through the lobded registeredDrivers bttempting to locbte someone
+        // who understbnds the given URL.
+        for (DriverInfo bDriver : registeredDrivers) {
+            // If the cbller does not hbve permission to lobd the driver then
             // skip it.
-            if(isDriverAllowed(aDriver.driver, callerClass)) {
+            if(isDriverAllowed(bDriver.driver, cbllerClbss)) {
                 try {
-                    if(aDriver.driver.acceptsURL(url)) {
+                    if(bDriver.driver.bcceptsURL(url)) {
                         // Success!
-                        println("getDriver returning " + aDriver.driver.getClass().getName());
-                    return (aDriver.driver);
+                        println("getDriver returning " + bDriver.driver.getClbss().getNbme());
+                    return (bDriver.driver);
                     }
 
-                } catch(SQLException sqe) {
-                    // Drop through and try the next driver.
+                } cbtch(SQLException sqe) {
+                    // Drop through bnd try the next driver.
                 }
             } else {
-                println("    skipping: " + aDriver.driver.getClass().getName());
+                println("    skipping: " + bDriver.driver.getClbss().getNbme());
             }
 
         }
 
-        println("getDriver: no suitable driver");
-        throw new SQLException("No suitable driver", "08001");
+        println("getDriver: no suitbble driver");
+        throw new SQLException("No suitbble driver", "08001");
     }
 
 
     /**
-     * Registers the given driver with the {@code DriverManager}.
-     * A newly-loaded driver class should call
-     * the method {@code registerDriver} to make itself
-     * known to the {@code DriverManager}. If the driver is currently
-     * registered, no action is taken.
+     * Registers the given driver with the {@code DriverMbnbger}.
+     * A newly-lobded driver clbss should cbll
+     * the method {@code registerDriver} to mbke itself
+     * known to the {@code DriverMbnbger}. If the driver is currently
+     * registered, no bction is tbken.
      *
-     * @param driver the new JDBC Driver that is to be registered with the
-     *               {@code DriverManager}
-     * @exception SQLException if a database access error occurs
+     * @pbrbm driver the new JDBC Driver thbt is to be registered with the
+     *               {@code DriverMbnbger}
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @exception NullPointerException if {@code driver} is null
      */
-    public static synchronized void registerDriver(java.sql.Driver driver)
+    public stbtic synchronized void registerDriver(jbvb.sql.Driver driver)
         throws SQLException {
 
         registerDriver(driver, null);
     }
 
     /**
-     * Registers the given driver with the {@code DriverManager}.
-     * A newly-loaded driver class should call
-     * the method {@code registerDriver} to make itself
-     * known to the {@code DriverManager}. If the driver is currently
-     * registered, no action is taken.
+     * Registers the given driver with the {@code DriverMbnbger}.
+     * A newly-lobded driver clbss should cbll
+     * the method {@code registerDriver} to mbke itself
+     * known to the {@code DriverMbnbger}. If the driver is currently
+     * registered, no bction is tbken.
      *
-     * @param driver the new JDBC Driver that is to be registered with the
-     *               {@code DriverManager}
-     * @param da     the {@code DriverAction} implementation to be used when
-     *               {@code DriverManager#deregisterDriver} is called
-     * @exception SQLException if a database access error occurs
+     * @pbrbm driver the new JDBC Driver thbt is to be registered with the
+     *               {@code DriverMbnbger}
+     * @pbrbm db     the {@code DriverAction} implementbtion to be used when
+     *               {@code DriverMbnbger#deregisterDriver} is cblled
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @exception NullPointerException if {@code driver} is null
      * @since 1.8
      */
-    public static synchronized void registerDriver(java.sql.Driver driver,
-            DriverAction da)
+    public stbtic synchronized void registerDriver(jbvb.sql.Driver driver,
+            DriverAction db)
         throws SQLException {
 
-        /* Register the driver if it has not already been added to our list */
+        /* Register the driver if it hbs not blrebdy been bdded to our list */
         if(driver != null) {
-            registeredDrivers.addIfAbsent(new DriverInfo(driver, da));
+            registeredDrivers.bddIfAbsent(new DriverInfo(driver, db));
         } else {
-            // This is for compatibility with the original DriverManager
+            // This is for compbtibility with the originbl DriverMbnbger
             throw new NullPointerException();
         }
 
@@ -366,87 +366,87 @@ public class DriverManager {
     }
 
     /**
-     * Removes the specified driver from the {@code DriverManager}'s list of
+     * Removes the specified driver from the {@code DriverMbnbger}'s list of
      * registered drivers.
      * <p>
-     * If a {@code null} value is specified for the driver to be removed, then no
-     * action is taken.
+     * If b {@code null} vblue is specified for the driver to be removed, then no
+     * bction is tbken.
      * <p>
-     * If a security manager exists and its {@code checkPermission} denies
-     * permission, then a {@code SecurityException} will be thrown.
+     * If b security mbnbger exists bnd its {@code checkPermission} denies
+     * permission, then b {@code SecurityException} will be thrown.
      * <p>
      * If the specified driver is not found in the list of registered drivers,
-     * then no action is taken.  If the driver was found, it will be removed
+     * then no bction is tbken.  If the driver wbs found, it will be removed
      * from the list of registered drivers.
      * <p>
-     * If a {@code DriverAction} instance was specified when the JDBC driver was
-     * registered, its deregister method will be called
+     * If b {@code DriverAction} instbnce wbs specified when the JDBC driver wbs
+     * registered, its deregister method will be cblled
      * prior to the driver being removed from the list of registered drivers.
      *
-     * @param driver the JDBC Driver to remove
-     * @exception SQLException if a database access error occurs
-     * @throws SecurityException if a security manager exists and its
-     * {@code checkPermission} method denies permission to deregister a driver.
+     * @pbrbm driver the JDBC Driver to remove
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * @throws SecurityException if b security mbnbger exists bnd its
+     * {@code checkPermission} method denies permission to deregister b driver.
      *
-     * @see SecurityManager#checkPermission
+     * @see SecurityMbnbger#checkPermission
      */
-    @CallerSensitive
-    public static synchronized void deregisterDriver(Driver driver)
+    @CbllerSensitive
+    public stbtic synchronized void deregisterDriver(Driver driver)
         throws SQLException {
         if (driver == null) {
             return;
         }
 
-        SecurityManager sec = System.getSecurityManager();
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         if (sec != null) {
             sec.checkPermission(DEREGISTER_DRIVER_PERMISSION);
         }
 
-        println("DriverManager.deregisterDriver: " + driver);
+        println("DriverMbnbger.deregisterDriver: " + driver);
 
-        DriverInfo aDriver = new DriverInfo(driver, null);
-        if(registeredDrivers.contains(aDriver)) {
-            if (isDriverAllowed(driver, Reflection.getCallerClass())) {
-                DriverInfo di = registeredDrivers.get(registeredDrivers.indexOf(aDriver));
-                 // If a DriverAction was specified, Call it to notify the
-                 // driver that it has been deregistered
-                 if(di.action() != null) {
-                     di.action().deregister();
+        DriverInfo bDriver = new DriverInfo(driver, null);
+        if(registeredDrivers.contbins(bDriver)) {
+            if (isDriverAllowed(driver, Reflection.getCbllerClbss())) {
+                DriverInfo di = registeredDrivers.get(registeredDrivers.indexOf(bDriver));
+                 // If b DriverAction wbs specified, Cbll it to notify the
+                 // driver thbt it hbs been deregistered
+                 if(di.bction() != null) {
+                     di.bction().deregister();
                  }
-                 registeredDrivers.remove(aDriver);
+                 registeredDrivers.remove(bDriver);
             } else {
-                // If the caller does not have permission to load the driver then
-                // throw a SecurityException.
+                // If the cbller does not hbve permission to lobd the driver then
+                // throw b SecurityException.
                 throw new SecurityException();
             }
         } else {
-            println("    couldn't find driver to unload");
+            println("    couldn't find driver to unlobd");
         }
     }
 
     /**
-     * Retrieves an Enumeration with all of the currently loaded JDBC drivers
-     * to which the current caller has access.
+     * Retrieves bn Enumerbtion with bll of the currently lobded JDBC drivers
+     * to which the current cbller hbs bccess.
      *
-     * <P><B>Note:</B> The classname of a driver can be found using
-     * <CODE>d.getClass().getName()</CODE>
+     * <P><B>Note:</B> The clbssnbme of b driver cbn be found using
+     * <CODE>d.getClbss().getNbme()</CODE>
      *
-     * @return the list of JDBC Drivers loaded by the caller's class loader
+     * @return the list of JDBC Drivers lobded by the cbller's clbss lobder
      */
-    @CallerSensitive
-    public static java.util.Enumeration<Driver> getDrivers() {
-        java.util.Vector<Driver> result = new java.util.Vector<>();
+    @CbllerSensitive
+    public stbtic jbvb.util.Enumerbtion<Driver> getDrivers() {
+        jbvb.util.Vector<Driver> result = new jbvb.util.Vector<>();
 
-        Class<?> callerClass = Reflection.getCallerClass();
+        Clbss<?> cbllerClbss = Reflection.getCbllerClbss();
 
-        // Walk through the loaded registeredDrivers.
-        for(DriverInfo aDriver : registeredDrivers) {
-            // If the caller does not have permission to load the driver then
+        // Wblk through the lobded registeredDrivers.
+        for(DriverInfo bDriver : registeredDrivers) {
+            // If the cbller does not hbve permission to lobd the driver then
             // skip it.
-            if(isDriverAllowed(aDriver.driver, callerClass)) {
-                result.addElement(aDriver.driver);
+            if(isDriverAllowed(bDriver.driver, cbllerClbss)) {
+                result.bddElement(bDriver.driver);
             } else {
-                println("    skipping: " + aDriver.getClass().getName());
+                println("    skipping: " + bDriver.getClbss().getNbme());
             }
         }
         return (result.elements());
@@ -454,86 +454,86 @@ public class DriverManager {
 
 
     /**
-     * Sets the maximum time in seconds that a driver will wait
-     * while attempting to connect to a database once the driver has
+     * Sets the mbximum time in seconds thbt b driver will wbit
+     * while bttempting to connect to b dbtbbbse once the driver hbs
      * been identified.
      *
-     * @param seconds the login time limit in seconds; zero means there is no limit
+     * @pbrbm seconds the login time limit in seconds; zero mebns there is no limit
      * @see #getLoginTimeout
      */
-    public static void setLoginTimeout(int seconds) {
+    public stbtic void setLoginTimeout(int seconds) {
         loginTimeout = seconds;
     }
 
     /**
-     * Gets the maximum time in seconds that a driver can wait
-     * when attempting to log in to a database.
+     * Gets the mbximum time in seconds thbt b driver cbn wbit
+     * when bttempting to log in to b dbtbbbse.
      *
      * @return the driver login time limit in seconds
      * @see #setLoginTimeout
      */
-    public static int getLoginTimeout() {
+    public stbtic int getLoginTimeout() {
         return (loginTimeout);
     }
 
     /**
-     * Sets the logging/tracing PrintStream that is used
-     * by the <code>DriverManager</code>
-     * and all drivers.
+     * Sets the logging/trbcing PrintStrebm thbt is used
+     * by the <code>DriverMbnbger</code>
+     * bnd bll drivers.
      *<P>
-     * In the Java 2 SDK, Standard Edition, version 1.3 release, this method checks
-     * to see that there is an <code>SQLPermission</code> object before setting
-     * the logging stream.  If a <code>SecurityManager</code> exists and its
+     * In the Jbvb 2 SDK, Stbndbrd Edition, version 1.3 relebse, this method checks
+     * to see thbt there is bn <code>SQLPermission</code> object before setting
+     * the logging strebm.  If b <code>SecurityMbnbger</code> exists bnd its
      * <code>checkPermission</code> method denies setting the log writer, this
-     * method throws a <code>java.lang.SecurityException</code>.
+     * method throws b <code>jbvb.lbng.SecurityException</code>.
      *
-     * @param out the new logging/tracing PrintStream; to disable, set to <code>null</code>
-     * @deprecated Use {@code setLogWriter}
-     * @throws SecurityException if a security manager exists and its
-     *    <code>checkPermission</code> method denies setting the log stream
+     * @pbrbm out the new logging/trbcing PrintStrebm; to disbble, set to <code>null</code>
+     * @deprecbted Use {@code setLogWriter}
+     * @throws SecurityException if b security mbnbger exists bnd its
+     *    <code>checkPermission</code> method denies setting the log strebm
      *
-     * @see SecurityManager#checkPermission
-     * @see #getLogStream
+     * @see SecurityMbnbger#checkPermission
+     * @see #getLogStrebm
      */
-    @Deprecated
-    public static void setLogStream(java.io.PrintStream out) {
+    @Deprecbted
+    public stbtic void setLogStrebm(jbvb.io.PrintStrebm out) {
 
-        SecurityManager sec = System.getSecurityManager();
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         if (sec != null) {
             sec.checkPermission(SET_LOG_PERMISSION);
         }
 
-        logStream = out;
+        logStrebm = out;
         if ( out != null )
-            logWriter = new java.io.PrintWriter(out);
+            logWriter = new jbvb.io.PrintWriter(out);
         else
             logWriter = null;
     }
 
     /**
-     * Retrieves the logging/tracing PrintStream that is used by the <code>DriverManager</code>
-     * and all drivers.
+     * Retrieves the logging/trbcing PrintStrebm thbt is used by the <code>DriverMbnbger</code>
+     * bnd bll drivers.
      *
-     * @return the logging/tracing PrintStream; if disabled, is <code>null</code>
-     * @deprecated  Use {@code getLogWriter}
-     * @see #setLogStream
+     * @return the logging/trbcing PrintStrebm; if disbbled, is <code>null</code>
+     * @deprecbted  Use {@code getLogWriter}
+     * @see #setLogStrebm
      */
-    @Deprecated
-    public static java.io.PrintStream getLogStream() {
-        return logStream;
+    @Deprecbted
+    public stbtic jbvb.io.PrintStrebm getLogStrebm() {
+        return logStrebm;
     }
 
     /**
-     * Prints a message to the current JDBC log stream.
+     * Prints b messbge to the current JDBC log strebm.
      *
-     * @param message a log or tracing message
+     * @pbrbm messbge b log or trbcing messbge
      */
-    public static void println(String message) {
+    public stbtic void println(String messbge) {
         synchronized (logSync) {
             if (logWriter != null) {
-                logWriter.println(message);
+                logWriter.println(messbge);
 
-                // automatic flushing is never enabled, so we must do it ourselves
+                // butombtic flushing is never enbbled, so we must do it ourselves
                 logWriter.flush();
             }
         }
@@ -541,30 +541,30 @@ public class DriverManager {
 
     //------------------------------------------------------------------------
 
-    // Indicates whether the class object that would be created if the code calling
-    // DriverManager is accessible.
-    private static boolean isDriverAllowed(Driver driver, Class<?> caller) {
-        ClassLoader callerCL = caller != null ? caller.getClassLoader() : null;
-        return isDriverAllowed(driver, callerCL);
+    // Indicbtes whether the clbss object thbt would be crebted if the code cblling
+    // DriverMbnbger is bccessible.
+    privbte stbtic boolebn isDriverAllowed(Driver driver, Clbss<?> cbller) {
+        ClbssLobder cbllerCL = cbller != null ? cbller.getClbssLobder() : null;
+        return isDriverAllowed(driver, cbllerCL);
     }
 
-    private static boolean isDriverAllowed(Driver driver, ClassLoader classLoader) {
-        boolean result = false;
+    privbte stbtic boolebn isDriverAllowed(Driver driver, ClbssLobder clbssLobder) {
+        boolebn result = fblse;
         if(driver != null) {
-            Class<?> aClass = null;
+            Clbss<?> bClbss = null;
             try {
-                aClass =  Class.forName(driver.getClass().getName(), true, classLoader);
-            } catch (Exception ex) {
-                result = false;
+                bClbss =  Clbss.forNbme(driver.getClbss().getNbme(), true, clbssLobder);
+            } cbtch (Exception ex) {
+                result = fblse;
             }
 
-             result = ( aClass == driver.getClass() ) ? true : false;
+             result = ( bClbss == driver.getClbss() ) ? true : fblse;
         }
 
         return result;
     }
 
-    private static void loadInitialDrivers() {
+    privbte stbtic void lobdInitiblDrivers() {
         String drivers;
         try {
             drivers = AccessController.doPrivileged(new PrivilegedAction<String>() {
@@ -572,157 +572,157 @@ public class DriverManager {
                     return System.getProperty("jdbc.drivers");
                 }
             });
-        } catch (Exception ex) {
+        } cbtch (Exception ex) {
             drivers = null;
         }
-        // If the driver is packaged as a Service Provider, load it.
-        // Get all the drivers through the classloader
-        // exposed as a java.sql.Driver.class service.
-        // ServiceLoader.load() replaces the sun.misc.Providers()
+        // If the driver is pbckbged bs b Service Provider, lobd it.
+        // Get bll the drivers through the clbsslobder
+        // exposed bs b jbvb.sql.Driver.clbss service.
+        // ServiceLobder.lobd() replbces the sun.misc.Providers()
 
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
 
-                ServiceLoader<Driver> loadedDrivers = ServiceLoader.load(Driver.class);
-                Iterator<Driver> driversIterator = loadedDrivers.iterator();
+                ServiceLobder<Driver> lobdedDrivers = ServiceLobder.lobd(Driver.clbss);
+                Iterbtor<Driver> driversIterbtor = lobdedDrivers.iterbtor();
 
-                /* Load these drivers, so that they can be instantiated.
-                 * It may be the case that the driver class may not be there
-                 * i.e. there may be a packaged driver with the service class
-                 * as implementation of java.sql.Driver but the actual class
-                 * may be missing. In that case a java.util.ServiceConfigurationError
-                 * will be thrown at runtime by the VM trying to locate
-                 * and load the service.
+                /* Lobd these drivers, so thbt they cbn be instbntibted.
+                 * It mby be the cbse thbt the driver clbss mby not be there
+                 * i.e. there mby be b pbckbged driver with the service clbss
+                 * bs implementbtion of jbvb.sql.Driver but the bctubl clbss
+                 * mby be missing. In thbt cbse b jbvb.util.ServiceConfigurbtionError
+                 * will be thrown bt runtime by the VM trying to locbte
+                 * bnd lobd the service.
                  *
-                 * Adding a try catch block to catch those runtime errors
-                 * if driver not available in classpath but it's
-                 * packaged as service and that service is there in classpath.
+                 * Adding b try cbtch block to cbtch those runtime errors
+                 * if driver not bvbilbble in clbsspbth but it's
+                 * pbckbged bs service bnd thbt service is there in clbsspbth.
                  */
                 try{
-                    while(driversIterator.hasNext()) {
-                        driversIterator.next();
+                    while(driversIterbtor.hbsNext()) {
+                        driversIterbtor.next();
                     }
-                } catch(Throwable t) {
+                } cbtch(Throwbble t) {
                 // Do nothing
                 }
                 return null;
             }
         });
 
-        println("DriverManager.initialize: jdbc.drivers = " + drivers);
+        println("DriverMbnbger.initiblize: jdbc.drivers = " + drivers);
 
-        if (drivers == null || drivers.equals("")) {
+        if (drivers == null || drivers.equbls("")) {
             return;
         }
         String[] driversList = drivers.split(":");
         println("number of Drivers:" + driversList.length);
-        for (String aDriver : driversList) {
+        for (String bDriver : driversList) {
             try {
-                println("DriverManager.Initialize: loading " + aDriver);
-                Class.forName(aDriver, true,
-                        ClassLoader.getSystemClassLoader());
-            } catch (Exception ex) {
-                println("DriverManager.Initialize: load failed: " + ex);
+                println("DriverMbnbger.Initiblize: lobding " + bDriver);
+                Clbss.forNbme(bDriver, true,
+                        ClbssLobder.getSystemClbssLobder());
+            } cbtch (Exception ex) {
+                println("DriverMbnbger.Initiblize: lobd fbiled: " + ex);
             }
         }
     }
 
 
-    //  Worker method called by the public getConnection() methods.
-    private static Connection getConnection(
-        String url, java.util.Properties info, Class<?> caller) throws SQLException {
+    //  Worker method cblled by the public getConnection() methods.
+    privbte stbtic Connection getConnection(
+        String url, jbvb.util.Properties info, Clbss<?> cbller) throws SQLException {
         /*
-         * When callerCl is null, we should check the application's
-         * (which is invoking this class indirectly)
-         * classloader, so that the JDBC driver class outside rt.jar
-         * can be loaded from here.
+         * When cbllerCl is null, we should check the bpplicbtion's
+         * (which is invoking this clbss indirectly)
+         * clbsslobder, so thbt the JDBC driver clbss outside rt.jbr
+         * cbn be lobded from here.
          */
-        ClassLoader callerCL = caller != null ? caller.getClassLoader() : null;
-        synchronized(DriverManager.class) {
-            // synchronize loading of the correct classloader.
-            if (callerCL == null) {
-                callerCL = Thread.currentThread().getContextClassLoader();
+        ClbssLobder cbllerCL = cbller != null ? cbller.getClbssLobder() : null;
+        synchronized(DriverMbnbger.clbss) {
+            // synchronize lobding of the correct clbsslobder.
+            if (cbllerCL == null) {
+                cbllerCL = Threbd.currentThrebd().getContextClbssLobder();
             }
         }
 
         if(url == null) {
-            throw new SQLException("The url cannot be null", "08001");
+            throw new SQLException("The url cbnnot be null", "08001");
         }
 
-        println("DriverManager.getConnection(\"" + url + "\")");
+        println("DriverMbnbger.getConnection(\"" + url + "\")");
 
-        // Walk through the loaded registeredDrivers attempting to make a connection.
-        // Remember the first exception that gets raised so we can reraise it.
-        SQLException reason = null;
+        // Wblk through the lobded registeredDrivers bttempting to mbke b connection.
+        // Remember the first exception thbt gets rbised so we cbn rerbise it.
+        SQLException rebson = null;
 
-        for(DriverInfo aDriver : registeredDrivers) {
-            // If the caller does not have permission to load the driver then
+        for(DriverInfo bDriver : registeredDrivers) {
+            // If the cbller does not hbve permission to lobd the driver then
             // skip it.
-            if(isDriverAllowed(aDriver.driver, callerCL)) {
+            if(isDriverAllowed(bDriver.driver, cbllerCL)) {
                 try {
-                    println("    trying " + aDriver.driver.getClass().getName());
-                    Connection con = aDriver.driver.connect(url, info);
+                    println("    trying " + bDriver.driver.getClbss().getNbme());
+                    Connection con = bDriver.driver.connect(url, info);
                     if (con != null) {
                         // Success!
-                        println("getConnection returning " + aDriver.driver.getClass().getName());
+                        println("getConnection returning " + bDriver.driver.getClbss().getNbme());
                         return (con);
                     }
-                } catch (SQLException ex) {
-                    if (reason == null) {
-                        reason = ex;
+                } cbtch (SQLException ex) {
+                    if (rebson == null) {
+                        rebson = ex;
                     }
                 }
 
             } else {
-                println("    skipping: " + aDriver.getClass().getName());
+                println("    skipping: " + bDriver.getClbss().getNbme());
             }
 
         }
 
         // if we got here nobody could connect.
-        if (reason != null)    {
-            println("getConnection failed: " + reason);
-            throw reason;
+        if (rebson != null)    {
+            println("getConnection fbiled: " + rebson);
+            throw rebson;
         }
 
-        println("getConnection: no suitable driver found for "+ url);
-        throw new SQLException("No suitable driver found for "+ url, "08001");
+        println("getConnection: no suitbble driver found for "+ url);
+        throw new SQLException("No suitbble driver found for "+ url, "08001");
     }
 
 
 }
 
 /*
- * Wrapper class for registered Drivers in order to not expose Driver.equals()
- * to avoid the capture of the Driver it being compared to as it might not
- * normally have access.
+ * Wrbpper clbss for registered Drivers in order to not expose Driver.equbls()
+ * to bvoid the cbpture of the Driver it being compbred to bs it might not
+ * normblly hbve bccess.
  */
-class DriverInfo {
+clbss DriverInfo {
 
-    final Driver driver;
-    DriverAction da;
-    DriverInfo(Driver driver, DriverAction action) {
+    finbl Driver driver;
+    DriverAction db;
+    DriverInfo(Driver driver, DriverAction bction) {
         this.driver = driver;
-        da = action;
+        db = bction;
     }
 
     @Override
-    public boolean equals(Object other) {
-        return (other instanceof DriverInfo)
+    public boolebn equbls(Object other) {
+        return (other instbnceof DriverInfo)
                 && this.driver == ((DriverInfo) other).driver;
     }
 
     @Override
-    public int hashCode() {
-        return driver.hashCode();
+    public int hbshCode() {
+        return driver.hbshCode();
     }
 
     @Override
     public String toString() {
-        return ("driver[className="  + driver + "]");
+        return ("driver[clbssNbme="  + driver + "]");
     }
 
-    DriverAction action() {
-        return da;
+    DriverAction bction() {
+        return db;
     }
 }

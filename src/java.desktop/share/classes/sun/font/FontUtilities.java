@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.lang.ref.SoftReference;
-import java.util.concurrent.ConcurrentHashMap;
-import java.security.AccessController;
+import jbvb.bwt.Font;
+import jbvb.io.BufferedRebder;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.security.AccessController;
 
-import java.security.PrivilegedAction;
-import javax.swing.plaf.FontUIResource;
+import jbvb.security.PrivilegedAction;
+import jbvbx.swing.plbf.FontUIResource;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /**
  * A collection of utility methods.
  */
-public final class FontUtilities {
+public finbl clbss FontUtilities {
 
-    public static boolean isSolaris;
+    public stbtic boolebn isSolbris;
 
-    public static boolean isLinux;
+    public stbtic boolebn isLinux;
 
-    public static boolean isMacOSX;
+    public stbtic boolebn isMbcOSX;
 
-    public static boolean isSolaris8;
+    public stbtic boolebn isSolbris8;
 
-    public static boolean isSolaris9;
+    public stbtic boolebn isSolbris9;
 
-    public static boolean isOpenSolaris;
+    public stbtic boolebn isOpenSolbris;
 
-    public static boolean useT2K;
+    public stbtic boolebn useT2K;
 
-    public static boolean isWindows;
+    public stbtic boolebn isWindows;
 
-    public static boolean isOpenJDK;
+    public stbtic boolebn isOpenJDK;
 
-    static final String LUCIDA_FILE_NAME = "LucidaSansRegular.ttf";
+    stbtic finbl String LUCIDA_FILE_NAME = "LucidbSbnsRegulbr.ttf";
 
-    private static boolean debugFonts = false;
-    private static PlatformLogger logger = null;
-    private static boolean logging;
+    privbte stbtic boolebn debugFonts = fblse;
+    privbte stbtic PlbtformLogger logger = null;
+    privbte stbtic boolebn logging;
 
-    // This static initializer block figures out the OS constants.
-    static {
+    // This stbtic initiblizer block figures out the OS constbnts.
+    stbtic {
 
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
-                String osName = System.getProperty("os.name", "unknownOS");
-                isSolaris = osName.startsWith("SunOS");
+                String osNbme = System.getProperty("os.nbme", "unknownOS");
+                isSolbris = osNbme.stbrtsWith("SunOS");
 
-                isLinux = osName.startsWith("Linux");
+                isLinux = osNbme.stbrtsWith("Linux");
 
-                isMacOSX = osName.contains("OS X"); // TODO: MacOSX
+                isMbcOSX = osNbme.contbins("OS X"); // TODO: MbcOSX
 
-                String t2kStr = System.getProperty("sun.java2d.font.scaler");
+                String t2kStr = System.getProperty("sun.jbvb2d.font.scbler");
                 if (t2kStr != null) {
-                    useT2K = "t2k".equals(t2kStr);
+                    useT2K = "t2k".equbls(t2kStr);
                 } else {
-                    useT2K = false;
+                    useT2K = fblse;
                 }
-                if (isSolaris) {
+                if (isSolbris) {
                     String version = System.getProperty("os.version", "0.0");
-                    isSolaris8 = version.startsWith("5.8");
-                    isSolaris9 = version.startsWith("5.9");
-                    float ver = Float.parseFloat(version);
+                    isSolbris8 = version.stbrtsWith("5.8");
+                    isSolbris9 = version.stbrtsWith("5.9");
+                    flobt ver = Flobt.pbrseFlobt(version);
                     if (ver > 5.10f) {
-                        File f = new File("/etc/release");
+                        File f = new File("/etc/relebse");
                         String line = null;
                         try {
-                            FileInputStream fis = new FileInputStream(f);
-                            InputStreamReader isr = new InputStreamReader(
+                            FileInputStrebm fis = new FileInputStrebm(f);
+                            InputStrebmRebder isr = new InputStrebmRebder(
                                                             fis, "ISO-8859-1");
-                            BufferedReader br = new BufferedReader(isr);
-                            line = br.readLine();
+                            BufferedRebder br = new BufferedRebder(isr);
+                            line = br.rebdLine();
                             fis.close();
-                        } catch (Exception ex) {
+                        } cbtch (Exception ex) {
                             // Nothing to do here.
                         }
-                        if (line != null && line.indexOf("OpenSolaris") >= 0) {
-                            isOpenSolaris = true;
+                        if (line != null && line.indexOf("OpenSolbris") >= 0) {
+                            isOpenSolbris = true;
                         } else {
-                            isOpenSolaris = false;
+                            isOpenSolbris = fblse;
                         }
                     } else {
-                        isOpenSolaris = false;
+                        isOpenSolbris = fblse;
                     }
                 } else {
-                    isSolaris8 = false;
-                    isSolaris9 = false;
-                    isOpenSolaris = false;
+                    isSolbris8 = fblse;
+                    isSolbris9 = fblse;
+                    isOpenSolbris = fblse;
                 }
-                isWindows = osName.startsWith("Windows");
-                String jreLibDirName = System.getProperty("java.home", "")
-                                                      + File.separator + "lib";
-                String jreFontDirName =
-                        jreLibDirName + File.separator + "fonts";
-                File lucidaFile = new File(jreFontDirName + File.separator
+                isWindows = osNbme.stbrtsWith("Windows");
+                String jreLibDirNbme = System.getProperty("jbvb.home", "")
+                                                      + File.sepbrbtor + "lib";
+                String jreFontDirNbme =
+                        jreLibDirNbme + File.sepbrbtor + "fonts";
+                File lucidbFile = new File(jreFontDirNbme + File.sepbrbtor
                                            + LUCIDA_FILE_NAME);
-                isOpenJDK = !lucidaFile.exists();
+                isOpenJDK = !lucidbFile.exists();
 
                 String debugLevel =
-                    System.getProperty("sun.java2d.debugfonts");
+                    System.getProperty("sun.jbvb2d.debugfonts");
 
-                if (debugLevel != null && !debugLevel.equals("false")) {
+                if (debugLevel != null && !debugLevel.equbls("fblse")) {
                     debugFonts = true;
-                    logger = PlatformLogger.getLogger("sun.java2d");
-                    if (debugLevel.equals("warning")) {
-                        logger.setLevel(PlatformLogger.Level.WARNING);
-                    } else if (debugLevel.equals("severe")) {
-                        logger.setLevel(PlatformLogger.Level.SEVERE);
+                    logger = PlbtformLogger.getLogger("sun.jbvb2d");
+                    if (debugLevel.equbls("wbrning")) {
+                        logger.setLevel(PlbtformLogger.Level.WARNING);
+                    } else if (debugLevel.equbls("severe")) {
+                        logger.setLevel(PlbtformLogger.Level.SEVERE);
                     }
                 }
 
                 if (debugFonts) {
-                    logger = PlatformLogger.getLogger("sun.java2d");
-                    logging = logger.isEnabled();
+                    logger = PlbtformLogger.getLogger("sun.jbvb2d");
+                    logging = logger.isEnbbled();
                 }
 
                 return null;
@@ -150,366 +150,366 @@ public final class FontUtilities {
     }
 
     /**
-     * Referenced by code in the JDK which wants to test for the
-     * minimum char code for which layout may be required.
-     * Note that even basic latin text can benefit from ligatures,
-     * eg "ffi" but we presently apply those only if explicitly
+     * Referenced by code in the JDK which wbnts to test for the
+     * minimum chbr code for which lbyout mby be required.
+     * Note thbt even bbsic lbtin text cbn benefit from ligbtures,
+     * eg "ffi" but we presently bpply those only if explicitly
      * requested with TextAttribute.LIGATURES_ON.
-     * The value here indicates the lowest char code for which failing
-     * to invoke layout would prevent acceptable rendering.
+     * The vblue here indicbtes the lowest chbr code for which fbiling
+     * to invoke lbyout would prevent bcceptbble rendering.
      */
-    public static final int MIN_LAYOUT_CHARCODE = 0x0300;
+    public stbtic finbl int MIN_LAYOUT_CHARCODE = 0x0300;
 
     /**
-     * Referenced by code in the JDK which wants to test for the
-     * maximum char code for which layout may be required.
-     * Note this does not account for supplementary characters
-     * where the caller interprets 'layout' to mean any case where
-     * one 'char' (ie the java type char) does not map to one glyph
+     * Referenced by code in the JDK which wbnts to test for the
+     * mbximum chbr code for which lbyout mby be required.
+     * Note this does not bccount for supplementbry chbrbcters
+     * where the cbller interprets 'lbyout' to mebn bny cbse where
+     * one 'chbr' (ie the jbvb type chbr) does not mbp to one glyph
      */
-    public static final int MAX_LAYOUT_CHARCODE = 0x206F;
+    public stbtic finbl int MAX_LAYOUT_CHARCODE = 0x206F;
 
     /**
-     * Calls the private getFont2D() method in java.awt.Font objects.
+     * Cblls the privbte getFont2D() method in jbvb.bwt.Font objects.
      *
-     * @param font the font object to call
+     * @pbrbm font the font object to cbll
      *
      * @return the Font2D object returned by Font.getFont2D()
      */
-    public static Font2D getFont2D(Font font) {
+    public stbtic Font2D getFont2D(Font font) {
         return FontAccess.getFontAccess().getFont2D(font);
     }
 
     /**
-     * If there is anything in the text which triggers a case
-     * where char->glyph does not map 1:1 in straightforward
+     * If there is bnything in the text which triggers b cbse
+     * where chbr->glyph does not mbp 1:1 in strbightforwbrd
      * left->right ordering, then this method returns true.
-     * Scripts which might require it but are not treated as such
-     * due to JDK implementations will not return true.
-     * ie a 'true' return is an indication of the treatment by
-     * the implementation.
-     * Whether supplementary characters should be considered is dependent
-     * on the needs of the caller. Since this method accepts the 'char' type
-     * then such chars are always represented by a pair. From a rendering
-     * perspective these will all (in the cases I know of) still be one
-     * unicode character -> one glyph. But if a caller is using this to
-     * discover any case where it cannot make naive assumptions about
-     * the number of chars, and how to index through them, then it may
-     * need the option to have a 'true' return in such a case.
+     * Scripts which might require it but bre not trebted bs such
+     * due to JDK implementbtions will not return true.
+     * ie b 'true' return is bn indicbtion of the trebtment by
+     * the implementbtion.
+     * Whether supplementbry chbrbcters should be considered is dependent
+     * on the needs of the cbller. Since this method bccepts the 'chbr' type
+     * then such chbrs bre blwbys represented by b pbir. From b rendering
+     * perspective these will bll (in the cbses I know of) still be one
+     * unicode chbrbcter -> one glyph. But if b cbller is using this to
+     * discover bny cbse where it cbnnot mbke nbive bssumptions bbout
+     * the number of chbrs, bnd how to index through them, then it mby
+     * need the option to hbve b 'true' return in such b cbse.
      */
-    public static boolean isComplexText(char [] chs, int start, int limit) {
+    public stbtic boolebn isComplexText(chbr [] chs, int stbrt, int limit) {
 
-        for (int i = start; i < limit; i++) {
+        for (int i = stbrt; i < limit; i++) {
             if (chs[i] < MIN_LAYOUT_CHARCODE) {
                 continue;
             }
-            else if (isNonSimpleChar(chs[i])) {
+            else if (isNonSimpleChbr(chs[i])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    /* This is almost the same as the method above, except it takes a
-     * char which means it may include undecoded surrogate pairs.
-     * The distinction is made so that code which needs to identify all
-     * cases in which we do not have a simple mapping from
-     * char->unicode character->glyph can be be identified.
-     * For example measurement cannot simply sum advances of 'chars',
-     * the caret in editable text cannot advance one 'char' at a time, etc.
-     * These callers really are asking for more than whether 'layout'
-     * needs to be run, they need to know if they can assume 1->1
-     * char->glyph mapping.
+    /* This is blmost the sbme bs the method bbove, except it tbkes b
+     * chbr which mebns it mby include undecoded surrogbte pbirs.
+     * The distinction is mbde so thbt code which needs to identify bll
+     * cbses in which we do not hbve b simple mbpping from
+     * chbr->unicode chbrbcter->glyph cbn be be identified.
+     * For exbmple mebsurement cbnnot simply sum bdvbnces of 'chbrs',
+     * the cbret in editbble text cbnnot bdvbnce one 'chbr' bt b time, etc.
+     * These cbllers reblly bre bsking for more thbn whether 'lbyout'
+     * needs to be run, they need to know if they cbn bssume 1->1
+     * chbr->glyph mbpping.
      */
-    public static boolean isNonSimpleChar(char ch) {
+    public stbtic boolebn isNonSimpleChbr(chbr ch) {
         return
-            isComplexCharCode(ch) ||
-            (ch >= CharToGlyphMapper.HI_SURROGATE_START &&
-             ch <= CharToGlyphMapper.LO_SURROGATE_END);
+            isComplexChbrCode(ch) ||
+            (ch >= ChbrToGlyphMbpper.HI_SURROGATE_START &&
+             ch <= ChbrToGlyphMbpper.LO_SURROGATE_END);
     }
 
-    /* If the character code falls into any of a number of unicode ranges
-     * where we know that simple left->right layout mapping chars to glyphs
-     * 1:1 and accumulating advances is going to produce incorrect results,
-     * we want to know this so the caller can use a more intelligent layout
-     * approach. A caller who cares about optimum performance may want to
-     * check the first case and skip the method call if its in that range.
-     * Although there's a lot of tests in here, knowing you can skip
-     * CTL saves a great deal more. The rest of the checks are ordered
-     * so that rather than checking explicitly if (>= start & <= end)
-     * which would mean all ranges would need to be checked so be sure
-     * CTL is not needed, the method returns as soon as it recognises
-     * the code point is outside of a CTL ranges.
-     * NOTE: Since this method accepts an 'int' it is asssumed to properly
-     * represent a CHARACTER. ie it assumes the caller has already
-     * converted surrogate pairs into supplementary characters, and so
-     * can handle this case and doesn't need to be told such a case is
+    /* If the chbrbcter code fblls into bny of b number of unicode rbnges
+     * where we know thbt simple left->right lbyout mbpping chbrs to glyphs
+     * 1:1 bnd bccumulbting bdvbnces is going to produce incorrect results,
+     * we wbnt to know this so the cbller cbn use b more intelligent lbyout
+     * bpprobch. A cbller who cbres bbout optimum performbnce mby wbnt to
+     * check the first cbse bnd skip the method cbll if its in thbt rbnge.
+     * Although there's b lot of tests in here, knowing you cbn skip
+     * CTL sbves b grebt debl more. The rest of the checks bre ordered
+     * so thbt rbther thbn checking explicitly if (>= stbrt & <= end)
+     * which would mebn bll rbnges would need to be checked so be sure
+     * CTL is not needed, the method returns bs soon bs it recognises
+     * the code point is outside of b CTL rbnges.
+     * NOTE: Since this method bccepts bn 'int' it is bsssumed to properly
+     * represent b CHARACTER. ie it bssumes the cbller hbs blrebdy
+     * converted surrogbte pbirs into supplementbry chbrbcters, bnd so
+     * cbn hbndle this cbse bnd doesn't need to be told such b cbse is
      * 'complex'.
      */
-    public static boolean isComplexCharCode(int code) {
+    public stbtic boolebn isComplexChbrCode(int code) {
 
         if (code < MIN_LAYOUT_CHARCODE || code > MAX_LAYOUT_CHARCODE) {
-            return false;
+            return fblse;
         }
         else if (code <= 0x036f) {
-            // Trigger layout for combining diacriticals 0x0300->0x036f
+            // Trigger lbyout for combining dibcriticbls 0x0300->0x036f
             return true;
         }
         else if (code < 0x0590) {
-            // No automatic layout for Greek, Cyrillic, Armenian.
-             return false;
+            // No butombtic lbyout for Greek, Cyrillic, Armenibn.
+             return fblse;
         }
         else if (code <= 0x06ff) {
             // Hebrew 0590 - 05ff
-            // Arabic 0600 - 06ff
+            // Arbbic 0600 - 06ff
             return true;
         }
         else if (code < 0x0900) {
-            return false; // Syriac and Thaana
+            return fblse; // Syribc bnd Thbbnb
         }
         else if (code <= 0x0e7f) {
-            // if Indic, assume shaping for conjuncts, reordering:
-            // 0900 - 097F Devanagari
-            // 0980 - 09FF Bengali
+            // if Indic, bssume shbping for conjuncts, reordering:
+            // 0900 - 097F Devbnbgbri
+            // 0980 - 09FF Bengbli
             // 0A00 - 0A7F Gurmukhi
-            // 0A80 - 0AFF Gujarati
-            // 0B00 - 0B7F Oriya
-            // 0B80 - 0BFF Tamil
+            // 0A80 - 0AFF Gujbrbti
+            // 0B00 - 0B7F Oriyb
+            // 0B80 - 0BFF Tbmil
             // 0C00 - 0C7F Telugu
-            // 0C80 - 0CFF Kannada
-            // 0D00 - 0D7F Malayalam
-            // 0D80 - 0DFF Sinhala
-            // 0E00 - 0E7F if Thai, assume shaping for vowel, tone marks
+            // 0C80 - 0CFF Kbnnbdb
+            // 0D00 - 0D7F Mblbyblbm
+            // 0D80 - 0DFF Sinhblb
+            // 0E00 - 0E7F if Thbi, bssume shbping for vowel, tone mbrks
             return true;
         }
         else if (code <  0x0f00) {
-            return false;
+            return fblse;
         }
-        else if (code <= 0x0fff) { // U+0F00 - U+0FFF Tibetan
+        else if (code <= 0x0fff) { // U+0F00 - U+0FFF Tibetbn
             return true;
         }
         else if (code < 0x1100) {
-            return false;
+            return fblse;
         }
-        else if (code < 0x11ff) { // U+1100 - U+11FF Old Hangul
+        else if (code < 0x11ff) { // U+1100 - U+11FF Old Hbngul
             return true;
         }
         else if (code < 0x1780) {
-            return false;
+            return fblse;
         }
         else if (code <= 0x17ff) { // 1780 - 17FF Khmer
             return true;
         }
         else if (code < 0x200c) {
-            return false;
+            return fblse;
         }
         else if (code <= 0x200d) { //  zwj or zwnj
             return true;
         }
-        else if (code >= 0x202a && code <= 0x202e) { // directional control
+        else if (code >= 0x202b && code <= 0x202e) { // directionbl control
             return true;
         }
-        else if (code >= 0x206a && code <= 0x206f) { // directional control
+        else if (code >= 0x206b && code <= 0x206f) { // directionbl control
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    public static PlatformLogger getLogger() {
+    public stbtic PlbtformLogger getLogger() {
         return logger;
     }
 
-    public static boolean isLogging() {
+    public stbtic boolebn isLogging() {
         return logging;
     }
 
-    public static boolean debugFonts() {
+    public stbtic boolebn debugFonts() {
         return debugFonts;
     }
 
 
-    // The following methods are used by Swing.
+    // The following methods bre used by Swing.
 
-    /* Revise the implementation to in fact mean "font is a composite font.
-     * This ensures that Swing components will always benefit from the
-     * fall back fonts
+    /* Revise the implementbtion to in fbct mebn "font is b composite font.
+     * This ensures thbt Swing components will blwbys benefit from the
+     * fbll bbck fonts
      */
-    public static boolean fontSupportsDefaultEncoding(Font font) {
-        return getFont2D(font) instanceof CompositeFont;
+    public stbtic boolebn fontSupportsDefbultEncoding(Font font) {
+        return getFont2D(font) instbnceof CompositeFont;
     }
 
     /**
-     * This method is provided for internal and exclusive use by Swing.
+     * This method is provided for internbl bnd exclusive use by Swing.
      *
-     * It may be used in conjunction with fontSupportsDefaultEncoding(Font)
-     * In the event that a desktop properties font doesn't directly
-     * support the default encoding, (ie because the host OS supports
-     * adding support for the current locale automatically for native apps),
-     * then Swing calls this method to get a font which  uses the specified
-     * font for the code points it covers, but also supports this locale
-     * just as the standard composite fonts do.
-     * Note: this will over-ride any setting where an application
-     * specifies it prefers locale specific composite fonts.
-     * The logic for this, is that this method is used only where the user or
-     * application has specified that the native L&F be used, and that
-     * we should honour that request to use the same font as native apps use.
+     * It mby be used in conjunction with fontSupportsDefbultEncoding(Font)
+     * In the event thbt b desktop properties font doesn't directly
+     * support the defbult encoding, (ie becbuse the host OS supports
+     * bdding support for the current locble butombticblly for nbtive bpps),
+     * then Swing cblls this method to get b font which  uses the specified
+     * font for the code points it covers, but blso supports this locble
+     * just bs the stbndbrd composite fonts do.
+     * Note: this will over-ride bny setting where bn bpplicbtion
+     * specifies it prefers locble specific composite fonts.
+     * The logic for this, is thbt this method is used only where the user or
+     * bpplicbtion hbs specified thbt the nbtive L&F be used, bnd thbt
+     * we should honour thbt request to use the sbme font bs nbtive bpps use.
      *
-     * The behaviour of this method is to construct a new composite
-     * Font object that uses the specified physical font as its first
-     * component, and adds all the components of "dialog" as fall back
+     * The behbviour of this method is to construct b new composite
+     * Font object thbt uses the specified physicbl font bs its first
+     * component, bnd bdds bll the components of "diblog" bs fbll bbck
      * components.
-     * The method currently assumes that only the size and style attributes
-     * are set on the specified font. It doesn't copy the font transform or
-     * other attributes because they aren't set on a font created from
-     * the desktop. This will need to be fixed if use is broadened.
+     * The method currently bssumes thbt only the size bnd style bttributes
+     * bre set on the specified font. It doesn't copy the font trbnsform or
+     * other bttributes becbuse they bren't set on b font crebted from
+     * the desktop. This will need to be fixed if use is brobdened.
      *
-     * Operations such as Font.deriveFont will work properly on the
-     * font returned by this method for deriving a different point size.
-     * Additionally it tries to support a different style by calling
-     * getNewComposite() below. That also supports replacing slot zero
-     * with a different physical font but that is expected to be "rare".
-     * Deriving with a different style is needed because its been shown
-     * that some applications try to do this for Swing FontUIResources.
-     * Also operations such as new Font(font.getFontName(..), Font.PLAIN, 14);
-     * will NOT yield the same result, as the new underlying CompositeFont
-     * cannot be "looked up" in the font registry.
-     * This returns a FontUIResource as that is the Font sub-class needed
+     * Operbtions such bs Font.deriveFont will work properly on the
+     * font returned by this method for deriving b different point size.
+     * Additionblly it tries to support b different style by cblling
+     * getNewComposite() below. Thbt blso supports replbcing slot zero
+     * with b different physicbl font but thbt is expected to be "rbre".
+     * Deriving with b different style is needed becbuse its been shown
+     * thbt some bpplicbtions try to do this for Swing FontUIResources.
+     * Also operbtions such bs new Font(font.getFontNbme(..), Font.PLAIN, 14);
+     * will NOT yield the sbme result, bs the new underlying CompositeFont
+     * cbnnot be "looked up" in the font registry.
+     * This returns b FontUIResource bs thbt is the Font sub-clbss needed
      * by Swing.
-     * Suggested usage is something like :
+     * Suggested usbge is something like :
      * FontUIResource fuir;
      * Font desktopFont = getDesktopFont(..);
-     * // NOTE even if fontSupportsDefaultEncoding returns true because
-     * // you get Tahoma and are running in an English locale, you may
-     * // still want to just call getCompositeFontUIResource() anyway
-     * // as only then will you get fallback fonts - eg for CJK.
-     * if (FontManager.fontSupportsDefaultEncoding(desktopFont)) {
+     * // NOTE even if fontSupportsDefbultEncoding returns true becbuse
+     * // you get Tbhomb bnd bre running in bn English locble, you mby
+     * // still wbnt to just cbll getCompositeFontUIResource() bnywby
+     * // bs only then will you get fbllbbck fonts - eg for CJK.
+     * if (FontMbnbger.fontSupportsDefbultEncoding(desktopFont)) {
      *   fuir = new FontUIResource(..);
      * } else {
-     *   fuir = FontManager.getCompositeFontUIResource(desktopFont);
+     *   fuir = FontMbnbger.getCompositeFontUIResource(desktopFont);
      * }
      * return fuir;
      */
-    private static volatile
-        SoftReference<ConcurrentHashMap<PhysicalFont, CompositeFont>>
-        compMapRef = new SoftReference<>(null);
+    privbte stbtic volbtile
+        SoftReference<ConcurrentHbshMbp<PhysicblFont, CompositeFont>>
+        compMbpRef = new SoftReference<>(null);
 
-    public static FontUIResource getCompositeFontUIResource(Font font) {
+    public stbtic FontUIResource getCompositeFontUIResource(Font font) {
 
         FontUIResource fuir = new FontUIResource(font);
         Font2D font2D = FontUtilities.getFont2D(font);
 
-        if (!(font2D instanceof PhysicalFont)) {
-            /* Swing should only be calling this when a font is obtained
-             * from desktop properties, so should generally be a physical font,
-             * an exception might be for names like "MS Serif" which are
-             * automatically mapped to "Serif", so there's no need to do
-             * anything special in that case. But note that suggested usage
-             * is first to call fontSupportsDefaultEncoding(Font) and this
-             * method should not be called if that were to return true.
+        if (!(font2D instbnceof PhysicblFont)) {
+            /* Swing should only be cblling this when b font is obtbined
+             * from desktop properties, so should generblly be b physicbl font,
+             * bn exception might be for nbmes like "MS Serif" which bre
+             * butombticblly mbpped to "Serif", so there's no need to do
+             * bnything specibl in thbt cbse. But note thbt suggested usbge
+             * is first to cbll fontSupportsDefbultEncoding(Font) bnd this
+             * method should not be cblled if thbt were to return true.
              */
              return fuir;
         }
 
-        FontManager fm = FontManagerFactory.getInstance();
-        Font2D dialog = fm.findFont2D("dialog", font.getStyle(), FontManager.NO_FALLBACK);
-        // Should never be null, but MACOSX fonts are not CompositeFonts
-        if (dialog == null || !(dialog instanceof CompositeFont)) {
+        FontMbnbger fm = FontMbnbgerFbctory.getInstbnce();
+        Font2D diblog = fm.findFont2D("diblog", font.getStyle(), FontMbnbger.NO_FALLBACK);
+        // Should never be null, but MACOSX fonts bre not CompositeFonts
+        if (diblog == null || !(diblog instbnceof CompositeFont)) {
             return fuir;
         }
-        CompositeFont dialog2D = (CompositeFont)dialog;
-        PhysicalFont physicalFont = (PhysicalFont)font2D;
-        ConcurrentHashMap<PhysicalFont, CompositeFont> compMap = compMapRef.get();
-        if (compMap == null) { // Its been collected.
-            compMap = new ConcurrentHashMap<PhysicalFont, CompositeFont>();
-            compMapRef = new SoftReference<>(compMap);
+        CompositeFont diblog2D = (CompositeFont)diblog;
+        PhysicblFont physicblFont = (PhysicblFont)font2D;
+        ConcurrentHbshMbp<PhysicblFont, CompositeFont> compMbp = compMbpRef.get();
+        if (compMbp == null) { // Its been collected.
+            compMbp = new ConcurrentHbshMbp<PhysicblFont, CompositeFont>();
+            compMbpRef = new SoftReference<>(compMbp);
         }
-        CompositeFont compFont = compMap.get(physicalFont);
+        CompositeFont compFont = compMbp.get(physicblFont);
         if (compFont == null) {
-            compFont = new CompositeFont(physicalFont, dialog2D);
-            compMap.put(physicalFont, compFont);
+            compFont = new CompositeFont(physicblFont, diblog2D);
+            compMbp.put(physicblFont, compFont);
         }
-        FontAccess.getFontAccess().setFont2D(fuir, compFont.handle);
-        /* marking this as a created font is needed as only created fonts
-         * copy their creator's handles.
+        FontAccess.getFontAccess().setFont2D(fuir, compFont.hbndle);
+        /* mbrking this bs b crebted font is needed bs only crebted fonts
+         * copy their crebtor's hbndles.
          */
-        FontAccess.getFontAccess().setCreatedFont(fuir);
+        FontAccess.getFontAccess().setCrebtedFont(fuir);
         return fuir;
     }
 
-   /* A small "map" from GTK/fontconfig names to the equivalent JDK
-    * logical font name.
+   /* A smbll "mbp" from GTK/fontconfig nbmes to the equivblent JDK
+    * logicbl font nbme.
     */
-    private static final String[][] nameMap = {
-        {"sans",       "sansserif"},
-        {"sans-serif", "sansserif"},
+    privbte stbtic finbl String[][] nbmeMbp = {
+        {"sbns",       "sbnsserif"},
+        {"sbns-serif", "sbnsserif"},
         {"serif",      "serif"},
-        {"monospace",  "monospaced"}
+        {"monospbce",  "monospbced"}
     };
 
-    public static String mapFcName(String name) {
-        for (int i = 0; i < nameMap.length; i++) {
-            if (name.equals(nameMap[i][0])) {
-                return nameMap[i][1];
+    public stbtic String mbpFcNbme(String nbme) {
+        for (int i = 0; i < nbmeMbp.length; i++) {
+            if (nbme.equbls(nbmeMbp[i][0])) {
+                return nbmeMbp[i][1];
             }
         }
         return null;
     }
 
 
-    /* This is called by Swing passing in a fontconfig family name
-     * such as "sans". In return Swing gets a FontUIResource instance
-     * that has queried fontconfig to resolve the font(s) used for this.
-     * Fontconfig will if asked return a list of fonts to give the largest
-     * possible code point coverage.
-     * For now we use only the first font returned by fontconfig, and
-     * back it up with the most closely matching JDK logical font.
-     * Essentially this means pre-pending what we return now with fontconfig's
-     * preferred physical font. This could lead to some duplication in cases,
-     * if we already included that font later. We probably should remove such
-     * duplicates, but it is not a significant problem. It can be addressed
-     * later as part of creating a Composite which uses more of the
-     * same fonts as fontconfig. At that time we also should pay more
-     * attention to the special rendering instructions fontconfig returns,
-     * such as whether we should prefer embedded bitmaps over antialiasing.
-     * There's no way to express that via a Font at present.
+    /* This is cblled by Swing pbssing in b fontconfig fbmily nbme
+     * such bs "sbns". In return Swing gets b FontUIResource instbnce
+     * thbt hbs queried fontconfig to resolve the font(s) used for this.
+     * Fontconfig will if bsked return b list of fonts to give the lbrgest
+     * possible code point coverbge.
+     * For now we use only the first font returned by fontconfig, bnd
+     * bbck it up with the most closely mbtching JDK logicbl font.
+     * Essentiblly this mebns pre-pending whbt we return now with fontconfig's
+     * preferred physicbl font. This could lebd to some duplicbtion in cbses,
+     * if we blrebdy included thbt font lbter. We probbbly should remove such
+     * duplicbtes, but it is not b significbnt problem. It cbn be bddressed
+     * lbter bs pbrt of crebting b Composite which uses more of the
+     * sbme fonts bs fontconfig. At thbt time we blso should pby more
+     * bttention to the specibl rendering instructions fontconfig returns,
+     * such bs whether we should prefer embedded bitmbps over bntiblibsing.
+     * There's no wby to express thbt vib b Font bt present.
      */
-    public static FontUIResource getFontConfigFUIR(String fcFamily,
+    public stbtic FontUIResource getFontConfigFUIR(String fcFbmily,
                                                    int style, int size) {
 
-        String mapped = mapFcName(fcFamily);
-        if (mapped == null) {
-            mapped = "sansserif";
+        String mbpped = mbpFcNbme(fcFbmily);
+        if (mbpped == null) {
+            mbpped = "sbnsserif";
         }
 
         FontUIResource fuir;
-        FontManager fm = FontManagerFactory.getInstance();
-        if (fm instanceof SunFontManager) {
-            SunFontManager sfm = (SunFontManager) fm;
-            fuir = sfm.getFontConfigFUIR(mapped, style, size);
+        FontMbnbger fm = FontMbnbgerFbctory.getInstbnce();
+        if (fm instbnceof SunFontMbnbger) {
+            SunFontMbnbger sfm = (SunFontMbnbger) fm;
+            fuir = sfm.getFontConfigFUIR(mbpped, style, size);
         } else {
-            fuir = new FontUIResource(mapped, style, size);
+            fuir = new FontUIResource(mbpped, style, size);
         }
         return fuir;
     }
 
 
     /**
-     * Used by windows printing to assess if a font is likely to
-     * be layout compatible with JDK
-     * TrueType fonts should be, but if they have no GPOS table,
-     * but do have a GSUB table, then they are probably older
-     * fonts GDI handles differently.
+     * Used by windows printing to bssess if b font is likely to
+     * be lbyout compbtible with JDK
+     * TrueType fonts should be, but if they hbve no GPOS tbble,
+     * but do hbve b GSUB tbble, then they bre probbbly older
+     * fonts GDI hbndles differently.
      */
-    public static boolean textLayoutIsCompatible(Font font) {
+    public stbtic boolebn textLbyoutIsCompbtible(Font font) {
 
         Font2D font2D = getFont2D(font);
-        if (font2D instanceof TrueTypeFont) {
+        if (font2D instbnceof TrueTypeFont) {
             TrueTypeFont ttf = (TrueTypeFont) font2D;
             return
-                ttf.getDirectoryEntry(TrueTypeFont.GSUBTag) == null ||
-                ttf.getDirectoryEntry(TrueTypeFont.GPOSTag) != null;
+                ttf.getDirectoryEntry(TrueTypeFont.GSUBTbg) == null ||
+                ttf.getDirectoryEntry(TrueTypeFont.GPOSTbg) != null;
         } else {
-            return false;
+            return fblse;
         }
     }
 

@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.ComponentOrientation;
-import java.util.Comparator;
-import java.io.*;
-import sun.awt.SunToolkit;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.ComponentOrientbtion;
+import jbvb.util.Compbrbtor;
+import jbvb.io.*;
+import sun.bwt.SunToolkit;
 
 
 /**
- * A SortingFocusTraversalPolicy which sorts Components based on their size,
- * position, and orientation. Based on their size and position, Components are
- * roughly categorized into rows and columns. For a Container with horizontal
- * orientation, columns run left-to-right or right-to-left, and rows run top-
- * to-bottom. For a Container with vertical orientation, columns run top-to-
- * bottom and rows run left-to-right or right-to-left. See
- * <code>ComponentOrientation</code> for more information. All columns in a
- * row are fully traversed before proceeding to the next row.
+ * A SortingFocusTrbversblPolicy which sorts Components bbsed on their size,
+ * position, bnd orientbtion. Bbsed on their size bnd position, Components bre
+ * roughly cbtegorized into rows bnd columns. For b Contbiner with horizontbl
+ * orientbtion, columns run left-to-right or right-to-left, bnd rows run top-
+ * to-bottom. For b Contbiner with verticbl orientbtion, columns run top-to-
+ * bottom bnd rows run left-to-right or right-to-left. See
+ * <code>ComponentOrientbtion</code> for more informbtion. All columns in b
+ * row bre fully trbversed before proceeding to the next row.
  *
- * @author David Mendenhall
+ * @buthor Dbvid Mendenhbll
  *
- * @see java.awt.ComponentOrientation
+ * @see jbvb.bwt.ComponentOrientbtion
  * @since 1.4
  */
-@SuppressWarnings("serial") // Parts of superclass are not serializable across versions
-public class LayoutFocusTraversalPolicy extends SortingFocusTraversalPolicy
-    implements Serializable
+@SuppressWbrnings("seribl") // Pbrts of superclbss bre not seriblizbble bcross versions
+public clbss LbyoutFocusTrbversblPolicy extends SortingFocusTrbversblPolicy
+    implements Seriblizbble
 {
-    // Delegate most of our fitness test to Default so that we only have to
-    // code the algorithm once.
-    private static final SwingDefaultFocusTraversalPolicy fitnessTestPolicy =
-        new SwingDefaultFocusTraversalPolicy();
+    // Delegbte most of our fitness test to Defbult so thbt we only hbve to
+    // code the blgorithm once.
+    privbte stbtic finbl SwingDefbultFocusTrbversblPolicy fitnessTestPolicy =
+        new SwingDefbultFocusTrbversblPolicy();
 
     /**
-     * Constructs a LayoutFocusTraversalPolicy.
+     * Constructs b LbyoutFocusTrbversblPolicy.
      */
-    public LayoutFocusTraversalPolicy() {
-        super(new LayoutComparator());
+    public LbyoutFocusTrbversblPolicy() {
+        super(new LbyoutCompbrbtor());
     }
 
     /**
-     * Constructs a LayoutFocusTraversalPolicy with the passed in
-     * <code>Comparator</code>.
+     * Constructs b LbyoutFocusTrbversblPolicy with the pbssed in
+     * <code>Compbrbtor</code>.
      */
-    LayoutFocusTraversalPolicy(Comparator<? super Component> c) {
+    LbyoutFocusTrbversblPolicy(Compbrbtor<? super Component> c) {
         super(c);
     }
 
     /**
-     * Returns the Component that should receive the focus after aComponent.
-     * aContainer must be a focus cycle root of aComponent.
+     * Returns the Component thbt should receive the focus bfter bComponent.
+     * bContbiner must be b focus cycle root of bComponent.
      * <p>
-     * By default, LayoutFocusTraversalPolicy implicitly transfers focus down-
-     * cycle. That is, during normal focus traversal, the Component
-     * traversed after a focus cycle root will be the focus-cycle-root's
-     * default Component to focus. This behavior can be disabled using the
-     * <code>setImplicitDownCycleTraversal</code> method.
+     * By defbult, LbyoutFocusTrbversblPolicy implicitly trbnsfers focus down-
+     * cycle. Thbt is, during normbl focus trbversbl, the Component
+     * trbversed bfter b focus cycle root will be the focus-cycle-root's
+     * defbult Component to focus. This behbvior cbn be disbbled using the
+     * <code>setImplicitDownCycleTrbversbl</code> method.
      * <p>
-     * If aContainer is <a href="../../java/awt/doc-files/FocusSpec.html#FocusTraversalPolicyProviders">focus
-     * traversal policy provider</a>, the focus is always transferred down-cycle.
+     * If bContbiner is <b href="../../jbvb/bwt/doc-files/FocusSpec.html#FocusTrbversblPolicyProviders">focus
+     * trbversbl policy provider</b>, the focus is blwbys trbnsferred down-cycle.
      *
-     * @param aContainer a focus cycle root of aComponent or a focus traversal policy provider
-     * @param aComponent a (possibly indirect) child of aContainer, or
-     *        aContainer itself
-     * @return the Component that should receive the focus after aComponent, or
-     *         null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is not a focus cycle
-     *         root of aComponent or a focus traversal policy provider, or if either aContainer or
-     *         aComponent is null
+     * @pbrbm bContbiner b focus cycle root of bComponent or b focus trbversbl policy provider
+     * @pbrbm bComponent b (possibly indirect) child of bContbiner, or
+     *        bContbiner itself
+     * @return the Component thbt should receive the focus bfter bComponent, or
+     *         null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is not b focus cycle
+     *         root of bComponent or b focus trbversbl policy provider, or if either bContbiner or
+     *         bComponent is null
      */
-    public Component getComponentAfter(Container aContainer,
-                                       Component aComponent) {
-        if (aContainer == null || aComponent == null) {
-            throw new IllegalArgumentException("aContainer and aComponent cannot be null");
+    public Component getComponentAfter(Contbiner bContbiner,
+                                       Component bComponent) {
+        if (bContbiner == null || bComponent == null) {
+            throw new IllegblArgumentException("bContbiner bnd bComponent cbnnot be null");
         }
-        Comparator<? super Component> comparator = getComparator();
-        if (comparator instanceof LayoutComparator) {
-            ((LayoutComparator)comparator).
-                setComponentOrientation(aContainer.
-                                        getComponentOrientation());
+        Compbrbtor<? super Component> compbrbtor = getCompbrbtor();
+        if (compbrbtor instbnceof LbyoutCompbrbtor) {
+            ((LbyoutCompbrbtor)compbrbtor).
+                setComponentOrientbtion(bContbiner.
+                                        getComponentOrientbtion());
         }
-        return super.getComponentAfter(aContainer, aComponent);
+        return super.getComponentAfter(bContbiner, bComponent);
     }
 
     /**
-     * Returns the Component that should receive the focus before aComponent.
-     * aContainer must be a focus cycle root of aComponent.
+     * Returns the Component thbt should receive the focus before bComponent.
+     * bContbiner must be b focus cycle root of bComponent.
      * <p>
-     * By default, LayoutFocusTraversalPolicy implicitly transfers focus down-
-     * cycle. That is, during normal focus traversal, the Component
-     * traversed after a focus cycle root will be the focus-cycle-root's
-     * default Component to focus. This behavior can be disabled using the
-     * <code>setImplicitDownCycleTraversal</code> method.
+     * By defbult, LbyoutFocusTrbversblPolicy implicitly trbnsfers focus down-
+     * cycle. Thbt is, during normbl focus trbversbl, the Component
+     * trbversed bfter b focus cycle root will be the focus-cycle-root's
+     * defbult Component to focus. This behbvior cbn be disbbled using the
+     * <code>setImplicitDownCycleTrbversbl</code> method.
      * <p>
-     * If aContainer is <a href="../../java/awt/doc-files/FocusSpec.html#FocusTraversalPolicyProviders">focus
-     * traversal policy provider</a>, the focus is always transferred down-cycle.
+     * If bContbiner is <b href="../../jbvb/bwt/doc-files/FocusSpec.html#FocusTrbversblPolicyProviders">focus
+     * trbversbl policy provider</b>, the focus is blwbys trbnsferred down-cycle.
      *
-     * @param aContainer a focus cycle root of aComponent or a focus traversal policy provider
-     * @param aComponent a (possibly indirect) child of aContainer, or
-     *        aContainer itself
-     * @return the Component that should receive the focus before aComponent,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is not a focus cycle
-     *         root of aComponent or a focus traversal policy provider, or if either aContainer or
-     *         aComponent is null
+     * @pbrbm bContbiner b focus cycle root of bComponent or b focus trbversbl policy provider
+     * @pbrbm bComponent b (possibly indirect) child of bContbiner, or
+     *        bContbiner itself
+     * @return the Component thbt should receive the focus before bComponent,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is not b focus cycle
+     *         root of bComponent or b focus trbversbl policy provider, or if either bContbiner or
+     *         bComponent is null
      */
-    public Component getComponentBefore(Container aContainer,
-                                        Component aComponent) {
-        if (aContainer == null || aComponent == null) {
-            throw new IllegalArgumentException("aContainer and aComponent cannot be null");
+    public Component getComponentBefore(Contbiner bContbiner,
+                                        Component bComponent) {
+        if (bContbiner == null || bComponent == null) {
+            throw new IllegblArgumentException("bContbiner bnd bComponent cbnnot be null");
         }
-        Comparator<? super Component> comparator = getComparator();
-        if (comparator instanceof LayoutComparator) {
-            ((LayoutComparator)comparator).
-                setComponentOrientation(aContainer.
-                                        getComponentOrientation());
+        Compbrbtor<? super Component> compbrbtor = getCompbrbtor();
+        if (compbrbtor instbnceof LbyoutCompbrbtor) {
+            ((LbyoutCompbrbtor)compbrbtor).
+                setComponentOrientbtion(bContbiner.
+                                        getComponentOrientbtion());
         }
-        return super.getComponentBefore(aContainer, aComponent);
+        return super.getComponentBefore(bContbiner, bComponent);
     }
 
     /**
-     * Returns the first Component in the traversal cycle. This method is used
-     * to determine the next Component to focus when traversal wraps in the
-     * forward direction.
+     * Returns the first Component in the trbversbl cycle. This method is used
+     * to determine the next Component to focus when trbversbl wrbps in the
+     * forwbrd direction.
      *
-     * @param aContainer a focus cycle root of aComponent or a focus traversal policy provider whose
+     * @pbrbm bContbiner b focus cycle root of bComponent or b focus trbversbl policy provider whose
      *        first Component is to be returned
-     * @return the first Component in the traversal cycle of aContainer,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is null
+     * @return the first Component in the trbversbl cycle of bContbiner,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is null
      */
-    public Component getFirstComponent(Container aContainer) {
-        if (aContainer == null) {
-            throw new IllegalArgumentException("aContainer cannot be null");
+    public Component getFirstComponent(Contbiner bContbiner) {
+        if (bContbiner == null) {
+            throw new IllegblArgumentException("bContbiner cbnnot be null");
         }
-        Comparator<? super Component> comparator = getComparator();
-        if (comparator instanceof LayoutComparator) {
-            ((LayoutComparator)comparator).
-                setComponentOrientation(aContainer.
-                                        getComponentOrientation());
+        Compbrbtor<? super Component> compbrbtor = getCompbrbtor();
+        if (compbrbtor instbnceof LbyoutCompbrbtor) {
+            ((LbyoutCompbrbtor)compbrbtor).
+                setComponentOrientbtion(bContbiner.
+                                        getComponentOrientbtion());
         }
-        return super.getFirstComponent(aContainer);
+        return super.getFirstComponent(bContbiner);
     }
 
     /**
-     * Returns the last Component in the traversal cycle. This method is used
-     * to determine the next Component to focus when traversal wraps in the
+     * Returns the lbst Component in the trbversbl cycle. This method is used
+     * to determine the next Component to focus when trbversbl wrbps in the
      * reverse direction.
      *
-     * @param aContainer a focus cycle root of aComponent or a focus traversal policy provider whose
-     *        last Component is to be returned
-     * @return the last Component in the traversal cycle of aContainer,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is null
+     * @pbrbm bContbiner b focus cycle root of bComponent or b focus trbversbl policy provider whose
+     *        lbst Component is to be returned
+     * @return the lbst Component in the trbversbl cycle of bContbiner,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is null
      */
-    public Component getLastComponent(Container aContainer) {
-        if (aContainer == null) {
-            throw new IllegalArgumentException("aContainer cannot be null");
+    public Component getLbstComponent(Contbiner bContbiner) {
+        if (bContbiner == null) {
+            throw new IllegblArgumentException("bContbiner cbnnot be null");
         }
-        Comparator<? super Component> comparator = getComparator();
-        if (comparator instanceof LayoutComparator) {
-            ((LayoutComparator)comparator).
-                setComponentOrientation(aContainer.
-                                        getComponentOrientation());
+        Compbrbtor<? super Component> compbrbtor = getCompbrbtor();
+        if (compbrbtor instbnceof LbyoutCompbrbtor) {
+            ((LbyoutCompbrbtor)compbrbtor).
+                setComponentOrientbtion(bContbiner.
+                                        getComponentOrientbtion());
         }
-        return super.getLastComponent(aContainer);
+        return super.getLbstComponent(bContbiner);
     }
 
     /**
      * Determines whether the specified <code>Component</code>
-     * is an acceptable choice as the new focus owner.
-     * This method performs the following sequence of operations:
+     * is bn bcceptbble choice bs the new focus owner.
+     * This method performs the following sequence of operbtions:
      * <ol>
-     * <li>Checks whether <code>aComponent</code> is visible, displayable,
-     *     enabled, and focusable.  If any of these properties is
-     *     <code>false</code>, this method returns <code>false</code>.
-     * <li>If <code>aComponent</code> is an instance of <code>JTable</code>,
+     * <li>Checks whether <code>bComponent</code> is visible, displbybble,
+     *     enbbled, bnd focusbble.  If bny of these properties is
+     *     <code>fblse</code>, this method returns <code>fblse</code>.
+     * <li>If <code>bComponent</code> is bn instbnce of <code>JTbble</code>,
      *     returns <code>true</code>.
-     * <li>If <code>aComponent</code> is an instance of <code>JComboBox</code>,
-     *     then returns the value of
-     *     <code>aComponent.getUI().isFocusTraversable(aComponent)</code>.
-     * <li>If <code>aComponent</code> is a <code>JComponent</code>
-     *     with a <code>JComponent.WHEN_FOCUSED</code>
-     *     <code>InputMap</code> that is neither <code>null</code>
+     * <li>If <code>bComponent</code> is bn instbnce of <code>JComboBox</code>,
+     *     then returns the vblue of
+     *     <code>bComponent.getUI().isFocusTrbversbble(bComponent)</code>.
+     * <li>If <code>bComponent</code> is b <code>JComponent</code>
+     *     with b <code>JComponent.WHEN_FOCUSED</code>
+     *     <code>InputMbp</code> thbt is neither <code>null</code>
      *     nor empty, returns <code>true</code>.
-     * <li>Returns the value of
-     *     <code>DefaultFocusTraversalPolicy.accept(aComponent)</code>.
+     * <li>Returns the vblue of
+     *     <code>DefbultFocusTrbversblPolicy.bccept(bComponent)</code>.
      * </ol>
      *
-     * @param aComponent the <code>Component</code> whose fitness
-     *                   as a focus owner is to be tested
-     * @see java.awt.Component#isVisible
-     * @see java.awt.Component#isDisplayable
-     * @see java.awt.Component#isEnabled
-     * @see java.awt.Component#isFocusable
-     * @see javax.swing.plaf.ComboBoxUI#isFocusTraversable
-     * @see javax.swing.JComponent#getInputMap
-     * @see java.awt.DefaultFocusTraversalPolicy#accept
-     * @return <code>true</code> if <code>aComponent</code> is a valid choice
-     *         for a focus owner;
-     *         otherwise <code>false</code>
+     * @pbrbm bComponent the <code>Component</code> whose fitness
+     *                   bs b focus owner is to be tested
+     * @see jbvb.bwt.Component#isVisible
+     * @see jbvb.bwt.Component#isDisplbybble
+     * @see jbvb.bwt.Component#isEnbbled
+     * @see jbvb.bwt.Component#isFocusbble
+     * @see jbvbx.swing.plbf.ComboBoxUI#isFocusTrbversbble
+     * @see jbvbx.swing.JComponent#getInputMbp
+     * @see jbvb.bwt.DefbultFocusTrbversblPolicy#bccept
+     * @return <code>true</code> if <code>bComponent</code> is b vblid choice
+     *         for b focus owner;
+     *         otherwise <code>fblse</code>
      */
-     protected boolean accept(Component aComponent) {
-        if (!super.accept(aComponent)) {
-            return false;
-        } else if (SunToolkit.isInstanceOf(aComponent, "javax.swing.JTable")) {
-            // JTable only has ancestor focus bindings, we thus force it
-            // to be focusable by returning true here.
+     protected boolebn bccept(Component bComponent) {
+        if (!super.bccept(bComponent)) {
+            return fblse;
+        } else if (SunToolkit.isInstbnceOf(bComponent, "jbvbx.swing.JTbble")) {
+            // JTbble only hbs bncestor focus bindings, we thus force it
+            // to be focusbble by returning true here.
             return true;
-        } else if (SunToolkit.isInstanceOf(aComponent, "javax.swing.JComboBox")) {
-            JComboBox<?> box = (JComboBox)aComponent;
-            return box.getUI().isFocusTraversable(box);
-        } else if (aComponent instanceof JComponent) {
-            JComponent jComponent = (JComponent)aComponent;
-            InputMap inputMap = jComponent.getInputMap(JComponent.WHEN_FOCUSED,
-                                                       false);
-            while (inputMap != null && inputMap.size() == 0) {
-                inputMap = inputMap.getParent();
+        } else if (SunToolkit.isInstbnceOf(bComponent, "jbvbx.swing.JComboBox")) {
+            JComboBox<?> box = (JComboBox)bComponent;
+            return box.getUI().isFocusTrbversbble(box);
+        } else if (bComponent instbnceof JComponent) {
+            JComponent jComponent = (JComponent)bComponent;
+            InputMbp inputMbp = jComponent.getInputMbp(JComponent.WHEN_FOCUSED,
+                                                       fblse);
+            while (inputMbp != null && inputMbp.size() == 0) {
+                inputMbp = inputMbp.getPbrent();
             }
-            if (inputMap != null) {
+            if (inputMbp != null) {
                 return true;
             }
-            // Delegate to the fitnessTestPolicy, this will test for the
-            // case where the developer has overriden isFocusTraversable to
+            // Delegbte to the fitnessTestPolicy, this will test for the
+            // cbse where the developer hbs overriden isFocusTrbversbble to
             // return true.
         }
-        return fitnessTestPolicy.accept(aComponent);
+        return fitnessTestPolicy.bccept(bComponent);
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.writeObject(getComparator());
-        out.writeBoolean(getImplicitDownCycleTraversal());
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        out.writeObject(getCompbrbtor());
+        out.writeBoolebn(getImplicitDownCycleTrbversbl());
     }
-    @SuppressWarnings("unchecked") // Cast to (Comparator<? super Component>)
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    @SuppressWbrnings("unchecked") // Cbst to (Compbrbtor<? super Component>)
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        setComparator((Comparator<? super Component>)in.readObject());
-        setImplicitDownCycleTraversal(in.readBoolean());
+        setCompbrbtor((Compbrbtor<? super Component>)in.rebdObject());
+        setImplicitDownCycleTrbversbl(in.rebdBoolebn());
     }
 }
 
-// Create our own subclass and change accept to public so that we can call
-// accept.
-@SuppressWarnings("serial") // JDK-implementation class
-class SwingDefaultFocusTraversalPolicy
-    extends java.awt.DefaultFocusTraversalPolicy
+// Crebte our own subclbss bnd chbnge bccept to public so thbt we cbn cbll
+// bccept.
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+clbss SwingDefbultFocusTrbversblPolicy
+    extends jbvb.bwt.DefbultFocusTrbversblPolicy
 {
-    public boolean accept(Component aComponent) {
-        return super.accept(aComponent);
+    public boolebn bccept(Component bComponent) {
+        return super.bccept(bComponent);
     }
 }

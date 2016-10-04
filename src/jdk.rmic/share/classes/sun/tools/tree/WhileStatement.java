@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.Lbbel;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class WhileStatement extends Statement {
+clbss WhileStbtement extends Stbtement {
     Expression cond;
-    Statement body;
+    Stbtement body;
 
     /**
      * Constructor
      */
-    public WhileStatement(long where, Expression cond, Statement body) {
+    public WhileStbtement(long where, Expression cond, Stbtement body) {
         super(WHILE, where);
         this.cond = cond;
         this.body = body;
     }
 
     /**
-     * Check a while statement
+     * Check b while stbtement
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
+    Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        checkLbbel(env, ctx);
         CheckContext newctx = new CheckContext(ctx, this);
-        // remember what was unassigned on entry
+        // remember whbt wbs unbssigned on entry
         Vset vsEntry = vset.copy();
-        // check the condition.  Determine which variables have values if
-        // it returns true or false.
-        ConditionVars cvars =
-              cond.checkCondition(env, newctx, reach(env, vset), exp);
-        cond = convert(env, newctx, Type.tBoolean, cond);
-        // check the body, given that the condition returned true.
-        vset = body.check(env, newctx, cvars.vsTrue, exp);
+        // check the condition.  Determine which vbribbles hbve vblues if
+        // it returns true or fblse.
+        ConditionVbrs cvbrs =
+              cond.checkCondition(env, newctx, rebch(env, vset), exp);
+        cond = convert(env, newctx, Type.tBoolebn, cond);
+        // check the body, given thbt the condition returned true.
+        vset = body.check(env, newctx, cvbrs.vsTrue, exp);
         vset = vset.join(newctx.vsContinue);
-        // make sure the back-branch fits the entry of the loop
-        ctx.checkBackBranch(env, this, vsEntry, vset);
-        // Exit the while loop by testing false or getting a break statement
-        vset = newctx.vsBreak.join(cvars.vsFalse);
-        return ctx.removeAdditionalVars(vset);
+        // mbke sure the bbck-brbnch fits the entry of the loop
+        ctx.checkBbckBrbnch(env, this, vsEntry, vset);
+        // Exit the while loop by testing fblse or getting b brebk stbtement
+        vset = newctx.vsBrebk.join(cvbrs.vsFblse);
+        return ctx.removeAdditionblVbrs(vset);
     }
 
     /**
      * Inline
      */
-    public Statement inline(Environment env, Context ctx) {
+    public Stbtement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
-        cond = cond.inlineValue(env, ctx);
+        cond = cond.inlineVblue(env, ctx);
         if (body != null) {
             body = body.inline(env, ctx);
         }
@@ -86,7 +86,7 @@ class WhileStatement extends Statement {
     }
 
     /**
-     * The cost of inlining this statement
+     * The cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1 + cond.costInline(thresh, env, ctx)
@@ -94,13 +94,13 @@ class WhileStatement extends Statement {
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crebte b copy of the stbtement for method inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        WhileStatement s = (WhileStatement)clone();
+    public Stbtement copyInline(Context ctx, boolebn vblNeeded) {
+        WhileStbtement s = (WhileStbtement)clone();
         s.cond = cond.copyInline(ctx);
         if (body != null) {
-            s.body = body.copyInline(ctx, valNeeded);
+            s.body = body.copyInline(ctx, vblNeeded);
         }
         return s;
     }
@@ -108,27 +108,27 @@ class WhileStatement extends Statement {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
+    public void code(Environment env, Context ctx, Assembler bsm) {
         CodeContext newctx = new CodeContext(ctx, this);
 
-        asm.add(where, opc_goto, newctx.contLabel);
+        bsm.bdd(where, opc_goto, newctx.contLbbel);
 
-        Label l1 = new Label();
-        asm.add(l1);
+        Lbbel l1 = new Lbbel();
+        bsm.bdd(l1);
 
         if (body != null) {
-            body.code(env, newctx, asm);
+            body.code(env, newctx, bsm);
         }
 
-        asm.add(newctx.contLabel);
-        cond.codeBranch(env, newctx, asm, l1, true);
-        asm.add(newctx.breakLabel);
+        bsm.bdd(newctx.contLbbel);
+        cond.codeBrbnch(env, newctx, bsm, l1, true);
+        bsm.bdd(newctx.brebkLbbel);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
+    public void print(PrintStrebm out, int indent) {
         super.print(out, indent);
         out.print("while ");
         cond.print(out);

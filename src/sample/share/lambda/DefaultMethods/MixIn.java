@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,44 +29,44 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.io.IOException;
-import java.lang.reflect.Field;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.Field;
 
 /**
- * The example illustrates how to use the default method for mixin.
+ * The exbmple illustrbtes how to use the defbult method for mixin.
  * @see BuildType
- * @see Debuggable
+ * @see Debuggbble
  */
-public class MixIn {
+public clbss MixIn {
 
     /**
-     * Implement this interface for a class that must be in debug print
+     * Implement this interfbce for b clbss thbt must be in debug print
      */
-    public interface Debuggable {
+    public interfbce Debuggbble {
 
         /**
-         * Print the class name and all fields to a string. Uses reflection to
-         * obtain and access fields of this object.
+         * Print the clbss nbme bnd bll fields to b string. Uses reflection to
+         * obtbin bnd bccess fields of this object.
          *
-         * @return the string formatted like the following: <pre>
-         * State of the: &lt;Class Name&gt;
-         * &lt;member name&gt; : &lt;value&gt;
+         * @return the string formbtted like the following: <pre>
+         * Stbte of the: &lt;Clbss Nbme&gt;
+         * &lt;member nbme&gt; : &lt;vblue&gt;
          * ...
          * </pre>
          */
-        default String toDebugString() {
+        defbult String toDebugString() {
             StringBuilder sb = new StringBuilder();
-            sb.append("State of the: ").append(
-                    this.getClass().getSimpleName()).append("\n");
-            for (Class cls = this.getClass();
+            sb.bppend("Stbte of the: ").bppend(
+                    this.getClbss().getSimpleNbme()).bppend("\n");
+            for (Clbss cls = this.getClbss();
                     cls != null;
-                    cls = cls.getSuperclass()) {
-                for (Field f : cls.getDeclaredFields()) {
+                    cls = cls.getSuperclbss()) {
+                for (Field f : cls.getDeclbredFields()) {
                     try {
                         f.setAccessible(true);
-                        sb.append(f.getName()).append(" : ").
-                                append(f.get(this)).append("\n");
-                    } catch (IllegalAccessException e) {
+                        sb.bppend(f.getNbme()).bppend(" : ").
+                                bppend(f.get(this)).bppend("\n");
+                    } cbtch (IllegblAccessException e) {
                     }
                 }
             }
@@ -75,40 +75,40 @@ public class MixIn {
     }
 
     /**
-     * Sample exception class to demonstrate mixin. This enum inherits the
-     * behavior of the {@link Debuggable}
+     * Sbmple exception clbss to demonstrbte mixin. This enum inherits the
+     * behbvior of the {@link Debuggbble}
      */
-    public static enum BuildType implements Debuggable {
+    public stbtic enum BuildType implements Debuggbble {
 
         BUILD(0, "-build"),
-        PLAN(0, "-plan"),
+        PLAN(0, "-plbn"),
         EXCLUDE(1, "-exclude"),
-        TOTAL(2, "-total");
+        TOTAL(2, "-totbl");
 
-        private final int compareOrder;
-        private final String pathSuffix;
+        privbte finbl int compbreOrder;
+        privbte finbl String pbthSuffix;
 
-        private BuildType(int compareOrder, String pathSuffix) {
-            this.compareOrder = compareOrder;
-            this.pathSuffix = pathSuffix;
+        privbte BuildType(int compbreOrder, String pbthSuffix) {
+            this.compbreOrder = compbreOrder;
+            this.pbthSuffix = pbthSuffix;
         }
 
-        public int getCompareOrder() {
-            return compareOrder;
+        public int getCompbreOrder() {
+            return compbreOrder;
         }
 
-        public String getPathSuffix() {
-            return pathSuffix;
+        public String getPbthSuffix() {
+            return pbthSuffix;
         }
     }
 
     /**
-     * Illustrate the behavior of the MixClass
+     * Illustrbte the behbvior of the MixClbss
      *
-     * @param args command-line arguments
-     * @throws java.io.IOException internal demo error
+     * @pbrbm brgs commbnd-line brguments
+     * @throws jbvb.io.IOException internbl demo error
      */
-    public static void main(final String[] args) throws IOException {
+    public stbtic void mbin(finbl String[] brgs) throws IOException {
         System.out.println(BuildType.BUILD.toDebugString());
     }
 }

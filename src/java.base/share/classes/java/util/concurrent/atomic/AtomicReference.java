@@ -1,240 +1,240 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.util.function.UnaryOperator;
-import java.util.function.BinaryOperator;
-import sun.misc.Unsafe;
+pbckbge jbvb.util.concurrent.btomic;
+import jbvb.util.function.UnbryOperbtor;
+import jbvb.util.function.BinbryOperbtor;
+import sun.misc.Unsbfe;
 
 /**
- * An object reference that may be updated atomically. See the {@link
- * java.util.concurrent.atomic} package specification for description
- * of the properties of atomic variables.
+ * An object reference thbt mby be updbted btomicblly. See the {@link
+ * jbvb.util.concurrent.btomic} pbckbge specificbtion for description
+ * of the properties of btomic vbribbles.
  * @since 1.5
- * @author Doug Lea
- * @param <V> The type of object referred to by this reference
+ * @buthor Doug Leb
+ * @pbrbm <V> The type of object referred to by this reference
  */
-public class AtomicReference<V> implements java.io.Serializable {
-    private static final long serialVersionUID = -1848883965231344442L;
+public clbss AtomicReference<V> implements jbvb.io.Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = -1848883965231344442L;
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long valueOffset;
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic finbl long vblueOffset;
 
-    static {
+    stbtic {
         try {
-            valueOffset = unsafe.objectFieldOffset
-                (AtomicReference.class.getDeclaredField("value"));
-        } catch (Exception ex) { throw new Error(ex); }
+            vblueOffset = unsbfe.objectFieldOffset
+                (AtomicReference.clbss.getDeclbredField("vblue"));
+        } cbtch (Exception ex) { throw new Error(ex); }
     }
 
-    private volatile V value;
+    privbte volbtile V vblue;
 
     /**
-     * Creates a new AtomicReference with the given initial value.
+     * Crebtes b new AtomicReference with the given initibl vblue.
      *
-     * @param initialValue the initial value
+     * @pbrbm initiblVblue the initibl vblue
      */
-    public AtomicReference(V initialValue) {
-        value = initialValue;
+    public AtomicReference(V initiblVblue) {
+        vblue = initiblVblue;
     }
 
     /**
-     * Creates a new AtomicReference with null initial value.
+     * Crebtes b new AtomicReference with null initibl vblue.
      */
     public AtomicReference() {
     }
 
     /**
-     * Gets the current value.
+     * Gets the current vblue.
      *
-     * @return the current value
+     * @return the current vblue
      */
-    public final V get() {
-        return value;
+    public finbl V get() {
+        return vblue;
     }
 
     /**
-     * Sets to the given value.
+     * Sets to the given vblue.
      *
-     * @param newValue the new value
+     * @pbrbm newVblue the new vblue
      */
-    public final void set(V newValue) {
-        value = newValue;
+    public finbl void set(V newVblue) {
+        vblue = newVblue;
     }
 
     /**
-     * Eventually sets to the given value.
+     * Eventublly sets to the given vblue.
      *
-     * @param newValue the new value
+     * @pbrbm newVblue the new vblue
      * @since 1.6
      */
-    public final void lazySet(V newValue) {
-        unsafe.putOrderedObject(this, valueOffset, newValue);
+    public finbl void lbzySet(V newVblue) {
+        unsbfe.putOrderedObject(this, vblueOffset, newVblue);
     }
 
     /**
-     * Atomically sets the value to the given updated value
-     * if the current value {@code ==} the expected value.
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful. False return indicates that
-     * the actual value was not equal to the expected value.
+     * Atomicblly sets the vblue to the given updbted vblue
+     * if the current vblue {@code ==} the expected vblue.
+     * @pbrbm expect the expected vblue
+     * @pbrbm updbte the new vblue
+     * @return {@code true} if successful. Fblse return indicbtes thbt
+     * the bctubl vblue wbs not equbl to the expected vblue.
      */
-    public final boolean compareAndSet(V expect, V update) {
-        return unsafe.compareAndSwapObject(this, valueOffset, expect, update);
+    public finbl boolebn compbreAndSet(V expect, V updbte) {
+        return unsbfe.compbreAndSwbpObject(this, vblueOffset, expect, updbte);
     }
 
     /**
-     * Atomically sets the value to the given updated value
-     * if the current value {@code ==} the expected value.
+     * Atomicblly sets the vblue to the given updbted vblue
+     * if the current vblue {@code ==} the expected vblue.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
+     * <p><b href="pbckbge-summbry.html#webkCompbreAndSet">Mby fbil
+     * spuriously bnd does not provide ordering gubrbntees</b>, so is
+     * only rbrely bn bppropribte blternbtive to {@code compbreAndSet}.
      *
-     * @param expect the expected value
-     * @param update the new value
+     * @pbrbm expect the expected vblue
+     * @pbrbm updbte the new vblue
      * @return {@code true} if successful
      */
-    public final boolean weakCompareAndSet(V expect, V update) {
-        return unsafe.compareAndSwapObject(this, valueOffset, expect, update);
+    public finbl boolebn webkCompbreAndSet(V expect, V updbte) {
+        return unsbfe.compbreAndSwbpObject(this, vblueOffset, expect, updbte);
     }
 
     /**
-     * Atomically sets to the given value and returns the old value.
+     * Atomicblly sets to the given vblue bnd returns the old vblue.
      *
-     * @param newValue the new value
-     * @return the previous value
+     * @pbrbm newVblue the new vblue
+     * @return the previous vblue
      */
-    @SuppressWarnings("unchecked")
-    public final V getAndSet(V newValue) {
-        return (V)unsafe.getAndSetObject(this, valueOffset, newValue);
+    @SuppressWbrnings("unchecked")
+    public finbl V getAndSet(V newVblue) {
+        return (V)unsbfe.getAndSetObject(this, vblueOffset, newVblue);
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function, returning the previous value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.
+     * Atomicblly updbtes the current vblue with the results of
+     * bpplying the given function, returning the previous vblue. The
+     * function should be side-effect-free, since it mby be re-bpplied
+     * when bttempted updbtes fbil due to contention bmong threbds.
      *
-     * @param updateFunction a side-effect-free function
-     * @return the previous value
+     * @pbrbm updbteFunction b side-effect-free function
+     * @return the previous vblue
      * @since 1.8
      */
-    public final V getAndUpdate(UnaryOperator<V> updateFunction) {
+    public finbl V getAndUpdbte(UnbryOperbtor<V> updbteFunction) {
         V prev, next;
         do {
             prev = get();
-            next = updateFunction.apply(prev);
-        } while (!compareAndSet(prev, next));
+            next = updbteFunction.bpply(prev);
+        } while (!compbreAndSet(prev, next));
         return prev;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function, returning the updated value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.
+     * Atomicblly updbtes the current vblue with the results of
+     * bpplying the given function, returning the updbted vblue. The
+     * function should be side-effect-free, since it mby be re-bpplied
+     * when bttempted updbtes fbil due to contention bmong threbds.
      *
-     * @param updateFunction a side-effect-free function
-     * @return the updated value
+     * @pbrbm updbteFunction b side-effect-free function
+     * @return the updbted vblue
      * @since 1.8
      */
-    public final V updateAndGet(UnaryOperator<V> updateFunction) {
+    public finbl V updbteAndGet(UnbryOperbtor<V> updbteFunction) {
         V prev, next;
         do {
             prev = get();
-            next = updateFunction.apply(prev);
-        } while (!compareAndSet(prev, next));
+            next = updbteFunction.bpply(prev);
+        } while (!compbreAndSet(prev, next));
         return next;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function to the current and given values,
-     * returning the previous value. The function should be
-     * side-effect-free, since it may be re-applied when attempted
-     * updates fail due to contention among threads.  The function
-     * is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomicblly updbtes the current vblue with the results of
+     * bpplying the given function to the current bnd given vblues,
+     * returning the previous vblue. The function should be
+     * side-effect-free, since it mby be re-bpplied when bttempted
+     * updbtes fbil due to contention bmong threbds.  The function
+     * is bpplied with the current vblue bs its first brgument,
+     * bnd the given updbte bs the second brgument.
      *
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the previous value
+     * @pbrbm x the updbte vblue
+     * @pbrbm bccumulbtorFunction b side-effect-free function of two brguments
+     * @return the previous vblue
      * @since 1.8
      */
-    public final V getAndAccumulate(V x,
-                                    BinaryOperator<V> accumulatorFunction) {
+    public finbl V getAndAccumulbte(V x,
+                                    BinbryOperbtor<V> bccumulbtorFunction) {
         V prev, next;
         do {
             prev = get();
-            next = accumulatorFunction.apply(prev, x);
-        } while (!compareAndSet(prev, next));
+            next = bccumulbtorFunction.bpply(prev, x);
+        } while (!compbreAndSet(prev, next));
         return prev;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function to the current and given values,
-     * returning the updated value. The function should be
-     * side-effect-free, since it may be re-applied when attempted
-     * updates fail due to contention among threads.  The function
-     * is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomicblly updbtes the current vblue with the results of
+     * bpplying the given function to the current bnd given vblues,
+     * returning the updbted vblue. The function should be
+     * side-effect-free, since it mby be re-bpplied when bttempted
+     * updbtes fbil due to contention bmong threbds.  The function
+     * is bpplied with the current vblue bs its first brgument,
+     * bnd the given updbte bs the second brgument.
      *
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the updated value
+     * @pbrbm x the updbte vblue
+     * @pbrbm bccumulbtorFunction b side-effect-free function of two brguments
+     * @return the updbted vblue
      * @since 1.8
      */
-    public final V accumulateAndGet(V x,
-                                    BinaryOperator<V> accumulatorFunction) {
+    public finbl V bccumulbteAndGet(V x,
+                                    BinbryOperbtor<V> bccumulbtorFunction) {
         V prev, next;
         do {
             prev = get();
-            next = accumulatorFunction.apply(prev, x);
-        } while (!compareAndSet(prev, next));
+            next = bccumulbtorFunction.bpply(prev, x);
+        } while (!compbreAndSet(prev, next));
         return next;
     }
 
     /**
-     * Returns the String representation of the current value.
-     * @return the String representation of the current value
+     * Returns the String representbtion of the current vblue.
+     * @return the String representbtion of the current vblue
      */
     public String toString() {
-        return String.valueOf(get());
+        return String.vblueOf(get());
     }
 
 }

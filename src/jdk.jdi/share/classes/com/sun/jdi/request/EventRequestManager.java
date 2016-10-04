@@ -1,545 +1,545 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.request;
+pbckbge com.sun.jdi.request;
 
 import com.sun.jdi.*;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * Manages the creation and deletion of {@link EventRequest}s. A single
- * implementor of this interface exists in a particuar VM and
- * is accessed through {@link VirtualMachine#eventRequestManager()}
+ * Mbnbges the crebtion bnd deletion of {@link EventRequest}s. A single
+ * implementor of this interfbce exists in b pbrticubr VM bnd
+ * is bccessed through {@link VirtublMbchine#eventRequestMbnbger()}
  *
  * @see EventRequest
  * @see com.sun.jdi.event.Event
- * @see BreakpointRequest
- * @see com.sun.jdi.event.BreakpointEvent
- * @see VirtualMachine
+ * @see BrebkpointRequest
+ * @see com.sun.jdi.event.BrebkpointEvent
+ * @see VirtublMbchine
  *
- * @author Robert Field
+ * @buthor Robert Field
  * @since  1.3
  */
 
 @jdk.Exported
-public interface EventRequestManager extends Mirror {
+public interfbce EventRequestMbnbger extends Mirror {
 
     /**
-     * Creates a new disabled {@link ClassPrepareRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link ClbssPrepbreRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * @return the created {@link ClassPrepareRequest}
+     * @return the crebted {@link ClbssPrepbreRequest}
      */
-    ClassPrepareRequest createClassPrepareRequest();
+    ClbssPrepbreRequest crebteClbssPrepbreRequest();
 
     /**
-     * Creates a new disabled {@link ClassUnloadRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link ClbssUnlobdRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * @return the created {@link ClassUnloadRequest}
+     * @return the crebted {@link ClbssUnlobdRequest}
      */
-    ClassUnloadRequest createClassUnloadRequest();
+    ClbssUnlobdRequest crebteClbssUnlobdRequest();
 
     /**
-     * Creates a new disabled {@link ThreadStartRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link ThrebdStbrtRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * @return the created {@link ThreadStartRequest}
+     * @return the crebted {@link ThrebdStbrtRequest}
      */
-    ThreadStartRequest createThreadStartRequest();
+    ThrebdStbrtRequest crebteThrebdStbrtRequest();
 
     /**
-     * Creates a new disabled {@link ThreadDeathRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link ThrebdDebthRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * @return the created {@link ThreadDeathRequest}
+     * @return the crebted {@link ThrebdDebthRequest}
      */
-    ThreadDeathRequest createThreadDeathRequest();
+    ThrebdDebthRequest crebteThrebdDebthRequest();
 
     /**
-     * Creates a new disabled {@link ExceptionRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link ExceptionRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      * <P>
-     * A specific exception type and its subclasses can be selected
-     * for exception events. Caught exceptions,  uncaught exceptions,
-     * or both can be selected. Note, however, that
-     * at the time an exception is thrown, it is not always
-     * possible to determine whether it is truly caught. See
-     * {@link com.sun.jdi.event.ExceptionEvent#catchLocation} for
-     * details.
-     * @param refType If non-null, specifies that exceptions which are
-     *                instances of refType will be reported. Note: this
-     *                will include instances of sub-types.  If null,
-     *                all instances will be reported
-     * @param notifyCaught If true, caught exceptions will be reported.
-     * @param notifyUncaught If true, uncaught exceptions will be reported.
+     * A specific exception type bnd its subclbsses cbn be selected
+     * for exception events. Cbught exceptions,  uncbught exceptions,
+     * or both cbn be selected. Note, however, thbt
+     * bt the time bn exception is thrown, it is not blwbys
+     * possible to determine whether it is truly cbught. See
+     * {@link com.sun.jdi.event.ExceptionEvent#cbtchLocbtion} for
+     * detbils.
+     * @pbrbm refType If non-null, specifies thbt exceptions which bre
+     *                instbnces of refType will be reported. Note: this
+     *                will include instbnces of sub-types.  If null,
+     *                bll instbnces will be reported
+     * @pbrbm notifyCbught If true, cbught exceptions will be reported.
+     * @pbrbm notifyUncbught If true, uncbught exceptions will be reported.
      *
-     * @return the created {@link ExceptionRequest}
+     * @return the crebted {@link ExceptionRequest}
      */
-    ExceptionRequest createExceptionRequest(ReferenceType refType,
-                                            boolean notifyCaught,
-                                            boolean notifyUncaught);
+    ExceptionRequest crebteExceptionRequest(ReferenceType refType,
+                                            boolebn notifyCbught,
+                                            boolebn notifyUncbught);
 
     /**
-     * Creates a new disabled {@link MethodEntryRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link MethodEntryRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * @return the created {@link MethodEntryRequest}
+     * @return the crebted {@link MethodEntryRequest}
      */
-    MethodEntryRequest createMethodEntryRequest();
+    MethodEntryRequest crebteMethodEntryRequest();
 
     /**
-     * Creates a new disabled {@link MethodExitRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link MethodExitRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * @return the created {@link MethodExitRequest}
+     * @return the crebted {@link MethodExitRequest}
      */
-    MethodExitRequest createMethodExitRequest();
+    MethodExitRequest crebteMethodExitRequest();
 
      /**
-     * Creates a new disabled {@link MonitorContendedEnterRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link MonitorContendedEnterRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestMonitorEvents()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnRequestMonitorEvents()}
+     * to determine if the operbtion is supported.
      *
-     * @return the created {@link MonitorContendedEnterRequest}
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
-     *
-     * @since 1.6
-     */
-    MonitorContendedEnterRequest createMonitorContendedEnterRequest();
-
-    /**
-     * Creates a new disabled {@link MonitorContendedEnteredRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
-     *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestMonitorEvents()}
-     * to determine if the operation is supported.
-     *
-     * @return the created {@link MonitorContendedEnteredRequest}
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
+     * @return the crebted {@link MonitorContendedEnterRequest}
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget VM does not support this
+     * operbtion.
      *
      * @since 1.6
      */
-
-    MonitorContendedEnteredRequest createMonitorContendedEnteredRequest();
+    MonitorContendedEnterRequest crebteMonitorContendedEnterRequest();
 
     /**
-     * Creates a new disabled {@link MonitorWaitRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link MonitorContendedEnteredRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestMonitorEvents()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnRequestMonitorEvents()}
+     * to determine if the operbtion is supported.
      *
-     * @return the created {@link MonitorWaitRequest}
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
+     * @return the crebted {@link MonitorContendedEnteredRequest}
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget VM does not support this
+     * operbtion.
      *
      * @since 1.6
      */
-    MonitorWaitRequest createMonitorWaitRequest();
+
+    MonitorContendedEnteredRequest crebteMonitorContendedEnteredRequest();
 
     /**
-     * Creates a new disabled {@link MonitorWaitedRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link MonitorWbitRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestMonitorEvents()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnRequestMonitorEvents()}
+     * to determine if the operbtion is supported.
      *
-     * @return the created {@link MonitorWaitedRequest}
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
+     * @return the crebted {@link MonitorWbitRequest}
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget VM does not support this
+     * operbtion.
      *
      * @since 1.6
      */
-    MonitorWaitedRequest createMonitorWaitedRequest();
+    MonitorWbitRequest crebteMonitorWbitRequest();
 
     /**
-     * Creates a new disabled {@link StepRequest}.
-     * The new event request is added to the list managed by this
-     * EventRequestManager. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link MonitorWbitedRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
+     *
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnRequestMonitorEvents()}
+     * to determine if the operbtion is supported.
+     *
+     * @return the crebted {@link MonitorWbitedRequest}
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget VM does not support this
+     * operbtion.
+     *
+     * @since 1.6
+     */
+    MonitorWbitedRequest crebteMonitorWbitedRequest();
+
+    /**
+     * Crebtes b new disbbled {@link StepRequest}.
+     * The new event request is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      * <p>
      * The returned request will control stepping only in the specified
-     * <code>thread</code>; all other threads will be unaffected.
-     * A <code>size</code>value of {@link com.sun.jdi.request.StepRequest#STEP_MIN} will generate a
-     * step event each time the code index changes. It represents the
-     * smallest step size available and often maps to the instruction
+     * <code>threbd</code>; bll other threbds will be unbffected.
+     * A <code>size</code>vblue of {@link com.sun.jdi.request.StepRequest#STEP_MIN} will generbte b
+     * step event ebch time the code index chbnges. It represents the
+     * smbllest step size bvbilbble bnd often mbps to the instruction
      * level.
-     * A <code>size</code> value of {@link com.sun.jdi.request.StepRequest#STEP_LINE} will generate a
-     * step event each time the source line changes unless line number information is not available,
-     * in which case a STEP_MIN will be done instead.  For example, no line number information is
-     * available during the execution of a method that has been rendered obsolete by
-     * by a {@link com.sun.jdi.VirtualMachine#redefineClasses} operation.
-     * A <code>depth</code> value of {@link com.sun.jdi.request.StepRequest#STEP_INTO} will generate
-     * step events in any called methods.  A <code>depth</code> value
-     * of {@link com.sun.jdi.request.StepRequest#STEP_OVER} restricts step events to the current frame
-     * or caller frames. A <code>depth</code> value of {@link com.sun.jdi.request.StepRequest#STEP_OUT}
-     * restricts step events to caller frames only. All depth
-     * restrictions are relative to the call stack immediately before the
-     * step takes place.
+     * A <code>size</code> vblue of {@link com.sun.jdi.request.StepRequest#STEP_LINE} will generbte b
+     * step event ebch time the source line chbnges unless line number informbtion is not bvbilbble,
+     * in which cbse b STEP_MIN will be done instebd.  For exbmple, no line number informbtion is
+     * bvbilbble during the execution of b method thbt hbs been rendered obsolete by
+     * by b {@link com.sun.jdi.VirtublMbchine#redefineClbsses} operbtion.
+     * A <code>depth</code> vblue of {@link com.sun.jdi.request.StepRequest#STEP_INTO} will generbte
+     * step events in bny cblled methods.  A <code>depth</code> vblue
+     * of {@link com.sun.jdi.request.StepRequest#STEP_OVER} restricts step events to the current frbme
+     * or cbller frbmes. A <code>depth</code> vblue of {@link com.sun.jdi.request.StepRequest#STEP_OUT}
+     * restricts step events to cbller frbmes only. All depth
+     * restrictions bre relbtive to the cbll stbck immedibtely before the
+     * step tbkes plbce.
      * <p>
-     * Only one pending step request is allowed per thread.
+     * Only one pending step request is bllowed per threbd.
      * <p>
-     * Note that a typical debugger will want to cancel stepping
-     * after the first step is detected.  Thus a next line method
+     * Note thbt b typicbl debugger will wbnt to cbncel stepping
+     * bfter the first step is detected.  Thus b next line method
      * would do the following:
      * <code>
      * <pre>
-     *     EventRequestManager mgr = myVM.{@link VirtualMachine#eventRequestManager eventRequestManager}();
-     *     StepRequest request = mgr.createStepRequest(myThread,
+     *     EventRequestMbnbger mgr = myVM.{@link VirtublMbchine#eventRequestMbnbger eventRequestMbnbger}();
+     *     StepRequest request = mgr.crebteStepRequest(myThrebd,
      *                                                 StepRequest.{@link StepRequest#STEP_LINE STEP_LINE},
      *                                                 StepRequest.{@link StepRequest#STEP_OVER STEP_OVER});
-     *     request.{@link EventRequest#addCountFilter addCountFilter}(1);  // next step only
-     *     request.enable();
-     *     myVM.{@link VirtualMachine#resume resume}();
+     *     request.{@link EventRequest#bddCountFilter bddCountFilter}(1);  // next step only
+     *     request.enbble();
+     *     myVM.{@link VirtublMbchine#resume resume}();
      * </pre>
      * </code>
      *
-     * @param thread the thread in which to step
-     * @param depth the step depth
-     * @param size the step size
-     * @return the created {@link StepRequest}
-     * @throws DuplicateRequestException if there is already a pending
-     * step request for the specified thread.
-     * @throws IllegalArgumentException if the size or depth arguments
-     * contain illegal values.
+     * @pbrbm threbd the threbd in which to step
+     * @pbrbm depth the step depth
+     * @pbrbm size the step size
+     * @return the crebted {@link StepRequest}
+     * @throws DuplicbteRequestException if there is blrebdy b pending
+     * step request for the specified threbd.
+     * @throws IllegblArgumentException if the size or depth brguments
+     * contbin illegbl vblues.
      */
-    StepRequest createStepRequest(ThreadReference thread,
+    StepRequest crebteStepRequest(ThrebdReference threbd,
                                   int size,
                                   int depth);
 
     /**
-     * Creates a new disabled {@link BreakpointRequest}.
-     * The given {@link Location} must have a valid
-     * (that is, non-negative) code index. The new
-     * breakpoint is added to the list managed by this
-     * EventRequestManager. Multiple breakpoints at the
-     * same location are permitted. Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link BrebkpointRequest}.
+     * The given {@link Locbtion} must hbve b vblid
+     * (thbt is, non-negbtive) code index. The new
+     * brebkpoint is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Multiple brebkpoints bt the
+     * sbme locbtion bre permitted. Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      *
-     * @param location the location of the new breakpoint.
-     * @return the created {@link BreakpointRequest}
-     * @throws NativeMethodException if location is within a native method.
+     * @pbrbm locbtion the locbtion of the new brebkpoint.
+     * @return the crebted {@link BrebkpointRequest}
+     * @throws NbtiveMethodException if locbtion is within b nbtive method.
      */
-    BreakpointRequest createBreakpointRequest(Location location);
+    BrebkpointRequest crebteBrebkpointRequest(Locbtion locbtion);
 
     /**
-     * Creates a new disabled watchpoint which watches accesses to the
+     * Crebtes b new disbbled wbtchpoint which wbtches bccesses to the
      * specified field. The new
-     * watchpoint is added to the list managed by this
-     * EventRequestManager. Multiple watchpoints on the
-     * same field are permitted.
-     * Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * wbtchpoint is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Multiple wbtchpoints on the
+     * sbme field bre permitted.
+     * Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      * <P>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canWatchFieldAccess()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnWbtchFieldAccess()}
+     * to determine if the operbtion is supported.
      *
-     * @param field the field to watch
-     * @return the created watchpoint
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
+     * @pbrbm field the field to wbtch
+     * @return the crebted wbtchpoint
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion.
      */
-    AccessWatchpointRequest createAccessWatchpointRequest(Field field);
+    AccessWbtchpointRequest crebteAccessWbtchpointRequest(Field field);
 
     /**
-     * Creates a new disabled watchpoint which watches accesses to the
+     * Crebtes b new disbbled wbtchpoint which wbtches bccesses to the
      * specified field. The new
-     * watchpoint is added to the list managed by this
-     * EventRequestManager. Multiple watchpoints on the
-     * same field are permitted.
-     * Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * wbtchpoint is bdded to the list mbnbged by this
+     * EventRequestMbnbger. Multiple wbtchpoints on the
+     * sbme field bre permitted.
+     * Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      * <P>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canWatchFieldModification()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnWbtchFieldModificbtion()}
+     * to determine if the operbtion is supported.
      *
-     * @param field the field to watch
-     * @return the created watchpoint
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
+     * @pbrbm field the field to wbtch
+     * @return the crebted wbtchpoint
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion.
      */
-    ModificationWatchpointRequest createModificationWatchpointRequest(Field field);
+    ModificbtionWbtchpointRequest crebteModificbtionWbtchpointRequest(Field field);
 
     /**
-     * Creates a new disabled {@link VMDeathRequest}.
-     * The new request is added to the list managed by this
-     * EventRequestManager.
-     * Use {@link EventRequest#enable()} to
-     * activate this event request.
+     * Crebtes b new disbbled {@link VMDebthRequest}.
+     * The new request is bdded to the list mbnbged by this
+     * EventRequestMbnbger.
+     * Use {@link EventRequest#enbble()} to
+     * bctivbte this event request.
      * <P>
-     * This request (if enabled) will cause a
-     * {@link com.sun.jdi.event.VMDeathEvent}
-     * to be sent on termination of the target VM.
+     * This request (if enbbled) will cbuse b
+     * {@link com.sun.jdi.event.VMDebthEvent}
+     * to be sent on terminbtion of the tbrget VM.
      * <P>
-     * A VMDeathRequest with a suspend policy of
+     * A VMDebthRequest with b suspend policy of
      * {@link EventRequest#SUSPEND_ALL SUSPEND_ALL}
-     * can be used to assure processing of incoming
+     * cbn be used to bssure processing of incoming
      * {@link EventRequest#SUSPEND_NONE SUSPEND_NONE} or
      * {@link EventRequest#SUSPEND_EVENT_THREAD SUSPEND_EVENT_THREAD}
-     * events before VM death.  If all event processing is being
-     * done in the same thread as event sets are being read,
-     * enabling the request is all that is needed since the VM
+     * events before VM debth.  If bll event processing is being
+     * done in the sbme threbd bs event sets bre being rebd,
+     * enbbling the request is bll thbt is needed since the VM
      * will be suspended until the {@link com.sun.jdi.event.EventSet}
-     * containing the {@link com.sun.jdi.event.VMDeathEvent}
+     * contbining the {@link com.sun.jdi.event.VMDebthEvent}
      * is resumed.
      * <P>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canRequestVMDeathEvent()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnRequestVMDebthEvent()}
+     * to determine if the operbtion is supported.
      *
-     * @return the created request
-     * @throws java.lang.UnsupportedOperationException if
-     * the target VM does not support this
-     * operation.
+     * @return the crebted request
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget VM does not support this
+     * operbtion.
      *
      * @since 1.4
      */
-    VMDeathRequest createVMDeathRequest();
+    VMDebthRequest crebteVMDebthRequest();
 
     /**
-     * Removes an eventRequest. The eventRequest is disabled and
-     * the removed from the requests managed by this
-     * EventRequestManager. Once the eventRequest is deleted, no
-     * operations (for example, {@link EventRequest#setEnabled})
-     * are permitted - attempts to do so will generally cause an
-     * {@link InvalidRequestStateException}.
-     * No other eventRequests are effected.
+     * Removes bn eventRequest. The eventRequest is disbbled bnd
+     * the removed from the requests mbnbged by this
+     * EventRequestMbnbger. Once the eventRequest is deleted, no
+     * operbtions (for exbmple, {@link EventRequest#setEnbbled})
+     * bre permitted - bttempts to do so will generblly cbuse bn
+     * {@link InvblidRequestStbteException}.
+     * No other eventRequests bre effected.
      * <P>
-     * Because this method changes the underlying lists of event
-     * requests, attempting to directly delete from a list returned
-     * by a request accessor (e.g. below):
+     * Becbuse this method chbnges the underlying lists of event
+     * requests, bttempting to directly delete from b list returned
+     * by b request bccessor (e.g. below):
      * <PRE>
-     *   Iterator iter = requestManager.stepRequests().iterator();
-     *   while (iter.hasNext()) {
-     *      requestManager.deleteEventRequest(iter.next());
+     *   Iterbtor iter = requestMbnbger.stepRequests().iterbtor();
+     *   while (iter.hbsNext()) {
+     *      requestMbnbger.deleteEventRequest(iter.next());
      *  }
      * </PRE>
-     * may cause a {@link java.util.ConcurrentModificationException}.
-     * Instead use
+     * mby cbuse b {@link jbvb.util.ConcurrentModificbtionException}.
+     * Instebd use
      * {@link #deleteEventRequests(List) deleteEventRequests(List)}
-     * or copy the list before iterating.
+     * or copy the list before iterbting.
      *
-     * @param eventRequest the eventRequest to remove
+     * @pbrbm eventRequest the eventRequest to remove
      */
     void deleteEventRequest(EventRequest eventRequest);
 
     /**
-     * Removes a list of {@link EventRequest}s.
+     * Removes b list of {@link EventRequest}s.
      *
      * @see #deleteEventRequest(EventRequest)
      *
-     * @param eventRequests the list of eventRequests to remove
+     * @pbrbm eventRequests the list of eventRequests to remove
      */
     void deleteEventRequests(List<? extends EventRequest> eventRequests);
 
     /**
-     * Remove all breakpoints managed by this EventRequestManager.
+     * Remove bll brebkpoints mbnbged by this EventRequestMbnbger.
      *
      * @see #deleteEventRequest(EventRequest)
      */
-    void deleteAllBreakpoints();
+    void deleteAllBrebkpoints();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled step requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link StepRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled step requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the bll {@link StepRequest} objects.
      */
     List<StepRequest> stepRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled class prepare requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ClassPrepareRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled clbss prepbre requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the bll {@link ClbssPrepbreRequest} objects.
      */
-    List<ClassPrepareRequest> classPrepareRequests();
+    List<ClbssPrepbreRequest> clbssPrepbreRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled class unload requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ClassUnloadRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled clbss unlobd requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the bll {@link ClbssUnlobdRequest} objects.
      */
-    List<ClassUnloadRequest> classUnloadRequests();
+    List<ClbssUnlobdRequest> clbssUnlobdRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled thread start requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ThreadStartRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled threbd stbrt requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the bll {@link ThrebdStbrtRequest} objects.
      */
-    List<ThreadStartRequest> threadStartRequests();
+    List<ThrebdStbrtRequest> threbdStbrtRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled thread death requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ThreadDeathRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled threbd debth requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the bll {@link ThrebdDebthRequest} objects.
      */
-    List<ThreadDeathRequest> threadDeathRequests();
+    List<ThrebdDebthRequest> threbdDebthRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled exception requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ExceptionRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled exception requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the bll {@link ExceptionRequest} objects.
      */
     List<ExceptionRequest> exceptionRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled breakpoint requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link BreakpointRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled brebkpoint requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the list of bll {@link BrebkpointRequest} objects.
      */
-    List<BreakpointRequest> breakpointRequests();
+    List<BrebkpointRequest> brebkpointRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled access
-     * watchpoint requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link AccessWatchpointRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled bccess
+     * wbtchpoint requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the bll {@link AccessWbtchpointRequest} objects.
      */
-    List<AccessWatchpointRequest> accessWatchpointRequests();
+    List<AccessWbtchpointRequest> bccessWbtchpointRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled modification
-     * watchpoint requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the all {@link ModificationWatchpointRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled modificbtion
+     * wbtchpoint requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the bll {@link ModificbtionWbtchpointRequest} objects.
      */
-    List<ModificationWatchpointRequest> modificationWatchpointRequests();
+    List<ModificbtionWbtchpointRequest> modificbtionWbtchpointRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled method entry requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MethodEntryRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled method entry requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the list of bll {@link MethodEntryRequest} objects.
      */
     List<MethodEntryRequest> methodEntryRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled method exit requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MethodExitRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled method exit requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the list of bll {@link MethodExitRequest} objects.
      */
     List<MethodExitRequest> methodExitRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled monitor contended enter requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MonitorContendedEnterRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled monitor contended enter requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the list of bll {@link MonitorContendedEnterRequest} objects.
      *
      * @since 1.6
      */
     List<MonitorContendedEnterRequest> monitorContendedEnterRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled monitor contended entered requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MonitorContendedEnteredRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled monitor contended entered requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the list of bll {@link MonitorContendedEnteredRequest} objects.
      *
      * @since 1.6
      */
     List<MonitorContendedEnteredRequest> monitorContendedEnteredRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled monitor wait requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MonitorWaitRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled monitor wbit requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the list of bll {@link MonitorWbitRequest} objects.
      *
      * @since 1.6
      */
-    List<MonitorWaitRequest> monitorWaitRequests();
+    List<MonitorWbitRequest> monitorWbitRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled monitor waited requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * @return the list of all {@link MonitorWaitedRequest} objects.
+     * Return bn unmodifibble list of the enbbled bnd disbbled monitor wbited requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * @return the list of bll {@link MonitorWbitedRequest} objects.
      *
      * @since 1.6
      */
-    List<MonitorWaitedRequest> monitorWaitedRequests();
+    List<MonitorWbitedRequest> monitorWbitedRequests();
 
     /**
-     * Return an unmodifiable list of the enabled and disabled VM death requests.
-     * This list is a live view of these requests and thus changes as requests
-     * are added and deleted.
-     * Note: the unsolicited VMDeathEvent does not have a
+     * Return bn unmodifibble list of the enbbled bnd disbbled VM debth requests.
+     * This list is b live view of these requests bnd thus chbnges bs requests
+     * bre bdded bnd deleted.
+     * Note: the unsolicited VMDebthEvent does not hbve b
      * corresponding request.
-     * @return the list of all {@link VMDeathRequest} objects.
+     * @return the list of bll {@link VMDebthRequest} objects.
      *
      * @since 1.4
      */
-    List<VMDeathRequest> vmDeathRequests();
+    List<VMDebthRequest> vmDebthRequests();
 }

@@ -1,279 +1,279 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.png;
+pbckbge com.sun.imbgeio.plugins.png;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferUShort;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.SequenceInputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.zip.Inflater;
-import java.util.zip.InflaterInputStream;
-import javax.imageio.IIOException;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.ImageInputStream;
-import com.sun.imageio.plugins.common.InputStreamAdapter;
-import com.sun.imageio.plugins.common.ReaderUtil;
-import com.sun.imageio.plugins.common.SubImageInputStream;
-import java.io.ByteArrayOutputStream;
-import sun.awt.image.ByteInterleavedRaster;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.DbtbBufferUShort;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.EOFException;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.SequenceInputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Iterbtor;
+import jbvb.util.zip.Inflbter;
+import jbvb.util.zip.InflbterInputStrebm;
+import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.ImbgeRebdPbrbm;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.spi.ImbgeRebderSpi;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
+import com.sun.imbgeio.plugins.common.InputStrebmAdbpter;
+import com.sun.imbgeio.plugins.common.RebderUtil;
+import com.sun.imbgeio.plugins.common.SubImbgeInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import sun.bwt.imbge.ByteInterlebvedRbster;
 
-class PNGImageDataEnumeration implements Enumeration<InputStream> {
+clbss PNGImbgeDbtbEnumerbtion implements Enumerbtion<InputStrebm> {
 
-    boolean firstTime = true;
-    ImageInputStream stream;
+    boolebn firstTime = true;
+    ImbgeInputStrebm strebm;
     int length;
 
-    public PNGImageDataEnumeration(ImageInputStream stream)
+    public PNGImbgeDbtbEnumerbtion(ImbgeInputStrebm strebm)
         throws IOException {
-        this.stream = stream;
-        this.length = stream.readInt();
-        int type = stream.readInt(); // skip chunk type
+        this.strebm = strebm;
+        this.length = strebm.rebdInt();
+        int type = strebm.rebdInt(); // skip chunk type
     }
 
-    public InputStream nextElement() {
+    public InputStrebm nextElement() {
         try {
-            firstTime = false;
-            ImageInputStream iis = new SubImageInputStream(stream, length);
-            return new InputStreamAdapter(iis);
-        } catch (IOException e) {
+            firstTime = fblse;
+            ImbgeInputStrebm iis = new SubImbgeInputStrebm(strebm, length);
+            return new InputStrebmAdbpter(iis);
+        } cbtch (IOException e) {
             return null;
         }
     }
 
-    public boolean hasMoreElements() {
+    public boolebn hbsMoreElements() {
         if (firstTime) {
             return true;
         }
 
         try {
-            int crc = stream.readInt();
-            this.length = stream.readInt();
-            int type = stream.readInt();
-            if (type == PNGImageReader.IDAT_TYPE) {
+            int crc = strebm.rebdInt();
+            this.length = strebm.rebdInt();
+            int type = strebm.rebdInt();
+            if (type == PNGImbgeRebder.IDAT_TYPE) {
                 return true;
             } else {
-                return false;
+                return fblse;
             }
-        } catch (IOException e) {
-            return false;
+        } cbtch (IOException e) {
+            return fblse;
         }
     }
 }
 
-public class PNGImageReader extends ImageReader {
+public clbss PNGImbgeRebder extends ImbgeRebder {
 
     /*
-     * Note: The following chunk type constants are autogenerated.  Each
-     * one is derived from the ASCII values of its 4-character name.  For
-     * example, IHDR_TYPE is calculated as follows:
+     * Note: The following chunk type constbnts bre butogenerbted.  Ebch
+     * one is derived from the ASCII vblues of its 4-chbrbcter nbme.  For
+     * exbmple, IHDR_TYPE is cblculbted bs follows:
      *            ('I' << 24) | ('H' << 16) | ('D' << 8) | 'R'
      */
 
-    // Critical chunks
-    static final int IHDR_TYPE = 0x49484452;
-    static final int PLTE_TYPE = 0x504c5445;
-    static final int IDAT_TYPE = 0x49444154;
-    static final int IEND_TYPE = 0x49454e44;
+    // Criticbl chunks
+    stbtic finbl int IHDR_TYPE = 0x49484452;
+    stbtic finbl int PLTE_TYPE = 0x504c5445;
+    stbtic finbl int IDAT_TYPE = 0x49444154;
+    stbtic finbl int IEND_TYPE = 0x49454e44;
 
-    // Ancillary chunks
-    static final int bKGD_TYPE = 0x624b4744;
-    static final int cHRM_TYPE = 0x6348524d;
-    static final int gAMA_TYPE = 0x67414d41;
-    static final int hIST_TYPE = 0x68495354;
-    static final int iCCP_TYPE = 0x69434350;
-    static final int iTXt_TYPE = 0x69545874;
-    static final int pHYs_TYPE = 0x70485973;
-    static final int sBIT_TYPE = 0x73424954;
-    static final int sPLT_TYPE = 0x73504c54;
-    static final int sRGB_TYPE = 0x73524742;
-    static final int tEXt_TYPE = 0x74455874;
-    static final int tIME_TYPE = 0x74494d45;
-    static final int tRNS_TYPE = 0x74524e53;
-    static final int zTXt_TYPE = 0x7a545874;
+    // Ancillbry chunks
+    stbtic finbl int bKGD_TYPE = 0x624b4744;
+    stbtic finbl int cHRM_TYPE = 0x6348524d;
+    stbtic finbl int gAMA_TYPE = 0x67414d41;
+    stbtic finbl int hIST_TYPE = 0x68495354;
+    stbtic finbl int iCCP_TYPE = 0x69434350;
+    stbtic finbl int iTXt_TYPE = 0x69545874;
+    stbtic finbl int pHYs_TYPE = 0x70485973;
+    stbtic finbl int sBIT_TYPE = 0x73424954;
+    stbtic finbl int sPLT_TYPE = 0x73504c54;
+    stbtic finbl int sRGB_TYPE = 0x73524742;
+    stbtic finbl int tEXt_TYPE = 0x74455874;
+    stbtic finbl int tIME_TYPE = 0x74494d45;
+    stbtic finbl int tRNS_TYPE = 0x74524e53;
+    stbtic finbl int zTXt_TYPE = 0x7b545874;
 
-    static final int PNG_COLOR_GRAY = 0;
-    static final int PNG_COLOR_RGB = 2;
-    static final int PNG_COLOR_PALETTE = 3;
-    static final int PNG_COLOR_GRAY_ALPHA = 4;
-    static final int PNG_COLOR_RGB_ALPHA = 6;
+    stbtic finbl int PNG_COLOR_GRAY = 0;
+    stbtic finbl int PNG_COLOR_RGB = 2;
+    stbtic finbl int PNG_COLOR_PALETTE = 3;
+    stbtic finbl int PNG_COLOR_GRAY_ALPHA = 4;
+    stbtic finbl int PNG_COLOR_RGB_ALPHA = 6;
 
-    // The number of bands by PNG color type
-    static final int[] inputBandsForColorType = {
-         1, // gray
+    // The number of bbnds by PNG color type
+    stbtic finbl int[] inputBbndsForColorType = {
+         1, // grby
         -1, // unused
          3, // rgb
-         1, // palette
-         2, // gray + alpha
+         1, // pblette
+         2, // grby + blphb
         -1, // unused
-         4  // rgb + alpha
+         4  // rgb + blphb
     };
 
-    static final int PNG_FILTER_NONE = 0;
-    static final int PNG_FILTER_SUB = 1;
-    static final int PNG_FILTER_UP = 2;
-    static final int PNG_FILTER_AVERAGE = 3;
-    static final int PNG_FILTER_PAETH = 4;
+    stbtic finbl int PNG_FILTER_NONE = 0;
+    stbtic finbl int PNG_FILTER_SUB = 1;
+    stbtic finbl int PNG_FILTER_UP = 2;
+    stbtic finbl int PNG_FILTER_AVERAGE = 3;
+    stbtic finbl int PNG_FILTER_PAETH = 4;
 
-    static final int[] adam7XOffset = { 0, 4, 0, 2, 0, 1, 0 };
-    static final int[] adam7YOffset = { 0, 0, 4, 0, 2, 0, 1 };
-    static final int[] adam7XSubsampling = { 8, 8, 4, 4, 2, 2, 1, 1 };
-    static final int[] adam7YSubsampling = { 8, 8, 8, 4, 4, 2, 2, 1 };
+    stbtic finbl int[] bdbm7XOffset = { 0, 4, 0, 2, 0, 1, 0 };
+    stbtic finbl int[] bdbm7YOffset = { 0, 0, 4, 0, 2, 0, 1 };
+    stbtic finbl int[] bdbm7XSubsbmpling = { 8, 8, 4, 4, 2, 2, 1, 1 };
+    stbtic finbl int[] bdbm7YSubsbmpling = { 8, 8, 8, 4, 4, 2, 2, 1 };
 
-    private static final boolean debug = true;
+    privbte stbtic finbl boolebn debug = true;
 
-    ImageInputStream stream = null;
+    ImbgeInputStrebm strebm = null;
 
-    boolean gotHeader = false;
-    boolean gotMetadata = false;
+    boolebn gotHebder = fblse;
+    boolebn gotMetbdbtb = fblse;
 
-    ImageReadParam lastParam = null;
+    ImbgeRebdPbrbm lbstPbrbm = null;
 
-    long imageStartPosition = -1L;
+    long imbgeStbrtPosition = -1L;
 
-    Rectangle sourceRegion = null;
-    int sourceXSubsampling = -1;
-    int sourceYSubsampling = -1;
-    int sourceMinProgressivePass = 0;
-    int sourceMaxProgressivePass = 6;
-    int[] sourceBands = null;
-    int[] destinationBands = null;
-    Point destinationOffset = new Point(0, 0);
+    Rectbngle sourceRegion = null;
+    int sourceXSubsbmpling = -1;
+    int sourceYSubsbmpling = -1;
+    int sourceMinProgressivePbss = 0;
+    int sourceMbxProgressivePbss = 6;
+    int[] sourceBbnds = null;
+    int[] destinbtionBbnds = null;
+    Point destinbtionOffset = new Point(0, 0);
 
-    PNGMetadata metadata = new PNGMetadata();
+    PNGMetbdbtb metbdbtb = new PNGMetbdbtb();
 
-    DataInputStream pixelStream = null;
+    DbtbInputStrebm pixelStrebm = null;
 
-    BufferedImage theImage = null;
+    BufferedImbge theImbge = null;
 
     // The number of source pixels processed
     int pixelsDone = 0;
 
-    // The total number of pixels in the source image
-    int totalPixels;
+    // The totbl number of pixels in the source imbge
+    int totblPixels;
 
-    public PNGImageReader(ImageReaderSpi originatingProvider) {
-        super(originatingProvider);
+    public PNGImbgeRebder(ImbgeRebderSpi originbtingProvider) {
+        super(originbtingProvider);
     }
 
     public void setInput(Object input,
-                         boolean seekForwardOnly,
-                         boolean ignoreMetadata) {
-        super.setInput(input, seekForwardOnly, ignoreMetadata);
-        this.stream = (ImageInputStream)input; // Always works
+                         boolebn seekForwbrdOnly,
+                         boolebn ignoreMetbdbtb) {
+        super.setInput(input, seekForwbrdOnly, ignoreMetbdbtb);
+        this.strebm = (ImbgeInputStrebm)input; // Alwbys works
 
-        // Clear all values based on the previous stream contents
-        resetStreamSettings();
+        // Clebr bll vblues bbsed on the previous strebm contents
+        resetStrebmSettings();
     }
 
-    private String readNullTerminatedString(String charset, int maxLen) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    privbte String rebdNullTerminbtedString(String chbrset, int mbxLen) throws IOException {
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
         int b;
         int count = 0;
-        while ((maxLen > count++) && ((b = stream.read()) != 0)) {
+        while ((mbxLen > count++) && ((b = strebm.rebd()) != 0)) {
             if (b == -1) throw new EOFException();
-            baos.write(b);
+            bbos.write(b);
         }
-        return new String(baos.toByteArray(), charset);
+        return new String(bbos.toByteArrby(), chbrset);
     }
 
-    private void readHeader() throws IIOException {
-        if (gotHeader) {
+    privbte void rebdHebder() throws IIOException {
+        if (gotHebder) {
             return;
         }
-        if (stream == null) {
-            throw new IllegalStateException("Input source not set!");
+        if (strebm == null) {
+            throw new IllegblStbteException("Input source not set!");
         }
 
         try {
-            byte[] signature = new byte[8];
-            stream.readFully(signature);
+            byte[] signbture = new byte[8];
+            strebm.rebdFully(signbture);
 
-            if (signature[0] != (byte)137 ||
-                signature[1] != (byte)80 ||
-                signature[2] != (byte)78 ||
-                signature[3] != (byte)71 ||
-                signature[4] != (byte)13 ||
-                signature[5] != (byte)10 ||
-                signature[6] != (byte)26 ||
-                signature[7] != (byte)10) {
-                throw new IIOException("Bad PNG signature!");
+            if (signbture[0] != (byte)137 ||
+                signbture[1] != (byte)80 ||
+                signbture[2] != (byte)78 ||
+                signbture[3] != (byte)71 ||
+                signbture[4] != (byte)13 ||
+                signbture[5] != (byte)10 ||
+                signbture[6] != (byte)26 ||
+                signbture[7] != (byte)10) {
+                throw new IIOException("Bbd PNG signbture!");
             }
 
-            int IHDR_length = stream.readInt();
+            int IHDR_length = strebm.rebdInt();
             if (IHDR_length != 13) {
-                throw new IIOException("Bad length for IHDR chunk!");
+                throw new IIOException("Bbd length for IHDR chunk!");
             }
-            int IHDR_type = stream.readInt();
+            int IHDR_type = strebm.rebdInt();
             if (IHDR_type != IHDR_TYPE) {
-                throw new IIOException("Bad type for IHDR chunk!");
+                throw new IIOException("Bbd type for IHDR chunk!");
             }
 
-            this.metadata = new PNGMetadata();
+            this.metbdbtb = new PNGMetbdbtb();
 
-            int width = stream.readInt();
-            int height = stream.readInt();
+            int width = strebm.rebdInt();
+            int height = strebm.rebdInt();
 
-            // Re-use signature array to bulk-read these unsigned byte values
-            stream.readFully(signature, 0, 5);
-            int bitDepth          = signature[0] & 0xff;
-            int colorType         = signature[1] & 0xff;
-            int compressionMethod = signature[2] & 0xff;
-            int filterMethod      = signature[3] & 0xff;
-            int interlaceMethod   = signature[4] & 0xff;
+            // Re-use signbture brrby to bulk-rebd these unsigned byte vblues
+            strebm.rebdFully(signbture, 0, 5);
+            int bitDepth          = signbture[0] & 0xff;
+            int colorType         = signbture[1] & 0xff;
+            int compressionMethod = signbture[2] & 0xff;
+            int filterMethod      = signbture[3] & 0xff;
+            int interlbceMethod   = signbture[4] & 0xff;
 
             // Skip IHDR CRC
-            stream.skipBytes(4);
+            strebm.skipBytes(4);
 
-            stream.flushBefore(stream.getStreamPosition());
+            strebm.flushBefore(strebm.getStrebmPosition());
 
             if (width == 0) {
-                throw new IIOException("Image width == 0!");
+                throw new IIOException("Imbge width == 0!");
             }
             if (height == 0) {
-                throw new IIOException("Image height == 0!");
+                throw new IIOException("Imbge height == 0!");
             }
             if (bitDepth != 1 && bitDepth != 2 && bitDepth != 4 &&
                 bitDepth != 8 && bitDepth != 16) {
@@ -284,13 +284,13 @@ public class PNGImageReader extends ImageReader {
                 throw new IIOException("Color type must be 0, 2, 3, 4, or 6!");
             }
             if (colorType == PNG_COLOR_PALETTE && bitDepth == 16) {
-                throw new IIOException("Bad color type/bit depth combination!");
+                throw new IIOException("Bbd color type/bit depth combinbtion!");
             }
             if ((colorType == PNG_COLOR_RGB ||
                  colorType == PNG_COLOR_RGB_ALPHA ||
                  colorType == PNG_COLOR_GRAY_ALPHA) &&
                 (bitDepth != 8 && bitDepth != 16)) {
-                throw new IIOException("Bad color type/bit depth combination!");
+                throw new IIOException("Bbd color type/bit depth combinbtion!");
             }
             if (compressionMethod != 0) {
                 throw new IIOException("Unknown compression method (not 0)!");
@@ -298,559 +298,559 @@ public class PNGImageReader extends ImageReader {
             if (filterMethod != 0) {
                 throw new IIOException("Unknown filter method (not 0)!");
             }
-            if (interlaceMethod != 0 && interlaceMethod != 1) {
-                throw new IIOException("Unknown interlace method (not 0 or 1)!");
+            if (interlbceMethod != 0 && interlbceMethod != 1) {
+                throw new IIOException("Unknown interlbce method (not 0 or 1)!");
             }
 
-            metadata.IHDR_present = true;
-            metadata.IHDR_width = width;
-            metadata.IHDR_height = height;
-            metadata.IHDR_bitDepth = bitDepth;
-            metadata.IHDR_colorType = colorType;
-            metadata.IHDR_compressionMethod = compressionMethod;
-            metadata.IHDR_filterMethod = filterMethod;
-            metadata.IHDR_interlaceMethod = interlaceMethod;
-            gotHeader = true;
-        } catch (IOException e) {
-            throw new IIOException("I/O error reading PNG header!", e);
+            metbdbtb.IHDR_present = true;
+            metbdbtb.IHDR_width = width;
+            metbdbtb.IHDR_height = height;
+            metbdbtb.IHDR_bitDepth = bitDepth;
+            metbdbtb.IHDR_colorType = colorType;
+            metbdbtb.IHDR_compressionMethod = compressionMethod;
+            metbdbtb.IHDR_filterMethod = filterMethod;
+            metbdbtb.IHDR_interlbceMethod = interlbceMethod;
+            gotHebder = true;
+        } cbtch (IOException e) {
+            throw new IIOException("I/O error rebding PNG hebder!", e);
         }
     }
 
-    private void parse_PLTE_chunk(int chunkLength) throws IOException {
-        if (metadata.PLTE_present) {
-            processWarningOccurred(
-"A PNG image may not contain more than one PLTE chunk.\n" +
+    privbte void pbrse_PLTE_chunk(int chunkLength) throws IOException {
+        if (metbdbtb.PLTE_present) {
+            processWbrningOccurred(
+"A PNG imbge mby not contbin more thbn one PLTE chunk.\n" +
 "The chunk wil be ignored.");
             return;
-        } else if (metadata.IHDR_colorType == PNG_COLOR_GRAY ||
-                   metadata.IHDR_colorType == PNG_COLOR_GRAY_ALPHA) {
-            processWarningOccurred(
-"A PNG gray or gray alpha image cannot have a PLTE chunk.\n" +
+        } else if (metbdbtb.IHDR_colorType == PNG_COLOR_GRAY ||
+                   metbdbtb.IHDR_colorType == PNG_COLOR_GRAY_ALPHA) {
+            processWbrningOccurred(
+"A PNG grby or grby blphb imbge cbnnot hbve b PLTE chunk.\n" +
 "The chunk wil be ignored.");
             return;
         }
 
-        byte[] palette = new byte[chunkLength];
-        stream.readFully(palette);
+        byte[] pblette = new byte[chunkLength];
+        strebm.rebdFully(pblette);
 
         int numEntries = chunkLength/3;
-        if (metadata.IHDR_colorType == PNG_COLOR_PALETTE) {
-            int maxEntries = 1 << metadata.IHDR_bitDepth;
-            if (numEntries > maxEntries) {
-                processWarningOccurred(
-"PLTE chunk contains too many entries for bit depth, ignoring extras.");
-                numEntries = maxEntries;
+        if (metbdbtb.IHDR_colorType == PNG_COLOR_PALETTE) {
+            int mbxEntries = 1 << metbdbtb.IHDR_bitDepth;
+            if (numEntries > mbxEntries) {
+                processWbrningOccurred(
+"PLTE chunk contbins too mbny entries for bit depth, ignoring extrbs.");
+                numEntries = mbxEntries;
             }
-            numEntries = Math.min(numEntries, maxEntries);
+            numEntries = Mbth.min(numEntries, mbxEntries);
         }
 
-        // Round array sizes up to 2^2^n
-        int paletteEntries;
+        // Round brrby sizes up to 2^2^n
+        int pbletteEntries;
         if (numEntries > 16) {
-            paletteEntries = 256;
+            pbletteEntries = 256;
         } else if (numEntries > 4) {
-            paletteEntries = 16;
+            pbletteEntries = 16;
         } else if (numEntries > 2) {
-            paletteEntries = 4;
+            pbletteEntries = 4;
         } else {
-            paletteEntries = 2;
+            pbletteEntries = 2;
         }
 
-        metadata.PLTE_present = true;
-        metadata.PLTE_red = new byte[paletteEntries];
-        metadata.PLTE_green = new byte[paletteEntries];
-        metadata.PLTE_blue = new byte[paletteEntries];
+        metbdbtb.PLTE_present = true;
+        metbdbtb.PLTE_red = new byte[pbletteEntries];
+        metbdbtb.PLTE_green = new byte[pbletteEntries];
+        metbdbtb.PLTE_blue = new byte[pbletteEntries];
 
         int index = 0;
         for (int i = 0; i < numEntries; i++) {
-            metadata.PLTE_red[i] = palette[index++];
-            metadata.PLTE_green[i] = palette[index++];
-            metadata.PLTE_blue[i] = palette[index++];
+            metbdbtb.PLTE_red[i] = pblette[index++];
+            metbdbtb.PLTE_green[i] = pblette[index++];
+            metbdbtb.PLTE_blue[i] = pblette[index++];
         }
     }
 
-    private void parse_bKGD_chunk() throws IOException {
-        if (metadata.IHDR_colorType == PNG_COLOR_PALETTE) {
-            metadata.bKGD_colorType = PNG_COLOR_PALETTE;
-            metadata.bKGD_index = stream.readUnsignedByte();
-        } else if (metadata.IHDR_colorType == PNG_COLOR_GRAY ||
-                   metadata.IHDR_colorType == PNG_COLOR_GRAY_ALPHA) {
-            metadata.bKGD_colorType = PNG_COLOR_GRAY;
-            metadata.bKGD_gray = stream.readUnsignedShort();
+    privbte void pbrse_bKGD_chunk() throws IOException {
+        if (metbdbtb.IHDR_colorType == PNG_COLOR_PALETTE) {
+            metbdbtb.bKGD_colorType = PNG_COLOR_PALETTE;
+            metbdbtb.bKGD_index = strebm.rebdUnsignedByte();
+        } else if (metbdbtb.IHDR_colorType == PNG_COLOR_GRAY ||
+                   metbdbtb.IHDR_colorType == PNG_COLOR_GRAY_ALPHA) {
+            metbdbtb.bKGD_colorType = PNG_COLOR_GRAY;
+            metbdbtb.bKGD_grby = strebm.rebdUnsignedShort();
         } else { // RGB or RGB_ALPHA
-            metadata.bKGD_colorType = PNG_COLOR_RGB;
-            metadata.bKGD_red = stream.readUnsignedShort();
-            metadata.bKGD_green = stream.readUnsignedShort();
-            metadata.bKGD_blue = stream.readUnsignedShort();
+            metbdbtb.bKGD_colorType = PNG_COLOR_RGB;
+            metbdbtb.bKGD_red = strebm.rebdUnsignedShort();
+            metbdbtb.bKGD_green = strebm.rebdUnsignedShort();
+            metbdbtb.bKGD_blue = strebm.rebdUnsignedShort();
         }
 
-        metadata.bKGD_present = true;
+        metbdbtb.bKGD_present = true;
     }
 
-    private void parse_cHRM_chunk() throws IOException {
-        metadata.cHRM_whitePointX = stream.readInt();
-        metadata.cHRM_whitePointY = stream.readInt();
-        metadata.cHRM_redX = stream.readInt();
-        metadata.cHRM_redY = stream.readInt();
-        metadata.cHRM_greenX = stream.readInt();
-        metadata.cHRM_greenY = stream.readInt();
-        metadata.cHRM_blueX = stream.readInt();
-        metadata.cHRM_blueY = stream.readInt();
+    privbte void pbrse_cHRM_chunk() throws IOException {
+        metbdbtb.cHRM_whitePointX = strebm.rebdInt();
+        metbdbtb.cHRM_whitePointY = strebm.rebdInt();
+        metbdbtb.cHRM_redX = strebm.rebdInt();
+        metbdbtb.cHRM_redY = strebm.rebdInt();
+        metbdbtb.cHRM_greenX = strebm.rebdInt();
+        metbdbtb.cHRM_greenY = strebm.rebdInt();
+        metbdbtb.cHRM_blueX = strebm.rebdInt();
+        metbdbtb.cHRM_blueY = strebm.rebdInt();
 
-        metadata.cHRM_present = true;
+        metbdbtb.cHRM_present = true;
     }
 
-    private void parse_gAMA_chunk() throws IOException {
-        int gamma = stream.readInt();
-        metadata.gAMA_gamma = gamma;
+    privbte void pbrse_gAMA_chunk() throws IOException {
+        int gbmmb = strebm.rebdInt();
+        metbdbtb.gAMA_gbmmb = gbmmb;
 
-        metadata.gAMA_present = true;
+        metbdbtb.gAMA_present = true;
     }
 
-    private void parse_hIST_chunk(int chunkLength) throws IOException,
+    privbte void pbrse_hIST_chunk(int chunkLength) throws IOException,
         IIOException
     {
-        if (!metadata.PLTE_present) {
+        if (!metbdbtb.PLTE_present) {
             throw new IIOException("hIST chunk without prior PLTE chunk!");
         }
 
-        /* According to PNG specification length of
-         * hIST chunk is specified in bytes and
+        /* According to PNG specificbtion length of
+         * hIST chunk is specified in bytes bnd
          * hIST chunk consists of 2 byte elements
          * (so we expect length is even).
          */
-        metadata.hIST_histogram = new char[chunkLength/2];
-        stream.readFully(metadata.hIST_histogram,
-                         0, metadata.hIST_histogram.length);
+        metbdbtb.hIST_histogrbm = new chbr[chunkLength/2];
+        strebm.rebdFully(metbdbtb.hIST_histogrbm,
+                         0, metbdbtb.hIST_histogrbm.length);
 
-        metadata.hIST_present = true;
+        metbdbtb.hIST_present = true;
     }
 
-    private void parse_iCCP_chunk(int chunkLength) throws IOException {
-        String keyword = readNullTerminatedString("ISO-8859-1", 80);
-        metadata.iCCP_profileName = keyword;
+    privbte void pbrse_iCCP_chunk(int chunkLength) throws IOException {
+        String keyword = rebdNullTerminbtedString("ISO-8859-1", 80);
+        metbdbtb.iCCP_profileNbme = keyword;
 
-        metadata.iCCP_compressionMethod = stream.readUnsignedByte();
+        metbdbtb.iCCP_compressionMethod = strebm.rebdUnsignedByte();
 
         byte[] compressedProfile =
           new byte[chunkLength - keyword.length() - 2];
-        stream.readFully(compressedProfile);
-        metadata.iCCP_compressedProfile = compressedProfile;
+        strebm.rebdFully(compressedProfile);
+        metbdbtb.iCCP_compressedProfile = compressedProfile;
 
-        metadata.iCCP_present = true;
+        metbdbtb.iCCP_present = true;
     }
 
-    private void parse_iTXt_chunk(int chunkLength) throws IOException {
-        long chunkStart = stream.getStreamPosition();
+    privbte void pbrse_iTXt_chunk(int chunkLength) throws IOException {
+        long chunkStbrt = strebm.getStrebmPosition();
 
-        String keyword = readNullTerminatedString("ISO-8859-1", 80);
-        metadata.iTXt_keyword.add(keyword);
+        String keyword = rebdNullTerminbtedString("ISO-8859-1", 80);
+        metbdbtb.iTXt_keyword.bdd(keyword);
 
-        int compressionFlag = stream.readUnsignedByte();
-        metadata.iTXt_compressionFlag.add(Boolean.valueOf(compressionFlag == 1));
+        int compressionFlbg = strebm.rebdUnsignedByte();
+        metbdbtb.iTXt_compressionFlbg.bdd(Boolebn.vblueOf(compressionFlbg == 1));
 
-        int compressionMethod = stream.readUnsignedByte();
-        metadata.iTXt_compressionMethod.add(Integer.valueOf(compressionMethod));
+        int compressionMethod = strebm.rebdUnsignedByte();
+        metbdbtb.iTXt_compressionMethod.bdd(Integer.vblueOf(compressionMethod));
 
-        String languageTag = readNullTerminatedString("UTF8", 80);
-        metadata.iTXt_languageTag.add(languageTag);
+        String lbngubgeTbg = rebdNullTerminbtedString("UTF8", 80);
+        metbdbtb.iTXt_lbngubgeTbg.bdd(lbngubgeTbg);
 
-        long pos = stream.getStreamPosition();
-        int maxLen = (int)(chunkStart + chunkLength - pos);
-        String translatedKeyword =
-            readNullTerminatedString("UTF8", maxLen);
-        metadata.iTXt_translatedKeyword.add(translatedKeyword);
+        long pos = strebm.getStrebmPosition();
+        int mbxLen = (int)(chunkStbrt + chunkLength - pos);
+        String trbnslbtedKeyword =
+            rebdNullTerminbtedString("UTF8", mbxLen);
+        metbdbtb.iTXt_trbnslbtedKeyword.bdd(trbnslbtedKeyword);
 
         String text;
-        pos = stream.getStreamPosition();
-        byte[] b = new byte[(int)(chunkStart + chunkLength - pos)];
-        stream.readFully(b);
+        pos = strebm.getStrebmPosition();
+        byte[] b = new byte[(int)(chunkStbrt + chunkLength - pos)];
+        strebm.rebdFully(b);
 
-        if (compressionFlag == 1) { // Decompress the text
-            text = new String(inflate(b), "UTF8");
+        if (compressionFlbg == 1) { // Decompress the text
+            text = new String(inflbte(b), "UTF8");
         } else {
             text = new String(b, "UTF8");
         }
-        metadata.iTXt_text.add(text);
+        metbdbtb.iTXt_text.bdd(text);
     }
 
-    private void parse_pHYs_chunk() throws IOException {
-        metadata.pHYs_pixelsPerUnitXAxis = stream.readInt();
-        metadata.pHYs_pixelsPerUnitYAxis = stream.readInt();
-        metadata.pHYs_unitSpecifier = stream.readUnsignedByte();
+    privbte void pbrse_pHYs_chunk() throws IOException {
+        metbdbtb.pHYs_pixelsPerUnitXAxis = strebm.rebdInt();
+        metbdbtb.pHYs_pixelsPerUnitYAxis = strebm.rebdInt();
+        metbdbtb.pHYs_unitSpecifier = strebm.rebdUnsignedByte();
 
-        metadata.pHYs_present = true;
+        metbdbtb.pHYs_present = true;
     }
 
-    private void parse_sBIT_chunk() throws IOException {
-        int colorType = metadata.IHDR_colorType;
+    privbte void pbrse_sBIT_chunk() throws IOException {
+        int colorType = metbdbtb.IHDR_colorType;
         if (colorType == PNG_COLOR_GRAY ||
             colorType == PNG_COLOR_GRAY_ALPHA) {
-            metadata.sBIT_grayBits = stream.readUnsignedByte();
+            metbdbtb.sBIT_grbyBits = strebm.rebdUnsignedByte();
         } else if (colorType == PNG_COLOR_RGB ||
                    colorType == PNG_COLOR_PALETTE ||
                    colorType == PNG_COLOR_RGB_ALPHA) {
-            metadata.sBIT_redBits = stream.readUnsignedByte();
-            metadata.sBIT_greenBits = stream.readUnsignedByte();
-            metadata.sBIT_blueBits = stream.readUnsignedByte();
+            metbdbtb.sBIT_redBits = strebm.rebdUnsignedByte();
+            metbdbtb.sBIT_greenBits = strebm.rebdUnsignedByte();
+            metbdbtb.sBIT_blueBits = strebm.rebdUnsignedByte();
         }
 
         if (colorType == PNG_COLOR_GRAY_ALPHA ||
             colorType == PNG_COLOR_RGB_ALPHA) {
-            metadata.sBIT_alphaBits = stream.readUnsignedByte();
+            metbdbtb.sBIT_blphbBits = strebm.rebdUnsignedByte();
         }
 
-        metadata.sBIT_colorType = colorType;
-        metadata.sBIT_present = true;
+        metbdbtb.sBIT_colorType = colorType;
+        metbdbtb.sBIT_present = true;
     }
 
-    private void parse_sPLT_chunk(int chunkLength)
+    privbte void pbrse_sPLT_chunk(int chunkLength)
         throws IOException, IIOException {
-        metadata.sPLT_paletteName = readNullTerminatedString("ISO-8859-1", 80);
-        chunkLength -= metadata.sPLT_paletteName.length() + 1;
+        metbdbtb.sPLT_pbletteNbme = rebdNullTerminbtedString("ISO-8859-1", 80);
+        chunkLength -= metbdbtb.sPLT_pbletteNbme.length() + 1;
 
-        int sampleDepth = stream.readUnsignedByte();
-        metadata.sPLT_sampleDepth = sampleDepth;
+        int sbmpleDepth = strebm.rebdUnsignedByte();
+        metbdbtb.sPLT_sbmpleDepth = sbmpleDepth;
 
-        int numEntries = chunkLength/(4*(sampleDepth/8) + 2);
-        metadata.sPLT_red = new int[numEntries];
-        metadata.sPLT_green = new int[numEntries];
-        metadata.sPLT_blue = new int[numEntries];
-        metadata.sPLT_alpha = new int[numEntries];
-        metadata.sPLT_frequency = new int[numEntries];
+        int numEntries = chunkLength/(4*(sbmpleDepth/8) + 2);
+        metbdbtb.sPLT_red = new int[numEntries];
+        metbdbtb.sPLT_green = new int[numEntries];
+        metbdbtb.sPLT_blue = new int[numEntries];
+        metbdbtb.sPLT_blphb = new int[numEntries];
+        metbdbtb.sPLT_frequency = new int[numEntries];
 
-        if (sampleDepth == 8) {
+        if (sbmpleDepth == 8) {
             for (int i = 0; i < numEntries; i++) {
-                metadata.sPLT_red[i] = stream.readUnsignedByte();
-                metadata.sPLT_green[i] = stream.readUnsignedByte();
-                metadata.sPLT_blue[i] = stream.readUnsignedByte();
-                metadata.sPLT_alpha[i] = stream.readUnsignedByte();
-                metadata.sPLT_frequency[i] = stream.readUnsignedShort();
+                metbdbtb.sPLT_red[i] = strebm.rebdUnsignedByte();
+                metbdbtb.sPLT_green[i] = strebm.rebdUnsignedByte();
+                metbdbtb.sPLT_blue[i] = strebm.rebdUnsignedByte();
+                metbdbtb.sPLT_blphb[i] = strebm.rebdUnsignedByte();
+                metbdbtb.sPLT_frequency[i] = strebm.rebdUnsignedShort();
             }
-        } else if (sampleDepth == 16) {
+        } else if (sbmpleDepth == 16) {
             for (int i = 0; i < numEntries; i++) {
-                metadata.sPLT_red[i] = stream.readUnsignedShort();
-                metadata.sPLT_green[i] = stream.readUnsignedShort();
-                metadata.sPLT_blue[i] = stream.readUnsignedShort();
-                metadata.sPLT_alpha[i] = stream.readUnsignedShort();
-                metadata.sPLT_frequency[i] = stream.readUnsignedShort();
+                metbdbtb.sPLT_red[i] = strebm.rebdUnsignedShort();
+                metbdbtb.sPLT_green[i] = strebm.rebdUnsignedShort();
+                metbdbtb.sPLT_blue[i] = strebm.rebdUnsignedShort();
+                metbdbtb.sPLT_blphb[i] = strebm.rebdUnsignedShort();
+                metbdbtb.sPLT_frequency[i] = strebm.rebdUnsignedShort();
             }
         } else {
-            throw new IIOException("sPLT sample depth not 8 or 16!");
+            throw new IIOException("sPLT sbmple depth not 8 or 16!");
         }
 
-        metadata.sPLT_present = true;
+        metbdbtb.sPLT_present = true;
     }
 
-    private void parse_sRGB_chunk() throws IOException {
-        metadata.sRGB_renderingIntent = stream.readUnsignedByte();
+    privbte void pbrse_sRGB_chunk() throws IOException {
+        metbdbtb.sRGB_renderingIntent = strebm.rebdUnsignedByte();
 
-        metadata.sRGB_present = true;
+        metbdbtb.sRGB_present = true;
     }
 
-    private void parse_tEXt_chunk(int chunkLength) throws IOException {
-        String keyword = readNullTerminatedString("ISO-8859-1", 80);
-        metadata.tEXt_keyword.add(keyword);
+    privbte void pbrse_tEXt_chunk(int chunkLength) throws IOException {
+        String keyword = rebdNullTerminbtedString("ISO-8859-1", 80);
+        metbdbtb.tEXt_keyword.bdd(keyword);
 
         byte[] b = new byte[chunkLength - keyword.length() - 1];
-        stream.readFully(b);
-        metadata.tEXt_text.add(new String(b, "ISO-8859-1"));
+        strebm.rebdFully(b);
+        metbdbtb.tEXt_text.bdd(new String(b, "ISO-8859-1"));
     }
 
-    private void parse_tIME_chunk() throws IOException {
-        metadata.tIME_year = stream.readUnsignedShort();
-        metadata.tIME_month = stream.readUnsignedByte();
-        metadata.tIME_day = stream.readUnsignedByte();
-        metadata.tIME_hour = stream.readUnsignedByte();
-        metadata.tIME_minute = stream.readUnsignedByte();
-        metadata.tIME_second = stream.readUnsignedByte();
+    privbte void pbrse_tIME_chunk() throws IOException {
+        metbdbtb.tIME_yebr = strebm.rebdUnsignedShort();
+        metbdbtb.tIME_month = strebm.rebdUnsignedByte();
+        metbdbtb.tIME_dby = strebm.rebdUnsignedByte();
+        metbdbtb.tIME_hour = strebm.rebdUnsignedByte();
+        metbdbtb.tIME_minute = strebm.rebdUnsignedByte();
+        metbdbtb.tIME_second = strebm.rebdUnsignedByte();
 
-        metadata.tIME_present = true;
+        metbdbtb.tIME_present = true;
     }
 
-    private void parse_tRNS_chunk(int chunkLength) throws IOException {
-        int colorType = metadata.IHDR_colorType;
+    privbte void pbrse_tRNS_chunk(int chunkLength) throws IOException {
+        int colorType = metbdbtb.IHDR_colorType;
         if (colorType == PNG_COLOR_PALETTE) {
-            if (!metadata.PLTE_present) {
-                processWarningOccurred(
+            if (!metbdbtb.PLTE_present) {
+                processWbrningOccurred(
 "tRNS chunk without prior PLTE chunk, ignoring it.");
                 return;
             }
 
-            // Alpha table may have fewer entries than RGB palette
-            int maxEntries = metadata.PLTE_red.length;
+            // Alphb tbble mby hbve fewer entries thbn RGB pblette
+            int mbxEntries = metbdbtb.PLTE_red.length;
             int numEntries = chunkLength;
-            if (numEntries > maxEntries) {
-                processWarningOccurred(
-"tRNS chunk has more entries than prior PLTE chunk, ignoring extras.");
-                numEntries = maxEntries;
+            if (numEntries > mbxEntries) {
+                processWbrningOccurred(
+"tRNS chunk hbs more entries thbn prior PLTE chunk, ignoring extrbs.");
+                numEntries = mbxEntries;
             }
-            metadata.tRNS_alpha = new byte[numEntries];
-            metadata.tRNS_colorType = PNG_COLOR_PALETTE;
-            stream.read(metadata.tRNS_alpha, 0, numEntries);
-            stream.skipBytes(chunkLength - numEntries);
+            metbdbtb.tRNS_blphb = new byte[numEntries];
+            metbdbtb.tRNS_colorType = PNG_COLOR_PALETTE;
+            strebm.rebd(metbdbtb.tRNS_blphb, 0, numEntries);
+            strebm.skipBytes(chunkLength - numEntries);
         } else if (colorType == PNG_COLOR_GRAY) {
             if (chunkLength != 2) {
-                processWarningOccurred(
-"tRNS chunk for gray image must have length 2, ignoring chunk.");
-                stream.skipBytes(chunkLength);
+                processWbrningOccurred(
+"tRNS chunk for grby imbge must hbve length 2, ignoring chunk.");
+                strebm.skipBytes(chunkLength);
                 return;
             }
-            metadata.tRNS_gray = stream.readUnsignedShort();
-            metadata.tRNS_colorType = PNG_COLOR_GRAY;
+            metbdbtb.tRNS_grby = strebm.rebdUnsignedShort();
+            metbdbtb.tRNS_colorType = PNG_COLOR_GRAY;
         } else if (colorType == PNG_COLOR_RGB) {
             if (chunkLength != 6) {
-                processWarningOccurred(
-"tRNS chunk for RGB image must have length 6, ignoring chunk.");
-                stream.skipBytes(chunkLength);
+                processWbrningOccurred(
+"tRNS chunk for RGB imbge must hbve length 6, ignoring chunk.");
+                strebm.skipBytes(chunkLength);
                 return;
             }
-            metadata.tRNS_red = stream.readUnsignedShort();
-            metadata.tRNS_green = stream.readUnsignedShort();
-            metadata.tRNS_blue = stream.readUnsignedShort();
-            metadata.tRNS_colorType = PNG_COLOR_RGB;
+            metbdbtb.tRNS_red = strebm.rebdUnsignedShort();
+            metbdbtb.tRNS_green = strebm.rebdUnsignedShort();
+            metbdbtb.tRNS_blue = strebm.rebdUnsignedShort();
+            metbdbtb.tRNS_colorType = PNG_COLOR_RGB;
         } else {
-            processWarningOccurred(
-"Gray+Alpha and RGBS images may not have a tRNS chunk, ignoring it.");
+            processWbrningOccurred(
+"Grby+Alphb bnd RGBS imbges mby not hbve b tRNS chunk, ignoring it.");
             return;
         }
 
-        metadata.tRNS_present = true;
+        metbdbtb.tRNS_present = true;
     }
 
-    private static byte[] inflate(byte[] b) throws IOException {
-        InputStream bais = new ByteArrayInputStream(b);
-        InputStream iis = new InflaterInputStream(bais);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    privbte stbtic byte[] inflbte(byte[] b) throws IOException {
+        InputStrebm bbis = new ByteArrbyInputStrebm(b);
+        InputStrebm iis = new InflbterInputStrebm(bbis);
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
 
         int c;
         try {
-            while ((c = iis.read()) != -1) {
-                baos.write(c);
+            while ((c = iis.rebd()) != -1) {
+                bbos.write(c);
             }
-        } finally {
+        } finblly {
             iis.close();
         }
-        return baos.toByteArray();
+        return bbos.toByteArrby();
     }
 
-    private void parse_zTXt_chunk(int chunkLength) throws IOException {
-        String keyword = readNullTerminatedString("ISO-8859-1", 80);
-        metadata.zTXt_keyword.add(keyword);
+    privbte void pbrse_zTXt_chunk(int chunkLength) throws IOException {
+        String keyword = rebdNullTerminbtedString("ISO-8859-1", 80);
+        metbdbtb.zTXt_keyword.bdd(keyword);
 
-        int method = stream.readUnsignedByte();
-        metadata.zTXt_compressionMethod.add(method);
+        int method = strebm.rebdUnsignedByte();
+        metbdbtb.zTXt_compressionMethod.bdd(method);
 
         byte[] b = new byte[chunkLength - keyword.length() - 2];
-        stream.readFully(b);
-        metadata.zTXt_text.add(new String(inflate(b), "ISO-8859-1"));
+        strebm.rebdFully(b);
+        metbdbtb.zTXt_text.bdd(new String(inflbte(b), "ISO-8859-1"));
     }
 
-    private void readMetadata() throws IIOException {
-        if (gotMetadata) {
+    privbte void rebdMetbdbtb() throws IIOException {
+        if (gotMetbdbtb) {
             return;
         }
 
-        readHeader();
+        rebdHebder();
 
         /*
-         * Optimization: We can skip the remaining metadata if the
-         * ignoreMetadata flag is set, and only if this is not a palette
-         * image (in that case, we need to read the metadata to get the
-         * tRNS chunk, which is needed for the getImageTypes() method).
+         * Optimizbtion: We cbn skip the rembining metbdbtb if the
+         * ignoreMetbdbtb flbg is set, bnd only if this is not b pblette
+         * imbge (in thbt cbse, we need to rebd the metbdbtb to get the
+         * tRNS chunk, which is needed for the getImbgeTypes() method).
          */
-        int colorType = metadata.IHDR_colorType;
-        if (ignoreMetadata && colorType != PNG_COLOR_PALETTE) {
+        int colorType = metbdbtb.IHDR_colorType;
+        if (ignoreMetbdbtb && colorType != PNG_COLOR_PALETTE) {
             try {
                 while (true) {
-                    int chunkLength = stream.readInt();
+                    int chunkLength = strebm.rebdInt();
 
                     // verify the chunk length first
                     if (chunkLength < 0 || chunkLength + 4 < 0) {
-                        throw new IIOException("Invalid chunk length " + chunkLength);
+                        throw new IIOException("Invblid chunk length " + chunkLength);
                     }
 
-                    int chunkType = stream.readInt();
+                    int chunkType = strebm.rebdInt();
 
                     if (chunkType == IDAT_TYPE) {
-                        // We've reached the image data
-                        stream.skipBytes(-8);
-                        imageStartPosition = stream.getStreamPosition();
-                        break;
+                        // We've rebched the imbge dbtb
+                        strebm.skipBytes(-8);
+                        imbgeStbrtPosition = strebm.getStrebmPosition();
+                        brebk;
                     } else {
-                        // Skip the chunk plus the 4 CRC bytes that follow
-                        stream.skipBytes(chunkLength + 4);
+                        // Skip the chunk plus the 4 CRC bytes thbt follow
+                        strebm.skipBytes(chunkLength + 4);
                     }
                 }
-            } catch (IOException e) {
-                throw new IIOException("Error skipping PNG metadata", e);
+            } cbtch (IOException e) {
+                throw new IIOException("Error skipping PNG metbdbtb", e);
             }
 
-            gotMetadata = true;
+            gotMetbdbtb = true;
             return;
         }
 
         try {
             loop: while (true) {
-                int chunkLength = stream.readInt();
-                int chunkType = stream.readInt();
+                int chunkLength = strebm.rebdInt();
+                int chunkType = strebm.rebdInt();
                 int chunkCRC;
 
                 // verify the chunk length
                 if (chunkLength < 0) {
-                    throw new IIOException("Invalid chunk length " + chunkLength);
+                    throw new IIOException("Invblid chunk length " + chunkLength);
                 };
 
                 try {
-                    stream.mark();
-                    stream.seek(stream.getStreamPosition() + chunkLength);
-                    chunkCRC = stream.readInt();
-                    stream.reset();
-                } catch (IOException e) {
-                    throw new IIOException("Invalid chunk length " + chunkLength);
+                    strebm.mbrk();
+                    strebm.seek(strebm.getStrebmPosition() + chunkLength);
+                    chunkCRC = strebm.rebdInt();
+                    strebm.reset();
+                } cbtch (IOException e) {
+                    throw new IIOException("Invblid chunk length " + chunkLength);
                 }
 
                 switch (chunkType) {
-                case IDAT_TYPE:
-                    // If chunk type is 'IDAT', we've reached the image data.
-                    stream.skipBytes(-8);
-                    imageStartPosition = stream.getStreamPosition();
-                    break loop;
-                case PLTE_TYPE:
-                    parse_PLTE_chunk(chunkLength);
-                    break;
-                case bKGD_TYPE:
-                    parse_bKGD_chunk();
-                    break;
-                case cHRM_TYPE:
-                    parse_cHRM_chunk();
-                    break;
-                case gAMA_TYPE:
-                    parse_gAMA_chunk();
-                    break;
-                case hIST_TYPE:
-                    parse_hIST_chunk(chunkLength);
-                    break;
-                case iCCP_TYPE:
-                    parse_iCCP_chunk(chunkLength);
-                    break;
-                case iTXt_TYPE:
-                    parse_iTXt_chunk(chunkLength);
-                    break;
-                case pHYs_TYPE:
-                    parse_pHYs_chunk();
-                    break;
-                case sBIT_TYPE:
-                    parse_sBIT_chunk();
-                    break;
-                case sPLT_TYPE:
-                    parse_sPLT_chunk(chunkLength);
-                    break;
-                case sRGB_TYPE:
-                    parse_sRGB_chunk();
-                    break;
-                case tEXt_TYPE:
-                    parse_tEXt_chunk(chunkLength);
-                    break;
-                case tIME_TYPE:
-                    parse_tIME_chunk();
-                    break;
-                case tRNS_TYPE:
-                    parse_tRNS_chunk(chunkLength);
-                    break;
-                case zTXt_TYPE:
-                    parse_zTXt_chunk(chunkLength);
-                    break;
-                default:
-                    // Read an unknown chunk
+                cbse IDAT_TYPE:
+                    // If chunk type is 'IDAT', we've rebched the imbge dbtb.
+                    strebm.skipBytes(-8);
+                    imbgeStbrtPosition = strebm.getStrebmPosition();
+                    brebk loop;
+                cbse PLTE_TYPE:
+                    pbrse_PLTE_chunk(chunkLength);
+                    brebk;
+                cbse bKGD_TYPE:
+                    pbrse_bKGD_chunk();
+                    brebk;
+                cbse cHRM_TYPE:
+                    pbrse_cHRM_chunk();
+                    brebk;
+                cbse gAMA_TYPE:
+                    pbrse_gAMA_chunk();
+                    brebk;
+                cbse hIST_TYPE:
+                    pbrse_hIST_chunk(chunkLength);
+                    brebk;
+                cbse iCCP_TYPE:
+                    pbrse_iCCP_chunk(chunkLength);
+                    brebk;
+                cbse iTXt_TYPE:
+                    pbrse_iTXt_chunk(chunkLength);
+                    brebk;
+                cbse pHYs_TYPE:
+                    pbrse_pHYs_chunk();
+                    brebk;
+                cbse sBIT_TYPE:
+                    pbrse_sBIT_chunk();
+                    brebk;
+                cbse sPLT_TYPE:
+                    pbrse_sPLT_chunk(chunkLength);
+                    brebk;
+                cbse sRGB_TYPE:
+                    pbrse_sRGB_chunk();
+                    brebk;
+                cbse tEXt_TYPE:
+                    pbrse_tEXt_chunk(chunkLength);
+                    brebk;
+                cbse tIME_TYPE:
+                    pbrse_tIME_chunk();
+                    brebk;
+                cbse tRNS_TYPE:
+                    pbrse_tRNS_chunk(chunkLength);
+                    brebk;
+                cbse zTXt_TYPE:
+                    pbrse_zTXt_chunk(chunkLength);
+                    brebk;
+                defbult:
+                    // Rebd bn unknown chunk
                     byte[] b = new byte[chunkLength];
-                    stream.readFully(b);
+                    strebm.rebdFully(b);
 
-                    StringBuilder chunkName = new StringBuilder(4);
-                    chunkName.append((char)(chunkType >>> 24));
-                    chunkName.append((char)((chunkType >> 16) & 0xff));
-                    chunkName.append((char)((chunkType >> 8) & 0xff));
-                    chunkName.append((char)(chunkType & 0xff));
+                    StringBuilder chunkNbme = new StringBuilder(4);
+                    chunkNbme.bppend((chbr)(chunkType >>> 24));
+                    chunkNbme.bppend((chbr)((chunkType >> 16) & 0xff));
+                    chunkNbme.bppend((chbr)((chunkType >> 8) & 0xff));
+                    chunkNbme.bppend((chbr)(chunkType & 0xff));
 
-                    int ancillaryBit = chunkType >>> 28;
-                    if (ancillaryBit == 0) {
-                        processWarningOccurred(
-"Encountered unknown chunk with critical bit set!");
+                    int bncillbryBit = chunkType >>> 28;
+                    if (bncillbryBit == 0) {
+                        processWbrningOccurred(
+"Encountered unknown chunk with criticbl bit set!");
                     }
 
-                    metadata.unknownChunkType.add(chunkName.toString());
-                    metadata.unknownChunkData.add(b);
-                    break;
+                    metbdbtb.unknownChunkType.bdd(chunkNbme.toString());
+                    metbdbtb.unknownChunkDbtb.bdd(b);
+                    brebk;
                 }
 
-                // double check whether all chunk data were consumed
-                if (chunkCRC != stream.readInt()) {
-                    throw new IIOException("Failed to read a chunk of type " +
+                // double check whether bll chunk dbtb were consumed
+                if (chunkCRC != strebm.rebdInt()) {
+                    throw new IIOException("Fbiled to rebd b chunk of type " +
                             chunkType);
                 }
-                stream.flushBefore(stream.getStreamPosition());
+                strebm.flushBefore(strebm.getStrebmPosition());
             }
-        } catch (IOException e) {
-            throw new IIOException("Error reading PNG metadata", e);
+        } cbtch (IOException e) {
+            throw new IIOException("Error rebding PNG metbdbtb", e);
         }
 
-        gotMetadata = true;
+        gotMetbdbtb = true;
     }
 
-    // Data filtering methods
+    // Dbtb filtering methods
 
-    private static void decodeSubFilter(byte[] curr, int coff, int count,
+    privbte stbtic void decodeSubFilter(byte[] curr, int coff, int count,
                                         int bpp) {
         for (int i = bpp; i < count; i++) {
-            int val;
+            int vbl;
 
-            val = curr[i + coff] & 0xff;
-            val += curr[i + coff - bpp] & 0xff;
+            vbl = curr[i + coff] & 0xff;
+            vbl += curr[i + coff - bpp] & 0xff;
 
-            curr[i + coff] = (byte)val;
+            curr[i + coff] = (byte)vbl;
         }
     }
 
-    private static void decodeUpFilter(byte[] curr, int coff,
+    privbte stbtic void decodeUpFilter(byte[] curr, int coff,
                                        byte[] prev, int poff,
                                        int count) {
         for (int i = 0; i < count; i++) {
-            int raw = curr[i + coff] & 0xff;
+            int rbw = curr[i + coff] & 0xff;
             int prior = prev[i + poff] & 0xff;
 
-            curr[i + coff] = (byte)(raw + prior);
+            curr[i + coff] = (byte)(rbw + prior);
         }
     }
 
-    private static void decodeAverageFilter(byte[] curr, int coff,
+    privbte stbtic void decodeAverbgeFilter(byte[] curr, int coff,
                                             byte[] prev, int poff,
                                             int count, int bpp) {
-        int raw, priorPixel, priorRow;
+        int rbw, priorPixel, priorRow;
 
         for (int i = 0; i < bpp; i++) {
-            raw = curr[i + coff] & 0xff;
+            rbw = curr[i + coff] & 0xff;
             priorRow = prev[i + poff] & 0xff;
 
-            curr[i + coff] = (byte)(raw + priorRow/2);
+            curr[i + coff] = (byte)(rbw + priorRow/2);
         }
 
         for (int i = bpp; i < count; i++) {
-            raw = curr[i + coff] & 0xff;
+            rbw = curr[i + coff] & 0xff;
             priorPixel = curr[i + coff - bpp] & 0xff;
             priorRow = prev[i + poff] & 0xff;
 
-            curr[i + coff] = (byte)(raw + (priorPixel + priorRow)/2);
+            curr[i + coff] = (byte)(rbw + (priorPixel + priorRow)/2);
         }
     }
 
-    private static int paethPredictor(int a, int b, int c) {
-        int p = a + b - c;
-        int pa = Math.abs(p - a);
-        int pb = Math.abs(p - b);
-        int pc = Math.abs(p - c);
+    privbte stbtic int pbethPredictor(int b, int b, int c) {
+        int p = b + b - c;
+        int pb = Mbth.bbs(p - b);
+        int pb = Mbth.bbs(p - b);
+        int pc = Mbth.bbs(p - c);
 
-        if ((pa <= pb) && (pa <= pc)) {
-            return a;
+        if ((pb <= pb) && (pb <= pc)) {
+            return b;
         } else if (pb <= pc) {
             return b;
         } else {
@@ -858,31 +858,31 @@ public class PNGImageReader extends ImageReader {
         }
     }
 
-    private static void decodePaethFilter(byte[] curr, int coff,
+    privbte stbtic void decodePbethFilter(byte[] curr, int coff,
                                           byte[] prev, int poff,
                                           int count, int bpp) {
-        int raw, priorPixel, priorRow, priorRowPixel;
+        int rbw, priorPixel, priorRow, priorRowPixel;
 
         for (int i = 0; i < bpp; i++) {
-            raw = curr[i + coff] & 0xff;
+            rbw = curr[i + coff] & 0xff;
             priorRow = prev[i + poff] & 0xff;
 
-            curr[i + coff] = (byte)(raw + priorRow);
+            curr[i + coff] = (byte)(rbw + priorRow);
         }
 
         for (int i = bpp; i < count; i++) {
-            raw = curr[i + coff] & 0xff;
+            rbw = curr[i + coff] & 0xff;
             priorPixel = curr[i + coff - bpp] & 0xff;
             priorRow = prev[i + poff] & 0xff;
             priorRowPixel = prev[i + poff - bpp] & 0xff;
 
-            curr[i + coff] = (byte)(raw + paethPredictor(priorPixel,
+            curr[i + coff] = (byte)(rbw + pbethPredictor(priorPixel,
                                                          priorRow,
                                                          priorRowPixel));
         }
     }
 
-    private static final int[][] bandOffsets = {
+    privbte stbtic finbl int[][] bbndOffsets = {
         null,
         { 0 }, // G
         { 0, 1 }, // GA in GA order
@@ -890,738 +890,738 @@ public class PNGImageReader extends ImageReader {
         { 0, 1, 2, 3 } // RGBA in RGBA order
     };
 
-    private WritableRaster createRaster(int width, int height, int bands,
-                                        int scanlineStride,
+    privbte WritbbleRbster crebteRbster(int width, int height, int bbnds,
+                                        int scbnlineStride,
                                         int bitDepth) {
 
-        DataBuffer dataBuffer;
-        WritableRaster ras = null;
+        DbtbBuffer dbtbBuffer;
+        WritbbleRbster rbs = null;
         Point origin = new Point(0, 0);
-        if ((bitDepth < 8) && (bands == 1)) {
-            dataBuffer = new DataBufferByte(height*scanlineStride);
-            ras = Raster.createPackedRaster(dataBuffer,
+        if ((bitDepth < 8) && (bbnds == 1)) {
+            dbtbBuffer = new DbtbBufferByte(height*scbnlineStride);
+            rbs = Rbster.crebtePbckedRbster(dbtbBuffer,
                                             width, height,
                                             bitDepth,
                                             origin);
         } else if (bitDepth <= 8) {
-            dataBuffer = new DataBufferByte(height*scanlineStride);
-            ras = Raster.createInterleavedRaster(dataBuffer,
+            dbtbBuffer = new DbtbBufferByte(height*scbnlineStride);
+            rbs = Rbster.crebteInterlebvedRbster(dbtbBuffer,
                                                  width, height,
-                                                 scanlineStride,
-                                                 bands,
-                                                 bandOffsets[bands],
+                                                 scbnlineStride,
+                                                 bbnds,
+                                                 bbndOffsets[bbnds],
                                                  origin);
         } else {
-            dataBuffer = new DataBufferUShort(height*scanlineStride);
-            ras = Raster.createInterleavedRaster(dataBuffer,
+            dbtbBuffer = new DbtbBufferUShort(height*scbnlineStride);
+            rbs = Rbster.crebteInterlebvedRbster(dbtbBuffer,
                                                  width, height,
-                                                 scanlineStride,
-                                                 bands,
-                                                 bandOffsets[bands],
+                                                 scbnlineStride,
+                                                 bbnds,
+                                                 bbndOffsets[bbnds],
                                                  origin);
         }
 
-        return ras;
+        return rbs;
     }
 
-    private void skipPass(int passWidth, int passHeight)
+    privbte void skipPbss(int pbssWidth, int pbssHeight)
         throws IOException, IIOException  {
-        if ((passWidth == 0) || (passHeight == 0)) {
+        if ((pbssWidth == 0) || (pbssHeight == 0)) {
             return;
         }
 
-        int inputBands = inputBandsForColorType[metadata.IHDR_colorType];
-        int bytesPerRow = (inputBands*passWidth*metadata.IHDR_bitDepth + 7)/8;
+        int inputBbnds = inputBbndsForColorType[metbdbtb.IHDR_colorType];
+        int bytesPerRow = (inputBbnds*pbssWidth*metbdbtb.IHDR_bitDepth + 7)/8;
 
-        // Read the image row-by-row
-        for (int srcY = 0; srcY < passHeight; srcY++) {
-            // Skip filter byte and the remaining row bytes
-            pixelStream.skipBytes(1 + bytesPerRow);
+        // Rebd the imbge row-by-row
+        for (int srcY = 0; srcY < pbssHeight; srcY++) {
+            // Skip filter byte bnd the rembining row bytes
+            pixelStrebm.skipBytes(1 + bytesPerRow);
 
-            // If read has been aborted, just return
-            // processReadAborted will be called later
-            if (abortRequested()) {
+            // If rebd hbs been bborted, just return
+            // processRebdAborted will be cblled lbter
+            if (bbortRequested()) {
                 return;
             }
         }
     }
 
-    private void updateImageProgress(int newPixels) {
+    privbte void updbteImbgeProgress(int newPixels) {
         pixelsDone += newPixels;
-        processImageProgress(100.0F*pixelsDone/totalPixels);
+        processImbgeProgress(100.0F*pixelsDone/totblPixels);
     }
 
-    private void decodePass(int passNum,
-                            int xStart, int yStart,
+    privbte void decodePbss(int pbssNum,
+                            int xStbrt, int yStbrt,
                             int xStep, int yStep,
-                            int passWidth, int passHeight) throws IOException {
+                            int pbssWidth, int pbssHeight) throws IOException {
 
-        if ((passWidth == 0) || (passHeight == 0)) {
+        if ((pbssWidth == 0) || (pbssHeight == 0)) {
             return;
         }
 
-        WritableRaster imRas = theImage.getWritableTile(0, 0);
-        int dstMinX = imRas.getMinX();
-        int dstMaxX = dstMinX + imRas.getWidth() - 1;
-        int dstMinY = imRas.getMinY();
-        int dstMaxY = dstMinY + imRas.getHeight() - 1;
+        WritbbleRbster imRbs = theImbge.getWritbbleTile(0, 0);
+        int dstMinX = imRbs.getMinX();
+        int dstMbxX = dstMinX + imRbs.getWidth() - 1;
+        int dstMinY = imRbs.getMinY();
+        int dstMbxY = dstMinY + imRbs.getHeight() - 1;
 
-        // Determine which pixels will be updated in this pass
-        int[] vals =
-          ReaderUtil.computeUpdatedPixels(sourceRegion,
-                                          destinationOffset,
+        // Determine which pixels will be updbted in this pbss
+        int[] vbls =
+          RebderUtil.computeUpdbtedPixels(sourceRegion,
+                                          destinbtionOffset,
                                           dstMinX, dstMinY,
-                                          dstMaxX, dstMaxY,
-                                          sourceXSubsampling,
-                                          sourceYSubsampling,
-                                          xStart, yStart,
-                                          passWidth, passHeight,
+                                          dstMbxX, dstMbxY,
+                                          sourceXSubsbmpling,
+                                          sourceYSubsbmpling,
+                                          xStbrt, yStbrt,
+                                          pbssWidth, pbssHeight,
                                           xStep, yStep);
-        int updateMinX = vals[0];
-        int updateMinY = vals[1];
-        int updateWidth = vals[2];
-        int updateXStep = vals[4];
-        int updateYStep = vals[5];
+        int updbteMinX = vbls[0];
+        int updbteMinY = vbls[1];
+        int updbteWidth = vbls[2];
+        int updbteXStep = vbls[4];
+        int updbteYStep = vbls[5];
 
-        int bitDepth = metadata.IHDR_bitDepth;
-        int inputBands = inputBandsForColorType[metadata.IHDR_colorType];
+        int bitDepth = metbdbtb.IHDR_bitDepth;
+        int inputBbnds = inputBbndsForColorType[metbdbtb.IHDR_colorType];
         int bytesPerPixel = (bitDepth == 16) ? 2 : 1;
-        bytesPerPixel *= inputBands;
+        bytesPerPixel *= inputBbnds;
 
-        int bytesPerRow = (inputBands*passWidth*bitDepth + 7)/8;
+        int bytesPerRow = (inputBbnds*pbssWidth*bitDepth + 7)/8;
         int eltsPerRow = (bitDepth == 16) ? bytesPerRow/2 : bytesPerRow;
 
-        // If no pixels need updating, just skip the input data
-        if (updateWidth == 0) {
-            for (int srcY = 0; srcY < passHeight; srcY++) {
-                // Update count of pixels read
-                updateImageProgress(passWidth);
-                // Skip filter byte and the remaining row bytes
-                pixelStream.skipBytes(1 + bytesPerRow);
+        // If no pixels need updbting, just skip the input dbtb
+        if (updbteWidth == 0) {
+            for (int srcY = 0; srcY < pbssHeight; srcY++) {
+                // Updbte count of pixels rebd
+                updbteImbgeProgress(pbssWidth);
+                // Skip filter byte bnd the rembining row bytes
+                pixelStrebm.skipBytes(1 + bytesPerRow);
             }
             return;
         }
 
-        // Backwards map from destination pixels
-        // (dstX = updateMinX + k*updateXStep)
-        // to source pixels (sourceX), and then
-        // to offset and skip in passRow (srcX and srcXStep)
+        // Bbckwbrds mbp from destinbtion pixels
+        // (dstX = updbteMinX + k*updbteXStep)
+        // to source pixels (sourceX), bnd then
+        // to offset bnd skip in pbssRow (srcX bnd srcXStep)
         int sourceX =
-            (updateMinX - destinationOffset.x)*sourceXSubsampling +
+            (updbteMinX - destinbtionOffset.x)*sourceXSubsbmpling +
             sourceRegion.x;
-        int srcX = (sourceX - xStart)/xStep;
+        int srcX = (sourceX - xStbrt)/xStep;
 
-        // Compute the step factor in the source
-        int srcXStep = updateXStep*sourceXSubsampling/xStep;
+        // Compute the step fbctor in the source
+        int srcXStep = updbteXStep*sourceXSubsbmpling/xStep;
 
-        byte[] byteData = null;
-        short[] shortData = null;
+        byte[] byteDbtb = null;
+        short[] shortDbtb = null;
         byte[] curr = new byte[bytesPerRow];
         byte[] prior = new byte[bytesPerRow];
 
-        // Create a 1-row tall Raster to hold the data
-        WritableRaster passRow = createRaster(passWidth, 1, inputBands,
+        // Crebte b 1-row tbll Rbster to hold the dbtb
+        WritbbleRbster pbssRow = crebteRbster(pbssWidth, 1, inputBbnds,
                                               eltsPerRow,
                                               bitDepth);
 
-        // Create an array suitable for holding one pixel
-        int[] ps = passRow.getPixel(0, 0, (int[])null);
+        // Crebte bn brrby suitbble for holding one pixel
+        int[] ps = pbssRow.getPixel(0, 0, (int[])null);
 
-        DataBuffer dataBuffer = passRow.getDataBuffer();
-        int type = dataBuffer.getDataType();
-        if (type == DataBuffer.TYPE_BYTE) {
-            byteData = ((DataBufferByte)dataBuffer).getData();
+        DbtbBuffer dbtbBuffer = pbssRow.getDbtbBuffer();
+        int type = dbtbBuffer.getDbtbType();
+        if (type == DbtbBuffer.TYPE_BYTE) {
+            byteDbtb = ((DbtbBufferByte)dbtbBuffer).getDbtb();
         } else {
-            shortData = ((DataBufferUShort)dataBuffer).getData();
+            shortDbtb = ((DbtbBufferUShort)dbtbBuffer).getDbtb();
         }
 
-        processPassStarted(theImage,
-                           passNum,
-                           sourceMinProgressivePass,
-                           sourceMaxProgressivePass,
-                           updateMinX, updateMinY,
-                           updateXStep, updateYStep,
-                           destinationBands);
+        processPbssStbrted(theImbge,
+                           pbssNum,
+                           sourceMinProgressivePbss,
+                           sourceMbxProgressivePbss,
+                           updbteMinX, updbteMinY,
+                           updbteXStep, updbteYStep,
+                           destinbtionBbnds);
 
-        // Handle source and destination bands
-        if (sourceBands != null) {
-            passRow = passRow.createWritableChild(0, 0,
-                                                  passRow.getWidth(), 1,
+        // Hbndle source bnd destinbtion bbnds
+        if (sourceBbnds != null) {
+            pbssRow = pbssRow.crebteWritbbleChild(0, 0,
+                                                  pbssRow.getWidth(), 1,
                                                   0, 0,
-                                                  sourceBands);
+                                                  sourceBbnds);
         }
-        if (destinationBands != null) {
-            imRas = imRas.createWritableChild(0, 0,
-                                              imRas.getWidth(),
-                                              imRas.getHeight(),
+        if (destinbtionBbnds != null) {
+            imRbs = imRbs.crebteWritbbleChild(0, 0,
+                                              imRbs.getWidth(),
+                                              imRbs.getHeight(),
                                               0, 0,
-                                              destinationBands);
+                                              destinbtionBbnds);
         }
 
-        // Determine if all of the relevant output bands have the
-        // same bit depth as the source data
-        boolean adjustBitDepths = false;
-        int[] outputSampleSize = imRas.getSampleModel().getSampleSize();
-        int numBands = outputSampleSize.length;
-        for (int b = 0; b < numBands; b++) {
-            if (outputSampleSize[b] != bitDepth) {
-                adjustBitDepths = true;
-                break;
+        // Determine if bll of the relevbnt output bbnds hbve the
+        // sbme bit depth bs the source dbtb
+        boolebn bdjustBitDepths = fblse;
+        int[] outputSbmpleSize = imRbs.getSbmpleModel().getSbmpleSize();
+        int numBbnds = outputSbmpleSize.length;
+        for (int b = 0; b < numBbnds; b++) {
+            if (outputSbmpleSize[b] != bitDepth) {
+                bdjustBitDepths = true;
+                brebk;
             }
         }
 
-        // If the bit depths differ, create a lookup table per band to perform
+        // If the bit depths differ, crebte b lookup tbble per bbnd to perform
         // the conversion
-        int[][] scale = null;
-        if (adjustBitDepths) {
-            int maxInSample = (1 << bitDepth) - 1;
-            int halfMaxInSample = maxInSample/2;
-            scale = new int[numBands][];
-            for (int b = 0; b < numBands; b++) {
-                int maxOutSample = (1 << outputSampleSize[b]) - 1;
-                scale[b] = new int[maxInSample + 1];
-                for (int s = 0; s <= maxInSample; s++) {
-                    scale[b][s] =
-                        (s*maxOutSample + halfMaxInSample)/maxInSample;
+        int[][] scble = null;
+        if (bdjustBitDepths) {
+            int mbxInSbmple = (1 << bitDepth) - 1;
+            int hblfMbxInSbmple = mbxInSbmple/2;
+            scble = new int[numBbnds][];
+            for (int b = 0; b < numBbnds; b++) {
+                int mbxOutSbmple = (1 << outputSbmpleSize[b]) - 1;
+                scble[b] = new int[mbxInSbmple + 1];
+                for (int s = 0; s <= mbxInSbmple; s++) {
+                    scble[b][s] =
+                        (s*mbxOutSbmple + hblfMbxInSbmple)/mbxInSbmple;
                 }
             }
         }
 
-        // Limit passRow to relevant area for the case where we
-        // will can setRect to copy a contiguous span
-        boolean useSetRect = srcXStep == 1 &&
-            updateXStep == 1 &&
-            !adjustBitDepths &&
-            (imRas instanceof ByteInterleavedRaster);
+        // Limit pbssRow to relevbnt breb for the cbse where we
+        // will cbn setRect to copy b contiguous spbn
+        boolebn useSetRect = srcXStep == 1 &&
+            updbteXStep == 1 &&
+            !bdjustBitDepths &&
+            (imRbs instbnceof ByteInterlebvedRbster);
 
         if (useSetRect) {
-            passRow = passRow.createWritableChild(srcX, 0,
-                                                  updateWidth, 1,
+            pbssRow = pbssRow.crebteWritbbleChild(srcX, 0,
+                                                  updbteWidth, 1,
                                                   0, 0,
                                                   null);
         }
 
-        // Decode the (sub)image row-by-row
-        for (int srcY = 0; srcY < passHeight; srcY++) {
-            // Update count of pixels read
-            updateImageProgress(passWidth);
+        // Decode the (sub)imbge row-by-row
+        for (int srcY = 0; srcY < pbssHeight; srcY++) {
+            // Updbte count of pixels rebd
+            updbteImbgeProgress(pbssWidth);
 
-            // Read the filter type byte and a row of data
-            int filter = pixelStream.read();
+            // Rebd the filter type byte bnd b row of dbtb
+            int filter = pixelStrebm.rebd();
             try {
-                // Swap curr and prior
+                // Swbp curr bnd prior
                 byte[] tmp = prior;
                 prior = curr;
                 curr = tmp;
 
-                pixelStream.readFully(curr, 0, bytesPerRow);
-            } catch (java.util.zip.ZipException ze) {
-                // TODO - throw a more meaningful exception
+                pixelStrebm.rebdFully(curr, 0, bytesPerRow);
+            } cbtch (jbvb.util.zip.ZipException ze) {
+                // TODO - throw b more mebningful exception
                 throw ze;
             }
 
             switch (filter) {
-            case PNG_FILTER_NONE:
-                break;
-            case PNG_FILTER_SUB:
+            cbse PNG_FILTER_NONE:
+                brebk;
+            cbse PNG_FILTER_SUB:
                 decodeSubFilter(curr, 0, bytesPerRow, bytesPerPixel);
-                break;
-            case PNG_FILTER_UP:
+                brebk;
+            cbse PNG_FILTER_UP:
                 decodeUpFilter(curr, 0, prior, 0, bytesPerRow);
-                break;
-            case PNG_FILTER_AVERAGE:
-                decodeAverageFilter(curr, 0, prior, 0, bytesPerRow,
+                brebk;
+            cbse PNG_FILTER_AVERAGE:
+                decodeAverbgeFilter(curr, 0, prior, 0, bytesPerRow,
                                     bytesPerPixel);
-                break;
-            case PNG_FILTER_PAETH:
-                decodePaethFilter(curr, 0, prior, 0, bytesPerRow,
+                brebk;
+            cbse PNG_FILTER_PAETH:
+                decodePbethFilter(curr, 0, prior, 0, bytesPerRow,
                                   bytesPerPixel);
-                break;
-            default:
+                brebk;
+            defbult:
                 throw new IIOException("Unknown row filter type (= " +
                                        filter + ")!");
             }
 
-            // Copy data into passRow byte by byte
+            // Copy dbtb into pbssRow byte by byte
             if (bitDepth < 16) {
-                System.arraycopy(curr, 0, byteData, 0, bytesPerRow);
+                System.brrbycopy(curr, 0, byteDbtb, 0, bytesPerRow);
             } else {
                 int idx = 0;
                 for (int j = 0; j < eltsPerRow; j++) {
-                    shortData[j] =
+                    shortDbtb[j] =
                         (short)((curr[idx] << 8) | (curr[idx + 1] & 0xff));
                     idx += 2;
                 }
             }
 
             // True Y position in source
-            int sourceY = srcY*yStep + yStart;
+            int sourceY = srcY*yStep + yStbrt;
             if ((sourceY >= sourceRegion.y) &&
                 (sourceY < sourceRegion.y + sourceRegion.height) &&
                 (((sourceY - sourceRegion.y) %
-                  sourceYSubsampling) == 0)) {
+                  sourceYSubsbmpling) == 0)) {
 
-                int dstY = destinationOffset.y +
-                    (sourceY - sourceRegion.y)/sourceYSubsampling;
+                int dstY = destinbtionOffset.y +
+                    (sourceY - sourceRegion.y)/sourceYSubsbmpling;
                 if (dstY < dstMinY) {
                     continue;
                 }
-                if (dstY > dstMaxY) {
-                    break;
+                if (dstY > dstMbxY) {
+                    brebk;
                 }
 
                 if (useSetRect) {
-                    imRas.setRect(updateMinX, dstY, passRow);
+                    imRbs.setRect(updbteMinX, dstY, pbssRow);
                 } else {
                     int newSrcX = srcX;
 
-                    for (int dstX = updateMinX;
-                         dstX < updateMinX + updateWidth;
-                         dstX += updateXStep) {
+                    for (int dstX = updbteMinX;
+                         dstX < updbteMinX + updbteWidth;
+                         dstX += updbteXStep) {
 
-                        passRow.getPixel(newSrcX, 0, ps);
-                        if (adjustBitDepths) {
-                            for (int b = 0; b < numBands; b++) {
-                                ps[b] = scale[b][ps[b]];
+                        pbssRow.getPixel(newSrcX, 0, ps);
+                        if (bdjustBitDepths) {
+                            for (int b = 0; b < numBbnds; b++) {
+                                ps[b] = scble[b][ps[b]];
                             }
                         }
-                        imRas.setPixel(dstX, dstY, ps);
+                        imRbs.setPixel(dstX, dstY, ps);
                         newSrcX += srcXStep;
                     }
                 }
 
-                processImageUpdate(theImage,
-                                   updateMinX, dstY,
-                                   updateWidth, 1,
-                                   updateXStep, updateYStep,
-                                   destinationBands);
+                processImbgeUpdbte(theImbge,
+                                   updbteMinX, dstY,
+                                   updbteWidth, 1,
+                                   updbteXStep, updbteYStep,
+                                   destinbtionBbnds);
 
-                // If read has been aborted, just return
-                // processReadAborted will be called later
-                if (abortRequested()) {
+                // If rebd hbs been bborted, just return
+                // processRebdAborted will be cblled lbter
+                if (bbortRequested()) {
                     return;
                 }
             }
         }
 
-        processPassComplete(theImage);
+        processPbssComplete(theImbge);
     }
 
-    private void decodeImage()
+    privbte void decodeImbge()
         throws IOException, IIOException  {
-        int width = metadata.IHDR_width;
-        int height = metadata.IHDR_height;
+        int width = metbdbtb.IHDR_width;
+        int height = metbdbtb.IHDR_height;
 
         this.pixelsDone = 0;
-        this.totalPixels = width*height;
+        this.totblPixels = width*height;
 
-        clearAbortRequest();
+        clebrAbortRequest();
 
-        if (metadata.IHDR_interlaceMethod == 0) {
-            decodePass(0, 0, 0, 1, 1, width, height);
+        if (metbdbtb.IHDR_interlbceMethod == 0) {
+            decodePbss(0, 0, 0, 1, 1, width, height);
         } else {
-            for (int i = 0; i <= sourceMaxProgressivePass; i++) {
-                int XOffset = adam7XOffset[i];
-                int YOffset = adam7YOffset[i];
-                int XSubsampling = adam7XSubsampling[i];
-                int YSubsampling = adam7YSubsampling[i];
-                int xbump = adam7XSubsampling[i + 1] - 1;
-                int ybump = adam7YSubsampling[i + 1] - 1;
+            for (int i = 0; i <= sourceMbxProgressivePbss; i++) {
+                int XOffset = bdbm7XOffset[i];
+                int YOffset = bdbm7YOffset[i];
+                int XSubsbmpling = bdbm7XSubsbmpling[i];
+                int YSubsbmpling = bdbm7YSubsbmpling[i];
+                int xbump = bdbm7XSubsbmpling[i + 1] - 1;
+                int ybump = bdbm7YSubsbmpling[i + 1] - 1;
 
-                if (i >= sourceMinProgressivePass) {
-                    decodePass(i,
+                if (i >= sourceMinProgressivePbss) {
+                    decodePbss(i,
                                XOffset,
                                YOffset,
-                               XSubsampling,
-                               YSubsampling,
-                               (width + xbump)/XSubsampling,
-                               (height + ybump)/YSubsampling);
+                               XSubsbmpling,
+                               YSubsbmpling,
+                               (width + xbump)/XSubsbmpling,
+                               (height + ybump)/YSubsbmpling);
                 } else {
-                    skipPass((width + xbump)/XSubsampling,
-                             (height + ybump)/YSubsampling);
+                    skipPbss((width + xbump)/XSubsbmpling,
+                             (height + ybump)/YSubsbmpling);
                 }
 
-                // If read has been aborted, just return
-                // processReadAborted will be called later
-                if (abortRequested()) {
+                // If rebd hbs been bborted, just return
+                // processRebdAborted will be cblled lbter
+                if (bbortRequested()) {
                     return;
                 }
             }
         }
     }
 
-    private void readImage(ImageReadParam param) throws IIOException {
-        readMetadata();
+    privbte void rebdImbge(ImbgeRebdPbrbm pbrbm) throws IIOException {
+        rebdMetbdbtb();
 
-        int width = metadata.IHDR_width;
-        int height = metadata.IHDR_height;
+        int width = metbdbtb.IHDR_width;
+        int height = metbdbtb.IHDR_height;
 
-        // Init default values
-        sourceXSubsampling = 1;
-        sourceYSubsampling = 1;
-        sourceMinProgressivePass = 0;
-        sourceMaxProgressivePass = 6;
-        sourceBands = null;
-        destinationBands = null;
-        destinationOffset = new Point(0, 0);
+        // Init defbult vblues
+        sourceXSubsbmpling = 1;
+        sourceYSubsbmpling = 1;
+        sourceMinProgressivePbss = 0;
+        sourceMbxProgressivePbss = 6;
+        sourceBbnds = null;
+        destinbtionBbnds = null;
+        destinbtionOffset = new Point(0, 0);
 
-        // If an ImageReadParam is available, get values from it
-        if (param != null) {
-            sourceXSubsampling = param.getSourceXSubsampling();
-            sourceYSubsampling = param.getSourceYSubsampling();
+        // If bn ImbgeRebdPbrbm is bvbilbble, get vblues from it
+        if (pbrbm != null) {
+            sourceXSubsbmpling = pbrbm.getSourceXSubsbmpling();
+            sourceYSubsbmpling = pbrbm.getSourceYSubsbmpling();
 
-            sourceMinProgressivePass =
-                Math.max(param.getSourceMinProgressivePass(), 0);
-            sourceMaxProgressivePass =
-                Math.min(param.getSourceMaxProgressivePass(), 6);
+            sourceMinProgressivePbss =
+                Mbth.mbx(pbrbm.getSourceMinProgressivePbss(), 0);
+            sourceMbxProgressivePbss =
+                Mbth.min(pbrbm.getSourceMbxProgressivePbss(), 6);
 
-            sourceBands = param.getSourceBands();
-            destinationBands = param.getDestinationBands();
-            destinationOffset = param.getDestinationOffset();
+            sourceBbnds = pbrbm.getSourceBbnds();
+            destinbtionBbnds = pbrbm.getDestinbtionBbnds();
+            destinbtionOffset = pbrbm.getDestinbtionOffset();
         }
-        Inflater inf = null;
+        Inflbter inf = null;
         try {
-            stream.seek(imageStartPosition);
+            strebm.seek(imbgeStbrtPosition);
 
-            Enumeration<InputStream> e = new PNGImageDataEnumeration(stream);
-            InputStream is = new SequenceInputStream(e);
+            Enumerbtion<InputStrebm> e = new PNGImbgeDbtbEnumerbtion(strebm);
+            InputStrebm is = new SequenceInputStrebm(e);
 
-           /* InflaterInputStream uses an Inflater instance which consumes
-            * native (non-GC visible) resources. This is normally implicitly
-            * freed when the stream is closed. However since the
-            * InflaterInputStream wraps a client-supplied input stream,
-            * we cannot close it.
-            * But the app may depend on GC finalization to close the stream.
-            * Therefore to ensure timely freeing of native resources we
-            * explicitly create the Inflater instance and free its resources
-            * when we are done with the InflaterInputStream by calling
+           /* InflbterInputStrebm uses bn Inflbter instbnce which consumes
+            * nbtive (non-GC visible) resources. This is normblly implicitly
+            * freed when the strebm is closed. However since the
+            * InflbterInputStrebm wrbps b client-supplied input strebm,
+            * we cbnnot close it.
+            * But the bpp mby depend on GC finblizbtion to close the strebm.
+            * Therefore to ensure timely freeing of nbtive resources we
+            * explicitly crebte the Inflbter instbnce bnd free its resources
+            * when we bre done with the InflbterInputStrebm by cblling
             * inf.end();
             */
-            inf = new Inflater();
-            is = new InflaterInputStream(is, inf);
-            is = new BufferedInputStream(is);
-            this.pixelStream = new DataInputStream(is);
+            inf = new Inflbter();
+            is = new InflbterInputStrebm(is, inf);
+            is = new BufferedInputStrebm(is);
+            this.pixelStrebm = new DbtbInputStrebm(is);
 
             /*
-             * NB: the PNG spec declares that valid range for width
-             * and height is [1, 2^31-1], so here we may fail to allocate
-             * a buffer for destination image due to memory limitation.
+             * NB: the PNG spec declbres thbt vblid rbnge for width
+             * bnd height is [1, 2^31-1], so here we mby fbil to bllocbte
+             * b buffer for destinbtion imbge due to memory limitbtion.
              *
-             * However, the recovery strategy for this case should be
-             * defined on the level of application, so we will not
-             * try to estimate the required amount of the memory and/or
-             * handle OOM in any way.
+             * However, the recovery strbtegy for this cbse should be
+             * defined on the level of bpplicbtion, so we will not
+             * try to estimbte the required bmount of the memory bnd/or
+             * hbndle OOM in bny wby.
              */
-            theImage = getDestination(param,
-                                      getImageTypes(0),
+            theImbge = getDestinbtion(pbrbm,
+                                      getImbgeTypes(0),
                                       width,
                                       height);
 
-            Rectangle destRegion = new Rectangle(0, 0, 0, 0);
-            sourceRegion = new Rectangle(0, 0, 0, 0);
-            computeRegions(param, width, height,
-                           theImage,
+            Rectbngle destRegion = new Rectbngle(0, 0, 0, 0);
+            sourceRegion = new Rectbngle(0, 0, 0, 0);
+            computeRegions(pbrbm, width, height,
+                           theImbge,
                            sourceRegion, destRegion);
-            destinationOffset.setLocation(destRegion.getLocation());
+            destinbtionOffset.setLocbtion(destRegion.getLocbtion());
 
-            // At this point the header has been read and we know
-            // how many bands are in the image, so perform checking
-            // of the read param.
-            int colorType = metadata.IHDR_colorType;
-            checkReadParamBandSettings(param,
-                                       inputBandsForColorType[colorType],
-                                      theImage.getSampleModel().getNumBands());
+            // At this point the hebder hbs been rebd bnd we know
+            // how mbny bbnds bre in the imbge, so perform checking
+            // of the rebd pbrbm.
+            int colorType = metbdbtb.IHDR_colorType;
+            checkRebdPbrbmBbndSettings(pbrbm,
+                                       inputBbndsForColorType[colorType],
+                                      theImbge.getSbmpleModel().getNumBbnds());
 
-            processImageStarted(0);
-            decodeImage();
-            if (abortRequested()) {
-                processReadAborted();
+            processImbgeStbrted(0);
+            decodeImbge();
+            if (bbortRequested()) {
+                processRebdAborted();
             } else {
-                processImageComplete();
+                processImbgeComplete();
             }
-        } catch (IOException e) {
-            throw new IIOException("Error reading PNG image data", e);
-        } finally {
+        } cbtch (IOException e) {
+            throw new IIOException("Error rebding PNG imbge dbtb", e);
+        } finblly {
             if (inf != null) {
                 inf.end();
             }
         }
     }
 
-    public int getNumImages(boolean allowSearch) throws IIOException {
-        if (stream == null) {
-            throw new IllegalStateException("No input source set!");
+    public int getNumImbges(boolebn bllowSebrch) throws IIOException {
+        if (strebm == null) {
+            throw new IllegblStbteException("No input source set!");
         }
-        if (seekForwardOnly && allowSearch) {
-            throw new IllegalStateException
-                ("seekForwardOnly and allowSearch can't both be true!");
+        if (seekForwbrdOnly && bllowSebrch) {
+            throw new IllegblStbteException
+                ("seekForwbrdOnly bnd bllowSebrch cbn't both be true!");
         }
         return 1;
     }
 
-    public int getWidth(int imageIndex) throws IIOException {
-        if (imageIndex != 0) {
-            throw new IndexOutOfBoundsException("imageIndex != 0!");
+    public int getWidth(int imbgeIndex) throws IIOException {
+        if (imbgeIndex != 0) {
+            throw new IndexOutOfBoundsException("imbgeIndex != 0!");
         }
 
-        readHeader();
+        rebdHebder();
 
-        return metadata.IHDR_width;
+        return metbdbtb.IHDR_width;
     }
 
-    public int getHeight(int imageIndex) throws IIOException {
-        if (imageIndex != 0) {
-            throw new IndexOutOfBoundsException("imageIndex != 0!");
+    public int getHeight(int imbgeIndex) throws IIOException {
+        if (imbgeIndex != 0) {
+            throw new IndexOutOfBoundsException("imbgeIndex != 0!");
         }
 
-        readHeader();
+        rebdHebder();
 
-        return metadata.IHDR_height;
+        return metbdbtb.IHDR_height;
     }
 
-    public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex)
+    public Iterbtor<ImbgeTypeSpecifier> getImbgeTypes(int imbgeIndex)
       throws IIOException
     {
-        if (imageIndex != 0) {
-            throw new IndexOutOfBoundsException("imageIndex != 0!");
+        if (imbgeIndex != 0) {
+            throw new IndexOutOfBoundsException("imbgeIndex != 0!");
         }
 
-        readHeader();
+        rebdHebder();
 
-        ArrayList<ImageTypeSpecifier> l =
-            new ArrayList<ImageTypeSpecifier>(1);
+        ArrbyList<ImbgeTypeSpecifier> l =
+            new ArrbyList<ImbgeTypeSpecifier>(1);
 
-        ColorSpace rgb;
-        ColorSpace gray;
-        int[] bandOffsets;
+        ColorSpbce rgb;
+        ColorSpbce grby;
+        int[] bbndOffsets;
 
-        int bitDepth = metadata.IHDR_bitDepth;
-        int colorType = metadata.IHDR_colorType;
+        int bitDepth = metbdbtb.IHDR_bitDepth;
+        int colorType = metbdbtb.IHDR_colorType;
 
-        int dataType;
+        int dbtbType;
         if (bitDepth <= 8) {
-            dataType = DataBuffer.TYPE_BYTE;
+            dbtbType = DbtbBuffer.TYPE_BYTE;
         } else {
-            dataType = DataBuffer.TYPE_USHORT;
+            dbtbType = DbtbBuffer.TYPE_USHORT;
         }
 
         switch (colorType) {
-        case PNG_COLOR_GRAY:
-            // Packed grayscale
-            l.add(ImageTypeSpecifier.createGrayscale(bitDepth,
-                                                     dataType,
-                                                     false));
-            break;
+        cbse PNG_COLOR_GRAY:
+            // Pbcked grbyscble
+            l.bdd(ImbgeTypeSpecifier.crebteGrbyscble(bitDepth,
+                                                     dbtbType,
+                                                     fblse));
+            brebk;
 
-        case PNG_COLOR_RGB:
+        cbse PNG_COLOR_RGB:
             if (bitDepth == 8) {
-                // some standard types of buffered images
-                // which can be used as destination
-                l.add(ImageTypeSpecifier.createFromBufferedImageType(
-                          BufferedImage.TYPE_3BYTE_BGR));
+                // some stbndbrd types of buffered imbges
+                // which cbn be used bs destinbtion
+                l.bdd(ImbgeTypeSpecifier.crebteFromBufferedImbgeType(
+                          BufferedImbge.TYPE_3BYTE_BGR));
 
-                l.add(ImageTypeSpecifier.createFromBufferedImageType(
-                          BufferedImage.TYPE_INT_RGB));
+                l.bdd(ImbgeTypeSpecifier.crebteFromBufferedImbgeType(
+                          BufferedImbge.TYPE_INT_RGB));
 
-                l.add(ImageTypeSpecifier.createFromBufferedImageType(
-                          BufferedImage.TYPE_INT_BGR));
+                l.bdd(ImbgeTypeSpecifier.crebteFromBufferedImbgeType(
+                          BufferedImbge.TYPE_INT_BGR));
 
             }
             // Component R, G, B
-            rgb = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-            bandOffsets = new int[3];
-            bandOffsets[0] = 0;
-            bandOffsets[1] = 1;
-            bandOffsets[2] = 2;
-            l.add(ImageTypeSpecifier.createInterleaved(rgb,
-                                                       bandOffsets,
-                                                       dataType,
-                                                       false,
-                                                       false));
-            break;
+            rgb = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
+            bbndOffsets = new int[3];
+            bbndOffsets[0] = 0;
+            bbndOffsets[1] = 1;
+            bbndOffsets[2] = 2;
+            l.bdd(ImbgeTypeSpecifier.crebteInterlebved(rgb,
+                                                       bbndOffsets,
+                                                       dbtbType,
+                                                       fblse,
+                                                       fblse));
+            brebk;
 
-        case PNG_COLOR_PALETTE:
-            readMetadata(); // Need tRNS chunk
+        cbse PNG_COLOR_PALETTE:
+            rebdMetbdbtb(); // Need tRNS chunk
 
             /*
-             * The PLTE chunk spec says:
+             * The PLTE chunk spec sbys:
              *
-             * The number of palette entries must not exceed the range that
-             * can be represented in the image bit depth (for example, 2^4 = 16
-             * for a bit depth of 4). It is permissible to have fewer entries
-             * than the bit depth would allow. In that case, any out-of-range
-             * pixel value found in the image data is an error.
+             * The number of pblette entries must not exceed the rbnge thbt
+             * cbn be represented in the imbge bit depth (for exbmple, 2^4 = 16
+             * for b bit depth of 4). It is permissible to hbve fewer entries
+             * thbn the bit depth would bllow. In thbt cbse, bny out-of-rbnge
+             * pixel vblue found in the imbge dbtb is bn error.
              *
              * http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html#C.PLTE
              *
-             * Consequently, the case when the palette length is smaller than
-             * 2^bitDepth is legal in the view of PNG spec.
+             * Consequently, the cbse when the pblette length is smbller thbn
+             * 2^bitDepth is legbl in the view of PNG spec.
              *
-             * However the spec of createIndexed() method demands the exact
-             * equality of the palette lengh and number of possible palette
+             * However the spec of crebteIndexed() method dembnds the exbct
+             * equblity of the pblette lengh bnd number of possible pblette
              * entries (2^bitDepth).
              *
-             * {@link javax.imageio.ImageTypeSpecifier.html#createIndexed}
+             * {@link jbvbx.imbgeio.ImbgeTypeSpecifier.html#crebteIndexed}
              *
-             * In order to avoid this contradiction we need to extend the
-             * palette arrays to the limit defined by the bitDepth.
+             * In order to bvoid this contrbdiction we need to extend the
+             * pblette brrbys to the limit defined by the bitDepth.
              */
 
             int plength = 1 << bitDepth;
 
-            byte[] red = metadata.PLTE_red;
-            byte[] green = metadata.PLTE_green;
-            byte[] blue = metadata.PLTE_blue;
+            byte[] red = metbdbtb.PLTE_red;
+            byte[] green = metbdbtb.PLTE_green;
+            byte[] blue = metbdbtb.PLTE_blue;
 
-            if (metadata.PLTE_red.length < plength) {
-                red = Arrays.copyOf(metadata.PLTE_red, plength);
-                Arrays.fill(red, metadata.PLTE_red.length, plength,
-                            metadata.PLTE_red[metadata.PLTE_red.length - 1]);
+            if (metbdbtb.PLTE_red.length < plength) {
+                red = Arrbys.copyOf(metbdbtb.PLTE_red, plength);
+                Arrbys.fill(red, metbdbtb.PLTE_red.length, plength,
+                            metbdbtb.PLTE_red[metbdbtb.PLTE_red.length - 1]);
 
-                green = Arrays.copyOf(metadata.PLTE_green, plength);
-                Arrays.fill(green, metadata.PLTE_green.length, plength,
-                            metadata.PLTE_green[metadata.PLTE_green.length - 1]);
+                green = Arrbys.copyOf(metbdbtb.PLTE_green, plength);
+                Arrbys.fill(green, metbdbtb.PLTE_green.length, plength,
+                            metbdbtb.PLTE_green[metbdbtb.PLTE_green.length - 1]);
 
-                blue = Arrays.copyOf(metadata.PLTE_blue, plength);
-                Arrays.fill(blue, metadata.PLTE_blue.length, plength,
-                            metadata.PLTE_blue[metadata.PLTE_blue.length - 1]);
+                blue = Arrbys.copyOf(metbdbtb.PLTE_blue, plength);
+                Arrbys.fill(blue, metbdbtb.PLTE_blue.length, plength,
+                            metbdbtb.PLTE_blue[metbdbtb.PLTE_blue.length - 1]);
 
             }
 
-            // Alpha from tRNS chunk may have fewer entries than
-            // the RGB LUTs from the PLTE chunk; if so, pad with
+            // Alphb from tRNS chunk mby hbve fewer entries thbn
+            // the RGB LUTs from the PLTE chunk; if so, pbd with
             // 255.
-            byte[] alpha = null;
-            if (metadata.tRNS_present && (metadata.tRNS_alpha != null)) {
-                if (metadata.tRNS_alpha.length == red.length) {
-                    alpha = metadata.tRNS_alpha;
+            byte[] blphb = null;
+            if (metbdbtb.tRNS_present && (metbdbtb.tRNS_blphb != null)) {
+                if (metbdbtb.tRNS_blphb.length == red.length) {
+                    blphb = metbdbtb.tRNS_blphb;
                 } else {
-                    alpha = Arrays.copyOf(metadata.tRNS_alpha, red.length);
-                    Arrays.fill(alpha,
-                                metadata.tRNS_alpha.length,
+                    blphb = Arrbys.copyOf(metbdbtb.tRNS_blphb, red.length);
+                    Arrbys.fill(blphb,
+                                metbdbtb.tRNS_blphb.length,
                                 red.length, (byte)255);
                 }
             }
 
-            l.add(ImageTypeSpecifier.createIndexed(red, green,
-                                                   blue, alpha,
+            l.bdd(ImbgeTypeSpecifier.crebteIndexed(red, green,
+                                                   blue, blphb,
                                                    bitDepth,
-                                                   DataBuffer.TYPE_BYTE));
-            break;
+                                                   DbtbBuffer.TYPE_BYTE));
+            brebk;
 
-        case PNG_COLOR_GRAY_ALPHA:
+        cbse PNG_COLOR_GRAY_ALPHA:
             // Component G, A
-            gray = ColorSpace.getInstance(ColorSpace.CS_GRAY);
-            bandOffsets = new int[2];
-            bandOffsets[0] = 0;
-            bandOffsets[1] = 1;
-            l.add(ImageTypeSpecifier.createInterleaved(gray,
-                                                       bandOffsets,
-                                                       dataType,
+            grby = ColorSpbce.getInstbnce(ColorSpbce.CS_GRAY);
+            bbndOffsets = new int[2];
+            bbndOffsets[0] = 0;
+            bbndOffsets[1] = 1;
+            l.bdd(ImbgeTypeSpecifier.crebteInterlebved(grby,
+                                                       bbndOffsets,
+                                                       dbtbType,
                                                        true,
-                                                       false));
-            break;
+                                                       fblse));
+            brebk;
 
-        case PNG_COLOR_RGB_ALPHA:
+        cbse PNG_COLOR_RGB_ALPHA:
             if (bitDepth == 8) {
-                // some standard types of buffered images
-                // wich can be used as destination
-                l.add(ImageTypeSpecifier.createFromBufferedImageType(
-                          BufferedImage.TYPE_4BYTE_ABGR));
+                // some stbndbrd types of buffered imbges
+                // wich cbn be used bs destinbtion
+                l.bdd(ImbgeTypeSpecifier.crebteFromBufferedImbgeType(
+                          BufferedImbge.TYPE_4BYTE_ABGR));
 
-                l.add(ImageTypeSpecifier.createFromBufferedImageType(
-                          BufferedImage.TYPE_INT_ARGB));
+                l.bdd(ImbgeTypeSpecifier.crebteFromBufferedImbgeType(
+                          BufferedImbge.TYPE_INT_ARGB));
             }
 
             // Component R, G, B, A (non-premultiplied)
-            rgb = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-            bandOffsets = new int[4];
-            bandOffsets[0] = 0;
-            bandOffsets[1] = 1;
-            bandOffsets[2] = 2;
-            bandOffsets[3] = 3;
+            rgb = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
+            bbndOffsets = new int[4];
+            bbndOffsets[0] = 0;
+            bbndOffsets[1] = 1;
+            bbndOffsets[2] = 2;
+            bbndOffsets[3] = 3;
 
-            l.add(ImageTypeSpecifier.createInterleaved(rgb,
-                                                       bandOffsets,
-                                                       dataType,
+            l.bdd(ImbgeTypeSpecifier.crebteInterlebved(rgb,
+                                                       bbndOffsets,
+                                                       dbtbType,
                                                        true,
-                                                       false));
-            break;
+                                                       fblse));
+            brebk;
 
-        default:
-            break;
+        defbult:
+            brebk;
         }
 
-        return l.iterator();
+        return l.iterbtor();
     }
 
     /*
-     * Super class implementation uses first element
-     * of image types list as raw image type.
+     * Super clbss implementbtion uses first element
+     * of imbge types list bs rbw imbge type.
      *
-     * Also, super implementation uses first element of this list
-     * as default destination type image read param does not specify
-     * anything other.
+     * Also, super implementbtion uses first element of this list
+     * bs defbult destinbtion type imbge rebd pbrbm does not specify
+     * bnything other.
      *
-     * However, in case of RGB and RGBA color types, raw image type
-     * produces buffered image of custom type. It causes some
-     * performance degradation of subsequent rendering operations.
+     * However, in cbse of RGB bnd RGBA color types, rbw imbge type
+     * produces buffered imbge of custom type. It cbuses some
+     * performbnce degrbdbtion of subsequent rendering operbtions.
      *
-     * To resolve this contradiction we put standard image types
-     * at the first positions of image types list (to produce standard
-     * images by default) and put raw image type (which is custom)
-     * at the last position of this list.
+     * To resolve this contrbdiction we put stbndbrd imbge types
+     * bt the first positions of imbge types list (to produce stbndbrd
+     * imbges by defbult) bnd put rbw imbge type (which is custom)
+     * bt the lbst position of this list.
      *
-     * After this changes we should override getRawImageType()
-     * to return last element of image types list.
+     * After this chbnges we should override getRbwImbgeType()
+     * to return lbst element of imbge types list.
      */
-    public ImageTypeSpecifier getRawImageType(int imageIndex)
+    public ImbgeTypeSpecifier getRbwImbgeType(int imbgeIndex)
       throws IOException {
 
-        Iterator<ImageTypeSpecifier> types = getImageTypes(imageIndex);
-        ImageTypeSpecifier raw = null;
+        Iterbtor<ImbgeTypeSpecifier> types = getImbgeTypes(imbgeIndex);
+        ImbgeTypeSpecifier rbw = null;
         do {
-            raw = types.next();
-        } while (types.hasNext());
-        return raw;
+            rbw = types.next();
+        } while (types.hbsNext());
+        return rbw;
     }
 
-    public ImageReadParam getDefaultReadParam() {
-        return new ImageReadParam();
+    public ImbgeRebdPbrbm getDefbultRebdPbrbm() {
+        return new ImbgeRebdPbrbm();
     }
 
-    public IIOMetadata getStreamMetadata()
+    public IIOMetbdbtb getStrebmMetbdbtb()
         throws IIOException {
         return null;
     }
 
-    public IIOMetadata getImageMetadata(int imageIndex) throws IIOException {
-        if (imageIndex != 0) {
-            throw new IndexOutOfBoundsException("imageIndex != 0!");
+    public IIOMetbdbtb getImbgeMetbdbtb(int imbgeIndex) throws IIOException {
+        if (imbgeIndex != 0) {
+            throw new IndexOutOfBoundsException("imbgeIndex != 0!");
         }
-        readMetadata();
-        return metadata;
+        rebdMetbdbtb();
+        return metbdbtb;
     }
 
-    public BufferedImage read(int imageIndex, ImageReadParam param)
+    public BufferedImbge rebd(int imbgeIndex, ImbgeRebdPbrbm pbrbm)
         throws IIOException {
-        if (imageIndex != 0) {
-            throw new IndexOutOfBoundsException("imageIndex != 0!");
+        if (imbgeIndex != 0) {
+            throw new IndexOutOfBoundsException("imbgeIndex != 0!");
         }
 
-        readImage(param);
-        return theImage;
+        rebdImbge(pbrbm);
+        return theImbge;
     }
 
     public void reset() {
         super.reset();
-        resetStreamSettings();
+        resetStrebmSettings();
     }
 
-    private void resetStreamSettings() {
-        gotHeader = false;
-        gotMetadata = false;
-        metadata = null;
-        pixelStream = null;
+    privbte void resetStrebmSettings() {
+        gotHebder = fblse;
+        gotMetbdbtb = fblse;
+        metbdbtb = null;
+        pixelStrebm = null;
     }
 }

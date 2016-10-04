@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,145 +27,145 @@
  *******************************************************************************
  * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.text.CharacterIterator;
+import jbvb.text.ChbrbcterIterbtor;
 
 /**
- * Abstract class that defines an API for iteration on text objects.This is an
- * interface for forward and backward iteration and random access into a text
- * object. Forward iteration is done with post-increment and backward iteration
- * is done with pre-decrement semantics, while the
- * <code>java.text.CharacterIterator</code> interface methods provided forward
- * iteration with "pre-increment" and backward iteration with pre-decrement
- * semantics. This API is more efficient for forward iteration over code points.
- * The other major difference is that this API can do both code unit and code point
- * iteration, <code>java.text.CharacterIterator</code> can only iterate over
- * code units and is limited to BMP (0 - 0xFFFF)
- * @author Ram
- * @stable ICU 2.4
+ * Abstrbct clbss thbt defines bn API for iterbtion on text objects.This is bn
+ * interfbce for forwbrd bnd bbckwbrd iterbtion bnd rbndom bccess into b text
+ * object. Forwbrd iterbtion is done with post-increment bnd bbckwbrd iterbtion
+ * is done with pre-decrement sembntics, while the
+ * <code>jbvb.text.ChbrbcterIterbtor</code> interfbce methods provided forwbrd
+ * iterbtion with "pre-increment" bnd bbckwbrd iterbtion with pre-decrement
+ * sembntics. This API is more efficient for forwbrd iterbtion over code points.
+ * The other mbjor difference is thbt this API cbn do both code unit bnd code point
+ * iterbtion, <code>jbvb.text.ChbrbcterIterbtor</code> cbn only iterbte over
+ * code units bnd is limited to BMP (0 - 0xFFFF)
+ * @buthor Rbm
+ * @stbble ICU 2.4
  */
-public abstract class UCharacterIterator
-                      implements Cloneable {
+public bbstrbct clbss UChbrbcterIterbtor
+                      implements Clonebble {
 
     /**
-     * Protected default constructor for the subclasses
-     * @stable ICU 2.4
+     * Protected defbult constructor for the subclbsses
+     * @stbble ICU 2.4
      */
-    protected UCharacterIterator(){
+    protected UChbrbcterIterbtor(){
     }
 
     /**
-     * Indicator that we have reached the ends of the UTF16 text.
-     * Moved from UForwardCharacterIterator.java
-     * @stable ICU 2.4
+     * Indicbtor thbt we hbve rebched the ends of the UTF16 text.
+     * Moved from UForwbrdChbrbcterIterbtor.jbvb
+     * @stbble ICU 2.4
      */
-    public static final int DONE = -1;
+    public stbtic finbl int DONE = -1;
 
-    // static final methods ----------------------------------------------------
+    // stbtic finbl methods ----------------------------------------------------
 
     /**
-     * Returns a <code>UCharacterIterator</code> object given a
+     * Returns b <code>UChbrbcterIterbtor</code> object given b
      * source string.
-     * @param source a string
-     * @return UCharacterIterator object
-     * @exception IllegalArgumentException if the argument is null
-     * @stable ICU 2.4
+     * @pbrbm source b string
+     * @return UChbrbcterIterbtor object
+     * @exception IllegblArgumentException if the brgument is null
+     * @stbble ICU 2.4
      */
-    public static final UCharacterIterator getInstance(String source){
-        return new ReplaceableUCharacterIterator(source);
+    public stbtic finbl UChbrbcterIterbtor getInstbnce(String source){
+        return new ReplbcebbleUChbrbcterIterbtor(source);
     }
 
     //// for StringPrep
     /**
-     * Returns a <code>UCharacterIterator</code> object given a
+     * Returns b <code>UChbrbcterIterbtor</code> object given b
      * source StringBuffer.
-     * @param source an string buffer of UTF-16 code units
-     * @return UCharacterIterator object
-     * @exception IllegalArgumentException if the argument is null
-     * @stable ICU 2.4
+     * @pbrbm source bn string buffer of UTF-16 code units
+     * @return UChbrbcterIterbtor object
+     * @exception IllegblArgumentException if the brgument is null
+     * @stbble ICU 2.4
      */
-    public static final UCharacterIterator getInstance(StringBuffer source){
-        return new ReplaceableUCharacterIterator(source);
+    public stbtic finbl UChbrbcterIterbtor getInstbnce(StringBuffer source){
+        return new ReplbcebbleUChbrbcterIterbtor(source);
     }
 
     /**
-     * Returns a <code>UCharacterIterator</code> object given a
-     * CharacterIterator.
-     * @param source a valid CharacterIterator object.
-     * @return UCharacterIterator object
-     * @exception IllegalArgumentException if the argument is null
-     * @stable ICU 2.4
+     * Returns b <code>UChbrbcterIterbtor</code> object given b
+     * ChbrbcterIterbtor.
+     * @pbrbm source b vblid ChbrbcterIterbtor object.
+     * @return UChbrbcterIterbtor object
+     * @exception IllegblArgumentException if the brgument is null
+     * @stbble ICU 2.4
      */
-    public static final UCharacterIterator getInstance(CharacterIterator source){
-        return new CharacterIteratorWrapper(source);
+    public stbtic finbl UChbrbcterIterbtor getInstbnce(ChbrbcterIterbtor source){
+        return new ChbrbcterIterbtorWrbpper(source);
     }
 
     // public methods ----------------------------------------------------------
 
     /**
-     * Returns the code unit at the current index.  If index is out
-     * of range, returns DONE.  Index is not changed.
+     * Returns the code unit bt the current index.  If index is out
+     * of rbnge, returns DONE.  Index is not chbnged.
      * @return current code unit
-     * @stable ICU 2.4
+     * @stbble ICU 2.4
      */
-    public abstract int current();
+    public bbstrbct int current();
 
     /**
      * Returns the length of the text
      * @return length of the text
-     * @stable ICU 2.4
+     * @stbble ICU 2.4
      */
-    public abstract int getLength();
+    public bbstrbct int getLength();
 
 
     /**
      * Gets the current index in text.
      * @return current index in text.
-     * @stable ICU 2.4
+     * @stbble ICU 2.4
      */
-    public abstract int getIndex();
+    public bbstrbct int getIndex();
 
 
     /**
-     * Returns the UTF16 code unit at index, and increments to the next
-     * code unit (post-increment semantics).  If index is out of
-     * range, DONE is returned, and the iterator is reset to the limit
+     * Returns the UTF16 code unit bt index, bnd increments to the next
+     * code unit (post-increment sembntics).  If index is out of
+     * rbnge, DONE is returned, bnd the iterbtor is reset to the limit
      * of the text.
-     * @return the next UTF16 code unit, or DONE if the index is at the limit
+     * @return the next UTF16 code unit, or DONE if the index is bt the limit
      *         of the text.
-     * @stable ICU 2.4
+     * @stbble ICU 2.4
      */
-    public abstract int next();
+    public bbstrbct int next();
 
     /**
-     * Returns the code point at index, and increments to the next code
-     * point (post-increment semantics).  If index does not point to a
-     * valid surrogate pair, the behavior is the same as
-     * <code>next()</code>.  Otherwise the iterator is incremented past
-     * the surrogate pair, and the code point represented by the pair
+     * Returns the code point bt index, bnd increments to the next code
+     * point (post-increment sembntics).  If index does not point to b
+     * vblid surrogbte pbir, the behbvior is the sbme bs
+     * <code>next()</code>.  Otherwise the iterbtor is incremented pbst
+     * the surrogbte pbir, bnd the code point represented by the pbir
      * is returned.
-     * @return the next codepoint in text, or DONE if the index is at
+     * @return the next codepoint in text, or DONE if the index is bt
      *         the limit of the text.
-     * @stable ICU 2.4
+     * @stbble ICU 2.4
      */
     public int nextCodePoint(){
         int ch1 = next();
-        if(UTF16.isLeadSurrogate((char)ch1)){
+        if(UTF16.isLebdSurrogbte((chbr)ch1)){
             int ch2 = next();
-            if(UTF16.isTrailSurrogate((char)ch2)){
-                return UCharacterProperty.getRawSupplementary((char)ch1,
-                                                              (char)ch2);
+            if(UTF16.isTrbilSurrogbte((chbr)ch2)){
+                return UChbrbcterProperty.getRbwSupplementbry((chbr)ch1,
+                                                              (chbr)ch2);
             }else if (ch2 != DONE) {
-                // unmatched surrogate so back out
+                // unmbtched surrogbte so bbck out
                 previous();
             }
         }
@@ -174,116 +174,116 @@ public abstract class UCharacterIterator
 
     /**
      * Decrement to the position of the previous code unit in the
-     * text, and return it (pre-decrement semantics).  If the
-     * resulting index is less than 0, the index is reset to 0 and
+     * text, bnd return it (pre-decrement sembntics).  If the
+     * resulting index is less thbn 0, the index is reset to 0 bnd
      * DONE is returned.
      * @return the previous code unit in the text, or DONE if the new
-     *         index is before the start of the text.
-     * @stable ICU 2.4
+     *         index is before the stbrt of the text.
+     * @stbble ICU 2.4
      */
-    public abstract int previous();
+    public bbstrbct int previous();
 
     /**
      * Sets the index to the specified index in the text.
-     * @param index the index within the text.
-     * @exception IndexOutOfBoundsException is thrown if an invalid index is
+     * @pbrbm index the index within the text.
+     * @exception IndexOutOfBoundsException is thrown if bn invblid index is
      *            supplied
-     * @stable ICU 2.4
+     * @stbble ICU 2.4
      */
-    public abstract void setIndex(int index);
+    public bbstrbct void setIndex(int index);
 
     //// for StringPrep
     /**
-     * Fills the buffer with the underlying text storage of the iterator
-     * If the buffer capacity is not enough a exception is thrown. The capacity
-     * of the fill in buffer should at least be equal to length of text in the
-     * iterator obtained by calling <code>getLength()</code>.
-     * <b>Usage:</b>
+     * Fills the buffer with the underlying text storbge of the iterbtor
+     * If the buffer cbpbcity is not enough b exception is thrown. The cbpbcity
+     * of the fill in buffer should bt lebst be equbl to length of text in the
+     * iterbtor obtbined by cblling <code>getLength()</code>.
+     * <b>Usbge:</b>
      *
      * <code>
      * <pre>
-     *         UChacterIterator iter = new UCharacterIterator.getInstance(text);
-     *         char[] buf = new char[iter.getLength()];
+     *         UChbcterIterbtor iter = new UChbrbcterIterbtor.getInstbnce(text);
+     *         chbr[] buf = new chbr[iter.getLength()];
      *         iter.getText(buf);
      *
      *         OR
-     *         char[] buf= new char[1];
+     *         chbr[] buf= new chbr[1];
      *         int len = 0;
      *         for(;;){
      *             try{
      *                 len = iter.getText(buf);
-     *                 break;
-     *             }catch(IndexOutOfBoundsException e){
-     *                 buf = new char[iter.getLength()];
+     *                 brebk;
+     *             }cbtch(IndexOutOfBoundsException e){
+     *                 buf = new chbr[iter.getLength()];
      *             }
      *         }
      * </pre>
      * </code>
      *
-     * @param fillIn an array of chars to fill with the underlying UTF-16 code
+     * @pbrbm fillIn bn brrby of chbrs to fill with the underlying UTF-16 code
      *         units.
-     * @param offset the position within the array to start putting the data.
-     * @return the number of code units added to fillIn, as a convenience
+     * @pbrbm offset the position within the brrby to stbrt putting the dbtb.
+     * @return the number of code units bdded to fillIn, bs b convenience
      * @exception IndexOutOfBounds exception if there is not enough
-     *            room after offset in the array, or if offset < 0.
-     * @stable ICU 2.4
+     *            room bfter offset in the brrby, or if offset < 0.
+     * @stbble ICU 2.4
      */
-    public abstract int getText(char[] fillIn, int offset);
+    public bbstrbct int getText(chbr[] fillIn, int offset);
 
     //// for StringPrep
     /**
-     * Convenience override for <code>getText(char[], int)</code> that provides
-     * an offset of 0.
-     * @param fillIn an array of chars to fill with the underlying UTF-16 code
+     * Convenience override for <code>getText(chbr[], int)</code> thbt provides
+     * bn offset of 0.
+     * @pbrbm fillIn bn brrby of chbrs to fill with the underlying UTF-16 code
      *         units.
-     * @return the number of code units added to fillIn, as a convenience
+     * @return the number of code units bdded to fillIn, bs b convenience
      * @exception IndexOutOfBounds exception if there is not enough
-     *            room in the array.
-     * @stable ICU 2.4
+     *            room in the brrby.
+     * @stbble ICU 2.4
      */
-    public final int getText(char[] fillIn) {
+    public finbl int getText(chbr[] fillIn) {
         return getText(fillIn, 0);
     }
 
     //// for StringPrep
     /**
-     * Convenience method for returning the underlying text storage as as string
-     * @return the underlying text storage in the iterator as a string
-     * @stable ICU 2.4
+     * Convenience method for returning the underlying text storbge bs bs string
+     * @return the underlying text storbge in the iterbtor bs b string
+     * @stbble ICU 2.4
      */
     public String getText() {
-        char[] text = new char[getLength()];
+        chbr[] text = new chbr[getLength()];
         getText(text);
         return new String(text);
     }
 
     /**
      * Moves the current position by the number of code units
-     * specified, either forward or backward depending on the sign
-     * of delta (positive or negative respectively).  If the resulting
-     * index would be less than zero, the index is set to zero, and if
-     * the resulting index would be greater than limit, the index is
+     * specified, either forwbrd or bbckwbrd depending on the sign
+     * of deltb (positive or negbtive respectively).  If the resulting
+     * index would be less thbn zero, the index is set to zero, bnd if
+     * the resulting index would be grebter thbn limit, the index is
      * set to limit.
      *
-     * @param delta the number of code units to move the current
+     * @pbrbm deltb the number of code units to move the current
      *              index.
      * @return the new index.
-     * @exception IndexOutOfBoundsException is thrown if an invalid index is
+     * @exception IndexOutOfBoundsException is thrown if bn invblid index is
      *            supplied
-     * @stable ICU 2.4
+     * @stbble ICU 2.4
      *
      */
-    public int moveIndex(int delta) {
-        int x = Math.max(0, Math.min(getIndex() + delta, getLength()));
+    public int moveIndex(int deltb) {
+        int x = Mbth.mbx(0, Mbth.min(getIndex() + deltb, getLength()));
         setIndex(x);
         return x;
     }
 
     /**
-     * Creates a copy of this iterator, independent from other iterators.
-     * If it is not possible to clone the iterator, returns null.
-     * @return copy of this iterator
-     * @stable ICU 2.4
+     * Crebtes b copy of this iterbtor, independent from other iterbtors.
+     * If it is not possible to clone the iterbtor, returns null.
+     * @return copy of this iterbtor
+     * @stbble ICU 2.4
      */
     public Object clone() throws CloneNotSupportedException{
         return super.clone();

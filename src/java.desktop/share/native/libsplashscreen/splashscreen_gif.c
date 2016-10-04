@@ -1,34 +1,34 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "splashscreen_impl.h"
-#include "splashscreen_gfx.h"
+#include "splbshscreen_impl.h"
+#include "splbshscreen_gfx.h"
 
 #include <gif_lib.h>
 
-#include "sizecalc.h"
+#include "sizecblc.h"
 
 #define GIF_TRANSPARENT     0x01
 #define GIF_USER_INPUT      0x02
@@ -37,278 +37,278 @@
 
 #define GIF_NOT_TRANSPARENT -1
 
-#define GIF_DISPOSE_NONE    0   // No disposal specified. The decoder is
-                                // not required to take any action.
-#define GIF_DISPOSE_LEAVE   1   // Do not dispose. The graphic is to be left
-                                // in place.
-#define GIF_DISPOSE_BACKGND 2   // Restore to background color. The area used by the
-                                // graphic must be restored to the background color.
+#define GIF_DISPOSE_NONE    0   // No disposbl specified. The decoder is
+                                // not required to tbke bny bction.
+#define GIF_DISPOSE_LEAVE   1   // Do not dispose. The grbphic is to be left
+                                // in plbce.
+#define GIF_DISPOSE_BACKGND 2   // Restore to bbckground color. The breb used by the
+                                // grbphic must be restored to the bbckground color.
 
 #define GIF_DISPOSE_RESTORE 3   // Restore to previous. The decoder is required to
-                                // restore the area overwritten by the graphic with
-                                // what was there prior to rendering the graphic.
+                                // restore the breb overwritten by the grbphic with
+                                // whbt wbs there prior to rendering the grbphic.
 
-static const char szNetscape20ext[11] = "NETSCAPE2.0";
+stbtic const chbr szNetscbpe20ext[11] = "NETSCAPE2.0";
 
 #define NSEXT_LOOP      0x01    // Loop Count field code
 
-// convert libungif samples to our ones
-#define MAKE_QUAD_GIF(c,a) MAKE_QUAD((c).Red, (c).Green, (c).Blue, (unsigned)(a))
+// convert libungif sbmples to our ones
+#define MAKE_QUAD_GIF(c,b) MAKE_QUAD((c).Red, (c).Green, (c).Blue, (unsigned)(b))
 
-/* stdio FILE* and memory input functions for libungif */
+/* stdio FILE* bnd memory input functions for libungif */
 int
-SplashStreamGifInputFunc(GifFileType * gif, GifByteType * buf, int n)
+SplbshStrebmGifInputFunc(GifFileType * gif, GifByteType * buf, int n)
 {
-    SplashStream* io = (SplashStream*)gif->UserData;
-    int rc = io->read(io, buf, n);
+    SplbshStrebm* io = (SplbshStrebm*)gif->UserDbtb;
+    int rc = io->rebd(io, buf, n);
     return rc;
 }
 
-/* These macro help to ensure that we only take part of frame that fits into
-   logical screen. */
+/* These mbcro help to ensure thbt we only tbke pbrt of frbme thbt fits into
+   logicbl screen. */
 
-/* Ensure that p belongs to [pmin, pmax) interval. Returns fixed point (if fix is needed) */
-#define FIX_POINT(p, pmin, pmax) ( ((p) < (pmin)) ? (pmin) : (((p) > (pmax)) ? (pmax) : (p)))
-/* Ensures that line starting at point p does not exceed boundary pmax.
+/* Ensure thbt p belongs to [pmin, pmbx) intervbl. Returns fixed point (if fix is needed) */
+#define FIX_POINT(p, pmin, pmbx) ( ((p) < (pmin)) ? (pmin) : (((p) > (pmbx)) ? (pmbx) : (p)))
+/* Ensures thbt line stbrting bt point p does not exceed boundbry pmbx.
    Returns fixed length (if fix is needed) */
-#define FIX_LENGTH(p, len, pmax) ( ((p) + (len)) > (pmax) ? ((pmax) - (p)) : (len))
+#define FIX_LENGTH(p, len, pmbx) ( ((p) + (len)) > (pmbx) ? ((pmbx) - (p)) : (len))
 
 int
-SplashDecodeGif(Splash * splash, GifFileType * gif)
+SplbshDecodeGif(Splbsh * splbsh, GifFileType * gif)
 {
     int stride;
     int bufferSize;
-    byte_t *pBitmapBits, *pOldBitmapBits;
+    byte_t *pBitmbpBits, *pOldBitmbpBits;
     int i, j;
-    int imageIndex;
-    int cx, cy, cw, ch; /* clamped coordinates */
-    const int interlacedOffset[] = { 0, 4, 2, 1, 0 };   /* The way Interlaced image should. */
-    const int interlacedJumps[] = { 8, 8, 4, 2, 1 };    /* be read - offsets and jumps... */
+    int imbgeIndex;
+    int cx, cy, cw, ch; /* clbmped coordinbtes */
+    const int interlbcedOffset[] = { 0, 4, 2, 1, 0 };   /* The wby Interlbced imbge should. */
+    const int interlbcedJumps[] = { 8, 8, 4, 2, 1 };    /* be rebd - offsets bnd jumps... */
 
     if (DGifSlurp(gif) == GIF_ERROR) {
         return 0;
     }
 
-    SplashCleanup(splash);
+    SplbshClebnup(splbsh);
 
-    if (!SAFE_TO_ALLOC(gif->SWidth, splash->imageFormat.depthBytes)) {
+    if (!SAFE_TO_ALLOC(gif->SWidth, splbsh->imbgeFormbt.depthBytes)) {
         return 0;
     }
-    stride = gif->SWidth * splash->imageFormat.depthBytes;
-    if (splash->byteAlignment > 1)
+    stride = gif->SWidth * splbsh->imbgeFormbt.depthBytes;
+    if (splbsh->byteAlignment > 1)
         stride =
-            (stride + splash->byteAlignment - 1) & ~(splash->byteAlignment - 1);
+            (stride + splbsh->byteAlignment - 1) & ~(splbsh->byteAlignment - 1);
 
     if (!SAFE_TO_ALLOC(gif->SHeight, stride)) {
         return 0;
     }
 
-    if (!SAFE_TO_ALLOC(gif->ImageCount, sizeof(SplashImage*))) {
+    if (!SAFE_TO_ALLOC(gif->ImbgeCount, sizeof(SplbshImbge*))) {
         return 0;
     }
     bufferSize = stride * gif->SHeight;
-    pBitmapBits = (byte_t *) malloc(bufferSize);
-    if (!pBitmapBits) {
+    pBitmbpBits = (byte_t *) mblloc(bufferSize);
+    if (!pBitmbpBits) {
         return 0;
     }
-    pOldBitmapBits = (byte_t *) malloc(bufferSize);
-    if (!pOldBitmapBits) {
-        free(pBitmapBits);
+    pOldBitmbpBits = (byte_t *) mblloc(bufferSize);
+    if (!pOldBitmbpBits) {
+        free(pBitmbpBits);
         return 0;
     }
-    memset(pBitmapBits, 0, bufferSize);
+    memset(pBitmbpBits, 0, bufferSize);
 
-    splash->width = gif->SWidth;
-    splash->height = gif->SHeight;
-    splash->frameCount = gif->ImageCount;
-    splash->frames = (SplashImage *)
-        SAFE_SIZE_ARRAY_ALLOC(malloc, sizeof(SplashImage), gif->ImageCount);
-    if (!splash->frames) {
-      free(pBitmapBits);
-      free(pOldBitmapBits);
+    splbsh->width = gif->SWidth;
+    splbsh->height = gif->SHeight;
+    splbsh->frbmeCount = gif->ImbgeCount;
+    splbsh->frbmes = (SplbshImbge *)
+        SAFE_SIZE_ARRAY_ALLOC(mblloc, sizeof(SplbshImbge), gif->ImbgeCount);
+    if (!splbsh->frbmes) {
+      free(pBitmbpBits);
+      free(pOldBitmbpBits);
       return 0;
     }
-    memset(splash->frames, 0, sizeof(SplashImage) * gif->ImageCount);
-    splash->loopCount = 1;
+    memset(splbsh->frbmes, 0, sizeof(SplbshImbge) * gif->ImbgeCount);
+    splbsh->loopCount = 1;
 
-    for (imageIndex = 0; imageIndex < gif->ImageCount; imageIndex++) {
-        SavedImage *image = &(gif->SavedImages[imageIndex]);
-        GifImageDesc *desc = &(image->ImageDesc);
-        ColorMapObject *colorMap =
-            desc->ColorMap ? desc->ColorMap : gif->SColorMap;
+    for (imbgeIndex = 0; imbgeIndex < gif->ImbgeCount; imbgeIndex++) {
+        SbvedImbge *imbge = &(gif->SbvedImbges[imbgeIndex]);
+        GifImbgeDesc *desc = &(imbge->ImbgeDesc);
+        ColorMbpObject *colorMbp =
+            desc->ColorMbp ? desc->ColorMbp : gif->SColorMbp;
 
-        int transparentColor = -1;
-        int frameDelay = 100;
+        int trbnspbrentColor = -1;
+        int frbmeDelby = 100;
         int disposeMethod = GIF_DISPOSE_RESTORE;
         int colorCount = 0;
-        rgbquad_t colorMapBuf[SPLASH_COLOR_MAP_SIZE];
+        rgbqubd_t colorMbpBuf[SPLASH_COLOR_MAP_SIZE];
 
         cx = FIX_POINT(desc->Left, 0, gif->SWidth);
         cy = FIX_POINT(desc->Top, 0, gif->SHeight);
         cw = FIX_LENGTH(desc->Left, desc->Width, gif->SWidth);
         ch = FIX_LENGTH(desc->Top, desc->Height, gif->SHeight);
 
-        if (colorMap) {
-            if (colorMap->ColorCount <= SPLASH_COLOR_MAP_SIZE) {
-                colorCount = colorMap->ColorCount;
+        if (colorMbp) {
+            if (colorMbp->ColorCount <= SPLASH_COLOR_MAP_SIZE) {
+                colorCount = colorMbp->ColorCount;
             } else  {
                 colorCount = SPLASH_COLOR_MAP_SIZE;
             }
         }
 
-        /* the code below is loosely based around gif extension processing from win32 libungif sample */
+        /* the code below is loosely bbsed bround gif extension processing from win32 libungif sbmple */
 
-        for (i = 0; i < image->ExtensionBlockCount; i++) {
-            byte_t *pExtension = (byte_t *) image->ExtensionBlocks[i].Bytes;
-            unsigned size = image->ExtensionBlocks[i].ByteCount;
+        for (i = 0; i < imbge->ExtensionBlockCount; i++) {
+            byte_t *pExtension = (byte_t *) imbge->ExtensionBlocks[i].Bytes;
+            unsigned size = imbge->ExtensionBlocks[i].ByteCount;
 
-            switch (image->ExtensionBlocks[i].Function) {
-            case GRAPHICS_EXT_FUNC_CODE:
+            switch (imbge->ExtensionBlocks[i].Function) {
+            cbse GRAPHICS_EXT_FUNC_CODE:
                 {
-                    int flag = pExtension[0];
+                    int flbg = pExtension[0];
 
-                    frameDelay = (((int)pExtension[2]) << 8) | pExtension[1];
-                    if (frameDelay < 10)
-                        frameDelay = 10;
-                    if (flag & GIF_TRANSPARENT) {
-                        transparentColor = pExtension[3];
+                    frbmeDelby = (((int)pExtension[2]) << 8) | pExtension[1];
+                    if (frbmeDelby < 10)
+                        frbmeDelby = 10;
+                    if (flbg & GIF_TRANSPARENT) {
+                        trbnspbrentColor = pExtension[3];
                     } else {
-                        transparentColor = GIF_NOT_TRANSPARENT;
+                        trbnspbrentColor = GIF_NOT_TRANSPARENT;
                     }
                     disposeMethod =
-                        (flag >> GIF_DISPOSE_SHIFT) & GIF_DISPOSE_MASK;
-                    break;
+                        (flbg >> GIF_DISPOSE_SHIFT) & GIF_DISPOSE_MASK;
+                    brebk;
                 }
-            case APPLICATION_EXT_FUNC_CODE:
+            cbse APPLICATION_EXT_FUNC_CODE:
                 {
-                    if (size == sizeof(szNetscape20ext)
-                        && memcmp(pExtension, szNetscape20ext, size) == 0) {
+                    if (size == sizeof(szNetscbpe20ext)
+                        && memcmp(pExtension, szNetscbpe20ext, size) == 0) {
                         int iSubCode;
 
-                        if (++i >= image->ExtensionBlockCount)
-                            break;
-                        pExtension = (byte_t *) image->ExtensionBlocks[i].Bytes;
-                        if (image->ExtensionBlocks[i].ByteCount != 3)
-                            break;
+                        if (++i >= imbge->ExtensionBlockCount)
+                            brebk;
+                        pExtension = (byte_t *) imbge->ExtensionBlocks[i].Bytes;
+                        if (imbge->ExtensionBlocks[i].ByteCount != 3)
+                            brebk;
                         iSubCode = pExtension[0] & 0x07;
                         if (iSubCode == NSEXT_LOOP) {
-                            splash->loopCount =
+                            splbsh->loopCount =
                                 (pExtension[1] | (((int)pExtension[2]) << 8)) - 1;
                         }
                     }
-                    break;
+                    brebk;
                 }
-            default:
-                break;
+            defbult:
+                brebk;
             }
         }
 
-        if (colorMap) {
+        if (colorMbp) {
             for (i = 0; i < colorCount; i++) {
-                colorMapBuf[i] = MAKE_QUAD_GIF(colorMap->Colors[i], 0xff);
+                colorMbpBuf[i] = MAKE_QUAD_GIF(colorMbp->Colors[i], 0xff);
             }
         }
         {
 
-            byte_t *pSrc = image->RasterBits;
-            ImageFormat srcFormat;
-            ImageRect srcRect, dstRect;
-            int pass, npass;
+            byte_t *pSrc = imbge->RbsterBits;
+            ImbgeFormbt srcFormbt;
+            ImbgeRect srcRect, dstRect;
+            int pbss, npbss;
 
-            if (desc->Interlace) {
-                pass = 0;
-                npass = 4;
+            if (desc->Interlbce) {
+                pbss = 0;
+                npbss = 4;
             }
             else {
-                pass = 4;
-                npass = 5;
+                pbss = 4;
+                npbss = 5;
             }
 
-            srcFormat.colorMap = colorMapBuf;
-            srcFormat.depthBytes = 1;
-            srcFormat.byteOrder = BYTE_ORDER_NATIVE;
-            srcFormat.transparentColor = transparentColor;
-            srcFormat.fixedBits = QUAD_ALPHA_MASK;      // fixed 100% alpha
-            srcFormat.premultiplied = 0;
+            srcFormbt.colorMbp = colorMbpBuf;
+            srcFormbt.depthBytes = 1;
+            srcFormbt.byteOrder = BYTE_ORDER_NATIVE;
+            srcFormbt.trbnspbrentColor = trbnspbrentColor;
+            srcFormbt.fixedBits = QUAD_ALPHA_MASK;      // fixed 100% blphb
+            srcFormbt.premultiplied = 0;
 
-            for (; pass < npass; ++pass) {
-                int jump = interlacedJumps[pass];
-                int ofs = interlacedOffset[pass];
-                /* Number of source lines for current pass */
-                int numPassLines = (desc->Height + jump - ofs - 1) / jump;
-                /* Number of lines that fits to dest buffer */
+            for (; pbss < npbss; ++pbss) {
+                int jump = interlbcedJumps[pbss];
+                int ofs = interlbcedOffset[pbss];
+                /* Number of source lines for current pbss */
+                int numPbssLines = (desc->Height + jump - ofs - 1) / jump;
+                /* Number of lines thbt fits to dest buffer */
                 int numLines = (ch + jump - ofs - 1) / jump;
 
                 initRect(&srcRect, 0, 0, desc->Width, numLines, 1,
-                    desc->Width, pSrc, &srcFormat);
+                    desc->Width, pSrc, &srcFormbt);
 
                 if (numLines > 0) {
                     initRect(&dstRect, cx, cy + ofs, cw,
-                             numLines , jump, stride, pBitmapBits, &splash->imageFormat);
+                             numLines , jump, stride, pBitmbpBits, &splbsh->imbgeFormbt);
 
                     pSrc += convertRect(&srcRect, &dstRect, CVT_ALPHATEST);
                 }
-                // skip extra source data
-                pSrc += (numPassLines - numLines) * srcRect.stride;
+                // skip extrb source dbtb
+                pSrc += (numPbssLines - numLines) * srcRect.stride;
             }
         }
 
-        // now dispose of the previous frame correctly
+        // now dispose of the previous frbme correctly
 
-        splash->frames[imageIndex].bitmapBits =
-            (rgbquad_t *) malloc(bufferSize); // bufferSize is safe (checked above)
-        if (!splash->frames[imageIndex].bitmapBits) {
-            free(pBitmapBits);
-            free(pOldBitmapBits);
-            /* Assuming that callee will take care of splash frames we have already allocated */
+        splbsh->frbmes[imbgeIndex].bitmbpBits =
+            (rgbqubd_t *) mblloc(bufferSize); // bufferSize is sbfe (checked bbove)
+        if (!splbsh->frbmes[imbgeIndex].bitmbpBits) {
+            free(pBitmbpBits);
+            free(pOldBitmbpBits);
+            /* Assuming thbt cbllee will tbke cbre of splbsh frbmes we hbve blrebdy bllocbted */
             return 0;
         }
-        memcpy(splash->frames[imageIndex].bitmapBits, pBitmapBits, bufferSize);
+        memcpy(splbsh->frbmes[imbgeIndex].bitmbpBits, pBitmbpBits, bufferSize);
 
-        SplashInitFrameShape(splash, imageIndex);
+        SplbshInitFrbmeShbpe(splbsh, imbgeIndex);
 
-        splash->frames[imageIndex].delay = frameDelay * 10;     // 100ths of second to milliseconds
+        splbsh->frbmes[imbgeIndex].delby = frbmeDelby * 10;     // 100ths of second to milliseconds
         switch (disposeMethod) {
-        case GIF_DISPOSE_LEAVE:
-            memcpy(pOldBitmapBits, pBitmapBits, bufferSize);
-            break;
-        case GIF_DISPOSE_NONE:
-            break;
-        case GIF_DISPOSE_BACKGND:
+        cbse GIF_DISPOSE_LEAVE:
+            memcpy(pOldBitmbpBits, pBitmbpBits, bufferSize);
+            brebk;
+        cbse GIF_DISPOSE_NONE:
+            brebk;
+        cbse GIF_DISPOSE_BACKGND:
             {
-                ImageRect dstRect;
-                rgbquad_t fillColor = 0;                        // 0 is transparent
+                ImbgeRect dstRect;
+                rgbqubd_t fillColor = 0;                        // 0 is trbnspbrent
 
-                if (transparentColor < 0) {
+                if (trbnspbrentColor < 0) {
                     fillColor= MAKE_QUAD_GIF(
-                        colorMap->Colors[gif->SBackGroundColor], 0xff);
+                        colorMbp->Colors[gif->SBbckGroundColor], 0xff);
                 }
                 initRect(&dstRect,
                          cx, cy, cw, ch,
                          1, stride,
-                         pBitmapBits, &splash->imageFormat);
+                         pBitmbpBits, &splbsh->imbgeFormbt);
                 fillRect(fillColor, &dstRect);
             }
-            break;
-        case GIF_DISPOSE_RESTORE:
+            brebk;
+        cbse GIF_DISPOSE_RESTORE:
             {
-                int lineSize = cw * splash->imageFormat.depthBytes;
+                int lineSize = cw * splbsh->imbgeFormbt.depthBytes;
                 if (lineSize > 0) {
-                    int lineOffset = cx * splash->imageFormat.depthBytes;
+                    int lineOffset = cx * splbsh->imbgeFormbt.depthBytes;
                     int lineIndex = cy * stride + lineOffset;
                     for (j=0; j<ch; j++) {
-                        memcpy(pBitmapBits + lineIndex, pOldBitmapBits + lineIndex,
+                        memcpy(pBitmbpBits + lineIndex, pOldBitmbpBits + lineIndex,
                                lineSize);
                         lineIndex += stride;
                     }
                 }
             }
-            break;
+            brebk;
         }
     }
 
-    free(pBitmapBits);
-    free(pOldBitmapBits);
+    free(pBitmbpBits);
+    free(pOldBitmbpBits);
 
     DGifCloseFile(gif);
 
@@ -316,11 +316,11 @@ SplashDecodeGif(Splash * splash, GifFileType * gif)
 }
 
 int
-SplashDecodeGifStream(Splash * splash, SplashStream * stream)
+SplbshDecodeGifStrebm(Splbsh * splbsh, SplbshStrebm * strebm)
 {
-    GifFileType *gif = DGifOpen((void *) stream, SplashStreamGifInputFunc);
+    GifFileType *gif = DGifOpen((void *) strebm, SplbshStrebmGifInputFunc);
 
     if (!gif)
         return 0;
-    return SplashDecodeGif(splash, gif);
+    return SplbshDecodeGif(splbsh, gif);
 }

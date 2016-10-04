@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import com.sun.java.util.jar.pack.Package.Class;
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.Collection;
-import static com.sun.java.util.jar.pack.Constants.*;
+import com.sun.jbvb.util.jbr.pbck.Pbckbge.Clbss;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import stbtic com.sun.jbvb.util.jbr.pbck.Constbnts.*;
 
 /**
- * Represents a chunk of bytecodes.
- * @author John Rose
+ * Represents b chunk of bytecodes.
+ * @buthor John Rose
  */
-class Code extends Attribute.Holder {
-    Class.Method m;
+clbss Code extends Attribute.Holder {
+    Clbss.Method m;
 
-    public Code(Class.Method m) {
+    public Code(Clbss.Method m) {
         this.m = m;
     }
 
-    public Class.Method getMethod() {
+    public Clbss.Method getMethod() {
         return m;
     }
-    public Class thisClass() {
-        return m.thisClass();
+    public Clbss thisClbss() {
+        return m.thisClbss();
     }
-    public Package getPackage() {
-        return m.thisClass().getPackage();
-    }
-
-    public ConstantPool.Entry[] getCPMap() {
-        return m.getCPMap();
+    public Pbckbge getPbckbge() {
+        return m.thisClbss().getPbckbge();
     }
 
-    static private final ConstantPool.Entry[] noRefs = ConstantPool.noRefs;
+    public ConstbntPool.Entry[] getCPMbp() {
+        return m.getCPMbp();
+    }
 
-    // The following fields are used directly by the ClassReader, etc.
-    int max_stack;
-    int max_locals;
+    stbtic privbte finbl ConstbntPool.Entry[] noRefs = ConstbntPool.noRefs;
 
-    ConstantPool.Entry handler_class[] = noRefs;
-    int handler_start[] = noInts;
-    int handler_end[] = noInts;
-    int handler_catch[] = noInts;
+    // The following fields bre used directly by the ClbssRebder, etc.
+    int mbx_stbck;
+    int mbx_locbls;
+
+    ConstbntPool.Entry hbndler_clbss[] = noRefs;
+    int hbndler_stbrt[] = noInts;
+    int hbndler_end[] = noInts;
+    int hbndler_cbtch[] = noInts;
 
     byte[] bytes;
-    Fixups fixups;  // reference relocations, if any are required
-    Object insnMap; // array of instruction boundaries
+    Fixups fixups;  // reference relocbtions, if bny bre required
+    Object insnMbp; // brrby of instruction boundbries
 
     int getLength() { return bytes.length; }
 
-    int getMaxStack() {
-        return max_stack;
+    int getMbxStbck() {
+        return mbx_stbck;
     }
-    void setMaxStack(int ms) {
-        max_stack = ms;
-    }
-
-    int getMaxNALocals() {
-        int argsize = m.getArgumentSize();
-        return max_locals - argsize;
-    }
-    void setMaxNALocals(int ml) {
-        int argsize = m.getArgumentSize();
-        max_locals = argsize + ml;
+    void setMbxStbck(int ms) {
+        mbx_stbck = ms;
     }
 
-    int getHandlerCount() {
-        assert(handler_class.length == handler_start.length);
-        assert(handler_class.length == handler_end.length);
-        assert(handler_class.length == handler_catch.length);
-        return handler_class.length;
+    int getMbxNALocbls() {
+        int brgsize = m.getArgumentSize();
+        return mbx_locbls - brgsize;
     }
-    void setHandlerCount(int h) {
+    void setMbxNALocbls(int ml) {
+        int brgsize = m.getArgumentSize();
+        mbx_locbls = brgsize + ml;
+    }
+
+    int getHbndlerCount() {
+        bssert(hbndler_clbss.length == hbndler_stbrt.length);
+        bssert(hbndler_clbss.length == hbndler_end.length);
+        bssert(hbndler_clbss.length == hbndler_cbtch.length);
+        return hbndler_clbss.length;
+    }
+    void setHbndlerCount(int h) {
         if (h > 0) {
-            handler_class = new ConstantPool.Entry[h];
-            handler_start = new int[h];
-            handler_end   = new int[h];
-            handler_catch = new int[h];
-            // caller must fill these in ASAP
+            hbndler_clbss = new ConstbntPool.Entry[h];
+            hbndler_stbrt = new int[h];
+            hbndler_end   = new int[h];
+            hbndler_cbtch = new int[h];
+            // cbller must fill these in ASAP
         }
     }
 
@@ -111,26 +111,26 @@ class Code extends Attribute.Holder {
             fixups.setBytes(bytes);
     }
 
-    void setInstructionMap(int[] insnMap, int mapLen) {
-        //int[] oldMap = null;
-        //assert((oldMap = getInstructionMap()) != null);
-        this.insnMap = allocateInstructionMap(insnMap, mapLen);
-        //assert(Arrays.equals(oldMap, getInstructionMap()));
+    void setInstructionMbp(int[] insnMbp, int mbpLen) {
+        //int[] oldMbp = null;
+        //bssert((oldMbp = getInstructionMbp()) != null);
+        this.insnMbp = bllocbteInstructionMbp(insnMbp, mbpLen);
+        //bssert(Arrbys.equbls(oldMbp, getInstructionMbp()));
     }
-    void setInstructionMap(int[] insnMap) {
-        setInstructionMap(insnMap, insnMap.length);
-    }
-
-    int[] getInstructionMap() {
-        return expandInstructionMap(getInsnMap());
+    void setInstructionMbp(int[] insnMbp) {
+        setInstructionMbp(insnMbp, insnMbp.length);
     }
 
-    void addFixups(Collection<Fixups.Fixup> moreFixups) {
+    int[] getInstructionMbp() {
+        return expbndInstructionMbp(getInsnMbp());
+    }
+
+    void bddFixups(Collection<Fixups.Fixup> moreFixups) {
         if (fixups == null) {
             fixups = new Fixups(bytes);
         }
-        assert(fixups.getBytes() == bytes);
-        fixups.addAll(moreFixups);
+        bssert(fixups.getBytes() == bytes);
+        fixups.bddAll(moreFixups);
     }
 
     public void trimToSize() {
@@ -142,210 +142,210 @@ class Code extends Attribute.Holder {
         super.trimToSize();
     }
 
-    protected void visitRefs(int mode, Collection<ConstantPool.Entry> refs) {
-        int verbose = getPackage().verbose;
+    protected void visitRefs(int mode, Collection<ConstbntPool.Entry> refs) {
+        int verbose = getPbckbge().verbose;
         if (verbose > 2)
-            System.out.println("Reference scan "+this);
-        refs.addAll(Arrays.asList(handler_class));
+            System.out.println("Reference scbn "+this);
+        refs.bddAll(Arrbys.bsList(hbndler_clbss));
         if (fixups != null) {
             fixups.visitRefs(refs);
         } else {
-            // References (to a local cpMap) are embedded in the bytes.
-            ConstantPool.Entry[] cpMap = getCPMap();
+            // References (to b locbl cpMbp) bre embedded in the bytes.
+            ConstbntPool.Entry[] cpMbp = getCPMbp();
             for (Instruction i = instructionAt(0); i != null; i = i.next()) {
                 if (verbose > 4)
                     System.out.println(i);
                 int cpref = i.getCPIndex();
                 if (cpref >= 0) {
-                    refs.add(cpMap[cpref]);
+                    refs.bdd(cpMbp[cpref]);
                 }
             }
         }
-        // Handle attribute list:
+        // Hbndle bttribute list:
         super.visitRefs(mode, refs);
     }
 
-    // Since bytecodes are the single largest contributor to
-    // package size, it's worth a little bit of trouble
+    // Since bytecodes bre the single lbrgest contributor to
+    // pbckbge size, it's worth b little bit of trouble
     // to reduce the per-bytecode memory footprint.
-    // In the current scheme, half of the bulk of these arrays
-    // due to bytes, and half to shorts.  (Ints are insignificant.)
-    // Given an average of 1.8 bytes per instruction, this means
-    // instruction boundary arrays are about a 75% overhead--tolerable.
-    // (By using bytes, we get 33% savings over just shorts and ints.
-    // Using both bytes and shorts gives 66% savings over just ints.)
-    static final boolean shrinkMaps = true;
+    // In the current scheme, hblf of the bulk of these brrbys
+    // due to bytes, bnd hblf to shorts.  (Ints bre insignificbnt.)
+    // Given bn bverbge of 1.8 bytes per instruction, this mebns
+    // instruction boundbry brrbys bre bbout b 75% overhebd--tolerbble.
+    // (By using bytes, we get 33% sbvings over just shorts bnd ints.
+    // Using both bytes bnd shorts gives 66% sbvings over just ints.)
+    stbtic finbl boolebn shrinkMbps = true;
 
-    private Object allocateInstructionMap(int[] insnMap, int mapLen) {
+    privbte Object bllocbteInstructionMbp(int[] insnMbp, int mbpLen) {
         int PClimit = getLength();
-        if (shrinkMaps && PClimit <= Byte.MAX_VALUE - Byte.MIN_VALUE) {
-            byte[] map = new byte[mapLen+1];
-            for (int i = 0; i < mapLen; i++) {
-                map[i] = (byte)(insnMap[i] + Byte.MIN_VALUE);
+        if (shrinkMbps && PClimit <= Byte.MAX_VALUE - Byte.MIN_VALUE) {
+            byte[] mbp = new byte[mbpLen+1];
+            for (int i = 0; i < mbpLen; i++) {
+                mbp[i] = (byte)(insnMbp[i] + Byte.MIN_VALUE);
             }
-            map[mapLen] = (byte)(PClimit + Byte.MIN_VALUE);
-            return map;
-        } else if (shrinkMaps && PClimit < Short.MAX_VALUE - Short.MIN_VALUE) {
-            short[] map = new short[mapLen+1];
-            for (int i = 0; i < mapLen; i++) {
-                map[i] = (short)(insnMap[i] + Short.MIN_VALUE);
+            mbp[mbpLen] = (byte)(PClimit + Byte.MIN_VALUE);
+            return mbp;
+        } else if (shrinkMbps && PClimit < Short.MAX_VALUE - Short.MIN_VALUE) {
+            short[] mbp = new short[mbpLen+1];
+            for (int i = 0; i < mbpLen; i++) {
+                mbp[i] = (short)(insnMbp[i] + Short.MIN_VALUE);
             }
-            map[mapLen] = (short)(PClimit + Short.MIN_VALUE);
-            return map;
+            mbp[mbpLen] = (short)(PClimit + Short.MIN_VALUE);
+            return mbp;
         } else {
-            int[] map = Arrays.copyOf(insnMap, mapLen + 1);
-            map[mapLen] = PClimit;
-            return map;
+            int[] mbp = Arrbys.copyOf(insnMbp, mbpLen + 1);
+            mbp[mbpLen] = PClimit;
+            return mbp;
         }
     }
-    private int[] expandInstructionMap(Object map0) {
-        int[] imap;
-        if (map0 instanceof byte[]) {
-            byte[] map = (byte[]) map0;
-            imap = new int[map.length-1];
-            for (int i = 0; i < imap.length; i++) {
-                imap[i] = map[i] - Byte.MIN_VALUE;
+    privbte int[] expbndInstructionMbp(Object mbp0) {
+        int[] imbp;
+        if (mbp0 instbnceof byte[]) {
+            byte[] mbp = (byte[]) mbp0;
+            imbp = new int[mbp.length-1];
+            for (int i = 0; i < imbp.length; i++) {
+                imbp[i] = mbp[i] - Byte.MIN_VALUE;
             }
-        } else if (map0 instanceof short[]) {
-            short[] map = (short[]) map0;
-            imap = new int[map.length-1];
-            for (int i = 0; i < imap.length; i++) {
-                imap[i] = map[i] - Byte.MIN_VALUE;
+        } else if (mbp0 instbnceof short[]) {
+            short[] mbp = (short[]) mbp0;
+            imbp = new int[mbp.length-1];
+            for (int i = 0; i < imbp.length; i++) {
+                imbp[i] = mbp[i] - Byte.MIN_VALUE;
             }
         } else {
-            int[] map = (int[]) map0;
-            imap = Arrays.copyOfRange(map, 0, map.length - 1);
+            int[] mbp = (int[]) mbp0;
+            imbp = Arrbys.copyOfRbnge(mbp, 0, mbp.length - 1);
         }
-        return imap;
+        return imbp;
     }
 
-    Object getInsnMap() {
-        // Build a map of instruction boundaries.
-        if (insnMap != null) {
-            return insnMap;
+    Object getInsnMbp() {
+        // Build b mbp of instruction boundbries.
+        if (insnMbp != null) {
+            return insnMbp;
         }
-        int[] map = new int[getLength()];
+        int[] mbp = new int[getLength()];
         int fillp = 0;
         for (Instruction i = instructionAt(0); i != null; i = i.next()) {
-            map[fillp++] = i.getPC();
+            mbp[fillp++] = i.getPC();
         }
-        // Make it byte[], short[], or int[] according to the max BCI.
-        insnMap = allocateInstructionMap(map, fillp);
-        //assert(assertBCICodingsOK());
-        return insnMap;
+        // Mbke it byte[], short[], or int[] bccording to the mbx BCI.
+        insnMbp = bllocbteInstructionMbp(mbp, fillp);
+        //bssert(bssertBCICodingsOK());
+        return insnMbp;
     }
 
-    /** Encode the given BCI as an instruction boundary number.
-     *  For completeness, irregular (non-boundary) BCIs are
-     *  encoded compactly immediately after the boundary numbers.
-     *  This encoding is the identity mapping outside 0..length,
-     *  and it is 1-1 everywhere.  All by itself this technique
-     *  improved zipped rt.jar compression by 2.6%.
+    /** Encode the given BCI bs bn instruction boundbry number.
+     *  For completeness, irregulbr (non-boundbry) BCIs bre
+     *  encoded compbctly immedibtely bfter the boundbry numbers.
+     *  This encoding is the identity mbpping outside 0..length,
+     *  bnd it is 1-1 everywhere.  All by itself this technique
+     *  improved zipped rt.jbr compression by 2.6%.
      */
     public int encodeBCI(int bci) {
         if (bci <= 0 || bci > getLength())  return bci;
-        Object map0 = getInsnMap();
+        Object mbp0 = getInsnMbp();
         int i, len;
-        if (shrinkMaps && map0 instanceof byte[]) {
-            byte[] map = (byte[]) map0;
-            len = map.length;
-            i = Arrays.binarySearch(map, (byte)(bci + Byte.MIN_VALUE));
-        } else if (shrinkMaps && map0 instanceof short[]) {
-            short[] map = (short[]) map0;
-            len = map.length;
-            i = Arrays.binarySearch(map, (short)(bci + Short.MIN_VALUE));
+        if (shrinkMbps && mbp0 instbnceof byte[]) {
+            byte[] mbp = (byte[]) mbp0;
+            len = mbp.length;
+            i = Arrbys.binbrySebrch(mbp, (byte)(bci + Byte.MIN_VALUE));
+        } else if (shrinkMbps && mbp0 instbnceof short[]) {
+            short[] mbp = (short[]) mbp0;
+            len = mbp.length;
+            i = Arrbys.binbrySebrch(mbp, (short)(bci + Short.MIN_VALUE));
         } else {
-            int[] map = (int[]) map0;
-            len = map.length;
-            i = Arrays.binarySearch(map, bci);
+            int[] mbp = (int[]) mbp0;
+            len = mbp.length;
+            i = Arrbys.binbrySebrch(mbp, bci);
         }
-        assert(i != -1);
-        assert(i != 0);
-        assert(i != len);
-        assert(i != -len-1);
+        bssert(i != -1);
+        bssert(i != 0);
+        bssert(i != len);
+        bssert(i != -len-1);
         return (i >= 0) ? i : len + bci - (-i-1);
     }
     public int decodeBCI(int bciCode) {
         if (bciCode <= 0 || bciCode > getLength())  return bciCode;
-        Object map0 = getInsnMap();
+        Object mbp0 = getInsnMbp();
         int i, len;
-        // len == map.length
-        // If bciCode < len, result is map[bciCode], the common and fast case.
-        // Otherwise, let map[i] be the smallest map[*] larger than bci.
-        // Then, required by the return statement of encodeBCI:
+        // len == mbp.length
+        // If bciCode < len, result is mbp[bciCode], the common bnd fbst cbse.
+        // Otherwise, let mbp[i] be the smbllest mbp[*] lbrger thbn bci.
+        // Then, required by the return stbtement of encodeBCI:
         //   bciCode == len + bci - i
         // Thus:
         //   bci-i == bciCode-len
-        //   map[i]-adj-i == bciCode-len ; adj in (0..map[i]-map[i-1])
-        // We can solve this by searching for adjacent entries
-        // map[i-1], map[i] such that:
-        //   map[i-1]-(i-1) <= bciCode-len < map[i]-i
-        // This can be approximated by searching map[i] for bciCode and then
-        // linear searching backward.  Given the right i, we then have:
+        //   mbp[i]-bdj-i == bciCode-len ; bdj in (0..mbp[i]-mbp[i-1])
+        // We cbn solve this by sebrching for bdjbcent entries
+        // mbp[i-1], mbp[i] such thbt:
+        //   mbp[i-1]-(i-1) <= bciCode-len < mbp[i]-i
+        // This cbn be bpproximbted by sebrching mbp[i] for bciCode bnd then
+        // linebr sebrching bbckwbrd.  Given the right i, we then hbve:
         //   bci == bciCode-len + i
-        // This linear search is at its worst case for indexes in the beginning
-        // of a large method, but it's not clear that this is a problem in
-        // practice, since BCIs are usually on instruction boundaries.
-        if (shrinkMaps && map0 instanceof byte[]) {
-            byte[] map = (byte[]) map0;
-            len = map.length;
+        // This linebr sebrch is bt its worst cbse for indexes in the beginning
+        // of b lbrge method, but it's not clebr thbt this is b problem in
+        // prbctice, since BCIs bre usublly on instruction boundbries.
+        if (shrinkMbps && mbp0 instbnceof byte[]) {
+            byte[] mbp = (byte[]) mbp0;
+            len = mbp.length;
             if (bciCode < len)
-                return map[bciCode] - Byte.MIN_VALUE;
-            i = Arrays.binarySearch(map, (byte)(bciCode + Byte.MIN_VALUE));
+                return mbp[bciCode] - Byte.MIN_VALUE;
+            i = Arrbys.binbrySebrch(mbp, (byte)(bciCode + Byte.MIN_VALUE));
             if (i < 0)  i = -i-1;
             int key = bciCode-len + Byte.MIN_VALUE;
             for (;; i--) {
-                if (map[i-1]-(i-1) <= key)  break;
+                if (mbp[i-1]-(i-1) <= key)  brebk;
             }
-        } else if (shrinkMaps && map0 instanceof short[]) {
-            short[] map = (short[]) map0;
-            len = map.length;
+        } else if (shrinkMbps && mbp0 instbnceof short[]) {
+            short[] mbp = (short[]) mbp0;
+            len = mbp.length;
             if (bciCode < len)
-                return map[bciCode] - Short.MIN_VALUE;
-            i = Arrays.binarySearch(map, (short)(bciCode + Short.MIN_VALUE));
+                return mbp[bciCode] - Short.MIN_VALUE;
+            i = Arrbys.binbrySebrch(mbp, (short)(bciCode + Short.MIN_VALUE));
             if (i < 0)  i = -i-1;
             int key = bciCode-len + Short.MIN_VALUE;
             for (;; i--) {
-                if (map[i-1]-(i-1) <= key)  break;
+                if (mbp[i-1]-(i-1) <= key)  brebk;
             }
         } else {
-            int[] map = (int[]) map0;
-            len = map.length;
+            int[] mbp = (int[]) mbp0;
+            len = mbp.length;
             if (bciCode < len)
-                return map[bciCode];
-            i = Arrays.binarySearch(map, bciCode);
+                return mbp[bciCode];
+            i = Arrbys.binbrySebrch(mbp, bciCode);
             if (i < 0)  i = -i-1;
             int key = bciCode-len;
             for (;; i--) {
-                if (map[i-1]-(i-1) <= key)  break;
+                if (mbp[i-1]-(i-1) <= key)  brebk;
             }
         }
         return bciCode-len + i;
     }
 
-    public void finishRefs(ConstantPool.Index ix) {
+    public void finishRefs(ConstbntPool.Index ix) {
         if (fixups != null) {
             fixups.finishRefs(ix);
             fixups = null;
         }
-        // Code attributes are finished in ClassWriter.writeAttributes.
+        // Code bttributes bre finished in ClbssWriter.writeAttributes.
     }
 
     Instruction instructionAt(int pc) {
-        return Instruction.at(bytes, pc);
+        return Instruction.bt(bytes, pc);
     }
 
-    static boolean flagsRequireCode(int flags) {
-        // A method's flags force it to have a Code attribute,
-        // if the flags are neither native nor abstract.
-        return (flags & (Modifier.NATIVE | Modifier.ABSTRACT)) == 0;
+    stbtic boolebn flbgsRequireCode(int flbgs) {
+        // A method's flbgs force it to hbve b Code bttribute,
+        // if the flbgs bre neither nbtive nor bbstrbct.
+        return (flbgs & (Modifier.NATIVE | Modifier.ABSTRACT)) == 0;
     }
 
     public String toString() {
         return m+".Code";
     }
 
-    /// Fetching values from my own array.
+    /// Fetching vblues from my own brrby.
     public int getInt(int pc)    { return Instruction.getInt(bytes, pc); }
     public int getShort(int pc)  { return Instruction.getShort(bytes, pc); }
     public int getByte(int pc)   { return Instruction.getByte(bytes, pc); }
@@ -354,23 +354,23 @@ class Code extends Attribute.Holder {
     void setByte(int pc, int x)  { Instruction.setByte(bytes, pc, x); }
 
 /* TEST CODE ONLY
-    private boolean assertBCICodingsOK() {
-        boolean ok = true;
-        int len = java.lang.reflect.Array.getLength(insnMap);
-        int base = 0;
-        if (insnMap.getClass().getComponentType() == Byte.TYPE)
-            base = Byte.MIN_VALUE;
-        if (insnMap.getClass().getComponentType() == Short.TYPE)
-            base = Short.MIN_VALUE;
-        for (int i = -1, imax = getLength()+1; i <= imax; i++) {
+    privbte boolebn bssertBCICodingsOK() {
+        boolebn ok = true;
+        int len = jbvb.lbng.reflect.Arrby.getLength(insnMbp);
+        int bbse = 0;
+        if (insnMbp.getClbss().getComponentType() == Byte.TYPE)
+            bbse = Byte.MIN_VALUE;
+        if (insnMbp.getClbss().getComponentType() == Short.TYPE)
+            bbse = Short.MIN_VALUE;
+        for (int i = -1, imbx = getLength()+1; i <= imbx; i++) {
             int bci = i;
-            int enc = Math.min(-999, bci-1);
+            int enc = Mbth.min(-999, bci-1);
             int dec = enc;
             try {
                 enc = encodeBCI(bci);
                 dec = decodeBCI(enc);
-            } catch (RuntimeException ee) {
-                ee.printStackTrace();
+            } cbtch (RuntimeException ee) {
+                ee.printStbckTrbce();
             }
             if (dec == bci) {
                 //System.out.println("BCI="+bci+(enc<len?"":"   ")+" enc="+enc);
@@ -379,18 +379,18 @@ class Code extends Attribute.Holder {
             if (ok) {
                 for (int q = 0; q <= 1; q++) {
                     StringBuffer sb = new StringBuffer();
-                    sb.append("bci "+(q==0?"map":"del")+"["+len+"] = {");
+                    sb.bppend("bci "+(q==0?"mbp":"del")+"["+len+"] = {");
                     for (int j = 0; j < len; j++) {
-                        int mapi = ((Number)java.lang.reflect.Array.get(insnMap, j)).intValue() - base;
-                        mapi -= j*q;
-                        sb.append(" "+mapi);
+                        int mbpi = ((Number)jbvb.lbng.reflect.Arrby.get(insnMbp, j)).intVblue() - bbse;
+                        mbpi -= j*q;
+                        sb.bppend(" "+mbpi);
                     }
-                    sb.append(" }");
+                    sb.bppend(" }");
                     System.out.println("*** "+sb);
                 }
             }
             System.out.println("*** BCI="+bci+" enc="+enc+" dec="+dec);
-            ok = false;
+            ok = fblse;
         }
         return ok;
     }

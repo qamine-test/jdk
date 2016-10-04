@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -33,18 +33,18 @@ extern "C" {
 
 typedef struct {
   void **lut;
-  mlib_s32 channels;
+  mlib_s32 chbnnels;
   mlib_type intype;
   mlib_s32 offset;
-  void *table;
+  void *tbble;
   mlib_s32 bits;
   mlib_s32 method;
   mlib_s32 lutlength;
   mlib_s32 indexsize;
   mlib_type outtype;
-  void *normal_table;
+  void *normbl_tbble;
   mlib_d64 *double_lut;
-} mlib_colormap;
+} mlib_colormbp;
 
 /***************************************************************/
 #define LUT_COLOR_CUBE_SEARCH  0
@@ -54,72 +54,72 @@ typedef struct {
 
 /***************************************************************/
 
-/* Bit set in the tag denotes that the corresponding quadrant is a
-   palette index, not node. If the bit is clear, this means that that
-   is a pointer to the down level node. If the bit is clear and the
-   corresponding quadrant is NULL, then there is no way down there and
-   this quadrant is clear. */
+/* Bit set in the tbg denotes thbt the corresponding qubdrbnt is b
+   pblette index, not node. If the bit is clebr, this mebns thbt thbt
+   is b pointer to the down level node. If the bit is clebr bnd the
+   corresponding qubdrbnt is NULL, then there is no wby down there bnd
+   this qubdrbnt is clebr. */
 
 struct lut_node_3 {
-  mlib_u8 tag;
+  mlib_u8 tbg;
   union {
-    struct lut_node_3 *quadrants[8];
+    struct lut_node_3 *qubdrbnts[8];
     long index[8];
   } contents;
 };
 
 struct lut_node_4 {
-  mlib_u16 tag;
+  mlib_u16 tbg;
   union {
-    struct lut_node_4 *quadrants[16];
+    struct lut_node_4 *qubdrbnts[16];
     long index[16];
   } contents;
 };
 
 /***************************************************************/
 
-#define mlib_ImageGetLutData(colormap)                          \
-  ((void **)((( mlib_colormap *)( colormap))->lut))
+#define mlib_ImbgeGetLutDbtb(colormbp)                          \
+  ((void **)((( mlib_colormbp *)( colormbp))->lut))
 
 /***************************************************************/
-#define mlib_ImageGetLutNormalTable(colormap)                   \
-  ((void *)((( mlib_colormap *)( colormap))->normal_table))
+#define mlib_ImbgeGetLutNormblTbble(colormbp)                   \
+  ((void *)((( mlib_colormbp *)( colormbp))->normbl_tbble))
 
 /***************************************************************/
-#define mlib_ImageGetLutInversTable(colormap)                   \
-  ((void *)((( mlib_colormap *)( colormap))->table))
+#define mlib_ImbgeGetLutInversTbble(colormbp)                   \
+  ((void *)((( mlib_colormbp *)( colormbp))->tbble))
 
 /***************************************************************/
-#define mlib_ImageGetLutChannels(colormap)                      \
-  ((mlib_s32)((( mlib_colormap *)( colormap))->channels))
+#define mlib_ImbgeGetLutChbnnels(colormbp)                      \
+  ((mlib_s32)((( mlib_colormbp *)( colormbp))->chbnnels))
 
 /***************************************************************/
-#define mlib_ImageGetLutType(colormap)                          \
-  ((mlib_type)((( mlib_colormap *)( colormap))->intype))
+#define mlib_ImbgeGetLutType(colormbp)                          \
+  ((mlib_type)((( mlib_colormbp *)( colormbp))->intype))
 
 /***************************************************************/
-#define mlib_ImageGetIndexSize(colormap)                        \
-  ((mlib_s32)((( mlib_colormap *)( colormap))->indexsize))
+#define mlib_ImbgeGetIndexSize(colormbp)                        \
+  ((mlib_s32)((( mlib_colormbp *)( colormbp))->indexsize))
 
 /***************************************************************/
-#define mlib_ImageGetOutType(colormap)                          \
-  ((mlib_type)((( mlib_colormap *)( colormap))->outtype))
+#define mlib_ImbgeGetOutType(colormbp)                          \
+  ((mlib_type)((( mlib_colormbp *)( colormbp))->outtype))
 
 /***************************************************************/
-#define mlib_ImageGetLutOffset(colormap)                        \
-  ((mlib_s32)((( mlib_colormap *)( colormap))->offset))
+#define mlib_ImbgeGetLutOffset(colormbp)                        \
+  ((mlib_s32)((( mlib_colormbp *)( colormbp))->offset))
 
 /***************************************************************/
-#define mlib_ImageGetBits(colormap)                             \
-  ((mlib_s32)((( mlib_colormap *)( colormap))->bits))
+#define mlib_ImbgeGetBits(colormbp)                             \
+  ((mlib_s32)((( mlib_colormbp *)( colormbp))->bits))
 
 /***************************************************************/
-#define mlib_ImageGetMethod(colormap)                           \
-  ((mlib_s32)((( mlib_colormap *)( colormap))->method))
+#define mlib_ImbgeGetMethod(colormbp)                           \
+  ((mlib_s32)((( mlib_colormbp *)( colormbp))->method))
 
 /***************************************************************/
-#define mlib_ImageGetLutDoubleData(colormap)                    \
-  ((mlib_d64 *)((( mlib_colormap *)( colormap))->double_lut))
+#define mlib_ImbgeGetLutDoubleDbtb(colormbp)                    \
+  ((mlib_d64 *)((( mlib_colormbp *)( colormbp))->double_lut))
 
 /***************************************************************/
 #define FIND_DISTANCE_3( x1, x2, y1, y2, z1, z2, SHIFT )        \
@@ -136,83 +136,83 @@ struct lut_node_4 {
 
 /***************************************************************/
 
-void mlib_ImageColorTrue2IndexLine_U8_BIT_1(const mlib_u8 *src,
+void mlib_ImbgeColorTrue2IndexLine_U8_BIT_1(const mlib_u8 *src,
                                             mlib_u8       *dst,
                                             mlib_s32      bit_offset,
                                             mlib_s32      length,
-                                            const void    *state);
+                                            const void    *stbte);
 
 
-void mlib_ImageColorTrue2IndexLine_U8_U8_3(const mlib_u8 *src,
+void mlib_ImbgeColorTrue2IndexLine_U8_U8_3(const mlib_u8 *src,
                                            mlib_u8       *dst,
                                            mlib_s32      length,
-                                           const void    *colormap);
+                                           const void    *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_U8_U8_3_in_4(const mlib_u8 *src,
+void mlib_ImbgeColorTrue2IndexLine_U8_U8_3_in_4(const mlib_u8 *src,
                                                 mlib_u8       *dst,
                                                 mlib_s32      length,
-                                                const void    *colormap);
+                                                const void    *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_U8_U8_4(const mlib_u8 *src,
+void mlib_ImbgeColorTrue2IndexLine_U8_U8_4(const mlib_u8 *src,
                                            mlib_u8       *dst,
                                            mlib_s32      length,
-                                           const void    *colormap);
+                                           const void    *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_U8_S16_3(const mlib_u8 *src,
+void mlib_ImbgeColorTrue2IndexLine_U8_S16_3(const mlib_u8 *src,
                                             mlib_s16      *dst,
                                             mlib_s32      length,
-                                            const void    *colormap);
+                                            const void    *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_U8_S16_3_in_4(const mlib_u8 *src,
+void mlib_ImbgeColorTrue2IndexLine_U8_S16_3_in_4(const mlib_u8 *src,
                                                  mlib_s16      *dst,
                                                  mlib_s32      length,
-                                                 const void    *colormap);
+                                                 const void    *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_U8_S16_4(const mlib_u8 *src,
+void mlib_ImbgeColorTrue2IndexLine_U8_S16_4(const mlib_u8 *src,
                                             mlib_s16      *dst,
                                             mlib_s32      length,
-                                            const void    *colormap);
+                                            const void    *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_S16_S16_3(const mlib_s16 *src,
+void mlib_ImbgeColorTrue2IndexLine_S16_S16_3(const mlib_s16 *src,
                                              mlib_s16       *dst,
                                              mlib_s32       length,
-                                             const void     *colormap);
+                                             const void     *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_S16_S16_3_in_4(const mlib_s16 *src,
+void mlib_ImbgeColorTrue2IndexLine_S16_S16_3_in_4(const mlib_s16 *src,
                                                   mlib_s16       *dst,
                                                   mlib_s32       length,
-                                                  const void     *colormap);
+                                                  const void     *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_S16_S16_4(const mlib_s16 *src,
+void mlib_ImbgeColorTrue2IndexLine_S16_S16_4(const mlib_s16 *src,
                                              mlib_s16       *dst,
                                              mlib_s32       length,
-                                             const void     *colormap);
+                                             const void     *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_S16_U8_3(const mlib_s16 *src,
+void mlib_ImbgeColorTrue2IndexLine_S16_U8_3(const mlib_s16 *src,
                                             mlib_u8        *dst,
                                             mlib_s32       length,
-                                            const void     *colormap);
+                                            const void     *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_S16_U8_3_in_4(const mlib_s16 *src,
+void mlib_ImbgeColorTrue2IndexLine_S16_U8_3_in_4(const mlib_s16 *src,
                                                  mlib_u8        *dst,
                                                  mlib_s32       length,
-                                                 const void     *colormap);
+                                                 const void     *colormbp);
 
 
-void mlib_ImageColorTrue2IndexLine_S16_U8_4(const mlib_s16 *src,
+void mlib_ImbgeColorTrue2IndexLine_S16_U8_4(const mlib_s16 *src,
                                             mlib_u8        *dst,
                                             mlib_s32       length,
-                                            const void     *colormap);
+                                            const void     *colormbp);
 
 
 #ifdef __cplusplus

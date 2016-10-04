@@ -1,305 +1,305 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
-import com.sun.jdi.ClassNotLoadedException;
-import com.sun.jdi.ClassType;
-import com.sun.jdi.IncompatibleThreadStateException;
-import com.sun.jdi.InterfaceType;
-import com.sun.jdi.InvalidTypeException;
-import com.sun.jdi.InvocationException;
+import com.sun.jdi.ClbssNotLobdedException;
+import com.sun.jdi.ClbssType;
+import com.sun.jdi.IncompbtibleThrebdStbteException;
+import com.sun.jdi.InterfbceType;
+import com.sun.jdi.InvblidTypeException;
+import com.sun.jdi.InvocbtionException;
 import com.sun.jdi.Method;
 import com.sun.jdi.ReferenceType;
-import com.sun.jdi.ThreadReference;
-import com.sun.jdi.Value;
-import com.sun.jdi.VirtualMachine;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.sun.jdi.ThrebdReference;
+import com.sun.jdi.Vblue;
+import com.sun.jdi.VirtublMbchine;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
 /**
- * A supertype for ReferenceTypes allowing method invocations
+ * A supertype for ReferenceTypes bllowing method invocbtions
  */
-abstract class InvokableTypeImpl extends ReferenceTypeImpl {
+bbstrbct clbss InvokbbleTypeImpl extends ReferenceTypeImpl {
     /**
-     * The invocation result wrapper
-     * It is necessary because both ClassType and InterfaceType
-     * use their own type to represent the invocation result
+     * The invocbtion result wrbpper
+     * It is necessbry becbuse both ClbssType bnd InterfbceType
+     * use their own type to represent the invocbtion result
      */
-    static interface InvocationResult {
+    stbtic interfbce InvocbtionResult {
         ObjectReferenceImpl getException();
-        ValueImpl getResult();
+        VblueImpl getResult();
     }
 
-    InvokableTypeImpl(VirtualMachine aVm, long aRef) {
-        super(aVm, aRef);
+    InvokbbleTypeImpl(VirtublMbchine bVm, long bRef) {
+        super(bVm, bRef);
     }
 
     /**
-     * Method invocation support.
-     * Shared by ClassType and InterfaceType
-     * @param threadIntf the thread in which to invoke.
-     * @param methodIntf method the {@link Method} to invoke.
-     * @param origArguments the list of {@link Value} arguments bound to the
-     * invoked method. Values from the list are assigned to arguments
-     * in the order they appear in the method signature.
-     * @param options the integer bit flag options.
-     * @return a {@link Value} mirror of the invoked method's return value.
-     * @throws java.lang.IllegalArgumentException if the method is not
-     * a member of this type, if the size of the argument list
-     * does not match the number of declared arguments for the method, or
-     * if the method is not static or is a static initializer.
-     * @throws {@link InvalidTypeException} if any argument in the
-     * argument list is not assignable to the corresponding method argument
+     * Method invocbtion support.
+     * Shbred by ClbssType bnd InterfbceType
+     * @pbrbm threbdIntf the threbd in which to invoke.
+     * @pbrbm methodIntf method the {@link Method} to invoke.
+     * @pbrbm origArguments the list of {@link Vblue} brguments bound to the
+     * invoked method. Vblues from the list bre bssigned to brguments
+     * in the order they bppebr in the method signbture.
+     * @pbrbm options the integer bit flbg options.
+     * @return b {@link Vblue} mirror of the invoked method's return vblue.
+     * @throws jbvb.lbng.IllegblArgumentException if the method is not
+     * b member of this type, if the size of the brgument list
+     * does not mbtch the number of declbred brguments for the method, or
+     * if the method is not stbtic or is b stbtic initiblizer.
+     * @throws {@link InvblidTypeException} if bny brgument in the
+     * brgument list is not bssignbble to the corresponding method brgument
      * type.
-     * @throws ClassNotLoadedException if any argument type has not yet been loaded
-     * through the appropriate class loader.
-     * @throws IncompatibleThreadStateException if the specified thread has not
-     * been suspended by an event.
-     * @throws InvocationException if the method invocation resulted in
-     * an exception in the target VM.
-     * @throws InvalidTypeException If the arguments do not meet this requirement --
-     *         Object arguments must be assignment compatible with the argument
-     *         type.  This implies that the argument type must be
-     *         loaded through the enclosing class's class loader.
-     *         Primitive arguments must be either assignment compatible with the
-     *         argument type or must be convertible to the argument type without loss
-     *         of information. See JLS section 5.2 for more information on assignment
-     *         compatibility.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws ClbssNotLobdedException if bny brgument type hbs not yet been lobded
+     * through the bppropribte clbss lobder.
+     * @throws IncompbtibleThrebdStbteException if the specified threbd hbs not
+     * been suspended by bn event.
+     * @throws InvocbtionException if the method invocbtion resulted in
+     * bn exception in the tbrget VM.
+     * @throws InvblidTypeException If the brguments do not meet this requirement --
+     *         Object brguments must be bssignment compbtible with the brgument
+     *         type.  This implies thbt the brgument type must be
+     *         lobded through the enclosing clbss's clbss lobder.
+     *         Primitive brguments must be either bssignment compbtible with the
+     *         brgument type or must be convertible to the brgument type without loss
+     *         of informbtion. See JLS section 5.2 for more informbtion on bssignment
+     *         compbtibility.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      */
-    final public Value invokeMethod(ThreadReference threadIntf, Method methodIntf,
-                                    List<? extends Value> origArguments, int options)
-                                        throws InvalidTypeException,
-                                               ClassNotLoadedException,
-                                               IncompatibleThreadStateException,
-                                               InvocationException {
-        validateMirror(threadIntf);
-        validateMirror(methodIntf);
-        validateMirrorsOrNulls(origArguments);
+    finbl public Vblue invokeMethod(ThrebdReference threbdIntf, Method methodIntf,
+                                    List<? extends Vblue> origArguments, int options)
+                                        throws InvblidTypeException,
+                                               ClbssNotLobdedException,
+                                               IncompbtibleThrebdStbteException,
+                                               InvocbtionException {
+        vblidbteMirror(threbdIntf);
+        vblidbteMirror(methodIntf);
+        vblidbteMirrorsOrNulls(origArguments);
         MethodImpl method = (MethodImpl) methodIntf;
-        ThreadReferenceImpl thread = (ThreadReferenceImpl) threadIntf;
-        validateMethodInvocation(method);
-        List<? extends Value> arguments = method.validateAndPrepareArgumentsForInvoke(origArguments);
-        ValueImpl[] args = arguments.toArray(new ValueImpl[0]);
-        InvocationResult ret;
+        ThrebdReferenceImpl threbd = (ThrebdReferenceImpl) threbdIntf;
+        vblidbteMethodInvocbtion(method);
+        List<? extends Vblue> brguments = method.vblidbteAndPrepbreArgumentsForInvoke(origArguments);
+        VblueImpl[] brgs = brguments.toArrby(new VblueImpl[0]);
+        InvocbtionResult ret;
         try {
-            PacketStream stream = sendInvokeCommand(thread, method, args, options);
-            ret = waitForReply(stream);
-        } catch (JDWPException exc) {
+            PbcketStrebm strebm = sendInvokeCommbnd(threbd, method, brgs, options);
+            ret = wbitForReply(strebm);
+        } cbtch (JDWPException exc) {
             if (exc.errorCode() == JDWP.Error.INVALID_THREAD) {
-                throw new IncompatibleThreadStateException();
+                throw new IncompbtibleThrebdStbteException();
             } else {
                 throw exc.toJDIException();
             }
         }
         /*
-         * There is an implict VM-wide suspend at the conclusion
-         * of a normal (non-single-threaded) method invoke
+         * There is bn implict VM-wide suspend bt the conclusion
+         * of b normbl (non-single-threbded) method invoke
          */
-        if ((options & ClassType.INVOKE_SINGLE_THREADED) == 0) {
+        if ((options & ClbssType.INVOKE_SINGLE_THREADED) == 0) {
             vm.notifySuspend();
         }
         if (ret.getException() != null) {
-            throw new InvocationException(ret.getException());
+            throw new InvocbtionException(ret.getException());
         } else {
             return ret.getResult();
         }
     }
 
     @Override
-    boolean isAssignableTo(ReferenceType type) {
-        ClassTypeImpl superclazz = (ClassTypeImpl) superclass();
-        if (this.equals(type)) {
+    boolebn isAssignbbleTo(ReferenceType type) {
+        ClbssTypeImpl superclbzz = (ClbssTypeImpl) superclbss();
+        if (this.equbls(type)) {
             return true;
-        } else if ((superclazz != null) && superclazz.isAssignableTo(type)) {
+        } else if ((superclbzz != null) && superclbzz.isAssignbbleTo(type)) {
             return true;
         } else {
-            List<InterfaceType> interfaces = interfaces();
-            Iterator<InterfaceType> iter = interfaces.iterator();
-            while (iter.hasNext()) {
-                InterfaceTypeImpl interfaze = (InterfaceTypeImpl) iter.next();
-                if (interfaze.isAssignableTo(type)) {
+            List<InterfbceType> interfbces = interfbces();
+            Iterbtor<InterfbceType> iter = interfbces.iterbtor();
+            while (iter.hbsNext()) {
+                InterfbceTypeImpl interfbze = (InterfbceTypeImpl) iter.next();
+                if (interfbze.isAssignbbleTo(type)) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
     }
 
     @Override
-    final void addVisibleMethods(Map<String, Method> methodMap, Set<InterfaceType> seenInterfaces) {
+    finbl void bddVisibleMethods(Mbp<String, Method> methodMbp, Set<InterfbceType> seenInterfbces) {
         /*
          * Add methods from
-         * parent types first, so that the methods in this class will
-         * overwrite them in the hash table
+         * pbrent types first, so thbt the methods in this clbss will
+         * overwrite them in the hbsh tbble
          */
-        Iterator<InterfaceType> iter = interfaces().iterator();
-        while (iter.hasNext()) {
-            InterfaceTypeImpl interfaze = (InterfaceTypeImpl) iter.next();
-            if (!seenInterfaces.contains(interfaze)) {
-                interfaze.addVisibleMethods(methodMap, seenInterfaces);
-                seenInterfaces.add(interfaze);
+        Iterbtor<InterfbceType> iter = interfbces().iterbtor();
+        while (iter.hbsNext()) {
+            InterfbceTypeImpl interfbze = (InterfbceTypeImpl) iter.next();
+            if (!seenInterfbces.contbins(interfbze)) {
+                interfbze.bddVisibleMethods(methodMbp, seenInterfbces);
+                seenInterfbces.bdd(interfbze);
             }
         }
-        ClassTypeImpl clazz = (ClassTypeImpl) superclass();
-        if (clazz != null) {
-            clazz.addVisibleMethods(methodMap, seenInterfaces);
+        ClbssTypeImpl clbzz = (ClbssTypeImpl) superclbss();
+        if (clbzz != null) {
+            clbzz.bddVisibleMethods(methodMbp, seenInterfbces);
         }
-        addToMethodMap(methodMap, methods());
+        bddToMethodMbp(methodMbp, methods());
     }
 
-    final void addInterfaces(List<InterfaceType> list) {
-        List<InterfaceType> immediate = interfaces();
-        list.addAll(interfaces());
-        Iterator<InterfaceType> iter = immediate.iterator();
-        while (iter.hasNext()) {
-            InterfaceTypeImpl interfaze = (InterfaceTypeImpl) iter.next();
-            interfaze.addInterfaces(list);
+    finbl void bddInterfbces(List<InterfbceType> list) {
+        List<InterfbceType> immedibte = interfbces();
+        list.bddAll(interfbces());
+        Iterbtor<InterfbceType> iter = immedibte.iterbtor();
+        while (iter.hbsNext()) {
+            InterfbceTypeImpl interfbze = (InterfbceTypeImpl) iter.next();
+            interfbze.bddInterfbces(list);
         }
-        ClassTypeImpl superclass = (ClassTypeImpl) superclass();
-        if (superclass != null) {
-            superclass.addInterfaces(list);
+        ClbssTypeImpl superclbss = (ClbssTypeImpl) superclbss();
+        if (superclbss != null) {
+            superclbss.bddInterfbces(list);
         }
-    }
-
-    /**
-     * Returns all the implemented interfaces recursively
-     * @return A list of all the implemented interfaces (recursively)
-     */
-    final List<InterfaceType> getAllInterfaces() {
-        List<InterfaceType> all = new ArrayList<>();
-        addInterfaces(all);
-        return all;
     }
 
     /**
-     * Shared implementation of {@linkplain ClassType#allMethods()} and
-     * {@linkplain InterfaceType#allMethods()}
-     * @return A list of all methods (recursively)
+     * Returns bll the implemented interfbces recursively
+     * @return A list of bll the implemented interfbces (recursively)
      */
-    public final List<Method> allMethods() {
-        ArrayList<Method> list = new ArrayList<>(methods());
-        ClassType clazz = superclass();
-        while (clazz != null) {
-            list.addAll(clazz.methods());
-            clazz = clazz.superclass();
+    finbl List<InterfbceType> getAllInterfbces() {
+        List<InterfbceType> bll = new ArrbyList<>();
+        bddInterfbces(bll);
+        return bll;
+    }
+
+    /**
+     * Shbred implementbtion of {@linkplbin ClbssType#bllMethods()} bnd
+     * {@linkplbin InterfbceType#bllMethods()}
+     * @return A list of bll methods (recursively)
+     */
+    public finbl List<Method> bllMethods() {
+        ArrbyList<Method> list = new ArrbyList<>(methods());
+        ClbssType clbzz = superclbss();
+        while (clbzz != null) {
+            list.bddAll(clbzz.methods());
+            clbzz = clbzz.superclbss();
         }
         /*
-         * Avoid duplicate checking on each method by iterating through
-         * duplicate-free allInterfaces() rather than recursing
+         * Avoid duplicbte checking on ebch method by iterbting through
+         * duplicbte-free bllInterfbces() rbther thbn recursing
          */
-        for (InterfaceType interfaze : getAllInterfaces()) {
-            list.addAll(interfaze.methods());
+        for (InterfbceType interfbze : getAllInterfbces()) {
+            list.bddAll(interfbze.methods());
         }
         return list;
     }
 
     @Override
-    final List<ReferenceType> inheritedTypes() {
-        List<ReferenceType> inherited = new ArrayList<>();
-        if (superclass() != null) {
-            inherited.add(0, superclass()); /* insert at front */
+    finbl List<ReferenceType> inheritedTypes() {
+        List<ReferenceType> inherited = new ArrbyList<>();
+        if (superclbss() != null) {
+            inherited.bdd(0, superclbss()); /* insert bt front */
         }
-        for (ReferenceType rt : interfaces()) {
-            inherited.add(rt);
+        for (ReferenceType rt : interfbces()) {
+            inherited.bdd(rt);
         }
         return inherited;
     }
 
-    private PacketStream sendInvokeCommand(final ThreadReferenceImpl thread,
-                                           final MethodImpl method,
-                                           final ValueImpl[] args,
-                                           final int options) {
-        CommandSender sender = getInvokeMethodSender(thread, method, args, options);
-        PacketStream stream;
-        if ((options & ClassType.INVOKE_SINGLE_THREADED) != 0) {
-            stream = thread.sendResumingCommand(sender);
+    privbte PbcketStrebm sendInvokeCommbnd(finbl ThrebdReferenceImpl threbd,
+                                           finbl MethodImpl method,
+                                           finbl VblueImpl[] brgs,
+                                           finbl int options) {
+        CommbndSender sender = getInvokeMethodSender(threbd, method, brgs, options);
+        PbcketStrebm strebm;
+        if ((options & ClbssType.INVOKE_SINGLE_THREADED) != 0) {
+            strebm = threbd.sendResumingCommbnd(sender);
         } else {
-            stream = vm.sendResumingCommand(sender);
+            strebm = vm.sendResumingCommbnd(sender);
         }
-        return stream;
+        return strebm;
     }
 
-    private void validateMethodInvocation(Method method)
-                                            throws InvalidTypeException,
-                                                   InvocationException {
-        if (!canInvoke(method)) {
-            throw new IllegalArgumentException("Invalid method");
+    privbte void vblidbteMethodInvocbtion(Method method)
+                                            throws InvblidTypeException,
+                                                   InvocbtionException {
+        if (!cbnInvoke(method)) {
+            throw new IllegblArgumentException("Invblid method");
         }
         /*
-         * Method must be a static and not a static initializer
+         * Method must be b stbtic bnd not b stbtic initiblizer
          */
-        if (!method.isStatic()) {
-            throw new IllegalArgumentException("Cannot invoke instance method on a class/interface type");
-        } else if (method.isStaticInitializer()) {
-            throw new IllegalArgumentException("Cannot invoke static initializer");
+        if (!method.isStbtic()) {
+            throw new IllegblArgumentException("Cbnnot invoke instbnce method on b clbss/interfbce type");
+        } else if (method.isStbticInitiblizer()) {
+            throw new IllegblArgumentException("Cbnnot invoke stbtic initiblizer");
         }
     }
 
     /**
-     * A subclass will provide specific {@linkplain CommandSender}
-     * @param thread the current invocation thread
-     * @param method the method to invoke
-     * @param args the arguments to pass to the method
-     * @param options the integer bit flag options
-     * @return the specific {@literal CommandSender} instance
+     * A subclbss will provide specific {@linkplbin CommbndSender}
+     * @pbrbm threbd the current invocbtion threbd
+     * @pbrbm method the method to invoke
+     * @pbrbm brgs the brguments to pbss to the method
+     * @pbrbm options the integer bit flbg options
+     * @return the specific {@literbl CommbndSender} instbnce
      */
-    abstract CommandSender getInvokeMethodSender(ThreadReferenceImpl thread,
+    bbstrbct CommbndSender getInvokeMethodSender(ThrebdReferenceImpl threbd,
                                                  MethodImpl method,
-                                                 ValueImpl[] args,
+                                                 VblueImpl[] brgs,
                                                  int options);
 
     /**
-     * Waits for the reply to the last sent command
-     * @param stream the stream to listen for the reply on
-     * @return the {@linkplain InvocationResult} instance
+     * Wbits for the reply to the lbst sent commbnd
+     * @pbrbm strebm the strebm to listen for the reply on
+     * @return the {@linkplbin InvocbtionResult} instbnce
      * @throws JDWPException when something goes wrong in JDWP
      */
-    abstract InvocationResult waitForReply(PacketStream stream) throws JDWPException;
+    bbstrbct InvocbtionResult wbitForReply(PbcketStrebm strebm) throws JDWPException;
 
     /**
-     * Get the {@linkplain ReferenceType} superclass
-     * @return the superclass or null
+     * Get the {@linkplbin ReferenceType} superclbss
+     * @return the superclbss or null
      */
-    abstract ClassType superclass();
+    bbstrbct ClbssType superclbss();
 
     /**
-     * Get the implemented/extended interfaces
-     * @return the list of implemented/extended interfaces
+     * Get the implemented/extended interfbces
+     * @return the list of implemented/extended interfbces
      */
-    abstract List<InterfaceType> interfaces();
+    bbstrbct List<InterfbceType> interfbces();
 
     /**
-     * Checks the provided method whether it can be invoked
-     * @param method the method to check
-     * @return {@code TRUE} if the implementation knows how to invoke the method,
+     * Checks the provided method whether it cbn be invoked
+     * @pbrbm method the method to check
+     * @return {@code TRUE} if the implementbtion knows how to invoke the method,
      *         {@code FALSE} otherwise
      */
-    abstract boolean canInvoke(Method method);
+    bbstrbct boolebn cbnInvoke(Method method);
 }

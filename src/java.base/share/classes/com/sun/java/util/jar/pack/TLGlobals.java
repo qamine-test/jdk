@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import com.sun.java.util.jar.pack.ConstantPool.ClassEntry;
-import com.sun.java.util.jar.pack.ConstantPool.DescriptorEntry;
-import com.sun.java.util.jar.pack.ConstantPool.LiteralEntry;
-import com.sun.java.util.jar.pack.ConstantPool.MemberEntry;
-import com.sun.java.util.jar.pack.ConstantPool.MethodHandleEntry;
-import com.sun.java.util.jar.pack.ConstantPool.MethodTypeEntry;
-import com.sun.java.util.jar.pack.ConstantPool.InvokeDynamicEntry;
-import com.sun.java.util.jar.pack.ConstantPool.BootstrapMethodEntry;
-import com.sun.java.util.jar.pack.ConstantPool.SignatureEntry;
-import com.sun.java.util.jar.pack.ConstantPool.Utf8Entry;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.ClbssEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.DescriptorEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.LiterblEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.MemberEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.MethodHbndleEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.MethodTypeEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.InvokeDynbmicEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.BootstrbpMethodEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.SignbtureEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Utf8Entry;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.SortedMbp;
 
 /*
- * @author ksrini
+ * @buthor ksrini
  */
 
 /*
- * This class provides a container to hold the global variables, for packer
- * and unpacker instances. This is typically stashed away in a ThreadLocal,
- * and the storage is destroyed upon completion. Therefore any local
- * references to these members must be eliminated appropriately to prevent a
- * memory leak.
+ * This clbss provides b contbiner to hold the globbl vbribbles, for pbcker
+ * bnd unpbcker instbnces. This is typicblly stbshed bwby in b ThrebdLocbl,
+ * bnd the storbge is destroyed upon completion. Therefore bny locbl
+ * references to these members must be eliminbted bppropribtely to prevent b
+ * memory lebk.
  */
-class TLGlobals {
-    // Global environment
-    final PropMap props;
+clbss TLGlobbls {
+    // Globbl environment
+    finbl PropMbp props;
 
-    // Needed by ConstantPool.java
-    private final Map<String, Utf8Entry> utf8Entries;
-    private final Map<String, ClassEntry> classEntries;
-    private final Map<Object, LiteralEntry> literalEntries;
-    private final Map<String, SignatureEntry> signatureEntries;
-    private final Map<String, DescriptorEntry> descriptorEntries;
-    private final Map<String, MemberEntry> memberEntries;
-    private final Map<String, MethodHandleEntry> methodHandleEntries;
-    private final Map<String, MethodTypeEntry> methodTypeEntries;
-    private final Map<String, InvokeDynamicEntry> invokeDynamicEntries;
-    private final Map<String, BootstrapMethodEntry> bootstrapMethodEntries;
+    // Needed by ConstbntPool.jbvb
+    privbte finbl Mbp<String, Utf8Entry> utf8Entries;
+    privbte finbl Mbp<String, ClbssEntry> clbssEntries;
+    privbte finbl Mbp<Object, LiterblEntry> literblEntries;
+    privbte finbl Mbp<String, SignbtureEntry> signbtureEntries;
+    privbte finbl Mbp<String, DescriptorEntry> descriptorEntries;
+    privbte finbl Mbp<String, MemberEntry> memberEntries;
+    privbte finbl Mbp<String, MethodHbndleEntry> methodHbndleEntries;
+    privbte finbl Mbp<String, MethodTypeEntry> methodTypeEntries;
+    privbte finbl Mbp<String, InvokeDynbmicEntry> invokeDynbmicEntries;
+    privbte finbl Mbp<String, BootstrbpMethodEntry> bootstrbpMethodEntries;
 
-    TLGlobals() {
-        utf8Entries = new HashMap<>();
-        classEntries = new HashMap<>();
-        literalEntries = new HashMap<>();
-        signatureEntries = new HashMap<>();
-        descriptorEntries = new HashMap<>();
-        memberEntries = new HashMap<>();
-        methodHandleEntries = new HashMap<>();
-        methodTypeEntries = new HashMap<>();
-        invokeDynamicEntries = new HashMap<>();
-        bootstrapMethodEntries = new HashMap<>();
-        props = new PropMap();
+    TLGlobbls() {
+        utf8Entries = new HbshMbp<>();
+        clbssEntries = new HbshMbp<>();
+        literblEntries = new HbshMbp<>();
+        signbtureEntries = new HbshMbp<>();
+        descriptorEntries = new HbshMbp<>();
+        memberEntries = new HbshMbp<>();
+        methodHbndleEntries = new HbshMbp<>();
+        methodTypeEntries = new HbshMbp<>();
+        invokeDynbmicEntries = new HbshMbp<>();
+        bootstrbpMethodEntries = new HbshMbp<>();
+        props = new PropMbp();
     }
 
-    SortedMap<String, String> getPropMap() {
+    SortedMbp<String, String> getPropMbp() {
         return props;
     }
 
-    Map<String, Utf8Entry> getUtf8Entries() {
+    Mbp<String, Utf8Entry> getUtf8Entries() {
         return utf8Entries;
     }
 
-    Map<String, ClassEntry> getClassEntries() {
-        return classEntries;
+    Mbp<String, ClbssEntry> getClbssEntries() {
+        return clbssEntries;
     }
 
-    Map<Object, LiteralEntry> getLiteralEntries() {
-        return literalEntries;
+    Mbp<Object, LiterblEntry> getLiterblEntries() {
+        return literblEntries;
     }
 
-    Map<String, DescriptorEntry> getDescriptorEntries() {
+    Mbp<String, DescriptorEntry> getDescriptorEntries() {
          return descriptorEntries;
     }
 
-    Map<String, SignatureEntry> getSignatureEntries() {
-        return signatureEntries;
+    Mbp<String, SignbtureEntry> getSignbtureEntries() {
+        return signbtureEntries;
     }
 
-    Map<String, MemberEntry> getMemberEntries() {
+    Mbp<String, MemberEntry> getMemberEntries() {
         return memberEntries;
     }
 
-    Map<String, MethodHandleEntry> getMethodHandleEntries() {
-        return methodHandleEntries;
+    Mbp<String, MethodHbndleEntry> getMethodHbndleEntries() {
+        return methodHbndleEntries;
     }
 
-    Map<String, MethodTypeEntry> getMethodTypeEntries() {
+    Mbp<String, MethodTypeEntry> getMethodTypeEntries() {
         return methodTypeEntries;
     }
 
-    Map<String, InvokeDynamicEntry> getInvokeDynamicEntries() {
-        return invokeDynamicEntries;
+    Mbp<String, InvokeDynbmicEntry> getInvokeDynbmicEntries() {
+        return invokeDynbmicEntries;
     }
 
-    Map<String, BootstrapMethodEntry> getBootstrapMethodEntries() {
-        return bootstrapMethodEntries;
+    Mbp<String, BootstrbpMethodEntry> getBootstrbpMethodEntries() {
+        return bootstrbpMethodEntries;
     }
 }

@@ -1,481 +1,481 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.MultipleGradientPaint.CycleMethod;
-import java.awt.MultipleGradientPaint.ColorSpaceType;
-import java.awt.color.ColorSpace;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.WritableRaster;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.util.Arrays;
+import jbvb.bwt.MultipleGrbdientPbint.CycleMethod;
+import jbvb.bwt.MultipleGrbdientPbint.ColorSpbceType;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.NoninvertibleTrbnsformException;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.SinglePixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.Arrbys;
 
 /**
- * This is the superclass for all PaintContexts which use a multiple color
- * gradient to fill in their raster.  It provides the actual color
- * interpolation functionality.  Subclasses only have to deal with using
- * the gradient to fill pixels in a raster.
+ * This is the superclbss for bll PbintContexts which use b multiple color
+ * grbdient to fill in their rbster.  It provides the bctubl color
+ * interpolbtion functionblity.  Subclbsses only hbve to debl with using
+ * the grbdient to fill pixels in b rbster.
  *
- * @author Nicholas Talian, Vincent Hardy, Jim Graham, Jerry Evans
+ * @buthor Nicholbs Tblibn, Vincent Hbrdy, Jim Grbhbm, Jerry Evbns
  */
-abstract class MultipleGradientPaintContext implements PaintContext {
+bbstrbct clbss MultipleGrbdientPbintContext implements PbintContext {
 
     /**
-     * The PaintContext's ColorModel.  This is ARGB if colors are not all
-     * opaque, otherwise it is RGB.
+     * The PbintContext's ColorModel.  This is ARGB if colors bre not bll
+     * opbque, otherwise it is RGB.
      */
     protected ColorModel model;
 
-    /** Color model used if gradient colors are all opaque. */
-    private static ColorModel xrgbmodel =
+    /** Color model used if grbdient colors bre bll opbque. */
+    privbte stbtic ColorModel xrgbmodel =
         new DirectColorModel(24, 0x00ff0000, 0x0000ff00, 0x000000ff);
 
-    /** The cached ColorModel. */
-    protected static ColorModel cachedModel;
+    /** The cbched ColorModel. */
+    protected stbtic ColorModel cbchedModel;
 
-    /** The cached raster, which is reusable among instances. */
-    protected static WeakReference<Raster> cached;
+    /** The cbched rbster, which is reusbble bmong instbnces. */
+    protected stbtic WebkReference<Rbster> cbched;
 
-    /** Raster is reused whenever possible. */
-    protected Raster saved;
+    /** Rbster is reused whenever possible. */
+    protected Rbster sbved;
 
-    /** The method to use when painting out of the gradient bounds. */
+    /** The method to use when pbinting out of the grbdient bounds. */
     protected CycleMethod cycleMethod;
 
-    /** The ColorSpace in which to perform the interpolation */
-    protected ColorSpaceType colorSpace;
+    /** The ColorSpbce in which to perform the interpolbtion */
+    protected ColorSpbceType colorSpbce;
 
-    /** Elements of the inverse transform matrix. */
-    protected float a00, a01, a10, a11, a02, a12;
-
-    /**
-     * This boolean specifies whether we are in simple lookup mode, where an
-     * input value between 0 and 1 may be used to directly index into a single
-     * array of gradient colors.  If this boolean value is false, then we have
-     * to use a 2-step process where we have to determine which gradient array
-     * we fall into, then determine the index into that array.
-     */
-    protected boolean isSimpleLookup;
+    /** Elements of the inverse trbnsform mbtrix. */
+    protected flobt b00, b01, b10, b11, b02, b12;
 
     /**
-     * Size of gradients array for scaling the 0-1 index when looking up
-     * colors the fast way.
+     * This boolebn specifies whether we bre in simple lookup mode, where bn
+     * input vblue between 0 bnd 1 mby be used to directly index into b single
+     * brrby of grbdient colors.  If this boolebn vblue is fblse, then we hbve
+     * to use b 2-step process where we hbve to determine which grbdient brrby
+     * we fbll into, then determine the index into thbt brrby.
      */
-    protected int fastGradientArraySize;
+    protected boolebn isSimpleLookup;
 
     /**
-     * Array which contains the interpolated color values for each interval,
-     * used by calculateSingleArrayGradient().  It is protected for possible
-     * direct access by subclasses.
+     * Size of grbdients brrby for scbling the 0-1 index when looking up
+     * colors the fbst wby.
      */
-    protected int[] gradient;
+    protected int fbstGrbdientArrbySize;
 
     /**
-     * Array of gradient arrays, one array for each interval.  Used by
-     * calculateMultipleArrayGradient().
+     * Arrby which contbins the interpolbted color vblues for ebch intervbl,
+     * used by cblculbteSingleArrbyGrbdient().  It is protected for possible
+     * direct bccess by subclbsses.
      */
-    private int[][] gradients;
+    protected int[] grbdient;
 
-    /** Normalized intervals array. */
-    private float[] normalizedIntervals;
+    /**
+     * Arrby of grbdient brrbys, one brrby for ebch intervbl.  Used by
+     * cblculbteMultipleArrbyGrbdient().
+     */
+    privbte int[][] grbdients;
 
-    /** Fractions array. */
-    private float[] fractions;
+    /** Normblized intervbls brrby. */
+    privbte flobt[] normblizedIntervbls;
 
-    /** Used to determine if gradient colors are all opaque. */
-    private int transparencyTest;
+    /** Frbctions brrby. */
+    privbte flobt[] frbctions;
 
-    /** Color space conversion lookup tables. */
-    private static final int SRGBtoLinearRGB[] = new int[256];
-    private static final int LinearRGBtoSRGB[] = new int[256];
+    /** Used to determine if grbdient colors bre bll opbque. */
+    privbte int trbnspbrencyTest;
 
-    static {
-        // build the tables
+    /** Color spbce conversion lookup tbbles. */
+    privbte stbtic finbl int SRGBtoLinebrRGB[] = new int[256];
+    privbte stbtic finbl int LinebrRGBtoSRGB[] = new int[256];
+
+    stbtic {
+        // build the tbbles
         for (int k = 0; k < 256; k++) {
-            SRGBtoLinearRGB[k] = convertSRGBtoLinearRGB(k);
-            LinearRGBtoSRGB[k] = convertLinearRGBtoSRGB(k);
+            SRGBtoLinebrRGB[k] = convertSRGBtoLinebrRGB(k);
+            LinebrRGBtoSRGB[k] = convertLinebrRGBtoSRGB(k);
         }
     }
 
     /**
-     * Constant number of max colors between any 2 arbitrary colors.
-     * Used for creating and indexing gradients arrays.
+     * Constbnt number of mbx colors between bny 2 brbitrbry colors.
+     * Used for crebting bnd indexing grbdients brrbys.
      */
-    protected static final int GRADIENT_SIZE = 256;
-    protected static final int GRADIENT_SIZE_INDEX = GRADIENT_SIZE -1;
+    protected stbtic finbl int GRADIENT_SIZE = 256;
+    protected stbtic finbl int GRADIENT_SIZE_INDEX = GRADIENT_SIZE -1;
 
     /**
-     * Maximum length of the fast single-array.  If the estimated array size
-     * is greater than this, switch over to the slow lookup method.
-     * No particular reason for choosing this number, but it seems to provide
-     * satisfactory performance for the common case (fast lookup).
+     * Mbximum length of the fbst single-brrby.  If the estimbted brrby size
+     * is grebter thbn this, switch over to the slow lookup method.
+     * No pbrticulbr rebson for choosing this number, but it seems to provide
+     * sbtisfbctory performbnce for the common cbse (fbst lookup).
      */
-    private static final int MAX_GRADIENT_ARRAY_SIZE = 5000;
+    privbte stbtic finbl int MAX_GRADIENT_ARRAY_SIZE = 5000;
 
     /**
-     * Constructor for MultipleGradientPaintContext superclass.
+     * Constructor for MultipleGrbdientPbintContext superclbss.
      */
-    protected MultipleGradientPaintContext(MultipleGradientPaint mgp,
+    protected MultipleGrbdientPbintContext(MultipleGrbdientPbint mgp,
                                            ColorModel cm,
-                                           Rectangle deviceBounds,
-                                           Rectangle2D userBounds,
-                                           AffineTransform t,
+                                           Rectbngle deviceBounds,
+                                           Rectbngle2D userBounds,
+                                           AffineTrbnsform t,
                                            RenderingHints hints,
-                                           float[] fractions,
+                                           flobt[] frbctions,
                                            Color[] colors,
                                            CycleMethod cycleMethod,
-                                           ColorSpaceType colorSpace)
+                                           ColorSpbceType colorSpbce)
     {
         if (deviceBounds == null) {
-            throw new NullPointerException("Device bounds cannot be null");
+            throw new NullPointerException("Device bounds cbnnot be null");
         }
 
         if (userBounds == null) {
-            throw new NullPointerException("User bounds cannot be null");
+            throw new NullPointerException("User bounds cbnnot be null");
         }
 
         if (t == null) {
-            throw new NullPointerException("Transform cannot be null");
+            throw new NullPointerException("Trbnsform cbnnot be null");
         }
 
         if (hints == null) {
-            throw new NullPointerException("RenderingHints cannot be null");
+            throw new NullPointerException("RenderingHints cbnnot be null");
         }
 
-        // The inverse transform is needed to go from device to user space.
-        // Get all the components of the inverse transform matrix.
-        AffineTransform tInv;
+        // The inverse trbnsform is needed to go from device to user spbce.
+        // Get bll the components of the inverse trbnsform mbtrix.
+        AffineTrbnsform tInv;
         try {
-            // the following assumes that the caller has copied the incoming
-            // transform and is not concerned about it being modified
+            // the following bssumes thbt the cbller hbs copied the incoming
+            // trbnsform bnd is not concerned bbout it being modified
             t.invert();
             tInv = t;
-        } catch (NoninvertibleTransformException e) {
-            // just use identity transform in this case; better to show
-            // (incorrect) results than to throw an exception and/or no-op
-            tInv = new AffineTransform();
+        } cbtch (NoninvertibleTrbnsformException e) {
+            // just use identity trbnsform in this cbse; better to show
+            // (incorrect) results thbn to throw bn exception bnd/or no-op
+            tInv = new AffineTrbnsform();
         }
         double m[] = new double[6];
-        tInv.getMatrix(m);
-        a00 = (float)m[0];
-        a10 = (float)m[1];
-        a01 = (float)m[2];
-        a11 = (float)m[3];
-        a02 = (float)m[4];
-        a12 = (float)m[5];
+        tInv.getMbtrix(m);
+        b00 = (flobt)m[0];
+        b10 = (flobt)m[1];
+        b01 = (flobt)m[2];
+        b11 = (flobt)m[3];
+        b02 = (flobt)m[4];
+        b12 = (flobt)m[5];
 
-        // copy some flags
+        // copy some flbgs
         this.cycleMethod = cycleMethod;
-        this.colorSpace = colorSpace;
+        this.colorSpbce = colorSpbce;
 
-        // we can avoid copying this array since we do not modify its values
-        this.fractions = fractions;
+        // we cbn bvoid copying this brrby since we do not modify its vblues
+        this.frbctions = frbctions;
 
-        // note that only one of these values can ever be non-null (we either
-        // store the fast gradient array or the slow one, but never both
-        // at the same time)
-        int[] gradient =
-            (mgp.gradient != null) ? mgp.gradient.get() : null;
-        int[][] gradients =
-            (mgp.gradients != null) ? mgp.gradients.get() : null;
+        // note thbt only one of these vblues cbn ever be non-null (we either
+        // store the fbst grbdient brrby or the slow one, but never both
+        // bt the sbme time)
+        int[] grbdient =
+            (mgp.grbdient != null) ? mgp.grbdient.get() : null;
+        int[][] grbdients =
+            (mgp.grbdients != null) ? mgp.grbdients.get() : null;
 
-        if (gradient == null && gradients == null) {
-            // we need to (re)create the appropriate values
-            calculateLookupData(colors);
+        if (grbdient == null && grbdients == null) {
+            // we need to (re)crebte the bppropribte vblues
+            cblculbteLookupDbtb(colors);
 
-            // now cache the calculated values in the
-            // MultipleGradientPaint instance for future use
+            // now cbche the cblculbted vblues in the
+            // MultipleGrbdientPbint instbnce for future use
             mgp.model               = this.model;
-            mgp.normalizedIntervals = this.normalizedIntervals;
+            mgp.normblizedIntervbls = this.normblizedIntervbls;
             mgp.isSimpleLookup      = this.isSimpleLookup;
             if (isSimpleLookup) {
-                // only cache the fast array
-                mgp.fastGradientArraySize = this.fastGradientArraySize;
-                mgp.gradient = new SoftReference<int[]>(this.gradient);
+                // only cbche the fbst brrby
+                mgp.fbstGrbdientArrbySize = this.fbstGrbdientArrbySize;
+                mgp.grbdient = new SoftReference<int[]>(this.grbdient);
             } else {
-                // only cache the slow array
-                mgp.gradients = new SoftReference<int[][]>(this.gradients);
+                // only cbche the slow brrby
+                mgp.grbdients = new SoftReference<int[][]>(this.grbdients);
             }
         } else {
-            // use the values cached in the MultipleGradientPaint instance
+            // use the vblues cbched in the MultipleGrbdientPbint instbnce
             this.model                 = mgp.model;
-            this.normalizedIntervals   = mgp.normalizedIntervals;
+            this.normblizedIntervbls   = mgp.normblizedIntervbls;
             this.isSimpleLookup        = mgp.isSimpleLookup;
-            this.gradient              = gradient;
-            this.fastGradientArraySize = mgp.fastGradientArraySize;
-            this.gradients             = gradients;
+            this.grbdient              = grbdient;
+            this.fbstGrbdientArrbySize = mgp.fbstGrbdientArrbySize;
+            this.grbdients             = grbdients;
         }
     }
 
     /**
-     * This function is the meat of this class.  It calculates an array of
-     * gradient colors based on an array of fractions and color values at
-     * those fractions.
+     * This function is the mebt of this clbss.  It cblculbtes bn brrby of
+     * grbdient colors bbsed on bn brrby of frbctions bnd color vblues bt
+     * those frbctions.
      */
-    private void calculateLookupData(Color[] colors) {
-        Color[] normalizedColors;
-        if (colorSpace == ColorSpaceType.LINEAR_RGB) {
-            // create a new colors array
-            normalizedColors = new Color[colors.length];
-            // convert the colors using the lookup table
+    privbte void cblculbteLookupDbtb(Color[] colors) {
+        Color[] normblizedColors;
+        if (colorSpbce == ColorSpbceType.LINEAR_RGB) {
+            // crebte b new colors brrby
+            normblizedColors = new Color[colors.length];
+            // convert the colors using the lookup tbble
             for (int i = 0; i < colors.length; i++) {
-                int argb = colors[i].getRGB();
-                int a = argb >>> 24;
-                int r = SRGBtoLinearRGB[(argb >> 16) & 0xff];
-                int g = SRGBtoLinearRGB[(argb >>  8) & 0xff];
-                int b = SRGBtoLinearRGB[(argb      ) & 0xff];
-                normalizedColors[i] = new Color(r, g, b, a);
+                int brgb = colors[i].getRGB();
+                int b = brgb >>> 24;
+                int r = SRGBtoLinebrRGB[(brgb >> 16) & 0xff];
+                int g = SRGBtoLinebrRGB[(brgb >>  8) & 0xff];
+                int b = SRGBtoLinebrRGB[(brgb      ) & 0xff];
+                normblizedColors[i] = new Color(r, g, b, b);
             }
         } else {
-            // we can just use this array by reference since we do not
-            // modify its values in the case of SRGB
-            normalizedColors = colors;
+            // we cbn just use this brrby by reference since we do not
+            // modify its vblues in the cbse of SRGB
+            normblizedColors = colors;
         }
 
-        // this will store the intervals (distances) between gradient stops
-        normalizedIntervals = new float[fractions.length-1];
+        // this will store the intervbls (distbnces) between grbdient stops
+        normblizedIntervbls = new flobt[frbctions.length-1];
 
-        // convert from fractions into intervals
-        for (int i = 0; i < normalizedIntervals.length; i++) {
-            // interval distance is equal to the difference in positions
-            normalizedIntervals[i] = this.fractions[i+1] - this.fractions[i];
+        // convert from frbctions into intervbls
+        for (int i = 0; i < normblizedIntervbls.length; i++) {
+            // intervbl distbnce is equbl to the difference in positions
+            normblizedIntervbls[i] = this.frbctions[i+1] - this.frbctions[i];
         }
 
-        // initialize to be fully opaque for ANDing with colors
-        transparencyTest = 0xff000000;
+        // initiblize to be fully opbque for ANDing with colors
+        trbnspbrencyTest = 0xff000000;
 
-        // array of interpolation arrays
-        gradients = new int[normalizedIntervals.length][];
+        // brrby of interpolbtion brrbys
+        grbdients = new int[normblizedIntervbls.length][];
 
-        // find smallest interval
-        float Imin = 1;
-        for (int i = 0; i < normalizedIntervals.length; i++) {
-            Imin = (Imin > normalizedIntervals[i]) ?
-                normalizedIntervals[i] : Imin;
+        // find smbllest intervbl
+        flobt Imin = 1;
+        for (int i = 0; i < normblizedIntervbls.length; i++) {
+            Imin = (Imin > normblizedIntervbls[i]) ?
+                normblizedIntervbls[i] : Imin;
         }
 
-        // Estimate the size of the entire gradients array.
-        // This is to prevent a tiny interval from causing the size of array
-        // to explode.  If the estimated size is too large, break to using
-        // separate arrays for each interval, and using an indexing scheme at
+        // Estimbte the size of the entire grbdients brrby.
+        // This is to prevent b tiny intervbl from cbusing the size of brrby
+        // to explode.  If the estimbted size is too lbrge, brebk to using
+        // sepbrbte brrbys for ebch intervbl, bnd using bn indexing scheme bt
         // look-up time.
-        int estimatedSize = 0;
-        for (int i = 0; i < normalizedIntervals.length; i++) {
-            estimatedSize += (normalizedIntervals[i]/Imin) * GRADIENT_SIZE;
+        int estimbtedSize = 0;
+        for (int i = 0; i < normblizedIntervbls.length; i++) {
+            estimbtedSize += (normblizedIntervbls[i]/Imin) * GRADIENT_SIZE;
         }
 
-        if (estimatedSize > MAX_GRADIENT_ARRAY_SIZE) {
+        if (estimbtedSize > MAX_GRADIENT_ARRAY_SIZE) {
             // slow method
-            calculateMultipleArrayGradient(normalizedColors);
+            cblculbteMultipleArrbyGrbdient(normblizedColors);
         } else {
-            // fast method
-            calculateSingleArrayGradient(normalizedColors, Imin);
+            // fbst method
+            cblculbteSingleArrbyGrbdient(normblizedColors, Imin);
         }
 
-        // use the most "economical" model
-        if ((transparencyTest >>> 24) == 0xff) {
+        // use the most "economicbl" model
+        if ((trbnspbrencyTest >>> 24) == 0xff) {
             model = xrgbmodel;
         } else {
-            model = ColorModel.getRGBdefault();
+            model = ColorModel.getRGBdefbult();
         }
     }
 
     /**
      * FAST LOOKUP METHOD
      *
-     * This method calculates the gradient color values and places them in a
-     * single int array, gradient[].  It does this by allocating space for
-     * each interval based on its size relative to the smallest interval in
-     * the array.  The smallest interval is allocated 255 interpolated values
-     * (the maximum number of unique in-between colors in a 24 bit color
-     * system), and all other intervals are allocated
-     * size = (255 * the ratio of their size to the smallest interval).
+     * This method cblculbtes the grbdient color vblues bnd plbces them in b
+     * single int brrby, grbdient[].  It does this by bllocbting spbce for
+     * ebch intervbl bbsed on its size relbtive to the smbllest intervbl in
+     * the brrby.  The smbllest intervbl is bllocbted 255 interpolbted vblues
+     * (the mbximum number of unique in-between colors in b 24 bit color
+     * system), bnd bll other intervbls bre bllocbted
+     * size = (255 * the rbtio of their size to the smbllest intervbl).
      *
-     * This scheme expedites a speedy retrieval because the colors are
-     * distributed along the array according to their user-specified
-     * distribution.  All that is needed is a relative index from 0 to 1.
+     * This scheme expedites b speedy retrievbl becbuse the colors bre
+     * distributed blong the brrby bccording to their user-specified
+     * distribution.  All thbt is needed is b relbtive index from 0 to 1.
      *
-     * The only problem with this method is that the possibility exists for
-     * the array size to balloon in the case where there is a
-     * disproportionately small gradient interval.  In this case the other
-     * intervals will be allocated huge space, but much of that data is
-     * redundant.  We thus need to use the space conserving scheme below.
+     * The only problem with this method is thbt the possibility exists for
+     * the brrby size to bblloon in the cbse where there is b
+     * disproportionbtely smbll grbdient intervbl.  In this cbse the other
+     * intervbls will be bllocbted huge spbce, but much of thbt dbtb is
+     * redundbnt.  We thus need to use the spbce conserving scheme below.
      *
-     * @param Imin the size of the smallest interval
+     * @pbrbm Imin the size of the smbllest intervbl
      */
-    private void calculateSingleArrayGradient(Color[] colors, float Imin) {
-        // set the flag so we know later it is a simple (fast) lookup
+    privbte void cblculbteSingleArrbyGrbdient(Color[] colors, flobt Imin) {
+        // set the flbg so we know lbter it is b simple (fbst) lookup
         isSimpleLookup = true;
 
-        // 2 colors to interpolate
+        // 2 colors to interpolbte
         int rgb1, rgb2;
 
-        //the eventual size of the single array
-        int gradientsTot = 1;
+        //the eventubl size of the single brrby
+        int grbdientsTot = 1;
 
-        // for every interval (transition between 2 colors)
-        for (int i = 0; i < gradients.length; i++) {
-            // create an array whose size is based on the ratio to the
-            // smallest interval
-            int nGradients = (int)((normalizedIntervals[i]/Imin)*255f);
-            gradientsTot += nGradients;
-            gradients[i] = new int[nGradients];
+        // for every intervbl (trbnsition between 2 colors)
+        for (int i = 0; i < grbdients.length; i++) {
+            // crebte bn brrby whose size is bbsed on the rbtio to the
+            // smbllest intervbl
+            int nGrbdients = (int)((normblizedIntervbls[i]/Imin)*255f);
+            grbdientsTot += nGrbdients;
+            grbdients[i] = new int[nGrbdients];
 
-            // the 2 colors (keyframes) to interpolate between
+            // the 2 colors (keyfrbmes) to interpolbte between
             rgb1 = colors[i].getRGB();
             rgb2 = colors[i+1].getRGB();
 
-            // fill this array with the colors in between rgb1 and rgb2
-            interpolate(rgb1, rgb2, gradients[i]);
+            // fill this brrby with the colors in between rgb1 bnd rgb2
+            interpolbte(rgb1, rgb2, grbdients[i]);
 
-            // if the colors are opaque, transparency should still
+            // if the colors bre opbque, trbnspbrency should still
             // be 0xff000000
-            transparencyTest &= rgb1;
-            transparencyTest &= rgb2;
+            trbnspbrencyTest &= rgb1;
+            trbnspbrencyTest &= rgb2;
         }
 
-        // put all gradients in a single array
-        gradient = new int[gradientsTot];
+        // put bll grbdients in b single brrby
+        grbdient = new int[grbdientsTot];
         int curOffset = 0;
-        for (int i = 0; i < gradients.length; i++){
-            System.arraycopy(gradients[i], 0, gradient,
-                             curOffset, gradients[i].length);
-            curOffset += gradients[i].length;
+        for (int i = 0; i < grbdients.length; i++){
+            System.brrbycopy(grbdients[i], 0, grbdient,
+                             curOffset, grbdients[i].length);
+            curOffset += grbdients[i].length;
         }
-        gradient[gradient.length-1] = colors[colors.length-1].getRGB();
+        grbdient[grbdient.length-1] = colors[colors.length-1].getRGB();
 
-        // if interpolation occurred in Linear RGB space, convert the
-        // gradients back to sRGB using the lookup table
-        if (colorSpace == ColorSpaceType.LINEAR_RGB) {
-            for (int i = 0; i < gradient.length; i++) {
-                gradient[i] = convertEntireColorLinearRGBtoSRGB(gradient[i]);
+        // if interpolbtion occurred in Linebr RGB spbce, convert the
+        // grbdients bbck to sRGB using the lookup tbble
+        if (colorSpbce == ColorSpbceType.LINEAR_RGB) {
+            for (int i = 0; i < grbdient.length; i++) {
+                grbdient[i] = convertEntireColorLinebrRGBtoSRGB(grbdient[i]);
             }
         }
 
-        fastGradientArraySize = gradient.length - 1;
+        fbstGrbdientArrbySize = grbdient.length - 1;
     }
 
     /**
      * SLOW LOOKUP METHOD
      *
-     * This method calculates the gradient color values for each interval and
-     * places each into its own 255 size array.  The arrays are stored in
-     * gradients[][].  (255 is used because this is the maximum number of
-     * unique colors between 2 arbitrary colors in a 24 bit color system.)
+     * This method cblculbtes the grbdient color vblues for ebch intervbl bnd
+     * plbces ebch into its own 255 size brrby.  The brrbys bre stored in
+     * grbdients[][].  (255 is used becbuse this is the mbximum number of
+     * unique colors between 2 brbitrbry colors in b 24 bit color system.)
      *
-     * This method uses the minimum amount of space (only 255 * number of
-     * intervals), but it aggravates the lookup procedure, because now we
-     * have to find out which interval to select, then calculate the index
-     * within that interval.  This causes a significant performance hit,
-     * because it requires this calculation be done for every point in
+     * This method uses the minimum bmount of spbce (only 255 * number of
+     * intervbls), but it bggrbvbtes the lookup procedure, becbuse now we
+     * hbve to find out which intervbl to select, then cblculbte the index
+     * within thbt intervbl.  This cbuses b significbnt performbnce hit,
+     * becbuse it requires this cblculbtion be done for every point in
      * the rendering loop.
      *
-     * For those of you who are interested, this is a classic example of the
-     * time-space tradeoff.
+     * For those of you who bre interested, this is b clbssic exbmple of the
+     * time-spbce trbdeoff.
      */
-    private void calculateMultipleArrayGradient(Color[] colors) {
-        // set the flag so we know later it is a non-simple lookup
-        isSimpleLookup = false;
+    privbte void cblculbteMultipleArrbyGrbdient(Color[] colors) {
+        // set the flbg so we know lbter it is b non-simple lookup
+        isSimpleLookup = fblse;
 
-        // 2 colors to interpolate
+        // 2 colors to interpolbte
         int rgb1, rgb2;
 
-        // for every interval (transition between 2 colors)
-        for (int i = 0; i < gradients.length; i++){
-            // create an array of the maximum theoretical size for
-            // each interval
-            gradients[i] = new int[GRADIENT_SIZE];
+        // for every intervbl (trbnsition between 2 colors)
+        for (int i = 0; i < grbdients.length; i++){
+            // crebte bn brrby of the mbximum theoreticbl size for
+            // ebch intervbl
+            grbdients[i] = new int[GRADIENT_SIZE];
 
             // get the the 2 colors
             rgb1 = colors[i].getRGB();
             rgb2 = colors[i+1].getRGB();
 
-            // fill this array with the colors in between rgb1 and rgb2
-            interpolate(rgb1, rgb2, gradients[i]);
+            // fill this brrby with the colors in between rgb1 bnd rgb2
+            interpolbte(rgb1, rgb2, grbdients[i]);
 
-            // if the colors are opaque, transparency should still
+            // if the colors bre opbque, trbnspbrency should still
             // be 0xff000000
-            transparencyTest &= rgb1;
-            transparencyTest &= rgb2;
+            trbnspbrencyTest &= rgb1;
+            trbnspbrencyTest &= rgb2;
         }
 
-        // if interpolation occurred in Linear RGB space, convert the
-        // gradients back to SRGB using the lookup table
-        if (colorSpace == ColorSpaceType.LINEAR_RGB) {
-            for (int j = 0; j < gradients.length; j++) {
-                for (int i = 0; i < gradients[j].length; i++) {
-                    gradients[j][i] =
-                        convertEntireColorLinearRGBtoSRGB(gradients[j][i]);
+        // if interpolbtion occurred in Linebr RGB spbce, convert the
+        // grbdients bbck to SRGB using the lookup tbble
+        if (colorSpbce == ColorSpbceType.LINEAR_RGB) {
+            for (int j = 0; j < grbdients.length; j++) {
+                for (int i = 0; i < grbdients[j].length; i++) {
+                    grbdients[j][i] =
+                        convertEntireColorLinebrRGBtoSRGB(grbdients[j][i]);
                 }
             }
         }
     }
 
     /**
-     * Yet another helper function.  This one linearly interpolates between
-     * 2 colors, filling up the output array.
+     * Yet bnother helper function.  This one linebrly interpolbtes between
+     * 2 colors, filling up the output brrby.
      *
-     * @param rgb1 the start color
-     * @param rgb2 the end color
-     * @param output the output array of colors; must not be null
+     * @pbrbm rgb1 the stbrt color
+     * @pbrbm rgb2 the end color
+     * @pbrbm output the output brrby of colors; must not be null
      */
-    private void interpolate(int rgb1, int rgb2, int[] output) {
+    privbte void interpolbte(int rgb1, int rgb2, int[] output) {
         // color components
-        int a1, r1, g1, b1, da, dr, dg, db;
+        int b1, r1, g1, b1, db, dr, dg, db;
 
-        // step between interpolated values
-        float stepSize = 1.0f / output.length;
+        // step between interpolbted vblues
+        flobt stepSize = 1.0f / output.length;
 
-        // extract color components from packed integer
-        a1 = (rgb1 >> 24) & 0xff;
+        // extrbct color components from pbcked integer
+        b1 = (rgb1 >> 24) & 0xff;
         r1 = (rgb1 >> 16) & 0xff;
         g1 = (rgb1 >>  8) & 0xff;
         b1 = (rgb1      ) & 0xff;
 
-        // calculate the total change in alpha, red, green, blue
-        da = ((rgb2 >> 24) & 0xff) - a1;
+        // cblculbte the totbl chbnge in blphb, red, green, blue
+        db = ((rgb2 >> 24) & 0xff) - b1;
         dr = ((rgb2 >> 16) & 0xff) - r1;
         dg = ((rgb2 >>  8) & 0xff) - g1;
         db = ((rgb2      ) & 0xff) - b1;
 
-        // for each step in the interval calculate the in-between color by
-        // multiplying the normalized current position by the total color
-        // change (0.5 is added to prevent truncation round-off error)
+        // for ebch step in the intervbl cblculbte the in-between color by
+        // multiplying the normblized current position by the totbl color
+        // chbnge (0.5 is bdded to prevent truncbtion round-off error)
         for (int i = 0; i < output.length; i++) {
             output[i] =
-                (((int) ((a1 + i * da * stepSize) + 0.5) << 24)) |
+                (((int) ((b1 + i * db * stepSize) + 0.5) << 24)) |
                 (((int) ((r1 + i * dr * stepSize) + 0.5) << 16)) |
                 (((int) ((g1 + i * dg * stepSize) + 0.5) <<  8)) |
                 (((int) ((b1 + i * db * stepSize) + 0.5)      ));
@@ -483,44 +483,44 @@ abstract class MultipleGradientPaintContext implements PaintContext {
     }
 
     /**
-     * Yet another helper function.  This one extracts the color components
-     * of an integer RGB triple, converts them from LinearRGB to SRGB, then
-     * recompacts them into an int.
+     * Yet bnother helper function.  This one extrbcts the color components
+     * of bn integer RGB triple, converts them from LinebrRGB to SRGB, then
+     * recompbcts them into bn int.
      */
-    private int convertEntireColorLinearRGBtoSRGB(int rgb) {
+    privbte int convertEntireColorLinebrRGBtoSRGB(int rgb) {
         // color components
-        int a1, r1, g1, b1;
+        int b1, r1, g1, b1;
 
-        // extract red, green, blue components
-        a1 = (rgb >> 24) & 0xff;
+        // extrbct red, green, blue components
+        b1 = (rgb >> 24) & 0xff;
         r1 = (rgb >> 16) & 0xff;
         g1 = (rgb >>  8) & 0xff;
         b1 = (rgb      ) & 0xff;
 
-        // use the lookup table
-        r1 = LinearRGBtoSRGB[r1];
-        g1 = LinearRGBtoSRGB[g1];
-        b1 = LinearRGBtoSRGB[b1];
+        // use the lookup tbble
+        r1 = LinebrRGBtoSRGB[r1];
+        g1 = LinebrRGBtoSRGB[g1];
+        b1 = LinebrRGBtoSRGB[b1];
 
-        // re-compact the components
-        return ((a1 << 24) |
+        // re-compbct the components
+        return ((b1 << 24) |
                 (r1 << 16) |
                 (g1 <<  8) |
                 (b1      ));
     }
 
     /**
-     * Helper function to index into the gradients array.  This is necessary
-     * because each interval has an array of colors with uniform size 255.
-     * However, the color intervals are not necessarily of uniform length, so
-     * a conversion is required.
+     * Helper function to index into the grbdients brrby.  This is necessbry
+     * becbuse ebch intervbl hbs bn brrby of colors with uniform size 255.
+     * However, the color intervbls bre not necessbrily of uniform length, so
+     * b conversion is required.
      *
-     * @param position the unmanipulated position, which will be mapped
-     *                 into the range 0 to 1
-     * @returns integer color to display
+     * @pbrbm position the unmbnipulbted position, which will be mbpped
+     *                 into the rbnge 0 to 1
+     * @returns integer color to displby
      */
-    protected final int indexIntoGradientsArrays(float position) {
-        // first, manipulate position value depending on the cycle method
+    protected finbl int indexIntoGrbdientsArrbys(flobt position) {
+        // first, mbnipulbte position vblue depending on the cycle method
         if (cycleMethod == CycleMethod.NO_CYCLE) {
             if (position > 1) {
                 // upper bound is 1
@@ -530,169 +530,169 @@ abstract class MultipleGradientPaintContext implements PaintContext {
                 position = 0;
             }
         } else if (cycleMethod == CycleMethod.REPEAT) {
-            // get the fractional part
-            // (modulo behavior discards integer component)
+            // get the frbctionbl pbrt
+            // (modulo behbvior discbrds integer component)
             position = position - (int)position;
 
-            //position should now be between -1 and 1
+            //position should now be between -1 bnd 1
             if (position < 0) {
-                // force it to be in the range 0-1
+                // force it to be in the rbnge 0-1
                 position = position + 1;
             }
         } else { // cycleMethod == CycleMethod.REFLECT
             if (position < 0) {
-                // take absolute value
+                // tbke bbsolute vblue
                 position = -position;
             }
 
-            // get the integer part
-            int part = (int)position;
+            // get the integer pbrt
+            int pbrt = (int)position;
 
-            // get the fractional part
-            position = position - part;
+            // get the frbctionbl pbrt
+            position = position - pbrt;
 
-            if ((part & 1) == 1) {
-                // integer part is odd, get reflected color instead
+            if ((pbrt & 1) == 1) {
+                // integer pbrt is odd, get reflected color instebd
                 position = 1 - position;
             }
         }
 
-        // now, get the color based on this 0-1 position...
+        // now, get the color bbsed on this 0-1 position...
 
         if (isSimpleLookup) {
-            // easy to compute: just scale index by array size
-            return gradient[(int)(position * fastGradientArraySize)];
+            // ebsy to compute: just scble index by brrby size
+            return grbdient[(int)(position * fbstGrbdientArrbySize)];
         } else {
-            // more complicated computation, to save space
+            // more complicbted computbtion, to sbve spbce
 
-            // for all the gradient interval arrays
-            for (int i = 0; i < gradients.length; i++) {
-                if (position < fractions[i+1]) {
-                    // this is the array we want
-                    float delta = position - fractions[i];
+            // for bll the grbdient intervbl brrbys
+            for (int i = 0; i < grbdients.length; i++) {
+                if (position < frbctions[i+1]) {
+                    // this is the brrby we wbnt
+                    flobt deltb = position - frbctions[i];
 
-                    // this is the interval we want
-                    int index = (int)((delta / normalizedIntervals[i])
+                    // this is the intervbl we wbnt
+                    int index = (int)((deltb / normblizedIntervbls[i])
                                       * (GRADIENT_SIZE_INDEX));
 
-                    return gradients[i][index];
+                    return grbdients[i][index];
                 }
             }
         }
 
-        return gradients[gradients.length - 1][GRADIENT_SIZE_INDEX];
+        return grbdients[grbdients.length - 1][GRADIENT_SIZE_INDEX];
     }
 
     /**
-     * Helper function to convert a color component in sRGB space to linear
-     * RGB space.  Used to build a static lookup table.
+     * Helper function to convert b color component in sRGB spbce to linebr
+     * RGB spbce.  Used to build b stbtic lookup tbble.
      */
-    private static int convertSRGBtoLinearRGB(int color) {
-        float input, output;
+    privbte stbtic int convertSRGBtoLinebrRGB(int color) {
+        flobt input, output;
 
         input = color / 255.0f;
         if (input <= 0.04045f) {
             output = input / 12.92f;
         } else {
-            output = (float)Math.pow((input + 0.055) / 1.055, 2.4);
+            output = (flobt)Mbth.pow((input + 0.055) / 1.055, 2.4);
         }
 
-        return Math.round(output * 255.0f);
+        return Mbth.round(output * 255.0f);
     }
 
     /**
-     * Helper function to convert a color component in linear RGB space to
-     * SRGB space.  Used to build a static lookup table.
+     * Helper function to convert b color component in linebr RGB spbce to
+     * SRGB spbce.  Used to build b stbtic lookup tbble.
      */
-    private static int convertLinearRGBtoSRGB(int color) {
-        float input, output;
+    privbte stbtic int convertLinebrRGBtoSRGB(int color) {
+        flobt input, output;
 
         input = color/255.0f;
         if (input <= 0.0031308) {
             output = input * 12.92f;
         } else {
             output = (1.055f *
-                ((float) Math.pow(input, (1.0 / 2.4)))) - 0.055f;
+                ((flobt) Mbth.pow(input, (1.0 / 2.4)))) - 0.055f;
         }
 
-        return Math.round(output * 255.0f);
+        return Mbth.round(output * 255.0f);
     }
 
     /**
      * {@inheritDoc}
      */
-    public final Raster getRaster(int x, int y, int w, int h) {
-        // If working raster is big enough, reuse it. Otherwise,
-        // build a large enough new one.
-        Raster raster = saved;
-        if (raster == null ||
-            raster.getWidth() < w || raster.getHeight() < h)
+    public finbl Rbster getRbster(int x, int y, int w, int h) {
+        // If working rbster is big enough, reuse it. Otherwise,
+        // build b lbrge enough new one.
+        Rbster rbster = sbved;
+        if (rbster == null ||
+            rbster.getWidth() < w || rbster.getHeight() < h)
         {
-            raster = getCachedRaster(model, w, h);
-            saved = raster;
+            rbster = getCbchedRbster(model, w, h);
+            sbved = rbster;
         }
 
-        // Access raster internal int array. Because we use a DirectColorModel,
-        // we know the DataBuffer is of type DataBufferInt and the SampleModel
-        // is SinglePixelPackedSampleModel.
-        // Adjust for initial offset in DataBuffer and also for the scanline
+        // Access rbster internbl int brrby. Becbuse we use b DirectColorModel,
+        // we know the DbtbBuffer is of type DbtbBufferInt bnd the SbmpleModel
+        // is SinglePixelPbckedSbmpleModel.
+        // Adjust for initibl offset in DbtbBuffer bnd blso for the scbnline
         // stride.
-        // These calls make the DataBuffer non-acceleratable, but the
-        // Raster is never Stable long enough to accelerate anyway...
-        DataBufferInt rasterDB = (DataBufferInt)raster.getDataBuffer();
-        int[] pixels = rasterDB.getData(0);
-        int off = rasterDB.getOffset();
-        int scanlineStride = ((SinglePixelPackedSampleModel)
-                              raster.getSampleModel()).getScanlineStride();
-        int adjust = scanlineStride - w;
+        // These cblls mbke the DbtbBuffer non-bccelerbtbble, but the
+        // Rbster is never Stbble long enough to bccelerbte bnywby...
+        DbtbBufferInt rbsterDB = (DbtbBufferInt)rbster.getDbtbBuffer();
+        int[] pixels = rbsterDB.getDbtb(0);
+        int off = rbsterDB.getOffset();
+        int scbnlineStride = ((SinglePixelPbckedSbmpleModel)
+                              rbster.getSbmpleModel()).getScbnlineStride();
+        int bdjust = scbnlineStride - w;
 
-        fillRaster(pixels, off, adjust, x, y, w, h); // delegate to subclass
+        fillRbster(pixels, off, bdjust, x, y, w, h); // delegbte to subclbss
 
-        return raster;
+        return rbster;
     }
 
-    protected abstract void fillRaster(int pixels[], int off, int adjust,
+    protected bbstrbct void fillRbster(int pixels[], int off, int bdjust,
                                        int x, int y, int w, int h);
 
 
     /**
-     * Took this cacheRaster code from GradientPaint. It appears to recycle
-     * rasters for use by any other instance, as long as they are sufficiently
-     * large.
+     * Took this cbcheRbster code from GrbdientPbint. It bppebrs to recycle
+     * rbsters for use by bny other instbnce, bs long bs they bre sufficiently
+     * lbrge.
      */
-    private static synchronized Raster getCachedRaster(ColorModel cm,
+    privbte stbtic synchronized Rbster getCbchedRbster(ColorModel cm,
                                                        int w, int h)
     {
-        if (cm == cachedModel) {
-            if (cached != null) {
-                Raster ras = cached.get();
-                if (ras != null &&
-                    ras.getWidth() >= w &&
-                    ras.getHeight() >= h)
+        if (cm == cbchedModel) {
+            if (cbched != null) {
+                Rbster rbs = cbched.get();
+                if (rbs != null &&
+                    rbs.getWidth() >= w &&
+                    rbs.getHeight() >= h)
                 {
-                    cached = null;
-                    return ras;
+                    cbched = null;
+                    return rbs;
                 }
             }
         }
-        return cm.createCompatibleWritableRaster(w, h);
+        return cm.crebteCompbtibleWritbbleRbster(w, h);
     }
 
     /**
-     * Took this cacheRaster code from GradientPaint. It appears to recycle
-     * rasters for use by any other instance, as long as they are sufficiently
-     * large.
+     * Took this cbcheRbster code from GrbdientPbint. It bppebrs to recycle
+     * rbsters for use by bny other instbnce, bs long bs they bre sufficiently
+     * lbrge.
      */
-    private static synchronized void putCachedRaster(ColorModel cm,
-                                                     Raster ras)
+    privbte stbtic synchronized void putCbchedRbster(ColorModel cm,
+                                                     Rbster rbs)
     {
-        if (cached != null) {
-            Raster cras = cached.get();
-            if (cras != null) {
-                int cw = cras.getWidth();
-                int ch = cras.getHeight();
-                int iw = ras.getWidth();
-                int ih = ras.getHeight();
+        if (cbched != null) {
+            Rbster crbs = cbched.get();
+            if (crbs != null) {
+                int cw = crbs.getWidth();
+                int ch = crbs.getHeight();
+                int iw = rbs.getWidth();
+                int ih = rbs.getHeight();
                 if (cw >= iw && ch >= ih) {
                     return;
                 }
@@ -701,24 +701,24 @@ abstract class MultipleGradientPaintContext implements PaintContext {
                 }
             }
         }
-        cachedModel = cm;
-        cached = new WeakReference<Raster>(ras);
+        cbchedModel = cm;
+        cbched = new WebkReference<Rbster>(rbs);
     }
 
     /**
      * {@inheritDoc}
      */
-    public final void dispose() {
-        if (saved != null) {
-            putCachedRaster(model, saved);
-            saved = null;
+    public finbl void dispose() {
+        if (sbved != null) {
+            putCbchedRbster(model, sbved);
+            sbved = null;
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public final ColorModel getColorModel() {
+    public finbl ColorModel getColorModel() {
         return model;
     }
 }

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* crc32.c -- compute the CRC-32 of a data stream
- * Copyright (C) 1995-2006, 2010, 2011, 2012 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* crc32.c -- compute the CRC-32 of b dbtb strebm
+ * Copyright (C) 1995-2006, 2010, 2011, 2012 Mbrk Adler
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  *
- * Thanks to Rodney Brown <rbrown64@csc.com.au> for his contribution of faster
- * CRC methods: exclusive-oring 32 bits of data at a time, and pre-computing
- * tables for updating the shift register in one step with three exclusive-ors
- * instead of four steps with four exclusive-ors.  This results in about a
- * factor of two increase in speed on a Power PC G4 (PPC7455) using gcc -O3.
+ * Thbnks to Rodney Brown <rbrown64@csc.com.bu> for his contribution of fbster
+ * CRC methods: exclusive-oring 32 bits of dbtb bt b time, bnd pre-computing
+ * tbbles for updbting the shift register in one step with three exclusive-ors
+ * instebd of four steps with four exclusive-ors.  This results in bbout b
+ * fbctor of two increbse in speed on b Power PC G4 (PPC7455) using gcc -O3.
  */
 
 /* @(#) $Id$ */
 
 /*
-  Note on the use of DYNAMIC_CRC_TABLE: there is no mutex or semaphore
-  protection on the static variables used to control the first-use generation
-  of the crc tables.  Therefore, if you #define DYNAMIC_CRC_TABLE, you should
-  first call get_crc_table() to initialize the tables before allowing more than
-  one thread to use crc32().
+  Note on the use of DYNAMIC_CRC_TABLE: there is no mutex or sembphore
+  protection on the stbtic vbribbles used to control the first-use generbtion
+  of the crc tbbles.  Therefore, if you #define DYNAMIC_CRC_TABLE, you should
+  first cbll get_crc_tbble() to initiblize the tbbles before bllowing more thbn
+  one threbd to use crc32().
 
-  DYNAMIC_CRC_TABLE and MAKECRCH can be #defined to write out crc32.h.
+  DYNAMIC_CRC_TABLE bnd MAKECRCH cbn be #defined to write out crc32.h.
  */
 
 #ifdef MAKECRCH
@@ -52,132 +52,132 @@
 #  endif /* !DYNAMIC_CRC_TABLE */
 #endif /* MAKECRCH */
 
-#include "zutil.h"      /* for STDC and FAR definitions */
+#include "zutil.h"      /* for STDC bnd FAR definitions */
 
-#define local static
+#define locbl stbtic
 
-/* Definitions for doing the crc four data bytes at a time. */
+/* Definitions for doing the crc four dbtb bytes bt b time. */
 #if !defined(NOBYFOUR) && defined(Z_U4)
 #  define BYFOUR
 #endif
 #ifdef BYFOUR
-   local unsigned long crc32_little OF((unsigned long,
-                        const unsigned char FAR *, unsigned));
-   local unsigned long crc32_big OF((unsigned long,
-                        const unsigned char FAR *, unsigned));
+   locbl unsigned long crc32_little OF((unsigned long,
+                        const unsigned chbr FAR *, unsigned));
+   locbl unsigned long crc32_big OF((unsigned long,
+                        const unsigned chbr FAR *, unsigned));
 #  define TBLS 8
 #else
 #  define TBLS 1
 #endif /* BYFOUR */
 
-/* Local functions for crc concatenation */
-local unsigned long gf2_matrix_times OF((unsigned long *mat,
+/* Locbl functions for crc concbtenbtion */
+locbl unsigned long gf2_mbtrix_times OF((unsigned long *mbt,
                                          unsigned long vec));
-local void gf2_matrix_square OF((unsigned long *square, unsigned long *mat));
-local uLong crc32_combine_ OF((uLong crc1, uLong crc2, z_off64_t len2));
+locbl void gf2_mbtrix_squbre OF((unsigned long *squbre, unsigned long *mbt));
+locbl uLong crc32_combine_ OF((uLong crc1, uLong crc2, z_off64_t len2));
 
 
 #ifdef DYNAMIC_CRC_TABLE
 
-local volatile int crc_table_empty = 1;
-local z_crc_t FAR crc_table[TBLS][256];
-local void make_crc_table OF((void));
+locbl volbtile int crc_tbble_empty = 1;
+locbl z_crc_t FAR crc_tbble[TBLS][256];
+locbl void mbke_crc_tbble OF((void));
 #ifdef MAKECRCH
-   local void write_table OF((FILE *, const z_crc_t FAR *));
+   locbl void write_tbble OF((FILE *, const z_crc_t FAR *));
 #endif /* MAKECRCH */
 /*
-  Generate tables for a byte-wise 32-bit CRC calculation on the polynomial:
+  Generbte tbbles for b byte-wise 32-bit CRC cblculbtion on the polynomibl:
   x^32+x^26+x^23+x^22+x^16+x^12+x^11+x^10+x^8+x^7+x^5+x^4+x^2+x+1.
 
-  Polynomials over GF(2) are represented in binary, one bit per coefficient,
-  with the lowest powers in the most significant bit.  Then adding polynomials
-  is just exclusive-or, and multiplying a polynomial by x is a right shift by
-  one.  If we call the above polynomial p, and represent a byte as the
-  polynomial q, also with the lowest power in the most significant bit (so the
-  byte 0xb1 is the polynomial x^7+x^3+x+1), then the CRC is (q*x^32) mod p,
-  where a mod b means the remainder after dividing a by b.
+  Polynomibls over GF(2) bre represented in binbry, one bit per coefficient,
+  with the lowest powers in the most significbnt bit.  Then bdding polynomibls
+  is just exclusive-or, bnd multiplying b polynomibl by x is b right shift by
+  one.  If we cbll the bbove polynomibl p, bnd represent b byte bs the
+  polynomibl q, blso with the lowest power in the most significbnt bit (so the
+  byte 0xb1 is the polynomibl x^7+x^3+x+1), then the CRC is (q*x^32) mod p,
+  where b mod b mebns the rembinder bfter dividing b by b.
 
-  This calculation is done using the shift-register method of multiplying and
-  taking the remainder.  The register is initialized to zero, and for each
-  incoming bit, x^32 is added mod p to the register if the bit is a one (where
-  x^32 mod p is p+x^32 = x^26+...+1), and the register is multiplied mod p by
-  x (which is shifting right by one and adding x^32 mod p if the bit shifted
-  out is a one).  We start with the highest power (least significant bit) of
-  q and repeat for all eight bits of q.
+  This cblculbtion is done using the shift-register method of multiplying bnd
+  tbking the rembinder.  The register is initiblized to zero, bnd for ebch
+  incoming bit, x^32 is bdded mod p to the register if the bit is b one (where
+  x^32 mod p is p+x^32 = x^26+...+1), bnd the register is multiplied mod p by
+  x (which is shifting right by one bnd bdding x^32 mod p if the bit shifted
+  out is b one).  We stbrt with the highest power (lebst significbnt bit) of
+  q bnd repebt for bll eight bits of q.
 
-  The first table is simply the CRC of all possible eight bit values.  This is
-  all the information needed to generate CRCs on data a byte at a time for all
-  combinations of CRC register values and incoming bytes.  The remaining tables
-  allow for word-at-a-time CRC calculation for both big-endian and little-
-  endian machines, where a word is four bytes.
+  The first tbble is simply the CRC of bll possible eight bit vblues.  This is
+  bll the informbtion needed to generbte CRCs on dbtb b byte bt b time for bll
+  combinbtions of CRC register vblues bnd incoming bytes.  The rembining tbbles
+  bllow for word-bt-b-time CRC cblculbtion for both big-endibn bnd little-
+  endibn mbchines, where b word is four bytes.
 */
-local void make_crc_table()
+locbl void mbke_crc_tbble()
 {
     z_crc_t c;
     int n, k;
-    z_crc_t poly;                       /* polynomial exclusive-or pattern */
-    /* terms of polynomial defining this crc (except x^32): */
-    static volatile int first = 1;      /* flag to limit concurrent making */
-    static const unsigned char p[] = {0,1,2,4,5,7,8,10,11,12,16,22,23,26};
+    z_crc_t poly;                       /* polynomibl exclusive-or pbttern */
+    /* terms of polynomibl defining this crc (except x^32): */
+    stbtic volbtile int first = 1;      /* flbg to limit concurrent mbking */
+    stbtic const unsigned chbr p[] = {0,1,2,4,5,7,8,10,11,12,16,22,23,26};
 
-    /* See if another task is already doing this (not thread-safe, but better
-       than nothing -- significantly reduces duration of vulnerability in
-       case the advice about DYNAMIC_CRC_TABLE is ignored) */
+    /* See if bnother tbsk is blrebdy doing this (not threbd-sbfe, but better
+       thbn nothing -- significbntly reduces durbtion of vulnerbbility in
+       cbse the bdvice bbout DYNAMIC_CRC_TABLE is ignored) */
     if (first) {
         first = 0;
 
-        /* make exclusive-or pattern from polynomial (0xedb88320UL) */
+        /* mbke exclusive-or pbttern from polynomibl (0xedb88320UL) */
         poly = 0;
-        for (n = 0; n < (int)(sizeof(p)/sizeof(unsigned char)); n++)
+        for (n = 0; n < (int)(sizeof(p)/sizeof(unsigned chbr)); n++)
             poly |= (z_crc_t)1 << (31 - p[n]);
 
-        /* generate a crc for every 8-bit value */
+        /* generbte b crc for every 8-bit vblue */
         for (n = 0; n < 256; n++) {
             c = (z_crc_t)n;
             for (k = 0; k < 8; k++)
                 c = c & 1 ? poly ^ (c >> 1) : c >> 1;
-            crc_table[0][n] = c;
+            crc_tbble[0][n] = c;
         }
 
 #ifdef BYFOUR
-        /* generate crc for each value followed by one, two, and three zeros,
-           and then the byte reversal of those as well as the first table */
+        /* generbte crc for ebch vblue followed by one, two, bnd three zeros,
+           bnd then the byte reversbl of those bs well bs the first tbble */
         for (n = 0; n < 256; n++) {
-            c = crc_table[0][n];
-            crc_table[4][n] = ZSWAP32(c);
+            c = crc_tbble[0][n];
+            crc_tbble[4][n] = ZSWAP32(c);
             for (k = 1; k < 4; k++) {
-                c = crc_table[0][c & 0xff] ^ (c >> 8);
-                crc_table[k][n] = c;
-                crc_table[k + 4][n] = ZSWAP32(c);
+                c = crc_tbble[0][c & 0xff] ^ (c >> 8);
+                crc_tbble[k][n] = c;
+                crc_tbble[k + 4][n] = ZSWAP32(c);
             }
         }
 #endif /* BYFOUR */
 
-        crc_table_empty = 0;
+        crc_tbble_empty = 0;
     }
     else {      /* not first */
-        /* wait for the other guy to finish (not efficient, but rare) */
-        while (crc_table_empty)
+        /* wbit for the other guy to finish (not efficient, but rbre) */
+        while (crc_tbble_empty)
             ;
     }
 
 #ifdef MAKECRCH
-    /* write out CRC tables to crc32.h */
+    /* write out CRC tbbles to crc32.h */
     {
         FILE *out;
 
         out = fopen("crc32.h", "w");
         if (out == NULL) return;
-        fprintf(out, "/* crc32.h -- tables for rapid CRC calculation\n");
-        fprintf(out, " * Generated automatically by crc32.c\n */\n\n");
-        fprintf(out, "local const z_crc_t FAR ");
-        fprintf(out, "crc_table[TBLS][256] =\n{\n  {\n");
-        write_table(out, crc_table[0]);
+        fprintf(out, "/* crc32.h -- tbbles for rbpid CRC cblculbtion\n");
+        fprintf(out, " * Generbted butombticblly by crc32.c\n */\n\n");
+        fprintf(out, "locbl const z_crc_t FAR ");
+        fprintf(out, "crc_tbble[TBLS][256] =\n{\n  {\n");
+        write_tbble(out, crc_tbble[0]);
 #  ifdef BYFOUR
         fprintf(out, "#ifdef BYFOUR\n");
         for (k = 1; k < 8; k++) {
             fprintf(out, "  },\n  {\n");
-            write_table(out, crc_table[k]);
+            write_tbble(out, crc_tbble[k]);
         }
         fprintf(out, "#endif\n");
 #  endif /* BYFOUR */
@@ -188,61 +188,61 @@ local void make_crc_table()
 }
 
 #ifdef MAKECRCH
-local void write_table(out, table)
+locbl void write_tbble(out, tbble)
     FILE *out;
-    const z_crc_t FAR *table;
+    const z_crc_t FAR *tbble;
 {
     int n;
 
     for (n = 0; n < 256; n++)
         fprintf(out, "%s0x%08lxUL%s", n % 5 ? "" : "    ",
-                (unsigned long)(table[n]),
+                (unsigned long)(tbble[n]),
                 n == 255 ? "\n" : (n % 5 == 4 ? ",\n" : ", "));
 }
 #endif /* MAKECRCH */
 
 #else /* !DYNAMIC_CRC_TABLE */
 /* ========================================================================
- * Tables of CRC-32s of all single-byte values, made by make_crc_table().
+ * Tbbles of CRC-32s of bll single-byte vblues, mbde by mbke_crc_tbble().
  */
 #include "crc32.h"
 #endif /* DYNAMIC_CRC_TABLE */
 
 /* =========================================================================
- * This function can be used by asm versions of crc32()
+ * This function cbn be used by bsm versions of crc32()
  */
-const z_crc_t FAR * ZEXPORT get_crc_table()
+const z_crc_t FAR * ZEXPORT get_crc_tbble()
 {
 #ifdef DYNAMIC_CRC_TABLE
-    if (crc_table_empty)
-        make_crc_table();
+    if (crc_tbble_empty)
+        mbke_crc_tbble();
 #endif /* DYNAMIC_CRC_TABLE */
-    return (const z_crc_t FAR *)crc_table;
+    return (const z_crc_t FAR *)crc_tbble;
 }
 
 /* ========================================================================= */
-#define DO1 crc = crc_table[0][((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8)
+#define DO1 crc = crc_tbble[0][((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8)
 #define DO8 DO1; DO1; DO1; DO1; DO1; DO1; DO1; DO1
 
 /* ========================================================================= */
 uLong ZEXPORT crc32(crc, buf, len)
     uLong crc;
-    const unsigned char FAR *buf;
+    const unsigned chbr FAR *buf;
     uInt len;
 {
     if (buf == Z_NULL) return 0UL;
 
 #ifdef DYNAMIC_CRC_TABLE
-    if (crc_table_empty)
-        make_crc_table();
+    if (crc_tbble_empty)
+        mbke_crc_tbble();
 #endif /* DYNAMIC_CRC_TABLE */
 
 #ifdef BYFOUR
     if (sizeof(void *) == sizeof(ptrdiff_t)) {
-        z_crc_t endian;
+        z_crc_t endibn;
 
-        endian = 1;
-        if (*((unsigned char *)(&endian)))
+        endibn = 1;
+        if (*((unsigned chbr *)(&endibn)))
             return (uLong)crc32_little(crc, buf, len);
         else
             return (uLong)crc32_big(crc, buf, len);
@@ -263,14 +263,14 @@ uLong ZEXPORT crc32(crc, buf, len)
 
 /* ========================================================================= */
 #define DOLIT4 c ^= *buf4++; \
-        c = crc_table[3][c & 0xff] ^ crc_table[2][(c >> 8) & 0xff] ^ \
-            crc_table[1][(c >> 16) & 0xff] ^ crc_table[0][c >> 24]
+        c = crc_tbble[3][c & 0xff] ^ crc_tbble[2][(c >> 8) & 0xff] ^ \
+            crc_tbble[1][(c >> 16) & 0xff] ^ crc_tbble[0][c >> 24]
 #define DOLIT32 DOLIT4; DOLIT4; DOLIT4; DOLIT4; DOLIT4; DOLIT4; DOLIT4; DOLIT4
 
 /* ========================================================================= */
-local unsigned long crc32_little(crc, buf, len)
+locbl unsigned long crc32_little(crc, buf, len)
     unsigned long crc;
-    const unsigned char FAR *buf;
+    const unsigned chbr FAR *buf;
     unsigned len;
 {
     register z_crc_t c;
@@ -279,7 +279,7 @@ local unsigned long crc32_little(crc, buf, len)
     c = (z_crc_t)crc;
     c = ~c;
     while (len && ((ptrdiff_t)buf & 3)) {
-        c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
+        c = crc_tbble[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
         len--;
     }
 
@@ -292,10 +292,10 @@ local unsigned long crc32_little(crc, buf, len)
         DOLIT4;
         len -= 4;
     }
-    buf = (const unsigned char FAR *)buf4;
+    buf = (const unsigned chbr FAR *)buf4;
 
     if (len) do {
-        c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
+        c = crc_tbble[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
     } while (--len);
     c = ~c;
     return (unsigned long)c;
@@ -303,14 +303,14 @@ local unsigned long crc32_little(crc, buf, len)
 
 /* ========================================================================= */
 #define DOBIG4 c ^= *++buf4; \
-        c = crc_table[4][c & 0xff] ^ crc_table[5][(c >> 8) & 0xff] ^ \
-            crc_table[6][(c >> 16) & 0xff] ^ crc_table[7][c >> 24]
+        c = crc_tbble[4][c & 0xff] ^ crc_tbble[5][(c >> 8) & 0xff] ^ \
+            crc_tbble[6][(c >> 16) & 0xff] ^ crc_tbble[7][c >> 24]
 #define DOBIG32 DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4
 
 /* ========================================================================= */
-local unsigned long crc32_big(crc, buf, len)
+locbl unsigned long crc32_big(crc, buf, len)
     unsigned long crc;
-    const unsigned char FAR *buf;
+    const unsigned chbr FAR *buf;
     unsigned len;
 {
     register z_crc_t c;
@@ -319,7 +319,7 @@ local unsigned long crc32_big(crc, buf, len)
     c = ZSWAP32((z_crc_t)crc);
     c = ~c;
     while (len && ((ptrdiff_t)buf & 3)) {
-        c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
+        c = crc_tbble[4][(c >> 24) ^ *buf++] ^ (c << 8);
         len--;
     }
 
@@ -334,10 +334,10 @@ local unsigned long crc32_big(crc, buf, len)
         len -= 4;
     }
     buf4++;
-    buf = (const unsigned char FAR *)buf4;
+    buf = (const unsigned chbr FAR *)buf4;
 
     if (len) do {
-        c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
+        c = crc_tbble[4][(c >> 24) ^ *buf++] ^ (c << 8);
     } while (--len);
     c = ~c;
     return (unsigned long)(ZSWAP32(c));
@@ -348,8 +348,8 @@ local unsigned long crc32_big(crc, buf, len)
 #define GF2_DIM 32      /* dimension of GF(2) vectors (length of CRC) */
 
 /* ========================================================================= */
-local unsigned long gf2_matrix_times(mat, vec)
-    unsigned long *mat;
+locbl unsigned long gf2_mbtrix_times(mbt, vec)
+    unsigned long *mbt;
     unsigned long vec;
 {
     unsigned long sum;
@@ -357,70 +357,70 @@ local unsigned long gf2_matrix_times(mat, vec)
     sum = 0;
     while (vec) {
         if (vec & 1)
-            sum ^= *mat;
+            sum ^= *mbt;
         vec >>= 1;
-        mat++;
+        mbt++;
     }
     return sum;
 }
 
 /* ========================================================================= */
-local void gf2_matrix_square(square, mat)
-    unsigned long *square;
-    unsigned long *mat;
+locbl void gf2_mbtrix_squbre(squbre, mbt)
+    unsigned long *squbre;
+    unsigned long *mbt;
 {
     int n;
 
     for (n = 0; n < GF2_DIM; n++)
-        square[n] = gf2_matrix_times(mat, mat[n]);
+        squbre[n] = gf2_mbtrix_times(mbt, mbt[n]);
 }
 
 /* ========================================================================= */
-local uLong crc32_combine_(crc1, crc2, len2)
+locbl uLong crc32_combine_(crc1, crc2, len2)
     uLong crc1;
     uLong crc2;
     z_off64_t len2;
 {
     int n;
     unsigned long row;
-    unsigned long even[GF2_DIM];    /* even-power-of-two zeros operator */
-    unsigned long odd[GF2_DIM];     /* odd-power-of-two zeros operator */
+    unsigned long even[GF2_DIM];    /* even-power-of-two zeros operbtor */
+    unsigned long odd[GF2_DIM];     /* odd-power-of-two zeros operbtor */
 
-    /* degenerate case (also disallow negative lengths) */
+    /* degenerbte cbse (blso disbllow negbtive lengths) */
     if (len2 <= 0)
         return crc1;
 
-    /* put operator for one zero bit in odd */
-    odd[0] = 0xedb88320UL;          /* CRC-32 polynomial */
+    /* put operbtor for one zero bit in odd */
+    odd[0] = 0xedb88320UL;          /* CRC-32 polynomibl */
     row = 1;
     for (n = 1; n < GF2_DIM; n++) {
         odd[n] = row;
         row <<= 1;
     }
 
-    /* put operator for two zero bits in even */
-    gf2_matrix_square(even, odd);
+    /* put operbtor for two zero bits in even */
+    gf2_mbtrix_squbre(even, odd);
 
-    /* put operator for four zero bits in odd */
-    gf2_matrix_square(odd, even);
+    /* put operbtor for four zero bits in odd */
+    gf2_mbtrix_squbre(odd, even);
 
-    /* apply len2 zeros to crc1 (first square will put the operator for one
+    /* bpply len2 zeros to crc1 (first squbre will put the operbtor for one
        zero byte, eight zero bits, in even) */
     do {
-        /* apply zeros operator for this bit of len2 */
-        gf2_matrix_square(even, odd);
+        /* bpply zeros operbtor for this bit of len2 */
+        gf2_mbtrix_squbre(even, odd);
         if (len2 & 1)
-            crc1 = gf2_matrix_times(even, crc1);
+            crc1 = gf2_mbtrix_times(even, crc1);
         len2 >>= 1;
 
         /* if no more bits set, then done */
         if (len2 == 0)
-            break;
+            brebk;
 
-        /* another iteration of the loop with odd and even swapped */
-        gf2_matrix_square(odd, even);
+        /* bnother iterbtion of the loop with odd bnd even swbpped */
+        gf2_mbtrix_squbre(odd, even);
         if (len2 & 1)
-            crc1 = gf2_matrix_times(odd, crc1);
+            crc1 = gf2_mbtrix_times(odd, crc1);
         len2 >>= 1;
 
         /* if no more bits set, then done */

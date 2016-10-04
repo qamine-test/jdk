@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt.peer;
+pbckbge jbvb.bwt.peer;
 
-import java.awt.Dimension;
-import java.awt.TextArea;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.TextAreb;
 
 /**
- * The peer interface for {@link TextArea}.
+ * The peer interfbce for {@link TextAreb}.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * The peer interfbces bre intended only for use in porting
+ * the AWT. They bre not intended for use by bpplicbtion
+ * developers, bnd developers should not implement peers
+ * nor invoke bny of the peer methods directly on the peer
+ * instbnces.
  */
-public interface TextAreaPeer extends TextComponentPeer {
+public interfbce TextArebPeer extends TextComponentPeer {
 
     /**
-     * Inserts the specified text at the specified position in the document.
+     * Inserts the specified text bt the specified position in the document.
      *
-     * @param text the text to insert
-     * @param pos the position to insert
+     * @pbrbm text the text to insert
+     * @pbrbm pos the position to insert
      *
-     * @see TextArea#insert(String, int)
+     * @see TextAreb#insert(String, int)
      */
     void insert(String text, int pos);
 
     /**
-     * Replaces a range of text by the specified string.
+     * Replbces b rbnge of text by the specified string.
      *
-     * @param text the replacement string
-     * @param start the begin of the range to replace
-     * @param end the end of the range to replace
+     * @pbrbm text the replbcement string
+     * @pbrbm stbrt the begin of the rbnge to replbce
+     * @pbrbm end the end of the rbnge to replbce
      *
-     * @see TextArea#replaceRange(String, int, int)
+     * @see TextAreb#replbceRbnge(String, int, int)
      */
-    void replaceRange(String text, int start, int end);
+    void replbceRbnge(String text, int stbrt, int end);
 
     /**
-     * Returns the preferred size of a textarea with the specified number of
-     * columns and rows.
+     * Returns the preferred size of b textbreb with the specified number of
+     * columns bnd rows.
      *
-     * @param rows the number of rows
-     * @param columns the number of columns
+     * @pbrbm rows the number of rows
+     * @pbrbm columns the number of columns
      *
-     * @return the preferred size of a textarea
+     * @return the preferred size of b textbreb
      *
-     * @see TextArea#getPreferredSize(int, int)
+     * @see TextAreb#getPreferredSize(int, int)
      */
     Dimension getPreferredSize(int rows, int columns);
 
     /**
-     * Returns the minimum size of a textarea with the specified number of
-     * columns and rows.
+     * Returns the minimum size of b textbreb with the specified number of
+     * columns bnd rows.
      *
-     * @param rows the number of rows
-     * @param columns the number of columns
+     * @pbrbm rows the number of rows
+     * @pbrbm columns the number of columns
      *
-     * @return the minimum size of a textarea
+     * @return the minimum size of b textbreb
      *
-     * @see TextArea#getMinimumSize(int, int)
+     * @see TextAreb#getMinimumSize(int, int)
      */
     Dimension getMinimumSize(int rows, int columns);
 

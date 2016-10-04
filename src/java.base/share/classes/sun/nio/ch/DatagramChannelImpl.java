@@ -1,336 +1,336 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.net.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.*;
-import sun.net.ResourceManager;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.net.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbnnels.spi.*;
+import jbvb.util.*;
+import sun.net.ResourceMbnbger;
 import sun.net.ExtendedOptionsImpl;
 
 /**
- * An implementation of DatagramChannels.
+ * An implementbtion of DbtbgrbmChbnnels.
  */
 
-class DatagramChannelImpl
-    extends DatagramChannel
+clbss DbtbgrbmChbnnelImpl
+    extends DbtbgrbmChbnnel
     implements SelChImpl
 {
 
-    // Used to make native read and write calls
-    private static NativeDispatcher nd = new DatagramDispatcher();
+    // Used to mbke nbtive rebd bnd write cblls
+    privbte stbtic NbtiveDispbtcher nd = new DbtbgrbmDispbtcher();
 
     // Our file descriptor
-    private final FileDescriptor fd;
+    privbte finbl FileDescriptor fd;
 
-    // fd value needed for dev/poll. This value will remain valid
-    // even after the value in the file descriptor object has been set to -1
-    private final int fdVal;
+    // fd vblue needed for dev/poll. This vblue will rembin vblid
+    // even bfter the vblue in the file descriptor object hbs been set to -1
+    privbte finbl int fdVbl;
 
-    // The protocol family of the socket
-    private final ProtocolFamily family;
+    // The protocol fbmily of the socket
+    privbte finbl ProtocolFbmily fbmily;
 
-    // IDs of native threads doing reads and writes, for signalling
-    private volatile long readerThread = 0;
-    private volatile long writerThread = 0;
+    // IDs of nbtive threbds doing rebds bnd writes, for signblling
+    privbte volbtile long rebderThrebd = 0;
+    privbte volbtile long writerThrebd = 0;
 
-    // Cached InetAddress and port for unconnected DatagramChannels
+    // Cbched InetAddress bnd port for unconnected DbtbgrbmChbnnels
     // used by receive0
-    private InetAddress cachedSenderInetAddress;
-    private int cachedSenderPort;
+    privbte InetAddress cbchedSenderInetAddress;
+    privbte int cbchedSenderPort;
 
-    // Lock held by current reading or connecting thread
-    private final Object readLock = new Object();
+    // Lock held by current rebding or connecting threbd
+    privbte finbl Object rebdLock = new Object();
 
-    // Lock held by current writing or connecting thread
-    private final Object writeLock = new Object();
+    // Lock held by current writing or connecting threbd
+    privbte finbl Object writeLock = new Object();
 
-    // Lock held by any thread that modifies the state fields declared below
-    // DO NOT invoke a blocking I/O operation while holding this lock!
-    private final Object stateLock = new Object();
+    // Lock held by bny threbd thbt modifies the stbte fields declbred below
+    // DO NOT invoke b blocking I/O operbtion while holding this lock!
+    privbte finbl Object stbteLock = new Object();
 
-    // -- The following fields are protected by stateLock
+    // -- The following fields bre protected by stbteLock
 
-    // State (does not necessarily increase monotonically)
-    private static final int ST_UNINITIALIZED = -1;
-    private static final int ST_UNCONNECTED = 0;
-    private static final int ST_CONNECTED = 1;
-    private static final int ST_KILLED = 2;
-    private int state = ST_UNINITIALIZED;
+    // Stbte (does not necessbrily increbse monotonicblly)
+    privbte stbtic finbl int ST_UNINITIALIZED = -1;
+    privbte stbtic finbl int ST_UNCONNECTED = 0;
+    privbte stbtic finbl int ST_CONNECTED = 1;
+    privbte stbtic finbl int ST_KILLED = 2;
+    privbte int stbte = ST_UNINITIALIZED;
 
     // Binding
-    private InetSocketAddress localAddress;
-    private InetSocketAddress remoteAddress;
+    privbte InetSocketAddress locblAddress;
+    privbte InetSocketAddress remoteAddress;
 
-    // Our socket adaptor, if any
-    private DatagramSocket socket;
+    // Our socket bdbptor, if bny
+    privbte DbtbgrbmSocket socket;
 
-    // Multicast support
-    private MembershipRegistry registry;
+    // Multicbst support
+    privbte MembershipRegistry registry;
 
-    // set true when socket is bound and SO_REUSEADDRESS is emulated
-    private boolean reuseAddressEmulated;
+    // set true when socket is bound bnd SO_REUSEADDRESS is emulbted
+    privbte boolebn reuseAddressEmulbted;
 
-    // set true/false when socket is already bound and SO_REUSEADDR is emulated
-    private boolean isReuseAddress;
+    // set true/fblse when socket is blrebdy bound bnd SO_REUSEADDR is emulbted
+    privbte boolebn isReuseAddress;
 
-    // -- End of fields protected by stateLock
+    // -- End of fields protected by stbteLock
 
 
-    public DatagramChannelImpl(SelectorProvider sp)
+    public DbtbgrbmChbnnelImpl(SelectorProvider sp)
         throws IOException
     {
         super(sp);
-        ResourceManager.beforeUdpCreate();
+        ResourceMbnbger.beforeUdpCrebte();
         try {
-            this.family = Net.isIPv6Available() ?
-                StandardProtocolFamily.INET6 : StandardProtocolFamily.INET;
-            this.fd = Net.socket(family, false);
-            this.fdVal = IOUtil.fdVal(fd);
-            this.state = ST_UNCONNECTED;
-        } catch (IOException ioe) {
-            ResourceManager.afterUdpClose();
+            this.fbmily = Net.isIPv6Avbilbble() ?
+                StbndbrdProtocolFbmily.INET6 : StbndbrdProtocolFbmily.INET;
+            this.fd = Net.socket(fbmily, fblse);
+            this.fdVbl = IOUtil.fdVbl(fd);
+            this.stbte = ST_UNCONNECTED;
+        } cbtch (IOException ioe) {
+            ResourceMbnbger.bfterUdpClose();
             throw ioe;
         }
     }
 
-    public DatagramChannelImpl(SelectorProvider sp, ProtocolFamily family)
+    public DbtbgrbmChbnnelImpl(SelectorProvider sp, ProtocolFbmily fbmily)
         throws IOException
     {
         super(sp);
-        if ((family != StandardProtocolFamily.INET) &&
-            (family != StandardProtocolFamily.INET6))
+        if ((fbmily != StbndbrdProtocolFbmily.INET) &&
+            (fbmily != StbndbrdProtocolFbmily.INET6))
         {
-            if (family == null)
-                throw new NullPointerException("'family' is null");
+            if (fbmily == null)
+                throw new NullPointerException("'fbmily' is null");
             else
-                throw new UnsupportedOperationException("Protocol family not supported");
+                throw new UnsupportedOperbtionException("Protocol fbmily not supported");
         }
-        if (family == StandardProtocolFamily.INET6) {
-            if (!Net.isIPv6Available()) {
-                throw new UnsupportedOperationException("IPv6 not available");
+        if (fbmily == StbndbrdProtocolFbmily.INET6) {
+            if (!Net.isIPv6Avbilbble()) {
+                throw new UnsupportedOperbtionException("IPv6 not bvbilbble");
             }
         }
-        this.family = family;
-        this.fd = Net.socket(family, false);
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_UNCONNECTED;
+        this.fbmily = fbmily;
+        this.fd = Net.socket(fbmily, fblse);
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbte = ST_UNCONNECTED;
     }
 
-    public DatagramChannelImpl(SelectorProvider sp, FileDescriptor fd)
+    public DbtbgrbmChbnnelImpl(SelectorProvider sp, FileDescriptor fd)
         throws IOException
     {
         super(sp);
-        this.family = Net.isIPv6Available() ?
-            StandardProtocolFamily.INET6 : StandardProtocolFamily.INET;
+        this.fbmily = Net.isIPv6Avbilbble() ?
+            StbndbrdProtocolFbmily.INET6 : StbndbrdProtocolFbmily.INET;
         this.fd = fd;
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_UNCONNECTED;
-        this.localAddress = Net.localAddress(fd);
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbte = ST_UNCONNECTED;
+        this.locblAddress = Net.locblAddress(fd);
     }
 
-    public DatagramSocket socket() {
-        synchronized (stateLock) {
+    public DbtbgrbmSocket socket() {
+        synchronized (stbteLock) {
             if (socket == null)
-                socket = DatagramSocketAdaptor.create(this);
+                socket = DbtbgrbmSocketAdbptor.crebte(this);
             return socket;
         }
     }
 
     @Override
-    public SocketAddress getLocalAddress() throws IOException {
-        synchronized (stateLock) {
+    public SocketAddress getLocblAddress() throws IOException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
-            // Perform security check before returning address
-            return Net.getRevealedLocalAddress(localAddress);
+                throw new ClosedChbnnelException();
+            // Perform security check before returning bddress
+            return Net.getRevebledLocblAddress(locblAddress);
         }
     }
 
     @Override
     public SocketAddress getRemoteAddress() throws IOException {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             return remoteAddress;
         }
     }
 
     @Override
-    public <T> DatagramChannel setOption(SocketOption<T> name, T value)
+    public <T> DbtbgrbmChbnnel setOption(SocketOption<T> nbme, T vblue)
         throws IOException
     {
-        if (name == null)
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             ensureOpen();
 
-            if (name == StandardSocketOptions.IP_TOS ||
-                name == StandardSocketOptions.IP_MULTICAST_TTL ||
-                name == StandardSocketOptions.IP_MULTICAST_LOOP)
+            if (nbme == StbndbrdSocketOptions.IP_TOS ||
+                nbme == StbndbrdSocketOptions.IP_MULTICAST_TTL ||
+                nbme == StbndbrdSocketOptions.IP_MULTICAST_LOOP)
             {
-                // options are protocol dependent
-                Net.setSocketOption(fd, family, name, value);
+                // options bre protocol dependent
+                Net.setSocketOption(fd, fbmily, nbme, vblue);
                 return this;
             }
 
-            if (name == StandardSocketOptions.IP_MULTICAST_IF) {
-                if (value == null)
-                    throw new IllegalArgumentException("Cannot set IP_MULTICAST_IF to 'null'");
-                NetworkInterface interf = (NetworkInterface)value;
-                if (family == StandardProtocolFamily.INET6) {
+            if (nbme == StbndbrdSocketOptions.IP_MULTICAST_IF) {
+                if (vblue == null)
+                    throw new IllegblArgumentException("Cbnnot set IP_MULTICAST_IF to 'null'");
+                NetworkInterfbce interf = (NetworkInterfbce)vblue;
+                if (fbmily == StbndbrdProtocolFbmily.INET6) {
                     int index = interf.getIndex();
                     if (index == -1)
-                        throw new IOException("Network interface cannot be identified");
-                    Net.setInterface6(fd, index);
+                        throw new IOException("Network interfbce cbnnot be identified");
+                    Net.setInterfbce6(fd, index);
                 } else {
-                    // need IPv4 address to identify interface
-                    Inet4Address target = Net.anyInet4Address(interf);
-                    if (target == null)
-                        throw new IOException("Network interface not configured for IPv4");
-                    int targetAddress = Net.inet4AsInt(target);
-                    Net.setInterface4(fd, targetAddress);
+                    // need IPv4 bddress to identify interfbce
+                    Inet4Address tbrget = Net.bnyInet4Address(interf);
+                    if (tbrget == null)
+                        throw new IOException("Network interfbce not configured for IPv4");
+                    int tbrgetAddress = Net.inet4AsInt(tbrget);
+                    Net.setInterfbce4(fd, tbrgetAddress);
                 }
                 return this;
             }
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
-                    Net.useExclusiveBind() && localAddress != null)
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR &&
+                    Net.useExclusiveBind() && locblAddress != null)
             {
-                reuseAddressEmulated = true;
-                this.isReuseAddress = (Boolean)value;
+                reuseAddressEmulbted = true;
+                this.isReuseAddress = (Boolebn)vblue;
             }
 
-            // remaining options don't need any special handling
-            Net.setSocketOption(fd, Net.UNSPEC, name, value);
+            // rembining options don't need bny specibl hbndling
+            Net.setSocketOption(fd, Net.UNSPEC, nbme, vblue);
             return this;
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getOption(SocketOption<T> name)
+    @SuppressWbrnings("unchecked")
+    public <T> T getOption(SocketOption<T> nbme)
         throws IOException
     {
-        if (name == null)
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             ensureOpen();
 
-            if (name == StandardSocketOptions.IP_TOS ||
-                name == StandardSocketOptions.IP_MULTICAST_TTL ||
-                name == StandardSocketOptions.IP_MULTICAST_LOOP)
+            if (nbme == StbndbrdSocketOptions.IP_TOS ||
+                nbme == StbndbrdSocketOptions.IP_MULTICAST_TTL ||
+                nbme == StbndbrdSocketOptions.IP_MULTICAST_LOOP)
             {
-                return (T) Net.getSocketOption(fd, family, name);
+                return (T) Net.getSocketOption(fd, fbmily, nbme);
             }
 
-            if (name == StandardSocketOptions.IP_MULTICAST_IF) {
-                if (family == StandardProtocolFamily.INET) {
-                    int address = Net.getInterface4(fd);
-                    if (address == 0)
-                        return null;    // default interface
+            if (nbme == StbndbrdSocketOptions.IP_MULTICAST_IF) {
+                if (fbmily == StbndbrdProtocolFbmily.INET) {
+                    int bddress = Net.getInterfbce4(fd);
+                    if (bddress == 0)
+                        return null;    // defbult interfbce
 
-                    InetAddress ia = Net.inet4FromInt(address);
-                    NetworkInterface ni = NetworkInterface.getByInetAddress(ia);
+                    InetAddress ib = Net.inet4FromInt(bddress);
+                    NetworkInterfbce ni = NetworkInterfbce.getByInetAddress(ib);
                     if (ni == null)
-                        throw new IOException("Unable to map address to interface");
+                        throw new IOException("Unbble to mbp bddress to interfbce");
                     return (T) ni;
                 } else {
-                    int index = Net.getInterface6(fd);
+                    int index = Net.getInterfbce6(fd);
                     if (index == 0)
-                        return null;    // default interface
+                        return null;    // defbult interfbce
 
-                    NetworkInterface ni = NetworkInterface.getByIndex(index);
+                    NetworkInterfbce ni = NetworkInterfbce.getByIndex(index);
                     if (ni == null)
-                        throw new IOException("Unable to map index to interface");
+                        throw new IOException("Unbble to mbp index to interfbce");
                     return (T) ni;
                 }
             }
 
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
-                    reuseAddressEmulated)
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR &&
+                    reuseAddressEmulbted)
             {
-                return (T)Boolean.valueOf(isReuseAddress);
+                return (T)Boolebn.vblueOf(isReuseAddress);
             }
 
-            // no special handling
-            return (T) Net.getSocketOption(fd, Net.UNSPEC, name);
+            // no specibl hbndling
+            return (T) Net.getSocketOption(fd, Net.UNSPEC, nbme);
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SocketOption<?>> defaultOptions = defaultOptions();
+    privbte stbtic clbss DefbultOptionsHolder {
+        stbtic finbl Set<SocketOption<?>> defbultOptions = defbultOptions();
 
-        private static Set<SocketOption<?>> defaultOptions() {
-            HashSet<SocketOption<?>> set = new HashSet<SocketOption<?>>(8);
-            set.add(StandardSocketOptions.SO_SNDBUF);
-            set.add(StandardSocketOptions.SO_RCVBUF);
-            set.add(StandardSocketOptions.SO_REUSEADDR);
-            set.add(StandardSocketOptions.SO_BROADCAST);
-            set.add(StandardSocketOptions.IP_TOS);
-            set.add(StandardSocketOptions.IP_MULTICAST_IF);
-            set.add(StandardSocketOptions.IP_MULTICAST_TTL);
-            set.add(StandardSocketOptions.IP_MULTICAST_LOOP);
+        privbte stbtic Set<SocketOption<?>> defbultOptions() {
+            HbshSet<SocketOption<?>> set = new HbshSet<SocketOption<?>>(8);
+            set.bdd(StbndbrdSocketOptions.SO_SNDBUF);
+            set.bdd(StbndbrdSocketOptions.SO_RCVBUF);
+            set.bdd(StbndbrdSocketOptions.SO_REUSEADDR);
+            set.bdd(StbndbrdSocketOptions.SO_BROADCAST);
+            set.bdd(StbndbrdSocketOptions.IP_TOS);
+            set.bdd(StbndbrdSocketOptions.IP_MULTICAST_IF);
+            set.bdd(StbndbrdSocketOptions.IP_MULTICAST_TTL);
+            set.bdd(StbndbrdSocketOptions.IP_MULTICAST_LOOP);
             if (ExtendedOptionsImpl.flowSupported()) {
-                set.add(jdk.net.ExtendedSocketOptions.SO_FLOW_SLA);
+                set.bdd(jdk.net.ExtendedSocketOptions.SO_FLOW_SLA);
             }
-            return Collections.unmodifiableSet(set);
+            return Collections.unmodifibbleSet(set);
         }
     }
 
     @Override
-    public final Set<SocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
+    public finbl Set<SocketOption<?>> supportedOptions() {
+        return DefbultOptionsHolder.defbultOptions;
     }
 
-    private void ensureOpen() throws ClosedChannelException {
+    privbte void ensureOpen() throws ClosedChbnnelException {
         if (!isOpen())
-            throw new ClosedChannelException();
+            throw new ClosedChbnnelException();
     }
 
-    private SocketAddress sender;       // Set by receive0 (## ugh)
+    privbte SocketAddress sender;       // Set by receive0 (## ugh)
 
     public SocketAddress receive(ByteBuffer dst) throws IOException {
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
+        if (dst.isRebdOnly())
+            throw new IllegblArgumentException("Rebd-only buffer");
         if (dst == null)
             throw new NullPointerException();
-        synchronized (readLock) {
+        synchronized (rebdLock) {
             ensureOpen();
-            // Socket was not bound before attempting receive
-            if (localAddress() == null)
+            // Socket wbs not bound before bttempting receive
+            if (locblAddress() == null)
                 bind(null);
             int n = 0;
             ByteBuffer bb = null;
@@ -338,87 +338,87 @@ class DatagramChannelImpl
                 begin();
                 if (!isOpen())
                     return null;
-                SecurityManager security = System.getSecurityManager();
-                readerThread = NativeThread.current();
+                SecurityMbnbger security = System.getSecurityMbnbger();
+                rebderThrebd = NbtiveThrebd.current();
                 if (isConnected() || (security == null)) {
                     do {
                         n = receive(fd, dst);
-                    } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                    if (n == IOStatus.UNAVAILABLE)
+                    } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                    if (n == IOStbtus.UNAVAILABLE)
                         return null;
                 } else {
-                    bb = Util.getTemporaryDirectBuffer(dst.remaining());
+                    bb = Util.getTemporbryDirectBuffer(dst.rembining());
                     for (;;) {
                         do {
                             n = receive(fd, bb);
-                        } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                        if (n == IOStatus.UNAVAILABLE)
+                        } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                        if (n == IOStbtus.UNAVAILABLE)
                             return null;
-                        InetSocketAddress isa = (InetSocketAddress)sender;
+                        InetSocketAddress isb = (InetSocketAddress)sender;
                         try {
                             security.checkAccept(
-                                isa.getAddress().getHostAddress(),
-                                isa.getPort());
-                        } catch (SecurityException se) {
-                            // Ignore packet
-                            bb.clear();
+                                isb.getAddress().getHostAddress(),
+                                isb.getPort());
+                        } cbtch (SecurityException se) {
+                            // Ignore pbcket
+                            bb.clebr();
                             n = 0;
                             continue;
                         }
                         bb.flip();
                         dst.put(bb);
-                        break;
+                        brebk;
                     }
                 }
                 return sender;
-            } finally {
+            } finblly {
                 if (bb != null)
-                    Util.releaseTemporaryDirectBuffer(bb);
-                readerThread = 0;
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                    Util.relebseTemporbryDirectBuffer(bb);
+                rebderThrebd = 0;
+                end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssert IOStbtus.check(n);
             }
         }
     }
 
-    private int receive(FileDescriptor fd, ByteBuffer dst)
+    privbte int receive(FileDescriptor fd, ByteBuffer dst)
         throws IOException
     {
         int pos = dst.position();
         int lim = dst.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
-        if (dst instanceof DirectBuffer && rem > 0)
-            return receiveIntoNativeBuffer(fd, dst, rem, pos);
+        if (dst instbnceof DirectBuffer && rem > 0)
+            return receiveIntoNbtiveBuffer(fd, dst, rem, pos);
 
-        // Substitute a native buffer. If the supplied buffer is empty
-        // we must instead use a nonempty buffer, otherwise the call
-        // will not block waiting for a datagram on some platforms.
-        int newSize = Math.max(rem, 1);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(newSize);
+        // Substitute b nbtive buffer. If the supplied buffer is empty
+        // we must instebd use b nonempty buffer, otherwise the cbll
+        // will not block wbiting for b dbtbgrbm on some plbtforms.
+        int newSize = Mbth.mbx(rem, 1);
+        ByteBuffer bb = Util.getTemporbryDirectBuffer(newSize);
         try {
-            int n = receiveIntoNativeBuffer(fd, bb, newSize, 0);
+            int n = receiveIntoNbtiveBuffer(fd, bb, newSize, 0);
             bb.flip();
             if (n > 0 && rem > 0)
                 dst.put(bb);
             return n;
-        } finally {
-            Util.releaseTemporaryDirectBuffer(bb);
+        } finblly {
+            Util.relebseTemporbryDirectBuffer(bb);
         }
     }
 
-    private int receiveIntoNativeBuffer(FileDescriptor fd, ByteBuffer bb,
+    privbte int receiveIntoNbtiveBuffer(FileDescriptor fd, ByteBuffer bb,
                                         int rem, int pos)
         throws IOException
     {
-        int n = receive0(fd, ((DirectBuffer)bb).address() + pos, rem,
+        int n = receive0(fd, ((DirectBuffer)bb).bddress() + pos, rem,
                          isConnected());
         if (n > 0)
             bb.position(pos + n);
         return n;
     }
 
-    public int send(ByteBuffer src, SocketAddress target)
+    public int send(ByteBuffer src, SocketAddress tbrget)
         throws IOException
     {
         if (src == null)
@@ -426,27 +426,27 @@ class DatagramChannelImpl
 
         synchronized (writeLock) {
             ensureOpen();
-            InetSocketAddress isa = Net.checkAddress(target);
-            InetAddress ia = isa.getAddress();
-            if (ia == null)
-                throw new IOException("Target address not resolved");
-            synchronized (stateLock) {
+            InetSocketAddress isb = Net.checkAddress(tbrget);
+            InetAddress ib = isb.getAddress();
+            if (ib == null)
+                throw new IOException("Tbrget bddress not resolved");
+            synchronized (stbteLock) {
                 if (!isConnected()) {
-                    if (target == null)
+                    if (tbrget == null)
                         throw new NullPointerException();
-                    SecurityManager sm = System.getSecurityManager();
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     if (sm != null) {
-                        if (ia.isMulticastAddress()) {
-                            sm.checkMulticast(ia);
+                        if (ib.isMulticbstAddress()) {
+                            sm.checkMulticbst(ib);
                         } else {
-                            sm.checkConnect(ia.getHostAddress(),
-                                            isa.getPort());
+                            sm.checkConnect(ib.getHostAddress(),
+                                            isb.getPort());
                         }
                     }
-                } else { // Connected case; Check address then write
-                    if (!target.equals(remoteAddress)) {
-                        throw new IllegalArgumentException(
-                            "Connected address not equal to target address");
+                } else { // Connected cbse; Check bddress then write
+                    if (!tbrget.equbls(remoteAddress)) {
+                        throw new IllegblArgumentException(
+                            "Connected bddress not equbl to tbrget bddress");
                     }
                     return write(src);
                 }
@@ -457,70 +457,70 @@ class DatagramChannelImpl
                 begin();
                 if (!isOpen())
                     return 0;
-                writerThread = NativeThread.current();
+                writerThrebd = NbtiveThrebd.current();
                 do {
-                    n = send(fd, src, isa);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                    n = send(fd, src, isb);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
 
-                synchronized (stateLock) {
-                    if (isOpen() && (localAddress == null)) {
-                        localAddress = Net.localAddress(fd);
+                synchronized (stbteLock) {
+                    if (isOpen() && (locblAddress == null)) {
+                        locblAddress = Net.locblAddress(fd);
                     }
                 }
-                return IOStatus.normalize(n);
-            } finally {
-                writerThread = 0;
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                return IOStbtus.normblize(n);
+            } finblly {
+                writerThrebd = 0;
+                end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssert IOStbtus.check(n);
             }
         }
     }
 
-    private int send(FileDescriptor fd, ByteBuffer src, InetSocketAddress target)
+    privbte int send(FileDescriptor fd, ByteBuffer src, InetSocketAddress tbrget)
         throws IOException
     {
-        if (src instanceof DirectBuffer)
-            return sendFromNativeBuffer(fd, src, target);
+        if (src instbnceof DirectBuffer)
+            return sendFromNbtiveBuffer(fd, src, tbrget);
 
-        // Substitute a native buffer
+        // Substitute b nbtive buffer
         int pos = src.position();
         int lim = src.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
+        ByteBuffer bb = Util.getTemporbryDirectBuffer(rem);
         try {
             bb.put(src);
             bb.flip();
-            // Do not update src until we see how many bytes were written
+            // Do not updbte src until we see how mbny bytes were written
             src.position(pos);
 
-            int n = sendFromNativeBuffer(fd, bb, target);
+            int n = sendFromNbtiveBuffer(fd, bb, tbrget);
             if (n > 0) {
-                // now update src
+                // now updbte src
                 src.position(pos + n);
             }
             return n;
-        } finally {
-            Util.releaseTemporaryDirectBuffer(bb);
+        } finblly {
+            Util.relebseTemporbryDirectBuffer(bb);
         }
     }
 
-    private int sendFromNativeBuffer(FileDescriptor fd, ByteBuffer bb,
-                                     InetSocketAddress target)
+    privbte int sendFromNbtiveBuffer(FileDescriptor fd, ByteBuffer bb,
+                                     InetSocketAddress tbrget)
         throws IOException
     {
         int pos = bb.position();
         int lim = bb.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
-        boolean preferIPv6 = (family != StandardProtocolFamily.INET);
+        boolebn preferIPv6 = (fbmily != StbndbrdProtocolFbmily.INET);
         int written;
         try {
-            written = send0(preferIPv6, fd, ((DirectBuffer)bb).address() + pos,
-                            rem, target.getAddress(), target.getPort());
-        } catch (PortUnreachableException pue) {
+            written = send0(preferIPv6, fd, ((DirectBuffer)bb).bddress() + pos,
+                            rem, tbrget.getAddress(), tbrget.getPort());
+        } cbtch (PortUnrebchbbleException pue) {
             if (isConnected())
                 throw pue;
             written = rem;
@@ -530,11 +530,11 @@ class DatagramChannelImpl
         return written;
     }
 
-    public int read(ByteBuffer buf) throws IOException {
+    public int rebd(ByteBuffer buf) throws IOException {
         if (buf == null)
             throw new NullPointerException();
-        synchronized (readLock) {
-            synchronized (stateLock) {
+        synchronized (rebdLock) {
+            synchronized (stbteLock) {
                 ensureOpen();
                 if (!isConnected())
                     throw new NotYetConnectedException();
@@ -544,26 +544,26 @@ class DatagramChannelImpl
                 begin();
                 if (!isOpen())
                     return 0;
-                readerThread = NativeThread.current();
+                rebderThrebd = NbtiveThrebd.current();
                 do {
-                    n = IOUtil.read(fd, buf, -1, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                readerThread = 0;
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                    n = IOUtil.rebd(fd, buf, -1, nd);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(n);
+            } finblly {
+                rebderThrebd = 0;
+                end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssert IOStbtus.check(n);
             }
         }
     }
 
-    public long read(ByteBuffer[] dsts, int offset, int length)
+    public long rebd(ByteBuffer[] dsts, int offset, int length)
         throws IOException
     {
         if ((offset < 0) || (length < 0) || (offset > dsts.length - length))
             throw new IndexOutOfBoundsException();
-        synchronized (readLock) {
-            synchronized (stateLock) {
+        synchronized (rebdLock) {
+            synchronized (stbteLock) {
                 ensureOpen();
                 if (!isConnected())
                     throw new NotYetConnectedException();
@@ -573,15 +573,15 @@ class DatagramChannelImpl
                 begin();
                 if (!isOpen())
                     return 0;
-                readerThread = NativeThread.current();
+                rebderThrebd = NbtiveThrebd.current();
                 do {
-                    n = IOUtil.read(fd, dsts, offset, length, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                readerThread = 0;
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                    n = IOUtil.rebd(fd, dsts, offset, length, nd);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(n);
+            } finblly {
+                rebderThrebd = 0;
+                end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssert IOStbtus.check(n);
             }
         }
     }
@@ -590,7 +590,7 @@ class DatagramChannelImpl
         if (buf == null)
             throw new NullPointerException();
         synchronized (writeLock) {
-            synchronized (stateLock) {
+            synchronized (stbteLock) {
                 ensureOpen();
                 if (!isConnected())
                     throw new NotYetConnectedException();
@@ -600,15 +600,15 @@ class DatagramChannelImpl
                 begin();
                 if (!isOpen())
                     return 0;
-                writerThread = NativeThread.current();
+                writerThrebd = NbtiveThrebd.current();
                 do {
                     n = IOUtil.write(fd, buf, -1, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                writerThread = 0;
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(n);
+            } finblly {
+                writerThrebd = 0;
+                end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssert IOStbtus.check(n);
             }
         }
     }
@@ -619,7 +619,7 @@ class DatagramChannelImpl
         if ((offset < 0) || (length < 0) || (offset > srcs.length - length))
             throw new IndexOutOfBoundsException();
         synchronized (writeLock) {
-            synchronized (stateLock) {
+            synchronized (stbteLock) {
                 ensureOpen();
                 if (!isConnected())
                     throw new NotYetConnectedException();
@@ -629,141 +629,141 @@ class DatagramChannelImpl
                 begin();
                 if (!isOpen())
                     return 0;
-                writerThread = NativeThread.current();
+                writerThrebd = NbtiveThrebd.current();
                 do {
                     n = IOUtil.write(fd, srcs, offset, length, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                writerThread = 0;
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                return IOStbtus.normblize(n);
+            } finblly {
+                writerThrebd = 0;
+                end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssert IOStbtus.check(n);
             }
         }
     }
 
-    protected void implConfigureBlocking(boolean block) throws IOException {
+    protected void implConfigureBlocking(boolebn block) throws IOException {
         IOUtil.configureBlocking(fd, block);
     }
 
-    public SocketAddress localAddress() {
-        synchronized (stateLock) {
-            return localAddress;
+    public SocketAddress locblAddress() {
+        synchronized (stbteLock) {
+            return locblAddress;
         }
     }
 
     public SocketAddress remoteAddress() {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             return remoteAddress;
         }
     }
 
     @Override
-    public DatagramChannel bind(SocketAddress local) throws IOException {
-        synchronized (readLock) {
+    public DbtbgrbmChbnnel bind(SocketAddress locbl) throws IOException {
+        synchronized (rebdLock) {
             synchronized (writeLock) {
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     ensureOpen();
-                    if (localAddress != null)
-                        throw new AlreadyBoundException();
-                    InetSocketAddress isa;
-                    if (local == null) {
-                        // only Inet4Address allowed with IPv4 socket
-                        if (family == StandardProtocolFamily.INET) {
-                            isa = new InetSocketAddress(InetAddress.getByName("0.0.0.0"), 0);
+                    if (locblAddress != null)
+                        throw new AlrebdyBoundException();
+                    InetSocketAddress isb;
+                    if (locbl == null) {
+                        // only Inet4Address bllowed with IPv4 socket
+                        if (fbmily == StbndbrdProtocolFbmily.INET) {
+                            isb = new InetSocketAddress(InetAddress.getByNbme("0.0.0.0"), 0);
                         } else {
-                            isa = new InetSocketAddress(0);
+                            isb = new InetSocketAddress(0);
                         }
                     } else {
-                        isa = Net.checkAddress(local);
+                        isb = Net.checkAddress(locbl);
 
-                        // only Inet4Address allowed with IPv4 socket
-                        if (family == StandardProtocolFamily.INET) {
-                            InetAddress addr = isa.getAddress();
-                            if (!(addr instanceof Inet4Address))
+                        // only Inet4Address bllowed with IPv4 socket
+                        if (fbmily == StbndbrdProtocolFbmily.INET) {
+                            InetAddress bddr = isb.getAddress();
+                            if (!(bddr instbnceof Inet4Address))
                                 throw new UnsupportedAddressTypeException();
                         }
                     }
-                    SecurityManager sm = System.getSecurityManager();
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     if (sm != null) {
-                        sm.checkListen(isa.getPort());
+                        sm.checkListen(isb.getPort());
                     }
-                    Net.bind(family, fd, isa.getAddress(), isa.getPort());
-                    localAddress = Net.localAddress(fd);
+                    Net.bind(fbmily, fd, isb.getAddress(), isb.getPort());
+                    locblAddress = Net.locblAddress(fd);
                 }
             }
         }
         return this;
     }
 
-    public boolean isConnected() {
-        synchronized (stateLock) {
-            return (state == ST_CONNECTED);
+    public boolebn isConnected() {
+        synchronized (stbteLock) {
+            return (stbte == ST_CONNECTED);
         }
     }
 
-    void ensureOpenAndUnconnected() throws IOException { // package-private
-        synchronized (stateLock) {
+    void ensureOpenAndUnconnected() throws IOException { // pbckbge-privbte
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
-            if (state != ST_UNCONNECTED)
-                throw new IllegalStateException("Connect already invoked");
+                throw new ClosedChbnnelException();
+            if (stbte != ST_UNCONNECTED)
+                throw new IllegblStbteException("Connect blrebdy invoked");
         }
     }
 
     @Override
-    public DatagramChannel connect(SocketAddress sa) throws IOException {
-        int localPort = 0;
+    public DbtbgrbmChbnnel connect(SocketAddress sb) throws IOException {
+        int locblPort = 0;
 
-        synchronized(readLock) {
+        synchronized(rebdLock) {
             synchronized(writeLock) {
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     ensureOpenAndUnconnected();
-                    InetSocketAddress isa = Net.checkAddress(sa);
-                    SecurityManager sm = System.getSecurityManager();
+                    InetSocketAddress isb = Net.checkAddress(sb);
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     if (sm != null)
-                        sm.checkConnect(isa.getAddress().getHostAddress(),
-                                        isa.getPort());
-                    int n = Net.connect(family,
+                        sm.checkConnect(isb.getAddress().getHostAddress(),
+                                        isb.getPort());
+                    int n = Net.connect(fbmily,
                                         fd,
-                                        isa.getAddress(),
-                                        isa.getPort());
+                                        isb.getAddress(),
+                                        isb.getPort());
                     if (n <= 0)
-                        throw new Error();      // Can't happen
+                        throw new Error();      // Cbn't hbppen
 
-                    // Connection succeeded; disallow further invocation
-                    state = ST_CONNECTED;
-                    remoteAddress = isa;
-                    sender = isa;
-                    cachedSenderInetAddress = isa.getAddress();
-                    cachedSenderPort = isa.getPort();
+                    // Connection succeeded; disbllow further invocbtion
+                    stbte = ST_CONNECTED;
+                    remoteAddress = isb;
+                    sender = isb;
+                    cbchedSenderInetAddress = isb.getAddress();
+                    cbchedSenderPort = isb.getPort();
 
-                    // set or refresh local address
-                    localAddress = Net.localAddress(fd);
+                    // set or refresh locbl bddress
+                    locblAddress = Net.locblAddress(fd);
                 }
             }
         }
         return this;
     }
 
-    public DatagramChannel disconnect() throws IOException {
-        synchronized(readLock) {
+    public DbtbgrbmChbnnel disconnect() throws IOException {
+        synchronized(rebdLock) {
             synchronized(writeLock) {
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isConnected() || !isOpen())
                         return this;
-                    InetSocketAddress isa = remoteAddress;
-                    SecurityManager sm = System.getSecurityManager();
+                    InetSocketAddress isb = remoteAddress;
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     if (sm != null)
-                        sm.checkConnect(isa.getAddress().getHostAddress(),
-                                        isa.getPort());
-                    boolean isIPv6 = (family == StandardProtocolFamily.INET6);
+                        sm.checkConnect(isb.getAddress().getHostAddress(),
+                                        isb.getPort());
+                    boolebn isIPv6 = (fbmily == StbndbrdProtocolFbmily.INET6);
                     disconnect0(fd, isIPv6);
                     remoteAddress = null;
-                    state = ST_UNCONNECTED;
+                    stbte = ST_UNCONNECTED;
 
-                    // refresh local address
-                    localAddress = Net.localAddress(fd);
+                    // refresh locbl bddress
+                    locblAddress = Net.locblAddress(fd);
                 }
             }
         }
@@ -771,47 +771,47 @@ class DatagramChannelImpl
     }
 
     /**
-     * Joins channel's socket to the given group/interface and
-     * optional source address.
+     * Joins chbnnel's socket to the given group/interfbce bnd
+     * optionbl source bddress.
      */
-    private MembershipKey innerJoin(InetAddress group,
-                                    NetworkInterface interf,
+    privbte MembershipKey innerJoin(InetAddress group,
+                                    NetworkInterfbce interf,
                                     InetAddress source)
         throws IOException
     {
-        if (!group.isMulticastAddress())
-            throw new IllegalArgumentException("Group not a multicast address");
+        if (!group.isMulticbstAddress())
+            throw new IllegblArgumentException("Group not b multicbst bddress");
 
-        // check multicast address is compatible with this socket
-        if (group instanceof Inet4Address) {
-            if (family == StandardProtocolFamily.INET6 && !Net.canIPv6SocketJoinIPv4Group())
-                throw new IllegalArgumentException("IPv6 socket cannot join IPv4 multicast group");
-        } else if (group instanceof Inet6Address) {
-            if (family != StandardProtocolFamily.INET6)
-                throw new IllegalArgumentException("Only IPv6 sockets can join IPv6 multicast group");
+        // check multicbst bddress is compbtible with this socket
+        if (group instbnceof Inet4Address) {
+            if (fbmily == StbndbrdProtocolFbmily.INET6 && !Net.cbnIPv6SocketJoinIPv4Group())
+                throw new IllegblArgumentException("IPv6 socket cbnnot join IPv4 multicbst group");
+        } else if (group instbnceof Inet6Address) {
+            if (fbmily != StbndbrdProtocolFbmily.INET6)
+                throw new IllegblArgumentException("Only IPv6 sockets cbn join IPv6 multicbst group");
         } else {
-            throw new IllegalArgumentException("Address type not supported");
+            throw new IllegblArgumentException("Address type not supported");
         }
 
-        // check source address
+        // check source bddress
         if (source != null) {
-            if (source.isAnyLocalAddress())
-                throw new IllegalArgumentException("Source address is a wildcard address");
-            if (source.isMulticastAddress())
-                throw new IllegalArgumentException("Source address is multicast address");
-            if (source.getClass() != group.getClass())
-                throw new IllegalArgumentException("Source address is different type to group");
+            if (source.isAnyLocblAddress())
+                throw new IllegblArgumentException("Source bddress is b wildcbrd bddress");
+            if (source.isMulticbstAddress())
+                throw new IllegblArgumentException("Source bddress is multicbst bddress");
+            if (source.getClbss() != group.getClbss())
+                throw new IllegblArgumentException("Source bddress is different type to group");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkMulticast(group);
+            sm.checkMulticbst(group);
 
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
 
-            // check the registry to see if we are already a member of the group
+            // check the registry to see if we bre blrebdy b member of the group
             if (registry == null) {
                 registry = new MembershipRegistry();
             } else {
@@ -822,53 +822,53 @@ class DatagramChannelImpl
             }
 
             MembershipKeyImpl key;
-            if ((family == StandardProtocolFamily.INET6) &&
-                ((group instanceof Inet6Address) || Net.canJoin6WithIPv4Group()))
+            if ((fbmily == StbndbrdProtocolFbmily.INET6) &&
+                ((group instbnceof Inet6Address) || Net.cbnJoin6WithIPv4Group()))
             {
                 int index = interf.getIndex();
                 if (index == -1)
-                    throw new IOException("Network interface cannot be identified");
+                    throw new IOException("Network interfbce cbnnot be identified");
 
-                // need multicast and source address as byte arrays
-                byte[] groupAddress = Net.inet6AsByteArray(group);
+                // need multicbst bnd source bddress bs byte brrbys
+                byte[] groupAddress = Net.inet6AsByteArrby(group);
                 byte[] sourceAddress = (source == null) ? null :
-                    Net.inet6AsByteArray(source);
+                    Net.inet6AsByteArrby(source);
 
                 // join the group
                 int n = Net.join6(fd, groupAddress, index, sourceAddress);
-                if (n == IOStatus.UNAVAILABLE)
-                    throw new UnsupportedOperationException();
+                if (n == IOStbtus.UNAVAILABLE)
+                    throw new UnsupportedOperbtionException();
 
                 key = new MembershipKeyImpl.Type6(this, group, interf, source,
                                                   groupAddress, index, sourceAddress);
 
             } else {
-                // need IPv4 address to identify interface
-                Inet4Address target = Net.anyInet4Address(interf);
-                if (target == null)
-                    throw new IOException("Network interface not configured for IPv4");
+                // need IPv4 bddress to identify interfbce
+                Inet4Address tbrget = Net.bnyInet4Address(interf);
+                if (tbrget == null)
+                    throw new IOException("Network interfbce not configured for IPv4");
 
                 int groupAddress = Net.inet4AsInt(group);
-                int targetAddress = Net.inet4AsInt(target);
+                int tbrgetAddress = Net.inet4AsInt(tbrget);
                 int sourceAddress = (source == null) ? 0 : Net.inet4AsInt(source);
 
                 // join the group
-                int n = Net.join4(fd, groupAddress, targetAddress, sourceAddress);
-                if (n == IOStatus.UNAVAILABLE)
-                    throw new UnsupportedOperationException();
+                int n = Net.join4(fd, groupAddress, tbrgetAddress, sourceAddress);
+                if (n == IOStbtus.UNAVAILABLE)
+                    throw new UnsupportedOperbtionException();
 
                 key = new MembershipKeyImpl.Type4(this, group, interf, source,
-                                                  groupAddress, targetAddress, sourceAddress);
+                                                  groupAddress, tbrgetAddress, sourceAddress);
             }
 
-            registry.add(key);
+            registry.bdd(key);
             return key;
         }
     }
 
     @Override
     public MembershipKey join(InetAddress group,
-                              NetworkInterface interf)
+                              NetworkInterfbce interf)
         throws IOException
     {
         return innerJoin(group, interf, null);
@@ -876,78 +876,78 @@ class DatagramChannelImpl
 
     @Override
     public MembershipKey join(InetAddress group,
-                              NetworkInterface interf,
+                              NetworkInterfbce interf,
                               InetAddress source)
         throws IOException
     {
         if (source == null)
-            throw new NullPointerException("source address is null");
+            throw new NullPointerException("source bddress is null");
         return innerJoin(group, interf, source);
     }
 
-    // package-private
+    // pbckbge-privbte
     void drop(MembershipKeyImpl key) {
-        assert key.channel() == this;
+        bssert key.chbnnel() == this;
 
-        synchronized (stateLock) {
-            if (!key.isValid())
+        synchronized (stbteLock) {
+            if (!key.isVblid())
                 return;
 
             try {
-                if (key instanceof MembershipKeyImpl.Type6) {
+                if (key instbnceof MembershipKeyImpl.Type6) {
                     MembershipKeyImpl.Type6 key6 =
                         (MembershipKeyImpl.Type6)key;
                     Net.drop6(fd, key6.groupAddress(), key6.index(), key6.source());
                 } else {
                     MembershipKeyImpl.Type4 key4 = (MembershipKeyImpl.Type4)key;
-                    Net.drop4(fd, key4.groupAddress(), key4.interfaceAddress(),
+                    Net.drop4(fd, key4.groupAddress(), key4.interfbceAddress(),
                         key4.source());
                 }
-            } catch (IOException ioe) {
-                // should not happen
+            } cbtch (IOException ioe) {
+                // should not hbppen
                 throw new AssertionError(ioe);
             }
 
-            key.invalidate();
+            key.invblidbte();
             registry.remove(key);
         }
     }
 
     /**
-     * Block datagrams from given source if a memory to receive all
-     * datagrams.
+     * Block dbtbgrbms from given source if b memory to receive bll
+     * dbtbgrbms.
      */
     void block(MembershipKeyImpl key, InetAddress source)
         throws IOException
     {
-        assert key.channel() == this;
-        assert key.sourceAddress() == null;
+        bssert key.chbnnel() == this;
+        bssert key.sourceAddress() == null;
 
-        synchronized (stateLock) {
-            if (!key.isValid())
-                throw new IllegalStateException("key is no longer valid");
-            if (source.isAnyLocalAddress())
-                throw new IllegalArgumentException("Source address is a wildcard address");
-            if (source.isMulticastAddress())
-                throw new IllegalArgumentException("Source address is multicast address");
-            if (source.getClass() != key.group().getClass())
-                throw new IllegalArgumentException("Source address is different type to group");
+        synchronized (stbteLock) {
+            if (!key.isVblid())
+                throw new IllegblStbteException("key is no longer vblid");
+            if (source.isAnyLocblAddress())
+                throw new IllegblArgumentException("Source bddress is b wildcbrd bddress");
+            if (source.isMulticbstAddress())
+                throw new IllegblArgumentException("Source bddress is multicbst bddress");
+            if (source.getClbss() != key.group().getClbss())
+                throw new IllegblArgumentException("Source bddress is different type to group");
 
             int n;
-            if (key instanceof MembershipKeyImpl.Type6) {
+            if (key instbnceof MembershipKeyImpl.Type6) {
                  MembershipKeyImpl.Type6 key6 =
                     (MembershipKeyImpl.Type6)key;
                 n = Net.block6(fd, key6.groupAddress(), key6.index(),
-                               Net.inet6AsByteArray(source));
+                               Net.inet6AsByteArrby(source));
             } else {
                 MembershipKeyImpl.Type4 key4 =
                     (MembershipKeyImpl.Type4)key;
-                n = Net.block4(fd, key4.groupAddress(), key4.interfaceAddress(),
+                n = Net.block4(fd, key4.groupAddress(), key4.interfbceAddress(),
                                Net.inet4AsInt(source));
             }
-            if (n == IOStatus.UNAVAILABLE) {
-                // ancient kernel
-                throw new UnsupportedOperationException();
+            if (n == IOStbtus.UNAVAILABLE) {
+                // bncient kernel
+                throw new UnsupportedOperbtionException();
             }
         }
     }
@@ -956,91 +956,91 @@ class DatagramChannelImpl
      * Unblock given source.
      */
     void unblock(MembershipKeyImpl key, InetAddress source) {
-        assert key.channel() == this;
-        assert key.sourceAddress() == null;
+        bssert key.chbnnel() == this;
+        bssert key.sourceAddress() == null;
 
-        synchronized (stateLock) {
-            if (!key.isValid())
-                throw new IllegalStateException("key is no longer valid");
+        synchronized (stbteLock) {
+            if (!key.isVblid())
+                throw new IllegblStbteException("key is no longer vblid");
 
             try {
-                if (key instanceof MembershipKeyImpl.Type6) {
+                if (key instbnceof MembershipKeyImpl.Type6) {
                     MembershipKeyImpl.Type6 key6 =
                         (MembershipKeyImpl.Type6)key;
                     Net.unblock6(fd, key6.groupAddress(), key6.index(),
-                                 Net.inet6AsByteArray(source));
+                                 Net.inet6AsByteArrby(source));
                 } else {
                     MembershipKeyImpl.Type4 key4 =
                         (MembershipKeyImpl.Type4)key;
-                    Net.unblock4(fd, key4.groupAddress(), key4.interfaceAddress(),
+                    Net.unblock4(fd, key4.groupAddress(), key4.interfbceAddress(),
                                  Net.inet4AsInt(source));
                 }
-            } catch (IOException ioe) {
-                // should not happen
+            } cbtch (IOException ioe) {
+                // should not hbppen
                 throw new AssertionError(ioe);
             }
         }
     }
 
-    protected void implCloseSelectableChannel() throws IOException {
-        synchronized (stateLock) {
-            if (state != ST_KILLED)
+    protected void implCloseSelectbbleChbnnel() throws IOException {
+        synchronized (stbteLock) {
+            if (stbte != ST_KILLED)
                 nd.preClose(fd);
-            ResourceManager.afterUdpClose();
+            ResourceMbnbger.bfterUdpClose();
 
-            // if member of mulitcast group then invalidate all keys
+            // if member of mulitcbst group then invblidbte bll keys
             if (registry != null)
-                registry.invalidateAll();
+                registry.invblidbteAll();
 
             long th;
-            if ((th = readerThread) != 0)
-                NativeThread.signal(th);
-            if ((th = writerThread) != 0)
-                NativeThread.signal(th);
+            if ((th = rebderThrebd) != 0)
+                NbtiveThrebd.signbl(th);
+            if ((th = writerThrebd) != 0)
+                NbtiveThrebd.signbl(th);
             if (!isRegistered())
                 kill();
         }
     }
 
     public void kill() throws IOException {
-        synchronized (stateLock) {
-            if (state == ST_KILLED)
+        synchronized (stbteLock) {
+            if (stbte == ST_KILLED)
                 return;
-            if (state == ST_UNINITIALIZED) {
-                state = ST_KILLED;
+            if (stbte == ST_UNINITIALIZED) {
+                stbte = ST_KILLED;
                 return;
             }
-            assert !isOpen() && !isRegistered();
+            bssert !isOpen() && !isRegistered();
             nd.close(fd);
-            state = ST_KILLED;
+            stbte = ST_KILLED;
         }
     }
 
-    protected void finalize() throws IOException {
+    protected void finblize() throws IOException {
         // fd is null if constructor threw exception
         if (fd != null)
             close();
     }
 
     /**
-     * Translates native poll revent set into a ready operation set
+     * Trbnslbtes nbtive poll revent set into b rebdy operbtion set
      */
-    public boolean translateReadyOps(int ops, int initialOps,
+    public boolebn trbnslbteRebdyOps(int ops, int initiblOps,
                                      SelectionKeyImpl sk) {
         int intOps = sk.nioInterestOps(); // Do this just once, it synchronizes
-        int oldOps = sk.nioReadyOps();
-        int newOps = initialOps;
+        int oldOps = sk.nioRebdyOps();
+        int newOps = initiblOps;
 
         if ((ops & Net.POLLNVAL) != 0) {
-            // This should only happen if this channel is pre-closed while a
-            // selection operation is in progress
-            // ## Throw an error if this channel has not been pre-closed
-            return false;
+            // This should only hbppen if this chbnnel is pre-closed while b
+            // selection operbtion is in progress
+            // ## Throw bn error if this chbnnel hbs not been pre-closed
+            return fblse;
         }
 
         if ((ops & (Net.POLLERR | Net.POLLHUP)) != 0) {
             newOps = intOps;
-            sk.nioReadyOps(newOps);
+            sk.nioRebdyOps(newOps);
             return (newOps & ~oldOps) != 0;
         }
 
@@ -1052,34 +1052,34 @@ class DatagramChannelImpl
             ((intOps & SelectionKey.OP_WRITE) != 0))
             newOps |= SelectionKey.OP_WRITE;
 
-        sk.nioReadyOps(newOps);
+        sk.nioRebdyOps(newOps);
         return (newOps & ~oldOps) != 0;
     }
 
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, sk.nioReadyOps(), sk);
+    public boolebn trbnslbteAndUpdbteRebdyOps(int ops, SelectionKeyImpl sk) {
+        return trbnslbteRebdyOps(ops, sk.nioRebdyOps(), sk);
     }
 
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, 0, sk);
+    public boolebn trbnslbteAndSetRebdyOps(int ops, SelectionKeyImpl sk) {
+        return trbnslbteRebdyOps(ops, 0, sk);
     }
 
-    // package-private
+    // pbckbge-privbte
     int poll(int events, long timeout) throws IOException {
-        assert Thread.holdsLock(blockingLock()) && !isBlocking();
+        bssert Threbd.holdsLock(blockingLock()) && !isBlocking();
 
-        synchronized (readLock) {
+        synchronized (rebdLock) {
             int n = 0;
             try {
                 begin();
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
                         return 0;
-                    readerThread = NativeThread.current();
+                    rebderThrebd = NbtiveThrebd.current();
                 }
                 n = Net.poll(fd, events, timeout);
-            } finally {
-                readerThread = 0;
+            } finblly {
+                rebderThrebd = 0;
                 end(n > 0);
             }
             return n;
@@ -1087,9 +1087,9 @@ class DatagramChannelImpl
     }
 
     /**
-     * Translates an interest operation set into a native poll event set
+     * Trbnslbtes bn interest operbtion set into b nbtive poll event set
      */
-    public void translateAndSetInterestOps(int ops, SelectionKeyImpl sk) {
+    public void trbnslbteAndSetInterestOps(int ops, SelectionKeyImpl sk) {
         int newOps = 0;
 
         if ((ops & SelectionKey.OP_READ) != 0)
@@ -1105,28 +1105,28 @@ class DatagramChannelImpl
         return fd;
     }
 
-    public int getFDVal() {
-        return fdVal;
+    public int getFDVbl() {
+        return fdVbl;
     }
 
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    private static native void disconnect0(FileDescriptor fd, boolean isIPv6)
+    privbte stbtic nbtive void disconnect0(FileDescriptor fd, boolebn isIPv6)
         throws IOException;
 
-    private native int receive0(FileDescriptor fd, long address, int len,
-                                boolean connected)
+    privbte nbtive int receive0(FileDescriptor fd, long bddress, int len,
+                                boolebn connected)
         throws IOException;
 
-    private native int send0(boolean preferIPv6, FileDescriptor fd, long address,
-                             int len, InetAddress addr, int port)
+    privbte nbtive int send0(boolebn preferIPv6, FileDescriptor fd, long bddress,
+                             int len, InetAddress bddr, int port)
         throws IOException;
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
         initIDs();
     }
 

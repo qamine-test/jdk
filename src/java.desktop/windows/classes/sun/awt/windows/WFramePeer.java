@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import sun.awt.AWTAccessor;
-import sun.awt.im.InputMethodManager;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import sun.bwt.AWTAccessor;
+import sun.bwt.im.InputMethodMbnbger;
+import jbvb.security.AccessController;
+import sun.security.bction.GetPropertyAction;
 
-class WFramePeer extends WWindowPeer implements FramePeer {
+clbss WFrbmePeer extends WWindowPeer implements FrbmePeer {
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    // initialize JNI field and method IDs
-    private static native void initIDs();
+    // initiblize JNI field bnd method IDs
+    privbte stbtic nbtive void initIDs();
 
-    // FramePeer implementation
+    // FrbmePeer implementbtion
     @Override
-    public native void setState(int state);
+    public nbtive void setStbte(int stbte);
     @Override
-    public native int getState();
+    public nbtive int getStbte();
 
-    // sync target and peer
-    public void setExtendedState(int state) {
-        AWTAccessor.getFrameAccessor().setExtendedState((Frame)target, state);
+    // sync tbrget bnd peer
+    public void setExtendedStbte(int stbte) {
+        AWTAccessor.getFrbmeAccessor().setExtendedStbte((Frbme)tbrget, stbte);
     }
-    public int getExtendedState() {
-        return AWTAccessor.getFrameAccessor().getExtendedState((Frame)target);
+    public int getExtendedStbte() {
+        return AWTAccessor.getFrbmeAccessor().getExtendedStbte((Frbme)tbrget);
     }
 
-    // Convenience methods to save us from trouble of extracting
-    // Rectangle fields in native code.
-    private native void setMaximizedBounds(int x, int y, int w, int h);
-    private native void clearMaximizedBounds();
+    // Convenience methods to sbve us from trouble of extrbcting
+    // Rectbngle fields in nbtive code.
+    privbte nbtive void setMbximizedBounds(int x, int y, int w, int h);
+    privbte nbtive void clebrMbximizedBounds();
 
-    private static final boolean keepOnMinimize = "true".equals(
+    privbte stbtic finbl boolebn keepOnMinimize = "true".equbls(
         AccessController.doPrivileged(
             new GetPropertyAction(
-            "sun.awt.keepWorkingSetOnMinimize")));
+            "sun.bwt.keepWorkingSetOnMinimize")));
 
     @Override
-    public void setMaximizedBounds(Rectangle b) {
+    public void setMbximizedBounds(Rectbngle b) {
         if (b == null) {
-            clearMaximizedBounds();
+            clebrMbximizedBounds();
         } else {
-            Rectangle adjBounds = (Rectangle)b.clone();
-            adjustMaximizedBounds(adjBounds);
-            setMaximizedBounds(adjBounds.x, adjBounds.y, adjBounds.width, adjBounds.height);
+            Rectbngle bdjBounds = (Rectbngle)b.clone();
+            bdjustMbximizedBounds(bdjBounds);
+            setMbximizedBounds(bdjBounds.x, bdjBounds.y, bdjBounds.width, bdjBounds.height);
         }
     }
 
     /**
-     * The incoming bounds describe the maximized size and position of the
-     * window on the monitor that displays the window. But the window manager
-     * expects that the bounds are based on the size and position of the
-     * primary monitor, even if the window ultimately maximizes onto a
-     * secondary monitor. And the window manager adjusts these values to
-     * compensate for differences between the primary monitor and the monitor
-     * that displays the window.
-     * The method translates the incoming bounds to the values acceptable
-     * by the window manager. For more details, please refer to 6699851.
+     * The incoming bounds describe the mbximized size bnd position of the
+     * window on the monitor thbt displbys the window. But the window mbnbger
+     * expects thbt the bounds bre bbsed on the size bnd position of the
+     * primbry monitor, even if the window ultimbtely mbximizes onto b
+     * secondbry monitor. And the window mbnbger bdjusts these vblues to
+     * compensbte for differences between the primbry monitor bnd the monitor
+     * thbt displbys the window.
+     * The method trbnslbtes the incoming bounds to the vblues bcceptbble
+     * by the window mbnbger. For more detbils, plebse refer to 6699851.
      */
-    private void adjustMaximizedBounds(Rectangle b) {
-        GraphicsConfiguration currentDevGC = getGraphicsConfiguration();
+    privbte void bdjustMbximizedBounds(Rectbngle b) {
+        GrbphicsConfigurbtion currentDevGC = getGrbphicsConfigurbtion();
 
-        GraphicsDevice primaryDev = GraphicsEnvironment
-            .getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        GraphicsConfiguration primaryDevGC = primaryDev.getDefaultConfiguration();
+        GrbphicsDevice primbryDev = GrbphicsEnvironment
+            .getLocblGrbphicsEnvironment().getDefbultScreenDevice();
+        GrbphicsConfigurbtion primbryDevGC = primbryDev.getDefbultConfigurbtion();
 
-        if (currentDevGC != null && currentDevGC != primaryDevGC) {
-            Rectangle currentDevBounds = currentDevGC.getBounds();
-            Rectangle primaryDevBounds = primaryDevGC.getBounds();
+        if (currentDevGC != null && currentDevGC != primbryDevGC) {
+            Rectbngle currentDevBounds = currentDevGC.getBounds();
+            Rectbngle primbryDevBounds = primbryDevGC.getBounds();
 
-            boolean isCurrentDevLarger =
-                ((currentDevBounds.width - primaryDevBounds.width > 0) ||
-                 (currentDevBounds.height - primaryDevBounds.height > 0));
+            boolebn isCurrentDevLbrger =
+                ((currentDevBounds.width - primbryDevBounds.width > 0) ||
+                 (currentDevBounds.height - primbryDevBounds.height > 0));
 
-            // the window manager doesn't seem to compensate for differences when
-            // the primary monitor is larger than the monitor that display the window
-            if (isCurrentDevLarger) {
-                b.width -= (currentDevBounds.width - primaryDevBounds.width);
-                b.height -= (currentDevBounds.height - primaryDevBounds.height);
+            // the window mbnbger doesn't seem to compensbte for differences when
+            // the primbry monitor is lbrger thbn the monitor thbt displby the window
+            if (isCurrentDevLbrger) {
+                b.width -= (currentDevBounds.width - primbryDevBounds.width);
+                b.height -= (currentDevBounds.height - primbryDevBounds.height);
             }
         }
     }
 
     @Override
-    public boolean updateGraphicsData(GraphicsConfiguration gc) {
-        boolean result = super.updateGraphicsData(gc);
-        Rectangle bounds = AWTAccessor.getFrameAccessor().
-                               getMaximizedBounds((Frame)target);
+    public boolebn updbteGrbphicsDbtb(GrbphicsConfigurbtion gc) {
+        boolebn result = super.updbteGrbphicsDbtb(gc);
+        Rectbngle bounds = AWTAccessor.getFrbmeAccessor().
+                               getMbximizedBounds((Frbme)tbrget);
         if (bounds != null) {
-            setMaximizedBounds(bounds);
+            setMbximizedBounds(bounds);
         }
         return result;
     }
 
     @Override
-    boolean isTargetUndecorated() {
-        return ((Frame)target).isUndecorated();
+    boolebn isTbrgetUndecorbted() {
+        return ((Frbme)tbrget).isUndecorbted();
     }
 
     @Override
-    public void reshape(int x, int y, int width, int height) {
-        if (((Frame)target).isUndecorated()) {
-            super.reshape(x, y, width, height);
+    public void reshbpe(int x, int y, int width, int height) {
+        if (((Frbme)tbrget).isUndecorbted()) {
+            super.reshbpe(x, y, width, height);
         } else {
-            reshapeFrame(x, y, width, height);
+            reshbpeFrbme(x, y, width, height);
         }
     }
 
     @Override
     public Dimension getMinimumSize() {
         Dimension d = new Dimension();
-        if (!((Frame)target).isUndecorated()) {
+        if (!((Frbme)tbrget).isUndecorbted()) {
             d.setSize(getSysMinWidth(), getSysMinHeight());
         }
-        if (((Frame)target).getMenuBar() != null) {
+        if (((Frbme)tbrget).getMenuBbr() != null) {
             d.height += getSysMenuHeight();
         }
         return d;
     }
 
-    // Note: Because this method calls resize(), which may be overridden
+    // Note: Becbuse this method cblls resize(), which mby be overridden
     // by client code, this method must not be executed on the toolkit
-    // thread.
+    // threbd.
     @Override
-    public void setMenuBar(MenuBar mb) {
-        WMenuBarPeer mbPeer = (WMenuBarPeer) WToolkit.targetToPeer(mb);
-        setMenuBar0(mbPeer);
-        updateInsets(insets_);
+    public void setMenuBbr(MenuBbr mb) {
+        WMenuBbrPeer mbPeer = (WMenuBbrPeer) WToolkit.tbrgetToPeer(mb);
+        setMenuBbr0(mbPeer);
+        updbteInsets(insets_);
     }
 
-    // Note: Because this method calls resize(), which may be overridden
+    // Note: Becbuse this method cblls resize(), which mby be overridden
     // by client code, this method must not be executed on the toolkit
-    // thread.
-    private native void setMenuBar0(WMenuBarPeer mbPeer);
+    // threbd.
+    privbte nbtive void setMenuBbr0(WMenuBbrPeer mbPeer);
 
-    // Toolkit & peer internals
+    // Toolkit & peer internbls
 
-    WFramePeer(Frame target) {
-        super(target);
+    WFrbmePeer(Frbme tbrget) {
+        super(tbrget);
 
-        InputMethodManager imm = InputMethodManager.getInstance();
+        InputMethodMbnbger imm = InputMethodMbnbger.getInstbnce();
         String menuString = imm.getTriggerMenuString();
         if (menuString != null)
         {
@@ -175,47 +175,47 @@ class WFramePeer extends WWindowPeer implements FramePeer {
         }
     }
 
-    native void createAwtFrame(WComponentPeer parent);
+    nbtive void crebteAwtFrbme(WComponentPeer pbrent);
     @Override
-    void create(WComponentPeer parent) {
-        preCreate(parent);
-        createAwtFrame(parent);
+    void crebte(WComponentPeer pbrent) {
+        preCrebte(pbrent);
+        crebteAwtFrbme(pbrent);
     }
 
     @Override
-    void initialize() {
-        super.initialize();
+    void initiblize() {
+        super.initiblize();
 
-        Frame target = (Frame)this.target;
+        Frbme tbrget = (Frbme)this.tbrget;
 
-        if (target.getTitle() != null) {
-            setTitle(target.getTitle());
+        if (tbrget.getTitle() != null) {
+            setTitle(tbrget.getTitle());
         }
-        setResizable(target.isResizable());
-        setState(target.getExtendedState());
+        setResizbble(tbrget.isResizbble());
+        setStbte(tbrget.getExtendedStbte());
     }
 
-    private native static int getSysMenuHeight();
+    privbte nbtive stbtic int getSysMenuHeight();
 
-    native void pSetIMMOption(String option);
-    void notifyIMMOptionChange(){
-      InputMethodManager.getInstance().notifyChangeRequest((Component)target);
+    nbtive void pSetIMMOption(String option);
+    void notifyIMMOptionChbnge(){
+      InputMethodMbnbger.getInstbnce().notifyChbngeRequest((Component)tbrget);
     }
 
     @Override
-    public void setBoundsPrivate(int x, int y, int width, int height) {
+    public void setBoundsPrivbte(int x, int y, int width, int height) {
         setBounds(x, y, width, height, SET_BOUNDS);
     }
     @Override
-    public Rectangle getBoundsPrivate() {
+    public Rectbngle getBoundsPrivbte() {
         return getBounds();
     }
 
-    // TODO: implement it in peers. WLightweightFramePeer may implement lw version.
+    // TODO: implement it in peers. WLightweightFrbmePeer mby implement lw version.
     @Override
-    public void emulateActivation(boolean activate) {
-        synthesizeWmActivate(activate);
+    public void emulbteActivbtion(boolebn bctivbte) {
+        synthesizeWmActivbte(bctivbte);
     }
 
-    private native void synthesizeWmActivate(boolean activate);
+    privbte nbtive void synthesizeWmActivbte(boolebn bctivbte);
 }

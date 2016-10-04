@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Thrown to indicate that the <code>clone</code> method in class
- * <code>Object</code> has been called to clone an object, but that
- * the object's class does not implement the <code>Cloneable</code>
- * interface.
+ * Thrown to indicbte thbt the <code>clone</code> method in clbss
+ * <code>Object</code> hbs been cblled to clone bn object, but thbt
+ * the object's clbss does not implement the <code>Clonebble</code>
+ * interfbce.
  * <p>
- * Applications that override the <code>clone</code> method can also
- * throw this exception to indicate that an object could not or
+ * Applicbtions thbt override the <code>clone</code> method cbn blso
+ * throw this exception to indicbte thbt bn object could not or
  * should not be cloned.
  *
- * @author  unascribed
- * @see     java.lang.Cloneable
- * @see     java.lang.Object#clone()
+ * @buthor  unbscribed
+ * @see     jbvb.lbng.Clonebble
+ * @see     jbvb.lbng.Object#clone()
  * @since   1.0
  */
 
 public
-class CloneNotSupportedException extends Exception {
-    private static final long serialVersionUID = 5195511250079656443L;
+clbss CloneNotSupportedException extends Exception {
+    privbte stbtic finbl long seriblVersionUID = 5195511250079656443L;
 
     /**
-     * Constructs a <code>CloneNotSupportedException</code> with no
-     * detail message.
+     * Constructs b <code>CloneNotSupportedException</code> with no
+     * detbil messbge.
      */
     public CloneNotSupportedException() {
         super();
     }
 
     /**
-     * Constructs a <code>CloneNotSupportedException</code> with the
-     * specified detail message.
+     * Constructs b <code>CloneNotSupportedException</code> with the
+     * specified detbil messbge.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   the detbil messbge.
      */
     public CloneNotSupportedException(String s) {
         super(s);

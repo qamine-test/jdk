@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
 /**
- * A specification of {@code CertStore} parameters.
+ * A specificbtion of {@code CertStore} pbrbmeters.
  * <p>
- * The purpose of this interface is to group (and provide type safety for)
- * all {@code CertStore} parameter specifications. All
- * {@code CertStore} parameter specifications must implement this
- * interface.
+ * The purpose of this interfbce is to group (bnd provide type sbfety for)
+ * bll {@code CertStore} pbrbmeter specificbtions. All
+ * {@code CertStore} pbrbmeter specificbtions must implement this
+ * interfbce.
  * <p>
- * Typically, a {@code CertStoreParameters} object is passed as a parameter
- * to one of the {@link CertStore#getInstance CertStore.getInstance} methods.
- * The {@code getInstance} method returns a {@code CertStore} that
- * is used for retrieving {@code Certificate}s and {@code CRL}s. The
- * {@code CertStore} that is returned is initialized with the specified
- * parameters. The type of parameters needed may vary between different types
+ * Typicblly, b {@code CertStorePbrbmeters} object is pbssed bs b pbrbmeter
+ * to one of the {@link CertStore#getInstbnce CertStore.getInstbnce} methods.
+ * The {@code getInstbnce} method returns b {@code CertStore} thbt
+ * is used for retrieving {@code Certificbte}s bnd {@code CRL}s. The
+ * {@code CertStore} thbt is returned is initiblized with the specified
+ * pbrbmeters. The type of pbrbmeters needed mby vbry between different types
  * of {@code CertStore}s.
  *
- * @see CertStore#getInstance
+ * @see CertStore#getInstbnce
  *
  * @since       1.4
- * @author      Steve Hanna
+ * @buthor      Steve Hbnnb
  */
-public interface CertStoreParameters extends Cloneable {
+public interfbce CertStorePbrbmeters extends Clonebble {
 
     /**
-     * Makes a copy of this {@code CertStoreParameters}.
+     * Mbkes b copy of this {@code CertStorePbrbmeters}.
      * <p>
-     * The precise meaning of "copy" may depend on the class of
-     * the {@code CertStoreParameters} object. A typical implementation
-     * performs a "deep copy" of this object, but this is not an absolute
-     * requirement. Some implementations may perform a "shallow copy" of some
-     * or all of the fields of this object.
+     * The precise mebning of "copy" mby depend on the clbss of
+     * the {@code CertStorePbrbmeters} object. A typicbl implementbtion
+     * performs b "deep copy" of this object, but this is not bn bbsolute
+     * requirement. Some implementbtions mby perform b "shbllow copy" of some
+     * or bll of the fields of this object.
      * <p>
-     * Note that the {@code CertStore.getInstance} methods make a copy
-     * of the specified {@code CertStoreParameters}. A deep copy
-     * implementation of {@code clone} is safer and more robust, as it
-     * prevents the caller from corrupting a shared {@code CertStore} by
-     * subsequently modifying the contents of its initialization parameters.
-     * However, a shallow copy implementation of {@code clone} is more
-     * appropriate for applications that need to hold a reference to a
-     * parameter contained in the {@code CertStoreParameters}. For example,
-     * a shallow copy clone allows an application to release the resources of
-     * a particular {@code CertStore} initialization parameter immediately,
-     * rather than waiting for the garbage collection mechanism. This should
-     * be done with the utmost care, since the {@code CertStore} may still
-     * be in use by other threads.
+     * Note thbt the {@code CertStore.getInstbnce} methods mbke b copy
+     * of the specified {@code CertStorePbrbmeters}. A deep copy
+     * implementbtion of {@code clone} is sbfer bnd more robust, bs it
+     * prevents the cbller from corrupting b shbred {@code CertStore} by
+     * subsequently modifying the contents of its initiblizbtion pbrbmeters.
+     * However, b shbllow copy implementbtion of {@code clone} is more
+     * bppropribte for bpplicbtions thbt need to hold b reference to b
+     * pbrbmeter contbined in the {@code CertStorePbrbmeters}. For exbmple,
+     * b shbllow copy clone bllows bn bpplicbtion to relebse the resources of
+     * b pbrticulbr {@code CertStore} initiblizbtion pbrbmeter immedibtely,
+     * rbther thbn wbiting for the gbrbbge collection mechbnism. This should
+     * be done with the utmost cbre, since the {@code CertStore} mby still
+     * be in use by other threbds.
      * <p>
-     * Each subclass should state the precise behavior of this method so
-     * that users and developers know what to expect.
+     * Ebch subclbss should stbte the precise behbvior of this method so
+     * thbt users bnd developers know whbt to expect.
      *
-     * @return a copy of this {@code CertStoreParameters}
+     * @return b copy of this {@code CertStorePbrbmeters}
      */
     Object clone();
 }

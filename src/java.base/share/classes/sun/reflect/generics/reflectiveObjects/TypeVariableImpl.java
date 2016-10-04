@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.generics.reflectiveObjects;
+pbckbge sun.reflect.generics.reflectiveObjects;
 
-import java.lang.annotation.*;
-import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.GenericDeclaration;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import sun.reflect.annotation.AnnotationSupport;
-import sun.reflect.annotation.TypeAnnotationParser;
-import sun.reflect.annotation.AnnotationType;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.tree.FieldTypeSignature;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.reflect.AnnotbtedType;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.GenericDeclbrbtion;
+import jbvb.lbng.reflect.Member;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Type;
+import jbvb.lbng.reflect.TypeVbribble;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import sun.reflect.bnnotbtion.AnnotbtionSupport;
+import sun.reflect.bnnotbtion.TypeAnnotbtionPbrser;
+import sun.reflect.bnnotbtion.AnnotbtionType;
+import sun.reflect.generics.fbctory.GenericsFbctory;
+import sun.reflect.generics.tree.FieldTypeSignbture;
 import sun.reflect.generics.visitor.Reifier;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * Implementation of <tt>java.lang.reflect.TypeVariable</tt> interface
+ * Implementbtion of <tt>jbvb.lbng.reflect.TypeVbribble</tt> interfbce
  * for core reflection.
  */
-public class TypeVariableImpl<D extends GenericDeclaration>
-    extends LazyReflectiveObjectGenerator implements TypeVariable<D> {
-    D genericDeclaration;
-    private String name;
-    // upper bounds - evaluated lazily
-    private Type[] bounds;
+public clbss TypeVbribbleImpl<D extends GenericDeclbrbtion>
+    extends LbzyReflectiveObjectGenerbtor implements TypeVbribble<D> {
+    D genericDeclbrbtion;
+    privbte String nbme;
+    // upper bounds - evblubted lbzily
+    privbte Type[] bounds;
 
-    // The ASTs for the bounds. We are required to evaluate the bounds
-    // lazily, so we store these at least until we are first asked
-    // for the bounds. This also neatly solves the
-    // problem with F-bounds - you can't reify them before the formal
+    // The ASTs for the bounds. We bre required to evblubte the bounds
+    // lbzily, so we store these bt lebst until we bre first bsked
+    // for the bounds. This blso nebtly solves the
+    // problem with F-bounds - you cbn't reify them before the formbl
     // is defined.
-    private FieldTypeSignature[] boundASTs;
+    privbte FieldTypeSignbture[] boundASTs;
 
-    // constructor is private to enforce access through static factory
-    private TypeVariableImpl(D decl, String n, FieldTypeSignature[] bs,
-                             GenericsFactory f) {
+    // constructor is privbte to enforce bccess through stbtic fbctory
+    privbte TypeVbribbleImpl(D decl, String n, FieldTypeSignbture[] bs,
+                             GenericsFbctory f) {
         super(f);
-        genericDeclaration = decl;
-        name = n;
+        genericDeclbrbtion = decl;
+        nbme = n;
         boundASTs = bs;
     }
 
     // Accessors
 
-    // accessor for ASTs for bounds. Must not be called after
-    // bounds have been evaluated, because we might throw the ASTs
-    // away (but that is not thread-safe, is it?)
-    private FieldTypeSignature[] getBoundASTs() {
-        // check that bounds were not evaluated yet
-        assert(bounds == null);
+    // bccessor for ASTs for bounds. Must not be cblled bfter
+    // bounds hbve been evblubted, becbuse we might throw the ASTs
+    // bwby (but thbt is not threbd-sbfe, is it?)
+    privbte FieldTypeSignbture[] getBoundASTs() {
+        // check thbt bounds were not evblubted yet
+        bssert(bounds == null);
         return boundASTs;
     }
 
     /**
-     * Factory method.
-     * @param decl - the reflective object that declared the type variable
-     * that this method should create
-     * @param name - the name of the type variable to be returned
-     * @param bs - an array of ASTs representing the bounds for the type
-     * variable to be created
-     * @param f - a factory that can be used to manufacture reflective
-     * objects that represent the bounds of this type variable
-     * @return A type variable with name, bounds, declaration and factory
+     * Fbctory method.
+     * @pbrbm decl - the reflective object thbt declbred the type vbribble
+     * thbt this method should crebte
+     * @pbrbm nbme - the nbme of the type vbribble to be returned
+     * @pbrbm bs - bn brrby of ASTs representing the bounds for the type
+     * vbribble to be crebted
+     * @pbrbm f - b fbctory thbt cbn be used to mbnufbcture reflective
+     * objects thbt represent the bounds of this type vbribble
+     * @return A type vbribble with nbme, bounds, declbrbtion bnd fbctory
      * specified
      */
-    public static <T extends GenericDeclaration>
-                             TypeVariableImpl<T> make(T decl, String name,
-                                                      FieldTypeSignature[] bs,
-                                                      GenericsFactory f) {
+    public stbtic <T extends GenericDeclbrbtion>
+                             TypeVbribbleImpl<T> mbke(T decl, String nbme,
+                                                      FieldTypeSignbture[] bs,
+                                                      GenericsFbctory f) {
 
-        if (!((decl instanceof Class) ||
-                (decl instanceof Method) ||
-                (decl instanceof Constructor))) {
-            throw new AssertionError("Unexpected kind of GenericDeclaration" +
-                    decl.getClass().toString());
+        if (!((decl instbnceof Clbss) ||
+                (decl instbnceof Method) ||
+                (decl instbnceof Constructor))) {
+            throw new AssertionError("Unexpected kind of GenericDeclbrbtion" +
+                    decl.getClbss().toString());
         }
-        return new TypeVariableImpl<T>(decl, name, bs, f);
+        return new TypeVbribbleImpl<T>(decl, nbme, bs, f);
     }
 
 
     /**
-     * Returns an array of <tt>Type</tt> objects representing the
-     * upper bound(s) of this type variable.  Note that if no upper bound is
-     * explicitly declared, the upper bound is <tt>Object</tt>.
+     * Returns bn brrby of <tt>Type</tt> objects representing the
+     * upper bound(s) of this type vbribble.  Note thbt if no upper bound is
+     * explicitly declbred, the upper bound is <tt>Object</tt>.
      *
-     * <p>For each upper bound B:
+     * <p>For ebch upper bound B:
      * <ul>
-     *  <li>if B is a parameterized type or a type variable, it is created,
-     *  (see {@link #ParameterizedType} for the details of the creation
-     *  process for parameterized types).
+     *  <li>if B is b pbrbmeterized type or b type vbribble, it is crebted,
+     *  (see {@link #PbrbmeterizedType} for the detbils of the crebtion
+     *  process for pbrbmeterized types).
      *  <li>Otherwise, B is resolved.
      * </ul>
      *
-     * @throws <tt>TypeNotPresentException</tt>  if any of the
-     *     bounds refers to a non-existent type declaration
-     * @throws <tt>MalformedParameterizedTypeException</tt> if any of the
-     *     bounds refer to a parameterized type that cannot be instantiated
-     *     for any reason
-     * @return an array of Types representing the upper bound(s) of this
-     *     type variable
+     * @throws <tt>TypeNotPresentException</tt>  if bny of the
+     *     bounds refers to b non-existent type declbrbtion
+     * @throws <tt>MblformedPbrbmeterizedTypeException</tt> if bny of the
+     *     bounds refer to b pbrbmeterized type thbt cbnnot be instbntibted
+     *     for bny rebson
+     * @return bn brrby of Types representing the upper bound(s) of this
+     *     type vbribble
     */
     public Type[] getBounds() {
-        // lazily initialize bounds if necessary
+        // lbzily initiblize bounds if necessbry
         if (bounds == null) {
-            FieldTypeSignature[] fts = getBoundASTs(); // get AST
-            // allocate result array; note that
-            // keeping ts and bounds separate helps with threads
+            FieldTypeSignbture[] fts = getBoundASTs(); // get AST
+            // bllocbte result brrby; note thbt
+            // keeping ts bnd bounds sepbrbte helps with threbds
             Type[] ts = new Type[fts.length];
-            // iterate over bound trees, reifying each in turn
+            // iterbte over bound trees, reifying ebch in turn
             for ( int j = 0; j  < fts.length; j++) {
                 Reifier r = getReifier();
-                fts[j].accept(r);
+                fts[j].bccept(r);
                 ts[j] = r.getResult();
             }
-            // cache result
+            // cbche result
             bounds = ts;
-            // could throw away bound ASTs here; thread safety?
+            // could throw bwby bound ASTs here; threbd sbfety?
         }
-        return bounds.clone(); // return cached bounds
+        return bounds.clone(); // return cbched bounds
     }
 
     /**
-     * Returns the <tt>GenericDeclaration</tt>  object representing the
-     * generic declaration that declared this type variable.
+     * Returns the <tt>GenericDeclbrbtion</tt>  object representing the
+     * generic declbrbtion thbt declbred this type vbribble.
      *
-     * @return the generic declaration that declared this type variable.
+     * @return the generic declbrbtion thbt declbred this type vbribble.
      *
      * @since 1.5
      */
-    public D getGenericDeclaration(){
-        if (genericDeclaration instanceof Class)
-            ReflectUtil.checkPackageAccess((Class)genericDeclaration);
-        else if ((genericDeclaration instanceof Method) ||
-                (genericDeclaration instanceof Constructor))
-            ReflectUtil.conservativeCheckMemberAccess((Member)genericDeclaration);
+    public D getGenericDeclbrbtion(){
+        if (genericDeclbrbtion instbnceof Clbss)
+            ReflectUtil.checkPbckbgeAccess((Clbss)genericDeclbrbtion);
+        else if ((genericDeclbrbtion instbnceof Method) ||
+                (genericDeclbrbtion instbnceof Constructor))
+            ReflectUtil.conservbtiveCheckMemberAccess((Member)genericDeclbrbtion);
         else
-            throw new AssertionError("Unexpected kind of GenericDeclaration");
-        return genericDeclaration;
+            throw new AssertionError("Unexpected kind of GenericDeclbrbtion");
+        return genericDeclbrbtion;
     }
 
 
     /**
-     * Returns the name of this type variable, as it occurs in the source code.
+     * Returns the nbme of this type vbribble, bs it occurs in the source code.
      *
-     * @return the name of this type variable, as it appears in the source code
+     * @return the nbme of this type vbribble, bs it bppebrs in the source code
      */
-    public String getName()   { return name; }
+    public String getNbme()   { return nbme; }
 
-    public String toString() {return getName();}
+    public String toString() {return getNbme();}
 
     @Override
-    public boolean equals(Object o) {
-        if (o instanceof TypeVariable &&
-                o.getClass() == TypeVariableImpl.class) {
-            TypeVariable<?> that = (TypeVariable<?>) o;
+    public boolebn equbls(Object o) {
+        if (o instbnceof TypeVbribble &&
+                o.getClbss() == TypeVbribbleImpl.clbss) {
+            TypeVbribble<?> thbt = (TypeVbribble<?>) o;
 
-            GenericDeclaration thatDecl = that.getGenericDeclaration();
-            String thatName = that.getName();
+            GenericDeclbrbtion thbtDecl = thbt.getGenericDeclbrbtion();
+            String thbtNbme = thbt.getNbme();
 
-            return Objects.equals(genericDeclaration, thatDecl) &&
-                Objects.equals(name, thatName);
+            return Objects.equbls(genericDeclbrbtion, thbtDecl) &&
+                Objects.equbls(nbme, thbtNbme);
 
         } else
-            return false;
+            return fblse;
     }
 
     @Override
-    public int hashCode() {
-        return genericDeclaration.hashCode() ^ name.hashCode();
+    public int hbshCode() {
+        return genericDeclbrbtion.hbshCode() ^ nbme.hbshCode();
     }
 
-    // Implementations of AnnotatedElement methods.
-    @SuppressWarnings("unchecked")
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        // T is an Annotation type, the return value of get will be an annotation
-        return (T)mapAnnotations(getAnnotations()).get(annotationClass);
+    // Implementbtions of AnnotbtedElement methods.
+    @SuppressWbrnings("unchecked")
+    public <T extends Annotbtion> T getAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
+        // T is bn Annotbtion type, the return vblue of get will be bn bnnotbtion
+        return (T)mbpAnnotbtions(getAnnotbtions()).get(bnnotbtionClbss);
     }
 
-    public <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return getAnnotation(annotationClass);
-    }
-
-    @Override
-    public <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return AnnotationSupport.getDirectlyAndIndirectlyPresent(mapAnnotations(getAnnotations()), annotationClass);
+    public <T extends Annotbtion> T getDeclbredAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
+        return getAnnotbtion(bnnotbtionClbss);
     }
 
     @Override
-    public <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return getAnnotationsByType(annotationClass);
+    public <T extends Annotbtion> T[] getAnnotbtionsByType(Clbss<T> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
+        return AnnotbtionSupport.getDirectlyAndIndirectlyPresent(mbpAnnotbtions(getAnnotbtions()), bnnotbtionClbss);
     }
 
-    public Annotation[] getAnnotations() {
-        int myIndex = typeVarIndex();
+    @Override
+    public <T extends Annotbtion> T[] getDeclbredAnnotbtionsByType(Clbss<T> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
+        return getAnnotbtionsByType(bnnotbtionClbss);
+    }
+
+    public Annotbtion[] getAnnotbtions() {
+        int myIndex = typeVbrIndex();
         if (myIndex < 0)
-            throw new AssertionError("Index must be non-negative.");
-        return TypeAnnotationParser.parseTypeVariableAnnotations(getGenericDeclaration(), myIndex);
+            throw new AssertionError("Index must be non-negbtive.");
+        return TypeAnnotbtionPbrser.pbrseTypeVbribbleAnnotbtions(getGenericDeclbrbtion(), myIndex);
     }
 
-    public Annotation[] getDeclaredAnnotations() {
-        return getAnnotations();
+    public Annotbtion[] getDeclbredAnnotbtions() {
+        return getAnnotbtions();
     }
 
-    public AnnotatedType[] getAnnotatedBounds() {
-        return TypeAnnotationParser.parseAnnotatedBounds(getBounds(),
-                                                         getGenericDeclaration(),
-                                                         typeVarIndex());
+    public AnnotbtedType[] getAnnotbtedBounds() {
+        return TypeAnnotbtionPbrser.pbrseAnnotbtedBounds(getBounds(),
+                                                         getGenericDeclbrbtion(),
+                                                         typeVbrIndex());
     }
 
-    private static final Annotation[] EMPTY_ANNOTATION_ARRAY = new Annotation[0];
+    privbte stbtic finbl Annotbtion[] EMPTY_ANNOTATION_ARRAY = new Annotbtion[0];
 
-    // Helpers for annotation methods
-    private int typeVarIndex() {
-        TypeVariable<?>[] tVars = getGenericDeclaration().getTypeParameters();
+    // Helpers for bnnotbtion methods
+    privbte int typeVbrIndex() {
+        TypeVbribble<?>[] tVbrs = getGenericDeclbrbtion().getTypePbrbmeters();
         int i = -1;
-        for (TypeVariable<?> v : tVars) {
+        for (TypeVbribble<?> v : tVbrs) {
             i++;
-            if (equals(v))
+            if (equbls(v))
                 return i;
         }
         return -1;
     }
 
-    private static Map<Class<? extends Annotation>, Annotation> mapAnnotations(Annotation[] annos) {
-        Map<Class<? extends Annotation>, Annotation> result =
-            new LinkedHashMap<>();
-        for (Annotation a : annos) {
-            Class<? extends Annotation> klass = a.annotationType();
-            AnnotationType type = AnnotationType.getInstance(klass);
+    privbte stbtic Mbp<Clbss<? extends Annotbtion>, Annotbtion> mbpAnnotbtions(Annotbtion[] bnnos) {
+        Mbp<Clbss<? extends Annotbtion>, Annotbtion> result =
+            new LinkedHbshMbp<>();
+        for (Annotbtion b : bnnos) {
+            Clbss<? extends Annotbtion> klbss = b.bnnotbtionType();
+            AnnotbtionType type = AnnotbtionType.getInstbnce(klbss);
             if (type.retention() == RetentionPolicy.RUNTIME)
-                if (result.put(klass, a) != null)
-                    throw new AnnotationFormatError("Duplicate annotation for class: "+klass+": " + a);
+                if (result.put(klbss, b) != null)
+                    throw new AnnotbtionFormbtError("Duplicbte bnnotbtion for clbss: "+klbss+": " + b);
         }
         return result;
     }

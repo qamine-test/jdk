@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.io.StreamCorruptedException;
-import java.util.Objects;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.io.StrebmCorruptedException;
+import jbvb.util.Objects;
 
 /**
- * <p>Provides general information for an MBean descriptor object.
- * The feature described can be an attribute, an operation, a
- * parameter, or a notification.  Instances of this class are
- * immutable.  Subclasses may be mutable but this is not
+ * <p>Provides generbl informbtion for bn MBebn descriptor object.
+ * The febture described cbn be bn bttribute, bn operbtion, b
+ * pbrbmeter, or b notificbtion.  Instbnces of this clbss bre
+ * immutbble.  Subclbsses mby be mutbble but this is not
  * recommended.</p>
  *
  * @since 1.5
  */
-public class MBeanFeatureInfo implements Serializable, DescriptorRead {
+public clbss MBebnFebtureInfo implements Seriblizbble, DescriptorRebd {
 
 
-    /* Serial version */
-    static final long serialVersionUID = 3952882688968447265L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = 3952882688968447265L;
 
     /**
-     * The name of the feature.  It is recommended that subclasses call
-     * {@link #getName} rather than reading this field, and that they
-     * not change it.
+     * The nbme of the febture.  It is recommended thbt subclbsses cbll
+     * {@link #getNbme} rbther thbn rebding this field, bnd thbt they
+     * not chbnge it.
      *
-     * @serial The name of the feature.
+     * @seribl The nbme of the febture.
      */
-    protected String name;
+    protected String nbme;
 
     /**
-     * The human-readable description of the feature.  It is
-     * recommended that subclasses call {@link #getDescription} rather
-     * than reading this field, and that they not change it.
+     * The humbn-rebdbble description of the febture.  It is
+     * recommended thbt subclbsses cbll {@link #getDescription} rbther
+     * thbn rebding this field, bnd thbt they not chbnge it.
      *
-     * @serial The human-readable description of the feature.
+     * @seribl The humbn-rebdbble description of the febture.
      */
     protected String description;
 
     /**
-     * @serial The Descriptor for this MBeanFeatureInfo.  This field
-     * can be null, which is equivalent to an empty Descriptor.
+     * @seribl The Descriptor for this MBebnFebtureInfo.  This field
+     * cbn be null, which is equivblent to bn empty Descriptor.
      */
-    private transient Descriptor descriptor;
+    privbte trbnsient Descriptor descriptor;
 
 
     /**
-     * Constructs an <CODE>MBeanFeatureInfo</CODE> object.  This
-     * constructor is equivalent to {@code MBeanFeatureInfo(name,
+     * Constructs bn <CODE>MBebnFebtureInfo</CODE> object.  This
+     * constructor is equivblent to {@code MBebnFebtureInfo(nbme,
      * description, (Descriptor) null}.
      *
-     * @param name The name of the feature.
-     * @param description A human readable description of the feature.
+     * @pbrbm nbme The nbme of the febture.
+     * @pbrbm description A humbn rebdbble description of the febture.
      */
-    public MBeanFeatureInfo(String name, String description) {
-        this(name, description, null);
+    public MBebnFebtureInfo(String nbme, String description) {
+        this(nbme, description, null);
     }
 
     /**
-     * Constructs an <CODE>MBeanFeatureInfo</CODE> object.
+     * Constructs bn <CODE>MBebnFebtureInfo</CODE> object.
      *
-     * @param name The name of the feature.
-     * @param description A human readable description of the feature.
-     * @param descriptor The descriptor for the feature.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm nbme The nbme of the febture.
+     * @pbrbm description A humbn rebdbble description of the febture.
+     * @pbrbm descriptor The descriptor for the febture.  This mby be null
+     * which is equivblent to bn empty descriptor.
      *
      * @since 1.6
      */
-    public MBeanFeatureInfo(String name, String description,
+    public MBebnFebtureInfo(String nbme, String description,
                             Descriptor descriptor) {
-        this.name = name;
+        this.nbme = nbme;
         this.description = description;
         this.descriptor = descriptor;
     }
 
     /**
-     * Returns the name of the feature.
+     * Returns the nbme of the febture.
      *
-     * @return the name of the feature.
+     * @return the nbme of the febture.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns the human-readable description of the feature.
+     * Returns the humbn-rebdbble description of the febture.
      *
-     * @return the human-readable description of the feature.
+     * @return the humbn-rebdbble description of the febture.
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     * Returns the descriptor for the feature.  Changing the returned value
-     * will have no affect on the original descriptor.
+     * Returns the descriptor for the febture.  Chbnging the returned vblue
+     * will hbve no bffect on the originbl descriptor.
      *
-     * @return a descriptor that is either immutable or a copy of the original.
+     * @return b descriptor thbt is either immutbble or b copy of the originbl.
      *
      * @since 1.6
      */
     public Descriptor getDescriptor() {
-        return (Descriptor) ImmutableDescriptor.nonNullDescriptor(descriptor).clone();
+        return (Descriptor) ImmutbbleDescriptor.nonNullDescriptor(descriptor).clone();
     }
 
     /**
-     * Compare this MBeanFeatureInfo to another.
+     * Compbre this MBebnFebtureInfo to bnother.
      *
-     * @param o the object to compare to.
+     * @pbrbm o the object to compbre to.
      *
-     * @return true if and only if <code>o</code> is an MBeanFeatureInfo such
-     * that its {@link #getName()}, {@link #getDescription()}, and
+     * @return true if bnd only if <code>o</code> is bn MBebnFebtureInfo such
+     * thbt its {@link #getNbme()}, {@link #getDescription()}, bnd
      * {@link #getDescriptor()}
-     * values are equal (not necessarily identical) to those of this
-     * MBeanFeatureInfo.
+     * vblues bre equbl (not necessbrily identicbl) to those of this
+     * MBebnFebtureInfo.
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof MBeanFeatureInfo))
-            return false;
-        MBeanFeatureInfo p = (MBeanFeatureInfo) o;
-        return (Objects.equals(p.getName(), getName()) &&
-                Objects.equals(p.getDescription(), getDescription()) &&
-                Objects.equals(p.getDescriptor(), getDescriptor()));
+        if (!(o instbnceof MBebnFebtureInfo))
+            return fblse;
+        MBebnFebtureInfo p = (MBebnFebtureInfo) o;
+        return (Objects.equbls(p.getNbme(), getNbme()) &&
+                Objects.equbls(p.getDescription(), getDescription()) &&
+                Objects.equbls(p.getDescriptor(), getDescriptor()));
     }
 
-    public int hashCode() {
-        return getName().hashCode() ^ getDescription().hashCode() ^
-               getDescriptor().hashCode();
+    public int hbshCode() {
+        return getNbme().hbshCode() ^ getDescription().hbshCode() ^
+               getDescriptor().hbshCode();
     }
 
     /**
-     * Serializes an {@link MBeanFeatureInfo} to an {@link ObjectOutputStream}.
-     * @serialData
-     * For compatibility reasons, an object of this class is serialized as follows.
+     * Seriblizes bn {@link MBebnFebtureInfo} to bn {@link ObjectOutputStrebm}.
+     * @seriblDbtb
+     * For compbtibility rebsons, bn object of this clbss is seriblized bs follows.
      * <p>
-     * The method {@link ObjectOutputStream#defaultWriteObject defaultWriteObject()}
-     * is called first to serialize the object except the field {@code descriptor}
-     * which is declared as transient. The field {@code descriptor} is serialized
-     * as follows:
+     * The method {@link ObjectOutputStrebm#defbultWriteObject defbultWriteObject()}
+     * is cblled first to seriblize the object except the field {@code descriptor}
+     * which is declbred bs trbnsient. The field {@code descriptor} is seriblized
+     * bs follows:
      *     <ul>
-     *     <li>If {@code descriptor} is an instance of the class
-     *        {@link ImmutableDescriptor}, the method {@link ObjectOutputStream#write
-     *        write(int val)} is called to write a byte with the value {@code 1},
-     *        then the method {@link ObjectOutputStream#writeObject writeObject(Object obj)}
-     *        is called twice to serialize the field names and the field values of the
-     *        {@code descriptor}, respectively as a {@code String[]} and an
+     *     <li>If {@code descriptor} is bn instbnce of the clbss
+     *        {@link ImmutbbleDescriptor}, the method {@link ObjectOutputStrebm#write
+     *        write(int vbl)} is cblled to write b byte with the vblue {@code 1},
+     *        then the method {@link ObjectOutputStrebm#writeObject writeObject(Object obj)}
+     *        is cblled twice to seriblize the field nbmes bnd the field vblues of the
+     *        {@code descriptor}, respectively bs b {@code String[]} bnd bn
      *        {@code Object[]};</li>
-     *     <li>Otherwise, the method {@link ObjectOutputStream#write write(int val)}
-     * is called to write a byte with the value {@code 0}, then the method
-     * {@link ObjectOutputStream#writeObject writeObject(Object obj)} is called
-     * to serialize directly the field {@code descriptor}.
+     *     <li>Otherwise, the method {@link ObjectOutputStrebm#write write(int vbl)}
+     * is cblled to write b byte with the vblue {@code 0}, then the method
+     * {@link ObjectOutputStrebm#writeObject writeObject(Object obj)} is cblled
+     * to seriblize directly the field {@code descriptor}.
      *     </ul>
      *
      * @since 1.6
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        out.defbultWriteObject();
 
         if (descriptor != null &&
-            descriptor.getClass() == ImmutableDescriptor.class) {
+            descriptor.getClbss() == ImmutbbleDescriptor.clbss) {
 
             out.write(1);
 
-            final String[] names = descriptor.getFieldNames();
+            finbl String[] nbmes = descriptor.getFieldNbmes();
 
-            out.writeObject(names);
-            out.writeObject(descriptor.getFieldValues(names));
+            out.writeObject(nbmes);
+            out.writeObject(descriptor.getFieldVblues(nbmes));
         } else {
             out.write(0);
 
@@ -203,63 +203,63 @@ public class MBeanFeatureInfo implements Serializable, DescriptorRead {
     }
 
     /**
-     * Deserializes an {@link MBeanFeatureInfo} from an {@link ObjectInputStream}.
-     * @serialData
-     * For compatibility reasons, an object of this class is deserialized as follows.
+     * Deseriblizes bn {@link MBebnFebtureInfo} from bn {@link ObjectInputStrebm}.
+     * @seriblDbtb
+     * For compbtibility rebsons, bn object of this clbss is deseriblized bs follows.
      * <p>
-     * The method {@link ObjectInputStream#defaultReadObject defaultReadObject()}
-     * is called first to deserialize the object except the field
-     * {@code descriptor}, which is not serialized in the default way. Then the method
-     * {@link ObjectInputStream#read read()} is called to read a byte, the field
-     * {@code descriptor} is deserialized according to the value of the byte value:
+     * The method {@link ObjectInputStrebm#defbultRebdObject defbultRebdObject()}
+     * is cblled first to deseriblize the object except the field
+     * {@code descriptor}, which is not seriblized in the defbult wby. Then the method
+     * {@link ObjectInputStrebm#rebd rebd()} is cblled to rebd b byte, the field
+     * {@code descriptor} is deseriblized bccording to the vblue of the byte vblue:
      *    <ul>
-     *    <li>1. The method {@link ObjectInputStream#readObject readObject()}
-     *       is called twice to obtain the field names (a {@code String[]}) and
-     *       the field values (a {@code Object[]}) of the {@code descriptor}.
-     *       The two obtained values then are used to construct
-     *       an {@link ImmutableDescriptor} instance for the field
+     *    <li>1. The method {@link ObjectInputStrebm#rebdObject rebdObject()}
+     *       is cblled twice to obtbin the field nbmes (b {@code String[]}) bnd
+     *       the field vblues (b {@code Object[]}) of the {@code descriptor}.
+     *       The two obtbined vblues then bre used to construct
+     *       bn {@link ImmutbbleDescriptor} instbnce for the field
      *       {@code descriptor};</li>
-     *    <li>0. The value for the field {@code descriptor} is obtained directly
-     *       by calling the method {@link ObjectInputStream#readObject readObject()}.
-     *       If the obtained value is null, the field {@code descriptor} is set to
-     *       {@link ImmutableDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR};</li>
-     *    <li>-1. This means that there is no byte to read and that the object is from
-     *       an earlier version of the JMX API. The field {@code descriptor} is set
-     *       to {@link ImmutableDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR}</li>
-     *    <li>Any other value. A {@link StreamCorruptedException} is thrown.</li>
+     *    <li>0. The vblue for the field {@code descriptor} is obtbined directly
+     *       by cblling the method {@link ObjectInputStrebm#rebdObject rebdObject()}.
+     *       If the obtbined vblue is null, the field {@code descriptor} is set to
+     *       {@link ImmutbbleDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR};</li>
+     *    <li>-1. This mebns thbt there is no byte to rebd bnd thbt the object is from
+     *       bn ebrlier version of the JMX API. The field {@code descriptor} is set
+     *       to {@link ImmutbbleDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR}</li>
+     *    <li>Any other vblue. A {@link StrebmCorruptedException} is thrown.</li>
      *    </ul>
      *
      * @since 1.6
      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException {
 
-        in.defaultReadObject();
+        in.defbultRebdObject();
 
-        switch (in.read()) {
-        case 1:
-            final String[] names = (String[])in.readObject();
+        switch (in.rebd()) {
+        cbse 1:
+            finbl String[] nbmes = (String[])in.rebdObject();
 
-            final Object[] values = (Object[]) in.readObject();
-            descriptor = (names.length == 0) ?
-                ImmutableDescriptor.EMPTY_DESCRIPTOR :
-                new ImmutableDescriptor(names, values);
+            finbl Object[] vblues = (Object[]) in.rebdObject();
+            descriptor = (nbmes.length == 0) ?
+                ImmutbbleDescriptor.EMPTY_DESCRIPTOR :
+                new ImmutbbleDescriptor(nbmes, vblues);
 
-            break;
-        case 0:
-            descriptor = (Descriptor)in.readObject();
+            brebk;
+        cbse 0:
+            descriptor = (Descriptor)in.rebdObject();
 
             if (descriptor == null) {
-                descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
+                descriptor = ImmutbbleDescriptor.EMPTY_DESCRIPTOR;
             }
 
-            break;
-        case -1: // from an earlier version of the JMX API
-            descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
+            brebk;
+        cbse -1: // from bn ebrlier version of the JMX API
+            descriptor = ImmutbbleDescriptor.EMPTY_DESCRIPTOR;
 
-            break;
-        default:
-            throw new StreamCorruptedException("Got unexpected byte.");
+            brebk;
+        defbult:
+            throw new StrebmCorruptedException("Got unexpected byte.");
         }
     }
 }

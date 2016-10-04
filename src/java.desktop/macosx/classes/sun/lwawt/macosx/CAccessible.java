@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.Component;
-import java.lang.reflect.Field;
+import jbvb.bwt.Component;
+import jbvb.lbng.reflect.Field;
 
-import javax.accessibility.Accessible;
-import javax.accessibility.AccessibleContext;
-import javax.swing.JProgressBar;
-import javax.swing.JSlider;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.JTextComponent;
+import jbvbx.bccessibility.Accessible;
+import jbvbx.bccessibility.AccessibleContext;
+import jbvbx.swing.JProgressBbr;
+import jbvbx.swing.JSlider;
+import jbvbx.swing.event.CbretEvent;
+import jbvbx.swing.event.CbretListener;
+import jbvbx.swing.event.ChbngeEvent;
+import jbvbx.swing.event.ChbngeListener;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.event.DocumentListener;
+import jbvbx.swing.text.JTextComponent;
 
 
-class CAccessible extends CFRetainedResource implements Accessible {
-    static Field getNativeAXResourceField() {
+clbss CAccessible extends CFRetbinedResource implements Accessible {
+    stbtic Field getNbtiveAXResourceField() {
         try {
-            final Field field = AccessibleContext.class.getDeclaredField("nativeAXResource");
+            finbl Field field = AccessibleContext.clbss.getDeclbredField("nbtiveAXResource");
             field.setAccessible(true);
             return field;
-        } catch (final Exception e) {
-            e.printStackTrace();
+        } cbtch (finbl Exception e) {
+            e.printStbckTrbce();
             return null;
         }
     }
 
-    private static Field nativeAXResourceField = getNativeAXResourceField();
+    privbte stbtic Field nbtiveAXResourceField = getNbtiveAXResourceField();
 
-    public static CAccessible getCAccessible(final Accessible a) {
-        if (a == null) return null;
-        AccessibleContext context = a.getAccessibleContext();
+    public stbtic CAccessible getCAccessible(finbl Accessible b) {
+        if (b == null) return null;
+        AccessibleContext context = b.getAccessibleContext();
         try {
-            final CAccessible cachedCAX = (CAccessible) nativeAXResourceField.get(context);
-            if (cachedCAX != null) return cachedCAX;
+            finbl CAccessible cbchedCAX = (CAccessible) nbtiveAXResourceField.get(context);
+            if (cbchedCAX != null) return cbchedCAX;
 
-            final CAccessible newCAX = new CAccessible(a);
-            nativeAXResourceField.set(context, newCAX);
+            finbl CAccessible newCAX = new CAccessible(b);
+            nbtiveAXResourceField.set(context, newCAX);
             return newCAX;
-        }  catch (final Exception e) {
-            e.printStackTrace();
+        }  cbtch (finbl Exception e) {
+            e.printStbckTrbce();
             return null;
         }
     }
 
-    private static native void unregisterFromCocoaAXSystem(long ptr);
-    private static native void valueChanged(long ptr);
-    private static native void selectionChanged(long ptr);
+    privbte stbtic nbtive void unregisterFromCocobAXSystem(long ptr);
+    privbte stbtic nbtive void vblueChbnged(long ptr);
+    privbte stbtic nbtive void selectionChbnged(long ptr);
 
-    private Accessible accessible;
+    privbte Accessible bccessible;
 
-    private CAccessible(final Accessible accessible) {
-        super(0L, true); // real pointer will be poked in by native
+    privbte CAccessible(finbl Accessible bccessible) {
+        super(0L, true); // rebl pointer will be poked in by nbtive
 
-        if (accessible == null) throw new NullPointerException();
-        this.accessible = accessible;
+        if (bccessible == null) throw new NullPointerException();
+        this.bccessible = bccessible;
 
-        if (accessible instanceof Component) {
-            addNotificationListeners((Component)accessible);
+        if (bccessible instbnceof Component) {
+            bddNotificbtionListeners((Component)bccessible);
         }
     }
 
     @Override
     protected synchronized void dispose() {
-        if (ptr != 0) unregisterFromCocoaAXSystem(ptr);
+        if (ptr != 0) unregisterFromCocobAXSystem(ptr);
         super.dispose();
     }
 
     @Override
     public AccessibleContext getAccessibleContext() {
-        return accessible.getAccessibleContext();
+        return bccessible.getAccessibleContext();
     }
 
     // currently only supports text components
-    public void addNotificationListeners(Component c) {
-        if (c instanceof JTextComponent) {
+    public void bddNotificbtionListeners(Component c) {
+        if (c instbnceof JTextComponent) {
             JTextComponent tc = (JTextComponent) c;
-            AXTextChangeNotifier listener = new AXTextChangeNotifier();
-            tc.getDocument().addDocumentListener(listener);
-            tc.addCaretListener(listener);
+            AXTextChbngeNotifier listener = new AXTextChbngeNotifier();
+            tc.getDocument().bddDocumentListener(listener);
+            tc.bddCbretListener(listener);
         }
-        if (c instanceof JProgressBar) {
-            JProgressBar pb = (JProgressBar) c;
-            pb.addChangeListener(new AXProgressChangeNotifier());
-        } else if (c instanceof JSlider) {
+        if (c instbnceof JProgressBbr) {
+            JProgressBbr pb = (JProgressBbr) c;
+            pb.bddChbngeListener(new AXProgressChbngeNotifier());
+        } else if (c instbnceof JSlider) {
             JSlider slider = (JSlider) c;
-            slider.addChangeListener(new AXProgressChangeNotifier());
+            slider.bddChbngeListener(new AXProgressChbngeNotifier());
         }
     }
 
 
-    private class AXTextChangeNotifier implements DocumentListener, CaretListener {
+    privbte clbss AXTextChbngeNotifier implements DocumentListener, CbretListener {
         @Override
-        public void changedUpdate(DocumentEvent e) {
-            if (ptr != 0) valueChanged(ptr);
+        public void chbngedUpdbte(DocumentEvent e) {
+            if (ptr != 0) vblueChbnged(ptr);
         }
 
         @Override
-        public void insertUpdate(DocumentEvent e) {
-            if (ptr != 0) valueChanged(ptr);
+        public void insertUpdbte(DocumentEvent e) {
+            if (ptr != 0) vblueChbnged(ptr);
         }
 
         @Override
-        public void removeUpdate(DocumentEvent e) {
-            if (ptr != 0) valueChanged(ptr);
+        public void removeUpdbte(DocumentEvent e) {
+            if (ptr != 0) vblueChbnged(ptr);
         }
 
         @Override
-        public void caretUpdate(CaretEvent e) {
-            if (ptr != 0) selectionChanged(ptr);
+        public void cbretUpdbte(CbretEvent e) {
+            if (ptr != 0) selectionChbnged(ptr);
         }
     }
 
-    private class AXProgressChangeNotifier implements ChangeListener {
-        public void stateChanged(ChangeEvent e) {
-            if (ptr != 0) valueChanged(ptr);
+    privbte clbss AXProgressChbngeNotifier implements ChbngeListener {
+        public void stbteChbnged(ChbngeEvent e) {
+            if (ptr != 0) vblueChbnged(ptr);
         }
     }
 
-    static Accessible getSwingAccessible(final Accessible a) {
-        return (a instanceof CAccessible) ? ((CAccessible)a).accessible : a;
+    stbtic Accessible getSwingAccessible(finbl Accessible b) {
+        return (b instbnceof CAccessible) ? ((CAccessible)b).bccessible : b;
     }
 }

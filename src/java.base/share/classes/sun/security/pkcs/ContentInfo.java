@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs;
+pbckbge sun.security.pkcs;
 
-import java.io.*;
+import jbvb.io.*;
 
 import sun.security.util.*;
 
 /**
- * A ContentInfo type, as defined in PKCS#7.
+ * A ContentInfo type, bs defined in PKCS#7.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  */
 
-public class ContentInfo {
+public clbss ContentInfo {
 
     // pkcs7 pre-defined content types
-    private static int[]  pkcs7 = {1, 2, 840, 113549, 1, 7};
-    private static int[]   data = {1, 2, 840, 113549, 1, 7, 1};
-    private static int[]  sdata = {1, 2, 840, 113549, 1, 7, 2};
-    private static int[]  edata = {1, 2, 840, 113549, 1, 7, 3};
-    private static int[] sedata = {1, 2, 840, 113549, 1, 7, 4};
-    private static int[]  ddata = {1, 2, 840, 113549, 1, 7, 5};
-    private static int[] crdata = {1, 2, 840, 113549, 1, 7, 6};
-    private static int[] nsdata = {2, 16, 840, 1, 113730, 2, 5};
-    // timestamp token (id-ct-TSTInfo) from RFC 3161
-    private static int[] tstInfo = {1, 2, 840, 113549, 1, 9, 16, 1, 4};
-    // this is for backwards-compatibility with JDK 1.1.x
-    private static final int[] OLD_SDATA = {1, 2, 840, 1113549, 1, 7, 2};
-    private static final int[] OLD_DATA = {1, 2, 840, 1113549, 1, 7, 1};
-    public static ObjectIdentifier PKCS7_OID;
-    public static ObjectIdentifier DATA_OID;
-    public static ObjectIdentifier SIGNED_DATA_OID;
-    public static ObjectIdentifier ENVELOPED_DATA_OID;
-    public static ObjectIdentifier SIGNED_AND_ENVELOPED_DATA_OID;
-    public static ObjectIdentifier DIGESTED_DATA_OID;
-    public static ObjectIdentifier ENCRYPTED_DATA_OID;
-    public static ObjectIdentifier OLD_SIGNED_DATA_OID;
-    public static ObjectIdentifier OLD_DATA_OID;
-    public static ObjectIdentifier NETSCAPE_CERT_SEQUENCE_OID;
-    public static ObjectIdentifier TIMESTAMP_TOKEN_INFO_OID;
+    privbte stbtic int[]  pkcs7 = {1, 2, 840, 113549, 1, 7};
+    privbte stbtic int[]   dbtb = {1, 2, 840, 113549, 1, 7, 1};
+    privbte stbtic int[]  sdbtb = {1, 2, 840, 113549, 1, 7, 2};
+    privbte stbtic int[]  edbtb = {1, 2, 840, 113549, 1, 7, 3};
+    privbte stbtic int[] sedbtb = {1, 2, 840, 113549, 1, 7, 4};
+    privbte stbtic int[]  ddbtb = {1, 2, 840, 113549, 1, 7, 5};
+    privbte stbtic int[] crdbtb = {1, 2, 840, 113549, 1, 7, 6};
+    privbte stbtic int[] nsdbtb = {2, 16, 840, 1, 113730, 2, 5};
+    // timestbmp token (id-ct-TSTInfo) from RFC 3161
+    privbte stbtic int[] tstInfo = {1, 2, 840, 113549, 1, 9, 16, 1, 4};
+    // this is for bbckwbrds-compbtibility with JDK 1.1.x
+    privbte stbtic finbl int[] OLD_SDATA = {1, 2, 840, 1113549, 1, 7, 2};
+    privbte stbtic finbl int[] OLD_DATA = {1, 2, 840, 1113549, 1, 7, 1};
+    public stbtic ObjectIdentifier PKCS7_OID;
+    public stbtic ObjectIdentifier DATA_OID;
+    public stbtic ObjectIdentifier SIGNED_DATA_OID;
+    public stbtic ObjectIdentifier ENVELOPED_DATA_OID;
+    public stbtic ObjectIdentifier SIGNED_AND_ENVELOPED_DATA_OID;
+    public stbtic ObjectIdentifier DIGESTED_DATA_OID;
+    public stbtic ObjectIdentifier ENCRYPTED_DATA_OID;
+    public stbtic ObjectIdentifier OLD_SIGNED_DATA_OID;
+    public stbtic ObjectIdentifier OLD_DATA_OID;
+    public stbtic ObjectIdentifier NETSCAPE_CERT_SEQUENCE_OID;
+    public stbtic ObjectIdentifier TIMESTAMP_TOKEN_INFO_OID;
 
-    static {
-        PKCS7_OID =  ObjectIdentifier.newInternal(pkcs7);
-        DATA_OID = ObjectIdentifier.newInternal(data);
-        SIGNED_DATA_OID = ObjectIdentifier.newInternal(sdata);
-        ENVELOPED_DATA_OID = ObjectIdentifier.newInternal(edata);
-        SIGNED_AND_ENVELOPED_DATA_OID = ObjectIdentifier.newInternal(sedata);
-        DIGESTED_DATA_OID = ObjectIdentifier.newInternal(ddata);
-        ENCRYPTED_DATA_OID = ObjectIdentifier.newInternal(crdata);
-        OLD_SIGNED_DATA_OID = ObjectIdentifier.newInternal(OLD_SDATA);
-        OLD_DATA_OID = ObjectIdentifier.newInternal(OLD_DATA);
+    stbtic {
+        PKCS7_OID =  ObjectIdentifier.newInternbl(pkcs7);
+        DATA_OID = ObjectIdentifier.newInternbl(dbtb);
+        SIGNED_DATA_OID = ObjectIdentifier.newInternbl(sdbtb);
+        ENVELOPED_DATA_OID = ObjectIdentifier.newInternbl(edbtb);
+        SIGNED_AND_ENVELOPED_DATA_OID = ObjectIdentifier.newInternbl(sedbtb);
+        DIGESTED_DATA_OID = ObjectIdentifier.newInternbl(ddbtb);
+        ENCRYPTED_DATA_OID = ObjectIdentifier.newInternbl(crdbtb);
+        OLD_SIGNED_DATA_OID = ObjectIdentifier.newInternbl(OLD_SDATA);
+        OLD_DATA_OID = ObjectIdentifier.newInternbl(OLD_DATA);
         /**
-         * The ASN.1 systax for the Netscape Certificate Sequence
-         * data type is defined
-         * <a href=http://wp.netscape.com/eng/security/comm4-cert-download.html>
-         * here.</a>
+         * The ASN.1 systbx for the Netscbpe Certificbte Sequence
+         * dbtb type is defined
+         * <b href=http://wp.netscbpe.com/eng/security/comm4-cert-downlobd.html>
+         * here.</b>
          */
-        NETSCAPE_CERT_SEQUENCE_OID = ObjectIdentifier.newInternal(nsdata);
-        TIMESTAMP_TOKEN_INFO_OID = ObjectIdentifier.newInternal(tstInfo);
+        NETSCAPE_CERT_SEQUENCE_OID = ObjectIdentifier.newInternbl(nsdbtb);
+        TIMESTAMP_TOKEN_INFO_OID = ObjectIdentifier.newInternbl(tstInfo);
     }
 
     ObjectIdentifier contentType;
-    DerValue content; // OPTIONAL
+    DerVblue content; // OPTIONAL
 
-    public ContentInfo(ObjectIdentifier contentType, DerValue content) {
+    public ContentInfo(ObjectIdentifier contentType, DerVblue content) {
         this.contentType = contentType;
         this.content = content;
     }
 
     /**
-     * Make a contentInfo of type data.
+     * Mbke b contentInfo of type dbtb.
      */
     public ContentInfo(byte[] bytes) {
-        DerValue octetString = new DerValue(DerValue.tag_OctetString, bytes);
+        DerVblue octetString = new DerVblue(DerVblue.tbg_OctetString, bytes);
         this.contentType = DATA_OID;
         this.content = octetString;
     }
 
     /**
-     * Parses a PKCS#7 content info.
+     * Pbrses b PKCS#7 content info.
      */
-    public ContentInfo(DerInputStream derin)
-        throws IOException, ParsingException
+    public ContentInfo(DerInputStrebm derin)
+        throws IOException, PbrsingException
     {
-        this(derin, false);
+        this(derin, fblse);
     }
 
     /**
-     * Parses a PKCS#7 content info.
+     * Pbrses b PKCS#7 content info.
      *
-     * <p>This constructor is used only for backwards compatibility with
-     * PKCS#7 blocks that were generated using JDK1.1.x.
+     * <p>This constructor is used only for bbckwbrds compbtibility with
+     * PKCS#7 blocks thbt were generbted using JDK1.1.x.
      *
-     * @param derin the ASN.1 encoding of the content info.
-     * @param oldStyle flag indicating whether or not the given content info
-     * is encoded according to JDK1.1.x.
+     * @pbrbm derin the ASN.1 encoding of the content info.
+     * @pbrbm oldStyle flbg indicbting whether or not the given content info
+     * is encoded bccording to JDK1.1.x.
      */
-    public ContentInfo(DerInputStream derin, boolean oldStyle)
-        throws IOException, ParsingException
+    public ContentInfo(DerInputStrebm derin, boolebn oldStyle)
+        throws IOException, PbrsingException
     {
-        DerInputStream disType;
-        DerInputStream disTaggedContent;
-        DerValue type;
-        DerValue taggedContent;
-        DerValue[] typeAndContent;
-        DerValue[] contents;
+        DerInputStrebm disType;
+        DerInputStrebm disTbggedContent;
+        DerVblue type;
+        DerVblue tbggedContent;
+        DerVblue[] typeAndContent;
+        DerVblue[] contents;
 
         typeAndContent = derin.getSequence(2);
 
-        // Parse the content type
+        // Pbrse the content type
         type = typeAndContent[0];
-        disType = new DerInputStream(type.toByteArray());
+        disType = new DerInputStrebm(type.toByteArrby());
         contentType = disType.getOID();
 
         if (oldStyle) {
             // JDK1.1.x-style encoding
             content = typeAndContent[1];
         } else {
-            // This is the correct, standards-compliant encoding.
-            // Parse the content (OPTIONAL field).
-            // Skip the [0] EXPLICIT tag by pretending that the content is the
-            // one and only element in an implicitly tagged set
+            // This is the correct, stbndbrds-complibnt encoding.
+            // Pbrse the content (OPTIONAL field).
+            // Skip the [0] EXPLICIT tbg by pretending thbt the content is the
+            // one bnd only element in bn implicitly tbgged set
             if (typeAndContent.length > 1) { // content is OPTIONAL
-                taggedContent = typeAndContent[1];
-                disTaggedContent
-                    = new DerInputStream(taggedContent.toByteArray());
-                contents = disTaggedContent.getSet(1, true);
+                tbggedContent = typeAndContent[1];
+                disTbggedContent
+                    = new DerInputStrebm(tbggedContent.toByteArrby());
+                contents = disTbggedContent.getSet(1, true);
                 content = contents[0];
             }
         }
     }
 
-    public DerValue getContent() {
+    public DerVblue getContent() {
         return content;
     }
 
@@ -162,10 +162,10 @@ public class ContentInfo {
         return contentType;
     }
 
-    public byte[] getData() throws IOException {
-        if (contentType.equals((Object)DATA_OID) ||
-            contentType.equals((Object)OLD_DATA_OID) ||
-            contentType.equals((Object)TIMESTAMP_TOKEN_INFO_OID)) {
+    public byte[] getDbtb() throws IOException {
+        if (contentType.equbls((Object)DATA_OID) ||
+            contentType.equbls((Object)OLD_DATA_OID) ||
+            contentType.equbls((Object)TIMESTAMP_TOKEN_INFO_OID)) {
             if (content == null)
                 return null;
             else
@@ -174,37 +174,37 @@ public class ContentInfo {
         throw new IOException("content type is not DATA: " + contentType);
     }
 
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream contentDerCode;
-        DerOutputStream seq;
+    public void encode(DerOutputStrebm out) throws IOException {
+        DerOutputStrebm contentDerCode;
+        DerOutputStrebm seq;
 
-        seq = new DerOutputStream();
+        seq = new DerOutputStrebm();
         seq.putOID(contentType);
 
-        // content is optional, it could be external
+        // content is optionbl, it could be externbl
         if (content != null) {
-            DerValue taggedContent = null;
-            contentDerCode = new DerOutputStream();
+            DerVblue tbggedContent = null;
+            contentDerCode = new DerOutputStrebm();
             content.encode(contentDerCode);
 
-            // Add the [0] EXPLICIT tag in front of the content encoding
-            taggedContent = new DerValue((byte)0xA0,
-                                         contentDerCode.toByteArray());
-            seq.putDerValue(taggedContent);
+            // Add the [0] EXPLICIT tbg in front of the content encoding
+            tbggedContent = new DerVblue((byte)0xA0,
+                                         contentDerCode.toByteArrby());
+            seq.putDerVblue(tbggedContent);
         }
 
-        out.write(DerValue.tag_Sequence, seq);
+        out.write(DerVblue.tbg_Sequence, seq);
     }
 
     /**
-     * Returns a byte array representation of the data held in
+     * Returns b byte brrby representbtion of the dbtb held in
      * the content field.
      */
     public byte[] getContentBytes() throws IOException {
         if (content == null)
             return null;
 
-        DerInputStream dis = new DerInputStream(content.toByteArray());
+        DerInputStrebm dis = new DerInputStrebm(content.toByteArrby());
         return dis.getOctetString();
     }
 

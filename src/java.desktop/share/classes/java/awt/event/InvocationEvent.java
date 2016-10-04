@@ -1,349 +1,349 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
-import java.awt.ActiveEvent;
-import java.awt.AWTEvent;
+import jbvb.bwt.ActiveEvent;
+import jbvb.bwt.AWTEvent;
 
 /**
- * An event which executes the <code>run()</code> method on a <code>Runnable
- * </code> when dispatched by the AWT event dispatcher thread. This class can
- * be used as a reference implementation of <code>ActiveEvent</code> rather
- * than declaring a new class and defining <code>dispatch()</code>.<p>
+ * An event which executes the <code>run()</code> method on b <code>Runnbble
+ * </code> when dispbtched by the AWT event dispbtcher threbd. This clbss cbn
+ * be used bs b reference implementbtion of <code>ActiveEvent</code> rbther
+ * thbn declbring b new clbss bnd defining <code>dispbtch()</code>.<p>
  *
- * Instances of this class are placed on the <code>EventQueue</code> by calls
- * to <code>invokeLater</code> and <code>invokeAndWait</code>. Client code
- * can use this fact to write replacement functions for <code>invokeLater
- * </code> and <code>invokeAndWait</code> without writing special-case code
- * in any <code>AWTEventListener</code> objects.
+ * Instbnces of this clbss bre plbced on the <code>EventQueue</code> by cblls
+ * to <code>invokeLbter</code> bnd <code>invokeAndWbit</code>. Client code
+ * cbn use this fbct to write replbcement functions for <code>invokeLbter
+ * </code> bnd <code>invokeAndWbit</code> without writing specibl-cbse code
+ * in bny <code>AWTEventListener</code> objects.
  * <p>
- * An unspecified behavior will be caused if the {@code id} parameter
- * of any particular {@code InvocationEvent} instance is not
- * in the range from {@code INVOCATION_FIRST} to {@code INVOCATION_LAST}.
+ * An unspecified behbvior will be cbused if the {@code id} pbrbmeter
+ * of bny pbrticulbr {@code InvocbtionEvent} instbnce is not
+ * in the rbnge from {@code INVOCATION_FIRST} to {@code INVOCATION_LAST}.
  *
- * @author      Fred Ecks
- * @author      David Mendenhall
+ * @buthor      Fred Ecks
+ * @buthor      Dbvid Mendenhbll
  *
- * @see         java.awt.ActiveEvent
- * @see         java.awt.EventQueue#invokeLater
- * @see         java.awt.EventQueue#invokeAndWait
+ * @see         jbvb.bwt.ActiveEvent
+ * @see         jbvb.bwt.EventQueue#invokeLbter
+ * @see         jbvb.bwt.EventQueue#invokeAndWbit
  * @see         AWTEventListener
  *
  * @since       1.2
  */
-public class InvocationEvent extends AWTEvent implements ActiveEvent {
+public clbss InvocbtionEvent extends AWTEvent implements ActiveEvent {
 
-    static {
-        AWTAccessor.setInvocationEventAccessor(new AWTAccessor.InvocationEventAccessor() {
+    stbtic {
+        AWTAccessor.setInvocbtionEventAccessor(new AWTAccessor.InvocbtionEventAccessor() {
             @Override
-            public void dispose(InvocationEvent invocationEvent) {
-                invocationEvent.finishedDispatching(false);
+            public void dispose(InvocbtionEvent invocbtionEvent) {
+                invocbtionEvent.finishedDispbtching(fblse);
             }
         });
     }
 
     /**
-     * Marks the first integer id for the range of invocation event ids.
+     * Mbrks the first integer id for the rbnge of invocbtion event ids.
      */
-    public static final int INVOCATION_FIRST = 1200;
+    public stbtic finbl int INVOCATION_FIRST = 1200;
 
     /**
-     * The default id for all InvocationEvents.
+     * The defbult id for bll InvocbtionEvents.
      */
-    public static final int INVOCATION_DEFAULT = INVOCATION_FIRST;
+    public stbtic finbl int INVOCATION_DEFAULT = INVOCATION_FIRST;
 
     /**
-     * Marks the last integer id for the range of invocation event ids.
+     * Mbrks the lbst integer id for the rbnge of invocbtion event ids.
      */
-    public static final int INVOCATION_LAST = INVOCATION_DEFAULT;
+    public stbtic finbl int INVOCATION_LAST = INVOCATION_DEFAULT;
 
     /**
-     * The Runnable whose run() method will be called.
+     * The Runnbble whose run() method will be cblled.
      */
-    protected Runnable runnable;
+    protected Runnbble runnbble;
 
     /**
-     * The (potentially null) Object whose notifyAll() method will be called
-     * immediately after the Runnable.run() method has returned or thrown an exception
-     * or after the event was disposed.
+     * The (potentiblly null) Object whose notifyAll() method will be cblled
+     * immedibtely bfter the Runnbble.run() method hbs returned or thrown bn exception
+     * or bfter the event wbs disposed.
      *
-     * @see #isDispatched
+     * @see #isDispbtched
      */
-    protected volatile Object notifier;
+    protected volbtile Object notifier;
 
     /**
-     * The (potentially null) Runnable whose run() method will be called
-     * immediately after the event was dispatched or disposed.
+     * The (potentiblly null) Runnbble whose run() method will be cblled
+     * immedibtely bfter the event wbs dispbtched or disposed.
      *
-     * @see #isDispatched
+     * @see #isDispbtched
      * @since 1.8
      */
-    private final Runnable listener;
+    privbte finbl Runnbble listener;
 
     /**
-     * Indicates whether the <code>run()</code> method of the <code>runnable</code>
-     * was executed or not.
+     * Indicbtes whether the <code>run()</code> method of the <code>runnbble</code>
+     * wbs executed or not.
      *
-     * @see #isDispatched
+     * @see #isDispbtched
      * @since 1.7
      */
-    private volatile boolean dispatched = false;
+    privbte volbtile boolebn dispbtched = fblse;
 
     /**
-     * Set to true if dispatch() catches Throwable and stores it in the
-     * exception instance variable. If false, Throwables are propagated up
-     * to the EventDispatchThread's dispatch loop.
+     * Set to true if dispbtch() cbtches Throwbble bnd stores it in the
+     * exception instbnce vbribble. If fblse, Throwbbles bre propbgbted up
+     * to the EventDispbtchThrebd's dispbtch loop.
      */
-    protected boolean catchExceptions;
+    protected boolebn cbtchExceptions;
 
     /**
-     * The (potentially null) Exception thrown during execution of the
-     * Runnable.run() method. This variable will also be null if a particular
-     * instance does not catch exceptions.
+     * The (potentiblly null) Exception thrown during execution of the
+     * Runnbble.run() method. This vbribble will blso be null if b pbrticulbr
+     * instbnce does not cbtch exceptions.
      */
-    private Exception exception = null;
+    privbte Exception exception = null;
 
     /**
-     * The (potentially null) Throwable thrown during execution of the
-     * Runnable.run() method. This variable will also be null if a particular
-     * instance does not catch exceptions.
+     * The (potentiblly null) Throwbble thrown during execution of the
+     * Runnbble.run() method. This vbribble will blso be null if b pbrticulbr
+     * instbnce does not cbtch exceptions.
      */
-    private Throwable throwable = null;
+    privbte Throwbble throwbble = null;
 
     /**
-     * The timestamp of when this event occurred.
+     * The timestbmp of when this event occurred.
      *
-     * @serial
+     * @seribl
      * @see #getWhen
      */
-    private long when;
+    privbte long when;
 
     /*
-     * JDK 1.1 serialVersionUID.
+     * JDK 1.1 seriblVersionUID.
      */
-    private static final long serialVersionUID = 436056344909459450L;
+    privbte stbtic finbl long seriblVersionUID = 436056344909459450L;
 
     /**
-     * Constructs an <code>InvocationEvent</code> with the specified
-     * source which will execute the runnable's <code>run</code>
-     * method when dispatched.
-     * <p>This is a convenience constructor.  An invocation of the form
-     * <tt>InvocationEvent(source, runnable)</tt>
-     * behaves in exactly the same way as the invocation of
-     * <tt>{@link #InvocationEvent(Object, Runnable, Object, boolean) InvocationEvent}(source, runnable, null, false)</tt>.
-     * <p> This method throws an <code>IllegalArgumentException</code>
+     * Constructs bn <code>InvocbtionEvent</code> with the specified
+     * source which will execute the runnbble's <code>run</code>
+     * method when dispbtched.
+     * <p>This is b convenience constructor.  An invocbtion of the form
+     * <tt>InvocbtionEvent(source, runnbble)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion of
+     * <tt>{@link #InvocbtionEvent(Object, Runnbble, Object, boolebn) InvocbtionEvent}(source, runnbble, null, fblse)</tt>.
+     * <p> This method throws bn <code>IllegblArgumentException</code>
      * if <code>source</code> is <code>null</code>.
      *
-     * @param source    The <code>Object</code> that originated the event
-     * @param runnable  The <code>Runnable</code> whose <code>run</code>
+     * @pbrbm source    The <code>Object</code> thbt originbted the event
+     * @pbrbm runnbble  The <code>Runnbble</code> whose <code>run</code>
      *                  method will be executed
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @throws IllegblArgumentException if <code>source</code> is null
      *
      * @see #getSource()
-     * @see #InvocationEvent(Object, Runnable, Object, boolean)
+     * @see #InvocbtionEvent(Object, Runnbble, Object, boolebn)
      */
-    public InvocationEvent(Object source, Runnable runnable) {
-        this(source, INVOCATION_DEFAULT, runnable, null, null, false);
+    public InvocbtionEvent(Object source, Runnbble runnbble) {
+        this(source, INVOCATION_DEFAULT, runnbble, null, null, fblse);
     }
 
     /**
-     * Constructs an <code>InvocationEvent</code> with the specified
-     * source which will execute the runnable's <code>run</code>
-     * method when dispatched.  If notifier is non-<code>null</code>,
-     * <code>notifyAll()</code> will be called on it
-     * immediately after <code>run</code> has returned or thrown an exception.
-     * <p>An invocation of the form <tt>InvocationEvent(source,
-     * runnable, notifier, catchThrowables)</tt>
-     * behaves in exactly the same way as the invocation of
-     * <tt>{@link #InvocationEvent(Object, int, Runnable, Object, boolean) InvocationEvent}(source, InvocationEvent.INVOCATION_DEFAULT, runnable, notifier, catchThrowables)</tt>.
-     * <p>This method throws an <code>IllegalArgumentException</code>
+     * Constructs bn <code>InvocbtionEvent</code> with the specified
+     * source which will execute the runnbble's <code>run</code>
+     * method when dispbtched.  If notifier is non-<code>null</code>,
+     * <code>notifyAll()</code> will be cblled on it
+     * immedibtely bfter <code>run</code> hbs returned or thrown bn exception.
+     * <p>An invocbtion of the form <tt>InvocbtionEvent(source,
+     * runnbble, notifier, cbtchThrowbbles)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion of
+     * <tt>{@link #InvocbtionEvent(Object, int, Runnbble, Object, boolebn) InvocbtionEvent}(source, InvocbtionEvent.INVOCATION_DEFAULT, runnbble, notifier, cbtchThrowbbles)</tt>.
+     * <p>This method throws bn <code>IllegblArgumentException</code>
      * if <code>source</code> is <code>null</code>.
      *
-     * @param source            The <code>Object</code> that originated
+     * @pbrbm source            The <code>Object</code> thbt originbted
      *                          the event
-     * @param runnable          The <code>Runnable</code> whose
+     * @pbrbm runnbble          The <code>Runnbble</code> whose
      *                          <code>run</code> method will be
      *                          executed
-     * @param notifier          The {@code Object} whose <code>notifyAll</code>
-     *                          method will be called after
-     *                          <code>Runnable.run</code> has returned or
-     *                          thrown an exception or after the event was
+     * @pbrbm notifier          The {@code Object} whose <code>notifyAll</code>
+     *                          method will be cblled bfter
+     *                          <code>Runnbble.run</code> hbs returned or
+     *                          thrown bn exception or bfter the event wbs
      *                          disposed
-     * @param catchThrowables   Specifies whether <code>dispatch</code>
-     *                          should catch Throwable when executing
-     *                          the <code>Runnable</code>'s <code>run</code>
-     *                          method, or should instead propagate those
-     *                          Throwables to the EventDispatchThread's
-     *                          dispatch loop
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm cbtchThrowbbles   Specifies whether <code>dispbtch</code>
+     *                          should cbtch Throwbble when executing
+     *                          the <code>Runnbble</code>'s <code>run</code>
+     *                          method, or should instebd propbgbte those
+     *                          Throwbbles to the EventDispbtchThrebd's
+     *                          dispbtch loop
+     * @throws IllegblArgumentException if <code>source</code> is null
      *
      * @see #getSource()
-     * @see     #InvocationEvent(Object, int, Runnable, Object, boolean)
+     * @see     #InvocbtionEvent(Object, int, Runnbble, Object, boolebn)
      */
-    public InvocationEvent(Object source, Runnable runnable, Object notifier,
-                           boolean catchThrowables) {
-        this(source, INVOCATION_DEFAULT, runnable, notifier, null, catchThrowables);
+    public InvocbtionEvent(Object source, Runnbble runnbble, Object notifier,
+                           boolebn cbtchThrowbbles) {
+        this(source, INVOCATION_DEFAULT, runnbble, notifier, null, cbtchThrowbbles);
     }
 
     /**
-     * Constructs an <code>InvocationEvent</code> with the specified
-     * source which will execute the runnable's <code>run</code>
-     * method when dispatched.  If listener is non-<code>null</code>,
-     * <code>listener.run()</code> will be called immediately after
-     * <code>run</code> has returned, thrown an exception or the event
-     * was disposed.
-     * <p>This method throws an <code>IllegalArgumentException</code>
+     * Constructs bn <code>InvocbtionEvent</code> with the specified
+     * source which will execute the runnbble's <code>run</code>
+     * method when dispbtched.  If listener is non-<code>null</code>,
+     * <code>listener.run()</code> will be cblled immedibtely bfter
+     * <code>run</code> hbs returned, thrown bn exception or the event
+     * wbs disposed.
+     * <p>This method throws bn <code>IllegblArgumentException</code>
      * if <code>source</code> is <code>null</code>.
      *
-     * @param source            The <code>Object</code> that originated
+     * @pbrbm source            The <code>Object</code> thbt originbted
      *                          the event
-     * @param runnable          The <code>Runnable</code> whose
+     * @pbrbm runnbble          The <code>Runnbble</code> whose
      *                          <code>run</code> method will be
      *                          executed
-     * @param listener          The <code>Runnable</code>Runnable whose
-     *                          <code>run()</code> method will be called
-     *                          after the {@code InvocationEvent}
-     *                          was dispatched or disposed
-     * @param catchThrowables   Specifies whether <code>dispatch</code>
-     *                          should catch Throwable when executing
-     *                          the <code>Runnable</code>'s <code>run</code>
-     *                          method, or should instead propagate those
-     *                          Throwables to the EventDispatchThread's
-     *                          dispatch loop
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm listener          The <code>Runnbble</code>Runnbble whose
+     *                          <code>run()</code> method will be cblled
+     *                          bfter the {@code InvocbtionEvent}
+     *                          wbs dispbtched or disposed
+     * @pbrbm cbtchThrowbbles   Specifies whether <code>dispbtch</code>
+     *                          should cbtch Throwbble when executing
+     *                          the <code>Runnbble</code>'s <code>run</code>
+     *                          method, or should instebd propbgbte those
+     *                          Throwbbles to the EventDispbtchThrebd's
+     *                          dispbtch loop
+     * @throws IllegblArgumentException if <code>source</code> is null
      */
-    public InvocationEvent(Object source, Runnable runnable, Runnable listener,
-                           boolean catchThrowables)  {
-        this(source, INVOCATION_DEFAULT, runnable, null, listener, catchThrowables);
+    public InvocbtionEvent(Object source, Runnbble runnbble, Runnbble listener,
+                           boolebn cbtchThrowbbles)  {
+        this(source, INVOCATION_DEFAULT, runnbble, null, listener, cbtchThrowbbles);
     }
 
     /**
-     * Constructs an <code>InvocationEvent</code> with the specified
-     * source and ID which will execute the runnable's <code>run</code>
-     * method when dispatched.  If notifier is non-<code>null</code>,
-     * <code>notifyAll</code> will be called on it immediately after
-     * <code>run</code> has returned or thrown an exception.
-     * <p>This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
+     * Constructs bn <code>InvocbtionEvent</code> with the specified
+     * source bnd ID which will execute the runnbble's <code>run</code>
+     * method when dispbtched.  If notifier is non-<code>null</code>,
+     * <code>notifyAll</code> will be cblled on it immedibtely bfter
+     * <code>run</code> hbs returned or thrown bn exception.
+     * <p>This method throws bn
+     * <code>IllegblArgumentException</code> if <code>source</code>
      * is <code>null</code>.
      *
-     * @param source            The <code>Object</code> that originated
+     * @pbrbm source            The <code>Object</code> thbt originbted
      *                          the event
-     * @param id     An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link InvocationEvent}
-     * @param runnable          The <code>Runnable</code> whose
+     * @pbrbm id     An integer indicbting the type of event.
+     *                     For informbtion on bllowbble vblues, see
+     *                     the clbss description for {@link InvocbtionEvent}
+     * @pbrbm runnbble          The <code>Runnbble</code> whose
      *                          <code>run</code> method will be executed
-     * @param notifier          The <code>Object</code> whose <code>notifyAll</code>
-     *                          method will be called after
-     *                          <code>Runnable.run</code> has returned or
-     *                          thrown an exception or after the event was
+     * @pbrbm notifier          The <code>Object</code> whose <code>notifyAll</code>
+     *                          method will be cblled bfter
+     *                          <code>Runnbble.run</code> hbs returned or
+     *                          thrown bn exception or bfter the event wbs
      *                          disposed
-     * @param catchThrowables   Specifies whether <code>dispatch</code>
-     *                          should catch Throwable when executing the
-     *                          <code>Runnable</code>'s <code>run</code>
-     *                          method, or should instead propagate those
-     *                          Throwables to the EventDispatchThread's
-     *                          dispatch loop
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm cbtchThrowbbles   Specifies whether <code>dispbtch</code>
+     *                          should cbtch Throwbble when executing the
+     *                          <code>Runnbble</code>'s <code>run</code>
+     *                          method, or should instebd propbgbte those
+     *                          Throwbbles to the EventDispbtchThrebd's
+     *                          dispbtch loop
+     * @throws IllegblArgumentException if <code>source</code> is null
      * @see #getSource()
      * @see #getID()
      */
-    protected InvocationEvent(Object source, int id, Runnable runnable,
-                              Object notifier, boolean catchThrowables) {
-        this(source, id, runnable, notifier, null, catchThrowables);
+    protected InvocbtionEvent(Object source, int id, Runnbble runnbble,
+                              Object notifier, boolebn cbtchThrowbbles) {
+        this(source, id, runnbble, notifier, null, cbtchThrowbbles);
     }
 
-    private InvocationEvent(Object source, int id, Runnable runnable,
-                            Object notifier, Runnable listener, boolean catchThrowables) {
+    privbte InvocbtionEvent(Object source, int id, Runnbble runnbble,
+                            Object notifier, Runnbble listener, boolebn cbtchThrowbbles) {
         super(source, id);
-        this.runnable = runnable;
+        this.runnbble = runnbble;
         this.notifier = notifier;
         this.listener = listener;
-        this.catchExceptions = catchThrowables;
+        this.cbtchExceptions = cbtchThrowbbles;
         this.when = System.currentTimeMillis();
     }
     /**
-     * Executes the Runnable's <code>run()</code> method and notifies the
-     * notifier (if any) when <code>run()</code> has returned or thrown an exception.
+     * Executes the Runnbble's <code>run()</code> method bnd notifies the
+     * notifier (if bny) when <code>run()</code> hbs returned or thrown bn exception.
      *
-     * @see #isDispatched
+     * @see #isDispbtched
      */
-    public void dispatch() {
+    public void dispbtch() {
         try {
-            if (catchExceptions) {
+            if (cbtchExceptions) {
                 try {
-                    runnable.run();
+                    runnbble.run();
                 }
-                catch (Throwable t) {
-                    if (t instanceof Exception) {
+                cbtch (Throwbble t) {
+                    if (t instbnceof Exception) {
                         exception = (Exception) t;
                     }
-                    throwable = t;
+                    throwbble = t;
                 }
             }
             else {
-                runnable.run();
+                runnbble.run();
             }
-        } finally {
-            finishedDispatching(true);
+        } finblly {
+            finishedDispbtching(true);
         }
     }
 
     /**
-     * Returns any Exception caught while executing the Runnable's <code>run()
+     * Returns bny Exception cbught while executing the Runnbble's <code>run()
      * </code> method.
      *
-     * @return  A reference to the Exception if one was thrown; null if no
-     *          Exception was thrown or if this InvocationEvent does not
-     *          catch exceptions
+     * @return  A reference to the Exception if one wbs thrown; null if no
+     *          Exception wbs thrown or if this InvocbtionEvent does not
+     *          cbtch exceptions
      */
     public Exception getException() {
-        return (catchExceptions) ? exception : null;
+        return (cbtchExceptions) ? exception : null;
     }
 
     /**
-     * Returns any Throwable caught while executing the Runnable's <code>run()
+     * Returns bny Throwbble cbught while executing the Runnbble's <code>run()
      * </code> method.
      *
-     * @return  A reference to the Throwable if one was thrown; null if no
-     *          Throwable was thrown or if this InvocationEvent does not
-     *          catch Throwables
+     * @return  A reference to the Throwbble if one wbs thrown; null if no
+     *          Throwbble wbs thrown or if this InvocbtionEvent does not
+     *          cbtch Throwbbles
      * @since 1.5
      */
-    public Throwable getThrowable() {
-        return (catchExceptions) ? throwable : null;
+    public Throwbble getThrowbble() {
+        return (cbtchExceptions) ? throwbble : null;
     }
 
     /**
-     * Returns the timestamp of when this event occurred.
+     * Returns the timestbmp of when this event occurred.
      *
-     * @return this event's timestamp
+     * @return this event's timestbmp
      * @since 1.4
      */
     public long getWhen() {
@@ -351,46 +351,46 @@ public class InvocationEvent extends AWTEvent implements ActiveEvent {
     }
 
     /**
-     * Returns {@code true} if the event is dispatched or any exception is
-     * thrown while dispatching, {@code false} otherwise. The method should
-     * be called by a waiting thread that calls the {@code notifier.wait()} method.
-     * Since spurious wakeups are possible (as explained in {@link Object#wait()}),
-     * this method should be used in a waiting loop to ensure that the event
-     * got dispatched:
+     * Returns {@code true} if the event is dispbtched or bny exception is
+     * thrown while dispbtching, {@code fblse} otherwise. The method should
+     * be cblled by b wbiting threbd thbt cblls the {@code notifier.wbit()} method.
+     * Since spurious wbkeups bre possible (bs explbined in {@link Object#wbit()}),
+     * this method should be used in b wbiting loop to ensure thbt the event
+     * got dispbtched:
      * <pre>
-     *     while (!event.isDispatched()) {
-     *         notifier.wait();
+     *     while (!event.isDispbtched()) {
+     *         notifier.wbit();
      *     }
      * </pre>
-     * If the waiting thread wakes up without dispatching the event,
-     * the {@code isDispatched()} method returns {@code false}, and
-     * the {@code while} loop executes once more, thus, causing
-     * the awakened thread to revert to the waiting mode.
+     * If the wbiting threbd wbkes up without dispbtching the event,
+     * the {@code isDispbtched()} method returns {@code fblse}, bnd
+     * the {@code while} loop executes once more, thus, cbusing
+     * the bwbkened threbd to revert to the wbiting mode.
      * <p>
-     * If the {@code notifier.notifyAll()} happens before the waiting thread
-     * enters the {@code notifier.wait()} method, the {@code while} loop ensures
-     * that the waiting thread will not enter the {@code notifier.wait()} method.
-     * Otherwise, there is no guarantee that the waiting thread will ever be woken
-     * from the wait.
+     * If the {@code notifier.notifyAll()} hbppens before the wbiting threbd
+     * enters the {@code notifier.wbit()} method, the {@code while} loop ensures
+     * thbt the wbiting threbd will not enter the {@code notifier.wbit()} method.
+     * Otherwise, there is no gubrbntee thbt the wbiting threbd will ever be woken
+     * from the wbit.
      *
-     * @return {@code true} if the event has been dispatched, or any exception
-     * has been thrown while dispatching, {@code false} otherwise
-     * @see #dispatch
+     * @return {@code true} if the event hbs been dispbtched, or bny exception
+     * hbs been thrown while dispbtching, {@code fblse} otherwise
+     * @see #dispbtch
      * @see #notifier
-     * @see #catchExceptions
+     * @see #cbtchExceptions
      * @since 1.7
      */
-    public boolean isDispatched() {
-        return dispatched;
+    public boolebn isDispbtched() {
+        return dispbtched;
     }
 
     /**
-     * Called when the event was dispatched or disposed
-     * @param dispatched true if the event was dispatched
-     *                   false if the event was disposed
+     * Cblled when the event wbs dispbtched or disposed
+     * @pbrbm dispbtched true if the event wbs dispbtched
+     *                   fblse if the event wbs disposed
      */
-    private void finishedDispatching(boolean dispatched) {
-        this.dispatched = dispatched;
+    privbte void finishedDispbtching(boolebn dispbtched) {
+        this.dispbtched = dispbtched;
 
         if (notifier != null) {
             synchronized (notifier) {
@@ -404,21 +404,21 @@ public class InvocationEvent extends AWTEvent implements ActiveEvent {
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event-logging and for debugging.
+     * Returns b pbrbmeter string identifying this event.
+     * This method is useful for event-logging bnd for debugging.
      *
-     * @return  A string identifying the event and its attributes
+     * @return  A string identifying the event bnd its bttributes
      */
-    public String paramString() {
+    public String pbrbmString() {
         String typeStr;
         switch(id) {
-            case INVOCATION_DEFAULT:
+            cbse INVOCATION_DEFAULT:
                 typeStr = "INVOCATION_DEFAULT";
-                break;
-            default:
+                brebk;
+            defbult:
                 typeStr = "unknown type";
         }
-        return typeStr + ",runnable=" + runnable + ",notifier=" + notifier +
-            ",catchExceptions=" + catchExceptions + ",when=" + when;
+        return typeStr + ",runnbble=" + runnbble + ",notifier=" + notifier +
+            ",cbtchExceptions=" + cbtchExceptions + ",when=" + when;
     }
 }

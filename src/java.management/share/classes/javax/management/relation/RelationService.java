@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
-import static com.sun.jmx.defaults.JmxProperties.RELATION_LOGGER;
-import static com.sun.jmx.mbeanserver.Util.cast;
+import stbtic com.sun.jmx.defbults.JmxProperties.RELATION_LOGGER;
+import stbtic com.sun.jmx.mbebnserver.Util.cbst;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Level;
+import jbvb.util.ArrbyList;
+import jbvb.util.Dbte;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.util.logging.Level;
 
-import javax.management.Attribute;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.MBeanException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerDelegate;
-import javax.management.MBeanServerNotification;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationListener;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnServerDelegbte;
+import jbvbx.mbnbgement.MBebnServerNotificbtion;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.ReflectionException;
 
 /**
- * The Relation Service is in charge of creating and deleting relation types
- * and relations, of handling the consistency and of providing query
- * mechanisms.
- * <P>It implements the NotificationBroadcaster by extending
- * NotificationBroadcasterSupport to send notifications when a relation is
+ * The Relbtion Service is in chbrge of crebting bnd deleting relbtion types
+ * bnd relbtions, of hbndling the consistency bnd of providing query
+ * mechbnisms.
+ * <P>It implements the NotificbtionBrobdcbster by extending
+ * NotificbtionBrobdcbsterSupport to send notificbtions when b relbtion is
  * removed from it.
- * <P>It implements the NotificationListener interface to be able to receive
- * notifications concerning unregistration of MBeans referenced in relation
- * roles and of relation MBeans.
- * <P>It implements the MBeanRegistration interface to be able to retrieve
- * its ObjectName and MBean Server.
+ * <P>It implements the NotificbtionListener interfbce to be bble to receive
+ * notificbtions concerning unregistrbtion of MBebns referenced in relbtion
+ * roles bnd of relbtion MBebns.
+ * <P>It implements the MBebnRegistrbtion interfbce to be bble to retrieve
+ * its ObjectNbme bnd MBebn Server.
  *
  * @since 1.5
  */
-public class RelationService extends NotificationBroadcasterSupport
-    implements RelationServiceMBean, MBeanRegistration, NotificationListener {
+public clbss RelbtionService extends NotificbtionBrobdcbsterSupport
+    implements RelbtionServiceMBebn, MBebnRegistrbtion, NotificbtionListener {
 
     //
-    // Private members
+    // Privbte members
     //
 
-    // Map associating:
-    //      <relation id> -> <RelationSupport object/ObjectName>
-    // depending if the relation has been created using createRelation()
-    // method (so internally handled) or is an MBean added as a relation by the
+    // Mbp bssocibting:
+    //      <relbtion id> -> <RelbtionSupport object/ObjectNbme>
+    // depending if the relbtion hbs been crebted using crebteRelbtion()
+    // method (so internblly hbndled) or is bn MBebn bdded bs b relbtion by the
     // user
-    private Map<String,Object> myRelId2ObjMap = new HashMap<String,Object>();
+    privbte Mbp<String,Object> myRelId2ObjMbp = new HbshMbp<String,Object>();
 
-    // Map associating:
-    //      <relation id> -> <relation type name>
-    private Map<String,String> myRelId2RelTypeMap = new HashMap<String,String>();
+    // Mbp bssocibting:
+    //      <relbtion id> -> <relbtion type nbme>
+    privbte Mbp<String,String> myRelId2RelTypeMbp = new HbshMbp<String,String>();
 
-    // Map associating:
-    //      <relation MBean Object Name> -> <relation id>
-    private Map<ObjectName,String> myRelMBeanObjName2RelIdMap =
-        new HashMap<ObjectName,String>();
+    // Mbp bssocibting:
+    //      <relbtion MBebn Object Nbme> -> <relbtion id>
+    privbte Mbp<ObjectNbme,String> myRelMBebnObjNbme2RelIdMbp =
+        new HbshMbp<ObjectNbme,String>();
 
-    // Map associating:
-    //       <relation type name> -> <RelationType object>
-    private Map<String,RelationType> myRelType2ObjMap =
-        new HashMap<String,RelationType>();
+    // Mbp bssocibting:
+    //       <relbtion type nbme> -> <RelbtionType object>
+    privbte Mbp<String,RelbtionType> myRelType2ObjMbp =
+        new HbshMbp<String,RelbtionType>();
 
-    // Map associating:
-    //       <relation type name> -> ArrayList of <relation id>
-    // to list all the relations of a given type
-    private Map<String,List<String>> myRelType2RelIdsMap =
-        new HashMap<String,List<String>>();
+    // Mbp bssocibting:
+    //       <relbtion type nbme> -> ArrbyList of <relbtion id>
+    // to list bll the relbtions of b given type
+    privbte Mbp<String,List<String>> myRelType2RelIdsMbp =
+        new HbshMbp<String,List<String>>();
 
-    // Map associating:
-    //       <ObjectName> -> HashMap
-    // the value HashMap mapping:
-    //       <relation id> -> ArrayList of <role name>
-    // to track where a given MBean is referenced.
-    private final Map<ObjectName,Map<String,List<String>>>
-        myRefedMBeanObjName2RelIdsMap =
-            new HashMap<ObjectName,Map<String,List<String>>>();
+    // Mbp bssocibting:
+    //       <ObjectNbme> -> HbshMbp
+    // the vblue HbshMbp mbpping:
+    //       <relbtion id> -> ArrbyList of <role nbme>
+    // to trbck where b given MBebn is referenced.
+    privbte finbl Mbp<ObjectNbme,Mbp<String,List<String>>>
+        myRefedMBebnObjNbme2RelIdsMbp =
+            new HbshMbp<ObjectNbme,Mbp<String,List<String>>>();
 
-    // Flag to indicate if, when a notification is received for the
-    // unregistration of an MBean referenced in a relation, if an immediate
-    // "purge" of the relations (look for the relations no
-    // longer valid) has to be performed , or if that will be performed only
-    // when the purgeRelations method will be explicitly called.
-    // true is immediate purge.
-    private boolean myPurgeFlag = true;
+    // Flbg to indicbte if, when b notificbtion is received for the
+    // unregistrbtion of bn MBebn referenced in b relbtion, if bn immedibte
+    // "purge" of the relbtions (look for the relbtions no
+    // longer vblid) hbs to be performed , or if thbt will be performed only
+    // when the purgeRelbtions method will be explicitly cblled.
+    // true is immedibte purge.
+    privbte boolebn myPurgeFlbg = true;
 
-    // Internal counter to provide sequence numbers for notifications sent by:
-    // - the Relation Service
-    // - a relation handled by the Relation Service
-    private final AtomicLong atomicSeqNo = new AtomicLong();
+    // Internbl counter to provide sequence numbers for notificbtions sent by:
+    // - the Relbtion Service
+    // - b relbtion hbndled by the Relbtion Service
+    privbte finbl AtomicLong btomicSeqNo = new AtomicLong();
 
-    // ObjectName used to register the Relation Service in the MBean Server
-    private ObjectName myObjName = null;
+    // ObjectNbme used to register the Relbtion Service in the MBebn Server
+    privbte ObjectNbme myObjNbme = null;
 
-    // MBean Server where the Relation Service is registered
-    private MBeanServer myMBeanServer = null;
+    // MBebn Server where the Relbtion Service is registered
+    privbte MBebnServer myMBebnServer = null;
 
-    // Filter registered in the MBean Server with the Relation Service to be
-    // informed of referenced MBean deregistrations
-    private MBeanServerNotificationFilter myUnregNtfFilter = null;
+    // Filter registered in the MBebn Server with the Relbtion Service to be
+    // informed of referenced MBebn deregistrbtions
+    privbte MBebnServerNotificbtionFilter myUnregNtfFilter = null;
 
-    // List of unregistration notifications received (storage used if purge
-    // of relations when unregistering a referenced MBean is not immediate but
+    // List of unregistrbtion notificbtions received (storbge used if purge
+    // of relbtions when unregistering b referenced MBebn is not immedibte but
     // on user request)
-    private List<MBeanServerNotification> myUnregNtfList =
-        new ArrayList<MBeanServerNotification>();
+    privbte List<MBebnServerNotificbtion> myUnregNtfList =
+        new ArrbyList<MBebnServerNotificbtion>();
 
     //
     // Constructor
@@ -148,73 +148,73 @@ public class RelationService extends NotificationBroadcasterSupport
     /**
      * Constructor.
      *
-     * @param immediatePurgeFlag  flag to indicate when a notification is
-     * received for the unregistration of an MBean referenced in a relation, if
-     * an immediate "purge" of the relations (look for the relations no
-     * longer valid) has to be performed , or if that will be performed only
-     * when the purgeRelations method will be explicitly called.
-     * <P>true is immediate purge.
+     * @pbrbm immedibtePurgeFlbg  flbg to indicbte when b notificbtion is
+     * received for the unregistrbtion of bn MBebn referenced in b relbtion, if
+     * bn immedibte "purge" of the relbtions (look for the relbtions no
+     * longer vblid) hbs to be performed , or if thbt will be performed only
+     * when the purgeRelbtions method will be explicitly cblled.
+     * <P>true is immedibte purge.
      */
-    public RelationService(boolean immediatePurgeFlag) {
+    public RelbtionService(boolebn immedibtePurgeFlbg) {
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "RelationService");
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "RelbtionService");
 
-        setPurgeFlag(immediatePurgeFlag);
+        setPurgeFlbg(immedibtePurgeFlbg);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "RelationService");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "RelbtionService");
         return;
     }
 
     /**
-     * Checks if the Relation Service is active.
-     * Current condition is that the Relation Service must be registered in the
-     * MBean Server
+     * Checks if the Relbtion Service is bctive.
+     * Current condition is thbt the Relbtion Service must be registered in the
+     * MBebn Server
      *
-     * @exception RelationServiceNotRegisteredException  if it is not
+     * @exception RelbtionServiceNotRegisteredException  if it is not
      * registered
      */
     public void isActive()
-        throws RelationServiceNotRegisteredException {
-        if (myMBeanServer == null) {
-            // MBean Server not set by preRegister(): relation service not
+        throws RelbtionServiceNotRegisteredException {
+        if (myMBebnServer == null) {
+            // MBebn Server not set by preRegister(): relbtion service not
             // registered
             String excMsg =
-                "Relation Service not registered in the MBean Server.";
-            throw new RelationServiceNotRegisteredException(excMsg);
+                "Relbtion Service not registered in the MBebn Server.";
+            throw new RelbtionServiceNotRegisteredException(excMsg);
         }
         return;
     }
 
     //
-    // MBeanRegistration interface
+    // MBebnRegistrbtion interfbce
     //
 
-    // Pre-registration: retrieves its ObjectName and MBean Server
+    // Pre-registrbtion: retrieves its ObjectNbme bnd MBebn Server
     //
     // No exception thrown.
-    public ObjectName preRegister(MBeanServer server,
-                                  ObjectName name)
+    public ObjectNbme preRegister(MBebnServer server,
+                                  ObjectNbme nbme)
         throws Exception {
 
-        myMBeanServer = server;
-        myObjName = name;
-        return name;
+        myMBebnServer = server;
+        myObjNbme = nbme;
+        return nbme;
     }
 
-    // Post-registration: does nothing
-    public void postRegister(Boolean registrationDone) {
+    // Post-registrbtion: does nothing
+    public void postRegister(Boolebn registrbtionDone) {
         return;
     }
 
-    // Pre-unregistration: does nothing
+    // Pre-unregistrbtion: does nothing
     public void preDeregister()
         throws Exception {
         return;
     }
 
-    // Post-unregistration: does nothing
+    // Post-unregistrbtion: does nothing
     public void postDeregister() {
         return;
     }
@@ -224,638 +224,638 @@ public class RelationService extends NotificationBroadcasterSupport
     //
 
     /**
-     * Returns the flag to indicate if when a notification is received for the
-     * unregistration of an MBean referenced in a relation, if an immediate
-     * "purge" of the relations (look for the relations no longer valid)
-     * has to be performed , or if that will be performed only when the
-     * purgeRelations method will be explicitly called.
-     * <P>true is immediate purge.
+     * Returns the flbg to indicbte if when b notificbtion is received for the
+     * unregistrbtion of bn MBebn referenced in b relbtion, if bn immedibte
+     * "purge" of the relbtions (look for the relbtions no longer vblid)
+     * hbs to be performed , or if thbt will be performed only when the
+     * purgeRelbtions method will be explicitly cblled.
+     * <P>true is immedibte purge.
      *
-     * @return true if purges are automatic.
+     * @return true if purges bre butombtic.
      *
-     * @see #setPurgeFlag
+     * @see #setPurgeFlbg
      */
-    public boolean getPurgeFlag() {
-        return myPurgeFlag;
+    public boolebn getPurgeFlbg() {
+        return myPurgeFlbg;
     }
 
     /**
-     * Sets the flag to indicate if when a notification is received for the
-     * unregistration of an MBean referenced in a relation, if an immediate
-     * "purge" of the relations (look for the relations no longer valid)
-     * has to be performed , or if that will be performed only when the
-     * purgeRelations method will be explicitly called.
-     * <P>true is immediate purge.
+     * Sets the flbg to indicbte if when b notificbtion is received for the
+     * unregistrbtion of bn MBebn referenced in b relbtion, if bn immedibte
+     * "purge" of the relbtions (look for the relbtions no longer vblid)
+     * hbs to be performed , or if thbt will be performed only when the
+     * purgeRelbtions method will be explicitly cblled.
+     * <P>true is immedibte purge.
      *
-     * @param purgeFlag  flag
+     * @pbrbm purgeFlbg  flbg
      *
-     * @see #getPurgeFlag
+     * @see #getPurgeFlbg
      */
-    public void setPurgeFlag(boolean purgeFlag) {
+    public void setPurgeFlbg(boolebn purgeFlbg) {
 
-        myPurgeFlag = purgeFlag;
+        myPurgeFlbg = purgeFlbg;
         return;
     }
 
     //
-    // Relation type handling
+    // Relbtion type hbndling
     //
 
     /**
-     * Creates a relation type (a RelationTypeSupport object) with given
-     * role infos (provided by the RoleInfo objects), and adds it in the
-     * Relation Service.
+     * Crebtes b relbtion type (b RelbtionTypeSupport object) with given
+     * role infos (provided by the RoleInfo objects), bnd bdds it in the
+     * Relbtion Service.
      *
-     * @param relationTypeName  name of the relation type
-     * @param roleInfoArray  array of role infos
+     * @pbrbm relbtionTypeNbme  nbme of the relbtion type
+     * @pbrbm roleInfoArrby  brrby of role infos
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception InvalidRelationTypeException  If:
-     * <P>- there is already a relation type with that name
-     * <P>- the same name has been used for two different role infos
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception InvblidRelbtionTypeException  If:
+     * <P>- there is blrebdy b relbtion type with thbt nbme
+     * <P>- the sbme nbme hbs been used for two different role infos
      * <P>- no role info provided
      * <P>- one null role info provided
      */
-    public void createRelationType(String relationTypeName,
-                                   RoleInfo[] roleInfoArray)
-        throws IllegalArgumentException,
-               InvalidRelationTypeException {
+    public void crebteRelbtionType(String relbtionTypeNbme,
+                                   RoleInfo[] roleInfoArrby)
+        throws IllegblArgumentException,
+               InvblidRelbtionTypeException {
 
-        if (relationTypeName == null || roleInfoArray == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionTypeNbme == null || roleInfoArrby == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "createRelationType", relationTypeName);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "crebteRelbtionType", relbtionTypeNbme);
 
-        // Can throw an InvalidRelationTypeException
-        RelationType relType =
-            new RelationTypeSupport(relationTypeName, roleInfoArray);
+        // Cbn throw bn InvblidRelbtionTypeException
+        RelbtionType relType =
+            new RelbtionTypeSupport(relbtionTypeNbme, roleInfoArrby);
 
-        addRelationTypeInt(relType);
+        bddRelbtionTypeInt(relType);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "createRelationType");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "crebteRelbtionType");
         return;
     }
 
     /**
-     * Adds given object as a relation type. The object is expected to
-     * implement the RelationType interface.
+     * Adds given object bs b relbtion type. The object is expected to
+     * implement the RelbtionType interfbce.
      *
-     * @param relationTypeObj  relation type object (implementing the
-     * RelationType interface)
+     * @pbrbm relbtionTypeObj  relbtion type object (implementing the
+     * RelbtionType interfbce)
      *
-     * @exception IllegalArgumentException  if null parameter or if
-     * {@link RelationType#getRelationTypeName
-     * relationTypeObj.getRelationTypeName()} returns null.
-     * @exception InvalidRelationTypeException  if:
-     * <P>- the same name has been used for two different roles
+     * @exception IllegblArgumentException  if null pbrbmeter or if
+     * {@link RelbtionType#getRelbtionTypeNbme
+     * relbtionTypeObj.getRelbtionTypeNbme()} returns null.
+     * @exception InvblidRelbtionTypeException  if:
+     * <P>- the sbme nbme hbs been used for two different roles
      * <P>- no role info provided
      * <P>- one null role info provided
-     * <P>- there is already a relation type with that name
+     * <P>- there is blrebdy b relbtion type with thbt nbme
      */
-    public void addRelationType(RelationType relationTypeObj)
-        throws IllegalArgumentException,
-               InvalidRelationTypeException {
+    public void bddRelbtionType(RelbtionType relbtionTypeObj)
+        throws IllegblArgumentException,
+               InvblidRelbtionTypeException {
 
-        if (relationTypeObj == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionTypeObj == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "addRelationType");
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "bddRelbtionType");
 
         // Checks the role infos
-        List<RoleInfo> roleInfoList = relationTypeObj.getRoleInfos();
+        List<RoleInfo> roleInfoList = relbtionTypeObj.getRoleInfos();
         if (roleInfoList == null) {
             String excMsg = "No role info provided.";
-            throw new InvalidRelationTypeException(excMsg);
+            throw new InvblidRelbtionTypeException(excMsg);
         }
 
-        RoleInfo[] roleInfoArray = new RoleInfo[roleInfoList.size()];
+        RoleInfo[] roleInfoArrby = new RoleInfo[roleInfoList.size()];
         int i = 0;
         for (RoleInfo currRoleInfo : roleInfoList) {
-            roleInfoArray[i] = currRoleInfo;
+            roleInfoArrby[i] = currRoleInfo;
             i++;
         }
-        // Can throw InvalidRelationTypeException
-        RelationTypeSupport.checkRoleInfos(roleInfoArray);
+        // Cbn throw InvblidRelbtionTypeException
+        RelbtionTypeSupport.checkRoleInfos(roleInfoArrby);
 
-        addRelationTypeInt(relationTypeObj);
+        bddRelbtionTypeInt(relbtionTypeObj);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "addRelationType");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "bddRelbtionType");
         return;
      }
 
     /**
-     * Retrieves names of all known relation types.
+     * Retrieves nbmes of bll known relbtion types.
      *
-     * @return ArrayList of relation type names (Strings)
+     * @return ArrbyList of relbtion type nbmes (Strings)
      */
-    public List<String> getAllRelationTypeNames() {
-        ArrayList<String> result;
-        synchronized(myRelType2ObjMap) {
-            result = new ArrayList<String>(myRelType2ObjMap.keySet());
+    public List<String> getAllRelbtionTypeNbmes() {
+        ArrbyList<String> result;
+        synchronized(myRelType2ObjMbp) {
+            result = new ArrbyList<String>(myRelType2ObjMbp.keySet());
         }
         return result;
     }
 
     /**
-     * Retrieves list of role infos (RoleInfo objects) of a given relation
+     * Retrieves list of role infos (RoleInfo objects) of b given relbtion
      * type.
      *
-     * @param relationTypeName  name of relation type
+     * @pbrbm relbtionTypeNbme  nbme of relbtion type
      *
-     * @return ArrayList of RoleInfo.
+     * @return ArrbyList of RoleInfo.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if there is no relation type
-     * with that name.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if there is no relbtion type
+     * with thbt nbme.
      */
-    public List<RoleInfo> getRoleInfos(String relationTypeName)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException {
+    public List<RoleInfo> getRoleInfos(String relbtionTypeNbme)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException {
 
-        if (relationTypeName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionTypeNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getRoleInfos", relationTypeName);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getRoleInfos", relbtionTypeNbme);
 
-        // Can throw a RelationTypeNotFoundException
-        RelationType relType = getRelationType(relationTypeName);
+        // Cbn throw b RelbtionTypeNotFoundException
+        RelbtionType relType = getRelbtionType(relbtionTypeNbme);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                 "getRoleInfos");
         return relType.getRoleInfos();
     }
 
     /**
-     * Retrieves role info for given role name of a given relation type.
+     * Retrieves role info for given role nbme of b given relbtion type.
      *
-     * @param relationTypeName  name of relation type
-     * @param roleInfoName  name of role
+     * @pbrbm relbtionTypeNbme  nbme of relbtion type
+     * @pbrbm roleInfoNbme  nbme of role
      *
      * @return RoleInfo object.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if the relation type is not
-     * known in the Relation Service
-     * @exception RoleInfoNotFoundException  if the role is not part of the
-     * relation type.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if the relbtion type is not
+     * known in the Relbtion Service
+     * @exception RoleInfoNotFoundException  if the role is not pbrt of the
+     * relbtion type.
      */
-    public RoleInfo getRoleInfo(String relationTypeName,
-                                String roleInfoName)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException,
+    public RoleInfo getRoleInfo(String relbtionTypeNbme,
+                                String roleInfoNbme)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException,
                RoleInfoNotFoundException {
 
-        if (relationTypeName == null || roleInfoName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionTypeNbme == null || roleInfoNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getRoleInfo", new Object[] {relationTypeName, roleInfoName});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getRoleInfo", new Object[] {relbtionTypeNbme, roleInfoNbme});
 
-        // Can throw a RelationTypeNotFoundException
-        RelationType relType = getRelationType(relationTypeName);
+        // Cbn throw b RelbtionTypeNotFoundException
+        RelbtionType relType = getRelbtionType(relbtionTypeNbme);
 
-        // Can throw a RoleInfoNotFoundException
-        RoleInfo roleInfo = relType.getRoleInfo(roleInfoName);
+        // Cbn throw b RoleInfoNotFoundException
+        RoleInfo roleInfo = relType.getRoleInfo(roleInfoNbme);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                 "getRoleInfo");
         return roleInfo;
     }
 
     /**
-     * Removes given relation type from Relation Service.
-     * <P>The relation objects of that type will be removed from the
-     * Relation Service.
+     * Removes given relbtion type from Relbtion Service.
+     * <P>The relbtion objects of thbt type will be removed from the
+     * Relbtion Service.
      *
-     * @param relationTypeName  name of the relation type to be removed
+     * @pbrbm relbtionTypeNbme  nbme of the relbtion type to be removed
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  If there is no relation type
-     * with that name
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  If there is no relbtion type
+     * with thbt nbme
      */
-    public void removeRelationType(String relationTypeName)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationTypeNotFoundException {
+    public void removeRelbtionType(String relbtionTypeNbme)
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionTypeNotFoundException {
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        if (relationTypeName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionTypeNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "removeRelationType", relationTypeName);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "removeRelbtionType", relbtionTypeNbme);
 
-        // Checks if the relation type to be removed exists
-        // Can throw a RelationTypeNotFoundException
-        RelationType relType = getRelationType(relationTypeName);
+        // Checks if the relbtion type to be removed exists
+        // Cbn throw b RelbtionTypeNotFoundException
+        RelbtionType relType = getRelbtionType(relbtionTypeNbme);
 
-        // Retrieves the relation ids for relations of that type
+        // Retrieves the relbtion ids for relbtions of thbt type
         List<String> relIdList = null;
-        synchronized(myRelType2RelIdsMap) {
-            // Note: take a copy of the list as it is a part of a map that
-            //       will be updated by removeRelation() below.
+        synchronized(myRelType2RelIdsMbp) {
+            // Note: tbke b copy of the list bs it is b pbrt of b mbp thbt
+            //       will be updbted by removeRelbtion() below.
             List<String> relIdList1 =
-                myRelType2RelIdsMap.get(relationTypeName);
+                myRelType2RelIdsMbp.get(relbtionTypeNbme);
             if (relIdList1 != null) {
-                relIdList = new ArrayList<String>(relIdList1);
+                relIdList = new ArrbyList<String>(relIdList1);
             }
         }
 
-        // Removes the relation type from all maps
-        synchronized(myRelType2ObjMap) {
-            myRelType2ObjMap.remove(relationTypeName);
+        // Removes the relbtion type from bll mbps
+        synchronized(myRelType2ObjMbp) {
+            myRelType2ObjMbp.remove(relbtionTypeNbme);
         }
-        synchronized(myRelType2RelIdsMap) {
-            myRelType2RelIdsMap.remove(relationTypeName);
+        synchronized(myRelType2RelIdsMbp) {
+            myRelType2RelIdsMbp.remove(relbtionTypeNbme);
         }
 
-        // Removes all relations of that type
+        // Removes bll relbtions of thbt type
         if (relIdList != null) {
             for (String currRelId : relIdList) {
-                // Note: will remove it from myRelId2RelTypeMap :)
+                // Note: will remove it from myRelId2RelTypeMbp :)
                 //
-                // Can throw RelationServiceNotRegisteredException (detected
-                // above)
-                // Shall not throw a RelationNotFoundException
+                // Cbn throw RelbtionServiceNotRegisteredException (detected
+                // bbove)
+                // Shbll not throw b RelbtionNotFoundException
                 try {
-                    removeRelation(currRelId);
-                } catch (RelationNotFoundException exc1) {
-                    throw new RuntimeException(exc1.getMessage());
+                    removeRelbtion(currRelId);
+                } cbtch (RelbtionNotFoundException exc1) {
+                    throw new RuntimeException(exc1.getMessbge());
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "removeRelationType");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "removeRelbtionType");
         return;
     }
 
     //
-    // Relation handling
+    // Relbtion hbndling
     //
 
     /**
-     * Creates a simple relation (represented by a RelationSupport object) of
-     * given relation type, and adds it in the Relation Service.
-     * <P>Roles are initialized according to the role list provided in
-     * parameter. The ones not initialized in this way are set to an empty
-     * ArrayList of ObjectNames.
-     * <P>A RelationNotification, with type RELATION_BASIC_CREATION, is sent.
+     * Crebtes b simple relbtion (represented by b RelbtionSupport object) of
+     * given relbtion type, bnd bdds it in the Relbtion Service.
+     * <P>Roles bre initiblized bccording to the role list provided in
+     * pbrbmeter. The ones not initiblized in this wby bre set to bn empty
+     * ArrbyList of ObjectNbmes.
+     * <P>A RelbtionNotificbtion, with type RELATION_BASIC_CREATION, is sent.
      *
-     * @param relationId  relation identifier, to identify uniquely the relation
-     * inside the Relation Service
-     * @param relationTypeName  name of the relation type (has to be created
-     * in the Relation Service)
-     * @param roleList  role list to initialize roles of the relation (can
+     * @pbrbm relbtionId  relbtion identifier, to identify uniquely the relbtion
+     * inside the Relbtion Service
+     * @pbrbm relbtionTypeNbme  nbme of the relbtion type (hbs to be crebted
+     * in the Relbtion Service)
+     * @pbrbm roleList  role list to initiblize roles of the relbtion (cbn
      * be null).
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter, except the role
-     * list which can be null if no role initialization
-     * @exception RoleNotFoundException  if a value is provided for a role
-     * that does not exist in the relation type
-     * @exception InvalidRelationIdException  if relation id already used
-     * @exception RelationTypeNotFoundException  if relation type not known in
-     * Relation Service
-     * @exception InvalidRoleValueException if:
-     * <P>- the same role name is used for two different roles
-     * <P>- the number of referenced MBeans in given value is less than
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter, except the role
+     * list which cbn be null if no role initiblizbtion
+     * @exception RoleNotFoundException  if b vblue is provided for b role
+     * thbt does not exist in the relbtion type
+     * @exception InvblidRelbtionIdException  if relbtion id blrebdy used
+     * @exception RelbtionTypeNotFoundException  if relbtion type not known in
+     * Relbtion Service
+     * @exception InvblidRoleVblueException if:
+     * <P>- the sbme role nbme is used for two different roles
+     * <P>- the number of referenced MBebns in given vblue is less thbn
      * expected minimum degree
-     * <P>- the number of referenced MBeans in provided value exceeds expected
-     * maximum degree
-     * <P>- one referenced MBean in the value is not an Object of the MBean
-     * class expected for that role
-     * <P>- an MBean provided for that role does not exist
+     * <P>- the number of referenced MBebns in provided vblue exceeds expected
+     * mbximum degree
+     * <P>- one referenced MBebn in the vblue is not bn Object of the MBebn
+     * clbss expected for thbt role
+     * <P>- bn MBebn provided for thbt role does not exist
      */
-    public void createRelation(String relationId,
-                               String relationTypeName,
+    public void crebteRelbtion(String relbtionId,
+                               String relbtionTypeNbme,
                                RoleList roleList)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
                RoleNotFoundException,
-               InvalidRelationIdException,
-               RelationTypeNotFoundException,
-               InvalidRoleValueException {
+               InvblidRelbtionIdException,
+               RelbtionTypeNotFoundException,
+               InvblidRoleVblueException {
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        if (relationId == null ||
-            relationTypeName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null ||
+            relbtionTypeNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "createRelation",
-                new Object[] {relationId, relationTypeName, roleList});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "crebteRelbtion",
+                new Object[] {relbtionId, relbtionTypeNbme, roleList});
 
-        // Creates RelationSupport object
-        // Can throw InvalidRoleValueException
-        RelationSupport relObj = new RelationSupport(relationId,
-                                               myObjName,
-                                               relationTypeName,
+        // Crebtes RelbtionSupport object
+        // Cbn throw InvblidRoleVblueException
+        RelbtionSupport relObj = new RelbtionSupport(relbtionId,
+                                               myObjNbme,
+                                               relbtionTypeNbme,
                                                roleList);
 
-        // Adds relation object as a relation into the Relation Service
-        // Can throw RoleNotFoundException, InvalidRelationId,
-        // RelationTypeNotFoundException, InvalidRoleValueException
+        // Adds relbtion object bs b relbtion into the Relbtion Service
+        // Cbn throw RoleNotFoundException, InvblidRelbtionId,
+        // RelbtionTypeNotFoundException, InvblidRoleVblueException
         //
-        // Cannot throw MBeanException
-        addRelationInt(true,
+        // Cbnnot throw MBebnException
+        bddRelbtionInt(true,
                        relObj,
                        null,
-                       relationId,
-                       relationTypeName,
+                       relbtionId,
+                       relbtionTypeNbme,
                        roleList);
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "createRelation");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "crebteRelbtion");
         return;
     }
 
     /**
-     * Adds an MBean created by the user (and registered by him in the MBean
-     * Server) as a relation in the Relation Service.
-     * <P>To be added as a relation, the MBean must conform to the
+     * Adds bn MBebn crebted by the user (bnd registered by him in the MBebn
+     * Server) bs b relbtion in the Relbtion Service.
+     * <P>To be bdded bs b relbtion, the MBebn must conform to the
      * following:
-     * <P>- implement the Relation interface
-     * <P>- have for RelationService ObjectName the ObjectName of current
-     * Relation Service
-     * <P>- have a relation id unique and unused in current Relation Service
-     * <P>- have for relation type a relation type created in the Relation
+     * <P>- implement the Relbtion interfbce
+     * <P>- hbve for RelbtionService ObjectNbme the ObjectNbme of current
+     * Relbtion Service
+     * <P>- hbve b relbtion id unique bnd unused in current Relbtion Service
+     * <P>- hbve for relbtion type b relbtion type crebted in the Relbtion
      * Service
-     * <P>- have roles conforming to the role info provided in the relation
+     * <P>- hbve roles conforming to the role info provided in the relbtion
      * type.
      *
-     * @param relationObjectName  ObjectName of the relation MBean to be added.
+     * @pbrbm relbtionObjectNbme  ObjectNbme of the relbtion MBebn to be bdded.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception NoSuchMethodException  If the MBean does not implement the
-     * Relation interface
-     * @exception InvalidRelationIdException  if:
-     * <P>- no relation identifier in MBean
-     * <P>- the relation identifier is already used in the Relation Service
-     * @exception InstanceNotFoundException  if the MBean for given ObjectName
-     * has not been registered
-     * @exception InvalidRelationServiceException  if:
-     * <P>- no Relation Service name in MBean
-     * <P>- the Relation Service name in the MBean is not the one of the
-     * current Relation Service
-     * @exception RelationTypeNotFoundException  if:
-     * <P>- no relation type name in MBean
-     * <P>- the relation type name in MBean does not correspond to a relation
-     * type created in the Relation Service
-     * @exception InvalidRoleValueException  if:
-     * <P>- the number of referenced MBeans in a role is less than
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception NoSuchMethodException  If the MBebn does not implement the
+     * Relbtion interfbce
+     * @exception InvblidRelbtionIdException  if:
+     * <P>- no relbtion identifier in MBebn
+     * <P>- the relbtion identifier is blrebdy used in the Relbtion Service
+     * @exception InstbnceNotFoundException  if the MBebn for given ObjectNbme
+     * hbs not been registered
+     * @exception InvblidRelbtionServiceException  if:
+     * <P>- no Relbtion Service nbme in MBebn
+     * <P>- the Relbtion Service nbme in the MBebn is not the one of the
+     * current Relbtion Service
+     * @exception RelbtionTypeNotFoundException  if:
+     * <P>- no relbtion type nbme in MBebn
+     * <P>- the relbtion type nbme in MBebn does not correspond to b relbtion
+     * type crebted in the Relbtion Service
+     * @exception InvblidRoleVblueException  if:
+     * <P>- the number of referenced MBebns in b role is less thbn
      * expected minimum degree
-     * <P>- the number of referenced MBeans in a role exceeds expected
-     * maximum degree
-     * <P>- one referenced MBean in the value is not an Object of the MBean
-     * class expected for that role
-     * <P>- an MBean provided for a role does not exist
-     * @exception RoleNotFoundException  if a value is provided for a role
-     * that does not exist in the relation type
+     * <P>- the number of referenced MBebns in b role exceeds expected
+     * mbximum degree
+     * <P>- one referenced MBebn in the vblue is not bn Object of the MBebn
+     * clbss expected for thbt role
+     * <P>- bn MBebn provided for b role does not exist
+     * @exception RoleNotFoundException  if b vblue is provided for b role
+     * thbt does not exist in the relbtion type
      */
-    public void addRelation(ObjectName relationObjectName)
-        throws IllegalArgumentException,
-               RelationServiceNotRegisteredException,
+    public void bddRelbtion(ObjectNbme relbtionObjectNbme)
+        throws IllegblArgumentException,
+               RelbtionServiceNotRegisteredException,
                NoSuchMethodException,
-               InvalidRelationIdException,
-               InstanceNotFoundException,
-               InvalidRelationServiceException,
-               RelationTypeNotFoundException,
+               InvblidRelbtionIdException,
+               InstbnceNotFoundException,
+               InvblidRelbtionServiceException,
+               RelbtionTypeNotFoundException,
                RoleNotFoundException,
-               InvalidRoleValueException {
+               InvblidRoleVblueException {
 
-        if (relationObjectName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionObjectNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "addRelation", relationObjectName);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "bddRelbtion", relbtionObjectNbme);
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // Checks that the relation MBean implements the Relation interface.
-        // It will also check that the provided ObjectName corresponds to a
-        // registered MBean (else will throw an InstanceNotFoundException)
-        if ((!(myMBeanServer.isInstanceOf(relationObjectName, "javax.management.relation.Relation")))) {
-            String excMsg = "This MBean does not implement the Relation interface.";
+        // Checks thbt the relbtion MBebn implements the Relbtion interfbce.
+        // It will blso check thbt the provided ObjectNbme corresponds to b
+        // registered MBebn (else will throw bn InstbnceNotFoundException)
+        if ((!(myMBebnServer.isInstbnceOf(relbtionObjectNbme, "jbvbx.mbnbgement.relbtion.Relbtion")))) {
+            String excMsg = "This MBebn does not implement the Relbtion interfbce.";
             throw new NoSuchMethodException(excMsg);
         }
-        // Checks there is a relation id in the relation MBean (its uniqueness
-        // is checked in addRelationInt())
-        // Can throw InstanceNotFoundException (but detected above)
-        // No MBeanException as no exception raised by this method, and no
+        // Checks there is b relbtion id in the relbtion MBebn (its uniqueness
+        // is checked in bddRelbtionInt())
+        // Cbn throw InstbnceNotFoundException (but detected bbove)
+        // No MBebnException bs no exception rbised by this method, bnd no
         // ReflectionException
         String relId;
         try {
-            relId = (String)(myMBeanServer.getAttribute(relationObjectName,
-                                                        "RelationId"));
+            relId = (String)(myMBebnServer.getAttribute(relbtionObjectNbme,
+                                                        "RelbtionId"));
 
-        } catch (MBeanException exc1) {
+        } cbtch (MBebnException exc1) {
             throw new RuntimeException(
-                                     (exc1.getTargetException()).getMessage());
-        } catch (ReflectionException exc2) {
-            throw new RuntimeException(exc2.getMessage());
-        } catch (AttributeNotFoundException exc3) {
-            throw new RuntimeException(exc3.getMessage());
+                                     (exc1.getTbrgetException()).getMessbge());
+        } cbtch (ReflectionException exc2) {
+            throw new RuntimeException(exc2.getMessbge());
+        } cbtch (AttributeNotFoundException exc3) {
+            throw new RuntimeException(exc3.getMessbge());
         }
 
         if (relId == null) {
-            String excMsg = "This MBean does not provide a relation id.";
-            throw new InvalidRelationIdException(excMsg);
+            String excMsg = "This MBebn does not provide b relbtion id.";
+            throw new InvblidRelbtionIdException(excMsg);
         }
-        // Checks that the Relation Service where the relation MBean is
-        // expected to be added is the current one
-        // Can throw InstanceNotFoundException (but detected above)
-        // No MBeanException as no exception raised by this method, no
+        // Checks thbt the Relbtion Service where the relbtion MBebn is
+        // expected to be bdded is the current one
+        // Cbn throw InstbnceNotFoundException (but detected bbove)
+        // No MBebnException bs no exception rbised by this method, no
         // ReflectionException
-        ObjectName relServObjName;
+        ObjectNbme relServObjNbme;
         try {
-            relServObjName = (ObjectName)
-                (myMBeanServer.getAttribute(relationObjectName,
-                                            "RelationServiceName"));
+            relServObjNbme = (ObjectNbme)
+                (myMBebnServer.getAttribute(relbtionObjectNbme,
+                                            "RelbtionServiceNbme"));
 
-        } catch (MBeanException exc1) {
+        } cbtch (MBebnException exc1) {
             throw new RuntimeException(
-                                     (exc1.getTargetException()).getMessage());
-        } catch (ReflectionException exc2) {
-            throw new RuntimeException(exc2.getMessage());
-        } catch (AttributeNotFoundException exc3) {
-            throw new RuntimeException(exc3.getMessage());
+                                     (exc1.getTbrgetException()).getMessbge());
+        } cbtch (ReflectionException exc2) {
+            throw new RuntimeException(exc2.getMessbge());
+        } cbtch (AttributeNotFoundException exc3) {
+            throw new RuntimeException(exc3.getMessbge());
         }
 
-        boolean badRelServFlag = false;
-        if (relServObjName == null) {
-            badRelServFlag = true;
+        boolebn bbdRelServFlbg = fblse;
+        if (relServObjNbme == null) {
+            bbdRelServFlbg = true;
 
-        } else if (!(relServObjName.equals(myObjName))) {
-            badRelServFlag = true;
+        } else if (!(relServObjNbme.equbls(myObjNbme))) {
+            bbdRelServFlbg = true;
         }
-        if (badRelServFlag) {
-            String excMsg = "The Relation Service referenced in the MBean is not the current one.";
-            throw new InvalidRelationServiceException(excMsg);
+        if (bbdRelServFlbg) {
+            String excMsg = "The Relbtion Service referenced in the MBebn is not the current one.";
+            throw new InvblidRelbtionServiceException(excMsg);
         }
-        // Checks that a relation type has been specified for the relation
-        // Can throw InstanceNotFoundException (but detected above)
-        // No MBeanException as no exception raised by this method, no
+        // Checks thbt b relbtion type hbs been specified for the relbtion
+        // Cbn throw InstbnceNotFoundException (but detected bbove)
+        // No MBebnException bs no exception rbised by this method, no
         // ReflectionException
-        String relTypeName;
+        String relTypeNbme;
         try {
-            relTypeName = (String)(myMBeanServer.getAttribute(relationObjectName,
-                                                              "RelationTypeName"));
+            relTypeNbme = (String)(myMBebnServer.getAttribute(relbtionObjectNbme,
+                                                              "RelbtionTypeNbme"));
 
-        } catch (MBeanException exc1) {
+        } cbtch (MBebnException exc1) {
             throw new RuntimeException(
-                                     (exc1.getTargetException()).getMessage());
-        }catch (ReflectionException exc2) {
-            throw new RuntimeException(exc2.getMessage());
-        } catch (AttributeNotFoundException exc3) {
-            throw new RuntimeException(exc3.getMessage());
+                                     (exc1.getTbrgetException()).getMessbge());
+        }cbtch (ReflectionException exc2) {
+            throw new RuntimeException(exc2.getMessbge());
+        } cbtch (AttributeNotFoundException exc3) {
+            throw new RuntimeException(exc3.getMessbge());
         }
-        if (relTypeName == null) {
-            String excMsg = "No relation type provided.";
-            throw new RelationTypeNotFoundException(excMsg);
+        if (relTypeNbme == null) {
+            String excMsg = "No relbtion type provided.";
+            throw new RelbtionTypeNotFoundException(excMsg);
         }
-        // Retrieves all roles without considering read mode
-        // Can throw InstanceNotFoundException (but detected above)
-        // No MBeanException as no exception raised by this method, no
+        // Retrieves bll roles without considering rebd mode
+        // Cbn throw InstbnceNotFoundException (but detected bbove)
+        // No MBebnException bs no exception rbised by this method, no
         // ReflectionException
         RoleList roleList;
         try {
-            roleList = (RoleList)(myMBeanServer.invoke(relationObjectName,
+            roleList = (RoleList)(myMBebnServer.invoke(relbtionObjectNbme,
                                                        "retrieveAllRoles",
                                                        null,
                                                        null));
-        } catch (MBeanException exc1) {
+        } cbtch (MBebnException exc1) {
             throw new RuntimeException(
-                                     (exc1.getTargetException()).getMessage());
-        } catch (ReflectionException exc2) {
-            throw new RuntimeException(exc2.getMessage());
+                                     (exc1.getTbrgetException()).getMessbge());
+        } cbtch (ReflectionException exc2) {
+            throw new RuntimeException(exc2.getMessbge());
         }
 
-        // Can throw RoleNotFoundException, InvalidRelationIdException,
-        // RelationTypeNotFoundException, InvalidRoleValueException
-        addRelationInt(false,
+        // Cbn throw RoleNotFoundException, InvblidRelbtionIdException,
+        // RelbtionTypeNotFoundException, InvblidRoleVblueException
+        bddRelbtionInt(fblse,
                        null,
-                       relationObjectName,
+                       relbtionObjectNbme,
                        relId,
-                       relTypeName,
+                       relTypeNbme,
                        roleList);
-        // Adds relation MBean ObjectName in map
-        synchronized(myRelMBeanObjName2RelIdMap) {
-            myRelMBeanObjName2RelIdMap.put(relationObjectName, relId);
+        // Adds relbtion MBebn ObjectNbme in mbp
+        synchronized(myRelMBebnObjNbme2RelIdMbp) {
+            myRelMBebnObjNbme2RelIdMbp.put(relbtionObjectNbme, relId);
         }
 
-        // Updates flag to specify that the relation is managed by the Relation
+        // Updbtes flbg to specify thbt the relbtion is mbnbged by the Relbtion
         // Service
-        // This flag and setter are inherited from RelationSupport and not parts
-        // of the Relation interface, so may be not supported.
+        // This flbg bnd setter bre inherited from RelbtionSupport bnd not pbrts
+        // of the Relbtion interfbce, so mby be not supported.
         try {
-            myMBeanServer.setAttribute(relationObjectName,
+            myMBebnServer.setAttribute(relbtionObjectNbme,
                                        new Attribute(
-                                         "RelationServiceManagementFlag",
-                                         Boolean.TRUE));
-        } catch (Exception exc) {
-            // OK : The flag is not supported.
+                                         "RelbtionServiceMbnbgementFlbg",
+                                         Boolebn.TRUE));
+        } cbtch (Exception exc) {
+            // OK : The flbg is not supported.
         }
 
-        // Updates listener information to received notification for
-        // unregistration of this MBean
-        List<ObjectName> newRefList = new ArrayList<ObjectName>();
-        newRefList.add(relationObjectName);
-        updateUnregistrationListener(newRefList, null);
+        // Updbtes listener informbtion to received notificbtion for
+        // unregistrbtion of this MBebn
+        List<ObjectNbme> newRefList = new ArrbyList<ObjectNbme>();
+        newRefList.bdd(relbtionObjectNbme);
+        updbteUnregistrbtionListener(newRefList, null);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "addRelation");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "bddRelbtion");
         return;
     }
 
     /**
-     * If the relation is represented by an MBean (created by the user and
-     * added as a relation in the Relation Service), returns the ObjectName of
-     * the MBean.
+     * If the relbtion is represented by bn MBebn (crebted by the user bnd
+     * bdded bs b relbtion in the Relbtion Service), returns the ObjectNbme of
+     * the MBebn.
      *
-     * @param relationId  relation id identifying the relation
+     * @pbrbm relbtionId  relbtion id identifying the relbtion
      *
-     * @return ObjectName of the corresponding relation MBean, or null if
-     * the relation is not an MBean.
+     * @return ObjectNbme of the corresponding relbtion MBebn, or null if
+     * the relbtion is not bn MBebn.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException there is no relation associated
-     * to that id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException there is no relbtion bssocibted
+     * to thbt id
      */
-    public ObjectName isRelationMBean(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException{
+    public ObjectNbme isRelbtionMBebn(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException{
 
-        if (relationId == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "isRelationMBean", relationId);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "isRelbtionMBebn", relbtionId);
 
-        // Can throw RelationNotFoundException
-        Object result = getRelation(relationId);
-        if (result instanceof ObjectName) {
-            return ((ObjectName)result);
+        // Cbn throw RelbtionNotFoundException
+        Object result = getRelbtion(relbtionId);
+        if (result instbnceof ObjectNbme) {
+            return ((ObjectNbme)result);
         } else {
             return null;
         }
     }
 
     /**
-     * Returns the relation id associated to the given ObjectName if the
-     * MBean has been added as a relation in the Relation Service.
+     * Returns the relbtion id bssocibted to the given ObjectNbme if the
+     * MBebn hbs been bdded bs b relbtion in the Relbtion Service.
      *
-     * @param objectName  ObjectName of supposed relation
+     * @pbrbm objectNbme  ObjectNbme of supposed relbtion
      *
-     * @return relation id (String) or null (if the ObjectName is not a
-     * relation handled by the Relation Service)
+     * @return relbtion id (String) or null (if the ObjectNbme is not b
+     * relbtion hbndled by the Relbtion Service)
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public String isRelation(ObjectName objectName)
-        throws IllegalArgumentException {
+    public String isRelbtion(ObjectNbme objectNbme)
+        throws IllegblArgumentException {
 
-        if (objectName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (objectNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "isRelation", objectName);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "isRelbtion", objectNbme);
 
         String result = null;
-        synchronized(myRelMBeanObjName2RelIdMap) {
-            String relId = myRelMBeanObjName2RelIdMap.get(objectName);
+        synchronized(myRelMBebnObjNbme2RelIdMbp) {
+            String relId = myRelMBebnObjNbme2RelIdMbp.get(objectNbme);
             if (relId != null) {
                 result = relId;
             }
@@ -864,1984 +864,1984 @@ public class RelationService extends NotificationBroadcasterSupport
     }
 
     /**
-     * Checks if there is a relation identified in Relation Service with given
-     * relation id.
+     * Checks if there is b relbtion identified in Relbtion Service with given
+     * relbtion id.
      *
-     * @param relationId  relation id identifying the relation
+     * @pbrbm relbtionId  relbtion id identifying the relbtion
      *
-     * @return boolean: true if there is a relation, false else
+     * @return boolebn: true if there is b relbtion, fblse else
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public Boolean hasRelation(String relationId)
-        throws IllegalArgumentException {
+    public Boolebn hbsRelbtion(String relbtionId)
+        throws IllegblArgumentException {
 
-        if (relationId == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "hasRelation", relationId);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "hbsRelbtion", relbtionId);
 
         try {
-            // Can throw RelationNotFoundException
-            Object result = getRelation(relationId);
+            // Cbn throw RelbtionNotFoundException
+            Object result = getRelbtion(relbtionId);
             return true;
-        } catch (RelationNotFoundException exc) {
-            return false;
+        } cbtch (RelbtionNotFoundException exc) {
+            return fblse;
         }
     }
 
     /**
-     * Returns all the relation ids for all the relations handled by the
-     * Relation Service.
+     * Returns bll the relbtion ids for bll the relbtions hbndled by the
+     * Relbtion Service.
      *
-     * @return ArrayList of String
+     * @return ArrbyList of String
      */
-    public List<String> getAllRelationIds() {
+    public List<String> getAllRelbtionIds() {
         List<String> result;
-        synchronized(myRelId2ObjMap) {
-            result = new ArrayList<String>(myRelId2ObjMap.keySet());
+        synchronized(myRelId2ObjMbp) {
+            result = new ArrbyList<String>(myRelId2ObjMbp.keySet());
         }
         return result;
     }
 
     /**
-     * Checks if given Role can be read in a relation of the given type.
+     * Checks if given Role cbn be rebd in b relbtion of the given type.
      *
-     * @param roleName  name of role to be checked
-     * @param relationTypeName  name of the relation type
+     * @pbrbm roleNbme  nbme of role to be checked
+     * @pbrbm relbtionTypeNbme  nbme of the relbtion type
      *
-     * @return an Integer wrapping an integer corresponding to possible
-     * problems represented as constants in RoleUnresolved:
-     * <P>- 0 if role can be read
-     * <P>- integer corresponding to RoleStatus.NO_ROLE_WITH_NAME
-     * <P>- integer corresponding to RoleStatus.ROLE_NOT_READABLE
+     * @return bn Integer wrbpping bn integer corresponding to possible
+     * problems represented bs constbnts in RoleUnresolved:
+     * <P>- 0 if role cbn be rebd
+     * <P>- integer corresponding to RoleStbtus.NO_ROLE_WITH_NAME
+     * <P>- integer corresponding to RoleStbtus.ROLE_NOT_READABLE
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if the relation type is not
-     * known in the Relation Service
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if the relbtion type is not
+     * known in the Relbtion Service
      */
-    public Integer checkRoleReading(String roleName,
-                                    String relationTypeName)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException {
+    public Integer checkRoleRebding(String roleNbme,
+                                    String relbtionTypeNbme)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException {
 
-        if (roleName == null || relationTypeName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (roleNbme == null || relbtionTypeNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "checkRoleReading", new Object[] {roleName, relationTypeName});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "checkRoleRebding", new Object[] {roleNbme, relbtionTypeNbme});
 
         Integer result;
 
-        // Can throw a RelationTypeNotFoundException
-        RelationType relType = getRelationType(relationTypeName);
+        // Cbn throw b RelbtionTypeNotFoundException
+        RelbtionType relType = getRelbtionType(relbtionTypeNbme);
 
         try {
-            // Can throw a RoleInfoNotFoundException to be transformed into
-            // returned value RoleStatus.NO_ROLE_WITH_NAME
-            RoleInfo roleInfo = relType.getRoleInfo(roleName);
+            // Cbn throw b RoleInfoNotFoundException to be trbnsformed into
+            // returned vblue RoleStbtus.NO_ROLE_WITH_NAME
+            RoleInfo roleInfo = relType.getRoleInfo(roleNbme);
 
             result =  checkRoleInt(1,
-                                   roleName,
+                                   roleNbme,
                                    null,
                                    roleInfo,
-                                   false);
+                                   fblse);
 
-        } catch (RoleInfoNotFoundException exc) {
-            result = Integer.valueOf(RoleStatus.NO_ROLE_WITH_NAME);
+        } cbtch (RoleInfoNotFoundException exc) {
+            result = Integer.vblueOf(RoleStbtus.NO_ROLE_WITH_NAME);
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "checkRoleReading");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "checkRoleRebding");
         return result;
     }
 
     /**
-     * Checks if given Role can be set in a relation of given type.
+     * Checks if given Role cbn be set in b relbtion of given type.
      *
-     * @param role  role to be checked
-     * @param relationTypeName  name of relation type
-     * @param initFlag  flag to specify that the checking is done for the
-     * initialization of a role, write access shall not be verified.
+     * @pbrbm role  role to be checked
+     * @pbrbm relbtionTypeNbme  nbme of relbtion type
+     * @pbrbm initFlbg  flbg to specify thbt the checking is done for the
+     * initiblizbtion of b role, write bccess shbll not be verified.
      *
-     * @return an Integer wrapping an integer corresponding to possible
-     * problems represented as constants in RoleUnresolved:
-     * <P>- 0 if role can be set
-     * <P>- integer corresponding to RoleStatus.NO_ROLE_WITH_NAME
-     * <P>- integer for RoleStatus.ROLE_NOT_WRITABLE
-     * <P>- integer for RoleStatus.LESS_THAN_MIN_ROLE_DEGREE
-     * <P>- integer for RoleStatus.MORE_THAN_MAX_ROLE_DEGREE
-     * <P>- integer for RoleStatus.REF_MBEAN_OF_INCORRECT_CLASS
-     * <P>- integer for RoleStatus.REF_MBEAN_NOT_REGISTERED
+     * @return bn Integer wrbpping bn integer corresponding to possible
+     * problems represented bs constbnts in RoleUnresolved:
+     * <P>- 0 if role cbn be set
+     * <P>- integer corresponding to RoleStbtus.NO_ROLE_WITH_NAME
+     * <P>- integer for RoleStbtus.ROLE_NOT_WRITABLE
+     * <P>- integer for RoleStbtus.LESS_THAN_MIN_ROLE_DEGREE
+     * <P>- integer for RoleStbtus.MORE_THAN_MAX_ROLE_DEGREE
+     * <P>- integer for RoleStbtus.REF_MBEAN_OF_INCORRECT_CLASS
+     * <P>- integer for RoleStbtus.REF_MBEAN_NOT_REGISTERED
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if unknown relation type
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if unknown relbtion type
      */
     public Integer checkRoleWriting(Role role,
-                                    String relationTypeName,
-                                    Boolean initFlag)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException {
+                                    String relbtionTypeNbme,
+                                    Boolebn initFlbg)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException {
 
         if (role == null ||
-            relationTypeName == null ||
-            initFlag == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            relbtionTypeNbme == null ||
+            initFlbg == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
                 "checkRoleWriting",
-                new Object[] {role, relationTypeName, initFlag});
+                new Object[] {role, relbtionTypeNbme, initFlbg});
 
-        // Can throw a RelationTypeNotFoundException
-        RelationType relType = getRelationType(relationTypeName);
+        // Cbn throw b RelbtionTypeNotFoundException
+        RelbtionType relType = getRelbtionType(relbtionTypeNbme);
 
-        String roleName = role.getRoleName();
-        List<ObjectName> roleValue = role.getRoleValue();
-        boolean writeChkFlag = true;
-        if (initFlag.booleanValue()) {
-            writeChkFlag = false;
+        String roleNbme = role.getRoleNbme();
+        List<ObjectNbme> roleVblue = role.getRoleVblue();
+        boolebn writeChkFlbg = true;
+        if (initFlbg.boolebnVblue()) {
+            writeChkFlbg = fblse;
         }
 
         RoleInfo roleInfo;
         try {
-            roleInfo = relType.getRoleInfo(roleName);
-        } catch (RoleInfoNotFoundException exc) {
-            RELATION_LOGGER.exiting(RelationService.class.getName(),
+            roleInfo = relType.getRoleInfo(roleNbme);
+        } cbtch (RoleInfoNotFoundException exc) {
+            RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                     "checkRoleWriting");
-            return Integer.valueOf(RoleStatus.NO_ROLE_WITH_NAME);
+            return Integer.vblueOf(RoleStbtus.NO_ROLE_WITH_NAME);
         }
 
         Integer result = checkRoleInt(2,
-                                      roleName,
-                                      roleValue,
+                                      roleNbme,
+                                      roleVblue,
                                       roleInfo,
-                                      writeChkFlag);
+                                      writeChkFlbg);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                 "checkRoleWriting");
         return result;
     }
 
     /**
-     * Sends a notification (RelationNotification) for a relation creation.
-     * The notification type is:
-     * <P>- RelationNotification.RELATION_BASIC_CREATION if the relation is an
-     * object internal to the Relation Service
-     * <P>- RelationNotification.RELATION_MBEAN_CREATION if the relation is a
-     * MBean added as a relation.
-     * <P>The source object is the Relation Service itself.
-     * <P>It is called in Relation Service createRelation() and
-     * addRelation() methods.
+     * Sends b notificbtion (RelbtionNotificbtion) for b relbtion crebtion.
+     * The notificbtion type is:
+     * <P>- RelbtionNotificbtion.RELATION_BASIC_CREATION if the relbtion is bn
+     * object internbl to the Relbtion Service
+     * <P>- RelbtionNotificbtion.RELATION_MBEAN_CREATION if the relbtion is b
+     * MBebn bdded bs b relbtion.
+     * <P>The source object is the Relbtion Service itself.
+     * <P>It is cblled in Relbtion Service crebteRelbtion() bnd
+     * bddRelbtion() methods.
      *
-     * @param relationId  relation identifier of the updated relation
+     * @pbrbm relbtionId  relbtion identifier of the updbted relbtion
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if there is no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if there is no relbtion for given
+     * relbtion id
      */
-    public void sendRelationCreationNotification(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException {
+    public void sendRelbtionCrebtionNotificbtion(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException {
 
-        if (relationId == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "sendRelationCreationNotification", relationId);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "sendRelbtionCrebtionNotificbtion", relbtionId);
 
-        // Message
-        StringBuilder ntfMsg = new StringBuilder("Creation of relation ");
-        ntfMsg.append(relationId);
+        // Messbge
+        StringBuilder ntfMsg = new StringBuilder("Crebtion of relbtion ");
+        ntfMsg.bppend(relbtionId);
 
-        // Can throw RelationNotFoundException
-        sendNotificationInt(1,
+        // Cbn throw RelbtionNotFoundException
+        sendNotificbtionInt(1,
                             ntfMsg.toString(),
-                            relationId,
+                            relbtionId,
                             null,
                             null,
                             null,
                             null);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "sendRelationCreationNotification");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "sendRelbtionCrebtionNotificbtion");
         return;
     }
 
     /**
-     * Sends a notification (RelationNotification) for a role update in the
-     * given relation. The notification type is:
-     * <P>- RelationNotification.RELATION_BASIC_UPDATE if the relation is an
-     * object internal to the Relation Service
-     * <P>- RelationNotification.RELATION_MBEAN_UPDATE if the relation is a
-     * MBean added as a relation.
-     * <P>The source object is the Relation Service itself.
-     * <P>It is called in relation MBean setRole() (for given role) and
-     * setRoles() (for each role) methods (implementation provided in
-     * RelationSupport class).
-     * <P>It is also called in Relation Service setRole() (for given role) and
-     * setRoles() (for each role) methods.
+     * Sends b notificbtion (RelbtionNotificbtion) for b role updbte in the
+     * given relbtion. The notificbtion type is:
+     * <P>- RelbtionNotificbtion.RELATION_BASIC_UPDATE if the relbtion is bn
+     * object internbl to the Relbtion Service
+     * <P>- RelbtionNotificbtion.RELATION_MBEAN_UPDATE if the relbtion is b
+     * MBebn bdded bs b relbtion.
+     * <P>The source object is the Relbtion Service itself.
+     * <P>It is cblled in relbtion MBebn setRole() (for given role) bnd
+     * setRoles() (for ebch role) methods (implementbtion provided in
+     * RelbtionSupport clbss).
+     * <P>It is blso cblled in Relbtion Service setRole() (for given role) bnd
+     * setRoles() (for ebch role) methods.
      *
-     * @param relationId  relation identifier of the updated relation
-     * @param newRole  new role (name and new value)
-     * @param oldValue  old role value (List of ObjectName objects)
+     * @pbrbm relbtionId  relbtion identifier of the updbted relbtion
+     * @pbrbm newRole  new role (nbme bnd new vblue)
+     * @pbrbm oldVblue  old role vblue (List of ObjectNbme objects)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if there is no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if there is no relbtion for given
+     * relbtion id
      */
-    public void sendRoleUpdateNotification(String relationId,
+    public void sendRoleUpdbteNotificbtion(String relbtionId,
                                            Role newRole,
-                                           List<ObjectName> oldValue)
-        throws IllegalArgumentException,
-               RelationNotFoundException {
+                                           List<ObjectNbme> oldVblue)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException {
 
-        if (relationId == null ||
+        if (relbtionId == null ||
             newRole == null ||
-            oldValue == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            oldVblue == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        if (!(oldValue instanceof ArrayList<?>))
-            oldValue = new ArrayList<ObjectName>(oldValue);
+        if (!(oldVblue instbnceof ArrbyList<?>))
+            oldVblue = new ArrbyList<ObjectNbme>(oldVblue);
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "sendRoleUpdateNotification",
-                new Object[] {relationId, newRole, oldValue});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "sendRoleUpdbteNotificbtion",
+                new Object[] {relbtionId, newRole, oldVblue});
 
-        String roleName = newRole.getRoleName();
-        List<ObjectName> newRoleVal = newRole.getRoleValue();
+        String roleNbme = newRole.getRoleNbme();
+        List<ObjectNbme> newRoleVbl = newRole.getRoleVblue();
 
-        // Message
-        String newRoleValString = Role.roleValueToString(newRoleVal);
-        String oldRoleValString = Role.roleValueToString(oldValue);
-        StringBuilder ntfMsg = new StringBuilder("Value of role ");
-        ntfMsg.append(roleName);
-        ntfMsg.append(" has changed\nOld value:\n");
-        ntfMsg.append(oldRoleValString);
-        ntfMsg.append("\nNew value:\n");
-        ntfMsg.append(newRoleValString);
+        // Messbge
+        String newRoleVblString = Role.roleVblueToString(newRoleVbl);
+        String oldRoleVblString = Role.roleVblueToString(oldVblue);
+        StringBuilder ntfMsg = new StringBuilder("Vblue of role ");
+        ntfMsg.bppend(roleNbme);
+        ntfMsg.bppend(" hbs chbnged\nOld vblue:\n");
+        ntfMsg.bppend(oldRoleVblString);
+        ntfMsg.bppend("\nNew vblue:\n");
+        ntfMsg.bppend(newRoleVblString);
 
-        // Can throw a RelationNotFoundException
-        sendNotificationInt(2,
+        // Cbn throw b RelbtionNotFoundException
+        sendNotificbtionInt(2,
                             ntfMsg.toString(),
-                            relationId,
+                            relbtionId,
                             null,
-                            roleName,
-                            newRoleVal,
-                            oldValue);
+                            roleNbme,
+                            newRoleVbl,
+                            oldVblue);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "sendRoleUpdateNotification");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "sendRoleUpdbteNotificbtion");
     }
 
     /**
-     * Sends a notification (RelationNotification) for a relation removal.
-     * The notification type is:
-     * <P>- RelationNotification.RELATION_BASIC_REMOVAL if the relation is an
-     * object internal to the Relation Service
-     * <P>- RelationNotification.RELATION_MBEAN_REMOVAL if the relation is a
-     * MBean added as a relation.
-     * <P>The source object is the Relation Service itself.
-     * <P>It is called in Relation Service removeRelation() method.
+     * Sends b notificbtion (RelbtionNotificbtion) for b relbtion removbl.
+     * The notificbtion type is:
+     * <P>- RelbtionNotificbtion.RELATION_BASIC_REMOVAL if the relbtion is bn
+     * object internbl to the Relbtion Service
+     * <P>- RelbtionNotificbtion.RELATION_MBEAN_REMOVAL if the relbtion is b
+     * MBebn bdded bs b relbtion.
+     * <P>The source object is the Relbtion Service itself.
+     * <P>It is cblled in Relbtion Service removeRelbtion() method.
      *
-     * @param relationId  relation identifier of the updated relation
-     * @param unregMBeanList  List of ObjectNames of MBeans expected
-     * to be unregistered due to relation removal (can be null)
+     * @pbrbm relbtionId  relbtion identifier of the updbted relbtion
+     * @pbrbm unregMBebnList  List of ObjectNbmes of MBebns expected
+     * to be unregistered due to relbtion removbl (cbn be null)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if there is no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if there is no relbtion for given
+     * relbtion id
      */
-    public void sendRelationRemovalNotification(String relationId,
-                                                List<ObjectName> unregMBeanList)
-        throws IllegalArgumentException,
-               RelationNotFoundException {
+    public void sendRelbtionRemovblNotificbtion(String relbtionId,
+                                                List<ObjectNbme> unregMBebnList)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException {
 
-        if (relationId == null) {
-            String excMsg = "Invalid parameter";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null) {
+            String excMsg = "Invblid pbrbmeter";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "sendRelationRemovalNotification",
-                new Object[] {relationId, unregMBeanList});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "sendRelbtionRemovblNotificbtion",
+                new Object[] {relbtionId, unregMBebnList});
 
-        // Can throw RelationNotFoundException
-        sendNotificationInt(3,
-                            "Removal of relation " + relationId,
-                            relationId,
-                            unregMBeanList,
+        // Cbn throw RelbtionNotFoundException
+        sendNotificbtionInt(3,
+                            "Removbl of relbtion " + relbtionId,
+                            relbtionId,
+                            unregMBebnList,
                             null,
                             null,
                             null);
 
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "sendRelationRemovalNotification");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "sendRelbtionRemovblNotificbtion");
         return;
     }
 
     /**
-     * Handles update of the Relation Service role map for the update of given
-     * role in given relation.
-     * <P>It is called in relation MBean setRole() (for given role) and
-     * setRoles() (for each role) methods (implementation provided in
-     * RelationSupport class).
-     * <P>It is also called in Relation Service setRole() (for given role) and
-     * setRoles() (for each role) methods.
-     * <P>To allow the Relation Service to maintain the consistency (in case
-     * of MBean unregistration) and to be able to perform queries, this method
-     * must be called when a role is updated.
+     * Hbndles updbte of the Relbtion Service role mbp for the updbte of given
+     * role in given relbtion.
+     * <P>It is cblled in relbtion MBebn setRole() (for given role) bnd
+     * setRoles() (for ebch role) methods (implementbtion provided in
+     * RelbtionSupport clbss).
+     * <P>It is blso cblled in Relbtion Service setRole() (for given role) bnd
+     * setRoles() (for ebch role) methods.
+     * <P>To bllow the Relbtion Service to mbintbin the consistency (in cbse
+     * of MBebn unregistrbtion) bnd to be bble to perform queries, this method
+     * must be cblled when b role is updbted.
      *
-     * @param relationId  relation identifier of the updated relation
-     * @param newRole  new role (name and new value)
-     * @param oldValue  old role value (List of ObjectName objects)
+     * @pbrbm relbtionId  relbtion identifier of the updbted relbtion
+     * @pbrbm newRole  new role (nbme bnd new vblue)
+     * @pbrbm oldVblue  old role vblue (List of ObjectNbme objects)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception RelationNotFoundException  if no relation for given id.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception RelbtionNotFoundException  if no relbtion for given id.
      */
-    public void updateRoleMap(String relationId,
+    public void updbteRoleMbp(String relbtionId,
                               Role newRole,
-                              List<ObjectName> oldValue)
-        throws IllegalArgumentException,
-               RelationServiceNotRegisteredException,
-               RelationNotFoundException {
+                              List<ObjectNbme> oldVblue)
+        throws IllegblArgumentException,
+               RelbtionServiceNotRegisteredException,
+               RelbtionNotFoundException {
 
-        if (relationId == null ||
+        if (relbtionId == null ||
             newRole == null ||
-            oldValue == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            oldVblue == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "updateRoleMap", new Object[] {relationId, newRole, oldValue});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "updbteRoleMbp", new Object[] {relbtionId, newRole, oldVblue});
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // Verifies the relation has been added in the Relation Service
-        // Can throw a RelationNotFoundException
-        Object result = getRelation(relationId);
+        // Verifies the relbtion hbs been bdded in the Relbtion Service
+        // Cbn throw b RelbtionNotFoundException
+        Object result = getRelbtion(relbtionId);
 
-        String roleName = newRole.getRoleName();
-        List<ObjectName> newRoleValue = newRole.getRoleValue();
-        // Note: no need to test if oldValue not null before cloning,
-        //       tested above.
-        List<ObjectName> oldRoleValue =
-            new ArrayList<ObjectName>(oldValue);
+        String roleNbme = newRole.getRoleNbme();
+        List<ObjectNbme> newRoleVblue = newRole.getRoleVblue();
+        // Note: no need to test if oldVblue not null before cloning,
+        //       tested bbove.
+        List<ObjectNbme> oldRoleVblue =
+            new ArrbyList<ObjectNbme>(oldVblue);
 
-        // List of ObjectNames of new referenced MBeans
-        List<ObjectName> newRefList = new ArrayList<ObjectName>();
+        // List of ObjectNbmes of new referenced MBebns
+        List<ObjectNbme> newRefList = new ArrbyList<ObjectNbme>();
 
-        for (ObjectName currObjName : newRoleValue) {
+        for (ObjectNbme currObjNbme : newRoleVblue) {
 
-            // Checks if this ObjectName was already present in old value
-            // Note: use copy (oldRoleValue) instead of original
-            //       oldValue to speed up, as oldRoleValue is decreased
-            //       by removing unchanged references :)
-            int currObjNamePos = oldRoleValue.indexOf(currObjName);
+            // Checks if this ObjectNbme wbs blrebdy present in old vblue
+            // Note: use copy (oldRoleVblue) instebd of originbl
+            //       oldVblue to speed up, bs oldRoleVblue is decrebsed
+            //       by removing unchbnged references :)
+            int currObjNbmePos = oldRoleVblue.indexOf(currObjNbme);
 
-            if (currObjNamePos == -1) {
-                // New reference to an ObjectName
+            if (currObjNbmePos == -1) {
+                // New reference to bn ObjectNbme
 
-                // Stores this reference into map
-                // Returns true if new reference, false if MBean already
+                // Stores this reference into mbp
+                // Returns true if new reference, fblse if MBebn blrebdy
                 // referenced
-                boolean isNewFlag = addNewMBeanReference(currObjName,
-                                                        relationId,
-                                                        roleName);
+                boolebn isNewFlbg = bddNewMBebnReference(currObjNbme,
+                                                        relbtionId,
+                                                        roleNbme);
 
-                if (isNewFlag) {
+                if (isNewFlbg) {
                     // Adds it into list of new reference
-                    newRefList.add(currObjName);
+                    newRefList.bdd(currObjNbme);
                 }
 
             } else {
-                // MBean was already referenced in old value
+                // MBebn wbs blrebdy referenced in old vblue
 
-                // Removes it from old value (local list) to ignore it when
-                // looking for remove MBean references
-                oldRoleValue.remove(currObjNamePos);
+                // Removes it from old vblue (locbl list) to ignore it when
+                // looking for remove MBebn references
+                oldRoleVblue.remove(currObjNbmePos);
             }
         }
 
-        // List of ObjectNames of MBeans no longer referenced
-        List<ObjectName> obsRefList = new ArrayList<ObjectName>();
+        // List of ObjectNbmes of MBebns no longer referenced
+        List<ObjectNbme> obsRefList = new ArrbyList<ObjectNbme>();
 
-        // Each ObjectName remaining in oldRoleValue is an ObjectName no longer
-        // referenced in new value
-        for (ObjectName currObjName : oldRoleValue) {
-            // Removes MBean reference from map
-            // Returns true if the MBean is no longer referenced in any
-            // relation
-            boolean noLongerRefFlag = removeMBeanReference(currObjName,
-                                                          relationId,
-                                                          roleName,
-                                                          false);
+        // Ebch ObjectNbme rembining in oldRoleVblue is bn ObjectNbme no longer
+        // referenced in new vblue
+        for (ObjectNbme currObjNbme : oldRoleVblue) {
+            // Removes MBebn reference from mbp
+            // Returns true if the MBebn is no longer referenced in bny
+            // relbtion
+            boolebn noLongerRefFlbg = removeMBebnReference(currObjNbme,
+                                                          relbtionId,
+                                                          roleNbme,
+                                                          fblse);
 
-            if (noLongerRefFlag) {
+            if (noLongerRefFlbg) {
                 // Adds it into list of references to be removed
-                obsRefList.add(currObjName);
+                obsRefList.bdd(currObjNbme);
             }
         }
 
-        // To avoid having one listener per ObjectName of referenced MBean,
-        // and to increase performances, there is only one listener recording
-        // all ObjectNames of interest
-        updateUnregistrationListener(newRefList, obsRefList);
+        // To bvoid hbving one listener per ObjectNbme of referenced MBebn,
+        // bnd to increbse performbnces, there is only one listener recording
+        // bll ObjectNbmes of interest
+        updbteUnregistrbtionListener(newRefList, obsRefList);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "updateRoleMap");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "updbteRoleMbp");
         return;
     }
 
     /**
-     * Removes given relation from the Relation Service.
-     * <P>A RelationNotification notification is sent, its type being:
-     * <P>- RelationNotification.RELATION_BASIC_REMOVAL if the relation was
-     * only internal to the Relation Service
-     * <P>- RelationNotification.RELATION_MBEAN_REMOVAL if the relation is
-     * registered as an MBean.
-     * <P>For MBeans referenced in such relation, nothing will be done,
+     * Removes given relbtion from the Relbtion Service.
+     * <P>A RelbtionNotificbtion notificbtion is sent, its type being:
+     * <P>- RelbtionNotificbtion.RELATION_BASIC_REMOVAL if the relbtion wbs
+     * only internbl to the Relbtion Service
+     * <P>- RelbtionNotificbtion.RELATION_MBEAN_REMOVAL if the relbtion is
+     * registered bs bn MBebn.
+     * <P>For MBebns referenced in such relbtion, nothing will be done,
      *
-     * @param relationId  relation id of the relation to be removed
+     * @pbrbm relbtionId  relbtion id of the relbtion to be removed
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation corresponding to
-     * given relation id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion corresponding to
+     * given relbtion id
      */
-    public void removeRelation(String relationId)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException {
+    public void removeRelbtion(String relbtionId)
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException {
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        if (relationId == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "removeRelation", relationId);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "removeRelbtion", relbtionId);
 
-        // Checks there is a relation with this id
-        // Can throw RelationNotFoundException
-        Object result = getRelation(relationId);
+        // Checks there is b relbtion with this id
+        // Cbn throw RelbtionNotFoundException
+        Object result = getRelbtion(relbtionId);
 
         // Removes it from listener filter
-        if (result instanceof ObjectName) {
-            List<ObjectName> obsRefList = new ArrayList<ObjectName>();
-            obsRefList.add((ObjectName)result);
-            // Can throw a RelationServiceNotRegisteredException
-            updateUnregistrationListener(null, obsRefList);
+        if (result instbnceof ObjectNbme) {
+            List<ObjectNbme> obsRefList = new ArrbyList<ObjectNbme>();
+            obsRefList.bdd((ObjectNbme)result);
+            // Cbn throw b RelbtionServiceNotRegisteredException
+            updbteUnregistrbtionListener(null, obsRefList);
         }
 
-        // Sends a notification
-        // Note: has to be done FIRST as needs the relation to be still in the
-        //       Relation Service
-        // No RelationNotFoundException as checked above
+        // Sends b notificbtion
+        // Note: hbs to be done FIRST bs needs the relbtion to be still in the
+        //       Relbtion Service
+        // No RelbtionNotFoundException bs checked bbove
 
-        // Revisit [cebro] Handle CIM "Delete" and "IfDeleted" qualifiers:
-        //   deleting the relation can mean to delete referenced MBeans. In
-        //   that case, MBeans to be unregistered are put in a list sent along
-        //   with the notification below
+        // Revisit [cebro] Hbndle CIM "Delete" bnd "IfDeleted" qublifiers:
+        //   deleting the relbtion cbn mebn to delete referenced MBebns. In
+        //   thbt cbse, MBebns to be unregistered bre put in b list sent blong
+        //   with the notificbtion below
 
-        // Can throw a RelationNotFoundException (but detected above)
-        sendRelationRemovalNotification(relationId, null);
+        // Cbn throw b RelbtionNotFoundException (but detected bbove)
+        sendRelbtionRemovblNotificbtion(relbtionId, null);
 
-        // Removes the relation from various internal maps
+        // Removes the relbtion from vbrious internbl mbps
 
-        //  - MBean reference map
-        // Retrieves the MBeans referenced in this relation
-        // Note: here we cannot use removeMBeanReference() because it would
-        //       require to know the MBeans referenced in the relation. For
-        //       that it would be necessary to call 'getReferencedMBeans()'
-        //       on the relation itself. Ok if it is an internal one, but if
-        //       it is an MBean, it is possible it is already unregistered, so
-        //       not available through the MBean Server.
-        List<ObjectName> refMBeanList = new ArrayList<ObjectName>();
-        // List of MBeans no longer referenced in any relation, to be
-        // removed fom the map
-        List<ObjectName> nonRefObjNameList = new ArrayList<ObjectName>();
+        //  - MBebn reference mbp
+        // Retrieves the MBebns referenced in this relbtion
+        // Note: here we cbnnot use removeMBebnReference() becbuse it would
+        //       require to know the MBebns referenced in the relbtion. For
+        //       thbt it would be necessbry to cbll 'getReferencedMBebns()'
+        //       on the relbtion itself. Ok if it is bn internbl one, but if
+        //       it is bn MBebn, it is possible it is blrebdy unregistered, so
+        //       not bvbilbble through the MBebn Server.
+        List<ObjectNbme> refMBebnList = new ArrbyList<ObjectNbme>();
+        // List of MBebns no longer referenced in bny relbtion, to be
+        // removed fom the mbp
+        List<ObjectNbme> nonRefObjNbmeList = new ArrbyList<ObjectNbme>();
 
-        synchronized(myRefedMBeanObjName2RelIdsMap) {
+        synchronized(myRefedMBebnObjNbme2RelIdsMbp) {
 
-            for (ObjectName currRefObjName :
-                     myRefedMBeanObjName2RelIdsMap.keySet()) {
+            for (ObjectNbme currRefObjNbme :
+                     myRefedMBebnObjNbme2RelIdsMbp.keySet()) {
 
-                // Retrieves relations where the MBean is referenced
-                Map<String,List<String>> relIdMap =
-                    myRefedMBeanObjName2RelIdsMap.get(currRefObjName);
+                // Retrieves relbtions where the MBebn is referenced
+                Mbp<String,List<String>> relIdMbp =
+                    myRefedMBebnObjNbme2RelIdsMbp.get(currRefObjNbme);
 
-                if (relIdMap.containsKey(relationId)) {
-                    relIdMap.remove(relationId);
-                    refMBeanList.add(currRefObjName);
+                if (relIdMbp.contbinsKey(relbtionId)) {
+                    relIdMbp.remove(relbtionId);
+                    refMBebnList.bdd(currRefObjNbme);
                 }
 
-                if (relIdMap.isEmpty()) {
-                    // MBean no longer referenced
-                    // Note: do not remove it here because pointed by the
-                    //       iterator!
-                    nonRefObjNameList.add(currRefObjName);
+                if (relIdMbp.isEmpty()) {
+                    // MBebn no longer referenced
+                    // Note: do not remove it here becbuse pointed by the
+                    //       iterbtor!
+                    nonRefObjNbmeList.bdd(currRefObjNbme);
                 }
             }
 
-            // Cleans MBean reference map by removing MBeans no longer
+            // Clebns MBebn reference mbp by removing MBebns no longer
             // referenced
-            for (ObjectName currRefObjName : nonRefObjNameList) {
-                myRefedMBeanObjName2RelIdsMap.remove(currRefObjName);
+            for (ObjectNbme currRefObjNbme : nonRefObjNbmeList) {
+                myRefedMBebnObjNbme2RelIdsMbp.remove(currRefObjNbme);
             }
         }
 
-        // - Relation id to object map
-        synchronized(myRelId2ObjMap) {
-            myRelId2ObjMap.remove(relationId);
+        // - Relbtion id to object mbp
+        synchronized(myRelId2ObjMbp) {
+            myRelId2ObjMbp.remove(relbtionId);
         }
 
-        if (result instanceof ObjectName) {
-            // - ObjectName to relation id map
-            synchronized(myRelMBeanObjName2RelIdMap) {
-                myRelMBeanObjName2RelIdMap.remove((ObjectName)result);
+        if (result instbnceof ObjectNbme) {
+            // - ObjectNbme to relbtion id mbp
+            synchronized(myRelMBebnObjNbme2RelIdMbp) {
+                myRelMBebnObjNbme2RelIdMbp.remove((ObjectNbme)result);
             }
         }
 
-        // Relation id to relation type name map
-        // First retrieves the relation type name
-        String relTypeName;
-        synchronized(myRelId2RelTypeMap) {
-            relTypeName = myRelId2RelTypeMap.get(relationId);
-            myRelId2RelTypeMap.remove(relationId);
+        // Relbtion id to relbtion type nbme mbp
+        // First retrieves the relbtion type nbme
+        String relTypeNbme;
+        synchronized(myRelId2RelTypeMbp) {
+            relTypeNbme = myRelId2RelTypeMbp.get(relbtionId);
+            myRelId2RelTypeMbp.remove(relbtionId);
         }
-        // - Relation type name to relation id map
-        synchronized(myRelType2RelIdsMap) {
-            List<String> relIdList = myRelType2RelIdsMap.get(relTypeName);
+        // - Relbtion type nbme to relbtion id mbp
+        synchronized(myRelType2RelIdsMbp) {
+            List<String> relIdList = myRelType2RelIdsMbp.get(relTypeNbme);
             if (relIdList != null) {
-                // Can be null if called from removeRelationType()
-                relIdList.remove(relationId);
+                // Cbn be null if cblled from removeRelbtionType()
+                relIdList.remove(relbtionId);
                 if (relIdList.isEmpty()) {
-                    // No other relation of that type
-                    myRelType2RelIdsMap.remove(relTypeName);
+                    // No other relbtion of thbt type
+                    myRelType2RelIdsMbp.remove(relTypeNbme);
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "removeRelation");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "removeRelbtion");
         return;
     }
 
     /**
-     * Purges the relations.
+     * Purges the relbtions.
      *
-     * <P>Depending on the purgeFlag value, this method is either called
-     * automatically when a notification is received for the unregistration of
-     * an MBean referenced in a relation (if the flag is set to true), or not
-     * (if the flag is set to false).
-     * <P>In that case it is up to the user to call it to maintain the
-     * consistency of the relations. To be kept in mind that if an MBean is
-     * unregistered and the purge not done immediately, if the ObjectName is
-     * reused and assigned to another MBean referenced in a relation, calling
-     * manually this purgeRelations() method will cause trouble, as will
-     * consider the ObjectName as corresponding to the unregistered MBean, not
+     * <P>Depending on the purgeFlbg vblue, this method is either cblled
+     * butombticblly when b notificbtion is received for the unregistrbtion of
+     * bn MBebn referenced in b relbtion (if the flbg is set to true), or not
+     * (if the flbg is set to fblse).
+     * <P>In thbt cbse it is up to the user to cbll it to mbintbin the
+     * consistency of the relbtions. To be kept in mind thbt if bn MBebn is
+     * unregistered bnd the purge not done immedibtely, if the ObjectNbme is
+     * reused bnd bssigned to bnother MBebn referenced in b relbtion, cblling
+     * mbnublly this purgeRelbtions() method will cbuse trouble, bs will
+     * consider the ObjectNbme bs corresponding to the unregistered MBebn, not
      * seeing the new one.
      *
-     * <P>The behavior depends on the cardinality of the role where the
-     * unregistered MBean is referenced:
-     * <P>- if removing one MBean reference in the role makes its number of
-     * references less than the minimum degree, the relation has to be removed.
-     * <P>- if the remaining number of references after removing the MBean
-     * reference is still in the cardinality range, keep the relation and
-     * update it calling its handleMBeanUnregistration() callback.
+     * <P>The behbvior depends on the cbrdinblity of the role where the
+     * unregistered MBebn is referenced:
+     * <P>- if removing one MBebn reference in the role mbkes its number of
+     * references less thbn the minimum degree, the relbtion hbs to be removed.
+     * <P>- if the rembining number of references bfter removing the MBebn
+     * reference is still in the cbrdinblity rbnge, keep the relbtion bnd
+     * updbte it cblling its hbndleMBebnUnregistrbtion() cbllbbck.
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server.
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server.
      */
-    public void purgeRelations()
-        throws RelationServiceNotRegisteredException {
+    public void purgeRelbtions()
+        throws RelbtionServiceNotRegisteredException {
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "purgeRelations");
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "purgeRelbtions");
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // Revisit [cebro] Handle the CIM "Delete" and "IfDeleted" qualifier:
-        //    if the unregistered MBean has the "IfDeleted" qualifier,
-        //    possible that the relation itself or other referenced MBeans
-        //    have to be removed (then a notification would have to be sent
-        //    to inform that they should be unregistered.
+        // Revisit [cebro] Hbndle the CIM "Delete" bnd "IfDeleted" qublifier:
+        //    if the unregistered MBebn hbs the "IfDeleted" qublifier,
+        //    possible thbt the relbtion itself or other referenced MBebns
+        //    hbve to be removed (then b notificbtion would hbve to be sent
+        //    to inform thbt they should be unregistered.
 
 
-        // Clones the list of notifications to be able to still receive new
-        // notifications while proceeding those ones
-        List<MBeanServerNotification> localUnregNtfList;
-        synchronized(myRefedMBeanObjName2RelIdsMap) {
-            localUnregNtfList =
-                new ArrayList<MBeanServerNotification>(myUnregNtfList);
+        // Clones the list of notificbtions to be bble to still receive new
+        // notificbtions while proceeding those ones
+        List<MBebnServerNotificbtion> locblUnregNtfList;
+        synchronized(myRefedMBebnObjNbme2RelIdsMbp) {
+            locblUnregNtfList =
+                new ArrbyList<MBebnServerNotificbtion>(myUnregNtfList);
             // Resets list
-            myUnregNtfList = new ArrayList<MBeanServerNotification>();
+            myUnregNtfList = new ArrbyList<MBebnServerNotificbtion>();
         }
 
 
-        // Updates the listener filter to avoid receiving notifications for
-        // those MBeans again
-        // Makes also a local "myRefedMBeanObjName2RelIdsMap" map, mapping
-        // ObjectName -> relId -> roles, to remove the MBean from the global
-        // map
+        // Updbtes the listener filter to bvoid receiving notificbtions for
+        // those MBebns bgbin
+        // Mbkes blso b locbl "myRefedMBebnObjNbme2RelIdsMbp" mbp, mbpping
+        // ObjectNbme -> relId -> roles, to remove the MBebn from the globbl
+        // mbp
         // List of references to be removed from the listener filter
-        List<ObjectName> obsRefList = new ArrayList<ObjectName>();
-        // Map including ObjectNames for unregistered MBeans, with
-        // referencing relation ids and roles
-        Map<ObjectName,Map<String,List<String>>> localMBean2RelIdMap =
-            new HashMap<ObjectName,Map<String,List<String>>>();
+        List<ObjectNbme> obsRefList = new ArrbyList<ObjectNbme>();
+        // Mbp including ObjectNbmes for unregistered MBebns, with
+        // referencing relbtion ids bnd roles
+        Mbp<ObjectNbme,Mbp<String,List<String>>> locblMBebn2RelIdMbp =
+            new HbshMbp<ObjectNbme,Mbp<String,List<String>>>();
 
-        synchronized(myRefedMBeanObjName2RelIdsMap) {
-            for (MBeanServerNotification currNtf : localUnregNtfList) {
+        synchronized(myRefedMBebnObjNbme2RelIdsMbp) {
+            for (MBebnServerNotificbtion currNtf : locblUnregNtfList) {
 
-                ObjectName unregMBeanName = currNtf.getMBeanName();
+                ObjectNbme unregMBebnNbme = currNtf.getMBebnNbme();
 
-                // Adds the unregsitered MBean in the list of references to
+                // Adds the unregsitered MBebn in the list of references to
                 // remove from the listener filter
-                obsRefList.add(unregMBeanName);
+                obsRefList.bdd(unregMBebnNbme);
 
-                // Retrieves the associated map of relation ids and roles
-                Map<String,List<String>> relIdMap =
-                    myRefedMBeanObjName2RelIdsMap.get(unregMBeanName);
-                localMBean2RelIdMap.put(unregMBeanName, relIdMap);
+                // Retrieves the bssocibted mbp of relbtion ids bnd roles
+                Mbp<String,List<String>> relIdMbp =
+                    myRefedMBebnObjNbme2RelIdsMbp.get(unregMBebnNbme);
+                locblMBebn2RelIdMbp.put(unregMBebnNbme, relIdMbp);
 
-                myRefedMBeanObjName2RelIdsMap.remove(unregMBeanName);
+                myRefedMBebnObjNbme2RelIdsMbp.remove(unregMBebnNbme);
             }
         }
 
-        // Updates the listener
-        // Can throw RelationServiceNotRegisteredException
-        updateUnregistrationListener(null, obsRefList);
+        // Updbtes the listener
+        // Cbn throw RelbtionServiceNotRegisteredException
+        updbteUnregistrbtionListener(null, obsRefList);
 
-        for (MBeanServerNotification currNtf : localUnregNtfList) {
+        for (MBebnServerNotificbtion currNtf : locblUnregNtfList) {
 
-            ObjectName unregMBeanName = currNtf.getMBeanName();
+            ObjectNbme unregMBebnNbme = currNtf.getMBebnNbme();
 
-            // Retrieves the relations where the MBean is referenced
-            Map<String,List<String>> localRelIdMap =
-                    localMBean2RelIdMap.get(unregMBeanName);
+            // Retrieves the relbtions where the MBebn is referenced
+            Mbp<String,List<String>> locblRelIdMbp =
+                    locblMBebn2RelIdMbp.get(unregMBebnNbme);
 
-            // List of relation ids where the unregistered MBean is
+            // List of relbtion ids where the unregistered MBebn is
             // referenced
-            for (Map.Entry<String,List<String>> currRel :
-                        localRelIdMap.entrySet()) {
-                final String currRelId = currRel.getKey();
-                // List of roles of the relation where the MBean is
+            for (Mbp.Entry<String,List<String>> currRel :
+                        locblRelIdMbp.entrySet()) {
+                finbl String currRelId = currRel.getKey();
+                // List of roles of the relbtion where the MBebn is
                 // referenced
-                List<String> localRoleNameList = currRel.getValue();
+                List<String> locblRoleNbmeList = currRel.getVblue();
 
-                // Checks if the relation has to be removed or not,
-                // regarding expected minimum role cardinality and current
-                // number of references after removal of the current one
-                // If the relation is kept, calls
-                // handleMBeanUnregistration() callback of the relation to
-                // update it
+                // Checks if the relbtion hbs to be removed or not,
+                // regbrding expected minimum role cbrdinblity bnd current
+                // number of references bfter removbl of the current one
+                // If the relbtion is kept, cblls
+                // hbndleMBebnUnregistrbtion() cbllbbck of the relbtion to
+                // updbte it
                 //
-                // Can throw RelationServiceNotRegisteredException
+                // Cbn throw RelbtionServiceNotRegisteredException
                 //
-                // Shall not throw RelationNotFoundException,
-                // RoleNotFoundException, MBeanException
+                // Shbll not throw RelbtionNotFoundException,
+                // RoleNotFoundException, MBebnException
                 try {
-                    handleReferenceUnregistration(currRelId,
-                                                  unregMBeanName,
-                                                  localRoleNameList);
-                } catch (RelationNotFoundException exc1) {
-                    throw new RuntimeException(exc1.getMessage());
-                } catch (RoleNotFoundException exc2) {
-                    throw new RuntimeException(exc2.getMessage());
+                    hbndleReferenceUnregistrbtion(currRelId,
+                                                  unregMBebnNbme,
+                                                  locblRoleNbmeList);
+                } cbtch (RelbtionNotFoundException exc1) {
+                    throw new RuntimeException(exc1.getMessbge());
+                } cbtch (RoleNotFoundException exc2) {
+                    throw new RuntimeException(exc2.getMessbge());
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "purgeRelations");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "purgeRelbtions");
         return;
     }
 
     /**
-     * Retrieves the relations where a given MBean is referenced.
-     * <P>This corresponds to the CIM "References" and "ReferenceNames"
-     * operations.
+     * Retrieves the relbtions where b given MBebn is referenced.
+     * <P>This corresponds to the CIM "References" bnd "ReferenceNbmes"
+     * operbtions.
      *
-     * @param mbeanName  ObjectName of MBean
-     * @param relationTypeName  can be null; if specified, only the relations
-     * of that type will be considered in the search. Else all relation types
-     * are considered.
-     * @param roleName  can be null; if specified, only the relations
-     * where the MBean is referenced in that role will be returned. Else all
-     * roles are considered.
+     * @pbrbm mbebnNbme  ObjectNbme of MBebn
+     * @pbrbm relbtionTypeNbme  cbn be null; if specified, only the relbtions
+     * of thbt type will be considered in the sebrch. Else bll relbtion types
+     * bre considered.
+     * @pbrbm roleNbme  cbn be null; if specified, only the relbtions
+     * where the MBebn is referenced in thbt role will be returned. Else bll
+     * roles bre considered.
      *
-     * @return an HashMap, where the keys are the relation ids of the relations
-     * where the MBean is referenced, and the value is, for each key,
-     * an ArrayList of role names (as an MBean can be referenced in several
-     * roles in the same relation).
+     * @return bn HbshMbp, where the keys bre the relbtion ids of the relbtions
+     * where the MBebn is referenced, bnd the vblue is, for ebch key,
+     * bn ArrbyList of role nbmes (bs bn MBebn cbn be referenced in severbl
+     * roles in the sbme relbtion).
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public Map<String,List<String>>
-        findReferencingRelations(ObjectName mbeanName,
-                                 String relationTypeName,
-                                 String roleName)
-            throws IllegalArgumentException {
+    public Mbp<String,List<String>>
+        findReferencingRelbtions(ObjectNbme mbebnNbme,
+                                 String relbtionTypeNbme,
+                                 String roleNbme)
+            throws IllegblArgumentException {
 
-        if (mbeanName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (mbebnNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "findReferencingRelations",
-                new Object[] {mbeanName, relationTypeName, roleName});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "findReferencingRelbtions",
+                new Object[] {mbebnNbme, relbtionTypeNbme, roleNbme});
 
-        Map<String,List<String>> result = new HashMap<String,List<String>>();
+        Mbp<String,List<String>> result = new HbshMbp<String,List<String>>();
 
-        synchronized(myRefedMBeanObjName2RelIdsMap) {
+        synchronized(myRefedMBebnObjNbme2RelIdsMbp) {
 
-            // Retrieves the relations referencing the MBean
-            Map<String,List<String>> relId2RoleNamesMap =
-                myRefedMBeanObjName2RelIdsMap.get(mbeanName);
+            // Retrieves the relbtions referencing the MBebn
+            Mbp<String,List<String>> relId2RoleNbmesMbp =
+                myRefedMBebnObjNbme2RelIdsMbp.get(mbebnNbme);
 
-            if (relId2RoleNamesMap != null) {
+            if (relId2RoleNbmesMbp != null) {
 
-                // Relation Ids where the MBean is referenced
-                Set<String> allRelIdSet = relId2RoleNamesMap.keySet();
+                // Relbtion Ids where the MBebn is referenced
+                Set<String> bllRelIdSet = relId2RoleNbmesMbp.keySet();
 
-                // List of relation ids of interest regarding the selected
-                // relation type
+                // List of relbtion ids of interest regbrding the selected
+                // relbtion type
                 List<String> relIdList;
-                if (relationTypeName == null) {
-                    // Considers all relations
-                    relIdList = new ArrayList<String>(allRelIdSet);
+                if (relbtionTypeNbme == null) {
+                    // Considers bll relbtions
+                    relIdList = new ArrbyList<String>(bllRelIdSet);
 
                 } else {
 
-                    relIdList = new ArrayList<String>();
+                    relIdList = new ArrbyList<String>();
 
-                    // Considers only the relation ids for relations of given
+                    // Considers only the relbtion ids for relbtions of given
                     // type
-                    for (String currRelId : allRelIdSet) {
+                    for (String currRelId : bllRelIdSet) {
 
-                        // Retrieves its relation type
-                        String currRelTypeName;
-                        synchronized(myRelId2RelTypeMap) {
-                            currRelTypeName =
-                                myRelId2RelTypeMap.get(currRelId);
+                        // Retrieves its relbtion type
+                        String currRelTypeNbme;
+                        synchronized(myRelId2RelTypeMbp) {
+                            currRelTypeNbme =
+                                myRelId2RelTypeMbp.get(currRelId);
                         }
 
-                        if (currRelTypeName.equals(relationTypeName)) {
+                        if (currRelTypeNbme.equbls(relbtionTypeNbme)) {
 
-                            relIdList.add(currRelId);
+                            relIdList.bdd(currRelId);
 
                         }
                     }
                 }
 
-                // Now looks at the roles where the MBean is expected to be
+                // Now looks bt the roles where the MBebn is expected to be
                 // referenced
 
                 for (String currRelId : relIdList) {
-                    // Retrieves list of role names where the MBean is
+                    // Retrieves list of role nbmes where the MBebn is
                     // referenced
-                    List<String> currRoleNameList =
-                        relId2RoleNamesMap.get(currRelId);
+                    List<String> currRoleNbmeList =
+                        relId2RoleNbmesMbp.get(currRelId);
 
-                    if (roleName == null) {
+                    if (roleNbme == null) {
                         // All roles to be considered
                         // Note: no need to test if list not null before
                         //       cloning, MUST be not null else bug :(
                         result.put(currRelId,
-                                   new ArrayList<String>(currRoleNameList));
+                                   new ArrbyList<String>(currRoleNbmeList));
 
-                    }  else if (currRoleNameList.contains(roleName)) {
-                        // Filters only the relations where the MBean is
+                    }  else if (currRoleNbmeList.contbins(roleNbme)) {
+                        // Filters only the relbtions where the MBebn is
                         // referenced in // given role
-                        List<String> dummyList = new ArrayList<String>();
-                        dummyList.add(roleName);
+                        List<String> dummyList = new ArrbyList<String>();
+                        dummyList.bdd(roleNbme);
                         result.put(currRelId, dummyList);
                     }
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "findReferencingRelations");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "findReferencingRelbtions");
         return result;
     }
 
     /**
-     * Retrieves the MBeans associated to given one in a relation.
-     * <P>This corresponds to CIM Associators and AssociatorNames operations.
+     * Retrieves the MBebns bssocibted to given one in b relbtion.
+     * <P>This corresponds to CIM Associbtors bnd AssocibtorNbmes operbtions.
      *
-     * @param mbeanName  ObjectName of MBean
-     * @param relationTypeName  can be null; if specified, only the relations
-     * of that type will be considered in the search. Else all
-     * relation types are considered.
-     * @param roleName  can be null; if specified, only the relations
-     * where the MBean is referenced in that role will be considered. Else all
-     * roles are considered.
+     * @pbrbm mbebnNbme  ObjectNbme of MBebn
+     * @pbrbm relbtionTypeNbme  cbn be null; if specified, only the relbtions
+     * of thbt type will be considered in the sebrch. Else bll
+     * relbtion types bre considered.
+     * @pbrbm roleNbme  cbn be null; if specified, only the relbtions
+     * where the MBebn is referenced in thbt role will be considered. Else bll
+     * roles bre considered.
      *
-     * @return an HashMap, where the keys are the ObjectNames of the MBeans
-     * associated to given MBean, and the value is, for each key, an ArrayList
-     * of the relation ids of the relations where the key MBean is
-     * associated to given one (as they can be associated in several different
-     * relations).
+     * @return bn HbshMbp, where the keys bre the ObjectNbmes of the MBebns
+     * bssocibted to given MBebn, bnd the vblue is, for ebch key, bn ArrbyList
+     * of the relbtion ids of the relbtions where the key MBebn is
+     * bssocibted to given one (bs they cbn be bssocibted in severbl different
+     * relbtions).
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public Map<ObjectName,List<String>>
-        findAssociatedMBeans(ObjectName mbeanName,
-                             String relationTypeName,
-                             String roleName)
-            throws IllegalArgumentException {
+    public Mbp<ObjectNbme,List<String>>
+        findAssocibtedMBebns(ObjectNbme mbebnNbme,
+                             String relbtionTypeNbme,
+                             String roleNbme)
+            throws IllegblArgumentException {
 
-        if (mbeanName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (mbebnNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "findAssociatedMBeans",
-                new Object[] {mbeanName, relationTypeName, roleName});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "findAssocibtedMBebns",
+                new Object[] {mbebnNbme, relbtionTypeNbme, roleNbme});
 
-        // Retrieves the map <relation id> -> <role names> for those
-        // criterias
-        Map<String,List<String>> relId2RoleNamesMap =
-            findReferencingRelations(mbeanName,
-                                     relationTypeName,
-                                     roleName);
+        // Retrieves the mbp <relbtion id> -> <role nbmes> for those
+        // criteribs
+        Mbp<String,List<String>> relId2RoleNbmesMbp =
+            findReferencingRelbtions(mbebnNbme,
+                                     relbtionTypeNbme,
+                                     roleNbme);
 
-        Map<ObjectName,List<String>> result =
-            new HashMap<ObjectName,List<String>>();
+        Mbp<ObjectNbme,List<String>> result =
+            new HbshMbp<ObjectNbme,List<String>>();
 
-        for (String currRelId : relId2RoleNamesMap.keySet()) {
+        for (String currRelId : relId2RoleNbmesMbp.keySet()) {
 
-            // Retrieves ObjectNames of MBeans referenced in this relation
+            // Retrieves ObjectNbmes of MBebns referenced in this relbtion
             //
-            // Shall not throw a RelationNotFoundException if incorrect status
-            // of maps :(
-            Map<ObjectName,List<String>> objName2RoleNamesMap;
+            // Shbll not throw b RelbtionNotFoundException if incorrect stbtus
+            // of mbps :(
+            Mbp<ObjectNbme,List<String>> objNbme2RoleNbmesMbp;
             try {
-                objName2RoleNamesMap = getReferencedMBeans(currRelId);
-            } catch (RelationNotFoundException exc) {
-                throw new RuntimeException(exc.getMessage());
+                objNbme2RoleNbmesMbp = getReferencedMBebns(currRelId);
+            } cbtch (RelbtionNotFoundException exc) {
+                throw new RuntimeException(exc.getMessbge());
             }
 
-            // For each MBean associated to given one in a relation, adds the
-            // association <ObjectName> -> <relation id> into result map
-            for (ObjectName currObjName : objName2RoleNamesMap.keySet()) {
+            // For ebch MBebn bssocibted to given one in b relbtion, bdds the
+            // bssocibtion <ObjectNbme> -> <relbtion id> into result mbp
+            for (ObjectNbme currObjNbme : objNbme2RoleNbmesMbp.keySet()) {
 
-                if (!(currObjName.equals(mbeanName))) {
+                if (!(currObjNbme.equbls(mbebnNbme))) {
 
-                    // Sees if this MBean is already associated to the given
-                    // one in another relation
-                    List<String> currRelIdList = result.get(currObjName);
+                    // Sees if this MBebn is blrebdy bssocibted to the given
+                    // one in bnother relbtion
+                    List<String> currRelIdList = result.get(currObjNbme);
                     if (currRelIdList == null) {
 
-                        currRelIdList = new ArrayList<String>();
-                        currRelIdList.add(currRelId);
-                        result.put(currObjName, currRelIdList);
+                        currRelIdList = new ArrbyList<String>();
+                        currRelIdList.bdd(currRelId);
+                        result.put(currObjNbme, currRelIdList);
 
                     } else {
-                        currRelIdList.add(currRelId);
+                        currRelIdList.bdd(currRelId);
                     }
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "findAssociatedMBeans");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "findAssocibtedMBebns");
         return result;
     }
 
     /**
-     * Returns the relation ids for relations of the given type.
+     * Returns the relbtion ids for relbtions of the given type.
      *
-     * @param relationTypeName  relation type name
+     * @pbrbm relbtionTypeNbme  relbtion type nbme
      *
-     * @return an ArrayList of relation ids.
+     * @return bn ArrbyList of relbtion ids.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationTypeNotFoundException  if there is no relation type
-     * with that name.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionTypeNotFoundException  if there is no relbtion type
+     * with thbt nbme.
      */
-    public List<String> findRelationsOfType(String relationTypeName)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException {
+    public List<String> findRelbtionsOfType(String relbtionTypeNbme)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException {
 
-        if (relationTypeName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionTypeNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "findRelationsOfType");
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "findRelbtionsOfType");
 
-        // Can throw RelationTypeNotFoundException
-        RelationType relType = getRelationType(relationTypeName);
+        // Cbn throw RelbtionTypeNotFoundException
+        RelbtionType relType = getRelbtionType(relbtionTypeNbme);
 
         List<String> result;
-        synchronized(myRelType2RelIdsMap) {
-            List<String> result1 = myRelType2RelIdsMap.get(relationTypeName);
+        synchronized(myRelType2RelIdsMbp) {
+            List<String> result1 = myRelType2RelIdsMbp.get(relbtionTypeNbme);
             if (result1 == null)
-                result = new ArrayList<String>();
+                result = new ArrbyList<String>();
             else
-                result = new ArrayList<String>(result1);
+                result = new ArrbyList<String>(result1);
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "findRelationsOfType");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "findRelbtionsOfType");
         return result;
     }
 
     /**
-     * Retrieves role value for given role name in given relation.
+     * Retrieves role vblue for given role nbme in given relbtion.
      *
-     * @param relationId  relation id
-     * @param roleName  name of role
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm roleNbme  nbme of role
      *
-     * @return the ArrayList of ObjectName objects being the role value
+     * @return the ArrbyList of ObjectNbme objects being the role vblue
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
      * Service is not registered
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
      * @exception RoleNotFoundException  if:
-     * <P>- there is no role with given name
+     * <P>- there is no role with given nbme
      * <P>or
-     * <P>- the role is not readable.
+     * <P>- the role is not rebdbble.
      *
      * @see #setRole
      */
-    public List<ObjectName> getRole(String relationId,
-                                    String roleName)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException,
+    public List<ObjectNbme> getRole(String relbtionId,
+                                    String roleNbme)
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException,
                RoleNotFoundException {
 
-        if (relationId == null || roleName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null || roleNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getRole", new Object[] {relationId, roleName});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getRole", new Object[] {relbtionId, roleNbme});
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // Can throw a RelationNotFoundException
-        Object relObj = getRelation(relationId);
+        // Cbn throw b RelbtionNotFoundException
+        Object relObj = getRelbtion(relbtionId);
 
-        List<ObjectName> result;
+        List<ObjectNbme> result;
 
-        if (relObj instanceof RelationSupport) {
-            // Internal relation
-            // Can throw RoleNotFoundException
-            result = cast(
-                ((RelationSupport)relObj).getRoleInt(roleName,
+        if (relObj instbnceof RelbtionSupport) {
+            // Internbl relbtion
+            // Cbn throw RoleNotFoundException
+            result = cbst(
+                ((RelbtionSupport)relObj).getRoleInt(roleNbme,
                                                      true,
                                                      this,
-                                                     false));
+                                                     fblse));
 
         } else {
-            // Relation MBean
-            Object[] params = new Object[1];
-            params[0] = roleName;
-            String[] signature = new String[1];
-            signature[0] = "java.lang.String";
-            // Can throw MBeanException wrapping a RoleNotFoundException:
-            // throw wrapped exception
+            // Relbtion MBebn
+            Object[] pbrbms = new Object[1];
+            pbrbms[0] = roleNbme;
+            String[] signbture = new String[1];
+            signbture[0] = "jbvb.lbng.String";
+            // Cbn throw MBebnException wrbpping b RoleNotFoundException:
+            // throw wrbpped exception
             //
-            // Shall not throw InstanceNotFoundException or ReflectionException
+            // Shbll not throw InstbnceNotFoundException or ReflectionException
             try {
-                List<ObjectName> invokeResult = cast(
-                    myMBeanServer.invoke(((ObjectName)relObj),
+                List<ObjectNbme> invokeResult = cbst(
+                    myMBebnServer.invoke(((ObjectNbme)relObj),
                                          "getRole",
-                                         params,
-                                         signature));
-                if (invokeResult == null || invokeResult instanceof ArrayList<?>)
+                                         pbrbms,
+                                         signbture));
+                if (invokeResult == null || invokeResult instbnceof ArrbyList<?>)
                     result = invokeResult;
                 else
-                    result = new ArrayList<ObjectName>(invokeResult);
-            } catch (InstanceNotFoundException exc1) {
-                throw new RuntimeException(exc1.getMessage());
-            } catch (ReflectionException exc2) {
-                throw new RuntimeException(exc2.getMessage());
-            } catch (MBeanException exc3) {
-                Exception wrappedExc = exc3.getTargetException();
-                if (wrappedExc instanceof RoleNotFoundException) {
-                    throw ((RoleNotFoundException)wrappedExc);
+                    result = new ArrbyList<ObjectNbme>(invokeResult);
+            } cbtch (InstbnceNotFoundException exc1) {
+                throw new RuntimeException(exc1.getMessbge());
+            } cbtch (ReflectionException exc2) {
+                throw new RuntimeException(exc2.getMessbge());
+            } cbtch (MBebnException exc3) {
+                Exception wrbppedExc = exc3.getTbrgetException();
+                if (wrbppedExc instbnceof RoleNotFoundException) {
+                    throw ((RoleNotFoundException)wrbppedExc);
                 } else {
-                    throw new RuntimeException(wrappedExc.getMessage());
+                    throw new RuntimeException(wrbppedExc.getMessbge());
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(), "getRole");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(), "getRole");
         return result;
     }
 
     /**
-     * Retrieves values of roles with given names in given relation.
+     * Retrieves vblues of roles with given nbmes in given relbtion.
      *
-     * @param relationId  relation id
-     * @param roleNameArray  array of names of roles to be retrieved
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm roleNbmeArrby  brrby of nbmes of roles to be retrieved
      *
-     * @return a RoleResult object, including a RoleList (for roles
-     * successfully retrieved) and a RoleUnresolvedList (for roles not
+     * @return b RoleResult object, including b RoleList (for roles
+     * successfully retrieved) bnd b RoleUnresolvedList (for roles not
      * retrieved).
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
      *
      * @see #setRoles
      */
-    public RoleResult getRoles(String relationId,
-                               String[] roleNameArray)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException {
+    public RoleResult getRoles(String relbtionId,
+                               String[] roleNbmeArrby)
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException {
 
-        if (relationId == null || roleNameArray == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null || roleNbmeArrby == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getRoles", relationId);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getRoles", relbtionId);
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // Can throw a RelationNotFoundException
-        Object relObj = getRelation(relationId);
+        // Cbn throw b RelbtionNotFoundException
+        Object relObj = getRelbtion(relbtionId);
 
         RoleResult result;
 
-        if (relObj instanceof RelationSupport) {
-            // Internal relation
-            result = ((RelationSupport)relObj).getRolesInt(roleNameArray,
+        if (relObj instbnceof RelbtionSupport) {
+            // Internbl relbtion
+            result = ((RelbtionSupport)relObj).getRolesInt(roleNbmeArrby,
                                                         true,
                                                         this);
         } else {
-            // Relation MBean
-            Object[] params = new Object[1];
-            params[0] = roleNameArray;
-            String[] signature = new String[1];
+            // Relbtion MBebn
+            Object[] pbrbms = new Object[1];
+            pbrbms[0] = roleNbmeArrby;
+            String[] signbture = new String[1];
             try {
-                signature[0] = (roleNameArray.getClass()).getName();
-            } catch (Exception exc) {
-                // OK : This is an array of java.lang.String
-                //      so this should never happen...
+                signbture[0] = (roleNbmeArrby.getClbss()).getNbme();
+            } cbtch (Exception exc) {
+                // OK : This is bn brrby of jbvb.lbng.String
+                //      so this should never hbppen...
             }
-            // Shall not throw InstanceNotFoundException, ReflectionException
-            // or MBeanException
+            // Shbll not throw InstbnceNotFoundException, ReflectionException
+            // or MBebnException
             try {
                 result = (RoleResult)
-                    (myMBeanServer.invoke(((ObjectName)relObj),
+                    (myMBebnServer.invoke(((ObjectNbme)relObj),
                                           "getRoles",
-                                          params,
-                                          signature));
-            } catch (InstanceNotFoundException exc1) {
-                throw new RuntimeException(exc1.getMessage());
-            } catch (ReflectionException exc2) {
-                throw new RuntimeException(exc2.getMessage());
-            } catch (MBeanException exc3) {
+                                          pbrbms,
+                                          signbture));
+            } cbtch (InstbnceNotFoundException exc1) {
+                throw new RuntimeException(exc1.getMessbge());
+            } cbtch (ReflectionException exc2) {
+                throw new RuntimeException(exc2.getMessbge());
+            } cbtch (MBebnException exc3) {
                 throw new
-                    RuntimeException((exc3.getTargetException()).getMessage());
+                    RuntimeException((exc3.getTbrgetException()).getMessbge());
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(), "getRoles");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(), "getRoles");
         return result;
     }
 
     /**
-     * Returns all roles present in the relation.
+     * Returns bll roles present in the relbtion.
      *
-     * @param relationId  relation id
+     * @pbrbm relbtionId  relbtion id
      *
-     * @return a RoleResult object, including a RoleList (for roles
-     * successfully retrieved) and a RoleUnresolvedList (for roles not
-     * readable).
+     * @return b RoleResult object, including b RoleList (for roles
+     * successfully retrieved) bnd b RoleUnresolvedList (for roles not
+     * rebdbble).
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation for given id
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion for given id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
      */
-    public RoleResult getAllRoles(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException,
-               RelationServiceNotRegisteredException {
+    public RoleResult getAllRoles(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException,
+               RelbtionServiceNotRegisteredException {
 
-        if (relationId == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getRoles", relationId);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getRoles", relbtionId);
 
-        // Can throw a RelationNotFoundException
-        Object relObj = getRelation(relationId);
+        // Cbn throw b RelbtionNotFoundException
+        Object relObj = getRelbtion(relbtionId);
 
         RoleResult result;
 
-        if (relObj instanceof RelationSupport) {
-            // Internal relation
-            result = ((RelationSupport)relObj).getAllRolesInt(true, this);
+        if (relObj instbnceof RelbtionSupport) {
+            // Internbl relbtion
+            result = ((RelbtionSupport)relObj).getAllRolesInt(true, this);
 
         } else {
-            // Relation MBean
-            // Shall not throw any Exception
+            // Relbtion MBebn
+            // Shbll not throw bny Exception
             try {
                 result = (RoleResult)
-                    (myMBeanServer.getAttribute(((ObjectName)relObj),
+                    (myMBebnServer.getAttribute(((ObjectNbme)relObj),
                                                 "AllRoles"));
-            } catch (Exception exc) {
-                throw new RuntimeException(exc.getMessage());
+            } cbtch (Exception exc) {
+                throw new RuntimeException(exc.getMessbge());
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(), "getRoles");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(), "getRoles");
         return result;
     }
 
     /**
-     * Retrieves the number of MBeans currently referenced in the given role.
+     * Retrieves the number of MBebns currently referenced in the given role.
      *
-     * @param relationId  relation id
-     * @param roleName  name of role
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm roleNbme  nbme of role
      *
-     * @return the number of currently referenced MBeans in that role
+     * @return the number of currently referenced MBebns in thbt role
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
-     * @exception RoleNotFoundException  if there is no role with given name
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
+     * @exception RoleNotFoundException  if there is no role with given nbme
      */
-    public Integer getRoleCardinality(String relationId,
-                                      String roleName)
-        throws IllegalArgumentException,
-               RelationNotFoundException,
+    public Integer getRoleCbrdinblity(String relbtionId,
+                                      String roleNbme)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException,
                RoleNotFoundException {
 
-        if (relationId == null || roleName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null || roleNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getRoleCardinality", new Object[] {relationId, roleName});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getRoleCbrdinblity", new Object[] {relbtionId, roleNbme});
 
-        // Can throw a RelationNotFoundException
-        Object relObj = getRelation(relationId);
+        // Cbn throw b RelbtionNotFoundException
+        Object relObj = getRelbtion(relbtionId);
 
         Integer result;
 
-        if (relObj instanceof RelationSupport) {
-            // Internal relation
-            // Can throw RoleNotFoundException
-            result = ((RelationSupport)relObj).getRoleCardinality(roleName);
+        if (relObj instbnceof RelbtionSupport) {
+            // Internbl relbtion
+            // Cbn throw RoleNotFoundException
+            result = ((RelbtionSupport)relObj).getRoleCbrdinblity(roleNbme);
 
         } else {
-            // Relation MBean
-            Object[] params = new Object[1];
-            params[0] = roleName;
-            String[] signature = new String[1];
-            signature[0] = "java.lang.String";
-            // Can throw MBeanException wrapping RoleNotFoundException:
-            // throw wrapped exception
+            // Relbtion MBebn
+            Object[] pbrbms = new Object[1];
+            pbrbms[0] = roleNbme;
+            String[] signbture = new String[1];
+            signbture[0] = "jbvb.lbng.String";
+            // Cbn throw MBebnException wrbpping RoleNotFoundException:
+            // throw wrbpped exception
             //
-            // Shall not throw InstanceNotFoundException or ReflectionException
+            // Shbll not throw InstbnceNotFoundException or ReflectionException
             try {
                 result = (Integer)
-                    (myMBeanServer.invoke(((ObjectName)relObj),
-                                          "getRoleCardinality",
-                                          params,
-                                          signature));
-            } catch (InstanceNotFoundException exc1) {
-                throw new RuntimeException(exc1.getMessage());
-            } catch (ReflectionException exc2) {
-                throw new RuntimeException(exc2.getMessage());
-            } catch (MBeanException exc3) {
-                Exception wrappedExc = exc3.getTargetException();
-                if (wrappedExc instanceof RoleNotFoundException) {
-                    throw ((RoleNotFoundException)wrappedExc);
+                    (myMBebnServer.invoke(((ObjectNbme)relObj),
+                                          "getRoleCbrdinblity",
+                                          pbrbms,
+                                          signbture));
+            } cbtch (InstbnceNotFoundException exc1) {
+                throw new RuntimeException(exc1.getMessbge());
+            } cbtch (ReflectionException exc2) {
+                throw new RuntimeException(exc2.getMessbge());
+            } cbtch (MBebnException exc3) {
+                Exception wrbppedExc = exc3.getTbrgetException();
+                if (wrbppedExc instbnceof RoleNotFoundException) {
+                    throw ((RoleNotFoundException)wrbppedExc);
                 } else {
-                    throw new RuntimeException(wrappedExc.getMessage());
+                    throw new RuntimeException(wrbppedExc.getMessbge());
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "getRoleCardinality");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "getRoleCbrdinblity");
         return result;
     }
 
     /**
-     * Sets the given role in given relation.
-     * <P>Will check the role according to its corresponding role definition
-     * provided in relation's relation type
-     * <P>The Relation Service will keep track of the change to keep the
-     * consistency of relations by handling referenced MBean deregistrations.
+     * Sets the given role in given relbtion.
+     * <P>Will check the role bccording to its corresponding role definition
+     * provided in relbtion's relbtion type
+     * <P>The Relbtion Service will keep trbck of the chbnge to keep the
+     * consistency of relbtions by hbndling referenced MBebn deregistrbtions.
      *
-     * @param relationId  relation id
-     * @param role  role to be set (name and new value)
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm role  role to be set (nbme bnd new vblue)
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
      * @exception RoleNotFoundException  if the role does not exist or is not
-     * writable
-     * @exception InvalidRoleValueException  if value provided for role is not
-     * valid:
-     * <P>- the number of referenced MBeans in given value is less than
+     * writbble
+     * @exception InvblidRoleVblueException  if vblue provided for role is not
+     * vblid:
+     * <P>- the number of referenced MBebns in given vblue is less thbn
      * expected minimum degree
      * <P>or
-     * <P>- the number of referenced MBeans in provided value exceeds expected
-     * maximum degree
+     * <P>- the number of referenced MBebns in provided vblue exceeds expected
+     * mbximum degree
      * <P>or
-     * <P>- one referenced MBean in the value is not an Object of the MBean
-     * class expected for that role
+     * <P>- one referenced MBebn in the vblue is not bn Object of the MBebn
+     * clbss expected for thbt role
      * <P>or
-     * <P>- an MBean provided for that role does not exist
+     * <P>- bn MBebn provided for thbt role does not exist
      *
      * @see #getRole
      */
-    public void setRole(String relationId,
+    public void setRole(String relbtionId,
                         Role role)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException,
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException,
                RoleNotFoundException,
-               InvalidRoleValueException {
+               InvblidRoleVblueException {
 
-        if (relationId == null || role == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null || role == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "setRole", new Object[] {relationId, role});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "setRole", new Object[] {relbtionId, role});
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // Can throw a RelationNotFoundException
-        Object relObj = getRelation(relationId);
+        // Cbn throw b RelbtionNotFoundException
+        Object relObj = getRelbtion(relbtionId);
 
-        if (relObj instanceof RelationSupport) {
-            // Internal relation
-            // Can throw RoleNotFoundException,
-            // InvalidRoleValueException and
-            // RelationServiceNotRegisteredException
+        if (relObj instbnceof RelbtionSupport) {
+            // Internbl relbtion
+            // Cbn throw RoleNotFoundException,
+            // InvblidRoleVblueException bnd
+            // RelbtionServiceNotRegisteredException
             //
-            // Shall not throw RelationTypeNotFoundException
-            // (as relation exists in the RS, its relation type is known)
+            // Shbll not throw RelbtionTypeNotFoundException
+            // (bs relbtion exists in the RS, its relbtion type is known)
             try {
-                ((RelationSupport)relObj).setRoleInt(role,
+                ((RelbtionSupport)relObj).setRoleInt(role,
                                                   true,
                                                   this,
-                                                  false);
+                                                  fblse);
 
-            } catch (RelationTypeNotFoundException exc) {
-                throw new RuntimeException(exc.getMessage());
+            } cbtch (RelbtionTypeNotFoundException exc) {
+                throw new RuntimeException(exc.getMessbge());
             }
 
         } else {
-            // Relation MBean
-            Object[] params = new Object[1];
-            params[0] = role;
-            String[] signature = new String[1];
-            signature[0] = "javax.management.relation.Role";
-            // Can throw MBeanException wrapping RoleNotFoundException,
-            // InvalidRoleValueException
+            // Relbtion MBebn
+            Object[] pbrbms = new Object[1];
+            pbrbms[0] = role;
+            String[] signbture = new String[1];
+            signbture[0] = "jbvbx.mbnbgement.relbtion.Role";
+            // Cbn throw MBebnException wrbpping RoleNotFoundException,
+            // InvblidRoleVblueException
             //
-            // Shall not MBeanException wrapping an MBeanException wrapping
-            // RelationTypeNotFoundException, or ReflectionException, or
-            // InstanceNotFoundException
+            // Shbll not MBebnException wrbpping bn MBebnException wrbpping
+            // RelbtionTypeNotFoundException, or ReflectionException, or
+            // InstbnceNotFoundException
             try {
-                myMBeanServer.setAttribute(((ObjectName)relObj),
+                myMBebnServer.setAttribute(((ObjectNbme)relObj),
                                            new Attribute("Role", role));
 
-            } catch (InstanceNotFoundException exc1) {
-                throw new RuntimeException(exc1.getMessage());
-            } catch (ReflectionException exc3) {
-                throw new RuntimeException(exc3.getMessage());
-            } catch (MBeanException exc2) {
-                Exception wrappedExc = exc2.getTargetException();
-                if (wrappedExc instanceof RoleNotFoundException) {
-                    throw ((RoleNotFoundException)wrappedExc);
-                } else if (wrappedExc instanceof InvalidRoleValueException) {
-                    throw ((InvalidRoleValueException)wrappedExc);
+            } cbtch (InstbnceNotFoundException exc1) {
+                throw new RuntimeException(exc1.getMessbge());
+            } cbtch (ReflectionException exc3) {
+                throw new RuntimeException(exc3.getMessbge());
+            } cbtch (MBebnException exc2) {
+                Exception wrbppedExc = exc2.getTbrgetException();
+                if (wrbppedExc instbnceof RoleNotFoundException) {
+                    throw ((RoleNotFoundException)wrbppedExc);
+                } else if (wrbppedExc instbnceof InvblidRoleVblueException) {
+                    throw ((InvblidRoleVblueException)wrbppedExc);
                 } else {
-                    throw new RuntimeException(wrappedExc.getMessage());
+                    throw new RuntimeException(wrbppedExc.getMessbge());
 
                 }
-            } catch (AttributeNotFoundException exc4) {
-              throw new RuntimeException(exc4.getMessage());
-            } catch (InvalidAttributeValueException exc5) {
-              throw new RuntimeException(exc5.getMessage());
+            } cbtch (AttributeNotFoundException exc4) {
+              throw new RuntimeException(exc4.getMessbge());
+            } cbtch (InvblidAttributeVblueException exc5) {
+              throw new RuntimeException(exc5.getMessbge());
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(), "setRole");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(), "setRole");
         return;
     }
 
     /**
-     * Sets the given roles in given relation.
-     * <P>Will check the role according to its corresponding role definition
-     * provided in relation's relation type
-     * <P>The Relation Service keeps track of the changes to keep the
-     * consistency of relations by handling referenced MBean deregistrations.
+     * Sets the given roles in given relbtion.
+     * <P>Will check the role bccording to its corresponding role definition
+     * provided in relbtion's relbtion type
+     * <P>The Relbtion Service keeps trbck of the chbnges to keep the
+     * consistency of relbtions by hbndling referenced MBebn deregistrbtions.
      *
-     * @param relationId  relation id
-     * @param roleList  list of roles to be set
+     * @pbrbm relbtionId  relbtion id
+     * @pbrbm roleList  list of roles to be set
      *
-     * @return a RoleResult object, including a RoleList (for roles
-     * successfully set) and a RoleUnresolvedList (for roles not
+     * @return b RoleResult object, including b RoleList (for roles
+     * successfully set) bnd b RoleUnresolvedList (for roles not
      * set).
      *
-     * @exception RelationServiceNotRegisteredException  if the Relation
-     * Service is not registered in the MBean Server
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation with given id
+     * @exception RelbtionServiceNotRegisteredException  if the Relbtion
+     * Service is not registered in the MBebn Server
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion with given id
      *
      * @see #getRoles
      */
-    public RoleResult setRoles(String relationId,
+    public RoleResult setRoles(String relbtionId,
                                RoleList roleList)
-        throws RelationServiceNotRegisteredException,
-               IllegalArgumentException,
-               RelationNotFoundException {
+        throws RelbtionServiceNotRegisteredException,
+               IllegblArgumentException,
+               RelbtionNotFoundException {
 
-        if (relationId == null || roleList == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null || roleList == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "setRoles", new Object[] {relationId, roleList});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "setRoles", new Object[] {relbtionId, roleList});
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // Can throw a RelationNotFoundException
-        Object relObj = getRelation(relationId);
+        // Cbn throw b RelbtionNotFoundException
+        Object relObj = getRelbtion(relbtionId);
 
         RoleResult result;
 
-        if (relObj instanceof RelationSupport) {
-            // Internal relation
-            // Can throw RelationServiceNotRegisteredException
+        if (relObj instbnceof RelbtionSupport) {
+            // Internbl relbtion
+            // Cbn throw RelbtionServiceNotRegisteredException
             //
-            // Shall not throw RelationTypeNotFoundException (as relation is
-            // known, its relation type exists)
+            // Shbll not throw RelbtionTypeNotFoundException (bs relbtion is
+            // known, its relbtion type exists)
             try {
-                result = ((RelationSupport)relObj).setRolesInt(roleList,
+                result = ((RelbtionSupport)relObj).setRolesInt(roleList,
                                                             true,
                                                             this);
-            } catch (RelationTypeNotFoundException exc) {
-                throw new RuntimeException(exc.getMessage());
+            } cbtch (RelbtionTypeNotFoundException exc) {
+                throw new RuntimeException(exc.getMessbge());
             }
 
         } else {
-            // Relation MBean
-            Object[] params = new Object[1];
-            params[0] = roleList;
-            String[] signature = new String[1];
-            signature[0] = "javax.management.relation.RoleList";
-            // Shall not throw InstanceNotFoundException or an MBeanException
+            // Relbtion MBebn
+            Object[] pbrbms = new Object[1];
+            pbrbms[0] = roleList;
+            String[] signbture = new String[1];
+            signbture[0] = "jbvbx.mbnbgement.relbtion.RoleList";
+            // Shbll not throw InstbnceNotFoundException or bn MBebnException
             // or ReflectionException
             try {
                 result = (RoleResult)
-                    (myMBeanServer.invoke(((ObjectName)relObj),
+                    (myMBebnServer.invoke(((ObjectNbme)relObj),
                                           "setRoles",
-                                          params,
-                                          signature));
-            } catch (InstanceNotFoundException exc1) {
-                throw new RuntimeException(exc1.getMessage());
-            } catch (ReflectionException exc3) {
-                throw new RuntimeException(exc3.getMessage());
-            } catch (MBeanException exc2) {
+                                          pbrbms,
+                                          signbture));
+            } cbtch (InstbnceNotFoundException exc1) {
+                throw new RuntimeException(exc1.getMessbge());
+            } cbtch (ReflectionException exc3) {
+                throw new RuntimeException(exc3.getMessbge());
+            } cbtch (MBebnException exc2) {
                 throw new
-                    RuntimeException((exc2.getTargetException()).getMessage());
+                    RuntimeException((exc2.getTbrgetException()).getMessbge());
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(), "setRoles");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(), "setRoles");
         return result;
     }
 
     /**
-     * Retrieves MBeans referenced in the various roles of the relation.
+     * Retrieves MBebns referenced in the vbrious roles of the relbtion.
      *
-     * @param relationId  relation id
+     * @pbrbm relbtionId  relbtion id
      *
-     * @return a HashMap mapping:
-     * <P> ObjectName {@literal ->} ArrayList of String (role names)
+     * @return b HbshMbp mbpping:
+     * <P> ObjectNbme {@literbl ->} ArrbyList of String (role nbmes)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion for given
+     * relbtion id
      */
-    public Map<ObjectName,List<String>>
-        getReferencedMBeans(String relationId)
-            throws IllegalArgumentException,
-        RelationNotFoundException {
+    public Mbp<ObjectNbme,List<String>>
+        getReferencedMBebns(String relbtionId)
+            throws IllegblArgumentException,
+        RelbtionNotFoundException {
 
-        if (relationId == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getReferencedMBeans", relationId);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getReferencedMBebns", relbtionId);
 
-        // Can throw a RelationNotFoundException
-        Object relObj = getRelation(relationId);
+        // Cbn throw b RelbtionNotFoundException
+        Object relObj = getRelbtion(relbtionId);
 
-        Map<ObjectName,List<String>> result;
+        Mbp<ObjectNbme,List<String>> result;
 
-        if (relObj instanceof RelationSupport) {
-            // Internal relation
-            result = ((RelationSupport)relObj).getReferencedMBeans();
+        if (relObj instbnceof RelbtionSupport) {
+            // Internbl relbtion
+            result = ((RelbtionSupport)relObj).getReferencedMBebns();
 
         } else {
-            // Relation MBean
+            // Relbtion MBebn
             // No Exception
             try {
-                result = cast(
-                    myMBeanServer.getAttribute(((ObjectName)relObj),
-                                               "ReferencedMBeans"));
-            } catch (Exception exc) {
-                throw new RuntimeException(exc.getMessage());
+                result = cbst(
+                    myMBebnServer.getAttribute(((ObjectNbme)relObj),
+                                               "ReferencedMBebns"));
+            } cbtch (Exception exc) {
+                throw new RuntimeException(exc.getMessbge());
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "getReferencedMBeans");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "getReferencedMBebns");
         return result;
     }
 
     /**
-     * Returns name of associated relation type for given relation.
+     * Returns nbme of bssocibted relbtion type for given relbtion.
      *
-     * @param relationId  relation id
+     * @pbrbm relbtionId  relbtion id
      *
-     * @return the name of the associated relation type.
+     * @return the nbme of the bssocibted relbtion type.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RelationNotFoundException  if no relation for given
-     * relation id
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception RelbtionNotFoundException  if no relbtion for given
+     * relbtion id
      */
-    public String getRelationTypeName(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException {
+    public String getRelbtionTypeNbme(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException {
 
-        if (relationId == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getRelationTypeName", relationId);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getRelbtionTypeNbme", relbtionId);
 
-        // Can throw a RelationNotFoundException
-        Object relObj = getRelation(relationId);
+        // Cbn throw b RelbtionNotFoundException
+        Object relObj = getRelbtion(relbtionId);
 
         String result;
 
-        if (relObj instanceof RelationSupport) {
-            // Internal relation
-            result = ((RelationSupport)relObj).getRelationTypeName();
+        if (relObj instbnceof RelbtionSupport) {
+            // Internbl relbtion
+            result = ((RelbtionSupport)relObj).getRelbtionTypeNbme();
 
         } else {
-            // Relation MBean
+            // Relbtion MBebn
             // No Exception
             try {
                 result = (String)
-                    (myMBeanServer.getAttribute(((ObjectName)relObj),
-                                                "RelationTypeName"));
-            } catch (Exception exc) {
-                throw new RuntimeException(exc.getMessage());
+                    (myMBebnServer.getAttribute(((ObjectNbme)relObj),
+                                                "RelbtionTypeNbme"));
+            } cbtch (Exception exc) {
+                throw new RuntimeException(exc.getMessbge());
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "getRelationTypeName");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "getRelbtionTypeNbme");
         return result;
     }
 
     //
-    // NotificationListener Interface
+    // NotificbtionListener Interfbce
     //
 
     /**
-     * Invoked when a JMX notification occurs.
-     * Currently handles notifications for unregistration of MBeans, either
-     * referenced in a relation role or being a relation itself.
+     * Invoked when b JMX notificbtion occurs.
+     * Currently hbndles notificbtions for unregistrbtion of MBebns, either
+     * referenced in b relbtion role or being b relbtion itself.
      *
-     * @param notif  The notification.
-     * @param handback  An opaque object which helps the listener to
-     * associate information regarding the MBean emitter (can be null).
+     * @pbrbm notif  The notificbtion.
+     * @pbrbm hbndbbck  An opbque object which helps the listener to
+     * bssocibte informbtion regbrding the MBebn emitter (cbn be null).
      */
-    public void handleNotification(Notification notif,
-                                   Object handback) {
+    public void hbndleNotificbtion(Notificbtion notif,
+                                   Object hbndbbck) {
 
         if (notif == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "handleNotification", notif);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "hbndleNotificbtion", notif);
 
-        if (notif instanceof MBeanServerNotification) {
+        if (notif instbnceof MBebnServerNotificbtion) {
 
-            MBeanServerNotification mbsNtf = (MBeanServerNotification) notif;
+            MBebnServerNotificbtion mbsNtf = (MBebnServerNotificbtion) notif;
             String ntfType = notif.getType();
 
-            if (ntfType.equals(
-                       MBeanServerNotification.UNREGISTRATION_NOTIFICATION )) {
-                ObjectName mbeanName =
-                    ((MBeanServerNotification)notif).getMBeanName();
+            if (ntfType.equbls(
+                       MBebnServerNotificbtion.UNREGISTRATION_NOTIFICATION )) {
+                ObjectNbme mbebnNbme =
+                    ((MBebnServerNotificbtion)notif).getMBebnNbme();
 
-                // Note: use a flag to block access to
-                // myRefedMBeanObjName2RelIdsMap only for a quick access
-                boolean isRefedMBeanFlag = false;
-                synchronized(myRefedMBeanObjName2RelIdsMap) {
+                // Note: use b flbg to block bccess to
+                // myRefedMBebnObjNbme2RelIdsMbp only for b quick bccess
+                boolebn isRefedMBebnFlbg = fblse;
+                synchronized(myRefedMBebnObjNbme2RelIdsMbp) {
 
-                    if (myRefedMBeanObjName2RelIdsMap.containsKey(mbeanName)) {
-                        // Unregistration of a referenced MBean
+                    if (myRefedMBebnObjNbme2RelIdsMbp.contbinsKey(mbebnNbme)) {
+                        // Unregistrbtion of b referenced MBebn
                         synchronized(myUnregNtfList) {
-                            myUnregNtfList.add(mbsNtf);
+                            myUnregNtfList.bdd(mbsNtf);
                         }
-                        isRefedMBeanFlag = true;
+                        isRefedMBebnFlbg = true;
                     }
-                    if (isRefedMBeanFlag && myPurgeFlag) {
-                        // Immediate purge
-                        // Can throw RelationServiceNotRegisteredException
-                        // but assume that will be fine :)
+                    if (isRefedMBebnFlbg && myPurgeFlbg) {
+                        // Immedibte purge
+                        // Cbn throw RelbtionServiceNotRegisteredException
+                        // but bssume thbt will be fine :)
                         try {
-                            purgeRelations();
-                        } catch (Exception exc) {
-                            throw new RuntimeException(exc.getMessage());
+                            purgeRelbtions();
+                        } cbtch (Exception exc) {
+                            throw new RuntimeException(exc.getMessbge());
                         }
                     }
                 }
 
-                // Note: do both tests as a relation can be an MBean and be
-                //       itself referenced in another relation :)
+                // Note: do both tests bs b relbtion cbn be bn MBebn bnd be
+                //       itself referenced in bnother relbtion :)
                 String relId;
-                synchronized(myRelMBeanObjName2RelIdMap){
-                    relId = myRelMBeanObjName2RelIdMap.get(mbeanName);
+                synchronized(myRelMBebnObjNbme2RelIdMbp){
+                    relId = myRelMBebnObjNbme2RelIdMbp.get(mbebnNbme);
                 }
                 if (relId != null) {
-                    // Unregistration of a relation MBean
-                    // Can throw RelationTypeNotFoundException,
-                    // RelationServiceNotRegisteredException
+                    // Unregistrbtion of b relbtion MBebn
+                    // Cbn throw RelbtionTypeNotFoundException,
+                    // RelbtionServiceNotRegisteredException
                     //
-                    // Shall not throw RelationTypeNotFoundException or
-                    // InstanceNotFoundException
+                    // Shbll not throw RelbtionTypeNotFoundException or
+                    // InstbnceNotFoundException
                     try {
-                        removeRelation(relId);
-                    } catch (Exception exc) {
-                        throw new RuntimeException(exc.getMessage());
+                        removeRelbtion(relId);
+                    } cbtch (Exception exc) {
+                        throw new RuntimeException(exc.getMessbge());
                     }
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "handleNotification");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "hbndleNotificbtion");
         return;
     }
 
     //
-    // NotificationBroadcaster interface
+    // NotificbtionBrobdcbster interfbce
     //
 
     /**
-     * Returns a NotificationInfo object containing the name of the Java class
-     * of the notification and the notification types sent.
+     * Returns b NotificbtionInfo object contbining the nbme of the Jbvb clbss
+     * of the notificbtion bnd the notificbtion types sent.
      */
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getNotificationInfo");
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getNotificbtionInfo");
 
-        String ntfClass = "javax.management.relation.RelationNotification";
+        String ntfClbss = "jbvbx.mbnbgement.relbtion.RelbtionNotificbtion";
 
         String[] ntfTypes = new String[] {
-            RelationNotification.RELATION_BASIC_CREATION,
-            RelationNotification.RELATION_MBEAN_CREATION,
-            RelationNotification.RELATION_BASIC_UPDATE,
-            RelationNotification.RELATION_MBEAN_UPDATE,
-            RelationNotification.RELATION_BASIC_REMOVAL,
-            RelationNotification.RELATION_MBEAN_REMOVAL,
+            RelbtionNotificbtion.RELATION_BASIC_CREATION,
+            RelbtionNotificbtion.RELATION_MBEAN_CREATION,
+            RelbtionNotificbtion.RELATION_BASIC_UPDATE,
+            RelbtionNotificbtion.RELATION_MBEAN_UPDATE,
+            RelbtionNotificbtion.RELATION_BASIC_REMOVAL,
+            RelbtionNotificbtion.RELATION_MBEAN_REMOVAL,
         };
 
-        String ntfDesc = "Sent when a relation is created, updated or deleted.";
+        String ntfDesc = "Sent when b relbtion is crebted, updbted or deleted.";
 
-        MBeanNotificationInfo ntfInfo =
-            new MBeanNotificationInfo(ntfTypes, ntfClass, ntfDesc);
+        MBebnNotificbtionInfo ntfInfo =
+            new MBebnNotificbtionInfo(ntfTypes, ntfClbss, ntfDesc);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "getNotificationInfo");
-        return new MBeanNotificationInfo[] {ntfInfo};
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "getNotificbtionInfo");
+        return new MBebnNotificbtionInfo[] {ntfInfo};
     }
 
     //
     // Misc
     //
 
-    // Adds given object as a relation type.
+    // Adds given object bs b relbtion type.
     //
-    // -param relationTypeObj  relation type object
+    // -pbrbm relbtionTypeObj  relbtion type object
     //
-    // -exception IllegalArgumentException  if null parameter
-    // -exception InvalidRelationTypeException  if there is already a relation
-    //  type with that name
-    private void addRelationTypeInt(RelationType relationTypeObj)
-        throws IllegalArgumentException,
-               InvalidRelationTypeException {
+    // -exception IllegblArgumentException  if null pbrbmeter
+    // -exception InvblidRelbtionTypeException  if there is blrebdy b relbtion
+    //  type with thbt nbme
+    privbte void bddRelbtionTypeInt(RelbtionType relbtionTypeObj)
+        throws IllegblArgumentException,
+               InvblidRelbtionTypeException {
 
-        if (relationTypeObj == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionTypeObj == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "addRelationTypeInt");
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "bddRelbtionTypeInt");
 
-        String relTypeName = relationTypeObj.getRelationTypeName();
+        String relTypeNbme = relbtionTypeObj.getRelbtionTypeNbme();
 
-        // Checks that there is not already a relation type with that name
-        // existing in the Relation Service
+        // Checks thbt there is not blrebdy b relbtion type with thbt nbme
+        // existing in the Relbtion Service
         try {
-            // Can throw a RelationTypeNotFoundException (in fact should ;)
-            RelationType relType = getRelationType(relTypeName);
+            // Cbn throw b RelbtionTypeNotFoundException (in fbct should ;)
+            RelbtionType relType = getRelbtionType(relTypeNbme);
 
             if (relType != null) {
-                String excMsg = "There is already a relation type in the Relation Service with name ";
+                String excMsg = "There is blrebdy b relbtion type in the Relbtion Service with nbme ";
                 StringBuilder excMsgStrB = new StringBuilder(excMsg);
-                excMsgStrB.append(relTypeName);
-                throw new InvalidRelationTypeException(excMsgStrB.toString());
+                excMsgStrB.bppend(relTypeNbme);
+                throw new InvblidRelbtionTypeException(excMsgStrB.toString());
             }
 
-        } catch (RelationTypeNotFoundException exc) {
-            // OK : The RelationType could not be found.
+        } cbtch (RelbtionTypeNotFoundException exc) {
+            // OK : The RelbtionType could not be found.
         }
 
-        // Adds the relation type
-        synchronized(myRelType2ObjMap) {
-            myRelType2ObjMap.put(relTypeName, relationTypeObj);
+        // Adds the relbtion type
+        synchronized(myRelType2ObjMbp) {
+            myRelType2ObjMbp.put(relTypeNbme, relbtionTypeObj);
         }
 
-        if (relationTypeObj instanceof RelationTypeSupport) {
-            ((RelationTypeSupport)relationTypeObj).setRelationServiceFlag(true);
+        if (relbtionTypeObj instbnceof RelbtionTypeSupport) {
+            ((RelbtionTypeSupport)relbtionTypeObj).setRelbtionServiceFlbg(true);
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "addRelationTypeInt");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "bddRelbtionTypeInt");
         return;
      }
 
-    // Retrieves relation type with given name
+    // Retrieves relbtion type with given nbme
     //
-    // -param relationTypeName  expected name of a relation type created in the
-    //  Relation Service
+    // -pbrbm relbtionTypeNbme  expected nbme of b relbtion type crebted in the
+    //  Relbtion Service
     //
-    // -return RelationType object corresponding to given name
+    // -return RelbtionType object corresponding to given nbme
     //
-    // -exception IllegalArgumentException  if null parameter
-    // -exception RelationTypeNotFoundException  if no relation type for that
-    //  name created in Relation Service
+    // -exception IllegblArgumentException  if null pbrbmeter
+    // -exception RelbtionTypeNotFoundException  if no relbtion type for thbt
+    //  nbme crebted in Relbtion Service
     //
-    RelationType getRelationType(String relationTypeName)
-        throws IllegalArgumentException,
-               RelationTypeNotFoundException {
+    RelbtionType getRelbtionType(String relbtionTypeNbme)
+        throws IllegblArgumentException,
+               RelbtionTypeNotFoundException {
 
-        if (relationTypeName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionTypeNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getRelationType", relationTypeName);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getRelbtionType", relbtionTypeNbme);
 
-        // No null relation type accepted, so can use get()
-        RelationType relType;
-        synchronized(myRelType2ObjMap) {
-            relType = (myRelType2ObjMap.get(relationTypeName));
+        // No null relbtion type bccepted, so cbn use get()
+        RelbtionType relType;
+        synchronized(myRelType2ObjMbp) {
+            relType = (myRelType2ObjMbp.get(relbtionTypeNbme));
         }
 
         if (relType == null) {
-            String excMsg = "No relation type created in the Relation Service with the name ";
+            String excMsg = "No relbtion type crebted in the Relbtion Service with the nbme ";
             StringBuilder excMsgStrB = new StringBuilder(excMsg);
-            excMsgStrB.append(relationTypeName);
-            throw new RelationTypeNotFoundException(excMsgStrB.toString());
+            excMsgStrB.bppend(relbtionTypeNbme);
+            throw new RelbtionTypeNotFoundException(excMsgStrB.toString());
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "getRelationType");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "getRelbtionType");
         return relType;
     }
 
-    // Retrieves relation corresponding to given relation id.
+    // Retrieves relbtion corresponding to given relbtion id.
     // Returns either:
-    // - a RelationSupport object if the relation is internal
+    // - b RelbtionSupport object if the relbtion is internbl
     // or
-    // - the ObjectName of the corresponding MBean
+    // - the ObjectNbme of the corresponding MBebn
     //
-    // -param relationId  expected relation id
+    // -pbrbm relbtionId  expected relbtion id
     //
-    // -return RelationSupport object or ObjectName of relation with given id
+    // -return RelbtionSupport object or ObjectNbme of relbtion with given id
     //
-    // -exception IllegalArgumentException  if null parameter
-    // -exception RelationNotFoundException  if no relation for that
-    //  relation id created in Relation Service
+    // -exception IllegblArgumentException  if null pbrbmeter
+    // -exception RelbtionNotFoundException  if no relbtion for thbt
+    //  relbtion id crebted in Relbtion Service
     //
-    Object getRelation(String relationId)
-        throws IllegalArgumentException,
-               RelationNotFoundException {
+    Object getRelbtion(String relbtionId)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException {
 
-        if (relationId == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "getRelation", relationId);
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "getRelbtion", relbtionId);
 
-        // No null relation  accepted, so can use get()
+        // No null relbtion  bccepted, so cbn use get()
         Object rel;
-        synchronized(myRelId2ObjMap) {
-            rel = myRelId2ObjMap.get(relationId);
+        synchronized(myRelId2ObjMbp) {
+            rel = myRelId2ObjMbp.get(relbtionId);
         }
 
         if (rel == null) {
-            String excMsg = "No relation associated to relation id " + relationId;
-            throw new RelationNotFoundException(excMsg);
+            String excMsg = "No relbtion bssocibted to relbtion id " + relbtionId;
+            throw new RelbtionNotFoundException(excMsg);
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "getRelation");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "getRelbtion");
         return rel;
     }
 
-    // Adds a new MBean reference (reference to an ObjectName) in the
-    // referenced MBean map (myRefedMBeanObjName2RelIdsMap).
+    // Adds b new MBebn reference (reference to bn ObjectNbme) in the
+    // referenced MBebn mbp (myRefedMBebnObjNbme2RelIdsMbp).
     //
-    // -param objectName  ObjectName of new referenced MBean
-    // -param relationId  relation id of the relation where the MBean is
+    // -pbrbm objectNbme  ObjectNbme of new referenced MBebn
+    // -pbrbm relbtionId  relbtion id of the relbtion where the MBebn is
     //  referenced
-    // -param roleName  name of the role where the MBean is referenced
+    // -pbrbm roleNbme  nbme of the role where the MBebn is referenced
     //
-    // -return boolean:
-    //  - true  if the MBean was not referenced before, so really a new
+    // -return boolebn:
+    //  - true  if the MBebn wbs not referenced before, so reblly b new
     //    reference
-    //  - false else
+    //  - fblse else
     //
-    // -exception IllegalArgumentException  if null parameter
-    private boolean addNewMBeanReference(ObjectName objectName,
-                                         String relationId,
-                                         String roleName)
-        throws IllegalArgumentException {
+    // -exception IllegblArgumentException  if null pbrbmeter
+    privbte boolebn bddNewMBebnReference(ObjectNbme objectNbme,
+                                         String relbtionId,
+                                         String roleNbme)
+        throws IllegblArgumentException {
 
-        if (objectName == null ||
-            relationId == null ||
-            roleName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (objectNbme == null ||
+            relbtionId == null ||
+            roleNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "addNewMBeanReference",
-                new Object[] {objectName, relationId, roleName});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "bddNewMBebnReference",
+                new Object[] {objectNbme, relbtionId, roleNbme});
 
-        boolean isNewFlag = false;
+        boolebn isNewFlbg = fblse;
 
-        synchronized(myRefedMBeanObjName2RelIdsMap) {
+        synchronized(myRefedMBebnObjNbme2RelIdsMbp) {
 
-            // Checks if the MBean was already referenced
-            // No null value allowed, use get() directly
-            Map<String,List<String>> mbeanRefMap =
-                myRefedMBeanObjName2RelIdsMap.get(objectName);
+            // Checks if the MBebn wbs blrebdy referenced
+            // No null vblue bllowed, use get() directly
+            Mbp<String,List<String>> mbebnRefMbp =
+                myRefedMBebnObjNbme2RelIdsMbp.get(objectNbme);
 
-            if (mbeanRefMap == null) {
-                // MBean not referenced in any relation yet
+            if (mbebnRefMbp == null) {
+                // MBebn not referenced in bny relbtion yet
 
-                isNewFlag = true;
+                isNewFlbg = true;
 
-                // List of roles where the MBean is referenced in given
-                // relation
-                List<String> roleNames = new ArrayList<String>();
-                roleNames.add(roleName);
+                // List of roles where the MBebn is referenced in given
+                // relbtion
+                List<String> roleNbmes = new ArrbyList<String>();
+                roleNbmes.bdd(roleNbme);
 
-                // Map of relations where the MBean is referenced
-                mbeanRefMap = new HashMap<String,List<String>>();
-                mbeanRefMap.put(relationId, roleNames);
+                // Mbp of relbtions where the MBebn is referenced
+                mbebnRefMbp = new HbshMbp<String,List<String>>();
+                mbebnRefMbp.put(relbtionId, roleNbmes);
 
-                myRefedMBeanObjName2RelIdsMap.put(objectName, mbeanRefMap);
+                myRefedMBebnObjNbme2RelIdsMbp.put(objectNbme, mbebnRefMbp);
 
             } else {
-                // MBean already referenced in at least another relation
-                // Checks if already referenced in another role in current
-                // relation
-                List<String> roleNames = mbeanRefMap.get(relationId);
+                // MBebn blrebdy referenced in bt lebst bnother relbtion
+                // Checks if blrebdy referenced in bnother role in current
+                // relbtion
+                List<String> roleNbmes = mbebnRefMbp.get(relbtionId);
 
-                if (roleNames == null) {
-                    // MBean not referenced in current relation
+                if (roleNbmes == null) {
+                    // MBebn not referenced in current relbtion
 
-                    // List of roles where the MBean is referenced in given
-                    // relation
-                    roleNames = new ArrayList<String>();
-                    roleNames.add(roleName);
+                    // List of roles where the MBebn is referenced in given
+                    // relbtion
+                    roleNbmes = new ArrbyList<String>();
+                    roleNbmes.bdd(roleNbme);
 
-                    // Adds new reference done in current relation
-                    mbeanRefMap.put(relationId, roleNames);
+                    // Adds new reference done in current relbtion
+                    mbebnRefMbp.put(relbtionId, roleNbmes);
 
                 } else {
-                    // MBean already referenced in current relation in another
+                    // MBebn blrebdy referenced in current relbtion in bnother
                     // role
                     // Adds new reference done
-                    roleNames.add(roleName);
+                    roleNbmes.bdd(roleNbme);
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "addNewMBeanReference");
-        return isNewFlag;
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "bddNewMBebnReference");
+        return isNewFlbg;
     }
 
-    // Removes an obsolete MBean reference (reference to an ObjectName) in
-    // the referenced MBean map (myRefedMBeanObjName2RelIdsMap).
+    // Removes bn obsolete MBebn reference (reference to bn ObjectNbme) in
+    // the referenced MBebn mbp (myRefedMBebnObjNbme2RelIdsMbp).
     //
-    // -param objectName  ObjectName of MBean no longer referenced
-    // -param relationId  relation id of the relation where the MBean was
+    // -pbrbm objectNbme  ObjectNbme of MBebn no longer referenced
+    // -pbrbm relbtionId  relbtion id of the relbtion where the MBebn wbs
     //  referenced
-    // -param roleName  name of the role where the MBean was referenced
-    // -param allRolesFlag  flag, if true removes reference to MBean for all
-    //  roles in the relation, not only for the one above
+    // -pbrbm roleNbme  nbme of the role where the MBebn wbs referenced
+    // -pbrbm bllRolesFlbg  flbg, if true removes reference to MBebn for bll
+    //  roles in the relbtion, not only for the one bbove
     //
-    // -return boolean:
-    //  - true  if the MBean is no longer reference in any relation
-    //  - false else
+    // -return boolebn:
+    //  - true  if the MBebn is no longer reference in bny relbtion
+    //  - fblse else
     //
-    // -exception IllegalArgumentException  if null parameter
-    private boolean removeMBeanReference(ObjectName objectName,
-                                         String relationId,
-                                         String roleName,
-                                         boolean allRolesFlag)
-        throws IllegalArgumentException {
+    // -exception IllegblArgumentException  if null pbrbmeter
+    privbte boolebn removeMBebnReference(ObjectNbme objectNbme,
+                                         String relbtionId,
+                                         String roleNbme,
+                                         boolebn bllRolesFlbg)
+        throws IllegblArgumentException {
 
-        if (objectName == null ||
-            relationId == null ||
-            roleName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (objectNbme == null ||
+            relbtionId == null ||
+            roleNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "removeMBeanReference",
-                new Object[] {objectName, relationId, roleName, allRolesFlag});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "removeMBebnReference",
+                new Object[] {objectNbme, relbtionId, roleNbme, bllRolesFlbg});
 
-        boolean noLongerRefFlag = false;
+        boolebn noLongerRefFlbg = fblse;
 
-        synchronized(myRefedMBeanObjName2RelIdsMap) {
+        synchronized(myRefedMBebnObjNbme2RelIdsMbp) {
 
-            // Retrieves the set of relations (designed via their relation ids)
-            // where the MBean is referenced
-            // Note that it is possible that the MBean has already been removed
-            // from the internal map: this is the case when the MBean is
-            // unregistered, the role is updated, then we arrive here.
-            Map<String,List<String>> mbeanRefMap =
-                (myRefedMBeanObjName2RelIdsMap.get(objectName));
+            // Retrieves the set of relbtions (designed vib their relbtion ids)
+            // where the MBebn is referenced
+            // Note thbt it is possible thbt the MBebn hbs blrebdy been removed
+            // from the internbl mbp: this is the cbse when the MBebn is
+            // unregistered, the role is updbted, then we brrive here.
+            Mbp<String,List<String>> mbebnRefMbp =
+                (myRefedMBebnObjNbme2RelIdsMbp.get(objectNbme));
 
-            if (mbeanRefMap == null) {
-                // The MBean is no longer referenced
-                RELATION_LOGGER.exiting(RelationService.class.getName(),
-                        "removeMBeanReference");
+            if (mbebnRefMbp == null) {
+                // The MBebn is no longer referenced
+                RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                        "removeMBebnReference");
                 return true;
             }
 
-            List<String> roleNames = null;
-            if (!allRolesFlag) {
-                // Now retrieves the roles of current relation where the MBean
-                // was referenced
-                roleNames = mbeanRefMap.get(relationId);
+            List<String> roleNbmes = null;
+            if (!bllRolesFlbg) {
+                // Now retrieves the roles of current relbtion where the MBebn
+                // wbs referenced
+                roleNbmes = mbebnRefMbp.get(relbtionId);
 
                 // Removes obsolete reference to role
-                int obsRefIdx = roleNames.indexOf(roleName);
+                int obsRefIdx = roleNbmes.indexOf(roleNbme);
                 if (obsRefIdx != -1) {
-                    roleNames.remove(obsRefIdx);
+                    roleNbmes.remove(obsRefIdx);
                 }
             }
 
-            // Checks if there is still at least one role in current relation
-            // where the MBean is referenced
-            if (roleNames.isEmpty() || allRolesFlag) {
-                // MBean no longer referenced in current relation: removes
+            // Checks if there is still bt lebst one role in current relbtion
+            // where the MBebn is referenced
+            if (roleNbmes.isEmpty() || bllRolesFlbg) {
+                // MBebn no longer referenced in current relbtion: removes
                 // entry
-                mbeanRefMap.remove(relationId);
+                mbebnRefMbp.remove(relbtionId);
             }
 
-            // Checks if the MBean is still referenced in at least on relation
-            if (mbeanRefMap.isEmpty()) {
-                // MBean no longer referenced in any relation: removes entry
-                myRefedMBeanObjName2RelIdsMap.remove(objectName);
-                noLongerRefFlag = true;
+            // Checks if the MBebn is still referenced in bt lebst on relbtion
+            if (mbebnRefMbp.isEmpty()) {
+                // MBebn no longer referenced in bny relbtion: removes entry
+                myRefedMBebnObjNbme2RelIdsMbp.remove(objectNbme);
+                noLongerRefFlbg = true;
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "removeMBeanReference");
-        return noLongerRefFlag;
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "removeMBebnReference");
+        return noLongerRefFlbg;
     }
 
-    // Updates the listener registered to the MBean Server to be informed of
-    // referenced MBean deregistrations
+    // Updbtes the listener registered to the MBebn Server to be informed of
+    // referenced MBebn deregistrbtions
     //
-    // -param newRefList  ArrayList of ObjectNames for new references done
-    //  to MBeans (can be null)
-    // -param obsoleteRefList  ArrayList of ObjectNames for obsolete references
-    //  to MBeans (can be null)
+    // -pbrbm newRefList  ArrbyList of ObjectNbmes for new references done
+    //  to MBebns (cbn be null)
+    // -pbrbm obsoleteRefList  ArrbyList of ObjectNbmes for obsolete references
+    //  to MBebns (cbn be null)
     //
-    // -exception RelationServiceNotRegisteredException  if the Relation
-    //  Service is not registered in the MBean Server.
-    private void updateUnregistrationListener(List<ObjectName> newRefList,
-                                              List<ObjectName> obsoleteRefList)
-        throws RelationServiceNotRegisteredException {
+    // -exception RelbtionServiceNotRegisteredException  if the Relbtion
+    //  Service is not registered in the MBebn Server.
+    privbte void updbteUnregistrbtionListener(List<ObjectNbme> newRefList,
+                                              List<ObjectNbme> obsoleteRefList)
+        throws RelbtionServiceNotRegisteredException {
 
         if (newRefList != null && obsoleteRefList != null) {
             if (newRefList.isEmpty() && obsoleteRefList.isEmpty()) {
@@ -2850,940 +2850,940 @@ public class RelationService extends NotificationBroadcasterSupport
             }
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "updateUnregistrationListener",
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "updbteUnregistrbtionListener",
                 new Object[] {newRefList, obsoleteRefList});
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
         if (newRefList != null || obsoleteRefList != null) {
 
-            boolean newListenerFlag = false;
+            boolebn newListenerFlbg = fblse;
             if (myUnregNtfFilter == null) {
-                // Initialize it to be able to synchronise it :)
-                myUnregNtfFilter = new MBeanServerNotificationFilter();
-                newListenerFlag = true;
+                // Initiblize it to be bble to synchronise it :)
+                myUnregNtfFilter = new MBebnServerNotificbtionFilter();
+                newListenerFlbg = true;
             }
 
             synchronized(myUnregNtfFilter) {
 
-                // Enables ObjectNames in newRefList
+                // Enbbles ObjectNbmes in newRefList
                 if (newRefList != null) {
-                    for (ObjectName newObjName : newRefList)
-                        myUnregNtfFilter.enableObjectName(newObjName);
+                    for (ObjectNbme newObjNbme : newRefList)
+                        myUnregNtfFilter.enbbleObjectNbme(newObjNbme);
                 }
 
                 if (obsoleteRefList != null) {
-                    // Disables ObjectNames in obsoleteRefList
-                    for (ObjectName obsObjName : obsoleteRefList)
-                        myUnregNtfFilter.disableObjectName(obsObjName);
+                    // Disbbles ObjectNbmes in obsoleteRefList
+                    for (ObjectNbme obsObjNbme : obsoleteRefList)
+                        myUnregNtfFilter.disbbleObjectNbme(obsObjNbme);
                 }
 
 // Under test
-                if (newListenerFlag) {
+                if (newListenerFlbg) {
                     try {
-                        myMBeanServer.addNotificationListener(
-                                MBeanServerDelegate.DELEGATE_NAME,
+                        myMBebnServer.bddNotificbtionListener(
+                                MBebnServerDelegbte.DELEGATE_NAME,
                                 this,
                                 myUnregNtfFilter,
                                 null);
-                    } catch (InstanceNotFoundException exc) {
+                    } cbtch (InstbnceNotFoundException exc) {
                         throw new
-                       RelationServiceNotRegisteredException(exc.getMessage());
+                       RelbtionServiceNotRegisteredException(exc.getMessbge());
                     }
                 }
 // End test
 
 
-//              if (!newListenerFlag) {
-                    // The Relation Service was already registered as a
+//              if (!newListenerFlbg) {
+                    // The Relbtion Service wbs blrebdy registered bs b
                     // listener:
                     // removes it
-                    // Shall not throw InstanceNotFoundException (as the
-                    // MBean Server Delegate is expected to exist) or
-                    // ListenerNotFoundException (as it has been checked above
-                    // that the Relation Service is registered)
+                    // Shbll not throw InstbnceNotFoundException (bs the
+                    // MBebn Server Delegbte is expected to exist) or
+                    // ListenerNotFoundException (bs it hbs been checked bbove
+                    // thbt the Relbtion Service is registered)
 //                  try {
-//                      myMBeanServer.removeNotificationListener(
-//                              MBeanServerDelegate.DELEGATE_NAME,
+//                      myMBebnServer.removeNotificbtionListener(
+//                              MBebnServerDelegbte.DELEGATE_NAME,
 //                              this);
-//                  } catch (InstanceNotFoundException exc1) {
-//                      throw new RuntimeException(exc1.getMessage());
-//                  } catch (ListenerNotFoundException exc2) {
+//                  } cbtch (InstbnceNotFoundException exc1) {
+//                      throw new RuntimeException(exc1.getMessbge());
+//                  } cbtch (ListenerNotFoundException exc2) {
 //                      throw new
-//                          RelationServiceNotRegisteredException(exc2.getMessage());
+//                          RelbtionServiceNotRegisteredException(exc2.getMessbge());
 //                  }
 //              }
 
-                // Adds Relation Service with current filter
-                // Can throw InstanceNotFoundException if the Relation
-                // Service is not registered, to be transformed into
-                // RelationServiceNotRegisteredException
+                // Adds Relbtion Service with current filter
+                // Cbn throw InstbnceNotFoundException if the Relbtion
+                // Service is not registered, to be trbnsformed into
+                // RelbtionServiceNotRegisteredException
                 //
-                // Assume that there will not be any InstanceNotFoundException
-                // for the MBean Server Delegate :)
+                // Assume thbt there will not be bny InstbnceNotFoundException
+                // for the MBebn Server Delegbte :)
 //              try {
-//                  myMBeanServer.addNotificationListener(
-//                              MBeanServerDelegate.DELEGATE_NAME,
+//                  myMBebnServer.bddNotificbtionListener(
+//                              MBebnServerDelegbte.DELEGATE_NAME,
 //                              this,
 //                              myUnregNtfFilter,
 //                              null);
-//              } catch (InstanceNotFoundException exc) {
+//              } cbtch (InstbnceNotFoundException exc) {
 //                  throw new
-//                     RelationServiceNotRegisteredException(exc.getMessage());
+//                     RelbtionServiceNotRegisteredException(exc.getMessbge());
 //              }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "updateUnregistrationListener");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "updbteUnregistrbtionListener");
         return;
     }
 
-    // Adds a relation (being either a RelationSupport object or an MBean
-    // referenced using its ObjectName) in the Relation Service.
-    // Will send a notification RelationNotification with type:
-    // - RelationNotification.RELATION_BASIC_CREATION for internal relation
-    //   creation
-    // - RelationNotification.RELATION_MBEAN_CREATION for an MBean being added
-    //   as a relation.
+    // Adds b relbtion (being either b RelbtionSupport object or bn MBebn
+    // referenced using its ObjectNbme) in the Relbtion Service.
+    // Will send b notificbtion RelbtionNotificbtion with type:
+    // - RelbtionNotificbtion.RELATION_BASIC_CREATION for internbl relbtion
+    //   crebtion
+    // - RelbtionNotificbtion.RELATION_MBEAN_CREATION for bn MBebn being bdded
+    //   bs b relbtion.
     //
-    // -param relationBaseFlag  flag true if the relation is a RelationSupport
-    //  object, false if it is an MBean
-    // -param relationObj  RelationSupport object (if relation is internal)
-    // -param relationObjName  ObjectName of the MBean to be added as a relation
-    //  (only for the relation MBean)
-    // -param relationId  relation identifier, to uniquely identify the relation
-    //  inside the Relation Service
-    // -param relationTypeName  name of the relation type (has to be created
-    //  in the Relation Service)
-    // -param roleList  role list to initialize roles of the relation
-    //  (can be null)
+    // -pbrbm relbtionBbseFlbg  flbg true if the relbtion is b RelbtionSupport
+    //  object, fblse if it is bn MBebn
+    // -pbrbm relbtionObj  RelbtionSupport object (if relbtion is internbl)
+    // -pbrbm relbtionObjNbme  ObjectNbme of the MBebn to be bdded bs b relbtion
+    //  (only for the relbtion MBebn)
+    // -pbrbm relbtionId  relbtion identifier, to uniquely identify the relbtion
+    //  inside the Relbtion Service
+    // -pbrbm relbtionTypeNbme  nbme of the relbtion type (hbs to be crebted
+    //  in the Relbtion Service)
+    // -pbrbm roleList  role list to initiblize roles of the relbtion
+    //  (cbn be null)
     //
-    // -exception IllegalArgumentException  if null paramater
-    // -exception RelationServiceNotRegisteredException  if the Relation
-    //  Service is not registered in the MBean Server
-    // -exception RoleNotFoundException  if a value is provided for a role
-    //  that does not exist in the relation type
-    // -exception InvalidRelationIdException  if relation id already used
-    // -exception RelationTypeNotFoundException  if relation type not known in
-    //  Relation Service
-    // -exception InvalidRoleValueException if:
-    //  - the same role name is used for two different roles
-    //  - the number of referenced MBeans in given value is less than
+    // -exception IllegblArgumentException  if null pbrbmbter
+    // -exception RelbtionServiceNotRegisteredException  if the Relbtion
+    //  Service is not registered in the MBebn Server
+    // -exception RoleNotFoundException  if b vblue is provided for b role
+    //  thbt does not exist in the relbtion type
+    // -exception InvblidRelbtionIdException  if relbtion id blrebdy used
+    // -exception RelbtionTypeNotFoundException  if relbtion type not known in
+    //  Relbtion Service
+    // -exception InvblidRoleVblueException if:
+    //  - the sbme role nbme is used for two different roles
+    //  - the number of referenced MBebns in given vblue is less thbn
     //    expected minimum degree
-    //  - the number of referenced MBeans in provided value exceeds expected
-    //    maximum degree
-    //  - one referenced MBean in the value is not an Object of the MBean
-    //    class expected for that role
-    //  - an MBean provided for that role does not exist
-    private void addRelationInt(boolean relationBaseFlag,
-                                RelationSupport relationObj,
-                                ObjectName relationObjName,
-                                String relationId,
-                                String relationTypeName,
+    //  - the number of referenced MBebns in provided vblue exceeds expected
+    //    mbximum degree
+    //  - one referenced MBebn in the vblue is not bn Object of the MBebn
+    //    clbss expected for thbt role
+    //  - bn MBebn provided for thbt role does not exist
+    privbte void bddRelbtionInt(boolebn relbtionBbseFlbg,
+                                RelbtionSupport relbtionObj,
+                                ObjectNbme relbtionObjNbme,
+                                String relbtionId,
+                                String relbtionTypeNbme,
                                 RoleList roleList)
-        throws IllegalArgumentException,
-               RelationServiceNotRegisteredException,
+        throws IllegblArgumentException,
+               RelbtionServiceNotRegisteredException,
                RoleNotFoundException,
-               InvalidRelationIdException,
-               RelationTypeNotFoundException,
-               InvalidRoleValueException {
+               InvblidRelbtionIdException,
+               RelbtionTypeNotFoundException,
+               InvblidRoleVblueException {
 
-        if (relationId == null ||
-            relationTypeName == null ||
-            (relationBaseFlag &&
-             (relationObj == null ||
-              relationObjName != null)) ||
-            (!relationBaseFlag &&
-             (relationObjName == null ||
-              relationObj != null))) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null ||
+            relbtionTypeNbme == null ||
+            (relbtionBbseFlbg &&
+             (relbtionObj == null ||
+              relbtionObjNbme != null)) ||
+            (!relbtionBbseFlbg &&
+             (relbtionObjNbme == null ||
+              relbtionObj != null))) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "addRelationInt", new Object[] {relationBaseFlag, relationObj,
-                relationObjName, relationId, relationTypeName, roleList});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "bddRelbtionInt", new Object[] {relbtionBbseFlbg, relbtionObj,
+                relbtionObjNbme, relbtionId, relbtionTypeNbme, roleList});
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // Checks if there is already a relation with given id
+        // Checks if there is blrebdy b relbtion with given id
         try {
-            // Can throw a RelationNotFoundException (in fact should :)
-            Object rel = getRelation(relationId);
+            // Cbn throw b RelbtionNotFoundException (in fbct should :)
+            Object rel = getRelbtion(relbtionId);
 
             if (rel != null) {
-                // There is already a relation with that id
-                String excMsg = "There is already a relation with id ";
+                // There is blrebdy b relbtion with thbt id
+                String excMsg = "There is blrebdy b relbtion with id ";
                 StringBuilder excMsgStrB = new StringBuilder(excMsg);
-                excMsgStrB.append(relationId);
-                throw new InvalidRelationIdException(excMsgStrB.toString());
+                excMsgStrB.bppend(relbtionId);
+                throw new InvblidRelbtionIdException(excMsgStrB.toString());
             }
-        } catch (RelationNotFoundException exc) {
-            // OK : The Relation could not be found.
+        } cbtch (RelbtionNotFoundException exc) {
+            // OK : The Relbtion could not be found.
         }
 
-        // Retrieves the relation type
-        // Can throw RelationTypeNotFoundException
-        RelationType relType = getRelationType(relationTypeName);
+        // Retrieves the relbtion type
+        // Cbn throw RelbtionTypeNotFoundException
+        RelbtionType relType = getRelbtionType(relbtionTypeNbme);
 
-        // Checks that each provided role conforms to its role info provided in
-        // the relation type
-        // First retrieves a local list of the role infos of the relation type
-        // to see which roles have not been initialized
-        // Note: no need to test if list not null before cloning, not allowed
-        //       to have an empty relation type.
-        List<RoleInfo> roleInfoList = new ArrayList<RoleInfo>(relType.getRoleInfos());
+        // Checks thbt ebch provided role conforms to its role info provided in
+        // the relbtion type
+        // First retrieves b locbl list of the role infos of the relbtion type
+        // to see which roles hbve not been initiblized
+        // Note: no need to test if list not null before cloning, not bllowed
+        //       to hbve bn empty relbtion type.
+        List<RoleInfo> roleInfoList = new ArrbyList<RoleInfo>(relType.getRoleInfos());
 
         if (roleList != null) {
 
-            for (Role currRole : roleList.asList()) {
-                String currRoleName = currRole.getRoleName();
-                List<ObjectName> currRoleValue = currRole.getRoleValue();
+            for (Role currRole : roleList.bsList()) {
+                String currRoleNbme = currRole.getRoleNbme();
+                List<ObjectNbme> currRoleVblue = currRole.getRoleVblue();
                 // Retrieves corresponding role info
-                // Can throw a RoleInfoNotFoundException to be converted into a
+                // Cbn throw b RoleInfoNotFoundException to be converted into b
                 // RoleNotFoundException
                 RoleInfo roleInfo;
                 try {
-                    roleInfo = relType.getRoleInfo(currRoleName);
-                } catch (RoleInfoNotFoundException exc) {
-                    throw new RoleNotFoundException(exc.getMessage());
+                    roleInfo = relType.getRoleInfo(currRoleNbme);
+                } cbtch (RoleInfoNotFoundException exc) {
+                    throw new RoleNotFoundException(exc.getMessbge());
                 }
 
-                // Checks that role conforms to role info,
-                Integer status = checkRoleInt(2,
-                                              currRoleName,
-                                              currRoleValue,
+                // Checks thbt role conforms to role info,
+                Integer stbtus = checkRoleInt(2,
+                                              currRoleNbme,
+                                              currRoleVblue,
                                               roleInfo,
-                                              false);
-                int pbType = status.intValue();
+                                              fblse);
+                int pbType = stbtus.intVblue();
                 if (pbType != 0) {
-                    // A problem has occurred: throws appropriate exception
-                    // here InvalidRoleValueException
-                    throwRoleProblemException(pbType, currRoleName);
+                    // A problem hbs occurred: throws bppropribte exception
+                    // here InvblidRoleVblueException
+                    throwRoleProblemException(pbType, currRoleNbme);
                 }
 
-                // Removes role info for that list from list of role infos for
-                // roles to be defaulted
+                // Removes role info for thbt list from list of role infos for
+                // roles to be defbulted
                 int roleInfoIdx = roleInfoList.indexOf(roleInfo);
                 // Note: no need to check if != -1, MUST be there :)
                 roleInfoList.remove(roleInfoIdx);
             }
         }
 
-        // Initializes roles not initialized by roleList
-        // Can throw InvalidRoleValueException
-        initializeMissingRoles(relationBaseFlag,
-                               relationObj,
-                               relationObjName,
-                               relationId,
-                               relationTypeName,
+        // Initiblizes roles not initiblized by roleList
+        // Cbn throw InvblidRoleVblueException
+        initiblizeMissingRoles(relbtionBbseFlbg,
+                               relbtionObj,
+                               relbtionObjNbme,
+                               relbtionId,
+                               relbtionTypeNbme,
                                roleInfoList);
 
-        // Creation of relation successfull!!!!
+        // Crebtion of relbtion successfull!!!!
 
-        // Updates internal maps
-        // Relation id to object map
-        synchronized(myRelId2ObjMap) {
-            if (relationBaseFlag) {
-                // Note: do not clone relation object, created by us :)
-                myRelId2ObjMap.put(relationId, relationObj);
+        // Updbtes internbl mbps
+        // Relbtion id to object mbp
+        synchronized(myRelId2ObjMbp) {
+            if (relbtionBbseFlbg) {
+                // Note: do not clone relbtion object, crebted by us :)
+                myRelId2ObjMbp.put(relbtionId, relbtionObj);
             } else {
-                myRelId2ObjMap.put(relationId, relationObjName);
+                myRelId2ObjMbp.put(relbtionId, relbtionObjNbme);
             }
         }
 
-        // Relation id to relation type name map
-        synchronized(myRelId2RelTypeMap) {
-            myRelId2RelTypeMap.put(relationId,
-                                   relationTypeName);
+        // Relbtion id to relbtion type nbme mbp
+        synchronized(myRelId2RelTypeMbp) {
+            myRelId2RelTypeMbp.put(relbtionId,
+                                   relbtionTypeNbme);
         }
 
-        // Relation type to relation id map
-        synchronized(myRelType2RelIdsMap) {
+        // Relbtion type to relbtion id mbp
+        synchronized(myRelType2RelIdsMbp) {
             List<String> relIdList =
-                myRelType2RelIdsMap.get(relationTypeName);
-            boolean firstRelFlag = false;
+                myRelType2RelIdsMbp.get(relbtionTypeNbme);
+            boolebn firstRelFlbg = fblse;
             if (relIdList == null) {
-                firstRelFlag = true;
-                relIdList = new ArrayList<String>();
+                firstRelFlbg = true;
+                relIdList = new ArrbyList<String>();
             }
-            relIdList.add(relationId);
-            if (firstRelFlag) {
-                myRelType2RelIdsMap.put(relationTypeName, relIdList);
+            relIdList.bdd(relbtionId);
+            if (firstRelFlbg) {
+                myRelType2RelIdsMbp.put(relbtionTypeNbme, relIdList);
             }
         }
 
-        // Referenced MBean to relation id map
-        // Only role list parameter used, as default initialization of roles
-        // done automatically in initializeMissingRoles() sets each
-        // uninitialized role to an empty value.
-        for (Role currRole : roleList.asList()) {
-            // Creates a dummy empty ArrayList of ObjectNames to be the old
-            // role value :)
-            List<ObjectName> dummyList = new ArrayList<ObjectName>();
-            // Will not throw a RelationNotFoundException (as the RelId2Obj map
-            // has been updated above) so catch it :)
+        // Referenced MBebn to relbtion id mbp
+        // Only role list pbrbmeter used, bs defbult initiblizbtion of roles
+        // done butombticblly in initiblizeMissingRoles() sets ebch
+        // uninitiblized role to bn empty vblue.
+        for (Role currRole : roleList.bsList()) {
+            // Crebtes b dummy empty ArrbyList of ObjectNbmes to be the old
+            // role vblue :)
+            List<ObjectNbme> dummyList = new ArrbyList<ObjectNbme>();
+            // Will not throw b RelbtionNotFoundException (bs the RelId2Obj mbp
+            // hbs been updbted bbove) so cbtch it :)
             try {
-                updateRoleMap(relationId, currRole, dummyList);
+                updbteRoleMbp(relbtionId, currRole, dummyList);
 
-            } catch (RelationNotFoundException exc) {
-                // OK : The Relation could not be found.
+            } cbtch (RelbtionNotFoundException exc) {
+                // OK : The Relbtion could not be found.
             }
         }
 
-        // Sends a notification for relation creation
-        // Will not throw RelationNotFoundException so catch it :)
+        // Sends b notificbtion for relbtion crebtion
+        // Will not throw RelbtionNotFoundException so cbtch it :)
         try {
-            sendRelationCreationNotification(relationId);
+            sendRelbtionCrebtionNotificbtion(relbtionId);
 
-        } catch (RelationNotFoundException exc) {
-            // OK : The Relation could not be found.
+        } cbtch (RelbtionNotFoundException exc) {
+            // OK : The Relbtion could not be found.
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "addRelationInt");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "bddRelbtionInt");
         return;
     }
 
-    // Checks that given role conforms to given role info.
+    // Checks thbt given role conforms to given role info.
     //
-    // -param chkType  type of check:
-    //  - 1: read, just check read access
-    //  - 2: write, check value and write access if writeChkFlag
-    // -param roleName  role name
-    // -param roleValue  role value
-    // -param roleInfo  corresponding role info
-    // -param writeChkFlag  boolean to specify a current write access and
+    // -pbrbm chkType  type of check:
+    //  - 1: rebd, just check rebd bccess
+    //  - 2: write, check vblue bnd write bccess if writeChkFlbg
+    // -pbrbm roleNbme  role nbme
+    // -pbrbm roleVblue  role vblue
+    // -pbrbm roleInfo  corresponding role info
+    // -pbrbm writeChkFlbg  boolebn to specify b current write bccess bnd
     //  to check it
     //
-    // -return Integer with value:
+    // -return Integer with vblue:
     //  - 0: ok
-    //  - RoleStatus.NO_ROLE_WITH_NAME
-    //  - RoleStatus.ROLE_NOT_READABLE
-    //  - RoleStatus.ROLE_NOT_WRITABLE
-    //  - RoleStatus.LESS_THAN_MIN_ROLE_DEGREE
-    //  - RoleStatus.MORE_THAN_MAX_ROLE_DEGREE
-    //  - RoleStatus.REF_MBEAN_OF_INCORRECT_CLASS
-    //  - RoleStatus.REF_MBEAN_NOT_REGISTERED
+    //  - RoleStbtus.NO_ROLE_WITH_NAME
+    //  - RoleStbtus.ROLE_NOT_READABLE
+    //  - RoleStbtus.ROLE_NOT_WRITABLE
+    //  - RoleStbtus.LESS_THAN_MIN_ROLE_DEGREE
+    //  - RoleStbtus.MORE_THAN_MAX_ROLE_DEGREE
+    //  - RoleStbtus.REF_MBEAN_OF_INCORRECT_CLASS
+    //  - RoleStbtus.REF_MBEAN_NOT_REGISTERED
     //
-    // -exception IllegalArgumentException  if null parameter
-    private Integer checkRoleInt(int chkType,
-                                 String roleName,
-                                 List<ObjectName> roleValue,
+    // -exception IllegblArgumentException  if null pbrbmeter
+    privbte Integer checkRoleInt(int chkType,
+                                 String roleNbme,
+                                 List<ObjectNbme> roleVblue,
                                  RoleInfo roleInfo,
-                                 boolean writeChkFlag)
-        throws IllegalArgumentException {
+                                 boolebn writeChkFlbg)
+        throws IllegblArgumentException {
 
-        if (roleName == null ||
+        if (roleNbme == null ||
             roleInfo == null ||
-            (chkType == 2 && roleValue == null)) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            (chkType == 2 && roleVblue == null)) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "checkRoleInt", new Object[] {chkType, roleName,
-                roleValue, roleInfo, writeChkFlag});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "checkRoleInt", new Object[] {chkType, roleNbme,
+                roleVblue, roleInfo, writeChkFlbg});
 
-        // Compares names
-        String expName = roleInfo.getName();
-        if (!(roleName.equals(expName))) {
-            RELATION_LOGGER.exiting(RelationService.class.getName(),
+        // Compbres nbmes
+        String expNbme = roleInfo.getNbme();
+        if (!(roleNbme.equbls(expNbme))) {
+            RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                     "checkRoleInt");
-            return Integer.valueOf(RoleStatus.NO_ROLE_WITH_NAME);
+            return Integer.vblueOf(RoleStbtus.NO_ROLE_WITH_NAME);
         }
 
-        // Checks read access if required
+        // Checks rebd bccess if required
         if (chkType == 1) {
-            boolean isReadable = roleInfo.isReadable();
-            if (!isReadable) {
-                RELATION_LOGGER.exiting(RelationService.class.getName(),
+            boolebn isRebdbble = roleInfo.isRebdbble();
+            if (!isRebdbble) {
+                RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                         "checkRoleInt");
-                return Integer.valueOf(RoleStatus.ROLE_NOT_READABLE);
+                return Integer.vblueOf(RoleStbtus.ROLE_NOT_READABLE);
             } else {
                 // End of check :)
-                RELATION_LOGGER.exiting(RelationService.class.getName(),
+                RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                         "checkRoleInt");
                 return 0;
             }
         }
 
-        // Checks write access if required
-        if (writeChkFlag) {
-            boolean isWritable = roleInfo.isWritable();
-            if (!isWritable) {
-                RELATION_LOGGER.exiting(RelationService.class.getName(),
+        // Checks write bccess if required
+        if (writeChkFlbg) {
+            boolebn isWritbble = roleInfo.isWritbble();
+            if (!isWritbble) {
+                RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                         "checkRoleInt");
-                return RoleStatus.ROLE_NOT_WRITABLE;
+                return RoleStbtus.ROLE_NOT_WRITABLE;
             }
         }
 
-        int refNbr = roleValue.size();
+        int refNbr = roleVblue.size();
 
-        // Checks minimum cardinality
-        boolean chkMinFlag = roleInfo.checkMinDegree(refNbr);
-        if (!chkMinFlag) {
-            RELATION_LOGGER.exiting(RelationService.class.getName(),
+        // Checks minimum cbrdinblity
+        boolebn chkMinFlbg = roleInfo.checkMinDegree(refNbr);
+        if (!chkMinFlbg) {
+            RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                     "checkRoleInt");
-            return RoleStatus.LESS_THAN_MIN_ROLE_DEGREE;
+            return RoleStbtus.LESS_THAN_MIN_ROLE_DEGREE;
         }
 
-        // Checks maximum cardinality
-        boolean chkMaxFlag = roleInfo.checkMaxDegree(refNbr);
-        if (!chkMaxFlag) {
-            RELATION_LOGGER.exiting(RelationService.class.getName(),
+        // Checks mbximum cbrdinblity
+        boolebn chkMbxFlbg = roleInfo.checkMbxDegree(refNbr);
+        if (!chkMbxFlbg) {
+            RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                     "checkRoleInt");
-            return RoleStatus.MORE_THAN_MAX_ROLE_DEGREE;
+            return RoleStbtus.MORE_THAN_MAX_ROLE_DEGREE;
         }
 
-        // Verifies that each referenced MBean is registered in the MBean
-        // Server and that it is an instance of the class specified in the
-        // role info, or of a subclass of it
-        // Note that here again this is under the assumption that
-        // referenced MBeans, relation MBeans and the Relation Service are
-        // registered in the same MBean Server.
-        String expClassName = roleInfo.getRefMBeanClassName();
+        // Verifies thbt ebch referenced MBebn is registered in the MBebn
+        // Server bnd thbt it is bn instbnce of the clbss specified in the
+        // role info, or of b subclbss of it
+        // Note thbt here bgbin this is under the bssumption thbt
+        // referenced MBebns, relbtion MBebns bnd the Relbtion Service bre
+        // registered in the sbme MBebn Server.
+        String expClbssNbme = roleInfo.getRefMBebnClbssNbme();
 
-        for (ObjectName currObjName : roleValue) {
+        for (ObjectNbme currObjNbme : roleVblue) {
 
             // Checks it is registered
-            if (currObjName == null) {
-                RELATION_LOGGER.exiting(RelationService.class.getName(),
+            if (currObjNbme == null) {
+                RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                         "checkRoleInt");
-                return RoleStatus.REF_MBEAN_NOT_REGISTERED;
+                return RoleStbtus.REF_MBEAN_NOT_REGISTERED;
             }
 
-            // Checks if it is of the correct class
-            // Can throw an InstanceNotFoundException, if MBean not registered
+            // Checks if it is of the correct clbss
+            // Cbn throw bn InstbnceNotFoundException, if MBebn not registered
             try {
-                boolean classSts = myMBeanServer.isInstanceOf(currObjName,
-                                                              expClassName);
-                if (!classSts) {
-                    RELATION_LOGGER.exiting(RelationService.class.getName(),
+                boolebn clbssSts = myMBebnServer.isInstbnceOf(currObjNbme,
+                                                              expClbssNbme);
+                if (!clbssSts) {
+                    RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                             "checkRoleInt");
-                    return RoleStatus.REF_MBEAN_OF_INCORRECT_CLASS;
+                    return RoleStbtus.REF_MBEAN_OF_INCORRECT_CLASS;
                 }
 
-            } catch (InstanceNotFoundException exc) {
-                RELATION_LOGGER.exiting(RelationService.class.getName(),
+            } cbtch (InstbnceNotFoundException exc) {
+                RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                         "checkRoleInt");
-                return RoleStatus.REF_MBEAN_NOT_REGISTERED;
+                return RoleStbtus.REF_MBEAN_NOT_REGISTERED;
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
                 "checkRoleInt");
         return 0;
     }
 
 
-    // Initializes roles associated to given role infos to default value (empty
-    // ArrayList of ObjectNames) in given relation.
-    // It will succeed for every role except if the role info has a minimum
-    // cardinality greater than 0. In that case, an InvalidRoleValueException
-    // will be raised.
+    // Initiblizes roles bssocibted to given role infos to defbult vblue (empty
+    // ArrbyList of ObjectNbmes) in given relbtion.
+    // It will succeed for every role except if the role info hbs b minimum
+    // cbrdinblity grebter thbn 0. In thbt cbse, bn InvblidRoleVblueException
+    // will be rbised.
     //
-    // -param relationBaseFlag  flag true if the relation is a RelationSupport
-    //  object, false if it is an MBean
-    // -param relationObj  RelationSupport object (if relation is internal)
-    // -param relationObjName  ObjectName of the MBean to be added as a relation
-    //  (only for the relation MBean)
-    // -param relationId  relation id
-    // -param relationTypeName  name of the relation type (has to be created
-    //  in the Relation Service)
-    // -param roleInfoList  list of role infos for roles to be defaulted
+    // -pbrbm relbtionBbseFlbg  flbg true if the relbtion is b RelbtionSupport
+    //  object, fblse if it is bn MBebn
+    // -pbrbm relbtionObj  RelbtionSupport object (if relbtion is internbl)
+    // -pbrbm relbtionObjNbme  ObjectNbme of the MBebn to be bdded bs b relbtion
+    //  (only for the relbtion MBebn)
+    // -pbrbm relbtionId  relbtion id
+    // -pbrbm relbtionTypeNbme  nbme of the relbtion type (hbs to be crebted
+    //  in the Relbtion Service)
+    // -pbrbm roleInfoList  list of role infos for roles to be defbulted
     //
-    // -exception IllegalArgumentException  if null paramater
-    // -exception RelationServiceNotRegisteredException  if the Relation
-    //  Service is not registered in the MBean Server
-    // -exception InvalidRoleValueException  if role must have a non-empty
-    //  value
+    // -exception IllegblArgumentException  if null pbrbmbter
+    // -exception RelbtionServiceNotRegisteredException  if the Relbtion
+    //  Service is not registered in the MBebn Server
+    // -exception InvblidRoleVblueException  if role must hbve b non-empty
+    //  vblue
 
-    // Revisit [cebro] Handle CIM qualifiers as REQUIRED to detect roles which
-    //    should have been initialized by the user
-    private void initializeMissingRoles(boolean relationBaseFlag,
-                                        RelationSupport relationObj,
-                                        ObjectName relationObjName,
-                                        String relationId,
-                                        String relationTypeName,
+    // Revisit [cebro] Hbndle CIM qublifiers bs REQUIRED to detect roles which
+    //    should hbve been initiblized by the user
+    privbte void initiblizeMissingRoles(boolebn relbtionBbseFlbg,
+                                        RelbtionSupport relbtionObj,
+                                        ObjectNbme relbtionObjNbme,
+                                        String relbtionId,
+                                        String relbtionTypeNbme,
                                         List<RoleInfo> roleInfoList)
-        throws IllegalArgumentException,
-               RelationServiceNotRegisteredException,
-               InvalidRoleValueException {
+        throws IllegblArgumentException,
+               RelbtionServiceNotRegisteredException,
+               InvblidRoleVblueException {
 
-        if ((relationBaseFlag &&
-             (relationObj == null ||
-              relationObjName != null)) ||
-            (!relationBaseFlag &&
-             (relationObjName == null ||
-              relationObj != null)) ||
-            relationId == null ||
-            relationTypeName == null ||
+        if ((relbtionBbseFlbg &&
+             (relbtionObj == null ||
+              relbtionObjNbme != null)) ||
+            (!relbtionBbseFlbg &&
+             (relbtionObjNbme == null ||
+              relbtionObj != null)) ||
+            relbtionId == null ||
+            relbtionTypeNbme == null ||
             roleInfoList == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "initializeMissingRoles", new Object[] {relationBaseFlag,
-                relationObj, relationObjName, relationId, relationTypeName,
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "initiblizeMissingRoles", new Object[] {relbtionBbseFlbg,
+                relbtionObj, relbtionObjNbme, relbtionId, relbtionTypeNbme,
                 roleInfoList});
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // For each role info (corresponding to a role not initialized by the
-        // role list provided by the user), try to set in the relation a role
-        // with an empty list of ObjectNames.
-        // A check is performed to verify that the role can be set to an
-        // empty value, according to its minimum cardinality
+        // For ebch role info (corresponding to b role not initiblized by the
+        // role list provided by the user), try to set in the relbtion b role
+        // with bn empty list of ObjectNbmes.
+        // A check is performed to verify thbt the role cbn be set to bn
+        // empty vblue, bccording to its minimum cbrdinblity
         for (RoleInfo currRoleInfo : roleInfoList) {
 
-            String roleName = currRoleInfo.getName();
+            String roleNbme = currRoleInfo.getNbme();
 
-            // Creates an empty value
-            List<ObjectName> emptyValue = new ArrayList<ObjectName>();
-            // Creates a role
-            Role role = new Role(roleName, emptyValue);
+            // Crebtes bn empty vblue
+            List<ObjectNbme> emptyVblue = new ArrbyList<ObjectNbme>();
+            // Crebtes b role
+            Role role = new Role(roleNbme, emptyVblue);
 
-            if (relationBaseFlag) {
+            if (relbtionBbseFlbg) {
 
-                // Internal relation
-                // Can throw InvalidRoleValueException
+                // Internbl relbtion
+                // Cbn throw InvblidRoleVblueException
                 //
                 // Will not throw RoleNotFoundException (role to be
-                // initialized), or RelationNotFoundException, or
-                // RelationTypeNotFoundException
+                // initiblized), or RelbtionNotFoundException, or
+                // RelbtionTypeNotFoundException
                 try {
-                    relationObj.setRoleInt(role, true, this, false);
+                    relbtionObj.setRoleInt(role, true, this, fblse);
 
-                } catch (RoleNotFoundException exc1) {
-                    throw new RuntimeException(exc1.getMessage());
-                } catch (RelationNotFoundException exc2) {
-                    throw new RuntimeException(exc2.getMessage());
-                } catch (RelationTypeNotFoundException exc3) {
-                    throw new RuntimeException(exc3.getMessage());
+                } cbtch (RoleNotFoundException exc1) {
+                    throw new RuntimeException(exc1.getMessbge());
+                } cbtch (RelbtionNotFoundException exc2) {
+                    throw new RuntimeException(exc2.getMessbge());
+                } cbtch (RelbtionTypeNotFoundException exc3) {
+                    throw new RuntimeException(exc3.getMessbge());
                 }
 
             } else {
 
-                // Relation is an MBean
-                // Use standard setRole()
-                Object[] params = new Object[1];
-                params[0] = role;
-                String[] signature = new String[1];
-                signature[0] = "javax.management.relation.Role";
-                // Can throw MBeanException wrapping
-                // InvalidRoleValueException. Returns the target exception to
+                // Relbtion is bn MBebn
+                // Use stbndbrd setRole()
+                Object[] pbrbms = new Object[1];
+                pbrbms[0] = role;
+                String[] signbture = new String[1];
+                signbture[0] = "jbvbx.mbnbgement.relbtion.Role";
+                // Cbn throw MBebnException wrbpping
+                // InvblidRoleVblueException. Returns the tbrget exception to
                 // be homogeneous.
                 //
-                // Will not throw MBeanException (wrapping
-                // RoleNotFoundException or MBeanException) or
-                // InstanceNotFoundException, or ReflectionException
+                // Will not throw MBebnException (wrbpping
+                // RoleNotFoundException or MBebnException) or
+                // InstbnceNotFoundException, or ReflectionException
                 //
-                // Again here the assumption is that the Relation Service and
-                // the relation MBeans are registered in the same MBean Server.
+                // Agbin here the bssumption is thbt the Relbtion Service bnd
+                // the relbtion MBebns bre registered in the sbme MBebn Server.
                 try {
-                    myMBeanServer.setAttribute(relationObjName,
+                    myMBebnServer.setAttribute(relbtionObjNbme,
                                                new Attribute("Role", role));
 
-                } catch (InstanceNotFoundException exc1) {
-                    throw new RuntimeException(exc1.getMessage());
-                } catch (ReflectionException exc3) {
-                    throw new RuntimeException(exc3.getMessage());
-                } catch (MBeanException exc2) {
-                    Exception wrappedExc = exc2.getTargetException();
-                    if (wrappedExc instanceof InvalidRoleValueException) {
-                        throw ((InvalidRoleValueException)wrappedExc);
+                } cbtch (InstbnceNotFoundException exc1) {
+                    throw new RuntimeException(exc1.getMessbge());
+                } cbtch (ReflectionException exc3) {
+                    throw new RuntimeException(exc3.getMessbge());
+                } cbtch (MBebnException exc2) {
+                    Exception wrbppedExc = exc2.getTbrgetException();
+                    if (wrbppedExc instbnceof InvblidRoleVblueException) {
+                        throw ((InvblidRoleVblueException)wrbppedExc);
                     } else {
-                        throw new RuntimeException(wrappedExc.getMessage());
+                        throw new RuntimeException(wrbppedExc.getMessbge());
                     }
-                } catch (AttributeNotFoundException exc4) {
-                  throw new RuntimeException(exc4.getMessage());
-                } catch (InvalidAttributeValueException exc5) {
-                  throw new RuntimeException(exc5.getMessage());
+                } cbtch (AttributeNotFoundException exc4) {
+                  throw new RuntimeException(exc4.getMessbge());
+                } cbtch (InvblidAttributeVblueException exc5) {
+                  throw new RuntimeException(exc5.getMessbge());
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "initializeMissingRoles");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "initiblizeMissingRoles");
         return;
     }
 
-    // Throws an exception corresponding to a given problem type
+    // Throws bn exception corresponding to b given problem type
     //
-    // -param pbType  possible problem, defined in RoleUnresolved
-    // -param roleName  role name
+    // -pbrbm pbType  possible problem, defined in RoleUnresolved
+    // -pbrbm roleNbme  role nbme
     //
-    // -exception IllegalArgumentException  if null parameter
+    // -exception IllegblArgumentException  if null pbrbmeter
     // -exception RoleNotFoundException  for problems:
     //  - NO_ROLE_WITH_NAME
     //  - ROLE_NOT_READABLE
     //  - ROLE_NOT_WRITABLE
-    // -exception InvalidRoleValueException  for problems:
+    // -exception InvblidRoleVblueException  for problems:
     //  - LESS_THAN_MIN_ROLE_DEGREE
     //  - MORE_THAN_MAX_ROLE_DEGREE
     //  - REF_MBEAN_OF_INCORRECT_CLASS
     //  - REF_MBEAN_NOT_REGISTERED
-    static void throwRoleProblemException(int pbType,
-                                          String roleName)
-        throws IllegalArgumentException,
+    stbtic void throwRoleProblemException(int pbType,
+                                          String roleNbme)
+        throws IllegblArgumentException,
                RoleNotFoundException,
-               InvalidRoleValueException {
+               InvblidRoleVblueException {
 
-        if (roleName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (roleNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
         // Exception type: 1 = RoleNotFoundException
-        //                 2 = InvalidRoleValueException
+        //                 2 = InvblidRoleVblueException
         int excType = 0;
 
-        String excMsgPart = null;
+        String excMsgPbrt = null;
 
         switch (pbType) {
-        case RoleStatus.NO_ROLE_WITH_NAME:
-            excMsgPart = " does not exist in relation.";
+        cbse RoleStbtus.NO_ROLE_WITH_NAME:
+            excMsgPbrt = " does not exist in relbtion.";
             excType = 1;
-            break;
-        case RoleStatus.ROLE_NOT_READABLE:
-            excMsgPart = " is not readable.";
+            brebk;
+        cbse RoleStbtus.ROLE_NOT_READABLE:
+            excMsgPbrt = " is not rebdbble.";
             excType = 1;
-            break;
-        case RoleStatus.ROLE_NOT_WRITABLE:
-            excMsgPart = " is not writable.";
+            brebk;
+        cbse RoleStbtus.ROLE_NOT_WRITABLE:
+            excMsgPbrt = " is not writbble.";
             excType = 1;
-            break;
-        case RoleStatus.LESS_THAN_MIN_ROLE_DEGREE:
-            excMsgPart = " has a number of MBean references less than the expected minimum degree.";
+            brebk;
+        cbse RoleStbtus.LESS_THAN_MIN_ROLE_DEGREE:
+            excMsgPbrt = " hbs b number of MBebn references less thbn the expected minimum degree.";
             excType = 2;
-            break;
-        case RoleStatus.MORE_THAN_MAX_ROLE_DEGREE:
-            excMsgPart = " has a number of MBean references greater than the expected maximum degree.";
+            brebk;
+        cbse RoleStbtus.MORE_THAN_MAX_ROLE_DEGREE:
+            excMsgPbrt = " hbs b number of MBebn references grebter thbn the expected mbximum degree.";
             excType = 2;
-            break;
-        case RoleStatus.REF_MBEAN_OF_INCORRECT_CLASS:
-            excMsgPart = " has an MBean reference to an MBean not of the expected class of references for that role.";
+            brebk;
+        cbse RoleStbtus.REF_MBEAN_OF_INCORRECT_CLASS:
+            excMsgPbrt = " hbs bn MBebn reference to bn MBebn not of the expected clbss of references for thbt role.";
             excType = 2;
-            break;
-        case RoleStatus.REF_MBEAN_NOT_REGISTERED:
-            excMsgPart = " has a reference to null or to an MBean not registered.";
+            brebk;
+        cbse RoleStbtus.REF_MBEAN_NOT_REGISTERED:
+            excMsgPbrt = " hbs b reference to null or to bn MBebn not registered.";
             excType = 2;
-            break;
+            brebk;
         }
-        // No default as we must have been in one of those cases
+        // No defbult bs we must hbve been in one of those cbses
 
-        StringBuilder excMsgStrB = new StringBuilder(roleName);
-        excMsgStrB.append(excMsgPart);
+        StringBuilder excMsgStrB = new StringBuilder(roleNbme);
+        excMsgStrB.bppend(excMsgPbrt);
         String excMsg = excMsgStrB.toString();
         if (excType == 1) {
             throw new RoleNotFoundException(excMsg);
 
         } else if (excType == 2) {
-            throw new InvalidRoleValueException(excMsg);
+            throw new InvblidRoleVblueException(excMsg);
         }
     }
 
-    // Sends a notification of given type, with given parameters
+    // Sends b notificbtion of given type, with given pbrbmeters
     //
-    // -param intNtfType  integer to represent notification type:
-    //  - 1 : create
-    //  - 2 : update
+    // -pbrbm intNtfType  integer to represent notificbtion type:
+    //  - 1 : crebte
+    //  - 2 : updbte
     //  - 3 : delete
-    // -param message  human-readable message
-    // -param relationId  relation id of the created/updated/deleted relation
-    // -param unregMBeanList  list of ObjectNames of referenced MBeans
-    //  expected to be unregistered due to relation removal (only for removal,
-    //  due to CIM qualifiers, can be null)
-    // -param roleName  role name
-    // -param roleNewValue  role new value (ArrayList of ObjectNames)
-    // -param oldValue  old role value (ArrayList of ObjectNames)
+    // -pbrbm messbge  humbn-rebdbble messbge
+    // -pbrbm relbtionId  relbtion id of the crebted/updbted/deleted relbtion
+    // -pbrbm unregMBebnList  list of ObjectNbmes of referenced MBebns
+    //  expected to be unregistered due to relbtion removbl (only for removbl,
+    //  due to CIM qublifiers, cbn be null)
+    // -pbrbm roleNbme  role nbme
+    // -pbrbm roleNewVblue  role new vblue (ArrbyList of ObjectNbmes)
+    // -pbrbm oldVblue  old role vblue (ArrbyList of ObjectNbmes)
     //
-    // -exception IllegalArgument  if null parameter
-    // -exception RelationNotFoundException  if no relation for given id
-    private void sendNotificationInt(int intNtfType,
-                                     String message,
-                                     String relationId,
-                                     List<ObjectName> unregMBeanList,
-                                     String roleName,
-                                     List<ObjectName> roleNewValue,
-                                     List<ObjectName> oldValue)
-        throws IllegalArgumentException,
-               RelationNotFoundException {
+    // -exception IllegblArgument  if null pbrbmeter
+    // -exception RelbtionNotFoundException  if no relbtion for given id
+    privbte void sendNotificbtionInt(int intNtfType,
+                                     String messbge,
+                                     String relbtionId,
+                                     List<ObjectNbme> unregMBebnList,
+                                     String roleNbme,
+                                     List<ObjectNbme> roleNewVblue,
+                                     List<ObjectNbme> oldVblue)
+        throws IllegblArgumentException,
+               RelbtionNotFoundException {
 
-        if (message == null ||
-            relationId == null ||
-            (intNtfType != 3 && unregMBeanList != null) ||
+        if (messbge == null ||
+            relbtionId == null ||
+            (intNtfType != 3 && unregMBebnList != null) ||
             (intNtfType == 2 &&
-             (roleName == null ||
-              roleNewValue == null ||
-              oldValue == null))) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+             (roleNbme == null ||
+              roleNewVblue == null ||
+              oldVblue == null))) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "sendNotificationInt", new Object[] {intNtfType, message,
-                relationId, unregMBeanList, roleName, roleNewValue, oldValue});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "sendNotificbtionInt", new Object[] {intNtfType, messbge,
+                relbtionId, unregMBebnList, roleNbme, roleNewVblue, oldVblue});
 
-        // Relation type name
-        // Note: do not use getRelationTypeName() as if it is a relation MBean
-        //       it is already unregistered.
-        String relTypeName;
-        synchronized(myRelId2RelTypeMap) {
-            relTypeName = (myRelId2RelTypeMap.get(relationId));
+        // Relbtion type nbme
+        // Note: do not use getRelbtionTypeNbme() bs if it is b relbtion MBebn
+        //       it is blrebdy unregistered.
+        String relTypeNbme;
+        synchronized(myRelId2RelTypeMbp) {
+            relTypeNbme = (myRelId2RelTypeMbp.get(relbtionId));
         }
 
-        // ObjectName (for a relation MBean)
-        // Can also throw a RelationNotFoundException, but detected above
-        ObjectName relObjName = isRelationMBean(relationId);
+        // ObjectNbme (for b relbtion MBebn)
+        // Cbn blso throw b RelbtionNotFoundException, but detected bbove
+        ObjectNbme relObjNbme = isRelbtionMBebn(relbtionId);
 
         String ntfType = null;
-        if (relObjName != null) {
+        if (relObjNbme != null) {
             switch (intNtfType) {
-            case 1:
-                ntfType = RelationNotification.RELATION_MBEAN_CREATION;
-                break;
-            case 2:
-                ntfType = RelationNotification.RELATION_MBEAN_UPDATE;
-                break;
-            case 3:
-                ntfType = RelationNotification.RELATION_MBEAN_REMOVAL;
-                break;
+            cbse 1:
+                ntfType = RelbtionNotificbtion.RELATION_MBEAN_CREATION;
+                brebk;
+            cbse 2:
+                ntfType = RelbtionNotificbtion.RELATION_MBEAN_UPDATE;
+                brebk;
+            cbse 3:
+                ntfType = RelbtionNotificbtion.RELATION_MBEAN_REMOVAL;
+                brebk;
             }
         } else {
             switch (intNtfType) {
-            case 1:
-                ntfType = RelationNotification.RELATION_BASIC_CREATION;
-                break;
-            case 2:
-                ntfType = RelationNotification.RELATION_BASIC_UPDATE;
-                break;
-            case 3:
-                ntfType = RelationNotification.RELATION_BASIC_REMOVAL;
-                break;
+            cbse 1:
+                ntfType = RelbtionNotificbtion.RELATION_BASIC_CREATION;
+                brebk;
+            cbse 2:
+                ntfType = RelbtionNotificbtion.RELATION_BASIC_UPDATE;
+                brebk;
+            cbse 3:
+                ntfType = RelbtionNotificbtion.RELATION_BASIC_REMOVAL;
+                brebk;
             }
         }
 
         // Sequence number
-        Long seqNo = atomicSeqNo.incrementAndGet();
+        Long seqNo = btomicSeqNo.incrementAndGet();
 
-        // Timestamp
-        Date currDate = new Date();
-        long timeStamp = currDate.getTime();
+        // Timestbmp
+        Dbte currDbte = new Dbte();
+        long timeStbmp = currDbte.getTime();
 
-        RelationNotification ntf = null;
+        RelbtionNotificbtion ntf = null;
 
-        if (ntfType.equals(RelationNotification.RELATION_BASIC_CREATION) ||
-            ntfType.equals(RelationNotification.RELATION_MBEAN_CREATION) ||
-            ntfType.equals(RelationNotification.RELATION_BASIC_REMOVAL) ||
-            ntfType.equals(RelationNotification.RELATION_MBEAN_REMOVAL))
+        if (ntfType.equbls(RelbtionNotificbtion.RELATION_BASIC_CREATION) ||
+            ntfType.equbls(RelbtionNotificbtion.RELATION_MBEAN_CREATION) ||
+            ntfType.equbls(RelbtionNotificbtion.RELATION_BASIC_REMOVAL) ||
+            ntfType.equbls(RelbtionNotificbtion.RELATION_MBEAN_REMOVAL))
 
-            // Creation or removal
-            ntf = new RelationNotification(ntfType,
+            // Crebtion or removbl
+            ntf = new RelbtionNotificbtion(ntfType,
                                            this,
-                                           seqNo.longValue(),
-                                           timeStamp,
-                                           message,
-                                           relationId,
-                                           relTypeName,
-                                           relObjName,
-                                           unregMBeanList);
+                                           seqNo.longVblue(),
+                                           timeStbmp,
+                                           messbge,
+                                           relbtionId,
+                                           relTypeNbme,
+                                           relObjNbme,
+                                           unregMBebnList);
 
-        else if (ntfType.equals(RelationNotification.RELATION_BASIC_UPDATE)
+        else if (ntfType.equbls(RelbtionNotificbtion.RELATION_BASIC_UPDATE)
                  ||
-                 ntfType.equals(RelationNotification.RELATION_MBEAN_UPDATE))
+                 ntfType.equbls(RelbtionNotificbtion.RELATION_MBEAN_UPDATE))
             {
-                // Update
-                ntf = new RelationNotification(ntfType,
+                // Updbte
+                ntf = new RelbtionNotificbtion(ntfType,
                                                this,
-                                               seqNo.longValue(),
-                                               timeStamp,
-                                               message,
-                                               relationId,
-                                               relTypeName,
-                                               relObjName,
-                                               roleName,
-                                               roleNewValue,
-                                               oldValue);
+                                               seqNo.longVblue(),
+                                               timeStbmp,
+                                               messbge,
+                                               relbtionId,
+                                               relTypeNbme,
+                                               relObjNbme,
+                                               roleNbme,
+                                               roleNewVblue,
+                                               oldVblue);
             }
 
-        sendNotification(ntf);
+        sendNotificbtion(ntf);
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "sendNotificationInt");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "sendNotificbtionInt");
         return;
     }
 
-    // Checks, for the unregistration of an MBean referenced in the roles given
-    // in parameter, if the relation has to be removed or not, regarding
-    // expected minimum role cardinality and current number of
-    // references in each role after removal of the current one.
-    // If the relation is kept, calls handleMBeanUnregistration() callback of
-    // the relation to update it.
+    // Checks, for the unregistrbtion of bn MBebn referenced in the roles given
+    // in pbrbmeter, if the relbtion hbs to be removed or not, regbrding
+    // expected minimum role cbrdinblity bnd current number of
+    // references in ebch role bfter removbl of the current one.
+    // If the relbtion is kept, cblls hbndleMBebnUnregistrbtion() cbllbbck of
+    // the relbtion to updbte it.
     //
-    // -param relationId  relation id
-    // -param objectName  ObjectName of the unregistered MBean
-    // -param roleNameList  list of names of roles where the unregistered
-    //  MBean is referenced.
+    // -pbrbm relbtionId  relbtion id
+    // -pbrbm objectNbme  ObjectNbme of the unregistered MBebn
+    // -pbrbm roleNbmeList  list of nbmes of roles where the unregistered
+    //  MBebn is referenced.
     //
-    // -exception IllegalArgumentException  if null parameter
-    // -exception RelationServiceNotRegisteredException  if the Relation
-    //  Service is not registered in the MBean Server
-    // -exception RelationNotFoundException  if unknown relation id
-    // -exception RoleNotFoundException  if one role given as parameter does
-    //  not exist in the relation
-    private void handleReferenceUnregistration(String relationId,
-                                               ObjectName objectName,
-                                               List<String> roleNameList)
-        throws IllegalArgumentException,
-               RelationServiceNotRegisteredException,
-               RelationNotFoundException,
+    // -exception IllegblArgumentException  if null pbrbmeter
+    // -exception RelbtionServiceNotRegisteredException  if the Relbtion
+    //  Service is not registered in the MBebn Server
+    // -exception RelbtionNotFoundException  if unknown relbtion id
+    // -exception RoleNotFoundException  if one role given bs pbrbmeter does
+    //  not exist in the relbtion
+    privbte void hbndleReferenceUnregistrbtion(String relbtionId,
+                                               ObjectNbme objectNbme,
+                                               List<String> roleNbmeList)
+        throws IllegblArgumentException,
+               RelbtionServiceNotRegisteredException,
+               RelbtionNotFoundException,
                RoleNotFoundException {
 
-        if (relationId == null ||
-            roleNameList == null ||
-            objectName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (relbtionId == null ||
+            roleNbmeList == null ||
+            objectNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        RELATION_LOGGER.entering(RelationService.class.getName(),
-                "handleReferenceUnregistration",
-                new Object[] {relationId, objectName, roleNameList});
+        RELATION_LOGGER.entering(RelbtionService.clbss.getNbme(),
+                "hbndleReferenceUnregistrbtion",
+                new Object[] {relbtionId, objectNbme, roleNbmeList});
 
-        // Can throw RelationServiceNotRegisteredException
+        // Cbn throw RelbtionServiceNotRegisteredException
         isActive();
 
-        // Retrieves the relation type name of the relation
-        // Can throw RelationNotFoundException
-        String currRelTypeName = getRelationTypeName(relationId);
+        // Retrieves the relbtion type nbme of the relbtion
+        // Cbn throw RelbtionNotFoundException
+        String currRelTypeNbme = getRelbtionTypeNbme(relbtionId);
 
-        // Retrieves the relation
-        // Can throw RelationNotFoundException, but already detected above
-        Object relObj = getRelation(relationId);
+        // Retrieves the relbtion
+        // Cbn throw RelbtionNotFoundException, but blrebdy detected bbove
+        Object relObj = getRelbtion(relbtionId);
 
-        // Flag to specify if the relation has to be deleted
-        boolean deleteRelFlag = false;
+        // Flbg to specify if the relbtion hbs to be deleted
+        boolebn deleteRelFlbg = fblse;
 
-        for (String currRoleName : roleNameList) {
+        for (String currRoleNbme : roleNbmeList) {
 
-            if (deleteRelFlag) {
-                break;
+            if (deleteRelFlbg) {
+                brebk;
             }
 
-            // Retrieves number of MBeans currently referenced in role
-            // BEWARE! Do not use getRole() as role may be not readable
+            // Retrieves number of MBebns currently referenced in role
+            // BEWARE! Do not use getRole() bs role mby be not rebdbble
             //
-            // Can throw RelationNotFoundException (but already checked),
+            // Cbn throw RelbtionNotFoundException (but blrebdy checked),
             // RoleNotFoundException
             int currRoleRefNbr =
-                (getRoleCardinality(relationId, currRoleName)).intValue();
+                (getRoleCbrdinblity(relbtionId, currRoleNbme)).intVblue();
 
             // Retrieves new number of element in role
             int currRoleNewRefNbr = currRoleRefNbr - 1;
 
-            // Retrieves role info for that role
+            // Retrieves role info for thbt role
             //
-            // Shall not throw RelationTypeNotFoundException or
+            // Shbll not throw RelbtionTypeNotFoundException or
             // RoleInfoNotFoundException
             RoleInfo currRoleInfo;
             try {
-                currRoleInfo = getRoleInfo(currRelTypeName,
-                                           currRoleName);
-            } catch (RelationTypeNotFoundException exc1) {
-                throw new RuntimeException(exc1.getMessage());
-            } catch (RoleInfoNotFoundException exc2) {
-                throw new RuntimeException(exc2.getMessage());
+                currRoleInfo = getRoleInfo(currRelTypeNbme,
+                                           currRoleNbme);
+            } cbtch (RelbtionTypeNotFoundException exc1) {
+                throw new RuntimeException(exc1.getMessbge());
+            } cbtch (RoleInfoNotFoundException exc2) {
+                throw new RuntimeException(exc2.getMessbge());
             }
 
             // Checks with expected minimum number of elements
-            boolean chkMinFlag = currRoleInfo.checkMinDegree(currRoleNewRefNbr);
+            boolebn chkMinFlbg = currRoleInfo.checkMinDegree(currRoleNewRefNbr);
 
-            if (!chkMinFlag) {
-                // The relation has to be deleted
-                deleteRelFlag = true;
+            if (!chkMinFlbg) {
+                // The relbtion hbs to be deleted
+                deleteRelFlbg = true;
             }
         }
 
-        if (deleteRelFlag) {
-            // Removes the relation
-            removeRelation(relationId);
+        if (deleteRelFlbg) {
+            // Removes the relbtion
+            removeRelbtion(relbtionId);
 
         } else {
 
-            // Updates each role in the relation using
-            // handleMBeanUnregistration() callback
+            // Updbtes ebch role in the relbtion using
+            // hbndleMBebnUnregistrbtion() cbllbbck
             //
-            // BEWARE: this roleNameList list MUST BE A COPY of a role name
-            //         list for a referenced MBean in a relation, NOT a
-            //         reference to an original one part of the
-            //         myRefedMBeanObjName2RelIdsMap!!!! Because each role
-            //         which name is in that list will be updated (potentially
-            //         using setRole(). So the Relation Service will update the
-            //         myRefedMBeanObjName2RelIdsMap to refelect the new role
-            //         value!
-            for (String currRoleName : roleNameList) {
+            // BEWARE: this roleNbmeList list MUST BE A COPY of b role nbme
+            //         list for b referenced MBebn in b relbtion, NOT b
+            //         reference to bn originbl one pbrt of the
+            //         myRefedMBebnObjNbme2RelIdsMbp!!!! Becbuse ebch role
+            //         which nbme is in thbt list will be updbted (potentiblly
+            //         using setRole(). So the Relbtion Service will updbte the
+            //         myRefedMBebnObjNbme2RelIdsMbp to refelect the new role
+            //         vblue!
+            for (String currRoleNbme : roleNbmeList) {
 
-                if (relObj instanceof RelationSupport) {
-                    // Internal relation
-                    // Can throw RoleNotFoundException (but already checked)
+                if (relObj instbnceof RelbtionSupport) {
+                    // Internbl relbtion
+                    // Cbn throw RoleNotFoundException (but blrebdy checked)
                     //
-                    // Shall not throw
-                    // RelationTypeNotFoundException,
-                    // InvalidRoleValueException (value was correct, removing
-                    // one reference shall not invalidate it, else detected
-                    // above)
+                    // Shbll not throw
+                    // RelbtionTypeNotFoundException,
+                    // InvblidRoleVblueException (vblue wbs correct, removing
+                    // one reference shbll not invblidbte it, else detected
+                    // bbove)
                     try {
-                        ((RelationSupport)relObj).handleMBeanUnregistrationInt(
-                                                  objectName,
-                                                  currRoleName,
+                        ((RelbtionSupport)relObj).hbndleMBebnUnregistrbtionInt(
+                                                  objectNbme,
+                                                  currRoleNbme,
                                                   true,
                                                   this);
-                    } catch (RelationTypeNotFoundException exc3) {
-                        throw new RuntimeException(exc3.getMessage());
-                    } catch (InvalidRoleValueException exc4) {
-                        throw new RuntimeException(exc4.getMessage());
+                    } cbtch (RelbtionTypeNotFoundException exc3) {
+                        throw new RuntimeException(exc3.getMessbge());
+                    } cbtch (InvblidRoleVblueException exc4) {
+                        throw new RuntimeException(exc4.getMessbge());
                     }
 
                 } else {
-                    // Relation MBean
-                    Object[] params = new Object[2];
-                    params[0] = objectName;
-                    params[1] = currRoleName;
-                    String[] signature = new String[2];
-                    signature[0] = "javax.management.ObjectName";
-                    signature[1] = "java.lang.String";
-                    // Shall not throw InstanceNotFoundException, or
-                    // MBeanException (wrapping RoleNotFoundException or
-                    // MBeanException or InvalidRoleValueException) or
+                    // Relbtion MBebn
+                    Object[] pbrbms = new Object[2];
+                    pbrbms[0] = objectNbme;
+                    pbrbms[1] = currRoleNbme;
+                    String[] signbture = new String[2];
+                    signbture[0] = "jbvbx.mbnbgement.ObjectNbme";
+                    signbture[1] = "jbvb.lbng.String";
+                    // Shbll not throw InstbnceNotFoundException, or
+                    // MBebnException (wrbpping RoleNotFoundException or
+                    // MBebnException or InvblidRoleVblueException) or
                     // ReflectionException
                     try {
-                        myMBeanServer.invoke(((ObjectName)relObj),
-                                             "handleMBeanUnregistration",
-                                             params,
-                                             signature);
-                    } catch (InstanceNotFoundException exc1) {
-                        throw new RuntimeException(exc1.getMessage());
-                    } catch (ReflectionException exc3) {
-                        throw new RuntimeException(exc3.getMessage());
-                    } catch (MBeanException exc2) {
-                        Exception wrappedExc = exc2.getTargetException();
-                        throw new RuntimeException(wrappedExc.getMessage());
+                        myMBebnServer.invoke(((ObjectNbme)relObj),
+                                             "hbndleMBebnUnregistrbtion",
+                                             pbrbms,
+                                             signbture);
+                    } cbtch (InstbnceNotFoundException exc1) {
+                        throw new RuntimeException(exc1.getMessbge());
+                    } cbtch (ReflectionException exc3) {
+                        throw new RuntimeException(exc3.getMessbge());
+                    } cbtch (MBebnException exc2) {
+                        Exception wrbppedExc = exc2.getTbrgetException();
+                        throw new RuntimeException(wrbppedExc.getMessbge());
                     }
 
                 }
             }
         }
 
-        RELATION_LOGGER.exiting(RelationService.class.getName(),
-                "handleReferenceUnregistration");
+        RELATION_LOGGER.exiting(RelbtionService.clbss.getNbme(),
+                "hbndleReferenceUnregistrbtion");
         return;
     }
 }

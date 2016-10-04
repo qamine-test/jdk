@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.im;
+pbckbge sun.bwt.im;
 
-import java.awt.AWTEvent;
-import java.awt.AWTKeyStroke;
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Frame;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.im.InputMethodRequests;
-import java.awt.im.spi.InputMethod;
-import java.lang.Character.Subset;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
-import sun.util.logging.PlatformLogger;
-import sun.awt.SunToolkit;
+import jbvb.bwt.AWTEvent;
+import jbvb.bwt.AWTKeyStroke;
+import jbvb.bwt.Component;
+import jbvb.bwt.EventQueue;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Window;
+import jbvb.bwt.event.ComponentEvent;
+import jbvb.bwt.event.ComponentListener;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.InputMethodEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.event.WindowListener;
+import jbvb.bwt.im.InputMethodRequests;
+import jbvb.bwt.im.spi.InputMethod;
+import jbvb.lbng.Chbrbcter.Subset;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.prefs.BbckingStoreException;
+import jbvb.util.prefs.Preferences;
+import sun.util.logging.PlbtformLogger;
+import sun.bwt.SunToolkit;
 
 /**
- * This InputContext class contains parts of the implementation of
- * java.text.im.InputContext. These parts have been moved
- * here to avoid exposing protected members that are needed by the
- * subclass InputMethodContext.
+ * This InputContext clbss contbins pbrts of the implementbtion of
+ * jbvb.text.im.InputContext. These pbrts hbve been moved
+ * here to bvoid exposing protected members thbt bre needed by the
+ * subclbss InputMethodContext.
  *
- * @see java.awt.im.InputContext
- * @author JavaSoft Asia/Pacific
+ * @see jbvb.bwt.im.InputContext
+ * @buthor JbvbSoft Asib/Pbcific
  */
 
-public class InputContext extends java.awt.im.InputContext
+public clbss InputContext extends jbvb.bwt.im.InputContext
                           implements ComponentListener, WindowListener {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.im.InputContext");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.im.InputContext");
     // The current input method is represented by two objects:
-    // a locator is used to keep information about the selected
-    // input method and locale until we actually need a real input
-    // method; only then the input method itself is created.
-    // Once there is an input method, the input method's locale
-    // takes precedence over locale information in the locator.
-    private InputMethodLocator inputMethodLocator;
-    private InputMethod inputMethod;
-    private boolean inputMethodCreationFailed;
+    // b locbtor is used to keep informbtion bbout the selected
+    // input method bnd locble until we bctublly need b rebl input
+    // method; only then the input method itself is crebted.
+    // Once there is bn input method, the input method's locble
+    // tbkes precedence over locble informbtion in the locbtor.
+    privbte InputMethodLocbtor inputMethodLocbtor;
+    privbte InputMethod inputMethod;
+    privbte boolebn inputMethodCrebtionFbiled;
 
-    // holding bin for previously used input method instances, but not the current one
-    private HashMap<InputMethodLocator, InputMethod> usedInputMethods;
+    // holding bin for previously used input method instbnces, but not the current one
+    privbte HbshMbp<InputMethodLocbtor, InputMethod> usedInputMethods;
 
-    // the current client component is kept until the user focusses on a different
-    // client component served by the same input context. When that happens, we call
-    // endComposition so that text doesn't jump from one component to another.
-    private Component currentClientComponent;
-    private Component awtFocussedComponent;
-    private boolean   isInputMethodActive;
-    private Subset[]  characterSubsets = null;
+    // the current client component is kept until the user focusses on b different
+    // client component served by the sbme input context. When thbt hbppens, we cbll
+    // endComposition so thbt text doesn't jump from one component to bnother.
+    privbte Component currentClientComponent;
+    privbte Component bwtFocussedComponent;
+    privbte boolebn   isInputMethodActive;
+    privbte Subset[]  chbrbcterSubsets = null;
 
-    // true if composition area has been set to invisible when focus was lost
-    private boolean compositionAreaHidden = false;
+    // true if composition breb hbs been set to invisible when focus wbs lost
+    privbte boolebn compositionArebHidden = fblse;
 
-    // The input context for whose input method we may have to call hideWindows
-    private static InputContext inputMethodWindowContext;
+    // The input context for whose input method we mby hbve to cbll hideWindows
+    privbte stbtic InputContext inputMethodWindowContext;
 
-    // Previously active input method to decide whether we need to call
-    // InputMethodAdapter.stopListening() on activateInputMethod()
-    private static InputMethod previousInputMethod = null;
+    // Previously bctive input method to decide whether we need to cbll
+    // InputMethodAdbpter.stopListening() on bctivbteInputMethod()
+    privbte stbtic InputMethod previousInputMethod = null;
 
-    // true if the current input method requires client window change notification
-    private boolean clientWindowNotificationEnabled = false;
+    // true if the current input method requires client window chbnge notificbtion
+    privbte boolebn clientWindowNotificbtionEnbbled = fblse;
     // client window to which this input context is listening
-    private Window clientWindowListened;
-    // cache location notification
-    private Rectangle clientWindowLocation = null;
-    // holding the state of clientWindowNotificationEnabled of only non-current input methods
-    private HashMap<InputMethod, Boolean> perInputMethodState;
+    privbte Window clientWindowListened;
+    // cbche locbtion notificbtion
+    privbte Rectbngle clientWindowLocbtion = null;
+    // holding the stbte of clientWindowNotificbtionEnbbled of only non-current input methods
+    privbte HbshMbp<InputMethod, Boolebn> perInputMethodStbte;
 
     // Input Method selection hot key stuff
-    private static AWTKeyStroke inputMethodSelectionKey;
-    private static boolean inputMethodSelectionKeyInitialized = false;
-    private static final String inputMethodSelectionKeyPath = "/java/awt/im/selectionKey";
-    private static final String inputMethodSelectionKeyCodeName = "keyCode";
-    private static final String inputMethodSelectionKeyModifiersName = "modifiers";
+    privbte stbtic AWTKeyStroke inputMethodSelectionKey;
+    privbte stbtic boolebn inputMethodSelectionKeyInitiblized = fblse;
+    privbte stbtic finbl String inputMethodSelectionKeyPbth = "/jbvb/bwt/im/selectionKey";
+    privbte stbtic finbl String inputMethodSelectionKeyCodeNbme = "keyCode";
+    privbte stbtic finbl String inputMethodSelectionKeyModifiersNbme = "modifiers";
 
     /**
-     * Constructs an InputContext.
+     * Constructs bn InputContext.
      */
     protected InputContext() {
-        InputMethodManager imm = InputMethodManager.getInstance();
-        synchronized (InputContext.class) {
-            if (!inputMethodSelectionKeyInitialized) {
-                inputMethodSelectionKeyInitialized = true;
-                if (imm.hasMultipleInputMethods()) {
-                    initializeInputMethodSelectionKey();
+        InputMethodMbnbger imm = InputMethodMbnbger.getInstbnce();
+        synchronized (InputContext.clbss) {
+            if (!inputMethodSelectionKeyInitiblized) {
+                inputMethodSelectionKeyInitiblized = true;
+                if (imm.hbsMultipleInputMethods()) {
+                    initiblizeInputMethodSelectionKey();
                 }
             }
         }
-        selectInputMethod(imm.getDefaultKeyboardLocale());
+        selectInputMethod(imm.getDefbultKeybobrdLocble());
     }
 
     /**
-     * @see java.awt.im.InputContext#selectInputMethod
-     * @exception NullPointerException when the locale is null.
+     * @see jbvb.bwt.im.InputContext#selectInputMethod
+     * @exception NullPointerException when the locble is null.
      */
-    public synchronized boolean selectInputMethod(Locale locale) {
-        if (locale == null) {
+    public synchronized boolebn selectInputMethod(Locble locble) {
+        if (locble == null) {
             throw new NullPointerException();
         }
 
-        // see whether the current input method supports the locale
+        // see whether the current input method supports the locble
         if (inputMethod != null) {
-            if (inputMethod.setLocale(locale)) {
+            if (inputMethod.setLocble(locble)) {
                 return true;
             }
-        } else if (inputMethodLocator != null) {
+        } else if (inputMethodLocbtor != null) {
             // This is not 100% correct, since the input method
-            // may support the locale without advertising it.
-            // But before we try instantiations and setLocale,
-            // we look for an input method that's more confident.
-            if (inputMethodLocator.isLocaleAvailable(locale)) {
-                inputMethodLocator = inputMethodLocator.deriveLocator(locale);
+            // mby support the locble without bdvertising it.
+            // But before we try instbntibtions bnd setLocble,
+            // we look for bn input method thbt's more confident.
+            if (inputMethodLocbtor.isLocbleAvbilbble(locble)) {
+                inputMethodLocbtor = inputMethodLocbtor.deriveLocbtor(locble);
                 return true;
             }
         }
 
-        // see whether there's some other input method that supports the locale
-        InputMethodLocator newLocator = InputMethodManager.getInstance().findInputMethod(locale);
-        if (newLocator != null) {
-            changeInputMethod(newLocator);
+        // see whether there's some other input method thbt supports the locble
+        InputMethodLocbtor newLocbtor = InputMethodMbnbger.getInstbnce().findInputMethod(locble);
+        if (newLocbtor != null) {
+            chbngeInputMethod(newLocbtor);
             return true;
         }
 
-        // make one last desperate effort with the current input method
-        // ??? is this good? This is pretty high cost for something that's likely to fail.
-        if (inputMethod == null && inputMethodLocator != null) {
+        // mbke one lbst desperbte effort with the current input method
+        // ??? is this good? This is pretty high cost for something thbt's likely to fbil.
+        if (inputMethod == null && inputMethodLocbtor != null) {
             inputMethod = getInputMethod();
             if (inputMethod != null) {
-                return inputMethod.setLocale(locale);
+                return inputMethod.setLocble(locble);
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * @see java.awt.im.InputContext#getLocale
+     * @see jbvb.bwt.im.InputContext#getLocble
      */
-    public Locale getLocale() {
+    public Locble getLocble() {
         if (inputMethod != null) {
-            return inputMethod.getLocale();
-        } else if (inputMethodLocator != null) {
-            return inputMethodLocator.getLocale();
+            return inputMethod.getLocble();
+        } else if (inputMethodLocbtor != null) {
+            return inputMethodLocbtor.getLocble();
         } else {
             return null;
         }
     }
 
     /**
-     * @see java.awt.im.InputContext#setCharacterSubsets
+     * @see jbvb.bwt.im.InputContext#setChbrbcterSubsets
      */
-    public void setCharacterSubsets(Subset[] subsets) {
+    public void setChbrbcterSubsets(Subset[] subsets) {
         if (subsets == null) {
-            characterSubsets = null;
+            chbrbcterSubsets = null;
         } else {
-            characterSubsets = new Subset[subsets.length];
-            System.arraycopy(subsets, 0,
-                             characterSubsets, 0, characterSubsets.length);
+            chbrbcterSubsets = new Subset[subsets.length];
+            System.brrbycopy(subsets, 0,
+                             chbrbcterSubsets, 0, chbrbcterSubsets.length);
         }
         if (inputMethod != null) {
-            inputMethod.setCharacterSubsets(subsets);
+            inputMethod.setChbrbcterSubsets(subsets);
         }
     }
 
     /**
-     * @see java.awt.im.InputContext#reconvert
+     * @see jbvb.bwt.im.InputContext#reconvert
      * @since 1.3
-     * @exception UnsupportedOperationException when input method is null
+     * @exception UnsupportedOperbtionException when input method is null
      */
     public synchronized void reconvert() {
         InputMethod inputMethod = getInputMethod();
         if (inputMethod == null) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
         inputMethod.reconvert();
     }
 
     /**
-     * @see java.awt.im.InputContext#dispatchEvent
+     * @see jbvb.bwt.im.InputContext#dispbtchEvent
      */
-    @SuppressWarnings("fallthrough")
-    public void dispatchEvent(AWTEvent event) {
+    @SuppressWbrnings("fbllthrough")
+    public void dispbtchEvent(AWTEvent event) {
 
-        if (event instanceof InputMethodEvent) {
+        if (event instbnceof InputMethodEvent) {
             return;
         }
 
-        // Ignore focus events that relate to the InputMethodWindow of this context.
-        // This is a workaround.  Should be removed after 4452384 is fixed.
-        if (event instanceof FocusEvent) {
+        // Ignore focus events thbt relbte to the InputMethodWindow of this context.
+        // This is b workbround.  Should be removed bfter 4452384 is fixed.
+        if (event instbnceof FocusEvent) {
             Component opposite = ((FocusEvent)event).getOppositeComponent();
             if ((opposite != null) &&
-                (getComponentWindow(opposite) instanceof InputMethodWindow) &&
+                (getComponentWindow(opposite) instbnceof InputMethodWindow) &&
                 (opposite.getInputContext() == this)) {
                 return;
             }
@@ -241,138 +241,138 @@ public class InputContext extends java.awt.im.InputContext
         int id = event.getID();
 
         switch (id) {
-        case FocusEvent.FOCUS_GAINED:
-            focusGained((Component) event.getSource());
-            break;
+        cbse FocusEvent.FOCUS_GAINED:
+            focusGbined((Component) event.getSource());
+            brebk;
 
-        case FocusEvent.FOCUS_LOST:
-            focusLost((Component) event.getSource(), ((FocusEvent) event).isTemporary());
-            break;
+        cbse FocusEvent.FOCUS_LOST:
+            focusLost((Component) event.getSource(), ((FocusEvent) event).isTemporbry());
+            brebk;
 
-        case KeyEvent.KEY_PRESSED:
+        cbse KeyEvent.KEY_PRESSED:
             if (checkInputMethodSelectionKey((KeyEvent)event)) {
                 // pop up the input method selection menu
-                InputMethodManager.getInstance().notifyChangeRequestByHotKey((Component)event.getSource());
-                break;
+                InputMethodMbnbger.getInstbnce().notifyChbngeRequestByHotKey((Component)event.getSource());
+                brebk;
             }
 
-            // fall through
+            // fbll through
 
-        default:
-            if ((inputMethod != null) && (event instanceof InputEvent)) {
-                inputMethod.dispatchEvent(event);
+        defbult:
+            if ((inputMethod != null) && (event instbnceof InputEvent)) {
+                inputMethod.dispbtchEvent(event);
             }
         }
     }
 
     /**
-     * Handles focus gained events for any component that's using
+     * Hbndles focus gbined events for bny component thbt's using
      * this input context.
-     * These events are generated by AWT when the keyboard focus
-     * moves to a component.
-     * Besides actual client components, the source components
-     * may also be the composition area or any component in an
+     * These events bre generbted by AWT when the keybobrd focus
+     * moves to b component.
+     * Besides bctubl client components, the source components
+     * mby blso be the composition breb or bny component in bn
      * input method window.
      * <p>
-     * When handling the focus event for a client component, this
-     * method checks whether the input context was previously
-     * active for a different client component, and if so, calls
+     * When hbndling the focus event for b client component, this
+     * method checks whether the input context wbs previously
+     * bctive for b different client component, bnd if so, cblls
      * endComposition for the previous client component.
      *
-     * @param source the component gaining the focus
+     * @pbrbm source the component gbining the focus
      */
-    private void focusGained(Component source) {
+    privbte void focusGbined(Component source) {
 
         /*
-         * NOTE: When a Container is removing its Component which
-         * invokes this.removeNotify(), the Container has the global
-         * Component lock. It is possible to happen that an
-         * application thread is calling this.removeNotify() while an
-         * AWT event queue thread is dispatching a focus event via
-         * this.dispatchEvent(). If an input method uses AWT
-         * components (e.g., IIIMP status window), it causes deadlock,
-         * for example, Component.show()/hide() in this situation
-         * because hide/show tried to obtain the lock.  Therefore,
-         * it's necessary to obtain the global Component lock before
-         * activating or deactivating an input method.
+         * NOTE: When b Contbiner is removing its Component which
+         * invokes this.removeNotify(), the Contbiner hbs the globbl
+         * Component lock. It is possible to hbppen thbt bn
+         * bpplicbtion threbd is cblling this.removeNotify() while bn
+         * AWT event queue threbd is dispbtching b focus event vib
+         * this.dispbtchEvent(). If bn input method uses AWT
+         * components (e.g., IIIMP stbtus window), it cbuses debdlock,
+         * for exbmple, Component.show()/hide() in this situbtion
+         * becbuse hide/show tried to obtbin the lock.  Therefore,
+         * it's necessbry to obtbin the globbl Component lock before
+         * bctivbting or debctivbting bn input method.
          */
         synchronized (source.getTreeLock()) {
             synchronized (this) {
-                if ("sun.awt.im.CompositionArea".equals(source.getClass().getName())) {
-                    // no special handling for this one
-                } else if (getComponentWindow(source) instanceof InputMethodWindow) {
-                    // no special handling for this one either
+                if ("sun.bwt.im.CompositionAreb".equbls(source.getClbss().getNbme())) {
+                    // no specibl hbndling for this one
+                } else if (getComponentWindow(source) instbnceof InputMethodWindow) {
+                    // no specibl hbndling for this one either
                 } else {
-                    if (!source.isDisplayable()) {
+                    if (!source.isDisplbybble()) {
                         // Component is being disposed
                         return;
                     }
 
-                    // Focus went to a real client component.
+                    // Focus went to b rebl client component.
                     // Check whether we're switching between client components
-                    // that share an input context. We can't do that earlier
-                    // than here because we don't want to end composition
-                    // until we really know we're switching to a different component
+                    // thbt shbre bn input context. We cbn't do thbt ebrlier
+                    // thbn here becbuse we don't wbnt to end composition
+                    // until we reblly know we're switching to b different component
                     if (inputMethod != null) {
                         if (currentClientComponent != null && currentClientComponent != source) {
                             if (!isInputMethodActive) {
-                                activateInputMethod(false);
+                                bctivbteInputMethod(fblse);
                             }
                             endComposition();
-                            deactivateInputMethod(false);
+                            debctivbteInputMethod(fblse);
                         }
                     }
 
                     currentClientComponent = source;
                 }
 
-                awtFocussedComponent = source;
-                if (inputMethod instanceof InputMethodAdapter) {
-                    ((InputMethodAdapter) inputMethod).setAWTFocussedComponent(source);
+                bwtFocussedComponent = source;
+                if (inputMethod instbnceof InputMethodAdbpter) {
+                    ((InputMethodAdbpter) inputMethod).setAWTFocussedComponent(source);
                 }
 
-                // it's possible that the input method is still active because
-                // we suppressed a deactivate cause by an input method window
+                // it's possible thbt the input method is still bctive becbuse
+                // we suppressed b debctivbte cbuse by bn input method window
                 // coming up
                 if (!isInputMethodActive) {
-                    activateInputMethod(true);
+                    bctivbteInputMethod(true);
                 }
 
 
-                // If the client component is an active client with the below-the-spot
-                // input style, then make the composition window undecorated without a title bar.
+                // If the client component is bn bctive client with the below-the-spot
+                // input style, then mbke the composition window undecorbted without b title bbr.
                 InputMethodContext inputContext = ((InputMethodContext)this);
-                if (!inputContext.isCompositionAreaVisible()) {
+                if (!inputContext.isCompositionArebVisible()) {
                       InputMethodRequests req = source.getInputMethodRequests();
                       if (req != null && inputContext.useBelowTheSpotInput()) {
-                          inputContext.setCompositionAreaUndecorated(true);
+                          inputContext.setCompositionArebUndecorbted(true);
                       } else {
-                          inputContext.setCompositionAreaUndecorated(false);
+                          inputContext.setCompositionArebUndecorbted(fblse);
                       }
                 }
-                // restores the composition area if it was set to invisible
+                // restores the composition breb if it wbs set to invisible
                 // when focus got lost
-                if (compositionAreaHidden == true) {
-                    ((InputMethodContext)this).setCompositionAreaVisible(true);
-                    compositionAreaHidden = false;
+                if (compositionArebHidden == true) {
+                    ((InputMethodContext)this).setCompositionArebVisible(true);
+                    compositionArebHidden = fblse;
                 }
             }
         }
     }
 
     /**
-     * Activates the current input method of this input context, and grabs
-     * the composition area for use by this input context.
-     * If updateCompositionArea is true, the text in the composition area
-     * is updated (set to false if the text is going to change immediately
-     * to avoid screen flicker).
+     * Activbtes the current input method of this input context, bnd grbbs
+     * the composition breb for use by this input context.
+     * If updbteCompositionAreb is true, the text in the composition breb
+     * is updbted (set to fblse if the text is going to chbnge immedibtely
+     * to bvoid screen flicker).
      */
-    private void activateInputMethod(boolean updateCompositionArea) {
-        // call hideWindows() if this input context uses a different
-        // input method than the previously activated one
+    privbte void bctivbteInputMethod(boolebn updbteCompositionAreb) {
+        // cbll hideWindows() if this input context uses b different
+        // input method thbn the previously bctivbted one
         if (inputMethodWindowContext != null && inputMethodWindowContext != this &&
-                inputMethodWindowContext.inputMethodLocator != null &&
-                !inputMethodWindowContext.inputMethodLocator.sameInputMethod(inputMethodLocator) &&
+                inputMethodWindowContext.inputMethodLocbtor != null &&
+                !inputMethodWindowContext.inputMethodLocbtor.sbmeInputMethod(inputMethodLocbtor) &&
                 inputMethodWindowContext.inputMethod != null) {
             inputMethodWindowContext.inputMethod.hideWindows();
         }
@@ -380,94 +380,94 @@ public class InputContext extends java.awt.im.InputContext
 
         if (inputMethod != null) {
             if (previousInputMethod != inputMethod &&
-                    previousInputMethod instanceof InputMethodAdapter) {
-                // let the host adapter pass through the input events for the
+                    previousInputMethod instbnceof InputMethodAdbpter) {
+                // let the host bdbpter pbss through the input events for the
                 // new input method
-                ((InputMethodAdapter) previousInputMethod).stopListening();
+                ((InputMethodAdbpter) previousInputMethod).stopListening();
             }
             previousInputMethod = null;
 
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                 log.fine("Current client component " + currentClientComponent);
             }
-            if (inputMethod instanceof InputMethodAdapter) {
-                ((InputMethodAdapter) inputMethod).setClientComponent(currentClientComponent);
+            if (inputMethod instbnceof InputMethodAdbpter) {
+                ((InputMethodAdbpter) inputMethod).setClientComponent(currentClientComponent);
             }
-            inputMethod.activate();
+            inputMethod.bctivbte();
             isInputMethodActive = true;
 
-            if (perInputMethodState != null) {
-                Boolean state = perInputMethodState.remove(inputMethod);
-                if (state != null) {
-                    clientWindowNotificationEnabled = state.booleanValue();
+            if (perInputMethodStbte != null) {
+                Boolebn stbte = perInputMethodStbte.remove(inputMethod);
+                if (stbte != null) {
+                    clientWindowNotificbtionEnbbled = stbte.boolebnVblue();
                 }
             }
-            if (clientWindowNotificationEnabled) {
-                if (!addedClientWindowListeners()) {
-                    addClientWindowListeners();
+            if (clientWindowNotificbtionEnbbled) {
+                if (!bddedClientWindowListeners()) {
+                    bddClientWindowListeners();
                 }
                 synchronized(this) {
                     if (clientWindowListened != null) {
-                        notifyClientWindowChange(clientWindowListened);
+                        notifyClientWindowChbnge(clientWindowListened);
                     }
                 }
             } else {
-                if (addedClientWindowListeners()) {
+                if (bddedClientWindowListeners()) {
                     removeClientWindowListeners();
                 }
             }
         }
-        InputMethodManager.getInstance().setInputContext(this);
+        InputMethodMbnbger.getInstbnce().setInputContext(this);
 
-        ((InputMethodContext) this).grabCompositionArea(updateCompositionArea);
+        ((InputMethodContext) this).grbbCompositionAreb(updbteCompositionAreb);
     }
 
-    static Window getComponentWindow(Component component) {
+    stbtic Window getComponentWindow(Component component) {
         while (true) {
             if (component == null) {
                 return null;
-            } else if (component instanceof Window) {
+            } else if (component instbnceof Window) {
                 return (Window) component;
             } else {
-                component = component.getParent();
+                component = component.getPbrent();
             }
         }
     }
 
     /**
-     * Handles focus lost events for any component that's using
+     * Hbndles focus lost events for bny component thbt's using
      * this input context.
-     * These events are generated by AWT when the keyboard focus
-     * moves away from a component.
-     * Besides actual client components, the source components
-     * may also be the composition area or any component in an
+     * These events bre generbted by AWT when the keybobrd focus
+     * moves bwby from b component.
+     * Besides bctubl client components, the source components
+     * mby blso be the composition breb or bny component in bn
      * input method window.
      *
-     * @param source the component losing the focus
-     * @isTemporary whether the focus change is temporary
+     * @pbrbm source the component losing the focus
+     * @isTemporbry whether the focus chbnge is temporbry
      */
-    private void focusLost(Component source, boolean isTemporary) {
+    privbte void focusLost(Component source, boolebn isTemporbry) {
 
-        // see the note on synchronization in focusGained
+        // see the note on synchronizbtion in focusGbined
         synchronized (source.getTreeLock()) {
             synchronized (this) {
 
-                // We need to suppress deactivation if removeNotify has been called earlier.
-                // This is indicated by isInputMethodActive == false.
+                // We need to suppress debctivbtion if removeNotify hbs been cblled ebrlier.
+                // This is indicbted by isInputMethodActive == fblse.
                 if (isInputMethodActive) {
-                    deactivateInputMethod(isTemporary);
+                    debctivbteInputMethod(isTemporbry);
                 }
 
-                awtFocussedComponent = null;
-                if (inputMethod instanceof InputMethodAdapter) {
-                    ((InputMethodAdapter) inputMethod).setAWTFocussedComponent(null);
+                bwtFocussedComponent = null;
+                if (inputMethod instbnceof InputMethodAdbpter) {
+                    ((InputMethodAdbpter) inputMethod).setAWTFocussedComponent(null);
                 }
 
-                // hides the composition area if currently it is visible
+                // hides the composition breb if currently it is visible
                 InputMethodContext inputContext = ((InputMethodContext)this);
-                if (inputContext.isCompositionAreaVisible()) {
-                    inputContext.setCompositionAreaVisible(false);
-                    compositionAreaHidden = true;
+                if (inputContext.isCompositionArebVisible()) {
+                    inputContext.setCompositionArebVisible(fblse);
+                    compositionArebHidden = true;
                 }
             }
         }
@@ -476,124 +476,124 @@ public class InputContext extends java.awt.im.InputContext
     /**
      * Checks the key event is the input method selection key or not.
      */
-    private boolean checkInputMethodSelectionKey(KeyEvent event) {
+    privbte boolebn checkInputMethodSelectionKey(KeyEvent event) {
         if (inputMethodSelectionKey != null) {
-            AWTKeyStroke aKeyStroke = AWTKeyStroke.getAWTKeyStrokeForEvent(event);
-            return inputMethodSelectionKey.equals(aKeyStroke);
+            AWTKeyStroke bKeyStroke = AWTKeyStroke.getAWTKeyStrokeForEvent(event);
+            return inputMethodSelectionKey.equbls(bKeyStroke);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    private void deactivateInputMethod(boolean isTemporary) {
-        InputMethodManager.getInstance().setInputContext(null);
+    privbte void debctivbteInputMethod(boolebn isTemporbry) {
+        InputMethodMbnbger.getInstbnce().setInputContext(null);
         if (inputMethod != null) {
-            isInputMethodActive = false;
-            inputMethod.deactivate(isTemporary);
+            isInputMethodActive = fblse;
+            inputMethod.debctivbte(isTemporbry);
             previousInputMethod = inputMethod;
         }
     }
 
     /**
-     * Switches from the current input method to the one described by newLocator.
-     * The current input method, if any, is asked to end composition, deactivated,
-     * and saved for future use. The newLocator is made the current locator. If
-     * the input context is active, an input method instance for the new locator
-     * is obtained; otherwise this is deferred until required.
+     * Switches from the current input method to the one described by newLocbtor.
+     * The current input method, if bny, is bsked to end composition, debctivbted,
+     * bnd sbved for future use. The newLocbtor is mbde the current locbtor. If
+     * the input context is bctive, bn input method instbnce for the new locbtor
+     * is obtbined; otherwise this is deferred until required.
      */
-    synchronized void changeInputMethod(InputMethodLocator newLocator) {
-        // If we don't have a locator yet, this must be a new input context.
-        // If we created a new input method here, we might get into an
-        // infinite loop: create input method -> create some input method window ->
-        // create new input context -> add input context to input method manager's context list ->
-        // call changeInputMethod on it.
-        // So, just record the locator. dispatchEvent will create the input method when needed.
-        if (inputMethodLocator == null) {
-            inputMethodLocator = newLocator;
-            inputMethodCreationFailed = false;
+    synchronized void chbngeInputMethod(InputMethodLocbtor newLocbtor) {
+        // If we don't hbve b locbtor yet, this must be b new input context.
+        // If we crebted b new input method here, we might get into bn
+        // infinite loop: crebte input method -> crebte some input method window ->
+        // crebte new input context -> bdd input context to input method mbnbger's context list ->
+        // cbll chbngeInputMethod on it.
+        // So, just record the locbtor. dispbtchEvent will crebte the input method when needed.
+        if (inputMethodLocbtor == null) {
+            inputMethodLocbtor = newLocbtor;
+            inputMethodCrebtionFbiled = fblse;
             return;
         }
 
-        // If the same input method is specified, just keep it.
-        // Adjust the locale if necessary.
-        if (inputMethodLocator.sameInputMethod(newLocator)) {
-            Locale newLocale = newLocator.getLocale();
-            if (newLocale != null && inputMethodLocator.getLocale() != newLocale) {
+        // If the sbme input method is specified, just keep it.
+        // Adjust the locble if necessbry.
+        if (inputMethodLocbtor.sbmeInputMethod(newLocbtor)) {
+            Locble newLocble = newLocbtor.getLocble();
+            if (newLocble != null && inputMethodLocbtor.getLocble() != newLocble) {
                 if (inputMethod != null) {
-                    inputMethod.setLocale(newLocale);
+                    inputMethod.setLocble(newLocble);
                 }
-                inputMethodLocator = newLocator;
+                inputMethodLocbtor = newLocbtor;
             }
             return;
         }
 
         // Switch out the old input method
-        Locale savedLocale = inputMethodLocator.getLocale();
-        boolean wasInputMethodActive = isInputMethodActive;
-        boolean wasCompositionEnabledSupported = false;
-        boolean wasCompositionEnabled = false;
+        Locble sbvedLocble = inputMethodLocbtor.getLocble();
+        boolebn wbsInputMethodActive = isInputMethodActive;
+        boolebn wbsCompositionEnbbledSupported = fblse;
+        boolebn wbsCompositionEnbbled = fblse;
         if (inputMethod != null) {
             try {
-                wasCompositionEnabled = inputMethod.isCompositionEnabled();
-                wasCompositionEnabledSupported = true;
-            } catch (UnsupportedOperationException e) { }
+                wbsCompositionEnbbled = inputMethod.isCompositionEnbbled();
+                wbsCompositionEnbbledSupported = true;
+            } cbtch (UnsupportedOperbtionException e) { }
 
             if (currentClientComponent != null) {
                 if (!isInputMethodActive) {
-                    activateInputMethod(false);
+                    bctivbteInputMethod(fblse);
                 }
                 endComposition();
-                deactivateInputMethod(false);
-                if (inputMethod instanceof InputMethodAdapter) {
-                    ((InputMethodAdapter) inputMethod).setClientComponent(null);
+                debctivbteInputMethod(fblse);
+                if (inputMethod instbnceof InputMethodAdbpter) {
+                    ((InputMethodAdbpter) inputMethod).setClientComponent(null);
                 }
             }
-            savedLocale = inputMethod.getLocale();
+            sbvedLocble = inputMethod.getLocble();
 
-            // keep the input method instance around for future use
+            // keep the input method instbnce bround for future use
             if (usedInputMethods == null) {
-                usedInputMethods = new HashMap<>(5);
+                usedInputMethods = new HbshMbp<>(5);
             }
-            if (perInputMethodState == null) {
-                perInputMethodState = new HashMap<>(5);
+            if (perInputMethodStbte == null) {
+                perInputMethodStbte = new HbshMbp<>(5);
             }
-            usedInputMethods.put(inputMethodLocator.deriveLocator(null), inputMethod);
-            perInputMethodState.put(inputMethod,
-                                    Boolean.valueOf(clientWindowNotificationEnabled));
-            enableClientWindowNotification(inputMethod, false);
+            usedInputMethods.put(inputMethodLocbtor.deriveLocbtor(null), inputMethod);
+            perInputMethodStbte.put(inputMethod,
+                                    Boolebn.vblueOf(clientWindowNotificbtionEnbbled));
+            enbbleClientWindowNotificbtion(inputMethod, fblse);
             if (this == inputMethodWindowContext) {
                 inputMethod.hideWindows();
                 inputMethodWindowContext = null;
             }
-            inputMethodLocator = null;
+            inputMethodLocbtor = null;
             inputMethod = null;
-            inputMethodCreationFailed = false;
+            inputMethodCrebtionFbiled = fblse;
         }
 
         // Switch in the new input method
-        if (newLocator.getLocale() == null && savedLocale != null &&
-                newLocator.isLocaleAvailable(savedLocale)) {
-            newLocator = newLocator.deriveLocator(savedLocale);
+        if (newLocbtor.getLocble() == null && sbvedLocble != null &&
+                newLocbtor.isLocbleAvbilbble(sbvedLocble)) {
+            newLocbtor = newLocbtor.deriveLocbtor(sbvedLocble);
         }
-        inputMethodLocator = newLocator;
-        inputMethodCreationFailed = false;
+        inputMethodLocbtor = newLocbtor;
+        inputMethodCrebtionFbiled = fblse;
 
-        // activate the new input method if the old one was active
-        if (wasInputMethodActive) {
-            inputMethod = getInputMethodInstance();
-            if (inputMethod instanceof InputMethodAdapter) {
-                ((InputMethodAdapter) inputMethod).setAWTFocussedComponent(awtFocussedComponent);
+        // bctivbte the new input method if the old one wbs bctive
+        if (wbsInputMethodActive) {
+            inputMethod = getInputMethodInstbnce();
+            if (inputMethod instbnceof InputMethodAdbpter) {
+                ((InputMethodAdbpter) inputMethod).setAWTFocussedComponent(bwtFocussedComponent);
             }
-            activateInputMethod(true);
+            bctivbteInputMethod(true);
         }
 
-        // enable/disable composition if the old one supports querying enable/disable
-        if (wasCompositionEnabledSupported) {
+        // enbble/disbble composition if the old one supports querying enbble/disbble
+        if (wbsCompositionEnbbledSupported) {
             inputMethod = getInputMethod();
             if (inputMethod != null) {
                 try {
-                    inputMethod.setCompositionEnabled(wasCompositionEnabled);
-                } catch (UnsupportedOperationException e) { }
+                    inputMethod.setCompositionEnbbled(wbsCompositionEnbbled);
+                } cbtch (UnsupportedOperbtionException e) { }
             }
         }
     }
@@ -606,7 +606,7 @@ public class InputContext extends java.awt.im.InputContext
     }
 
     /**
-     * @see java.awt.im.InputContext#removeNotify
+     * @see jbvb.bwt.im.InputContext#removeNotify
      * @exception NullPointerException when the component is null.
      */
     public synchronized void removeNotify(Component component) {
@@ -621,36 +621,36 @@ public class InputContext extends java.awt.im.InputContext
             return;
         }
 
-        // We may or may not get a FOCUS_LOST event for this component,
-        // so do the deactivation stuff here too.
-        if (component == awtFocussedComponent) {
-            focusLost(component, false);
+        // We mby or mby not get b FOCUS_LOST event for this component,
+        // so do the debctivbtion stuff here too.
+        if (component == bwtFocussedComponent) {
+            focusLost(component, fblse);
         }
 
         if (component == currentClientComponent) {
             if (isInputMethodActive) {
-                // component wasn't the one that had the focus
-                deactivateInputMethod(false);
+                // component wbsn't the one thbt hbd the focus
+                debctivbteInputMethod(fblse);
             }
             inputMethod.removeNotify();
-            if (clientWindowNotificationEnabled && addedClientWindowListeners()) {
+            if (clientWindowNotificbtionEnbbled && bddedClientWindowListeners()) {
                 removeClientWindowListeners();
             }
             currentClientComponent = null;
-            if (inputMethod instanceof InputMethodAdapter) {
-                ((InputMethodAdapter) inputMethod).setClientComponent(null);
+            if (inputMethod instbnceof InputMethodAdbpter) {
+                ((InputMethodAdbpter) inputMethod).setClientComponent(null);
             }
 
-            // removeNotify() can be issued from a thread other than the event dispatch
-            // thread.  In that case, avoid possible deadlock between Component.AWTTreeLock
-            // and InputMethodContext.compositionAreaHandlerLock by releasing the composition
-            // area on the event dispatch thread.
-            if (EventQueue.isDispatchThread()) {
-                ((InputMethodContext)this).releaseCompositionArea();
+            // removeNotify() cbn be issued from b threbd other thbn the event dispbtch
+            // threbd.  In thbt cbse, bvoid possible debdlock between Component.AWTTreeLock
+            // bnd InputMethodContext.compositionArebHbndlerLock by relebsing the composition
+            // breb on the event dispbtch threbd.
+            if (EventQueue.isDispbtchThrebd()) {
+                ((InputMethodContext)this).relebseCompositionAreb();
             } else {
-                EventQueue.invokeLater(new Runnable() {
+                EventQueue.invokeLbter(new Runnbble() {
                     public void run() {
-                        ((InputMethodContext)InputContext.this).releaseCompositionArea();
+                        ((InputMethodContext)InputContext.this).relebseCompositionAreb();
                     }
                 });
             }
@@ -658,12 +658,12 @@ public class InputContext extends java.awt.im.InputContext
     }
 
     /**
-     * @see java.awt.im.InputContext#dispose
-     * @exception IllegalStateException when the currentClientComponent is not null
+     * @see jbvb.bwt.im.InputContext#dispose
+     * @exception IllegblStbteException when the currentClientComponent is not null
      */
     public synchronized void dispose() {
         if (currentClientComponent != null) {
-            throw new IllegalStateException("Can't dispose InputContext while it's active");
+            throw new IllegblStbteException("Cbn't dispose InputContext while it's bctive");
         }
         if (inputMethod != null) {
             if (this == inputMethodWindowContext) {
@@ -673,40 +673,40 @@ public class InputContext extends java.awt.im.InputContext
             if (inputMethod == previousInputMethod) {
                 previousInputMethod = null;
             }
-            if (clientWindowNotificationEnabled) {
-                if (addedClientWindowListeners()) {
+            if (clientWindowNotificbtionEnbbled) {
+                if (bddedClientWindowListeners()) {
                     removeClientWindowListeners();
                 }
-                clientWindowNotificationEnabled = false;
+                clientWindowNotificbtionEnbbled = fblse;
             }
             inputMethod.dispose();
 
-            // in case the input method enabled the client window
-            // notification in dispose(), which shouldn't happen, it
-            // needs to be cleaned up again.
-            if (clientWindowNotificationEnabled) {
-                enableClientWindowNotification(inputMethod, false);
+            // in cbse the input method enbbled the client window
+            // notificbtion in dispose(), which shouldn't hbppen, it
+            // needs to be clebned up bgbin.
+            if (clientWindowNotificbtionEnbbled) {
+                enbbleClientWindowNotificbtion(inputMethod, fblse);
             }
 
             inputMethod = null;
         }
-        inputMethodLocator = null;
+        inputMethodLocbtor = null;
         if (usedInputMethods != null && !usedInputMethods.isEmpty()) {
-            Iterator<InputMethod> iterator = usedInputMethods.values().iterator();
+            Iterbtor<InputMethod> iterbtor = usedInputMethods.vblues().iterbtor();
             usedInputMethods = null;
-            while (iterator.hasNext()) {
-                iterator.next().dispose();
+            while (iterbtor.hbsNext()) {
+                iterbtor.next().dispose();
             }
         }
 
-        // cleanup client window notification variables
-        clientWindowNotificationEnabled = false;
+        // clebnup client window notificbtion vbribbles
+        clientWindowNotificbtionEnbbled = fblse;
         clientWindowListened = null;
-        perInputMethodState = null;
+        perInputMethodStbte = null;
     }
 
     /**
-     * @see java.awt.im.InputContext#getInputMethodControlObject
+     * @see jbvb.bwt.im.InputContext#getInputMethodControlObject
      */
     public synchronized Object getInputMethodControlObject() {
         InputMethod inputMethod = getInputMethod();
@@ -719,194 +719,194 @@ public class InputContext extends java.awt.im.InputContext
     }
 
     /**
-     * @see java.awt.im.InputContext#setCompositionEnabled(boolean)
-     * @exception UnsupportedOperationException when input method is null
+     * @see jbvb.bwt.im.InputContext#setCompositionEnbbled(boolebn)
+     * @exception UnsupportedOperbtionException when input method is null
      */
-    public void setCompositionEnabled(boolean enable) {
+    public void setCompositionEnbbled(boolebn enbble) {
         InputMethod inputMethod = getInputMethod();
 
         if (inputMethod == null) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
-        inputMethod.setCompositionEnabled(enable);
+        inputMethod.setCompositionEnbbled(enbble);
     }
 
     /**
-     * @see java.awt.im.InputContext#isCompositionEnabled
-     * @exception UnsupportedOperationException when input method is null
+     * @see jbvb.bwt.im.InputContext#isCompositionEnbbled
+     * @exception UnsupportedOperbtionException when input method is null
      */
-    public boolean isCompositionEnabled() {
+    public boolebn isCompositionEnbbled() {
         InputMethod inputMethod = getInputMethod();
 
         if (inputMethod == null) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
-        return inputMethod.isCompositionEnabled();
+        return inputMethod.isCompositionEnbbled();
     }
 
     /**
-     * @return a string with information about the current input method.
-     * @exception UnsupportedOperationException when input method is null
+     * @return b string with informbtion bbout the current input method.
+     * @exception UnsupportedOperbtionException when input method is null
      */
     public String getInputMethodInfo() {
         InputMethod inputMethod = getInputMethod();
 
         if (inputMethod == null) {
-            throw new UnsupportedOperationException("Null input method");
+            throw new UnsupportedOperbtionException("Null input method");
         }
 
         String inputMethodInfo = null;
-        if (inputMethod instanceof InputMethodAdapter) {
-            // returns the information about the host native input method.
-            inputMethodInfo = ((InputMethodAdapter)inputMethod).
-                getNativeInputMethodInfo();
+        if (inputMethod instbnceof InputMethodAdbpter) {
+            // returns the informbtion bbout the host nbtive input method.
+            inputMethodInfo = ((InputMethodAdbpter)inputMethod).
+                getNbtiveInputMethodInfo();
         }
 
-        // extracts the information from the InputMethodDescriptor
-        // associated with the current java input method.
-        if (inputMethodInfo == null && inputMethodLocator != null) {
-            inputMethodInfo = inputMethodLocator.getDescriptor().
-                getInputMethodDisplayName(getLocale(), SunToolkit.
-                                          getStartupLocale());
+        // extrbcts the informbtion from the InputMethodDescriptor
+        // bssocibted with the current jbvb input method.
+        if (inputMethodInfo == null && inputMethodLocbtor != null) {
+            inputMethodInfo = inputMethodLocbtor.getDescriptor().
+                getInputMethodDisplbyNbme(getLocble(), SunToolkit.
+                                          getStbrtupLocble());
         }
 
-        if (inputMethodInfo != null && !inputMethodInfo.equals("")) {
+        if (inputMethodInfo != null && !inputMethodInfo.equbls("")) {
             return inputMethodInfo;
         }
 
         // do our best to return something useful.
-        return inputMethod.toString() + "-" + inputMethod.getLocale().toString();
+        return inputMethod.toString() + "-" + inputMethod.getLocble().toString();
     }
 
     /**
-     * Turns off the native IM. The native IM is diabled when
-     * the deactive method of InputMethod is called. It is
-     * delayed until the active method is called on a different
-     * peer component. This method is provided to explicitly disable
-     * the native IM.
+     * Turns off the nbtive IM. The nbtive IM is dibbled when
+     * the debctive method of InputMethod is cblled. It is
+     * delbyed until the bctive method is cblled on b different
+     * peer component. This method is provided to explicitly disbble
+     * the nbtive IM.
      */
-    public void disableNativeIM() {
+    public void disbbleNbtiveIM() {
         InputMethod inputMethod = getInputMethod();
-        if (inputMethod != null && inputMethod instanceof InputMethodAdapter) {
-            ((InputMethodAdapter)inputMethod).stopListening();
+        if (inputMethod != null && inputMethod instbnceof InputMethodAdbpter) {
+            ((InputMethodAdbpter)inputMethod).stopListening();
         }
     }
 
 
-    private synchronized InputMethod getInputMethod() {
+    privbte synchronized InputMethod getInputMethod() {
         if (inputMethod != null) {
             return inputMethod;
         }
 
-        if (inputMethodCreationFailed) {
+        if (inputMethodCrebtionFbiled) {
             return null;
         }
 
-        inputMethod = getInputMethodInstance();
+        inputMethod = getInputMethodInstbnce();
         return inputMethod;
     }
 
     /**
-     * Returns an instance of the input method described by
-     * the current input method locator. This may be an input
-     * method that was previously used and switched out of,
-     * or a new instance. The locale, character subsets, and
-     * input method context of the input method are set.
+     * Returns bn instbnce of the input method described by
+     * the current input method locbtor. This mby be bn input
+     * method thbt wbs previously used bnd switched out of,
+     * or b new instbnce. The locble, chbrbcter subsets, bnd
+     * input method context of the input method bre set.
      *
-     * The inputMethodCreationFailed field is set to true if the
-     * instantiation failed.
+     * The inputMethodCrebtionFbiled field is set to true if the
+     * instbntibtion fbiled.
      *
-     * @return an InputMethod instance
-     * @see java.awt.im.spi.InputMethod#setInputMethodContext
-     * @see java.awt.im.spi.InputMethod#setLocale
-     * @see java.awt.im.spi.InputMethod#setCharacterSubsets
+     * @return bn InputMethod instbnce
+     * @see jbvb.bwt.im.spi.InputMethod#setInputMethodContext
+     * @see jbvb.bwt.im.spi.InputMethod#setLocble
+     * @see jbvb.bwt.im.spi.InputMethod#setChbrbcterSubsets
      */
-    private InputMethod getInputMethodInstance() {
-        InputMethodLocator locator = inputMethodLocator;
-        if (locator == null) {
-            inputMethodCreationFailed = true;
+    privbte InputMethod getInputMethodInstbnce() {
+        InputMethodLocbtor locbtor = inputMethodLocbtor;
+        if (locbtor == null) {
+            inputMethodCrebtionFbiled = true;
             return null;
         }
 
-        Locale locale = locator.getLocale();
-        InputMethod inputMethodInstance = null;
+        Locble locble = locbtor.getLocble();
+        InputMethod inputMethodInstbnce = null;
 
-        // see whether we have a previously used input method
+        // see whether we hbve b previously used input method
         if (usedInputMethods != null) {
-            inputMethodInstance = usedInputMethods.remove(locator.deriveLocator(null));
-            if (inputMethodInstance != null) {
-                if (locale != null) {
-                    inputMethodInstance.setLocale(locale);
+            inputMethodInstbnce = usedInputMethods.remove(locbtor.deriveLocbtor(null));
+            if (inputMethodInstbnce != null) {
+                if (locble != null) {
+                    inputMethodInstbnce.setLocble(locble);
                 }
-                inputMethodInstance.setCharacterSubsets(characterSubsets);
-                Boolean state = perInputMethodState.remove(inputMethodInstance);
-                if (state != null) {
-                    enableClientWindowNotification(inputMethodInstance, state.booleanValue());
+                inputMethodInstbnce.setChbrbcterSubsets(chbrbcterSubsets);
+                Boolebn stbte = perInputMethodStbte.remove(inputMethodInstbnce);
+                if (stbte != null) {
+                    enbbleClientWindowNotificbtion(inputMethodInstbnce, stbte.boolebnVblue());
                 }
                 ((InputMethodContext) this).setInputMethodSupportsBelowTheSpot(
-                        (!(inputMethodInstance instanceof InputMethodAdapter)) ||
-                        ((InputMethodAdapter) inputMethodInstance).supportsBelowTheSpot());
-                return inputMethodInstance;
+                        (!(inputMethodInstbnce instbnceof InputMethodAdbpter)) ||
+                        ((InputMethodAdbpter) inputMethodInstbnce).supportsBelowTheSpot());
+                return inputMethodInstbnce;
             }
         }
 
-        // need to create new instance
+        // need to crebte new instbnce
         try {
-            inputMethodInstance = locator.getDescriptor().createInputMethod();
+            inputMethodInstbnce = locbtor.getDescriptor().crebteInputMethod();
 
-            if (locale != null) {
-                inputMethodInstance.setLocale(locale);
+            if (locble != null) {
+                inputMethodInstbnce.setLocble(locble);
             }
-            inputMethodInstance.setInputMethodContext((InputMethodContext) this);
-            inputMethodInstance.setCharacterSubsets(characterSubsets);
+            inputMethodInstbnce.setInputMethodContext((InputMethodContext) this);
+            inputMethodInstbnce.setChbrbcterSubsets(chbrbcterSubsets);
 
-        } catch (Exception e) {
-            logCreationFailed(e);
+        } cbtch (Exception e) {
+            logCrebtionFbiled(e);
 
-            // there are a number of bad things that can happen while creating
-            // the input method. In any case, we just continue without an
+            // there bre b number of bbd things thbt cbn hbppen while crebting
+            // the input method. In bny cbse, we just continue without bn
             // input method.
-            inputMethodCreationFailed = true;
+            inputMethodCrebtionFbiled = true;
 
-            // if the instance has been created, then it means either
-            // setLocale() or setInputMethodContext() failed.
-            if (inputMethodInstance != null) {
-                inputMethodInstance = null;
+            // if the instbnce hbs been crebted, then it mebns either
+            // setLocble() or setInputMethodContext() fbiled.
+            if (inputMethodInstbnce != null) {
+                inputMethodInstbnce = null;
             }
-        } catch (LinkageError e) {
-            logCreationFailed(e);
+        } cbtch (LinkbgeError e) {
+            logCrebtionFbiled(e);
 
-            // same as above
-            inputMethodCreationFailed = true;
+            // sbme bs bbove
+            inputMethodCrebtionFbiled = true;
         }
         ((InputMethodContext) this).setInputMethodSupportsBelowTheSpot(
-                (!(inputMethodInstance instanceof InputMethodAdapter)) ||
-                ((InputMethodAdapter) inputMethodInstance).supportsBelowTheSpot());
-        return inputMethodInstance;
+                (!(inputMethodInstbnce instbnceof InputMethodAdbpter)) ||
+                ((InputMethodAdbpter) inputMethodInstbnce).supportsBelowTheSpot());
+        return inputMethodInstbnce;
     }
 
-    private void logCreationFailed(Throwable throwable) {
-        PlatformLogger logger = PlatformLogger.getLogger("sun.awt.im");
-        if (logger.isLoggable(PlatformLogger.Level.CONFIG)) {
-            String errorTextFormat = Toolkit.getProperty("AWT.InputMethodCreationFailed",
-                                                         "Could not create {0}. Reason: {1}");
-            Object[] args =
-                {inputMethodLocator.getDescriptor().getInputMethodDisplayName(null, Locale.getDefault()),
-                 throwable.getLocalizedMessage()};
-            MessageFormat mf = new MessageFormat(errorTextFormat);
-            logger.config(mf.format(args));
+    privbte void logCrebtionFbiled(Throwbble throwbble) {
+        PlbtformLogger logger = PlbtformLogger.getLogger("sun.bwt.im");
+        if (logger.isLoggbble(PlbtformLogger.Level.CONFIG)) {
+            String errorTextFormbt = Toolkit.getProperty("AWT.InputMethodCrebtionFbiled",
+                                                         "Could not crebte {0}. Rebson: {1}");
+            Object[] brgs =
+                {inputMethodLocbtor.getDescriptor().getInputMethodDisplbyNbme(null, Locble.getDefbult()),
+                 throwbble.getLocblizedMessbge()};
+            MessbgeFormbt mf = new MessbgeFormbt(errorTextFormbt);
+            logger.config(mf.formbt(brgs));
         }
     }
 
-    InputMethodLocator getInputMethodLocator() {
+    InputMethodLocbtor getInputMethodLocbtor() {
         if (inputMethod != null) {
-            return inputMethodLocator.deriveLocator(inputMethod.getLocale());
+            return inputMethodLocbtor.deriveLocbtor(inputMethod.getLocble());
         }
-        return inputMethodLocator;
+        return inputMethodLocbtor;
     }
 
     /**
-     * @see java.awt.im.InputContext#endComposition
+     * @see jbvb.bwt.im.InputContext#endComposition
      */
     public synchronized void endComposition() {
         if (inputMethod != null) {
@@ -915,60 +915,60 @@ public class InputContext extends java.awt.im.InputContext
     }
 
     /**
-     * @see java.awt.im.spi.InputMethodContext#enableClientWindowNotification
+     * @see jbvb.bwt.im.spi.InputMethodContext#enbbleClientWindowNotificbtion
      */
-    synchronized void enableClientWindowNotification(InputMethod requester,
-                                                     boolean enable) {
-        // in case this request is not from the current input method,
-        // store the request and handle it when this requesting input
+    synchronized void enbbleClientWindowNotificbtion(InputMethod requester,
+                                                     boolebn enbble) {
+        // in cbse this request is not from the current input method,
+        // store the request bnd hbndle it when this requesting input
         // method becomes the current one.
         if (requester != inputMethod) {
-            if (perInputMethodState == null) {
-                perInputMethodState = new HashMap<>(5);
+            if (perInputMethodStbte == null) {
+                perInputMethodStbte = new HbshMbp<>(5);
             }
-            perInputMethodState.put(requester, Boolean.valueOf(enable));
+            perInputMethodStbte.put(requester, Boolebn.vblueOf(enbble));
             return;
         }
 
-        if (clientWindowNotificationEnabled != enable) {
-            clientWindowLocation = null;
-            clientWindowNotificationEnabled = enable;
+        if (clientWindowNotificbtionEnbbled != enbble) {
+            clientWindowLocbtion = null;
+            clientWindowNotificbtionEnbbled = enbble;
         }
-        if (clientWindowNotificationEnabled) {
-            if (!addedClientWindowListeners()) {
-                addClientWindowListeners();
+        if (clientWindowNotificbtionEnbbled) {
+            if (!bddedClientWindowListeners()) {
+                bddClientWindowListeners();
             }
             if (clientWindowListened != null) {
-                clientWindowLocation = null;
-                notifyClientWindowChange(clientWindowListened);
+                clientWindowLocbtion = null;
+                notifyClientWindowChbnge(clientWindowListened);
             }
         } else {
-            if (addedClientWindowListeners()) {
+            if (bddedClientWindowListeners()) {
                 removeClientWindowListeners();
             }
         }
     }
 
-    private synchronized void notifyClientWindowChange(Window window) {
+    privbte synchronized void notifyClientWindowChbnge(Window window) {
         if (inputMethod == null) {
             return;
         }
 
         // if the window is invisible or iconified, send null to the input method.
         if (!window.isVisible() ||
-            ((window instanceof Frame) && ((Frame)window).getState() == Frame.ICONIFIED)) {
-            clientWindowLocation = null;
-            inputMethod.notifyClientWindowChange(null);
+            ((window instbnceof Frbme) && ((Frbme)window).getStbte() == Frbme.ICONIFIED)) {
+            clientWindowLocbtion = null;
+            inputMethod.notifyClientWindowChbnge(null);
             return;
         }
-        Rectangle location = window.getBounds();
-        if (clientWindowLocation == null || !clientWindowLocation.equals(location)) {
-            clientWindowLocation = location;
-            inputMethod.notifyClientWindowChange(clientWindowLocation);
+        Rectbngle locbtion = window.getBounds();
+        if (clientWindowLocbtion == null || !clientWindowLocbtion.equbls(locbtion)) {
+            clientWindowLocbtion = locbtion;
+            inputMethod.notifyClientWindowChbnge(clientWindowLocbtion);
         }
     }
 
-    private synchronized void addClientWindowListeners() {
+    privbte synchronized void bddClientWindowListeners() {
         Component client = getClientComponent();
         if (client == null) {
             return;
@@ -977,42 +977,42 @@ public class InputContext extends java.awt.im.InputContext
         if (window == null) {
             return;
         }
-        window.addComponentListener(this);
-        window.addWindowListener(this);
+        window.bddComponentListener(this);
+        window.bddWindowListener(this);
         clientWindowListened = window;
     }
 
-    private synchronized void removeClientWindowListeners() {
+    privbte synchronized void removeClientWindowListeners() {
         clientWindowListened.removeComponentListener(this);
         clientWindowListened.removeWindowListener(this);
         clientWindowListened = null;
     }
 
     /**
-     * Returns true if listeners have been set up for client window
-     * change notification.
+     * Returns true if listeners hbve been set up for client window
+     * chbnge notificbtion.
      */
-    private boolean addedClientWindowListeners() {
+    privbte boolebn bddedClientWindowListeners() {
         return clientWindowListened != null;
     }
 
     /*
-     * ComponentListener and WindowListener implementation
+     * ComponentListener bnd WindowListener implementbtion
      */
     public void componentResized(ComponentEvent e) {
-        notifyClientWindowChange((Window)e.getComponent());
+        notifyClientWindowChbnge((Window)e.getComponent());
     }
 
     public void componentMoved(ComponentEvent e) {
-        notifyClientWindowChange((Window)e.getComponent());
+        notifyClientWindowChbnge((Window)e.getComponent());
     }
 
     public void componentShown(ComponentEvent e) {
-        notifyClientWindowChange((Window)e.getComponent());
+        notifyClientWindowChbnge((Window)e.getComponent());
     }
 
     public void componentHidden(ComponentEvent e) {
-        notifyClientWindowChange((Window)e.getComponent());
+        notifyClientWindowChbnge((Window)e.getComponent());
     }
 
     public void windowOpened(WindowEvent e) {}
@@ -1020,20 +1020,20 @@ public class InputContext extends java.awt.im.InputContext
     public void windowClosed(WindowEvent e) {}
 
     public void windowIconified(WindowEvent e) {
-        notifyClientWindowChange(e.getWindow());
+        notifyClientWindowChbnge(e.getWindow());
     }
 
     public void windowDeiconified(WindowEvent e) {
-        notifyClientWindowChange(e.getWindow());
+        notifyClientWindowChbnge(e.getWindow());
     }
 
-    public void windowActivated(WindowEvent e) {}
-    public void windowDeactivated(WindowEvent e) {}
+    public void windowActivbted(WindowEvent e) {}
+    public void windowDebctivbted(WindowEvent e) {}
 
     /**
-     * Initializes the input method selection key definition in preference trees
+     * Initiblizes the input method selection key definition in preference trees
      */
-    private void initializeInputMethodSelectionKey() {
+    privbte void initiblizeInputMethodSelectionKey() {
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
                 // Look in user's tree
@@ -1050,17 +1050,17 @@ public class InputContext extends java.awt.im.InputContext
         });
     }
 
-    private AWTKeyStroke getInputMethodSelectionKeyStroke(Preferences root) {
+    privbte AWTKeyStroke getInputMethodSelectionKeyStroke(Preferences root) {
         try {
-            if (root.nodeExists(inputMethodSelectionKeyPath)) {
-                Preferences node = root.node(inputMethodSelectionKeyPath);
-                int keyCode = node.getInt(inputMethodSelectionKeyCodeName, KeyEvent.VK_UNDEFINED);
+            if (root.nodeExists(inputMethodSelectionKeyPbth)) {
+                Preferences node = root.node(inputMethodSelectionKeyPbth);
+                int keyCode = node.getInt(inputMethodSelectionKeyCodeNbme, KeyEvent.VK_UNDEFINED);
                 if (keyCode != KeyEvent.VK_UNDEFINED) {
-                    int modifiers = node.getInt(inputMethodSelectionKeyModifiersName, 0);
+                    int modifiers = node.getInt(inputMethodSelectionKeyModifiersNbme, 0);
                     return AWTKeyStroke.getAWTKeyStroke(keyCode, modifiers);
                 }
             }
-        } catch (BackingStoreException bse) {
+        } cbtch (BbckingStoreException bse) {
         }
 
         return null;

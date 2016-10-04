@@ -1,432 +1,432 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.rtf;
+pbckbge jbvbx.swing.text.rtf;
 
-import java.lang.*;
-import java.util.*;
-import java.awt.Color;
-import java.awt.Font;
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.lbng.*;
+import jbvb.util.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
 
-import javax.swing.text.*;
+import jbvbx.swing.text.*;
 
 /**
- * Generates an RTF output stream (java.io.OutputStream) from rich text
- * (handed off through a series of LTTextAcceptor calls).  Can be used to
- * generate RTF from any object which knows how to write to a text acceptor
- * (e.g., LTAttributedText and LTRTFFilter).
+ * Generbtes bn RTF output strebm (jbvb.io.OutputStrebm) from rich text
+ * (hbnded off through b series of LTTextAcceptor cblls).  Cbn be used to
+ * generbte RTF from bny object which knows how to write to b text bcceptor
+ * (e.g., LTAttributedText bnd LTRTFFilter).
  *
- * <p>Note that this is a lossy conversion since RTF's model of
- * text does not exactly correspond with LightText's.
+ * <p>Note thbt this is b lossy conversion since RTF's model of
+ * text does not exbctly correspond with LightText's.
  *
  * @see LTAttributedText
  * @see LTRTFFilter
  * @see LTTextAcceptor
- * @see java.io.OutputStream
+ * @see jbvb.io.OutputStrebm
  */
 
-class RTFGenerator extends Object
+clbss RTFGenerbtor extends Object
 {
-    /* These dictionaries map Colors, font names, or Style objects
+    /* These dictionbries mbp Colors, font nbmes, or Style objects
        to Integers */
-    Dictionary<Object, Integer> colorTable;
+    Dictionbry<Object, Integer> colorTbble;
     int colorCount;
-    Dictionary<String, Integer> fontTable;
+    Dictionbry<String, Integer> fontTbble;
     int fontCount;
-    Dictionary<AttributeSet, Integer> styleTable;
+    Dictionbry<AttributeSet, Integer> styleTbble;
     int styleCount;
 
-    /* where all the text is going */
-    OutputStream outputStream;
+    /* where bll the text is going */
+    OutputStrebm outputStrebm;
 
-    boolean afterKeyword;
+    boolebn bfterKeyword;
 
-    MutableAttributeSet outputAttributes;
+    MutbbleAttributeSet outputAttributes;
 
-    /* the value of the last \\ucN keyword emitted */
+    /* the vblue of the lbst \\ucN keyword emitted */
     int unicodeCount;
 
-    /* for efficiency's sake (ha) */
-    private Segment workingSegment;
+    /* for efficiency's sbke (hb) */
+    privbte Segment workingSegment;
 
     int[] outputConversion;
 
-    /** The default color, used for text without an explicit color
-     *  attribute. */
-    static public final Color defaultRTFColor = Color.black;
+    /** The defbult color, used for text without bn explicit color
+     *  bttribute. */
+    stbtic public finbl Color defbultRTFColor = Color.blbck;
 
-    static public final float defaultFontSize = 12f;
+    stbtic public finbl flobt defbultFontSize = 12f;
 
-    static public final String defaultFontFamily = "Helvetica";
+    stbtic public finbl String defbultFontFbmily = "Helveticb";
 
-    /* constants so we can avoid allocating objects in inner loops */
-    final static private Object MagicToken;
+    /* constbnts so we cbn bvoid bllocbting objects in inner loops */
+    finbl stbtic privbte Object MbgicToken;
 
-    /* An array of character-keyword pairs. This could be done
-       as a dictionary (and lookup would be quicker), but that
-       would require allocating an object for every character
+    /* An brrby of chbrbcter-keyword pbirs. This could be done
+       bs b dictionbry (bnd lookup would be quicker), but thbt
+       would require bllocbting bn object for every chbrbcter
        written (slow!). */
-    static class CharacterKeywordPair
-      { public char character; public String keyword; }
-    static protected CharacterKeywordPair[] textKeywords;
+    stbtic clbss ChbrbcterKeywordPbir
+      { public chbr chbrbcter; public String keyword; }
+    stbtic protected ChbrbcterKeywordPbir[] textKeywords;
 
-    static {
-        MagicToken = new Object();
+    stbtic {
+        MbgicToken = new Object();
 
-        Dictionary<String, String> textKeywordDictionary = RTFReader.textKeywords;
-        Enumeration<String> keys = textKeywordDictionary.keys();
-        Vector<CharacterKeywordPair> tempPairs = new Vector<CharacterKeywordPair>();
-        while(keys.hasMoreElements()) {
-            CharacterKeywordPair pair = new CharacterKeywordPair();
-            pair.keyword = keys.nextElement();
-            pair.character = textKeywordDictionary.get(pair.keyword).charAt(0);
-            tempPairs.addElement(pair);
+        Dictionbry<String, String> textKeywordDictionbry = RTFRebder.textKeywords;
+        Enumerbtion<String> keys = textKeywordDictionbry.keys();
+        Vector<ChbrbcterKeywordPbir> tempPbirs = new Vector<ChbrbcterKeywordPbir>();
+        while(keys.hbsMoreElements()) {
+            ChbrbcterKeywordPbir pbir = new ChbrbcterKeywordPbir();
+            pbir.keyword = keys.nextElement();
+            pbir.chbrbcter = textKeywordDictionbry.get(pbir.keyword).chbrAt(0);
+            tempPbirs.bddElement(pbir);
         }
-        textKeywords = new CharacterKeywordPair[tempPairs.size()];
-        tempPairs.copyInto(textKeywords);
+        textKeywords = new ChbrbcterKeywordPbir[tempPbirs.size()];
+        tempPbirs.copyInto(textKeywords);
     }
 
-    static final char[] hexdigits = { '0', '1', '2', '3', '4', '5', '6', '7',
-                                      '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    stbtic finbl chbr[] hexdigits = { '0', '1', '2', '3', '4', '5', '6', '7',
+                                      '8', '9', 'b', 'b', 'c', 'd', 'e', 'f' };
 
-static public void writeDocument(Document d, OutputStream to)
+stbtic public void writeDocument(Document d, OutputStrebm to)
     throws IOException
 {
-    RTFGenerator gen = new RTFGenerator(to);
-    Element root = d.getDefaultRootElement();
+    RTFGenerbtor gen = new RTFGenerbtor(to);
+    Element root = d.getDefbultRootElement();
 
-    gen.examineElement(root);
-    gen.writeRTFHeader();
+    gen.exbmineElement(root);
+    gen.writeRTFHebder();
     gen.writeDocumentProperties(d);
 
-    /* TODO this assumes a particular element structure; is there
-       a way to iterate more generically ? */
-    int max = root.getElementCount();
-    for(int idx = 0; idx < max; idx++)
-        gen.writeParagraphElement(root.getElement(idx));
+    /* TODO this bssumes b pbrticulbr element structure; is there
+       b wby to iterbte more genericblly ? */
+    int mbx = root.getElementCount();
+    for(int idx = 0; idx < mbx; idx++)
+        gen.writePbrbgrbphElement(root.getElement(idx));
 
-    gen.writeRTFTrailer();
+    gen.writeRTFTrbiler();
 }
 
-public RTFGenerator(OutputStream to)
+public RTFGenerbtor(OutputStrebm to)
 {
-    colorTable = new Hashtable<Object, Integer>();
-    colorTable.put(defaultRTFColor, Integer.valueOf(0));
+    colorTbble = new Hbshtbble<Object, Integer>();
+    colorTbble.put(defbultRTFColor, Integer.vblueOf(0));
     colorCount = 1;
 
-    fontTable = new Hashtable<String, Integer>();
+    fontTbble = new Hbshtbble<String, Integer>();
     fontCount = 0;
 
-    styleTable = new Hashtable<AttributeSet, Integer>();
-    /* TODO: put default style in style table */
+    styleTbble = new Hbshtbble<AttributeSet, Integer>();
+    /* TODO: put defbult style in style tbble */
     styleCount = 0;
 
     workingSegment = new Segment();
 
-    outputStream = to;
+    outputStrebm = to;
 
     unicodeCount = 1;
 }
 
-public void examineElement(Element el)
+public void exbmineElement(Element el)
 {
-    AttributeSet a = el.getAttributes();
-    String fontName;
-    Object foregroundColor, backgroundColor;
+    AttributeSet b = el.getAttributes();
+    String fontNbme;
+    Object foregroundColor, bbckgroundColor;
 
-    tallyStyles(a);
+    tbllyStyles(b);
 
-    if (a != null) {
-        /* TODO: default color must be color 0! */
+    if (b != null) {
+        /* TODO: defbult color must be color 0! */
 
-        foregroundColor = StyleConstants.getForeground(a);
+        foregroundColor = StyleConstbnts.getForeground(b);
         if (foregroundColor != null &&
-            colorTable.get(foregroundColor) == null) {
-            colorTable.put(foregroundColor, colorCount);
+            colorTbble.get(foregroundColor) == null) {
+            colorTbble.put(foregroundColor, colorCount);
             colorCount ++;
         }
 
-        backgroundColor = a.getAttribute(StyleConstants.Background);
-        if (backgroundColor != null &&
-            colorTable.get(backgroundColor) == null) {
-            colorTable.put(backgroundColor, colorCount);
+        bbckgroundColor = b.getAttribute(StyleConstbnts.Bbckground);
+        if (bbckgroundColor != null &&
+            colorTbble.get(bbckgroundColor) == null) {
+            colorTbble.put(bbckgroundColor, colorCount);
             colorCount ++;
         }
 
-        fontName = StyleConstants.getFontFamily(a);
+        fontNbme = StyleConstbnts.getFontFbmily(b);
 
-        if (fontName == null)
-            fontName = defaultFontFamily;
+        if (fontNbme == null)
+            fontNbme = defbultFontFbmily;
 
-        if (fontName != null &&
-            fontTable.get(fontName) == null) {
-            fontTable.put(fontName, fontCount);
+        if (fontNbme != null &&
+            fontTbble.get(fontNbme) == null) {
+            fontTbble.put(fontNbme, fontCount);
             fontCount ++;
         }
     }
 
     int el_count = el.getElementCount();
     for(int el_idx = 0; el_idx < el_count; el_idx ++) {
-        examineElement(el.getElement(el_idx));
+        exbmineElement(el.getElement(el_idx));
     }
 }
 
-private void tallyStyles(AttributeSet a) {
-    while (a != null) {
-        if (a instanceof Style) {
-            Integer aNum = styleTable.get(a);
-            if (aNum == null) {
+privbte void tbllyStyles(AttributeSet b) {
+    while (b != null) {
+        if (b instbnceof Style) {
+            Integer bNum = styleTbble.get(b);
+            if (bNum == null) {
                 styleCount = styleCount + 1;
-                aNum = styleCount;
-                styleTable.put(a, aNum);
+                bNum = styleCount;
+                styleTbble.put(b, bNum);
             }
         }
-        a = a.getResolveParent();
+        b = b.getResolvePbrent();
     }
 }
 
-private Style findStyle(AttributeSet a)
+privbte Style findStyle(AttributeSet b)
 {
-    while(a != null) {
-        if (a instanceof Style) {
-            Object aNum = styleTable.get(a);
-            if (aNum != null)
-                return (Style)a;
+    while(b != null) {
+        if (b instbnceof Style) {
+            Object bNum = styleTbble.get(b);
+            if (bNum != null)
+                return (Style)b;
         }
-        a = a.getResolveParent();
+        b = b.getResolvePbrent();
     }
     return null;
 }
 
-private Integer findStyleNumber(AttributeSet a, String domain)
+privbte Integer findStyleNumber(AttributeSet b, String dombin)
 {
-    while(a != null) {
-        if (a instanceof Style) {
-            Integer aNum = styleTable.get(a);
-            if (aNum != null) {
-                if (domain == null ||
-                    domain.equals(a.getAttribute(Constants.StyleType)))
-                    return aNum;
+    while(b != null) {
+        if (b instbnceof Style) {
+            Integer bNum = styleTbble.get(b);
+            if (bNum != null) {
+                if (dombin == null ||
+                    dombin.equbls(b.getAttribute(Constbnts.StyleType)))
+                    return bNum;
             }
 
         }
-        a = a.getResolveParent();
+        b = b.getResolvePbrent();
     }
     return null;
 }
 
-static private Object attrDiff(MutableAttributeSet oldAttrs,
+stbtic privbte Object bttrDiff(MutbbleAttributeSet oldAttrs,
                                AttributeSet newAttrs,
                                Object key,
                                Object dfl)
 {
-    Object oldValue, newValue;
+    Object oldVblue, newVblue;
 
-    oldValue = oldAttrs.getAttribute(key);
-    newValue = newAttrs.getAttribute(key);
+    oldVblue = oldAttrs.getAttribute(key);
+    newVblue = newAttrs.getAttribute(key);
 
-    if (newValue == oldValue)
+    if (newVblue == oldVblue)
         return null;
-    if (newValue == null) {
+    if (newVblue == null) {
         oldAttrs.removeAttribute(key);
-        if (dfl != null && !dfl.equals(oldValue))
+        if (dfl != null && !dfl.equbls(oldVblue))
             return dfl;
         else
             return null;
     }
-    if (oldValue == null ||
-        !equalArraysOK(oldValue, newValue)) {
-        oldAttrs.addAttribute(key, newValue);
-        return newValue;
+    if (oldVblue == null ||
+        !equblArrbysOK(oldVblue, newVblue)) {
+        oldAttrs.bddAttribute(key, newVblue);
+        return newVblue;
     }
     return null;
 }
 
-static private boolean equalArraysOK(Object a, Object b)
+stbtic privbte boolebn equblArrbysOK(Object b, Object b)
 {
-    Object[] aa, bb;
-    if (a == b)
+    Object[] bb, bb;
+    if (b == b)
         return true;
-    if (a == null || b == null)
-        return false;
-    if (a.equals(b))
+    if (b == null || b == null)
+        return fblse;
+    if (b.equbls(b))
         return true;
-    if (!(a.getClass().isArray() && b.getClass().isArray()))
-        return false;
-    aa = (Object[])a;
+    if (!(b.getClbss().isArrby() && b.getClbss().isArrby()))
+        return fblse;
     bb = (Object[])b;
-    if (aa.length != bb.length)
-        return false;
+    bb = (Object[])b;
+    if (bb.length != bb.length)
+        return fblse;
 
     int i;
-    int l = aa.length;
+    int l = bb.length;
     for(i = 0; i < l; i++) {
-        if (!equalArraysOK(aa[i], bb[i]))
-            return false;
+        if (!equblArrbysOK(bb[i], bb[i]))
+            return fblse;
     }
 
     return true;
 }
 
-/* Writes a line break to the output file, for ease in debugging */
-public void writeLineBreak()
+/* Writes b line brebk to the output file, for ebse in debugging */
+public void writeLineBrebk()
     throws IOException
 {
-    writeRawString("\n");
-    afterKeyword = false;
+    writeRbwString("\n");
+    bfterKeyword = fblse;
 }
 
 
-public void writeRTFHeader()
+public void writeRTFHebder()
     throws IOException
 {
     int index;
 
-    /* TODO: Should the writer attempt to examine the text it's writing
-       and pick a character set which will most compactly represent the
-       document? (currently the writer always uses the ansi character
-       set, which is roughly ISO-8859 Latin-1, and uses Unicode escapes
-       for all other characters. However Unicode is a relatively
-       recent addition to RTF, and not all readers will understand it.) */
+    /* TODO: Should the writer bttempt to exbmine the text it's writing
+       bnd pick b chbrbcter set which will most compbctly represent the
+       document? (currently the writer blwbys uses the bnsi chbrbcter
+       set, which is roughly ISO-8859 Lbtin-1, bnd uses Unicode escbpes
+       for bll other chbrbcters. However Unicode is b relbtively
+       recent bddition to RTF, bnd not bll rebders will understbnd it.) */
     writeBegingroup();
     writeControlWord("rtf", 1);
-    writeControlWord("ansi");
-    outputConversion = outputConversionForName("ansi");
-    writeLineBreak();
+    writeControlWord("bnsi");
+    outputConversion = outputConversionForNbme("bnsi");
+    writeLineBrebk();
 
-    /* write font table */
-    String[] sortedFontTable = new String[fontCount];
-    Enumeration<String> fonts = fontTable.keys();
+    /* write font tbble */
+    String[] sortedFontTbble = new String[fontCount];
+    Enumerbtion<String> fonts = fontTbble.keys();
     String font;
-    while(fonts.hasMoreElements()) {
+    while(fonts.hbsMoreElements()) {
         font = fonts.nextElement();
-        Integer num = fontTable.get(font);
-        sortedFontTable[num.intValue()] = font;
+        Integer num = fontTbble.get(font);
+        sortedFontTbble[num.intVblue()] = font;
     }
     writeBegingroup();
     writeControlWord("fonttbl");
     for(index = 0; index < fontCount; index ++) {
         writeControlWord("f", index);
         writeControlWord("fnil");  /* TODO: supply correct font style */
-        writeText(sortedFontTable[index]);
+        writeText(sortedFontTbble[index]);
         writeText(";");
     }
     writeEndgroup();
-    writeLineBreak();
+    writeLineBrebk();
 
-    /* write color table */
+    /* write color tbble */
     if (colorCount > 1) {
-        Color[] sortedColorTable = new Color[colorCount];
-        Enumeration<Object> colors = colorTable.keys();
+        Color[] sortedColorTbble = new Color[colorCount];
+        Enumerbtion<Object> colors = colorTbble.keys();
         Color color;
-        while(colors.hasMoreElements()) {
+        while(colors.hbsMoreElements()) {
             color = (Color)colors.nextElement();
-            Integer num = colorTable.get(color);
-            sortedColorTable[num.intValue()] = color;
+            Integer num = colorTbble.get(color);
+            sortedColorTbble[num.intVblue()] = color;
         }
         writeBegingroup();
         writeControlWord("colortbl");
         for(index = 0; index < colorCount; index ++) {
-            color = sortedColorTable[index];
+            color = sortedColorTbble[index];
             if (color != null) {
                 writeControlWord("red", color.getRed());
                 writeControlWord("green", color.getGreen());
                 writeControlWord("blue", color.getBlue());
             }
-            writeRawString(";");
+            writeRbwString(";");
         }
         writeEndgroup();
-        writeLineBreak();
+        writeLineBrebk();
     }
 
     /* write the style sheet */
     if (styleCount > 1) {
         writeBegingroup();
         writeControlWord("stylesheet");
-        Enumeration<AttributeSet> styles = styleTable.keys();
-        while(styles.hasMoreElements()) {
+        Enumerbtion<AttributeSet> styles = styleTbble.keys();
+        while(styles.hbsMoreElements()) {
             Style style = (Style)styles.nextElement();
-            int styleNumber = styleTable.get(style).intValue();
+            int styleNumber = styleTbble.get(style).intVblue();
             writeBegingroup();
-            String styleType = (String)style.getAttribute(Constants.StyleType);
+            String styleType = (String)style.getAttribute(Constbnts.StyleType);
             if (styleType == null)
-                styleType = Constants.STParagraph;
-            if (styleType.equals(Constants.STCharacter)) {
+                styleType = Constbnts.STPbrbgrbph;
+            if (styleType.equbls(Constbnts.STChbrbcter)) {
                 writeControlWord("*");
                 writeControlWord("cs", styleNumber);
-            } else if(styleType.equals(Constants.STSection)) {
+            } else if(styleType.equbls(Constbnts.STSection)) {
                 writeControlWord("*");
                 writeControlWord("ds", styleNumber);
             } else {
                 writeControlWord("s", styleNumber);
             }
 
-            AttributeSet basis = style.getResolveParent();
-            MutableAttributeSet goat;
-            if (basis == null) {
-                goat = new SimpleAttributeSet();
+            AttributeSet bbsis = style.getResolvePbrent();
+            MutbbleAttributeSet gobt;
+            if (bbsis == null) {
+                gobt = new SimpleAttributeSet();
             } else {
-                goat = new SimpleAttributeSet(basis);
+                gobt = new SimpleAttributeSet(bbsis);
             }
 
-            updateSectionAttributes(goat, style, false);
-            updateParagraphAttributes(goat, style, false);
-            updateCharacterAttributes(goat, style, false);
+            updbteSectionAttributes(gobt, style, fblse);
+            updbtePbrbgrbphAttributes(gobt, style, fblse);
+            updbteChbrbcterAttributes(gobt, style, fblse);
 
-            basis = style.getResolveParent();
-            if (basis != null && basis instanceof Style) {
-                Integer basedOn = styleTable.get(basis);
-                if (basedOn != null) {
-                    writeControlWord("sbasedon", basedOn.intValue());
+            bbsis = style.getResolvePbrent();
+            if (bbsis != null && bbsis instbnceof Style) {
+                Integer bbsedOn = styleTbble.get(bbsis);
+                if (bbsedOn != null) {
+                    writeControlWord("sbbsedon", bbsedOn.intVblue());
                 }
             }
 
-            Style nextStyle = (Style)style.getAttribute(Constants.StyleNext);
+            Style nextStyle = (Style)style.getAttribute(Constbnts.StyleNext);
             if (nextStyle != null) {
-                Integer nextNum = styleTable.get(nextStyle);
+                Integer nextNum = styleTbble.get(nextStyle);
                 if (nextNum != null) {
-                    writeControlWord("snext", nextNum.intValue());
+                    writeControlWord("snext", nextNum.intVblue());
                 }
             }
 
-            Boolean hidden = (Boolean)style.getAttribute(Constants.StyleHidden);
-            if (hidden != null && hidden.booleanValue())
+            Boolebn hidden = (Boolebn)style.getAttribute(Constbnts.StyleHidden);
+            if (hidden != null && hidden.boolebnVblue())
                 writeControlWord("shidden");
 
-            Boolean additive = (Boolean)style.getAttribute(Constants.StyleAdditive);
-            if (additive != null && additive.booleanValue())
-                writeControlWord("additive");
+            Boolebn bdditive = (Boolebn)style.getAttribute(Constbnts.StyleAdditive);
+            if (bdditive != null && bdditive.boolebnVblue())
+                writeControlWord("bdditive");
 
 
-            writeText(style.getName());
+            writeText(style.getNbme());
             writeText(";");
             writeEndgroup();
         }
         writeEndgroup();
-        writeLineBreak();
+        writeLineBrebk();
     }
 
     outputAttributes = new SimpleAttributeSet();
@@ -437,94 +437,94 @@ void writeDocumentProperties(Document doc)
 {
     /* Write the document properties */
     int i;
-    boolean wroteSomething = false;
+    boolebn wroteSomething = fblse;
 
-    for(i = 0; i < RTFAttributes.attributes.length; i++) {
-        RTFAttribute attr = RTFAttributes.attributes[i];
-        if (attr.domain() != RTFAttribute.D_DOCUMENT)
+    for(i = 0; i < RTFAttributes.bttributes.length; i++) {
+        RTFAttribute bttr = RTFAttributes.bttributes[i];
+        if (bttr.dombin() != RTFAttribute.D_DOCUMENT)
             continue;
-        Object prop = doc.getProperty(attr.swingName());
-        boolean ok = attr.writeValue(prop, this, false);
+        Object prop = doc.getProperty(bttr.swingNbme());
+        boolebn ok = bttr.writeVblue(prop, this, fblse);
         if (ok)
             wroteSomething = true;
     }
 
     if (wroteSomething)
-        writeLineBreak();
+        writeLineBrebk();
 }
 
-public void writeRTFTrailer()
+public void writeRTFTrbiler()
     throws IOException
 {
     writeEndgroup();
-    writeLineBreak();
+    writeLineBrebk();
 }
 
-protected void checkNumericControlWord(MutableAttributeSet currentAttributes,
+protected void checkNumericControlWord(MutbbleAttributeSet currentAttributes,
                                        AttributeSet newAttributes,
-                                       Object attrName,
+                                       Object bttrNbme,
                                        String controlWord,
-                                       float dflt, float scale)
+                                       flobt dflt, flobt scble)
     throws IOException
 {
-    Object parm;
+    Object pbrm;
 
-    if ((parm = attrDiff(currentAttributes, newAttributes,
-                         attrName, MagicToken)) != null) {
-        float targ;
-        if (parm == MagicToken)
-            targ = dflt;
+    if ((pbrm = bttrDiff(currentAttributes, newAttributes,
+                         bttrNbme, MbgicToken)) != null) {
+        flobt tbrg;
+        if (pbrm == MbgicToken)
+            tbrg = dflt;
         else
-            targ = ((Number)parm).floatValue();
-        writeControlWord(controlWord, Math.round(targ * scale));
+            tbrg = ((Number)pbrm).flobtVblue();
+        writeControlWord(controlWord, Mbth.round(tbrg * scble));
     }
 }
 
-protected void checkControlWord(MutableAttributeSet currentAttributes,
+protected void checkControlWord(MutbbleAttributeSet currentAttributes,
                                 AttributeSet newAttributes,
                                 RTFAttribute word)
     throws IOException
 {
-    Object parm;
+    Object pbrm;
 
-    if ((parm = attrDiff(currentAttributes, newAttributes,
-                         word.swingName(), MagicToken)) != null) {
-        if (parm == MagicToken)
-            parm = null;
-        word.writeValue(parm, this, true);
+    if ((pbrm = bttrDiff(currentAttributes, newAttributes,
+                         word.swingNbme(), MbgicToken)) != null) {
+        if (pbrm == MbgicToken)
+            pbrm = null;
+        word.writeVblue(pbrm, this, true);
     }
 }
 
-protected void checkControlWords(MutableAttributeSet currentAttributes,
+protected void checkControlWords(MutbbleAttributeSet currentAttributes,
                                  AttributeSet newAttributes,
                                  RTFAttribute words[],
-                                 int domain)
+                                 int dombin)
     throws IOException
 {
     int wordIndex;
     int wordCount = words.length;
     for(wordIndex = 0; wordIndex < wordCount; wordIndex++) {
-        RTFAttribute attr = words[wordIndex];
-        if (attr.domain() == domain)
-            checkControlWord(currentAttributes, newAttributes, attr);
+        RTFAttribute bttr = words[wordIndex];
+        if (bttr.dombin() == dombin)
+            checkControlWord(currentAttributes, newAttributes, bttr);
     }
 }
 
-void updateSectionAttributes(MutableAttributeSet current,
+void updbteSectionAttributes(MutbbleAttributeSet current,
                              AttributeSet newAttributes,
-                             boolean emitStyleChanges)
+                             boolebn emitStyleChbnges)
     throws IOException
 {
-    if (emitStyleChanges) {
+    if (emitStyleChbnges) {
         Object oldStyle = current.getAttribute("sectionStyle");
-        Object newStyle = findStyleNumber(newAttributes, Constants.STSection);
+        Object newStyle = findStyleNumber(newAttributes, Constbnts.STSection);
         if (oldStyle != newStyle) {
             if (oldStyle != null) {
                 resetSectionAttributes(current);
             }
             if (newStyle != null) {
-                writeControlWord("ds", ((Integer)newStyle).intValue());
-                current.addAttribute("sectionStyle", newStyle);
+                writeControlWord("ds", ((Integer)newStyle).intVblue());
+                current.bddAttribute("sectionStyle", newStyle);
             } else {
                 current.removeAttribute("sectionStyle");
             }
@@ -532,44 +532,44 @@ void updateSectionAttributes(MutableAttributeSet current,
     }
 
     checkControlWords(current, newAttributes,
-                      RTFAttributes.attributes, RTFAttribute.D_SECTION);
+                      RTFAttributes.bttributes, RTFAttribute.D_SECTION);
 }
 
-protected void resetSectionAttributes(MutableAttributeSet currentAttributes)
+protected void resetSectionAttributes(MutbbleAttributeSet currentAttributes)
     throws IOException
 {
     writeControlWord("sectd");
 
     int wordIndex;
-    int wordCount = RTFAttributes.attributes.length;
+    int wordCount = RTFAttributes.bttributes.length;
     for(wordIndex = 0; wordIndex < wordCount; wordIndex++) {
-        RTFAttribute attr = RTFAttributes.attributes[wordIndex];
-        if (attr.domain() == RTFAttribute.D_SECTION)
-            attr.setDefault(currentAttributes);
+        RTFAttribute bttr = RTFAttributes.bttributes[wordIndex];
+        if (bttr.dombin() == RTFAttribute.D_SECTION)
+            bttr.setDefbult(currentAttributes);
     }
 
     currentAttributes.removeAttribute("sectionStyle");
 }
 
-void updateParagraphAttributes(MutableAttributeSet current,
+void updbtePbrbgrbphAttributes(MutbbleAttributeSet current,
                                AttributeSet newAttributes,
-                               boolean emitStyleChanges)
+                               boolebn emitStyleChbnges)
     throws IOException
 {
-    Object parm;
+    Object pbrm;
     Object oldStyle, newStyle;
 
-    /* The only way to get rid of tabs or styles is with the \pard keyword,
-       emitted by resetParagraphAttributes(). Ideally we should avoid
-       emitting \pard if the new paragraph's tabs are a superset of the old
-       paragraph's tabs. */
+    /* The only wby to get rid of tbbs or styles is with the \pbrd keyword,
+       emitted by resetPbrbgrbphAttributes(). Ideblly we should bvoid
+       emitting \pbrd if the new pbrbgrbph's tbbs bre b superset of the old
+       pbrbgrbph's tbbs. */
 
-    if (emitStyleChanges) {
-        oldStyle = current.getAttribute("paragraphStyle");
-        newStyle = findStyleNumber(newAttributes, Constants.STParagraph);
+    if (emitStyleChbnges) {
+        oldStyle = current.getAttribute("pbrbgrbphStyle");
+        newStyle = findStyleNumber(newAttributes, Constbnts.STPbrbgrbph);
         if (oldStyle != newStyle) {
             if (oldStyle != null) {
-                resetParagraphAttributes(current);
+                resetPbrbgrbphAttributes(current);
                 oldStyle = null;
             }
         }
@@ -578,89 +578,89 @@ void updateParagraphAttributes(MutableAttributeSet current,
         newStyle = null;
     }
 
-    Object oldTabs = current.getAttribute(Constants.Tabs);
-    Object newTabs = newAttributes.getAttribute(Constants.Tabs);
-    if (oldTabs != newTabs) {
-        if (oldTabs != null) {
-            resetParagraphAttributes(current);
-            oldTabs = null;
+    Object oldTbbs = current.getAttribute(Constbnts.Tbbs);
+    Object newTbbs = newAttributes.getAttribute(Constbnts.Tbbs);
+    if (oldTbbs != newTbbs) {
+        if (oldTbbs != null) {
+            resetPbrbgrbphAttributes(current);
+            oldTbbs = null;
             oldStyle = null;
         }
     }
 
     if (oldStyle != newStyle && newStyle != null) {
-        writeControlWord("s", ((Integer)newStyle).intValue());
-        current.addAttribute("paragraphStyle", newStyle);
+        writeControlWord("s", ((Integer)newStyle).intVblue());
+        current.bddAttribute("pbrbgrbphStyle", newStyle);
     }
 
     checkControlWords(current, newAttributes,
-                      RTFAttributes.attributes, RTFAttribute.D_PARAGRAPH);
+                      RTFAttributes.bttributes, RTFAttribute.D_PARAGRAPH);
 
-    if (oldTabs != newTabs && newTabs != null) {
-        TabStop tabs[] = (TabStop[])newTabs;
+    if (oldTbbs != newTbbs && newTbbs != null) {
+        TbbStop tbbs[] = (TbbStop[])newTbbs;
         int index;
-        for(index = 0; index < tabs.length; index ++) {
-            TabStop tab = tabs[index];
-            switch (tab.getAlignment()) {
-              case TabStop.ALIGN_LEFT:
-              case TabStop.ALIGN_BAR:
-                break;
-              case TabStop.ALIGN_RIGHT:
+        for(index = 0; index < tbbs.length; index ++) {
+            TbbStop tbb = tbbs[index];
+            switch (tbb.getAlignment()) {
+              cbse TbbStop.ALIGN_LEFT:
+              cbse TbbStop.ALIGN_BAR:
+                brebk;
+              cbse TbbStop.ALIGN_RIGHT:
                 writeControlWord("tqr");
-                break;
-              case TabStop.ALIGN_CENTER:
+                brebk;
+              cbse TbbStop.ALIGN_CENTER:
                 writeControlWord("tqc");
-                break;
-              case TabStop.ALIGN_DECIMAL:
+                brebk;
+              cbse TbbStop.ALIGN_DECIMAL:
                 writeControlWord("tqdec");
-                break;
+                brebk;
             }
-            switch (tab.getLeader()) {
-              case TabStop.LEAD_NONE:
-                break;
-              case TabStop.LEAD_DOTS:
+            switch (tbb.getLebder()) {
+              cbse TbbStop.LEAD_NONE:
+                brebk;
+              cbse TbbStop.LEAD_DOTS:
                 writeControlWord("tldot");
-                break;
-              case TabStop.LEAD_HYPHENS:
+                brebk;
+              cbse TbbStop.LEAD_HYPHENS:
                 writeControlWord("tlhyph");
-                break;
-              case TabStop.LEAD_UNDERLINE:
+                brebk;
+              cbse TbbStop.LEAD_UNDERLINE:
                 writeControlWord("tlul");
-                break;
-              case TabStop.LEAD_THICKLINE:
+                brebk;
+              cbse TbbStop.LEAD_THICKLINE:
                 writeControlWord("tlth");
-                break;
-              case TabStop.LEAD_EQUALS:
+                brebk;
+              cbse TbbStop.LEAD_EQUALS:
                 writeControlWord("tleq");
-                break;
+                brebk;
             }
-            int twips = Math.round(20f * tab.getPosition());
-            if (tab.getAlignment() == TabStop.ALIGN_BAR) {
+            int twips = Mbth.round(20f * tbb.getPosition());
+            if (tbb.getAlignment() == TbbStop.ALIGN_BAR) {
                 writeControlWord("tb", twips);
             } else {
                 writeControlWord("tx", twips);
             }
         }
-        current.addAttribute(Constants.Tabs, tabs);
+        current.bddAttribute(Constbnts.Tbbs, tbbs);
     }
 }
 
-public void writeParagraphElement(Element el)
+public void writePbrbgrbphElement(Element el)
     throws IOException
 {
-    updateParagraphAttributes(outputAttributes, el.getAttributes(), true);
+    updbtePbrbgrbphAttributes(outputAttributes, el.getAttributes(), true);
 
     int sub_count = el.getElementCount();
     for(int idx = 0; idx < sub_count; idx ++) {
         writeTextElement(el.getElement(idx));
     }
 
-    writeControlWord("par");
-    writeLineBreak();  /* makes the raw file more readable */
+    writeControlWord("pbr");
+    writeLineBrebk();  /* mbkes the rbw file more rebdbble */
 }
 
 /* debugging. TODO: remove.
-private static String tabdump(Object tso)
+privbte stbtic String tbbdump(Object tso)
 {
     String buf;
     int i;
@@ -668,7 +668,7 @@ private static String tabdump(Object tso)
     if (tso == null)
         return "[none]";
 
-    TabStop[] ts = (TabStop[])tso;
+    TbbStop[] ts = (TbbStop[])tso;
 
     buf = "[";
     for(i = 0; i < ts.length; i++) {
@@ -680,122 +680,122 @@ private static String tabdump(Object tso)
 }
 */
 
-protected void resetParagraphAttributes(MutableAttributeSet currentAttributes)
+protected void resetPbrbgrbphAttributes(MutbbleAttributeSet currentAttributes)
     throws IOException
 {
-    writeControlWord("pard");
+    writeControlWord("pbrd");
 
-    currentAttributes.addAttribute(StyleConstants.Alignment, Integer.valueOf(0));
+    currentAttributes.bddAttribute(StyleConstbnts.Alignment, Integer.vblueOf(0));
 
     int wordIndex;
-    int wordCount = RTFAttributes.attributes.length;
+    int wordCount = RTFAttributes.bttributes.length;
     for(wordIndex = 0; wordIndex < wordCount; wordIndex++) {
-        RTFAttribute attr = RTFAttributes.attributes[wordIndex];
-        if (attr.domain() == RTFAttribute.D_PARAGRAPH)
-            attr.setDefault(currentAttributes);
+        RTFAttribute bttr = RTFAttributes.bttributes[wordIndex];
+        if (bttr.dombin() == RTFAttribute.D_PARAGRAPH)
+            bttr.setDefbult(currentAttributes);
     }
 
-    currentAttributes.removeAttribute("paragraphStyle");
-    currentAttributes.removeAttribute(Constants.Tabs);
+    currentAttributes.removeAttribute("pbrbgrbphStyle");
+    currentAttributes.removeAttribute(Constbnts.Tbbs);
 }
 
-void updateCharacterAttributes(MutableAttributeSet current,
+void updbteChbrbcterAttributes(MutbbleAttributeSet current,
                                AttributeSet newAttributes,
-                               boolean updateStyleChanges)
+                               boolebn updbteStyleChbnges)
     throws IOException
 {
-    Object parm;
+    Object pbrm;
 
-    if (updateStyleChanges) {
-        Object oldStyle = current.getAttribute("characterStyle");
+    if (updbteStyleChbnges) {
+        Object oldStyle = current.getAttribute("chbrbcterStyle");
         Object newStyle = findStyleNumber(newAttributes,
-                                          Constants.STCharacter);
+                                          Constbnts.STChbrbcter);
         if (oldStyle != newStyle) {
             if (oldStyle != null) {
-                resetCharacterAttributes(current);
+                resetChbrbcterAttributes(current);
             }
             if (newStyle != null) {
-                writeControlWord("cs", ((Integer)newStyle).intValue());
-                current.addAttribute("characterStyle", newStyle);
+                writeControlWord("cs", ((Integer)newStyle).intVblue());
+                current.bddAttribute("chbrbcterStyle", newStyle);
             } else {
-                current.removeAttribute("characterStyle");
+                current.removeAttribute("chbrbcterStyle");
             }
         }
     }
 
-    if ((parm = attrDiff(current, newAttributes,
-                         StyleConstants.FontFamily, null)) != null) {
-        Integer fontNum = fontTable.get(parm);
-        writeControlWord("f", fontNum.intValue());
+    if ((pbrm = bttrDiff(current, newAttributes,
+                         StyleConstbnts.FontFbmily, null)) != null) {
+        Integer fontNum = fontTbble.get(pbrm);
+        writeControlWord("f", fontNum.intVblue());
     }
 
     checkNumericControlWord(current, newAttributes,
-                            StyleConstants.FontSize, "fs",
-                            defaultFontSize, 2f);
+                            StyleConstbnts.FontSize, "fs",
+                            defbultFontSize, 2f);
 
     checkControlWords(current, newAttributes,
-                      RTFAttributes.attributes, RTFAttribute.D_CHARACTER);
+                      RTFAttributes.bttributes, RTFAttribute.D_CHARACTER);
 
     checkNumericControlWord(current, newAttributes,
-                            StyleConstants.LineSpacing, "sl",
-                            0, 20f); /* TODO: sl wackiness */
+                            StyleConstbnts.LineSpbcing, "sl",
+                            0, 20f); /* TODO: sl wbckiness */
 
-    if ((parm = attrDiff(current, newAttributes,
-                         StyleConstants.Background, MagicToken)) != null) {
+    if ((pbrm = bttrDiff(current, newAttributes,
+                         StyleConstbnts.Bbckground, MbgicToken)) != null) {
         int colorNum;
-        if (parm == MagicToken)
+        if (pbrm == MbgicToken)
             colorNum = 0;
         else
-            colorNum = colorTable.get(parm).intValue();
+            colorNum = colorTbble.get(pbrm).intVblue();
         writeControlWord("cb", colorNum);
     }
 
-    if ((parm = attrDiff(current, newAttributes,
-                         StyleConstants.Foreground, null)) != null) {
+    if ((pbrm = bttrDiff(current, newAttributes,
+                         StyleConstbnts.Foreground, null)) != null) {
         int colorNum;
-        if (parm == MagicToken)
+        if (pbrm == MbgicToken)
             colorNum = 0;
         else
-            colorNum = colorTable.get(parm).intValue();
+            colorNum = colorTbble.get(pbrm).intVblue();
         writeControlWord("cf", colorNum);
     }
 }
 
-protected void resetCharacterAttributes(MutableAttributeSet currentAttributes)
+protected void resetChbrbcterAttributes(MutbbleAttributeSet currentAttributes)
     throws IOException
 {
-    writeControlWord("plain");
+    writeControlWord("plbin");
 
     int wordIndex;
-    int wordCount = RTFAttributes.attributes.length;
+    int wordCount = RTFAttributes.bttributes.length;
     for(wordIndex = 0; wordIndex < wordCount; wordIndex++) {
-        RTFAttribute attr = RTFAttributes.attributes[wordIndex];
-        if (attr.domain() == RTFAttribute.D_CHARACTER)
-            attr.setDefault(currentAttributes);
+        RTFAttribute bttr = RTFAttributes.bttributes[wordIndex];
+        if (bttr.dombin() == RTFAttribute.D_CHARACTER)
+            bttr.setDefbult(currentAttributes);
     }
 
-    StyleConstants.setFontFamily(currentAttributes, defaultFontFamily);
-    currentAttributes.removeAttribute(StyleConstants.FontSize); /* =default */
-    currentAttributes.removeAttribute(StyleConstants.Background);
-    currentAttributes.removeAttribute(StyleConstants.Foreground);
-    currentAttributes.removeAttribute(StyleConstants.LineSpacing);
-    currentAttributes.removeAttribute("characterStyle");
+    StyleConstbnts.setFontFbmily(currentAttributes, defbultFontFbmily);
+    currentAttributes.removeAttribute(StyleConstbnts.FontSize); /* =defbult */
+    currentAttributes.removeAttribute(StyleConstbnts.Bbckground);
+    currentAttributes.removeAttribute(StyleConstbnts.Foreground);
+    currentAttributes.removeAttribute(StyleConstbnts.LineSpbcing);
+    currentAttributes.removeAttribute("chbrbcterStyle");
 }
 
 public void writeTextElement(Element el)
     throws IOException
 {
-    updateCharacterAttributes(outputAttributes, el.getAttributes(), true);
+    updbteChbrbcterAttributes(outputAttributes, el.getAttributes(), true);
 
-    if (el.isLeaf()) {
+    if (el.isLebf()) {
         try {
-            el.getDocument().getText(el.getStartOffset(),
-                                     el.getEndOffset() - el.getStartOffset(),
+            el.getDocument().getText(el.getStbrtOffset(),
+                                     el.getEndOffset() - el.getStbrtOffset(),
                                      this.workingSegment);
-        } catch (BadLocationException ble) {
-            /* TODO is this the correct error to raise? */
-            ble.printStackTrace();
-            throw new InternalError(ble.getMessage());
+        } cbtch (BbdLocbtionException ble) {
+            /* TODO is this the correct error to rbise? */
+            ble.printStbckTrbce();
+            throw new InternblError(ble.getMessbge());
         }
         writeText(this.workingSegment);
     } else {
@@ -809,13 +809,13 @@ public void writeText(Segment s)
     throws IOException
 {
     int pos, end;
-    char[] array;
+    chbr[] brrby;
 
     pos = s.offset;
     end = pos + s.count;
-    array = s.array;
+    brrby = s.brrby;
     for( ; pos < end; pos ++)
-        writeCharacter(array[pos]);
+        writeChbrbcter(brrby[pos]);
 }
 
 public void writeText(String s)
@@ -826,168 +826,168 @@ public void writeText(String s)
     pos = 0;
     end = s.length();
     for( ; pos < end; pos ++)
-        writeCharacter(s.charAt(pos));
+        writeChbrbcter(s.chbrAt(pos));
 }
 
-public void writeRawString(String str)
+public void writeRbwString(String str)
     throws IOException
 {
     int strlen = str.length();
     for (int offset = 0; offset < strlen; offset ++)
-        outputStream.write((int)str.charAt(offset));
+        outputStrebm.write((int)str.chbrAt(offset));
 }
 
 public void writeControlWord(String keyword)
     throws IOException
 {
-    outputStream.write('\\');
-    writeRawString(keyword);
-    afterKeyword = true;
+    outputStrebm.write('\\');
+    writeRbwString(keyword);
+    bfterKeyword = true;
 }
 
-public void writeControlWord(String keyword, int arg)
+public void writeControlWord(String keyword, int brg)
     throws IOException
 {
-    outputStream.write('\\');
-    writeRawString(keyword);
-    writeRawString(String.valueOf(arg)); /* TODO: correct in all cases? */
-    afterKeyword = true;
+    outputStrebm.write('\\');
+    writeRbwString(keyword);
+    writeRbwString(String.vblueOf(brg)); /* TODO: correct in bll cbses? */
+    bfterKeyword = true;
 }
 
 public void writeBegingroup()
     throws IOException
 {
-    outputStream.write('{');
-    afterKeyword = false;
+    outputStrebm.write('{');
+    bfterKeyword = fblse;
 }
 
 public void writeEndgroup()
     throws IOException
 {
-    outputStream.write('}');
-    afterKeyword = false;
+    outputStrebm.write('}');
+    bfterKeyword = fblse;
 }
 
-@SuppressWarnings("fallthrough")
-public void writeCharacter(char ch)
+@SuppressWbrnings("fbllthrough")
+public void writeChbrbcter(chbr ch)
     throws IOException
 {
-    /* Nonbreaking space is in most RTF encodings, but the keyword is
-       preferable; same goes for tabs */
-    if (ch == 0xA0) { /* nonbreaking space */
-        outputStream.write(0x5C);  /* backslash */
-        outputStream.write(0x7E);  /* tilde */
-        afterKeyword = false; /* non-alpha keywords are self-terminating */
+    /* Nonbrebking spbce is in most RTF encodings, but the keyword is
+       preferbble; sbme goes for tbbs */
+    if (ch == 0xA0) { /* nonbrebking spbce */
+        outputStrebm.write(0x5C);  /* bbckslbsh */
+        outputStrebm.write(0x7E);  /* tilde */
+        bfterKeyword = fblse; /* non-blphb keywords bre self-terminbting */
         return;
     }
 
-    if (ch == 0x09) { /* horizontal tab */
-        writeControlWord("tab");
+    if (ch == 0x09) { /* horizontbl tbb */
+        writeControlWord("tbb");
         return;
     }
 
-    if (ch == 10 || ch == 13) { /* newline / paragraph */
-        /* ignore CRs, we'll write a paragraph element soon enough */
+    if (ch == 10 || ch == 13) { /* newline / pbrbgrbph */
+        /* ignore CRs, we'll write b pbrbgrbph element soon enough */
         return;
     }
 
-    int b = convertCharacter(outputConversion, ch);
+    int b = convertChbrbcter(outputConversion, ch);
     if (b == 0) {
-        /* Unicode characters which have corresponding RTF keywords */
+        /* Unicode chbrbcters which hbve corresponding RTF keywords */
         int i;
         for(i = 0; i < textKeywords.length; i++) {
-            if (textKeywords[i].character == ch) {
+            if (textKeywords[i].chbrbcter == ch) {
                 writeControlWord(textKeywords[i].keyword);
                 return;
             }
         }
-        /* In some cases it would be reasonable to check to see if the
-           glyph being written out is in the Symbol encoding, and if so,
-           to switch to the Symbol font for this character. TODO. */
-        /* Currently all unrepresentable characters are written as
-           Unicode escapes. */
-        String approximation = approximationForUnicode(ch);
-        if (approximation.length() != unicodeCount) {
-            unicodeCount = approximation.length();
+        /* In some cbses it would be rebsonbble to check to see if the
+           glyph being written out is in the Symbol encoding, bnd if so,
+           to switch to the Symbol font for this chbrbcter. TODO. */
+        /* Currently bll unrepresentbble chbrbcters bre written bs
+           Unicode escbpes. */
+        String bpproximbtion = bpproximbtionForUnicode(ch);
+        if (bpproximbtion.length() != unicodeCount) {
+            unicodeCount = bpproximbtion.length();
             writeControlWord("uc", unicodeCount);
         }
         writeControlWord("u", (int)ch);
-        writeRawString(" ");
-        writeRawString(approximation);
-        afterKeyword = false;
+        writeRbwString(" ");
+        writeRbwString(bpproximbtion);
+        bfterKeyword = fblse;
         return;
     }
 
     if (b > 127) {
         int nybble;
-        outputStream.write('\\');
-        outputStream.write('\'');
+        outputStrebm.write('\\');
+        outputStrebm.write('\'');
         nybble = ( b & 0xF0 ) >>> 4;
-        outputStream.write(hexdigits[nybble]);
+        outputStrebm.write(hexdigits[nybble]);
         nybble = ( b & 0x0F );
-        outputStream.write(hexdigits[nybble]);
-        afterKeyword = false;
+        outputStrebm.write(hexdigits[nybble]);
+        bfterKeyword = fblse;
         return;
     }
 
     switch (b) {
-    case '}':
-    case '{':
-    case '\\':
-        outputStream.write(0x5C);  /* backslash */
-        afterKeyword = false;  /* in a keyword, actually ... */
-        /* fall through */
-    default:
-        if (afterKeyword) {
-            outputStream.write(0x20);  /* space */
-            afterKeyword = false;
+    cbse '}':
+    cbse '{':
+    cbse '\\':
+        outputStrebm.write(0x5C);  /* bbckslbsh */
+        bfterKeyword = fblse;  /* in b keyword, bctublly ... */
+        /* fbll through */
+    defbult:
+        if (bfterKeyword) {
+            outputStrebm.write(0x20);  /* spbce */
+            bfterKeyword = fblse;
         }
-        outputStream.write(b);
-        break;
+        outputStrebm.write(b);
+        brebk;
     }
 }
 
-String approximationForUnicode(char ch)
+String bpproximbtionForUnicode(chbr ch)
 {
-    /* TODO: Find reasonable approximations for all Unicode characters
-       in all RTF code pages... heh, heh... */
+    /* TODO: Find rebsonbble bpproximbtions for bll Unicode chbrbcters
+       in bll RTF code pbges... heh, heh... */
     return "?";
 }
 
-/** Takes a translation table (a 256-element array of characters)
- * and creates an output conversion table for use by
- * convertCharacter(). */
-    /* Not very efficient at all. Could be changed to sort the table
-       for binary search. TODO. (Even though this is inefficient however,
-       writing RTF is still much faster than reading it.) */
-static int[] outputConversionFromTranslationTable(char[] table)
+/** Tbkes b trbnslbtion tbble (b 256-element brrby of chbrbcters)
+ * bnd crebtes bn output conversion tbble for use by
+ * convertChbrbcter(). */
+    /* Not very efficient bt bll. Could be chbnged to sort the tbble
+       for binbry sebrch. TODO. (Even though this is inefficient however,
+       writing RTF is still much fbster thbn rebding it.) */
+stbtic int[] outputConversionFromTrbnslbtionTbble(chbr[] tbble)
 {
-    int[] conversion = new int[2 * table.length];
+    int[] conversion = new int[2 * tbble.length];
 
     int index;
 
-    for(index = 0; index < table.length; index ++) {
-        conversion[index * 2] = table[index];
+    for(index = 0; index < tbble.length; index ++) {
+        conversion[index * 2] = tbble[index];
         conversion[(index * 2) + 1] = index;
     }
 
     return conversion;
 }
 
-static int[] outputConversionForName(String name)
+stbtic int[] outputConversionForNbme(String nbme)
     throws IOException
 {
-    char[] table = (char[])RTFReader.getCharacterSet(name);
-    return outputConversionFromTranslationTable(table);
+    chbr[] tbble = (chbr[])RTFRebder.getChbrbcterSet(nbme);
+    return outputConversionFromTrbnslbtionTbble(tbble);
 }
 
-/** Takes a char and a conversion table (an int[] in the current
- * implementation, but conversion tables should be treated as an opaque
- * type) and returns the
- * corresponding byte value (as an int, since bytes are signed).
+/** Tbkes b chbr bnd b conversion tbble (bn int[] in the current
+ * implementbtion, but conversion tbbles should be trebted bs bn opbque
+ * type) bnd returns the
+ * corresponding byte vblue (bs bn int, since bytes bre signed).
  */
     /* Not very efficient. TODO. */
-static protected int convertCharacter(int[] conversion, char ch)
+stbtic protected int convertChbrbcter(int[] conversion, chbr ch)
 {
    int index;
 
@@ -996,7 +996,7 @@ static protected int convertCharacter(int[] conversion, char ch)
            return conversion[index + 1];
    }
 
-   return 0;  /* 0 indicates an unrepresentable character */
+   return 0;  /* 0 indicbtes bn unrepresentbble chbrbcter */
 }
 
 }

@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 /**
- * Used for storing default values used by SNMP Runtime services.
- * <p><b>This API is an Oracle Corporation internal API  and is subject
- * to change without notice.</b></p>
+ * Used for storing defbult vblues used by SNMP Runtime services.
+ * <p><b>This API is bn Orbcle Corporbtion internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
-public class ServiceName {
+public clbss ServiceNbme {
 
-    // private constructor defined to "hide" the default public constructor
-    private ServiceName() {
+    // privbte constructor defined to "hide" the defbult public constructor
+    privbte ServiceNbme() {
     }
 
     /**
-     * The object name of the MBeanServer delegate object
+     * The object nbme of the MBebnServer delegbte object
      * <BR>
-     * The value is <CODE>JMImplementation:type=MBeanServerDelegate</CODE>.
+     * The vblue is <CODE>JMImplementbtion:type=MBebnServerDelegbte</CODE>.
      */
-    public static final String DELEGATE = "JMImplementation:type=MBeanServerDelegate" ;
+    public stbtic finbl String DELEGATE = "JMImplementbtion:type=MBebnServerDelegbte" ;
 
     /**
-     * The default key properties for registering the class loader of the MLet service.
+     * The defbult key properties for registering the clbss lobder of the MLet service.
      * <BR>
-     * The value is <CODE>type=MLet</CODE>.
+     * The vblue is <CODE>type=MLet</CODE>.
      */
-    public static final String MLET = "type=MLet";
+    public stbtic finbl String MLET = "type=MLet";
 
     /**
-     * The default domain.
+     * The defbult dombin.
      * <BR>
-     * The value is <CODE>DefaultDomain</CODE>.
+     * The vblue is <CODE>DefbultDombin</CODE>.
      */
-    public static final String DOMAIN = "DefaultDomain";
+    public stbtic finbl String DOMAIN = "DefbultDombin";
 
     /**
-     * The default port for the RMI connector.
+     * The defbult port for the RMI connector.
      * <BR>
-     * The value is <CODE>1099</CODE>.
+     * The vblue is <CODE>1099</CODE>.
      */
-    public static final int RMI_CONNECTOR_PORT = 1099 ;
+    public stbtic finbl int RMI_CONNECTOR_PORT = 1099 ;
 
     /**
-     * The default key properties for the RMI connector.
+     * The defbult key properties for the RMI connector.
      * <BR>
-     * The value is <CODE>name=RmiConnectorServer</CODE>.
+     * The vblue is <CODE>nbme=RmiConnectorServer</CODE>.
      */
-    public static final String RMI_CONNECTOR_SERVER = "name=RmiConnectorServer" ;
+    public stbtic finbl String RMI_CONNECTOR_SERVER = "nbme=RmiConnectorServer" ;
 
     /**
-     * The default port for the SNMP adaptor.
+     * The defbult port for the SNMP bdbptor.
      * <BR>
-     * The value is <CODE>161</CODE>.
+     * The vblue is <CODE>161</CODE>.
      */
-    public static final int SNMP_ADAPTOR_PORT = 161 ;
+    public stbtic finbl int SNMP_ADAPTOR_PORT = 161 ;
 
     /**
-     * The default key properties for the SNMP protocol adaptor.
+     * The defbult key properties for the SNMP protocol bdbptor.
      * <BR>
-     * The value is <CODE>name=SnmpAdaptorServer</CODE>.
+     * The vblue is <CODE>nbme=SnmpAdbptorServer</CODE>.
      */
-    public static final String SNMP_ADAPTOR_SERVER = "name=SnmpAdaptorServer" ;
+    public stbtic finbl String SNMP_ADAPTOR_SERVER = "nbme=SnmpAdbptorServer" ;
 
     /**
-     * The default port for the HTTP connector.
+     * The defbult port for the HTTP connector.
      * <BR>
-     * The value is <CODE>8081</CODE>.
+     * The vblue is <CODE>8081</CODE>.
      */
-    public static final int HTTP_CONNECTOR_PORT = 8081 ;
+    public stbtic finbl int HTTP_CONNECTOR_PORT = 8081 ;
 
     /**
-     * The default key properties for the HTTP connector.
+     * The defbult key properties for the HTTP connector.
      * <BR>
-     * The value is <CODE>name=HttpConnectorServer</CODE>.
+     * The vblue is <CODE>nbme=HttpConnectorServer</CODE>.
      */
-    public static final String HTTP_CONNECTOR_SERVER = "name=HttpConnectorServer" ;
+    public stbtic finbl String HTTP_CONNECTOR_SERVER = "nbme=HttpConnectorServer" ;
 
     /**
-     * The default port for the HTTPS connector.
+     * The defbult port for the HTTPS connector.
      * <BR>
-     * The value is <CODE>8084</CODE>.
+     * The vblue is <CODE>8084</CODE>.
      */
-    public static final int HTTPS_CONNECTOR_PORT = 8084 ;
+    public stbtic finbl int HTTPS_CONNECTOR_PORT = 8084 ;
 
     /**
-     * The default key properties for the HTTPS connector.
+     * The defbult key properties for the HTTPS connector.
      * <BR>
-     * The value is <CODE>name=HttpsConnectorServer</CODE>.
+     * The vblue is <CODE>nbme=HttpsConnectorServer</CODE>.
      */
-    public static final String HTTPS_CONNECTOR_SERVER = "name=HttpsConnectorServer" ;
+    public stbtic finbl String HTTPS_CONNECTOR_SERVER = "nbme=HttpsConnectorServer" ;
 
     /**
-     * The default port for the HTML adaptor.
+     * The defbult port for the HTML bdbptor.
      * <BR>
-     * The value is <CODE>8082</CODE>.
+     * The vblue is <CODE>8082</CODE>.
      */
-    public static final int HTML_ADAPTOR_PORT = 8082 ;
+    public stbtic finbl int HTML_ADAPTOR_PORT = 8082 ;
 
     /**
-     * The default key properties for the HTML protocol adaptor.
+     * The defbult key properties for the HTML protocol bdbptor.
      * <BR>
-     * The value is <CODE>name=HtmlAdaptorServer</CODE>.
+     * The vblue is <CODE>nbme=HtmlAdbptorServer</CODE>.
      */
-    public static final String HTML_ADAPTOR_SERVER = "name=HtmlAdaptorServer" ;
+    public stbtic finbl String HTML_ADAPTOR_SERVER = "nbme=HtmlAdbptorServer" ;
 
     /**
-     * The name of the JMX specification implemented by this product.
+     * The nbme of the JMX specificbtion implemented by this product.
      * <BR>
-     * The value is <CODE>Java Management Extensions</CODE>.
+     * The vblue is <CODE>Jbvb Mbnbgement Extensions</CODE>.
      */
-    public static final String JMX_SPEC_NAME = "Java Management Extensions";
+    public stbtic finbl String JMX_SPEC_NAME = "Jbvb Mbnbgement Extensions";
 
     /**
-     * The version of the JMX specification implemented by this product.
+     * The version of the JMX specificbtion implemented by this product.
      * <BR>
-     * The value is <CODE>1.0 Final Release</CODE>.
+     * The vblue is <CODE>1.0 Finbl Relebse</CODE>.
      */
-    public static final String JMX_SPEC_VERSION = "1.2 Maintenance Release";
+    public stbtic finbl String JMX_SPEC_VERSION = "1.2 Mbintenbnce Relebse";
 
     /**
-     * The vendor of the JMX specification implemented by this product.
+     * The vendor of the JMX specificbtion implemented by this product.
      * <BR>
-     * The value is <CODE>Oracle Corporation</CODE>.
+     * The vblue is <CODE>Orbcle Corporbtion</CODE>.
      */
-    public static final String JMX_SPEC_VENDOR = "Oracle Corporation";
+    public stbtic finbl String JMX_SPEC_VENDOR = "Orbcle Corporbtion";
 
     /**
-     * The name of the vendor of this product implementing the  JMX specification.
+     * The nbme of the vendor of this product implementing the  JMX specificbtion.
      * <BR>
-     * The value is <CODE>Oracle Corporation</CODE>.
+     * The vblue is <CODE>Orbcle Corporbtion</CODE>.
      */
-    public static final String JMX_IMPL_VENDOR = "Oracle Corporation";
+    public stbtic finbl String JMX_IMPL_VENDOR = "Orbcle Corporbtion";
 
     /**
       * The build number of the current product version, of the form <CODE>rXX</CODE>.
       */
-    public static final String BUILD_NUMBER = "r01";
+    public stbtic finbl String BUILD_NUMBER = "r01";
 
     /**
-     * The version of this product implementing the  JMX specification.
+     * The version of this product implementing the  JMX specificbtion.
      * <BR>
-     * The value is <CODE>5.1_rXX</CODE>, where <CODE>rXX</CODE> is the <CODE>BUILD_NUMBER</CODE> .
+     * The vblue is <CODE>5.1_rXX</CODE>, where <CODE>rXX</CODE> is the <CODE>BUILD_NUMBER</CODE> .
      */
-    public static final String JMX_IMPL_VERSION = "5.1_" + BUILD_NUMBER;
+    public stbtic finbl String JMX_IMPL_VERSION = "5.1_" + BUILD_NUMBER;
 
 }

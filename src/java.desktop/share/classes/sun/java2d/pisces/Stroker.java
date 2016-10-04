@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pisces;
+pbckbge sun.jbvb2d.pisces;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import static java.lang.Math.ulp;
-import static java.lang.Math.sqrt;
+import jbvb.util.Arrbys;
+import jbvb.util.Iterbtor;
+import stbtic jbvb.lbng.Mbth.ulp;
+import stbtic jbvb.lbng.Mbth.sqrt;
 
-import sun.awt.geom.PathConsumer2D;
+import sun.bwt.geom.PbthConsumer2D;
 
-// TODO: some of the arithmetic here is too verbose and prone to hard to
-// debug typos. We should consider making a small Point/Vector class that
-// has methods like plus(Point), minus(Point), dot(Point), cross(Point)and such
-final class Stroker implements PathConsumer2D {
+// TODO: some of the brithmetic here is too verbose bnd prone to hbrd to
+// debug typos. We should consider mbking b smbll Point/Vector clbss thbt
+// hbs methods like plus(Point), minus(Point), dot(Point), cross(Point)bnd such
+finbl clbss Stroker implements PbthConsumer2D {
 
-    private static final int MOVE_TO = 0;
-    private static final int DRAWING_OP_TO = 1; // ie. curve, line, or quad
-    private static final int CLOSE = 2;
+    privbte stbtic finbl int MOVE_TO = 0;
+    privbte stbtic finbl int DRAWING_OP_TO = 1; // ie. curve, line, or qubd
+    privbte stbtic finbl int CLOSE = 2;
 
     /**
-     * Constant value for join style.
+     * Constbnt vblue for join style.
      */
-    public static final int JOIN_MITER = 0;
+    public stbtic finbl int JOIN_MITER = 0;
 
     /**
-     * Constant value for join style.
+     * Constbnt vblue for join style.
      */
-    public static final int JOIN_ROUND = 1;
+    public stbtic finbl int JOIN_ROUND = 1;
 
     /**
-     * Constant value for join style.
+     * Constbnt vblue for join style.
      */
-    public static final int JOIN_BEVEL = 2;
+    public stbtic finbl int JOIN_BEVEL = 2;
 
     /**
-     * Constant value for end cap style.
+     * Constbnt vblue for end cbp style.
      */
-    public static final int CAP_BUTT = 0;
+    public stbtic finbl int CAP_BUTT = 0;
 
     /**
-     * Constant value for end cap style.
+     * Constbnt vblue for end cbp style.
      */
-    public static final int CAP_ROUND = 1;
+    public stbtic finbl int CAP_ROUND = 1;
 
     /**
-     * Constant value for end cap style.
+     * Constbnt vblue for end cbp style.
      */
-    public static final int CAP_SQUARE = 2;
+    public stbtic finbl int CAP_SQUARE = 2;
 
-    private final PathConsumer2D out;
+    privbte finbl PbthConsumer2D out;
 
-    private final int capStyle;
-    private final int joinStyle;
+    privbte finbl int cbpStyle;
+    privbte finbl int joinStyle;
 
-    private final float lineWidth2;
+    privbte finbl flobt lineWidth2;
 
-    private final float[][] offset = new float[3][2];
-    private final float[] miter = new float[2];
-    private final float miterLimitSq;
+    privbte finbl flobt[][] offset = new flobt[3][2];
+    privbte finbl flobt[] miter = new flobt[2];
+    privbte finbl flobt miterLimitSq;
 
-    private int prev;
+    privbte int prev;
 
-    // The starting point of the path, and the slope there.
-    private float sx0, sy0, sdx, sdy;
-    // the current point and the slope there.
-    private float cx0, cy0, cdx, cdy; // c stands for current
-    // vectors that when added to (sx0,sy0) and (cx0,cy0) respectively yield the
-    // first and last points on the left parallel path. Since this path is
-    // parallel, it's slope at any point is parallel to the slope of the
-    // original path (thought they may have different directions), so these
-    // could be computed from sdx,sdy and cdx,cdy (and vice versa), but that
-    // would be error prone and hard to read, so we keep these anyway.
-    private float smx, smy, cmx, cmy;
+    // The stbrting point of the pbth, bnd the slope there.
+    privbte flobt sx0, sy0, sdx, sdy;
+    // the current point bnd the slope there.
+    privbte flobt cx0, cy0, cdx, cdy; // c stbnds for current
+    // vectors thbt when bdded to (sx0,sy0) bnd (cx0,cy0) respectively yield the
+    // first bnd lbst points on the left pbrbllel pbth. Since this pbth is
+    // pbrbllel, it's slope bt bny point is pbrbllel to the slope of the
+    // originbl pbth (thought they mby hbve different directions), so these
+    // could be computed from sdx,sdy bnd cdx,cdy (bnd vice versb), but thbt
+    // would be error prone bnd hbrd to rebd, so we keep these bnywby.
+    privbte flobt smx, smy, cmx, cmy;
 
-    private final PolyStack reverse = new PolyStack();
+    privbte finbl PolyStbck reverse = new PolyStbck();
 
     /**
-     * Constructs a <code>Stroker</code>.
+     * Constructs b <code>Stroker</code>.
      *
-     * @param pc2d an output <code>PathConsumer2D</code>.
-     * @param lineWidth the desired line width in pixels
-     * @param capStyle the desired end cap style, one of
+     * @pbrbm pc2d bn output <code>PbthConsumer2D</code>.
+     * @pbrbm lineWidth the desired line width in pixels
+     * @pbrbm cbpStyle the desired end cbp style, one of
      * <code>CAP_BUTT</code>, <code>CAP_ROUND</code> or
      * <code>CAP_SQUARE</code>.
-     * @param joinStyle the desired line join style, one of
+     * @pbrbm joinStyle the desired line join style, one of
      * <code>JOIN_MITER</code>, <code>JOIN_ROUND</code> or
      * <code>JOIN_BEVEL</code>.
-     * @param miterLimit the desired miter limit
+     * @pbrbm miterLimit the desired miter limit
      */
-    public Stroker(PathConsumer2D pc2d,
-                   float lineWidth,
-                   int capStyle,
+    public Stroker(PbthConsumer2D pc2d,
+                   flobt lineWidth,
+                   int cbpStyle,
                    int joinStyle,
-                   float miterLimit)
+                   flobt miterLimit)
     {
         this.out = pc2d;
 
         this.lineWidth2 = lineWidth / 2;
-        this.capStyle = capStyle;
+        this.cbpStyle = cbpStyle;
         this.joinStyle = joinStyle;
 
-        float limit = miterLimit * lineWidth2;
+        flobt limit = miterLimit * lineWidth2;
         this.miterLimitSq = limit*limit;
 
         this.prev = CLOSE;
     }
 
-    private static void computeOffset(final float lx, final float ly,
-                                      final float w, final float[] m)
+    privbte stbtic void computeOffset(finbl flobt lx, finbl flobt ly,
+                                      finbl flobt w, finbl flobt[] m)
     {
-        final float len = (float) sqrt(lx*lx + ly*ly);
+        finbl flobt len = (flobt) sqrt(lx*lx + ly*ly);
         if (len == 0) {
             m[0] = m[1] = 0;
         } else {
@@ -141,37 +141,37 @@ final class Stroker implements PathConsumer2D {
         }
     }
 
-    // Returns true if the vectors (dx1, dy1) and (dx2, dy2) are
-    // clockwise (if dx1,dy1 needs to be rotated clockwise to close
-    // the smallest angle between it and dx2,dy2).
-    // This is equivalent to detecting whether a point q is on the right side
-    // of a line passing through points p1, p2 where p2 = p1+(dx1,dy1) and
-    // q = p2+(dx2,dy2), which is the same as saying p1, p2, q are in a
+    // Returns true if the vectors (dx1, dy1) bnd (dx2, dy2) bre
+    // clockwise (if dx1,dy1 needs to be rotbted clockwise to close
+    // the smbllest bngle between it bnd dx2,dy2).
+    // This is equivblent to detecting whether b point q is on the right side
+    // of b line pbssing through points p1, p2 where p2 = p1+(dx1,dy1) bnd
+    // q = p2+(dx2,dy2), which is the sbme bs sbying p1, p2, q bre in b
     // clockwise order.
-    // NOTE: "clockwise" here assumes coordinates with 0,0 at the bottom left.
-    private static boolean isCW(final float dx1, final float dy1,
-                                final float dx2, final float dy2)
+    // NOTE: "clockwise" here bssumes coordinbtes with 0,0 bt the bottom left.
+    privbte stbtic boolebn isCW(finbl flobt dx1, finbl flobt dy1,
+                                finbl flobt dx2, finbl flobt dy2)
     {
         return dx1 * dy2 <= dy1 * dx2;
     }
 
-    // pisces used to use fixed point arithmetic with 16 decimal digits. I
-    // didn't want to change the values of the constant below when I converted
-    // it to floating point, so that's why the divisions by 2^16 are there.
-    private static final float ROUND_JOIN_THRESHOLD = 1000/65536f;
+    // pisces used to use fixed point brithmetic with 16 decimbl digits. I
+    // didn't wbnt to chbnge the vblues of the constbnt below when I converted
+    // it to flobting point, so thbt's why the divisions by 2^16 bre there.
+    privbte stbtic finbl flobt ROUND_JOIN_THRESHOLD = 1000/65536f;
 
-    private void drawRoundJoin(float x, float y,
-                               float omx, float omy, float mx, float my,
-                               boolean rev,
-                               float threshold)
+    privbte void drbwRoundJoin(flobt x, flobt y,
+                               flobt omx, flobt omy, flobt mx, flobt my,
+                               boolebn rev,
+                               flobt threshold)
     {
         if ((omx == 0 && omy == 0) || (mx == 0 && my == 0)) {
             return;
         }
 
-        float domx = omx - mx;
-        float domy = omy - my;
-        float len = domx*domx + domy*domy;
+        flobt domx = omx - mx;
+        flobt domy = omy - my;
+        flobt len = domx*domx + domy*domy;
         if (len < threshold) {
             return;
         }
@@ -182,136 +182,136 @@ final class Stroker implements PathConsumer2D {
             mx = -mx;
             my = -my;
         }
-        drawRoundJoin(x, y, omx, omy, mx, my, rev);
+        drbwRoundJoin(x, y, omx, omy, mx, my, rev);
     }
 
-    private void drawRoundJoin(float cx, float cy,
-                               float omx, float omy,
-                               float mx, float my,
-                               boolean rev)
+    privbte void drbwRoundJoin(flobt cx, flobt cy,
+                               flobt omx, flobt omy,
+                               flobt mx, flobt my,
+                               boolebn rev)
     {
-        // The sign of the dot product of mx,my and omx,omy is equal to the
+        // The sign of the dot product of mx,my bnd omx,omy is equbl to the
         // the sign of the cosine of ext
-        // (ext is the angle between omx,omy and mx,my).
+        // (ext is the bngle between omx,omy bnd mx,my).
         double cosext = omx * mx + omy * my;
-        // If it is >=0, we know that abs(ext) is <= 90 degrees, so we only
-        // need 1 curve to approximate the circle section that joins omx,omy
-        // and mx,my.
-        final int numCurves = cosext >= 0 ? 1 : 2;
+        // If it is >=0, we know thbt bbs(ext) is <= 90 degrees, so we only
+        // need 1 curve to bpproximbte the circle section thbt joins omx,omy
+        // bnd mx,my.
+        finbl int numCurves = cosext >= 0 ? 1 : 2;
 
         switch (numCurves) {
-        case 1:
-            drawBezApproxForArc(cx, cy, omx, omy, mx, my, rev);
-            break;
-        case 2:
-            // we need to split the arc into 2 arcs spanning the same angle.
-            // The point we want will be one of the 2 intersections of the
-            // perpendicular bisector of the chord (omx,omy)->(mx,my) and the
-            // circle. We could find this by scaling the vector
-            // (omx+mx, omy+my)/2 so that it has length=lineWidth2 (and thus lies
-            // on the circle), but that can have numerical problems when the angle
-            // between omx,omy and mx,my is close to 180 degrees. So we compute a
-            // normal of (omx,omy)-(mx,my). This will be the direction of the
-            // perpendicular bisector. To get one of the intersections, we just scale
-            // this vector that its length is lineWidth2 (this works because the
-            // perpendicular bisector goes through the origin). This scaling doesn't
-            // have numerical problems because we know that lineWidth2 divided by
-            // this normal's length is at least 0.5 and at most sqrt(2)/2 (because
-            // we know the angle of the arc is > 90 degrees).
-            float nx = my - omy, ny = omx - mx;
-            float nlen = (float) sqrt(nx*nx + ny*ny);
-            float scale = lineWidth2/nlen;
-            float mmx = nx * scale, mmy = ny * scale;
+        cbse 1:
+            drbwBezApproxForArc(cx, cy, omx, omy, mx, my, rev);
+            brebk;
+        cbse 2:
+            // we need to split the brc into 2 brcs spbnning the sbme bngle.
+            // The point we wbnt will be one of the 2 intersections of the
+            // perpendiculbr bisector of the chord (omx,omy)->(mx,my) bnd the
+            // circle. We could find this by scbling the vector
+            // (omx+mx, omy+my)/2 so thbt it hbs length=lineWidth2 (bnd thus lies
+            // on the circle), but thbt cbn hbve numericbl problems when the bngle
+            // between omx,omy bnd mx,my is close to 180 degrees. So we compute b
+            // normbl of (omx,omy)-(mx,my). This will be the direction of the
+            // perpendiculbr bisector. To get one of the intersections, we just scble
+            // this vector thbt its length is lineWidth2 (this works becbuse the
+            // perpendiculbr bisector goes through the origin). This scbling doesn't
+            // hbve numericbl problems becbuse we know thbt lineWidth2 divided by
+            // this normbl's length is bt lebst 0.5 bnd bt most sqrt(2)/2 (becbuse
+            // we know the bngle of the brc is > 90 degrees).
+            flobt nx = my - omy, ny = omx - mx;
+            flobt nlen = (flobt) sqrt(nx*nx + ny*ny);
+            flobt scble = lineWidth2/nlen;
+            flobt mmx = nx * scble, mmy = ny * scble;
 
             // if (isCW(omx, omy, mx, my) != isCW(mmx, mmy, mx, my)) then we've
             // computed the wrong intersection so we get the other one.
-            // The test above is equivalent to if (rev).
+            // The test bbove is equivblent to if (rev).
             if (rev) {
                 mmx = -mmx;
                 mmy = -mmy;
             }
-            drawBezApproxForArc(cx, cy, omx, omy, mmx, mmy, rev);
-            drawBezApproxForArc(cx, cy, mmx, mmy, mx, my, rev);
-            break;
+            drbwBezApproxForArc(cx, cy, omx, omy, mmx, mmy, rev);
+            drbwBezApproxForArc(cx, cy, mmx, mmy, mx, my, rev);
+            brebk;
         }
     }
 
-    // the input arc defined by omx,omy and mx,my must span <= 90 degrees.
-    private void drawBezApproxForArc(final float cx, final float cy,
-                                     final float omx, final float omy,
-                                     final float mx, final float my,
-                                     boolean rev)
+    // the input brc defined by omx,omy bnd mx,my must spbn <= 90 degrees.
+    privbte void drbwBezApproxForArc(finbl flobt cx, finbl flobt cy,
+                                     finbl flobt omx, finbl flobt omy,
+                                     finbl flobt mx, finbl flobt my,
+                                     boolebn rev)
     {
-        float cosext2 = (omx * mx + omy * my) / (2 * lineWidth2 * lineWidth2);
-        // cv is the length of P1-P0 and P2-P3 divided by the radius of the arc
-        // (so, cv assumes the arc has radius 1). P0, P1, P2, P3 are the points that
+        flobt cosext2 = (omx * mx + omy * my) / (2 * lineWidth2 * lineWidth2);
+        // cv is the length of P1-P0 bnd P2-P3 divided by the rbdius of the brc
+        // (so, cv bssumes the brc hbs rbdius 1). P0, P1, P2, P3 bre the points thbt
         // define the bezier curve we're computing.
-        // It is computed using the constraints that P1-P0 and P3-P2 are parallel
-        // to the arc tangents at the endpoints, and that |P1-P0|=|P3-P2|.
-        float cv = (float) ((4.0 / 3.0) * sqrt(0.5-cosext2) /
+        // It is computed using the constrbints thbt P1-P0 bnd P3-P2 bre pbrbllel
+        // to the brc tbngents bt the endpoints, bnd thbt |P1-P0|=|P3-P2|.
+        flobt cv = (flobt) ((4.0 / 3.0) * sqrt(0.5-cosext2) /
                             (1.0 + sqrt(cosext2+0.5)));
-        // if clockwise, we need to negate cv.
-        if (rev) { // rev is equivalent to isCW(omx, omy, mx, my)
+        // if clockwise, we need to negbte cv.
+        if (rev) { // rev is equivblent to isCW(omx, omy, mx, my)
             cv = -cv;
         }
-        final float x1 = cx + omx;
-        final float y1 = cy + omy;
-        final float x2 = x1 - cv * omy;
-        final float y2 = y1 + cv * omx;
+        finbl flobt x1 = cx + omx;
+        finbl flobt y1 = cy + omy;
+        finbl flobt x2 = x1 - cv * omy;
+        finbl flobt y2 = y1 + cv * omx;
 
-        final float x4 = cx + mx;
-        final float y4 = cy + my;
-        final float x3 = x4 + cv * my;
-        final float y3 = y4 - cv * mx;
+        finbl flobt x4 = cx + mx;
+        finbl flobt y4 = cy + my;
+        finbl flobt x3 = x4 + cv * my;
+        finbl flobt y3 = y4 - cv * mx;
 
         emitCurveTo(x1, y1, x2, y2, x3, y3, x4, y4, rev);
     }
 
-    private void drawRoundCap(float cx, float cy, float mx, float my) {
-        final float C = 0.5522847498307933f;
-        // the first and second arguments of the following two calls
-        // are really will be ignored by emitCurveTo (because of the false),
-        // but we put them in anyway, as opposed to just giving it 4 zeroes,
-        // because it's just 4 additions and it's not good to rely on this
-        // sort of assumption (right now it's true, but that may change).
+    privbte void drbwRoundCbp(flobt cx, flobt cy, flobt mx, flobt my) {
+        finbl flobt C = 0.5522847498307933f;
+        // the first bnd second brguments of the following two cblls
+        // bre reblly will be ignored by emitCurveTo (becbuse of the fblse),
+        // but we put them in bnywby, bs opposed to just giving it 4 zeroes,
+        // becbuse it's just 4 bdditions bnd it's not good to rely on this
+        // sort of bssumption (right now it's true, but thbt mby chbnge).
         emitCurveTo(cx+mx,      cy+my,
                     cx+mx-C*my, cy+my+C*mx,
                     cx-my+C*mx, cy+mx+C*my,
                     cx-my,      cy+mx,
-                    false);
+                    fblse);
         emitCurveTo(cx-my,      cy+mx,
                     cx-my-C*mx, cy+mx-C*my,
                     cx-mx-C*my, cy-my+C*mx,
                     cx-mx,      cy-my,
-                    false);
+                    fblse);
     }
 
     // Put the intersection point of the lines (x0, y0) -> (x1, y1)
-    // and (x0p, y0p) -> (x1p, y1p) in m[off] and m[off+1].
-    // If the lines are parallel, it will put a non finite number in m.
-    private void computeIntersection(final float x0, final float y0,
-                                     final float x1, final float y1,
-                                     final float x0p, final float y0p,
-                                     final float x1p, final float y1p,
-                                     final float[] m, int off)
+    // bnd (x0p, y0p) -> (x1p, y1p) in m[off] bnd m[off+1].
+    // If the lines bre pbrbllel, it will put b non finite number in m.
+    privbte void computeIntersection(finbl flobt x0, finbl flobt y0,
+                                     finbl flobt x1, finbl flobt y1,
+                                     finbl flobt x0p, finbl flobt y0p,
+                                     finbl flobt x1p, finbl flobt y1p,
+                                     finbl flobt[] m, int off)
     {
-        float x10 = x1 - x0;
-        float y10 = y1 - y0;
-        float x10p = x1p - x0p;
-        float y10p = y1p - y0p;
+        flobt x10 = x1 - x0;
+        flobt y10 = y1 - y0;
+        flobt x10p = x1p - x0p;
+        flobt y10p = y1p - y0p;
 
-        float den = x10*y10p - x10p*y10;
-        float t = x10p*(y0-y0p) - y10p*(x0-x0p);
+        flobt den = x10*y10p - x10p*y10;
+        flobt t = x10p*(y0-y0p) - y10p*(x0-x0p);
         t /= den;
         m[off++] = x0 + t*x10;
         m[off] = y0 + t*y10;
     }
 
-    private void drawMiter(final float pdx, final float pdy,
-                           final float x0, final float y0,
-                           final float dx, final float dy,
-                           float omx, float omy, float mx, float my,
-                           boolean rev)
+    privbte void drbwMiter(finbl flobt pdx, finbl flobt pdy,
+                           finbl flobt x0, finbl flobt y0,
+                           finbl flobt dx, finbl flobt dy,
+                           flobt omx, flobt omy, flobt mx, flobt my,
+                           boolebn rev)
     {
         if ((mx == omx && my == omy) ||
             (pdx == 0 && pdy == 0) ||
@@ -331,19 +331,19 @@ final class Stroker implements PathConsumer2D {
                             (dx + x0) + mx, (dy + y0) + my, x0 + mx, y0 + my,
                             miter, 0);
 
-        float lenSq = (miter[0]-x0)*(miter[0]-x0) + (miter[1]-y0)*(miter[1]-y0);
+        flobt lenSq = (miter[0]-x0)*(miter[0]-x0) + (miter[1]-y0)*(miter[1]-y0);
 
-        // If the lines are parallel, lenSq will be either NaN or +inf
-        // (actually, I'm not sure if the latter is possible. The important
-        // thing is that -inf is not possible, because lenSq is a square).
-        // For both of those values, the comparison below will fail and
-        // no miter will be drawn, which is correct.
+        // If the lines bre pbrbllel, lenSq will be either NbN or +inf
+        // (bctublly, I'm not sure if the lbtter is possible. The importbnt
+        // thing is thbt -inf is not possible, becbuse lenSq is b squbre).
+        // For both of those vblues, the compbrison below will fbil bnd
+        // no miter will be drbwn, which is correct.
         if (lenSq < miterLimitSq) {
             emitLineTo(miter[0], miter[1], rev);
         }
     }
 
-    public void moveTo(float x0, float y0) {
+    public void moveTo(flobt x0, flobt y0) {
         if (prev == DRAWING_OP_TO) {
             finish();
         }
@@ -354,17 +354,17 @@ final class Stroker implements PathConsumer2D {
         this.prev = MOVE_TO;
     }
 
-    public void lineTo(float x1, float y1) {
-        float dx = x1 - cx0;
-        float dy = y1 - cy0;
+    public void lineTo(flobt x1, flobt y1) {
+        flobt dx = x1 - cx0;
+        flobt dy = y1 - cy0;
         if (dx == 0f && dy == 0f) {
             dx = 1;
         }
         computeOffset(dx, dy, lineWidth2, offset[0]);
-        float mx = offset[0][0];
-        float my = offset[0][1];
+        flobt mx = offset[0][0];
+        flobt my = offset[0][1];
 
-        drawJoin(cdx, cdy, cx0, cy0, dx, dy, cmx, cmy, mx, my);
+        drbwJoin(cdx, cdy, cx0, cy0, dx, dy, cmx, cmy, mx, my);
 
         emitLineTo(cx0 + mx, cy0 + my);
         emitLineTo(x1 + mx, y1 + my);
@@ -381,7 +381,7 @@ final class Stroker implements PathConsumer2D {
         this.prev = DRAWING_OP_TO;
     }
 
-    public void closePath() {
+    public void closePbth() {
         if (prev != DRAWING_OP_TO) {
             if (prev == CLOSE) {
                 return;
@@ -399,7 +399,7 @@ final class Stroker implements PathConsumer2D {
             lineTo(sx0, sy0);
         }
 
-        drawJoin(cdx, cdy, cx0, cy0, sdx, sdy, cmx, cmy, smx, smy);
+        drbwJoin(cdx, cdy, cx0, cy0, sdx, sdy, cmx, cmy, smx, smy);
 
         emitLineTo(sx0 + smx, sy0 + smy);
 
@@ -410,36 +410,36 @@ final class Stroker implements PathConsumer2D {
         emitClose();
     }
 
-    private void emitReverse() {
+    privbte void emitReverse() {
         while(!reverse.isEmpty()) {
             reverse.pop(out);
         }
     }
 
-    public void pathDone() {
+    public void pbthDone() {
         if (prev == DRAWING_OP_TO) {
             finish();
         }
 
-        out.pathDone();
-        // this shouldn't matter since this object won't be used
-        // after the call to this method.
+        out.pbthDone();
+        // this shouldn't mbtter since this object won't be used
+        // bfter the cbll to this method.
         this.prev = CLOSE;
     }
 
-    private void finish() {
-        if (capStyle == CAP_ROUND) {
-            drawRoundCap(cx0, cy0, cmx, cmy);
-        } else if (capStyle == CAP_SQUARE) {
+    privbte void finish() {
+        if (cbpStyle == CAP_ROUND) {
+            drbwRoundCbp(cx0, cy0, cmx, cmy);
+        } else if (cbpStyle == CAP_SQUARE) {
             emitLineTo(cx0 - cmy + cmx, cy0 + cmx + cmy);
             emitLineTo(cx0 - cmy - cmx, cy0 + cmx - cmy);
         }
 
         emitReverse();
 
-        if (capStyle == CAP_ROUND) {
-            drawRoundCap(sx0, sy0, -smx, -smy);
-        } else if (capStyle == CAP_SQUARE) {
+        if (cbpStyle == CAP_ROUND) {
+            drbwRoundCbp(sx0, sy0, -smx, -smy);
+        } else if (cbpStyle == CAP_SQUARE) {
             emitLineTo(sx0 + smy - smx, sy0 - smx - smy);
             emitLineTo(sx0 + smy + smx, sy0 - smx + smy);
         }
@@ -447,16 +447,16 @@ final class Stroker implements PathConsumer2D {
         emitClose();
     }
 
-    private void emitMoveTo(final float x0, final float y0) {
+    privbte void emitMoveTo(finbl flobt x0, finbl flobt y0) {
         out.moveTo(x0, y0);
     }
 
-    private void emitLineTo(final float x1, final float y1) {
+    privbte void emitLineTo(finbl flobt x1, finbl flobt y1) {
         out.lineTo(x1, y1);
     }
 
-    private void emitLineTo(final float x1, final float y1,
-                            final boolean rev)
+    privbte void emitLineTo(finbl flobt x1, finbl flobt y1,
+                            finbl boolebn rev)
     {
         if (rev) {
             reverse.pushLine(x1, y1);
@@ -465,21 +465,21 @@ final class Stroker implements PathConsumer2D {
         }
     }
 
-    private void emitQuadTo(final float x0, final float y0,
-                            final float x1, final float y1,
-                            final float x2, final float y2, final boolean rev)
+    privbte void emitQubdTo(finbl flobt x0, finbl flobt y0,
+                            finbl flobt x1, finbl flobt y1,
+                            finbl flobt x2, finbl flobt y2, finbl boolebn rev)
     {
         if (rev) {
-            reverse.pushQuad(x0, y0, x1, y1);
+            reverse.pushQubd(x0, y0, x1, y1);
         } else {
-            out.quadTo(x1, y1, x2, y2);
+            out.qubdTo(x1, y1, x2, y2);
         }
     }
 
-    private void emitCurveTo(final float x0, final float y0,
-                             final float x1, final float y1,
-                             final float x2, final float y2,
-                             final float x3, final float y3, final boolean rev)
+    privbte void emitCurveTo(finbl flobt x0, finbl flobt y0,
+                             finbl flobt x1, finbl flobt y1,
+                             finbl flobt x2, finbl flobt y2,
+                             finbl flobt x3, finbl flobt y3, finbl boolebn rev)
     {
         if (rev) {
             reverse.pushCubic(x0, y0, x1, y1, x2, y2);
@@ -488,15 +488,15 @@ final class Stroker implements PathConsumer2D {
         }
     }
 
-    private void emitClose() {
-        out.closePath();
+    privbte void emitClose() {
+        out.closePbth();
     }
 
-    private void drawJoin(float pdx, float pdy,
-                          float x0, float y0,
-                          float dx, float dy,
-                          float omx, float omy,
-                          float mx, float my)
+    privbte void drbwJoin(flobt pdx, flobt pdy,
+                          flobt x0, flobt y0,
+                          flobt dx, flobt dy,
+                          flobt omx, flobt omy,
+                          flobt mx, flobt my)
     {
         if (prev != DRAWING_OP_TO) {
             emitMoveTo(x0 + mx, y0 + my);
@@ -505,11 +505,11 @@ final class Stroker implements PathConsumer2D {
             this.smx = mx;
             this.smy = my;
         } else {
-            boolean cw = isCW(pdx, pdy, dx, dy);
+            boolebn cw = isCW(pdx, pdy, dx, dy);
             if (joinStyle == JOIN_MITER) {
-                drawMiter(pdx, pdy, x0, y0, dx, dy, omx, omy, mx, my, cw);
+                drbwMiter(pdx, pdy, x0, y0, dx, dy, omx, omy, mx, my, cw);
             } else if (joinStyle == JOIN_ROUND) {
-                drawRoundJoin(x0, y0,
+                drbwRoundJoin(x0, y0,
                               omx, omy,
                               mx, my, cw,
                               ROUND_JOIN_THRESHOLD);
@@ -519,20 +519,20 @@ final class Stroker implements PathConsumer2D {
         prev = DRAWING_OP_TO;
     }
 
-    private static boolean within(final float x1, final float y1,
-                                  final float x2, final float y2,
-                                  final float ERR)
+    privbte stbtic boolebn within(finbl flobt x1, finbl flobt y1,
+                                  finbl flobt x2, finbl flobt y2,
+                                  finbl flobt ERR)
     {
-        assert ERR > 0 : "";
-        // compare taxicab distance. ERR will always be small, so using
-        // true distance won't give much benefit
-        return (Helpers.within(x1, x2, ERR) &&  // we want to avoid calling Math.abs
-                Helpers.within(y1, y2, ERR)); // this is just as good.
+        bssert ERR > 0 : "";
+        // compbre tbxicbb distbnce. ERR will blwbys be smbll, so using
+        // true distbnce won't give much benefit
+        return (Helpers.within(x1, x2, ERR) &&  // we wbnt to bvoid cblling Mbth.bbs
+                Helpers.within(y1, y2, ERR)); // this is just bs good.
     }
 
-    private void getLineOffsets(float x1, float y1,
-                                float x2, float y2,
-                                float[] left, float[] right) {
+    privbte void getLineOffsets(flobt x1, flobt y1,
+                                flobt x2, flobt y2,
+                                flobt[] left, flobt[] right) {
         computeOffset(x2 - x1, y2 - y1, lineWidth2, offset[0]);
         left[0] = x1 + offset[0][0];
         left[1] = y1 + offset[0][1];
@@ -544,30 +544,30 @@ final class Stroker implements PathConsumer2D {
         right[3] = y2 - offset[0][1];
     }
 
-    private int computeOffsetCubic(float[] pts, final int off,
-                                   float[] leftOff, float[] rightOff)
+    privbte int computeOffsetCubic(flobt[] pts, finbl int off,
+                                   flobt[] leftOff, flobt[] rightOff)
     {
-        // if p1=p2 or p3=p4 it means that the derivative at the endpoint
-        // vanishes, which creates problems with computeOffset. Usually
-        // this happens when this stroker object is trying to winden
-        // a curve with a cusp. What happens is that curveTo splits
-        // the input curve at the cusp, and passes it to this function.
-        // because of inaccuracies in the splitting, we consider points
-        // equal if they're very close to each other.
-        final float x1 = pts[off + 0], y1 = pts[off + 1];
-        final float x2 = pts[off + 2], y2 = pts[off + 3];
-        final float x3 = pts[off + 4], y3 = pts[off + 5];
-        final float x4 = pts[off + 6], y4 = pts[off + 7];
+        // if p1=p2 or p3=p4 it mebns thbt the derivbtive bt the endpoint
+        // vbnishes, which crebtes problems with computeOffset. Usublly
+        // this hbppens when this stroker object is trying to winden
+        // b curve with b cusp. Whbt hbppens is thbt curveTo splits
+        // the input curve bt the cusp, bnd pbsses it to this function.
+        // becbuse of inbccurbcies in the splitting, we consider points
+        // equbl if they're very close to ebch other.
+        finbl flobt x1 = pts[off + 0], y1 = pts[off + 1];
+        finbl flobt x2 = pts[off + 2], y2 = pts[off + 3];
+        finbl flobt x3 = pts[off + 4], y3 = pts[off + 5];
+        finbl flobt x4 = pts[off + 6], y4 = pts[off + 7];
 
-        float dx4 = x4 - x3;
-        float dy4 = y4 - y3;
-        float dx1 = x2 - x1;
-        float dy1 = y2 - y1;
+        flobt dx4 = x4 - x3;
+        flobt dy4 = y4 - y3;
+        flobt dx1 = x2 - x1;
+        flobt dy1 = y2 - y1;
 
-        // if p1 == p2 && p3 == p4: draw line from p1->p4, unless p1 == p4,
-        // in which case ignore if p1 == p2
-        final boolean p1eqp2 = within(x1,y1,x2,y2, 6 * ulp(y2));
-        final boolean p3eqp4 = within(x3,y3,x4,y4, 6 * ulp(y4));
+        // if p1 == p2 && p3 == p4: drbw line from p1->p4, unless p1 == p4,
+        // in which cbse ignore if p1 == p2
+        finbl boolebn p1eqp2 = within(x1,y1,x2,y2, 6 * ulp(y2));
+        finbl boolebn p3eqp4 = within(x3,y3,x4,y4, 6 * ulp(y4));
         if (p1eqp2 && p3eqp4) {
             getLineOffsets(x1, y1, x4, y4, leftOff, rightOff);
             return 4;
@@ -579,89 +579,89 @@ final class Stroker implements PathConsumer2D {
             dy4 = y4 - y2;
         }
 
-        // if p2-p1 and p4-p3 are parallel, that must mean this curve is a line
-        float dotsq = (dx1 * dx4 + dy1 * dy4);
+        // if p2-p1 bnd p4-p3 bre pbrbllel, thbt must mebn this curve is b line
+        flobt dotsq = (dx1 * dx4 + dy1 * dy4);
         dotsq = dotsq * dotsq;
-        float l1sq = dx1 * dx1 + dy1 * dy1, l4sq = dx4 * dx4 + dy4 * dy4;
+        flobt l1sq = dx1 * dx1 + dy1 * dy1, l4sq = dx4 * dx4 + dy4 * dy4;
         if (Helpers.within(dotsq, l1sq * l4sq, 4 * ulp(dotsq))) {
             getLineOffsets(x1, y1, x4, y4, leftOff, rightOff);
             return 4;
         }
 
-//      What we're trying to do in this function is to approximate an ideal
-//      offset curve (call it I) of the input curve B using a bezier curve Bp.
-//      The constraints I use to get the equations are:
+//      Whbt we're trying to do in this function is to bpproximbte bn idebl
+//      offset curve (cbll it I) of the input curve B using b bezier curve Bp.
+//      The constrbints I use to get the equbtions bre:
 //
-//      1. The computed curve Bp should go through I(0) and I(1). These are
-//      x1p, y1p, x4p, y4p, which are p1p and p4p. We still need to find
-//      4 variables: the x and y components of p2p and p3p (i.e. x2p, y2p, x3p, y3p).
+//      1. The computed curve Bp should go through I(0) bnd I(1). These bre
+//      x1p, y1p, x4p, y4p, which bre p1p bnd p4p. We still need to find
+//      4 vbribbles: the x bnd y components of p2p bnd p3p (i.e. x2p, y2p, x3p, y3p).
 //
-//      2. Bp should have slope equal in absolute value to I at the endpoints. So,
-//      (by the way, the operator || in the comments below means "aligned with".
-//      It is defined on vectors, so when we say I'(0) || Bp'(0) we mean that
-//      vectors I'(0) and Bp'(0) are aligned, which is the same as saying
-//      that the tangent lines of I and Bp at 0 are parallel. Mathematically
-//      this means (I'(t) || Bp'(t)) <==> (I'(t) = c * Bp'(t)) where c is some
-//      nonzero constant.)
-//      I'(0) || Bp'(0) and I'(1) || Bp'(1). Obviously, I'(0) || B'(0) and
-//      I'(1) || B'(1); therefore, Bp'(0) || B'(0) and Bp'(1) || B'(1).
-//      We know that Bp'(0) || (p2p-p1p) and Bp'(1) || (p4p-p3p) and the same
-//      is true for any bezier curve; therefore, we get the equations
+//      2. Bp should hbve slope equbl in bbsolute vblue to I bt the endpoints. So,
+//      (by the wby, the operbtor || in the comments below mebns "bligned with".
+//      It is defined on vectors, so when we sby I'(0) || Bp'(0) we mebn thbt
+//      vectors I'(0) bnd Bp'(0) bre bligned, which is the sbme bs sbying
+//      thbt the tbngent lines of I bnd Bp bt 0 bre pbrbllel. Mbthembticblly
+//      this mebns (I'(t) || Bp'(t)) <==> (I'(t) = c * Bp'(t)) where c is some
+//      nonzero constbnt.)
+//      I'(0) || Bp'(0) bnd I'(1) || Bp'(1). Obviously, I'(0) || B'(0) bnd
+//      I'(1) || B'(1); therefore, Bp'(0) || B'(0) bnd Bp'(1) || B'(1).
+//      We know thbt Bp'(0) || (p2p-p1p) bnd Bp'(1) || (p4p-p3p) bnd the sbme
+//      is true for bny bezier curve; therefore, we get the equbtions
 //          (1) p2p = c1 * (p2-p1) + p1p
 //          (2) p3p = c2 * (p4-p3) + p4p
-//      We know p1p, p4p, p2, p1, p3, and p4; therefore, this reduces the number
-//      of unknowns from 4 to 2 (i.e. just c1 and c2).
-//      To eliminate these 2 unknowns we use the following constraint:
+//      We know p1p, p4p, p2, p1, p3, bnd p4; therefore, this reduces the number
+//      of unknowns from 4 to 2 (i.e. just c1 bnd c2).
+//      To eliminbte these 2 unknowns we use the following constrbint:
 //
-//      3. Bp(0.5) == I(0.5). Bp(0.5)=(x,y) and I(0.5)=(xi,yi), and I should note
-//      that I(0.5) is *the only* reason for computing dxm,dym. This gives us
-//          (3) Bp(0.5) = (p1p + 3 * (p2p + p3p) + p4p)/8, which is equivalent to
+//      3. Bp(0.5) == I(0.5). Bp(0.5)=(x,y) bnd I(0.5)=(xi,yi), bnd I should note
+//      thbt I(0.5) is *the only* rebson for computing dxm,dym. This gives us
+//          (3) Bp(0.5) = (p1p + 3 * (p2p + p3p) + p4p)/8, which is equivblent to
 //          (4) p2p + p3p = (Bp(0.5)*8 - p1p - p4p) / 3
-//      We can substitute (1) and (2) from above into (4) and we get:
+//      We cbn substitute (1) bnd (2) from bbove into (4) bnd we get:
 //          (5) c1*(p2-p1) + c2*(p4-p3) = (Bp(0.5)*8 - p1p - p4p)/3 - p1p - p4p
-//      which is equivalent to
+//      which is equivblent to
 //          (6) c1*(p2-p1) + c2*(p4-p3) = (4/3) * (Bp(0.5) * 2 - p1p - p4p)
 //
-//      The right side of this is a 2D vector, and we know I(0.5), which gives us
-//      Bp(0.5), which gives us the value of the right side.
-//      The left side is just a matrix vector multiplication in disguise. It is
+//      The right side of this is b 2D vector, bnd we know I(0.5), which gives us
+//      Bp(0.5), which gives us the vblue of the right side.
+//      The left side is just b mbtrix vector multiplicbtion in disguise. It is
 //
 //      [x2-x1, x4-x3][c1]
 //      [y2-y1, y4-y3][c2]
-//      which, is equal to
+//      which, is equbl to
 //      [dx1, dx4][c1]
 //      [dy1, dy4][c2]
-//      At this point we are left with a simple linear system and we solve it by
-//      getting the inverse of the matrix above. Then we use [c1,c2] to compute
-//      p2p and p3p.
+//      At this point we bre left with b simple linebr system bnd we solve it by
+//      getting the inverse of the mbtrix bbove. Then we use [c1,c2] to compute
+//      p2p bnd p3p.
 
-        float x = 0.125f * (x1 + 3 * (x2 + x3) + x4);
-        float y = 0.125f * (y1 + 3 * (y2 + y3) + y4);
-        // (dxm,dym) is some tangent of B at t=0.5. This means it's equal to
-        // c*B'(0.5) for some constant c.
-        float dxm = x3 + x4 - x1 - x2, dym = y3 + y4 - y1 - y2;
+        flobt x = 0.125f * (x1 + 3 * (x2 + x3) + x4);
+        flobt y = 0.125f * (y1 + 3 * (y2 + y3) + y4);
+        // (dxm,dym) is some tbngent of B bt t=0.5. This mebns it's equbl to
+        // c*B'(0.5) for some constbnt c.
+        flobt dxm = x3 + x4 - x1 - x2, dym = y3 + y4 - y1 - y2;
 
-        // this computes the offsets at t=0, 0.5, 1, using the property that
-        // for any bezier curve the vectors p2-p1 and p4-p3 are parallel to
-        // the (dx/dt, dy/dt) vectors at the endpoints.
+        // this computes the offsets bt t=0, 0.5, 1, using the property thbt
+        // for bny bezier curve the vectors p2-p1 bnd p4-p3 bre pbrbllel to
+        // the (dx/dt, dy/dt) vectors bt the endpoints.
         computeOffset(dx1, dy1, lineWidth2, offset[0]);
         computeOffset(dxm, dym, lineWidth2, offset[1]);
         computeOffset(dx4, dy4, lineWidth2, offset[2]);
-        float x1p = x1 + offset[0][0]; // start
-        float y1p = y1 + offset[0][1]; // point
-        float xi  = x + offset[1][0]; // interpolation
-        float yi  = y + offset[1][1]; // point
-        float x4p = x4 + offset[2][0]; // end
-        float y4p = y4 + offset[2][1]; // point
+        flobt x1p = x1 + offset[0][0]; // stbrt
+        flobt y1p = y1 + offset[0][1]; // point
+        flobt xi  = x + offset[1][0]; // interpolbtion
+        flobt yi  = y + offset[1][1]; // point
+        flobt x4p = x4 + offset[2][0]; // end
+        flobt y4p = y4 + offset[2][1]; // point
 
-        float invdet43 = 4f / (3f * (dx1 * dy4 - dy1 * dx4));
+        flobt invdet43 = 4f / (3f * (dx1 * dy4 - dy1 * dx4));
 
-        float two_pi_m_p1_m_p4x = 2*xi - x1p - x4p;
-        float two_pi_m_p1_m_p4y = 2*yi - y1p - y4p;
-        float c1 = invdet43 * (dy4 * two_pi_m_p1_m_p4x - dx4 * two_pi_m_p1_m_p4y);
-        float c2 = invdet43 * (dx1 * two_pi_m_p1_m_p4y - dy1 * two_pi_m_p1_m_p4x);
+        flobt two_pi_m_p1_m_p4x = 2*xi - x1p - x4p;
+        flobt two_pi_m_p1_m_p4y = 2*yi - y1p - y4p;
+        flobt c1 = invdet43 * (dy4 * two_pi_m_p1_m_p4x - dx4 * two_pi_m_p1_m_p4y);
+        flobt c2 = invdet43 * (dx1 * two_pi_m_p1_m_p4y - dy1 * two_pi_m_p1_m_p4x);
 
-        float x2p, y2p, x3p, y3p;
+        flobt x2p, y2p, x3p, y3p;
         x2p = x1p + c1*dx1;
         y2p = y1p + c1*dy1;
         x3p = x4p + c2*dx4;
@@ -693,20 +693,20 @@ final class Stroker implements PathConsumer2D {
         return 8;
     }
 
-    // return the kind of curve in the right and left arrays.
-    private int computeOffsetQuad(float[] pts, final int off,
-                                  float[] leftOff, float[] rightOff)
+    // return the kind of curve in the right bnd left brrbys.
+    privbte int computeOffsetQubd(flobt[] pts, finbl int off,
+                                  flobt[] leftOff, flobt[] rightOff)
     {
-        final float x1 = pts[off + 0], y1 = pts[off + 1];
-        final float x2 = pts[off + 2], y2 = pts[off + 3];
-        final float x3 = pts[off + 4], y3 = pts[off + 5];
+        finbl flobt x1 = pts[off + 0], y1 = pts[off + 1];
+        finbl flobt x2 = pts[off + 2], y2 = pts[off + 3];
+        finbl flobt x3 = pts[off + 4], y3 = pts[off + 5];
 
-        final float dx3 = x3 - x2;
-        final float dy3 = y3 - y2;
-        final float dx1 = x2 - x1;
-        final float dy1 = y2 - y1;
+        finbl flobt dx3 = x3 - x2;
+        finbl flobt dy3 = y3 - y2;
+        finbl flobt dx1 = x2 - x1;
+        finbl flobt dy1 = y2 - y1;
 
-        // this computes the offsets at t = 0, 1
+        // this computes the offsets bt t = 0, 1
         computeOffset(dx1, dy1, lineWidth2, offset[0]);
         computeOffset(dx3, dy3, lineWidth2, offset[1]);
 
@@ -715,26 +715,26 @@ final class Stroker implements PathConsumer2D {
         rightOff[0] = x1 - offset[0][0]; rightOff[1] = y1 - offset[0][1];
         rightOff[4] = x3 - offset[1][0]; rightOff[5] = y3 - offset[1][1];
 
-        float x1p = leftOff[0]; // start
-        float y1p = leftOff[1]; // point
-        float x3p = leftOff[4]; // end
-        float y3p = leftOff[5]; // point
+        flobt x1p = leftOff[0]; // stbrt
+        flobt y1p = leftOff[1]; // point
+        flobt x3p = leftOff[4]; // end
+        flobt y3p = leftOff[5]; // point
 
-        // Corner cases:
-        // 1. If the two control vectors are parallel, we'll end up with NaN's
-        //    in leftOff (and rightOff in the body of the if below), so we'll
+        // Corner cbses:
+        // 1. If the two control vectors bre pbrbllel, we'll end up with NbN's
+        //    in leftOff (bnd rightOff in the body of the if below), so we'll
         //    do getLineOffsets, which is right.
-        // 2. If the first or second two points are equal, then (dx1,dy1)==(0,0)
+        // 2. If the first or second two points bre equbl, then (dx1,dy1)==(0,0)
         //    or (dx3,dy3)==(0,0), so (x1p, y1p)==(x1p+dx1, y1p+dy1)
-        //    or (x3p, y3p)==(x3p-dx3, y3p-dy3), which means that
-        //    computeIntersection will put NaN's in leftOff and right off, and
+        //    or (x3p, y3p)==(x3p-dx3, y3p-dy3), which mebns thbt
+        //    computeIntersection will put NbN's in leftOff bnd right off, bnd
         //    we will do getLineOffsets, which is right.
         computeIntersection(x1p, y1p, x1p+dx1, y1p+dy1, x3p, y3p, x3p-dx3, y3p-dy3, leftOff, 2);
-        float cx = leftOff[2];
-        float cy = leftOff[3];
+        flobt cx = leftOff[2];
+        flobt cy = leftOff[3];
 
         if (!(isFinite(cx) && isFinite(cy))) {
-            // maybe the right path is not degenerate.
+            // mbybe the right pbth is not degenerbte.
             x1p = rightOff[0];
             y1p = rightOff[1];
             x3p = rightOff[4];
@@ -743,11 +743,11 @@ final class Stroker implements PathConsumer2D {
             cx = rightOff[2];
             cy = rightOff[3];
             if (!(isFinite(cx) && isFinite(cy))) {
-                // both are degenerate. This curve is a line.
+                // both bre degenerbte. This curve is b line.
                 getLineOffsets(x1, y1, x3, y3, leftOff, rightOff);
                 return 4;
             }
-            // {left,right}Off[0,1,4,5] are already set to the correct values.
+            // {left,right}Off[0,1,4,5] bre blrebdy set to the correct vblues.
             leftOff[2] = 2*x2 - cx;
             leftOff[3] = 2*y2 - cy;
             return 6;
@@ -760,42 +760,42 @@ final class Stroker implements PathConsumer2D {
         return 6;
     }
 
-    private static boolean isFinite(float x) {
-        return (Float.NEGATIVE_INFINITY < x && x < Float.POSITIVE_INFINITY);
+    privbte stbtic boolebn isFinite(flobt x) {
+        return (Flobt.NEGATIVE_INFINITY < x && x < Flobt.POSITIVE_INFINITY);
     }
 
     // This is where the curve to be processed is put. We give it
     // enough room to store 2 curves: one for the current subdivision, the
     // other for the rest of the curve.
-    private float[] middle = new float[2*8];
-    private float[] lp = new float[8];
-    private float[] rp = new float[8];
-    private static final int MAX_N_CURVES = 11;
-    private float[] subdivTs = new float[MAX_N_CURVES - 1];
+    privbte flobt[] middle = new flobt[2*8];
+    privbte flobt[] lp = new flobt[8];
+    privbte flobt[] rp = new flobt[8];
+    privbte stbtic finbl int MAX_N_CURVES = 11;
+    privbte flobt[] subdivTs = new flobt[MAX_N_CURVES - 1];
 
-    // If this class is compiled with ecj, then Hotspot crashes when OSR
-    // compiling this function. See bugs 7004570 and 6675699
-    // TODO: until those are fixed, we should work around that by
-    // manually inlining this into curveTo and quadTo.
+    // If this clbss is compiled with ecj, then Hotspot crbshes when OSR
+    // compiling this function. See bugs 7004570 bnd 6675699
+    // TODO: until those bre fixed, we should work bround thbt by
+    // mbnublly inlining this into curveTo bnd qubdTo.
 /******************************* WORKAROUND **********************************
-    private void somethingTo(final int type) {
-        // need these so we can update the state at the end of this method
-        final float xf = middle[type-2], yf = middle[type-1];
-        float dxs = middle[2] - middle[0];
-        float dys = middle[3] - middle[1];
-        float dxf = middle[type - 2] - middle[type - 4];
-        float dyf = middle[type - 1] - middle[type - 3];
+    privbte void somethingTo(finbl int type) {
+        // need these so we cbn updbte the stbte bt the end of this method
+        finbl flobt xf = middle[type-2], yf = middle[type-1];
+        flobt dxs = middle[2] - middle[0];
+        flobt dys = middle[3] - middle[1];
+        flobt dxf = middle[type - 2] - middle[type - 4];
+        flobt dyf = middle[type - 1] - middle[type - 3];
         switch(type) {
-        case 6:
+        cbse 6:
             if ((dxs == 0f && dys == 0f) ||
                 (dxf == 0f && dyf == 0f)) {
                dxs = dxf = middle[4] - middle[0];
                dys = dyf = middle[5] - middle[1];
             }
-            break;
-        case 8:
-            boolean p1eqp2 = (dxs == 0f && dys == 0f);
-            boolean p3eqp4 = (dxf == 0f && dyf == 0f);
+            brebk;
+        cbse 8:
+            boolebn p1eqp2 = (dxs == 0f && dys == 0f);
+            boolebn p3eqp4 = (dxf == 0f && dyf == 0f);
             if (p1eqp2) {
                 dxs = middle[4] - middle[0];
                 dys = middle[5] - middle[1];
@@ -814,57 +814,57 @@ final class Stroker implements PathConsumer2D {
             }
         }
         if (dxs == 0f && dys == 0f) {
-            // this happens iff the "curve" is just a point
+            // this hbppens iff the "curve" is just b point
             lineTo(middle[0], middle[1]);
             return;
         }
-        // if these vectors are too small, normalize them, to avoid future
+        // if these vectors bre too smbll, normblize them, to bvoid future
         // precision problems.
-        if (Math.abs(dxs) < 0.1f && Math.abs(dys) < 0.1f) {
-            float len = (float) sqrt(dxs*dxs + dys*dys);
+        if (Mbth.bbs(dxs) < 0.1f && Mbth.bbs(dys) < 0.1f) {
+            flobt len = (flobt) sqrt(dxs*dxs + dys*dys);
             dxs /= len;
             dys /= len;
         }
-        if (Math.abs(dxf) < 0.1f && Math.abs(dyf) < 0.1f) {
-            float len = (float) sqrt(dxf*dxf + dyf*dyf);
+        if (Mbth.bbs(dxf) < 0.1f && Mbth.bbs(dyf) < 0.1f) {
+            flobt len = (flobt) sqrt(dxf*dxf + dyf*dyf);
             dxf /= len;
             dyf /= len;
         }
 
         computeOffset(dxs, dys, lineWidth2, offset[0]);
-        final float mx = offset[0][0];
-        final float my = offset[0][1];
-        drawJoin(cdx, cdy, cx0, cy0, dxs, dys, cmx, cmy, mx, my);
+        finbl flobt mx = offset[0][0];
+        finbl flobt my = offset[0][1];
+        drbwJoin(cdx, cdy, cx0, cy0, dxs, dys, cmx, cmy, mx, my);
 
         int nSplits = findSubdivPoints(middle, subdivTs, type, lineWidth2);
 
         int kind = 0;
-        Iterator<Integer> it = Curve.breakPtsAtTs(middle, type, subdivTs, nSplits);
-        while(it.hasNext()) {
+        Iterbtor<Integer> it = Curve.brebkPtsAtTs(middle, type, subdivTs, nSplits);
+        while(it.hbsNext()) {
             int curCurveOff = it.next();
 
             switch (type) {
-            case 8:
+            cbse 8:
                 kind = computeOffsetCubic(middle, curCurveOff, lp, rp);
-                break;
-            case 6:
-                kind = computeOffsetQuad(middle, curCurveOff, lp, rp);
-                break;
+                brebk;
+            cbse 6:
+                kind = computeOffsetQubd(middle, curCurveOff, lp, rp);
+                brebk;
             }
             emitLineTo(lp[0], lp[1]);
             switch(kind) {
-            case 8:
-                emitCurveTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], lp[6], lp[7], false);
+            cbse 8:
+                emitCurveTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], lp[6], lp[7], fblse);
                 emitCurveTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], rp[6], rp[7], true);
-                break;
-            case 6:
-                emitQuadTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], false);
-                emitQuadTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], true);
-                break;
-            case 4:
+                brebk;
+            cbse 6:
+                emitQubdTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], fblse);
+                emitQubdTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], true);
+                brebk;
+            cbse 4:
                 emitLineTo(lp[2], lp[3]);
                 emitLineTo(rp[0], rp[1], true);
-                break;
+                brebk;
             }
             emitLineTo(rp[kind - 2], rp[kind - 1], true);
         }
@@ -879,56 +879,56 @@ final class Stroker implements PathConsumer2D {
     }
 ****************************** END WORKAROUND *******************************/
 
-    // finds values of t where the curve in pts should be subdivided in order
-    // to get good offset curves a distance of w away from the middle curve.
-    // Stores the points in ts, and returns how many of them there were.
-    private static Curve c = new Curve();
-    private static int findSubdivPoints(float[] pts, float[] ts, final int type, final float w)
+    // finds vblues of t where the curve in pts should be subdivided in order
+    // to get good offset curves b distbnce of w bwby from the middle curve.
+    // Stores the points in ts, bnd returns how mbny of them there were.
+    privbte stbtic Curve c = new Curve();
+    privbte stbtic int findSubdivPoints(flobt[] pts, flobt[] ts, finbl int type, finbl flobt w)
     {
-        final float x12 = pts[2] - pts[0];
-        final float y12 = pts[3] - pts[1];
-        // if the curve is already parallel to either axis we gain nothing
-        // from rotating it.
+        finbl flobt x12 = pts[2] - pts[0];
+        finbl flobt y12 = pts[3] - pts[1];
+        // if the curve is blrebdy pbrbllel to either bxis we gbin nothing
+        // from rotbting it.
         if (y12 != 0f && x12 != 0f) {
-            // we rotate it so that the first vector in the control polygon is
-            // parallel to the x-axis. This will ensure that rotated quarter
+            // we rotbte it so thbt the first vector in the control polygon is
+            // pbrbllel to the x-bxis. This will ensure thbt rotbted qubrter
             // circles won't be subdivided.
-            final float hypot = (float) sqrt(x12 * x12 + y12 * y12);
-            final float cos = x12 / hypot;
-            final float sin = y12 / hypot;
-            final float x1 = cos * pts[0] + sin * pts[1];
-            final float y1 = cos * pts[1] - sin * pts[0];
-            final float x2 = cos * pts[2] + sin * pts[3];
-            final float y2 = cos * pts[3] - sin * pts[2];
-            final float x3 = cos * pts[4] + sin * pts[5];
-            final float y3 = cos * pts[5] - sin * pts[4];
+            finbl flobt hypot = (flobt) sqrt(x12 * x12 + y12 * y12);
+            finbl flobt cos = x12 / hypot;
+            finbl flobt sin = y12 / hypot;
+            finbl flobt x1 = cos * pts[0] + sin * pts[1];
+            finbl flobt y1 = cos * pts[1] - sin * pts[0];
+            finbl flobt x2 = cos * pts[2] + sin * pts[3];
+            finbl flobt y2 = cos * pts[3] - sin * pts[2];
+            finbl flobt x3 = cos * pts[4] + sin * pts[5];
+            finbl flobt y3 = cos * pts[5] - sin * pts[4];
             switch(type) {
-            case 8:
-                final float x4 = cos * pts[6] + sin * pts[7];
-                final float y4 = cos * pts[7] - sin * pts[6];
+            cbse 8:
+                finbl flobt x4 = cos * pts[6] + sin * pts[7];
+                finbl flobt y4 = cos * pts[7] - sin * pts[6];
                 c.set(x1, y1, x2, y2, x3, y3, x4, y4);
-                break;
-            case 6:
+                brebk;
+            cbse 6:
                 c.set(x1, y1, x2, y2, x3, y3);
-                break;
+                brebk;
             }
         } else {
             c.set(pts, type);
         }
 
         int ret = 0;
-        // we subdivide at values of t such that the remaining rotated
-        // curves are monotonic in x and y.
+        // we subdivide bt vblues of t such thbt the rembining rotbted
+        // curves bre monotonic in x bnd y.
         ret += c.dxRoots(ts, ret);
         ret += c.dyRoots(ts, ret);
-        // subdivide at inflection points.
+        // subdivide bt inflection points.
         if (type == 8) {
-            // quadratic curves can't have inflection points
+            // qubdrbtic curves cbn't hbve inflection points
             ret += c.infPoints(ts, ret);
         }
 
-        // now we must subdivide at points where one of the offset curves will have
-        // a cusp. This happens at ts where the radius of curvature is equal to w.
+        // now we must subdivide bt points where one of the offset curves will hbve
+        // b cusp. This hbppens bt ts where the rbdius of curvbture is equbl to w.
         ret += c.rootsOfROCMinusW(ts, ret, w, 0.0001f);
 
         ret = Helpers.filterOutNotInAB(ts, 0, ret, 0.0001f, 0.9999f);
@@ -936,9 +936,9 @@ final class Stroker implements PathConsumer2D {
         return ret;
     }
 
-    @Override public void curveTo(float x1, float y1,
-                                  float x2, float y2,
-                                  float x3, float y3)
+    @Override public void curveTo(flobt x1, flobt y1,
+                                  flobt x2, flobt y2,
+                                  flobt x3, flobt y3)
     {
         middle[0] = cx0; middle[1] = cy0;
         middle[2] = x1;  middle[3] = y1;
@@ -948,15 +948,15 @@ final class Stroker implements PathConsumer2D {
         // inlined version of somethingTo(8);
         // See the TODO on somethingTo
 
-        // need these so we can update the state at the end of this method
-        final float xf = middle[6], yf = middle[7];
-        float dxs = middle[2] - middle[0];
-        float dys = middle[3] - middle[1];
-        float dxf = middle[6] - middle[4];
-        float dyf = middle[7] - middle[5];
+        // need these so we cbn updbte the stbte bt the end of this method
+        finbl flobt xf = middle[6], yf = middle[7];
+        flobt dxs = middle[2] - middle[0];
+        flobt dys = middle[3] - middle[1];
+        flobt dxf = middle[6] - middle[4];
+        flobt dyf = middle[7] - middle[5];
 
-        boolean p1eqp2 = (dxs == 0f && dys == 0f);
-        boolean p3eqp4 = (dxf == 0f && dyf == 0f);
+        boolebn p1eqp2 = (dxs == 0f && dys == 0f);
+        boolebn p3eqp4 = (dxf == 0f && dyf == 0f);
         if (p1eqp2) {
             dxs = middle[4] - middle[0];
             dys = middle[5] - middle[1];
@@ -974,47 +974,47 @@ final class Stroker implements PathConsumer2D {
             }
         }
         if (dxs == 0f && dys == 0f) {
-            // this happens iff the "curve" is just a point
+            // this hbppens iff the "curve" is just b point
             lineTo(middle[0], middle[1]);
             return;
         }
 
-        // if these vectors are too small, normalize them, to avoid future
+        // if these vectors bre too smbll, normblize them, to bvoid future
         // precision problems.
-        if (Math.abs(dxs) < 0.1f && Math.abs(dys) < 0.1f) {
-            float len = (float) sqrt(dxs*dxs + dys*dys);
+        if (Mbth.bbs(dxs) < 0.1f && Mbth.bbs(dys) < 0.1f) {
+            flobt len = (flobt) sqrt(dxs*dxs + dys*dys);
             dxs /= len;
             dys /= len;
         }
-        if (Math.abs(dxf) < 0.1f && Math.abs(dyf) < 0.1f) {
-            float len = (float) sqrt(dxf*dxf + dyf*dyf);
+        if (Mbth.bbs(dxf) < 0.1f && Mbth.bbs(dyf) < 0.1f) {
+            flobt len = (flobt) sqrt(dxf*dxf + dyf*dyf);
             dxf /= len;
             dyf /= len;
         }
 
         computeOffset(dxs, dys, lineWidth2, offset[0]);
-        final float mx = offset[0][0];
-        final float my = offset[0][1];
-        drawJoin(cdx, cdy, cx0, cy0, dxs, dys, cmx, cmy, mx, my);
+        finbl flobt mx = offset[0][0];
+        finbl flobt my = offset[0][1];
+        drbwJoin(cdx, cdy, cx0, cy0, dxs, dys, cmx, cmy, mx, my);
 
         int nSplits = findSubdivPoints(middle, subdivTs, 8, lineWidth2);
 
         int kind = 0;
-        Iterator<Integer> it = Curve.breakPtsAtTs(middle, 8, subdivTs, nSplits);
-        while(it.hasNext()) {
+        Iterbtor<Integer> it = Curve.brebkPtsAtTs(middle, 8, subdivTs, nSplits);
+        while(it.hbsNext()) {
             int curCurveOff = it.next();
 
             kind = computeOffsetCubic(middle, curCurveOff, lp, rp);
             emitLineTo(lp[0], lp[1]);
             switch(kind) {
-            case 8:
-                emitCurveTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], lp[6], lp[7], false);
+            cbse 8:
+                emitCurveTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], lp[6], lp[7], fblse);
                 emitCurveTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], rp[6], rp[7], true);
-                break;
-            case 4:
+                brebk;
+            cbse 4:
                 emitLineTo(lp[2], lp[3]);
                 emitLineTo(rp[0], rp[1], true);
-                break;
+                brebk;
             }
             emitLineTo(rp[kind - 2], rp[kind - 1], true);
         }
@@ -1028,7 +1028,7 @@ final class Stroker implements PathConsumer2D {
         this.prev = DRAWING_OP_TO;
     }
 
-    @Override public void quadTo(float x1, float y1, float x2, float y2) {
+    @Override public void qubdTo(flobt x1, flobt y1, flobt x2, flobt y2) {
         middle[0] = cx0; middle[1] = cy0;
         middle[2] = x1;  middle[3] = y1;
         middle[4] = x2;  middle[5] = y2;
@@ -1036,57 +1036,57 @@ final class Stroker implements PathConsumer2D {
         // inlined version of somethingTo(8);
         // See the TODO on somethingTo
 
-        // need these so we can update the state at the end of this method
-        final float xf = middle[4], yf = middle[5];
-        float dxs = middle[2] - middle[0];
-        float dys = middle[3] - middle[1];
-        float dxf = middle[4] - middle[2];
-        float dyf = middle[5] - middle[3];
+        // need these so we cbn updbte the stbte bt the end of this method
+        finbl flobt xf = middle[4], yf = middle[5];
+        flobt dxs = middle[2] - middle[0];
+        flobt dys = middle[3] - middle[1];
+        flobt dxf = middle[4] - middle[2];
+        flobt dyf = middle[5] - middle[3];
         if ((dxs == 0f && dys == 0f) || (dxf == 0f && dyf == 0f)) {
             dxs = dxf = middle[4] - middle[0];
             dys = dyf = middle[5] - middle[1];
         }
         if (dxs == 0f && dys == 0f) {
-            // this happens iff the "curve" is just a point
+            // this hbppens iff the "curve" is just b point
             lineTo(middle[0], middle[1]);
             return;
         }
-        // if these vectors are too small, normalize them, to avoid future
+        // if these vectors bre too smbll, normblize them, to bvoid future
         // precision problems.
-        if (Math.abs(dxs) < 0.1f && Math.abs(dys) < 0.1f) {
-            float len = (float) sqrt(dxs*dxs + dys*dys);
+        if (Mbth.bbs(dxs) < 0.1f && Mbth.bbs(dys) < 0.1f) {
+            flobt len = (flobt) sqrt(dxs*dxs + dys*dys);
             dxs /= len;
             dys /= len;
         }
-        if (Math.abs(dxf) < 0.1f && Math.abs(dyf) < 0.1f) {
-            float len = (float) sqrt(dxf*dxf + dyf*dyf);
+        if (Mbth.bbs(dxf) < 0.1f && Mbth.bbs(dyf) < 0.1f) {
+            flobt len = (flobt) sqrt(dxf*dxf + dyf*dyf);
             dxf /= len;
             dyf /= len;
         }
 
         computeOffset(dxs, dys, lineWidth2, offset[0]);
-        final float mx = offset[0][0];
-        final float my = offset[0][1];
-        drawJoin(cdx, cdy, cx0, cy0, dxs, dys, cmx, cmy, mx, my);
+        finbl flobt mx = offset[0][0];
+        finbl flobt my = offset[0][1];
+        drbwJoin(cdx, cdy, cx0, cy0, dxs, dys, cmx, cmy, mx, my);
 
         int nSplits = findSubdivPoints(middle, subdivTs, 6, lineWidth2);
 
         int kind = 0;
-        Iterator<Integer> it = Curve.breakPtsAtTs(middle, 6, subdivTs, nSplits);
-        while(it.hasNext()) {
+        Iterbtor<Integer> it = Curve.brebkPtsAtTs(middle, 6, subdivTs, nSplits);
+        while(it.hbsNext()) {
             int curCurveOff = it.next();
 
-            kind = computeOffsetQuad(middle, curCurveOff, lp, rp);
+            kind = computeOffsetQubd(middle, curCurveOff, lp, rp);
             emitLineTo(lp[0], lp[1]);
             switch(kind) {
-            case 6:
-                emitQuadTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], false);
-                emitQuadTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], true);
-                break;
-            case 4:
+            cbse 6:
+                emitQubdTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], fblse);
+                emitQubdTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], true);
+                brebk;
+            cbse 4:
                 emitLineTo(lp[2], lp[3]);
                 emitLineTo(rp[0], rp[1], true);
-                break;
+                brebk;
             }
             emitLineTo(rp[kind - 2], rp[kind - 1], true);
         }
@@ -1100,97 +1100,97 @@ final class Stroker implements PathConsumer2D {
         this.prev = DRAWING_OP_TO;
     }
 
-    @Override public long getNativeConsumer() {
-        throw new InternalError("Stroker doesn't use a native consumer");
+    @Override public long getNbtiveConsumer() {
+        throw new InternblError("Stroker doesn't use b nbtive consumer");
     }
 
-    // a stack of polynomial curves where each curve shares endpoints with
-    // adjacent ones.
-    private static final class PolyStack {
-        float[] curves;
+    // b stbck of polynomibl curves where ebch curve shbres endpoints with
+    // bdjbcent ones.
+    privbte stbtic finbl clbss PolyStbck {
+        flobt[] curves;
         int end;
         int[] curveTypes;
         int numCurves;
 
-        private static final int INIT_SIZE = 50;
+        privbte stbtic finbl int INIT_SIZE = 50;
 
-        PolyStack() {
-            curves = new float[8 * INIT_SIZE];
+        PolyStbck() {
+            curves = new flobt[8 * INIT_SIZE];
             curveTypes = new int[INIT_SIZE];
             end = 0;
             numCurves = 0;
         }
 
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return numCurves == 0;
         }
 
-        private void ensureSpace(int n) {
+        privbte void ensureSpbce(int n) {
             if (end + n >= curves.length) {
                 int newSize = (end + n) * 2;
-                curves = Arrays.copyOf(curves, newSize);
+                curves = Arrbys.copyOf(curves, newSize);
             }
             if (numCurves >= curveTypes.length) {
                 int newSize = numCurves * 2;
-                curveTypes = Arrays.copyOf(curveTypes, newSize);
+                curveTypes = Arrbys.copyOf(curveTypes, newSize);
             }
         }
 
-        public void pushCubic(float x0, float y0,
-                              float x1, float y1,
-                              float x2, float y2)
+        public void pushCubic(flobt x0, flobt y0,
+                              flobt x1, flobt y1,
+                              flobt x2, flobt y2)
         {
-            ensureSpace(6);
+            ensureSpbce(6);
             curveTypes[numCurves++] = 8;
-            // assert(x0 == lastX && y0 == lastY)
+            // bssert(x0 == lbstX && y0 == lbstY)
 
-            // we reverse the coordinate order to make popping easier
+            // we reverse the coordinbte order to mbke popping ebsier
             curves[end++] = x2;    curves[end++] = y2;
             curves[end++] = x1;    curves[end++] = y1;
             curves[end++] = x0;    curves[end++] = y0;
         }
 
-        public void pushQuad(float x0, float y0,
-                             float x1, float y1)
+        public void pushQubd(flobt x0, flobt y0,
+                             flobt x1, flobt y1)
         {
-            ensureSpace(4);
+            ensureSpbce(4);
             curveTypes[numCurves++] = 6;
-            // assert(x0 == lastX && y0 == lastY)
+            // bssert(x0 == lbstX && y0 == lbstY)
             curves[end++] = x1;    curves[end++] = y1;
             curves[end++] = x0;    curves[end++] = y0;
         }
 
-        public void pushLine(float x, float y) {
-            ensureSpace(2);
+        public void pushLine(flobt x, flobt y) {
+            ensureSpbce(2);
             curveTypes[numCurves++] = 4;
-            // assert(x0 == lastX && y0 == lastY)
+            // bssert(x0 == lbstX && y0 == lbstY)
             curves[end++] = x;    curves[end++] = y;
         }
 
-        @SuppressWarnings("unused")
-        public int pop(float[] pts) {
+        @SuppressWbrnings("unused")
+        public int pop(flobt[] pts) {
             int ret = curveTypes[numCurves - 1];
             numCurves--;
             end -= (ret - 2);
-            System.arraycopy(curves, end, pts, 0, ret - 2);
+            System.brrbycopy(curves, end, pts, 0, ret - 2);
             return ret;
         }
 
-        public void pop(PathConsumer2D io) {
+        public void pop(PbthConsumer2D io) {
             numCurves--;
             int type = curveTypes[numCurves];
             end -= (type - 2);
             switch(type) {
-            case 8:
+            cbse 8:
                 io.curveTo(curves[end+0], curves[end+1],
                            curves[end+2], curves[end+3],
                            curves[end+4], curves[end+5]);
-                break;
-            case 6:
-                io.quadTo(curves[end+0], curves[end+1],
+                brebk;
+            cbse 6:
+                io.qubdTo(curves[end+0], curves[end+1],
                            curves[end+2], curves[end+3]);
-                 break;
-            case 4:
+                 brebk;
+            cbse 4:
                 io.lineTo(curves[end], curves[end+1]);
             }
         }
@@ -1205,17 +1205,17 @@ final class Stroker implements PathConsumer2D {
                 int type = curveTypes[numCurves];
                 end -= (type - 2);
                 switch(type) {
-                case 8:
+                cbse 8:
                     ret += "cubic: ";
-                    break;
-                case 6:
-                    ret += "quad: ";
-                    break;
-                case 4:
+                    brebk;
+                cbse 6:
+                    ret += "qubd: ";
+                    brebk;
+                cbse 4:
                     ret += "line: ";
-                    break;
+                    brebk;
                 }
-                ret += Arrays.toString(Arrays.copyOfRange(curves, end, end+type-2)) + "\n";
+                ret += Arrbys.toString(Arrbys.copyOfRbnge(curves, end, end+type-2)) + "\n";
             }
             return ret;
         }

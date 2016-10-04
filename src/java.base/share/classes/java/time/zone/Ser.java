@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2011-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,57 +59,57 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+pbckbge jbvb.time.zone;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.StreamCorruptedException;
-import java.time.ZoneOffset;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.Externblizbble;
+import jbvb.io.IOException;
+import jbvb.io.InvblidClbssException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.io.StrebmCorruptedException;
+import jbvb.time.ZoneOffset;
 
 /**
- * The shared serialization delegate for this package.
+ * The shbred seriblizbtion delegbte for this pbckbge.
  *
  * @implNote
- * This class is mutable and should be created once per serialization.
+ * This clbss is mutbble bnd should be crebted once per seriblizbtion.
  *
- * @serial include
+ * @seribl include
  * @since 1.8
  */
-final class Ser implements Externalizable {
+finbl clbss Ser implements Externblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -8885321777449118786L;
+    privbte stbtic finbl long seriblVersionUID = -8885321777449118786L;
 
     /** Type for ZoneRules. */
-    static final byte ZRULES = 1;
-    /** Type for ZoneOffsetTransition. */
-    static final byte ZOT = 2;
-    /** Type for ZoneOffsetTransition. */
-    static final byte ZOTRULE = 3;
+    stbtic finbl byte ZRULES = 1;
+    /** Type for ZoneOffsetTrbnsition. */
+    stbtic finbl byte ZOT = 2;
+    /** Type for ZoneOffsetTrbnsition. */
+    stbtic finbl byte ZOTRULE = 3;
 
-    /** The type being serialized. */
-    private byte type;
-    /** The object being serialized. */
-    private Object object;
+    /** The type being seriblized. */
+    privbte byte type;
+    /** The object being seriblized. */
+    privbte Object object;
 
     /**
-     * Constructor for deserialization.
+     * Constructor for deseriblizbtion.
      */
     public Ser() {
     }
 
     /**
-     * Creates an instance for serialization.
+     * Crebtes bn instbnce for seriblizbtion.
      *
-     * @param type  the type
-     * @param object  the object
+     * @pbrbm type  the type
+     * @pbrbm object  the object
      */
     Ser(byte type, Object object) {
         this.type = type;
@@ -118,108 +118,108 @@ final class Ser implements Externalizable {
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to write the object.
-     * @serialData
-     * Each serializable class is mapped to a type that is the first byte
-     * in the stream.  Refer to each class {@code writeReplace}
-     * serialized form for the value of the type and sequence of values for the type.
+     * Implements the {@code Externblizbble} interfbce to write the object.
+     * @seriblDbtb
+     * Ebch seriblizbble clbss is mbpped to b type thbt is the first byte
+     * in the strebm.  Refer to ebch clbss {@code writeReplbce}
+     * seriblized form for the vblue of the type bnd sequence of vblues for the type.
      *
      * <ul>
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneRules">ZoneRules.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneOffsetTransition">ZoneOffsetTransition.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneOffsetTransitionRule">ZoneOffsetTransitionRule.writeReplace</a>
+     * <li><b href="../../../seriblized-form.html#jbvb.time.zone.ZoneRules">ZoneRules.writeReplbce</b>
+     * <li><b href="../../../seriblized-form.html#jbvb.time.zone.ZoneOffsetTrbnsition">ZoneOffsetTrbnsition.writeReplbce</b>
+     * <li><b href="../../../seriblized-form.html#jbvb.time.zone.ZoneOffsetTrbnsitionRule">ZoneOffsetTrbnsitionRule.writeReplbce</b>
      * </ul>
      *
-     * @param out  the data stream to write to, not null
+     * @pbrbm out  the dbtb strebm to write to, not null
      */
     @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        writeInternal(type, object, out);
+    public void writeExternbl(ObjectOutput out) throws IOException {
+        writeInternbl(type, object, out);
     }
 
-    static void write(Object object, DataOutput out) throws IOException {
-        writeInternal(ZRULES, object, out);
+    stbtic void write(Object object, DbtbOutput out) throws IOException {
+        writeInternbl(ZRULES, object, out);
     }
 
-    private static void writeInternal(byte type, Object object, DataOutput out) throws IOException {
+    privbte stbtic void writeInternbl(byte type, Object object, DbtbOutput out) throws IOException {
         out.writeByte(type);
         switch (type) {
-            case ZRULES:
-                ((ZoneRules) object).writeExternal(out);
-                break;
-            case ZOT:
-                ((ZoneOffsetTransition) object).writeExternal(out);
-                break;
-            case ZOTRULE:
-                ((ZoneOffsetTransitionRule) object).writeExternal(out);
-                break;
-            default:
-                throw new InvalidClassException("Unknown serialized type");
+            cbse ZRULES:
+                ((ZoneRules) object).writeExternbl(out);
+                brebk;
+            cbse ZOT:
+                ((ZoneOffsetTrbnsition) object).writeExternbl(out);
+                brebk;
+            cbse ZOTRULE:
+                ((ZoneOffsetTrbnsitionRule) object).writeExternbl(out);
+                brebk;
+            defbult:
+                throw new InvblidClbssException("Unknown seriblized type");
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to read the object.
-     * @serialData
-     * The streamed type and parameters defined by the type's {@code writeReplace}
-     * method are read and passed to the corresponding static factory for the type
-     * to create a new instance.  That instance is returned as the de-serialized
+     * Implements the {@code Externblizbble} interfbce to rebd the object.
+     * @seriblDbtb
+     * The strebmed type bnd pbrbmeters defined by the type's {@code writeReplbce}
+     * method bre rebd bnd pbssed to the corresponding stbtic fbctory for the type
+     * to crebte b new instbnce.  Thbt instbnce is returned bs the de-seriblized
      * {@code Ser} object.
      *
      * <ul>
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneRules">ZoneRules</a>
-     * - {@code ZoneRules.of(standardTransitions, standardOffsets, savingsInstantTransitions, wallOffsets, lastRules);}
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneOffsetTransition">ZoneOffsetTransition</a>
-     * - {@code ZoneOffsetTransition of(LocalDateTime.ofEpochSecond(epochSecond), offsetBefore, offsetAfter);}
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneOffsetTransitionRule">ZoneOffsetTransitionRule</a>
-     * - {@code ZoneOffsetTransitionRule.of(month, dom, dow, time, timeEndOfDay, timeDefinition, standardOffset, offsetBefore, offsetAfter);}
+     * <li><b href="../../../seriblized-form.html#jbvb.time.zone.ZoneRules">ZoneRules</b>
+     * - {@code ZoneRules.of(stbndbrdTrbnsitions, stbndbrdOffsets, sbvingsInstbntTrbnsitions, wbllOffsets, lbstRules);}
+     * <li><b href="../../../seriblized-form.html#jbvb.time.zone.ZoneOffsetTrbnsition">ZoneOffsetTrbnsition</b>
+     * - {@code ZoneOffsetTrbnsition of(LocblDbteTime.ofEpochSecond(epochSecond), offsetBefore, offsetAfter);}
+     * <li><b href="../../../seriblized-form.html#jbvb.time.zone.ZoneOffsetTrbnsitionRule">ZoneOffsetTrbnsitionRule</b>
+     * - {@code ZoneOffsetTrbnsitionRule.of(month, dom, dow, time, timeEndOfDby, timeDefinition, stbndbrdOffset, offsetBefore, offsetAfter);}
      * </ul>
-     * @param in  the data to read, not null
+     * @pbrbm in  the dbtb to rebd, not null
      */
     @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        type = in.readByte();
-        object = readInternal(type, in);
+    public void rebdExternbl(ObjectInput in) throws IOException, ClbssNotFoundException {
+        type = in.rebdByte();
+        object = rebdInternbl(type, in);
     }
 
-    static Object read(DataInput in) throws IOException, ClassNotFoundException {
-        byte type = in.readByte();
-        return readInternal(type, in);
+    stbtic Object rebd(DbtbInput in) throws IOException, ClbssNotFoundException {
+        byte type = in.rebdByte();
+        return rebdInternbl(type, in);
     }
 
-    private static Object readInternal(byte type, DataInput in) throws IOException, ClassNotFoundException {
+    privbte stbtic Object rebdInternbl(byte type, DbtbInput in) throws IOException, ClbssNotFoundException {
         switch (type) {
-            case ZRULES:
-                return ZoneRules.readExternal(in);
-            case ZOT:
-                return ZoneOffsetTransition.readExternal(in);
-            case ZOTRULE:
-                return ZoneOffsetTransitionRule.readExternal(in);
-            default:
-                throw new StreamCorruptedException("Unknown serialized type");
+            cbse ZRULES:
+                return ZoneRules.rebdExternbl(in);
+            cbse ZOT:
+                return ZoneOffsetTrbnsition.rebdExternbl(in);
+            cbse ZOTRULE:
+                return ZoneOffsetTrbnsitionRule.rebdExternbl(in);
+            defbult:
+                throw new StrebmCorruptedException("Unknown seriblized type");
         }
     }
 
     /**
-     * Returns the object that will replace this one.
+     * Returns the object thbt will replbce this one.
      *
-     * @return the read object, should never be null
+     * @return the rebd object, should never be null
      */
-    private Object readResolve() {
+    privbte Object rebdResolve() {
          return object;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the state to the stream.
+     * Writes the stbte to the strebm.
      *
-     * @param offset  the offset, not null
-     * @param out  the output stream, not null
-     * @throws IOException if an error occurs
+     * @pbrbm offset  the offset, not null
+     * @pbrbm out  the output strebm, not null
+     * @throws IOException if bn error occurs
      */
-    static void writeOffset(ZoneOffset offset, DataOutput out) throws IOException {
-        final int offsetSecs = offset.getTotalSeconds();
+    stbtic void writeOffset(ZoneOffset offset, DbtbOutput out) throws IOException {
+        finbl int offsetSecs = offset.getTotblSeconds();
         int offsetByte = offsetSecs % 900 == 0 ? offsetSecs / 900 : 127;  // compress to -72 to +72
         out.writeByte(offsetByte);
         if (offsetByte == 127) {
@@ -228,27 +228,27 @@ final class Ser implements Externalizable {
     }
 
     /**
-     * Reads the state from the stream.
+     * Rebds the stbte from the strebm.
      *
-     * @param in  the input stream, not null
-     * @return the created object, not null
-     * @throws IOException if an error occurs
+     * @pbrbm in  the input strebm, not null
+     * @return the crebted object, not null
+     * @throws IOException if bn error occurs
      */
-    static ZoneOffset readOffset(DataInput in) throws IOException {
-        int offsetByte = in.readByte();
-        return (offsetByte == 127 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(offsetByte * 900));
+    stbtic ZoneOffset rebdOffset(DbtbInput in) throws IOException {
+        int offsetByte = in.rebdByte();
+        return (offsetByte == 127 ? ZoneOffset.ofTotblSeconds(in.rebdInt()) : ZoneOffset.ofTotblSeconds(offsetByte * 900));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the state to the stream.
+     * Writes the stbte to the strebm.
      *
-     * @param epochSec  the epoch seconds, not null
-     * @param out  the output stream, not null
-     * @throws IOException if an error occurs
+     * @pbrbm epochSec  the epoch seconds, not null
+     * @pbrbm out  the output strebm, not null
+     * @throws IOException if bn error occurs
      */
-    static void writeEpochSec(long epochSec, DataOutput out) throws IOException {
-        if (epochSec >= -4575744000L && epochSec < 10413792000L && epochSec % 900 == 0) {  // quarter hours between 1825 and 2300
+    stbtic void writeEpochSec(long epochSec, DbtbOutput out) throws IOException {
+        if (epochSec >= -4575744000L && epochSec < 10413792000L && epochSec % 900 == 0) {  // qubrter hours between 1825 bnd 2300
             int store = (int) ((epochSec + 4575744000L) / 900);
             out.writeByte((store >>> 16) & 255);
             out.writeByte((store >>> 8) & 255);
@@ -260,19 +260,19 @@ final class Ser implements Externalizable {
     }
 
     /**
-     * Reads the state from the stream.
+     * Rebds the stbte from the strebm.
      *
-     * @param in  the input stream, not null
+     * @pbrbm in  the input strebm, not null
      * @return the epoch seconds, not null
-     * @throws IOException if an error occurs
+     * @throws IOException if bn error occurs
      */
-    static long readEpochSec(DataInput in) throws IOException {
-        int hiByte = in.readByte() & 255;
+    stbtic long rebdEpochSec(DbtbInput in) throws IOException {
+        int hiByte = in.rebdByte() & 255;
         if (hiByte == 255) {
-            return in.readLong();
+            return in.rebdLong();
         } else {
-            int midByte = in.readByte() & 255;
-            int loByte = in.readByte() & 255;
+            int midByte = in.rebdByte() & 255;
+            int loByte = in.rebdByte() & 255;
             long tot = ((hiByte << 16) + (midByte << 8) + loByte);
             return (tot * 900) - 4575744000L;
         }

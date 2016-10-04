@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.ColorModel;
-import java.lang.annotation.Native;
-import sun.java2d.SunCompositeContext;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.lbng.bnnotbtion.Nbtive;
+import sun.jbvb2d.SunCompositeContext;
 
 /**
- * The <code>AlphaComposite</code> class implements basic alpha
- * compositing rules for combining source and destination colors
- * to achieve blending and transparency effects with graphics and
- * images.
- * The specific rules implemented by this class are the basic set
+ * The <code>AlphbComposite</code> clbss implements bbsic blphb
+ * compositing rules for combining source bnd destinbtion colors
+ * to bchieve blending bnd trbnspbrency effects with grbphics bnd
+ * imbges.
+ * The specific rules implemented by this clbss bre the bbsic set
  * of 12 rules described in
- * T. Porter and T. Duff, "Compositing Digital Images", SIGGRAPH 84,
+ * T. Porter bnd T. Duff, "Compositing Digitbl Imbges", SIGGRAPH 84,
  * 253-259.
- * The rest of this documentation assumes some familiarity with the
- * definitions and concepts outlined in that paper.
+ * The rest of this documentbtion bssumes some fbmilibrity with the
+ * definitions bnd concepts outlined in thbt pbper.
  *
  * <p>
- * This class extends the standard equations defined by Porter and
- * Duff to include one additional factor.
- * An instance of the <code>AlphaComposite</code> class can contain
- * an alpha value that is used to modify the opacity or coverage of
- * every source pixel before it is used in the blending equations.
+ * This clbss extends the stbndbrd equbtions defined by Porter bnd
+ * Duff to include one bdditionbl fbctor.
+ * An instbnce of the <code>AlphbComposite</code> clbss cbn contbin
+ * bn blphb vblue thbt is used to modify the opbcity or coverbge of
+ * every source pixel before it is used in the blending equbtions.
  *
  * <p>
- * It is important to note that the equations defined by the Porter
- * and Duff paper are all defined to operate on color components
- * that are premultiplied by their corresponding alpha components.
- * Since the <code>ColorModel</code> and <code>Raster</code> classes
- * allow the storage of pixel data in either premultiplied or
- * non-premultiplied form, all input data must be normalized into
- * premultiplied form before applying the equations and all results
- * might need to be adjusted back to the form required by the destination
- * before the pixel values are stored.
+ * It is importbnt to note thbt the equbtions defined by the Porter
+ * bnd Duff pbper bre bll defined to operbte on color components
+ * thbt bre premultiplied by their corresponding blphb components.
+ * Since the <code>ColorModel</code> bnd <code>Rbster</code> clbsses
+ * bllow the storbge of pixel dbtb in either premultiplied or
+ * non-premultiplied form, bll input dbtb must be normblized into
+ * premultiplied form before bpplying the equbtions bnd bll results
+ * might need to be bdjusted bbck to the form required by the destinbtion
+ * before the pixel vblues bre stored.
  *
  * <p>
- * Also note that this class defines only the equations
- * for combining color and alpha values in a purely mathematical
- * sense. The accurate application of its equations depends
- * on the way the data is retrieved from its sources and stored
- * in its destinations.
- * See <a href="#caveats">Implementation Caveats</a>
- * for further information.
+ * Also note thbt this clbss defines only the equbtions
+ * for combining color bnd blphb vblues in b purely mbthembticbl
+ * sense. The bccurbte bpplicbtion of its equbtions depends
+ * on the wby the dbtb is retrieved from its sources bnd stored
+ * in its destinbtions.
+ * See <b href="#cbvebts">Implementbtion Cbvebts</b>
+ * for further informbtion.
  *
  * <p>
- * The following factors are used in the description of the blending
- * equation in the Porter and Duff paper:
+ * The following fbctors bre used in the description of the blending
+ * equbtion in the Porter bnd Duff pbper:
  *
  * <blockquote>
- * <table summary="layout">
- * <tr><th align=left>Factor&nbsp;&nbsp;<th align=left>Definition
- * <tr><td><em>A<sub>s</sub></em><td>the alpha component of the source pixel
- * <tr><td><em>C<sub>s</sub></em><td>a color component of the source pixel in premultiplied form
- * <tr><td><em>A<sub>d</sub></em><td>the alpha component of the destination pixel
- * <tr><td><em>C<sub>d</sub></em><td>a color component of the destination pixel in premultiplied form
- * <tr><td><em>F<sub>s</sub></em><td>the fraction of the source pixel that contributes to the output
- * <tr><td><em>F<sub>d</sub></em><td>the fraction of the destination pixel that contributes
+ * <tbble summbry="lbyout">
+ * <tr><th blign=left>Fbctor&nbsp;&nbsp;<th blign=left>Definition
+ * <tr><td><em>A<sub>s</sub></em><td>the blphb component of the source pixel
+ * <tr><td><em>C<sub>s</sub></em><td>b color component of the source pixel in premultiplied form
+ * <tr><td><em>A<sub>d</sub></em><td>the blphb component of the destinbtion pixel
+ * <tr><td><em>C<sub>d</sub></em><td>b color component of the destinbtion pixel in premultiplied form
+ * <tr><td><em>F<sub>s</sub></em><td>the frbction of the source pixel thbt contributes to the output
+ * <tr><td><em>F<sub>d</sub></em><td>the frbction of the destinbtion pixel thbt contributes
  * to the output
- * <tr><td><em>A<sub>r</sub></em><td>the alpha component of the result
- * <tr><td><em>C<sub>r</sub></em><td>a color component of the result in premultiplied form
- * </table>
+ * <tr><td><em>A<sub>r</sub></em><td>the blphb component of the result
+ * <tr><td><em>C<sub>r</sub></em><td>b color component of the result in premultiplied form
+ * </tbble>
  * </blockquote>
  *
  * <p>
- * Using these factors, Porter and Duff define 12 ways of choosing
- * the blending factors <em>F<sub>s</sub></em> and <em>F<sub>d</sub></em> to
- * produce each of 12 desirable visual effects.
- * The equations for determining <em>F<sub>s</sub></em> and <em>F<sub>d</sub></em>
- * are given in the descriptions of the 12 static fields
- * that specify visual effects.
- * For example,
+ * Using these fbctors, Porter bnd Duff define 12 wbys of choosing
+ * the blending fbctors <em>F<sub>s</sub></em> bnd <em>F<sub>d</sub></em> to
+ * produce ebch of 12 desirbble visubl effects.
+ * The equbtions for determining <em>F<sub>s</sub></em> bnd <em>F<sub>d</sub></em>
+ * bre given in the descriptions of the 12 stbtic fields
+ * thbt specify visubl effects.
+ * For exbmple,
  * the description for
- * <a href="#SRC_OVER"><code>SRC_OVER</code></a>
- * specifies that <em>F<sub>s</sub></em> = 1 and <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>).
- * Once a set of equations for determining the blending factors is
- * known they can then be applied to each pixel to produce a result
- * using the following set of equations:
+ * <b href="#SRC_OVER"><code>SRC_OVER</code></b>
+ * specifies thbt <em>F<sub>s</sub></em> = 1 bnd <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>).
+ * Once b set of equbtions for determining the blending fbctors is
+ * known they cbn then be bpplied to ebch pixel to produce b result
+ * using the following set of equbtions:
  *
  * <pre>
  *      <em>F<sub>s</sub></em> = <em>f</em>(<em>A<sub>d</sub></em>)
@@ -109,625 +109,625 @@ import sun.java2d.SunCompositeContext;
  *      <em>C<sub>r</sub></em> = <em>C<sub>s</sub></em>*<em>F<sub>s</sub></em> + <em>C<sub>d</sub></em>*<em>F<sub>d</sub></em></pre>
  *
  * <p>
- * The following factors will be used to discuss our extensions to
- * the blending equation in the Porter and Duff paper:
+ * The following fbctors will be used to discuss our extensions to
+ * the blending equbtion in the Porter bnd Duff pbper:
  *
  * <blockquote>
- * <table summary="layout">
- * <tr><th align=left>Factor&nbsp;&nbsp;<th align=left>Definition
- * <tr><td><em>C<sub>sr</sub></em> <td>one of the raw color components of the source pixel
- * <tr><td><em>C<sub>dr</sub></em> <td>one of the raw color components of the destination pixel
- * <tr><td><em>A<sub>ac</sub></em>  <td>the "extra" alpha component from the AlphaComposite instance
- * <tr><td><em>A<sub>sr</sub></em> <td>the raw alpha component of the source pixel
- * <tr><td><em>A<sub>dr</sub></em><td>the raw alpha component of the destination pixel
- * <tr><td><em>A<sub>df</sub></em> <td>the final alpha component stored in the destination
- * <tr><td><em>C<sub>df</sub></em> <td>the final raw color component stored in the destination
- * </table>
+ * <tbble summbry="lbyout">
+ * <tr><th blign=left>Fbctor&nbsp;&nbsp;<th blign=left>Definition
+ * <tr><td><em>C<sub>sr</sub></em> <td>one of the rbw color components of the source pixel
+ * <tr><td><em>C<sub>dr</sub></em> <td>one of the rbw color components of the destinbtion pixel
+ * <tr><td><em>A<sub>bc</sub></em>  <td>the "extrb" blphb component from the AlphbComposite instbnce
+ * <tr><td><em>A<sub>sr</sub></em> <td>the rbw blphb component of the source pixel
+ * <tr><td><em>A<sub>dr</sub></em><td>the rbw blphb component of the destinbtion pixel
+ * <tr><td><em>A<sub>df</sub></em> <td>the finbl blphb component stored in the destinbtion
+ * <tr><td><em>C<sub>df</sub></em> <td>the finbl rbw color component stored in the destinbtion
+ * </tbble>
  *</blockquote>
  *
- * <h3>Preparing Inputs</h3>
+ * <h3>Prepbring Inputs</h3>
  *
  * <p>
- * The <code>AlphaComposite</code> class defines an additional alpha
- * value that is applied to the source alpha.
- * This value is applied as if an implicit SRC_IN rule were first
- * applied to the source pixel against a pixel with the indicated
- * alpha by multiplying both the raw source alpha and the raw
- * source colors by the alpha in the <code>AlphaComposite</code>.
- * This leads to the following equation for producing the alpha
- * used in the Porter and Duff blending equation:
+ * The <code>AlphbComposite</code> clbss defines bn bdditionbl blphb
+ * vblue thbt is bpplied to the source blphb.
+ * This vblue is bpplied bs if bn implicit SRC_IN rule were first
+ * bpplied to the source pixel bgbinst b pixel with the indicbted
+ * blphb by multiplying both the rbw source blphb bnd the rbw
+ * source colors by the blphb in the <code>AlphbComposite</code>.
+ * This lebds to the following equbtion for producing the blphb
+ * used in the Porter bnd Duff blending equbtion:
  *
  * <pre>
- *      <em>A<sub>s</sub></em> = <em>A<sub>sr</sub></em> * <em>A<sub>ac</sub></em> </pre>
+ *      <em>A<sub>s</sub></em> = <em>A<sub>sr</sub></em> * <em>A<sub>bc</sub></em> </pre>
  *
- * All of the raw source color components need to be multiplied
- * by the alpha in the <code>AlphaComposite</code> instance.
- * Additionally, if the source was not in premultiplied form
- * then the color components also need to be multiplied by the
- * source alpha.
- * Thus, the equation for producing the source color components
- * for the Porter and Duff equation depends on whether the source
- * pixels are premultiplied or not:
+ * All of the rbw source color components need to be multiplied
+ * by the blphb in the <code>AlphbComposite</code> instbnce.
+ * Additionblly, if the source wbs not in premultiplied form
+ * then the color components blso need to be multiplied by the
+ * source blphb.
+ * Thus, the equbtion for producing the source color components
+ * for the Porter bnd Duff equbtion depends on whether the source
+ * pixels bre premultiplied or not:
  *
  * <pre>
- *      <em>C<sub>s</sub></em> = <em>C<sub>sr</sub></em> * <em>A<sub>sr</sub></em> * <em>A<sub>ac</sub></em>     (if source is not premultiplied)
- *      <em>C<sub>s</sub></em> = <em>C<sub>sr</sub></em> * <em>A<sub>ac</sub></em>           (if source is premultiplied) </pre>
+ *      <em>C<sub>s</sub></em> = <em>C<sub>sr</sub></em> * <em>A<sub>sr</sub></em> * <em>A<sub>bc</sub></em>     (if source is not premultiplied)
+ *      <em>C<sub>s</sub></em> = <em>C<sub>sr</sub></em> * <em>A<sub>bc</sub></em>           (if source is premultiplied) </pre>
  *
- * No adjustment needs to be made to the destination alpha:
+ * No bdjustment needs to be mbde to the destinbtion blphb:
  *
  * <pre>
  *      <em>A<sub>d</sub></em> = <em>A<sub>dr</sub></em> </pre>
  *
  * <p>
- * The destination color components need to be adjusted only if
- * they are not in premultiplied form:
+ * The destinbtion color components need to be bdjusted only if
+ * they bre not in premultiplied form:
  *
  * <pre>
- *      <em>C<sub>d</sub></em> = <em>C<sub>dr</sub></em> * <em>A<sub>d</sub></em>    (if destination is not premultiplied)
- *      <em>C<sub>d</sub></em> = <em>C<sub>dr</sub></em>         (if destination is premultiplied) </pre>
+ *      <em>C<sub>d</sub></em> = <em>C<sub>dr</sub></em> * <em>A<sub>d</sub></em>    (if destinbtion is not premultiplied)
+ *      <em>C<sub>d</sub></em> = <em>C<sub>dr</sub></em>         (if destinbtion is premultiplied) </pre>
  *
- * <h3>Applying the Blending Equation</h3>
- *
- * <p>
- * The adjusted <em>A<sub>s</sub></em>, <em>A<sub>d</sub></em>,
- * <em>C<sub>s</sub></em>, and <em>C<sub>d</sub></em> are used in the standard
- * Porter and Duff equations to calculate the blending factors
- * <em>F<sub>s</sub></em> and <em>F<sub>d</sub></em> and then the resulting
- * premultiplied components <em>A<sub>r</sub></em> and <em>C<sub>r</sub></em>.
- *
- * <h3>Preparing Results</h3>
+ * <h3>Applying the Blending Equbtion</h3>
  *
  * <p>
- * The results only need to be adjusted if they are to be stored
- * back into a destination buffer that holds data that is not
- * premultiplied, using the following equations:
+ * The bdjusted <em>A<sub>s</sub></em>, <em>A<sub>d</sub></em>,
+ * <em>C<sub>s</sub></em>, bnd <em>C<sub>d</sub></em> bre used in the stbndbrd
+ * Porter bnd Duff equbtions to cblculbte the blending fbctors
+ * <em>F<sub>s</sub></em> bnd <em>F<sub>d</sub></em> bnd then the resulting
+ * premultiplied components <em>A<sub>r</sub></em> bnd <em>C<sub>r</sub></em>.
+ *
+ * <h3>Prepbring Results</h3>
+ *
+ * <p>
+ * The results only need to be bdjusted if they bre to be stored
+ * bbck into b destinbtion buffer thbt holds dbtb thbt is not
+ * premultiplied, using the following equbtions:
  *
  * <pre>
  *      <em>A<sub>df</sub></em> = <em>A<sub>r</sub></em>
  *      <em>C<sub>df</sub></em> = <em>C<sub>r</sub></em>                 (if dest is premultiplied)
  *      <em>C<sub>df</sub></em> = <em>C<sub>r</sub></em> / <em>A<sub>r</sub></em>            (if dest is not premultiplied) </pre>
  *
- * Note that since the division is undefined if the resulting alpha
- * is zero, the division in that case is omitted to avoid the "divide
- * by zero" and the color components are left as
- * all zeros.
+ * Note thbt since the division is undefined if the resulting blphb
+ * is zero, the division in thbt cbse is omitted to bvoid the "divide
+ * by zero" bnd the color components bre left bs
+ * bll zeros.
  *
- * <h3>Performance Considerations</h3>
+ * <h3>Performbnce Considerbtions</h3>
  *
  * <p>
- * For performance reasons, it is preferable that
- * <code>Raster</code> objects passed to the <code>compose</code>
- * method of a {@link CompositeContext} object created by the
- * <code>AlphaComposite</code> class have premultiplied data.
- * If either the source <code>Raster</code>
- * or the destination <code>Raster</code>
+ * For performbnce rebsons, it is preferbble thbt
+ * <code>Rbster</code> objects pbssed to the <code>compose</code>
+ * method of b {@link CompositeContext} object crebted by the
+ * <code>AlphbComposite</code> clbss hbve premultiplied dbtb.
+ * If either the source <code>Rbster</code>
+ * or the destinbtion <code>Rbster</code>
  * is not premultiplied, however,
- * appropriate conversions are performed before and after the compositing
- * operation.
+ * bppropribte conversions bre performed before bnd bfter the compositing
+ * operbtion.
  *
- * <h3><a name="caveats">Implementation Caveats</a></h3>
+ * <h3><b nbme="cbvebts">Implementbtion Cbvebts</b></h3>
  *
  * <ul>
  * <li>
- * Many sources, such as some of the opaque image types listed
- * in the <code>BufferedImage</code> class, do not store alpha values
- * for their pixels.  Such sources supply an alpha of 1.0 for
- * all of their pixels.
+ * Mbny sources, such bs some of the opbque imbge types listed
+ * in the <code>BufferedImbge</code> clbss, do not store blphb vblues
+ * for their pixels.  Such sources supply bn blphb of 1.0 for
+ * bll of their pixels.
  *
  * <li>
- * Many destinations also have no place to store the alpha values
- * that result from the blending calculations performed by this class.
- * Such destinations thus implicitly discard the resulting
- * alpha values that this class produces.
- * It is recommended that such destinations should treat their stored
- * color values as non-premultiplied and divide the resulting color
- * values by the resulting alpha value before storing the color
- * values and discarding the alpha value.
+ * Mbny destinbtions blso hbve no plbce to store the blphb vblues
+ * thbt result from the blending cblculbtions performed by this clbss.
+ * Such destinbtions thus implicitly discbrd the resulting
+ * blphb vblues thbt this clbss produces.
+ * It is recommended thbt such destinbtions should trebt their stored
+ * color vblues bs non-premultiplied bnd divide the resulting color
+ * vblues by the resulting blphb vblue before storing the color
+ * vblues bnd discbrding the blphb vblue.
  *
  * <li>
- * The accuracy of the results depends on the manner in which pixels
- * are stored in the destination.
- * An image format that provides at least 8 bits of storage per color
- * and alpha component is at least adequate for use as a destination
- * for a sequence of a few to a dozen compositing operations.
- * An image format with fewer than 8 bits of storage per component
- * is of limited use for just one or two compositing operations
- * before the rounding errors dominate the results.
- * An image format
- * that does not separately store
- * color components is not a
- * good candidate for any type of translucent blending.
- * For example, <code>BufferedImage.TYPE_BYTE_INDEXED</code>
- * should not be used as a destination for a blending operation
- * because every operation
- * can introduce large errors, due to
- * the need to choose a pixel from a limited palette to match the
- * results of the blending equations.
+ * The bccurbcy of the results depends on the mbnner in which pixels
+ * bre stored in the destinbtion.
+ * An imbge formbt thbt provides bt lebst 8 bits of storbge per color
+ * bnd blphb component is bt lebst bdequbte for use bs b destinbtion
+ * for b sequence of b few to b dozen compositing operbtions.
+ * An imbge formbt with fewer thbn 8 bits of storbge per component
+ * is of limited use for just one or two compositing operbtions
+ * before the rounding errors dominbte the results.
+ * An imbge formbt
+ * thbt does not sepbrbtely store
+ * color components is not b
+ * good cbndidbte for bny type of trbnslucent blending.
+ * For exbmple, <code>BufferedImbge.TYPE_BYTE_INDEXED</code>
+ * should not be used bs b destinbtion for b blending operbtion
+ * becbuse every operbtion
+ * cbn introduce lbrge errors, due to
+ * the need to choose b pixel from b limited pblette to mbtch the
+ * results of the blending equbtions.
  *
  * <li>
- * Nearly all formats store pixels as discrete integers rather than
- * the floating point values used in the reference equations above.
- * The implementation can either scale the integer pixel
- * values into floating point values in the range 0.0 to 1.0 or
- * use slightly modified versions of the equations
- * that operate entirely in the integer domain and yet produce
- * analogous results to the reference equations.
+ * Nebrly bll formbts store pixels bs discrete integers rbther thbn
+ * the flobting point vblues used in the reference equbtions bbove.
+ * The implementbtion cbn either scble the integer pixel
+ * vblues into flobting point vblues in the rbnge 0.0 to 1.0 or
+ * use slightly modified versions of the equbtions
+ * thbt operbte entirely in the integer dombin bnd yet produce
+ * bnblogous results to the reference equbtions.
  *
  * <p>
- * Typically the integer values are related to the floating point
- * values in such a way that the integer 0 is equated
- * to the floating point value 0.0 and the integer
+ * Typicblly the integer vblues bre relbted to the flobting point
+ * vblues in such b wby thbt the integer 0 is equbted
+ * to the flobting point vblue 0.0 bnd the integer
  * 2^<em>n</em>-1 (where <em>n</em> is the number of bits
- * in the representation) is equated to 1.0.
- * For 8-bit representations, this means that 0x00
- * represents 0.0 and 0xff represents
+ * in the representbtion) is equbted to 1.0.
+ * For 8-bit representbtions, this mebns thbt 0x00
+ * represents 0.0 bnd 0xff represents
  * 1.0.
  *
  * <li>
- * The internal implementation can approximate some of the equations
- * and it can also eliminate some steps to avoid unnecessary operations.
- * For example, consider a discrete integer image with non-premultiplied
- * alpha values that uses 8 bits per component for storage.
- * The stored values for a
- * nearly transparent darkened red might be:
+ * The internbl implementbtion cbn bpproximbte some of the equbtions
+ * bnd it cbn blso eliminbte some steps to bvoid unnecessbry operbtions.
+ * For exbmple, consider b discrete integer imbge with non-premultiplied
+ * blphb vblues thbt uses 8 bits per component for storbge.
+ * The stored vblues for b
+ * nebrly trbnspbrent dbrkened red might be:
  *
  * <pre>
  *    (A, R, G, B) = (0x01, 0xb0, 0x00, 0x00)</pre>
  *
  * <p>
- * If integer math were being used and this value were being
+ * If integer mbth were being used bnd this vblue were being
  * composited in
- * <a href="#SRC"><code>SRC</code></a>
- * mode with no extra alpha, then the math would
- * indicate that the results were (in integer format):
+ * <b href="#SRC"><code>SRC</code></b>
+ * mode with no extrb blphb, then the mbth would
+ * indicbte thbt the results were (in integer formbt):
  *
  * <pre>
  *    (A, R, G, B) = (0x01, 0x01, 0x00, 0x00)</pre>
  *
  * <p>
- * Note that the intermediate values, which are always in premultiplied
- * form, would only allow the integer red component to be either 0x00
- * or 0x01.  When we try to store this result back into a destination
- * that is not premultiplied, dividing out the alpha will give us
- * very few choices for the non-premultiplied red value.
- * In this case an implementation that performs the math in integer
- * space without shortcuts is likely to end up with the final pixel
- * values of:
+ * Note thbt the intermedibte vblues, which bre blwbys in premultiplied
+ * form, would only bllow the integer red component to be either 0x00
+ * or 0x01.  When we try to store this result bbck into b destinbtion
+ * thbt is not premultiplied, dividing out the blphb will give us
+ * very few choices for the non-premultiplied red vblue.
+ * In this cbse bn implementbtion thbt performs the mbth in integer
+ * spbce without shortcuts is likely to end up with the finbl pixel
+ * vblues of:
  *
  * <pre>
  *    (A, R, G, B) = (0x01, 0xff, 0x00, 0x00)</pre>
  *
  * <p>
- * (Note that 0x01 divided by 0x01 gives you 1.0, which is equivalent
- * to the value 0xff in an 8-bit storage format.)
+ * (Note thbt 0x01 divided by 0x01 gives you 1.0, which is equivblent
+ * to the vblue 0xff in bn 8-bit storbge formbt.)
  *
  * <p>
- * Alternately, an implementation that uses floating point math
- * might produce more accurate results and end up returning to the
- * original pixel value with little, if any, roundoff error.
- * Or, an implementation using integer math might decide that since
- * the equations boil down to a virtual NOP on the color values
- * if performed in a floating point space, it can transfer the
- * pixel untouched to the destination and avoid all the math entirely.
+ * Alternbtely, bn implementbtion thbt uses flobting point mbth
+ * might produce more bccurbte results bnd end up returning to the
+ * originbl pixel vblue with little, if bny, roundoff error.
+ * Or, bn implementbtion using integer mbth might decide thbt since
+ * the equbtions boil down to b virtubl NOP on the color vblues
+ * if performed in b flobting point spbce, it cbn trbnsfer the
+ * pixel untouched to the destinbtion bnd bvoid bll the mbth entirely.
  *
  * <p>
- * These implementations all attempt to honor the
- * same equations, but use different tradeoffs of integer and
- * floating point math and reduced or full equations.
- * To account for such differences, it is probably best to
- * expect only that the premultiplied form of the results to
- * match between implementations and image formats.  In this
- * case both answers, expressed in premultiplied form would
- * equate to:
+ * These implementbtions bll bttempt to honor the
+ * sbme equbtions, but use different trbdeoffs of integer bnd
+ * flobting point mbth bnd reduced or full equbtions.
+ * To bccount for such differences, it is probbbly best to
+ * expect only thbt the premultiplied form of the results to
+ * mbtch between implementbtions bnd imbge formbts.  In this
+ * cbse both bnswers, expressed in premultiplied form would
+ * equbte to:
  *
  * <pre>
  *    (A, R, G, B) = (0x01, 0x01, 0x00, 0x00)</pre>
  *
  * <p>
- * and thus they would all match.
+ * bnd thus they would bll mbtch.
  *
  * <li>
- * Because of the technique of simplifying the equations for
- * calculation efficiency, some implementations might perform
- * differently when encountering result alpha values of 0.0
- * on a non-premultiplied destination.
- * Note that the simplification of removing the divide by alpha
- * in the case of the SRC rule is technically not valid if the
- * denominator (alpha) is 0.
- * But, since the results should only be expected to be accurate
- * when viewed in premultiplied form, a resulting alpha of 0
- * essentially renders the resulting color components irrelevant
- * and so exact behavior in this case should not be expected.
+ * Becbuse of the technique of simplifying the equbtions for
+ * cblculbtion efficiency, some implementbtions might perform
+ * differently when encountering result blphb vblues of 0.0
+ * on b non-premultiplied destinbtion.
+ * Note thbt the simplificbtion of removing the divide by blphb
+ * in the cbse of the SRC rule is technicblly not vblid if the
+ * denominbtor (blphb) is 0.
+ * But, since the results should only be expected to be bccurbte
+ * when viewed in premultiplied form, b resulting blphb of 0
+ * essentiblly renders the resulting color components irrelevbnt
+ * bnd so exbct behbvior in this cbse should not be expected.
  * </ul>
  * @see Composite
  * @see CompositeContext
  */
 
-public final class AlphaComposite implements Composite {
+public finbl clbss AlphbComposite implements Composite {
     /**
-     * Both the color and the alpha of the destination are cleared
-     * (Porter-Duff Clear rule).
-     * Neither the source nor the destination is used as input.
+     * Both the color bnd the blphb of the destinbtion bre clebred
+     * (Porter-Duff Clebr rule).
+     * Neither the source nor the destinbtion is used bs input.
      *<p>
-     * <em>F<sub>s</sub></em> = 0 and <em>F<sub>d</sub></em> = 0, thus:
+     * <em>F<sub>s</sub></em> = 0 bnd <em>F<sub>d</sub></em> = 0, thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = 0
      *  <em>C<sub>r</sub></em> = 0
      *</pre>
      */
-    @Native public static final int     CLEAR           = 1;
+    @Nbtive public stbtic finbl int     CLEAR           = 1;
 
     /**
-     * The source is copied to the destination
+     * The source is copied to the destinbtion
      * (Porter-Duff Source rule).
-     * The destination is not used as input.
+     * The destinbtion is not used bs input.
      *<p>
-     * <em>F<sub>s</sub></em> = 1 and <em>F<sub>d</sub></em> = 0, thus:
+     * <em>F<sub>s</sub></em> = 1 bnd <em>F<sub>d</sub></em> = 0, thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>s</sub></em>
      *  <em>C<sub>r</sub></em> = <em>C<sub>s</sub></em>
      *</pre>
      */
-    @Native public static final int     SRC             = 2;
+    @Nbtive public stbtic finbl int     SRC             = 2;
 
     /**
-     * The destination is left untouched
-     * (Porter-Duff Destination rule).
+     * The destinbtion is left untouched
+     * (Porter-Duff Destinbtion rule).
      *<p>
-     * <em>F<sub>s</sub></em> = 0 and <em>F<sub>d</sub></em> = 1, thus:
+     * <em>F<sub>s</sub></em> = 0 bnd <em>F<sub>d</sub></em> = 1, thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>d</sub></em>
      *  <em>C<sub>r</sub></em> = <em>C<sub>d</sub></em>
      *</pre>
      * @since 1.4
      */
-    @Native public static final int     DST             = 9;
-    // Note that DST was added in 1.4 so it is numbered out of order...
+    @Nbtive public stbtic finbl int     DST             = 9;
+    // Note thbt DST wbs bdded in 1.4 so it is numbered out of order...
 
     /**
-     * The source is composited over the destination
-     * (Porter-Duff Source Over Destination rule).
+     * The source is composited over the destinbtion
+     * (Porter-Duff Source Over Destinbtion rule).
      *<p>
-     * <em>F<sub>s</sub></em> = 1 and <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>), thus:
+     * <em>F<sub>s</sub></em> = 1 bnd <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>), thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>s</sub></em> + <em>A<sub>d</sub></em>*(1-<em>A<sub>s</sub></em>)
      *  <em>C<sub>r</sub></em> = <em>C<sub>s</sub></em> + <em>C<sub>d</sub></em>*(1-<em>A<sub>s</sub></em>)
      *</pre>
      */
-    @Native public static final int     SRC_OVER        = 3;
+    @Nbtive public stbtic finbl int     SRC_OVER        = 3;
 
     /**
-     * The destination is composited over the source and
-     * the result replaces the destination
-     * (Porter-Duff Destination Over Source rule).
+     * The destinbtion is composited over the source bnd
+     * the result replbces the destinbtion
+     * (Porter-Duff Destinbtion Over Source rule).
      *<p>
-     * <em>F<sub>s</sub></em> = (1-<em>A<sub>d</sub></em>) and <em>F<sub>d</sub></em> = 1, thus:
+     * <em>F<sub>s</sub></em> = (1-<em>A<sub>d</sub></em>) bnd <em>F<sub>d</sub></em> = 1, thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>s</sub></em>*(1-<em>A<sub>d</sub></em>) + <em>A<sub>d</sub></em>
      *  <em>C<sub>r</sub></em> = <em>C<sub>s</sub></em>*(1-<em>A<sub>d</sub></em>) + <em>C<sub>d</sub></em>
      *</pre>
      */
-    @Native public static final int     DST_OVER        = 4;
+    @Nbtive public stbtic finbl int     DST_OVER        = 4;
 
     /**
-     * The part of the source lying inside of the destination replaces
-     * the destination
-     * (Porter-Duff Source In Destination rule).
+     * The pbrt of the source lying inside of the destinbtion replbces
+     * the destinbtion
+     * (Porter-Duff Source In Destinbtion rule).
      *<p>
-     * <em>F<sub>s</sub></em> = <em>A<sub>d</sub></em> and <em>F<sub>d</sub></em> = 0, thus:
+     * <em>F<sub>s</sub></em> = <em>A<sub>d</sub></em> bnd <em>F<sub>d</sub></em> = 0, thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>s</sub></em>*<em>A<sub>d</sub></em>
      *  <em>C<sub>r</sub></em> = <em>C<sub>s</sub></em>*<em>A<sub>d</sub></em>
      *</pre>
      */
-    @Native public static final int     SRC_IN          = 5;
+    @Nbtive public stbtic finbl int     SRC_IN          = 5;
 
     /**
-     * The part of the destination lying inside of the source
-     * replaces the destination
-     * (Porter-Duff Destination In Source rule).
+     * The pbrt of the destinbtion lying inside of the source
+     * replbces the destinbtion
+     * (Porter-Duff Destinbtion In Source rule).
      *<p>
-     * <em>F<sub>s</sub></em> = 0 and <em>F<sub>d</sub></em> = <em>A<sub>s</sub></em>, thus:
+     * <em>F<sub>s</sub></em> = 0 bnd <em>F<sub>d</sub></em> = <em>A<sub>s</sub></em>, thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>d</sub></em>*<em>A<sub>s</sub></em>
      *  <em>C<sub>r</sub></em> = <em>C<sub>d</sub></em>*<em>A<sub>s</sub></em>
      *</pre>
      */
-    @Native public static final int     DST_IN          = 6;
+    @Nbtive public stbtic finbl int     DST_IN          = 6;
 
     /**
-     * The part of the source lying outside of the destination
-     * replaces the destination
-     * (Porter-Duff Source Held Out By Destination rule).
+     * The pbrt of the source lying outside of the destinbtion
+     * replbces the destinbtion
+     * (Porter-Duff Source Held Out By Destinbtion rule).
      *<p>
-     * <em>F<sub>s</sub></em> = (1-<em>A<sub>d</sub></em>) and <em>F<sub>d</sub></em> = 0, thus:
+     * <em>F<sub>s</sub></em> = (1-<em>A<sub>d</sub></em>) bnd <em>F<sub>d</sub></em> = 0, thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>s</sub></em>*(1-<em>A<sub>d</sub></em>)
      *  <em>C<sub>r</sub></em> = <em>C<sub>s</sub></em>*(1-<em>A<sub>d</sub></em>)
      *</pre>
      */
-    @Native public static final int     SRC_OUT         = 7;
+    @Nbtive public stbtic finbl int     SRC_OUT         = 7;
 
     /**
-     * The part of the destination lying outside of the source
-     * replaces the destination
-     * (Porter-Duff Destination Held Out By Source rule).
+     * The pbrt of the destinbtion lying outside of the source
+     * replbces the destinbtion
+     * (Porter-Duff Destinbtion Held Out By Source rule).
      *<p>
-     * <em>F<sub>s</sub></em> = 0 and <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>), thus:
+     * <em>F<sub>s</sub></em> = 0 bnd <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>), thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>d</sub></em>*(1-<em>A<sub>s</sub></em>)
      *  <em>C<sub>r</sub></em> = <em>C<sub>d</sub></em>*(1-<em>A<sub>s</sub></em>)
      *</pre>
      */
-    @Native public static final int     DST_OUT         = 8;
+    @Nbtive public stbtic finbl int     DST_OUT         = 8;
 
-    // Rule 9 is DST which is defined above where it fits into the
-    // list logically, rather than numerically
+    // Rule 9 is DST which is defined bbove where it fits into the
+    // list logicblly, rbther thbn numericblly
     //
-    // public static final int  DST             = 9;
+    // public stbtic finbl int  DST             = 9;
 
     /**
-     * The part of the source lying inside of the destination
-     * is composited onto the destination
-     * (Porter-Duff Source Atop Destination rule).
+     * The pbrt of the source lying inside of the destinbtion
+     * is composited onto the destinbtion
+     * (Porter-Duff Source Atop Destinbtion rule).
      *<p>
-     * <em>F<sub>s</sub></em> = <em>A<sub>d</sub></em> and <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>), thus:
+     * <em>F<sub>s</sub></em> = <em>A<sub>d</sub></em> bnd <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>), thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>s</sub></em>*<em>A<sub>d</sub></em> + <em>A<sub>d</sub></em>*(1-<em>A<sub>s</sub></em>) = <em>A<sub>d</sub></em>
      *  <em>C<sub>r</sub></em> = <em>C<sub>s</sub></em>*<em>A<sub>d</sub></em> + <em>C<sub>d</sub></em>*(1-<em>A<sub>s</sub></em>)
      *</pre>
      * @since 1.4
      */
-    @Native public static final int     SRC_ATOP        = 10;
+    @Nbtive public stbtic finbl int     SRC_ATOP        = 10;
 
     /**
-     * The part of the destination lying inside of the source
-     * is composited over the source and replaces the destination
-     * (Porter-Duff Destination Atop Source rule).
+     * The pbrt of the destinbtion lying inside of the source
+     * is composited over the source bnd replbces the destinbtion
+     * (Porter-Duff Destinbtion Atop Source rule).
      *<p>
-     * <em>F<sub>s</sub></em> = (1-<em>A<sub>d</sub></em>) and <em>F<sub>d</sub></em> = <em>A<sub>s</sub></em>, thus:
+     * <em>F<sub>s</sub></em> = (1-<em>A<sub>d</sub></em>) bnd <em>F<sub>d</sub></em> = <em>A<sub>s</sub></em>, thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>s</sub></em>*(1-<em>A<sub>d</sub></em>) + <em>A<sub>d</sub></em>*<em>A<sub>s</sub></em> = <em>A<sub>s</sub></em>
      *  <em>C<sub>r</sub></em> = <em>C<sub>s</sub></em>*(1-<em>A<sub>d</sub></em>) + <em>C<sub>d</sub></em>*<em>A<sub>s</sub></em>
      *</pre>
      * @since 1.4
      */
-    @Native public static final int     DST_ATOP        = 11;
+    @Nbtive public stbtic finbl int     DST_ATOP        = 11;
 
     /**
-     * The part of the source that lies outside of the destination
-     * is combined with the part of the destination that lies outside
+     * The pbrt of the source thbt lies outside of the destinbtion
+     * is combined with the pbrt of the destinbtion thbt lies outside
      * of the source
-     * (Porter-Duff Source Xor Destination rule).
+     * (Porter-Duff Source Xor Destinbtion rule).
      *<p>
-     * <em>F<sub>s</sub></em> = (1-<em>A<sub>d</sub></em>) and <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>), thus:
+     * <em>F<sub>s</sub></em> = (1-<em>A<sub>d</sub></em>) bnd <em>F<sub>d</sub></em> = (1-<em>A<sub>s</sub></em>), thus:
      *<pre>
      *  <em>A<sub>r</sub></em> = <em>A<sub>s</sub></em>*(1-<em>A<sub>d</sub></em>) + <em>A<sub>d</sub></em>*(1-<em>A<sub>s</sub></em>)
      *  <em>C<sub>r</sub></em> = <em>C<sub>s</sub></em>*(1-<em>A<sub>d</sub></em>) + <em>C<sub>d</sub></em>*(1-<em>A<sub>s</sub></em>)
      *</pre>
      * @since 1.4
      */
-    @Native public static final int     XOR             = 12;
+    @Nbtive public stbtic finbl int     XOR             = 12;
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque CLEAR rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque CLEAR rule
+     * with bn blphb of 1.0f.
      * @see #CLEAR
      */
-    public static final AlphaComposite Clear    = new AlphaComposite(CLEAR);
+    public stbtic finbl AlphbComposite Clebr    = new AlphbComposite(CLEAR);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque SRC rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque SRC rule
+     * with bn blphb of 1.0f.
      * @see #SRC
      */
-    public static final AlphaComposite Src      = new AlphaComposite(SRC);
+    public stbtic finbl AlphbComposite Src      = new AlphbComposite(SRC);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque DST rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque DST rule
+     * with bn blphb of 1.0f.
      * @see #DST
      * @since 1.4
      */
-    public static final AlphaComposite Dst      = new AlphaComposite(DST);
+    public stbtic finbl AlphbComposite Dst      = new AlphbComposite(DST);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque SRC_OVER rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque SRC_OVER rule
+     * with bn blphb of 1.0f.
      * @see #SRC_OVER
      */
-    public static final AlphaComposite SrcOver  = new AlphaComposite(SRC_OVER);
+    public stbtic finbl AlphbComposite SrcOver  = new AlphbComposite(SRC_OVER);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque DST_OVER rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque DST_OVER rule
+     * with bn blphb of 1.0f.
      * @see #DST_OVER
      */
-    public static final AlphaComposite DstOver  = new AlphaComposite(DST_OVER);
+    public stbtic finbl AlphbComposite DstOver  = new AlphbComposite(DST_OVER);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque SRC_IN rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque SRC_IN rule
+     * with bn blphb of 1.0f.
      * @see #SRC_IN
      */
-    public static final AlphaComposite SrcIn    = new AlphaComposite(SRC_IN);
+    public stbtic finbl AlphbComposite SrcIn    = new AlphbComposite(SRC_IN);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque DST_IN rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque DST_IN rule
+     * with bn blphb of 1.0f.
      * @see #DST_IN
      */
-    public static final AlphaComposite DstIn    = new AlphaComposite(DST_IN);
+    public stbtic finbl AlphbComposite DstIn    = new AlphbComposite(DST_IN);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque SRC_OUT rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque SRC_OUT rule
+     * with bn blphb of 1.0f.
      * @see #SRC_OUT
      */
-    public static final AlphaComposite SrcOut   = new AlphaComposite(SRC_OUT);
+    public stbtic finbl AlphbComposite SrcOut   = new AlphbComposite(SRC_OUT);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque DST_OUT rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque DST_OUT rule
+     * with bn blphb of 1.0f.
      * @see #DST_OUT
      */
-    public static final AlphaComposite DstOut   = new AlphaComposite(DST_OUT);
+    public stbtic finbl AlphbComposite DstOut   = new AlphbComposite(DST_OUT);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque SRC_ATOP rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque SRC_ATOP rule
+     * with bn blphb of 1.0f.
      * @see #SRC_ATOP
      * @since 1.4
      */
-    public static final AlphaComposite SrcAtop  = new AlphaComposite(SRC_ATOP);
+    public stbtic finbl AlphbComposite SrcAtop  = new AlphbComposite(SRC_ATOP);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque DST_ATOP rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque DST_ATOP rule
+     * with bn blphb of 1.0f.
      * @see #DST_ATOP
      * @since 1.4
      */
-    public static final AlphaComposite DstAtop  = new AlphaComposite(DST_ATOP);
+    public stbtic finbl AlphbComposite DstAtop  = new AlphbComposite(DST_ATOP);
 
     /**
-     * <code>AlphaComposite</code> object that implements the opaque XOR rule
-     * with an alpha of 1.0f.
+     * <code>AlphbComposite</code> object thbt implements the opbque XOR rule
+     * with bn blphb of 1.0f.
      * @see #XOR
      * @since 1.4
      */
-    public static final AlphaComposite Xor      = new AlphaComposite(XOR);
+    public stbtic finbl AlphbComposite Xor      = new AlphbComposite(XOR);
 
-    @Native private static final int MIN_RULE = CLEAR;
-    @Native private static final int MAX_RULE = XOR;
+    @Nbtive privbte stbtic finbl int MIN_RULE = CLEAR;
+    @Nbtive privbte stbtic finbl int MAX_RULE = XOR;
 
-    float extraAlpha;
+    flobt extrbAlphb;
     int rule;
 
-    private AlphaComposite(int rule) {
+    privbte AlphbComposite(int rule) {
         this(rule, 1.0f);
     }
 
-    private AlphaComposite(int rule, float alpha) {
+    privbte AlphbComposite(int rule, flobt blphb) {
         if (rule < MIN_RULE || rule > MAX_RULE) {
-            throw new IllegalArgumentException("unknown composite rule");
+            throw new IllegblArgumentException("unknown composite rule");
         }
-        if (alpha >= 0.0f && alpha <= 1.0f) {
+        if (blphb >= 0.0f && blphb <= 1.0f) {
             this.rule = rule;
-            this.extraAlpha = alpha;
+            this.extrbAlphb = blphb;
         } else {
-            throw new IllegalArgumentException("alpha value out of range");
+            throw new IllegblArgumentException("blphb vblue out of rbnge");
         }
     }
 
     /**
-     * Creates an <code>AlphaComposite</code> object with the specified rule.
+     * Crebtes bn <code>AlphbComposite</code> object with the specified rule.
      *
-     * @param rule the compositing rule
-     * @return the {@code AlphaComposite} object created
-     * @throws IllegalArgumentException if <code>rule</code> is not one of
+     * @pbrbm rule the compositing rule
+     * @return the {@code AlphbComposite} object crebted
+     * @throws IllegblArgumentException if <code>rule</code> is not one of
      *         the following:  {@link #CLEAR}, {@link #SRC}, {@link #DST},
      *         {@link #SRC_OVER}, {@link #DST_OVER}, {@link #SRC_IN},
      *         {@link #DST_IN}, {@link #SRC_OUT}, {@link #DST_OUT},
      *         {@link #SRC_ATOP}, {@link #DST_ATOP}, or {@link #XOR}
      */
-    public static AlphaComposite getInstance(int rule) {
+    public stbtic AlphbComposite getInstbnce(int rule) {
         switch (rule) {
-        case CLEAR:
-            return Clear;
-        case SRC:
+        cbse CLEAR:
+            return Clebr;
+        cbse SRC:
             return Src;
-        case DST:
+        cbse DST:
             return Dst;
-        case SRC_OVER:
+        cbse SRC_OVER:
             return SrcOver;
-        case DST_OVER:
+        cbse DST_OVER:
             return DstOver;
-        case SRC_IN:
+        cbse SRC_IN:
             return SrcIn;
-        case DST_IN:
+        cbse DST_IN:
             return DstIn;
-        case SRC_OUT:
+        cbse SRC_OUT:
             return SrcOut;
-        case DST_OUT:
+        cbse DST_OUT:
             return DstOut;
-        case SRC_ATOP:
+        cbse SRC_ATOP:
             return SrcAtop;
-        case DST_ATOP:
+        cbse DST_ATOP:
             return DstAtop;
-        case XOR:
+        cbse XOR:
             return Xor;
-        default:
-            throw new IllegalArgumentException("unknown composite rule");
+        defbult:
+            throw new IllegblArgumentException("unknown composite rule");
         }
     }
 
     /**
-     * Creates an <code>AlphaComposite</code> object with the specified rule and
-     * the constant alpha to multiply with the alpha of the source.
-     * The source is multiplied with the specified alpha before being composited
-     * with the destination.
+     * Crebtes bn <code>AlphbComposite</code> object with the specified rule bnd
+     * the constbnt blphb to multiply with the blphb of the source.
+     * The source is multiplied with the specified blphb before being composited
+     * with the destinbtion.
      *
-     * @param rule the compositing rule
-     * @param alpha the constant alpha to be multiplied with the alpha of
-     * the source. <code>alpha</code> must be a floating point number in the
-     * inclusive range [0.0,&nbsp;1.0].
-     * @return the {@code AlphaComposite} object created
-     * @throws IllegalArgumentException if
-     *         <code>alpha</code> is less than 0.0 or greater than 1.0, or if
+     * @pbrbm rule the compositing rule
+     * @pbrbm blphb the constbnt blphb to be multiplied with the blphb of
+     * the source. <code>blphb</code> must be b flobting point number in the
+     * inclusive rbnge [0.0,&nbsp;1.0].
+     * @return the {@code AlphbComposite} object crebted
+     * @throws IllegblArgumentException if
+     *         <code>blphb</code> is less thbn 0.0 or grebter thbn 1.0, or if
      *         <code>rule</code> is not one of
      *         the following:  {@link #CLEAR}, {@link #SRC}, {@link #DST},
      *         {@link #SRC_OVER}, {@link #DST_OVER}, {@link #SRC_IN},
      *         {@link #DST_IN}, {@link #SRC_OUT}, {@link #DST_OUT},
      *         {@link #SRC_ATOP}, {@link #DST_ATOP}, or {@link #XOR}
      */
-    public static AlphaComposite getInstance(int rule, float alpha) {
-        if (alpha == 1.0f) {
-            return getInstance(rule);
+    public stbtic AlphbComposite getInstbnce(int rule, flobt blphb) {
+        if (blphb == 1.0f) {
+            return getInstbnce(rule);
         }
-        return new AlphaComposite(rule, alpha);
+        return new AlphbComposite(rule, blphb);
     }
 
     /**
-     * Creates a context for the compositing operation.
-     * The context contains state that is used in performing
-     * the compositing operation.
-     * @param srcColorModel  the {@link ColorModel} of the source
-     * @param dstColorModel  the <code>ColorModel</code> of the destination
+     * Crebtes b context for the compositing operbtion.
+     * The context contbins stbte thbt is used in performing
+     * the compositing operbtion.
+     * @pbrbm srcColorModel  the {@link ColorModel} of the source
+     * @pbrbm dstColorModel  the <code>ColorModel</code> of the destinbtion
      * @return the <code>CompositeContext</code> object to be used to perform
-     * compositing operations.
+     * compositing operbtions.
      */
-    public CompositeContext createContext(ColorModel srcColorModel,
+    public CompositeContext crebteContext(ColorModel srcColorModel,
                                           ColorModel dstColorModel,
                                           RenderingHints hints) {
         return new SunCompositeContext(this, srcColorModel, dstColorModel);
     }
 
     /**
-     * Returns the alpha value of this <code>AlphaComposite</code>.  If this
-     * <code>AlphaComposite</code> does not have an alpha value, 1.0 is returned.
-     * @return the alpha value of this <code>AlphaComposite</code>.
+     * Returns the blphb vblue of this <code>AlphbComposite</code>.  If this
+     * <code>AlphbComposite</code> does not hbve bn blphb vblue, 1.0 is returned.
+     * @return the blphb vblue of this <code>AlphbComposite</code>.
      */
-    public float getAlpha() {
-        return extraAlpha;
+    public flobt getAlphb() {
+        return extrbAlphb;
     }
 
     /**
-     * Returns the compositing rule of this <code>AlphaComposite</code>.
-     * @return the compositing rule of this <code>AlphaComposite</code>.
+     * Returns the compositing rule of this <code>AlphbComposite</code>.
+     * @return the compositing rule of this <code>AlphbComposite</code>.
      */
     public int getRule() {
         return rule;
     }
 
     /**
-     * Returns a similar <code>AlphaComposite</code> object that uses
+     * Returns b similbr <code>AlphbComposite</code> object thbt uses
      * the specified compositing rule.
-     * If this object already uses the specified compositing rule,
+     * If this object blrebdy uses the specified compositing rule,
      * this object is returned.
-     * @return an <code>AlphaComposite</code> object derived from
-     * this object that uses the specified compositing rule.
-     * @param rule the compositing rule
-     * @throws IllegalArgumentException if
+     * @return bn <code>AlphbComposite</code> object derived from
+     * this object thbt uses the specified compositing rule.
+     * @pbrbm rule the compositing rule
+     * @throws IllegblArgumentException if
      *         <code>rule</code> is not one of
      *         the following:  {@link #CLEAR}, {@link #SRC}, {@link #DST},
      *         {@link #SRC_OVER}, {@link #DST_OVER}, {@link #SRC_IN},
@@ -735,66 +735,66 @@ public final class AlphaComposite implements Composite {
      *         {@link #SRC_ATOP}, {@link #DST_ATOP}, or {@link #XOR}
      * @since 1.6
      */
-    public AlphaComposite derive(int rule) {
+    public AlphbComposite derive(int rule) {
         return (this.rule == rule)
             ? this
-            : getInstance(rule, this.extraAlpha);
+            : getInstbnce(rule, this.extrbAlphb);
     }
 
     /**
-     * Returns a similar <code>AlphaComposite</code> object that uses
-     * the specified alpha value.
-     * If this object already has the specified alpha value,
+     * Returns b similbr <code>AlphbComposite</code> object thbt uses
+     * the specified blphb vblue.
+     * If this object blrebdy hbs the specified blphb vblue,
      * this object is returned.
-     * @return an <code>AlphaComposite</code> object derived from
-     * this object that uses the specified alpha value.
-     * @param alpha the constant alpha to be multiplied with the alpha of
-     * the source. <code>alpha</code> must be a floating point number in the
-     * inclusive range [0.0,&nbsp;1.0].
-     * @throws IllegalArgumentException if
-     *         <code>alpha</code> is less than 0.0 or greater than 1.0
+     * @return bn <code>AlphbComposite</code> object derived from
+     * this object thbt uses the specified blphb vblue.
+     * @pbrbm blphb the constbnt blphb to be multiplied with the blphb of
+     * the source. <code>blphb</code> must be b flobting point number in the
+     * inclusive rbnge [0.0,&nbsp;1.0].
+     * @throws IllegblArgumentException if
+     *         <code>blphb</code> is less thbn 0.0 or grebter thbn 1.0
      * @since 1.6
      */
-    public AlphaComposite derive(float alpha) {
-        return (this.extraAlpha == alpha)
+    public AlphbComposite derive(flobt blphb) {
+        return (this.extrbAlphb == blphb)
             ? this
-            : getInstance(this.rule, alpha);
+            : getInstbnce(this.rule, blphb);
     }
 
     /**
-     * Returns the hashcode for this composite.
-     * @return      a hash code for this composite.
+     * Returns the hbshcode for this composite.
+     * @return      b hbsh code for this composite.
      */
-    public int hashCode() {
-        return (Float.floatToIntBits(extraAlpha) * 31 + rule);
+    public int hbshCode() {
+        return (Flobt.flobtToIntBits(extrbAlphb) * 31 + rule);
     }
 
     /**
-     * Determines whether the specified object is equal to this
-     * <code>AlphaComposite</code>.
+     * Determines whether the specified object is equbl to this
+     * <code>AlphbComposite</code>.
      * <p>
-     * The result is <code>true</code> if and only if
-     * the argument is not <code>null</code> and is an
-     * <code>AlphaComposite</code> object that has the same
-     * compositing rule and alpha value as this object.
+     * The result is <code>true</code> if bnd only if
+     * the brgument is not <code>null</code> bnd is bn
+     * <code>AlphbComposite</code> object thbt hbs the sbme
+     * compositing rule bnd blphb vblue bs this object.
      *
-     * @param obj the <code>Object</code> to test for equality
-     * @return <code>true</code> if <code>obj</code> equals this
-     * <code>AlphaComposite</code>; <code>false</code> otherwise.
+     * @pbrbm obj the <code>Object</code> to test for equblity
+     * @return <code>true</code> if <code>obj</code> equbls this
+     * <code>AlphbComposite</code>; <code>fblse</code> otherwise.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof AlphaComposite)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof AlphbComposite)) {
+            return fblse;
         }
 
-        AlphaComposite ac = (AlphaComposite) obj;
+        AlphbComposite bc = (AlphbComposite) obj;
 
-        if (rule != ac.rule) {
-            return false;
+        if (rule != bc.rule) {
+            return fblse;
         }
 
-        if (extraAlpha != ac.extraAlpha) {
-            return false;
+        if (extrbAlphb != bc.extrbAlphb) {
+            return fblse;
         }
 
         return true;

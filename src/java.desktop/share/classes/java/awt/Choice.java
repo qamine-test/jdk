@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.*;
-import java.awt.peer.ChoicePeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.bwt.peer.ChoicePeer;
+import jbvb.bwt.event.*;
+import jbvb.util.EventListener;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
 
 /**
- * The <code>Choice</code> class presents a pop-up menu of choices.
- * The current choice is displayed as the title of the menu.
+ * The <code>Choice</code> clbss presents b pop-up menu of choices.
+ * The current choice is displbyed bs the title of the menu.
  * <p>
- * The following code example produces a pop-up menu:
+ * The following code exbmple produces b pop-up menu:
  *
  * <hr><blockquote><pre>
  * Choice ColorChooser = new Choice();
- * ColorChooser.add("Green");
- * ColorChooser.add("Red");
- * ColorChooser.add("Blue");
+ * ColorChooser.bdd("Green");
+ * ColorChooser.bdd("Red");
+ * ColorChooser.bdd("Blue");
  * </pre></blockquote><hr>
  * <p>
- * After this choice menu has been added to a panel,
- * it appears as follows in its normal state:
+ * After this choice menu hbs been bdded to b pbnel,
+ * it bppebrs bs follows in its normbl stbte:
  * <p>
- * <img src="doc-files/Choice-1.gif" alt="The following text describes the graphic"
- * style="float:center; margin: 7px 10px;">
+ * <img src="doc-files/Choice-1.gif" blt="The following text describes the grbphic"
+ * style="flobt:center; mbrgin: 7px 10px;">
  * <p>
  * In the picture, <code>"Green"</code> is the current choice.
- * Pushing the mouse button down on the object causes a menu to
- * appear with the current choice highlighted.
+ * Pushing the mouse button down on the object cbuses b menu to
+ * bppebr with the current choice highlighted.
  * <p>
- * Some native platforms do not support arbitrary resizing of
- * <code>Choice</code> components and the behavior of
+ * Some nbtive plbtforms do not support brbitrbry resizing of
+ * <code>Choice</code> components bnd the behbvior of
  * <code>setSize()/getSize()</code> is bound by
- * such limitations.
- * Native GUI <code>Choice</code> components' size are often bound by such
- * attributes as font size and length of items contained within
+ * such limitbtions.
+ * Nbtive GUI <code>Choice</code> components' size bre often bound by such
+ * bttributes bs font size bnd length of items contbined within
  * the <code>Choice</code>.
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
  * @since       1.0
  */
-public class Choice extends Component implements ItemSelectable, Accessible {
+public clbss Choice extends Component implements ItemSelectbble, Accessible {
     /**
      * The items for the <code>Choice</code>.
-     * This can be a <code>null</code> value.
-     * @serial
-     * @see #add(String)
-     * @see #addItem(String)
+     * This cbn be b <code>null</code> vblue.
+     * @seribl
+     * @see #bdd(String)
+     * @see #bddItem(String)
      * @see #getItem(int)
      * @see #getItemCount()
      * @see #insert(String, int)
@@ -87,70 +87,70 @@ public class Choice extends Component implements ItemSelectable, Accessible {
     /**
      * The index of the current choice for this <code>Choice</code>
      * or -1 if nothing is selected.
-     * @serial
+     * @seribl
      * @see #getSelectedItem()
      * @see #select(int)
      */
     int selectedIndex = -1;
 
-    transient ItemListener itemListener;
+    trbnsient ItemListener itemListener;
 
-    private static final String base = "choice";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "choice";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -4075310674757313071L;
+    privbte stbtic finbl long seriblVersionUID = -4075310674757313071L;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        /* initialize JNI field and method ids */
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        /* initiblize JNI field bnd method ids */
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Creates a new choice menu. The menu initially has no items in it.
+     * Crebtes b new choice menu. The menu initiblly hbs no items in it.
      * <p>
-     * By default, the first item added to the choice menu becomes the
-     * selected item, until a different selection is made by the user
-     * by calling one of the <code>select</code> methods.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * By defbult, the first item bdded to the choice menu becomes the
+     * selected item, until b different selection is mbde by the user
+     * by cblling one of the <code>select</code> methods.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
+     * @see       jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @see       #select(int)
-     * @see       #select(java.lang.String)
+     * @see       #select(jbvb.lbng.String)
      */
-    public Choice() throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    public Choice() throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
         pItems = new Vector<>();
     }
 
     /**
-     * Constructs a name for this component.  Called by
-     * <code>getName</code> when the name is <code>null</code>.
+     * Constructs b nbme for this component.  Cblled by
+     * <code>getNbme</code> when the nbme is <code>null</code>.
      */
-    String constructComponentName() {
-        synchronized (Choice.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (Choice.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the <code>Choice</code>'s peer.  This peer allows us
-     * to change the look
-     * of the <code>Choice</code> without changing its functionality.
-     * @see     java.awt.Toolkit#createChoice(java.awt.Choice)
-     * @see     java.awt.Component#getToolkit()
+     * Crebtes the <code>Choice</code>'s peer.  This peer bllows us
+     * to chbnge the look
+     * of the <code>Choice</code> without chbnging its functionblity.
+     * @see     jbvb.bwt.Toolkit#crebteChoice(jbvb.bwt.Choice)
+     * @see     jbvb.bwt.Component#getToolkit()
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = getToolkit().createChoice(this);
-            super.addNotify();
+                peer = getToolkit().crebteChoice(this);
+            super.bddNotify();
         }
     }
 
@@ -169,20 +169,20 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * Returns the number of items in this {@code Choice} menu.
      *
      * @return the number of items in this {@code Choice} menu
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getItemCount()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getItemCount()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public int countItems() {
         return pItems.size();
     }
 
     /**
-     * Gets the string at the specified index in this
+     * Gets the string bt the specified index in this
      * <code>Choice</code> menu.
      *
-     * @param  index the index at which to begin
-     * @return the item at the specified index
+     * @pbrbm  index the index bt which to begin
+     * @return the item bt the specified index
      * @see    #getItemCount
      */
     public String getItem(int index) {
@@ -190,61 +190,61 @@ public class Choice extends Component implements ItemSelectable, Accessible {
     }
 
     /*
-     * This is called by the native code, so client code can't
-     * be called on the toolkit thread.
+     * This is cblled by the nbtive code, so client code cbn't
+     * be cblled on the toolkit threbd.
      */
-    final String getItemImpl(int index) {
+    finbl String getItemImpl(int index) {
         return pItems.elementAt(index);
     }
 
     /**
-     * Adds an item to this <code>Choice</code> menu.
-     * @param      item    the item to be added
-     * @exception  NullPointerException   if the item's value is
+     * Adds bn item to this <code>Choice</code> menu.
+     * @pbrbm      item    the item to be bdded
+     * @exception  NullPointerException   if the item's vblue is
      *                  <code>null</code>
      * @since      1.1
      */
-    public void add(String item) {
-        addItem(item);
+    public void bdd(String item) {
+        bddItem(item);
     }
 
     /**
-     * Obsolete as of Java 2 platform v1.1.  Please use the
-     * <code>add</code> method instead.
+     * Obsolete bs of Jbvb 2 plbtform v1.1.  Plebse use the
+     * <code>bdd</code> method instebd.
      * <p>
-     * Adds an item to this <code>Choice</code> menu.
-     * @param item the item to be added
-     * @exception NullPointerException if the item's value is equal to
+     * Adds bn item to this <code>Choice</code> menu.
+     * @pbrbm item the item to be bdded
+     * @exception NullPointerException if the item's vblue is equbl to
      *          <code>null</code>
      */
-    public void addItem(String item) {
+    public void bddItem(String item) {
         synchronized (this) {
-            insertNoInvalidate(item, pItems.size());
+            insertNoInvblidbte(item, pItems.size());
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // This could chbnge the preferred size of the Component.
+        invblidbteIfVblid();
     }
 
     /**
-     * Inserts an item to this <code>Choice</code>,
-     * but does not invalidate the <code>Choice</code>.
-     * Client methods must provide their own synchronization before
+     * Inserts bn item to this <code>Choice</code>,
+     * but does not invblidbte the <code>Choice</code>.
+     * Client methods must provide their own synchronizbtion before
      * invoking this method.
-     * @param item the item to be added
-     * @param index the new item position
-     * @exception NullPointerException if the item's value is equal to
+     * @pbrbm item the item to be bdded
+     * @pbrbm index the new item position
+     * @exception NullPointerException if the item's vblue is equbl to
      *          <code>null</code>
      */
-    private void insertNoInvalidate(String item, int index) {
+    privbte void insertNoInvblidbte(String item, int index) {
         if (item == null) {
             throw new
-                NullPointerException("cannot add null item to Choice");
+                NullPointerException("cbnnot bdd null item to Choice");
         }
         pItems.insertElementAt(item, index);
         ChoicePeer peer = (ChoicePeer)this.peer;
         if (peer != null) {
-            peer.add(item, index);
+            peer.bdd(item, index);
         }
         // no selection or selection shifted up
         if (selectedIndex < 0 || selectedIndex >= index) {
@@ -254,36 +254,36 @@ public class Choice extends Component implements ItemSelectable, Accessible {
 
 
     /**
-     * Inserts the item into this choice at the specified position.
-     * Existing items at an index greater than or equal to
-     * <code>index</code> are shifted up by one to accommodate
-     * the new item.  If <code>index</code> is greater than or
-     * equal to the number of items in this choice,
-     * <code>item</code> is added to the end of this choice.
+     * Inserts the item into this choice bt the specified position.
+     * Existing items bt bn index grebter thbn or equbl to
+     * <code>index</code> bre shifted up by one to bccommodbte
+     * the new item.  If <code>index</code> is grebter thbn or
+     * equbl to the number of items in this choice,
+     * <code>item</code> is bdded to the end of this choice.
      * <p>
-     * If the item is the first one being added to the choice,
+     * If the item is the first one being bdded to the choice,
      * then the item becomes selected.  Otherwise, if the
-     * selected item was one of the items shifted, the first
+     * selected item wbs one of the items shifted, the first
      * item in the choice becomes the selected item.  If the
-     * selected item was no among those shifted, it remains
+     * selected item wbs no bmong those shifted, it rembins
      * the selected item.
-     * @param item the non-<code>null</code> item to be inserted
-     * @param index the position at which the item should be inserted
-     * @exception IllegalArgumentException if index is less than 0
+     * @pbrbm item the non-<code>null</code> item to be inserted
+     * @pbrbm index the position bt which the item should be inserted
+     * @exception IllegblArgumentException if index is less thbn 0
      */
     public void insert(String item, int index) {
         synchronized (this) {
             if (index < 0) {
-                throw new IllegalArgumentException("index less than zero.");
+                throw new IllegblArgumentException("index less thbn zero.");
             }
-            /* if the index greater than item count, add item to the end */
-            index = Math.min(index, pItems.size());
+            /* if the index grebter thbn item count, bdd item to the end */
+            index = Mbth.min(index, pItems.size());
 
-            insertNoInvalidate(item, index);
+            insertNoInvblidbte(item, index);
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // This could chbnge the preferred size of the Component.
+        invblidbteIfVblid();
     }
 
     /**
@@ -292,10 +292,10 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * being removed is the currently selected item,
      * then the first item in the choice becomes the
      * selected item.  Otherwise, the currently selected
-     * item remains selected (and the selected index is
-     * updated accordingly).
-     * @param      item  the item to remove from this <code>Choice</code> menu
-     * @exception  IllegalArgumentException  if the item doesn't
+     * item rembins selected (bnd the selected index is
+     * updbted bccordingly).
+     * @pbrbm      item  the item to remove from this <code>Choice</code> menu
+     * @exception  IllegblArgumentException  if the item doesn't
      *                     exist in the choice menu
      * @since      1.1
      */
@@ -303,53 +303,53 @@ public class Choice extends Component implements ItemSelectable, Accessible {
         synchronized (this) {
             int index = pItems.indexOf(item);
             if (index < 0) {
-                throw new IllegalArgumentException("item " + item +
+                throw new IllegblArgumentException("item " + item +
                                                    " not found in choice");
             } else {
-                removeNoInvalidate(index);
+                removeNoInvblidbte(index);
             }
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // This could chbnge the preferred size of the Component.
+        invblidbteIfVblid();
     }
 
     /**
-     * Removes an item from the choice menu
-     * at the specified position.  If the item
+     * Removes bn item from the choice menu
+     * bt the specified position.  If the item
      * being removed is the currently selected item,
      * then the first item in the choice becomes the
      * selected item.  Otherwise, the currently selected
-     * item remains selected (and the selected index is
-     * updated accordingly).
-     * @param      position the position of the item
+     * item rembins selected (bnd the selected index is
+     * updbted bccordingly).
+     * @pbrbm      position the position of the item
      * @throws IndexOutOfBoundsException if the specified
      *          position is out of bounds
      * @since      1.1
      */
     public void remove(int position) {
         synchronized (this) {
-            removeNoInvalidate(position);
+            removeNoInvblidbte(position);
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // This could chbnge the preferred size of the Component.
+        invblidbteIfVblid();
     }
 
     /**
-     * Removes an item from the <code>Choice</code> at the
-     * specified position, but does not invalidate the <code>Choice</code>.
+     * Removes bn item from the <code>Choice</code> bt the
+     * specified position, but does not invblidbte the <code>Choice</code>.
      * Client methods must provide their
-     * own synchronization before invoking this method.
-     * @param      position   the position of the item
+     * own synchronizbtion before invoking this method.
+     * @pbrbm      position   the position of the item
      */
-    private void removeNoInvalidate(int position) {
+    privbte void removeNoInvblidbte(int position) {
         pItems.removeElementAt(position);
         ChoicePeer peer = (ChoicePeer)this.peer;
         if (peer != null) {
             peer.remove(position);
         }
-        /* Adjust selectedIndex if selected item was removed. */
+        /* Adjust selectedIndex if selected item wbs removed. */
         if (pItems.size() == 0) {
             selectedIndex = -1;
         } else if (selectedIndex == position) {
@@ -361,7 +361,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
 
 
     /**
-     * Removes all items from the choice menu.
+     * Removes bll items from the choice menu.
      * @see       #remove
      * @since     1.1
      */
@@ -374,13 +374,13 @@ public class Choice extends Component implements ItemSelectable, Accessible {
             selectedIndex = -1;
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // This could chbnge the preferred size of the Component.
+        invblidbteIfVblid();
     }
 
     /**
-     * Gets a representation of the current choice as a string.
-     * @return    a string representation of the currently
+     * Gets b representbtion of the current choice bs b string.
+     * @return    b string representbtion of the currently
      *                     selected item in this choice menu
      * @see       #getSelectedIndex
      */
@@ -389,9 +389,9 @@ public class Choice extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * Returns an array (length 1) containing the currently selected
-     * item.  If this choice has no items, returns <code>null</code>.
-     * @see ItemSelectable
+     * Returns bn brrby (length 1) contbining the currently selected
+     * item.  If this choice hbs no items, returns <code>null</code>.
+     * @see ItemSelectbble
      */
     public synchronized Object[] getSelectedObjects() {
         if (selectedIndex >= 0) {
@@ -416,24 +416,24 @@ public class Choice extends Component implements ItemSelectable, Accessible {
 
     /**
      * Sets the selected item in this <code>Choice</code> menu to be the
-     * item at the specified position.
+     * item bt the specified position.
      *
-     * <p>Note that this method should be primarily used to
-     * initially select an item in this component.
-     * Programmatically calling this method will <i>not</i> trigger
-     * an <code>ItemEvent</code>.  The only way to trigger an
-     * <code>ItemEvent</code> is by user interaction.
+     * <p>Note thbt this method should be primbrily used to
+     * initiblly select bn item in this component.
+     * Progrbmmbticblly cblling this method will <i>not</i> trigger
+     * bn <code>ItemEvent</code>.  The only wby to trigger bn
+     * <code>ItemEvent</code> is by user interbction.
      *
-     * @param      pos      the position of the selected item
-     * @exception  IllegalArgumentException if the specified
-     *                            position is greater than the
-     *                            number of items or less than zero
+     * @pbrbm      pos      the position of the selected item
+     * @exception  IllegblArgumentException if the specified
+     *                            position is grebter thbn the
+     *                            number of items or less thbn zero
      * @see        #getSelectedItem
      * @see        #getSelectedIndex
      */
     public synchronized void select(int pos) {
         if ((pos >= pItems.size()) || (pos < 0)) {
-            throw new IllegalArgumentException("illegal Choice item position: " + pos);
+            throw new IllegblArgumentException("illegbl Choice item position: " + pos);
         }
         if (pItems.size() > 0) {
             selectedIndex = pos;
@@ -446,17 +446,17 @@ public class Choice extends Component implements ItemSelectable, Accessible {
 
     /**
      * Sets the selected item in this <code>Choice</code> menu
-     * to be the item whose name is equal to the specified string.
-     * If more than one item matches (is equal to) the specified string,
-     * the one with the smallest index is selected.
+     * to be the item whose nbme is equbl to the specified string.
+     * If more thbn one item mbtches (is equbl to) the specified string,
+     * the one with the smbllest index is selected.
      *
-     * <p>Note that this method should be primarily used to
-     * initially select an item in this component.
-     * Programmatically calling this method will <i>not</i> trigger
-     * an <code>ItemEvent</code>.  The only way to trigger an
-     * <code>ItemEvent</code> is by user interaction.
+     * <p>Note thbt this method should be primbrily used to
+     * initiblly select bn item in this component.
+     * Progrbmmbticblly cblling this method will <i>not</i> trigger
+     * bn <code>ItemEvent</code>.  The only wby to trigger bn
+     * <code>ItemEvent</code> is by user interbction.
      *
-     * @param       str     the specified string
+     * @pbrbm       str     the specified string
      * @see         #getSelectedItem
      * @see         #getSelectedIndex
      */
@@ -469,138 +469,138 @@ public class Choice extends Component implements ItemSelectable, Accessible {
 
     /**
      * Adds the specified item listener to receive item events from
-     * this <code>Choice</code> menu.  Item events are sent in response
-     * to user input, but not in response to calls to <code>select</code>.
-     * If l is <code>null</code>, no exception is thrown and no action
+     * this <code>Choice</code> menu.  Item events bre sent in response
+     * to user input, but not in response to cblls to <code>select</code>.
+     * If l is <code>null</code>, no exception is thrown bnd no bction
      * is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
-     * @param         l    the item listener
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
+     * @pbrbm         l    the item listener
      * @see           #removeItemListener
      * @see           #getItemListeners
      * @see           #select
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
+     * @see           jbvb.bwt.event.ItemEvent
+     * @see           jbvb.bwt.event.ItemListener
      * @since         1.1
      */
-    public synchronized void addItemListener(ItemListener l) {
+    public synchronized void bddItemListener(ItemListener l) {
         if (l == null) {
            return;
         }
-        itemListener = AWTEventMulticaster.add(itemListener, l);
+        itemListener = AWTEventMulticbster.bdd(itemListener, l);
         newEventsOnly = true;
     }
 
     /**
-     * Removes the specified item listener so that it no longer receives
+     * Removes the specified item listener so thbt it no longer receives
      * item events from this <code>Choice</code> menu.
-     * If l is <code>null</code>, no exception is thrown and no
-     * action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
-     * @param         l    the item listener
-     * @see           #addItemListener
+     * If l is <code>null</code>, no exception is thrown bnd no
+     * bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
+     * @pbrbm         l    the item listener
+     * @see           #bddItemListener
      * @see           #getItemListeners
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
+     * @see           jbvb.bwt.event.ItemEvent
+     * @see           jbvb.bwt.event.ItemListener
      * @since         1.1
      */
     public synchronized void removeItemListener(ItemListener l) {
         if (l == null) {
             return;
         }
-        itemListener = AWTEventMulticaster.remove(itemListener, l);
+        itemListener = AWTEventMulticbster.remove(itemListener, l);
     }
 
     /**
-     * Returns an array of all the item listeners
+     * Returns bn brrby of bll the item listeners
      * registered on this choice.
      *
-     * @return all of this choice's <code>ItemListener</code>s
-     *         or an empty array if no item
-     *         listeners are currently registered
+     * @return bll of this choice's <code>ItemListener</code>s
+     *         or bn empty brrby if no item
+     *         listeners bre currently registered
      *
-     * @see           #addItemListener
+     * @see           #bddItemListener
      * @see           #removeItemListener
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
+     * @see           jbvb.bwt.event.ItemEvent
+     * @see           jbvb.bwt.event.ItemListener
      * @since 1.4
      */
     public synchronized ItemListener[] getItemListeners() {
-        return getListeners(ItemListener.class);
+        return getListeners(ItemListener.clbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
      * upon this <code>Choice</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
      * <code>Choice</code> <code>c</code>
      * for its item listeners with the following code:
      *
-     * <pre>ItemListener[] ils = (ItemListener[])(c.getListeners(ItemListener.class));</pre>
+     * <pre>ItemListener[] ils = (ItemListener[])(c.getListeners(ItemListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this choice,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getItemListeners
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         EventListener l = null;
-        if  (listenerType == ItemListener.class) {
+        if  (listenerType == ItemListener.clbss) {
             l = itemListener;
         } else {
             return super.getListeners(listenerType);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        return AWTEventMulticbster.getListeners(l, listenerType);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
+    // REMIND: remove when filtering is done bt lower level
+    boolebn eventEnbbled(AWTEvent e) {
         if (e.id == ItemEvent.ITEM_STATE_CHANGED) {
-            if ((eventMask & AWTEvent.ITEM_EVENT_MASK) != 0 ||
+            if ((eventMbsk & AWTEvent.ITEM_EVENT_MASK) != 0 ||
                 itemListener != null) {
                 return true;
             }
-            return false;
+            return fblse;
         }
-        return super.eventEnabled(e);
+        return super.eventEnbbled(e);
     }
 
     /**
-     * Processes events on this choice. If the event is an
-     * instance of <code>ItemEvent</code>, it invokes the
-     * <code>processItemEvent</code> method. Otherwise, it calls its
-     * superclass's <code>processEvent</code> method.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * Processes events on this choice. If the event is bn
+     * instbnce of <code>ItemEvent</code>, it invokes the
+     * <code>processItemEvent</code> method. Otherwise, it cblls its
+     * superclbss's <code>processEvent</code> method.
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param      e the event
-     * @see        java.awt.event.ItemEvent
+     * @pbrbm      e the event
+     * @see        jbvb.bwt.event.ItemEvent
      * @see        #processItemEvent
      * @since      1.1
      */
     protected void processEvent(AWTEvent e) {
-        if (e instanceof ItemEvent) {
+        if (e instbnceof ItemEvent) {
             processItemEvent((ItemEvent)e);
             return;
         }
@@ -609,124 +609,124 @@ public class Choice extends Component implements ItemSelectable, Accessible {
 
     /**
      * Processes item events occurring on this <code>Choice</code>
-     * menu by dispatching them to any registered
+     * menu by dispbtching them to bny registered
      * <code>ItemListener</code> objects.
      * <p>
-     * This method is not called unless item events are
-     * enabled for this component. Item events are enabled
+     * This method is not cblled unless item events bre
+     * enbbled for this component. Item events bre enbbled
      * when one of the following occurs:
      * <ul>
      * <li>An <code>ItemListener</code> object is registered
-     * via <code>addItemListener</code>.
-     * <li>Item events are enabled via <code>enableEvents</code>.
+     * vib <code>bddItemListener</code>.
+     * <li>Item events bre enbbled vib <code>enbbleEvents</code>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param       e the item event
-     * @see         java.awt.event.ItemEvent
-     * @see         java.awt.event.ItemListener
-     * @see         #addItemListener(ItemListener)
-     * @see         java.awt.Component#enableEvents
+     * @pbrbm       e the item event
+     * @see         jbvb.bwt.event.ItemEvent
+     * @see         jbvb.bwt.event.ItemListener
+     * @see         #bddItemListener(ItemListener)
+     * @see         jbvb.bwt.Component#enbbleEvents
      * @since       1.1
      */
     protected void processItemEvent(ItemEvent e) {
         ItemListener listener = itemListener;
         if (listener != null) {
-            listener.itemStateChanged(e);
+            listener.itemStbteChbnged(e);
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>Choice</code>
+     * Returns b string representing the stbte of this <code>Choice</code>
      * menu. This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * bnd the content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return    the parameter string of this <code>Choice</code> menu
+     * @return    the pbrbmeter string of this <code>Choice</code> menu
      */
-    protected String paramString() {
-        return super.paramString() + ",current=" + getSelectedItem();
+    protected String pbrbmString() {
+        return super.pbrbmString() + ",current=" + getSelectedItem();
     }
 
 
-    /* Serialization support.
+    /* Seriblizbtion support.
      */
 
     /*
-     * Choice Serial Data Version.
-     * @serial
+     * Choice Seribl Dbtb Version.
+     * @seribl
      */
-    private int choiceSerializedDataVersion = 1;
+    privbte int choiceSeriblizedDbtbVersion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable <code>ItemListeners</code>
-     * as optional data. The non-serializable
-     * <code>ItemListeners</code> are detected and
-     * no attempt is made to serialize them.
+     * Writes defbult seriblizbble fields to strebm.  Writes
+     * b list of seriblizbble <code>ItemListeners</code>
+     * bs optionbl dbtb. The non-seriblizbble
+     * <code>ItemListeners</code> bre detected bnd
+     * no bttempt is mbde to seriblize them.
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @serialData <code>null</code> terminated sequence of 0
-     *   or more pairs; the pair consists of a <code>String</code>
-     *   and an <code>Object</code>; the <code>String</code> indicates
-     *   the type of object and is one of the following:
-     *   <code>itemListenerK</code> indicating an
+     * @pbrbm s the <code>ObjectOutputStrebm</code> to write
+     * @seriblDbtb <code>null</code> terminbted sequence of 0
+     *   or more pbirs; the pbir consists of b <code>String</code>
+     *   bnd bn <code>Object</code>; the <code>String</code> indicbtes
+     *   the type of object bnd is one of the following:
+     *   <code>itemListenerK</code> indicbting bn
      *     <code>ItemListener</code> object
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#itemListenerK
-     * @see #readObject(ObjectInputStream)
+     * @see AWTEventMulticbster#sbve(ObjectOutputStrebm, String, EventListener)
+     * @see jbvb.bwt.Component#itemListenerK
+     * @see #rebdObject(ObjectInputStrebm)
      */
-    private void writeObject(ObjectOutputStream s)
-      throws java.io.IOException
+    privbte void writeObject(ObjectOutputStrebm s)
+      throws jbvb.io.IOException
     {
-      s.defaultWriteObject();
+      s.defbultWriteObject();
 
-      AWTEventMulticaster.save(s, itemListenerK, itemListener);
+      AWTEventMulticbster.sbve(s, itemListenerK, itemListener);
       s.writeObject(null);
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and if it
-     * isn't <code>null</code> adds a listener to receive
+     * Rebds the <code>ObjectInputStrebm</code> bnd if it
+     * isn't <code>null</code> bdds b listener to receive
      * item events fired by the <code>Choice</code> item.
-     * Unrecognized keys or values will be ignored.
+     * Unrecognized keys or vblues will be ignored.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm s the <code>ObjectInputStrebm</code> to rebd
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @serial
+     * @seribl
      * @see #removeItemListener(ItemListener)
-     * @see #addItemListener(ItemListener)
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #writeObject(ObjectOutputStream)
+     * @see #bddItemListener(ItemListener)
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #writeObject(ObjectOutputStrebm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException, HebdlessException
     {
-      GraphicsEnvironment.checkHeadless();
-      s.defaultReadObject();
+      GrbphicsEnvironment.checkHebdless();
+      s.defbultRebdObject();
 
       Object keyOrNull;
-      while(null != (keyOrNull = s.readObject())) {
+      while(null != (keyOrNull = s.rebdObject())) {
         String key = ((String)keyOrNull).intern();
 
         if (itemListenerK == key)
-          addItemListener((ItemListener)(s.readObject()));
+          bddItemListener((ItemListener)(s.rebdObject()));
 
-        else // skip value for unrecognized key
-          s.readObject();
+        else // skip vblue for unrecognized key
+          s.rebdObject();
       }
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
 /////////////////
 // Accessibility support
@@ -734,36 +734,36 @@ public class Choice extends Component implements ItemSelectable, Accessible {
 
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
+     * Gets the <code>AccessibleContext</code> bssocibted with this
      * <code>Choice</code>. For <code>Choice</code> components,
-     * the <code>AccessibleContext</code> takes the form of an
+     * the <code>AccessibleContext</code> tbkes the form of bn
      * <code>AccessibleAWTChoice</code>. A new <code>AccessibleAWTChoice</code>
-     * instance is created if necessary.
+     * instbnce is crebted if necessbry.
      *
-     * @return an <code>AccessibleAWTChoice</code> that serves as the
+     * @return bn <code>AccessibleAWTChoice</code> thbt serves bs the
      *         <code>AccessibleContext</code> of this <code>Choice</code>
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTChoice();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTChoice();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Choice</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to choice user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Choice</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to choice user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTChoice extends AccessibleAWTComponent
+    protected clbss AccessibleAWTChoice extends AccessibleAWTComponent
         implements AccessibleAction
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 7175603582428509322L;
+        privbte stbtic finbl long seriblVersionUID = 7175603582428509322L;
 
         /**
          * Constructor for {@code AccessibleAWTChoice}
@@ -773,10 +773,10 @@ public class Choice extends Component implements ItemSelectable, Accessible {
         }
 
         /**
-         * Get the AccessibleAction associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleAction bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleAction interface on behalf of itself.
+         * AccessibleAction interfbce on behblf of itself.
          *
          * @return this object
          * @see AccessibleAction
@@ -788,7 +788,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -797,38 +797,38 @@ public class Choice extends Component implements ItemSelectable, Accessible {
         }
 
         /**
-         * Returns the number of accessible actions available in this object
-         * If there are more than one, the first one is considered the "default"
-         * action of the object.
+         * Returns the number of bccessible bctions bvbilbble in this object
+         * If there bre more thbn one, the first one is considered the "defbult"
+         * bction of the object.
          *
-         * @return the zero-based number of Actions in this object
+         * @return the zero-bbsed number of Actions in this object
          */
         public int getAccessibleActionCount() {
-            return 0;  //  To be fully implemented in a future release
+            return 0;  //  To be fully implemented in b future relebse
         }
 
         /**
-         * Returns a description of the specified action of the object.
+         * Returns b description of the specified bction of the object.
          *
-         * @param i zero-based index of the actions
-         * @return a String description of the action
+         * @pbrbm i zero-bbsed index of the bctions
+         * @return b String description of the bction
          * @see #getAccessibleActionCount
          */
         public String getAccessibleActionDescription(int i) {
-            return null;  //  To be fully implemented in a future release
+            return null;  //  To be fully implemented in b future relebse
         }
 
         /**
          * Perform the specified Action on the object
          *
-         * @param i zero-based index of actions
-         * @return true if the action was performed; otherwise false.
+         * @pbrbm i zero-bbsed index of bctions
+         * @return true if the bction wbs performed; otherwise fblse.
          * @see #getAccessibleActionCount
          */
-        public boolean doAccessibleAction(int i) {
-            return false;  //  To be fully implemented in a future release
+        public boolebn doAccessibleAction(int i) {
+            return fblse;  //  To be fully implemented in b future relebse
         }
 
-    } // inner class AccessibleAWTChoice
+    } // inner clbss AccessibleAWTChoice
 
 }

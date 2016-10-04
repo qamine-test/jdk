@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.AWTException;
-import java.awt.BufferCapabilities;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.MenuBar;
-import java.awt.Point;
-import java.awt.Event;
-import java.awt.event.PaintEvent;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.image.VolatileImage;
-import java.awt.peer.CanvasPeer;
-import java.awt.peer.LightweightPeer;
-import java.awt.peer.PanelPeer;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.ContainerPeer;
-import java.awt.Rectangle;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.BufferCbpbbilities;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Insets;
+import jbvb.bwt.MenuBbr;
+import jbvb.bwt.Point;
+import jbvb.bwt.Event;
+import jbvb.bwt.event.PbintEvent;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.bwt.peer.CbnvbsPeer;
+import jbvb.bwt.peer.LightweightPeer;
+import jbvb.bwt.peer.PbnelPeer;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.bwt.peer.ContbinerPeer;
+import jbvb.bwt.Rectbngle;
+import sun.jbvb2d.pipe.Region;
 
 
 /**
- * Implements the LightweightPeer interface for use in lightweight components
- * that have no native window associated with them.  This gets created by
- * default in Component so that Component and Container can be directly
- * extended to create useful components written entirely in java.  These
- * components must be hosted somewhere higher up in the component tree by a
- * native container (such as a Frame).
+ * Implements the LightweightPeer interfbce for use in lightweight components
+ * thbt hbve no nbtive window bssocibted with them.  This gets crebted by
+ * defbult in Component so thbt Component bnd Contbiner cbn be directly
+ * extended to crebte useful components written entirely in jbvb.  These
+ * components must be hosted somewhere higher up in the component tree by b
+ * nbtive contbiner (such bs b Frbme).
  *
- * This implementation provides no useful semantics and serves only as a
- * marker.  One could provide alternative implementations in java that do
- * something useful for some of the other peer interfaces to minimize the
- * native code.
+ * This implementbtion provides no useful sembntics bnd serves only bs b
+ * mbrker.  One could provide blternbtive implementbtions in jbvb thbt do
+ * something useful for some of the other peer interfbces to minimize the
+ * nbtive code.
  *
- * This was renamed from java.awt.LightweightPeer (a horrible and confusing
- * name) and moved from java.awt.Toolkit into sun.awt as a public class in
+ * This wbs renbmed from jbvb.bwt.LightweightPeer (b horrible bnd confusing
+ * nbme) bnd moved from jbvb.bwt.Toolkit into sun.bwt bs b public clbss in
  * its own file.
  *
- * @author Timothy Prinzing
- * @author Michael Martak
+ * @buthor Timothy Prinzing
+ * @buthor Michbel Mbrtbk
  */
 
-public class NullComponentPeer implements LightweightPeer,
-    CanvasPeer, PanelPeer {
+public clbss NullComponentPeer implements LightweightPeer,
+    CbnvbsPeer, PbnelPeer {
 
-    public boolean isObscured() {
-        return false;
+    public boolebn isObscured() {
+        return fblse;
     }
 
-    public boolean canDetermineObscurity() {
-        return false;
+    public boolebn cbnDetermineObscurity() {
+        return fblse;
     }
 
-    public boolean isFocusable() {
-        return false;
+    public boolebn isFocusbble() {
+        return fblse;
     }
 
-    public void setVisible(boolean b) {
+    public void setVisible(boolebn b) {
     }
 
     public void show() {
@@ -99,38 +99,38 @@ public class NullComponentPeer implements LightweightPeer,
     public void hide() {
     }
 
-    public void setEnabled(boolean b) {
+    public void setEnbbled(boolebn b) {
     }
 
-    public void enable() {
+    public void enbble() {
     }
 
-    public void disable() {
+    public void disbble() {
     }
 
-    public void paint(Graphics g) {
+    public void pbint(Grbphics g) {
     }
 
-    public void repaint(long tm, int x, int y, int width, int height) {
+    public void repbint(long tm, int x, int y, int width, int height) {
     }
 
-    public void print(Graphics g) {
+    public void print(Grbphics g) {
     }
 
     public void setBounds(int x, int y, int width, int height, int op) {
     }
 
-    public void reshape(int x, int y, int width, int height) {
+    public void reshbpe(int x, int y, int width, int height) {
     }
 
-    public void coalescePaintEvent(PaintEvent e) {
+    public void coblescePbintEvent(PbintEvent e) {
     }
 
-    public boolean handleEvent(Event e) {
-        return false;
+    public boolebn hbndleEvent(Event e) {
+        return fblse;
     }
 
-    public void handleEvent(java.awt.AWTEvent arg0) {
+    public void hbndleEvent(jbvb.bwt.AWTEvent brg0) {
     }
 
     public Dimension getPreferredSize() {
@@ -145,11 +145,11 @@ public class NullComponentPeer implements LightweightPeer,
         return null;
     }
 
-    public Graphics getGraphics() {
+    public Grbphics getGrbphics() {
         return null;
     }
 
-    public GraphicsConfiguration getGraphicsConfiguration() {
+    public GrbphicsConfigurbtion getGrbphicsConfigurbtion() {
         return null;
     }
 
@@ -158,43 +158,43 @@ public class NullComponentPeer implements LightweightPeer,
     }
 
     public void dispose() {
-    // no native code
+    // no nbtive code
     }
 
     public void setForeground(Color c) {
     }
 
-    public void setBackground(Color c) {
+    public void setBbckground(Color c) {
     }
 
     public void setFont(Font f) {
     }
 
-    public void updateCursorImmediately() {
+    public void updbteCursorImmedibtely() {
     }
 
     public void setCursor(Cursor cursor) {
     }
 
-    public boolean requestFocus
-        (Component lightweightChild, boolean temporary,
-         boolean focusedWindowChangeAllowed, long time, CausedFocusEvent.Cause cause) {
-        return false;
+    public boolebn requestFocus
+        (Component lightweightChild, boolebn temporbry,
+         boolebn focusedWindowChbngeAllowed, long time, CbusedFocusEvent.Cbuse cbuse) {
+        return fblse;
     }
 
-    public Image createImage(ImageProducer producer) {
+    public Imbge crebteImbge(ImbgeProducer producer) {
         return null;
     }
 
-    public Image createImage(int width, int height) {
+    public Imbge crebteImbge(int width, int height) {
         return null;
     }
 
-    public boolean prepareImage(Image img, int w, int h, ImageObserver o) {
-        return false;
+    public boolebn prepbreImbge(Imbge img, int w, int h, ImbgeObserver o) {
+        return fblse;
     }
 
-    public int  checkImage(Image img, int w, int h, ImageObserver o) {
+    public int  checkImbge(Imbge img, int w, int h, ImbgeObserver o) {
         return 0;
     }
 
@@ -206,7 +206,7 @@ public class NullComponentPeer implements LightweightPeer,
         return getMinimumSize();
     }
 
-    public Point getLocationOnScreen() {
+    public Point getLocbtionOnScreen() {
         return new Point(0,0);
     }
 
@@ -214,94 +214,94 @@ public class NullComponentPeer implements LightweightPeer,
         return insets();
     }
 
-    public void beginValidate() {
+    public void beginVblidbte() {
     }
 
-    public void endValidate() {
+    public void endVblidbte() {
     }
 
     public Insets insets() {
         return new Insets(0, 0, 0, 0);
     }
 
-    public boolean isPaintPending() {
-        return false;
+    public boolebn isPbintPending() {
+        return fblse;
     }
 
-    public boolean handlesWheelScrolling() {
-        return false;
+    public boolebn hbndlesWheelScrolling() {
+        return fblse;
     }
 
-    public VolatileImage createVolatileImage(int width, int height) {
+    public VolbtileImbge crebteVolbtileImbge(int width, int height) {
         return null;
     }
 
-    public void beginLayout() {
+    public void beginLbyout() {
     }
 
-    public void endLayout() {
+    public void endLbyout() {
     }
 
-    public void createBuffers(int numBuffers, BufferCapabilities caps)
+    public void crebteBuffers(int numBuffers, BufferCbpbbilities cbps)
         throws AWTException {
         throw new AWTException(
-            "Page-flipping is not allowed on a lightweight component");
+            "Pbge-flipping is not bllowed on b lightweight component");
     }
-    public Image getBackBuffer() {
-        throw new IllegalStateException(
-            "Page-flipping is not allowed on a lightweight component");
+    public Imbge getBbckBuffer() {
+        throw new IllegblStbteException(
+            "Pbge-flipping is not bllowed on b lightweight component");
     }
     public void flip(int x1, int y1, int x2, int y2,
-                     BufferCapabilities.FlipContents flipAction)
+                     BufferCbpbbilities.FlipContents flipAction)
     {
-        throw new IllegalStateException(
-            "Page-flipping is not allowed on a lightweight component");
+        throw new IllegblStbteException(
+            "Pbge-flipping is not bllowed on b lightweight component");
     }
     public void destroyBuffers() {
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer#isReparentSupported
+     * @see jbvb.bwt.peer.ComponentPeer#isRepbrentSupported
      */
-    public boolean isReparentSupported() {
-        return false;
+    public boolebn isRepbrentSupported() {
+        return fblse;
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer#reparent
+     * @see jbvb.bwt.peer.ComponentPeer#repbrent
      */
-    public void reparent(ContainerPeer newNativeParent) {
-        throw new UnsupportedOperationException();
+    public void repbrent(ContbinerPeer newNbtivePbrent) {
+        throw new UnsupportedOperbtionException();
     }
 
-    public void layout() {
+    public void lbyout() {
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(0, 0, 0, 0);
+    public Rectbngle getBounds() {
+        return new Rectbngle(0, 0, 0, 0);
     }
 
 
     /**
-      * Applies the shape to the native component window.
+      * Applies the shbpe to the nbtive component window.
       * @since 1.7
       */
-    public void applyShape(Region shape) {
+    public void bpplyShbpe(Region shbpe) {
     }
 
     /**
-     * Lowers this component at the bottom of the above HW peer. If the above parameter
-     * is null then the method places this component at the top of the Z-order.
+     * Lowers this component bt the bottom of the bbove HW peer. If the bbove pbrbmeter
+     * is null then the method plbces this component bt the top of the Z-order.
      */
-    public void setZOrder(ComponentPeer above) {
+    public void setZOrder(ComponentPeer bbove) {
     }
 
-    public boolean updateGraphicsData(GraphicsConfiguration gc) {
-        return false;
+    public boolebn updbteGrbphicsDbtb(GrbphicsConfigurbtion gc) {
+        return fblse;
     }
 
-    public GraphicsConfiguration getAppropriateGraphicsConfiguration(
-                        GraphicsConfiguration gc)
+    public GrbphicsConfigurbtion getAppropribteGrbphicsConfigurbtion(
+                        GrbphicsConfigurbtion gc)
     {
         return gc;
     }

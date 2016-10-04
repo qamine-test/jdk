@@ -1,449 +1,449 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath.ldap;
+pbckbge sun.security.provider.certpbth.ldbp;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.net.URI;
-import java.util.*;
-import javax.naming.Context;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
-import javax.naming.NameNotFoundException;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.BasicAttributes;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.InitialDirContext;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.net.URI;
+import jbvb.util.*;
+import jbvbx.nbming.Context;
+import jbvbx.nbming.NbmingEnumerbtion;
+import jbvbx.nbming.NbmingException;
+import jbvbx.nbming.NbmeNotFoundException;
+import jbvbx.nbming.directory.Attribute;
+import jbvbx.nbming.directory.Attributes;
+import jbvbx.nbming.directory.BbsicAttributes;
+import jbvbx.nbming.directory.DirContext;
+import jbvbx.nbming.directory.InitiblDirContext;
 
-import java.security.*;
-import java.security.cert.Certificate;
-import java.security.cert.*;
-import javax.security.auth.x500.X500Principal;
+import jbvb.security.*;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.*;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.misc.HexDumpEncoder;
-import sun.security.provider.certpath.X509CertificatePair;
-import sun.security.util.Cache;
+import sun.security.provider.certpbth.X509CertificbtePbir;
+import sun.security.util.Cbche;
 import sun.security.util.Debug;
-import sun.security.x509.X500Name;
+import sun.security.x509.X500Nbme;
 
 /**
- * A <code>CertStore</code> that retrieves <code>Certificates</code> and
- * <code>CRL</code>s from an LDAP directory, using the PKIX LDAP V2 Schema
+ * A <code>CertStore</code> thbt retrieves <code>Certificbtes</code> bnd
+ * <code>CRL</code>s from bn LDAP directory, using the PKIX LDAP V2 Schemb
  * (RFC 2587):
- * <a href="http://www.ietf.org/rfc/rfc2587.txt">
- * http://www.ietf.org/rfc/rfc2587.txt</a>.
+ * <b href="http://www.ietf.org/rfc/rfc2587.txt">
+ * http://www.ietf.org/rfc/rfc2587.txt</b>.
  * <p>
- * Before calling the {@link #engineGetCertificates engineGetCertificates} or
+ * Before cblling the {@link #engineGetCertificbtes engineGetCertificbtes} or
  * {@link #engineGetCRLs engineGetCRLs} methods, the
- * {@link #LDAPCertStore(CertStoreParameters)
- * LDAPCertStore(CertStoreParameters)} constructor is called to create the
- * <code>CertStore</code> and establish the DNS name and port of the LDAP
- * server from which <code>Certificate</code>s and <code>CRL</code>s will be
+ * {@link #LDAPCertStore(CertStorePbrbmeters)
+ * LDAPCertStore(CertStorePbrbmeters)} constructor is cblled to crebte the
+ * <code>CertStore</code> bnd estbblish the DNS nbme bnd port of the LDAP
+ * server from which <code>Certificbte</code>s bnd <code>CRL</code>s will be
  * retrieved.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * As described in the javadoc for <code>CertStoreSpi</code>, the
- * <code>engineGetCertificates</code> and <code>engineGetCRLs</code> methods
- * must be thread-safe. That is, multiple threads may concurrently
- * invoke these methods on a single <code>LDAPCertStore</code> object
- * (or more than one) with no ill effects. This allows a
- * <code>CertPathBuilder</code> to search for a CRL while simultaneously
- * searching for further certificates, for instance.
+ * As described in the jbvbdoc for <code>CertStoreSpi</code>, the
+ * <code>engineGetCertificbtes</code> bnd <code>engineGetCRLs</code> methods
+ * must be threbd-sbfe. Thbt is, multiple threbds mby concurrently
+ * invoke these methods on b single <code>LDAPCertStore</code> object
+ * (or more thbn one) with no ill effects. This bllows b
+ * <code>CertPbthBuilder</code> to sebrch for b CRL while simultbneously
+ * sebrching for further certificbtes, for instbnce.
  * <p>
- * This is achieved by adding the <code>synchronized</code> keyword to the
- * <code>engineGetCertificates</code> and <code>engineGetCRLs</code> methods.
+ * This is bchieved by bdding the <code>synchronized</code> keyword to the
+ * <code>engineGetCertificbtes</code> bnd <code>engineGetCRLs</code> methods.
  * <p>
- * This classes uses caching and requests multiple attributes at once to
- * minimize LDAP round trips. The cache is associated with the CertStore
- * instance. It uses soft references to hold the values to minimize impact
- * on footprint and currently has a maximum size of 750 attributes and a
- * 30 second default lifetime.
+ * This clbsses uses cbching bnd requests multiple bttributes bt once to
+ * minimize LDAP round trips. The cbche is bssocibted with the CertStore
+ * instbnce. It uses soft references to hold the vblues to minimize impbct
+ * on footprint bnd currently hbs b mbximum size of 750 bttributes bnd b
+ * 30 second defbult lifetime.
  * <p>
- * We always request CA certificates, cross certificate pairs, and ARLs in
- * a single LDAP request when any one of them is needed. The reason is that
- * we typically need all of them anyway and requesting them in one go can
- * reduce the number of requests to a third. Even if we don't need them,
- * these attributes are typically small enough not to cause a noticeable
- * overhead. In addition, when the prefetchCRLs flag is true, we also request
- * the full CRLs. It is currently false initially but set to true once any
- * request for an ARL to the server returns an null value. The reason is
- * that CRLs could be rather large but are rarely used. This implementation
- * should improve performance in most cases.
+ * We blwbys request CA certificbtes, cross certificbte pbirs, bnd ARLs in
+ * b single LDAP request when bny one of them is needed. The rebson is thbt
+ * we typicblly need bll of them bnywby bnd requesting them in one go cbn
+ * reduce the number of requests to b third. Even if we don't need them,
+ * these bttributes bre typicblly smbll enough not to cbuse b noticebble
+ * overhebd. In bddition, when the prefetchCRLs flbg is true, we blso request
+ * the full CRLs. It is currently fblse initiblly but set to true once bny
+ * request for bn ARL to the server returns bn null vblue. The rebson is
+ * thbt CRLs could be rbther lbrge but bre rbrely used. This implementbtion
+ * should improve performbnce in most cbses.
  *
- * @see java.security.cert.CertStore
+ * @see jbvb.security.cert.CertStore
  *
  * @since       1.4
- * @author      Steve Hanna
- * @author      Andreas Sterbenz
+ * @buthor      Steve Hbnnb
+ * @buthor      Andrebs Sterbenz
  */
-public final class LDAPCertStore extends CertStoreSpi {
+public finbl clbss LDAPCertStore extends CertStoreSpi {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
 
-    private final static boolean DEBUG = false;
+    privbte finbl stbtic boolebn DEBUG = fblse;
 
     /**
-     * LDAP attribute identifiers.
+     * LDAP bttribute identifiers.
      */
-    private static final String USER_CERT = "userCertificate;binary";
-    private static final String CA_CERT = "cACertificate;binary";
-    private static final String CROSS_CERT = "crossCertificatePair;binary";
-    private static final String CRL = "certificateRevocationList;binary";
-    private static final String ARL = "authorityRevocationList;binary";
-    private static final String DELTA_CRL = "deltaRevocationList;binary";
+    privbte stbtic finbl String USER_CERT = "userCertificbte;binbry";
+    privbte stbtic finbl String CA_CERT = "cACertificbte;binbry";
+    privbte stbtic finbl String CROSS_CERT = "crossCertificbtePbir;binbry";
+    privbte stbtic finbl String CRL = "certificbteRevocbtionList;binbry";
+    privbte stbtic finbl String ARL = "buthorityRevocbtionList;binbry";
+    privbte stbtic finbl String DELTA_CRL = "deltbRevocbtionList;binbry";
 
-    // Constants for various empty values
-    private final static String[] STRING0 = new String[0];
+    // Constbnts for vbrious empty vblues
+    privbte finbl stbtic String[] STRING0 = new String[0];
 
-    private final static byte[][] BB0 = new byte[0][];
+    privbte finbl stbtic byte[][] BB0 = new byte[0][];
 
-    private final static Attributes EMPTY_ATTRIBUTES = new BasicAttributes();
+    privbte finbl stbtic Attributes EMPTY_ATTRIBUTES = new BbsicAttributes();
 
-    // cache related constants
-    private final static int DEFAULT_CACHE_SIZE = 750;
-    private final static int DEFAULT_CACHE_LIFETIME = 30;
+    // cbche relbted constbnts
+    privbte finbl stbtic int DEFAULT_CACHE_SIZE = 750;
+    privbte finbl stbtic int DEFAULT_CACHE_LIFETIME = 30;
 
-    private final static int LIFETIME;
+    privbte finbl stbtic int LIFETIME;
 
-    private final static String PROP_LIFETIME =
-                            "sun.security.certpath.ldap.cache.lifetime";
+    privbte finbl stbtic String PROP_LIFETIME =
+                            "sun.security.certpbth.ldbp.cbche.lifetime";
 
     /*
-     * Internal system property, that when set to "true", disables the
-     * JNDI application resource files lookup to prevent recursion issues
-     * when validating signed JARs with LDAP URLs in certificates.
+     * Internbl system property, thbt when set to "true", disbbles the
+     * JNDI bpplicbtion resource files lookup to prevent recursion issues
+     * when vblidbting signed JARs with LDAP URLs in certificbtes.
      */
-    private final static String PROP_DISABLE_APP_RESOURCE_FILES =
-        "sun.security.certpath.ldap.disable.app.resource.files";
+    privbte finbl stbtic String PROP_DISABLE_APP_RESOURCE_FILES =
+        "sun.security.certpbth.ldbp.disbble.bpp.resource.files";
 
-    static {
+    stbtic {
         String s = AccessController.doPrivileged(
             (PrivilegedAction<String>) () -> System.getProperty(PROP_LIFETIME));
         if (s != null) {
-            LIFETIME = Integer.parseInt(s); // throws NumberFormatException
+            LIFETIME = Integer.pbrseInt(s); // throws NumberFormbtException
         } else {
             LIFETIME = DEFAULT_CACHE_LIFETIME;
         }
     }
 
     /**
-     * The CertificateFactory used to decode certificates from
-     * their binary stored form.
+     * The CertificbteFbctory used to decode certificbtes from
+     * their binbry stored form.
      */
-    private CertificateFactory cf;
+    privbte CertificbteFbctory cf;
     /**
      * The JNDI directory context.
      */
-    private DirContext ctx;
+    privbte DirContext ctx;
 
     /**
-     * Flag indicating whether we should prefetch CRLs.
+     * Flbg indicbting whether we should prefetch CRLs.
      */
-    private boolean prefetchCRLs = false;
+    privbte boolebn prefetchCRLs = fblse;
 
-    private final Cache<String, byte[][]> valueCache;
+    privbte finbl Cbche<String, byte[][]> vblueCbche;
 
-    private int cacheHits = 0;
-    private int cacheMisses = 0;
-    private int requests = 0;
+    privbte int cbcheHits = 0;
+    privbte int cbcheMisses = 0;
+    privbte int requests = 0;
 
     /**
-     * Creates a <code>CertStore</code> with the specified parameters.
-     * For this class, the parameters object must be an instance of
-     * <code>LDAPCertStoreParameters</code>.
+     * Crebtes b <code>CertStore</code> with the specified pbrbmeters.
+     * For this clbss, the pbrbmeters object must be bn instbnce of
+     * <code>LDAPCertStorePbrbmeters</code>.
      *
-     * @param params the algorithm parameters
-     * @exception InvalidAlgorithmParameterException if params is not an
-     *   instance of <code>LDAPCertStoreParameters</code>
+     * @pbrbm pbrbms the blgorithm pbrbmeters
+     * @exception InvblidAlgorithmPbrbmeterException if pbrbms is not bn
+     *   instbnce of <code>LDAPCertStorePbrbmeters</code>
      */
-    public LDAPCertStore(CertStoreParameters params)
-            throws InvalidAlgorithmParameterException {
-        super(params);
-        if (!(params instanceof LDAPCertStoreParameters))
-          throw new InvalidAlgorithmParameterException(
-            "parameters must be LDAPCertStoreParameters");
+    public LDAPCertStore(CertStorePbrbmeters pbrbms)
+            throws InvblidAlgorithmPbrbmeterException {
+        super(pbrbms);
+        if (!(pbrbms instbnceof LDAPCertStorePbrbmeters))
+          throw new InvblidAlgorithmPbrbmeterException(
+            "pbrbmeters must be LDAPCertStorePbrbmeters");
 
-        LDAPCertStoreParameters lparams = (LDAPCertStoreParameters) params;
+        LDAPCertStorePbrbmeters lpbrbms = (LDAPCertStorePbrbmeters) pbrbms;
 
-        // Create InitialDirContext needed to communicate with the server
-        createInitialDirContext(lparams.getServerName(), lparams.getPort());
+        // Crebte InitiblDirContext needed to communicbte with the server
+        crebteInitiblDirContext(lpbrbms.getServerNbme(), lpbrbms.getPort());
 
-        // Create CertificateFactory for use later on
+        // Crebte CertificbteFbctory for use lbter on
         try {
-            cf = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException e) {
-            throw new InvalidAlgorithmParameterException(
-                "unable to create CertificateFactory for X.509");
+            cf = CertificbteFbctory.getInstbnce("X.509");
+        } cbtch (CertificbteException e) {
+            throw new InvblidAlgorithmPbrbmeterException(
+                "unbble to crebte CertificbteFbctory for X.509");
         }
         if (LIFETIME == 0) {
-            valueCache = Cache.newNullCache();
+            vblueCbche = Cbche.newNullCbche();
         } else if (LIFETIME < 0) {
-            valueCache = Cache.newSoftMemoryCache(DEFAULT_CACHE_SIZE);
+            vblueCbche = Cbche.newSoftMemoryCbche(DEFAULT_CACHE_SIZE);
         } else {
-            valueCache = Cache.newSoftMemoryCache(DEFAULT_CACHE_SIZE, LIFETIME);
+            vblueCbche = Cbche.newSoftMemoryCbche(DEFAULT_CACHE_SIZE, LIFETIME);
         }
     }
 
     /**
-     * Returns an LDAP CertStore. This method consults a cache of
-     * CertStores (shared per JVM) using the LDAP server/port as a key.
+     * Returns bn LDAP CertStore. This method consults b cbche of
+     * CertStores (shbred per JVM) using the LDAP server/port bs b key.
      */
-    private static final Cache<LDAPCertStoreParameters, CertStore>
-        certStoreCache = Cache.newSoftMemoryCache(185);
-    static synchronized CertStore getInstance(LDAPCertStoreParameters params)
-        throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        CertStore lcs = certStoreCache.get(params);
+    privbte stbtic finbl Cbche<LDAPCertStorePbrbmeters, CertStore>
+        certStoreCbche = Cbche.newSoftMemoryCbche(185);
+    stbtic synchronized CertStore getInstbnce(LDAPCertStorePbrbmeters pbrbms)
+        throws NoSuchAlgorithmException, InvblidAlgorithmPbrbmeterException {
+        CertStore lcs = certStoreCbche.get(pbrbms);
         if (lcs == null) {
-            lcs = CertStore.getInstance("LDAP", params);
-            certStoreCache.put(params, lcs);
+            lcs = CertStore.getInstbnce("LDAP", pbrbms);
+            certStoreCbche.put(pbrbms, lcs);
         } else {
             if (debug != null) {
-                debug.println("LDAPCertStore.getInstance: cache hit");
+                debug.println("LDAPCertStore.getInstbnce: cbche hit");
             }
         }
         return lcs;
     }
 
     /**
-     * Create InitialDirContext.
+     * Crebte InitiblDirContext.
      *
-     * @param server Server DNS name hosting LDAP service
-     * @param port   Port at which server listens for requests
-     * @throws InvalidAlgorithmParameterException if creation fails
+     * @pbrbm server Server DNS nbme hosting LDAP service
+     * @pbrbm port   Port bt which server listens for requests
+     * @throws InvblidAlgorithmPbrbmeterException if crebtion fbils
      */
-    private void createInitialDirContext(String server, int port)
-            throws InvalidAlgorithmParameterException {
-        String url = "ldap://" + server + ":" + port;
-        Hashtable<String,Object> env = new Hashtable<>();
+    privbte void crebteInitiblDirContext(String server, int port)
+            throws InvblidAlgorithmPbrbmeterException {
+        String url = "ldbp://" + server + ":" + port;
+        Hbshtbble<String,Object> env = new Hbshtbble<>();
         env.put(Context.INITIAL_CONTEXT_FACTORY,
-                "com.sun.jndi.ldap.LdapCtxFactory");
+                "com.sun.jndi.ldbp.LdbpCtxFbctory");
         env.put(Context.PROVIDER_URL, url);
 
-        // If property is set to true, disable application resource file lookup.
-        boolean disableAppResourceFiles = AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> Boolean.getBoolean(PROP_DISABLE_APP_RESOURCE_FILES));
-        if (disableAppResourceFiles) {
+        // If property is set to true, disbble bpplicbtion resource file lookup.
+        boolebn disbbleAppResourceFiles = AccessController.doPrivileged(
+            (PrivilegedAction<Boolebn>) () -> Boolebn.getBoolebn(PROP_DISABLE_APP_RESOURCE_FILES));
+        if (disbbleAppResourceFiles) {
             if (debug != null) {
-                debug.println("LDAPCertStore disabling app resource files");
+                debug.println("LDAPCertStore disbbling bpp resource files");
             }
-            env.put("com.sun.naming.disable.app.resource.files", "true");
+            env.put("com.sun.nbming.disbble.bpp.resource.files", "true");
         }
 
         try {
-            ctx = new InitialDirContext(env);
+            ctx = new InitiblDirContext(env);
             /*
-             * By default, follow referrals unless application has
-             * overridden property in an application resource file.
+             * By defbult, follow referrbls unless bpplicbtion hbs
+             * overridden property in bn bpplicbtion resource file.
              */
-            Hashtable<?,?> currentEnv = ctx.getEnvironment();
+            Hbshtbble<?,?> currentEnv = ctx.getEnvironment();
             if (currentEnv.get(Context.REFERRAL) == null) {
-                ctx.addToEnvironment(Context.REFERRAL, "follow");
+                ctx.bddToEnvironment(Context.REFERRAL, "follow");
             }
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             if (debug != null) {
-                debug.println("LDAPCertStore.engineInit about to throw "
-                    + "InvalidAlgorithmParameterException");
-                e.printStackTrace();
+                debug.println("LDAPCertStore.engineInit bbout to throw "
+                    + "InvblidAlgorithmPbrbmeterException");
+                e.printStbckTrbce();
             }
-            Exception ee = new InvalidAlgorithmParameterException
-                ("unable to create InitialDirContext using supplied parameters");
-            ee.initCause(e);
-            throw (InvalidAlgorithmParameterException)ee;
+            Exception ee = new InvblidAlgorithmPbrbmeterException
+                ("unbble to crebte InitiblDirContext using supplied pbrbmeters");
+            ee.initCbuse(e);
+            throw (InvblidAlgorithmPbrbmeterException)ee;
         }
     }
 
     /**
-     * Private class encapsulating the actual LDAP operations and cache
-     * handling. Use:
+     * Privbte clbss encbpsulbting the bctubl LDAP operbtions bnd cbche
+     * hbndling. Use:
      *
      *   LDAPRequest request = new LDAPRequest(dn);
-     *   request.addRequestedAttribute(CROSS_CERT);
-     *   request.addRequestedAttribute(CA_CERT);
-     *   byte[][] crossValues = request.getValues(CROSS_CERT);
-     *   byte[][] caValues = request.getValues(CA_CERT);
+     *   request.bddRequestedAttribute(CROSS_CERT);
+     *   request.bddRequestedAttribute(CA_CERT);
+     *   byte[][] crossVblues = request.getVblues(CROSS_CERT);
+     *   byte[][] cbVblues = request.getVblues(CA_CERT);
      *
-     * At most one LDAP request is sent for each instance created. If all
-     * getValues() calls can be satisfied from the cache, no request
-     * is sent at all. If a request is sent, all requested attributes
-     * are always added to the cache irrespective of whether the getValues()
-     * method is called.
+     * At most one LDAP request is sent for ebch instbnce crebted. If bll
+     * getVblues() cblls cbn be sbtisfied from the cbche, no request
+     * is sent bt bll. If b request is sent, bll requested bttributes
+     * bre blwbys bdded to the cbche irrespective of whether the getVblues()
+     * method is cblled.
      */
-    private class LDAPRequest {
+    privbte clbss LDAPRequest {
 
-        private final String name;
-        private Map<String, byte[][]> valueMap;
-        private final List<String> requestedAttributes;
+        privbte finbl String nbme;
+        privbte Mbp<String, byte[][]> vblueMbp;
+        privbte finbl List<String> requestedAttributes;
 
-        LDAPRequest(String name) {
-            this.name = name;
-            requestedAttributes = new ArrayList<>(5);
+        LDAPRequest(String nbme) {
+            this.nbme = nbme;
+            requestedAttributes = new ArrbyList<>(5);
         }
 
-        String getName() {
-            return name;
+        String getNbme() {
+            return nbme;
         }
 
-        void addRequestedAttribute(String attrId) {
-            if (valueMap != null) {
-                throw new IllegalStateException("Request already sent");
+        void bddRequestedAttribute(String bttrId) {
+            if (vblueMbp != null) {
+                throw new IllegblStbteException("Request blrebdy sent");
             }
-            requestedAttributes.add(attrId);
+            requestedAttributes.bdd(bttrId);
         }
 
         /**
-         * Gets one or more binary values from an attribute.
+         * Gets one or more binbry vblues from bn bttribute.
          *
-         * @param name          the location holding the attribute
-         * @param attrId                the attribute identifier
-         * @return                      an array of binary values (byte arrays)
-         * @throws NamingException      if a naming exception occurs
+         * @pbrbm nbme          the locbtion holding the bttribute
+         * @pbrbm bttrId                the bttribute identifier
+         * @return                      bn brrby of binbry vblues (byte brrbys)
+         * @throws NbmingException      if b nbming exception occurs
          */
-        byte[][] getValues(String attrId) throws NamingException {
-            if (DEBUG && ((cacheHits + cacheMisses) % 50 == 0)) {
-                System.out.println("Cache hits: " + cacheHits + "; misses: "
-                        + cacheMisses);
+        byte[][] getVblues(String bttrId) throws NbmingException {
+            if (DEBUG && ((cbcheHits + cbcheMisses) % 50 == 0)) {
+                System.out.println("Cbche hits: " + cbcheHits + "; misses: "
+                        + cbcheMisses);
             }
-            String cacheKey = name + "|" + attrId;
-            byte[][] values = valueCache.get(cacheKey);
-            if (values != null) {
-                cacheHits++;
-                return values;
+            String cbcheKey = nbme + "|" + bttrId;
+            byte[][] vblues = vblueCbche.get(cbcheKey);
+            if (vblues != null) {
+                cbcheHits++;
+                return vblues;
             }
-            cacheMisses++;
-            Map<String, byte[][]> attrs = getValueMap();
-            values = attrs.get(attrId);
-            return values;
+            cbcheMisses++;
+            Mbp<String, byte[][]> bttrs = getVblueMbp();
+            vblues = bttrs.get(bttrId);
+            return vblues;
         }
 
         /**
-         * Get a map containing the values for this request. The first time
-         * this method is called on an object, the LDAP request is sent,
-         * the results parsed and added to a private map and also to the
-         * cache of this LDAPCertStore. Subsequent calls return the private
-         * map immediately.
+         * Get b mbp contbining the vblues for this request. The first time
+         * this method is cblled on bn object, the LDAP request is sent,
+         * the results pbrsed bnd bdded to b privbte mbp bnd blso to the
+         * cbche of this LDAPCertStore. Subsequent cblls return the privbte
+         * mbp immedibtely.
          *
-         * The map contains an entry for each requested attribute. The
-         * attribute name is the key, values are byte[][]. If there are no
-         * values for that attribute, values are byte[0][].
+         * The mbp contbins bn entry for ebch requested bttribute. The
+         * bttribute nbme is the key, vblues bre byte[][]. If there bre no
+         * vblues for thbt bttribute, vblues bre byte[0][].
          *
-         * @return                      the value Map
-         * @throws NamingException      if a naming exception occurs
+         * @return                      the vblue Mbp
+         * @throws NbmingException      if b nbming exception occurs
          */
-        private Map<String, byte[][]> getValueMap() throws NamingException {
-            if (valueMap != null) {
-                return valueMap;
+        privbte Mbp<String, byte[][]> getVblueMbp() throws NbmingException {
+            if (vblueMbp != null) {
+                return vblueMbp;
             }
             if (DEBUG) {
-                System.out.println("Request: " + name + ":" + requestedAttributes);
+                System.out.println("Request: " + nbme + ":" + requestedAttributes);
                 requests++;
                 if (requests % 5 == 0) {
                     System.out.println("LDAP requests: " + requests);
                 }
             }
-            valueMap = new HashMap<>(8);
-            String[] attrIds = requestedAttributes.toArray(STRING0);
-            Attributes attrs;
+            vblueMbp = new HbshMbp<>(8);
+            String[] bttrIds = requestedAttributes.toArrby(STRING0);
+            Attributes bttrs;
             try {
-                attrs = ctx.getAttributes(name, attrIds);
-            } catch (NameNotFoundException e) {
-                // name does not exist on this LDAP server
-                // treat same as not attributes found
-                attrs = EMPTY_ATTRIBUTES;
+                bttrs = ctx.getAttributes(nbme, bttrIds);
+            } cbtch (NbmeNotFoundException e) {
+                // nbme does not exist on this LDAP server
+                // trebt sbme bs not bttributes found
+                bttrs = EMPTY_ATTRIBUTES;
             }
-            for (String attrId : requestedAttributes) {
-                Attribute attr = attrs.get(attrId);
-                byte[][] values = getAttributeValues(attr);
-                cacheAttribute(attrId, values);
-                valueMap.put(attrId, values);
+            for (String bttrId : requestedAttributes) {
+                Attribute bttr = bttrs.get(bttrId);
+                byte[][] vblues = getAttributeVblues(bttr);
+                cbcheAttribute(bttrId, vblues);
+                vblueMbp.put(bttrId, vblues);
             }
-            return valueMap;
+            return vblueMbp;
         }
 
         /**
-         * Add the values to the cache.
+         * Add the vblues to the cbche.
          */
-        private void cacheAttribute(String attrId, byte[][] values) {
-            String cacheKey = name + "|" + attrId;
-            valueCache.put(cacheKey, values);
+        privbte void cbcheAttribute(String bttrId, byte[][] vblues) {
+            String cbcheKey = nbme + "|" + bttrId;
+            vblueCbche.put(cbcheKey, vblues);
         }
 
         /**
-         * Get the values for the given attribute. If the attribute is null
-         * or does not contain any values, a zero length byte array is
-         * returned. NOTE that it is assumed that all values are byte arrays.
+         * Get the vblues for the given bttribute. If the bttribute is null
+         * or does not contbin bny vblues, b zero length byte brrby is
+         * returned. NOTE thbt it is bssumed thbt bll vblues bre byte brrbys.
          */
-        private byte[][] getAttributeValues(Attribute attr)
-                throws NamingException {
-            byte[][] values;
-            if (attr == null) {
-                values = BB0;
+        privbte byte[][] getAttributeVblues(Attribute bttr)
+                throws NbmingException {
+            byte[][] vblues;
+            if (bttr == null) {
+                vblues = BB0;
             } else {
-                values = new byte[attr.size()][];
+                vblues = new byte[bttr.size()][];
                 int i = 0;
-                NamingEnumeration<?> enum_ = attr.getAll();
-                while (enum_.hasMore()) {
+                NbmingEnumerbtion<?> enum_ = bttr.getAll();
+                while (enum_.hbsMore()) {
                     Object obj = enum_.next();
                     if (debug != null) {
-                        if (obj instanceof String) {
-                            debug.println("LDAPCertStore.getAttrValues() "
-                                + "enum.next is a string!: " + obj);
+                        if (obj instbnceof String) {
+                            debug.println("LDAPCertStore.getAttrVblues() "
+                                + "enum.next is b string!: " + obj);
                         }
                     }
-                    byte[] value = (byte[])obj;
-                    values[i++] = value;
+                    byte[] vblue = (byte[])obj;
+                    vblues[i++] = vblue;
                 }
             }
-            return values;
+            return vblues;
         }
 
     }
 
     /*
-     * Gets certificates from an attribute id and location in the LDAP
-     * directory. Returns a Collection containing only the Certificates that
-     * match the specified CertSelector.
+     * Gets certificbtes from bn bttribute id bnd locbtion in the LDAP
+     * directory. Returns b Collection contbining only the Certificbtes thbt
+     * mbtch the specified CertSelector.
      *
-     * @param name the location holding the attribute
-     * @param id the attribute identifier
-     * @param sel a CertSelector that the Certificates must match
-     * @return a Collection of Certificates found
-     * @throws CertStoreException       if an exception occurs
+     * @pbrbm nbme the locbtion holding the bttribute
+     * @pbrbm id the bttribute identifier
+     * @pbrbm sel b CertSelector thbt the Certificbtes must mbtch
+     * @return b Collection of Certificbtes found
+     * @throws CertStoreException       if bn exception occurs
      */
-    private Collection<X509Certificate> getCertificates(LDAPRequest request,
+    privbte Collection<X509Certificbte> getCertificbtes(LDAPRequest request,
         String id, X509CertSelector sel) throws CertStoreException {
 
-        /* fetch encoded certs from storage */
+        /* fetch encoded certs from storbge */
         byte[][] encodedCert;
         try {
-            encodedCert = request.getValues(id);
-        } catch (NamingException namingEx) {
-            throw new CertStoreException(namingEx);
+            encodedCert = request.getVblues(id);
+        } cbtch (NbmingException nbmingEx) {
+            throw new CertStoreException(nbmingEx);
         }
 
         int n = encodedCert.length;
@@ -451,19 +451,19 @@ public final class LDAPCertStore extends CertStoreSpi {
             return Collections.emptySet();
         }
 
-        List<X509Certificate> certs = new ArrayList<>(n);
-        /* decode certs and check if they satisfy selector */
+        List<X509Certificbte> certs = new ArrbyList<>(n);
+        /* decode certs bnd check if they sbtisfy selector */
         for (int i = 0; i < n; i++) {
-            ByteArrayInputStream bais = new ByteArrayInputStream(encodedCert[i]);
+            ByteArrbyInputStrebm bbis = new ByteArrbyInputStrebm(encodedCert[i]);
             try {
-                Certificate cert = cf.generateCertificate(bais);
-                if (sel.match(cert)) {
-                  certs.add((X509Certificate)cert);
+                Certificbte cert = cf.generbteCertificbte(bbis);
+                if (sel.mbtch(cert)) {
+                  certs.bdd((X509Certificbte)cert);
                 }
-            } catch (CertificateException e) {
+            } cbtch (CertificbteException e) {
                 if (debug != null) {
-                    debug.println("LDAPCertStore.getCertificates() encountered "
-                        + "exception while parsing cert, skipping the bad data: ");
+                    debug.println("LDAPCertStore.getCertificbtes() encountered "
+                        + "exception while pbrsing cert, skipping the bbd dbtb: ");
                     HexDumpEncoder encoder = new HexDumpEncoder();
                     debug.println(
                         "[ " + encoder.encodeBuffer(encodedCert[i]) + " ]");
@@ -475,192 +475,192 @@ public final class LDAPCertStore extends CertStoreSpi {
     }
 
     /*
-     * Gets certificate pairs from an attribute id and location in the LDAP
+     * Gets certificbte pbirs from bn bttribute id bnd locbtion in the LDAP
      * directory.
      *
-     * @param name the location holding the attribute
-     * @param id the attribute identifier
-     * @return a Collection of X509CertificatePairs found
-     * @throws CertStoreException       if an exception occurs
+     * @pbrbm nbme the locbtion holding the bttribute
+     * @pbrbm id the bttribute identifier
+     * @return b Collection of X509CertificbtePbirs found
+     * @throws CertStoreException       if bn exception occurs
      */
-    private Collection<X509CertificatePair> getCertPairs(
+    privbte Collection<X509CertificbtePbir> getCertPbirs(
         LDAPRequest request, String id) throws CertStoreException {
 
-        /* fetch the encoded cert pairs from storage */
-        byte[][] encodedCertPair;
+        /* fetch the encoded cert pbirs from storbge */
+        byte[][] encodedCertPbir;
         try {
-            encodedCertPair = request.getValues(id);
-        } catch (NamingException namingEx) {
-            throw new CertStoreException(namingEx);
+            encodedCertPbir = request.getVblues(id);
+        } cbtch (NbmingException nbmingEx) {
+            throw new CertStoreException(nbmingEx);
         }
 
-        int n = encodedCertPair.length;
+        int n = encodedCertPbir.length;
         if (n == 0) {
             return Collections.emptySet();
         }
 
-        List<X509CertificatePair> certPairs = new ArrayList<>(n);
-        /* decode each cert pair and add it to the Collection */
+        List<X509CertificbtePbir> certPbirs = new ArrbyList<>(n);
+        /* decode ebch cert pbir bnd bdd it to the Collection */
         for (int i = 0; i < n; i++) {
             try {
-                X509CertificatePair certPair =
-                    X509CertificatePair.generateCertificatePair(encodedCertPair[i]);
-                certPairs.add(certPair);
-            } catch (CertificateException e) {
+                X509CertificbtePbir certPbir =
+                    X509CertificbtePbir.generbteCertificbtePbir(encodedCertPbir[i]);
+                certPbirs.bdd(certPbir);
+            } cbtch (CertificbteException e) {
                 if (debug != null) {
                     debug.println(
-                        "LDAPCertStore.getCertPairs() encountered exception "
-                        + "while parsing cert, skipping the bad data: ");
+                        "LDAPCertStore.getCertPbirs() encountered exception "
+                        + "while pbrsing cert, skipping the bbd dbtb: ");
                     HexDumpEncoder encoder = new HexDumpEncoder();
                     debug.println(
-                        "[ " + encoder.encodeBuffer(encodedCertPair[i]) + " ]");
+                        "[ " + encoder.encodeBuffer(encodedCertPbir[i]) + " ]");
                 }
             }
         }
 
-        return certPairs;
+        return certPbirs;
     }
 
     /*
-     * Looks at certificate pairs stored in the crossCertificatePair attribute
-     * at the specified location in the LDAP directory. Returns a Collection
-     * containing all Certificates stored in the forward component that match
-     * the forward CertSelector and all Certificates stored in the reverse
-     * component that match the reverse CertSelector.
+     * Looks bt certificbte pbirs stored in the crossCertificbtePbir bttribute
+     * bt the specified locbtion in the LDAP directory. Returns b Collection
+     * contbining bll Certificbtes stored in the forwbrd component thbt mbtch
+     * the forwbrd CertSelector bnd bll Certificbtes stored in the reverse
+     * component thbt mbtch the reverse CertSelector.
      * <p>
-     * If either forward or reverse is null, all certificates from the
+     * If either forwbrd or reverse is null, bll certificbtes from the
      * corresponding component will be rejected.
      *
-     * @param name the location to look in
-     * @param forward the forward CertSelector (or null)
-     * @param reverse the reverse CertSelector (or null)
-     * @return a Collection of Certificates found
-     * @throws CertStoreException       if an exception occurs
+     * @pbrbm nbme the locbtion to look in
+     * @pbrbm forwbrd the forwbrd CertSelector (or null)
+     * @pbrbm reverse the reverse CertSelector (or null)
+     * @return b Collection of Certificbtes found
+     * @throws CertStoreException       if bn exception occurs
      */
-    private Collection<X509Certificate> getMatchingCrossCerts(
-            LDAPRequest request, X509CertSelector forward,
+    privbte Collection<X509Certificbte> getMbtchingCrossCerts(
+            LDAPRequest request, X509CertSelector forwbrd,
             X509CertSelector reverse)
             throws CertStoreException {
-        // Get the cert pairs
-        Collection<X509CertificatePair> certPairs =
-                                getCertPairs(request, CROSS_CERT);
+        // Get the cert pbirs
+        Collection<X509CertificbtePbir> certPbirs =
+                                getCertPbirs(request, CROSS_CERT);
 
-        // Find Certificates that match and put them in a list
-        ArrayList<X509Certificate> matchingCerts = new ArrayList<>();
-        for (X509CertificatePair certPair : certPairs) {
-            X509Certificate cert;
-            if (forward != null) {
-                cert = certPair.getForward();
-                if ((cert != null) && forward.match(cert)) {
-                    matchingCerts.add(cert);
+        // Find Certificbtes thbt mbtch bnd put them in b list
+        ArrbyList<X509Certificbte> mbtchingCerts = new ArrbyList<>();
+        for (X509CertificbtePbir certPbir : certPbirs) {
+            X509Certificbte cert;
+            if (forwbrd != null) {
+                cert = certPbir.getForwbrd();
+                if ((cert != null) && forwbrd.mbtch(cert)) {
+                    mbtchingCerts.bdd(cert);
                 }
             }
             if (reverse != null) {
-                cert = certPair.getReverse();
-                if ((cert != null) && reverse.match(cert)) {
-                    matchingCerts.add(cert);
+                cert = certPbir.getReverse();
+                if ((cert != null) && reverse.mbtch(cert)) {
+                    mbtchingCerts.bdd(cert);
                 }
             }
         }
-        return matchingCerts;
+        return mbtchingCerts;
     }
 
     /**
-     * Returns a <code>Collection</code> of <code>Certificate</code>s that
-     * match the specified selector. If no <code>Certificate</code>s
-     * match the selector, an empty <code>Collection</code> will be returned.
+     * Returns b <code>Collection</code> of <code>Certificbte</code>s thbt
+     * mbtch the specified selector. If no <code>Certificbte</code>s
+     * mbtch the selector, bn empty <code>Collection</code> will be returned.
      * <p>
-     * It is not practical to search every entry in the LDAP database for
-     * matching <code>Certificate</code>s. Instead, the <code>CertSelector</code>
-     * is examined in order to determine where matching <code>Certificate</code>s
-     * are likely to be found (according to the PKIX LDAPv2 schema, RFC 2587).
-     * If the subject is specified, its directory entry is searched. If the
-     * issuer is specified, its directory entry is searched. If neither the
-     * subject nor the issuer are specified (or the selector is not an
-     * <code>X509CertSelector</code>), a <code>CertStoreException</code> is
+     * It is not prbcticbl to sebrch every entry in the LDAP dbtbbbse for
+     * mbtching <code>Certificbte</code>s. Instebd, the <code>CertSelector</code>
+     * is exbmined in order to determine where mbtching <code>Certificbte</code>s
+     * bre likely to be found (bccording to the PKIX LDAPv2 schemb, RFC 2587).
+     * If the subject is specified, its directory entry is sebrched. If the
+     * issuer is specified, its directory entry is sebrched. If neither the
+     * subject nor the issuer bre specified (or the selector is not bn
+     * <code>X509CertSelector</code>), b <code>CertStoreException</code> is
      * thrown.
      *
-     * @param selector a <code>CertSelector</code> used to select which
-     *  <code>Certificate</code>s should be returned.
-     * @return a <code>Collection</code> of <code>Certificate</code>s that
-     *         match the specified selector
-     * @throws CertStoreException if an exception occurs
+     * @pbrbm selector b <code>CertSelector</code> used to select which
+     *  <code>Certificbte</code>s should be returned.
+     * @return b <code>Collection</code> of <code>Certificbte</code>s thbt
+     *         mbtch the specified selector
+     * @throws CertStoreException if bn exception occurs
      */
-    public synchronized Collection<X509Certificate> engineGetCertificates
+    public synchronized Collection<X509Certificbte> engineGetCertificbtes
             (CertSelector selector) throws CertStoreException {
         if (debug != null) {
-            debug.println("LDAPCertStore.engineGetCertificates() selector: "
-                + String.valueOf(selector));
+            debug.println("LDAPCertStore.engineGetCertificbtes() selector: "
+                + String.vblueOf(selector));
         }
 
         if (selector == null) {
             selector = new X509CertSelector();
         }
-        if (!(selector instanceof X509CertSelector)) {
-            throw new CertStoreException("LDAPCertStore needs an X509CertSelector " +
+        if (!(selector instbnceof X509CertSelector)) {
+            throw new CertStoreException("LDAPCertStore needs bn X509CertSelector " +
                                          "to find certs");
         }
         X509CertSelector xsel = (X509CertSelector) selector;
-        int basicConstraints = xsel.getBasicConstraints();
+        int bbsicConstrbints = xsel.getBbsicConstrbints();
         String subject = xsel.getSubjectAsString();
         String issuer = xsel.getIssuerAsString();
-        HashSet<X509Certificate> certs = new HashSet<>();
+        HbshSet<X509Certificbte> certs = new HbshSet<>();
         if (debug != null) {
-            debug.println("LDAPCertStore.engineGetCertificates() basicConstraints: "
-                + basicConstraints);
+            debug.println("LDAPCertStore.engineGetCertificbtes() bbsicConstrbints: "
+                + bbsicConstrbints);
         }
 
-        // basicConstraints:
-        // -2: only EE certs accepted
+        // bbsicConstrbints:
+        // -2: only EE certs bccepted
         // -1: no check is done
-        //  0: any CA certificate accepted
-        // >1: certificate's basicConstraints extension pathlen must match
+        //  0: bny CA certificbte bccepted
+        // >1: certificbte's bbsicConstrbints extension pbthlen must mbtch
         if (subject != null) {
             if (debug != null) {
-                debug.println("LDAPCertStore.engineGetCertificates() "
+                debug.println("LDAPCertStore.engineGetCertificbtes() "
                     + "subject is not null");
             }
             LDAPRequest request = new LDAPRequest(subject);
-            if (basicConstraints > -2) {
-                request.addRequestedAttribute(CROSS_CERT);
-                request.addRequestedAttribute(CA_CERT);
-                request.addRequestedAttribute(ARL);
+            if (bbsicConstrbints > -2) {
+                request.bddRequestedAttribute(CROSS_CERT);
+                request.bddRequestedAttribute(CA_CERT);
+                request.bddRequestedAttribute(ARL);
                 if (prefetchCRLs) {
-                    request.addRequestedAttribute(CRL);
+                    request.bddRequestedAttribute(CRL);
                 }
             }
-            if (basicConstraints < 0) {
-                request.addRequestedAttribute(USER_CERT);
+            if (bbsicConstrbints < 0) {
+                request.bddRequestedAttribute(USER_CERT);
             }
 
-            if (basicConstraints > -2) {
-                certs.addAll(getMatchingCrossCerts(request, xsel, null));
+            if (bbsicConstrbints > -2) {
+                certs.bddAll(getMbtchingCrossCerts(request, xsel, null));
                 if (debug != null) {
-                    debug.println("LDAPCertStore.engineGetCertificates() after "
-                        + "getMatchingCrossCerts(subject,xsel,null),certs.size(): "
+                    debug.println("LDAPCertStore.engineGetCertificbtes() bfter "
+                        + "getMbtchingCrossCerts(subject,xsel,null),certs.size(): "
                         + certs.size());
                 }
-                certs.addAll(getCertificates(request, CA_CERT, xsel));
+                certs.bddAll(getCertificbtes(request, CA_CERT, xsel));
                 if (debug != null) {
-                    debug.println("LDAPCertStore.engineGetCertificates() after "
-                        + "getCertificates(subject,CA_CERT,xsel),certs.size(): "
+                    debug.println("LDAPCertStore.engineGetCertificbtes() bfter "
+                        + "getCertificbtes(subject,CA_CERT,xsel),certs.size(): "
                         + certs.size());
                 }
             }
-            if (basicConstraints < 0) {
-                certs.addAll(getCertificates(request, USER_CERT, xsel));
+            if (bbsicConstrbints < 0) {
+                certs.bddAll(getCertificbtes(request, USER_CERT, xsel));
                 if (debug != null) {
-                    debug.println("LDAPCertStore.engineGetCertificates() after "
-                        + "getCertificates(subject,USER_CERT, xsel),certs.size(): "
+                    debug.println("LDAPCertStore.engineGetCertificbtes() bfter "
+                        + "getCertificbtes(subject,USER_CERT, xsel),certs.size(): "
                         + certs.size());
                 }
             }
         } else {
             if (debug != null) {
                 debug.println
-                    ("LDAPCertStore.engineGetCertificates() subject is null");
+                    ("LDAPCertStore.engineGetCertificbtes() subject is null");
             }
-            if (basicConstraints == -2) {
+            if (bbsicConstrbints == -2) {
                 throw new CertStoreException("need subject to find EE certs");
             }
             if (issuer == null) {
@@ -668,57 +668,57 @@ public final class LDAPCertStore extends CertStoreSpi {
             }
         }
         if (debug != null) {
-            debug.println("LDAPCertStore.engineGetCertificates() about to "
-                + "getMatchingCrossCerts...");
+            debug.println("LDAPCertStore.engineGetCertificbtes() bbout to "
+                + "getMbtchingCrossCerts...");
         }
-        if ((issuer != null) && (basicConstraints > -2)) {
+        if ((issuer != null) && (bbsicConstrbints > -2)) {
             LDAPRequest request = new LDAPRequest(issuer);
-            request.addRequestedAttribute(CROSS_CERT);
-            request.addRequestedAttribute(CA_CERT);
-            request.addRequestedAttribute(ARL);
+            request.bddRequestedAttribute(CROSS_CERT);
+            request.bddRequestedAttribute(CA_CERT);
+            request.bddRequestedAttribute(ARL);
             if (prefetchCRLs) {
-                request.addRequestedAttribute(CRL);
+                request.bddRequestedAttribute(CRL);
             }
 
-            certs.addAll(getMatchingCrossCerts(request, null, xsel));
+            certs.bddAll(getMbtchingCrossCerts(request, null, xsel));
             if (debug != null) {
-                debug.println("LDAPCertStore.engineGetCertificates() after "
-                    + "getMatchingCrossCerts(issuer,null,xsel),certs.size(): "
+                debug.println("LDAPCertStore.engineGetCertificbtes() bfter "
+                    + "getMbtchingCrossCerts(issuer,null,xsel),certs.size(): "
                     + certs.size());
             }
-            certs.addAll(getCertificates(request, CA_CERT, xsel));
+            certs.bddAll(getCertificbtes(request, CA_CERT, xsel));
             if (debug != null) {
-                debug.println("LDAPCertStore.engineGetCertificates() after "
-                    + "getCertificates(issuer,CA_CERT,xsel),certs.size(): "
+                debug.println("LDAPCertStore.engineGetCertificbtes() bfter "
+                    + "getCertificbtes(issuer,CA_CERT,xsel),certs.size(): "
                     + certs.size());
             }
         }
         if (debug != null) {
-            debug.println("LDAPCertStore.engineGetCertificates() returning certs");
+            debug.println("LDAPCertStore.engineGetCertificbtes() returning certs");
         }
         return certs;
     }
 
     /*
-     * Gets CRLs from an attribute id and location in the LDAP directory.
-     * Returns a Collection containing only the CRLs that match the
+     * Gets CRLs from bn bttribute id bnd locbtion in the LDAP directory.
+     * Returns b Collection contbining only the CRLs thbt mbtch the
      * specified CRLSelector.
      *
-     * @param name the location holding the attribute
-     * @param id the attribute identifier
-     * @param sel a CRLSelector that the CRLs must match
-     * @return a Collection of CRLs found
-     * @throws CertStoreException       if an exception occurs
+     * @pbrbm nbme the locbtion holding the bttribute
+     * @pbrbm id the bttribute identifier
+     * @pbrbm sel b CRLSelector thbt the CRLs must mbtch
+     * @return b Collection of CRLs found
+     * @throws CertStoreException       if bn exception occurs
      */
-    private Collection<X509CRL> getCRLs(LDAPRequest request, String id,
+    privbte Collection<X509CRL> getCRLs(LDAPRequest request, String id,
             X509CRLSelector sel) throws CertStoreException {
 
-        /* fetch the encoded crls from storage */
+        /* fetch the encoded crls from storbge */
         byte[][] encodedCRL;
         try {
-            encodedCRL = request.getValues(id);
-        } catch (NamingException namingEx) {
-            throw new CertStoreException(namingEx);
+            encodedCRL = request.getVblues(id);
+        } cbtch (NbmingException nbmingEx) {
+            throw new CertStoreException(nbmingEx);
         }
 
         int n = encodedCRL.length;
@@ -726,18 +726,18 @@ public final class LDAPCertStore extends CertStoreSpi {
             return Collections.emptySet();
         }
 
-        List<X509CRL> crls = new ArrayList<>(n);
-        /* decode each crl and check if it matches selector */
+        List<X509CRL> crls = new ArrbyList<>(n);
+        /* decode ebch crl bnd check if it mbtches selector */
         for (int i = 0; i < n; i++) {
             try {
-                CRL crl = cf.generateCRL(new ByteArrayInputStream(encodedCRL[i]));
-                if (sel.match(crl)) {
-                    crls.add((X509CRL)crl);
+                CRL crl = cf.generbteCRL(new ByteArrbyInputStrebm(encodedCRL[i]));
+                if (sel.mbtch(crl)) {
+                    crls.bdd((X509CRL)crl);
                 }
-            } catch (CRLException e) {
+            } cbtch (CRLException e) {
                 if (debug != null) {
                     debug.println("LDAPCertStore.getCRLs() encountered exception"
-                        + " while parsing CRL, skipping the bad data: ");
+                        + " while pbrsing CRL, skipping the bbd dbtb: ");
                     HexDumpEncoder encoder = new HexDumpEncoder();
                     debug.println("[ " + encoder.encodeBuffer(encodedCRL[i]) + " ]");
                 }
@@ -748,25 +748,25 @@ public final class LDAPCertStore extends CertStoreSpi {
     }
 
     /**
-     * Returns a <code>Collection</code> of <code>CRL</code>s that
-     * match the specified selector. If no <code>CRL</code>s
-     * match the selector, an empty <code>Collection</code> will be returned.
+     * Returns b <code>Collection</code> of <code>CRL</code>s thbt
+     * mbtch the specified selector. If no <code>CRL</code>s
+     * mbtch the selector, bn empty <code>Collection</code> will be returned.
      * <p>
-     * It is not practical to search every entry in the LDAP database for
-     * matching <code>CRL</code>s. Instead, the <code>CRLSelector</code>
-     * is examined in order to determine where matching <code>CRL</code>s
-     * are likely to be found (according to the PKIX LDAPv2 schema, RFC 2587).
-     * If issuerNames or certChecking are specified, the issuer's directory
-     * entry is searched. If neither issuerNames or certChecking are specified
-     * (or the selector is not an <code>X509CRLSelector</code>), a
+     * It is not prbcticbl to sebrch every entry in the LDAP dbtbbbse for
+     * mbtching <code>CRL</code>s. Instebd, the <code>CRLSelector</code>
+     * is exbmined in order to determine where mbtching <code>CRL</code>s
+     * bre likely to be found (bccording to the PKIX LDAPv2 schemb, RFC 2587).
+     * If issuerNbmes or certChecking bre specified, the issuer's directory
+     * entry is sebrched. If neither issuerNbmes or certChecking bre specified
+     * (or the selector is not bn <code>X509CRLSelector</code>), b
      * <code>CertStoreException</code> is thrown.
      *
-     * @param selector A <code>CRLSelector</code> used to select which
+     * @pbrbm selector A <code>CRLSelector</code> used to select which
      *  <code>CRL</code>s should be returned. Specify <code>null</code>
-     *  to return all <code>CRL</code>s.
-     * @return A <code>Collection</code> of <code>CRL</code>s that
-     *         match the specified selector
-     * @throws CertStoreException if an exception occurs
+     *  to return bll <code>CRL</code>s.
+     * @return A <code>Collection</code> of <code>CRL</code>s thbt
+     *         mbtch the specified selector
+     * @throws CertStoreException if bn exception occurs
      */
     public synchronized Collection<X509CRL> engineGetCRLs(CRLSelector selector)
             throws CertStoreException {
@@ -774,180 +774,180 @@ public final class LDAPCertStore extends CertStoreSpi {
             debug.println("LDAPCertStore.engineGetCRLs() selector: "
                 + selector);
         }
-        // Set up selector and collection to hold CRLs
+        // Set up selector bnd collection to hold CRLs
         if (selector == null) {
             selector = new X509CRLSelector();
         }
-        if (!(selector instanceof X509CRLSelector)) {
+        if (!(selector instbnceof X509CRLSelector)) {
             throw new CertStoreException("need X509CRLSelector to find CRLs");
         }
         X509CRLSelector xsel = (X509CRLSelector) selector;
-        HashSet<X509CRL> crls = new HashSet<>();
+        HbshSet<X509CRL> crls = new HbshSet<>();
 
         // Look in directory entry for issuer of cert we're checking.
-        Collection<Object> issuerNames;
-        X509Certificate certChecking = xsel.getCertificateChecking();
+        Collection<Object> issuerNbmes;
+        X509Certificbte certChecking = xsel.getCertificbteChecking();
         if (certChecking != null) {
-            issuerNames = new HashSet<>();
-            X500Principal issuer = certChecking.getIssuerX500Principal();
-            issuerNames.add(issuer.getName(X500Principal.RFC2253));
+            issuerNbmes = new HbshSet<>();
+            X500Principbl issuer = certChecking.getIssuerX500Principbl();
+            issuerNbmes.bdd(issuer.getNbme(X500Principbl.RFC2253));
         } else {
             // But if we don't know which cert we're checking, try the directory
-            // entries of all acceptable CRL issuers
-            issuerNames = xsel.getIssuerNames();
-            if (issuerNames == null) {
-                throw new CertStoreException("need issuerNames or certChecking to "
+            // entries of bll bcceptbble CRL issuers
+            issuerNbmes = xsel.getIssuerNbmes();
+            if (issuerNbmes == null) {
+                throw new CertStoreException("need issuerNbmes or certChecking to "
                     + "find CRLs");
             }
         }
-        for (Object nameObject : issuerNames) {
-            String issuerName;
-            if (nameObject instanceof byte[]) {
+        for (Object nbmeObject : issuerNbmes) {
+            String issuerNbme;
+            if (nbmeObject instbnceof byte[]) {
                 try {
-                    X500Principal issuer = new X500Principal((byte[])nameObject);
-                    issuerName = issuer.getName(X500Principal.RFC2253);
-                } catch (IllegalArgumentException e) {
+                    X500Principbl issuer = new X500Principbl((byte[])nbmeObject);
+                    issuerNbme = issuer.getNbme(X500Principbl.RFC2253);
+                } cbtch (IllegblArgumentException e) {
                     continue;
                 }
             } else {
-                issuerName = (String)nameObject;
+                issuerNbme = (String)nbmeObject;
             }
-            // If all we want is CA certs, try to get the (probably shorter) ARL
+            // If bll we wbnt is CA certs, try to get the (probbbly shorter) ARL
             Collection<X509CRL> entryCRLs = Collections.emptySet();
-            if (certChecking == null || certChecking.getBasicConstraints() != -1) {
-                LDAPRequest request = new LDAPRequest(issuerName);
-                request.addRequestedAttribute(CROSS_CERT);
-                request.addRequestedAttribute(CA_CERT);
-                request.addRequestedAttribute(ARL);
+            if (certChecking == null || certChecking.getBbsicConstrbints() != -1) {
+                LDAPRequest request = new LDAPRequest(issuerNbme);
+                request.bddRequestedAttribute(CROSS_CERT);
+                request.bddRequestedAttribute(CA_CERT);
+                request.bddRequestedAttribute(ARL);
                 if (prefetchCRLs) {
-                    request.addRequestedAttribute(CRL);
+                    request.bddRequestedAttribute(CRL);
                 }
                 try {
                     entryCRLs = getCRLs(request, ARL, xsel);
                     if (entryCRLs.isEmpty()) {
-                        // no ARLs found. We assume that means that there are
-                        // no ARLs on this server at all and prefetch the CRLs.
+                        // no ARLs found. We bssume thbt mebns thbt there bre
+                        // no ARLs on this server bt bll bnd prefetch the CRLs.
                         prefetchCRLs = true;
                     } else {
-                        crls.addAll(entryCRLs);
+                        crls.bddAll(entryCRLs);
                     }
-                } catch (CertStoreException e) {
+                } cbtch (CertStoreException e) {
                     if (debug != null) {
-                        debug.println("LDAPCertStore.engineGetCRLs non-fatal error "
+                        debug.println("LDAPCertStore.engineGetCRLs non-fbtbl error "
                             + "retrieving ARLs:" + e);
-                        e.printStackTrace();
+                        e.printStbckTrbce();
                     }
                 }
             }
             // Otherwise, get the CRL
             // if certChecking is null, we don't know if we should look in ARL or CRL
-            // attribute, so check both for matching CRLs.
+            // bttribute, so check both for mbtching CRLs.
             if (entryCRLs.isEmpty() || certChecking == null) {
-                LDAPRequest request = new LDAPRequest(issuerName);
-                request.addRequestedAttribute(CRL);
+                LDAPRequest request = new LDAPRequest(issuerNbme);
+                request.bddRequestedAttribute(CRL);
                 entryCRLs = getCRLs(request, CRL, xsel);
-                crls.addAll(entryCRLs);
+                crls.bddAll(entryCRLs);
             }
         }
         return crls;
     }
 
-    // converts an LDAP URI into LDAPCertStoreParameters
-    static LDAPCertStoreParameters getParameters(URI uri) {
+    // converts bn LDAP URI into LDAPCertStorePbrbmeters
+    stbtic LDAPCertStorePbrbmeters getPbrbmeters(URI uri) {
         String host = uri.getHost();
         if (host == null) {
-            return new SunLDAPCertStoreParameters();
+            return new SunLDAPCertStorePbrbmeters();
         } else {
             int port = uri.getPort();
             return (port == -1
-                    ? new SunLDAPCertStoreParameters(host)
-                    : new SunLDAPCertStoreParameters(host, port));
+                    ? new SunLDAPCertStorePbrbmeters(host)
+                    : new SunLDAPCertStorePbrbmeters(host, port));
         }
     }
 
     /*
-     * Subclass of LDAPCertStoreParameters with overridden equals/hashCode
-     * methods. This is necessary because the parameters are used as
-     * keys in the LDAPCertStore cache.
+     * Subclbss of LDAPCertStorePbrbmeters with overridden equbls/hbshCode
+     * methods. This is necessbry becbuse the pbrbmeters bre used bs
+     * keys in the LDAPCertStore cbche.
      */
-    private static class SunLDAPCertStoreParameters
-        extends LDAPCertStoreParameters {
+    privbte stbtic clbss SunLDAPCertStorePbrbmeters
+        extends LDAPCertStorePbrbmeters {
 
-        private volatile int hashCode = 0;
+        privbte volbtile int hbshCode = 0;
 
-        SunLDAPCertStoreParameters(String serverName, int port) {
-            super(serverName, port);
+        SunLDAPCertStorePbrbmeters(String serverNbme, int port) {
+            super(serverNbme, port);
         }
-        SunLDAPCertStoreParameters(String serverName) {
-            super(serverName);
+        SunLDAPCertStorePbrbmeters(String serverNbme) {
+            super(serverNbme);
         }
-        SunLDAPCertStoreParameters() {
+        SunLDAPCertStorePbrbmeters() {
             super();
         }
-        public boolean equals(Object obj) {
-            if (!(obj instanceof LDAPCertStoreParameters)) {
-                return false;
+        public boolebn equbls(Object obj) {
+            if (!(obj instbnceof LDAPCertStorePbrbmeters)) {
+                return fblse;
             }
-            LDAPCertStoreParameters params = (LDAPCertStoreParameters) obj;
-            return (getPort() == params.getPort() &&
-                    getServerName().equalsIgnoreCase(params.getServerName()));
+            LDAPCertStorePbrbmeters pbrbms = (LDAPCertStorePbrbmeters) obj;
+            return (getPort() == pbrbms.getPort() &&
+                    getServerNbme().equblsIgnoreCbse(pbrbms.getServerNbme()));
         }
-        public int hashCode() {
-            if (hashCode == 0) {
+        public int hbshCode() {
+            if (hbshCode == 0) {
                 int result = 17;
                 result = 37*result + getPort();
                 result = 37*result +
-                    getServerName().toLowerCase(Locale.ENGLISH).hashCode();
-                hashCode = result;
+                    getServerNbme().toLowerCbse(Locble.ENGLISH).hbshCode();
+                hbshCode = result;
             }
-            return hashCode;
+            return hbshCode;
         }
     }
 
     /*
-     * This inner class wraps an existing X509CertSelector and adds
-     * additional criteria to match on when the certificate's subject is
-     * different than the LDAP Distinguished Name entry. The LDAPCertStore
-     * implementation uses the subject DN as the directory entry for
-     * looking up certificates. This can be problematic if the certificates
-     * that you want to fetch have a different subject DN than the entry
-     * where they are stored. You could set the selector's subject to the
-     * LDAP DN entry, but then the resulting match would fail to find the
-     * desired certificates because the subject DNs would not match. This
-     * class avoids that problem by introducing a certSubject which should
-     * be set to the certificate's subject DN when it is different than
+     * This inner clbss wrbps bn existing X509CertSelector bnd bdds
+     * bdditionbl criterib to mbtch on when the certificbte's subject is
+     * different thbn the LDAP Distinguished Nbme entry. The LDAPCertStore
+     * implementbtion uses the subject DN bs the directory entry for
+     * looking up certificbtes. This cbn be problembtic if the certificbtes
+     * thbt you wbnt to fetch hbve b different subject DN thbn the entry
+     * where they bre stored. You could set the selector's subject to the
+     * LDAP DN entry, but then the resulting mbtch would fbil to find the
+     * desired certificbtes becbuse the subject DNs would not mbtch. This
+     * clbss bvoids thbt problem by introducing b certSubject which should
+     * be set to the certificbte's subject DN when it is different thbn
      * the LDAP DN.
      */
-    static class LDAPCertSelector extends X509CertSelector {
+    stbtic clbss LDAPCertSelector extends X509CertSelector {
 
-        private X500Principal certSubject;
-        private X509CertSelector selector;
-        private X500Principal subject;
+        privbte X500Principbl certSubject;
+        privbte X509CertSelector selector;
+        privbte X500Principbl subject;
 
         /**
-         * Creates an LDAPCertSelector.
+         * Crebtes bn LDAPCertSelector.
          *
-         * @param selector the X509CertSelector to wrap
-         * @param certSubject the subject DN of the certificate that you want
-         *      to retrieve via LDAP
-         * @param ldapDN the LDAP DN where the certificate is stored
+         * @pbrbm selector the X509CertSelector to wrbp
+         * @pbrbm certSubject the subject DN of the certificbte thbt you wbnt
+         *      to retrieve vib LDAP
+         * @pbrbm ldbpDN the LDAP DN where the certificbte is stored
          */
-        LDAPCertSelector(X509CertSelector selector, X500Principal certSubject,
-            String ldapDN) throws IOException {
+        LDAPCertSelector(X509CertSelector selector, X500Principbl certSubject,
+            String ldbpDN) throws IOException {
             this.selector = selector == null ? new X509CertSelector() : selector;
             this.certSubject = certSubject;
-            this.subject = new X500Name(ldapDN).asX500Principal();
+            this.subject = new X500Nbme(ldbpDN).bsX500Principbl();
         }
 
-        // we only override the get (accessor methods) since the set methods
-        // will not be invoked by the code that uses this LDAPCertSelector.
-        public X509Certificate getCertificate() {
-            return selector.getCertificate();
+        // we only override the get (bccessor methods) since the set methods
+        // will not be invoked by the code thbt uses this LDAPCertSelector.
+        public X509Certificbte getCertificbte() {
+            return selector.getCertificbte();
         }
-        public BigInteger getSerialNumber() {
-            return selector.getSerialNumber();
+        public BigInteger getSeriblNumber() {
+            return selector.getSeriblNumber();
         }
-        public X500Principal getIssuer() {
+        public X500Principbl getIssuer() {
             return selector.getIssuer();
         }
         public String getIssuerAsString() {
@@ -956,16 +956,16 @@ public final class LDAPCertStore extends CertStoreSpi {
         public byte[] getIssuerAsBytes() throws IOException {
             return selector.getIssuerAsBytes();
         }
-        public X500Principal getSubject() {
-            // return the ldap DN
+        public X500Principbl getSubject() {
+            // return the ldbp DN
             return subject;
         }
         public String getSubjectAsString() {
-            // return the ldap DN
-            return subject.getName();
+            // return the ldbp DN
+            return subject.getNbme();
         }
         public byte[] getSubjectAsBytes() throws IOException {
-            // return the encoded ldap DN
+            // return the encoded ldbp DN
             return subject.getEncoded();
         }
         public byte[] getSubjectKeyIdentifier() {
@@ -974,11 +974,11 @@ public final class LDAPCertStore extends CertStoreSpi {
         public byte[] getAuthorityKeyIdentifier() {
             return selector.getAuthorityKeyIdentifier();
         }
-        public Date getCertificateValid() {
-            return selector.getCertificateValid();
+        public Dbte getCertificbteVblid() {
+            return selector.getCertificbteVblid();
         }
-        public Date getPrivateKeyValid() {
-            return selector.getPrivateKeyValid();
+        public Dbte getPrivbteKeyVblid() {
+            return selector.getPrivbteKeyVblid();
         }
         public String getSubjectPublicKeyAlgID() {
             return selector.getSubjectPublicKeyAlgID();
@@ -986,99 +986,99 @@ public final class LDAPCertStore extends CertStoreSpi {
         public PublicKey getSubjectPublicKey() {
             return selector.getSubjectPublicKey();
         }
-        public boolean[] getKeyUsage() {
-            return selector.getKeyUsage();
+        public boolebn[] getKeyUsbge() {
+            return selector.getKeyUsbge();
         }
-        public Set<String> getExtendedKeyUsage() {
-            return selector.getExtendedKeyUsage();
+        public Set<String> getExtendedKeyUsbge() {
+            return selector.getExtendedKeyUsbge();
         }
-        public boolean getMatchAllSubjectAltNames() {
-            return selector.getMatchAllSubjectAltNames();
+        public boolebn getMbtchAllSubjectAltNbmes() {
+            return selector.getMbtchAllSubjectAltNbmes();
         }
-        public Collection<List<?>> getSubjectAlternativeNames() {
-            return selector.getSubjectAlternativeNames();
+        public Collection<List<?>> getSubjectAlternbtiveNbmes() {
+            return selector.getSubjectAlternbtiveNbmes();
         }
-        public byte[] getNameConstraints() {
-            return selector.getNameConstraints();
+        public byte[] getNbmeConstrbints() {
+            return selector.getNbmeConstrbints();
         }
-        public int getBasicConstraints() {
-            return selector.getBasicConstraints();
+        public int getBbsicConstrbints() {
+            return selector.getBbsicConstrbints();
         }
         public Set<String> getPolicy() {
             return selector.getPolicy();
         }
-        public Collection<List<?>> getPathToNames() {
-            return selector.getPathToNames();
+        public Collection<List<?>> getPbthToNbmes() {
+            return selector.getPbthToNbmes();
         }
 
-        public boolean match(Certificate cert) {
-            // temporarily set the subject criterion to the certSubject
-            // so that match will not reject the desired certificates
+        public boolebn mbtch(Certificbte cert) {
+            // temporbrily set the subject criterion to the certSubject
+            // so thbt mbtch will not reject the desired certificbtes
             selector.setSubject(certSubject);
-            boolean match = selector.match(cert);
+            boolebn mbtch = selector.mbtch(cert);
             selector.setSubject(subject);
-            return match;
+            return mbtch;
         }
     }
 
     /**
-     * This class has the same purpose as LDAPCertSelector except it is for
+     * This clbss hbs the sbme purpose bs LDAPCertSelector except it is for
      * X.509 CRLs.
      */
-    static class LDAPCRLSelector extends X509CRLSelector {
+    stbtic clbss LDAPCRLSelector extends X509CRLSelector {
 
-        private X509CRLSelector selector;
-        private Collection<X500Principal> certIssuers;
-        private Collection<X500Principal> issuers;
-        private HashSet<Object> issuerNames;
+        privbte X509CRLSelector selector;
+        privbte Collection<X500Principbl> certIssuers;
+        privbte Collection<X500Principbl> issuers;
+        privbte HbshSet<Object> issuerNbmes;
 
         /**
-         * Creates an LDAPCRLSelector.
+         * Crebtes bn LDAPCRLSelector.
          *
-         * @param selector the X509CRLSelector to wrap
-         * @param certIssuers the issuer DNs of the CRLs that you want
-         *      to retrieve via LDAP
-         * @param ldapDN the LDAP DN where the CRL is stored
+         * @pbrbm selector the X509CRLSelector to wrbp
+         * @pbrbm certIssuers the issuer DNs of the CRLs thbt you wbnt
+         *      to retrieve vib LDAP
+         * @pbrbm ldbpDN the LDAP DN where the CRL is stored
          */
         LDAPCRLSelector(X509CRLSelector selector,
-            Collection<X500Principal> certIssuers, String ldapDN)
+            Collection<X500Principbl> certIssuers, String ldbpDN)
             throws IOException {
             this.selector = selector == null ? new X509CRLSelector() : selector;
             this.certIssuers = certIssuers;
-            issuerNames = new HashSet<>();
-            issuerNames.add(ldapDN);
-            issuers = new HashSet<>();
-            issuers.add(new X500Name(ldapDN).asX500Principal());
+            issuerNbmes = new HbshSet<>();
+            issuerNbmes.bdd(ldbpDN);
+            issuers = new HbshSet<>();
+            issuers.bdd(new X500Nbme(ldbpDN).bsX500Principbl());
         }
-        // we only override the get (accessor methods) since the set methods
-        // will not be invoked by the code that uses this LDAPCRLSelector.
-        public Collection<X500Principal> getIssuers() {
-            // return the ldap DN
-            return Collections.unmodifiableCollection(issuers);
+        // we only override the get (bccessor methods) since the set methods
+        // will not be invoked by the code thbt uses this LDAPCRLSelector.
+        public Collection<X500Principbl> getIssuers() {
+            // return the ldbp DN
+            return Collections.unmodifibbleCollection(issuers);
         }
-        public Collection<Object> getIssuerNames() {
-            // return the ldap DN
-            return Collections.unmodifiableCollection(issuerNames);
+        public Collection<Object> getIssuerNbmes() {
+            // return the ldbp DN
+            return Collections.unmodifibbleCollection(issuerNbmes);
         }
         public BigInteger getMinCRL() {
             return selector.getMinCRL();
         }
-        public BigInteger getMaxCRL() {
-            return selector.getMaxCRL();
+        public BigInteger getMbxCRL() {
+            return selector.getMbxCRL();
         }
-        public Date getDateAndTime() {
-            return selector.getDateAndTime();
+        public Dbte getDbteAndTime() {
+            return selector.getDbteAndTime();
         }
-        public X509Certificate getCertificateChecking() {
-            return selector.getCertificateChecking();
+        public X509Certificbte getCertificbteChecking() {
+            return selector.getCertificbteChecking();
         }
-        public boolean match(CRL crl) {
-            // temporarily set the issuer criterion to the certIssuers
-            // so that match will not reject the desired CRL
+        public boolebn mbtch(CRL crl) {
+            // temporbrily set the issuer criterion to the certIssuers
+            // so thbt mbtch will not reject the desired CRL
             selector.setIssuers(certIssuers);
-            boolean match = selector.match(crl);
+            boolebn mbtch = selector.mbtch(crl);
             selector.setIssuers(issuers);
-            return match;
+            return mbtch;
         }
     }
 }

@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http.ntlm;
+pbckbge sun.net.www.protocol.http.ntlm;
 
-import java.io.IOException;
-import java.util.Base64;
+import jbvb.io.IOException;
+import jbvb.util.Bbse64;
 
 /*
- * Hooks into Windows implementation of NTLM.
- * This class will be replaced if a cross-platform version of NTLM
+ * Hooks into Windows implementbtion of NTLM.
+ * This clbss will be replbced if b cross-plbtform version of NTLM
  * is implemented in the future.
  */
 
-public class NTLMAuthSequence {
+public clbss NTLMAuthSequence {
 
-    private String username;
-    private String password;
-    private String ntdomain;
-    private int state;
-    private long crdHandle;
-    private long ctxHandle;
+    privbte String usernbme;
+    privbte String pbssword;
+    privbte String ntdombin;
+    privbte int stbte;
+    privbte long crdHbndle;
+    privbte long ctxHbndle;
 
-    static {
-        initFirst(Status.class);
+    stbtic {
+        initFirst(Stbtus.clbss);
     }
 
-    // Used by native code to indicate when a particular protocol sequence is completed
-    // and must not be re-used.
+    // Used by nbtive code to indicbte when b pbrticulbr protocol sequence is completed
+    // bnd must not be re-used.
 
-    class Status {
-        boolean sequenceComplete;
+    clbss Stbtus {
+        boolebn sequenceComplete;
     }
 
-    Status status;
+    Stbtus stbtus;
 
-    NTLMAuthSequence (String username, String password, String ntdomain)
+    NTLMAuthSequence (String usernbme, String pbssword, String ntdombin)
     throws IOException
     {
-        this.username = username;
-        this.password = password;
-        this.ntdomain = ntdomain;
-        this.status = new Status();
-        state = 0;
-        crdHandle = getCredentialsHandle (username, ntdomain, password);
-        if (crdHandle == 0) {
-            throw new IOException ("could not get credentials handle");
+        this.usernbme = usernbme;
+        this.pbssword = pbssword;
+        this.ntdombin = ntdombin;
+        this.stbtus = new Stbtus();
+        stbte = 0;
+        crdHbndle = getCredentiblsHbndle (usernbme, ntdombin, pbssword);
+        if (crdHbndle == 0) {
+            throw new IOException ("could not get credentibls hbndle");
         }
     }
 
-    public String getAuthHeader (String token) throws IOException {
+    public String getAuthHebder (String token) throws IOException {
         byte[] input = null;
 
-        assert !status.sequenceComplete;
+        bssert !stbtus.sequenceComplete;
 
         if (token != null)
-            input = Base64.getDecoder().decode(token);
-        byte[] b = getNextToken (crdHandle, input, status);
+            input = Bbse64.getDecoder().decode(token);
+        byte[] b = getNextToken (crdHbndle, input, stbtus);
         if (b == null)
-            throw new IOException ("Internal authentication error");
-        return Base64.getEncoder().encodeToString(b);
+            throw new IOException ("Internbl buthenticbtion error");
+        return Bbse64.getEncoder().encodeToString(b);
     }
 
-    public boolean isComplete() {
-        return status.sequenceComplete;
+    public boolebn isComplete() {
+        return stbtus.sequenceComplete;
     }
 
-    private native static void initFirst (Class<NTLMAuthSequence.Status> clazz);
+    privbte nbtive stbtic void initFirst (Clbss<NTLMAuthSequence.Stbtus> clbzz);
 
-    private native long getCredentialsHandle (String user, String domain, String password);
+    privbte nbtive long getCredentiblsHbndle (String user, String dombin, String pbssword);
 
-    private native byte[] getNextToken (long crdHandle, byte[] lastToken, Status returned);
+    privbte nbtive byte[] getNextToken (long crdHbndle, byte[] lbstToken, Stbtus returned);
 }
 

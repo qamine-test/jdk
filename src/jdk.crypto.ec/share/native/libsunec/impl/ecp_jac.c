@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library for prime field curves.
+ * The Originbl Code is the elliptic curve mbth librbry for prime field curves.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Sheueling Chang-Shantz <sheueling.chang@sun.com>,
- *   Stephen Fung <fungstep@hotmail.com>, and
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories.
- *   Bodo Moeller <moeller@cdc.informatik.tu-darmstadt.de>,
- *   Nils Larsch <nla@trustcenter.de>, and
- *   Lenka Fibikova <fibikova@exp-math.uni-essen.de>, the OpenSSL Project
+ *   Sheueling Chbng-Shbntz <sheueling.chbng@sun.com>,
+ *   Stephen Fung <fungstep@hotmbil.com>, bnd
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories.
+ *   Bodo Moeller <moeller@cdc.informbtik.tu-dbrmstbdt.de>,
+ *   Nils Lbrsch <nlb@trustcenter.de>, bnd
+ *   Lenkb Fibikovb <fibikovb@exp-mbth.uni-essen.de>, the OpenSSL Project
  *
  *********************************************************************** */
 
@@ -46,21 +46,21 @@
 #include <stdlib.h>
 #endif
 #ifdef ECL_DEBUG
-#include <assert.h>
+#include <bssert.h>
 #endif
 
-/* Converts a point P(px, py) from affine coordinates to Jacobian
- * projective coordinates R(rx, ry, rz). Assumes input is already
- * field-encoded using field_enc, and returns output that is still
+/* Converts b point P(px, py) from bffine coordinbtes to Jbcobibn
+ * projective coordinbtes R(rx, ry, rz). Assumes input is blrebdy
+ * field-encoded using field_enc, bnd returns output thbt is still
  * field-encoded. */
 mp_err
-ec_GFp_pt_aff2jac(const mp_int *px, const mp_int *py, mp_int *rx,
+ec_GFp_pt_bff2jbc(const mp_int *px, const mp_int *py, mp_int *rx,
                                   mp_int *ry, mp_int *rz, const ECGroup *group)
 {
         mp_err res = MP_OKAY;
 
-        if (ec_GFp_pt_is_inf_aff(px, py) == MP_YES) {
-                MP_CHECKOK(ec_GFp_pt_set_inf_jac(rx, ry, rz));
+        if (ec_GFp_pt_is_inf_bff(px, py) == MP_YES) {
+                MP_CHECKOK(ec_GFp_pt_set_inf_jbc(rx, ry, rz));
         } else {
                 MP_CHECKOK(mp_copy(px, rx));
                 MP_CHECKOK(mp_copy(py, ry));
@@ -73,12 +73,12 @@ ec_GFp_pt_aff2jac(const mp_int *px, const mp_int *py, mp_int *rx,
         return res;
 }
 
-/* Converts a point P(px, py, pz) from Jacobian projective coordinates to
- * affine coordinates R(rx, ry).  P and R can share x and y coordinates.
- * Assumes input is already field-encoded using field_enc, and returns
- * output that is still field-encoded. */
+/* Converts b point P(px, py, pz) from Jbcobibn projective coordinbtes to
+ * bffine coordinbtes R(rx, ry).  P bnd R cbn shbre x bnd y coordinbtes.
+ * Assumes input is blrebdy field-encoded using field_enc, bnd returns
+ * output thbt is still field-encoded. */
 mp_err
-ec_GFp_pt_jac2aff(const mp_int *px, const mp_int *py, const mp_int *pz,
+ec_GFp_pt_jbc2bff(const mp_int *px, const mp_int *py, const mp_int *pz,
                                   mp_int *rx, mp_int *ry, const ECGroup *group)
 {
         mp_err res = MP_OKAY;
@@ -91,13 +91,13 @@ ec_GFp_pt_jac2aff(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(mp_init(&z2, FLAG(px)));
         MP_CHECKOK(mp_init(&z3, FLAG(px)));
 
-        /* if point at infinity, then set point at infinity and exit */
-        if (ec_GFp_pt_is_inf_jac(px, py, pz) == MP_YES) {
-                MP_CHECKOK(ec_GFp_pt_set_inf_aff(rx, ry));
+        /* if point bt infinity, then set point bt infinity bnd exit */
+        if (ec_GFp_pt_is_inf_jbc(px, py, pz) == MP_YES) {
+                MP_CHECKOK(ec_GFp_pt_set_inf_bff(rx, ry));
                 goto CLEANUP;
         }
 
-        /* transform (px, py, pz) into (px / pz^2, py / pz^3) */
+        /* trbnsform (px, py, pz) into (px / pz^2, py / pz^3) */
         if (mp_cmp_d(pz, 1) == 0) {
                 MP_CHECKOK(mp_copy(px, rx));
                 MP_CHECKOK(mp_copy(py, ry));
@@ -110,38 +110,38 @@ ec_GFp_pt_jac2aff(const mp_int *px, const mp_int *py, const mp_int *pz,
         }
 
   CLEANUP:
-        mp_clear(&z1);
-        mp_clear(&z2);
-        mp_clear(&z3);
+        mp_clebr(&z1);
+        mp_clebr(&z2);
+        mp_clebr(&z3);
         return res;
 }
 
-/* Checks if point P(px, py, pz) is at infinity. Uses Jacobian
- * coordinates. */
+/* Checks if point P(px, py, pz) is bt infinity. Uses Jbcobibn
+ * coordinbtes. */
 mp_err
-ec_GFp_pt_is_inf_jac(const mp_int *px, const mp_int *py, const mp_int *pz)
+ec_GFp_pt_is_inf_jbc(const mp_int *px, const mp_int *py, const mp_int *pz)
 {
         return mp_cmp_z(pz);
 }
 
-/* Sets P(px, py, pz) to be the point at infinity.  Uses Jacobian
- * coordinates. */
+/* Sets P(px, py, pz) to be the point bt infinity.  Uses Jbcobibn
+ * coordinbtes. */
 mp_err
-ec_GFp_pt_set_inf_jac(mp_int *px, mp_int *py, mp_int *pz)
+ec_GFp_pt_set_inf_jbc(mp_int *px, mp_int *py, mp_int *pz)
 {
         mp_zero(pz);
         return MP_OKAY;
 }
 
-/* Computes R = P + Q where R is (rx, ry, rz), P is (px, py, pz) and Q is
- * (qx, qy, 1).  Elliptic curve points P, Q, and R can all be identical.
- * Uses mixed Jacobian-affine coordinates. Assumes input is already
- * field-encoded using field_enc, and returns output that is still
- * field-encoded. Uses equation (2) from Brown, Hankerson, Lopez, and
- * Menezes. Software Implementation of the NIST Elliptic Curves Over Prime
+/* Computes R = P + Q where R is (rx, ry, rz), P is (px, py, pz) bnd Q is
+ * (qx, qy, 1).  Elliptic curve points P, Q, bnd R cbn bll be identicbl.
+ * Uses mixed Jbcobibn-bffine coordinbtes. Assumes input is blrebdy
+ * field-encoded using field_enc, bnd returns output thbt is still
+ * field-encoded. Uses equbtion (2) from Brown, Hbnkerson, Lopez, bnd
+ * Menezes. Softwbre Implementbtion of the NIST Elliptic Curves Over Prime
  * Fields. */
 mp_err
-ec_GFp_pt_add_jac_aff(const mp_int *px, const mp_int *py, const mp_int *pz,
+ec_GFp_pt_bdd_jbc_bff(const mp_int *px, const mp_int *py, const mp_int *pz,
                                           const mp_int *qx, const mp_int *qy, mp_int *rx,
                                           mp_int *ry, mp_int *rz, const ECGroup *group)
 {
@@ -161,13 +161,13 @@ ec_GFp_pt_add_jac_aff(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(mp_init(&C2, FLAG(px)));
         MP_CHECKOK(mp_init(&C3, FLAG(px)));
 
-        /* If either P or Q is the point at infinity, then return the other
+        /* If either P or Q is the point bt infinity, then return the other
          * point */
-        if (ec_GFp_pt_is_inf_jac(px, py, pz) == MP_YES) {
-                MP_CHECKOK(ec_GFp_pt_aff2jac(qx, qy, rx, ry, rz, group));
+        if (ec_GFp_pt_is_inf_jbc(px, py, pz) == MP_YES) {
+                MP_CHECKOK(ec_GFp_pt_bff2jbc(qx, qy, rx, ry, rz, group));
                 goto CLEANUP;
         }
-        if (ec_GFp_pt_is_inf_aff(qx, qy) == MP_YES) {
+        if (ec_GFp_pt_is_inf_bff(qx, qy) == MP_YES) {
                 MP_CHECKOK(mp_copy(px, rx));
                 MP_CHECKOK(mp_copy(py, ry));
                 MP_CHECKOK(mp_copy(pz, rz));
@@ -197,8 +197,8 @@ ec_GFp_pt_add_jac_aff(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(group->meth->field_sqr(&D, &A, group->meth));
 
         /* rx = D^2 - (C^3 + 2 * (px * C^2)) */
-        MP_CHECKOK(group->meth->field_add(&C, &C, rx, group->meth));
-        MP_CHECKOK(group->meth->field_add(&C3, rx, rx, group->meth));
+        MP_CHECKOK(group->meth->field_bdd(&C, &C, rx, group->meth));
+        MP_CHECKOK(group->meth->field_bdd(&C3, rx, rx, group->meth));
         MP_CHECKOK(group->meth->field_sub(&A, rx, rx, group->meth));
 
         /* C3 = py * C^3 */
@@ -210,27 +210,27 @@ ec_GFp_pt_add_jac_aff(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(group->meth->field_sub(ry, &C3, ry, group->meth));
 
   CLEANUP:
-        mp_clear(&A);
-        mp_clear(&B);
-        mp_clear(&C);
-        mp_clear(&D);
-        mp_clear(&C2);
-        mp_clear(&C3);
+        mp_clebr(&A);
+        mp_clebr(&B);
+        mp_clebr(&C);
+        mp_clebr(&D);
+        mp_clebr(&C2);
+        mp_clebr(&C3);
         return res;
 }
 
-/* Computes R = 2P.  Elliptic curve points P and R can be identical.  Uses
- * Jacobian coordinates.
+/* Computes R = 2P.  Elliptic curve points P bnd R cbn be identicbl.  Uses
+ * Jbcobibn coordinbtes.
  *
- * Assumes input is already field-encoded using field_enc, and returns
- * output that is still field-encoded.
+ * Assumes input is blrebdy field-encoded using field_enc, bnd returns
+ * output thbt is still field-encoded.
  *
- * This routine implements Point Doubling in the Jacobian Projective
- * space as described in the paper "Efficient elliptic curve exponentiation
- * using mixed coordinates", by H. Cohen, A Miyaji, T. Ono.
+ * This routine implements Point Doubling in the Jbcobibn Projective
+ * spbce bs described in the pbper "Efficient elliptic curve exponentibtion
+ * using mixed coordinbtes", by H. Cohen, A Miybji, T. Ono.
  */
 mp_err
-ec_GFp_pt_dbl_jac(const mp_int *px, const mp_int *py, const mp_int *pz,
+ec_GFp_pt_dbl_jbc(const mp_int *px, const mp_int *py, const mp_int *pz,
                                   mp_int *rx, mp_int *ry, mp_int *rz, const ECGroup *group)
 {
         mp_err res = MP_OKAY;
@@ -245,45 +245,45 @@ ec_GFp_pt_dbl_jac(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(mp_init(&M, FLAG(px)));
         MP_CHECKOK(mp_init(&S, FLAG(px)));
 
-        if (ec_GFp_pt_is_inf_jac(px, py, pz) == MP_YES) {
-                MP_CHECKOK(ec_GFp_pt_set_inf_jac(rx, ry, rz));
+        if (ec_GFp_pt_is_inf_jbc(px, py, pz) == MP_YES) {
+                MP_CHECKOK(ec_GFp_pt_set_inf_jbc(rx, ry, rz));
                 goto CLEANUP;
         }
 
         if (mp_cmp_d(pz, 1) == 0) {
-                /* M = 3 * px^2 + a */
+                /* M = 3 * px^2 + b */
                 MP_CHECKOK(group->meth->field_sqr(px, &t0, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &t0, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &M, &t0, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(&t0, &t0, &M, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(&t0, &M, &t0, group->meth));
                 MP_CHECKOK(group->meth->
-                                   field_add(&t0, &group->curvea, &M, group->meth));
-        } else if (mp_cmp_int(&group->curvea, -3, FLAG(px)) == 0) {
+                                   field_bdd(&t0, &group->curveb, &M, group->meth));
+        } else if (mp_cmp_int(&group->curveb, -3, FLAG(px)) == 0) {
                 /* M = 3 * (px + pz^2) * (px - pz^2) */
                 MP_CHECKOK(group->meth->field_sqr(pz, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(px, &M, &t0, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(px, &M, &t0, group->meth));
                 MP_CHECKOK(group->meth->field_sub(px, &M, &t1, group->meth));
                 MP_CHECKOK(group->meth->field_mul(&t0, &t1, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(&M, &M, &t0, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &M, &M, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(&M, &M, &t0, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(&t0, &M, &M, group->meth));
         } else {
-                /* M = 3 * (px^2) + a * (pz^4) */
+                /* M = 3 * (px^2) + b * (pz^4) */
                 MP_CHECKOK(group->meth->field_sqr(px, &t0, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &t0, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(&t0, &M, &t0, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(&t0, &t0, &M, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(&t0, &M, &t0, group->meth));
                 MP_CHECKOK(group->meth->field_sqr(pz, &M, group->meth));
                 MP_CHECKOK(group->meth->field_sqr(&M, &M, group->meth));
                 MP_CHECKOK(group->meth->
-                                   field_mul(&M, &group->curvea, &M, group->meth));
-                MP_CHECKOK(group->meth->field_add(&M, &t0, &M, group->meth));
+                                   field_mul(&M, &group->curveb, &M, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(&M, &t0, &M, group->meth));
         }
 
         /* rz = 2 * py * pz */
         /* t0 = 4 * py^2 */
         if (mp_cmp_d(pz, 1) == 0) {
-                MP_CHECKOK(group->meth->field_add(py, py, rz, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(py, py, rz, group->meth));
                 MP_CHECKOK(group->meth->field_sqr(rz, &t0, group->meth));
         } else {
-                MP_CHECKOK(group->meth->field_add(py, py, &t0, group->meth));
+                MP_CHECKOK(group->meth->field_bdd(py, py, &t0, group->meth));
                 MP_CHECKOK(group->meth->field_mul(&t0, pz, rz, group->meth));
                 MP_CHECKOK(group->meth->field_sqr(&t0, &t0, group->meth));
         }
@@ -292,14 +292,14 @@ ec_GFp_pt_dbl_jac(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(group->meth->field_mul(px, &t0, &S, group->meth));
 
         /* rx = M^2 - 2 * S */
-        MP_CHECKOK(group->meth->field_add(&S, &S, &t1, group->meth));
+        MP_CHECKOK(group->meth->field_bdd(&S, &S, &t1, group->meth));
         MP_CHECKOK(group->meth->field_sqr(&M, rx, group->meth));
         MP_CHECKOK(group->meth->field_sub(rx, &t1, rx, group->meth));
 
         /* ry = M * (S - rx) - 8 * py^4 */
         MP_CHECKOK(group->meth->field_sqr(&t0, &t1, group->meth));
         if (mp_isodd(&t1)) {
-                MP_CHECKOK(mp_add(&t1, &group->meth->irr, &t1));
+                MP_CHECKOK(mp_bdd(&t1, &group->meth->irr, &t1));
         }
         MP_CHECKOK(mp_div_2(&t1, &t1));
         MP_CHECKOK(group->meth->field_sub(&S, rx, &S, group->meth));
@@ -307,23 +307,23 @@ ec_GFp_pt_dbl_jac(const mp_int *px, const mp_int *py, const mp_int *pz,
         MP_CHECKOK(group->meth->field_sub(&M, &t1, ry, group->meth));
 
   CLEANUP:
-        mp_clear(&t0);
-        mp_clear(&t1);
-        mp_clear(&M);
-        mp_clear(&S);
+        mp_clebr(&t0);
+        mp_clebr(&t1);
+        mp_clebr(&M);
+        mp_clebr(&S);
         return res;
 }
 
-/* by default, this routine is unused and thus doesn't need to be compiled */
+/* by defbult, this routine is unused bnd thus doesn't need to be compiled */
 #ifdef ECL_ENABLE_GFP_PT_MUL_JAC
-/* Computes R = nP where R is (rx, ry) and P is (px, py). The parameters
- * a, b and p are the elliptic curve coefficients and the prime that
- * determines the field GFp.  Elliptic curve points P and R can be
- * identical.  Uses mixed Jacobian-affine coordinates. Assumes input is
- * already field-encoded using field_enc, and returns output that is still
+/* Computes R = nP where R is (rx, ry) bnd P is (px, py). The pbrbmeters
+ * b, b bnd p bre the elliptic curve coefficients bnd the prime thbt
+ * determines the field GFp.  Elliptic curve points P bnd R cbn be
+ * identicbl.  Uses mixed Jbcobibn-bffine coordinbtes. Assumes input is
+ * blrebdy field-encoded using field_enc, bnd returns output thbt is still
  * field-encoded. Uses 4-bit window method. */
 mp_err
-ec_GFp_pt_mul_jac(const mp_int *n, const mp_int *px, const mp_int *py,
+ec_GFp_pt_mul_jbc(const mp_int *n, const mp_int *px, const mp_int *py,
                                   mp_int *rx, mp_int *ry, const ECGroup *group)
 {
         mp_err res = MP_OKAY;
@@ -339,29 +339,29 @@ ec_GFp_pt_mul_jac(const mp_int *n, const mp_int *px, const mp_int *py,
         ARGCHK(group != NULL, MP_BADARG);
         ARGCHK((n != NULL) && (px != NULL) && (py != NULL), MP_BADARG);
 
-        /* initialize precomputation table */
+        /* initiblize precomputbtion tbble */
         for (i = 0; i < 16; i++) {
                 MP_CHECKOK(mp_init(&precomp[i][0]));
                 MP_CHECKOK(mp_init(&precomp[i][1]));
         }
 
-        /* fill precomputation table */
+        /* fill precomputbtion tbble */
         mp_zero(&precomp[0][0]);
         mp_zero(&precomp[0][1]);
         MP_CHECKOK(mp_copy(px, &precomp[1][0]));
         MP_CHECKOK(mp_copy(py, &precomp[1][1]));
         for (i = 2; i < 16; i++) {
                 MP_CHECKOK(group->
-                                   point_add(&precomp[1][0], &precomp[1][1],
+                                   point_bdd(&precomp[1][0], &precomp[1][1],
                                                          &precomp[i - 1][0], &precomp[i - 1][1],
                                                          &precomp[i][0], &precomp[i][1], group));
         }
 
-        d = (mpl_significant_bits(n) + 3) / 4;
+        d = (mpl_significbnt_bits(n) + 3) / 4;
 
         /* R = inf */
         MP_CHECKOK(mp_init(&rz));
-        MP_CHECKOK(ec_GFp_pt_set_inf_jac(rx, ry, &rz));
+        MP_CHECKOK(ec_GFp_pt_set_inf_jbc(rx, ry, &rz));
 
         for (i = d - 1; i >= 0; i--) {
                 /* compute window ni */
@@ -373,47 +373,47 @@ ec_GFp_pt_mul_jac(const mp_int *n, const mp_int *px, const mp_int *py,
                 ni <<= 1;
                 ni |= MP_GET_BIT(n, 4 * i);
                 /* R = 2^4 * R */
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(ec_GFp_pt_dbl_jbc(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(ec_GFp_pt_dbl_jbc(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(ec_GFp_pt_dbl_jbc(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(ec_GFp_pt_dbl_jbc(rx, ry, &rz, rx, ry, &rz, group));
                 /* R = R + (ni * P) */
-                MP_CHECKOK(ec_GFp_pt_add_jac_aff
+                MP_CHECKOK(ec_GFp_pt_bdd_jbc_bff
                                    (rx, ry, &rz, &precomp[ni][0], &precomp[ni][1], rx, ry,
                                         &rz, group));
         }
 
-        /* convert result S to affine coordinates */
-        MP_CHECKOK(ec_GFp_pt_jac2aff(rx, ry, &rz, rx, ry, group));
+        /* convert result S to bffine coordinbtes */
+        MP_CHECKOK(ec_GFp_pt_jbc2bff(rx, ry, &rz, rx, ry, group));
 
   CLEANUP:
-        mp_clear(&rz);
+        mp_clebr(&rz);
         for (i = 0; i < 16; i++) {
-                mp_clear(&precomp[i][0]);
-                mp_clear(&precomp[i][1]);
+                mp_clebr(&precomp[i][0]);
+                mp_clebr(&precomp[i][1]);
         }
         return res;
 }
 #endif
 
-/* Elliptic curve scalar-point multiplication. Computes R(x, y) = k1 * G +
- * k2 * P(x, y), where G is the generator (base point) of the group of
+/* Elliptic curve scblbr-point multiplicbtion. Computes R(x, y) = k1 * G +
+ * k2 * P(x, y), where G is the generbtor (bbse point) of the group of
  * points on the elliptic curve. Allows k1 = NULL or { k2, P } = NULL.
- * Uses mixed Jacobian-affine coordinates. Input and output values are
- * assumed to be NOT field-encoded. Uses algorithm 15 (simultaneous
- * multiple point multiplication) from Brown, Hankerson, Lopez, Menezes.
- * Software Implementation of the NIST Elliptic Curves over Prime Fields. */
+ * Uses mixed Jbcobibn-bffine coordinbtes. Input bnd output vblues bre
+ * bssumed to be NOT field-encoded. Uses blgorithm 15 (simultbneous
+ * multiple point multiplicbtion) from Brown, Hbnkerson, Lopez, Menezes.
+ * Softwbre Implementbtion of the NIST Elliptic Curves over Prime Fields. */
 mp_err
-ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
+ec_GFp_pts_mul_jbc(const mp_int *k1, const mp_int *k2, const mp_int *px,
                                    const mp_int *py, mp_int *rx, mp_int *ry,
                                    const ECGroup *group)
 {
         mp_err res = MP_OKAY;
         mp_int precomp[4][4][2];
         mp_int rz;
-        const mp_int *a, *b;
+        const mp_int *b, *b;
         int i, j;
-        int ai, bi, d;
+        int bi, bi, d;
 
         for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; j++) {
@@ -428,14 +428,14 @@ ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
                          && ((k2 == NULL) || (px == NULL)
                                  || (py == NULL))), MP_BADARG);
 
-        /* if some arguments are not defined used ECPoint_mul */
+        /* if some brguments bre not defined used ECPoint_mul */
         if (k1 == NULL) {
                 return ECPoint_mul(group, k2, px, py, rx, ry);
         } else if ((k2 == NULL) || (px == NULL) || (py == NULL)) {
                 return ECPoint_mul(group, k1, NULL, NULL, rx, ry);
         }
 
-        /* initialize precomputation table */
+        /* initiblize precomputbtion tbble */
         for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; j++) {
                         MP_CHECKOK(mp_init(&precomp[i][j][0], FLAG(k1)));
@@ -443,10 +443,10 @@ ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
                 }
         }
 
-        /* fill precomputation table */
-        /* assign {k1, k2} = {a, b} such that len(a) >= len(b) */
-        if (mpl_significant_bits(k1) < mpl_significant_bits(k2)) {
-                a = k2;
+        /* fill precomputbtion tbble */
+        /* bssign {k1, k2} = {b, b} such thbt len(b) >= len(b) */
+        if (mpl_significbnt_bits(k1) < mpl_significbnt_bits(k2)) {
+                b = k2;
                 b = k1;
                 if (group->meth->field_enc) {
                         MP_CHECKOK(group->meth->
@@ -460,7 +460,7 @@ ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
                 MP_CHECKOK(mp_copy(&group->genx, &precomp[0][1][0]));
                 MP_CHECKOK(mp_copy(&group->geny, &precomp[0][1][1]));
         } else {
-                a = k1;
+                b = k1;
                 b = k2;
                 MP_CHECKOK(mp_copy(&group->genx, &precomp[1][0][0]));
                 MP_CHECKOK(mp_copy(&group->geny, &precomp[1][0][1]));
@@ -481,13 +481,13 @@ ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
                            point_dbl(&precomp[1][0][0], &precomp[1][0][1],
                                                  &precomp[2][0][0], &precomp[2][0][1], group));
         MP_CHECKOK(group->
-                           point_add(&precomp[1][0][0], &precomp[1][0][1],
+                           point_bdd(&precomp[1][0][0], &precomp[1][0][1],
                                                  &precomp[2][0][0], &precomp[2][0][1],
                                                  &precomp[3][0][0], &precomp[3][0][1], group));
         /* precompute [*][1][*] */
         for (i = 1; i < 4; i++) {
                 MP_CHECKOK(group->
-                                   point_add(&precomp[0][1][0], &precomp[0][1][1],
+                                   point_bdd(&precomp[0][1][0], &precomp[0][1][1],
                                                          &precomp[i][0][0], &precomp[i][0][1],
                                                          &precomp[i][1][0], &precomp[i][1][1], group));
         }
@@ -497,45 +497,45 @@ ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
                                                  &precomp[0][2][0], &precomp[0][2][1], group));
         for (i = 1; i < 4; i++) {
                 MP_CHECKOK(group->
-                                   point_add(&precomp[0][2][0], &precomp[0][2][1],
+                                   point_bdd(&precomp[0][2][0], &precomp[0][2][1],
                                                          &precomp[i][0][0], &precomp[i][0][1],
                                                          &precomp[i][2][0], &precomp[i][2][1], group));
         }
         /* precompute [*][3][*] */
         MP_CHECKOK(group->
-                           point_add(&precomp[0][1][0], &precomp[0][1][1],
+                           point_bdd(&precomp[0][1][0], &precomp[0][1][1],
                                                  &precomp[0][2][0], &precomp[0][2][1],
                                                  &precomp[0][3][0], &precomp[0][3][1], group));
         for (i = 1; i < 4; i++) {
                 MP_CHECKOK(group->
-                                   point_add(&precomp[0][3][0], &precomp[0][3][1],
+                                   point_bdd(&precomp[0][3][0], &precomp[0][3][1],
                                                          &precomp[i][0][0], &precomp[i][0][1],
                                                          &precomp[i][3][0], &precomp[i][3][1], group));
         }
 
-        d = (mpl_significant_bits(a) + 1) / 2;
+        d = (mpl_significbnt_bits(b) + 1) / 2;
 
         /* R = inf */
         MP_CHECKOK(mp_init(&rz, FLAG(k1)));
-        MP_CHECKOK(ec_GFp_pt_set_inf_jac(rx, ry, &rz));
+        MP_CHECKOK(ec_GFp_pt_set_inf_jbc(rx, ry, &rz));
 
         for (i = d - 1; i >= 0; i--) {
-                ai = MP_GET_BIT(a, 2 * i + 1);
-                ai <<= 1;
-                ai |= MP_GET_BIT(a, 2 * i);
+                bi = MP_GET_BIT(b, 2 * i + 1);
+                bi <<= 1;
+                bi |= MP_GET_BIT(b, 2 * i);
                 bi = MP_GET_BIT(b, 2 * i + 1);
                 bi <<= 1;
                 bi |= MP_GET_BIT(b, 2 * i);
                 /* R = 2^2 * R */
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                MP_CHECKOK(ec_GFp_pt_dbl_jac(rx, ry, &rz, rx, ry, &rz, group));
-                /* R = R + (ai * A + bi * B) */
-                MP_CHECKOK(ec_GFp_pt_add_jac_aff
-                                   (rx, ry, &rz, &precomp[ai][bi][0], &precomp[ai][bi][1],
+                MP_CHECKOK(ec_GFp_pt_dbl_jbc(rx, ry, &rz, rx, ry, &rz, group));
+                MP_CHECKOK(ec_GFp_pt_dbl_jbc(rx, ry, &rz, rx, ry, &rz, group));
+                /* R = R + (bi * A + bi * B) */
+                MP_CHECKOK(ec_GFp_pt_bdd_jbc_bff
+                                   (rx, ry, &rz, &precomp[bi][bi][0], &precomp[bi][bi][1],
                                         rx, ry, &rz, group));
         }
 
-        MP_CHECKOK(ec_GFp_pt_jac2aff(rx, ry, &rz, rx, ry, group));
+        MP_CHECKOK(ec_GFp_pt_jbc2bff(rx, ry, &rz, rx, ry, group));
 
         if (group->meth->field_dec) {
                 MP_CHECKOK(group->meth->field_dec(rx, rx, group->meth));
@@ -543,11 +543,11 @@ ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
         }
 
   CLEANUP:
-        mp_clear(&rz);
+        mp_clebr(&rz);
         for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; j++) {
-                        mp_clear(&precomp[i][j][0]);
-                        mp_clear(&precomp[i][j][1]);
+                        mp_clebr(&precomp[i][j][0]);
+                        mp_clebr(&precomp[i][j][1]);
                 }
         }
         return res;

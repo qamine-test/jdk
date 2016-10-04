@@ -1,132 +1,132 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.io.Serializable;
-import java.util.AbstractCollection;
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.Spliterator;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentNavigableMap;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
+pbckbge jbvb.util.concurrent;
+import jbvb.io.Seriblizbble;
+import jbvb.util.AbstrbctCollection;
+import jbvb.util.AbstrbctMbp;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.NbvigbbleMbp;
+import jbvb.util.NbvigbbleSet;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
+import jbvb.util.SortedMbp;
+import jbvb.util.SortedSet;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.concurrent.ConcurrentNbvigbbleMbp;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.Function;
 
 /**
- * A scalable concurrent {@link ConcurrentNavigableMap} implementation.
- * The map is sorted according to the {@linkplain Comparable natural
- * ordering} of its keys, or by a {@link Comparator} provided at map
- * creation time, depending on which constructor is used.
+ * A scblbble concurrent {@link ConcurrentNbvigbbleMbp} implementbtion.
+ * The mbp is sorted bccording to the {@linkplbin Compbrbble nbturbl
+ * ordering} of its keys, or by b {@link Compbrbtor} provided bt mbp
+ * crebtion time, depending on which constructor is used.
  *
- * <p>This class implements a concurrent variant of <a
- * href="http://en.wikipedia.org/wiki/Skip_list" target="_top">SkipLists</a>
- * providing expected average <i>log(n)</i> time cost for the
- * {@code containsKey}, {@code get}, {@code put} and
- * {@code remove} operations and their variants.  Insertion, removal,
- * update, and access operations safely execute concurrently by
- * multiple threads.
+ * <p>This clbss implements b concurrent vbribnt of <b
+ * href="http://en.wikipedib.org/wiki/Skip_list" tbrget="_top">SkipLists</b>
+ * providing expected bverbge <i>log(n)</i> time cost for the
+ * {@code contbinsKey}, {@code get}, {@code put} bnd
+ * {@code remove} operbtions bnd their vbribnts.  Insertion, removbl,
+ * updbte, bnd bccess operbtions sbfely execute concurrently by
+ * multiple threbds.
  *
- * <p>Iterators and spliterators are
- * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+ * <p>Iterbtors bnd spliterbtors bre
+ * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
  *
- * <p>Ascending key ordered views and their iterators are faster than
+ * <p>Ascending key ordered views bnd their iterbtors bre fbster thbn
  * descending ones.
  *
- * <p>All {@code Map.Entry} pairs returned by methods in this class
- * and its views represent snapshots of mappings at the time they were
- * produced. They do <em>not</em> support the {@code Entry.setValue}
- * method. (Note however that it is possible to change mappings in the
- * associated map using {@code put}, {@code putIfAbsent}, or
- * {@code replace}, depending on exactly which effect you need.)
+ * <p>All {@code Mbp.Entry} pbirs returned by methods in this clbss
+ * bnd its views represent snbpshots of mbppings bt the time they were
+ * produced. They do <em>not</em> support the {@code Entry.setVblue}
+ * method. (Note however thbt it is possible to chbnge mbppings in the
+ * bssocibted mbp using {@code put}, {@code putIfAbsent}, or
+ * {@code replbce}, depending on exbctly which effect you need.)
  *
- * <p>Beware that, unlike in most collections, the {@code size}
- * method is <em>not</em> a constant-time operation. Because of the
- * asynchronous nature of these maps, determining the current number
- * of elements requires a traversal of the elements, and so may report
- * inaccurate results if this collection is modified during traversal.
- * Additionally, the bulk operations {@code putAll}, {@code equals},
- * {@code toArray}, {@code containsValue}, and {@code clear} are
- * <em>not</em> guaranteed to be performed atomically. For example, an
- * iterator operating concurrently with a {@code putAll} operation
- * might view only some of the added elements.
+ * <p>Bewbre thbt, unlike in most collections, the {@code size}
+ * method is <em>not</em> b constbnt-time operbtion. Becbuse of the
+ * bsynchronous nbture of these mbps, determining the current number
+ * of elements requires b trbversbl of the elements, bnd so mby report
+ * inbccurbte results if this collection is modified during trbversbl.
+ * Additionblly, the bulk operbtions {@code putAll}, {@code equbls},
+ * {@code toArrby}, {@code contbinsVblue}, bnd {@code clebr} bre
+ * <em>not</em> gubrbnteed to be performed btomicblly. For exbmple, bn
+ * iterbtor operbting concurrently with b {@code putAll} operbtion
+ * might view only some of the bdded elements.
  *
- * <p>This class and its views and iterators implement all of the
- * <em>optional</em> methods of the {@link Map} and {@link Iterator}
- * interfaces. Like most other concurrent collections, this class does
- * <em>not</em> permit the use of {@code null} keys or values because some
- * null return values cannot be reliably distinguished from the absence of
+ * <p>This clbss bnd its views bnd iterbtors implement bll of the
+ * <em>optionbl</em> methods of the {@link Mbp} bnd {@link Iterbtor}
+ * interfbces. Like most other concurrent collections, this clbss does
+ * <em>not</em> permit the use of {@code null} keys or vblues becbuse some
+ * null return vblues cbnnot be relibbly distinguished from the bbsence of
  * elements.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author Doug Lea
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @buthor Doug Leb
+ * @pbrbm <K> the type of keys mbintbined by this mbp
+ * @pbrbm <V> the type of mbpped vblues
  * @since 1.6
  */
-public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
-    implements ConcurrentNavigableMap<K,V>, Cloneable, Serializable {
+public clbss ConcurrentSkipListMbp<K,V> extends AbstrbctMbp<K,V>
+    implements ConcurrentNbvigbbleMbp<K,V>, Clonebble, Seriblizbble {
     /*
-     * This class implements a tree-like two-dimensionally linked skip
-     * list in which the index levels are represented in separate
-     * nodes from the base nodes holding data.  There are two reasons
-     * for taking this approach instead of the usual array-based
-     * structure: 1) Array based implementations seem to encounter
-     * more complexity and overhead 2) We can use cheaper algorithms
-     * for the heavily-traversed index lists than can be used for the
-     * base lists.  Here's a picture of some of the basics for a
+     * This clbss implements b tree-like two-dimensionblly linked skip
+     * list in which the index levels bre represented in sepbrbte
+     * nodes from the bbse nodes holding dbtb.  There bre two rebsons
+     * for tbking this bpprobch instebd of the usubl brrby-bbsed
+     * structure: 1) Arrby bbsed implementbtions seem to encounter
+     * more complexity bnd overhebd 2) We cbn use chebper blgorithms
+     * for the hebvily-trbversed index lists thbn cbn be used for the
+     * bbse lists.  Here's b picture of some of the bbsics for b
      * possible list with 2 levels of index:
      *
-     * Head nodes          Index nodes
+     * Hebd nodes          Index nodes
      * +-+    right        +-+                      +-+
      * |2|---------------->| |--------------------->| |->null
      * +-+                 +-+                      +-+
@@ -141,413 +141,413 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
      * | |->|A|->|B|->|C|->|D|->|E|->|F|->|G|->|H|->|I|->|J|->|K|->null
      * +-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+  +-+
      *
-     * The base lists use a variant of the HM linked ordered set
-     * algorithm. See Tim Harris, "A pragmatic implementation of
+     * The bbse lists use b vbribnt of the HM linked ordered set
+     * blgorithm. See Tim Hbrris, "A prbgmbtic implementbtion of
      * non-blocking linked lists"
-     * http://www.cl.cam.ac.uk/~tlh20/publications.html and Maged
-     * Michael "High Performance Dynamic Lock-Free Hash Tables and
-     * List-Based Sets"
-     * http://www.research.ibm.com/people/m/michael/pubs.htm.  The
-     * basic idea in these lists is to mark the "next" pointers of
-     * deleted nodes when deleting to avoid conflicts with concurrent
-     * insertions, and when traversing to keep track of triples
-     * (predecessor, node, successor) in order to detect when and how
+     * http://www.cl.cbm.bc.uk/~tlh20/publicbtions.html bnd Mbged
+     * Michbel "High Performbnce Dynbmic Lock-Free Hbsh Tbbles bnd
+     * List-Bbsed Sets"
+     * http://www.resebrch.ibm.com/people/m/michbel/pubs.htm.  The
+     * bbsic ideb in these lists is to mbrk the "next" pointers of
+     * deleted nodes when deleting to bvoid conflicts with concurrent
+     * insertions, bnd when trbversing to keep trbck of triples
+     * (predecessor, node, successor) in order to detect when bnd how
      * to unlink these deleted nodes.
      *
-     * Rather than using mark-bits to mark list deletions (which can
-     * be slow and space-intensive using AtomicMarkedReference), nodes
-     * use direct CAS'able next pointers.  On deletion, instead of
-     * marking a pointer, they splice in another node that can be
-     * thought of as standing for a marked pointer (indicating this by
-     * using otherwise impossible field values).  Using plain nodes
-     * acts roughly like "boxed" implementations of marked pointers,
-     * but uses new nodes only when nodes are deleted, not for every
-     * link.  This requires less space and supports faster
-     * traversal. Even if marked references were better supported by
-     * JVMs, traversal using this technique might still be faster
-     * because any search need only read ahead one more node than
-     * otherwise required (to check for trailing marker) rather than
-     * unmasking mark bits or whatever on each read.
+     * Rbther thbn using mbrk-bits to mbrk list deletions (which cbn
+     * be slow bnd spbce-intensive using AtomicMbrkedReference), nodes
+     * use direct CAS'bble next pointers.  On deletion, instebd of
+     * mbrking b pointer, they splice in bnother node thbt cbn be
+     * thought of bs stbnding for b mbrked pointer (indicbting this by
+     * using otherwise impossible field vblues).  Using plbin nodes
+     * bcts roughly like "boxed" implementbtions of mbrked pointers,
+     * but uses new nodes only when nodes bre deleted, not for every
+     * link.  This requires less spbce bnd supports fbster
+     * trbversbl. Even if mbrked references were better supported by
+     * JVMs, trbversbl using this technique might still be fbster
+     * becbuse bny sebrch need only rebd bhebd one more node thbn
+     * otherwise required (to check for trbiling mbrker) rbther thbn
+     * unmbsking mbrk bits or whbtever on ebch rebd.
      *
-     * This approach maintains the essential property needed in the HM
-     * algorithm of changing the next-pointer of a deleted node so
-     * that any other CAS of it will fail, but implements the idea by
-     * changing the pointer to point to a different node, not by
-     * marking it.  While it would be possible to further squeeze
-     * space by defining marker nodes not to have key/value fields, it
-     * isn't worth the extra type-testing overhead.  The deletion
-     * markers are rarely encountered during traversal and are
-     * normally quickly garbage collected. (Note that this technique
-     * would not work well in systems without garbage collection.)
+     * This bpprobch mbintbins the essentibl property needed in the HM
+     * blgorithm of chbnging the next-pointer of b deleted node so
+     * thbt bny other CAS of it will fbil, but implements the ideb by
+     * chbnging the pointer to point to b different node, not by
+     * mbrking it.  While it would be possible to further squeeze
+     * spbce by defining mbrker nodes not to hbve key/vblue fields, it
+     * isn't worth the extrb type-testing overhebd.  The deletion
+     * mbrkers bre rbrely encountered during trbversbl bnd bre
+     * normblly quickly gbrbbge collected. (Note thbt this technique
+     * would not work well in systems without gbrbbge collection.)
      *
-     * In addition to using deletion markers, the lists also use
-     * nullness of value fields to indicate deletion, in a style
-     * similar to typical lazy-deletion schemes.  If a node's value is
-     * null, then it is considered logically deleted and ignored even
-     * though it is still reachable. This maintains proper control of
-     * concurrent replace vs delete operations -- an attempted replace
-     * must fail if a delete beat it by nulling field, and a delete
-     * must return the last non-null value held in the field. (Note:
-     * Null, rather than some special marker, is used for value fields
-     * here because it just so happens to mesh with the Map API
-     * requirement that method get returns null if there is no
-     * mapping, which allows nodes to remain concurrently readable
-     * even when deleted. Using any other marker value here would be
-     * messy at best.)
+     * In bddition to using deletion mbrkers, the lists blso use
+     * nullness of vblue fields to indicbte deletion, in b style
+     * similbr to typicbl lbzy-deletion schemes.  If b node's vblue is
+     * null, then it is considered logicblly deleted bnd ignored even
+     * though it is still rebchbble. This mbintbins proper control of
+     * concurrent replbce vs delete operbtions -- bn bttempted replbce
+     * must fbil if b delete bebt it by nulling field, bnd b delete
+     * must return the lbst non-null vblue held in the field. (Note:
+     * Null, rbther thbn some specibl mbrker, is used for vblue fields
+     * here becbuse it just so hbppens to mesh with the Mbp API
+     * requirement thbt method get returns null if there is no
+     * mbpping, which bllows nodes to rembin concurrently rebdbble
+     * even when deleted. Using bny other mbrker vblue here would be
+     * messy bt best.)
      *
-     * Here's the sequence of events for a deletion of node n with
-     * predecessor b and successor f, initially:
+     * Here's the sequence of events for b deletion of node n with
+     * predecessor b bnd successor f, initiblly:
      *
      *        +------+       +------+      +------+
      *   ...  |   b  |------>|   n  |----->|   f  | ...
      *        +------+       +------+      +------+
      *
-     * 1. CAS n's value field from non-null to null.
-     *    From this point on, no public operations encountering
-     *    the node consider this mapping to exist. However, other
-     *    ongoing insertions and deletions might still modify
+     * 1. CAS n's vblue field from non-null to null.
+     *    From this point on, no public operbtions encountering
+     *    the node consider this mbpping to exist. However, other
+     *    ongoing insertions bnd deletions might still modify
      *    n's next pointer.
      *
-     * 2. CAS n's next pointer to point to a new marker node.
-     *    From this point on, no other nodes can be appended to n.
-     *    which avoids deletion errors in CAS-based linked lists.
+     * 2. CAS n's next pointer to point to b new mbrker node.
+     *    From this point on, no other nodes cbn be bppended to n.
+     *    which bvoids deletion errors in CAS-bbsed linked lists.
      *
      *        +------+       +------+      +------+       +------+
-     *   ...  |   b  |------>|   n  |----->|marker|------>|   f  | ...
+     *   ...  |   b  |------>|   n  |----->|mbrker|------>|   f  | ...
      *        +------+       +------+      +------+       +------+
      *
-     * 3. CAS b's next pointer over both n and its marker.
-     *    From this point on, no new traversals will encounter n,
-     *    and it can eventually be GCed.
+     * 3. CAS b's next pointer over both n bnd its mbrker.
+     *    From this point on, no new trbversbls will encounter n,
+     *    bnd it cbn eventublly be GCed.
      *        +------+                                    +------+
      *   ...  |   b  |----------------------------------->|   f  | ...
      *        +------+                                    +------+
      *
-     * A failure at step 1 leads to simple retry due to a lost race
-     * with another operation. Steps 2-3 can fail because some other
-     * thread noticed during a traversal a node with null value and
-     * helped out by marking and/or unlinking.  This helping-out
-     * ensures that no thread can become stuck waiting for progress of
-     * the deleting thread.  The use of marker nodes slightly
-     * complicates helping-out code because traversals must track
-     * consistent reads of up to four nodes (b, n, marker, f), not
-     * just (b, n, f), although the next field of a marker is
-     * immutable, and once a next field is CAS'ed to point to a
-     * marker, it never again changes, so this requires less care.
+     * A fbilure bt step 1 lebds to simple retry due to b lost rbce
+     * with bnother operbtion. Steps 2-3 cbn fbil becbuse some other
+     * threbd noticed during b trbversbl b node with null vblue bnd
+     * helped out by mbrking bnd/or unlinking.  This helping-out
+     * ensures thbt no threbd cbn become stuck wbiting for progress of
+     * the deleting threbd.  The use of mbrker nodes slightly
+     * complicbtes helping-out code becbuse trbversbls must trbck
+     * consistent rebds of up to four nodes (b, n, mbrker, f), not
+     * just (b, n, f), blthough the next field of b mbrker is
+     * immutbble, bnd once b next field is CAS'ed to point to b
+     * mbrker, it never bgbin chbnges, so this requires less cbre.
      *
-     * Skip lists add indexing to this scheme, so that the base-level
-     * traversals start close to the locations being found, inserted
-     * or deleted -- usually base level traversals only traverse a few
-     * nodes. This doesn't change the basic algorithm except for the
-     * need to make sure base traversals start at predecessors (here,
-     * b) that are not (structurally) deleted, otherwise retrying
-     * after processing the deletion.
+     * Skip lists bdd indexing to this scheme, so thbt the bbse-level
+     * trbversbls stbrt close to the locbtions being found, inserted
+     * or deleted -- usublly bbse level trbversbls only trbverse b few
+     * nodes. This doesn't chbnge the bbsic blgorithm except for the
+     * need to mbke sure bbse trbversbls stbrt bt predecessors (here,
+     * b) thbt bre not (structurblly) deleted, otherwise retrying
+     * bfter processing the deletion.
      *
-     * Index levels are maintained as lists with volatile next fields,
-     * using CAS to link and unlink.  Races are allowed in index-list
-     * operations that can (rarely) fail to link in a new index node
-     * or delete one. (We can't do this of course for data nodes.)
-     * However, even when this happens, the index lists remain sorted,
-     * so correctly serve as indices.  This can impact performance,
-     * but since skip lists are probabilistic anyway, the net result
-     * is that under contention, the effective "p" value may be lower
-     * than its nominal value. And race windows are kept small enough
-     * that in practice these failures are rare, even under a lot of
+     * Index levels bre mbintbined bs lists with volbtile next fields,
+     * using CAS to link bnd unlink.  Rbces bre bllowed in index-list
+     * operbtions thbt cbn (rbrely) fbil to link in b new index node
+     * or delete one. (We cbn't do this of course for dbtb nodes.)
+     * However, even when this hbppens, the index lists rembin sorted,
+     * so correctly serve bs indices.  This cbn impbct performbnce,
+     * but since skip lists bre probbbilistic bnywby, the net result
+     * is thbt under contention, the effective "p" vblue mby be lower
+     * thbn its nominbl vblue. And rbce windows bre kept smbll enough
+     * thbt in prbctice these fbilures bre rbre, even under b lot of
      * contention.
      *
-     * The fact that retries (for both base and index lists) are
-     * relatively cheap due to indexing allows some minor
-     * simplifications of retry logic. Traversal restarts are
-     * performed after most "helping-out" CASes. This isn't always
-     * strictly necessary, but the implicit backoffs tend to help
-     * reduce other downstream failed CAS's enough to outweigh restart
-     * cost.  This worsens the worst case, but seems to improve even
-     * highly contended cases.
+     * The fbct thbt retries (for both bbse bnd index lists) bre
+     * relbtively chebp due to indexing bllows some minor
+     * simplificbtions of retry logic. Trbversbl restbrts bre
+     * performed bfter most "helping-out" CASes. This isn't blwbys
+     * strictly necessbry, but the implicit bbckoffs tend to help
+     * reduce other downstrebm fbiled CAS's enough to outweigh restbrt
+     * cost.  This worsens the worst cbse, but seems to improve even
+     * highly contended cbses.
      *
-     * Unlike most skip-list implementations, index insertion and
-     * deletion here require a separate traversal pass occurring after
-     * the base-level action, to add or remove index nodes.  This adds
-     * to single-threaded overhead, but improves contended
-     * multithreaded performance by narrowing interference windows,
-     * and allows deletion to ensure that all index nodes will be made
-     * unreachable upon return from a public remove operation, thus
-     * avoiding unwanted garbage retention. This is more important
-     * here than in some other data structures because we cannot null
+     * Unlike most skip-list implementbtions, index insertion bnd
+     * deletion here require b sepbrbte trbversbl pbss occurring bfter
+     * the bbse-level bction, to bdd or remove index nodes.  This bdds
+     * to single-threbded overhebd, but improves contended
+     * multithrebded performbnce by nbrrowing interference windows,
+     * bnd bllows deletion to ensure thbt bll index nodes will be mbde
+     * unrebchbble upon return from b public remove operbtion, thus
+     * bvoiding unwbnted gbrbbge retention. This is more importbnt
+     * here thbn in some other dbtb structures becbuse we cbnnot null
      * out node fields referencing user keys since they might still be
-     * read by other ongoing traversals.
+     * rebd by other ongoing trbversbls.
      *
-     * Indexing uses skip list parameters that maintain good search
-     * performance while using sparser-than-usual indices: The
-     * hardwired parameters k=1, p=0.5 (see method doPut) mean
-     * that about one-quarter of the nodes have indices. Of those that
-     * do, half have one level, a quarter have two, and so on (see
-     * Pugh's Skip List Cookbook, sec 3.4).  The expected total space
-     * requirement for a map is slightly less than for the current
-     * implementation of java.util.TreeMap.
+     * Indexing uses skip list pbrbmeters thbt mbintbin good sebrch
+     * performbnce while using spbrser-thbn-usubl indices: The
+     * hbrdwired pbrbmeters k=1, p=0.5 (see method doPut) mebn
+     * thbt bbout one-qubrter of the nodes hbve indices. Of those thbt
+     * do, hblf hbve one level, b qubrter hbve two, bnd so on (see
+     * Pugh's Skip List Cookbook, sec 3.4).  The expected totbl spbce
+     * requirement for b mbp is slightly less thbn for the current
+     * implementbtion of jbvb.util.TreeMbp.
      *
-     * Changing the level of the index (i.e, the height of the
-     * tree-like structure) also uses CAS. The head index has initial
-     * level/height of one. Creation of an index with height greater
-     * than the current level adds a level to the head index by
-     * CAS'ing on a new top-most head. To maintain good performance
-     * after a lot of removals, deletion methods heuristically try to
-     * reduce the height if the topmost levels appear to be empty.
-     * This may encounter races in which it possible (but rare) to
-     * reduce and "lose" a level just as it is about to contain an
-     * index (that will then never be encountered). This does no
-     * structural harm, and in practice appears to be a better option
-     * than allowing unrestrained growth of levels.
+     * Chbnging the level of the index (i.e, the height of the
+     * tree-like structure) blso uses CAS. The hebd index hbs initibl
+     * level/height of one. Crebtion of bn index with height grebter
+     * thbn the current level bdds b level to the hebd index by
+     * CAS'ing on b new top-most hebd. To mbintbin good performbnce
+     * bfter b lot of removbls, deletion methods heuristicblly try to
+     * reduce the height if the topmost levels bppebr to be empty.
+     * This mby encounter rbces in which it possible (but rbre) to
+     * reduce bnd "lose" b level just bs it is bbout to contbin bn
+     * index (thbt will then never be encountered). This does no
+     * structurbl hbrm, bnd in prbctice bppebrs to be b better option
+     * thbn bllowing unrestrbined growth of levels.
      *
-     * The code for all this is more verbose than you'd like. Most
-     * operations entail locating an element (or position to insert an
-     * element). The code to do this can't be nicely factored out
-     * because subsequent uses require a snapshot of predecessor
-     * and/or successor and/or value fields which can't be returned
-     * all at once, at least not without creating yet another object
-     * to hold them -- creating such little objects is an especially
-     * bad idea for basic internal search operations because it adds
-     * to GC overhead.  (This is one of the few times I've wished Java
-     * had macros.) Instead, some traversal code is interleaved within
-     * insertion and removal operations.  The control logic to handle
-     * all the retry conditions is sometimes twisty. Most search is
-     * broken into 2 parts. findPredecessor() searches index nodes
-     * only, returning a base-level predecessor of the key. findNode()
-     * finishes out the base-level search. Even with this factoring,
-     * there is a fair amount of near-duplication of code to handle
-     * variants.
+     * The code for bll this is more verbose thbn you'd like. Most
+     * operbtions entbil locbting bn element (or position to insert bn
+     * element). The code to do this cbn't be nicely fbctored out
+     * becbuse subsequent uses require b snbpshot of predecessor
+     * bnd/or successor bnd/or vblue fields which cbn't be returned
+     * bll bt once, bt lebst not without crebting yet bnother object
+     * to hold them -- crebting such little objects is bn especiblly
+     * bbd ideb for bbsic internbl sebrch operbtions becbuse it bdds
+     * to GC overhebd.  (This is one of the few times I've wished Jbvb
+     * hbd mbcros.) Instebd, some trbversbl code is interlebved within
+     * insertion bnd removbl operbtions.  The control logic to hbndle
+     * bll the retry conditions is sometimes twisty. Most sebrch is
+     * broken into 2 pbrts. findPredecessor() sebrches index nodes
+     * only, returning b bbse-level predecessor of the key. findNode()
+     * finishes out the bbse-level sebrch. Even with this fbctoring,
+     * there is b fbir bmount of nebr-duplicbtion of code to hbndle
+     * vbribnts.
      *
-     * To produce random values without interference across threads,
-     * we use within-JDK thread local random support (via the
-     * "secondary seed", to avoid interference with user-level
-     * ThreadLocalRandom.)
+     * To produce rbndom vblues without interference bcross threbds,
+     * we use within-JDK threbd locbl rbndom support (vib the
+     * "secondbry seed", to bvoid interference with user-level
+     * ThrebdLocblRbndom.)
      *
-     * A previous version of this class wrapped non-comparable keys
-     * with their comparators to emulate Comparables when using
-     * comparators vs Comparables.  However, JVMs now appear to better
-     * handle infusing comparator-vs-comparable choice into search
-     * loops. Static method cpr(comparator, x, y) is used for all
-     * comparisons, which works well as long as the comparator
-     * argument is set up outside of loops (thus sometimes passed as
-     * an argument to internal methods) to avoid field re-reads.
+     * A previous version of this clbss wrbpped non-compbrbble keys
+     * with their compbrbtors to emulbte Compbrbbles when using
+     * compbrbtors vs Compbrbbles.  However, JVMs now bppebr to better
+     * hbndle infusing compbrbtor-vs-compbrbble choice into sebrch
+     * loops. Stbtic method cpr(compbrbtor, x, y) is used for bll
+     * compbrisons, which works well bs long bs the compbrbtor
+     * brgument is set up outside of loops (thus sometimes pbssed bs
+     * bn brgument to internbl methods) to bvoid field re-rebds.
      *
-     * For explanation of algorithms sharing at least a couple of
-     * features with this one, see Mikhail Fomitchev's thesis
-     * (http://www.cs.yorku.ca/~mikhail/), Keir Fraser's thesis
-     * (http://www.cl.cam.ac.uk/users/kaf24/), and Hakan Sundell's
-     * thesis (http://www.cs.chalmers.se/~phs/).
+     * For explbnbtion of blgorithms shbring bt lebst b couple of
+     * febtures with this one, see Mikhbil Fomitchev's thesis
+     * (http://www.cs.yorku.cb/~mikhbil/), Keir Frbser's thesis
+     * (http://www.cl.cbm.bc.uk/users/kbf24/), bnd Hbkbn Sundell's
+     * thesis (http://www.cs.chblmers.se/~phs/).
      *
      * Given the use of tree-like index nodes, you might wonder why
-     * this doesn't use some kind of search tree instead, which would
-     * support somewhat faster search operations. The reason is that
-     * there are no known efficient lock-free insertion and deletion
-     * algorithms for search trees. The immutability of the "down"
-     * links of index nodes (as opposed to mutable "left" fields in
-     * true trees) makes this tractable using only CAS operations.
+     * this doesn't use some kind of sebrch tree instebd, which would
+     * support somewhbt fbster sebrch operbtions. The rebson is thbt
+     * there bre no known efficient lock-free insertion bnd deletion
+     * blgorithms for sebrch trees. The immutbbility of the "down"
+     * links of index nodes (bs opposed to mutbble "left" fields in
+     * true trees) mbkes this trbctbble using only CAS operbtions.
      *
-     * Notation guide for local variables
+     * Notbtion guide for locbl vbribbles
      * Node:         b, n, f    for  predecessor, node, successor
      * Index:        q, r, d    for index node, right, down.
-     *               t          for another index node
-     * Head:         h
+     *               t          for bnother index node
+     * Hebd:         h
      * Levels:       j
      * Keys:         k, key
-     * Values:       v, value
-     * Comparisons:  c
+     * Vblues:       v, vblue
+     * Compbrisons:  c
      */
 
-    private static final long serialVersionUID = -8627078645895051609L;
+    privbte stbtic finbl long seriblVersionUID = -8627078645895051609L;
 
     /**
-     * Special value used to identify base-level header
+     * Specibl vblue used to identify bbse-level hebder
      */
-    private static final Object BASE_HEADER = new Object();
+    privbte stbtic finbl Object BASE_HEADER = new Object();
 
     /**
-     * The topmost head index of the skiplist.
+     * The topmost hebd index of the skiplist.
      */
-    private transient volatile HeadIndex<K,V> head;
+    privbte trbnsient volbtile HebdIndex<K,V> hebd;
 
     /**
-     * The comparator used to maintain order in this map, or null if
-     * using natural ordering.  (Non-private to simplify access in
-     * nested classes.)
-     * @serial
+     * The compbrbtor used to mbintbin order in this mbp, or null if
+     * using nbturbl ordering.  (Non-privbte to simplify bccess in
+     * nested clbsses.)
+     * @seribl
      */
-    final Comparator<? super K> comparator;
+    finbl Compbrbtor<? super K> compbrbtor;
 
-    /** Lazily initialized key set */
-    private transient KeySet<K> keySet;
-    /** Lazily initialized entry set */
-    private transient EntrySet<K,V> entrySet;
-    /** Lazily initialized values collection */
-    private transient Values<V> values;
-    /** Lazily initialized descending key set */
-    private transient ConcurrentNavigableMap<K,V> descendingMap;
+    /** Lbzily initiblized key set */
+    privbte trbnsient KeySet<K> keySet;
+    /** Lbzily initiblized entry set */
+    privbte trbnsient EntrySet<K,V> entrySet;
+    /** Lbzily initiblized vblues collection */
+    privbte trbnsient Vblues<V> vblues;
+    /** Lbzily initiblized descending key set */
+    privbte trbnsient ConcurrentNbvigbbleMbp<K,V> descendingMbp;
 
     /**
-     * Initializes or resets state. Needed by constructors, clone,
-     * clear, readObject. and ConcurrentSkipListSet.clone.
-     * (Note that comparator must be separately initialized.)
+     * Initiblizes or resets stbte. Needed by constructors, clone,
+     * clebr, rebdObject. bnd ConcurrentSkipListSet.clone.
+     * (Note thbt compbrbtor must be sepbrbtely initiblized.)
      */
-    private void initialize() {
+    privbte void initiblize() {
         keySet = null;
         entrySet = null;
-        values = null;
-        descendingMap = null;
-        head = new HeadIndex<K,V>(new Node<K,V>(null, BASE_HEADER, null),
+        vblues = null;
+        descendingMbp = null;
+        hebd = new HebdIndex<K,V>(new Node<K,V>(null, BASE_HEADER, null),
                                   null, null, 1);
     }
 
     /**
-     * compareAndSet head node
+     * compbreAndSet hebd node
      */
-    private boolean casHead(HeadIndex<K,V> cmp, HeadIndex<K,V> val) {
-        return UNSAFE.compareAndSwapObject(this, headOffset, cmp, val);
+    privbte boolebn cbsHebd(HebdIndex<K,V> cmp, HebdIndex<K,V> vbl) {
+        return UNSAFE.compbreAndSwbpObject(this, hebdOffset, cmp, vbl);
     }
 
     /* ---------------- Nodes -------------- */
 
     /**
-     * Nodes hold keys and values, and are singly linked in sorted
-     * order, possibly with some intervening marker nodes. The list is
-     * headed by a dummy node accessible as head.node. The value field
-     * is declared only as Object because it takes special non-V
-     * values for marker and header nodes.
+     * Nodes hold keys bnd vblues, bnd bre singly linked in sorted
+     * order, possibly with some intervening mbrker nodes. The list is
+     * hebded by b dummy node bccessible bs hebd.node. The vblue field
+     * is declbred only bs Object becbuse it tbkes specibl non-V
+     * vblues for mbrker bnd hebder nodes.
      */
-    static final class Node<K,V> {
-        final K key;
-        volatile Object value;
-        volatile Node<K,V> next;
+    stbtic finbl clbss Node<K,V> {
+        finbl K key;
+        volbtile Object vblue;
+        volbtile Node<K,V> next;
 
         /**
-         * Creates a new regular node.
+         * Crebtes b new regulbr node.
          */
-        Node(K key, Object value, Node<K,V> next) {
+        Node(K key, Object vblue, Node<K,V> next) {
             this.key = key;
-            this.value = value;
+            this.vblue = vblue;
             this.next = next;
         }
 
         /**
-         * Creates a new marker node. A marker is distinguished by
-         * having its value field point to itself.  Marker nodes also
-         * have null keys, a fact that is exploited in a few places,
-         * but this doesn't distinguish markers from the base-level
-         * header node (head.node), which also has a null key.
+         * Crebtes b new mbrker node. A mbrker is distinguished by
+         * hbving its vblue field point to itself.  Mbrker nodes blso
+         * hbve null keys, b fbct thbt is exploited in b few plbces,
+         * but this doesn't distinguish mbrkers from the bbse-level
+         * hebder node (hebd.node), which blso hbs b null key.
          */
         Node(Node<K,V> next) {
             this.key = null;
-            this.value = this;
+            this.vblue = this;
             this.next = next;
         }
 
         /**
-         * compareAndSet value field
+         * compbreAndSet vblue field
          */
-        boolean casValue(Object cmp, Object val) {
-            return UNSAFE.compareAndSwapObject(this, valueOffset, cmp, val);
+        boolebn cbsVblue(Object cmp, Object vbl) {
+            return UNSAFE.compbreAndSwbpObject(this, vblueOffset, cmp, vbl);
         }
 
         /**
-         * compareAndSet next field
+         * compbreAndSet next field
          */
-        boolean casNext(Node<K,V> cmp, Node<K,V> val) {
-            return UNSAFE.compareAndSwapObject(this, nextOffset, cmp, val);
+        boolebn cbsNext(Node<K,V> cmp, Node<K,V> vbl) {
+            return UNSAFE.compbreAndSwbpObject(this, nextOffset, cmp, vbl);
         }
 
         /**
-         * Returns true if this node is a marker. This method isn't
-         * actually called in any current code checking for markers
-         * because callers will have already read value field and need
-         * to use that read (not another done here) and so directly
-         * test if value points to node.
+         * Returns true if this node is b mbrker. This method isn't
+         * bctublly cblled in bny current code checking for mbrkers
+         * becbuse cbllers will hbve blrebdy rebd vblue field bnd need
+         * to use thbt rebd (not bnother done here) bnd so directly
+         * test if vblue points to node.
          *
-         * @return true if this node is a marker node
+         * @return true if this node is b mbrker node
          */
-        boolean isMarker() {
-            return value == this;
+        boolebn isMbrker() {
+            return vblue == this;
         }
 
         /**
-         * Returns true if this node is the header of base-level list.
-         * @return true if this node is header node
+         * Returns true if this node is the hebder of bbse-level list.
+         * @return true if this node is hebder node
          */
-        boolean isBaseHeader() {
-            return value == BASE_HEADER;
+        boolebn isBbseHebder() {
+            return vblue == BASE_HEADER;
         }
 
         /**
-         * Tries to append a deletion marker to this node.
-         * @param f the assumed current successor of this node
+         * Tries to bppend b deletion mbrker to this node.
+         * @pbrbm f the bssumed current successor of this node
          * @return true if successful
          */
-        boolean appendMarker(Node<K,V> f) {
-            return casNext(f, new Node<K,V>(f));
+        boolebn bppendMbrker(Node<K,V> f) {
+            return cbsNext(f, new Node<K,V>(f));
         }
 
         /**
-         * Helps out a deletion by appending marker or unlinking from
-         * predecessor. This is called during traversals when value
+         * Helps out b deletion by bppending mbrker or unlinking from
+         * predecessor. This is cblled during trbversbls when vblue
          * field seen to be null.
-         * @param b predecessor
-         * @param f successor
+         * @pbrbm b predecessor
+         * @pbrbm f successor
          */
         void helpDelete(Node<K,V> b, Node<K,V> f) {
             /*
-             * Rechecking links and then doing only one of the
-             * help-out stages per call tends to minimize CAS
-             * interference among helping threads.
+             * Rechecking links bnd then doing only one of the
+             * help-out stbges per cbll tends to minimize CAS
+             * interference bmong helping threbds.
              */
             if (f == next && this == b.next) {
-                if (f == null || f.value != f) // not already marked
-                    casNext(f, new Node<K,V>(f));
+                if (f == null || f.vblue != f) // not blrebdy mbrked
+                    cbsNext(f, new Node<K,V>(f));
                 else
-                    b.casNext(this, f.next);
+                    b.cbsNext(this, f.next);
             }
         }
 
         /**
-         * Returns value if this node contains a valid key-value pair,
+         * Returns vblue if this node contbins b vblid key-vblue pbir,
          * else null.
-         * @return this node's value if it isn't a marker or header or
+         * @return this node's vblue if it isn't b mbrker or hebder or
          * is deleted, else null
          */
-        V getValidValue() {
-            Object v = value;
+        V getVblidVblue() {
+            Object v = vblue;
             if (v == this || v == BASE_HEADER)
                 return null;
-            @SuppressWarnings("unchecked") V vv = (V)v;
+            @SuppressWbrnings("unchecked") V vv = (V)v;
             return vv;
         }
 
         /**
-         * Creates and returns a new SimpleImmutableEntry holding current
-         * mapping if this node holds a valid value, else null.
+         * Crebtes bnd returns b new SimpleImmutbbleEntry holding current
+         * mbpping if this node holds b vblid vblue, else null.
          * @return new entry or null
          */
-        AbstractMap.SimpleImmutableEntry<K,V> createSnapshot() {
-            Object v = value;
+        AbstrbctMbp.SimpleImmutbbleEntry<K,V> crebteSnbpshot() {
+            Object v = vblue;
             if (v == null || v == this || v == BASE_HEADER)
                 return null;
-            @SuppressWarnings("unchecked") V vv = (V)v;
-            return new AbstractMap.SimpleImmutableEntry<K,V>(key, vv);
+            @SuppressWbrnings("unchecked") V vv = (V)v;
+            return new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(key, vv);
         }
 
-        // UNSAFE mechanics
+        // UNSAFE mechbnics
 
-        private static final sun.misc.Unsafe UNSAFE;
-        private static final long valueOffset;
-        private static final long nextOffset;
+        privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+        privbte stbtic finbl long vblueOffset;
+        privbte stbtic finbl long nextOffset;
 
-        static {
+        stbtic {
             try {
-                UNSAFE = sun.misc.Unsafe.getUnsafe();
-                Class<?> k = Node.class;
-                valueOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("value"));
+                UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+                Clbss<?> k = Node.clbss;
+                vblueOffset = UNSAFE.objectFieldOffset
+                    (k.getDeclbredField("vblue"));
                 nextOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("next"));
-            } catch (Exception e) {
+                    (k.getDeclbredField("next"));
+            } cbtch (Exception e) {
                 throw new Error(e);
             }
         }
@@ -556,19 +556,19 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     /* ---------------- Indexing -------------- */
 
     /**
-     * Index nodes represent the levels of the skip list.  Note that
-     * even though both Nodes and Indexes have forward-pointing
-     * fields, they have different types and are handled in different
-     * ways, that can't nicely be captured by placing field in a
-     * shared abstract class.
+     * Index nodes represent the levels of the skip list.  Note thbt
+     * even though both Nodes bnd Indexes hbve forwbrd-pointing
+     * fields, they hbve different types bnd bre hbndled in different
+     * wbys, thbt cbn't nicely be cbptured by plbcing field in b
+     * shbred bbstrbct clbss.
      */
-    static class Index<K,V> {
-        final Node<K,V> node;
-        final Index<K,V> down;
-        volatile Index<K,V> right;
+    stbtic clbss Index<K,V> {
+        finbl Node<K,V> node;
+        finbl Index<K,V> down;
+        volbtile Index<K,V> right;
 
         /**
-         * Creates index node with given values.
+         * Crebtes index node with given vblues.
          */
         Index(Node<K,V> node, Index<K,V> down, Index<K,V> right) {
             this.node = node;
@@ -577,106 +577,106 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
         }
 
         /**
-         * compareAndSet right field
+         * compbreAndSet right field
          */
-        final boolean casRight(Index<K,V> cmp, Index<K,V> val) {
-            return UNSAFE.compareAndSwapObject(this, rightOffset, cmp, val);
+        finbl boolebn cbsRight(Index<K,V> cmp, Index<K,V> vbl) {
+            return UNSAFE.compbreAndSwbpObject(this, rightOffset, cmp, vbl);
         }
 
         /**
-         * Returns true if the node this indexes has been deleted.
+         * Returns true if the node this indexes hbs been deleted.
          * @return true if indexed node is known to be deleted
          */
-        final boolean indexesDeletedNode() {
-            return node.value == null;
+        finbl boolebn indexesDeletedNode() {
+            return node.vblue == null;
         }
 
         /**
-         * Tries to CAS newSucc as successor.  To minimize races with
-         * unlink that may lose this index node, if the node being
+         * Tries to CAS newSucc bs successor.  To minimize rbces with
+         * unlink thbt mby lose this index node, if the node being
          * indexed is known to be deleted, it doesn't try to link in.
-         * @param succ the expected current successor
-         * @param newSucc the new successor
+         * @pbrbm succ the expected current successor
+         * @pbrbm newSucc the new successor
          * @return true if successful
          */
-        final boolean link(Index<K,V> succ, Index<K,V> newSucc) {
+        finbl boolebn link(Index<K,V> succ, Index<K,V> newSucc) {
             Node<K,V> n = node;
             newSucc.right = succ;
-            return n.value != null && casRight(succ, newSucc);
+            return n.vblue != null && cbsRight(succ, newSucc);
         }
 
         /**
-         * Tries to CAS right field to skip over apparent successor
-         * succ.  Fails (forcing a retraversal by caller) if this node
+         * Tries to CAS right field to skip over bppbrent successor
+         * succ.  Fbils (forcing b retrbversbl by cbller) if this node
          * is known to be deleted.
-         * @param succ the expected current successor
+         * @pbrbm succ the expected current successor
          * @return true if successful
          */
-        final boolean unlink(Index<K,V> succ) {
-            return node.value != null && casRight(succ, succ.right);
+        finbl boolebn unlink(Index<K,V> succ) {
+            return node.vblue != null && cbsRight(succ, succ.right);
         }
 
-        // Unsafe mechanics
-        private static final sun.misc.Unsafe UNSAFE;
-        private static final long rightOffset;
-        static {
+        // Unsbfe mechbnics
+        privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+        privbte stbtic finbl long rightOffset;
+        stbtic {
             try {
-                UNSAFE = sun.misc.Unsafe.getUnsafe();
-                Class<?> k = Index.class;
+                UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+                Clbss<?> k = Index.clbss;
                 rightOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("right"));
-            } catch (Exception e) {
+                    (k.getDeclbredField("right"));
+            } cbtch (Exception e) {
                 throw new Error(e);
             }
         }
     }
 
-    /* ---------------- Head nodes -------------- */
+    /* ---------------- Hebd nodes -------------- */
 
     /**
-     * Nodes heading each level keep track of their level.
+     * Nodes hebding ebch level keep trbck of their level.
      */
-    static final class HeadIndex<K,V> extends Index<K,V> {
-        final int level;
-        HeadIndex(Node<K,V> node, Index<K,V> down, Index<K,V> right, int level) {
+    stbtic finbl clbss HebdIndex<K,V> extends Index<K,V> {
+        finbl int level;
+        HebdIndex(Node<K,V> node, Index<K,V> down, Index<K,V> right, int level) {
             super(node, down, right);
             this.level = level;
         }
     }
 
-    /* ---------------- Comparison utilities -------------- */
+    /* ---------------- Compbrison utilities -------------- */
 
     /**
-     * Compares using comparator or natural ordering if null.
-     * Called only by methods that have performed required type checks.
+     * Compbres using compbrbtor or nbturbl ordering if null.
+     * Cblled only by methods thbt hbve performed required type checks.
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    static final int cpr(Comparator c, Object x, Object y) {
-        return (c != null) ? c.compare(x, y) : ((Comparable)x).compareTo(y);
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    stbtic finbl int cpr(Compbrbtor c, Object x, Object y) {
+        return (c != null) ? c.compbre(x, y) : ((Compbrbble)x).compbreTo(y);
     }
 
-    /* ---------------- Traversal -------------- */
+    /* ---------------- Trbversbl -------------- */
 
     /**
-     * Returns a base-level node with key strictly less than given key,
-     * or the base-level header if there is no such node.  Also
-     * unlinks indexes to deleted nodes found along the way.  Callers
-     * rely on this side-effect of clearing indices to deleted nodes.
-     * @param key the key
-     * @return a predecessor of key
+     * Returns b bbse-level node with key strictly less thbn given key,
+     * or the bbse-level hebder if there is no such node.  Also
+     * unlinks indexes to deleted nodes found blong the wby.  Cbllers
+     * rely on this side-effect of clebring indices to deleted nodes.
+     * @pbrbm key the key
+     * @return b predecessor of key
      */
-    private Node<K,V> findPredecessor(Object key, Comparator<? super K> cmp) {
+    privbte Node<K,V> findPredecessor(Object key, Compbrbtor<? super K> cmp) {
         if (key == null)
             throw new NullPointerException(); // don't postpone errors
         for (;;) {
-            for (Index<K,V> q = head, r = q.right, d;;) {
+            for (Index<K,V> q = hebd, r = q.right, d;;) {
                 if (r != null) {
                     Node<K,V> n = r.node;
                     K k = n.key;
-                    if (n.value == null) {
+                    if (n.vblue == null) {
                         if (!q.unlink(r))
-                            break;           // restart
-                        r = q.right;         // reread r
+                            brebk;           // restbrt
+                        r = q.right;         // rerebd r
                         continue;
                     }
                     if (cpr(cmp, key, k) > 0) {
@@ -694,71 +694,71 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns node holding key or null if no such, clearing out any
-     * deleted nodes seen along the way.  Repeatedly traverses at
-     * base-level looking for key starting at predecessor returned
-     * from findPredecessor, processing base-level deletions as
-     * encountered. Some callers rely on this side-effect of clearing
+     * Returns node holding key or null if no such, clebring out bny
+     * deleted nodes seen blong the wby.  Repebtedly trbverses bt
+     * bbse-level looking for key stbrting bt predecessor returned
+     * from findPredecessor, processing bbse-level deletions bs
+     * encountered. Some cbllers rely on this side-effect of clebring
      * deleted nodes.
      *
-     * Restarts occur, at traversal step centered on node n, if:
+     * Restbrts occur, bt trbversbl step centered on node n, if:
      *
-     *   (1) After reading n's next field, n is no longer assumed
-     *       predecessor b's current successor, which means that
-     *       we don't have a consistent 3-node snapshot and so cannot
-     *       unlink any subsequent deleted nodes encountered.
+     *   (1) After rebding n's next field, n is no longer bssumed
+     *       predecessor b's current successor, which mebns thbt
+     *       we don't hbve b consistent 3-node snbpshot bnd so cbnnot
+     *       unlink bny subsequent deleted nodes encountered.
      *
-     *   (2) n's value field is null, indicating n is deleted, in
-     *       which case we help out an ongoing structural deletion
-     *       before retrying.  Even though there are cases where such
-     *       unlinking doesn't require restart, they aren't sorted out
-     *       here because doing so would not usually outweigh cost of
-     *       restarting.
+     *   (2) n's vblue field is null, indicbting n is deleted, in
+     *       which cbse we help out bn ongoing structurbl deletion
+     *       before retrying.  Even though there bre cbses where such
+     *       unlinking doesn't require restbrt, they bren't sorted out
+     *       here becbuse doing so would not usublly outweigh cost of
+     *       restbrting.
      *
-     *   (3) n is a marker or n's predecessor's value field is null,
-     *       indicating (among other possibilities) that
-     *       findPredecessor returned a deleted node. We can't unlink
-     *       the node because we don't know its predecessor, so rely
-     *       on another call to findPredecessor to notice and return
-     *       some earlier predecessor, which it will do. This check is
-     *       only strictly needed at beginning of loop, (and the
-     *       b.value check isn't strictly needed at all) but is done
-     *       each iteration to help avoid contention with other
-     *       threads by callers that will fail to be able to change
-     *       links, and so will retry anyway.
+     *   (3) n is b mbrker or n's predecessor's vblue field is null,
+     *       indicbting (bmong other possibilities) thbt
+     *       findPredecessor returned b deleted node. We cbn't unlink
+     *       the node becbuse we don't know its predecessor, so rely
+     *       on bnother cbll to findPredecessor to notice bnd return
+     *       some ebrlier predecessor, which it will do. This check is
+     *       only strictly needed bt beginning of loop, (bnd the
+     *       b.vblue check isn't strictly needed bt bll) but is done
+     *       ebch iterbtion to help bvoid contention with other
+     *       threbds by cbllers thbt will fbil to be bble to chbnge
+     *       links, bnd so will retry bnywby.
      *
-     * The traversal loops in doPut, doRemove, and findNear all
-     * include the same three kinds of checks. And specialized
-     * versions appear in findFirst, and findLast and their
-     * variants. They can't easily share code because each uses the
-     * reads of fields held in locals occurring in the orders they
+     * The trbversbl loops in doPut, doRemove, bnd findNebr bll
+     * include the sbme three kinds of checks. And speciblized
+     * versions bppebr in findFirst, bnd findLbst bnd their
+     * vbribnts. They cbn't ebsily shbre code becbuse ebch uses the
+     * rebds of fields held in locbls occurring in the orders they
      * were performed.
      *
-     * @param key the key
+     * @pbrbm key the key
      * @return node holding key, or null if no such
      */
-    private Node<K,V> findNode(Object key) {
+    privbte Node<K,V> findNode(Object key) {
         if (key == null)
             throw new NullPointerException(); // don't postpone errors
-        Comparator<? super K> cmp = comparator;
+        Compbrbtor<? super K> cmp = compbrbtor;
         outer: for (;;) {
             for (Node<K,V> b = findPredecessor(key, cmp), n = b.next;;) {
                 Object v; int c;
                 if (n == null)
-                    break outer;
+                    brebk outer;
                 Node<K,V> f = n.next;
-                if (n != b.next)                // inconsistent read
-                    break;
-                if ((v = n.value) == null) {    // n is deleted
+                if (n != b.next)                // inconsistent rebd
+                    brebk;
+                if ((v = n.vblue) == null) {    // n is deleted
                     n.helpDelete(b, f);
-                    break;
+                    brebk;
                 }
-                if (b.value == null || v == n)  // b is deleted
-                    break;
+                if (b.vblue == null || v == n)  // b is deleted
+                    brebk;
                 if ((c = cpr(cmp, key, n.key)) == 0)
                     return n;
                 if (c < 0)
-                    break outer;
+                    brebk outer;
                 b = n;
                 n = f;
             }
@@ -767,36 +767,36 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Gets value for key. Almost the same as findNode, but returns
-     * the found value (to avoid retries during re-reads)
+     * Gets vblue for key. Almost the sbme bs findNode, but returns
+     * the found vblue (to bvoid retries during re-rebds)
      *
-     * @param key the key
-     * @return the value, or null if absent
+     * @pbrbm key the key
+     * @return the vblue, or null if bbsent
      */
-    private V doGet(Object key) {
+    privbte V doGet(Object key) {
         if (key == null)
             throw new NullPointerException();
-        Comparator<? super K> cmp = comparator;
+        Compbrbtor<? super K> cmp = compbrbtor;
         outer: for (;;) {
             for (Node<K,V> b = findPredecessor(key, cmp), n = b.next;;) {
                 Object v; int c;
                 if (n == null)
-                    break outer;
+                    brebk outer;
                 Node<K,V> f = n.next;
-                if (n != b.next)                // inconsistent read
-                    break;
-                if ((v = n.value) == null) {    // n is deleted
+                if (n != b.next)                // inconsistent rebd
+                    brebk;
+                if ((v = n.vblue) == null) {    // n is deleted
                     n.helpDelete(b, f);
-                    break;
+                    brebk;
                 }
-                if (b.value == null || v == n)  // b is deleted
-                    break;
+                if (b.vblue == null || v == n)  // b is deleted
+                    brebk;
                 if ((c = cpr(cmp, key, n.key)) == 0) {
-                    @SuppressWarnings("unchecked") V vv = (V)v;
+                    @SuppressWbrnings("unchecked") V vv = (V)v;
                     return vv;
                 }
                 if (c < 0)
-                    break outer;
+                    brebk outer;
                 b = n;
                 n = f;
             }
@@ -807,99 +807,99 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     /* ---------------- Insertion -------------- */
 
     /**
-     * Main insertion method.  Adds element if not present, or
-     * replaces value if present and onlyIfAbsent is false.
-     * @param key the key
-     * @param value the value that must be associated with key
-     * @param onlyIfAbsent if should not insert if already present
-     * @return the old value, or null if newly inserted
+     * Mbin insertion method.  Adds element if not present, or
+     * replbces vblue if present bnd onlyIfAbsent is fblse.
+     * @pbrbm key the key
+     * @pbrbm vblue the vblue thbt must be bssocibted with key
+     * @pbrbm onlyIfAbsent if should not insert if blrebdy present
+     * @return the old vblue, or null if newly inserted
      */
-    private V doPut(K key, V value, boolean onlyIfAbsent) {
-        Node<K,V> z;             // added node
+    privbte V doPut(K key, V vblue, boolebn onlyIfAbsent) {
+        Node<K,V> z;             // bdded node
         if (key == null)
             throw new NullPointerException();
-        Comparator<? super K> cmp = comparator;
+        Compbrbtor<? super K> cmp = compbrbtor;
         outer: for (;;) {
             for (Node<K,V> b = findPredecessor(key, cmp), n = b.next;;) {
                 if (n != null) {
                     Object v; int c;
                     Node<K,V> f = n.next;
-                    if (n != b.next)               // inconsistent read
-                        break;
-                    if ((v = n.value) == null) {   // n is deleted
+                    if (n != b.next)               // inconsistent rebd
+                        brebk;
+                    if ((v = n.vblue) == null) {   // n is deleted
                         n.helpDelete(b, f);
-                        break;
+                        brebk;
                     }
-                    if (b.value == null || v == n) // b is deleted
-                        break;
+                    if (b.vblue == null || v == n) // b is deleted
+                        brebk;
                     if ((c = cpr(cmp, key, n.key)) > 0) {
                         b = n;
                         n = f;
                         continue;
                     }
                     if (c == 0) {
-                        if (onlyIfAbsent || n.casValue(v, value)) {
-                            @SuppressWarnings("unchecked") V vv = (V)v;
+                        if (onlyIfAbsent || n.cbsVblue(v, vblue)) {
+                            @SuppressWbrnings("unchecked") V vv = (V)v;
                             return vv;
                         }
-                        break; // restart if lost race to replace value
+                        brebk; // restbrt if lost rbce to replbce vblue
                     }
-                    // else c < 0; fall through
+                    // else c < 0; fbll through
                 }
 
-                z = new Node<K,V>(key, value, n);
-                if (!b.casNext(n, z))
-                    break;         // restart if lost race to append to b
-                break outer;
+                z = new Node<K,V>(key, vblue, n);
+                if (!b.cbsNext(n, z))
+                    brebk;         // restbrt if lost rbce to bppend to b
+                brebk outer;
             }
         }
 
-        int rnd = ThreadLocalRandom.nextSecondarySeed();
-        if ((rnd & 0x80000001) == 0) { // test highest and lowest bits
-            int level = 1, max;
+        int rnd = ThrebdLocblRbndom.nextSecondbrySeed();
+        if ((rnd & 0x80000001) == 0) { // test highest bnd lowest bits
+            int level = 1, mbx;
             while (((rnd >>>= 1) & 1) != 0)
                 ++level;
             Index<K,V> idx = null;
-            HeadIndex<K,V> h = head;
-            if (level <= (max = h.level)) {
+            HebdIndex<K,V> h = hebd;
+            if (level <= (mbx = h.level)) {
                 for (int i = 1; i <= level; ++i)
                     idx = new Index<K,V>(z, idx, null);
             }
             else { // try to grow by one level
-                level = max + 1; // hold in array and later pick the one to use
-                @SuppressWarnings("unchecked")Index<K,V>[] idxs =
+                level = mbx + 1; // hold in brrby bnd lbter pick the one to use
+                @SuppressWbrnings("unchecked")Index<K,V>[] idxs =
                     (Index<K,V>[])new Index<?,?>[level+1];
                 for (int i = 1; i <= level; ++i)
                     idxs[i] = idx = new Index<K,V>(z, idx, null);
                 for (;;) {
-                    h = head;
+                    h = hebd;
                     int oldLevel = h.level;
-                    if (level <= oldLevel) // lost race to add level
-                        break;
-                    HeadIndex<K,V> newh = h;
-                    Node<K,V> oldbase = h.node;
+                    if (level <= oldLevel) // lost rbce to bdd level
+                        brebk;
+                    HebdIndex<K,V> newh = h;
+                    Node<K,V> oldbbse = h.node;
                     for (int j = oldLevel+1; j <= level; ++j)
-                        newh = new HeadIndex<K,V>(oldbase, newh, idxs[j], j);
-                    if (casHead(h, newh)) {
+                        newh = new HebdIndex<K,V>(oldbbse, newh, idxs[j], j);
+                    if (cbsHebd(h, newh)) {
                         h = newh;
                         idx = idxs[level = oldLevel];
-                        break;
+                        brebk;
                     }
                 }
             }
-            // find insertion points and splice in
+            // find insertion points bnd splice in
             splice: for (int insertionLevel = level;;) {
                 int j = h.level;
                 for (Index<K,V> q = h, r = q.right, t = idx;;) {
                     if (q == null || t == null)
-                        break splice;
+                        brebk splice;
                     if (r != null) {
                         Node<K,V> n = r.node;
-                        // compare before deletion check avoids needing recheck
+                        // compbre before deletion check bvoids needing recheck
                         int c = cpr(cmp, key, n.key);
-                        if (n.value == null) {
+                        if (n.vblue == null) {
                             if (!q.unlink(r))
-                                break;
+                                brebk;
                             r = q.right;
                             continue;
                         }
@@ -912,13 +912,13 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
 
                     if (j == insertionLevel) {
                         if (!q.link(r, t))
-                            break; // restart
-                        if (t.node.value == null) {
+                            brebk; // restbrt
+                        if (t.node.vblue == null) {
                             findNode(key);
-                            break splice;
+                            brebk splice;
                         }
                         if (--insertionLevel == 0)
-                            break splice;
+                            brebk splice;
                     }
 
                     if (--j >= insertionLevel && j < level)
@@ -934,61 +934,61 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     /* ---------------- Deletion -------------- */
 
     /**
-     * Main deletion method. Locates node, nulls value, appends a
-     * deletion marker, unlinks predecessor, removes associated index
-     * nodes, and possibly reduces head index level.
+     * Mbin deletion method. Locbtes node, nulls vblue, bppends b
+     * deletion mbrker, unlinks predecessor, removes bssocibted index
+     * nodes, bnd possibly reduces hebd index level.
      *
-     * Index nodes are cleared out simply by calling findPredecessor.
-     * which unlinks indexes to deleted nodes found along path to key,
+     * Index nodes bre clebred out simply by cblling findPredecessor.
+     * which unlinks indexes to deleted nodes found blong pbth to key,
      * which will include the indexes to this node.  This is done
-     * unconditionally. We can't check beforehand whether there are
-     * index nodes because it might be the case that some or all
-     * indexes hadn't been inserted yet for this node during initial
-     * search for it, and we'd like to ensure lack of garbage
-     * retention, so must call to be sure.
+     * unconditionblly. We cbn't check beforehbnd whether there bre
+     * index nodes becbuse it might be the cbse thbt some or bll
+     * indexes hbdn't been inserted yet for this node during initibl
+     * sebrch for it, bnd we'd like to ensure lbck of gbrbbge
+     * retention, so must cbll to be sure.
      *
-     * @param key the key
-     * @param value if non-null, the value that must be
-     * associated with key
+     * @pbrbm key the key
+     * @pbrbm vblue if non-null, the vblue thbt must be
+     * bssocibted with key
      * @return the node, or null if not found
      */
-    final V doRemove(Object key, Object value) {
+    finbl V doRemove(Object key, Object vblue) {
         if (key == null)
             throw new NullPointerException();
-        Comparator<? super K> cmp = comparator;
+        Compbrbtor<? super K> cmp = compbrbtor;
         outer: for (;;) {
             for (Node<K,V> b = findPredecessor(key, cmp), n = b.next;;) {
                 Object v; int c;
                 if (n == null)
-                    break outer;
+                    brebk outer;
                 Node<K,V> f = n.next;
-                if (n != b.next)                    // inconsistent read
-                    break;
-                if ((v = n.value) == null) {        // n is deleted
+                if (n != b.next)                    // inconsistent rebd
+                    brebk;
+                if ((v = n.vblue) == null) {        // n is deleted
                     n.helpDelete(b, f);
-                    break;
+                    brebk;
                 }
-                if (b.value == null || v == n)      // b is deleted
-                    break;
+                if (b.vblue == null || v == n)      // b is deleted
+                    brebk;
                 if ((c = cpr(cmp, key, n.key)) < 0)
-                    break outer;
+                    brebk outer;
                 if (c > 0) {
                     b = n;
                     n = f;
                     continue;
                 }
-                if (value != null && !value.equals(v))
-                    break outer;
-                if (!n.casValue(v, null))
-                    break;
-                if (!n.appendMarker(f) || !b.casNext(n, f))
-                    findNode(key);                  // retry via findNode
+                if (vblue != null && !vblue.equbls(v))
+                    brebk outer;
+                if (!n.cbsVblue(v, null))
+                    brebk;
+                if (!n.bppendMbrker(f) || !b.cbsNext(n, f))
+                    findNode(key);                  // retry vib findNode
                 else {
-                    findPredecessor(key, cmp);      // clean index
-                    if (head.right == null)
+                    findPredecessor(key, cmp);      // clebn index
+                    if (hebd.right == null)
                         tryReduceLevel();
                 }
-                @SuppressWarnings("unchecked") V vv = (V)v;
+                @SuppressWbrnings("unchecked") V vv = (V)v;
                 return vv;
             }
         }
@@ -996,93 +996,93 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Possibly reduce head level if it has no nodes.  This method can
-     * (rarely) make mistakes, in which case levels can disappear even
-     * though they are about to contain index nodes. This impacts
-     * performance, not correctness.  To minimize mistakes as well as
+     * Possibly reduce hebd level if it hbs no nodes.  This method cbn
+     * (rbrely) mbke mistbkes, in which cbse levels cbn disbppebr even
+     * though they bre bbout to contbin index nodes. This impbcts
+     * performbnce, not correctness.  To minimize mistbkes bs well bs
      * to reduce hysteresis, the level is reduced by one only if the
      * topmost three levels look empty. Also, if the removed level
-     * looks non-empty after CAS, we try to change it back quick
-     * before anyone notices our mistake! (This trick works pretty
-     * well because this method will practically never make mistakes
-     * unless current thread stalls immediately before first CAS, in
-     * which case it is very unlikely to stall again immediately
-     * afterwards, so will recover.)
+     * looks non-empty bfter CAS, we try to chbnge it bbck quick
+     * before bnyone notices our mistbke! (This trick works pretty
+     * well becbuse this method will prbcticblly never mbke mistbkes
+     * unless current threbd stblls immedibtely before first CAS, in
+     * which cbse it is very unlikely to stbll bgbin immedibtely
+     * bfterwbrds, so will recover.)
      *
-     * We put up with all this rather than just let levels grow
-     * because otherwise, even a small map that has undergone a large
-     * number of insertions and removals will have a lot of levels,
-     * slowing down access more than would an occasional unwanted
+     * We put up with bll this rbther thbn just let levels grow
+     * becbuse otherwise, even b smbll mbp thbt hbs undergone b lbrge
+     * number of insertions bnd removbls will hbve b lot of levels,
+     * slowing down bccess more thbn would bn occbsionbl unwbnted
      * reduction.
      */
-    private void tryReduceLevel() {
-        HeadIndex<K,V> h = head;
-        HeadIndex<K,V> d;
-        HeadIndex<K,V> e;
+    privbte void tryReduceLevel() {
+        HebdIndex<K,V> h = hebd;
+        HebdIndex<K,V> d;
+        HebdIndex<K,V> e;
         if (h.level > 3 &&
-            (d = (HeadIndex<K,V>)h.down) != null &&
-            (e = (HeadIndex<K,V>)d.down) != null &&
+            (d = (HebdIndex<K,V>)h.down) != null &&
+            (e = (HebdIndex<K,V>)d.down) != null &&
             e.right == null &&
             d.right == null &&
             h.right == null &&
-            casHead(h, d) && // try to set
+            cbsHebd(h, d) && // try to set
             h.right != null) // recheck
-            casHead(d, h);   // try to backout
+            cbsHebd(d, h);   // try to bbckout
     }
 
-    /* ---------------- Finding and removing first element -------------- */
+    /* ---------------- Finding bnd removing first element -------------- */
 
     /**
-     * Specialized variant of findNode to get first valid node.
+     * Speciblized vbribnt of findNode to get first vblid node.
      * @return first node or null if empty
      */
-    final Node<K,V> findFirst() {
+    finbl Node<K,V> findFirst() {
         for (Node<K,V> b, n;;) {
-            if ((n = (b = head.node).next) == null)
+            if ((n = (b = hebd.node).next) == null)
                 return null;
-            if (n.value != null)
+            if (n.vblue != null)
                 return n;
             n.helpDelete(b, n.next);
         }
     }
 
     /**
-     * Removes first entry; returns its snapshot.
-     * @return null if empty, else snapshot of first entry
+     * Removes first entry; returns its snbpshot.
+     * @return null if empty, else snbpshot of first entry
      */
-    private Map.Entry<K,V> doRemoveFirstEntry() {
+    privbte Mbp.Entry<K,V> doRemoveFirstEntry() {
         for (Node<K,V> b, n;;) {
-            if ((n = (b = head.node).next) == null)
+            if ((n = (b = hebd.node).next) == null)
                 return null;
             Node<K,V> f = n.next;
             if (n != b.next)
                 continue;
-            Object v = n.value;
+            Object v = n.vblue;
             if (v == null) {
                 n.helpDelete(b, f);
                 continue;
             }
-            if (!n.casValue(v, null))
+            if (!n.cbsVblue(v, null))
                 continue;
-            if (!n.appendMarker(f) || !b.casNext(n, f))
+            if (!n.bppendMbrker(f) || !b.cbsNext(n, f))
                 findFirst(); // retry
-            clearIndexToFirst();
-            @SuppressWarnings("unchecked") V vv = (V)v;
-            return new AbstractMap.SimpleImmutableEntry<K,V>(n.key, vv);
+            clebrIndexToFirst();
+            @SuppressWbrnings("unchecked") V vv = (V)v;
+            return new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(n.key, vv);
         }
     }
 
     /**
-     * Clears out index nodes associated with deleted first entry.
+     * Clebrs out index nodes bssocibted with deleted first entry.
      */
-    private void clearIndexToFirst() {
+    privbte void clebrIndexToFirst() {
         for (;;) {
-            for (Index<K,V> q = head;;) {
+            for (Index<K,V> q = hebd;;) {
                 Index<K,V> r = q.right;
                 if (r != null && r.indexesDeletedNode() && !q.unlink(r))
-                    break;
+                    brebk;
                 if ((q = q.down) == null) {
-                    if (head.right == null)
+                    if (hebd.right == null)
                         tryReduceLevel();
                     return;
                 }
@@ -1091,71 +1091,71 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Removes last entry; returns its snapshot.
-     * Specialized variant of doRemove.
-     * @return null if empty, else snapshot of last entry
+     * Removes lbst entry; returns its snbpshot.
+     * Speciblized vbribnt of doRemove.
+     * @return null if empty, else snbpshot of lbst entry
      */
-    private Map.Entry<K,V> doRemoveLastEntry() {
+    privbte Mbp.Entry<K,V> doRemoveLbstEntry() {
         for (;;) {
-            Node<K,V> b = findPredecessorOfLast();
+            Node<K,V> b = findPredecessorOfLbst();
             Node<K,V> n = b.next;
             if (n == null) {
-                if (b.isBaseHeader())               // empty
+                if (b.isBbseHebder())               // empty
                     return null;
                 else
-                    continue; // all b's successors are deleted; retry
+                    continue; // bll b's successors bre deleted; retry
             }
             for (;;) {
                 Node<K,V> f = n.next;
-                if (n != b.next)                    // inconsistent read
-                    break;
-                Object v = n.value;
+                if (n != b.next)                    // inconsistent rebd
+                    brebk;
+                Object v = n.vblue;
                 if (v == null) {                    // n is deleted
                     n.helpDelete(b, f);
-                    break;
+                    brebk;
                 }
-                if (b.value == null || v == n)      // b is deleted
-                    break;
+                if (b.vblue == null || v == n)      // b is deleted
+                    brebk;
                 if (f != null) {
                     b = n;
                     n = f;
                     continue;
                 }
-                if (!n.casValue(v, null))
-                    break;
+                if (!n.cbsVblue(v, null))
+                    brebk;
                 K key = n.key;
-                if (!n.appendMarker(f) || !b.casNext(n, f))
-                    findNode(key);                  // retry via findNode
-                else {                              // clean index
-                    findPredecessor(key, comparator);
-                    if (head.right == null)
+                if (!n.bppendMbrker(f) || !b.cbsNext(n, f))
+                    findNode(key);                  // retry vib findNode
+                else {                              // clebn index
+                    findPredecessor(key, compbrbtor);
+                    if (hebd.right == null)
                         tryReduceLevel();
                 }
-                @SuppressWarnings("unchecked") V vv = (V)v;
-                return new AbstractMap.SimpleImmutableEntry<K,V>(key, vv);
+                @SuppressWbrnings("unchecked") V vv = (V)v;
+                return new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(key, vv);
             }
         }
     }
 
-    /* ---------------- Finding and removing last element -------------- */
+    /* ---------------- Finding bnd removing lbst element -------------- */
 
     /**
-     * Specialized version of find to get last valid node.
-     * @return last node or null if empty
+     * Speciblized version of find to get lbst vblid node.
+     * @return lbst node or null if empty
      */
-    final Node<K,V> findLast() {
+    finbl Node<K,V> findLbst() {
         /*
-         * findPredecessor can't be used to traverse index level
-         * because this doesn't use comparisons.  So traversals of
-         * both levels are folded together.
+         * findPredecessor cbn't be used to trbverse index level
+         * becbuse this doesn't use compbrisons.  So trbversbls of
+         * both levels bre folded together.
          */
-        Index<K,V> q = head;
+        Index<K,V> q = hebd;
         for (;;) {
             Index<K,V> d, r;
             if ((r = q.right) != null) {
                 if (r.indexesDeletedNode()) {
                     q.unlink(r);
-                    q = head; // restart
+                    q = hebd; // restbrt
                 }
                 else
                     q = r;
@@ -1164,42 +1164,42 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
             } else {
                 for (Node<K,V> b = q.node, n = b.next;;) {
                     if (n == null)
-                        return b.isBaseHeader() ? null : b;
-                    Node<K,V> f = n.next;            // inconsistent read
+                        return b.isBbseHebder() ? null : b;
+                    Node<K,V> f = n.next;            // inconsistent rebd
                     if (n != b.next)
-                        break;
-                    Object v = n.value;
+                        brebk;
+                    Object v = n.vblue;
                     if (v == null) {                 // n is deleted
                         n.helpDelete(b, f);
-                        break;
+                        brebk;
                     }
-                    if (b.value == null || v == n)      // b is deleted
-                        break;
+                    if (b.vblue == null || v == n)      // b is deleted
+                        brebk;
                     b = n;
                     n = f;
                 }
-                q = head; // restart
+                q = hebd; // restbrt
             }
         }
     }
 
     /**
-     * Specialized variant of findPredecessor to get predecessor of last
-     * valid node.  Needed when removing the last entry.  It is possible
-     * that all successors of returned node will have been deleted upon
-     * return, in which case this method can be retried.
-     * @return likely predecessor of last node
+     * Speciblized vbribnt of findPredecessor to get predecessor of lbst
+     * vblid node.  Needed when removing the lbst entry.  It is possible
+     * thbt bll successors of returned node will hbve been deleted upon
+     * return, in which cbse this method cbn be retried.
+     * @return likely predecessor of lbst node
      */
-    private Node<K,V> findPredecessorOfLast() {
+    privbte Node<K,V> findPredecessorOfLbst() {
         for (;;) {
-            for (Index<K,V> q = head;;) {
+            for (Index<K,V> q = hebd;;) {
                 Index<K,V> d, r;
                 if ((r = q.right) != null) {
                     if (r.indexesDeletedNode()) {
                         q.unlink(r);
-                        break;    // must restart
+                        brebk;    // must restbrt
                     }
-                    // proceed as far across as possible without overshooting
+                    // proceed bs fbr bcross bs possible without overshooting
                     if (r.node.next != null) {
                         q = r;
                         continue;
@@ -1213,43 +1213,43 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    /* ---------------- Relational operations -------------- */
+    /* ---------------- Relbtionbl operbtions -------------- */
 
-    // Control values OR'ed as arguments to findNear
+    // Control vblues OR'ed bs brguments to findNebr
 
-    private static final int EQ = 1;
-    private static final int LT = 2;
-    private static final int GT = 0; // Actually checked as !LT
+    privbte stbtic finbl int EQ = 1;
+    privbte stbtic finbl int LT = 2;
+    privbte stbtic finbl int GT = 0; // Actublly checked bs !LT
 
     /**
      * Utility for ceiling, floor, lower, higher methods.
-     * @param key the key
-     * @param rel the relation -- OR'ed combination of EQ, LT, GT
-     * @return nearest node fitting relation, or null if no such
+     * @pbrbm key the key
+     * @pbrbm rel the relbtion -- OR'ed combinbtion of EQ, LT, GT
+     * @return nebrest node fitting relbtion, or null if no such
      */
-    final Node<K,V> findNear(K key, int rel, Comparator<? super K> cmp) {
+    finbl Node<K,V> findNebr(K key, int rel, Compbrbtor<? super K> cmp) {
         if (key == null)
             throw new NullPointerException();
         for (;;) {
             for (Node<K,V> b = findPredecessor(key, cmp), n = b.next;;) {
                 Object v;
                 if (n == null)
-                    return ((rel & LT) == 0 || b.isBaseHeader()) ? null : b;
+                    return ((rel & LT) == 0 || b.isBbseHebder()) ? null : b;
                 Node<K,V> f = n.next;
-                if (n != b.next)                  // inconsistent read
-                    break;
-                if ((v = n.value) == null) {      // n is deleted
+                if (n != b.next)                  // inconsistent rebd
+                    brebk;
+                if ((v = n.vblue) == null) {      // n is deleted
                     n.helpDelete(b, f);
-                    break;
+                    brebk;
                 }
-                if (b.value == null || v == n)      // b is deleted
-                    break;
+                if (b.vblue == null || v == n)      // b is deleted
+                    brebk;
                 int c = cpr(cmp, key, n.key);
                 if ((c == 0 && (rel & EQ) != 0) ||
                     (c <  0 && (rel & LT) == 0))
                     return n;
                 if ( c <= 0 && (rel & LT) != 0)
-                    return b.isBaseHeader() ? null : b;
+                    return b.isBbseHebder() ? null : b;
                 b = n;
                 n = f;
             }
@@ -1257,18 +1257,18 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns SimpleImmutableEntry for results of findNear.
-     * @param key the key
-     * @param rel the relation -- OR'ed combination of EQ, LT, GT
-     * @return Entry fitting relation, or null if no such
+     * Returns SimpleImmutbbleEntry for results of findNebr.
+     * @pbrbm key the key
+     * @pbrbm rel the relbtion -- OR'ed combinbtion of EQ, LT, GT
+     * @return Entry fitting relbtion, or null if no such
      */
-    final AbstractMap.SimpleImmutableEntry<K,V> getNear(K key, int rel) {
-        Comparator<? super K> cmp = comparator;
+    finbl AbstrbctMbp.SimpleImmutbbleEntry<K,V> getNebr(K key, int rel) {
+        Compbrbtor<? super K> cmp = compbrbtor;
         for (;;) {
-            Node<K,V> n = findNear(key, rel, cmp);
+            Node<K,V> n = findNebr(key, rel, cmp);
             if (n == null)
                 return null;
-            AbstractMap.SimpleImmutableEntry<K,V> e = n.createSnapshot();
+            AbstrbctMbp.SimpleImmutbbleEntry<K,V> e = n.crebteSnbpshot();
             if (e != null)
                 return e;
         }
@@ -1277,108 +1277,108 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     /* ---------------- Constructors -------------- */
 
     /**
-     * Constructs a new, empty map, sorted according to the
-     * {@linkplain Comparable natural ordering} of the keys.
+     * Constructs b new, empty mbp, sorted bccording to the
+     * {@linkplbin Compbrbble nbturbl ordering} of the keys.
      */
-    public ConcurrentSkipListMap() {
-        this.comparator = null;
-        initialize();
+    public ConcurrentSkipListMbp() {
+        this.compbrbtor = null;
+        initiblize();
     }
 
     /**
-     * Constructs a new, empty map, sorted according to the specified
-     * comparator.
+     * Constructs b new, empty mbp, sorted bccording to the specified
+     * compbrbtor.
      *
-     * @param comparator the comparator that will be used to order this map.
-     *        If {@code null}, the {@linkplain Comparable natural
+     * @pbrbm compbrbtor the compbrbtor thbt will be used to order this mbp.
+     *        If {@code null}, the {@linkplbin Compbrbble nbturbl
      *        ordering} of the keys will be used.
      */
-    public ConcurrentSkipListMap(Comparator<? super K> comparator) {
-        this.comparator = comparator;
-        initialize();
+    public ConcurrentSkipListMbp(Compbrbtor<? super K> compbrbtor) {
+        this.compbrbtor = compbrbtor;
+        initiblize();
     }
 
     /**
-     * Constructs a new map containing the same mappings as the given map,
-     * sorted according to the {@linkplain Comparable natural ordering} of
+     * Constructs b new mbp contbining the sbme mbppings bs the given mbp,
+     * sorted bccording to the {@linkplbin Compbrbble nbturbl ordering} of
      * the keys.
      *
-     * @param  m the map whose mappings are to be placed in this map
-     * @throws ClassCastException if the keys in {@code m} are not
-     *         {@link Comparable}, or are not mutually comparable
-     * @throws NullPointerException if the specified map or any of its keys
-     *         or values are null
+     * @pbrbm  m the mbp whose mbppings bre to be plbced in this mbp
+     * @throws ClbssCbstException if the keys in {@code m} bre not
+     *         {@link Compbrbble}, or bre not mutublly compbrbble
+     * @throws NullPointerException if the specified mbp or bny of its keys
+     *         or vblues bre null
      */
-    public ConcurrentSkipListMap(Map<? extends K, ? extends V> m) {
-        this.comparator = null;
-        initialize();
+    public ConcurrentSkipListMbp(Mbp<? extends K, ? extends V> m) {
+        this.compbrbtor = null;
+        initiblize();
         putAll(m);
     }
 
     /**
-     * Constructs a new map containing the same mappings and using the
-     * same ordering as the specified sorted map.
+     * Constructs b new mbp contbining the sbme mbppings bnd using the
+     * sbme ordering bs the specified sorted mbp.
      *
-     * @param m the sorted map whose mappings are to be placed in this
-     *        map, and whose comparator is to be used to sort this map
-     * @throws NullPointerException if the specified sorted map or any of
-     *         its keys or values are null
+     * @pbrbm m the sorted mbp whose mbppings bre to be plbced in this
+     *        mbp, bnd whose compbrbtor is to be used to sort this mbp
+     * @throws NullPointerException if the specified sorted mbp or bny of
+     *         its keys or vblues bre null
      */
-    public ConcurrentSkipListMap(SortedMap<K, ? extends V> m) {
-        this.comparator = m.comparator();
-        initialize();
+    public ConcurrentSkipListMbp(SortedMbp<K, ? extends V> m) {
+        this.compbrbtor = m.compbrbtor();
+        initiblize();
         buildFromSorted(m);
     }
 
     /**
-     * Returns a shallow copy of this {@code ConcurrentSkipListMap}
-     * instance. (The keys and values themselves are not cloned.)
+     * Returns b shbllow copy of this {@code ConcurrentSkipListMbp}
+     * instbnce. (The keys bnd vblues themselves bre not cloned.)
      *
-     * @return a shallow copy of this map
+     * @return b shbllow copy of this mbp
      */
-    public ConcurrentSkipListMap<K,V> clone() {
+    public ConcurrentSkipListMbp<K,V> clone() {
         try {
-            @SuppressWarnings("unchecked")
-            ConcurrentSkipListMap<K,V> clone =
-                (ConcurrentSkipListMap<K,V>) super.clone();
-            clone.initialize();
+            @SuppressWbrnings("unchecked")
+            ConcurrentSkipListMbp<K,V> clone =
+                (ConcurrentSkipListMbp<K,V>) super.clone();
+            clone.initiblize();
             clone.buildFromSorted(this);
             return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError();
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError();
         }
     }
 
     /**
-     * Streamlined bulk insertion to initialize from elements of
-     * given sorted map.  Call only from constructor or clone
+     * Strebmlined bulk insertion to initiblize from elements of
+     * given sorted mbp.  Cbll only from constructor or clone
      * method.
      */
-    private void buildFromSorted(SortedMap<K, ? extends V> map) {
-        if (map == null)
+    privbte void buildFromSorted(SortedMbp<K, ? extends V> mbp) {
+        if (mbp == null)
             throw new NullPointerException();
 
-        HeadIndex<K,V> h = head;
-        Node<K,V> basepred = h.node;
+        HebdIndex<K,V> h = hebd;
+        Node<K,V> bbsepred = h.node;
 
-        // Track the current rightmost node at each level. Uses an
-        // ArrayList to avoid committing to initial or maximum level.
-        ArrayList<Index<K,V>> preds = new ArrayList<Index<K,V>>();
+        // Trbck the current rightmost node bt ebch level. Uses bn
+        // ArrbyList to bvoid committing to initibl or mbximum level.
+        ArrbyList<Index<K,V>> preds = new ArrbyList<Index<K,V>>();
 
-        // initialize
+        // initiblize
         for (int i = 0; i <= h.level; ++i)
-            preds.add(null);
+            preds.bdd(null);
         Index<K,V> q = h;
         for (int i = h.level; i > 0; --i) {
             preds.set(i, q);
             q = q.down;
         }
 
-        Iterator<? extends Map.Entry<? extends K, ? extends V>> it =
-            map.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<? extends K, ? extends V> e = it.next();
-            int rnd = ThreadLocalRandom.current().nextInt();
+        Iterbtor<? extends Mbp.Entry<? extends K, ? extends V>> it =
+            mbp.entrySet().iterbtor();
+        while (it.hbsNext()) {
+            Mbp.Entry<? extends K, ? extends V> e = it.next();
+            int rnd = ThrebdLocblRbndom.current().nextInt();
             int j = 0;
             if ((rnd & 0x80000001) == 0) {
                 do {
@@ -1387,51 +1387,51 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                 if (j > h.level) j = h.level + 1;
             }
             K k = e.getKey();
-            V v = e.getValue();
+            V v = e.getVblue();
             if (k == null || v == null)
                 throw new NullPointerException();
             Node<K,V> z = new Node<K,V>(k, v, null);
-            basepred.next = z;
-            basepred = z;
+            bbsepred.next = z;
+            bbsepred = z;
             if (j > 0) {
                 Index<K,V> idx = null;
                 for (int i = 1; i <= j; ++i) {
                     idx = new Index<K,V>(z, idx, null);
                     if (i > h.level)
-                        h = new HeadIndex<K,V>(h.node, h, idx, i);
+                        h = new HebdIndex<K,V>(h.node, h, idx, i);
 
                     if (i < preds.size()) {
                         preds.get(i).right = idx;
                         preds.set(i, idx);
                     } else
-                        preds.add(idx);
+                        preds.bdd(idx);
                 }
             }
         }
-        head = h;
+        hebd = h;
     }
 
-    /* ---------------- Serialization -------------- */
+    /* ---------------- Seriblizbtion -------------- */
 
     /**
-     * Saves this map to a stream (that is, serializes it).
+     * Sbves this mbp to b strebm (thbt is, seriblizes it).
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData The key (Object) and value (Object) for each
-     * key-value mapping represented by the map, followed by
-     * {@code null}. The key-value mappings are emitted in key-order
-     * (as determined by the Comparator, or by the keys' natural
-     * ordering if no Comparator).
+     * @pbrbm s the strebm
+     * @throws jbvb.io.IOException if bn I/O error occurs
+     * @seriblDbtb The key (Object) bnd vblue (Object) for ebch
+     * key-vblue mbpping represented by the mbp, followed by
+     * {@code null}. The key-vblue mbppings bre emitted in key-order
+     * (bs determined by the Compbrbtor, or by the keys' nbturbl
+     * ordering if no Compbrbtor).
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        // Write out the Comparator and any hidden stuff
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
+        // Write out the Compbrbtor bnd bny hidden stuff
+        s.defbultWriteObject();
 
-        // Write out keys and values (alternating)
+        // Write out keys bnd vblues (blternbting)
         for (Node<K,V> n = findFirst(); n != null; n = n.next) {
-            V v = n.getValidValue();
+            V v = n.getVblidVblue();
             if (v != null) {
                 s.writeObject(n.key);
                 s.writeObject(v);
@@ -1441,33 +1441,33 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Reconstitutes this map from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
+     * Reconstitutes this mbp from b strebm (thbt is, deseriblizes it).
+     * @pbrbm s the strebm
+     * @throws ClbssNotFoundException if the clbss of b seriblized object
      *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(final java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        // Read in the Comparator and any hidden stuff
-        s.defaultReadObject();
-        // Reset transients
-        initialize();
+    @SuppressWbrnings("unchecked")
+    privbte void rebdObject(finbl jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        // Rebd in the Compbrbtor bnd bny hidden stuff
+        s.defbultRebdObject();
+        // Reset trbnsients
+        initiblize();
 
         /*
-         * This is nearly identical to buildFromSorted, but is
-         * distinct because readObject calls can't be nicely adapted
-         * as the kind of iterator needed by buildFromSorted. (They
-         * can be, but doing so requires type cheats and/or creation
-         * of adaptor classes.) It is simpler to just adapt the code.
+         * This is nebrly identicbl to buildFromSorted, but is
+         * distinct becbuse rebdObject cblls cbn't be nicely bdbpted
+         * bs the kind of iterbtor needed by buildFromSorted. (They
+         * cbn be, but doing so requires type chebts bnd/or crebtion
+         * of bdbptor clbsses.) It is simpler to just bdbpt the code.
          */
 
-        HeadIndex<K,V> h = head;
-        Node<K,V> basepred = h.node;
-        ArrayList<Index<K,V>> preds = new ArrayList<Index<K,V>>();
+        HebdIndex<K,V> h = hebd;
+        Node<K,V> bbsepred = h.node;
+        ArrbyList<Index<K,V>> preds = new ArrbyList<Index<K,V>>();
         for (int i = 0; i <= h.level; ++i)
-            preds.add(null);
+            preds.bdd(null);
         Index<K,V> q = h;
         for (int i = h.level; i > 0; --i) {
             preds.set(i, q);
@@ -1475,15 +1475,15 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
         }
 
         for (;;) {
-            Object k = s.readObject();
+            Object k = s.rebdObject();
             if (k == null)
-                break;
-            Object v = s.readObject();
+                brebk;
+            Object v = s.rebdObject();
             if (v == null)
                 throw new NullPointerException();
             K key = (K) k;
-            V val = (V) v;
-            int rnd = ThreadLocalRandom.current().nextInt();
+            V vbl = (V) v;
+            int rnd = ThrebdLocblRbndom.current().nextInt();
             int j = 0;
             if ((rnd & 0x80000001) == 0) {
                 do {
@@ -1491,55 +1491,55 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                 } while (((rnd >>>= 1) & 1) != 0);
                 if (j > h.level) j = h.level + 1;
             }
-            Node<K,V> z = new Node<K,V>(key, val, null);
-            basepred.next = z;
-            basepred = z;
+            Node<K,V> z = new Node<K,V>(key, vbl, null);
+            bbsepred.next = z;
+            bbsepred = z;
             if (j > 0) {
                 Index<K,V> idx = null;
                 for (int i = 1; i <= j; ++i) {
                     idx = new Index<K,V>(z, idx, null);
                     if (i > h.level)
-                        h = new HeadIndex<K,V>(h.node, h, idx, i);
+                        h = new HebdIndex<K,V>(h.node, h, idx, i);
 
                     if (i < preds.size()) {
                         preds.get(i).right = idx;
                         preds.set(i, idx);
                     } else
-                        preds.add(idx);
+                        preds.bdd(idx);
                 }
             }
         }
-        head = h;
+        hebd = h;
     }
 
-    /* ------ Map API methods ------ */
+    /* ------ Mbp API methods ------ */
 
     /**
-     * Returns {@code true} if this map contains a mapping for the specified
+     * Returns {@code true} if this mbp contbins b mbpping for the specified
      * key.
      *
-     * @param key key whose presence in this map is to be tested
-     * @return {@code true} if this map contains a mapping for the specified key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @pbrbm key key whose presence in this mbp is to be tested
+     * @return {@code true} if this mbp contbins b mbpping for the specified key
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
      */
-    public boolean containsKey(Object key) {
+    public boolebn contbinsKey(Object key) {
         return doGet(key) != null;
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Returns the vblue to which the specified key is mbpped,
+     * or {@code null} if this mbp contbins no mbpping for the key.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code key} compares
-     * equal to {@code k} according to the map's ordering, then this
+     * <p>More formblly, if this mbp contbins b mbpping from b key
+     * {@code k} to b vblue {@code v} such thbt {@code key} compbres
+     * equbl to {@code k} bccording to the mbp's ordering, then this
      * method returns {@code v}; otherwise it returns {@code null}.
-     * (There can be at most one such mapping.)
+     * (There cbn be bt most one such mbpping.)
      *
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
      */
     public V get(Object key) {
@@ -1547,48 +1547,48 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or the given defaultValue if this map contains no mapping for the key.
+     * Returns the vblue to which the specified key is mbpped,
+     * or the given defbultVblue if this mbp contbins no mbpping for the key.
      *
-     * @param key the key
-     * @param defaultValue the value to return if this map contains
-     * no mapping for the given key
-     * @return the mapping for the key, if present; else the defaultValue
+     * @pbrbm key the key
+     * @pbrbm defbultVblue the vblue to return if this mbp contbins
+     * no mbpping for the given key
+     * @return the mbpping for the key, if present; else the defbultVblue
      * @throws NullPointerException if the specified key is null
      * @since 1.8
      */
-    public V getOrDefault(Object key, V defaultValue) {
+    public V getOrDefbult(Object key, V defbultVblue) {
         V v;
-        return (v = doGet(key)) == null ? defaultValue : v;
+        return (v = doGet(key)) == null ? defbultVblue : v;
     }
 
     /**
-     * Associates the specified value with the specified key in this map.
-     * If the map previously contained a mapping for the key, the old
-     * value is replaced.
+     * Associbtes the specified vblue with the specified key in this mbp.
+     * If the mbp previously contbined b mbpping for the key, the old
+     * vblue is replbced.
      *
-     * @param key key with which the specified value is to be associated
-     * @param value value to be associated with the specified key
-     * @return the previous value associated with the specified key, or
-     *         {@code null} if there was no mapping for the key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key or value is null
+     * @pbrbm key key with which the specified vblue is to be bssocibted
+     * @pbrbm vblue vblue to be bssocibted with the specified key
+     * @return the previous vblue bssocibted with the specified key, or
+     *         {@code null} if there wbs no mbpping for the key
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
+     * @throws NullPointerException if the specified key or vblue is null
      */
-    public V put(K key, V value) {
-        if (value == null)
+    public V put(K key, V vblue) {
+        if (vblue == null)
             throw new NullPointerException();
-        return doPut(key, value, false);
+        return doPut(key, vblue, fblse);
     }
 
     /**
-     * Removes the mapping for the specified key from this map if present.
+     * Removes the mbpping for the specified key from this mbp if present.
      *
-     * @param  key key for which mapping should be removed
-     * @return the previous value associated with the specified key, or
-     *         {@code null} if there was no mapping for the key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @pbrbm  key key for which mbpping should be removed
+     * @return the previous vblue bssocibted with the specified key, or
+     *         {@code null} if there wbs no mbpping for the key
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
      */
     public V remove(Object key) {
@@ -1596,194 +1596,194 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns {@code true} if this map maps one or more keys to the
-     * specified value.  This operation requires time linear in the
-     * map size. Additionally, it is possible for the map to change
-     * during execution of this method, in which case the returned
-     * result may be inaccurate.
+     * Returns {@code true} if this mbp mbps one or more keys to the
+     * specified vblue.  This operbtion requires time linebr in the
+     * mbp size. Additionblly, it is possible for the mbp to chbnge
+     * during execution of this method, in which cbse the returned
+     * result mby be inbccurbte.
      *
-     * @param value value whose presence in this map is to be tested
-     * @return {@code true} if a mapping to {@code value} exists;
-     *         {@code false} otherwise
-     * @throws NullPointerException if the specified value is null
+     * @pbrbm vblue vblue whose presence in this mbp is to be tested
+     * @return {@code true} if b mbpping to {@code vblue} exists;
+     *         {@code fblse} otherwise
+     * @throws NullPointerException if the specified vblue is null
      */
-    public boolean containsValue(Object value) {
-        if (value == null)
+    public boolebn contbinsVblue(Object vblue) {
+        if (vblue == null)
             throw new NullPointerException();
         for (Node<K,V> n = findFirst(); n != null; n = n.next) {
-            V v = n.getValidValue();
-            if (v != null && value.equals(v))
+            V v = n.getVblidVblue();
+            if (v != null && vblue.equbls(v))
                 return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the number of key-value mappings in this map.  If this map
-     * contains more than {@code Integer.MAX_VALUE} elements, it
+     * Returns the number of key-vblue mbppings in this mbp.  If this mbp
+     * contbins more thbn {@code Integer.MAX_VALUE} elements, it
      * returns {@code Integer.MAX_VALUE}.
      *
-     * <p>Beware that, unlike in most collections, this method is
-     * <em>NOT</em> a constant-time operation. Because of the
-     * asynchronous nature of these maps, determining the current
-     * number of elements requires traversing them all to count them.
-     * Additionally, it is possible for the size to change during
-     * execution of this method, in which case the returned result
-     * will be inaccurate. Thus, this method is typically not very
-     * useful in concurrent applications.
+     * <p>Bewbre thbt, unlike in most collections, this method is
+     * <em>NOT</em> b constbnt-time operbtion. Becbuse of the
+     * bsynchronous nbture of these mbps, determining the current
+     * number of elements requires trbversing them bll to count them.
+     * Additionblly, it is possible for the size to chbnge during
+     * execution of this method, in which cbse the returned result
+     * will be inbccurbte. Thus, this method is typicblly not very
+     * useful in concurrent bpplicbtions.
      *
-     * @return the number of elements in this map
+     * @return the number of elements in this mbp
      */
     public int size() {
         long count = 0;
         for (Node<K,V> n = findFirst(); n != null; n = n.next) {
-            if (n.getValidValue() != null)
+            if (n.getVblidVblue() != null)
                 ++count;
         }
         return (count >= Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int) count;
     }
 
     /**
-     * Returns {@code true} if this map contains no key-value mappings.
-     * @return {@code true} if this map contains no key-value mappings
+     * Returns {@code true} if this mbp contbins no key-vblue mbppings.
+     * @return {@code true} if this mbp contbins no key-vblue mbppings
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return findFirst() == null;
     }
 
     /**
-     * Removes all of the mappings from this map.
+     * Removes bll of the mbppings from this mbp.
      */
-    public void clear() {
-        initialize();
+    public void clebr() {
+        initiblize();
     }
 
     /**
-     * If the specified key is not already associated with a value,
-     * attempts to compute its value using the given mapping function
-     * and enters it into this map unless {@code null}.  The function
-     * is <em>NOT</em> guaranteed to be applied once atomically only
-     * if the value is not present.
+     * If the specified key is not blrebdy bssocibted with b vblue,
+     * bttempts to compute its vblue using the given mbpping function
+     * bnd enters it into this mbp unless {@code null}.  The function
+     * is <em>NOT</em> gubrbnteed to be bpplied once btomicblly only
+     * if the vblue is not present.
      *
-     * @param key key with which the specified value is to be associated
-     * @param mappingFunction the function to compute a value
-     * @return the current (existing or computed) value associated with
-     *         the specified key, or null if the computed value is null
+     * @pbrbm key key with which the specified vblue is to be bssocibted
+     * @pbrbm mbppingFunction the function to compute b vblue
+     * @return the current (existing or computed) vblue bssocibted with
+     *         the specified key, or null if the computed vblue is null
      * @throws NullPointerException if the specified key is null
-     *         or the mappingFunction is null
+     *         or the mbppingFunction is null
      * @since 1.8
      */
     public V computeIfAbsent(K key,
-                             Function<? super K, ? extends V> mappingFunction) {
-        if (key == null || mappingFunction == null)
+                             Function<? super K, ? extends V> mbppingFunction) {
+        if (key == null || mbppingFunction == null)
             throw new NullPointerException();
         V v, p, r;
         if ((v = doGet(key)) == null &&
-            (r = mappingFunction.apply(key)) != null)
+            (r = mbppingFunction.bpply(key)) != null)
             v = (p = doPut(key, r, true)) == null ? r : p;
         return v;
     }
 
     /**
-     * If the value for the specified key is present, attempts to
-     * compute a new mapping given the key and its current mapped
-     * value. The function is <em>NOT</em> guaranteed to be applied
-     * once atomically.
+     * If the vblue for the specified key is present, bttempts to
+     * compute b new mbpping given the key bnd its current mbpped
+     * vblue. The function is <em>NOT</em> gubrbnteed to be bpplied
+     * once btomicblly.
      *
-     * @param key key with which a value may be associated
-     * @param remappingFunction the function to compute a value
-     * @return the new value associated with the specified key, or null if none
+     * @pbrbm key key with which b vblue mby be bssocibted
+     * @pbrbm rembppingFunction the function to compute b vblue
+     * @return the new vblue bssocibted with the specified key, or null if none
      * @throws NullPointerException if the specified key is null
-     *         or the remappingFunction is null
+     *         or the rembppingFunction is null
      * @since 1.8
      */
     public V computeIfPresent(K key,
-                              BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-        if (key == null || remappingFunction == null)
+                              BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+        if (key == null || rembppingFunction == null)
             throw new NullPointerException();
         Node<K,V> n; Object v;
         while ((n = findNode(key)) != null) {
-            if ((v = n.value) != null) {
-                @SuppressWarnings("unchecked") V vv = (V) v;
-                V r = remappingFunction.apply(key, vv);
+            if ((v = n.vblue) != null) {
+                @SuppressWbrnings("unchecked") V vv = (V) v;
+                V r = rembppingFunction.bpply(key, vv);
                 if (r != null) {
-                    if (n.casValue(vv, r))
+                    if (n.cbsVblue(vv, r))
                         return r;
                 }
                 else if (doRemove(key, vv) != null)
-                    break;
+                    brebk;
             }
         }
         return null;
     }
 
     /**
-     * Attempts to compute a mapping for the specified key and its
-     * current mapped value (or {@code null} if there is no current
-     * mapping). The function is <em>NOT</em> guaranteed to be applied
-     * once atomically.
+     * Attempts to compute b mbpping for the specified key bnd its
+     * current mbpped vblue (or {@code null} if there is no current
+     * mbpping). The function is <em>NOT</em> gubrbnteed to be bpplied
+     * once btomicblly.
      *
-     * @param key key with which the specified value is to be associated
-     * @param remappingFunction the function to compute a value
-     * @return the new value associated with the specified key, or null if none
+     * @pbrbm key key with which the specified vblue is to be bssocibted
+     * @pbrbm rembppingFunction the function to compute b vblue
+     * @return the new vblue bssocibted with the specified key, or null if none
      * @throws NullPointerException if the specified key is null
-     *         or the remappingFunction is null
+     *         or the rembppingFunction is null
      * @since 1.8
      */
     public V compute(K key,
-                     BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-        if (key == null || remappingFunction == null)
+                     BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+        if (key == null || rembppingFunction == null)
             throw new NullPointerException();
         for (;;) {
             Node<K,V> n; Object v; V r;
             if ((n = findNode(key)) == null) {
-                if ((r = remappingFunction.apply(key, null)) == null)
-                    break;
+                if ((r = rembppingFunction.bpply(key, null)) == null)
+                    brebk;
                 if (doPut(key, r, true) == null)
                     return r;
             }
-            else if ((v = n.value) != null) {
-                @SuppressWarnings("unchecked") V vv = (V) v;
-                if ((r = remappingFunction.apply(key, vv)) != null) {
-                    if (n.casValue(vv, r))
+            else if ((v = n.vblue) != null) {
+                @SuppressWbrnings("unchecked") V vv = (V) v;
+                if ((r = rembppingFunction.bpply(key, vv)) != null) {
+                    if (n.cbsVblue(vv, r))
                         return r;
                 }
                 else if (doRemove(key, vv) != null)
-                    break;
+                    brebk;
             }
         }
         return null;
     }
 
     /**
-     * If the specified key is not already associated with a value,
-     * associates it with the given value.  Otherwise, replaces the
-     * value with the results of the given remapping function, or
+     * If the specified key is not blrebdy bssocibted with b vblue,
+     * bssocibtes it with the given vblue.  Otherwise, replbces the
+     * vblue with the results of the given rembpping function, or
      * removes if {@code null}. The function is <em>NOT</em>
-     * guaranteed to be applied once atomically.
+     * gubrbnteed to be bpplied once btomicblly.
      *
-     * @param key key with which the specified value is to be associated
-     * @param value the value to use if absent
-     * @param remappingFunction the function to recompute a value if present
-     * @return the new value associated with the specified key, or null if none
-     * @throws NullPointerException if the specified key or value is null
-     *         or the remappingFunction is null
+     * @pbrbm key key with which the specified vblue is to be bssocibted
+     * @pbrbm vblue the vblue to use if bbsent
+     * @pbrbm rembppingFunction the function to recompute b vblue if present
+     * @return the new vblue bssocibted with the specified key, or null if none
+     * @throws NullPointerException if the specified key or vblue is null
+     *         or the rembppingFunction is null
      * @since 1.8
      */
-    public V merge(K key, V value,
-                   BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-        if (key == null || value == null || remappingFunction == null)
+    public V merge(K key, V vblue,
+                   BiFunction<? super V, ? super V, ? extends V> rembppingFunction) {
+        if (key == null || vblue == null || rembppingFunction == null)
             throw new NullPointerException();
         for (;;) {
             Node<K,V> n; Object v; V r;
             if ((n = findNode(key)) == null) {
-                if (doPut(key, value, true) == null)
-                    return value;
+                if (doPut(key, vblue, true) == null)
+                    return vblue;
             }
-            else if ((v = n.value) != null) {
-                @SuppressWarnings("unchecked") V vv = (V) v;
-                if ((r = remappingFunction.apply(vv, value)) != null) {
-                    if (n.casValue(vv, r))
+            else if ((v = n.vblue) != null) {
+                @SuppressWbrnings("unchecked") V vv = (V) v;
+                if ((r = rembppingFunction.bpply(vv, vblue)) != null) {
+                    if (n.cbsVblue(vv, r))
                         return r;
                 }
                 else if (doRemove(key, vv) != null)
@@ -1795,204 +1795,204 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     /* ---------------- View methods -------------- */
 
     /*
-     * Note: Lazy initialization works for views because view classes
-     * are stateless/immutable so it doesn't matter wrt correctness if
-     * more than one is created (which will only rarely happen).  Even
-     * so, the following idiom conservatively ensures that the method
-     * returns the one it created if it does so, not one created by
-     * another racing thread.
+     * Note: Lbzy initiblizbtion works for views becbuse view clbsses
+     * bre stbteless/immutbble so it doesn't mbtter wrt correctness if
+     * more thbn one is crebted (which will only rbrely hbppen).  Even
+     * so, the following idiom conservbtively ensures thbt the method
+     * returns the one it crebted if it does so, not one crebted by
+     * bnother rbcing threbd.
      */
 
     /**
-     * Returns a {@link NavigableSet} view of the keys contained in this map.
+     * Returns b {@link NbvigbbleSet} view of the keys contbined in this mbp.
      *
-     * <p>The set's iterator returns the keys in ascending order.
-     * The set's spliterator additionally reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#NONNULL}, {@link Spliterator#SORTED} and
-     * {@link Spliterator#ORDERED}, with an encounter order that is ascending
-     * key order.  The spliterator's comparator (see
-     * {@link java.util.Spliterator#getComparator()}) is {@code null} if
-     * the map's comparator (see {@link #comparator()}) is {@code null}.
-     * Otherwise, the spliterator's comparator is the same as or imposes the
-     * same total ordering as the map's comparator.
+     * <p>The set's iterbtor returns the keys in bscending order.
+     * The set's spliterbtor bdditionblly reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#NONNULL}, {@link Spliterbtor#SORTED} bnd
+     * {@link Spliterbtor#ORDERED}, with bn encounter order thbt is bscending
+     * key order.  The spliterbtor's compbrbtor (see
+     * {@link jbvb.util.Spliterbtor#getCompbrbtor()}) is {@code null} if
+     * the mbp's compbrbtor (see {@link #compbrbtor()}) is {@code null}.
+     * Otherwise, the spliterbtor's compbrbtor is the sbme bs or imposes the
+     * sbme totbl ordering bs the mbp's compbrbtor.
      *
-     * <p>The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  The set supports element
-     * removal, which removes the corresponding mapping from the map,
-     * via the {@code Iterator.remove}, {@code Set.remove},
-     * {@code removeAll}, {@code retainAll}, and {@code clear}
-     * operations.  It does not support the {@code add} or {@code addAll}
-     * operations.
+     * <p>The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  The set supports element
+     * removbl, which removes the corresponding mbpping from the mbp,
+     * vib the {@code Iterbtor.remove}, {@code Set.remove},
+     * {@code removeAll}, {@code retbinAll}, bnd {@code clebr}
+     * operbtions.  It does not support the {@code bdd} or {@code bddAll}
+     * operbtions.
      *
-     * <p>The view's iterators and spliterators are
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The view's iterbtors bnd spliterbtors bre
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>This method is equivalent to method {@code navigableKeySet}.
+     * <p>This method is equivblent to method {@code nbvigbbleKeySet}.
      *
-     * @return a navigable set view of the keys in this map
+     * @return b nbvigbble set view of the keys in this mbp
      */
-    public NavigableSet<K> keySet() {
+    public NbvigbbleSet<K> keySet() {
         KeySet<K> ks = keySet;
         return (ks != null) ? ks : (keySet = new KeySet<K>(this));
     }
 
-    public NavigableSet<K> navigableKeySet() {
+    public NbvigbbleSet<K> nbvigbbleKeySet() {
         KeySet<K> ks = keySet;
         return (ks != null) ? ks : (keySet = new KeySet<K>(this));
     }
 
     /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * <p>The collection's iterator returns the values in ascending order
-     * of the corresponding keys. The collections's spliterator additionally
-     * reports {@link Spliterator#CONCURRENT}, {@link Spliterator#NONNULL} and
-     * {@link Spliterator#ORDERED}, with an encounter order that is ascending
+     * Returns b {@link Collection} view of the vblues contbined in this mbp.
+     * <p>The collection's iterbtor returns the vblues in bscending order
+     * of the corresponding keys. The collections's spliterbtor bdditionblly
+     * reports {@link Spliterbtor#CONCURRENT}, {@link Spliterbtor#NONNULL} bnd
+     * {@link Spliterbtor#ORDERED}, with bn encounter order thbt is bscending
      * order of the corresponding keys.
      *
-     * <p>The collection is backed by the map, so changes to the map are
-     * reflected in the collection, and vice-versa.  The collection
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the {@code Iterator.remove},
+     * <p>The collection is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the collection, bnd vice-versb.  The collection
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the {@code Iterbtor.remove},
      * {@code Collection.remove}, {@code removeAll},
-     * {@code retainAll} and {@code clear} operations.  It does not
-     * support the {@code add} or {@code addAll} operations.
+     * {@code retbinAll} bnd {@code clebr} operbtions.  It does not
+     * support the {@code bdd} or {@code bddAll} operbtions.
      *
-     * <p>The view's iterators and spliterators are
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The view's iterbtors bnd spliterbtors bre
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      */
-    public Collection<V> values() {
-        Values<V> vs = values;
-        return (vs != null) ? vs : (values = new Values<V>(this));
+    public Collection<V> vblues() {
+        Vblues<V> vs = vblues;
+        return (vs != null) ? vs : (vblues = new Vblues<V>(this));
     }
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
+     * Returns b {@link Set} view of the mbppings contbined in this mbp.
      *
-     * <p>The set's iterator returns the entries in ascending key order.  The
-     * set's spliterator additionally reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#NONNULL}, {@link Spliterator#SORTED} and
-     * {@link Spliterator#ORDERED}, with an encounter order that is ascending
+     * <p>The set's iterbtor returns the entries in bscending key order.  The
+     * set's spliterbtor bdditionblly reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#NONNULL}, {@link Spliterbtor#SORTED} bnd
+     * {@link Spliterbtor#ORDERED}, with bn encounter order thbt is bscending
      * key order.
      *
-     * <p>The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  The set supports element
-     * removal, which removes the corresponding mapping from the map,
-     * via the {@code Iterator.remove}, {@code Set.remove},
-     * {@code removeAll}, {@code retainAll} and {@code clear}
-     * operations.  It does not support the {@code add} or
-     * {@code addAll} operations.
+     * <p>The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  The set supports element
+     * removbl, which removes the corresponding mbpping from the mbp,
+     * vib the {@code Iterbtor.remove}, {@code Set.remove},
+     * {@code removeAll}, {@code retbinAll} bnd {@code clebr}
+     * operbtions.  It does not support the {@code bdd} or
+     * {@code bddAll} operbtions.
      *
-     * <p>The view's iterators and spliterators are
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The view's iterbtors bnd spliterbtors bre
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>The {@code Map.Entry} elements traversed by the {@code iterator}
-     * or {@code spliterator} do <em>not</em> support the {@code setValue}
-     * operation.
+     * <p>The {@code Mbp.Entry} elements trbversed by the {@code iterbtor}
+     * or {@code spliterbtor} do <em>not</em> support the {@code setVblue}
+     * operbtion.
      *
-     * @return a set view of the mappings contained in this map,
-     *         sorted in ascending key order
+     * @return b set view of the mbppings contbined in this mbp,
+     *         sorted in bscending key order
      */
-    public Set<Map.Entry<K,V>> entrySet() {
+    public Set<Mbp.Entry<K,V>> entrySet() {
         EntrySet<K,V> es = entrySet;
         return (es != null) ? es : (entrySet = new EntrySet<K,V>(this));
     }
 
-    public ConcurrentNavigableMap<K,V> descendingMap() {
-        ConcurrentNavigableMap<K,V> dm = descendingMap;
-        return (dm != null) ? dm : (descendingMap = new SubMap<K,V>
-                                    (this, null, false, null, false, true));
+    public ConcurrentNbvigbbleMbp<K,V> descendingMbp() {
+        ConcurrentNbvigbbleMbp<K,V> dm = descendingMbp;
+        return (dm != null) ? dm : (descendingMbp = new SubMbp<K,V>
+                                    (this, null, fblse, null, fblse, true));
     }
 
-    public NavigableSet<K> descendingKeySet() {
-        return descendingMap().navigableKeySet();
+    public NbvigbbleSet<K> descendingKeySet() {
+        return descendingMbp().nbvigbbleKeySet();
     }
 
-    /* ---------------- AbstractMap Overrides -------------- */
+    /* ---------------- AbstrbctMbp Overrides -------------- */
 
     /**
-     * Compares the specified object with this map for equality.
-     * Returns {@code true} if the given object is also a map and the
-     * two maps represent the same mappings.  More formally, two maps
-     * {@code m1} and {@code m2} represent the same mappings if
-     * {@code m1.entrySet().equals(m2.entrySet())}.  This
-     * operation may return misleading results if either map is
+     * Compbres the specified object with this mbp for equblity.
+     * Returns {@code true} if the given object is blso b mbp bnd the
+     * two mbps represent the sbme mbppings.  More formblly, two mbps
+     * {@code m1} bnd {@code m2} represent the sbme mbppings if
+     * {@code m1.entrySet().equbls(m2.entrySet())}.  This
+     * operbtion mby return mislebding results if either mbp is
      * concurrently modified during execution of this method.
      *
-     * @param o object to be compared for equality with this map
-     * @return {@code true} if the specified object is equal to this map
+     * @pbrbm o object to be compbred for equblity with this mbp
+     * @return {@code true} if the specified object is equbl to this mbp
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Map))
-            return false;
-        Map<?,?> m = (Map<?,?>) o;
+        if (!(o instbnceof Mbp))
+            return fblse;
+        Mbp<?,?> m = (Mbp<?,?>) o;
         try {
-            for (Map.Entry<K,V> e : this.entrySet())
-                if (! e.getValue().equals(m.get(e.getKey())))
-                    return false;
-            for (Map.Entry<?,?> e : m.entrySet()) {
+            for (Mbp.Entry<K,V> e : this.entrySet())
+                if (! e.getVblue().equbls(m.get(e.getKey())))
+                    return fblse;
+            for (Mbp.Entry<?,?> e : m.entrySet()) {
                 Object k = e.getKey();
-                Object v = e.getValue();
-                if (k == null || v == null || !v.equals(get(k)))
-                    return false;
+                Object v = e.getVblue();
+                if (k == null || v == null || !v.equbls(get(k)))
+                    return fblse;
             }
             return true;
-        } catch (ClassCastException unused) {
-            return false;
-        } catch (NullPointerException unused) {
-            return false;
+        } cbtch (ClbssCbstException unused) {
+            return fblse;
+        } cbtch (NullPointerException unused) {
+            return fblse;
         }
     }
 
-    /* ------ ConcurrentMap API methods ------ */
+    /* ------ ConcurrentMbp API methods ------ */
 
     /**
      * {@inheritDoc}
      *
-     * @return the previous value associated with the specified key,
-     *         or {@code null} if there was no mapping for the key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key or value is null
+     * @return the previous vblue bssocibted with the specified key,
+     *         or {@code null} if there wbs no mbpping for the key
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
+     * @throws NullPointerException if the specified key or vblue is null
      */
-    public V putIfAbsent(K key, V value) {
-        if (value == null)
+    public V putIfAbsent(K key, V vblue) {
+        if (vblue == null)
             throw new NullPointerException();
-        return doPut(key, value, true);
+        return doPut(key, vblue, true);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
      * @throws NullPointerException if the specified key is null
      */
-    public boolean remove(Object key, Object value) {
+    public boolebn remove(Object key, Object vblue) {
         if (key == null)
             throw new NullPointerException();
-        return value != null && doRemove(key, value) != null;
+        return vblue != null && doRemove(key, vblue) != null;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if any of the arguments are null
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
+     * @throws NullPointerException if bny of the brguments bre null
      */
-    public boolean replace(K key, V oldValue, V newValue) {
-        if (key == null || oldValue == null || newValue == null)
+    public boolebn replbce(K key, V oldVblue, V newVblue) {
+        if (key == null || oldVblue == null || newVblue == null)
             throw new NullPointerException();
         for (;;) {
             Node<K,V> n; Object v;
             if ((n = findNode(key)) == null)
-                return false;
-            if ((v = n.value) != null) {
-                if (!oldValue.equals(v))
-                    return false;
-                if (n.casValue(v, newValue))
+                return fblse;
+            if ((v = n.vblue) != null) {
+                if (!oldVblue.equbls(v))
+                    return fblse;
+                if (n.cbsVblue(v, newVblue))
                     return true;
             }
         }
@@ -2001,30 +2001,30 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     /**
      * {@inheritDoc}
      *
-     * @return the previous value associated with the specified key,
-     *         or {@code null} if there was no mapping for the key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key or value is null
+     * @return the previous vblue bssocibted with the specified key,
+     *         or {@code null} if there wbs no mbpping for the key
+     * @throws ClbssCbstException if the specified key cbnnot be compbred
+     *         with the keys currently in the mbp
+     * @throws NullPointerException if the specified key or vblue is null
      */
-    public V replace(K key, V value) {
-        if (key == null || value == null)
+    public V replbce(K key, V vblue) {
+        if (key == null || vblue == null)
             throw new NullPointerException();
         for (;;) {
             Node<K,V> n; Object v;
             if ((n = findNode(key)) == null)
                 return null;
-            if ((v = n.value) != null && n.casValue(v, value)) {
-                @SuppressWarnings("unchecked") V vv = (V)v;
+            if ((v = n.vblue) != null && n.cbsVblue(v, vblue)) {
+                @SuppressWbrnings("unchecked") V vv = (V)v;
                 return vv;
             }
         }
     }
 
-    /* ------ SortedMap API methods ------ */
+    /* ------ SortedMbp API methods ------ */
 
-    public Comparator<? super K> comparator() {
-        return comparator;
+    public Compbrbtor<? super K> compbrbtor() {
+        return compbrbtor;
     }
 
     /**
@@ -2040,568 +2040,568 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
-    public K lastKey() {
-        Node<K,V> n = findLast();
+    public K lbstKey() {
+        Node<K,V> n = findLbst();
         if (n == null)
             throw new NoSuchElementException();
         return n.key;
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromKey} or {@code toKey} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> subMap(K fromKey,
-                                              boolean fromInclusive,
+    public ConcurrentNbvigbbleMbp<K,V> subMbp(K fromKey,
+                                              boolebn fromInclusive,
                                               K toKey,
-                                              boolean toInclusive) {
+                                              boolebn toInclusive) {
         if (fromKey == null || toKey == null)
             throw new NullPointerException();
-        return new SubMap<K,V>
-            (this, fromKey, fromInclusive, toKey, toInclusive, false);
+        return new SubMbp<K,V>
+            (this, fromKey, fromInclusive, toKey, toInclusive, fblse);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code toKey} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> headMap(K toKey,
-                                               boolean inclusive) {
+    public ConcurrentNbvigbbleMbp<K,V> hebdMbp(K toKey,
+                                               boolebn inclusive) {
         if (toKey == null)
             throw new NullPointerException();
-        return new SubMap<K,V>
-            (this, null, false, toKey, inclusive, false);
+        return new SubMbp<K,V>
+            (this, null, fblse, toKey, inclusive, fblse);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromKey} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> tailMap(K fromKey,
-                                               boolean inclusive) {
+    public ConcurrentNbvigbbleMbp<K,V> tbilMbp(K fromKey,
+                                               boolebn inclusive) {
         if (fromKey == null)
             throw new NullPointerException();
-        return new SubMap<K,V>
-            (this, fromKey, inclusive, null, false, false);
+        return new SubMbp<K,V>
+            (this, fromKey, inclusive, null, fblse, fblse);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromKey} or {@code toKey} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> subMap(K fromKey, K toKey) {
-        return subMap(fromKey, true, toKey, false);
+    public ConcurrentNbvigbbleMbp<K,V> subMbp(K fromKey, K toKey) {
+        return subMbp(fromKey, true, toKey, fblse);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code toKey} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> headMap(K toKey) {
-        return headMap(toKey, false);
+    public ConcurrentNbvigbbleMbp<K,V> hebdMbp(K toKey) {
+        return hebdMbp(toKey, fblse);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromKey} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> tailMap(K fromKey) {
-        return tailMap(fromKey, true);
+    public ConcurrentNbvigbbleMbp<K,V> tbilMbp(K fromKey) {
+        return tbilMbp(fromKey, true);
     }
 
-    /* ---------------- Relational operations -------------- */
+    /* ---------------- Relbtionbl operbtions -------------- */
 
     /**
-     * Returns a key-value mapping associated with the greatest key
-     * strictly less than the given key, or {@code null} if there is
+     * Returns b key-vblue mbpping bssocibted with the grebtest key
+     * strictly less thbn the given key, or {@code null} if there is
      * no such key. The returned entry does <em>not</em> support the
-     * {@code Entry.setValue} method.
+     * {@code Entry.setVblue} method.
      *
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified key is null
      */
-    public Map.Entry<K,V> lowerEntry(K key) {
-        return getNear(key, LT);
+    public Mbp.Entry<K,V> lowerEntry(K key) {
+        return getNebr(key, LT);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified key is null
      */
     public K lowerKey(K key) {
-        Node<K,V> n = findNear(key, LT, comparator);
+        Node<K,V> n = findNebr(key, LT, compbrbtor);
         return (n == null) ? null : n.key;
     }
 
     /**
-     * Returns a key-value mapping associated with the greatest key
-     * less than or equal to the given key, or {@code null} if there
+     * Returns b key-vblue mbpping bssocibted with the grebtest key
+     * less thbn or equbl to the given key, or {@code null} if there
      * is no such key. The returned entry does <em>not</em> support
-     * the {@code Entry.setValue} method.
+     * the {@code Entry.setVblue} method.
      *
-     * @param key the key
-     * @throws ClassCastException {@inheritDoc}
+     * @pbrbm key the key
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified key is null
      */
-    public Map.Entry<K,V> floorEntry(K key) {
-        return getNear(key, LT|EQ);
+    public Mbp.Entry<K,V> floorEntry(K key) {
+        return getNebr(key, LT|EQ);
     }
 
     /**
-     * @param key the key
-     * @throws ClassCastException {@inheritDoc}
+     * @pbrbm key the key
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified key is null
      */
     public K floorKey(K key) {
-        Node<K,V> n = findNear(key, LT|EQ, comparator);
+        Node<K,V> n = findNebr(key, LT|EQ, compbrbtor);
         return (n == null) ? null : n.key;
     }
 
     /**
-     * Returns a key-value mapping associated with the least key
-     * greater than or equal to the given key, or {@code null} if
+     * Returns b key-vblue mbpping bssocibted with the lebst key
+     * grebter thbn or equbl to the given key, or {@code null} if
      * there is no such entry. The returned entry does <em>not</em>
-     * support the {@code Entry.setValue} method.
+     * support the {@code Entry.setVblue} method.
      *
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified key is null
      */
-    public Map.Entry<K,V> ceilingEntry(K key) {
-        return getNear(key, GT|EQ);
+    public Mbp.Entry<K,V> ceilingEntry(K key) {
+        return getNebr(key, GT|EQ);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified key is null
      */
     public K ceilingKey(K key) {
-        Node<K,V> n = findNear(key, GT|EQ, comparator);
+        Node<K,V> n = findNebr(key, GT|EQ, compbrbtor);
         return (n == null) ? null : n.key;
     }
 
     /**
-     * Returns a key-value mapping associated with the least key
-     * strictly greater than the given key, or {@code null} if there
+     * Returns b key-vblue mbpping bssocibted with the lebst key
+     * strictly grebter thbn the given key, or {@code null} if there
      * is no such key. The returned entry does <em>not</em> support
-     * the {@code Entry.setValue} method.
+     * the {@code Entry.setVblue} method.
      *
-     * @param key the key
-     * @throws ClassCastException {@inheritDoc}
+     * @pbrbm key the key
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified key is null
      */
-    public Map.Entry<K,V> higherEntry(K key) {
-        return getNear(key, GT);
+    public Mbp.Entry<K,V> higherEntry(K key) {
+        return getNebr(key, GT);
     }
 
     /**
-     * @param key the key
-     * @throws ClassCastException {@inheritDoc}
+     * @pbrbm key the key
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified key is null
      */
     public K higherKey(K key) {
-        Node<K,V> n = findNear(key, GT, comparator);
+        Node<K,V> n = findNebr(key, GT, compbrbtor);
         return (n == null) ? null : n.key;
     }
 
     /**
-     * Returns a key-value mapping associated with the least
-     * key in this map, or {@code null} if the map is empty.
+     * Returns b key-vblue mbpping bssocibted with the lebst
+     * key in this mbp, or {@code null} if the mbp is empty.
      * The returned entry does <em>not</em> support
-     * the {@code Entry.setValue} method.
+     * the {@code Entry.setVblue} method.
      */
-    public Map.Entry<K,V> firstEntry() {
+    public Mbp.Entry<K,V> firstEntry() {
         for (;;) {
             Node<K,V> n = findFirst();
             if (n == null)
                 return null;
-            AbstractMap.SimpleImmutableEntry<K,V> e = n.createSnapshot();
+            AbstrbctMbp.SimpleImmutbbleEntry<K,V> e = n.crebteSnbpshot();
             if (e != null)
                 return e;
         }
     }
 
     /**
-     * Returns a key-value mapping associated with the greatest
-     * key in this map, or {@code null} if the map is empty.
+     * Returns b key-vblue mbpping bssocibted with the grebtest
+     * key in this mbp, or {@code null} if the mbp is empty.
      * The returned entry does <em>not</em> support
-     * the {@code Entry.setValue} method.
+     * the {@code Entry.setVblue} method.
      */
-    public Map.Entry<K,V> lastEntry() {
+    public Mbp.Entry<K,V> lbstEntry() {
         for (;;) {
-            Node<K,V> n = findLast();
+            Node<K,V> n = findLbst();
             if (n == null)
                 return null;
-            AbstractMap.SimpleImmutableEntry<K,V> e = n.createSnapshot();
+            AbstrbctMbp.SimpleImmutbbleEntry<K,V> e = n.crebteSnbpshot();
             if (e != null)
                 return e;
         }
     }
 
     /**
-     * Removes and returns a key-value mapping associated with
-     * the least key in this map, or {@code null} if the map is empty.
+     * Removes bnd returns b key-vblue mbpping bssocibted with
+     * the lebst key in this mbp, or {@code null} if the mbp is empty.
      * The returned entry does <em>not</em> support
-     * the {@code Entry.setValue} method.
+     * the {@code Entry.setVblue} method.
      */
-    public Map.Entry<K,V> pollFirstEntry() {
+    public Mbp.Entry<K,V> pollFirstEntry() {
         return doRemoveFirstEntry();
     }
 
     /**
-     * Removes and returns a key-value mapping associated with
-     * the greatest key in this map, or {@code null} if the map is empty.
+     * Removes bnd returns b key-vblue mbpping bssocibted with
+     * the grebtest key in this mbp, or {@code null} if the mbp is empty.
      * The returned entry does <em>not</em> support
-     * the {@code Entry.setValue} method.
+     * the {@code Entry.setVblue} method.
      */
-    public Map.Entry<K,V> pollLastEntry() {
-        return doRemoveLastEntry();
+    public Mbp.Entry<K,V> pollLbstEntry() {
+        return doRemoveLbstEntry();
     }
 
 
-    /* ---------------- Iterators -------------- */
+    /* ---------------- Iterbtors -------------- */
 
     /**
-     * Base of iterator classes:
+     * Bbse of iterbtor clbsses:
      */
-    abstract class Iter<T> implements Iterator<T> {
-        /** the last node returned by next() */
-        Node<K,V> lastReturned;
+    bbstrbct clbss Iter<T> implements Iterbtor<T> {
+        /** the lbst node returned by next() */
+        Node<K,V> lbstReturned;
         /** the next node to return from next(); */
         Node<K,V> next;
-        /** Cache of next value field to maintain weak consistency */
-        V nextValue;
+        /** Cbche of next vblue field to mbintbin webk consistency */
+        V nextVblue;
 
-        /** Initializes ascending iterator for entire range. */
+        /** Initiblizes bscending iterbtor for entire rbnge. */
         Iter() {
             while ((next = findFirst()) != null) {
-                Object x = next.value;
+                Object x = next.vblue;
                 if (x != null && x != next) {
-                    @SuppressWarnings("unchecked") V vv = (V)x;
-                    nextValue = vv;
-                    break;
+                    @SuppressWbrnings("unchecked") V vv = (V)x;
+                    nextVblue = vv;
+                    brebk;
                 }
             }
         }
 
-        public final boolean hasNext() {
+        public finbl boolebn hbsNext() {
             return next != null;
         }
 
-        /** Advances next to higher entry. */
-        final void advance() {
+        /** Advbnces next to higher entry. */
+        finbl void bdvbnce() {
             if (next == null)
                 throw new NoSuchElementException();
-            lastReturned = next;
+            lbstReturned = next;
             while ((next = next.next) != null) {
-                Object x = next.value;
+                Object x = next.vblue;
                 if (x != null && x != next) {
-                    @SuppressWarnings("unchecked") V vv = (V)x;
-                    nextValue = vv;
-                    break;
+                    @SuppressWbrnings("unchecked") V vv = (V)x;
+                    nextVblue = vv;
+                    brebk;
                 }
             }
         }
 
         public void remove() {
-            Node<K,V> l = lastReturned;
+            Node<K,V> l = lbstReturned;
             if (l == null)
-                throw new IllegalStateException();
-            // It would not be worth all of the overhead to directly
-            // unlink from here. Using remove is fast enough.
-            ConcurrentSkipListMap.this.remove(l.key);
-            lastReturned = null;
+                throw new IllegblStbteException();
+            // It would not be worth bll of the overhebd to directly
+            // unlink from here. Using remove is fbst enough.
+            ConcurrentSkipListMbp.this.remove(l.key);
+            lbstReturned = null;
         }
 
     }
 
-    final class ValueIterator extends Iter<V> {
+    finbl clbss VblueIterbtor extends Iter<V> {
         public V next() {
-            V v = nextValue;
-            advance();
+            V v = nextVblue;
+            bdvbnce();
             return v;
         }
     }
 
-    final class KeyIterator extends Iter<K> {
+    finbl clbss KeyIterbtor extends Iter<K> {
         public K next() {
             Node<K,V> n = next;
-            advance();
+            bdvbnce();
             return n.key;
         }
     }
 
-    final class EntryIterator extends Iter<Map.Entry<K,V>> {
-        public Map.Entry<K,V> next() {
+    finbl clbss EntryIterbtor extends Iter<Mbp.Entry<K,V>> {
+        public Mbp.Entry<K,V> next() {
             Node<K,V> n = next;
-            V v = nextValue;
-            advance();
-            return new AbstractMap.SimpleImmutableEntry<K,V>(n.key, v);
+            V v = nextVblue;
+            bdvbnce();
+            return new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(n.key, v);
         }
     }
 
-    // Factory methods for iterators needed by ConcurrentSkipListSet etc
+    // Fbctory methods for iterbtors needed by ConcurrentSkipListSet etc
 
-    Iterator<K> keyIterator() {
-        return new KeyIterator();
+    Iterbtor<K> keyIterbtor() {
+        return new KeyIterbtor();
     }
 
-    Iterator<V> valueIterator() {
-        return new ValueIterator();
+    Iterbtor<V> vblueIterbtor() {
+        return new VblueIterbtor();
     }
 
-    Iterator<Map.Entry<K,V>> entryIterator() {
-        return new EntryIterator();
+    Iterbtor<Mbp.Entry<K,V>> entryIterbtor() {
+        return new EntryIterbtor();
     }
 
-    /* ---------------- View Classes -------------- */
+    /* ---------------- View Clbsses -------------- */
 
     /*
-     * View classes are static, delegating to a ConcurrentNavigableMap
-     * to allow use by SubMaps, which outweighs the ugliness of
-     * needing type-tests for Iterator methods.
+     * View clbsses bre stbtic, delegbting to b ConcurrentNbvigbbleMbp
+     * to bllow use by SubMbps, which outweighs the ugliness of
+     * needing type-tests for Iterbtor methods.
      */
 
-    static final <E> List<E> toList(Collection<E> c) {
-        // Using size() here would be a pessimization.
-        ArrayList<E> list = new ArrayList<E>();
+    stbtic finbl <E> List<E> toList(Collection<E> c) {
+        // Using size() here would be b pessimizbtion.
+        ArrbyList<E> list = new ArrbyList<E>();
         for (E e : c)
-            list.add(e);
+            list.bdd(e);
         return list;
     }
 
-    static final class KeySet<E>
-            extends AbstractSet<E> implements NavigableSet<E> {
-        final ConcurrentNavigableMap<E,?> m;
-        KeySet(ConcurrentNavigableMap<E,?> map) { m = map; }
+    stbtic finbl clbss KeySet<E>
+            extends AbstrbctSet<E> implements NbvigbbleSet<E> {
+        finbl ConcurrentNbvigbbleMbp<E,?> m;
+        KeySet(ConcurrentNbvigbbleMbp<E,?> mbp) { m = mbp; }
         public int size() { return m.size(); }
-        public boolean isEmpty() { return m.isEmpty(); }
-        public boolean contains(Object o) { return m.containsKey(o); }
-        public boolean remove(Object o) { return m.remove(o) != null; }
-        public void clear() { m.clear(); }
+        public boolebn isEmpty() { return m.isEmpty(); }
+        public boolebn contbins(Object o) { return m.contbinsKey(o); }
+        public boolebn remove(Object o) { return m.remove(o) != null; }
+        public void clebr() { m.clebr(); }
         public E lower(E e) { return m.lowerKey(e); }
         public E floor(E e) { return m.floorKey(e); }
         public E ceiling(E e) { return m.ceilingKey(e); }
         public E higher(E e) { return m.higherKey(e); }
-        public Comparator<? super E> comparator() { return m.comparator(); }
+        public Compbrbtor<? super E> compbrbtor() { return m.compbrbtor(); }
         public E first() { return m.firstKey(); }
-        public E last() { return m.lastKey(); }
+        public E lbst() { return m.lbstKey(); }
         public E pollFirst() {
-            Map.Entry<E,?> e = m.pollFirstEntry();
+            Mbp.Entry<E,?> e = m.pollFirstEntry();
             return (e == null) ? null : e.getKey();
         }
-        public E pollLast() {
-            Map.Entry<E,?> e = m.pollLastEntry();
+        public E pollLbst() {
+            Mbp.Entry<E,?> e = m.pollLbstEntry();
             return (e == null) ? null : e.getKey();
         }
-        @SuppressWarnings("unchecked")
-        public Iterator<E> iterator() {
-            if (m instanceof ConcurrentSkipListMap)
-                return ((ConcurrentSkipListMap<E,Object>)m).keyIterator();
+        @SuppressWbrnings("unchecked")
+        public Iterbtor<E> iterbtor() {
+            if (m instbnceof ConcurrentSkipListMbp)
+                return ((ConcurrentSkipListMbp<E,Object>)m).keyIterbtor();
             else
-                return ((ConcurrentSkipListMap.SubMap<E,Object>)m).keyIterator();
+                return ((ConcurrentSkipListMbp.SubMbp<E,Object>)m).keyIterbtor();
         }
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (o == this)
                 return true;
-            if (!(o instanceof Set))
-                return false;
+            if (!(o instbnceof Set))
+                return fblse;
             Collection<?> c = (Collection<?>) o;
             try {
-                return containsAll(c) && c.containsAll(this);
-            } catch (ClassCastException unused) {
-                return false;
-            } catch (NullPointerException unused) {
-                return false;
+                return contbinsAll(c) && c.contbinsAll(this);
+            } cbtch (ClbssCbstException unused) {
+                return fblse;
+            } cbtch (NullPointerException unused) {
+                return fblse;
             }
         }
-        public Object[] toArray()     { return toList(this).toArray();  }
-        public <T> T[] toArray(T[] a) { return toList(this).toArray(a); }
-        public Iterator<E> descendingIterator() {
-            return descendingSet().iterator();
+        public Object[] toArrby()     { return toList(this).toArrby();  }
+        public <T> T[] toArrby(T[] b) { return toList(this).toArrby(b); }
+        public Iterbtor<E> descendingIterbtor() {
+            return descendingSet().iterbtor();
         }
-        public NavigableSet<E> subSet(E fromElement,
-                                      boolean fromInclusive,
+        public NbvigbbleSet<E> subSet(E fromElement,
+                                      boolebn fromInclusive,
                                       E toElement,
-                                      boolean toInclusive) {
-            return new KeySet<E>(m.subMap(fromElement, fromInclusive,
+                                      boolebn toInclusive) {
+            return new KeySet<E>(m.subMbp(fromElement, fromInclusive,
                                           toElement,   toInclusive));
         }
-        public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-            return new KeySet<E>(m.headMap(toElement, inclusive));
+        public NbvigbbleSet<E> hebdSet(E toElement, boolebn inclusive) {
+            return new KeySet<E>(m.hebdMbp(toElement, inclusive));
         }
-        public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-            return new KeySet<E>(m.tailMap(fromElement, inclusive));
+        public NbvigbbleSet<E> tbilSet(E fromElement, boolebn inclusive) {
+            return new KeySet<E>(m.tbilMbp(fromElement, inclusive));
         }
-        public NavigableSet<E> subSet(E fromElement, E toElement) {
-            return subSet(fromElement, true, toElement, false);
+        public NbvigbbleSet<E> subSet(E fromElement, E toElement) {
+            return subSet(fromElement, true, toElement, fblse);
         }
-        public NavigableSet<E> headSet(E toElement) {
-            return headSet(toElement, false);
+        public NbvigbbleSet<E> hebdSet(E toElement) {
+            return hebdSet(toElement, fblse);
         }
-        public NavigableSet<E> tailSet(E fromElement) {
-            return tailSet(fromElement, true);
+        public NbvigbbleSet<E> tbilSet(E fromElement) {
+            return tbilSet(fromElement, true);
         }
-        public NavigableSet<E> descendingSet() {
-            return new KeySet<E>(m.descendingMap());
+        public NbvigbbleSet<E> descendingSet() {
+            return new KeySet<E>(m.descendingMbp());
         }
-        @SuppressWarnings("unchecked")
-        public Spliterator<E> spliterator() {
-            if (m instanceof ConcurrentSkipListMap)
-                return ((ConcurrentSkipListMap<E,?>)m).keySpliterator();
+        @SuppressWbrnings("unchecked")
+        public Spliterbtor<E> spliterbtor() {
+            if (m instbnceof ConcurrentSkipListMbp)
+                return ((ConcurrentSkipListMbp<E,?>)m).keySpliterbtor();
             else
-                return (Spliterator<E>)((SubMap<E,?>)m).keyIterator();
+                return (Spliterbtor<E>)((SubMbp<E,?>)m).keyIterbtor();
         }
     }
 
-    static final class Values<E> extends AbstractCollection<E> {
-        final ConcurrentNavigableMap<?, E> m;
-        Values(ConcurrentNavigableMap<?, E> map) {
-            m = map;
+    stbtic finbl clbss Vblues<E> extends AbstrbctCollection<E> {
+        finbl ConcurrentNbvigbbleMbp<?, E> m;
+        Vblues(ConcurrentNbvigbbleMbp<?, E> mbp) {
+            m = mbp;
         }
-        @SuppressWarnings("unchecked")
-        public Iterator<E> iterator() {
-            if (m instanceof ConcurrentSkipListMap)
-                return ((ConcurrentSkipListMap<?,E>)m).valueIterator();
+        @SuppressWbrnings("unchecked")
+        public Iterbtor<E> iterbtor() {
+            if (m instbnceof ConcurrentSkipListMbp)
+                return ((ConcurrentSkipListMbp<?,E>)m).vblueIterbtor();
             else
-                return ((SubMap<?,E>)m).valueIterator();
+                return ((SubMbp<?,E>)m).vblueIterbtor();
         }
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return m.isEmpty();
         }
         public int size() {
             return m.size();
         }
-        public boolean contains(Object o) {
-            return m.containsValue(o);
+        public boolebn contbins(Object o) {
+            return m.contbinsVblue(o);
         }
-        public void clear() {
-            m.clear();
+        public void clebr() {
+            m.clebr();
         }
-        public Object[] toArray()     { return toList(this).toArray();  }
-        public <T> T[] toArray(T[] a) { return toList(this).toArray(a); }
-        @SuppressWarnings("unchecked")
-        public Spliterator<E> spliterator() {
-            if (m instanceof ConcurrentSkipListMap)
-                return ((ConcurrentSkipListMap<?,E>)m).valueSpliterator();
+        public Object[] toArrby()     { return toList(this).toArrby();  }
+        public <T> T[] toArrby(T[] b) { return toList(this).toArrby(b); }
+        @SuppressWbrnings("unchecked")
+        public Spliterbtor<E> spliterbtor() {
+            if (m instbnceof ConcurrentSkipListMbp)
+                return ((ConcurrentSkipListMbp<?,E>)m).vblueSpliterbtor();
             else
-                return (Spliterator<E>)((SubMap<?,E>)m).valueIterator();
+                return (Spliterbtor<E>)((SubMbp<?,E>)m).vblueIterbtor();
         }
     }
 
-    static final class EntrySet<K1,V1> extends AbstractSet<Map.Entry<K1,V1>> {
-        final ConcurrentNavigableMap<K1, V1> m;
-        EntrySet(ConcurrentNavigableMap<K1, V1> map) {
-            m = map;
+    stbtic finbl clbss EntrySet<K1,V1> extends AbstrbctSet<Mbp.Entry<K1,V1>> {
+        finbl ConcurrentNbvigbbleMbp<K1, V1> m;
+        EntrySet(ConcurrentNbvigbbleMbp<K1, V1> mbp) {
+            m = mbp;
         }
-        @SuppressWarnings("unchecked")
-        public Iterator<Map.Entry<K1,V1>> iterator() {
-            if (m instanceof ConcurrentSkipListMap)
-                return ((ConcurrentSkipListMap<K1,V1>)m).entryIterator();
+        @SuppressWbrnings("unchecked")
+        public Iterbtor<Mbp.Entry<K1,V1>> iterbtor() {
+            if (m instbnceof ConcurrentSkipListMbp)
+                return ((ConcurrentSkipListMbp<K1,V1>)m).entryIterbtor();
             else
-                return ((SubMap<K1,V1>)m).entryIterator();
+                return ((SubMbp<K1,V1>)m).entryIterbtor();
         }
 
-        public boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> e = (Map.Entry<?,?>)o;
+        public boolebn contbins(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> e = (Mbp.Entry<?,?>)o;
             V1 v = m.get(e.getKey());
-            return v != null && v.equals(e.getValue());
+            return v != null && v.equbls(e.getVblue());
         }
-        public boolean remove(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> e = (Map.Entry<?,?>)o;
+        public boolebn remove(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> e = (Mbp.Entry<?,?>)o;
             return m.remove(e.getKey(),
-                            e.getValue());
+                            e.getVblue());
         }
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return m.isEmpty();
         }
         public int size() {
             return m.size();
         }
-        public void clear() {
-            m.clear();
+        public void clebr() {
+            m.clebr();
         }
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (o == this)
                 return true;
-            if (!(o instanceof Set))
-                return false;
+            if (!(o instbnceof Set))
+                return fblse;
             Collection<?> c = (Collection<?>) o;
             try {
-                return containsAll(c) && c.containsAll(this);
-            } catch (ClassCastException unused) {
-                return false;
-            } catch (NullPointerException unused) {
-                return false;
+                return contbinsAll(c) && c.contbinsAll(this);
+            } cbtch (ClbssCbstException unused) {
+                return fblse;
+            } cbtch (NullPointerException unused) {
+                return fblse;
             }
         }
-        public Object[] toArray()     { return toList(this).toArray();  }
-        public <T> T[] toArray(T[] a) { return toList(this).toArray(a); }
-        @SuppressWarnings("unchecked")
-        public Spliterator<Map.Entry<K1,V1>> spliterator() {
-            if (m instanceof ConcurrentSkipListMap)
-                return ((ConcurrentSkipListMap<K1,V1>)m).entrySpliterator();
+        public Object[] toArrby()     { return toList(this).toArrby();  }
+        public <T> T[] toArrby(T[] b) { return toList(this).toArrby(b); }
+        @SuppressWbrnings("unchecked")
+        public Spliterbtor<Mbp.Entry<K1,V1>> spliterbtor() {
+            if (m instbnceof ConcurrentSkipListMbp)
+                return ((ConcurrentSkipListMbp<K1,V1>)m).entrySpliterbtor();
             else
-                return (Spliterator<Map.Entry<K1,V1>>)
-                    ((SubMap<K1,V1>)m).entryIterator();
+                return (Spliterbtor<Mbp.Entry<K1,V1>>)
+                    ((SubMbp<K1,V1>)m).entryIterbtor();
         }
     }
 
     /**
-     * Submaps returned by {@link ConcurrentSkipListMap} submap operations
-     * represent a subrange of mappings of their underlying
-     * maps. Instances of this class support all methods of their
-     * underlying maps, differing in that mappings outside their range are
-     * ignored, and attempts to add mappings outside their ranges result
-     * in {@link IllegalArgumentException}.  Instances of this class are
-     * constructed only using the {@code subMap}, {@code headMap}, and
-     * {@code tailMap} methods of their underlying maps.
+     * Submbps returned by {@link ConcurrentSkipListMbp} submbp operbtions
+     * represent b subrbnge of mbppings of their underlying
+     * mbps. Instbnces of this clbss support bll methods of their
+     * underlying mbps, differing in thbt mbppings outside their rbnge bre
+     * ignored, bnd bttempts to bdd mbppings outside their rbnges result
+     * in {@link IllegblArgumentException}.  Instbnces of this clbss bre
+     * constructed only using the {@code subMbp}, {@code hebdMbp}, bnd
+     * {@code tbilMbp} methods of their underlying mbps.
      *
-     * @serial include
+     * @seribl include
      */
-    static final class SubMap<K,V> extends AbstractMap<K,V>
-        implements ConcurrentNavigableMap<K,V>, Cloneable, Serializable {
-        private static final long serialVersionUID = -7647078645895051609L;
+    stbtic finbl clbss SubMbp<K,V> extends AbstrbctMbp<K,V>
+        implements ConcurrentNbvigbbleMbp<K,V>, Clonebble, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -7647078645895051609L;
 
-        /** Underlying map */
-        private final ConcurrentSkipListMap<K,V> m;
-        /** lower bound key, or null if from start */
-        private final K lo;
+        /** Underlying mbp */
+        privbte finbl ConcurrentSkipListMbp<K,V> m;
+        /** lower bound key, or null if from stbrt */
+        privbte finbl K lo;
         /** upper bound key, or null if to end */
-        private final K hi;
-        /** inclusion flag for lo */
-        private final boolean loInclusive;
-        /** inclusion flag for hi */
-        private final boolean hiInclusive;
+        privbte finbl K hi;
+        /** inclusion flbg for lo */
+        privbte finbl boolebn loInclusive;
+        /** inclusion flbg for hi */
+        privbte finbl boolebn hiInclusive;
         /** direction */
-        private final boolean isDescending;
+        privbte finbl boolebn isDescending;
 
-        // Lazily initialized view holders
-        private transient KeySet<K> keySetView;
-        private transient Set<Map.Entry<K,V>> entrySetView;
-        private transient Collection<V> valuesView;
+        // Lbzily initiblized view holders
+        privbte trbnsient KeySet<K> keySetView;
+        privbte trbnsient Set<Mbp.Entry<K,V>> entrySetView;
+        privbte trbnsient Collection<V> vbluesView;
 
         /**
-         * Creates a new submap, initializing all fields.
+         * Crebtes b new submbp, initiblizing bll fields.
          */
-        SubMap(ConcurrentSkipListMap<K,V> map,
-               K fromKey, boolean fromInclusive,
-               K toKey, boolean toInclusive,
-               boolean isDescending) {
-            Comparator<? super K> cmp = map.comparator;
+        SubMbp(ConcurrentSkipListMbp<K,V> mbp,
+               K fromKey, boolebn fromInclusive,
+               K toKey, boolebn toInclusive,
+               boolebn isDescending) {
+            Compbrbtor<? super K> cmp = mbp.compbrbtor;
             if (fromKey != null && toKey != null &&
                 cpr(cmp, fromKey, toKey) > 0)
-                throw new IllegalArgumentException("inconsistent range");
-            this.m = map;
+                throw new IllegblArgumentException("inconsistent rbnge");
+            this.m = mbp;
             this.lo = fromKey;
             this.hi = toKey;
             this.loInclusive = fromInclusive;
@@ -2611,79 +2611,79 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
 
         /* ----------------  Utilities -------------- */
 
-        boolean tooLow(Object key, Comparator<? super K> cmp) {
+        boolebn tooLow(Object key, Compbrbtor<? super K> cmp) {
             int c;
             return (lo != null && ((c = cpr(cmp, key, lo)) < 0 ||
                                    (c == 0 && !loInclusive)));
         }
 
-        boolean tooHigh(Object key, Comparator<? super K> cmp) {
+        boolebn tooHigh(Object key, Compbrbtor<? super K> cmp) {
             int c;
             return (hi != null && ((c = cpr(cmp, key, hi)) > 0 ||
                                    (c == 0 && !hiInclusive)));
         }
 
-        boolean inBounds(Object key, Comparator<? super K> cmp) {
+        boolebn inBounds(Object key, Compbrbtor<? super K> cmp) {
             return !tooLow(key, cmp) && !tooHigh(key, cmp);
         }
 
-        void checkKeyBounds(K key, Comparator<? super K> cmp) {
+        void checkKeyBounds(K key, Compbrbtor<? super K> cmp) {
             if (key == null)
                 throw new NullPointerException();
             if (!inBounds(key, cmp))
-                throw new IllegalArgumentException("key out of range");
+                throw new IllegblArgumentException("key out of rbnge");
         }
 
         /**
-         * Returns true if node key is less than upper bound of range.
+         * Returns true if node key is less thbn upper bound of rbnge.
          */
-        boolean isBeforeEnd(ConcurrentSkipListMap.Node<K,V> n,
-                            Comparator<? super K> cmp) {
+        boolebn isBeforeEnd(ConcurrentSkipListMbp.Node<K,V> n,
+                            Compbrbtor<? super K> cmp) {
             if (n == null)
-                return false;
+                return fblse;
             if (hi == null)
                 return true;
             K k = n.key;
-            if (k == null) // pass by markers and headers
+            if (k == null) // pbss by mbrkers bnd hebders
                 return true;
             int c = cpr(cmp, k, hi);
             if (c > 0 || (c == 0 && !hiInclusive))
-                return false;
+                return fblse;
             return true;
         }
 
         /**
-         * Returns lowest node. This node might not be in range, so
-         * most usages need to check bounds.
+         * Returns lowest node. This node might not be in rbnge, so
+         * most usbges need to check bounds.
          */
-        ConcurrentSkipListMap.Node<K,V> loNode(Comparator<? super K> cmp) {
+        ConcurrentSkipListMbp.Node<K,V> loNode(Compbrbtor<? super K> cmp) {
             if (lo == null)
                 return m.findFirst();
             else if (loInclusive)
-                return m.findNear(lo, GT|EQ, cmp);
+                return m.findNebr(lo, GT|EQ, cmp);
             else
-                return m.findNear(lo, GT, cmp);
+                return m.findNebr(lo, GT, cmp);
         }
 
         /**
-         * Returns highest node. This node might not be in range, so
-         * most usages need to check bounds.
+         * Returns highest node. This node might not be in rbnge, so
+         * most usbges need to check bounds.
          */
-        ConcurrentSkipListMap.Node<K,V> hiNode(Comparator<? super K> cmp) {
+        ConcurrentSkipListMbp.Node<K,V> hiNode(Compbrbtor<? super K> cmp) {
             if (hi == null)
-                return m.findLast();
+                return m.findLbst();
             else if (hiInclusive)
-                return m.findNear(hi, LT|EQ, cmp);
+                return m.findNebr(hi, LT|EQ, cmp);
             else
-                return m.findNear(hi, LT, cmp);
+                return m.findNebr(hi, LT, cmp);
         }
 
         /**
-         * Returns lowest absolute key (ignoring directonality).
+         * Returns lowest bbsolute key (ignoring directonblity).
          */
         K lowestKey() {
-            Comparator<? super K> cmp = m.comparator;
-            ConcurrentSkipListMap.Node<K,V> n = loNode(cmp);
+            Compbrbtor<? super K> cmp = m.compbrbtor;
+            ConcurrentSkipListMbp.Node<K,V> n = loNode(cmp);
             if (isBeforeEnd(n, cmp))
                 return n.key;
             else
@@ -2691,45 +2691,45 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
         }
 
         /**
-         * Returns highest absolute key (ignoring directonality).
+         * Returns highest bbsolute key (ignoring directonblity).
          */
         K highestKey() {
-            Comparator<? super K> cmp = m.comparator;
-            ConcurrentSkipListMap.Node<K,V> n = hiNode(cmp);
+            Compbrbtor<? super K> cmp = m.compbrbtor;
+            ConcurrentSkipListMbp.Node<K,V> n = hiNode(cmp);
             if (n != null) {
-                K last = n.key;
-                if (inBounds(last, cmp))
-                    return last;
+                K lbst = n.key;
+                if (inBounds(lbst, cmp))
+                    return lbst;
             }
             throw new NoSuchElementException();
         }
 
-        Map.Entry<K,V> lowestEntry() {
-            Comparator<? super K> cmp = m.comparator;
+        Mbp.Entry<K,V> lowestEntry() {
+            Compbrbtor<? super K> cmp = m.compbrbtor;
             for (;;) {
-                ConcurrentSkipListMap.Node<K,V> n = loNode(cmp);
+                ConcurrentSkipListMbp.Node<K,V> n = loNode(cmp);
                 if (!isBeforeEnd(n, cmp))
                     return null;
-                Map.Entry<K,V> e = n.createSnapshot();
+                Mbp.Entry<K,V> e = n.crebteSnbpshot();
                 if (e != null)
                     return e;
             }
         }
 
-        Map.Entry<K,V> highestEntry() {
-            Comparator<? super K> cmp = m.comparator;
+        Mbp.Entry<K,V> highestEntry() {
+            Compbrbtor<? super K> cmp = m.compbrbtor;
             for (;;) {
-                ConcurrentSkipListMap.Node<K,V> n = hiNode(cmp);
+                ConcurrentSkipListMbp.Node<K,V> n = hiNode(cmp);
                 if (n == null || !inBounds(n.key, cmp))
                     return null;
-                Map.Entry<K,V> e = n.createSnapshot();
+                Mbp.Entry<K,V> e = n.crebteSnbpshot();
                 if (e != null)
                     return e;
             }
         }
 
-        Map.Entry<K,V> removeLowest() {
-            Comparator<? super K> cmp = m.comparator;
+        Mbp.Entry<K,V> removeLowest() {
+            Compbrbtor<? super K> cmp = m.compbrbtor;
             for (;;) {
                 Node<K,V> n = loNode(cmp);
                 if (n == null)
@@ -2739,12 +2739,12 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                     return null;
                 V v = m.doRemove(k, null);
                 if (v != null)
-                    return new AbstractMap.SimpleImmutableEntry<K,V>(k, v);
+                    return new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(k, v);
             }
         }
 
-        Map.Entry<K,V> removeHighest() {
-            Comparator<? super K> cmp = m.comparator;
+        Mbp.Entry<K,V> removeHighest() {
+            Compbrbtor<? super K> cmp = m.compbrbtor;
             for (;;) {
                 Node<K,V> n = hiNode(cmp);
                 if (n == null)
@@ -2754,16 +2754,16 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                     return null;
                 V v = m.doRemove(k, null);
                 if (v != null)
-                    return new AbstractMap.SimpleImmutableEntry<K,V>(k, v);
+                    return new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(k, v);
             }
         }
 
         /**
-         * Submap version of ConcurrentSkipListMap.getNearEntry
+         * Submbp version of ConcurrentSkipListMbp.getNebrEntry
          */
-        Map.Entry<K,V> getNearEntry(K key, int rel) {
-            Comparator<? super K> cmp = m.comparator;
-            if (isDescending) { // adjust relation for direction
+        Mbp.Entry<K,V> getNebrEntry(K key, int rel) {
+            Compbrbtor<? super K> cmp = m.compbrbtor;
+            if (isDescending) { // bdjust relbtion for direction
                 if ((rel & LT) == 0)
                     rel |= LT;
                 else
@@ -2774,20 +2774,20 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
             if (tooHigh(key, cmp))
                 return ((rel & LT) != 0) ? highestEntry() : null;
             for (;;) {
-                Node<K,V> n = m.findNear(key, rel, cmp);
+                Node<K,V> n = m.findNebr(key, rel, cmp);
                 if (n == null || !inBounds(n.key, cmp))
                     return null;
                 K k = n.key;
-                V v = n.getValidValue();
+                V v = n.getVblidVblue();
                 if (v != null)
-                    return new AbstractMap.SimpleImmutableEntry<K,V>(k, v);
+                    return new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(k, v);
             }
         }
 
-        // Almost the same as getNearEntry, except for keys
-        K getNearKey(K key, int rel) {
-            Comparator<? super K> cmp = m.comparator;
-            if (isDescending) { // adjust relation for direction
+        // Almost the sbme bs getNebrEntry, except for keys
+        K getNebrKey(K key, int rel) {
+            Compbrbtor<? super K> cmp = m.compbrbtor;
+            if (isDescending) { // bdjust relbtion for direction
                 if ((rel & LT) == 0)
                     rel |= LT;
                 else
@@ -2795,7 +2795,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
             }
             if (tooLow(key, cmp)) {
                 if ((rel & LT) == 0) {
-                    ConcurrentSkipListMap.Node<K,V> n = loNode(cmp);
+                    ConcurrentSkipListMbp.Node<K,V> n = loNode(cmp);
                     if (isBeforeEnd(n, cmp))
                         return n.key;
                 }
@@ -2803,113 +2803,113 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
             }
             if (tooHigh(key, cmp)) {
                 if ((rel & LT) != 0) {
-                    ConcurrentSkipListMap.Node<K,V> n = hiNode(cmp);
+                    ConcurrentSkipListMbp.Node<K,V> n = hiNode(cmp);
                     if (n != null) {
-                        K last = n.key;
-                        if (inBounds(last, cmp))
-                            return last;
+                        K lbst = n.key;
+                        if (inBounds(lbst, cmp))
+                            return lbst;
                     }
                 }
                 return null;
             }
             for (;;) {
-                Node<K,V> n = m.findNear(key, rel, cmp);
+                Node<K,V> n = m.findNebr(key, rel, cmp);
                 if (n == null || !inBounds(n.key, cmp))
                     return null;
                 K k = n.key;
-                V v = n.getValidValue();
+                V v = n.getVblidVblue();
                 if (v != null)
                     return k;
             }
         }
 
-        /* ----------------  Map API methods -------------- */
+        /* ----------------  Mbp API methods -------------- */
 
-        public boolean containsKey(Object key) {
+        public boolebn contbinsKey(Object key) {
             if (key == null) throw new NullPointerException();
-            return inBounds(key, m.comparator) && m.containsKey(key);
+            return inBounds(key, m.compbrbtor) && m.contbinsKey(key);
         }
 
         public V get(Object key) {
             if (key == null) throw new NullPointerException();
-            return (!inBounds(key, m.comparator)) ? null : m.get(key);
+            return (!inBounds(key, m.compbrbtor)) ? null : m.get(key);
         }
 
-        public V put(K key, V value) {
-            checkKeyBounds(key, m.comparator);
-            return m.put(key, value);
+        public V put(K key, V vblue) {
+            checkKeyBounds(key, m.compbrbtor);
+            return m.put(key, vblue);
         }
 
         public V remove(Object key) {
-            return (!inBounds(key, m.comparator)) ? null : m.remove(key);
+            return (!inBounds(key, m.compbrbtor)) ? null : m.remove(key);
         }
 
         public int size() {
-            Comparator<? super K> cmp = m.comparator;
+            Compbrbtor<? super K> cmp = m.compbrbtor;
             long count = 0;
-            for (ConcurrentSkipListMap.Node<K,V> n = loNode(cmp);
+            for (ConcurrentSkipListMbp.Node<K,V> n = loNode(cmp);
                  isBeforeEnd(n, cmp);
                  n = n.next) {
-                if (n.getValidValue() != null)
+                if (n.getVblidVblue() != null)
                     ++count;
             }
             return count >= Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)count;
         }
 
-        public boolean isEmpty() {
-            Comparator<? super K> cmp = m.comparator;
+        public boolebn isEmpty() {
+            Compbrbtor<? super K> cmp = m.compbrbtor;
             return !isBeforeEnd(loNode(cmp), cmp);
         }
 
-        public boolean containsValue(Object value) {
-            if (value == null)
+        public boolebn contbinsVblue(Object vblue) {
+            if (vblue == null)
                 throw new NullPointerException();
-            Comparator<? super K> cmp = m.comparator;
-            for (ConcurrentSkipListMap.Node<K,V> n = loNode(cmp);
+            Compbrbtor<? super K> cmp = m.compbrbtor;
+            for (ConcurrentSkipListMbp.Node<K,V> n = loNode(cmp);
                  isBeforeEnd(n, cmp);
                  n = n.next) {
-                V v = n.getValidValue();
-                if (v != null && value.equals(v))
+                V v = n.getVblidVblue();
+                if (v != null && vblue.equbls(v))
                     return true;
             }
-            return false;
+            return fblse;
         }
 
-        public void clear() {
-            Comparator<? super K> cmp = m.comparator;
-            for (ConcurrentSkipListMap.Node<K,V> n = loNode(cmp);
+        public void clebr() {
+            Compbrbtor<? super K> cmp = m.compbrbtor;
+            for (ConcurrentSkipListMbp.Node<K,V> n = loNode(cmp);
                  isBeforeEnd(n, cmp);
                  n = n.next) {
-                if (n.getValidValue() != null)
+                if (n.getVblidVblue() != null)
                     m.remove(n.key);
             }
         }
 
-        /* ----------------  ConcurrentMap API methods -------------- */
+        /* ----------------  ConcurrentMbp API methods -------------- */
 
-        public V putIfAbsent(K key, V value) {
-            checkKeyBounds(key, m.comparator);
-            return m.putIfAbsent(key, value);
+        public V putIfAbsent(K key, V vblue) {
+            checkKeyBounds(key, m.compbrbtor);
+            return m.putIfAbsent(key, vblue);
         }
 
-        public boolean remove(Object key, Object value) {
-            return inBounds(key, m.comparator) && m.remove(key, value);
+        public boolebn remove(Object key, Object vblue) {
+            return inBounds(key, m.compbrbtor) && m.remove(key, vblue);
         }
 
-        public boolean replace(K key, V oldValue, V newValue) {
-            checkKeyBounds(key, m.comparator);
-            return m.replace(key, oldValue, newValue);
+        public boolebn replbce(K key, V oldVblue, V newVblue) {
+            checkKeyBounds(key, m.compbrbtor);
+            return m.replbce(key, oldVblue, newVblue);
         }
 
-        public V replace(K key, V value) {
-            checkKeyBounds(key, m.comparator);
-            return m.replace(key, value);
+        public V replbce(K key, V vblue) {
+            checkKeyBounds(key, m.compbrbtor);
+            return m.replbce(key, vblue);
         }
 
-        /* ----------------  SortedMap API methods -------------- */
+        /* ----------------  SortedMbp API methods -------------- */
 
-        public Comparator<? super K> comparator() {
-            Comparator<? super K> cmp = m.comparator();
+        public Compbrbtor<? super K> compbrbtor() {
+            Compbrbtor<? super K> cmp = m.compbrbtor();
             if (isDescending)
                 return Collections.reverseOrder(cmp);
             else
@@ -2917,17 +2917,17 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
         }
 
         /**
-         * Utility to create submaps, where given bounds override
-         * unbounded(null) ones and/or are checked against bounded ones.
+         * Utility to crebte submbps, where given bounds override
+         * unbounded(null) ones bnd/or bre checked bgbinst bounded ones.
          */
-        SubMap<K,V> newSubMap(K fromKey, boolean fromInclusive,
-                              K toKey, boolean toInclusive) {
-            Comparator<? super K> cmp = m.comparator;
+        SubMbp<K,V> newSubMbp(K fromKey, boolebn fromInclusive,
+                              K toKey, boolebn toInclusive) {
+            Compbrbtor<? super K> cmp = m.compbrbtor;
             if (isDescending) { // flip senses
                 K tk = fromKey;
                 fromKey = toKey;
                 toKey = tk;
-                boolean ti = fromInclusive;
+                boolebn ti = fromInclusive;
                 fromInclusive = toInclusive;
                 toInclusive = ti;
             }
@@ -2939,7 +2939,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                 else {
                     int c = cpr(cmp, fromKey, lo);
                     if (c < 0 || (c == 0 && !loInclusive && fromInclusive))
-                        throw new IllegalArgumentException("key out of range");
+                        throw new IllegblArgumentException("key out of rbnge");
                 }
             }
             if (hi != null) {
@@ -2950,648 +2950,648 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                 else {
                     int c = cpr(cmp, toKey, hi);
                     if (c > 0 || (c == 0 && !hiInclusive && toInclusive))
-                        throw new IllegalArgumentException("key out of range");
+                        throw new IllegblArgumentException("key out of rbnge");
                 }
             }
-            return new SubMap<K,V>(m, fromKey, fromInclusive,
+            return new SubMbp<K,V>(m, fromKey, fromInclusive,
                                    toKey, toInclusive, isDescending);
         }
 
-        public SubMap<K,V> subMap(K fromKey, boolean fromInclusive,
-                                  K toKey, boolean toInclusive) {
+        public SubMbp<K,V> subMbp(K fromKey, boolebn fromInclusive,
+                                  K toKey, boolebn toInclusive) {
             if (fromKey == null || toKey == null)
                 throw new NullPointerException();
-            return newSubMap(fromKey, fromInclusive, toKey, toInclusive);
+            return newSubMbp(fromKey, fromInclusive, toKey, toInclusive);
         }
 
-        public SubMap<K,V> headMap(K toKey, boolean inclusive) {
+        public SubMbp<K,V> hebdMbp(K toKey, boolebn inclusive) {
             if (toKey == null)
                 throw new NullPointerException();
-            return newSubMap(null, false, toKey, inclusive);
+            return newSubMbp(null, fblse, toKey, inclusive);
         }
 
-        public SubMap<K,V> tailMap(K fromKey, boolean inclusive) {
+        public SubMbp<K,V> tbilMbp(K fromKey, boolebn inclusive) {
             if (fromKey == null)
                 throw new NullPointerException();
-            return newSubMap(fromKey, inclusive, null, false);
+            return newSubMbp(fromKey, inclusive, null, fblse);
         }
 
-        public SubMap<K,V> subMap(K fromKey, K toKey) {
-            return subMap(fromKey, true, toKey, false);
+        public SubMbp<K,V> subMbp(K fromKey, K toKey) {
+            return subMbp(fromKey, true, toKey, fblse);
         }
 
-        public SubMap<K,V> headMap(K toKey) {
-            return headMap(toKey, false);
+        public SubMbp<K,V> hebdMbp(K toKey) {
+            return hebdMbp(toKey, fblse);
         }
 
-        public SubMap<K,V> tailMap(K fromKey) {
-            return tailMap(fromKey, true);
+        public SubMbp<K,V> tbilMbp(K fromKey) {
+            return tbilMbp(fromKey, true);
         }
 
-        public SubMap<K,V> descendingMap() {
-            return new SubMap<K,V>(m, lo, loInclusive,
+        public SubMbp<K,V> descendingMbp() {
+            return new SubMbp<K,V>(m, lo, loInclusive,
                                    hi, hiInclusive, !isDescending);
         }
 
-        /* ----------------  Relational methods -------------- */
+        /* ----------------  Relbtionbl methods -------------- */
 
-        public Map.Entry<K,V> ceilingEntry(K key) {
-            return getNearEntry(key, GT|EQ);
+        public Mbp.Entry<K,V> ceilingEntry(K key) {
+            return getNebrEntry(key, GT|EQ);
         }
 
         public K ceilingKey(K key) {
-            return getNearKey(key, GT|EQ);
+            return getNebrKey(key, GT|EQ);
         }
 
-        public Map.Entry<K,V> lowerEntry(K key) {
-            return getNearEntry(key, LT);
+        public Mbp.Entry<K,V> lowerEntry(K key) {
+            return getNebrEntry(key, LT);
         }
 
         public K lowerKey(K key) {
-            return getNearKey(key, LT);
+            return getNebrKey(key, LT);
         }
 
-        public Map.Entry<K,V> floorEntry(K key) {
-            return getNearEntry(key, LT|EQ);
+        public Mbp.Entry<K,V> floorEntry(K key) {
+            return getNebrEntry(key, LT|EQ);
         }
 
         public K floorKey(K key) {
-            return getNearKey(key, LT|EQ);
+            return getNebrKey(key, LT|EQ);
         }
 
-        public Map.Entry<K,V> higherEntry(K key) {
-            return getNearEntry(key, GT);
+        public Mbp.Entry<K,V> higherEntry(K key) {
+            return getNebrEntry(key, GT);
         }
 
         public K higherKey(K key) {
-            return getNearKey(key, GT);
+            return getNebrKey(key, GT);
         }
 
         public K firstKey() {
             return isDescending ? highestKey() : lowestKey();
         }
 
-        public K lastKey() {
+        public K lbstKey() {
             return isDescending ? lowestKey() : highestKey();
         }
 
-        public Map.Entry<K,V> firstEntry() {
+        public Mbp.Entry<K,V> firstEntry() {
             return isDescending ? highestEntry() : lowestEntry();
         }
 
-        public Map.Entry<K,V> lastEntry() {
+        public Mbp.Entry<K,V> lbstEntry() {
             return isDescending ? lowestEntry() : highestEntry();
         }
 
-        public Map.Entry<K,V> pollFirstEntry() {
+        public Mbp.Entry<K,V> pollFirstEntry() {
             return isDescending ? removeHighest() : removeLowest();
         }
 
-        public Map.Entry<K,V> pollLastEntry() {
+        public Mbp.Entry<K,V> pollLbstEntry() {
             return isDescending ? removeLowest() : removeHighest();
         }
 
-        /* ---------------- Submap Views -------------- */
+        /* ---------------- Submbp Views -------------- */
 
-        public NavigableSet<K> keySet() {
+        public NbvigbbleSet<K> keySet() {
             KeySet<K> ks = keySetView;
             return (ks != null) ? ks : (keySetView = new KeySet<K>(this));
         }
 
-        public NavigableSet<K> navigableKeySet() {
+        public NbvigbbleSet<K> nbvigbbleKeySet() {
             KeySet<K> ks = keySetView;
             return (ks != null) ? ks : (keySetView = new KeySet<K>(this));
         }
 
-        public Collection<V> values() {
-            Collection<V> vs = valuesView;
-            return (vs != null) ? vs : (valuesView = new Values<V>(this));
+        public Collection<V> vblues() {
+            Collection<V> vs = vbluesView;
+            return (vs != null) ? vs : (vbluesView = new Vblues<V>(this));
         }
 
-        public Set<Map.Entry<K,V>> entrySet() {
-            Set<Map.Entry<K,V>> es = entrySetView;
+        public Set<Mbp.Entry<K,V>> entrySet() {
+            Set<Mbp.Entry<K,V>> es = entrySetView;
             return (es != null) ? es : (entrySetView = new EntrySet<K,V>(this));
         }
 
-        public NavigableSet<K> descendingKeySet() {
-            return descendingMap().navigableKeySet();
+        public NbvigbbleSet<K> descendingKeySet() {
+            return descendingMbp().nbvigbbleKeySet();
         }
 
-        Iterator<K> keyIterator() {
-            return new SubMapKeyIterator();
+        Iterbtor<K> keyIterbtor() {
+            return new SubMbpKeyIterbtor();
         }
 
-        Iterator<V> valueIterator() {
-            return new SubMapValueIterator();
+        Iterbtor<V> vblueIterbtor() {
+            return new SubMbpVblueIterbtor();
         }
 
-        Iterator<Map.Entry<K,V>> entryIterator() {
-            return new SubMapEntryIterator();
+        Iterbtor<Mbp.Entry<K,V>> entryIterbtor() {
+            return new SubMbpEntryIterbtor();
         }
 
         /**
-         * Variant of main Iter class to traverse through submaps.
-         * Also serves as back-up Spliterator for views
+         * Vbribnt of mbin Iter clbss to trbverse through submbps.
+         * Also serves bs bbck-up Spliterbtor for views
          */
-        abstract class SubMapIter<T> implements Iterator<T>, Spliterator<T> {
-            /** the last node returned by next() */
-            Node<K,V> lastReturned;
+        bbstrbct clbss SubMbpIter<T> implements Iterbtor<T>, Spliterbtor<T> {
+            /** the lbst node returned by next() */
+            Node<K,V> lbstReturned;
             /** the next node to return from next(); */
             Node<K,V> next;
-            /** Cache of next value field to maintain weak consistency */
-            V nextValue;
+            /** Cbche of next vblue field to mbintbin webk consistency */
+            V nextVblue;
 
-            SubMapIter() {
-                Comparator<? super K> cmp = m.comparator;
+            SubMbpIter() {
+                Compbrbtor<? super K> cmp = m.compbrbtor;
                 for (;;) {
                     next = isDescending ? hiNode(cmp) : loNode(cmp);
                     if (next == null)
-                        break;
-                    Object x = next.value;
+                        brebk;
+                    Object x = next.vblue;
                     if (x != null && x != next) {
                         if (! inBounds(next.key, cmp))
                             next = null;
                         else {
-                            @SuppressWarnings("unchecked") V vv = (V)x;
-                            nextValue = vv;
+                            @SuppressWbrnings("unchecked") V vv = (V)x;
+                            nextVblue = vv;
                         }
-                        break;
+                        brebk;
                     }
                 }
             }
 
-            public final boolean hasNext() {
+            public finbl boolebn hbsNext() {
                 return next != null;
             }
 
-            final void advance() {
+            finbl void bdvbnce() {
                 if (next == null)
                     throw new NoSuchElementException();
-                lastReturned = next;
+                lbstReturned = next;
                 if (isDescending)
                     descend();
                 else
-                    ascend();
+                    bscend();
             }
 
-            private void ascend() {
-                Comparator<? super K> cmp = m.comparator;
+            privbte void bscend() {
+                Compbrbtor<? super K> cmp = m.compbrbtor;
                 for (;;) {
                     next = next.next;
                     if (next == null)
-                        break;
-                    Object x = next.value;
+                        brebk;
+                    Object x = next.vblue;
                     if (x != null && x != next) {
                         if (tooHigh(next.key, cmp))
                             next = null;
                         else {
-                            @SuppressWarnings("unchecked") V vv = (V)x;
-                            nextValue = vv;
+                            @SuppressWbrnings("unchecked") V vv = (V)x;
+                            nextVblue = vv;
                         }
-                        break;
+                        brebk;
                     }
                 }
             }
 
-            private void descend() {
-                Comparator<? super K> cmp = m.comparator;
+            privbte void descend() {
+                Compbrbtor<? super K> cmp = m.compbrbtor;
                 for (;;) {
-                    next = m.findNear(lastReturned.key, LT, cmp);
+                    next = m.findNebr(lbstReturned.key, LT, cmp);
                     if (next == null)
-                        break;
-                    Object x = next.value;
+                        brebk;
+                    Object x = next.vblue;
                     if (x != null && x != next) {
                         if (tooLow(next.key, cmp))
                             next = null;
                         else {
-                            @SuppressWarnings("unchecked") V vv = (V)x;
-                            nextValue = vv;
+                            @SuppressWbrnings("unchecked") V vv = (V)x;
+                            nextVblue = vv;
                         }
-                        break;
+                        brebk;
                     }
                 }
             }
 
             public void remove() {
-                Node<K,V> l = lastReturned;
+                Node<K,V> l = lbstReturned;
                 if (l == null)
-                    throw new IllegalStateException();
+                    throw new IllegblStbteException();
                 m.remove(l.key);
-                lastReturned = null;
+                lbstReturned = null;
             }
 
-            public Spliterator<T> trySplit() {
+            public Spliterbtor<T> trySplit() {
                 return null;
             }
 
-            public boolean tryAdvance(Consumer<? super T> action) {
-                if (hasNext()) {
-                    action.accept(next());
+            public boolebn tryAdvbnce(Consumer<? super T> bction) {
+                if (hbsNext()) {
+                    bction.bccept(next());
                     return true;
                 }
-                return false;
+                return fblse;
             }
 
-            public void forEachRemaining(Consumer<? super T> action) {
-                while (hasNext())
-                    action.accept(next());
+            public void forEbchRembining(Consumer<? super T> bction) {
+                while (hbsNext())
+                    bction.bccept(next());
             }
 
-            public long estimateSize() {
+            public long estimbteSize() {
                 return Long.MAX_VALUE;
             }
 
         }
 
-        final class SubMapValueIterator extends SubMapIter<V> {
+        finbl clbss SubMbpVblueIterbtor extends SubMbpIter<V> {
             public V next() {
-                V v = nextValue;
-                advance();
+                V v = nextVblue;
+                bdvbnce();
                 return v;
             }
-            public int characteristics() {
+            public int chbrbcteristics() {
                 return 0;
             }
         }
 
-        final class SubMapKeyIterator extends SubMapIter<K> {
+        finbl clbss SubMbpKeyIterbtor extends SubMbpIter<K> {
             public K next() {
                 Node<K,V> n = next;
-                advance();
+                bdvbnce();
                 return n.key;
             }
-            public int characteristics() {
-                return Spliterator.DISTINCT | Spliterator.ORDERED |
-                    Spliterator.SORTED;
+            public int chbrbcteristics() {
+                return Spliterbtor.DISTINCT | Spliterbtor.ORDERED |
+                    Spliterbtor.SORTED;
             }
-            public final Comparator<? super K> getComparator() {
-                return SubMap.this.comparator();
+            public finbl Compbrbtor<? super K> getCompbrbtor() {
+                return SubMbp.this.compbrbtor();
             }
         }
 
-        final class SubMapEntryIterator extends SubMapIter<Map.Entry<K,V>> {
-            public Map.Entry<K,V> next() {
+        finbl clbss SubMbpEntryIterbtor extends SubMbpIter<Mbp.Entry<K,V>> {
+            public Mbp.Entry<K,V> next() {
                 Node<K,V> n = next;
-                V v = nextValue;
-                advance();
-                return new AbstractMap.SimpleImmutableEntry<K,V>(n.key, v);
+                V v = nextVblue;
+                bdvbnce();
+                return new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(n.key, v);
             }
-            public int characteristics() {
-                return Spliterator.DISTINCT;
+            public int chbrbcteristics() {
+                return Spliterbtor.DISTINCT;
             }
         }
     }
 
-    // default Map method overrides
+    // defbult Mbp method overrides
 
-    public void forEach(BiConsumer<? super K, ? super V> action) {
-        if (action == null) throw new NullPointerException();
+    public void forEbch(BiConsumer<? super K, ? super V> bction) {
+        if (bction == null) throw new NullPointerException();
         V v;
         for (Node<K,V> n = findFirst(); n != null; n = n.next) {
-            if ((v = n.getValidValue()) != null)
-                action.accept(n.key, v);
+            if ((v = n.getVblidVblue()) != null)
+                bction.bccept(n.key, v);
         }
     }
 
-    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+    public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
         if (function == null) throw new NullPointerException();
         V v;
         for (Node<K,V> n = findFirst(); n != null; n = n.next) {
-            while ((v = n.getValidValue()) != null) {
-                V r = function.apply(n.key, v);
+            while ((v = n.getVblidVblue()) != null) {
+                V r = function.bpply(n.key, v);
                 if (r == null) throw new NullPointerException();
-                if (n.casValue(v, r))
-                    break;
+                if (n.cbsVblue(v, r))
+                    brebk;
             }
         }
     }
 
     /**
-     * Base class providing common structure for Spliterators.
-     * (Although not all that much common functionality; as usual for
-     * view classes, details annoyingly vary in key, value, and entry
-     * subclasses in ways that are not worth abstracting out for
-     * internal classes.)
+     * Bbse clbss providing common structure for Spliterbtors.
+     * (Although not bll thbt much common functionblity; bs usubl for
+     * view clbsses, detbils bnnoyingly vbry in key, vblue, bnd entry
+     * subclbsses in wbys thbt bre not worth bbstrbcting out for
+     * internbl clbsses.)
      *
-     * The basic split strategy is to recursively descend from top
+     * The bbsic split strbtegy is to recursively descend from top
      * level, row by row, descending to next row when either split
      * off, or the end of row is encountered. Control of the number of
-     * splits relies on some statistical estimation: The expected
-     * remaining number of elements of a skip list when advancing
-     * either across or down decreases by about 25%. To make this
-     * observation useful, we need to know initial size, which we
-     * don't. But we can just use Integer.MAX_VALUE so that we
-     * don't prematurely zero out while splitting.
+     * splits relies on some stbtisticbl estimbtion: The expected
+     * rembining number of elements of b skip list when bdvbncing
+     * either bcross or down decrebses by bbout 25%. To mbke this
+     * observbtion useful, we need to know initibl size, which we
+     * don't. But we cbn just use Integer.MAX_VALUE so thbt we
+     * don't prembturely zero out while splitting.
      */
-    abstract static class CSLMSpliterator<K,V> {
-        final Comparator<? super K> comparator;
-        final K fence;     // exclusive upper bound for keys, or null if to end
+    bbstrbct stbtic clbss CSLMSpliterbtor<K,V> {
+        finbl Compbrbtor<? super K> compbrbtor;
+        finbl K fence;     // exclusive upper bound for keys, or null if to end
         Index<K,V> row;    // the level to split out
-        Node<K,V> current; // current traversal node; initialize at origin
-        int est;           // pseudo-size estimate
-        CSLMSpliterator(Comparator<? super K> comparator, Index<K,V> row,
+        Node<K,V> current; // current trbversbl node; initiblize bt origin
+        int est;           // pseudo-size estimbte
+        CSLMSpliterbtor(Compbrbtor<? super K> compbrbtor, Index<K,V> row,
                         Node<K,V> origin, K fence, int est) {
-            this.comparator = comparator; this.row = row;
+            this.compbrbtor = compbrbtor; this.row = row;
             this.current = origin; this.fence = fence; this.est = est;
         }
 
-        public final long estimateSize() { return (long)est; }
+        public finbl long estimbteSize() { return (long)est; }
     }
 
-    static final class KeySpliterator<K,V> extends CSLMSpliterator<K,V>
-        implements Spliterator<K> {
-        KeySpliterator(Comparator<? super K> comparator, Index<K,V> row,
+    stbtic finbl clbss KeySpliterbtor<K,V> extends CSLMSpliterbtor<K,V>
+        implements Spliterbtor<K> {
+        KeySpliterbtor(Compbrbtor<? super K> compbrbtor, Index<K,V> row,
                        Node<K,V> origin, K fence, int est) {
-            super(comparator, row, origin, fence, est);
+            super(compbrbtor, row, origin, fence, est);
         }
 
-        public Spliterator<K> trySplit() {
+        public Spliterbtor<K> trySplit() {
             Node<K,V> e; K ek;
-            Comparator<? super K> cmp = comparator;
+            Compbrbtor<? super K> cmp = compbrbtor;
             K f = fence;
             if ((e = current) != null && (ek = e.key) != null) {
                 for (Index<K,V> q = row; q != null; q = row = q.down) {
                     Index<K,V> s; Node<K,V> b, n; K sk;
                     if ((s = q.right) != null && (b = s.node) != null &&
-                        (n = b.next) != null && n.value != null &&
+                        (n = b.next) != null && n.vblue != null &&
                         (sk = n.key) != null && cpr(cmp, sk, ek) > 0 &&
                         (f == null || cpr(cmp, sk, f) < 0)) {
                         current = n;
                         Index<K,V> r = q.down;
                         row = (s.right != null) ? s : s.down;
                         est -= est >>> 2;
-                        return new KeySpliterator<K,V>(cmp, r, e, sk, est);
+                        return new KeySpliterbtor<K,V>(cmp, r, e, sk, est);
                     }
                 }
             }
             return null;
         }
 
-        public void forEachRemaining(Consumer<? super K> action) {
-            if (action == null) throw new NullPointerException();
-            Comparator<? super K> cmp = comparator;
+        public void forEbchRembining(Consumer<? super K> bction) {
+            if (bction == null) throw new NullPointerException();
+            Compbrbtor<? super K> cmp = compbrbtor;
             K f = fence;
             Node<K,V> e = current;
             current = null;
             for (; e != null; e = e.next) {
                 K k; Object v;
                 if ((k = e.key) != null && f != null && cpr(cmp, f, k) <= 0)
-                    break;
-                if ((v = e.value) != null && v != e)
-                    action.accept(k);
+                    brebk;
+                if ((v = e.vblue) != null && v != e)
+                    bction.bccept(k);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super K> action) {
-            if (action == null) throw new NullPointerException();
-            Comparator<? super K> cmp = comparator;
+        public boolebn tryAdvbnce(Consumer<? super K> bction) {
+            if (bction == null) throw new NullPointerException();
+            Compbrbtor<? super K> cmp = compbrbtor;
             K f = fence;
             Node<K,V> e = current;
             for (; e != null; e = e.next) {
                 K k; Object v;
                 if ((k = e.key) != null && f != null && cpr(cmp, f, k) <= 0) {
                     e = null;
-                    break;
+                    brebk;
                 }
-                if ((v = e.value) != null && v != e) {
+                if ((v = e.vblue) != null && v != e) {
                     current = e.next;
-                    action.accept(k);
+                    bction.bccept(k);
                     return true;
                 }
             }
             current = e;
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return Spliterator.DISTINCT | Spliterator.SORTED |
-                Spliterator.ORDERED | Spliterator.CONCURRENT |
-                Spliterator.NONNULL;
+        public int chbrbcteristics() {
+            return Spliterbtor.DISTINCT | Spliterbtor.SORTED |
+                Spliterbtor.ORDERED | Spliterbtor.CONCURRENT |
+                Spliterbtor.NONNULL;
         }
 
-        public final Comparator<? super K> getComparator() {
-            return comparator;
+        public finbl Compbrbtor<? super K> getCompbrbtor() {
+            return compbrbtor;
         }
     }
-    // factory method for KeySpliterator
-    final KeySpliterator<K,V> keySpliterator() {
-        Comparator<? super K> cmp = comparator;
+    // fbctory method for KeySpliterbtor
+    finbl KeySpliterbtor<K,V> keySpliterbtor() {
+        Compbrbtor<? super K> cmp = compbrbtor;
         for (;;) { // ensure h corresponds to origin p
-            HeadIndex<K,V> h; Node<K,V> p;
-            Node<K,V> b = (h = head).node;
-            if ((p = b.next) == null || p.value != null)
-                return new KeySpliterator<K,V>(cmp, h, p, null, (p == null) ?
+            HebdIndex<K,V> h; Node<K,V> p;
+            Node<K,V> b = (h = hebd).node;
+            if ((p = b.next) == null || p.vblue != null)
+                return new KeySpliterbtor<K,V>(cmp, h, p, null, (p == null) ?
                                                0 : Integer.MAX_VALUE);
             p.helpDelete(b, p.next);
         }
     }
 
-    static final class ValueSpliterator<K,V> extends CSLMSpliterator<K,V>
-        implements Spliterator<V> {
-        ValueSpliterator(Comparator<? super K> comparator, Index<K,V> row,
+    stbtic finbl clbss VblueSpliterbtor<K,V> extends CSLMSpliterbtor<K,V>
+        implements Spliterbtor<V> {
+        VblueSpliterbtor(Compbrbtor<? super K> compbrbtor, Index<K,V> row,
                        Node<K,V> origin, K fence, int est) {
-            super(comparator, row, origin, fence, est);
+            super(compbrbtor, row, origin, fence, est);
         }
 
-        public Spliterator<V> trySplit() {
+        public Spliterbtor<V> trySplit() {
             Node<K,V> e; K ek;
-            Comparator<? super K> cmp = comparator;
+            Compbrbtor<? super K> cmp = compbrbtor;
             K f = fence;
             if ((e = current) != null && (ek = e.key) != null) {
                 for (Index<K,V> q = row; q != null; q = row = q.down) {
                     Index<K,V> s; Node<K,V> b, n; K sk;
                     if ((s = q.right) != null && (b = s.node) != null &&
-                        (n = b.next) != null && n.value != null &&
+                        (n = b.next) != null && n.vblue != null &&
                         (sk = n.key) != null && cpr(cmp, sk, ek) > 0 &&
                         (f == null || cpr(cmp, sk, f) < 0)) {
                         current = n;
                         Index<K,V> r = q.down;
                         row = (s.right != null) ? s : s.down;
                         est -= est >>> 2;
-                        return new ValueSpliterator<K,V>(cmp, r, e, sk, est);
+                        return new VblueSpliterbtor<K,V>(cmp, r, e, sk, est);
                     }
                 }
             }
             return null;
         }
 
-        public void forEachRemaining(Consumer<? super V> action) {
-            if (action == null) throw new NullPointerException();
-            Comparator<? super K> cmp = comparator;
+        public void forEbchRembining(Consumer<? super V> bction) {
+            if (bction == null) throw new NullPointerException();
+            Compbrbtor<? super K> cmp = compbrbtor;
             K f = fence;
             Node<K,V> e = current;
             current = null;
             for (; e != null; e = e.next) {
                 K k; Object v;
                 if ((k = e.key) != null && f != null && cpr(cmp, f, k) <= 0)
-                    break;
-                if ((v = e.value) != null && v != e) {
-                    @SuppressWarnings("unchecked") V vv = (V)v;
-                    action.accept(vv);
+                    brebk;
+                if ((v = e.vblue) != null && v != e) {
+                    @SuppressWbrnings("unchecked") V vv = (V)v;
+                    bction.bccept(vv);
                 }
             }
         }
 
-        public boolean tryAdvance(Consumer<? super V> action) {
-            if (action == null) throw new NullPointerException();
-            Comparator<? super K> cmp = comparator;
+        public boolebn tryAdvbnce(Consumer<? super V> bction) {
+            if (bction == null) throw new NullPointerException();
+            Compbrbtor<? super K> cmp = compbrbtor;
             K f = fence;
             Node<K,V> e = current;
             for (; e != null; e = e.next) {
                 K k; Object v;
                 if ((k = e.key) != null && f != null && cpr(cmp, f, k) <= 0) {
                     e = null;
-                    break;
+                    brebk;
                 }
-                if ((v = e.value) != null && v != e) {
+                if ((v = e.vblue) != null && v != e) {
                     current = e.next;
-                    @SuppressWarnings("unchecked") V vv = (V)v;
-                    action.accept(vv);
+                    @SuppressWbrnings("unchecked") V vv = (V)v;
+                    bction.bccept(vv);
                     return true;
                 }
             }
             current = e;
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return Spliterator.CONCURRENT | Spliterator.ORDERED |
-                Spliterator.NONNULL;
+        public int chbrbcteristics() {
+            return Spliterbtor.CONCURRENT | Spliterbtor.ORDERED |
+                Spliterbtor.NONNULL;
         }
     }
 
-    // Almost the same as keySpliterator()
-    final ValueSpliterator<K,V> valueSpliterator() {
-        Comparator<? super K> cmp = comparator;
+    // Almost the sbme bs keySpliterbtor()
+    finbl VblueSpliterbtor<K,V> vblueSpliterbtor() {
+        Compbrbtor<? super K> cmp = compbrbtor;
         for (;;) {
-            HeadIndex<K,V> h; Node<K,V> p;
-            Node<K,V> b = (h = head).node;
-            if ((p = b.next) == null || p.value != null)
-                return new ValueSpliterator<K,V>(cmp, h, p, null, (p == null) ?
+            HebdIndex<K,V> h; Node<K,V> p;
+            Node<K,V> b = (h = hebd).node;
+            if ((p = b.next) == null || p.vblue != null)
+                return new VblueSpliterbtor<K,V>(cmp, h, p, null, (p == null) ?
                                                  0 : Integer.MAX_VALUE);
             p.helpDelete(b, p.next);
         }
     }
 
-    static final class EntrySpliterator<K,V> extends CSLMSpliterator<K,V>
-        implements Spliterator<Map.Entry<K,V>> {
-        EntrySpliterator(Comparator<? super K> comparator, Index<K,V> row,
+    stbtic finbl clbss EntrySpliterbtor<K,V> extends CSLMSpliterbtor<K,V>
+        implements Spliterbtor<Mbp.Entry<K,V>> {
+        EntrySpliterbtor(Compbrbtor<? super K> compbrbtor, Index<K,V> row,
                          Node<K,V> origin, K fence, int est) {
-            super(comparator, row, origin, fence, est);
+            super(compbrbtor, row, origin, fence, est);
         }
 
-        public Spliterator<Map.Entry<K,V>> trySplit() {
+        public Spliterbtor<Mbp.Entry<K,V>> trySplit() {
             Node<K,V> e; K ek;
-            Comparator<? super K> cmp = comparator;
+            Compbrbtor<? super K> cmp = compbrbtor;
             K f = fence;
             if ((e = current) != null && (ek = e.key) != null) {
                 for (Index<K,V> q = row; q != null; q = row = q.down) {
                     Index<K,V> s; Node<K,V> b, n; K sk;
                     if ((s = q.right) != null && (b = s.node) != null &&
-                        (n = b.next) != null && n.value != null &&
+                        (n = b.next) != null && n.vblue != null &&
                         (sk = n.key) != null && cpr(cmp, sk, ek) > 0 &&
                         (f == null || cpr(cmp, sk, f) < 0)) {
                         current = n;
                         Index<K,V> r = q.down;
                         row = (s.right != null) ? s : s.down;
                         est -= est >>> 2;
-                        return new EntrySpliterator<K,V>(cmp, r, e, sk, est);
+                        return new EntrySpliterbtor<K,V>(cmp, r, e, sk, est);
                     }
                 }
             }
             return null;
         }
 
-        public void forEachRemaining(Consumer<? super Map.Entry<K,V>> action) {
-            if (action == null) throw new NullPointerException();
-            Comparator<? super K> cmp = comparator;
+        public void forEbchRembining(Consumer<? super Mbp.Entry<K,V>> bction) {
+            if (bction == null) throw new NullPointerException();
+            Compbrbtor<? super K> cmp = compbrbtor;
             K f = fence;
             Node<K,V> e = current;
             current = null;
             for (; e != null; e = e.next) {
                 K k; Object v;
                 if ((k = e.key) != null && f != null && cpr(cmp, f, k) <= 0)
-                    break;
-                if ((v = e.value) != null && v != e) {
-                    @SuppressWarnings("unchecked") V vv = (V)v;
-                    action.accept
-                        (new AbstractMap.SimpleImmutableEntry<K,V>(k, vv));
+                    brebk;
+                if ((v = e.vblue) != null && v != e) {
+                    @SuppressWbrnings("unchecked") V vv = (V)v;
+                    bction.bccept
+                        (new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(k, vv));
                 }
             }
         }
 
-        public boolean tryAdvance(Consumer<? super Map.Entry<K,V>> action) {
-            if (action == null) throw new NullPointerException();
-            Comparator<? super K> cmp = comparator;
+        public boolebn tryAdvbnce(Consumer<? super Mbp.Entry<K,V>> bction) {
+            if (bction == null) throw new NullPointerException();
+            Compbrbtor<? super K> cmp = compbrbtor;
             K f = fence;
             Node<K,V> e = current;
             for (; e != null; e = e.next) {
                 K k; Object v;
                 if ((k = e.key) != null && f != null && cpr(cmp, f, k) <= 0) {
                     e = null;
-                    break;
+                    brebk;
                 }
-                if ((v = e.value) != null && v != e) {
+                if ((v = e.vblue) != null && v != e) {
                     current = e.next;
-                    @SuppressWarnings("unchecked") V vv = (V)v;
-                    action.accept
-                        (new AbstractMap.SimpleImmutableEntry<K,V>(k, vv));
+                    @SuppressWbrnings("unchecked") V vv = (V)v;
+                    bction.bccept
+                        (new AbstrbctMbp.SimpleImmutbbleEntry<K,V>(k, vv));
                     return true;
                 }
             }
             current = e;
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return Spliterator.DISTINCT | Spliterator.SORTED |
-                Spliterator.ORDERED | Spliterator.CONCURRENT |
-                Spliterator.NONNULL;
+        public int chbrbcteristics() {
+            return Spliterbtor.DISTINCT | Spliterbtor.SORTED |
+                Spliterbtor.ORDERED | Spliterbtor.CONCURRENT |
+                Spliterbtor.NONNULL;
         }
 
-        public final Comparator<Map.Entry<K,V>> getComparator() {
-            // Adapt or create a key-based comparator
-            if (comparator != null) {
-                return Map.Entry.comparingByKey(comparator);
+        public finbl Compbrbtor<Mbp.Entry<K,V>> getCompbrbtor() {
+            // Adbpt or crebte b key-bbsed compbrbtor
+            if (compbrbtor != null) {
+                return Mbp.Entry.compbringByKey(compbrbtor);
             }
             else {
-                return (Comparator<Map.Entry<K,V>> & Serializable) (e1, e2) -> {
-                    @SuppressWarnings("unchecked")
-                    Comparable<? super K> k1 = (Comparable<? super K>) e1.getKey();
-                    return k1.compareTo(e2.getKey());
+                return (Compbrbtor<Mbp.Entry<K,V>> & Seriblizbble) (e1, e2) -> {
+                    @SuppressWbrnings("unchecked")
+                    Compbrbble<? super K> k1 = (Compbrbble<? super K>) e1.getKey();
+                    return k1.compbreTo(e2.getKey());
                 };
             }
         }
     }
 
-    // Almost the same as keySpliterator()
-    final EntrySpliterator<K,V> entrySpliterator() {
-        Comparator<? super K> cmp = comparator;
-        for (;;) { // almost same as key version
-            HeadIndex<K,V> h; Node<K,V> p;
-            Node<K,V> b = (h = head).node;
-            if ((p = b.next) == null || p.value != null)
-                return new EntrySpliterator<K,V>(cmp, h, p, null, (p == null) ?
+    // Almost the sbme bs keySpliterbtor()
+    finbl EntrySpliterbtor<K,V> entrySpliterbtor() {
+        Compbrbtor<? super K> cmp = compbrbtor;
+        for (;;) { // blmost sbme bs key version
+            HebdIndex<K,V> h; Node<K,V> p;
+            Node<K,V> b = (h = hebd).node;
+            if ((p = b.next) == null || p.vblue != null)
+                return new EntrySpliterbtor<K,V>(cmp, h, p, null, (p == null) ?
                                                  0 : Integer.MAX_VALUE);
             p.helpDelete(b, p.next);
         }
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long headOffset;
-    private static final long SECONDARY;
-    static {
+    // Unsbfe mechbnics
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    privbte stbtic finbl long hebdOffset;
+    privbte stbtic finbl long SECONDARY;
+    stbtic {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ConcurrentSkipListMap.class;
-            headOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("head"));
-            Class<?> tk = Thread.class;
+            UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> k = ConcurrentSkipListMbp.clbss;
+            hebdOffset = UNSAFE.objectFieldOffset
+                (k.getDeclbredField("hebd"));
+            Clbss<?> tk = Threbd.clbss;
             SECONDARY = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocalRandomSecondarySeed"));
+                (tk.getDeclbredField("threbdLocblRbndomSecondbrySeed"));
 
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

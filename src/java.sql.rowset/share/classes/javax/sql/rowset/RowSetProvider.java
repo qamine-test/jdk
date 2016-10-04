@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset;
+pbckbge jbvbx.sql.rowset;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.sql.SQLException;
-import java.util.PropertyPermission;
-import java.util.ServiceConfigurationError;
-import java.util.ServiceLoader;
-import javax.sql.rowset.spi.SyncFactoryException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.sql.SQLException;
+import jbvb.util.PropertyPermission;
+import jbvb.util.ServiceConfigurbtionError;
+import jbvb.util.ServiceLobder;
+import jbvbx.sql.rowset.spi.SyncFbctoryException;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * A factory API that enables applications to obtain a
- * {@code RowSetFactory} implementation  that can be used to create different
- * types of {@code RowSet} implementations.
+ * A fbctory API thbt enbbles bpplicbtions to obtbin b
+ * {@code RowSetFbctory} implementbtion  thbt cbn be used to crebte different
+ * types of {@code RowSet} implementbtions.
  * <p>
- * Example:
+ * Exbmple:
  * </p>
  * <pre>
- * RowSetFactory aFactory = RowSetProvider.newFactory();
- * CachedRowSet crs = aFactory.createCachedRowSet();
+ * RowSetFbctory bFbctory = RowSetProvider.newFbctory();
+ * CbchedRowSet crs = bFbctory.crebteCbchedRowSet();
  * ...
- * RowSetFactory rsf = RowSetProvider.newFactory("com.sun.rowset.RowSetFactoryImpl", null);
- * WebRowSet wrs = rsf.createWebRowSet();
+ * RowSetFbctory rsf = RowSetProvider.newFbctory("com.sun.rowset.RowSetFbctoryImpl", null);
+ * WebRowSet wrs = rsf.crebteWebRowSet();
  * </pre>
  *<p>
- * Tracing of this class may be enabled by setting the System property
- * {@code javax.sql.rowset.RowSetFactory.debug} to any value but {@code false}.
+ * Trbcing of this clbss mby be enbbled by setting the System property
+ * {@code jbvbx.sql.rowset.RowSetFbctory.debug} to bny vblue but {@code fblse}.
  * </p>
  *
- * @author Lance Andersen
+ * @buthor Lbnce Andersen
  * @since 1.7
  */
-public class RowSetProvider {
+public clbss RowSetProvider {
 
-    private static final String ROWSET_DEBUG_PROPERTY = "javax.sql.rowset.RowSetProvider.debug";
-    private static final String ROWSET_FACTORY_IMPL = "com.sun.rowset.RowSetFactoryImpl";
-    private static final String ROWSET_FACTORY_NAME = "javax.sql.rowset.RowSetFactory";
+    privbte stbtic finbl String ROWSET_DEBUG_PROPERTY = "jbvbx.sql.rowset.RowSetProvider.debug";
+    privbte stbtic finbl String ROWSET_FACTORY_IMPL = "com.sun.rowset.RowSetFbctoryImpl";
+    privbte stbtic finbl String ROWSET_FACTORY_NAME = "jbvbx.sql.rowset.RowSetFbctory";
     /**
-     * Internal debug flag.
+     * Internbl debug flbg.
      */
-    private static boolean debug = true;
+    privbte stbtic boolebn debug = true;
 
 
-    static {
+    stbtic {
         // Check to see if the debug property is set
-        String val = getSystemProperty(ROWSET_DEBUG_PROPERTY);
+        String vbl = getSystemProperty(ROWSET_DEBUG_PROPERTY);
         // Allow simply setting the prop to turn on debug
-        debug = val != null && !"false".equals(val);
+        debug = vbl != null && !"fblse".equbls(vbl);
     }
 
     /**
@@ -81,149 +81,149 @@ public class RowSetProvider {
     }
 
     /**
-     * <p>Creates a new instance of a <code>RowSetFactory</code>
-     * implementation.  This method uses the following
+     * <p>Crebtes b new instbnce of b <code>RowSetFbctory</code>
+     * implementbtion.  This method uses the following
      * look up order to determine
-     * the <code>RowSetFactory</code> implementation class to load:</p>
+     * the <code>RowSetFbctory</code> implementbtion clbss to lobd:</p>
      * <ul>
      * <li>
-     * The System property {@code javax.sql.rowset.RowSetFactory}.  For example:
+     * The System property {@code jbvbx.sql.rowset.RowSetFbctory}.  For exbmple:
      * <ul>
      * <li>
-     * -Djavax.sql.rowset.RowSetFactory=com.sun.rowset.RowSetFactoryImpl
+     * -Djbvbx.sql.rowset.RowSetFbctory=com.sun.rowset.RowSetFbctoryImpl
      * </li>
      * </ul>
      * <li>
-     * The {@link ServiceLoader} API. The {@code ServiceLoader} API will look
-     * for a class name in the file
-     * {@code META-INF/services/javax.sql.rowset.RowSetFactory}
-     * in jars available to the runtime. For example, to have the the RowSetFactory
-     * implementation {@code com.sun.rowset.RowSetFactoryImpl } loaded, the
-     * entry in {@code META-INF/services/javax.sql.rowset.RowSetFactory} would be:
+     * The {@link ServiceLobder} API. The {@code ServiceLobder} API will look
+     * for b clbss nbme in the file
+     * {@code META-INF/services/jbvbx.sql.rowset.RowSetFbctory}
+     * in jbrs bvbilbble to the runtime. For exbmple, to hbve the the RowSetFbctory
+     * implementbtion {@code com.sun.rowset.RowSetFbctoryImpl } lobded, the
+     * entry in {@code META-INF/services/jbvbx.sql.rowset.RowSetFbctory} would be:
      *  <ul>
      * <li>
-     * {@code com.sun.rowset.RowSetFactoryImpl }
+     * {@code com.sun.rowset.RowSetFbctoryImpl }
      * </li>
      * </ul>
      * </li>
      * <li>
-     * Platform default <code>RowSetFactory</code> instance.
+     * Plbtform defbult <code>RowSetFbctory</code> instbnce.
      * </li>
      * </ul>
      *
-     * <p>Once an application has obtained a reference to a {@code RowSetFactory},
-     * it can use the factory to obtain RowSet instances.</p>
+     * <p>Once bn bpplicbtion hbs obtbined b reference to b {@code RowSetFbctory},
+     * it cbn use the fbctory to obtbin RowSet instbnces.</p>
      *
-     * @return New instance of a <code>RowSetFactory</code>
+     * @return New instbnce of b <code>RowSetFbctory</code>
      *
-     * @throws SQLException if the default factory class cannot be loaded,
-     * instantiated. The cause will be set to actual Exception
+     * @throws SQLException if the defbult fbctory clbss cbnnot be lobded,
+     * instbntibted. The cbuse will be set to bctubl Exception
      *
-     * @see ServiceLoader
+     * @see ServiceLobder
      * @since 1.7
      */
-    public static RowSetFactory newFactory()
+    public stbtic RowSetFbctory newFbctory()
             throws SQLException {
         // Use the system property first
-        RowSetFactory factory = null;
-        String factoryClassName = null;
+        RowSetFbctory fbctory = null;
+        String fbctoryClbssNbme = null;
         try {
-            trace("Checking for Rowset System Property...");
-            factoryClassName = getSystemProperty(ROWSET_FACTORY_NAME);
-            if (factoryClassName != null) {
-                trace("Found system property, value=" + factoryClassName);
-                factory = (RowSetFactory) ReflectUtil.newInstance(getFactoryClass(factoryClassName, null, true));
+            trbce("Checking for Rowset System Property...");
+            fbctoryClbssNbme = getSystemProperty(ROWSET_FACTORY_NAME);
+            if (fbctoryClbssNbme != null) {
+                trbce("Found system property, vblue=" + fbctoryClbssNbme);
+                fbctory = (RowSetFbctory) ReflectUtil.newInstbnce(getFbctoryClbss(fbctoryClbssNbme, null, true));
             }
-        }  catch (Exception e) {
-            throw new SQLException( "RowSetFactory: " + factoryClassName +
-                    " could not be instantiated: ", e);
+        }  cbtch (Exception e) {
+            throw new SQLException( "RowSetFbctory: " + fbctoryClbssNbme +
+                    " could not be instbntibted: ", e);
         }
 
-        // Check to see if we found the RowSetFactory via a System property
-        if (factory == null) {
-            // If the RowSetFactory is not found via a System Property, now
-            // look it up via the ServiceLoader API and if not found, use the
-            // Java SE default.
-            factory = loadViaServiceLoader();
-            factory =
-                    factory == null ? newFactory(ROWSET_FACTORY_IMPL, null) : factory;
+        // Check to see if we found the RowSetFbctory vib b System property
+        if (fbctory == null) {
+            // If the RowSetFbctory is not found vib b System Property, now
+            // look it up vib the ServiceLobder API bnd if not found, use the
+            // Jbvb SE defbult.
+            fbctory = lobdVibServiceLobder();
+            fbctory =
+                    fbctory == null ? newFbctory(ROWSET_FACTORY_IMPL, null) : fbctory;
         }
-        return (factory);
+        return (fbctory);
     }
 
     /**
-     * <p>Creates  a new instance of a <code>RowSetFactory</code> from the
-     * specified factory class name.
-     * This function is useful when there are multiple providers in the classpath.
-     * It gives more control to the application as it can specify which provider
-     * should be loaded.</p>
+     * <p>Crebtes  b new instbnce of b <code>RowSetFbctory</code> from the
+     * specified fbctory clbss nbme.
+     * This function is useful when there bre multiple providers in the clbsspbth.
+     * It gives more control to the bpplicbtion bs it cbn specify which provider
+     * should be lobded.</p>
      *
-     * <p>Once an application has obtained a reference to a <code>RowSetFactory</code>
-     * it can use the factory to obtain RowSet instances.</p>
+     * <p>Once bn bpplicbtion hbs obtbined b reference to b <code>RowSetFbctory</code>
+     * it cbn use the fbctory to obtbin RowSet instbnces.</p>
      *
-     * @param factoryClassName fully qualified factory class name that
-     * provides  an implementation of <code>javax.sql.rowset.RowSetFactory</code>.
+     * @pbrbm fbctoryClbssNbme fully qublified fbctory clbss nbme thbt
+     * provides  bn implementbtion of <code>jbvbx.sql.rowset.RowSetFbctory</code>.
      *
-     * @param cl <code>ClassLoader</code> used to load the factory
-     * class. If <code>null</code> current <code>Thread</code>'s context
-     * classLoader is used to load the factory class.
+     * @pbrbm cl <code>ClbssLobder</code> used to lobd the fbctory
+     * clbss. If <code>null</code> current <code>Threbd</code>'s context
+     * clbssLobder is used to lobd the fbctory clbss.
      *
-     * @return New instance of a <code>RowSetFactory</code>
+     * @return New instbnce of b <code>RowSetFbctory</code>
      *
-     * @throws SQLException if <code>factoryClassName</code> is
-     * <code>null</code>, or the factory class cannot be loaded, instantiated.
+     * @throws SQLException if <code>fbctoryClbssNbme</code> is
+     * <code>null</code>, or the fbctory clbss cbnnot be lobded, instbntibted.
      *
-     * @see #newFactory()
+     * @see #newFbctory()
      *
      * @since 1.7
      */
-    public static RowSetFactory newFactory(String factoryClassName, ClassLoader cl)
+    public stbtic RowSetFbctory newFbctory(String fbctoryClbssNbme, ClbssLobder cl)
             throws SQLException {
 
-        trace("***In newInstance()");
+        trbce("***In newInstbnce()");
 
-        if(factoryClassName == null) {
-            throw new SQLException("Error: factoryClassName cannot be null");
+        if(fbctoryClbssNbme == null) {
+            throw new SQLException("Error: fbctoryClbssNbme cbnnot be null");
         }
         try {
-            ReflectUtil.checkPackageAccess(factoryClassName);
-        } catch (java.security.AccessControlException e) {
+            ReflectUtil.checkPbckbgeAccess(fbctoryClbssNbme);
+        } cbtch (jbvb.security.AccessControlException e) {
             throw new SQLException("Access Exception",e);
         }
 
         try {
-            Class<?> providerClass = getFactoryClass(factoryClassName, cl, false);
-            RowSetFactory instance = (RowSetFactory) providerClass.newInstance();
+            Clbss<?> providerClbss = getFbctoryClbss(fbctoryClbssNbme, cl, fblse);
+            RowSetFbctory instbnce = (RowSetFbctory) providerClbss.newInstbnce();
             if (debug) {
-                trace("Created new instance of " + providerClass +
-                        " using ClassLoader: " + cl);
+                trbce("Crebted new instbnce of " + providerClbss +
+                        " using ClbssLobder: " + cl);
             }
-            return instance;
-        } catch (ClassNotFoundException x) {
+            return instbnce;
+        } cbtch (ClbssNotFoundException x) {
             throw new SQLException(
-                    "Provider " + factoryClassName + " not found", x);
-        } catch (Exception x) {
+                    "Provider " + fbctoryClbssNbme + " not found", x);
+        } cbtch (Exception x) {
             throw new SQLException(
-                    "Provider " + factoryClassName + " could not be instantiated: " + x,
+                    "Provider " + fbctoryClbssNbme + " could not be instbntibted: " + x,
                     x);
         }
     }
 
     /*
-     * Returns the class loader to be used.
-     * @return The ClassLoader to use.
+     * Returns the clbss lobder to be used.
+     * @return The ClbssLobder to use.
      *
      */
-    static private ClassLoader getContextClassLoader() throws SecurityException {
-        return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+    stbtic privbte ClbssLobder getContextClbssLobder() throws SecurityException {
+        return AccessController.doPrivileged(new PrivilegedAction<ClbssLobder>() {
 
-            public ClassLoader run() {
-                ClassLoader cl = null;
+            public ClbssLobder run() {
+                ClbssLobder cl = null;
 
-                cl = Thread.currentThread().getContextClassLoader();
+                cl = Threbd.currentThrebd().getContextClbssLobder();
 
                 if (cl == null) {
-                    cl = ClassLoader.getSystemClassLoader();
+                    cl = ClbssLobder.getSystemClbssLobder();
                 }
 
                 return cl;
@@ -232,31 +232,31 @@ public class RowSetProvider {
     }
 
     /**
-     * Attempt to load a class using the class loader supplied. If that fails
-     * and fall back is enabled, the current (i.e. bootstrap) class loader is
+     * Attempt to lobd b clbss using the clbss lobder supplied. If thbt fbils
+     * bnd fbll bbck is enbbled, the current (i.e. bootstrbp) clbss lobder is
      * tried.
      *
-     * If the class loader supplied is <code>null</code>, first try using the
-     * context class loader followed by the current class loader.
-     *  @return The class which was loaded
+     * If the clbss lobder supplied is <code>null</code>, first try using the
+     * context clbss lobder followed by the current clbss lobder.
+     *  @return The clbss which wbs lobded
      */
-    static private Class<?> getFactoryClass(String factoryClassName, ClassLoader cl,
-            boolean doFallback) throws ClassNotFoundException {
+    stbtic privbte Clbss<?> getFbctoryClbss(String fbctoryClbssNbme, ClbssLobder cl,
+            boolebn doFbllbbck) throws ClbssNotFoundException {
         try {
             if (cl == null) {
-                cl = getContextClassLoader();
+                cl = getContextClbssLobder();
                 if (cl == null) {
-                    throw new ClassNotFoundException();
+                    throw new ClbssNotFoundException();
                 } else {
-                    return cl.loadClass(factoryClassName);
+                    return cl.lobdClbss(fbctoryClbssNbme);
                 }
             } else {
-                return cl.loadClass(factoryClassName);
+                return cl.lobdClbss(fbctoryClbssNbme);
             }
-        } catch (ClassNotFoundException e) {
-            if (doFallback) {
-                // Use current class loader
-                return Class.forName(factoryClassName, true, RowSetFactory.class.getClassLoader());
+        } cbtch (ClbssNotFoundException e) {
+            if (doFbllbbck) {
+                // Use current clbss lobder
+                return Clbss.forNbme(fbctoryClbssNbme, true, RowSetFbctory.clbss.getClbssLobder());
             } else {
                 throw e;
             }
@@ -264,58 +264,58 @@ public class RowSetProvider {
     }
 
     /**
-     * Use the ServiceLoader mechanism to load  the default RowSetFactory
-     * @return default RowSetFactory Implementation
+     * Use the ServiceLobder mechbnism to lobd  the defbult RowSetFbctory
+     * @return defbult RowSetFbctory Implementbtion
      */
-    static private RowSetFactory loadViaServiceLoader() throws SQLException {
-        RowSetFactory theFactory = null;
+    stbtic privbte RowSetFbctory lobdVibServiceLobder() throws SQLException {
+        RowSetFbctory theFbctory = null;
         try {
-            trace("***in loadViaServiceLoader():");
-            for (RowSetFactory factory : ServiceLoader.load(javax.sql.rowset.RowSetFactory.class)) {
-                trace(" Loading done by the java.util.ServiceLoader :" + factory.getClass().getName());
-                theFactory = factory;
-                break;
+            trbce("***in lobdVibServiceLobder():");
+            for (RowSetFbctory fbctory : ServiceLobder.lobd(jbvbx.sql.rowset.RowSetFbctory.clbss)) {
+                trbce(" Lobding done by the jbvb.util.ServiceLobder :" + fbctory.getClbss().getNbme());
+                theFbctory = fbctory;
+                brebk;
             }
-        } catch (ServiceConfigurationError e) {
+        } cbtch (ServiceConfigurbtionError e) {
             throw new SQLException(
-                    "RowSetFactory: Error locating RowSetFactory using Service "
-                    + "Loader API: " + e, e);
+                    "RowSetFbctory: Error locbting RowSetFbctory using Service "
+                    + "Lobder API: " + e, e);
         }
-        return theFactory;
+        return theFbctory;
 
     }
 
     /**
-     * Returns the requested System Property.  If a {@code SecurityException}
+     * Returns the requested System Property.  If b {@code SecurityException}
      * occurs, just return NULL
-     * @param propName - System property to retrieve
-     * @return The System property value or NULL if the property does not exist
-     * or a {@code SecurityException} occurs.
+     * @pbrbm propNbme - System property to retrieve
+     * @return The System property vblue or NULL if the property does not exist
+     * or b {@code SecurityException} occurs.
      */
-    static private String getSystemProperty(final String propName) {
+    stbtic privbte String getSystemProperty(finbl String propNbme) {
         String property = null;
         try {
             property = AccessController.doPrivileged(new PrivilegedAction<String>() {
 
                 public String run() {
-                    return System.getProperty(propName);
+                    return System.getProperty(propNbme);
                 }
-            }, null, new PropertyPermission(propName, "read"));
-        } catch (SecurityException se) {
-            trace("error getting " + propName + ":  "+ se);
+            }, null, new PropertyPermission(propNbme, "rebd"));
+        } cbtch (SecurityException se) {
+            trbce("error getting " + propNbme + ":  "+ se);
             if (debug) {
-                se.printStackTrace();
+                se.printStbckTrbce();
             }
         }
         return property;
     }
 
     /**
-     * Debug routine which will output tracing if the System Property
-     * -Djavax.sql.rowset.RowSetFactory.debug is set
-     * @param msg - The debug message to display
+     * Debug routine which will output trbcing if the System Property
+     * -Djbvbx.sql.rowset.RowSetFbctory.debug is set
+     * @pbrbm msg - The debug messbge to displby
      */
-    private static void trace(String msg) {
+    privbte stbtic void trbce(String msg) {
         if (debug) {
             System.err.println("###RowSets: " + msg);
         }

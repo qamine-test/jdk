@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbckbge com.sun.tools.exbmple.debug.bdi;
 
 import com.sun.jdi.*;
-import java.util.List;
+import jbvb.util.List;
 
-public class LineBreakpointSpec extends BreakpointSpec {
+public clbss LineBrebkpointSpec extends BrebkpointSpec {
     int lineNumber;
 
-    LineBreakpointSpec(EventRequestSpecList specs,
+    LineBrebkpointSpec(EventRequestSpecList specs,
                        ReferenceTypeSpec refSpec, int lineNumber) {
         super(specs, refSpec);
         this.lineNumber = lineNumber;
     }
 
     /**
-     * The 'refType' is known to match.
+     * The 'refType' is known to mbtch.
      */
     @Override
-    void resolve(ReferenceType refType) throws InvalidTypeException,
+    void resolve(ReferenceType refType) throws InvblidTypeException,
                                              LineNotFoundException {
-        if (!(refType instanceof ClassType)) {
-            throw new InvalidTypeException();
+        if (!(refType instbnceof ClbssType)) {
+            throw new InvblidTypeException();
         }
-        Location location = location((ClassType)refType);
-        setRequest(refType.virtualMachine().eventRequestManager()
-                   .createBreakpointRequest(location));
+        Locbtion locbtion = locbtion((ClbssType)refType);
+        setRequest(refType.virtublMbchine().eventRequestMbnbger()
+                   .crebteBrebkpointRequest(locbtion));
     }
 
-    private Location location(ClassType clazz) throws
+    privbte Locbtion locbtion(ClbssType clbzz) throws
                                             LineNotFoundException {
-        Location location = null;
+        Locbtion locbtion = null;
         try {
-            List<Location> locs = clazz.locationsOfLine(lineNumber());
+            List<Locbtion> locs = clbzz.locbtionsOfLine(lineNumber());
             if (locs.size() == 0) {
                 throw new LineNotFoundException();
             }
-            // TODO handle multiple locations
-            location = locs.get(0);
-            if (location.method() == null) {
+            // TODO hbndle multiple locbtions
+            locbtion = locs.get(0);
+            if (locbtion.method() == null) {
                 throw new LineNotFoundException();
             }
-        } catch (AbsentInformationException e) {
+        } cbtch (AbsentInformbtionException e) {
             /*
-             * TO DO: throw something more specific, or allow
-             * AbsentInfo exception to pass through.
+             * TO DO: throw something more specific, or bllow
+             * AbsentInfo exception to pbss through.
              */
             throw new LineNotFoundException();
         }
-        return location;
+        return locbtion;
     }
 
     public int lineNumber() {
@@ -88,43 +88,43 @@ public class LineBreakpointSpec extends BreakpointSpec {
     }
 
     @Override
-    public int hashCode() {
-        return refSpec.hashCode() + lineNumber;
+    public int hbshCode() {
+        return refSpec.hbshCode() + lineNumber;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof LineBreakpointSpec) {
-            LineBreakpointSpec breakpoint = (LineBreakpointSpec)obj;
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof LineBrebkpointSpec) {
+            LineBrebkpointSpec brebkpoint = (LineBrebkpointSpec)obj;
 
-            return refSpec.equals(breakpoint.refSpec) &&
-                   (lineNumber == breakpoint.lineNumber);
+            return refSpec.equbls(brebkpoint.refSpec) &&
+                   (lineNumber == brebkpoint.lineNumber);
         } else {
-            return false;
+            return fblse;
         }
     }
 
     @Override
-    public String errorMessageFor(Exception e) {
-        if (e instanceof LineNotFoundException) {
-            return ("No code at line " + lineNumber() + " in " + refSpec);
-        } else if (e instanceof InvalidTypeException) {
-            return ("Breakpoints can be located only in classes. " +
-                        refSpec + " is an interface or array");
+    public String errorMessbgeFor(Exception e) {
+        if (e instbnceof LineNotFoundException) {
+            return ("No code bt line " + lineNumber() + " in " + refSpec);
+        } else if (e instbnceof InvblidTypeException) {
+            return ("Brebkpoints cbn be locbted only in clbsses. " +
+                        refSpec + " is bn interfbce or brrby");
         } else {
-            return super.errorMessageFor( e);
+            return super.errorMessbgeFor( e);
         }
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("breakpoint ");
-        sb.append(refSpec.toString());
-        sb.append(':');
-        sb.append(lineNumber);
-        sb.append(" (");
-        sb.append(getStatusString());
-        sb.append(')');
+        StringBuilder sb = new StringBuilder("brebkpoint ");
+        sb.bppend(refSpec.toString());
+        sb.bppend(':');
+        sb.bppend(lineNumber);
+        sb.bppend(" (");
+        sb.bppend(getStbtusString());
+        sb.bppend(')');
         return sb.toString();
     }
 }

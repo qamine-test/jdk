@@ -1,831 +1,831 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.LongConsumer;
 
 /**
- * An object for traversing and partitioning elements of a source.  The source
- * of elements covered by a Spliterator could be, for example, an array, a
- * {@link Collection}, an IO channel, or a generator function.
+ * An object for trbversing bnd pbrtitioning elements of b source.  The source
+ * of elements covered by b Spliterbtor could be, for exbmple, bn brrby, b
+ * {@link Collection}, bn IO chbnnel, or b generbtor function.
  *
- * <p>A Spliterator may traverse elements individually ({@link
- * #tryAdvance tryAdvance()}) or sequentially in bulk
- * ({@link #forEachRemaining forEachRemaining()}).
+ * <p>A Spliterbtor mby trbverse elements individublly ({@link
+ * #tryAdvbnce tryAdvbnce()}) or sequentiblly in bulk
+ * ({@link #forEbchRembining forEbchRembining()}).
  *
- * <p>A Spliterator may also partition off some of its elements (using
- * {@link #trySplit}) as another Spliterator, to be used in
- * possibly-parallel operations.  Operations using a Spliterator that
- * cannot split, or does so in a highly imbalanced or inefficient
- * manner, are unlikely to benefit from parallelism.  Traversal
- * and splitting exhaust elements; each Spliterator is useful for only a single
- * bulk computation.
+ * <p>A Spliterbtor mby blso pbrtition off some of its elements (using
+ * {@link #trySplit}) bs bnother Spliterbtor, to be used in
+ * possibly-pbrbllel operbtions.  Operbtions using b Spliterbtor thbt
+ * cbnnot split, or does so in b highly imbblbnced or inefficient
+ * mbnner, bre unlikely to benefit from pbrbllelism.  Trbversbl
+ * bnd splitting exhbust elements; ebch Spliterbtor is useful for only b single
+ * bulk computbtion.
  *
- * <p>A Spliterator also reports a set of {@link #characteristics()} of its
- * structure, source, and elements from among {@link #ORDERED},
+ * <p>A Spliterbtor blso reports b set of {@link #chbrbcteristics()} of its
+ * structure, source, bnd elements from bmong {@link #ORDERED},
  * {@link #DISTINCT}, {@link #SORTED}, {@link #SIZED}, {@link #NONNULL},
- * {@link #IMMUTABLE}, {@link #CONCURRENT}, and {@link #SUBSIZED}. These may
- * be employed by Spliterator clients to control, specialize or simplify
- * computation.  For example, a Spliterator for a {@link Collection} would
- * report {@code SIZED}, a Spliterator for a {@link Set} would report
- * {@code DISTINCT}, and a Spliterator for a {@link SortedSet} would also
- * report {@code SORTED}.  Characteristics are reported as a simple unioned bit
+ * {@link #IMMUTABLE}, {@link #CONCURRENT}, bnd {@link #SUBSIZED}. These mby
+ * be employed by Spliterbtor clients to control, speciblize or simplify
+ * computbtion.  For exbmple, b Spliterbtor for b {@link Collection} would
+ * report {@code SIZED}, b Spliterbtor for b {@link Set} would report
+ * {@code DISTINCT}, bnd b Spliterbtor for b {@link SortedSet} would blso
+ * report {@code SORTED}.  Chbrbcteristics bre reported bs b simple unioned bit
  * set.
  *
- * Some characteristics additionally constrain method behavior; for example if
- * {@code ORDERED}, traversal methods must conform to their documented ordering.
- * New characteristics may be defined in the future, so implementors should not
- * assign meanings to unlisted values.
+ * Some chbrbcteristics bdditionblly constrbin method behbvior; for exbmple if
+ * {@code ORDERED}, trbversbl methods must conform to their documented ordering.
+ * New chbrbcteristics mby be defined in the future, so implementors should not
+ * bssign mebnings to unlisted vblues.
  *
- * <p><a name="binding">A Spliterator that does not report {@code IMMUTABLE} or
- * {@code CONCURRENT} is expected to have a documented policy concerning:
- * when the spliterator <em>binds</em> to the element source; and detection of
- * structural interference of the element source detected after binding.</a>  A
- * <em>late-binding</em> Spliterator binds to the source of elements at the
- * point of first traversal, first split, or first query for estimated size,
- * rather than at the time the Spliterator is created.  A Spliterator that is
- * not <em>late-binding</em> binds to the source of elements at the point of
- * construction or first invocation of any method.  Modifications made to the
- * source prior to binding are reflected when the Spliterator is traversed.
- * After binding a Spliterator should, on a best-effort basis, throw
- * {@link ConcurrentModificationException} if structural interference is
- * detected.  Spliterators that do this are called <em>fail-fast</em>.  The
- * bulk traversal method ({@link #forEachRemaining forEachRemaining()}) of a
- * Spliterator may optimize traversal and check for structural interference
- * after all elements have been traversed, rather than checking per-element and
- * failing immediately.
+ * <p><b nbme="binding">A Spliterbtor thbt does not report {@code IMMUTABLE} or
+ * {@code CONCURRENT} is expected to hbve b documented policy concerning:
+ * when the spliterbtor <em>binds</em> to the element source; bnd detection of
+ * structurbl interference of the element source detected bfter binding.</b>  A
+ * <em>lbte-binding</em> Spliterbtor binds to the source of elements bt the
+ * point of first trbversbl, first split, or first query for estimbted size,
+ * rbther thbn bt the time the Spliterbtor is crebted.  A Spliterbtor thbt is
+ * not <em>lbte-binding</em> binds to the source of elements bt the point of
+ * construction or first invocbtion of bny method.  Modificbtions mbde to the
+ * source prior to binding bre reflected when the Spliterbtor is trbversed.
+ * After binding b Spliterbtor should, on b best-effort bbsis, throw
+ * {@link ConcurrentModificbtionException} if structurbl interference is
+ * detected.  Spliterbtors thbt do this bre cblled <em>fbil-fbst</em>.  The
+ * bulk trbversbl method ({@link #forEbchRembining forEbchRembining()}) of b
+ * Spliterbtor mby optimize trbversbl bnd check for structurbl interference
+ * bfter bll elements hbve been trbversed, rbther thbn checking per-element bnd
+ * fbiling immedibtely.
  *
- * <p>Spliterators can provide an estimate of the number of remaining elements
- * via the {@link #estimateSize} method.  Ideally, as reflected in characteristic
- * {@link #SIZED}, this value corresponds exactly to the number of elements
- * that would be encountered in a successful traversal.  However, even when not
- * exactly known, an estimated value value may still be useful to operations
- * being performed on the source, such as helping to determine whether it is
- * preferable to split further or traverse the remaining elements sequentially.
+ * <p>Spliterbtors cbn provide bn estimbte of the number of rembining elements
+ * vib the {@link #estimbteSize} method.  Ideblly, bs reflected in chbrbcteristic
+ * {@link #SIZED}, this vblue corresponds exbctly to the number of elements
+ * thbt would be encountered in b successful trbversbl.  However, even when not
+ * exbctly known, bn estimbted vblue vblue mby still be useful to operbtions
+ * being performed on the source, such bs helping to determine whether it is
+ * preferbble to split further or trbverse the rembining elements sequentiblly.
  *
- * <p>Despite their obvious utility in parallel algorithms, spliterators are not
- * expected to be thread-safe; instead, implementations of parallel algorithms
- * using spliterators should ensure that the spliterator is only used by one
- * thread at a time.  This is generally easy to attain via <em>serial
- * thread-confinement</em>, which often is a natural consequence of typical
- * parallel algorithms that work by recursive decomposition.  A thread calling
- * {@link #trySplit()} may hand over the returned Spliterator to another thread,
- * which in turn may traverse or further split that Spliterator.  The behaviour
- * of splitting and traversal is undefined if two or more threads operate
- * concurrently on the same spliterator.  If the original thread hands a
- * spliterator off to another thread for processing, it is best if that handoff
- * occurs before any elements are consumed with {@link #tryAdvance(Consumer)
- * tryAdvance()}, as certain guarantees (such as the accuracy of
- * {@link #estimateSize()} for {@code SIZED} spliterators) are only valid before
- * traversal has begun.
+ * <p>Despite their obvious utility in pbrbllel blgorithms, spliterbtors bre not
+ * expected to be threbd-sbfe; instebd, implementbtions of pbrbllel blgorithms
+ * using spliterbtors should ensure thbt the spliterbtor is only used by one
+ * threbd bt b time.  This is generblly ebsy to bttbin vib <em>seribl
+ * threbd-confinement</em>, which often is b nbturbl consequence of typicbl
+ * pbrbllel blgorithms thbt work by recursive decomposition.  A threbd cblling
+ * {@link #trySplit()} mby hbnd over the returned Spliterbtor to bnother threbd,
+ * which in turn mby trbverse or further split thbt Spliterbtor.  The behbviour
+ * of splitting bnd trbversbl is undefined if two or more threbds operbte
+ * concurrently on the sbme spliterbtor.  If the originbl threbd hbnds b
+ * spliterbtor off to bnother threbd for processing, it is best if thbt hbndoff
+ * occurs before bny elements bre consumed with {@link #tryAdvbnce(Consumer)
+ * tryAdvbnce()}, bs certbin gubrbntees (such bs the bccurbcy of
+ * {@link #estimbteSize()} for {@code SIZED} spliterbtors) bre only vblid before
+ * trbversbl hbs begun.
  *
- * <p>Primitive subtype specializations of {@code Spliterator} are provided for
- * {@link OfInt int}, {@link OfLong long}, and {@link OfDouble double} values.
- * The subtype default implementations of
- * {@link Spliterator#tryAdvance(java.util.function.Consumer)}
- * and {@link Spliterator#forEachRemaining(java.util.function.Consumer)} box
- * primitive values to instances of their corresponding wrapper class.  Such
- * boxing may undermine any performance advantages gained by using the primitive
- * specializations.  To avoid boxing, the corresponding primitive-based methods
- * should be used.  For example,
- * {@link Spliterator.OfInt#tryAdvance(java.util.function.IntConsumer)}
- * and {@link Spliterator.OfInt#forEachRemaining(java.util.function.IntConsumer)}
+ * <p>Primitive subtype speciblizbtions of {@code Spliterbtor} bre provided for
+ * {@link OfInt int}, {@link OfLong long}, bnd {@link OfDouble double} vblues.
+ * The subtype defbult implementbtions of
+ * {@link Spliterbtor#tryAdvbnce(jbvb.util.function.Consumer)}
+ * bnd {@link Spliterbtor#forEbchRembining(jbvb.util.function.Consumer)} box
+ * primitive vblues to instbnces of their corresponding wrbpper clbss.  Such
+ * boxing mby undermine bny performbnce bdvbntbges gbined by using the primitive
+ * speciblizbtions.  To bvoid boxing, the corresponding primitive-bbsed methods
+ * should be used.  For exbmple,
+ * {@link Spliterbtor.OfInt#tryAdvbnce(jbvb.util.function.IntConsumer)}
+ * bnd {@link Spliterbtor.OfInt#forEbchRembining(jbvb.util.function.IntConsumer)}
  * should be used in preference to
- * {@link Spliterator.OfInt#tryAdvance(java.util.function.Consumer)} and
- * {@link Spliterator.OfInt#forEachRemaining(java.util.function.Consumer)}.
- * Traversal of primitive values using boxing-based methods
- * {@link #tryAdvance tryAdvance()} and
- * {@link #forEachRemaining(java.util.function.Consumer) forEachRemaining()}
- * does not affect the order in which the values, transformed to boxed values,
- * are encountered.
+ * {@link Spliterbtor.OfInt#tryAdvbnce(jbvb.util.function.Consumer)} bnd
+ * {@link Spliterbtor.OfInt#forEbchRembining(jbvb.util.function.Consumer)}.
+ * Trbversbl of primitive vblues using boxing-bbsed methods
+ * {@link #tryAdvbnce tryAdvbnce()} bnd
+ * {@link #forEbchRembining(jbvb.util.function.Consumer) forEbchRembining()}
+ * does not bffect the order in which the vblues, trbnsformed to boxed vblues,
+ * bre encountered.
  *
- * @apiNote
- * <p>Spliterators, like {@code Iterators}s, are for traversing the elements of
- * a source.  The {@code Spliterator} API was designed to support efficient
- * parallel traversal in addition to sequential traversal, by supporting
- * decomposition as well as single-element iteration.  In addition, the
- * protocol for accessing elements via a Spliterator is designed to impose
- * smaller per-element overhead than {@code Iterator}, and to avoid the inherent
- * race involved in having separate methods for {@code hasNext()} and
+ * @bpiNote
+ * <p>Spliterbtors, like {@code Iterbtors}s, bre for trbversing the elements of
+ * b source.  The {@code Spliterbtor} API wbs designed to support efficient
+ * pbrbllel trbversbl in bddition to sequentibl trbversbl, by supporting
+ * decomposition bs well bs single-element iterbtion.  In bddition, the
+ * protocol for bccessing elements vib b Spliterbtor is designed to impose
+ * smbller per-element overhebd thbn {@code Iterbtor}, bnd to bvoid the inherent
+ * rbce involved in hbving sepbrbte methods for {@code hbsNext()} bnd
  * {@code next()}.
  *
- * <p>For mutable sources, arbitrary and non-deterministic behavior may occur if
- * the source is structurally interfered with (elements added, replaced, or
- * removed) between the time that the Spliterator binds to its data source and
- * the end of traversal.  For example, such interference will produce arbitrary,
- * non-deterministic results when using the {@code java.util.stream} framework.
+ * <p>For mutbble sources, brbitrbry bnd non-deterministic behbvior mby occur if
+ * the source is structurblly interfered with (elements bdded, replbced, or
+ * removed) between the time thbt the Spliterbtor binds to its dbtb source bnd
+ * the end of trbversbl.  For exbmple, such interference will produce brbitrbry,
+ * non-deterministic results when using the {@code jbvb.util.strebm} frbmework.
  *
- * <p>Structural interference of a source can be managed in the following ways
- * (in approximate order of decreasing desirability):
+ * <p>Structurbl interference of b source cbn be mbnbged in the following wbys
+ * (in bpproximbte order of decrebsing desirbbility):
  * <ul>
- * <li>The source cannot be structurally interfered with.
- * <br>For example, an instance of
- * {@link java.util.concurrent.CopyOnWriteArrayList} is an immutable source.
- * A Spliterator created from the source reports a characteristic of
+ * <li>The source cbnnot be structurblly interfered with.
+ * <br>For exbmple, bn instbnce of
+ * {@link jbvb.util.concurrent.CopyOnWriteArrbyList} is bn immutbble source.
+ * A Spliterbtor crebted from the source reports b chbrbcteristic of
  * {@code IMMUTABLE}.</li>
- * <li>The source manages concurrent modifications.
- * <br>For example, a key set of a {@link java.util.concurrent.ConcurrentHashMap}
- * is a concurrent source.  A Spliterator created from the source reports a
- * characteristic of {@code CONCURRENT}.</li>
- * <li>The mutable source provides a late-binding and fail-fast Spliterator.
- * <br>Late binding narrows the window during which interference can affect
- * the calculation; fail-fast detects, on a best-effort basis, that structural
- * interference has occurred after traversal has commenced and throws
- * {@link ConcurrentModificationException}.  For example, {@link ArrayList},
- * and many other non-concurrent {@code Collection} classes in the JDK, provide
- * a late-binding, fail-fast spliterator.</li>
- * <li>The mutable source provides a non-late-binding but fail-fast Spliterator.
- * <br>The source increases the likelihood of throwing
- * {@code ConcurrentModificationException} since the window of potential
- * interference is larger.</li>
- * <li>The mutable source provides a late-binding and non-fail-fast Spliterator.
- * <br>The source risks arbitrary, non-deterministic behavior after traversal
- * has commenced since interference is not detected.
+ * <li>The source mbnbges concurrent modificbtions.
+ * <br>For exbmple, b key set of b {@link jbvb.util.concurrent.ConcurrentHbshMbp}
+ * is b concurrent source.  A Spliterbtor crebted from the source reports b
+ * chbrbcteristic of {@code CONCURRENT}.</li>
+ * <li>The mutbble source provides b lbte-binding bnd fbil-fbst Spliterbtor.
+ * <br>Lbte binding nbrrows the window during which interference cbn bffect
+ * the cblculbtion; fbil-fbst detects, on b best-effort bbsis, thbt structurbl
+ * interference hbs occurred bfter trbversbl hbs commenced bnd throws
+ * {@link ConcurrentModificbtionException}.  For exbmple, {@link ArrbyList},
+ * bnd mbny other non-concurrent {@code Collection} clbsses in the JDK, provide
+ * b lbte-binding, fbil-fbst spliterbtor.</li>
+ * <li>The mutbble source provides b non-lbte-binding but fbil-fbst Spliterbtor.
+ * <br>The source increbses the likelihood of throwing
+ * {@code ConcurrentModificbtionException} since the window of potentibl
+ * interference is lbrger.</li>
+ * <li>The mutbble source provides b lbte-binding bnd non-fbil-fbst Spliterbtor.
+ * <br>The source risks brbitrbry, non-deterministic behbvior bfter trbversbl
+ * hbs commenced since interference is not detected.
  * </li>
- * <li>The mutable source provides a non-late-binding and non-fail-fast
- * Spliterator.
- * <br>The source increases the risk of arbitrary, non-deterministic behavior
- * since non-detected interference may occur after construction.
+ * <li>The mutbble source provides b non-lbte-binding bnd non-fbil-fbst
+ * Spliterbtor.
+ * <br>The source increbses the risk of brbitrbry, non-deterministic behbvior
+ * since non-detected interference mby occur bfter construction.
  * </li>
  * </ul>
  *
- * <p><b>Example.</b> Here is a class (not a very useful one, except
- * for illustration) that maintains an array in which the actual data
- * are held in even locations, and unrelated tag data are held in odd
- * locations. Its Spliterator ignores the tags.
+ * <p><b>Exbmple.</b> Here is b clbss (not b very useful one, except
+ * for illustrbtion) thbt mbintbins bn brrby in which the bctubl dbtb
+ * bre held in even locbtions, bnd unrelbted tbg dbtb bre held in odd
+ * locbtions. Its Spliterbtor ignores the tbgs.
  *
  * <pre> {@code
- * class TaggedArray<T> {
- *   private final Object[] elements; // immutable after construction
- *   TaggedArray(T[] data, Object[] tags) {
- *     int size = data.length;
- *     if (tags.length != size) throw new IllegalArgumentException();
+ * clbss TbggedArrby<T> {
+ *   privbte finbl Object[] elements; // immutbble bfter construction
+ *   TbggedArrby(T[] dbtb, Object[] tbgs) {
+ *     int size = dbtb.length;
+ *     if (tbgs.length != size) throw new IllegblArgumentException();
  *     this.elements = new Object[2 * size];
  *     for (int i = 0, j = 0; i < size; ++i) {
- *       elements[j++] = data[i];
- *       elements[j++] = tags[i];
+ *       elements[j++] = dbtb[i];
+ *       elements[j++] = tbgs[i];
  *     }
  *   }
  *
- *   public Spliterator<T> spliterator() {
- *     return new TaggedArraySpliterator<>(elements, 0, elements.length);
+ *   public Spliterbtor<T> spliterbtor() {
+ *     return new TbggedArrbySpliterbtor<>(elements, 0, elements.length);
  *   }
  *
- *   static class TaggedArraySpliterator<T> implements Spliterator<T> {
- *     private final Object[] array;
- *     private int origin; // current index, advanced on split or traversal
- *     private final int fence; // one past the greatest index
+ *   stbtic clbss TbggedArrbySpliterbtor<T> implements Spliterbtor<T> {
+ *     privbte finbl Object[] brrby;
+ *     privbte int origin; // current index, bdvbnced on split or trbversbl
+ *     privbte finbl int fence; // one pbst the grebtest index
  *
- *     TaggedArraySpliterator(Object[] array, int origin, int fence) {
- *       this.array = array; this.origin = origin; this.fence = fence;
+ *     TbggedArrbySpliterbtor(Object[] brrby, int origin, int fence) {
+ *       this.brrby = brrby; this.origin = origin; this.fence = fence;
  *     }
  *
- *     public void forEachRemaining(Consumer<? super T> action) {
+ *     public void forEbchRembining(Consumer<? super T> bction) {
  *       for (; origin < fence; origin += 2)
- *         action.accept((T) array[origin]);
+ *         bction.bccept((T) brrby[origin]);
  *     }
  *
- *     public boolean tryAdvance(Consumer<? super T> action) {
+ *     public boolebn tryAdvbnce(Consumer<? super T> bction) {
  *       if (origin < fence) {
- *         action.accept((T) array[origin]);
+ *         bction.bccept((T) brrby[origin]);
  *         origin += 2;
  *         return true;
  *       }
- *       else // cannot advance
- *         return false;
+ *       else // cbnnot bdvbnce
+ *         return fblse;
  *     }
  *
- *     public Spliterator<T> trySplit() {
- *       int lo = origin; // divide range in half
+ *     public Spliterbtor<T> trySplit() {
+ *       int lo = origin; // divide rbnge in hblf
  *       int mid = ((lo + fence) >>> 1) & ~1; // force midpoint to be even
- *       if (lo < mid) { // split out left half
- *         origin = mid; // reset this Spliterator's origin
- *         return new TaggedArraySpliterator<>(array, lo, mid);
+ *       if (lo < mid) { // split out left hblf
+ *         origin = mid; // reset this Spliterbtor's origin
+ *         return new TbggedArrbySpliterbtor<>(brrby, lo, mid);
  *       }
- *       else       // too small to split
+ *       else       // too smbll to split
  *         return null;
  *     }
  *
- *     public long estimateSize() {
+ *     public long estimbteSize() {
  *       return (long)((fence - origin) / 2);
  *     }
  *
- *     public int characteristics() {
+ *     public int chbrbcteristics() {
  *       return ORDERED | SIZED | IMMUTABLE | SUBSIZED;
  *     }
  *   }
  * }}</pre>
  *
- * <p>As an example how a parallel computation framework, such as the
- * {@code java.util.stream} package, would use Spliterator in a parallel
- * computation, here is one way to implement an associated parallel forEach,
- * that illustrates the primary usage idiom of splitting off subtasks until
- * the estimated amount of work is small enough to perform
- * sequentially. Here we assume that the order of processing across
- * subtasks doesn't matter; different (forked) tasks may further split
- * and process elements concurrently in undetermined order.  This
- * example uses a {@link java.util.concurrent.CountedCompleter};
- * similar usages apply to other parallel task constructions.
+ * <p>As bn exbmple how b pbrbllel computbtion frbmework, such bs the
+ * {@code jbvb.util.strebm} pbckbge, would use Spliterbtor in b pbrbllel
+ * computbtion, here is one wby to implement bn bssocibted pbrbllel forEbch,
+ * thbt illustrbtes the primbry usbge idiom of splitting off subtbsks until
+ * the estimbted bmount of work is smbll enough to perform
+ * sequentiblly. Here we bssume thbt the order of processing bcross
+ * subtbsks doesn't mbtter; different (forked) tbsks mby further split
+ * bnd process elements concurrently in undetermined order.  This
+ * exbmple uses b {@link jbvb.util.concurrent.CountedCompleter};
+ * similbr usbges bpply to other pbrbllel tbsk constructions.
  *
  * <pre>{@code
- * static <T> void parEach(TaggedArray<T> a, Consumer<T> action) {
- *   Spliterator<T> s = a.spliterator();
- *   long targetBatchSize = s.estimateSize() / (ForkJoinPool.getCommonPoolParallelism() * 8);
- *   new ParEach(null, s, action, targetBatchSize).invoke();
+ * stbtic <T> void pbrEbch(TbggedArrby<T> b, Consumer<T> bction) {
+ *   Spliterbtor<T> s = b.spliterbtor();
+ *   long tbrgetBbtchSize = s.estimbteSize() / (ForkJoinPool.getCommonPoolPbrbllelism() * 8);
+ *   new PbrEbch(null, s, bction, tbrgetBbtchSize).invoke();
  * }
  *
- * static class ParEach<T> extends CountedCompleter<Void> {
- *   final Spliterator<T> spliterator;
- *   final Consumer<T> action;
- *   final long targetBatchSize;
+ * stbtic clbss PbrEbch<T> extends CountedCompleter<Void> {
+ *   finbl Spliterbtor<T> spliterbtor;
+ *   finbl Consumer<T> bction;
+ *   finbl long tbrgetBbtchSize;
  *
- *   ParEach(ParEach<T> parent, Spliterator<T> spliterator,
- *           Consumer<T> action, long targetBatchSize) {
- *     super(parent);
- *     this.spliterator = spliterator; this.action = action;
- *     this.targetBatchSize = targetBatchSize;
+ *   PbrEbch(PbrEbch<T> pbrent, Spliterbtor<T> spliterbtor,
+ *           Consumer<T> bction, long tbrgetBbtchSize) {
+ *     super(pbrent);
+ *     this.spliterbtor = spliterbtor; this.bction = bction;
+ *     this.tbrgetBbtchSize = tbrgetBbtchSize;
  *   }
  *
  *   public void compute() {
- *     Spliterator<T> sub;
- *     while (spliterator.estimateSize() > targetBatchSize &&
- *            (sub = spliterator.trySplit()) != null) {
- *       addToPendingCount(1);
- *       new ParEach<>(this, sub, action, targetBatchSize).fork();
+ *     Spliterbtor<T> sub;
+ *     while (spliterbtor.estimbteSize() > tbrgetBbtchSize &&
+ *            (sub = spliterbtor.trySplit()) != null) {
+ *       bddToPendingCount(1);
+ *       new PbrEbch<>(this, sub, bction, tbrgetBbtchSize).fork();
  *     }
- *     spliterator.forEachRemaining(action);
- *     propagateCompletion();
+ *     spliterbtor.forEbchRembining(bction);
+ *     propbgbteCompletion();
  *   }
  * }}</pre>
  *
  * @implNote
- * If the boolean system property {@code org.openjdk.java.util.stream.tripwire}
- * is set to {@code true} then diagnostic warnings are reported if boxing of
- * primitive values occur when operating on primitive subtype specializations.
+ * If the boolebn system property {@code org.openjdk.jbvb.util.strebm.tripwire}
+ * is set to {@code true} then dibgnostic wbrnings bre reported if boxing of
+ * primitive vblues occur when operbting on primitive subtype speciblizbtions.
  *
- * @param <T> the type of elements returned by this Spliterator
+ * @pbrbm <T> the type of elements returned by this Spliterbtor
  *
  * @see Collection
  * @since 1.8
  */
-public interface Spliterator<T> {
+public interfbce Spliterbtor<T> {
     /**
-     * If a remaining element exists, performs the given action on it,
-     * returning {@code true}; else returns {@code false}.  If this
-     * Spliterator is {@link #ORDERED} the action is performed on the
+     * If b rembining element exists, performs the given bction on it,
+     * returning {@code true}; else returns {@code fblse}.  If this
+     * Spliterbtor is {@link #ORDERED} the bction is performed on the
      * next element in encounter order.  Exceptions thrown by the
-     * action are relayed to the caller.
+     * bction bre relbyed to the cbller.
      *
-     * @param action The action
-     * @return {@code false} if no remaining elements existed
+     * @pbrbm bction The bction
+     * @return {@code fblse} if no rembining elements existed
      * upon entry to this method, else {@code true}.
-     * @throws NullPointerException if the specified action is null
+     * @throws NullPointerException if the specified bction is null
      */
-    boolean tryAdvance(Consumer<? super T> action);
+    boolebn tryAdvbnce(Consumer<? super T> bction);
 
     /**
-     * Performs the given action for each remaining element, sequentially in
-     * the current thread, until all elements have been processed or the action
-     * throws an exception.  If this Spliterator is {@link #ORDERED}, actions
-     * are performed in encounter order.  Exceptions thrown by the action
-     * are relayed to the caller.
+     * Performs the given bction for ebch rembining element, sequentiblly in
+     * the current threbd, until bll elements hbve been processed or the bction
+     * throws bn exception.  If this Spliterbtor is {@link #ORDERED}, bctions
+     * bre performed in encounter order.  Exceptions thrown by the bction
+     * bre relbyed to the cbller.
      *
      * @implSpec
-     * The default implementation repeatedly invokes {@link #tryAdvance} until
-     * it returns {@code false}.  It should be overridden whenever possible.
+     * The defbult implementbtion repebtedly invokes {@link #tryAdvbnce} until
+     * it returns {@code fblse}.  It should be overridden whenever possible.
      *
-     * @param action The action
-     * @throws NullPointerException if the specified action is null
+     * @pbrbm bction The bction
+     * @throws NullPointerException if the specified bction is null
      */
-    default void forEachRemaining(Consumer<? super T> action) {
-        do { } while (tryAdvance(action));
+    defbult void forEbchRembining(Consumer<? super T> bction) {
+        do { } while (tryAdvbnce(bction));
     }
 
     /**
-     * If this spliterator can be partitioned, returns a Spliterator
-     * covering elements, that will, upon return from this method, not
-     * be covered by this Spliterator.
+     * If this spliterbtor cbn be pbrtitioned, returns b Spliterbtor
+     * covering elements, thbt will, upon return from this method, not
+     * be covered by this Spliterbtor.
      *
-     * <p>If this Spliterator is {@link #ORDERED}, the returned Spliterator
-     * must cover a strict prefix of the elements.
+     * <p>If this Spliterbtor is {@link #ORDERED}, the returned Spliterbtor
+     * must cover b strict prefix of the elements.
      *
-     * <p>Unless this Spliterator covers an infinite number of elements,
-     * repeated calls to {@code trySplit()} must eventually return {@code null}.
+     * <p>Unless this Spliterbtor covers bn infinite number of elements,
+     * repebted cblls to {@code trySplit()} must eventublly return {@code null}.
      * Upon non-null return:
      * <ul>
-     * <li>the value reported for {@code estimateSize()} before splitting,
-     * must, after splitting, be greater than or equal to {@code estimateSize()}
-     * for this and the returned Spliterator; and</li>
-     * <li>if this Spliterator is {@code SUBSIZED}, then {@code estimateSize()}
-     * for this spliterator before splitting must be equal to the sum of
-     * {@code estimateSize()} for this and the returned Spliterator after
+     * <li>the vblue reported for {@code estimbteSize()} before splitting,
+     * must, bfter splitting, be grebter thbn or equbl to {@code estimbteSize()}
+     * for this bnd the returned Spliterbtor; bnd</li>
+     * <li>if this Spliterbtor is {@code SUBSIZED}, then {@code estimbteSize()}
+     * for this spliterbtor before splitting must be equbl to the sum of
+     * {@code estimbteSize()} for this bnd the returned Spliterbtor bfter
      * splitting.</li>
      * </ul>
      *
-     * <p>This method may return {@code null} for any reason,
-     * including emptiness, inability to split after traversal has
-     * commenced, data structure constraints, and efficiency
-     * considerations.
+     * <p>This method mby return {@code null} for bny rebson,
+     * including emptiness, inbbility to split bfter trbversbl hbs
+     * commenced, dbtb structure constrbints, bnd efficiency
+     * considerbtions.
      *
-     * @apiNote
-     * An ideal {@code trySplit} method efficiently (without
-     * traversal) divides its elements exactly in half, allowing
-     * balanced parallel computation.  Many departures from this ideal
-     * remain highly effective; for example, only approximately
-     * splitting an approximately balanced tree, or for a tree in
-     * which leaf nodes may contain either one or two elements,
-     * failing to further split these nodes.  However, large
-     * deviations in balance and/or overly inefficient {@code
-     * trySplit} mechanics typically result in poor parallel
-     * performance.
+     * @bpiNote
+     * An idebl {@code trySplit} method efficiently (without
+     * trbversbl) divides its elements exbctly in hblf, bllowing
+     * bblbnced pbrbllel computbtion.  Mbny depbrtures from this idebl
+     * rembin highly effective; for exbmple, only bpproximbtely
+     * splitting bn bpproximbtely bblbnced tree, or for b tree in
+     * which lebf nodes mby contbin either one or two elements,
+     * fbiling to further split these nodes.  However, lbrge
+     * devibtions in bblbnce bnd/or overly inefficient {@code
+     * trySplit} mechbnics typicblly result in poor pbrbllel
+     * performbnce.
      *
-     * @return a {@code Spliterator} covering some portion of the
-     * elements, or {@code null} if this spliterator cannot be split
+     * @return b {@code Spliterbtor} covering some portion of the
+     * elements, or {@code null} if this spliterbtor cbnnot be split
      */
-    Spliterator<T> trySplit();
+    Spliterbtor<T> trySplit();
 
     /**
-     * Returns an estimate of the number of elements that would be
-     * encountered by a {@link #forEachRemaining} traversal, or returns {@link
+     * Returns bn estimbte of the number of elements thbt would be
+     * encountered by b {@link #forEbchRembining} trbversbl, or returns {@link
      * Long#MAX_VALUE} if infinite, unknown, or too expensive to compute.
      *
-     * <p>If this Spliterator is {@link #SIZED} and has not yet been partially
-     * traversed or split, or this Spliterator is {@link #SUBSIZED} and has
-     * not yet been partially traversed, this estimate must be an accurate
-     * count of elements that would be encountered by a complete traversal.
-     * Otherwise, this estimate may be arbitrarily inaccurate, but must decrease
-     * as specified across invocations of {@link #trySplit}.
+     * <p>If this Spliterbtor is {@link #SIZED} bnd hbs not yet been pbrtiblly
+     * trbversed or split, or this Spliterbtor is {@link #SUBSIZED} bnd hbs
+     * not yet been pbrtiblly trbversed, this estimbte must be bn bccurbte
+     * count of elements thbt would be encountered by b complete trbversbl.
+     * Otherwise, this estimbte mby be brbitrbrily inbccurbte, but must decrebse
+     * bs specified bcross invocbtions of {@link #trySplit}.
      *
-     * @apiNote
-     * Even an inexact estimate is often useful and inexpensive to compute.
-     * For example, a sub-spliterator of an approximately balanced binary tree
-     * may return a value that estimates the number of elements to be half of
-     * that of its parent; if the root Spliterator does not maintain an
-     * accurate count, it could estimate size to be the power of two
-     * corresponding to its maximum depth.
+     * @bpiNote
+     * Even bn inexbct estimbte is often useful bnd inexpensive to compute.
+     * For exbmple, b sub-spliterbtor of bn bpproximbtely bblbnced binbry tree
+     * mby return b vblue thbt estimbtes the number of elements to be hblf of
+     * thbt of its pbrent; if the root Spliterbtor does not mbintbin bn
+     * bccurbte count, it could estimbte size to be the power of two
+     * corresponding to its mbximum depth.
      *
-     * @return the estimated size, or {@code Long.MAX_VALUE} if infinite,
+     * @return the estimbted size, or {@code Long.MAX_VALUE} if infinite,
      *         unknown, or too expensive to compute.
      */
-    long estimateSize();
+    long estimbteSize();
 
     /**
-     * Convenience method that returns {@link #estimateSize()} if this
-     * Spliterator is {@link #SIZED}, else {@code -1}.
+     * Convenience method thbt returns {@link #estimbteSize()} if this
+     * Spliterbtor is {@link #SIZED}, else {@code -1}.
      * @implSpec
-     * The default implementation returns the result of {@code estimateSize()}
-     * if the Spliterator reports a characteristic of {@code SIZED}, and
+     * The defbult implementbtion returns the result of {@code estimbteSize()}
+     * if the Spliterbtor reports b chbrbcteristic of {@code SIZED}, bnd
      * {@code -1} otherwise.
      *
-     * @return the exact size, if known, else {@code -1}.
+     * @return the exbct size, if known, else {@code -1}.
      */
-    default long getExactSizeIfKnown() {
-        return (characteristics() & SIZED) == 0 ? -1L : estimateSize();
+    defbult long getExbctSizeIfKnown() {
+        return (chbrbcteristics() & SIZED) == 0 ? -1L : estimbteSize();
     }
 
     /**
-     * Returns a set of characteristics of this Spliterator and its
-     * elements. The result is represented as ORed values from {@link
+     * Returns b set of chbrbcteristics of this Spliterbtor bnd its
+     * elements. The result is represented bs ORed vblues from {@link
      * #ORDERED}, {@link #DISTINCT}, {@link #SORTED}, {@link #SIZED},
      * {@link #NONNULL}, {@link #IMMUTABLE}, {@link #CONCURRENT},
-     * {@link #SUBSIZED}.  Repeated calls to {@code characteristics()} on
-     * a given spliterator, prior to or in-between calls to {@code trySplit},
-     * should always return the same result.
+     * {@link #SUBSIZED}.  Repebted cblls to {@code chbrbcteristics()} on
+     * b given spliterbtor, prior to or in-between cblls to {@code trySplit},
+     * should blwbys return the sbme result.
      *
-     * <p>If a Spliterator reports an inconsistent set of
-     * characteristics (either those returned from a single invocation
-     * or across multiple invocations), no guarantees can be made
-     * about any computation using this Spliterator.
+     * <p>If b Spliterbtor reports bn inconsistent set of
+     * chbrbcteristics (either those returned from b single invocbtion
+     * or bcross multiple invocbtions), no gubrbntees cbn be mbde
+     * bbout bny computbtion using this Spliterbtor.
      *
-     * @apiNote The characteristics of a given spliterator before splitting
-     * may differ from the characteristics after splitting.  For specific
-     * examples see the characteristic values {@link #SIZED}, {@link #SUBSIZED}
-     * and {@link #CONCURRENT}.
+     * @bpiNote The chbrbcteristics of b given spliterbtor before splitting
+     * mby differ from the chbrbcteristics bfter splitting.  For specific
+     * exbmples see the chbrbcteristic vblues {@link #SIZED}, {@link #SUBSIZED}
+     * bnd {@link #CONCURRENT}.
      *
-     * @return a representation of characteristics
+     * @return b representbtion of chbrbcteristics
      */
-    int characteristics();
+    int chbrbcteristics();
 
     /**
-     * Returns {@code true} if this Spliterator's {@link
-     * #characteristics} contain all of the given characteristics.
+     * Returns {@code true} if this Spliterbtor's {@link
+     * #chbrbcteristics} contbin bll of the given chbrbcteristics.
      *
      * @implSpec
-     * The default implementation returns true if the corresponding bits
-     * of the given characteristics are set.
+     * The defbult implementbtion returns true if the corresponding bits
+     * of the given chbrbcteristics bre set.
      *
-     * @param characteristics the characteristics to check for
-     * @return {@code true} if all the specified characteristics are present,
-     * else {@code false}
+     * @pbrbm chbrbcteristics the chbrbcteristics to check for
+     * @return {@code true} if bll the specified chbrbcteristics bre present,
+     * else {@code fblse}
      */
-    default boolean hasCharacteristics(int characteristics) {
-        return (characteristics() & characteristics) == characteristics;
+    defbult boolebn hbsChbrbcteristics(int chbrbcteristics) {
+        return (chbrbcteristics() & chbrbcteristics) == chbrbcteristics;
     }
 
     /**
-     * If this Spliterator's source is {@link #SORTED} by a {@link Comparator},
-     * returns that {@code Comparator}. If the source is {@code SORTED} in
-     * {@linkplain Comparable natural order}, returns {@code null}.  Otherwise,
-     * if the source is not {@code SORTED}, throws {@link IllegalStateException}.
+     * If this Spliterbtor's source is {@link #SORTED} by b {@link Compbrbtor},
+     * returns thbt {@code Compbrbtor}. If the source is {@code SORTED} in
+     * {@linkplbin Compbrbble nbturbl order}, returns {@code null}.  Otherwise,
+     * if the source is not {@code SORTED}, throws {@link IllegblStbteException}.
      *
      * @implSpec
-     * The default implementation always throws {@link IllegalStateException}.
+     * The defbult implementbtion blwbys throws {@link IllegblStbteException}.
      *
-     * @return a Comparator, or {@code null} if the elements are sorted in the
-     * natural order.
-     * @throws IllegalStateException if the spliterator does not report
-     *         a characteristic of {@code SORTED}.
+     * @return b Compbrbtor, or {@code null} if the elements bre sorted in the
+     * nbturbl order.
+     * @throws IllegblStbteException if the spliterbtor does not report
+     *         b chbrbcteristic of {@code SORTED}.
      */
-    default Comparator<? super T> getComparator() {
-        throw new IllegalStateException();
+    defbult Compbrbtor<? super T> getCompbrbtor() {
+        throw new IllegblStbteException();
     }
 
     /**
-     * Characteristic value signifying that an encounter order is defined for
-     * elements. If so, this Spliterator guarantees that method
-     * {@link #trySplit} splits a strict prefix of elements, that method
-     * {@link #tryAdvance} steps by one element in prefix order, and that
-     * {@link #forEachRemaining} performs actions in encounter order.
+     * Chbrbcteristic vblue signifying thbt bn encounter order is defined for
+     * elements. If so, this Spliterbtor gubrbntees thbt method
+     * {@link #trySplit} splits b strict prefix of elements, thbt method
+     * {@link #tryAdvbnce} steps by one element in prefix order, bnd thbt
+     * {@link #forEbchRembining} performs bctions in encounter order.
      *
-     * <p>A {@link Collection} has an encounter order if the corresponding
-     * {@link Collection#iterator} documents an order. If so, the encounter
-     * order is the same as the documented order. Otherwise, a collection does
-     * not have an encounter order.
+     * <p>A {@link Collection} hbs bn encounter order if the corresponding
+     * {@link Collection#iterbtor} documents bn order. If so, the encounter
+     * order is the sbme bs the documented order. Otherwise, b collection does
+     * not hbve bn encounter order.
      *
-     * @apiNote Encounter order is guaranteed to be ascending index order for
-     * any {@link List}. But no order is guaranteed for hash-based collections
-     * such as {@link HashSet}. Clients of a Spliterator that reports
-     * {@code ORDERED} are expected to preserve ordering constraints in
-     * non-commutative parallel computations.
+     * @bpiNote Encounter order is gubrbnteed to be bscending index order for
+     * bny {@link List}. But no order is gubrbnteed for hbsh-bbsed collections
+     * such bs {@link HbshSet}. Clients of b Spliterbtor thbt reports
+     * {@code ORDERED} bre expected to preserve ordering constrbints in
+     * non-commutbtive pbrbllel computbtions.
      */
-    public static final int ORDERED    = 0x00000010;
+    public stbtic finbl int ORDERED    = 0x00000010;
 
     /**
-     * Characteristic value signifying that, for each pair of
-     * encountered elements {@code x, y}, {@code !x.equals(y)}. This
-     * applies for example, to a Spliterator based on a {@link Set}.
+     * Chbrbcteristic vblue signifying thbt, for ebch pbir of
+     * encountered elements {@code x, y}, {@code !x.equbls(y)}. This
+     * bpplies for exbmple, to b Spliterbtor bbsed on b {@link Set}.
      */
-    public static final int DISTINCT   = 0x00000001;
+    public stbtic finbl int DISTINCT   = 0x00000001;
 
     /**
-     * Characteristic value signifying that encounter order follows a defined
-     * sort order. If so, method {@link #getComparator()} returns the associated
-     * Comparator, or {@code null} if all elements are {@link Comparable} and
-     * are sorted by their natural ordering.
+     * Chbrbcteristic vblue signifying thbt encounter order follows b defined
+     * sort order. If so, method {@link #getCompbrbtor()} returns the bssocibted
+     * Compbrbtor, or {@code null} if bll elements bre {@link Compbrbble} bnd
+     * bre sorted by their nbturbl ordering.
      *
-     * <p>A Spliterator that reports {@code SORTED} must also report
+     * <p>A Spliterbtor thbt reports {@code SORTED} must blso report
      * {@code ORDERED}.
      *
-     * @apiNote The spliterators for {@code Collection} classes in the JDK that
-     * implement {@link NavigableSet} or {@link SortedSet} report {@code SORTED}.
+     * @bpiNote The spliterbtors for {@code Collection} clbsses in the JDK thbt
+     * implement {@link NbvigbbleSet} or {@link SortedSet} report {@code SORTED}.
      */
-    public static final int SORTED     = 0x00000004;
+    public stbtic finbl int SORTED     = 0x00000004;
 
     /**
-     * Characteristic value signifying that the value returned from
-     * {@code estimateSize()} prior to traversal or splitting represents a
-     * finite size that, in the absence of structural source modification,
-     * represents an exact count of the number of elements that would be
-     * encountered by a complete traversal.
+     * Chbrbcteristic vblue signifying thbt the vblue returned from
+     * {@code estimbteSize()} prior to trbversbl or splitting represents b
+     * finite size thbt, in the bbsence of structurbl source modificbtion,
+     * represents bn exbct count of the number of elements thbt would be
+     * encountered by b complete trbversbl.
      *
-     * @apiNote Most Spliterators for Collections, that cover all elements of a
-     * {@code Collection} report this characteristic. Sub-spliterators, such as
-     * those for {@link HashSet}, that cover a sub-set of elements and
-     * approximate their reported size do not.
+     * @bpiNote Most Spliterbtors for Collections, thbt cover bll elements of b
+     * {@code Collection} report this chbrbcteristic. Sub-spliterbtors, such bs
+     * those for {@link HbshSet}, thbt cover b sub-set of elements bnd
+     * bpproximbte their reported size do not.
      */
-    public static final int SIZED      = 0x00000040;
+    public stbtic finbl int SIZED      = 0x00000040;
 
     /**
-     * Characteristic value signifying that the source guarantees that
-     * encountered elements will not be {@code null}. (This applies,
-     * for example, to most concurrent collections, queues, and maps.)
+     * Chbrbcteristic vblue signifying thbt the source gubrbntees thbt
+     * encountered elements will not be {@code null}. (This bpplies,
+     * for exbmple, to most concurrent collections, queues, bnd mbps.)
      */
-    public static final int NONNULL    = 0x00000100;
+    public stbtic finbl int NONNULL    = 0x00000100;
 
     /**
-     * Characteristic value signifying that the element source cannot be
-     * structurally modified; that is, elements cannot be added, replaced, or
-     * removed, so such changes cannot occur during traversal. A Spliterator
-     * that does not report {@code IMMUTABLE} or {@code CONCURRENT} is expected
-     * to have a documented policy (for example throwing
-     * {@link ConcurrentModificationException}) concerning structural
-     * interference detected during traversal.
+     * Chbrbcteristic vblue signifying thbt the element source cbnnot be
+     * structurblly modified; thbt is, elements cbnnot be bdded, replbced, or
+     * removed, so such chbnges cbnnot occur during trbversbl. A Spliterbtor
+     * thbt does not report {@code IMMUTABLE} or {@code CONCURRENT} is expected
+     * to hbve b documented policy (for exbmple throwing
+     * {@link ConcurrentModificbtionException}) concerning structurbl
+     * interference detected during trbversbl.
      */
-    public static final int IMMUTABLE  = 0x00000400;
+    public stbtic finbl int IMMUTABLE  = 0x00000400;
 
     /**
-     * Characteristic value signifying that the element source may be safely
-     * concurrently modified (allowing additions, replacements, and/or removals)
-     * by multiple threads without external synchronization. If so, the
-     * Spliterator is expected to have a documented policy concerning the impact
-     * of modifications during traversal.
+     * Chbrbcteristic vblue signifying thbt the element source mby be sbfely
+     * concurrently modified (bllowing bdditions, replbcements, bnd/or removbls)
+     * by multiple threbds without externbl synchronizbtion. If so, the
+     * Spliterbtor is expected to hbve b documented policy concerning the impbct
+     * of modificbtions during trbversbl.
      *
-     * <p>A top-level Spliterator should not report both {@code CONCURRENT} and
-     * {@code SIZED}, since the finite size, if known, may change if the source
-     * is concurrently modified during traversal. Such a Spliterator is
-     * inconsistent and no guarantees can be made about any computation using
-     * that Spliterator. Sub-spliterators may report {@code SIZED} if the
-     * sub-split size is known and additions or removals to the source are not
-     * reflected when traversing.
+     * <p>A top-level Spliterbtor should not report both {@code CONCURRENT} bnd
+     * {@code SIZED}, since the finite size, if known, mby chbnge if the source
+     * is concurrently modified during trbversbl. Such b Spliterbtor is
+     * inconsistent bnd no gubrbntees cbn be mbde bbout bny computbtion using
+     * thbt Spliterbtor. Sub-spliterbtors mby report {@code SIZED} if the
+     * sub-split size is known bnd bdditions or removbls to the source bre not
+     * reflected when trbversing.
      *
-     * @apiNote Most concurrent collections maintain a consistency policy
-     * guaranteeing accuracy with respect to elements present at the point of
-     * Spliterator construction, but possibly not reflecting subsequent
-     * additions or removals.
+     * @bpiNote Most concurrent collections mbintbin b consistency policy
+     * gubrbnteeing bccurbcy with respect to elements present bt the point of
+     * Spliterbtor construction, but possibly not reflecting subsequent
+     * bdditions or removbls.
      */
-    public static final int CONCURRENT = 0x00001000;
+    public stbtic finbl int CONCURRENT = 0x00001000;
 
     /**
-     * Characteristic value signifying that all Spliterators resulting from
-     * {@code trySplit()} will be both {@link #SIZED} and {@link #SUBSIZED}.
-     * (This means that all child Spliterators, whether direct or indirect, will
+     * Chbrbcteristic vblue signifying thbt bll Spliterbtors resulting from
+     * {@code trySplit()} will be both {@link #SIZED} bnd {@link #SUBSIZED}.
+     * (This mebns thbt bll child Spliterbtors, whether direct or indirect, will
      * be {@code SIZED}.)
      *
-     * <p>A Spliterator that does not report {@code SIZED} as required by
-     * {@code SUBSIZED} is inconsistent and no guarantees can be made about any
-     * computation using that Spliterator.
+     * <p>A Spliterbtor thbt does not report {@code SIZED} bs required by
+     * {@code SUBSIZED} is inconsistent bnd no gubrbntees cbn be mbde bbout bny
+     * computbtion using thbt Spliterbtor.
      *
-     * @apiNote Some spliterators, such as the top-level spliterator for an
-     * approximately balanced binary tree, will report {@code SIZED} but not
+     * @bpiNote Some spliterbtors, such bs the top-level spliterbtor for bn
+     * bpproximbtely bblbnced binbry tree, will report {@code SIZED} but not
      * {@code SUBSIZED}, since it is common to know the size of the entire tree
-     * but not the exact sizes of subtrees.
+     * but not the exbct sizes of subtrees.
      */
-    public static final int SUBSIZED = 0x00004000;
+    public stbtic finbl int SUBSIZED = 0x00004000;
 
     /**
-     * A Spliterator specialized for primitive values.
+     * A Spliterbtor speciblized for primitive vblues.
      *
-     * @param <T> the type of elements returned by this Spliterator.  The
-     * type must be a wrapper type for a primitive type, such as {@code Integer}
+     * @pbrbm <T> the type of elements returned by this Spliterbtor.  The
+     * type must be b wrbpper type for b primitive type, such bs {@code Integer}
      * for the primitive {@code int} type.
-     * @param <T_CONS> the type of primitive consumer.  The type must be a
-     * primitive specialization of {@link java.util.function.Consumer} for
-     * {@code T}, such as {@link java.util.function.IntConsumer} for
+     * @pbrbm <T_CONS> the type of primitive consumer.  The type must be b
+     * primitive speciblizbtion of {@link jbvb.util.function.Consumer} for
+     * {@code T}, such bs {@link jbvb.util.function.IntConsumer} for
      * {@code Integer}.
-     * @param <T_SPLITR> the type of primitive Spliterator.  The type must be
-     * a primitive specialization of Spliterator for {@code T}, such as
-     * {@link Spliterator.OfInt} for {@code Integer}.
+     * @pbrbm <T_SPLITR> the type of primitive Spliterbtor.  The type must be
+     * b primitive speciblizbtion of Spliterbtor for {@code T}, such bs
+     * {@link Spliterbtor.OfInt} for {@code Integer}.
      *
-     * @see Spliterator.OfInt
-     * @see Spliterator.OfLong
-     * @see Spliterator.OfDouble
+     * @see Spliterbtor.OfInt
+     * @see Spliterbtor.OfLong
+     * @see Spliterbtor.OfDouble
      * @since 1.8
      */
-    public interface OfPrimitive<T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
-            extends Spliterator<T> {
+    public interfbce OfPrimitive<T, T_CONS, T_SPLITR extends Spliterbtor.OfPrimitive<T, T_CONS, T_SPLITR>>
+            extends Spliterbtor<T> {
         @Override
         T_SPLITR trySplit();
 
         /**
-         * If a remaining element exists, performs the given action on it,
-         * returning {@code true}; else returns {@code false}.  If this
-         * Spliterator is {@link #ORDERED} the action is performed on the
+         * If b rembining element exists, performs the given bction on it,
+         * returning {@code true}; else returns {@code fblse}.  If this
+         * Spliterbtor is {@link #ORDERED} the bction is performed on the
          * next element in encounter order.  Exceptions thrown by the
-         * action are relayed to the caller.
+         * bction bre relbyed to the cbller.
          *
-         * @param action The action
-         * @return {@code false} if no remaining elements existed
+         * @pbrbm bction The bction
+         * @return {@code fblse} if no rembining elements existed
          * upon entry to this method, else {@code true}.
-         * @throws NullPointerException if the specified action is null
+         * @throws NullPointerException if the specified bction is null
          */
-        @SuppressWarnings("overloads")
-        boolean tryAdvance(T_CONS action);
+        @SuppressWbrnings("overlobds")
+        boolebn tryAdvbnce(T_CONS bction);
 
         /**
-         * Performs the given action for each remaining element, sequentially in
-         * the current thread, until all elements have been processed or the
-         * action throws an exception.  If this Spliterator is {@link #ORDERED},
-         * actions are performed in encounter order.  Exceptions thrown by the
-         * action are relayed to the caller.
+         * Performs the given bction for ebch rembining element, sequentiblly in
+         * the current threbd, until bll elements hbve been processed or the
+         * bction throws bn exception.  If this Spliterbtor is {@link #ORDERED},
+         * bctions bre performed in encounter order.  Exceptions thrown by the
+         * bction bre relbyed to the cbller.
          *
          * @implSpec
-         * The default implementation repeatedly invokes {@link #tryAdvance}
-         * until it returns {@code false}.  It should be overridden whenever
+         * The defbult implementbtion repebtedly invokes {@link #tryAdvbnce}
+         * until it returns {@code fblse}.  It should be overridden whenever
          * possible.
          *
-         * @param action The action
-         * @throws NullPointerException if the specified action is null
+         * @pbrbm bction The bction
+         * @throws NullPointerException if the specified bction is null
          */
-        @SuppressWarnings("overloads")
-        default void forEachRemaining(T_CONS action) {
-            do { } while (tryAdvance(action));
+        @SuppressWbrnings("overlobds")
+        defbult void forEbchRembining(T_CONS bction) {
+            do { } while (tryAdvbnce(bction));
         }
     }
 
     /**
-     * A Spliterator specialized for {@code int} values.
+     * A Spliterbtor speciblized for {@code int} vblues.
      * @since 1.8
      */
-    public interface OfInt extends OfPrimitive<Integer, IntConsumer, OfInt> {
+    public interfbce OfInt extends OfPrimitive<Integer, IntConsumer, OfInt> {
 
         @Override
         OfInt trySplit();
 
         @Override
-        boolean tryAdvance(IntConsumer action);
+        boolebn tryAdvbnce(IntConsumer bction);
 
         @Override
-        default void forEachRemaining(IntConsumer action) {
-            do { } while (tryAdvance(action));
+        defbult void forEbchRembining(IntConsumer bction) {
+            do { } while (tryAdvbnce(bction));
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * If the action is an instance of {@code IntConsumer} then it is cast
-         * to {@code IntConsumer} and passed to
-         * {@link #tryAdvance(java.util.function.IntConsumer)}; otherwise
-         * the action is adapted to an instance of {@code IntConsumer}, by
-         * boxing the argument of {@code IntConsumer}, and then passed to
-         * {@link #tryAdvance(java.util.function.IntConsumer)}.
+         * If the bction is bn instbnce of {@code IntConsumer} then it is cbst
+         * to {@code IntConsumer} bnd pbssed to
+         * {@link #tryAdvbnce(jbvb.util.function.IntConsumer)}; otherwise
+         * the bction is bdbpted to bn instbnce of {@code IntConsumer}, by
+         * boxing the brgument of {@code IntConsumer}, bnd then pbssed to
+         * {@link #tryAdvbnce(jbvb.util.function.IntConsumer)}.
          */
         @Override
-        default boolean tryAdvance(Consumer<? super Integer> action) {
-            if (action instanceof IntConsumer) {
-                return tryAdvance((IntConsumer) action);
+        defbult boolebn tryAdvbnce(Consumer<? super Integer> bction) {
+            if (bction instbnceof IntConsumer) {
+                return tryAdvbnce((IntConsumer) bction);
             }
             else {
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(),
-                                  "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
-                return tryAdvance((IntConsumer) action::accept);
+                    Tripwire.trip(getClbss(),
+                                  "{0} cblling Spliterbtor.OfInt.tryAdvbnce((IntConsumer) bction::bccept)");
+                return tryAdvbnce((IntConsumer) bction::bccept);
             }
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * If the action is an instance of {@code IntConsumer} then it is cast
-         * to {@code IntConsumer} and passed to
-         * {@link #forEachRemaining(java.util.function.IntConsumer)}; otherwise
-         * the action is adapted to an instance of {@code IntConsumer}, by
-         * boxing the argument of {@code IntConsumer}, and then passed to
-         * {@link #forEachRemaining(java.util.function.IntConsumer)}.
+         * If the bction is bn instbnce of {@code IntConsumer} then it is cbst
+         * to {@code IntConsumer} bnd pbssed to
+         * {@link #forEbchRembining(jbvb.util.function.IntConsumer)}; otherwise
+         * the bction is bdbpted to bn instbnce of {@code IntConsumer}, by
+         * boxing the brgument of {@code IntConsumer}, bnd then pbssed to
+         * {@link #forEbchRembining(jbvb.util.function.IntConsumer)}.
          */
         @Override
-        default void forEachRemaining(Consumer<? super Integer> action) {
-            if (action instanceof IntConsumer) {
-                forEachRemaining((IntConsumer) action);
+        defbult void forEbchRembining(Consumer<? super Integer> bction) {
+            if (bction instbnceof IntConsumer) {
+                forEbchRembining((IntConsumer) bction);
             }
             else {
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(),
-                                  "{0} calling Spliterator.OfInt.forEachRemaining((IntConsumer) action::accept)");
-                forEachRemaining((IntConsumer) action::accept);
+                    Tripwire.trip(getClbss(),
+                                  "{0} cblling Spliterbtor.OfInt.forEbchRembining((IntConsumer) bction::bccept)");
+                forEbchRembining((IntConsumer) bction::bccept);
             }
         }
     }
 
     /**
-     * A Spliterator specialized for {@code long} values.
+     * A Spliterbtor speciblized for {@code long} vblues.
      * @since 1.8
      */
-    public interface OfLong extends OfPrimitive<Long, LongConsumer, OfLong> {
+    public interfbce OfLong extends OfPrimitive<Long, LongConsumer, OfLong> {
 
         @Override
         OfLong trySplit();
 
         @Override
-        boolean tryAdvance(LongConsumer action);
+        boolebn tryAdvbnce(LongConsumer bction);
 
         @Override
-        default void forEachRemaining(LongConsumer action) {
-            do { } while (tryAdvance(action));
+        defbult void forEbchRembining(LongConsumer bction) {
+            do { } while (tryAdvbnce(bction));
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * If the action is an instance of {@code LongConsumer} then it is cast
-         * to {@code LongConsumer} and passed to
-         * {@link #tryAdvance(java.util.function.LongConsumer)}; otherwise
-         * the action is adapted to an instance of {@code LongConsumer}, by
-         * boxing the argument of {@code LongConsumer}, and then passed to
-         * {@link #tryAdvance(java.util.function.LongConsumer)}.
+         * If the bction is bn instbnce of {@code LongConsumer} then it is cbst
+         * to {@code LongConsumer} bnd pbssed to
+         * {@link #tryAdvbnce(jbvb.util.function.LongConsumer)}; otherwise
+         * the bction is bdbpted to bn instbnce of {@code LongConsumer}, by
+         * boxing the brgument of {@code LongConsumer}, bnd then pbssed to
+         * {@link #tryAdvbnce(jbvb.util.function.LongConsumer)}.
          */
         @Override
-        default boolean tryAdvance(Consumer<? super Long> action) {
-            if (action instanceof LongConsumer) {
-                return tryAdvance((LongConsumer) action);
+        defbult boolebn tryAdvbnce(Consumer<? super Long> bction) {
+            if (bction instbnceof LongConsumer) {
+                return tryAdvbnce((LongConsumer) bction);
             }
             else {
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(),
-                                  "{0} calling Spliterator.OfLong.tryAdvance((LongConsumer) action::accept)");
-                return tryAdvance((LongConsumer) action::accept);
+                    Tripwire.trip(getClbss(),
+                                  "{0} cblling Spliterbtor.OfLong.tryAdvbnce((LongConsumer) bction::bccept)");
+                return tryAdvbnce((LongConsumer) bction::bccept);
             }
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * If the action is an instance of {@code LongConsumer} then it is cast
-         * to {@code LongConsumer} and passed to
-         * {@link #forEachRemaining(java.util.function.LongConsumer)}; otherwise
-         * the action is adapted to an instance of {@code LongConsumer}, by
-         * boxing the argument of {@code LongConsumer}, and then passed to
-         * {@link #forEachRemaining(java.util.function.LongConsumer)}.
+         * If the bction is bn instbnce of {@code LongConsumer} then it is cbst
+         * to {@code LongConsumer} bnd pbssed to
+         * {@link #forEbchRembining(jbvb.util.function.LongConsumer)}; otherwise
+         * the bction is bdbpted to bn instbnce of {@code LongConsumer}, by
+         * boxing the brgument of {@code LongConsumer}, bnd then pbssed to
+         * {@link #forEbchRembining(jbvb.util.function.LongConsumer)}.
          */
         @Override
-        default void forEachRemaining(Consumer<? super Long> action) {
-            if (action instanceof LongConsumer) {
-                forEachRemaining((LongConsumer) action);
+        defbult void forEbchRembining(Consumer<? super Long> bction) {
+            if (bction instbnceof LongConsumer) {
+                forEbchRembining((LongConsumer) bction);
             }
             else {
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(),
-                                  "{0} calling Spliterator.OfLong.forEachRemaining((LongConsumer) action::accept)");
-                forEachRemaining((LongConsumer) action::accept);
+                    Tripwire.trip(getClbss(),
+                                  "{0} cblling Spliterbtor.OfLong.forEbchRembining((LongConsumer) bction::bccept)");
+                forEbchRembining((LongConsumer) bction::bccept);
             }
         }
     }
 
     /**
-     * A Spliterator specialized for {@code double} values.
+     * A Spliterbtor speciblized for {@code double} vblues.
      * @since 1.8
      */
-    public interface OfDouble extends OfPrimitive<Double, DoubleConsumer, OfDouble> {
+    public interfbce OfDouble extends OfPrimitive<Double, DoubleConsumer, OfDouble> {
 
         @Override
         OfDouble trySplit();
 
         @Override
-        boolean tryAdvance(DoubleConsumer action);
+        boolebn tryAdvbnce(DoubleConsumer bction);
 
         @Override
-        default void forEachRemaining(DoubleConsumer action) {
-            do { } while (tryAdvance(action));
+        defbult void forEbchRembining(DoubleConsumer bction) {
+            do { } while (tryAdvbnce(bction));
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * If the action is an instance of {@code DoubleConsumer} then it is
-         * cast to {@code DoubleConsumer} and passed to
-         * {@link #tryAdvance(java.util.function.DoubleConsumer)}; otherwise
-         * the action is adapted to an instance of {@code DoubleConsumer}, by
-         * boxing the argument of {@code DoubleConsumer}, and then passed to
-         * {@link #tryAdvance(java.util.function.DoubleConsumer)}.
+         * If the bction is bn instbnce of {@code DoubleConsumer} then it is
+         * cbst to {@code DoubleConsumer} bnd pbssed to
+         * {@link #tryAdvbnce(jbvb.util.function.DoubleConsumer)}; otherwise
+         * the bction is bdbpted to bn instbnce of {@code DoubleConsumer}, by
+         * boxing the brgument of {@code DoubleConsumer}, bnd then pbssed to
+         * {@link #tryAdvbnce(jbvb.util.function.DoubleConsumer)}.
          */
         @Override
-        default boolean tryAdvance(Consumer<? super Double> action) {
-            if (action instanceof DoubleConsumer) {
-                return tryAdvance((DoubleConsumer) action);
+        defbult boolebn tryAdvbnce(Consumer<? super Double> bction) {
+            if (bction instbnceof DoubleConsumer) {
+                return tryAdvbnce((DoubleConsumer) bction);
             }
             else {
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(),
-                                  "{0} calling Spliterator.OfDouble.tryAdvance((DoubleConsumer) action::accept)");
-                return tryAdvance((DoubleConsumer) action::accept);
+                    Tripwire.trip(getClbss(),
+                                  "{0} cblling Spliterbtor.OfDouble.tryAdvbnce((DoubleConsumer) bction::bccept)");
+                return tryAdvbnce((DoubleConsumer) bction::bccept);
             }
         }
 
         /**
          * {@inheritDoc}
          * @implSpec
-         * If the action is an instance of {@code DoubleConsumer} then it is
-         * cast to {@code DoubleConsumer} and passed to
-         * {@link #forEachRemaining(java.util.function.DoubleConsumer)};
-         * otherwise the action is adapted to an instance of
-         * {@code DoubleConsumer}, by boxing the argument of
-         * {@code DoubleConsumer}, and then passed to
-         * {@link #forEachRemaining(java.util.function.DoubleConsumer)}.
+         * If the bction is bn instbnce of {@code DoubleConsumer} then it is
+         * cbst to {@code DoubleConsumer} bnd pbssed to
+         * {@link #forEbchRembining(jbvb.util.function.DoubleConsumer)};
+         * otherwise the bction is bdbpted to bn instbnce of
+         * {@code DoubleConsumer}, by boxing the brgument of
+         * {@code DoubleConsumer}, bnd then pbssed to
+         * {@link #forEbchRembining(jbvb.util.function.DoubleConsumer)}.
          */
         @Override
-        default void forEachRemaining(Consumer<? super Double> action) {
-            if (action instanceof DoubleConsumer) {
-                forEachRemaining((DoubleConsumer) action);
+        defbult void forEbchRembining(Consumer<? super Double> bction) {
+            if (bction instbnceof DoubleConsumer) {
+                forEbchRembining((DoubleConsumer) bction);
             }
             else {
                 if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(),
-                                  "{0} calling Spliterator.OfDouble.forEachRemaining((DoubleConsumer) action::accept)");
-                forEachRemaining((DoubleConsumer) action::accept);
+                    Tripwire.trip(getClbss(),
+                                  "{0} cblling Spliterbtor.OfDouble.forEbchRembining((DoubleConsumer) bction::bccept)");
+                forEbchRembining((DoubleConsumer) bction::bccept);
             }
         }
     }

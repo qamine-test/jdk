@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
 
 /**
- * This class defines a lookup table object.  The output of a
- * lookup operation using an object of this class is interpreted
- * as an unsigned byte quantity.  The lookup table contains byte
- * data arrays for one or more bands (or components) of an image,
- * and it contains an offset which will be subtracted from the
- * input values before indexing the arrays.  This allows an array
- * smaller than the native data size to be provided for a
- * constrained input.  If there is only one array in the lookup
- * table, it will be applied to all bands.
+ * This clbss defines b lookup tbble object.  The output of b
+ * lookup operbtion using bn object of this clbss is interpreted
+ * bs bn unsigned byte qubntity.  The lookup tbble contbins byte
+ * dbtb brrbys for one or more bbnds (or components) of bn imbge,
+ * bnd it contbins bn offset which will be subtrbcted from the
+ * input vblues before indexing the brrbys.  This bllows bn brrby
+ * smbller thbn the nbtive dbtb size to be provided for b
+ * constrbined input.  If there is only one brrby in the lookup
+ * tbble, it will be bpplied to bll bbnds.
  *
- * @see ShortLookupTable
+ * @see ShortLookupTbble
  * @see LookupOp
  */
-public class ByteLookupTable extends LookupTable {
+public clbss ByteLookupTbble extends LookupTbble {
 
     /**
-     * Constants
+     * Constbnts
      */
 
-    byte data[][];
+    byte dbtb[][];
 
     /**
-     * Constructs a ByteLookupTable object from an array of byte
-     * arrays representing a lookup table for each
-     * band.  The offset will be subtracted from input
-     * values before indexing into the arrays.  The number of
-     * bands is the length of the data argument.  The
-     * data array for each band is stored as a reference.
-     * @param offset the value subtracted from the input values
-     *        before indexing into the arrays
-     * @param data an array of byte arrays representing a lookup
-     *        table for each band
-     * @throws IllegalArgumentException if <code>offset</code> is
-     *         is less than 0 or if the length of <code>data</code>
-     *         is less than 1
+     * Constructs b ByteLookupTbble object from bn brrby of byte
+     * brrbys representing b lookup tbble for ebch
+     * bbnd.  The offset will be subtrbcted from input
+     * vblues before indexing into the brrbys.  The number of
+     * bbnds is the length of the dbtb brgument.  The
+     * dbtb brrby for ebch bbnd is stored bs b reference.
+     * @pbrbm offset the vblue subtrbcted from the input vblues
+     *        before indexing into the brrbys
+     * @pbrbm dbtb bn brrby of byte brrbys representing b lookup
+     *        tbble for ebch bbnd
+     * @throws IllegblArgumentException if <code>offset</code> is
+     *         is less thbn 0 or if the length of <code>dbtb</code>
+     *         is less thbn 1
      */
-    public ByteLookupTable(int offset, byte data[][]) {
-        super(offset,data.length);
-        numComponents = data.length;
-        numEntries    = data[0].length;
-        this.data = new byte[numComponents][];
-        // Allocate the array and copy the data reference
+    public ByteLookupTbble(int offset, byte dbtb[][]) {
+        super(offset,dbtb.length);
+        numComponents = dbtb.length;
+        numEntries    = dbtb[0].length;
+        this.dbtb = new byte[numComponents][];
+        // Allocbte the brrby bnd copy the dbtb reference
         for (int i=0; i < numComponents; i++) {
-            this.data[i] = data[i];
+            this.dbtb[i] = dbtb[i];
         }
     }
 
     /**
-     * Constructs a ByteLookupTable object from an array
-     * of bytes representing a lookup table to be applied to all
-     * bands.  The offset will be subtracted from input
-     * values before indexing into the array.
-     * The data array is stored as a reference.
-     * @param offset the value subtracted from the input values
-     *        before indexing into the array
-     * @param data an array of bytes
-     * @throws IllegalArgumentException if <code>offset</code> is
-     *         is less than 0 or if the length of <code>data</code>
-     *         is less than 1
+     * Constructs b ByteLookupTbble object from bn brrby
+     * of bytes representing b lookup tbble to be bpplied to bll
+     * bbnds.  The offset will be subtrbcted from input
+     * vblues before indexing into the brrby.
+     * The dbtb brrby is stored bs b reference.
+     * @pbrbm offset the vblue subtrbcted from the input vblues
+     *        before indexing into the brrby
+     * @pbrbm dbtb bn brrby of bytes
+     * @throws IllegblArgumentException if <code>offset</code> is
+     *         is less thbn 0 or if the length of <code>dbtb</code>
+     *         is less thbn 1
      */
-    public ByteLookupTable(int offset, byte data[]) {
-        super(offset,data.length);
+    public ByteLookupTbble(int offset, byte dbtb[]) {
+        super(offset,dbtb.length);
         numComponents = 1;
-        numEntries    = data.length;
-        this.data = new byte[1][];
-        this.data[0] = data;
+        numEntries    = dbtb.length;
+        this.dbtb = new byte[1][];
+        this.dbtb[0] = dbtb;
     }
 
     /**
-     * Returns the lookup table data by reference.  If this ByteLookupTable
-     * was constructed using a single byte array, the length of the returned
-     * array is one.
-     * @return the data array of this <code>ByteLookupTable</code>.
+     * Returns the lookup tbble dbtb by reference.  If this ByteLookupTbble
+     * wbs constructed using b single byte brrby, the length of the returned
+     * brrby is one.
+     * @return the dbtb brrby of this <code>ByteLookupTbble</code>.
      */
-    public final byte[][] getTable(){
-        return data;
+    public finbl byte[][] getTbble(){
+        return dbtb;
     }
 
     /**
-     * Returns an array of samples of a pixel, translated with the lookup
-     * table. The source and destination array can be the same array.
-     * Array <code>dst</code> is returned.
+     * Returns bn brrby of sbmples of b pixel, trbnslbted with the lookup
+     * tbble. The source bnd destinbtion brrby cbn be the sbme brrby.
+     * Arrby <code>dst</code> is returned.
      *
-     * @param src the source array.
-     * @param dst the destination array. This array must be at least as
-     *         long as <code>src</code>.  If <code>dst</code> is
-     *         <code>null</code>, a new array will be allocated having the
-     *         same length as <code>src</code>.
-     * @return the array <code>dst</code>, an <code>int</code> array of
-     *         samples.
-     * @exception ArrayIndexOutOfBoundsException if <code>src</code> is
-     *            longer than <code>dst</code> or if for any element
+     * @pbrbm src the source brrby.
+     * @pbrbm dst the destinbtion brrby. This brrby must be bt lebst bs
+     *         long bs <code>src</code>.  If <code>dst</code> is
+     *         <code>null</code>, b new brrby will be bllocbted hbving the
+     *         sbme length bs <code>src</code>.
+     * @return the brrby <code>dst</code>, bn <code>int</code> brrby of
+     *         sbmples.
+     * @exception ArrbyIndexOutOfBoundsException if <code>src</code> is
+     *            longer thbn <code>dst</code> or if for bny element
      *            <code>i</code> of <code>src</code>,
-     *            <code>src[i]-offset</code> is either less than zero or
-     *            greater than or equal to the length of the lookup table
-     *            for any band.
+     *            <code>src[i]-offset</code> is either less thbn zero or
+     *            grebter thbn or equbl to the length of the lookup tbble
+     *            for bny bbnd.
      */
     public int[] lookupPixel(int[] src, int[] dst){
         if (dst == null) {
-            // Need to alloc a new destination array
+            // Need to blloc b new destinbtion brrby
             dst = new int[src.length];
         }
 
         if (numComponents == 1) {
-            // Apply one LUT to all bands
+            // Apply one LUT to bll bbnds
             for (int i=0; i < src.length; i++) {
                 int s = src[i] - offset;
                 if (s < 0) {
-                    throw new ArrayIndexOutOfBoundsException("src["+i+
+                    throw new ArrbyIndexOutOfBoundsException("src["+i+
                                                              "]-offset is "+
-                                                             "less than zero");
+                                                             "less thbn zero");
                 }
-                dst[i] = (int) data[0][s];
+                dst[i] = (int) dbtb[0][s];
             }
         }
         else {
             for (int i=0; i < src.length; i++) {
                 int s = src[i] - offset;
                 if (s < 0) {
-                    throw new ArrayIndexOutOfBoundsException("src["+i+
+                    throw new ArrbyIndexOutOfBoundsException("src["+i+
                                                              "]-offset is "+
-                                                             "less than zero");
+                                                             "less thbn zero");
                 }
-                dst[i] = (int) data[i][s];
+                dst[i] = (int) dbtb[i][s];
             }
         }
         return dst;
     }
 
     /**
-     * Returns an array of samples of a pixel, translated with the lookup
-     * table. The source and destination array can be the same array.
-     * Array <code>dst</code> is returned.
+     * Returns bn brrby of sbmples of b pixel, trbnslbted with the lookup
+     * tbble. The source bnd destinbtion brrby cbn be the sbme brrby.
+     * Arrby <code>dst</code> is returned.
      *
-     * @param src the source array.
-     * @param dst the destination array. This array must be at least as
-     *         long as <code>src</code>.  If <code>dst</code> is
-     *         <code>null</code>, a new array will be allocated having the
-     *         same length as <code>src</code>.
-     * @return the array <code>dst</code>, an <code>int</code> array of
-     *         samples.
-     * @exception ArrayIndexOutOfBoundsException if <code>src</code> is
-     *            longer than <code>dst</code> or if for any element
+     * @pbrbm src the source brrby.
+     * @pbrbm dst the destinbtion brrby. This brrby must be bt lebst bs
+     *         long bs <code>src</code>.  If <code>dst</code> is
+     *         <code>null</code>, b new brrby will be bllocbted hbving the
+     *         sbme length bs <code>src</code>.
+     * @return the brrby <code>dst</code>, bn <code>int</code> brrby of
+     *         sbmples.
+     * @exception ArrbyIndexOutOfBoundsException if <code>src</code> is
+     *            longer thbn <code>dst</code> or if for bny element
      *            <code>i</code> of <code>src</code>,
-     *            {@code (src[i]&0xff)-offset} is either less than
-     *            zero or greater than or equal to the length of the
-     *            lookup table for any band.
+     *            {@code (src[i]&0xff)-offset} is either less thbn
+     *            zero or grebter thbn or equbl to the length of the
+     *            lookup tbble for bny bbnd.
      */
     public byte[] lookupPixel(byte[] src, byte[] dst){
         if (dst == null) {
-            // Need to alloc a new destination array
+            // Need to blloc b new destinbtion brrby
             dst = new byte[src.length];
         }
 
         if (numComponents == 1) {
-            // Apply one LUT to all bands
+            // Apply one LUT to bll bbnds
             for (int i=0; i < src.length; i++) {
                 int s = (src[i]&0xff) - offset;
                 if (s < 0) {
-                    throw new ArrayIndexOutOfBoundsException("src["+i+
+                    throw new ArrbyIndexOutOfBoundsException("src["+i+
                                                              "]-offset is "+
-                                                             "less than zero");
+                                                             "less thbn zero");
                 }
-                dst[i] = data[0][s];
+                dst[i] = dbtb[0][s];
             }
         }
         else {
             for (int i=0; i < src.length; i++) {
                 int s = (src[i]&0xff) - offset;
                 if (s < 0) {
-                    throw new ArrayIndexOutOfBoundsException("src["+i+
+                    throw new ArrbyIndexOutOfBoundsException("src["+i+
                                                              "]-offset is "+
-                                                             "less than zero");
+                                                             "less thbn zero");
                 }
-                dst[i] = data[i][s];
+                dst[i] = dbtb[i][s];
             }
         }
         return dst;

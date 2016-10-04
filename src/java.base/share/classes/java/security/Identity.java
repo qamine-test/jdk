@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.Serializable;
-import java.util.*;
+import jbvb.io.Seriblizbble;
+import jbvb.util.*;
 
 /**
- * <p>This class represents identities: real-world objects such as people,
- * companies or organizations whose identities can be authenticated using
- * their public keys. Identities may also be more abstract (or concrete)
- * constructs, such as daemon threads or smart cards.
+ * <p>This clbss represents identities: rebl-world objects such bs people,
+ * compbnies or orgbnizbtions whose identities cbn be buthenticbted using
+ * their public keys. Identities mby blso be more bbstrbct (or concrete)
+ * constructs, such bs dbemon threbds or smbrt cbrds.
  *
- * <p>All Identity objects have a name and a public key. Names are
- * immutable. Identities may also be scoped. That is, if an Identity is
- * specified to have a particular scope, then the name and public
- * key of the Identity are unique within that scope.
+ * <p>All Identity objects hbve b nbme bnd b public key. Nbmes bre
+ * immutbble. Identities mby blso be scoped. Thbt is, if bn Identity is
+ * specified to hbve b pbrticulbr scope, then the nbme bnd public
+ * key of the Identity bre unique within thbt scope.
  *
- * <p>An Identity also has a set of certificates (all certifying its own
- * public key). The Principal names specified in these certificates need
- * not be the same, only the key.
+ * <p>An Identity blso hbs b set of certificbtes (bll certifying its own
+ * public key). The Principbl nbmes specified in these certificbtes need
+ * not be the sbme, only the key.
  *
- * <p>An Identity can be subclassed, to include postal and email addresses,
- * telephone numbers, images of faces and logos, and so on.
+ * <p>An Identity cbn be subclbssed, to include postbl bnd embil bddresses,
+ * telephone numbers, imbges of fbces bnd logos, bnd so on.
  *
  * @see IdentityScope
  * @see Signer
- * @see Principal
+ * @see Principbl
  *
- * @author Benjamin Renaud
- * @deprecated This class is no longer used. Its functionality has been
- * replaced by {@code java.security.KeyStore}, the
- * {@code java.security.cert} package, and
- * {@code java.security.Principal}.
+ * @buthor Benjbmin Renbud
+ * @deprecbted This clbss is no longer used. Its functionblity hbs been
+ * replbced by {@code jbvb.security.KeyStore}, the
+ * {@code jbvb.security.cert} pbckbge, bnd
+ * {@code jbvb.security.Principbl}.
  */
-@Deprecated
-public abstract class Identity implements Principal, Serializable {
+@Deprecbted
+public bbstrbct clbss Identity implements Principbl, Seriblizbble {
 
-    /** use serialVersionUID from JDK 1.1.x for interoperability */
-    private static final long serialVersionUID = 3609922007826600659L;
+    /** use seriblVersionUID from JDK 1.1.x for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = 3609922007826600659L;
 
     /**
-     * The name for this identity.
+     * The nbme for this identity.
      *
-     * @serial
+     * @seribl
      */
-    private String name;
+    privbte String nbme;
 
     /**
      * The public key for this identity.
      *
-     * @serial
+     * @seribl
      */
-    private PublicKey publicKey;
+    privbte PublicKey publicKey;
 
     /**
-     * Generic, descriptive information about the identity.
+     * Generic, descriptive informbtion bbout the identity.
      *
-     * @serial
+     * @seribl
      */
-    String info = "No further information available.";
+    String info = "No further informbtion bvbilbble.";
 
     /**
      * The scope of the identity.
      *
-     * @serial
+     * @seribl
      */
     IdentityScope scope;
 
     /**
-     * The certificates for this identity.
+     * The certificbtes for this identity.
      *
-     * @serial
+     * @seribl
      */
-    Vector<Certificate> certificates;
+    Vector<Certificbte> certificbtes;
 
     /**
-     * Constructor for serialization only.
+     * Constructor for seriblizbtion only.
      */
     protected Identity() {
         this("restoring...");
     }
 
     /**
-     * Constructs an identity with the specified name and scope.
+     * Constructs bn identity with the specified nbme bnd scope.
      *
-     * @param name the identity name.
-     * @param scope the scope of the identity.
+     * @pbrbm nbme the identity nbme.
+     * @pbrbm scope the scope of the identity.
      *
-     * @exception KeyManagementException if there is already an identity
-     * with the same name in the scope.
+     * @exception KeyMbnbgementException if there is blrebdy bn identity
+     * with the sbme nbme in the scope.
      */
-    public Identity(String name, IdentityScope scope) throws
-    KeyManagementException {
-        this(name);
+    public Identity(String nbme, IdentityScope scope) throws
+    KeyMbnbgementException {
+        this(nbme);
         if (scope != null) {
-            scope.addIdentity(this);
+            scope.bddIdentity(this);
         }
         this.scope = scope;
     }
 
     /**
-     * Constructs an identity with the specified name and no scope.
+     * Constructs bn identity with the specified nbme bnd no scope.
      *
-     * @param name the identity name.
+     * @pbrbm nbme the identity nbme.
      */
-    public Identity(String name) {
-        this.name = name;
+    public Identity(String nbme) {
+        this.nbme = nbme;
     }
 
     /**
-     * Returns this identity's name.
+     * Returns this identity's nbme.
      *
-     * @return the name of this identity.
+     * @return the nbme of this identity.
      */
-    public final String getName() {
-        return name;
+    public finbl String getNbme() {
+        return nbme;
     }
 
     /**
@@ -145,7 +145,7 @@ public abstract class Identity implements Principal, Serializable {
      *
      * @return the scope of this identity.
      */
-    public final IdentityScope getScope() {
+    public finbl IdentityScope getScope() {
         return scope;
     }
 
@@ -161,48 +161,48 @@ public abstract class Identity implements Principal, Serializable {
     }
 
     /**
-     * Sets this identity's public key. The old key and all of this
-     * identity's certificates are removed by this operation.
+     * Sets this identity's public key. The old key bnd bll of this
+     * identity's certificbtes bre removed by this operbtion.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "setIdentityPublicKey"}
-     * as its argument to see if it's ok to set the public key.
+     * <p>First, if there is b security mbnbger, its {@code checkSecurityAccess}
+     * method is cblled with {@code "setIdentityPublicKey"}
+     * bs its brgument to see if it's ok to set the public key.
      *
-     * @param key the public key for this identity.
+     * @pbrbm key the public key for this identity.
      *
-     * @exception KeyManagementException if another identity in the
-     * identity's scope has the same public key, or if another exception occurs.
+     * @exception KeyMbnbgementException if bnother identity in the
+     * identity's scope hbs the sbme public key, or if bnother exception occurs.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkSecurityAccess} method doesn't bllow
      * setting the public key.
      *
      * @see #getPublicKey
-     * @see SecurityManager#checkSecurityAccess
+     * @see SecurityMbnbger#checkSecurityAccess
      */
-    /* Should we throw an exception if this is already set? */
-    public void setPublicKey(PublicKey key) throws KeyManagementException {
+    /* Should we throw bn exception if this is blrebdy set? */
+    public void setPublicKey(PublicKey key) throws KeyMbnbgementException {
 
         check("setIdentityPublicKey");
         this.publicKey = key;
-        certificates = new Vector<Certificate>();
+        certificbtes = new Vector<Certificbte>();
     }
 
     /**
-     * Specifies a general information string for this identity.
+     * Specifies b generbl informbtion string for this identity.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "setIdentityInfo"}
-     * as its argument to see if it's ok to specify the information string.
+     * <p>First, if there is b security mbnbger, its {@code checkSecurityAccess}
+     * method is cblled with {@code "setIdentityInfo"}
+     * bs its brgument to see if it's ok to specify the informbtion string.
      *
-     * @param info the information string.
+     * @pbrbm info the informbtion string.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * setting the information string.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkSecurityAccess} method doesn't bllow
+     * setting the informbtion string.
      *
      * @see #getInfo
-     * @see SecurityManager#checkSecurityAccess
+     * @see SecurityMbnbger#checkSecurityAccess
      */
     public void setInfo(String info) {
         check("setIdentityInfo");
@@ -210,9 +210,9 @@ public abstract class Identity implements Principal, Serializable {
     }
 
     /**
-     * Returns general information previously specified for this identity.
+     * Returns generbl informbtion previously specified for this identity.
      *
-     * @return general information about this identity.
+     * @return generbl informbtion bbout this identity.
      *
      * @see #setInfo
      */
@@ -221,229 +221,229 @@ public abstract class Identity implements Principal, Serializable {
     }
 
     /**
-     * Adds a certificate for this identity. If the identity has a public
-     * key, the public key in the certificate must be the same, and if
-     * the identity does not have a public key, the identity's
-     * public key is set to be that specified in the certificate.
+     * Adds b certificbte for this identity. If the identity hbs b public
+     * key, the public key in the certificbte must be the sbme, bnd if
+     * the identity does not hbve b public key, the identity's
+     * public key is set to be thbt specified in the certificbte.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "addIdentityCertificate"}
-     * as its argument to see if it's ok to add a certificate.
+     * <p>First, if there is b security mbnbger, its {@code checkSecurityAccess}
+     * method is cblled with {@code "bddIdentityCertificbte"}
+     * bs its brgument to see if it's ok to bdd b certificbte.
      *
-     * @param certificate the certificate to be added.
+     * @pbrbm certificbte the certificbte to be bdded.
      *
-     * @exception KeyManagementException if the certificate is not valid,
-     * if the public key in the certificate being added conflicts with
-     * this identity's public key, or if another exception occurs.
+     * @exception KeyMbnbgementException if the certificbte is not vblid,
+     * if the public key in the certificbte being bdded conflicts with
+     * this identity's public key, or if bnother exception occurs.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * adding a certificate.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkSecurityAccess} method doesn't bllow
+     * bdding b certificbte.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @see SecurityMbnbger#checkSecurityAccess
      */
-    public void addCertificate(Certificate certificate)
-    throws KeyManagementException {
+    public void bddCertificbte(Certificbte certificbte)
+    throws KeyMbnbgementException {
 
-        check("addIdentityCertificate");
+        check("bddIdentityCertificbte");
 
-        if (certificates == null) {
-            certificates = new Vector<Certificate>();
+        if (certificbtes == null) {
+            certificbtes = new Vector<Certificbte>();
         }
         if (publicKey != null) {
-            if (!keyEquals(publicKey, certificate.getPublicKey())) {
-                throw new KeyManagementException(
+            if (!keyEqubls(publicKey, certificbte.getPublicKey())) {
+                throw new KeyMbnbgementException(
                     "public key different from cert public key");
             }
         } else {
-            publicKey = certificate.getPublicKey();
+            publicKey = certificbte.getPublicKey();
         }
-        certificates.addElement(certificate);
+        certificbtes.bddElement(certificbte);
     }
 
-    private boolean keyEquals(Key aKey, Key anotherKey) {
-        String aKeyFormat = aKey.getFormat();
-        String anotherKeyFormat = anotherKey.getFormat();
-        if ((aKeyFormat == null) ^ (anotherKeyFormat == null))
-            return false;
-        if (aKeyFormat != null && anotherKeyFormat != null)
-            if (!aKeyFormat.equalsIgnoreCase(anotherKeyFormat))
-                return false;
-        return java.util.Arrays.equals(aKey.getEncoded(),
-                                     anotherKey.getEncoded());
+    privbte boolebn keyEqubls(Key bKey, Key bnotherKey) {
+        String bKeyFormbt = bKey.getFormbt();
+        String bnotherKeyFormbt = bnotherKey.getFormbt();
+        if ((bKeyFormbt == null) ^ (bnotherKeyFormbt == null))
+            return fblse;
+        if (bKeyFormbt != null && bnotherKeyFormbt != null)
+            if (!bKeyFormbt.equblsIgnoreCbse(bnotherKeyFormbt))
+                return fblse;
+        return jbvb.util.Arrbys.equbls(bKey.getEncoded(),
+                                     bnotherKey.getEncoded());
     }
 
 
     /**
-     * Removes a certificate from this identity.
+     * Removes b certificbte from this identity.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "removeIdentityCertificate"}
-     * as its argument to see if it's ok to remove a certificate.
+     * <p>First, if there is b security mbnbger, its {@code checkSecurityAccess}
+     * method is cblled with {@code "removeIdentityCertificbte"}
+     * bs its brgument to see if it's ok to remove b certificbte.
      *
-     * @param certificate the certificate to be removed.
+     * @pbrbm certificbte the certificbte to be removed.
      *
-     * @exception KeyManagementException if the certificate is
-     * missing, or if another exception occurs.
+     * @exception KeyMbnbgementException if the certificbte is
+     * missing, or if bnother exception occurs.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * removing a certificate.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkSecurityAccess} method doesn't bllow
+     * removing b certificbte.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @see SecurityMbnbger#checkSecurityAccess
      */
-    public void removeCertificate(Certificate certificate)
-    throws KeyManagementException {
-        check("removeIdentityCertificate");
-        if (certificates != null) {
-            certificates.removeElement(certificate);
+    public void removeCertificbte(Certificbte certificbte)
+    throws KeyMbnbgementException {
+        check("removeIdentityCertificbte");
+        if (certificbtes != null) {
+            certificbtes.removeElement(certificbte);
         }
     }
 
     /**
-     * Returns a copy of all the certificates for this identity.
+     * Returns b copy of bll the certificbtes for this identity.
      *
-     * @return a copy of all the certificates for this identity.
+     * @return b copy of bll the certificbtes for this identity.
      */
-    public Certificate[] certificates() {
-        if (certificates == null) {
-            return new Certificate[0];
+    public Certificbte[] certificbtes() {
+        if (certificbtes == null) {
+            return new Certificbte[0];
         }
-        int len = certificates.size();
-        Certificate[] certs = new Certificate[len];
-        certificates.copyInto(certs);
+        int len = certificbtes.size();
+        Certificbte[] certs = new Certificbte[len];
+        certificbtes.copyInto(certs);
         return certs;
     }
 
     /**
-     * Tests for equality between the specified object and this identity.
-     * This first tests to see if the entities actually refer to the same
-     * object, in which case it returns true. Next, it checks to see if
-     * the entities have the same name and the same scope. If they do,
-     * the method returns true. Otherwise, it calls
-     * {@link #identityEquals(Identity) identityEquals}, which subclasses should
+     * Tests for equblity between the specified object bnd this identity.
+     * This first tests to see if the entities bctublly refer to the sbme
+     * object, in which cbse it returns true. Next, it checks to see if
+     * the entities hbve the sbme nbme bnd the sbme scope. If they do,
+     * the method returns true. Otherwise, it cblls
+     * {@link #identityEqubls(Identity) identityEqubls}, which subclbsses should
      * override.
      *
-     * @param identity the object to test for equality with this identity.
+     * @pbrbm identity the object to test for equblity with this identity.
      *
-     * @return true if the objects are considered equal, false otherwise.
+     * @return true if the objects bre considered equbl, fblse otherwise.
      *
-     * @see #identityEquals
+     * @see #identityEqubls
      */
-    public final boolean equals(Object identity) {
+    public finbl boolebn equbls(Object identity) {
 
         if (identity == this) {
             return true;
         }
 
-        if (identity instanceof Identity) {
+        if (identity instbnceof Identity) {
             Identity i = (Identity)identity;
-            if (this.fullName().equals(i.fullName())) {
+            if (this.fullNbme().equbls(i.fullNbme())) {
                 return true;
             } else {
-                return identityEquals(i);
+                return identityEqubls(i);
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Tests for equality between the specified identity and this identity.
-     * This method should be overriden by subclasses to test for equality.
-     * The default behavior is to return true if the names and public keys
-     * are equal.
+     * Tests for equblity between the specified identity bnd this identity.
+     * This method should be overriden by subclbsses to test for equblity.
+     * The defbult behbvior is to return true if the nbmes bnd public keys
+     * bre equbl.
      *
-     * @param identity the identity to test for equality with this identity.
+     * @pbrbm identity the identity to test for equblity with this identity.
      *
-     * @return true if the identities are considered equal, false
+     * @return true if the identities bre considered equbl, fblse
      * otherwise.
      *
-     * @see #equals
+     * @see #equbls
      */
-    protected boolean identityEquals(Identity identity) {
-        if (!name.equalsIgnoreCase(identity.name))
-            return false;
+    protected boolebn identityEqubls(Identity identity) {
+        if (!nbme.equblsIgnoreCbse(identity.nbme))
+            return fblse;
 
         if ((publicKey == null) ^ (identity.publicKey == null))
-            return false;
+            return fblse;
 
         if (publicKey != null && identity.publicKey != null)
-            if (!publicKey.equals(identity.publicKey))
-                return false;
+            if (!publicKey.equbls(identity.publicKey))
+                return fblse;
 
         return true;
 
     }
 
     /**
-     * Returns a parsable name for identity: identityName.scopeName
+     * Returns b pbrsbble nbme for identity: identityNbme.scopeNbme
      */
-    String fullName() {
-        String parsable = name;
+    String fullNbme() {
+        String pbrsbble = nbme;
         if (scope != null) {
-            parsable += "." + scope.getName();
+            pbrsbble += "." + scope.getNbme();
         }
-        return parsable;
+        return pbrsbble;
     }
 
     /**
-     * Returns a short string describing this identity, telling its
-     * name and its scope (if any).
+     * Returns b short string describing this identity, telling its
+     * nbme bnd its scope (if bny).
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "printIdentity"}
-     * as its argument to see if it's ok to return the string.
+     * <p>First, if there is b security mbnbger, its {@code checkSecurityAccess}
+     * method is cblled with {@code "printIdentity"}
+     * bs its brgument to see if it's ok to return the string.
      *
-     * @return information about this identity, such as its name and the
-     * name of its scope (if any).
+     * @return informbtion bbout this identity, such bs its nbme bnd the
+     * nbme of its scope (if bny).
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * returning a string describing this identity.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkSecurityAccess} method doesn't bllow
+     * returning b string describing this identity.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @see SecurityMbnbger#checkSecurityAccess
      */
     public String toString() {
         check("printIdentity");
-        String printable = name;
+        String printbble = nbme;
         if (scope != null) {
-            printable += "[" + scope.getName() + "]";
+            printbble += "[" + scope.getNbme() + "]";
         }
-        return printable;
+        return printbble;
     }
 
     /**
-     * Returns a string representation of this identity, with
-     * optionally more details than that provided by the
-     * {@code toString} method without any arguments.
+     * Returns b string representbtion of this identity, with
+     * optionblly more detbils thbn thbt provided by the
+     * {@code toString} method without bny brguments.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "printIdentity"}
-     * as its argument to see if it's ok to return the string.
+     * <p>First, if there is b security mbnbger, its {@code checkSecurityAccess}
+     * method is cblled with {@code "printIdentity"}
+     * bs its brgument to see if it's ok to return the string.
      *
-     * @param detailed whether or not to provide detailed information.
+     * @pbrbm detbiled whether or not to provide detbiled informbtion.
      *
-     * @return information about this identity. If {@code detailed}
-     * is true, then this method returns more information than that
-     * provided by the {@code toString} method without any arguments.
+     * @return informbtion bbout this identity. If {@code detbiled}
+     * is true, then this method returns more informbtion thbn thbt
+     * provided by the {@code toString} method without bny brguments.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * returning a string describing this identity.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkSecurityAccess} method doesn't bllow
+     * returning b string describing this identity.
      *
      * @see #toString
-     * @see SecurityManager#checkSecurityAccess
+     * @see SecurityMbnbger#checkSecurityAccess
      */
-    public String toString(boolean detailed) {
+    public String toString(boolebn detbiled) {
         String out = toString();
-        if (detailed) {
+        if (detbiled) {
             out += "\n";
             out += printKeys();
-            out += "\n" + printCertificates();
+            out += "\n" + printCertificbtes();
             if (info != null) {
                 out += "\n\t" + info;
             } else {
-                out += "\n\tno additional information available.";
+                out += "\n\tno bdditionbl informbtion bvbilbble.";
             }
         }
         return out;
@@ -452,42 +452,42 @@ public abstract class Identity implements Principal, Serializable {
     String printKeys() {
         String key = "";
         if (publicKey != null) {
-            key = "\tpublic key initialized";
+            key = "\tpublic key initiblized";
         } else {
             key = "\tno public key";
         }
         return key;
     }
 
-    String printCertificates() {
+    String printCertificbtes() {
         String out = "";
-        if (certificates == null) {
-            return "\tno certificates";
+        if (certificbtes == null) {
+            return "\tno certificbtes";
         } else {
-            out += "\tcertificates: \n";
+            out += "\tcertificbtes: \n";
 
             int i = 1;
-            for (Certificate cert : certificates) {
-                out += "\tcertificate " + i++ +
-                    "\tfor  : " + cert.getPrincipal() + "\n";
+            for (Certificbte cert : certificbtes) {
+                out += "\tcertificbte " + i++ +
+                    "\tfor  : " + cert.getPrincipbl() + "\n";
                 out += "\t\t\tfrom : " +
-                    cert.getGuarantor() + "\n";
+                    cert.getGubrbntor() + "\n";
             }
         }
         return out;
     }
 
     /**
-     * Returns a hashcode for this identity.
+     * Returns b hbshcode for this identity.
      *
-     * @return a hashcode for this identity.
+     * @return b hbshcode for this identity.
      */
-    public int hashCode() {
-        return name.hashCode();
+    public int hbshCode() {
+        return nbme.hbshCode();
     }
 
-    private static void check(String directive) {
-        SecurityManager security = System.getSecurityManager();
+    privbte stbtic void check(String directive) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkSecurityAccess(directive);
         }

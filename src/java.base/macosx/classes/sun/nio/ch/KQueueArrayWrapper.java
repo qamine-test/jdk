@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * KQueueArrayWrapper.java
- * Implementation of Selector using FreeBSD / Mac OS X kqueues
- * Derived from Sun's DevPollArrayWrapper
+ * KQueueArrbyWrbpper.jbvb
+ * Implementbtion of Selector using FreeBSD / Mbc OS X kqueues
+ * Derived from Sun's DevPollArrbyWrbpper
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
 import sun.misc.*;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.util.Iterator;
-import java.util.LinkedList;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedList;
 
 /*
  * struct kevent {           // 32-bit    64-bit
  *     uintptr_t ident;      //   4         8
  *     short     filter;     //   2         2
- *     u_short   flags;      //   2         2
- *     u_int     fflags;     //   4         4
- *     intptr_t  data;       //   4         8
- *     void      *udata;     //   4         8
- * }                  // Total:  20        32
+ *     u_short   flbgs;      //   2         2
+ *     u_int     fflbgs;     //   4         4
+ *     intptr_t  dbtb;       //   4         8
+ *     void      *udbtb;     //   4         8
+ * }                  // Totbl:  20        32
  *
- * The implementation works in 32-bit and 64-bit world. We do this by calling a
- * native function that actually sets the sizes and offsets of the fields based
+ * The implementbtion works in 32-bit bnd 64-bit world. We do this by cblling b
+ * nbtive function thbt bctublly sets the sizes bnd offsets of the fields bbsed
  * on which mode we're in.
  */
 
-class KQueueArrayWrapper {
+clbss KQueueArrbyWrbpper {
     // kevent filters
-    static short EVFILT_READ;
-    static short EVFILT_WRITE;
+    stbtic short EVFILT_READ;
+    stbtic short EVFILT_WRITE;
 
     // kevent struct
-    // These fields are now set by initStructSizes in the static initializer.
-    static short SIZEOF_KEVENT;
-    static short FD_OFFSET;
-    static short FILTER_OFFSET;
+    // These fields bre now set by initStructSizes in the stbtic initiblizer.
+    stbtic short SIZEOF_KEVENT;
+    stbtic short FD_OFFSET;
+    stbtic short FILTER_OFFSET;
 
-    // kevent array size
-    static final int NUM_KEVENTS = 128;
+    // kevent brrby size
+    stbtic finbl int NUM_KEVENTS = 128;
 
-    // Are we in a 64-bit VM?
-    static boolean is64bit = false;
+    // Are we in b 64-bit VM?
+    stbtic boolebn is64bit = fblse;
 
-    // The kevent array (used for outcoming events only)
-    private AllocatedNativeObject keventArray = null;
-    private long keventArrayAddress;
+    // The kevent brrby (used for outcoming events only)
+    privbte AllocbtedNbtiveObject keventArrby = null;
+    privbte long keventArrbyAddress;
 
     // The kqueue fd
-    private int kq = -1;
+    privbte int kq = -1;
 
     // The fd of the interrupt line going out
-    private int outgoingInterruptFD;
+    privbte int outgoingInterruptFD;
 
     // The fd of the interrupt line coming in
-    private int incomingInterruptFD;
+    privbte int incomingInterruptFD;
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
         initStructSizes();
-        String datamodel = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.arch.data.model")
+        String dbtbmodel = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("sun.brch.dbtb.model")
         );
-        is64bit = datamodel.equals("64");
+        is64bit = dbtbmodel.equbls("64");
     }
 
-    KQueueArrayWrapper() {
-        int allocationSize = SIZEOF_KEVENT * NUM_KEVENTS;
-        keventArray = new AllocatedNativeObject(allocationSize, true);
-        keventArrayAddress = keventArray.address();
+    KQueueArrbyWrbpper() {
+        int bllocbtionSize = SIZEOF_KEVENT * NUM_KEVENTS;
+        keventArrby = new AllocbtedNbtiveObject(bllocbtionSize, true);
+        keventArrbyAddress = keventArrby.bddress();
         kq = init();
     }
 
-    // Used to update file description registrations
-    private static class Update {
-        SelChImpl channel;
+    // Used to updbte file description registrbtions
+    privbte stbtic clbss Updbte {
+        SelChImpl chbnnel;
         int events;
-        Update(SelChImpl channel, int events) {
-            this.channel = channel;
+        Updbte(SelChImpl chbnnel, int events) {
+            this.chbnnel = chbnnel;
             this.events = events;
         }
     }
 
-    private LinkedList<Update> updateList = new LinkedList<Update>();
+    privbte LinkedList<Updbte> updbteList = new LinkedList<Updbte>();
 
     void initInterrupt(int fd0, int fd1) {
         outgoingInterruptFD = fd1;
@@ -119,11 +119,11 @@ class KQueueArrayWrapper {
     int getReventOps(int index) {
         int result = 0;
         int offset = SIZEOF_KEVENT*index + FILTER_OFFSET;
-        short filter = keventArray.getShort(offset);
+        short filter = keventArrby.getShort(offset);
 
-        // This is all that's necessary based on inspection of usage:
-        //   SinkChannelImpl, SourceChannelImpl, DatagramChannelImpl,
-        //   ServerSocketChannelImpl, SocketChannelImpl
+        // This is bll thbt's necessbry bbsed on inspection of usbge:
+        //   SinkChbnnelImpl, SourceChbnnelImpl, DbtbgrbmChbnnelImpl,
+        //   ServerSocketChbnnelImpl, SocketChbnnelImpl
         if (filter == EVFILT_READ) {
             result |= Net.POLLIN;
         } else if (filter == EVFILT_WRITE) {
@@ -135,79 +135,79 @@ class KQueueArrayWrapper {
 
     int getDescriptor(int index) {
         int offset = SIZEOF_KEVENT*index + FD_OFFSET;
-        /* The ident field is 8 bytes in 64-bit world, however the API wants us
-         * to return an int. Hence read the 8 bytes but return as an int.
+        /* The ident field is 8 bytes in 64-bit world, however the API wbnts us
+         * to return bn int. Hence rebd the 8 bytes but return bs bn int.
          */
         if (is64bit) {
-          long fd = keventArray.getLong(offset);
-          assert fd <= Integer.MAX_VALUE;
+          long fd = keventArrby.getLong(offset);
+          bssert fd <= Integer.MAX_VALUE;
           return (int) fd;
         } else {
-          return keventArray.getInt(offset);
+          return keventArrby.getInt(offset);
         }
     }
 
-    void setInterest(SelChImpl channel, int events) {
-        synchronized (updateList) {
-            // update existing registration
-            updateList.add(new Update(channel, events));
+    void setInterest(SelChImpl chbnnel, int events) {
+        synchronized (updbteList) {
+            // updbte existing registrbtion
+            updbteList.bdd(new Updbte(chbnnel, events));
         }
     }
 
-    void release(SelChImpl channel) {
-        synchronized (updateList) {
-            // flush any pending updates
-            for (Iterator<Update> it = updateList.iterator(); it.hasNext();) {
-                if (it.next().channel == channel) {
+    void relebse(SelChImpl chbnnel) {
+        synchronized (updbteList) {
+            // flush bny pending updbtes
+            for (Iterbtor<Updbte> it = updbteList.iterbtor(); it.hbsNext();) {
+                if (it.next().chbnnel == chbnnel) {
                     it.remove();
                 }
             }
 
             // remove
-            register0(kq, channel.getFDVal(), 0, 0);
+            register0(kq, chbnnel.getFDVbl(), 0, 0);
         }
     }
 
-    void updateRegistrations() {
-        synchronized (updateList) {
-            Update u = null;
-            while ((u = updateList.poll()) != null) {
-                SelChImpl ch = u.channel;
+    void updbteRegistrbtions() {
+        synchronized (updbteList) {
+            Updbte u = null;
+            while ((u = updbteList.poll()) != null) {
+                SelChImpl ch = u.chbnnel;
                 if (!ch.isOpen())
                     continue;
 
-                register0(kq, ch.getFDVal(), u.events & Net.POLLIN, u.events & Net.POLLOUT);
+                register0(kq, ch.getFDVbl(), u.events & Net.POLLIN, u.events & Net.POLLOUT);
             }
         }
     }
 
 
     void close() throws IOException {
-        if (keventArray != null) {
-            keventArray.free();
-            keventArray = null;
+        if (keventArrby != null) {
+            keventArrby.free();
+            keventArrby = null;
         }
         if (kq >= 0) {
-            FileDispatcherImpl.closeIntFD(kq);
+            FileDispbtcherImpl.closeIntFD(kq);
             kq = -1;
         }
     }
 
     int poll(long timeout) {
-        updateRegistrations();
-        int updated = kevent0(kq, keventArrayAddress, NUM_KEVENTS, timeout);
-        return updated;
+        updbteRegistrbtions();
+        int updbted = kevent0(kq, keventArrbyAddress, NUM_KEVENTS, timeout);
+        return updbted;
     }
 
     void interrupt() {
         interrupt(outgoingInterruptFD);
     }
 
-    private native int init();
-    private static native void initStructSizes();
+    privbte nbtive int init();
+    privbte stbtic nbtive void initStructSizes();
 
-    private native void register0(int kq, int fd, int read, int write);
-    private native int kevent0(int kq, long keventAddress, int keventCount,
+    privbte nbtive void register0(int kq, int fd, int rebd, int write);
+    privbte nbtive int kevent0(int kq, long keventAddress, int keventCount,
                                long timeout);
-    private static native void interrupt(int fd);
+    privbte stbtic nbtive void interrupt(int fd);
 }

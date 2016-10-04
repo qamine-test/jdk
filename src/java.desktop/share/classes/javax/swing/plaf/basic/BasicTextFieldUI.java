@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.beans.PropertyChangeEvent;
-import java.io.Reader;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.*;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.io.Rebder;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.plbf.*;
+import sun.swing.DefbultLookup;
 
 /**
- * Basis of a look and feel for a JTextField.
+ * Bbsis of b look bnd feel for b JTextField.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicTextFieldUI extends BasicTextUI {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BbsicTextFieldUI extends BbsicTextUI {
 
     /**
-     * Creates a UI for a JTextField.
+     * Crebtes b UI for b JTextField.
      *
-     * @param c the text field
+     * @pbrbm c the text field
      * @return the UI
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicTextFieldUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new BbsicTextFieldUI();
     }
 
     /**
-     * Creates a new BasicTextFieldUI.
+     * Crebtes b new BbsicTextFieldUI.
      */
-    public BasicTextFieldUI() {
+    public BbsicTextFieldUI() {
         super();
     }
 
     /**
-     * Fetches the name used as a key to lookup properties through the
-     * UIManager.  This is used as a prefix to all the standard
+     * Fetches the nbme used bs b key to lookup properties through the
+     * UIMbnbger.  This is used bs b prefix to bll the stbndbrd
      * text properties.
      *
-     * @return the name ("TextField")
+     * @return the nbme ("TextField")
      */
     protected String getPropertyPrefix() {
         return "TextField";
     }
 
     /**
-     * Creates a view (FieldView) based on an element.
+     * Crebtes b view (FieldView) bbsed on bn element.
      *
-     * @param elem the element
+     * @pbrbm elem the element
      * @return the view
      */
-    public View create(Element elem) {
+    public View crebte(Element elem) {
         Document doc = elem.getDocument();
-        Object i18nFlag = doc.getProperty("i18n"/*AbstractDocument.I18NProperty*/);
-        if (Boolean.TRUE.equals(i18nFlag)) {
-            // To support bidirectional text, we build a more heavyweight
-            // representation of the field.
-            String kind = elem.getName();
+        Object i18nFlbg = doc.getProperty("i18n"/*AbstrbctDocument.I18NProperty*/);
+        if (Boolebn.TRUE.equbls(i18nFlbg)) {
+            // To support bidirectionbl text, we build b more hebvyweight
+            // representbtion of the field.
+            String kind = elem.getNbme();
             if (kind != null) {
-                if (kind.equals(AbstractDocument.ContentElementName)) {
+                if (kind.equbls(AbstrbctDocument.ContentElementNbme)) {
                     return new GlyphView(elem);
-                } else if (kind.equals(AbstractDocument.ParagraphElementName)) {
+                } else if (kind.equbls(AbstrbctDocument.PbrbgrbphElementNbme)) {
                     return new I18nFieldView(elem);
                 }
             }
-            // this shouldn't happen, should probably throw in this case.
+            // this shouldn't hbppen, should probbbly throw in this cbse.
         }
         return new FieldView(elem);
     }
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
         View rootView = getRootView((JTextComponent)c);
         if (rootView.getViewCount() > 0) {
             Insets insets = c.getInsets();
             height = height - insets.top - insets.bottom;
             if (height > 0) {
-                int baseline = insets.top;
+                int bbseline = insets.top;
                 View fieldView = rootView.getView(0);
-                int vspan = (int)fieldView.getPreferredSpan(View.Y_AXIS);
-                if (height != vspan) {
-                    int slop = height - vspan;
-                    baseline += slop / 2;
+                int vspbn = (int)fieldView.getPreferredSpbn(View.Y_AXIS);
+                if (height != vspbn) {
+                    int slop = height - vspbn;
+                    bbseline += slop / 2;
                 }
-                if (fieldView instanceof I18nFieldView) {
-                    int fieldBaseline = BasicHTML.getBaseline(
+                if (fieldView instbnceof I18nFieldView) {
+                    int fieldBbseline = BbsicHTML.getBbseline(
                             fieldView, width - insets.left - insets.right,
                             height);
-                    if (fieldBaseline < 0) {
+                    if (fieldBbseline < 0) {
                         return -1;
                     }
-                    baseline += fieldBaseline;
+                    bbseline += fieldBbseline;
                 }
                 else {
                     FontMetrics fm = c.getFontMetrics(c.getFont());
-                    baseline += fm.getAscent();
+                    bbseline += fm.getAscent();
                 }
-                return baseline;
+                return bbseline;
             }
         }
         return -1;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Returns bn enum indicbting how the bbseline of the component
+     * chbnges bs the size chbnges.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return Component.BaselineResizeBehavior.CENTER_OFFSET;
+        super.getBbselineResizeBehbvior(c);
+        return Component.BbselineResizeBehbvior.CENTER_OFFSET;
     }
 
 
     /**
-     * A field view that support bidirectional text via the
-     * support provided by ParagraphView.
+     * A field view thbt support bidirectionbl text vib the
+     * support provided by PbrbgrbphView.
      */
-    static class I18nFieldView extends ParagraphView {
+    stbtic clbss I18nFieldView extends PbrbgrbphView {
 
         I18nFieldView(Element elem) {
             super(elem);
         }
 
         /**
-         * Fetch the constraining span to flow against for
+         * Fetch the constrbining spbn to flow bgbinst for
          * the given child index.  There is no limit for
-         * a field since it scrolls, so this is implemented to
+         * b field since it scrolls, so this is implemented to
          * return <code>Integer.MAX_VALUE</code>.
          */
-        public int getFlowSpan(int index) {
+        public int getFlowSpbn(int index) {
             return Integer.MAX_VALUE;
         }
 
-        protected void setJustification(int j) {
-            // Justification is done in adjustAllocation(), so disable
-            // ParagraphView's justification handling by doing nothing here.
+        protected void setJustificbtion(int j) {
+            // Justificbtion is done in bdjustAllocbtion(), so disbble
+            // PbrbgrbphView's justificbtion hbndling by doing nothing here.
         }
 
-        static boolean isLeftToRight( java.awt.Component c ) {
-            return c.getComponentOrientation().isLeftToRight();
+        stbtic boolebn isLeftToRight( jbvb.bwt.Component c ) {
+            return c.getComponentOrientbtion().isLeftToRight();
         }
 
         /**
-         * Adjusts the allocation given to the view
-         * to be a suitable allocation for a text field.
-         * If the view has been allocated more than the
-         * preferred span vertically, the allocation is
-         * changed to be centered vertically.  Horizontally
-         * the view is adjusted according to the horizontal
-         * alignment property set on the associated JTextField
-         * (if that is the type of the hosting component).
+         * Adjusts the bllocbtion given to the view
+         * to be b suitbble bllocbtion for b text field.
+         * If the view hbs been bllocbted more thbn the
+         * preferred spbn verticblly, the bllocbtion is
+         * chbnged to be centered verticblly.  Horizontblly
+         * the view is bdjusted bccording to the horizontbl
+         * blignment property set on the bssocibted JTextField
+         * (if thbt is the type of the hosting component).
          *
-         * @param a the allocation given to the view, which may need
-         *  to be adjusted.
-         * @return the allocation that the superclass should use.
+         * @pbrbm b the bllocbtion given to the view, which mby need
+         *  to be bdjusted.
+         * @return the bllocbtion thbt the superclbss should use.
          */
-        Shape adjustAllocation(Shape a) {
-            if (a != null) {
-                Rectangle bounds = a.getBounds();
-                int vspan = (int) getPreferredSpan(Y_AXIS);
-                int hspan = (int) getPreferredSpan(X_AXIS);
-                if (bounds.height != vspan) {
-                    int slop = bounds.height - vspan;
+        Shbpe bdjustAllocbtion(Shbpe b) {
+            if (b != null) {
+                Rectbngle bounds = b.getBounds();
+                int vspbn = (int) getPreferredSpbn(Y_AXIS);
+                int hspbn = (int) getPreferredSpbn(X_AXIS);
+                if (bounds.height != vspbn) {
+                    int slop = bounds.height - vspbn;
                     bounds.y += slop / 2;
                     bounds.height -= slop;
                 }
 
-                // horizontal adjustments
-                Component c = getContainer();
-                if (c instanceof JTextField) {
+                // horizontbl bdjustments
+                Component c = getContbiner();
+                if (c instbnceof JTextField) {
                     JTextField field = (JTextField) c;
-                    BoundedRangeModel vis = field.getHorizontalVisibility();
-                    int max = Math.max(hspan, bounds.width);
-                    int value = vis.getValue();
-                    int extent = Math.min(max, bounds.width - 1);
-                    if ((value + extent) > max) {
-                        value = max - extent;
+                    BoundedRbngeModel vis = field.getHorizontblVisibility();
+                    int mbx = Mbth.mbx(hspbn, bounds.width);
+                    int vblue = vis.getVblue();
+                    int extent = Mbth.min(mbx, bounds.width - 1);
+                    if ((vblue + extent) > mbx) {
+                        vblue = mbx - extent;
                     }
-                    vis.setRangeProperties(value, extent, vis.getMinimum(),
-                                           max, false);
-                    if (hspan < bounds.width) {
-                        // horizontally align the interior
-                        int slop = bounds.width - 1 - hspan;
+                    vis.setRbngeProperties(vblue, extent, vis.getMinimum(),
+                                           mbx, fblse);
+                    if (hspbn < bounds.width) {
+                        // horizontblly blign the interior
+                        int slop = bounds.width - 1 - hspbn;
 
-                        int align = ((JTextField)c).getHorizontalAlignment();
+                        int blign = ((JTextField)c).getHorizontblAlignment();
                         if(isLeftToRight(c)) {
-                            if(align==LEADING) {
-                                align = LEFT;
+                            if(blign==LEADING) {
+                                blign = LEFT;
                             }
-                            else if(align==TRAILING) {
-                                align = RIGHT;
+                            else if(blign==TRAILING) {
+                                blign = RIGHT;
                             }
                         }
                         else {
-                            if(align==LEADING) {
-                                align = RIGHT;
+                            if(blign==LEADING) {
+                                blign = RIGHT;
                             }
-                            else if(align==TRAILING) {
-                                align = LEFT;
+                            else if(blign==TRAILING) {
+                                blign = LEFT;
                             }
                         }
 
-                        switch (align) {
-                        case SwingConstants.CENTER:
+                        switch (blign) {
+                        cbse SwingConstbnts.CENTER:
                             bounds.x += slop / 2;
                             bounds.width -= slop;
-                            break;
-                        case SwingConstants.RIGHT:
+                            brebk;
+                        cbse SwingConstbnts.RIGHT:
                             bounds.x += slop;
                             bounds.width -= slop;
-                            break;
+                            brebk;
                         }
                     } else {
-                        // adjust the allocation to match the bounded range.
-                        bounds.width = hspan;
-                        bounds.x -= vis.getValue();
+                        // bdjust the bllocbtion to mbtch the bounded rbnge.
+                        bounds.width = hspbn;
+                        bounds.x -= vis.getVblue();
                     }
                 }
                 return bounds;
@@ -274,146 +274,146 @@ public class BasicTextFieldUI extends BasicTextUI {
         }
 
         /**
-         * Update the visibility model with the associated JTextField
-         * (if there is one) to reflect the current visibility as a
-         * result of changes to the document model.  The bounded
-         * range properties are updated.  If the view hasn't yet been
-         * shown the extent will be zero and we just set it to be full
+         * Updbte the visibility model with the bssocibted JTextField
+         * (if there is one) to reflect the current visibility bs b
+         * result of chbnges to the document model.  The bounded
+         * rbnge properties bre updbted.  If the view hbsn't yet been
+         * shown the extent will be zero bnd we just set it to be full
          * until determined otherwise.
          */
-        void updateVisibilityModel() {
-            Component c = getContainer();
-            if (c instanceof JTextField) {
+        void updbteVisibilityModel() {
+            Component c = getContbiner();
+            if (c instbnceof JTextField) {
                 JTextField field = (JTextField) c;
-                BoundedRangeModel vis = field.getHorizontalVisibility();
-                int hspan = (int) getPreferredSpan(X_AXIS);
+                BoundedRbngeModel vis = field.getHorizontblVisibility();
+                int hspbn = (int) getPreferredSpbn(X_AXIS);
                 int extent = vis.getExtent();
-                int maximum = Math.max(hspan, extent);
-                extent = (extent == 0) ? maximum : extent;
-                int value = maximum - extent;
-                int oldValue = vis.getValue();
-                if ((oldValue + extent) > maximum) {
-                    oldValue = maximum - extent;
+                int mbximum = Mbth.mbx(hspbn, extent);
+                extent = (extent == 0) ? mbximum : extent;
+                int vblue = mbximum - extent;
+                int oldVblue = vis.getVblue();
+                if ((oldVblue + extent) > mbximum) {
+                    oldVblue = mbximum - extent;
                 }
-                value = Math.max(0, Math.min(value, oldValue));
-                vis.setRangeProperties(value, extent, 0, maximum, false);
+                vblue = Mbth.mbx(0, Mbth.min(vblue, oldVblue));
+                vis.setRbngeProperties(vblue, extent, 0, mbximum, fblse);
             }
         }
 
         // --- View methods -------------------------------------------
 
         /**
-         * Renders using the given rendering surface and area on that surface.
-         * The view may need to do layout and create child views to enable
-         * itself to render into the given allocation.
+         * Renders using the given rendering surfbce bnd breb on thbt surfbce.
+         * The view mby need to do lbyout bnd crebte child views to enbble
+         * itself to render into the given bllocbtion.
          *
-         * @param g the rendering surface to use
-         * @param a the allocated region to render into
+         * @pbrbm g the rendering surfbce to use
+         * @pbrbm b the bllocbted region to render into
          *
-         * @see View#paint
+         * @see View#pbint
          */
-        public void paint(Graphics g, Shape a) {
-            Rectangle r = (Rectangle) a;
+        public void pbint(Grbphics g, Shbpe b) {
+            Rectbngle r = (Rectbngle) b;
             g.clipRect(r.x, r.y, r.width, r.height);
-            super.paint(g, adjustAllocation(a));
+            super.pbint(g, bdjustAllocbtion(b));
         }
 
         /**
-         * Determines the resizability of the view along the
-         * given axis.  A value of 0 or less is not resizable.
+         * Determines the resizbbility of the view blong the
+         * given bxis.  A vblue of 0 or less is not resizbble.
          *
-         * @param axis View.X_AXIS or View.Y_AXIS
+         * @pbrbm bxis View.X_AXIS or View.Y_AXIS
          * @return the weight -> 1 for View.X_AXIS, else 0
          */
-        public int getResizeWeight(int axis) {
-            if (axis == View.X_AXIS) {
+        public int getResizeWeight(int bxis) {
+            if (bxis == View.X_AXIS) {
                 return 1;
             }
             return 0;
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Provides b mbpping from the document model coordinbte spbce
+         * to the coordinbte spbce of the view mbpped to it.
          *
-         * @param pos the position to convert >= 0
-         * @param a the allocated region to render into
+         * @pbrbm pos the position to convert >= 0
+         * @pbrbm b the bllocbted region to render into
          * @return the bounding box of the given position
-         * @exception BadLocationException  if the given position does not
-         *   represent a valid location in the associated document
+         * @exception BbdLocbtionException  if the given position does not
+         *   represent b vblid locbtion in the bssocibted document
          * @see View#modelToView
          */
-        public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-            return super.modelToView(pos, adjustAllocation(a), b);
+        public Shbpe modelToView(int pos, Shbpe b, Position.Bibs b) throws BbdLocbtionException {
+            return super.modelToView(pos, bdjustAllocbtion(b), b);
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Provides b mbpping from the document model coordinbte spbce
+         * to the coordinbte spbce of the view mbpped to it.
          *
-         * @param p0 the position to convert >= 0
-         * @param b0 the bias toward the previous character or the
-         *  next character represented by p0, in case the
-         *  position is a boundary of two views.
-         * @param p1 the position to convert >= 0
-         * @param b1 the bias toward the previous character or the
-         *  next character represented by p1, in case the
-         *  position is a boundary of two views.
-         * @param a the allocated region to render into
+         * @pbrbm p0 the position to convert >= 0
+         * @pbrbm b0 the bibs towbrd the previous chbrbcter or the
+         *  next chbrbcter represented by p0, in cbse the
+         *  position is b boundbry of two views.
+         * @pbrbm p1 the position to convert >= 0
+         * @pbrbm b1 the bibs towbrd the previous chbrbcter or the
+         *  next chbrbcter represented by p1, in cbse the
+         *  position is b boundbry of two views.
+         * @pbrbm b the bllocbted region to render into
          * @return the bounding box of the given position is returned
-         * @exception BadLocationException  if the given position does
-         *   not represent a valid location in the associated document
-         * @exception IllegalArgumentException for an invalid bias argument
+         * @exception BbdLocbtionException  if the given position does
+         *   not represent b vblid locbtion in the bssocibted document
+         * @exception IllegblArgumentException for bn invblid bibs brgument
          * @see View#viewToModel
          */
-        public Shape modelToView(int p0, Position.Bias b0,
-                                 int p1, Position.Bias b1, Shape a)
-            throws BadLocationException
+        public Shbpe modelToView(int p0, Position.Bibs b0,
+                                 int p1, Position.Bibs b1, Shbpe b)
+            throws BbdLocbtionException
         {
-            return super.modelToView(p0, b0, p1, b1, adjustAllocation(a));
+            return super.modelToView(p0, b0, p1, b1, bdjustAllocbtion(b));
         }
 
         /**
-         * Provides a mapping from the view coordinate space to the logical
-         * coordinate space of the model.
+         * Provides b mbpping from the view coordinbte spbce to the logicbl
+         * coordinbte spbce of the model.
          *
-         * @param fx the X coordinate >= 0.0f
-         * @param fy the Y coordinate >= 0.0f
-         * @param a the allocated region to render into
-         * @return the location within the model that best represents the
+         * @pbrbm fx the X coordinbte >= 0.0f
+         * @pbrbm fy the Y coordinbte >= 0.0f
+         * @pbrbm b the bllocbted region to render into
+         * @return the locbtion within the model thbt best represents the
          *  given point in the view
          * @see View#viewToModel
          */
-        public int viewToModel(float fx, float fy, Shape a, Position.Bias[] bias) {
-            return super.viewToModel(fx, fy, adjustAllocation(a), bias);
+        public int viewToModel(flobt fx, flobt fy, Shbpe b, Position.Bibs[] bibs) {
+            return super.viewToModel(fx, fy, bdjustAllocbtion(b), bibs);
         }
 
         /**
-         * Gives notification that something was inserted into the document
-         * in a location that this view is responsible for.
+         * Gives notificbtion thbt something wbs inserted into the document
+         * in b locbtion thbt this view is responsible for.
          *
-         * @param changes the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
-         * @see View#insertUpdate
+         * @pbrbm chbnges the chbnge informbtion from the bssocibted document
+         * @pbrbm b the current bllocbtion of the view
+         * @pbrbm f the fbctory to use to rebuild if the view hbs children
+         * @see View#insertUpdbte
          */
-        public void insertUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-            super.insertUpdate(changes, adjustAllocation(a), f);
-            updateVisibilityModel();
+        public void insertUpdbte(DocumentEvent chbnges, Shbpe b, ViewFbctory f) {
+            super.insertUpdbte(chbnges, bdjustAllocbtion(b), f);
+            updbteVisibilityModel();
         }
 
         /**
-         * Gives notification that something was removed from the document
-         * in a location that this view is responsible for.
+         * Gives notificbtion thbt something wbs removed from the document
+         * in b locbtion thbt this view is responsible for.
          *
-         * @param changes the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
-         * @see View#removeUpdate
+         * @pbrbm chbnges the chbnge informbtion from the bssocibted document
+         * @pbrbm b the current bllocbtion of the view
+         * @pbrbm f the fbctory to use to rebuild if the view hbs children
+         * @see View#removeUpdbte
          */
-        public void removeUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-            super.removeUpdate(changes, adjustAllocation(a), f);
-            updateVisibilityModel();
+        public void removeUpdbte(DocumentEvent chbnges, Shbpe b, ViewFbctory f) {
+            super.removeUpdbte(chbnges, bdjustAllocbtion(b), f);
+            updbteVisibilityModel();
         }
 
     }

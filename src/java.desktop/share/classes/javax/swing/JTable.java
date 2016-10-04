@@ -1,472 +1,472 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.applet.Applet;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.print.*;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.print.*;
 
-import java.beans.*;
+import jbvb.bebns.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.table.*;
-import javax.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tbble.*;
+import jbvbx.swing.border.*;
 
-import java.text.NumberFormat;
-import java.text.DateFormat;
-import java.text.MessageFormat;
+import jbvb.text.NumberFormbt;
+import jbvb.text.DbteFormbt;
+import jbvb.text.MessbgeFormbt;
 
-import javax.print.attribute.*;
-import javax.print.PrintService;
+import jbvbx.print.bttribute.*;
+import jbvbx.print.PrintService;
 import sun.reflect.misc.ReflectUtil;
 
 import sun.swing.SwingUtilities2;
 import sun.swing.SwingUtilities2.Section;
-import static sun.swing.SwingUtilities2.Section.*;
-import sun.swing.PrintingStatus;
+import stbtic sun.swing.SwingUtilities2.Section.*;
+import sun.swing.PrintingStbtus;
 
 /**
- * The <code>JTable</code> is used to display and edit regular two-dimensional tables
+ * The <code>JTbble</code> is used to displby bnd edit regulbr two-dimensionbl tbbles
  * of cells.
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/table.html">How to Use Tables</a>
- * in <em>The Java Tutorial</em>
- * for task-oriented documentation and examples of using <code>JTable</code>.
+ * See <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tbble.html">How to Use Tbbles</b>
+ * in <em>The Jbvb Tutoribl</em>
+ * for tbsk-oriented documentbtion bnd exbmples of using <code>JTbble</code>.
  *
  * <p>
- * The <code>JTable</code> has many
- * facilities that make it possible to customize its rendering and editing
- * but provides defaults for these features so that simple tables can be
- * set up easily.  For example, to set up a table with 10 rows and 10
+ * The <code>JTbble</code> hbs mbny
+ * fbcilities thbt mbke it possible to customize its rendering bnd editing
+ * but provides defbults for these febtures so thbt simple tbbles cbn be
+ * set up ebsily.  For exbmple, to set up b tbble with 10 rows bnd 10
  * columns of numbers:
  *
  * <pre>
- *      TableModel dataModel = new AbstractTableModel() {
+ *      TbbleModel dbtbModel = new AbstrbctTbbleModel() {
  *          public int getColumnCount() { return 10; }
  *          public int getRowCount() { return 10;}
- *          public Object getValueAt(int row, int col) { return new Integer(row*col); }
+ *          public Object getVblueAt(int row, int col) { return new Integer(row*col); }
  *      };
- *      JTable table = new JTable(dataModel);
- *      JScrollPane scrollpane = new JScrollPane(table);
+ *      JTbble tbble = new JTbble(dbtbModel);
+ *      JScrollPbne scrollpbne = new JScrollPbne(tbble);
  * </pre>
  * <p>
- * {@code JTable}s are typically placed inside of a {@code JScrollPane}.  By
- * default, a {@code JTable} will adjust its width such that
- * a horizontal scrollbar is unnecessary.  To allow for a horizontal scrollbar,
+ * {@code JTbble}s bre typicblly plbced inside of b {@code JScrollPbne}.  By
+ * defbult, b {@code JTbble} will bdjust its width such thbt
+ * b horizontbl scrollbbr is unnecessbry.  To bllow for b horizontbl scrollbbr,
  * invoke {@link #setAutoResizeMode} with {@code AUTO_RESIZE_OFF}.
- * Note that if you wish to use a <code>JTable</code> in a standalone
- * view (outside of a <code>JScrollPane</code>) and want the header
- * displayed, you can get it using {@link #getTableHeader} and
- * display it separately.
+ * Note thbt if you wish to use b <code>JTbble</code> in b stbndblone
+ * view (outside of b <code>JScrollPbne</code>) bnd wbnt the hebder
+ * displbyed, you cbn get it using {@link #getTbbleHebder} bnd
+ * displby it sepbrbtely.
  * <p>
- * To enable sorting and filtering of rows, use a
+ * To enbble sorting bnd filtering of rows, use b
  * {@code RowSorter}.
- * You can set up a row sorter in either of two ways:
+ * You cbn set up b row sorter in either of two wbys:
  * <ul>
- *   <li>Directly set the {@code RowSorter}. For example:
- *        {@code table.setRowSorter(new TableRowSorter(model))}.
- *   <li>Set the {@code autoCreateRowSorter}
- *       property to {@code true}, so that the {@code JTable}
- *       creates a {@code RowSorter} for
- *       you. For example: {@code setAutoCreateRowSorter(true)}.
+ *   <li>Directly set the {@code RowSorter}. For exbmple:
+ *        {@code tbble.setRowSorter(new TbbleRowSorter(model))}.
+ *   <li>Set the {@code butoCrebteRowSorter}
+ *       property to {@code true}, so thbt the {@code JTbble}
+ *       crebtes b {@code RowSorter} for
+ *       you. For exbmple: {@code setAutoCrebteRowSorter(true)}.
  * </ul>
  * <p>
- * When designing applications that use the <code>JTable</code> it is worth paying
- * close attention to the data structures that will represent the table's data.
- * The <code>DefaultTableModel</code> is a model implementation that
- * uses a <code>Vector</code> of <code>Vector</code>s of <code>Object</code>s to
- * store the cell values. As well as copying the data from an
- * application into the <code>DefaultTableModel</code>,
- * it is also possible to wrap the data in the methods of the
- * <code>TableModel</code> interface so that the data can be passed to the
- * <code>JTable</code> directly, as in the example above. This often results
- * in more efficient applications because the model is free to choose the
- * internal representation that best suits the data.
- * A good rule of thumb for deciding whether to use the <code>AbstractTableModel</code>
- * or the <code>DefaultTableModel</code> is to use the <code>AbstractTableModel</code>
- * as the base class for creating subclasses and the <code>DefaultTableModel</code>
- * when subclassing is not required.
+ * When designing bpplicbtions thbt use the <code>JTbble</code> it is worth pbying
+ * close bttention to the dbtb structures thbt will represent the tbble's dbtb.
+ * The <code>DefbultTbbleModel</code> is b model implementbtion thbt
+ * uses b <code>Vector</code> of <code>Vector</code>s of <code>Object</code>s to
+ * store the cell vblues. As well bs copying the dbtb from bn
+ * bpplicbtion into the <code>DefbultTbbleModel</code>,
+ * it is blso possible to wrbp the dbtb in the methods of the
+ * <code>TbbleModel</code> interfbce so thbt the dbtb cbn be pbssed to the
+ * <code>JTbble</code> directly, bs in the exbmple bbove. This often results
+ * in more efficient bpplicbtions becbuse the model is free to choose the
+ * internbl representbtion thbt best suits the dbtb.
+ * A good rule of thumb for deciding whether to use the <code>AbstrbctTbbleModel</code>
+ * or the <code>DefbultTbbleModel</code> is to use the <code>AbstrbctTbbleModel</code>
+ * bs the bbse clbss for crebting subclbsses bnd the <code>DefbultTbbleModel</code>
+ * when subclbssing is not required.
  * <p>
- * The "TableExample" directory in the demo area of the source distribution
- * gives a number of complete examples of <code>JTable</code> usage,
- * covering how the <code>JTable</code> can be used to provide an
- * editable view of data taken from a database and how to modify
- * the columns in the display to use specialized renderers and editors.
+ * The "TbbleExbmple" directory in the demo breb of the source distribution
+ * gives b number of complete exbmples of <code>JTbble</code> usbge,
+ * covering how the <code>JTbble</code> cbn be used to provide bn
+ * editbble view of dbtb tbken from b dbtbbbse bnd how to modify
+ * the columns in the displby to use speciblized renderers bnd editors.
  * <p>
- * The <code>JTable</code> uses integers exclusively to refer to both the rows and the columns
- * of the model that it displays. The <code>JTable</code> simply takes a tabular range of cells
- * and uses <code>getValueAt(int, int)</code> to retrieve the
- * values from the model during painting.  It is important to remember that
- * the column and row indexes returned by various <code>JTable</code> methods
- * are in terms of the <code>JTable</code> (the view) and are not
- * necessarily the same indexes used by the model.
+ * The <code>JTbble</code> uses integers exclusively to refer to both the rows bnd the columns
+ * of the model thbt it displbys. The <code>JTbble</code> simply tbkes b tbbulbr rbnge of cells
+ * bnd uses <code>getVblueAt(int, int)</code> to retrieve the
+ * vblues from the model during pbinting.  It is importbnt to remember thbt
+ * the column bnd row indexes returned by vbrious <code>JTbble</code> methods
+ * bre in terms of the <code>JTbble</code> (the view) bnd bre not
+ * necessbrily the sbme indexes used by the model.
  * <p>
- * By default, columns may be rearranged in the <code>JTable</code> so that the
- * view's columns appear in a different order to the columns in the model.
- * This does not affect the implementation of the model at all: when the
- * columns are reordered, the <code>JTable</code> maintains the new order of the columns
- * internally and converts its column indices before querying the model.
+ * By defbult, columns mby be rebrrbnged in the <code>JTbble</code> so thbt the
+ * view's columns bppebr in b different order to the columns in the model.
+ * This does not bffect the implementbtion of the model bt bll: when the
+ * columns bre reordered, the <code>JTbble</code> mbintbins the new order of the columns
+ * internblly bnd converts its column indices before querying the model.
  * <p>
- * So, when writing a <code>TableModel</code>, it is not necessary to listen for column
- * reordering events as the model will be queried in its own coordinate
- * system regardless of what is happening in the view.
- * In the examples area there is a demonstration of a sorting algorithm making
- * use of exactly this technique to interpose yet another coordinate system
- * where the order of the rows is changed, rather than the order of the columns.
+ * So, when writing b <code>TbbleModel</code>, it is not necessbry to listen for column
+ * reordering events bs the model will be queried in its own coordinbte
+ * system regbrdless of whbt is hbppening in the view.
+ * In the exbmples breb there is b demonstrbtion of b sorting blgorithm mbking
+ * use of exbctly this technique to interpose yet bnother coordinbte system
+ * where the order of the rows is chbnged, rbther thbn the order of the columns.
  * <p>
- * Similarly when using the sorting and filtering functionality
+ * Similbrly when using the sorting bnd filtering functionblity
  * provided by <code>RowSorter</code> the underlying
- * <code>TableModel</code> does not need to know how to do sorting,
- * rather <code>RowSorter</code> will handle it.  Coordinate
- * conversions will be necessary when using the row based methods of
- * <code>JTable</code> with the underlying <code>TableModel</code>.
- * All of <code>JTable</code>s row based methods are in terms of the
- * <code>RowSorter</code>, which is not necessarily the same as that
- * of the underlying <code>TableModel</code>.  For example, the
- * selection is always in terms of <code>JTable</code> so that when
+ * <code>TbbleModel</code> does not need to know how to do sorting,
+ * rbther <code>RowSorter</code> will hbndle it.  Coordinbte
+ * conversions will be necessbry when using the row bbsed methods of
+ * <code>JTbble</code> with the underlying <code>TbbleModel</code>.
+ * All of <code>JTbble</code>s row bbsed methods bre in terms of the
+ * <code>RowSorter</code>, which is not necessbrily the sbme bs thbt
+ * of the underlying <code>TbbleModel</code>.  For exbmple, the
+ * selection is blwbys in terms of <code>JTbble</code> so thbt when
  * using <code>RowSorter</code> you will need to convert using
  * <code>convertRowIndexToView</code> or
  * <code>convertRowIndexToModel</code>.  The following shows how to
- * convert coordinates from <code>JTable</code> to that of the
+ * convert coordinbtes from <code>JTbble</code> to thbt of the
  * underlying model:
  * <pre>
- *   int[] selection = table.getSelectedRows();
+ *   int[] selection = tbble.getSelectedRows();
  *   for (int i = 0; i &lt; selection.length; i++) {
- *     selection[i] = table.convertRowIndexToModel(selection[i]);
+ *     selection[i] = tbble.convertRowIndexToModel(selection[i]);
  *   }
- *   // selection is now in terms of the underlying TableModel
+ *   // selection is now in terms of the underlying TbbleModel
  * </pre>
  * <p>
- * By default if sorting is enabled <code>JTable</code> will persist the
- * selection and variable row heights in terms of the model on
- * sorting.  For example if row 0, in terms of the underlying model,
- * is currently selected, after the sort row 0, in terms of the
- * underlying model will be selected.  Visually the selection may
- * change, but in terms of the underlying model it will remain the
- * same.  The one exception to that is if the model index is no longer
- * visible or was removed.  For example, if row 0 in terms of model
- * was filtered out the selection will be empty after the sort.
+ * By defbult if sorting is enbbled <code>JTbble</code> will persist the
+ * selection bnd vbribble row heights in terms of the model on
+ * sorting.  For exbmple if row 0, in terms of the underlying model,
+ * is currently selected, bfter the sort row 0, in terms of the
+ * underlying model will be selected.  Visublly the selection mby
+ * chbnge, but in terms of the underlying model it will rembin the
+ * sbme.  The one exception to thbt is if the model index is no longer
+ * visible or wbs removed.  For exbmple, if row 0 in terms of model
+ * wbs filtered out the selection will be empty bfter the sort.
  * <p>
- * J2SE 5 adds methods to <code>JTable</code> to provide convenient access to some
- * common printing needs. Simple new {@link #print()} methods allow for quick
- * and easy addition of printing support to your application. In addition, a new
- * {@link #getPrintable} method is available for more advanced printing needs.
+ * J2SE 5 bdds methods to <code>JTbble</code> to provide convenient bccess to some
+ * common printing needs. Simple new {@link #print()} methods bllow for quick
+ * bnd ebsy bddition of printing support to your bpplicbtion. In bddition, b new
+ * {@link #getPrintbble} method is bvbilbble for more bdvbnced printing needs.
  * <p>
- * As for all <code>JComponent</code> classes, you can use
- * {@link InputMap} and {@link ActionMap} to associate an
- * {@link Action} object with a {@link KeyStroke} and execute the
- * action under specified conditions.
+ * As for bll <code>JComponent</code> clbsses, you cbn use
+ * {@link InputMbp} bnd {@link ActionMbp} to bssocibte bn
+ * {@link Action} object with b {@link KeyStroke} bnd execute the
+ * bction under specified conditions.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A component which displays data in a two dimensional grid.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A component which displbys dbtb in b two dimensionbl grid.
  *
- * @author Philip Milne
- * @author Shannon Hickey (printing support)
- * @see javax.swing.table.DefaultTableModel
- * @see javax.swing.table.TableRowSorter
+ * @buthor Philip Milne
+ * @buthor Shbnnon Hickey (printing support)
+ * @see jbvbx.swing.tbble.DefbultTbbleModel
+ * @see jbvbx.swing.tbble.TbbleRowSorter
  * @since 1.2
  */
-/* The first versions of the JTable, contained in Swing-0.1 through
- * Swing-0.4, were written by Alan Chung.
+/* The first versions of the JTbble, contbined in Swing-0.1 through
+ * Swing-0.4, were written by Albn Chung.
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTable extends JComponent implements TableModelListener, Scrollable,
-    TableColumnModelListener, ListSelectionListener, CellEditorListener,
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JTbble extends JComponent implements TbbleModelListener, Scrollbble,
+    TbbleColumnModelListener, ListSelectionListener, CellEditorListener,
     Accessible, RowSorterListener
 {
 //
-// Static Constants
+// Stbtic Constbnts
 //
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "TableUI";
+    privbte stbtic finbl String uiClbssID = "TbbleUI";
 
-    /** Do not adjust column widths automatically; use a horizontal scrollbar instead. */
-    public static final int     AUTO_RESIZE_OFF = 0;
+    /** Do not bdjust column widths butombticblly; use b horizontbl scrollbbr instebd. */
+    public stbtic finbl int     AUTO_RESIZE_OFF = 0;
 
-    /** When a column is adjusted in the UI, adjust the next column the opposite way. */
-    public static final int     AUTO_RESIZE_NEXT_COLUMN = 1;
+    /** When b column is bdjusted in the UI, bdjust the next column the opposite wby. */
+    public stbtic finbl int     AUTO_RESIZE_NEXT_COLUMN = 1;
 
-    /** During UI adjustment, change subsequent columns to preserve the total width;
-      * this is the default behavior. */
-    public static final int     AUTO_RESIZE_SUBSEQUENT_COLUMNS = 2;
+    /** During UI bdjustment, chbnge subsequent columns to preserve the totbl width;
+      * this is the defbult behbvior. */
+    public stbtic finbl int     AUTO_RESIZE_SUBSEQUENT_COLUMNS = 2;
 
-    /** During all resize operations, apply adjustments to the last column only. */
-    public static final int     AUTO_RESIZE_LAST_COLUMN = 3;
+    /** During bll resize operbtions, bpply bdjustments to the lbst column only. */
+    public stbtic finbl int     AUTO_RESIZE_LAST_COLUMN = 3;
 
-    /** During all resize operations, proportionately resize all columns. */
-    public static final int     AUTO_RESIZE_ALL_COLUMNS = 4;
+    /** During bll resize operbtions, proportionbtely resize bll columns. */
+    public stbtic finbl int     AUTO_RESIZE_ALL_COLUMNS = 4;
 
 
     /**
-     * Printing modes, used in printing <code>JTable</code>s.
+     * Printing modes, used in printing <code>JTbble</code>s.
      *
-     * @see #print(JTable.PrintMode, MessageFormat, MessageFormat,
-     *             boolean, PrintRequestAttributeSet, boolean)
-     * @see #getPrintable
+     * @see #print(JTbble.PrintMode, MessbgeFormbt, MessbgeFormbt,
+     *             boolebn, PrintRequestAttributeSet, boolebn)
+     * @see #getPrintbble
      * @since 1.5
      */
     public enum PrintMode {
 
         /**
-         * Printing mode that prints the table at its current size,
-         * spreading both columns and rows across multiple pages if necessary.
+         * Printing mode thbt prints the tbble bt its current size,
+         * sprebding both columns bnd rows bcross multiple pbges if necessbry.
          */
         NORMAL,
 
         /**
-         * Printing mode that scales the output smaller, if necessary,
-         * to fit the table's entire width (and thereby all columns) on each page;
-         * Rows are spread across multiple pages as necessary.
+         * Printing mode thbt scbles the output smbller, if necessbry,
+         * to fit the tbble's entire width (bnd thereby bll columns) on ebch pbge;
+         * Rows bre sprebd bcross multiple pbges bs necessbry.
          */
         FIT_WIDTH
     }
 
 
 //
-// Instance Variables
+// Instbnce Vbribbles
 //
 
-    /** The <code>TableModel</code> of the table. */
-    protected TableModel        dataModel;
+    /** The <code>TbbleModel</code> of the tbble. */
+    protected TbbleModel        dbtbModel;
 
-    /** The <code>TableColumnModel</code> of the table. */
-    protected TableColumnModel  columnModel;
+    /** The <code>TbbleColumnModel</code> of the tbble. */
+    protected TbbleColumnModel  columnModel;
 
-    /** The <code>ListSelectionModel</code> of the table, used to keep track of row selections. */
+    /** The <code>ListSelectionModel</code> of the tbble, used to keep trbck of row selections. */
     protected ListSelectionModel selectionModel;
 
-    /** The <code>TableHeader</code> working with the table. */
-    protected JTableHeader      tableHeader;
+    /** The <code>TbbleHebder</code> working with the tbble. */
+    protected JTbbleHebder      tbbleHebder;
 
-    /** The height in pixels of each row in the table. */
+    /** The height in pixels of ebch row in the tbble. */
     protected int               rowHeight;
 
-    /** The height in pixels of the margin between the cells in each row. */
-    protected int               rowMargin;
+    /** The height in pixels of the mbrgin between the cells in ebch row. */
+    protected int               rowMbrgin;
 
     /** The color of the grid. */
     protected Color             gridColor;
 
-    /** The table draws horizontal lines between cells if <code>showHorizontalLines</code> is true. */
-    protected boolean           showHorizontalLines;
+    /** The tbble drbws horizontbl lines between cells if <code>showHorizontblLines</code> is true. */
+    protected boolebn           showHorizontblLines;
 
-    /** The table draws vertical lines between cells if <code>showVerticalLines</code> is true. */
-    protected boolean           showVerticalLines;
+    /** The tbble drbws verticbl lines between cells if <code>showVerticblLines</code> is true. */
+    protected boolebn           showVerticblLines;
 
     /**
-     *  Determines if the table automatically resizes the
-     *  width of the table's columns to take up the entire width of the
-     *  table, and how it does the resizing.
+     *  Determines if the tbble butombticblly resizes the
+     *  width of the tbble's columns to tbke up the entire width of the
+     *  tbble, bnd how it does the resizing.
      */
-    protected int               autoResizeMode;
+    protected int               butoResizeMode;
 
     /**
-     *  The table will query the <code>TableModel</code> to build the default
+     *  The tbble will query the <code>TbbleModel</code> to build the defbult
      *  set of columns if this is true.
      */
-    protected boolean           autoCreateColumnsFromModel;
+    protected boolebn           butoCrebteColumnsFromModel;
 
-    /** Used by the <code>Scrollable</code> interface to determine the initial visible area. */
+    /** Used by the <code>Scrollbble</code> interfbce to determine the initibl visible breb. */
     protected Dimension         preferredViewportSize;
 
-    /** True if row selection is allowed in this table. */
-    protected boolean           rowSelectionAllowed;
+    /** True if row selection is bllowed in this tbble. */
+    protected boolebn           rowSelectionAllowed;
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use the
-     * <code>rowSelectionAllowed</code> property and the
+     * Obsolete bs of Jbvb 2 plbtform v1.3.  Plebse use the
+     * <code>rowSelectionAllowed</code> property bnd the
      * <code>columnSelectionAllowed</code> property of the
-     * <code>columnModel</code> instead. Or use the
-     * method <code>getCellSelectionEnabled</code>.
+     * <code>columnModel</code> instebd. Or use the
+     * method <code>getCellSelectionEnbbled</code>.
      */
     /*
-     * If true, both a row selection and a column selection
-     * can be non-empty at the same time, the selected cells are the
-     * the cells whose row and column are both selected.
+     * If true, both b row selection bnd b column selection
+     * cbn be non-empty bt the sbme time, the selected cells bre the
+     * the cells whose row bnd column bre both selected.
      */
-    protected boolean           cellSelectionEnabled;
+    protected boolebn           cellSelectionEnbbled;
 
-    /** If editing, the <code>Component</code> that is handling the editing. */
-    transient protected Component       editorComp;
+    /** If editing, the <code>Component</code> thbt is hbndling the editing. */
+    trbnsient protected Component       editorComp;
 
     /**
-     * The active cell editor object, that overwrites the screen real estate
-     * occupied by the current cell and allows the user to change its contents.
-     * {@code null} if the table isn't currently editing.
+     * The bctive cell editor object, thbt overwrites the screen rebl estbte
+     * occupied by the current cell bnd bllows the user to chbnge its contents.
+     * {@code null} if the tbble isn't currently editing.
      */
-    transient protected TableCellEditor cellEditor;
+    trbnsient protected TbbleCellEditor cellEditor;
 
     /** Identifies the column of the cell being edited. */
-    transient protected int             editingColumn;
+    trbnsient protected int             editingColumn;
 
     /** Identifies the row of the cell being edited. */
-    transient protected int             editingRow;
+    trbnsient protected int             editingRow;
 
    /**
-     * A table of objects that display the contents of a cell,
-     * indexed by class as declared in <code>getColumnClass</code>
-     * in the <code>TableModel</code> interface.
+     * A tbble of objects thbt displby the contents of b cell,
+     * indexed by clbss bs declbred in <code>getColumnClbss</code>
+     * in the <code>TbbleModel</code> interfbce.
      */
-    transient protected Hashtable<Object, Object> defaultRenderersByColumnClass;
-    // Logicaly, the above is a Hashtable<Class<?>, TableCellRenderer>.
-    // It is declared otherwise to accomodate using UIDefaults.
+    trbnsient protected Hbshtbble<Object, Object> defbultRenderersByColumnClbss;
+    // Logicbly, the bbove is b Hbshtbble<Clbss<?>, TbbleCellRenderer>.
+    // It is declbred otherwise to bccomodbte using UIDefbults.
 
     /**
-     * A table of objects that display and edit the contents of a cell,
-     * indexed by class as declared in <code>getColumnClass</code>
-     * in the <code>TableModel</code> interface.
+     * A tbble of objects thbt displby bnd edit the contents of b cell,
+     * indexed by clbss bs declbred in <code>getColumnClbss</code>
+     * in the <code>TbbleModel</code> interfbce.
      */
-    transient protected Hashtable<Object, Object> defaultEditorsByColumnClass;
-    // Logicaly, the above is a Hashtable<Class<?>, TableCellEditor>.
-    // It is declared otherwise to accomodate using UIDefaults.
+    trbnsient protected Hbshtbble<Object, Object> defbultEditorsByColumnClbss;
+    // Logicbly, the bbove is b Hbshtbble<Clbss<?>, TbbleCellEditor>.
+    // It is declbred otherwise to bccomodbte using UIDefbults.
 
     /** The foreground color of selected cells. */
     protected Color selectionForeground;
 
-    /** The background color of selected cells. */
-    protected Color selectionBackground;
+    /** The bbckground color of selected cells. */
+    protected Color selectionBbckground;
 
 //
-// Private state
+// Privbte stbte
 //
 
-    // WARNING: If you directly access this field you should also change the
-    // SortManager.modelRowSizes field as well.
-    private SizeSequence rowModel;
-    private boolean dragEnabled;
-    private boolean surrendersFocusOnKeystroke;
-    private PropertyChangeListener editorRemover = null;
+    // WARNING: If you directly bccess this field you should blso chbnge the
+    // SortMbnbger.modelRowSizes field bs well.
+    privbte SizeSequence rowModel;
+    privbte boolebn drbgEnbbled;
+    privbte boolebn surrendersFocusOnKeystroke;
+    privbte PropertyChbngeListener editorRemover = null;
     /**
-     * The last value of getValueIsAdjusting from the column selection models
-     * columnSelectionChanged notification. Used to test if a repaint is
+     * The lbst vblue of getVblueIsAdjusting from the column selection models
+     * columnSelectionChbnged notificbtion. Used to test if b repbint is
      * needed.
      */
-    private boolean columnSelectionAdjusting;
+    privbte boolebn columnSelectionAdjusting;
     /**
-     * The last value of getValueIsAdjusting from the row selection models
-     * valueChanged notification. Used to test if a repaint is needed.
+     * The lbst vblue of getVblueIsAdjusting from the row selection models
+     * vblueChbnged notificbtion. Used to test if b repbint is needed.
      */
-    private boolean rowSelectionAdjusting;
+    privbte boolebn rowSelectionAdjusting;
 
     /**
-     * To communicate errors between threads during printing.
+     * To communicbte errors between threbds during printing.
      */
-    private Throwable printError;
+    privbte Throwbble printError;
 
     /**
-     * True when setRowHeight(int) has been invoked.
+     * True when setRowHeight(int) hbs been invoked.
      */
-    private boolean isRowHeightSet;
+    privbte boolebn isRowHeightSet;
 
     /**
-     * If true, on a sort the selection is reset.
+     * If true, on b sort the selection is reset.
      */
-    private boolean updateSelectionOnSort;
+    privbte boolebn updbteSelectionOnSort;
 
     /**
-     * Information used in sorting.
+     * Informbtion used in sorting.
      */
-    private transient SortManager sortManager;
+    privbte trbnsient SortMbnbger sortMbnbger;
 
     /**
-     * If true, when sorterChanged is invoked it's value is ignored.
+     * If true, when sorterChbnged is invoked it's vblue is ignored.
      */
-    private boolean ignoreSortChange;
+    privbte boolebn ignoreSortChbnge;
 
     /**
-     * Whether or not sorterChanged has been invoked.
+     * Whether or not sorterChbnged hbs been invoked.
      */
-    private boolean sorterChanged;
+    privbte boolebn sorterChbnged;
 
     /**
-     * If true, any time the model changes a new RowSorter is set.
+     * If true, bny time the model chbnges b new RowSorter is set.
      */
-    private boolean autoCreateRowSorter;
+    privbte boolebn butoCrebteRowSorter;
 
     /**
-     * Whether or not the table always fills the viewport height.
+     * Whether or not the tbble blwbys fills the viewport height.
      * @see #setFillsViewportHeight
-     * @see #getScrollableTracksViewportHeight
+     * @see #getScrollbbleTrbcksViewportHeight
      */
-    private boolean fillsViewportHeight;
+    privbte boolebn fillsViewportHeight;
 
     /**
      * The drop mode for this component.
      */
-    private DropMode dropMode = DropMode.USE_SELECTION;
+    privbte DropMode dropMode = DropMode.USE_SELECTION;
 
     /**
-     * The drop location.
+     * The drop locbtion.
      */
-    private transient DropLocation dropLocation;
+    privbte trbnsient DropLocbtion dropLocbtion;
 
     /**
-     * A subclass of <code>TransferHandler.DropLocation</code> representing
-     * a drop location for a <code>JTable</code>.
+     * A subclbss of <code>TrbnsferHbndler.DropLocbtion</code> representing
+     * b drop locbtion for b <code>JTbble</code>.
      *
-     * @see #getDropLocation
+     * @see #getDropLocbtion
      * @since 1.6
      */
-    public static final class DropLocation extends TransferHandler.DropLocation {
-        private final int row;
-        private final int col;
-        private final boolean isInsertRow;
-        private final boolean isInsertCol;
+    public stbtic finbl clbss DropLocbtion extends TrbnsferHbndler.DropLocbtion {
+        privbte finbl int row;
+        privbte finbl int col;
+        privbte finbl boolebn isInsertRow;
+        privbte finbl boolebn isInsertCol;
 
-        private DropLocation(Point p, int row, int col,
-                             boolean isInsertRow, boolean isInsertCol) {
+        privbte DropLocbtion(Point p, int row, int col,
+                             boolebn isInsertRow, boolebn isInsertCol) {
 
             super(p);
             this.row = row;
@@ -476,16 +476,16 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Returns the row index where a dropped item should be placed in the
-         * table. Interpretation of the value depends on the return of
-         * <code>isInsertRow()</code>. If that method returns
-         * <code>true</code> this value indicates the index where a new
-         * row should be inserted. Otherwise, it represents the value
-         * of an existing row on which the data was dropped. This index is
+         * Returns the row index where b dropped item should be plbced in the
+         * tbble. Interpretbtion of the vblue depends on the return of
+         * <code>isInsertRow()</code>. If thbt method returns
+         * <code>true</code> this vblue indicbtes the index where b new
+         * row should be inserted. Otherwise, it represents the vblue
+         * of bn existing row on which the dbtb wbs dropped. This index is
          * in terms of the view.
          * <p>
-         * <code>-1</code> indicates that the drop occurred over empty space,
-         * and no row could be calculated.
+         * <code>-1</code> indicbtes thbt the drop occurred over empty spbce,
+         * bnd no row could be cblculbted.
          *
          * @return the drop row
          */
@@ -494,16 +494,16 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Returns the column index where a dropped item should be placed in the
-         * table. Interpretation of the value depends on the return of
-         * <code>isInsertColumn()</code>. If that method returns
-         * <code>true</code> this value indicates the index where a new
-         * column should be inserted. Otherwise, it represents the value
-         * of an existing column on which the data was dropped. This index is
+         * Returns the column index where b dropped item should be plbced in the
+         * tbble. Interpretbtion of the vblue depends on the return of
+         * <code>isInsertColumn()</code>. If thbt method returns
+         * <code>true</code> this vblue indicbtes the index where b new
+         * column should be inserted. Otherwise, it represents the vblue
+         * of bn existing column on which the dbtb wbs dropped. This index is
          * in terms of the view.
          * <p>
-         * <code>-1</code> indicates that the drop occurred over empty space,
-         * and no column could be calculated.
+         * <code>-1</code> indicbtes thbt the drop occurred over empty spbce,
+         * bnd no column could be cblculbted.
          *
          * @return the drop row
          */
@@ -512,35 +512,35 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Returns whether or not this location represents an insert
-         * of a row.
+         * Returns whether or not this locbtion represents bn insert
+         * of b row.
          *
-         * @return whether or not this is an insert row
+         * @return whether or not this is bn insert row
          */
-        public boolean isInsertRow() {
+        public boolebn isInsertRow() {
             return isInsertRow;
         }
 
         /**
-         * Returns whether or not this location represents an insert
-         * of a column.
+         * Returns whether or not this locbtion represents bn insert
+         * of b column.
          *
-         * @return whether or not this is an insert column
+         * @return whether or not this is bn insert column
          */
-        public boolean isInsertColumn() {
+        public boolebn isInsertColumn() {
             return isInsertCol;
         }
 
         /**
-         * Returns a string representation of this drop location.
+         * Returns b string representbtion of this drop locbtion.
          * This method is intended to be used for debugging purposes,
-         * and the content and format of the returned string may vary
-         * between implementations.
+         * bnd the content bnd formbt of the returned string mby vbry
+         * between implementbtions.
          *
-         * @return a string representation of this drop location
+         * @return b string representbtion of this drop locbtion
          */
         public String toString() {
-            return getClass().getName()
+            return getClbss().getNbme()
                    + "[dropPoint=" + getDropPoint() + ","
                    + "row=" + row + ","
                    + "column=" + col + ","
@@ -554,245 +554,245 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 //
 
     /**
-     * Constructs a default <code>JTable</code> that is initialized with a default
-     * data model, a default column model, and a default selection
+     * Constructs b defbult <code>JTbble</code> thbt is initiblized with b defbult
+     * dbtb model, b defbult column model, bnd b defbult selection
      * model.
      *
-     * @see #createDefaultDataModel
-     * @see #createDefaultColumnModel
-     * @see #createDefaultSelectionModel
+     * @see #crebteDefbultDbtbModel
+     * @see #crebteDefbultColumnModel
+     * @see #crebteDefbultSelectionModel
      */
-    public JTable() {
+    public JTbble() {
         this(null, null, null);
     }
 
     /**
-     * Constructs a <code>JTable</code> that is initialized with
-     * <code>dm</code> as the data model, a default column model,
-     * and a default selection model.
+     * Constructs b <code>JTbble</code> thbt is initiblized with
+     * <code>dm</code> bs the dbtb model, b defbult column model,
+     * bnd b defbult selection model.
      *
-     * @param dm        the data model for the table
-     * @see #createDefaultColumnModel
-     * @see #createDefaultSelectionModel
+     * @pbrbm dm        the dbtb model for the tbble
+     * @see #crebteDefbultColumnModel
+     * @see #crebteDefbultSelectionModel
      */
-    public JTable(TableModel dm) {
+    public JTbble(TbbleModel dm) {
         this(dm, null, null);
     }
 
     /**
-     * Constructs a <code>JTable</code> that is initialized with
-     * <code>dm</code> as the data model, <code>cm</code>
-     * as the column model, and a default selection model.
+     * Constructs b <code>JTbble</code> thbt is initiblized with
+     * <code>dm</code> bs the dbtb model, <code>cm</code>
+     * bs the column model, bnd b defbult selection model.
      *
-     * @param dm        the data model for the table
-     * @param cm        the column model for the table
-     * @see #createDefaultSelectionModel
+     * @pbrbm dm        the dbtb model for the tbble
+     * @pbrbm cm        the column model for the tbble
+     * @see #crebteDefbultSelectionModel
      */
-    public JTable(TableModel dm, TableColumnModel cm) {
+    public JTbble(TbbleModel dm, TbbleColumnModel cm) {
         this(dm, cm, null);
     }
 
     /**
-     * Constructs a <code>JTable</code> that is initialized with
-     * <code>dm</code> as the data model, <code>cm</code> as the
-     * column model, and <code>sm</code> as the selection model.
-     * If any of the parameters are <code>null</code> this method
-     * will initialize the table with the corresponding default model.
-     * The <code>autoCreateColumnsFromModel</code> flag is set to false
+     * Constructs b <code>JTbble</code> thbt is initiblized with
+     * <code>dm</code> bs the dbtb model, <code>cm</code> bs the
+     * column model, bnd <code>sm</code> bs the selection model.
+     * If bny of the pbrbmeters bre <code>null</code> this method
+     * will initiblize the tbble with the corresponding defbult model.
+     * The <code>butoCrebteColumnsFromModel</code> flbg is set to fblse
      * if <code>cm</code> is non-null, otherwise it is set to true
-     * and the column model is populated with suitable
-     * <code>TableColumns</code> for the columns in <code>dm</code>.
+     * bnd the column model is populbted with suitbble
+     * <code>TbbleColumns</code> for the columns in <code>dm</code>.
      *
-     * @param dm        the data model for the table
-     * @param cm        the column model for the table
-     * @param sm        the row selection model for the table
-     * @see #createDefaultDataModel
-     * @see #createDefaultColumnModel
-     * @see #createDefaultSelectionModel
+     * @pbrbm dm        the dbtb model for the tbble
+     * @pbrbm cm        the column model for the tbble
+     * @pbrbm sm        the row selection model for the tbble
+     * @see #crebteDefbultDbtbModel
+     * @see #crebteDefbultColumnModel
+     * @see #crebteDefbultSelectionModel
      */
-    public JTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
+    public JTbble(TbbleModel dm, TbbleColumnModel cm, ListSelectionModel sm) {
         super();
-        setLayout(null);
+        setLbyout(null);
 
-        setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-                           JComponent.getManagingFocusForwardTraversalKeys());
-        setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-                           JComponent.getManagingFocusBackwardTraversalKeys());
+        setFocusTrbversblKeys(KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+                           JComponent.getMbnbgingFocusForwbrdTrbversblKeys());
+        setFocusTrbversblKeys(KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+                           JComponent.getMbnbgingFocusBbckwbrdTrbversblKeys());
         if (cm == null) {
-            cm = createDefaultColumnModel();
-            autoCreateColumnsFromModel = true;
+            cm = crebteDefbultColumnModel();
+            butoCrebteColumnsFromModel = true;
         }
         setColumnModel(cm);
 
         if (sm == null) {
-            sm = createDefaultSelectionModel();
+            sm = crebteDefbultSelectionModel();
         }
         setSelectionModel(sm);
 
-    // Set the model last, that way if the autoCreatColumnsFromModel has
-    // been set above, we will automatically populate an empty columnModel
-    // with suitable columns for the new model.
+    // Set the model lbst, thbt wby if the butoCrebtColumnsFromModel hbs
+    // been set bbove, we will butombticblly populbte bn empty columnModel
+    // with suitbble columns for the new model.
         if (dm == null) {
-            dm = createDefaultDataModel();
+            dm = crebteDefbultDbtbModel();
         }
         setModel(dm);
 
-        initializeLocalVars();
-        updateUI();
+        initiblizeLocblVbrs();
+        updbteUI();
     }
 
     /**
-     * Constructs a <code>JTable</code> with <code>numRows</code>
-     * and <code>numColumns</code> of empty cells using
-     * <code>DefaultTableModel</code>.  The columns will have
-     * names of the form "A", "B", "C", etc.
+     * Constructs b <code>JTbble</code> with <code>numRows</code>
+     * bnd <code>numColumns</code> of empty cells using
+     * <code>DefbultTbbleModel</code>.  The columns will hbve
+     * nbmes of the form "A", "B", "C", etc.
      *
-     * @param numRows           the number of rows the table holds
-     * @param numColumns        the number of columns the table holds
-     * @see javax.swing.table.DefaultTableModel
+     * @pbrbm numRows           the number of rows the tbble holds
+     * @pbrbm numColumns        the number of columns the tbble holds
+     * @see jbvbx.swing.tbble.DefbultTbbleModel
      */
-    public JTable(int numRows, int numColumns) {
-        this(new DefaultTableModel(numRows, numColumns));
+    public JTbble(int numRows, int numColumns) {
+        this(new DefbultTbbleModel(numRows, numColumns));
     }
 
     /**
-     * Constructs a <code>JTable</code> to display the values in the
-     * <code>Vector</code> of <code>Vectors</code>, <code>rowData</code>,
-     * with column names, <code>columnNames</code>.  The
-     * <code>Vectors</code> contained in <code>rowData</code>
-     * should contain the values for that row. In other words,
-     * the value of the cell at row 1, column 5 can be obtained
+     * Constructs b <code>JTbble</code> to displby the vblues in the
+     * <code>Vector</code> of <code>Vectors</code>, <code>rowDbtb</code>,
+     * with column nbmes, <code>columnNbmes</code>.  The
+     * <code>Vectors</code> contbined in <code>rowDbtb</code>
+     * should contbin the vblues for thbt row. In other words,
+     * the vblue of the cell bt row 1, column 5 cbn be obtbined
      * with the following code:
      *
-     * <pre>((Vector)rowData.elementAt(1)).elementAt(5);</pre>
+     * <pre>((Vector)rowDbtb.elementAt(1)).elementAt(5);</pre>
      *
-     * @param rowData           the data for the new table
-     * @param columnNames       names of each column
+     * @pbrbm rowDbtb           the dbtb for the new tbble
+     * @pbrbm columnNbmes       nbmes of ebch column
      */
-    public JTable(Vector<Vector<Object>> rowData, Vector<Object> columnNames) {
-        this(new DefaultTableModel(rowData, columnNames));
+    public JTbble(Vector<Vector<Object>> rowDbtb, Vector<Object> columnNbmes) {
+        this(new DefbultTbbleModel(rowDbtb, columnNbmes));
     }
 
     /**
-     * Constructs a <code>JTable</code> to display the values in the two dimensional array,
-     * <code>rowData</code>, with column names, <code>columnNames</code>.
-     * <code>rowData</code> is an array of rows, so the value of the cell at row 1,
-     * column 5 can be obtained with the following code:
+     * Constructs b <code>JTbble</code> to displby the vblues in the two dimensionbl brrby,
+     * <code>rowDbtb</code>, with column nbmes, <code>columnNbmes</code>.
+     * <code>rowDbtb</code> is bn brrby of rows, so the vblue of the cell bt row 1,
+     * column 5 cbn be obtbined with the following code:
      *
-     * <pre> rowData[1][5]; </pre>
+     * <pre> rowDbtb[1][5]; </pre>
      * <p>
-     * All rows must be of the same length as <code>columnNames</code>.
+     * All rows must be of the sbme length bs <code>columnNbmes</code>.
      *
-     * @param rowData           the data for the new table
-     * @param columnNames       names of each column
+     * @pbrbm rowDbtb           the dbtb for the new tbble
+     * @pbrbm columnNbmes       nbmes of ebch column
      */
-    public JTable(final Object[][] rowData, final Object[] columnNames) {
-        this(new AbstractTableModel() {
-            public String getColumnName(int column) { return columnNames[column].toString(); }
-            public int getRowCount() { return rowData.length; }
-            public int getColumnCount() { return columnNames.length; }
-            public Object getValueAt(int row, int col) { return rowData[row][col]; }
-            public boolean isCellEditable(int row, int column) { return true; }
-            public void setValueAt(Object value, int row, int col) {
-                rowData[row][col] = value;
-                fireTableCellUpdated(row, col);
+    public JTbble(finbl Object[][] rowDbtb, finbl Object[] columnNbmes) {
+        this(new AbstrbctTbbleModel() {
+            public String getColumnNbme(int column) { return columnNbmes[column].toString(); }
+            public int getRowCount() { return rowDbtb.length; }
+            public int getColumnCount() { return columnNbmes.length; }
+            public Object getVblueAt(int row, int col) { return rowDbtb[row][col]; }
+            public boolebn isCellEditbble(int row, int column) { return true; }
+            public void setVblueAt(Object vblue, int row, int col) {
+                rowDbtb[row][col] = vblue;
+                fireTbbleCellUpdbted(row, col);
             }
         });
     }
 
     /**
-     * Calls the <code>configureEnclosingScrollPane</code> method.
+     * Cblls the <code>configureEnclosingScrollPbne</code> method.
      *
-     * @see #configureEnclosingScrollPane
+     * @see #configureEnclosingScrollPbne
      */
-    public void addNotify() {
-        super.addNotify();
-        configureEnclosingScrollPane();
+    public void bddNotify() {
+        super.bddNotify();
+        configureEnclosingScrollPbne();
     }
 
     /**
-     * If this <code>JTable</code> is the <code>viewportView</code> of an enclosing <code>JScrollPane</code>
-     * (the usual situation), configure this <code>ScrollPane</code> by, amongst other things,
-     * installing the table's <code>tableHeader</code> as the <code>columnHeaderView</code> of the scroll pane.
-     * When a <code>JTable</code> is added to a <code>JScrollPane</code> in the usual way,
-     * using <code>new JScrollPane(myTable)</code>, <code>addNotify</code> is
-     * called in the <code>JTable</code> (when the table is added to the viewport).
-     * <code>JTable</code>'s <code>addNotify</code> method in turn calls this method,
-     * which is protected so that this default installation procedure can
-     * be overridden by a subclass.
+     * If this <code>JTbble</code> is the <code>viewportView</code> of bn enclosing <code>JScrollPbne</code>
+     * (the usubl situbtion), configure this <code>ScrollPbne</code> by, bmongst other things,
+     * instblling the tbble's <code>tbbleHebder</code> bs the <code>columnHebderView</code> of the scroll pbne.
+     * When b <code>JTbble</code> is bdded to b <code>JScrollPbne</code> in the usubl wby,
+     * using <code>new JScrollPbne(myTbble)</code>, <code>bddNotify</code> is
+     * cblled in the <code>JTbble</code> (when the tbble is bdded to the viewport).
+     * <code>JTbble</code>'s <code>bddNotify</code> method in turn cblls this method,
+     * which is protected so thbt this defbult instbllbtion procedure cbn
+     * be overridden by b subclbss.
      *
-     * @see #addNotify
+     * @see #bddNotify
      */
-    protected void configureEnclosingScrollPane() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            JViewport port = (JViewport) parent;
-            Container gp = port.getParent();
-            if (gp instanceof JScrollPane) {
-                JScrollPane scrollPane = (JScrollPane)gp;
-                // Make certain we are the viewPort's view and not, for
-                // example, the rowHeaderView of the scrollPane -
-                // an implementor of fixed columns might do this.
-                JViewport viewport = scrollPane.getViewport();
+    protected void configureEnclosingScrollPbne() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            JViewport port = (JViewport) pbrent;
+            Contbiner gp = port.getPbrent();
+            if (gp instbnceof JScrollPbne) {
+                JScrollPbne scrollPbne = (JScrollPbne)gp;
+                // Mbke certbin we bre the viewPort's view bnd not, for
+                // exbmple, the rowHebderView of the scrollPbne -
+                // bn implementor of fixed columns might do this.
+                JViewport viewport = scrollPbne.getViewport();
                 if (viewport == null ||
-                        SwingUtilities.getUnwrappedView(viewport) != this) {
+                        SwingUtilities.getUnwrbppedView(viewport) != this) {
                     return;
                 }
-                scrollPane.setColumnHeaderView(getTableHeader());
-                // configure the scrollpane for any LAF dependent settings
-                configureEnclosingScrollPaneUI();
+                scrollPbne.setColumnHebderView(getTbbleHebder());
+                // configure the scrollpbne for bny LAF dependent settings
+                configureEnclosingScrollPbneUI();
             }
         }
     }
 
     /**
-     * This is a sub-part of configureEnclosingScrollPane() that configures
-     * anything on the scrollpane that may change when the look and feel
-     * changes. It needed to be split out from configureEnclosingScrollPane() so
-     * that it can be called from updateUI() when the LAF changes without
-     * causing the regression found in bug 6687962. This was because updateUI()
-     * is called from the constructor which then caused
-     * configureEnclosingScrollPane() to be called by the constructor which
-     * changes its contract for any subclass that overrides it. So by splitting
-     * it out in this way configureEnclosingScrollPaneUI() can be called both
-     * from configureEnclosingScrollPane() and updateUI() in a safe manor.
+     * This is b sub-pbrt of configureEnclosingScrollPbne() thbt configures
+     * bnything on the scrollpbne thbt mby chbnge when the look bnd feel
+     * chbnges. It needed to be split out from configureEnclosingScrollPbne() so
+     * thbt it cbn be cblled from updbteUI() when the LAF chbnges without
+     * cbusing the regression found in bug 6687962. This wbs becbuse updbteUI()
+     * is cblled from the constructor which then cbused
+     * configureEnclosingScrollPbne() to be cblled by the constructor which
+     * chbnges its contrbct for bny subclbss thbt overrides it. So by splitting
+     * it out in this wby configureEnclosingScrollPbneUI() cbn be cblled both
+     * from configureEnclosingScrollPbne() bnd updbteUI() in b sbfe mbnor.
      */
-    private void configureEnclosingScrollPaneUI() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            JViewport port = (JViewport) parent;
-            Container gp = port.getParent();
-            if (gp instanceof JScrollPane) {
-                JScrollPane scrollPane = (JScrollPane)gp;
-                // Make certain we are the viewPort's view and not, for
-                // example, the rowHeaderView of the scrollPane -
-                // an implementor of fixed columns might do this.
-                JViewport viewport = scrollPane.getViewport();
+    privbte void configureEnclosingScrollPbneUI() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            JViewport port = (JViewport) pbrent;
+            Contbiner gp = port.getPbrent();
+            if (gp instbnceof JScrollPbne) {
+                JScrollPbne scrollPbne = (JScrollPbne)gp;
+                // Mbke certbin we bre the viewPort's view bnd not, for
+                // exbmple, the rowHebderView of the scrollPbne -
+                // bn implementor of fixed columns might do this.
+                JViewport viewport = scrollPbne.getViewport();
                 if (viewport == null ||
-                        SwingUtilities.getUnwrappedView(viewport) != this) {
+                        SwingUtilities.getUnwrbppedView(viewport) != this) {
                     return;
                 }
-                //  scrollPane.getViewport().setBackingStoreEnabled(true);
-                Border border = scrollPane.getBorder();
-                if (border == null || border instanceof UIResource) {
-                    Border scrollPaneBorder =
-                        UIManager.getBorder("Table.scrollPaneBorder");
-                    if (scrollPaneBorder != null) {
-                        scrollPane.setBorder(scrollPaneBorder);
+                //  scrollPbne.getViewport().setBbckingStoreEnbbled(true);
+                Border border = scrollPbne.getBorder();
+                if (border == null || border instbnceof UIResource) {
+                    Border scrollPbneBorder =
+                        UIMbnbger.getBorder("Tbble.scrollPbneBorder");
+                    if (scrollPbneBorder != null) {
+                        scrollPbne.setBorder(scrollPbneBorder);
                     }
                 }
-                // add JScrollBar corner component if available from LAF and not already set by the user
+                // bdd JScrollBbr corner component if bvbilbble from LAF bnd not blrebdy set by the user
                 Component corner =
-                        scrollPane.getCorner(JScrollPane.UPPER_TRAILING_CORNER);
-                if (corner == null || corner instanceof UIResource){
+                        scrollPbne.getCorner(JScrollPbne.UPPER_TRAILING_CORNER);
+                if (corner == null || corner instbnceof UIResource){
                     corner = null;
                     try {
-                        corner = (Component) UIManager.get(
-                                "Table.scrollPaneCornerComponent");
-                    } catch (Exception e) {
-                        // just ignore and don't set corner
+                        corner = (Component) UIMbnbger.get(
+                                "Tbble.scrollPbneCornerComponent");
+                    } cbtch (Exception e) {
+                        // just ignore bnd don't set corner
                     }
-                    scrollPane.setCorner(JScrollPane.UPPER_TRAILING_CORNER,
+                    scrollPbne.setCorner(JScrollPbne.UPPER_TRAILING_CORNER,
                             corner);
                 }
             }
@@ -800,164 +800,164 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Calls the <code>unconfigureEnclosingScrollPane</code> method.
+     * Cblls the <code>unconfigureEnclosingScrollPbne</code> method.
      *
-     * @see #unconfigureEnclosingScrollPane
+     * @see #unconfigureEnclosingScrollPbne
      */
     public void removeNotify() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().
-            removePropertyChangeListener("permanentFocusOwner", editorRemover);
+        KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
+            removePropertyChbngeListener("permbnentFocusOwner", editorRemover);
         editorRemover = null;
-        unconfigureEnclosingScrollPane();
+        unconfigureEnclosingScrollPbne();
         super.removeNotify();
     }
 
     /**
-     * Reverses the effect of <code>configureEnclosingScrollPane</code>
-     * by replacing the <code>columnHeaderView</code> of the enclosing
-     * scroll pane with <code>null</code>. <code>JTable</code>'s
-     * <code>removeNotify</code> method calls
-     * this method, which is protected so that this default uninstallation
-     * procedure can be overridden by a subclass.
+     * Reverses the effect of <code>configureEnclosingScrollPbne</code>
+     * by replbcing the <code>columnHebderView</code> of the enclosing
+     * scroll pbne with <code>null</code>. <code>JTbble</code>'s
+     * <code>removeNotify</code> method cblls
+     * this method, which is protected so thbt this defbult uninstbllbtion
+     * procedure cbn be overridden by b subclbss.
      *
      * @see #removeNotify
-     * @see #configureEnclosingScrollPane
+     * @see #configureEnclosingScrollPbne
      * @since 1.3
      */
-    protected void unconfigureEnclosingScrollPane() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            JViewport port = (JViewport) parent;
-            Container gp = port.getParent();
-            if (gp instanceof JScrollPane) {
-                JScrollPane scrollPane = (JScrollPane)gp;
-                // Make certain we are the viewPort's view and not, for
-                // example, the rowHeaderView of the scrollPane -
-                // an implementor of fixed columns might do this.
-                JViewport viewport = scrollPane.getViewport();
+    protected void unconfigureEnclosingScrollPbne() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            JViewport port = (JViewport) pbrent;
+            Contbiner gp = port.getPbrent();
+            if (gp instbnceof JScrollPbne) {
+                JScrollPbne scrollPbne = (JScrollPbne)gp;
+                // Mbke certbin we bre the viewPort's view bnd not, for
+                // exbmple, the rowHebderView of the scrollPbne -
+                // bn implementor of fixed columns might do this.
+                JViewport viewport = scrollPbne.getViewport();
                 if (viewport == null ||
-                        SwingUtilities.getUnwrappedView(viewport) != this) {
+                        SwingUtilities.getUnwrbppedView(viewport) != this) {
                     return;
                 }
-                scrollPane.setColumnHeaderView(null);
-                // remove ScrollPane corner if one was added by the LAF
+                scrollPbne.setColumnHebderView(null);
+                // remove ScrollPbne corner if one wbs bdded by the LAF
                 Component corner =
-                        scrollPane.getCorner(JScrollPane.UPPER_TRAILING_CORNER);
-                if (corner instanceof UIResource){
-                    scrollPane.setCorner(JScrollPane.UPPER_TRAILING_CORNER,
+                        scrollPbne.getCorner(JScrollPbne.UPPER_TRAILING_CORNER);
+                if (corner instbnceof UIResource){
+                    scrollPbne.setCorner(JScrollPbne.UPPER_TRAILING_CORNER,
                             null);
                 }
             }
         }
     }
 
-    void setUIProperty(String propertyName, Object value) {
-        if (propertyName == "rowHeight") {
+    void setUIProperty(String propertyNbme, Object vblue) {
+        if (propertyNbme == "rowHeight") {
             if (!isRowHeightSet) {
-                setRowHeight(((Number)value).intValue());
-                isRowHeightSet = false;
+                setRowHeight(((Number)vblue).intVblue());
+                isRowHeightSet = fblse;
             }
             return;
         }
-        super.setUIProperty(propertyName, value);
+        super.setUIProperty(propertyNbme, vblue);
     }
 
 //
-// Static Methods
+// Stbtic Methods
 //
 
     /**
-     * Equivalent to <code>new JScrollPane(aTable)</code>.
+     * Equivblent to <code>new JScrollPbne(bTbble)</code>.
      *
-     * @param aTable a {@code JTable} to be used for the scroll pane
-     * @return a {@code JScrollPane} created using {@code aTable}
-     * @deprecated As of Swing version 1.0.2,
-     * replaced by <code>new JScrollPane(aTable)</code>.
+     * @pbrbm bTbble b {@code JTbble} to be used for the scroll pbne
+     * @return b {@code JScrollPbne} crebted using {@code bTbble}
+     * @deprecbted As of Swing version 1.0.2,
+     * replbced by <code>new JScrollPbne(bTbble)</code>.
      */
-    @Deprecated
-    static public JScrollPane createScrollPaneForTable(JTable aTable) {
-        return new JScrollPane(aTable);
+    @Deprecbted
+    stbtic public JScrollPbne crebteScrollPbneForTbble(JTbble bTbble) {
+        return new JScrollPbne(bTbble);
     }
 
 //
-// Table Attributes
+// Tbble Attributes
 //
 
     /**
-     * Sets the <code>tableHeader</code> working with this <code>JTable</code> to <code>newHeader</code>.
-     * It is legal to have a <code>null</code> <code>tableHeader</code>.
+     * Sets the <code>tbbleHebder</code> working with this <code>JTbble</code> to <code>newHebder</code>.
+     * It is legbl to hbve b <code>null</code> <code>tbbleHebder</code>.
      *
-     * @param   tableHeader                       new tableHeader
-     * @see     #getTableHeader
-     * @beaninfo
+     * @pbrbm   tbbleHebder                       new tbbleHebder
+     * @see     #getTbbleHebder
+     * @bebninfo
      *  bound: true
-     *  description: The JTableHeader instance which renders the column headers.
+     *  description: The JTbbleHebder instbnce which renders the column hebders.
      */
-    public void setTableHeader(JTableHeader tableHeader) {
-        if (this.tableHeader != tableHeader) {
-            JTableHeader old = this.tableHeader;
-            // Release the old header
+    public void setTbbleHebder(JTbbleHebder tbbleHebder) {
+        if (this.tbbleHebder != tbbleHebder) {
+            JTbbleHebder old = this.tbbleHebder;
+            // Relebse the old hebder
             if (old != null) {
-                old.setTable(null);
+                old.setTbble(null);
             }
-            this.tableHeader = tableHeader;
-            if (tableHeader != null) {
-                tableHeader.setTable(this);
+            this.tbbleHebder = tbbleHebder;
+            if (tbbleHebder != null) {
+                tbbleHebder.setTbble(this);
             }
-            firePropertyChange("tableHeader", old, tableHeader);
+            firePropertyChbnge("tbbleHebder", old, tbbleHebder);
         }
     }
 
     /**
-     * Returns the <code>tableHeader</code> used by this <code>JTable</code>.
+     * Returns the <code>tbbleHebder</code> used by this <code>JTbble</code>.
      *
-     * @return  the <code>tableHeader</code> used by this table
-     * @see     #setTableHeader
+     * @return  the <code>tbbleHebder</code> used by this tbble
+     * @see     #setTbbleHebder
      */
-    public JTableHeader getTableHeader() {
-        return tableHeader;
+    public JTbbleHebder getTbbleHebder() {
+        return tbbleHebder;
     }
 
     /**
-     * Sets the height, in pixels, of all cells to <code>rowHeight</code>,
-     * revalidates, and repaints.
-     * The height of the cells will be equal to the row height minus
-     * the row margin.
+     * Sets the height, in pixels, of bll cells to <code>rowHeight</code>,
+     * revblidbtes, bnd repbints.
+     * The height of the cells will be equbl to the row height minus
+     * the row mbrgin.
      *
-     * @param   rowHeight                       new row height
-     * @exception IllegalArgumentException      if <code>rowHeight</code> is
-     *                                          less than 1
+     * @pbrbm   rowHeight                       new row height
+     * @exception IllegblArgumentException      if <code>rowHeight</code> is
+     *                                          less thbn 1
      * @see     #getRowHeight
-     * @beaninfo
+     * @bebninfo
      *  bound: true
      *  description: The height of the specified row.
      */
     public void setRowHeight(int rowHeight) {
         if (rowHeight <= 0) {
-            throw new IllegalArgumentException("New row height less than 1");
+            throw new IllegblArgumentException("New row height less thbn 1");
         }
         int old = this.rowHeight;
         this.rowHeight = rowHeight;
         rowModel = null;
-        if (sortManager != null) {
-            sortManager.modelRowSizes = null;
+        if (sortMbnbger != null) {
+            sortMbnbger.modelRowSizes = null;
         }
         isRowHeightSet = true;
-        resizeAndRepaint();
-        firePropertyChange("rowHeight", old, rowHeight);
+        resizeAndRepbint();
+        firePropertyChbnge("rowHeight", old, rowHeight);
     }
 
     /**
-     * Returns the height of a table row, in pixels.
+     * Returns the height of b tbble row, in pixels.
      *
-     * @return  the height in pixels of a table row
+     * @return  the height in pixels of b tbble row
      * @see     #setRowHeight
      */
     public int getRowHeight() {
         return rowHeight;
     }
 
-    private SizeSequence getRowModel() {
+    privbte SizeSequence getRowModel() {
         if (rowModel == null) {
             rowModel = new SizeSequence(getRowCount(), getRowHeight());
         }
@@ -966,33 +966,33 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 
     /**
      * Sets the height for <code>row</code> to <code>rowHeight</code>,
-     * revalidates, and repaints. The height of the cells in this row
-     * will be equal to the row height minus the row margin.
+     * revblidbtes, bnd repbints. The height of the cells in this row
+     * will be equbl to the row height minus the row mbrgin.
      *
-     * @param   row                             the row whose height is being
-                                                changed
-     * @param   rowHeight                       new row height, in pixels
-     * @exception IllegalArgumentException      if <code>rowHeight</code> is
-     *                                          less than 1
-     * @beaninfo
+     * @pbrbm   row                             the row whose height is being
+                                                chbnged
+     * @pbrbm   rowHeight                       new row height, in pixels
+     * @exception IllegblArgumentException      if <code>rowHeight</code> is
+     *                                          less thbn 1
+     * @bebninfo
      *  bound: true
      *  description: The height in pixels of the cells in <code>row</code>
      * @since 1.3
      */
     public void setRowHeight(int row, int rowHeight) {
         if (rowHeight <= 0) {
-            throw new IllegalArgumentException("New row height less than 1");
+            throw new IllegblArgumentException("New row height less thbn 1");
         }
         getRowModel().setSize(row, rowHeight);
-        if (sortManager != null) {
-            sortManager.setViewRowHeight(row, rowHeight);
+        if (sortMbnbger != null) {
+            sortMbnbger.setViewRowHeight(row, rowHeight);
         }
-        resizeAndRepaint();
+        resizeAndRepbint();
     }
 
     /**
      * Returns the height, in pixels, of the cells in <code>row</code>.
-     * @param   row              the row whose height is to be returned
+     * @pbrbm   row              the row whose height is to be returned
      * @return the height, in pixels, of the cells in the row
      * @since 1.3
      */
@@ -1001,91 +1001,91 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Sets the amount of empty space between cells in adjacent rows.
+     * Sets the bmount of empty spbce between cells in bdjbcent rows.
      *
-     * @param  rowMargin  the number of pixels between cells in a row
-     * @see     #getRowMargin
-     * @beaninfo
+     * @pbrbm  rowMbrgin  the number of pixels between cells in b row
+     * @see     #getRowMbrgin
+     * @bebninfo
      *  bound: true
-     *  description: The amount of space between cells.
+     *  description: The bmount of spbce between cells.
      */
-    public void setRowMargin(int rowMargin) {
-        int old = this.rowMargin;
-        this.rowMargin = rowMargin;
-        resizeAndRepaint();
-        firePropertyChange("rowMargin", old, rowMargin);
+    public void setRowMbrgin(int rowMbrgin) {
+        int old = this.rowMbrgin;
+        this.rowMbrgin = rowMbrgin;
+        resizeAndRepbint();
+        firePropertyChbnge("rowMbrgin", old, rowMbrgin);
     }
 
     /**
-     * Gets the amount of empty space, in pixels, between cells. Equivalent to:
-     * <code>getIntercellSpacing().height</code>.
-     * @return the number of pixels between cells in a row
+     * Gets the bmount of empty spbce, in pixels, between cells. Equivblent to:
+     * <code>getIntercellSpbcing().height</code>.
+     * @return the number of pixels between cells in b row
      *
-     * @see     #setRowMargin
+     * @see     #setRowMbrgin
      */
-    public int getRowMargin() {
-        return rowMargin;
+    public int getRowMbrgin() {
+        return rowMbrgin;
     }
 
     /**
-     * Sets the <code>rowMargin</code> and the <code>columnMargin</code> --
-     * the height and width of the space between cells -- to
-     * <code>intercellSpacing</code>.
+     * Sets the <code>rowMbrgin</code> bnd the <code>columnMbrgin</code> --
+     * the height bnd width of the spbce between cells -- to
+     * <code>intercellSpbcing</code>.
      *
-     * @param   intercellSpacing        a <code>Dimension</code>
+     * @pbrbm   intercellSpbcing        b <code>Dimension</code>
      *                                  specifying the new width
-     *                                  and height between cells
-     * @see     #getIntercellSpacing
-     * @beaninfo
-     *  description: The spacing between the cells,
-     *               drawn in the background color of the JTable.
+     *                                  bnd height between cells
+     * @see     #getIntercellSpbcing
+     * @bebninfo
+     *  description: The spbcing between the cells,
+     *               drbwn in the bbckground color of the JTbble.
      */
-    public void setIntercellSpacing(Dimension intercellSpacing) {
-        // Set the rowMargin here and columnMargin in the TableColumnModel
-        setRowMargin(intercellSpacing.height);
-        getColumnModel().setColumnMargin(intercellSpacing.width);
+    public void setIntercellSpbcing(Dimension intercellSpbcing) {
+        // Set the rowMbrgin here bnd columnMbrgin in the TbbleColumnModel
+        setRowMbrgin(intercellSpbcing.height);
+        getColumnModel().setColumnMbrgin(intercellSpbcing.width);
 
-        resizeAndRepaint();
+        resizeAndRepbint();
     }
 
     /**
-     * Returns the horizontal and vertical space between cells.
-     * The default spacing is look and feel dependent.
+     * Returns the horizontbl bnd verticbl spbce between cells.
+     * The defbult spbcing is look bnd feel dependent.
      *
-     * @return  the horizontal and vertical spacing between cells
-     * @see     #setIntercellSpacing
+     * @return  the horizontbl bnd verticbl spbcing between cells
+     * @see     #setIntercellSpbcing
      */
-    public Dimension getIntercellSpacing() {
-        return new Dimension(getColumnModel().getColumnMargin(), rowMargin);
+    public Dimension getIntercellSpbcing() {
+        return new Dimension(getColumnModel().getColumnMbrgin(), rowMbrgin);
     }
 
     /**
-     * Sets the color used to draw grid lines to <code>gridColor</code> and redisplays.
-     * The default color is look and feel dependent.
+     * Sets the color used to drbw grid lines to <code>gridColor</code> bnd redisplbys.
+     * The defbult color is look bnd feel dependent.
      *
-     * @param   gridColor                       the new color of the grid lines
-     * @exception IllegalArgumentException      if <code>gridColor</code> is <code>null</code>
+     * @pbrbm   gridColor                       the new color of the grid lines
+     * @exception IllegblArgumentException      if <code>gridColor</code> is <code>null</code>
      * @see     #getGridColor
-     * @beaninfo
+     * @bebninfo
      *  bound: true
      *  description: The grid color.
      */
     public void setGridColor(Color gridColor) {
         if (gridColor == null) {
-            throw new IllegalArgumentException("New color is null");
+            throw new IllegblArgumentException("New color is null");
         }
         Color old = this.gridColor;
         this.gridColor = gridColor;
-        firePropertyChange("gridColor", old, gridColor);
-        // Redraw
-        repaint();
+        firePropertyChbnge("gridColor", old, gridColor);
+        // Redrbw
+        repbint();
     }
 
     /**
-     * Returns the color used to draw grid lines.
-     * The default color is look and feel dependent.
+     * Returns the color used to drbw grid lines.
+     * The defbult color is look bnd feel dependent.
      *
-     * @return  the color used to draw grid lines
+     * @return  the color used to drbw grid lines
      * @see     #setGridColor
      */
     public Color getGridColor() {
@@ -1093,98 +1093,98 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     *  Sets whether the table draws grid lines around cells.
-     *  If <code>showGrid</code> is true it does; if it is false it doesn't.
-     *  There is no <code>getShowGrid</code> method as this state is held
-     *  in two variables -- <code>showHorizontalLines</code> and <code>showVerticalLines</code> --
-     *  each of which can be queried independently.
+     *  Sets whether the tbble drbws grid lines bround cells.
+     *  If <code>showGrid</code> is true it does; if it is fblse it doesn't.
+     *  There is no <code>getShowGrid</code> method bs this stbte is held
+     *  in two vbribbles -- <code>showHorizontblLines</code> bnd <code>showVerticblLines</code> --
+     *  ebch of which cbn be queried independently.
      *
-     * @param   showGrid                 true if table view should draw grid lines
+     * @pbrbm   showGrid                 true if tbble view should drbw grid lines
      *
-     * @see     #setShowVerticalLines
-     * @see     #setShowHorizontalLines
-     * @beaninfo
-     *  description: The color used to draw the grid lines.
+     * @see     #setShowVerticblLines
+     * @see     #setShowHorizontblLines
+     * @bebninfo
+     *  description: The color used to drbw the grid lines.
      */
-    public void setShowGrid(boolean showGrid) {
-        setShowHorizontalLines(showGrid);
-        setShowVerticalLines(showGrid);
+    public void setShowGrid(boolebn showGrid) {
+        setShowHorizontblLines(showGrid);
+        setShowVerticblLines(showGrid);
 
-        // Redraw
-        repaint();
+        // Redrbw
+        repbint();
     }
 
     /**
-     *  Sets whether the table draws horizontal lines between cells.
-     *  If <code>showHorizontalLines</code> is true it does; if it is false it doesn't.
+     *  Sets whether the tbble drbws horizontbl lines between cells.
+     *  If <code>showHorizontblLines</code> is true it does; if it is fblse it doesn't.
      *
-     * @param   showHorizontalLines      true if table view should draw horizontal lines
-     * @see     #getShowHorizontalLines
+     * @pbrbm   showHorizontblLines      true if tbble view should drbw horizontbl lines
+     * @see     #getShowHorizontblLines
      * @see     #setShowGrid
-     * @see     #setShowVerticalLines
-     * @beaninfo
+     * @see     #setShowVerticblLines
+     * @bebninfo
      *  bound: true
-     *  description: Whether horizontal lines should be drawn in between the cells.
+     *  description: Whether horizontbl lines should be drbwn in between the cells.
      */
-    public void setShowHorizontalLines(boolean showHorizontalLines) {
-        boolean old = this.showHorizontalLines;
-        this.showHorizontalLines = showHorizontalLines;
-        firePropertyChange("showHorizontalLines", old, showHorizontalLines);
+    public void setShowHorizontblLines(boolebn showHorizontblLines) {
+        boolebn old = this.showHorizontblLines;
+        this.showHorizontblLines = showHorizontblLines;
+        firePropertyChbnge("showHorizontblLines", old, showHorizontblLines);
 
-        // Redraw
-        repaint();
+        // Redrbw
+        repbint();
     }
 
     /**
-     *  Sets whether the table draws vertical lines between cells.
-     *  If <code>showVerticalLines</code> is true it does; if it is false it doesn't.
+     *  Sets whether the tbble drbws verticbl lines between cells.
+     *  If <code>showVerticblLines</code> is true it does; if it is fblse it doesn't.
      *
-     * @param   showVerticalLines              true if table view should draw vertical lines
-     * @see     #getShowVerticalLines
+     * @pbrbm   showVerticblLines              true if tbble view should drbw verticbl lines
+     * @see     #getShowVerticblLines
      * @see     #setShowGrid
-     * @see     #setShowHorizontalLines
-     * @beaninfo
+     * @see     #setShowHorizontblLines
+     * @bebninfo
      *  bound: true
-     *  description: Whether vertical lines should be drawn in between the cells.
+     *  description: Whether verticbl lines should be drbwn in between the cells.
      */
-    public void setShowVerticalLines(boolean showVerticalLines) {
-        boolean old = this.showVerticalLines;
-        this.showVerticalLines = showVerticalLines;
-        firePropertyChange("showVerticalLines", old, showVerticalLines);
-        // Redraw
-        repaint();
+    public void setShowVerticblLines(boolebn showVerticblLines) {
+        boolebn old = this.showVerticblLines;
+        this.showVerticblLines = showVerticblLines;
+        firePropertyChbnge("showVerticblLines", old, showVerticblLines);
+        // Redrbw
+        repbint();
     }
 
     /**
-     * Returns true if the table draws horizontal lines between cells, false if it
-     * doesn't. The default value is look and feel dependent.
+     * Returns true if the tbble drbws horizontbl lines between cells, fblse if it
+     * doesn't. The defbult vblue is look bnd feel dependent.
      *
-     * @return  true if the table draws horizontal lines between cells, false if it
+     * @return  true if the tbble drbws horizontbl lines between cells, fblse if it
      *          doesn't
-     * @see     #setShowHorizontalLines
+     * @see     #setShowHorizontblLines
      */
-    public boolean getShowHorizontalLines() {
-        return showHorizontalLines;
+    public boolebn getShowHorizontblLines() {
+        return showHorizontblLines;
     }
 
     /**
-     * Returns true if the table draws vertical lines between cells, false if it
-     * doesn't. The default value is look and feel dependent.
+     * Returns true if the tbble drbws verticbl lines between cells, fblse if it
+     * doesn't. The defbult vblue is look bnd feel dependent.
      *
-     * @return  true if the table draws vertical lines between cells, false if it
+     * @return  true if the tbble drbws verticbl lines between cells, fblse if it
      *          doesn't
-     * @see     #setShowVerticalLines
+     * @see     #setShowVerticblLines
      */
-    public boolean getShowVerticalLines() {
-        return showVerticalLines;
+    public boolebn getShowVerticblLines() {
+        return showVerticblLines;
     }
 
     /**
-     * Sets the table's auto resize mode when the table is resized.  For further
-     * information on how the different resize modes work, see
-     * {@link #doLayout}.
+     * Sets the tbble's buto resize mode when the tbble is resized.  For further
+     * informbtion on how the different resize modes work, see
+     * {@link #doLbyout}.
      *
-     * @param   mode One of 5 legal values:
+     * @pbrbm   mode One of 5 legbl vblues:
      *                   AUTO_RESIZE_OFF,
      *                   AUTO_RESIZE_NEXT_COLUMN,
      *                   AUTO_RESIZE_SUBSEQUENT_COLUMNS,
@@ -1192,15 +1192,15 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
      *                   AUTO_RESIZE_ALL_COLUMNS
      *
      * @see     #getAutoResizeMode
-     * @see     #doLayout
-     * @beaninfo
+     * @see     #doLbyout
+     * @bebninfo
      *  bound: true
-     *  description: Whether the columns should adjust themselves automatically.
-     *        enum: AUTO_RESIZE_OFF                JTable.AUTO_RESIZE_OFF
-     *              AUTO_RESIZE_NEXT_COLUMN        JTable.AUTO_RESIZE_NEXT_COLUMN
-     *              AUTO_RESIZE_SUBSEQUENT_COLUMNS JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS
-     *              AUTO_RESIZE_LAST_COLUMN        JTable.AUTO_RESIZE_LAST_COLUMN
-     *              AUTO_RESIZE_ALL_COLUMNS        JTable.AUTO_RESIZE_ALL_COLUMNS
+     *  description: Whether the columns should bdjust themselves butombticblly.
+     *        enum: AUTO_RESIZE_OFF                JTbble.AUTO_RESIZE_OFF
+     *              AUTO_RESIZE_NEXT_COLUMN        JTbble.AUTO_RESIZE_NEXT_COLUMN
+     *              AUTO_RESIZE_SUBSEQUENT_COLUMNS JTbble.AUTO_RESIZE_SUBSEQUENT_COLUMNS
+     *              AUTO_RESIZE_LAST_COLUMN        JTbble.AUTO_RESIZE_LAST_COLUMN
+     *              AUTO_RESIZE_ALL_COLUMNS        JTbble.AUTO_RESIZE_ALL_COLUMNS
      */
     public void setAutoResizeMode(int mode) {
         if ((mode == AUTO_RESIZE_OFF) ||
@@ -1208,263 +1208,263 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             (mode == AUTO_RESIZE_SUBSEQUENT_COLUMNS) ||
             (mode == AUTO_RESIZE_LAST_COLUMN) ||
             (mode == AUTO_RESIZE_ALL_COLUMNS)) {
-            int old = autoResizeMode;
-            autoResizeMode = mode;
-            resizeAndRepaint();
-            if (tableHeader != null) {
-                tableHeader.resizeAndRepaint();
+            int old = butoResizeMode;
+            butoResizeMode = mode;
+            resizeAndRepbint();
+            if (tbbleHebder != null) {
+                tbbleHebder.resizeAndRepbint();
             }
-            firePropertyChange("autoResizeMode", old, autoResizeMode);
+            firePropertyChbnge("butoResizeMode", old, butoResizeMode);
         }
     }
 
     /**
-     * Returns the auto resize mode of the table.  The default mode
+     * Returns the buto resize mode of the tbble.  The defbult mode
      * is AUTO_RESIZE_SUBSEQUENT_COLUMNS.
      *
-     * @return  the autoResizeMode of the table
+     * @return  the butoResizeMode of the tbble
      *
      * @see     #setAutoResizeMode
-     * @see     #doLayout
+     * @see     #doLbyout
      */
     public int getAutoResizeMode() {
-        return autoResizeMode;
+        return butoResizeMode;
     }
 
     /**
-     * Sets this table's <code>autoCreateColumnsFromModel</code> flag.
-     * This method calls <code>createDefaultColumnsFromModel</code> if
-     * <code>autoCreateColumnsFromModel</code> changes from false to true.
+     * Sets this tbble's <code>butoCrebteColumnsFromModel</code> flbg.
+     * This method cblls <code>crebteDefbultColumnsFromModel</code> if
+     * <code>butoCrebteColumnsFromModel</code> chbnges from fblse to true.
      *
-     * @param   autoCreateColumnsFromModel   true if <code>JTable</code> should automatically create columns
-     * @see     #getAutoCreateColumnsFromModel
-     * @see     #createDefaultColumnsFromModel
-     * @beaninfo
+     * @pbrbm   butoCrebteColumnsFromModel   true if <code>JTbble</code> should butombticblly crebte columns
+     * @see     #getAutoCrebteColumnsFromModel
+     * @see     #crebteDefbultColumnsFromModel
+     * @bebninfo
      *  bound: true
-     *  description: Automatically populates the columnModel when a new TableModel is submitted.
+     *  description: Autombticblly populbtes the columnModel when b new TbbleModel is submitted.
      */
-    public void setAutoCreateColumnsFromModel(boolean autoCreateColumnsFromModel) {
-        if (this.autoCreateColumnsFromModel != autoCreateColumnsFromModel) {
-            boolean old = this.autoCreateColumnsFromModel;
-            this.autoCreateColumnsFromModel = autoCreateColumnsFromModel;
-            if (autoCreateColumnsFromModel) {
-                createDefaultColumnsFromModel();
+    public void setAutoCrebteColumnsFromModel(boolebn butoCrebteColumnsFromModel) {
+        if (this.butoCrebteColumnsFromModel != butoCrebteColumnsFromModel) {
+            boolebn old = this.butoCrebteColumnsFromModel;
+            this.butoCrebteColumnsFromModel = butoCrebteColumnsFromModel;
+            if (butoCrebteColumnsFromModel) {
+                crebteDefbultColumnsFromModel();
             }
-            firePropertyChange("autoCreateColumnsFromModel", old, autoCreateColumnsFromModel);
+            firePropertyChbnge("butoCrebteColumnsFromModel", old, butoCrebteColumnsFromModel);
         }
     }
 
     /**
-     * Determines whether the table will create default columns from the model.
-     * If true, <code>setModel</code> will clear any existing columns and
-     * create new columns from the new model.  Also, if the event in
-     * the <code>tableChanged</code> notification specifies that the
-     * entire table changed, then the columns will be rebuilt.
-     * The default is true.
+     * Determines whether the tbble will crebte defbult columns from the model.
+     * If true, <code>setModel</code> will clebr bny existing columns bnd
+     * crebte new columns from the new model.  Also, if the event in
+     * the <code>tbbleChbnged</code> notificbtion specifies thbt the
+     * entire tbble chbnged, then the columns will be rebuilt.
+     * The defbult is true.
      *
-     * @return  the autoCreateColumnsFromModel of the table
-     * @see     #setAutoCreateColumnsFromModel
-     * @see     #createDefaultColumnsFromModel
+     * @return  the butoCrebteColumnsFromModel of the tbble
+     * @see     #setAutoCrebteColumnsFromModel
+     * @see     #crebteDefbultColumnsFromModel
      */
-    public boolean getAutoCreateColumnsFromModel() {
-        return autoCreateColumnsFromModel;
+    public boolebn getAutoCrebteColumnsFromModel() {
+        return butoCrebteColumnsFromModel;
     }
 
     /**
-     * Creates default columns for the table from
-     * the data model using the <code>getColumnCount</code> method
-     * defined in the <code>TableModel</code> interface.
+     * Crebtes defbult columns for the tbble from
+     * the dbtb model using the <code>getColumnCount</code> method
+     * defined in the <code>TbbleModel</code> interfbce.
      * <p>
-     * Clears any existing columns before creating the
-     * new columns based on information from the model.
+     * Clebrs bny existing columns before crebting the
+     * new columns bbsed on informbtion from the model.
      *
-     * @see     #getAutoCreateColumnsFromModel
+     * @see     #getAutoCrebteColumnsFromModel
      */
-    public void createDefaultColumnsFromModel() {
-        TableModel m = getModel();
+    public void crebteDefbultColumnsFromModel() {
+        TbbleModel m = getModel();
         if (m != null) {
-            // Remove any current columns
-            TableColumnModel cm = getColumnModel();
+            // Remove bny current columns
+            TbbleColumnModel cm = getColumnModel();
             while (cm.getColumnCount() > 0) {
                 cm.removeColumn(cm.getColumn(0));
             }
 
-            // Create new columns from the data model info
+            // Crebte new columns from the dbtb model info
             for (int i = 0; i < m.getColumnCount(); i++) {
-                TableColumn newColumn = new TableColumn(i);
-                addColumn(newColumn);
+                TbbleColumn newColumn = new TbbleColumn(i);
+                bddColumn(newColumn);
             }
         }
     }
 
     /**
-     * Sets a default cell renderer to be used if no renderer has been set in
-     * a <code>TableColumn</code>. If renderer is <code>null</code>,
-     * removes the default renderer for this column class.
+     * Sets b defbult cell renderer to be used if no renderer hbs been set in
+     * b <code>TbbleColumn</code>. If renderer is <code>null</code>,
+     * removes the defbult renderer for this column clbss.
      *
-     * @param  columnClass     set the default cell renderer for this columnClass
-     * @param  renderer        default cell renderer to be used for this
-     *                         columnClass
-     * @see     #getDefaultRenderer
-     * @see     #setDefaultEditor
+     * @pbrbm  columnClbss     set the defbult cell renderer for this columnClbss
+     * @pbrbm  renderer        defbult cell renderer to be used for this
+     *                         columnClbss
+     * @see     #getDefbultRenderer
+     * @see     #setDefbultEditor
      */
-    public void setDefaultRenderer(Class<?> columnClass, TableCellRenderer renderer) {
+    public void setDefbultRenderer(Clbss<?> columnClbss, TbbleCellRenderer renderer) {
         if (renderer != null) {
-            defaultRenderersByColumnClass.put(columnClass, renderer);
+            defbultRenderersByColumnClbss.put(columnClbss, renderer);
         }
         else {
-            defaultRenderersByColumnClass.remove(columnClass);
+            defbultRenderersByColumnClbss.remove(columnClbss);
         }
     }
 
     /**
-     * Returns the cell renderer to be used when no renderer has been set in
-     * a <code>TableColumn</code>. During the rendering of cells the renderer is fetched from
-     * a <code>Hashtable</code> of entries according to the class of the cells in the column. If
-     * there is no entry for this <code>columnClass</code> the method returns
-     * the entry for the most specific superclass. The <code>JTable</code> installs entries
-     * for <code>Object</code>, <code>Number</code>, and <code>Boolean</code>, all of which can be modified
-     * or replaced.
+     * Returns the cell renderer to be used when no renderer hbs been set in
+     * b <code>TbbleColumn</code>. During the rendering of cells the renderer is fetched from
+     * b <code>Hbshtbble</code> of entries bccording to the clbss of the cells in the column. If
+     * there is no entry for this <code>columnClbss</code> the method returns
+     * the entry for the most specific superclbss. The <code>JTbble</code> instblls entries
+     * for <code>Object</code>, <code>Number</code>, bnd <code>Boolebn</code>, bll of which cbn be modified
+     * or replbced.
      *
-     * @param   columnClass   return the default cell renderer
-     *                        for this columnClass
-     * @return  the renderer for this columnClass
-     * @see     #setDefaultRenderer
-     * @see     #getColumnClass
+     * @pbrbm   columnClbss   return the defbult cell renderer
+     *                        for this columnClbss
+     * @return  the renderer for this columnClbss
+     * @see     #setDefbultRenderer
+     * @see     #getColumnClbss
      */
-    public TableCellRenderer getDefaultRenderer(Class<?> columnClass) {
-        if (columnClass == null) {
+    public TbbleCellRenderer getDefbultRenderer(Clbss<?> columnClbss) {
+        if (columnClbss == null) {
             return null;
         }
         else {
-            Object renderer = defaultRenderersByColumnClass.get(columnClass);
+            Object renderer = defbultRenderersByColumnClbss.get(columnClbss);
             if (renderer != null) {
-                return (TableCellRenderer)renderer;
+                return (TbbleCellRenderer)renderer;
             }
             else {
-                Class<?> c = columnClass.getSuperclass();
-                if (c == null && columnClass != Object.class) {
-                    c = Object.class;
+                Clbss<?> c = columnClbss.getSuperclbss();
+                if (c == null && columnClbss != Object.clbss) {
+                    c = Object.clbss;
                 }
-                return getDefaultRenderer(c);
+                return getDefbultRenderer(c);
             }
         }
     }
 
     /**
-     * Sets a default cell editor to be used if no editor has been set in
-     * a <code>TableColumn</code>. If no editing is required in a table, or a
-     * particular column in a table, uses the <code>isCellEditable</code>
-     * method in the <code>TableModel</code> interface to ensure that this
-     * <code>JTable</code> will not start an editor in these columns.
-     * If editor is <code>null</code>, removes the default editor for this
-     * column class.
+     * Sets b defbult cell editor to be used if no editor hbs been set in
+     * b <code>TbbleColumn</code>. If no editing is required in b tbble, or b
+     * pbrticulbr column in b tbble, uses the <code>isCellEditbble</code>
+     * method in the <code>TbbleModel</code> interfbce to ensure thbt this
+     * <code>JTbble</code> will not stbrt bn editor in these columns.
+     * If editor is <code>null</code>, removes the defbult editor for this
+     * column clbss.
      *
-     * @param  columnClass  set the default cell editor for this columnClass
-     * @param  editor   default cell editor to be used for this columnClass
-     * @see     TableModel#isCellEditable
-     * @see     #getDefaultEditor
-     * @see     #setDefaultRenderer
+     * @pbrbm  columnClbss  set the defbult cell editor for this columnClbss
+     * @pbrbm  editor   defbult cell editor to be used for this columnClbss
+     * @see     TbbleModel#isCellEditbble
+     * @see     #getDefbultEditor
+     * @see     #setDefbultRenderer
      */
-    public void setDefaultEditor(Class<?> columnClass, TableCellEditor editor) {
+    public void setDefbultEditor(Clbss<?> columnClbss, TbbleCellEditor editor) {
         if (editor != null) {
-            defaultEditorsByColumnClass.put(columnClass, editor);
+            defbultEditorsByColumnClbss.put(columnClbss, editor);
         }
         else {
-            defaultEditorsByColumnClass.remove(columnClass);
+            defbultEditorsByColumnClbss.remove(columnClbss);
         }
     }
 
     /**
-     * Returns the editor to be used when no editor has been set in
-     * a <code>TableColumn</code>. During the editing of cells the editor is fetched from
-     * a <code>Hashtable</code> of entries according to the class of the cells in the column. If
-     * there is no entry for this <code>columnClass</code> the method returns
-     * the entry for the most specific superclass. The <code>JTable</code> installs entries
-     * for <code>Object</code>, <code>Number</code>, and <code>Boolean</code>, all of which can be modified
-     * or replaced.
+     * Returns the editor to be used when no editor hbs been set in
+     * b <code>TbbleColumn</code>. During the editing of cells the editor is fetched from
+     * b <code>Hbshtbble</code> of entries bccording to the clbss of the cells in the column. If
+     * there is no entry for this <code>columnClbss</code> the method returns
+     * the entry for the most specific superclbss. The <code>JTbble</code> instblls entries
+     * for <code>Object</code>, <code>Number</code>, bnd <code>Boolebn</code>, bll of which cbn be modified
+     * or replbced.
      *
-     * @param   columnClass  return the default cell editor for this columnClass
-     * @return the default cell editor to be used for this columnClass
-     * @see     #setDefaultEditor
-     * @see     #getColumnClass
+     * @pbrbm   columnClbss  return the defbult cell editor for this columnClbss
+     * @return the defbult cell editor to be used for this columnClbss
+     * @see     #setDefbultEditor
+     * @see     #getColumnClbss
      */
-    public TableCellEditor getDefaultEditor(Class<?> columnClass) {
-        if (columnClass == null) {
+    public TbbleCellEditor getDefbultEditor(Clbss<?> columnClbss) {
+        if (columnClbss == null) {
             return null;
         }
         else {
-            Object editor = defaultEditorsByColumnClass.get(columnClass);
+            Object editor = defbultEditorsByColumnClbss.get(columnClbss);
             if (editor != null) {
-                return (TableCellEditor)editor;
+                return (TbbleCellEditor)editor;
             }
             else {
-                return getDefaultEditor(columnClass.getSuperclass());
+                return getDefbultEditor(columnClbss.getSuperclbss());
             }
         }
     }
 
     /**
-     * Turns on or off automatic drag handling. In order to enable automatic
-     * drag handling, this property should be set to {@code true}, and the
-     * table's {@code TransferHandler} needs to be {@code non-null}.
-     * The default value of the {@code dragEnabled} property is {@code false}.
+     * Turns on or off butombtic drbg hbndling. In order to enbble butombtic
+     * drbg hbndling, this property should be set to {@code true}, bnd the
+     * tbble's {@code TrbnsferHbndler} needs to be {@code non-null}.
+     * The defbult vblue of the {@code drbgEnbbled} property is {@code fblse}.
      * <p>
-     * The job of honoring this property, and recognizing a user drag gesture,
-     * lies with the look and feel implementation, and in particular, the table's
-     * {@code TableUI}. When automatic drag handling is enabled, most look and
-     * feels (including those that subclass {@code BasicLookAndFeel}) begin a
-     * drag and drop operation whenever the user presses the mouse button over
-     * an item (in single selection mode) or a selection (in other selection
-     * modes) and then moves the mouse a few pixels. Setting this property to
-     * {@code true} can therefore have a subtle effect on how selections behave.
+     * The job of honoring this property, bnd recognizing b user drbg gesture,
+     * lies with the look bnd feel implementbtion, bnd in pbrticulbr, the tbble's
+     * {@code TbbleUI}. When butombtic drbg hbndling is enbbled, most look bnd
+     * feels (including those thbt subclbss {@code BbsicLookAndFeel}) begin b
+     * drbg bnd drop operbtion whenever the user presses the mouse button over
+     * bn item (in single selection mode) or b selection (in other selection
+     * modes) bnd then moves the mouse b few pixels. Setting this property to
+     * {@code true} cbn therefore hbve b subtle effect on how selections behbve.
      * <p>
-     * If a look and feel is used that ignores this property, you can still
-     * begin a drag and drop operation by calling {@code exportAsDrag} on the
-     * table's {@code TransferHandler}.
+     * If b look bnd feel is used thbt ignores this property, you cbn still
+     * begin b drbg bnd drop operbtion by cblling {@code exportAsDrbg} on the
+     * tbble's {@code TrbnsferHbndler}.
      *
-     * @param b whether or not to enable automatic drag handling
-     * @exception HeadlessException if
-     *            <code>b</code> is <code>true</code> and
-     *            <code>GraphicsEnvironment.isHeadless()</code>
+     * @pbrbm b whether or not to enbble butombtic drbg hbndling
+     * @exception HebdlessException if
+     *            <code>b</code> is <code>true</code> bnd
+     *            <code>GrbphicsEnvironment.isHebdless()</code>
      *            returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #getDragEnabled
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #getDrbgEnbbled
+     * @see #setTrbnsferHbndler
+     * @see TrbnsferHbndler
      * @since 1.4
      *
-     * @beaninfo
-     *  description: determines whether automatic drag handling is enabled
-     *        bound: false
+     * @bebninfo
+     *  description: determines whether butombtic drbg hbndling is enbbled
+     *        bound: fblse
      */
-    public void setDragEnabled(boolean b) {
-        if (b && GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public void setDrbgEnbbled(boolebn b) {
+        if (b && GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        dragEnabled = b;
+        drbgEnbbled = b;
     }
 
     /**
-     * Returns whether or not automatic drag handling is enabled.
+     * Returns whether or not butombtic drbg hbndling is enbbled.
      *
-     * @return the value of the {@code dragEnabled} property
-     * @see #setDragEnabled
+     * @return the vblue of the {@code drbgEnbbled} property
+     * @see #setDrbgEnbbled
      * @since 1.4
      */
-    public boolean getDragEnabled() {
-        return dragEnabled;
+    public boolebn getDrbgEnbbled() {
+        return drbgEnbbled;
     }
 
     /**
-     * Sets the drop mode for this component. For backward compatibility,
-     * the default for this property is <code>DropMode.USE_SELECTION</code>.
-     * Usage of one of the other modes is recommended, however, for an
-     * improved user experience. <code>DropMode.ON</code>, for instance,
-     * offers similar behavior of showing items as selected, but does so without
-     * affecting the actual selection in the table.
+     * Sets the drop mode for this component. For bbckwbrd compbtibility,
+     * the defbult for this property is <code>DropMode.USE_SELECTION</code>.
+     * Usbge of one of the other modes is recommended, however, for bn
+     * improved user experience. <code>DropMode.ON</code>, for instbnce,
+     * offers similbr behbvior of showing items bs selected, but does so without
+     * bffecting the bctubl selection in the tbble.
      * <p>
-     * <code>JTable</code> supports the following drop modes:
+     * <code>JTbble</code> supports the following drop modes:
      * <ul>
      *    <li><code>DropMode.USE_SELECTION</code></li>
      *    <li><code>DropMode.ON</code></li>
@@ -1476,35 +1476,35 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
      *    <li><code>DropMode.ON_OR_INSERT_COLS</code></li>
      * </ul>
      * <p>
-     * The drop mode is only meaningful if this component has a
-     * <code>TransferHandler</code> that accepts drops.
+     * The drop mode is only mebningful if this component hbs b
+     * <code>TrbnsferHbndler</code> thbt bccepts drops.
      *
-     * @param dropMode the drop mode to use
-     * @throws IllegalArgumentException if the drop mode is unsupported
+     * @pbrbm dropMode the drop mode to use
+     * @throws IllegblArgumentException if the drop mode is unsupported
      *         or <code>null</code>
      * @see #getDropMode
-     * @see #getDropLocation
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @see #getDropLocbtion
+     * @see #setTrbnsferHbndler
+     * @see TrbnsferHbndler
      * @since 1.6
      */
-    public final void setDropMode(DropMode dropMode) {
+    public finbl void setDropMode(DropMode dropMode) {
         if (dropMode != null) {
             switch (dropMode) {
-                case USE_SELECTION:
-                case ON:
-                case INSERT:
-                case INSERT_ROWS:
-                case INSERT_COLS:
-                case ON_OR_INSERT:
-                case ON_OR_INSERT_ROWS:
-                case ON_OR_INSERT_COLS:
+                cbse USE_SELECTION:
+                cbse ON:
+                cbse INSERT:
+                cbse INSERT_ROWS:
+                cbse INSERT_COLS:
+                cbse ON_OR_INSERT:
+                cbse ON_OR_INSERT_ROWS:
+                cbse ON_OR_INSERT_COLS:
                     this.dropMode = dropMode;
                     return;
             }
         }
 
-        throw new IllegalArgumentException(dropMode + ": Unsupported drop mode for table");
+        throw new IllegblArgumentException(dropMode + ": Unsupported drop mode for tbble");
     }
 
     /**
@@ -1514,57 +1514,57 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
      * @see #setDropMode
      * @since 1.6
      */
-    public final DropMode getDropMode() {
+    public finbl DropMode getDropMode() {
         return dropMode;
     }
 
     /**
-     * Calculates a drop location in this component, representing where a
-     * drop at the given point should insert data.
+     * Cblculbtes b drop locbtion in this component, representing where b
+     * drop bt the given point should insert dbtb.
      *
-     * @param p the point to calculate a drop location for
-     * @return the drop location, or <code>null</code>
+     * @pbrbm p the point to cblculbte b drop locbtion for
+     * @return the drop locbtion, or <code>null</code>
      */
-    DropLocation dropLocationForPoint(Point p) {
-        DropLocation location = null;
+    DropLocbtion dropLocbtionForPoint(Point p) {
+        DropLocbtion locbtion = null;
 
         int row = rowAtPoint(p);
         int col = columnAtPoint(p);
-        boolean outside = Boolean.TRUE == getClientProperty("Table.isFileList")
+        boolebn outside = Boolebn.TRUE == getClientProperty("Tbble.isFileList")
                           && SwingUtilities2.pointOutsidePrefSize(this, row, col, p);
 
-        Rectangle rect = getCellRect(row, col, true);
+        Rectbngle rect = getCellRect(row, col, true);
         Section xSection, ySection;
-        boolean between = false;
-        boolean ltr = getComponentOrientation().isLeftToRight();
+        boolebn between = fblse;
+        boolebn ltr = getComponentOrientbtion().isLeftToRight();
 
         switch(dropMode) {
-            case USE_SELECTION:
-            case ON:
+            cbse USE_SELECTION:
+            cbse ON:
                 if (row == -1 || col == -1 || outside) {
-                    location = new DropLocation(p, -1, -1, false, false);
+                    locbtion = new DropLocbtion(p, -1, -1, fblse, fblse);
                 } else {
-                    location = new DropLocation(p, row, col, false, false);
+                    locbtion = new DropLocbtion(p, row, col, fblse, fblse);
                 }
-                break;
-            case INSERT:
+                brebk;
+            cbse INSERT:
                 if (row == -1 && col == -1) {
-                    location = new DropLocation(p, 0, 0, true, true);
-                    break;
+                    locbtion = new DropLocbtion(p, 0, 0, true, true);
+                    brebk;
                 }
 
-                xSection = SwingUtilities2.liesInHorizontal(rect, p, ltr, true);
+                xSection = SwingUtilities2.liesInHorizontbl(rect, p, ltr, true);
 
                 if (row == -1) {
                     if (xSection == LEADING) {
-                        location = new DropLocation(p, getRowCount(), col, true, true);
+                        locbtion = new DropLocbtion(p, getRowCount(), col, true, true);
                     } else if (xSection == TRAILING) {
-                        location = new DropLocation(p, getRowCount(), col + 1, true, true);
+                        locbtion = new DropLocbtion(p, getRowCount(), col + 1, true, true);
                     } else {
-                        location = new DropLocation(p, getRowCount(), col, true, false);
+                        locbtion = new DropLocbtion(p, getRowCount(), col, true, fblse);
                     }
                 } else if (xSection == LEADING || xSection == TRAILING) {
-                    ySection = SwingUtilities2.liesInVertical(rect, p, true);
+                    ySection = SwingUtilities2.liesInVerticbl(rect, p, true);
                     if (ySection == LEADING) {
                         between = true;
                     } else if (ySection == TRAILING) {
@@ -1572,47 +1572,47 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                         between = true;
                     }
 
-                    location = new DropLocation(p, row,
+                    locbtion = new DropLocbtion(p, row,
                                                 xSection == TRAILING ? col + 1 : col,
                                                 between, true);
                 } else {
-                    if (SwingUtilities2.liesInVertical(rect, p, false) == TRAILING) {
+                    if (SwingUtilities2.liesInVerticbl(rect, p, fblse) == TRAILING) {
                         row++;
                     }
 
-                    location = new DropLocation(p, row, col, true, false);
+                    locbtion = new DropLocbtion(p, row, col, true, fblse);
                 }
 
-                break;
-            case INSERT_ROWS:
+                brebk;
+            cbse INSERT_ROWS:
                 if (row == -1 && col == -1) {
-                    location = new DropLocation(p, -1, -1, false, false);
-                    break;
+                    locbtion = new DropLocbtion(p, -1, -1, fblse, fblse);
+                    brebk;
                 }
 
                 if (row == -1) {
-                    location = new DropLocation(p, getRowCount(), col, true, false);
-                    break;
+                    locbtion = new DropLocbtion(p, getRowCount(), col, true, fblse);
+                    brebk;
                 }
 
-                if (SwingUtilities2.liesInVertical(rect, p, false) == TRAILING) {
+                if (SwingUtilities2.liesInVerticbl(rect, p, fblse) == TRAILING) {
                     row++;
                 }
 
-                location = new DropLocation(p, row, col, true, false);
-                break;
-            case ON_OR_INSERT_ROWS:
+                locbtion = new DropLocbtion(p, row, col, true, fblse);
+                brebk;
+            cbse ON_OR_INSERT_ROWS:
                 if (row == -1 && col == -1) {
-                    location = new DropLocation(p, -1, -1, false, false);
-                    break;
+                    locbtion = new DropLocbtion(p, -1, -1, fblse, fblse);
+                    brebk;
                 }
 
                 if (row == -1) {
-                    location = new DropLocation(p, getRowCount(), col, true, false);
-                    break;
+                    locbtion = new DropLocbtion(p, getRowCount(), col, true, fblse);
+                    brebk;
                 }
 
-                ySection = SwingUtilities2.liesInVertical(rect, p, true);
+                ySection = SwingUtilities2.liesInVerticbl(rect, p, true);
                 if (ySection == LEADING) {
                     between = true;
                 } else if (ySection == TRAILING) {
@@ -1620,37 +1620,37 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                     between = true;
                 }
 
-                location = new DropLocation(p, row, col, between, false);
-                break;
-            case INSERT_COLS:
+                locbtion = new DropLocbtion(p, row, col, between, fblse);
+                brebk;
+            cbse INSERT_COLS:
                 if (row == -1) {
-                    location = new DropLocation(p, -1, -1, false, false);
-                    break;
+                    locbtion = new DropLocbtion(p, -1, -1, fblse, fblse);
+                    brebk;
                 }
 
                 if (col == -1) {
-                    location = new DropLocation(p, getColumnCount(), col, false, true);
-                    break;
+                    locbtion = new DropLocbtion(p, getColumnCount(), col, fblse, true);
+                    brebk;
                 }
 
-                if (SwingUtilities2.liesInHorizontal(rect, p, ltr, false) == TRAILING) {
+                if (SwingUtilities2.liesInHorizontbl(rect, p, ltr, fblse) == TRAILING) {
                     col++;
                 }
 
-                location = new DropLocation(p, row, col, false, true);
-                break;
-            case ON_OR_INSERT_COLS:
+                locbtion = new DropLocbtion(p, row, col, fblse, true);
+                brebk;
+            cbse ON_OR_INSERT_COLS:
                 if (row == -1) {
-                    location = new DropLocation(p, -1, -1, false, false);
-                    break;
+                    locbtion = new DropLocbtion(p, -1, -1, fblse, fblse);
+                    brebk;
                 }
 
                 if (col == -1) {
-                    location = new DropLocation(p, row, getColumnCount(), false, true);
-                    break;
+                    locbtion = new DropLocbtion(p, row, getColumnCount(), fblse, true);
+                    brebk;
                 }
 
-                xSection = SwingUtilities2.liesInHorizontal(rect, p, ltr, true);
+                xSection = SwingUtilities2.liesInHorizontbl(rect, p, ltr, true);
                 if (xSection == LEADING) {
                     between = true;
                 } else if (xSection == TRAILING) {
@@ -1658,29 +1658,29 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                     between = true;
                 }
 
-                location = new DropLocation(p, row, col, false, between);
-                break;
-            case ON_OR_INSERT:
+                locbtion = new DropLocbtion(p, row, col, fblse, between);
+                brebk;
+            cbse ON_OR_INSERT:
                 if (row == -1 && col == -1) {
-                    location = new DropLocation(p, 0, 0, true, true);
-                    break;
+                    locbtion = new DropLocbtion(p, 0, 0, true, true);
+                    brebk;
                 }
 
-                xSection = SwingUtilities2.liesInHorizontal(rect, p, ltr, true);
+                xSection = SwingUtilities2.liesInHorizontbl(rect, p, ltr, true);
 
                 if (row == -1) {
                     if (xSection == LEADING) {
-                        location = new DropLocation(p, getRowCount(), col, true, true);
+                        locbtion = new DropLocbtion(p, getRowCount(), col, true, true);
                     } else if (xSection == TRAILING) {
-                        location = new DropLocation(p, getRowCount(), col + 1, true, true);
+                        locbtion = new DropLocbtion(p, getRowCount(), col + 1, true, true);
                     } else {
-                        location = new DropLocation(p, getRowCount(), col, true, false);
+                        locbtion = new DropLocbtion(p, getRowCount(), col, true, fblse);
                     }
 
-                    break;
+                    brebk;
                 }
 
-                ySection = SwingUtilities2.liesInVertical(rect, p, true);
+                ySection = SwingUtilities2.liesInVerticbl(rect, p, true);
                 if (ySection == LEADING) {
                     between = true;
                 } else if (ySection == TRAILING) {
@@ -1688,251 +1688,251 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                     between = true;
                 }
 
-                location = new DropLocation(p, row,
+                locbtion = new DropLocbtion(p, row,
                                             xSection == TRAILING ? col + 1 : col,
                                             between,
                                             xSection != MIDDLE);
 
-                break;
-            default:
-                assert false : "Unexpected drop mode";
+                brebk;
+            defbult:
+                bssert fblse : "Unexpected drop mode";
         }
 
-        return location;
+        return locbtion;
     }
 
     /**
-     * Called to set or clear the drop location during a DnD operation.
-     * In some cases, the component may need to use it's internal selection
-     * temporarily to indicate the drop location. To help facilitate this,
-     * this method returns and accepts as a parameter a state object.
-     * This state object can be used to store, and later restore, the selection
-     * state. Whatever this method returns will be passed back to it in
-     * future calls, as the state parameter. If it wants the DnD system to
-     * continue storing the same state, it must pass it back every time.
+     * Cblled to set or clebr the drop locbtion during b DnD operbtion.
+     * In some cbses, the component mby need to use it's internbl selection
+     * temporbrily to indicbte the drop locbtion. To help fbcilitbte this,
+     * this method returns bnd bccepts bs b pbrbmeter b stbte object.
+     * This stbte object cbn be used to store, bnd lbter restore, the selection
+     * stbte. Whbtever this method returns will be pbssed bbck to it in
+     * future cblls, bs the stbte pbrbmeter. If it wbnts the DnD system to
+     * continue storing the sbme stbte, it must pbss it bbck every time.
      * Here's how this is used:
      * <p>
-     * Let's say that on the first call to this method the component decides
-     * to save some state (because it is about to use the selection to show
-     * a drop index). It can return a state object to the caller encapsulating
-     * any saved selection state. On a second call, let's say the drop location
-     * is being changed to something else. The component doesn't need to
-     * restore anything yet, so it simply passes back the same state object
-     * to have the DnD system continue storing it. Finally, let's say this
-     * method is messaged with <code>null</code>. This means DnD
-     * is finished with this component for now, meaning it should restore
-     * state. At this point, it can use the state parameter to restore
-     * said state, and of course return <code>null</code> since there's
-     * no longer anything to store.
+     * Let's sby thbt on the first cbll to this method the component decides
+     * to sbve some stbte (becbuse it is bbout to use the selection to show
+     * b drop index). It cbn return b stbte object to the cbller encbpsulbting
+     * bny sbved selection stbte. On b second cbll, let's sby the drop locbtion
+     * is being chbnged to something else. The component doesn't need to
+     * restore bnything yet, so it simply pbsses bbck the sbme stbte object
+     * to hbve the DnD system continue storing it. Finblly, let's sby this
+     * method is messbged with <code>null</code>. This mebns DnD
+     * is finished with this component for now, mebning it should restore
+     * stbte. At this point, it cbn use the stbte pbrbmeter to restore
+     * sbid stbte, bnd of course return <code>null</code> since there's
+     * no longer bnything to store.
      *
-     * @param location the drop location (as calculated by
-     *        <code>dropLocationForPoint</code>) or <code>null</code>
-     *        if there's no longer a valid drop location
-     * @param state the state object saved earlier for this component,
+     * @pbrbm locbtion the drop locbtion (bs cblculbted by
+     *        <code>dropLocbtionForPoint</code>) or <code>null</code>
+     *        if there's no longer b vblid drop locbtion
+     * @pbrbm stbte the stbte object sbved ebrlier for this component,
      *        or <code>null</code>
-     * @param forDrop whether or not the method is being called because an
-     *        actual drop occurred
-     * @return any saved state for this component, or <code>null</code> if none
+     * @pbrbm forDrop whether or not the method is being cblled becbuse bn
+     *        bctubl drop occurred
+     * @return bny sbved stbte for this component, or <code>null</code> if none
      */
-    Object setDropLocation(TransferHandler.DropLocation location,
-                           Object state,
-                           boolean forDrop) {
+    Object setDropLocbtion(TrbnsferHbndler.DropLocbtion locbtion,
+                           Object stbte,
+                           boolebn forDrop) {
 
-        Object retVal = null;
-        DropLocation tableLocation = (DropLocation)location;
+        Object retVbl = null;
+        DropLocbtion tbbleLocbtion = (DropLocbtion)locbtion;
 
         if (dropMode == DropMode.USE_SELECTION) {
-            if (tableLocation == null) {
-                if (!forDrop && state != null) {
-                    clearSelection();
+            if (tbbleLocbtion == null) {
+                if (!forDrop && stbte != null) {
+                    clebrSelection();
 
-                    int[] rows = ((int[][])state)[0];
-                    int[] cols = ((int[][])state)[1];
-                    int[] anchleads = ((int[][])state)[2];
+                    int[] rows = ((int[][])stbte)[0];
+                    int[] cols = ((int[][])stbte)[1];
+                    int[] bnchlebds = ((int[][])stbte)[2];
 
                     for (int row : rows) {
-                        addRowSelectionInterval(row, row);
+                        bddRowSelectionIntervbl(row, row);
                     }
 
                     for (int col : cols) {
-                        addColumnSelectionInterval(col, col);
+                        bddColumnSelectionIntervbl(col, col);
                     }
 
-                    SwingUtilities2.setLeadAnchorWithoutSelection(
-                            getSelectionModel(), anchleads[1], anchleads[0]);
+                    SwingUtilities2.setLebdAnchorWithoutSelection(
+                            getSelectionModel(), bnchlebds[1], bnchlebds[0]);
 
-                    SwingUtilities2.setLeadAnchorWithoutSelection(
+                    SwingUtilities2.setLebdAnchorWithoutSelection(
                             getColumnModel().getSelectionModel(),
-                            anchleads[3], anchleads[2]);
+                            bnchlebds[3], bnchlebds[2]);
                 }
             } else {
-                if (dropLocation == null) {
-                    retVal = new int[][]{
+                if (dropLocbtion == null) {
+                    retVbl = new int[][]{
                         getSelectedRows(),
                         getSelectedColumns(),
                         {getAdjustedIndex(getSelectionModel()
                              .getAnchorSelectionIndex(), true),
                          getAdjustedIndex(getSelectionModel()
-                             .getLeadSelectionIndex(), true),
+                             .getLebdSelectionIndex(), true),
                          getAdjustedIndex(getColumnModel().getSelectionModel()
-                             .getAnchorSelectionIndex(), false),
+                             .getAnchorSelectionIndex(), fblse),
                          getAdjustedIndex(getColumnModel().getSelectionModel()
-                             .getLeadSelectionIndex(), false)}};
+                             .getLebdSelectionIndex(), fblse)}};
                 } else {
-                    retVal = state;
+                    retVbl = stbte;
                 }
 
-                if (tableLocation.getRow() == -1) {
-                    clearSelectionAndLeadAnchor();
+                if (tbbleLocbtion.getRow() == -1) {
+                    clebrSelectionAndLebdAnchor();
                 } else {
-                    setRowSelectionInterval(tableLocation.getRow(),
-                                            tableLocation.getRow());
-                    setColumnSelectionInterval(tableLocation.getColumn(),
-                                               tableLocation.getColumn());
+                    setRowSelectionIntervbl(tbbleLocbtion.getRow(),
+                                            tbbleLocbtion.getRow());
+                    setColumnSelectionIntervbl(tbbleLocbtion.getColumn(),
+                                               tbbleLocbtion.getColumn());
                 }
             }
         }
 
-        DropLocation old = dropLocation;
-        dropLocation = tableLocation;
-        firePropertyChange("dropLocation", old, dropLocation);
+        DropLocbtion old = dropLocbtion;
+        dropLocbtion = tbbleLocbtion;
+        firePropertyChbnge("dropLocbtion", old, dropLocbtion);
 
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * Returns the location that this component should visually indicate
-     * as the drop location during a DnD operation over the component,
-     * or {@code null} if no location is to currently be shown.
+     * Returns the locbtion thbt this component should visublly indicbte
+     * bs the drop locbtion during b DnD operbtion over the component,
+     * or {@code null} if no locbtion is to currently be shown.
      * <p>
-     * This method is not meant for querying the drop location
-     * from a {@code TransferHandler}, as the drop location is only
-     * set after the {@code TransferHandler}'s <code>canImport</code>
-     * has returned and has allowed for the location to be shown.
+     * This method is not mebnt for querying the drop locbtion
+     * from b {@code TrbnsferHbndler}, bs the drop locbtion is only
+     * set bfter the {@code TrbnsferHbndler}'s <code>cbnImport</code>
+     * hbs returned bnd hbs bllowed for the locbtion to be shown.
      * <p>
-     * When this property changes, a property change event with
-     * name "dropLocation" is fired by the component.
+     * When this property chbnges, b property chbnge event with
+     * nbme "dropLocbtion" is fired by the component.
      *
-     * @return the drop location
+     * @return the drop locbtion
      * @see #setDropMode
-     * @see TransferHandler#canImport(TransferHandler.TransferSupport)
+     * @see TrbnsferHbndler#cbnImport(TrbnsferHbndler.TrbnsferSupport)
      * @since 1.6
      */
-    public final DropLocation getDropLocation() {
-        return dropLocation;
+    public finbl DropLocbtion getDropLocbtion() {
+        return dropLocbtion;
     }
 
     /**
-     * Specifies whether a {@code RowSorter} should be created for the
-     * table whenever its model changes.
+     * Specifies whether b {@code RowSorter} should be crebted for the
+     * tbble whenever its model chbnges.
      * <p>
-     * When {@code setAutoCreateRowSorter(true)} is invoked, a {@code
-     * TableRowSorter} is immediately created and installed on the
-     * table.  While the {@code autoCreateRowSorter} property remains
-     * {@code true}, every time the model is changed, a new {@code
-     * TableRowSorter} is created and set as the table's row sorter.
-     * The default value for the {@code autoCreateRowSorter}
-     * property is {@code false}.
+     * When {@code setAutoCrebteRowSorter(true)} is invoked, b {@code
+     * TbbleRowSorter} is immedibtely crebted bnd instblled on the
+     * tbble.  While the {@code butoCrebteRowSorter} property rembins
+     * {@code true}, every time the model is chbnged, b new {@code
+     * TbbleRowSorter} is crebted bnd set bs the tbble's row sorter.
+     * The defbult vblue for the {@code butoCrebteRowSorter}
+     * property is {@code fblse}.
      *
-     * @param autoCreateRowSorter whether or not a {@code RowSorter}
-     *        should be automatically created
-     * @see javax.swing.table.TableRowSorter
-     * @beaninfo
+     * @pbrbm butoCrebteRowSorter whether or not b {@code RowSorter}
+     *        should be butombticblly crebted
+     * @see jbvbx.swing.tbble.TbbleRowSorter
+     * @bebninfo
      *        bound: true
      *    preferred: true
-     *  description: Whether or not to turn on sorting by default.
+     *  description: Whether or not to turn on sorting by defbult.
      * @since 1.6
      */
-    public void setAutoCreateRowSorter(boolean autoCreateRowSorter) {
-        boolean oldValue = this.autoCreateRowSorter;
-        this.autoCreateRowSorter = autoCreateRowSorter;
-        if (autoCreateRowSorter) {
-            setRowSorter(new TableRowSorter<TableModel>(getModel()));
+    public void setAutoCrebteRowSorter(boolebn butoCrebteRowSorter) {
+        boolebn oldVblue = this.butoCrebteRowSorter;
+        this.butoCrebteRowSorter = butoCrebteRowSorter;
+        if (butoCrebteRowSorter) {
+            setRowSorter(new TbbleRowSorter<TbbleModel>(getModel()));
         }
-        firePropertyChange("autoCreateRowSorter", oldValue,
-                           autoCreateRowSorter);
+        firePropertyChbnge("butoCrebteRowSorter", oldVblue,
+                           butoCrebteRowSorter);
     }
 
     /**
-     * Returns {@code true} if whenever the model changes, a new
-     * {@code RowSorter} should be created and installed
-     * as the table's sorter; otherwise, returns {@code false}.
+     * Returns {@code true} if whenever the model chbnges, b new
+     * {@code RowSorter} should be crebted bnd instblled
+     * bs the tbble's sorter; otherwise, returns {@code fblse}.
      *
-     * @return true if a {@code RowSorter} should be created when
-     *         the model changes
+     * @return true if b {@code RowSorter} should be crebted when
+     *         the model chbnges
      * @since 1.6
      */
-    public boolean getAutoCreateRowSorter() {
-        return autoCreateRowSorter;
+    public boolebn getAutoCrebteRowSorter() {
+        return butoCrebteRowSorter;
     }
 
     /**
-     * Specifies whether the selection should be updated after sorting.
-     * If true, on sorting the selection is reset such that
-     * the same rows, in terms of the model, remain selected.  The default
+     * Specifies whether the selection should be updbted bfter sorting.
+     * If true, on sorting the selection is reset such thbt
+     * the sbme rows, in terms of the model, rembin selected.  The defbult
      * is true.
      *
-     * @param update whether or not to update the selection on sorting
-     * @beaninfo
+     * @pbrbm updbte whether or not to updbte the selection on sorting
+     * @bebninfo
      *        bound: true
      *       expert: true
-     *  description: Whether or not to update the selection on sorting
+     *  description: Whether or not to updbte the selection on sorting
      * @since 1.6
      */
-    public void setUpdateSelectionOnSort(boolean update) {
-        if (updateSelectionOnSort != update) {
-            updateSelectionOnSort = update;
-            firePropertyChange("updateSelectionOnSort", !update, update);
+    public void setUpdbteSelectionOnSort(boolebn updbte) {
+        if (updbteSelectionOnSort != updbte) {
+            updbteSelectionOnSort = updbte;
+            firePropertyChbnge("updbteSelectionOnSort", !updbte, updbte);
         }
     }
 
     /**
-     * Returns true if the selection should be updated after sorting.
+     * Returns true if the selection should be updbted bfter sorting.
      *
-     * @return whether to update the selection on a sort
+     * @return whether to updbte the selection on b sort
      * @since 1.6
      */
-    public boolean getUpdateSelectionOnSort() {
-        return updateSelectionOnSort;
+    public boolebn getUpdbteSelectionOnSort() {
+        return updbteSelectionOnSort;
     }
 
     /**
      * Sets the <code>RowSorter</code>.  <code>RowSorter</code> is used
-     * to provide sorting and filtering to a <code>JTable</code>.
+     * to provide sorting bnd filtering to b <code>JTbble</code>.
      * <p>
-     * This method clears the selection and resets any variable row heights.
+     * This method clebrs the selection bnd resets bny vbribble row heights.
      * <p>
-     * This method fires a <code>PropertyChangeEvent</code> when appropriate,
-     * with the property name <code>"rowSorter"</code>.  For
-     * backward-compatibility, this method fires an additional event with the
-     * property name <code>"sorter"</code>.
+     * This method fires b <code>PropertyChbngeEvent</code> when bppropribte,
+     * with the property nbme <code>"rowSorter"</code>.  For
+     * bbckwbrd-compbtibility, this method fires bn bdditionbl event with the
+     * property nbme <code>"sorter"</code>.
      * <p>
      * If the underlying model of the <code>RowSorter</code> differs from
-     * that of this <code>JTable</code> undefined behavior will result.
+     * thbt of this <code>JTbble</code> undefined behbvior will result.
      *
-     * @param sorter the <code>RowSorter</code>; <code>null</code> turns
+     * @pbrbm sorter the <code>RowSorter</code>; <code>null</code> turns
      *        sorting off
-     * @see javax.swing.table.TableRowSorter
-     * @beaninfo
+     * @see jbvbx.swing.tbble.TbbleRowSorter
+     * @bebninfo
      *        bound: true
-     *  description: The table's RowSorter
+     *  description: The tbble's RowSorter
      * @since 1.6
      */
-    public void setRowSorter(RowSorter<? extends TableModel> sorter) {
-        RowSorter<? extends TableModel> oldRowSorter = null;
-        if (sortManager != null) {
-            oldRowSorter = sortManager.sorter;
-            sortManager.dispose();
-            sortManager = null;
+    public void setRowSorter(RowSorter<? extends TbbleModel> sorter) {
+        RowSorter<? extends TbbleModel> oldRowSorter = null;
+        if (sortMbnbger != null) {
+            oldRowSorter = sortMbnbger.sorter;
+            sortMbnbger.dispose();
+            sortMbnbger = null;
         }
         rowModel = null;
-        clearSelectionAndLeadAnchor();
+        clebrSelectionAndLebdAnchor();
         if (sorter != null) {
-            sortManager = new SortManager(sorter);
+            sortMbnbger = new SortMbnbger(sorter);
         }
-        resizeAndRepaint();
-        firePropertyChange("rowSorter", oldRowSorter, sorter);
-        firePropertyChange("sorter", oldRowSorter, sorter);
+        resizeAndRepbint();
+        firePropertyChbnge("rowSorter", oldRowSorter, sorter);
+        firePropertyChbnge("sorter", oldRowSorter, sorter);
     }
 
     /**
@@ -1941,147 +1941,147 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
      * @return the object responsible for sorting
      * @since 1.6
      */
-    public RowSorter<? extends TableModel> getRowSorter() {
-        return (sortManager != null) ? sortManager.sorter : null;
+    public RowSorter<? extends TbbleModel> getRowSorter() {
+        return (sortMbnbger != null) ? sortMbnbger.sorter : null;
     }
 
 //
 // Selection methods
 //
     /**
-     * Sets the table's selection mode to allow only single selections, a single
-     * contiguous interval, or multiple intervals.
+     * Sets the tbble's selection mode to bllow only single selections, b single
+     * contiguous intervbl, or multiple intervbls.
      * <P>
      * <b>Note:</b>
-     * <code>JTable</code> provides all the methods for handling
-     * column and row selection.  When setting states,
-     * such as <code>setSelectionMode</code>, it not only
-     * updates the mode for the row selection model but also sets similar
-     * values in the selection model of the <code>columnModel</code>.
-     * If you want to have the row and column selection models operating
+     * <code>JTbble</code> provides bll the methods for hbndling
+     * column bnd row selection.  When setting stbtes,
+     * such bs <code>setSelectionMode</code>, it not only
+     * updbtes the mode for the row selection model but blso sets similbr
+     * vblues in the selection model of the <code>columnModel</code>.
+     * If you wbnt to hbve the row bnd column selection models operbting
      * in different modes, set them both directly.
      * <p>
-     * Both the row and column selection models for <code>JTable</code>
-     * default to using a <code>DefaultListSelectionModel</code>
-     * so that <code>JTable</code> works the same way as the
+     * Both the row bnd column selection models for <code>JTbble</code>
+     * defbult to using b <code>DefbultListSelectionModel</code>
+     * so thbt <code>JTbble</code> works the sbme wby bs the
      * <code>JList</code>. See the <code>setSelectionMode</code> method
-     * in <code>JList</code> for details about the modes.
+     * in <code>JList</code> for detbils bbout the modes.
      *
-     * @param selectionMode the mode used by the row and column selection models
+     * @pbrbm selectionMode the mode used by the row bnd column selection models
      * @see JList#setSelectionMode
-     * @beaninfo
-     * description: The selection mode used by the row and column selection models.
+     * @bebninfo
+     * description: The selection mode used by the row bnd column selection models.
      *        enum: SINGLE_SELECTION            ListSelectionModel.SINGLE_SELECTION
      *              SINGLE_INTERVAL_SELECTION   ListSelectionModel.SINGLE_INTERVAL_SELECTION
      *              MULTIPLE_INTERVAL_SELECTION ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
      */
     public void setSelectionMode(int selectionMode) {
-        clearSelection();
+        clebrSelection();
         getSelectionModel().setSelectionMode(selectionMode);
         getColumnModel().getSelectionModel().setSelectionMode(selectionMode);
     }
 
     /**
-     * Sets whether the rows in this model can be selected.
+     * Sets whether the rows in this model cbn be selected.
      *
-     * @param rowSelectionAllowed   true if this model will allow row selection
+     * @pbrbm rowSelectionAllowed   true if this model will bllow row selection
      * @see #getRowSelectionAllowed
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *    attribute: visualUpdate true
-     *  description: If true, an entire row is selected for each selected cell.
+     *    bttribute: visublUpdbte true
+     *  description: If true, bn entire row is selected for ebch selected cell.
      */
-    public void setRowSelectionAllowed(boolean rowSelectionAllowed) {
-        boolean old = this.rowSelectionAllowed;
+    public void setRowSelectionAllowed(boolebn rowSelectionAllowed) {
+        boolebn old = this.rowSelectionAllowed;
         this.rowSelectionAllowed = rowSelectionAllowed;
         if (old != rowSelectionAllowed) {
-            repaint();
+            repbint();
         }
-        firePropertyChange("rowSelectionAllowed", old, rowSelectionAllowed);
+        firePropertyChbnge("rowSelectionAllowed", old, rowSelectionAllowed);
     }
 
     /**
-     * Returns true if rows can be selected.
+     * Returns true if rows cbn be selected.
      *
-     * @return true if rows can be selected, otherwise false
+     * @return true if rows cbn be selected, otherwise fblse
      * @see #setRowSelectionAllowed
      */
-    public boolean getRowSelectionAllowed() {
+    public boolebn getRowSelectionAllowed() {
         return rowSelectionAllowed;
     }
 
     /**
-     * Sets whether the columns in this model can be selected.
+     * Sets whether the columns in this model cbn be selected.
      *
-     * @param columnSelectionAllowed   true if this model will allow column selection
+     * @pbrbm columnSelectionAllowed   true if this model will bllow column selection
      * @see #getColumnSelectionAllowed
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *    attribute: visualUpdate true
-     *  description: If true, an entire column is selected for each selected cell.
+     *    bttribute: visublUpdbte true
+     *  description: If true, bn entire column is selected for ebch selected cell.
      */
-    public void setColumnSelectionAllowed(boolean columnSelectionAllowed) {
-        boolean old = columnModel.getColumnSelectionAllowed();
+    public void setColumnSelectionAllowed(boolebn columnSelectionAllowed) {
+        boolebn old = columnModel.getColumnSelectionAllowed();
         columnModel.setColumnSelectionAllowed(columnSelectionAllowed);
         if (old != columnSelectionAllowed) {
-            repaint();
+            repbint();
         }
-        firePropertyChange("columnSelectionAllowed", old, columnSelectionAllowed);
+        firePropertyChbnge("columnSelectionAllowed", old, columnSelectionAllowed);
     }
 
     /**
-     * Returns true if columns can be selected.
+     * Returns true if columns cbn be selected.
      *
-     * @return true if columns can be selected, otherwise false
+     * @return true if columns cbn be selected, otherwise fblse
      * @see #setColumnSelectionAllowed
      */
-    public boolean getColumnSelectionAllowed() {
+    public boolebn getColumnSelectionAllowed() {
         return columnModel.getColumnSelectionAllowed();
     }
 
     /**
-     * Sets whether this table allows both a column selection and a
-     * row selection to exist simultaneously. When set,
-     * the table treats the intersection of the row and column selection
-     * models as the selected cells. Override <code>isCellSelected</code> to
-     * change this default behavior. This method is equivalent to setting
-     * both the <code>rowSelectionAllowed</code> property and
+     * Sets whether this tbble bllows both b column selection bnd b
+     * row selection to exist simultbneously. When set,
+     * the tbble trebts the intersection of the row bnd column selection
+     * models bs the selected cells. Override <code>isCellSelected</code> to
+     * chbnge this defbult behbvior. This method is equivblent to setting
+     * both the <code>rowSelectionAllowed</code> property bnd
      * <code>columnSelectionAllowed</code> property of the
-     * <code>columnModel</code> to the supplied value.
+     * <code>columnModel</code> to the supplied vblue.
      *
-     * @param  cellSelectionEnabled     true if simultaneous row and column
-     *                                  selection is allowed
-     * @see #getCellSelectionEnabled
+     * @pbrbm  cellSelectionEnbbled     true if simultbneous row bnd column
+     *                                  selection is bllowed
+     * @see #getCellSelectionEnbbled
      * @see #isCellSelected
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *    attribute: visualUpdate true
-     *  description: Select a rectangular region of cells rather than
+     *    bttribute: visublUpdbte true
+     *  description: Select b rectbngulbr region of cells rbther thbn
      *               rows or columns.
      */
-    public void setCellSelectionEnabled(boolean cellSelectionEnabled) {
-        setRowSelectionAllowed(cellSelectionEnabled);
-        setColumnSelectionAllowed(cellSelectionEnabled);
-        boolean old = this.cellSelectionEnabled;
-        this.cellSelectionEnabled = cellSelectionEnabled;
-        firePropertyChange("cellSelectionEnabled", old, cellSelectionEnabled);
+    public void setCellSelectionEnbbled(boolebn cellSelectionEnbbled) {
+        setRowSelectionAllowed(cellSelectionEnbbled);
+        setColumnSelectionAllowed(cellSelectionEnbbled);
+        boolebn old = this.cellSelectionEnbbled;
+        this.cellSelectionEnbbled = cellSelectionEnbbled;
+        firePropertyChbnge("cellSelectionEnbbled", old, cellSelectionEnbbled);
     }
 
     /**
-     * Returns true if both row and column selection models are enabled.
-     * Equivalent to <code>getRowSelectionAllowed() &amp;&amp;
+     * Returns true if both row bnd column selection models bre enbbled.
+     * Equivblent to <code>getRowSelectionAllowed() &bmp;&bmp;
      * getColumnSelectionAllowed()</code>.
      *
-     * @return true if both row and column selection models are enabled
+     * @return true if both row bnd column selection models bre enbbled
      *
-     * @see #setCellSelectionEnabled
+     * @see #setCellSelectionEnbbled
      */
-    public boolean getCellSelectionEnabled() {
+    public boolebn getCellSelectionEnbbled() {
         return getRowSelectionAllowed() && getColumnSelectionAllowed();
     }
 
     /**
-     *  Selects all rows, columns, and cells in the table.
+     *  Selects bll rows, columns, bnd cells in the tbble.
      */
     public void selectAll() {
         // If I'm currently editing, then I should stop editing
@@ -2089,74 +2089,74 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             removeEditor();
         }
         if (getRowCount() > 0 && getColumnCount() > 0) {
-            int oldLead;
+            int oldLebd;
             int oldAnchor;
             ListSelectionModel selModel;
 
             selModel = selectionModel;
-            selModel.setValueIsAdjusting(true);
-            oldLead = getAdjustedIndex(selModel.getLeadSelectionIndex(), true);
+            selModel.setVblueIsAdjusting(true);
+            oldLebd = getAdjustedIndex(selModel.getLebdSelectionIndex(), true);
             oldAnchor = getAdjustedIndex(selModel.getAnchorSelectionIndex(), true);
 
-            setRowSelectionInterval(0, getRowCount()-1);
+            setRowSelectionIntervbl(0, getRowCount()-1);
 
-            // this is done to restore the anchor and lead
-            SwingUtilities2.setLeadAnchorWithoutSelection(selModel, oldLead, oldAnchor);
+            // this is done to restore the bnchor bnd lebd
+            SwingUtilities2.setLebdAnchorWithoutSelection(selModel, oldLebd, oldAnchor);
 
-            selModel.setValueIsAdjusting(false);
+            selModel.setVblueIsAdjusting(fblse);
 
             selModel = columnModel.getSelectionModel();
-            selModel.setValueIsAdjusting(true);
-            oldLead = getAdjustedIndex(selModel.getLeadSelectionIndex(), false);
-            oldAnchor = getAdjustedIndex(selModel.getAnchorSelectionIndex(), false);
+            selModel.setVblueIsAdjusting(true);
+            oldLebd = getAdjustedIndex(selModel.getLebdSelectionIndex(), fblse);
+            oldAnchor = getAdjustedIndex(selModel.getAnchorSelectionIndex(), fblse);
 
-            setColumnSelectionInterval(0, getColumnCount()-1);
+            setColumnSelectionIntervbl(0, getColumnCount()-1);
 
-            // this is done to restore the anchor and lead
-            SwingUtilities2.setLeadAnchorWithoutSelection(selModel, oldLead, oldAnchor);
+            // this is done to restore the bnchor bnd lebd
+            SwingUtilities2.setLebdAnchorWithoutSelection(selModel, oldLebd, oldAnchor);
 
-            selModel.setValueIsAdjusting(false);
+            selModel.setVblueIsAdjusting(fblse);
         }
     }
 
     /**
-     * Deselects all selected columns and rows.
+     * Deselects bll selected columns bnd rows.
      */
-    public void clearSelection() {
-        selectionModel.clearSelection();
-        columnModel.getSelectionModel().clearSelection();
+    public void clebrSelection() {
+        selectionModel.clebrSelection();
+        columnModel.getSelectionModel().clebrSelection();
     }
 
-    private void clearSelectionAndLeadAnchor() {
-        selectionModel.setValueIsAdjusting(true);
-        columnModel.getSelectionModel().setValueIsAdjusting(true);
+    privbte void clebrSelectionAndLebdAnchor() {
+        selectionModel.setVblueIsAdjusting(true);
+        columnModel.getSelectionModel().setVblueIsAdjusting(true);
 
-        clearSelection();
+        clebrSelection();
 
         selectionModel.setAnchorSelectionIndex(-1);
-        selectionModel.setLeadSelectionIndex(-1);
+        selectionModel.setLebdSelectionIndex(-1);
         columnModel.getSelectionModel().setAnchorSelectionIndex(-1);
-        columnModel.getSelectionModel().setLeadSelectionIndex(-1);
+        columnModel.getSelectionModel().setLebdSelectionIndex(-1);
 
-        selectionModel.setValueIsAdjusting(false);
-        columnModel.getSelectionModel().setValueIsAdjusting(false);
+        selectionModel.setVblueIsAdjusting(fblse);
+        columnModel.getSelectionModel().setVblueIsAdjusting(fblse);
     }
 
-    private int getAdjustedIndex(int index, boolean row) {
-        int compare = row ? getRowCount() : getColumnCount();
-        return index < compare ? index : -1;
+    privbte int getAdjustedIndex(int index, boolebn row) {
+        int compbre = row ? getRowCount() : getColumnCount();
+        return index < compbre ? index : -1;
     }
 
-    private int boundRow(int row) throws IllegalArgumentException {
+    privbte int boundRow(int row) throws IllegblArgumentException {
         if (row < 0 || row >= getRowCount()) {
-            throw new IllegalArgumentException("Row index out of range");
+            throw new IllegblArgumentException("Row index out of rbnge");
         }
         return row;
     }
 
-    private int boundColumn(int col) {
+    privbte int boundColumn(int col) {
         if (col< 0 || col >= getColumnCount()) {
-            throw new IllegalArgumentException("Column index out of range");
+            throw new IllegblArgumentException("Column index out of rbnge");
         }
         return col;
     }
@@ -2165,81 +2165,81 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
      * Selects the rows from <code>index0</code> to <code>index1</code>,
      * inclusive.
      *
-     * @exception IllegalArgumentException      if <code>index0</code> or
+     * @exception IllegblArgumentException      if <code>index0</code> or
      *                                          <code>index1</code> lie outside
      *                                          [0, <code>getRowCount()</code>-1]
-     * @param   index0 one end of the interval
-     * @param   index1 the other end of the interval
+     * @pbrbm   index0 one end of the intervbl
+     * @pbrbm   index1 the other end of the intervbl
      */
-    public void setRowSelectionInterval(int index0, int index1) {
-        selectionModel.setSelectionInterval(boundRow(index0), boundRow(index1));
+    public void setRowSelectionIntervbl(int index0, int index1) {
+        selectionModel.setSelectionIntervbl(boundRow(index0), boundRow(index1));
     }
 
     /**
      * Selects the columns from <code>index0</code> to <code>index1</code>,
      * inclusive.
      *
-     * @exception IllegalArgumentException      if <code>index0</code> or
+     * @exception IllegblArgumentException      if <code>index0</code> or
      *                                          <code>index1</code> lie outside
      *                                          [0, <code>getColumnCount()</code>-1]
-     * @param   index0 one end of the interval
-     * @param   index1 the other end of the interval
+     * @pbrbm   index0 one end of the intervbl
+     * @pbrbm   index1 the other end of the intervbl
      */
-    public void setColumnSelectionInterval(int index0, int index1) {
-        columnModel.getSelectionModel().setSelectionInterval(boundColumn(index0), boundColumn(index1));
+    public void setColumnSelectionIntervbl(int index0, int index1) {
+        columnModel.getSelectionModel().setSelectionIntervbl(boundColumn(index0), boundColumn(index1));
     }
 
     /**
      * Adds the rows from <code>index0</code> to <code>index1</code>, inclusive, to
      * the current selection.
      *
-     * @exception IllegalArgumentException      if <code>index0</code> or <code>index1</code>
+     * @exception IllegblArgumentException      if <code>index0</code> or <code>index1</code>
      *                                          lie outside [0, <code>getRowCount()</code>-1]
-     * @param   index0 one end of the interval
-     * @param   index1 the other end of the interval
+     * @pbrbm   index0 one end of the intervbl
+     * @pbrbm   index1 the other end of the intervbl
      */
-    public void addRowSelectionInterval(int index0, int index1) {
-        selectionModel.addSelectionInterval(boundRow(index0), boundRow(index1));
+    public void bddRowSelectionIntervbl(int index0, int index1) {
+        selectionModel.bddSelectionIntervbl(boundRow(index0), boundRow(index1));
     }
 
     /**
      * Adds the columns from <code>index0</code> to <code>index1</code>,
      * inclusive, to the current selection.
      *
-     * @exception IllegalArgumentException      if <code>index0</code> or
+     * @exception IllegblArgumentException      if <code>index0</code> or
      *                                          <code>index1</code> lie outside
      *                                          [0, <code>getColumnCount()</code>-1]
-     * @param   index0 one end of the interval
-     * @param   index1 the other end of the interval
+     * @pbrbm   index0 one end of the intervbl
+     * @pbrbm   index1 the other end of the intervbl
      */
-    public void addColumnSelectionInterval(int index0, int index1) {
-        columnModel.getSelectionModel().addSelectionInterval(boundColumn(index0), boundColumn(index1));
+    public void bddColumnSelectionIntervbl(int index0, int index1) {
+        columnModel.getSelectionModel().bddSelectionIntervbl(boundColumn(index0), boundColumn(index1));
     }
 
     /**
      * Deselects the rows from <code>index0</code> to <code>index1</code>, inclusive.
      *
-     * @exception IllegalArgumentException      if <code>index0</code> or
+     * @exception IllegblArgumentException      if <code>index0</code> or
      *                                          <code>index1</code> lie outside
      *                                          [0, <code>getRowCount()</code>-1]
-     * @param   index0 one end of the interval
-     * @param   index1 the other end of the interval
+     * @pbrbm   index0 one end of the intervbl
+     * @pbrbm   index1 the other end of the intervbl
      */
-    public void removeRowSelectionInterval(int index0, int index1) {
-        selectionModel.removeSelectionInterval(boundRow(index0), boundRow(index1));
+    public void removeRowSelectionIntervbl(int index0, int index1) {
+        selectionModel.removeSelectionIntervbl(boundRow(index0), boundRow(index1));
     }
 
     /**
      * Deselects the columns from <code>index0</code> to <code>index1</code>, inclusive.
      *
-     * @exception IllegalArgumentException      if <code>index0</code> or
+     * @exception IllegblArgumentException      if <code>index0</code> or
      *                                          <code>index1</code> lie outside
      *                                          [0, <code>getColumnCount()</code>-1]
-     * @param   index0 one end of the interval
-     * @param   index1 the other end of the interval
+     * @pbrbm   index0 one end of the intervbl
+     * @pbrbm   index1 the other end of the intervbl
      */
-    public void removeColumnSelectionInterval(int index0, int index1) {
-        columnModel.getSelectionModel().removeSelectionInterval(boundColumn(index0), boundColumn(index1));
+    public void removeColumnSelectionIntervbl(int index0, int index1) {
+        columnModel.getSelectionModel().removeSelectionIntervbl(boundColumn(index0), boundColumn(index1));
     }
 
     /**
@@ -2260,37 +2260,37 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Returns the indices of all selected rows.
+     * Returns the indices of bll selected rows.
      *
-     * @return an array of integers containing the indices of all selected rows,
-     *         or an empty array if no row is selected
+     * @return bn brrby of integers contbining the indices of bll selected rows,
+     *         or bn empty brrby if no row is selected
      * @see #getSelectedRow
      */
     public int[] getSelectedRows() {
         int iMin = selectionModel.getMinSelectionIndex();
-        int iMax = selectionModel.getMaxSelectionIndex();
+        int iMbx = selectionModel.getMbxSelectionIndex();
 
-        if ((iMin == -1) || (iMax == -1)) {
+        if ((iMin == -1) || (iMbx == -1)) {
             return new int[0];
         }
 
-        int[] rvTmp = new int[1+ (iMax - iMin)];
+        int[] rvTmp = new int[1+ (iMbx - iMin)];
         int n = 0;
-        for(int i = iMin; i <= iMax; i++) {
+        for(int i = iMin; i <= iMbx; i++) {
             if (selectionModel.isSelectedIndex(i)) {
                 rvTmp[n++] = i;
             }
         }
         int[] rv = new int[n];
-        System.arraycopy(rvTmp, 0, rv, 0, n);
+        System.brrbycopy(rvTmp, 0, rv, 0, n);
         return rv;
     }
 
     /**
-     * Returns the indices of all selected columns.
+     * Returns the indices of bll selected columns.
      *
-     * @return an array of integers containing the indices of all selected columns,
-     *         or an empty array if no column is selected
+     * @return bn brrby of integers contbining the indices of bll selected columns,
+     *         or bn empty brrby if no column is selected
      * @see #getSelectedColumn
      */
     public int[] getSelectedColumns() {
@@ -2300,14 +2300,14 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     /**
      * Returns the number of selected rows.
      *
-     * @return the number of selected rows, 0 if no rows are selected
+     * @return the number of selected rows, 0 if no rows bre selected
      */
     public int getSelectedRowCount() {
         int iMin = selectionModel.getMinSelectionIndex();
-        int iMax = selectionModel.getMaxSelectionIndex();
+        int iMbx = selectionModel.getMbxSelectionIndex();
         int count = 0;
 
-        for(int i = iMin; i <= iMax; i++) {
+        for(int i = iMin; i <= iMbx; i++) {
             if (selectionModel.isSelectedIndex(i)) {
                 count++;
             }
@@ -2318,161 +2318,161 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     /**
      * Returns the number of selected columns.
      *
-     * @return the number of selected columns, 0 if no columns are selected
+     * @return the number of selected columns, 0 if no columns bre selected
      */
     public int getSelectedColumnCount() {
         return columnModel.getSelectedColumnCount();
     }
 
     /**
-     * Returns true if the specified index is in the valid range of rows,
-     * and the row at that index is selected.
+     * Returns true if the specified index is in the vblid rbnge of rows,
+     * bnd the row bt thbt index is selected.
      *
-     * @param row a row in the row model
-     * @return true if <code>row</code> is a valid index and the row at
-     *              that index is selected (where 0 is the first row)
+     * @pbrbm row b row in the row model
+     * @return true if <code>row</code> is b vblid index bnd the row bt
+     *              thbt index is selected (where 0 is the first row)
      */
-    public boolean isRowSelected(int row) {
+    public boolebn isRowSelected(int row) {
         return selectionModel.isSelectedIndex(row);
     }
 
     /**
-     * Returns true if the specified index is in the valid range of columns,
-     * and the column at that index is selected.
+     * Returns true if the specified index is in the vblid rbnge of columns,
+     * bnd the column bt thbt index is selected.
      *
-     * @param   column   the column in the column model
-     * @return true if <code>column</code> is a valid index and the column at
-     *              that index is selected (where 0 is the first column)
+     * @pbrbm   column   the column in the column model
+     * @return true if <code>column</code> is b vblid index bnd the column bt
+     *              thbt index is selected (where 0 is the first column)
      */
-    public boolean isColumnSelected(int column) {
+    public boolebn isColumnSelected(int column) {
         return columnModel.getSelectionModel().isSelectedIndex(column);
     }
 
     /**
-     * Returns true if the specified indices are in the valid range of rows
-     * and columns and the cell at the specified position is selected.
-     * @param row   the row being queried
-     * @param column  the column being queried
+     * Returns true if the specified indices bre in the vblid rbnge of rows
+     * bnd columns bnd the cell bt the specified position is selected.
+     * @pbrbm row   the row being queried
+     * @pbrbm column  the column being queried
      *
-     * @return true if <code>row</code> and <code>column</code> are valid indices
-     *              and the cell at index <code>(row, column)</code> is selected,
-     *              where the first row and first column are at index 0
+     * @return true if <code>row</code> bnd <code>column</code> bre vblid indices
+     *              bnd the cell bt index <code>(row, column)</code> is selected,
+     *              where the first row bnd first column bre bt index 0
      */
-    public boolean isCellSelected(int row, int column) {
+    public boolebn isCellSelected(int row, int column) {
         if (!getRowSelectionAllowed() && !getColumnSelectionAllowed()) {
-            return false;
+            return fblse;
         }
         return (!getRowSelectionAllowed() || isRowSelected(row)) &&
                (!getColumnSelectionAllowed() || isColumnSelected(column));
     }
 
-    private void changeSelectionModel(ListSelectionModel sm, int index,
-                                      boolean toggle, boolean extend, boolean selected,
-                                      int anchor, boolean anchorSelected) {
+    privbte void chbngeSelectionModel(ListSelectionModel sm, int index,
+                                      boolebn toggle, boolebn extend, boolebn selected,
+                                      int bnchor, boolebn bnchorSelected) {
         if (extend) {
             if (toggle) {
-                if (anchorSelected) {
-                    sm.addSelectionInterval(anchor, index);
+                if (bnchorSelected) {
+                    sm.bddSelectionIntervbl(bnchor, index);
                 } else {
-                    sm.removeSelectionInterval(anchor, index);
-                    // this is a Windows-only behavior that we want for file lists
-                    if (Boolean.TRUE == getClientProperty("Table.isFileList")) {
-                        sm.addSelectionInterval(index, index);
-                        sm.setAnchorSelectionIndex(anchor);
+                    sm.removeSelectionIntervbl(bnchor, index);
+                    // this is b Windows-only behbvior thbt we wbnt for file lists
+                    if (Boolebn.TRUE == getClientProperty("Tbble.isFileList")) {
+                        sm.bddSelectionIntervbl(index, index);
+                        sm.setAnchorSelectionIndex(bnchor);
                     }
                 }
             }
             else {
-                sm.setSelectionInterval(anchor, index);
+                sm.setSelectionIntervbl(bnchor, index);
             }
         }
         else {
             if (toggle) {
                 if (selected) {
-                    sm.removeSelectionInterval(index, index);
+                    sm.removeSelectionIntervbl(index, index);
                 }
                 else {
-                    sm.addSelectionInterval(index, index);
+                    sm.bddSelectionIntervbl(index, index);
                 }
             }
             else {
-                sm.setSelectionInterval(index, index);
+                sm.setSelectionIntervbl(index, index);
             }
         }
     }
 
     /**
-     * Updates the selection models of the table, depending on the state of the
-     * two flags: <code>toggle</code> and <code>extend</code>. Most changes
-     * to the selection that are the result of keyboard or mouse events received
-     * by the UI are channeled through this method so that the behavior may be
-     * overridden by a subclass. Some UIs may need more functionality than
-     * this method provides, such as when manipulating the lead for discontiguous
-     * selection, and may not call into this method for some selection changes.
+     * Updbtes the selection models of the tbble, depending on the stbte of the
+     * two flbgs: <code>toggle</code> bnd <code>extend</code>. Most chbnges
+     * to the selection thbt bre the result of keybobrd or mouse events received
+     * by the UI bre chbnneled through this method so thbt the behbvior mby be
+     * overridden by b subclbss. Some UIs mby need more functionblity thbn
+     * this method provides, such bs when mbnipulbting the lebd for discontiguous
+     * selection, bnd mby not cbll into this method for some selection chbnges.
      * <p>
-     * This implementation uses the following conventions:
+     * This implementbtion uses the following conventions:
      * <ul>
-     * <li> <code>toggle</code>: <em>false</em>, <code>extend</code>: <em>false</em>.
-     *      Clear the previous selection and ensure the new cell is selected.
-     * <li> <code>toggle</code>: <em>false</em>, <code>extend</code>: <em>true</em>.
-     *      Extend the previous selection from the anchor to the specified cell,
-     *      clearing all other selections.
-     * <li> <code>toggle</code>: <em>true</em>, <code>extend</code>: <em>false</em>.
+     * <li> <code>toggle</code>: <em>fblse</em>, <code>extend</code>: <em>fblse</em>.
+     *      Clebr the previous selection bnd ensure the new cell is selected.
+     * <li> <code>toggle</code>: <em>fblse</em>, <code>extend</code>: <em>true</em>.
+     *      Extend the previous selection from the bnchor to the specified cell,
+     *      clebring bll other selections.
+     * <li> <code>toggle</code>: <em>true</em>, <code>extend</code>: <em>fblse</em>.
      *      If the specified cell is selected, deselect it. If it is not selected, select it.
      * <li> <code>toggle</code>: <em>true</em>, <code>extend</code>: <em>true</em>.
-     *      Apply the selection state of the anchor to all cells between it and the
+     *      Apply the selection stbte of the bnchor to bll cells between it bnd the
      *      specified cell.
      * </ul>
-     * @param  rowIndex   affects the selection at <code>row</code>
-     * @param  columnIndex  affects the selection at <code>column</code>
-     * @param  toggle  see description above
-     * @param  extend  if true, extend the current selection
+     * @pbrbm  rowIndex   bffects the selection bt <code>row</code>
+     * @pbrbm  columnIndex  bffects the selection bt <code>column</code>
+     * @pbrbm  toggle  see description bbove
+     * @pbrbm  extend  if true, extend the current selection
      *
      * @since 1.3
      */
-    public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
+    public void chbngeSelection(int rowIndex, int columnIndex, boolebn toggle, boolebn extend) {
         ListSelectionModel rsm = getSelectionModel();
         ListSelectionModel csm = getColumnModel().getSelectionModel();
 
-        int anchorRow = getAdjustedIndex(rsm.getAnchorSelectionIndex(), true);
-        int anchorCol = getAdjustedIndex(csm.getAnchorSelectionIndex(), false);
+        int bnchorRow = getAdjustedIndex(rsm.getAnchorSelectionIndex(), true);
+        int bnchorCol = getAdjustedIndex(csm.getAnchorSelectionIndex(), fblse);
 
-        boolean anchorSelected = true;
+        boolebn bnchorSelected = true;
 
-        if (anchorRow == -1) {
+        if (bnchorRow == -1) {
             if (getRowCount() > 0) {
-                anchorRow = 0;
+                bnchorRow = 0;
             }
-            anchorSelected = false;
+            bnchorSelected = fblse;
         }
 
-        if (anchorCol == -1) {
+        if (bnchorCol == -1) {
             if (getColumnCount() > 0) {
-                anchorCol = 0;
+                bnchorCol = 0;
             }
-            anchorSelected = false;
+            bnchorSelected = fblse;
         }
 
-        // Check the selection here rather than in each selection model.
-        // This is significant in cell selection mode if we are supposed
-        // to be toggling the selection. In this case it is better to
-        // ensure that the cell's selection state will indeed be changed.
+        // Check the selection here rbther thbn in ebch selection model.
+        // This is significbnt in cell selection mode if we bre supposed
+        // to be toggling the selection. In this cbse it is better to
+        // ensure thbt the cell's selection stbte will indeed be chbnged.
         // If this were done in the code for the selection model it
-        // might leave a cell in selection state if the row was
-        // selected but the column was not - as it would toggle them both.
-        boolean selected = isCellSelected(rowIndex, columnIndex);
-        anchorSelected = anchorSelected && isCellSelected(anchorRow, anchorCol);
+        // might lebve b cell in selection stbte if the row wbs
+        // selected but the column wbs not - bs it would toggle them both.
+        boolebn selected = isCellSelected(rowIndex, columnIndex);
+        bnchorSelected = bnchorSelected && isCellSelected(bnchorRow, bnchorCol);
 
-        changeSelectionModel(csm, columnIndex, toggle, extend, selected,
-                             anchorCol, anchorSelected);
-        changeSelectionModel(rsm, rowIndex, toggle, extend, selected,
-                             anchorRow, anchorSelected);
+        chbngeSelectionModel(csm, columnIndex, toggle, extend, selected,
+                             bnchorCol, bnchorSelected);
+        chbngeSelectionModel(rsm, rowIndex, toggle, extend, selected,
+                             bnchorRow, bnchorSelected);
 
-        // Scroll after changing the selection as blit scrolling is immediate,
-        // so that if we cause the repaint after the scroll we end up painting
+        // Scroll bfter chbnging the selection bs blit scrolling is immedibte,
+        // so thbt if we cbuse the repbint bfter the scroll we end up pbinting
         // everything!
         if (getAutoscrolls()) {
-            Rectangle cellRect = getCellRect(rowIndex, columnIndex, false);
+            Rectbngle cellRect = getCellRect(rowIndex, columnIndex, fblse);
             if (cellRect != null) {
                 scrollRectToVisible(cellRect);
             }
@@ -2484,7 +2484,7 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
      *
      * @return the <code>Color</code> object for the foreground property
      * @see #setSelectionForeground
-     * @see #setSelectionBackground
+     * @see #setSelectionBbckground
      */
     public Color getSelectionForeground() {
         return selectionForeground;
@@ -2492,98 +2492,98 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 
     /**
      * Sets the foreground color for selected cells.  Cell renderers
-     * can use this color to render text and graphics for selected
+     * cbn use this color to render text bnd grbphics for selected
      * cells.
      * <p>
-     * The default value of this property is defined by the look
-     * and feel implementation.
+     * The defbult vblue of this property is defined by the look
+     * bnd feel implementbtion.
      * <p>
-     * This is a <a href="http://docs.oracle.com/javase/tutorial/javabeans/writing/properties.html">JavaBeans</a> bound property.
+     * This is b <b href="http://docs.orbcle.com/jbvbse/tutoribl/jbvbbebns/writing/properties.html">JbvbBebns</b> bound property.
      *
-     * @param selectionForeground  the <code>Color</code> to use in the foreground
+     * @pbrbm selectionForeground  the <code>Color</code> to use in the foreground
      *                             for selected list items
      * @see #getSelectionForeground
-     * @see #setSelectionBackground
+     * @see #setSelectionBbckground
      * @see #setForeground
-     * @see #setBackground
+     * @see #setBbckground
      * @see #setFont
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     * description: A default foreground color for selected cells.
+     * description: A defbult foreground color for selected cells.
      */
     public void setSelectionForeground(Color selectionForeground) {
         Color old = this.selectionForeground;
         this.selectionForeground = selectionForeground;
-        firePropertyChange("selectionForeground", old, selectionForeground);
-        repaint();
+        firePropertyChbnge("selectionForeground", old, selectionForeground);
+        repbint();
     }
 
     /**
-     * Returns the background color for selected cells.
+     * Returns the bbckground color for selected cells.
      *
-     * @return the <code>Color</code> used for the background of selected list items
-     * @see #setSelectionBackground
+     * @return the <code>Color</code> used for the bbckground of selected list items
+     * @see #setSelectionBbckground
      * @see #setSelectionForeground
      */
-    public Color getSelectionBackground() {
-        return selectionBackground;
+    public Color getSelectionBbckground() {
+        return selectionBbckground;
     }
 
     /**
-     * Sets the background color for selected cells.  Cell renderers
-     * can use this color to the fill selected cells.
+     * Sets the bbckground color for selected cells.  Cell renderers
+     * cbn use this color to the fill selected cells.
      * <p>
-     * The default value of this property is defined by the look
-     * and feel implementation.
+     * The defbult vblue of this property is defined by the look
+     * bnd feel implementbtion.
      * <p>
-     * This is a <a href="http://docs.oracle.com/javase/tutorial/javabeans/writing/properties.html">JavaBeans</a> bound property.
+     * This is b <b href="http://docs.orbcle.com/jbvbse/tutoribl/jbvbbebns/writing/properties.html">JbvbBebns</b> bound property.
      *
-     * @param selectionBackground  the <code>Color</code> to use for the background
+     * @pbrbm selectionBbckground  the <code>Color</code> to use for the bbckground
      *                             of selected cells
-     * @see #getSelectionBackground
+     * @see #getSelectionBbckground
      * @see #setSelectionForeground
      * @see #setForeground
-     * @see #setBackground
+     * @see #setBbckground
      * @see #setFont
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     * description: A default background color for selected cells.
+     * description: A defbult bbckground color for selected cells.
      */
-    public void setSelectionBackground(Color selectionBackground) {
-        Color old = this.selectionBackground;
-        this.selectionBackground = selectionBackground;
-        firePropertyChange("selectionBackground", old, selectionBackground);
-        repaint();
+    public void setSelectionBbckground(Color selectionBbckground) {
+        Color old = this.selectionBbckground;
+        this.selectionBbckground = selectionBbckground;
+        firePropertyChbnge("selectionBbckground", old, selectionBbckground);
+        repbint();
     }
 
     /**
-     * Returns the <code>TableColumn</code> object for the column in the table
-     * whose identifier is equal to <code>identifier</code>, when compared using
-     * <code>equals</code>.
+     * Returns the <code>TbbleColumn</code> object for the column in the tbble
+     * whose identifier is equbl to <code>identifier</code>, when compbred using
+     * <code>equbls</code>.
      *
-     * @return  the <code>TableColumn</code> object that matches the identifier
-     * @exception IllegalArgumentException      if <code>identifier</code> is <code>null</code> or no <code>TableColumn</code> has this identifier
+     * @return  the <code>TbbleColumn</code> object thbt mbtches the identifier
+     * @exception IllegblArgumentException      if <code>identifier</code> is <code>null</code> or no <code>TbbleColumn</code> hbs this identifier
      *
-     * @param   identifier                      the identifier object
+     * @pbrbm   identifier                      the identifier object
      */
-    public TableColumn getColumn(Object identifier) {
-        TableColumnModel cm = getColumnModel();
+    public TbbleColumn getColumn(Object identifier) {
+        TbbleColumnModel cm = getColumnModel();
         int columnIndex = cm.getColumnIndex(identifier);
         return cm.getColumn(columnIndex);
     }
 
 //
-// Informally implement the TableModel interface.
+// Informblly implement the TbbleModel interfbce.
 //
 
     /**
-     * Maps the index of the column in the view at
+     * Mbps the index of the column in the view bt
      * <code>viewColumnIndex</code> to the index of the column
-     * in the table model.  Returns the index of the corresponding
+     * in the tbble model.  Returns the index of the corresponding
      * column in the model.  If <code>viewColumnIndex</code>
-     * is less than zero, returns <code>viewColumnIndex</code>.
+     * is less thbn zero, returns <code>viewColumnIndex</code>.
      *
-     * @param   viewColumnIndex     the index of the column in the view
+     * @pbrbm   viewColumnIndex     the index of the column in the view
      * @return  the index of the corresponding column in the model
      *
      * @see #convertColumnIndexToView
@@ -2594,14 +2594,14 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Maps the index of the column in the table model at
+     * Mbps the index of the column in the tbble model bt
      * <code>modelColumnIndex</code> to the index of the column
      * in the view.  Returns the index of the
      * corresponding column in the view; returns -1 if this column is not
-     * being displayed.  If <code>modelColumnIndex</code> is less than zero,
+     * being displbyed.  If <code>modelColumnIndex</code> is less thbn zero,
      * returns <code>modelColumnIndex</code>.
      *
-     * @param   modelColumnIndex     the index of the column in the model
+     * @pbrbm   modelColumnIndex     the index of the column in the model
      * @return   the index of the corresponding column in the view
      *
      * @see #convertColumnIndexToModel
@@ -2612,16 +2612,16 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Maps the index of the row in terms of the
-     * <code>TableModel</code> to the view.  If the contents of the
-     * model are not sorted the model and view indices are the same.
+     * Mbps the index of the row in terms of the
+     * <code>TbbleModel</code> to the view.  If the contents of the
+     * model bre not sorted the model bnd view indices bre the sbme.
      *
-     * @param modelRowIndex the index of the row in terms of the model
+     * @pbrbm modelRowIndex the index of the row in terms of the model
      * @return the index of the corresponding row in the view, or -1 if
      *         the row isn't visible
-     * @throws IndexOutOfBoundsException if sorting is enabled and passed an
-     *         index outside the number of rows of the <code>TableModel</code>
-     * @see javax.swing.table.TableRowSorter
+     * @throws IndexOutOfBoundsException if sorting is enbbled bnd pbssed bn
+     *         index outside the number of rows of the <code>TbbleModel</code>
+     * @see jbvbx.swing.tbble.TbbleRowSorter
      * @since 1.6
      */
     public int convertRowIndexToView(int modelRowIndex) {
@@ -2633,16 +2633,16 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Maps the index of the row in terms of the view to the
-     * underlying <code>TableModel</code>.  If the contents of the
-     * model are not sorted the model and view indices are the same.
+     * Mbps the index of the row in terms of the view to the
+     * underlying <code>TbbleModel</code>.  If the contents of the
+     * model bre not sorted the model bnd view indices bre the sbme.
      *
-     * @param viewRowIndex the index of the row in the view
+     * @pbrbm viewRowIndex the index of the row in the view
      * @return the index of the corresponding row in the model
-     * @throws IndexOutOfBoundsException if sorting is enabled and passed an
-     *         index outside the range of the <code>JTable</code> as
+     * @throws IndexOutOfBoundsException if sorting is enbbled bnd pbssed bn
+     *         index outside the rbnge of the <code>JTbble</code> bs
      *         determined by the method <code>getRowCount</code>
-     * @see javax.swing.table.TableRowSorter
+     * @see jbvbx.swing.tbble.TbbleRowSorter
      * @see #getRowCount
      * @since 1.6
      */
@@ -2655,13 +2655,13 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Returns the number of rows that can be shown in the
-     * <code>JTable</code>, given unlimited space.  If a
-     * <code>RowSorter</code> with a filter has been specified, the
-     * number of rows returned may differ from that of the underlying
-     * <code>TableModel</code>.
+     * Returns the number of rows thbt cbn be shown in the
+     * <code>JTbble</code>, given unlimited spbce.  If b
+     * <code>RowSorter</code> with b filter hbs been specified, the
+     * number of rows returned mby differ from thbt of the underlying
+     * <code>TbbleModel</code>.
      *
-     * @return the number of rows shown in the <code>JTable</code>
+     * @return the number of rows shown in the <code>JTbble</code>
      * @see #getColumnCount
      */
     public int getRowCount() {
@@ -2673,10 +2673,10 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Returns the number of columns in the column model. Note that this may
-     * be different from the number of columns in the table model.
+     * Returns the number of columns in the column model. Note thbt this mby
+     * be different from the number of columns in the tbble model.
      *
-     * @return  the number of columns in the table
+     * @return  the number of columns in the tbble
      * @see #getRowCount
      * @see #removeColumn
      */
@@ -2685,192 +2685,192 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Returns the name of the column appearing in the view at
+     * Returns the nbme of the column bppebring in the view bt
      * column position <code>column</code>.
      *
-     * @param  column    the column in the view being queried
-     * @return the name of the column at position <code>column</code>
+     * @pbrbm  column    the column in the view being queried
+     * @return the nbme of the column bt position <code>column</code>
                         in the view where the first column is column 0
      */
-    public String getColumnName(int column) {
-        return getModel().getColumnName(convertColumnIndexToModel(column));
+    public String getColumnNbme(int column) {
+        return getModel().getColumnNbme(convertColumnIndexToModel(column));
     }
 
     /**
-     * Returns the type of the column appearing in the view at
+     * Returns the type of the column bppebring in the view bt
      * column position <code>column</code>.
      *
-     * @param   column   the column in the view being queried
-     * @return the type of the column at position <code>column</code>
+     * @pbrbm   column   the column in the view being queried
+     * @return the type of the column bt position <code>column</code>
      *          in the view where the first column is column 0
      */
-    public Class<?> getColumnClass(int column) {
-        return getModel().getColumnClass(convertColumnIndexToModel(column));
+    public Clbss<?> getColumnClbss(int column) {
+        return getModel().getColumnClbss(convertColumnIndexToModel(column));
     }
 
     /**
-     * Returns the cell value at <code>row</code> and <code>column</code>.
+     * Returns the cell vblue bt <code>row</code> bnd <code>column</code>.
      * <p>
-     * <b>Note</b>: The column is specified in the table view's display
-     *              order, and not in the <code>TableModel</code>'s column
-     *              order.  This is an important distinction because as the
-     *              user rearranges the columns in the table,
-     *              the column at a given index in the view will change.
-     *              Meanwhile the user's actions never affect the model's
+     * <b>Note</b>: The column is specified in the tbble view's displby
+     *              order, bnd not in the <code>TbbleModel</code>'s column
+     *              order.  This is bn importbnt distinction becbuse bs the
+     *              user rebrrbnges the columns in the tbble,
+     *              the column bt b given index in the view will chbnge.
+     *              Mebnwhile the user's bctions never bffect the model's
      *              column ordering.
      *
-     * @param   row             the row whose value is to be queried
-     * @param   column          the column whose value is to be queried
-     * @return  the Object at the specified cell
+     * @pbrbm   row             the row whose vblue is to be queried
+     * @pbrbm   column          the column whose vblue is to be queried
+     * @return  the Object bt the specified cell
      */
-    public Object getValueAt(int row, int column) {
-        return getModel().getValueAt(convertRowIndexToModel(row),
+    public Object getVblueAt(int row, int column) {
+        return getModel().getVblueAt(convertRowIndexToModel(row),
                                      convertColumnIndexToModel(column));
     }
 
     /**
-     * Sets the value for the cell in the table model at <code>row</code>
-     * and <code>column</code>.
+     * Sets the vblue for the cell in the tbble model bt <code>row</code>
+     * bnd <code>column</code>.
      * <p>
-     * <b>Note</b>: The column is specified in the table view's display
-     *              order, and not in the <code>TableModel</code>'s column
-     *              order.  This is an important distinction because as the
-     *              user rearranges the columns in the table,
-     *              the column at a given index in the view will change.
-     *              Meanwhile the user's actions never affect the model's
+     * <b>Note</b>: The column is specified in the tbble view's displby
+     *              order, bnd not in the <code>TbbleModel</code>'s column
+     *              order.  This is bn importbnt distinction becbuse bs the
+     *              user rebrrbnges the columns in the tbble,
+     *              the column bt b given index in the view will chbnge.
+     *              Mebnwhile the user's bctions never bffect the model's
      *              column ordering.
      *
-     * <code>aValue</code> is the new value.
+     * <code>bVblue</code> is the new vblue.
      *
-     * @param   aValue          the new value
-     * @param   row             the row of the cell to be changed
-     * @param   column          the column of the cell to be changed
-     * @see #getValueAt
+     * @pbrbm   bVblue          the new vblue
+     * @pbrbm   row             the row of the cell to be chbnged
+     * @pbrbm   column          the column of the cell to be chbnged
+     * @see #getVblueAt
      */
-    public void setValueAt(Object aValue, int row, int column) {
-        getModel().setValueAt(aValue, convertRowIndexToModel(row),
+    public void setVblueAt(Object bVblue, int row, int column) {
+        getModel().setVblueAt(bVblue, convertRowIndexToModel(row),
                               convertColumnIndexToModel(column));
     }
 
     /**
-     * Returns true if the cell at <code>row</code> and <code>column</code>
-     * is editable.  Otherwise, invoking <code>setValueAt</code> on the cell
-     * will have no effect.
+     * Returns true if the cell bt <code>row</code> bnd <code>column</code>
+     * is editbble.  Otherwise, invoking <code>setVblueAt</code> on the cell
+     * will hbve no effect.
      * <p>
-     * <b>Note</b>: The column is specified in the table view's display
-     *              order, and not in the <code>TableModel</code>'s column
-     *              order.  This is an important distinction because as the
-     *              user rearranges the columns in the table,
-     *              the column at a given index in the view will change.
-     *              Meanwhile the user's actions never affect the model's
+     * <b>Note</b>: The column is specified in the tbble view's displby
+     *              order, bnd not in the <code>TbbleModel</code>'s column
+     *              order.  This is bn importbnt distinction becbuse bs the
+     *              user rebrrbnges the columns in the tbble,
+     *              the column bt b given index in the view will chbnge.
+     *              Mebnwhile the user's bctions never bffect the model's
      *              column ordering.
      *
      *
-     * @param   row      the row whose value is to be queried
-     * @param   column   the column whose value is to be queried
-     * @return  true if the cell is editable
-     * @see #setValueAt
+     * @pbrbm   row      the row whose vblue is to be queried
+     * @pbrbm   column   the column whose vblue is to be queried
+     * @return  true if the cell is editbble
+     * @see #setVblueAt
      */
-    public boolean isCellEditable(int row, int column) {
-        return getModel().isCellEditable(convertRowIndexToModel(row),
+    public boolebn isCellEditbble(int row, int column) {
+        return getModel().isCellEditbble(convertRowIndexToModel(row),
                                          convertColumnIndexToModel(column));
     }
 //
-// Adding and removing columns in the view
+// Adding bnd removing columns in the view
 //
 
     /**
-     *  Appends <code>aColumn</code> to the end of the array of columns held by
-     *  this <code>JTable</code>'s column model.
-     *  If the column name of <code>aColumn</code> is <code>null</code>,
-     *  sets the column name of <code>aColumn</code> to the name
-     *  returned by <code>getModel().getColumnName()</code>.
+     *  Appends <code>bColumn</code> to the end of the brrby of columns held by
+     *  this <code>JTbble</code>'s column model.
+     *  If the column nbme of <code>bColumn</code> is <code>null</code>,
+     *  sets the column nbme of <code>bColumn</code> to the nbme
+     *  returned by <code>getModel().getColumnNbme()</code>.
      *  <p>
-     *  To add a column to this <code>JTable</code> to display the
-     *  <code>modelColumn</code>'th column of data in the model with a
+     *  To bdd b column to this <code>JTbble</code> to displby the
+     *  <code>modelColumn</code>'th column of dbtb in the model with b
      *  given <code>width</code>, <code>cellRenderer</code>,
-     *  and <code>cellEditor</code> you can use:
+     *  bnd <code>cellEditor</code> you cbn use:
      *  <pre>
      *
-     *      addColumn(new TableColumn(modelColumn, width, cellRenderer, cellEditor));
+     *      bddColumn(new TbbleColumn(modelColumn, width, cellRenderer, cellEditor));
      *
      *  </pre>
-     *  [Any of the <code>TableColumn</code> constructors can be used
-     *  instead of this one.]
-     *  The model column number is stored inside the <code>TableColumn</code>
-     *  and is used during rendering and editing to locate the appropriates
-     *  data values in the model. The model column number does not change
-     *  when columns are reordered in the view.
+     *  [Any of the <code>TbbleColumn</code> constructors cbn be used
+     *  instebd of this one.]
+     *  The model column number is stored inside the <code>TbbleColumn</code>
+     *  bnd is used during rendering bnd editing to locbte the bppropribtes
+     *  dbtb vblues in the model. The model column number does not chbnge
+     *  when columns bre reordered in the view.
      *
-     *  @param  aColumn         the <code>TableColumn</code> to be added
+     *  @pbrbm  bColumn         the <code>TbbleColumn</code> to be bdded
      *  @see    #removeColumn
      */
-    public void addColumn(TableColumn aColumn) {
-        if (aColumn.getHeaderValue() == null) {
-            int modelColumn = aColumn.getModelIndex();
-            String columnName = getModel().getColumnName(modelColumn);
-            aColumn.setHeaderValue(columnName);
+    public void bddColumn(TbbleColumn bColumn) {
+        if (bColumn.getHebderVblue() == null) {
+            int modelColumn = bColumn.getModelIndex();
+            String columnNbme = getModel().getColumnNbme(modelColumn);
+            bColumn.setHebderVblue(columnNbme);
         }
-        getColumnModel().addColumn(aColumn);
+        getColumnModel().bddColumn(bColumn);
     }
 
     /**
-     *  Removes <code>aColumn</code> from this <code>JTable</code>'s
-     *  array of columns.  Note: this method does not remove the column
-     *  of data from the model; it just removes the <code>TableColumn</code>
-     *  that was responsible for displaying it.
+     *  Removes <code>bColumn</code> from this <code>JTbble</code>'s
+     *  brrby of columns.  Note: this method does not remove the column
+     *  of dbtb from the model; it just removes the <code>TbbleColumn</code>
+     *  thbt wbs responsible for displbying it.
      *
-     *  @param  aColumn         the <code>TableColumn</code> to be removed
-     *  @see    #addColumn
+     *  @pbrbm  bColumn         the <code>TbbleColumn</code> to be removed
+     *  @see    #bddColumn
      */
-    public void removeColumn(TableColumn aColumn) {
-        getColumnModel().removeColumn(aColumn);
+    public void removeColumn(TbbleColumn bColumn) {
+        getColumnModel().removeColumn(bColumn);
     }
 
     /**
      * Moves the column <code>column</code> to the position currently
-     * occupied by the column <code>targetColumn</code> in the view.
-     * The old column at <code>targetColumn</code> is
-     * shifted left or right to make room.
+     * occupied by the column <code>tbrgetColumn</code> in the view.
+     * The old column bt <code>tbrgetColumn</code> is
+     * shifted left or right to mbke room.
      *
-     * @param   column                  the index of column to be moved
-     * @param   targetColumn            the new index of the column
+     * @pbrbm   column                  the index of column to be moved
+     * @pbrbm   tbrgetColumn            the new index of the column
      */
-    public void moveColumn(int column, int targetColumn) {
-        getColumnModel().moveColumn(column, targetColumn);
+    public void moveColumn(int column, int tbrgetColumn) {
+        getColumnModel().moveColumn(column, tbrgetColumn);
     }
 
 //
-// Cover methods for various models and helper methods
+// Cover methods for vbrious models bnd helper methods
 //
 
     /**
-     * Returns the index of the column that <code>point</code> lies in,
-     * or -1 if the result is not in the range
+     * Returns the index of the column thbt <code>point</code> lies in,
+     * or -1 if the result is not in the rbnge
      * [0, <code>getColumnCount()</code>-1].
      *
-     * @param   point   the location of interest
-     * @return  the index of the column that <code>point</code> lies in,
-     *          or -1 if the result is not in the range
+     * @pbrbm   point   the locbtion of interest
+     * @return  the index of the column thbt <code>point</code> lies in,
+     *          or -1 if the result is not in the rbnge
      *          [0, <code>getColumnCount()</code>-1]
      * @see     #rowAtPoint
      */
     public int columnAtPoint(Point point) {
         int x = point.x;
-        if( !getComponentOrientation().isLeftToRight() ) {
+        if( !getComponentOrientbtion().isLeftToRight() ) {
             x = getWidth() - x - 1;
         }
         return getColumnModel().getColumnIndexAtX(x);
     }
 
     /**
-     * Returns the index of the row that <code>point</code> lies in,
-     * or -1 if the result is not in the range
+     * Returns the index of the row thbt <code>point</code> lies in,
+     * or -1 if the result is not in the rbnge
      * [0, <code>getRowCount()</code>-1].
      *
-     * @param   point   the location of interest
-     * @return  the index of the row that <code>point</code> lies in,
-     *          or -1 if the result is not in the range
+     * @pbrbm   point   the locbtion of interest
+     * @return  the index of the row thbt <code>point</code> lies in,
+     *          or -1 if the result is not in the rbnge
      *          [0, <code>getRowCount()</code>-1]
      * @see     #columnAtPoint
      */
@@ -2889,59 +2889,59 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Returns a rectangle for the cell that lies at the intersection of
-     * <code>row</code> and <code>column</code>.
-     * If <code>includeSpacing</code> is true then the value returned
-     * has the full height and width of the row and column
-     * specified. If it is false, the returned rectangle is inset by the
-     * intercell spacing to return the true bounds of the rendering or
-     * editing component as it will be set during rendering.
+     * Returns b rectbngle for the cell thbt lies bt the intersection of
+     * <code>row</code> bnd <code>column</code>.
+     * If <code>includeSpbcing</code> is true then the vblue returned
+     * hbs the full height bnd width of the row bnd column
+     * specified. If it is fblse, the returned rectbngle is inset by the
+     * intercell spbcing to return the true bounds of the rendering or
+     * editing component bs it will be set during rendering.
      * <p>
-     * If the column index is valid but the row index is less
-     * than zero the method returns a rectangle with the
-     * <code>y</code> and <code>height</code> values set appropriately
-     * and the <code>x</code> and <code>width</code> values both set
-     * to zero. In general, when either the row or column indices indicate a
-     * cell outside the appropriate range, the method returns a rectangle
-     * depicting the closest edge of the closest cell that is within
-     * the table's range. When both row and column indices are out
-     * of range the returned rectangle covers the closest
+     * If the column index is vblid but the row index is less
+     * thbn zero the method returns b rectbngle with the
+     * <code>y</code> bnd <code>height</code> vblues set bppropribtely
+     * bnd the <code>x</code> bnd <code>width</code> vblues both set
+     * to zero. In generbl, when either the row or column indices indicbte b
+     * cell outside the bppropribte rbnge, the method returns b rectbngle
+     * depicting the closest edge of the closest cell thbt is within
+     * the tbble's rbnge. When both row bnd column indices bre out
+     * of rbnge the returned rectbngle covers the closest
      * point of the closest cell.
      * <p>
-     * In all cases, calculations that use this method to calculate
-     * results along one axis will not fail because of anomalies in
-     * calculations along the other axis. When the cell is not valid
-     * the <code>includeSpacing</code> parameter is ignored.
+     * In bll cbses, cblculbtions thbt use this method to cblculbte
+     * results blong one bxis will not fbil becbuse of bnomblies in
+     * cblculbtions blong the other bxis. When the cell is not vblid
+     * the <code>includeSpbcing</code> pbrbmeter is ignored.
      *
-     * @param   row                   the row index where the desired cell
-     *                                is located
-     * @param   column                the column index where the desired cell
-     *                                is located in the display; this is not
-     *                                necessarily the same as the column index
-     *                                in the data model for the table; the
+     * @pbrbm   row                   the row index where the desired cell
+     *                                is locbted
+     * @pbrbm   column                the column index where the desired cell
+     *                                is locbted in the displby; this is not
+     *                                necessbrily the sbme bs the column index
+     *                                in the dbtb model for the tbble; the
      *                                {@link #convertColumnIndexToView(int)}
-     *                                method may be used to convert a data
-     *                                model column index to a display
+     *                                method mby be used to convert b dbtb
+     *                                model column index to b displby
      *                                column index
-     * @param   includeSpacing        if false, return the true cell bounds -
-     *                                computed by subtracting the intercell
-     *                                spacing from the height and widths of
-     *                                the column and row models
+     * @pbrbm   includeSpbcing        if fblse, return the true cell bounds -
+     *                                computed by subtrbcting the intercell
+     *                                spbcing from the height bnd widths of
+     *                                the column bnd row models
      *
-     * @return  the rectangle containing the cell at location
+     * @return  the rectbngle contbining the cell bt locbtion
      *          <code>row</code>,<code>column</code>
-     * @see #getIntercellSpacing
+     * @see #getIntercellSpbcing
      */
-    public Rectangle getCellRect(int row, int column, boolean includeSpacing) {
-        Rectangle r = new Rectangle();
-        boolean valid = true;
+    public Rectbngle getCellRect(int row, int column, boolebn includeSpbcing) {
+        Rectbngle r = new Rectbngle();
+        boolebn vblid = true;
         if (row < 0) {
             // y = height = 0;
-            valid = false;
+            vblid = fblse;
         }
         else if (row >= getRowCount()) {
             r.y = getHeight();
-            valid = false;
+            vblid = fblse;
         }
         else {
             r.height = getRowHeight(row);
@@ -2949,22 +2949,22 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         if (column < 0) {
-            if( !getComponentOrientation().isLeftToRight() ) {
+            if( !getComponentOrientbtion().isLeftToRight() ) {
                 r.x = getWidth();
             }
             // otherwise, x = width = 0;
-            valid = false;
+            vblid = fblse;
         }
         else if (column >= getColumnCount()) {
-            if( getComponentOrientation().isLeftToRight() ) {
+            if( getComponentOrientbtion().isLeftToRight() ) {
                 r.x = getWidth();
             }
             // otherwise, x = width = 0;
-            valid = false;
+            vblid = fblse;
         }
         else {
-            TableColumnModel cm = getColumnModel();
-            if( getComponentOrientation().isLeftToRight() ) {
+            TbbleColumnModel cm = getColumnModel();
+            if( getComponentOrientbtion().isLeftToRight() ) {
                 for(int i = 0; i < column; i++) {
                     r.x += cm.getColumn(i).getWidth();
                 }
@@ -2976,21 +2976,21 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             r.width = cm.getColumn(column).getWidth();
         }
 
-        if (valid && !includeSpacing) {
-            // Bound the margins by their associated dimensions to prevent
-            // returning bounds with negative dimensions.
-            int rm = Math.min(getRowMargin(), r.height);
-            int cm = Math.min(getColumnModel().getColumnMargin(), r.width);
-            // This is not the same as grow(), it rounds differently.
+        if (vblid && !includeSpbcing) {
+            // Bound the mbrgins by their bssocibted dimensions to prevent
+            // returning bounds with negbtive dimensions.
+            int rm = Mbth.min(getRowMbrgin(), r.height);
+            int cm = Mbth.min(getColumnModel().getColumnMbrgin(), r.width);
+            // This is not the sbme bs grow(), it rounds differently.
             r.setBounds(r.x + cm/2, r.y + rm/2, r.width - cm, r.height - rm);
         }
         return r;
     }
 
-    private int viewIndexForColumn(TableColumn aColumn) {
-        TableColumnModel cm = getColumnModel();
+    privbte int viewIndexForColumn(TbbleColumn bColumn) {
+        TbbleColumnModel cm = getColumnModel();
         for (int column = 0; column < cm.getColumnCount(); column++) {
-            if (cm.getColumn(column) == aColumn) {
+            if (cm.getColumn(column) == bColumn) {
                 return column;
             }
         }
@@ -2998,239 +2998,239 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Causes this table to lay out its rows and columns.  Overridden so
-     * that columns can be resized to accommodate a change in the size of
-     * a containing parent.
-     * Resizes one or more of the columns in the table
-     * so that the total width of all of this <code>JTable</code>'s
-     * columns is equal to the width of the table.
+     * Cbuses this tbble to lby out its rows bnd columns.  Overridden so
+     * thbt columns cbn be resized to bccommodbte b chbnge in the size of
+     * b contbining pbrent.
+     * Resizes one or more of the columns in the tbble
+     * so thbt the totbl width of bll of this <code>JTbble</code>'s
+     * columns is equbl to the width of the tbble.
      * <p>
-     * Before the layout begins the method gets the
-     * <code>resizingColumn</code> of the <code>tableHeader</code>.
-     * When the method is called as a result of the resizing of an enclosing window,
-     * the <code>resizingColumn</code> is <code>null</code>. This means that resizing
-     * has taken place "outside" the <code>JTable</code> and the change -
-     * or "delta" - should be distributed to all of the columns regardless
-     * of this <code>JTable</code>'s automatic resize mode.
+     * Before the lbyout begins the method gets the
+     * <code>resizingColumn</code> of the <code>tbbleHebder</code>.
+     * When the method is cblled bs b result of the resizing of bn enclosing window,
+     * the <code>resizingColumn</code> is <code>null</code>. This mebns thbt resizing
+     * hbs tbken plbce "outside" the <code>JTbble</code> bnd the chbnge -
+     * or "deltb" - should be distributed to bll of the columns regbrdless
+     * of this <code>JTbble</code>'s butombtic resize mode.
      * <p>
      * If the <code>resizingColumn</code> is not <code>null</code>, it is one of
-     * the columns in the table that has changed size rather than
-     * the table itself. In this case the auto-resize modes govern
-     * the way the extra (or deficit) space is distributed
-     * amongst the available columns.
+     * the columns in the tbble thbt hbs chbnged size rbther thbn
+     * the tbble itself. In this cbse the buto-resize modes govern
+     * the wby the extrb (or deficit) spbce is distributed
+     * bmongst the bvbilbble columns.
      * <p>
-     * The modes are:
+     * The modes bre:
      * <ul>
-     * <li>  AUTO_RESIZE_OFF: Don't automatically adjust the column's
-     * widths at all. Use a horizontal scrollbar to accommodate the
+     * <li>  AUTO_RESIZE_OFF: Don't butombticblly bdjust the column's
+     * widths bt bll. Use b horizontbl scrollbbr to bccommodbte the
      * columns when their sum exceeds the width of the
-     * <code>Viewport</code>.  If the <code>JTable</code> is not
-     * enclosed in a <code>JScrollPane</code> this may
-     * leave parts of the table invisible.
-     * <li>  AUTO_RESIZE_NEXT_COLUMN: Use just the column after the
-     * resizing column. This results in the "boundary" or divider
-     * between adjacent cells being independently adjustable.
-     * <li>  AUTO_RESIZE_SUBSEQUENT_COLUMNS: Use all columns after the
-     * one being adjusted to absorb the changes.  This is the
-     * default behavior.
-     * <li>  AUTO_RESIZE_LAST_COLUMN: Automatically adjust the
-     * size of the last column only. If the bounds of the last column
-     * prevent the desired size from being allocated, set the
-     * width of the last column to the appropriate limit and make
-     * no further adjustments.
-     * <li>  AUTO_RESIZE_ALL_COLUMNS: Spread the delta amongst all the columns
-     * in the <code>JTable</code>, including the one that is being
-     * adjusted.
+     * <code>Viewport</code>.  If the <code>JTbble</code> is not
+     * enclosed in b <code>JScrollPbne</code> this mby
+     * lebve pbrts of the tbble invisible.
+     * <li>  AUTO_RESIZE_NEXT_COLUMN: Use just the column bfter the
+     * resizing column. This results in the "boundbry" or divider
+     * between bdjbcent cells being independently bdjustbble.
+     * <li>  AUTO_RESIZE_SUBSEQUENT_COLUMNS: Use bll columns bfter the
+     * one being bdjusted to bbsorb the chbnges.  This is the
+     * defbult behbvior.
+     * <li>  AUTO_RESIZE_LAST_COLUMN: Autombticblly bdjust the
+     * size of the lbst column only. If the bounds of the lbst column
+     * prevent the desired size from being bllocbted, set the
+     * width of the lbst column to the bppropribte limit bnd mbke
+     * no further bdjustments.
+     * <li>  AUTO_RESIZE_ALL_COLUMNS: Sprebd the deltb bmongst bll the columns
+     * in the <code>JTbble</code>, including the one thbt is being
+     * bdjusted.
      * </ul>
      * <p>
-     * <b>Note:</b> When a <code>JTable</code> makes adjustments
-     *   to the widths of the columns it respects their minimum and
-     *   maximum values absolutely.  It is therefore possible that,
-     *   even after this method is called, the total width of the columns
-     *   is still not equal to the width of the table. When this happens
-     *   the <code>JTable</code> does not put itself
-     *   in AUTO_RESIZE_OFF mode to bring up a scroll bar, or break other
-     *   commitments of its current auto-resize mode -- instead it
-     *   allows its bounds to be set larger (or smaller) than the total of the
-     *   column minimum or maximum, meaning, either that there
-     *   will not be enough room to display all of the columns, or that the
-     *   columns will not fill the <code>JTable</code>'s bounds.
+     * <b>Note:</b> When b <code>JTbble</code> mbkes bdjustments
+     *   to the widths of the columns it respects their minimum bnd
+     *   mbximum vblues bbsolutely.  It is therefore possible thbt,
+     *   even bfter this method is cblled, the totbl width of the columns
+     *   is still not equbl to the width of the tbble. When this hbppens
+     *   the <code>JTbble</code> does not put itself
+     *   in AUTO_RESIZE_OFF mode to bring up b scroll bbr, or brebk other
+     *   commitments of its current buto-resize mode -- instebd it
+     *   bllows its bounds to be set lbrger (or smbller) thbn the totbl of the
+     *   column minimum or mbximum, mebning, either thbt there
+     *   will not be enough room to displby bll of the columns, or thbt the
+     *   columns will not fill the <code>JTbble</code>'s bounds.
      *   These respectively, result in the clipping of some columns
-     *   or an area being painted in the <code>JTable</code>'s
-     *   background color during painting.
+     *   or bn breb being pbinted in the <code>JTbble</code>'s
+     *   bbckground color during pbinting.
      * <p>
-     *   The mechanism for distributing the delta amongst the available
-     *   columns is provided in a private method in the <code>JTable</code>
-     *   class:
+     *   The mechbnism for distributing the deltb bmongst the bvbilbble
+     *   columns is provided in b privbte method in the <code>JTbble</code>
+     *   clbss:
      * <pre>
-     *   adjustSizes(long targetSize, final Resizable3 r, boolean inverse)
+     *   bdjustSizes(long tbrgetSize, finbl Resizbble3 r, boolebn inverse)
      * </pre>
-     *   an explanation of which is provided in the following section.
-     *   <code>Resizable3</code> is a private
-     *   interface that allows any data structure containing a collection
-     *   of elements with a size, preferred size, maximum size and minimum size
-     *   to have its elements manipulated by the algorithm.
+     *   bn explbnbtion of which is provided in the following section.
+     *   <code>Resizbble3</code> is b privbte
+     *   interfbce thbt bllows bny dbtb structure contbining b collection
+     *   of elements with b size, preferred size, mbximum size bnd minimum size
+     *   to hbve its elements mbnipulbted by the blgorithm.
      *
-     * <H3> Distributing the delta </H3>
+     * <H3> Distributing the deltb </H3>
      *
      * <H4> Overview </H4>
      * <P>
-     * Call "DELTA" the difference between the target size and the
-     * sum of the preferred sizes of the elements in r. The individual
-     * sizes are calculated by taking the original preferred
-     * sizes and adding a share of the DELTA - that share being based on
-     * how far each preferred size is from its limiting bound (minimum or
-     * maximum).
+     * Cbll "DELTA" the difference between the tbrget size bnd the
+     * sum of the preferred sizes of the elements in r. The individubl
+     * sizes bre cblculbted by tbking the originbl preferred
+     * sizes bnd bdding b shbre of the DELTA - thbt shbre being bbsed on
+     * how fbr ebch preferred size is from its limiting bound (minimum or
+     * mbximum).
      *
      * <H4>Definition</H4>
      * <P>
-     * Call the individual constraints min[i], max[i], and pref[i].
+     * Cbll the individubl constrbints min[i], mbx[i], bnd pref[i].
      * <p>
-     * Call their respective sums: MIN, MAX, and PREF.
+     * Cbll their respective sums: MIN, MAX, bnd PREF.
      * <p>
-     * Each new size will be calculated using:
+     * Ebch new size will be cblculbted using:
      *
      * <pre>
-     *          size[i] = pref[i] + delta[i]
+     *          size[i] = pref[i] + deltb[i]
      * </pre>
-     * where each individual delta[i] is calculated according to:
+     * where ebch individubl deltb[i] is cblculbted bccording to:
      * <p>
-     * If (DELTA &lt; 0) we are in shrink mode where:
+     * If (DELTA &lt; 0) we bre in shrink mode where:
      *
      * <PRE>
      *                        DELTA
-     *          delta[i] = ------------ * (pref[i] - min[i])
+     *          deltb[i] = ------------ * (pref[i] - min[i])
      *                     (PREF - MIN)
      * </PRE>
-     * If (DELTA &gt; 0) we are in expand mode where:
+     * If (DELTA &gt; 0) we bre in expbnd mode where:
      *
      * <PRE>
      *                        DELTA
-     *          delta[i] = ------------ * (max[i] - pref[i])
+     *          deltb[i] = ------------ * (mbx[i] - pref[i])
      *                      (MAX - PREF)
      * </PRE>
      * <P>
-     * The overall effect is that the total size moves that same percentage,
-     * k, towards the total minimum or maximum and that percentage guarantees
-     * accommodation of the required space, DELTA.
+     * The overbll effect is thbt the totbl size moves thbt sbme percentbge,
+     * k, towbrds the totbl minimum or mbximum bnd thbt percentbge gubrbntees
+     * bccommodbtion of the required spbce, DELTA.
      *
-     * <H4>Details</H4>
+     * <H4>Detbils</H4>
      * <P>
-     * Naive evaluation of the formulae presented here would be subject to
-     * the aggregated rounding errors caused by doing this operation in finite
-     * precision (using ints). To deal with this, the multiplying factor above,
-     * is constantly recalculated and this takes account of the rounding
-     * errors in the previous iterations. The result is an algorithm that
-     * produces a set of integers whose values exactly sum to the supplied
-     * <code>targetSize</code>, and does so by spreading the rounding
+     * Nbive evblubtion of the formulbe presented here would be subject to
+     * the bggregbted rounding errors cbused by doing this operbtion in finite
+     * precision (using ints). To debl with this, the multiplying fbctor bbove,
+     * is constbntly recblculbted bnd this tbkes bccount of the rounding
+     * errors in the previous iterbtions. The result is bn blgorithm thbt
+     * produces b set of integers whose vblues exbctly sum to the supplied
+     * <code>tbrgetSize</code>, bnd does so by sprebding the rounding
      * errors evenly over the given elements.
      *
-     * <H4>When the MAX and MIN bounds are hit</H4>
+     * <H4>When the MAX bnd MIN bounds bre hit</H4>
      * <P>
-     * When <code>targetSize</code> is outside the [MIN, MAX] range,
-     * the algorithm sets all sizes to their appropriate limiting value
-     * (maximum or minimum).
+     * When <code>tbrgetSize</code> is outside the [MIN, MAX] rbnge,
+     * the blgorithm sets bll sizes to their bppropribte limiting vblue
+     * (mbximum or minimum).
      *
      */
-    public void doLayout() {
-        TableColumn resizingColumn = getResizingColumn();
+    public void doLbyout() {
+        TbbleColumn resizingColumn = getResizingColumn();
         if (resizingColumn == null) {
-            setWidthsFromPreferredWidths(false);
+            setWidthsFromPreferredWidths(fblse);
         }
         else {
-            // JTable behaves like a layout manger - but one in which the
-            // user can come along and dictate how big one of the children
+            // JTbble behbves like b lbyout mbnger - but one in which the
+            // user cbn come blong bnd dictbte how big one of the children
             // (columns) is supposed to be.
 
-            // A column has been resized and JTable may need to distribute
-            // any overall delta to other columns, according to the resize mode.
+            // A column hbs been resized bnd JTbble mby need to distribute
+            // bny overbll deltb to other columns, bccording to the resize mode.
             int columnIndex = viewIndexForColumn(resizingColumn);
-            int delta = getWidth() - getColumnModel().getTotalColumnWidth();
-            accommodateDelta(columnIndex, delta);
-            delta = getWidth() - getColumnModel().getTotalColumnWidth();
+            int deltb = getWidth() - getColumnModel().getTotblColumnWidth();
+            bccommodbteDeltb(columnIndex, deltb);
+            deltb = getWidth() - getColumnModel().getTotblColumnWidth();
 
-            // If the delta cannot be completely accomodated, then the
-            // resizing column will have to take any remainder. This means
-            // that the column is not being allowed to take the requested
-            // width. This happens under many circumstances: For example,
-            // AUTO_RESIZE_NEXT_COLUMN specifies that any delta be distributed
-            // to the column after the resizing column. If one were to attempt
-            // to resize the last column of the table, there would be no
-            // columns after it, and hence nowhere to distribute the delta.
-            // It would then be given entirely back to the resizing column,
-            // preventing it from changing size.
-            if (delta != 0) {
-                resizingColumn.setWidth(resizingColumn.getWidth() + delta);
+            // If the deltb cbnnot be completely bccomodbted, then the
+            // resizing column will hbve to tbke bny rembinder. This mebns
+            // thbt the column is not being bllowed to tbke the requested
+            // width. This hbppens under mbny circumstbnces: For exbmple,
+            // AUTO_RESIZE_NEXT_COLUMN specifies thbt bny deltb be distributed
+            // to the column bfter the resizing column. If one were to bttempt
+            // to resize the lbst column of the tbble, there would be no
+            // columns bfter it, bnd hence nowhere to distribute the deltb.
+            // It would then be given entirely bbck to the resizing column,
+            // preventing it from chbnging size.
+            if (deltb != 0) {
+                resizingColumn.setWidth(resizingColumn.getWidth() + deltb);
             }
 
-            // At this point the JTable has to work out what preferred sizes
-            // would have resulted in the layout the user has chosen.
-            // Thereafter, during window resizing etc. it has to work off
-            // the preferred sizes as usual - the idea being that, whatever
-            // the user does, everything stays in synch and things don't jump
-            // around.
+            // At this point the JTbble hbs to work out whbt preferred sizes
+            // would hbve resulted in the lbyout the user hbs chosen.
+            // Therebfter, during window resizing etc. it hbs to work off
+            // the preferred sizes bs usubl - the ideb being thbt, whbtever
+            // the user does, everything stbys in synch bnd things don't jump
+            // bround.
             setWidthsFromPreferredWidths(true);
         }
 
-        super.doLayout();
+        super.doLbyout();
     }
 
-    private TableColumn getResizingColumn() {
-        return (tableHeader == null) ? null
-                                     : tableHeader.getResizingColumn();
+    privbte TbbleColumn getResizingColumn() {
+        return (tbbleHebder == null) ? null
+                                     : tbbleHebder.getResizingColumn();
     }
 
     /**
-     * Sizes the table columns to fit the available space.
+     * Sizes the tbble columns to fit the bvbilbble spbce.
      *
-     * @param lastColumnOnly determines whether to resize last column only
-     * @deprecated As of Swing version 1.0.3,
-     * replaced by <code>doLayout()</code>.
-     * @see #doLayout
+     * @pbrbm lbstColumnOnly determines whether to resize lbst column only
+     * @deprecbted As of Swing version 1.0.3,
+     * replbced by <code>doLbyout()</code>.
+     * @see #doLbyout
      */
-    @Deprecated
-    public void sizeColumnsToFit(boolean lastColumnOnly) {
-        int oldAutoResizeMode = autoResizeMode;
-        setAutoResizeMode(lastColumnOnly ? AUTO_RESIZE_LAST_COLUMN
+    @Deprecbted
+    public void sizeColumnsToFit(boolebn lbstColumnOnly) {
+        int oldAutoResizeMode = butoResizeMode;
+        setAutoResizeMode(lbstColumnOnly ? AUTO_RESIZE_LAST_COLUMN
                                          : AUTO_RESIZE_ALL_COLUMNS);
         sizeColumnsToFit(-1);
         setAutoResizeMode(oldAutoResizeMode);
     }
 
     /**
-     * Obsolete as of Java 2 platform v1.4.  Please use the
-     * <code>doLayout()</code> method instead.
-     * @param resizingColumn    the column whose resizing made this adjustment
-     *                          necessary or -1 if there is no such column
-     * @see  #doLayout
+     * Obsolete bs of Jbvb 2 plbtform v1.4.  Plebse use the
+     * <code>doLbyout()</code> method instebd.
+     * @pbrbm resizingColumn    the column whose resizing mbde this bdjustment
+     *                          necessbry or -1 if there is no such column
+     * @see  #doLbyout
      */
     public void sizeColumnsToFit(int resizingColumn) {
         if (resizingColumn == -1) {
-            setWidthsFromPreferredWidths(false);
+            setWidthsFromPreferredWidths(fblse);
         }
         else {
-            if (autoResizeMode == AUTO_RESIZE_OFF) {
-                TableColumn aColumn = getColumnModel().getColumn(resizingColumn);
-                aColumn.setPreferredWidth(aColumn.getWidth());
+            if (butoResizeMode == AUTO_RESIZE_OFF) {
+                TbbleColumn bColumn = getColumnModel().getColumn(resizingColumn);
+                bColumn.setPreferredWidth(bColumn.getWidth());
             }
             else {
-                int delta = getWidth() - getColumnModel().getTotalColumnWidth();
-                accommodateDelta(resizingColumn, delta);
+                int deltb = getWidth() - getColumnModel().getTotblColumnWidth();
+                bccommodbteDeltb(resizingColumn, deltb);
                 setWidthsFromPreferredWidths(true);
             }
         }
     }
 
-    private void setWidthsFromPreferredWidths(final boolean inverse) {
-        int totalWidth     = getWidth();
-        int totalPreferred = getPreferredSize().width;
-        int target = !inverse ? totalWidth : totalPreferred;
+    privbte void setWidthsFromPreferredWidths(finbl boolebn inverse) {
+        int totblWidth     = getWidth();
+        int totblPreferred = getPreferredSize().width;
+        int tbrget = !inverse ? totblWidth : totblPreferred;
 
-        final TableColumnModel cm = columnModel;
-        Resizable3 r = new Resizable3() {
+        finbl TbbleColumnModel cm = columnModel;
+        Resizbble3 r = new Resizbble3() {
             public int  getElementCount()      { return cm.getColumnCount(); }
             public int  getLowerBoundAt(int i) { return cm.getColumn(i).getMinWidth(); }
-            public int  getUpperBoundAt(int i) { return cm.getColumn(i).getMaxWidth(); }
+            public int  getUpperBoundAt(int i) { return cm.getColumn(i).getMbxWidth(); }
             public int  getMidPointAt(int i)  {
                 if (!inverse) {
                     return cm.getColumn(i).getPreferredWidth();
@@ -3249,76 +3249,76 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
         };
 
-        adjustSizes(target, r, inverse);
+        bdjustSizes(tbrget, r, inverse);
     }
 
 
-    // Distribute delta over columns, as indicated by the autoresize mode.
-    private void accommodateDelta(int resizingColumnIndex, int delta) {
+    // Distribute deltb over columns, bs indicbted by the butoresize mode.
+    privbte void bccommodbteDeltb(int resizingColumnIndex, int deltb) {
         int columnCount = getColumnCount();
         int from = resizingColumnIndex;
         int to;
 
-        // Use the mode to determine how to absorb the changes.
-        switch(autoResizeMode) {
-            case AUTO_RESIZE_NEXT_COLUMN:
+        // Use the mode to determine how to bbsorb the chbnges.
+        switch(butoResizeMode) {
+            cbse AUTO_RESIZE_NEXT_COLUMN:
                 from = from + 1;
-                to = Math.min(from + 1, columnCount); break;
-            case AUTO_RESIZE_SUBSEQUENT_COLUMNS:
+                to = Mbth.min(from + 1, columnCount); brebk;
+            cbse AUTO_RESIZE_SUBSEQUENT_COLUMNS:
                 from = from + 1;
-                to = columnCount; break;
-            case AUTO_RESIZE_LAST_COLUMN:
+                to = columnCount; brebk;
+            cbse AUTO_RESIZE_LAST_COLUMN:
                 from = columnCount - 1;
-                to = from + 1; break;
-            case AUTO_RESIZE_ALL_COLUMNS:
+                to = from + 1; brebk;
+            cbse AUTO_RESIZE_ALL_COLUMNS:
                 from = 0;
-                to = columnCount; break;
-            default:
+                to = columnCount; brebk;
+            defbult:
                 return;
         }
 
-        final int start = from;
-        final int end = to;
-        final TableColumnModel cm = columnModel;
-        Resizable3 r = new Resizable3() {
-            public int  getElementCount()       { return end-start; }
-            public int  getLowerBoundAt(int i)  { return cm.getColumn(i+start).getMinWidth(); }
-            public int  getUpperBoundAt(int i)  { return cm.getColumn(i+start).getMaxWidth(); }
-            public int  getMidPointAt(int i)    { return cm.getColumn(i+start).getWidth(); }
-            public void setSizeAt(int s, int i) {        cm.getColumn(i+start).setWidth(s); }
+        finbl int stbrt = from;
+        finbl int end = to;
+        finbl TbbleColumnModel cm = columnModel;
+        Resizbble3 r = new Resizbble3() {
+            public int  getElementCount()       { return end-stbrt; }
+            public int  getLowerBoundAt(int i)  { return cm.getColumn(i+stbrt).getMinWidth(); }
+            public int  getUpperBoundAt(int i)  { return cm.getColumn(i+stbrt).getMbxWidth(); }
+            public int  getMidPointAt(int i)    { return cm.getColumn(i+stbrt).getWidth(); }
+            public void setSizeAt(int s, int i) {        cm.getColumn(i+stbrt).setWidth(s); }
         };
 
-        int totalWidth = 0;
+        int totblWidth = 0;
         for(int i = from; i < to; i++) {
-            TableColumn aColumn = columnModel.getColumn(i);
-            int input = aColumn.getWidth();
-            totalWidth = totalWidth + input;
+            TbbleColumn bColumn = columnModel.getColumn(i);
+            int input = bColumn.getWidth();
+            totblWidth = totblWidth + input;
         }
 
-        adjustSizes(totalWidth + delta, r, false);
+        bdjustSizes(totblWidth + deltb, r, fblse);
     }
 
-    private interface Resizable2 {
+    privbte interfbce Resizbble2 {
         public int  getElementCount();
         public int  getLowerBoundAt(int i);
         public int  getUpperBoundAt(int i);
         public void setSizeAt(int newSize, int i);
     }
 
-    private interface Resizable3 extends Resizable2 {
+    privbte interfbce Resizbble3 extends Resizbble2 {
         public int  getMidPointAt(int i);
     }
 
 
-    private void adjustSizes(long target, final Resizable3 r, boolean inverse) {
+    privbte void bdjustSizes(long tbrget, finbl Resizbble3 r, boolebn inverse) {
         int N = r.getElementCount();
-        long totalPreferred = 0;
+        long totblPreferred = 0;
         for(int i = 0; i < N; i++) {
-            totalPreferred += r.getMidPointAt(i);
+            totblPreferred += r.getMidPointAt(i);
         }
-        Resizable2 s;
-        if ((target < totalPreferred) == !inverse) {
-            s = new Resizable2() {
+        Resizbble2 s;
+        if ((tbrget < totblPreferred) == !inverse) {
+            s = new Resizbble2() {
                 public int  getElementCount()      { return r.getElementCount(); }
                 public int  getLowerBoundAt(int i) { return r.getLowerBoundAt(i); }
                 public int  getUpperBoundAt(int i) { return r.getMidPointAt(i); }
@@ -3327,7 +3327,7 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             };
         }
         else {
-            s = new Resizable2() {
+            s = new Resizbble2() {
                 public int  getElementCount()      { return r.getElementCount(); }
                 public int  getLowerBoundAt(int i) { return r.getMidPointAt(i); }
                 public int  getUpperBoundAt(int i) { return r.getUpperBoundAt(i); }
@@ -3335,58 +3335,58 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 
             };
         }
-        adjustSizes(target, s, !inverse);
+        bdjustSizes(tbrget, s, !inverse);
     }
 
-    private void adjustSizes(long target, Resizable2 r, boolean limitToRange) {
-        long totalLowerBound = 0;
-        long totalUpperBound = 0;
+    privbte void bdjustSizes(long tbrget, Resizbble2 r, boolebn limitToRbnge) {
+        long totblLowerBound = 0;
+        long totblUpperBound = 0;
         for(int i = 0; i < r.getElementCount(); i++) {
-            totalLowerBound += r.getLowerBoundAt(i);
-            totalUpperBound += r.getUpperBoundAt(i);
+            totblLowerBound += r.getLowerBoundAt(i);
+            totblUpperBound += r.getUpperBoundAt(i);
         }
 
-        if (limitToRange) {
-            target = Math.min(Math.max(totalLowerBound, target), totalUpperBound);
+        if (limitToRbnge) {
+            tbrget = Mbth.min(Mbth.mbx(totblLowerBound, tbrget), totblUpperBound);
         }
 
         for(int i = 0; i < r.getElementCount(); i++) {
             int lowerBound = r.getLowerBoundAt(i);
             int upperBound = r.getUpperBoundAt(i);
-            // Check for zero. This happens when the distribution of the delta
-            // finishes early due to a series of "fixed" entries at the end.
-            // In this case, lowerBound == upperBound, for all subsequent terms.
+            // Check for zero. This hbppens when the distribution of the deltb
+            // finishes ebrly due to b series of "fixed" entries bt the end.
+            // In this cbse, lowerBound == upperBound, for bll subsequent terms.
             int newSize;
-            if (totalLowerBound == totalUpperBound) {
+            if (totblLowerBound == totblUpperBound) {
                 newSize = lowerBound;
             }
             else {
-                double f = (double)(target - totalLowerBound)/(totalUpperBound - totalLowerBound);
-                newSize = (int)Math.round(lowerBound+f*(upperBound - lowerBound));
-                // We'd need to round manually in an all integer version.
-                // size[i] = (int)(((totalUpperBound - target) * lowerBound +
-                //     (target - totalLowerBound) * upperBound)/(totalUpperBound-totalLowerBound));
+                double f = (double)(tbrget - totblLowerBound)/(totblUpperBound - totblLowerBound);
+                newSize = (int)Mbth.round(lowerBound+f*(upperBound - lowerBound));
+                // We'd need to round mbnublly in bn bll integer version.
+                // size[i] = (int)(((totblUpperBound - tbrget) * lowerBound +
+                //     (tbrget - totblLowerBound) * upperBound)/(totblUpperBound-totblLowerBound));
             }
             r.setSizeAt(newSize, i);
-            target -= newSize;
-            totalLowerBound -= lowerBound;
-            totalUpperBound -= upperBound;
+            tbrget -= newSize;
+            totblLowerBound -= lowerBound;
+            totblUpperBound -= upperBound;
         }
     }
 
     /**
      * Overrides <code>JComponent</code>'s <code>getToolTipText</code>
-     * method in order to allow the renderer's tips to be used
-     * if it has text set.
+     * method in order to bllow the renderer's tips to be used
+     * if it hbs text set.
      * <p>
-     * <b>Note:</b> For <code>JTable</code> to properly display
+     * <b>Note:</b> For <code>JTbble</code> to properly displby
      * tooltips of its renderers
-     * <code>JTable</code> must be a registered component with the
-     * <code>ToolTipManager</code>.
-     * This is done automatically in <code>initializeLocalVars</code>,
-     * but if at a later point <code>JTable</code> is told
-     * <code>setToolTipText(null)</code> it will unregister the table
-     * component, and no tips from renderers will display anymore.
+     * <code>JTbble</code> must be b registered component with the
+     * <code>ToolTipMbnbger</code>.
+     * This is done butombticblly in <code>initiblizeLocblVbrs</code>,
+     * but if bt b lbter point <code>JTbble</code> is told
+     * <code>setToolTipText(null)</code> it will unregister the tbble
+     * component, bnd no tips from renderers will displby bnymore.
      *
      * @see JComponent#getToolTipText
      */
@@ -3394,20 +3394,20 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         String tip = null;
         Point p = event.getPoint();
 
-        // Locate the renderer under the event location
+        // Locbte the renderer under the event locbtion
         int hitColumnIndex = columnAtPoint(p);
         int hitRowIndex = rowAtPoint(p);
 
         if ((hitColumnIndex != -1) && (hitRowIndex != -1)) {
-            TableCellRenderer renderer = getCellRenderer(hitRowIndex, hitColumnIndex);
-            Component component = prepareRenderer(renderer, hitRowIndex, hitColumnIndex);
+            TbbleCellRenderer renderer = getCellRenderer(hitRowIndex, hitColumnIndex);
+            Component component = prepbreRenderer(renderer, hitRowIndex, hitColumnIndex);
 
-            // Now have to see if the component is a JComponent before
+            // Now hbve to see if the component is b JComponent before
             // getting the tip
-            if (component instanceof JComponent) {
-                // Convert the event to the renderer's coordinate system
-                Rectangle cellRect = getCellRect(hitRowIndex, hitColumnIndex, false);
-                p.translate(-cellRect.x, -cellRect.y);
+            if (component instbnceof JComponent) {
+                // Convert the event to the renderer's coordinbte system
+                Rectbngle cellRect = getCellRect(hitRowIndex, hitColumnIndex, fblse);
+                p.trbnslbte(-cellRect.x, -cellRect.y);
                 MouseEvent newEvent = new MouseEvent(component, event.getID(),
                                           event.getWhen(), event.getModifiers(),
                                           p.x, p.y,
@@ -3433,140 +3433,140 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 //
 
     /**
-     * Sets whether editors in this JTable get the keyboard focus
-     * when an editor is activated as a result of the JTable
-     * forwarding keyboard events for a cell.
-     * By default, this property is false, and the JTable
-     * retains the focus unless the cell is clicked.
+     * Sets whether editors in this JTbble get the keybobrd focus
+     * when bn editor is bctivbted bs b result of the JTbble
+     * forwbrding keybobrd events for b cell.
+     * By defbult, this property is fblse, bnd the JTbble
+     * retbins the focus unless the cell is clicked.
      *
-     * @param surrendersFocusOnKeystroke true if the editor should get the focus
-     *          when keystrokes cause the editor to be
-     *          activated
+     * @pbrbm surrendersFocusOnKeystroke true if the editor should get the focus
+     *          when keystrokes cbuse the editor to be
+     *          bctivbted
      *
      *
      * @see #getSurrendersFocusOnKeystroke
      * @since 1.4
      */
-    public void setSurrendersFocusOnKeystroke(boolean surrendersFocusOnKeystroke) {
+    public void setSurrendersFocusOnKeystroke(boolebn surrendersFocusOnKeystroke) {
         this.surrendersFocusOnKeystroke = surrendersFocusOnKeystroke;
     }
 
     /**
      * Returns true if the editor should get the focus
-     * when keystrokes cause the editor to be activated
+     * when keystrokes cbuse the editor to be bctivbted
      *
      * @return  true if the editor should get the focus
-     *          when keystrokes cause the editor to be
-     *          activated
+     *          when keystrokes cbuse the editor to be
+     *          bctivbted
      *
      * @see #setSurrendersFocusOnKeystroke
      * @since 1.4
      */
-    public boolean getSurrendersFocusOnKeystroke() {
+    public boolebn getSurrendersFocusOnKeystroke() {
         return surrendersFocusOnKeystroke;
     }
 
     /**
-     * Programmatically starts editing the cell at <code>row</code> and
-     * <code>column</code>, if those indices are in the valid range, and
-     * the cell at those indices is editable.
-     * Note that this is a convenience method for
+     * Progrbmmbticblly stbrts editing the cell bt <code>row</code> bnd
+     * <code>column</code>, if those indices bre in the vblid rbnge, bnd
+     * the cell bt those indices is editbble.
+     * Note thbt this is b convenience method for
      * <code>editCellAt(int, int, null)</code>.
      *
-     * @param   row                             the row to be edited
-     * @param   column                          the column to be edited
-     * @return  false if for any reason the cell cannot be edited,
-     *                or if the indices are invalid
+     * @pbrbm   row                             the row to be edited
+     * @pbrbm   column                          the column to be edited
+     * @return  fblse if for bny rebson the cell cbnnot be edited,
+     *                or if the indices bre invblid
      */
-    public boolean editCellAt(int row, int column) {
+    public boolebn editCellAt(int row, int column) {
         return editCellAt(row, column, null);
     }
 
     /**
-     * Programmatically starts editing the cell at <code>row</code> and
-     * <code>column</code>, if those indices are in the valid range, and
-     * the cell at those indices is editable.
-     * To prevent the <code>JTable</code> from
-     * editing a particular table, column or cell value, return false from
-     * the <code>isCellEditable</code> method in the <code>TableModel</code>
-     * interface.
+     * Progrbmmbticblly stbrts editing the cell bt <code>row</code> bnd
+     * <code>column</code>, if those indices bre in the vblid rbnge, bnd
+     * the cell bt those indices is editbble.
+     * To prevent the <code>JTbble</code> from
+     * editing b pbrticulbr tbble, column or cell vblue, return fblse from
+     * the <code>isCellEditbble</code> method in the <code>TbbleModel</code>
+     * interfbce.
      *
-     * @param   row     the row to be edited
-     * @param   column  the column to be edited
-     * @param   e       event to pass into <code>shouldSelectCell</code>;
-     *                  note that as of Java 2 platform v1.2, the call to
-     *                  <code>shouldSelectCell</code> is no longer made
-     * @return  false if for any reason the cell cannot be edited,
-     *                or if the indices are invalid
+     * @pbrbm   row     the row to be edited
+     * @pbrbm   column  the column to be edited
+     * @pbrbm   e       event to pbss into <code>shouldSelectCell</code>;
+     *                  note thbt bs of Jbvb 2 plbtform v1.2, the cbll to
+     *                  <code>shouldSelectCell</code> is no longer mbde
+     * @return  fblse if for bny rebson the cell cbnnot be edited,
+     *                or if the indices bre invblid
      */
-    public boolean editCellAt(int row, int column, EventObject e){
+    public boolebn editCellAt(int row, int column, EventObject e){
         if (cellEditor != null && !cellEditor.stopCellEditing()) {
-            return false;
+            return fblse;
         }
 
         if (row < 0 || row >= getRowCount() ||
             column < 0 || column >= getColumnCount()) {
-            return false;
+            return fblse;
         }
 
-        if (!isCellEditable(row, column))
-            return false;
+        if (!isCellEditbble(row, column))
+            return fblse;
 
         if (editorRemover == null) {
-            KeyboardFocusManager fm =
-                KeyboardFocusManager.getCurrentKeyboardFocusManager();
+            KeybobrdFocusMbnbger fm =
+                KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger();
             editorRemover = new CellEditorRemover(fm);
-            fm.addPropertyChangeListener("permanentFocusOwner", editorRemover);
+            fm.bddPropertyChbngeListener("permbnentFocusOwner", editorRemover);
         }
 
-        TableCellEditor editor = getCellEditor(row, column);
-        if (editor != null && editor.isCellEditable(e)) {
-            editorComp = prepareEditor(editor, row, column);
+        TbbleCellEditor editor = getCellEditor(row, column);
+        if (editor != null && editor.isCellEditbble(e)) {
+            editorComp = prepbreEditor(editor, row, column);
             if (editorComp == null) {
                 removeEditor();
-                return false;
+                return fblse;
             }
-            editorComp.setBounds(getCellRect(row, column, false));
-            add(editorComp);
-            editorComp.validate();
-            editorComp.repaint();
+            editorComp.setBounds(getCellRect(row, column, fblse));
+            bdd(editorComp);
+            editorComp.vblidbte();
+            editorComp.repbint();
 
             setCellEditor(editor);
             setEditingRow(row);
             setEditingColumn(column);
-            editor.addCellEditorListener(this);
+            editor.bddCellEditorListener(this);
 
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if a cell is being edited.
+     * Returns true if b cell is being edited.
      *
-     * @return  true if the table is editing a cell
+     * @return  true if the tbble is editing b cell
      * @see     #editingColumn
      * @see     #editingRow
      */
-    public boolean isEditing() {
+    public boolebn isEditing() {
         return cellEditor != null;
     }
 
     /**
-     * Returns the component that is handling the editing session.
+     * Returns the component thbt is hbndling the editing session.
      * If nothing is being edited, returns null.
      *
-     * @return  Component handling editing session
+     * @return  Component hbndling editing session
      */
     public Component getEditorComponent() {
         return editorComp;
     }
 
     /**
-     * Returns the index of the column that contains the cell currently
+     * Returns the index of the column thbt contbins the cell currently
      * being edited.  If nothing is being edited, returns -1.
      *
-     * @return  the index of the column that contains the cell currently
+     * @return  the index of the column thbt contbins the cell currently
      *          being edited; returns -1 if nothing being edited
      * @see #editingRow
      */
@@ -3575,10 +3575,10 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Returns the index of the row that contains the cell currently
+     * Returns the index of the row thbt contbins the cell currently
      * being edited.  If nothing is being edited, returns -1.
      *
-     * @return  the index of the row that contains the cell currently
+     * @return  the index of the row thbt contbins the cell currently
      *          being edited; returns -1 if nothing being edited
      * @see #editingColumn
      */
@@ -3587,196 +3587,196 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
 //
-// Managing TableUI
+// Mbnbging TbbleUI
 //
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Returns the L&bmp;F object thbt renders this component.
      *
-     * @return the <code>TableUI</code> object that renders this component
+     * @return the <code>TbbleUI</code> object thbt renders this component
      */
-    public TableUI getUI() {
-        return (TableUI)ui;
+    public TbbleUI getUI() {
+        return (TbbleUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component and repaints.
+     * Sets the L&bmp;F object thbt renders this component bnd repbints.
      *
-     * @param ui  the TableUI L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the TbbleUI L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public void setUI(TableUI ui) {
+    public void setUI(TbbleUI ui) {
         if (this.ui != ui) {
             super.setUI(ui);
-            repaint();
+            repbint();
         }
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the L&amp;F has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notificbtion from the <code>UIMbnbger</code> thbt the L&bmp;F hbs chbnged.
+     * Replbces the current UI object with the lbtest version from the
+     * <code>UIMbnbger</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        // Update the UIs of the cell renderers, cell editors and header renderers.
-        TableColumnModel cm = getColumnModel();
+    public void updbteUI() {
+        // Updbte the UIs of the cell renderers, cell editors bnd hebder renderers.
+        TbbleColumnModel cm = getColumnModel();
         for(int column = 0; column < cm.getColumnCount(); column++) {
-            TableColumn aColumn = cm.getColumn(column);
-            SwingUtilities.updateRendererOrEditorUI(aColumn.getCellRenderer());
-            SwingUtilities.updateRendererOrEditorUI(aColumn.getCellEditor());
-            SwingUtilities.updateRendererOrEditorUI(aColumn.getHeaderRenderer());
+            TbbleColumn bColumn = cm.getColumn(column);
+            SwingUtilities.updbteRendererOrEditorUI(bColumn.getCellRenderer());
+            SwingUtilities.updbteRendererOrEditorUI(bColumn.getCellEditor());
+            SwingUtilities.updbteRendererOrEditorUI(bColumn.getHebderRenderer());
         }
 
-        // Update the UIs of all the default renderers.
-        Enumeration<?> defaultRenderers = defaultRenderersByColumnClass.elements();
-        while (defaultRenderers.hasMoreElements()) {
-            SwingUtilities.updateRendererOrEditorUI(defaultRenderers.nextElement());
+        // Updbte the UIs of bll the defbult renderers.
+        Enumerbtion<?> defbultRenderers = defbultRenderersByColumnClbss.elements();
+        while (defbultRenderers.hbsMoreElements()) {
+            SwingUtilities.updbteRendererOrEditorUI(defbultRenderers.nextElement());
         }
 
-        // Update the UIs of all the default editors.
-        Enumeration<?> defaultEditors = defaultEditorsByColumnClass.elements();
-        while (defaultEditors.hasMoreElements()) {
-            SwingUtilities.updateRendererOrEditorUI(defaultEditors.nextElement());
+        // Updbte the UIs of bll the defbult editors.
+        Enumerbtion<?> defbultEditors = defbultEditorsByColumnClbss.elements();
+        while (defbultEditors.hbsMoreElements()) {
+            SwingUtilities.updbteRendererOrEditorUI(defbultEditors.nextElement());
         }
 
-        // Update the UI of the table header
-        if (tableHeader != null && tableHeader.getParent() == null) {
-            tableHeader.updateUI();
+        // Updbte the UI of the tbble hebder
+        if (tbbleHebder != null && tbbleHebder.getPbrent() == null) {
+            tbbleHebder.updbteUI();
         }
 
-        // Update UI applied to parent ScrollPane
-        configureEnclosingScrollPaneUI();
+        // Updbte UI bpplied to pbrent ScrollPbne
+        configureEnclosingScrollPbneUI();
 
-        setUI((TableUI)UIManager.getUI(this));
+        setUI((TbbleUI)UIMbnbger.getUI(this));
     }
 
     /**
-     * Returns the suffix used to construct the name of the L&amp;F class used to
+     * Returns the suffix used to construct the nbme of the L&bmp;F clbss used to
      * render this component.
      *
-     * @return the string "TableUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the string "TbbleUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
 //
-// Managing models
+// Mbnbging models
 //
 
     /**
-     * Sets the data model for this table to <code>newModel</code> and registers
-     * with it for listener notifications from the new data model.
+     * Sets the dbtb model for this tbble to <code>newModel</code> bnd registers
+     * with it for listener notificbtions from the new dbtb model.
      *
-     * @param   dataModel        the new data source for this table
-     * @exception IllegalArgumentException      if <code>newModel</code> is <code>null</code>
+     * @pbrbm   dbtbModel        the new dbtb source for this tbble
+     * @exception IllegblArgumentException      if <code>newModel</code> is <code>null</code>
      * @see     #getModel
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *  description: The model that is the source of the data for this view.
+     *  description: The model thbt is the source of the dbtb for this view.
      */
-    public void setModel(TableModel dataModel) {
-        if (dataModel == null) {
-            throw new IllegalArgumentException("Cannot set a null TableModel");
+    public void setModel(TbbleModel dbtbModel) {
+        if (dbtbModel == null) {
+            throw new IllegblArgumentException("Cbnnot set b null TbbleModel");
         }
-        if (this.dataModel != dataModel) {
-            TableModel old = this.dataModel;
+        if (this.dbtbModel != dbtbModel) {
+            TbbleModel old = this.dbtbModel;
             if (old != null) {
-                old.removeTableModelListener(this);
+                old.removeTbbleModelListener(this);
             }
-            this.dataModel = dataModel;
-            dataModel.addTableModelListener(this);
+            this.dbtbModel = dbtbModel;
+            dbtbModel.bddTbbleModelListener(this);
 
-            tableChanged(new TableModelEvent(dataModel, TableModelEvent.HEADER_ROW));
+            tbbleChbnged(new TbbleModelEvent(dbtbModel, TbbleModelEvent.HEADER_ROW));
 
-            firePropertyChange("model", old, dataModel);
+            firePropertyChbnge("model", old, dbtbModel);
 
-            if (getAutoCreateRowSorter()) {
-                setRowSorter(new TableRowSorter<TableModel>(dataModel));
+            if (getAutoCrebteRowSorter()) {
+                setRowSorter(new TbbleRowSorter<TbbleModel>(dbtbModel));
             }
         }
     }
 
     /**
-     * Returns the <code>TableModel</code> that provides the data displayed by this
-     * <code>JTable</code>.
+     * Returns the <code>TbbleModel</code> thbt provides the dbtb displbyed by this
+     * <code>JTbble</code>.
      *
-     * @return  the <code>TableModel</code> that provides the data displayed by this <code>JTable</code>
+     * @return  the <code>TbbleModel</code> thbt provides the dbtb displbyed by this <code>JTbble</code>
      * @see     #setModel
      */
-    public TableModel getModel() {
-        return dataModel;
+    public TbbleModel getModel() {
+        return dbtbModel;
     }
 
     /**
-     * Sets the column model for this table to <code>newModel</code> and registers
-     * for listener notifications from the new column model. Also sets
-     * the column model of the <code>JTableHeader</code> to <code>columnModel</code>.
+     * Sets the column model for this tbble to <code>newModel</code> bnd registers
+     * for listener notificbtions from the new column model. Also sets
+     * the column model of the <code>JTbbleHebder</code> to <code>columnModel</code>.
      *
-     * @param   columnModel        the new data source for this table
-     * @exception IllegalArgumentException      if <code>columnModel</code> is <code>null</code>
+     * @pbrbm   columnModel        the new dbtb source for this tbble
+     * @exception IllegblArgumentException      if <code>columnModel</code> is <code>null</code>
      * @see     #getColumnModel
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *  description: The object governing the way columns appear in the view.
+     *  description: The object governing the wby columns bppebr in the view.
      */
-    public void setColumnModel(TableColumnModel columnModel) {
+    public void setColumnModel(TbbleColumnModel columnModel) {
         if (columnModel == null) {
-            throw new IllegalArgumentException("Cannot set a null ColumnModel");
+            throw new IllegblArgumentException("Cbnnot set b null ColumnModel");
         }
-        TableColumnModel old = this.columnModel;
+        TbbleColumnModel old = this.columnModel;
         if (columnModel != old) {
             if (old != null) {
                 old.removeColumnModelListener(this);
             }
             this.columnModel = columnModel;
-            columnModel.addColumnModelListener(this);
+            columnModel.bddColumnModelListener(this);
 
-            // Set the column model of the header as well.
-            if (tableHeader != null) {
-                tableHeader.setColumnModel(columnModel);
+            // Set the column model of the hebder bs well.
+            if (tbbleHebder != null) {
+                tbbleHebder.setColumnModel(columnModel);
             }
 
-            firePropertyChange("columnModel", old, columnModel);
-            resizeAndRepaint();
+            firePropertyChbnge("columnModel", old, columnModel);
+            resizeAndRepbint();
         }
     }
 
     /**
-     * Returns the <code>TableColumnModel</code> that contains all column information
-     * of this table.
+     * Returns the <code>TbbleColumnModel</code> thbt contbins bll column informbtion
+     * of this tbble.
      *
-     * @return  the object that provides the column state of the table
+     * @return  the object thbt provides the column stbte of the tbble
      * @see     #setColumnModel
      */
-    public TableColumnModel getColumnModel() {
+    public TbbleColumnModel getColumnModel() {
         return columnModel;
     }
 
     /**
-     * Sets the row selection model for this table to <code>newModel</code>
-     * and registers for listener notifications from the new selection model.
+     * Sets the row selection model for this tbble to <code>newModel</code>
+     * bnd registers for listener notificbtions from the new selection model.
      *
-     * @param   newModel        the new selection model
-     * @exception IllegalArgumentException      if <code>newModel</code> is <code>null</code>
+     * @pbrbm   newModel        the new selection model
+     * @exception IllegblArgumentException      if <code>newModel</code> is <code>null</code>
      * @see     #getSelectionModel
-     * @beaninfo
+     * @bebninfo
      *      bound: true
      *      description: The selection model for rows.
      */
     public void setSelectionModel(ListSelectionModel newModel) {
         if (newModel == null) {
-            throw new IllegalArgumentException("Cannot set a null SelectionModel");
+            throw new IllegblArgumentException("Cbnnot set b null SelectionModel");
         }
 
         ListSelectionModel oldModel = selectionModel;
@@ -3787,19 +3787,19 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             selectionModel = newModel;
-            newModel.addListSelectionListener(this);
+            newModel.bddListSelectionListener(this);
 
-            firePropertyChange("selectionModel", oldModel, newModel);
-            repaint();
+            firePropertyChbnge("selectionModel", oldModel, newModel);
+            repbint();
         }
     }
 
     /**
-     * Returns the <code>ListSelectionModel</code> that is used to maintain row
-     * selection state.
+     * Returns the <code>ListSelectionModel</code> thbt is used to mbintbin row
+     * selection stbte.
      *
-     * @return  the object that provides row selection state, <code>null</code>
-     *          if row selection is not allowed
+     * @return  the object thbt provides row selection stbte, <code>null</code>
+     *          if row selection is not bllowed
      * @see     #setSelectionModel
      */
     public ListSelectionModel getSelectionModel() {
@@ -3811,68 +3811,68 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 //
 
     /**
-     * <code>RowSorterListener</code> notification that the
-     * <code>RowSorter</code> has changed in some way.
+     * <code>RowSorterListener</code> notificbtion thbt the
+     * <code>RowSorter</code> hbs chbnged in some wby.
      *
-     * @param e the <code>RowSorterEvent</code> describing the change
+     * @pbrbm e the <code>RowSorterEvent</code> describing the chbnge
      * @throws NullPointerException if <code>e</code> is <code>null</code>
      * @since 1.6
      */
-    public void sorterChanged(RowSorterEvent e) {
+    public void sorterChbnged(RowSorterEvent e) {
         if (e.getType() == RowSorterEvent.Type.SORT_ORDER_CHANGED) {
-            JTableHeader header = getTableHeader();
-            if (header != null) {
-                header.repaint();
+            JTbbleHebder hebder = getTbbleHebder();
+            if (hebder != null) {
+                hebder.repbint();
             }
         }
         else if (e.getType() == RowSorterEvent.Type.SORTED) {
-            sorterChanged = true;
-            if (!ignoreSortChange) {
-                sortedTableChanged(e, null);
+            sorterChbnged = true;
+            if (!ignoreSortChbnge) {
+                sortedTbbleChbnged(e, null);
             }
         }
     }
 
 
     /**
-     * SortManager provides support for managing the selection and variable
-     * row heights when sorting is enabled. This information is encapsulated
-     * into a class to avoid bulking up JTable.
+     * SortMbnbger provides support for mbnbging the selection bnd vbribble
+     * row heights when sorting is enbbled. This informbtion is encbpsulbted
+     * into b clbss to bvoid bulking up JTbble.
      */
-    private final class SortManager {
-        RowSorter<? extends TableModel> sorter;
+    privbte finbl clbss SortMbnbger {
+        RowSorter<? extends TbbleModel> sorter;
 
-        // Selection, in terms of the model. This is lazily created
-        // as needed.
-        private ListSelectionModel modelSelection;
-        private int modelLeadIndex;
-        // Set to true while in the process of changing the selection.
-        // If this is true the selection change is ignored.
-        private boolean syncingSelection;
-        // Temporary cache of selection, in terms of model. This is only used
+        // Selection, in terms of the model. This is lbzily crebted
+        // bs needed.
+        privbte ListSelectionModel modelSelection;
+        privbte int modelLebdIndex;
+        // Set to true while in the process of chbnging the selection.
+        // If this is true the selection chbnge is ignored.
+        privbte boolebn syncingSelection;
+        // Temporbry cbche of selection, in terms of model. This is only used
         // if we don't need the full weight of modelSelection.
-        private int[] lastModelSelection;
+        privbte int[] lbstModelSelection;
 
         // Heights of the rows in terms of the model.
-        private SizeSequence modelRowSizes;
+        privbte SizeSequence modelRowSizes;
 
 
-        SortManager(RowSorter<? extends TableModel> sorter) {
+        SortMbnbger(RowSorter<? extends TbbleModel> sorter) {
             this.sorter = sorter;
-            sorter.addRowSorterListener(JTable.this);
+            sorter.bddRowSorterListener(JTbble.this);
         }
 
         /**
-         * Disposes any resources used by this SortManager.
+         * Disposes bny resources used by this SortMbnbger.
          */
         public void dispose() {
             if (sorter != null) {
-                sorter.removeRowSorterListener(JTable.this);
+                sorter.removeRowSorterListener(JTbble.this);
             }
         }
 
         /**
-         * Sets the height for a row at a specified index.
+         * Sets the height for b row bt b specified index.
          */
         public void setViewRowHeight(int viewIndex, int rowHeight) {
             if (modelRowSizes == null) {
@@ -3883,138 +3883,138 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Invoked when the underlying model has completely changed.
+         * Invoked when the underlying model hbs completely chbnged.
          */
-        public void allChanged() {
-            modelLeadIndex = -1;
+        public void bllChbnged() {
+            modelLebdIndex = -1;
             modelSelection = null;
             modelRowSizes = null;
         }
 
         /**
-         * Invoked when the selection, on the view, has changed.
+         * Invoked when the selection, on the view, hbs chbnged.
          */
-        public void viewSelectionChanged(ListSelectionEvent e) {
+        public void viewSelectionChbnged(ListSelectionEvent e) {
             if (!syncingSelection && modelSelection != null) {
                 modelSelection = null;
             }
         }
 
         /**
-         * Invoked when either the table model has changed, or the RowSorter
-         * has changed. This is invoked prior to notifying the sorter of the
-         * change.
+         * Invoked when either the tbble model hbs chbnged, or the RowSorter
+         * hbs chbnged. This is invoked prior to notifying the sorter of the
+         * chbnge.
          */
-        public void prepareForChange(RowSorterEvent sortEvent,
-                                     ModelChange change) {
-            if (getUpdateSelectionOnSort()) {
-                cacheSelection(sortEvent, change);
+        public void prepbreForChbnge(RowSorterEvent sortEvent,
+                                     ModelChbnge chbnge) {
+            if (getUpdbteSelectionOnSort()) {
+                cbcheSelection(sortEvent, chbnge);
             }
         }
 
         /**
-         * Updates the internal cache of the selection based on the change.
+         * Updbtes the internbl cbche of the selection bbsed on the chbnge.
          */
-        private void cacheSelection(RowSorterEvent sortEvent,
-                                    ModelChange change) {
+        privbte void cbcheSelection(RowSorterEvent sortEvent,
+                                    ModelChbnge chbnge) {
             if (sortEvent != null) {
-                // sort order changed. If modelSelection is null and filtering
-                // is enabled we need to cache the selection in terms of the
-                // underlying model, this will allow us to correctly restore
-                // the selection even if rows are filtered out.
+                // sort order chbnged. If modelSelection is null bnd filtering
+                // is enbbled we need to cbche the selection in terms of the
+                // underlying model, this will bllow us to correctly restore
+                // the selection even if rows bre filtered out.
                 if (modelSelection == null &&
                         sorter.getViewRowCount() != getModel().getRowCount()) {
-                    modelSelection = new DefaultListSelectionModel();
+                    modelSelection = new DefbultListSelectionModel();
                     ListSelectionModel viewSelection = getSelectionModel();
                     int min = viewSelection.getMinSelectionIndex();
-                    int max = viewSelection.getMaxSelectionIndex();
+                    int mbx = viewSelection.getMbxSelectionIndex();
                     int modelIndex;
-                    for (int viewIndex = min; viewIndex <= max; viewIndex++) {
+                    for (int viewIndex = min; viewIndex <= mbx; viewIndex++) {
                         if (viewSelection.isSelectedIndex(viewIndex)) {
                             modelIndex = convertRowIndexToModel(
                                     sortEvent, viewIndex);
                             if (modelIndex != -1) {
-                                modelSelection.addSelectionInterval(
+                                modelSelection.bddSelectionIntervbl(
                                     modelIndex, modelIndex);
                             }
                         }
                     }
                     modelIndex = convertRowIndexToModel(sortEvent,
-                            viewSelection.getLeadSelectionIndex());
-                    SwingUtilities2.setLeadAnchorWithoutSelection(
+                            viewSelection.getLebdSelectionIndex());
+                    SwingUtilities2.setLebdAnchorWithoutSelection(
                             modelSelection, modelIndex, modelIndex);
                 } else if (modelSelection == null) {
-                    // Sorting changed, haven't cached selection in terms
-                    // of model and no filtering. Temporarily cache selection.
-                    cacheModelSelection(sortEvent);
+                    // Sorting chbnged, hbven't cbched selection in terms
+                    // of model bnd no filtering. Temporbrily cbche selection.
+                    cbcheModelSelection(sortEvent);
                 }
-            } else if (change.allRowsChanged) {
-                // All the rows have changed, chuck any cached selection.
+            } else if (chbnge.bllRowsChbnged) {
+                // All the rows hbve chbnged, chuck bny cbched selection.
                 modelSelection = null;
             } else if (modelSelection != null) {
-                // Table changed, reflect changes in cached selection model.
-                switch(change.type) {
-                case TableModelEvent.DELETE:
-                    modelSelection.removeIndexInterval(change.startModelIndex,
-                                                       change.endModelIndex);
-                    break;
-                case TableModelEvent.INSERT:
-                    modelSelection.insertIndexInterval(change.startModelIndex,
-                                                       change.length,
+                // Tbble chbnged, reflect chbnges in cbched selection model.
+                switch(chbnge.type) {
+                cbse TbbleModelEvent.DELETE:
+                    modelSelection.removeIndexIntervbl(chbnge.stbrtModelIndex,
+                                                       chbnge.endModelIndex);
+                    brebk;
+                cbse TbbleModelEvent.INSERT:
+                    modelSelection.insertIndexIntervbl(chbnge.stbrtModelIndex,
+                                                       chbnge.length,
                                                        true);
-                    break;
-                default:
-                    break;
+                    brebk;
+                defbult:
+                    brebk;
                 }
             } else {
-                // table changed, but haven't cached rows, temporarily
-                // cache them.
-                cacheModelSelection(null);
+                // tbble chbnged, but hbven't cbched rows, temporbrily
+                // cbche them.
+                cbcheModelSelection(null);
             }
         }
 
-        private void cacheModelSelection(RowSorterEvent sortEvent) {
-            lastModelSelection = convertSelectionToModel(sortEvent);
-            modelLeadIndex = convertRowIndexToModel(sortEvent,
-                        selectionModel.getLeadSelectionIndex());
+        privbte void cbcheModelSelection(RowSorterEvent sortEvent) {
+            lbstModelSelection = convertSelectionToModel(sortEvent);
+            modelLebdIndex = convertRowIndexToModel(sortEvent,
+                        selectionModel.getLebdSelectionIndex());
         }
 
         /**
-         * Inovked when either the table has changed or the sorter has changed
-         * and after the sorter has been notified. If necessary this will
-         * reapply the selection and variable row heights.
+         * Inovked when either the tbble hbs chbnged or the sorter hbs chbnged
+         * bnd bfter the sorter hbs been notified. If necessbry this will
+         * rebpply the selection bnd vbribble row heights.
          */
-        public void processChange(RowSorterEvent sortEvent,
-                                  ModelChange change,
-                                  boolean sorterChanged) {
-            if (change != null) {
-                if (change.allRowsChanged) {
+        public void processChbnge(RowSorterEvent sortEvent,
+                                  ModelChbnge chbnge,
+                                  boolebn sorterChbnged) {
+            if (chbnge != null) {
+                if (chbnge.bllRowsChbnged) {
                     modelRowSizes = null;
                     rowModel = null;
                 } else if (modelRowSizes != null) {
-                    if (change.type == TableModelEvent.INSERT) {
-                        modelRowSizes.insertEntries(change.startModelIndex,
-                                                    change.endModelIndex -
-                                                    change.startModelIndex + 1,
+                    if (chbnge.type == TbbleModelEvent.INSERT) {
+                        modelRowSizes.insertEntries(chbnge.stbrtModelIndex,
+                                                    chbnge.endModelIndex -
+                                                    chbnge.stbrtModelIndex + 1,
                                                     getRowHeight());
-                    } else if (change.type == TableModelEvent.DELETE) {
-                        modelRowSizes.removeEntries(change.startModelIndex,
-                                                    change.endModelIndex -
-                                                    change.startModelIndex +1 );
+                    } else if (chbnge.type == TbbleModelEvent.DELETE) {
+                        modelRowSizes.removeEntries(chbnge.stbrtModelIndex,
+                                                    chbnge.endModelIndex -
+                                                    chbnge.stbrtModelIndex +1 );
                     }
                 }
             }
-            if (sorterChanged) {
+            if (sorterChbnged) {
                 setViewRowHeightsFromModel();
-                restoreSelection(change);
+                restoreSelection(chbnge);
             }
         }
 
         /**
-         * Resets the variable row heights in terms of the view from
-         * that of the variable row heights in terms of the model.
+         * Resets the vbribble row heights in terms of the view from
+         * thbt of the vbribble row heights in terms of the model.
          */
-        private void setViewRowHeightsFromModel() {
+        privbte void setViewRowHeightsFromModel() {
             if (modelRowSizes != null) {
                 rowModel.setSizes(getRowCount(), getRowHeight());
                 for (int viewIndex = getRowCount() - 1; viewIndex >= 0;
@@ -4027,153 +4027,153 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Restores the selection from that in terms of the model.
+         * Restores the selection from thbt in terms of the model.
          */
-        private void restoreSelection(ModelChange change) {
+        privbte void restoreSelection(ModelChbnge chbnge) {
             syncingSelection = true;
-            if (lastModelSelection != null) {
-                restoreSortingSelection(lastModelSelection,
-                                        modelLeadIndex, change);
-                lastModelSelection = null;
+            if (lbstModelSelection != null) {
+                restoreSortingSelection(lbstModelSelection,
+                                        modelLebdIndex, chbnge);
+                lbstModelSelection = null;
             } else if (modelSelection != null) {
                 ListSelectionModel viewSelection = getSelectionModel();
-                viewSelection.setValueIsAdjusting(true);
-                viewSelection.clearSelection();
+                viewSelection.setVblueIsAdjusting(true);
+                viewSelection.clebrSelection();
                 int min = modelSelection.getMinSelectionIndex();
-                int max = modelSelection.getMaxSelectionIndex();
+                int mbx = modelSelection.getMbxSelectionIndex();
                 int viewIndex;
-                for (int modelIndex = min; modelIndex <= max; modelIndex++) {
+                for (int modelIndex = min; modelIndex <= mbx; modelIndex++) {
                     if (modelSelection.isSelectedIndex(modelIndex)) {
                         viewIndex = convertRowIndexToView(modelIndex);
                         if (viewIndex != -1) {
-                            viewSelection.addSelectionInterval(viewIndex,
+                            viewSelection.bddSelectionIntervbl(viewIndex,
                                                                viewIndex);
                         }
                     }
                 }
-                // Restore the lead
-                int viewLeadIndex = modelSelection.getLeadSelectionIndex();
-                if (viewLeadIndex != -1 && !modelSelection.isSelectionEmpty()) {
-                    viewLeadIndex = convertRowIndexToView(viewLeadIndex);
+                // Restore the lebd
+                int viewLebdIndex = modelSelection.getLebdSelectionIndex();
+                if (viewLebdIndex != -1 && !modelSelection.isSelectionEmpty()) {
+                    viewLebdIndex = convertRowIndexToView(viewLebdIndex);
                 }
-                SwingUtilities2.setLeadAnchorWithoutSelection(
-                        viewSelection, viewLeadIndex, viewLeadIndex);
-                viewSelection.setValueIsAdjusting(false);
+                SwingUtilities2.setLebdAnchorWithoutSelection(
+                        viewSelection, viewLebdIndex, viewLebdIndex);
+                viewSelection.setVblueIsAdjusting(fblse);
             }
-            syncingSelection = false;
+            syncingSelection = fblse;
         }
     }
 
 
     /**
-     * ModelChange is used when sorting to restore state, it corresponds
-     * to data from a TableModelEvent.  The values are precalculated as
-     * they are used extensively.
+     * ModelChbnge is used when sorting to restore stbte, it corresponds
+     * to dbtb from b TbbleModelEvent.  The vblues bre precblculbted bs
+     * they bre used extensively.
      */
-    private final class ModelChange {
-        // Starting index of the change, in terms of the model
-        int startModelIndex;
+    privbte finbl clbss ModelChbnge {
+        // Stbrting index of the chbnge, in terms of the model
+        int stbrtModelIndex;
 
-        // Ending index of the change, in terms of the model
+        // Ending index of the chbnge, in terms of the model
         int endModelIndex;
 
-        // Type of change
+        // Type of chbnge
         int type;
 
         // Number of rows in the model
         int modelRowCount;
 
-        // The event that triggered this.
-        TableModelEvent event;
+        // The event thbt triggered this.
+        TbbleModelEvent event;
 
-        // Length of the change (end - start + 1)
+        // Length of the chbnge (end - stbrt + 1)
         int length;
 
-        // True if the event indicates all the contents have changed
-        boolean allRowsChanged;
+        // True if the event indicbtes bll the contents hbve chbnged
+        boolebn bllRowsChbnged;
 
-        ModelChange(TableModelEvent e) {
-            startModelIndex = Math.max(0, e.getFirstRow());
-            endModelIndex = e.getLastRow();
+        ModelChbnge(TbbleModelEvent e) {
+            stbrtModelIndex = Mbth.mbx(0, e.getFirstRow());
+            endModelIndex = e.getLbstRow();
             modelRowCount = getModel().getRowCount();
             if (endModelIndex < 0) {
-                endModelIndex = Math.max(0, modelRowCount - 1);
+                endModelIndex = Mbth.mbx(0, modelRowCount - 1);
             }
-            length = endModelIndex - startModelIndex + 1;
+            length = endModelIndex - stbrtModelIndex + 1;
             type = e.getType();
             event = e;
-            allRowsChanged = (e.getLastRow() == Integer.MAX_VALUE);
+            bllRowsChbnged = (e.getLbstRow() == Integer.MAX_VALUE);
         }
     }
 
     /**
-     * Invoked when <code>sorterChanged</code> is invoked, or
-     * when <code>tableChanged</code> is invoked and sorting is enabled.
+     * Invoked when <code>sorterChbnged</code> is invoked, or
+     * when <code>tbbleChbnged</code> is invoked bnd sorting is enbbled.
      */
-    private void sortedTableChanged(RowSorterEvent sortedEvent,
-                                    TableModelEvent e) {
+    privbte void sortedTbbleChbnged(RowSorterEvent sortedEvent,
+                                    TbbleModelEvent e) {
         int editingModelIndex = -1;
-        ModelChange change = (e != null) ? new ModelChange(e) : null;
+        ModelChbnge chbnge = (e != null) ? new ModelChbnge(e) : null;
 
-        if ((change == null || !change.allRowsChanged) &&
+        if ((chbnge == null || !chbnge.bllRowsChbnged) &&
                 this.editingRow != -1) {
             editingModelIndex = convertRowIndexToModel(sortedEvent,
                                                        this.editingRow);
         }
 
-        sortManager.prepareForChange(sortedEvent, change);
+        sortMbnbger.prepbreForChbnge(sortedEvent, chbnge);
 
         if (e != null) {
-            if (change.type == TableModelEvent.UPDATE) {
-                repaintSortedRows(change);
+            if (chbnge.type == TbbleModelEvent.UPDATE) {
+                repbintSortedRows(chbnge);
             }
-            notifySorter(change);
-            if (change.type != TableModelEvent.UPDATE) {
-                // If the Sorter is unsorted we will not have received
-                // notification, force treating insert/delete as a change.
-                sorterChanged = true;
+            notifySorter(chbnge);
+            if (chbnge.type != TbbleModelEvent.UPDATE) {
+                // If the Sorter is unsorted we will not hbve received
+                // notificbtion, force trebting insert/delete bs b chbnge.
+                sorterChbnged = true;
             }
         }
         else {
-            sorterChanged = true;
+            sorterChbnged = true;
         }
 
-        sortManager.processChange(sortedEvent, change, sorterChanged);
+        sortMbnbger.processChbnge(sortedEvent, chbnge, sorterChbnged);
 
-        if (sorterChanged) {
-            // Update the editing row
+        if (sorterChbnged) {
+            // Updbte the editing row
             if (this.editingRow != -1) {
                 int newIndex = (editingModelIndex == -1) ? -1 :
-                        convertRowIndexToView(editingModelIndex,change);
+                        convertRowIndexToView(editingModelIndex,chbnge);
                 restoreSortingEditingRow(newIndex);
             }
 
-            // And handle the appropriate repainting.
-            if (e == null || change.type != TableModelEvent.UPDATE) {
-                resizeAndRepaint();
+            // And hbndle the bppropribte repbinting.
+            if (e == null || chbnge.type != TbbleModelEvent.UPDATE) {
+                resizeAndRepbint();
             }
         }
 
-        // Check if lead/anchor need to be reset.
-        if (change != null && change.allRowsChanged) {
-            clearSelectionAndLeadAnchor();
-            resizeAndRepaint();
+        // Check if lebd/bnchor need to be reset.
+        if (chbnge != null && chbnge.bllRowsChbnged) {
+            clebrSelectionAndLebdAnchor();
+            resizeAndRepbint();
         }
     }
 
     /**
-     * Repaints the sort of sorted rows in response to a TableModelEvent.
+     * Repbints the sort of sorted rows in response to b TbbleModelEvent.
      */
-    private void repaintSortedRows(ModelChange change) {
-        if (change.startModelIndex > change.endModelIndex ||
-                change.startModelIndex + 10 < change.endModelIndex) {
-            // Too much has changed, punt
-            repaint();
+    privbte void repbintSortedRows(ModelChbnge chbnge) {
+        if (chbnge.stbrtModelIndex > chbnge.endModelIndex ||
+                chbnge.stbrtModelIndex + 10 < chbnge.endModelIndex) {
+            // Too much hbs chbnged, punt
+            repbint();
             return;
         }
-        int eventColumn = change.event.getColumn();
+        int eventColumn = chbnge.event.getColumn();
         int columnViewIndex = eventColumn;
-        if (columnViewIndex == TableModelEvent.ALL_COLUMNS) {
+        if (columnViewIndex == TbbleModelEvent.ALL_COLUMNS) {
             columnViewIndex = 0;
         }
         else {
@@ -4182,67 +4182,67 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                 return;
             }
         }
-        int modelIndex = change.startModelIndex;
-        while (modelIndex <= change.endModelIndex) {
+        int modelIndex = chbnge.stbrtModelIndex;
+        while (modelIndex <= chbnge.endModelIndex) {
             int viewIndex = convertRowIndexToView(modelIndex++);
             if (viewIndex != -1) {
-                Rectangle dirty = getCellRect(viewIndex, columnViewIndex,
-                                              false);
+                Rectbngle dirty = getCellRect(viewIndex, columnViewIndex,
+                                              fblse);
                 int x = dirty.x;
                 int w = dirty.width;
-                if (eventColumn == TableModelEvent.ALL_COLUMNS) {
+                if (eventColumn == TbbleModelEvent.ALL_COLUMNS) {
                     x = 0;
                     w = getWidth();
                 }
-                repaint(x, dirty.y, w, dirty.height);
+                repbint(x, dirty.y, w, dirty.height);
             }
         }
     }
 
     /**
-     * Restores the selection after a model event/sort order changes.
-     * All coordinates are in terms of the model.
+     * Restores the selection bfter b model event/sort order chbnges.
+     * All coordinbtes bre in terms of the model.
      */
-    private void restoreSortingSelection(int[] selection, int lead,
-            ModelChange change) {
+    privbte void restoreSortingSelection(int[] selection, int lebd,
+            ModelChbnge chbnge) {
         // Convert the selection from model to view
         for (int i = selection.length - 1; i >= 0; i--) {
-            selection[i] = convertRowIndexToView(selection[i], change);
+            selection[i] = convertRowIndexToView(selection[i], chbnge);
         }
-        lead = convertRowIndexToView(lead, change);
+        lebd = convertRowIndexToView(lebd, chbnge);
 
-        // Check for the common case of no change in selection for 1 row
+        // Check for the common cbse of no chbnge in selection for 1 row
         if (selection.length == 0 ||
             (selection.length == 1 && selection[0] == getSelectedRow())) {
             return;
         }
 
-        // And apply the new selection
-        selectionModel.setValueIsAdjusting(true);
-        selectionModel.clearSelection();
+        // And bpply the new selection
+        selectionModel.setVblueIsAdjusting(true);
+        selectionModel.clebrSelection();
         for (int i = selection.length - 1; i >= 0; i--) {
             if (selection[i] != -1) {
-                selectionModel.addSelectionInterval(selection[i],
+                selectionModel.bddSelectionIntervbl(selection[i],
                                                     selection[i]);
             }
         }
-        SwingUtilities2.setLeadAnchorWithoutSelection(
-                selectionModel, lead, lead);
-        selectionModel.setValueIsAdjusting(false);
+        SwingUtilities2.setLebdAnchorWithoutSelection(
+                selectionModel, lebd, lebd);
+        selectionModel.setVblueIsAdjusting(fblse);
     }
 
     /**
-     * Restores the editing row after a model event/sort order change.
+     * Restores the editing row bfter b model event/sort order chbnge.
      *
-     * @param editingRow new index of the editingRow, in terms of the view
+     * @pbrbm editingRow new index of the editingRow, in terms of the view
      */
-    private void restoreSortingEditingRow(int editingRow) {
+    privbte void restoreSortingEditingRow(int editingRow) {
         if (editingRow == -1) {
-            // Editing row no longer being shown, cancel editing
-            TableCellEditor editor = getCellEditor();
+            // Editing row no longer being shown, cbncel editing
+            TbbleCellEditor editor = getCellEditor();
             if (editor != null) {
-                // First try and cancel
-                editor.cancelCellEditing();
+                // First try bnd cbncel
+                editor.cbncelCellEditing();
                 if (getCellEditor() != null) {
                     // CellEditor didn't cede control, forcefully
                     // remove it
@@ -4251,92 +4251,92 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
         }
         else {
-            // Repositioning handled in BasicTableUI
+            // Repositioning hbndled in BbsicTbbleUI
             this.editingRow = editingRow;
-            repaint();
+            repbint();
         }
     }
 
     /**
-     * Notifies the sorter of a change in the underlying model.
+     * Notifies the sorter of b chbnge in the underlying model.
      */
-    private void notifySorter(ModelChange change) {
+    privbte void notifySorter(ModelChbnge chbnge) {
         try {
-            ignoreSortChange = true;
-            sorterChanged = false;
-            switch(change.type) {
-            case TableModelEvent.UPDATE:
-                if (change.event.getLastRow() == Integer.MAX_VALUE) {
-                    sortManager.sorter.allRowsChanged();
-                } else if (change.event.getColumn() ==
-                           TableModelEvent.ALL_COLUMNS) {
-                    sortManager.sorter.rowsUpdated(change.startModelIndex,
-                                       change.endModelIndex);
+            ignoreSortChbnge = true;
+            sorterChbnged = fblse;
+            switch(chbnge.type) {
+            cbse TbbleModelEvent.UPDATE:
+                if (chbnge.event.getLbstRow() == Integer.MAX_VALUE) {
+                    sortMbnbger.sorter.bllRowsChbnged();
+                } else if (chbnge.event.getColumn() ==
+                           TbbleModelEvent.ALL_COLUMNS) {
+                    sortMbnbger.sorter.rowsUpdbted(chbnge.stbrtModelIndex,
+                                       chbnge.endModelIndex);
                 } else {
-                    sortManager.sorter.rowsUpdated(change.startModelIndex,
-                                       change.endModelIndex,
-                                       change.event.getColumn());
+                    sortMbnbger.sorter.rowsUpdbted(chbnge.stbrtModelIndex,
+                                       chbnge.endModelIndex,
+                                       chbnge.event.getColumn());
                 }
-                break;
-            case TableModelEvent.INSERT:
-                sortManager.sorter.rowsInserted(change.startModelIndex,
-                                    change.endModelIndex);
-                break;
-            case TableModelEvent.DELETE:
-                sortManager.sorter.rowsDeleted(change.startModelIndex,
-                                   change.endModelIndex);
-                break;
+                brebk;
+            cbse TbbleModelEvent.INSERT:
+                sortMbnbger.sorter.rowsInserted(chbnge.stbrtModelIndex,
+                                    chbnge.endModelIndex);
+                brebk;
+            cbse TbbleModelEvent.DELETE:
+                sortMbnbger.sorter.rowsDeleted(chbnge.stbrtModelIndex,
+                                   chbnge.endModelIndex);
+                brebk;
             }
-        } finally {
-            ignoreSortChange = false;
+        } finblly {
+            ignoreSortChbnge = fblse;
         }
     }
 
     /**
-     * Converts a model index to view index.  This is called when the
-     * sorter or model changes and sorting is enabled.
+     * Converts b model index to view index.  This is cblled when the
+     * sorter or model chbnges bnd sorting is enbbled.
      *
-     * @param change describes the TableModelEvent that initiated the change;
-     *        will be null if called as the result of a sort
+     * @pbrbm chbnge describes the TbbleModelEvent thbt initibted the chbnge;
+     *        will be null if cblled bs the result of b sort
      */
-    private int convertRowIndexToView(int modelIndex, ModelChange change) {
+    privbte int convertRowIndexToView(int modelIndex, ModelChbnge chbnge) {
         if (modelIndex < 0) {
             return -1;
         }
-        if (change != null && modelIndex >= change.startModelIndex) {
-            if (change.type == TableModelEvent.INSERT) {
-                if (modelIndex + change.length >= change.modelRowCount) {
+        if (chbnge != null && modelIndex >= chbnge.stbrtModelIndex) {
+            if (chbnge.type == TbbleModelEvent.INSERT) {
+                if (modelIndex + chbnge.length >= chbnge.modelRowCount) {
                     return -1;
                 }
-                return sortManager.sorter.convertRowIndexToView(
-                        modelIndex + change.length);
+                return sortMbnbger.sorter.convertRowIndexToView(
+                        modelIndex + chbnge.length);
             }
-            else if (change.type == TableModelEvent.DELETE) {
-                if (modelIndex <= change.endModelIndex) {
+            else if (chbnge.type == TbbleModelEvent.DELETE) {
+                if (modelIndex <= chbnge.endModelIndex) {
                     // deleted
                     return -1;
                 }
                 else {
-                    if (modelIndex - change.length >= change.modelRowCount) {
+                    if (modelIndex - chbnge.length >= chbnge.modelRowCount) {
                         return -1;
                     }
-                    return sortManager.sorter.convertRowIndexToView(
-                            modelIndex - change.length);
+                    return sortMbnbger.sorter.convertRowIndexToView(
+                            modelIndex - chbnge.length);
                 }
             }
-            // else, updated
+            // else, updbted
         }
         if (modelIndex >= getModel().getRowCount()) {
             return -1;
         }
-        return sortManager.sorter.convertRowIndexToView(modelIndex);
+        return sortMbnbger.sorter.convertRowIndexToView(modelIndex);
     }
 
     /**
-     * Converts the selection to model coordinates.  This is used when
-     * the model changes or the sorter changes.
+     * Converts the selection to model coordinbtes.  This is used when
+     * the model chbnges or the sorter chbnges.
      */
-    private int[] convertSelectionToModel(RowSorterEvent e) {
+    privbte int[] convertSelectionToModel(RowSorterEvent e) {
         int[] selection = getSelectedRows();
         for (int i = selection.length - 1; i >= 0; i--) {
             selection[i] = convertRowIndexToModel(e, selection[i]);
@@ -4344,15 +4344,15 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         return selection;
     }
 
-    private int convertRowIndexToModel(RowSorterEvent e, int viewIndex) {
+    privbte int convertRowIndexToModel(RowSorterEvent e, int viewIndex) {
         if (e != null) {
             if (e.getPreviousRowCount() == 0) {
                 return viewIndex;
             }
-            // range checking handled by RowSorterEvent
+            // rbnge checking hbndled by RowSorterEvent
             return e.convertPreviousRowIndexToModel(viewIndex);
         }
-        // Make sure the viewIndex is valid
+        // Mbke sure the viewIndex is vblid
         if (viewIndex < 0 || viewIndex >= getRowCount()) {
             return -1;
         }
@@ -4360,522 +4360,522 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
 //
-// Implementing TableModelListener interface
+// Implementing TbbleModelListener interfbce
 //
 
     /**
-     * Invoked when this table's <code>TableModel</code> generates
-     * a <code>TableModelEvent</code>.
-     * The <code>TableModelEvent</code> should be constructed in the
-     * coordinate system of the model; the appropriate mapping to the
-     * view coordinate system is performed by this <code>JTable</code>
+     * Invoked when this tbble's <code>TbbleModel</code> generbtes
+     * b <code>TbbleModelEvent</code>.
+     * The <code>TbbleModelEvent</code> should be constructed in the
+     * coordinbte system of the model; the bppropribte mbpping to the
+     * view coordinbte system is performed by this <code>JTbble</code>
      * when it receives the event.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by <code>JTbble</code>.
      * <p>
-     * Note that as of 1.3, this method clears the selection, if any.
+     * Note thbt bs of 1.3, this method clebrs the selection, if bny.
      */
-    public void tableChanged(TableModelEvent e) {
-        if (e == null || e.getFirstRow() == TableModelEvent.HEADER_ROW) {
-            // The whole thing changed
-            clearSelectionAndLeadAnchor();
+    public void tbbleChbnged(TbbleModelEvent e) {
+        if (e == null || e.getFirstRow() == TbbleModelEvent.HEADER_ROW) {
+            // The whole thing chbnged
+            clebrSelectionAndLebdAnchor();
 
             rowModel = null;
 
-            if (sortManager != null) {
+            if (sortMbnbger != null) {
                 try {
-                    ignoreSortChange = true;
-                    sortManager.sorter.modelStructureChanged();
-                } finally {
-                    ignoreSortChange = false;
+                    ignoreSortChbnge = true;
+                    sortMbnbger.sorter.modelStructureChbnged();
+                } finblly {
+                    ignoreSortChbnge = fblse;
                 }
-                sortManager.allChanged();
+                sortMbnbger.bllChbnged();
             }
 
-            if (getAutoCreateColumnsFromModel()) {
-                // This will effect invalidation of the JTable and JTableHeader.
-                createDefaultColumnsFromModel();
+            if (getAutoCrebteColumnsFromModel()) {
+                // This will effect invblidbtion of the JTbble bnd JTbbleHebder.
+                crebteDefbultColumnsFromModel();
                 return;
             }
 
-            resizeAndRepaint();
+            resizeAndRepbint();
             return;
         }
 
-        if (sortManager != null) {
-            sortedTableChanged(null, e);
+        if (sortMbnbger != null) {
+            sortedTbbleChbnged(null, e);
             return;
         }
 
-        // The totalRowHeight calculated below will be incorrect if
-        // there are variable height rows. Repaint the visible region,
-        // but don't return as a revalidate may be necessary as well.
+        // The totblRowHeight cblculbted below will be incorrect if
+        // there bre vbribble height rows. Repbint the visible region,
+        // but don't return bs b revblidbte mby be necessbry bs well.
         if (rowModel != null) {
-            repaint();
+            repbint();
         }
 
-        if (e.getType() == TableModelEvent.INSERT) {
-            tableRowsInserted(e);
+        if (e.getType() == TbbleModelEvent.INSERT) {
+            tbbleRowsInserted(e);
             return;
         }
 
-        if (e.getType() == TableModelEvent.DELETE) {
-            tableRowsDeleted(e);
+        if (e.getType() == TbbleModelEvent.DELETE) {
+            tbbleRowsDeleted(e);
             return;
         }
 
         int modelColumn = e.getColumn();
-        int start = e.getFirstRow();
-        int end = e.getLastRow();
+        int stbrt = e.getFirstRow();
+        int end = e.getLbstRow();
 
-        Rectangle dirtyRegion;
-        if (modelColumn == TableModelEvent.ALL_COLUMNS) {
-            // 1 or more rows changed
-            dirtyRegion = new Rectangle(0, start * getRowHeight(),
-                                        getColumnModel().getTotalColumnWidth(), 0);
+        Rectbngle dirtyRegion;
+        if (modelColumn == TbbleModelEvent.ALL_COLUMNS) {
+            // 1 or more rows chbnged
+            dirtyRegion = new Rectbngle(0, stbrt * getRowHeight(),
+                                        getColumnModel().getTotblColumnWidth(), 0);
         }
         else {
-            // A cell or column of cells has changed.
-            // Unlike the rest of the methods in the JTable, the TableModelEvent
-            // uses the coordinate system of the model instead of the view.
-            // This is the only place in the JTable where this "reverse mapping"
+            // A cell or column of cells hbs chbnged.
+            // Unlike the rest of the methods in the JTbble, the TbbleModelEvent
+            // uses the coordinbte system of the model instebd of the view.
+            // This is the only plbce in the JTbble where this "reverse mbpping"
             // is used.
             int column = convertColumnIndexToView(modelColumn);
-            dirtyRegion = getCellRect(start, column, false);
+            dirtyRegion = getCellRect(stbrt, column, fblse);
         }
 
-        // Now adjust the height of the dirty region according to the value of "end".
-        // Check for Integer.MAX_VALUE as this will cause an overflow.
+        // Now bdjust the height of the dirty region bccording to the vblue of "end".
+        // Check for Integer.MAX_VALUE bs this will cbuse bn overflow.
         if (end != Integer.MAX_VALUE) {
-            dirtyRegion.height = (end-start+1)*getRowHeight();
-            repaint(dirtyRegion.x, dirtyRegion.y, dirtyRegion.width, dirtyRegion.height);
+            dirtyRegion.height = (end-stbrt+1)*getRowHeight();
+            repbint(dirtyRegion.x, dirtyRegion.y, dirtyRegion.width, dirtyRegion.height);
         }
-        // In fact, if the end is Integer.MAX_VALUE we need to revalidate anyway
-        // because the scrollbar may need repainting.
+        // In fbct, if the end is Integer.MAX_VALUE we need to revblidbte bnywby
+        // becbuse the scrollbbr mby need repbinting.
         else {
-            clearSelectionAndLeadAnchor();
-            resizeAndRepaint();
+            clebrSelectionAndLebdAnchor();
+            resizeAndRepbint();
             rowModel = null;
         }
     }
 
     /*
-     * Invoked when rows have been inserted into the table.
+     * Invoked when rows hbve been inserted into the tbble.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @param e the TableModelEvent encapsulating the insertion
+     * @pbrbm e the TbbleModelEvent encbpsulbting the insertion
      */
-    private void tableRowsInserted(TableModelEvent e) {
-        int start = e.getFirstRow();
-        int end = e.getLastRow();
-        if (start < 0) {
-            start = 0;
+    privbte void tbbleRowsInserted(TbbleModelEvent e) {
+        int stbrt = e.getFirstRow();
+        int end = e.getLbstRow();
+        if (stbrt < 0) {
+            stbrt = 0;
         }
         if (end < 0) {
             end = getRowCount()-1;
         }
 
-        // Adjust the selection to account for the new rows.
-        int length = end - start + 1;
-        selectionModel.insertIndexInterval(start, length, true);
+        // Adjust the selection to bccount for the new rows.
+        int length = end - stbrt + 1;
+        selectionModel.insertIndexIntervbl(stbrt, length, true);
 
-        // If we have variable height rows, adjust the row model.
+        // If we hbve vbribble height rows, bdjust the row model.
         if (rowModel != null) {
-            rowModel.insertEntries(start, length, getRowHeight());
+            rowModel.insertEntries(stbrt, length, getRowHeight());
         }
         int rh = getRowHeight() ;
-        Rectangle drawRect = new Rectangle(0, start * rh,
-                                        getColumnModel().getTotalColumnWidth(),
-                                           (getRowCount()-start) * rh);
+        Rectbngle drbwRect = new Rectbngle(0, stbrt * rh,
+                                        getColumnModel().getTotblColumnWidth(),
+                                           (getRowCount()-stbrt) * rh);
 
-        revalidate();
-        // PENDING(milne) revalidate calls repaint() if parent is a ScrollPane
-        // repaint still required in the unusual case where there is no ScrollPane
-        repaint(drawRect);
+        revblidbte();
+        // PENDING(milne) revblidbte cblls repbint() if pbrent is b ScrollPbne
+        // repbint still required in the unusubl cbse where there is no ScrollPbne
+        repbint(drbwRect);
     }
 
     /*
-     * Invoked when rows have been removed from the table.
+     * Invoked when rows hbve been removed from the tbble.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @param e the TableModelEvent encapsulating the deletion
+     * @pbrbm e the TbbleModelEvent encbpsulbting the deletion
      */
-    private void tableRowsDeleted(TableModelEvent e) {
-        int start = e.getFirstRow();
-        int end = e.getLastRow();
-        if (start < 0) {
-            start = 0;
+    privbte void tbbleRowsDeleted(TbbleModelEvent e) {
+        int stbrt = e.getFirstRow();
+        int end = e.getLbstRow();
+        if (stbrt < 0) {
+            stbrt = 0;
         }
         if (end < 0) {
             end = getRowCount()-1;
         }
 
-        int deletedCount = end - start + 1;
+        int deletedCount = end - stbrt + 1;
         int previousRowCount = getRowCount() + deletedCount;
-        // Adjust the selection to account for the new rows
-        selectionModel.removeIndexInterval(start, end);
+        // Adjust the selection to bccount for the new rows
+        selectionModel.removeIndexIntervbl(stbrt, end);
 
-        // If we have variable height rows, adjust the row model.
+        // If we hbve vbribble height rows, bdjust the row model.
         if (rowModel != null) {
-            rowModel.removeEntries(start, deletedCount);
+            rowModel.removeEntries(stbrt, deletedCount);
         }
 
         int rh = getRowHeight();
-        Rectangle drawRect = new Rectangle(0, start * rh,
-                                        getColumnModel().getTotalColumnWidth(),
-                                        (previousRowCount - start) * rh);
+        Rectbngle drbwRect = new Rectbngle(0, stbrt * rh,
+                                        getColumnModel().getTotblColumnWidth(),
+                                        (previousRowCount - stbrt) * rh);
 
-        revalidate();
-        // PENDING(milne) revalidate calls repaint() if parent is a ScrollPane
-        // repaint still required in the unusual case where there is no ScrollPane
-        repaint(drawRect);
+        revblidbte();
+        // PENDING(milne) revblidbte cblls repbint() if pbrent is b ScrollPbne
+        // repbint still required in the unusubl cbse where there is no ScrollPbne
+        repbint(drbwRect);
     }
 
 //
-// Implementing TableColumnModelListener interface
+// Implementing TbbleColumnModelListener interfbce
 //
 
     /**
-     * Invoked when a column is added to the table column model.
+     * Invoked when b column is bdded to the tbble column model.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @see TableColumnModelListener
+     * @see TbbleColumnModelListener
      */
-    public void columnAdded(TableColumnModelEvent e) {
+    public void columnAdded(TbbleColumnModelEvent e) {
         // If I'm currently editing, then I should stop editing
         if (isEditing()) {
             removeEditor();
         }
-        resizeAndRepaint();
+        resizeAndRepbint();
     }
 
     /**
-     * Invoked when a column is removed from the table column model.
+     * Invoked when b column is removed from the tbble column model.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @see TableColumnModelListener
+     * @see TbbleColumnModelListener
      */
-    public void columnRemoved(TableColumnModelEvent e) {
+    public void columnRemoved(TbbleColumnModelEvent e) {
         // If I'm currently editing, then I should stop editing
         if (isEditing()) {
             removeEditor();
         }
-        resizeAndRepaint();
+        resizeAndRepbint();
     }
 
     /**
-     * Invoked when a column is repositioned. If a cell is being
-     * edited, then editing is stopped and the cell is redrawn.
+     * Invoked when b column is repositioned. If b cell is being
+     * edited, then editing is stopped bnd the cell is redrbwn.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @param e   the event received
-     * @see TableColumnModelListener
+     * @pbrbm e   the event received
+     * @see TbbleColumnModelListener
      */
-    public void columnMoved(TableColumnModelEvent e) {
+    public void columnMoved(TbbleColumnModelEvent e) {
         if (isEditing() && !getCellEditor().stopCellEditing()) {
-            getCellEditor().cancelCellEditing();
+            getCellEditor().cbncelCellEditing();
         }
-        repaint();
+        repbint();
     }
 
     /**
-     * Invoked when a column is moved due to a margin change.
-     * If a cell is being edited, then editing is stopped and the cell
-     * is redrawn.
+     * Invoked when b column is moved due to b mbrgin chbnge.
+     * If b cell is being edited, then editing is stopped bnd the cell
+     * is redrbwn.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @param  e    the event received
-     * @see TableColumnModelListener
+     * @pbrbm  e    the event received
+     * @see TbbleColumnModelListener
      */
-    public void columnMarginChanged(ChangeEvent e) {
+    public void columnMbrginChbnged(ChbngeEvent e) {
         if (isEditing() && !getCellEditor().stopCellEditing()) {
-            getCellEditor().cancelCellEditing();
+            getCellEditor().cbncelCellEditing();
         }
-        TableColumn resizingColumn = getResizingColumn();
-        // Need to do this here, before the parent's
-        // layout manager calls getPreferredSize().
-        if (resizingColumn != null && autoResizeMode == AUTO_RESIZE_OFF) {
+        TbbleColumn resizingColumn = getResizingColumn();
+        // Need to do this here, before the pbrent's
+        // lbyout mbnbger cblls getPreferredSize().
+        if (resizingColumn != null && butoResizeMode == AUTO_RESIZE_OFF) {
             resizingColumn.setPreferredWidth(resizingColumn.getWidth());
         }
-        resizeAndRepaint();
+        resizeAndRepbint();
     }
 
-    private int limit(int i, int a, int b) {
-        return Math.min(b, Math.max(i, a));
+    privbte int limit(int i, int b, int b) {
+        return Mbth.min(b, Mbth.mbx(i, b));
     }
 
     /**
-     * Invoked when the selection model of the <code>TableColumnModel</code>
-     * is changed.
+     * Invoked when the selection model of the <code>TbbleColumnModel</code>
+     * is chbnged.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @param  e  the event received
-     * @see TableColumnModelListener
+     * @pbrbm  e  the event received
+     * @see TbbleColumnModelListener
      */
-    public void columnSelectionChanged(ListSelectionEvent e) {
-        boolean isAdjusting = e.getValueIsAdjusting();
+    public void columnSelectionChbnged(ListSelectionEvent e) {
+        boolebn isAdjusting = e.getVblueIsAdjusting();
         if (columnSelectionAdjusting && !isAdjusting) {
-            // The assumption is that when the model is no longer adjusting
-            // we will have already gotten all the changes, and therefore
-            // don't need to do an additional paint.
-            columnSelectionAdjusting = false;
+            // The bssumption is thbt when the model is no longer bdjusting
+            // we will hbve blrebdy gotten bll the chbnges, bnd therefore
+            // don't need to do bn bdditionbl pbint.
+            columnSelectionAdjusting = fblse;
             return;
         }
         columnSelectionAdjusting = isAdjusting;
-        // The getCellRect() call will fail unless there is at least one row.
+        // The getCellRect() cbll will fbil unless there is bt lebst one row.
         if (getRowCount() <= 0 || getColumnCount() <= 0) {
             return;
         }
         int firstIndex = limit(e.getFirstIndex(), 0, getColumnCount()-1);
-        int lastIndex = limit(e.getLastIndex(), 0, getColumnCount()-1);
+        int lbstIndex = limit(e.getLbstIndex(), 0, getColumnCount()-1);
         int minRow = 0;
-        int maxRow = getRowCount() - 1;
+        int mbxRow = getRowCount() - 1;
         if (getRowSelectionAllowed()) {
             minRow = selectionModel.getMinSelectionIndex();
-            maxRow = selectionModel.getMaxSelectionIndex();
-            int leadRow = getAdjustedIndex(selectionModel.getLeadSelectionIndex(), true);
+            mbxRow = selectionModel.getMbxSelectionIndex();
+            int lebdRow = getAdjustedIndex(selectionModel.getLebdSelectionIndex(), true);
 
-            if (minRow == -1 || maxRow == -1) {
-                if (leadRow == -1) {
-                    // nothing to repaint, return
+            if (minRow == -1 || mbxRow == -1) {
+                if (lebdRow == -1) {
+                    // nothing to repbint, return
                     return;
                 }
 
-                // only thing to repaint is the lead
-                minRow = maxRow = leadRow;
+                // only thing to repbint is the lebd
+                minRow = mbxRow = lebdRow;
             } else {
-                // We need to consider more than just the range between
-                // the min and max selected index. The lead row, which could
-                // be outside this range, should be considered also.
-                if (leadRow != -1) {
-                    minRow = Math.min(minRow, leadRow);
-                    maxRow = Math.max(maxRow, leadRow);
+                // We need to consider more thbn just the rbnge between
+                // the min bnd mbx selected index. The lebd row, which could
+                // be outside this rbnge, should be considered blso.
+                if (lebdRow != -1) {
+                    minRow = Mbth.min(minRow, lebdRow);
+                    mbxRow = Mbth.mbx(mbxRow, lebdRow);
                 }
             }
         }
-        Rectangle firstColumnRect = getCellRect(minRow, firstIndex, false);
-        Rectangle lastColumnRect = getCellRect(maxRow, lastIndex, false);
-        Rectangle dirtyRegion = firstColumnRect.union(lastColumnRect);
-        repaint(dirtyRegion);
+        Rectbngle firstColumnRect = getCellRect(minRow, firstIndex, fblse);
+        Rectbngle lbstColumnRect = getCellRect(mbxRow, lbstIndex, fblse);
+        Rectbngle dirtyRegion = firstColumnRect.union(lbstColumnRect);
+        repbint(dirtyRegion);
     }
 
 //
-// Implementing ListSelectionListener interface
+// Implementing ListSelectionListener interfbce
 //
 
     /**
-     * Invoked when the row selection changes -- repaints to show the new
+     * Invoked when the row selection chbnges -- repbints to show the new
      * selection.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @param e   the event received
+     * @pbrbm e   the event received
      * @see ListSelectionListener
      */
-    public void valueChanged(ListSelectionEvent e) {
-        if (sortManager != null) {
-            sortManager.viewSelectionChanged(e);
+    public void vblueChbnged(ListSelectionEvent e) {
+        if (sortMbnbger != null) {
+            sortMbnbger.viewSelectionChbnged(e);
         }
-        boolean isAdjusting = e.getValueIsAdjusting();
+        boolebn isAdjusting = e.getVblueIsAdjusting();
         if (rowSelectionAdjusting && !isAdjusting) {
-            // The assumption is that when the model is no longer adjusting
-            // we will have already gotten all the changes, and therefore
-            // don't need to do an additional paint.
-            rowSelectionAdjusting = false;
+            // The bssumption is thbt when the model is no longer bdjusting
+            // we will hbve blrebdy gotten bll the chbnges, bnd therefore
+            // don't need to do bn bdditionbl pbint.
+            rowSelectionAdjusting = fblse;
             return;
         }
         rowSelectionAdjusting = isAdjusting;
-        // The getCellRect() calls will fail unless there is at least one column.
+        // The getCellRect() cblls will fbil unless there is bt lebst one column.
         if (getRowCount() <= 0 || getColumnCount() <= 0) {
             return;
         }
         int firstIndex = limit(e.getFirstIndex(), 0, getRowCount()-1);
-        int lastIndex = limit(e.getLastIndex(), 0, getRowCount()-1);
-        Rectangle firstRowRect = getCellRect(firstIndex, 0, false);
-        Rectangle lastRowRect = getCellRect(lastIndex, getColumnCount()-1, false);
-        Rectangle dirtyRegion = firstRowRect.union(lastRowRect);
-        repaint(dirtyRegion);
+        int lbstIndex = limit(e.getLbstIndex(), 0, getRowCount()-1);
+        Rectbngle firstRowRect = getCellRect(firstIndex, 0, fblse);
+        Rectbngle lbstRowRect = getCellRect(lbstIndex, getColumnCount()-1, fblse);
+        Rectbngle dirtyRegion = firstRowRect.union(lbstRowRect);
+        repbint(dirtyRegion);
     }
 
 //
-// Implementing the CellEditorListener interface
+// Implementing the CellEditorListener interfbce
 //
 
     /**
-     * Invoked when editing is finished. The changes are saved and the
-     * editor is discarded.
+     * Invoked when editing is finished. The chbnges bre sbved bnd the
+     * editor is discbrded.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @param  e  the event received
+     * @pbrbm  e  the event received
      * @see CellEditorListener
      */
-    public void editingStopped(ChangeEvent e) {
-        // Take in the new value
-        TableCellEditor editor = getCellEditor();
+    public void editingStopped(ChbngeEvent e) {
+        // Tbke in the new vblue
+        TbbleCellEditor editor = getCellEditor();
         if (editor != null) {
-            Object value = editor.getCellEditorValue();
-            setValueAt(value, editingRow, editingColumn);
+            Object vblue = editor.getCellEditorVblue();
+            setVblueAt(vblue, editingRow, editingColumn);
             removeEditor();
         }
     }
 
     /**
-     * Invoked when editing is canceled. The editor object is discarded
-     * and the cell is rendered once again.
+     * Invoked when editing is cbnceled. The editor object is discbrded
+     * bnd the cell is rendered once bgbin.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by JTable.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by JTbble.
      *
-     * @param  e  the event received
+     * @pbrbm  e  the event received
      * @see CellEditorListener
      */
-    public void editingCanceled(ChangeEvent e) {
+    public void editingCbnceled(ChbngeEvent e) {
         removeEditor();
     }
 
 //
-// Implementing the Scrollable interface
+// Implementing the Scrollbble interfbce
 //
 
     /**
-     * Sets the preferred size of the viewport for this table.
+     * Sets the preferred size of the viewport for this tbble.
      *
-     * @param size  a <code>Dimension</code> object specifying the <code>preferredSize</code> of a
-     *              <code>JViewport</code> whose view is this table
-     * @see Scrollable#getPreferredScrollableViewportSize
-     * @beaninfo
+     * @pbrbm size  b <code>Dimension</code> object specifying the <code>preferredSize</code> of b
+     *              <code>JViewport</code> whose view is this tbble
+     * @see Scrollbble#getPreferredScrollbbleViewportSize
+     * @bebninfo
      * description: The preferred size of the viewport.
      */
-    public void setPreferredScrollableViewportSize(Dimension size) {
+    public void setPreferredScrollbbleViewportSize(Dimension size) {
         preferredViewportSize = size;
     }
 
     /**
-     * Returns the preferred size of the viewport for this table.
+     * Returns the preferred size of the viewport for this tbble.
      *
-     * @return a <code>Dimension</code> object containing the <code>preferredSize</code> of the <code>JViewport</code>
-     *         which displays this table
-     * @see Scrollable#getPreferredScrollableViewportSize
+     * @return b <code>Dimension</code> object contbining the <code>preferredSize</code> of the <code>JViewport</code>
+     *         which displbys this tbble
+     * @see Scrollbble#getPreferredScrollbbleViewportSize
      */
-    public Dimension getPreferredScrollableViewportSize() {
+    public Dimension getPreferredScrollbbleViewportSize() {
         return preferredViewportSize;
     }
 
     /**
-     * Returns the scroll increment (in pixels) that completely exposes one new
-     * row or column (depending on the orientation).
+     * Returns the scroll increment (in pixels) thbt completely exposes one new
+     * row or column (depending on the orientbtion).
      * <p>
-     * This method is called each time the user requests a unit scroll.
+     * This method is cblled ebch time the user requests b unit scroll.
      *
-     * @param visibleRect the view area visible within the viewport
-     * @param orientation either <code>SwingConstants.VERTICAL</code>
-     *                  or <code>SwingConstants.HORIZONTAL</code>
-     * @param direction less than zero to scroll up/left,
-     *                  greater than zero for down/right
+     * @pbrbm visibleRect the view breb visible within the viewport
+     * @pbrbm orientbtion either <code>SwingConstbnts.VERTICAL</code>
+     *                  or <code>SwingConstbnts.HORIZONTAL</code>
+     * @pbrbm direction less thbn zero to scroll up/left,
+     *                  grebter thbn zero for down/right
      * @return the "unit" increment for scrolling in the specified direction
-     * @see Scrollable#getScrollableUnitIncrement
+     * @see Scrollbble#getScrollbbleUnitIncrement
      */
-    public int getScrollableUnitIncrement(Rectangle visibleRect,
-                                          int orientation,
+    public int getScrollbbleUnitIncrement(Rectbngle visibleRect,
+                                          int orientbtion,
                                           int direction) {
-        int leadingRow;
-        int leadingCol;
-        Rectangle leadingCellRect;
+        int lebdingRow;
+        int lebdingCol;
+        Rectbngle lebdingCellRect;
 
-        int leadingVisibleEdge;
-        int leadingCellEdge;
-        int leadingCellSize;
+        int lebdingVisibleEdge;
+        int lebdingCellEdge;
+        int lebdingCellSize;
 
-        leadingRow = getLeadingRow(visibleRect);
-        leadingCol = getLeadingCol(visibleRect);
-        if (orientation == SwingConstants.VERTICAL && leadingRow < 0) {
-            // Couldn't find leading row - return some default value
+        lebdingRow = getLebdingRow(visibleRect);
+        lebdingCol = getLebdingCol(visibleRect);
+        if (orientbtion == SwingConstbnts.VERTICAL && lebdingRow < 0) {
+            // Couldn't find lebding row - return some defbult vblue
             return getRowHeight();
         }
-        else if (orientation == SwingConstants.HORIZONTAL && leadingCol < 0) {
-            // Couldn't find leading col - return some default value
+        else if (orientbtion == SwingConstbnts.HORIZONTAL && lebdingCol < 0) {
+            // Couldn't find lebding col - return some defbult vblue
             return 100;
         }
 
-        // Note that it's possible for one of leadingCol or leadingRow to be
-        // -1, depending on the orientation.  This is okay, as getCellRect()
-        // still provides enough information to calculate the unit increment.
-        leadingCellRect = getCellRect(leadingRow, leadingCol, true);
-        leadingVisibleEdge = leadingEdge(visibleRect, orientation);
-        leadingCellEdge = leadingEdge(leadingCellRect, orientation);
+        // Note thbt it's possible for one of lebdingCol or lebdingRow to be
+        // -1, depending on the orientbtion.  This is okby, bs getCellRect()
+        // still provides enough informbtion to cblculbte the unit increment.
+        lebdingCellRect = getCellRect(lebdingRow, lebdingCol, true);
+        lebdingVisibleEdge = lebdingEdge(visibleRect, orientbtion);
+        lebdingCellEdge = lebdingEdge(lebdingCellRect, orientbtion);
 
-        if (orientation == SwingConstants.VERTICAL) {
-            leadingCellSize = leadingCellRect.height;
+        if (orientbtion == SwingConstbnts.VERTICAL) {
+            lebdingCellSize = lebdingCellRect.height;
 
         }
         else {
-            leadingCellSize = leadingCellRect.width;
+            lebdingCellSize = lebdingCellRect.width;
         }
 
-        // 4 cases:
-        // #1: Leading cell fully visible, reveal next cell
-        // #2: Leading cell fully visible, hide leading cell
-        // #3: Leading cell partially visible, hide rest of leading cell
-        // #4: Leading cell partially visible, reveal rest of leading cell
+        // 4 cbses:
+        // #1: Lebding cell fully visible, revebl next cell
+        // #2: Lebding cell fully visible, hide lebding cell
+        // #3: Lebding cell pbrtiblly visible, hide rest of lebding cell
+        // #4: Lebding cell pbrtiblly visible, revebl rest of lebding cell
 
-        if (leadingVisibleEdge == leadingCellEdge) { // Leading cell is fully
+        if (lebdingVisibleEdge == lebdingCellEdge) { // Lebding cell is fully
                                                      // visible
-            // Case #1: Reveal previous cell
+            // Cbse #1: Revebl previous cell
             if (direction < 0) {
-                int retVal = 0;
+                int retVbl = 0;
 
-                if (orientation == SwingConstants.VERTICAL) {
-                    // Loop past any zero-height rows
-                    while (--leadingRow >= 0) {
-                        retVal = getRowHeight(leadingRow);
-                        if (retVal != 0) {
-                            break;
+                if (orientbtion == SwingConstbnts.VERTICAL) {
+                    // Loop pbst bny zero-height rows
+                    while (--lebdingRow >= 0) {
+                        retVbl = getRowHeight(lebdingRow);
+                        if (retVbl != 0) {
+                            brebk;
                         }
                     }
                 }
                 else { // HORIZONTAL
-                    // Loop past any zero-width cols
-                    while (--leadingCol >= 0) {
-                        retVal = getCellRect(leadingRow, leadingCol, true).width;
-                        if (retVal != 0) {
-                            break;
+                    // Loop pbst bny zero-width cols
+                    while (--lebdingCol >= 0) {
+                        retVbl = getCellRect(lebdingRow, lebdingCol, true).width;
+                        if (retVbl != 0) {
+                            brebk;
                         }
                     }
                 }
-                return retVal;
+                return retVbl;
             }
-            else { // Case #2: hide leading cell
-                return leadingCellSize;
+            else { // Cbse #2: hide lebding cell
+                return lebdingCellSize;
             }
         }
-        else { // Leading cell is partially hidden
+        else { // Lebding cell is pbrtiblly hidden
             // Compute visible, hidden portions
-            int hiddenAmt = Math.abs(leadingVisibleEdge - leadingCellEdge);
-            int visibleAmt = leadingCellSize - hiddenAmt;
+            int hiddenAmt = Mbth.bbs(lebdingVisibleEdge - lebdingCellEdge);
+            int visibleAmt = lebdingCellSize - hiddenAmt;
 
             if (direction > 0) {
-                // Case #3: hide showing portion of leading cell
+                // Cbse #3: hide showing portion of lebding cell
                 return visibleAmt;
             }
-            else { // Case #4: reveal hidden portion of leading cell
+            else { // Cbse #4: revebl hidden portion of lebding cell
                 return hiddenAmt;
             }
         }
@@ -4884,60 +4884,60 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     /**
      * Returns <code>visibleRect.height</code> or
      * <code>visibleRect.width</code>,
-     * depending on this table's orientation.  Note that as of Swing 1.1.1
-     * (Java 2 v 1.2.2) the value
-     * returned will ensure that the viewport is cleanly aligned on
-     * a row boundary.
+     * depending on this tbble's orientbtion.  Note thbt bs of Swing 1.1.1
+     * (Jbvb 2 v 1.2.2) the vblue
+     * returned will ensure thbt the viewport is clebnly bligned on
+     * b row boundbry.
      *
      * @return <code>visibleRect.height</code> or
      *                                  <code>visibleRect.width</code>
-     *                                  per the orientation
-     * @see Scrollable#getScrollableBlockIncrement
+     *                                  per the orientbtion
+     * @see Scrollbble#getScrollbbleBlockIncrement
      */
-    public int getScrollableBlockIncrement(Rectangle visibleRect,
-            int orientation, int direction) {
+    public int getScrollbbleBlockIncrement(Rectbngle visibleRect,
+            int orientbtion, int direction) {
 
         if (getRowCount() == 0) {
-            // Short-circuit empty table model
-            if (SwingConstants.VERTICAL == orientation) {
+            // Short-circuit empty tbble model
+            if (SwingConstbnts.VERTICAL == orientbtion) {
                 int rh = getRowHeight();
-                return (rh > 0) ? Math.max(rh, (visibleRect.height / rh) * rh) :
+                return (rh > 0) ? Mbth.mbx(rh, (visibleRect.height / rh) * rh) :
                                   visibleRect.height;
             }
             else {
                 return visibleRect.width;
             }
         }
-        // Shortcut for vertical scrolling of a table w/ uniform row height
-        if (null == rowModel && SwingConstants.VERTICAL == orientation) {
-            int row = rowAtPoint(visibleRect.getLocation());
-            assert row != -1;
-            int col = columnAtPoint(visibleRect.getLocation());
-            Rectangle cellRect = getCellRect(row, col, true);
+        // Shortcut for verticbl scrolling of b tbble w/ uniform row height
+        if (null == rowModel && SwingConstbnts.VERTICAL == orientbtion) {
+            int row = rowAtPoint(visibleRect.getLocbtion());
+            bssert row != -1;
+            int col = columnAtPoint(visibleRect.getLocbtion());
+            Rectbngle cellRect = getCellRect(row, col, true);
 
             if (cellRect.y == visibleRect.y) {
                 int rh = getRowHeight();
-                assert rh > 0;
-                return Math.max(rh, (visibleRect.height / rh) * rh);
+                bssert rh > 0;
+                return Mbth.mbx(rh, (visibleRect.height / rh) * rh);
             }
         }
         if (direction < 0) {
-            return getPreviousBlockIncrement(visibleRect, orientation);
+            return getPreviousBlockIncrement(visibleRect, orientbtion);
         }
         else {
-            return getNextBlockIncrement(visibleRect, orientation);
+            return getNextBlockIncrement(visibleRect, orientbtion);
         }
     }
 
     /**
-     * Called to get the block increment for upward scrolling in cases of
-     * horizontal scrolling, or for vertical scrolling of a table with
-     * variable row heights.
+     * Cblled to get the block increment for upwbrd scrolling in cbses of
+     * horizontbl scrolling, or for verticbl scrolling of b tbble with
+     * vbribble row heights.
      */
-    private int getPreviousBlockIncrement(Rectangle visibleRect,
-                                          int orientation) {
-        // Measure back from visible leading edge
-        // If we hit the cell on its leading edge, it becomes the leading cell.
+    privbte int getPreviousBlockIncrement(Rectbngle visibleRect,
+                                          int orientbtion) {
+        // Mebsure bbck from visible lebding edge
+        // If we hit the cell on its lebding edge, it becomes the lebding cell.
         // Else, use following cell
 
         int row;
@@ -4946,319 +4946,319 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         int   newEdge;
         Point newCellLoc;
 
-        int visibleLeadingEdge = leadingEdge(visibleRect, orientation);
-        boolean leftToRight = getComponentOrientation().isLeftToRight();
-        int newLeadingEdge;
+        int visibleLebdingEdge = lebdingEdge(visibleRect, orientbtion);
+        boolebn leftToRight = getComponentOrientbtion().isLeftToRight();
+        int newLebdingEdge;
 
-        // Roughly determine the new leading edge by measuring back from the
-        // leading visible edge by the size of the visible rect, and find the
+        // Roughly determine the new lebding edge by mebsuring bbck from the
+        // lebding visible edge by the size of the visible rect, bnd find the
         // cell there.
-        if (orientation == SwingConstants.VERTICAL) {
-            newEdge = visibleLeadingEdge - visibleRect.height;
+        if (orientbtion == SwingConstbnts.VERTICAL) {
+            newEdge = visibleLebdingEdge - visibleRect.height;
             int x = visibleRect.x + (leftToRight ? 0 : visibleRect.width);
             newCellLoc = new Point(x, newEdge);
         }
         else if (leftToRight) {
-            newEdge = visibleLeadingEdge - visibleRect.width;
+            newEdge = visibleLebdingEdge - visibleRect.width;
             newCellLoc = new Point(newEdge, visibleRect.y);
         }
-        else { // Horizontal, right-to-left
-            newEdge = visibleLeadingEdge + visibleRect.width;
+        else { // Horizontbl, right-to-left
+            newEdge = visibleLebdingEdge + visibleRect.width;
             newCellLoc = new Point(newEdge - 1, visibleRect.y);
         }
         row = rowAtPoint(newCellLoc);
         col = columnAtPoint(newCellLoc);
 
-        // If we're measuring past the beginning of the table, we get an invalid
-        // cell.  Just go to the beginning of the table in this case.
-        if (orientation == SwingConstants.VERTICAL & row < 0) {
-            newLeadingEdge = 0;
+        // If we're mebsuring pbst the beginning of the tbble, we get bn invblid
+        // cell.  Just go to the beginning of the tbble in this cbse.
+        if (orientbtion == SwingConstbnts.VERTICAL & row < 0) {
+            newLebdingEdge = 0;
         }
-        else if (orientation == SwingConstants.HORIZONTAL & col < 0) {
+        else if (orientbtion == SwingConstbnts.HORIZONTAL & col < 0) {
             if (leftToRight) {
-                newLeadingEdge = 0;
+                newLebdingEdge = 0;
             }
             else {
-                newLeadingEdge = getWidth();
+                newLebdingEdge = getWidth();
             }
         }
         else {
-            // Refine our measurement
-            Rectangle newCellRect = getCellRect(row, col, true);
-            int newCellLeadingEdge = leadingEdge(newCellRect, orientation);
-            int newCellTrailingEdge = trailingEdge(newCellRect, orientation);
+            // Refine our mebsurement
+            Rectbngle newCellRect = getCellRect(row, col, true);
+            int newCellLebdingEdge = lebdingEdge(newCellRect, orientbtion);
+            int newCellTrbilingEdge = trbilingEdge(newCellRect, orientbtion);
 
-            // Usually, we hit in the middle of newCell, and want to scroll to
-            // the beginning of the cell after newCell.  But there are a
-            // couple corner cases where we want to scroll to the beginning of
-            // newCell itself.  These cases are:
-            // 1) newCell is so large that it ends at or extends into the
-            //    visibleRect (newCell is the leading cell, or is adjacent to
-            //    the leading cell)
-            // 2) newEdge happens to fall right on the beginning of a cell
+            // Usublly, we hit in the middle of newCell, bnd wbnt to scroll to
+            // the beginning of the cell bfter newCell.  But there bre b
+            // couple corner cbses where we wbnt to scroll to the beginning of
+            // newCell itself.  These cbses bre:
+            // 1) newCell is so lbrge thbt it ends bt or extends into the
+            //    visibleRect (newCell is the lebding cell, or is bdjbcent to
+            //    the lebding cell)
+            // 2) newEdge hbppens to fbll right on the beginning of b cell
 
-            // Case 1
-            if ((orientation == SwingConstants.VERTICAL || leftToRight) &&
-                (newCellTrailingEdge >= visibleLeadingEdge)) {
-                newLeadingEdge = newCellLeadingEdge;
+            // Cbse 1
+            if ((orientbtion == SwingConstbnts.VERTICAL || leftToRight) &&
+                (newCellTrbilingEdge >= visibleLebdingEdge)) {
+                newLebdingEdge = newCellLebdingEdge;
             }
-            else if (orientation == SwingConstants.HORIZONTAL &&
+            else if (orientbtion == SwingConstbnts.HORIZONTAL &&
                      !leftToRight &&
-                     newCellTrailingEdge <= visibleLeadingEdge) {
-                newLeadingEdge = newCellLeadingEdge;
+                     newCellTrbilingEdge <= visibleLebdingEdge) {
+                newLebdingEdge = newCellLebdingEdge;
             }
-            // Case 2:
-            else if (newEdge == newCellLeadingEdge) {
-                newLeadingEdge = newCellLeadingEdge;
+            // Cbse 2:
+            else if (newEdge == newCellLebdingEdge) {
+                newLebdingEdge = newCellLebdingEdge;
             }
-            // Common case: scroll to cell after newCell
+            // Common cbse: scroll to cell bfter newCell
             else {
-                newLeadingEdge = newCellTrailingEdge;
+                newLebdingEdge = newCellTrbilingEdge;
             }
         }
-        return Math.abs(visibleLeadingEdge - newLeadingEdge);
+        return Mbth.bbs(visibleLebdingEdge - newLebdingEdge);
     }
 
     /**
-     * Called to get the block increment for downward scrolling in cases of
-     * horizontal scrolling, or for vertical scrolling of a table with
-     * variable row heights.
+     * Cblled to get the block increment for downwbrd scrolling in cbses of
+     * horizontbl scrolling, or for verticbl scrolling of b tbble with
+     * vbribble row heights.
      */
-    private int getNextBlockIncrement(Rectangle visibleRect,
-                                      int orientation) {
-        // Find the cell at the trailing edge.  Return the distance to put
-        // that cell at the leading edge.
-        int trailingRow = getTrailingRow(visibleRect);
-        int trailingCol = getTrailingCol(visibleRect);
+    privbte int getNextBlockIncrement(Rectbngle visibleRect,
+                                      int orientbtion) {
+        // Find the cell bt the trbiling edge.  Return the distbnce to put
+        // thbt cell bt the lebding edge.
+        int trbilingRow = getTrbilingRow(visibleRect);
+        int trbilingCol = getTrbilingCol(visibleRect);
 
-        Rectangle cellRect;
-        boolean cellFillsVis;
+        Rectbngle cellRect;
+        boolebn cellFillsVis;
 
-        int cellLeadingEdge;
-        int cellTrailingEdge;
-        int newLeadingEdge;
-        int visibleLeadingEdge = leadingEdge(visibleRect, orientation);
+        int cellLebdingEdge;
+        int cellTrbilingEdge;
+        int newLebdingEdge;
+        int visibleLebdingEdge = lebdingEdge(visibleRect, orientbtion);
 
-        // If we couldn't find trailing cell, just return the size of the
-        // visibleRect.  Note that, for instance, we don't need the
-        // trailingCol to proceed if we're scrolling vertically, because
+        // If we couldn't find trbiling cell, just return the size of the
+        // visibleRect.  Note thbt, for instbnce, we don't need the
+        // trbilingCol to proceed if we're scrolling verticblly, becbuse
         // cellRect will still fill in the required dimensions.  This would
-        // happen if we're scrolling vertically, and the table is not wide
+        // hbppen if we're scrolling verticblly, bnd the tbble is not wide
         // enough to fill the visibleRect.
-        if (orientation == SwingConstants.VERTICAL && trailingRow < 0) {
+        if (orientbtion == SwingConstbnts.VERTICAL && trbilingRow < 0) {
             return visibleRect.height;
         }
-        else if (orientation == SwingConstants.HORIZONTAL && trailingCol < 0) {
+        else if (orientbtion == SwingConstbnts.HORIZONTAL && trbilingCol < 0) {
             return visibleRect.width;
         }
-        cellRect = getCellRect(trailingRow, trailingCol, true);
-        cellLeadingEdge = leadingEdge(cellRect, orientation);
-        cellTrailingEdge = trailingEdge(cellRect, orientation);
+        cellRect = getCellRect(trbilingRow, trbilingCol, true);
+        cellLebdingEdge = lebdingEdge(cellRect, orientbtion);
+        cellTrbilingEdge = trbilingEdge(cellRect, orientbtion);
 
-        if (orientation == SwingConstants.VERTICAL ||
-            getComponentOrientation().isLeftToRight()) {
-            cellFillsVis = cellLeadingEdge <= visibleLeadingEdge;
+        if (orientbtion == SwingConstbnts.VERTICAL ||
+            getComponentOrientbtion().isLeftToRight()) {
+            cellFillsVis = cellLebdingEdge <= visibleLebdingEdge;
         }
-        else { // Horizontal, right-to-left
-            cellFillsVis = cellLeadingEdge >= visibleLeadingEdge;
+        else { // Horizontbl, right-to-left
+            cellFillsVis = cellLebdingEdge >= visibleLebdingEdge;
         }
 
         if (cellFillsVis) {
-            // The visibleRect contains a single large cell.  Scroll to the end
+            // The visibleRect contbins b single lbrge cell.  Scroll to the end
             // of this cell, so the following cell is the first cell.
-            newLeadingEdge = cellTrailingEdge;
+            newLebdingEdge = cellTrbilingEdge;
         }
-        else if (cellTrailingEdge == trailingEdge(visibleRect, orientation)) {
-            // The trailing cell happens to end right at the end of the
-            // visibleRect.  Again, scroll to the beginning of the next cell.
-            newLeadingEdge = cellTrailingEdge;
+        else if (cellTrbilingEdge == trbilingEdge(visibleRect, orientbtion)) {
+            // The trbiling cell hbppens to end right bt the end of the
+            // visibleRect.  Agbin, scroll to the beginning of the next cell.
+            newLebdingEdge = cellTrbilingEdge;
         }
         else {
-            // Common case: the trailing cell is partially visible, and isn't
-            // big enough to take up the entire visibleRect.  Scroll so it
-            // becomes the leading cell.
-            newLeadingEdge = cellLeadingEdge;
+            // Common cbse: the trbiling cell is pbrtiblly visible, bnd isn't
+            // big enough to tbke up the entire visibleRect.  Scroll so it
+            // becomes the lebding cell.
+            newLebdingEdge = cellLebdingEdge;
         }
-        return Math.abs(newLeadingEdge - visibleLeadingEdge);
+        return Mbth.bbs(newLebdingEdge - visibleLebdingEdge);
     }
 
     /*
-     * Return the row at the top of the visibleRect
+     * Return the row bt the top of the visibleRect
      *
-     * May return -1
+     * Mby return -1
      */
-    private int getLeadingRow(Rectangle visibleRect) {
-        Point leadingPoint;
+    privbte int getLebdingRow(Rectbngle visibleRect) {
+        Point lebdingPoint;
 
-        if (getComponentOrientation().isLeftToRight()) {
-            leadingPoint = new Point(visibleRect.x, visibleRect.y);
+        if (getComponentOrientbtion().isLeftToRight()) {
+            lebdingPoint = new Point(visibleRect.x, visibleRect.y);
         }
         else {
-            leadingPoint = new Point(visibleRect.x + visibleRect.width - 1,
+            lebdingPoint = new Point(visibleRect.x + visibleRect.width - 1,
                                      visibleRect.y);
         }
-        return rowAtPoint(leadingPoint);
+        return rowAtPoint(lebdingPoint);
     }
 
     /*
-     * Return the column at the leading edge of the visibleRect.
+     * Return the column bt the lebding edge of the visibleRect.
      *
-     * May return -1
+     * Mby return -1
      */
-    private int getLeadingCol(Rectangle visibleRect) {
-        Point leadingPoint;
+    privbte int getLebdingCol(Rectbngle visibleRect) {
+        Point lebdingPoint;
 
-        if (getComponentOrientation().isLeftToRight()) {
-            leadingPoint = new Point(visibleRect.x, visibleRect.y);
+        if (getComponentOrientbtion().isLeftToRight()) {
+            lebdingPoint = new Point(visibleRect.x, visibleRect.y);
         }
         else {
-            leadingPoint = new Point(visibleRect.x + visibleRect.width - 1,
+            lebdingPoint = new Point(visibleRect.x + visibleRect.width - 1,
                                      visibleRect.y);
         }
-        return columnAtPoint(leadingPoint);
+        return columnAtPoint(lebdingPoint);
     }
 
     /*
-     * Return the row at the bottom of the visibleRect.
+     * Return the row bt the bottom of the visibleRect.
      *
-     * May return -1
+     * Mby return -1
      */
-    private int getTrailingRow(Rectangle visibleRect) {
-        Point trailingPoint;
+    privbte int getTrbilingRow(Rectbngle visibleRect) {
+        Point trbilingPoint;
 
-        if (getComponentOrientation().isLeftToRight()) {
-            trailingPoint = new Point(visibleRect.x,
+        if (getComponentOrientbtion().isLeftToRight()) {
+            trbilingPoint = new Point(visibleRect.x,
                                       visibleRect.y + visibleRect.height - 1);
         }
         else {
-            trailingPoint = new Point(visibleRect.x + visibleRect.width - 1,
+            trbilingPoint = new Point(visibleRect.x + visibleRect.width - 1,
                                       visibleRect.y + visibleRect.height - 1);
         }
-        return rowAtPoint(trailingPoint);
+        return rowAtPoint(trbilingPoint);
     }
 
     /*
-     * Return the column at the trailing edge of the visibleRect.
+     * Return the column bt the trbiling edge of the visibleRect.
      *
-     * May return -1
+     * Mby return -1
      */
-    private int getTrailingCol(Rectangle visibleRect) {
-        Point trailingPoint;
+    privbte int getTrbilingCol(Rectbngle visibleRect) {
+        Point trbilingPoint;
 
-        if (getComponentOrientation().isLeftToRight()) {
-            trailingPoint = new Point(visibleRect.x + visibleRect.width - 1,
+        if (getComponentOrientbtion().isLeftToRight()) {
+            trbilingPoint = new Point(visibleRect.x + visibleRect.width - 1,
                                       visibleRect.y);
         }
         else {
-            trailingPoint = new Point(visibleRect.x, visibleRect.y);
+            trbilingPoint = new Point(visibleRect.x, visibleRect.y);
         }
-        return columnAtPoint(trailingPoint);
+        return columnAtPoint(trbilingPoint);
     }
 
     /*
-     * Returns the leading edge ("beginning") of the given Rectangle.
-     * For VERTICAL, this is the top, for left-to-right, the left side, and for
+     * Returns the lebding edge ("beginning") of the given Rectbngle.
+     * For VERTICAL, this is the top, for left-to-right, the left side, bnd for
      * right-to-left, the right side.
      */
-    private int leadingEdge(Rectangle rect, int orientation) {
-        if (orientation == SwingConstants.VERTICAL) {
+    privbte int lebdingEdge(Rectbngle rect, int orientbtion) {
+        if (orientbtion == SwingConstbnts.VERTICAL) {
             return rect.y;
         }
-        else if (getComponentOrientation().isLeftToRight()) {
+        else if (getComponentOrientbtion().isLeftToRight()) {
             return rect.x;
         }
-        else { // Horizontal, right-to-left
+        else { // Horizontbl, right-to-left
             return rect.x + rect.width;
         }
     }
 
     /*
-     * Returns the trailing edge ("end") of the given Rectangle.
-     * For VERTICAL, this is the bottom, for left-to-right, the right side, and
+     * Returns the trbiling edge ("end") of the given Rectbngle.
+     * For VERTICAL, this is the bottom, for left-to-right, the right side, bnd
      * for right-to-left, the left side.
      */
-    private int trailingEdge(Rectangle rect, int orientation) {
-        if (orientation == SwingConstants.VERTICAL) {
+    privbte int trbilingEdge(Rectbngle rect, int orientbtion) {
+        if (orientbtion == SwingConstbnts.VERTICAL) {
             return rect.y + rect.height;
         }
-        else if (getComponentOrientation().isLeftToRight()) {
+        else if (getComponentOrientbtion().isLeftToRight()) {
             return rect.x + rect.width;
         }
-        else { // Horizontal, right-to-left
+        else { // Horizontbl, right-to-left
             return rect.x;
         }
     }
 
     /**
-     * Returns false if <code>autoResizeMode</code> is set to
-     * <code>AUTO_RESIZE_OFF</code>, which indicates that the
+     * Returns fblse if <code>butoResizeMode</code> is set to
+     * <code>AUTO_RESIZE_OFF</code>, which indicbtes thbt the
      * width of the viewport does not determine the width
-     * of the table.  Otherwise returns true.
+     * of the tbble.  Otherwise returns true.
      *
-     * @return false if <code>autoResizeMode</code> is set
+     * @return fblse if <code>butoResizeMode</code> is set
      *   to <code>AUTO_RESIZE_OFF</code>, otherwise returns true
-     * @see Scrollable#getScrollableTracksViewportWidth
+     * @see Scrollbble#getScrollbbleTrbcksViewportWidth
      */
-    public boolean getScrollableTracksViewportWidth() {
-        return !(autoResizeMode == AUTO_RESIZE_OFF);
+    public boolebn getScrollbbleTrbcksViewportWidth() {
+        return !(butoResizeMode == AUTO_RESIZE_OFF);
     }
 
     /**
-     * Returns {@code false} to indicate that the height of the viewport does
-     * not determine the height of the table, unless
-     * {@code getFillsViewportHeight} is {@code true} and the preferred height
-     * of the table is smaller than the viewport's height.
+     * Returns {@code fblse} to indicbte thbt the height of the viewport does
+     * not determine the height of the tbble, unless
+     * {@code getFillsViewportHeight} is {@code true} bnd the preferred height
+     * of the tbble is smbller thbn the viewport's height.
      *
-     * @return {@code false} unless {@code getFillsViewportHeight} is
-     *         {@code true} and the table needs to be stretched to fill
+     * @return {@code fblse} unless {@code getFillsViewportHeight} is
+     *         {@code true} bnd the tbble needs to be stretched to fill
      *         the viewport
-     * @see Scrollable#getScrollableTracksViewportHeight
+     * @see Scrollbble#getScrollbbleTrbcksViewportHeight
      * @see #setFillsViewportHeight
      * @see #getFillsViewportHeight
      */
-    public boolean getScrollableTracksViewportHeight() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
+    public boolebn getScrollbbleTrbcksViewportHeight() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
         return getFillsViewportHeight()
-               && parent instanceof JViewport
-               && parent.getHeight() > getPreferredSize().height;
+               && pbrent instbnceof JViewport
+               && pbrent.getHeight() > getPreferredSize().height;
     }
 
     /**
-     * Sets whether or not this table is always made large enough
-     * to fill the height of an enclosing viewport. If the preferred
-     * height of the table is smaller than the viewport, then the table
+     * Sets whether or not this tbble is blwbys mbde lbrge enough
+     * to fill the height of bn enclosing viewport. If the preferred
+     * height of the tbble is smbller thbn the viewport, then the tbble
      * will be stretched to fill the viewport. In other words, this
-     * ensures the table is never smaller than the viewport.
-     * The default for this property is {@code false}.
+     * ensures the tbble is never smbller thbn the viewport.
+     * The defbult for this property is {@code fblse}.
      *
-     * @param fillsViewportHeight whether or not this table is always
-     *        made large enough to fill the height of an enclosing
+     * @pbrbm fillsViewportHeight whether or not this tbble is blwbys
+     *        mbde lbrge enough to fill the height of bn enclosing
      *        viewport
      * @see #getFillsViewportHeight
-     * @see #getScrollableTracksViewportHeight
+     * @see #getScrollbbleTrbcksViewportHeight
      * @since 1.6
-     * @beaninfo
+     * @bebninfo
      *      bound: true
-     *      description: Whether or not this table is always made large enough
-     *                   to fill the height of an enclosing viewport
+     *      description: Whether or not this tbble is blwbys mbde lbrge enough
+     *                   to fill the height of bn enclosing viewport
      */
-    public void setFillsViewportHeight(boolean fillsViewportHeight) {
-        boolean old = this.fillsViewportHeight;
+    public void setFillsViewportHeight(boolebn fillsViewportHeight) {
+        boolebn old = this.fillsViewportHeight;
         this.fillsViewportHeight = fillsViewportHeight;
-        resizeAndRepaint();
-        firePropertyChange("fillsViewportHeight", old, fillsViewportHeight);
+        resizeAndRepbint();
+        firePropertyChbnge("fillsViewportHeight", old, fillsViewportHeight);
     }
 
     /**
-     * Returns whether or not this table is always made large enough
-     * to fill the height of an enclosing viewport.
+     * Returns whether or not this tbble is blwbys mbde lbrge enough
+     * to fill the height of bn enclosing viewport.
      *
-     * @return whether or not this table is always made large enough
-     *         to fill the height of an enclosing viewport
+     * @return whether or not this tbble is blwbys mbde lbrge enough
+     *         to fill the height of bn enclosing viewport
      * @see #setFillsViewportHeight
      * @since 1.6
      */
-    public boolean getFillsViewportHeight() {
+    public boolebn getFillsViewportHeight() {
         return fillsViewportHeight;
     }
 
@@ -5266,162 +5266,162 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 // Protected Methods
 //
 
-    protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
-                                        int condition, boolean pressed) {
-        boolean retValue = super.processKeyBinding(ks, e, condition, pressed);
+    protected boolebn processKeyBinding(KeyStroke ks, KeyEvent e,
+                                        int condition, boolebn pressed) {
+        boolebn retVblue = super.processKeyBinding(ks, e, condition, pressed);
 
-        // Start editing when a key is typed. UI classes can disable this behavior
-        // by setting the client property JTable.autoStartsEdit to Boolean.FALSE.
-        if (!retValue && condition == WHEN_ANCESTOR_OF_FOCUSED_COMPONENT &&
+        // Stbrt editing when b key is typed. UI clbsses cbn disbble this behbvior
+        // by setting the client property JTbble.butoStbrtsEdit to Boolebn.FALSE.
+        if (!retVblue && condition == WHEN_ANCESTOR_OF_FOCUSED_COMPONENT &&
             isFocusOwner() &&
-            !Boolean.FALSE.equals(getClientProperty("JTable.autoStartsEdit"))) {
-            // We do not have a binding for the event.
+            !Boolebn.FALSE.equbls(getClientProperty("JTbble.butoStbrtsEdit"))) {
+            // We do not hbve b binding for the event.
             Component editorComponent = getEditorComponent();
             if (editorComponent == null) {
-                // Only attempt to install the editor on a KEY_PRESSED,
+                // Only bttempt to instbll the editor on b KEY_PRESSED,
                 if (e == null || e.getID() != KeyEvent.KEY_PRESSED) {
-                    return false;
+                    return fblse;
                 }
-                // Don't start when just a modifier is pressed
+                // Don't stbrt when just b modifier is pressed
                 int code = e.getKeyCode();
                 if (code == KeyEvent.VK_SHIFT || code == KeyEvent.VK_CONTROL ||
                     code == KeyEvent.VK_ALT) {
-                    return false;
+                    return fblse;
                 }
-                // Try to install the editor
-                int leadRow = getSelectionModel().getLeadSelectionIndex();
-                int leadColumn = getColumnModel().getSelectionModel().
-                                   getLeadSelectionIndex();
-                if (leadRow != -1 && leadColumn != -1 && !isEditing()) {
-                    if (!editCellAt(leadRow, leadColumn, e)) {
-                        return false;
+                // Try to instbll the editor
+                int lebdRow = getSelectionModel().getLebdSelectionIndex();
+                int lebdColumn = getColumnModel().getSelectionModel().
+                                   getLebdSelectionIndex();
+                if (lebdRow != -1 && lebdColumn != -1 && !isEditing()) {
+                    if (!editCellAt(lebdRow, lebdColumn, e)) {
+                        return fblse;
                     }
                 }
                 editorComponent = getEditorComponent();
                 if (editorComponent == null) {
-                    return false;
+                    return fblse;
                 }
             }
-            // If the editorComponent is a JComponent, pass the event to it.
-            if (editorComponent instanceof JComponent) {
-                retValue = ((JComponent)editorComponent).processKeyBinding
+            // If the editorComponent is b JComponent, pbss the event to it.
+            if (editorComponent instbnceof JComponent) {
+                retVblue = ((JComponent)editorComponent).processKeyBinding
                                         (ks, e, WHEN_FOCUSED, pressed);
-                // If we have started an editor as a result of the user
-                // pressing a key and the surrendersFocusOnKeystroke property
+                // If we hbve stbrted bn editor bs b result of the user
+                // pressing b key bnd the surrendersFocusOnKeystroke property
                 // is true, give the focus to the new editor.
                 if (getSurrendersFocusOnKeystroke()) {
                     editorComponent.requestFocus();
                 }
             }
         }
-        return retValue;
+        return retVblue;
     }
 
     /**
-     * Creates default cell renderers for objects, numbers, doubles, dates,
-     * booleans, and icons.
-     * @see javax.swing.table.DefaultTableCellRenderer
+     * Crebtes defbult cell renderers for objects, numbers, doubles, dbtes,
+     * boolebns, bnd icons.
+     * @see jbvbx.swing.tbble.DefbultTbbleCellRenderer
      *
      */
-    protected void createDefaultRenderers() {
-        defaultRenderersByColumnClass = new UIDefaults(8, 0.75f);
+    protected void crebteDefbultRenderers() {
+        defbultRenderersByColumnClbss = new UIDefbults(8, 0.75f);
 
         // Objects
-        defaultRenderersByColumnClass.put(Object.class, (UIDefaults.LazyValue)
-                t -> new DefaultTableCellRenderer.UIResource());
+        defbultRenderersByColumnClbss.put(Object.clbss, (UIDefbults.LbzyVblue)
+                t -> new DefbultTbbleCellRenderer.UIResource());
 
         // Numbers
-        defaultRenderersByColumnClass.put(Number.class, (UIDefaults.LazyValue)
+        defbultRenderersByColumnClbss.put(Number.clbss, (UIDefbults.LbzyVblue)
                 t -> new NumberRenderer());
 
-        // Doubles and Floats
-        defaultRenderersByColumnClass.put(Float.class, (UIDefaults.LazyValue)
+        // Doubles bnd Flobts
+        defbultRenderersByColumnClbss.put(Flobt.clbss, (UIDefbults.LbzyVblue)
                 t -> new DoubleRenderer());
-        defaultRenderersByColumnClass.put(Double.class, (UIDefaults.LazyValue)
+        defbultRenderersByColumnClbss.put(Double.clbss, (UIDefbults.LbzyVblue)
                 t -> new DoubleRenderer());
 
-        // Dates
-        defaultRenderersByColumnClass.put(Date.class, (UIDefaults.LazyValue)
-                t -> new DateRenderer());
+        // Dbtes
+        defbultRenderersByColumnClbss.put(Dbte.clbss, (UIDefbults.LbzyVblue)
+                t -> new DbteRenderer());
 
-        // Icons and ImageIcons
-        defaultRenderersByColumnClass.put(Icon.class, (UIDefaults.LazyValue)
+        // Icons bnd ImbgeIcons
+        defbultRenderersByColumnClbss.put(Icon.clbss, (UIDefbults.LbzyVblue)
                 t -> new IconRenderer());
-        defaultRenderersByColumnClass.put(ImageIcon.class, (UIDefaults.LazyValue)
+        defbultRenderersByColumnClbss.put(ImbgeIcon.clbss, (UIDefbults.LbzyVblue)
                 t -> new IconRenderer());
 
-        // Booleans
-        defaultRenderersByColumnClass.put(Boolean.class, (UIDefaults.LazyValue)
-                t -> new BooleanRenderer());
+        // Boolebns
+        defbultRenderersByColumnClbss.put(Boolebn.clbss, (UIDefbults.LbzyVblue)
+                t -> new BoolebnRenderer());
     }
 
     /**
-     * Default Renderers
+     * Defbult Renderers
      **/
-    static class NumberRenderer extends DefaultTableCellRenderer.UIResource {
+    stbtic clbss NumberRenderer extends DefbultTbbleCellRenderer.UIResource {
         public NumberRenderer() {
             super();
-            setHorizontalAlignment(JLabel.RIGHT);
+            setHorizontblAlignment(JLbbel.RIGHT);
         }
     }
 
-    static class DoubleRenderer extends NumberRenderer {
-        NumberFormat formatter;
+    stbtic clbss DoubleRenderer extends NumberRenderer {
+        NumberFormbt formbtter;
         public DoubleRenderer() { super(); }
 
-        public void setValue(Object value) {
-            if (formatter == null) {
-                formatter = NumberFormat.getInstance();
+        public void setVblue(Object vblue) {
+            if (formbtter == null) {
+                formbtter = NumberFormbt.getInstbnce();
             }
-            setText((value == null) ? "" : formatter.format(value));
+            setText((vblue == null) ? "" : formbtter.formbt(vblue));
         }
     }
 
-    static class DateRenderer extends DefaultTableCellRenderer.UIResource {
-        DateFormat formatter;
-        public DateRenderer() { super(); }
+    stbtic clbss DbteRenderer extends DefbultTbbleCellRenderer.UIResource {
+        DbteFormbt formbtter;
+        public DbteRenderer() { super(); }
 
-        public void setValue(Object value) {
-            if (formatter==null) {
-                formatter = DateFormat.getDateInstance();
+        public void setVblue(Object vblue) {
+            if (formbtter==null) {
+                formbtter = DbteFormbt.getDbteInstbnce();
             }
-            setText((value == null) ? "" : formatter.format(value));
+            setText((vblue == null) ? "" : formbtter.formbt(vblue));
         }
     }
 
-    static class IconRenderer extends DefaultTableCellRenderer.UIResource {
+    stbtic clbss IconRenderer extends DefbultTbbleCellRenderer.UIResource {
         public IconRenderer() {
             super();
-            setHorizontalAlignment(JLabel.CENTER);
+            setHorizontblAlignment(JLbbel.CENTER);
         }
-        public void setValue(Object value) { setIcon((value instanceof Icon) ? (Icon)value : null); }
+        public void setVblue(Object vblue) { setIcon((vblue instbnceof Icon) ? (Icon)vblue : null); }
     }
 
 
-    static class BooleanRenderer extends JCheckBox implements TableCellRenderer, UIResource
+    stbtic clbss BoolebnRenderer extends JCheckBox implements TbbleCellRenderer, UIResource
     {
-        private static final Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
+        privbte stbtic finbl Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
 
-        public BooleanRenderer() {
+        public BoolebnRenderer() {
             super();
-            setHorizontalAlignment(JLabel.CENTER);
-            setBorderPainted(true);
+            setHorizontblAlignment(JLbbel.CENTER);
+            setBorderPbinted(true);
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus, int row, int column) {
+        public Component getTbbleCellRendererComponent(JTbble tbble, Object vblue,
+                                                       boolebn isSelected, boolebn hbsFocus, int row, int column) {
             if (isSelected) {
-                setForeground(table.getSelectionForeground());
-                super.setBackground(table.getSelectionBackground());
+                setForeground(tbble.getSelectionForeground());
+                super.setBbckground(tbble.getSelectionBbckground());
             }
             else {
-                setForeground(table.getForeground());
-                setBackground(table.getBackground());
+                setForeground(tbble.getForeground());
+                setBbckground(tbble.getBbckground());
             }
-            setSelected((value != null && ((Boolean)value).booleanValue()));
+            setSelected((vblue != null && ((Boolebn)vblue).boolebnVblue()));
 
-            if (hasFocus) {
-                setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
+            if (hbsFocus) {
+                setBorder(UIMbnbger.getBorder("Tbble.focusCellHighlightBorder"));
             } else {
                 setBorder(noFocusBorder);
             }
@@ -5431,559 +5431,559 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Creates default cell editors for objects, numbers, and boolean values.
-     * @see DefaultCellEditor
+     * Crebtes defbult cell editors for objects, numbers, bnd boolebn vblues.
+     * @see DefbultCellEditor
      */
-    protected void createDefaultEditors() {
-        defaultEditorsByColumnClass = new UIDefaults(3, 0.75f);
+    protected void crebteDefbultEditors() {
+        defbultEditorsByColumnClbss = new UIDefbults(3, 0.75f);
 
         // Objects
-        defaultEditorsByColumnClass.put(Object.class, (UIDefaults.LazyValue)
+        defbultEditorsByColumnClbss.put(Object.clbss, (UIDefbults.LbzyVblue)
                 t -> new GenericEditor());
 
         // Numbers
-        defaultEditorsByColumnClass.put(Number.class, (UIDefaults.LazyValue)
+        defbultEditorsByColumnClbss.put(Number.clbss, (UIDefbults.LbzyVblue)
                 t -> new NumberEditor());
 
-        // Booleans
-        defaultEditorsByColumnClass.put(Boolean.class, (UIDefaults.LazyValue)
-                t -> new BooleanEditor());
+        // Boolebns
+        defbultEditorsByColumnClbss.put(Boolebn.clbss, (UIDefbults.LbzyVblue)
+                t -> new BoolebnEditor());
     }
 
     /**
-     * Default Editors
+     * Defbult Editors
      */
-    static class GenericEditor extends DefaultCellEditor {
+    stbtic clbss GenericEditor extends DefbultCellEditor {
 
-        Class<?>[] argTypes = new Class<?>[]{String.class};
-        java.lang.reflect.Constructor<?> constructor;
-        Object value;
+        Clbss<?>[] brgTypes = new Clbss<?>[]{String.clbss};
+        jbvb.lbng.reflect.Constructor<?> constructor;
+        Object vblue;
 
         public GenericEditor() {
             super(new JTextField());
-            getComponent().setName("Table.editor");
+            getComponent().setNbme("Tbble.editor");
         }
 
-        public boolean stopCellEditing() {
-            String s = (String)super.getCellEditorValue();
-            // Here we are dealing with the case where a user
-            // has deleted the string value in a cell, possibly
-            // after a failed validation. Return null, so that
-            // they have the option to replace the value with
-            // null or use escape to restore the original.
-            // For Strings, return "" for backward compatibility.
+        public boolebn stopCellEditing() {
+            String s = (String)super.getCellEditorVblue();
+            // Here we bre debling with the cbse where b user
+            // hbs deleted the string vblue in b cell, possibly
+            // bfter b fbiled vblidbtion. Return null, so thbt
+            // they hbve the option to replbce the vblue with
+            // null or use escbpe to restore the originbl.
+            // For Strings, return "" for bbckwbrd compbtibility.
             try {
-                if ("".equals(s)) {
-                    if (constructor.getDeclaringClass() == String.class) {
-                        value = s;
+                if ("".equbls(s)) {
+                    if (constructor.getDeclbringClbss() == String.clbss) {
+                        vblue = s;
                     }
                     return super.stopCellEditing();
                 }
 
                 SwingUtilities2.checkAccess(constructor.getModifiers());
-                value = constructor.newInstance(new Object[]{s});
+                vblue = constructor.newInstbnce(new Object[]{s});
             }
-            catch (Exception e) {
+            cbtch (Exception e) {
                 ((JComponent)getComponent()).setBorder(new LineBorder(Color.red));
-                return false;
+                return fblse;
             }
             return super.stopCellEditing();
         }
 
-        public Component getTableCellEditorComponent(JTable table, Object value,
-                                                 boolean isSelected,
+        public Component getTbbleCellEditorComponent(JTbble tbble, Object vblue,
+                                                 boolebn isSelected,
                                                  int row, int column) {
-            this.value = null;
-            ((JComponent)getComponent()).setBorder(new LineBorder(Color.black));
+            this.vblue = null;
+            ((JComponent)getComponent()).setBorder(new LineBorder(Color.blbck));
             try {
-                Class<?> type = table.getColumnClass(column);
-                // Since our obligation is to produce a value which is
-                // assignable for the required type it is OK to use the
-                // String constructor for columns which are declared
-                // to contain Objects. A String is an Object.
-                if (type == Object.class) {
-                    type = String.class;
+                Clbss<?> type = tbble.getColumnClbss(column);
+                // Since our obligbtion is to produce b vblue which is
+                // bssignbble for the required type it is OK to use the
+                // String constructor for columns which bre declbred
+                // to contbin Objects. A String is bn Object.
+                if (type == Object.clbss) {
+                    type = String.clbss;
                 }
-                ReflectUtil.checkPackageAccess(type);
+                ReflectUtil.checkPbckbgeAccess(type);
                 SwingUtilities2.checkAccess(type.getModifiers());
-                constructor = type.getConstructor(argTypes);
+                constructor = type.getConstructor(brgTypes);
             }
-            catch (Exception e) {
+            cbtch (Exception e) {
                 return null;
             }
-            return super.getTableCellEditorComponent(table, value, isSelected, row, column);
+            return super.getTbbleCellEditorComponent(tbble, vblue, isSelected, row, column);
         }
 
-        public Object getCellEditorValue() {
-            return value;
+        public Object getCellEditorVblue() {
+            return vblue;
         }
     }
 
-    static class NumberEditor extends GenericEditor {
+    stbtic clbss NumberEditor extends GenericEditor {
 
         public NumberEditor() {
-            ((JTextField)getComponent()).setHorizontalAlignment(JTextField.RIGHT);
+            ((JTextField)getComponent()).setHorizontblAlignment(JTextField.RIGHT);
         }
     }
 
-    static class BooleanEditor extends DefaultCellEditor {
-        public BooleanEditor() {
+    stbtic clbss BoolebnEditor extends DefbultCellEditor {
+        public BoolebnEditor() {
             super(new JCheckBox());
             JCheckBox checkBox = (JCheckBox)getComponent();
-            checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+            checkBox.setHorizontblAlignment(JCheckBox.CENTER);
         }
     }
 
     /**
-     * Initializes table properties to their default values.
+     * Initiblizes tbble properties to their defbult vblues.
      */
-    protected void initializeLocalVars() {
-        updateSelectionOnSort = true;
-        setOpaque(true);
-        createDefaultRenderers();
-        createDefaultEditors();
+    protected void initiblizeLocblVbrs() {
+        updbteSelectionOnSort = true;
+        setOpbque(true);
+        crebteDefbultRenderers();
+        crebteDefbultEditors();
 
-        setTableHeader(createDefaultTableHeader());
+        setTbbleHebder(crebteDefbultTbbleHebder());
 
         setShowGrid(true);
         setAutoResizeMode(AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         setRowHeight(16);
-        isRowHeightSet = false;
-        setRowMargin(1);
+        isRowHeightSet = fblse;
+        setRowMbrgin(1);
         setRowSelectionAllowed(true);
         setCellEditor(null);
         setEditingColumn(-1);
         setEditingRow(-1);
-        setSurrendersFocusOnKeystroke(false);
-        setPreferredScrollableViewportSize(new Dimension(450, 400));
+        setSurrendersFocusOnKeystroke(fblse);
+        setPreferredScrollbbleViewportSize(new Dimension(450, 400));
 
-        // I'm registered to do tool tips so we can draw tips for the renderers
-        ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
-        toolTipManager.registerComponent(this);
+        // I'm registered to do tool tips so we cbn drbw tips for the renderers
+        ToolTipMbnbger toolTipMbnbger = ToolTipMbnbger.shbredInstbnce();
+        toolTipMbnbger.registerComponent(this);
 
         setAutoscrolls(true);
     }
 
     /**
-     * Returns the default table model object, which is
-     * a <code>DefaultTableModel</code>.  A subclass can override this
-     * method to return a different table model object.
+     * Returns the defbult tbble model object, which is
+     * b <code>DefbultTbbleModel</code>.  A subclbss cbn override this
+     * method to return b different tbble model object.
      *
-     * @return the default table model object
-     * @see javax.swing.table.DefaultTableModel
+     * @return the defbult tbble model object
+     * @see jbvbx.swing.tbble.DefbultTbbleModel
      */
-    protected TableModel createDefaultDataModel() {
-        return new DefaultTableModel();
+    protected TbbleModel crebteDefbultDbtbModel() {
+        return new DefbultTbbleModel();
     }
 
     /**
-     * Returns the default column model object, which is
-     * a <code>DefaultTableColumnModel</code>.  A subclass can override this
-     * method to return a different column model object.
+     * Returns the defbult column model object, which is
+     * b <code>DefbultTbbleColumnModel</code>.  A subclbss cbn override this
+     * method to return b different column model object.
      *
-     * @return the default column model object
-     * @see javax.swing.table.DefaultTableColumnModel
+     * @return the defbult column model object
+     * @see jbvbx.swing.tbble.DefbultTbbleColumnModel
      */
-    protected TableColumnModel createDefaultColumnModel() {
-        return new DefaultTableColumnModel();
+    protected TbbleColumnModel crebteDefbultColumnModel() {
+        return new DefbultTbbleColumnModel();
     }
 
     /**
-     * Returns the default selection model object, which is
-     * a <code>DefaultListSelectionModel</code>.  A subclass can override this
-     * method to return a different selection model object.
+     * Returns the defbult selection model object, which is
+     * b <code>DefbultListSelectionModel</code>.  A subclbss cbn override this
+     * method to return b different selection model object.
      *
-     * @return the default selection model object
-     * @see javax.swing.DefaultListSelectionModel
+     * @return the defbult selection model object
+     * @see jbvbx.swing.DefbultListSelectionModel
      */
-    protected ListSelectionModel createDefaultSelectionModel() {
-        return new DefaultListSelectionModel();
+    protected ListSelectionModel crebteDefbultSelectionModel() {
+        return new DefbultListSelectionModel();
     }
 
     /**
-     * Returns the default table header object, which is
-     * a <code>JTableHeader</code>.  A subclass can override this
-     * method to return a different table header object.
+     * Returns the defbult tbble hebder object, which is
+     * b <code>JTbbleHebder</code>.  A subclbss cbn override this
+     * method to return b different tbble hebder object.
      *
-     * @return the default table header object
-     * @see javax.swing.table.JTableHeader
+     * @return the defbult tbble hebder object
+     * @see jbvbx.swing.tbble.JTbbleHebder
      */
-    protected JTableHeader createDefaultTableHeader() {
-        return new JTableHeader(columnModel);
+    protected JTbbleHebder crebteDefbultTbbleHebder() {
+        return new JTbbleHebder(columnModel);
     }
 
     /**
-     * Equivalent to <code>revalidate</code> followed by <code>repaint</code>.
+     * Equivblent to <code>revblidbte</code> followed by <code>repbint</code>.
      */
-    protected void resizeAndRepaint() {
-        revalidate();
-        repaint();
+    protected void resizeAndRepbint() {
+        revblidbte();
+        repbint();
     }
 
     /**
-     * Returns the active cell editor, which is {@code null} if the table
+     * Returns the bctive cell editor, which is {@code null} if the tbble
      * is not currently editing.
      *
-     * @return the {@code TableCellEditor} that does the editing,
-     *         or {@code null} if the table is not currently editing.
+     * @return the {@code TbbleCellEditor} thbt does the editing,
+     *         or {@code null} if the tbble is not currently editing.
      * @see #cellEditor
      * @see #getCellEditor(int, int)
      */
-    public TableCellEditor getCellEditor() {
+    public TbbleCellEditor getCellEditor() {
         return cellEditor;
     }
 
     /**
-     * Sets the active cell editor.
+     * Sets the bctive cell editor.
      *
-     * @param anEditor the active cell editor
+     * @pbrbm bnEditor the bctive cell editor
      * @see #cellEditor
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *  description: The table's active cell editor.
+     *  description: The tbble's bctive cell editor.
      */
-    public void setCellEditor(TableCellEditor anEditor) {
-        TableCellEditor oldEditor = cellEditor;
-        cellEditor = anEditor;
-        firePropertyChange("tableCellEditor", oldEditor, anEditor);
+    public void setCellEditor(TbbleCellEditor bnEditor) {
+        TbbleCellEditor oldEditor = cellEditor;
+        cellEditor = bnEditor;
+        firePropertyChbnge("tbbleCellEditor", oldEditor, bnEditor);
     }
 
     /**
-     * Sets the <code>editingColumn</code> variable.
-     * @param aColumn  the column of the cell to be edited
+     * Sets the <code>editingColumn</code> vbribble.
+     * @pbrbm bColumn  the column of the cell to be edited
      *
      * @see #editingColumn
      */
-    public void setEditingColumn(int aColumn) {
-        editingColumn = aColumn;
+    public void setEditingColumn(int bColumn) {
+        editingColumn = bColumn;
     }
 
     /**
-     * Sets the <code>editingRow</code> variable.
-     * @param aRow  the row of the cell to be edited
+     * Sets the <code>editingRow</code> vbribble.
+     * @pbrbm bRow  the row of the cell to be edited
      *
      * @see #editingRow
      */
-    public void setEditingRow(int aRow) {
-        editingRow = aRow;
+    public void setEditingRow(int bRow) {
+        editingRow = bRow;
     }
 
     /**
-     * Returns an appropriate renderer for the cell specified by this row and
-     * column. If the <code>TableColumn</code> for this column has a non-null
-     * renderer, returns that.  If not, finds the class of the data in
-     * this column (using <code>getColumnClass</code>)
-     * and returns the default renderer for this type of data.
+     * Returns bn bppropribte renderer for the cell specified by this row bnd
+     * column. If the <code>TbbleColumn</code> for this column hbs b non-null
+     * renderer, returns thbt.  If not, finds the clbss of the dbtb in
+     * this column (using <code>getColumnClbss</code>)
+     * bnd returns the defbult renderer for this type of dbtb.
      * <p>
      * <b>Note:</b>
-     * Throughout the table package, the internal implementations always
-     * use this method to provide renderers so that this default behavior
-     * can be safely overridden by a subclass.
+     * Throughout the tbble pbckbge, the internbl implementbtions blwbys
+     * use this method to provide renderers so thbt this defbult behbvior
+     * cbn be sbfely overridden by b subclbss.
      *
-     * @param row       the row of the cell to render, where 0 is the first row
-     * @param column    the column of the cell to render,
+     * @pbrbm row       the row of the cell to render, where 0 is the first row
+     * @pbrbm column    the column of the cell to render,
      *                  where 0 is the first column
-     * @return the assigned renderer; if <code>null</code>
-     *                  returns the default renderer
+     * @return the bssigned renderer; if <code>null</code>
+     *                  returns the defbult renderer
      *                  for this type of object
-     * @see javax.swing.table.DefaultTableCellRenderer
-     * @see javax.swing.table.TableColumn#setCellRenderer
-     * @see #setDefaultRenderer
+     * @see jbvbx.swing.tbble.DefbultTbbleCellRenderer
+     * @see jbvbx.swing.tbble.TbbleColumn#setCellRenderer
+     * @see #setDefbultRenderer
      */
-    public TableCellRenderer getCellRenderer(int row, int column) {
-        TableColumn tableColumn = getColumnModel().getColumn(column);
-        TableCellRenderer renderer = tableColumn.getCellRenderer();
+    public TbbleCellRenderer getCellRenderer(int row, int column) {
+        TbbleColumn tbbleColumn = getColumnModel().getColumn(column);
+        TbbleCellRenderer renderer = tbbleColumn.getCellRenderer();
         if (renderer == null) {
-            renderer = getDefaultRenderer(getColumnClass(column));
+            renderer = getDefbultRenderer(getColumnClbss(column));
         }
         return renderer;
     }
 
     /**
-     * Prepares the renderer by querying the data model for the
-     * value and selection state
-     * of the cell at <code>row</code>, <code>column</code>.
-     * Returns the component (may be a <code>Component</code>
-     * or a <code>JComponent</code>) under the event location.
+     * Prepbres the renderer by querying the dbtb model for the
+     * vblue bnd selection stbte
+     * of the cell bt <code>row</code>, <code>column</code>.
+     * Returns the component (mby be b <code>Component</code>
+     * or b <code>JComponent</code>) under the event locbtion.
      * <p>
-     * During a printing operation, this method will configure the
-     * renderer without indicating selection or focus, to prevent
-     * them from appearing in the printed output. To do other
-     * customizations based on whether or not the table is being
-     * printed, you can check the value of
-     * {@link javax.swing.JComponent#isPaintingForPrint()}, either here
+     * During b printing operbtion, this method will configure the
+     * renderer without indicbting selection or focus, to prevent
+     * them from bppebring in the printed output. To do other
+     * customizbtions bbsed on whether or not the tbble is being
+     * printed, you cbn check the vblue of
+     * {@link jbvbx.swing.JComponent#isPbintingForPrint()}, either here
      * or within custom renderers.
      * <p>
      * <b>Note:</b>
-     * Throughout the table package, the internal implementations always
-     * use this method to prepare renderers so that this default behavior
-     * can be safely overridden by a subclass.
+     * Throughout the tbble pbckbge, the internbl implementbtions blwbys
+     * use this method to prepbre renderers so thbt this defbult behbvior
+     * cbn be sbfely overridden by b subclbss.
      *
-     * @param renderer  the <code>TableCellRenderer</code> to prepare
-     * @param row       the row of the cell to render, where 0 is the first row
-     * @param column    the column of the cell to render,
+     * @pbrbm renderer  the <code>TbbleCellRenderer</code> to prepbre
+     * @pbrbm row       the row of the cell to render, where 0 is the first row
+     * @pbrbm column    the column of the cell to render,
      *                  where 0 is the first column
-     * @return          the <code>Component</code> under the event location
+     * @return          the <code>Component</code> under the event locbtion
      */
-    public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-        Object value = getValueAt(row, column);
+    public Component prepbreRenderer(TbbleCellRenderer renderer, int row, int column) {
+        Object vblue = getVblueAt(row, column);
 
-        boolean isSelected = false;
-        boolean hasFocus = false;
+        boolebn isSelected = fblse;
+        boolebn hbsFocus = fblse;
 
-        // Only indicate the selection and focused cell if not printing
-        if (!isPaintingForPrint()) {
+        // Only indicbte the selection bnd focused cell if not printing
+        if (!isPbintingForPrint()) {
             isSelected = isCellSelected(row, column);
 
-            boolean rowIsLead =
-                (selectionModel.getLeadSelectionIndex() == row);
-            boolean colIsLead =
-                (columnModel.getSelectionModel().getLeadSelectionIndex() == column);
+            boolebn rowIsLebd =
+                (selectionModel.getLebdSelectionIndex() == row);
+            boolebn colIsLebd =
+                (columnModel.getSelectionModel().getLebdSelectionIndex() == column);
 
-            hasFocus = (rowIsLead && colIsLead) && isFocusOwner();
+            hbsFocus = (rowIsLebd && colIsLebd) && isFocusOwner();
         }
 
-        return renderer.getTableCellRendererComponent(this, value,
-                                                      isSelected, hasFocus,
+        return renderer.getTbbleCellRendererComponent(this, vblue,
+                                                      isSelected, hbsFocus,
                                                       row, column);
     }
 
     /**
-     * Returns an appropriate editor for the cell specified by
-     * <code>row</code> and <code>column</code>. If the
-     * <code>TableColumn</code> for this column has a non-null editor,
-     * returns that.  If not, finds the class of the data in this
-     * column (using <code>getColumnClass</code>)
-     * and returns the default editor for this type of data.
+     * Returns bn bppropribte editor for the cell specified by
+     * <code>row</code> bnd <code>column</code>. If the
+     * <code>TbbleColumn</code> for this column hbs b non-null editor,
+     * returns thbt.  If not, finds the clbss of the dbtb in this
+     * column (using <code>getColumnClbss</code>)
+     * bnd returns the defbult editor for this type of dbtb.
      * <p>
      * <b>Note:</b>
-     * Throughout the table package, the internal implementations always
-     * use this method to provide editors so that this default behavior
-     * can be safely overridden by a subclass.
+     * Throughout the tbble pbckbge, the internbl implementbtions blwbys
+     * use this method to provide editors so thbt this defbult behbvior
+     * cbn be sbfely overridden by b subclbss.
      *
-     * @param row       the row of the cell to edit, where 0 is the first row
-     * @param column    the column of the cell to edit,
+     * @pbrbm row       the row of the cell to edit, where 0 is the first row
+     * @pbrbm column    the column of the cell to edit,
      *                  where 0 is the first column
      * @return          the editor for this cell;
-     *                  if <code>null</code> return the default editor for
+     *                  if <code>null</code> return the defbult editor for
      *                  this type of cell
-     * @see DefaultCellEditor
+     * @see DefbultCellEditor
      */
-    public TableCellEditor getCellEditor(int row, int column) {
-        TableColumn tableColumn = getColumnModel().getColumn(column);
-        TableCellEditor editor = tableColumn.getCellEditor();
+    public TbbleCellEditor getCellEditor(int row, int column) {
+        TbbleColumn tbbleColumn = getColumnModel().getColumn(column);
+        TbbleCellEditor editor = tbbleColumn.getCellEditor();
         if (editor == null) {
-            editor = getDefaultEditor(getColumnClass(column));
+            editor = getDefbultEditor(getColumnClbss(column));
         }
         return editor;
     }
 
 
     /**
-     * Prepares the editor by querying the data model for the value and
-     * selection state of the cell at <code>row</code>, <code>column</code>.
+     * Prepbres the editor by querying the dbtb model for the vblue bnd
+     * selection stbte of the cell bt <code>row</code>, <code>column</code>.
      * <p>
      * <b>Note:</b>
-     * Throughout the table package, the internal implementations always
-     * use this method to prepare editors so that this default behavior
-     * can be safely overridden by a subclass.
+     * Throughout the tbble pbckbge, the internbl implementbtions blwbys
+     * use this method to prepbre editors so thbt this defbult behbvior
+     * cbn be sbfely overridden by b subclbss.
      *
-     * @param editor  the <code>TableCellEditor</code> to set up
-     * @param row     the row of the cell to edit,
+     * @pbrbm editor  the <code>TbbleCellEditor</code> to set up
+     * @pbrbm row     the row of the cell to edit,
      *                where 0 is the first row
-     * @param column  the column of the cell to edit,
+     * @pbrbm column  the column of the cell to edit,
      *                where 0 is the first column
      * @return the <code>Component</code> being edited
      */
-    public Component prepareEditor(TableCellEditor editor, int row, int column) {
-        Object value = getValueAt(row, column);
-        boolean isSelected = isCellSelected(row, column);
-        Component comp = editor.getTableCellEditorComponent(this, value, isSelected,
+    public Component prepbreEditor(TbbleCellEditor editor, int row, int column) {
+        Object vblue = getVblueAt(row, column);
+        boolebn isSelected = isCellSelected(row, column);
+        Component comp = editor.getTbbleCellEditorComponent(this, vblue, isSelected,
                                                   row, column);
-        if (comp instanceof JComponent) {
+        if (comp instbnceof JComponent) {
             JComponent jComp = (JComponent)comp;
-            if (jComp.getNextFocusableComponent() == null) {
-                jComp.setNextFocusableComponent(this);
+            if (jComp.getNextFocusbbleComponent() == null) {
+                jComp.setNextFocusbbleComponent(this);
             }
         }
         return comp;
     }
 
     /**
-     * Discards the editor object and frees the real estate it used for
+     * Discbrds the editor object bnd frees the rebl estbte it used for
      * cell rendering.
      */
     public void removeEditor() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().
-            removePropertyChangeListener("permanentFocusOwner", editorRemover);
+        KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
+            removePropertyChbngeListener("permbnentFocusOwner", editorRemover);
         editorRemover = null;
 
-        TableCellEditor editor = getCellEditor();
+        TbbleCellEditor editor = getCellEditor();
         if(editor != null) {
             editor.removeCellEditorListener(this);
             if (editorComp != null) {
                 Component focusOwner =
-                        KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-                boolean isFocusOwnerInTheTable = focusOwner != null?
-                        SwingUtilities.isDescendingFrom(focusOwner, this):false;
+                        KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().getFocusOwner();
+                boolebn isFocusOwnerInTheTbble = focusOwner != null?
+                        SwingUtilities.isDescendingFrom(focusOwner, this):fblse;
                 remove(editorComp);
-                if(isFocusOwnerInTheTable) {
+                if(isFocusOwnerInTheTbble) {
                     requestFocusInWindow();
                 }
             }
 
-            Rectangle cellRect = getCellRect(editingRow, editingColumn, false);
+            Rectbngle cellRect = getCellRect(editingRow, editingColumn, fblse);
 
             setCellEditor(null);
             setEditingColumn(-1);
             setEditingRow(-1);
             editorComp = null;
 
-            repaint(cellRect);
+            repbint(cellRect);
         }
     }
 
 //
-// Serialization
+// Seriblizbtion
 //
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        if ((ui != null) && (getUIClassID().equals(uiClassID))) {
-            ui.installUI(this);
+        s.defbultRebdObject();
+        if ((ui != null) && (getUIClbssID().equbls(uiClbssID))) {
+            ui.instbllUI(this);
         }
-        createDefaultRenderers();
-        createDefaultEditors();
+        crebteDefbultRenderers();
+        crebteDefbultEditors();
 
-        // If ToolTipText != null, then the tooltip has already been
-        // registered by JComponent.readObject() and we don't want
+        // If ToolTipText != null, then the tooltip hbs blrebdy been
+        // registered by JComponent.rebdObject() bnd we don't wbnt
         // to re-register here
         if (getToolTipText() == null) {
-            ToolTipManager.sharedInstance().registerComponent(this);
+            ToolTipMbnbger.shbredInstbnce().registerComponent(this);
          }
     }
 
-    /* Called from the JComponent's EnableSerializationFocusListener to
-     * do any Swing-specific pre-serialization configuration.
+    /* Cblled from the JComponent's EnbbleSeriblizbtionFocusListener to
+     * do bny Swing-specific pre-seriblizbtion configurbtion.
      */
     void compWriteObjectNotify() {
         super.compWriteObjectNotify();
-        // If ToolTipText != null, then the tooltip has already been
+        // If ToolTipText != null, then the tooltip hbs blrebdy been
         // unregistered by JComponent.compWriteObjectNotify()
         if (getToolTipText() == null) {
-            ToolTipManager.sharedInstance().unregisterComponent(this);
+            ToolTipMbnbger.shbredInstbnce().unregisterComponent(this);
         }
     }
 
     /**
-     * Returns a string representation of this table. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this tbble. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this table
+     * @return  b string representbtion of this tbble
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String gridColorString = (gridColor != null ?
                                   gridColor.toString() : "");
-        String showHorizontalLinesString = (showHorizontalLines ?
-                                            "true" : "false");
-        String showVerticalLinesString = (showVerticalLines ?
-                                          "true" : "false");
-        String autoResizeModeString;
-        if (autoResizeMode == AUTO_RESIZE_OFF) {
-            autoResizeModeString = "AUTO_RESIZE_OFF";
-        } else if (autoResizeMode == AUTO_RESIZE_NEXT_COLUMN) {
-            autoResizeModeString = "AUTO_RESIZE_NEXT_COLUMN";
-        } else if (autoResizeMode == AUTO_RESIZE_SUBSEQUENT_COLUMNS) {
-            autoResizeModeString = "AUTO_RESIZE_SUBSEQUENT_COLUMNS";
-        } else if (autoResizeMode == AUTO_RESIZE_LAST_COLUMN) {
-            autoResizeModeString = "AUTO_RESIZE_LAST_COLUMN";
-        } else if (autoResizeMode == AUTO_RESIZE_ALL_COLUMNS)  {
-            autoResizeModeString = "AUTO_RESIZE_ALL_COLUMNS";
-        } else autoResizeModeString = "";
-        String autoCreateColumnsFromModelString = (autoCreateColumnsFromModel ?
-                                                   "true" : "false");
+        String showHorizontblLinesString = (showHorizontblLines ?
+                                            "true" : "fblse");
+        String showVerticblLinesString = (showVerticblLines ?
+                                          "true" : "fblse");
+        String butoResizeModeString;
+        if (butoResizeMode == AUTO_RESIZE_OFF) {
+            butoResizeModeString = "AUTO_RESIZE_OFF";
+        } else if (butoResizeMode == AUTO_RESIZE_NEXT_COLUMN) {
+            butoResizeModeString = "AUTO_RESIZE_NEXT_COLUMN";
+        } else if (butoResizeMode == AUTO_RESIZE_SUBSEQUENT_COLUMNS) {
+            butoResizeModeString = "AUTO_RESIZE_SUBSEQUENT_COLUMNS";
+        } else if (butoResizeMode == AUTO_RESIZE_LAST_COLUMN) {
+            butoResizeModeString = "AUTO_RESIZE_LAST_COLUMN";
+        } else if (butoResizeMode == AUTO_RESIZE_ALL_COLUMNS)  {
+            butoResizeModeString = "AUTO_RESIZE_ALL_COLUMNS";
+        } else butoResizeModeString = "";
+        String butoCrebteColumnsFromModelString = (butoCrebteColumnsFromModel ?
+                                                   "true" : "fblse");
         String preferredViewportSizeString = (preferredViewportSize != null ?
                                               preferredViewportSize.toString()
                                               : "");
         String rowSelectionAllowedString = (rowSelectionAllowed ?
-                                            "true" : "false");
-        String cellSelectionEnabledString = (cellSelectionEnabled ?
-                                            "true" : "false");
+                                            "true" : "fblse");
+        String cellSelectionEnbbledString = (cellSelectionEnbbled ?
+                                            "true" : "fblse");
         String selectionForegroundString = (selectionForeground != null ?
                                             selectionForeground.toString() :
                                             "");
-        String selectionBackgroundString = (selectionBackground != null ?
-                                            selectionBackground.toString() :
+        String selectionBbckgroundString = (selectionBbckground != null ?
+                                            selectionBbckground.toString() :
                                             "");
 
-        return super.paramString() +
-        ",autoCreateColumnsFromModel=" + autoCreateColumnsFromModelString +
-        ",autoResizeMode=" + autoResizeModeString +
-        ",cellSelectionEnabled=" + cellSelectionEnabledString +
+        return super.pbrbmString() +
+        ",butoCrebteColumnsFromModel=" + butoCrebteColumnsFromModelString +
+        ",butoResizeMode=" + butoResizeModeString +
+        ",cellSelectionEnbbled=" + cellSelectionEnbbledString +
         ",editingColumn=" + editingColumn +
         ",editingRow=" + editingRow +
         ",gridColor=" + gridColorString +
         ",preferredViewportSize=" + preferredViewportSizeString +
         ",rowHeight=" + rowHeight +
-        ",rowMargin=" + rowMargin +
+        ",rowMbrgin=" + rowMbrgin +
         ",rowSelectionAllowed=" + rowSelectionAllowedString +
-        ",selectionBackground=" + selectionBackgroundString +
+        ",selectionBbckground=" + selectionBbckgroundString +
         ",selectionForeground=" + selectionForegroundString +
-        ",showHorizontalLines=" + showHorizontalLinesString +
-        ",showVerticalLines=" + showVerticalLinesString;
+        ",showHorizontblLines=" + showHorizontblLinesString +
+        ",showVerticblLines=" + showVerticblLinesString;
     }
 
-    // This class tracks changes in the keyboard focus state. It is used
-    // when the JTable is editing to determine when to cancel the edit.
-    // If focus switches to a component outside of the jtable, but in the
-    // same window, this will cancel editing.
-    class CellEditorRemover implements PropertyChangeListener {
-        KeyboardFocusManager focusManager;
+    // This clbss trbcks chbnges in the keybobrd focus stbte. It is used
+    // when the JTbble is editing to determine when to cbncel the edit.
+    // If focus switches to b component outside of the jtbble, but in the
+    // sbme window, this will cbncel editing.
+    clbss CellEditorRemover implements PropertyChbngeListener {
+        KeybobrdFocusMbnbger focusMbnbger;
 
-        public CellEditorRemover(KeyboardFocusManager fm) {
-            this.focusManager = fm;
+        public CellEditorRemover(KeybobrdFocusMbnbger fm) {
+            this.focusMbnbger = fm;
         }
 
-        public void propertyChange(PropertyChangeEvent ev) {
-            if (!isEditing() || getClientProperty("terminateEditOnFocusLost") != Boolean.TRUE) {
+        public void propertyChbnge(PropertyChbngeEvent ev) {
+            if (!isEditing() || getClientProperty("terminbteEditOnFocusLost") != Boolebn.TRUE) {
                 return;
             }
 
-            Component c = focusManager.getPermanentFocusOwner();
+            Component c = focusMbnbger.getPermbnentFocusOwner();
             while (c != null) {
-                if (c == JTable.this) {
-                    // focus remains inside the table
+                if (c == JTbble.this) {
+                    // focus rembins inside the tbble
                     return;
-                } else if ((c instanceof Window) ||
-                           (c instanceof Applet && c.getParent() == null)) {
-                    if (c == SwingUtilities.getRoot(JTable.this)) {
+                } else if ((c instbnceof Window) ||
+                           (c instbnceof Applet && c.getPbrent() == null)) {
+                    if (c == SwingUtilities.getRoot(JTbble.this)) {
                         if (!getCellEditor().stopCellEditing()) {
-                            getCellEditor().cancelCellEditing();
+                            getCellEditor().cbncelCellEditing();
                         }
                     }
-                    break;
+                    brebk;
                 }
-                c = c.getParent();
+                c = c.getPbrent();
             }
         }
     }
@@ -5993,352 +5993,352 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 /////////////////
 
     /**
-     * A convenience method that displays a printing dialog, and then prints
-     * this <code>JTable</code> in mode <code>PrintMode.FIT_WIDTH</code>,
-     * with no header or footer text. A modal progress dialog, with an abort
-     * option, will be shown for the duration of printing.
+     * A convenience method thbt displbys b printing diblog, bnd then prints
+     * this <code>JTbble</code> in mode <code>PrintMode.FIT_WIDTH</code>,
+     * with no hebder or footer text. A modbl progress diblog, with bn bbort
+     * option, will be shown for the durbtion of printing.
      * <p>
-     * Note: In headless mode, no dialogs are shown and printing
-     * occurs on the default printer.
+     * Note: In hebdless mode, no diblogs bre shown bnd printing
+     * occurs on the defbult printer.
      *
-     * @return true, unless printing is cancelled by the user
-     * @throws SecurityException if this thread is not allowed to
-     *                           initiate a print job request
-     * @throws PrinterException if an error in the print system causes the job
-     *                          to be aborted
-     * @see #print(JTable.PrintMode, MessageFormat, MessageFormat,
-     *             boolean, PrintRequestAttributeSet, boolean, PrintService)
-     * @see #getPrintable
+     * @return true, unless printing is cbncelled by the user
+     * @throws SecurityException if this threbd is not bllowed to
+     *                           initibte b print job request
+     * @throws PrinterException if bn error in the print system cbuses the job
+     *                          to be bborted
+     * @see #print(JTbble.PrintMode, MessbgeFormbt, MessbgeFormbt,
+     *             boolebn, PrintRequestAttributeSet, boolebn, PrintService)
+     * @see #getPrintbble
      *
      * @since 1.5
      */
-    public boolean print() throws PrinterException {
+    public boolebn print() throws PrinterException {
 
         return print(PrintMode.FIT_WIDTH);
     }
 
     /**
-     * A convenience method that displays a printing dialog, and then prints
-     * this <code>JTable</code> in the given printing mode,
-     * with no header or footer text. A modal progress dialog, with an abort
-     * option, will be shown for the duration of printing.
+     * A convenience method thbt displbys b printing diblog, bnd then prints
+     * this <code>JTbble</code> in the given printing mode,
+     * with no hebder or footer text. A modbl progress diblog, with bn bbort
+     * option, will be shown for the durbtion of printing.
      * <p>
-     * Note: In headless mode, no dialogs are shown and printing
-     * occurs on the default printer.
+     * Note: In hebdless mode, no diblogs bre shown bnd printing
+     * occurs on the defbult printer.
      *
-     * @param  printMode        the printing mode that the printable should use
-     * @return true, unless printing is cancelled by the user
-     * @throws SecurityException if this thread is not allowed to
-     *                           initiate a print job request
-     * @throws PrinterException if an error in the print system causes the job
-     *                          to be aborted
-     * @see #print(JTable.PrintMode, MessageFormat, MessageFormat,
-     *             boolean, PrintRequestAttributeSet, boolean, PrintService)
-     * @see #getPrintable
+     * @pbrbm  printMode        the printing mode thbt the printbble should use
+     * @return true, unless printing is cbncelled by the user
+     * @throws SecurityException if this threbd is not bllowed to
+     *                           initibte b print job request
+     * @throws PrinterException if bn error in the print system cbuses the job
+     *                          to be bborted
+     * @see #print(JTbble.PrintMode, MessbgeFormbt, MessbgeFormbt,
+     *             boolebn, PrintRequestAttributeSet, boolebn, PrintService)
+     * @see #getPrintbble
      *
      * @since 1.5
      */
-    public boolean print(PrintMode printMode) throws PrinterException {
+    public boolebn print(PrintMode printMode) throws PrinterException {
 
         return print(printMode, null, null);
     }
 
     /**
-     * A convenience method that displays a printing dialog, and then prints
-     * this <code>JTable</code> in the given printing mode,
-     * with the specified header and footer text. A modal progress dialog,
-     * with an abort option, will be shown for the duration of printing.
+     * A convenience method thbt displbys b printing diblog, bnd then prints
+     * this <code>JTbble</code> in the given printing mode,
+     * with the specified hebder bnd footer text. A modbl progress diblog,
+     * with bn bbort option, will be shown for the durbtion of printing.
      * <p>
-     * Note: In headless mode, no dialogs are shown and printing
-     * occurs on the default printer.
+     * Note: In hebdless mode, no diblogs bre shown bnd printing
+     * occurs on the defbult printer.
      *
-     * @param  printMode        the printing mode that the printable should use
-     * @param  headerFormat     a <code>MessageFormat</code> specifying the text
-     *                          to be used in printing a header,
+     * @pbrbm  printMode        the printing mode thbt the printbble should use
+     * @pbrbm  hebderFormbt     b <code>MessbgeFormbt</code> specifying the text
+     *                          to be used in printing b hebder,
      *                          or null for none
-     * @param  footerFormat     a <code>MessageFormat</code> specifying the text
-     *                          to be used in printing a footer,
+     * @pbrbm  footerFormbt     b <code>MessbgeFormbt</code> specifying the text
+     *                          to be used in printing b footer,
      *                          or null for none
-     * @return true, unless printing is cancelled by the user
-     * @throws SecurityException if this thread is not allowed to
-     *                           initiate a print job request
-     * @throws PrinterException if an error in the print system causes the job
-     *                          to be aborted
-     * @see #print(JTable.PrintMode, MessageFormat, MessageFormat,
-     *             boolean, PrintRequestAttributeSet, boolean, PrintService)
-     * @see #getPrintable
+     * @return true, unless printing is cbncelled by the user
+     * @throws SecurityException if this threbd is not bllowed to
+     *                           initibte b print job request
+     * @throws PrinterException if bn error in the print system cbuses the job
+     *                          to be bborted
+     * @see #print(JTbble.PrintMode, MessbgeFormbt, MessbgeFormbt,
+     *             boolebn, PrintRequestAttributeSet, boolebn, PrintService)
+     * @see #getPrintbble
      *
      * @since 1.5
      */
-    public boolean print(PrintMode printMode,
-                         MessageFormat headerFormat,
-                         MessageFormat footerFormat) throws PrinterException {
+    public boolebn print(PrintMode printMode,
+                         MessbgeFormbt hebderFormbt,
+                         MessbgeFormbt footerFormbt) throws PrinterException {
 
-        boolean showDialogs = !GraphicsEnvironment.isHeadless();
-        return print(printMode, headerFormat, footerFormat,
-                     showDialogs, null, showDialogs);
+        boolebn showDiblogs = !GrbphicsEnvironment.isHebdless();
+        return print(printMode, hebderFormbt, footerFormbt,
+                     showDiblogs, null, showDiblogs);
     }
 
     /**
-     * Prints this table, as specified by the fully featured
-     * {@link #print(JTable.PrintMode, MessageFormat, MessageFormat,
-     * boolean, PrintRequestAttributeSet, boolean, PrintService) print}
-     * method, with the default printer specified as the print service.
+     * Prints this tbble, bs specified by the fully febtured
+     * {@link #print(JTbble.PrintMode, MessbgeFormbt, MessbgeFormbt,
+     * boolebn, PrintRequestAttributeSet, boolebn, PrintService) print}
+     * method, with the defbult printer specified bs the print service.
      *
-     * @param  printMode        the printing mode that the printable should use
-     * @param  headerFormat     a <code>MessageFormat</code> specifying the text
-     *                          to be used in printing a header,
+     * @pbrbm  printMode        the printing mode thbt the printbble should use
+     * @pbrbm  hebderFormbt     b <code>MessbgeFormbt</code> specifying the text
+     *                          to be used in printing b hebder,
      *                          or <code>null</code> for none
-     * @param  footerFormat     a <code>MessageFormat</code> specifying the text
-     *                          to be used in printing a footer,
+     * @pbrbm  footerFormbt     b <code>MessbgeFormbt</code> specifying the text
+     *                          to be used in printing b footer,
      *                          or <code>null</code> for none
-     * @param  showPrintDialog  whether or not to display a print dialog
-     * @param  attr             a <code>PrintRequestAttributeSet</code>
-     *                          specifying any printing attributes,
+     * @pbrbm  showPrintDiblog  whether or not to displby b print diblog
+     * @pbrbm  bttr             b <code>PrintRequestAttributeSet</code>
+     *                          specifying bny printing bttributes,
      *                          or <code>null</code> for none
-     * @param  interactive      whether or not to print in an interactive mode
-     * @return true, unless printing is cancelled by the user
-     * @throws HeadlessException if the method is asked to show a printing
-     *                           dialog or run interactively, and
-     *                           <code>GraphicsEnvironment.isHeadless</code>
+     * @pbrbm  interbctive      whether or not to print in bn interbctive mode
+     * @return true, unless printing is cbncelled by the user
+     * @throws HebdlessException if the method is bsked to show b printing
+     *                           diblog or run interbctively, bnd
+     *                           <code>GrbphicsEnvironment.isHebdless</code>
      *                           returns <code>true</code>
-     * @throws SecurityException if this thread is not allowed to
-     *                           initiate a print job request
-     * @throws PrinterException if an error in the print system causes the job
-     *                          to be aborted
-     * @see #print(JTable.PrintMode, MessageFormat, MessageFormat,
-     *             boolean, PrintRequestAttributeSet, boolean, PrintService)
-     * @see #getPrintable
+     * @throws SecurityException if this threbd is not bllowed to
+     *                           initibte b print job request
+     * @throws PrinterException if bn error in the print system cbuses the job
+     *                          to be bborted
+     * @see #print(JTbble.PrintMode, MessbgeFormbt, MessbgeFormbt,
+     *             boolebn, PrintRequestAttributeSet, boolebn, PrintService)
+     * @see #getPrintbble
      *
      * @since 1.5
      */
-    public boolean print(PrintMode printMode,
-                         MessageFormat headerFormat,
-                         MessageFormat footerFormat,
-                         boolean showPrintDialog,
-                         PrintRequestAttributeSet attr,
-                         boolean interactive) throws PrinterException,
-                                                     HeadlessException {
+    public boolebn print(PrintMode printMode,
+                         MessbgeFormbt hebderFormbt,
+                         MessbgeFormbt footerFormbt,
+                         boolebn showPrintDiblog,
+                         PrintRequestAttributeSet bttr,
+                         boolebn interbctive) throws PrinterException,
+                                                     HebdlessException {
 
         return print(printMode,
-                     headerFormat,
-                     footerFormat,
-                     showPrintDialog,
-                     attr,
-                     interactive,
+                     hebderFormbt,
+                     footerFormbt,
+                     showPrintDiblog,
+                     bttr,
+                     interbctive,
                      null);
     }
 
     /**
-     * Prints this <code>JTable</code>. Takes steps that the majority of
-     * developers would take in order to print a <code>JTable</code>.
-     * In short, it prepares the table, calls <code>getPrintable</code> to
-     * fetch an appropriate <code>Printable</code>, and then sends it to the
+     * Prints this <code>JTbble</code>. Tbkes steps thbt the mbjority of
+     * developers would tbke in order to print b <code>JTbble</code>.
+     * In short, it prepbres the tbble, cblls <code>getPrintbble</code> to
+     * fetch bn bppropribte <code>Printbble</code>, bnd then sends it to the
      * printer.
      * <p>
-     * A <code>boolean</code> parameter allows you to specify whether or not
-     * a printing dialog is displayed to the user. When it is, the user may
-     * use the dialog to change the destination printer or printing attributes,
-     * or even to cancel the print. Another two parameters allow for a
-     * <code>PrintService</code> and printing attributes to be specified.
-     * These parameters can be used either to provide initial values for the
-     * print dialog, or to specify values when the dialog is not shown.
+     * A <code>boolebn</code> pbrbmeter bllows you to specify whether or not
+     * b printing diblog is displbyed to the user. When it is, the user mby
+     * use the diblog to chbnge the destinbtion printer or printing bttributes,
+     * or even to cbncel the print. Another two pbrbmeters bllow for b
+     * <code>PrintService</code> bnd printing bttributes to be specified.
+     * These pbrbmeters cbn be used either to provide initibl vblues for the
+     * print diblog, or to specify vblues when the diblog is not shown.
      * <p>
-     * A second <code>boolean</code> parameter allows you to specify whether
-     * or not to perform printing in an interactive mode. If <code>true</code>,
-     * a modal progress dialog, with an abort option, is displayed for the
-     * duration of printing . This dialog also prevents any user action which
-     * may affect the table. However, it can not prevent the table from being
-     * modified by code (for example, another thread that posts updates using
-     * <code>SwingUtilities.invokeLater</code>). It is therefore the
-     * responsibility of the developer to ensure that no other code modifies
-     * the table in any way during printing (invalid modifications include
-     * changes in: size, renderers, or underlying data). Printing behavior is
-     * undefined when the table is changed during printing.
+     * A second <code>boolebn</code> pbrbmeter bllows you to specify whether
+     * or not to perform printing in bn interbctive mode. If <code>true</code>,
+     * b modbl progress diblog, with bn bbort option, is displbyed for the
+     * durbtion of printing . This diblog blso prevents bny user bction which
+     * mby bffect the tbble. However, it cbn not prevent the tbble from being
+     * modified by code (for exbmple, bnother threbd thbt posts updbtes using
+     * <code>SwingUtilities.invokeLbter</code>). It is therefore the
+     * responsibility of the developer to ensure thbt no other code modifies
+     * the tbble in bny wby during printing (invblid modificbtions include
+     * chbnges in: size, renderers, or underlying dbtb). Printing behbvior is
+     * undefined when the tbble is chbnged during printing.
      * <p>
-     * If <code>false</code> is specified for this parameter, no dialog will
-     * be displayed and printing will begin immediately on the event-dispatch
-     * thread. This blocks any other events, including repaints, from being
+     * If <code>fblse</code> is specified for this pbrbmeter, no diblog will
+     * be displbyed bnd printing will begin immedibtely on the event-dispbtch
+     * threbd. This blocks bny other events, including repbints, from being
      * processed until printing is complete. Although this effectively prevents
-     * the table from being changed, it doesn't provide a good user experience.
-     * For this reason, specifying <code>false</code> is only recommended when
-     * printing from an application with no visible GUI.
+     * the tbble from being chbnged, it doesn't provide b good user experience.
+     * For this rebson, specifying <code>fblse</code> is only recommended when
+     * printing from bn bpplicbtion with no visible GUI.
      * <p>
-     * Note: Attempting to show the printing dialog or run interactively, while
-     * in headless mode, will result in a <code>HeadlessException</code>.
+     * Note: Attempting to show the printing diblog or run interbctively, while
+     * in hebdless mode, will result in b <code>HebdlessException</code>.
      * <p>
-     * Before fetching the printable, this method will gracefully terminate
-     * editing, if necessary, to prevent an editor from showing in the printed
-     * result. Additionally, <code>JTable</code> will prepare its renderers
-     * during printing such that selection and focus are not indicated.
-     * As far as customizing further how the table looks in the printout,
-     * developers can provide custom renderers or paint code that conditionalize
-     * on the value of {@link javax.swing.JComponent#isPaintingForPrint()}.
+     * Before fetching the printbble, this method will grbcefully terminbte
+     * editing, if necessbry, to prevent bn editor from showing in the printed
+     * result. Additionblly, <code>JTbble</code> will prepbre its renderers
+     * during printing such thbt selection bnd focus bre not indicbted.
+     * As fbr bs customizing further how the tbble looks in the printout,
+     * developers cbn provide custom renderers or pbint code thbt conditionblize
+     * on the vblue of {@link jbvbx.swing.JComponent#isPbintingForPrint()}.
      * <p>
-     * See {@link #getPrintable} for more description on how the table is
+     * See {@link #getPrintbble} for more description on how the tbble is
      * printed.
      *
-     * @param  printMode        the printing mode that the printable should use
-     * @param  headerFormat     a <code>MessageFormat</code> specifying the text
-     *                          to be used in printing a header,
+     * @pbrbm  printMode        the printing mode thbt the printbble should use
+     * @pbrbm  hebderFormbt     b <code>MessbgeFormbt</code> specifying the text
+     *                          to be used in printing b hebder,
      *                          or <code>null</code> for none
-     * @param  footerFormat     a <code>MessageFormat</code> specifying the text
-     *                          to be used in printing a footer,
+     * @pbrbm  footerFormbt     b <code>MessbgeFormbt</code> specifying the text
+     *                          to be used in printing b footer,
      *                          or <code>null</code> for none
-     * @param  showPrintDialog  whether or not to display a print dialog
-     * @param  attr             a <code>PrintRequestAttributeSet</code>
-     *                          specifying any printing attributes,
+     * @pbrbm  showPrintDiblog  whether or not to displby b print diblog
+     * @pbrbm  bttr             b <code>PrintRequestAttributeSet</code>
+     *                          specifying bny printing bttributes,
      *                          or <code>null</code> for none
-     * @param  interactive      whether or not to print in an interactive mode
-     * @param  service          the destination <code>PrintService</code>,
-     *                          or <code>null</code> to use the default printer
-     * @return true, unless printing is cancelled by the user
-     * @throws HeadlessException if the method is asked to show a printing
-     *                           dialog or run interactively, and
-     *                           <code>GraphicsEnvironment.isHeadless</code>
+     * @pbrbm  interbctive      whether or not to print in bn interbctive mode
+     * @pbrbm  service          the destinbtion <code>PrintService</code>,
+     *                          or <code>null</code> to use the defbult printer
+     * @return true, unless printing is cbncelled by the user
+     * @throws HebdlessException if the method is bsked to show b printing
+     *                           diblog or run interbctively, bnd
+     *                           <code>GrbphicsEnvironment.isHebdless</code>
      *                           returns <code>true</code>
-     * @throws  SecurityException if a security manager exists and its
-     *          {@link java.lang.SecurityManager#checkPrintJobAccess}
-     *          method disallows this thread from creating a print job request
-     * @throws PrinterException if an error in the print system causes the job
-     *                          to be aborted
-     * @see #getPrintable
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @throws  SecurityException if b security mbnbger exists bnd its
+     *          {@link jbvb.lbng.SecurityMbnbger#checkPrintJobAccess}
+     *          method disbllows this threbd from crebting b print job request
+     * @throws PrinterException if bn error in the print system cbuses the job
+     *                          to be bborted
+     * @see #getPrintbble
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      *
      * @since 1.6
      */
-    public boolean print(PrintMode printMode,
-                         MessageFormat headerFormat,
-                         MessageFormat footerFormat,
-                         boolean showPrintDialog,
-                         PrintRequestAttributeSet attr,
-                         boolean interactive,
+    public boolebn print(PrintMode printMode,
+                         MessbgeFormbt hebderFormbt,
+                         MessbgeFormbt footerFormbt,
+                         boolebn showPrintDiblog,
+                         PrintRequestAttributeSet bttr,
+                         boolebn interbctive,
                          PrintService service) throws PrinterException,
-                                                      HeadlessException {
+                                                      HebdlessException {
 
-        // complain early if an invalid parameter is specified for headless mode
-        boolean isHeadless = GraphicsEnvironment.isHeadless();
-        if (isHeadless) {
-            if (showPrintDialog) {
-                throw new HeadlessException("Can't show print dialog.");
+        // complbin ebrly if bn invblid pbrbmeter is specified for hebdless mode
+        boolebn isHebdless = GrbphicsEnvironment.isHebdless();
+        if (isHebdless) {
+            if (showPrintDiblog) {
+                throw new HebdlessException("Cbn't show print diblog.");
             }
 
-            if (interactive) {
-                throw new HeadlessException("Can't run interactively.");
+            if (interbctive) {
+                throw new HebdlessException("Cbn't run interbctively.");
             }
         }
 
-        // Get a PrinterJob.
-        // Do this before anything with side-effects since it may throw a
-        // security exception - in which case we don't want to do anything else.
-        final PrinterJob job = PrinterJob.getPrinterJob();
+        // Get b PrinterJob.
+        // Do this before bnything with side-effects since it mby throw b
+        // security exception - in which cbse we don't wbnt to do bnything else.
+        finbl PrinterJob job = PrinterJob.getPrinterJob();
 
         if (isEditing()) {
-            // try to stop cell editing, and failing that, cancel it
+            // try to stop cell editing, bnd fbiling thbt, cbncel it
             if (!getCellEditor().stopCellEditing()) {
-                getCellEditor().cancelCellEditing();
+                getCellEditor().cbncelCellEditing();
             }
         }
 
-        if (attr == null) {
-            attr = new HashPrintRequestAttributeSet();
+        if (bttr == null) {
+            bttr = new HbshPrintRequestAttributeSet();
         }
 
-        final PrintingStatus printingStatus;
+        finbl PrintingStbtus printingStbtus;
 
-         // fetch the Printable
-        Printable printable =
-             getPrintable(printMode, headerFormat, footerFormat);
+         // fetch the Printbble
+        Printbble printbble =
+             getPrintbble(printMode, hebderFormbt, footerFormbt);
 
-        if (interactive) {
-            // wrap the Printable so that we can print on another thread
-            printable = new ThreadSafePrintable(printable);
-            printingStatus = PrintingStatus.createPrintingStatus(this, job);
-            printable = printingStatus.createNotificationPrintable(printable);
+        if (interbctive) {
+            // wrbp the Printbble so thbt we cbn print on bnother threbd
+            printbble = new ThrebdSbfePrintbble(printbble);
+            printingStbtus = PrintingStbtus.crebtePrintingStbtus(this, job);
+            printbble = printingStbtus.crebteNotificbtionPrintbble(printbble);
         } else {
-            // to please compiler
-            printingStatus = null;
+            // to plebse compiler
+            printingStbtus = null;
         }
 
-        // set the printable on the PrinterJob
-        job.setPrintable(printable);
+        // set the printbble on the PrinterJob
+        job.setPrintbble(printbble);
 
         // if specified, set the PrintService on the PrinterJob
         if (service != null) {
             job.setPrintService(service);
         }
 
-        // if requested, show the print dialog
-        if (showPrintDialog && !job.printDialog(attr)) {
-            // the user cancelled the print dialog
-            return false;
+        // if requested, show the print diblog
+        if (showPrintDiblog && !job.printDiblog(bttr)) {
+            // the user cbncelled the print diblog
+            return fblse;
         }
 
-        // if not interactive, just print on this thread (no dialog)
-        if (!interactive) {
+        // if not interbctive, just print on this threbd (no diblog)
+        if (!interbctive) {
             // do the printing
-            job.print(attr);
+            job.print(bttr);
 
             // we're done
             return true;
         }
 
-        // make sure this is clear since we'll check it after
+        // mbke sure this is clebr since we'll check it bfter
         printError = null;
 
         // to synchronize on
-        final Object lock = new Object();
+        finbl Object lock = new Object();
 
-        // copied so we can access from the inner class
-        final PrintRequestAttributeSet copyAttr = attr;
+        // copied so we cbn bccess from the inner clbss
+        finbl PrintRequestAttributeSet copyAttr = bttr;
 
-        // this runnable will be used to do the printing
-        // (and save any throwables) on another thread
-        Runnable runnable = new Runnable() {
+        // this runnbble will be used to do the printing
+        // (bnd sbve bny throwbbles) on bnother threbd
+        Runnbble runnbble = new Runnbble() {
             public void run() {
                 try {
                     // do the printing
                     job.print(copyAttr);
-                } catch (Throwable t) {
-                    // save any Throwable to be rethrown
+                } cbtch (Throwbble t) {
+                    // sbve bny Throwbble to be rethrown
                     synchronized(lock) {
                         printError = t;
                     }
-                } finally {
-                    // we're finished - hide the dialog
-                    printingStatus.dispose();
+                } finblly {
+                    // we're finished - hide the diblog
+                    printingStbtus.dispose();
                 }
             }
         };
 
-        // start printing on another thread
-        Thread th = new Thread(runnable);
-        th.start();
+        // stbrt printing on bnother threbd
+        Threbd th = new Threbd(runnbble);
+        th.stbrt();
 
-        printingStatus.showModal(true);
+        printingStbtus.showModbl(true);
 
-        // look for any error that the printing may have generated
-        Throwable pe;
+        // look for bny error thbt the printing mby hbve generbted
+        Throwbble pe;
         synchronized(lock) {
             pe = printError;
             printError = null;
         }
 
-        // check the type of error and handle it
+        // check the type of error bnd hbndle it
         if (pe != null) {
-            // a subclass of PrinterException meaning the job was aborted,
-            // in this case, by the user
-            if (pe instanceof PrinterAbortException) {
-                return false;
-            } else if (pe instanceof PrinterException) {
+            // b subclbss of PrinterException mebning the job wbs bborted,
+            // in this cbse, by the user
+            if (pe instbnceof PrinterAbortException) {
+                return fblse;
+            } else if (pe instbnceof PrinterException) {
                 throw (PrinterException)pe;
-            } else if (pe instanceof RuntimeException) {
+            } else if (pe instbnceof RuntimeException) {
                 throw (RuntimeException)pe;
-            } else if (pe instanceof Error) {
+            } else if (pe instbnceof Error) {
                 throw (Error)pe;
             }
 
-            // can not happen
+            // cbn not hbppen
             throw new AssertionError(pe);
         }
 
@@ -6346,209 +6346,209 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     }
 
     /**
-     * Return a <code>Printable</code> for use in printing this JTable.
+     * Return b <code>Printbble</code> for use in printing this JTbble.
      * <p>
-     * This method is meant for those wishing to customize the default
-     * <code>Printable</code> implementation used by <code>JTable</code>'s
-     * <code>print</code> methods. Developers wanting simply to print the table
+     * This method is mebnt for those wishing to customize the defbult
+     * <code>Printbble</code> implementbtion used by <code>JTbble</code>'s
+     * <code>print</code> methods. Developers wbnting simply to print the tbble
      * should use one of those methods directly.
      * <p>
-     * The <code>Printable</code> can be requested in one of two printing modes.
-     * In both modes, it spreads table rows naturally in sequence across
-     * multiple pages, fitting as many rows as possible per page.
-     * <code>PrintMode.NORMAL</code> specifies that the table be
-     * printed at its current size. In this mode, there may be a need to spread
-     * columns across pages in a similar manner to that of the rows. When the
-     * need arises, columns are distributed in an order consistent with the
-     * table's <code>ComponentOrientation</code>.
-     * <code>PrintMode.FIT_WIDTH</code> specifies that the output be
-     * scaled smaller, if necessary, to fit the table's entire width
-     * (and thereby all columns) on each page. Width and height are scaled
-     * equally, maintaining the aspect ratio of the output.
+     * The <code>Printbble</code> cbn be requested in one of two printing modes.
+     * In both modes, it sprebds tbble rows nbturblly in sequence bcross
+     * multiple pbges, fitting bs mbny rows bs possible per pbge.
+     * <code>PrintMode.NORMAL</code> specifies thbt the tbble be
+     * printed bt its current size. In this mode, there mby be b need to sprebd
+     * columns bcross pbges in b similbr mbnner to thbt of the rows. When the
+     * need brises, columns bre distributed in bn order consistent with the
+     * tbble's <code>ComponentOrientbtion</code>.
+     * <code>PrintMode.FIT_WIDTH</code> specifies thbt the output be
+     * scbled smbller, if necessbry, to fit the tbble's entire width
+     * (bnd thereby bll columns) on ebch pbge. Width bnd height bre scbled
+     * equblly, mbintbining the bspect rbtio of the output.
      * <p>
-     * The <code>Printable</code> heads the portion of table on each page
-     * with the appropriate section from the table's <code>JTableHeader</code>,
-     * if it has one.
+     * The <code>Printbble</code> hebds the portion of tbble on ebch pbge
+     * with the bppropribte section from the tbble's <code>JTbbleHebder</code>,
+     * if it hbs one.
      * <p>
-     * Header and footer text can be added to the output by providing
-     * <code>MessageFormat</code> arguments. The printing code requests
-     * Strings from the formats, providing a single item which may be included
-     * in the formatted string: an <code>Integer</code> representing the current
-     * page number.
+     * Hebder bnd footer text cbn be bdded to the output by providing
+     * <code>MessbgeFormbt</code> brguments. The printing code requests
+     * Strings from the formbts, providing b single item which mby be included
+     * in the formbtted string: bn <code>Integer</code> representing the current
+     * pbge number.
      * <p>
-     * You are encouraged to read the documentation for
-     * <code>MessageFormat</code> as some characters, such as single-quote,
-     * are special and need to be escaped.
+     * You bre encourbged to rebd the documentbtion for
+     * <code>MessbgeFormbt</code> bs some chbrbcters, such bs single-quote,
+     * bre specibl bnd need to be escbped.
      * <p>
-     * Here's an example of creating a <code>MessageFormat</code> that can be
-     * used to print "Duke's Table: Page - " and the current page number:
+     * Here's bn exbmple of crebting b <code>MessbgeFormbt</code> thbt cbn be
+     * used to print "Duke's Tbble: Pbge - " bnd the current pbge number:
      *
      * <pre>
-     *     // notice the escaping of the single quote
-     *     // notice how the page number is included with "{0}"
-     *     MessageFormat format = new MessageFormat("Duke''s Table: Page - {0}");
+     *     // notice the escbping of the single quote
+     *     // notice how the pbge number is included with "{0}"
+     *     MessbgeFormbt formbt = new MessbgeFormbt("Duke''s Tbble: Pbge - {0}");
      * </pre>
      * <p>
-     * The <code>Printable</code> constrains what it draws to the printable
-     * area of each page that it prints. Under certain circumstances, it may
-     * find it impossible to fit all of a page's content into that area. In
-     * these cases the output may be clipped, but the implementation
-     * makes an effort to do something reasonable. Here are a few situations
-     * where this is known to occur, and how they may be handled by this
-     * particular implementation:
+     * The <code>Printbble</code> constrbins whbt it drbws to the printbble
+     * breb of ebch pbge thbt it prints. Under certbin circumstbnces, it mby
+     * find it impossible to fit bll of b pbge's content into thbt breb. In
+     * these cbses the output mby be clipped, but the implementbtion
+     * mbkes bn effort to do something rebsonbble. Here bre b few situbtions
+     * where this is known to occur, bnd how they mby be hbndled by this
+     * pbrticulbr implementbtion:
      * <ul>
-     *   <li>In any mode, when the header or footer text is too wide to fit
-     *       completely in the printable area -- print as much of the text as
-     *       possible starting from the beginning, as determined by the table's
-     *       <code>ComponentOrientation</code>.
-     *   <li>In any mode, when a row is too tall to fit in the
-     *       printable area -- print the upper-most portion of the row
-     *       and paint no lower border on the table.
-     *   <li>In <code>PrintMode.NORMAL</code> when a column
-     *       is too wide to fit in the printable area -- print the center
-     *       portion of the column and leave the left and right borders
-     *       off the table.
+     *   <li>In bny mode, when the hebder or footer text is too wide to fit
+     *       completely in the printbble breb -- print bs much of the text bs
+     *       possible stbrting from the beginning, bs determined by the tbble's
+     *       <code>ComponentOrientbtion</code>.
+     *   <li>In bny mode, when b row is too tbll to fit in the
+     *       printbble breb -- print the upper-most portion of the row
+     *       bnd pbint no lower border on the tbble.
+     *   <li>In <code>PrintMode.NORMAL</code> when b column
+     *       is too wide to fit in the printbble breb -- print the center
+     *       portion of the column bnd lebve the left bnd right borders
+     *       off the tbble.
      * </ul>
      * <p>
-     * It is entirely valid for this <code>Printable</code> to be wrapped
-     * inside another in order to create complex reports and documents. You may
-     * even request that different pages be rendered into different sized
-     * printable areas. The implementation must be prepared to handle this
-     * (possibly by doing its layout calculations on the fly). However,
-     * providing different heights to each page will likely not work well
-     * with <code>PrintMode.NORMAL</code> when it has to spread columns
-     * across pages.
+     * It is entirely vblid for this <code>Printbble</code> to be wrbpped
+     * inside bnother in order to crebte complex reports bnd documents. You mby
+     * even request thbt different pbges be rendered into different sized
+     * printbble brebs. The implementbtion must be prepbred to hbndle this
+     * (possibly by doing its lbyout cblculbtions on the fly). However,
+     * providing different heights to ebch pbge will likely not work well
+     * with <code>PrintMode.NORMAL</code> when it hbs to sprebd columns
+     * bcross pbges.
      * <p>
-     * As far as customizing how the table looks in the printed result,
-     * <code>JTable</code> itself will take care of hiding the selection
-     * and focus during printing. For additional customizations, your
-     * renderers or painting code can customize the look based on the value
-     * of {@link javax.swing.JComponent#isPaintingForPrint()}
+     * As fbr bs customizing how the tbble looks in the printed result,
+     * <code>JTbble</code> itself will tbke cbre of hiding the selection
+     * bnd focus during printing. For bdditionbl customizbtions, your
+     * renderers or pbinting code cbn customize the look bbsed on the vblue
+     * of {@link jbvbx.swing.JComponent#isPbintingForPrint()}
      * <p>
-     * Also, <i>before</i> calling this method you may wish to <i>first</i>
-     * modify the state of the table, such as to cancel cell editing or
-     * have the user size the table appropriately. However, you must not
-     * modify the state of the table <i>after</i> this <code>Printable</code>
-     * has been fetched (invalid modifications include changes in size or
-     * underlying data). The behavior of the returned <code>Printable</code>
-     * is undefined once the table has been changed.
+     * Also, <i>before</i> cblling this method you mby wish to <i>first</i>
+     * modify the stbte of the tbble, such bs to cbncel cell editing or
+     * hbve the user size the tbble bppropribtely. However, you must not
+     * modify the stbte of the tbble <i>bfter</i> this <code>Printbble</code>
+     * hbs been fetched (invblid modificbtions include chbnges in size or
+     * underlying dbtb). The behbvior of the returned <code>Printbble</code>
+     * is undefined once the tbble hbs been chbnged.
      *
-     * @param  printMode     the printing mode that the printable should use
-     * @param  headerFormat  a <code>MessageFormat</code> specifying the text to
-     *                       be used in printing a header, or null for none
-     * @param  footerFormat  a <code>MessageFormat</code> specifying the text to
-     *                       be used in printing a footer, or null for none
-     * @return a <code>Printable</code> for printing this JTable
-     * @see #print(JTable.PrintMode, MessageFormat, MessageFormat,
-     *             boolean, PrintRequestAttributeSet, boolean)
-     * @see Printable
+     * @pbrbm  printMode     the printing mode thbt the printbble should use
+     * @pbrbm  hebderFormbt  b <code>MessbgeFormbt</code> specifying the text to
+     *                       be used in printing b hebder, or null for none
+     * @pbrbm  footerFormbt  b <code>MessbgeFormbt</code> specifying the text to
+     *                       be used in printing b footer, or null for none
+     * @return b <code>Printbble</code> for printing this JTbble
+     * @see #print(JTbble.PrintMode, MessbgeFormbt, MessbgeFormbt,
+     *             boolebn, PrintRequestAttributeSet, boolebn)
+     * @see Printbble
      * @see PrinterJob
      *
      * @since 1.5
      */
-    public Printable getPrintable(PrintMode printMode,
-                                  MessageFormat headerFormat,
-                                  MessageFormat footerFormat) {
+    public Printbble getPrintbble(PrintMode printMode,
+                                  MessbgeFormbt hebderFormbt,
+                                  MessbgeFormbt footerFormbt) {
 
-        return new TablePrintable(this, printMode, headerFormat, footerFormat);
+        return new TbblePrintbble(this, printMode, hebderFormbt, footerFormbt);
     }
 
 
     /**
-     * A <code>Printable</code> implementation that wraps another
-     * <code>Printable</code>, making it safe for printing on another thread.
+     * A <code>Printbble</code> implementbtion thbt wrbps bnother
+     * <code>Printbble</code>, mbking it sbfe for printing on bnother threbd.
      */
-    private class ThreadSafePrintable implements Printable {
+    privbte clbss ThrebdSbfePrintbble implements Printbble {
 
-        /** The delegate <code>Printable</code>. */
-        private Printable printDelegate;
+        /** The delegbte <code>Printbble</code>. */
+        privbte Printbble printDelegbte;
 
         /**
-         * To communicate any return value when delegating.
+         * To communicbte bny return vblue when delegbting.
          */
-        private int retVal;
+        privbte int retVbl;
 
         /**
-         * To communicate any <code>Throwable</code> when delegating.
+         * To communicbte bny <code>Throwbble</code> when delegbting.
          */
-        private Throwable retThrowable;
+        privbte Throwbble retThrowbble;
 
         /**
-         * Construct a <code>ThreadSafePrintable</code> around the given
-         * delegate.
+         * Construct b <code>ThrebdSbfePrintbble</code> bround the given
+         * delegbte.
          *
-         * @param printDelegate the <code>Printable</code> to delegate to
+         * @pbrbm printDelegbte the <code>Printbble</code> to delegbte to
          */
-        public ThreadSafePrintable(Printable printDelegate) {
-            this.printDelegate = printDelegate;
+        public ThrebdSbfePrintbble(Printbble printDelegbte) {
+            this.printDelegbte = printDelegbte;
         }
 
         /**
-         * Prints the specified page into the given {@link Graphics}
-         * context, in the specified format.
+         * Prints the specified pbge into the given {@link Grbphics}
+         * context, in the specified formbt.
          * <p>
-         * Regardless of what thread this method is called on, all calls into
-         * the delegate will be done on the event-dispatch thread.
+         * Regbrdless of whbt threbd this method is cblled on, bll cblls into
+         * the delegbte will be done on the event-dispbtch threbd.
          *
-         * @param   graphics    the context into which the page is drawn
-         * @param   pageFormat  the size and orientation of the page being drawn
-         * @param   pageIndex   the zero based index of the page to be drawn
-         * @return  PAGE_EXISTS if the page is rendered successfully, or
-         *          NO_SUCH_PAGE if a non-existent page index is specified
-         * @throws  PrinterException if an error causes printing to be aborted
+         * @pbrbm   grbphics    the context into which the pbge is drbwn
+         * @pbrbm   pbgeFormbt  the size bnd orientbtion of the pbge being drbwn
+         * @pbrbm   pbgeIndex   the zero bbsed index of the pbge to be drbwn
+         * @return  PAGE_EXISTS if the pbge is rendered successfully, or
+         *          NO_SUCH_PAGE if b non-existent pbge index is specified
+         * @throws  PrinterException if bn error cbuses printing to be bborted
          */
-        public int print(final Graphics graphics,
-                         final PageFormat pageFormat,
-                         final int pageIndex) throws PrinterException {
+        public int print(finbl Grbphics grbphics,
+                         finbl PbgeFormbt pbgeFormbt,
+                         finbl int pbgeIndex) throws PrinterException {
 
-            // We'll use this Runnable
-            Runnable runnable = new Runnable() {
+            // We'll use this Runnbble
+            Runnbble runnbble = new Runnbble() {
                 public synchronized void run() {
                     try {
-                        // call into the delegate and save the return value
-                        retVal = printDelegate.print(graphics, pageFormat, pageIndex);
-                    } catch (Throwable throwable) {
-                        // save any Throwable to be rethrown
-                        retThrowable = throwable;
-                    } finally {
-                        // notify the caller that we're done
+                        // cbll into the delegbte bnd sbve the return vblue
+                        retVbl = printDelegbte.print(grbphics, pbgeFormbt, pbgeIndex);
+                    } cbtch (Throwbble throwbble) {
+                        // sbve bny Throwbble to be rethrown
+                        retThrowbble = throwbble;
+                    } finblly {
+                        // notify the cbller thbt we're done
                         notifyAll();
                     }
                 }
             };
 
-            synchronized(runnable) {
-                // make sure these are initialized
-                retVal = -1;
-                retThrowable = null;
+            synchronized(runnbble) {
+                // mbke sure these bre initiblized
+                retVbl = -1;
+                retThrowbble = null;
 
-                // call into the EDT
-                SwingUtilities.invokeLater(runnable);
+                // cbll into the EDT
+                SwingUtilities.invokeLbter(runnbble);
 
-                // wait for the runnable to finish
-                while (retVal == -1 && retThrowable == null) {
+                // wbit for the runnbble to finish
+                while (retVbl == -1 && retThrowbble == null) {
                     try {
-                        runnable.wait();
-                    } catch (InterruptedException ie) {
-                        // short process, safe to ignore interrupts
+                        runnbble.wbit();
+                    } cbtch (InterruptedException ie) {
+                        // short process, sbfe to ignore interrupts
                     }
                 }
 
-                // if the delegate threw a throwable, rethrow it here
-                if (retThrowable != null) {
-                    if (retThrowable instanceof PrinterException) {
-                        throw (PrinterException)retThrowable;
-                    } else if (retThrowable instanceof RuntimeException) {
-                        throw (RuntimeException)retThrowable;
-                    } else if (retThrowable instanceof Error) {
-                        throw (Error)retThrowable;
+                // if the delegbte threw b throwbble, rethrow it here
+                if (retThrowbble != null) {
+                    if (retThrowbble instbnceof PrinterException) {
+                        throw (PrinterException)retThrowbble;
+                    } else if (retThrowbble instbnceof RuntimeException) {
+                        throw (RuntimeException)retThrowbble;
+                    } else if (retThrowbble instbnceof Error) {
+                        throw (Error)retThrowbble;
                     }
 
-                    // can not happen
-                    throw new AssertionError(retThrowable);
+                    // cbn not hbppen
+                    throw new AssertionError(retThrowbble);
                 }
 
-                return retVal;
+                return retVbl;
             }
         }
     }
@@ -6558,170 +6558,170 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JTable.
-     * For tables, the AccessibleContext takes the form of an
-     * AccessibleJTable.
-     * A new AccessibleJTable instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JTbble.
+     * For tbbles, the AccessibleContext tbkes the form of bn
+     * AccessibleJTbble.
+     * A new AccessibleJTbble instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJTable that serves as the
-     *         AccessibleContext of this JTable
+     * @return bn AccessibleJTbble thbt serves bs the
+     *         AccessibleContext of this JTbble
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTable();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJTbble();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     //
-    // *** should also implement AccessibleSelection?
-    // *** and what's up with keyboard navigation/manipulation?
+    // *** should blso implement AccessibleSelection?
+    // *** bnd whbt's up with keybobrd nbvigbtion/mbnipulbtion?
     //
     /**
-     * This class implements accessibility support for the
-     * <code>JTable</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to table user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JTbble</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to tbble user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJTable extends AccessibleJComponent
-    implements AccessibleSelection, ListSelectionListener, TableModelListener,
-    TableColumnModelListener, CellEditorListener, PropertyChangeListener,
-    AccessibleExtendedTable {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJTbble extends AccessibleJComponent
+    implements AccessibleSelection, ListSelectionListener, TbbleModelListener,
+    TbbleColumnModelListener, CellEditorListener, PropertyChbngeListener,
+    AccessibleExtendedTbble {
 
         int previousFocusedRow;
         int previousFocusedCol;
 
         /**
-         * AccessibleJTable constructor
+         * AccessibleJTbble constructor
          *
          * @since 1.5
          */
-        protected AccessibleJTable() {
+        protected AccessibleJTbble() {
             super();
-            JTable.this.addPropertyChangeListener(this);
-            JTable.this.getSelectionModel().addListSelectionListener(this);
-            TableColumnModel tcm = JTable.this.getColumnModel();
-            tcm.addColumnModelListener(this);
-            tcm.getSelectionModel().addListSelectionListener(this);
-            JTable.this.getModel().addTableModelListener(this);
-            previousFocusedRow = JTable.this.getSelectionModel().
-                                        getLeadSelectionIndex();
-            previousFocusedCol = JTable.this.getColumnModel().
-                                        getSelectionModel().getLeadSelectionIndex();
+            JTbble.this.bddPropertyChbngeListener(this);
+            JTbble.this.getSelectionModel().bddListSelectionListener(this);
+            TbbleColumnModel tcm = JTbble.this.getColumnModel();
+            tcm.bddColumnModelListener(this);
+            tcm.getSelectionModel().bddListSelectionListener(this);
+            JTbble.this.getModel().bddTbbleModelListener(this);
+            previousFocusedRow = JTbble.this.getSelectionModel().
+                                        getLebdSelectionIndex();
+            previousFocusedCol = JTbble.this.getColumnModel().
+                                        getSelectionModel().getLebdSelectionIndex();
         }
 
-    // Listeners to track model, etc. changes to as to re-place the other
+    // Listeners to trbck model, etc. chbnges to bs to re-plbce the other
     // listeners
 
         /**
-         * Track changes to selection model, column model, etc. so as to
-         * be able to re-place listeners on those in order to pass on
-         * information to the Accessibility PropertyChange mechanism
+         * Trbck chbnges to selection model, column model, etc. so bs to
+         * be bble to re-plbce listeners on those in order to pbss on
+         * informbtion to the Accessibility PropertyChbnge mechbnism
          */
-        public void propertyChange(PropertyChangeEvent e) {
-            String name = e.getPropertyName();
-            Object oldValue = e.getOldValue();
-            Object newValue = e.getNewValue();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String nbme = e.getPropertyNbme();
+            Object oldVblue = e.getOldVblue();
+            Object newVblue = e.getNewVblue();
 
-                // re-set tableModel listeners
-            if (name.compareTo("model") == 0) {
+                // re-set tbbleModel listeners
+            if (nbme.compbreTo("model") == 0) {
 
-                if (oldValue != null && oldValue instanceof TableModel) {
-                    ((TableModel) oldValue).removeTableModelListener(this);
+                if (oldVblue != null && oldVblue instbnceof TbbleModel) {
+                    ((TbbleModel) oldVblue).removeTbbleModelListener(this);
                 }
-                if (newValue != null && newValue instanceof TableModel) {
-                    ((TableModel) newValue).addTableModelListener(this);
+                if (newVblue != null && newVblue instbnceof TbbleModel) {
+                    ((TbbleModel) newVblue).bddTbbleModelListener(this);
                 }
 
                 // re-set selectionModel listeners
-            } else if (name.compareTo("selectionModel") == 0) {
+            } else if (nbme.compbreTo("selectionModel") == 0) {
 
                 Object source = e.getSource();
-                if (source == JTable.this) {    // row selection model
+                if (source == JTbble.this) {    // row selection model
 
-                    if (oldValue != null &&
-                        oldValue instanceof ListSelectionModel) {
-                        ((ListSelectionModel) oldValue).removeListSelectionListener(this);
+                    if (oldVblue != null &&
+                        oldVblue instbnceof ListSelectionModel) {
+                        ((ListSelectionModel) oldVblue).removeListSelectionListener(this);
                     }
-                    if (newValue != null &&
-                        newValue instanceof ListSelectionModel) {
-                        ((ListSelectionModel) newValue).addListSelectionListener(this);
+                    if (newVblue != null &&
+                        newVblue instbnceof ListSelectionModel) {
+                        ((ListSelectionModel) newVblue).bddListSelectionListener(this);
                     }
 
-                } else if (source == JTable.this.getColumnModel()) {
+                } else if (source == JTbble.this.getColumnModel()) {
 
-                    if (oldValue != null &&
-                        oldValue instanceof ListSelectionModel) {
-                        ((ListSelectionModel) oldValue).removeListSelectionListener(this);
+                    if (oldVblue != null &&
+                        oldVblue instbnceof ListSelectionModel) {
+                        ((ListSelectionModel) oldVblue).removeListSelectionListener(this);
                     }
-                    if (newValue != null &&
-                        newValue instanceof ListSelectionModel) {
-                        ((ListSelectionModel) newValue).addListSelectionListener(this);
+                    if (newVblue != null &&
+                        newVblue instbnceof ListSelectionModel) {
+                        ((ListSelectionModel) newVblue).bddListSelectionListener(this);
                     }
 
                 } else {
-                  //        System.out.println("!!! Bug in source of selectionModel propertyChangeEvent");
+                  //        System.out.println("!!! Bug in source of selectionModel propertyChbngeEvent");
                 }
 
                 // re-set columnModel listeners
-                // and column's selection property listener as well
-            } else if (name.compareTo("columnModel") == 0) {
+                // bnd column's selection property listener bs well
+            } else if (nbme.compbreTo("columnModel") == 0) {
 
-                if (oldValue != null && oldValue instanceof TableColumnModel) {
-                    TableColumnModel tcm = (TableColumnModel) oldValue;
+                if (oldVblue != null && oldVblue instbnceof TbbleColumnModel) {
+                    TbbleColumnModel tcm = (TbbleColumnModel) oldVblue;
                     tcm.removeColumnModelListener(this);
                     tcm.getSelectionModel().removeListSelectionListener(this);
                 }
-                if (newValue != null && newValue instanceof TableColumnModel) {
-                    TableColumnModel tcm = (TableColumnModel) newValue;
-                    tcm.addColumnModelListener(this);
-                    tcm.getSelectionModel().addListSelectionListener(this);
+                if (newVblue != null && newVblue instbnceof TbbleColumnModel) {
+                    TbbleColumnModel tcm = (TbbleColumnModel) newVblue;
+                    tcm.bddColumnModelListener(this);
+                    tcm.getSelectionModel().bddListSelectionListener(this);
                 }
 
                 // re-se cellEditor listeners
-            } else if (name.compareTo("tableCellEditor") == 0) {
+            } else if (nbme.compbreTo("tbbleCellEditor") == 0) {
 
-                if (oldValue != null && oldValue instanceof TableCellEditor) {
-                    ((TableCellEditor) oldValue).removeCellEditorListener(this);
+                if (oldVblue != null && oldVblue instbnceof TbbleCellEditor) {
+                    ((TbbleCellEditor) oldVblue).removeCellEditorListener(this);
                 }
-                if (newValue != null && newValue instanceof TableCellEditor) {
-                    ((TableCellEditor) newValue).addCellEditorListener(this);
+                if (newVblue != null && newVblue instbnceof TbbleCellEditor) {
+                    ((TbbleCellEditor) newVblue).bddCellEditorListener(this);
                 }
             }
         }
 
 
-    // Listeners to echo changes to the AccessiblePropertyChange mechanism
+    // Listeners to echo chbnges to the AccessiblePropertyChbnge mechbnism
 
         /**
-         * Describes a change in the accessible table model.
+         * Describes b chbnge in the bccessible tbble model.
          */
-        protected class AccessibleJTableModelChange
-            implements AccessibleTableModelChange {
+        protected clbss AccessibleJTbbleModelChbnge
+            implements AccessibleTbbleModelChbnge {
 
             protected int type;
             protected int firstRow;
-            protected int lastRow;
+            protected int lbstRow;
             protected int firstColumn;
-            protected int lastColumn;
+            protected int lbstColumn;
 
-            protected AccessibleJTableModelChange(int type, int firstRow,
-                                                  int lastRow, int firstColumn,
-                                                  int lastColumn) {
+            protected AccessibleJTbbleModelChbnge(int type, int firstRow,
+                                                  int lbstRow, int firstColumn,
+                                                  int lbstColumn) {
                 this.type = type;
                 this.firstRow = firstRow;
-                this.lastRow = lastRow;
+                this.lbstRow = lbstRow;
                 this.firstColumn = firstColumn;
-                this.lastColumn = lastColumn;
+                this.lbstColumn = lbstColumn;
             }
 
             public int getType() {
@@ -6732,235 +6732,235 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                 return firstRow;
             }
 
-            public int getLastRow() {
-                return lastRow;
+            public int getLbstRow() {
+                return lbstRow;
             }
 
             public int getFirstColumn() {
                 return firstColumn;
             }
 
-            public int getLastColumn() {
-                return lastColumn;
+            public int getLbstColumn() {
+                return lbstColumn;
             }
         }
 
         /**
-         * Track changes to the table contents
+         * Trbck chbnges to the tbble contents
          *
-         * @param e a {@code TableModelEvent} describing the event
+         * @pbrbm e b {@code TbbleModelEvent} describing the event
          */
-        public void tableChanged(TableModelEvent e) {
-           firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+        public void tbbleChbnged(TbbleModelEvent e) {
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                               null, null);
            if (e != null) {
                int firstColumn = e.getColumn();
-               int lastColumn = e.getColumn();
-               if (firstColumn == TableModelEvent.ALL_COLUMNS) {
+               int lbstColumn = e.getColumn();
+               if (firstColumn == TbbleModelEvent.ALL_COLUMNS) {
                    firstColumn = 0;
-                   lastColumn = getColumnCount() - 1;
+                   lbstColumn = getColumnCount() - 1;
                }
 
-               // Fire a property change event indicating the table model
-               // has changed.
-               AccessibleJTableModelChange change =
-                   new AccessibleJTableModelChange(e.getType(),
+               // Fire b property chbnge event indicbting the tbble model
+               // hbs chbnged.
+               AccessibleJTbbleModelChbnge chbnge =
+                   new AccessibleJTbbleModelChbnge(e.getType(),
                                                    e.getFirstRow(),
-                                                   e.getLastRow(),
+                                                   e.getLbstRow(),
                                                    firstColumn,
-                                                   lastColumn);
-               firePropertyChange(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
-                                  null, change);
+                                                   lbstColumn);
+               firePropertyChbnge(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
+                                  null, chbnge);
             }
         }
 
         /**
-         * Track changes to the table contents (row insertions)
+         * Trbck chbnges to the tbble contents (row insertions)
          *
-         * @param e a {@code TableModelEvent} describing the event
+         * @pbrbm e b {@code TbbleModelEvent} describing the event
          */
-        public void tableRowsInserted(TableModelEvent e) {
-           firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+        public void tbbleRowsInserted(TbbleModelEvent e) {
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                               null, null);
 
-           // Fire a property change event indicating the table model
-           // has changed.
+           // Fire b property chbnge event indicbting the tbble model
+           // hbs chbnged.
            int firstColumn = e.getColumn();
-           int lastColumn = e.getColumn();
-           if (firstColumn == TableModelEvent.ALL_COLUMNS) {
+           int lbstColumn = e.getColumn();
+           if (firstColumn == TbbleModelEvent.ALL_COLUMNS) {
                firstColumn = 0;
-               lastColumn = getColumnCount() - 1;
+               lbstColumn = getColumnCount() - 1;
            }
-           AccessibleJTableModelChange change =
-               new AccessibleJTableModelChange(e.getType(),
+           AccessibleJTbbleModelChbnge chbnge =
+               new AccessibleJTbbleModelChbnge(e.getType(),
                                                e.getFirstRow(),
-                                               e.getLastRow(),
+                                               e.getLbstRow(),
                                                firstColumn,
-                                               lastColumn);
-           firePropertyChange(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
-                              null, change);
+                                               lbstColumn);
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
+                              null, chbnge);
         }
 
         /**
-         * Track changes to the table contents (row deletions)
+         * Trbck chbnges to the tbble contents (row deletions)
          *
-         * @param e a {@code TableModelEvent} describing the event
+         * @pbrbm e b {@code TbbleModelEvent} describing the event
          */
-        public void tableRowsDeleted(TableModelEvent e) {
-           firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+        public void tbbleRowsDeleted(TbbleModelEvent e) {
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                               null, null);
 
-           // Fire a property change event indicating the table model
-           // has changed.
+           // Fire b property chbnge event indicbting the tbble model
+           // hbs chbnged.
            int firstColumn = e.getColumn();
-           int lastColumn = e.getColumn();
-           if (firstColumn == TableModelEvent.ALL_COLUMNS) {
+           int lbstColumn = e.getColumn();
+           if (firstColumn == TbbleModelEvent.ALL_COLUMNS) {
                firstColumn = 0;
-               lastColumn = getColumnCount() - 1;
+               lbstColumn = getColumnCount() - 1;
            }
-           AccessibleJTableModelChange change =
-               new AccessibleJTableModelChange(e.getType(),
+           AccessibleJTbbleModelChbnge chbnge =
+               new AccessibleJTbbleModelChbnge(e.getType(),
                                                e.getFirstRow(),
-                                               e.getLastRow(),
+                                               e.getLbstRow(),
                                                firstColumn,
-                                               lastColumn);
-           firePropertyChange(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
-                              null, change);
+                                               lbstColumn);
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
+                              null, chbnge);
         }
 
         /**
-         * Track changes to the table contents (column insertions)
+         * Trbck chbnges to the tbble contents (column insertions)
          */
-        public void columnAdded(TableColumnModelEvent e) {
-           firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+        public void columnAdded(TbbleColumnModelEvent e) {
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                               null, null);
 
-           // Fire a property change event indicating the table model
-           // has changed.
-           int type = AccessibleTableModelChange.INSERT;
-           AccessibleJTableModelChange change =
-               new AccessibleJTableModelChange(type,
+           // Fire b property chbnge event indicbting the tbble model
+           // hbs chbnged.
+           int type = AccessibleTbbleModelChbnge.INSERT;
+           AccessibleJTbbleModelChbnge chbnge =
+               new AccessibleJTbbleModelChbnge(type,
                                                0,
                                                0,
                                                e.getFromIndex(),
                                                e.getToIndex());
-           firePropertyChange(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
-                              null, change);
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
+                              null, chbnge);
         }
 
         /**
-         * Track changes to the table contents (column deletions)
+         * Trbck chbnges to the tbble contents (column deletions)
          */
-        public void columnRemoved(TableColumnModelEvent e) {
-           firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+        public void columnRemoved(TbbleColumnModelEvent e) {
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                               null, null);
-           // Fire a property change event indicating the table model
-           // has changed.
-           int type = AccessibleTableModelChange.DELETE;
-           AccessibleJTableModelChange change =
-               new AccessibleJTableModelChange(type,
+           // Fire b property chbnge event indicbting the tbble model
+           // hbs chbnged.
+           int type = AccessibleTbbleModelChbnge.DELETE;
+           AccessibleJTbbleModelChbnge chbnge =
+               new AccessibleJTbbleModelChbnge(type,
                                                0,
                                                0,
                                                e.getFromIndex(),
                                                e.getToIndex());
-           firePropertyChange(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
-                              null, change);
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
+                              null, chbnge);
         }
 
         /**
-         * Track changes of a column repositioning.
+         * Trbck chbnges of b column repositioning.
          *
-         * @see TableColumnModelListener
+         * @see TbbleColumnModelListener
          */
-        public void columnMoved(TableColumnModelEvent e) {
-           firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+        public void columnMoved(TbbleColumnModelEvent e) {
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                               null, null);
 
-           // Fire property change events indicating the table model
-           // has changed.
-           int type = AccessibleTableModelChange.DELETE;
-           AccessibleJTableModelChange change =
-               new AccessibleJTableModelChange(type,
+           // Fire property chbnge events indicbting the tbble model
+           // hbs chbnged.
+           int type = AccessibleTbbleModelChbnge.DELETE;
+           AccessibleJTbbleModelChbnge chbnge =
+               new AccessibleJTbbleModelChbnge(type,
                                                0,
                                                0,
                                                e.getFromIndex(),
                                                e.getFromIndex());
-           firePropertyChange(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
-                              null, change);
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
+                              null, chbnge);
 
-           int type2 = AccessibleTableModelChange.INSERT;
-           AccessibleJTableModelChange change2 =
-               new AccessibleJTableModelChange(type2,
+           int type2 = AccessibleTbbleModelChbnge.INSERT;
+           AccessibleJTbbleModelChbnge chbnge2 =
+               new AccessibleJTbbleModelChbnge(type2,
                                                0,
                                                0,
                                                e.getToIndex(),
                                                e.getToIndex());
-           firePropertyChange(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
-                              null, change2);
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_TABLE_MODEL_CHANGED,
+                              null, chbnge2);
         }
 
         /**
-         * Track changes of a column moving due to margin changes.
+         * Trbck chbnges of b column moving due to mbrgin chbnges.
          *
-         * @see TableColumnModelListener
+         * @see TbbleColumnModelListener
          */
-        public void columnMarginChanged(ChangeEvent e) {
-           firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+        public void columnMbrginChbnged(ChbngeEvent e) {
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                               null, null);
         }
 
         /**
-         * Track that the selection model of the TableColumnModel changed.
+         * Trbck thbt the selection model of the TbbleColumnModel chbnged.
          *
-         * @see TableColumnModelListener
+         * @see TbbleColumnModelListener
          */
-        public void columnSelectionChanged(ListSelectionEvent e) {
-            // we should now re-place our TableColumn listener
+        public void columnSelectionChbnged(ListSelectionEvent e) {
+            // we should now re-plbce our TbbleColumn listener
         }
 
         /**
-         * Track changes to a cell's contents.
+         * Trbck chbnges to b cell's contents.
          *
-         * Invoked when editing is finished. The changes are saved, the
-         * editor object is discarded, and the cell is rendered once again.
+         * Invoked when editing is finished. The chbnges bre sbved, the
+         * editor object is discbrded, bnd the cell is rendered once bgbin.
          *
          * @see CellEditorListener
          */
-        public void editingStopped(ChangeEvent e) {
-           // it'd be great if we could figure out which cell, and pass that
-           // somehow as a parameter
-           firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+        public void editingStopped(ChbngeEvent e) {
+           // it'd be grebt if we could figure out which cell, bnd pbss thbt
+           // somehow bs b pbrbmeter
+           firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                               null, null);
         }
 
         /**
-         * Invoked when editing is canceled. The editor object is discarded
-         * and the cell is rendered once again.
+         * Invoked when editing is cbnceled. The editor object is discbrded
+         * bnd the cell is rendered once bgbin.
          *
          * @see CellEditorListener
          */
-        public void editingCanceled(ChangeEvent e) {
-            // nothing to report, 'cause nothing changed
+        public void editingCbnceled(ChbngeEvent e) {
+            // nothing to report, 'cbuse nothing chbnged
         }
 
         /**
-         * Track changes to table cell selections
+         * Trbck chbnges to tbble cell selections
          */
-        public void valueChanged(ListSelectionEvent e) {
-            firePropertyChange(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
-                            Boolean.valueOf(false), Boolean.valueOf(true));
+        public void vblueChbnged(ListSelectionEvent e) {
+            firePropertyChbnge(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
+                            Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
 
-            // Using lead selection index to cover both cases: node selected and node
+            // Using lebd selection index to cover both cbses: node selected bnd node
             // is focused but not selected (Ctrl+up/down)
-            int focusedRow = JTable.this.getSelectionModel().getLeadSelectionIndex();
-            int focusedCol = JTable.this.getColumnModel().getSelectionModel().
-                                                    getLeadSelectionIndex();
+            int focusedRow = JTbble.this.getSelectionModel().getLebdSelectionIndex();
+            int focusedCol = JTbble.this.getColumnModel().getSelectionModel().
+                                                    getLebdSelectionIndex();
 
             if (focusedRow != previousFocusedRow ||
                 focusedCol != previousFocusedCol) {
                 Accessible oldA = getAccessibleAt(previousFocusedRow, previousFocusedCol);
                 Accessible newA = getAccessibleAt(focusedRow, focusedCol);
-                firePropertyChange(AccessibleContext.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
+                firePropertyChbnge(AccessibleContext.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
                                     oldA, newA);
                 previousFocusedRow = focusedRow;
                 previousFocusedCol = focusedCol;
@@ -6973,10 +6973,10 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
     // AccessibleContext support
 
         /**
-         * Get the AccessibleSelection associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleSelection bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleSelection interface on behalf of itself.
+         * AccessibleSelection interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -6987,7 +6987,7 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         /**
          * Gets the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -6997,70 +6997,70 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 
         /**
          * Returns the <code>Accessible</code> child, if one exists,
-         * contained at the local coordinate <code>Point</code>.
+         * contbined bt the locbl coordinbte <code>Point</code>.
          *
-         * @param p the point defining the top-left corner of the
-         *    <code>Accessible</code>, given in the coordinate space
-         *    of the object's parent
+         * @pbrbm p the point defining the top-left corner of the
+         *    <code>Accessible</code>, given in the coordinbte spbce
+         *    of the object's pbrent
          * @return the <code>Accessible</code>, if it exists,
-         *    at the specified location; else <code>null</code>
+         *    bt the specified locbtion; else <code>null</code>
          */
         public Accessible getAccessibleAt(Point p) {
             int column = columnAtPoint(p);
             int row = rowAtPoint(p);
 
             if ((column != -1) && (row != -1)) {
-                TableColumn aColumn = getColumnModel().getColumn(column);
-                TableCellRenderer renderer = aColumn.getCellRenderer();
+                TbbleColumn bColumn = getColumnModel().getColumn(column);
+                TbbleCellRenderer renderer = bColumn.getCellRenderer();
                 if (renderer == null) {
-                    Class<?> columnClass = getColumnClass(column);
-                    renderer = getDefaultRenderer(columnClass);
+                    Clbss<?> columnClbss = getColumnClbss(column);
+                    renderer = getDefbultRenderer(columnClbss);
                 }
-                Component component = renderer.getTableCellRendererComponent(
-                                  JTable.this, null, false, false,
+                Component component = renderer.getTbbleCellRendererComponent(
+                                  JTbble.this, null, fblse, fblse,
                                   row, column);
-                return new AccessibleJTableCell(JTable.this, row, column,
+                return new AccessibleJTbbleCell(JTbble.this, row, column,
                       getAccessibleIndexAt(row, column));
             }
             return null;
         }
 
         /**
-         * Returns the number of accessible children in the object.  If all
+         * Returns the number of bccessible children in the object.  If bll
          * of the children of this object implement <code>Accessible</code>,
          * then this method should return the number of children of this object.
          *
-         * @return the number of accessible children in the object
+         * @return the number of bccessible children in the object
          */
         public int getAccessibleChildrenCount() {
-            return (JTable.this.getColumnCount() * JTable.this.getRowCount());
+            return (JTbble.this.getColumnCount() * JTbble.this.getRowCount());
         }
 
         /**
          * Returns the nth <code>Accessible</code> child of the object.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the nth Accessible child of the object
          */
         public Accessible getAccessibleChild(int i) {
             if (i < 0 || i >= getAccessibleChildrenCount()) {
                 return null;
             } else {
-                // children increase across, and then down, for tables
-                // (arbitrary decision)
+                // children increbse bcross, bnd then down, for tbbles
+                // (brbitrbry decision)
                 int column = getAccessibleColumnAtIndex(i);
                 int row = getAccessibleRowAtIndex(i);
 
-                TableColumn aColumn = getColumnModel().getColumn(column);
-                TableCellRenderer renderer = aColumn.getCellRenderer();
+                TbbleColumn bColumn = getColumnModel().getColumn(column);
+                TbbleCellRenderer renderer = bColumn.getCellRenderer();
                 if (renderer == null) {
-                    Class<?> columnClass = getColumnClass(column);
-                    renderer = getDefaultRenderer(columnClass);
+                    Clbss<?> columnClbss = getColumnClbss(column);
+                    renderer = getDefbultRenderer(columnClbss);
                 }
-                Component component = renderer.getTableCellRendererComponent(
-                                  JTable.this, null, false, false,
+                Component component = renderer.getTbbleCellRendererComponent(
+                                  JTbble.this, null, fblse, fblse,
                                   row, column);
-                return new AccessibleJTableCell(JTable.this, row, column,
+                return new AccessibleJTbbleCell(JTbble.this, row, column,
                       getAccessibleIndexAt(row, column));
             }
         }
@@ -7070,49 +7070,49 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         /**
          * Returns the number of <code>Accessible</code> children
          * currently selected.
-         * If no children are selected, the return value will be 0.
+         * If no children bre selected, the return vblue will be 0.
          *
          * @return the number of items currently selected
          */
         public int getAccessibleSelectionCount() {
-            int rowsSel = JTable.this.getSelectedRowCount();
-            int colsSel = JTable.this.getSelectedColumnCount();
+            int rowsSel = JTbble.this.getSelectedRowCount();
+            int colsSel = JTbble.this.getSelectedColumnCount();
 
-            if (JTable.this.cellSelectionEnabled) { // a contiguous block
+            if (JTbble.this.cellSelectionEnbbled) { // b contiguous block
                 return rowsSel * colsSel;
 
             } else {
-                // a column swath and a row swath, with a shared block
-                if (JTable.this.getRowSelectionAllowed() &&
-                    JTable.this.getColumnSelectionAllowed()) {
-                    return rowsSel * JTable.this.getColumnCount() +
-                           colsSel * JTable.this.getRowCount() -
+                // b column swbth bnd b row swbth, with b shbred block
+                if (JTbble.this.getRowSelectionAllowed() &&
+                    JTbble.this.getColumnSelectionAllowed()) {
+                    return rowsSel * JTbble.this.getColumnCount() +
+                           colsSel * JTbble.this.getRowCount() -
                            rowsSel * colsSel;
 
                 // just one or more rows in selection
-                } else if (JTable.this.getRowSelectionAllowed()) {
-                    return rowsSel * JTable.this.getColumnCount();
+                } else if (JTbble.this.getRowSelectionAllowed()) {
+                    return rowsSel * JTbble.this.getColumnCount();
 
                 // just one or more rows in selection
-                } else if (JTable.this.getColumnSelectionAllowed()) {
-                    return colsSel * JTable.this.getRowCount();
+                } else if (JTbble.this.getColumnSelectionAllowed()) {
+                    return colsSel * JTbble.this.getRowCount();
 
                 } else {
-                    return 0;    // JTable doesn't allow selections
+                    return 0;    // JTbble doesn't bllow selections
                 }
             }
         }
 
         /**
-         * Returns an <code>Accessible</code> representing the
+         * Returns bn <code>Accessible</code> representing the
          * specified selected child in the object.  If there
-         * isn't a selection, or there are fewer children selected
-         * than the integer passed in, the return
-         * value will be <code>null</code>.
-         * <p>Note that the index represents the i-th selected child, which
+         * isn't b selection, or there bre fewer children selected
+         * thbn the integer pbssed in, the return
+         * vblue will be <code>null</code>.
+         * <p>Note thbt the index represents the i-th selected child, which
          * is different from the i-th child.
          *
-         * @param i the zero-based index of selected children
+         * @pbrbm i the zero-bbsed index of selected children
          * @return the i-th selected child
          * @see #getAccessibleSelectionCount
          */
@@ -7121,56 +7121,56 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                 return null;
             }
 
-            int rowsSel = JTable.this.getSelectedRowCount();
-            int colsSel = JTable.this.getSelectedColumnCount();
+            int rowsSel = JTbble.this.getSelectedRowCount();
+            int colsSel = JTbble.this.getSelectedColumnCount();
             int rowIndicies[] = getSelectedRows();
             int colIndicies[] = getSelectedColumns();
-            int ttlCols = JTable.this.getColumnCount();
-            int ttlRows = JTable.this.getRowCount();
+            int ttlCols = JTbble.this.getColumnCount();
+            int ttlRows = JTbble.this.getRowCount();
             int r;
             int c;
 
-            if (JTable.this.cellSelectionEnabled) { // a contiguous block
+            if (JTbble.this.cellSelectionEnbbled) { // b contiguous block
                 r = rowIndicies[i / colsSel];
                 c = colIndicies[i % colsSel];
                 return getAccessibleChild((r * ttlCols) + c);
             } else {
 
-                // a column swath and a row swath, with a shared block
-                if (JTable.this.getRowSelectionAllowed() &&
-                    JTable.this.getColumnSelectionAllowed()) {
+                // b column swbth bnd b row swbth, with b shbred block
+                if (JTbble.this.getRowSelectionAllowed() &&
+                    JTbble.this.getColumnSelectionAllowed()) {
 
-                    // Situation:
-                    //   We have a table, like the 6x3 table below,
-                    //   wherein three colums and one row selected
-                    //   (selected cells marked with "*", unselected "0"):
+                    // Situbtion:
+                    //   We hbve b tbble, like the 6x3 tbble below,
+                    //   wherein three colums bnd one row selected
+                    //   (selected cells mbrked with "*", unselected "0"):
                     //
                     //            0 * 0 * * 0
                     //            * * * * * *
                     //            0 * 0 * * 0
                     //
 
-                    // State machine below walks through the array of
-                    // selected rows in two states: in a selected row,
-                    // and not in one; continuing until we are in a row
+                    // Stbte mbchine below wblks through the brrby of
+                    // selected rows in two stbtes: in b selected row,
+                    // bnd not in one; continuing until we bre in b row
                     // in which the ith selection exists.  Then we return
-                    // the appropriate cell.  In the state machine, we
-                    // always do rows above the "current" selected row first,
+                    // the bppropribte cell.  In the stbte mbchine, we
+                    // blwbys do rows bbove the "current" selected row first,
                     // then the cells in the selected row.  If we're done
-                    // with the state machine before finding the requested
-                    // selected child, we handle the rows below the last
-                    // selected row at the end.
+                    // with the stbte mbchine before finding the requested
+                    // selected child, we hbndle the rows below the lbst
+                    // selected row bt the end.
                     //
                     int curIndex = i;
-                    final int IN_ROW = 0;
-                    final int NOT_IN_ROW = 1;
-                    int state = (rowIndicies[0] == 0 ? IN_ROW : NOT_IN_ROW);
+                    finbl int IN_ROW = 0;
+                    finbl int NOT_IN_ROW = 1;
+                    int stbte = (rowIndicies[0] == 0 ? IN_ROW : NOT_IN_ROW);
                     int j = 0;
                     int prevRow = -1;
                     while (j < rowIndicies.length) {
-                        switch (state) {
+                        switch (stbte) {
 
-                        case IN_ROW:   // on individual row full of selections
+                        cbse IN_ROW:   // on individubl row full of selections
                             if (curIndex < ttlCols) { // it's here!
                                 c = curIndex % ttlCols;
                                 r = rowIndicies[j];
@@ -7178,16 +7178,16 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                             } else {                               // not here
                                 curIndex -= ttlCols;
                             }
-                            // is the next row in table selected or not?
+                            // is the next row in tbble selected or not?
                             if (j + 1 == rowIndicies.length ||
                                 rowIndicies[j] != rowIndicies[j+1] - 1) {
-                                state = NOT_IN_ROW;
+                                stbte = NOT_IN_ROW;
                                 prevRow = rowIndicies[j];
                             }
-                            j++;  // we didn't return earlier, so go to next row
-                            break;
+                            j++;  // we didn't return ebrlier, so go to next row
+                            brebk;
 
-                        case NOT_IN_ROW:  // sparse bunch of rows of selections
+                        cbse NOT_IN_ROW:  // spbrse bunch of rows of selections
                             if (curIndex <
                                 (colsSel * (rowIndicies[j] -
                                 (prevRow == -1 ? 0 : (prevRow + 1))))) {
@@ -7201,12 +7201,12 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                                 curIndex -= colsSel * (rowIndicies[j] -
                                 (prevRow == -1 ? 0 : (prevRow + 1)));
                             }
-                            state = IN_ROW;
-                            break;
+                            stbte = IN_ROW;
+                            brebk;
                         }
                     }
                     // we got here, so we didn't find it yet; find it in
-                    // the last sparse bunch of rows
+                    // the lbst spbrse bunch of rows
                     if (curIndex <
                         (colsSel * (ttlRows -
                         (prevRow == -1 ? 0 : (prevRow + 1))))) { // it's here!
@@ -7215,17 +7215,17 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                         return getAccessibleChild((r * ttlCols) + c);
                     } else {                               // not here
                         // we shouldn't get to this spot in the code!
-//                      System.out.println("Bug in AccessibleJTable.getAccessibleSelection()");
+//                      System.out.println("Bug in AccessibleJTbble.getAccessibleSelection()");
                     }
 
                 // one or more rows selected
-                } else if (JTable.this.getRowSelectionAllowed()) {
+                } else if (JTbble.this.getRowSelectionAllowed()) {
                     c = i % ttlCols;
                     r = rowIndicies[i / ttlCols];
                     return getAccessibleChild((r * ttlCols) + c);
 
                 // one or more columns selected
-                } else if (JTable.this.getColumnSelectionAllowed()) {
+                } else if (JTbble.this.getColumnSelectionAllowed()) {
                     c = colIndicies[i % colsSel];
                     r = i / colsSel;
                     return getAccessibleChild((r * ttlCols) + c);
@@ -7237,84 +7237,84 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         /**
          * Determines if the current child of this object is selected.
          *
-         * @param i the zero-based index of the child in this
+         * @pbrbm i the zero-bbsed index of the child in this
          *    <code>Accessible</code> object
          * @return true if the current child of this object is selected
          * @see AccessibleContext#getAccessibleChild
          */
-        public boolean isAccessibleChildSelected(int i) {
+        public boolebn isAccessibleChildSelected(int i) {
             int column = getAccessibleColumnAtIndex(i);
             int row = getAccessibleRowAtIndex(i);
-            return JTable.this.isCellSelected(row, column);
+            return JTbble.this.isCellSelected(row, column);
         }
 
         /**
          * Adds the specified <code>Accessible</code> child of the
          * object to the object's selection.  If the object supports
-         * multiple selections, the specified child is added to
-         * any existing selection, otherwise
-         * it replaces any existing selection in the object.  If the
-         * specified child is already selected, this method has no effect.
+         * multiple selections, the specified child is bdded to
+         * bny existing selection, otherwise
+         * it replbces bny existing selection in the object.  If the
+         * specified child is blrebdy selected, this method hbs no effect.
          * <p>
-         * This method only works on <code>JTable</code>s which have
-         * individual cell selection enabled.
+         * This method only works on <code>JTbble</code>s which hbve
+         * individubl cell selection enbbled.
          *
-         * @param i the zero-based index of the child
+         * @pbrbm i the zero-bbsed index of the child
          * @see AccessibleContext#getAccessibleChild
          */
-        public void addAccessibleSelection(int i) {
+        public void bddAccessibleSelection(int i) {
             // TIGER - 4495286
             int column = getAccessibleColumnAtIndex(i);
             int row = getAccessibleRowAtIndex(i);
-            JTable.this.changeSelection(row, column, true, false);
+            JTbble.this.chbngeSelection(row, column, true, fblse);
         }
 
         /**
          * Removes the specified child of the object from the object's
          * selection.  If the specified item isn't currently selected, this
-         * method has no effect.
+         * method hbs no effect.
          * <p>
-         * This method only works on <code>JTables</code> which have
-         * individual cell selection enabled.
+         * This method only works on <code>JTbbles</code> which hbve
+         * individubl cell selection enbbled.
          *
-         * @param i the zero-based index of the child
+         * @pbrbm i the zero-bbsed index of the child
          * @see AccessibleContext#getAccessibleChild
          */
         public void removeAccessibleSelection(int i) {
-            if (JTable.this.cellSelectionEnabled) {
+            if (JTbble.this.cellSelectionEnbbled) {
                 int column = getAccessibleColumnAtIndex(i);
                 int row = getAccessibleRowAtIndex(i);
-                JTable.this.removeRowSelectionInterval(row, row);
-                JTable.this.removeColumnSelectionInterval(column, column);
+                JTbble.this.removeRowSelectionIntervbl(row, row);
+                JTbble.this.removeColumnSelectionIntervbl(column, column);
             }
         }
 
         /**
-         * Clears the selection in the object, so that no children in the
-         * object are selected.
+         * Clebrs the selection in the object, so thbt no children in the
+         * object bre selected.
          */
-        public void clearAccessibleSelection() {
-            JTable.this.clearSelection();
+        public void clebrAccessibleSelection() {
+            JTbble.this.clebrSelection();
         }
 
         /**
-         * Causes every child of the object to be selected, but only
-         * if the <code>JTable</code> supports multiple selections,
-         * and if individual cell selection is enabled.
+         * Cbuses every child of the object to be selected, but only
+         * if the <code>JTbble</code> supports multiple selections,
+         * bnd if individubl cell selection is enbbled.
          */
         public void selectAllAccessibleSelection() {
-            if (JTable.this.cellSelectionEnabled) {
-                JTable.this.selectAll();
+            if (JTbble.this.cellSelectionEnbbled) {
+                JTbble.this.selectAll();
             }
         }
 
-        // begin AccessibleExtendedTable implementation -------------
+        // begin AccessibleExtendedTbble implementbtion -------------
 
         /**
-         * Returns the row number of an index in the table.
+         * Returns the row number of bn index in the tbble.
          *
-         * @param index the zero-based index in the table
-         * @return the zero-based row of the table if one exists;
+         * @pbrbm index the zero-bbsed index in the tbble
+         * @return the zero-bbsed row of the tbble if one exists;
          * otherwise -1.
          * @since 1.4
          */
@@ -7323,10 +7323,10 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Returns the column number of an index in the table.
+         * Returns the column number of bn index in the tbble.
          *
-         * @param index the zero-based index in the table
-         * @return the zero-based column of the table if one exists;
+         * @pbrbm index the zero-bbsed index in the tbble
+         * @return the zero-bbsed column of the tbble if one exists;
          * otherwise -1.
          * @since 1.4
          */
@@ -7335,11 +7335,11 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Returns the index at a row and column in the table.
+         * Returns the index bt b row bnd column in the tbble.
          *
-         * @param r zero-based row of the table
-         * @param c zero-based column of the table
-         * @return the zero-based index in the table if one exists;
+         * @pbrbm r zero-bbsed row of the tbble
+         * @pbrbm c zero-bbsed column of the tbble
+         * @return the zero-bbsed index in the tbble if one exists;
          * otherwise -1.
          * @since 1.4
          */
@@ -7347,101 +7347,101 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             return getAccessibleIndexAt(r, c);
         }
 
-        // end of AccessibleExtendedTable implementation ------------
+        // end of AccessibleExtendedTbble implementbtion ------------
 
-        // start of AccessibleTable implementation ------------------
+        // stbrt of AccessibleTbble implementbtion ------------------
 
-        private Accessible caption;
-        private Accessible summary;
-        private Accessible [] rowDescription;
-        private Accessible [] columnDescription;
+        privbte Accessible cbption;
+        privbte Accessible summbry;
+        privbte Accessible [] rowDescription;
+        privbte Accessible [] columnDescription;
 
         /**
-         * Gets the <code>AccessibleTable</code> associated with this
-         * object.  In the implementation of the Java Accessibility
-         * API for this class, return this object, which is responsible
-         * for implementing the <code>AccessibleTables</code> interface
-         * on behalf of itself.
+         * Gets the <code>AccessibleTbble</code> bssocibted with this
+         * object.  In the implementbtion of the Jbvb Accessibility
+         * API for this clbss, return this object, which is responsible
+         * for implementing the <code>AccessibleTbbles</code> interfbce
+         * on behblf of itself.
          *
          * @return this object
          * @since 1.3
          */
-        public AccessibleTable getAccessibleTable() {
+        public AccessibleTbble getAccessibleTbble() {
             return this;
         }
 
         /**
-         * Returns the caption for the table.
+         * Returns the cbption for the tbble.
          *
-         * @return the caption for the table
+         * @return the cbption for the tbble
          * @since 1.3
          */
-        public Accessible getAccessibleCaption() {
-            return this.caption;
+        public Accessible getAccessibleCbption() {
+            return this.cbption;
         }
 
         /**
-         * Sets the caption for the table.
+         * Sets the cbption for the tbble.
          *
-         * @param a the caption for the table
+         * @pbrbm b the cbption for the tbble
          * @since 1.3
          */
-        public void setAccessibleCaption(Accessible a) {
-            Accessible oldCaption = caption;
-            this.caption = a;
-            firePropertyChange(AccessibleContext.ACCESSIBLE_TABLE_CAPTION_CHANGED,
-                               oldCaption, this.caption);
+        public void setAccessibleCbption(Accessible b) {
+            Accessible oldCbption = cbption;
+            this.cbption = b;
+            firePropertyChbnge(AccessibleContext.ACCESSIBLE_TABLE_CAPTION_CHANGED,
+                               oldCbption, this.cbption);
         }
 
         /**
-         * Returns the summary description of the table.
+         * Returns the summbry description of the tbble.
          *
-         * @return the summary description of the table
+         * @return the summbry description of the tbble
          * @since 1.3
          */
-        public Accessible getAccessibleSummary() {
-            return this.summary;
+        public Accessible getAccessibleSummbry() {
+            return this.summbry;
         }
 
         /**
-         * Sets the summary description of the table.
+         * Sets the summbry description of the tbble.
          *
-         * @param a the summary description of the table
+         * @pbrbm b the summbry description of the tbble
          * @since 1.3
          */
-        public void setAccessibleSummary(Accessible a) {
-            Accessible oldSummary = summary;
-            this.summary = a;
-            firePropertyChange(AccessibleContext.ACCESSIBLE_TABLE_SUMMARY_CHANGED,
-                               oldSummary, this.summary);
+        public void setAccessibleSummbry(Accessible b) {
+            Accessible oldSummbry = summbry;
+            this.summbry = b;
+            firePropertyChbnge(AccessibleContext.ACCESSIBLE_TABLE_SUMMARY_CHANGED,
+                               oldSummbry, this.summbry);
         }
 
         /*
-         * Returns the total number of rows in this table.
+         * Returns the totbl number of rows in this tbble.
          *
-         * @return the total number of rows in this table
+         * @return the totbl number of rows in this tbble
          */
         public int getAccessibleRowCount() {
-            return JTable.this.getRowCount();
+            return JTbble.this.getRowCount();
         }
 
         /*
-         * Returns the total number of columns in the table.
+         * Returns the totbl number of columns in the tbble.
          *
-         * @return the total number of columns in the table
+         * @return the totbl number of columns in the tbble
          */
         public int getAccessibleColumnCount() {
-            return JTable.this.getColumnCount();
+            return JTbble.this.getColumnCount();
         }
 
         /*
-         * Returns the <code>Accessible</code> at a specified row
-         * and column in the table.
+         * Returns the <code>Accessible</code> bt b specified row
+         * bnd column in the tbble.
          *
-         * @param r zero-based row of the table
-         * @param c zero-based column of the table
-         * @return the <code>Accessible</code> at the specified row and column
-         * in the table
+         * @pbrbm r zero-bbsed row of the tbble
+         * @pbrbm c zero-bbsed column of the tbble
+         * @return the <code>Accessible</code> bt the specified row bnd column
+         * in the tbble
          */
         public Accessible getAccessibleAt(int r, int c) {
             return getAccessibleChild((r * getAccessibleColumnCount()) + c);
@@ -7449,10 +7449,10 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 
         /**
          * Returns the number of rows occupied by the <code>Accessible</code>
-         * at a specified row and column in the table.
+         * bt b specified row bnd column in the tbble.
          *
          * @return the number of rows occupied by the <code>Accessible</code>
-         *     at a specified row and column in the table
+         *     bt b specified row bnd column in the tbble
          * @since 1.3
          */
         public int getAccessibleRowExtentAt(int r, int c) {
@@ -7461,10 +7461,10 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 
         /**
          * Returns the number of columns occupied by the
-         * <code>Accessible</code> at a given (row, column).
+         * <code>Accessible</code> bt b given (row, column).
          *
          * @return the number of columns occupied by the <code>Accessible</code>
-         *     at a specified row and column in the table
+         *     bt b specified row bnd column in the tbble
          * @since 1.3
          */
         public int getAccessibleColumnExtentAt(int r, int c) {
@@ -7472,261 +7472,261 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Returns the row headers as an <code>AccessibleTable</code>.
+         * Returns the row hebders bs bn <code>AccessibleTbble</code>.
          *
-         * @return an <code>AccessibleTable</code> representing the row
-         * headers
+         * @return bn <code>AccessibleTbble</code> representing the row
+         * hebders
          * @since 1.3
          */
-        public AccessibleTable getAccessibleRowHeader() {
-            // row headers are not supported
+        public AccessibleTbble getAccessibleRowHebder() {
+            // row hebders bre not supported
             return null;
         }
 
         /**
-         * Sets the row headers as an <code>AccessibleTable</code>.
+         * Sets the row hebders bs bn <code>AccessibleTbble</code>.
          *
-         * @param a an <code>AccessibleTable</code> representing the row
-         *  headers
+         * @pbrbm b bn <code>AccessibleTbble</code> representing the row
+         *  hebders
          * @since 1.3
          */
-        public void setAccessibleRowHeader(AccessibleTable a) {
-            // row headers are not supported
+        public void setAccessibleRowHebder(AccessibleTbble b) {
+            // row hebders bre not supported
         }
 
         /**
-         * Returns the column headers as an <code>AccessibleTable</code>.
+         * Returns the column hebders bs bn <code>AccessibleTbble</code>.
          *
-         *  @return an <code>AccessibleTable</code> representing the column
-         *          headers, or <code>null</code> if the table header is
+         *  @return bn <code>AccessibleTbble</code> representing the column
+         *          hebders, or <code>null</code> if the tbble hebder is
          *          <code>null</code>
          * @since 1.3
          */
-        public AccessibleTable getAccessibleColumnHeader() {
-            JTableHeader header = JTable.this.getTableHeader();
-            return header == null ? null : new AccessibleTableHeader(header);
+        public AccessibleTbble getAccessibleColumnHebder() {
+            JTbbleHebder hebder = JTbble.this.getTbbleHebder();
+            return hebder == null ? null : new AccessibleTbbleHebder(hebder);
         }
 
         /*
-         * Private class representing a table column header
+         * Privbte clbss representing b tbble column hebder
          */
-        private class AccessibleTableHeader implements AccessibleTable {
-            private JTableHeader header;
-            private TableColumnModel headerModel;
+        privbte clbss AccessibleTbbleHebder implements AccessibleTbble {
+            privbte JTbbleHebder hebder;
+            privbte TbbleColumnModel hebderModel;
 
-            AccessibleTableHeader(JTableHeader header) {
-                this.header = header;
-                this.headerModel = header.getColumnModel();
+            AccessibleTbbleHebder(JTbbleHebder hebder) {
+                this.hebder = hebder;
+                this.hebderModel = hebder.getColumnModel();
             }
 
             /**
-             * Returns the caption for the table.
+             * Returns the cbption for the tbble.
              *
-             * @return the caption for the table
+             * @return the cbption for the tbble
              */
-            public Accessible getAccessibleCaption() { return null; }
+            public Accessible getAccessibleCbption() { return null; }
 
 
             /**
-             * Sets the caption for the table.
+             * Sets the cbption for the tbble.
              *
-             * @param a the caption for the table
+             * @pbrbm b the cbption for the tbble
              */
-            public void setAccessibleCaption(Accessible a) {}
+            public void setAccessibleCbption(Accessible b) {}
 
             /**
-             * Returns the summary description of the table.
+             * Returns the summbry description of the tbble.
              *
-             * @return the summary description of the table
+             * @return the summbry description of the tbble
              */
-            public Accessible getAccessibleSummary() { return null; }
+            public Accessible getAccessibleSummbry() { return null; }
 
             /**
-             * Sets the summary description of the table
+             * Sets the summbry description of the tbble
              *
-             * @param a the summary description of the table
+             * @pbrbm b the summbry description of the tbble
              */
-            public void setAccessibleSummary(Accessible a) {}
+            public void setAccessibleSummbry(Accessible b) {}
 
             /**
-             * Returns the number of rows in the table.
+             * Returns the number of rows in the tbble.
              *
-             * @return the number of rows in the table
+             * @return the number of rows in the tbble
              */
             public int getAccessibleRowCount() { return 1; }
 
             /**
-             * Returns the number of columns in the table.
+             * Returns the number of columns in the tbble.
              *
-             * @return the number of columns in the table
+             * @return the number of columns in the tbble
              */
             public int getAccessibleColumnCount() {
-                return headerModel.getColumnCount();
+                return hebderModel.getColumnCount();
             }
 
             /**
-             * Returns the Accessible at a specified row and column
-             * in the table.
+             * Returns the Accessible bt b specified row bnd column
+             * in the tbble.
              *
-             * @param row zero-based row of the table
-             * @param column zero-based column of the table
-             * @return the Accessible at the specified row and column
+             * @pbrbm row zero-bbsed row of the tbble
+             * @pbrbm column zero-bbsed column of the tbble
+             * @return the Accessible bt the specified row bnd column
              */
             public Accessible getAccessibleAt(int row, int column) {
 
 
                 // TIGER - 4715503
-                TableColumn aColumn = headerModel.getColumn(column);
-                TableCellRenderer renderer = aColumn.getHeaderRenderer();
+                TbbleColumn bColumn = hebderModel.getColumn(column);
+                TbbleCellRenderer renderer = bColumn.getHebderRenderer();
                 if (renderer == null) {
-                    renderer = header.getDefaultRenderer();
+                    renderer = hebder.getDefbultRenderer();
                 }
-                Component component = renderer.getTableCellRendererComponent(
-                                  header.getTable(),
-                                  aColumn.getHeaderValue(), false, false,
+                Component component = renderer.getTbbleCellRendererComponent(
+                                  hebder.getTbble(),
+                                  bColumn.getHebderVblue(), fblse, fblse,
                                   -1, column);
 
-                return new AccessibleJTableHeaderCell(row, column,
-                                                      JTable.this.getTableHeader(),
+                return new AccessibleJTbbleHebderCell(row, column,
+                                                      JTbble.this.getTbbleHebder(),
                                                       component);
             }
 
             /**
-             * Returns the number of rows occupied by the Accessible at
-             * a specified row and column in the table.
+             * Returns the number of rows occupied by the Accessible bt
+             * b specified row bnd column in the tbble.
              *
-             * @return the number of rows occupied by the Accessible at a
+             * @return the number of rows occupied by the Accessible bt b
              * given specified (row, column)
              */
             public int getAccessibleRowExtentAt(int r, int c) { return 1; }
 
             /**
-             * Returns the number of columns occupied by the Accessible at
-             * a specified row and column in the table.
+             * Returns the number of columns occupied by the Accessible bt
+             * b specified row bnd column in the tbble.
              *
-             * @return the number of columns occupied by the Accessible at a
-             * given specified row and column
+             * @return the number of columns occupied by the Accessible bt b
+             * given specified row bnd column
              */
             public int getAccessibleColumnExtentAt(int r, int c) { return 1; }
 
             /**
-             * Returns the row headers as an AccessibleTable.
+             * Returns the row hebders bs bn AccessibleTbble.
              *
-             * @return an AccessibleTable representing the row
-             * headers
+             * @return bn AccessibleTbble representing the row
+             * hebders
              */
-            public AccessibleTable getAccessibleRowHeader() { return null; }
+            public AccessibleTbble getAccessibleRowHebder() { return null; }
 
             /**
-             * Sets the row headers.
+             * Sets the row hebders.
              *
-             * @param table an AccessibleTable representing the
-             * row headers
+             * @pbrbm tbble bn AccessibleTbble representing the
+             * row hebders
              */
-            public void setAccessibleRowHeader(AccessibleTable table) {}
+            public void setAccessibleRowHebder(AccessibleTbble tbble) {}
 
             /**
-             * Returns the column headers as an AccessibleTable.
+             * Returns the column hebders bs bn AccessibleTbble.
              *
-             * @return an AccessibleTable representing the column
-             * headers
+             * @return bn AccessibleTbble representing the column
+             * hebders
              */
-            public AccessibleTable getAccessibleColumnHeader() { return null; }
+            public AccessibleTbble getAccessibleColumnHebder() { return null; }
 
             /**
-             * Sets the column headers.
+             * Sets the column hebders.
              *
-             * @param table an AccessibleTable representing the
-             * column headers
+             * @pbrbm tbble bn AccessibleTbble representing the
+             * column hebders
              * @since 1.3
              */
-            public void setAccessibleColumnHeader(AccessibleTable table) {}
+            public void setAccessibleColumnHebder(AccessibleTbble tbble) {}
 
             /**
-             * Returns the description of the specified row in the table.
+             * Returns the description of the specified row in the tbble.
              *
-             * @param r zero-based row of the table
+             * @pbrbm r zero-bbsed row of the tbble
              * @return the description of the row
              * @since 1.3
              */
             public Accessible getAccessibleRowDescription(int r) { return null; }
 
             /**
-             * Sets the description text of the specified row of the table.
+             * Sets the description text of the specified row of the tbble.
              *
-             * @param r zero-based row of the table
-             * @param a the description of the row
+             * @pbrbm r zero-bbsed row of the tbble
+             * @pbrbm b the description of the row
              * @since 1.3
              */
-            public void setAccessibleRowDescription(int r, Accessible a) {}
+            public void setAccessibleRowDescription(int r, Accessible b) {}
 
             /**
-             * Returns the description text of the specified column in the table.
+             * Returns the description text of the specified column in the tbble.
              *
-             * @param c zero-based column of the table
+             * @pbrbm c zero-bbsed column of the tbble
              * @return the text description of the column
              * @since 1.3
              */
             public Accessible getAccessibleColumnDescription(int c) { return null; }
 
             /**
-             * Sets the description text of the specified column in the table.
+             * Sets the description text of the specified column in the tbble.
              *
-             * @param c zero-based column of the table
-             * @param a the text description of the column
+             * @pbrbm c zero-bbsed column of the tbble
+             * @pbrbm b the text description of the column
              * @since 1.3
              */
-            public void setAccessibleColumnDescription(int c, Accessible a) {}
+            public void setAccessibleColumnDescription(int c, Accessible b) {}
 
             /**
-             * Returns a boolean value indicating whether the accessible at
-             * a specified row and column is selected.
+             * Returns b boolebn vblue indicbting whether the bccessible bt
+             * b specified row bnd column is selected.
              *
-             * @param r zero-based row of the table
-             * @param c zero-based column of the table
-             * @return the boolean value true if the accessible at the
-             * row and column is selected. Otherwise, the boolean value
-             * false
+             * @pbrbm r zero-bbsed row of the tbble
+             * @pbrbm c zero-bbsed column of the tbble
+             * @return the boolebn vblue true if the bccessible bt the
+             * row bnd column is selected. Otherwise, the boolebn vblue
+             * fblse
              * @since 1.3
              */
-            public boolean isAccessibleSelected(int r, int c) { return false; }
+            public boolebn isAccessibleSelected(int r, int c) { return fblse; }
 
             /**
-             * Returns a boolean value indicating whether the specified row
+             * Returns b boolebn vblue indicbting whether the specified row
              * is selected.
              *
-             * @param r zero-based row of the table
-             * @return the boolean value true if the specified row is selected.
-             * Otherwise, false.
+             * @pbrbm r zero-bbsed row of the tbble
+             * @return the boolebn vblue true if the specified row is selected.
+             * Otherwise, fblse.
              * @since 1.3
              */
-            public boolean isAccessibleRowSelected(int r) { return false; }
+            public boolebn isAccessibleRowSelected(int r) { return fblse; }
 
             /**
-             * Returns a boolean value indicating whether the specified column
+             * Returns b boolebn vblue indicbting whether the specified column
              * is selected.
              *
-             * @param c zero-based column of the table
-             * @return the boolean value true if the specified column is selected.
-             * Otherwise, false.
+             * @pbrbm c zero-bbsed column of the tbble
+             * @return the boolebn vblue true if the specified column is selected.
+             * Otherwise, fblse.
              * @since 1.3
              */
-            public boolean isAccessibleColumnSelected(int c) { return false; }
+            public boolebn isAccessibleColumnSelected(int c) { return fblse; }
 
             /**
-             * Returns the selected rows in a table.
+             * Returns the selected rows in b tbble.
              *
-             * @return an array of selected rows where each element is a
-             * zero-based row of the table
+             * @return bn brrby of selected rows where ebch element is b
+             * zero-bbsed row of the tbble
              * @since 1.3
              */
             public int [] getSelectedAccessibleRows() { return new int[0]; }
 
             /**
-             * Returns the selected columns in a table.
+             * Returns the selected columns in b tbble.
              *
-             * @return an array of selected columns where each element is a
-             * zero-based column of the table
+             * @return bn brrby of selected columns where ebch element is b
+             * zero-bbsed column of the tbble
              * @since 1.3
              */
             public int [] getSelectedAccessibleColumns() { return new int[0]; }
@@ -7734,26 +7734,26 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 
 
         /**
-         * Sets the column headers as an <code>AccessibleTable</code>.
+         * Sets the column hebders bs bn <code>AccessibleTbble</code>.
          *
-         * @param a an <code>AccessibleTable</code> representing the
-         * column headers
+         * @pbrbm b bn <code>AccessibleTbble</code> representing the
+         * column hebders
          * @since 1.3
          */
-        public void setAccessibleColumnHeader(AccessibleTable a) {
+        public void setAccessibleColumnHebder(AccessibleTbble b) {
             // XXX not implemented
         }
 
         /**
-         * Returns the description of the specified row in the table.
+         * Returns the description of the specified row in the tbble.
          *
-         * @param r zero-based row of the table
+         * @pbrbm r zero-bbsed row of the tbble
          * @return the description of the row
          * @since 1.3
          */
         public Accessible getAccessibleRowDescription(int r) {
             if (r < 0 || r >= getAccessibleRowCount()) {
-                throw new IllegalArgumentException(Integer.toString(r));
+                throw new IllegblArgumentException(Integer.toString(r));
             }
             if (rowDescription == null) {
                 return null;
@@ -7763,33 +7763,33 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Sets the description text of the specified row of the table.
+         * Sets the description text of the specified row of the tbble.
          *
-         * @param r zero-based row of the table
-         * @param a the description of the row
+         * @pbrbm r zero-bbsed row of the tbble
+         * @pbrbm b the description of the row
          * @since 1.3
          */
-        public void setAccessibleRowDescription(int r, Accessible a) {
+        public void setAccessibleRowDescription(int r, Accessible b) {
             if (r < 0 || r >= getAccessibleRowCount()) {
-                throw new IllegalArgumentException(Integer.toString(r));
+                throw new IllegblArgumentException(Integer.toString(r));
             }
             if (rowDescription == null) {
                 int numRows = getAccessibleRowCount();
                 rowDescription = new Accessible[numRows];
             }
-            rowDescription[r] = a;
+            rowDescription[r] = b;
         }
 
         /**
-         * Returns the description of the specified column in the table.
+         * Returns the description of the specified column in the tbble.
          *
-         * @param c zero-based column of the table
+         * @pbrbm c zero-bbsed column of the tbble
          * @return the description of the column
          * @since 1.3
          */
         public Accessible getAccessibleColumnDescription(int c) {
             if (c < 0 || c >= getAccessibleColumnCount()) {
-                throw new IllegalArgumentException(Integer.toString(c));
+                throw new IllegblArgumentException(Integer.toString(c));
             }
             if (columnDescription == null) {
                 return null;
@@ -7799,90 +7799,90 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Sets the description text of the specified column of the table.
+         * Sets the description text of the specified column of the tbble.
          *
-         * @param c zero-based column of the table
-         * @param a the description of the column
+         * @pbrbm c zero-bbsed column of the tbble
+         * @pbrbm b the description of the column
          * @since 1.3
          */
-        public void setAccessibleColumnDescription(int c, Accessible a) {
+        public void setAccessibleColumnDescription(int c, Accessible b) {
             if (c < 0 || c >= getAccessibleColumnCount()) {
-                throw new IllegalArgumentException(Integer.toString(c));
+                throw new IllegblArgumentException(Integer.toString(c));
             }
             if (columnDescription == null) {
                 int numColumns = getAccessibleColumnCount();
                 columnDescription = new Accessible[numColumns];
             }
-            columnDescription[c] = a;
+            columnDescription[c] = b;
         }
 
         /**
-         * Returns a boolean value indicating whether the accessible at a
+         * Returns b boolebn vblue indicbting whether the bccessible bt b
          * given (row, column) is selected.
          *
-         * @param r zero-based row of the table
-         * @param c zero-based column of the table
-         * @return the boolean value true if the accessible at (row, column)
-         *     is selected; otherwise, the boolean value false
+         * @pbrbm r zero-bbsed row of the tbble
+         * @pbrbm c zero-bbsed column of the tbble
+         * @return the boolebn vblue true if the bccessible bt (row, column)
+         *     is selected; otherwise, the boolebn vblue fblse
          * @since 1.3
          */
-        public boolean isAccessibleSelected(int r, int c) {
-            return JTable.this.isCellSelected(r, c);
+        public boolebn isAccessibleSelected(int r, int c) {
+            return JTbble.this.isCellSelected(r, c);
         }
 
         /**
-         * Returns a boolean value indicating whether the specified row
+         * Returns b boolebn vblue indicbting whether the specified row
          * is selected.
          *
-         * @param r zero-based row of the table
-         * @return the boolean value true if the specified row is selected;
-         *     otherwise, false
+         * @pbrbm r zero-bbsed row of the tbble
+         * @return the boolebn vblue true if the specified row is selected;
+         *     otherwise, fblse
          * @since 1.3
          */
-        public boolean isAccessibleRowSelected(int r) {
-            return JTable.this.isRowSelected(r);
+        public boolebn isAccessibleRowSelected(int r) {
+            return JTbble.this.isRowSelected(r);
         }
 
         /**
-         * Returns a boolean value indicating whether the specified column
+         * Returns b boolebn vblue indicbting whether the specified column
          * is selected.
          *
-         * @param c zero-based column of the table
-         * @return the boolean value true if the specified column is selected;
-         *     otherwise, false
+         * @pbrbm c zero-bbsed column of the tbble
+         * @return the boolebn vblue true if the specified column is selected;
+         *     otherwise, fblse
          * @since 1.3
          */
-        public boolean isAccessibleColumnSelected(int c) {
-            return JTable.this.isColumnSelected(c);
+        public boolebn isAccessibleColumnSelected(int c) {
+            return JTbble.this.isColumnSelected(c);
         }
 
         /**
-         * Returns the selected rows in a table.
+         * Returns the selected rows in b tbble.
          *
-         * @return an array of selected rows where each element is a
-         *     zero-based row of the table
+         * @return bn brrby of selected rows where ebch element is b
+         *     zero-bbsed row of the tbble
          * @since 1.3
          */
         public int [] getSelectedAccessibleRows() {
-            return JTable.this.getSelectedRows();
+            return JTbble.this.getSelectedRows();
         }
 
         /**
-         * Returns the selected columns in a table.
+         * Returns the selected columns in b tbble.
          *
-         * @return an array of selected columns where each element is a
-         *     zero-based column of the table
+         * @return bn brrby of selected columns where ebch element is b
+         *     zero-bbsed column of the tbble
          * @since 1.3
          */
         public int [] getSelectedAccessibleColumns() {
-            return JTable.this.getSelectedColumns();
+            return JTbble.this.getSelectedColumns();
         }
 
         /**
-         * Returns the row at a given index into the table.
+         * Returns the row bt b given index into the tbble.
          *
-         * @param i zero-based index into the table
-         * @return the row at a given index
+         * @pbrbm i zero-bbsed index into the tbble
+         * @return the row bt b given index
          * @since 1.3
          */
         public int getAccessibleRowAtIndex(int i) {
@@ -7895,10 +7895,10 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Returns the column at a given index into the table.
+         * Returns the column bt b given index into the tbble.
          *
-         * @param i zero-based index into the table
-         * @return the column at a given index
+         * @pbrbm i zero-bbsed index into the tbble
+         * @return the column bt b given index
          * @since 1.3
          */
         public int getAccessibleColumnAtIndex(int i) {
@@ -7911,52 +7911,52 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
         }
 
         /**
-         * Returns the index at a given (row, column) in the table.
+         * Returns the index bt b given (row, column) in the tbble.
          *
-         * @param r zero-based row of the table
-         * @param c zero-based column of the table
-         * @return the index into the table
+         * @pbrbm r zero-bbsed row of the tbble
+         * @pbrbm c zero-bbsed column of the tbble
+         * @return the index into the tbble
          * @since 1.3
          */
         public int getAccessibleIndexAt(int r, int c) {
             return ((r * getAccessibleColumnCount()) + c);
         }
 
-        // end of AccessibleTable implementation --------------------
+        // end of AccessibleTbble implementbtion --------------------
 
         /**
-         * The class provides an implementation of the Java Accessibility
-         * API appropriate to table cells.
+         * The clbss provides bn implementbtion of the Jbvb Accessibility
+         * API bppropribte to tbble cells.
          */
-        protected class AccessibleJTableCell extends AccessibleContext
+        protected clbss AccessibleJTbbleCell extends AccessibleContext
             implements Accessible, AccessibleComponent {
 
-            private JTable parent;
-            private int row;
-            private int column;
-            private int index;
+            privbte JTbble pbrent;
+            privbte int row;
+            privbte int column;
+            privbte int index;
 
             /**
-             *  Constructs an <code>AccessibleJTableHeaderEntry</code>.
+             *  Constructs bn <code>AccessibleJTbbleHebderEntry</code>.
              *
-             * @param t a {@code JTable}
-             * @param r an {@code int} specifying a row
-             * @param c an {@code int} specifying a column
-             * @param i an {@code int} specifying the index to this cell
+             * @pbrbm t b {@code JTbble}
+             * @pbrbm r bn {@code int} specifying b row
+             * @pbrbm c bn {@code int} specifying b column
+             * @pbrbm i bn {@code int} specifying the index to this cell
              * @since 1.4
              */
-            public AccessibleJTableCell(JTable t, int r, int c, int i) {
-                parent = t;
+            public AccessibleJTbbleCell(JTbble t, int r, int c, int i) {
+                pbrent = t;
                 row = r;
                 column = c;
                 index = i;
-                this.setAccessibleParent(parent);
+                this.setAccessiblePbrent(pbrent);
             }
 
             /**
-             * Gets the <code>AccessibleContext</code> associated with this
-             * component. In the implementation of the Java Accessibility
-             * API for this class, return this object, which is its own
+             * Gets the <code>AccessibleContext</code> bssocibted with this
+             * component. In the implementbtion of the Jbvb Accessibility
+             * API for this clbss, return this object, which is its own
              * <code>AccessibleContext</code>.
              *
              * @return this object
@@ -7966,24 +7966,24 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the AccessibleContext for the table cell renderer.
+             * Gets the AccessibleContext for the tbble cell renderer.
              *
-             * @return the <code>AccessibleContext</code> for the table
+             * @return the <code>AccessibleContext</code> for the tbble
              * cell renderer if one exists;
              * otherwise, returns <code>null</code>.
              * @since 1.6
              */
             protected AccessibleContext getCurrentAccessibleContext() {
-                TableColumn aColumn = getColumnModel().getColumn(column);
-                TableCellRenderer renderer = aColumn.getCellRenderer();
+                TbbleColumn bColumn = getColumnModel().getColumn(column);
+                TbbleCellRenderer renderer = bColumn.getCellRenderer();
                 if (renderer == null) {
-                    Class<?> columnClass = getColumnClass(column);
-                    renderer = getDefaultRenderer(columnClass);
+                    Clbss<?> columnClbss = getColumnClbss(column);
+                    renderer = getDefbultRenderer(columnClbss);
                 }
-                Component component = renderer.getTableCellRendererComponent(
-                                  JTable.this, getValueAt(row, column),
-                                  false, false, row, column);
-                if (component instanceof Accessible) {
+                Component component = renderer.getTbbleCellRendererComponent(
+                                  JTbble.this, getVblueAt(row, column),
+                                  fblse, fblse, row, column);
+                if (component instbnceof Accessible) {
                     return component.getAccessibleContext();
                 } else {
                     return null;
@@ -7991,60 +7991,60 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the table cell renderer component.
+             * Gets the tbble cell renderer component.
              *
-             * @return the table cell renderer component if one exists;
+             * @return the tbble cell renderer component if one exists;
              * otherwise, returns <code>null</code>.
              * @since 1.6
              */
             protected Component getCurrentComponent() {
-                TableColumn aColumn = getColumnModel().getColumn(column);
-                TableCellRenderer renderer = aColumn.getCellRenderer();
+                TbbleColumn bColumn = getColumnModel().getColumn(column);
+                TbbleCellRenderer renderer = bColumn.getCellRenderer();
                 if (renderer == null) {
-                    Class<?> columnClass = getColumnClass(column);
-                    renderer = getDefaultRenderer(columnClass);
+                    Clbss<?> columnClbss = getColumnClbss(column);
+                    renderer = getDefbultRenderer(columnClbss);
                 }
-                return renderer.getTableCellRendererComponent(
-                                  JTable.this, null, false, false,
+                return renderer.getTbbleCellRendererComponent(
+                                  JTbble.this, null, fblse, fblse,
                                   row, column);
             }
 
         // AccessibleContext methods
 
             /**
-             * Gets the accessible name of this object.
+             * Gets the bccessible nbme of this object.
              *
-             * @return the localized name of the object; <code>null</code>
-             *     if this object does not have a name
+             * @return the locblized nbme of the object; <code>null</code>
+             *     if this object does not hbve b nbme
              */
-            public String getAccessibleName() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    String name = ac.getAccessibleName();
-                    if ((name != null) && (name != "")) {
-                        // return the cell renderer's AccessibleName
-                        return name;
+            public String getAccessibleNbme() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    String nbme = bc.getAccessibleNbme();
+                    if ((nbme != null) && (nbme != "")) {
+                        // return the cell renderer's AccessibleNbme
+                        return nbme;
                     }
                 }
-                if ((accessibleName != null) && (accessibleName != "")) {
-                    return accessibleName;
+                if ((bccessibleNbme != null) && (bccessibleNbme != "")) {
+                    return bccessibleNbme;
                 } else {
-                    // fall back to the client property
+                    // fbll bbck to the client property
                     return (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
                 }
             }
 
             /**
-             * Sets the localized accessible name of this object.
+             * Sets the locblized bccessible nbme of this object.
              *
-             * @param s the new localized name of the object
+             * @pbrbm s the new locblized nbme of the object
              */
-            public void setAccessibleName(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleName(s);
+            public void setAccessibleNbme(String s) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleNbme(s);
                 } else {
-                    super.setAccessibleName(s);
+                    super.setAccessibleNbme(s);
                 }
             }
 
@@ -8052,30 +8052,30 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             // *** should check toolTip text for desc. (needs MouseEvent)
             //
             /**
-             * Gets the accessible description of this object.
+             * Gets the bccessible description of this object.
              *
-             * @return the localized description of the object;
-             *     <code>null</code> if this object does not have
-             *     a description
+             * @return the locblized description of the object;
+             *     <code>null</code> if this object does not hbve
+             *     b description
              */
             public String getAccessibleDescription() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleDescription();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleDescription();
                 } else {
                     return super.getAccessibleDescription();
                 }
             }
 
             /**
-             * Sets the accessible description of this object.
+             * Sets the bccessible description of this object.
              *
-             * @param s the new localized description of the object
+             * @pbrbm s the new locblized description of the object
              */
             public void setAccessibleDescription(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleDescription(s);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleDescription(s);
                 } else {
                     super.setAccessibleDescription(s);
                 }
@@ -8084,88 +8084,88 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Gets the role of this object.
              *
-             * @return an instance of <code>AccessibleRole</code>
+             * @return bn instbnce of <code>AccessibleRole</code>
              *      describing the role of the object
              * @see AccessibleRole
              */
             public AccessibleRole getAccessibleRole() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleRole();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleRole();
                 } else {
                     return AccessibleRole.UNKNOWN;
                 }
             }
 
             /**
-             * Gets the state set of this object.
+             * Gets the stbte set of this object.
              *
-             * @return an instance of <code>AccessibleStateSet</code>
-             *     containing the current state set of the object
-             * @see AccessibleState
+             * @return bn instbnce of <code>AccessibleStbteSet</code>
+             *     contbining the current stbte set of the object
+             * @see AccessibleStbte
              */
-            public AccessibleStateSet getAccessibleStateSet() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                AccessibleStateSet as = null;
+            public AccessibleStbteSet getAccessibleStbteSet() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                AccessibleStbteSet bs = null;
 
-                if (ac != null) {
-                    as = ac.getAccessibleStateSet();
+                if (bc != null) {
+                    bs = bc.getAccessibleStbteSet();
                 }
-                if (as == null) {
-                    as = new AccessibleStateSet();
+                if (bs == null) {
+                    bs = new AccessibleStbteSet();
                 }
-                Rectangle rjt = JTable.this.getVisibleRect();
-                Rectangle rcell = JTable.this.getCellRect(row, column, false);
+                Rectbngle rjt = JTbble.this.getVisibleRect();
+                Rectbngle rcell = JTbble.this.getCellRect(row, column, fblse);
                 if (rjt.intersects(rcell)) {
-                    as.add(AccessibleState.SHOWING);
+                    bs.bdd(AccessibleStbte.SHOWING);
                 } else {
-                    if (as.contains(AccessibleState.SHOWING)) {
-                         as.remove(AccessibleState.SHOWING);
+                    if (bs.contbins(AccessibleStbte.SHOWING)) {
+                         bs.remove(AccessibleStbte.SHOWING);
                     }
                 }
-                if (parent.isCellSelected(row, column)) {
-                    as.add(AccessibleState.SELECTED);
-                } else if (as.contains(AccessibleState.SELECTED)) {
-                    as.remove(AccessibleState.SELECTED);
+                if (pbrent.isCellSelected(row, column)) {
+                    bs.bdd(AccessibleStbte.SELECTED);
+                } else if (bs.contbins(AccessibleStbte.SELECTED)) {
+                    bs.remove(AccessibleStbte.SELECTED);
                 }
                 if ((row == getSelectedRow()) && (column == getSelectedColumn())) {
-                    as.add(AccessibleState.ACTIVE);
+                    bs.bdd(AccessibleStbte.ACTIVE);
                 }
-                as.add(AccessibleState.TRANSIENT);
-                return as;
+                bs.bdd(AccessibleStbte.TRANSIENT);
+                return bs;
             }
 
             /**
-             * Gets the <code>Accessible</code> parent of this object.
+             * Gets the <code>Accessible</code> pbrent of this object.
              *
-             * @return the Accessible parent of this object;
+             * @return the Accessible pbrent of this object;
              *     <code>null</code> if this object does not
-             *     have an <code>Accessible</code> parent
+             *     hbve bn <code>Accessible</code> pbrent
              */
-            public Accessible getAccessibleParent() {
-                return parent;
+            public Accessible getAccessiblePbrent() {
+                return pbrent;
             }
 
             /**
-             * Gets the index of this object in its accessible parent.
+             * Gets the index of this object in its bccessible pbrent.
              *
-             * @return the index of this object in its parent; -1 if this
-             *     object does not have an accessible parent
-             * @see #getAccessibleParent
+             * @return the index of this object in its pbrent; -1 if this
+             *     object does not hbve bn bccessible pbrent
+             * @see #getAccessiblePbrent
              */
-            public int getAccessibleIndexInParent() {
+            public int getAccessibleIndexInPbrent() {
                 return index;
             }
 
             /**
-             * Returns the number of accessible children in the object.
+             * Returns the number of bccessible children in the object.
              *
-             * @return the number of accessible children in the object
+             * @return the number of bccessible children in the object
              */
             public int getAccessibleChildrenCount() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleChildrenCount();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleChildrenCount();
                 } else {
                     return 0;
                 }
@@ -8175,78 +8175,78 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              * Returns the specified <code>Accessible</code> child of the
              * object.
              *
-             * @param i zero-based index of child
+             * @pbrbm i zero-bbsed index of child
              * @return the <code>Accessible</code> child of the object
              */
             public Accessible getAccessibleChild(int i) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    Accessible accessibleChild = ac.getAccessibleChild(i);
-                    ac.setAccessibleParent(this);
-                    return accessibleChild;
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    Accessible bccessibleChild = bc.getAccessibleChild(i);
+                    bc.setAccessiblePbrent(this);
+                    return bccessibleChild;
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Gets the locale of the component. If the component
-             * does not have a locale, then the locale of its parent
+             * Gets the locble of the component. If the component
+             * does not hbve b locble, then the locble of its pbrent
              * is returned.
              *
-             * @return this component's locale; if this component does
-             *    not have a locale, the locale of its parent is returned
-             * @exception IllegalComponentStateException if the
-             *    <code>Component</code> does not have its own locale
-             *    and has not yet been added to a containment hierarchy
-             *    such that the locale can be determined from the
-             *    containing parent
-             * @see #setLocale
+             * @return this component's locble; if this component does
+             *    not hbve b locble, the locble of its pbrent is returned
+             * @exception IllegblComponentStbteException if the
+             *    <code>Component</code> does not hbve its own locble
+             *    bnd hbs not yet been bdded to b contbinment hierbrchy
+             *    such thbt the locble cbn be determined from the
+             *    contbining pbrent
+             * @see #setLocble
              */
-            public Locale getLocale() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getLocale();
+            public Locble getLocble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getLocble();
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Adds a <code>PropertyChangeListener</code> to the listener list.
-             * The listener is registered for all properties.
+             * Adds b <code>PropertyChbngeListener</code> to the listener list.
+             * The listener is registered for bll properties.
              *
-             * @param l  the <code>PropertyChangeListener</code>
-             *     to be added
+             * @pbrbm l  the <code>PropertyChbngeListener</code>
+             *     to be bdded
              */
-            public void addPropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.addPropertyChangeListener(l);
+            public void bddPropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.bddPropertyChbngeListener(l);
                 } else {
-                    super.addPropertyChangeListener(l);
+                    super.bddPropertyChbngeListener(l);
                 }
             }
 
             /**
-             * Removes a <code>PropertyChangeListener</code> from the
-             * listener list. This removes a <code>PropertyChangeListener</code>
-             * that was registered for all properties.
+             * Removes b <code>PropertyChbngeListener</code> from the
+             * listener list. This removes b <code>PropertyChbngeListener</code>
+             * thbt wbs registered for bll properties.
              *
-             * @param l  the <code>PropertyChangeListener</code>
+             * @pbrbm l  the <code>PropertyChbngeListener</code>
              *    to be removed
              */
-            public void removePropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.removePropertyChangeListener(l);
+            public void removePropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.removePropertyChbngeListener(l);
                 } else {
-                    super.removePropertyChangeListener(l);
+                    super.removePropertyChbngeListener(l);
                 }
             }
 
             /**
-             * Gets the <code>AccessibleAction</code> associated with this
+             * Gets the <code>AccessibleAction</code> bssocibted with this
              * object if one exists.  Otherwise returns <code>null</code>.
              *
              * @return the <code>AccessibleAction</code>, or <code>null</code>
@@ -8256,7 +8256,7 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the <code>AccessibleComponent</code> associated with
+             * Gets the <code>AccessibleComponent</code> bssocibted with
              * this object if one exists.  Otherwise returns <code>null</code>.
              *
              * @return the <code>AccessibleComponent</code>, or
@@ -8267,7 +8267,7 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the <code>AccessibleSelection</code> associated with
+             * Gets the <code>AccessibleSelection</code> bssocibted with
              * this object if one exists.  Otherwise returns <code>null</code>.
              *
              * @return the <code>AccessibleSelection</code>, or
@@ -8278,7 +8278,7 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the <code>AccessibleText</code> associated with this
+             * Gets the <code>AccessibleText</code> bssocibted with this
              * object if one exists.  Otherwise returns <code>null</code>.
              *
              * @return the <code>AccessibleText</code>, or <code>null</code>
@@ -8288,32 +8288,32 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the <code>AccessibleValue</code> associated with
+             * Gets the <code>AccessibleVblue</code> bssocibted with
              * this object if one exists.  Otherwise returns <code>null</code>.
              *
-             * @return the <code>AccessibleValue</code>, or <code>null</code>
+             * @return the <code>AccessibleVblue</code>, or <code>null</code>
              */
-            public AccessibleValue getAccessibleValue() {
-                return getCurrentAccessibleContext().getAccessibleValue();
+            public AccessibleVblue getAccessibleVblue() {
+                return getCurrentAccessibleContext().getAccessibleVblue();
             }
 
 
         // AccessibleComponent methods
 
             /**
-             * Gets the background color of this object.
+             * Gets the bbckground color of this object.
              *
-             * @return the background color, if supported, of the object;
+             * @return the bbckground color, if supported, of the object;
              *     otherwise, <code>null</code>
              */
-            public Color getBackground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getBackground();
+            public Color getBbckground() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getBbckground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.getBackground();
+                        return c.getBbckground();
                     } else {
                         return null;
                     }
@@ -8321,18 +8321,18 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Sets the background color of this object.
+             * Sets the bbckground color of this object.
              *
-             * @param c the new <code>Color</code> for the background
+             * @pbrbm c the new <code>Color</code> for the bbckground
              */
-            public void setBackground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBackground(c);
+            public void setBbckground(Color c) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBbckground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
-                        cp.setBackground(c);
+                        cp.setBbckground(c);
                     }
                 }
             }
@@ -8344,9 +8344,9 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              *     otherwise, <code>null</code>
              */
             public Color getForeground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getForeground();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getForeground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -8360,12 +8360,12 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Sets the foreground color of this object.
              *
-             * @param c the new <code>Color</code> for the foreground
+             * @pbrbm c the new <code>Color</code> for the foreground
              */
             public void setForeground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setForeground(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setForeground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -8381,17 +8381,17 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              *    of the object; otherwise, <code>null</code>
              */
             public Cursor getCursor() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getCursor();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getCursor();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
                         return c.getCursor();
                     } else {
-                        Accessible ap = getAccessibleParent();
-                        if (ap instanceof AccessibleComponent) {
-                            return ((AccessibleComponent) ap).getCursor();
+                        Accessible bp = getAccessiblePbrent();
+                        if (bp instbnceof AccessibleComponent) {
+                            return ((AccessibleComponent) bp).getCursor();
                         } else {
                             return null;
                         }
@@ -8402,12 +8402,12 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Sets the <code>Cursor</code> of this object.
              *
-             * @param c the new <code>Cursor</code> for the object
+             * @pbrbm c the new <code>Cursor</code> for the object
              */
             public void setCursor(Cursor c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setCursor(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setCursor(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -8423,9 +8423,9 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              *   for the object; otherwise, <code>null</code>
              */
             public Font getFont() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFont();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFont();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -8439,12 +8439,12 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Sets the <code>Font</code> of this object.
              *
-             * @param f the new <code>Font</code> for the object
+             * @pbrbm f the new <code>Font</code> for the object
              */
             public void setFont(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setFont(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setFont(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -8456,15 +8456,15 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Gets the <code>FontMetrics</code> of this object.
              *
-             * @param f the <code>Font</code>
+             * @pbrbm f the <code>Font</code>
              * @return the <code>FontMetrics</code> object, if supported;
              *    otherwise <code>null</code>
              * @see #getFont
              */
             public FontMetrics getFontMetrics(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFontMetrics(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFontMetrics(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -8476,73 +8476,73 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Determines if the object is enabled.
+             * Determines if the object is enbbled.
              *
-             * @return true if object is enabled; otherwise, false
+             * @return true if object is enbbled; otherwise, fblse
              */
-            public boolean isEnabled() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isEnabled();
+            public boolebn isEnbbled() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isEnbbled();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isEnabled();
+                        return c.isEnbbled();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             /**
-             * Sets the enabled state of the object.
+             * Sets the enbbled stbte of the object.
              *
-             * @param b if true, enables this object; otherwise, disables it
+             * @pbrbm b if true, enbbles this object; otherwise, disbbles it
              */
-            public void setEnabled(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setEnabled(b);
+            public void setEnbbled(boolebn b) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setEnbbled(b);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.setEnabled(b);
+                        c.setEnbbled(b);
                     }
                 }
             }
 
             /**
-             * Determines if this object is visible.  Note: this means that the
-             * object intends to be visible; however, it may not in fact be
-             * showing on the screen because one of the objects that this object
-             * is contained by is not visible.  To determine if an object is
+             * Determines if this object is visible.  Note: this mebns thbt the
+             * object intends to be visible; however, it mby not in fbct be
+             * showing on the screen becbuse one of the objects thbt this object
+             * is contbined by is not visible.  To determine if bn object is
              * showing on the screen, use <code>isShowing</code>.
              *
-             * @return true if object is visible; otherwise, false
+             * @return true if object is visible; otherwise, fblse
              */
-            public boolean isVisible() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isVisible();
+            public boolebn isVisible() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isVisible();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
                         return c.isVisible();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             /**
-             * Sets the visible state of the object.
+             * Sets the visible stbte of the object.
              *
-             * @param b if true, shows this object; otherwise, hides it
+             * @pbrbm b if true, shows this object; otherwise, hides it
              */
-            public void setVisible(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setVisible(b);
+            public void setVisible(boolebn b) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setVisible(b);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -8553,22 +8553,22 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 
             /**
              * Determines if the object is showing.  This is determined
-             * by checking the visibility of the object and ancestors
+             * by checking the visibility of the object bnd bncestors
              * of the object.  Note: this will return true even if the
-             * object is obscured by another (for example,
-             * it happens to be underneath a menu that was pulled down).
+             * object is obscured by bnother (for exbmple,
+             * it hbppens to be undernebth b menu thbt wbs pulled down).
              *
-             * @return true if the object is showing; otherwise, false
+             * @return true if the object is showing; otherwise, fblse
              */
-            public boolean isShowing() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    if (ac.getAccessibleParent() != null) {
-                        return ((AccessibleComponent) ac).isShowing();
+            public boolebn isShowing() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    if (bc.getAccessiblePbrent() != null) {
+                        return ((AccessibleComponent) bc).isShowing();
                     } else {
-                        // Fixes 4529616 - AccessibleJTableCell.isShowing()
-                        // returns false when the cell on the screen
-                        // if no parent
+                        // Fixes 4529616 - AccessibleJTbbleCell.isShowing()
+                        // returns fblse when the cell on the screen
+                        // if no pbrent
                         return isVisible();
                     }
                 } else {
@@ -8576,96 +8576,96 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                     if (c != null) {
                         return c.isShowing();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             /**
              * Checks whether the specified point is within this
-             * object's bounds, where the point's x and y coordinates
-             * are defined to be relative to the coordinate system of
+             * object's bounds, where the point's x bnd y coordinbtes
+             * bre defined to be relbtive to the coordinbte system of
              * the object.
              *
-             * @param p the <code>Point</code> relative to the
-             *    coordinate system of the object
-             * @return true if object contains <code>Point</code>;
-             *    otherwise false
+             * @pbrbm p the <code>Point</code> relbtive to the
+             *    coordinbte system of the object
+             * @return true if object contbins <code>Point</code>;
+             *    otherwise fblse
              */
-            public boolean contains(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    Rectangle r = ((AccessibleComponent) ac).getBounds();
-                    return r.contains(p);
+            public boolebn contbins(Point p) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    Rectbngle r = ((AccessibleComponent) bc).getBounds();
+                    return r.contbins(p);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        Rectangle r = c.getBounds();
-                        return r.contains(p);
+                        Rectbngle r = c.getBounds();
+                        return r.contbins(p);
                     } else {
-                        return getBounds().contains(p);
+                        return getBounds().contbins(p);
                     }
                 }
             }
 
             /**
-             * Returns the location of the object on the screen.
+             * Returns the locbtion of the object on the screen.
              *
-             * @return location of object on screen -- can be
+             * @return locbtion of object on screen -- cbn be
              *    <code>null</code> if this object is not on the screen
              */
-            public Point getLocationOnScreen() {
-                if (parent != null && parent.isShowing()) {
-                    Point parentLocation = parent.getLocationOnScreen();
-                    Point componentLocation = getLocation();
-                    componentLocation.translate(parentLocation.x, parentLocation.y);
-                    return componentLocation;
+            public Point getLocbtionOnScreen() {
+                if (pbrent != null && pbrent.isShowing()) {
+                    Point pbrentLocbtion = pbrent.getLocbtionOnScreen();
+                    Point componentLocbtion = getLocbtion();
+                    componentLocbtion.trbnslbte(pbrentLocbtion.x, pbrentLocbtion.y);
+                    return componentLocbtion;
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Gets the location of the object relative to the parent
-             * in the form of a point specifying the object's
-             * top-left corner in the screen's coordinate space.
+             * Gets the locbtion of the object relbtive to the pbrent
+             * in the form of b point specifying the object's
+             * top-left corner in the screen's coordinbte spbce.
              *
-             * @return an instance of <code>Point</code> representing
+             * @return bn instbnce of <code>Point</code> representing
              *    the top-left corner of the object's bounds in the
-             *    coordinate space of the screen; <code>null</code> if
-             *    this object or its parent are not on the screen
+             *    coordinbte spbce of the screen; <code>null</code> if
+             *    this object or its pbrent bre not on the screen
              */
-            public Point getLocation() {
-                if (parent != null) {
-                    Rectangle r = parent.getCellRect(row, column, false);
+            public Point getLocbtion() {
+                if (pbrent != null) {
+                    Rectbngle r = pbrent.getCellRect(row, column, fblse);
                     if (r != null) {
-                        return r.getLocation();
+                        return r.getLocbtion();
                     }
                 }
                 return null;
             }
 
             /**
-             * Sets the location of the object relative to the parent.
+             * Sets the locbtion of the object relbtive to the pbrent.
              */
-            public void setLocation(Point p) {
-//              if ((parent != null)  && (parent.contains(p))) {
-//                  ensureIndexIsVisible(indexInParent);
+            public void setLocbtion(Point p) {
+//              if ((pbrent != null)  && (pbrent.contbins(p))) {
+//                  ensureIndexIsVisible(indexInPbrent);
 //              }
             }
 
-            public Rectangle getBounds() {
-                if (parent != null) {
-                    return parent.getCellRect(row, column, false);
+            public Rectbngle getBounds() {
+                if (pbrent != null) {
+                    return pbrent.getCellRect(row, column, fblse);
                 } else {
                     return null;
                 }
             }
 
-            public void setBounds(Rectangle r) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBounds(r);
+            public void setBounds(Rectbngle r) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBounds(r);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -8675,8 +8675,8 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             public Dimension getSize() {
-                if (parent != null) {
-                    Rectangle r = parent.getCellRect(row, column, false);
+                if (pbrent != null) {
+                    Rectbngle r = pbrent.getCellRect(row, column, fblse);
                     if (r != null) {
                         return r.getSize();
                     }
@@ -8685,9 +8685,9 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             public void setSize (Dimension d) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setSize(d);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setSize(d);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -8697,32 +8697,32 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             public Accessible getAccessibleAt(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getAccessibleAt(p);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getAccessibleAt(p);
                 } else {
                     return null;
                 }
             }
 
-            public boolean isFocusTraversable() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isFocusTraversable();
+            public boolebn isFocusTrbversbble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isFocusTrbversbble();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isFocusTraversable();
+                        return c.isFocusTrbversbble();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             public void requestFocus() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).requestFocus();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).requestFocus();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -8731,22 +8731,22 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                 }
             }
 
-            public void addFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).addFocusListener(l);
+            public void bddFocusListener(FocusListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).bddFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.addFocusListener(l);
+                        c.bddFocusListener(l);
                     }
                 }
             }
 
             public void removeFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).removeFocusListener(l);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).removeFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -8755,43 +8755,43 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                 }
             }
 
-        } // inner class AccessibleJTableCell
+        } // inner clbss AccessibleJTbbleCell
 
-        // Begin AccessibleJTableHeader ========== // TIGER - 4715503
+        // Begin AccessibleJTbbleHebder ========== // TIGER - 4715503
 
         /**
-         * This class implements accessibility for JTable header cells.
+         * This clbss implements bccessibility for JTbble hebder cells.
          */
-        private class AccessibleJTableHeaderCell extends AccessibleContext
+        privbte clbss AccessibleJTbbleHebderCell extends AccessibleContext
             implements Accessible, AccessibleComponent {
 
-            private int row;
-            private int column;
-            private JTableHeader parent;
-            private Component rendererComponent;
+            privbte int row;
+            privbte int column;
+            privbte JTbbleHebder pbrent;
+            privbte Component rendererComponent;
 
             /**
-             * Constructs an <code>AccessibleJTableHeaderEntry</code> instance.
+             * Constructs bn <code>AccessibleJTbbleHebderEntry</code> instbnce.
              *
-             * @param row header cell row index
-             * @param column header cell column index
-             * @param parent header cell parent
-             * @param rendererComponent component that renders the header cell
+             * @pbrbm row hebder cell row index
+             * @pbrbm column hebder cell column index
+             * @pbrbm pbrent hebder cell pbrent
+             * @pbrbm rendererComponent component thbt renders the hebder cell
              */
-            public AccessibleJTableHeaderCell(int row, int column,
-                                              JTableHeader parent,
+            public AccessibleJTbbleHebderCell(int row, int column,
+                                              JTbbleHebder pbrent,
                                               Component rendererComponent) {
                 this.row = row;
                 this.column = column;
-                this.parent = parent;
+                this.pbrent = pbrent;
                 this.rendererComponent = rendererComponent;
-                this.setAccessibleParent(parent);
+                this.setAccessiblePbrent(pbrent);
             }
 
             /**
-             * Gets the <code>AccessibleContext</code> associated with this
-             * component. In the implementation of the Java Accessibility
-             * API for this class, return this object, which is its own
+             * Gets the <code>AccessibleContext</code> bssocibted with this
+             * component. In the implementbtion of the Jbvb Accessibility
+             * API for this clbss, return this object, which is its own
              * <code>AccessibleContext</code>.
              *
              * @return this object
@@ -8801,82 +8801,82 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /*
-             * Returns the AccessibleContext for the header cell
+             * Returns the AccessibleContext for the hebder cell
              * renderer.
              */
-            private AccessibleContext getCurrentAccessibleContext() {
+            privbte AccessibleContext getCurrentAccessibleContext() {
                 return rendererComponent.getAccessibleContext();
             }
 
             /*
-             * Returns the component that renders the header cell.
+             * Returns the component thbt renders the hebder cell.
              */
-            private Component getCurrentComponent() {
+            privbte Component getCurrentComponent() {
                 return rendererComponent;
             }
 
             // AccessibleContext methods ==========
 
             /**
-             * Gets the accessible name of this object.
+             * Gets the bccessible nbme of this object.
              *
-             * @return the localized name of the object; <code>null</code>
-             *     if this object does not have a name
+             * @return the locblized nbme of the object; <code>null</code>
+             *     if this object does not hbve b nbme
              */
-            public String getAccessibleName() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    String name = ac.getAccessibleName();
-                    if ((name != null) && (name != "")) {
-                        return ac.getAccessibleName();
+            public String getAccessibleNbme() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    String nbme = bc.getAccessibleNbme();
+                    if ((nbme != null) && (nbme != "")) {
+                        return bc.getAccessibleNbme();
                     }
                 }
-                if ((accessibleName != null) && (accessibleName != "")) {
-                    return accessibleName;
+                if ((bccessibleNbme != null) && (bccessibleNbme != "")) {
+                    return bccessibleNbme;
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Sets the localized accessible name of this object.
+             * Sets the locblized bccessible nbme of this object.
              *
-             * @param s the new localized name of the object
+             * @pbrbm s the new locblized nbme of the object
              */
-            public void setAccessibleName(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleName(s);
+            public void setAccessibleNbme(String s) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleNbme(s);
                 } else {
-                    super.setAccessibleName(s);
+                    super.setAccessibleNbme(s);
                 }
             }
 
             /**
-             * Gets the accessible description of this object.
+             * Gets the bccessible description of this object.
              *
-             * @return the localized description of the object;
-             *     <code>null</code> if this object does not have
-             *     a description
+             * @return the locblized description of the object;
+             *     <code>null</code> if this object does not hbve
+             *     b description
              */
             public String getAccessibleDescription() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleDescription();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleDescription();
                 } else {
                     return super.getAccessibleDescription();
                 }
             }
 
             /**
-             * Sets the accessible description of this object.
+             * Sets the bccessible description of this object.
              *
-             * @param s the new localized description of the object
+             * @pbrbm s the new locblized description of the object
              */
             public void setAccessibleDescription(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleDescription(s);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleDescription(s);
                 } else {
                     super.setAccessibleDescription(s);
                 }
@@ -8885,88 +8885,88 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Gets the role of this object.
              *
-             * @return an instance of <code>AccessibleRole</code>
+             * @return bn instbnce of <code>AccessibleRole</code>
              *      describing the role of the object
              * @see AccessibleRole
              */
             public AccessibleRole getAccessibleRole() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleRole();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleRole();
                 } else {
                     return AccessibleRole.UNKNOWN;
                 }
             }
 
             /**
-             * Gets the state set of this object.
+             * Gets the stbte set of this object.
              *
-             * @return an instance of <code>AccessibleStateSet</code>
-             *     containing the current state set of the object
-             * @see AccessibleState
+             * @return bn instbnce of <code>AccessibleStbteSet</code>
+             *     contbining the current stbte set of the object
+             * @see AccessibleStbte
              */
-            public AccessibleStateSet getAccessibleStateSet() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                AccessibleStateSet as = null;
+            public AccessibleStbteSet getAccessibleStbteSet() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                AccessibleStbteSet bs = null;
 
-                if (ac != null) {
-                    as = ac.getAccessibleStateSet();
+                if (bc != null) {
+                    bs = bc.getAccessibleStbteSet();
                 }
-                if (as == null) {
-                    as = new AccessibleStateSet();
+                if (bs == null) {
+                    bs = new AccessibleStbteSet();
                 }
-                Rectangle rjt = JTable.this.getVisibleRect();
-                Rectangle rcell = JTable.this.getCellRect(row, column, false);
+                Rectbngle rjt = JTbble.this.getVisibleRect();
+                Rectbngle rcell = JTbble.this.getCellRect(row, column, fblse);
                 if (rjt.intersects(rcell)) {
-                    as.add(AccessibleState.SHOWING);
+                    bs.bdd(AccessibleStbte.SHOWING);
                 } else {
-                    if (as.contains(AccessibleState.SHOWING)) {
-                         as.remove(AccessibleState.SHOWING);
+                    if (bs.contbins(AccessibleStbte.SHOWING)) {
+                         bs.remove(AccessibleStbte.SHOWING);
                     }
                 }
-                if (JTable.this.isCellSelected(row, column)) {
-                    as.add(AccessibleState.SELECTED);
-                } else if (as.contains(AccessibleState.SELECTED)) {
-                    as.remove(AccessibleState.SELECTED);
+                if (JTbble.this.isCellSelected(row, column)) {
+                    bs.bdd(AccessibleStbte.SELECTED);
+                } else if (bs.contbins(AccessibleStbte.SELECTED)) {
+                    bs.remove(AccessibleStbte.SELECTED);
                 }
                 if ((row == getSelectedRow()) && (column == getSelectedColumn())) {
-                    as.add(AccessibleState.ACTIVE);
+                    bs.bdd(AccessibleStbte.ACTIVE);
                 }
-                as.add(AccessibleState.TRANSIENT);
-                return as;
+                bs.bdd(AccessibleStbte.TRANSIENT);
+                return bs;
             }
 
             /**
-             * Gets the <code>Accessible</code> parent of this object.
+             * Gets the <code>Accessible</code> pbrent of this object.
              *
-             * @return the Accessible parent of this object;
+             * @return the Accessible pbrent of this object;
              *     <code>null</code> if this object does not
-             *     have an <code>Accessible</code> parent
+             *     hbve bn <code>Accessible</code> pbrent
              */
-            public Accessible getAccessibleParent() {
-                return parent;
+            public Accessible getAccessiblePbrent() {
+                return pbrent;
             }
 
             /**
-             * Gets the index of this object in its accessible parent.
+             * Gets the index of this object in its bccessible pbrent.
              *
-             * @return the index of this object in its parent; -1 if this
-             *     object does not have an accessible parent
-             * @see #getAccessibleParent
+             * @return the index of this object in its pbrent; -1 if this
+             *     object does not hbve bn bccessible pbrent
+             * @see #getAccessiblePbrent
              */
-            public int getAccessibleIndexInParent() {
+            public int getAccessibleIndexInPbrent() {
                 return column;
             }
 
             /**
-             * Returns the number of accessible children in the object.
+             * Returns the number of bccessible children in the object.
              *
-             * @return the number of accessible children in the object
+             * @return the number of bccessible children in the object
              */
             public int getAccessibleChildrenCount() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleChildrenCount();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleChildrenCount();
                 } else {
                     return 0;
                 }
@@ -8976,78 +8976,78 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              * Returns the specified <code>Accessible</code> child of the
              * object.
              *
-             * @param i zero-based index of child
+             * @pbrbm i zero-bbsed index of child
              * @return the <code>Accessible</code> child of the object
              */
             public Accessible getAccessibleChild(int i) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    Accessible accessibleChild = ac.getAccessibleChild(i);
-                    ac.setAccessibleParent(this);
-                    return accessibleChild;
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    Accessible bccessibleChild = bc.getAccessibleChild(i);
+                    bc.setAccessiblePbrent(this);
+                    return bccessibleChild;
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Gets the locale of the component. If the component
-             * does not have a locale, then the locale of its parent
+             * Gets the locble of the component. If the component
+             * does not hbve b locble, then the locble of its pbrent
              * is returned.
              *
-             * @return this component's locale; if this component does
-             *    not have a locale, the locale of its parent is returned
-             * @exception IllegalComponentStateException if the
-             *    <code>Component</code> does not have its own locale
-             *    and has not yet been added to a containment hierarchy
-             *    such that the locale can be determined from the
-             *    containing parent
-             * @see #setLocale
+             * @return this component's locble; if this component does
+             *    not hbve b locble, the locble of its pbrent is returned
+             * @exception IllegblComponentStbteException if the
+             *    <code>Component</code> does not hbve its own locble
+             *    bnd hbs not yet been bdded to b contbinment hierbrchy
+             *    such thbt the locble cbn be determined from the
+             *    contbining pbrent
+             * @see #setLocble
              */
-            public Locale getLocale() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getLocale();
+            public Locble getLocble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getLocble();
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Adds a <code>PropertyChangeListener</code> to the listener list.
-             * The listener is registered for all properties.
+             * Adds b <code>PropertyChbngeListener</code> to the listener list.
+             * The listener is registered for bll properties.
              *
-             * @param l  the <code>PropertyChangeListener</code>
-             *     to be added
+             * @pbrbm l  the <code>PropertyChbngeListener</code>
+             *     to be bdded
              */
-            public void addPropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.addPropertyChangeListener(l);
+            public void bddPropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.bddPropertyChbngeListener(l);
                 } else {
-                    super.addPropertyChangeListener(l);
+                    super.bddPropertyChbngeListener(l);
                 }
             }
 
             /**
-             * Removes a <code>PropertyChangeListener</code> from the
-             * listener list. This removes a <code>PropertyChangeListener</code>
-             * that was registered for all properties.
+             * Removes b <code>PropertyChbngeListener</code> from the
+             * listener list. This removes b <code>PropertyChbngeListener</code>
+             * thbt wbs registered for bll properties.
              *
-             * @param l  the <code>PropertyChangeListener</code>
+             * @pbrbm l  the <code>PropertyChbngeListener</code>
              *    to be removed
              */
-            public void removePropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.removePropertyChangeListener(l);
+            public void removePropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.removePropertyChbngeListener(l);
                 } else {
-                    super.removePropertyChangeListener(l);
+                    super.removePropertyChbngeListener(l);
                 }
             }
 
             /**
-             * Gets the <code>AccessibleAction</code> associated with this
+             * Gets the <code>AccessibleAction</code> bssocibted with this
              * object if one exists.  Otherwise returns <code>null</code>.
              *
              * @return the <code>AccessibleAction</code>, or <code>null</code>
@@ -9057,7 +9057,7 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the <code>AccessibleComponent</code> associated with
+             * Gets the <code>AccessibleComponent</code> bssocibted with
              * this object if one exists.  Otherwise returns <code>null</code>.
              *
              * @return the <code>AccessibleComponent</code>, or
@@ -9068,7 +9068,7 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the <code>AccessibleSelection</code> associated with
+             * Gets the <code>AccessibleSelection</code> bssocibted with
              * this object if one exists.  Otherwise returns <code>null</code>.
              *
              * @return the <code>AccessibleSelection</code>, or
@@ -9079,7 +9079,7 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the <code>AccessibleText</code> associated with this
+             * Gets the <code>AccessibleText</code> bssocibted with this
              * object if one exists.  Otherwise returns <code>null</code>.
              *
              * @return the <code>AccessibleText</code>, or <code>null</code>
@@ -9089,32 +9089,32 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Gets the <code>AccessibleValue</code> associated with
+             * Gets the <code>AccessibleVblue</code> bssocibted with
              * this object if one exists.  Otherwise returns <code>null</code>.
              *
-             * @return the <code>AccessibleValue</code>, or <code>null</code>
+             * @return the <code>AccessibleVblue</code>, or <code>null</code>
              */
-            public AccessibleValue getAccessibleValue() {
-                return getCurrentAccessibleContext().getAccessibleValue();
+            public AccessibleVblue getAccessibleVblue() {
+                return getCurrentAccessibleContext().getAccessibleVblue();
             }
 
 
             // AccessibleComponent methods ==========
 
             /**
-             * Gets the background color of this object.
+             * Gets the bbckground color of this object.
              *
-             * @return the background color, if supported, of the object;
+             * @return the bbckground color, if supported, of the object;
              *     otherwise, <code>null</code>
              */
-            public Color getBackground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getBackground();
+            public Color getBbckground() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getBbckground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.getBackground();
+                        return c.getBbckground();
                     } else {
                         return null;
                     }
@@ -9122,18 +9122,18 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Sets the background color of this object.
+             * Sets the bbckground color of this object.
              *
-             * @param c the new <code>Color</code> for the background
+             * @pbrbm c the new <code>Color</code> for the bbckground
              */
-            public void setBackground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBackground(c);
+            public void setBbckground(Color c) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBbckground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
-                        cp.setBackground(c);
+                        cp.setBbckground(c);
                     }
                 }
             }
@@ -9145,9 +9145,9 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              *     otherwise, <code>null</code>
              */
             public Color getForeground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getForeground();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getForeground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -9161,12 +9161,12 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Sets the foreground color of this object.
              *
-             * @param c the new <code>Color</code> for the foreground
+             * @pbrbm c the new <code>Color</code> for the foreground
              */
             public void setForeground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setForeground(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setForeground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -9182,17 +9182,17 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              *    of the object; otherwise, <code>null</code>
              */
             public Cursor getCursor() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getCursor();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getCursor();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
                         return c.getCursor();
                     } else {
-                        Accessible ap = getAccessibleParent();
-                        if (ap instanceof AccessibleComponent) {
-                            return ((AccessibleComponent) ap).getCursor();
+                        Accessible bp = getAccessiblePbrent();
+                        if (bp instbnceof AccessibleComponent) {
+                            return ((AccessibleComponent) bp).getCursor();
                         } else {
                             return null;
                         }
@@ -9203,12 +9203,12 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Sets the <code>Cursor</code> of this object.
              *
-             * @param c the new <code>Cursor</code> for the object
+             * @pbrbm c the new <code>Cursor</code> for the object
              */
             public void setCursor(Cursor c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setCursor(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setCursor(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -9224,9 +9224,9 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              *   for the object; otherwise, <code>null</code>
              */
             public Font getFont() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFont();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFont();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -9240,12 +9240,12 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Sets the <code>Font</code> of this object.
              *
-             * @param f the new <code>Font</code> for the object
+             * @pbrbm f the new <code>Font</code> for the object
              */
             public void setFont(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setFont(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setFont(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -9257,15 +9257,15 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             /**
              * Gets the <code>FontMetrics</code> of this object.
              *
-             * @param f the <code>Font</code>
+             * @pbrbm f the <code>Font</code>
              * @return the <code>FontMetrics</code> object, if supported;
              *    otherwise <code>null</code>
              * @see #getFont
              */
             public FontMetrics getFontMetrics(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFontMetrics(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFontMetrics(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -9277,73 +9277,73 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Determines if the object is enabled.
+             * Determines if the object is enbbled.
              *
-             * @return true if object is enabled; otherwise, false
+             * @return true if object is enbbled; otherwise, fblse
              */
-            public boolean isEnabled() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isEnabled();
+            public boolebn isEnbbled() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isEnbbled();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isEnabled();
+                        return c.isEnbbled();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             /**
-             * Sets the enabled state of the object.
+             * Sets the enbbled stbte of the object.
              *
-             * @param b if true, enables this object; otherwise, disables it
+             * @pbrbm b if true, enbbles this object; otherwise, disbbles it
              */
-            public void setEnabled(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setEnabled(b);
+            public void setEnbbled(boolebn b) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setEnbbled(b);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.setEnabled(b);
+                        c.setEnbbled(b);
                     }
                 }
             }
 
             /**
-             * Determines if this object is visible.  Note: this means that the
-             * object intends to be visible; however, it may not in fact be
-             * showing on the screen because one of the objects that this object
-             * is contained by is not visible.  To determine if an object is
+             * Determines if this object is visible.  Note: this mebns thbt the
+             * object intends to be visible; however, it mby not in fbct be
+             * showing on the screen becbuse one of the objects thbt this object
+             * is contbined by is not visible.  To determine if bn object is
              * showing on the screen, use <code>isShowing</code>.
              *
-             * @return true if object is visible; otherwise, false
+             * @return true if object is visible; otherwise, fblse
              */
-            public boolean isVisible() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isVisible();
+            public boolebn isVisible() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isVisible();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
                         return c.isVisible();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             /**
-             * Sets the visible state of the object.
+             * Sets the visible stbte of the object.
              *
-             * @param b if true, shows this object; otherwise, hides it
+             * @pbrbm b if true, shows this object; otherwise, hides it
              */
-            public void setVisible(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setVisible(b);
+            public void setVisible(boolebn b) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setVisible(b);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -9354,22 +9354,22 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
 
             /**
              * Determines if the object is showing.  This is determined
-             * by checking the visibility of the object and ancestors
+             * by checking the visibility of the object bnd bncestors
              * of the object.  Note: this will return true even if the
-             * object is obscured by another (for example,
-             * it happens to be underneath a menu that was pulled down).
+             * object is obscured by bnother (for exbmple,
+             * it hbppens to be undernebth b menu thbt wbs pulled down).
              *
-             * @return true if the object is showing; otherwise, false
+             * @return true if the object is showing; otherwise, fblse
              */
-            public boolean isShowing() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    if (ac.getAccessibleParent() != null) {
-                        return ((AccessibleComponent) ac).isShowing();
+            public boolebn isShowing() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    if (bc.getAccessiblePbrent() != null) {
+                        return ((AccessibleComponent) bc).isShowing();
                     } else {
-                        // Fixes 4529616 - AccessibleJTableCell.isShowing()
-                        // returns false when the cell on the screen
-                        // if no parent
+                        // Fixes 4529616 - AccessibleJTbbleCell.isShowing()
+                        // returns fblse when the cell on the screen
+                        // if no pbrent
                         return isVisible();
                     }
                 } else {
@@ -9377,112 +9377,112 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                     if (c != null) {
                         return c.isShowing();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             /**
              * Checks whether the specified point is within this
-             * object's bounds, where the point's x and y coordinates
-             * are defined to be relative to the coordinate system of
+             * object's bounds, where the point's x bnd y coordinbtes
+             * bre defined to be relbtive to the coordinbte system of
              * the object.
              *
-             * @param p the <code>Point</code> relative to the
-             *    coordinate system of the object
-             * @return true if object contains <code>Point</code>;
-             *    otherwise false
+             * @pbrbm p the <code>Point</code> relbtive to the
+             *    coordinbte system of the object
+             * @return true if object contbins <code>Point</code>;
+             *    otherwise fblse
              */
-            public boolean contains(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    Rectangle r = ((AccessibleComponent) ac).getBounds();
-                    return r.contains(p);
+            public boolebn contbins(Point p) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    Rectbngle r = ((AccessibleComponent) bc).getBounds();
+                    return r.contbins(p);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        Rectangle r = c.getBounds();
-                        return r.contains(p);
+                        Rectbngle r = c.getBounds();
+                        return r.contbins(p);
                     } else {
-                        return getBounds().contains(p);
+                        return getBounds().contbins(p);
                     }
                 }
             }
 
             /**
-             * Returns the location of the object on the screen.
+             * Returns the locbtion of the object on the screen.
              *
-             * @return location of object on screen -- can be
+             * @return locbtion of object on screen -- cbn be
              *    <code>null</code> if this object is not on the screen
              */
-            public Point getLocationOnScreen() {
-                if (parent != null && parent.isShowing()) {
-                    Point parentLocation = parent.getLocationOnScreen();
-                    Point componentLocation = getLocation();
-                    componentLocation.translate(parentLocation.x, parentLocation.y);
-                    return componentLocation;
+            public Point getLocbtionOnScreen() {
+                if (pbrent != null && pbrent.isShowing()) {
+                    Point pbrentLocbtion = pbrent.getLocbtionOnScreen();
+                    Point componentLocbtion = getLocbtion();
+                    componentLocbtion.trbnslbte(pbrentLocbtion.x, pbrentLocbtion.y);
+                    return componentLocbtion;
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Gets the location of the object relative to the parent
-             * in the form of a point specifying the object's
-             * top-left corner in the screen's coordinate space.
+             * Gets the locbtion of the object relbtive to the pbrent
+             * in the form of b point specifying the object's
+             * top-left corner in the screen's coordinbte spbce.
              *
-             * @return an instance of <code>Point</code> representing
+             * @return bn instbnce of <code>Point</code> representing
              *    the top-left corner of the object's bounds in the
-             *    coordinate space of the screen; <code>null</code> if
-             *    this object or its parent are not on the screen
+             *    coordinbte spbce of the screen; <code>null</code> if
+             *    this object or its pbrent bre not on the screen
              */
-            public Point getLocation() {
-                if (parent != null) {
-                    Rectangle r = parent.getHeaderRect(column);
+            public Point getLocbtion() {
+                if (pbrent != null) {
+                    Rectbngle r = pbrent.getHebderRect(column);
                     if (r != null) {
-                        return r.getLocation();
+                        return r.getLocbtion();
                     }
                 }
                 return null;
             }
 
             /**
-             * Sets the location of the object relative to the parent.
-             * @param p the new position for the top-left corner
-             * @see #getLocation
+             * Sets the locbtion of the object relbtive to the pbrent.
+             * @pbrbm p the new position for the top-left corner
+             * @see #getLocbtion
              */
-            public void setLocation(Point p) {
+            public void setLocbtion(Point p) {
             }
 
             /**
-             * Gets the bounds of this object in the form of a Rectangle object.
-             * The bounds specify this object's width, height, and location
-             * relative to its parent.
+             * Gets the bounds of this object in the form of b Rectbngle object.
+             * The bounds specify this object's width, height, bnd locbtion
+             * relbtive to its pbrent.
              *
-             * @return A rectangle indicating this component's bounds; null if
+             * @return A rectbngle indicbting this component's bounds; null if
              * this object is not on the screen.
-             * @see #contains
+             * @see #contbins
              */
-            public Rectangle getBounds() {
-                if (parent != null) {
-                    return parent.getHeaderRect(column);
+            public Rectbngle getBounds() {
+                if (pbrent != null) {
+                    return pbrent.getHebderRect(column);
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Sets the bounds of this object in the form of a Rectangle object.
-             * The bounds specify this object's width, height, and location
-             * relative to its parent.
+             * Sets the bounds of this object in the form of b Rectbngle object.
+             * The bounds specify this object's width, height, bnd locbtion
+             * relbtive to its pbrent.
              *
-             * @param r rectangle indicating this component's bounds
+             * @pbrbm r rectbngle indicbting this component's bounds
              * @see #getBounds
              */
-            public void setBounds(Rectangle r) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBounds(r);
+            public void setBounds(Rectbngle r) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBounds(r);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -9492,18 +9492,18 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Returns the size of this object in the form of a Dimension object.
-             * The height field of the Dimension object contains this object's
-             * height, and the width field of the Dimension object contains this
+             * Returns the size of this object in the form of b Dimension object.
+             * The height field of the Dimension object contbins this object's
+             * height, bnd the width field of the Dimension object contbins this
              * object's width.
              *
-             * @return A Dimension object that indicates the size of this component;
+             * @return A Dimension object thbt indicbtes the size of this component;
              * null if this object is not on the screen
              * @see #setSize
              */
             public Dimension getSize() {
-                if (parent != null) {
-                    Rectangle r = parent.getHeaderRect(column);
+                if (pbrent != null) {
+                    Rectbngle r = pbrent.getHebderRect(column);
                     if (r != null) {
                         return r.getSize();
                     }
@@ -9512,15 +9512,15 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Resizes this object so that it has width and height.
+             * Resizes this object so thbt it hbs width bnd height.
              *
-             * @param d The dimension specifying the new size of the object.
+             * @pbrbm d The dimension specifying the new size of the object.
              * @see #getSize
              */
             public void setSize (Dimension d) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setSize(d);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setSize(d);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -9530,57 +9530,57 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
             }
 
             /**
-             * Returns the Accessible child, if one exists, contained at the local
-             * coordinate Point.
+             * Returns the Accessible child, if one exists, contbined bt the locbl
+             * coordinbte Point.
              *
-             * @param p The point relative to the coordinate system of this object.
-             * @return the Accessible, if it exists, at the specified location;
+             * @pbrbm p The point relbtive to the coordinbte system of this object.
+             * @return the Accessible, if it exists, bt the specified locbtion;
              * otherwise null
              */
             public Accessible getAccessibleAt(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getAccessibleAt(p);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getAccessibleAt(p);
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Returns whether this object can accept focus or not.   Objects that
-             * can accept focus will also have the AccessibleState.FOCUSABLE state
-             * set in their AccessibleStateSets.
+             * Returns whether this object cbn bccept focus or not.   Objects thbt
+             * cbn bccept focus will blso hbve the AccessibleStbte.FOCUSABLE stbte
+             * set in their AccessibleStbteSets.
              *
-             * @return true if object can accept focus; otherwise false
-             * @see AccessibleContext#getAccessibleStateSet
-             * @see AccessibleState#FOCUSABLE
-             * @see AccessibleState#FOCUSED
-             * @see AccessibleStateSet
+             * @return true if object cbn bccept focus; otherwise fblse
+             * @see AccessibleContext#getAccessibleStbteSet
+             * @see AccessibleStbte#FOCUSABLE
+             * @see AccessibleStbte#FOCUSED
+             * @see AccessibleStbteSet
              */
-            public boolean isFocusTraversable() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isFocusTraversable();
+            public boolebn isFocusTrbversbble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isFocusTrbversbble();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isFocusTraversable();
+                        return c.isFocusTrbversbble();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             /**
-             * Requests focus for this object.  If this object cannot accept focus,
-             * nothing will happen.  Otherwise, the object will attempt to take
+             * Requests focus for this object.  If this object cbnnot bccept focus,
+             * nothing will hbppen.  Otherwise, the object will bttempt to tbke
              * focus.
-             * @see #isFocusTraversable
+             * @see #isFocusTrbversbble
              */
             public void requestFocus() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).requestFocus();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).requestFocus();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -9593,17 +9593,17 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              * Adds the specified focus listener to receive focus events from this
              * component.
              *
-             * @param l the focus listener
+             * @pbrbm l the focus listener
              * @see #removeFocusListener
              */
-            public void addFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).addFocusListener(l);
+            public void bddFocusListener(FocusListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).bddFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.addFocusListener(l);
+                        c.bddFocusListener(l);
                     }
                 }
             }
@@ -9612,13 +9612,13 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
              * Removes the specified focus listener so it no longer receives focus
              * events from this component.
              *
-             * @param l the focus listener
-             * @see #addFocusListener
+             * @pbrbm l the focus listener
+             * @see #bddFocusListener
              */
             public void removeFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).removeFocusListener(l);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).removeFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -9627,8 +9627,8 @@ public class JTable extends JComponent implements TableModelListener, Scrollable
                 }
             }
 
-        } // inner class AccessibleJTableHeaderCell
+        } // inner clbss AccessibleJTbbleHebderCell
 
-    }  // inner class AccessibleJTable
+    }  // inner clbss AccessibleJTbble
 
-}  // End of Class JTable
+}  // End of Clbss JTbble

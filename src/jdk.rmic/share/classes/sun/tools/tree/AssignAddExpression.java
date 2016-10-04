@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class AssignAddExpression extends AssignOpExpression {
+clbss AssignAddExpression extends AssignOpExpression {
     /**
      * Constructor
      */
@@ -44,7 +44,7 @@ class AssignAddExpression extends AssignOpExpression {
 
 
     /**
-     * The cost of inlining this statement
+     * The cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         return type.isType(TC_CLASS) ? 25 : super.costInline(thresh, env, ctx);
@@ -53,97 +53,97 @@ class AssignAddExpression extends AssignOpExpression {
     /**
      * Code
      */
-    void code(Environment env, Context ctx, Assembler asm, boolean valNeeded) {
+    void code(Environment env, Context ctx, Assembler bsm, boolebn vblNeeded) {
         if (itype.isType(TC_CLASS)) {
-            // Create code for     String += <value>
+            // Crebte code for     String += <vblue>
             try {
-                // Create new string buffer.
-                Type argTypes[] = {Type.tString};
-                ClassDeclaration c =
-                    env.getClassDeclaration(idJavaLangStringBuffer);
+                // Crebte new string buffer.
+                Type brgTypes[] = {Type.tString};
+                ClbssDeclbrbtion c =
+                    env.getClbssDeclbrbtion(idJbvbLbngStringBuffer);
 
-                if (updater == null) {
+                if (updbter == null) {
 
-                    // No access method is needed.
+                    // No bccess method is needed.
 
-                    asm.add(where, opc_new, c);
-                    asm.add(where, opc_dup);
-                    // stack: ...<buffer><buffer>
-                    int depth = left.codeLValue(env, ctx, asm);
-                    codeDup(env, ctx, asm, depth, 2); // copy past 2 string buffers
-                    // stack: ...[<getter args>]<buffer><buffer>[<getter args>]
-                    // where <buffer> isn't yet initialized, and the <getter args>
-                    // has length depth and is whatever is needed to get/set the
-                    // value
-                    left.codeLoad(env, ctx, asm);
-                    left.ensureString(env, ctx, asm);  // Why is this needed?
-                    // stack: ...[<getter args>]<buffer><buffer><string>
-                    // call .<init>(String)
-                    ClassDefinition sourceClass = ctx.field.getClassDefinition();
-                    MemberDefinition f = c.getClassDefinition(env)
-                        .matchMethod(env, sourceClass,
-                                     idInit, argTypes);
-                    asm.add(where, opc_invokespecial, f);
-                    // stack: ...[<getter args>]<initialized buffer>
-                    // .append(value).toString()
-                    right.codeAppend(env, ctx, asm, c, false);
-                    f = c.getClassDefinition(env)
-                        .matchMethod(env, sourceClass, idToString);
-                    asm.add(where, opc_invokevirtual, f);
-                    // stack: ...[<getter args>]<string>
-                    // dup the string past the <getter args>, if necessary.
-                    if (valNeeded) {
-                        codeDup(env, ctx, asm, Type.tString.stackSize(), depth);
-                        // stack: ...<string>[<getter args>]<string>
+                    bsm.bdd(where, opc_new, c);
+                    bsm.bdd(where, opc_dup);
+                    // stbck: ...<buffer><buffer>
+                    int depth = left.codeLVblue(env, ctx, bsm);
+                    codeDup(env, ctx, bsm, depth, 2); // copy pbst 2 string buffers
+                    // stbck: ...[<getter brgs>]<buffer><buffer>[<getter brgs>]
+                    // where <buffer> isn't yet initiblized, bnd the <getter brgs>
+                    // hbs length depth bnd is whbtever is needed to get/set the
+                    // vblue
+                    left.codeLobd(env, ctx, bsm);
+                    left.ensureString(env, ctx, bsm);  // Why is this needed?
+                    // stbck: ...[<getter brgs>]<buffer><buffer><string>
+                    // cbll .<init>(String)
+                    ClbssDefinition sourceClbss = ctx.field.getClbssDefinition();
+                    MemberDefinition f = c.getClbssDefinition(env)
+                        .mbtchMethod(env, sourceClbss,
+                                     idInit, brgTypes);
+                    bsm.bdd(where, opc_invokespecibl, f);
+                    // stbck: ...[<getter brgs>]<initiblized buffer>
+                    // .bppend(vblue).toString()
+                    right.codeAppend(env, ctx, bsm, c, fblse);
+                    f = c.getClbssDefinition(env)
+                        .mbtchMethod(env, sourceClbss, idToString);
+                    bsm.bdd(where, opc_invokevirtubl, f);
+                    // stbck: ...[<getter brgs>]<string>
+                    // dup the string pbst the <getter brgs>, if necessbry.
+                    if (vblNeeded) {
+                        codeDup(env, ctx, bsm, Type.tString.stbckSize(), depth);
+                        // stbck: ...<string>[<getter brgs>]<string>
                     }
                     // store
-                    left.codeStore(env, ctx, asm);
+                    left.codeStore(env, ctx, bsm);
 
                 } else {
 
                     // Access method is required.
-                    // (Handling this case fixes 4102566.)
+                    // (Hbndling this cbse fixes 4102566.)
 
-                    updater.startUpdate(env, ctx, asm, false);
-                    // stack: ...[<getter args>]<string>
-                    left.ensureString(env, ctx, asm);  // Why is this needed?
-                    asm.add(where, opc_new, c);
-                    // stack: ...[<getter args>]<string><buffer>
-                    asm.add(where, opc_dup_x1);
-                    // stack: ...[<getter args>]<buffer><string><buffer>
-                    asm.add(where, opc_swap);
-                    // stack: ...[<getter args>]<buffer><buffer><string>
-                    // call .<init>(String)
-                    ClassDefinition sourceClass = ctx.field.getClassDefinition();
-                    MemberDefinition f = c.getClassDefinition(env)
-                        .matchMethod(env, sourceClass,
-                                     idInit, argTypes);
-                    asm.add(where, opc_invokespecial, f);
-                    // stack: ...[<getter args>]<initialized buffer>
-                    // .append(value).toString()
-                    right.codeAppend(env, ctx, asm, c, false);
-                    f = c.getClassDefinition(env)
-                        .matchMethod(env, sourceClass, idToString);
-                    asm.add(where, opc_invokevirtual, f);
-                    // stack: .. [<getter args>]<string>
-                    updater.finishUpdate(env, ctx, asm, valNeeded);
+                    updbter.stbrtUpdbte(env, ctx, bsm, fblse);
+                    // stbck: ...[<getter brgs>]<string>
+                    left.ensureString(env, ctx, bsm);  // Why is this needed?
+                    bsm.bdd(where, opc_new, c);
+                    // stbck: ...[<getter brgs>]<string><buffer>
+                    bsm.bdd(where, opc_dup_x1);
+                    // stbck: ...[<getter brgs>]<buffer><string><buffer>
+                    bsm.bdd(where, opc_swbp);
+                    // stbck: ...[<getter brgs>]<buffer><buffer><string>
+                    // cbll .<init>(String)
+                    ClbssDefinition sourceClbss = ctx.field.getClbssDefinition();
+                    MemberDefinition f = c.getClbssDefinition(env)
+                        .mbtchMethod(env, sourceClbss,
+                                     idInit, brgTypes);
+                    bsm.bdd(where, opc_invokespecibl, f);
+                    // stbck: ...[<getter brgs>]<initiblized buffer>
+                    // .bppend(vblue).toString()
+                    right.codeAppend(env, ctx, bsm, c, fblse);
+                    f = c.getClbssDefinition(env)
+                        .mbtchMethod(env, sourceClbss, idToString);
+                    bsm.bdd(where, opc_invokevirtubl, f);
+                    // stbck: .. [<getter brgs>]<string>
+                    updbter.finishUpdbte(env, ctx, bsm, vblNeeded);
 
                 }
 
-            } catch (ClassNotFound e) {
+            } cbtch (ClbssNotFound e) {
                 throw new CompilerError(e);
-            } catch (AmbiguousMember e) {
+            } cbtch (AmbiguousMember e) {
                 throw new CompilerError(e);
             }
         } else {
-            super.code(env, ctx, asm, valNeeded);
+            super.code(env, ctx, bsm, vblNeeded);
         }
     }
 
     /**
      * Code
      */
-    void codeOperation(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_iadd + itype.getTypeCodeOffset());
+    void codeOperbtion(Environment env, Context ctx, Assembler bsm) {
+        bsm.bdd(where, opc_ibdd + itype.getTypeCodeOffset());
     }
 }

@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file implements some of the standard utility procedures used
- * by the image conversion package.
+ * This file implements some of the stbndbrd utility procedures used
+ * by the imbge conversion pbckbge.
  */
 
-#include "img_globals.h"
+#include "img_globbls.h"
 
-#include "java_awt_image_IndexColorModel.h"
-#include "java_awt_Transparency.h"
+#include "jbvb_bwt_imbge_IndexColorModel.h"
+#include "jbvb_bwt_Trbnspbrency.h"
 
 /*
- * This function constructs an 8x8 ordered dither array which can be
- * used to dither data into an output range with discreet values that
- * differ by the value specified as quantum.  A monochrome screen would
- * use a dither array constructed with the quantum 256.
- * The array values produced are unsigned and intended to be used with
- * a lookup table which returns the next color darker than the error
- * adjusted color used as the index.
+ * This function constructs bn 8x8 ordered dither brrby which cbn be
+ * used to dither dbtb into bn output rbnge with discreet vblues thbt
+ * differ by the vblue specified bs qubntum.  A monochrome screen would
+ * use b dither brrby constructed with the qubntum 256.
+ * The brrby vblues produced bre unsigned bnd intended to be used with
+ * b lookup tbble which returns the next color dbrker thbn the error
+ * bdjusted color used bs the index.
  */
 void
-make_uns_ordered_dither_array(uns_ordered_dither_array oda,
-                              int quantum)
+mbke_uns_ordered_dither_brrby(uns_ordered_dither_brrby odb,
+                              int qubntum)
 {
     int i, j, k;
 
-    oda[0][0] = 0;
+    odb[0][0] = 0;
     for (k = 1; k < 8; k *= 2) {
         for (i = 0; i < k; i++) {
             for (j = 0; j < k; j++) {
-                oda[ i ][ j ] = oda[i][j] * 4;
-                oda[i+k][j+k] = oda[i][j] + 1;
-                oda[ i ][j+k] = oda[i][j] + 2;
-                oda[i+k][ j ] = oda[i][j] + 3;
+                odb[ i ][ j ] = odb[i][j] * 4;
+                odb[i+k][j+k] = odb[i][j] + 1;
+                odb[ i ][j+k] = odb[i][j] + 2;
+                odb[i+k][ j ] = odb[i][j] + 3;
             }
         }
     }
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 8; j++) {
-            oda[i][j] = oda[i][j] * quantum / 64;
+            odb[i][j] = odb[i][j] * qubntum / 64;
         }
     }
 }
 
 /*
- * This function constructs an 8x8 ordered dither array which can be
- * used to dither data into an output range with discreet values that
- * are distributed over the range from minerr to maxerr around a given
- * target color value.
- * The array values produced are signed and intended to be used with
- * a lookup table which returns the closest color to the error adjusted
- * color used as an index.
+ * This function constructs bn 8x8 ordered dither brrby which cbn be
+ * used to dither dbtb into bn output rbnge with discreet vblues thbt
+ * bre distributed over the rbnge from minerr to mbxerr bround b given
+ * tbrget color vblue.
+ * The brrby vblues produced bre signed bnd intended to be used with
+ * b lookup tbble which returns the closest color to the error bdjusted
+ * color used bs bn index.
  */
 void
-make_sgn_ordered_dither_array(char* oda, int minerr, int maxerr)
+mbke_sgn_ordered_dither_brrby(chbr* odb, int minerr, int mbxerr)
 {
     int i, j, k;
 
-    oda[0] = 0;
+    odb[0] = 0;
     for (k = 1; k < 8; k *= 2) {
         for (i = 0; i < k; i++) {
             for (j = 0; j < k; j++) {
-                oda[(i<<3) + j] = oda[(i<<3)+j] * 4;
-                oda[((i+k)<<3) + j+k] = oda[(i<<3)+j] + 1;
-                oda[(i<<3) + j+k] = oda[(i<<3)+j] + 2;
-                oda[((i+k)<<3) + j] = oda[(i<<3)+j] + 3;
+                odb[(i<<3) + j] = odb[(i<<3)+j] * 4;
+                odb[((i+k)<<3) + j+k] = odb[(i<<3)+j] + 1;
+                odb[(i<<3) + j+k] = odb[(i<<3)+j] + 2;
+                odb[((i+k)<<3) + j] = odb[(i<<3)+j] + 3;
             }
         }
     }
     k = 0;
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 8; j++) {
-            oda[k] = oda[k] * (maxerr - minerr) / 64 + minerr;
+            odb[k] = odb[k] * (mbxerr - minerr) / 64 + minerr;
             k++;
         }
     }
@@ -103,30 +103,30 @@ make_sgn_ordered_dither_array(char* oda, int minerr, int maxerr)
 #ifdef TESTING
 #include <stdio.h>
 
-/* Function to test the ordered dither error matrix initialization function. */
-main(int argc, char **argv)
+/* Function to test the ordered dither error mbtrix initiblizbtion function. */
+mbin(int brgc, chbr **brgv)
 {
     int i, j;
-    int quantum;
-    int max, val;
-    uns_ordered_dither_array oda;
+    int qubntum;
+    int mbx, vbl;
+    uns_ordered_dither_brrby odb;
 
-    if (argc > 1) {
-        quantum = atoi(argv[1]);
+    if (brgc > 1) {
+        qubntum = btoi(brgv[1]);
     } else {
-        quantum = 64;
+        qubntum = 64;
     }
-    make_uns_ordered_dither_array(oda, quantum);
+    mbke_uns_ordered_dither_brrby(odb, qubntum);
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 8; j++) {
-            val = oda[i][j];
-            printf("%4d", val);
-            if (max < val) {
-                max = val;
+            vbl = odb[i][j];
+            printf("%4d", vbl);
+            if (mbx < vbl) {
+                mbx = vbl;
             }
         }
         printf("\n");
     }
-    printf("\nmax = %d\n", max);
+    printf("\nmbx = %d\n", mbx);
 }
 #endif /* TESTING */

@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * Helper class to ease the work with the lists of atoms.
+ * Helper clbss to ebse the work with the lists of btoms.
  */
-class XAtomList {
-    Set<XAtom> atoms = new HashSet<XAtom>();
+clbss XAtomList {
+    Set<XAtom> btoms = new HbshSet<XAtom>();
 
     /**
-     * Creates empty list.
+     * Crebtes empty list.
      */
     public XAtomList() {
     }
 
     /**
-     * Creates instance of XAtomList and initializes it with
-     * the contents pointer by <code>data</code>.
-     * Uses default display to initialize atoms.
+     * Crebtes instbnce of XAtomList bnd initiblizes it with
+     * the contents pointer by <code>dbtb</code>.
+     * Uses defbult displby to initiblize btoms.
      */
-    public XAtomList(long data, int count) {
-        init(data, count);
+    public XAtomList(long dbtb, int count) {
+        init(dbtb, count);
     }
-    private void init(long data, int count) {
+    privbte void init(long dbtb, int count) {
         for (int i = 0; i < count; i++) {
-            add(new XAtom(XToolkit.getDisplay(), XAtom.getAtom(data+count*XAtom.getAtomSize())));
+            bdd(new XAtom(XToolkit.getDisplby(), XAtom.getAtom(dbtb+count*XAtom.getAtomSize())));
         }
     }
 
     /**
-     * Creates instance of XAtomList and initializes it with
-     * the arrays of atoms. Array can contain null atoms.
+     * Crebtes instbnce of XAtomList bnd initiblizes it with
+     * the brrbys of btoms. Arrby cbn contbin null btoms.
      */
-    public XAtomList(XAtom[] atoms) {
-        init(atoms);
+    public XAtomList(XAtom[] btoms) {
+        init(btoms);
     }
-    private void init(XAtom[] atoms) {
-        for (int i = 0; i < atoms.length; i++) {
-            add(atoms[i]);
+    privbte void init(XAtom[] btoms) {
+        for (int i = 0; i < btoms.length; i++) {
+            bdd(btoms[i]);
         }
     }
 
     /**
-     * Returns contents of the list as array of atoms.
+     * Returns contents of the list bs brrby of btoms.
      */
     public XAtom[] getAtoms() {
         XAtom[] res = new XAtom[size()];
-        Iterator<XAtom> iter = atoms.iterator();
+        Iterbtor<XAtom> iter = btoms.iterbtor();
         int i = 0;
-        while (iter.hasNext()) {
+        while (iter.hbsNext()) {
             res[i++] = iter.next();
         }
         return res;
     }
 
     /**
-     * Returns contents of the list as pointer to native data
-     * The size of the native data is size of the list multiplied by
-     * size of the Atom type on the platform. Caller is responsible for
-     * freeing the data by Unsafe.freeMemory when it is no longer needed.
+     * Returns contents of the list bs pointer to nbtive dbtb
+     * The size of the nbtive dbtb is size of the list multiplied by
+     * size of the Atom type on the plbtform. Cbller is responsible for
+     * freeing the dbtb by Unsbfe.freeMemory when it is no longer needed.
      */
-    public long getAtomsData() {
-        return XAtom.toData(getAtoms());
+    public long getAtomsDbtb() {
+        return XAtom.toDbtb(getAtoms());
     }
 
     /**
-     * Returns true if this list contains the atom <code>atom</code>
+     * Returns true if this list contbins the btom <code>btom</code>
      */
-    public boolean contains(XAtom atom) {
-        return atoms.contains(atom);
+    public boolebn contbins(XAtom btom) {
+        return btoms.contbins(btom);
     }
 
     /**
-     * Add atom to the list. Does nothing if list already contains this atom.
+     * Add btom to the list. Does nothing if list blrebdy contbins this btom.
      */
-    public void add(XAtom atom) {
-        atoms.add(atom);
+    public void bdd(XAtom btom) {
+        btoms.bdd(btom);
     }
 
     /**
-     * Removes atom from the list. Does nothing if arrays doesn't conaint this atom.
+     * Removes btom from the list. Does nothing if brrbys doesn't conbint this btom.
      */
-    public void remove(XAtom atom) {
-        atoms.remove(atom);
+    public void remove(XAtom btom) {
+        btoms.remove(btom);
     }
 
 
@@ -115,22 +115,22 @@ class XAtomList {
      * Returns size of the list
      */
     public int size() {
-        return atoms.size();
+        return btoms.size();
     }
 
     /**
-     * Returns a subset of a list which is intersection of this set and set build by mapping <code>mask</code> in
-     * <code>mapping</code>.
+     * Returns b subset of b list which is intersection of this set bnd set build by mbpping <code>mbsk</code> in
+     * <code>mbpping</code>.
      */
-    public XAtomList subset(int mask, Map<Integer, XAtom> mapping) {
+    public XAtomList subset(int mbsk, Mbp<Integer, XAtom> mbpping) {
         XAtomList res = new XAtomList();
-        Iterator<Integer> iter = mapping.keySet().iterator();
-        while (iter.hasNext()) {
+        Iterbtor<Integer> iter = mbpping.keySet().iterbtor();
+        while (iter.hbsNext()) {
             Integer bits = iter.next();
-            if ( (mask & bits.intValue()) == bits.intValue() ) {
-                XAtom atom = mapping.get(bits);
-                if (contains(atom)) {
-                    res.add(atom);
+            if ( (mbsk & bits.intVblue()) == bits.intVblue() ) {
+                XAtom btom = mbpping.get(bits);
+                if (contbins(btom)) {
+                    res.bdd(btom);
                 }
             }
         }
@@ -138,33 +138,33 @@ class XAtomList {
     }
 
     /**
-     * Returns iterator for items.
+     * Returns iterbtor for items.
      */
-    public Iterator<XAtom> iterator() {
-        return atoms.iterator();
+    public Iterbtor<XAtom> iterbtor() {
+        return btoms.iterbtor();
     }
 
     /**
-     * Merges without duplicates all the atoms from another list
+     * Merges without duplicbtes bll the btoms from bnother list
      */
-    public void addAll(XAtomList atoms) {
-        Iterator<XAtom> iter = atoms.iterator();
-        while(iter.hasNext()) {
-            add(iter.next());
+    public void bddAll(XAtomList btoms) {
+        Iterbtor<XAtom> iter = btoms.iterbtor();
+        while(iter.hbsNext()) {
+            bdd(iter.next());
         }
     }
 
     public String toString() {
         StringBuffer buf = new StringBuffer();
-        buf.append("[");
-        Iterator<XAtom> iter = atoms.iterator();
-        while (iter.hasNext()) {
-            buf.append(iter.next().toString());
-            if (iter.hasNext()) {
-                buf.append(", ");
+        buf.bppend("[");
+        Iterbtor<XAtom> iter = btoms.iterbtor();
+        while (iter.hbsNext()) {
+            buf.bppend(iter.next().toString());
+            if (iter.hbsNext()) {
+                buf.bppend(", ");
             }
         }
-        buf.append("]");
+        buf.bppend("]");
         return buf.toString();
     }
 }

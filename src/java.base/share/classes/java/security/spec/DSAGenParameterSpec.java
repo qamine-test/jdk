@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.security.spec;
+pbckbge jbvb.security.spec;
 
 /**
- * This immutable class specifies the set of parameters used for
- * generating DSA parameters as specified in
- * <a href="http://csrc.nist.gov/publications/fips/fips186-3/fips_186-3.pdf">FIPS 186-3 Digital Signature Standard (DSS)</a>.
+ * This immutbble clbss specifies the set of pbrbmeters used for
+ * generbting DSA pbrbmeters bs specified in
+ * <b href="http://csrc.nist.gov/publicbtions/fips/fips186-3/fips_186-3.pdf">FIPS 186-3 Digitbl Signbture Stbndbrd (DSS)</b>.
  *
- * @see AlgorithmParameterSpec
+ * @see AlgorithmPbrbmeterSpec
  *
  * @since 1.8
  */
-public final class DSAGenParameterSpec implements AlgorithmParameterSpec {
+public finbl clbss DSAGenPbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private final int pLen;
-    private final int qLen;
-    private final int seedLen;
+    privbte finbl int pLen;
+    privbte finbl int qLen;
+    privbte finbl int seedLen;
 
     /**
-     * Creates a domain parameter specification for DSA parameter
-     * generation using {@code primePLen} and {@code subprimeQLen}.
-     * The value of {@code subprimeQLen} is also used as the default
-     * length of the domain parameter seed in bits.
-     * @param primePLen the desired length of the prime P in bits.
-     * @param subprimeQLen the desired length of the sub-prime Q in bits.
-     * @exception IllegalArgumentException if {@code primePLen}
-     * or {@code subprimeQLen} is illegal per the specification of
+     * Crebtes b dombin pbrbmeter specificbtion for DSA pbrbmeter
+     * generbtion using {@code primePLen} bnd {@code subprimeQLen}.
+     * The vblue of {@code subprimeQLen} is blso used bs the defbult
+     * length of the dombin pbrbmeter seed in bits.
+     * @pbrbm primePLen the desired length of the prime P in bits.
+     * @pbrbm subprimeQLen the desired length of the sub-prime Q in bits.
+     * @exception IllegblArgumentException if {@code primePLen}
+     * or {@code subprimeQLen} is illegbl per the specificbtion of
      * FIPS 186-3.
      */
-    public DSAGenParameterSpec(int primePLen, int subprimeQLen) {
+    public DSAGenPbrbmeterSpec(int primePLen, int subprimeQLen) {
         this(primePLen, subprimeQLen, subprimeQLen);
     }
 
     /**
-     * Creates a domain parameter specification for DSA parameter
-     * generation using {@code primePLen}, {@code subprimeQLen},
-     * and {@code seedLen}.
-     * @param primePLen the desired length of the prime P in bits.
-     * @param subprimeQLen the desired length of the sub-prime Q in bits.
-     * @param seedLen the desired length of the domain parameter seed in bits,
-     * shall be equal to or greater than {@code subprimeQLen}.
-     * @exception IllegalArgumentException if {@code primePLenLen},
-     * {@code subprimeQLen}, or {@code seedLen} is illegal per the
-     * specification of FIPS 186-3.
+     * Crebtes b dombin pbrbmeter specificbtion for DSA pbrbmeter
+     * generbtion using {@code primePLen}, {@code subprimeQLen},
+     * bnd {@code seedLen}.
+     * @pbrbm primePLen the desired length of the prime P in bits.
+     * @pbrbm subprimeQLen the desired length of the sub-prime Q in bits.
+     * @pbrbm seedLen the desired length of the dombin pbrbmeter seed in bits,
+     * shbll be equbl to or grebter thbn {@code subprimeQLen}.
+     * @exception IllegblArgumentException if {@code primePLenLen},
+     * {@code subprimeQLen}, or {@code seedLen} is illegbl per the
+     * specificbtion of FIPS 186-3.
      */
-    public DSAGenParameterSpec(int primePLen, int subprimeQLen, int seedLen) {
+    public DSAGenPbrbmeterSpec(int primePLen, int subprimeQLen, int seedLen) {
         switch (primePLen) {
-        case 1024:
+        cbse 1024:
             if (subprimeQLen != 160) {
-                throw new IllegalArgumentException
+                throw new IllegblArgumentException
                     ("subprimeQLen must be 160 when primePLen=1024");
             }
-            break;
-        case 2048:
+            brebk;
+        cbse 2048:
             if (subprimeQLen != 224 && subprimeQLen != 256) {
-               throw new IllegalArgumentException
+               throw new IllegblArgumentException
                    ("subprimeQLen must be 224 or 256 when primePLen=2048");
             }
-            break;
-        case 3072:
+            brebk;
+        cbse 3072:
             if (subprimeQLen != 256) {
-                throw new IllegalArgumentException
+                throw new IllegblArgumentException
                     ("subprimeQLen must be 256 when primePLen=3072");
             }
-            break;
-        default:
-            throw new IllegalArgumentException
+            brebk;
+        defbult:
+            throw new IllegblArgumentException
                 ("primePLen must be 1024, 2048, or 3072");
         }
         if (seedLen < subprimeQLen) {
-            throw new IllegalArgumentException
-                ("seedLen must be equal to or greater than subprimeQLen");
+            throw new IllegblArgumentException
+                ("seedLen must be equbl to or grebter thbn subprimeQLen");
         }
         this.pLen = primePLen;
         this.qLen = subprimeQLen;
@@ -101,7 +101,7 @@ public final class DSAGenParameterSpec implements AlgorithmParameterSpec {
 
     /**
      * Returns the desired length of the prime P of the
-     * to-be-generated DSA domain parameters in bits.
+     * to-be-generbted DSA dombin pbrbmeters in bits.
      * @return the length of the prime P.
      */
     public int getPrimePLength() {
@@ -110,7 +110,7 @@ public final class DSAGenParameterSpec implements AlgorithmParameterSpec {
 
     /**
      * Returns the desired length of the sub-prime Q of the
-     * to-be-generated DSA domain parameters in bits.
+     * to-be-generbted DSA dombin pbrbmeters in bits.
      * @return the length of the sub-prime Q.
      */
     public int getSubprimeQLength() {
@@ -118,8 +118,8 @@ public final class DSAGenParameterSpec implements AlgorithmParameterSpec {
     }
 
     /**
-     * Returns the desired length of the domain parameter seed in bits.
-     * @return the length of the domain parameter seed.
+     * Returns the desired length of the dombin pbrbmeter seed in bits.
+     * @return the length of the dombin pbrbmeter seed.
      */
     public int getSeedLength() {
         return seedLen;

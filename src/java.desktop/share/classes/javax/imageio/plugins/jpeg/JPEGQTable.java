@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.plugins.jpeg;
+pbckbge jbvbx.imbgeio.plugins.jpeg;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * A class encapsulating a single JPEG quantization table.
- * The elements appear in natural order (as opposed to zig-zag order).
- * Static variables are provided for the "standard" tables taken from
- *  Annex K of the JPEG specification, as well as the default tables
- * conventionally used for visually lossless encoding.
+ * A clbss encbpsulbting b single JPEG qubntizbtion tbble.
+ * The elements bppebr in nbturbl order (bs opposed to zig-zbg order).
+ * Stbtic vbribbles bre provided for the "stbndbrd" tbbles tbken from
+ *  Annex K of the JPEG specificbtion, bs well bs the defbult tbbles
+ * conventionblly used for visublly lossless encoding.
  * <p>
- * For more information about the operation of the standard JPEG plug-in,
- * see the <A HREF="../../metadata/doc-files/jpeg_metadata.html">JPEG
- * metadata format specification and usage notes</A>
+ * For more informbtion bbout the operbtion of the stbndbrd JPEG plug-in,
+ * see the <A HREF="../../metbdbtb/doc-files/jpeg_metbdbtb.html">JPEG
+ * metbdbtb formbt specificbtion bnd usbge notes</A>
  */
 
-public class JPEGQTable {
+public clbss JPEGQTbble {
 
-    private static final int[] k1 = {
+    privbte stbtic finbl int[] k1 = {
         16,  11,  10,  16,  24,  40,  51,  61,
         12,  12,  14,  19,  26,  58,  60,  55,
         14,  13,  16,  24,  40,  57,  69,  56,
@@ -52,7 +52,7 @@ public class JPEGQTable {
         72,  92,  95,  98,  112, 100, 103, 99,
     };
 
-    private static final int[] k1div2 = {
+    privbte stbtic finbl int[] k1div2 = {
         8,   6,   5,   8,   12,  20,  26,  31,
         6,   6,   7,   10,  13,  29,  30,  28,
         7,   7,   8,   12,  20,  29,  35,  28,
@@ -63,7 +63,7 @@ public class JPEGQTable {
         36,  46,  48,  49,  56,  50,  52,  50,
     };
 
-    private static final int[] k2 = {
+    privbte stbtic finbl int[] k2 = {
         17,  18,  24,  47,  99,  99,  99,  99,
         18,  21,  26,  66,  99,  99,  99,  99,
         24,  26,  56,  99,  99,  99,  99,  99,
@@ -74,7 +74,7 @@ public class JPEGQTable {
         99,  99,  99,  99,  99,  99,  99,  99,
     };
 
-    private static final int[] k2div2 = {
+    privbte stbtic finbl int[] k2div2 = {
         9,   9,   12,  24,  50,  50,  50,  50,
         9,   11,  13,  33,  50,  50,  50,  50,
         12,  13,  28,  50,  50,  50,  50,  50,
@@ -86,124 +86,124 @@ public class JPEGQTable {
     };
 
     /**
-     * The sample luminance quantization table given in the JPEG
-     * specification, table K.1. According to the specification,
-     * these values produce "good" quality output.
-     * @see #K1Div2Luminance
+     * The sbmple luminbnce qubntizbtion tbble given in the JPEG
+     * specificbtion, tbble K.1. According to the specificbtion,
+     * these vblues produce "good" qublity output.
+     * @see #K1Div2Luminbnce
      */
-    public static final JPEGQTable
-        K1Luminance = new JPEGQTable(k1, false);
+    public stbtic finbl JPEGQTbble
+        K1Luminbnce = new JPEGQTbble(k1, fblse);
 
     /**
-     * The sample luminance quantization table given in the JPEG
-     * specification, table K.1, with all elements divided by 2.
-     * According to the specification, these values produce "very good"
-     * quality output. This is the table usually used for "visually lossless"
-     * encoding, and is the default luminance table used if the default
-     * tables and quality settings are used.
-     * @see #K1Luminance
+     * The sbmple luminbnce qubntizbtion tbble given in the JPEG
+     * specificbtion, tbble K.1, with bll elements divided by 2.
+     * According to the specificbtion, these vblues produce "very good"
+     * qublity output. This is the tbble usublly used for "visublly lossless"
+     * encoding, bnd is the defbult luminbnce tbble used if the defbult
+     * tbbles bnd qublity settings bre used.
+     * @see #K1Luminbnce
      */
-    public static final JPEGQTable
-        K1Div2Luminance = new JPEGQTable(k1div2, false);
+    public stbtic finbl JPEGQTbble
+        K1Div2Luminbnce = new JPEGQTbble(k1div2, fblse);
 
     /**
-     * The sample chrominance quantization table given in the JPEG
-     * specification, table K.2. According to the specification,
-     * these values produce "good" quality output.
-     * @see #K2Div2Chrominance
+     * The sbmple chrominbnce qubntizbtion tbble given in the JPEG
+     * specificbtion, tbble K.2. According to the specificbtion,
+     * these vblues produce "good" qublity output.
+     * @see #K2Div2Chrominbnce
      */
-    public static final JPEGQTable K2Chrominance =
-        new JPEGQTable(k2, false);
+    public stbtic finbl JPEGQTbble K2Chrominbnce =
+        new JPEGQTbble(k2, fblse);
 
     /**
-     * The sample chrominance quantization table given in the JPEG
-     * specification, table K.1, with all elements divided by 2.
-     * According to the specification, these values produce "very good"
-     * quality output. This is the table usually used for "visually lossless"
-     * encoding, and is the default chrominance table used if the default
-     * tables and quality settings are used.
-     * @see #K2Chrominance
+     * The sbmple chrominbnce qubntizbtion tbble given in the JPEG
+     * specificbtion, tbble K.1, with bll elements divided by 2.
+     * According to the specificbtion, these vblues produce "very good"
+     * qublity output. This is the tbble usublly used for "visublly lossless"
+     * encoding, bnd is the defbult chrominbnce tbble used if the defbult
+     * tbbles bnd qublity settings bre used.
+     * @see #K2Chrominbnce
      */
-    public static final JPEGQTable K2Div2Chrominance =
-        new JPEGQTable(k2div2, false);
+    public stbtic finbl JPEGQTbble K2Div2Chrominbnce =
+        new JPEGQTbble(k2div2, fblse);
 
-    private int[] qTable;
+    privbte int[] qTbble;
 
-    private JPEGQTable(int[] table, boolean copy) {
-        qTable = (copy) ? Arrays.copyOf(table, table.length) : table;
+    privbte JPEGQTbble(int[] tbble, boolebn copy) {
+        qTbble = (copy) ? Arrbys.copyOf(tbble, tbble.length) : tbble;
     }
 
     /**
-     * Constructs a quantization table from the argument, which must
-     * contain 64 elements in natural order (not zig-zag order).
-     * A copy is made of the the input array.
-     * @param table the quantization table, as an <code>int</code> array.
-     * @throws IllegalArgumentException if <code>table</code> is
-     * <code>null</code> or <code>table.length</code> is not equal to 64.
+     * Constructs b qubntizbtion tbble from the brgument, which must
+     * contbin 64 elements in nbturbl order (not zig-zbg order).
+     * A copy is mbde of the the input brrby.
+     * @pbrbm tbble the qubntizbtion tbble, bs bn <code>int</code> brrby.
+     * @throws IllegblArgumentException if <code>tbble</code> is
+     * <code>null</code> or <code>tbble.length</code> is not equbl to 64.
      */
-    public JPEGQTable(int[] table) {
-        if (table == null) {
-            throw new IllegalArgumentException("table must not be null.");
+    public JPEGQTbble(int[] tbble) {
+        if (tbble == null) {
+            throw new IllegblArgumentException("tbble must not be null.");
         }
-        if (table.length != 64) {
-            throw new IllegalArgumentException("table.length != 64");
+        if (tbble.length != 64) {
+            throw new IllegblArgumentException("tbble.length != 64");
         }
-        qTable = Arrays.copyOf(table, table.length);
+        qTbble = Arrbys.copyOf(tbble, tbble.length);
     }
 
     /**
-     * Returns a copy of the current quantization table as an array
-     * of {@code int}s in natural (not zig-zag) order.
-     * @return A copy of the current quantization table.
+     * Returns b copy of the current qubntizbtion tbble bs bn brrby
+     * of {@code int}s in nbturbl (not zig-zbg) order.
+     * @return A copy of the current qubntizbtion tbble.
      */
-    public int[] getTable() {
-        return Arrays.copyOf(qTable, qTable.length);
+    public int[] getTbble() {
+        return Arrbys.copyOf(qTbble, qTbble.length);
     }
 
     /**
-     * Returns a new quantization table where the values are multiplied
-     * by <code>scaleFactor</code> and then clamped to the range 1..32767
-     * (or to 1..255 if <code>forceBaseline</code> is true).
+     * Returns b new qubntizbtion tbble where the vblues bre multiplied
+     * by <code>scbleFbctor</code> bnd then clbmped to the rbnge 1..32767
+     * (or to 1..255 if <code>forceBbseline</code> is true).
      * <p>
-     * Values of <code>scaleFactor</code> less than 1 tend to improve
-     * the quality level of the table, and values greater than 1.0
-     * degrade the quality level of the table.
-     * @param scaleFactor multiplication factor for the table.
-     * @param forceBaseline if <code>true</code>,
-     * the values will be clamped to the range 1..255
-     * @return a new quantization table that is a linear multiple
-     * of the current table.
+     * Vblues of <code>scbleFbctor</code> less thbn 1 tend to improve
+     * the qublity level of the tbble, bnd vblues grebter thbn 1.0
+     * degrbde the qublity level of the tbble.
+     * @pbrbm scbleFbctor multiplicbtion fbctor for the tbble.
+     * @pbrbm forceBbseline if <code>true</code>,
+     * the vblues will be clbmped to the rbnge 1..255
+     * @return b new qubntizbtion tbble thbt is b linebr multiple
+     * of the current tbble.
      */
-    public JPEGQTable getScaledInstance(float scaleFactor,
-                                        boolean forceBaseline) {
-        int max = (forceBaseline) ? 255 : 32767;
-        int[] scaledTable = new int[qTable.length];
-        for (int i=0; i<qTable.length; i++) {
-            int sv = (int)((qTable[i] * scaleFactor)+0.5f);
+    public JPEGQTbble getScbledInstbnce(flobt scbleFbctor,
+                                        boolebn forceBbseline) {
+        int mbx = (forceBbseline) ? 255 : 32767;
+        int[] scbledTbble = new int[qTbble.length];
+        for (int i=0; i<qTbble.length; i++) {
+            int sv = (int)((qTbble[i] * scbleFbctor)+0.5f);
             if (sv < 1) {
                 sv = 1;
             }
-            if (sv > max) {
-                sv = max;
+            if (sv > mbx) {
+                sv = mbx;
             }
-            scaledTable[i] = sv;
+            scbledTbble[i] = sv;
         }
-        return new JPEGQTable(scaledTable);
+        return new JPEGQTbble(scbledTbble);
     }
 
     /**
-     * Returns a {@code String} representing this quantization table.
-     * @return a {@code String} representing this quantization table.
+     * Returns b {@code String} representing this qubntizbtion tbble.
+     * @return b {@code String} representing this qubntizbtion tbble.
      */
     public String toString() {
-        String ls = System.getProperty("line.separator", "\n");
-        StringBuilder sb = new StringBuilder("JPEGQTable:"+ls);
-        for (int i=0; i < qTable.length; i++) {
+        String ls = System.getProperty("line.sepbrbtor", "\n");
+        StringBuilder sb = new StringBuilder("JPEGQTbble:"+ls);
+        for (int i=0; i < qTbble.length; i++) {
             if (i % 8 == 0) {
-                sb.append('\t');
+                sb.bppend('\t');
             }
-            sb.append(qTable[i]);
-            sb.append(((i % 8) == 7) ? ls : ' ');
+            sb.bppend(qTbble[i]);
+            sb.bppend(((i % 8) == 7) ? ls : ' ');
         }
         return sb.toString();
     }

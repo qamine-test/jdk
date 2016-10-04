@@ -1,23 +1,23 @@
-WARNING : ASCII_CharStream.java must be PATCHED.
+WARNING : ASCII_ChbrStrebm.jbvb must be PATCHED.
 
-The following methods should be removed after javacc generation.
-The goal is to simplify 100%-pure testing (see bug 4127719).
+The following methods should be removed bfter jbvbcc generbtion.
+The gobl is to simplify 100%-pure testing (see bug 4127719).
 
 
   /**
-   * @deprecated 
+   * @deprecbted 
    * @see #getEndColumn
    */
 
-  public final int getColumn() {
+  public finbl int getColumn() {
      return bufcolumn[bufpos];
   }
 
   /**
-   * @deprecated 
+   * @deprecbted 
    * @see #getEndLine
    */
 
-  public final int getLine() {
+  public finbl int getLine() {
      return bufline[bufpos];
   }

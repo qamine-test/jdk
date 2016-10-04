@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// SAX error handler.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: ErrorHandler.java,v 1.2 2004/11/03 22:44:52 jsuttor Exp $
+// SAX error hbndler.
+// http://www.sbxproject.org
+// No wbrrbnty; no copyright -- use this bs you will.
+// $Id: ErrorHbndler.jbvb,v 1.2 2004/11/03 22:44:52 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbckbge jdk.internbl.org.xml.sbx;
 
 
 /**
- * Basic interface for SAX error handlers.
+ * Bbsic interfbce for SAX error hbndlers.
  *
  * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
+ * <em>This module, both source code bnd documentbtion, is in the
+ * Public Dombin, bnd comes with <strong>NO WARRANTY</strong>.</em>
+ * See <b href='http://www.sbxproject.org'>http://www.sbxproject.org</b>
+ * for further informbtion.
  * </blockquote>
  *
- * <p>If a SAX application needs to implement customized error
- * handling, it must implement this interface and then register an
- * instance with the XML reader using the
- * {@link org.xml.sax.XMLReader#setErrorHandler setErrorHandler}
- * method.  The parser will then report all errors and warnings
- * through this interface.</p>
+ * <p>If b SAX bpplicbtion needs to implement customized error
+ * hbndling, it must implement this interfbce bnd then register bn
+ * instbnce with the XML rebder using the
+ * {@link org.xml.sbx.XMLRebder#setErrorHbndler setErrorHbndler}
+ * method.  The pbrser will then report bll errors bnd wbrnings
+ * through this interfbce.</p>
  *
- * <p><strong>WARNING:</strong> If an application does <em>not</em>
- * register an ErrorHandler, XML parsing errors will go unreported,
- * except that <em>SAXParseException</em>s will be thrown for fatal errors.
- * In order to detect validity errors, an ErrorHandler that does something
- * with {@link #error error()} calls must be registered.</p>
+ * <p><strong>WARNING:</strong> If bn bpplicbtion does <em>not</em>
+ * register bn ErrorHbndler, XML pbrsing errors will go unreported,
+ * except thbt <em>SAXPbrseException</em>s will be thrown for fbtbl errors.
+ * In order to detect vblidity errors, bn ErrorHbndler thbt does something
+ * with {@link #error error()} cblls must be registered.</p>
  *
- * <p>For XML processing errors, a SAX driver must use this interface
- * in preference to throwing an exception: it is up to the application
- * to decide whether to throw an exception for different types of
- * errors and warnings.  Note, however, that there is no requirement that
- * the parser continue to report additional errors after a call to
- * {@link #fatalError fatalError}.  In other words, a SAX driver class
- * may throw an exception after reporting any fatalError.
- * Also parsers may throw appropriate exceptions for non-XML errors.
- * For example, {@link XMLReader#parse XMLReader.parse()} would throw
- * an IOException for errors accessing entities or the document.</p>
+ * <p>For XML processing errors, b SAX driver must use this interfbce
+ * in preference to throwing bn exception: it is up to the bpplicbtion
+ * to decide whether to throw bn exception for different types of
+ * errors bnd wbrnings.  Note, however, thbt there is no requirement thbt
+ * the pbrser continue to report bdditionbl errors bfter b cbll to
+ * {@link #fbtblError fbtblError}.  In other words, b SAX driver clbss
+ * mby throw bn exception bfter reporting bny fbtblError.
+ * Also pbrsers mby throw bppropribte exceptions for non-XML errors.
+ * For exbmple, {@link XMLRebder#pbrse XMLRebder.pbrse()} would throw
+ * bn IOException for errors bccessing entities or the document.</p>
  *
  * @since SAX 1.0
- * @author David Megginson
- * @see org.xml.sax.XMLReader#setErrorHandler
- * @see org.xml.sax.SAXParseException
+ * @buthor Dbvid Megginson
+ * @see org.xml.sbx.XMLRebder#setErrorHbndler
+ * @see org.xml.sbx.SAXPbrseException
  */
-public interface ErrorHandler {
+public interfbce ErrorHbndler {
 
 
     /**
-     * Receive notification of a warning.
+     * Receive notificbtion of b wbrning.
      *
-     * <p>SAX parsers will use this method to report conditions that
-     * are not errors or fatal errors as defined by the XML
-     * recommendation.  The default behaviour is to take no
-     * action.</p>
+     * <p>SAX pbrsers will use this method to report conditions thbt
+     * bre not errors or fbtbl errors bs defined by the XML
+     * recommendbtion.  The defbult behbviour is to tbke no
+     * bction.</p>
      *
-     * <p>The SAX parser must continue to provide normal parsing events
-     * after invoking this method: it should still be possible for the
-     * application to process the document through to the end.</p>
+     * <p>The SAX pbrser must continue to provide normbl pbrsing events
+     * bfter invoking this method: it should still be possible for the
+     * bpplicbtion to process the document through to the end.</p>
      *
-     * <p>Filters may use this method to report other, non-XML warnings
-     * as well.</p>
+     * <p>Filters mby use this method to report other, non-XML wbrnings
+     * bs well.</p>
      *
-     * @param exception The warning information encapsulated in a
-     *                  SAX parse exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm exception The wbrning informbtion encbpsulbted in b
+     *                  SAX pbrse exception.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.SAXPbrseException
      */
-    public abstract void warning (SAXParseException exception)
+    public bbstrbct void wbrning (SAXPbrseException exception)
         throws SAXException;
 
 
     /**
-     * Receive notification of a recoverable error.
+     * Receive notificbtion of b recoverbble error.
      *
      * <p>This corresponds to the definition of "error" in section 1.2
-     * of the W3C XML 1.0 Recommendation.  For example, a validating
-     * parser would use this callback to report the violation of a
-     * validity constraint.  The default behaviour is to take no
-     * action.</p>
+     * of the W3C XML 1.0 Recommendbtion.  For exbmple, b vblidbting
+     * pbrser would use this cbllbbck to report the violbtion of b
+     * vblidity constrbint.  The defbult behbviour is to tbke no
+     * bction.</p>
      *
-     * <p>The SAX parser must continue to provide normal parsing
-     * events after invoking this method: it should still be possible
-     * for the application to process the document through to the end.
-     * If the application cannot do so, then the parser should report
-     * a fatal error even if the XML recommendation does not require
+     * <p>The SAX pbrser must continue to provide normbl pbrsing
+     * events bfter invoking this method: it should still be possible
+     * for the bpplicbtion to process the document through to the end.
+     * If the bpplicbtion cbnnot do so, then the pbrser should report
+     * b fbtbl error even if the XML recommendbtion does not require
      * it to do so.</p>
      *
-     * <p>Filters may use this method to report other, non-XML errors
-     * as well.</p>
+     * <p>Filters mby use this method to report other, non-XML errors
+     * bs well.</p>
      *
-     * @param exception The error information encapsulated in a
-     *                  SAX parse exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm exception The error informbtion encbpsulbted in b
+     *                  SAX pbrse exception.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.SAXPbrseException
      */
-    public abstract void error (SAXParseException exception)
+    public bbstrbct void error (SAXPbrseException exception)
         throws SAXException;
 
 
     /**
-     * Receive notification of a non-recoverable error.
+     * Receive notificbtion of b non-recoverbble error.
      *
-     * <p><strong>There is an apparent contradiction between the
-     * documentation for this method and the documentation for {@link
-     * org.xml.sax.ContentHandler#endDocument}.  Until this ambiguity
-     * is resolved in a future major release, clients should make no
-     * assumptions about whether endDocument() will or will not be
-     * invoked when the parser has reported a fatalError() or thrown
-     * an exception.</strong></p>
+     * <p><strong>There is bn bppbrent contrbdiction between the
+     * documentbtion for this method bnd the documentbtion for {@link
+     * org.xml.sbx.ContentHbndler#endDocument}.  Until this bmbiguity
+     * is resolved in b future mbjor relebse, clients should mbke no
+     * bssumptions bbout whether endDocument() will or will not be
+     * invoked when the pbrser hbs reported b fbtblError() or thrown
+     * bn exception.</strong></p>
      *
-     * <p>This corresponds to the definition of "fatal error" in
-     * section 1.2 of the W3C XML 1.0 Recommendation.  For example, a
-     * parser would use this callback to report the violation of a
-     * well-formedness constraint.</p>
+     * <p>This corresponds to the definition of "fbtbl error" in
+     * section 1.2 of the W3C XML 1.0 Recommendbtion.  For exbmple, b
+     * pbrser would use this cbllbbck to report the violbtion of b
+     * well-formedness constrbint.</p>
      *
-     * <p>The application must assume that the document is unusable
-     * after the parser has invoked this method, and should continue
-     * (if at all) only for the sake of collecting additional error
-     * messages: in fact, SAX parsers are free to stop reporting any
-     * other events once this method has been invoked.</p>
+     * <p>The bpplicbtion must bssume thbt the document is unusbble
+     * bfter the pbrser hbs invoked this method, bnd should continue
+     * (if bt bll) only for the sbke of collecting bdditionbl error
+     * messbges: in fbct, SAX pbrsers bre free to stop reporting bny
+     * other events once this method hbs been invoked.</p>
      *
-     * @param exception The error information encapsulated in a
-     *                  SAX parse exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm exception The error informbtion encbpsulbted in b
+     *                  SAX pbrse exception.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly
+     *            wrbpping bnother exception.
+     * @see org.xml.sbx.SAXPbrseException
      */
-    public abstract void fatalError (SAXParseException exception)
+    public bbstrbct void fbtblError (SAXPbrseException exception)
         throws SAXException;
 
 }
 
-// end of ErrorHandler.java
+// end of ErrorHbndler.jbvb

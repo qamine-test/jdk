@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tracing;
+pbckbge sun.trbcing;
 
-import java.lang.reflect.Method;
-import java.io.PrintStream;
-import java.util.HashMap;
+import jbvb.lbng.reflect.Method;
+import jbvb.io.PrintStrebm;
+import jbvb.util.HbshMbp;
 
-import com.sun.tracing.ProviderFactory;
-import com.sun.tracing.Provider;
-import com.sun.tracing.ProviderName;
-import com.sun.tracing.Probe;
-import com.sun.tracing.ProbeName;
+import com.sun.trbcing.ProviderFbctory;
+import com.sun.trbcing.Provider;
+import com.sun.trbcing.ProviderNbme;
+import com.sun.trbcing.Probe;
+import com.sun.trbcing.ProbeNbme;
 
 /**
- * Factory class to create tracing Providers.
+ * Fbctory clbss to crebte trbcing Providers.
  *
- * This factory will create tracing instances that print to a PrintStream
- * when activated.
+ * This fbctory will crebte trbcing instbnces thbt print to b PrintStrebm
+ * when bctivbted.
  *
  * @since 1.7
  */
-public class PrintStreamProviderFactory extends ProviderFactory {
+public clbss PrintStrebmProviderFbctory extends ProviderFbctory {
 
-    private PrintStream stream;
+    privbte PrintStrebm strebm;
 
-    public PrintStreamProviderFactory(PrintStream stream) {
-        this.stream = stream;
+    public PrintStrebmProviderFbctory(PrintStrebm strebm) {
+        this.strebm = strebm;
     }
 
-    public <T extends Provider> T createProvider(Class<T> cls) {
-        PrintStreamProvider provider = new PrintStreamProvider(cls, stream);
+    public <T extends Provider> T crebteProvider(Clbss<T> cls) {
+        PrintStrebmProvider provider = new PrintStrebmProvider(cls, strebm);
         provider.init();
-        return provider.newProxyInstance();
+        return provider.newProxyInstbnce();
     }
 }
 
-class PrintStreamProvider extends ProviderSkeleton {
+clbss PrintStrebmProvider extends ProviderSkeleton {
 
-    private PrintStream stream;
-    private String providerName;
+    privbte PrintStrebm strebm;
+    privbte String providerNbme;
 
-    protected ProbeSkeleton createProbe(Method m) {
-        String probeName = getAnnotationString(m, ProbeName.class, m.getName());
-        return new PrintStreamProbe(this, probeName, m.getParameterTypes());
+    protected ProbeSkeleton crebteProbe(Method m) {
+        String probeNbme = getAnnotbtionString(m, ProbeNbme.clbss, m.getNbme());
+        return new PrintStrebmProbe(this, probeNbme, m.getPbrbmeterTypes());
     }
 
-    PrintStreamProvider(Class<? extends Provider> type, PrintStream stream) {
+    PrintStrebmProvider(Clbss<? extends Provider> type, PrintStrebm strebm) {
         super(type);
-        this.stream = stream;
-        this.providerName = getProviderName();
+        this.strebm = strebm;
+        this.providerNbme = getProviderNbme();
     }
 
-    PrintStream getStream() {
-        return stream;
+    PrintStrebm getStrebm() {
+        return strebm;
     }
 
-    String getName() {
-        return providerName;
+    String getNbme() {
+        return providerNbme;
     }
 }
 
-class PrintStreamProbe extends ProbeSkeleton {
+clbss PrintStrebmProbe extends ProbeSkeleton {
 
-    private PrintStreamProvider provider;
-    private String name;
+    privbte PrintStrebmProvider provider;
+    privbte String nbme;
 
-    PrintStreamProbe(PrintStreamProvider p, String name, Class<?>[] params) {
-        super(params);
+    PrintStrebmProbe(PrintStrebmProvider p, String nbme, Clbss<?>[] pbrbms) {
+        super(pbrbms);
         this.provider = p;
-        this.name = name;
+        this.nbme = nbme;
     }
 
-    public boolean isEnabled() {
+    public boolebn isEnbbled() {
         return true;
     }
 
-    public void uncheckedTrigger(Object[] args) {
+    public void uncheckedTrigger(Object[] brgs) {
         StringBuilder sb = new StringBuilder();
-        sb.append(provider.getName());
-        sb.append(".");
-        sb.append(name);
-        sb.append("(");
-        boolean first = true;
-        for (Object o : args) {
-            if (first == false) {
-                sb.append(",");
+        sb.bppend(provider.getNbme());
+        sb.bppend(".");
+        sb.bppend(nbme);
+        sb.bppend("(");
+        boolebn first = true;
+        for (Object o : brgs) {
+            if (first == fblse) {
+                sb.bppend(",");
             } else {
-                first = false;
+                first = fblse;
             }
-            sb.append(o.toString());
+            sb.bppend(o.toString());
         }
-        sb.append(")");
-        provider.getStream().println(sb.toString());
+        sb.bppend(")");
+        provider.getStrebm().println(sb.toString());
     }
 }
 

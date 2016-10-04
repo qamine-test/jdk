@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
+pbckbge sun.net.httpserver;
 
-import java.net.*;
-import java.nio.*;
-import java.io.*;
-import java.nio.channels.*;
-import java.util.concurrent.locks.*;
-import javax.net.ssl.*;
-import javax.net.ssl.SSLEngineResult.*;
+import jbvb.net.*;
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.concurrent.locks.*;
+import jbvbx.net.ssl.*;
+import jbvbx.net.ssl.SSLEngineResult.*;
 import com.sun.net.httpserver.*;
 
 /**
- * given a non-blocking SocketChannel, it produces
- * (blocking) streams which encrypt/decrypt the SSL content
- * and handle the SSL handshaking automatically.
+ * given b non-blocking SocketChbnnel, it produces
+ * (blocking) strebms which encrypt/decrypt the SSL content
+ * bnd hbndle the SSL hbndshbking butombticblly.
  */
 
-class SSLStreams {
+clbss SSLStrebms {
 
     SSLContext sslctx;
-    SocketChannel chan;
+    SocketChbnnel chbn;
     TimeSource time;
     ServerImpl server;
     SSLEngine engine;
-    EngineWrapper wrapper;
-    OutputStream os;
-    InputStream is;
+    EngineWrbpper wrbpper;
+    OutputStrebm os;
+    InputStrebm is;
 
-    /* held by thread doing the hand-shake on this connection */
-    Lock handshaking = new ReentrantLock();
+    /* held by threbd doing the hbnd-shbke on this connection */
+    Lock hbndshbking = new ReentrbntLock();
 
-    SSLStreams (ServerImpl server, SSLContext sslctx, SocketChannel chan) throws IOException {
+    SSLStrebms (ServerImpl server, SSLContext sslctx, SocketChbnnel chbn) throws IOException {
         this.server = server;
         this.time= (TimeSource)server;
         this.sslctx= sslctx;
-        this.chan= chan;
-        InetSocketAddress addr =
-                (InetSocketAddress)chan.socket().getRemoteSocketAddress();
-        engine = sslctx.createSSLEngine (addr.getHostName(), addr.getPort());
-        engine.setUseClientMode (false);
-        HttpsConfigurator cfg = server.getHttpsConfigurator();
-        configureEngine (cfg, addr);
-        wrapper = new EngineWrapper (chan, engine);
+        this.chbn= chbn;
+        InetSocketAddress bddr =
+                (InetSocketAddress)chbn.socket().getRemoteSocketAddress();
+        engine = sslctx.crebteSSLEngine (bddr.getHostNbme(), bddr.getPort());
+        engine.setUseClientMode (fblse);
+        HttpsConfigurbtor cfg = server.getHttpsConfigurbtor();
+        configureEngine (cfg, bddr);
+        wrbpper = new EngineWrbpper (chbn, engine);
     }
 
-    private void configureEngine(HttpsConfigurator cfg, InetSocketAddress addr){
+    privbte void configureEngine(HttpsConfigurbtor cfg, InetSocketAddress bddr){
         if (cfg != null) {
-            Parameters params = new Parameters (cfg, addr);
+            Pbrbmeters pbrbms = new Pbrbmeters (cfg, bddr);
 //BEGIN_TIGER_EXCLUDE
-            cfg.configure (params);
-            SSLParameters sslParams = params.getSSLParameters();
-            if (sslParams != null) {
-                engine.setSSLParameters (sslParams);
+            cfg.configure (pbrbms);
+            SSLPbrbmeters sslPbrbms = pbrbms.getSSLPbrbmeters();
+            if (sslPbrbms != null) {
+                engine.setSSLPbrbmeters (sslPbrbms);
             } else
 //END_TIGER_EXCLUDE
             {
-                /* tiger compatibility */
-                if (params.getCipherSuites() != null) {
+                /* tiger compbtibility */
+                if (pbrbms.getCipherSuites() != null) {
                     try {
-                        engine.setEnabledCipherSuites (
-                            params.getCipherSuites()
+                        engine.setEnbbledCipherSuites (
+                            pbrbms.getCipherSuites()
                         );
-                    } catch (IllegalArgumentException e) { /* LOG */}
+                    } cbtch (IllegblArgumentException e) { /* LOG */}
                 }
-                engine.setNeedClientAuth (params.getNeedClientAuth());
-                engine.setWantClientAuth (params.getWantClientAuth());
-                if (params.getProtocols() != null) {
+                engine.setNeedClientAuth (pbrbms.getNeedClientAuth());
+                engine.setWbntClientAuth (pbrbms.getWbntClientAuth());
+                if (pbrbms.getProtocols() != null) {
                     try {
-                        engine.setEnabledProtocols (
-                            params.getProtocols()
+                        engine.setEnbbledProtocols (
+                            pbrbms.getProtocols()
                         );
-                    } catch (IllegalArgumentException e) { /* LOG */}
+                    } cbtch (IllegblArgumentException e) { /* LOG */}
                 }
             }
         }
     }
 
-    class Parameters extends HttpsParameters {
-        InetSocketAddress addr;
-        HttpsConfigurator cfg;
+    clbss Pbrbmeters extends HttpsPbrbmeters {
+        InetSocketAddress bddr;
+        HttpsConfigurbtor cfg;
 
-        Parameters (HttpsConfigurator cfg, InetSocketAddress addr) {
-            this.addr = addr;
+        Pbrbmeters (HttpsConfigurbtor cfg, InetSocketAddress bddr) {
+            this.bddr = bddr;
             this.cfg = cfg;
         }
         public InetSocketAddress getClientAddress () {
-            return addr;
+            return bddr;
         }
-        public HttpsConfigurator getHttpsConfigurator() {
+        public HttpsConfigurbtor getHttpsConfigurbtor() {
             return cfg;
         }
 //BEGIN_TIGER_EXCLUDE
-        SSLParameters params;
-        public void setSSLParameters (SSLParameters p) {
-            params = p;
+        SSLPbrbmeters pbrbms;
+        public void setSSLPbrbmeters (SSLPbrbmeters p) {
+            pbrbms = p;
         }
-        SSLParameters getSSLParameters () {
-            return params;
+        SSLPbrbmeters getSSLPbrbmeters () {
+            return pbrbms;
         }
 //END_TIGER_EXCLUDE
     }
 
     /**
-     * cleanup resources allocated inside this object
+     * clebnup resources bllocbted inside this object
      */
     void close () throws IOException {
-        wrapper.close();
+        wrbpper.close();
     }
 
     /**
-     * return the SSL InputStream
+     * return the SSL InputStrebm
      */
-    InputStream getInputStream () throws IOException {
+    InputStrebm getInputStrebm () throws IOException {
         if (is == null) {
-            is = new InputStream();
+            is = new InputStrebm();
         }
         return is;
     }
 
     /**
-     * return the SSL OutputStream
+     * return the SSL OutputStrebm
      */
-    OutputStream getOutputStream () throws IOException {
+    OutputStrebm getOutputStrebm () throws IOException {
         if (os == null) {
-            os = new OutputStream();
+            os = new OutputStrebm();
         }
         return os;
     }
@@ -157,73 +157,73 @@ class SSLStreams {
     }
 
     /**
-     * request the engine to repeat the handshake on this session
-     * the handshake must be driven by reads/writes on the streams
-     * Normally, not necessary to call this.
+     * request the engine to repebt the hbndshbke on this session
+     * the hbndshbke must be driven by rebds/writes on the strebms
+     * Normblly, not necessbry to cbll this.
      */
-    void beginHandshake() throws SSLException {
-        engine.beginHandshake();
+    void beginHbndshbke() throws SSLException {
+        engine.beginHbndshbke();
     }
 
-    class WrapperResult {
+    clbss WrbpperResult {
         SSLEngineResult result;
 
-        /* if passed in buffer was not big enough then the
-         * a reallocated buffer is returned here
+        /* if pbssed in buffer wbs not big enough then the
+         * b rebllocbted buffer is returned here
          */
         ByteBuffer buf;
     }
 
-    int app_buf_size;
-    int packet_buf_size;
+    int bpp_buf_size;
+    int pbcket_buf_size;
 
     enum BufType {
         PACKET, APPLICATION
     };
 
-    private ByteBuffer allocate (BufType type) {
-        return allocate (type, -1);
+    privbte ByteBuffer bllocbte (BufType type) {
+        return bllocbte (type, -1);
     }
 
-    private ByteBuffer allocate (BufType type, int len) {
-        assert engine != null;
+    privbte ByteBuffer bllocbte (BufType type, int len) {
+        bssert engine != null;
         synchronized (this) {
             int size;
             if (type == BufType.PACKET) {
-                if (packet_buf_size == 0) {
+                if (pbcket_buf_size == 0) {
                     SSLSession sess = engine.getSession();
-                    packet_buf_size = sess.getPacketBufferSize();
+                    pbcket_buf_size = sess.getPbcketBufferSize();
                 }
-                if (len > packet_buf_size) {
-                    packet_buf_size = len;
+                if (len > pbcket_buf_size) {
+                    pbcket_buf_size = len;
                 }
-                size = packet_buf_size;
+                size = pbcket_buf_size;
             } else {
-                if (app_buf_size == 0) {
+                if (bpp_buf_size == 0) {
                     SSLSession sess = engine.getSession();
-                    app_buf_size = sess.getApplicationBufferSize();
+                    bpp_buf_size = sess.getApplicbtionBufferSize();
                 }
-                if (len > app_buf_size) {
-                    app_buf_size = len;
+                if (len > bpp_buf_size) {
+                    bpp_buf_size = len;
                 }
-                size = app_buf_size;
+                size = bpp_buf_size;
             }
-            return ByteBuffer.allocate (size);
+            return ByteBuffer.bllocbte (size);
         }
     }
 
-    /* reallocates the buffer by :-
-     * 1. creating a new buffer double the size of the old one
+    /* rebllocbtes the buffer by :-
+     * 1. crebting b new buffer double the size of the old one
      * 2. putting the contents of the old buffer into the new one
-     * 3. set xx_buf_size to the new size if it was smaller than new size
+     * 3. set xx_buf_size to the new size if it wbs smbller thbn new size
      *
      * flip is set to true if the old buffer needs to be flipped
      * before it is copied.
      */
-    private ByteBuffer realloc (ByteBuffer b, boolean flip, BufType type) {
+    privbte ByteBuffer reblloc (ByteBuffer b, boolebn flip, BufType type) {
         synchronized (this) {
-            int nsize = 2 * b.capacity();
-            ByteBuffer n = allocate (type, nsize);
+            int nsize = 2 * b.cbpbcity();
+            ByteBuffer n = bllocbte (type, nsize);
             if (flip) {
                 b.flip();
             }
@@ -233,362 +233,362 @@ class SSLStreams {
         return b;
     }
     /**
-     * This is a thin wrapper over SSLEngine and the SocketChannel,
-     * which guarantees the ordering of wraps/unwraps with respect to the underlying
-     * channel read/writes. It handles the UNDER/OVERFLOW status codes
-     * It does not handle the handshaking status codes, or the CLOSED status code
-     * though once the engine is closed, any attempt to read/write to it
-     * will get an exception.  The overall result is returned.
+     * This is b thin wrbpper over SSLEngine bnd the SocketChbnnel,
+     * which gubrbntees the ordering of wrbps/unwrbps with respect to the underlying
+     * chbnnel rebd/writes. It hbndles the UNDER/OVERFLOW stbtus codes
+     * It does not hbndle the hbndshbking stbtus codes, or the CLOSED stbtus code
+     * though once the engine is closed, bny bttempt to rebd/write to it
+     * will get bn exception.  The overbll result is returned.
      * It functions synchronously/blocking
      */
-    class EngineWrapper {
+    clbss EngineWrbpper {
 
-        SocketChannel chan;
+        SocketChbnnel chbn;
         SSLEngine engine;
-        Object wrapLock, unwrapLock;
-        ByteBuffer unwrap_src, wrap_dst;
-        boolean closed = false;
-        int u_remaining; // the number of bytes left in unwrap_src after an unwrap()
+        Object wrbpLock, unwrbpLock;
+        ByteBuffer unwrbp_src, wrbp_dst;
+        boolebn closed = fblse;
+        int u_rembining; // the number of bytes left in unwrbp_src bfter bn unwrbp()
 
-        EngineWrapper (SocketChannel chan, SSLEngine engine) throws IOException {
-            this.chan = chan;
+        EngineWrbpper (SocketChbnnel chbn, SSLEngine engine) throws IOException {
+            this.chbn = chbn;
             this.engine = engine;
-            wrapLock = new Object();
-            unwrapLock = new Object();
-            unwrap_src = allocate(BufType.PACKET);
-            wrap_dst = allocate(BufType.PACKET);
+            wrbpLock = new Object();
+            unwrbpLock = new Object();
+            unwrbp_src = bllocbte(BufType.PACKET);
+            wrbp_dst = bllocbte(BufType.PACKET);
         }
 
         void close () throws IOException {
         }
 
-        /* try to wrap and send the data in src. Handles OVERFLOW.
-         * Might block if there is an outbound blockage or if another
-         * thread is calling wrap(). Also, might not send any data
-         * if an unwrap is needed.
+        /* try to wrbp bnd send the dbtb in src. Hbndles OVERFLOW.
+         * Might block if there is bn outbound blockbge or if bnother
+         * threbd is cblling wrbp(). Also, might not send bny dbtb
+         * if bn unwrbp is needed.
          */
-        WrapperResult wrapAndSend(ByteBuffer src) throws IOException {
-            return wrapAndSendX(src, false);
+        WrbpperResult wrbpAndSend(ByteBuffer src) throws IOException {
+            return wrbpAndSendX(src, fblse);
         }
 
-        WrapperResult wrapAndSendX(ByteBuffer src, boolean ignoreClose) throws IOException {
+        WrbpperResult wrbpAndSendX(ByteBuffer src, boolebn ignoreClose) throws IOException {
             if (closed && !ignoreClose) {
                 throw new IOException ("Engine is closed");
             }
-            Status status;
-            WrapperResult r = new WrapperResult();
-            synchronized (wrapLock) {
-                wrap_dst.clear();
+            Stbtus stbtus;
+            WrbpperResult r = new WrbpperResult();
+            synchronized (wrbpLock) {
+                wrbp_dst.clebr();
                 do {
-                    r.result = engine.wrap (src, wrap_dst);
-                    status = r.result.getStatus();
-                    if (status == Status.BUFFER_OVERFLOW) {
-                        wrap_dst = realloc (wrap_dst, true, BufType.PACKET);
+                    r.result = engine.wrbp (src, wrbp_dst);
+                    stbtus = r.result.getStbtus();
+                    if (stbtus == Stbtus.BUFFER_OVERFLOW) {
+                        wrbp_dst = reblloc (wrbp_dst, true, BufType.PACKET);
                     }
-                } while (status == Status.BUFFER_OVERFLOW);
-                if (status == Status.CLOSED && !ignoreClose) {
+                } while (stbtus == Stbtus.BUFFER_OVERFLOW);
+                if (stbtus == Stbtus.CLOSED && !ignoreClose) {
                     closed = true;
                     return r;
                 }
                 if (r.result.bytesProduced() > 0) {
-                    wrap_dst.flip();
-                    int l = wrap_dst.remaining();
-                    assert l == r.result.bytesProduced();
+                    wrbp_dst.flip();
+                    int l = wrbp_dst.rembining();
+                    bssert l == r.result.bytesProduced();
                     while (l>0) {
-                        l -= chan.write (wrap_dst);
+                        l -= chbn.write (wrbp_dst);
                     }
                 }
             }
             return r;
         }
 
-        /* block until a complete message is available and return it
-         * in dst, together with the Result. dst may have been re-allocated
-         * so caller should check the returned value in Result
-         * If handshaking is in progress then, possibly no data is returned
+        /* block until b complete messbge is bvbilbble bnd return it
+         * in dst, together with the Result. dst mby hbve been re-bllocbted
+         * so cbller should check the returned vblue in Result
+         * If hbndshbking is in progress then, possibly no dbtb is returned
          */
-        WrapperResult recvAndUnwrap(ByteBuffer dst) throws IOException {
-            Status status = Status.OK;
-            WrapperResult r = new WrapperResult();
+        WrbpperResult recvAndUnwrbp(ByteBuffer dst) throws IOException {
+            Stbtus stbtus = Stbtus.OK;
+            WrbpperResult r = new WrbpperResult();
             r.buf = dst;
             if (closed) {
                 throw new IOException ("Engine is closed");
             }
-            boolean needData;
-            if (u_remaining > 0) {
-                unwrap_src.compact();
-                unwrap_src.flip();
-                needData = false;
+            boolebn needDbtb;
+            if (u_rembining > 0) {
+                unwrbp_src.compbct();
+                unwrbp_src.flip();
+                needDbtb = fblse;
             } else {
-                unwrap_src.clear();
-                needData = true;
+                unwrbp_src.clebr();
+                needDbtb = true;
             }
-            synchronized (unwrapLock) {
+            synchronized (unwrbpLock) {
                 int x;
                 do {
-                    if (needData) {
+                    if (needDbtb) {
                         do {
-                        x = chan.read (unwrap_src);
+                        x = chbn.rebd (unwrbp_src);
                         } while (x == 0);
                         if (x == -1) {
-                            throw new IOException ("connection closed for reading");
+                            throw new IOException ("connection closed for rebding");
                         }
-                        unwrap_src.flip();
+                        unwrbp_src.flip();
                     }
-                    r.result = engine.unwrap (unwrap_src, r.buf);
-                    status = r.result.getStatus();
-                    if (status == Status.BUFFER_UNDERFLOW) {
-                        if (unwrap_src.limit() == unwrap_src.capacity()) {
+                    r.result = engine.unwrbp (unwrbp_src, r.buf);
+                    stbtus = r.result.getStbtus();
+                    if (stbtus == Stbtus.BUFFER_UNDERFLOW) {
+                        if (unwrbp_src.limit() == unwrbp_src.cbpbcity()) {
                             /* buffer not big enough */
-                            unwrap_src = realloc (
-                                unwrap_src, false, BufType.PACKET
+                            unwrbp_src = reblloc (
+                                unwrbp_src, fblse, BufType.PACKET
                             );
                         } else {
-                            /* Buffer not full, just need to read more
-                             * data off the channel. Reset pointers
-                             * for reading off SocketChannel
+                            /* Buffer not full, just need to rebd more
+                             * dbtb off the chbnnel. Reset pointers
+                             * for rebding off SocketChbnnel
                              */
-                            unwrap_src.position (unwrap_src.limit());
-                            unwrap_src.limit (unwrap_src.capacity());
+                            unwrbp_src.position (unwrbp_src.limit());
+                            unwrbp_src.limit (unwrbp_src.cbpbcity());
                         }
-                        needData = true;
-                    } else if (status == Status.BUFFER_OVERFLOW) {
-                        r.buf = realloc (r.buf, true, BufType.APPLICATION);
-                        needData = false;
-                    } else if (status == Status.CLOSED) {
+                        needDbtb = true;
+                    } else if (stbtus == Stbtus.BUFFER_OVERFLOW) {
+                        r.buf = reblloc (r.buf, true, BufType.APPLICATION);
+                        needDbtb = fblse;
+                    } else if (stbtus == Stbtus.CLOSED) {
                         closed = true;
                         r.buf.flip();
                         return r;
                     }
-                } while (status != Status.OK);
+                } while (stbtus != Stbtus.OK);
             }
-            u_remaining = unwrap_src.remaining();
+            u_rembining = unwrbp_src.rembining();
             return r;
         }
     }
 
     /**
-     * send the data in the given ByteBuffer. If a handshake is needed
-     * then this is handled within this method. When this call returns,
-     * all of the given user data has been sent and any handshake has been
-     * completed. Caller should check if engine has been closed.
+     * send the dbtb in the given ByteBuffer. If b hbndshbke is needed
+     * then this is hbndled within this method. When this cbll returns,
+     * bll of the given user dbtb hbs been sent bnd bny hbndshbke hbs been
+     * completed. Cbller should check if engine hbs been closed.
      */
-    public WrapperResult sendData (ByteBuffer src) throws IOException {
-        WrapperResult r=null;
-        while (src.remaining() > 0) {
-            r = wrapper.wrapAndSend(src);
-            Status status = r.result.getStatus();
-            if (status == Status.CLOSED) {
+    public WrbpperResult sendDbtb (ByteBuffer src) throws IOException {
+        WrbpperResult r=null;
+        while (src.rembining() > 0) {
+            r = wrbpper.wrbpAndSend(src);
+            Stbtus stbtus = r.result.getStbtus();
+            if (stbtus == Stbtus.CLOSED) {
                 doClosure ();
                 return r;
             }
-            HandshakeStatus hs_status = r.result.getHandshakeStatus();
-            if (hs_status != HandshakeStatus.FINISHED &&
-                hs_status != HandshakeStatus.NOT_HANDSHAKING)
+            HbndshbkeStbtus hs_stbtus = r.result.getHbndshbkeStbtus();
+            if (hs_stbtus != HbndshbkeStbtus.FINISHED &&
+                hs_stbtus != HbndshbkeStbtus.NOT_HANDSHAKING)
             {
-                doHandshake(hs_status);
+                doHbndshbke(hs_stbtus);
             }
         }
         return r;
     }
 
     /**
-     * read data thru the engine into the given ByteBuffer. If the
-     * given buffer was not large enough, a new one is allocated
-     * and returned. This call handles handshaking automatically.
-     * Caller should check if engine has been closed.
+     * rebd dbtb thru the engine into the given ByteBuffer. If the
+     * given buffer wbs not lbrge enough, b new one is bllocbted
+     * bnd returned. This cbll hbndles hbndshbking butombticblly.
+     * Cbller should check if engine hbs been closed.
      */
-    public WrapperResult recvData (ByteBuffer dst) throws IOException {
-        /* we wait until some user data arrives */
-        WrapperResult r = null;
-        assert dst.position() == 0;
+    public WrbpperResult recvDbtb (ByteBuffer dst) throws IOException {
+        /* we wbit until some user dbtb brrives */
+        WrbpperResult r = null;
+        bssert dst.position() == 0;
         while (dst.position() == 0) {
-            r = wrapper.recvAndUnwrap (dst);
+            r = wrbpper.recvAndUnwrbp (dst);
             dst = (r.buf != dst) ? r.buf: dst;
-            Status status = r.result.getStatus();
-            if (status == Status.CLOSED) {
+            Stbtus stbtus = r.result.getStbtus();
+            if (stbtus == Stbtus.CLOSED) {
                 doClosure ();
                 return r;
             }
 
-            HandshakeStatus hs_status = r.result.getHandshakeStatus();
-            if (hs_status != HandshakeStatus.FINISHED &&
-                hs_status != HandshakeStatus.NOT_HANDSHAKING)
+            HbndshbkeStbtus hs_stbtus = r.result.getHbndshbkeStbtus();
+            if (hs_stbtus != HbndshbkeStbtus.FINISHED &&
+                hs_stbtus != HbndshbkeStbtus.NOT_HANDSHAKING)
             {
-                doHandshake (hs_status);
+                doHbndshbke (hs_stbtus);
             }
         }
         dst.flip();
         return r;
     }
 
-    /* we've received a close notify. Need to call wrap to send
+    /* we've received b close notify. Need to cbll wrbp to send
      * the response
      */
     void doClosure () throws IOException {
         try {
-            handshaking.lock();
-            ByteBuffer tmp = allocate(BufType.APPLICATION);
-            WrapperResult r;
+            hbndshbking.lock();
+            ByteBuffer tmp = bllocbte(BufType.APPLICATION);
+            WrbpperResult r;
             do {
-                tmp.clear();
+                tmp.clebr();
                 tmp.flip ();
-                r = wrapper.wrapAndSendX (tmp, true);
-            } while (r.result.getStatus() != Status.CLOSED);
-        } finally {
-            handshaking.unlock();
+                r = wrbpper.wrbpAndSendX (tmp, true);
+            } while (r.result.getStbtus() != Stbtus.CLOSED);
+        } finblly {
+            hbndshbking.unlock();
         }
     }
 
-    /* do the (complete) handshake after acquiring the handshake lock.
-     * If two threads call this at the same time, then we depend
-     * on the wrapper methods being idempotent. eg. if wrapAndSend()
-     * is called with no data to send then there must be no problem
+    /* do the (complete) hbndshbke bfter bcquiring the hbndshbke lock.
+     * If two threbds cbll this bt the sbme time, then we depend
+     * on the wrbpper methods being idempotent. eg. if wrbpAndSend()
+     * is cblled with no dbtb to send then there must be no problem
      */
-    @SuppressWarnings("fallthrough")
-    void doHandshake (HandshakeStatus hs_status) throws IOException {
+    @SuppressWbrnings("fbllthrough")
+    void doHbndshbke (HbndshbkeStbtus hs_stbtus) throws IOException {
         try {
-            handshaking.lock();
-            ByteBuffer tmp = allocate(BufType.APPLICATION);
-            while (hs_status != HandshakeStatus.FINISHED &&
-                   hs_status != HandshakeStatus.NOT_HANDSHAKING)
+            hbndshbking.lock();
+            ByteBuffer tmp = bllocbte(BufType.APPLICATION);
+            while (hs_stbtus != HbndshbkeStbtus.FINISHED &&
+                   hs_stbtus != HbndshbkeStbtus.NOT_HANDSHAKING)
             {
-                WrapperResult r = null;
-                switch (hs_status) {
-                    case NEED_TASK:
-                        Runnable task;
-                        while ((task = engine.getDelegatedTask()) != null) {
-                            /* run in current thread, because we are already
-                             * running an external Executor
+                WrbpperResult r = null;
+                switch (hs_stbtus) {
+                    cbse NEED_TASK:
+                        Runnbble tbsk;
+                        while ((tbsk = engine.getDelegbtedTbsk()) != null) {
+                            /* run in current threbd, becbuse we bre blrebdy
+                             * running bn externbl Executor
                              */
-                            task.run();
+                            tbsk.run();
                         }
-                        /* fall thru - call wrap again */
-                    case NEED_WRAP:
-                        tmp.clear();
+                        /* fbll thru - cbll wrbp bgbin */
+                    cbse NEED_WRAP:
+                        tmp.clebr();
                         tmp.flip();
-                        r = wrapper.wrapAndSend(tmp);
-                        break;
+                        r = wrbpper.wrbpAndSend(tmp);
+                        brebk;
 
-                    case NEED_UNWRAP:
-                        tmp.clear();
-                        r = wrapper.recvAndUnwrap (tmp);
+                    cbse NEED_UNWRAP:
+                        tmp.clebr();
+                        r = wrbpper.recvAndUnwrbp (tmp);
                         if (r.buf != tmp) {
                             tmp = r.buf;
                         }
-                        assert tmp.position() == 0;
-                        break;
+                        bssert tmp.position() == 0;
+                        brebk;
                 }
-                hs_status = r.result.getHandshakeStatus();
+                hs_stbtus = r.result.getHbndshbkeStbtus();
             }
-        } finally {
-            handshaking.unlock();
+        } finblly {
+            hbndshbking.unlock();
         }
     }
 
     /**
-     * represents an SSL input stream. Multiple https requests can
-     * be sent over one stream. closing this stream causes an SSL close
+     * represents bn SSL input strebm. Multiple https requests cbn
+     * be sent over one strebm. closing this strebm cbuses bn SSL close
      * input.
      */
-    class InputStream extends java.io.InputStream {
+    clbss InputStrebm extends jbvb.io.InputStrebm {
 
         ByteBuffer bbuf;
-        boolean closed = false;
+        boolebn closed = fblse;
 
-        /* this stream eof */
-        boolean eof = false;
+        /* this strebm eof */
+        boolebn eof = fblse;
 
-        boolean needData = true;
+        boolebn needDbtb = true;
 
-        InputStream () {
-            bbuf = allocate (BufType.APPLICATION);
+        InputStrebm () {
+            bbuf = bllocbte (BufType.APPLICATION);
         }
 
-        public int read (byte[] buf, int off, int len) throws IOException {
+        public int rebd (byte[] buf, int off, int len) throws IOException {
             if (closed) {
-                throw new IOException ("SSL stream is closed");
+                throw new IOException ("SSL strebm is closed");
             }
             if (eof) {
                 return 0;
             }
-            int available=0;
-            if (!needData) {
-                available = bbuf.remaining();
-                needData = (available==0);
+            int bvbilbble=0;
+            if (!needDbtb) {
+                bvbilbble = bbuf.rembining();
+                needDbtb = (bvbilbble==0);
             }
-            if (needData) {
-                bbuf.clear();
-                WrapperResult r = recvData (bbuf);
+            if (needDbtb) {
+                bbuf.clebr();
+                WrbpperResult r = recvDbtb (bbuf);
                 bbuf = r.buf== bbuf? bbuf: r.buf;
-                if ((available=bbuf.remaining()) == 0) {
+                if ((bvbilbble=bbuf.rembining()) == 0) {
                     eof = true;
                     return 0;
                 } else {
-                    needData = false;
+                    needDbtb = fblse;
                 }
             }
-            /* copy as much as possible from buf into users buf */
-            if (len > available) {
-                len = available;
+            /* copy bs much bs possible from buf into users buf */
+            if (len > bvbilbble) {
+                len = bvbilbble;
             }
             bbuf.get (buf, off, len);
             return len;
         }
 
-        public int available () throws IOException {
-            return bbuf.remaining();
+        public int bvbilbble () throws IOException {
+            return bbuf.rembining();
         }
 
-        public boolean markSupported () {
-            return false; /* not possible with SSLEngine */
+        public boolebn mbrkSupported () {
+            return fblse; /* not possible with SSLEngine */
         }
 
         public void reset () throws IOException {
-            throw new IOException ("mark/reset not supported");
+            throw new IOException ("mbrk/reset not supported");
         }
 
         public long skip (long s) throws IOException {
             int n = (int)s;
             if (closed) {
-                throw new IOException ("SSL stream is closed");
+                throw new IOException ("SSL strebm is closed");
             }
             if (eof) {
                 return 0;
             }
             int ret = n;
             while (n > 0) {
-                if (bbuf.remaining() >= n) {
+                if (bbuf.rembining() >= n) {
                     bbuf.position (bbuf.position()+n);
                     return ret;
                 } else {
-                    n -= bbuf.remaining();
-                    bbuf.clear();
-                    WrapperResult r = recvData (bbuf);
+                    n -= bbuf.rembining();
+                    bbuf.clebr();
+                    WrbpperResult r = recvDbtb (bbuf);
                     bbuf = r.buf==bbuf? bbuf: r.buf;
                 }
             }
-            return ret; /* not reached */
+            return ret; /* not rebched */
         }
 
         /**
-         * close the SSL connection. All data must have been consumed
-         * before this is called. Otherwise an exception will be thrown.
-         * [Note. May need to revisit this. not quite the normal close() symantics
+         * close the SSL connection. All dbtb must hbve been consumed
+         * before this is cblled. Otherwise bn exception will be thrown.
+         * [Note. Mby need to revisit this. not quite the normbl close() symbntics
          */
         public void close () throws IOException {
             eof = true;
             engine.closeInbound ();
         }
 
-        public int read (byte[] buf) throws IOException {
-            return read (buf, 0, buf.length);
+        public int rebd (byte[] buf) throws IOException {
+            return rebd (buf, 0, buf.length);
         }
 
         byte single[] = new byte [1];
 
-        public int read () throws IOException {
-            int n = read (single, 0, 1);
+        public int rebd () throws IOException {
+            int n = rebd (single, 0, 1);
             if (n == 0) {
                 return -1;
             } else {
@@ -598,17 +598,17 @@ class SSLStreams {
     }
 
     /**
-     * represents an SSL output stream. plain text data written to this stream
-     * is encrypted by the stream. Multiple HTTPS responses can be sent on
-     * one stream. closing this stream initiates an SSL closure
+     * represents bn SSL output strebm. plbin text dbtb written to this strebm
+     * is encrypted by the strebm. Multiple HTTPS responses cbn be sent on
+     * one strebm. closing this strebm initibtes bn SSL closure
      */
-    class OutputStream extends java.io.OutputStream {
+    clbss OutputStrebm extends jbvb.io.OutputStrebm {
         ByteBuffer buf;
-        boolean closed = false;
+        boolebn closed = fblse;
         byte single[] = new byte[1];
 
-        OutputStream() {
-            buf = allocate(BufType.APPLICATION);
+        OutputStrebm() {
+            buf = bllocbte(BufType.APPLICATION);
         }
 
         public void write(int b) throws IOException {
@@ -621,20 +621,20 @@ class SSLStreams {
         }
         public void write(byte b[], int off, int len) throws IOException {
             if (closed) {
-                throw new IOException ("output stream is closed");
+                throw new IOException ("output strebm is closed");
             }
             while (len > 0) {
-                int l = len > buf.capacity() ? buf.capacity() : len;
-                buf.clear();
+                int l = len > buf.cbpbcity() ? buf.cbpbcity() : len;
+                buf.clebr();
                 buf.put (b, off, l);
                 len -= l;
                 off += l;
                 buf.flip();
-                WrapperResult r = sendData (buf);
-                if (r.result.getStatus() == Status.CLOSED) {
+                WrbpperResult r = sendDbtb (buf);
+                if (r.result.getStbtus() == Stbtus.CLOSED) {
                     closed = true;
                     if (len > 0) {
-                        throw new IOException ("output stream is closed");
+                        throw new IOException ("output strebm is closed");
                     }
                 }
             }
@@ -645,16 +645,16 @@ class SSLStreams {
         }
 
         public void close() throws IOException {
-            WrapperResult r=null;
+            WrbpperResult r=null;
             engine.closeOutbound();
             closed = true;
-            HandshakeStatus stat = HandshakeStatus.NEED_WRAP;
-            buf.clear();
-            while (stat == HandshakeStatus.NEED_WRAP) {
-                r = wrapper.wrapAndSend (buf);
-                stat = r.result.getHandshakeStatus();
+            HbndshbkeStbtus stbt = HbndshbkeStbtus.NEED_WRAP;
+            buf.clebr();
+            while (stbt == HbndshbkeStbtus.NEED_WRAP) {
+                r = wrbpper.wrbpAndSend (buf);
+                stbt = r.result.getHbndshbkeStbtus();
             }
-            assert r.result.getStatus() == Status.CLOSED;
+            bssert r.result.getStbtus() == Stbtus.CLOSED;
         }
     }
 }

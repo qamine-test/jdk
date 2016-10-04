@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
 
 
 // jmx import
 //
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanOperationInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanNotificationInfo;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
+import jbvbx.mbnbgement.MBebnConstructorInfo;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
 
 
 
 /**
- * <p>Describes an Open MBean: an Open MBean is recognized as such if
- * its {@link javax.management.DynamicMBean#getMBeanInfo()
- * getMBeanInfo()} method returns an instance of a class which
- * implements the {@link OpenMBeanInfo} interface, typically {@link
- * OpenMBeanInfoSupport}.</p>
+ * <p>Describes bn Open MBebn: bn Open MBebn is recognized bs such if
+ * its {@link jbvbx.mbnbgement.DynbmicMBebn#getMBebnInfo()
+ * getMBebnInfo()} method returns bn instbnce of b clbss which
+ * implements the {@link OpenMBebnInfo} interfbce, typicblly {@link
+ * OpenMBebnInfoSupport}.</p>
  *
- * <p>This interface declares the same methods as the class {@link
- * javax.management.MBeanInfo}.  A class implementing this interface
- * (typically {@link OpenMBeanInfoSupport}) should extend {@link
- * javax.management.MBeanInfo}.</p>
+ * <p>This interfbce declbres the sbme methods bs the clbss {@link
+ * jbvbx.mbnbgement.MBebnInfo}.  A clbss implementing this interfbce
+ * (typicblly {@link OpenMBebnInfoSupport}) should extend {@link
+ * jbvbx.mbnbgement.MBebnInfo}.</p>
  *
- * <p>The {@link #getAttributes()}, {@link #getOperations()} and
- * {@link #getConstructors()} methods of the implementing class should
- * return at runtime an array of instances of a subclass of {@link
- * MBeanAttributeInfo}, {@link MBeanOperationInfo} or {@link
- * MBeanConstructorInfo} respectively which implement the {@link
- * OpenMBeanAttributeInfo}, {@link OpenMBeanOperationInfo} or {@link
- * OpenMBeanConstructorInfo} interface respectively.
+ * <p>The {@link #getAttributes()}, {@link #getOperbtions()} bnd
+ * {@link #getConstructors()} methods of the implementing clbss should
+ * return bt runtime bn brrby of instbnces of b subclbss of {@link
+ * MBebnAttributeInfo}, {@link MBebnOperbtionInfo} or {@link
+ * MBebnConstructorInfo} respectively which implement the {@link
+ * OpenMBebnAttributeInfo}, {@link OpenMBebnOperbtionInfo} or {@link
+ * OpenMBebnConstructorInfo} interfbce respectively.
  *
  *
  * @since 1.5
  */
-public interface OpenMBeanInfo {
+public interfbce OpenMBebnInfo {
 
-    // Re-declares the methods that are in class MBeanInfo of JMX 1.0
-    // (methods will be removed when MBeanInfo is made a parent interface of this interface)
+    // Re-declbres the methods thbt bre in clbss MBebnInfo of JMX 1.0
+    // (methods will be removed when MBebnInfo is mbde b pbrent interfbce of this interfbce)
 
     /**
-     * Returns the fully qualified Java class name of the open MBean
-     * instances this <tt>OpenMBeanInfo</tt> describes.
+     * Returns the fully qublified Jbvb clbss nbme of the open MBebn
+     * instbnces this <tt>OpenMBebnInfo</tt> describes.
      *
-     * @return the class name.
+     * @return the clbss nbme.
      */
-    public String getClassName() ;
+    public String getClbssNbme() ;
 
     /**
-     * Returns a human readable description of the type of open MBean
-     * instances this <tt>OpenMBeanInfo</tt> describes.
+     * Returns b humbn rebdbble description of the type of open MBebn
+     * instbnces this <tt>OpenMBebnInfo</tt> describes.
      *
      * @return the description.
      */
     public String getDescription() ;
 
     /**
-     * Returns an array of <tt>OpenMBeanAttributeInfo</tt> instances
-     * describing each attribute in the open MBean described by this
-     * <tt>OpenMBeanInfo</tt> instance.  Each instance in the returned
-     * array should actually be a subclass of
-     * <tt>MBeanAttributeInfo</tt> which implements the
-     * <tt>OpenMBeanAttributeInfo</tt> interface (typically {@link
-     * OpenMBeanAttributeInfoSupport}).
+     * Returns bn brrby of <tt>OpenMBebnAttributeInfo</tt> instbnces
+     * describing ebch bttribute in the open MBebn described by this
+     * <tt>OpenMBebnInfo</tt> instbnce.  Ebch instbnce in the returned
+     * brrby should bctublly be b subclbss of
+     * <tt>MBebnAttributeInfo</tt> which implements the
+     * <tt>OpenMBebnAttributeInfo</tt> interfbce (typicblly {@link
+     * OpenMBebnAttributeInfoSupport}).
      *
-     * @return the attribute array.
+     * @return the bttribute brrby.
      */
-    public MBeanAttributeInfo[] getAttributes() ;
+    public MBebnAttributeInfo[] getAttributes() ;
 
     /**
-     * Returns an array of <tt>OpenMBeanOperationInfo</tt> instances
-     * describing each operation in the open MBean described by this
-     * <tt>OpenMBeanInfo</tt> instance.  Each instance in the returned
-     * array should actually be a subclass of
-     * <tt>MBeanOperationInfo</tt> which implements the
-     * <tt>OpenMBeanOperationInfo</tt> interface (typically {@link
-     * OpenMBeanOperationInfoSupport}).
+     * Returns bn brrby of <tt>OpenMBebnOperbtionInfo</tt> instbnces
+     * describing ebch operbtion in the open MBebn described by this
+     * <tt>OpenMBebnInfo</tt> instbnce.  Ebch instbnce in the returned
+     * brrby should bctublly be b subclbss of
+     * <tt>MBebnOperbtionInfo</tt> which implements the
+     * <tt>OpenMBebnOperbtionInfo</tt> interfbce (typicblly {@link
+     * OpenMBebnOperbtionInfoSupport}).
      *
-     * @return the operation array.
+     * @return the operbtion brrby.
      */
-    public MBeanOperationInfo[] getOperations() ;
+    public MBebnOperbtionInfo[] getOperbtions() ;
 
     /**
-     * Returns an array of <tt>OpenMBeanConstructorInfo</tt> instances
-     * describing each constructor in the open MBean described by this
-     * <tt>OpenMBeanInfo</tt> instance.  Each instance in the returned
-     * array should actually be a subclass of
-     * <tt>MBeanConstructorInfo</tt> which implements the
-     * <tt>OpenMBeanConstructorInfo</tt> interface (typically {@link
-     * OpenMBeanConstructorInfoSupport}).
+     * Returns bn brrby of <tt>OpenMBebnConstructorInfo</tt> instbnces
+     * describing ebch constructor in the open MBebn described by this
+     * <tt>OpenMBebnInfo</tt> instbnce.  Ebch instbnce in the returned
+     * brrby should bctublly be b subclbss of
+     * <tt>MBebnConstructorInfo</tt> which implements the
+     * <tt>OpenMBebnConstructorInfo</tt> interfbce (typicblly {@link
+     * OpenMBebnConstructorInfoSupport}).
      *
-     * @return the constructor array.
+     * @return the constructor brrby.
      */
-    public MBeanConstructorInfo[] getConstructors() ;
+    public MBebnConstructorInfo[] getConstructors() ;
 
     /**
-     * Returns an array of <tt>MBeanNotificationInfo</tt> instances
-     * describing each notification emitted by the open MBean
-     * described by this <tt>OpenMBeanInfo</tt> instance.
+     * Returns bn brrby of <tt>MBebnNotificbtionInfo</tt> instbnces
+     * describing ebch notificbtion emitted by the open MBebn
+     * described by this <tt>OpenMBebnInfo</tt> instbnce.
      *
-     * @return the notification array.
+     * @return the notificbtion brrby.
      */
-    public MBeanNotificationInfo[] getNotifications() ;
+    public MBebnNotificbtionInfo[] getNotificbtions() ;
 
 
     // commodity methods
     //
 
     /**
-     * Compares the specified <var>obj</var> parameter with this <code>OpenMBeanInfo</code> instance for equality.
+     * Compbres the specified <vbr>obj</vbr> pbrbmeter with this <code>OpenMBebnInfo</code> instbnce for equblity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Returns <tt>true</tt> if bnd only if bll of the following stbtements bre true:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>OpenMBeanInfo</code> interface,</li>
-     * <li>their class names are equal</li>
-     * <li>their infos on attributes, constructors, operations and notifications are equal</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implements the <code>OpenMBebnInfo</code> interfbce,</li>
+     * <li>their clbss nbmes bre equbl</li>
+     * <li>their infos on bttributes, constructors, operbtions bnd notificbtions bre equbl</li>
      * </ul>
-     * This ensures that this <tt>equals</tt> method works properly for <var>obj</var> parameters which are
-     * different implementations of the <code>OpenMBeanInfo</code> interface.
+     * This ensures thbt this <tt>equbls</tt> method works properly for <vbr>obj</vbr> pbrbmeters which bre
+     * different implementbtions of the <code>OpenMBebnInfo</code> interfbce.
      * <br>&nbsp;
-     * @param  obj  the object to be compared for equality with this <code>OpenMBeanInfo</code> instance;
+     * @pbrbm  obj  the object to be compbred for equblity with this <code>OpenMBebnInfo</code> instbnce;
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>OpenMBeanInfo</code> instance.
+     * @return  <code>true</code> if the specified object is equbl to this <code>OpenMBebnInfo</code> instbnce.
      */
-    public boolean equals(Object obj);
+    public boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this <code>OpenMBeanInfo</code> instance.
+     * Returns the hbsh code vblue for this <code>OpenMBebnInfo</code> instbnce.
      * <p>
-     * The hash code of an <code>OpenMBeanInfo</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its class name, and its infos on attributes, constructors, operations and notifications,
-     * where the hashCode of each of these arrays is calculated by a call to
-     *  <tt>new java.util.HashSet(java.util.Arrays.asList(this.getSignature)).hashCode()</tt>).
+     * The hbsh code of bn <code>OpenMBebnInfo</code> instbnce is the sum of the hbsh codes
+     * of bll elements of informbtion used in <code>equbls</code> compbrisons
+     * (ie: its clbss nbme, bnd its infos on bttributes, constructors, operbtions bnd notificbtions,
+     * where the hbshCode of ebch of these brrbys is cblculbted by b cbll to
+     *  <tt>new jbvb.util.HbshSet(jbvb.util.Arrbys.bsList(this.getSignbture)).hbshCode()</tt>).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>OpenMBeanInfo</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * This ensures thbt <code> t1.equbls(t2) </code> implies thbt <code> t1.hbshCode()==t2.hbshCode() </code>
+     * for bny two <code>OpenMBebnInfo</code> instbnces <code>t1</code> bnd <code>t2</code>,
+     * bs required by the generbl contrbct of the method
+     * {@link Object#hbshCode() Object.hbshCode()}.
      *
-     * @return  the hash code value for this <code>OpenMBeanInfo</code> instance
+     * @return  the hbsh code vblue for this <code>OpenMBebnInfo</code> instbnce
      */
-    public int hashCode();
+    public int hbshCode();
 
     /**
-     * Returns a string representation of this <code>OpenMBeanInfo</code> instance.
+     * Returns b string representbtion of this <code>OpenMBebnInfo</code> instbnce.
      * <p>
-     * The string representation consists of the name of this class (ie <code>javax.management.openmbean.OpenMBeanInfo</code>),
-     * the MBean class name,
-     * and the string representation of infos on attributes, constructors, operations and notifications of the described MBean.
+     * The string representbtion consists of the nbme of this clbss (ie <code>jbvbx.mbnbgement.openmbebn.OpenMBebnInfo</code>),
+     * the MBebn clbss nbme,
+     * bnd the string representbtion of infos on bttributes, constructors, operbtions bnd notificbtions of the described MBebn.
      *
-     * @return  a string representation of this <code>OpenMBeanInfo</code> instance
+     * @return  b string representbtion of this <code>OpenMBebnInfo</code> instbnce
      */
     public String toString();
 

@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-public class SearchPath {
+public clbss SebrchPbth {
 
-    private String pathString;
+    privbte String pbthString;
 
-    private String[] pathArray;
+    privbte String[] pbthArrby;
 
-    public SearchPath(String searchPath) {
-        //### Should check searchpath for well-formedness.
-        StringTokenizer st = new StringTokenizer(searchPath, File.pathSeparator);
-        List<String> dlist = new ArrayList<String>();
-        while (st.hasMoreTokens()) {
-            dlist.add(st.nextToken());
+    public SebrchPbth(String sebrchPbth) {
+        //### Should check sebrchpbth for well-formedness.
+        StringTokenizer st = new StringTokenizer(sebrchPbth, File.pbthSepbrbtor);
+        List<String> dlist = new ArrbyList<String>();
+        while (st.hbsMoreTokens()) {
+            dlist.bdd(st.nextToken());
         }
-        pathString = searchPath;
-        pathArray = dlist.toArray(new String[dlist.size()]);
+        pbthString = sebrchPbth;
+        pbthArrby = dlist.toArrby(new String[dlist.size()]);
     }
 
-    public boolean isEmpty() {
-        return (pathArray.length == 0);
+    public boolebn isEmpty() {
+        return (pbthArrby.length == 0);
     }
 
-    public String asString() {
-        return pathString;
+    public String bsString() {
+        return pbthString;
     }
 
-    public String[] asArray() {
-        return pathArray.clone();
+    public String[] bsArrby() {
+        return pbthArrby.clone();
     }
 
-    public File resolve(String relativeFileName) {
-        for (String element : pathArray) {
-            File path = new File(element, relativeFileName);
-            if (path.exists()) {
-                return path;
+    public File resolve(String relbtiveFileNbme) {
+        for (String element : pbthArrby) {
+            File pbth = new File(element, relbtiveFileNbme);
+            if (pbth.exists()) {
+                return pbth;
             }
         }
         return null;
@@ -78,27 +78,27 @@ public class SearchPath {
 
     //### return List?
 
-    public String[] children(String relativeDirName, FilenameFilter filter) {
-        // If a file appears at the same relative path
-        // with respect to multiple entries on the classpath,
-        // the one corresponding to the earliest entry on the
-        // classpath is retained.  This is the one that will be
-        // found if we later do a 'resolve'.
-        SortedSet<String> s = new TreeSet<String>();  // sorted, no duplicates
-        for (String element : pathArray) {
-            File path = new File(element, relativeDirName);
-            if (path.exists()) {
-                String[] childArray = path.list(filter);
-                if (childArray != null) {
-                    for (int j = 0; j < childArray.length; j++) {
-                        if (!s.contains(childArray[j])) {
-                            s.add(childArray[j]);
+    public String[] children(String relbtiveDirNbme, FilenbmeFilter filter) {
+        // If b file bppebrs bt the sbme relbtive pbth
+        // with respect to multiple entries on the clbsspbth,
+        // the one corresponding to the ebrliest entry on the
+        // clbsspbth is retbined.  This is the one thbt will be
+        // found if we lbter do b 'resolve'.
+        SortedSet<String> s = new TreeSet<String>();  // sorted, no duplicbtes
+        for (String element : pbthArrby) {
+            File pbth = new File(element, relbtiveDirNbme);
+            if (pbth.exists()) {
+                String[] childArrby = pbth.list(filter);
+                if (childArrby != null) {
+                    for (int j = 0; j < childArrby.length; j++) {
+                        if (!s.contbins(childArrby[j])) {
+                            s.bdd(childArrby[j]);
                         }
                     }
                 }
             }
         }
-        return s.toArray(new String[s.size()]);
+        return s.toArrby(new String[s.size()]);
     }
 
 }

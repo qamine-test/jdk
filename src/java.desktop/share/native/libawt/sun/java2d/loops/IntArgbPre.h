@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,189 +29,189 @@
 #include "IntDcm.h"
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "IntArgbPre".
+ * This file contbins mbcro bnd type definitions used by the mbcros in
+ * LoopMbcros.h to mbnipulbte b surfbce of type "IntArgbPre".
  */
 
 typedef jint    IntArgbPrePixelType;
-typedef jint    IntArgbPreDataType;
+typedef jint    IntArgbPreDbtbType;
 
-#define IntArgbPreIsOpaque 0
+#define IntArgbPreIsOpbque 0
 
 #define IntArgbPrePixelStride   4
 
-#define DeclareIntArgbPreLoadVars(PREFIX)
-#define DeclareIntArgbPreStoreVars(PREFIX)
-#define InitIntArgbPreLoadVars(PREFIX, pRasInfo)
-#define SetIntArgbPreStoreVarsYPos(PREFIX, pRasInfo, y)
-#define SetIntArgbPreStoreVarsXPos(PREFIX, pRasInfo, x)
-#define InitIntArgbPreStoreVarsY(PREFIX, pRasInfo)
-#define InitIntArgbPreStoreVarsX(PREFIX, pRasInfo)
-#define NextIntArgbPreStoreVarsX(PREFIX)
-#define NextIntArgbPreStoreVarsY(PREFIX)
+#define DeclbreIntArgbPreLobdVbrs(PREFIX)
+#define DeclbreIntArgbPreStoreVbrs(PREFIX)
+#define InitIntArgbPreLobdVbrs(PREFIX, pRbsInfo)
+#define SetIntArgbPreStoreVbrsYPos(PREFIX, pRbsInfo, y)
+#define SetIntArgbPreStoreVbrsXPos(PREFIX, pRbsInfo, x)
+#define InitIntArgbPreStoreVbrsY(PREFIX, pRbsInfo)
+#define InitIntArgbPreStoreVbrsX(PREFIX, pRbsInfo)
+#define NextIntArgbPreStoreVbrsX(PREFIX)
+#define NextIntArgbPreStoreVbrsY(PREFIX)
 
 
-#define IntArgbPrePixelFromArgb(pixel, rgb, pRasInfo) \
+#define IntArgbPrePixelFromArgb(pixel, rgb, pRbsInfo) \
     do { \
         if ((((rgb) >> 24) + 1) == 0) { \
             (pixel) = (rgb); \
         } else { \
-            jint a, r, g, b; \
-            ExtractIntDcmComponents1234(rgb, a, r, g, b); \
-            r = MUL8(a, r); \
-            g = MUL8(a, g); \
-            b = MUL8(a, b); \
-            (pixel) = ComposeIntDcmComponents1234(a, r, g, b); \
+            jint b, r, g, b; \
+            ExtrbctIntDcmComponents1234(rgb, b, r, g, b); \
+            r = MUL8(b, r); \
+            g = MUL8(b, g); \
+            b = MUL8(b, b); \
+            (pixel) = ComposeIntDcmComponents1234(b, r, g, b); \
         } \
     } while (0)
 
-#define StoreIntArgbPrePixel(pRas, x, pixel) \
-    (pRas)[x] = (pixel)
+#define StoreIntArgbPrePixel(pRbs, x, pixel) \
+    (pRbs)[x] = (pixel)
 
-#define DeclareIntArgbPrePixelData(PREFIX)
+#define DeclbreIntArgbPrePixelDbtb(PREFIX)
 
-#define ExtractIntArgbPrePixelData(PIXEL, PREFIX)
+#define ExtrbctIntArgbPrePixelDbtb(PIXEL, PREFIX)
 
-#define StoreIntArgbPrePixelData(pPix, x, pixel, PREFIX) \
+#define StoreIntArgbPrePixelDbtb(pPix, x, pixel, PREFIX) \
     (pPix)[x] = (pixel)
 
 
 /*
- * REMIND: we delegate to the ...To1IntArgb macro here, although it does
- *         slightly more work (may pack the alpha value into the RGB result)
+ * REMIND: we delegbte to the ...To1IntArgb mbcro here, blthough it does
+ *         slightly more work (mby pbck the blphb vblue into the RGB result)
  */
-#define LoadIntArgbPreTo1IntRgb(pRas, PREFIX, x, rgb) \
-    LoadIntArgbPreTo1IntArgb(pRas, PREFIX, x, rgb)
+#define LobdIntArgbPreTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    LobdIntArgbPreTo1IntArgb(pRbs, PREFIX, x, rgb)
 
-#define LoadIntArgbPreTo1IntArgb(pRas, PREFIX, x, argb) \
+#define LobdIntArgbPreTo1IntArgb(pRbs, PREFIX, x, brgb) \
     do { \
-        jint pixel = (pRas)[x]; \
-        jint a = ((juint) pixel) >> 24; \
-        if ((a == 0xff) || (a == 0)) { \
-            (argb) = pixel; \
+        jint pixel = (pRbs)[x]; \
+        jint b = ((juint) pixel) >> 24; \
+        if ((b == 0xff) || (b == 0)) { \
+            (brgb) = pixel; \
         } else { \
             jint r, g, b; \
-            ExtractIntDcmComponentsX123(pixel, r, g, b); \
-            r = DIV8(r, a); \
-            g = DIV8(g, a); \
-            b = DIV8(b, a); \
-            (argb) = ComposeIntDcmComponents1234(a, r, g, b); \
+            ExtrbctIntDcmComponentsX123(pixel, r, g, b); \
+            r = DIV8(r, b); \
+            g = DIV8(g, b); \
+            b = DIV8(b, b); \
+            (brgb) = ComposeIntDcmComponents1234(b, r, g, b); \
         } \
     } while (0)
 
-#define LoadIntArgbPreTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
+#define LobdIntArgbPreTo3ByteRgb(pRbs, PREFIX, x, r, g, b) \
     do { \
-        jint a; \
-        LoadIntArgbPreTo4ByteArgb(pRas, PREFIX, x, a, r, g, b); \
+        jint b; \
+        LobdIntArgbPreTo4ByteArgb(pRbs, PREFIX, x, b, r, g, b); \
     } while (0)
 
-#define LoadIntArgbPreTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#define LobdIntArgbPreTo4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        jint pixel = (pRas)[x]; \
-        ExtractIntDcmComponents1234(pixel, a, r, g, b); \
-        if (((a) != 0xff) && ((a) != 0)) { \
-            (r) = DIV8(r, a); \
-            (g) = DIV8(g, a); \
-            (b) = DIV8(b, a); \
+        jint pixel = (pRbs)[x]; \
+        ExtrbctIntDcmComponents1234(pixel, b, r, g, b); \
+        if (((b) != 0xff) && ((b) != 0)) { \
+            (r) = DIV8(r, b); \
+            (g) = DIV8(g, b); \
+            (b) = DIV8(b, b); \
         } \
     } while (0)
 
-#define StoreIntArgbPreFrom1IntRgb(pRas, PREFIX, x, rgb) \
-    (pRas)[x] = 0xff000000 | (rgb)
+#define StoreIntArgbPreFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+    (pRbs)[x] = 0xff000000 | (rgb)
 
-#define StoreIntArgbPreFrom1IntArgb(pRas, PREFIX, x, argb) \
+#define StoreIntArgbPreFrom1IntArgb(pRbs, PREFIX, x, brgb) \
     do { \
-        if ((((argb) >> 24) + 1) == 0) { \
-            (pRas)[x] = (argb); \
+        if ((((brgb) >> 24) + 1) == 0) { \
+            (pRbs)[x] = (brgb); \
         } else { \
-            jint a, r, g, b; \
-            ExtractIntDcmComponents1234(argb, a, r, g, b); \
-            r = MUL8(a, r); \
-            g = MUL8(a, g); \
-            b = MUL8(a, b); \
-            (pRas)[x] = ComposeIntDcmComponents1234(a, r, g, b); \
+            jint b, r, g, b; \
+            ExtrbctIntDcmComponents1234(brgb, b, r, g, b); \
+            r = MUL8(b, r); \
+            g = MUL8(b, g); \
+            b = MUL8(b, b); \
+            (pRbs)[x] = ComposeIntDcmComponents1234(b, r, g, b); \
         } \
     } while (0)
 
-#define StoreIntArgbPreFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    (pRas)[x] = ComposeIntDcmComponents1234(0xff, r, g, b)
+#define StoreIntArgbPreFrom3ByteRgb(pRbs, PREFIX, x, r, g, b) \
+    (pRbs)[x] = ComposeIntDcmComponents1234(0xff, r, g, b)
 
-#define StoreIntArgbPreFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#define StoreIntArgbPreFrom4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        if ((a) != 0xff) { \
-            (r) = MUL8(a, r); \
-            (g) = MUL8(a, g); \
-            (b) = MUL8(a, b); \
+        if ((b) != 0xff) { \
+            (r) = MUL8(b, r); \
+            (g) = MUL8(b, g); \
+            (b) = MUL8(b, b); \
         } \
-        (pRas)[x] = ComposeIntDcmComponents1234(a, r, g, b); \
+        (pRbs)[x] = ComposeIntDcmComponents1234(b, r, g, b); \
     } while (0)
 
 #define CopyIntArgbPreToIntArgbPre(pRGB, i, PREFIX, pRow, x) \
     (pRGB)[i] = (pRow)[x]
 
 
-#define DeclareIntArgbPreAlphaLoadData(PREFIX) \
+#define DeclbreIntArgbPreAlphbLobdDbtb(PREFIX) \
     jint PREFIX;
 
-#define InitIntArgbPreAlphaLoadData(PREFIX, pRasInfo) \
+#define InitIntArgbPreAlphbLobdDbtb(PREFIX, pRbsInfo) \
     PREFIX = 0
 
-#define LoadAlphaFromIntArgbPreFor4ByteArgb(pRas, PREFIX, COMP_PREFIX) \
+#define LobdAlphbFromIntArgbPreFor4ByteArgb(pRbs, PREFIX, COMP_PREFIX) \
     do { \
-        PREFIX = (pRas)[0]; \
+        PREFIX = (pRbs)[0]; \
         COMP_PREFIX ## A = ((juint) PREFIX) >> 24; \
     } while (0)
 
-#define LoadAlphaFromIntArgbPreFor1ByteGray(pRas, PREFIX, COMP_PREFIX) \
-    LoadAlphaFromIntArgbPreFor4ByteArgb(pRas, PREFIX, COMP_PREFIX)
+#define LobdAlphbFromIntArgbPreFor1ByteGrby(pRbs, PREFIX, COMP_PREFIX) \
+    LobdAlphbFromIntArgbPreFor4ByteArgb(pRbs, PREFIX, COMP_PREFIX)
 
-#define LoadAlphaFromIntArgbPreFor1ShortGray(pRas, PREFIX, COMP_PREFIX) \
+#define LobdAlphbFromIntArgbPreFor1ShortGrby(pRbs, PREFIX, COMP_PREFIX) \
     do { \
-        LoadAlphaFromIntArgbFor4ByteArgb(pRas, PREFIX, COMP_PREFIX); \
+        LobdAlphbFromIntArgbFor4ByteArgb(pRbs, PREFIX, COMP_PREFIX); \
         COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
     } while (0)
 
-#define Postload4ByteArgbFromIntArgbPre(pRas, PREFIX, COMP_PREFIX) \
+#define Postlobd4ByteArgbFromIntArgbPre(pRbs, PREFIX, COMP_PREFIX) \
     do { \
-        ExtractIntDcmComponentsX123(PREFIX, COMP_PREFIX ## R, \
+        ExtrbctIntDcmComponentsX123(PREFIX, COMP_PREFIX ## R, \
                                     COMP_PREFIX ## G, COMP_PREFIX ## B); \
     } while (0)
 
-#define Postload1ByteGrayFromIntArgbPre(pRas, PREFIX, COMP_PREFIX) \
+#define Postlobd1ByteGrbyFromIntArgbPre(pRbs, PREFIX, COMP_PREFIX) \
     do { \
         int r, g, b; \
-        ExtractIntDcmComponentsX123(PREFIX, r, g, b); \
-        COMP_PREFIX ## G = ComposeByteGrayFrom3ByteRgb(r, g, b); \
+        ExtrbctIntDcmComponentsX123(PREFIX, r, g, b); \
+        COMP_PREFIX ## G = ComposeByteGrbyFrom3ByteRgb(r, g, b); \
     } while (0)
 
-#define Postload1ShortGrayFromIntArgbPre(pRas, PREFIX, COMP_PREFIX) \
+#define Postlobd1ShortGrbyFromIntArgbPre(pRbs, PREFIX, COMP_PREFIX) \
     do { \
         int r, g, b; \
-        ExtractIntDcmComponentsX123(PREFIX, r, g, b); \
-        COMP_PREFIX ## G = ComposeUshortGrayFrom3ByteRgb(r, g, b); \
+        ExtrbctIntDcmComponentsX123(PREFIX, r, g, b); \
+        COMP_PREFIX ## G = ComposeUshortGrbyFrom3ByteRgb(r, g, b); \
     } while (0)
 
 
 #define IntArgbPreIsPremultiplied       1
 
-#define DeclareIntArgbPreBlendFillVars(PREFIX)
+#define DeclbreIntArgbPreBlendFillVbrs(PREFIX)
 
-#define ClearIntArgbPreBlendFillVars(PREFIX, argb) \
-    argb = 0
+#define ClebrIntArgbPreBlendFillVbrs(PREFIX, brgb) \
+    brgb = 0
 
-#define InitIntArgbPreBlendFillVarsNonPre(PREFIX, argb, COMP_PREFIX)
+#define InitIntArgbPreBlendFillVbrsNonPre(PREFIX, brgb, COMP_PREFIX)
 
-#define InitIntArgbPreBlendFillVarsPre(PREFIX, argb, COMP_PREFIX) \
-    argb = ComposeIntDcmComponents1234(COMP_PREFIX ## A, \
+#define InitIntArgbPreBlendFillVbrsPre(PREFIX, brgb, COMP_PREFIX) \
+    brgb = ComposeIntDcmComponents1234(COMP_PREFIX ## A, \
                                        COMP_PREFIX ## R, \
                                        COMP_PREFIX ## G, \
                                        COMP_PREFIX ## B)
 
-#define StoreIntArgbPreBlendFill(pRas, PREFIX, x, argb, COMP_PREFIX) \
-    (pRas)[x] = (argb)
+#define StoreIntArgbPreBlendFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    (pRbs)[x] = (brgb)
 
-#define StoreIntArgbPreFrom4ByteArgbComps(pRas, PREFIX, x, COMP_PREFIX) \
-    (pRas)[x] = ComposeIntDcmComponents1234(COMP_PREFIX ## A, \
+#define StoreIntArgbPreFrom4ByteArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    (pRbs)[x] = ComposeIntDcmComponents1234(COMP_PREFIX ## A, \
                                             COMP_PREFIX ## R, \
                                             COMP_PREFIX ## G, \
                                             COMP_PREFIX ## B)

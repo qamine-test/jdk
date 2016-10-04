@@ -1,408 +1,408 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.VolatileImage;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.applet.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.bpplet.*;
 
-import sun.awt.AWTAccessor;
-import sun.awt.AppContext;
-import sun.awt.DisplayChangedListener;
-import sun.awt.SunToolkit;
-import sun.java2d.SunGraphicsEnvironment;
-import sun.misc.JavaSecurityAccess;
-import sun.misc.SharedSecrets;
-import sun.security.action.GetPropertyAction;
+import sun.bwt.AWTAccessor;
+import sun.bwt.AppContext;
+import sun.bwt.DisplbyChbngedListener;
+import sun.bwt.SunToolkit;
+import sun.jbvb2d.SunGrbphicsEnvironment;
+import sun.misc.JbvbSecurityAccess;
+import sun.misc.ShbredSecrets;
+import sun.security.bction.GetPropertyAction;
 
-import com.sun.java.swing.SwingUtilities3;
+import com.sun.jbvb.swing.SwingUtilities3;
 import sun.swing.SwingAccessor;
-import sun.swing.SwingUtilities2.RepaintListener;
+import sun.swing.SwingUtilities2.RepbintListener;
 
 /**
- * This class manages repaint requests, allowing the number
- * of repaints to be minimized, for example by collapsing multiple
- * requests into a single repaint for members of a component tree.
+ * This clbss mbnbges repbint requests, bllowing the number
+ * of repbints to be minimized, for exbmple by collbpsing multiple
+ * requests into b single repbint for members of b component tree.
  * <p>
- * As of 1.6 <code>RepaintManager</code> handles repaint requests
+ * As of 1.6 <code>RepbintMbnbger</code> hbndles repbint requests
  * for Swing's top level components (<code>JApplet</code>,
- * <code>JWindow</code>, <code>JFrame</code> and <code>JDialog</code>).
- * Any calls to <code>repaint</code> on one of these will call into the
- * appropriate <code>addDirtyRegion</code> method.
+ * <code>JWindow</code>, <code>JFrbme</code> bnd <code>JDiblog</code>).
+ * Any cblls to <code>repbint</code> on one of these will cbll into the
+ * bppropribte <code>bddDirtyRegion</code> method.
  *
- * @author Arnaud Weber
+ * @buthor Arnbud Weber
  * @since 1.2
  */
-public class RepaintManager
+public clbss RepbintMbnbger
 {
     /**
-     * Whether or not the RepaintManager should handle paint requests
+     * Whether or not the RepbintMbnbger should hbndle pbint requests
      * for top levels.
      */
-    static final boolean HANDLE_TOP_LEVEL_PAINT;
+    stbtic finbl boolebn HANDLE_TOP_LEVEL_PAINT;
 
-    private static final short BUFFER_STRATEGY_NOT_SPECIFIED = 0;
-    private static final short BUFFER_STRATEGY_SPECIFIED_ON = 1;
-    private static final short BUFFER_STRATEGY_SPECIFIED_OFF = 2;
+    privbte stbtic finbl short BUFFER_STRATEGY_NOT_SPECIFIED = 0;
+    privbte stbtic finbl short BUFFER_STRATEGY_SPECIFIED_ON = 1;
+    privbte stbtic finbl short BUFFER_STRATEGY_SPECIFIED_OFF = 2;
 
-    private static final short BUFFER_STRATEGY_TYPE;
+    privbte stbtic finbl short BUFFER_STRATEGY_TYPE;
 
     /**
-     * Maps from GraphicsConfiguration to VolatileImage.
+     * Mbps from GrbphicsConfigurbtion to VolbtileImbge.
      */
-    private Map<GraphicsConfiguration,VolatileImage> volatileMap = new
-                        HashMap<GraphicsConfiguration,VolatileImage>(1);
+    privbte Mbp<GrbphicsConfigurbtion,VolbtileImbge> volbtileMbp = new
+                        HbshMbp<GrbphicsConfigurbtion,VolbtileImbge>(1);
 
     //
-    // As of 1.6 Swing handles scheduling of paint events from native code.
-    // That is, SwingPaintEventDispatcher is invoked on the toolkit thread,
-    // which in turn invokes nativeAddDirtyRegion.  Because this is invoked
-    // from the native thread we can not invoke any public methods and so
-    // we introduce these added maps.  So, any time nativeAddDirtyRegion is
-    // invoked the region is added to hwDirtyComponents and a work request
-    // is scheduled.  When the work request is processed all entries in
-    // this map are pushed to the real map (dirtyComponents) and then
-    // painted with the rest of the components.
+    // As of 1.6 Swing hbndles scheduling of pbint events from nbtive code.
+    // Thbt is, SwingPbintEventDispbtcher is invoked on the toolkit threbd,
+    // which in turn invokes nbtiveAddDirtyRegion.  Becbuse this is invoked
+    // from the nbtive threbd we cbn not invoke bny public methods bnd so
+    // we introduce these bdded mbps.  So, bny time nbtiveAddDirtyRegion is
+    // invoked the region is bdded to hwDirtyComponents bnd b work request
+    // is scheduled.  When the work request is processed bll entries in
+    // this mbp bre pushed to the rebl mbp (dirtyComponents) bnd then
+    // pbinted with the rest of the components.
     //
-    private Map<Container,Rectangle> hwDirtyComponents;
+    privbte Mbp<Contbiner,Rectbngle> hwDirtyComponents;
 
-    private Map<Component,Rectangle> dirtyComponents;
-    private Map<Component,Rectangle> tmpDirtyComponents;
-    private java.util.List<Component> invalidComponents;
+    privbte Mbp<Component,Rectbngle> dirtyComponents;
+    privbte Mbp<Component,Rectbngle> tmpDirtyComponents;
+    privbte jbvb.util.List<Component> invblidComponents;
 
-    // List of Runnables that need to be processed before painting from AWT.
-    private java.util.List<Runnable> runnableList;
+    // List of Runnbbles thbt need to be processed before pbinting from AWT.
+    privbte jbvb.util.List<Runnbble> runnbbleList;
 
-    boolean   doubleBufferingEnabled = true;
+    boolebn   doubleBufferingEnbbled = true;
 
-    private Dimension doubleBufferMaxSize;
+    privbte Dimension doubleBufferMbxSize;
 
-    // Support for both the standard and volatile offscreen buffers exists to
-    // provide backwards compatibility for the [rare] programs which may be
-    // calling getOffScreenBuffer() and not expecting to get a VolatileImage.
-    // Swing internally is migrating to use *only* the volatile image buffer.
+    // Support for both the stbndbrd bnd volbtile offscreen buffers exists to
+    // provide bbckwbrds compbtibility for the [rbre] progrbms which mby be
+    // cblling getOffScreenBuffer() bnd not expecting to get b VolbtileImbge.
+    // Swing internblly is migrbting to use *only* the volbtile imbge buffer.
 
-    // Support for standard offscreen buffer
+    // Support for stbndbrd offscreen buffer
     //
-    DoubleBufferInfo standardDoubleBuffer;
+    DoubleBufferInfo stbndbrdDoubleBuffer;
 
     /**
-     * Object responsible for hanlding core paint functionality.
+     * Object responsible for hbnlding core pbint functionblity.
      */
-    private PaintManager paintManager;
+    privbte PbintMbnbger pbintMbnbger;
 
-    private static final Object repaintManagerKey = RepaintManager.class;
+    privbte stbtic finbl Object repbintMbnbgerKey = RepbintMbnbger.clbss;
 
-    // Whether or not a VolatileImage should be used for double-buffered painting
-    static boolean volatileImageBufferEnabled = true;
+    // Whether or not b VolbtileImbge should be used for double-buffered pbinting
+    stbtic boolebn volbtileImbgeBufferEnbbled = true;
     /**
-     * Type of VolatileImage which should be used for double-buffered
-     * painting.
+     * Type of VolbtileImbge which should be used for double-buffered
+     * pbinting.
      */
-    private static final int volatileBufferType;
+    privbte stbtic finbl int volbtileBufferType;
     /**
-     * Value of the system property awt.nativeDoubleBuffering.
+     * Vblue of the system property bwt.nbtiveDoubleBuffering.
      */
-    private static boolean nativeDoubleBuffering;
+    privbte stbtic boolebn nbtiveDoubleBuffering;
 
-    // The maximum number of times Swing will attempt to use the VolatileImage
-    // buffer during a paint operation.
-    private static final int VOLATILE_LOOP_MAX = 2;
-
-    /**
-     * Number of <code>beginPaint</code> that have been invoked.
-     */
-    private int paintDepth = 0;
+    // The mbximum number of times Swing will bttempt to use the VolbtileImbge
+    // buffer during b pbint operbtion.
+    privbte stbtic finbl int VOLATILE_LOOP_MAX = 2;
 
     /**
-     * Type of buffer strategy to use.  Will be one of the BUFFER_STRATEGY_
-     * constants.
+     * Number of <code>beginPbint</code> thbt hbve been invoked.
      */
-    private short bufferStrategyType;
+    privbte int pbintDepth = 0;
+
+    /**
+     * Type of buffer strbtegy to use.  Will be one of the BUFFER_STRATEGY_
+     * constbnts.
+     */
+    privbte short bufferStrbtegyType;
 
     //
-    // BufferStrategyPaintManager has the unique characteristic that it
-    // must deal with the buffer being lost while painting to it.  For
-    // example, if we paint a component and show it and the buffer has
-    // become lost we must repaint the whole window.  To deal with that
-    // the PaintManager calls into repaintRoot, and if we're still in
-    // the process of painting the repaintRoot field is set to the JRootPane
-    // and after the current JComponent.paintImmediately call finishes
-    // paintImmediately will be invoked on the repaintRoot.  In this
-    // way we don't try to show garbage to the screen.
+    // BufferStrbtegyPbintMbnbger hbs the unique chbrbcteristic thbt it
+    // must debl with the buffer being lost while pbinting to it.  For
+    // exbmple, if we pbint b component bnd show it bnd the buffer hbs
+    // become lost we must repbint the whole window.  To debl with thbt
+    // the PbintMbnbger cblls into repbintRoot, bnd if we're still in
+    // the process of pbinting the repbintRoot field is set to the JRootPbne
+    // bnd bfter the current JComponent.pbintImmedibtely cbll finishes
+    // pbintImmedibtely will be invoked on the repbintRoot.  In this
+    // wby we don't try to show gbrbbge to the screen.
     //
     /**
-     * True if we're in the process of painting the dirty regions.  This is
-     * set to true in <code>paintDirtyRegions</code>.
+     * True if we're in the process of pbinting the dirty regions.  This is
+     * set to true in <code>pbintDirtyRegions</code>.
      */
-    private boolean painting;
+    privbte boolebn pbinting;
     /**
-     * If the PaintManager calls into repaintRoot during painting this field
+     * If the PbintMbnbger cblls into repbintRoot during pbinting this field
      * will be set to the root.
      */
-    private JComponent repaintRoot;
+    privbte JComponent repbintRoot;
 
     /**
-     * The Thread that has initiated painting.  If null it
-     * indicates painting is not currently in progress.
+     * The Threbd thbt hbs initibted pbinting.  If null it
+     * indicbtes pbinting is not currently in progress.
      */
-    private Thread paintThread;
+    privbte Threbd pbintThrebd;
 
     /**
-     * Runnable used to process all repaint/revalidate requests.
+     * Runnbble used to process bll repbint/revblidbte requests.
      */
-    private final ProcessingRunnable processingRunnable;
+    privbte finbl ProcessingRunnbble processingRunnbble;
 
-    private final static JavaSecurityAccess javaSecurityAccess =
-        SharedSecrets.getJavaSecurityAccess();
+    privbte finbl stbtic JbvbSecurityAccess jbvbSecurityAccess =
+        ShbredSecrets.getJbvbSecurityAccess();
 
 
-    static {
-        SwingAccessor.setRepaintManagerAccessor(new SwingAccessor.RepaintManagerAccessor() {
+    stbtic {
+        SwingAccessor.setRepbintMbnbgerAccessor(new SwingAccessor.RepbintMbnbgerAccessor() {
             @Override
-            public void addRepaintListener(RepaintManager rm, RepaintListener l) {
-                rm.addRepaintListener(l);
+            public void bddRepbintListener(RepbintMbnbger rm, RepbintListener l) {
+                rm.bddRepbintListener(l);
             }
             @Override
-            public void removeRepaintListener(RepaintManager rm, RepaintListener l) {
-                rm.removeRepaintListener(l);
+            public void removeRepbintListener(RepbintMbnbger rm, RepbintListener l) {
+                rm.removeRepbintListener(l);
             }
         });
 
-        volatileImageBufferEnabled = "true".equals(AccessController.
+        volbtileImbgeBufferEnbbled = "true".equbls(AccessController.
                 doPrivileged(new GetPropertyAction(
-                "swing.volatileImageBufferEnabled", "true")));
-        boolean headless = GraphicsEnvironment.isHeadless();
-        if (volatileImageBufferEnabled && headless) {
-            volatileImageBufferEnabled = false;
+                "swing.volbtileImbgeBufferEnbbled", "true")));
+        boolebn hebdless = GrbphicsEnvironment.isHebdless();
+        if (volbtileImbgeBufferEnbbled && hebdless) {
+            volbtileImbgeBufferEnbbled = fblse;
         }
-        nativeDoubleBuffering = "true".equals(AccessController.doPrivileged(
-                    new GetPropertyAction("awt.nativeDoubleBuffering")));
+        nbtiveDoubleBuffering = "true".equbls(AccessController.doPrivileged(
+                    new GetPropertyAction("bwt.nbtiveDoubleBuffering")));
         String bs = AccessController.doPrivileged(
                           new GetPropertyAction("swing.bufferPerWindow"));
-        if (headless) {
+        if (hebdless) {
             BUFFER_STRATEGY_TYPE = BUFFER_STRATEGY_SPECIFIED_OFF;
         }
         else if (bs == null) {
             BUFFER_STRATEGY_TYPE = BUFFER_STRATEGY_NOT_SPECIFIED;
         }
-        else if ("true".equals(bs)) {
+        else if ("true".equbls(bs)) {
             BUFFER_STRATEGY_TYPE = BUFFER_STRATEGY_SPECIFIED_ON;
         }
         else {
             BUFFER_STRATEGY_TYPE = BUFFER_STRATEGY_SPECIFIED_OFF;
         }
-        HANDLE_TOP_LEVEL_PAINT = "true".equals(AccessController.doPrivileged(
-               new GetPropertyAction("swing.handleTopLevelPaint", "true")));
-        GraphicsEnvironment ge = GraphicsEnvironment.
-                getLocalGraphicsEnvironment();
-        if (ge instanceof SunGraphicsEnvironment) {
-            ((SunGraphicsEnvironment)ge).addDisplayChangedListener(
-                    new DisplayChangedHandler());
+        HANDLE_TOP_LEVEL_PAINT = "true".equbls(AccessController.doPrivileged(
+               new GetPropertyAction("swing.hbndleTopLevelPbint", "true")));
+        GrbphicsEnvironment ge = GrbphicsEnvironment.
+                getLocblGrbphicsEnvironment();
+        if (ge instbnceof SunGrbphicsEnvironment) {
+            ((SunGrbphicsEnvironment)ge).bddDisplbyChbngedListener(
+                    new DisplbyChbngedHbndler());
         }
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        if ((tk instanceof SunToolkit)
-                && ((SunToolkit) tk).isSwingBackbufferTranslucencySupported()) {
-            volatileBufferType = Transparency.TRANSLUCENT;
+        Toolkit tk = Toolkit.getDefbultToolkit();
+        if ((tk instbnceof SunToolkit)
+                && ((SunToolkit) tk).isSwingBbckbufferTrbnslucencySupported()) {
+            volbtileBufferType = Trbnspbrency.TRANSLUCENT;
         } else {
-            volatileBufferType = Transparency.OPAQUE;
+            volbtileBufferType = Trbnspbrency.OPAQUE;
         }
     }
 
     /**
-     * Return the RepaintManager for the calling thread given a Component.
+     * Return the RepbintMbnbger for the cblling threbd given b Component.
      *
-     * @param c a Component -- unused in the default implementation, but could
-     *          be used by an overridden version to return a different RepaintManager
+     * @pbrbm c b Component -- unused in the defbult implementbtion, but could
+     *          be used by bn overridden version to return b different RepbintMbnbger
      *          depending on the Component
-     * @return the RepaintManager object
+     * @return the RepbintMbnbger object
      */
-    public static RepaintManager currentManager(Component c) {
-        // Note: DisplayChangedRunnable passes in null as the component, so if
+    public stbtic RepbintMbnbger currentMbnbger(Component c) {
+        // Note: DisplbyChbngedRunnbble pbsses in null bs the component, so if
         // component is ever used to determine the current
-        // RepaintManager, DisplayChangedRunnable will need to be modified
-        // accordingly.
-        return currentManager(AppContext.getAppContext());
+        // RepbintMbnbger, DisplbyChbngedRunnbble will need to be modified
+        // bccordingly.
+        return currentMbnbger(AppContext.getAppContext());
     }
 
     /**
-     * Returns the RepaintManager for the specified AppContext.  If
-     * a RepaintManager has not been created for the specified
+     * Returns the RepbintMbnbger for the specified AppContext.  If
+     * b RepbintMbnbger hbs not been crebted for the specified
      * AppContext this will return null.
      */
-    static RepaintManager currentManager(AppContext appContext) {
-        RepaintManager rm = (RepaintManager)appContext.get(repaintManagerKey);
+    stbtic RepbintMbnbger currentMbnbger(AppContext bppContext) {
+        RepbintMbnbger rm = (RepbintMbnbger)bppContext.get(repbintMbnbgerKey);
         if (rm == null) {
-            rm = new RepaintManager(BUFFER_STRATEGY_TYPE);
-            appContext.put(repaintManagerKey, rm);
+            rm = new RepbintMbnbger(BUFFER_STRATEGY_TYPE);
+            bppContext.put(repbintMbnbgerKey, rm);
         }
         return rm;
     }
 
     /**
-     * Return the RepaintManager for the calling thread given a JComponent.
+     * Return the RepbintMbnbger for the cblling threbd given b JComponent.
      * <p>
-    * Note: This method exists for backward binary compatibility with earlier
-     * versions of the Swing library. It simply returns the result returned by
-     * {@link #currentManager(Component)}.
+    * Note: This method exists for bbckwbrd binbry compbtibility with ebrlier
+     * versions of the Swing librbry. It simply returns the result returned by
+     * {@link #currentMbnbger(Component)}.
      *
-     * @param c a JComponent -- unused
-     * @return the RepaintManager object
+     * @pbrbm c b JComponent -- unused
+     * @return the RepbintMbnbger object
      */
-    public static RepaintManager currentManager(JComponent c) {
-        return currentManager((Component)c);
+    public stbtic RepbintMbnbger currentMbnbger(JComponent c) {
+        return currentMbnbger((Component)c);
     }
 
 
     /**
-     * Set the RepaintManager that should be used for the calling
-     * thread. <b>aRepaintManager</b> will become the current RepaintManager
-     * for the calling thread's thread group.
-     * @param aRepaintManager  the RepaintManager object to use
+     * Set the RepbintMbnbger thbt should be used for the cblling
+     * threbd. <b>bRepbintMbnbger</b> will become the current RepbintMbnbger
+     * for the cblling threbd's threbd group.
+     * @pbrbm bRepbintMbnbger  the RepbintMbnbger object to use
      */
-    public static void setCurrentManager(RepaintManager aRepaintManager) {
-        if (aRepaintManager != null) {
-            SwingUtilities.appContextPut(repaintManagerKey, aRepaintManager);
+    public stbtic void setCurrentMbnbger(RepbintMbnbger bRepbintMbnbger) {
+        if (bRepbintMbnbger != null) {
+            SwingUtilities.bppContextPut(repbintMbnbgerKey, bRepbintMbnbger);
         } else {
-            SwingUtilities.appContextRemove(repaintManagerKey);
+            SwingUtilities.bppContextRemove(repbintMbnbgerKey);
         }
     }
 
     /**
-     * Create a new RepaintManager instance. You rarely call this constructor.
-     * directly. To get the default RepaintManager, use
-     * RepaintManager.currentManager(JComponent) (normally "this").
+     * Crebte b new RepbintMbnbger instbnce. You rbrely cbll this constructor.
+     * directly. To get the defbult RepbintMbnbger, use
+     * RepbintMbnbger.currentMbnbger(JComponent) (normblly "this").
      */
-    public RepaintManager() {
-        // Because we can't know what a subclass is doing with the
-        // volatile image we immediately punt in subclasses.  If this
-        // poses a problem we'll need a more sophisticated detection algorithm,
+    public RepbintMbnbger() {
+        // Becbuse we cbn't know whbt b subclbss is doing with the
+        // volbtile imbge we immedibtely punt in subclbsses.  If this
+        // poses b problem we'll need b more sophisticbted detection blgorithm,
         // or API.
         this(BUFFER_STRATEGY_SPECIFIED_OFF);
     }
 
-    private RepaintManager(short bufferStrategyType) {
-        // If native doublebuffering is being used, do NOT use
+    privbte RepbintMbnbger(short bufferStrbtegyType) {
+        // If nbtive doublebuffering is being used, do NOT use
         // Swing doublebuffering.
-        doubleBufferingEnabled = !nativeDoubleBuffering;
+        doubleBufferingEnbbled = !nbtiveDoubleBuffering;
         synchronized(this) {
-            dirtyComponents = new IdentityHashMap<Component,Rectangle>();
-            tmpDirtyComponents = new IdentityHashMap<Component,Rectangle>();
-            this.bufferStrategyType = bufferStrategyType;
-            hwDirtyComponents = new IdentityHashMap<Container,Rectangle>();
+            dirtyComponents = new IdentityHbshMbp<Component,Rectbngle>();
+            tmpDirtyComponents = new IdentityHbshMbp<Component,Rectbngle>();
+            this.bufferStrbtegyType = bufferStrbtegyType;
+            hwDirtyComponents = new IdentityHbshMbp<Contbiner,Rectbngle>();
         }
-        processingRunnable = new ProcessingRunnable();
+        processingRunnbble = new ProcessingRunnbble();
     }
 
-    private void displayChanged() {
-        clearImages();
+    privbte void displbyChbnged() {
+        clebrImbges();
     }
 
     /**
-     * Mark the component as in need of layout and queue a runnable
-     * for the event dispatching thread that will validate the components
-     * first isValidateRoot() ancestor.
+     * Mbrk the component bs in need of lbyout bnd queue b runnbble
+     * for the event dispbtching threbd thbt will vblidbte the components
+     * first isVblidbteRoot() bncestor.
      *
-     * @param invalidComponent a component
-     * @see JComponent#isValidateRoot
-     * @see #removeInvalidComponent
+     * @pbrbm invblidComponent b component
+     * @see JComponent#isVblidbteRoot
+     * @see #removeInvblidComponent
      */
-    public synchronized void addInvalidComponent(JComponent invalidComponent)
+    public synchronized void bddInvblidComponent(JComponent invblidComponent)
     {
-        RepaintManager delegate = getDelegate(invalidComponent);
-        if (delegate != null) {
-            delegate.addInvalidComponent(invalidComponent);
+        RepbintMbnbger delegbte = getDelegbte(invblidComponent);
+        if (delegbte != null) {
+            delegbte.bddInvblidComponent(invblidComponent);
             return;
         }
-        Component validateRoot =
-            SwingUtilities.getValidateRoot(invalidComponent, true);
+        Component vblidbteRoot =
+            SwingUtilities.getVblidbteRoot(invblidComponent, true);
 
-        if (validateRoot == null) {
+        if (vblidbteRoot == null) {
             return;
         }
 
-        /* Lazily create the invalidateComponents vector and add the
-         * validateRoot if it's not there already.  If this validateRoot
-         * is already in the vector, we're done.
+        /* Lbzily crebte the invblidbteComponents vector bnd bdd the
+         * vblidbteRoot if it's not there blrebdy.  If this vblidbteRoot
+         * is blrebdy in the vector, we're done.
          */
-        if (invalidComponents == null) {
-            invalidComponents = new ArrayList<Component>();
+        if (invblidComponents == null) {
+            invblidComponents = new ArrbyList<Component>();
         }
         else {
-            int n = invalidComponents.size();
+            int n = invblidComponents.size();
             for(int i = 0; i < n; i++) {
-                if(validateRoot == invalidComponents.get(i)) {
+                if(vblidbteRoot == invblidComponents.get(i)) {
                     return;
                 }
             }
         }
-        invalidComponents.add(validateRoot);
+        invblidComponents.bdd(vblidbteRoot);
 
-        // Queue a Runnable to invoke paintDirtyRegions and
-        // validateInvalidComponents.
-        scheduleProcessingRunnable(SunToolkit.targetToAppContext(invalidComponent));
+        // Queue b Runnbble to invoke pbintDirtyRegions bnd
+        // vblidbteInvblidComponents.
+        scheduleProcessingRunnbble(SunToolkit.tbrgetToAppContext(invblidComponent));
     }
 
 
     /**
-     * Remove a component from the list of invalid components.
+     * Remove b component from the list of invblid components.
      *
-     * @param component a component
-     * @see #addInvalidComponent
+     * @pbrbm component b component
+     * @see #bddInvblidComponent
      */
-    public synchronized void removeInvalidComponent(JComponent component) {
-        RepaintManager delegate = getDelegate(component);
-        if (delegate != null) {
-            delegate.removeInvalidComponent(component);
+    public synchronized void removeInvblidComponent(JComponent component) {
+        RepbintMbnbger delegbte = getDelegbte(component);
+        if (delegbte != null) {
+            delegbte.removeInvblidComponent(component);
             return;
         }
-        if(invalidComponents != null) {
-            int index = invalidComponents.indexOf(component);
+        if(invblidComponents != null) {
+            int index = invblidComponents.indexOf(component);
             if(index != -1) {
-                invalidComponents.remove(index);
+                invblidComponents.remove(index);
             }
         }
     }
 
 
     /**
-     * Add a component in the list of components that should be refreshed.
-     * If <i>c</i> already has a dirty region, the rectangle <i>(x,y,w,h)</i>
-     * will be unioned with the region that should be redrawn.
+     * Add b component in the list of components thbt should be refreshed.
+     * If <i>c</i> blrebdy hbs b dirty region, the rectbngle <i>(x,y,w,h)</i>
+     * will be unioned with the region thbt should be redrbwn.
      *
-     * @see JComponent#repaint
+     * @see JComponent#repbint
      */
-    private void addDirtyRegion0(Container c, int x, int y, int w, int h) {
-        /* Special cases we don't have to bother with.
+    privbte void bddDirtyRegion0(Contbiner c, int x, int y, int w, int h) {
+        /* Specibl cbses we don't hbve to bother with.
          */
         if ((w <= 0) || (h <= 0) || (c == null)) {
             return;
@@ -413,36 +413,36 @@ public class RepaintManager
         }
 
         if (extendDirtyRegion(c, x, y, w, h)) {
-            // Component was already marked as dirty, region has been
+            // Component wbs blrebdy mbrked bs dirty, region hbs been
             // extended, no need to continue.
             return;
         }
 
-        /* Make sure that c and all it ancestors (up to an Applet or
-         * Window) are visible.  This loop has the same effect as
-         * checking c.isShowing() (and note that it's still possible
-         * that c is completely obscured by an opaque ancestor in
-         * the specified rectangle).
+        /* Mbke sure thbt c bnd bll it bncestors (up to bn Applet or
+         * Window) bre visible.  This loop hbs the sbme effect bs
+         * checking c.isShowing() (bnd note thbt it's still possible
+         * thbt c is completely obscured by bn opbque bncestor in
+         * the specified rectbngle).
          */
         Component root = null;
 
-        // Note: We can't synchronize around this, Frame.getExtendedState
-        // is synchronized so that if we were to synchronize around this
-        // it could lead to the possibility of getting locks out
-        // of order and deadlocking.
-        for (Container p = c; p != null; p = p.getParent()) {
+        // Note: We cbn't synchronize bround this, Frbme.getExtendedStbte
+        // is synchronized so thbt if we were to synchronize bround this
+        // it could lebd to the possibility of getting locks out
+        // of order bnd debdlocking.
+        for (Contbiner p = c; p != null; p = p.getPbrent()) {
             if (!p.isVisible() || (p.getPeer() == null)) {
                 return;
             }
-            if ((p instanceof Window) || (p instanceof Applet)) {
-                // Iconified frames are still visible!
-                if (p instanceof Frame &&
-                        (((Frame)p).getExtendedState() & Frame.ICONIFIED) ==
-                                    Frame.ICONIFIED) {
+            if ((p instbnceof Window) || (p instbnceof Applet)) {
+                // Iconified frbmes bre still visible!
+                if (p instbnceof Frbme &&
+                        (((Frbme)p).getExtendedStbte() & Frbme.ICONIFIED) ==
+                                    Frbme.ICONIFIED) {
                     return;
                 }
                 root = p;
-                break;
+                brebk;
             }
         }
 
@@ -450,449 +450,449 @@ public class RepaintManager
 
         synchronized(this) {
             if (extendDirtyRegion(c, x, y, w, h)) {
-                // In between last check and this check another thread
-                // queued up runnable, can bail here.
+                // In between lbst check bnd this check bnother threbd
+                // queued up runnbble, cbn bbil here.
                 return;
             }
-            dirtyComponents.put(c, new Rectangle(x, y, w, h));
+            dirtyComponents.put(c, new Rectbngle(x, y, w, h));
         }
 
-        // Queue a Runnable to invoke paintDirtyRegions and
-        // validateInvalidComponents.
-        scheduleProcessingRunnable(SunToolkit.targetToAppContext(c));
+        // Queue b Runnbble to invoke pbintDirtyRegions bnd
+        // vblidbteInvblidComponents.
+        scheduleProcessingRunnbble(SunToolkit.tbrgetToAppContext(c));
     }
 
     /**
-     * Add a component in the list of components that should be refreshed.
-     * If <i>c</i> already has a dirty region, the rectangle <i>(x,y,w,h)</i>
-     * will be unioned with the region that should be redrawn.
+     * Add b component in the list of components thbt should be refreshed.
+     * If <i>c</i> blrebdy hbs b dirty region, the rectbngle <i>(x,y,w,h)</i>
+     * will be unioned with the region thbt should be redrbwn.
      *
-     * @param c Component to repaint, null results in nothing happening.
-     * @param x X coordinate of the region to repaint
-     * @param y Y coordinate of the region to repaint
-     * @param w Width of the region to repaint
-     * @param h Height of the region to repaint
-     * @see JComponent#repaint
+     * @pbrbm c Component to repbint, null results in nothing hbppening.
+     * @pbrbm x X coordinbte of the region to repbint
+     * @pbrbm y Y coordinbte of the region to repbint
+     * @pbrbm w Width of the region to repbint
+     * @pbrbm h Height of the region to repbint
+     * @see JComponent#repbint
      */
-    public void addDirtyRegion(JComponent c, int x, int y, int w, int h)
+    public void bddDirtyRegion(JComponent c, int x, int y, int w, int h)
     {
-        RepaintManager delegate = getDelegate(c);
-        if (delegate != null) {
-            delegate.addDirtyRegion(c, x, y, w, h);
+        RepbintMbnbger delegbte = getDelegbte(c);
+        if (delegbte != null) {
+            delegbte.bddDirtyRegion(c, x, y, w, h);
             return;
         }
-        addDirtyRegion0(c, x, y, w, h);
+        bddDirtyRegion0(c, x, y, w, h);
     }
 
     /**
-     * Adds <code>window</code> to the list of <code>Component</code>s that
-     * need to be repainted.
+     * Adds <code>window</code> to the list of <code>Component</code>s thbt
+     * need to be repbinted.
      *
-     * @param window Window to repaint, null results in nothing happening.
-     * @param x X coordinate of the region to repaint
-     * @param y Y coordinate of the region to repaint
-     * @param w Width of the region to repaint
-     * @param h Height of the region to repaint
-     * @see JFrame#repaint
-     * @see JWindow#repaint
-     * @see JDialog#repaint
+     * @pbrbm window Window to repbint, null results in nothing hbppening.
+     * @pbrbm x X coordinbte of the region to repbint
+     * @pbrbm y Y coordinbte of the region to repbint
+     * @pbrbm w Width of the region to repbint
+     * @pbrbm h Height of the region to repbint
+     * @see JFrbme#repbint
+     * @see JWindow#repbint
+     * @see JDiblog#repbint
      * @since 1.6
      */
-    public void addDirtyRegion(Window window, int x, int y, int w, int h) {
-        addDirtyRegion0(window, x, y, w, h);
+    public void bddDirtyRegion(Window window, int x, int y, int w, int h) {
+        bddDirtyRegion0(window, x, y, w, h);
     }
 
     /**
-     * Adds <code>applet</code> to the list of <code>Component</code>s that
-     * need to be repainted.
+     * Adds <code>bpplet</code> to the list of <code>Component</code>s thbt
+     * need to be repbinted.
      *
-     * @param applet Applet to repaint, null results in nothing happening.
-     * @param x X coordinate of the region to repaint
-     * @param y Y coordinate of the region to repaint
-     * @param w Width of the region to repaint
-     * @param h Height of the region to repaint
-     * @see JApplet#repaint
+     * @pbrbm bpplet Applet to repbint, null results in nothing hbppening.
+     * @pbrbm x X coordinbte of the region to repbint
+     * @pbrbm y Y coordinbte of the region to repbint
+     * @pbrbm w Width of the region to repbint
+     * @pbrbm h Height of the region to repbint
+     * @see JApplet#repbint
      * @since 1.6
      */
-    public void addDirtyRegion(Applet applet, int x, int y, int w, int h) {
-        addDirtyRegion0(applet, x, y, w, h);
+    public void bddDirtyRegion(Applet bpplet, int x, int y, int w, int h) {
+        bddDirtyRegion0(bpplet, x, y, w, h);
     }
 
-    void scheduleHeavyWeightPaints() {
-        Map<Container,Rectangle> hws;
+    void scheduleHebvyWeightPbints() {
+        Mbp<Contbiner,Rectbngle> hws;
 
         synchronized(this) {
             if (hwDirtyComponents.size() == 0) {
                 return;
             }
             hws = hwDirtyComponents;
-            hwDirtyComponents =  new IdentityHashMap<Container,Rectangle>();
+            hwDirtyComponents =  new IdentityHbshMbp<Contbiner,Rectbngle>();
         }
-        for (Container hw : hws.keySet()) {
-            Rectangle dirty = hws.get(hw);
-            if (hw instanceof Window) {
-                addDirtyRegion((Window)hw, dirty.x, dirty.y,
+        for (Contbiner hw : hws.keySet()) {
+            Rectbngle dirty = hws.get(hw);
+            if (hw instbnceof Window) {
+                bddDirtyRegion((Window)hw, dirty.x, dirty.y,
                                dirty.width, dirty.height);
             }
-            else if (hw instanceof Applet) {
-                addDirtyRegion((Applet)hw, dirty.x, dirty.y,
+            else if (hw instbnceof Applet) {
+                bddDirtyRegion((Applet)hw, dirty.x, dirty.y,
                                dirty.width, dirty.height);
             }
-            else { // SwingHeavyWeight
-                addDirtyRegion0(hw, dirty.x, dirty.y,
+            else { // SwingHebvyWeight
+                bddDirtyRegion0(hw, dirty.x, dirty.y,
                                 dirty.width, dirty.height);
             }
         }
     }
 
     //
-    // This is called from the toolkit thread when a native expose is
+    // This is cblled from the toolkit threbd when b nbtive expose is
     // received.
     //
-    void nativeAddDirtyRegion(AppContext appContext, Container c,
+    void nbtiveAddDirtyRegion(AppContext bppContext, Contbiner c,
                               int x, int y, int w, int h) {
         if (w > 0 && h > 0) {
             synchronized(this) {
-                Rectangle dirty = hwDirtyComponents.get(c);
+                Rectbngle dirty = hwDirtyComponents.get(c);
                 if (dirty == null) {
-                    hwDirtyComponents.put(c, new Rectangle(x, y, w, h));
+                    hwDirtyComponents.put(c, new Rectbngle(x, y, w, h));
                 }
                 else {
                     hwDirtyComponents.put(c, SwingUtilities.computeUnion(
                                               x, y, w, h, dirty));
                 }
             }
-            scheduleProcessingRunnable(appContext);
+            scheduleProcessingRunnbble(bppContext);
         }
     }
 
     //
-    // This is called from the toolkit thread when awt needs to run a
-    // Runnable before we paint.
+    // This is cblled from the toolkit threbd when bwt needs to run b
+    // Runnbble before we pbint.
     //
-    void nativeQueueSurfaceDataRunnable(AppContext appContext,
-                                        final Component c, final Runnable r)
+    void nbtiveQueueSurfbceDbtbRunnbble(AppContext bppContext,
+                                        finbl Component c, finbl Runnbble r)
     {
         synchronized(this) {
-            if (runnableList == null) {
-                runnableList = new LinkedList<Runnable>();
+            if (runnbbleList == null) {
+                runnbbleList = new LinkedList<Runnbble>();
             }
-            runnableList.add(new Runnable() {
+            runnbbleList.bdd(new Runnbble() {
                 public void run() {
-                    AccessControlContext stack = AccessController.getContext();
-                    AccessControlContext acc =
+                    AccessControlContext stbck = AccessController.getContext();
+                    AccessControlContext bcc =
                         AWTAccessor.getComponentAccessor().getAccessControlContext(c);
-                    javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Void>() {
+                    jbvbSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Void>() {
                         public Void run() {
                             r.run();
                             return null;
                         }
-                    }, stack, acc);
+                    }, stbck, bcc);
                 }
             });
         }
-        scheduleProcessingRunnable(appContext);
+        scheduleProcessingRunnbble(bppContext);
     }
 
     /**
      * Extends the dirty region for the specified component to include
      * the new region.
      *
-     * @return false if <code>c</code> is not yet marked dirty.
+     * @return fblse if <code>c</code> is not yet mbrked dirty.
      */
-    private synchronized boolean extendDirtyRegion(
+    privbte synchronized boolebn extendDirtyRegion(
         Component c, int x, int y, int w, int h) {
-        Rectangle r = dirtyComponents.get(c);
+        Rectbngle r = dirtyComponents.get(c);
         if (r != null) {
-            // A non-null r implies c is already marked as dirty,
-            // and that the parent is valid. Therefore we can
-            // just union the rect and bail.
+            // A non-null r implies c is blrebdy mbrked bs dirty,
+            // bnd thbt the pbrent is vblid. Therefore we cbn
+            // just union the rect bnd bbil.
             SwingUtilities.computeUnion(x, y, w, h, r);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Return the current dirty region for a component.
-     * Return an empty rectangle if the component is not
+     * Return the current dirty region for b component.
+     * Return bn empty rectbngle if the component is not
      * dirty.
      *
-     * @param aComponent a component
+     * @pbrbm bComponent b component
      * @return the region
      */
-    public Rectangle getDirtyRegion(JComponent aComponent) {
-        RepaintManager delegate = getDelegate(aComponent);
-        if (delegate != null) {
-            return delegate.getDirtyRegion(aComponent);
+    public Rectbngle getDirtyRegion(JComponent bComponent) {
+        RepbintMbnbger delegbte = getDelegbte(bComponent);
+        if (delegbte != null) {
+            return delegbte.getDirtyRegion(bComponent);
         }
-        Rectangle r;
+        Rectbngle r;
         synchronized(this) {
-            r = dirtyComponents.get(aComponent);
+            r = dirtyComponents.get(bComponent);
         }
         if(r == null)
-            return new Rectangle(0,0,0,0);
+            return new Rectbngle(0,0,0,0);
         else
-            return new Rectangle(r);
+            return new Rectbngle(r);
     }
 
     /**
-     * Mark a component completely dirty. <b>aComponent</b> will be
-     * completely painted during the next paintDirtyRegions() call.
+     * Mbrk b component completely dirty. <b>bComponent</b> will be
+     * completely pbinted during the next pbintDirtyRegions() cbll.
      *
-     * @param aComponent a component
+     * @pbrbm bComponent b component
      */
-    public void markCompletelyDirty(JComponent aComponent) {
-        RepaintManager delegate = getDelegate(aComponent);
-        if (delegate != null) {
-            delegate.markCompletelyDirty(aComponent);
+    public void mbrkCompletelyDirty(JComponent bComponent) {
+        RepbintMbnbger delegbte = getDelegbte(bComponent);
+        if (delegbte != null) {
+            delegbte.mbrkCompletelyDirty(bComponent);
             return;
         }
-        addDirtyRegion(aComponent,0,0,Integer.MAX_VALUE,Integer.MAX_VALUE);
+        bddDirtyRegion(bComponent,0,0,Integer.MAX_VALUE,Integer.MAX_VALUE);
     }
 
     /**
-     * Mark a component completely clean. <b>aComponent</b> will not
-     * get painted during the next paintDirtyRegions() call.
+     * Mbrk b component completely clebn. <b>bComponent</b> will not
+     * get pbinted during the next pbintDirtyRegions() cbll.
      *
-     * @param aComponent a component
+     * @pbrbm bComponent b component
      */
-    public void markCompletelyClean(JComponent aComponent) {
-        RepaintManager delegate = getDelegate(aComponent);
-        if (delegate != null) {
-            delegate.markCompletelyClean(aComponent);
+    public void mbrkCompletelyClebn(JComponent bComponent) {
+        RepbintMbnbger delegbte = getDelegbte(bComponent);
+        if (delegbte != null) {
+            delegbte.mbrkCompletelyClebn(bComponent);
             return;
         }
         synchronized(this) {
-                dirtyComponents.remove(aComponent);
+                dirtyComponents.remove(bComponent);
         }
     }
 
     /**
-     * Convenience method that returns true if <b>aComponent</b> will be completely
-     * painted during the next paintDirtyRegions(). If computing dirty regions is
-     * expensive for your component, use this method and avoid computing dirty region
+     * Convenience method thbt returns true if <b>bComponent</b> will be completely
+     * pbinted during the next pbintDirtyRegions(). If computing dirty regions is
+     * expensive for your component, use this method bnd bvoid computing dirty region
      * if it return true.
      *
-     * @param aComponent a component
-     * @return {@code true} if <b>aComponent</b> will be completely
-     *         painted during the next paintDirtyRegions().
+     * @pbrbm bComponent b component
+     * @return {@code true} if <b>bComponent</b> will be completely
+     *         pbinted during the next pbintDirtyRegions().
      */
-    public boolean isCompletelyDirty(JComponent aComponent) {
-        RepaintManager delegate = getDelegate(aComponent);
-        if (delegate != null) {
-            return delegate.isCompletelyDirty(aComponent);
+    public boolebn isCompletelyDirty(JComponent bComponent) {
+        RepbintMbnbger delegbte = getDelegbte(bComponent);
+        if (delegbte != null) {
+            return delegbte.isCompletelyDirty(bComponent);
         }
-        Rectangle r;
+        Rectbngle r;
 
-        r = getDirtyRegion(aComponent);
+        r = getDirtyRegion(bComponent);
         if(r.width == Integer.MAX_VALUE &&
            r.height == Integer.MAX_VALUE)
             return true;
         else
-            return false;
+            return fblse;
     }
 
 
     /**
-     * Validate all of the components that have been marked invalid.
-     * @see #addInvalidComponent
+     * Vblidbte bll of the components thbt hbve been mbrked invblid.
+     * @see #bddInvblidComponent
      */
-    public void validateInvalidComponents() {
-        final java.util.List<Component> ic;
+    public void vblidbteInvblidComponents() {
+        finbl jbvb.util.List<Component> ic;
         synchronized(this) {
-            if (invalidComponents == null) {
+            if (invblidComponents == null) {
                 return;
             }
-            ic = invalidComponents;
-            invalidComponents = null;
+            ic = invblidComponents;
+            invblidComponents = null;
         }
         int n = ic.size();
         for(int i = 0; i < n; i++) {
-            final Component c = ic.get(i);
-            AccessControlContext stack = AccessController.getContext();
-            AccessControlContext acc =
+            finbl Component c = ic.get(i);
+            AccessControlContext stbck = AccessController.getContext();
+            AccessControlContext bcc =
                 AWTAccessor.getComponentAccessor().getAccessControlContext(c);
-            javaSecurityAccess.doIntersectionPrivilege(
+            jbvbSecurityAccess.doIntersectionPrivilege(
                 new PrivilegedAction<Void>() {
                     public Void run() {
-                        c.validate();
+                        c.vblidbte();
                         return null;
                     }
-                }, stack, acc);
+                }, stbck, bcc);
         }
     }
 
 
     /**
-     * This is invoked to process paint requests.  It's needed
-     * for backward compatibility in so far as RepaintManager would previously
-     * not see paint requests for top levels, so, we have to make sure
-     * a subclass correctly paints any dirty top levels.
+     * This is invoked to process pbint requests.  It's needed
+     * for bbckwbrd compbtibility in so fbr bs RepbintMbnbger would previously
+     * not see pbint requests for top levels, so, we hbve to mbke sure
+     * b subclbss correctly pbints bny dirty top levels.
      */
-    private void prePaintDirtyRegions() {
-        Map<Component,Rectangle> dirtyComponents;
-        java.util.List<Runnable> runnableList;
+    privbte void prePbintDirtyRegions() {
+        Mbp<Component,Rectbngle> dirtyComponents;
+        jbvb.util.List<Runnbble> runnbbleList;
         synchronized(this) {
             dirtyComponents = this.dirtyComponents;
-            runnableList = this.runnableList;
-            this.runnableList = null;
+            runnbbleList = this.runnbbleList;
+            this.runnbbleList = null;
         }
-        if (runnableList != null) {
-            for (Runnable runnable : runnableList) {
-                runnable.run();
+        if (runnbbleList != null) {
+            for (Runnbble runnbble : runnbbleList) {
+                runnbble.run();
             }
         }
-        paintDirtyRegions();
+        pbintDirtyRegions();
         if (dirtyComponents.size() > 0) {
-            // This'll only happen if a subclass isn't correctly dealing
+            // This'll only hbppen if b subclbss isn't correctly debling
             // with toplevels.
-            paintDirtyRegions(dirtyComponents);
+            pbintDirtyRegions(dirtyComponents);
         }
     }
 
-    private void updateWindows(Map<Component,Rectangle> dirtyComponents) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        if (!(toolkit instanceof SunToolkit &&
-              ((SunToolkit)toolkit).needUpdateWindow()))
+    privbte void updbteWindows(Mbp<Component,Rectbngle> dirtyComponents) {
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
+        if (!(toolkit instbnceof SunToolkit &&
+              ((SunToolkit)toolkit).needUpdbteWindow()))
         {
             return;
         }
 
-        Set<Window> windows = new HashSet<Window>();
+        Set<Window> windows = new HbshSet<Window>();
         Set<Component> dirtyComps = dirtyComponents.keySet();
-        for (Iterator<Component> it = dirtyComps.iterator(); it.hasNext();) {
+        for (Iterbtor<Component> it = dirtyComps.iterbtor(); it.hbsNext();) {
             Component dirty = it.next();
-            Window window = dirty instanceof Window ?
+            Window window = dirty instbnceof Window ?
                 (Window)dirty :
                 SwingUtilities.getWindowAncestor(dirty);
             if (window != null &&
-                !window.isOpaque())
+                !window.isOpbque())
             {
-                windows.add(window);
+                windows.bdd(window);
             }
         }
 
         for (Window window : windows) {
-            AWTAccessor.getWindowAccessor().updateWindow(window);
+            AWTAccessor.getWindowAccessor().updbteWindow(window);
         }
     }
 
-    boolean isPainting() {
-        return painting;
+    boolebn isPbinting() {
+        return pbinting;
     }
 
     /**
-     * Paint all of the components that have been marked dirty.
+     * Pbint bll of the components thbt hbve been mbrked dirty.
      *
-     * @see #addDirtyRegion
+     * @see #bddDirtyRegion
      */
-    public void paintDirtyRegions() {
-        synchronized(this) {  // swap for thread safety
-            Map<Component,Rectangle> tmp = tmpDirtyComponents;
+    public void pbintDirtyRegions() {
+        synchronized(this) {  // swbp for threbd sbfety
+            Mbp<Component,Rectbngle> tmp = tmpDirtyComponents;
             tmpDirtyComponents = dirtyComponents;
             dirtyComponents = tmp;
-            dirtyComponents.clear();
+            dirtyComponents.clebr();
         }
-        paintDirtyRegions(tmpDirtyComponents);
+        pbintDirtyRegions(tmpDirtyComponents);
     }
 
-    private void paintDirtyRegions(
-        final Map<Component,Rectangle> tmpDirtyComponents)
+    privbte void pbintDirtyRegions(
+        finbl Mbp<Component,Rectbngle> tmpDirtyComponents)
     {
         if (tmpDirtyComponents.isEmpty()) {
             return;
         }
 
-        final java.util.List<Component> roots =
-            new ArrayList<Component>(tmpDirtyComponents.size());
+        finbl jbvb.util.List<Component> roots =
+            new ArrbyList<Component>(tmpDirtyComponents.size());
         for (Component dirty : tmpDirtyComponents.keySet()) {
             collectDirtyComponents(tmpDirtyComponents, dirty, roots);
         }
 
-        final AtomicInteger count = new AtomicInteger(roots.size());
-        painting = true;
+        finbl AtomicInteger count = new AtomicInteger(roots.size());
+        pbinting = true;
         try {
             for (int j=0 ; j < count.get(); j++) {
-                final int i = j;
-                final Component dirtyComponent = roots.get(j);
-                AccessControlContext stack = AccessController.getContext();
-                AccessControlContext acc =
+                finbl int i = j;
+                finbl Component dirtyComponent = roots.get(j);
+                AccessControlContext stbck = AccessController.getContext();
+                AccessControlContext bcc =
                     AWTAccessor.getComponentAccessor().getAccessControlContext(dirtyComponent);
-                javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Void>() {
+                jbvbSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Void>() {
                     public Void run() {
-                        Rectangle rect = tmpDirtyComponents.get(dirtyComponent);
-                        // Sometimes when RepaintManager is changed during the painting
-                        // we may get null here, see #6995769 for details
+                        Rectbngle rect = tmpDirtyComponents.get(dirtyComponent);
+                        // Sometimes when RepbintMbnbger is chbnged during the pbinting
+                        // we mby get null here, see #6995769 for detbils
                         if (rect == null) {
                             return null;
                         }
 
-                        int localBoundsH = dirtyComponent.getHeight();
-                        int localBoundsW = dirtyComponent.getWidth();
+                        int locblBoundsH = dirtyComponent.getHeight();
+                        int locblBoundsW = dirtyComponent.getWidth();
                         SwingUtilities.computeIntersection(0,
                                                            0,
-                                                           localBoundsW,
-                                                           localBoundsH,
+                                                           locblBoundsW,
+                                                           locblBoundsH,
                                                            rect);
-                        if (dirtyComponent instanceof JComponent) {
-                            ((JComponent)dirtyComponent).paintImmediately(
+                        if (dirtyComponent instbnceof JComponent) {
+                            ((JComponent)dirtyComponent).pbintImmedibtely(
                                 rect.x,rect.y,rect.width, rect.height);
                         }
                         else if (dirtyComponent.isShowing()) {
-                            Graphics g = JComponent.safelyGetGraphics(
+                            Grbphics g = JComponent.sbfelyGetGrbphics(
                                     dirtyComponent, dirtyComponent);
-                            // If the Graphics goes away, it means someone disposed of
-                            // the window, don't do anything.
+                            // If the Grbphics goes bwby, it mebns someone disposed of
+                            // the window, don't do bnything.
                             if (g != null) {
                                 g.setClip(rect.x, rect.y, rect.width, rect.height);
                                 try {
-                                    dirtyComponent.paint(g);
-                                } finally {
+                                    dirtyComponent.pbint(g);
+                                } finblly {
                                     g.dispose();
                                 }
                             }
                         }
-                        // If the repaintRoot has been set, service it now and
-                        // remove any components that are children of repaintRoot.
-                        if (repaintRoot != null) {
-                            adjustRoots(repaintRoot, roots, i + 1);
+                        // If the repbintRoot hbs been set, service it now bnd
+                        // remove bny components thbt bre children of repbintRoot.
+                        if (repbintRoot != null) {
+                            bdjustRoots(repbintRoot, roots, i + 1);
                             count.set(roots.size());
-                            paintManager.isRepaintingRoot = true;
-                            repaintRoot.paintImmediately(0, 0, repaintRoot.getWidth(),
-                                                         repaintRoot.getHeight());
-                            paintManager.isRepaintingRoot = false;
-                            // Only service repaintRoot once.
-                            repaintRoot = null;
+                            pbintMbnbger.isRepbintingRoot = true;
+                            repbintRoot.pbintImmedibtely(0, 0, repbintRoot.getWidth(),
+                                                         repbintRoot.getHeight());
+                            pbintMbnbger.isRepbintingRoot = fblse;
+                            // Only service repbintRoot once.
+                            repbintRoot = null;
                         }
 
                         return null;
                     }
-                }, stack, acc);
+                }, stbck, bcc);
             }
-        } finally {
-            painting = false;
+        } finblly {
+            pbinting = fblse;
         }
 
-        updateWindows(tmpDirtyComponents);
+        updbteWindows(tmpDirtyComponents);
 
-        tmpDirtyComponents.clear();
+        tmpDirtyComponents.clebr();
     }
 
 
     /**
-     * Removes any components from roots that are children of
+     * Removes bny components from roots thbt bre children of
      * root.
      */
-    private void adjustRoots(JComponent root,
-                             java.util.List<Component> roots, int index) {
+    privbte void bdjustRoots(JComponent root,
+                             jbvb.util.List<Component> roots, int index) {
         for (int i = roots.size() - 1; i >= index; i--) {
             Component c = roots.get(i);
             for(;;) {
-                if (c == root || c == null || !(c instanceof JComponent)) {
-                    break;
+                if (c == root || c == null || !(c instbnceof JComponent)) {
+                    brebk;
                 }
-                c = c.getParent();
+                c = c.getPbrent();
             }
             if (c == root) {
                 roots.remove(i);
@@ -900,19 +900,19 @@ public class RepaintManager
         }
     }
 
-    Rectangle tmp = new Rectangle();
+    Rectbngle tmp = new Rectbngle();
 
-    void collectDirtyComponents(Map<Component,Rectangle> dirtyComponents,
+    void collectDirtyComponents(Mbp<Component,Rectbngle> dirtyComponents,
                                 Component dirtyComponent,
-                                java.util.List<Component> roots) {
+                                jbvb.util.List<Component> roots) {
         int dx, dy, rootDx, rootDy;
-        Component component, rootDirtyComponent,parent;
-        Rectangle cBounds;
+        Component component, rootDirtyComponent,pbrent;
+        Rectbngle cBounds;
 
-        // Find the highest parent which is dirty.  When we get out of this
-        // rootDx and rootDy will contain the translation from the
-        // rootDirtyComponent's coordinate system to the coordinates of the
-        // original dirty component.  The tmp Rect is also used to compute the
+        // Find the highest pbrent which is dirty.  When we get out of this
+        // rootDx bnd rootDy will contbin the trbnslbtion from the
+        // rootDirtyComponent's coordinbte system to the coordinbtes of the
+        // originbl dirty component.  The tmp Rect is blso used to compute the
         // visible portion of the dirtyRect.
 
         component = rootDirtyComponent = dirtyComponent;
@@ -936,18 +936,18 @@ public class RepaintManager
         }
 
         for(;;) {
-            if(!(component instanceof JComponent))
-                break;
+            if(!(component instbnceof JComponent))
+                brebk;
 
-            parent = component.getParent();
-            if(parent == null)
-                break;
+            pbrent = component.getPbrent();
+            if(pbrent == null)
+                brebk;
 
-            component = parent;
+            component = pbrent;
 
             dx += x;
             dy += y;
-            tmp.setLocation(tmp.x + x, tmp.y + y);
+            tmp.setLocbtion(tmp.x + x, tmp.y + y);
 
             x = component.getX();
             y = component.getY();
@@ -968,727 +968,727 @@ public class RepaintManager
         }
 
         if (dirtyComponent != rootDirtyComponent) {
-            Rectangle r;
-            tmp.setLocation(tmp.x + rootDx - dx,
+            Rectbngle r;
+            tmp.setLocbtion(tmp.x + rootDx - dx,
                             tmp.y + rootDy - dy);
             r = dirtyComponents.get(rootDirtyComponent);
             SwingUtilities.computeUnion(tmp.x,tmp.y,tmp.width,tmp.height,r);
         }
 
-        // If we haven't seen this root before, then we need to add it to the
+        // If we hbven't seen this root before, then we need to bdd it to the
         // list of root dirty Views.
 
-        if (!roots.contains(rootDirtyComponent))
-            roots.add(rootDirtyComponent);
+        if (!roots.contbins(rootDirtyComponent))
+            roots.bdd(rootDirtyComponent);
     }
 
 
     /**
-     * Returns a string that displays and identifies this
+     * Returns b string thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a String representation of this object
+     * @return b String representbtion of this object
      */
     public synchronized String toString() {
         StringBuilder sb = new StringBuilder();
         if(dirtyComponents != null)
-            sb.append("" + dirtyComponents);
+            sb.bppend("" + dirtyComponents);
         return sb.toString();
     }
 
 
     /**
-     * Return the offscreen buffer that should be used as a double buffer with
+     * Return the offscreen buffer thbt should be used bs b double buffer with
      * the component <code>c</code>.
-     * By default there is a double buffer per RepaintManager.
-     * The buffer might be smaller than <code>(proposedWidth,proposedHeight)</code>
-     * This happens when the maximum double buffer size as been set for the receiving
-     * repaint manager.
+     * By defbult there is b double buffer per RepbintMbnbger.
+     * The buffer might be smbller thbn <code>(proposedWidth,proposedHeight)</code>
+     * This hbppens when the mbximum double buffer size bs been set for the receiving
+     * repbint mbnbger.
      *
-     * @param c the component
-     * @param proposedWidth the width of the buffer
-     * @param proposedHeight the height of the buffer
+     * @pbrbm c the component
+     * @pbrbm proposedWidth the width of the buffer
+     * @pbrbm proposedHeight the height of the buffer
      *
-     * @return the image
+     * @return the imbge
      */
-    public Image getOffscreenBuffer(Component c,int proposedWidth,int proposedHeight) {
-        RepaintManager delegate = getDelegate(c);
-        if (delegate != null) {
-            return delegate.getOffscreenBuffer(c, proposedWidth, proposedHeight);
+    public Imbge getOffscreenBuffer(Component c,int proposedWidth,int proposedHeight) {
+        RepbintMbnbger delegbte = getDelegbte(c);
+        if (delegbte != null) {
+            return delegbte.getOffscreenBuffer(c, proposedWidth, proposedHeight);
         }
         return _getOffscreenBuffer(c, proposedWidth, proposedHeight);
     }
 
     /**
-     * Return a volatile offscreen buffer that should be used as a
+     * Return b volbtile offscreen buffer thbt should be used bs b
      * double buffer with the specified component <code>c</code>.
-     * The image returned will be an instance of VolatileImage, or null
-     * if a VolatileImage object could not be instantiated.
-     * This buffer might be smaller than <code>(proposedWidth,proposedHeight)</code>.
-     * This happens when the maximum double buffer size has been set for this
-     * repaint manager.
+     * The imbge returned will be bn instbnce of VolbtileImbge, or null
+     * if b VolbtileImbge object could not be instbntibted.
+     * This buffer might be smbller thbn <code>(proposedWidth,proposedHeight)</code>.
+     * This hbppens when the mbximum double buffer size hbs been set for this
+     * repbint mbnbger.
      *
-     * @param c the component
-     * @param proposedWidth the width of the buffer
-     * @param proposedHeight the height of the buffer
+     * @pbrbm c the component
+     * @pbrbm proposedWidth the width of the buffer
+     * @pbrbm proposedHeight the height of the buffer
      *
-     * @return the volatile image
-     * @see java.awt.image.VolatileImage
+     * @return the volbtile imbge
+     * @see jbvb.bwt.imbge.VolbtileImbge
      * @since 1.4
      */
-    public Image getVolatileOffscreenBuffer(Component c,
+    public Imbge getVolbtileOffscreenBuffer(Component c,
                                             int proposedWidth,int proposedHeight) {
-        RepaintManager delegate = getDelegate(c);
-        if (delegate != null) {
-            return delegate.getVolatileOffscreenBuffer(c, proposedWidth,
+        RepbintMbnbger delegbte = getDelegbte(c);
+        if (delegbte != null) {
+            return delegbte.getVolbtileOffscreenBuffer(c, proposedWidth,
                                                         proposedHeight);
         }
 
-        // If the window is non-opaque, it's double-buffered at peer's level
-        Window w = (c instanceof Window) ? (Window)c : SwingUtilities.getWindowAncestor(c);
-        if (!w.isOpaque()) {
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            if ((tk instanceof SunToolkit) && (((SunToolkit)tk).needUpdateWindow())) {
+        // If the window is non-opbque, it's double-buffered bt peer's level
+        Window w = (c instbnceof Window) ? (Window)c : SwingUtilities.getWindowAncestor(c);
+        if (!w.isOpbque()) {
+            Toolkit tk = Toolkit.getDefbultToolkit();
+            if ((tk instbnceof SunToolkit) && (((SunToolkit)tk).needUpdbteWindow())) {
                 return null;
             }
         }
 
-        GraphicsConfiguration config = c.getGraphicsConfiguration();
+        GrbphicsConfigurbtion config = c.getGrbphicsConfigurbtion();
         if (config == null) {
-            config = GraphicsEnvironment.getLocalGraphicsEnvironment().
-                            getDefaultScreenDevice().getDefaultConfiguration();
+            config = GrbphicsEnvironment.getLocblGrbphicsEnvironment().
+                            getDefbultScreenDevice().getDefbultConfigurbtion();
         }
-        Dimension maxSize = getDoubleBufferMaximumSize();
+        Dimension mbxSize = getDoubleBufferMbximumSize();
         int width = proposedWidth < 1 ? 1 :
-            (proposedWidth > maxSize.width? maxSize.width : proposedWidth);
+            (proposedWidth > mbxSize.width? mbxSize.width : proposedWidth);
         int height = proposedHeight < 1 ? 1 :
-            (proposedHeight > maxSize.height? maxSize.height : proposedHeight);
-        VolatileImage image = volatileMap.get(config);
-        if (image == null || image.getWidth() < width ||
-                             image.getHeight() < height) {
-            if (image != null) {
-                image.flush();
+            (proposedHeight > mbxSize.height? mbxSize.height : proposedHeight);
+        VolbtileImbge imbge = volbtileMbp.get(config);
+        if (imbge == null || imbge.getWidth() < width ||
+                             imbge.getHeight() < height) {
+            if (imbge != null) {
+                imbge.flush();
             }
-            image = config.createCompatibleVolatileImage(width, height,
-                                                         volatileBufferType);
-            volatileMap.put(config, image);
+            imbge = config.crebteCompbtibleVolbtileImbge(width, height,
+                                                         volbtileBufferType);
+            volbtileMbp.put(config, imbge);
         }
-        return image;
+        return imbge;
     }
 
-    private Image _getOffscreenBuffer(Component c, int proposedWidth, int proposedHeight) {
-        Dimension maxSize = getDoubleBufferMaximumSize();
+    privbte Imbge _getOffscreenBuffer(Component c, int proposedWidth, int proposedHeight) {
+        Dimension mbxSize = getDoubleBufferMbximumSize();
         DoubleBufferInfo doubleBuffer;
         int width, height;
 
-        // If the window is non-opaque, it's double-buffered at peer's level
-        Window w = (c instanceof Window) ? (Window)c : SwingUtilities.getWindowAncestor(c);
-        if (!w.isOpaque()) {
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            if ((tk instanceof SunToolkit) && (((SunToolkit)tk).needUpdateWindow())) {
+        // If the window is non-opbque, it's double-buffered bt peer's level
+        Window w = (c instbnceof Window) ? (Window)c : SwingUtilities.getWindowAncestor(c);
+        if (!w.isOpbque()) {
+            Toolkit tk = Toolkit.getDefbultToolkit();
+            if ((tk instbnceof SunToolkit) && (((SunToolkit)tk).needUpdbteWindow())) {
                 return null;
             }
         }
 
-        if (standardDoubleBuffer == null) {
-            standardDoubleBuffer = new DoubleBufferInfo();
+        if (stbndbrdDoubleBuffer == null) {
+            stbndbrdDoubleBuffer = new DoubleBufferInfo();
         }
-        doubleBuffer = standardDoubleBuffer;
+        doubleBuffer = stbndbrdDoubleBuffer;
 
         width = proposedWidth < 1? 1 :
-                  (proposedWidth > maxSize.width? maxSize.width : proposedWidth);
+                  (proposedWidth > mbxSize.width? mbxSize.width : proposedWidth);
         height = proposedHeight < 1? 1 :
-                  (proposedHeight > maxSize.height? maxSize.height : proposedHeight);
+                  (proposedHeight > mbxSize.height? mbxSize.height : proposedHeight);
 
-        if (doubleBuffer.needsReset || (doubleBuffer.image != null &&
+        if (doubleBuffer.needsReset || (doubleBuffer.imbge != null &&
                                         (doubleBuffer.size.width < width ||
                                          doubleBuffer.size.height < height))) {
-            doubleBuffer.needsReset = false;
-            if (doubleBuffer.image != null) {
-                doubleBuffer.image.flush();
-                doubleBuffer.image = null;
+            doubleBuffer.needsReset = fblse;
+            if (doubleBuffer.imbge != null) {
+                doubleBuffer.imbge.flush();
+                doubleBuffer.imbge = null;
             }
-            width = Math.max(doubleBuffer.size.width, width);
-            height = Math.max(doubleBuffer.size.height, height);
+            width = Mbth.mbx(doubleBuffer.size.width, width);
+            height = Mbth.mbx(doubleBuffer.size.height, height);
         }
 
-        Image result = doubleBuffer.image;
+        Imbge result = doubleBuffer.imbge;
 
-        if (doubleBuffer.image == null) {
-            result = c.createImage(width , height);
+        if (doubleBuffer.imbge == null) {
+            result = c.crebteImbge(width , height);
             doubleBuffer.size = new Dimension(width, height);
-            if (c instanceof JComponent) {
-                ((JComponent)c).setCreatedDoubleBuffer(true);
-                doubleBuffer.image = result;
+            if (c instbnceof JComponent) {
+                ((JComponent)c).setCrebtedDoubleBuffer(true);
+                doubleBuffer.imbge = result;
             }
-            // JComponent will inform us when it is no longer valid
-            // (via removeNotify) we have no such hook to other components,
-            // therefore we don't keep a ref to the Component
-            // (indirectly through the Image) by stashing the image.
+            // JComponent will inform us when it is no longer vblid
+            // (vib removeNotify) we hbve no such hook to other components,
+            // therefore we don't keep b ref to the Component
+            // (indirectly through the Imbge) by stbshing the imbge.
         }
         return result;
     }
 
 
     /**
-     * Set the maximum double buffer size.
+     * Set the mbximum double buffer size.
      *
-     * @param d the dimension
+     * @pbrbm d the dimension
      */
-    public void setDoubleBufferMaximumSize(Dimension d) {
-        doubleBufferMaxSize = d;
-        if (doubleBufferMaxSize == null) {
-            clearImages();
+    public void setDoubleBufferMbximumSize(Dimension d) {
+        doubleBufferMbxSize = d;
+        if (doubleBufferMbxSize == null) {
+            clebrImbges();
         } else {
-            clearImages(d.width, d.height);
+            clebrImbges(d.width, d.height);
         }
     }
 
-    private void clearImages() {
-        clearImages(0, 0);
+    privbte void clebrImbges() {
+        clebrImbges(0, 0);
     }
 
-    private void clearImages(int width, int height) {
-        if (standardDoubleBuffer != null && standardDoubleBuffer.image != null) {
-            if (standardDoubleBuffer.image.getWidth(null) > width ||
-                standardDoubleBuffer.image.getHeight(null) > height) {
-                standardDoubleBuffer.image.flush();
-                standardDoubleBuffer.image = null;
+    privbte void clebrImbges(int width, int height) {
+        if (stbndbrdDoubleBuffer != null && stbndbrdDoubleBuffer.imbge != null) {
+            if (stbndbrdDoubleBuffer.imbge.getWidth(null) > width ||
+                stbndbrdDoubleBuffer.imbge.getHeight(null) > height) {
+                stbndbrdDoubleBuffer.imbge.flush();
+                stbndbrdDoubleBuffer.imbge = null;
             }
         }
-        // Clear out the VolatileImages
-        Iterator<GraphicsConfiguration> gcs = volatileMap.keySet().iterator();
-        while (gcs.hasNext()) {
-            GraphicsConfiguration gc = gcs.next();
-            VolatileImage image = volatileMap.get(gc);
-            if (image.getWidth() > width || image.getHeight() > height) {
-                image.flush();
+        // Clebr out the VolbtileImbges
+        Iterbtor<GrbphicsConfigurbtion> gcs = volbtileMbp.keySet().iterbtor();
+        while (gcs.hbsNext()) {
+            GrbphicsConfigurbtion gc = gcs.next();
+            VolbtileImbge imbge = volbtileMbp.get(gc);
+            if (imbge.getWidth() > width || imbge.getHeight() > height) {
+                imbge.flush();
                 gcs.remove();
             }
         }
     }
 
     /**
-     * Returns the maximum double buffer size.
+     * Returns the mbximum double buffer size.
      *
-     * @return a Dimension object representing the maximum size
+     * @return b Dimension object representing the mbximum size
      */
-    public Dimension getDoubleBufferMaximumSize() {
-        if (doubleBufferMaxSize == null) {
+    public Dimension getDoubleBufferMbximumSize() {
+        if (doubleBufferMbxSize == null) {
             try {
-                Rectangle virtualBounds = new Rectangle();
-                GraphicsEnvironment ge = GraphicsEnvironment.
-                                                 getLocalGraphicsEnvironment();
-                for (GraphicsDevice gd : ge.getScreenDevices()) {
-                    GraphicsConfiguration gc = gd.getDefaultConfiguration();
-                    virtualBounds = virtualBounds.union(gc.getBounds());
+                Rectbngle virtublBounds = new Rectbngle();
+                GrbphicsEnvironment ge = GrbphicsEnvironment.
+                                                 getLocblGrbphicsEnvironment();
+                for (GrbphicsDevice gd : ge.getScreenDevices()) {
+                    GrbphicsConfigurbtion gc = gd.getDefbultConfigurbtion();
+                    virtublBounds = virtublBounds.union(gc.getBounds());
                 }
-                doubleBufferMaxSize = new Dimension(virtualBounds.width,
-                                                    virtualBounds.height);
-            } catch (HeadlessException e) {
-                doubleBufferMaxSize = new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+                doubleBufferMbxSize = new Dimension(virtublBounds.width,
+                                                    virtublBounds.height);
+            } cbtch (HebdlessException e) {
+                doubleBufferMbxSize = new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
             }
         }
-        return doubleBufferMaxSize;
+        return doubleBufferMbxSize;
     }
 
     /**
-     * Enables or disables double buffering in this RepaintManager.
-     * CAUTION: The default value for this property is set for optimal
-     * paint performance on the given platform and it is not recommended
-     * that programs modify this property directly.
+     * Enbbles or disbbles double buffering in this RepbintMbnbger.
+     * CAUTION: The defbult vblue for this property is set for optimbl
+     * pbint performbnce on the given plbtform bnd it is not recommended
+     * thbt progrbms modify this property directly.
      *
-     * @param aFlag  true to activate double buffering
-     * @see #isDoubleBufferingEnabled
+     * @pbrbm bFlbg  true to bctivbte double buffering
+     * @see #isDoubleBufferingEnbbled
      */
-    public void setDoubleBufferingEnabled(boolean aFlag) {
-        doubleBufferingEnabled = aFlag;
-        PaintManager paintManager = getPaintManager();
-        if (!aFlag && paintManager.getClass() != PaintManager.class) {
-            setPaintManager(new PaintManager());
+    public void setDoubleBufferingEnbbled(boolebn bFlbg) {
+        doubleBufferingEnbbled = bFlbg;
+        PbintMbnbger pbintMbnbger = getPbintMbnbger();
+        if (!bFlbg && pbintMbnbger.getClbss() != PbintMbnbger.clbss) {
+            setPbintMbnbger(new PbintMbnbger());
         }
     }
 
     /**
-     * Returns true if this RepaintManager is double buffered.
-     * The default value for this property may vary from platform
-     * to platform.  On platforms where native double buffering
-     * is supported in the AWT, the default value will be <code>false</code>
-     * to avoid unnecessary buffering in Swing.
-     * On platforms where native double buffering is not supported,
-     * the default value will be <code>true</code>.
+     * Returns true if this RepbintMbnbger is double buffered.
+     * The defbult vblue for this property mby vbry from plbtform
+     * to plbtform.  On plbtforms where nbtive double buffering
+     * is supported in the AWT, the defbult vblue will be <code>fblse</code>
+     * to bvoid unnecessbry buffering in Swing.
+     * On plbtforms where nbtive double buffering is not supported,
+     * the defbult vblue will be <code>true</code>.
      *
      * @return true if this object is double buffered
      */
-    public boolean isDoubleBufferingEnabled() {
-        return doubleBufferingEnabled;
+    public boolebn isDoubleBufferingEnbbled() {
+        return doubleBufferingEnbbled;
     }
 
     /**
-     * This resets the double buffer. Actually, it marks the double buffer
-     * as invalid, the double buffer will then be recreated on the next
-     * invocation of getOffscreenBuffer.
+     * This resets the double buffer. Actublly, it mbrks the double buffer
+     * bs invblid, the double buffer will then be recrebted on the next
+     * invocbtion of getOffscreenBuffer.
      */
     void resetDoubleBuffer() {
-        if (standardDoubleBuffer != null) {
-            standardDoubleBuffer.needsReset = true;
+        if (stbndbrdDoubleBuffer != null) {
+            stbndbrdDoubleBuffer.needsReset = true;
         }
     }
 
     /**
-     * This resets the volatile double buffer.
+     * This resets the volbtile double buffer.
      */
-    void resetVolatileDoubleBuffer(GraphicsConfiguration gc) {
-        Image image = volatileMap.remove(gc);
-        if (image != null) {
-            image.flush();
+    void resetVolbtileDoubleBuffer(GrbphicsConfigurbtion gc) {
+        Imbge imbge = volbtileMbp.remove(gc);
+        if (imbge != null) {
+            imbge.flush();
         }
     }
 
     /**
-     * Returns true if we should use the <code>Image</code> returned
-     * from <code>getVolatileOffscreenBuffer</code> to do double buffering.
+     * Returns true if we should use the <code>Imbge</code> returned
+     * from <code>getVolbtileOffscreenBuffer</code> to do double buffering.
      */
-    boolean useVolatileDoubleBuffer() {
-        return volatileImageBufferEnabled;
+    boolebn useVolbtileDoubleBuffer() {
+        return volbtileImbgeBufferEnbbled;
     }
 
     /**
-     * Returns true if the current thread is the thread painting.  This
-     * will return false if no threads are painting.
+     * Returns true if the current threbd is the threbd pbinting.  This
+     * will return fblse if no threbds bre pbinting.
      */
-    private synchronized boolean isPaintingThread() {
-        return (Thread.currentThread() == paintThread);
+    privbte synchronized boolebn isPbintingThrebd() {
+        return (Threbd.currentThrebd() == pbintThrebd);
     }
     //
-    // Paint methods.  You very, VERY rarely need to invoke these.
-    // They are invoked directly from JComponent's painting code and
-    // when painting happens outside the normal flow: DefaultDesktopManager
-    // and JViewport.  If you end up needing these methods in other places be
-    // careful that you don't get stuck in a paint loop.
+    // Pbint methods.  You very, VERY rbrely need to invoke these.
+    // They bre invoked directly from JComponent's pbinting code bnd
+    // when pbinting hbppens outside the normbl flow: DefbultDesktopMbnbger
+    // bnd JViewport.  If you end up needing these methods in other plbces be
+    // cbreful thbt you don't get stuck in b pbint loop.
     //
 
     /**
-     * Paints a region of a component
+     * Pbints b region of b component
      *
-     * @param paintingComponent Component to paint
-     * @param bufferComponent Component to obtain buffer for
-     * @param g Graphics to paint to
-     * @param x X-coordinate
-     * @param y Y-coordinate
-     * @param w Width
-     * @param h Height
+     * @pbrbm pbintingComponent Component to pbint
+     * @pbrbm bufferComponent Component to obtbin buffer for
+     * @pbrbm g Grbphics to pbint to
+     * @pbrbm x X-coordinbte
+     * @pbrbm y Y-coordinbte
+     * @pbrbm w Width
+     * @pbrbm h Height
      */
-    void paint(JComponent paintingComponent,
-               JComponent bufferComponent, Graphics g,
+    void pbint(JComponent pbintingComponent,
+               JComponent bufferComponent, Grbphics g,
                int x, int y, int w, int h) {
-        PaintManager paintManager = getPaintManager();
-        if (!isPaintingThread()) {
-            // We're painting to two threads at once.  PaintManager deals
-            // with this a bit better than BufferStrategyPaintManager, use
-            // it to avoid possible exceptions/corruption.
-            if (paintManager.getClass() != PaintManager.class) {
-                paintManager = new PaintManager();
-                paintManager.repaintManager = this;
+        PbintMbnbger pbintMbnbger = getPbintMbnbger();
+        if (!isPbintingThrebd()) {
+            // We're pbinting to two threbds bt once.  PbintMbnbger debls
+            // with this b bit better thbn BufferStrbtegyPbintMbnbger, use
+            // it to bvoid possible exceptions/corruption.
+            if (pbintMbnbger.getClbss() != PbintMbnbger.clbss) {
+                pbintMbnbger = new PbintMbnbger();
+                pbintMbnbger.repbintMbnbger = this;
             }
         }
-        if (!paintManager.paint(paintingComponent, bufferComponent, g,
+        if (!pbintMbnbger.pbint(pbintingComponent, bufferComponent, g,
                                 x, y, w, h)) {
             g.setClip(x, y, w, h);
-            paintingComponent.paintToOffscreen(g, x, y, w, h, x + w, y + h);
+            pbintingComponent.pbintToOffscreen(g, x, y, w, h, x + w, y + h);
         }
     }
 
     /**
-     * Does a copy area on the specified region.
+     * Does b copy breb on the specified region.
      *
-     * @param clip Whether or not the copyArea needs to be clipped to the
+     * @pbrbm clip Whether or not the copyAreb needs to be clipped to the
      *             Component's bounds.
      */
-    void copyArea(JComponent c, Graphics g, int x, int y, int w, int h,
-                  int deltaX, int deltaY, boolean clip) {
-        getPaintManager().copyArea(c, g, x, y, w, h, deltaX, deltaY, clip);
+    void copyAreb(JComponent c, Grbphics g, int x, int y, int w, int h,
+                  int deltbX, int deltbY, boolebn clip) {
+        getPbintMbnbger().copyAreb(c, g, x, y, w, h, deltbX, deltbY, clip);
     }
 
-    private java.util.List<RepaintListener> repaintListeners = new ArrayList<>(1);
+    privbte jbvb.util.List<RepbintListener> repbintListeners = new ArrbyList<>(1);
 
-    private void addRepaintListener(RepaintListener l) {
-        repaintListeners.add(l);
+    privbte void bddRepbintListener(RepbintListener l) {
+        repbintListeners.bdd(l);
     }
 
-    private void removeRepaintListener(RepaintListener l) {
-        repaintListeners.remove(l);
+    privbte void removeRepbintListener(RepbintListener l) {
+        repbintListeners.remove(l);
     }
 
     /**
-     * Notify the attached repaint listeners that an area of the {@code c} component
-     * has been immediately repainted, that is without scheduling a repaint runnable,
-     * due to performing a "blit" (via calling the {@code copyArea} method).
+     * Notify the bttbched repbint listeners thbt bn breb of the {@code c} component
+     * hbs been immedibtely repbinted, thbt is without scheduling b repbint runnbble,
+     * due to performing b "blit" (vib cblling the {@code copyAreb} method).
      *
-     * @param c the component
-     * @param x the x coordinate of the area
-     * @param y the y coordinate of the area
-     * @param w the width of the area
-     * @param h the height of the area
+     * @pbrbm c the component
+     * @pbrbm x the x coordinbte of the breb
+     * @pbrbm y the y coordinbte of the breb
+     * @pbrbm w the width of the breb
+     * @pbrbm h the height of the breb
      */
-    void notifyRepaintPerformed(JComponent c, int x, int y, int w, int h) {
-        for (RepaintListener l : repaintListeners) {
-            l.repaintPerformed(c, x, y, w, h);
+    void notifyRepbintPerformed(JComponent c, int x, int y, int w, int h) {
+        for (RepbintListener l : repbintListeners) {
+            l.repbintPerformed(c, x, y, w, h);
         }
     }
 
     /**
-     * Invoked prior to any paint/copyArea method calls.  This will
-     * be followed by an invocation of <code>endPaint</code>.
-     * <b>WARNING</b>: Callers of this method need to wrap the call
-     * in a <code>try/finally</code>, otherwise if an exception is thrown
-     * during the course of painting the RepaintManager may
-     * be left in a state in which the screen is not updated, eg:
+     * Invoked prior to bny pbint/copyAreb method cblls.  This will
+     * be followed by bn invocbtion of <code>endPbint</code>.
+     * <b>WARNING</b>: Cbllers of this method need to wrbp the cbll
+     * in b <code>try/finblly</code>, otherwise if bn exception is thrown
+     * during the course of pbinting the RepbintMbnbger mby
+     * be left in b stbte in which the screen is not updbted, eg:
      * <pre>
-     * repaintManager.beginPaint();
+     * repbintMbnbger.beginPbint();
      * try {
-     *   repaintManager.paint(...);
-     * } finally {
-     *   repaintManager.endPaint();
+     *   repbintMbnbger.pbint(...);
+     * } finblly {
+     *   repbintMbnbger.endPbint();
      * }
      * </pre>
      */
-    void beginPaint() {
-        boolean multiThreadedPaint = false;
-        int paintDepth;
-        Thread currentThread = Thread.currentThread();
+    void beginPbint() {
+        boolebn multiThrebdedPbint = fblse;
+        int pbintDepth;
+        Threbd currentThrebd = Threbd.currentThrebd();
         synchronized(this) {
-            paintDepth = this.paintDepth;
-            if (paintThread == null || currentThread == paintThread) {
-                paintThread = currentThread;
-                this.paintDepth++;
+            pbintDepth = this.pbintDepth;
+            if (pbintThrebd == null || currentThrebd == pbintThrebd) {
+                pbintThrebd = currentThrebd;
+                this.pbintDepth++;
             } else {
-                multiThreadedPaint = true;
+                multiThrebdedPbint = true;
             }
         }
-        if (!multiThreadedPaint && paintDepth == 0) {
-            getPaintManager().beginPaint();
+        if (!multiThrebdedPbint && pbintDepth == 0) {
+            getPbintMbnbger().beginPbint();
         }
     }
 
     /**
-     * Invoked after <code>beginPaint</code> has been invoked.
+     * Invoked bfter <code>beginPbint</code> hbs been invoked.
      */
-    void endPaint() {
-        if (isPaintingThread()) {
-            PaintManager paintManager = null;
+    void endPbint() {
+        if (isPbintingThrebd()) {
+            PbintMbnbger pbintMbnbger = null;
             synchronized(this) {
-                if (--paintDepth == 0) {
-                    paintManager = getPaintManager();
+                if (--pbintDepth == 0) {
+                    pbintMbnbger = getPbintMbnbger();
                 }
             }
-            if (paintManager != null) {
-                paintManager.endPaint();
+            if (pbintMbnbger != null) {
+                pbintMbnbger.endPbint();
                 synchronized(this) {
-                    paintThread = null;
+                    pbintThrebd = null;
                 }
             }
         }
     }
 
     /**
-     * If possible this will show a previously rendered portion of
-     * a Component.  If successful, this will return true, otherwise false.
+     * If possible this will show b previously rendered portion of
+     * b Component.  If successful, this will return true, otherwise fblse.
      * <p>
-     * WARNING: This method is invoked from the native toolkit thread, be
-     * very careful as to what methods this invokes!
+     * WARNING: This method is invoked from the nbtive toolkit threbd, be
+     * very cbreful bs to whbt methods this invokes!
      */
-    boolean show(Container c, int x, int y, int w, int h) {
-        return getPaintManager().show(c, x, y, w, h);
+    boolebn show(Contbiner c, int x, int y, int w, int h) {
+        return getPbintMbnbger().show(c, x, y, w, h);
     }
 
     /**
      * Invoked when the doubleBuffered or useTrueDoubleBuffering
-     * properties of a JRootPane change.  This may come in on any thread.
+     * properties of b JRootPbne chbnge.  This mby come in on bny threbd.
      */
-    void doubleBufferingChanged(JRootPane rootPane) {
-        getPaintManager().doubleBufferingChanged(rootPane);
+    void doubleBufferingChbnged(JRootPbne rootPbne) {
+        getPbintMbnbger().doubleBufferingChbnged(rootPbne);
     }
 
     /**
-     * Sets the <code>PaintManager</code> that is used to handle all
-     * double buffered painting.
+     * Sets the <code>PbintMbnbger</code> thbt is used to hbndle bll
+     * double buffered pbinting.
      *
-     * @param paintManager The PaintManager to use.  Passing in null indicates
-     *        the fallback PaintManager should be used.
+     * @pbrbm pbintMbnbger The PbintMbnbger to use.  Pbssing in null indicbtes
+     *        the fbllbbck PbintMbnbger should be used.
      */
-    void setPaintManager(PaintManager paintManager) {
-        if (paintManager == null) {
-            paintManager = new PaintManager();
+    void setPbintMbnbger(PbintMbnbger pbintMbnbger) {
+        if (pbintMbnbger == null) {
+            pbintMbnbger = new PbintMbnbger();
         }
-        PaintManager oldPaintManager;
+        PbintMbnbger oldPbintMbnbger;
         synchronized(this) {
-            oldPaintManager = this.paintManager;
-            this.paintManager = paintManager;
-            paintManager.repaintManager = this;
+            oldPbintMbnbger = this.pbintMbnbger;
+            this.pbintMbnbger = pbintMbnbger;
+            pbintMbnbger.repbintMbnbger = this;
         }
-        if (oldPaintManager != null) {
-            oldPaintManager.dispose();
+        if (oldPbintMbnbger != null) {
+            oldPbintMbnbger.dispose();
         }
     }
 
-    private synchronized PaintManager getPaintManager() {
-        if (paintManager == null) {
-            PaintManager paintManager = null;
-            if (doubleBufferingEnabled && !nativeDoubleBuffering) {
-                switch (bufferStrategyType) {
-                case BUFFER_STRATEGY_NOT_SPECIFIED:
-                    Toolkit tk = Toolkit.getDefaultToolkit();
-                    if (tk instanceof SunToolkit) {
+    privbte synchronized PbintMbnbger getPbintMbnbger() {
+        if (pbintMbnbger == null) {
+            PbintMbnbger pbintMbnbger = null;
+            if (doubleBufferingEnbbled && !nbtiveDoubleBuffering) {
+                switch (bufferStrbtegyType) {
+                cbse BUFFER_STRATEGY_NOT_SPECIFIED:
+                    Toolkit tk = Toolkit.getDefbultToolkit();
+                    if (tk instbnceof SunToolkit) {
                         SunToolkit stk = (SunToolkit) tk;
                         if (stk.useBufferPerWindow()) {
-                            paintManager = new BufferStrategyPaintManager();
+                            pbintMbnbger = new BufferStrbtegyPbintMbnbger();
                         }
                     }
-                    break;
-                case BUFFER_STRATEGY_SPECIFIED_ON:
-                    paintManager = new BufferStrategyPaintManager();
-                    break;
-                default:
-                    break;
+                    brebk;
+                cbse BUFFER_STRATEGY_SPECIFIED_ON:
+                    pbintMbnbger = new BufferStrbtegyPbintMbnbger();
+                    brebk;
+                defbult:
+                    brebk;
                 }
             }
-            // null case handled in setPaintManager
-            setPaintManager(paintManager);
+            // null cbse hbndled in setPbintMbnbger
+            setPbintMbnbger(pbintMbnbger);
         }
-        return paintManager;
+        return pbintMbnbger;
     }
 
-    private void scheduleProcessingRunnable(AppContext context) {
-        if (processingRunnable.markPending()) {
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            if (tk instanceof SunToolkit) {
+    privbte void scheduleProcessingRunnbble(AppContext context) {
+        if (processingRunnbble.mbrkPending()) {
+            Toolkit tk = Toolkit.getDefbultToolkit();
+            if (tk instbnceof SunToolkit) {
                 SunToolkit.getSystemEventQueueImplPP(context).
-                  postEvent(new InvocationEvent(Toolkit.getDefaultToolkit(),
-                                                processingRunnable));
+                  postEvent(new InvocbtionEvent(Toolkit.getDefbultToolkit(),
+                                                processingRunnbble));
             } else {
-                Toolkit.getDefaultToolkit().getSystemEventQueue().
-                      postEvent(new InvocationEvent(Toolkit.getDefaultToolkit(),
-                                                    processingRunnable));
+                Toolkit.getDefbultToolkit().getSystemEventQueue().
+                      postEvent(new InvocbtionEvent(Toolkit.getDefbultToolkit(),
+                                                    processingRunnbble));
             }
         }
     }
 
 
     /**
-     * PaintManager is used to handle all double buffered painting for
-     * Swing.  Subclasses should call back into the JComponent method
-     * <code>paintToOffscreen</code> to handle the actual painting.
+     * PbintMbnbger is used to hbndle bll double buffered pbinting for
+     * Swing.  Subclbsses should cbll bbck into the JComponent method
+     * <code>pbintToOffscreen</code> to hbndle the bctubl pbinting.
      */
-    static class PaintManager {
+    stbtic clbss PbintMbnbger {
         /**
-         * RepaintManager the PaintManager has been installed on.
+         * RepbintMbnbger the PbintMbnbger hbs been instblled on.
          */
-        protected RepaintManager repaintManager;
-        boolean isRepaintingRoot;
+        protected RepbintMbnbger repbintMbnbger;
+        boolebn isRepbintingRoot;
 
         /**
-         * Paints a region of a component
+         * Pbints b region of b component
          *
-         * @param paintingComponent Component to paint
-         * @param bufferComponent Component to obtain buffer for
-         * @param g Graphics to paint to
-         * @param x X-coordinate
-         * @param y Y-coordinate
-         * @param w Width
-         * @param h Height
-         * @return true if painting was successful.
+         * @pbrbm pbintingComponent Component to pbint
+         * @pbrbm bufferComponent Component to obtbin buffer for
+         * @pbrbm g Grbphics to pbint to
+         * @pbrbm x X-coordinbte
+         * @pbrbm y Y-coordinbte
+         * @pbrbm w Width
+         * @pbrbm h Height
+         * @return true if pbinting wbs successful.
          */
-        public boolean paint(JComponent paintingComponent,
-                             JComponent bufferComponent, Graphics g,
+        public boolebn pbint(JComponent pbintingComponent,
+                             JComponent bufferComponent, Grbphics g,
                              int x, int y, int w, int h) {
-            // First attempt to use VolatileImage buffer for performance.
-            // If this fails (which should rarely occur), fallback to a
-            // standard Image buffer.
-            boolean paintCompleted = false;
-            Image offscreen;
-            if (repaintManager.useVolatileDoubleBuffer() &&
-                (offscreen = getValidImage(repaintManager.
-                getVolatileOffscreenBuffer(bufferComponent, w, h))) != null) {
-                VolatileImage vImage = (java.awt.image.VolatileImage)offscreen;
-                GraphicsConfiguration gc = bufferComponent.
-                                            getGraphicsConfiguration();
-                for (int i = 0; !paintCompleted &&
-                         i < RepaintManager.VOLATILE_LOOP_MAX; i++) {
-                    if (vImage.validate(gc) ==
-                                   VolatileImage.IMAGE_INCOMPATIBLE) {
-                        repaintManager.resetVolatileDoubleBuffer(gc);
-                        offscreen = repaintManager.getVolatileOffscreenBuffer(
+            // First bttempt to use VolbtileImbge buffer for performbnce.
+            // If this fbils (which should rbrely occur), fbllbbck to b
+            // stbndbrd Imbge buffer.
+            boolebn pbintCompleted = fblse;
+            Imbge offscreen;
+            if (repbintMbnbger.useVolbtileDoubleBuffer() &&
+                (offscreen = getVblidImbge(repbintMbnbger.
+                getVolbtileOffscreenBuffer(bufferComponent, w, h))) != null) {
+                VolbtileImbge vImbge = (jbvb.bwt.imbge.VolbtileImbge)offscreen;
+                GrbphicsConfigurbtion gc = bufferComponent.
+                                            getGrbphicsConfigurbtion();
+                for (int i = 0; !pbintCompleted &&
+                         i < RepbintMbnbger.VOLATILE_LOOP_MAX; i++) {
+                    if (vImbge.vblidbte(gc) ==
+                                   VolbtileImbge.IMAGE_INCOMPATIBLE) {
+                        repbintMbnbger.resetVolbtileDoubleBuffer(gc);
+                        offscreen = repbintMbnbger.getVolbtileOffscreenBuffer(
                             bufferComponent,w, h);
-                        vImage = (java.awt.image.VolatileImage)offscreen;
+                        vImbge = (jbvb.bwt.imbge.VolbtileImbge)offscreen;
                     }
-                    paintDoubleBuffered(paintingComponent, vImage, g, x, y,
+                    pbintDoubleBuffered(pbintingComponent, vImbge, g, x, y,
                                         w, h);
-                    paintCompleted = !vImage.contentsLost();
+                    pbintCompleted = !vImbge.contentsLost();
                 }
             }
-            // VolatileImage painting loop failed, fallback to regular
+            // VolbtileImbge pbinting loop fbiled, fbllbbck to regulbr
             // offscreen buffer
-            if (!paintCompleted && (offscreen = getValidImage(
-                      repaintManager.getOffscreenBuffer(
+            if (!pbintCompleted && (offscreen = getVblidImbge(
+                      repbintMbnbger.getOffscreenBuffer(
                       bufferComponent, w, h))) != null) {
-                paintDoubleBuffered(paintingComponent, offscreen, g, x, y, w,
+                pbintDoubleBuffered(pbintingComponent, offscreen, g, x, y, w,
                                     h);
-                paintCompleted = true;
+                pbintCompleted = true;
             }
-            return paintCompleted;
+            return pbintCompleted;
         }
 
         /**
-         * Does a copy area on the specified region.
+         * Does b copy breb on the specified region.
          */
-        public void copyArea(JComponent c, Graphics g, int x, int y, int w,
-                             int h, int deltaX, int deltaY, boolean clip) {
-            g.copyArea(x, y, w, h, deltaX, deltaY);
+        public void copyAreb(JComponent c, Grbphics g, int x, int y, int w,
+                             int h, int deltbX, int deltbY, boolebn clip) {
+            g.copyAreb(x, y, w, h, deltbX, deltbY);
         }
 
         /**
-         * Invoked prior to any calls to paint or copyArea.
+         * Invoked prior to bny cblls to pbint or copyAreb.
          */
-        public void beginPaint() {
+        public void beginPbint() {
         }
 
         /**
-         * Invoked to indicate painting has been completed.
+         * Invoked to indicbte pbinting hbs been completed.
          */
-        public void endPaint() {
+        public void endPbint() {
         }
 
         /**
-         * Shows a region of a previously rendered component.  This
-         * will return true if successful, false otherwise.  The default
-         * implementation returns false.
+         * Shows b region of b previously rendered component.  This
+         * will return true if successful, fblse otherwise.  The defbult
+         * implementbtion returns fblse.
          */
-        public boolean show(Container c, int x, int y, int w, int h) {
-            return false;
+        public boolebn show(Contbiner c, int x, int y, int w, int h) {
+            return fblse;
         }
 
         /**
          * Invoked when the doubleBuffered or useTrueDoubleBuffering
-         * properties of a JRootPane change.  This may come in on any thread.
+         * properties of b JRootPbne chbnge.  This mby come in on bny threbd.
          */
-        public void doubleBufferingChanged(JRootPane rootPane) {
+        public void doubleBufferingChbnged(JRootPbne rootPbne) {
         }
 
         /**
-         * Paints a portion of a component to an offscreen buffer.
+         * Pbints b portion of b component to bn offscreen buffer.
          */
-        protected void paintDoubleBuffered(JComponent c, Image image,
-                            Graphics g, int clipX, int clipY,
+        protected void pbintDoubleBuffered(JComponent c, Imbge imbge,
+                            Grbphics g, int clipX, int clipY,
                             int clipW, int clipH) {
-            Graphics osg = image.getGraphics();
-            int bw = Math.min(clipW, image.getWidth(null));
-            int bh = Math.min(clipH, image.getHeight(null));
-            int x,y,maxx,maxy;
+            Grbphics osg = imbge.getGrbphics();
+            int bw = Mbth.min(clipW, imbge.getWidth(null));
+            int bh = Mbth.min(clipH, imbge.getHeight(null));
+            int x,y,mbxx,mbxy;
 
             try {
-                for(x = clipX, maxx = clipX+clipW; x < maxx ;  x += bw ) {
-                    for(y=clipY, maxy = clipY + clipH; y < maxy ; y += bh) {
-                        osg.translate(-x, -y);
+                for(x = clipX, mbxx = clipX+clipW; x < mbxx ;  x += bw ) {
+                    for(y=clipY, mbxy = clipY + clipH; y < mbxy ; y += bh) {
+                        osg.trbnslbte(-x, -y);
                         osg.setClip(x,y,bw,bh);
-                        if (volatileBufferType != Transparency.OPAQUE
-                                && osg instanceof Graphics2D) {
-                            final Graphics2D g2d = (Graphics2D) osg;
-                            final Color oldBg = g2d.getBackground();
-                            g2d.setBackground(c.getBackground());
-                            g2d.clearRect(x, y, bw, bh);
-                            g2d.setBackground(oldBg);
+                        if (volbtileBufferType != Trbnspbrency.OPAQUE
+                                && osg instbnceof Grbphics2D) {
+                            finbl Grbphics2D g2d = (Grbphics2D) osg;
+                            finbl Color oldBg = g2d.getBbckground();
+                            g2d.setBbckground(c.getBbckground());
+                            g2d.clebrRect(x, y, bw, bh);
+                            g2d.setBbckground(oldBg);
                         }
-                        c.paintToOffscreen(osg, x, y, bw, bh, maxx, maxy);
+                        c.pbintToOffscreen(osg, x, y, bw, bh, mbxx, mbxy);
                         g.setClip(x, y, bw, bh);
-                        if (volatileBufferType != Transparency.OPAQUE
-                                && g instanceof Graphics2D) {
-                            final Graphics2D g2d = (Graphics2D) g;
-                            final Composite oldComposite = g2d.getComposite();
-                            g2d.setComposite(AlphaComposite.Src);
-                            g2d.drawImage(image, x, y, c);
+                        if (volbtileBufferType != Trbnspbrency.OPAQUE
+                                && g instbnceof Grbphics2D) {
+                            finbl Grbphics2D g2d = (Grbphics2D) g;
+                            finbl Composite oldComposite = g2d.getComposite();
+                            g2d.setComposite(AlphbComposite.Src);
+                            g2d.drbwImbge(imbge, x, y, c);
                             g2d.setComposite(oldComposite);
                         } else {
-                            g.drawImage(image, x, y, c);
+                            g.drbwImbge(imbge, x, y, c);
                         }
-                        osg.translate(x, y);
+                        osg.trbnslbte(x, y);
                     }
                 }
-            } finally {
+            } finblly {
                 osg.dispose();
             }
         }
 
         /**
-         * If <code>image</code> is non-null with a positive size it
+         * If <code>imbge</code> is non-null with b positive size it
          * is returned, otherwise null is returned.
          */
-        private Image getValidImage(Image image) {
-            if (image != null && image.getWidth(null) > 0 &&
-                                 image.getHeight(null) > 0) {
-                return image;
+        privbte Imbge getVblidImbge(Imbge imbge) {
+            if (imbge != null && imbge.getWidth(null) > 0 &&
+                                 imbge.getHeight(null) > 0) {
+                return imbge;
             }
             return null;
         }
 
         /**
-         * Schedules a repaint for the specified component.  This differs
-         * from <code>root.repaint</code> in that if the RepaintManager is
-         * currently processing paint requests it'll process this request
+         * Schedules b repbint for the specified component.  This differs
+         * from <code>root.repbint</code> in thbt if the RepbintMbnbger is
+         * currently processing pbint requests it'll process this request
          * with the current set of requests.
          */
-        protected void repaintRoot(JComponent root) {
-            assert (repaintManager.repaintRoot == null);
-            if (repaintManager.painting) {
-                repaintManager.repaintRoot = root;
+        protected void repbintRoot(JComponent root) {
+            bssert (repbintMbnbger.repbintRoot == null);
+            if (repbintMbnbger.pbinting) {
+                repbintMbnbger.repbintRoot = root;
             }
             else {
-                root.repaint();
+                root.repbint();
             }
         }
 
         /**
-         * Returns true if the component being painted is the root component
-         * that was previously passed to <code>repaintRoot</code>.
+         * Returns true if the component being pbinted is the root component
+         * thbt wbs previously pbssed to <code>repbintRoot</code>.
          */
-        protected boolean isRepaintingRoot() {
-            return isRepaintingRoot;
+        protected boolebn isRepbintingRoot() {
+            return isRepbintingRoot;
         }
 
         /**
-         * Cleans up any state.  After invoked the PaintManager will no
-         * longer be used anymore.
+         * Clebns up bny stbte.  After invoked the PbintMbnbger will no
+         * longer be used bnymore.
          */
         protected void dispose() {
         }
     }
 
 
-    private class DoubleBufferInfo {
-        public Image image;
+    privbte clbss DoubleBufferInfo {
+        public Imbge imbge;
         public Dimension size;
-        public boolean needsReset = false;
+        public boolebn needsReset = fblse;
     }
 
 
     /**
-     * Listener installed to detect display changes. When display changes,
-     * schedules a callback to notify all RepaintManagers of the display
-     * changes. Only one DisplayChangedHandler is ever installed. The
-     * singleton instance will schedule notification for all AppContexts.
+     * Listener instblled to detect displby chbnges. When displby chbnges,
+     * schedules b cbllbbck to notify bll RepbintMbnbgers of the displby
+     * chbnges. Only one DisplbyChbngedHbndler is ever instblled. The
+     * singleton instbnce will schedule notificbtion for bll AppContexts.
      */
-    private static final class DisplayChangedHandler implements
-                                             DisplayChangedListener {
-        public void displayChanged() {
-            scheduleDisplayChanges();
+    privbte stbtic finbl clbss DisplbyChbngedHbndler implements
+                                             DisplbyChbngedListener {
+        public void displbyChbnged() {
+            scheduleDisplbyChbnges();
         }
 
-        public void paletteChanged() {
+        public void pbletteChbnged() {
         }
 
-        private void scheduleDisplayChanges() {
-            // To avoid threading problems, we notify each RepaintManager
-            // on the thread it was created on.
+        privbte void scheduleDisplbyChbnges() {
+            // To bvoid threbding problems, we notify ebch RepbintMbnbger
+            // on the threbd it wbs crebted on.
             for (Object c : AppContext.getAppContexts()) {
                 AppContext context = (AppContext) c;
                 synchronized(context) {
@@ -1696,9 +1696,9 @@ public class RepaintManager
                         EventQueue eventQueue = (EventQueue)context.get(
                             AppContext.EVENT_QUEUE_KEY);
                         if (eventQueue != null) {
-                            eventQueue.postEvent(new InvocationEvent(
-                                Toolkit.getDefaultToolkit(),
-                                new DisplayChangedRunnable()));
+                            eventQueue.postEvent(new InvocbtionEvent(
+                                Toolkit.getDefbultToolkit(),
+                                new DisplbyChbngedRunnbble()));
                         }
                     }
                 }
@@ -1707,54 +1707,54 @@ public class RepaintManager
     }
 
 
-    private static final class DisplayChangedRunnable implements Runnable {
+    privbte stbtic finbl clbss DisplbyChbngedRunnbble implements Runnbble {
         public void run() {
-            RepaintManager.currentManager((JComponent)null).displayChanged();
+            RepbintMbnbger.currentMbnbger((JComponent)null).displbyChbnged();
         }
     }
 
 
     /**
-     * Runnable used to process all repaint/revalidate requests.
+     * Runnbble used to process bll repbint/revblidbte requests.
      */
-    private final class ProcessingRunnable implements Runnable {
-        // If true, we're wainting on the EventQueue.
-        private boolean pending;
+    privbte finbl clbss ProcessingRunnbble implements Runnbble {
+        // If true, we're wbinting on the EventQueue.
+        privbte boolebn pending;
 
         /**
-         * Marks this processing runnable as pending. If this was not
-         * already marked as pending, true is returned.
+         * Mbrks this processing runnbble bs pending. If this wbs not
+         * blrebdy mbrked bs pending, true is returned.
          */
-        public synchronized boolean markPending() {
+        public synchronized boolebn mbrkPending() {
             if (!pending) {
                 pending = true;
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         public void run() {
             synchronized (this) {
-                pending = false;
+                pending = fblse;
             }
-            // First pass, flush any heavy paint events into real paint
-            // events.  If there are pending heavy weight requests this will
+            // First pbss, flush bny hebvy pbint events into rebl pbint
+            // events.  If there bre pending hebvy weight requests this will
             // result in q'ing this request up one more time.  As
-            // long as no other requests come in between now and the time
-            // the second one is processed nothing will happen.  This is not
-            // ideal, but the logic needed to suppress the second request is
-            // more headache than it's worth.
-            scheduleHeavyWeightPaints();
-            // Do the actual validation and painting.
-            validateInvalidComponents();
-            prePaintDirtyRegions();
+            // long bs no other requests come in between now bnd the time
+            // the second one is processed nothing will hbppen.  This is not
+            // idebl, but the logic needed to suppress the second request is
+            // more hebdbche thbn it's worth.
+            scheduleHebvyWeightPbints();
+            // Do the bctubl vblidbtion bnd pbinting.
+            vblidbteInvblidComponents();
+            prePbintDirtyRegions();
         }
     }
-    private RepaintManager getDelegate(Component c) {
-        RepaintManager delegate = SwingUtilities3.getDelegateRepaintManager(c);
-        if (this == delegate) {
-            delegate = null;
+    privbte RepbintMbnbger getDelegbte(Component c) {
+        RepbintMbnbger delegbte = SwingUtilities3.getDelegbteRepbintMbnbger(c);
+        if (this == delegbte) {
+            delegbte = null;
         }
-        return delegate;
+        return delegbte;
     }
 }

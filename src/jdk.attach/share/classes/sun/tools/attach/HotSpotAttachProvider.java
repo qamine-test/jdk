@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.tools.attach;
+pbckbge sun.tools.bttbch;
 
-import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.AttachPermission;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.spi.AttachProvider;
+import com.sun.tools.bttbch.VirtublMbchineDescriptor;
+import com.sun.tools.bttbch.VirtublMbchine;
+import com.sun.tools.bttbch.AttbchPermission;
+import com.sun.tools.bttbch.AttbchNotSupportedException;
+import com.sun.tools.bttbch.spi.AttbchProvider;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Set;
-import java.net.URISyntaxException;
+import jbvb.io.IOException;
+import jbvb.util.List;
+import jbvb.util.Iterbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.Set;
+import jbvb.net.URISyntbxException;
 
-import sun.jvmstat.monitor.HostIdentifier;
-import sun.jvmstat.monitor.Monitor;
-import sun.jvmstat.monitor.MonitoredHost;
-import sun.jvmstat.monitor.MonitoredVm;
-import sun.jvmstat.monitor.MonitoredVmUtil;
-import sun.jvmstat.monitor.VmIdentifier;
-import sun.jvmstat.monitor.MonitorException;
+import sun.jvmstbt.monitor.HostIdentifier;
+import sun.jvmstbt.monitor.Monitor;
+import sun.jvmstbt.monitor.MonitoredHost;
+import sun.jvmstbt.monitor.MonitoredVm;
+import sun.jvmstbt.monitor.MonitoredVmUtil;
+import sun.jvmstbt.monitor.VmIdentifier;
+import sun.jvmstbt.monitor.MonitorException;
 
 /*
- * Platform specific provider implementations extend this
+ * Plbtform specific provider implementbtions extend this
  */
-public abstract class HotSpotAttachProvider extends AttachProvider {
+public bbstrbct clbss HotSpotAttbchProvider extends AttbchProvider {
 
-    // perf count name for the JVM version
-    private static final String JVM_VERSION = "java.property.java.vm.version";
+    // perf count nbme for the JVM version
+    privbte stbtic finbl String JVM_VERSION = "jbvb.property.jbvb.vm.version";
 
-    public HotSpotAttachProvider() {
+    public HotSpotAttbchProvider() {
     }
 
-    public void checkAttachPermission() {
-        SecurityManager sm = System.getSecurityManager();
+    public void checkAttbchPermission() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(
-                new AttachPermission("attachVirtualMachine")
+                new AttbchPermission("bttbchVirtublMbchine")
             );
         }
     }
 
     /*
-     * This listVirtualMachines implementation is based on jvmstat. Can override
-     * this in platform implementations when there is a more efficient mechanism
-     * available.
+     * This listVirtublMbchines implementbtion is bbsed on jvmstbt. Cbn override
+     * this in plbtform implementbtions when there is b more efficient mechbnism
+     * bvbilbble.
      */
-    public List<VirtualMachineDescriptor> listVirtualMachines() {
-        ArrayList<VirtualMachineDescriptor> result =
-            new ArrayList<VirtualMachineDescriptor>();
+    public List<VirtublMbchineDescriptor> listVirtublMbchines() {
+        ArrbyList<VirtublMbchineDescriptor> result =
+            new ArrbyList<VirtublMbchineDescriptor>();
 
         MonitoredHost host;
         Set<Integer> vms;
         try {
             host = MonitoredHost.getMonitoredHost(new HostIdentifier((String)null));
-            vms = host.activeVms();
-        } catch (Throwable t) {
-            if (t instanceof ExceptionInInitializerError) {
-                t = t.getCause();
+            vms = host.bctiveVms();
+        } cbtch (Throwbble t) {
+            if (t instbnceof ExceptionInInitiblizerError) {
+                t = t.getCbuse();
             }
-            if (t instanceof ThreadDeath) {
-                throw (ThreadDeath)t;
+            if (t instbnceof ThrebdDebth) {
+                throw (ThrebdDebth)t;
             }
-            if (t instanceof SecurityException) {
+            if (t instbnceof SecurityException) {
                 return result;
             }
-            throw new InternalError(t);          // shouldn't happen
+            throw new InternblError(t);          // shouldn't hbppen
         }
 
         for (Integer vmid: vms) {
             String pid = vmid.toString();
-            String name = pid;      // default to pid if name not available
-            boolean isAttachable = false;
+            String nbme = pid;      // defbult to pid if nbme not bvbilbble
+            boolebn isAttbchbble = fblse;
             MonitoredVm mvm = null;
             try {
                 mvm = host.getMonitoredVm(new VmIdentifier(pid));
                 try {
-                    isAttachable = MonitoredVmUtil.isAttachable(mvm);
-                    // use the command line as the display name
-                    name =  MonitoredVmUtil.commandLine(mvm);
-                } catch (Exception e) {
+                    isAttbchbble = MonitoredVmUtil.isAttbchbble(mvm);
+                    // use the commbnd line bs the displby nbme
+                    nbme =  MonitoredVmUtil.commbndLine(mvm);
+                } cbtch (Exception e) {
                 }
-                if (isAttachable) {
-                    result.add(new HotSpotVirtualMachineDescriptor(this, pid, name));
+                if (isAttbchbble) {
+                    result.bdd(new HotSpotVirtublMbchineDescriptor(this, pid, nbme));
                 }
-            } catch (Throwable t) {
-                if (t instanceof ThreadDeath) {
-                    throw (ThreadDeath)t;
+            } cbtch (Throwbble t) {
+                if (t instbnceof ThrebdDebth) {
+                    throw (ThrebdDebth)t;
                 }
-            } finally {
+            } finblly {
                 if (mvm != null) {
-                    mvm.detach();
+                    mvm.detbch();
                 }
             }
         }
@@ -122,59 +122,59 @@ public abstract class HotSpotAttachProvider extends AttachProvider {
     }
 
     /**
-     * Test if a VM is attachable. If it's not attachable,
-     * an AttachNotSupportedException will be thrown. For example,
-     * 1.4.2 or 5.0 VM are not attachable. There are cases that
-     * we can't determine if a VM is attachable or not and this method
+     * Test if b VM is bttbchbble. If it's not bttbchbble,
+     * bn AttbchNotSupportedException will be thrown. For exbmple,
+     * 1.4.2 or 5.0 VM bre not bttbchbble. There bre cbses thbt
+     * we cbn't determine if b VM is bttbchbble or not bnd this method
      * will just return.
      *
-     * This method uses the jvmstat counter to determine if a VM
-     * is attachable. If the target VM does not have a jvmstat
-     * share memory buffer, this method returns.
+     * This method uses the jvmstbt counter to determine if b VM
+     * is bttbchbble. If the tbrget VM does not hbve b jvmstbt
+     * shbre memory buffer, this method returns.
      *
-     * @exception AttachNotSupportedException if it's not attachable
+     * @exception AttbchNotSupportedException if it's not bttbchbble
      */
-    void testAttachable(String id) throws AttachNotSupportedException {
+    void testAttbchbble(String id) throws AttbchNotSupportedException {
         MonitoredVm mvm = null;
         try {
             VmIdentifier vmid = new VmIdentifier(id);
             MonitoredHost host = MonitoredHost.getMonitoredHost(vmid);
             mvm = host.getMonitoredVm(vmid);
 
-            if (MonitoredVmUtil.isAttachable(mvm)) {
-                // it's attachable; so return false
+            if (MonitoredVmUtil.isAttbchbble(mvm)) {
+                // it's bttbchbble; so return fblse
                 return;
             }
-        } catch (Throwable t) {
-            if (t instanceof ThreadDeath) {
-                ThreadDeath td = (ThreadDeath)t;
+        } cbtch (Throwbble t) {
+            if (t instbnceof ThrebdDebth) {
+                ThrebdDebth td = (ThrebdDebth)t;
                 throw td;
             }
-            // we do not know what this id is
+            // we do not know whbt this id is
             return;
-        } finally {
+        } finblly {
             if (mvm != null) {
-                mvm.detach();
+                mvm.detbch();
             }
         }
 
-        // we're sure it's not attachable; throw exception
-        throw new AttachNotSupportedException(
-                  "The VM does not support the attach mechanism");
+        // we're sure it's not bttbchbble; throw exception
+        throw new AttbchNotSupportedException(
+                  "The VM does not support the bttbch mechbnism");
     }
 
 
     /**
-     * A virtual machine descriptor to describe a HotSpot virtual machine.
+     * A virtubl mbchine descriptor to describe b HotSpot virtubl mbchine.
      */
-    static class HotSpotVirtualMachineDescriptor extends VirtualMachineDescriptor {
-        HotSpotVirtualMachineDescriptor(AttachProvider provider,
+    stbtic clbss HotSpotVirtublMbchineDescriptor extends VirtublMbchineDescriptor {
+        HotSpotVirtublMbchineDescriptor(AttbchProvider provider,
                                         String id,
-                                        String displayName) {
-            super(provider, id, displayName);
+                                        String displbyNbme) {
+            super(provider, id, displbyNbme);
         }
 
-        public boolean isAttachable() {
+        public boolebn isAttbchbble() {
             return true;
         }
     }

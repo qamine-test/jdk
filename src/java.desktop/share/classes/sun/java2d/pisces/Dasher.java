@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pisces;
+pbckbge sun.jbvb2d.pisces;
 
-import sun.awt.geom.PathConsumer2D;
+import sun.bwt.geom.PbthConsumer2D;
 
 /**
- * The <code>Dasher</code> class takes a series of linear commands
- * (<code>moveTo</code>, <code>lineTo</code>, <code>close</code> and
- * <code>end</code>) and breaks them into smaller segments according to a
- * dash pattern array and a starting dash phase.
+ * The <code>Dbsher</code> clbss tbkes b series of linebr commbnds
+ * (<code>moveTo</code>, <code>lineTo</code>, <code>close</code> bnd
+ * <code>end</code>) bnd brebks them into smbller segments bccording to b
+ * dbsh pbttern brrby bnd b stbrting dbsh phbse.
  *
- * <p> Issues: in J2Se, a zero length dash segment as drawn as a very
- * short dash, whereas Pisces does not draw anything.  The PostScript
- * semantics are unclear.
+ * <p> Issues: in J2Se, b zero length dbsh segment bs drbwn bs b very
+ * short dbsh, wherebs Pisces does not drbw bnything.  The PostScript
+ * sembntics bre unclebr.
  *
  */
-final class Dasher implements sun.awt.geom.PathConsumer2D {
+finbl clbss Dbsher implements sun.bwt.geom.PbthConsumer2D {
 
-    private final PathConsumer2D out;
-    private final float[] dash;
-    private final float startPhase;
-    private final boolean startDashOn;
-    private final int startIdx;
+    privbte finbl PbthConsumer2D out;
+    privbte finbl flobt[] dbsh;
+    privbte finbl flobt stbrtPhbse;
+    privbte finbl boolebn stbrtDbshOn;
+    privbte finbl int stbrtIdx;
 
-    private boolean starting;
-    private boolean needsMoveTo;
+    privbte boolebn stbrting;
+    privbte boolebn needsMoveTo;
 
-    private int idx;
-    private boolean dashOn;
-    private float phase;
+    privbte int idx;
+    privbte boolebn dbshOn;
+    privbte flobt phbse;
 
-    private float sx, sy;
-    private float x0, y0;
+    privbte flobt sx, sy;
+    privbte flobt x0, y0;
 
-    // temporary storage for the current curve
-    private float[] curCurvepts;
+    // temporbry storbge for the current curve
+    privbte flobt[] curCurvepts;
 
     /**
-     * Constructs a <code>Dasher</code>.
+     * Constructs b <code>Dbsher</code>.
      *
-     * @param out an output <code>PathConsumer2D</code>.
-     * @param dash an array of <code>float</code>s containing the dash pattern
-     * @param phase a <code>float</code> containing the dash phase
+     * @pbrbm out bn output <code>PbthConsumer2D</code>.
+     * @pbrbm dbsh bn brrby of <code>flobt</code>s contbining the dbsh pbttern
+     * @pbrbm phbse b <code>flobt</code> contbining the dbsh phbse
      */
-    public Dasher(PathConsumer2D out, float[] dash, float phase) {
-        if (phase < 0) {
-            throw new IllegalArgumentException("phase < 0 !");
+    public Dbsher(PbthConsumer2D out, flobt[] dbsh, flobt phbse) {
+        if (phbse < 0) {
+            throw new IllegblArgumentException("phbse < 0 !");
         }
 
         this.out = out;
 
-        // Normalize so 0 <= phase < dash[0]
+        // Normblize so 0 <= phbse < dbsh[0]
         int idx = 0;
-        dashOn = true;
-        float d;
-        while (phase >= (d = dash[idx])) {
-            phase -= d;
-            idx = (idx + 1) % dash.length;
-            dashOn = !dashOn;
+        dbshOn = true;
+        flobt d;
+        while (phbse >= (d = dbsh[idx])) {
+            phbse -= d;
+            idx = (idx + 1) % dbsh.length;
+            dbshOn = !dbshOn;
         }
 
-        this.dash = dash;
-        this.startPhase = this.phase = phase;
-        this.startDashOn = dashOn;
-        this.startIdx = idx;
-        this.starting = true;
+        this.dbsh = dbsh;
+        this.stbrtPhbse = this.phbse = phbse;
+        this.stbrtDbshOn = dbshOn;
+        this.stbrtIdx = idx;
+        this.stbrting = true;
 
-        // we need curCurvepts to be able to contain 2 curves because when
-        // dashing curves, we need to subdivide it
-        curCurvepts = new float[8 * 2];
+        // we need curCurvepts to be bble to contbin 2 curves becbuse when
+        // dbshing curves, we need to subdivide it
+        curCurvepts = new flobt[8 * 2];
     }
 
-    public void moveTo(float x0, float y0) {
+    public void moveTo(flobt x0, flobt y0) {
         if (firstSegidx > 0) {
             out.moveTo(sx, sy);
             emitFirstSegments();
         }
         needsMoveTo = true;
-        this.idx = startIdx;
-        this.dashOn = this.startDashOn;
-        this.phase = this.startPhase;
+        this.idx = stbrtIdx;
+        this.dbshOn = this.stbrtDbshOn;
+        this.phbse = this.stbrtPhbse;
         this.sx = this.x0 = x0;
         this.sy = this.y0 = y0;
-        this.starting = true;
+        this.stbrting = true;
     }
 
-    private void emitSeg(float[] buf, int off, int type) {
+    privbte void emitSeg(flobt[] buf, int off, int type) {
         switch (type) {
-        case 8:
+        cbse 8:
             out.curveTo(buf[off+0], buf[off+1],
                         buf[off+2], buf[off+3],
                         buf[off+4], buf[off+5]);
-            break;
-        case 6:
-            out.quadTo(buf[off+0], buf[off+1],
+            brebk;
+        cbse 6:
+            out.qubdTo(buf[off+0], buf[off+1],
                        buf[off+2], buf[off+3]);
-            break;
-        case 4:
+            brebk;
+        cbse 4:
             out.lineTo(buf[off], buf[off+1]);
         }
     }
 
-    private void emitFirstSegments() {
+    privbte void emitFirstSegments() {
         for (int i = 0; i < firstSegidx; ) {
             emitSeg(firstSegmentsBuffer, i+1, (int)firstSegmentsBuffer[i]);
             i += (((int)firstSegmentsBuffer[i]) - 1);
@@ -132,341 +132,341 @@ final class Dasher implements sun.awt.geom.PathConsumer2D {
         firstSegidx = 0;
     }
 
-    // We don't emit the first dash right away. If we did, caps would be
-    // drawn on it, but we need joins to be drawn if there's a closePath()
-    // So, we store the path elements that make up the first dash in the
+    // We don't emit the first dbsh right bwby. If we did, cbps would be
+    // drbwn on it, but we need joins to be drbwn if there's b closePbth()
+    // So, we store the pbth elements thbt mbke up the first dbsh in the
     // buffer below.
-    private float[] firstSegmentsBuffer = new float[7];
-    private int firstSegidx = 0;
-    // precondition: pts must be in relative coordinates (relative to x0,y0)
-    // fullCurve is true iff the curve in pts has not been split.
-    private void goTo(float[] pts, int off, final int type) {
-        float x = pts[off + type - 4];
-        float y = pts[off + type - 3];
-        if (dashOn) {
-            if (starting) {
-                firstSegmentsBuffer = Helpers.widenArray(firstSegmentsBuffer,
+    privbte flobt[] firstSegmentsBuffer = new flobt[7];
+    privbte int firstSegidx = 0;
+    // precondition: pts must be in relbtive coordinbtes (relbtive to x0,y0)
+    // fullCurve is true iff the curve in pts hbs not been split.
+    privbte void goTo(flobt[] pts, int off, finbl int type) {
+        flobt x = pts[off + type - 4];
+        flobt y = pts[off + type - 3];
+        if (dbshOn) {
+            if (stbrting) {
+                firstSegmentsBuffer = Helpers.widenArrby(firstSegmentsBuffer,
                                       firstSegidx, type - 2);
                 firstSegmentsBuffer[firstSegidx++] = type;
-                System.arraycopy(pts, off, firstSegmentsBuffer, firstSegidx, type - 2);
+                System.brrbycopy(pts, off, firstSegmentsBuffer, firstSegidx, type - 2);
                 firstSegidx += type - 2;
             } else {
                 if (needsMoveTo) {
                     out.moveTo(x0, y0);
-                    needsMoveTo = false;
+                    needsMoveTo = fblse;
                 }
                 emitSeg(pts, off, type);
             }
         } else {
-            starting = false;
+            stbrting = fblse;
             needsMoveTo = true;
         }
         this.x0 = x;
         this.y0 = y;
     }
 
-    public void lineTo(float x1, float y1) {
-        float dx = x1 - x0;
-        float dy = y1 - y0;
+    public void lineTo(flobt x1, flobt y1) {
+        flobt dx = x1 - x0;
+        flobt dy = y1 - y0;
 
-        float len = (float) Math.sqrt(dx*dx + dy*dy);
+        flobt len = (flobt) Mbth.sqrt(dx*dx + dy*dy);
 
         if (len == 0) {
             return;
         }
 
-        // The scaling factors needed to get the dx and dy of the
-        // transformed dash segments.
-        float cx = dx / len;
-        float cy = dy / len;
+        // The scbling fbctors needed to get the dx bnd dy of the
+        // trbnsformed dbsh segments.
+        flobt cx = dx / len;
+        flobt cy = dy / len;
 
         while (true) {
-            float leftInThisDashSegment = dash[idx] - phase;
-            if (len <= leftInThisDashSegment) {
+            flobt leftInThisDbshSegment = dbsh[idx] - phbse;
+            if (len <= leftInThisDbshSegment) {
                 curCurvepts[0] = x1;
                 curCurvepts[1] = y1;
                 goTo(curCurvepts, 0, 4);
-                // Advance phase within current dash segment
-                phase += len;
-                if (len == leftInThisDashSegment) {
-                    phase = 0f;
-                    idx = (idx + 1) % dash.length;
-                    dashOn = !dashOn;
+                // Advbnce phbse within current dbsh segment
+                phbse += len;
+                if (len == leftInThisDbshSegment) {
+                    phbse = 0f;
+                    idx = (idx + 1) % dbsh.length;
+                    dbshOn = !dbshOn;
                 }
                 return;
             }
 
-            float dashdx = dash[idx] * cx;
-            float dashdy = dash[idx] * cy;
-            if (phase == 0) {
-                curCurvepts[0] = x0 + dashdx;
-                curCurvepts[1] = y0 + dashdy;
+            flobt dbshdx = dbsh[idx] * cx;
+            flobt dbshdy = dbsh[idx] * cy;
+            if (phbse == 0) {
+                curCurvepts[0] = x0 + dbshdx;
+                curCurvepts[1] = y0 + dbshdy;
             } else {
-                float p = leftInThisDashSegment / dash[idx];
-                curCurvepts[0] = x0 + p * dashdx;
-                curCurvepts[1] = y0 + p * dashdy;
+                flobt p = leftInThisDbshSegment / dbsh[idx];
+                curCurvepts[0] = x0 + p * dbshdx;
+                curCurvepts[1] = y0 + p * dbshdy;
             }
 
             goTo(curCurvepts, 0, 4);
 
-            len -= leftInThisDashSegment;
-            // Advance to next dash segment
-            idx = (idx + 1) % dash.length;
-            dashOn = !dashOn;
-            phase = 0;
+            len -= leftInThisDbshSegment;
+            // Advbnce to next dbsh segment
+            idx = (idx + 1) % dbsh.length;
+            dbshOn = !dbshOn;
+            phbse = 0;
         }
     }
 
-    private LengthIterator li = null;
+    privbte LengthIterbtor li = null;
 
-    // preconditions: curCurvepts must be an array of length at least 2 * type,
-    // that contains the curve we want to dash in the first type elements
-    private void somethingTo(int type) {
+    // preconditions: curCurvepts must be bn brrby of length bt lebst 2 * type,
+    // thbt contbins the curve we wbnt to dbsh in the first type elements
+    privbte void somethingTo(int type) {
         if (pointCurve(curCurvepts, type)) {
             return;
         }
         if (li == null) {
-            li = new LengthIterator(4, 0.01f);
+            li = new LengthIterbtor(4, 0.01f);
         }
-        li.initializeIterationOnCurve(curCurvepts, type);
+        li.initiblizeIterbtionOnCurve(curCurvepts, type);
 
-        int curCurveoff = 0; // initially the current curve is at curCurvepts[0...type]
-        float lastSplitT = 0;
-        float t = 0;
-        float leftInThisDashSegment = dash[idx] - phase;
-        while ((t = li.next(leftInThisDashSegment)) < 1) {
+        int curCurveoff = 0; // initiblly the current curve is bt curCurvepts[0...type]
+        flobt lbstSplitT = 0;
+        flobt t = 0;
+        flobt leftInThisDbshSegment = dbsh[idx] - phbse;
+        while ((t = li.next(leftInThisDbshSegment)) < 1) {
             if (t != 0) {
-                Helpers.subdivideAt((t - lastSplitT) / (1 - lastSplitT),
+                Helpers.subdivideAt((t - lbstSplitT) / (1 - lbstSplitT),
                                     curCurvepts, curCurveoff,
                                     curCurvepts, 0,
                                     curCurvepts, type, type);
-                lastSplitT = t;
+                lbstSplitT = t;
                 goTo(curCurvepts, 2, type);
                 curCurveoff = type;
             }
-            // Advance to next dash segment
-            idx = (idx + 1) % dash.length;
-            dashOn = !dashOn;
-            phase = 0;
-            leftInThisDashSegment = dash[idx];
+            // Advbnce to next dbsh segment
+            idx = (idx + 1) % dbsh.length;
+            dbshOn = !dbshOn;
+            phbse = 0;
+            leftInThisDbshSegment = dbsh[idx];
         }
         goTo(curCurvepts, curCurveoff+2, type);
-        phase += li.lastSegLen();
-        if (phase >= dash[idx]) {
-            phase = 0f;
-            idx = (idx + 1) % dash.length;
-            dashOn = !dashOn;
+        phbse += li.lbstSegLen();
+        if (phbse >= dbsh[idx]) {
+            phbse = 0f;
+            idx = (idx + 1) % dbsh.length;
+            dbshOn = !dbshOn;
         }
     }
 
-    private static boolean pointCurve(float[] curve, int type) {
+    privbte stbtic boolebn pointCurve(flobt[] curve, int type) {
         for (int i = 2; i < type; i++) {
             if (curve[i] != curve[i-2]) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
-    // Objects of this class are used to iterate through curves. They return
-    // t values where the left side of the curve has a specified length.
-    // It does this by subdividing the input curve until a certain error
-    // condition has been met. A recursive subdivision procedure would
-    // return as many as 1<<limit curves, but this is an iterator and we
-    // don't need all the curves all at once, so what we carry out a
-    // lazy inorder traversal of the recursion tree (meaning we only move
-    // through the tree when we need the next subdivided curve). This saves
-    // us a lot of memory because at any one time we only need to store
-    // limit+1 curves - one for each level of the tree + 1.
-    // NOTE: the way we do things here is not enough to traverse a general
-    // tree; however, the trees we are interested in have the property that
-    // every non leaf node has exactly 2 children
-    private static class LengthIterator {
-        private enum Side {LEFT, RIGHT};
-        // Holds the curves at various levels of the recursion. The root
-        // (i.e. the original curve) is at recCurveStack[0] (but then it
-        // gets subdivided, the left half is put at 1, so most of the time
-        // only the right half of the original curve is at 0)
-        private float[][] recCurveStack;
-        // sides[i] indicates whether the node at level i+1 in the path from
-        // the root to the current leaf is a left or right child of its parent.
-        private Side[] sides;
-        private int curveType;
-        private final int limit;
-        private final float ERR;
-        private final float minTincrement;
-        // lastT and nextT delimit the current leaf.
-        private float nextT;
-        private float lenAtNextT;
-        private float lastT;
-        private float lenAtLastT;
-        private float lenAtLastSplit;
-        private float lastSegLen;
+    // Objects of this clbss bre used to iterbte through curves. They return
+    // t vblues where the left side of the curve hbs b specified length.
+    // It does this by subdividing the input curve until b certbin error
+    // condition hbs been met. A recursive subdivision procedure would
+    // return bs mbny bs 1<<limit curves, but this is bn iterbtor bnd we
+    // don't need bll the curves bll bt once, so whbt we cbrry out b
+    // lbzy inorder trbversbl of the recursion tree (mebning we only move
+    // through the tree when we need the next subdivided curve). This sbves
+    // us b lot of memory becbuse bt bny one time we only need to store
+    // limit+1 curves - one for ebch level of the tree + 1.
+    // NOTE: the wby we do things here is not enough to trbverse b generbl
+    // tree; however, the trees we bre interested in hbve the property thbt
+    // every non lebf node hbs exbctly 2 children
+    privbte stbtic clbss LengthIterbtor {
+        privbte enum Side {LEFT, RIGHT};
+        // Holds the curves bt vbrious levels of the recursion. The root
+        // (i.e. the originbl curve) is bt recCurveStbck[0] (but then it
+        // gets subdivided, the left hblf is put bt 1, so most of the time
+        // only the right hblf of the originbl curve is bt 0)
+        privbte flobt[][] recCurveStbck;
+        // sides[i] indicbtes whether the node bt level i+1 in the pbth from
+        // the root to the current lebf is b left or right child of its pbrent.
+        privbte Side[] sides;
+        privbte int curveType;
+        privbte finbl int limit;
+        privbte finbl flobt ERR;
+        privbte finbl flobt minTincrement;
+        // lbstT bnd nextT delimit the current lebf.
+        privbte flobt nextT;
+        privbte flobt lenAtNextT;
+        privbte flobt lbstT;
+        privbte flobt lenAtLbstT;
+        privbte flobt lenAtLbstSplit;
+        privbte flobt lbstSegLen;
         // the current level in the recursion tree. 0 is the root. limit
-        // is the deepest possible leaf.
-        private int recLevel;
-        private boolean done;
+        // is the deepest possible lebf.
+        privbte int recLevel;
+        privbte boolebn done;
 
         // the lengths of the lines of the control polygon. Only its first
-        // curveType/2 - 1 elements are valid. This is an optimization. See
-        // next(float) for more detail.
-        private float[] curLeafCtrlPolyLengths = new float[3];
+        // curveType/2 - 1 elements bre vblid. This is bn optimizbtion. See
+        // next(flobt) for more detbil.
+        privbte flobt[] curLebfCtrlPolyLengths = new flobt[3];
 
-        public LengthIterator(int reclimit, float err) {
+        public LengthIterbtor(int reclimit, flobt err) {
             this.limit = reclimit;
             this.minTincrement = 1f / (1 << limit);
             this.ERR = err;
-            this.recCurveStack = new float[reclimit+1][8];
+            this.recCurveStbck = new flobt[reclimit+1][8];
             this.sides = new Side[reclimit];
-            // if any methods are called without first initializing this object on
-            // a curve, we want it to fail ASAP.
-            this.nextT = Float.MAX_VALUE;
-            this.lenAtNextT = Float.MAX_VALUE;
-            this.lenAtLastSplit = Float.MIN_VALUE;
+            // if bny methods bre cblled without first initiblizing this object on
+            // b curve, we wbnt it to fbil ASAP.
+            this.nextT = Flobt.MAX_VALUE;
+            this.lenAtNextT = Flobt.MAX_VALUE;
+            this.lenAtLbstSplit = Flobt.MIN_VALUE;
             this.recLevel = Integer.MIN_VALUE;
-            this.lastSegLen = Float.MAX_VALUE;
+            this.lbstSegLen = Flobt.MAX_VALUE;
             this.done = true;
         }
 
-        public void initializeIterationOnCurve(float[] pts, int type) {
-            System.arraycopy(pts, 0, recCurveStack[0], 0, type);
+        public void initiblizeIterbtionOnCurve(flobt[] pts, int type) {
+            System.brrbycopy(pts, 0, recCurveStbck[0], 0, type);
             this.curveType = type;
             this.recLevel = 0;
-            this.lastT = 0;
-            this.lenAtLastT = 0;
+            this.lbstT = 0;
+            this.lenAtLbstT = 0;
             this.nextT = 0;
             this.lenAtNextT = 0;
-            goLeft(); // initializes nextT and lenAtNextT properly
-            this.lenAtLastSplit = 0;
+            goLeft(); // initiblizes nextT bnd lenAtNextT properly
+            this.lenAtLbstSplit = 0;
             if (recLevel > 0) {
                 this.sides[0] = Side.LEFT;
-                this.done = false;
+                this.done = fblse;
             } else {
-                // the root of the tree is a leaf so we're done.
+                // the root of the tree is b lebf so we're done.
                 this.sides[0] = Side.RIGHT;
                 this.done = true;
             }
-            this.lastSegLen = 0;
+            this.lbstSegLen = 0;
         }
 
-        // 0 == false, 1 == true, -1 == invalid cached value.
-        private int cachedHaveLowAcceleration = -1;
+        // 0 == fblse, 1 == true, -1 == invblid cbched vblue.
+        privbte int cbchedHbveLowAccelerbtion = -1;
 
-        private boolean haveLowAcceleration(float err) {
-            if (cachedHaveLowAcceleration == -1) {
-                final float len1 = curLeafCtrlPolyLengths[0];
-                final float len2 = curLeafCtrlPolyLengths[1];
-                // the test below is equivalent to !within(len1/len2, 1, err).
-                // It is using a multiplication instead of a division, so it
-                // should be a bit faster.
+        privbte boolebn hbveLowAccelerbtion(flobt err) {
+            if (cbchedHbveLowAccelerbtion == -1) {
+                finbl flobt len1 = curLebfCtrlPolyLengths[0];
+                finbl flobt len2 = curLebfCtrlPolyLengths[1];
+                // the test below is equivblent to !within(len1/len2, 1, err).
+                // It is using b multiplicbtion instebd of b division, so it
+                // should be b bit fbster.
                 if (!Helpers.within(len1, len2, err*len2)) {
-                    cachedHaveLowAcceleration = 0;
-                    return false;
+                    cbchedHbveLowAccelerbtion = 0;
+                    return fblse;
                 }
                 if (curveType == 8) {
-                    final float len3 = curLeafCtrlPolyLengths[2];
-                    // if len1 is close to 2 and 2 is close to 3, that probably
-                    // means 1 is close to 3 so the second part of this test might
+                    finbl flobt len3 = curLebfCtrlPolyLengths[2];
+                    // if len1 is close to 2 bnd 2 is close to 3, thbt probbbly
+                    // mebns 1 is close to 3 so the second pbrt of this test might
                     // not be needed, but it doesn't hurt to include it.
                     if (!(Helpers.within(len2, len3, err*len3) &&
                           Helpers.within(len1, len3, err*len3))) {
-                        cachedHaveLowAcceleration = 0;
-                        return false;
+                        cbchedHbveLowAccelerbtion = 0;
+                        return fblse;
                     }
                 }
-                cachedHaveLowAcceleration = 1;
+                cbchedHbveLowAccelerbtion = 1;
                 return true;
             }
 
-            return (cachedHaveLowAcceleration == 1);
+            return (cbchedHbveLowAccelerbtion == 1);
         }
 
-        // we want to avoid allocations/gc so we keep this array so we
-        // can put roots in it,
-        private float[] nextRoots = new float[4];
+        // we wbnt to bvoid bllocbtions/gc so we keep this brrby so we
+        // cbn put roots in it,
+        privbte flobt[] nextRoots = new flobt[4];
 
-        // caches the coefficients of the current leaf in its flattened
-        // form (see inside next() for what that means). The cache is
-        // invalid when it's third element is negative, since in any
-        // valid flattened curve, this would be >= 0.
-        private float[] flatLeafCoefCache = new float[] {0, 0, -1, 0};
-        // returns the t value where the remaining curve should be split in
-        // order for the left subdivided curve to have length len. If len
-        // is >= than the length of the uniterated curve, it returns 1.
-        public float next(final float len) {
-            final float targetLength = lenAtLastSplit + len;
-            while(lenAtNextT < targetLength) {
+        // cbches the coefficients of the current lebf in its flbttened
+        // form (see inside next() for whbt thbt mebns). The cbche is
+        // invblid when it's third element is negbtive, since in bny
+        // vblid flbttened curve, this would be >= 0.
+        privbte flobt[] flbtLebfCoefCbche = new flobt[] {0, 0, -1, 0};
+        // returns the t vblue where the rembining curve should be split in
+        // order for the left subdivided curve to hbve length len. If len
+        // is >= thbn the length of the uniterbted curve, it returns 1.
+        public flobt next(finbl flobt len) {
+            finbl flobt tbrgetLength = lenAtLbstSplit + len;
+            while(lenAtNextT < tbrgetLength) {
                 if (done) {
-                    lastSegLen = lenAtNextT - lenAtLastSplit;
+                    lbstSegLen = lenAtNextT - lenAtLbstSplit;
                     return 1;
                 }
-                goToNextLeaf();
+                goToNextLebf();
             }
-            lenAtLastSplit = targetLength;
-            final float leaflen = lenAtNextT - lenAtLastT;
-            float t = (targetLength - lenAtLastT) / leaflen;
+            lenAtLbstSplit = tbrgetLength;
+            finbl flobt lebflen = lenAtNextT - lenAtLbstT;
+            flobt t = (tbrgetLength - lenAtLbstT) / lebflen;
 
-            // cubicRootsInAB is a fairly expensive call, so we just don't do it
-            // if the acceleration in this section of the curve is small enough.
-            if (!haveLowAcceleration(0.05f)) {
-                // We flatten the current leaf along the x axis, so that we're
-                // left with a, b, c which define a 1D Bezier curve. We then
-                // solve this to get the parameter of the original leaf that
+            // cubicRootsInAB is b fbirly expensive cbll, so we just don't do it
+            // if the bccelerbtion in this section of the curve is smbll enough.
+            if (!hbveLowAccelerbtion(0.05f)) {
+                // We flbtten the current lebf blong the x bxis, so thbt we're
+                // left with b, b, c which define b 1D Bezier curve. We then
+                // solve this to get the pbrbmeter of the originbl lebf thbt
                 // gives us the desired length.
 
-                if (flatLeafCoefCache[2] < 0) {
-                    float x = 0+curLeafCtrlPolyLengths[0],
-                          y = x+curLeafCtrlPolyLengths[1];
+                if (flbtLebfCoefCbche[2] < 0) {
+                    flobt x = 0+curLebfCtrlPolyLengths[0],
+                          y = x+curLebfCtrlPolyLengths[1];
                     if (curveType == 8) {
-                        float z = y + curLeafCtrlPolyLengths[2];
-                        flatLeafCoefCache[0] = 3*(x - y) + z;
-                        flatLeafCoefCache[1] = 3*(y - 2*x);
-                        flatLeafCoefCache[2] = 3*x;
-                        flatLeafCoefCache[3] = -z;
+                        flobt z = y + curLebfCtrlPolyLengths[2];
+                        flbtLebfCoefCbche[0] = 3*(x - y) + z;
+                        flbtLebfCoefCbche[1] = 3*(y - 2*x);
+                        flbtLebfCoefCbche[2] = 3*x;
+                        flbtLebfCoefCbche[3] = -z;
                     } else if (curveType == 6) {
-                        flatLeafCoefCache[0] = 0f;
-                        flatLeafCoefCache[1] = y - 2*x;
-                        flatLeafCoefCache[2] = 2*x;
-                        flatLeafCoefCache[3] = -y;
+                        flbtLebfCoefCbche[0] = 0f;
+                        flbtLebfCoefCbche[1] = y - 2*x;
+                        flbtLebfCoefCbche[2] = 2*x;
+                        flbtLebfCoefCbche[3] = -y;
                     }
                 }
-                float a = flatLeafCoefCache[0];
-                float b = flatLeafCoefCache[1];
-                float c = flatLeafCoefCache[2];
-                float d = t*flatLeafCoefCache[3];
+                flobt b = flbtLebfCoefCbche[0];
+                flobt b = flbtLebfCoefCbche[1];
+                flobt c = flbtLebfCoefCbche[2];
+                flobt d = t*flbtLebfCoefCbche[3];
 
-                // we use cubicRootsInAB here, because we want only roots in 0, 1,
-                // and our quadratic root finder doesn't filter, so it's just a
-                // matter of convenience.
-                int n = Helpers.cubicRootsInAB(a, b, c, d, nextRoots, 0, 0, 1);
-                if (n == 1 && !Float.isNaN(nextRoots[0])) {
+                // we use cubicRootsInAB here, becbuse we wbnt only roots in 0, 1,
+                // bnd our qubdrbtic root finder doesn't filter, so it's just b
+                // mbtter of convenience.
+                int n = Helpers.cubicRootsInAB(b, b, c, d, nextRoots, 0, 0, 1);
+                if (n == 1 && !Flobt.isNbN(nextRoots[0])) {
                     t = nextRoots[0];
                 }
             }
-            // t is relative to the current leaf, so we must make it a valid parameter
-            // of the original curve.
-            t = t * (nextT - lastT) + lastT;
+            // t is relbtive to the current lebf, so we must mbke it b vblid pbrbmeter
+            // of the originbl curve.
+            t = t * (nextT - lbstT) + lbstT;
             if (t >= 1) {
                 t = 1;
                 done = true;
             }
-            // even if done = true, if we're here, that means targetLength
-            // is equal to, or very, very close to the total length of the
-            // curve, so lastSegLen won't be too high. In cases where len
+            // even if done = true, if we're here, thbt mebns tbrgetLength
+            // is equbl to, or very, very close to the totbl length of the
+            // curve, so lbstSegLen won't be too high. In cbses where len
             // overshoots the curve, this method will exit in the while
-            // loop, and lastSegLen will still be set to the right value.
-            lastSegLen = len;
+            // loop, bnd lbstSegLen will still be set to the right vblue.
+            lbstSegLen = len;
             return t;
         }
 
-        public float lastSegLen() {
-            return lastSegLen;
+        public flobt lbstSegLen() {
+            return lbstSegLen;
         }
 
-        // go to the next leaf (in an inorder traversal) in the recursion tree
-        // preconditions: must be on a leaf, and that leaf must not be the root.
-        private void goToNextLeaf() {
-            // We must go to the first ancestor node that has an unvisited
+        // go to the next lebf (in bn inorder trbversbl) in the recursion tree
+        // preconditions: must be on b lebf, bnd thbt lebf must not be the root.
+        privbte void goToNextLebf() {
+            // We must go to the first bncestor node thbt hbs bn unvisited
             // right child.
             recLevel--;
             while(sides[recLevel] == Side.RIGHT) {
@@ -478,49 +478,49 @@ final class Dasher implements sun.awt.geom.PathConsumer2D {
             }
 
             sides[recLevel] = Side.RIGHT;
-            System.arraycopy(recCurveStack[recLevel], 0, recCurveStack[recLevel+1], 0, curveType);
+            System.brrbycopy(recCurveStbck[recLevel], 0, recCurveStbck[recLevel+1], 0, curveType);
             recLevel++;
             goLeft();
         }
 
         // go to the leftmost node from the current node. Return its length.
-        private void goLeft() {
-            float len = onLeaf();
+        privbte void goLeft() {
+            flobt len = onLebf();
             if (len >= 0) {
-                lastT = nextT;
-                lenAtLastT = lenAtNextT;
+                lbstT = nextT;
+                lenAtLbstT = lenAtNextT;
                 nextT += (1 << (limit - recLevel)) * minTincrement;
                 lenAtNextT += len;
-                // invalidate caches
-                flatLeafCoefCache[2] = -1;
-                cachedHaveLowAcceleration = -1;
+                // invblidbte cbches
+                flbtLebfCoefCbche[2] = -1;
+                cbchedHbveLowAccelerbtion = -1;
             } else {
-                Helpers.subdivide(recCurveStack[recLevel], 0,
-                                  recCurveStack[recLevel+1], 0,
-                                  recCurveStack[recLevel], 0, curveType);
+                Helpers.subdivide(recCurveStbck[recLevel], 0,
+                                  recCurveStbck[recLevel+1], 0,
+                                  recCurveStbck[recLevel], 0, curveType);
                 sides[recLevel] = Side.LEFT;
                 recLevel++;
                 goLeft();
             }
         }
 
-        // this is a bit of a hack. It returns -1 if we're not on a leaf, and
-        // the length of the leaf if we are on a leaf.
-        private float onLeaf() {
-            float[] curve = recCurveStack[recLevel];
-            float polyLen = 0;
+        // this is b bit of b hbck. It returns -1 if we're not on b lebf, bnd
+        // the length of the lebf if we bre on b lebf.
+        privbte flobt onLebf() {
+            flobt[] curve = recCurveStbck[recLevel];
+            flobt polyLen = 0;
 
-            float x0 = curve[0], y0 = curve[1];
+            flobt x0 = curve[0], y0 = curve[1];
             for (int i = 2; i < curveType; i += 2) {
-                final float x1 = curve[i], y1 = curve[i+1];
-                final float len = Helpers.linelen(x0, y0, x1, y1);
+                finbl flobt x1 = curve[i], y1 = curve[i+1];
+                finbl flobt len = Helpers.linelen(x0, y0, x1, y1);
                 polyLen += len;
-                curLeafCtrlPolyLengths[i/2 - 1] = len;
+                curLebfCtrlPolyLengths[i/2 - 1] = len;
                 x0 = x1;
                 y0 = y1;
             }
 
-            final float lineLen = Helpers.linelen(curve[0], curve[1], curve[curveType-2], curve[curveType-1]);
+            finbl flobt lineLen = Helpers.linelen(curve[0], curve[1], curve[curveType-2], curve[curveType-1]);
             if (polyLen - lineLen < ERR || recLevel == limit) {
                 return (polyLen + lineLen)/2;
             }
@@ -529,9 +529,9 @@ final class Dasher implements sun.awt.geom.PathConsumer2D {
     }
 
     @Override
-    public void curveTo(float x1, float y1,
-                        float x2, float y2,
-                        float x3, float y3)
+    public void curveTo(flobt x1, flobt y1,
+                        flobt x2, flobt y2,
+                        flobt x3, flobt y3)
     {
         curCurvepts[0] = x0;        curCurvepts[1] = y0;
         curCurvepts[2] = x1;        curCurvepts[3] = y1;
@@ -541,17 +541,17 @@ final class Dasher implements sun.awt.geom.PathConsumer2D {
     }
 
     @Override
-    public void quadTo(float x1, float y1, float x2, float y2) {
+    public void qubdTo(flobt x1, flobt y1, flobt x2, flobt y2) {
         curCurvepts[0] = x0;        curCurvepts[1] = y0;
         curCurvepts[2] = x1;        curCurvepts[3] = y1;
         curCurvepts[4] = x2;        curCurvepts[5] = y2;
         somethingTo(6);
     }
 
-    public void closePath() {
+    public void closePbth() {
         lineTo(sx, sy);
         if (firstSegidx > 0) {
-            if (!dashOn || needsMoveTo) {
+            if (!dbshOn || needsMoveTo) {
                 out.moveTo(sx, sy);
             }
             emitFirstSegments();
@@ -559,17 +559,17 @@ final class Dasher implements sun.awt.geom.PathConsumer2D {
         moveTo(sx, sy);
     }
 
-    public void pathDone() {
+    public void pbthDone() {
         if (firstSegidx > 0) {
             out.moveTo(sx, sy);
             emitFirstSegments();
         }
-        out.pathDone();
+        out.pbthDone();
     }
 
     @Override
-    public long getNativeConsumer() {
-        throw new InternalError("Dasher does not use a native consumer");
+    public long getNbtiveConsumer() {
+        throw new InternblError("Dbsher does not use b nbtive consumer");
     }
 }
 

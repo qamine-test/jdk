@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,45 +30,45 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.nio.channels.*;
-import java.util.concurrent.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.concurrent.*;
 
 /**
- * A multi-threaded server which creates a pool of threads for use
- * by the server.  The Thread pool decides how to schedule those threads.
+ * A multi-threbded server which crebtes b pool of threbds for use
+ * by the server.  The Threbd pool decides how to schedule those threbds.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @buthor Mbrk Reinhold
+ * @buthor Brbd R. Wetmore
  */
-public class BP extends Server {
+public clbss BP extends Server {
 
-    private static final int POOL_MULTIPLE = 4;
+    privbte stbtic finbl int POOL_MULTIPLE = 4;
 
-    BP(int port, int backlog, boolean secure) throws Exception {
-        super(port, backlog, secure);
+    BP(int port, int bbcklog, boolebn secure) throws Exception {
+        super(port, bbcklog, secure);
     }
 
     void runServer() throws Exception {
 
-        ExecutorService xec = Executors.newFixedThreadPool(
-            Runtime.getRuntime().availableProcessors() * POOL_MULTIPLE);
+        ExecutorService xec = Executors.newFixedThrebdPool(
+            Runtime.getRuntime().bvbilbbleProcessors() * POOL_MULTIPLE);
 
         for (;;) {
 
-            SocketChannel sc = ssc.accept();
+            SocketChbnnel sc = ssc.bccept();
 
-            ChannelIO cio = (sslContext != null ?
-                ChannelIOSecure.getInstance(
+            ChbnnelIO cio = (sslContext != null ?
+                ChbnnelIOSecure.getInstbnce(
                     sc, true /* blocking */, sslContext) :
-                ChannelIO.getInstance(
+                ChbnnelIO.getInstbnce(
                     sc, true /* blocking */));
 
             RequestServicer svc = new RequestServicer(cio);

@@ -1,32 +1,32 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
 
 /*
  **********************************************************************
- *   Copyright (C) 1998-2013, International Business Machines
- *   Corporation and others.  All Rights Reserved.
+ *   Copyright (C) 1998-2013, Internbtionbl Business Mbchines
+ *   Corporbtion bnd others.  All Rights Reserved.
  **********************************************************************
  */
 
@@ -41,60 +41,60 @@ struct InsertionRecord;
 
 #ifndef U_HIDE_INTERNAL_API
 /**
- * This class encapsulates the callback used by <code>LEInsertionList</code>
- * to apply an insertion from the insertion list.
+ * This clbss encbpsulbtes the cbllbbck used by <code>LEInsertionList</code>
+ * to bpply bn insertion from the insertion list.
  *
- * @internal
+ * @internbl
  */
-class U_LAYOUT_API LEInsertionCallback
+clbss U_LAYOUT_API LEInsertionCbllbbck
 {
 public:
     /**
-     * This method will be called by <code>LEInsertionList::applyInsertions</code> for each
+     * This method will be cblled by <code>LEInsertionList::bpplyInsertions</code> for ebch
      * entry on the insertion list.
      *
-     * @param atPosition the position of the insertion
-     * @param count the number of glyphs to insert
-     * @param newGlyphs the address of the glyphs to insert
+     * @pbrbm btPosition the position of the insertion
+     * @pbrbm count the number of glyphs to insert
+     * @pbrbm newGlyphs the bddress of the glyphs to insert
      *
-     * @return <code>TRUE</code> if <code>LEInsertions::applyInsertions</code> should
-     *         stop after applying this insertion.
+     * @return <code>TRUE</code> if <code>LEInsertions::bpplyInsertions</code> should
+     *         stop bfter bpplying this insertion.
      *
-     * @internal
+     * @internbl
      */
-    virtual le_bool applyInsertion(le_int32 atPosition, le_int32 count, LEGlyphID newGlyphs[]) = 0;
+    virtubl le_bool bpplyInsertion(le_int32 btPosition, le_int32 count, LEGlyphID newGlyphs[]) = 0;
 
     /**
      * The destructor
      */
-     virtual ~LEInsertionCallback();
+     virtubl ~LEInsertionCbllbbck();
 };
 
 /**
- * This class is used to keep track of insertions to an array of
- * <code>LEGlyphIDs</code>. The insertions are kept on a linked
- * list of <code>InsertionRecords</code> so that the glyph array
- * doesn't have to be grown for each insertion. The insertions are
- * stored on the list from leftmost to rightmost to make it easier
+ * This clbss is used to keep trbck of insertions to bn brrby of
+ * <code>LEGlyphIDs</code>. The insertions bre kept on b linked
+ * list of <code>InsertionRecords</code> so thbt the glyph brrby
+ * doesn't hbve to be grown for ebch insertion. The insertions bre
+ * stored on the list from leftmost to rightmost to mbke it ebsier
  * to do the insertions.
  *
- * The insertions are applied to the array by calling the
- * <code>applyInsertions</code> method, which calls a client
- * supplied <code>LEInsertionCallback</code> object to actually
- * apply the individual insertions.
+ * The insertions bre bpplied to the brrby by cblling the
+ * <code>bpplyInsertions</code> method, which cblls b client
+ * supplied <code>LEInsertionCbllbbck</code> object to bctublly
+ * bpply the individubl insertions.
  *
- * @internal
+ * @internbl
  */
-class LEInsertionList : public UObject
+clbss LEInsertionList : public UObject
 {
 public:
     /**
-     * Construct an empty insertion list.
+     * Construct bn empty insertion list.
      *
-     * @param rightToLeft <code>TRUE</code> if the glyphs are stored
-     *                    in the array in right to left order.
+     * @pbrbm rightToLeft <code>TRUE</code> if the glyphs bre stored
+     *                    in the brrby in right to left order.
      *
-     * @internal
+     * @internbl
      */
     LEInsertionList(le_bool rightToLeft);
 
@@ -104,96 +104,96 @@ public:
     ~LEInsertionList();
 
     /**
-     * Add an entry to the insertion list.
+     * Add bn entry to the insertion list.
      *
-     * @param position the glyph at this position in the array will be
-     *                 replaced by the new glyphs.
-     * @param count the number of new glyphs
-     * @param success set to an error code if the auxillary data cannot be retrieved.
+     * @pbrbm position the glyph bt this position in the brrby will be
+     *                 replbced by the new glyphs.
+     * @pbrbm count the number of new glyphs
+     * @pbrbm success set to bn error code if the buxillbry dbtb cbnnot be retrieved.
      *
-     * @return the address of an array in which to store the new glyphs. This will
-     *         <em>not</em> be in the glyph array.
+     * @return the bddress of bn brrby in which to store the new glyphs. This will
+     *         <em>not</em> be in the glyph brrby.
      *
-     * @internal
+     * @internbl
      */
     LEGlyphID *insert(le_int32 position, le_int32 count, LEErrorCode &success);
 
     /**
-     * Return the number of new glyphs that have been inserted.
+     * Return the number of new glyphs thbt hbve been inserted.
      *
-     * @return the number of new glyphs which have been inserted
+     * @return the number of new glyphs which hbve been inserted
      *
-     * @internal
+     * @internbl
      */
     le_int32 getGrowAmount();
 
     /**
-     * Call the <code>LEInsertionCallback</code> once for each
+     * Cbll the <code>LEInsertionCbllbbck</code> once for ebch
      * entry on the insertion list.
      *
-     * @param callback the <code>LEInsertionCallback</code> to call for each insertion.
+     * @pbrbm cbllbbck the <code>LEInsertionCbllbbck</code> to cbll for ebch insertion.
      *
-     * @return <code>TRUE</code> if <code>callback</code> returned <code>TRUE</code> to
-     *         terminate the insertion list processing.
+     * @return <code>TRUE</code> if <code>cbllbbck</code> returned <code>TRUE</code> to
+     *         terminbte the insertion list processing.
      *
-     * @internal
+     * @internbl
      */
-    le_bool applyInsertions(LEInsertionCallback *callback);
+    le_bool bpplyInsertions(LEInsertionCbllbbck *cbllbbck);
 
     /**
-     * Empty the insertion list and free all associated
-     * storage.
+     * Empty the insertion list bnd free bll bssocibted
+     * storbge.
      *
-     * @internal
+     * @internbl
      */
     void reset();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for the bctubl clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl UClbssID getDynbmicClbssID() const;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for this clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static UClassID getStaticClassID();
+    stbtic UClbssID getStbticClbssID();
 
-private:
+privbte:
 
     /**
-     * The head of the insertion list.
+     * The hebd of the insertion list.
      *
-     * @internal
+     * @internbl
      */
-    InsertionRecord *head;
+    InsertionRecord *hebd;
 
     /**
-     * The tail of the insertion list.
+     * The tbil of the insertion list.
      *
-     * @internal
+     * @internbl
      */
-    InsertionRecord *tail;
+    InsertionRecord *tbil;
 
     /**
-     * The total number of new glyphs on the insertion list.
+     * The totbl number of new glyphs on the insertion list.
      *
-     * @internal
+     * @internbl
      */
     le_int32 growAmount;
 
     /**
-     * Set to <code>TRUE</code> if the glyphs are in right
-     * to left order. Since we want the rightmost insertion
-     * to be first on the list, we need to append the
-     * insertions in this case. Otherwise they're prepended.
+     * Set to <code>TRUE</code> if the glyphs bre in right
+     * to left order. Since we wbnt the rightmost insertion
+     * to be first on the list, we need to bppend the
+     * insertions in this cbse. Otherwise they're prepended.
      *
-     * @internal
+     * @internbl
      */
-    le_bool  append;
+    le_bool  bppend;
 };
 #endif  /* U_HIDE_INTERNAL_API */
 

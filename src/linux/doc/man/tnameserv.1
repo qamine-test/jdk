@@ -1,166 +1,166 @@
 '\" t
-.\"  Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Java IDL and RMI-IIOP Tools
-.\"     Title: tnameserv.1
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Title: tnbmeserv.1
 .\"
 .if n .pl 99999
-.TH tnameserv 1 "21 November 2013" "JDK 8" "Java IDL and RMI-IIOP Tools"
+.TH tnbmeserv 1 "21 November 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-tnameserv \- Interface Definition Language (IDL)\&.
+tnbmeserv \- Interfbce Definition Lbngubge (IDL)\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBtnameserve\fR \fB\-ORBInitialPort\fR [ \fInameserverport\fR ]
+\fBtnbmeserve\fR \fB\-ORBInitiblPort\fR [ \fInbmeserverport\fR ]
 .fi     
 .sp     
 .TP
--ORBInitialPort \fInameserverport\fR
+-ORBInitiblPort \fInbmeserverport\fR
 .br
-The initial port where the naming service listens for the bootstrap protocol used to implement the ORB \f3resolve_initial_references\fR and \f3list_initial_references\fR methods\&.
+The initibl port where the nbming service listens for the bootstrbp protocol used to implement the ORB \f3resolve_initibl_references\fR bnd \f3list_initibl_references\fR methods\&.
 .SH DESCRIPTION    
-Java IDL includes the Object Request Broker Daemon (ORBD)\&. ORBD is a daemon process that contains a Bootstrap Service, a Transient Naming Service, a Persistent Naming Service, and a Server Manager\&. The Java IDL tutorials all use ORBD, but you can substitute the \f3tnameserv\fR command for the \f3orbd\fR command in any of the examples that use a Transient Naming Service\&.
+Jbvb IDL includes the Object Request Broker Dbemon (ORBD)\&. ORBD is b dbemon process thbt contbins b Bootstrbp Service, b Trbnsient Nbming Service, b Persistent Nbming Service, bnd b Server Mbnbger\&. The Jbvb IDL tutoribls bll use ORBD, but you cbn substitute the \f3tnbmeserv\fR commbnd for the \f3orbd\fR commbnd in bny of the exbmples thbt use b Trbnsient Nbming Service\&.
 .PP
-See orbd(1) or Naming Service at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/jidlNaming\&.html
+See orbd(1) or Nbming Service bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlNbming\&.html
 .PP
-The CORBA Common Object Services (COS) Naming Service provides a tree-structure directory for object references similar to a file system that provides a directory structure for files\&. The Transient Naming Service provided with Java IDL, \f3tnameserv\fR, is a simple implementation of the COS Naming Service specification\&.
+The CORBA Common Object Services (COS) Nbming Service provides b tree-structure directory for object references similbr to b file system thbt provides b directory structure for files\&. The Trbnsient Nbming Service provided with Jbvb IDL, \f3tnbmeserv\fR, is b simple implementbtion of the COS Nbming Service specificbtion\&.
 .PP
-Object references are stored in the name space by name and each object reference-name pair is called a name binding\&. Name bindings can be organized under naming contexts\&. Naming contexts are name bindings and serve the same organizational function as a file system subdirectory\&. All bindings are stored under the initial naming context\&. The initial naming context is the only persistent binding in the name space\&. The rest of the name space is lost when the Java IDL naming service process stops and restarts\&.
+Object references bre stored in the nbme spbce by nbme bnd ebch object reference-nbme pbir is cblled b nbme binding\&. Nbme bindings cbn be orgbnized under nbming contexts\&. Nbming contexts bre nbme bindings bnd serve the sbme orgbnizbtionbl function bs b file system subdirectory\&. All bindings bre stored under the initibl nbming context\&. The initibl nbming context is the only persistent binding in the nbme spbce\&. The rest of the nbme spbce is lost when the Jbvb IDL nbming service process stops bnd restbrts\&.
 .PP
-For an applet or application to use COS naming, its ORB must know the port of a host running a naming service or have access to an initial naming context string for that naming service\&. The naming service can either be the Java IDL naming service or another COS-compliant naming service\&.
+For bn bpplet or bpplicbtion to use COS nbming, its ORB must know the port of b host running b nbming service or hbve bccess to bn initibl nbming context string for thbt nbming service\&. The nbming service cbn either be the Jbvb IDL nbming service or bnother COS-complibnt nbming service\&.
 .SS START\ THE\ NAMING\ SERVICE    
-You must start the Java IDL naming service before an application or applet that uses its naming service\&. Installation of the Java IDL product creates a script (Oracle Solaris: \f3tnameserv\fR) or executable file (Windows: \f3tnameserv\&.exe\fR) that starts the Java IDL naming service\&. Start the naming service so it runs in the background\&.
+You must stbrt the Jbvb IDL nbming service before bn bpplicbtion or bpplet thbt uses its nbming service\&. Instbllbtion of the Jbvb IDL product crebtes b script (Orbcle Solbris: \f3tnbmeserv\fR) or executbble file (Windows: \f3tnbmeserv\&.exe\fR) thbt stbrts the Jbvb IDL nbming service\&. Stbrt the nbming service so it runs in the bbckground\&.
 .PP
-If you do not specify otherwise, then the Java IDL naming service listens on port 900 for the bootstrap protocol used to implement the ORB \f3resolve_initial_references\fR and \f3list_initial_references methods\fR, as follows:
+If you do not specify otherwise, then the Jbvb IDL nbming service listens on port 900 for the bootstrbp protocol used to implement the ORB \f3resolve_initibl_references\fR bnd \f3list_initibl_references methods\fR, bs follows:
 .sp     
 .nf     
-\f3tnameserv \-ORBInitialPort nameserverport&\fP
+\f3tnbmeserv \-ORBInitiblPort nbmeserverport&\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-If you do not specify the name server port, then port 900 is used by default\&. When running Oracle Solaris software, you must become the root user to start a process on a port below 1024\&. For this reason, it is recommended that you use a port number greater than or equal to 1024\&. To specify a different port, for example, 1050, and to run the naming service in the background, from a UNIX command shell, enter:
+If you do not specify the nbme server port, then port 900 is used by defbult\&. When running Orbcle Solbris softwbre, you must become the root user to stbrt b process on b port below 1024\&. For this rebson, it is recommended thbt you use b port number grebter thbn or equbl to 1024\&. To specify b different port, for exbmple, 1050, bnd to run the nbming service in the bbckground, from b UNIX commbnd shell, enter:
 .sp     
 .nf     
-\f3tnameserv \-ORBInitialPort 1050&\fP
+\f3tnbmeserv \-ORBInitiblPort 1050&\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-From an MS-DOS system prompt (Windows), enter:
+From bn MS-DOS system prompt (Windows), enter:
 .sp     
 .nf     
-\f3start tnameserv \-ORBInitialPort 1050\fP
+\f3stbrt tnbmeserv \-ORBInitiblPort 1050\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Clients of the name server must be made aware of the new port number\&. Do this by setting the \f3org\&.omg\&.CORBA\&.ORBInitialPort\fR property to the new port number when you create the ORB object\&.
+Clients of the nbme server must be mbde bwbre of the new port number\&. Do this by setting the \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR property to the new port number when you crebte the ORB object\&.
 .SS RUN\ THE\ SERVER\ AND\ CLIENT\ ON\ DIFFERENT\ HOSTS    
-In most of the Java IDL and RMI-IIOP tutorials, the naming service, server, and client are all running on the development machine\&. In real-world deployment, the client and server probably run on different host machines from the Naming Service\&.
+In most of the Jbvb IDL bnd RMI-IIOP tutoribls, the nbming service, server, bnd client bre bll running on the development mbchine\&. In rebl-world deployment, the client bnd server probbbly run on different host mbchines from the Nbming Service\&.
 .PP
-For the client and server to find the Naming Service, they must be made aware of the port number and host on which the naming service is running\&. Do this by setting the \f3org\&.omg\&.CORBA\&.ORBInitialPort\fR and \f3org\&.omg\&.CORBA\&.ORBInitialHost\fR properties in the client and server files to the machine name and port number on which the Naming Service is running\&. An example of this is shown in Getting Started Using RMI-IIOP at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/rmi-iiop/rmiiiopexample\&.html
+For the client bnd server to find the Nbming Service, they must be mbde bwbre of the port number bnd host on which the nbming service is running\&. Do this by setting the \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR properties in the client bnd server files to the mbchine nbme bnd port number on which the Nbming Service is running\&. An exbmple of this is shown in Getting Stbrted Using RMI-IIOP bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/rmi-iiop/rmiiiopexbmple\&.html
 .PP
-You could also use the command-line options \f3-ORBInitialPort nameserverport#\fR and \f3-ORBInitialHost nameserverhostname\fR to tell the client and server where to find the naming service\&. For one example of doing this using the command-line option, see Java IDL: The Hello World Example on Two Machines at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/tutorial/jidl2machines\&.html
+You could blso use the commbnd-line options \f3-ORBInitiblPort nbmeserverport#\fR bnd \f3-ORBInitiblHost nbmeserverhostnbme\fR to tell the client bnd server where to find the nbming service\&. For one exbmple of doing this using the commbnd-line option, see Jbvb IDL: The Hello World Exbmple on Two Mbchines bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/tutoribl/jidl2mbchines\&.html
 .PP
-For example, suppose the Transient Naming Service, \f3tnameserv\fR is running on port 1050 on host \f3nameserverhost\fR\&. The client is running on host \f3clienthost,\fR and the server is running on host \f3serverhost\fR\&.
+For exbmple, suppose the Trbnsient Nbming Service, \f3tnbmeserv\fR is running on port 1050 on host \f3nbmeserverhost\fR\&. The client is running on host \f3clienthost,\fR bnd the server is running on host \f3serverhost\fR\&.
 .PP
-Start \f3tnameserv\fR on the host \f3nameserverhost\fR:
+Stbrt \f3tnbmeserv\fR on the host \f3nbmeserverhost\fR:
 .sp     
 .nf     
-\f3tnameserv \-ORBInitialPort 1050\fP
+\f3tnbmeserv \-ORBInitiblPort 1050\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Start the server on the \f3serverhost\fR:
+Stbrt the server on the \f3serverhost\fR:
 .sp     
 .nf     
-\f3java Server \-ORBInitialPort 1050 \-ORBInitialHost nameserverhost\fP
+\f3jbvb Server \-ORBInitiblPort 1050 \-ORBInitiblHost nbmeserverhost\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Start the client on the \f3clienthost\fR:
+Stbrt the client on the \f3clienthost\fR:
 .sp     
 .nf     
-\f3java Client \-ORBInitialPort 1050 \-ORBInitialHost nameserverhost\fP
+\f3jbvb Client \-ORBInitiblPort 1050 \-ORBInitiblHost nbmeserverhost\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS STOP\ THE\ NAMING\ SERVICE    
-To stop the Java IDL naming service, use the relevant operating system command, such as \f3kill\fR for a Unix process or \f3Ctrl+C\fR for a Windows process\&. The naming service continues to wait for invocations until it is explicitly shut down\&. Note that names registered with the Java IDL naming service disappear when the service is terminated\&.
+To stop the Jbvb IDL nbming service, use the relevbnt operbting system commbnd, such bs \f3kill\fR for b Unix process or \f3Ctrl+C\fR for b Windows process\&. The nbming service continues to wbit for invocbtions until it is explicitly shut down\&. Note thbt nbmes registered with the Jbvb IDL nbming service disbppebr when the service is terminbted\&.
 .SH OPTIONS    
 .TP
 -J\fIoption\fR
 .br
-Passes \f3option\fR to the Java Virtual Machine, where \f3option\fR is one of the options described on the reference page for the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+Pbsses \f3option\fR to the Jbvb Virtubl Mbchine, where \f3option\fR is one of the options described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
 .SH EXAMPLES    
 .SS ADD\ OBJECTS\ TO\ THE\ NAME\ SPACE    
-The following example shows how to add names to the name space\&. It is a self-contained Transient Naming Service client that creates the following simple tree\&.
+The following exbmple shows how to bdd nbmes to the nbme spbce\&. It is b self-contbined Trbnsient Nbming Service client thbt crebtes the following simple tree\&.
 .sp     
 .nf     
-\f3Initial Naming Context\fP
+\f3Initibl Nbming Context\fP
 .fi     
 .nf     
-\f3     plans\fP
+\f3     plbns\fP
 .fi     
 .nf     
-\f3     Personal\fP
+\f3     Personbl\fP
 .fi     
 .nf     
-\f3          calendar\fP
+\f3          cblendbr\fP
 .fi     
 .nf     
 \f3          schedule\fP
@@ -169,28 +169,28 @@ The following example shows how to add names to the name space\&. It is a self-c
 \f3\fP
 .fi     
 .sp     
-In this example, \f3plans\fR is an object reference and \f3Personal\fR is a naming context that contains two object references: \f3calendar\fR and \f3schedule\fR\&.
+In this exbmple, \f3plbns\fR is bn object reference bnd \f3Personbl\fR is b nbming context thbt contbins two object references: \f3cblendbr\fR bnd \f3schedule\fR\&.
 .sp     
 .nf     
-\f3import java\&.util\&.Properties;\fP
+\f3import jbvb\&.util\&.Properties;\fP
 .fi     
 .nf     
 \f3import org\&.omg\&.CORBA\&.*;\fP
 .fi     
 .nf     
-\f3import org\&.omg\&.CosNaming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3public class NameClient {\fP
+\f3public clbss NbmeClient {\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3    public static void main(String args[]) {\fP
+\f3    public stbtic void mbin(String brgs[]) {\fP
 .fi     
 .nf     
 \f3\fP
@@ -202,85 +202,85 @@ In this example, \f3plans\fR is an object reference and \f3Personal\fR is a nami
 \f3\fP
 .fi     
 .sp     
-In Start the Naming Service, the \f3nameserver\fR was started on port 1050\&. The following code ensures that the client program is aware of this port number\&.
+In Stbrt the Nbming Service, the \f3nbmeserver\fR wbs stbrted on port 1050\&. The following code ensures thbt the client progrbm is bwbre of this port number\&.
 .sp     
 .nf     
 \f3            Properties props = new Properties();\fP
 .fi     
 .nf     
-\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitialPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
 .fi     
 .nf     
-\f3            ORB orb = ORB\&.init(args, props);\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.sp     
-This code obtains the initial naming context and assigns it to \f3ctx\fR\&. The second line copies \f3ctx\fR into a dummy object reference \f3objref\fR that is attached to various names and added into the name space\&.
-.sp     
-.nf     
-\f3            NamingContext ctx =\fP
-.fi     
-.nf     
-\f3                NamingContextHelper\&.narrow(\fP
-.fi     
-.nf     
-\f3                    orb\&.resolve_initial_references("NameService"));\fP
-.fi     
-.nf     
-\f3             NamingContext objref = ctx;\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This code creates a name \f3plans\fR of type \f3text\fR and binds it to the dummy object reference\&. \f3plans\fR is then added under the initial naming context using the \f3rebind\fR method\&. The \f3rebind\fR method enables you to run this program over and over again without getting the exceptions from using the \f3bind\fR method\&.
+This code obtbins the initibl nbming context bnd bssigns it to \f3ctx\fR\&. The second line copies \f3ctx\fR into b dummy object reference \f3objref\fR thbt is bttbched to vbrious nbmes bnd bdded into the nbme spbce\&.
 .sp     
 .nf     
-\f3            NameComponent nc1 = new NameComponent("plans", "text");\fP
+\f3            NbmingContext ctx =\fP
 .fi     
 .nf     
-\f3            NameComponent[] name1 = {nc1};\fP
+\f3                NbmingContextHelper\&.nbrrow(\fP
 .fi     
 .nf     
-\f3            ctx\&.rebind(name1, objref);\fP
+\f3                    orb\&.resolve_initibl_references("NbmeService"));\fP
 .fi     
 .nf     
-\f3            System\&.out\&.println("plans rebind successful!");\fP
+\f3             NbmingContext objref = ctx;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This code creates a naming context called \f3Personal\fR of type \f3directory\fR\&. The resulting object reference, \f3ctx2\fR, is bound to the \f3name\fR and added under the initial naming context\&.
+This code crebtes b nbme \f3plbns\fR of type \f3text\fR bnd binds it to the dummy object reference\&. \f3plbns\fR is then bdded under the initibl nbming context using the \f3rebind\fR method\&. The \f3rebind\fR method enbbles you to run this progrbm over bnd over bgbin without getting the exceptions from using the \f3bind\fR method\&.
 .sp     
 .nf     
-\f3            NameComponent nc2 = new NameComponent("Personal", "directory");\fP
+\f3            NbmeComponent nc1 = new NbmeComponent("plbns", "text");\fP
 .fi     
 .nf     
-\f3            NameComponent[] name2 = {nc2};\fP
+\f3            NbmeComponent[] nbme1 = {nc1};\fP
 .fi     
 .nf     
-\f3            NamingContext ctx2 = ctx\&.bind_new_context(name2);\fP
+\f3            ctx\&.rebind(nbme1, objref);\fP
 .fi     
 .nf     
-\f3            System\&.out\&.println("new naming context added\&.\&.");\fP
+\f3            System\&.out\&.println("plbns rebind successful!");\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The remainder of the code binds the dummy object reference using the names \f3schedule\fR and \f3calendar\fR under the \f3Personal\fR naming context (\f3ctx2\fR)\&.
+This code crebtes b nbming context cblled \f3Personbl\fR of type \f3directory\fR\&. The resulting object reference, \f3ctx2\fR, is bound to the \f3nbme\fR bnd bdded under the initibl nbming context\&.
 .sp     
 .nf     
-\f3            NameComponent nc3 = new NameComponent("schedule", "text");\fP
+\f3            NbmeComponent nc2 = new NbmeComponent("Personbl", "directory");\fP
 .fi     
 .nf     
-\f3            NameComponent[] name3 = {nc3};\fP
+\f3            NbmeComponent[] nbme2 = {nc2};\fP
 .fi     
 .nf     
-\f3            ctx2\&.rebind(name3, objref);\fP
+\f3            NbmingContext ctx2 = ctx\&.bind_new_context(nbme2);\fP
+.fi     
+.nf     
+\f3            System\&.out\&.println("new nbming context bdded\&.\&.");\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+The rembinder of the code binds the dummy object reference using the nbmes \f3schedule\fR bnd \f3cblendbr\fR under the \f3Personbl\fR nbming context (\f3ctx2\fR)\&.
+.sp     
+.nf     
+\f3            NbmeComponent nc3 = new NbmeComponent("schedule", "text");\fP
+.fi     
+.nf     
+\f3            NbmeComponent[] nbme3 = {nc3};\fP
+.fi     
+.nf     
+\f3            ctx2\&.rebind(nbme3, objref);\fP
 .fi     
 .nf     
 \f3            System\&.out\&.println("schedule rebind successful!");\fP
@@ -289,22 +289,22 @@ The remainder of the code binds the dummy object reference using the names \f3sc
 \f3\fP
 .fi     
 .nf     
-\f3            NameComponent nc4 = new NameComponent("calender", "text");\fP
+\f3            NbmeComponent nc4 = new NbmeComponent("cblender", "text");\fP
 .fi     
 .nf     
-\f3            NameComponent[] name4 = {nc4};\fP
+\f3            NbmeComponent[] nbme4 = {nc4};\fP
 .fi     
 .nf     
-\f3            ctx2\&.rebind(name4, objref);\fP
+\f3            ctx2\&.rebind(nbme4, objref);\fP
 .fi     
 .nf     
-\f3            System\&.out\&.println("calender rebind successful!");\fP
+\f3            System\&.out\&.println("cblender rebind successful!");\fP
 .fi     
 .nf     
-\f3        } catch (Exception e) {\fP
+\f3        } cbtch (Exception e) {\fP
 .fi     
 .nf     
-\f3            e\&.printStackTrace(System\&.err);\fP
+\f3            e\&.printStbckTrbce(System\&.err);\fP
 .fi     
 .nf     
 \f3        }\fP
@@ -320,28 +320,28 @@ The remainder of the code binds the dummy object reference using the names \f3sc
 .fi     
 .sp     
 .SS BROWSING\ THE\ NAME\ SPACE    
-The following sample program shoes how to browse the name space\&.
+The following sbmple progrbm shoes how to browse the nbme spbce\&.
 .sp     
 .nf     
-\f3import java\&.util\&.Properties;\fP
+\f3import jbvb\&.util\&.Properties;\fP
 .fi     
 .nf     
 \f3import org\&.omg\&.CORBA\&.*;\fP
 .fi     
 .nf     
-\f3import org\&.omg\&.CosNaming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3public class NameClientList {\fP
+\f3public clbss NbmeClientList {\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3    public static void main(String args[]) {\fP
+\f3    public stbtic void mbin(String brgs[]) {\fP
 .fi     
 .nf     
 \f3\fP
@@ -353,43 +353,43 @@ The following sample program shoes how to browse the name space\&.
 \f3\fP
 .fi     
 .sp     
-In Start the Naming Service, the \f3nameserver\fR was started on port 1050\&. The following code ensures that the client program is aware of this port number\&.
+In Stbrt the Nbming Service, the \f3nbmeserver\fR wbs stbrted on port 1050\&. The following code ensures thbt the client progrbm is bwbre of this port number\&.
 .sp     
 .nf     
 \f3            Properties props = new Properties();\fP
 .fi     
 .nf     
-\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitialPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
 .fi     
 .nf     
-\f3            ORB orb = ORB\&.init(args, props);\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.sp     
-The following code obtains the initial naming context\&.
-.sp     
-.nf     
-\f3            NamingContext nc =\fP
-.fi     
-.nf     
-\f3            NamingContextHelper\&.narrow(\fP
-.fi     
-.nf     
-\f3                orb\&.resolve_initial_references("NameService"));\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The \f3list\fR method lists the bindings in the naming context\&. In this case, up to 1000 bindings from the initial naming context will be returned in the \f3BindingListHolder\fR; any remaining bindings are returned in the \f3BindingIteratorHolder\fR\&.
+The following code obtbins the initibl nbming context\&.
+.sp     
+.nf     
+\f3            NbmingContext nc =\fP
+.fi     
+.nf     
+\f3            NbmingContextHelper\&.nbrrow(\fP
+.fi     
+.nf     
+\f3                orb\&.resolve_initibl_references("NbmeService"));\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+The \f3list\fR method lists the bindings in the nbming context\&. In this cbse, up to 1000 bindings from the initibl nbming context will be returned in the \f3BindingListHolder\fR; bny rembining bindings bre returned in the \f3BindingIterbtorHolder\fR\&.
 .sp     
 .nf     
 \f3            BindingListHolder bl = new BindingListHolder();\fP
 .fi     
 .nf     
-\f3            BindingIteratorHolder blIt= new BindingIteratorHolder();\fP
+\f3            BindingIterbtorHolder blIt= new BindingIterbtorHolder();\fP
 .fi     
 .nf     
 \f3            nc\&.list(1000, bl, blIt);\fP
@@ -398,10 +398,10 @@ The \f3list\fR method lists the bindings in the naming context\&. In this case, 
 \f3\fP
 .fi     
 .sp     
-This code gets the array of bindings out of the returned \f3BindingListHolder\fR\&. If there are no bindings, then the program ends\&.
+This code gets the brrby of bindings out of the returned \f3BindingListHolder\fR\&. If there bre no bindings, then the progrbm ends\&.
 .sp     
 .nf     
-\f3            Binding bindings[] = bl\&.value;\fP
+\f3            Binding bindings[] = bl\&.vblue;\fP
 .fi     
 .nf     
 \f3            if (bindings\&.length == 0) return;\fP
@@ -410,7 +410,7 @@ This code gets the array of bindings out of the returned \f3BindingListHolder\fR
 \f3\fP
 .fi     
 .sp     
-The remainder of the code loops through the bindings and prints outs the names\&.
+The rembinder of the code loops through the bindings bnd prints outs the nbmes\&.
 .sp     
 .nf     
 \f3            for (int i=0; i < bindings\&.length; i++) {\fP
@@ -419,22 +419,22 @@ The remainder of the code loops through the bindings and prints outs the names\&
 \f3\fP
 .fi     
 .nf     
-\f3                // get the object reference for each binding\fP
+\f3                // get the object reference for ebch binding\fP
 .fi     
 .nf     
-\f3                org\&.omg\&.CORBA\&.Object obj = nc\&.resolve(bindings[i]\&.binding_name);\fP
+\f3                org\&.omg\&.CORBA\&.Object obj = nc\&.resolve(bindings[i]\&.binding_nbme);\fP
 .fi     
 .nf     
 \f3                String objStr = orb\&.object_to_string(obj);\fP
 .fi     
 .nf     
-\f3                int lastIx = bindings[i]\&.binding_name\&.length\-1;\fP
+\f3                int lbstIx = bindings[i]\&.binding_nbme\&.length\-1;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3                // check to see if this is a naming context\fP
+\f3                // check to see if this is b nbming context\fP
 .fi     
 .nf     
 \f3                if (bindings[i]\&.binding_type == BindingType\&.ncontext) {\fP
@@ -443,7 +443,7 @@ The remainder of the code loops through the bindings and prints outs the names\&
 \f3                    System\&.out\&.println("Context: " +\fP
 .fi     
 .nf     
-\f3                        bindings[i]\&.binding_name[lastIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbme[lbstIx]\&.id);\fP
 .fi     
 .nf     
 \f3                } else {\fP
@@ -452,7 +452,7 @@ The remainder of the code loops through the bindings and prints outs the names\&
 \f3                    System\&.out\&.println("Object: " +\fP
 .fi     
 .nf     
-\f3                        bindings[i]\&.binding_name[lastIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbme[lbstIx]\&.id);\fP
 .fi     
 .nf     
 \f3                }\fP
@@ -461,10 +461,10 @@ The remainder of the code loops through the bindings and prints outs the names\&
 \f3            }\fP
 .fi     
 .nf     
-\f3        } catch (Exception e) {\fP
+\f3        } cbtch (Exception e) {\fP
 .fi     
 .nf     
-\f3            e\&.printStackTrace(System\&.err)\fP
+\f3            e\&.printStbckTrbce(System\&.err)\fP
 .fi     
 .nf     
 \f3        }\fP

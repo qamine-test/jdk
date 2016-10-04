@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,322 +30,322 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import com.sun.jmx.examples.scandir.config.ScanManagerConfig;
-import java.io.IOException;
-import javax.management.InstanceNotFoundException;
+import com.sun.jmx.exbmples.scbndir.config.DirectoryScbnnerConfig;
+import com.sun.jmx.exbmples.scbndir.config.ScbnMbnbgerConfig;
+import jbvb.io.IOException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
 
 /**
- * <p>The <code>ScanDirConfigMXBean</code> is in charge of the
- * <i>scandir</i> application configuration.
+ * <p>The <code>ScbnDirConfigMXBebn</code> is in chbrge of the
+ * <i>scbndir</i> bpplicbtion configurbtion.
  * </p>
- * <p>The <code>ScanDirConfigMXBean</code> is an MBean which is able to
- * load and save the <i>scandir</i> application configuration to and from an
+ * <p>The <code>ScbnDirConfigMXBebn</code> is bn MBebn which is bble to
+ * lobd bnd sbve the <i>scbndir</i> bpplicbtion configurbtion to bnd from bn
  * XML file.
  * </p>
  * <p>
- * It will let you also interactively modify that configuration, which you
- * can later save to the file, by calling {@link #save}, or discard, by
- * reloading the file without saving - see {@link #load}.
+ * It will let you blso interbctively modify thbt configurbtion, which you
+ * cbn lbter sbve to the file, by cblling {@link #sbve}, or discbrd, by
+ * relobding the file without sbving - see {@link #lobd}.
  * </p>
  * <p>
- * There can be as many <code>ScanDirConfigMXBean</code> registered
- * in the MBeanServer as you like, but only one of them will be identified as
- * the current configuration of the {@link ScanManagerMXBean}.
- * You can switch to another configuration by calling {@link
- * ScanManagerMXBean#setConfigurationMBean
- * ScanManagerMXBean.setConfigurationMBean}.
+ * There cbn be bs mbny <code>ScbnDirConfigMXBebn</code> registered
+ * in the MBebnServer bs you like, but only one of them will be identified bs
+ * the current configurbtion of the {@link ScbnMbnbgerMXBebn}.
+ * You cbn switch to bnother configurbtion by cblling {@link
+ * ScbnMbnbgerMXBebn#setConfigurbtionMBebn
+ * ScbnMbnbgerMXBebn.setConfigurbtionMBebn}.
  * </p>
  * <p>
- * Once the current configuration has been loaded (by calling {@link #load})
- * or modified (by calling one of {@link #addDirectoryScanner
- * addDirectoryScanner}, {@link #removeDirectoryScanner removeDirectoryScanner}
- * or {@link #setConfiguration setConfiguration}) it can be pushed
- * to the {@link ScanManagerMXBean} by calling {@link
- * ScanManagerMXBean#applyConfiguration
- * ScanManagerMXBean.applyConfiguration(true)} -
- * <code>true</code> means that we apply the configuration from memory,
- * without first reloading the file.
+ * Once the current configurbtion hbs been lobded (by cblling {@link #lobd})
+ * or modified (by cblling one of {@link #bddDirectoryScbnner
+ * bddDirectoryScbnner}, {@link #removeDirectoryScbnner removeDirectoryScbnner}
+ * or {@link #setConfigurbtion setConfigurbtion}) it cbn be pushed
+ * to the {@link ScbnMbnbgerMXBebn} by cblling {@link
+ * ScbnMbnbgerMXBebn#bpplyConfigurbtion
+ * ScbnMbnbgerMXBebn.bpplyConfigurbtion(true)} -
+ * <code>true</code> mebns thbt we bpply the configurbtion from memory,
+ * without first relobding the file.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public interface ScanDirConfigMXBean {
+public interfbce ScbnDirConfigMXBebn {
     /**
-     * This state tells whether the configuration reflected by the
-     * {@link ScanDirConfigMXBean} was loaded in memory, saved to the
-     * configuration file, or modified since last saved.
-     * Note that this state doesn't tell whether the configuration was
-     * applied by the {@link ScanManagerMXBean}.
+     * This stbte tells whether the configurbtion reflected by the
+     * {@link ScbnDirConfigMXBebn} wbs lobded in memory, sbved to the
+     * configurbtion file, or modified since lbst sbved.
+     * Note thbt this stbte doesn't tell whether the configurbtion wbs
+     * bpplied by the {@link ScbnMbnbgerMXBebn}.
      **/
-    public enum SaveState {
+    public enum SbveStbte {
         /**
-         * Initial state: the {@link ScanDirConfigMXBean} is created, but
-         * neither {@link #load} or  {@link #save} was yet called.
+         * Initibl stbte: the {@link ScbnDirConfigMXBebn} is crebted, but
+         * neither {@link #lobd} or  {@link #sbve} wbs yet cblled.
          **/
         CREATED,
 
         /**
-         * The configuration reflected by the {@link ScanDirConfigMXBean} has
-         * been loaded, but not modified yet.
+         * The configurbtion reflected by the {@link ScbnDirConfigMXBebn} hbs
+         * been lobded, but not modified yet.
          **/
         LOADED,
 
         /**
-         * The configuration was modified. The modifications are held in memory.
-         * Call {@link #save} to save them to the file, or {@link #load} to
-         * reload the file and discard them.
+         * The configurbtion wbs modified. The modificbtions bre held in memory.
+         * Cbll {@link #sbve} to sbve them to the file, or {@link #lobd} to
+         * relobd the file bnd discbrd them.
          **/
         MODIFIED,
 
         /**
-         * The configuration was saved.
+         * The configurbtion wbs sbved.
          **/
         SAVED
     };
 
     /**
-     * Loads the configuration from the {@link
-     * #getConfigFilename configuration file}.
-     * <p>Any unsaved modification will be lost. The {@link #getSaveState state}
-     * is switched to {@link SaveState#LOADED LOADED}.
+     * Lobds the configurbtion from the {@link
+     * #getConfigFilenbme configurbtion file}.
+     * <p>Any unsbved modificbtion will be lost. The {@link #getSbveStbte stbte}
+     * is switched to {@link SbveStbte#LOADED LOADED}.
      * </p>
      * <p>
-     * This action has no effect on the {@link ScanManagerMXBean} until
-     * {@link ScanManagerMXBean#getConfigurationMBean ScanManagerMXBean}
-     * points to this MBean and {@link ScanManagerMXBean#applyConfiguration
-     * ScanManagerMXBean.applyConfiguration} is called.
+     * This bction hbs no effect on the {@link ScbnMbnbgerMXBebn} until
+     * {@link ScbnMbnbgerMXBebn#getConfigurbtionMBebn ScbnMbnbgerMXBebn}
+     * points to this MBebn bnd {@link ScbnMbnbgerMXBebn#bpplyConfigurbtion
+     * ScbnMbnbgerMXBebn.bpplyConfigurbtion} is cblled.
      * </p>
-     * @see #getSaveState()
-     * @throws IOException The configuration couldn't be loaded from the file,
-     *                     e.g. because the file doesn't exist or isn't
-     *                     readable.
-     * @throws IOException A connection problem occurred when accessing
+     * @see #getSbveStbte()
+     * @throws IOException The configurbtion couldn't be lobded from the file,
+     *                     e.g. becbuse the file doesn't exist or isn't
+     *                     rebdbble.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public void load()
-        throws IOException, InstanceNotFoundException;
+    public void lobd()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Saves the configuration to the {@link
-     * #getConfigFilename configuration file}.
+     * Sbves the configurbtion to the {@link
+     * #getConfigFilenbme configurbtion file}.
      *
-     * <p>If the configuration file doesn't exists, this method will
-     *    attempt to create it. Otherwise, the existing file will
-     *    be renamed by appending a '~' to its name, and a new file
-     *    will be created, in which the configuration will be saved.
-     * The {@link #getSaveState state}
-     * is switched to {@link SaveState#SAVED SAVED}.
+     * <p>If the configurbtion file doesn't exists, this method will
+     *    bttempt to crebte it. Otherwise, the existing file will
+     *    be renbmed by bppending b '~' to its nbme, bnd b new file
+     *    will be crebted, in which the configurbtion will be sbved.
+     * The {@link #getSbveStbte stbte}
+     * is switched to {@link SbveStbte#SAVED SAVED}.
      * </p>
      * <p>
-     * This action has no effect on the {@link ScanManagerMXBean}.
+     * This bction hbs no effect on the {@link ScbnMbnbgerMXBebn}.
      * </p>
-     * @see #getSaveState()
+     * @see #getSbveStbte()
      *
-     * @throws IOException The configuration couldn't be saved to the file,
-     *                     e.g. because the file couldn't be created.
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IOException The configurbtion couldn't be sbved to the file,
+     *                     e.g. becbuse the file couldn't be crebted.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public void save()
-        throws IOException, InstanceNotFoundException;
+    public void sbve()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets the name of the configuration file.
-     * <p>If the configuration file doesn't exists, {@link #load} will fail
-     * and {@link #save} will attempt to create the file.
+     * Gets the nbme of the configurbtion file.
+     * <p>If the configurbtion file doesn't exists, {@link #lobd} will fbil
+     * bnd {@link #sbve} will bttempt to crebte the file.
      * </p>
      *
-     * @return The configuration file name for this MBean.
-     * @throws IOException A connection problem occurred when accessing
+     * @return The configurbtion file nbme for this MBebn.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public String getConfigFilename()
-        throws IOException, InstanceNotFoundException;
+    public String getConfigFilenbme()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets the current configuration data.
+     * Gets the current configurbtion dbtb.
      * <p>
-     * This method returns the configuration data which is currently held
+     * This method returns the configurbtion dbtb which is currently held
      * in memory.
      * </p>
-     * <p>Call {@link #load} to reload the data from the configuration
-     *    file, and {@link #save} to save the data to the configuration
+     * <p>Cbll {@link #lobd} to relobd the dbtb from the configurbtion
+     *    file, bnd {@link #sbve} to sbve the dbtb to the configurbtion
      *    file.
      * </p>
-     * @see #getSaveState()
-     * @return The current configuration data in memory.
-     * @throws IOException A connection problem occurred when accessing
+     * @see #getSbveStbte()
+     * @return The current configurbtion dbtb in memory.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public ScanManagerConfig getConfiguration()
-        throws IOException, InstanceNotFoundException;
+    public ScbnMbnbgerConfig getConfigurbtion()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Sets the current configuration data.
+     * Sets the current configurbtion dbtb.
      * <p>
-     * This method replaces the configuration data in memory.
-     * The {@link #getSaveState state} is switched to {@link
-     * SaveState#MODIFIED MODIFIED}.
+     * This method replbces the configurbtion dbtb in memory.
+     * The {@link #getSbveStbte stbte} is switched to {@link
+     * SbveStbte#MODIFIED MODIFIED}.
      * </p>
-     * <p>Calling {@link #load} will reload the data from the configuration
-     *    file, and all modifications will be lost.
-     *    Calling {@link #save} will save the modified data to the configuration
+     * <p>Cblling {@link #lobd} will relobd the dbtb from the configurbtion
+     *    file, bnd bll modificbtions will be lost.
+     *    Cblling {@link #sbve} will sbve the modified dbtb to the configurbtion
      *    file.
      * </p>
      * <p>
-     * This action has no effect on the {@link ScanManagerMXBean} until
-     * {@link ScanManagerMXBean#getConfigurationMBean ScanManagerMXBean}
-     * points to this MBean and {@link ScanManagerMXBean#applyConfiguration
-     * ScanManagerMXBean.applyConfiguration} is called.
+     * This bction hbs no effect on the {@link ScbnMbnbgerMXBebn} until
+     * {@link ScbnMbnbgerMXBebn#getConfigurbtionMBebn ScbnMbnbgerMXBebn}
+     * points to this MBebn bnd {@link ScbnMbnbgerMXBebn#bpplyConfigurbtion
+     * ScbnMbnbgerMXBebn.bpplyConfigurbtion} is cblled.
      * </p>
-     * @param config The new configuration data.
-     * @see #getSaveState()
-     * @throws IOException A connection problem occurred when accessing
+     * @pbrbm config The new configurbtion dbtb.
+     * @see #getSbveStbte()
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      */
-    public void setConfiguration(ScanManagerConfig config)
-        throws IOException, InstanceNotFoundException;
+    public void setConfigurbtion(ScbnMbnbgerConfig config)
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Adds a new directory scanner to the current configuration data.
+     * Adds b new directory scbnner to the current configurbtion dbtb.
      * <p>
-     * This method updates the configuration data in memory, adding
-     * a {@link DirectoryScannerConfig} to the {@link
-     * ScanManagerConfig#getScanList directory scanner list}.
-     * The {@link #getSaveState state} is switched to {@link
-     * SaveState#MODIFIED MODIFIED}.
+     * This method updbtes the configurbtion dbtb in memory, bdding
+     * b {@link DirectoryScbnnerConfig} to the {@link
+     * ScbnMbnbgerConfig#getScbnList directory scbnner list}.
+     * The {@link #getSbveStbte stbte} is switched to {@link
+     * SbveStbte#MODIFIED MODIFIED}.
      * </p>
-     * <p>Calling {@link #load} will reload the data from the configuration
-     *    file, and all modifications will be lost.
-     *    Calling {@link #save} will save the modified data to the configuration
+     * <p>Cblling {@link #lobd} will relobd the dbtb from the configurbtion
+     *    file, bnd bll modificbtions will be lost.
+     *    Cblling {@link #sbve} will sbve the modified dbtb to the configurbtion
      *    file.
      * </p>
      * <p>
-     * This action has no effect on the {@link ScanManagerMXBean} until
-     * {@link ScanManagerMXBean#getConfigurationMBean ScanManagerMXBean}
-     * points to this MBean and {@link ScanManagerMXBean#applyConfiguration
-     * ScanManagerMXBean.applyConfiguration} is called.
+     * This bction hbs no effect on the {@link ScbnMbnbgerMXBebn} until
+     * {@link ScbnMbnbgerMXBebn#getConfigurbtionMBebn ScbnMbnbgerMXBebn}
+     * points to this MBebn bnd {@link ScbnMbnbgerMXBebn#bpplyConfigurbtion
+     * ScbnMbnbgerMXBebn.bpplyConfigurbtion} is cblled.
      * </p>
-     * @param name A name for the new directory scanner. This is the value
-     *             that will be later used in the {@link DirectoryScannerMXBean}
-     *             ObjectName for the <code>name=</code> key.
-     * @param dir The root directory at which this scanner will start scanning.
-     * @param filePattern A {@link java.util.regex.Pattern regular expression}
-     *        to match against a selected file name.
-     * @param sizeExceedsMaxBytes Only file whose size exceeds that limit will
-     *        be selected. <code.0</code> or  a
-     *        negative value means no limit.
-     * @param sinceLastModified Select files which haven't been modified for
-     *        that number of milliseconds - i.e.
-     *        {@code sinceLastModified=3600000} will exclude files which
-     *        have been modified in the last hour.
-     *        The date of last modification is ignored if <code>0</code> or  a
-     *        negative value is provided.
-     * @see #getSaveState()
-     * @return The added <code>DirectoryScannerConfig</code>.
-     * @throws IOException A connection problem occurred when accessing
+     * @pbrbm nbme A nbme for the new directory scbnner. This is the vblue
+     *             thbt will be lbter used in the {@link DirectoryScbnnerMXBebn}
+     *             ObjectNbme for the <code>nbme=</code> key.
+     * @pbrbm dir The root directory bt which this scbnner will stbrt scbnning.
+     * @pbrbm filePbttern A {@link jbvb.util.regex.Pbttern regulbr expression}
+     *        to mbtch bgbinst b selected file nbme.
+     * @pbrbm sizeExceedsMbxBytes Only file whose size exceeds thbt limit will
+     *        be selected. <code.0</code> or  b
+     *        negbtive vblue mebns no limit.
+     * @pbrbm sinceLbstModified Select files which hbven't been modified for
+     *        thbt number of milliseconds - i.e.
+     *        {@code sinceLbstModified=3600000} will exclude files which
+     *        hbve been modified in the lbst hour.
+     *        The dbte of lbst modificbtion is ignored if <code>0</code> or  b
+     *        negbtive vblue is provided.
+     * @see #getSbveStbte()
+     * @return The bdded <code>DirectoryScbnnerConfig</code>.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public DirectoryScannerConfig
-            addDirectoryScanner(String name, String dir, String filePattern,
-                                long sizeExceedsMaxBytes, long sinceLastModified)
-        throws IOException, InstanceNotFoundException;
+    public DirectoryScbnnerConfig
+            bddDirectoryScbnner(String nbme, String dir, String filePbttern,
+                                long sizeExceedsMbxBytes, long sinceLbstModified)
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Removes a directory scanner from the current configuration data.
+     * Removes b directory scbnner from the current configurbtion dbtb.
      * <p>
-     * This method updates the configuration data in memory, removing
-     * a {@link DirectoryScannerConfig} from the {@link
-     * ScanManagerConfig#getScanList directory scanner list}.
-     * The {@link #getSaveState state} is switched to {@link
-     * SaveState#MODIFIED MODIFIED}.
+     * This method updbtes the configurbtion dbtb in memory, removing
+     * b {@link DirectoryScbnnerConfig} from the {@link
+     * ScbnMbnbgerConfig#getScbnList directory scbnner list}.
+     * The {@link #getSbveStbte stbte} is switched to {@link
+     * SbveStbte#MODIFIED MODIFIED}.
      * </p>
-     * <p>Calling {@link #load} will reload the data from the configuration
-     *    file, and all modifications will be lost.
-     *    Calling {@link #save} will save the modified data to the configuration
+     * <p>Cblling {@link #lobd} will relobd the dbtb from the configurbtion
+     *    file, bnd bll modificbtions will be lost.
+     *    Cblling {@link #sbve} will sbve the modified dbtb to the configurbtion
      *    file.
      * </p>
      * <p>
-     * This action has no effect on the {@link ScanManagerMXBean} until
-     * {@link ScanManagerMXBean#getConfigurationMBean ScanManagerMXBean}
-     * points to this MBean and {@link ScanManagerMXBean#applyConfiguration
-     * ScanManagerMXBean.applyConfiguration} is called.
+     * This bction hbs no effect on the {@link ScbnMbnbgerMXBebn} until
+     * {@link ScbnMbnbgerMXBebn#getConfigurbtionMBebn ScbnMbnbgerMXBebn}
+     * points to this MBebn bnd {@link ScbnMbnbgerMXBebn#bpplyConfigurbtion
+     * ScbnMbnbgerMXBebn.bpplyConfigurbtion} is cblled.
      * </p>
-     * @param name The name of the new directory scanner. This is the value
-     *             that is used in the {@link DirectoryScannerMXBean}
-     *             ObjectName for the <code>name=</code> key.
-     * @return The removed <code>DirectoryScannerConfig</code>.
-     * @throws IllegalArgumentException if there's no directory scanner by
-     *         that name in the current configuration data.
-     * @throws IOException A connection problem occurred when accessing
+     * @pbrbm nbme The nbme of the new directory scbnner. This is the vblue
+     *             thbt is used in the {@link DirectoryScbnnerMXBebn}
+     *             ObjectNbme for the <code>nbme=</code> key.
+     * @return The removed <code>DirectoryScbnnerConfig</code>.
+     * @throws IllegblArgumentException if there's no directory scbnner by
+     *         thbt nbme in the current configurbtion dbtb.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public DirectoryScannerConfig
-            removeDirectoryScanner(String name)
-        throws IOException, InstanceNotFoundException;
+    public DirectoryScbnnerConfig
+            removeDirectoryScbnner(String nbme)
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets the save state of the current configuration data.
+     * Gets the sbve stbte of the current configurbtion dbtb.
      * <p>
-     * {@link SaveState#CREATED CREATED} means that the configuration data was just
-     * created. It has not been loaded from the configuration file.
-     * Calling {@link #load} will load the data from the configuration file.
-     * Calling {@link #save} will write the empty data to the configuration
+     * {@link SbveStbte#CREATED CREATED} mebns thbt the configurbtion dbtb wbs just
+     * crebted. It hbs not been lobded from the configurbtion file.
+     * Cblling {@link #lobd} will lobd the dbtb from the configurbtion file.
+     * Cblling {@link #sbve} will write the empty dbtb to the configurbtion
      * file.
      * </p>
      * <p>
-     * {@link SaveState#LOADED LOADED} means that the configuration data
-     * was loaded from the configuration file.
+     * {@link SbveStbte#LOADED LOADED} mebns thbt the configurbtion dbtb
+     * wbs lobded from the configurbtion file.
      * </p>
      * <p>
-     * {@link SaveState#MODIFIED MODIFIED} means that the configuration data
-     * was modified since it was last loaded or saved.
-     * Calling {@link #load} will reload the data from the configuration file,
-     * and all modifications will be lost.
-     * Calling {@link #save} will write the modified data to the configuration
+     * {@link SbveStbte#MODIFIED MODIFIED} mebns thbt the configurbtion dbtb
+     * wbs modified since it wbs lbst lobded or sbved.
+     * Cblling {@link #lobd} will relobd the dbtb from the configurbtion file,
+     * bnd bll modificbtions will be lost.
+     * Cblling {@link #sbve} will write the modified dbtb to the configurbtion
      * file.
      * </p>
      * <p>
-     * {@link SaveState#SAVED SAVED} means that the configuration data
-     * was saved to the configuration file.
+     * {@link SbveStbte#SAVED SAVED} mebns thbt the configurbtion dbtb
+     * wbs sbved to the configurbtion file.
      * </p>
      * <p>
-     * This state doesn't indicate whether this MBean configuration data
-     * was {@link ScanManagerMXBean#applyConfiguration applied} by the
-     * {@link ScanManagerMXBean}.
+     * This stbte doesn't indicbte whether this MBebn configurbtion dbtb
+     * wbs {@link ScbnMbnbgerMXBebn#bpplyConfigurbtion bpplied} by the
+     * {@link ScbnMbnbgerMXBebn}.
      * </p>
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
-     * @return The save state of the {@code ScanDirConfigMXBean}.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
+     * @return The sbve stbte of the {@code ScbnDirConfigMXBebn}.
      */
-    public SaveState getSaveState()
-        throws IOException, InstanceNotFoundException;
+    public SbveStbte getSbveStbte()
+        throws IOException, InstbnceNotFoundException;
 
 }

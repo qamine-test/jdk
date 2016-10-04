@@ -1,105 +1,105 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * Copyright (C) 2003-2004, International Business Machines Corporation and    *
+ * Copyright (C) 2003-2004, Internbtionbl Business Mbchines Corporbtion bnd    *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
 //
 // CHANGELOG
-//      2005-05-19 Edward Wang
-//          - copy this file from icu4jsrc_3_2/src/com/ibm/icu/text/Punycode.java
-//          - move from package com.ibm.icu.text to package sun.net.idn
-//          - use ParseException instead of StringPrepParseException
-//      2007-08-14 Martin Buchholz
-//          - remove redundant casts
+//      2005-05-19 Edwbrd Wbng
+//          - copy this file from icu4jsrc_3_2/src/com/ibm/icu/text/Punycode.jbvb
+//          - move from pbckbge com.ibm.icu.text to pbckbge sun.net.idn
+//          - use PbrseException instebd of StringPrepPbrseException
+//      2007-08-14 Mbrtin Buchholz
+//          - remove redundbnt cbsts
 //
-package sun.net.idn;
+pbckbge sun.net.idn;
 
-import java.text.ParseException;
-import sun.text.normalizer.UCharacter;
-import sun.text.normalizer.UTF16;
+import jbvb.text.PbrseException;
+import sun.text.normblizer.UChbrbcter;
+import sun.text.normblizer.UTF16;
 
 /**
  * Ported code from ICU punycode.c
- * @author ram
+ * @buthor rbm
  */
 
-/* Package Private class */
-public final class Punycode {
+/* Pbckbge Privbte clbss */
+public finbl clbss Punycode {
 
-    /* Punycode parameters for Bootstring */
-    private static final int BASE           = 36;
-    private static final int TMIN           = 1;
-    private static final int TMAX           = 26;
-    private static final int SKEW           = 38;
-    private static final int DAMP           = 700;
-    private static final int INITIAL_BIAS   = 72;
-    private static final int INITIAL_N      = 0x80;
+    /* Punycode pbrbmeters for Bootstring */
+    privbte stbtic finbl int BASE           = 36;
+    privbte stbtic finbl int TMIN           = 1;
+    privbte stbtic finbl int TMAX           = 26;
+    privbte stbtic finbl int SKEW           = 38;
+    privbte stbtic finbl int DAMP           = 700;
+    privbte stbtic finbl int INITIAL_BIAS   = 72;
+    privbte stbtic finbl int INITIAL_N      = 0x80;
 
-    /* "Basic" Unicode/ASCII code points */
-    private static final int HYPHEN         = 0x2d;
-    private static final int DELIMITER      = HYPHEN;
+    /* "Bbsic" Unicode/ASCII code points */
+    privbte stbtic finbl int HYPHEN         = 0x2d;
+    privbte stbtic finbl int DELIMITER      = HYPHEN;
 
-    private static final int ZERO           = 0x30;
-    private static final int NINE           = 0x39;
+    privbte stbtic finbl int ZERO           = 0x30;
+    privbte stbtic finbl int NINE           = 0x39;
 
-    private static final int SMALL_A        = 0x61;
-    private static final int SMALL_Z        = 0x7a;
+    privbte stbtic finbl int SMALL_A        = 0x61;
+    privbte stbtic finbl int SMALL_Z        = 0x7b;
 
-    private static final int CAPITAL_A      = 0x41;
-    private static final int CAPITAL_Z      = 0x5a;
+    privbte stbtic finbl int CAPITAL_A      = 0x41;
+    privbte stbtic finbl int CAPITAL_Z      = 0x5b;
 
-    //  TODO: eliminate the 256 limitation
-    private static final int MAX_CP_COUNT   = 256;
+    //  TODO: eliminbte the 256 limitbtion
+    privbte stbtic finbl int MAX_CP_COUNT   = 256;
 
-    private static final int UINT_MAGIC     = 0x80000000;
-    private static final long ULONG_MAGIC   = 0x8000000000000000L;
+    privbte stbtic finbl int UINT_MAGIC     = 0x80000000;
+    privbte stbtic finbl long ULONG_MAGIC   = 0x8000000000000000L;
 
-    private static int adaptBias(int delta, int length, boolean firstTime){
+    privbte stbtic int bdbptBibs(int deltb, int length, boolebn firstTime){
         if(firstTime){
-            delta /=DAMP;
+            deltb /=DAMP;
         }else{
-            delta /=  2;
+            deltb /=  2;
         }
-        delta += delta/length;
+        deltb += deltb/length;
 
         int count=0;
-        for(; delta>((BASE-TMIN)*TMAX)/2; count+=BASE) {
-            delta/=(BASE-TMIN);
+        for(; deltb>((BASE-TMIN)*TMAX)/2; count+=BASE) {
+            deltb/=(BASE-TMIN);
         }
 
-        return count+(((BASE-TMIN+1)*delta)/(delta+SKEW));
+        return count+(((BASE-TMIN+1)*deltb)/(deltb+SKEW));
     }
 
     /**
-     * basicToDigit[] contains the numeric value of a basic code
-     * point (for use in representing integers) in the range 0 to
-     * BASE-1, or -1 if b is does not represent a value.
+     * bbsicToDigit[] contbins the numeric vblue of b bbsic code
+     * point (for use in representing integers) in the rbnge 0 to
+     * BASE-1, or -1 if b is does not represent b vblue.
      */
-    static final int[]    basicToDigit= new int[]{
+    stbtic finbl int[]    bbsicToDigit= new int[]{
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 
@@ -125,8 +125,8 @@ public final class Punycode {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
     };
 
-    private static char asciiCaseMap(char b, boolean uppercase) {
-        if(uppercase) {
+    privbte stbtic chbr bsciiCbseMbp(chbr b, boolebn uppercbse) {
+        if(uppercbse) {
             if(SMALL_A<=b && b<=SMALL_Z) {
                 b-=(SMALL_A-CAPITAL_A);
             }
@@ -139,135 +139,135 @@ public final class Punycode {
     }
 
     /**
-     * digitToBasic() returns the basic code point whose value
+     * digitToBbsic() returns the bbsic code point whose vblue
      * (when used for representing integers) is d, which must be in the
-     * range 0 to BASE-1. The lowercase form is used unless the uppercase flag is
-     * nonzero, in which case the uppercase form is used.
+     * rbnge 0 to BASE-1. The lowercbse form is used unless the uppercbse flbg is
+     * nonzero, in which cbse the uppercbse form is used.
      */
-    private static char digitToBasic(int digit, boolean uppercase) {
-        /*  0..25 map to ASCII a..z or A..Z */
-        /* 26..35 map to ASCII 0..9         */
+    privbte stbtic chbr digitToBbsic(int digit, boolebn uppercbse) {
+        /*  0..25 mbp to ASCII b..z or A..Z */
+        /* 26..35 mbp to ASCII 0..9         */
         if(digit<26) {
-            if(uppercase) {
-                return (char)(CAPITAL_A+digit);
+            if(uppercbse) {
+                return (chbr)(CAPITAL_A+digit);
             } else {
-                return (char)(SMALL_A+digit);
+                return (chbr)(SMALL_A+digit);
             }
         } else {
-            return (char)((ZERO-26)+digit);
+            return (chbr)((ZERO-26)+digit);
         }
     }
     /**
      * Converts Unicode to Punycode.
-     * The input string must not contain single, unpaired surrogates.
-     * The output will be represented as an array of ASCII code points.
+     * The input string must not contbin single, unpbired surrogbtes.
+     * The output will be represented bs bn brrby of ASCII code points.
      *
-     * @param src
-     * @param caseFlags
+     * @pbrbm src
+     * @pbrbm cbseFlbgs
      * @return
-     * @throws ParseException
+     * @throws PbrseException
      */
-    public static StringBuffer encode(StringBuffer src, boolean[] caseFlags) throws ParseException{
+    public stbtic StringBuffer encode(StringBuffer src, boolebn[] cbseFlbgs) throws PbrseException{
 
         int[] cpBuffer = new int[MAX_CP_COUNT];
-        int n, delta, handledCPCount, basicLength, destLength, bias, j, m, q, k, t, srcCPCount;
-        char c, c2;
+        int n, deltb, hbndledCPCount, bbsicLength, destLength, bibs, j, m, q, k, t, srcCPCount;
+        chbr c, c2;
         int srcLength = src.length();
-        int destCapacity = MAX_CP_COUNT;
-        char[] dest = new char[destCapacity];
+        int destCbpbcity = MAX_CP_COUNT;
+        chbr[] dest = new chbr[destCbpbcity];
         StringBuffer result = new StringBuffer();
         /*
-         * Handle the basic code points and
-         * convert extended ones to UTF-32 in cpBuffer (caseFlag in sign bit):
+         * Hbndle the bbsic code points bnd
+         * convert extended ones to UTF-32 in cpBuffer (cbseFlbg in sign bit):
          */
         srcCPCount=destLength=0;
 
         for(j=0; j<srcLength; ++j) {
             if(srcCPCount==MAX_CP_COUNT) {
-                /* too many input code points */
+                /* too mbny input code points */
                 throw new IndexOutOfBoundsException();
             }
-            c=src.charAt(j);
-            if(isBasic(c)) {
-                if(destLength<destCapacity) {
+            c=src.chbrAt(j);
+            if(isBbsic(c)) {
+                if(destLength<destCbpbcity) {
                     cpBuffer[srcCPCount++]=0;
                     dest[destLength]=
-                        caseFlags!=null ?
-                            asciiCaseMap(c, caseFlags[j]) :
+                        cbseFlbgs!=null ?
+                            bsciiCbseMbp(c, cbseFlbgs[j]) :
                             c;
                 }
                 ++destLength;
             } else {
-                n=((caseFlags!=null && caseFlags[j])? 1 : 0)<<31L;
-                if(!UTF16.isSurrogate(c)) {
+                n=((cbseFlbgs!=null && cbseFlbgs[j])? 1 : 0)<<31L;
+                if(!UTF16.isSurrogbte(c)) {
                     n|=c;
-                } else if(UTF16.isLeadSurrogate(c) && (j+1)<srcLength && UTF16.isTrailSurrogate(c2=src.charAt(j+1))) {
+                } else if(UTF16.isLebdSurrogbte(c) && (j+1)<srcLength && UTF16.isTrbilSurrogbte(c2=src.chbrAt(j+1))) {
                     ++j;
 
-                    n|=UCharacter.getCodePoint(c, c2);
+                    n|=UChbrbcter.getCodePoint(c, c2);
                 } else {
-                    /* error: unmatched surrogate */
-                    throw new ParseException("Illegal char found", -1);
+                    /* error: unmbtched surrogbte */
+                    throw new PbrseException("Illegbl chbr found", -1);
                 }
                 cpBuffer[srcCPCount++]=n;
             }
         }
 
-        /* Finish the basic string - if it is not empty - with a delimiter. */
-        basicLength=destLength;
-        if(basicLength>0) {
-            if(destLength<destCapacity) {
+        /* Finish the bbsic string - if it is not empty - with b delimiter. */
+        bbsicLength=destLength;
+        if(bbsicLength>0) {
+            if(destLength<destCbpbcity) {
                 dest[destLength]=DELIMITER;
             }
             ++destLength;
         }
 
         /*
-         * handledCPCount is the number of code points that have been handled
-         * basicLength is the number of basic code points
-         * destLength is the number of chars that have been output
+         * hbndledCPCount is the number of code points thbt hbve been hbndled
+         * bbsicLength is the number of bbsic code points
+         * destLength is the number of chbrs thbt hbve been output
          */
 
-        /* Initialize the state: */
+        /* Initiblize the stbte: */
         n=INITIAL_N;
-        delta=0;
-        bias=INITIAL_BIAS;
+        deltb=0;
+        bibs=INITIAL_BIAS;
 
-        /* Main encoding loop: */
-        for(handledCPCount=basicLength; handledCPCount<srcCPCount; /* no op */) {
+        /* Mbin encoding loop: */
+        for(hbndledCPCount=bbsicLength; hbndledCPCount<srcCPCount; /* no op */) {
             /*
-             * All non-basic code points < n have been handled already.
-             * Find the next larger one:
+             * All non-bbsic code points < n hbve been hbndled blrebdy.
+             * Find the next lbrger one:
              */
             for(m=0x7fffffff, j=0; j<srcCPCount; ++j) {
-                q=cpBuffer[j]&0x7fffffff; /* remove case flag from the sign bit */
+                q=cpBuffer[j]&0x7fffffff; /* remove cbse flbg from the sign bit */
                 if(n<=q && q<m) {
                     m=q;
                 }
             }
 
             /*
-             * Increase delta enough to advance the decoder's
-             * <n,i> state to <m,0>, but guard against overflow:
+             * Increbse deltb enough to bdvbnce the decoder's
+             * <n,i> stbte to <m,0>, but gubrd bgbinst overflow:
              */
-            if(m-n>(0x7fffffff-MAX_CP_COUNT-delta)/(handledCPCount+1)) {
-                throw new RuntimeException("Internal program error");
+            if(m-n>(0x7fffffff-MAX_CP_COUNT-deltb)/(hbndledCPCount+1)) {
+                throw new RuntimeException("Internbl progrbm error");
             }
-            delta+=(m-n)*(handledCPCount+1);
+            deltb+=(m-n)*(hbndledCPCount+1);
             n=m;
 
-            /* Encode a sequence of same code points n */
+            /* Encode b sequence of sbme code points n */
             for(j=0; j<srcCPCount; ++j) {
-                q=cpBuffer[j]&0x7fffffff; /* remove case flag from the sign bit */
+                q=cpBuffer[j]&0x7fffffff; /* remove cbse flbg from the sign bit */
                 if(q<n) {
-                    ++delta;
+                    ++deltb;
                 } else if(q==n) {
-                    /* Represent delta as a generalized variable-length integer: */
-                    for(q=delta, k=BASE; /* no condition */; k+=BASE) {
+                    /* Represent deltb bs b generblized vbribble-length integer: */
+                    for(q=deltb, k=BASE; /* no condition */; k+=BASE) {
 
-                        /** RAM: comment out the old code for conformance with draft-ietf-idn-punycode-03.txt
+                        /** RAM: comment out the old code for conformbnce with drbft-ietf-idn-punycode-03.txt
 
-                        t=k-bias;
+                        t=k-bibs;
                         if(t<TMIN) {
                             t=TMIN;
                         } else if(t>TMAX) {
@@ -275,237 +275,237 @@ public final class Punycode {
                         }
                         */
 
-                        t=k-bias;
+                        t=k-bibs;
                         if(t<TMIN) {
                             t=TMIN;
-                        } else if(k>=(bias+TMAX)) {
+                        } else if(k>=(bibs+TMAX)) {
                             t=TMAX;
                         }
 
                         if(q<t) {
-                            break;
+                            brebk;
                         }
 
-                        if(destLength<destCapacity) {
-                            dest[destLength++]=digitToBasic(t+(q-t)%(BASE-t), false);
+                        if(destLength<destCbpbcity) {
+                            dest[destLength++]=digitToBbsic(t+(q-t)%(BASE-t), fblse);
                         }
                         q=(q-t)/(BASE-t);
                     }
 
-                    if(destLength<destCapacity) {
-                        dest[destLength++]=digitToBasic(q, (cpBuffer[j]<0));
+                    if(destLength<destCbpbcity) {
+                        dest[destLength++]=digitToBbsic(q, (cpBuffer[j]<0));
                     }
-                    bias=adaptBias(delta, handledCPCount+1,(handledCPCount==basicLength));
-                    delta=0;
-                    ++handledCPCount;
+                    bibs=bdbptBibs(deltb, hbndledCPCount+1,(hbndledCPCount==bbsicLength));
+                    deltb=0;
+                    ++hbndledCPCount;
                 }
             }
 
-            ++delta;
+            ++deltb;
             ++n;
         }
 
-        return result.append(dest, 0, destLength);
+        return result.bppend(dest, 0, destLength);
     }
 
-    private static boolean isBasic(int ch){
+    privbte stbtic boolebn isBbsic(int ch){
         return (ch < INITIAL_N);
     }
 
-    private static boolean isBasicUpperCase(int ch){
+    privbte stbtic boolebn isBbsicUpperCbse(int ch){
         return( CAPITAL_A <= ch && ch <= CAPITAL_Z);
     }
 
-    private static boolean isSurrogate(int ch){
+    privbte stbtic boolebn isSurrogbte(int ch){
         return (((ch)&0xfffff800)==0xd800);
     }
     /**
      * Converts Punycode to Unicode.
-     * The Unicode string will be at most as long as the Punycode string.
+     * The Unicode string will be bt most bs long bs the Punycode string.
      *
-     * @param src
-     * @param caseFlags
+     * @pbrbm src
+     * @pbrbm cbseFlbgs
      * @return
-     * @throws ParseException
+     * @throws PbrseException
      */
-    public static StringBuffer decode(StringBuffer src, boolean[] caseFlags)
-                               throws ParseException{
+    public stbtic StringBuffer decode(StringBuffer src, boolebn[] cbseFlbgs)
+                               throws PbrseException{
         int srcLength = src.length();
         StringBuffer result = new StringBuffer();
-        int n, destLength, i, bias, basicLength, j, in, oldi, w, k, digit, t,
-                destCPCount, firstSupplementaryIndex, cpLength;
-        char b;
-        int destCapacity = MAX_CP_COUNT;
-        char[] dest = new char[destCapacity];
+        int n, destLength, i, bibs, bbsicLength, j, in, oldi, w, k, digit, t,
+                destCPCount, firstSupplementbryIndex, cpLength;
+        chbr b;
+        int destCbpbcity = MAX_CP_COUNT;
+        chbr[] dest = new chbr[destCbpbcity];
 
         /*
-         * Handle the basic code points:
-         * Let basicLength be the number of input code points
-         * before the last delimiter, or 0 if there is none,
-         * then copy the first basicLength code points to the output.
+         * Hbndle the bbsic code points:
+         * Let bbsicLength be the number of input code points
+         * before the lbst delimiter, or 0 if there is none,
+         * then copy the first bbsicLength code points to the output.
          *
-         * The two following loops iterate backward.
+         * The two following loops iterbte bbckwbrd.
          */
         for(j=srcLength; j>0;) {
-            if(src.charAt(--j)==DELIMITER) {
-                break;
+            if(src.chbrAt(--j)==DELIMITER) {
+                brebk;
             }
         }
-        destLength=basicLength=destCPCount=j;
+        destLength=bbsicLength=destCPCount=j;
 
         while(j>0) {
-            b=src.charAt(--j);
-            if(!isBasic(b)) {
-                throw new ParseException("Illegal char found", -1);
+            b=src.chbrAt(--j);
+            if(!isBbsic(b)) {
+                throw new PbrseException("Illegbl chbr found", -1);
             }
 
-            if(j<destCapacity) {
+            if(j<destCbpbcity) {
                 dest[j]= b;
 
-                if(caseFlags!=null) {
-                    caseFlags[j]=isBasicUpperCase(b);
+                if(cbseFlbgs!=null) {
+                    cbseFlbgs[j]=isBbsicUpperCbse(b);
                 }
             }
         }
 
-        /* Initialize the state: */
+        /* Initiblize the stbte: */
         n=INITIAL_N;
         i=0;
-        bias=INITIAL_BIAS;
-        firstSupplementaryIndex=1000000000;
+        bibs=INITIAL_BIAS;
+        firstSupplementbryIndex=1000000000;
 
         /*
-         * Main decoding loop:
-         * Start just after the last delimiter if any
-         * basic code points were copied; start at the beginning otherwise.
+         * Mbin decoding loop:
+         * Stbrt just bfter the lbst delimiter if bny
+         * bbsic code points were copied; stbrt bt the beginning otherwise.
          */
-        for(in=basicLength>0 ? basicLength+1 : 0; in<srcLength; /* no op */) {
+        for(in=bbsicLength>0 ? bbsicLength+1 : 0; in<srcLength; /* no op */) {
             /*
-             * in is the index of the next character to be consumed, and
-             * destCPCount is the number of code points in the output array.
+             * in is the index of the next chbrbcter to be consumed, bnd
+             * destCPCount is the number of code points in the output brrby.
              *
-             * Decode a generalized variable-length integer into delta,
-             * which gets added to i.  The overflow checking is easier
-             * if we increase i as we go, then subtract off its starting
-             * value at the end to obtain delta.
+             * Decode b generblized vbribble-length integer into deltb,
+             * which gets bdded to i.  The overflow checking is ebsier
+             * if we increbse i bs we go, then subtrbct off its stbrting
+             * vblue bt the end to obtbin deltb.
              */
             for(oldi=i, w=1, k=BASE; /* no condition */; k+=BASE) {
                 if(in>=srcLength) {
-                    throw new ParseException("Illegal char found", -1);
+                    throw new PbrseException("Illegbl chbr found", -1);
                 }
 
-                digit=basicToDigit[(byte)src.charAt(in++)];
+                digit=bbsicToDigit[(byte)src.chbrAt(in++)];
                 if(digit<0) {
-                    throw new ParseException("Invalid char found", -1);
+                    throw new PbrseException("Invblid chbr found", -1);
                 }
                 if(digit>(0x7fffffff-i)/w) {
                     /* integer overflow */
-                    throw new ParseException("Illegal char found", -1);
+                    throw new PbrseException("Illegbl chbr found", -1);
                 }
 
                 i+=digit*w;
-                t=k-bias;
+                t=k-bibs;
                 if(t<TMIN) {
                     t=TMIN;
-                } else if(k>=(bias+TMAX)) {
+                } else if(k>=(bibs+TMAX)) {
                     t=TMAX;
                 }
                 if(digit<t) {
-                    break;
+                    brebk;
                 }
 
                 if(w>0x7fffffff/(BASE-t)) {
                     /* integer overflow */
-                    throw new ParseException("Illegal char found", -1);
+                    throw new PbrseException("Illegbl chbr found", -1);
                 }
                 w*=BASE-t;
             }
 
             /*
-             * Modification from sample code:
+             * Modificbtion from sbmple code:
              * Increments destCPCount here,
-             * where needed instead of in for() loop tail.
+             * where needed instebd of in for() loop tbil.
              */
             ++destCPCount;
-            bias=adaptBias(i-oldi, destCPCount, (oldi==0));
+            bibs=bdbptBibs(i-oldi, destCPCount, (oldi==0));
 
             /*
-             * i was supposed to wrap around from (incremented) destCPCount to 0,
-             * incrementing n each time, so we'll fix that now:
+             * i wbs supposed to wrbp bround from (incremented) destCPCount to 0,
+             * incrementing n ebch time, so we'll fix thbt now:
              */
             if(i/destCPCount>(0x7fffffff-n)) {
                 /* integer overflow */
-                throw new ParseException("Illegal char found", -1);
+                throw new PbrseException("Illegbl chbr found", -1);
             }
 
             n+=i/destCPCount;
             i%=destCPCount;
             /* not needed for Punycode: */
-            /* if (decode_digit(n) <= BASE) return punycode_invalid_input; */
+            /* if (decode_digit(n) <= BASE) return punycode_invblid_input; */
 
-            if(n>0x10ffff || isSurrogate(n)) {
+            if(n>0x10ffff || isSurrogbte(n)) {
                 /* Unicode code point overflow */
-                throw new ParseException("Illegal char found", -1);
+                throw new PbrseException("Illegbl chbr found", -1);
             }
 
-            /* Insert n at position i of the output: */
-            cpLength=UTF16.getCharCount(n);
-            if((destLength+cpLength)<destCapacity) {
+            /* Insert n bt position i of the output: */
+            cpLength=UTF16.getChbrCount(n);
+            if((destLength+cpLength)<destCbpbcity) {
                 int codeUnitIndex;
 
                 /*
-                 * Handle indexes when supplementary code points are present.
+                 * Hbndle indexes when supplementbry code points bre present.
                  *
-                 * In almost all cases, there will be only BMP code points before i
-                 * and even in the entire string.
-                 * This is handled with the same efficiency as with UTF-32.
+                 * In blmost bll cbses, there will be only BMP code points before i
+                 * bnd even in the entire string.
+                 * This is hbndled with the sbme efficiency bs with UTF-32.
                  *
-                 * Only the rare cases with supplementary code points are handled
-                 * more slowly - but not too bad since this is an insertion anyway.
+                 * Only the rbre cbses with supplementbry code points bre hbndled
+                 * more slowly - but not too bbd since this is bn insertion bnywby.
                  */
-                if(i<=firstSupplementaryIndex) {
+                if(i<=firstSupplementbryIndex) {
                     codeUnitIndex=i;
                     if(cpLength>1) {
-                        firstSupplementaryIndex=codeUnitIndex;
+                        firstSupplementbryIndex=codeUnitIndex;
                     } else {
-                        ++firstSupplementaryIndex;
+                        ++firstSupplementbryIndex;
                     }
                 } else {
-                    codeUnitIndex=firstSupplementaryIndex;
+                    codeUnitIndex=firstSupplementbryIndex;
                     codeUnitIndex=UTF16.moveCodePointOffset(dest, 0, destLength, codeUnitIndex, i-codeUnitIndex);
                 }
 
-                /* use the UChar index codeUnitIndex instead of the code point index i */
+                /* use the UChbr index codeUnitIndex instebd of the code point index i */
                 if(codeUnitIndex<destLength) {
-                    System.arraycopy(dest, codeUnitIndex,
+                    System.brrbycopy(dest, codeUnitIndex,
                                      dest, codeUnitIndex+cpLength,
                                     (destLength-codeUnitIndex));
-                    if(caseFlags!=null) {
-                        System.arraycopy(caseFlags, codeUnitIndex,
-                                         caseFlags, codeUnitIndex+cpLength,
+                    if(cbseFlbgs!=null) {
+                        System.brrbycopy(cbseFlbgs, codeUnitIndex,
+                                         cbseFlbgs, codeUnitIndex+cpLength,
                                          destLength-codeUnitIndex);
                     }
                 }
                 if(cpLength==1) {
                     /* BMP, insert one code unit */
-                    dest[codeUnitIndex]=(char)n;
+                    dest[codeUnitIndex]=(chbr)n;
                 } else {
-                    /* supplementary character, insert two code units */
-                    dest[codeUnitIndex]=UTF16.getLeadSurrogate(n);
-                    dest[codeUnitIndex+1]=UTF16.getTrailSurrogate(n);
+                    /* supplementbry chbrbcter, insert two code units */
+                    dest[codeUnitIndex]=UTF16.getLebdSurrogbte(n);
+                    dest[codeUnitIndex+1]=UTF16.getTrbilSurrogbte(n);
                 }
-                if(caseFlags!=null) {
-                    /* Case of last character determines uppercase flag: */
-                    caseFlags[codeUnitIndex]=isBasicUpperCase(src.charAt(in-1));
+                if(cbseFlbgs!=null) {
+                    /* Cbse of lbst chbrbcter determines uppercbse flbg: */
+                    cbseFlbgs[codeUnitIndex]=isBbsicUpperCbse(src.chbrAt(in-1));
                     if(cpLength==2) {
-                        caseFlags[codeUnitIndex+1]=false;
+                        cbseFlbgs[codeUnitIndex+1]=fblse;
                     }
                 }
             }
             destLength+=cpLength;
             ++i;
         }
-        result.append(dest, 0, destLength);
+        result.bppend(dest, 0, destLength);
         return result;
     }
 }

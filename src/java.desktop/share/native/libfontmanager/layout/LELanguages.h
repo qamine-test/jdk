@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,7 +30,7 @@
  * WARNING: THIS FILE IS MACHINE GENERATED. DO NOT HAND EDIT IT UNLESS
  * YOU REALLY KNOW WHAT YOU'RE DOING.
  *
- * Generated on: 10/26/2010 02:53:33 PM PDT
+ * Generbted on: 10/26/2010 02:53:33 PM PDT
  */
 
 #ifndef __LELANGUAGES_H
@@ -40,96 +40,96 @@
 
 /**
  * \file
- * \brief C++ API: List of language codes for LayoutEngine
+ * \brief C++ API: List of lbngubge codes for LbyoutEngine
  */
 
 U_NAMESPACE_BEGIN
 
 /**
- * A provisional list of language codes. For now,
- * this is just a list of languages which the LayoutEngine
+ * A provisionbl list of lbngubge codes. For now,
+ * this is just b list of lbngubges which the LbyoutEngine
  * supports.
  *
- * @stable ICU 2.6
+ * @stbble ICU 2.6
  */
 
-enum LanguageCodes {
-    nullLanguageCode =  0,
-    araLanguageCode =  1,
-    asmLanguageCode =  2,
-    benLanguageCode =  3,
-    farLanguageCode =  4,
-    gujLanguageCode =  5,
-    hinLanguageCode =  6,
-    iwrLanguageCode =  7,
-    jiiLanguageCode =  8,
-    janLanguageCode =  9,
-    kanLanguageCode = 10,
-    kokLanguageCode = 11,
-    korLanguageCode = 12,
-    kshLanguageCode = 13,
-    malLanguageCode = 14,
-    marLanguageCode = 15,
-    mlrLanguageCode = 16,
-    mniLanguageCode = 17,
-    oriLanguageCode = 18,
-    sanLanguageCode = 19,
-    sndLanguageCode = 20,
-    snhLanguageCode = 21,
-    syrLanguageCode = 22,
-    tamLanguageCode = 23,
-    telLanguageCode = 24,
-    thaLanguageCode = 25,
-    urdLanguageCode = 26,
-    zhpLanguageCode = 27,
-    zhsLanguageCode = 28,
-    zhtLanguageCode = 29,
+enum LbngubgeCodes {
+    nullLbngubgeCode =  0,
+    brbLbngubgeCode =  1,
+    bsmLbngubgeCode =  2,
+    benLbngubgeCode =  3,
+    fbrLbngubgeCode =  4,
+    gujLbngubgeCode =  5,
+    hinLbngubgeCode =  6,
+    iwrLbngubgeCode =  7,
+    jiiLbngubgeCode =  8,
+    jbnLbngubgeCode =  9,
+    kbnLbngubgeCode = 10,
+    kokLbngubgeCode = 11,
+    korLbngubgeCode = 12,
+    kshLbngubgeCode = 13,
+    mblLbngubgeCode = 14,
+    mbrLbngubgeCode = 15,
+    mlrLbngubgeCode = 16,
+    mniLbngubgeCode = 17,
+    oriLbngubgeCode = 18,
+    sbnLbngubgeCode = 19,
+    sndLbngubgeCode = 20,
+    snhLbngubgeCode = 21,
+    syrLbngubgeCode = 22,
+    tbmLbngubgeCode = 23,
+    telLbngubgeCode = 24,
+    thbLbngubgeCode = 25,
+    urdLbngubgeCode = 26,
+    zhpLbngubgeCode = 27,
+    zhsLbngubgeCode = 28,
+    zhtLbngubgeCode = 29,
 
-    /** New language codes added 03/13/2008 @stable ICU 4.0 */
-    afkLanguageCode = 30,
-    belLanguageCode = 31,
-    bgrLanguageCode = 32,
-    catLanguageCode = 33,
-    cheLanguageCode = 34,
-    copLanguageCode = 35,
-    csyLanguageCode = 36,
-    danLanguageCode = 37,
-    deuLanguageCode = 38,
-    dznLanguageCode = 39,
-    ellLanguageCode = 40,
-    engLanguageCode = 41,
-    espLanguageCode = 42,
-    etiLanguageCode = 43,
-    euqLanguageCode = 44,
-    finLanguageCode = 45,
-    fraLanguageCode = 46,
-    gaeLanguageCode = 47,
-    hauLanguageCode = 48,
-    hrvLanguageCode = 49,
-    hunLanguageCode = 50,
-    hyeLanguageCode = 51,
-    indLanguageCode = 52,
-    itaLanguageCode = 53,
-    khmLanguageCode = 54,
-    mngLanguageCode = 55,
-    mtsLanguageCode = 56,
-    nepLanguageCode = 57,
-    nldLanguageCode = 58,
-    pasLanguageCode = 59,
-    plkLanguageCode = 60,
-    ptgLanguageCode = 61,
-    romLanguageCode = 62,
-    rusLanguageCode = 63,
-    skyLanguageCode = 64,
-    slvLanguageCode = 65,
-    sqiLanguageCode = 66,
-    srbLanguageCode = 67,
-    sveLanguageCode = 68,
-    tibLanguageCode = 69,
-    trkLanguageCode = 70,
-    welLanguageCode = 71,
+    /** New lbngubge codes bdded 03/13/2008 @stbble ICU 4.0 */
+    bfkLbngubgeCode = 30,
+    belLbngubgeCode = 31,
+    bgrLbngubgeCode = 32,
+    cbtLbngubgeCode = 33,
+    cheLbngubgeCode = 34,
+    copLbngubgeCode = 35,
+    csyLbngubgeCode = 36,
+    dbnLbngubgeCode = 37,
+    deuLbngubgeCode = 38,
+    dznLbngubgeCode = 39,
+    ellLbngubgeCode = 40,
+    engLbngubgeCode = 41,
+    espLbngubgeCode = 42,
+    etiLbngubgeCode = 43,
+    euqLbngubgeCode = 44,
+    finLbngubgeCode = 45,
+    frbLbngubgeCode = 46,
+    gbeLbngubgeCode = 47,
+    hbuLbngubgeCode = 48,
+    hrvLbngubgeCode = 49,
+    hunLbngubgeCode = 50,
+    hyeLbngubgeCode = 51,
+    indLbngubgeCode = 52,
+    itbLbngubgeCode = 53,
+    khmLbngubgeCode = 54,
+    mngLbngubgeCode = 55,
+    mtsLbngubgeCode = 56,
+    nepLbngubgeCode = 57,
+    nldLbngubgeCode = 58,
+    pbsLbngubgeCode = 59,
+    plkLbngubgeCode = 60,
+    ptgLbngubgeCode = 61,
+    romLbngubgeCode = 62,
+    rusLbngubgeCode = 63,
+    skyLbngubgeCode = 64,
+    slvLbngubgeCode = 65,
+    sqiLbngubgeCode = 66,
+    srbLbngubgeCode = 67,
+    sveLbngubgeCode = 68,
+    tibLbngubgeCode = 69,
+    trkLbngubgeCode = 70,
+    welLbngubgeCode = 71,
 
-    languageCodeCount = 72
+    lbngubgeCodeCount = 72
 };
 
 U_NAMESPACE_END

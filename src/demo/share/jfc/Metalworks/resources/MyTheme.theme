@@ -1,17 +1,17 @@
-# This is an example of a Theme contained in a text file.
-# Use a PropertyMetalTheme object to load it.
+# This is bn exbmple of b Theme contbined in b text file.
+# Use b PropertyMetblTheme object to lobd it.
 
-# This isn't really meant to be a great theme, but is just
-# an example of how to create one from a text file.
+# This isn't reblly mebnt to be b grebt theme, but is just
+# bn exbmple of how to crebte one from b text file.
 
-# See MetalworksFrame.java for an example of how to load this.
+# See MetblworksFrbme.jbvb for bn exbmple of how to lobd this.
 
-name=Charcoal
-primary1=33,66,66
-primary2=66,99,99
-primary3=99,99,99
-secondary1=0,0,0
-secondary2=51,51,51
-secondary3=102,102,102
-black=255,255,255
+nbme=Chbrcobl
+primbry1=33,66,66
+primbry2=66,99,99
+primbry3=99,99,99
+secondbry1=0,0,0
+secondbry2=51,51,51
+secondbry3=102,102,102
+blbck=255,255,255
 white=0,0,0

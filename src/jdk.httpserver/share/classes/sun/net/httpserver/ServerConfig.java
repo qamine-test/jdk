@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
+pbckbge sun.net.httpserver;
 
-import java.util.logging.Logger;
-import java.security.PrivilegedAction;
+import jbvb.util.logging.Logger;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Parameters that users will not likely need to set
- * but are useful for debugging
+ * Pbrbmeters thbt users will not likely need to set
+ * but bre useful for debugging
  */
 
-class ServerConfig {
+clbss ServerConfig {
 
-    private static final int DEFAULT_CLOCK_TICK = 10000 ; // 10 sec.
+    privbte stbtic finbl int DEFAULT_CLOCK_TICK = 10000 ; // 10 sec.
 
-    /* These values must be a reasonable multiple of clockTick */
-    private static final long DEFAULT_IDLE_INTERVAL = 30 ; // 5 min
-    private static final int DEFAULT_MAX_IDLE_CONNECTIONS = 200 ;
+    /* These vblues must be b rebsonbble multiple of clockTick */
+    privbte stbtic finbl long DEFAULT_IDLE_INTERVAL = 30 ; // 5 min
+    privbte stbtic finbl int DEFAULT_MAX_IDLE_CONNECTIONS = 200 ;
 
-    private static final long DEFAULT_MAX_REQ_TIME = -1; // default: forever
-    private static final long DEFAULT_MAX_RSP_TIME = -1; // default: forever
-    private static final long DEFAULT_TIMER_MILLIS = 1000;
-    private static final int  DEFAULT_MAX_REQ_HEADERS = 200;
-    private static final long DEFAULT_DRAIN_AMOUNT = 64 * 1024;
+    privbte stbtic finbl long DEFAULT_MAX_REQ_TIME = -1; // defbult: forever
+    privbte stbtic finbl long DEFAULT_MAX_RSP_TIME = -1; // defbult: forever
+    privbte stbtic finbl long DEFAULT_TIMER_MILLIS = 1000;
+    privbte stbtic finbl int  DEFAULT_MAX_REQ_HEADERS = 200;
+    privbte stbtic finbl long DEFAULT_DRAIN_AMOUNT = 64 * 1024;
 
-    private static int clockTick;
-    private static long idleInterval;
-    // The maximum number of bytes to drain from an inputstream
-    private static long drainAmount;
-    private static int maxIdleConnections;
-    // The maximum number of request headers allowable
-    private static int maxReqHeaders;
-    // max time a request or response is allowed to take
-    private static long maxReqTime;
-    private static long maxRspTime;
-    private static long timerMillis;
-    private static boolean debug;
+    privbte stbtic int clockTick;
+    privbte stbtic long idleIntervbl;
+    // The mbximum number of bytes to drbin from bn inputstrebm
+    privbte stbtic long drbinAmount;
+    privbte stbtic int mbxIdleConnections;
+    // The mbximum number of request hebders bllowbble
+    privbte stbtic int mbxReqHebders;
+    // mbx time b request or response is bllowed to tbke
+    privbte stbtic long mbxReqTime;
+    privbte stbtic long mbxRspTime;
+    privbte stbtic long timerMillis;
+    privbte stbtic boolebn debug;
 
-    // the value of the TCP_NODELAY socket-level option
-    private static boolean noDelay;
+    // the vblue of the TCP_NODELAY socket-level option
+    privbte stbtic boolebn noDelby;
 
-    static {
-        java.security.AccessController.doPrivileged(
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
             new PrivilegedAction<Void>() {
                 @Override
                 public Void run () {
-                    idleInterval = Long.getLong("sun.net.httpserver.idleInterval",
+                    idleIntervbl = Long.getLong("sun.net.httpserver.idleIntervbl",
                             DEFAULT_IDLE_INTERVAL) * 1000;
 
                     clockTick = Integer.getInteger("sun.net.httpserver.clockTick",
                             DEFAULT_CLOCK_TICK);
 
-                    maxIdleConnections = Integer.getInteger(
-                            "sun.net.httpserver.maxIdleConnections",
+                    mbxIdleConnections = Integer.getInteger(
+                            "sun.net.httpserver.mbxIdleConnections",
                             DEFAULT_MAX_IDLE_CONNECTIONS);
 
-                    drainAmount = Long.getLong("sun.net.httpserver.drainAmount",
+                    drbinAmount = Long.getLong("sun.net.httpserver.drbinAmount",
                             DEFAULT_DRAIN_AMOUNT);
 
-                    maxReqHeaders = Integer.getInteger(
-                            "sun.net.httpserver.maxReqHeaders",
+                    mbxReqHebders = Integer.getInteger(
+                            "sun.net.httpserver.mbxReqHebders",
                             DEFAULT_MAX_REQ_HEADERS);
 
-                    maxReqTime = Long.getLong("sun.net.httpserver.maxReqTime",
+                    mbxReqTime = Long.getLong("sun.net.httpserver.mbxReqTime",
                             DEFAULT_MAX_REQ_TIME);
 
-                    maxRspTime = Long.getLong("sun.net.httpserver.maxRspTime",
+                    mbxRspTime = Long.getLong("sun.net.httpserver.mbxRspTime",
                             DEFAULT_MAX_RSP_TIME);
 
                     timerMillis = Long.getLong("sun.net.httpserver.timerMillis",
                             DEFAULT_TIMER_MILLIS);
 
-                    debug = Boolean.getBoolean("sun.net.httpserver.debug");
+                    debug = Boolebn.getBoolebn("sun.net.httpserver.debug");
 
-                    noDelay = Boolean.getBoolean("sun.net.httpserver.nodelay");
+                    noDelby = Boolebn.getBoolebn("sun.net.httpserver.nodelby");
 
                     return null;
                 }
@@ -104,34 +104,34 @@ class ServerConfig {
 
     }
 
-    static void checkLegacyProperties(final Logger logger) {
+    stbtic void checkLegbcyProperties(finbl Logger logger) {
 
-        // legacy properties that are no longer used
-        // print a warning to logger if they are set.
+        // legbcy properties thbt bre no longer used
+        // print b wbrning to logger if they bre set.
 
-        java.security.AccessController.doPrivileged(
+        jbvb.security.AccessController.doPrivileged(
             new PrivilegedAction<Void>() {
                 public Void run () {
-                    if (System.getProperty("sun.net.httpserver.readTimeout")
+                    if (System.getProperty("sun.net.httpserver.rebdTimeout")
                                                 !=null)
                     {
-                        logger.warning ("sun.net.httpserver.readTimeout "+
+                        logger.wbrning ("sun.net.httpserver.rebdTimeout "+
                             "property is no longer used. "+
-                            "Use sun.net.httpserver.maxReqTime instead."
+                            "Use sun.net.httpserver.mbxReqTime instebd."
                         );
                     }
                     if (System.getProperty("sun.net.httpserver.writeTimeout")
                                                 !=null)
                     {
-                        logger.warning ("sun.net.httpserver.writeTimeout "+
+                        logger.wbrning ("sun.net.httpserver.writeTimeout "+
                             "property is no longer used. Use "+
-                            "sun.net.httpserver.maxRspTime instead."
+                            "sun.net.httpserver.mbxRspTime instebd."
                         );
                     }
-                    if (System.getProperty("sun.net.httpserver.selCacheTimeout")
+                    if (System.getProperty("sun.net.httpserver.selCbcheTimeout")
                                                 !=null)
                     {
-                        logger.warning ("sun.net.httpserver.selCacheTimeout "+
+                        logger.wbrning ("sun.net.httpserver.selCbcheTimeout "+
                             "property is no longer used."
                         );
                     }
@@ -141,43 +141,43 @@ class ServerConfig {
         );
     }
 
-    static boolean debugEnabled() {
+    stbtic boolebn debugEnbbled() {
         return debug;
     }
 
-    static long getIdleInterval() {
-        return idleInterval;
+    stbtic long getIdleIntervbl() {
+        return idleIntervbl;
     }
 
-    static int getClockTick() {
+    stbtic int getClockTick() {
         return clockTick;
     }
 
-    static int getMaxIdleConnections() {
-        return maxIdleConnections;
+    stbtic int getMbxIdleConnections() {
+        return mbxIdleConnections;
     }
 
-    static long getDrainAmount() {
-        return drainAmount;
+    stbtic long getDrbinAmount() {
+        return drbinAmount;
     }
 
-    static int getMaxReqHeaders() {
-        return maxReqHeaders;
+    stbtic int getMbxReqHebders() {
+        return mbxReqHebders;
     }
 
-    static long getMaxReqTime() {
-        return maxReqTime;
+    stbtic long getMbxReqTime() {
+        return mbxReqTime;
     }
 
-    static long getMaxRspTime() {
-        return maxRspTime;
+    stbtic long getMbxRspTime() {
+        return mbxRspTime;
     }
 
-    static long getTimerMillis() {
+    stbtic long getTimerMillis() {
         return timerMillis;
     }
 
-    static boolean noDelay() {
-        return noDelay;
+    stbtic boolebn noDelby() {
+        return noDelby;
     }
 }

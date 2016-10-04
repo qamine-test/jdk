@@ -1,33 +1,33 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <door.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <signal.h>
+#include <signbl.h>
 #include <string.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -36,7 +36,7 @@
 #include "jni.h"
 #include "jni_util.h"
 
-#include "sun_tools_attach_SolarisVirtualMachine.h"
+#include "sun_tools_bttbch_SolbrisVirtublMbchine.h"
 
 #define RESTARTABLE(_cmd, _result) do { \
   do { \
@@ -45,15 +45,15 @@
 } while(0)
 
 /*
- * Class:     sun_tools_attach_SolarisVirtualMachine
+ * Clbss:     sun_tools_bttbch_SolbrisVirtublMbchine
  * Method:    open
- * Signature: (Ljava/lang/String;)I
+ * Signbture: (Ljbvb/lbng/String;)I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_SolarisVirtualMachine_open
-  (JNIEnv *env, jclass cls, jstring path)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbch_SolbrisVirtublMbchine_open
+  (JNIEnv *env, jclbss cls, jstring pbth)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolebn isCopy;
+    const chbr* p = GetStringPlbtformChbrs(env, pbth, &isCopy);
     if (p == NULL) {
         return 0;
     } else {
@@ -66,14 +66,14 @@ JNIEXPORT jint JNICALL Java_sun_tools_attach_SolarisVirtualMachine_open
         }
 
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RelebseStringPlbtformChbrs(env, pbth, p);
         }
 
         if (fd == -1) {
             if (err == ENOENT) {
-                JNU_ThrowByName(env, "java/io/FileNotFoundException", NULL);
+                JNU_ThrowByNbme(env, "jbvb/io/FileNotFoundException", NULL);
             } else {
-                char* msg = strdup(strerror(err));
+                chbr* msg = strdup(strerror(err));
                 JNU_ThrowIOException(env, msg);
                 if (msg != NULL) {
                     free(msg);
@@ -85,36 +85,36 @@ JNIEXPORT jint JNICALL Java_sun_tools_attach_SolarisVirtualMachine_open
 }
 
 /*
- * Class:     sun_tools_attach_SolarisVirtualMachine
+ * Clbss:     sun_tools_bttbch_SolbrisVirtublMbchine
  * Method:    checkPermissions
- * Signature: (Ljava/lang/String;)V
+ * Signbture: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_SolarisVirtualMachine_checkPermissions
-  (JNIEnv *env, jclass cls, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_SolbrisVirtublMbchine_checkPermissions
+  (JNIEnv *env, jclbss cls, jstring pbth)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolebn isCopy;
+    const chbr* p = GetStringPlbtformChbrs(env, pbth, &isCopy);
     if (p != NULL) {
-        struct stat64 sb;
+        struct stbt64 sb;
         uid_t uid, gid;
         int res;
 
         /*
-         * Check that the path is owned by the effective uid/gid of this
-         * process. Also check that group/other access is not allowed.
+         * Check thbt the pbth is owned by the effective uid/gid of this
+         * process. Also check thbt group/other bccess is not bllowed.
          */
         uid = geteuid();
         gid = getegid();
 
-        res = stat64(p, &sb);
+        res = stbt64(p, &sb);
         if (res != 0) {
-            /* save errno */
+            /* sbve errno */
             res = errno;
         }
 
-        /* release p here before we throw an I/O exception */
+        /* relebse p here before we throw bn I/O exception */
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RelebseStringPlbtformChbrs(env, pbth, p);
         }
 
         if (res == 0) {
@@ -123,7 +123,7 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_SolarisVirtualMachine_checkPermissi
                 JNU_ThrowIOException(env, "well-known file is not secure");
             }
         } else {
-            char* msg = strdup(strerror(res));
+            chbr* msg = strdup(strerror(res));
             JNU_ThrowIOException(env, msg);
             if (msg != NULL) {
                 free(msg);
@@ -133,86 +133,86 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_SolarisVirtualMachine_checkPermissi
 }
 
 /*
- * Class:     sun_tools_attach_SolarisVirtualMachine
+ * Clbss:     sun_tools_bttbch_SolbrisVirtublMbchine
  * Method:    close
- * Signature: (I)V
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_SolarisVirtualMachine_close
-  (JNIEnv *env, jclass cls, jint fd)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_SolbrisVirtublMbchine_close
+  (JNIEnv *env, jclbss cls, jint fd)
 {
     int ret;
     RESTARTABLE(close(fd), ret);
 }
 
 /*
- * Class:     sun_tools_attach_SolarisVirtualMachine
- * Method:    read
- * Signature: (I[BI)I
+ * Clbss:     sun_tools_bttbch_SolbrisVirtublMbchine
+ * Method:    rebd
+ * Signbture: (I[BI)I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_SolarisVirtualMachine_read
-  (JNIEnv *env, jclass cls, jint fd, jbyteArray ba, jint off, jint baLen)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbch_SolbrisVirtublMbchine_rebd
+  (JNIEnv *env, jclbss cls, jint fd, jbyteArrby bb, jint off, jint bbLen)
 {
-    unsigned char buf[128];
+    unsigned chbr buf[128];
     size_t len = sizeof(buf);
     ssize_t n;
 
-    size_t remaining = (size_t)(baLen - off);
-    if (len > remaining) {
-        len = remaining;
+    size_t rembining = (size_t)(bbLen - off);
+    if (len > rembining) {
+        len = rembining;
     }
 
-    RESTARTABLE(read(fd, buf, len), n);
+    RESTARTABLE(rebd(fd, buf, len), n);
     if (n == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "read");
+        JNU_ThrowIOExceptionWithLbstError(env, "rebd");
     } else {
         if (n == 0) {
             n = -1;     // EOF
         } else {
-            (*env)->SetByteArrayRegion(env, ba, off, (jint)n, (jbyte *)(buf));
+            (*env)->SetByteArrbyRegion(env, bb, off, (jint)n, (jbyte *)(buf));
         }
     }
     return n;
 }
 
 /*
- * Class:     sun_tools_attach_SolarisVirtualMachine
+ * Clbss:     sun_tools_bttbch_SolbrisVirtublMbchine
  * Method:    sigquit
- * Signature: (I)V
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_SolarisVirtualMachine_sigquit
-  (JNIEnv *env, jclass cls, jint pid)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_SolbrisVirtublMbchine_sigquit
+  (JNIEnv *env, jclbss cls, jint pid)
 {
     if (kill((pid_t)pid, SIGQUIT) == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "kill");
+        JNU_ThrowIOExceptionWithLbstError(env, "kill");
     }
 }
 
 /*
- * A simple table to translate some known errors into reasonable
- * error messages
+ * A simple tbble to trbnslbte some known errors into rebsonbble
+ * error messbges
  */
-static struct {
+stbtic struct {
     jint err;
-    const char* msg;
-} const error_messages[] = {
-    { 100,      "Bad request" },
-    { 101,      "Protocol mismatch" },
-    { 102,      "Resource failure" },
-    { 103,      "Internal error" },
+    const chbr* msg;
+} const error_messbges[] = {
+    { 100,      "Bbd request" },
+    { 101,      "Protocol mismbtch" },
+    { 102,      "Resource fbilure" },
+    { 103,      "Internbl error" },
     { 104,      "Permission denied" },
 };
 
 /*
- * Lookup the given error code and return the appropriate
- * message. If not found return NULL.
+ * Lookup the given error code bnd return the bppropribte
+ * messbge. If not found return NULL.
  */
-static const char* translate_error(jint err) {
-    int table_size = sizeof(error_messages) / sizeof(error_messages[0]);
+stbtic const chbr* trbnslbte_error(jint err) {
+    int tbble_size = sizeof(error_messbges) / sizeof(error_messbges[0]);
     int i;
 
-    for (i=0; i<table_size; i++) {
-        if (err == error_messages[i].err) {
-            return error_messages[i].msg;
+    for (i=0; i<tbble_size; i++) {
+        if (err == error_messbges[i].err) {
+            return error_messbges[i].msg;
         }
     }
     return NULL;
@@ -221,75 +221,75 @@ static const char* translate_error(jint err) {
 /*
  * Current protocol version
  */
-static const char* PROTOCOL_VERSION = "1";
+stbtic const chbr* PROTOCOL_VERSION = "1";
 
 /*
- * Class:     sun_tools_attach_SolarisVirtualMachine
+ * Clbss:     sun_tools_bttbch_SolbrisVirtublMbchine
  * Method:    enqueue
- * Signature: (JILjava/lang/String;[Ljava/lang/Object;)V
+ * Signbture: (JILjbvb/lbng/String;[Ljbvb/lbng/Object;)V
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_SolarisVirtualMachine_enqueue
-  (JNIEnv *env, jclass cls, jint fd, jstring cmd, jobjectArray args)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbch_SolbrisVirtublMbchine_enqueue
+  (JNIEnv *env, jclbss cls, jint fd, jstring cmd, jobjectArrby brgs)
 {
-    jint arg_count, i;
+    jint brg_count, i;
     size_t size;
-    jboolean isCopy;
-    door_arg_t door_args;
-    char res_buffer[128];
+    jboolebn isCopy;
+    door_brg_t door_brgs;
+    chbr res_buffer[128];
     jint result = -1;
     int rc;
-    const char* cstr;
-    char* buf;
+    const chbr* cstr;
+    chbr* buf;
 
     /*
-     * First we get the command string and create the start of the
-     * argument string to send to the target VM:
+     * First we get the commbnd string bnd crebte the stbrt of the
+     * brgument string to send to the tbrget VM:
      * <ver>\0<cmd>\0
      */
-    cstr = JNU_GetStringPlatformChars(env, cmd, &isCopy);
+    cstr = JNU_GetStringPlbtformChbrs(env, cmd, &isCopy);
     if (cstr == NULL) {
         return -1;              /* pending exception */
     }
     size = strlen(PROTOCOL_VERSION) + strlen(cstr) + 2;
-    buf = (char*)malloc(size);
+    buf = (chbr*)mblloc(size);
     if (buf != NULL) {
-        char* pos = buf;
+        chbr* pos = buf;
         strcpy(buf, PROTOCOL_VERSION);
         pos += strlen(PROTOCOL_VERSION)+1;
         strcpy(pos, cstr);
     }
     if (isCopy) {
-        JNU_ReleaseStringPlatformChars(env, cmd, cstr);
+        JNU_RelebseStringPlbtformChbrs(env, cmd, cstr);
     }
     if (buf == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "malloc failed");
+        JNU_ThrowOutOfMemoryError(env, "mblloc fbiled");
         return -1;
     }
 
     /*
-     * Next we iterate over the arguments and extend the buffer
+     * Next we iterbte over the brguments bnd extend the buffer
      * to include them.
      */
-    arg_count = (*env)->GetArrayLength(env, args);
+    brg_count = (*env)->GetArrbyLength(env, brgs);
 
-    for (i=0; i<arg_count; i++) {
-        jobject obj = (*env)->GetObjectArrayElement(env, args, i);
+    for (i=0; i<brg_count; i++) {
+        jobject obj = (*env)->GetObjectArrbyElement(env, brgs, i);
         if (obj != NULL) {
-            cstr = JNU_GetStringPlatformChars(env, obj, &isCopy);
+            cstr = JNU_GetStringPlbtformChbrs(env, obj, &isCopy);
             if (cstr != NULL) {
                 size_t len = strlen(cstr);
-                char* newbuf = (char*)realloc(buf, size+len+1);
+                chbr* newbuf = (chbr*)reblloc(buf, size+len+1);
                 if (newbuf != NULL) {
                     buf = newbuf;
                     strcpy(buf+size, cstr);
                     size += len+1;
                 }
                 if (isCopy) {
-                    JNU_ReleaseStringPlatformChars(env, obj, cstr);
+                    JNU_RelebseStringPlbtformChbrs(env, obj, cstr);
                 }
                 if (newbuf == NULL) {
                     free(buf);
-                    JNU_ThrowOutOfMemoryError(env, "realloc failed");
+                    JNU_ThrowOutOfMemoryError(env, "reblloc fbiled");
                     return -1;
                 }
             }
@@ -301,49 +301,49 @@ JNIEXPORT jint JNICALL Java_sun_tools_attach_SolarisVirtualMachine_enqueue
     }
 
     /*
-     * The arguments to the door function are in 'buf' so we now
-     * do the door call
+     * The brguments to the door function bre in 'buf' so we now
+     * do the door cbll
      */
-    door_args.data_ptr = buf;
-    door_args.data_size = size;
-    door_args.desc_ptr = NULL;
-    door_args.desc_num = 0;
-    door_args.rbuf = (char*)&res_buffer;
-    door_args.rsize = sizeof(res_buffer);
+    door_brgs.dbtb_ptr = buf;
+    door_brgs.dbtb_size = size;
+    door_brgs.desc_ptr = NULL;
+    door_brgs.desc_num = 0;
+    door_brgs.rbuf = (chbr*)&res_buffer;
+    door_brgs.rsize = sizeof(res_buffer);
 
-    RESTARTABLE(door_call(fd, &door_args), rc);
+    RESTARTABLE(door_cbll(fd, &door_brgs), rc);
 
     /*
-     * door_call failed
+     * door_cbll fbiled
      */
     if (rc == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "door_call");
+        JNU_ThrowIOExceptionWithLbstError(env, "door_cbll");
     } else {
         /*
-         * door_call succeeded but the call didn't return the the expected jint.
+         * door_cbll succeeded but the cbll didn't return the the expected jint.
          */
-        if (door_args.data_size < sizeof(jint)) {
-            JNU_ThrowIOException(env, "Enqueue error - reason unknown as result is truncated!");
+        if (door_brgs.dbtb_size < sizeof(jint)) {
+            JNU_ThrowIOException(env, "Enqueue error - rebson unknown bs result is truncbted!");
         } else {
-            jint* res = (jint*)(door_args.data_ptr);
+            jint* res = (jint*)(door_brgs.dbtb_ptr);
             if (*res != JNI_OK) {
-                const char* msg = translate_error(*res);
-                char buf[255];
+                const chbr* msg = trbnslbte_error(*res);
+                chbr buf[255];
                 if (msg == NULL) {
-                    sprintf(buf, "Unable to enqueue command to target VM: %d", *res);
+                    sprintf(buf, "Unbble to enqueue commbnd to tbrget VM: %d", *res);
                 } else {
-                    sprintf(buf, "Unable to enqueue command to target VM: %s", msg);
+                    sprintf(buf, "Unbble to enqueue commbnd to tbrget VM: %s", msg);
                 }
                 JNU_ThrowIOException(env, buf);
             } else {
                 /*
-                 * The door call should return a file descriptor to one end of
-                 * a socket pair
+                 * The door cbll should return b file descriptor to one end of
+                 * b socket pbir
                  */
-                if ((door_args.desc_ptr != NULL) &&
-                    (door_args.desc_num == 1) &&
-                    (door_args.desc_ptr->d_attributes & DOOR_DESCRIPTOR)) {
-                    result = door_args.desc_ptr->d_data.d_desc.d_descriptor;
+                if ((door_brgs.desc_ptr != NULL) &&
+                    (door_brgs.desc_num == 1) &&
+                    (door_brgs.desc_ptr->d_bttributes & DOOR_DESCRIPTOR)) {
+                    result = door_brgs.desc_ptr->d_dbtb.d_desc.d_descriptor;
                 } else {
                     JNU_ThrowIOException(env, "Reply from enqueue missing descriptor!");
                 }

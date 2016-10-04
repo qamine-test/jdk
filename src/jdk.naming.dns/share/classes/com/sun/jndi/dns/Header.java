@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.dns;
+pbckbge com.sun.jndi.dns;
 
 
-import javax.naming.*;
+import jbvbx.nbming.*;
 
 
 /**
- * The Header class represents the header of a DNS message.
+ * The Hebder clbss represents the hebder of b DNS messbge.
  *
- * @author Scott Seligman
+ * @buthor Scott Seligmbn
  */
 
 
-class Header {
+clbss Hebder {
 
-    static final int HEADER_SIZE = 12;  // octets in a DNS header
+    stbtic finbl int HEADER_SIZE = 12;  // octets in b DNS hebder
 
-    // Masks and shift amounts for DNS header flag fields.
-    static final short QR_BIT =         (short) 0x8000;
-    static final short OPCODE_MASK =    (short) 0x7800;
-    static final int   OPCODE_SHIFT =   11;
-    static final short AA_BIT =         (short) 0x0400;
-    static final short TC_BIT =         (short) 0x0200;
-    static final short RD_BIT =         (short) 0x0100;
-    static final short RA_BIT =         (short) 0x0080;
-    static final short RCODE_MASK =     (short) 0x000F;
+    // Mbsks bnd shift bmounts for DNS hebder flbg fields.
+    stbtic finbl short QR_BIT =         (short) 0x8000;
+    stbtic finbl short OPCODE_MASK =    (short) 0x7800;
+    stbtic finbl int   OPCODE_SHIFT =   11;
+    stbtic finbl short AA_BIT =         (short) 0x0400;
+    stbtic finbl short TC_BIT =         (short) 0x0200;
+    stbtic finbl short RD_BIT =         (short) 0x0100;
+    stbtic finbl short RA_BIT =         (short) 0x0080;
+    stbtic finbl short RCODE_MASK =     (short) 0x000F;
 
     int xid;                    // ID:  16-bit query identifier
-    boolean query;              // QR:  true if query, false if response
+    boolebn query;              // QR:  true if query, fblse if response
     int opcode;                 // OPCODE:  4-bit opcode
-    boolean authoritative;      // AA
-    boolean truncated;          // TC
-    boolean recursionDesired;   // RD
-    boolean recursionAvail;     // RA
+    boolebn buthoritbtive;      // AA
+    boolebn truncbted;          // TC
+    boolebn recursionDesired;   // RD
+    boolebn recursionAvbil;     // RA
     int rcode;                  // RCODE:  4-bit response code
     int numQuestions;
     int numAnswers;
     int numAuthorities;
-    int numAdditionals;
+    int numAdditionbls;
 
     /*
-     * Returns a representation of a decoded DNS message header.
-     * Does not modify or store a reference to the msg array.
+     * Returns b representbtion of b decoded DNS messbge hebder.
+     * Does not modify or store b reference to the msg brrby.
      */
-    Header(byte[] msg, int msgLen) throws NamingException {
+    Hebder(byte[] msg, int msgLen) throws NbmingException {
         decode(msg, msgLen);
     }
 
     /*
-     * Decodes a DNS message header.  Does not modify or store a
-     * reference to the msg array.
+     * Decodes b DNS messbge hebder.  Does not modify or store b
+     * reference to the msg brrby.
      */
-    private void decode(byte[] msg, int msgLen) throws NamingException {
+    privbte void decode(byte[] msg, int msgLen) throws NbmingException {
 
         try {
             int pos = 0;        // current offset into msg
 
             if (msgLen < HEADER_SIZE) {
-                throw new CommunicationException(
-                        "DNS error: corrupted message header");
+                throw new CommunicbtionException(
+                        "DNS error: corrupted messbge hebder");
             }
 
             xid = getShort(msg, pos);
             pos += 2;
 
-            // Flags
-            short flags = (short) getShort(msg, pos);
+            // Flbgs
+            short flbgs = (short) getShort(msg, pos);
             pos += 2;
-            query = (flags & QR_BIT) == 0;
-            opcode = (flags & OPCODE_MASK) >>> OPCODE_SHIFT;
-            authoritative = (flags & AA_BIT) != 0;
-            truncated = (flags & TC_BIT) != 0;
-            recursionDesired = (flags & RD_BIT) != 0;
-            recursionAvail = (flags & RA_BIT) != 0;
-            rcode = (flags & RCODE_MASK);
+            query = (flbgs & QR_BIT) == 0;
+            opcode = (flbgs & OPCODE_MASK) >>> OPCODE_SHIFT;
+            buthoritbtive = (flbgs & AA_BIT) != 0;
+            truncbted = (flbgs & TC_BIT) != 0;
+            recursionDesired = (flbgs & RD_BIT) != 0;
+            recursionAvbil = (flbgs & RA_BIT) != 0;
+            rcode = (flbgs & RCODE_MASK);
 
             // RR counts
             numQuestions = getShort(msg, pos);
@@ -106,20 +106,20 @@ class Header {
             pos += 2;
             numAuthorities = getShort(msg, pos);
             pos += 2;
-            numAdditionals = getShort(msg, pos);
+            numAdditionbls = getShort(msg, pos);
             pos += 2;
 
-        } catch (IndexOutOfBoundsException e) {
-            throw new CommunicationException(
-                    "DNS error: corrupted message header");
+        } cbtch (IndexOutOfBoundsException e) {
+            throw new CommunicbtionException(
+                    "DNS error: corrupted messbge hebder");
         }
     }
 
     /*
-     * Returns the 2-byte unsigned value at msg[pos].  The high
+     * Returns the 2-byte unsigned vblue bt msg[pos].  The high
      * order byte comes first.
      */
-    private static int getShort(byte[] msg, int pos) {
+    privbte stbtic int getShort(byte[] msg, int pos) {
         return (((msg[pos] & 0xFF) << 8) |
                 (msg[pos + 1] & 0xFF));
     }

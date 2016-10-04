@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
 
-import sun.awt.X11GraphicsConfig;
-import sun.awt.X11GraphicsDevice;
-import sun.awt.X11GraphicsEnvironment;
+import sun.bwt.X11GrbphicsConfig;
+import sun.bwt.X11GrbphicsDevice;
+import sun.bwt.X11GrbphicsEnvironment;
 
 /*
- * This class is a collection of utility methods that operate
- * with native windows.
+ * This clbss is b collection of utility methods thbt operbte
+ * with nbtive windows.
  */
-public class XlibUtil
+public clbss XlibUtil
 {
     /**
-     * The constructor is made private to eliminate any
-     * instances of this class
+     * The constructor is mbde privbte to eliminbte bny
+     * instbnces of this clbss
     */
-    private XlibUtil()
+    privbte XlibUtil()
     {
     }
 
     /**
-     * Xinerama-aware version of XlibWrapper.RootWindow method.
+     * Xinerbmb-bwbre version of XlibWrbpper.RootWindow method.
      */
-    public static long getRootWindow(int screenNumber)
+    public stbtic long getRootWindow(int screenNumber)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try
         {
-            X11GraphicsEnvironment x11ge = (X11GraphicsEnvironment)
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            if (x11ge.runningXinerama())
+            X11GrbphicsEnvironment x11ge = (X11GrbphicsEnvironment)
+                GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+            if (x11ge.runningXinerbmb())
             {
-                // all the Xinerama windows share the same root window
-                return XlibWrapper.RootWindow(XToolkit.getDisplay(), 0);
+                // bll the Xinerbmb windows shbre the sbme root window
+                return XlibWrbpper.RootWindow(XToolkit.getDisplby(), 0);
             }
             else
             {
-                return XlibWrapper.RootWindow(XToolkit.getDisplay(), screenNumber);
+                return XlibWrbpper.RootWindow(XToolkit.getDisplby(), screenNumber);
             }
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * Checks if the given window is a root window for the given screen
+     * Checks if the given window is b root window for the given screen
      */
-    static boolean isRoot(long rootCandidate, long screenNumber)
+    stbtic boolebn isRoot(long rootCbndidbte, long screenNumber)
     {
         long root;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try
         {
-            root = XlibWrapper.RootWindow(XToolkit.getDisplay(),
+            root = XlibWrbpper.RootWindow(XToolkit.getDisplby(),
                                           screenNumber);
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlock();
         }
 
-        return root == rootCandidate;
+        return root == rootCbndidbte;
     }
 
     /**
-     * Returns the bounds of the given window, in absolute coordinates
+     * Returns the bounds of the given window, in bbsolute coordinbtes
      */
-    static Rectangle getWindowGeometry(long window)
+    stbtic Rectbngle getWindowGeometry(long window)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try
         {
-            int res = XlibWrapper.XGetGeometry(XToolkit.getDisplay(),
+            int res = XlibWrbpper.XGetGeometry(XToolkit.getDisplby(),
                                                window,
-                                               XlibWrapper.larg1, // root_return
-                                               XlibWrapper.larg2, // x_return
-                                               XlibWrapper.larg3, // y_return
-                                               XlibWrapper.larg4, // width_return
-                                               XlibWrapper.larg5, // height_return
-                                               XlibWrapper.larg6, // border_width_return
-                                               XlibWrapper.larg7); // depth_return
+                                               XlibWrbpper.lbrg1, // root_return
+                                               XlibWrbpper.lbrg2, // x_return
+                                               XlibWrbpper.lbrg3, // y_return
+                                               XlibWrbpper.lbrg4, // width_return
+                                               XlibWrbpper.lbrg5, // height_return
+                                               XlibWrbpper.lbrg6, // border_width_return
+                                               XlibWrbpper.lbrg7); // depth_return
             if (res == 0)
             {
                 return null;
             }
 
-            int x = Native.getInt(XlibWrapper.larg2);
-            int y = Native.getInt(XlibWrapper.larg3);
-            long width = Native.getUInt(XlibWrapper.larg4);
-            long height = Native.getUInt(XlibWrapper.larg5);
+            int x = Nbtive.getInt(XlibWrbpper.lbrg2);
+            int y = Nbtive.getInt(XlibWrbpper.lbrg3);
+            long width = Nbtive.getUInt(XlibWrbpper.lbrg4);
+            long height = Nbtive.getUInt(XlibWrbpper.lbrg5);
 
-            return new Rectangle(x, y, (int)width, (int)height);
+            return new Rectbngle(x, y, (int)width, (int)height);
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * Translates the given point from one window to another. Returns
-     * null if the translation is failed
+     * Trbnslbtes the given point from one window to bnother. Returns
+     * null if the trbnslbtion is fbiled
      */
-    static Point translateCoordinates(long src, long dst, Point p)
+    stbtic Point trbnslbteCoordinbtes(long src, long dst, Point p)
     {
-        Point translated = null;
+        Point trbnslbted = null;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try
         {
-            XTranslateCoordinates xtc =
-                new XTranslateCoordinates(src, dst, p.x, p.y);
+            XTrbnslbteCoordinbtes xtc =
+                new XTrbnslbteCoordinbtes(src, dst, p.x, p.y);
             try
             {
-                int status = xtc.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                if ((status != 0) &&
-                    ((XErrorHandlerUtil.saved_error == null) ||
-                    (XErrorHandlerUtil.saved_error.get_error_code() == XConstants.Success)))
+                int stbtus = xtc.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+                if ((stbtus != 0) &&
+                    ((XErrorHbndlerUtil.sbved_error == null) ||
+                    (XErrorHbndlerUtil.sbved_error.get_error_code() == XConstbnts.Success)))
                 {
-                    translated = new Point(xtc.get_dest_x(), xtc.get_dest_y());
+                    trbnslbted = new Point(xtc.get_dest_x(), xtc.get_dest_y());
                 }
             }
-            finally
+            finblly
             {
                 xtc.dispose();
             }
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlock();
         }
 
-        return translated;
+        return trbnslbted;
     }
 
     /**
-     * Translates the given rectangle from one window to another.
-     * Returns null if the translation is failed
+     * Trbnslbtes the given rectbngle from one window to bnother.
+     * Returns null if the trbnslbtion is fbiled
      */
-    static Rectangle translateCoordinates(long src, long dst, Rectangle r)
+    stbtic Rectbngle trbnslbteCoordinbtes(long src, long dst, Rectbngle r)
     {
-        Point translatedLoc = translateCoordinates(src, dst, r.getLocation());
-        if (translatedLoc == null)
+        Point trbnslbtedLoc = trbnslbteCoordinbtes(src, dst, r.getLocbtion());
+        if (trbnslbtedLoc == null)
         {
             return null;
         }
         else
         {
-            return new Rectangle(translatedLoc, r.getSize());
+            return new Rectbngle(trbnslbtedLoc, r.getSize());
         }
     }
 
     /**
-     * Returns the parent for the given window
+     * Returns the pbrent for the given window
      */
-    static long getParentWindow(long window)
+    stbtic long getPbrentWindow(long window)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try
         {
-            XBaseWindow bw = XToolkit.windowToXWindow(window);
+            XBbseWindow bw = XToolkit.windowToXWindow(window);
             if (bw != null)
             {
-                XBaseWindow pbw = bw.getParentWindow();
+                XBbseWindow pbw = bw.getPbrentWindow();
                 if (pbw != null)
                 {
                     return pbw.getWindow();
@@ -214,29 +214,29 @@ public class XlibUtil
                 }
                 else
                 {
-                    return qt.get_parent();
+                    return qt.get_pbrent();
                 }
             }
-            finally
+            finblly
             {
                 qt.dispose();
             }
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * Returns all the children for the given window
+     * Returns bll the children for the given window
      */
-    static Set<Long> getChildWindows(long window)
+    stbtic Set<Long> getChildWindows(long window)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try
         {
-            XBaseWindow bw = XToolkit.windowToXWindow(window);
+            XBbseWindow bw = XToolkit.windowToXWindow(window);
             if (bw != null)
             {
                 return bw.getChildren();
@@ -245,8 +245,8 @@ public class XlibUtil
             XQueryTree xqt = new XQueryTree(window);
             try
             {
-                int status = xqt.execute();
-                if (status == 0)
+                int stbtus = xqt.execute();
+                if (stbtus == 0)
                 {
                     return Collections.emptySet();
                 }
@@ -260,147 +260,147 @@ public class XlibUtil
 
                 int childrenCount = xqt.get_nchildren();
 
-                Set<Long> childrenSet = new HashSet<Long>(childrenCount);
+                Set<Long> childrenSet = new HbshSet<Long>(childrenCount);
                 for (int i = 0; i < childrenCount; i++)
                 {
-                    childrenSet.add(Native.getWindow(children, i));
+                    childrenSet.bdd(Nbtive.getWindow(children, i));
                 }
 
                 return childrenSet;
             }
-            finally
+            finblly
             {
                 xqt.dispose();
             }
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * Checks if the given window is a Java window and is an
-     * instance of XWindowPeer
+     * Checks if the given window is b Jbvb window bnd is bn
+     * instbnce of XWindowPeer
      */
-    static boolean isXAWTToplevelWindow(long window)
+    stbtic boolebn isXAWTToplevelWindow(long window)
     {
-        return XToolkit.windowToXWindow(window) instanceof XWindowPeer;
+        return XToolkit.windowToXWindow(window) instbnceof XWindowPeer;
     }
 
     /**
-     * NOTICE: Right now returns only decorated top-levels (not Window)
+     * NOTICE: Right now returns only decorbted top-levels (not Window)
      */
-    static boolean isToplevelWindow(long window)
+    stbtic boolebn isToplevelWindow(long window)
     {
-        if (XToolkit.windowToXWindow(window) instanceof XDecoratedPeer)
+        if (XToolkit.windowToXWindow(window) instbnceof XDecorbtedPeer)
         {
             return true;
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try
         {
             WindowPropertyGetter wpg =
-                new WindowPropertyGetter(window, XWM.XA_WM_STATE, 0, 1, false,
+                new WindowPropertyGetter(window, XWM.XA_WM_STATE, 0, 1, fblse,
                                          XWM.XA_WM_STATE);
             try
             {
-                wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                if (wpg.getActualType() == XWM.XA_WM_STATE.getAtom())
+                wpg.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+                if (wpg.getActublType() == XWM.XA_WM_STATE.getAtom())
                 {
                     return true;
                 }
             }
-            finally
+            finblly
             {
                 wpg.dispose();
             }
 
-            return false;
+            return fblse;
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * The same as isToplevelWindow(window), but doesn't treat
-     * XEmbeddedFramePeer as toplevel.
+     * The sbme bs isToplevelWindow(window), but doesn't trebt
+     * XEmbeddedFrbmePeer bs toplevel.
      */
-    static boolean isTrueToplevelWindow(long window)
+    stbtic boolebn isTrueToplevelWindow(long window)
     {
-        if (XToolkit.windowToXWindow(window) instanceof XEmbeddedFramePeer)
+        if (XToolkit.windowToXWindow(window) instbnceof XEmbeddedFrbmePeer)
         {
-            return false;
+            return fblse;
         }
 
         return isToplevelWindow(window);
     }
 
-    static int getWindowMapState(long window)
+    stbtic int getWindowMbpStbte(long window)
     {
-        XToolkit.awtLock();
-        XWindowAttributes wattr = new XWindowAttributes();
+        XToolkit.bwtLock();
+        XWindowAttributes wbttr = new XWindowAttributes();
         try
         {
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-            int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                          window, wattr.pData);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
-            if ((status != 0) &&
-                ((XErrorHandlerUtil.saved_error == null) ||
-                (XErrorHandlerUtil.saved_error.get_error_code() == XConstants.Success)))
+            XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+            int stbtus = XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(),
+                                                          window, wbttr.pDbtb);
+            XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
+            if ((stbtus != 0) &&
+                ((XErrorHbndlerUtil.sbved_error == null) ||
+                (XErrorHbndlerUtil.sbved_error.get_error_code() == XConstbnts.Success)))
             {
-                return wattr.get_map_state();
+                return wbttr.get_mbp_stbte();
             }
         }
-        finally
+        finblly
         {
-            wattr.dispose();
-            XToolkit.awtUnlock();
+            wbttr.dispose();
+            XToolkit.bwtUnlock();
         }
 
-        return XConstants.IsUnmapped;
+        return XConstbnts.IsUnmbpped;
     }
 
     /**
      * XSHAPE extension support.
      */
 
-    // The variable is declared static as the XSHAPE extension cannot
-    // be disabled at run-time, and thus is available all the time
-    // once the check is passed.
-    static Boolean isShapingSupported = null;
+    // The vbribble is declbred stbtic bs the XSHAPE extension cbnnot
+    // be disbbled bt run-time, bnd thus is bvbilbble bll the time
+    // once the check is pbssed.
+    stbtic Boolebn isShbpingSupported = null;
 
     /**
-     *  Returns whether the XSHAPE extension available
+     *  Returns whether the XSHAPE extension bvbilbble
      *  @since 1.7
      */
-    static synchronized boolean isShapingSupported() {
+    stbtic synchronized boolebn isShbpingSupported() {
 
-        if (isShapingSupported == null) {
-            XToolkit.awtLock();
+        if (isShbpingSupported == null) {
+            XToolkit.bwtLock();
             try {
-                isShapingSupported =
-                    XlibWrapper.XShapeQueryExtension(
-                            XToolkit.getDisplay(),
-                            XlibWrapper.larg1,
-                            XlibWrapper.larg2);
-            } finally {
-                XToolkit.awtUnlock();
+                isShbpingSupported =
+                    XlibWrbpper.XShbpeQueryExtension(
+                            XToolkit.getDisplby(),
+                            XlibWrbpper.lbrg1,
+                            XlibWrbpper.lbrg2);
+            } finblly {
+                XToolkit.bwtUnlock();
             }
         }
 
-        return isShapingSupported.booleanValue();
+        return isShbpingSupported.boolebnVblue();
     }
 
-    static int getButtonMask(int button) {
-        // Button indices start with 1. The first bit in the button mask is the 8th.
-        // The state mask does not support button indicies > 5, so we need to
+    stbtic int getButtonMbsk(int button) {
+        // Button indices stbrt with 1. The first bit in the button mbsk is the 8th.
+        // The stbte mbsk does not support button indicies > 5, so we need to
         // cut there.
-        if (button <= 0 || button > XConstants.MAX_BUTTONS) {
+        if (button <= 0 || button > XConstbnts.MAX_BUTTONS) {
             return 0;
         } else {
             return 1 << (7 + button);

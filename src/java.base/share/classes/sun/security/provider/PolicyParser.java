@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.io.*;
-import java.lang.RuntimePermission;
-import java.net.SocketPermission;
-import java.net.URL;
-import java.security.GeneralSecurityException;
-import java.security.Principal;
-import java.text.MessageFormat;
-import java.util.*;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.*;
+import jbvb.lbng.RuntimePermission;
+import jbvb.net.SocketPermission;
+import jbvb.net.URL;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.Principbl;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.*;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.security.util.Debug;
-import sun.security.util.PropertyExpander;
+import sun.security.util.PropertyExpbnder;
 import sun.security.util.ResourcesMgr;
 
 /**
- * The policy for a Java runtime (specifying
- * which permissions are available for code from various principals)
- * is represented as a separate
- * persistent configuration.  The configuration may be stored as a
- * flat ASCII file, as a serialized binary file of
- * the Policy class, or as a database. <p>
+ * The policy for b Jbvb runtime (specifying
+ * which permissions bre bvbilbble for code from vbrious principbls)
+ * is represented bs b sepbrbte
+ * persistent configurbtion.  The configurbtion mby be stored bs b
+ * flbt ASCII file, bs b seriblized binbry file of
+ * the Policy clbss, or bs b dbtbbbse. <p>
  *
- * <p>The Java runtime creates one global Policy object, which is used to
- * represent the static policy configuration file.  It is consulted by
- * a ProtectionDomain when the protection domain initializes its set of
+ * <p>The Jbvb runtime crebtes one globbl Policy object, which is used to
+ * represent the stbtic policy configurbtion file.  It is consulted by
+ * b ProtectionDombin when the protection dombin initiblizes its set of
  * permissions. <p>
  *
- * <p>The Policy <code>init</code> method parses the policy
- * configuration file, and then
- * populates the Policy object.  The Policy object is agnostic in that
- * it is not involved in making policy decisions.  It is merely the
- * Java runtime representation of the persistent policy configuration
+ * <p>The Policy <code>init</code> method pbrses the policy
+ * configurbtion file, bnd then
+ * populbtes the Policy object.  The Policy object is bgnostic in thbt
+ * it is not involved in mbking policy decisions.  It is merely the
+ * Jbvb runtime representbtion of the persistent policy configurbtion
  * file. <p>
  *
- * <p>When a protection domain needs to initialize its set of
- * permissions, it executes code such as the following
- * to ask the global Policy object to populate a
- * Permissions object with the appropriate permissions:
+ * <p>When b protection dombin needs to initiblize its set of
+ * permissions, it executes code such bs the following
+ * to bsk the globbl Policy object to populbte b
+ * Permissions object with the bppropribte permissions:
  * <pre>
  *  policy = Policy.getPolicy();
- *  Permissions perms = policy.getPermissions(protectiondomain)
+ *  Permissions perms = policy.getPermissions(protectiondombin)
  * </pre>
  *
- * <p>The protection domain contains a CodeSource
- * object, which encapsulates its codebase (URL) and public key attributes.
- * It also contains the principals associated with the domain.
- * The Policy object evaluates the global policy in light of who the
- * principal is and what the code source is and returns an appropriate
+ * <p>The protection dombin contbins b CodeSource
+ * object, which encbpsulbtes its codebbse (URL) bnd public key bttributes.
+ * It blso contbins the principbls bssocibted with the dombin.
+ * The Policy object evblubtes the globbl policy in light of who the
+ * principbl is bnd whbt the code source is bnd returns bn bppropribte
  * Permissions object.
  *
- * @author Roland Schemers
- * @author Ram Marti
+ * @buthor Rolbnd Schemers
+ * @buthor Rbm Mbrti
  *
  * @since 1.2
  */
 
-public class PolicyParser {
+public clbss PolicyPbrser {
 
-    private static final String EXTDIRS_PROPERTY = "java.ext.dirs";
-    private static final String OLD_EXTDIRS_EXPANSION =
+    privbte stbtic finbl String EXTDIRS_PROPERTY = "jbvb.ext.dirs";
+    privbte stbtic finbl String OLD_EXTDIRS_EXPANSION =
         "${" + EXTDIRS_PROPERTY + "}";
 
-    // package-private: used by PolicyFile for static policy
-    static final String EXTDIRS_EXPANSION = "${{" + EXTDIRS_PROPERTY + "}}";
+    // pbckbge-privbte: used by PolicyFile for stbtic policy
+    stbtic finbl String EXTDIRS_EXPANSION = "${{" + EXTDIRS_PROPERTY + "}}";
 
 
-    private Vector<GrantEntry> grantEntries;
-    private Map<String, DomainEntry> domainEntries;
+    privbte Vector<GrbntEntry> grbntEntries;
+    privbte Mbp<String, DombinEntry> dombinEntries;
 
-    // Convenience variables for parsing
-    private static final Debug debug = Debug.getInstance("parser",
-                                                "\t[Policy Parser]");
-    private StreamTokenizer st;
-    private int lookahead;
-    private boolean expandProp = false;
-    private String keyStoreUrlString = null; // unexpanded
-    private String keyStoreType = null;
-    private String keyStoreProvider = null;
-    private String storePassURL = null;
+    // Convenience vbribbles for pbrsing
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("pbrser",
+                                                "\t[Policy Pbrser]");
+    privbte StrebmTokenizer st;
+    privbte int lookbhebd;
+    privbte boolebn expbndProp = fblse;
+    privbte String keyStoreUrlString = null; // unexpbnded
+    privbte String keyStoreType = null;
+    privbte String keyStoreProvider = null;
+    privbte String storePbssURL = null;
 
-    private String expand(String value)
-        throws PropertyExpander.ExpandException
+    privbte String expbnd(String vblue)
+        throws PropertyExpbnder.ExpbndException
     {
-        return expand(value, false);
+        return expbnd(vblue, fblse);
     }
 
-    private String expand(String value, boolean encodeURL)
-        throws PropertyExpander.ExpandException
+    privbte String expbnd(String vblue, boolebn encodeURL)
+        throws PropertyExpbnder.ExpbndException
     {
-        if (!expandProp) {
-            return value;
+        if (!expbndProp) {
+            return vblue;
         } else {
-            return PropertyExpander.expand(value, encodeURL);
+            return PropertyExpbnder.expbnd(vblue, encodeURL);
         }
     }
 
     /**
-     * Creates a PolicyParser object.
+     * Crebtes b PolicyPbrser object.
      */
 
-    public PolicyParser() {
-        grantEntries = new Vector<GrantEntry>();
+    public PolicyPbrser() {
+        grbntEntries = new Vector<GrbntEntry>();
     }
 
 
-    public PolicyParser(boolean expandProp) {
+    public PolicyPbrser(boolebn expbndProp) {
         this();
-        this.expandProp = expandProp;
+        this.expbndProp = expbndProp;
     }
 
     /**
-     * Reads a policy configuration into the Policy object using a
-     * Reader object. <p>
+     * Rebds b policy configurbtion into the Policy object using b
+     * Rebder object. <p>
      *
-     * @param policy the policy Reader object.
+     * @pbrbm policy the policy Rebder object.
      *
-     * @exception ParsingException if the policy configuration contains
-     *          a syntax error.
+     * @exception PbrsingException if the policy configurbtion contbins
+     *          b syntbx error.
      *
-     * @exception IOException if an error occurs while reading the policy
-     *          configuration.
+     * @exception IOException if bn error occurs while rebding the policy
+     *          configurbtion.
      */
 
-    public void read(Reader policy)
-        throws ParsingException, IOException
+    public void rebd(Rebder policy)
+        throws PbrsingException, IOException
     {
-        if (!(policy instanceof BufferedReader)) {
-            policy = new BufferedReader(policy);
+        if (!(policy instbnceof BufferedRebder)) {
+            policy = new BufferedRebder(policy);
         }
 
         /**
-         * Configure the stream tokenizer:
+         * Configure the strebm tokenizer:
          *      Recognize strings between "..."
-         *      Don't convert words to lowercase
-         *      Recognize both C-style and C++-style comments
-         *      Treat end-of-line as white space, not as a token
+         *      Don't convert words to lowercbse
+         *      Recognize both C-style bnd C++-style comments
+         *      Trebt end-of-line bs white spbce, not bs b token
          */
-        st   = new StreamTokenizer(policy);
+        st   = new StrebmTokenizer(policy);
 
-        st.resetSyntax();
-        st.wordChars('a', 'z');
-        st.wordChars('A', 'Z');
-        st.wordChars('.', '.');
-        st.wordChars('0', '9');
-        st.wordChars('_', '_');
-        st.wordChars('$', '$');
-        st.wordChars(128 + 32, 255);
-        st.whitespaceChars(0, ' ');
-        st.commentChar('/');
-        st.quoteChar('\'');
-        st.quoteChar('"');
-        st.lowerCaseMode(false);
-        st.ordinaryChar('/');
-        st.slashSlashComments(true);
-        st.slashStarComments(true);
+        st.resetSyntbx();
+        st.wordChbrs('b', 'z');
+        st.wordChbrs('A', 'Z');
+        st.wordChbrs('.', '.');
+        st.wordChbrs('0', '9');
+        st.wordChbrs('_', '_');
+        st.wordChbrs('$', '$');
+        st.wordChbrs(128 + 32, 255);
+        st.whitespbceChbrs(0, ' ');
+        st.commentChbr('/');
+        st.quoteChbr('\'');
+        st.quoteChbr('"');
+        st.lowerCbseMode(fblse);
+        st.ordinbryChbr('/');
+        st.slbshSlbshComments(true);
+        st.slbshStbrComments(true);
 
         /**
-         * The main parsing loop.  The loop is executed once
-         * for each entry in the config file.      The entries
-         * are delimited by semicolons.   Once we've read in
-         * the information for an entry, go ahead and try to
-         * add it to the policy vector.
+         * The mbin pbrsing loop.  The loop is executed once
+         * for ebch entry in the config file.      The entries
+         * bre delimited by semicolons.   Once we've rebd in
+         * the informbtion for bn entry, go bhebd bnd try to
+         * bdd it to the policy vector.
          *
          */
 
-        lookahead = st.nextToken();
-        GrantEntry ge = null;
-        while (lookahead != StreamTokenizer.TT_EOF) {
-            if (peek("grant")) {
-                ge = parseGrantEntry();
-                // could be null if we couldn't expand a property
+        lookbhebd = st.nextToken();
+        GrbntEntry ge = null;
+        while (lookbhebd != StrebmTokenizer.TT_EOF) {
+            if (peek("grbnt")) {
+                ge = pbrseGrbntEntry();
+                // could be null if we couldn't expbnd b property
                 if (ge != null)
-                    add(ge);
+                    bdd(ge);
             } else if (peek("keystore") && keyStoreUrlString==null) {
                 // only one keystore entry per policy file, others will be
                 // ignored
-                parseKeyStoreEntry();
-            } else if (peek("keystorePasswordURL") && storePassURL==null) {
-                // only one keystore passwordURL per policy file, others will be
+                pbrseKeyStoreEntry();
+            } else if (peek("keystorePbsswordURL") && storePbssURL==null) {
+                // only one keystore pbsswordURL per policy file, others will be
                 // ignored
-                parseStorePassURL();
+                pbrseStorePbssURL();
             } else if (ge == null && keyStoreUrlString == null &&
-                storePassURL == null && peek("domain")) {
-                if (domainEntries == null) {
-                    domainEntries = new TreeMap<>();
+                storePbssURL == null && peek("dombin")) {
+                if (dombinEntries == null) {
+                    dombinEntries = new TreeMbp<>();
                 }
-                DomainEntry de = parseDomainEntry();
+                DombinEntry de = pbrseDombinEntry();
                 if (de != null) {
-                    String domainName = de.getName();
-                    if (!domainEntries.containsKey(domainName)) {
-                        domainEntries.put(domainName, de);
+                    String dombinNbme = de.getNbme();
+                    if (!dombinEntries.contbinsKey(dombinNbme)) {
+                        dombinEntries.put(dombinNbme, de);
                     } else {
-                        MessageFormat form =
-                            new MessageFormat(ResourcesMgr.getString(
-                                "duplicate.keystore.domain.name"));
-                        Object[] source = {domainName};
-                        throw new ParsingException(form.format(source));
+                        MessbgeFormbt form =
+                            new MessbgeFormbt(ResourcesMgr.getString(
+                                "duplicbte.keystore.dombin.nbme"));
+                        Object[] source = {dombinNbme};
+                        throw new PbrsingException(form.formbt(source));
                     }
                 }
             } else {
                 // error?
             }
-            match(";");
+            mbtch(";");
         }
 
-        if (keyStoreUrlString == null && storePassURL != null) {
-            throw new ParsingException(ResourcesMgr.getString
-                ("keystorePasswordURL.can.not.be.specified.without.also.specifying.keystore"));
+        if (keyStoreUrlString == null && storePbssURL != null) {
+            throw new PbrsingException(ResourcesMgr.getString
+                ("keystorePbsswordURL.cbn.not.be.specified.without.blso.specifying.keystore"));
         }
     }
 
-    public void add(GrantEntry ge)
+    public void bdd(GrbntEntry ge)
     {
-        grantEntries.addElement(ge);
+        grbntEntries.bddElement(ge);
     }
 
-    public void replace(GrantEntry origGe, GrantEntry newGe)
+    public void replbce(GrbntEntry origGe, GrbntEntry newGe)
     {
-        grantEntries.setElementAt(newGe, grantEntries.indexOf(origGe));
+        grbntEntries.setElementAt(newGe, grbntEntries.indexOf(origGe));
     }
 
-    public boolean remove(GrantEntry ge)
+    public boolebn remove(GrbntEntry ge)
     {
-        return grantEntries.removeElement(ge);
+        return grbntEntries.removeElement(ge);
     }
 
     /**
-     * Returns the (possibly expanded) keystore location, or null if the
-     * expansion fails.
+     * Returns the (possibly expbnded) keystore locbtion, or null if the
+     * expbnsion fbils.
      */
     public String getKeyStoreUrl() {
         try {
             if (keyStoreUrlString!=null && keyStoreUrlString.length()!=0) {
-                return expand(keyStoreUrlString, true).replace
-                                                (File.separatorChar, '/');
+                return expbnd(keyStoreUrlString, true).replbce
+                                                (File.sepbrbtorChbr, '/');
             }
-        } catch (PropertyExpander.ExpandException peee) {
+        } cbtch (PropertyExpbnder.ExpbndException peee) {
             if (debug != null) {
                 debug.println(peee.toString());
             }
@@ -290,13 +290,13 @@ public class PolicyParser {
         keyStoreProvider = provider;
     }
 
-    public String getStorePassURL() {
+    public String getStorePbssURL() {
         try {
-            if (storePassURL!=null && storePassURL.length()!=0) {
-                return expand(storePassURL, true).replace
-                                                (File.separatorChar, '/');
+            if (storePbssURL!=null && storePbssURL.length()!=0) {
+                return expbnd(storePbssURL, true).replbce
+                                                (File.sepbrbtorChbr, '/');
             }
-        } catch (PropertyExpander.ExpandException peee) {
+        } cbtch (PropertyExpbnder.ExpbndException peee) {
             if (debug != null) {
                 debug.println(peee.toString());
             }
@@ -305,22 +305,22 @@ public class PolicyParser {
         return null;
     }
 
-    public void setStorePassURL(String storePassURL) {
-        this.storePassURL = storePassURL;
+    public void setStorePbssURL(String storePbssURL) {
+        this.storePbssURL = storePbssURL;
     }
 
     /**
-     * Enumerate all the entries in the global policy object.
-     * This method is used by policy admin tools.   The tools
-     * should use the Enumeration methods on the returned object
-     * to fetch the elements sequentially.
+     * Enumerbte bll the entries in the globbl policy object.
+     * This method is used by policy bdmin tools.   The tools
+     * should use the Enumerbtion methods on the returned object
+     * to fetch the elements sequentiblly.
      */
-    public Enumeration<GrantEntry> grantElements(){
-        return grantEntries.elements();
+    public Enumerbtion<GrbntEntry> grbntElements(){
+        return grbntEntries.elements();
     }
 
-    public Collection<DomainEntry> getDomainEntries() {
-        return domainEntries.values();
+    public Collection<DombinEntry> getDombinEntries() {
+        return dombinEntries.vblues();
     }
 
     /**
@@ -331,25 +331,25 @@ public class PolicyParser {
     {
         PrintWriter out = new PrintWriter(new BufferedWriter(policy));
 
-        Enumeration<GrantEntry> enum_ = grantElements();
+        Enumerbtion<GrbntEntry> enum_ = grbntElements();
 
         out.println("/* AUTOMATICALLY GENERATED ON "+
-                    (new java.util.Date()) + "*/");
+                    (new jbvb.util.Dbte()) + "*/");
         out.println("/* DO NOT EDIT */");
         out.println();
 
-        // write the (unexpanded) keystore entry as the first entry of the
+        // write the (unexpbnded) keystore entry bs the first entry of the
         // policy file
         if (keyStoreUrlString != null) {
             writeKeyStoreEntry(out);
         }
-        if (storePassURL != null) {
-            writeStorePassURL(out);
+        if (storePbssURL != null) {
+            writeStorePbssURL(out);
         }
 
-        // write "grant" entries
-        while (enum_.hasMoreElements()) {
-            GrantEntry ge = enum_.nextElement();
+        // write "grbnt" entries
+        while (enum_.hbsMoreElements()) {
+            GrbntEntry ge = enum_.nextElement();
             ge.write(out);
             out.println();
         }
@@ -357,48 +357,48 @@ public class PolicyParser {
     }
 
     /**
-     * parses a keystore entry
+     * pbrses b keystore entry
      */
-    private void parseKeyStoreEntry() throws ParsingException, IOException {
-        match("keystore");
-        keyStoreUrlString = match("quoted string");
+    privbte void pbrseKeyStoreEntry() throws PbrsingException, IOException {
+        mbtch("keystore");
+        keyStoreUrlString = mbtch("quoted string");
 
-        // parse keystore type
+        // pbrse keystore type
         if (!peek(",")) {
-            return; // default type
+            return; // defbult type
         }
-        match(",");
+        mbtch(",");
 
         if (peek("\"")) {
-            keyStoreType = match("quoted string");
+            keyStoreType = mbtch("quoted string");
         } else {
-            throw new ParsingException(st.lineno(),
+            throw new PbrsingException(st.lineno(),
                         ResourcesMgr.getString("expected.keystore.type"));
         }
 
-        // parse keystore provider
+        // pbrse keystore provider
         if (!peek(",")) {
-            return; // provider optional
+            return; // provider optionbl
         }
-        match(",");
+        mbtch(",");
 
         if (peek("\"")) {
-            keyStoreProvider = match("quoted string");
+            keyStoreProvider = mbtch("quoted string");
         } else {
-            throw new ParsingException(st.lineno(),
+            throw new PbrsingException(st.lineno(),
                         ResourcesMgr.getString("expected.keystore.provider"));
         }
     }
 
-    private void parseStorePassURL() throws ParsingException, IOException {
-        match("keyStorePasswordURL");
-        storePassURL = match("quoted string");
+    privbte void pbrseStorePbssURL() throws PbrsingException, IOException {
+        mbtch("keyStorePbsswordURL");
+        storePbssURL = mbtch("quoted string");
     }
 
     /**
-     * writes the (unexpanded) keystore entry
+     * writes the (unexpbnded) keystore entry
      */
-    private void writeKeyStoreEntry(PrintWriter out) {
+    privbte void writeKeyStoreEntry(PrintWriter out) {
         out.print("keystore \"");
         out.print(keyStoreUrlString);
         out.print('"');
@@ -410,195 +410,195 @@ public class PolicyParser {
         out.println();
     }
 
-    private void writeStorePassURL(PrintWriter out) {
-        out.print("keystorePasswordURL \"");
-        out.print(storePassURL);
+    privbte void writeStorePbssURL(PrintWriter out) {
+        out.print("keystorePbsswordURL \"");
+        out.print(storePbssURL);
         out.print('"');
         out.println(";");
         out.println();
     }
 
     /**
-     * parse a Grant entry
+     * pbrse b Grbnt entry
      */
-    private GrantEntry parseGrantEntry()
-        throws ParsingException, IOException
+    privbte GrbntEntry pbrseGrbntEntry()
+        throws PbrsingException, IOException
     {
-        GrantEntry e = new GrantEntry();
-        LinkedList<PrincipalEntry> principals = null;
-        boolean ignoreEntry = false;
+        GrbntEntry e = new GrbntEntry();
+        LinkedList<PrincipblEntry> principbls = null;
+        boolebn ignoreEntry = fblse;
 
-        match("grant");
+        mbtch("grbnt");
 
         while(!peek("{")) {
 
-            if (peekAndMatch("Codebase")) {
-                if (e.codeBase != null)
-                    throw new ParsingException(
+            if (peekAndMbtch("Codebbse")) {
+                if (e.codeBbse != null)
+                    throw new PbrsingException(
                             st.lineno(),
                             ResourcesMgr.getString
-                                ("multiple.Codebase.expressions"));
-                e.codeBase = match("quoted string");
-                peekAndMatch(",");
-            } else if (peekAndMatch("SignedBy")) {
+                                ("multiple.Codebbse.expressions"));
+                e.codeBbse = mbtch("quoted string");
+                peekAndMbtch(",");
+            } else if (peekAndMbtch("SignedBy")) {
                 if (e.signedBy != null)
-                    throw new ParsingException(
+                    throw new PbrsingException(
                             st.lineno(),
                             ResourcesMgr.getString(
                                 "multiple.SignedBy.expressions"));
-                e.signedBy = match("quoted string");
+                e.signedBy = mbtch("quoted string");
 
-                // verify syntax of the aliases
-                StringTokenizer aliases = new StringTokenizer(e.signedBy,
+                // verify syntbx of the blibses
+                StringTokenizer blibses = new StringTokenizer(e.signedBy,
                                                               ",", true);
-                int actr = 0;
+                int bctr = 0;
                 int cctr = 0;
-                while (aliases.hasMoreTokens()) {
-                    String alias = aliases.nextToken().trim();
-                    if (alias.equals(","))
+                while (blibses.hbsMoreTokens()) {
+                    String blibs = blibses.nextToken().trim();
+                    if (blibs.equbls(","))
                         cctr++;
-                    else if (alias.length() > 0)
-                        actr++;
+                    else if (blibs.length() > 0)
+                        bctr++;
                 }
-                if (actr <= cctr)
-                    throw new ParsingException(
+                if (bctr <= cctr)
+                    throw new PbrsingException(
                             st.lineno(),
                             ResourcesMgr.getString(
-                                "SignedBy.has.empty.alias"));
+                                "SignedBy.hbs.empty.blibs"));
 
-                peekAndMatch(",");
-            } else if (peekAndMatch("Principal")) {
-                if (principals == null) {
-                    principals = new LinkedList<>();
+                peekAndMbtch(",");
+            } else if (peekAndMbtch("Principbl")) {
+                if (principbls == null) {
+                    principbls = new LinkedList<>();
                 }
 
-                String principalClass;
-                String principalName;
+                String principblClbss;
+                String principblNbme;
 
                 if (peek("\"")) {
-                    // both the principalClass and principalName
-                    // will be replaced later
-                    principalClass = PrincipalEntry.REPLACE_NAME;
-                    principalName = match("principal type");
+                    // both the principblClbss bnd principblNbme
+                    // will be replbced lbter
+                    principblClbss = PrincipblEntry.REPLACE_NAME;
+                    principblNbme = mbtch("principbl type");
                 } else {
-                    // check for principalClass wildcard
+                    // check for principblClbss wildcbrd
                     if (peek("*")) {
-                        match("*");
-                        principalClass = PrincipalEntry.WILDCARD_CLASS;
+                        mbtch("*");
+                        principblClbss = PrincipblEntry.WILDCARD_CLASS;
                     } else {
-                        principalClass = match("principal type");
+                        principblClbss = mbtch("principbl type");
                     }
 
-                    // check for principalName wildcard
+                    // check for principblNbme wildcbrd
                     if (peek("*")) {
-                        match("*");
-                        principalName = PrincipalEntry.WILDCARD_NAME;
+                        mbtch("*");
+                        principblNbme = PrincipblEntry.WILDCARD_NAME;
                     } else {
-                        principalName = match("quoted string");
+                        principblNbme = mbtch("quoted string");
                     }
 
-                    // disallow WILDCARD_CLASS && actual name
-                    if (principalClass.equals(PrincipalEntry.WILDCARD_CLASS) &&
-                        !principalName.equals(PrincipalEntry.WILDCARD_NAME)) {
+                    // disbllow WILDCARD_CLASS && bctubl nbme
+                    if (principblClbss.equbls(PrincipblEntry.WILDCARD_CLASS) &&
+                        !principblNbme.equbls(PrincipblEntry.WILDCARD_NAME)) {
                         if (debug != null) {
-                                debug.println("disallowing principal that " +
-                                    "has WILDCARD class but no WILDCARD name");
+                                debug.println("disbllowing principbl thbt " +
+                                    "hbs WILDCARD clbss but no WILDCARD nbme");
                         }
-                        throw new ParsingException
+                        throw new PbrsingException
                                 (st.lineno(),
                                  ResourcesMgr.getString
-                                    ("can.not.specify.Principal.with.a.wildcard.class.without.a.wildcard.name"));
+                                    ("cbn.not.specify.Principbl.with.b.wildcbrd.clbss.without.b.wildcbrd.nbme"));
                     }
                 }
 
                 try {
-                    principalName = expand(principalName);
+                    principblNbme = expbnd(principblNbme);
 
-                    if (principalClass.equals
-                                ("javax.security.auth.x500.X500Principal") &&
-                        !principalName.equals(PrincipalEntry.WILDCARD_NAME)) {
+                    if (principblClbss.equbls
+                                ("jbvbx.security.buth.x500.X500Principbl") &&
+                        !principblNbme.equbls(PrincipblEntry.WILDCARD_NAME)) {
 
-                        // 4702543:  X500 names with an EmailAddress
-                        // were encoded incorrectly.  construct a new
-                        // X500Principal with correct encoding.
+                        // 4702543:  X500 nbmes with bn EmbilAddress
+                        // were encoded incorrectly.  construct b new
+                        // X500Principbl with correct encoding.
 
-                        X500Principal p = new X500Principal
-                                ((new X500Principal(principalName)).toString());
-                        principalName = p.getName();
+                        X500Principbl p = new X500Principbl
+                                ((new X500Principbl(principblNbme)).toString());
+                        principblNbme = p.getNbme();
                     }
 
-                    principals.add
-                        (new PrincipalEntry(principalClass, principalName));
-                } catch (PropertyExpander.ExpandException peee) {
+                    principbls.bdd
+                        (new PrincipblEntry(principblClbss, principblNbme));
+                } cbtch (PropertyExpbnder.ExpbndException peee) {
                     // ignore the entire policy entry
-                    // but continue parsing all the info
-                    // so we can get to the next entry
+                    // but continue pbrsing bll the info
+                    // so we cbn get to the next entry
                     if (debug != null) {
-                        debug.println("principal name expansion failed: " +
-                                        principalName);
+                        debug.println("principbl nbme expbnsion fbiled: " +
+                                        principblNbme);
                     }
                     ignoreEntry = true;
                 }
-                peekAndMatch(",");
+                peekAndMbtch(",");
 
             } else {
-                throw new ParsingException(st.lineno(),
+                throw new PbrsingException(st.lineno(),
                                   ResourcesMgr.getString(
-                                      "expected.codeBase.or.SignedBy.or.Principal"));
+                                      "expected.codeBbse.or.SignedBy.or.Principbl"));
             }
         }
 
-        if (principals != null) e.principals = principals;
-        match("{");
+        if (principbls != null) e.principbls = principbls;
+        mbtch("{");
 
         while(!peek("}")) {
             if (peek("Permission")) {
                 try {
-                    PermissionEntry pe = parsePermissionEntry();
-                    e.add(pe);
-                } catch (PropertyExpander.ExpandException peee) {
-                    // ignore. The add never happened
+                    PermissionEntry pe = pbrsePermissionEntry();
+                    e.bdd(pe);
+                } cbtch (PropertyExpbnder.ExpbndException peee) {
+                    // ignore. The bdd never hbppened
                     if (debug != null) {
                         debug.println(peee.toString());
                     }
                     skipEntry();  // BugId 4219343
                 }
-                match(";");
+                mbtch(";");
             } else {
                 throw new
-                    ParsingException(st.lineno(),
+                    PbrsingException(st.lineno(),
                                      ResourcesMgr.getString(
                                         "expected.permission.entry"));
             }
         }
-        match("}");
+        mbtch("}");
 
         try {
-            if (e.signedBy != null) e.signedBy = expand(e.signedBy);
-            if (e.codeBase != null) {
+            if (e.signedBy != null) e.signedBy = expbnd(e.signedBy);
+            if (e.codeBbse != null) {
 
-                // For backward compatibility with 1.4
-                if (e.codeBase.equals(OLD_EXTDIRS_EXPANSION)) {
-                    e.codeBase = EXTDIRS_EXPANSION;
+                // For bbckwbrd compbtibility with 1.4
+                if (e.codeBbse.equbls(OLD_EXTDIRS_EXPANSION)) {
+                    e.codeBbse = EXTDIRS_EXPANSION;
                 }
                 int es;
-                if ((es=e.codeBase.indexOf(EXTDIRS_EXPANSION)) < 0) {
-                    e.codeBase = expand(e.codeBase, true).replace
-                                        (File.separatorChar, '/');
+                if ((es=e.codeBbse.indexOf(EXTDIRS_EXPANSION)) < 0) {
+                    e.codeBbse = expbnd(e.codeBbse, true).replbce
+                                        (File.sepbrbtorChbr, '/');
                 } else {
-                    // expand the system property "java.ext.dirs",
-                    // parse it into its path components,
-                    // and then create a grant entry for each component
-                    String[] extDirs = parseExtDirs(e.codeBase, es);
+                    // expbnd the system property "jbvb.ext.dirs",
+                    // pbrse it into its pbth components,
+                    // bnd then crebte b grbnt entry for ebch component
+                    String[] extDirs = pbrseExtDirs(e.codeBbse, es);
                     if (extDirs != null && extDirs.length > 0) {
                         for (int i = 0; i < extDirs.length; i++) {
-                            GrantEntry newGe = (GrantEntry)e.clone();
-                            newGe.codeBase = extDirs[i];
-                            add(newGe);
+                            GrbntEntry newGe = (GrbntEntry)e.clone();
+                            newGe.codeBbse = extDirs[i];
+                            bdd(newGe);
 
                             if (debug != null) {
-                                debug.println("creating policy entry for " +
-                                        "expanded java.ext.dirs path:\n\t\t" +
+                                debug.println("crebting policy entry for " +
+                                        "expbnded jbvb.ext.dirs pbth:\n\t\t" +
                                         extDirs[i]);
                             }
                         }
@@ -606,7 +606,7 @@ public class PolicyParser {
                     ignoreEntry = true;
                 }
             }
-        } catch (PropertyExpander.ExpandException peee) {
+        } cbtch (PropertyExpbnder.ExpbndException peee) {
             if (debug != null) {
                 debug.println(peee.toString());
             }
@@ -617,410 +617,410 @@ public class PolicyParser {
     }
 
     /**
-     * parse a Permission entry
+     * pbrse b Permission entry
      */
-    private PermissionEntry parsePermissionEntry()
-        throws ParsingException, IOException, PropertyExpander.ExpandException
+    privbte PermissionEntry pbrsePermissionEntry()
+        throws PbrsingException, IOException, PropertyExpbnder.ExpbndException
     {
         PermissionEntry e = new PermissionEntry();
 
         // Permission
-        match("Permission");
-        e.permission = match("permission type");
+        mbtch("Permission");
+        e.permission = mbtch("permission type");
 
         if (peek("\"")) {
-            // Permission name
-            e.name = expand(match("quoted string"));
+            // Permission nbme
+            e.nbme = expbnd(mbtch("quoted string"));
         }
 
         if (!peek(",")) {
             return e;
         }
-        match(",");
+        mbtch(",");
 
         if (peek("\"")) {
-                e.action = expand(match("quoted string"));
+                e.bction = expbnd(mbtch("quoted string"));
                 if (!peek(",")) {
                     return e;
                 }
-                match(",");
+                mbtch(",");
         }
 
-        if (peekAndMatch("SignedBy")) {
-            e.signedBy = expand(match("quoted string"));
+        if (peekAndMbtch("SignedBy")) {
+            e.signedBy = expbnd(mbtch("quoted string"));
         }
         return e;
     }
 
     /**
-     * parse a domain entry
+     * pbrse b dombin entry
      */
-    private DomainEntry parseDomainEntry()
-        throws ParsingException, IOException
+    privbte DombinEntry pbrseDombinEntry()
+        throws PbrsingException, IOException
     {
-        boolean ignoreEntry = false;
-        DomainEntry domainEntry;
-        String name = null;
-        Map<String, String> properties = new HashMap<>();
+        boolebn ignoreEntry = fblse;
+        DombinEntry dombinEntry;
+        String nbme = null;
+        Mbp<String, String> properties = new HbshMbp<>();
 
-        match("domain");
-        name = match("domain name");
+        mbtch("dombin");
+        nbme = mbtch("dombin nbme");
 
         while(!peek("{")) {
-            // get the domain properties
-            properties = parseProperties("{");
+            // get the dombin properties
+            properties = pbrseProperties("{");
         }
-        match("{");
-        domainEntry = new DomainEntry(name, properties);
+        mbtch("{");
+        dombinEntry = new DombinEntry(nbme, properties);
 
         while(!peek("}")) {
 
-            match("keystore");
-            name = match("keystore name");
+            mbtch("keystore");
+            nbme = mbtch("keystore nbme");
             // get the keystore properties
             if (!peek("}")) {
-                properties = parseProperties(";");
+                properties = pbrseProperties(";");
             }
-            match(";");
-            domainEntry.add(new KeyStoreEntry(name, properties));
+            mbtch(";");
+            dombinEntry.bdd(new KeyStoreEntry(nbme, properties));
         }
-        match("}");
+        mbtch("}");
 
-        return (ignoreEntry == true) ? null : domainEntry;
+        return (ignoreEntry == true) ? null : dombinEntry;
     }
 
     /*
-     * Return a collection of domain properties or keystore properties.
+     * Return b collection of dombin properties or keystore properties.
      */
-    private Map<String, String> parseProperties(String terminator)
-        throws ParsingException, IOException {
+    privbte Mbp<String, String> pbrseProperties(String terminbtor)
+        throws PbrsingException, IOException {
 
-        Map<String, String> properties = new HashMap<>();
+        Mbp<String, String> properties = new HbshMbp<>();
         String key;
-        String value;
-        while (!peek(terminator)) {
-            key = match("property name");
-            match("=");
+        String vblue;
+        while (!peek(terminbtor)) {
+            key = mbtch("property nbme");
+            mbtch("=");
 
             try {
-                value = expand(match("quoted string"));
-            } catch (PropertyExpander.ExpandException peee) {
-                throw new IOException(peee.getLocalizedMessage());
+                vblue = expbnd(mbtch("quoted string"));
+            } cbtch (PropertyExpbnder.ExpbndException peee) {
+                throw new IOException(peee.getLocblizedMessbge());
             }
-            properties.put(key.toLowerCase(Locale.ENGLISH), value);
+            properties.put(key.toLowerCbse(Locble.ENGLISH), vblue);
         }
 
         return properties;
     }
 
-    // package-private: used by PolicyFile for static policy
-    static String[] parseExtDirs(String codebase, int start) {
+    // pbckbge-privbte: used by PolicyFile for stbtic policy
+    stbtic String[] pbrseExtDirs(String codebbse, int stbrt) {
 
         String s = System.getProperty(EXTDIRS_PROPERTY);
-        String globalPrefix = (start > 0 ? codebase.substring(0, start) : "file:");
-        int end = start + EXTDIRS_EXPANSION.length();
-        String globalSuffix = (end < codebase.length() ? codebase.substring(end) :
+        String globblPrefix = (stbrt > 0 ? codebbse.substring(0, stbrt) : "file:");
+        int end = stbrt + EXTDIRS_EXPANSION.length();
+        String globblSuffix = (end < codebbse.length() ? codebbse.substring(end) :
             (String) null);
 
         String[] dirs = null;
-        String localSuffix;
+        String locblSuffix;
         if (s != null) {
             StringTokenizer st =
-                new StringTokenizer(s, File.pathSeparator);
+                new StringTokenizer(s, File.pbthSepbrbtor);
             int count = st.countTokens();
             dirs = new String[count];
             for (int i = 0; i < count; i++) {
                 File file = new File(st.nextToken());
-                dirs[i] = sun.net.www.ParseUtil.encodePath
-                        (file.getAbsolutePath());
+                dirs[i] = sun.net.www.PbrseUtil.encodePbth
+                        (file.getAbsolutePbth());
 
-                if (!dirs[i].startsWith("/")) {
+                if (!dirs[i].stbrtsWith("/")) {
                     dirs[i] = "/" + dirs[i];
                 }
 
-                localSuffix = (globalSuffix == null ?
+                locblSuffix = (globblSuffix == null ?
                     (dirs[i].endsWith("/") ? "*" : "/*") :
-                    globalSuffix);
+                    globblSuffix);
 
-                dirs[i] = globalPrefix + dirs[i] + localSuffix;
+                dirs[i] = globblPrefix + dirs[i] + locblSuffix;
             }
         }
         return dirs;
     }
 
-    private boolean peekAndMatch(String expect)
-        throws ParsingException, IOException
+    privbte boolebn peekAndMbtch(String expect)
+        throws PbrsingException, IOException
     {
         if (peek(expect)) {
-            match(expect);
+            mbtch(expect);
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    private boolean peek(String expect) {
-        boolean found = false;
+    privbte boolebn peek(String expect) {
+        boolebn found = fblse;
 
-        switch (lookahead) {
+        switch (lookbhebd) {
 
-        case StreamTokenizer.TT_WORD:
-            if (expect.equalsIgnoreCase(st.sval))
+        cbse StrebmTokenizer.TT_WORD:
+            if (expect.equblsIgnoreCbse(st.svbl))
                 found = true;
-            break;
-        case ',':
-            if (expect.equalsIgnoreCase(","))
+            brebk;
+        cbse ',':
+            if (expect.equblsIgnoreCbse(","))
                 found = true;
-            break;
-        case '{':
-            if (expect.equalsIgnoreCase("{"))
+            brebk;
+        cbse '{':
+            if (expect.equblsIgnoreCbse("{"))
                 found = true;
-            break;
-        case '}':
-            if (expect.equalsIgnoreCase("}"))
+            brebk;
+        cbse '}':
+            if (expect.equblsIgnoreCbse("}"))
                 found = true;
-            break;
-        case '"':
-            if (expect.equalsIgnoreCase("\""))
+            brebk;
+        cbse '"':
+            if (expect.equblsIgnoreCbse("\""))
                 found = true;
-            break;
-        case '*':
-            if (expect.equalsIgnoreCase("*"))
+            brebk;
+        cbse '*':
+            if (expect.equblsIgnoreCbse("*"))
                 found = true;
-            break;
-        case ';':
-            if (expect.equalsIgnoreCase(";"))
+            brebk;
+        cbse ';':
+            if (expect.equblsIgnoreCbse(";"))
                 found = true;
-            break;
-        default:
+            brebk;
+        defbult:
 
         }
         return found;
     }
 
-    private String match(String expect)
-        throws ParsingException, IOException
+    privbte String mbtch(String expect)
+        throws PbrsingException, IOException
     {
-        String value = null;
+        String vblue = null;
 
-        switch (lookahead) {
-        case StreamTokenizer.TT_NUMBER:
-            throw new ParsingException(st.lineno(), expect,
+        switch (lookbhebd) {
+        cbse StrebmTokenizer.TT_NUMBER:
+            throw new PbrsingException(st.lineno(), expect,
                                        ResourcesMgr.getString("number.") +
-                                       String.valueOf(st.nval));
-        case StreamTokenizer.TT_EOF:
-            MessageFormat form = new MessageFormat(
+                                       String.vblueOf(st.nvbl));
+        cbse StrebmTokenizer.TT_EOF:
+            MessbgeFormbt form = new MessbgeFormbt(
                     ResourcesMgr.getString
-                            ("expected.expect.read.end.of.file."));
+                            ("expected.expect.rebd.end.of.file."));
             Object[] source = {expect};
-            throw new ParsingException(form.format(source));
-        case StreamTokenizer.TT_WORD:
-            if (expect.equalsIgnoreCase(st.sval)) {
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("permission type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("principal type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("domain name") ||
-                       expect.equalsIgnoreCase("keystore name") ||
-                       expect.equalsIgnoreCase("property name")) {
-                value = st.sval;
-                lookahead = st.nextToken();
+            throw new PbrsingException(form.formbt(source));
+        cbse StrebmTokenizer.TT_WORD:
+            if (expect.equblsIgnoreCbse(st.svbl)) {
+                lookbhebd = st.nextToken();
+            } else if (expect.equblsIgnoreCbse("permission type")) {
+                vblue = st.svbl;
+                lookbhebd = st.nextToken();
+            } else if (expect.equblsIgnoreCbse("principbl type")) {
+                vblue = st.svbl;
+                lookbhebd = st.nextToken();
+            } else if (expect.equblsIgnoreCbse("dombin nbme") ||
+                       expect.equblsIgnoreCbse("keystore nbme") ||
+                       expect.equblsIgnoreCbse("property nbme")) {
+                vblue = st.svbl;
+                lookbhebd = st.nextToken();
             } else {
-                 throw new ParsingException(st.lineno(), expect,
-                                            st.sval);
+                 throw new PbrsingException(st.lineno(), expect,
+                                            st.svbl);
             }
-            break;
-        case '"':
-            if (expect.equalsIgnoreCase("quoted string")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("permission type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("principal type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
+            brebk;
+        cbse '"':
+            if (expect.equblsIgnoreCbse("quoted string")) {
+                vblue = st.svbl;
+                lookbhebd = st.nextToken();
+            } else if (expect.equblsIgnoreCbse("permission type")) {
+                vblue = st.svbl;
+                lookbhebd = st.nextToken();
+            } else if (expect.equblsIgnoreCbse("principbl type")) {
+                vblue = st.svbl;
+                lookbhebd = st.nextToken();
             } else {
-                throw new ParsingException(st.lineno(), expect, st.sval);
+                throw new PbrsingException(st.lineno(), expect, st.svbl);
             }
-            break;
-        case ',':
-            if (expect.equalsIgnoreCase(","))
-                lookahead = st.nextToken();
+            brebk;
+        cbse ',':
+            if (expect.equblsIgnoreCbse(","))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, ",");
-            break;
-        case '{':
-            if (expect.equalsIgnoreCase("{"))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, ",");
+            brebk;
+        cbse '{':
+            if (expect.equblsIgnoreCbse("{"))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, "{");
-            break;
-        case '}':
-            if (expect.equalsIgnoreCase("}"))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, "{");
+            brebk;
+        cbse '}':
+            if (expect.equblsIgnoreCbse("}"))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, "}");
-            break;
-        case ';':
-            if (expect.equalsIgnoreCase(";"))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, "}");
+            brebk;
+        cbse ';':
+            if (expect.equblsIgnoreCbse(";"))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, ";");
-            break;
-        case '*':
-            if (expect.equalsIgnoreCase("*"))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, ";");
+            brebk;
+        cbse '*':
+            if (expect.equblsIgnoreCbse("*"))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, "*");
-            break;
-        case '=':
-            if (expect.equalsIgnoreCase("="))
-                lookahead = st.nextToken();
+                throw new PbrsingException(st.lineno(), expect, "*");
+            brebk;
+        cbse '=':
+            if (expect.equblsIgnoreCbse("="))
+                lookbhebd = st.nextToken();
             else
-                throw new ParsingException(st.lineno(), expect, "=");
-            break;
-        default:
-            throw new ParsingException(st.lineno(), expect,
-                               new String(new char[] {(char)lookahead}));
+                throw new PbrsingException(st.lineno(), expect, "=");
+            brebk;
+        defbult:
+            throw new PbrsingException(st.lineno(), expect,
+                               new String(new chbr[] {(chbr)lookbhebd}));
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * skip all tokens for this entry leaving the delimiter ";"
-     * in the stream.
+     * skip bll tokens for this entry lebving the delimiter ";"
+     * in the strebm.
      */
-    private void skipEntry() throws ParsingException, IOException {
-        while(lookahead != ';') {
-            switch (lookahead) {
-            case StreamTokenizer.TT_NUMBER:
-                throw new ParsingException(st.lineno(), ";",
+    privbte void skipEntry() throws PbrsingException, IOException {
+        while(lookbhebd != ';') {
+            switch (lookbhebd) {
+            cbse StrebmTokenizer.TT_NUMBER:
+                throw new PbrsingException(st.lineno(), ";",
                                           ResourcesMgr.getString("number.") +
-                                          String.valueOf(st.nval));
-            case StreamTokenizer.TT_EOF:
-                throw new ParsingException(ResourcesMgr.getString
-                        ("expected.read.end.of.file."));
-            default:
-                lookahead = st.nextToken();
+                                          String.vblueOf(st.nvbl));
+            cbse StrebmTokenizer.TT_EOF:
+                throw new PbrsingException(ResourcesMgr.getString
+                        ("expected.rebd.end.of.file."));
+            defbult:
+                lookbhebd = st.nextToken();
             }
         }
     }
 
     /**
-     * Each grant entry in the policy configuration file is
-     * represented by a
-     * GrantEntry object.  <p>
+     * Ebch grbnt entry in the policy configurbtion file is
+     * represented by b
+     * GrbntEntry object.  <p>
      *
      * <p>
-     * For example, the entry
+     * For exbmple, the entry
      * <pre>
-     *      grant signedBy "Duke" {
-     *          permission java.io.FilePermission "/tmp", "read,write";
+     *      grbnt signedBy "Duke" {
+     *          permission jbvb.io.FilePermission "/tmp", "rebd,write";
      *      };
      *
      * </pre>
-     * is represented internally
+     * is represented internblly
      * <pre>
      *
-     * pe = new PermissionEntry("java.io.FilePermission",
-     *                           "/tmp", "read,write");
+     * pe = new PermissionEntry("jbvb.io.FilePermission",
+     *                           "/tmp", "rebd,write");
      *
-     * ge = new GrantEntry("Duke", null);
+     * ge = new GrbntEntry("Duke", null);
      *
-     * ge.add(pe);
+     * ge.bdd(pe);
      *
      * </pre>
      *
-     * @author Roland Schemers
+     * @buthor Rolbnd Schemers
      *
      * version 1.19, 05/21/98
      */
 
-    public static class GrantEntry {
+    public stbtic clbss GrbntEntry {
 
         public String signedBy;
-        public String codeBase;
-        public LinkedList<PrincipalEntry> principals;
+        public String codeBbse;
+        public LinkedList<PrincipblEntry> principbls;
         public Vector<PermissionEntry> permissionEntries;
 
-        public GrantEntry() {
-            principals = new LinkedList<PrincipalEntry>();
+        public GrbntEntry() {
+            principbls = new LinkedList<PrincipblEntry>();
             permissionEntries = new Vector<PermissionEntry>();
         }
 
-        public GrantEntry(String signedBy, String codeBase) {
-            this.codeBase = codeBase;
+        public GrbntEntry(String signedBy, String codeBbse) {
+            this.codeBbse = codeBbse;
             this.signedBy = signedBy;
-            principals = new LinkedList<PrincipalEntry>();
+            principbls = new LinkedList<PrincipblEntry>();
             permissionEntries = new Vector<PermissionEntry>();
         }
 
-        public void add(PermissionEntry pe)
+        public void bdd(PermissionEntry pe)
         {
-            permissionEntries.addElement(pe);
+            permissionEntries.bddElement(pe);
         }
 
-        public boolean remove(PrincipalEntry pe)
+        public boolebn remove(PrincipblEntry pe)
         {
-            return principals.remove(pe);
+            return principbls.remove(pe);
         }
 
-        public boolean remove(PermissionEntry pe)
+        public boolebn remove(PermissionEntry pe)
         {
             return permissionEntries.removeElement(pe);
         }
 
-        public boolean contains(PrincipalEntry pe)
+        public boolebn contbins(PrincipblEntry pe)
         {
-            return principals.contains(pe);
+            return principbls.contbins(pe);
         }
 
-        public boolean contains(PermissionEntry pe)
+        public boolebn contbins(PermissionEntry pe)
         {
-            return permissionEntries.contains(pe);
+            return permissionEntries.contbins(pe);
         }
 
         /**
-         * Enumerate all the permission entries in this GrantEntry.
+         * Enumerbte bll the permission entries in this GrbntEntry.
          */
-        public Enumeration<PermissionEntry> permissionElements(){
+        public Enumerbtion<PermissionEntry> permissionElements(){
             return permissionEntries.elements();
         }
 
 
         public void write(PrintWriter out) {
-            out.print("grant");
+            out.print("grbnt");
             if (signedBy != null) {
                 out.print(" signedBy \"");
                 out.print(signedBy);
                 out.print('"');
-                if (codeBase != null)
+                if (codeBbse != null)
                     out.print(", ");
             }
-            if (codeBase != null) {
-                out.print(" codeBase \"");
-                out.print(codeBase);
+            if (codeBbse != null) {
+                out.print(" codeBbse \"");
+                out.print(codeBbse);
                 out.print('"');
-                if (principals != null && principals.size() > 0)
+                if (principbls != null && principbls.size() > 0)
                     out.print(",\n");
             }
-            if (principals != null && principals.size() > 0) {
-                Iterator<PrincipalEntry> pli = principals.iterator();
-                while (pli.hasNext()) {
+            if (principbls != null && principbls.size() > 0) {
+                Iterbtor<PrincipblEntry> pli = principbls.iterbtor();
+                while (pli.hbsNext()) {
                     out.print("      ");
-                    PrincipalEntry pe = pli.next();
+                    PrincipblEntry pe = pli.next();
                     pe.write(out);
-                    if (pli.hasNext())
+                    if (pli.hbsNext())
                         out.print(",\n");
                 }
             }
             out.println(" {");
-            Enumeration<PermissionEntry> enum_ = permissionEntries.elements();
-            while (enum_.hasMoreElements()) {
+            Enumerbtion<PermissionEntry> enum_ = permissionEntries.elements();
+            while (enum_.hbsMoreElements()) {
                 PermissionEntry pe = enum_.nextElement();
                 out.write("  ");
                 pe.write(out);
@@ -1029,10 +1029,10 @@ public class PolicyParser {
         }
 
         public Object clone() {
-            GrantEntry ge = new GrantEntry();
-            ge.codeBase = this.codeBase;
+            GrbntEntry ge = new GrbntEntry();
+            ge.codeBbse = this.codeBbse;
             ge.signedBy = this.signedBy;
-            ge.principals = new LinkedList<PrincipalEntry>(this.principals);
+            ge.principbls = new LinkedList<PrincipblEntry>(this.principbls);
             ge.permissionEntries =
                         new Vector<PermissionEntry>(this.permissionEntries);
             return ge;
@@ -1040,235 +1040,235 @@ public class PolicyParser {
     }
 
     /**
-     * Principal info (class and name) in a grant entry
+     * Principbl info (clbss bnd nbme) in b grbnt entry
      */
-    public static class PrincipalEntry implements Principal {
+    public stbtic clbss PrincipblEntry implements Principbl {
 
-        public static final String WILDCARD_CLASS = "WILDCARD_PRINCIPAL_CLASS";
-        public static final String WILDCARD_NAME = "WILDCARD_PRINCIPAL_NAME";
-        public static final String REPLACE_NAME = "PolicyParser.REPLACE_NAME";
+        public stbtic finbl String WILDCARD_CLASS = "WILDCARD_PRINCIPAL_CLASS";
+        public stbtic finbl String WILDCARD_NAME = "WILDCARD_PRINCIPAL_NAME";
+        public stbtic finbl String REPLACE_NAME = "PolicyPbrser.REPLACE_NAME";
 
-        String principalClass;
-        String principalName;
+        String principblClbss;
+        String principblNbme;
 
         /**
-         * A PrincipalEntry consists of the Principal class and Principal name.
+         * A PrincipblEntry consists of the Principbl clbss bnd Principbl nbme.
          *
-         * @param principalClass the Principal class
-         * @param principalName the Principal name
-         * @throws NullPointerException if principalClass or principalName
-         *                              are null
+         * @pbrbm principblClbss the Principbl clbss
+         * @pbrbm principblNbme the Principbl nbme
+         * @throws NullPointerException if principblClbss or principblNbme
+         *                              bre null
          */
-        public PrincipalEntry(String principalClass, String principalName) {
-            if (principalClass == null || principalName == null)
+        public PrincipblEntry(String principblClbss, String principblNbme) {
+            if (principblClbss == null || principblNbme == null)
                 throw new NullPointerException(ResourcesMgr.getString(
-                                  "null.principalClass.or.principalName"));
-            this.principalClass = principalClass;
-            this.principalName = principalName;
+                                  "null.principblClbss.or.principblNbme"));
+            this.principblClbss = principblClbss;
+            this.principblNbme = principblNbme;
         }
 
-        boolean isWildcardName() {
-            return principalName.equals(WILDCARD_NAME);
+        boolebn isWildcbrdNbme() {
+            return principblNbme.equbls(WILDCARD_NAME);
         }
 
-        boolean isWildcardClass() {
-            return principalClass.equals(WILDCARD_CLASS);
+        boolebn isWildcbrdClbss() {
+            return principblClbss.equbls(WILDCARD_CLASS);
         }
 
-        boolean isReplaceName() {
-            return principalClass.equals(REPLACE_NAME);
+        boolebn isReplbceNbme() {
+            return principblClbss.equbls(REPLACE_NAME);
         }
 
-        public String getPrincipalClass() {
-            return principalClass;
+        public String getPrincipblClbss() {
+            return principblClbss;
         }
 
-        public String getPrincipalName() {
-            return principalName;
+        public String getPrincipblNbme() {
+            return principblNbme;
         }
 
-        public String getDisplayClass() {
-            if (isWildcardClass()) {
+        public String getDisplbyClbss() {
+            if (isWildcbrdClbss()) {
                 return "*";
-            } else if (isReplaceName()) {
+            } else if (isReplbceNbme()) {
                 return "";
             }
-            else return principalClass;
+            else return principblClbss;
         }
 
-        public String getDisplayName() {
-            return getDisplayName(false);
+        public String getDisplbyNbme() {
+            return getDisplbyNbme(fblse);
         }
 
-        public String getDisplayName(boolean addQuote) {
-            if (isWildcardName()) {
+        public String getDisplbyNbme(boolebn bddQuote) {
+            if (isWildcbrdNbme()) {
                 return "*";
             }
             else {
-                if (addQuote) return "\"" + principalName + "\"";
-                else return principalName;
+                if (bddQuote) return "\"" + principblNbme + "\"";
+                else return principblNbme;
             }
         }
 
         @Override
-        public String getName() {
-            return principalName;
+        public String getNbme() {
+            return principblNbme;
         }
 
         @Override
         public String toString() {
-            if (!isReplaceName()) {
-                return getDisplayClass() + "/" + getDisplayName();
+            if (!isReplbceNbme()) {
+                return getDisplbyClbss() + "/" + getDisplbyNbme();
             } else {
-                return getDisplayName();
+                return getDisplbyNbme();
             }
         }
 
         /**
-         * Test for equality between the specified object and this object.
-         * Two PrincipalEntries are equal if their class and name values
-         * are equal.
+         * Test for equblity between the specified object bnd this object.
+         * Two PrincipblEntries bre equbl if their clbss bnd nbme vblues
+         * bre equbl.
          *
-         * @param obj the object to test for equality with this object
-         * @return true if the objects are equal, false otherwise
+         * @pbrbm obj the object to test for equblity with this object
+         * @return true if the objects bre equbl, fblse otherwise
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj)
                 return true;
 
-            if (!(obj instanceof PrincipalEntry))
-                return false;
+            if (!(obj instbnceof PrincipblEntry))
+                return fblse;
 
-            PrincipalEntry that = (PrincipalEntry)obj;
-            return (principalClass.equals(that.principalClass) &&
-                    principalName.equals(that.principalName));
+            PrincipblEntry thbt = (PrincipblEntry)obj;
+            return (principblClbss.equbls(thbt.principblClbss) &&
+                    principblNbme.equbls(thbt.principblNbme));
         }
 
         /**
-         * Return a hashcode for this PrincipalEntry.
+         * Return b hbshcode for this PrincipblEntry.
          *
-         * @return a hashcode for this PrincipalEntry
+         * @return b hbshcode for this PrincipblEntry
          */
         @Override
-        public int hashCode() {
-            return principalClass.hashCode();
+        public int hbshCode() {
+            return principblClbss.hbshCode();
         }
 
         public void write(PrintWriter out) {
-            out.print("principal " + getDisplayClass() + " " +
-                      getDisplayName(true));
+            out.print("principbl " + getDisplbyClbss() + " " +
+                      getDisplbyNbme(true));
         }
     }
 
     /**
-     * Each permission entry in the policy configuration file is
-     * represented by a
+     * Ebch permission entry in the policy configurbtion file is
+     * represented by b
      * PermissionEntry object.  <p>
      *
      * <p>
-     * For example, the entry
+     * For exbmple, the entry
      * <pre>
-     *          permission java.io.FilePermission "/tmp", "read,write";
+     *          permission jbvb.io.FilePermission "/tmp", "rebd,write";
      * </pre>
-     * is represented internally
+     * is represented internblly
      * <pre>
      *
-     * pe = new PermissionEntry("java.io.FilePermission",
-     *                           "/tmp", "read,write");
+     * pe = new PermissionEntry("jbvb.io.FilePermission",
+     *                           "/tmp", "rebd,write");
      * </pre>
      *
-     * @author Roland Schemers
+     * @buthor Rolbnd Schemers
      *
      * version 1.19, 05/21/98
      */
 
-    public static class PermissionEntry {
+    public stbtic clbss PermissionEntry {
 
         public String permission;
-        public String name;
-        public String action;
+        public String nbme;
+        public String bction;
         public String signedBy;
 
         public PermissionEntry() {
         }
 
         public PermissionEntry(String permission,
-                        String name,
-                        String action) {
+                        String nbme,
+                        String bction) {
             this.permission = permission;
-            this.name = name;
-            this.action = action;
+            this.nbme = nbme;
+            this.bction = bction;
         }
 
         /**
-         * Calculates a hash code value for the object.  Objects
-         * which are equal will also have the same hashcode.
+         * Cblculbtes b hbsh code vblue for the object.  Objects
+         * which bre equbl will blso hbve the sbme hbshcode.
          */
         @Override
-        public int hashCode() {
-            int retval = permission.hashCode();
-            if (name != null) retval ^= name.hashCode();
-            if (action != null) retval ^= action.hashCode();
-            return retval;
+        public int hbshCode() {
+            int retvbl = permission.hbshCode();
+            if (nbme != null) retvbl ^= nbme.hbshCode();
+            if (bction != null) retvbl ^= bction.hbshCode();
+            return retvbl;
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this)
                 return true;
 
-            if (! (obj instanceof PermissionEntry))
-                return false;
+            if (! (obj instbnceof PermissionEntry))
+                return fblse;
 
-            PermissionEntry that = (PermissionEntry) obj;
+            PermissionEntry thbt = (PermissionEntry) obj;
 
             if (this.permission == null) {
-                if (that.permission != null) return false;
+                if (thbt.permission != null) return fblse;
             } else {
-                if (!this.permission.equals(that.permission)) return false;
+                if (!this.permission.equbls(thbt.permission)) return fblse;
             }
 
-            if (this.name == null) {
-                if (that.name != null) return false;
+            if (this.nbme == null) {
+                if (thbt.nbme != null) return fblse;
             } else {
-                if (!this.name.equals(that.name)) return false;
+                if (!this.nbme.equbls(thbt.nbme)) return fblse;
             }
 
-            if (this.action == null) {
-                if (that.action != null) return false;
+            if (this.bction == null) {
+                if (thbt.bction != null) return fblse;
             } else {
-                if (!this.action.equals(that.action)) return false;
+                if (!this.bction.equbls(thbt.bction)) return fblse;
             }
 
             if (this.signedBy == null) {
-                if (that.signedBy != null) return false;
+                if (thbt.signedBy != null) return fblse;
             } else {
-                if (!this.signedBy.equals(that.signedBy)) return false;
+                if (!this.signedBy.equbls(thbt.signedBy)) return fblse;
             }
 
-            // everything matched -- the 2 objects are equal
+            // everything mbtched -- the 2 objects bre equbl
             return true;
         }
 
         public void write(PrintWriter out) {
             out.print("permission ");
             out.print(permission);
-            if (name != null) {
+            if (nbme != null) {
                 out.print(" \"");
 
-                // ATTENTION: regex with double escaping,
-                // the normal forms look like:
-                // $name =~ s/\\/\\\\/g; and
-                // $name =~ s/\"/\\\"/g;
-                // and then in a java string, it's escaped again
+                // ATTENTION: regex with double escbping,
+                // the normbl forms look like:
+                // $nbme =~ s/\\/\\\\/g; bnd
+                // $nbme =~ s/\"/\\\"/g;
+                // bnd then in b jbvb string, it's escbped bgbin
 
-                out.print(name.replaceAll("\\\\", "\\\\\\\\").replaceAll("\\\"", "\\\\\\\""));
+                out.print(nbme.replbceAll("\\\\", "\\\\\\\\").replbceAll("\\\"", "\\\\\\\""));
                 out.print('"');
             }
-            if (action != null) {
+            if (bction != null) {
                 out.print(", \"");
-                out.print(action);
+                out.print(bction);
                 out.print('"');
             }
             if (signedBy != null) {
@@ -1281,154 +1281,154 @@ public class PolicyParser {
     }
 
     /**
-     * Each domain entry in the keystore domain configuration file is
-     * represented by a DomainEntry object.
+     * Ebch dombin entry in the keystore dombin configurbtion file is
+     * represented by b DombinEntry object.
      */
-    static class DomainEntry {
-        private final String name;
-        private final Map<String, String> properties;
-        private final Map<String, KeyStoreEntry> entries;
+    stbtic clbss DombinEntry {
+        privbte finbl String nbme;
+        privbte finbl Mbp<String, String> properties;
+        privbte finbl Mbp<String, KeyStoreEntry> entries;
 
-        DomainEntry(String name, Map<String, String> properties) {
-            this.name = name;
+        DombinEntry(String nbme, Mbp<String, String> properties) {
+            this.nbme = nbme;
             this.properties = properties;
-            entries = new HashMap<>();
+            entries = new HbshMbp<>();
         }
 
-        String getName() {
-            return name;
+        String getNbme() {
+            return nbme;
         }
 
-        Map<String, String> getProperties() {
+        Mbp<String, String> getProperties() {
             return properties;
         }
 
         Collection<KeyStoreEntry> getEntries() {
-            return entries.values();
+            return entries.vblues();
         }
 
-        void add(KeyStoreEntry entry) throws ParsingException {
-            String keystoreName = entry.getName();
-            if (!entries.containsKey(keystoreName)) {
-                entries.put(keystoreName, entry);
+        void bdd(KeyStoreEntry entry) throws PbrsingException {
+            String keystoreNbme = entry.getNbme();
+            if (!entries.contbinsKey(keystoreNbme)) {
+                entries.put(keystoreNbme, entry);
             } else {
-                MessageFormat form = new MessageFormat(ResourcesMgr.getString(
-                    "duplicate.keystore.name"));
-                Object[] source = {keystoreName};
-                throw new ParsingException(form.format(source));
+                MessbgeFormbt form = new MessbgeFormbt(ResourcesMgr.getString(
+                    "duplicbte.keystore.nbme"));
+                Object[] source = {keystoreNbme};
+                throw new PbrsingException(form.formbt(source));
             }
         }
 
         @Override
         public String toString() {
             StringBuilder s =
-                new StringBuilder("\ndomain ").append(name);
+                new StringBuilder("\ndombin ").bppend(nbme);
 
             if (properties != null) {
-                for (Map.Entry<String, String> property :
+                for (Mbp.Entry<String, String> property :
                     properties.entrySet()) {
-                    s.append("\n        ").append(property.getKey()).append('=')
-                        .append(property.getValue());
+                    s.bppend("\n        ").bppend(property.getKey()).bppend('=')
+                        .bppend(property.getVblue());
                 }
             }
-            s.append(" {\n");
+            s.bppend(" {\n");
 
             if (entries != null) {
-                for (KeyStoreEntry entry : entries.values()) {
-                    s.append(entry).append("\n");
+                for (KeyStoreEntry entry : entries.vblues()) {
+                    s.bppend(entry).bppend("\n");
                 }
             }
-            s.append("}");
+            s.bppend("}");
 
             return s.toString();
         }
     }
 
     /**
-     * Each keystore entry in the keystore domain configuration file is
-     * represented by a KeyStoreEntry object.
+     * Ebch keystore entry in the keystore dombin configurbtion file is
+     * represented by b KeyStoreEntry object.
      */
 
-    static class KeyStoreEntry {
-        private final String name;
-        private final Map<String, String> properties;
+    stbtic clbss KeyStoreEntry {
+        privbte finbl String nbme;
+        privbte finbl Mbp<String, String> properties;
 
-        KeyStoreEntry(String name, Map<String, String> properties) {
-            this.name = name;
+        KeyStoreEntry(String nbme, Mbp<String, String> properties) {
+            this.nbme = nbme;
             this.properties = properties;
         }
 
-        String getName() {
-            return name;
+        String getNbme() {
+            return nbme;
         }
 
-        Map<String, String>  getProperties() {
+        Mbp<String, String>  getProperties() {
             return properties;
         }
 
         @Override
         public String toString() {
-            StringBuilder s = new StringBuilder("\n    keystore ").append(name);
+            StringBuilder s = new StringBuilder("\n    keystore ").bppend(nbme);
             if (properties != null) {
-                for (Map.Entry<String, String> property :
+                for (Mbp.Entry<String, String> property :
                     properties.entrySet()) {
-                    s.append("\n        ").append(property.getKey()).append('=')
-                        .append(property.getValue());
+                    s.bppend("\n        ").bppend(property.getKey()).bppend('=')
+                        .bppend(property.getVblue());
                 }
             }
-            s.append(";");
+            s.bppend(";");
 
             return s.toString();
         }
     }
 
-    public static class ParsingException extends GeneralSecurityException {
+    public stbtic clbss PbrsingException extends GenerblSecurityException {
 
-        private static final long serialVersionUID = -4330692689482574072L;
+        privbte stbtic finbl long seriblVersionUID = -4330692689482574072L;
 
-        private String i18nMessage;
+        privbte String i18nMessbge;
 
         /**
-         * Constructs a ParsingException with the specified
-         * detail message. A detail message is a String that describes
-         * this particular exception, which may, for example, specify which
-         * algorithm is not available.
+         * Constructs b PbrsingException with the specified
+         * detbil messbge. A detbil messbge is b String thbt describes
+         * this pbrticulbr exception, which mby, for exbmple, specify which
+         * blgorithm is not bvbilbble.
          *
-         * @param msg the detail message.
+         * @pbrbm msg the detbil messbge.
          */
-        public ParsingException(String msg) {
+        public PbrsingException(String msg) {
             super(msg);
-            i18nMessage = msg;
+            i18nMessbge = msg;
         }
 
-        public ParsingException(int line, String msg) {
+        public PbrsingException(int line, String msg) {
             super("line " + line + ": " + msg);
-            MessageFormat form = new MessageFormat
+            MessbgeFormbt form = new MessbgeFormbt
                 (ResourcesMgr.getString("line.number.msg"));
             Object[] source = {line, msg};
-            i18nMessage = form.format(source);
+            i18nMessbge = form.formbt(source);
         }
 
-        public ParsingException(int line, String expect, String actual) {
+        public PbrsingException(int line, String expect, String bctubl) {
             super("line " + line + ": expected [" + expect +
-                "], found [" + actual + "]");
-            MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                ("line.number.expected.expect.found.actual."));
-            Object[] source = {line, expect, actual};
-            i18nMessage = form.format(source);
+                "], found [" + bctubl + "]");
+            MessbgeFormbt form = new MessbgeFormbt(ResourcesMgr.getString
+                ("line.number.expected.expect.found.bctubl."));
+            Object[] source = {line, expect, bctubl};
+            i18nMessbge = form.formbt(source);
         }
 
         @Override
-        public String getLocalizedMessage() {
-            return i18nMessage;
+        public String getLocblizedMessbge() {
+            return i18nMessbge;
         }
     }
 
-    public static void main(String arg[]) throws Exception {
-        try (FileReader fr = new FileReader(arg[0]);
-             FileWriter fw = new FileWriter(arg[1])) {
-            PolicyParser pp = new PolicyParser(true);
-            pp.read(fr);
+    public stbtic void mbin(String brg[]) throws Exception {
+        try (FileRebder fr = new FileRebder(brg[0]);
+             FileWriter fw = new FileWriter(brg[1])) {
+            PolicyPbrser pp = new PolicyPbrser(true);
+            pp.rebd(fr);
             pp.write(fw);
         }
     }

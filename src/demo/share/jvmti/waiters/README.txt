@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Redistribution bnd use in source bnd binbry forms, with or without
+# modificbtion, bre permitted provided thbt the following conditions
+# bre met:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Redistributions of source code must retbin the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Redistributions in binbry form must reproduce the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer in the
+#     documentbtion bnd/or other mbteribls provided with the distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Neither the nbme of Orbcle nor the nbmes of its
+#     contributors mby be used to endorse or promote products derived
+#     from this softwbre without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,18 +29,18 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-waiters
+wbiters
 
-This agent library can be used to track threads that wait on monitors.
-This agent is written in C++.
+This bgent librbry cbn be used to trbck threbds thbt wbit on monitors.
+This bgent is written in C++.
 
-You can use this agent library as follows:
+You cbn use this bgent librbry bs follows:
 
-    java -agentlib:waiters ...
+    jbvb -bgentlib:wbiters ...
 
-To get help on the available options try:
+To get help on the bvbilbble options try:
 
-    java -agentlib:waiters=help
+    jbvb -bgentlib:wbiters=help
 
-See ${JAVA_HOME}/demo/jvmti/index.html for help running and building agents.
+See ${JAVA_HOME}/demo/jvmti/index.html for help running bnd building bgents.
 

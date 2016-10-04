@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <windows.h>
 #include <winsock2.h>
 #include "jni.h"
 #include "net_util.h"
-#include "java_net_DualStackPlainSocketImpl.h"
+#include "jbvb_net_DublStbckPlbinSocketImpl.h"
 
 #define SET_BLOCKING 0
 #define SET_NONBLOCKING 1
 
-static jclass isa_class;        /* java.net.InetSocketAddress */
-static jmethodID isa_ctorID;    /* InetSocketAddress(InetAddress, int) */
+stbtic jclbss isb_clbss;        /* jbvb.net.InetSocketAddress */
+stbtic jmethodID isb_ctorID;    /* InetSocketAddress(InetAddress, int) */
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_initIDs
-  (JNIEnv *env, jclass clazz) {
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_initIDs
+  (JNIEnv *env, jclbss clbzz) {
 
-    jclass cls = (*env)->FindClass(env, "java/net/InetSocketAddress");
+    jclbss cls = (*env)->FindClbss(env, "jbvb/net/InetSocketAddress");
     CHECK_NULL(cls);
-    isa_class = (*env)->NewGlobalRef(env, cls);
-    isa_ctorID = (*env)->GetMethodID(env, cls, "<init>",
-                                     "(Ljava/net/InetAddress;I)V");
+    isb_clbss = (*env)->NewGlobblRef(env, cls);
+    isb_ctorID = (*env)->GetMethodID(env, cls, "<init>",
+                                     "(Ljbvb/net/InetAddress;I)V");
 
-    // implement read timeout with select.
+    // implement rebd timeout with select.
     isRcvTimeoutSupported = 0;
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    socket0
- * Signature: (ZZ)I
+ * Signbture: (ZZ)I
  */
-JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_socket0
-  (JNIEnv *env, jclass clazz, jboolean stream, jboolean v6Only /*unused*/) {
+JNIEXPORT jint JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_socket0
+  (JNIEnv *env, jclbss clbzz, jboolebn strebm, jboolebn v6Only /*unused*/) {
     int fd, rv, opt=0;
 
-    fd = NET_Socket(AF_INET6, (stream ? SOCK_STREAM : SOCK_DGRAM), 0);
+    fd = NET_Socket(AF_INET6, (strebm ? SOCK_STREAM : SOCK_DGRAM), 0);
     if (fd == INVALID_SOCKET) {
-        NET_ThrowNew(env, WSAGetLastError(), "create");
+        NET_ThrowNew(env, WSAGetLbstError(), "crebte");
         return -1;
     }
 
-    rv = setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, (char *) &opt, sizeof(opt));
+    rv = setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, (chbr *) &opt, sizeof(opt));
     if (rv == SOCKET_ERROR) {
-        NET_ThrowNew(env, WSAGetLastError(), "create");
+        NET_ThrowNew(env, WSAGetLbstError(), "crebte");
     }
 
-    SetHandleInformation((HANDLE)(UINT_PTR)fd, HANDLE_FLAG_INHERIT, FALSE);
+    SetHbndleInformbtion((HANDLE)(UINT_PTR)fd, HANDLE_FLAG_INHERIT, FALSE);
 
     return fd;
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    bind0
- * Signature: (ILjava/net/InetAddress;I)V
+ * Signbture: (ILjbvb/net/InetAddress;I)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_bind0
-  (JNIEnv *env, jclass clazz, jint fd, jobject iaObj, jint port,
-   jboolean exclBind)
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_bind0
+  (JNIEnv *env, jclbss clbzz, jint fd, jobject ibObj, jint port,
+   jboolebn exclBind)
 {
-    SOCKETADDRESS sa;
+    SOCKETADDRESS sb;
     int rv;
-    int sa_len = sizeof(sa);
+    int sb_len = sizeof(sb);
 
-    if (NET_InetAddressToSockaddr(env, iaObj, port, (struct sockaddr *)&sa,
-                                 &sa_len, JNI_TRUE) != 0) {
+    if (NET_InetAddressToSockbddr(env, ibObj, port, (struct sockbddr *)&sb,
+                                 &sb_len, JNI_TRUE) != 0) {
       return;
     }
 
-    rv = NET_WinBind(fd, (struct sockaddr *)&sa, sa_len, exclBind);
+    rv = NET_WinBind(fd, (struct sockbddr *)&sb, sb_len, exclBind);
 
     if (rv == SOCKET_ERROR)
-        NET_ThrowNew(env, WSAGetLastError(), "NET_Bind");
+        NET_ThrowNew(env, WSAGetLbstError(), "NET_Bind");
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    connect0
- * Signature: (ILjava/net/InetAddress;I)I
+ * Signbture: (ILjbvb/net/InetAddress;I)I
  */
-JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_connect0
-  (JNIEnv *env, jclass clazz, jint fd, jobject iaObj, jint port) {
-    SOCKETADDRESS sa;
+JNIEXPORT jint JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_connect0
+  (JNIEnv *env, jclbss clbzz, jint fd, jobject ibObj, jint port) {
+    SOCKETADDRESS sb;
     int rv;
-    int sa_len = sizeof(sa);
+    int sb_len = sizeof(sb);
 
-    if (NET_InetAddressToSockaddr(env, iaObj, port, (struct sockaddr *)&sa,
-                                 &sa_len, JNI_TRUE) != 0) {
+    if (NET_InetAddressToSockbddr(env, ibObj, port, (struct sockbddr *)&sb,
+                                 &sb_len, JNI_TRUE) != 0) {
       return -1;
     }
 
-    rv = connect(fd, (struct sockaddr *)&sa, sa_len);
+    rv = connect(fd, (struct sockbddr *)&sb, sb_len);
     if (rv == SOCKET_ERROR) {
-        int err = WSAGetLastError();
+        int err = WSAGetLbstError();
         if (err == WSAEWOULDBLOCK) {
-            return java_net_DualStackPlainSocketImpl_WOULDBLOCK;
+            return jbvb_net_DublStbckPlbinSocketImpl_WOULDBLOCK;
         } else if (err == WSAEADDRNOTAVAIL) {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "ConnectException",
-                "connect: Address is invalid on local machine, or port is not valid on remote machine");
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "ConnectException",
+                "connect: Address is invblid on locbl mbchine, or port is not vblid on remote mbchine");
         } else {
             NET_ThrowNew(env, err, "connect");
         }
-        return -1;  // return value not important.
+        return -1;  // return vblue not importbnt.
     }
     return rv;
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
- * Method:    waitForConnect
- * Signature: (II)V
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
+ * Method:    wbitForConnect
+ * Signbture: (II)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_waitForConnect
-  (JNIEnv *env, jclass clazz, jint fd, jint timeout) {
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_wbitForConnect
+  (JNIEnv *env, jclbss clbzz, jint fd, jint timeout) {
     int rv, retry;
     int optlen = sizeof(rv);
     fd_set wr, ex;
-    struct timeval t;
+    struct timevbl t;
 
     FD_ZERO(&wr);
     FD_ZERO(&ex);
@@ -153,287 +153,287 @@ JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_waitForConnect
     t.tv_usec = (timeout % 1000) * 1000;
 
     /*
-     * Wait for timeout, connection established or
-     * connection failed.
+     * Wbit for timeout, connection estbblished or
+     * connection fbiled.
      */
     rv = select(fd+1, 0, &wr, &ex, &t);
 
     /*
-     * Timeout before connection is established/failed so
-     * we throw exception and shutdown input/output to prevent
+     * Timeout before connection is estbblished/fbiled so
+     * we throw exception bnd shutdown input/output to prevent
      * socket from being used.
-     * The socket should be closed immediately by the caller.
+     * The socket should be closed immedibtely by the cbller.
      */
     if (rv == 0) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketTimeoutException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketTimeoutException",
                         "connect timed out");
         shutdown( fd, SD_BOTH );
         return;
     }
 
     /*
-     * Socket is writable or error occurred. On some Windows editions
-     * the socket will appear writable when the connect fails so we
-     * check for error rather than writable.
+     * Socket is writbble or error occurred. On some Windows editions
+     * the socket will bppebr writbble when the connect fbils so we
+     * check for error rbther thbn writbble.
      */
     if (!FD_ISSET(fd, &ex)) {
-        return;         /* connection established */
+        return;         /* connection estbblished */
     }
 
     /*
-     * Connection failed. The logic here is designed to work around
-     * bug on Windows NT whereby using getsockopt to obtain the
-     * last error (SO_ERROR) indicates there is no error. The workaround
-     * on NT is to allow winsock to be scheduled and this is done by
-     * yielding and retrying. As yielding is problematic in heavy
-     * load conditions we attempt up to 3 times to get the error reason.
+     * Connection fbiled. The logic here is designed to work bround
+     * bug on Windows NT whereby using getsockopt to obtbin the
+     * lbst error (SO_ERROR) indicbtes there is no error. The workbround
+     * on NT is to bllow winsock to be scheduled bnd this is done by
+     * yielding bnd retrying. As yielding is problembtic in hebvy
+     * lobd conditions we bttempt up to 3 times to get the error rebson.
      */
     for (retry=0; retry<3; retry++) {
         NET_GetSockOpt(fd, SOL_SOCKET, SO_ERROR,
-                       (char*)&rv, &optlen);
+                       (chbr*)&rv, &optlen);
         if (rv) {
-            break;
+            brebk;
         }
         Sleep(0);
     }
 
     if (rv == 0) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                        "Unable to establish connection");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
+                        "Unbble to estbblish connection");
     } else {
         NET_ThrowNew(env, rv, "connect");
     }
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
- * Method:    localPort0
- * Signature: (I)I
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
+ * Method:    locblPort0
+ * Signbture: (I)I
  */
-JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_localPort0
-  (JNIEnv *env, jclass clazz, jint fd) {
-    SOCKETADDRESS sa;
-    int len = sizeof(sa);
+JNIEXPORT jint JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_locblPort0
+  (JNIEnv *env, jclbss clbzz, jint fd) {
+    SOCKETADDRESS sb;
+    int len = sizeof(sb);
 
-    if (getsockname(fd, (struct sockaddr *)&sa, &len) == SOCKET_ERROR) {
-        if (WSAGetLastError() == WSAENOTSOCK) {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+    if (getsocknbme(fd, (struct sockbddr *)&sb, &len) == SOCKET_ERROR) {
+        if (WSAGetLbstError() == WSAENOTSOCK) {
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                     "Socket closed");
         } else {
-            NET_ThrowNew(env, WSAGetLastError(), "getsockname failed");
+            NET_ThrowNew(env, WSAGetLbstError(), "getsocknbme fbiled");
         }
         return -1;
     }
-    return (int) ntohs((u_short)GET_PORT(&sa));
+    return (int) ntohs((u_short)GET_PORT(&sb));
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
- * Method:    localAddress
- * Signature: (ILjava/net/InetAddressContainer;)V
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
+ * Method:    locblAddress
+ * Signbture: (ILjbvb/net/InetAddressContbiner;)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_localAddress
-  (JNIEnv *env, jclass clazz, jint fd, jobject iaContainerObj) {
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_locblAddress
+  (JNIEnv *env, jclbss clbzz, jint fd, jobject ibContbinerObj) {
     int port;
-    SOCKETADDRESS sa;
-    int len = sizeof(sa);
-    jobject iaObj;
-    jclass iaContainerClass;
-    jfieldID iaFieldID;
+    SOCKETADDRESS sb;
+    int len = sizeof(sb);
+    jobject ibObj;
+    jclbss ibContbinerClbss;
+    jfieldID ibFieldID;
 
-    if (getsockname(fd, (struct sockaddr *)&sa, &len) == SOCKET_ERROR) {
-        NET_ThrowNew(env, WSAGetLastError(), "Error getting socket name");
+    if (getsocknbme(fd, (struct sockbddr *)&sb, &len) == SOCKET_ERROR) {
+        NET_ThrowNew(env, WSAGetLbstError(), "Error getting socket nbme");
         return;
     }
-    iaObj = NET_SockaddrToInetAddress(env, (struct sockaddr *)&sa, &port);
-    CHECK_NULL(iaObj);
+    ibObj = NET_SockbddrToInetAddress(env, (struct sockbddr *)&sb, &port);
+    CHECK_NULL(ibObj);
 
-    iaContainerClass = (*env)->GetObjectClass(env, iaContainerObj);
-    iaFieldID = (*env)->GetFieldID(env, iaContainerClass, "addr", "Ljava/net/InetAddress;");
-    CHECK_NULL(iaFieldID);
-    (*env)->SetObjectField(env, iaContainerObj, iaFieldID, iaObj);
+    ibContbinerClbss = (*env)->GetObjectClbss(env, ibContbinerObj);
+    ibFieldID = (*env)->GetFieldID(env, ibContbinerClbss, "bddr", "Ljbvb/net/InetAddress;");
+    CHECK_NULL(ibFieldID);
+    (*env)->SetObjectField(env, ibContbinerObj, ibFieldID, ibObj);
 }
 
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    listen0
- * Signature: (II)V
+ * Signbture: (II)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_listen0
-  (JNIEnv *env, jclass clazz, jint fd, jint backlog) {
-    if (listen(fd, backlog) == SOCKET_ERROR) {
-        NET_ThrowNew(env, WSAGetLastError(), "listen failed");
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_listen0
+  (JNIEnv *env, jclbss clbzz, jint fd, jint bbcklog) {
+    if (listen(fd, bbcklog) == SOCKET_ERROR) {
+        NET_ThrowNew(env, WSAGetLbstError(), "listen fbiled");
     }
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
- * Method:    accept0
- * Signature: (I[Ljava/net/InetSocketAddress;)I
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
+ * Method:    bccept0
+ * Signbture: (I[Ljbvb/net/InetSocketAddress;)I
  */
-JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_accept0
-  (JNIEnv *env, jclass clazz, jint fd, jobjectArray isaa) {
+JNIEXPORT jint JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_bccept0
+  (JNIEnv *env, jclbss clbzz, jint fd, jobjectArrby isbb) {
     int newfd, port=0;
-    jobject isa;
-    jobject ia;
-    SOCKETADDRESS sa;
-    int len = sizeof(sa);
+    jobject isb;
+    jobject ib;
+    SOCKETADDRESS sb;
+    int len = sizeof(sb);
 
-    memset((char *)&sa, 0, len);
-    newfd = accept(fd, (struct sockaddr *)&sa, &len);
+    memset((chbr *)&sb, 0, len);
+    newfd = bccept(fd, (struct sockbddr *)&sb, &len);
 
     if (newfd == INVALID_SOCKET) {
-        if (WSAGetLastError() == -2) {
-            JNU_ThrowByName(env, JNU_JAVAIOPKG "InterruptedIOException",
-                            "operation interrupted");
+        if (WSAGetLbstError() == -2) {
+            JNU_ThrowByNbme(env, JNU_JAVAIOPKG "InterruptedIOException",
+                            "operbtion interrupted");
         } else {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+            JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                             "socket closed");
         }
         return -1;
     }
 
-    ia = NET_SockaddrToInetAddress(env, (struct sockaddr *)&sa, &port);
-    isa = (*env)->NewObject(env, isa_class, isa_ctorID, ia, port);
-    (*env)->SetObjectArrayElement(env, isaa, 0, isa);
+    ib = NET_SockbddrToInetAddress(env, (struct sockbddr *)&sb, &port);
+    isb = (*env)->NewObject(env, isb_clbss, isb_ctorID, ib, port);
+    (*env)->SetObjectArrbyElement(env, isbb, 0, isb);
 
     return newfd;
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
- * Method:    waitForNewConnection
- * Signature: (II)V
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
+ * Method:    wbitForNewConnection
+ * Signbture: (II)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_waitForNewConnection
-  (JNIEnv *env, jclass clazz, jint fd, jint timeout) {
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_wbitForNewConnection
+  (JNIEnv *env, jclbss clbzz, jint fd, jint timeout) {
     int rv;
 
     rv = NET_Timeout(fd, timeout);
     if (rv == 0) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketTimeoutException",
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketTimeoutException",
                         "Accept timed out");
     } else if (rv == -1) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "socket closed");
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "socket closed");
     } else if (rv == -2) {
-        JNU_ThrowByName(env, JNU_JAVAIOPKG "InterruptedIOException",
-                        "operation interrupted");
+        JNU_ThrowByNbme(env, JNU_JAVAIOPKG "InterruptedIOException",
+                        "operbtion interrupted");
     }
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
- * Method:    available0
- * Signature: (I)I
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
+ * Method:    bvbilbble0
+ * Signbture: (I)I
  */
-JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_available0
-  (JNIEnv *env, jclass clazz, jint fd) {
-    jint available = -1;
+JNIEXPORT jint JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_bvbilbble0
+  (JNIEnv *env, jclbss clbzz, jint fd) {
+    jint bvbilbble = -1;
 
-    if ((ioctlsocket(fd, FIONREAD, &available)) == SOCKET_ERROR) {
-        NET_ThrowNew(env, WSAGetLastError(), "socket available");
+    if ((ioctlsocket(fd, FIONREAD, &bvbilbble)) == SOCKET_ERROR) {
+        NET_ThrowNew(env, WSAGetLbstError(), "socket bvbilbble");
     }
 
-    return available;
+    return bvbilbble;
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    close0
- * Signature: (I)V
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_close0
-  (JNIEnv *env, jclass clazz, jint fd) {
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_close0
+  (JNIEnv *env, jclbss clbzz, jint fd) {
      NET_SocketClose(fd);
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    shutdown0
- * Signature: (II)V
+ * Signbture: (II)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_shutdown0
-  (JNIEnv *env, jclass clazz, jint fd, jint howto) {
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_shutdown0
+  (JNIEnv *env, jclbss clbzz, jint fd, jint howto) {
     shutdown(fd, howto);
 }
 
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    setIntOption
- * Signature: (III)V
+ * Signbture: (III)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_setIntOption
-  (JNIEnv *env, jclass clazz, jint fd, jint cmd, jint value) {
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_setIntOption
+  (JNIEnv *env, jclbss clbzz, jint fd, jint cmd, jint vblue) {
 
     int level = 0, opt = 0;
     struct linger linger = {0, 0};
-    char *parg;
-    int arglen;
+    chbr *pbrg;
+    int brglen;
 
-    if (NET_MapSocketOption(cmd, &level, &opt) < 0) {
-        JNU_ThrowByNameWithLastError(env,
+    if (NET_MbpSocketOption(cmd, &level, &opt) < 0) {
+        JNU_ThrowByNbmeWithLbstError(env,
                                      JNU_JAVANETPKG "SocketException",
-                                     "Invalid option");
+                                     "Invblid option");
         return;
     }
 
-    if (opt == java_net_SocketOptions_SO_LINGER) {
-        parg = (char *)&linger;
-        arglen = sizeof(linger);
-        if (value >= 0) {
+    if (opt == jbvb_net_SocketOptions_SO_LINGER) {
+        pbrg = (chbr *)&linger;
+        brglen = sizeof(linger);
+        if (vblue >= 0) {
             linger.l_onoff = 1;
-            linger.l_linger = (unsigned short)value;
+            linger.l_linger = (unsigned short)vblue;
         } else {
             linger.l_onoff = 0;
             linger.l_linger = 0;
         }
     } else {
-        parg = (char *)&value;
-        arglen = sizeof(value);
+        pbrg = (chbr *)&vblue;
+        brglen = sizeof(vblue);
     }
 
-    if (NET_SetSockOpt(fd, level, opt, parg, arglen) < 0) {
-        NET_ThrowNew(env, WSAGetLastError(), "setsockopt");
+    if (NET_SetSockOpt(fd, level, opt, pbrg, brglen) < 0) {
+        NET_ThrowNew(env, WSAGetLbstError(), "setsockopt");
     }
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    getIntOption
- * Signature: (II)I
+ * Signbture: (II)I
  */
-JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_getIntOption
-  (JNIEnv *env, jclass clazz, jint fd, jint cmd) {
+JNIEXPORT jint JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_getIntOption
+  (JNIEnv *env, jclbss clbzz, jint fd, jint cmd) {
 
     int level = 0, opt = 0;
     int result=0;
     struct linger linger = {0, 0};
-    char *arg;
-    int arglen;
+    chbr *brg;
+    int brglen;
 
-    if (NET_MapSocketOption(cmd, &level, &opt) < 0) {
-        JNU_ThrowByNameWithLastError(env,
+    if (NET_MbpSocketOption(cmd, &level, &opt) < 0) {
+        JNU_ThrowByNbmeWithLbstError(env,
                                      JNU_JAVANETPKG "SocketException",
                                      "Unsupported socket option");
         return -1;
     }
 
-    if (opt == java_net_SocketOptions_SO_LINGER) {
-        arg = (char *)&linger;
-        arglen = sizeof(linger);
+    if (opt == jbvb_net_SocketOptions_SO_LINGER) {
+        brg = (chbr *)&linger;
+        brglen = sizeof(linger);
     } else {
-        arg = (char *)&result;
-        arglen = sizeof(result);
+        brg = (chbr *)&result;
+        brglen = sizeof(result);
     }
 
-    if (NET_GetSockOpt(fd, level, opt, arg, &arglen) < 0) {
-        NET_ThrowNew(env, WSAGetLastError(), "getsockopt");
+    if (NET_GetSockOpt(fd, level, opt, brg, &brglen) < 0) {
+        NET_ThrowNew(env, WSAGetLbstError(), "getsockopt");
         return -1;
     }
 
-    if (opt == java_net_SocketOptions_SO_LINGER)
+    if (opt == jbvb_net_SocketOptions_SO_LINGER)
         return linger.l_onoff ? linger.l_linger : -1;
     else
         return result;
@@ -441,39 +441,39 @@ JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_getIntOption
 
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    sendOOB
- * Signature: (II)V
+ * Signbture: (II)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_sendOOB
-  (JNIEnv *env, jclass clazz, jint fd, jint data) {
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_sendOOB
+  (JNIEnv *env, jclbss clbzz, jint fd, jint dbtb) {
     jint n;
-    unsigned char d = (unsigned char) data & 0xff;
+    unsigned chbr d = (unsigned chbr) dbtb & 0xff;
 
-    n = send(fd, (char *)&data, 1, MSG_OOB);
+    n = send(fd, (chbr *)&dbtb, 1, MSG_OOB);
     if (n == SOCKET_ERROR) {
-        NET_ThrowNew(env, WSAGetLastError(), "send");
+        NET_ThrowNew(env, WSAGetLbstError(), "send");
     }
 }
 
 /*
- * Class:     java_net_DualStackPlainSocketImpl
+ * Clbss:     jbvb_net_DublStbckPlbinSocketImpl
  * Method:    configureBlocking
- * Signature: (IZ)V
+ * Signbture: (IZ)V
  */
-JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_configureBlocking
-  (JNIEnv *env, jclass clazz, jint fd, jboolean blocking) {
-    u_long arg;
+JNIEXPORT void JNICALL Jbvb_jbvb_net_DublStbckPlbinSocketImpl_configureBlocking
+  (JNIEnv *env, jclbss clbzz, jint fd, jboolebn blocking) {
+    u_long brg;
     int result;
 
     if (blocking == JNI_TRUE) {
-        arg = SET_BLOCKING;    // 0
+        brg = SET_BLOCKING;    // 0
     } else {
-        arg = SET_NONBLOCKING;   // 1
+        brg = SET_NONBLOCKING;   // 1
     }
 
-    result = ioctlsocket(fd, FIONBIO, &arg);
+    result = ioctlsocket(fd, FIONBIO, &brg);
     if (result == SOCKET_ERROR) {
-        NET_ThrowNew(env, WSAGetLastError(), "configureBlocking");
+        NET_ThrowNew(env, WSAGetLbstError(), "configureBlocking");
     }
 }

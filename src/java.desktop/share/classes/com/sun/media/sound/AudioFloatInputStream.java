@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.net.URL;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.UnsupportedAudioFileException;
 
 /**
- * This class is used to create AudioFloatInputStream from AudioInputStream and
+ * This clbss is used to crebte AudioFlobtInputStrebm from AudioInputStrebm bnd
  * byte buffers.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public abstract class AudioFloatInputStream {
+public bbstrbct clbss AudioFlobtInputStrebm {
 
-    private static class BytaArrayAudioFloatInputStream
-            extends AudioFloatInputStream {
+    privbte stbtic clbss BytbArrbyAudioFlobtInputStrebm
+            extends AudioFlobtInputStrebm {
 
-        private int pos = 0;
-        private int markpos = 0;
-        private final AudioFloatConverter converter;
-        private final AudioFormat format;
-        private final byte[] buffer;
-        private final int buffer_offset;
-        private final int buffer_len;
-        private final int framesize_pc;
+        privbte int pos = 0;
+        privbte int mbrkpos = 0;
+        privbte finbl AudioFlobtConverter converter;
+        privbte finbl AudioFormbt formbt;
+        privbte finbl byte[] buffer;
+        privbte finbl int buffer_offset;
+        privbte finbl int buffer_len;
+        privbte finbl int frbmesize_pc;
 
-        BytaArrayAudioFloatInputStream(AudioFloatConverter converter,
+        BytbArrbyAudioFlobtInputStrebm(AudioFlobtConverter converter,
                 byte[] buffer, int offset, int len) {
             this.converter = converter;
-            this.format = converter.getFormat();
+            this.formbt = converter.getFormbt();
             this.buffer = buffer;
             this.buffer_offset = offset;
-            framesize_pc = format.getFrameSize() / format.getChannels();
-            this.buffer_len = len / framesize_pc;
+            frbmesize_pc = formbt.getFrbmeSize() / formbt.getChbnnels();
+            this.buffer_len = len / frbmesize_pc;
 
         }
 
-        public AudioFormat getFormat() {
-            return format;
+        public AudioFormbt getFormbt() {
+            return formbt;
         }
 
-        public long getFrameLength() {
-            return buffer_len;// / format.getFrameSize();
+        public long getFrbmeLength() {
+            return buffer_len;// / formbt.getFrbmeSize();
         }
 
-        public int read(float[] b, int off, int len) throws IOException {
+        public int rebd(flobt[] b, int off, int len) throws IOException {
             if (b == null)
                 throw new NullPointerException();
             if (off < 0 || len < 0 || len > b.length - off)
@@ -85,7 +85,7 @@ public abstract class AudioFloatInputStream {
                 return 0;
             if (pos + len > buffer_len)
                 len = buffer_len - pos;
-            converter.toFloatArray(buffer, buffer_offset + pos * framesize_pc,
+            converter.toFlobtArrby(buffer, buffer_offset + pos * frbmesize_pc,
                     b, off, len);
             pos += len;
             return len;
@@ -102,180 +102,180 @@ public abstract class AudioFloatInputStream {
             return len;
         }
 
-        public int available() throws IOException {
+        public int bvbilbble() throws IOException {
             return buffer_len - pos;
         }
 
         public void close() throws IOException {
         }
 
-        public void mark(int readlimit) {
-            markpos = pos;
+        public void mbrk(int rebdlimit) {
+            mbrkpos = pos;
         }
 
-        public boolean markSupported() {
+        public boolebn mbrkSupported() {
             return true;
         }
 
         public void reset() throws IOException {
-            pos = markpos;
+            pos = mbrkpos;
         }
     }
 
-    private static class DirectAudioFloatInputStream
-            extends AudioFloatInputStream {
+    privbte stbtic clbss DirectAudioFlobtInputStrebm
+            extends AudioFlobtInputStrebm {
 
-        private final AudioInputStream stream;
-        private AudioFloatConverter converter;
-        private final int framesize_pc; // framesize / channels
-        private byte[] buffer;
+        privbte finbl AudioInputStrebm strebm;
+        privbte AudioFlobtConverter converter;
+        privbte finbl int frbmesize_pc; // frbmesize / chbnnels
+        privbte byte[] buffer;
 
-        DirectAudioFloatInputStream(AudioInputStream stream) {
-            converter = AudioFloatConverter.getConverter(stream.getFormat());
+        DirectAudioFlobtInputStrebm(AudioInputStrebm strebm) {
+            converter = AudioFlobtConverter.getConverter(strebm.getFormbt());
             if (converter == null) {
-                AudioFormat format = stream.getFormat();
-                AudioFormat newformat;
+                AudioFormbt formbt = strebm.getFormbt();
+                AudioFormbt newformbt;
 
-                AudioFormat[] formats = AudioSystem.getTargetFormats(
-                        AudioFormat.Encoding.PCM_SIGNED, format);
-                if (formats.length != 0) {
-                    newformat = formats[0];
+                AudioFormbt[] formbts = AudioSystem.getTbrgetFormbts(
+                        AudioFormbt.Encoding.PCM_SIGNED, formbt);
+                if (formbts.length != 0) {
+                    newformbt = formbts[0];
                 } else {
-                    float samplerate = format.getSampleRate();
-                    int samplesizeinbits = format.getSampleSizeInBits();
-                    int framesize = format.getFrameSize();
-                    float framerate = format.getFrameRate();
-                    samplesizeinbits = 16;
-                    framesize = format.getChannels() * (samplesizeinbits / 8);
-                    framerate = samplerate;
+                    flobt sbmplerbte = formbt.getSbmpleRbte();
+                    int sbmplesizeinbits = formbt.getSbmpleSizeInBits();
+                    int frbmesize = formbt.getFrbmeSize();
+                    flobt frbmerbte = formbt.getFrbmeRbte();
+                    sbmplesizeinbits = 16;
+                    frbmesize = formbt.getChbnnels() * (sbmplesizeinbits / 8);
+                    frbmerbte = sbmplerbte;
 
-                    newformat = new AudioFormat(
-                            AudioFormat.Encoding.PCM_SIGNED, samplerate,
-                            samplesizeinbits, format.getChannels(), framesize,
-                            framerate, false);
+                    newformbt = new AudioFormbt(
+                            AudioFormbt.Encoding.PCM_SIGNED, sbmplerbte,
+                            sbmplesizeinbits, formbt.getChbnnels(), frbmesize,
+                            frbmerbte, fblse);
                 }
 
-                stream = AudioSystem.getAudioInputStream(newformat, stream);
-                converter = AudioFloatConverter.getConverter(stream.getFormat());
+                strebm = AudioSystem.getAudioInputStrebm(newformbt, strebm);
+                converter = AudioFlobtConverter.getConverter(strebm.getFormbt());
             }
-            framesize_pc = stream.getFormat().getFrameSize()
-                    / stream.getFormat().getChannels();
-            this.stream = stream;
+            frbmesize_pc = strebm.getFormbt().getFrbmeSize()
+                    / strebm.getFormbt().getChbnnels();
+            this.strebm = strebm;
         }
 
-        public AudioFormat getFormat() {
-            return stream.getFormat();
+        public AudioFormbt getFormbt() {
+            return strebm.getFormbt();
         }
 
-        public long getFrameLength() {
-            return stream.getFrameLength();
+        public long getFrbmeLength() {
+            return strebm.getFrbmeLength();
         }
 
-        public int read(float[] b, int off, int len) throws IOException {
-            int b_len = len * framesize_pc;
+        public int rebd(flobt[] b, int off, int len) throws IOException {
+            int b_len = len * frbmesize_pc;
             if (buffer == null || buffer.length < b_len)
                 buffer = new byte[b_len];
-            int ret = stream.read(buffer, 0, b_len);
+            int ret = strebm.rebd(buffer, 0, b_len);
             if (ret == -1)
                 return -1;
-            converter.toFloatArray(buffer, b, off, ret / framesize_pc);
-            return ret / framesize_pc;
+            converter.toFlobtArrby(buffer, b, off, ret / frbmesize_pc);
+            return ret / frbmesize_pc;
         }
 
         public long skip(long len) throws IOException {
-            long b_len = len * framesize_pc;
-            long ret = stream.skip(b_len);
+            long b_len = len * frbmesize_pc;
+            long ret = strebm.skip(b_len);
             if (ret == -1)
                 return -1;
-            return ret / framesize_pc;
+            return ret / frbmesize_pc;
         }
 
-        public int available() throws IOException {
-            return stream.available() / framesize_pc;
+        public int bvbilbble() throws IOException {
+            return strebm.bvbilbble() / frbmesize_pc;
         }
 
         public void close() throws IOException {
-            stream.close();
+            strebm.close();
         }
 
-        public void mark(int readlimit) {
-            stream.mark(readlimit * framesize_pc);
+        public void mbrk(int rebdlimit) {
+            strebm.mbrk(rebdlimit * frbmesize_pc);
         }
 
-        public boolean markSupported() {
-            return stream.markSupported();
+        public boolebn mbrkSupported() {
+            return strebm.mbrkSupported();
         }
 
         public void reset() throws IOException {
-            stream.reset();
+            strebm.reset();
         }
     }
 
-    public static AudioFloatInputStream getInputStream(URL url)
+    public stbtic AudioFlobtInputStrebm getInputStrebm(URL url)
             throws UnsupportedAudioFileException, IOException {
-        return new DirectAudioFloatInputStream(AudioSystem
-                .getAudioInputStream(url));
+        return new DirectAudioFlobtInputStrebm(AudioSystem
+                .getAudioInputStrebm(url));
     }
 
-    public static AudioFloatInputStream getInputStream(File file)
+    public stbtic AudioFlobtInputStrebm getInputStrebm(File file)
             throws UnsupportedAudioFileException, IOException {
-        return new DirectAudioFloatInputStream(AudioSystem
-                .getAudioInputStream(file));
+        return new DirectAudioFlobtInputStrebm(AudioSystem
+                .getAudioInputStrebm(file));
     }
 
-    public static AudioFloatInputStream getInputStream(InputStream stream)
+    public stbtic AudioFlobtInputStrebm getInputStrebm(InputStrebm strebm)
             throws UnsupportedAudioFileException, IOException {
-        return new DirectAudioFloatInputStream(AudioSystem
-                .getAudioInputStream(stream));
+        return new DirectAudioFlobtInputStrebm(AudioSystem
+                .getAudioInputStrebm(strebm));
     }
 
-    public static AudioFloatInputStream getInputStream(
-            AudioInputStream stream) {
-        return new DirectAudioFloatInputStream(stream);
+    public stbtic AudioFlobtInputStrebm getInputStrebm(
+            AudioInputStrebm strebm) {
+        return new DirectAudioFlobtInputStrebm(strebm);
     }
 
-    public static AudioFloatInputStream getInputStream(AudioFormat format,
+    public stbtic AudioFlobtInputStrebm getInputStrebm(AudioFormbt formbt,
             byte[] buffer, int offset, int len) {
-        AudioFloatConverter converter = AudioFloatConverter
-                .getConverter(format);
+        AudioFlobtConverter converter = AudioFlobtConverter
+                .getConverter(formbt);
         if (converter != null)
-            return new BytaArrayAudioFloatInputStream(converter, buffer,
+            return new BytbArrbyAudioFlobtInputStrebm(converter, buffer,
                     offset, len);
 
-        InputStream stream = new ByteArrayInputStream(buffer, offset, len);
-        long aLen = format.getFrameSize() == AudioSystem.NOT_SPECIFIED
-                ? AudioSystem.NOT_SPECIFIED : len / format.getFrameSize();
-        AudioInputStream astream = new AudioInputStream(stream, format, aLen);
-        return getInputStream(astream);
+        InputStrebm strebm = new ByteArrbyInputStrebm(buffer, offset, len);
+        long bLen = formbt.getFrbmeSize() == AudioSystem.NOT_SPECIFIED
+                ? AudioSystem.NOT_SPECIFIED : len / formbt.getFrbmeSize();
+        AudioInputStrebm bstrebm = new AudioInputStrebm(strebm, formbt, bLen);
+        return getInputStrebm(bstrebm);
     }
 
-    public abstract AudioFormat getFormat();
+    public bbstrbct AudioFormbt getFormbt();
 
-    public abstract long getFrameLength();
+    public bbstrbct long getFrbmeLength();
 
-    public abstract int read(float[] b, int off, int len) throws IOException;
+    public bbstrbct int rebd(flobt[] b, int off, int len) throws IOException;
 
-    public final int read(float[] b) throws IOException {
-        return read(b, 0, b.length);
+    public finbl int rebd(flobt[] b) throws IOException {
+        return rebd(b, 0, b.length);
     }
 
-    public final float read() throws IOException {
-        float[] b = new float[1];
-        int ret = read(b, 0, 1);
+    public finbl flobt rebd() throws IOException {
+        flobt[] b = new flobt[1];
+        int ret = rebd(b, 0, 1);
         if (ret == -1 || ret == 0)
             return 0;
         return b[0];
     }
 
-    public abstract long skip(long len) throws IOException;
+    public bbstrbct long skip(long len) throws IOException;
 
-    public abstract int available() throws IOException;
+    public bbstrbct int bvbilbble() throws IOException;
 
-    public abstract void close() throws IOException;
+    public bbstrbct void close() throws IOException;
 
-    public abstract void mark(int readlimit);
+    public bbstrbct void mbrk(int rebdlimit);
 
-    public abstract boolean markSupported();
+    public bbstrbct boolebn mbrkSupported();
 
-    public abstract void reset() throws IOException;
+    public bbstrbct void reset() throws IOException;
 }

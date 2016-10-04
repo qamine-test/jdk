@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: XMLCryptoContext.java,v 1.6 2005/05/10 15:47:42 mullan Exp $
+ * $Id: XMLCryptoContext.jbvb,v 1.6 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbckbge jbvbx.xml.crypto;
 
 /**
- * Contains common context information for XML cryptographic operations.
+ * Contbins common context informbtion for XML cryptogrbphic operbtions.
  *
- * <p>This interface contains methods for setting and retrieving properties
- * that affect the processing of XML signatures or XML encrypted structures.
+ * <p>This interfbce contbins methods for setting bnd retrieving properties
+ * thbt bffect the processing of XML signbtures or XML encrypted structures.
  *
- * <p>Note that <code>XMLCryptoContext</code> instances can contain information
- * and state specific to the XML cryptographic structure it is used with.
- * The results are unpredictable if an <code>XMLCryptoContext</code> is
- * used with multiple structures (for example, you should not use the same
- * {@link javax.xml.crypto.dsig.XMLValidateContext} instance to validate two
- * different {@link javax.xml.crypto.dsig.XMLSignature} objects).
+ * <p>Note thbt <code>XMLCryptoContext</code> instbnces cbn contbin informbtion
+ * bnd stbte specific to the XML cryptogrbphic structure it is used with.
+ * The results bre unpredictbble if bn <code>XMLCryptoContext</code> is
+ * used with multiple structures (for exbmple, you should not use the sbme
+ * {@link jbvbx.xml.crypto.dsig.XMLVblidbteContext} instbnce to vblidbte two
+ * different {@link jbvbx.xml.crypto.dsig.XMLSignbture} objects).
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
  */
-public interface XMLCryptoContext {
+public interfbce XMLCryptoContext {
 
     /**
-     * Returns the base URI.
+     * Returns the bbse URI.
      *
-     * @return the base URI, or <code>null</code> if not specified
-     * @see #setBaseURI(String)
+     * @return the bbse URI, or <code>null</code> if not specified
+     * @see #setBbseURI(String)
      */
-    String getBaseURI();
+    String getBbseURI();
 
     /**
-     * Sets the base URI.
+     * Sets the bbse URI.
      *
-     * @param baseURI the base URI, or <code>null</code> to remove current
-     *    value
-     * @throws IllegalArgumentException if <code>baseURI</code> is not RFC
-     *    2396 compliant
-     * @see #getBaseURI
+     * @pbrbm bbseURI the bbse URI, or <code>null</code> to remove current
+     *    vblue
+     * @throws IllegblArgumentException if <code>bbseURI</code> is not RFC
+     *    2396 complibnt
+     * @see #getBbseURI
      */
-    void setBaseURI(String baseURI);
+    void setBbseURI(String bbseURI);
 
     /**
-     * Returns the key selector for finding a key.
+     * Returns the key selector for finding b key.
      *
      * @return the key selector, or <code>null</code> if not specified
      * @see #setKeySelector(KeySelector)
@@ -74,16 +74,16 @@ public interface XMLCryptoContext {
     KeySelector getKeySelector();
 
     /**
-     * Sets the key selector for finding a key.
+     * Sets the key selector for finding b key.
      *
-     * @param ks the key selector, or <code>null</code> to remove the current
+     * @pbrbm ks the key selector, or <code>null</code> to remove the current
      *    setting
      * @see #getKeySelector
      */
     void setKeySelector(KeySelector ks);
 
     /**
-     * Returns a <code>URIDereferencer</code> that is used to dereference
+     * Returns b <code>URIDereferencer</code> thbt is used to dereference
      * {@link URIReference}s.
      *
      * @return the <code>URIDereferencer</code>, or <code>null</code> if not
@@ -93,134 +93,134 @@ public interface XMLCryptoContext {
     URIDereferencer getURIDereferencer();
 
     /**
-     * Sets a <code>URIDereferencer</code> that is used to dereference
+     * Sets b <code>URIDereferencer</code> thbt is used to dereference
      * {@link URIReference}s. The specified <code>URIDereferencer</code>
-     * is used in place of an implementation's default
+     * is used in plbce of bn implementbtion's defbult
      * <code>URIDereferencer</code>.
      *
-     * @param dereferencer the <code>URIDereferencer</code>, or
-     *    <code>null</code> to remove any current setting
+     * @pbrbm dereferencer the <code>URIDereferencer</code>, or
+     *    <code>null</code> to remove bny current setting
      * @see #getURIDereferencer
      */
     void setURIDereferencer(URIDereferencer dereferencer);
 
     /**
-     * Returns the namespace prefix that the specified namespace URI is
-     * associated with. Returns the specified default prefix if the specified
-     * namespace URI has not been bound to a prefix. To bind a namespace URI
-     * to a prefix, call the {@link #putNamespacePrefix putNamespacePrefix}
+     * Returns the nbmespbce prefix thbt the specified nbmespbce URI is
+     * bssocibted with. Returns the specified defbult prefix if the specified
+     * nbmespbce URI hbs not been bound to b prefix. To bind b nbmespbce URI
+     * to b prefix, cbll the {@link #putNbmespbcePrefix putNbmespbcePrefix}
      * method.
      *
-     * @param namespaceURI a namespace URI
-     * @param defaultPrefix the prefix to be returned in the event that the
-     *    the specified namespace URI has not been bound to a prefix.
-     * @return the prefix that is associated with the specified namespace URI,
-     *    or <code>defaultPrefix</code> if the URI is not registered. If
-     *    the namespace URI is registered but has no prefix, an empty string
+     * @pbrbm nbmespbceURI b nbmespbce URI
+     * @pbrbm defbultPrefix the prefix to be returned in the event thbt the
+     *    the specified nbmespbce URI hbs not been bound to b prefix.
+     * @return the prefix thbt is bssocibted with the specified nbmespbce URI,
+     *    or <code>defbultPrefix</code> if the URI is not registered. If
+     *    the nbmespbce URI is registered but hbs no prefix, bn empty string
      *    (<code>""</code>) is returned.
-     * @throws NullPointerException if <code>namespaceURI</code> is
+     * @throws NullPointerException if <code>nbmespbceURI</code> is
      *    <code>null</code>
-     * @see #putNamespacePrefix(String, String)
+     * @see #putNbmespbcePrefix(String, String)
      */
-    String getNamespacePrefix(String namespaceURI, String defaultPrefix);
+    String getNbmespbcePrefix(String nbmespbceURI, String defbultPrefix);
 
     /**
-     * Maps the specified namespace URI to the specified prefix. If there is
-     * already a prefix associated with the specified namespace URI, the old
-     * prefix is replaced by the specified prefix.
+     * Mbps the specified nbmespbce URI to the specified prefix. If there is
+     * blrebdy b prefix bssocibted with the specified nbmespbce URI, the old
+     * prefix is replbced by the specified prefix.
      *
-     * @param namespaceURI a namespace URI
-     * @param prefix a namespace prefix (or <code>null</code> to remove any
-     *    existing mapping). Specifying the empty string (<code>""</code>)
-     *    binds no prefix to the namespace URI.
-     * @return the previous prefix associated with the specified namespace
-     *    URI, or <code>null</code> if there was none
-     * @throws NullPointerException if <code>namespaceURI</code> is
+     * @pbrbm nbmespbceURI b nbmespbce URI
+     * @pbrbm prefix b nbmespbce prefix (or <code>null</code> to remove bny
+     *    existing mbpping). Specifying the empty string (<code>""</code>)
+     *    binds no prefix to the nbmespbce URI.
+     * @return the previous prefix bssocibted with the specified nbmespbce
+     *    URI, or <code>null</code> if there wbs none
+     * @throws NullPointerException if <code>nbmespbceURI</code> is
      *    <code>null</code>
-     * @see #getNamespacePrefix(String, String)
+     * @see #getNbmespbcePrefix(String, String)
      */
-    String putNamespacePrefix(String namespaceURI, String prefix);
+    String putNbmespbcePrefix(String nbmespbceURI, String prefix);
 
     /**
-     * Returns the default namespace prefix. The default namespace prefix
-     * is the prefix for all namespace URIs not explicitly set by the
-     * {@link #putNamespacePrefix putNamespacePrefix} method.
+     * Returns the defbult nbmespbce prefix. The defbult nbmespbce prefix
+     * is the prefix for bll nbmespbce URIs not explicitly set by the
+     * {@link #putNbmespbcePrefix putNbmespbcePrefix} method.
      *
-     * @return the default namespace prefix, or <code>null</code> if none has
+     * @return the defbult nbmespbce prefix, or <code>null</code> if none hbs
      *    been set.
-     * @see #setDefaultNamespacePrefix(String)
+     * @see #setDefbultNbmespbcePrefix(String)
      */
-    String getDefaultNamespacePrefix();
+    String getDefbultNbmespbcePrefix();
 
     /**
-     * Sets the default namespace prefix. This sets the namespace prefix for
-     * all namespace URIs not explicitly set by the {@link #putNamespacePrefix
-     * putNamespacePrefix} method.
+     * Sets the defbult nbmespbce prefix. This sets the nbmespbce prefix for
+     * bll nbmespbce URIs not explicitly set by the {@link #putNbmespbcePrefix
+     * putNbmespbcePrefix} method.
      *
-     * @param defaultPrefix the default namespace prefix, or <code>null</code>
+     * @pbrbm defbultPrefix the defbult nbmespbce prefix, or <code>null</code>
      *    to remove the current setting. Specify the empty string
      *    (<code>""</code>) to bind no prefix.
-     * @see #getDefaultNamespacePrefix
+     * @see #getDefbultNbmespbcePrefix
      */
-    void setDefaultNamespacePrefix(String defaultPrefix);
+    void setDefbultNbmespbcePrefix(String defbultPrefix);
 
     /**
      * Sets the specified property.
      *
-     * @param name the name of the property
-     * @param value the value of the property to be set
-     * @return the previous value of the specified property, or
-     *    <code>null</code> if it did not have a value
-     * @throws NullPointerException if <code>name</code> is <code>null</code>
+     * @pbrbm nbme the nbme of the property
+     * @pbrbm vblue the vblue of the property to be set
+     * @return the previous vblue of the specified property, or
+     *    <code>null</code> if it did not hbve b vblue
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>
      * @see #getProperty(String)
      */
-    Object setProperty(String name, Object value);
+    Object setProperty(String nbme, Object vblue);
 
     /**
-     * Returns the value of the specified property.
+     * Returns the vblue of the specified property.
      *
-     * @param name the name of the property
-     * @return the current value of the specified property, or
-     *    <code>null</code> if it does not have a value
-     * @throws NullPointerException if <code>name</code> is <code>null</code>
+     * @pbrbm nbme the nbme of the property
+     * @return the current vblue of the specified property, or
+     *    <code>null</code> if it does not hbve b vblue
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>
      * @see #setProperty(String, Object)
      */
-    Object getProperty(String name);
+    Object getProperty(String nbme);
 
     /**
-     * Returns the value to which this context maps the specified key.
+     * Returns the vblue to which this context mbps the specified key.
      *
-     * <p>More formally, if this context contains a mapping from a key
-     * <code>k</code> to a value <code>v</code> such that
-     * <code>(key==null ? k==null : key.equals(k))</code>, then this method
+     * <p>More formblly, if this context contbins b mbpping from b key
+     * <code>k</code> to b vblue <code>v</code> such thbt
+     * <code>(key==null ? k==null : key.equbls(k))</code>, then this method
      * returns <code>v</code>; otherwise it returns <code>null</code>. (There
-     * can be at most one such mapping.)
+     * cbn be bt most one such mbpping.)
      *
-     * <p>This method is useful for retrieving arbitrary information that is
-     * specific to the cryptographic operation that this context is used for.
+     * <p>This method is useful for retrieving brbitrbry informbtion thbt is
+     * specific to the cryptogrbphic operbtion thbt this context is used for.
      *
-     * @param key the key whose associated value is to be returned
-     * @return the value to which this context maps the specified key, or
-     *    <code>null</code> if there is no mapping for the key
+     * @pbrbm key the key whose bssocibted vblue is to be returned
+     * @return the vblue to which this context mbps the specified key, or
+     *    <code>null</code> if there is no mbpping for the key
      * @see #put(Object, Object)
      */
     Object get(Object key);
 
     /**
-     * Associates the specified value with the specified key in this context.
-     * If the context previously contained a mapping for this key, the old
-     * value is replaced by the specified value.
+     * Associbtes the specified vblue with the specified key in this context.
+     * If the context previously contbined b mbpping for this key, the old
+     * vblue is replbced by the specified vblue.
      *
-     * <p>This method is useful for storing arbitrary information that is
-     * specific to the cryptographic operation that this context is used for.
+     * <p>This method is useful for storing brbitrbry informbtion thbt is
+     * specific to the cryptogrbphic operbtion thbt this context is used for.
      *
-     * @param key key with which the specified value is to be associated with
-     * @param value value to be associated with the specified key
-     * @return the previous value associated with the key, or <code>null</code>
-     *    if there was no mapping for the key
-     * @throws IllegalArgumentException if some aspect of this key or value
+     * @pbrbm key key with which the specified vblue is to be bssocibted with
+     * @pbrbm vblue vblue to be bssocibted with the specified key
+     * @return the previous vblue bssocibted with the key, or <code>null</code>
+     *    if there wbs no mbpping for the key
+     * @throws IllegblArgumentException if some bspect of this key or vblue
      *    prevents it from being stored in this context
      * @see #get(Object)
      */
-    Object put(Object key, Object value);
+    Object put(Object key, Object vblue);
 }

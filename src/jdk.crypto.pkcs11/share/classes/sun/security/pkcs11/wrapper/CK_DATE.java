@@ -2,34 +2,34 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,33 +45,33 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 
 /**
- * class .<p>
+ * clbss .<p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  * typedef struct CK_DATE {&nbsp;&nbsp;
- *   CK_CHAR year[4];&nbsp;&nbsp;
+ *   CK_CHAR yebr[4];&nbsp;&nbsp;
  *   CK_CHAR month[2];&nbsp;&nbsp;
- *   CK_CHAR day[2];&nbsp;&nbsp;
+ *   CK_CHAR dby[2];&nbsp;&nbsp;
  * } CK_DATE;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
-public class CK_DATE implements Cloneable {
+public clbss CK_DATE implements Clonebble {
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR year[4];   - the year ("1900" - "9999")
+     *   CK_CHAR yebr[4];   - the yebr ("1900" - "9999")
      * </PRE>
      */
-    public char[] year;    /* the year ("1900" - "9999") */
+    public chbr[] yebr;    /* the yebr ("1900" - "9999") */
 
     /**
      * <B>PKCS#11:</B>
@@ -79,24 +79,24 @@ public class CK_DATE implements Cloneable {
      *   CK_CHAR month[2];  - the month ("01" - "12")
      * </PRE>
      */
-    public char[] month;   /* the month ("01" - "12") */
+    public chbr[] month;   /* the month ("01" - "12") */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR day[2];    - the day ("01" - "31")
+     *   CK_CHAR dby[2];    - the dby ("01" - "31")
      * </PRE>
      */
-    public char[] day;     /* the day ("01" - "31") */
+    public chbr[] dby;     /* the dby ("01" - "31") */
 
-    public CK_DATE(char[] year, char[] month, char[] day) {
-        this.year = year;
+    public CK_DATE(chbr[] yebr, chbr[] month, chbr[] dby) {
+        this.yebr = yebr;
         this.month = month;
-        this.day = day;
+        this.dby = dby;
     }
 
     /**
-     * Create a (deep) clone of this object.
+     * Crebte b (deep) clone of this object.
      *
      * @return A clone of this object.
      */
@@ -104,32 +104,32 @@ public class CK_DATE implements Cloneable {
         CK_DATE copy = null;
         try {
             copy = (CK_DATE) super.clone();
-        } catch (CloneNotSupportedException cnse) {
-            // re-throw as RuntimeException
+        } cbtch (CloneNotSupportedException cnse) {
+            // re-throw bs RuntimeException
             throw (RuntimeException)
-                (new RuntimeException("Clone error").initCause(cnse));
+                (new RuntimeException("Clone error").initCbuse(cnse));
         }
-        copy.year = this.year.clone();
+        copy.yebr = this.yebr.clone();
         copy.month = this.month.clone();
-        copy.day =  this.day.clone();
+        copy.dby =  this.dby.clone();
 
         return copy;
     }
 
     /**
-     * Returns the string representation of CK_DATE.
+     * Returns the string representbtion of CK_DATE.
      *
-     * @return the string representation of CK_DATE
+     * @return the string representbtion of CK_DATE
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(new String(day));
-        sb.append('.');
-        sb.append(new String(month));
-        sb.append('.');
-        sb.append(new String(year));
-        sb.append(" (DD.MM.YYYY)");
+        sb.bppend(new String(dby));
+        sb.bppend('.');
+        sb.bppend(new String(month));
+        sb.bppend('.');
+        sb.bppend(new String(yebr));
+        sb.bppend(" (DD.MM.YYYY)");
 
         return sb.toString();
     }

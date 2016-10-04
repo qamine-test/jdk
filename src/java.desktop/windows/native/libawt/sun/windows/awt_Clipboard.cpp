@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_Clipboard.h"
-#include "awt_DataTransferer.h"
-#include "awt_Toolkit.h"
+#include "bwt_Clipbobrd.h"
+#include "bwt_DbtbTrbnsferer.h"
+#include "bwt_Toolkit.h"
 #include <shlobj.h>
-#include <sun_awt_windows_WClipboard.h>
+#include <sun_bwt_windows_WClipbobrd.h>
 
 
 /************************************************************************
- * AwtClipboard fields
+ * AwtClipbobrd fields
  */
 
-jmethodID AwtClipboard::lostSelectionOwnershipMID;
-jobject AwtClipboard::theCurrentClipboard;
+jmethodID AwtClipbobrd::lostSelectionOwnershipMID;
+jobject AwtClipbobrd::theCurrentClipbobrd;
 
-/* This flag is set while we call EmptyClipboard to indicate to
-   WM_DESTROYCLIPBOARD handler that we are not losing ownership */
-BOOL AwtClipboard::isGettingOwnership = FALSE;
+/* This flbg is set while we cbll EmptyClipbobrd to indicbte to
+   WM_DESTROYCLIPBOARD hbndler thbt we bre not losing ownership */
+BOOL AwtClipbobrd::isGettingOwnership = FALSE;
 
-volatile jmethodID AwtClipboard::handleContentsChangedMID;
-volatile BOOL AwtClipboard::skipInitialWmDrawClipboardMsg = TRUE;
-volatile BOOL AwtClipboard::isClipboardViewerRegistered = FALSE;
-volatile HWND AwtClipboard::hwndNextViewer = NULL;
+volbtile jmethodID AwtClipbobrd::hbndleContentsChbngedMID;
+volbtile BOOL AwtClipbobrd::skipInitiblWmDrbwClipbobrdMsg = TRUE;
+volbtile BOOL AwtClipbobrd::isClipbobrdViewerRegistered = FALSE;
+volbtile HWND AwtClipbobrd::hwndNextViewer = NULL;
 
 #define GALLOCFLG (GMEM_DDESHARE | GMEM_MOVEABLE | GMEM_ZEROINIT)
 
 /************************************************************************
- * AwtClipboard methods
+ * AwtClipbobrd methods
  */
 
-void AwtClipboard::LostOwnership(JNIEnv *env) {
-    if (theCurrentClipboard != NULL) {
-        env->CallVoidMethod(theCurrentClipboard, lostSelectionOwnershipMID);
-        DASSERT(!safe_ExceptionOccurred(env));
+void AwtClipbobrd::LostOwnership(JNIEnv *env) {
+    if (theCurrentClipbobrd != NULL) {
+        env->CbllVoidMethod(theCurrentClipbobrd, lostSelectionOwnershipMID);
+        DASSERT(!sbfe_ExceptionOccurred(env));
     }
 }
 
-void AwtClipboard::WmChangeCbChain(WPARAM wParam, LPARAM lParam) {
-    if ((HWND)wParam == hwndNextViewer) {
-        hwndNextViewer = (HWND)lParam;
+void AwtClipbobrd::WmChbngeCbChbin(WPARAM wPbrbm, LPARAM lPbrbm) {
+    if ((HWND)wPbrbm == hwndNextViewer) {
+        hwndNextViewer = (HWND)lPbrbm;
     } else if (hwndNextViewer != NULL) {
-        ::SendMessage(hwndNextViewer, WM_CHANGECBCHAIN, wParam, lParam);
+        ::SendMessbge(hwndNextViewer, WM_CHANGECBCHAIN, wPbrbm, lPbrbm);
     }
 }
 
-void AwtClipboard::WmDrawClipboard(JNIEnv *env, WPARAM wParam, LPARAM lParam) {
-    if (skipInitialWmDrawClipboardMsg) {
-        // skipping the first contents change notification as it comes
-        // immediately after registering the clipboard viewer window
-        // and it is not caused by an actual contents change.
-        skipInitialWmDrawClipboardMsg = FALSE;
+void AwtClipbobrd::WmDrbwClipbobrd(JNIEnv *env, WPARAM wPbrbm, LPARAM lPbrbm) {
+    if (skipInitiblWmDrbwClipbobrdMsg) {
+        // skipping the first contents chbnge notificbtion bs it comes
+        // immedibtely bfter registering the clipbobrd viewer window
+        // bnd it is not cbused by bn bctubl contents chbnge.
+        skipInitiblWmDrbwClipbobrdMsg = FALSE;
         return;
     }
-    if (theCurrentClipboard != NULL) {
-        env->CallVoidMethod(theCurrentClipboard, handleContentsChangedMID);
-        DASSERT(!safe_ExceptionOccurred(env));
+    if (theCurrentClipbobrd != NULL) {
+        env->CbllVoidMethod(theCurrentClipbobrd, hbndleContentsChbngedMID);
+        DASSERT(!sbfe_ExceptionOccurred(env));
     }
-    ::SendMessage(hwndNextViewer, WM_DRAWCLIPBOARD, wParam, lParam);
+    ::SendMessbge(hwndNextViewer, WM_DRAWCLIPBOARD, wPbrbm, lPbrbm);
 }
 
-void AwtClipboard::RegisterClipboardViewer(JNIEnv *env, jobject jclipboard) {
-    if (isClipboardViewerRegistered) {
+void AwtClipbobrd::RegisterClipbobrdViewer(JNIEnv *env, jobject jclipbobrd) {
+    if (isClipbobrdViewerRegistered) {
         return;
     }
 
-    if (theCurrentClipboard == NULL) {
-        theCurrentClipboard = env->NewGlobalRef(jclipboard);
+    if (theCurrentClipbobrd == NULL) {
+        theCurrentClipbobrd = env->NewGlobblRef(jclipbobrd);
     }
 
-    jclass cls = env->GetObjectClass(jclipboard);
-    AwtClipboard::handleContentsChangedMID =
-            env->GetMethodID(cls, "handleContentsChanged", "()V");
-    DASSERT(AwtClipboard::handleContentsChangedMID != NULL);
+    jclbss cls = env->GetObjectClbss(jclipbobrd);
+    AwtClipbobrd::hbndleContentsChbngedMID =
+            env->GetMethodID(cls, "hbndleContentsChbnged", "()V");
+    DASSERT(AwtClipbobrd::hbndleContentsChbngedMID != NULL);
 
-    hwndNextViewer = ::SetClipboardViewer(AwtToolkit::GetInstance().GetHWnd());
-    isClipboardViewerRegistered = TRUE;
+    hwndNextViewer = ::SetClipbobrdViewer(AwtToolkit::GetInstbnce().GetHWnd());
+    isClipbobrdViewerRegistered = TRUE;
 }
 
-void AwtClipboard::UnregisterClipboardViewer(JNIEnv *env) {
+void AwtClipbobrd::UnregisterClipbobrdViewer(JNIEnv *env) {
     TRY;
 
-    if (isClipboardViewerRegistered) {
-        ::ChangeClipboardChain(AwtToolkit::GetInstance().GetHWnd(), AwtClipboard::hwndNextViewer);
-        AwtClipboard::hwndNextViewer = NULL;
-        isClipboardViewerRegistered = FALSE;
-        skipInitialWmDrawClipboardMsg = TRUE;
+    if (isClipbobrdViewerRegistered) {
+        ::ChbngeClipbobrdChbin(AwtToolkit::GetInstbnce().GetHWnd(), AwtClipbobrd::hwndNextViewer);
+        AwtClipbobrd::hwndNextViewer = NULL;
+        isClipbobrdViewerRegistered = FALSE;
+        skipInitiblWmDrbwClipbobrdMsg = TRUE;
     }
 
     CATCH_BAD_ALLOC;
@@ -115,381 +115,381 @@ void AwtClipboard::UnregisterClipboardViewer(JNIEnv *env) {
 
 extern "C" {
 
-void awt_clipboard_uninitialize(JNIEnv *env) {
-    AwtClipboard::UnregisterClipboardViewer(env);
-    env->DeleteGlobalRef(AwtClipboard::theCurrentClipboard);
-    AwtClipboard::theCurrentClipboard = NULL;
+void bwt_clipbobrd_uninitiblize(JNIEnv *env) {
+    AwtClipbobrd::UnregisterClipbobrdViewer(env);
+    env->DeleteGlobblRef(AwtClipbobrd::theCurrentClipbobrd);
+    AwtClipbobrd::theCurrentClipbobrd = NULL;
 }
 
 /************************************************************************
- * WClipboard native methods
+ * WClipbobrd nbtive methods
  */
 
 /*
- * Class:     sun_awt_windows_WClipboard
+ * Clbss:     sun_bwt_windows_WClipbobrd
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WClipboard_init(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WClipbobrd_init(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtClipboard::lostSelectionOwnershipMID =
+    AwtClipbobrd::lostSelectionOwnershipMID =
         env->GetMethodID(cls, "lostSelectionOwnershipImpl", "()V");
-    DASSERT(AwtClipboard::lostSelectionOwnershipMID != NULL);
+    DASSERT(AwtClipbobrd::lostSelectionOwnershipMID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WClipboard
- * Method:    openClipboard
- * Signature: (Lsun/awt/windows/WClipboard;)V
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Method:    openClipbobrd
+ * Signbture: (Lsun/bwt/windows/WClipbobrd;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WClipboard_openClipboard(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WClipbobrd_openClipbobrd(JNIEnv *env, jobject self,
                                               jobject newOwner)
 {
     TRY;
 
-    DASSERT(::GetOpenClipboardWindow() != AwtToolkit::GetInstance().GetHWnd());
+    DASSERT(::GetOpenClipbobrdWindow() != AwtToolkit::GetInstbnce().GetHWnd());
 
-    if (!::OpenClipboard(AwtToolkit::GetInstance().GetHWnd())) {
-        JNU_ThrowByName(env, "java/lang/IllegalStateException",
-                        "cannot open system clipboard");
+    if (!::OpenClipbobrd(AwtToolkit::GetInstbnce().GetHWnd())) {
+        JNU_ThrowByNbme(env, "jbvb/lbng/IllegblStbteException",
+                        "cbnnot open system clipbobrd");
         return;
     }
     if (newOwner != NULL) {
-        AwtClipboard::GetOwnership();
-        if (AwtClipboard::theCurrentClipboard != NULL) {
-            env->DeleteGlobalRef(AwtClipboard::theCurrentClipboard);
+        AwtClipbobrd::GetOwnership();
+        if (AwtClipbobrd::theCurrentClipbobrd != NULL) {
+            env->DeleteGlobblRef(AwtClipbobrd::theCurrentClipbobrd);
         }
-        AwtClipboard::theCurrentClipboard = env->NewGlobalRef(newOwner);
+        AwtClipbobrd::theCurrentClipbobrd = env->NewGlobblRef(newOwner);
     }
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WClipboard
- * Method:    closeClipboard
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Method:    closeClipbobrd
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WClipboard_closeClipboard(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WClipbobrd_closeClipbobrd(JNIEnv *env, jobject self)
 {
     TRY;
 
-    if (::GetOpenClipboardWindow() == AwtToolkit::GetInstance().GetHWnd()) {
-        VERIFY(::CloseClipboard());
+    if (::GetOpenClipbobrdWindow() == AwtToolkit::GetInstbnce().GetHWnd()) {
+        VERIFY(::CloseClipbobrd());
     }
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WClipboard
- * Method:    registerClipboardViewer
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Method:    registerClipbobrdViewer
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WClipboard_registerClipboardViewer(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WClipbobrd_registerClipbobrdViewer(JNIEnv *env, jobject self)
 {
     TRY;
 
-    AwtClipboard::RegisterClipboardViewer(env, self);
+    AwtClipbobrd::RegisterClipbobrdViewer(env, self);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WClipboard
- * Method:    publishClipboardData
- * Signature: (J[B)V
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Method:    publishClipbobrdDbtb
+ * Signbture: (J[B)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WClipboard_publishClipboardData(JNIEnv *env,
+Jbvb_sun_bwt_windows_WClipbobrd_publishClipbobrdDbtb(JNIEnv *env,
                                                      jobject self,
-                                                     jlong format,
-                                                     jbyteArray bytes)
+                                                     jlong formbt,
+                                                     jbyteArrby bytes)
 {
     TRY;
 
-    DASSERT(::GetOpenClipboardWindow() == AwtToolkit::GetInstance().GetHWnd());
+    DASSERT(::GetOpenClipbobrdWindow() == AwtToolkit::GetInstbnce().GetHWnd());
 
     if (bytes == NULL) {
         return;
     }
 
-    jint nBytes = env->GetArrayLength(bytes);
+    jint nBytes = env->GetArrbyLength(bytes);
 
-    if (format == CF_ENHMETAFILE) {
+    if (formbt == CF_ENHMETAFILE) {
         LPBYTE lpbEmfBuffer =
-            (LPBYTE)env->GetPrimitiveArrayCritical(bytes, NULL);
+            (LPBYTE)env->GetPrimitiveArrbyCriticbl(bytes, NULL);
         if (lpbEmfBuffer == NULL) {
-            env->PopLocalFrame(NULL);
-            throw std::bad_alloc();
+            env->PopLocblFrbme(NULL);
+            throw std::bbd_blloc();
         }
 
-        HENHMETAFILE hemf = ::SetEnhMetaFileBits(nBytes, lpbEmfBuffer);
+        HENHMETAFILE hemf = ::SetEnhMetbFileBits(nBytes, lpbEmfBuffer);
 
-        env->ReleasePrimitiveArrayCritical(bytes, (LPVOID)lpbEmfBuffer,
+        env->RelebsePrimitiveArrbyCriticbl(bytes, (LPVOID)lpbEmfBuffer,
                                            JNI_ABORT);
 
         if (hemf != NULL) {
-            VERIFY(::SetClipboardData((UINT)format, hemf));
+            VERIFY(::SetClipbobrdDbtb((UINT)formbt, hemf));
         }
         return;
-    } else if (format == CF_METAFILEPICT) {
+    } else if (formbt == CF_METAFILEPICT) {
         LPBYTE lpbMfpBuffer =
-            (LPBYTE)env->GetPrimitiveArrayCritical(bytes, NULL);
+            (LPBYTE)env->GetPrimitiveArrbyCriticbl(bytes, NULL);
         if (lpbMfpBuffer == NULL) {
-            env->PopLocalFrame(NULL);
-            throw std::bad_alloc();
+            env->PopLocblFrbme(NULL);
+            throw std::bbd_blloc();
         }
 
-        HMETAFILE hmf = ::SetMetaFileBitsEx(nBytes - sizeof(METAFILEPICT),
+        HMETAFILE hmf = ::SetMetbFileBitsEx(nBytes - sizeof(METAFILEPICT),
                                          lpbMfpBuffer + sizeof(METAFILEPICT));
         if (hmf == NULL) {
-            env->ReleasePrimitiveArrayCritical(bytes, (LPVOID)lpbMfpBuffer, JNI_ABORT);
-            env->PopLocalFrame(NULL);
+            env->RelebsePrimitiveArrbyCriticbl(bytes, (LPVOID)lpbMfpBuffer, JNI_ABORT);
+            env->PopLocblFrbme(NULL);
             return;
         }
 
         LPMETAFILEPICT lpMfpOld = (LPMETAFILEPICT)lpbMfpBuffer;
 
-        HMETAFILEPICT hmfp = ::GlobalAlloc(GALLOCFLG, sizeof(METAFILEPICT));
+        HMETAFILEPICT hmfp = ::GlobblAlloc(GALLOCFLG, sizeof(METAFILEPICT));
         if (hmfp == NULL) {
-            VERIFY(::DeleteMetaFile(hmf));
-            env->ReleasePrimitiveArrayCritical(bytes, (LPVOID)lpbMfpBuffer, JNI_ABORT);
-            env->PopLocalFrame(NULL);
-            throw std::bad_alloc();
+            VERIFY(::DeleteMetbFile(hmf));
+            env->RelebsePrimitiveArrbyCriticbl(bytes, (LPVOID)lpbMfpBuffer, JNI_ABORT);
+            env->PopLocblFrbme(NULL);
+            throw std::bbd_blloc();
         }
 
-        LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)::GlobalLock(hmfp);
+        LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)::GlobblLock(hmfp);
         lpMfp->mm = lpMfpOld->mm;
         lpMfp->xExt = lpMfpOld->xExt;
         lpMfp->yExt = lpMfpOld->yExt;
         lpMfp->hMF = hmf;
-        ::GlobalUnlock(hmfp);
+        ::GlobblUnlock(hmfp);
 
-        env->ReleasePrimitiveArrayCritical(bytes, (LPVOID)lpbMfpBuffer, JNI_ABORT);
+        env->RelebsePrimitiveArrbyCriticbl(bytes, (LPVOID)lpbMfpBuffer, JNI_ABORT);
 
-        VERIFY(::SetClipboardData((UINT)format, hmfp));
+        VERIFY(::SetClipbobrdDbtb((UINT)formbt, hmfp));
 
         return;
     }
 
-    // We have to prepend the DROPFILES structure here because WDataTransferer
+    // We hbve to prepend the DROPFILES structure here becbuse WDbtbTrbnsferer
     // doesn't.
-    HGLOBAL hglobal = ::GlobalAlloc(GALLOCFLG, nBytes + ((format == CF_HDROP)
+    HGLOBAL hglobbl = ::GlobblAlloc(GALLOCFLG, nBytes + ((formbt == CF_HDROP)
                                                             ? sizeof(DROPFILES)
                                                             : 0));
-    if (hglobal == NULL) {
-        throw std::bad_alloc();
+    if (hglobbl == NULL) {
+        throw std::bbd_blloc();
     }
-    char *dataout = (char *)::GlobalLock(hglobal);
+    chbr *dbtbout = (chbr *)::GlobblLock(hglobbl);
 
-    if (format == CF_HDROP) {
-        DROPFILES *dropfiles = (DROPFILES *)dataout;
+    if (formbt == CF_HDROP) {
+        DROPFILES *dropfiles = (DROPFILES *)dbtbout;
         dropfiles->pFiles = sizeof(DROPFILES);
         dropfiles->fWide = TRUE; // we publish only Unicode
-        dataout += sizeof(DROPFILES);
+        dbtbout += sizeof(DROPFILES);
     }
 
-    env->GetByteArrayRegion(bytes, 0, nBytes, (jbyte *)dataout);
-    ::GlobalUnlock(hglobal);
+    env->GetByteArrbyRegion(bytes, 0, nBytes, (jbyte *)dbtbout);
+    ::GlobblUnlock(hglobbl);
 
-    VERIFY(::SetClipboardData((UINT)format, hglobal));
+    VERIFY(::SetClipbobrdDbtb((UINT)formbt, hglobbl));
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WClipboard
- * Method:    getClipboardFormats
- * Signature: ()[J
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Method:    getClipbobrdFormbts
+ * Signbture: ()[J
  */
-JNIEXPORT jlongArray JNICALL
-Java_sun_awt_windows_WClipboard_getClipboardFormats
+JNIEXPORT jlongArrby JNICALL
+Jbvb_sun_bwt_windows_WClipbobrd_getClipbobrdFormbts
     (JNIEnv *env, jobject self)
 {
     TRY;
 
-    DASSERT(::GetOpenClipboardWindow() == AwtToolkit::GetInstance().GetHWnd());
+    DASSERT(::GetOpenClipbobrdWindow() == AwtToolkit::GetInstbnce().GetHWnd());
 
-    jsize nFormats = ::CountClipboardFormats();
-    jlongArray formats = env->NewLongArray(nFormats);
-    if (formats == NULL) {
-        throw std::bad_alloc();
+    jsize nFormbts = ::CountClipbobrdFormbts();
+    jlongArrby formbts = env->NewLongArrby(nFormbts);
+    if (formbts == NULL) {
+        throw std::bbd_blloc();
     }
-    if (nFormats == 0) {
-        return formats;
+    if (nFormbts == 0) {
+        return formbts;
     }
-    jboolean isCopy;
-    jlong *lFormats = env->GetLongArrayElements(formats, &isCopy),
-        *saveFormats = lFormats;
+    jboolebn isCopy;
+    jlong *lFormbts = env->GetLongArrbyElements(formbts, &isCopy),
+        *sbveFormbts = lFormbts;
     UINT num = 0;
 
-    for (jsize i = 0; i < nFormats; i++, lFormats++) {
-        *lFormats = num = ::EnumClipboardFormats(num);
+    for (jsize i = 0; i < nFormbts; i++, lFormbts++) {
+        *lFormbts = num = ::EnumClipbobrdFormbts(num);
     }
 
-    env->ReleaseLongArrayElements(formats, saveFormats, 0);
+    env->RelebseLongArrbyElements(formbts, sbveFormbts, 0);
 
-    return formats;
+    return formbts;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WClipboard
- * Method:    getClipboardData
- * Signature: (J)[B
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Method:    getClipbobrdDbtb
+ * Signbture: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL
-Java_sun_awt_windows_WClipboard_getClipboardData
-    (JNIEnv *env, jobject self, jlong format)
+JNIEXPORT jbyteArrby JNICALL
+Jbvb_sun_bwt_windows_WClipbobrd_getClipbobrdDbtb
+    (JNIEnv *env, jobject self, jlong formbt)
 {
     TRY;
 
-    DASSERT(::GetOpenClipboardWindow() == AwtToolkit::GetInstance().GetHWnd());
+    DASSERT(::GetOpenClipbobrdWindow() == AwtToolkit::GetInstbnce().GetHWnd());
 
-    HANDLE handle = ::GetClipboardData((UINT)format);
-    if (handle == NULL) {
-        JNU_ThrowIOException(env, "system clipboard data unavailable");
+    HANDLE hbndle = ::GetClipbobrdDbtb((UINT)formbt);
+    if (hbndle == NULL) {
+        JNU_ThrowIOException(env, "system clipbobrd dbtb unbvbilbble");
         return NULL;
     }
 
-    jbyteArray bytes = NULL;
-    jbyteArray paletteData = NULL;
+    jbyteArrby bytes = NULL;
+    jbyteArrby pbletteDbtb = NULL;
 
-    switch (format) {
-    case CF_ENHMETAFILE:
-    case CF_METAFILEPICT: {
+    switch (formbt) {
+    cbse CF_ENHMETAFILE:
+    cbse CF_METAFILEPICT: {
         HENHMETAFILE hemf = NULL;
 
-        if (format == CF_METAFILEPICT) {
-            HMETAFILEPICT hMetaFilePict = (HMETAFILEPICT)handle;
-            LPMETAFILEPICT lpMetaFilePict =
-                (LPMETAFILEPICT)::GlobalLock(hMetaFilePict);
-            UINT uSize = ::GetMetaFileBitsEx(lpMetaFilePict->hMF, 0, NULL);
+        if (formbt == CF_METAFILEPICT) {
+            HMETAFILEPICT hMetbFilePict = (HMETAFILEPICT)hbndle;
+            LPMETAFILEPICT lpMetbFilePict =
+                (LPMETAFILEPICT)::GlobblLock(hMetbFilePict);
+            UINT uSize = ::GetMetbFileBitsEx(lpMetbFilePict->hMF, 0, NULL);
             DASSERT(uSize != 0);
 
             try {
-                LPBYTE lpMfBits = (LPBYTE)safe_Malloc(uSize);
-                VERIFY(::GetMetaFileBitsEx(lpMetaFilePict->hMF, uSize,
+                LPBYTE lpMfBits = (LPBYTE)sbfe_Mblloc(uSize);
+                VERIFY(::GetMetbFileBitsEx(lpMetbFilePict->hMF, uSize,
                                            lpMfBits) == uSize);
-                hemf = ::SetWinMetaFileBits(uSize, lpMfBits, NULL,
-                                            lpMetaFilePict);
+                hemf = ::SetWinMetbFileBits(uSize, lpMfBits, NULL,
+                                            lpMetbFilePict);
                 free(lpMfBits);
                 if (hemf == NULL) {
-                    ::GlobalUnlock(hMetaFilePict);
-                    JNU_ThrowIOException(env, "failed to get system clipboard data");
+                    ::GlobblUnlock(hMetbFilePict);
+                    JNU_ThrowIOException(env, "fbiled to get system clipbobrd dbtb");
                     return NULL;
                 }
-            } catch (...) {
-                ::GlobalUnlock(hMetaFilePict);
+            } cbtch (...) {
+                ::GlobblUnlock(hMetbFilePict);
                 throw;
             }
-            ::GlobalUnlock(hMetaFilePict);
+            ::GlobblUnlock(hMetbFilePict);
         } else {
-            hemf = (HENHMETAFILE)handle;
+            hemf = (HENHMETAFILE)hbndle;
         }
 
-        UINT uEmfSize = ::GetEnhMetaFileBits(hemf, 0, NULL);
+        UINT uEmfSize = ::GetEnhMetbFileBits(hemf, 0, NULL);
         if (uEmfSize == 0) {
-            JNU_ThrowIOException(env, "cannot retrieve metafile bits");
+            JNU_ThrowIOException(env, "cbnnot retrieve metbfile bits");
             return NULL;
         }
 
-        bytes = env->NewByteArray(uEmfSize);
+        bytes = env->NewByteArrby(uEmfSize);
         if (bytes == NULL) {
-            throw std::bad_alloc();
+            throw std::bbd_blloc();
         }
 
         LPBYTE lpbEmfBuffer =
-            (LPBYTE)env->GetPrimitiveArrayCritical(bytes, NULL);
+            (LPBYTE)env->GetPrimitiveArrbyCriticbl(bytes, NULL);
         if (lpbEmfBuffer == NULL) {
-            env->DeleteLocalRef(bytes);
-            throw std::bad_alloc();
+            env->DeleteLocblRef(bytes);
+            throw std::bbd_blloc();
         }
-        VERIFY(::GetEnhMetaFileBits(hemf, uEmfSize, lpbEmfBuffer) == uEmfSize);
-        env->ReleasePrimitiveArrayCritical(bytes, lpbEmfBuffer, 0);
+        VERIFY(::GetEnhMetbFileBits(hemf, uEmfSize, lpbEmfBuffer) == uEmfSize);
+        env->RelebsePrimitiveArrbyCriticbl(bytes, lpbEmfBuffer, 0);
 
-        paletteData =
-            AwtDataTransferer::GetPaletteBytes(hemf, OBJ_ENHMETAFILE, FALSE);
-        break;
+        pbletteDbtb =
+            AwtDbtbTrbnsferer::GetPbletteBytes(hemf, OBJ_ENHMETAFILE, FALSE);
+        brebk;
     }
-    case CF_LOCALE: {
-        LCID *lcid = (LCID *)::GlobalLock(handle);
+    cbse CF_LOCALE: {
+        LCID *lcid = (LCID *)::GlobblLock(hbndle);
         if (lcid == NULL) {
-            JNU_ThrowIOException(env, "invalid LCID");
+            JNU_ThrowIOException(env, "invblid LCID");
             return NULL;
         }
         try {
-            bytes = AwtDataTransferer::LCIDToTextEncoding(env, *lcid);
-        } catch (...) {
-            ::GlobalUnlock(handle);
+            bytes = AwtDbtbTrbnsferer::LCIDToTextEncoding(env, *lcid);
+        } cbtch (...) {
+            ::GlobblUnlock(hbndle);
             throw;
         }
-        ::GlobalUnlock(handle);
-        break;
+        ::GlobblUnlock(hbndle);
+        brebk;
     }
-    default: {
-        ::SetLastError(0); // clear error
-        // Warning C4244.
-        // Cast SIZE_T (__int64 on 64-bit/unsigned int on 32-bit)
+    defbult: {
+        ::SetLbstError(0); // clebr error
+        // Wbrning C4244.
+        // Cbst SIZE_T (__int64 on 64-bit/unsigned int on 32-bit)
         // to jsize (long).
-        SIZE_T globalSize = ::GlobalSize(handle);
-        jsize size = (globalSize <= INT_MAX) ? (jsize)globalSize : INT_MAX;
-        if (::GetLastError() != 0) {
-            JNU_ThrowIOException(env, "invalid global memory block handle");
+        SIZE_T globblSize = ::GlobblSize(hbndle);
+        jsize size = (globblSize <= INT_MAX) ? (jsize)globblSize : INT_MAX;
+        if (::GetLbstError() != 0) {
+            JNU_ThrowIOException(env, "invblid globbl memory block hbndle");
             return NULL;
         }
 
-        bytes = env->NewByteArray(size);
+        bytes = env->NewByteArrby(size);
         if (bytes == NULL) {
-            throw std::bad_alloc();
+            throw std::bbd_blloc();
         }
 
         if (size != 0) {
-            LPVOID data = ::GlobalLock(handle);
-            env->SetByteArrayRegion(bytes, 0, size, (jbyte *)data);
-            ::GlobalUnlock(handle);
+            LPVOID dbtb = ::GlobblLock(hbndle);
+            env->SetByteArrbyRegion(bytes, 0, size, (jbyte *)dbtb);
+            ::GlobblUnlock(hbndle);
         }
-        break;
+        brebk;
     }
     }
 
-    switch (format) {
-    case CF_ENHMETAFILE:
-    case CF_METAFILEPICT:
-    case CF_DIB: {
-        if (JNU_IsNull(env, paletteData)) {
-            HPALETTE hPalette = (HPALETTE)::GetClipboardData(CF_PALETTE);
-            paletteData =
-                AwtDataTransferer::GetPaletteBytes(hPalette, OBJ_PAL, TRUE);
+    switch (formbt) {
+    cbse CF_ENHMETAFILE:
+    cbse CF_METAFILEPICT:
+    cbse CF_DIB: {
+        if (JNU_IsNull(env, pbletteDbtb)) {
+            HPALETTE hPblette = (HPALETTE)::GetClipbobrdDbtb(CF_PALETTE);
+            pbletteDbtb =
+                AwtDbtbTrbnsferer::GetPbletteBytes(hPblette, OBJ_PAL, TRUE);
         }
-        DASSERT(!JNU_IsNull(env, paletteData) &&
+        DASSERT(!JNU_IsNull(env, pbletteDbtb) &&
                 !JNU_IsNull(env, bytes));
 
-        jbyteArray concat =
-            (jbyteArray)AwtDataTransferer::ConcatData(env, paletteData, bytes);
+        jbyteArrby concbt =
+            (jbyteArrby)AwtDbtbTrbnsferer::ConcbtDbtb(env, pbletteDbtb, bytes);
 
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
+        if (!JNU_IsNull(env, sbfe_ExceptionOccurred(env))) {
             env->ExceptionDescribe();
-            env->ExceptionClear();
-            env->DeleteLocalRef(bytes);
-            env->DeleteLocalRef(paletteData);
+            env->ExceptionClebr();
+            env->DeleteLocblRef(bytes);
+            env->DeleteLocblRef(pbletteDbtb);
             return NULL;
         }
 
-        env->DeleteLocalRef(bytes);
-        env->DeleteLocalRef(paletteData);
-        bytes = concat;
-        break;
+        env->DeleteLocblRef(bytes);
+        env->DeleteLocblRef(pbletteDbtb);
+        bytes = concbt;
+        brebk;
     }
     }
 

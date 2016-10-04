@@ -1,385 +1,385 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
-package javax.management.modelmbean;
+pbckbge jbvbx.mbnbgement.modelmbebn;
 
-import static com.sun.jmx.defaults.JmxProperties.MODELMBEAN_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtic com.sun.jmx.defbults.JmxProperties.MODELMBEAN_LOGGER;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.security.AccessController;
-import java.util.logging.Level;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.security.AccessController;
+import jbvb.util.logging.Level;
 
-import javax.management.Descriptor;
-import javax.management.DescriptorAccess;
-import javax.management.MBeanNotificationInfo;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.DescriptorAccess;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
 
 /**
- * <p>The ModelMBeanNotificationInfo object describes a notification emitted
- * by a ModelMBean.
- * It is a subclass of MBeanNotificationInfo with the addition of an
- * associated Descriptor and an implementation of the Descriptor interface.</p>
+ * <p>The ModelMBebnNotificbtionInfo object describes b notificbtion emitted
+ * by b ModelMBebn.
+ * It is b subclbss of MBebnNotificbtionInfo with the bddition of bn
+ * bssocibted Descriptor bnd bn implementbtion of the Descriptor interfbce.</p>
  *
  * <P id="descriptor">
- * The fields in the descriptor are defined, but not limited to, the following.
- * Note that when the Type in this table is Number, a String that is the decimal
- * representation of a Long can also be used.</P>
+ * The fields in the descriptor bre defined, but not limited to, the following.
+ * Note thbt when the Type in this tbble is Number, b String thbt is the decimbl
+ * representbtion of b Long cbn blso be used.</P>
  *
- * <table border="1" cellpadding="5" summary="ModelMBeanNotificationInfo Fields">
- * <tr><th>Name</th><th>Type</th><th>Meaning</th></tr>
- * <tr><td>name</td><td>String</td>
- *     <td>Notification name.</td></tr>
+ * <tbble border="1" cellpbdding="5" summbry="ModelMBebnNotificbtionInfo Fields">
+ * <tr><th>Nbme</th><th>Type</th><th>Mebning</th></tr>
+ * <tr><td>nbme</td><td>String</td>
+ *     <td>Notificbtion nbme.</td></tr>
  * <tr><td>descriptorType</td><td>String</td>
- *     <td>Must be "notification".</td></tr>
+ *     <td>Must be "notificbtion".</td></tr>
  * <tr><td>severity</td><td>Number</td>
- *     <td>0-6 where 0: unknown; 1: non-recoverable;
- *         2: critical, failure; 3: major, severe;
- *         4: minor, marginal, error; 5: warning;
- *         6: normal, cleared, informative</td></tr>
- * <tr><td>messageID</td><td>String</td>
- *     <td>Unique key for message text (to allow translation, analysis).</td></tr>
- * <tr><td>messageText</td><td>String</td>
- *     <td>Text of notification.</td></tr>
+ *     <td>0-6 where 0: unknown; 1: non-recoverbble;
+ *         2: criticbl, fbilure; 3: mbjor, severe;
+ *         4: minor, mbrginbl, error; 5: wbrning;
+ *         6: normbl, clebred, informbtive</td></tr>
+ * <tr><td>messbgeID</td><td>String</td>
+ *     <td>Unique key for messbge text (to bllow trbnslbtion, bnblysis).</td></tr>
+ * <tr><td>messbgeText</td><td>String</td>
+ *     <td>Text of notificbtion.</td></tr>
  * <tr><td>log</td><td>String</td>
- *     <td>T - log message, F - do not log message.</td></tr>
+ *     <td>T - log messbge, F - do not log messbge.</td></tr>
  * <tr><td>logfile</td><td>String</td>
- *     <td>fully qualified file name appropriate for operating system.</td></tr>
+ *     <td>fully qublified file nbme bppropribte for operbting system.</td></tr>
  * <tr><td>visibility</td><td>Number</td>
- *     <td>1-4 where 1: always visible 4: rarely visible.</td></tr>
- * <tr><td>presentationString</td><td>String</td>
- *     <td>XML formatted string to allow presentation of data.</td></tr>
- * </table>
+ *     <td>1-4 where 1: blwbys visible 4: rbrely visible.</td></tr>
+ * <tr><td>presentbtionString</td><td>String</td>
+ *     <td>XML formbtted string to bllow presentbtion of dbtb.</td></tr>
+ * </tbble>
  *
- * <p>The default descriptor contains the name, descriptorType,
- * displayName and severity(=6) fields.  The default value of the name
- * and displayName fields is the name of the Notification class (as
- * specified by the <code>name</code> parameter of the
- * ModelMBeanNotificationInfo constructor).</p>
+ * <p>The defbult descriptor contbins the nbme, descriptorType,
+ * displbyNbme bnd severity(=6) fields.  The defbult vblue of the nbme
+ * bnd displbyNbme fields is the nbme of the Notificbtion clbss (bs
+ * specified by the <code>nbme</code> pbrbmeter of the
+ * ModelMBebnNotificbtionInfo constructor).</p>
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-7445681389570207141L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>-7445681389570207141L</code>.
  *
  * @since 1.5
  */
 
-@SuppressWarnings("serial")  // serialVersionUID is not constant
-public class ModelMBeanNotificationInfo
-    extends MBeanNotificationInfo
+@SuppressWbrnings("seribl")  // seriblVersionUID is not constbnt
+public clbss ModelMBebnNotificbtionInfo
+    extends MBebnNotificbtionInfo
     implements DescriptorAccess {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form
-    // depends on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form
+    // depends on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -5211564525059047097L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = -5211564525059047097L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -7445681389570207141L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = -7445681389570207141L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-      new ObjectStreamField("notificationDescriptor", Descriptor.class),
-      new ObjectStreamField("currClass", String.class)
+      new ObjectStrebmField("notificbtionDescriptor", Descriptor.clbss),
+      new ObjectStrebmField("currClbss", String.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-      new ObjectStreamField("notificationDescriptor", Descriptor.class)
+      new ObjectStrebmField("notificbtionDescriptor", Descriptor.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField notificationDescriptor Descriptor The descriptor
-     *   containing the appropriate metadata for this instance
+     * @seriblField notificbtionDescriptor Descriptor The descriptor
+     *   contbining the bppropribte metbdbtb for this instbnce
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK: No compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     /**
-     * @serial The descriptor containing the appropriate metadata for
-     *         this instance
+     * @seribl The descriptor contbining the bppropribte metbdbtb for
+     *         this instbnce
      */
-    private Descriptor notificationDescriptor;
+    privbte Descriptor notificbtionDescriptor;
 
-    private static final String currClass = "ModelMBeanNotificationInfo";
+    privbte stbtic finbl String currClbss = "ModelMBebnNotificbtionInfo";
 
     /**
-     * Constructs a ModelMBeanNotificationInfo object with a default
+     * Constructs b ModelMBebnNotificbtionInfo object with b defbult
      * descriptor.
      *
-     * @param notifTypes The array of strings (in dot notation) containing
-     *     the notification types that may be emitted.
-     * @param name The name of the Notification class.
-     * @param description A human readable description of the
-     *     Notification. Optional.
+     * @pbrbm notifTypes The brrby of strings (in dot notbtion) contbining
+     *     the notificbtion types thbt mby be emitted.
+     * @pbrbm nbme The nbme of the Notificbtion clbss.
+     * @pbrbm description A humbn rebdbble description of the
+     *     Notificbtion. Optionbl.
      **/
-    public ModelMBeanNotificationInfo(String[] notifTypes,
-                                      String name,
+    public ModelMBebnNotificbtionInfo(String[] notifTypes,
+                                      String nbme,
                                       String description) {
-        this(notifTypes,name,description,null);
+        this(notifTypes,nbme,description,null);
     }
 
     /**
-     * Constructs a ModelMBeanNotificationInfo object.
+     * Constructs b ModelMBebnNotificbtionInfo object.
      *
-     * @param notifTypes The array of strings (in dot notation)
-     *        containing the notification types that may be emitted.
-     * @param name The name of the Notification class.
-     * @param description A human readable description of the Notification.
-     *        Optional.
-     * @param descriptor An instance of Descriptor containing the
-     *        appropriate metadata for this instance of the
-     *        MBeanNotificationInfo. If it is null a default descriptor
-     *        will be created. If the descriptor does not contain the
-     *        fields "displayName" or "severity",
-     *        the missing ones are added with their default values.
+     * @pbrbm notifTypes The brrby of strings (in dot notbtion)
+     *        contbining the notificbtion types thbt mby be emitted.
+     * @pbrbm nbme The nbme of the Notificbtion clbss.
+     * @pbrbm description A humbn rebdbble description of the Notificbtion.
+     *        Optionbl.
+     * @pbrbm descriptor An instbnce of Descriptor contbining the
+     *        bppropribte metbdbtb for this instbnce of the
+     *        MBebnNotificbtionInfo. If it is null b defbult descriptor
+     *        will be crebted. If the descriptor does not contbin the
+     *        fields "displbyNbme" or "severity",
+     *        the missing ones bre bdded with their defbult vblues.
      *
-     * @exception RuntimeOperationsException Wraps an
-     *    {@link IllegalArgumentException}. The descriptor is invalid, or
-     *    descriptor field "name" is not equal to parameter name, or
-     *    descriptor field "descriptorType" is not equal to "notification".
+     * @exception RuntimeOperbtionsException Wrbps bn
+     *    {@link IllegblArgumentException}. The descriptor is invblid, or
+     *    descriptor field "nbme" is not equbl to pbrbmeter nbme, or
+     *    descriptor field "descriptorType" is not equbl to "notificbtion".
      *
      **/
-    public ModelMBeanNotificationInfo(String[] notifTypes,
-                                      String name,
+    public ModelMBebnNotificbtionInfo(String[] notifTypes,
+                                      String nbme,
                                       String description,
                                       Descriptor descriptor) {
-        super(notifTypes, name, description);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        super(notifTypes, nbme, description);
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
-                    "ModelMBeanNotificationInfo", "Entry");
+                    ModelMBebnNotificbtionInfo.clbss.getNbme(),
+                    "ModelMBebnNotificbtionInfo", "Entry");
         }
-        notificationDescriptor = validDescriptor(descriptor);
+        notificbtionDescriptor = vblidDescriptor(descriptor);
     }
 
     /**
-     * Constructs a new ModelMBeanNotificationInfo object from this
-     * ModelMBeanNotfication Object.
+     * Constructs b new ModelMBebnNotificbtionInfo object from this
+     * ModelMBebnNotficbtion Object.
      *
-     * @param inInfo the ModelMBeanNotificationInfo to be duplicated
+     * @pbrbm inInfo the ModelMBebnNotificbtionInfo to be duplicbted
      *
      **/
-    public ModelMBeanNotificationInfo(ModelMBeanNotificationInfo inInfo) {
+    public ModelMBebnNotificbtionInfo(ModelMBebnNotificbtionInfo inInfo) {
         this(inInfo.getNotifTypes(),
-             inInfo.getName(),
+             inInfo.getNbme(),
              inInfo.getDescription(),inInfo.getDescriptor());
     }
 
     /**
-     * Creates and returns a new ModelMBeanNotificationInfo which is a
-     * duplicate of this ModelMBeanNotificationInfo.
+     * Crebtes bnd returns b new ModelMBebnNotificbtionInfo which is b
+     * duplicbte of this ModelMBebnNotificbtionInfo.
      **/
     public Object clone () {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
+                    ModelMBebnNotificbtionInfo.clbss.getNbme(),
                     "clone()", "Entry");
         }
-        return(new ModelMBeanNotificationInfo(this));
+        return(new ModelMBebnNotificbtionInfo(this));
     }
 
     /**
-     * Returns a copy of the associated Descriptor for the
-     * ModelMBeanNotificationInfo.
+     * Returns b copy of the bssocibted Descriptor for the
+     * ModelMBebnNotificbtionInfo.
      *
-     * @return Descriptor associated with the
-     * ModelMBeanNotificationInfo object.
+     * @return Descriptor bssocibted with the
+     * ModelMBebnNotificbtionInfo object.
      *
      * @see #setDescriptor
      **/
     public Descriptor getDescriptor() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
+                    ModelMBebnNotificbtionInfo.clbss.getNbme(),
                     "getDescriptor()", "Entry");
         }
 
-        if (notificationDescriptor == null) {
-            // Dead code. Should never happen.
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (notificbtionDescriptor == null) {
+            // Debd code. Should never hbppen.
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanNotificationInfo.class.getName(),
-                        "getDescriptor()", "Descriptor value is null, " +
-                        "setting descriptor to default values");
+                        ModelMBebnNotificbtionInfo.clbss.getNbme(),
+                        "getDescriptor()", "Descriptor vblue is null, " +
+                        "setting descriptor to defbult vblues");
             }
-            notificationDescriptor = validDescriptor(null);
+            notificbtionDescriptor = vblidDescriptor(null);
         }
 
-        return((Descriptor)notificationDescriptor.clone());
+        return((Descriptor)notificbtionDescriptor.clone());
     }
 
     /**
-     * Sets associated Descriptor (full replace) for the
-     * ModelMBeanNotificationInfo If the new Descriptor is null,
-     * then the associated Descriptor reverts to a default
-     * descriptor.  The Descriptor is validated before it is
-     * assigned.  If the new Descriptor is invalid, then a
-     * RuntimeOperationsException wrapping an
-     * IllegalArgumentException is thrown.
+     * Sets bssocibted Descriptor (full replbce) for the
+     * ModelMBebnNotificbtionInfo If the new Descriptor is null,
+     * then the bssocibted Descriptor reverts to b defbult
+     * descriptor.  The Descriptor is vblidbted before it is
+     * bssigned.  If the new Descriptor is invblid, then b
+     * RuntimeOperbtionsException wrbpping bn
+     * IllegblArgumentException is thrown.
      *
-     * @param inDescriptor replaces the Descriptor associated with the
-     * ModelMBeanNotification interface
+     * @pbrbm inDescriptor replbces the Descriptor bssocibted with the
+     * ModelMBebnNotificbtion interfbce
      *
-     * @exception RuntimeOperationsException Wraps an
-     * {@link IllegalArgumentException} for invalid Descriptor.
+     * @exception RuntimeOperbtionsException Wrbps bn
+     * {@link IllegblArgumentException} for invblid Descriptor.
      *
      * @see #getDescriptor
      **/
     public void setDescriptor(Descriptor inDescriptor) {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
+                    ModelMBebnNotificbtionInfo.clbss.getNbme(),
                     "setDescriptor(Descriptor)", "Entry");
         }
-        notificationDescriptor = validDescriptor(inDescriptor);
+        notificbtionDescriptor = vblidDescriptor(inDescriptor);
     }
 
     /**
-     * Returns a human readable string containing
-     * ModelMBeanNotificationInfo.
+     * Returns b humbn rebdbble string contbining
+     * ModelMBebnNotificbtionInfo.
      *
-     * @return a string describing this object.
+     * @return b string describing this object.
      **/
     public String toString() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+        if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
+                    ModelMBebnNotificbtionInfo.clbss.getNbme(),
                     "toString()", "Entry");
         }
 
-        final StringBuilder retStr = new StringBuilder();
+        finbl StringBuilder retStr = new StringBuilder();
 
-        retStr.append("ModelMBeanNotificationInfo: ")
-            .append(this.getName());
+        retStr.bppend("ModelMBebnNotificbtionInfo: ")
+            .bppend(this.getNbme());
 
-        retStr.append(" ; Description: ")
-            .append(this.getDescription());
+        retStr.bppend(" ; Description: ")
+            .bppend(this.getDescription());
 
-        retStr.append(" ; Descriptor: ")
-            .append(this.getDescriptor());
+        retStr.bppend(" ; Descriptor: ")
+            .bppend(this.getDescriptor());
 
-        retStr.append(" ; Types: ");
+        retStr.bppend(" ; Types: ");
         String[] nTypes = this.getNotifTypes();
         for (int i=0; i < nTypes.length; i++) {
-            if (i > 0) retStr.append(", ");
-            retStr.append(nTypes[i]);
+            if (i > 0) retStr.bppend(", ");
+            retStr.bppend(nTypes[i]);
         }
         return retStr.toString();
     }
 
 
     /**
-     * Clones the passed in Descriptor, sets default values, and checks for validity.
-     * If the Descriptor is invalid (for instance by having the wrong "name"),
-     * this indicates programming error and a RuntimeOperationsException will be thrown.
+     * Clones the pbssed in Descriptor, sets defbult vblues, bnd checks for vblidity.
+     * If the Descriptor is invblid (for instbnce by hbving the wrong "nbme"),
+     * this indicbtes progrbmming error bnd b RuntimeOperbtionsException will be thrown.
      *
-     * The following fields will be defaulted if they are not already set:
-     * descriptorType="notification",displayName=this.getName(),
-     * name=this.getName(),severity="6"
+     * The following fields will be defbulted if they bre not blrebdy set:
+     * descriptorType="notificbtion",displbyNbme=this.getNbme(),
+     * nbme=this.getNbme(),severity="6"
      *
      *
-     * @param in Descriptor to be checked, or null which is equivalent to an
+     * @pbrbm in Descriptor to be checked, or null which is equivblent to bn
      * empty Descriptor.
-     * @exception RuntimeOperationsException if Descriptor is invalid
+     * @exception RuntimeOperbtionsException if Descriptor is invblid
      */
-    private Descriptor validDescriptor(final Descriptor in) throws RuntimeOperationsException {
+    privbte Descriptor vblidDescriptor(finbl Descriptor in) throws RuntimeOperbtionsException {
         Descriptor clone;
-        boolean defaulted = (in == null);
-        if (defaulted) {
+        boolebn defbulted = (in == null);
+        if (defbulted) {
             clone = new DescriptorSupport();
-            MODELMBEAN_LOGGER.finer("Null Descriptor, creating new.");
+            MODELMBEAN_LOGGER.finer("Null Descriptor, crebting new.");
         } else {
             clone = (Descriptor) in.clone();
         }
 
-        //Setting defaults.
-        if (defaulted && clone.getFieldValue("name")==null) {
-            clone.setField("name", this.getName());
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor name to " + this.getName());
+        //Setting defbults.
+        if (defbulted && clone.getFieldVblue("nbme")==null) {
+            clone.setField("nbme", this.getNbme());
+            MODELMBEAN_LOGGER.finer("Defbulting Descriptor nbme to " + this.getNbme());
         }
-        if (defaulted && clone.getFieldValue("descriptorType")==null) {
-            clone.setField("descriptorType", "notification");
-            MODELMBEAN_LOGGER.finer("Defaulting descriptorType to \"notification\"");
+        if (defbulted && clone.getFieldVblue("descriptorType")==null) {
+            clone.setField("descriptorType", "notificbtion");
+            MODELMBEAN_LOGGER.finer("Defbulting descriptorType to \"notificbtion\"");
         }
-        if (clone.getFieldValue("displayName") == null) {
-            clone.setField("displayName",this.getName());
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor displayName to " + this.getName());
+        if (clone.getFieldVblue("displbyNbme") == null) {
+            clone.setField("displbyNbme",this.getNbme());
+            MODELMBEAN_LOGGER.finer("Defbulting Descriptor displbyNbme to " + this.getNbme());
         }
-        if (clone.getFieldValue("severity") == null) {
+        if (clone.getFieldVblue("severity") == null) {
             clone.setField("severity", "6");
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor severity field to 6");
+            MODELMBEAN_LOGGER.finer("Defbulting Descriptor severity field to 6");
         }
 
-        //Checking validity
-        if (!clone.isValid()) {
-             throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The isValid() method of the Descriptor object itself returned false,"+
-                "one or more required fields are invalid. Descriptor:" + clone.toString());
+        //Checking vblidity
+        if (!clone.isVblid()) {
+             throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                "The isVblid() method of the Descriptor object itself returned fblse,"+
+                "one or more required fields bre invblid. Descriptor:" + clone.toString());
         }
-        if (!getName().equalsIgnoreCase((String) clone.getFieldValue("name"))) {
-                throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The Descriptor \"name\" field does not match the object described. " +
-                 " Expected: "+ this.getName() + " , was: " + clone.getFieldValue("name"));
+        if (!getNbme().equblsIgnoreCbse((String) clone.getFieldVblue("nbme"))) {
+                throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                "The Descriptor \"nbme\" field does not mbtch the object described. " +
+                 " Expected: "+ this.getNbme() + " , wbs: " + clone.getFieldVblue("nbme"));
         }
-        if (!"notification".equalsIgnoreCase((String) clone.getFieldValue("descriptorType"))) {
-                 throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The Descriptor \"descriptorType\" field does not match the object described. " +
-                 " Expected: \"notification\" ," + " was: " + clone.getFieldValue("descriptorType"));
+        if (!"notificbtion".equblsIgnoreCbse((String) clone.getFieldVblue("descriptorType"))) {
+                 throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                "The Descriptor \"descriptorType\" field does not mbtch the object described. " +
+                 " Expected: \"notificbtion\" ," + " wbs: " + clone.getFieldVblue("descriptorType"));
         }
 
         return clone;
@@ -387,33 +387,33 @@ public class ModelMBeanNotificationInfo
 
 
     /**
-     * Deserializes a {@link ModelMBeanNotificationInfo} from an
-     * {@link ObjectInputStream}.
+     * Deseriblizes b {@link ModelMBebnNotificbtionInfo} from bn
+     * {@link ObjectInputStrebm}.
      **/
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
-        // New serial form ignores extra field "currClass"
-        in.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException {
+        // New seribl form ignores extrb field "currClbss"
+        in.defbultRebdObject();
     }
 
 
     /**
-     * Serializes a {@link ModelMBeanNotificationInfo} to an
-     * {@link ObjectOutputStream}.
+     * Seriblizes b {@link ModelMBebnNotificbtionInfo} to bn
+     * {@link ObjectOutputStrebm}.
      **/
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
         throws IOException {
-        if (compat) {
-            // Serializes this instance in the old serial form
+        if (compbt) {
+            // Seriblizes this instbnce in the old seribl form
             //
-            ObjectOutputStream.PutField fields = out.putFields();
-            fields.put("notificationDescriptor", notificationDescriptor);
-            fields.put("currClass", currClass);
+            ObjectOutputStrebm.PutField fields = out.putFields();
+            fields.put("notificbtionDescriptor", notificbtionDescriptor);
+            fields.put("currClbss", currClbss);
             out.writeFields();
         } else {
-            // Serializes this instance in the new serial form
+            // Seriblizes this instbnce in the new seribl form
             //
-            out.defaultWriteObject();
+            out.defbultWriteObject();
         }
     }
 

@@ -1,38 +1,38 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library.
+ * The Originbl Code is the elliptic curve mbth librbry.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Stephen Fung <fungstep@hotmail.com> and
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Stephen Fung <fungstep@hotmbil.com> bnd
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
@@ -44,23 +44,23 @@
 #include <stdlib.h>
 #endif
 
-/* Allocate memory for a new GFMethod object. */
+/* Allocbte memory for b new GFMethod object. */
 GFMethod *
-GFMethod_new(int kmflag)
+GFMethod_new(int kmflbg)
 {
         mp_err res = MP_OKAY;
         GFMethod *meth;
 #ifdef _KERNEL
-        meth = (GFMethod *) kmem_alloc(sizeof(GFMethod), kmflag);
+        meth = (GFMethod *) kmem_blloc(sizeof(GFMethod), kmflbg);
 #else
-        meth = (GFMethod *) malloc(sizeof(GFMethod));
+        meth = (GFMethod *) mblloc(sizeof(GFMethod));
         if (meth == NULL)
                 return NULL;
 #endif
         meth->constructed = MP_YES;
         MP_DIGITS(&meth->irr) = 0;
-        meth->extra_free = NULL;
-        MP_CHECKOK(mp_init(&meth->irr, kmflag));
+        meth->extrb_free = NULL;
+        MP_CHECKOK(mp_init(&meth->irr, kmflbg));
 
   CLEANUP:
         if (res != MP_OKAY) {
@@ -70,7 +70,7 @@ GFMethod_new(int kmflag)
         return meth;
 }
 
-/* Construct a generic GFMethod for arithmetic over prime fields with
+/* Construct b generic GFMethod for brithmetic over prime fields with
  * irreducible irr. */
 GFMethod *
 GFMethod_consGFp(const mp_int *irr)
@@ -83,29 +83,29 @@ GFMethod_consGFp(const mp_int *irr)
                 return NULL;
 
         MP_CHECKOK(mp_copy(irr, &meth->irr));
-        meth->irr_arr[0] = mpl_significant_bits(irr);
-        meth->irr_arr[1] = meth->irr_arr[2] = meth->irr_arr[3] =
-                meth->irr_arr[4] = 0;
+        meth->irr_brr[0] = mpl_significbnt_bits(irr);
+        meth->irr_brr[1] = meth->irr_brr[2] = meth->irr_brr[3] =
+                meth->irr_brr[4] = 0;
         switch(MP_USED(&meth->irr)) {
-        /* maybe we need 1 and 2 words here as well?*/
-        case 3:
-                meth->field_add = &ec_GFp_add_3;
+        /* mbybe we need 1 bnd 2 words here bs well?*/
+        cbse 3:
+                meth->field_bdd = &ec_GFp_bdd_3;
                 meth->field_sub = &ec_GFp_sub_3;
-                break;
-        case 4:
-                meth->field_add = &ec_GFp_add_4;
+                brebk;
+        cbse 4:
+                meth->field_bdd = &ec_GFp_bdd_4;
                 meth->field_sub = &ec_GFp_sub_4;
-                break;
-        case 5:
-                meth->field_add = &ec_GFp_add_5;
+                brebk;
+        cbse 5:
+                meth->field_bdd = &ec_GFp_bdd_5;
                 meth->field_sub = &ec_GFp_sub_5;
-                break;
-        case 6:
-                meth->field_add = &ec_GFp_add_6;
+                brebk;
+        cbse 6:
+                meth->field_bdd = &ec_GFp_bdd_6;
                 meth->field_sub = &ec_GFp_sub_6;
-                break;
-        default:
-                meth->field_add = &ec_GFp_add;
+                brebk;
+        defbult:
+                meth->field_bdd = &ec_GFp_bdd;
                 meth->field_sub = &ec_GFp_sub;
         }
         meth->field_neg = &ec_GFp_neg;
@@ -115,9 +115,9 @@ GFMethod_consGFp(const mp_int *irr)
         meth->field_div = &ec_GFp_div;
         meth->field_enc = NULL;
         meth->field_dec = NULL;
-        meth->extra1 = NULL;
-        meth->extra2 = NULL;
-        meth->extra_free = NULL;
+        meth->extrb1 = NULL;
+        meth->extrb2 = NULL;
+        meth->extrb_free = NULL;
 
   CLEANUP:
         if (res != MP_OKAY) {
@@ -127,12 +127,12 @@ GFMethod_consGFp(const mp_int *irr)
         return meth;
 }
 
-/* Construct a generic GFMethod for arithmetic over binary polynomial
- * fields with irreducible irr that has array representation irr_arr (see
- * ecl-priv.h for description of the representation).  If irr_arr is NULL,
- * then it is constructed from the bitstring representation. */
+/* Construct b generic GFMethod for brithmetic over binbry polynomibl
+ * fields with irreducible irr thbt hbs brrby representbtion irr_brr (see
+ * ecl-priv.h for description of the representbtion).  If irr_brr is NULL,
+ * then it is constructed from the bitstring representbtion. */
 GFMethod *
-GFMethod_consGF2m(const mp_int *irr, const unsigned int irr_arr[5])
+GFMethod_consGF2m(const mp_int *irr, const unsigned int irr_brr[5])
 {
         mp_err res = MP_OKAY;
         int ret;
@@ -143,37 +143,37 @@ GFMethod_consGF2m(const mp_int *irr, const unsigned int irr_arr[5])
                 return NULL;
 
         MP_CHECKOK(mp_copy(irr, &meth->irr));
-        if (irr_arr != NULL) {
-                /* Irreducible polynomials are either trinomials or pentanomials. */
-                meth->irr_arr[0] = irr_arr[0];
-                meth->irr_arr[1] = irr_arr[1];
-                meth->irr_arr[2] = irr_arr[2];
-                if (irr_arr[2] > 0) {
-                        meth->irr_arr[3] = irr_arr[3];
-                        meth->irr_arr[4] = irr_arr[4];
+        if (irr_brr != NULL) {
+                /* Irreducible polynomibls bre either trinomibls or pentbnomibls. */
+                meth->irr_brr[0] = irr_brr[0];
+                meth->irr_brr[1] = irr_brr[1];
+                meth->irr_brr[2] = irr_brr[2];
+                if (irr_brr[2] > 0) {
+                        meth->irr_brr[3] = irr_brr[3];
+                        meth->irr_brr[4] = irr_brr[4];
                 } else {
-                        meth->irr_arr[3] = meth->irr_arr[4] = 0;
+                        meth->irr_brr[3] = meth->irr_brr[4] = 0;
                 }
         } else {
-                ret = mp_bpoly2arr(irr, meth->irr_arr, 5);
-                /* Irreducible polynomials are either trinomials or pentanomials. */
+                ret = mp_bpoly2brr(irr, meth->irr_brr, 5);
+                /* Irreducible polynomibls bre either trinomibls or pentbnomibls. */
                 if ((ret != 5) && (ret != 3)) {
                         res = MP_UNDEF;
                         goto CLEANUP;
                 }
         }
-        meth->field_add = &ec_GF2m_add;
+        meth->field_bdd = &ec_GF2m_bdd;
         meth->field_neg = &ec_GF2m_neg;
-        meth->field_sub = &ec_GF2m_add;
+        meth->field_sub = &ec_GF2m_bdd;
         meth->field_mod = &ec_GF2m_mod;
         meth->field_mul = &ec_GF2m_mul;
         meth->field_sqr = &ec_GF2m_sqr;
         meth->field_div = &ec_GF2m_div;
         meth->field_enc = NULL;
         meth->field_dec = NULL;
-        meth->extra1 = NULL;
-        meth->extra2 = NULL;
-        meth->extra_free = NULL;
+        meth->extrb1 = NULL;
+        meth->extrb2 = NULL;
+        meth->extrb_free = NULL;
 
   CLEANUP:
         if (res != MP_OKAY) {
@@ -183,7 +183,7 @@ GFMethod_consGF2m(const mp_int *irr, const unsigned int irr_arr[5])
         return meth;
 }
 
-/* Free the memory allocated (if any) to a GFMethod object. */
+/* Free the memory bllocbted (if bny) to b GFMethod object. */
 void
 GFMethod_free(GFMethod *meth)
 {
@@ -191,9 +191,9 @@ GFMethod_free(GFMethod *meth)
                 return;
         if (meth->constructed == MP_NO)
                 return;
-        mp_clear(&meth->irr);
-        if (meth->extra_free != NULL)
-                meth->extra_free(meth);
+        mp_clebr(&meth->irr);
+        if (meth->extrb_free != NULL)
+                meth->extrb_free(meth);
 #ifdef _KERNEL
         kmem_free(meth, sizeof(GFMethod));
 #else
@@ -201,17 +201,17 @@ GFMethod_free(GFMethod *meth)
 #endif
 }
 
-/* Wrapper functions for generic prime field arithmetic. */
+/* Wrbpper functions for generic prime field brithmetic. */
 
-/* Add two field elements.  Assumes that 0 <= a, b < meth->irr */
+/* Add two field elements.  Assumes thbt 0 <= b, b < meth->irr */
 mp_err
-ec_GFp_add(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_bdd(const mp_int *b, const mp_int *b, mp_int *r,
                    const GFMethod *meth)
 {
-        /* PRE: 0 <= a, b < p = meth->irr POST: 0 <= r < p, r = a + b (mod p) */
+        /* PRE: 0 <= b, b < p = meth->irr POST: 0 <= r < p, r = b + b (mod p) */
         mp_err res;
 
-        if ((res = mp_add(a, b, r)) != MP_OKAY) {
+        if ((res = mp_bdd(b, b, r)) != MP_OKAY) {
                 return res;
         }
         if (mp_cmp(r, &meth->irr) >= 0) {
@@ -220,113 +220,113 @@ ec_GFp_add(const mp_int *a, const mp_int *b, mp_int *r,
         return res;
 }
 
-/* Negates a field element.  Assumes that 0 <= a < meth->irr */
+/* Negbtes b field element.  Assumes thbt 0 <= b < meth->irr */
 mp_err
-ec_GFp_neg(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GFp_neg(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
-        /* PRE: 0 <= a < p = meth->irr POST: 0 <= r < p, r = -a (mod p) */
+        /* PRE: 0 <= b < p = meth->irr POST: 0 <= r < p, r = -b (mod p) */
 
-        if (mp_cmp_z(a) == 0) {
+        if (mp_cmp_z(b) == 0) {
                 mp_zero(r);
                 return MP_OKAY;
         }
-        return mp_sub(&meth->irr, a, r);
+        return mp_sub(&meth->irr, b, r);
 }
 
-/* Subtracts two field elements.  Assumes that 0 <= a, b < meth->irr */
+/* Subtrbcts two field elements.  Assumes thbt 0 <= b, b < meth->irr */
 mp_err
-ec_GFp_sub(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_sub(const mp_int *b, const mp_int *b, mp_int *r,
                    const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
 
-        /* PRE: 0 <= a, b < p = meth->irr POST: 0 <= r < p, r = a - b (mod p) */
-        res = mp_sub(a, b, r);
+        /* PRE: 0 <= b, b < p = meth->irr POST: 0 <= r < p, r = b - b (mod p) */
+        res = mp_sub(b, b, r);
         if (res == MP_RANGE) {
-                MP_CHECKOK(mp_sub(b, a, r));
+                MP_CHECKOK(mp_sub(b, b, r));
                 if (mp_cmp_z(r) < 0) {
-                        MP_CHECKOK(mp_add(r, &meth->irr, r));
+                        MP_CHECKOK(mp_bdd(r, &meth->irr, r));
                 }
                 MP_CHECKOK(ec_GFp_neg(r, r, meth));
         }
         if (mp_cmp_z(r) < 0) {
-                MP_CHECKOK(mp_add(r, &meth->irr, r));
+                MP_CHECKOK(mp_bdd(r, &meth->irr, r));
         }
   CLEANUP:
         return res;
 }
 /*
- * Inline adds for small curve lengths.
+ * Inline bdds for smbll curve lengths.
  */
 /* 3 words */
 mp_err
-ec_GFp_add_3(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_bdd_3(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
-        mp_digit a0 = 0, a1 = 0, a2 = 0;
+        mp_digit b0 = 0, b1 = 0, b2 = 0;
         mp_digit r0 = 0, r1 = 0, r2 = 0;
-        mp_digit carry;
+        mp_digit cbrry;
 
-        switch(MP_USED(a)) {
-        case 3:
-                a2 = MP_DIGIT(a,2);
-        case 2:
-                a1 = MP_DIGIT(a,1);
-        case 1:
-                a0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 3:
+                b2 = MP_DIGIT(b,2);
+        cbse 2:
+                b1 = MP_DIGIT(b,1);
+        cbse 1:
+                b0 = MP_DIGIT(b,0);
         }
         switch(MP_USED(b)) {
-        case 3:
+        cbse 3:
                 r2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 r1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 r0 = MP_DIGIT(b,0);
         }
 
 #ifndef MPI_AMD64_ADD
-        MP_ADD_CARRY_ZERO(a0, r0, r0, carry);
-        MP_ADD_CARRY(a1, r1, r1, carry, carry);
-        MP_ADD_CARRY(a2, r2, r2, carry, carry);
+        MP_ADD_CARRY_ZERO(b0, r0, r0, cbrry);
+        MP_ADD_CARRY(b1, r1, r1, cbrry, cbrry);
+        MP_ADD_CARRY(b2, r2, r2, cbrry, cbrry);
 #else
-        __asm__ (
+        __bsm__ (
                 "xorq   %3,%3           \n\t"
-                "addq   %4,%0           \n\t"
-                "adcq   %5,%1           \n\t"
-                "adcq   %6,%2           \n\t"
-                "adcq   $0,%3           \n\t"
-                : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(carry)
-                : "r" (a0), "r" (a1), "r" (a2),
+                "bddq   %4,%0           \n\t"
+                "bdcq   %5,%1           \n\t"
+                "bdcq   %6,%2           \n\t"
+                "bdcq   $0,%3           \n\t"
+                : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(cbrry)
+                : "r" (b0), "r" (b1), "r" (b2),
                   "0" (r0), "1" (r1), "2" (r2)
                 : "%cc" );
 #endif
 
-        MP_CHECKOK(s_mp_pad(r, 3));
+        MP_CHECKOK(s_mp_pbd(r, 3));
         MP_DIGIT(r, 2) = r2;
         MP_DIGIT(r, 1) = r1;
         MP_DIGIT(r, 0) = r0;
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 3;
 
-        /* Do quick 'subract' if we've gone over
-         * (add the 2's complement of the curve field) */
-         a2 = MP_DIGIT(&meth->irr,2);
-        if (carry ||  r2 >  a2 ||
-                ((r2 == a2) && mp_cmp(r,&meth->irr) != MP_LT)) {
-                a1 = MP_DIGIT(&meth->irr,1);
-                a0 = MP_DIGIT(&meth->irr,0);
+        /* Do quick 'subrbct' if we've gone over
+         * (bdd the 2's complement of the curve field) */
+         b2 = MP_DIGIT(&meth->irr,2);
+        if (cbrry ||  r2 >  b2 ||
+                ((r2 == b2) && mp_cmp(r,&meth->irr) != MP_LT)) {
+                b1 = MP_DIGIT(&meth->irr,1);
+                b0 = MP_DIGIT(&meth->irr,0);
 #ifndef MPI_AMD64_ADD
-                MP_SUB_BORROW(r0, a0, r0, 0,     carry);
-                MP_SUB_BORROW(r1, a1, r1, carry, carry);
-                MP_SUB_BORROW(r2, a2, r2, carry, carry);
+                MP_SUB_BORROW(r0, b0, r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b1, r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, b2, r2, cbrry, cbrry);
 #else
-                __asm__ (
+                __bsm__ (
                         "subq   %3,%0           \n\t"
                         "sbbq   %4,%1           \n\t"
                         "sbbq   %5,%2           \n\t"
                         : "=r"(r0), "=r"(r1), "=r"(r2)
-                        : "r" (a0), "r" (a1), "r" (a2),
+                        : "r" (b0), "r" (b1), "r" (b2),
                           "0" (r0), "1" (r1), "2" (r2)
                         : "%cc" );
 #endif
@@ -335,7 +335,7 @@ ec_GFp_add_3(const mp_int *a, const mp_int *b, mp_int *r,
                 MP_DIGIT(r, 0) = r0;
         }
 
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
@@ -343,55 +343,55 @@ ec_GFp_add_3(const mp_int *a, const mp_int *b, mp_int *r,
 
 /* 4 words */
 mp_err
-ec_GFp_add_4(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_bdd_4(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
-        mp_digit a0 = 0, a1 = 0, a2 = 0, a3 = 0;
+        mp_digit b0 = 0, b1 = 0, b2 = 0, b3 = 0;
         mp_digit r0 = 0, r1 = 0, r2 = 0, r3 = 0;
-        mp_digit carry;
+        mp_digit cbrry;
 
-        switch(MP_USED(a)) {
-        case 4:
-                a3 = MP_DIGIT(a,3);
-        case 3:
-                a2 = MP_DIGIT(a,2);
-        case 2:
-                a1 = MP_DIGIT(a,1);
-        case 1:
-                a0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 4:
+                b3 = MP_DIGIT(b,3);
+        cbse 3:
+                b2 = MP_DIGIT(b,2);
+        cbse 2:
+                b1 = MP_DIGIT(b,1);
+        cbse 1:
+                b0 = MP_DIGIT(b,0);
         }
         switch(MP_USED(b)) {
-        case 4:
+        cbse 4:
                 r3 = MP_DIGIT(b,3);
-        case 3:
+        cbse 3:
                 r2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 r1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 r0 = MP_DIGIT(b,0);
         }
 
 #ifndef MPI_AMD64_ADD
-        MP_ADD_CARRY_ZERO(a0, r0, r0, carry);
-        MP_ADD_CARRY(a1, r1, r1, carry, carry);
-        MP_ADD_CARRY(a2, r2, r2, carry, carry);
-        MP_ADD_CARRY(a3, r3, r3, carry, carry);
+        MP_ADD_CARRY_ZERO(b0, r0, r0, cbrry);
+        MP_ADD_CARRY(b1, r1, r1, cbrry, cbrry);
+        MP_ADD_CARRY(b2, r2, r2, cbrry, cbrry);
+        MP_ADD_CARRY(b3, r3, r3, cbrry, cbrry);
 #else
-        __asm__ (
+        __bsm__ (
                 "xorq   %4,%4           \n\t"
-                "addq   %5,%0           \n\t"
-                "adcq   %6,%1           \n\t"
-                "adcq   %7,%2           \n\t"
-                "adcq   %8,%3           \n\t"
-                "adcq   $0,%4           \n\t"
-                : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3), "=r"(carry)
-                : "r" (a0), "r" (a1), "r" (a2), "r" (a3),
+                "bddq   %5,%0           \n\t"
+                "bdcq   %6,%1           \n\t"
+                "bdcq   %7,%2           \n\t"
+                "bdcq   %8,%3           \n\t"
+                "bdcq   $0,%4           \n\t"
+                : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3), "=r"(cbrry)
+                : "r" (b0), "r" (b1), "r" (b2), "r" (b3),
                   "0" (r0), "1" (r1), "2" (r2), "3" (r3)
                 : "%cc" );
 #endif
 
-        MP_CHECKOK(s_mp_pad(r, 4));
+        MP_CHECKOK(s_mp_pbd(r, 4));
         MP_DIGIT(r, 3) = r3;
         MP_DIGIT(r, 2) = r2;
         MP_DIGIT(r, 1) = r1;
@@ -399,27 +399,27 @@ ec_GFp_add_4(const mp_int *a, const mp_int *b, mp_int *r,
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 4;
 
-        /* Do quick 'subract' if we've gone over
-         * (add the 2's complement of the curve field) */
-         a3 = MP_DIGIT(&meth->irr,3);
-        if (carry ||  r3 >  a3 ||
-                ((r3 == a3) && mp_cmp(r,&meth->irr) != MP_LT)) {
-                a2 = MP_DIGIT(&meth->irr,2);
-                a1 = MP_DIGIT(&meth->irr,1);
-                a0 = MP_DIGIT(&meth->irr,0);
+        /* Do quick 'subrbct' if we've gone over
+         * (bdd the 2's complement of the curve field) */
+         b3 = MP_DIGIT(&meth->irr,3);
+        if (cbrry ||  r3 >  b3 ||
+                ((r3 == b3) && mp_cmp(r,&meth->irr) != MP_LT)) {
+                b2 = MP_DIGIT(&meth->irr,2);
+                b1 = MP_DIGIT(&meth->irr,1);
+                b0 = MP_DIGIT(&meth->irr,0);
 #ifndef MPI_AMD64_ADD
-                MP_SUB_BORROW(r0, a0, r0, 0,     carry);
-                MP_SUB_BORROW(r1, a1, r1, carry, carry);
-                MP_SUB_BORROW(r2, a2, r2, carry, carry);
-                MP_SUB_BORROW(r3, a3, r3, carry, carry);
+                MP_SUB_BORROW(r0, b0, r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b1, r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, b2, r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, b3, r3, cbrry, cbrry);
 #else
-                __asm__ (
+                __bsm__ (
                         "subq   %4,%0           \n\t"
                         "sbbq   %5,%1           \n\t"
                         "sbbq   %6,%2           \n\t"
                         "sbbq   %7,%3           \n\t"
                         : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3)
-                        : "r" (a0), "r" (a1), "r" (a2), "r" (a3),
+                        : "r" (b0), "r" (b1), "r" (b2), "r" (b3),
                           "0" (r0), "1" (r1), "2" (r2), "3" (r3)
                         : "%cc" );
 #endif
@@ -429,7 +429,7 @@ ec_GFp_add_4(const mp_int *a, const mp_int *b, mp_int *r,
                 MP_DIGIT(r, 0) = r0;
         }
 
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
@@ -437,46 +437,46 @@ ec_GFp_add_4(const mp_int *a, const mp_int *b, mp_int *r,
 
 /* 5 words */
 mp_err
-ec_GFp_add_5(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_bdd_5(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
-        mp_digit a0 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0;
+        mp_digit b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0;
         mp_digit r0 = 0, r1 = 0, r2 = 0, r3 = 0, r4 = 0;
-        mp_digit carry;
+        mp_digit cbrry;
 
-        switch(MP_USED(a)) {
-        case 5:
-                a4 = MP_DIGIT(a,4);
-        case 4:
-                a3 = MP_DIGIT(a,3);
-        case 3:
-                a2 = MP_DIGIT(a,2);
-        case 2:
-                a1 = MP_DIGIT(a,1);
-        case 1:
-                a0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 5:
+                b4 = MP_DIGIT(b,4);
+        cbse 4:
+                b3 = MP_DIGIT(b,3);
+        cbse 3:
+                b2 = MP_DIGIT(b,2);
+        cbse 2:
+                b1 = MP_DIGIT(b,1);
+        cbse 1:
+                b0 = MP_DIGIT(b,0);
         }
         switch(MP_USED(b)) {
-        case 5:
+        cbse 5:
                 r4 = MP_DIGIT(b,4);
-        case 4:
+        cbse 4:
                 r3 = MP_DIGIT(b,3);
-        case 3:
+        cbse 3:
                 r2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 r1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 r0 = MP_DIGIT(b,0);
         }
 
-        MP_ADD_CARRY_ZERO(a0, r0, r0, carry);
-        MP_ADD_CARRY(a1, r1, r1, carry, carry);
-        MP_ADD_CARRY(a2, r2, r2, carry, carry);
-        MP_ADD_CARRY(a3, r3, r3, carry, carry);
-        MP_ADD_CARRY(a4, r4, r4, carry, carry);
+        MP_ADD_CARRY_ZERO(b0, r0, r0, cbrry);
+        MP_ADD_CARRY(b1, r1, r1, cbrry, cbrry);
+        MP_ADD_CARRY(b2, r2, r2, cbrry, cbrry);
+        MP_ADD_CARRY(b3, r3, r3, cbrry, cbrry);
+        MP_ADD_CARRY(b4, r4, r4, cbrry, cbrry);
 
-        MP_CHECKOK(s_mp_pad(r, 5));
+        MP_CHECKOK(s_mp_pbd(r, 5));
         MP_DIGIT(r, 4) = r4;
         MP_DIGIT(r, 3) = r3;
         MP_DIGIT(r, 2) = r2;
@@ -485,20 +485,20 @@ ec_GFp_add_5(const mp_int *a, const mp_int *b, mp_int *r,
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 5;
 
-        /* Do quick 'subract' if we've gone over
-         * (add the 2's complement of the curve field) */
-         a4 = MP_DIGIT(&meth->irr,4);
-        if (carry ||  r4 >  a4 ||
-                ((r4 == a4) && mp_cmp(r,&meth->irr) != MP_LT)) {
-                a3 = MP_DIGIT(&meth->irr,3);
-                a2 = MP_DIGIT(&meth->irr,2);
-                a1 = MP_DIGIT(&meth->irr,1);
-                a0 = MP_DIGIT(&meth->irr,0);
-                MP_SUB_BORROW(r0, a0, r0, 0,     carry);
-                MP_SUB_BORROW(r1, a1, r1, carry, carry);
-                MP_SUB_BORROW(r2, a2, r2, carry, carry);
-                MP_SUB_BORROW(r3, a3, r3, carry, carry);
-                MP_SUB_BORROW(r4, a4, r4, carry, carry);
+        /* Do quick 'subrbct' if we've gone over
+         * (bdd the 2's complement of the curve field) */
+         b4 = MP_DIGIT(&meth->irr,4);
+        if (cbrry ||  r4 >  b4 ||
+                ((r4 == b4) && mp_cmp(r,&meth->irr) != MP_LT)) {
+                b3 = MP_DIGIT(&meth->irr,3);
+                b2 = MP_DIGIT(&meth->irr,2);
+                b1 = MP_DIGIT(&meth->irr,1);
+                b0 = MP_DIGIT(&meth->irr,0);
+                MP_SUB_BORROW(r0, b0, r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b1, r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, b2, r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, b3, r3, cbrry, cbrry);
+                MP_SUB_BORROW(r4, b4, r4, cbrry, cbrry);
                 MP_DIGIT(r, 4) = r4;
                 MP_DIGIT(r, 3) = r3;
                 MP_DIGIT(r, 2) = r2;
@@ -506,7 +506,7 @@ ec_GFp_add_5(const mp_int *a, const mp_int *b, mp_int *r,
                 MP_DIGIT(r, 0) = r0;
         }
 
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
@@ -514,51 +514,51 @@ ec_GFp_add_5(const mp_int *a, const mp_int *b, mp_int *r,
 
 /* 6 words */
 mp_err
-ec_GFp_add_6(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_bdd_6(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
-        mp_digit a0 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0;
+        mp_digit b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0;
         mp_digit r0 = 0, r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0;
-        mp_digit carry;
+        mp_digit cbrry;
 
-        switch(MP_USED(a)) {
-        case 6:
-                a5 = MP_DIGIT(a,5);
-        case 5:
-                a4 = MP_DIGIT(a,4);
-        case 4:
-                a3 = MP_DIGIT(a,3);
-        case 3:
-                a2 = MP_DIGIT(a,2);
-        case 2:
-                a1 = MP_DIGIT(a,1);
-        case 1:
-                a0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 6:
+                b5 = MP_DIGIT(b,5);
+        cbse 5:
+                b4 = MP_DIGIT(b,4);
+        cbse 4:
+                b3 = MP_DIGIT(b,3);
+        cbse 3:
+                b2 = MP_DIGIT(b,2);
+        cbse 2:
+                b1 = MP_DIGIT(b,1);
+        cbse 1:
+                b0 = MP_DIGIT(b,0);
         }
         switch(MP_USED(b)) {
-        case 6:
+        cbse 6:
                 r5 = MP_DIGIT(b,5);
-        case 5:
+        cbse 5:
                 r4 = MP_DIGIT(b,4);
-        case 4:
+        cbse 4:
                 r3 = MP_DIGIT(b,3);
-        case 3:
+        cbse 3:
                 r2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 r1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 r0 = MP_DIGIT(b,0);
         }
 
-        MP_ADD_CARRY_ZERO(a0, r0, r0, carry);
-        MP_ADD_CARRY(a1, r1, r1, carry, carry);
-        MP_ADD_CARRY(a2, r2, r2, carry, carry);
-        MP_ADD_CARRY(a3, r3, r3, carry, carry);
-        MP_ADD_CARRY(a4, r4, r4, carry, carry);
-        MP_ADD_CARRY(a5, r5, r5, carry, carry);
+        MP_ADD_CARRY_ZERO(b0, r0, r0, cbrry);
+        MP_ADD_CARRY(b1, r1, r1, cbrry, cbrry);
+        MP_ADD_CARRY(b2, r2, r2, cbrry, cbrry);
+        MP_ADD_CARRY(b3, r3, r3, cbrry, cbrry);
+        MP_ADD_CARRY(b4, r4, r4, cbrry, cbrry);
+        MP_ADD_CARRY(b5, r5, r5, cbrry, cbrry);
 
-        MP_CHECKOK(s_mp_pad(r, 6));
+        MP_CHECKOK(s_mp_pbd(r, 6));
         MP_DIGIT(r, 5) = r5;
         MP_DIGIT(r, 4) = r4;
         MP_DIGIT(r, 3) = r3;
@@ -568,22 +568,22 @@ ec_GFp_add_6(const mp_int *a, const mp_int *b, mp_int *r,
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 6;
 
-        /* Do quick 'subract' if we've gone over
-         * (add the 2's complement of the curve field) */
-        a5 = MP_DIGIT(&meth->irr,5);
-        if (carry ||  r5 >  a5 ||
-                ((r5 == a5) && mp_cmp(r,&meth->irr) != MP_LT)) {
-                a4 = MP_DIGIT(&meth->irr,4);
-                a3 = MP_DIGIT(&meth->irr,3);
-                a2 = MP_DIGIT(&meth->irr,2);
-                a1 = MP_DIGIT(&meth->irr,1);
-                a0 = MP_DIGIT(&meth->irr,0);
-                MP_SUB_BORROW(r0, a0, r0, 0,     carry);
-                MP_SUB_BORROW(r1, a1, r1, carry, carry);
-                MP_SUB_BORROW(r2, a2, r2, carry, carry);
-                MP_SUB_BORROW(r3, a3, r3, carry, carry);
-                MP_SUB_BORROW(r4, a4, r4, carry, carry);
-                MP_SUB_BORROW(r5, a5, r5, carry, carry);
+        /* Do quick 'subrbct' if we've gone over
+         * (bdd the 2's complement of the curve field) */
+        b5 = MP_DIGIT(&meth->irr,5);
+        if (cbrry ||  r5 >  b5 ||
+                ((r5 == b5) && mp_cmp(r,&meth->irr) != MP_LT)) {
+                b4 = MP_DIGIT(&meth->irr,4);
+                b3 = MP_DIGIT(&meth->irr,3);
+                b2 = MP_DIGIT(&meth->irr,2);
+                b1 = MP_DIGIT(&meth->irr,1);
+                b0 = MP_DIGIT(&meth->irr,0);
+                MP_SUB_BORROW(r0, b0, r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b1, r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, b2, r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, b3, r3, cbrry, cbrry);
+                MP_SUB_BORROW(r4, b4, r4, cbrry, cbrry);
+                MP_SUB_BORROW(r5, b5, r5, cbrry, cbrry);
                 MP_DIGIT(r, 5) = r5;
                 MP_DIGIT(r, 4) = r4;
                 MP_DIGIT(r, 3) = r3;
@@ -592,20 +592,20 @@ ec_GFp_add_6(const mp_int *a, const mp_int *b, mp_int *r,
                 MP_DIGIT(r, 0) = r0;
         }
 
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
 }
 
 /*
- * The following subraction functions do in-line subractions based
+ * The following subrbction functions do in-line subrbctions bbsed
  * on our curve size.
  *
  * ... 3 words
  */
 mp_err
-ec_GFp_sub_3(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_sub_3(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
@@ -613,20 +613,20 @@ ec_GFp_sub_3(const mp_int *a, const mp_int *b, mp_int *r,
         mp_digit r0 = 0, r1 = 0, r2 = 0;
         mp_digit borrow;
 
-        switch(MP_USED(a)) {
-        case 3:
-                r2 = MP_DIGIT(a,2);
-        case 2:
-                r1 = MP_DIGIT(a,1);
-        case 1:
-                r0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 3:
+                r2 = MP_DIGIT(b,2);
+        cbse 2:
+                r1 = MP_DIGIT(b,1);
+        cbse 1:
+                r0 = MP_DIGIT(b,0);
         }
         switch(MP_USED(b)) {
-        case 3:
+        cbse 3:
                 b2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 b1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 b0 = MP_DIGIT(b,0);
         }
 
@@ -635,20 +635,20 @@ ec_GFp_sub_3(const mp_int *a, const mp_int *b, mp_int *r,
         MP_SUB_BORROW(r1, b1, r1, borrow, borrow);
         MP_SUB_BORROW(r2, b2, r2, borrow, borrow);
 #else
-        __asm__ (
+        __bsm__ (
                 "xorq   %3,%3           \n\t"
                 "subq   %4,%0           \n\t"
                 "sbbq   %5,%1           \n\t"
                 "sbbq   %6,%2           \n\t"
-                "adcq   $0,%3           \n\t"
+                "bdcq   $0,%3           \n\t"
                 : "=r"(r0), "=r"(r1), "=r"(r2), "=r" (borrow)
                 : "r" (b0), "r" (b1), "r" (b2),
                   "0" (r0), "1" (r1), "2" (r2)
                 : "%cc" );
 #endif
 
-        /* Do quick 'add' if we've gone under 0
-         * (subtract the 2's complement of the curve field) */
+        /* Do quick 'bdd' if we've gone under 0
+         * (subtrbct the 2's complement of the curve field) */
         if (borrow) {
                 b2 = MP_DIGIT(&meth->irr,2);
                 b1 = MP_DIGIT(&meth->irr,1);
@@ -658,10 +658,10 @@ ec_GFp_sub_3(const mp_int *a, const mp_int *b, mp_int *r,
                 MP_ADD_CARRY(b1, r1, r1, borrow, borrow);
                 MP_ADD_CARRY(b2, r2, r2, borrow, borrow);
 #else
-                __asm__ (
-                        "addq   %3,%0           \n\t"
-                        "adcq   %4,%1           \n\t"
-                        "adcq   %5,%2           \n\t"
+                __bsm__ (
+                        "bddq   %3,%0           \n\t"
+                        "bdcq   %4,%1           \n\t"
+                        "bdcq   %5,%2           \n\t"
                         : "=r"(r0), "=r"(r1), "=r"(r2)
                         : "r" (b0), "r" (b1), "r" (b2),
                           "0" (r0), "1" (r1), "2" (r2)
@@ -670,18 +670,18 @@ ec_GFp_sub_3(const mp_int *a, const mp_int *b, mp_int *r,
         }
 
 #ifdef MPI_AMD64_ADD
-        /* compiler fakeout? */
+        /* compiler fbkeout? */
         if ((r2 == b0) && (r1 == b0) && (r0 == b0)) {
-                MP_CHECKOK(s_mp_pad(r, 4));
+                MP_CHECKOK(s_mp_pbd(r, 4));
         }
 #endif
-        MP_CHECKOK(s_mp_pad(r, 3));
+        MP_CHECKOK(s_mp_pbd(r, 3));
         MP_DIGIT(r, 2) = r2;
         MP_DIGIT(r, 1) = r1;
         MP_DIGIT(r, 0) = r0;
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 3;
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
@@ -689,7 +689,7 @@ ec_GFp_sub_3(const mp_int *a, const mp_int *b, mp_int *r,
 
 /* 4 words */
 mp_err
-ec_GFp_sub_4(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_sub_4(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
@@ -697,24 +697,24 @@ ec_GFp_sub_4(const mp_int *a, const mp_int *b, mp_int *r,
         mp_digit r0 = 0, r1 = 0, r2 = 0, r3 = 0;
         mp_digit borrow;
 
-        switch(MP_USED(a)) {
-        case 4:
-                r3 = MP_DIGIT(a,3);
-        case 3:
-                r2 = MP_DIGIT(a,2);
-        case 2:
-                r1 = MP_DIGIT(a,1);
-        case 1:
-                r0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 4:
+                r3 = MP_DIGIT(b,3);
+        cbse 3:
+                r2 = MP_DIGIT(b,2);
+        cbse 2:
+                r1 = MP_DIGIT(b,1);
+        cbse 1:
+                r0 = MP_DIGIT(b,0);
         }
         switch(MP_USED(b)) {
-        case 4:
+        cbse 4:
                 b3 = MP_DIGIT(b,3);
-        case 3:
+        cbse 3:
                 b2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 b1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 b0 = MP_DIGIT(b,0);
         }
 
@@ -724,21 +724,21 @@ ec_GFp_sub_4(const mp_int *a, const mp_int *b, mp_int *r,
         MP_SUB_BORROW(r2, b2, r2, borrow, borrow);
         MP_SUB_BORROW(r3, b3, r3, borrow, borrow);
 #else
-        __asm__ (
+        __bsm__ (
                 "xorq   %4,%4           \n\t"
                 "subq   %5,%0           \n\t"
                 "sbbq   %6,%1           \n\t"
                 "sbbq   %7,%2           \n\t"
                 "sbbq   %8,%3           \n\t"
-                "adcq   $0,%4           \n\t"
+                "bdcq   $0,%4           \n\t"
                 : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3), "=r" (borrow)
                 : "r" (b0), "r" (b1), "r" (b2), "r" (b3),
                   "0" (r0), "1" (r1), "2" (r2), "3" (r3)
                 : "%cc" );
 #endif
 
-        /* Do quick 'add' if we've gone under 0
-         * (subtract the 2's complement of the curve field) */
+        /* Do quick 'bdd' if we've gone under 0
+         * (subtrbct the 2's complement of the curve field) */
         if (borrow) {
                 b3 = MP_DIGIT(&meth->irr,3);
                 b2 = MP_DIGIT(&meth->irr,2);
@@ -750,11 +750,11 @@ ec_GFp_sub_4(const mp_int *a, const mp_int *b, mp_int *r,
                 MP_ADD_CARRY(b2, r2, r2, borrow, borrow);
                 MP_ADD_CARRY(b3, r3, r3, borrow, borrow);
 #else
-                __asm__ (
-                        "addq   %4,%0           \n\t"
-                        "adcq   %5,%1           \n\t"
-                        "adcq   %6,%2           \n\t"
-                        "adcq   %7,%3           \n\t"
+                __bsm__ (
+                        "bddq   %4,%0           \n\t"
+                        "bdcq   %5,%1           \n\t"
+                        "bdcq   %6,%2           \n\t"
+                        "bdcq   %7,%3           \n\t"
                         : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3)
                         : "r" (b0), "r" (b1), "r" (b2), "r" (b3),
                           "0" (r0), "1" (r1), "2" (r2), "3" (r3)
@@ -762,19 +762,19 @@ ec_GFp_sub_4(const mp_int *a, const mp_int *b, mp_int *r,
 #endif
         }
 #ifdef MPI_AMD64_ADD
-        /* compiler fakeout? */
+        /* compiler fbkeout? */
         if ((r3 == b0) && (r1 == b0) && (r0 == b0)) {
-                MP_CHECKOK(s_mp_pad(r, 4));
+                MP_CHECKOK(s_mp_pbd(r, 4));
         }
 #endif
-        MP_CHECKOK(s_mp_pad(r, 4));
+        MP_CHECKOK(s_mp_pbd(r, 4));
         MP_DIGIT(r, 3) = r3;
         MP_DIGIT(r, 2) = r2;
         MP_DIGIT(r, 1) = r1;
         MP_DIGIT(r, 0) = r0;
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 4;
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
@@ -782,7 +782,7 @@ ec_GFp_sub_4(const mp_int *a, const mp_int *b, mp_int *r,
 
 /* 5 words */
 mp_err
-ec_GFp_sub_5(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_sub_5(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
@@ -790,28 +790,28 @@ ec_GFp_sub_5(const mp_int *a, const mp_int *b, mp_int *r,
         mp_digit r0 = 0, r1 = 0, r2 = 0, r3 = 0, r4 = 0;
         mp_digit borrow;
 
-        switch(MP_USED(a)) {
-        case 5:
-                r4 = MP_DIGIT(a,4);
-        case 4:
-                r3 = MP_DIGIT(a,3);
-        case 3:
-                r2 = MP_DIGIT(a,2);
-        case 2:
-                r1 = MP_DIGIT(a,1);
-        case 1:
-                r0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 5:
+                r4 = MP_DIGIT(b,4);
+        cbse 4:
+                r3 = MP_DIGIT(b,3);
+        cbse 3:
+                r2 = MP_DIGIT(b,2);
+        cbse 2:
+                r1 = MP_DIGIT(b,1);
+        cbse 1:
+                r0 = MP_DIGIT(b,0);
         }
         switch(MP_USED(b)) {
-        case 5:
+        cbse 5:
                 b4 = MP_DIGIT(b,4);
-        case 4:
+        cbse 4:
                 b3 = MP_DIGIT(b,3);
-        case 3:
+        cbse 3:
                 b2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 b1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 b0 = MP_DIGIT(b,0);
         }
 
@@ -821,8 +821,8 @@ ec_GFp_sub_5(const mp_int *a, const mp_int *b, mp_int *r,
         MP_SUB_BORROW(r3, b3, r3, borrow, borrow);
         MP_SUB_BORROW(r4, b4, r4, borrow, borrow);
 
-        /* Do quick 'add' if we've gone under 0
-         * (subtract the 2's complement of the curve field) */
+        /* Do quick 'bdd' if we've gone under 0
+         * (subtrbct the 2's complement of the curve field) */
         if (borrow) {
                 b4 = MP_DIGIT(&meth->irr,4);
                 b3 = MP_DIGIT(&meth->irr,3);
@@ -834,7 +834,7 @@ ec_GFp_sub_5(const mp_int *a, const mp_int *b, mp_int *r,
                 MP_ADD_CARRY(b2, r2, r2, borrow, borrow);
                 MP_ADD_CARRY(b3, r3, r3, borrow, borrow);
         }
-        MP_CHECKOK(s_mp_pad(r, 5));
+        MP_CHECKOK(s_mp_pbd(r, 5));
         MP_DIGIT(r, 4) = r4;
         MP_DIGIT(r, 3) = r3;
         MP_DIGIT(r, 2) = r2;
@@ -842,7 +842,7 @@ ec_GFp_sub_5(const mp_int *a, const mp_int *b, mp_int *r,
         MP_DIGIT(r, 0) = r0;
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 5;
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
@@ -850,7 +850,7 @@ ec_GFp_sub_5(const mp_int *a, const mp_int *b, mp_int *r,
 
 /* 6 words */
 mp_err
-ec_GFp_sub_6(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_sub_6(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
@@ -858,32 +858,32 @@ ec_GFp_sub_6(const mp_int *a, const mp_int *b, mp_int *r,
         mp_digit r0 = 0, r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0;
         mp_digit borrow;
 
-        switch(MP_USED(a)) {
-        case 6:
-                r5 = MP_DIGIT(a,5);
-        case 5:
-                r4 = MP_DIGIT(a,4);
-        case 4:
-                r3 = MP_DIGIT(a,3);
-        case 3:
-                r2 = MP_DIGIT(a,2);
-        case 2:
-                r1 = MP_DIGIT(a,1);
-        case 1:
-                r0 = MP_DIGIT(a,0);
+        switch(MP_USED(b)) {
+        cbse 6:
+                r5 = MP_DIGIT(b,5);
+        cbse 5:
+                r4 = MP_DIGIT(b,4);
+        cbse 4:
+                r3 = MP_DIGIT(b,3);
+        cbse 3:
+                r2 = MP_DIGIT(b,2);
+        cbse 2:
+                r1 = MP_DIGIT(b,1);
+        cbse 1:
+                r0 = MP_DIGIT(b,0);
         }
         switch(MP_USED(b)) {
-        case 6:
+        cbse 6:
                 b5 = MP_DIGIT(b,5);
-        case 5:
+        cbse 5:
                 b4 = MP_DIGIT(b,4);
-        case 4:
+        cbse 4:
                 b3 = MP_DIGIT(b,3);
-        case 3:
+        cbse 3:
                 b2 = MP_DIGIT(b,2);
-        case 2:
+        cbse 2:
                 b1 = MP_DIGIT(b,1);
-        case 1:
+        cbse 1:
                 b0 = MP_DIGIT(b,0);
         }
 
@@ -894,8 +894,8 @@ ec_GFp_sub_6(const mp_int *a, const mp_int *b, mp_int *r,
         MP_SUB_BORROW(r4, b4, r4, borrow, borrow);
         MP_SUB_BORROW(r5, b5, r5, borrow, borrow);
 
-        /* Do quick 'add' if we've gone under 0
-         * (subtract the 2's complement of the curve field) */
+        /* Do quick 'bdd' if we've gone under 0
+         * (subtrbct the 2's complement of the curve field) */
         if (borrow) {
                 b5 = MP_DIGIT(&meth->irr,5);
                 b4 = MP_DIGIT(&meth->irr,4);
@@ -910,7 +910,7 @@ ec_GFp_sub_6(const mp_int *a, const mp_int *b, mp_int *r,
                 MP_ADD_CARRY(b4, r4, r4, borrow, borrow);
         }
 
-        MP_CHECKOK(s_mp_pad(r, 6));
+        MP_CHECKOK(s_mp_pbd(r, 6));
         MP_DIGIT(r, 5) = r5;
         MP_DIGIT(r, 4) = r4;
         MP_DIGIT(r, 3) = r3;
@@ -919,123 +919,123 @@ ec_GFp_sub_6(const mp_int *a, const mp_int *b, mp_int *r,
         MP_DIGIT(r, 0) = r0;
         MP_SIGN(r) = MP_ZPOS;
         MP_USED(r) = 6;
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
 }
 
 
-/* Reduces an integer to a field element. */
+/* Reduces bn integer to b field element. */
 mp_err
-ec_GFp_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GFp_mod(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
-        return mp_mod(a, &meth->irr, r);
+        return mp_mod(b, &meth->irr, r);
 }
 
 /* Multiplies two field elements. */
 mp_err
-ec_GFp_mul(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_mul(const mp_int *b, const mp_int *b, mp_int *r,
                    const GFMethod *meth)
 {
-        return mp_mulmod(a, b, &meth->irr, r);
+        return mp_mulmod(b, b, &meth->irr, r);
 }
 
-/* Squares a field element. */
+/* Squbres b field element. */
 mp_err
-ec_GFp_sqr(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GFp_sqr(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
-        return mp_sqrmod(a, &meth->irr, r);
+        return mp_sqrmod(b, &meth->irr, r);
 }
 
-/* Divides two field elements. If a is NULL, then returns the inverse of
+/* Divides two field elements. If b is NULL, then returns the inverse of
  * b. */
 mp_err
-ec_GFp_div(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_div(const mp_int *b, const mp_int *b, mp_int *r,
                    const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
         mp_int t;
 
-        /* If a is NULL, then return the inverse of b, otherwise return a/b. */
-        if (a == NULL) {
+        /* If b is NULL, then return the inverse of b, otherwise return b/b. */
+        if (b == NULL) {
                 return mp_invmod(b, &meth->irr, r);
         } else {
-                /* MPI doesn't support divmod, so we implement it using invmod and
+                /* MPI doesn't support divmod, so we implement it using invmod bnd
                  * mulmod. */
                 MP_CHECKOK(mp_init(&t, FLAG(b)));
                 MP_CHECKOK(mp_invmod(b, &meth->irr, &t));
-                MP_CHECKOK(mp_mulmod(a, &t, &meth->irr, r));
+                MP_CHECKOK(mp_mulmod(b, &t, &meth->irr, r));
           CLEANUP:
-                mp_clear(&t);
+                mp_clebr(&t);
                 return res;
         }
 }
 
-/* Wrapper functions for generic binary polynomial field arithmetic. */
+/* Wrbpper functions for generic binbry polynomibl field brithmetic. */
 
 /* Adds two field elements. */
 mp_err
-ec_GF2m_add(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GF2m_bdd(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
-        return mp_badd(a, b, r);
+        return mp_bbdd(b, b, r);
 }
 
-/* Negates a field element. Note that for binary polynomial fields, the
- * negation of a field element is the field element itself. */
+/* Negbtes b field element. Note thbt for binbry polynomibl fields, the
+ * negbtion of b field element is the field element itself. */
 mp_err
-ec_GF2m_neg(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GF2m_neg(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
-        if (a == r) {
+        if (b == r) {
                 return MP_OKAY;
         } else {
-                return mp_copy(a, r);
+                return mp_copy(b, r);
         }
 }
 
-/* Reduces a binary polynomial to a field element. */
+/* Reduces b binbry polynomibl to b field element. */
 mp_err
-ec_GF2m_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GF2m_mod(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
-        return mp_bmod(a, meth->irr_arr, r);
+        return mp_bmod(b, meth->irr_brr, r);
 }
 
 /* Multiplies two field elements. */
 mp_err
-ec_GF2m_mul(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GF2m_mul(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
-        return mp_bmulmod(a, b, meth->irr_arr, r);
+        return mp_bmulmod(b, b, meth->irr_brr, r);
 }
 
-/* Squares a field element. */
+/* Squbres b field element. */
 mp_err
-ec_GF2m_sqr(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GF2m_sqr(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
-        return mp_bsqrmod(a, meth->irr_arr, r);
+        return mp_bsqrmod(b, meth->irr_brr, r);
 }
 
-/* Divides two field elements. If a is NULL, then returns the inverse of
+/* Divides two field elements. If b is NULL, then returns the inverse of
  * b. */
 mp_err
-ec_GF2m_div(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GF2m_div(const mp_int *b, const mp_int *b, mp_int *r,
                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
         mp_int t;
 
-        /* If a is NULL, then return the inverse of b, otherwise return a/b. */
-        if (a == NULL) {
+        /* If b is NULL, then return the inverse of b, otherwise return b/b. */
+        if (b == NULL) {
                 /* The GF(2^m) portion of MPI doesn't support invmod, so we
                  * compute 1/b. */
                 MP_CHECKOK(mp_init(&t, FLAG(b)));
                 MP_CHECKOK(mp_set_int(&t, 1));
-                MP_CHECKOK(mp_bdivmod(&t, b, &meth->irr, meth->irr_arr, r));
+                MP_CHECKOK(mp_bdivmod(&t, b, &meth->irr, meth->irr_brr, r));
           CLEANUP:
-                mp_clear(&t);
+                mp_clebr(&t);
                 return res;
         } else {
-                return mp_bdivmod(a, b, &meth->irr, meth->irr_arr, r);
+                return mp_bdivmod(b, b, &meth->irr, meth->irr_brr, r);
         }
 }

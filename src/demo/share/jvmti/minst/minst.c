@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,34 +30,34 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #include "stdlib.h"
 
 #include "minst.h"
-#include "java_crw_demo.h"
+#include "jbvb_crw_demo.h"
 
 
 /* ------------------------------------------------------------------- */
-/* Some constant maximum sizes */
+/* Some constbnt mbximum sizes */
 
 #define MAX_TOKEN_LENGTH        80
 #define MAX_METHOD_NAME_LENGTH  256
 
-/* Some constant names that tie to Java class/method names.
- *    We assume the Java class whose static methods we will be calling
+/* Some constbnt nbmes thbt tie to Jbvb clbss/method nbmes.
+ *    We bssume the Jbvb clbss whose stbtic methods we will be cblling
  *    looks like:
  *
- * public class Minst {
- *     private static int engaged;
- *     private static native void _method_entry(Object thr, int cnum, int mnum);
- *     public static void method_entry(int cnum, int mnum)
+ * public clbss Minst {
+ *     privbte stbtic int engbged;
+ *     privbte stbtic nbtive void _method_entry(Object thr, int cnum, int mnum);
+ *     public stbtic void method_entry(int cnum, int mnum)
  *     {
  *         ...
  *     }
@@ -65,230 +65,230 @@
  *
  */
 
-#define MINST_class        Minst            /* Name of class we are using */
-#define MINST_entry        method_entry    /* Name of java entry method */
-#define MINST_engaged      engaged         /* Name of java static field */
+#define MINST_clbss        Minst            /* Nbme of clbss we bre using */
+#define MINST_entry        method_entry    /* Nbme of jbvb entry method */
+#define MINST_engbged      engbged         /* Nbme of jbvb stbtic field */
 
-/* C macros to create strings from tokens */
+/* C mbcros to crebte strings from tokens */
 #define _STRING(s) #s
 #define STRING(s) _STRING(s)
 
 /* ------------------------------------------------------------------- */
 
-/* Global agent data structure */
+/* Globbl bgent dbtb structure */
 
 typedef struct {
     /* JVMTI Environment */
     jvmtiEnv      *jvmti;
-    jboolean       vm_is_dead;
-    jboolean       vm_is_started;
-    /* Data access Lock */
-    jrawMonitorID  lock;
+    jboolebn       vm_is_debd;
+    jboolebn       vm_is_stbrted;
+    /* Dbtb bccess Lock */
+    jrbwMonitorID  lock;
     /* Options */
-    char           *include;
-    char           *exclude;
-    /* Class Count/ID */
+    chbr           *include;
+    chbr           *exclude;
+    /* Clbss Count/ID */
     jint            ccount;
-} GlobalAgentData;
+} GlobblAgentDbtb;
 
-static GlobalAgentData *gdata;
+stbtic GlobblAgentDbtb *gdbtb;
 
-/* Enter a critical section by doing a JVMTI Raw Monitor Enter */
-static void
-enter_critical_section(jvmtiEnv *jvmti)
+/* Enter b criticbl section by doing b JVMTI Rbw Monitor Enter */
+stbtic void
+enter_criticbl_section(jvmtiEnv *jvmti)
 {
     jvmtiError error;
 
-    error = (*jvmti)->RawMonitorEnter(jvmti, gdata->lock);
-    check_jvmti_error(jvmti, error, "Cannot enter with raw monitor");
+    error = (*jvmti)->RbwMonitorEnter(jvmti, gdbtb->lock);
+    check_jvmti_error(jvmti, error, "Cbnnot enter with rbw monitor");
 }
 
-/* Exit a critical section by doing a JVMTI Raw Monitor Exit */
-static void
-exit_critical_section(jvmtiEnv *jvmti)
+/* Exit b criticbl section by doing b JVMTI Rbw Monitor Exit */
+stbtic void
+exit_criticbl_section(jvmtiEnv *jvmti)
 {
     jvmtiError error;
 
-    error = (*jvmti)->RawMonitorExit(jvmti, gdata->lock);
-    check_jvmti_error(jvmti, error, "Cannot exit with raw monitor");
+    error = (*jvmti)->RbwMonitorExit(jvmti, gdbtb->lock);
+    check_jvmti_error(jvmti, error, "Cbnnot exit with rbw monitor");
 }
 
-/* Callback for JVMTI_EVENT_VM_START */
-static void JNICALL
-cbVMStart(jvmtiEnv *jvmti, JNIEnv *env)
+/* Cbllbbck for JVMTI_EVENT_VM_START */
+stbtic void JNICALL
+cbVMStbrt(jvmtiEnv *jvmti, JNIEnv *env)
 {
-    enter_critical_section(jvmti); {
-        /* Indicate VM has started */
-        gdata->vm_is_started = JNI_TRUE;
-    } exit_critical_section(jvmti);
+    enter_criticbl_section(jvmti); {
+        /* Indicbte VM hbs stbrted */
+        gdbtb->vm_is_stbrted = JNI_TRUE;
+    } exit_criticbl_section(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_VM_INIT */
-static void JNICALL
-cbVMInit(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Cbllbbck for JVMTI_EVENT_VM_INIT */
+stbtic void JNICALL
+cbVMInit(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
-    enter_critical_section(jvmti); {
-        jclass   klass;
+    enter_criticbl_section(jvmti); {
+        jclbss   klbss;
         jfieldID field;
 
-        /* Register Natives for class whose methods we use */
-        klass = (*env)->FindClass(env, STRING(MINST_class));
-        if ( klass == NULL ) {
-            fatal_error("ERROR: JNI: Cannot find %s with FindClass\n",
-                        STRING(MINST_class));
+        /* Register Nbtives for clbss whose methods we use */
+        klbss = (*env)->FindClbss(env, STRING(MINST_clbss));
+        if ( klbss == NULL ) {
+            fbtbl_error("ERROR: JNI: Cbnnot find %s with FindClbss\n",
+                        STRING(MINST_clbss));
         }
 
-        /* Engage calls. */
-        field = (*env)->GetStaticFieldID(env, klass, STRING(MINST_engaged), "I");
+        /* Engbge cblls. */
+        field = (*env)->GetStbticFieldID(env, klbss, STRING(MINST_engbged), "I");
         if ( field == NULL ) {
-            fatal_error("ERROR: JNI: Cannot get field from %s\n",
-                        STRING(MINST_class));
+            fbtbl_error("ERROR: JNI: Cbnnot get field from %s\n",
+                        STRING(MINST_clbss));
         }
-        (*env)->SetStaticIntField(env, klass, field, 1);
-    } exit_critical_section(jvmti);
+        (*env)->SetStbticIntField(env, klbss, field, 1);
+    } exit_criticbl_section(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_VM_DEATH */
-static void JNICALL
-cbVMDeath(jvmtiEnv *jvmti, JNIEnv *env)
+/* Cbllbbck for JVMTI_EVENT_VM_DEATH */
+stbtic void JNICALL
+cbVMDebth(jvmtiEnv *jvmti, JNIEnv *env)
 {
-    enter_critical_section(jvmti); {
-        jclass   klass;
+    enter_criticbl_section(jvmti); {
+        jclbss   klbss;
         jfieldID field;
 
-        /* The VM has died. */
-        stdout_message("VMDeath\n");
+        /* The VM hbs died. */
+        stdout_messbge("VMDebth\n");
 
-        /* Disengage calls in MINST_class. */
-        klass = (*env)->FindClass(env, STRING(MINST_class));
-        if ( klass == NULL ) {
-            fatal_error("ERROR: JNI: Cannot find %s with FindClass\n",
-                        STRING(MINST_class));
+        /* Disengbge cblls in MINST_clbss. */
+        klbss = (*env)->FindClbss(env, STRING(MINST_clbss));
+        if ( klbss == NULL ) {
+            fbtbl_error("ERROR: JNI: Cbnnot find %s with FindClbss\n",
+                        STRING(MINST_clbss));
         }
-        field = (*env)->GetStaticFieldID(env, klass, STRING(MINST_engaged), "I");
+        field = (*env)->GetStbticFieldID(env, klbss, STRING(MINST_engbged), "I");
         if ( field == NULL ) {
-            fatal_error("ERROR: JNI: Cannot get field from %s\n",
-                        STRING(MINST_class));
+            fbtbl_error("ERROR: JNI: Cbnnot get field from %s\n",
+                        STRING(MINST_clbss));
         }
-        (*env)->SetStaticIntField(env, klass, field, -1);
+        (*env)->SetStbticIntField(env, klbss, field, -1);
 
-        /* The critical section here is important to hold back the VM death
-         *    until all other callbacks have completed.
+        /* The criticbl section here is importbnt to hold bbck the VM debth
+         *    until bll other cbllbbcks hbve completed.
          */
 
-        /* Since this critical section could be holding up other threads
-         *   in other event callbacks, we need to indicate that the VM is
-         *   dead so that the other callbacks can short circuit their work.
-         *   We don't expect any further events after VmDeath but we do need
-         *   to be careful that existing threads might be in our own agent
-         *   callback code.
+        /* Since this criticbl section could be holding up other threbds
+         *   in other event cbllbbcks, we need to indicbte thbt the VM is
+         *   debd so thbt the other cbllbbcks cbn short circuit their work.
+         *   We don't expect bny further events bfter VmDebth but we do need
+         *   to be cbreful thbt existing threbds might be in our own bgent
+         *   cbllbbck code.
          */
-        gdata->vm_is_dead = JNI_TRUE;
+        gdbtb->vm_is_debd = JNI_TRUE;
 
-    } exit_critical_section(jvmti);
+    } exit_criticbl_section(jvmti);
 
 }
 
-/* Callback for JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
-static void JNICALL
-cbClassFileLoadHook(jvmtiEnv *jvmti, JNIEnv* env,
-                jclass class_being_redefined, jobject loader,
-                const char* name, jobject protection_domain,
-                jint class_data_len, const unsigned char* class_data,
-                jint* new_class_data_len, unsigned char** new_class_data)
+/* Cbllbbck for JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
+stbtic void JNICALL
+cbClbssFileLobdHook(jvmtiEnv *jvmti, JNIEnv* env,
+                jclbss clbss_being_redefined, jobject lobder,
+                const chbr* nbme, jobject protection_dombin,
+                jint clbss_dbtb_len, const unsigned chbr* clbss_dbtb,
+                jint* new_clbss_dbtb_len, unsigned chbr** new_clbss_dbtb)
 {
-    enter_critical_section(jvmti); {
-        /* It's possible we get here right after VmDeath event, be careful */
-        if ( !gdata->vm_is_dead ) {
+    enter_criticbl_section(jvmti); {
+        /* It's possible we get here right bfter VmDebth event, be cbreful */
+        if ( !gdbtb->vm_is_debd ) {
 
-            const char *classname;
+            const chbr *clbssnbme;
 
-            /* Name could be NULL */
-            if ( name == NULL ) {
-                classname = java_crw_demo_classname(class_data, class_data_len,
+            /* Nbme could be NULL */
+            if ( nbme == NULL ) {
+                clbssnbme = jbvb_crw_demo_clbssnbme(clbss_dbtb, clbss_dbtb_len,
                         NULL);
-                if ( classname == NULL ) {
-                    fatal_error("ERROR: No classname inside classfile\n");
+                if ( clbssnbme == NULL ) {
+                    fbtbl_error("ERROR: No clbssnbme inside clbssfile\n");
                 }
             } else {
-                classname = strdup(name);
-                if ( classname == NULL ) {
-                    fatal_error("ERROR: Out of malloc memory\n");
+                clbssnbme = strdup(nbme);
+                if ( clbssnbme == NULL ) {
+                    fbtbl_error("ERROR: Out of mblloc memory\n");
                 }
             }
 
-            *new_class_data_len = 0;
-            *new_class_data     = NULL;
+            *new_clbss_dbtb_len = 0;
+            *new_clbss_dbtb     = NULL;
 
-            /* The tracker class itself? */
-            if ( interested((char*)classname, "", gdata->include, gdata->exclude)
-                  &&  strcmp(classname, STRING(MINST_class)) != 0 ) {
+            /* The trbcker clbss itself? */
+            if ( interested((chbr*)clbssnbme, "", gdbtb->include, gdbtb->exclude)
+                  &&  strcmp(clbssnbme, STRING(MINST_clbss)) != 0 ) {
                 jint           cnum;
-                int            system_class;
-                unsigned char *new_image;
+                int            system_clbss;
+                unsigned chbr *new_imbge;
                 long           new_length;
 
-                /* Get unique number for every class file image loaded */
-                cnum = gdata->ccount++;
+                /* Get unique number for every clbss file imbge lobded */
+                cnum = gdbtb->ccount++;
 
-                /* Is it a system class? If the class load is before VmStart
-                 *   then we will consider it a system class that should
-                 *   be treated carefully. (See java_crw_demo)
+                /* Is it b system clbss? If the clbss lobd is before VmStbrt
+                 *   then we will consider it b system clbss thbt should
+                 *   be trebted cbrefully. (See jbvb_crw_demo)
                  */
-                system_class = 0;
-                if ( !gdata->vm_is_started ) {
-                    system_class = 1;
+                system_clbss = 0;
+                if ( !gdbtb->vm_is_stbrted ) {
+                    system_clbss = 1;
                 }
 
-                new_image = NULL;
+                new_imbge = NULL;
                 new_length = 0;
 
-                /* Call the class file reader/write demo code */
-                java_crw_demo(cnum,
-                    classname,
-                    class_data,
-                    class_data_len,
-                    system_class,
-                    STRING(MINST_class), "L" STRING(MINST_class) ";",
+                /* Cbll the clbss file rebder/write demo code */
+                jbvb_crw_demo(cnum,
+                    clbssnbme,
+                    clbss_dbtb,
+                    clbss_dbtb_len,
+                    system_clbss,
+                    STRING(MINST_clbss), "L" STRING(MINST_clbss) ";",
                     STRING(MINST_entry), "(II)V",
                     NULL, NULL,
                     NULL, NULL,
                     NULL, NULL,
-                    &new_image,
+                    &new_imbge,
                     &new_length,
                     NULL,
                     NULL);
 
-                /* If we got back a new class image, return it back as "the"
-                 *   new class image. This must be JVMTI Allocate space.
+                /* If we got bbck b new clbss imbge, return it bbck bs "the"
+                 *   new clbss imbge. This must be JVMTI Allocbte spbce.
                  */
                 if ( new_length > 0 ) {
-                    unsigned char *jvmti_space;
+                    unsigned chbr *jvmti_spbce;
 
-                    jvmti_space = (unsigned char *)allocate(jvmti, (jint)new_length);
-                    (void)memcpy((void*)jvmti_space, (void*)new_image, (int)new_length);
-                    *new_class_data_len = (jint)new_length;
-                    *new_class_data     = jvmti_space; /* VM will deallocate */
+                    jvmti_spbce = (unsigned chbr *)bllocbte(jvmti, (jint)new_length);
+                    (void)memcpy((void*)jvmti_spbce, (void*)new_imbge, (int)new_length);
+                    *new_clbss_dbtb_len = (jint)new_length;
+                    *new_clbss_dbtb     = jvmti_spbce; /* VM will debllocbte */
                 }
 
-                /* Always free up the space we get from java_crw_demo() */
-                if ( new_image != NULL ) {
-                    (void)free((void*)new_image); /* Free malloc() space with free() */
+                /* Alwbys free up the spbce we get from jbvb_crw_demo() */
+                if ( new_imbge != NULL ) {
+                    (void)free((void*)new_imbge); /* Free mblloc() spbce with free() */
                 }
             }
-            (void)free((void*)classname);
+            (void)free((void*)clbssnbme);
         }
-    } exit_critical_section(jvmti);
+    } exit_criticbl_section(jvmti);
 }
 
-/* Parse the options for this minst agent */
-static void
-parse_agent_options(char *options)
+/* Pbrse the options for this minst bgent */
+stbtic void
+pbrse_bgent_options(chbr *options)
 {
-    char token[MAX_TOKEN_LENGTH];
-    char *next;
+    chbr token[MAX_TOKEN_LENGTH];
+    chbr *next;
 
-    /* Parse options and set flags in gdata */
+    /* Pbrse options bnd set flbgs in gdbtb */
     if ( options==NULL ) {
         return;
     }
@@ -296,186 +296,186 @@ parse_agent_options(char *options)
     /* Get the first token from the options string. */
     next = get_token(options, ",=", token, sizeof(token));
 
-    /* While not at the end of the options string, process this option. */
+    /* While not bt the end of the options string, process this option. */
     while ( next != NULL ) {
         if ( strcmp(token,"help")==0 ) {
-            stdout_message("The minst JVMTI demo agent\n");
-            stdout_message("\n");
-            stdout_message(" java -agent:minst[=options] ...\n");
-            stdout_message("\n");
-            stdout_message("The options are comma separated:\n");
-            stdout_message("\t help\t\t\t Print help information\n");
-            stdout_message("\t include=item\t\t Only these classes/methods\n");
-            stdout_message("\t exclude=item\t\t Exclude these classes/methods\n");
-            stdout_message("\n");
-            stdout_message("item\t Qualified class and/or method names\n");
-            stdout_message("\t\t e.g. (*.<init>;Foobar.method;sun.*)\n");
-            stdout_message("\n");
+            stdout_messbge("The minst JVMTI demo bgent\n");
+            stdout_messbge("\n");
+            stdout_messbge(" jbvb -bgent:minst[=options] ...\n");
+            stdout_messbge("\n");
+            stdout_messbge("The options bre commb sepbrbted:\n");
+            stdout_messbge("\t help\t\t\t Print help informbtion\n");
+            stdout_messbge("\t include=item\t\t Only these clbsses/methods\n");
+            stdout_messbge("\t exclude=item\t\t Exclude these clbsses/methods\n");
+            stdout_messbge("\n");
+            stdout_messbge("item\t Qublified clbss bnd/or method nbmes\n");
+            stdout_messbge("\t\t e.g. (*.<init>;Foobbr.method;sun.*)\n");
+            stdout_messbge("\n");
             exit(0);
         } else if ( strcmp(token,"include")==0 ) {
             int   used;
-            int   maxlen;
+            int   mbxlen;
 
-            maxlen = MAX_METHOD_NAME_LENGTH;
-            if ( gdata->include == NULL ) {
-                gdata->include = (char*)calloc(maxlen+1, 1);
+            mbxlen = MAX_METHOD_NAME_LENGTH;
+            if ( gdbtb->include == NULL ) {
+                gdbtb->include = (chbr*)cblloc(mbxlen+1, 1);
                 used = 0;
             } else {
-                used  = (int)strlen(gdata->include);
-                gdata->include[used++] = ',';
-                gdata->include[used] = 0;
-                gdata->include = (char*)
-                             realloc((void*)gdata->include, used+maxlen+1);
+                used  = (int)strlen(gdbtb->include);
+                gdbtb->include[used++] = ',';
+                gdbtb->include[used] = 0;
+                gdbtb->include = (chbr*)
+                             reblloc((void*)gdbtb->include, used+mbxlen+1);
             }
-            if ( gdata->include == NULL ) {
-                fatal_error("ERROR: Out of malloc memory\n");
+            if ( gdbtb->include == NULL ) {
+                fbtbl_error("ERROR: Out of mblloc memory\n");
             }
             /* Add this item to the list */
-            next = get_token(next, ",=", gdata->include+used, maxlen);
-            /* Check for token scan error */
+            next = get_token(next, ",=", gdbtb->include+used, mbxlen);
+            /* Check for token scbn error */
             if ( next==NULL ) {
-                fatal_error("ERROR: include option error\n");
+                fbtbl_error("ERROR: include option error\n");
             }
         } else if ( strcmp(token,"exclude")==0 ) {
             int   used;
-            int   maxlen;
+            int   mbxlen;
 
-            maxlen = MAX_METHOD_NAME_LENGTH;
-            if ( gdata->exclude == NULL ) {
-                gdata->exclude = (char*)calloc(maxlen+1, 1);
+            mbxlen = MAX_METHOD_NAME_LENGTH;
+            if ( gdbtb->exclude == NULL ) {
+                gdbtb->exclude = (chbr*)cblloc(mbxlen+1, 1);
                 used = 0;
             } else {
-                used  = (int)strlen(gdata->exclude);
-                gdata->exclude[used++] = ',';
-                gdata->exclude[used] = 0;
-                gdata->exclude = (char*)
-                             realloc((void*)gdata->exclude, used+maxlen+1);
+                used  = (int)strlen(gdbtb->exclude);
+                gdbtb->exclude[used++] = ',';
+                gdbtb->exclude[used] = 0;
+                gdbtb->exclude = (chbr*)
+                             reblloc((void*)gdbtb->exclude, used+mbxlen+1);
             }
-            if ( gdata->exclude == NULL ) {
-                fatal_error("ERROR: Out of malloc memory\n");
+            if ( gdbtb->exclude == NULL ) {
+                fbtbl_error("ERROR: Out of mblloc memory\n");
             }
             /* Add this item to the list */
-            next = get_token(next, ",=", gdata->exclude+used, maxlen);
-            /* Check for token scan error */
+            next = get_token(next, ",=", gdbtb->exclude+used, mbxlen);
+            /* Check for token scbn error */
             if ( next==NULL ) {
-                fatal_error("ERROR: exclude option error\n");
+                fbtbl_error("ERROR: exclude option error\n");
             }
         } else if ( token[0]!=0 ) {
-            /* We got a non-empty token and we don't know what it is. */
-            fatal_error("ERROR: Unknown option: %s\n", token);
+            /* We got b non-empty token bnd we don't know whbt it is. */
+            fbtbl_error("ERROR: Unknown option: %s\n", token);
         }
-        /* Get the next token (returns NULL if there are no more) */
+        /* Get the next token (returns NULL if there bre no more) */
         next = get_token(next, ",=", token, sizeof(token));
     }
 }
 
-/* Agent_OnLoad: This is called immediately after the shared library is
- *   loaded. This is the first code executed.
+/* Agent_OnLobd: This is cblled immedibtely bfter the shbred librbry is
+ *   lobded. This is the first code executed.
  */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agent_OnLobd(JbvbVM *vm, chbr *options, void *reserved)
 {
-    static GlobalAgentData data;
+    stbtic GlobblAgentDbtb dbtb;
     jvmtiEnv              *jvmti;
     jvmtiError             error;
     jint                   res;
-    jvmtiCapabilities      capabilities;
-    jvmtiEventCallbacks    callbacks;
+    jvmtiCbpbbilities      cbpbbilities;
+    jvmtiEventCbllbbcks    cbllbbcks;
 
-    /* Setup initial global agent data area
-     *   Use of static/extern data should be handled carefully here.
-     *   We need to make sure that we are able to cleanup after ourselves
-     *     so anything allocated in this library needs to be freed in
-     *     the Agent_OnUnload() function.
+    /* Setup initibl globbl bgent dbtb breb
+     *   Use of stbtic/extern dbtb should be hbndled cbrefully here.
+     *   We need to mbke sure thbt we bre bble to clebnup bfter ourselves
+     *     so bnything bllocbted in this librbry needs to be freed in
+     *     the Agent_OnUnlobd() function.
      */
-    (void)memset((void*)&data, 0, sizeof(data));
-    gdata = &data;
+    (void)memset((void*)&dbtb, 0, sizeof(dbtb));
+    gdbtb = &dbtb;
 
     /* First thing we need to do is get the jvmtiEnv* or JVMTI environment */
     res = (*vm)->GetEnv(vm, (void **)&jvmti, JVMTI_VERSION_1);
     if (res != JNI_OK) {
-        /* This means that the VM was unable to obtain this version of the
-         *   JVMTI interface, this is a fatal error.
+        /* This mebns thbt the VM wbs unbble to obtbin this version of the
+         *   JVMTI interfbce, this is b fbtbl error.
          */
-        fatal_error("ERROR: Unable to access JVMTI Version 1 (0x%x),"
-                " is your JDK a 5.0 or newer version?"
+        fbtbl_error("ERROR: Unbble to bccess JVMTI Version 1 (0x%x),"
+                " is your JDK b 5.0 or newer version?"
                 " JNIEnv's GetEnv() returned %d\n",
                JVMTI_VERSION_1, res);
     }
 
-    /* Here we save the jvmtiEnv* for Agent_OnUnload(). */
-    gdata->jvmti = jvmti;
+    /* Here we sbve the jvmtiEnv* for Agent_OnUnlobd(). */
+    gdbtb->jvmti = jvmti;
 
-    /* Parse any options supplied on java command line */
-    parse_agent_options(options);
+    /* Pbrse bny options supplied on jbvb commbnd line */
+    pbrse_bgent_options(options);
 
-    /* Immediately after getting the jvmtiEnv* we need to ask for the
-     *   capabilities this agent will need. In this case we need to make
-     *   sure that we can get all class load hooks.
+    /* Immedibtely bfter getting the jvmtiEnv* we need to bsk for the
+     *   cbpbbilities this bgent will need. In this cbse we need to mbke
+     *   sure thbt we cbn get bll clbss lobd hooks.
      */
-    (void)memset(&capabilities,0, sizeof(capabilities));
-    capabilities.can_generate_all_class_hook_events  = 1;
-    error = (*jvmti)->AddCapabilities(jvmti, &capabilities);
-    check_jvmti_error(jvmti, error, "Unable to get necessary JVMTI capabilities.");
+    (void)memset(&cbpbbilities,0, sizeof(cbpbbilities));
+    cbpbbilities.cbn_generbte_bll_clbss_hook_events  = 1;
+    error = (*jvmti)->AddCbpbbilities(jvmti, &cbpbbilities);
+    check_jvmti_error(jvmti, error, "Unbble to get necessbry JVMTI cbpbbilities.");
 
-    /* Next we need to provide the pointers to the callback functions to
+    /* Next we need to provide the pointers to the cbllbbck functions to
      *   to this jvmtiEnv*
      */
-    (void)memset(&callbacks,0, sizeof(callbacks));
+    (void)memset(&cbllbbcks,0, sizeof(cbllbbcks));
     /* JVMTI_EVENT_VM_START */
-    callbacks.VMStart           = &cbVMStart;
+    cbllbbcks.VMStbrt           = &cbVMStbrt;
     /* JVMTI_EVENT_VM_INIT */
-    callbacks.VMInit           = &cbVMInit;
+    cbllbbcks.VMInit           = &cbVMInit;
     /* JVMTI_EVENT_VM_DEATH */
-    callbacks.VMDeath           = &cbVMDeath;
+    cbllbbcks.VMDebth           = &cbVMDebth;
     /* JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
-    callbacks.ClassFileLoadHook = &cbClassFileLoadHook;
-    error = (*jvmti)->SetEventCallbacks(jvmti, &callbacks, (jint)sizeof(callbacks));
-    check_jvmti_error(jvmti, error, "Cannot set jvmti callbacks");
+    cbllbbcks.ClbssFileLobdHook = &cbClbssFileLobdHook;
+    error = (*jvmti)->SetEventCbllbbcks(jvmti, &cbllbbcks, (jint)sizeof(cbllbbcks));
+    check_jvmti_error(jvmti, error, "Cbnnot set jvmti cbllbbcks");
 
-    /* At first the only initial events we are interested in are VM
-     *   initialization, VM death, and Class File Loads.
-     *   Once the VM is initialized we will request more events.
+    /* At first the only initibl events we bre interested in bre VM
+     *   initiblizbtion, VM debth, bnd Clbss File Lobds.
+     *   Once the VM is initiblized we will request more events.
      */
-    error = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
-                          JVMTI_EVENT_VM_START, (jthread)NULL);
-    check_jvmti_error(jvmti, error, "Cannot set event notification");
-    error = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
-                          JVMTI_EVENT_VM_INIT, (jthread)NULL);
-    check_jvmti_error(jvmti, error, "Cannot set event notification");
-    error = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
-                          JVMTI_EVENT_VM_DEATH, (jthread)NULL);
-    check_jvmti_error(jvmti, error, "Cannot set event notification");
-    error = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
-                          JVMTI_EVENT_CLASS_FILE_LOAD_HOOK, (jthread)NULL);
-    check_jvmti_error(jvmti, error, "Cannot set event notification");
+    error = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
+                          JVMTI_EVENT_VM_START, (jthrebd)NULL);
+    check_jvmti_error(jvmti, error, "Cbnnot set event notificbtion");
+    error = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
+                          JVMTI_EVENT_VM_INIT, (jthrebd)NULL);
+    check_jvmti_error(jvmti, error, "Cbnnot set event notificbtion");
+    error = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
+                          JVMTI_EVENT_VM_DEATH, (jthrebd)NULL);
+    check_jvmti_error(jvmti, error, "Cbnnot set event notificbtion");
+    error = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
+                          JVMTI_EVENT_CLASS_FILE_LOAD_HOOK, (jthrebd)NULL);
+    check_jvmti_error(jvmti, error, "Cbnnot set event notificbtion");
 
-    /* Here we create a raw monitor for our use in this agent to
-     *   protect critical sections of code.
+    /* Here we crebte b rbw monitor for our use in this bgent to
+     *   protect criticbl sections of code.
      */
-    error = (*jvmti)->CreateRawMonitor(jvmti, "agent data", &(gdata->lock));
-    check_jvmti_error(jvmti, error, "Cannot create raw monitor");
+    error = (*jvmti)->CrebteRbwMonitor(jvmti, "bgent dbtb", &(gdbtb->lock));
+    check_jvmti_error(jvmti, error, "Cbnnot crebte rbw monitor");
 
-    /* Add demo jar file to boot classpath */
-    add_demo_jar_to_bootclasspath(jvmti, "minst");
+    /* Add demo jbr file to boot clbsspbth */
+    bdd_demo_jbr_to_bootclbsspbth(jvmti, "minst");
 
     /* We return JNI_OK to signify success */
     return JNI_OK;
 }
 
-/* Agent_OnUnload: This is called immediately before the shared library is
- *   unloaded. This is the last code executed.
+/* Agent_OnUnlobd: This is cblled immedibtely before the shbred librbry is
+ *   unlobded. This is the lbst code executed.
  */
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agent_OnUnlobd(JbvbVM *vm)
 {
-    /* Make sure all malloc/calloc/strdup space is freed */
-    if ( gdata->include != NULL ) {
-        (void)free((void*)gdata->include);
-        gdata->include = NULL;
+    /* Mbke sure bll mblloc/cblloc/strdup spbce is freed */
+    if ( gdbtb->include != NULL ) {
+        (void)free((void*)gdbtb->include);
+        gdbtb->include = NULL;
     }
-    if ( gdata->exclude != NULL ) {
-        (void)free((void*)gdata->exclude);
-        gdata->exclude = NULL;
+    if ( gdbtb->exclude != NULL ) {
+        (void)free((void*)gdbtb->exclude);
+        gdbtb->exclude = NULL;
     }
 }

@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.util;
+pbckbge sun.bwt.util;
 
 /**
- * A utility class needed to access the root {@code ThreadGroup}
+ * A utility clbss needed to bccess the root {@code ThrebdGroup}
  *
- * The class should not depend on any others, because it' called from JNI_OnLoad of the AWT
- * native library. Triggering class loading could lead to a deadlock.
+ * The clbss should not depend on bny others, becbuse it' cblled from JNI_OnLobd of the AWT
+ * nbtive librbry. Triggering clbss lobding could lebd to b debdlock.
  */
-public final class ThreadGroupUtils {
+public finbl clbss ThrebdGroupUtils {
 
-    private ThreadGroupUtils() {
-        // Avoid instantiation
+    privbte ThrebdGroupUtils() {
+        // Avoid instbntibtion
     }
 
     /**
-     * Returns a root thread group.
-     * Should be called with {@link sun.security.util.SecurityConstants#MODIFY_THREADGROUP_PERMISSION}
+     * Returns b root threbd group.
+     * Should be cblled with {@link sun.security.util.SecurityConstbnts#MODIFY_THREADGROUP_PERMISSION}
      *
-     * @return a root {@code ThreadGroup}
+     * @return b root {@code ThrebdGroup}
      */
-    public static ThreadGroup getRootThreadGroup() {
-        ThreadGroup currentTG = Thread.currentThread().getThreadGroup();
-        ThreadGroup parentTG = currentTG.getParent();
-        while (parentTG != null) {
-            currentTG = parentTG;
-            parentTG = currentTG.getParent();
+    public stbtic ThrebdGroup getRootThrebdGroup() {
+        ThrebdGroup currentTG = Threbd.currentThrebd().getThrebdGroup();
+        ThrebdGroup pbrentTG = currentTG.getPbrent();
+        while (pbrentTG != null) {
+            currentTG = pbrentTG;
+            pbrentTG = currentTG.getPbrent();
         }
         return currentTG;
     }

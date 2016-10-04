@@ -1,33 +1,33 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef Java2d_Mlib_h_Included
-#define Java2d_Mlib_h_Included
+#ifndef Jbvb2d_Mlib_h_Included
+#define Jbvb2d_Mlib_h_Included
 
-#include <mlib_image.h>
-#include "mlib_ImageCopy.h"
+#include <mlib_imbge.h>
+#include "mlib_ImbgeCopy.h"
 
 #include "AnyByte.h"
 #include "Any3Byte.h"
@@ -37,10 +37,10 @@
 #include "IntArgb.h"
 #include "IntArgbBm.h"
 #include "IntRgb.h"
-#include "ByteGray.h"
+#include "ByteGrby.h"
 #include "ByteIndexed.h"
-#include "Index8Gray.h"
-#include "Index12Gray.h"
+#include "Index8Grby.h"
+#include "Index12Grby.h"
 
 /***************************************************************/
 
@@ -69,96 +69,96 @@
 /***************************************************************/
 
 #define BLIT_PARAMS                    \
-    void *srcBase, void *dstBase,      \
+    void *srcBbse, void *dstBbse,      \
     juint width, juint height,         \
-    SurfaceDataRasInfo *pSrcInfo,      \
-    SurfaceDataRasInfo *pDstInfo,      \
-    NativePrimitive *pPrim,            \
+    SurfbceDbtbRbsInfo *pSrcInfo,      \
+    SurfbceDbtbRbsInfo *pDstInfo,      \
+    NbtivePrimitive *pPrim,            \
     CompositeInfo *pCompInfo
 
 #define BLIT_CALL_PARAMS               \
-    srcBase, dstBase, width, height,   \
+    srcBbse, dstBbse, width, height,   \
     pSrcInfo, pDstInfo, pPrim, pCompInfo
 
 /***************************************************************/
 
 #define SCALE_PARAMS                           \
-    void *srcBase, void *dstBase,              \
+    void *srcBbse, void *dstBbse,              \
     juint width, juint height,                 \
     jint sxloc, jint syloc,                    \
     jint sxinc, jint syinc, jint shift,        \
-    SurfaceDataRasInfo * pSrcInfo,             \
-    SurfaceDataRasInfo * pDstInfo,             \
-    NativePrimitive * pPrim,                   \
+    SurfbceDbtbRbsInfo * pSrcInfo,             \
+    SurfbceDbtbRbsInfo * pDstInfo,             \
+    NbtivePrimitive * pPrim,                   \
     CompositeInfo * pCompInfo
 
 #define SCALE_CALL_PARAMS                      \
-    srcBase, dstBase, width, height,           \
+    srcBbse, dstBbse, width, height,           \
     sxloc, syloc, sxinc, syinc, shift,         \
     pSrcInfo, pDstInfo, pPrim, pCompInfo
 
 /***************************************************************/
 
 #define BCOPY_PARAMS                   \
-    void *srcBase, void *dstBase,      \
+    void *srcBbse, void *dstBbse,      \
     juint width, juint height,         \
     jint bgpixel,                      \
-    SurfaceDataRasInfo * pSrcInfo,     \
-    SurfaceDataRasInfo * pDstInfo,     \
-    NativePrimitive * pPrim,           \
+    SurfbceDbtbRbsInfo * pSrcInfo,     \
+    SurfbceDbtbRbsInfo * pDstInfo,     \
+    NbtivePrimitive * pPrim,           \
     CompositeInfo * pCompInfo
 
 #define BCOPY_CALL_PARAMS              \
-    srcBase, dstBase, width, height,   \
+    srcBbse, dstBbse, width, height,   \
     bgpixel,                           \
     pSrcInfo, pDstInfo, pPrim, pCompInfo
 
 /***************************************************************/
 
 #define MASKBLIT_PARAMS                \
-    void *dstBase,                     \
-    void *srcBase,                     \
-    jubyte *pMask,                     \
-    jint maskOff,                      \
-    jint maskScan,                     \
+    void *dstBbse,                     \
+    void *srcBbse,                     \
+    jubyte *pMbsk,                     \
+    jint mbskOff,                      \
+    jint mbskScbn,                     \
     jint width,                        \
     jint height,                       \
-    SurfaceDataRasInfo *pDstInfo,      \
-    SurfaceDataRasInfo *pSrcInfo,      \
-    NativePrimitive *pPrim,            \
+    SurfbceDbtbRbsInfo *pDstInfo,      \
+    SurfbceDbtbRbsInfo *pSrcInfo,      \
+    NbtivePrimitive *pPrim,            \
     CompositeInfo *pCompInfo
 
 #define MASKBLIT_CALL_PARAMS                   \
-    dstBase, srcBase, pMask,                   \
-    maskOff, maskScan, width, height,          \
+    dstBbse, srcBbse, pMbsk,                   \
+    mbskOff, mbskScbn, width, height,          \
     pSrcInfo, pDstInfo, pPrim, pCompInfo
 
 /***************************************************************/
 
 #define GLYPH_LIST_PARAMS              \
-    SurfaceDataRasInfo * pRasInfo,     \
-    ImageRef *glyphs,                  \
-    jint totalGlyphs,                  \
-    jint fgpixel, jint argbcolor,      \
+    SurfbceDbtbRbsInfo * pRbsInfo,     \
+    ImbgeRef *glyphs,                  \
+    jint totblGlyphs,                  \
+    jint fgpixel, jint brgbcolor,      \
     jint clipLeft, jint clipTop,       \
     jint clipRight, jint clipBottom,   \
-    NativePrimitive * pPrim,           \
+    NbtivePrimitive * pPrim,           \
     CompositeInfo * pCompInfo
 
 /***************************************************************/
 
-#define MLIB_IMAGE_SET(image, data_type, nchan, w, h, scan, data_ptr)        \
-    image->type     = data_type;                                             \
-    image->channels = nchan;                                                 \
-    image->width    = w;                                                     \
-    image->height   = h;                                                     \
-    image->stride   = scan;                                                  \
-    image->data     = (void*)(data_ptr)
+#define MLIB_IMAGE_SET(imbge, dbtb_type, nchbn, w, h, scbn, dbtb_ptr)        \
+    imbge->type     = dbtb_type;                                             \
+    imbge->chbnnels = nchbn;                                                 \
+    imbge->width    = w;                                                     \
+    imbge->height   = h;                                                     \
+    imbge->stride   = scbn;                                                  \
+    imbge->dbtb     = (void*)(dbtb_ptr)
 
 /***************************************************************/
 
-#define PTR_ADD(ptr, scan)     \
-    ptr = (void*)((mlib_u8*)(ptr) + (scan))
+#define PTR_ADD(ptr, scbn)     \
+    ptr = (void*)((mlib_u8*)(ptr) + (scbn))
 
 /***************************************************************/
 
@@ -210,9 +210,9 @@
 
 /***************************************************************/
 
-#define LOOP_DST(TYPE, NCHAN, dstBase, dstScan, BODY)          \
+#define LOOP_DST(TYPE, NCHAN, dstBbse, dstScbn, BODY)          \
 {                                                              \
-    TYPE##DataType *dst_ptr = (void*)(dstBase);                \
+    TYPE##DbtbType *dst_ptr = (void*)(dstBbse);                \
     mlib_s32 i, j;                                             \
     j = 0;                                                     \
     do {                                                       \
@@ -221,114 +221,114 @@
             PROCESS_PIX_##NCHAN(BODY);                         \
             i++;                                               \
         } while (i < width);                                   \
-        PTR_ADD(dst_ptr, dstScan);                             \
+        PTR_ADD(dst_ptr, dstScbn);                             \
         j++;                                                   \
     } while (j < height);                                      \
 }
 
-#define LOOP_DST_SRC(TYPE, NCHAN, dstBase, dstScan,    \
-                     srcBase, srcScan, BODY)           \
+#define LOOP_DST_SRC(TYPE, NCHAN, dstBbse, dstScbn,    \
+                     srcBbse, srcScbn, BODY)           \
 {                                                      \
-    TYPE##DataType *dst_ptr = (void*)(dstBase);        \
-    TYPE##DataType *src_ptr = (void*)(srcBase);        \
+    TYPE##DbtbType *dst_ptr = (void*)(dstBbse);        \
+    TYPE##DbtbType *src_ptr = (void*)(srcBbse);        \
     mlib_s32 i, j;                                     \
     for (j = 0; j < height; j++) {                     \
         for (i = 0; i < width; i++) {                  \
             PROCESS_PIX_##NCHAN(BODY);                 \
         }                                              \
-        PTR_ADD(dst_ptr, dstScan);                     \
-        PTR_ADD(src_ptr, srcScan);                     \
+        PTR_ADD(dst_ptr, dstScbn);                     \
+        PTR_ADD(src_ptr, srcScbn);                     \
     }                                                  \
 }
 
 /***************************************************************/
 
 #define LOAD_2F32(ptr, ind0, ind1)     \
-    vis_freg_pair(((mlib_f32*)(ptr))[ind0], ((mlib_f32*)(ptr))[ind1])
+    vis_freg_pbir(((mlib_f32*)(ptr))[ind0], ((mlib_f32*)(ptr))[ind1])
 
 /***************************************************************/
 
 #define LOAD_NEXT_U8(dd, ptr)          \
-    dd = vis_faligndata(vis_ld_u8(ptr), dd)
+    dd = vis_fbligndbtb(vis_ld_u8(ptr), dd)
 
 /***************************************************************/
 
 #define LOAD_NEXT_U16(dd, ptr)         \
-    dd = vis_faligndata(vis_ld_u16(ptr), dd)
+    dd = vis_fbligndbtb(vis_ld_u16(ptr), dd)
 
 /***************************************************************/
 
-jboolean checkSameLut(jint * SrcReadLut,
-                      jint * DstReadLut,
-                      SurfaceDataRasInfo * pSrcInfo,
-                      SurfaceDataRasInfo * pDstInfo);
+jboolebn checkSbmeLut(jint * SrcRebdLut,
+                      jint * DstRebdLut,
+                      SurfbceDbtbRbsInfo * pSrcInfo,
+                      SurfbceDbtbRbsInfo * pDstInfo);
 
 void ADD_SUFF(AnyByteIsomorphicCopy)(BLIT_PARAMS);
 
-void ADD_SUFF(AnyByteIsomorphicScaleCopy)(SCALE_PARAMS);
+void ADD_SUFF(AnyByteIsomorphicScbleCopy)(SCALE_PARAMS);
 
-void ADD_SUFF(AnyByteSetRect)(SurfaceDataRasInfo * pRasInfo,
+void ADD_SUFF(AnyByteSetRect)(SurfbceDbtbRbsInfo * pRbsInfo,
                               jint lox, jint loy, jint hix,
                               jint hiy, jint pixel,
-                              NativePrimitive * pPrim,
+                              NbtivePrimitive * pPrim,
                               CompositeInfo * pCompInfo);
 
-void ADD_SUFF(Any4ByteSetRect)(SurfaceDataRasInfo * pRasInfo,
+void ADD_SUFF(Any4ByteSetRect)(SurfbceDbtbRbsInfo * pRbsInfo,
                                jint lox, jint loy, jint hix,
                                jint hiy, jint pixel,
-                               NativePrimitive * pPrim,
+                               NbtivePrimitive * pPrim,
                                CompositeInfo * pCompInfo);
 
-void ADD_SUFF(Any3ByteSetRect)(SurfaceDataRasInfo * pRasInfo,
+void ADD_SUFF(Any3ByteSetRect)(SurfbceDbtbRbsInfo * pRbsInfo,
                                jint lox, jint loy, jint hix,
                                jint hiy, jint pixel,
-                               NativePrimitive * pPrim,
+                               NbtivePrimitive * pPrim,
                                CompositeInfo * pCompInfo);
 
-void ADD_SUFF(AnyIntSetRect)(SurfaceDataRasInfo * pRasInfo,
+void ADD_SUFF(AnyIntSetRect)(SurfbceDbtbRbsInfo * pRbsInfo,
                              jint lox, jint loy, jint hix,
                              jint hiy, jint pixel,
-                             NativePrimitive * pPrim,
+                             NbtivePrimitive * pPrim,
                              CompositeInfo * pCompInfo);
 
-void AnyByteSetRect(SurfaceDataRasInfo * pRasInfo,
+void AnyByteSetRect(SurfbceDbtbRbsInfo * pRbsInfo,
                     jint lox, jint loy, jint hix,
                     jint hiy, jint pixel,
-                    NativePrimitive * pPrim,
+                    NbtivePrimitive * pPrim,
                     CompositeInfo * pCompInfo);
 
-void AnyIntSetRect(SurfaceDataRasInfo * pRasInfo,
+void AnyIntSetRect(SurfbceDbtbRbsInfo * pRbsInfo,
                    jint lox, jint loy, jint hix,
                    jint hiy, jint pixel,
-                   NativePrimitive * pPrim,
+                   NbtivePrimitive * pPrim,
                    CompositeInfo * pCompInfo);
 
-void ADD_SUFF(IntArgbToByteGrayConvert)(BLIT_PARAMS);
-void ADD_SUFF(ByteGrayToIntArgbConvert)(BLIT_PARAMS);
+void ADD_SUFF(IntArgbToByteGrbyConvert)(BLIT_PARAMS);
+void ADD_SUFF(ByteGrbyToIntArgbConvert)(BLIT_PARAMS);
 void ADD_SUFF(FourByteAbgrToIntArgbConvert)(BLIT_PARAMS);
 void ADD_SUFF(IntArgbToFourByteAbgrConvert)(BLIT_PARAMS);
 void ADD_SUFF(ThreeByteBgrToIntArgbConvert)(BLIT_PARAMS);
 void ADD_SUFF(TreeByteBgrToIntArgbConvert)(BLIT_PARAMS);
 void ADD_SUFF(IntArgbPreToIntArgbConvert)(BLIT_PARAMS);
-void ADD_SUFF(FourByteAbgrToIntArgbScaleConvert)(SCALE_PARAMS);
-void ADD_SUFF(ByteGrayToIntArgbPreConvert)(BLIT_PARAMS);
+void ADD_SUFF(FourByteAbgrToIntArgbScbleConvert)(SCALE_PARAMS);
+void ADD_SUFF(ByteGrbyToIntArgbPreConvert)(BLIT_PARAMS);
 void ADD_SUFF(IntArgbToIntArgbPreConvert)(BLIT_PARAMS);
 void ADD_SUFF(IntRgbToIntArgbPreConvert)(BLIT_PARAMS);
 void ADD_SUFF(ThreeByteBgrToIntArgbPreConvert)(BLIT_PARAMS);
-void ADD_SUFF(ByteGrayToIntArgbPreScaleConvert)(SCALE_PARAMS);
-void ADD_SUFF(IntArgbToIntArgbPreScaleConvert)(SCALE_PARAMS);
-void ADD_SUFF(IntRgbToIntArgbPreScaleConvert)(SCALE_PARAMS);
-void ADD_SUFF(ThreeByteBgrToIntArgbPreScaleConvert)(SCALE_PARAMS);
+void ADD_SUFF(ByteGrbyToIntArgbPreScbleConvert)(SCALE_PARAMS);
+void ADD_SUFF(IntArgbToIntArgbPreScbleConvert)(SCALE_PARAMS);
+void ADD_SUFF(IntRgbToIntArgbPreScbleConvert)(SCALE_PARAMS);
+void ADD_SUFF(ThreeByteBgrToIntArgbPreScbleConvert)(SCALE_PARAMS);
 void ADD_SUFF(ByteIndexedToFourByteAbgrConvert)(BLIT_PARAMS);
-void ADD_SUFF(ByteIndexedBmToFourByteAbgrXparOver)(BLIT_PARAMS);
-void ADD_SUFF(ByteIndexedBmToFourByteAbgrScaleXparOver)(SCALE_PARAMS);
-void ADD_SUFF(ByteIndexedToFourByteAbgrScaleConvert)(SCALE_PARAMS);
+void ADD_SUFF(ByteIndexedBmToFourByteAbgrXpbrOver)(BLIT_PARAMS);
+void ADD_SUFF(ByteIndexedBmToFourByteAbgrScbleXpbrOver)(SCALE_PARAMS);
+void ADD_SUFF(ByteIndexedToFourByteAbgrScbleConvert)(SCALE_PARAMS);
 void ADD_SUFF(IntArgbToThreeByteBgrConvert)(BLIT_PARAMS);
-void ADD_SUFF(IntArgbToUshortGrayConvert)(BLIT_PARAMS);
-void ADD_SUFF(ByteIndexedBmToFourByteAbgrXparBgCopy)(BCOPY_PARAMS);
+void ADD_SUFF(IntArgbToUshortGrbyConvert)(BLIT_PARAMS);
+void ADD_SUFF(ByteIndexedBmToFourByteAbgrXpbrBgCopy)(BCOPY_PARAMS);
 
 void IntArgbToThreeByteBgrConvert(BLIT_PARAMS);
 
 /***************************************************************/
 
-#endif /* Java2d_Mlib_h_Included */
+#endif /* Jbvb2d_Mlib_h_Included */

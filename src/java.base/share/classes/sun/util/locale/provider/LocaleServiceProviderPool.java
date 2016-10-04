@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.IllformedLocaleException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Locale.Builder;
-import java.util.ResourceBundle.Control;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.spi.LocaleServiceProvider;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.IllformedLocbleException;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Locble.Builder;
+import jbvb.util.ResourceBundle.Control;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.spi.LocbleServiceProvider;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * An instance of this class holds a set of the third party implementations of a particular
- * locale sensitive service, such as {@link java.util.spi.LocaleNameProvider}.
+ * An instbnce of this clbss holds b set of the third pbrty implementbtions of b pbrticulbr
+ * locble sensitive service, such bs {@link jbvb.util.spi.LocbleNbmeProvider}.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
  */
-public final class LocaleServiceProviderPool {
+public finbl clbss LocbleServiceProviderPool {
 
     /**
-     * A Map that holds singleton instances of this class.  Each instance holds a
-     * set of provider implementations of a particular locale sensitive service.
+     * A Mbp thbt holds singleton instbnces of this clbss.  Ebch instbnce holds b
+     * set of provider implementbtions of b pbrticulbr locble sensitive service.
      */
-    private static ConcurrentMap<Class<? extends LocaleServiceProvider>, LocaleServiceProviderPool> poolOfPools =
-        new ConcurrentHashMap<>();
+    privbte stbtic ConcurrentMbp<Clbss<? extends LocbleServiceProvider>, LocbleServiceProviderPool> poolOfPools =
+        new ConcurrentHbshMbp<>();
 
     /**
-     * A Map containing locale service providers that implement the
-     * specified provider SPI, keyed by a LocaleProviderAdapter.Type
+     * A Mbp contbining locble service providers thbt implement the
+     * specified provider SPI, keyed by b LocbleProviderAdbpter.Type
      */
-    private ConcurrentMap<LocaleProviderAdapter.Type, LocaleServiceProvider> providers =
-        new ConcurrentHashMap<>();
+    privbte ConcurrentMbp<LocbleProviderAdbpter.Type, LocbleServiceProvider> providers =
+        new ConcurrentHbshMbp<>();
 
     /**
-     * A Map that retains Locale->provider mapping
+     * A Mbp thbt retbins Locble->provider mbpping
      */
-    private ConcurrentMap<Locale, List<LocaleProviderAdapter.Type>> providersCache =
-        new ConcurrentHashMap<>();
+    privbte ConcurrentMbp<Locble, List<LocbleProviderAdbpter.Type>> providersCbche =
+        new ConcurrentHbshMbp<>();
 
     /**
-     * Available locales for this locale sensitive service.  This also contains
-     * JRE's available locales
+     * Avbilbble locbles for this locble sensitive service.  This blso contbins
+     * JRE's bvbilbble locbles
      */
-    private Set<Locale> availableLocales = null;
+    privbte Set<Locble> bvbilbbleLocbles = null;
 
     /**
-     * Provider class
+     * Provider clbss
      */
-    private Class<? extends LocaleServiceProvider> providerClass;
+    privbte Clbss<? extends LocbleServiceProvider> providerClbss;
 
     /**
-     * Array of all Locale Sensitive SPI classes.
+     * Arrby of bll Locble Sensitive SPI clbsses.
      *
-     * We know "spiClasses" contains classes that extends LocaleServiceProvider,
-     * but generic array creation is not allowed, thus the "unchecked" warning
+     * We know "spiClbsses" contbins clbsses thbt extends LocbleServiceProvider,
+     * but generic brrby crebtion is not bllowed, thus the "unchecked" wbrning
      * is suppressed here.
      */
-    @SuppressWarnings("unchecked")
-    static final Class<LocaleServiceProvider>[] spiClasses =
-                (Class<LocaleServiceProvider>[]) new Class<?>[] {
-        java.text.spi.BreakIteratorProvider.class,
-        java.text.spi.CollatorProvider.class,
-        java.text.spi.DateFormatProvider.class,
-        java.text.spi.DateFormatSymbolsProvider.class,
-        java.text.spi.DecimalFormatSymbolsProvider.class,
-        java.text.spi.NumberFormatProvider.class,
-        java.util.spi.CurrencyNameProvider.class,
-        java.util.spi.LocaleNameProvider.class,
-        java.util.spi.TimeZoneNameProvider.class,
-        java.util.spi.CalendarDataProvider.class
+    @SuppressWbrnings("unchecked")
+    stbtic finbl Clbss<LocbleServiceProvider>[] spiClbsses =
+                (Clbss<LocbleServiceProvider>[]) new Clbss<?>[] {
+        jbvb.text.spi.BrebkIterbtorProvider.clbss,
+        jbvb.text.spi.CollbtorProvider.clbss,
+        jbvb.text.spi.DbteFormbtProvider.clbss,
+        jbvb.text.spi.DbteFormbtSymbolsProvider.clbss,
+        jbvb.text.spi.DecimblFormbtSymbolsProvider.clbss,
+        jbvb.text.spi.NumberFormbtProvider.clbss,
+        jbvb.util.spi.CurrencyNbmeProvider.clbss,
+        jbvb.util.spi.LocbleNbmeProvider.clbss,
+        jbvb.util.spi.TimeZoneNbmeProvider.clbss,
+        jbvb.util.spi.CblendbrDbtbProvider.clbss
     };
 
     /**
-     * A factory method that returns a singleton instance
+     * A fbctory method thbt returns b singleton instbnce
      */
-    public static LocaleServiceProviderPool getPool(Class<? extends LocaleServiceProvider> providerClass) {
-        LocaleServiceProviderPool pool = poolOfPools.get(providerClass);
+    public stbtic LocbleServiceProviderPool getPool(Clbss<? extends LocbleServiceProvider> providerClbss) {
+        LocbleServiceProviderPool pool = poolOfPools.get(providerClbss);
         if (pool == null) {
-            LocaleServiceProviderPool newPool =
-                new LocaleServiceProviderPool(providerClass);
-            pool = poolOfPools.putIfAbsent(providerClass, newPool);
+            LocbleServiceProviderPool newPool =
+                new LocbleServiceProviderPool(providerClbss);
+            pool = poolOfPools.putIfAbsent(providerClbss, newPool);
             if (pool == null) {
                 pool = newPool;
             }
@@ -122,15 +122,15 @@ public final class LocaleServiceProviderPool {
     /**
      * The sole constructor.
      *
-     * @param c class of the locale sensitive service
+     * @pbrbm c clbss of the locble sensitive service
      */
-    private LocaleServiceProviderPool (final Class<? extends LocaleServiceProvider> c) {
-        providerClass = c;
+    privbte LocbleServiceProviderPool (finbl Clbss<? extends LocbleServiceProvider> c) {
+        providerClbss = c;
 
-        for (LocaleProviderAdapter.Type type : LocaleProviderAdapter.getAdapterPreference()) {
-            LocaleProviderAdapter lda = LocaleProviderAdapter.forType(type);
-            if (lda != null) {
-                LocaleServiceProvider provider = lda.getLocaleServiceProvider(c);
+        for (LocbleProviderAdbpter.Type type : LocbleProviderAdbpter.getAdbpterPreference()) {
+            LocbleProviderAdbpter ldb = LocbleProviderAdbpter.forType(type);
+            if (ldb != null) {
+                LocbleServiceProvider provider = ldb.getLocbleServiceProvider(c);
                 if (provider != null) {
                     providers.putIfAbsent(type, provider);
                 }
@@ -138,166 +138,166 @@ public final class LocaleServiceProviderPool {
         }
     }
 
-    static void config(Class<? extends Object> caller, String message) {
-        PlatformLogger logger = PlatformLogger.getLogger(caller.getCanonicalName());
-        logger.config(message);
+    stbtic void config(Clbss<? extends Object> cbller, String messbge) {
+        PlbtformLogger logger = PlbtformLogger.getLogger(cbller.getCbnonicblNbme());
+        logger.config(messbge);
     }
 
     /**
-     * Lazy loaded set of available locales.
-     * Loading all locales is a very long operation.
+     * Lbzy lobded set of bvbilbble locbles.
+     * Lobding bll locbles is b very long operbtion.
      */
-    private static class AllAvailableLocales {
+    privbte stbtic clbss AllAvbilbbleLocbles {
         /**
-         * Available locales for all locale sensitive services.
-         * This also contains JRE's available locales
+         * Avbilbble locbles for bll locble sensitive services.
+         * This blso contbins JRE's bvbilbble locbles
          */
-        static final Locale[] allAvailableLocales;
+        stbtic finbl Locble[] bllAvbilbbleLocbles;
 
-        static {
-            Set<Locale> all = new HashSet<>();
-            for (Class<? extends LocaleServiceProvider> c : spiClasses) {
-                LocaleServiceProviderPool pool =
-                    LocaleServiceProviderPool.getPool(c);
-                all.addAll(pool.getAvailableLocaleSet());
+        stbtic {
+            Set<Locble> bll = new HbshSet<>();
+            for (Clbss<? extends LocbleServiceProvider> c : spiClbsses) {
+                LocbleServiceProviderPool pool =
+                    LocbleServiceProviderPool.getPool(c);
+                bll.bddAll(pool.getAvbilbbleLocbleSet());
             }
 
-            allAvailableLocales = all.toArray(new Locale[0]);
+            bllAvbilbbleLocbles = bll.toArrby(new Locble[0]);
         }
 
-        // No instantiation
-        private AllAvailableLocales() {
+        // No instbntibtion
+        privbte AllAvbilbbleLocbles() {
         }
     }
 
     /**
-     * Returns an array of available locales for all the provider classes.
-     * This array is a merged array of all the locales that are provided by each
+     * Returns bn brrby of bvbilbble locbles for bll the provider clbsses.
+     * This brrby is b merged brrby of bll the locbles thbt bre provided by ebch
      * provider, including the JRE.
      *
-     * @return an array of the available locales for all provider classes
+     * @return bn brrby of the bvbilbble locbles for bll provider clbsses
      */
-    public static Locale[] getAllAvailableLocales() {
-        return AllAvailableLocales.allAvailableLocales.clone();
+    public stbtic Locble[] getAllAvbilbbleLocbles() {
+        return AllAvbilbbleLocbles.bllAvbilbbleLocbles.clone();
     }
 
     /**
-     * Returns an array of available locales.  This array is a
-     * merged array of all the locales that are provided by each
+     * Returns bn brrby of bvbilbble locbles.  This brrby is b
+     * merged brrby of bll the locbles thbt bre provided by ebch
      * provider, including the JRE.
      *
-     * @return an array of the available locales
+     * @return bn brrby of the bvbilbble locbles
      */
-    public Locale[] getAvailableLocales() {
-        Set<Locale> locList = new HashSet<>();
-        locList.addAll(getAvailableLocaleSet());
-        // Make sure it all contains JRE's locales for compatibility.
-        locList.addAll(Arrays.asList(LocaleProviderAdapter.forJRE().getAvailableLocales()));
-        Locale[] tmp = new Locale[locList.size()];
-        locList.toArray(tmp);
+    public Locble[] getAvbilbbleLocbles() {
+        Set<Locble> locList = new HbshSet<>();
+        locList.bddAll(getAvbilbbleLocbleSet());
+        // Mbke sure it bll contbins JRE's locbles for compbtibility.
+        locList.bddAll(Arrbys.bsList(LocbleProviderAdbpter.forJRE().getAvbilbbleLocbles()));
+        Locble[] tmp = new Locble[locList.size()];
+        locList.toArrby(tmp);
         return tmp;
     }
 
     /**
-     * Returns the union of locale sets that are available from
-     * each service provider. This method does NOT return the
+     * Returns the union of locble sets thbt bre bvbilbble from
+     * ebch service provider. This method does NOT return the
      * defensive copy.
      *
-     * @return a set of available locales
+     * @return b set of bvbilbble locbles
      */
-    private synchronized Set<Locale> getAvailableLocaleSet() {
-        if (availableLocales == null) {
-            availableLocales = new HashSet<>();
-            for (LocaleServiceProvider lsp : providers.values()) {
-                Locale[] locales = lsp.getAvailableLocales();
-                for (Locale locale: locales) {
-                    availableLocales.add(getLookupLocale(locale));
+    privbte synchronized Set<Locble> getAvbilbbleLocbleSet() {
+        if (bvbilbbleLocbles == null) {
+            bvbilbbleLocbles = new HbshSet<>();
+            for (LocbleServiceProvider lsp : providers.vblues()) {
+                Locble[] locbles = lsp.getAvbilbbleLocbles();
+                for (Locble locble: locbles) {
+                    bvbilbbleLocbles.bdd(getLookupLocble(locble));
                 }
             }
         }
 
-        return availableLocales;
+        return bvbilbbleLocbles;
     }
 
     /**
-     * Returns whether any provider for this locale sensitive
-     * service is available or not, excluding JRE's one.
+     * Returns whether bny provider for this locble sensitive
+     * service is bvbilbble or not, excluding JRE's one.
      *
-     * @return true if any provider (other than JRE) is available
+     * @return true if bny provider (other thbn JRE) is bvbilbble
      */
-    boolean hasProviders() {
+    boolebn hbsProviders() {
         return providers.size() != 1 ||
-               (providers.get(LocaleProviderAdapter.Type.JRE) == null &&
-                providers.get(LocaleProviderAdapter.Type.FALLBACK) == null);
+               (providers.get(LocbleProviderAdbpter.Type.JRE) == null &&
+                providers.get(LocbleProviderAdbpter.Type.FALLBACK) == null);
     }
 
     /**
-     * Returns the provider's localized object for the specified
-     * locale.
+     * Returns the provider's locblized object for the specified
+     * locble.
      *
-     * @param getter an object on which getObject() method
-     *     is called to obtain the provider's instance.
-     * @param locale the given locale that is used as the starting one
-     * @param params provider specific parameters
-     * @return provider's instance, or null.
+     * @pbrbm getter bn object on which getObject() method
+     *     is cblled to obtbin the provider's instbnce.
+     * @pbrbm locble the given locble thbt is used bs the stbrting one
+     * @pbrbm pbrbms provider specific pbrbmeters
+     * @return provider's instbnce, or null.
      */
-    public <P extends LocaleServiceProvider, S> S getLocalizedObject(LocalizedObjectGetter<P, S> getter,
-                                     Locale locale,
-                                     Object... params) {
-        return getLocalizedObjectImpl(getter, locale, true, null, params);
+    public <P extends LocbleServiceProvider, S> S getLocblizedObject(LocblizedObjectGetter<P, S> getter,
+                                     Locble locble,
+                                     Object... pbrbms) {
+        return getLocblizedObjectImpl(getter, locble, true, null, pbrbms);
     }
 
     /**
-     * Returns the provider's localized name for the specified
-     * locale.
+     * Returns the provider's locblized nbme for the specified
+     * locble.
      *
-     * @param getter an object on which getObject() method
-     *     is called to obtain the provider's instance.
-     * @param locale the given locale that is used as the starting one
-     * @param key the key string for name providers
-     * @param params provider specific parameters
-     * @return provider's instance, or null.
+     * @pbrbm getter bn object on which getObject() method
+     *     is cblled to obtbin the provider's instbnce.
+     * @pbrbm locble the given locble thbt is used bs the stbrting one
+     * @pbrbm key the key string for nbme providers
+     * @pbrbm pbrbms provider specific pbrbmeters
+     * @return provider's instbnce, or null.
      */
-    public <P extends LocaleServiceProvider, S> S getLocalizedObject(LocalizedObjectGetter<P, S> getter,
-                                     Locale locale,
+    public <P extends LocbleServiceProvider, S> S getLocblizedObject(LocblizedObjectGetter<P, S> getter,
+                                     Locble locble,
                                      String key,
-                                     Object... params) {
-        return getLocalizedObjectImpl(getter, locale, false, key, params);
+                                     Object... pbrbms) {
+        return getLocblizedObjectImpl(getter, locble, fblse, key, pbrbms);
     }
 
-    @SuppressWarnings("unchecked")
-    private <P extends LocaleServiceProvider, S> S getLocalizedObjectImpl(LocalizedObjectGetter<P, S> getter,
-                                     Locale locale,
-                                     boolean isObjectProvider,
+    @SuppressWbrnings("unchecked")
+    privbte <P extends LocbleServiceProvider, S> S getLocblizedObjectImpl(LocblizedObjectGetter<P, S> getter,
+                                     Locble locble,
+                                     boolebn isObjectProvider,
                                      String key,
-                                     Object... params) {
-        if (locale == null) {
+                                     Object... pbrbms) {
+        if (locble == null) {
             throw new NullPointerException();
         }
 
-        // Check whether JRE is the sole locale data provider or not,
-        // and directly call it if it is.
-        if (!hasProviders()) {
-            return getter.getObject((P)providers.get(LocaleProviderAdapter.defaultLocaleProviderAdapter),
-                                    locale, key, params);
+        // Check whether JRE is the sole locble dbtb provider or not,
+        // bnd directly cbll it if it is.
+        if (!hbsProviders()) {
+            return getter.getObject((P)providers.get(LocbleProviderAdbpter.defbultLocbleProviderAdbpter),
+                                    locble, key, pbrbms);
         }
 
-        List<Locale> lookupLocales = getLookupLocales(locale);
+        List<Locble> lookupLocbles = getLookupLocbles(locble);
 
-        Set<Locale> available = getAvailableLocaleSet();
-        for (Locale current : lookupLocales) {
-            if (available.contains(current)) {
+        Set<Locble> bvbilbble = getAvbilbbleLocbleSet();
+        for (Locble current : lookupLocbles) {
+            if (bvbilbble.contbins(current)) {
                 S providersObj;
 
-                for (LocaleProviderAdapter.Type type: findProviders(current)) {
-                    LocaleServiceProvider lsp = providers.get(type);
-                    providersObj = getter.getObject((P)lsp, locale, key, params);
+                for (LocbleProviderAdbpter.Type type: findProviders(current)) {
+                    LocbleServiceProvider lsp = providers.get(type);
+                    providersObj = getter.getObject((P)lsp, locble, key, pbrbms);
                     if (providersObj != null) {
                         return providersObj;
                     } else if (isObjectProvider) {
-                        config(LocaleServiceProviderPool.class,
-                            "A locale sensitive service provider returned null for a localized objects,  which should not happen.  provider: "
-                                + lsp + " locale: " + locale);
+                        config(LocbleServiceProviderPool.clbss,
+                            "A locble sensitive service provider returned null for b locblized objects,  which should not hbppen.  provider: "
+                                + lsp + " locble: " + locble);
                     }
                 }
             }
@@ -308,23 +308,23 @@ public final class LocaleServiceProviderPool {
     }
 
     /**
-     * Returns the list of locale service provider instances that support
-     * the specified locale.
+     * Returns the list of locble service provider instbnces thbt support
+     * the specified locble.
      *
-     * @param locale the given locale
-     * @return the list of locale data adapter types
+     * @pbrbm locble the given locble
+     * @return the list of locble dbtb bdbpter types
      */
-    private List<LocaleProviderAdapter.Type> findProviders(Locale locale) {
-        List<LocaleProviderAdapter.Type> providersList = providersCache.get(locale);
+    privbte List<LocbleProviderAdbpter.Type> findProviders(Locble locble) {
+        List<LocbleProviderAdbpter.Type> providersList = providersCbche.get(locble);
         if (providersList == null) {
-            for (LocaleProviderAdapter.Type type : LocaleProviderAdapter.getAdapterPreference()) {
-                LocaleServiceProvider lsp = providers.get(type);
+            for (LocbleProviderAdbpter.Type type : LocbleProviderAdbpter.getAdbpterPreference()) {
+                LocbleServiceProvider lsp = providers.get(type);
                 if (lsp != null) {
-                    if (lsp.isSupportedLocale(locale)) {
+                    if (lsp.isSupportedLocble(locble)) {
                         if (providersList == null) {
-                            providersList = new ArrayList<>(2);
+                            providersList = new ArrbyList<>(2);
                         }
-                        providersList.add(type);
+                        providersList.bdd(type);
 
                     }
                 }
@@ -332,88 +332,88 @@ public final class LocaleServiceProviderPool {
             if (providersList == null) {
                 providersList = NULL_LIST;
             }
-            List<LocaleProviderAdapter.Type> val = providersCache.putIfAbsent(locale, providersList);
-            if (val != null) {
-                providersList = val;
+            List<LocbleProviderAdbpter.Type> vbl = providersCbche.putIfAbsent(locble, providersList);
+            if (vbl != null) {
+                providersList = vbl;
             }
         }
             return providersList;
         }
 
     /**
-     * Returns a list of candidate locales for service look up.
-     * @param locale the input locale
-     * @return the list of candidate locales for the given locale
+     * Returns b list of cbndidbte locbles for service look up.
+     * @pbrbm locble the input locble
+     * @return the list of cbndidbte locbles for the given locble
      */
-    static List<Locale> getLookupLocales(Locale locale) {
-        // Note: We currently use the default implementation of
-        // ResourceBundle.Control.getCandidateLocales. The result
-        // returned by getCandidateLocales are already normalized
+    stbtic List<Locble> getLookupLocbles(Locble locble) {
+        // Note: We currently use the defbult implementbtion of
+        // ResourceBundle.Control.getCbndidbteLocbles. The result
+        // returned by getCbndidbteLocbles bre blrebdy normblized
         // (no extensions) for service look up.
-        List<Locale> lookupLocales = Control.getNoFallbackControl(Control.FORMAT_DEFAULT)
-                                            .getCandidateLocales("", locale);
-        return lookupLocales;
+        List<Locble> lookupLocbles = Control.getNoFbllbbckControl(Control.FORMAT_DEFAULT)
+                                            .getCbndidbteLocbles("", locble);
+        return lookupLocbles;
     }
 
     /**
-     * Returns an instance of Locale used for service look up.
-     * The result Locale has no extensions except for ja_JP_JP
-     * and th_TH_TH
+     * Returns bn instbnce of Locble used for service look up.
+     * The result Locble hbs no extensions except for jb_JP_JP
+     * bnd th_TH_TH
      *
-     * @param locale the locale
-     * @return the locale used for service look up
+     * @pbrbm locble the locble
+     * @return the locble used for service look up
      */
-    static Locale getLookupLocale(Locale locale) {
-        Locale lookupLocale = locale;
-        if (locale.hasExtensions()
-                && !locale.equals(JRELocaleConstants.JA_JP_JP)
-                && !locale.equals(JRELocaleConstants.TH_TH_TH)) {
+    stbtic Locble getLookupLocble(Locble locble) {
+        Locble lookupLocble = locble;
+        if (locble.hbsExtensions()
+                && !locble.equbls(JRELocbleConstbnts.JA_JP_JP)
+                && !locble.equbls(JRELocbleConstbnts.TH_TH_TH)) {
             // remove extensions
             Builder locbld = new Builder();
             try {
-                locbld.setLocale(locale);
-                locbld.clearExtensions();
-                lookupLocale = locbld.build();
-            } catch (IllformedLocaleException e) {
-                // A Locale with non-empty extensions
-                // should have well-formed fields except
-                // for ja_JP_JP and th_TH_TH. Therefore,
-                // it should never enter in this catch clause.
-                config(LocaleServiceProviderPool.class,
-                       "A locale(" + locale + ") has non-empty extensions, but has illformed fields.");
+                locbld.setLocble(locble);
+                locbld.clebrExtensions();
+                lookupLocble = locbld.build();
+            } cbtch (IllformedLocbleException e) {
+                // A Locble with non-empty extensions
+                // should hbve well-formed fields except
+                // for jb_JP_JP bnd th_TH_TH. Therefore,
+                // it should never enter in this cbtch clbuse.
+                config(LocbleServiceProviderPool.clbss,
+                       "A locble(" + locble + ") hbs non-empty extensions, but hbs illformed fields.");
 
-                // Fallback - script field will be lost.
-                lookupLocale = new Locale(locale.getLanguage(), locale.getCountry(), locale.getVariant());
+                // Fbllbbck - script field will be lost.
+                lookupLocble = new Locble(locble.getLbngubge(), locble.getCountry(), locble.getVbribnt());
             }
         }
-        return lookupLocale;
+        return lookupLocble;
     }
 
     /**
-     * A dummy locale service provider list that indicates there is no
-     * provider available
+     * A dummy locble service provider list thbt indicbtes there is no
+     * provider bvbilbble
      */
-    private static List<LocaleProviderAdapter.Type> NULL_LIST =
+    privbte stbtic List<LocbleProviderAdbpter.Type> NULL_LIST =
         Collections.emptyList();
 
     /**
-     * An interface to get a localized object for each locale sensitive
-     * service class.
+     * An interfbce to get b locblized object for ebch locble sensitive
+     * service clbss.
      */
-    public interface LocalizedObjectGetter<P extends LocaleServiceProvider, S> {
+    public interfbce LocblizedObjectGetter<P extends LocbleServiceProvider, S> {
         /**
-         * Returns an object from the provider
+         * Returns bn object from the provider
          *
-         * @param lsp the provider
-         * @param locale the locale
-         * @param key key string to localize, or null if the provider is not
-         *     a name provider
-         * @param params provider specific params
-         * @return localized object from the provider
+         * @pbrbm lsp the provider
+         * @pbrbm locble the locble
+         * @pbrbm key key string to locblize, or null if the provider is not
+         *     b nbme provider
+         * @pbrbm pbrbms provider specific pbrbms
+         * @return locblized object from the provider
          */
         public S getObject(P lsp,
-                           Locale locale,
+                           Locble locble,
                            String key,
-                           Object... params);
+                           Object... pbrbms);
     }
 }

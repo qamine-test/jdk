@@ -1,467 +1,467 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.dnd.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
+import jbvb.bwt.peer.*;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.accessibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
+import jbvbx.bccessibility.*;
 
-import java.util.Map;
-import java.util.concurrent.Callable;
+import jbvb.util.Mbp;
+import jbvb.util.concurrent.Cbllbble;
 
-import sun.awt.dnd.*;
-import sun.lwawt.LWComponentPeer;
-import sun.lwawt.LWWindowPeer;
-import sun.lwawt.PlatformWindow;
+import sun.bwt.dnd.*;
+import sun.lwbwt.LWComponentPeer;
+import sun.lwbwt.LWWindowPeer;
+import sun.lwbwt.PlbtformWindow;
 
 
-public final class CDragSourceContextPeer extends SunDragSourceContextPeer {
+public finbl clbss CDrbgSourceContextPeer extends SunDrbgSourceContextPeer {
 
-    private static final CDragSourceContextPeer fInstance = new CDragSourceContextPeer(null);
+    privbte stbtic finbl CDrbgSourceContextPeer fInstbnce = new CDrbgSourceContextPeer(null);
 
-    private Image  fDragImage;
-    private CImage fDragCImage;
-    private Point  fDragImageOffset;
+    privbte Imbge  fDrbgImbge;
+    privbte CImbge fDrbgCImbge;
+    privbte Point  fDrbgImbgeOffset;
 
-    private static Component hoveringComponent = null;
+    privbte stbtic Component hoveringComponent = null;
 
-    private static double fMaxImageSize = 128.0;
+    privbte stbtic double fMbxImbgeSize = 128.0;
 
-    static {
-        String propValue = java.security.AccessController.doPrivileged(new sun.security.action.GetPropertyAction("apple.awt.dnd.defaultDragImageSize"));
-        if (propValue != null) {
+    stbtic {
+        String propVblue = jbvb.security.AccessController.doPrivileged(new sun.security.bction.GetPropertyAction("bpple.bwt.dnd.defbultDrbgImbgeSize"));
+        if (propVblue != null) {
             try {
-                double value = Double.parseDouble(propValue);
-                if (value > 0) {
-                    fMaxImageSize = value;
+                double vblue = Double.pbrseDouble(propVblue);
+                if (vblue > 0) {
+                    fMbxImbgeSize = vblue;
                 }
-            } catch(NumberFormatException e) {}
+            } cbtch(NumberFormbtException e) {}
         }
     }
 
-    private CDragSourceContextPeer(DragGestureEvent dge) {
+    privbte CDrbgSourceContextPeer(DrbgGestureEvent dge) {
         super(dge);
     }
 
-    public static CDragSourceContextPeer createDragSourceContextPeer(DragGestureEvent dge) throws InvalidDnDOperationException {
-        fInstance.setTrigger(dge);
+    public stbtic CDrbgSourceContextPeer crebteDrbgSourceContextPeer(DrbgGestureEvent dge) throws InvblidDnDOperbtionException {
+        fInstbnce.setTrigger(dge);
 
-        return fInstance;
+        return fInstbnce;
     }
 
-    // We have to overload this method just to be able to grab the drag image and its offset as shared code doesn't store it:
-    public void startDrag(DragSourceContext dsc, Cursor cursor, Image dragImage, Point dragImageOffset) throws InvalidDnDOperationException {
-        fDragImage = dragImage;
-        fDragImageOffset = dragImageOffset;
+    // We hbve to overlobd this method just to be bble to grbb the drbg imbge bnd its offset bs shbred code doesn't store it:
+    public void stbrtDrbg(DrbgSourceContext dsc, Cursor cursor, Imbge drbgImbge, Point drbgImbgeOffset) throws InvblidDnDOperbtionException {
+        fDrbgImbge = drbgImbge;
+        fDrbgImbgeOffset = drbgImbgeOffset;
 
-        super.startDrag(dsc, cursor, dragImage, dragImageOffset);
+        super.stbrtDrbg(dsc, cursor, drbgImbge, drbgImbgeOffset);
     }
 
-    protected void startDrag(Transferable transferable, long[] formats, Map<Long, DataFlavor> formatMap) {
-        DragGestureEvent trigger = getTrigger();
+    protected void stbrtDrbg(Trbnsferbble trbnsferbble, long[] formbts, Mbp<Long, DbtbFlbvor> formbtMbp) {
+        DrbgGestureEvent trigger = getTrigger();
         InputEvent         triggerEvent = trigger.getTriggerEvent();
 
-        Point dragOrigin = new Point(trigger.getDragOrigin());
+        Point drbgOrigin = new Point(trigger.getDrbgOrigin());
         int extModifiers = (triggerEvent.getModifiers() | triggerEvent.getModifiersEx());
-        long timestamp   = triggerEvent.getWhen();
-        int clickCount   = ((triggerEvent instanceof MouseEvent) ? (((MouseEvent) triggerEvent).getClickCount()) : 1);
+        long timestbmp   = triggerEvent.getWhen();
+        int clickCount   = ((triggerEvent instbnceof MouseEvent) ? (((MouseEvent) triggerEvent).getClickCount()) : 1);
 
         Component component = trigger.getComponent();
-        // For a lightweight component traverse up the hierarchy to the root
-        Point loc = component.getLocation();
+        // For b lightweight component trbverse up the hierbrchy to the root
+        Point loc = component.getLocbtion();
         Component rootComponent = component;
-        while (!(rootComponent instanceof Window)) {
-            dragOrigin.translate(loc.x, loc.y);
-            rootComponent = rootComponent.getParent();
-            loc = rootComponent.getLocation();
+        while (!(rootComponent instbnceof Window)) {
+            drbgOrigin.trbnslbte(loc.x, loc.y);
+            rootComponent = rootComponent.getPbrent();
+            loc = rootComponent.getLocbtion();
         }
 
-        // If there isn't any drag image make one of default appearance:
-        if (fDragImage == null)
-            this.setDefaultDragImage(component);
+        // If there isn't bny drbg imbge mbke one of defbult bppebrbnce:
+        if (fDrbgImbge == null)
+            this.setDefbultDrbgImbge(component);
 
-        // Get drag image (if any) as BufferedImage and convert that to CImage:
-        Point dragImageOffset;
+        // Get drbg imbge (if bny) bs BufferedImbge bnd convert thbt to CImbge:
+        Point drbgImbgeOffset;
 
-        if (fDragImage != null) {
+        if (fDrbgImbge != null) {
             try {
-                fDragCImage = CImage.getCreator().createFromImageImmediately(fDragImage);
-            } catch(Exception e) {
-                // image creation may fail for any reason
-                throw new InvalidDnDOperationException("Drag image can not be created.");
+                fDrbgCImbge = CImbge.getCrebtor().crebteFromImbgeImmedibtely(fDrbgImbge);
+            } cbtch(Exception e) {
+                // imbge crebtion mby fbil for bny rebson
+                throw new InvblidDnDOperbtionException("Drbg imbge cbn not be crebted.");
             }
-            if (fDragCImage == null) {
-                throw new InvalidDnDOperationException("Drag image is not ready.");
+            if (fDrbgCImbge == null) {
+                throw new InvblidDnDOperbtionException("Drbg imbge is not rebdy.");
             }
 
-            dragImageOffset = fDragImageOffset;
+            drbgImbgeOffset = fDrbgImbgeOffset;
         } else {
 
-            fDragCImage = null;
-            dragImageOffset = new Point(0, 0);
+            fDrbgCImbge = null;
+            drbgImbgeOffset = new Point(0, 0);
         }
 
         try {
-            //It sure will be LWComponentPeer instance as rootComponent is a Window
-            PlatformWindow platformWindow = ((LWComponentPeer)rootComponent.getPeer()).getPlatformWindow();
-            long nativeViewPtr = CPlatformWindow.getNativeViewPtr(platformWindow);
-            if (nativeViewPtr == 0L) throw new InvalidDnDOperationException("Unsupported platform window implementation");
+            //It sure will be LWComponentPeer instbnce bs rootComponent is b Window
+            PlbtformWindow plbtformWindow = ((LWComponentPeer)rootComponent.getPeer()).getPlbtformWindow();
+            long nbtiveViewPtr = CPlbtformWindow.getNbtiveViewPtr(plbtformWindow);
+            if (nbtiveViewPtr == 0L) throw new InvblidDnDOperbtionException("Unsupported plbtform window implementbtion");
 
-            // Create native dragging source:
-            final long nativeDragSource = createNativeDragSource(component, nativeViewPtr, transferable, triggerEvent,
-                (int) (dragOrigin.getX()), (int) (dragOrigin.getY()), extModifiers,
-                clickCount, timestamp, fDragCImage != null ? fDragCImage.ptr : 0L, dragImageOffset.x, dragImageOffset.y,
-                getDragSourceContext().getSourceActions(), formats, formatMap);
+            // Crebte nbtive drbgging source:
+            finbl long nbtiveDrbgSource = crebteNbtiveDrbgSource(component, nbtiveViewPtr, trbnsferbble, triggerEvent,
+                (int) (drbgOrigin.getX()), (int) (drbgOrigin.getY()), extModifiers,
+                clickCount, timestbmp, fDrbgCImbge != null ? fDrbgCImbge.ptr : 0L, drbgImbgeOffset.x, drbgImbgeOffset.y,
+                getDrbgSourceContext().getSourceActions(), formbts, formbtMbp);
 
-            if (nativeDragSource == 0)
-                throw new InvalidDnDOperationException("");
+            if (nbtiveDrbgSource == 0)
+                throw new InvblidDnDOperbtionException("");
 
-            setNativeContext(nativeDragSource);
+            setNbtiveContext(nbtiveDrbgSource);
         }
 
-        catch (Exception e) {
-            throw new InvalidDnDOperationException("failed to create native peer: " + e);
+        cbtch (Exception e) {
+            throw new InvblidDnDOperbtionException("fbiled to crebte nbtive peer: " + e);
         }
 
-        SunDropTargetContextPeer.setCurrentJVMLocalSourceTransferable(transferable);
+        SunDropTbrgetContextPeer.setCurrentJVMLocblSourceTrbnsferbble(trbnsferbble);
 
-        CCursorManager.getInstance().setCursor(getCursor());
+        CCursorMbnbger.getInstbnce().setCursor(getCursor());
 
-        // Create a new thread to run the dragging operation since it's synchronous, only coming back
-        // after dragging is finished. This leaves the AWT event thread free to handle AWT events which
-        // are posted during dragging by native event handlers.
+        // Crebte b new threbd to run the drbgging operbtion since it's synchronous, only coming bbck
+        // bfter drbgging is finished. This lebves the AWT event threbd free to hbndle AWT events which
+        // bre posted during drbgging by nbtive event hbndlers.
 
         try {
-            Thread dragThread = new Thread() {
+            Threbd drbgThrebd = new Threbd() {
                 public void run() {
-                    final long nativeDragSource = getNativeContext();
+                    finbl long nbtiveDrbgSource = getNbtiveContext();
                     try {
-                        doDragging(nativeDragSource);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        releaseNativeDragSource(nativeDragSource);
-                        fDragImage = null;
-                        if (fDragCImage != null) {
-                            fDragCImage.dispose();
-                            fDragCImage = null;
+                        doDrbgging(nbtiveDrbgSource);
+                    } cbtch (Exception e) {
+                        e.printStbckTrbce();
+                    } finblly {
+                        relebseNbtiveDrbgSource(nbtiveDrbgSource);
+                        fDrbgImbge = null;
+                        if (fDrbgCImbge != null) {
+                            fDrbgCImbge.dispose();
+                            fDrbgCImbge = null;
                         }
                     }
                 }
             };
 
-            dragThread.start();
+            drbgThrebd.stbrt();
         }
 
-        catch (Exception e) {
-            final long nativeDragSource = getNativeContext();
-            setNativeContext(0);
-            releaseNativeDragSource(nativeDragSource);
-            SunDropTargetContextPeer.setCurrentJVMLocalSourceTransferable(null);
-            throw new InvalidDnDOperationException("failed to start dragging thread: " + e);
+        cbtch (Exception e) {
+            finbl long nbtiveDrbgSource = getNbtiveContext();
+            setNbtiveContext(0);
+            relebseNbtiveDrbgSource(nbtiveDrbgSource);
+            SunDropTbrgetContextPeer.setCurrentJVMLocblSourceTrbnsferbble(null);
+            throw new InvblidDnDOperbtionException("fbiled to stbrt drbgging threbd: " + e);
         }
     }
 
-    private void setDefaultDragImage(Component component) {
-        boolean handled = false;
+    privbte void setDefbultDrbgImbge(Component component) {
+        boolebn hbndled = fblse;
 
-        // Special-case default drag image, depending on the drag source type:
+        // Specibl-cbse defbult drbg imbge, depending on the drbg source type:
         if (component.isLightweight()) {
-            if (component instanceof JTextComponent) {
-                this.setDefaultDragImage((JTextComponent) component);
-                handled = true;
-            } else if (component instanceof JTree) {
-                            this.setDefaultDragImage((JTree) component);
-                            handled = true;
-                        } else if (component instanceof JTable) {
-                            this.setDefaultDragImage((JTable) component);
-                            handled = true;
-                        } else if (component instanceof JList) {
-                            this.setDefaultDragImage((JList) component);
-                            handled = true;
+            if (component instbnceof JTextComponent) {
+                this.setDefbultDrbgImbge((JTextComponent) component);
+                hbndled = true;
+            } else if (component instbnceof JTree) {
+                            this.setDefbultDrbgImbge((JTree) component);
+                            hbndled = true;
+                        } else if (component instbnceof JTbble) {
+                            this.setDefbultDrbgImbge((JTbble) component);
+                            hbndled = true;
+                        } else if (component instbnceof JList) {
+                            this.setDefbultDrbgImbge((JList) component);
+                            hbndled = true;
                         }
         }
 
-        if (handled == false)
-            this.setDefaultDragImage();
+        if (hbndled == fblse)
+            this.setDefbultDrbgImbge();
     }
 
-    private void setDefaultDragImage(JTextComponent component) {
-        DragGestureEvent trigger = getTrigger();
-        int selectionStart = component.getSelectionStart();
+    privbte void setDefbultDrbgImbge(JTextComponent component) {
+        DrbgGestureEvent trigger = getTrigger();
+        int selectionStbrt = component.getSelectionStbrt();
         int selectionEnd = component.getSelectionEnd();
-        boolean handled = false;
+        boolebn hbndled = fblse;
 
-        // Make sure we're dragging current selection:
-        int index = component.viewToModel(trigger.getDragOrigin());
-        if ((selectionStart < selectionEnd) && (index >= selectionStart) && (index <= selectionEnd)) {
+        // Mbke sure we're drbgging current selection:
+        int index = component.viewToModel(trigger.getDrbgOrigin());
+        if ((selectionStbrt < selectionEnd) && (index >= selectionStbrt) && (index <= selectionEnd)) {
             try {
-                Rectangle selectionStartBounds = component.modelToView(selectionStart);
-                Rectangle selectionEndBounds = component.modelToView(selectionEnd);
+                Rectbngle selectionStbrtBounds = component.modelToView(selectionStbrt);
+                Rectbngle selectionEndBounds = component.modelToView(selectionEnd);
 
-                Rectangle selectionBounds = null;
+                Rectbngle selectionBounds = null;
 
                 // Single-line selection:
-                if (selectionStartBounds.y == selectionEndBounds.y) {
-                    selectionBounds = new Rectangle(selectionStartBounds.x, selectionStartBounds.y,
-                        selectionEndBounds.x - selectionStartBounds.x + selectionEndBounds.width,
-                        selectionEndBounds.y - selectionStartBounds.y + selectionEndBounds.height);
+                if (selectionStbrtBounds.y == selectionEndBounds.y) {
+                    selectionBounds = new Rectbngle(selectionStbrtBounds.x, selectionStbrtBounds.y,
+                        selectionEndBounds.x - selectionStbrtBounds.x + selectionEndBounds.width,
+                        selectionEndBounds.y - selectionStbrtBounds.y + selectionEndBounds.height);
                 }
 
                 // Multi-line selection:
                 else {
                     AccessibleContext ctx = component.getAccessibleContext();
-                    AccessibleText at = (AccessibleText) ctx;
+                    AccessibleText bt = (AccessibleText) ctx;
 
-                    selectionBounds = component.modelToView(selectionStart);
-                    for (int i = selectionStart + 1; i <= selectionEnd; i++) {
-                                            Rectangle charBounds = at.getCharacterBounds(i);
-                                            // Invalid index returns null Rectangle
-                                            // Note that this goes against jdk doc - should be empty, but is null instead
-                                            if (charBounds != null) {
-                                                selectionBounds.add(charBounds);
+                    selectionBounds = component.modelToView(selectionStbrt);
+                    for (int i = selectionStbrt + 1; i <= selectionEnd; i++) {
+                                            Rectbngle chbrBounds = bt.getChbrbcterBounds(i);
+                                            // Invblid index returns null Rectbngle
+                                            // Note thbt this goes bgbinst jdk doc - should be empty, but is null instebd
+                                            if (chbrBounds != null) {
+                                                selectionBounds.bdd(chbrBounds);
                                             }
                     }
                 }
 
-                this.setOutlineDragImage(selectionBounds);
-                handled = true;
+                this.setOutlineDrbgImbge(selectionBounds);
+                hbndled = true;
             }
 
-            catch (BadLocationException exc) {
-                // Default the drag image to component bounds.
+            cbtch (BbdLocbtionException exc) {
+                // Defbult the drbg imbge to component bounds.
             }
         }
 
-        if (handled == false)
-            this.setDefaultDragImage();
+        if (hbndled == fblse)
+            this.setDefbultDrbgImbge();
     }
 
 
-    private void setDefaultDragImage(JTree component) {
-        Rectangle selectedOutline = null;
+    privbte void setDefbultDrbgImbge(JTree component) {
+        Rectbngle selectedOutline = null;
 
         int[] selectedRows = component.getSelectionRows();
         for (int i=0; i<selectedRows.length; i++) {
-            Rectangle r = component.getRowBounds(selectedRows[i]);
+            Rectbngle r = component.getRowBounds(selectedRows[i]);
             if (selectedOutline == null)
                 selectedOutline = r;
             else
-                selectedOutline.add(r);
+                selectedOutline.bdd(r);
         }
 
         if (selectedOutline != null) {
-            this.setOutlineDragImage(selectedOutline);
+            this.setOutlineDrbgImbge(selectedOutline);
         } else {
-            this.setDefaultDragImage();
+            this.setDefbultDrbgImbge();
         }
     }
 
-    private void setDefaultDragImage(JTable component) {
-        Rectangle selectedOutline = null;
+    privbte void setDefbultDrbgImbge(JTbble component) {
+        Rectbngle selectedOutline = null;
 
-        // This code will likely break once multiple selections works (3645873)
+        // This code will likely brebk once multiple selections works (3645873)
         int[] selectedRows = component.getSelectedRows();
         int[] selectedColumns = component.getSelectedColumns();
         for (int row=0; row<selectedRows.length; row++) {
             for (int col=0; col<selectedColumns.length; col++) {
-                Rectangle r = component.getCellRect(selectedRows[row], selectedColumns[col], true);
+                Rectbngle r = component.getCellRect(selectedRows[row], selectedColumns[col], true);
                 if (selectedOutline == null)
                     selectedOutline = r;
                 else
-                    selectedOutline.add(r);
+                    selectedOutline.bdd(r);
             }
         }
 
         if (selectedOutline != null) {
-            this.setOutlineDragImage(selectedOutline);
+            this.setOutlineDrbgImbge(selectedOutline);
         } else {
-            this.setDefaultDragImage();
+            this.setDefbultDrbgImbge();
         }
     }
 
-    private void setDefaultDragImage(JList<?> component) {
-        Rectangle selectedOutline = null;
+    privbte void setDefbultDrbgImbge(JList<?> component) {
+        Rectbngle selectedOutline = null;
 
-        // This code actually works, even under the (non-existant) multiple-selections, because we only draw a union outline
+        // This code bctublly works, even under the (non-existbnt) multiple-selections, becbuse we only drbw b union outline
         int[] selectedIndices = component.getSelectedIndices();
         if (selectedIndices.length > 0)
             selectedOutline = component.getCellBounds(selectedIndices[0], selectedIndices[selectedIndices.length-1]);
 
         if (selectedOutline != null) {
-            this.setOutlineDragImage(selectedOutline);
+            this.setOutlineDrbgImbge(selectedOutline);
         } else {
-            this.setDefaultDragImage();
+            this.setDefbultDrbgImbge();
         }
     }
 
 
-    private void setDefaultDragImage() {
-        DragGestureEvent trigger = this.getTrigger();
+    privbte void setDefbultDrbgImbge() {
+        DrbgGestureEvent trigger = this.getTrigger();
         Component comp = trigger.getComponent();
 
-        setOutlineDragImage(new Rectangle(0, 0, comp.getWidth(), comp.getHeight()), true);
+        setOutlineDrbgImbge(new Rectbngle(0, 0, comp.getWidth(), comp.getHeight()), true);
     }
 
-    private void setOutlineDragImage(Rectangle outline) {
-        setOutlineDragImage(outline, false);
+    privbte void setOutlineDrbgImbge(Rectbngle outline) {
+        setOutlineDrbgImbge(outline, fblse);
     }
 
-    private void setOutlineDragImage(Rectangle outline, Boolean shouldScale) {
+    privbte void setOutlineDrbgImbge(Rectbngle outline, Boolebn shouldScble) {
         int width = (int)outline.getWidth();
         int height = (int)outline.getHeight();
 
-        double scale = 1.0;
-        if (shouldScale) {
-            final int area = width * height;
-            final int maxArea = (int)(fMaxImageSize * fMaxImageSize);
+        double scble = 1.0;
+        if (shouldScble) {
+            finbl int breb = width * height;
+            finbl int mbxAreb = (int)(fMbxImbgeSize * fMbxImbgeSize);
 
-            if (area > maxArea) {
-                scale = (double)area / (double)maxArea;
-                width /= scale;
-                height /= scale;
+            if (breb > mbxAreb) {
+                scble = (double)breb / (double)mbxAreb;
+                width /= scble;
+                height /= scble;
             }
         }
 
         if (width <=0) width = 1;
         if (height <=0) height = 1;
 
-        DragGestureEvent trigger = this.getTrigger();
+        DrbgGestureEvent trigger = this.getTrigger();
         Component comp = trigger.getComponent();
-        Point compOffset = comp.getLocation();
+        Point compOffset = comp.getLocbtion();
 
-        // For lightweight components add some special treatment:
-        if (comp instanceof JComponent) {
+        // For lightweight components bdd some specibl trebtment:
+        if (comp instbnceof JComponent) {
             // Intersect requested bounds with visible bounds:
-            Rectangle visibleBounds = ((JComponent) comp).getVisibleRect();
-            Rectangle clipedOutline = outline.intersection(visibleBounds);
-            if (clipedOutline.isEmpty() == false)
+            Rectbngle visibleBounds = ((JComponent) comp).getVisibleRect();
+            Rectbngle clipedOutline = outline.intersection(visibleBounds);
+            if (clipedOutline.isEmpty() == fblse)
                 outline = clipedOutline;
 
-            // Compensate for the component offset (e.g. when contained in a JScrollPane):
-            outline.translate(compOffset.x, compOffset.y);
+            // Compensbte for the component offset (e.g. when contbined in b JScrollPbne):
+            outline.trbnslbte(compOffset.x, compOffset.y);
         }
 
-        GraphicsConfiguration config = comp.getGraphicsConfiguration();
-        BufferedImage dragImage = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+        GrbphicsConfigurbtion config = comp.getGrbphicsConfigurbtion();
+        BufferedImbge drbgImbge = config.crebteCompbtibleImbge(width, height, Trbnspbrency.TRANSLUCENT);
 
-        Color paint = Color.gray;
-        BasicStroke stroke = new BasicStroke(2.0f);
-        int halfLineWidth = (int) (stroke.getLineWidth() + 1) / 2; // Rounded up.
+        Color pbint = Color.grby;
+        BbsicStroke stroke = new BbsicStroke(2.0f);
+        int hblfLineWidth = (int) (stroke.getLineWidth() + 1) / 2; // Rounded up.
 
-        Graphics2D g2 = (Graphics2D) dragImage.getGraphics();
-        g2.setPaint(paint);
+        Grbphics2D g2 = (Grbphics2D) drbgImbge.getGrbphics();
+        g2.setPbint(pbint);
         g2.setStroke(stroke);
-        g2.drawRect(halfLineWidth, halfLineWidth, width - 2 * halfLineWidth - 1, height - 2 * halfLineWidth - 1);
+        g2.drbwRect(hblfLineWidth, hblfLineWidth, width - 2 * hblfLineWidth - 1, height - 2 * hblfLineWidth - 1);
         g2.dispose();
 
-        fDragImage = dragImage;
+        fDrbgImbge = drbgImbge;
 
 
-        Point dragOrigin = trigger.getDragOrigin();
-        Point dragImageOffset = new Point(outline.x - dragOrigin.x, outline.y - dragOrigin.y);
-        if (comp instanceof JComponent) {
-            dragImageOffset.translate(-compOffset.x, -compOffset.y);
+        Point drbgOrigin = trigger.getDrbgOrigin();
+        Point drbgImbgeOffset = new Point(outline.x - drbgOrigin.x, outline.y - drbgOrigin.y);
+        if (comp instbnceof JComponent) {
+            drbgImbgeOffset.trbnslbte(-compOffset.x, -compOffset.y);
         }
 
-        if (shouldScale) {
-            dragImageOffset.x /= scale;
-            dragImageOffset.y /= scale;
+        if (shouldScble) {
+            drbgImbgeOffset.x /= scble;
+            drbgImbgeOffset.y /= scble;
         }
 
-        fDragImageOffset = dragImageOffset;
+        fDrbgImbgeOffset = drbgImbgeOffset;
     }
 
     /**
-     * upcall from native code
+     * upcbll from nbtive code
      */
-    private void dragMouseMoved(final int targetActions,
-                                final int modifiers,
-                                final int x, final int y) {
+    privbte void drbgMouseMoved(finbl int tbrgetActions,
+                                finbl int modifiers,
+                                finbl int x, finbl int y) {
 
         try {
-            Component componentAt = LWCToolkit.invokeAndWait(
-                    new Callable<Component>() {
+            Component componentAt = LWCToolkit.invokeAndWbit(
+                    new Cbllbble<Component>() {
                         @Override
-                        public Component call() {
+                        public Component cbll() {
                             LWWindowPeer mouseEventComponent = LWWindowPeer.getWindowUnderCursor();
                             if (mouseEventComponent == null) {
                                 return null;
                             }
-                            Component root = SwingUtilities.getRoot(mouseEventComponent.getTarget());
+                            Component root = SwingUtilities.getRoot(mouseEventComponent.getTbrget());
                             if (root == null) {
                                 return null;
                             }
-                            Point rootLocation = root.getLocationOnScreen();
-                            return getDropTargetAt(root, x - rootLocation.x, y - rootLocation.y);
+                            Point rootLocbtion = root.getLocbtionOnScreen();
+                            return getDropTbrgetAt(root, x - rootLocbtion.x, y - rootLocbtion.y);
                         }
                     }, getComponent());
 
             if(componentAt != hoveringComponent) {
                 if(hoveringComponent != null) {
-                    dragExit(x, y);
+                    drbgExit(x, y);
                 }
                 if(componentAt != null) {
-                    dragEnter(targetActions, modifiers, x, y);
+                    drbgEnter(tbrgetActions, modifiers, x, y);
                 }
                 hoveringComponent = componentAt;
             }
 
-            postDragSourceDragEvent(targetActions, modifiers, x, y,
+            postDrbgSourceDrbgEvent(tbrgetActions, modifiers, x, y,
                     DISPATCH_MOUSE_MOVED);
-        } catch (Exception e) {
-            throw new InvalidDnDOperationException("Failed to handle DragMouseMoved event");
+        } cbtch (Exception e) {
+            throw new InvblidDnDOperbtionException("Fbiled to hbndle DrbgMouseMoved event");
         }
     }
 
-    //Returns the first lightweight or heavyweight Component which has a dropTarget ready to accept the drag
-    //Should be called from the EventDispatchThread
-    private static Component getDropTargetAt(Component root, int x, int y) {
-        if (!root.contains(x, y) || !root.isEnabled() || !root.isVisible()) {
+    //Returns the first lightweight or hebvyweight Component which hbs b dropTbrget rebdy to bccept the drbg
+    //Should be cblled from the EventDispbtchThrebd
+    privbte stbtic Component getDropTbrgetAt(Component root, int x, int y) {
+        if (!root.contbins(x, y) || !root.isEnbbled() || !root.isVisible()) {
             return null;
         }
 
-        if (root.getDropTarget() != null && root.getDropTarget().isActive()) {
+        if (root.getDropTbrget() != null && root.getDropTbrget().isActive()) {
             return root;
         }
 
-        if (root instanceof Container) {
-            for (Component comp : ((Container) root).getComponents()) {
-                Point loc = comp.getLocation();
-                Component dropTarget = getDropTargetAt(comp, x - loc.x, y - loc.y);
-                if (dropTarget != null) {
-                    return dropTarget;
+        if (root instbnceof Contbiner) {
+            for (Component comp : ((Contbiner) root).getComponents()) {
+                Point loc = comp.getLocbtion();
+                Component dropTbrget = getDropTbrgetAt(comp, x - loc.x, y - loc.y);
+                if (dropTbrget != null) {
+                    return dropTbrget;
                 }
             }
         }
@@ -470,24 +470,24 @@ public final class CDragSourceContextPeer extends SunDragSourceContextPeer {
     }
 
     /**
-     * upcall from native code - reset hovering component
+     * upcbll from nbtive code - reset hovering component
      */
-    private void resetHovering() {
+    privbte void resetHovering() {
         hoveringComponent = null;
     }
 
     @Override
-    protected void setNativeCursor(long nativeCtxt, Cursor c, int cType) {
-        CCursorManager.getInstance().setCursor(c);
+    protected void setNbtiveCursor(long nbtiveCtxt, Cursor c, int cType) {
+        CCursorMbnbger.getInstbnce().setCursor(c);
     }
 
-    // Native support:
-    private native long createNativeDragSource(Component component, long nativePeer, Transferable transferable,
-        InputEvent triggerEvent, int dragPosX, int dragPosY, int extModifiers, int clickCount, long timestamp,
-        long nsDragImagePtr, int dragImageOffsetX, int dragImageOffsetY,
-        int sourceActions, long[] formats, Map<Long, DataFlavor> formatMap);
+    // Nbtive support:
+    privbte nbtive long crebteNbtiveDrbgSource(Component component, long nbtivePeer, Trbnsferbble trbnsferbble,
+        InputEvent triggerEvent, int drbgPosX, int drbgPosY, int extModifiers, int clickCount, long timestbmp,
+        long nsDrbgImbgePtr, int drbgImbgeOffsetX, int drbgImbgeOffsetY,
+        int sourceActions, long[] formbts, Mbp<Long, DbtbFlbvor> formbtMbp);
 
-    private native void doDragging(long nativeDragSource);
+    privbte nbtive void doDrbgging(long nbtiveDrbgSource);
 
-    private native void releaseNativeDragSource(long nativeDragSource);
+    privbte nbtive void relebseNbtiveDrbgSource(long nbtiveDrbgSource);
 }

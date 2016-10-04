@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "QuartzSurfaceData.h"
+#import "QubrtzSurfbceDbtb.h"
 
-#import "java_awt_BasicStroke.h"
-#import "java_awt_AlphaComposite.h"
-#import "java_awt_geom_PathIterator.h"
-#import "java_awt_image_BufferedImage.h"
-#import "sun_awt_SunHints.h"
-#import "sun_java2d_CRenderer.h"
-#import "sun_java2d_OSXSurfaceData.h"
-#import "sun_lwawt_macosx_CPrinterSurfaceData.h"
-#import "ImageSurfaceData.h"
+#import "jbvb_bwt_BbsicStroke.h"
+#import "jbvb_bwt_AlphbComposite.h"
+#import "jbvb_bwt_geom_PbthIterbtor.h"
+#import "jbvb_bwt_imbge_BufferedImbge.h"
+#import "sun_bwt_SunHints.h"
+#import "sun_jbvb2d_CRenderer.h"
+#import "sun_jbvb2d_OSXSurfbceDbtb.h"
+#import "sun_lwbwt_mbcosx_CPrinterSurfbceDbtb.h"
+#import "ImbgeSurfbceDbtb.h"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 #import <AppKit/AppKit.h>
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
 //#define DEBUG
 #if defined DEBUG
@@ -49,47 +49,47 @@
 
 #define kOffset (0.5f)
 
-BOOL gAdjustForJavaDrawing;
+BOOL gAdjustForJbvbDrbwing;
 
-#pragma mark
-#pragma mark --- Color Cache ---
+#prbgmb mbrk
+#prbgmb mbrk --- Color Cbche ---
 
-// Creating and deleting CGColorRefs can be expensive, therefore we have a color cache.
-// The color cache was first introduced with <rdar://problem/3923927>
-// With <rdar://problem/4280514>, the hashing function was improved
-// With <rdar://problem/4012223>, the color cache became global (per process) instead of per surface.
+// Crebting bnd deleting CGColorRefs cbn be expensive, therefore we hbve b color cbche.
+// The color cbche wbs first introduced with <rdbr://problem/3923927>
+// With <rdbr://problem/4280514>, the hbshing function wbs improved
+// With <rdbr://problem/4012223>, the color cbche becbme globbl (per process) instebd of per surfbce.
 
-// Must be power of 2. 1024 is the least power of 2 number that makes SwingSet2 run without any non-empty cache misses
-#define gColorCacheSize 1024
-struct _ColorCacheInfo
+// Must be power of 2. 1024 is the lebst power of 2 number thbt mbkes SwingSet2 run without bny non-empty cbche misses
+#define gColorCbcheSize 1024
+struct _ColorCbcheInfo
 {
-    UInt32        keys[gColorCacheSize];
-    CGColorRef    values[gColorCacheSize];
+    UInt32        keys[gColorCbcheSize];
+    CGColorRef    vblues[gColorCbcheSize];
 };
-static struct _ColorCacheInfo colorCacheInfo;
+stbtic struct _ColorCbcheInfo colorCbcheInfo;
 
-static pthread_mutex_t gColorCacheLock = PTHREAD_MUTEX_INITIALIZER;
+stbtic pthrebd_mutex_t gColorCbcheLock = PTHREAD_MUTEX_INITIALIZER;
 
-// given a UInt32 color, it tries to find that find the corresponding CGColorRef in the hash cache. If the CGColorRef
-// doesn't exist or there is a collision, it creates a new one CGColorRef and put's in the cache. Then,
-// it sets with current fill/stroke color for the the CGContext passed in (qsdo->cgRef).
-void setCachedColor(QuartzSDOps *qsdo, UInt32 color)
+// given b UInt32 color, it tries to find thbt find the corresponding CGColorRef in the hbsh cbche. If the CGColorRef
+// doesn't exist or there is b collision, it crebtes b new one CGColorRef bnd put's in the cbche. Then,
+// it sets with current fill/stroke color for the the CGContext pbssed in (qsdo->cgRef).
+void setCbchedColor(QubrtzSDOps *qsdo, UInt32 color)
 {
-    static const CGFloat kColorConversionMultiplier = 1.0f/255.0f;
+    stbtic const CGFlobt kColorConversionMultiplier = 1.0f/255.0f;
 
-    pthread_mutex_lock(&gColorCacheLock);
+    pthrebd_mutex_lock(&gColorCbcheLock);
 
-    static CGColorSpaceRef colorspace = NULL;
-    if (colorspace == NULL)
+    stbtic CGColorSpbceRef colorspbce = NULL;
+    if (colorspbce == NULL)
     {
-        colorspace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+        colorspbce = CGColorSpbceCrebteWithNbme(kCGColorSpbceGenericRGB);
     }
 
     CGColorRef cgColor = NULL;
 
-    // The colors passed have low randomness. That means we need to scramble the bits of the color
-    // to produce a good hash key. After some analysis, it looks like Thomas's Wang integer hasing algorithm
-    // seems a nice trade off between performance and effectivness.
+    // The colors pbssed hbve low rbndomness. Thbt mebns we need to scrbmble the bits of the color
+    // to produce b good hbsh key. After some bnblysis, it looks like Thombs's Wbng integer hbsing blgorithm
+    // seems b nice trbde off between performbnce bnd effectivness.
     UInt32 index = color;
     index += ~(index << 15);
     index ^=  (index >> 10);
@@ -97,56 +97,56 @@ void setCachedColor(QuartzSDOps *qsdo, UInt32 color)
     index ^=  (index >> 6);
     index += ~(index << 11);
     index ^=  (index >> 16);
-    index = index & (gColorCacheSize - 1);   // The bits are scrambled, we just need to make sure it fits inside our table
+    index = index & (gColorCbcheSize - 1);   // The bits bre scrbmbled, we just need to mbke sure it fits inside our tbble
 
-    UInt32 key = colorCacheInfo.keys[index];
-    CGColorRef value = colorCacheInfo.values[index];
-    if ((key == color) && (value != NULL))
+    UInt32 key = colorCbcheInfo.keys[index];
+    CGColorRef vblue = colorCbcheInfo.vblues[index];
+    if ((key == color) && (vblue != NULL))
     {
         //fprintf(stderr, "+");fflush(stderr);//hit
-        cgColor = value;
+        cgColor = vblue;
     }
     else
     {
-        if (value != NULL)
+        if (vblue != NULL)
         {
-            //fprintf(stderr, "!");fflush(stderr);//miss and replace - double ouch
-            CGColorRelease(value);
+            //fprintf(stderr, "!");fflush(stderr);//miss bnd replbce - double ouch
+            CGColorRelebse(vblue);
         }
         //fprintf(stderr, "-");fflush(stderr);// miss
 
-        CGFloat alpha = ((color>>24)&0xff)*kColorConversionMultiplier;
-        CGFloat red = ((color>>16)&0xff)*kColorConversionMultiplier;
-        CGFloat green = ((color>>8)&0xff)*kColorConversionMultiplier;
-        CGFloat blue = ((color>>0)&0xff)*kColorConversionMultiplier;
-        const CGFloat components[] = {red, green, blue, alpha, 1.0f};
-        value = CGColorCreate(colorspace, components);
+        CGFlobt blphb = ((color>>24)&0xff)*kColorConversionMultiplier;
+        CGFlobt red = ((color>>16)&0xff)*kColorConversionMultiplier;
+        CGFlobt green = ((color>>8)&0xff)*kColorConversionMultiplier;
+        CGFlobt blue = ((color>>0)&0xff)*kColorConversionMultiplier;
+        const CGFlobt components[] = {red, green, blue, blphb, 1.0f};
+        vblue = CGColorCrebte(colorspbce, components);
 
-        colorCacheInfo.keys[index] = color;
-        colorCacheInfo.values[index] = value;
+        colorCbcheInfo.keys[index] = color;
+        colorCbcheInfo.vblues[index] = vblue;
 
-        cgColor = value;
+        cgColor = vblue;
     }
 
     CGContextSetStrokeColorWithColor(qsdo->cgRef, cgColor);
     CGContextSetFillColorWithColor(qsdo->cgRef, cgColor);
 
-    pthread_mutex_unlock(&gColorCacheLock);
+    pthrebd_mutex_unlock(&gColorCbcheLock);
 }
 
-#pragma mark
-#pragma mark --- Gradient ---
+#prbgmb mbrk
+#prbgmb mbrk --- Grbdient ---
 
 // this function MUST NOT be inlined!
-void gradientLinearPaintEvaluateFunction(void *info, const CGFloat *in, CGFloat *out)
+void grbdientLinebrPbintEvblubteFunction(void *info, const CGFlobt *in, CGFlobt *out)
 {
-    StateShadingInfo *shadingInfo = (StateShadingInfo *)info;
-    CGFloat *colors = shadingInfo->colors;
-    CGFloat range = *in;
-    CGFloat c1, c2;
+    StbteShbdingInfo *shbdingInfo = (StbteShbdingInfo *)info;
+    CGFlobt *colors = shbdingInfo->colors;
+    CGFlobt rbnge = *in;
+    CGFlobt c1, c2;
     jint k;
 
-//fprintf(stderr, "range=%f\n", range);
+//fprintf(stderr, "rbnge=%f\n", rbnge);
     for (k=0; k<4; k++)
     {
         c1 = colors[k];
@@ -160,12 +160,12 @@ void gradientLinearPaintEvaluateFunction(void *info, const CGFloat *in, CGFloat 
         }
         else if (c1 > c2)
         {
-            *out++ = c1 - ((c1-c2)*range);
+            *out++ = c1 - ((c1-c2)*rbnge);
 //fprintf(stderr, ", %f", *(out-1));
         }
         else// if (c1 < c2)
         {
-            *out++ = c1 + ((c2-c1)*range);
+            *out++ = c1 + ((c2-c1)*rbnge);
 //fprintf(stderr, ", %f", *(out-1));
         }
 //fprintf(stderr, "\n");
@@ -173,50 +173,50 @@ void gradientLinearPaintEvaluateFunction(void *info, const CGFloat *in, CGFloat 
 }
 
 // this function MUST NOT be inlined!
-void gradientCyclicPaintEvaluateFunction(void *info, const CGFloat *in, CGFloat *out)
+void grbdientCyclicPbintEvblubteFunction(void *info, const CGFlobt *in, CGFlobt *out)
 {
-    StateShadingInfo *shadingInfo = (StateShadingInfo *)info;
-    CGFloat length = shadingInfo->length ;
-    CGFloat period = shadingInfo->period;
-    CGFloat offset = shadingInfo->offset;
-    CGFloat periodLeft = offset;
-    CGFloat periodRight = periodLeft+period;
-    CGFloat *colors = shadingInfo->colors;
-    CGFloat range = *in;
-    CGFloat c1, c2;
+    StbteShbdingInfo *shbdingInfo = (StbteShbdingInfo *)info;
+    CGFlobt length = shbdingInfo->length ;
+    CGFlobt period = shbdingInfo->period;
+    CGFlobt offset = shbdingInfo->offset;
+    CGFlobt periodLeft = offset;
+    CGFlobt periodRight = periodLeft+period;
+    CGFlobt *colors = shbdingInfo->colors;
+    CGFlobt rbnge = *in;
+    CGFlobt c1, c2;
     jint k;
     jint count = 0;
 
-    range *= length;
+    rbnge *= length;
 
-    // put the range within the period
-    if (range < periodLeft)
+    // put the rbnge within the period
+    if (rbnge < periodLeft)
     {
-        while (range < periodLeft)
+        while (rbnge < periodLeft)
         {
-            range += period;
+            rbnge += period;
             count++;
         }
 
-        range = range-periodLeft;
+        rbnge = rbnge-periodLeft;
     }
-    else if (range > periodRight)
+    else if (rbnge > periodRight)
     {
         count = 1;
 
-        while (range > periodRight)
+        while (rbnge > periodRight)
         {
-            range -= period;
+            rbnge -= period;
             count++;
         }
 
-        range = periodRight-range;
+        rbnge = periodRight-rbnge;
     }
     else
     {
-        range = range - offset;
+        rbnge = rbnge - offset;
     }
-    range = range/period;
+    rbnge = rbnge/period;
 
     // cycle up or down
     if (count%2 == 0)
@@ -231,11 +231,11 @@ void gradientCyclicPaintEvaluateFunction(void *info, const CGFloat *in, CGFloat 
             }
             else if (c1 > c2)
             {
-                *out++ = c1 - ((c1-c2)*range);
+                *out++ = c1 - ((c1-c2)*rbnge);
             }
             else// if (c1 < c2)
             {
-                *out++ = c1 + ((c2-c1)*range);
+                *out++ = c1 + ((c2-c1)*rbnge);
             }
         }
     }
@@ -251,51 +251,51 @@ void gradientCyclicPaintEvaluateFunction(void *info, const CGFloat *in, CGFloat 
             }
             else if (c1 > c2)
             {
-                *out++ = c1 - ((c1-c2)*range);
+                *out++ = c1 - ((c1-c2)*rbnge);
             }
             else// if (c1 < c2)
             {
-                *out++ = c1 + ((c2-c1)*range);
+                *out++ = c1 + ((c2-c1)*rbnge);
             }
         }
     }
  }
 
 // this function MUST NOT be inlined!
-void gradientPaintReleaseFunction(void *info)
+void grbdientPbintRelebseFunction(void *info)
 {
-PRINT("    gradientPaintReleaseFunction")
+PRINT("    grbdientPbintRelebseFunction")
     free(info);
 }
 
-static inline void contextGradientPath(QuartzSDOps* qsdo)
+stbtic inline void contextGrbdientPbth(QubrtzSDOps* qsdo)
 {
-PRINT("    ContextGradientPath")
+PRINT("    ContextGrbdientPbth")
     CGContextRef cgRef = qsdo->cgRef;
-    StateShadingInfo* shadingInfo = qsdo->shadingInfo;
+    StbteShbdingInfo* shbdingInfo = qsdo->shbdingInfo;
 
     CGRect bounds = CGContextGetClipBoundingBox(cgRef);
 
-    static const CGFloat domain[2] = {0.0f, 1.0f};
-    static const CGFloat range[8] = {0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f};
-    CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-    CGFunctionRef shadingFunc = NULL;
-    CGShadingRef shading = NULL;
-    if (shadingInfo->cyclic == NO)
+    stbtic const CGFlobt dombin[2] = {0.0f, 1.0f};
+    stbtic const CGFlobt rbnge[8] = {0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f};
+    CGColorSpbceRef colorspbce = CGColorSpbceCrebteWithNbme(kCGColorSpbceGenericRGB);
+    CGFunctionRef shbdingFunc = NULL;
+    CGShbdingRef shbding = NULL;
+    if (shbdingInfo->cyclic == NO)
     {
-        static const CGFunctionCallbacks callbacks = {0, &gradientLinearPaintEvaluateFunction, &gradientPaintReleaseFunction};
-        shadingFunc = CGFunctionCreate((void *)shadingInfo, 1, domain, 4, range, &callbacks);
-        shading = CGShadingCreateAxial(colorspace, shadingInfo->start, shadingInfo->end, shadingFunc, 1, 1);
+        stbtic const CGFunctionCbllbbcks cbllbbcks = {0, &grbdientLinebrPbintEvblubteFunction, &grbdientPbintRelebseFunction};
+        shbdingFunc = CGFunctionCrebte((void *)shbdingInfo, 1, dombin, 4, rbnge, &cbllbbcks);
+        shbding = CGShbdingCrebteAxibl(colorspbce, shbdingInfo->stbrt, shbdingInfo->end, shbdingFunc, 1, 1);
     }
     else
     {
 //fprintf(stderr, "BOUNDING BOX x1=%f, y1=%f x2=%f, y2=%f\n", bounds.origin.x, bounds.origin.y, bounds.origin.x+bounds.size.width, bounds.origin.y+bounds.size.height);
-        // need to extend the line start-end
+        // need to extend the line stbrt-end
 
-        CGFloat x1 = shadingInfo->start.x;
-        CGFloat y1 = shadingInfo->start.y;
-        CGFloat x2 = shadingInfo->end.x;
-        CGFloat y2 = shadingInfo->end.y;
+        CGFlobt x1 = shbdingInfo->stbrt.x;
+        CGFlobt y1 = shbdingInfo->stbrt.y;
+        CGFlobt x2 = shbdingInfo->end.x;
+        CGFlobt y2 = shbdingInfo->end.y;
 //fprintf(stderr, "GIVEN x1=%f, y1=%f      x2=%f, y2=%f\n", x1, y1, x2, y2);
 
         if (x1 == x2)
@@ -310,33 +310,33 @@ PRINT("    ContextGradientPath")
         }
         else
         {
-            // find the original line function y = mx + c
-            CGFloat m1 = (y2-y1)/(x2-x1);
-            CGFloat c1 = y1 - m1*x1;
+            // find the originbl line function y = mx + c
+            CGFlobt m1 = (y2-y1)/(x2-x1);
+            CGFlobt c1 = y1 - m1*x1;
 //fprintf(stderr, "         m1=%f, c1=%f\n", m1, c1);
 
-            // a line perpendicular to the original one will have the slope
-            CGFloat m2 = -(1/m1);
+            // b line perpendiculbr to the originbl one will hbve the slope
+            CGFlobt m2 = -(1/m1);
 //fprintf(stderr, "         m2=%f\n", m2);
 
-            // find the only 2 possible lines perpendicular to the original line, passing the two top corners of the bounding box
-            CGFloat x1A = bounds.origin.x;
-            CGFloat y1A = bounds.origin.y;
-            CGFloat c1A = y1A - m2*x1A;
+            // find the only 2 possible lines perpendiculbr to the originbl line, pbssing the two top corners of the bounding box
+            CGFlobt x1A = bounds.origin.x;
+            CGFlobt y1A = bounds.origin.y;
+            CGFlobt c1A = y1A - m2*x1A;
 //fprintf(stderr, "         x1A=%f, y1A=%f, c1A=%f\n", x1A, y1A, c1A);
-            CGFloat x1B = bounds.origin.x+bounds.size.width;
-            CGFloat y1B = bounds.origin.y;
-            CGFloat c1B = y1B - m2*x1B;
+            CGFlobt x1B = bounds.origin.x+bounds.size.width;
+            CGFlobt y1B = bounds.origin.y;
+            CGFlobt c1B = y1B - m2*x1B;
 //fprintf(stderr, "         x1B=%f, y1B=%f, c1B=%f\n", x1B, y1B, c1B);
 
-            // find the crossing points of the original line and the two lines we computed above to find the new possible starting points
-            CGFloat x1Anew = (c1A-c1)/(m1-m2);
-            CGFloat y1Anew = m2*x1Anew + c1A;
-            CGFloat x1Bnew = (c1B-c1)/(m1-m2);
-            CGFloat y1Bnew = m2*x1Bnew + c1B;
+            // find the crossing points of the originbl line bnd the two lines we computed bbove to find the new possible stbrting points
+            CGFlobt x1Anew = (c1A-c1)/(m1-m2);
+            CGFlobt y1Anew = m2*x1Anew + c1A;
+            CGFlobt x1Bnew = (c1B-c1)/(m1-m2);
+            CGFlobt y1Bnew = m2*x1Bnew + c1B;
 //fprintf(stderr, "NEW x1Anew=%f, y1Anew=%f      x1Bnew=%f, y1Bnew=%f\n", x1Anew, y1Anew, x1Bnew, y1Bnew);
 
-            // select the new starting point
+            // select the new stbrting point
             if (y1Anew <= y1Bnew)
             {
                 x1 = x1Anew;
@@ -349,21 +349,21 @@ PRINT("    ContextGradientPath")
             }
 //fprintf(stderr, "--- NEW x1=%f, y1=%f\n", x1, y1);
 
-            // find the only 2 possible lines perpendicular to the original line, passing the two bottom corners of the bounding box
-            CGFloat x2A = bounds.origin.x;
-            CGFloat y2A = bounds.origin.y+bounds.size.height;
-            CGFloat c2A = y2A - m2*x2A;
+            // find the only 2 possible lines perpendiculbr to the originbl line, pbssing the two bottom corners of the bounding box
+            CGFlobt x2A = bounds.origin.x;
+            CGFlobt y2A = bounds.origin.y+bounds.size.height;
+            CGFlobt c2A = y2A - m2*x2A;
 //fprintf(stderr, "         x2A=%f, y2A=%f, c2A=%f\n", x2A, y2A, c2A);
-            CGFloat x2B = bounds.origin.x+bounds.size.width;
-            CGFloat y2B = bounds.origin.y+bounds.size.height;
-            CGFloat c2B = y2B - m2*x2B;
+            CGFlobt x2B = bounds.origin.x+bounds.size.width;
+            CGFlobt y2B = bounds.origin.y+bounds.size.height;
+            CGFlobt c2B = y2B - m2*x2B;
 //fprintf(stderr, "         x2B=%f, y2B=%f, c2B=%f\n", x2B, y2B, c2B);
 
-            // find the crossing points of the original line and the two lines we computed above to find the new possible ending points
-            CGFloat x2Anew = (c2A-c1)/(m1-m2);
-            CGFloat y2Anew = m2*x2Anew + c2A;
-            CGFloat x2Bnew = (c2B-c1)/(m1-m2);
-            CGFloat y2Bnew = m2*x2Bnew + c2B;
+            // find the crossing points of the originbl line bnd the two lines we computed bbove to find the new possible ending points
+            CGFlobt x2Anew = (c2A-c1)/(m1-m2);
+            CGFlobt y2Anew = m2*x2Anew + c2A;
+            CGFlobt x2Bnew = (c2B-c1)/(m1-m2);
+            CGFlobt y2Bnew = m2*x2Bnew + c2B;
 //fprintf(stderr, "NEW x2Anew=%f, y2Anew=%f      x2Bnew=%f, y2Bnew=%f\n", x2Anew, y2Anew, x2Bnew, y2Bnew);
 
             // select the new ending point
@@ -380,184 +380,184 @@ PRINT("    ContextGradientPath")
 //fprintf(stderr, "--- NEW x2=%f, y2=%f\n", x2, y2);
         }
 
-        qsdo->shadingInfo->period = sqrt(pow(shadingInfo->end.x-shadingInfo->start.x, 2.0) + pow(shadingInfo->end.y-shadingInfo->start.y, 2.0));
-        if ((qsdo->shadingInfo->period != 0))
+        qsdo->shbdingInfo->period = sqrt(pow(shbdingInfo->end.x-shbdingInfo->stbrt.x, 2.0) + pow(shbdingInfo->end.y-shbdingInfo->stbrt.y, 2.0));
+        if ((qsdo->shbdingInfo->period != 0))
         {
-            // compute segment lengths that we will need for the gradient function
-            qsdo->shadingInfo->length = sqrt(pow(x2-x1, 2.0) + pow(y2-y1, 2.0));
-            qsdo->shadingInfo->offset = sqrt(pow(shadingInfo->start.x-x1, 2.0) + pow(shadingInfo->start.y-y1, 2.0));
-//fprintf(stderr, "length=%f, period=%f, offset=%f\n", qsdo->shadingInfo->length, qsdo->shadingInfo->period, qsdo->shadingInfo->offset);
+            // compute segment lengths thbt we will need for the grbdient function
+            qsdo->shbdingInfo->length = sqrt(pow(x2-x1, 2.0) + pow(y2-y1, 2.0));
+            qsdo->shbdingInfo->offset = sqrt(pow(shbdingInfo->stbrt.x-x1, 2.0) + pow(shbdingInfo->stbrt.y-y1, 2.0));
+//fprintf(stderr, "length=%f, period=%f, offset=%f\n", qsdo->shbdingInfo->length, qsdo->shbdingInfo->period, qsdo->shbdingInfo->offset);
 
-            CGPoint newStart = {x1, y1};
+            CGPoint newStbrt = {x1, y1};
             CGPoint newEnd = {x2, y2};
 
-            static const CGFunctionCallbacks callbacks = {0, &gradientCyclicPaintEvaluateFunction, &gradientPaintReleaseFunction};
-            shadingFunc = CGFunctionCreate((void *)shadingInfo, 1, domain, 4, range, &callbacks);
-            shading = CGShadingCreateAxial(colorspace, newStart, newEnd, shadingFunc, 0, 0);
+            stbtic const CGFunctionCbllbbcks cbllbbcks = {0, &grbdientCyclicPbintEvblubteFunction, &grbdientPbintRelebseFunction};
+            shbdingFunc = CGFunctionCrebte((void *)shbdingInfo, 1, dombin, 4, rbnge, &cbllbbcks);
+            shbding = CGShbdingCrebteAxibl(colorspbce, newStbrt, newEnd, shbdingFunc, 0, 0);
         }
     }
-    CGColorSpaceRelease(colorspace);
+    CGColorSpbceRelebse(colorspbce);
 
-    if (shadingFunc != NULL)
+    if (shbdingFunc != NULL)
     {
-        CGContextSaveGState(cgRef);
+        CGContextSbveGStbte(cgRef);
 
-        // rdar://problem/5214320
-        // Gradient fills of Java GeneralPath don't respect the even odd winding rule (quartz pipeline).
+        // rdbr://problem/5214320
+        // Grbdient fills of Jbvb GenerblPbth don't respect the even odd winding rule (qubrtz pipeline).
         if (qsdo->isEvenOddFill) {
             CGContextEOClip(cgRef);
         } else {
             CGContextClip(cgRef);
         }
-        CGContextDrawShading(cgRef, shading);
+        CGContextDrbwShbding(cgRef, shbding);
 
-        CGContextRestoreGState(cgRef);
-        CGShadingRelease(shading);
-        CGFunctionRelease(shadingFunc);
-        qsdo->shadingInfo = NULL;
+        CGContextRestoreGStbte(cgRef);
+        CGShbdingRelebse(shbding);
+        CGFunctionRelebse(shbdingFunc);
+        qsdo->shbdingInfo = NULL;
     }
 }
 
-#pragma mark
-#pragma mark --- Texture ---
+#prbgmb mbrk
+#prbgmb mbrk --- Texture ---
 
 // this function MUST NOT be inlined!
-void texturePaintEvaluateFunction(void *info, CGContextRef cgRef)
+void texturePbintEvblubteFunction(void *info, CGContextRef cgRef)
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnvUncached];
+    JNIEnv* env = [ThrebdUtilities getJNIEnvUncbched];
 
-    StatePatternInfo* patternInfo = (StatePatternInfo*)info;
-    ImageSDOps* isdo = LockImage(env, patternInfo->sdata);
+    StbtePbtternInfo* pbtternInfo = (StbtePbtternInfo*)info;
+    ImbgeSDOps* isdo = LockImbge(env, pbtternInfo->sdbtb);
 
-    makeSureImageIsCreated(isdo);
-    CGContextDrawImage(cgRef, CGRectMake(0.0f, 0.0f, patternInfo->width, patternInfo->height), isdo->imgRef);
+    mbkeSureImbgeIsCrebted(isdo);
+    CGContextDrbwImbge(cgRef, CGRectMbke(0.0f, 0.0f, pbtternInfo->width, pbtternInfo->height), isdo->imgRef);
 
-    UnlockImage(env, isdo);
+    UnlockImbge(env, isdo);
 }
 
 // this function MUST NOT be inlined!
-void texturePaintReleaseFunction(void *info)
+void texturePbintRelebseFunction(void *info)
 {
-    PRINT("    texturePaintReleaseFunction")
-    JNIEnv* env = [ThreadUtilities getJNIEnvUncached];
+    PRINT("    texturePbintRelebseFunction")
+    JNIEnv* env = [ThrebdUtilities getJNIEnvUncbched];
 
-    StatePatternInfo* patternInfo = (StatePatternInfo*)info;
-    (*env)->DeleteGlobalRef(env, patternInfo->sdata);
+    StbtePbtternInfo* pbtternInfo = (StbtePbtternInfo*)info;
+    (*env)->DeleteGlobblRef(env, pbtternInfo->sdbtb);
 
     free(info);
 }
 
-static inline void contextTexturePath(JNIEnv* env, QuartzSDOps* qsdo)
+stbtic inline void contextTexturePbth(JNIEnv* env, QubrtzSDOps* qsdo)
 {
-    PRINT("    ContextTexturePath")
+    PRINT("    ContextTexturePbth")
     CGContextRef cgRef = qsdo->cgRef;
-    StatePatternInfo* patternInfo = qsdo->patternInfo;
+    StbtePbtternInfo* pbtternInfo = qsdo->pbtternInfo;
 
-    CGAffineTransform ctm = CGContextGetCTM(cgRef);
-    CGAffineTransform ptm = {patternInfo->sx, 0.0f, 0.0f, -patternInfo->sy, patternInfo->tx, patternInfo->ty};
-    CGAffineTransform tm = CGAffineTransformConcat(ptm, ctm);
-    CGFloat xStep = (CGFloat)qsdo->patternInfo->width;
-    CGFloat yStep = (CGFloat)qsdo->patternInfo->height;
-    CGPatternTiling tiling = kCGPatternTilingNoDistortion;
+    CGAffineTrbnsform ctm = CGContextGetCTM(cgRef);
+    CGAffineTrbnsform ptm = {pbtternInfo->sx, 0.0f, 0.0f, -pbtternInfo->sy, pbtternInfo->tx, pbtternInfo->ty};
+    CGAffineTrbnsform tm = CGAffineTrbnsformConcbt(ptm, ctm);
+    CGFlobt xStep = (CGFlobt)qsdo->pbtternInfo->width;
+    CGFlobt yStep = (CGFlobt)qsdo->pbtternInfo->height;
+    CGPbtternTiling tiling = kCGPbtternTilingNoDistortion;
     BOOL isColored = YES;
-    static const CGPatternCallbacks callbacks = {0, &texturePaintEvaluateFunction, &texturePaintReleaseFunction};
-    CGPatternRef pattern = CGPatternCreate((void*)patternInfo, CGRectMake(0.0f, 0.0f, xStep, yStep), tm, xStep, yStep, tiling, isColored, &callbacks);
+    stbtic const CGPbtternCbllbbcks cbllbbcks = {0, &texturePbintEvblubteFunction, &texturePbintRelebseFunction};
+    CGPbtternRef pbttern = CGPbtternCrebte((void*)pbtternInfo, CGRectMbke(0.0f, 0.0f, xStep, yStep), tm, xStep, yStep, tiling, isColored, &cbllbbcks);
 
-    CGColorSpaceRef colorspace = CGColorSpaceCreatePattern(NULL);
-    static const CGFloat alpha = 1.0f;
+    CGColorSpbceRef colorspbce = CGColorSpbceCrebtePbttern(NULL);
+    stbtic const CGFlobt blphb = 1.0f;
 
-    CGContextSaveGState(cgRef);
+    CGContextSbveGStbte(cgRef);
 
-    CGContextSetFillColorSpace(cgRef, colorspace);
-    CGContextSetFillPattern(cgRef, pattern, &alpha);
+    CGContextSetFillColorSpbce(cgRef, colorspbce);
+    CGContextSetFillPbttern(cgRef, pbttern, &blphb);
     CGContextSetRGBStrokeColor(cgRef, 0.0f, 0.0f, 0.0f, 1.0f);
-    CGContextSetPatternPhase(cgRef, CGSizeMake(0.0f, 0.0f));
-    // rdar://problem/5214320
-    // Gradient fills of Java GeneralPath don't respect the even odd winding rule (quartz pipeline).
+    CGContextSetPbtternPhbse(cgRef, CGSizeMbke(0.0f, 0.0f));
+    // rdbr://problem/5214320
+    // Grbdient fills of Jbvb GenerblPbth don't respect the even odd winding rule (qubrtz pipeline).
     if (qsdo->isEvenOddFill) {
-        CGContextEOFillPath(cgRef);
+        CGContextEOFillPbth(cgRef);
     } else {
-        CGContextFillPath(cgRef);
+        CGContextFillPbth(cgRef);
     }
 
-    CGContextRestoreGState(cgRef);
+    CGContextRestoreGStbte(cgRef);
 
-    CGColorSpaceRelease(colorspace);
-    CGPatternRelease(pattern);
+    CGColorSpbceRelebse(colorspbce);
+    CGPbtternRelebse(pbttern);
 
-    qsdo->patternInfo = NULL;
+    qsdo->pbtternInfo = NULL;
 }
 
-#pragma mark
-#pragma mark --- Context Setup ---
+#prbgmb mbrk
+#prbgmb mbrk --- Context Setup ---
 
-static inline void setDefaultColorSpace(CGContextRef cgRef)
+stbtic inline void setDefbultColorSpbce(CGContextRef cgRef)
 {
-    static CGColorSpaceRef colorspace = NULL;
-    if (colorspace == NULL)
+    stbtic CGColorSpbceRef colorspbce = NULL;
+    if (colorspbce == NULL)
     {
-        colorspace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+        colorspbce = CGColorSpbceCrebteWithNbme(kCGColorSpbceGenericRGB);
     }
-    CGContextSetStrokeColorSpace(cgRef, colorspace);
-    CGContextSetFillColorSpace(cgRef, colorspace);
+    CGContextSetStrokeColorSpbce(cgRef, colorspbce);
+    CGContextSetFillColorSpbce(cgRef, colorspbce);
 }
 
-void SetUpCGContext(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType)
+void SetUpCGContext(JNIEnv *env, QubrtzSDOps *qsdo, SDRenderType renderType)
 {
 PRINT(" SetUpCGContext")
     CGContextRef cgRef = qsdo->cgRef;
 //fprintf(stderr, "%p ", cgRef);
-    jint *javaGraphicsStates = qsdo->javaGraphicsStates;
-    jfloat *javaFloatGraphicsStates = (jfloat*)(qsdo->javaGraphicsStates);
+    jint *jbvbGrbphicsStbtes = qsdo->jbvbGrbphicsStbtes;
+    jflobt *jbvbFlobtGrbphicsStbtes = (jflobt*)(qsdo->jbvbGrbphicsStbtes);
 
-    jint changeFlags            = javaGraphicsStates[sun_java2d_OSXSurfaceData_kChangeFlagIndex];
-    BOOL everyThingChanged        = qsdo->newContext || (changeFlags == sun_java2d_OSXSurfaceData_kEverythingChangedFlag);
-    BOOL clipChanged            = everyThingChanged || ((changeFlags&sun_java2d_OSXSurfaceData_kClipChangedBit) != 0);
-    BOOL transformChanged        = everyThingChanged || ((changeFlags&sun_java2d_OSXSurfaceData_kCTMChangedBit) != 0);
-    BOOL paintChanged            = everyThingChanged || ((changeFlags&sun_java2d_OSXSurfaceData_kColorChangedBit) != 0);
-    BOOL compositeChanged        = everyThingChanged || ((changeFlags&sun_java2d_OSXSurfaceData_kCompositeChangedBit) != 0);
-    BOOL strokeChanged            = everyThingChanged || ((changeFlags&sun_java2d_OSXSurfaceData_kStrokeChangedBit) != 0);
-//    BOOL fontChanged            = everyThingChanged || ((changeFlags&sun_java2d_OSXSurfaceData_kFontChangedBit) != 0);
-    BOOL renderingHintsChanged  = everyThingChanged || ((changeFlags&sun_java2d_OSXSurfaceData_kHintsChangedBit) != 0);
+    jint chbngeFlbgs            = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kChbngeFlbgIndex];
+    BOOL everyThingChbnged        = qsdo->newContext || (chbngeFlbgs == sun_jbvb2d_OSXSurfbceDbtb_kEverythingChbngedFlbg);
+    BOOL clipChbnged            = everyThingChbnged || ((chbngeFlbgs&sun_jbvb2d_OSXSurfbceDbtb_kClipChbngedBit) != 0);
+    BOOL trbnsformChbnged        = everyThingChbnged || ((chbngeFlbgs&sun_jbvb2d_OSXSurfbceDbtb_kCTMChbngedBit) != 0);
+    BOOL pbintChbnged            = everyThingChbnged || ((chbngeFlbgs&sun_jbvb2d_OSXSurfbceDbtb_kColorChbngedBit) != 0);
+    BOOL compositeChbnged        = everyThingChbnged || ((chbngeFlbgs&sun_jbvb2d_OSXSurfbceDbtb_kCompositeChbngedBit) != 0);
+    BOOL strokeChbnged            = everyThingChbnged || ((chbngeFlbgs&sun_jbvb2d_OSXSurfbceDbtb_kStrokeChbngedBit) != 0);
+//    BOOL fontChbnged            = everyThingChbnged || ((chbngeFlbgs&sun_jbvb2d_OSXSurfbceDbtb_kFontChbngedBit) != 0);
+    BOOL renderingHintsChbnged  = everyThingChbnged || ((chbngeFlbgs&sun_jbvb2d_OSXSurfbceDbtb_kHintsChbngedBit) != 0);
 
-//fprintf(stderr, "SetUpCGContext cgRef=%p new=%d changeFlags=%d, everyThingChanged=%d clipChanged=%d transformChanged=%d\n",
-//                    cgRef, qsdo->newContext, changeFlags, everyThingChanged, clipChanged, transformChanged);
+//fprintf(stderr, "SetUpCGContext cgRef=%p new=%d chbngeFlbgs=%d, everyThingChbnged=%d clipChbnged=%d trbnsformChbnged=%d\n",
+//                    cgRef, qsdo->newContext, chbngeFlbgs, everyThingChbnged, clipChbnged, trbnsformChbnged);
 
-    if ((everyThingChanged == YES) || (clipChanged == YES) || (transformChanged == YES))
+    if ((everyThingChbnged == YES) || (clipChbnged == YES) || (trbnsformChbnged == YES))
     {
-        everyThingChanged = YES; // in case clipChanged or transformChanged
+        everyThingChbnged = YES; // in cbse clipChbnged or trbnsformChbnged
 
-        CGContextRestoreGState(cgRef);  // restore to the original state
+        CGContextRestoreGStbte(cgRef);  // restore to the originbl stbte
 
-        CGContextSaveGState(cgRef);        // make our local copy of the state
+        CGContextSbveGStbte(cgRef);        // mbke our locbl copy of the stbte
 
-        setDefaultColorSpace(cgRef);
+        setDefbultColorSpbce(cgRef);
     }
 
-    if ((everyThingChanged == YES) || (clipChanged == YES))
+    if ((everyThingChbnged == YES) || (clipChbnged == YES))
     {
-        if (javaGraphicsStates[sun_java2d_OSXSurfaceData_kClipStateIndex] == sun_java2d_OSXSurfaceData_kClipRect)
+        if (jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kClipStbteIndex] == sun_jbvb2d_OSXSurfbceDbtb_kClipRect)
         {
-            CGFloat x = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kClipXIndex];
-            CGFloat y = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kClipYIndex];
-            CGFloat w = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kClipWidthIndex];
-            CGFloat h = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kClipHeightIndex];
-            CGContextClipToRect(cgRef, CGRectMake(x, y, w, h));
+            CGFlobt x = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kClipXIndex];
+            CGFlobt y = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kClipYIndex];
+            CGFlobt w = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kClipWidthIndex];
+            CGFlobt h = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kClipHeightIndex];
+            CGContextClipToRect(cgRef, CGRectMbke(x, y, w, h));
         }
         else
         {
-            BOOL eoFill = (javaGraphicsStates[sun_java2d_OSXSurfaceData_kClipWindingRuleIndex] == java_awt_geom_PathIterator_WIND_EVEN_ODD);
-            jint numtypes = javaGraphicsStates[sun_java2d_OSXSurfaceData_kClipNumTypesIndex];
+            BOOL eoFill = (jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kClipWindingRuleIndex] == jbvb_bwt_geom_PbthIterbtor_WIND_EVEN_ODD);
+            jint numtypes = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kClipNumTypesIndex];
 
-            jobject coordsarray = (jobject)((*env)->GetObjectArrayElement(env, qsdo->javaGraphicsStatesObjects, sun_java2d_OSXSurfaceData_kClipCoordinatesIndex));
-            jobject typesarray = (jobject)((*env)->GetObjectArrayElement(env, qsdo->javaGraphicsStatesObjects, sun_java2d_OSXSurfaceData_kClipTypesIndex));
+            jobject coordsbrrby = (jobject)((*env)->GetObjectArrbyElement(env, qsdo->jbvbGrbphicsStbtesObjects, sun_jbvb2d_OSXSurfbceDbtb_kClipCoordinbtesIndex));
+            jobject typesbrrby = (jobject)((*env)->GetObjectArrbyElement(env, qsdo->jbvbGrbphicsStbtesObjects, sun_jbvb2d_OSXSurfbceDbtb_kClipTypesIndex));
 
-            jfloat* coords = (jfloat*)(*env)->GetDirectBufferAddress(env, coordsarray);
-            jint* types = (jint*)(*env)->GetDirectBufferAddress(env, typesarray);
+            jflobt* coords = (jflobt*)(*env)->GetDirectBufferAddress(env, coordsbrrby);
+            jint* types = (jint*)(*env)->GetDirectBufferAddress(env, typesbrrby);
 
-            DoShapeUsingCG(cgRef, types, coords, numtypes, NO, qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+            DoShbpeUsingCG(cgRef, types, coords, numtypes, NO, qsdo->grbphicsStbteInfo.offsetX, qsdo->grbphicsStbteInfo.offsetY);
 
-            if (CGContextIsPathEmpty(cgRef) == 0)
+            if (CGContextIsPbthEmpty(cgRef) == 0)
             {
                 if (eoFill)
                 {
@@ -577,360 +577,360 @@ PRINT(" SetUpCGContext")
 // for debugging
 //CGContextResetClip(cgRef);
 
-    if ((everyThingChanged == YES) || (transformChanged == YES))
+    if ((everyThingChbnged == YES) || (trbnsformChbnged == YES))
     {
-        CGFloat a = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kCTMaIndex];
-        CGFloat b = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kCTMbIndex];
-        CGFloat c = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kCTMcIndex];
-        CGFloat d = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kCTMdIndex];
-        CGFloat tx = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kCTMtxIndex];
-        CGFloat ty = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kCTMtyIndex];
+        CGFlobt b = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kCTMbIndex];
+        CGFlobt b = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kCTMbIndex];
+        CGFlobt c = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kCTMcIndex];
+        CGFlobt d = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kCTMdIndex];
+        CGFlobt tx = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kCTMtxIndex];
+        CGFlobt ty = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kCTMtyIndex];
 
-        CGContextConcatCTM(cgRef, CGAffineTransformMake(a, b, c, d, tx, ty));
+        CGContextConcbtCTM(cgRef, CGAffineTrbnsformMbke(b, b, c, d, tx, ty));
 
-        if (gAdjustForJavaDrawing == YES)
+        if (gAdjustForJbvbDrbwing == YES)
         {
-            // find the offsets in the device corrdinate system
-            CGAffineTransform ctm = CGContextGetCTM(cgRef);
-            if ((qsdo->graphicsStateInfo.ctm.a != ctm.a) ||
-                    (qsdo->graphicsStateInfo.ctm.b != ctm.b) ||
-                        (qsdo->graphicsStateInfo.ctm.c != ctm.c) ||
-                            (qsdo->graphicsStateInfo.ctm.d != ctm.d))
+            // find the offsets in the device corrdinbte system
+            CGAffineTrbnsform ctm = CGContextGetCTM(cgRef);
+            if ((qsdo->grbphicsStbteInfo.ctm.b != ctm.b) ||
+                    (qsdo->grbphicsStbteInfo.ctm.b != ctm.b) ||
+                        (qsdo->grbphicsStbteInfo.ctm.c != ctm.c) ||
+                            (qsdo->grbphicsStbteInfo.ctm.d != ctm.d))
             {
-                qsdo->graphicsStateInfo.ctm = ctm;
-                // In CG affine xforms y' = bx+dy+ty
-                // We need to flip both y coefficeints to flip the offset point into the java coordinate system.
+                qsdo->grbphicsStbteInfo.ctm = ctm;
+                // In CG bffine xforms y' = bx+dy+ty
+                // We need to flip both y coefficeints to flip the offset point into the jbvb coordinbte system.
                 ctm.b = -ctm.b; ctm.d = -ctm.d; ctm.tx = 0.0f; ctm.ty = 0.0f;
                 CGPoint offsets = {kOffset, kOffset};
-                CGAffineTransform inverse = CGAffineTransformInvert(ctm);
-                offsets = CGPointApplyAffineTransform(offsets, inverse);
-                qsdo->graphicsStateInfo.offsetX = offsets.x;
-                qsdo->graphicsStateInfo.offsetY = offsets.y;
+                CGAffineTrbnsform inverse = CGAffineTrbnsformInvert(ctm);
+                offsets = CGPointApplyAffineTrbnsform(offsets, inverse);
+                qsdo->grbphicsStbteInfo.offsetX = offsets.x;
+                qsdo->grbphicsStbteInfo.offsetY = offsets.y;
             }
         }
         else
         {
-            qsdo->graphicsStateInfo.offsetX = 0.0f;
-            qsdo->graphicsStateInfo.offsetY = 0.0f;
+            qsdo->grbphicsStbteInfo.offsetX = 0.0f;
+            qsdo->grbphicsStbteInfo.offsetY = 0.0f;
         }
     }
 
 // for debugging
 //CGContextResetCTM(cgRef);
 
-    if ((everyThingChanged == YES) || (compositeChanged == YES))
+    if ((everyThingChbnged == YES) || (compositeChbnged == YES))
     {
-        jint alphaCompositeRule = javaGraphicsStates[sun_java2d_OSXSurfaceData_kCompositeRuleIndex];
-        CGFloat alphaCompositeValue = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kCompositeValueIndex];
+        jint blphbCompositeRule = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kCompositeRuleIndex];
+        CGFlobt blphbCompositeVblue = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kCompositeVblueIndex];
 
-        NSCompositingOperation op;
-        switch (alphaCompositeRule)
+        NSCompositingOperbtion op;
+        switch (blphbCompositeRule)
         {
-                case java_awt_AlphaComposite_CLEAR:
-                op = NSCompositeClear;
-                break;
-            case java_awt_AlphaComposite_SRC:
+                cbse jbvb_bwt_AlphbComposite_CLEAR:
+                op = NSCompositeClebr;
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_SRC:
                 op = NSCompositeCopy;
-                break;
-            case java_awt_AlphaComposite_SRC_OVER:
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_SRC_OVER:
                 op = NSCompositeSourceOver;
-                break;
-            case java_awt_AlphaComposite_DST_OVER:
-                op = NSCompositeDestinationOver;
-                break;
-            case java_awt_AlphaComposite_SRC_IN:
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_DST_OVER:
+                op = NSCompositeDestinbtionOver;
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_SRC_IN:
                 op = NSCompositeSourceIn;
-                break;
-            case java_awt_AlphaComposite_DST_IN:
-                op = NSCompositeDestinationIn;
-                break;
-            case java_awt_AlphaComposite_SRC_OUT:
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_DST_IN:
+                op = NSCompositeDestinbtionIn;
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_SRC_OUT:
                 op = NSCompositeSourceOut;
-                break;
-            case java_awt_AlphaComposite_DST_OUT:
-                op = NSCompositeDestinationOut;
-                break;
-            case java_awt_AlphaComposite_DST:
-                // Alpha must be set to 0 because we're using the kCGCompositeSover rule
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_DST_OUT:
+                op = NSCompositeDestinbtionOut;
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_DST:
+                // Alphb must be set to 0 becbuse we're using the kCGCompositeSover rule
                 op = NSCompositeSourceOver;
-                alphaCompositeValue = 0.0f;
-                break;
-            case java_awt_AlphaComposite_SRC_ATOP:
+                blphbCompositeVblue = 0.0f;
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_SRC_ATOP:
                 op = NSCompositeSourceAtop;
-                break;
-            case java_awt_AlphaComposite_DST_ATOP:
-                op = NSCompositeDestinationAtop;
-                break;
-            case java_awt_AlphaComposite_XOR:
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_DST_ATOP:
+                op = NSCompositeDestinbtionAtop;
+                brebk;
+            cbse jbvb_bwt_AlphbComposite_XOR:
                 op = NSCompositeXOR;
-                break;
-            default:
+                brebk;
+            defbult:
                 op = NSCompositeSourceOver;
-                alphaCompositeValue = 1.0f;
-                break;
+                blphbCompositeVblue = 1.0f;
+                brebk;
         }
 
-        NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithGraphicsPort:cgRef flipped:NO];
-        //CGContextSetCompositeOperation(cgRef, op);
-        [context setCompositingOperation:op];
-        CGContextSetAlpha(cgRef, alphaCompositeValue);
+        NSGrbphicsContext *context = [NSGrbphicsContext grbphicsContextWithGrbphicsPort:cgRef flipped:NO];
+        //CGContextSetCompositeOperbtion(cgRef, op);
+        [context setCompositingOperbtion:op];
+        CGContextSetAlphb(cgRef, blphbCompositeVblue);
     }
 
-    if ((everyThingChanged == YES) || (renderingHintsChanged == YES))
+    if ((everyThingChbnged == YES) || (renderingHintsChbnged == YES))
     {
-        jint antialiasHint = javaGraphicsStates[sun_java2d_OSXSurfaceData_kHintsAntialiasIndex];
-//        jint textAntialiasHint = javaGraphicsStates[sun_java2d_OSXSurfaceData_kHintsTextAntialiasIndex];
-        jint renderingHint = javaGraphicsStates[sun_java2d_OSXSurfaceData_kHintsRenderingIndex];
-        jint interpolationHint = javaGraphicsStates[sun_java2d_OSXSurfaceData_kHintsInterpolationIndex];
-//        jint textFractionalMetricsHint = javaGraphicsStates[sun_java2d_OSXSurfaceData_kHintsFractionalMetricsIndex];
+        jint bntiblibsHint = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kHintsAntiblibsIndex];
+//        jint textAntiblibsHint = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kHintsTextAntiblibsIndex];
+        jint renderingHint = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kHintsRenderingIndex];
+        jint interpolbtionHint = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kHintsInterpolbtionIndex];
+//        jint textFrbctionblMetricsHint = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kHintsFrbctionblMetricsIndex];
 
-        // 10-10-02 VL: since CoreGraphics supports only an interpolation quality attribute we have to map
-        // both interpolationHint and renderingHint to an attribute value that best represents their combination.
-        // (See Radar 3071704.) We'll go for the best quality. CG maps interpolation quality values as follows:
-        // kCGInterpolationNone - nearest_neighbor
-        // kCGInterpolationLow - bilinear
-        // kCGInterpolationHigh - Lanczos (better than bicubic)
-        CGInterpolationQuality interpolationQuality = kCGInterpolationDefault;
-        // First check if the interpolation hint is suggesting to turn off interpolation:
-        if (interpolationHint == sun_awt_SunHints_INTVAL_INTERPOLATION_NEAREST_NEIGHBOR)
+        // 10-10-02 VL: since CoreGrbphics supports only bn interpolbtion qublity bttribute we hbve to mbp
+        // both interpolbtionHint bnd renderingHint to bn bttribute vblue thbt best represents their combinbtion.
+        // (See Rbdbr 3071704.) We'll go for the best qublity. CG mbps interpolbtion qublity vblues bs follows:
+        // kCGInterpolbtionNone - nebrest_neighbor
+        // kCGInterpolbtionLow - bilinebr
+        // kCGInterpolbtionHigh - Lbnczos (better thbn bicubic)
+        CGInterpolbtionQublity interpolbtionQublity = kCGInterpolbtionDefbult;
+        // First check if the interpolbtion hint is suggesting to turn off interpolbtion:
+        if (interpolbtionHint == sun_bwt_SunHints_INTVAL_INTERPOLATION_NEAREST_NEIGHBOR)
         {
-            interpolationQuality = kCGInterpolationNone;
+            interpolbtionQublity = kCGInterpolbtionNone;
         }
-        else if ((interpolationHint >= sun_awt_SunHints_INTVAL_INTERPOLATION_BICUBIC) || (renderingHint >= sun_awt_SunHints_INTVAL_RENDER_QUALITY))
+        else if ((interpolbtionHint >= sun_bwt_SunHints_INTVAL_INTERPOLATION_BICUBIC) || (renderingHint >= sun_bwt_SunHints_INTVAL_RENDER_QUALITY))
         {
-            // Use >= just in case Sun adds some hint values in the future - this check wouldn't fall apart then:
-            interpolationQuality = kCGInterpolationHigh;
+            // Use >= just in cbse Sun bdds some hint vblues in the future - this check wouldn't fbll bpbrt then:
+            interpolbtionQublity = kCGInterpolbtionHigh;
         }
-        else if (interpolationHint == sun_awt_SunHints_INTVAL_INTERPOLATION_BILINEAR)
+        else if (interpolbtionHint == sun_bwt_SunHints_INTVAL_INTERPOLATION_BILINEAR)
         {
-            interpolationQuality = kCGInterpolationLow;
+            interpolbtionQublity = kCGInterpolbtionLow;
         }
-        else if (renderingHint == sun_awt_SunHints_INTVAL_RENDER_SPEED)
+        else if (renderingHint == sun_bwt_SunHints_INTVAL_RENDER_SPEED)
         {
-            interpolationQuality = kCGInterpolationNone;
+            interpolbtionQublity = kCGInterpolbtionNone;
         }
-        // else interpolationHint == -1 || renderingHint == sun_awt_SunHints_INTVAL_CSURFACE_DEFAULT --> kCGInterpolationDefault
-        CGContextSetInterpolationQuality(cgRef, interpolationQuality);
-        qsdo->graphicsStateInfo.interpolation = interpolationQuality;
+        // else interpolbtionHint == -1 || renderingHint == sun_bwt_SunHints_INTVAL_CSURFACE_DEFAULT --> kCGInterpolbtionDefbult
+        CGContextSetInterpolbtionQublity(cgRef, interpolbtionQublity);
+        qsdo->grbphicsStbteInfo.interpolbtion = interpolbtionQublity;
 
-        // antialiasing
-        BOOL antialiased = (antialiasHint == sun_awt_SunHints_INTVAL_ANTIALIAS_ON);
-        CGContextSetShouldAntialias(cgRef, antialiased);
-        qsdo->graphicsStateInfo.antialiased = antialiased;
+        // bntiblibsing
+        BOOL bntiblibsed = (bntiblibsHint == sun_bwt_SunHints_INTVAL_ANTIALIAS_ON);
+        CGContextSetShouldAntiblibs(cgRef, bntiblibsed);
+        qsdo->grbphicsStbteInfo.bntiblibsed = bntiblibsed;
     }
 
-    if ((everyThingChanged == YES) || (strokeChanged == YES))
+    if ((everyThingChbnged == YES) || (strokeChbnged == YES))
     {
-        qsdo->graphicsStateInfo.simpleStroke = YES;
+        qsdo->grbphicsStbteInfo.simpleStroke = YES;
 
-        CGFloat linewidth = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kStrokeWidthIndex];
-        jint linejoin = javaGraphicsStates[sun_java2d_OSXSurfaceData_kStrokeJoinIndex];
-        jint linecap = javaGraphicsStates[sun_java2d_OSXSurfaceData_kStrokeCapIndex];
-        CGFloat miterlimit = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kStrokeLimitIndex];
-        jobject dasharray = ((*env)->GetObjectArrayElement(env, qsdo->javaGraphicsStatesObjects, sun_java2d_OSXSurfaceData_kStrokeDashArrayIndex));
-        CGFloat dashphase = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kStrokeDashPhaseIndex];
+        CGFlobt linewidth = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kStrokeWidthIndex];
+        jint linejoin = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kStrokeJoinIndex];
+        jint linecbp = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kStrokeCbpIndex];
+        CGFlobt miterlimit = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kStrokeLimitIndex];
+        jobject dbshbrrby = ((*env)->GetObjectArrbyElement(env, qsdo->jbvbGrbphicsStbtesObjects, sun_jbvb2d_OSXSurfbceDbtb_kStrokeDbshArrbyIndex));
+        CGFlobt dbshphbse = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kStrokeDbshPhbseIndex];
 
         if (linewidth == 0.0f)
         {
-            linewidth = (CGFloat)-109.05473e+14; // Don't ask !
+            linewidth = (CGFlobt)-109.05473e+14; // Don't bsk !
         }
         CGContextSetLineWidth(cgRef, linewidth);
 
-        CGLineCap cap;
-        switch (linecap)
+        CGLineCbp cbp;
+        switch (linecbp)
         {
-            case java_awt_BasicStroke_CAP_BUTT:
-                qsdo->graphicsStateInfo.simpleStroke = NO;
-                cap = kCGLineCapButt;
-                break;
-            case java_awt_BasicStroke_CAP_ROUND:
-                qsdo->graphicsStateInfo.simpleStroke = NO;
-                cap = kCGLineCapRound;
-                break;
-            case java_awt_BasicStroke_CAP_SQUARE:
-            default:
-                cap = kCGLineCapSquare;
-                break;
+            cbse jbvb_bwt_BbsicStroke_CAP_BUTT:
+                qsdo->grbphicsStbteInfo.simpleStroke = NO;
+                cbp = kCGLineCbpButt;
+                brebk;
+            cbse jbvb_bwt_BbsicStroke_CAP_ROUND:
+                qsdo->grbphicsStbteInfo.simpleStroke = NO;
+                cbp = kCGLineCbpRound;
+                brebk;
+            cbse jbvb_bwt_BbsicStroke_CAP_SQUARE:
+            defbult:
+                cbp = kCGLineCbpSqubre;
+                brebk;
         }
-        CGContextSetLineCap(cgRef, cap);
+        CGContextSetLineCbp(cgRef, cbp);
 
         CGLineJoin join;
         switch (linejoin)
         {
-            case java_awt_BasicStroke_JOIN_ROUND:
-                qsdo->graphicsStateInfo.simpleStroke = NO;
+            cbse jbvb_bwt_BbsicStroke_JOIN_ROUND:
+                qsdo->grbphicsStbteInfo.simpleStroke = NO;
                 join = kCGLineJoinRound;
-                break;
-            case java_awt_BasicStroke_JOIN_BEVEL:
-                qsdo->graphicsStateInfo.simpleStroke = NO;
+                brebk;
+            cbse jbvb_bwt_BbsicStroke_JOIN_BEVEL:
+                qsdo->grbphicsStbteInfo.simpleStroke = NO;
                 join = kCGLineJoinBevel;
-                break;
-            case java_awt_BasicStroke_JOIN_MITER:
-            default:
+                brebk;
+            cbse jbvb_bwt_BbsicStroke_JOIN_MITER:
+            defbult:
                 join = kCGLineJoinMiter;
-                break;
+                brebk;
         }
         CGContextSetLineJoin(cgRef, join);
         CGContextSetMiterLimit(cgRef, miterlimit);
 
-        if (dasharray != NULL)
+        if (dbshbrrby != NULL)
         {
-            qsdo->graphicsStateInfo.simpleStroke = NO;
-            jint length = (*env)->GetArrayLength(env, dasharray);
-            jfloat* jdashes = (jfloat*)(*env)->GetPrimitiveArrayCritical(env, dasharray, NULL);
-            if (jdashes == NULL) {
-                CGContextSetLineDash(cgRef, 0, NULL, 0);
+            qsdo->grbphicsStbteInfo.simpleStroke = NO;
+            jint length = (*env)->GetArrbyLength(env, dbshbrrby);
+            jflobt* jdbshes = (jflobt*)(*env)->GetPrimitiveArrbyCriticbl(env, dbshbrrby, NULL);
+            if (jdbshes == NULL) {
+                CGContextSetLineDbsh(cgRef, 0, NULL, 0);
                 return;
             }
-            CGFloat* dashes = (CGFloat*)malloc(sizeof(CGFloat)*length);
-            if (dashes != NULL)
+            CGFlobt* dbshes = (CGFlobt*)mblloc(sizeof(CGFlobt)*length);
+            if (dbshes != NULL)
             {
                 jint i;
                 for (i=0; i<length; i++)
                 {
-                    dashes[i] = (CGFloat)jdashes[i];
+                    dbshes[i] = (CGFlobt)jdbshes[i];
                 }
             }
             else
             {
-                dashphase = 0;
+                dbshphbse = 0;
                 length = 0;
             }
-            CGContextSetLineDash(cgRef, dashphase, dashes, length);
-            if (dashes != NULL)
+            CGContextSetLineDbsh(cgRef, dbshphbse, dbshes, length);
+            if (dbshes != NULL)
             {
-                free(dashes);
+                free(dbshes);
             }
-            (*env)->ReleasePrimitiveArrayCritical(env, dasharray, jdashes, 0);
+            (*env)->RelebsePrimitiveArrbyCriticbl(env, dbshbrrby, jdbshes, 0);
         }
         else
         {
-            CGContextSetLineDash(cgRef, 0, NULL, 0);
+            CGContextSetLineDbsh(cgRef, 0, NULL, 0);
         }
     }
 
-    BOOL cocoaPaint = (javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorStateIndex] == sun_java2d_OSXSurfaceData_kColorSystem);
-    BOOL complexPaint = (javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorStateIndex] == sun_java2d_OSXSurfaceData_kColorGradient) ||
-                        (javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorStateIndex] == sun_java2d_OSXSurfaceData_kColorTexture);
-    if ((everyThingChanged == YES) || (paintChanged == YES) || (cocoaPaint == YES) || (complexPaint == YES))
+    BOOL cocobPbint = (jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorStbteIndex] == sun_jbvb2d_OSXSurfbceDbtb_kColorSystem);
+    BOOL complexPbint = (jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorStbteIndex] == sun_jbvb2d_OSXSurfbceDbtb_kColorGrbdient) ||
+                        (jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorStbteIndex] == sun_jbvb2d_OSXSurfbceDbtb_kColorTexture);
+    if ((everyThingChbnged == YES) || (pbintChbnged == YES) || (cocobPbint == YES) || (complexPbint == YES))
     {
-        // rdar://problem/5214320
-        // Gradient fills of Java GeneralPath don't respect the even odd winding rule (quartz pipeline).
-        // Notice the side effect of the stmt after this if-block.
+        // rdbr://problem/5214320
+        // Grbdient fills of Jbvb GenerblPbth don't respect the even odd winding rule (qubrtz pipeline).
+        // Notice the side effect of the stmt bfter this if-block.
         if (renderType == SD_EOFill) {
             qsdo->isEvenOddFill = YES;
         }
 
-        renderType = SetUpPaint(env, qsdo, renderType);
+        renderType = SetUpPbint(env, qsdo, renderType);
     }
 
     qsdo->renderType = renderType;
 }
 
-SDRenderType SetUpPaint(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType)
+SDRenderType SetUpPbint(JNIEnv *env, QubrtzSDOps *qsdo, SDRenderType renderType)
 {
     CGContextRef cgRef = qsdo->cgRef;
 
-    jint *javaGraphicsStates = qsdo->javaGraphicsStates;
-    jfloat *javaFloatGraphicsStates = (jfloat*)(qsdo->javaGraphicsStates);
+    jint *jbvbGrbphicsStbtes = qsdo->jbvbGrbphicsStbtes;
+    jflobt *jbvbFlobtGrbphicsStbtes = (jflobt*)(qsdo->jbvbGrbphicsStbtes);
 
-    static const CGFloat kColorConversionMultiplier = 1.0f/255.0f;
-    jint colorState = javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorStateIndex];
+    stbtic const CGFlobt kColorConversionMultiplier = 1.0f/255.0f;
+    jint colorStbte = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorStbteIndex];
 
-    switch (colorState)
+    switch (colorStbte)
     {
-        case sun_java2d_OSXSurfaceData_kColorSimple:
+        cbse sun_jbvb2d_OSXSurfbceDbtb_kColorSimple:
         {
-            if (qsdo->graphicsStateInfo.simpleColor == NO)
+            if (qsdo->grbphicsStbteInfo.simpleColor == NO)
             {
-                setDefaultColorSpace(cgRef);
+                setDefbultColorSpbce(cgRef);
             }
-            qsdo->graphicsStateInfo.simpleColor = YES;
+            qsdo->grbphicsStbteInfo.simpleColor = YES;
 
             // sets the color on the CGContextRef (CGContextSetStrokeColorWithColor/CGContextSetFillColorWithColor)
-            setCachedColor(qsdo, javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorRGBValueIndex]);
+            setCbchedColor(qsdo, jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorRGBVblueIndex]);
 
-            break;
+            brebk;
         }
-        case sun_java2d_OSXSurfaceData_kColorSystem:
+        cbse sun_jbvb2d_OSXSurfbceDbtb_kColorSystem:
         {
-            qsdo->graphicsStateInfo.simpleStroke = NO;
-            // All our custom Colors are NSPatternColorSpace so we are complex colors!
-            qsdo->graphicsStateInfo.simpleColor = NO;
+            qsdo->grbphicsStbteInfo.simpleStroke = NO;
+            // All our custom Colors bre NSPbtternColorSpbce so we bre complex colors!
+            qsdo->grbphicsStbteInfo.simpleColor = NO;
 
             NSColor *color = nil;
             /* TODO:BG
             {
-                color = getColor(javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorIndexValueIndex]);
+                color = getColor(jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorIndexVblueIndex]);
             }
             */
             [color set];
-            break;
+            brebk;
         }
-        case sun_java2d_OSXSurfaceData_kColorGradient:
+        cbse sun_jbvb2d_OSXSurfbceDbtb_kColorGrbdient:
         {
-            qsdo->shadingInfo = (StateShadingInfo*)malloc(sizeof(StateShadingInfo));
-            if (qsdo->shadingInfo == NULL)
+            qsdo->shbdingInfo = (StbteShbdingInfo*)mblloc(sizeof(StbteShbdingInfo));
+            if (qsdo->shbdingInfo == NULL)
             {
-                [JNFException raise:env as:kOutOfMemoryError reason:"Failed to malloc memory for gradient paint"];
+                [JNFException rbise:env bs:kOutOfMemoryError rebson:"Fbiled to mblloc memory for grbdient pbint"];
             }
 
-            qsdo->graphicsStateInfo.simpleStroke = NO;
-            qsdo->graphicsStateInfo.simpleColor = NO;
+            qsdo->grbphicsStbteInfo.simpleStroke = NO;
+            qsdo->grbphicsStbteInfo.simpleColor = NO;
 
-            renderType = SD_Shade;
+            renderType = SD_Shbde;
 
-            qsdo->shadingInfo->start.x    = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kColorx1Index];
-            qsdo->shadingInfo->start.y    = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kColory1Index];
-            qsdo->shadingInfo->end.x    = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kColorx2Index];
-            qsdo->shadingInfo->end.y    = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kColory2Index];
-            jint c1 = javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorRGBValue1Index];
-            qsdo->shadingInfo->colors[0] = ((c1>>16)&0xff)*kColorConversionMultiplier;
-            qsdo->shadingInfo->colors[1] = ((c1>>8)&0xff)*kColorConversionMultiplier;
-            qsdo->shadingInfo->colors[2] = ((c1>>0)&0xff)*kColorConversionMultiplier;
-            qsdo->shadingInfo->colors[3] = ((c1>>24)&0xff)*kColorConversionMultiplier;
-            jint c2 = javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorRGBValue2Index];
-            qsdo->shadingInfo->colors[4] = ((c2>>16)&0xff)*kColorConversionMultiplier;
-            qsdo->shadingInfo->colors[5] = ((c2>>8)&0xff)*kColorConversionMultiplier;
-            qsdo->shadingInfo->colors[6] = ((c2>>0)&0xff)*kColorConversionMultiplier;
-            qsdo->shadingInfo->colors[7] = ((c2>>24)&0xff)*kColorConversionMultiplier;
-            qsdo->shadingInfo->cyclic    = (javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorIsCyclicIndex] == sun_java2d_OSXSurfaceData_kColorCyclic);
+            qsdo->shbdingInfo->stbrt.x    = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorx1Index];
+            qsdo->shbdingInfo->stbrt.y    = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColory1Index];
+            qsdo->shbdingInfo->end.x    = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorx2Index];
+            qsdo->shbdingInfo->end.y    = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColory2Index];
+            jint c1 = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorRGBVblue1Index];
+            qsdo->shbdingInfo->colors[0] = ((c1>>16)&0xff)*kColorConversionMultiplier;
+            qsdo->shbdingInfo->colors[1] = ((c1>>8)&0xff)*kColorConversionMultiplier;
+            qsdo->shbdingInfo->colors[2] = ((c1>>0)&0xff)*kColorConversionMultiplier;
+            qsdo->shbdingInfo->colors[3] = ((c1>>24)&0xff)*kColorConversionMultiplier;
+            jint c2 = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorRGBVblue2Index];
+            qsdo->shbdingInfo->colors[4] = ((c2>>16)&0xff)*kColorConversionMultiplier;
+            qsdo->shbdingInfo->colors[5] = ((c2>>8)&0xff)*kColorConversionMultiplier;
+            qsdo->shbdingInfo->colors[6] = ((c2>>0)&0xff)*kColorConversionMultiplier;
+            qsdo->shbdingInfo->colors[7] = ((c2>>24)&0xff)*kColorConversionMultiplier;
+            qsdo->shbdingInfo->cyclic    = (jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorIsCyclicIndex] == sun_jbvb2d_OSXSurfbceDbtb_kColorCyclic);
 
-            break;
+            brebk;
         }
-        case sun_java2d_OSXSurfaceData_kColorTexture:
+        cbse sun_jbvb2d_OSXSurfbceDbtb_kColorTexture:
         {
-            qsdo->patternInfo = (StatePatternInfo*)malloc(sizeof(StatePatternInfo));
-            if (qsdo->patternInfo == NULL)
+            qsdo->pbtternInfo = (StbtePbtternInfo*)mblloc(sizeof(StbtePbtternInfo));
+            if (qsdo->pbtternInfo == NULL)
             {
-                [JNFException raise:env as:kOutOfMemoryError reason:"Failed to malloc memory for texture paint"];
+                [JNFException rbise:env bs:kOutOfMemoryError rebson:"Fbiled to mblloc memory for texture pbint"];
             }
 
-            qsdo->graphicsStateInfo.simpleStroke = NO;
-            qsdo->graphicsStateInfo.simpleColor = NO;
+            qsdo->grbphicsStbteInfo.simpleStroke = NO;
+            qsdo->grbphicsStbteInfo.simpleColor = NO;
 
-            renderType = SD_Pattern;
+            renderType = SD_Pbttern;
 
-            qsdo->patternInfo->tx        = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kColortxIndex];
-            qsdo->patternInfo->ty        = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kColortyIndex];
-            qsdo->patternInfo->sx        = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kColorsxIndex];
-            if (qsdo->patternInfo->sx == 0.0f)
+            qsdo->pbtternInfo->tx        = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColortxIndex];
+            qsdo->pbtternInfo->ty        = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColortyIndex];
+            qsdo->pbtternInfo->sx        = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorsxIndex];
+            if (qsdo->pbtternInfo->sx == 0.0f)
             {
-                return SD_Fill; // 0 is an invalid value, fill argb rect
+                return SD_Fill; // 0 is bn invblid vblue, fill brgb rect
             }
-            qsdo->patternInfo->sy        = javaFloatGraphicsStates[sun_java2d_OSXSurfaceData_kColorsyIndex];
-            if (qsdo->patternInfo->sy == 0.0f)
+            qsdo->pbtternInfo->sy        = jbvbFlobtGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorsyIndex];
+            if (qsdo->pbtternInfo->sy == 0.0f)
             {
-                return SD_Fill; // 0 is an invalid value, fill argb rect
+                return SD_Fill; // 0 is bn invblid vblue, fill brgb rect
             }
-            qsdo->patternInfo->width    = javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorWidthIndex];
-            qsdo->patternInfo->height    = javaGraphicsStates[sun_java2d_OSXSurfaceData_kColorHeightIndex];
+            qsdo->pbtternInfo->width    = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorWidthIndex];
+            qsdo->pbtternInfo->height    = jbvbGrbphicsStbtes[sun_jbvb2d_OSXSurfbceDbtb_kColorHeightIndex];
 
-            jobject sData = ((*env)->GetObjectArrayElement(env, qsdo->javaGraphicsStatesObjects, sun_java2d_OSXSurfaceData_kTextureImageIndex)); //deleted next time through SetUpPaint and not before ( radr://3913190 )
-            if (sData != NULL)
+            jobject sDbtb = ((*env)->GetObjectArrbyElement(env, qsdo->jbvbGrbphicsStbtesObjects, sun_jbvb2d_OSXSurfbceDbtb_kTextureImbgeIndex)); //deleted next time through SetUpPbint bnd not before ( rbdr://3913190 )
+            if (sDbtb != NULL)
             {
-                qsdo->patternInfo->sdata = (*env)->NewGlobalRef(env, sData);
-                if (qsdo->patternInfo->sdata == NULL)
+                qsdo->pbtternInfo->sdbtb = (*env)->NewGlobblRef(env, sDbtb);
+                if (qsdo->pbtternInfo->sdbtb == NULL)
                 {
                     renderType = SD_Fill;
                 }
@@ -940,22 +940,22 @@ SDRenderType SetUpPaint(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType)
                 renderType = SD_Fill;
             }
 
-            break;
+            brebk;
         }
     }
 
     return renderType;
 }
 
-#pragma mark
-#pragma mark --- Shape Drawing Code ---
+#prbgmb mbrk
+#prbgmb mbrk --- Shbpe Drbwing Code ---
 
-SDRenderType DoShapeUsingCG(CGContextRef cgRef, jint *types, jfloat *coords, jint numtypes, BOOL fill, CGFloat offsetX, CGFloat offsetY)
+SDRenderType DoShbpeUsingCG(CGContextRef cgRef, jint *types, jflobt *coords, jint numtypes, BOOL fill, CGFlobt offsetX, CGFlobt offsetY)
 {
-//fprintf(stderr, "DoShapeUsingCG fill=%d\n", (jint)fill);
+//fprintf(stderr, "DoShbpeUsingCG fill=%d\n", (jint)fill);
     SDRenderType renderType = SD_Nothing;
 
-    if (gAdjustForJavaDrawing != YES)
+    if (gAdjustForJbvbDrbwing != YES)
     {
         offsetX = 0.0f;
         offsetY = 0.0f;
@@ -972,74 +972,74 @@ SDRenderType DoShapeUsingCG(CGContextRef cgRef, jint *types, jfloat *coords, jin
 
     if (numtypes > 0)
     {
-        BOOL needNewSubpath = NO;
+        BOOL needNewSubpbth = NO;
 
-        CGContextBeginPath(cgRef); // create new path
-//fprintf(stderr, "    CGContextBeginPath\n");
+        CGContextBeginPbth(cgRef); // crebte new pbth
+//fprintf(stderr, "    CGContextBeginPbth\n");
 
         jint index = 0;
-        CGFloat mx = 0.0f, my = 0.0f, x1 = 0.0f, y1 = 0.0f, cpx1 = 0.0f, cpy1 = 0.0f, cpx2 = 0.0f, cpy2 = 0.0f;
+        CGFlobt mx = 0.0f, my = 0.0f, x1 = 0.0f, y1 = 0.0f, cpx1 = 0.0f, cpy1 = 0.0f, cpx2 = 0.0f, cpy2 = 0.0f;
         jint i;
 
-        mx = (CGFloat)coords[index++] + offsetX;
-        my = (CGFloat)coords[index++] + offsetY;
+        mx = (CGFlobt)coords[index++] + offsetX;
+        my = (CGFlobt)coords[index++] + offsetY;
         CGContextMoveToPoint(cgRef, mx, my);
 
         for (i=1; i<numtypes; i++)
         {
-            jint pathType = types[i];
+            jint pbthType = types[i];
 
-            if (needNewSubpath == YES)
+            if (needNewSubpbth == YES)
             {
-                needNewSubpath = NO;
-                switch (pathType)
+                needNewSubpbth = NO;
+                switch (pbthType)
                 {
-                    case java_awt_geom_PathIterator_SEG_LINETO:
-                    case java_awt_geom_PathIterator_SEG_QUADTO:
-                    case java_awt_geom_PathIterator_SEG_CUBICTO:
+                    cbse jbvb_bwt_geom_PbthIterbtor_SEG_LINETO:
+                    cbse jbvb_bwt_geom_PbthIterbtor_SEG_QUADTO:
+                    cbse jbvb_bwt_geom_PbthIterbtor_SEG_CUBICTO:
 //fprintf(stderr, "    forced CGContextMoveToPoint (%f, %f)\n", mx, my);
-                        CGContextMoveToPoint(cgRef, mx, my); // force new subpath
-                        break;
+                        CGContextMoveToPoint(cgRef, mx, my); // force new subpbth
+                        brebk;
                 }
             }
 
-            switch (pathType)
+            switch (pbthType)
             {
-                case java_awt_geom_PathIterator_SEG_MOVETO:
-                    mx = x1 = (CGFloat)coords[index++] + offsetX;
-                    my = y1 = (CGFloat)coords[index++] + offsetY;
-                    CGContextMoveToPoint(cgRef, x1, y1); // start new subpath
+                cbse jbvb_bwt_geom_PbthIterbtor_SEG_MOVETO:
+                    mx = x1 = (CGFlobt)coords[index++] + offsetX;
+                    my = y1 = (CGFlobt)coords[index++] + offsetY;
+                    CGContextMoveToPoint(cgRef, x1, y1); // stbrt new subpbth
 //fprintf(stderr, "    SEG_MOVETO CGContextMoveToPoint (%f, %f)\n", x1, y1);
-                    break;
-                case java_awt_geom_PathIterator_SEG_LINETO:
-                    x1 = (CGFloat)coords[index++] + offsetX;
-                    y1 = (CGFloat)coords[index++] + offsetY;
+                    brebk;
+                cbse jbvb_bwt_geom_PbthIterbtor_SEG_LINETO:
+                    x1 = (CGFlobt)coords[index++] + offsetX;
+                    y1 = (CGFlobt)coords[index++] + offsetY;
                     CGContextAddLineToPoint(cgRef, x1, y1);
 //fprintf(stderr, "    SEG_LINETO CGContextAddLineToPoint (%f, %f)\n", x1, y1);
-                    break;
-                case java_awt_geom_PathIterator_SEG_QUADTO:
-                    cpx1 = (CGFloat)coords[index++] + offsetX;
-                    cpy1 = (CGFloat)coords[index++] + offsetY;
-                    x1 = (CGFloat)coords[index++] + offsetX;
-                    y1 = (CGFloat)coords[index++]+ offsetY;
-                    CGContextAddQuadCurveToPoint(cgRef, cpx1, cpy1, x1, y1);
-//fprintf(stderr, "    SEG_QUADTO CGContextAddQuadCurveToPoint (%f, %f), (%f, %f)\n", cpx1, cpy1, x1, y1);
-                    break;
-                case java_awt_geom_PathIterator_SEG_CUBICTO:
-                    cpx1 = (CGFloat)coords[index++] + offsetX;
-                    cpy1 = (CGFloat)coords[index++] + offsetY;
-                    cpx2 = (CGFloat)coords[index++] + offsetX;
-                    cpy2 = (CGFloat)coords[index++] + offsetY;
-                    x1 = (CGFloat)coords[index++] + offsetX;
-                    y1 = (CGFloat)coords[index++] + offsetY;
+                    brebk;
+                cbse jbvb_bwt_geom_PbthIterbtor_SEG_QUADTO:
+                    cpx1 = (CGFlobt)coords[index++] + offsetX;
+                    cpy1 = (CGFlobt)coords[index++] + offsetY;
+                    x1 = (CGFlobt)coords[index++] + offsetX;
+                    y1 = (CGFlobt)coords[index++]+ offsetY;
+                    CGContextAddQubdCurveToPoint(cgRef, cpx1, cpy1, x1, y1);
+//fprintf(stderr, "    SEG_QUADTO CGContextAddQubdCurveToPoint (%f, %f), (%f, %f)\n", cpx1, cpy1, x1, y1);
+                    brebk;
+                cbse jbvb_bwt_geom_PbthIterbtor_SEG_CUBICTO:
+                    cpx1 = (CGFlobt)coords[index++] + offsetX;
+                    cpy1 = (CGFlobt)coords[index++] + offsetY;
+                    cpx2 = (CGFlobt)coords[index++] + offsetX;
+                    cpy2 = (CGFlobt)coords[index++] + offsetY;
+                    x1 = (CGFlobt)coords[index++] + offsetX;
+                    y1 = (CGFlobt)coords[index++] + offsetY;
                     CGContextAddCurveToPoint(cgRef, cpx1, cpy1, cpx2, cpy2, x1, y1);
 //fprintf(stderr, "    SEG_CUBICTO CGContextAddCurveToPoint (%f, %f), (%f, %f), (%f, %f)\n", cpx1, cpy1, cpx2, cpy2, x1, y1);
-                    break;
-                case java_awt_geom_PathIterator_SEG_CLOSE:
-                    CGContextClosePath(cgRef); // close subpath
-                    needNewSubpath = YES;
-//fprintf(stderr, "    SEG_CLOSE CGContextClosePath\n");
-                    break;
+                    brebk;
+                cbse jbvb_bwt_geom_PbthIterbtor_SEG_CLOSE:
+                    CGContextClosePbth(cgRef); // close subpbth
+                    needNewSubpbth = YES;
+//fprintf(stderr, "    SEG_CLOSE CGContextClosePbth\n");
+                    brebk;
             }
         }
     }
@@ -1047,68 +1047,68 @@ SDRenderType DoShapeUsingCG(CGContextRef cgRef, jint *types, jfloat *coords, jin
     return renderType;
 }
 
-void CompleteCGContext(JNIEnv *env, QuartzSDOps *qsdo)
+void CompleteCGContext(JNIEnv *env, QubrtzSDOps *qsdo)
 {
 PRINT(" CompleteCGContext")
     switch (qsdo->renderType)
     {
-        case SD_Nothing:
-            break;
+        cbse SD_Nothing:
+            brebk;
 
-        case SD_Stroke:
-            if (CGContextIsPathEmpty(qsdo->cgRef) == 0)
+        cbse SD_Stroke:
+            if (CGContextIsPbthEmpty(qsdo->cgRef) == 0)
             {
-                CGContextStrokePath(qsdo->cgRef);
+                CGContextStrokePbth(qsdo->cgRef);
             }
-            break;
+            brebk;
 
-        case SD_Fill:
-            if (CGContextIsPathEmpty(qsdo->cgRef) == 0)
+        cbse SD_Fill:
+            if (CGContextIsPbthEmpty(qsdo->cgRef) == 0)
             {
-                CGContextFillPath(qsdo->cgRef);
+                CGContextFillPbth(qsdo->cgRef);
             }
-            break;
+            brebk;
 
-        case SD_Shade:
-            if (CGContextIsPathEmpty(qsdo->cgRef) == 0)
+        cbse SD_Shbde:
+            if (CGContextIsPbthEmpty(qsdo->cgRef) == 0)
             {
-                contextGradientPath(qsdo);
+                contextGrbdientPbth(qsdo);
             }
-            break;
+            brebk;
 
-        case SD_Pattern:
-            if (CGContextIsPathEmpty(qsdo->cgRef) == 0)
+        cbse SD_Pbttern:
+            if (CGContextIsPbthEmpty(qsdo->cgRef) == 0)
             {
                 //TODO:BG
-                //contextTexturePath(env, qsdo);
+                //contextTexturePbth(env, qsdo);
             }
-            break;
+            brebk;
 
-        case SD_EOFill:
-            if (CGContextIsPathEmpty(qsdo->cgRef) == 0)
+        cbse SD_EOFill:
+            if (CGContextIsPbthEmpty(qsdo->cgRef) == 0)
             {
-                CGContextEOFillPath(qsdo->cgRef);
+                CGContextEOFillPbth(qsdo->cgRef);
             }
-            break;
+            brebk;
 
-        case SD_Image:
-            break;
+        cbse SD_Imbge:
+            brebk;
 
-        case SD_Text:
-            break;
+        cbse SD_Text:
+            brebk;
 
-        case SD_CopyArea:
-            break;
+        cbse SD_CopyAreb:
+            brebk;
 
-        case SD_Queue:
-            break;
+        cbse SD_Queue:
+            brebk;
 
-        case SD_External:
-            break;
+        cbse SD_Externbl:
+            brebk;
     }
 
-    if (qsdo->shadingInfo != NULL) {
-        gradientPaintReleaseFunction(qsdo->shadingInfo);
-        qsdo->shadingInfo = NULL;
+    if (qsdo->shbdingInfo != NULL) {
+        grbdientPbintRelebseFunction(qsdo->shbdingInfo);
+        qsdo->shbdingInfo = NULL;
     }
 }

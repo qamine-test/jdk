@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.*;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.file.spi.*;
+import jbvb.util.*;
+import jbvb.util.regex.Pbttern;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.security.bction.GetPropertyAction;
 
-class WindowsFileSystem
+clbss WindowsFileSystem
     extends FileSystem
 {
-    private final WindowsFileSystemProvider provider;
+    privbte finbl WindowsFileSystemProvider provider;
 
-    // default directory (is absolute), and default root
-    private final String defaultDirectory;
-    private final String defaultRoot;
+    // defbult directory (is bbsolute), bnd defbult root
+    privbte finbl String defbultDirectory;
+    privbte finbl String defbultRoot;
 
-    private final boolean supportsLinks;
-    private final boolean supportsStreamEnumeration;
+    privbte finbl boolebn supportsLinks;
+    privbte finbl boolebn supportsStrebmEnumerbtion;
 
-    // package-private
+    // pbckbge-privbte
     WindowsFileSystem(WindowsFileSystemProvider provider,
                       String dir)
     {
         this.provider = provider;
 
-        // parse default directory and check it is absolute
-        WindowsPathParser.Result result = WindowsPathParser.parse(dir);
+        // pbrse defbult directory bnd check it is bbsolute
+        WindowsPbthPbrser.Result result = WindowsPbthPbrser.pbrse(dir);
 
-        if ((result.type() != WindowsPathType.ABSOLUTE) &&
-            (result.type() != WindowsPathType.UNC))
-            throw new AssertionError("Default directory is not an absolute path");
-        this.defaultDirectory = result.path();
-        this.defaultRoot = result.root();
+        if ((result.type() != WindowsPbthType.ABSOLUTE) &&
+            (result.type() != WindowsPbthType.UNC))
+            throw new AssertionError("Defbult directory is not bn bbsolute pbth");
+        this.defbultDirectory = result.pbth();
+        this.defbultRoot = result.root();
 
-        PrivilegedAction<String> pa = new GetPropertyAction("os.version");
-        String osversion = AccessController.doPrivileged(pa);
+        PrivilegedAction<String> pb = new GetPropertyAction("os.version");
+        String osversion = AccessController.doPrivileged(pb);
         String[] vers = Util.split(osversion, '.');
-        int major = Integer.parseInt(vers[0]);
-        int minor = Integer.parseInt(vers[1]);
+        int mbjor = Integer.pbrseInt(vers[0]);
+        int minor = Integer.pbrseInt(vers[1]);
 
-        // symbolic links available on Vista and newer
-        supportsLinks = (major >= 6);
+        // symbolic links bvbilbble on Vistb bnd newer
+        supportsLinks = (mbjor >= 6);
 
-        // enumeration of data streams available on Windows Server 2003 and newer
-        supportsStreamEnumeration = (major >= 6) || (major == 5 && minor >= 2);
+        // enumerbtion of dbtb strebms bvbilbble on Windows Server 2003 bnd newer
+        supportsStrebmEnumerbtion = (mbjor >= 6) || (mbjor == 5 && minor >= 2);
     }
 
-    // package-private
-    String defaultDirectory() {
-        return defaultDirectory;
+    // pbckbge-privbte
+    String defbultDirectory() {
+        return defbultDirectory;
     }
 
-    String defaultRoot() {
-        return defaultRoot;
+    String defbultRoot() {
+        return defbultRoot;
     }
 
-    boolean supportsLinks() {
+    boolebn supportsLinks() {
         return supportsLinks;
     }
 
-    boolean supportsStreamEnumeration() {
-        return supportsStreamEnumeration;
+    boolebn supportsStrebmEnumerbtion() {
+        return supportsStrebmEnumerbtion;
     }
 
     @Override
@@ -98,102 +98,102 @@ class WindowsFileSystem
     }
 
     @Override
-    public String getSeparator() {
+    public String getSepbrbtor() {
         return "\\";
     }
 
     @Override
-    public boolean isOpen() {
+    public boolebn isOpen() {
         return true;
     }
 
     @Override
-    public boolean isReadOnly() {
-        return false;
+    public boolebn isRebdOnly() {
+        return fblse;
     }
 
     @Override
     public void close() throws IOException {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     @Override
-    public Iterable<Path> getRootDirectories() {
+    public Iterbble<Pbth> getRootDirectories() {
         int drives = 0;
         try {
-            drives = WindowsNativeDispatcher.GetLogicalDrives();
-        } catch (WindowsException x) {
-            // shouldn't happen
-            throw new AssertionError(x.getMessage());
+            drives = WindowsNbtiveDispbtcher.GetLogicblDrives();
+        } cbtch (WindowsException x) {
+            // shouldn't hbppen
+            throw new AssertionError(x.getMessbge());
         }
 
-        // iterate over roots, ignoring those that the security manager denies
-        ArrayList<Path> result = new ArrayList<>();
-        SecurityManager sm = System.getSecurityManager();
+        // iterbte over roots, ignoring those thbt the security mbnbger denies
+        ArrbyList<Pbth> result = new ArrbyList<>();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         for (int i = 0; i <= 25; i++) {  // 0->A, 1->B, 2->C...
             if ((drives & (1 << i)) != 0) {
                 StringBuilder sb = new StringBuilder(3);
-                sb.append((char)('A' + i));
-                sb.append(":\\");
+                sb.bppend((chbr)('A' + i));
+                sb.bppend(":\\");
                 String root = sb.toString();
                 if (sm != null) {
                     try {
-                        sm.checkRead(root);
-                    } catch (SecurityException x) {
+                        sm.checkRebd(root);
+                    } cbtch (SecurityException x) {
                         continue;
                     }
                 }
-                result.add(WindowsPath.createFromNormalizedPath(this, root));
+                result.bdd(WindowsPbth.crebteFromNormblizedPbth(this, root));
             }
         }
-        return Collections.unmodifiableList(result);
+        return Collections.unmodifibbleList(result);
     }
 
     /**
-     * Iterator returned by getFileStores method.
+     * Iterbtor returned by getFileStores method.
      */
-    private class FileStoreIterator implements Iterator<FileStore> {
-        private final Iterator<Path> roots;
-        private FileStore next;
+    privbte clbss FileStoreIterbtor implements Iterbtor<FileStore> {
+        privbte finbl Iterbtor<Pbth> roots;
+        privbte FileStore next;
 
-        FileStoreIterator() {
-            this.roots = getRootDirectories().iterator();
+        FileStoreIterbtor() {
+            this.roots = getRootDirectories().iterbtor();
         }
 
-        private FileStore readNext() {
-            assert Thread.holdsLock(this);
+        privbte FileStore rebdNext() {
+            bssert Threbd.holdsLock(this);
             for (;;) {
-                if (!roots.hasNext())
+                if (!roots.hbsNext())
                     return null;
-                WindowsPath root = (WindowsPath)roots.next();
-                // ignore if security manager denies access
+                WindowsPbth root = (WindowsPbth)roots.next();
+                // ignore if security mbnbger denies bccess
                 try {
-                    root.checkRead();
-                } catch (SecurityException x) {
+                    root.checkRebd();
+                } cbtch (SecurityException x) {
                     continue;
                 }
                 try {
-                    FileStore fs = WindowsFileStore.create(root.toString(), true);
+                    FileStore fs = WindowsFileStore.crebte(root.toString(), true);
                     if (fs != null)
                         return fs;
-                } catch (IOException ioe) {
+                } cbtch (IOException ioe) {
                     // skip it
                 }
             }
         }
 
         @Override
-        public synchronized boolean hasNext() {
+        public synchronized boolebn hbsNext() {
             if (next != null)
                 return true;
-            next = readNext();
+            next = rebdNext();
             return next != null;
         }
 
         @Override
         public synchronized FileStore next() {
             if (next == null)
-                next = readNext();
+                next = rebdNext();
             if (next == null) {
                 throw new NoSuchElementException();
             } else {
@@ -205,30 +205,30 @@ class WindowsFileSystem
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     @Override
-    public Iterable<FileStore> getFileStores() {
-        SecurityManager sm = System.getSecurityManager();
+    public Iterbble<FileStore> getFileStores() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             try {
                 sm.checkPermission(new RuntimePermission("getFileStoreAttributes"));
-            } catch (SecurityException se) {
+            } cbtch (SecurityException se) {
                 return Collections.emptyList();
             }
         }
-        return new Iterable<FileStore>() {
-            public Iterator<FileStore> iterator() {
-                return new FileStoreIterator();
+        return new Iterbble<FileStore>() {
+            public Iterbtor<FileStore> iterbtor() {
+                return new FileStoreIterbtor();
             }
         };
     }
 
     // supported views
-    private static final Set<String> supportedFileAttributeViews = Collections
-        .unmodifiableSet(new HashSet<String>(Arrays.asList("basic", "dos", "acl", "owner", "user")));
+    privbte stbtic finbl Set<String> supportedFileAttributeViews = Collections
+        .unmodifibbleSet(new HbshSet<String>(Arrbys.bsList("bbsic", "dos", "bcl", "owner", "user")));
 
     @Override
     public Set<String> supportedFileAttributeViews() {
@@ -236,90 +236,90 @@ class WindowsFileSystem
     }
 
     @Override
-    public final Path getPath(String first, String... more) {
-        String path;
+    public finbl Pbth getPbth(String first, String... more) {
+        String pbth;
         if (more.length == 0) {
-            path = first;
+            pbth = first;
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append(first);
+            sb.bppend(first);
             for (String segment: more) {
                 if (segment.length() > 0) {
                     if (sb.length() > 0)
-                        sb.append('\\');
-                    sb.append(segment);
+                        sb.bppend('\\');
+                    sb.bppend(segment);
                 }
             }
-            path = sb.toString();
+            pbth = sb.toString();
         }
-        return WindowsPath.parse(this, path);
+        return WindowsPbth.pbrse(this, pbth);
     }
 
     @Override
-    public UserPrincipalLookupService getUserPrincipalLookupService() {
-        return LookupService.instance;
+    public UserPrincipblLookupService getUserPrincipblLookupService() {
+        return LookupService.instbnce;
     }
 
-    private static class LookupService {
-        static final UserPrincipalLookupService instance =
-            new UserPrincipalLookupService() {
+    privbte stbtic clbss LookupService {
+        stbtic finbl UserPrincipblLookupService instbnce =
+            new UserPrincipblLookupService() {
                 @Override
-                public UserPrincipal lookupPrincipalByName(String name)
+                public UserPrincipbl lookupPrincipblByNbme(String nbme)
                     throws IOException
                 {
-                    return WindowsUserPrincipals.lookup(name);
+                    return WindowsUserPrincipbls.lookup(nbme);
                 }
                 @Override
-                public GroupPrincipal lookupPrincipalByGroupName(String group)
+                public GroupPrincipbl lookupPrincipblByGroupNbme(String group)
                     throws IOException
                 {
-                    UserPrincipal user = WindowsUserPrincipals.lookup(group);
-                    if (!(user instanceof GroupPrincipal))
-                        throw new UserPrincipalNotFoundException(group);
-                    return (GroupPrincipal)user;
+                    UserPrincipbl user = WindowsUserPrincipbls.lookup(group);
+                    if (!(user instbnceof GroupPrincipbl))
+                        throw new UserPrincipblNotFoundException(group);
+                    return (GroupPrincipbl)user;
                 }
             };
     }
 
     @Override
-    public PathMatcher getPathMatcher(String syntaxAndInput) {
-        int pos = syntaxAndInput.indexOf(':');
-        if (pos <= 0 || pos == syntaxAndInput.length())
-            throw new IllegalArgumentException();
-        String syntax = syntaxAndInput.substring(0, pos);
-        String input = syntaxAndInput.substring(pos+1);
+    public PbthMbtcher getPbthMbtcher(String syntbxAndInput) {
+        int pos = syntbxAndInput.indexOf(':');
+        if (pos <= 0 || pos == syntbxAndInput.length())
+            throw new IllegblArgumentException();
+        String syntbx = syntbxAndInput.substring(0, pos);
+        String input = syntbxAndInput.substring(pos+1);
 
         String expr;
-        if (syntax.equals(GLOB_SYNTAX)) {
-            expr = Globs.toWindowsRegexPattern(input);
+        if (syntbx.equbls(GLOB_SYNTAX)) {
+            expr = Globs.toWindowsRegexPbttern(input);
         } else {
-            if (syntax.equals(REGEX_SYNTAX)) {
+            if (syntbx.equbls(REGEX_SYNTAX)) {
                 expr = input;
             } else {
-                throw new UnsupportedOperationException("Syntax '" + syntax +
+                throw new UnsupportedOperbtionException("Syntbx '" + syntbx +
                     "' not recognized");
             }
         }
 
-        // match in unicode_case_insensitive
-        final Pattern pattern = Pattern.compile(expr,
-            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+        // mbtch in unicode_cbse_insensitive
+        finbl Pbttern pbttern = Pbttern.compile(expr,
+            Pbttern.CASE_INSENSITIVE | Pbttern.UNICODE_CASE);
 
-        // return matcher
-        return new PathMatcher() {
+        // return mbtcher
+        return new PbthMbtcher() {
             @Override
-            public boolean matches(Path path) {
-                return pattern.matcher(path.toString()).matches();
+            public boolebn mbtches(Pbth pbth) {
+                return pbttern.mbtcher(pbth.toString()).mbtches();
             }
         };
     }
-    private static final String GLOB_SYNTAX = "glob";
-    private static final String REGEX_SYNTAX = "regex";
+    privbte stbtic finbl String GLOB_SYNTAX = "glob";
+    privbte stbtic finbl String REGEX_SYNTAX = "regex";
 
     @Override
-    public WatchService newWatchService()
+    public WbtchService newWbtchService()
         throws IOException
     {
-        return new WindowsWatchService(this);
+        return new WindowsWbtchService(this);
     }
 }

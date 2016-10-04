@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
 /**
- * Type safe enum for an SSL/TLS protocol version. Instances are obtained
- * using the static factory methods or by referencing the static members
- * in this class. Member variables are final and can be accessed without
- * accessor methods.
+ * Type sbfe enum for bn SSL/TLS protocol version. Instbnces bre obtbined
+ * using the stbtic fbctory methods or by referencing the stbtic members
+ * in this clbss. Member vbribbles bre finbl bnd cbn be bccessed without
+ * bccessor methods.
  *
- * There is only ever one instance per supported protocol version, this
- * means == can be used for comparision instead of equals() if desired.
+ * There is only ever one instbnce per supported protocol version, this
+ * mebns == cbn be used for compbrision instebd of equbls() if desired.
  *
- * Checks for a particular version number should generally take this form:
+ * Checks for b pbrticulbr version number should generblly tbke this form:
  *
  * if (protocolVersion.v >= ProtocolVersion.TLS10) {
  *   // TLS 1.0 code goes here
@@ -42,70 +42,70 @@ package sun.security.ssl;
  *   // SSL 3.0 code here
  * }
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.4.1
  */
-public final class ProtocolVersion implements Comparable<ProtocolVersion> {
+public finbl clbss ProtocolVersion implements Compbrbble<ProtocolVersion> {
 
-    // The limit of maximum protocol version
-    final static int LIMIT_MAX_VALUE = 0xFFFF;
+    // The limit of mbximum protocol version
+    finbl stbtic int LIMIT_MAX_VALUE = 0xFFFF;
 
     // The limit of minimum protocol version
-    final static int LIMIT_MIN_VALUE = 0x0000;
+    finbl stbtic int LIMIT_MIN_VALUE = 0x0000;
 
-    // Dummy protocol version value for invalid SSLSession
-    final static ProtocolVersion NONE = new ProtocolVersion(-1, "NONE");
+    // Dummy protocol version vblue for invblid SSLSession
+    finbl stbtic ProtocolVersion NONE = new ProtocolVersion(-1, "NONE");
 
-    // If enabled, send/ accept SSLv2 hello messages
-    final static ProtocolVersion SSL20Hello = new ProtocolVersion(0x0002,
+    // If enbbled, send/ bccept SSLv2 hello messbges
+    finbl stbtic ProtocolVersion SSL20Hello = new ProtocolVersion(0x0002,
                                                                 "SSLv2Hello");
 
     // SSL 3.0
-    final static ProtocolVersion SSL30 = new ProtocolVersion(0x0300, "SSLv3");
+    finbl stbtic ProtocolVersion SSL30 = new ProtocolVersion(0x0300, "SSLv3");
 
     // TLS 1.0
-    final static ProtocolVersion TLS10 = new ProtocolVersion(0x0301, "TLSv1");
+    finbl stbtic ProtocolVersion TLS10 = new ProtocolVersion(0x0301, "TLSv1");
 
     // TLS 1.1
-    final static ProtocolVersion TLS11 = new ProtocolVersion(0x0302, "TLSv1.1");
+    finbl stbtic ProtocolVersion TLS11 = new ProtocolVersion(0x0302, "TLSv1.1");
 
     // TLS 1.2
-    final static ProtocolVersion TLS12 = new ProtocolVersion(0x0303, "TLSv1.2");
+    finbl stbtic ProtocolVersion TLS12 = new ProtocolVersion(0x0303, "TLSv1.2");
 
-    private static final boolean FIPS = SunJSSE.isFIPS();
+    privbte stbtic finbl boolebn FIPS = SunJSSE.isFIPS();
 
     // minimum version we implement (SSL 3.0)
-    final static ProtocolVersion MIN = FIPS ? TLS10 : SSL30;
+    finbl stbtic ProtocolVersion MIN = FIPS ? TLS10 : SSL30;
 
-    // maximum version we implement (TLS 1.2)
-    final static ProtocolVersion MAX = TLS12;
+    // mbximum version we implement (TLS 1.2)
+    finbl stbtic ProtocolVersion MAX = TLS12;
 
-    // ProtocolVersion to use by default (TLS 1.2)
-    final static ProtocolVersion DEFAULT = TLS12;
+    // ProtocolVersion to use by defbult (TLS 1.2)
+    finbl stbtic ProtocolVersion DEFAULT = TLS12;
 
-    // Default version for hello messages (SSLv2Hello)
-    final static ProtocolVersion DEFAULT_HELLO = FIPS ? TLS10 : SSL30;
+    // Defbult version for hello messbges (SSLv2Hello)
+    finbl stbtic ProtocolVersion DEFAULT_HELLO = FIPS ? TLS10 : SSL30;
 
-    // version in 16 bit MSB format as it appears in records and
-    // messages, i.e. 0x0301 for TLS 1.0
-    public final int v;
+    // version in 16 bit MSB formbt bs it bppebrs in records bnd
+    // messbges, i.e. 0x0301 for TLS 1.0
+    public finbl int v;
 
-    // major and minor version
-    public final byte major, minor;
+    // mbjor bnd minor version
+    public finbl byte mbjor, minor;
 
-    // name used in JSSE (e.g. TLSv1 for TLS 1.0)
-    final String name;
+    // nbme used in JSSE (e.g. TLSv1 for TLS 1.0)
+    finbl String nbme;
 
-    // private
-    private ProtocolVersion(int v, String name) {
+    // privbte
+    privbte ProtocolVersion(int v, String nbme) {
         this.v = v;
-        this.name = name;
-        major = (byte)(v >>> 8);
+        this.nbme = nbme;
+        mbjor = (byte)(v >>> 8);
         minor = (byte)(v & 0xFF);
     }
 
-    // private
-    private static ProtocolVersion valueOf(int v) {
+    // privbte
+    privbte stbtic ProtocolVersion vblueOf(int v) {
         if (v == SSL30.v) {
             return SSL30;
         } else if (v == TLS10.v) {
@@ -117,61 +117,61 @@ public final class ProtocolVersion implements Comparable<ProtocolVersion> {
         } else if (v == SSL20Hello.v) {
             return SSL20Hello;
         } else {
-            int major = (v >>> 8) & 0xFF;
+            int mbjor = (v >>> 8) & 0xFF;
             int minor = v & 0xFF;
-            return new ProtocolVersion(v, "Unknown-" + major + "." + minor);
+            return new ProtocolVersion(v, "Unknown-" + mbjor + "." + minor);
         }
     }
 
     /**
-     * Return a ProtocolVersion with the specified major and minor version
+     * Return b ProtocolVersion with the specified mbjor bnd minor version
      * numbers. Never throws exceptions.
      */
-    public static ProtocolVersion valueOf(int major, int minor) {
-        return valueOf(((major & 0xFF) << 8) | (minor & 0xFF));
+    public stbtic ProtocolVersion vblueOf(int mbjor, int minor) {
+        return vblueOf(((mbjor & 0xFF) << 8) | (minor & 0xFF));
     }
 
     /**
-     * Return a ProtocolVersion for the given name.
+     * Return b ProtocolVersion for the given nbme.
      *
-     * @exception IllegalArgumentException if name is null or does not
-     * identify a supported protocol
+     * @exception IllegblArgumentException if nbme is null or does not
+     * identify b supported protocol
      */
-    static ProtocolVersion valueOf(String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("Protocol cannot be null");
+    stbtic ProtocolVersion vblueOf(String nbme) {
+        if (nbme == null) {
+            throw new IllegblArgumentException("Protocol cbnnot be null");
         }
 
-        if (FIPS && (name.equals(SSL30.name) || name.equals(SSL20Hello.name))) {
-            throw new IllegalArgumentException
-                ("Only TLS 1.0 or later allowed in FIPS mode");
+        if (FIPS && (nbme.equbls(SSL30.nbme) || nbme.equbls(SSL20Hello.nbme))) {
+            throw new IllegblArgumentException
+                ("Only TLS 1.0 or lbter bllowed in FIPS mode");
         }
 
-        if (name.equals(SSL30.name)) {
+        if (nbme.equbls(SSL30.nbme)) {
             return SSL30;
-        } else if (name.equals(TLS10.name)) {
+        } else if (nbme.equbls(TLS10.nbme)) {
             return TLS10;
-        } else if (name.equals(TLS11.name)) {
+        } else if (nbme.equbls(TLS11.nbme)) {
             return TLS11;
-        } else if (name.equals(TLS12.name)) {
+        } else if (nbme.equbls(TLS12.nbme)) {
             return TLS12;
-        } else if (name.equals(SSL20Hello.name)) {
+        } else if (nbme.equbls(SSL20Hello.nbme)) {
             return SSL20Hello;
         } else {
-            throw new IllegalArgumentException(name);
+            throw new IllegblArgumentException(nbme);
         }
     }
 
     @Override
     public String toString() {
-        return name;
+        return nbme;
     }
 
     /**
-     * Compares this object with the specified object for order.
+     * Compbres this object with the specified object for order.
      */
     @Override
-    public int compareTo(ProtocolVersion protocolVersion) {
+    public int compbreTo(ProtocolVersion protocolVersion) {
         return this.v - protocolVersion.v;
     }
 }

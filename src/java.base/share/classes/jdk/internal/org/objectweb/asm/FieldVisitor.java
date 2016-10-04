@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,120 +56,120 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * A visitor to visit a Java field. The methods of this class must be called in
- * the following order: ( <tt>visitAnnotation</tt> |
- * <tt>visitTypeAnnotation</tt> | <tt>visitAttribute</tt> )* <tt>visitEnd</tt>.
+ * A visitor to visit b Jbvb field. The methods of this clbss must be cblled in
+ * the following order: ( <tt>visitAnnotbtion</tt> |
+ * <tt>visitTypeAnnotbtion</tt> | <tt>visitAttribute</tt> )* <tt>visitEnd</tt>.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public abstract class FieldVisitor {
+public bbstrbct clbss FieldVisitor {
 
     /**
-     * The ASM API version implemented by this visitor. The value of this field
+     * The ASM API version implemented by this visitor. The vblue of this field
      * must be one of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
-    protected final int api;
+    protected finbl int bpi;
 
     /**
-     * The field visitor to which this visitor must delegate method calls. May
+     * The field visitor to which this visitor must delegbte method cblls. Mby
      * be null.
      */
     protected FieldVisitor fv;
 
     /**
-     * Constructs a new {@link FieldVisitor}.
+     * Constructs b new {@link FieldVisitor}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
-    public FieldVisitor(final int api) {
-        this(api, null);
+    public FieldVisitor(finbl int bpi) {
+        this(bpi, null);
     }
 
     /**
-     * Constructs a new {@link FieldVisitor}.
+     * Constructs b new {@link FieldVisitor}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param fv
-     *            the field visitor to which this visitor must delegate method
-     *            calls. May be null.
+     * @pbrbm fv
+     *            the field visitor to which this visitor must delegbte method
+     *            cblls. Mby be null.
      */
-    public FieldVisitor(final int api, final FieldVisitor fv) {
-        if (api != Opcodes.ASM4 && api != Opcodes.ASM5) {
-            throw new IllegalArgumentException();
+    public FieldVisitor(finbl int bpi, finbl FieldVisitor fv) {
+        if (bpi != Opcodes.ASM4 && bpi != Opcodes.ASM5) {
+            throw new IllegblArgumentException();
         }
-        this.api = api;
+        this.bpi = bpi;
         this.fv = fv;
     }
 
     /**
-     * Visits an annotation of the field.
+     * Visits bn bnnotbtion of the field.
      *
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     * @pbrbm desc
+     *            the clbss descriptor of the bnnotbtion clbss.
+     * @pbrbm visible
+     *            <tt>true</tt> if the bnnotbtion is visible bt runtime.
+     * @return b visitor to visit the bnnotbtion vblues, or <tt>null</tt> if
+     *         this visitor is not interested in visiting this bnnotbtion.
      */
-    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+    public AnnotbtionVisitor visitAnnotbtion(String desc, boolebn visible) {
         if (fv != null) {
-            return fv.visitAnnotation(desc, visible);
+            return fv.visitAnnotbtion(desc, visible);
         }
         return null;
     }
 
     /**
-     * Visits an annotation on the type of the field.
+     * Visits bn bnnotbtion on the type of the field.
      *
-     * @param typeRef
-     *            a reference to the annotated type. The sort of this type
+     * @pbrbm typeRef
+     *            b reference to the bnnotbted type. The sort of this type
      *            reference must be {@link TypeReference#FIELD FIELD}. See
      *            {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     * @pbrbm typePbth
+     *            the pbth to the bnnotbted type brgument, wildcbrd bound, brrby
+     *            element type, or stbtic inner type within 'typeRef'. Mby be
+     *            <tt>null</tt> if the bnnotbtion tbrgets 'typeRef' bs b whole.
+     * @pbrbm desc
+     *            the clbss descriptor of the bnnotbtion clbss.
+     * @pbrbm visible
+     *            <tt>true</tt> if the bnnotbtion is visible bt runtime.
+     * @return b visitor to visit the bnnotbtion vblues, or <tt>null</tt> if
+     *         this visitor is not interested in visiting this bnnotbtion.
      */
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        if (api < Opcodes.ASM5) {
+    public AnnotbtionVisitor visitTypeAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        if (bpi < Opcodes.ASM5) {
             throw new RuntimeException();
         }
         if (fv != null) {
-            return fv.visitTypeAnnotation(typeRef, typePath, desc, visible);
+            return fv.visitTypeAnnotbtion(typeRef, typePbth, desc, visible);
         }
         return null;
     }
 
     /**
-     * Visits a non standard attribute of the field.
+     * Visits b non stbndbrd bttribute of the field.
      *
-     * @param attr
-     *            an attribute.
+     * @pbrbm bttr
+     *            bn bttribute.
      */
-    public void visitAttribute(Attribute attr) {
+    public void visitAttribute(Attribute bttr) {
         if (fv != null) {
-            fv.visitAttribute(attr);
+            fv.visitAttribute(bttr);
         }
     }
 
     /**
-     * Visits the end of the field. This method, which is the last one to be
-     * called, is used to inform the visitor that all the annotations and
-     * attributes of the field have been visited.
+     * Visits the end of the field. This method, which is the lbst one to be
+     * cblled, is used to inform the visitor thbt bll the bnnotbtions bnd
+     * bttributes of the field hbve been visited.
      */
     public void visitEnd() {
         if (fv != null) {

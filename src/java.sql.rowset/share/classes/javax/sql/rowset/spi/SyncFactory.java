@@ -1,358 +1,358 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.spi;
+pbckbge jbvbx.sql.rowset.spi;
 
-import java.util.logging.*;
-import java.util.*;
+import jbvb.util.logging.*;
+import jbvb.util.*;
 
-import java.sql.*;
-import javax.sql.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.FileNotFoundException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
 
-import javax.naming.*;
+import jbvbx.nbming.*;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * The Service Provider Interface (SPI) mechanism that generates <code>SyncProvider</code>
- * instances to be used by disconnected <code>RowSet</code> objects.
- * The <code>SyncProvider</code> instances in turn provide the
- * <code>javax.sql.RowSetReader</code> object the <code>RowSet</code> object
- * needs to populate itself with data and the
- * <code>javax.sql.RowSetWriter</code> object it needs to
- * propagate changes to its
- * data back to the underlying data source.
+ * The Service Provider Interfbce (SPI) mechbnism thbt generbtes <code>SyncProvider</code>
+ * instbnces to be used by disconnected <code>RowSet</code> objects.
+ * The <code>SyncProvider</code> instbnces in turn provide the
+ * <code>jbvbx.sql.RowSetRebder</code> object the <code>RowSet</code> object
+ * needs to populbte itself with dbtb bnd the
+ * <code>jbvbx.sql.RowSetWriter</code> object it needs to
+ * propbgbte chbnges to its
+ * dbtb bbck to the underlying dbtb source.
  * <P>
- * Because the methods in the <code>SyncFactory</code> class are all static,
- * there is only one <code>SyncFactory</code> object
- * per Java VM at any one time. This ensures that there is a single source from which a
- * <code>RowSet</code> implementation can obtain its <code>SyncProvider</code>
- * implementation.
+ * Becbuse the methods in the <code>SyncFbctory</code> clbss bre bll stbtic,
+ * there is only one <code>SyncFbctory</code> object
+ * per Jbvb VM bt bny one time. This ensures thbt there is b single source from which b
+ * <code>RowSet</code> implementbtion cbn obtbin its <code>SyncProvider</code>
+ * implementbtion.
  *
  * <h3>1.0 Overview</h3>
- * The <code>SyncFactory</code> class provides an internal registry of available
- * synchronization provider implementations (<code>SyncProvider</code> objects).
- * This registry may be queried to determine which
- * synchronization providers are available.
- * The following line of code gets an enumeration of the providers currently registered.
+ * The <code>SyncFbctory</code> clbss provides bn internbl registry of bvbilbble
+ * synchronizbtion provider implementbtions (<code>SyncProvider</code> objects).
+ * This registry mby be queried to determine which
+ * synchronizbtion providers bre bvbilbble.
+ * The following line of code gets bn enumerbtion of the providers currently registered.
  * <PRE>
- *     java.util.Enumeration e = SyncFactory.getRegisteredProviders();
+ *     jbvb.util.Enumerbtion e = SyncFbctory.getRegisteredProviders();
  * </PRE>
- * All standard <code>RowSet</code> implementations must provide at least two providers:
+ * All stbndbrd <code>RowSet</code> implementbtions must provide bt lebst two providers:
  * <UL>
- *  <LI>an optimistic provider for use with a <code>CachedRowSet</code> implementation
- *     or an implementation derived from it
- *  <LI>an XML provider, which is used for reading and writing XML, such as with
+ *  <LI>bn optimistic provider for use with b <code>CbchedRowSet</code> implementbtion
+ *     or bn implementbtion derived from it
+ *  <LI>bn XML provider, which is used for rebding bnd writing XML, such bs with
  *       <code>WebRowSet</code> objects
  * </UL>
- * Note that the JDBC RowSet Implementations include the <code>SyncProvider</code>
- * implementations <code>RIOptimisticProvider</code> and <code>RIXmlProvider</code>,
- * which satisfy this requirement.
+ * Note thbt the JDBC RowSet Implementbtions include the <code>SyncProvider</code>
+ * implementbtions <code>RIOptimisticProvider</code> bnd <code>RIXmlProvider</code>,
+ * which sbtisfy this requirement.
  * <P>
- * The <code>SyncFactory</code> class provides accessor methods to assist
- * applications in determining which synchronization providers are currently
- * registered with the <code>SyncFactory</code>.
+ * The <code>SyncFbctory</code> clbss provides bccessor methods to bssist
+ * bpplicbtions in determining which synchronizbtion providers bre currently
+ * registered with the <code>SyncFbctory</code>.
  * <p>
  * Other methods let <code>RowSet</code> persistence providers be
- * registered or de-registered with the factory mechanism. This
- * allows additional synchronization provider implementations to be made
- * available to <code>RowSet</code> objects at run time.
+ * registered or de-registered with the fbctory mechbnism. This
+ * bllows bdditionbl synchronizbtion provider implementbtions to be mbde
+ * bvbilbble to <code>RowSet</code> objects bt run time.
  * <p>
- * Applications can apply a degree of filtering to determine the level of
- * synchronization that a <code>SyncProvider</code> implementation offers.
- * The following criteria determine whether a provider is
- * made available to a <code>RowSet</code> object:
+ * Applicbtions cbn bpply b degree of filtering to determine the level of
+ * synchronizbtion thbt b <code>SyncProvider</code> implementbtion offers.
+ * The following criterib determine whether b provider is
+ * mbde bvbilbble to b <code>RowSet</code> object:
  * <ol>
- * <li>If a particular provider is specified by a <code>RowSet</code> object, and
- * the <code>SyncFactory</code> does not contain a reference to this provider,
- * a <code>SyncFactoryException</code> is thrown stating that the synchronization
+ * <li>If b pbrticulbr provider is specified by b <code>RowSet</code> object, bnd
+ * the <code>SyncFbctory</code> does not contbin b reference to this provider,
+ * b <code>SyncFbctoryException</code> is thrown stbting thbt the synchronizbtion
  * provider could not be found.
  *
- * <li>If a <code>RowSet</code> implementation is instantiated with a specified
- * provider and the specified provider has been properly registered, the
- * requested provider is supplied. Otherwise a <code>SyncFactoryException</code>
+ * <li>If b <code>RowSet</code> implementbtion is instbntibted with b specified
+ * provider bnd the specified provider hbs been properly registered, the
+ * requested provider is supplied. Otherwise b <code>SyncFbctoryException</code>
  * is thrown.
  *
- * <li>If a <code>RowSet</code> object does not specify a
- * <code>SyncProvider</code> implementation and no additional
- * <code>SyncProvider</code> implementations are available, the reference
- * implementation providers are supplied.
+ * <li>If b <code>RowSet</code> object does not specify b
+ * <code>SyncProvider</code> implementbtion bnd no bdditionbl
+ * <code>SyncProvider</code> implementbtions bre bvbilbble, the reference
+ * implementbtion providers bre supplied.
  * </ol>
- * <h3>2.0 Registering <code>SyncProvider</code> Implementations</h3>
+ * <h3>2.0 Registering <code>SyncProvider</code> Implementbtions</h3>
  * <p>
- * Both vendors and developers can register <code>SyncProvider</code>
- * implementations using one of the following mechanisms.
+ * Both vendors bnd developers cbn register <code>SyncProvider</code>
+ * implementbtions using one of the following mechbnisms.
  * <ul>
- * <LI><B>Using the command line</B><BR>
- * The name of the provider is supplied on the command line, which will add
+ * <LI><B>Using the commbnd line</B><BR>
+ * The nbme of the provider is supplied on the commbnd line, which will bdd
  * the provider to the system properties.
- * For example:
+ * For exbmple:
  * <PRE>
- *    -Drowset.provider.classname=com.fred.providers.HighAvailabilityProvider
+ *    -Drowset.provider.clbssnbme=com.fred.providers.HighAvbilbbilityProvider
  * </PRE>
- * <li><b>Using the Standard Properties File</b><BR>
- * The reference implementation is targeted
- * to ship with J2SE 1.5, which will include an additional resource file
- * that may be edited by hand. Here is an example of the properties file
- * included in the reference implementation:
+ * <li><b>Using the Stbndbrd Properties File</b><BR>
+ * The reference implementbtion is tbrgeted
+ * to ship with J2SE 1.5, which will include bn bdditionbl resource file
+ * thbt mby be edited by hbnd. Here is bn exbmple of the properties file
+ * included in the reference implementbtion:
  * <PRE>
- *   #Default JDBC RowSet sync providers listing
+ *   #Defbult JDBC RowSet sync providers listing
  *   #
  *
- *   # Optimistic synchronization provider
- *   rowset.provider.classname.0=com.sun.rowset.providers.RIOptimisticProvider
- *   rowset.provider.vendor.0=Oracle Corporation
+ *   # Optimistic synchronizbtion provider
+ *   rowset.provider.clbssnbme.0=com.sun.rowset.providers.RIOptimisticProvider
+ *   rowset.provider.vendor.0=Orbcle Corporbtion
  *   rowset.provider.version.0=1.0
  *
- *   # XML Provider using standard XML schema
- *   rowset.provider.classname.1=com.sun.rowset.providers.RIXMLProvider
- *   rowset.provider.vendor.1=Oracle Corporation
+ *   # XML Provider using stbndbrd XML schemb
+ *   rowset.provider.clbssnbme.1=com.sun.rowset.providers.RIXMLProvider
+ *   rowset.provider.vendor.1=Orbcle Corporbtion
  *   rowset.provider.version.1=1.0
  * </PRE>
- * The <code>SyncFactory</code> checks this file and registers the
- * <code>SyncProvider</code> implementations that it contains. A
- * developer or vendor can add other implementations to this file.
- * For example, here is a possible addition:
+ * The <code>SyncFbctory</code> checks this file bnd registers the
+ * <code>SyncProvider</code> implementbtions thbt it contbins. A
+ * developer or vendor cbn bdd other implementbtions to this file.
+ * For exbmple, here is b possible bddition:
  * <PRE>
- *     rowset.provider.classname.2=com.fred.providers.HighAvailabilityProvider
+ *     rowset.provider.clbssnbme.2=com.fred.providers.HighAvbilbbilityProvider
  *     rowset.provider.vendor.2=Fred, Inc.
  *     rowset.provider.version.2=1.0
  * </PRE>
  *
- * <li><b>Using a JNDI Context</b><BR>
- * Available providers can be registered on a JNDI
- * context, and the <code>SyncFactory</code> will attempt to load
- * <code>SyncProvider</code> implementations from that JNDI context.
- * For example, the following code fragment registers a provider implementation
- * on a JNDI context.  This is something a deployer would normally do. In this
- * example, <code>MyProvider</code> is being registered on a CosNaming
- * namespace, which is the namespace used by J2EE resources.
+ * <li><b>Using b JNDI Context</b><BR>
+ * Avbilbble providers cbn be registered on b JNDI
+ * context, bnd the <code>SyncFbctory</code> will bttempt to lobd
+ * <code>SyncProvider</code> implementbtions from thbt JNDI context.
+ * For exbmple, the following code frbgment registers b provider implementbtion
+ * on b JNDI context.  This is something b deployer would normblly do. In this
+ * exbmple, <code>MyProvider</code> is being registered on b CosNbming
+ * nbmespbce, which is the nbmespbce used by J2EE resources.
  * <PRE>
- *    import javax.naming.*;
+ *    import jbvbx.nbming.*;
  *
- *    Hashtable svrEnv = new  Hashtable();
- *    srvEnv.put(Context.INITIAL_CONTEXT_FACTORY, "CosNaming");
+ *    Hbshtbble svrEnv = new  Hbshtbble();
+ *    srvEnv.put(Context.INITIAL_CONTEXT_FACTORY, "CosNbming");
  *
- *    Context ctx = new InitialContext(svrEnv);
+ *    Context ctx = new InitiblContext(svrEnv);
  *    com.fred.providers.MyProvider = new MyProvider();
  *    ctx.rebind("providers/MyProvider", syncProvider);
  * </PRE>
  * </ul>
- * Next, an application will register the JNDI context with the
- * <code>SyncFactory</code> instance.  This allows the <code>SyncFactory</code>
+ * Next, bn bpplicbtion will register the JNDI context with the
+ * <code>SyncFbctory</code> instbnce.  This bllows the <code>SyncFbctory</code>
  * to browse within the JNDI context looking for <code>SyncProvider</code>
- * implementations.
+ * implementbtions.
  * <PRE>
- *    Hashtable appEnv = new Hashtable();
- *    appEnv.put(Context.INITIAL_CONTEXT_FACTORY, "CosNaming");
- *    appEnv.put(Context.PROVIDER_URL, "iiop://hostname/providers");
- *    Context ctx = new InitialContext(appEnv);
+ *    Hbshtbble bppEnv = new Hbshtbble();
+ *    bppEnv.put(Context.INITIAL_CONTEXT_FACTORY, "CosNbming");
+ *    bppEnv.put(Context.PROVIDER_URL, "iiop://hostnbme/providers");
+ *    Context ctx = new InitiblContext(bppEnv);
  *
- *    SyncFactory.registerJNDIContext(ctx);
+ *    SyncFbctory.registerJNDIContext(ctx);
  * </PRE>
- * If a <code>RowSet</code> object attempts to obtain a <code>MyProvider</code>
- * object, the <code>SyncFactory</code> will try to locate it. First it searches
- * for it in the system properties, then it looks in the resource files, and
- * finally it checks the JNDI context that has been set. The <code>SyncFactory</code>
- * instance verifies that the requested provider is a valid extension of the
- * <code>SyncProvider</code> abstract class and then gives it to the
- * <code>RowSet</code> object. In the following code fragment, a new
- * <code>CachedRowSet</code> object is created and initialized with
- * <i>env</i>, which contains the binding to <code>MyProvider</code>.
+ * If b <code>RowSet</code> object bttempts to obtbin b <code>MyProvider</code>
+ * object, the <code>SyncFbctory</code> will try to locbte it. First it sebrches
+ * for it in the system properties, then it looks in the resource files, bnd
+ * finblly it checks the JNDI context thbt hbs been set. The <code>SyncFbctory</code>
+ * instbnce verifies thbt the requested provider is b vblid extension of the
+ * <code>SyncProvider</code> bbstrbct clbss bnd then gives it to the
+ * <code>RowSet</code> object. In the following code frbgment, b new
+ * <code>CbchedRowSet</code> object is crebted bnd initiblized with
+ * <i>env</i>, which contbins the binding to <code>MyProvider</code>.
  * <PRE>
- *    Hashtable env = new Hashtable();
- *    env.put(SyncFactory.ROWSET_SYNC_PROVIDER, "com.fred.providers.MyProvider");
- *    CachedRowSet crs = new com.sun.rowset.CachedRowSetImpl(env);
+ *    Hbshtbble env = new Hbshtbble();
+ *    env.put(SyncFbctory.ROWSET_SYNC_PROVIDER, "com.fred.providers.MyProvider");
+ *    CbchedRowSet crs = new com.sun.rowset.CbchedRowSetImpl(env);
  * </PRE>
- * Further details on these mechanisms are available in the
- * <code>javax.sql.rowset.spi</code> package specification.
+ * Further detbils on these mechbnisms bre bvbilbble in the
+ * <code>jbvbx.sql.rowset.spi</code> pbckbge specificbtion.
  *
- * @author  Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncProvider
- * @see javax.sql.rowset.spi.SyncFactoryException
+ * @buthor  Jonbthbn Bruce
+ * @see jbvbx.sql.rowset.spi.SyncProvider
+ * @see jbvbx.sql.rowset.spi.SyncFbctoryException
  * @since 1.5
  */
-public class SyncFactory {
+public clbss SyncFbctory {
 
     /**
-     * Creates a new <code>SyncFactory</code> object, which is the singleton
-     * instance.
-     * Having a private constructor guarantees that no more than
-     * one <code>SyncProvider</code> object can exist at a time.
+     * Crebtes b new <code>SyncFbctory</code> object, which is the singleton
+     * instbnce.
+     * Hbving b privbte constructor gubrbntees thbt no more thbn
+     * one <code>SyncProvider</code> object cbn exist bt b time.
      */
-    private SyncFactory() {
+    privbte SyncFbctory() {
     }
 
     /**
-     * The standard property-id for a synchronization provider implementation
-     * name.
+     * The stbndbrd property-id for b synchronizbtion provider implementbtion
+     * nbme.
      */
-    public static final String ROWSET_SYNC_PROVIDER =
-            "rowset.provider.classname";
+    public stbtic finbl String ROWSET_SYNC_PROVIDER =
+            "rowset.provider.clbssnbme";
     /**
-     * The standard property-id for a synchronization provider implementation
-     * vendor name.
+     * The stbndbrd property-id for b synchronizbtion provider implementbtion
+     * vendor nbme.
      */
-    public static final String ROWSET_SYNC_VENDOR =
+    public stbtic finbl String ROWSET_SYNC_VENDOR =
             "rowset.provider.vendor";
     /**
-     * The standard property-id for a synchronization provider implementation
-     * version tag.
+     * The stbndbrd property-id for b synchronizbtion provider implementbtion
+     * version tbg.
      */
-    public static final String ROWSET_SYNC_PROVIDER_VERSION =
+    public stbtic finbl String ROWSET_SYNC_PROVIDER_VERSION =
             "rowset.provider.version";
     /**
-     * The standard resource file name.
+     * The stbndbrd resource file nbme.
      */
-    private static String ROWSET_PROPERTIES = "rowset.properties";
+    privbte stbtic String ROWSET_PROPERTIES = "rowset.properties";
 
     /**
-     *  Permission required to invoke setJNDIContext and setLogger
+     *  Permission required to invoke setJNDIContext bnd setLogger
      */
-    private static final SQLPermission SET_SYNCFACTORY_PERMISSION =
-            new SQLPermission("setSyncFactory");
+    privbte stbtic finbl SQLPermission SET_SYNCFACTORY_PERMISSION =
+            new SQLPermission("setSyncFbctory");
     /**
-     * The initial JNDI context where <code>SyncProvider</code> implementations can
-     * be stored and from which they can be invoked.
+     * The initibl JNDI context where <code>SyncProvider</code> implementbtions cbn
+     * be stored bnd from which they cbn be invoked.
      */
-    private static Context ic;
+    privbte stbtic Context ic;
     /**
-     * The <code>Logger</code> object to be used by the <code>SyncFactory</code>.
+     * The <code>Logger</code> object to be used by the <code>SyncFbctory</code>.
      */
-    private static volatile Logger rsLogger;
+    privbte stbtic volbtile Logger rsLogger;
 
     /**
-     * The registry of available <code>SyncProvider</code> implementations.
-     * See section 2.0 of the class comment for <code>SyncFactory</code> for an
-     * explanation of how a provider can be added to this registry.
+     * The registry of bvbilbble <code>SyncProvider</code> implementbtions.
+     * See section 2.0 of the clbss comment for <code>SyncFbctory</code> for bn
+     * explbnbtion of how b provider cbn be bdded to this registry.
      */
-    private static Hashtable<String, SyncProvider> implementations;
+    privbte stbtic Hbshtbble<String, SyncProvider> implementbtions;
 
     /**
-     * Adds the the given synchronization provider to the factory register. Guidelines
-     * are provided in the <code>SyncProvider</code> specification for the
-     * required naming conventions for <code>SyncProvider</code>
-     * implementations.
+     * Adds the the given synchronizbtion provider to the fbctory register. Guidelines
+     * bre provided in the <code>SyncProvider</code> specificbtion for the
+     * required nbming conventions for <code>SyncProvider</code>
+     * implementbtions.
      * <p>
-     * Synchronization providers bound to a JNDI context can be
-     * registered by binding a SyncProvider instance to a JNDI namespace.
+     * Synchronizbtion providers bound to b JNDI context cbn be
+     * registered by binding b SyncProvider instbnce to b JNDI nbmespbce.
      *
      * <pre>
      * {@code
      * SyncProvider p = new MySyncProvider();
-     * InitialContext ic = new InitialContext();
+     * InitiblContext ic = new InitiblContext();
      * ic.bind ("jdbc/rowset/MySyncProvider", p);
      * } </pre>
      *
-     * Furthermore, an initial JNDI context should be set with the
-     * <code>SyncFactory</code> using the <code>setJNDIContext</code> method.
-     * The <code>SyncFactory</code> leverages this context to search for
-     * available <code>SyncProvider</code> objects bound to the JNDI
-     * context and its child nodes.
+     * Furthermore, bn initibl JNDI context should be set with the
+     * <code>SyncFbctory</code> using the <code>setJNDIContext</code> method.
+     * The <code>SyncFbctory</code> leverbges this context to sebrch for
+     * bvbilbble <code>SyncProvider</code> objects bound to the JNDI
+     * context bnd its child nodes.
      *
-     * @param providerID A <code>String</code> object with the unique ID of the
-     *             synchronization provider being registered
-     * @throws SyncFactoryException if an attempt is made to supply an empty
-     *         or null provider name
+     * @pbrbm providerID A <code>String</code> object with the unique ID of the
+     *             synchronizbtion provider being registered
+     * @throws SyncFbctoryException if bn bttempt is mbde to supply bn empty
+     *         or null provider nbme
      * @see #setJNDIContext
      */
-    public static synchronized void registerProvider(String providerID)
-            throws SyncFactoryException {
+    public stbtic synchronized void registerProvider(String providerID)
+            throws SyncFbctoryException {
 
         ProviderImpl impl = new ProviderImpl();
-        impl.setClassname(providerID);
-        initMapIfNecessary();
-        implementations.put(providerID, impl);
+        impl.setClbssnbme(providerID);
+        initMbpIfNecessbry();
+        implementbtions.put(providerID, impl);
 
     }
 
     /**
-     * Returns the <code>SyncFactory</code> singleton.
+     * Returns the <code>SyncFbctory</code> singleton.
      *
-     * @return the <code>SyncFactory</code> instance
+     * @return the <code>SyncFbctory</code> instbnce
      */
-    public static SyncFactory getSyncFactory() {
+    public stbtic SyncFbctory getSyncFbctory() {
         /*
-         * Using Initialization on Demand Holder idiom as
-         * Effective Java 2nd Edition,ITEM 71, indicates it is more performant
-         * than the Double-Check Locking idiom.
+         * Using Initiblizbtion on Dembnd Holder idiom bs
+         * Effective Jbvb 2nd Edition,ITEM 71, indicbtes it is more performbnt
+         * thbn the Double-Check Locking idiom.
          */
-        return SyncFactoryHolder.factory;
+        return SyncFbctoryHolder.fbctory;
     }
 
     /**
-     * Removes the designated currently registered synchronization provider from the
-     * Factory SPI register.
+     * Removes the designbted currently registered synchronizbtion provider from the
+     * Fbctory SPI register.
      *
-     * @param providerID The unique-id of the synchronization provider
-     * @throws SyncFactoryException If an attempt is made to
-     * unregister a SyncProvider implementation that was not registered.
+     * @pbrbm providerID The unique-id of the synchronizbtion provider
+     * @throws SyncFbctoryException If bn bttempt is mbde to
+     * unregister b SyncProvider implementbtion thbt wbs not registered.
      */
-    public static synchronized void unregisterProvider(String providerID)
-            throws SyncFactoryException {
-        initMapIfNecessary();
-        if (implementations.containsKey(providerID)) {
-            implementations.remove(providerID);
+    public stbtic synchronized void unregisterProvider(String providerID)
+            throws SyncFbctoryException {
+        initMbpIfNecessbry();
+        if (implementbtions.contbinsKey(providerID)) {
+            implementbtions.remove(providerID);
         }
     }
-    private static String colon = ":";
-    private static String strFileSep = "/";
+    privbte stbtic String colon = ":";
+    privbte stbtic String strFileSep = "/";
 
-    private static synchronized void initMapIfNecessary() throws SyncFactoryException {
+    privbte stbtic synchronized void initMbpIfNecessbry() throws SyncFbctoryException {
 
-        // Local implementation class names and keys from Properties
-        // file, translate names into Class objects using Class.forName
-        // and store mappings
-        final Properties properties = new Properties();
+        // Locbl implementbtion clbss nbmes bnd keys from Properties
+        // file, trbnslbte nbmes into Clbss objects using Clbss.forNbme
+        // bnd store mbppings
+        finbl Properties properties = new Properties();
 
-        if (implementations == null) {
-            implementations = new Hashtable<>();
+        if (implementbtions == null) {
+            implementbtions = new Hbshtbble<>();
 
             try {
 
-                // check if user is supplying his Synchronisation Provider
-                // Implementation if not using Oracle's implementation.
-                // properties.load(new FileInputStream(ROWSET_PROPERTIES));
+                // check if user is supplying his Synchronisbtion Provider
+                // Implementbtion if not using Orbcle's implementbtion.
+                // properties.lobd(new FileInputStrebm(ROWSET_PROPERTIES));
 
                 // The rowset.properties needs to be in jdk/jre/lib when
-                // integrated with jdk.
-                // else it should be picked from -D option from command line.
+                // integrbted with jdk.
+                // else it should be picked from -D option from commbnd line.
 
-                // -Drowset.properties will add to standard properties. Similar
+                // -Drowset.properties will bdd to stbndbrd properties. Similbr
                 // keys will over-write
 
                 /*
-                 * Dependent on application
+                 * Dependent on bpplicbtion
                  */
                 String strRowsetProperties;
                 try {
@@ -360,77 +360,77 @@ public class SyncFactory {
                         public String run() {
                             return System.getProperty("rowset.properties");
                         }
-                    }, null, new PropertyPermission("rowset.properties", "read"));
-                } catch (Exception ex) {
+                    }, null, new PropertyPermission("rowset.properties", "rebd"));
+                } cbtch (Exception ex) {
                     System.out.println("errorget rowset.properties: " + ex);
                     strRowsetProperties = null;
                 };
 
                 if (strRowsetProperties != null) {
-                    // Load user's implementation of SyncProvider
-                    // here. -Drowset.properties=/abc/def/pqr.txt
+                    // Lobd user's implementbtion of SyncProvider
+                    // here. -Drowset.properties=/bbc/def/pqr.txt
                     ROWSET_PROPERTIES = strRowsetProperties;
-                    try (FileInputStream fis = new FileInputStream(ROWSET_PROPERTIES)) {
-                        properties.load(fis);
+                    try (FileInputStrebm fis = new FileInputStrebm(ROWSET_PROPERTIES)) {
+                        properties.lobd(fis);
                     }
-                    parseProperties(properties);
+                    pbrseProperties(properties);
                 }
 
                 /*
-                 * Always available
+                 * Alwbys bvbilbble
                  */
-                ROWSET_PROPERTIES = "javax" + strFileSep + "sql" +
+                ROWSET_PROPERTIES = "jbvbx" + strFileSep + "sql" +
                         strFileSep + "rowset" + strFileSep +
                         "rowset.properties";
 
-                ClassLoader cl = Thread.currentThread().getContextClassLoader();
+                ClbssLobder cl = Threbd.currentThrebd().getContextClbssLobder();
 
                 try {
                     AccessController.doPrivileged((PrivilegedExceptionAction<Void>) () -> {
-                        try (InputStream stream = (cl == null) ?
-                                ClassLoader.getSystemResourceAsStream(ROWSET_PROPERTIES)
-                                : cl.getResourceAsStream(ROWSET_PROPERTIES)) {
-                            if (stream == null) {
-                                throw new SyncFactoryException("Resource " + ROWSET_PROPERTIES + " not found");
+                        try (InputStrebm strebm = (cl == null) ?
+                                ClbssLobder.getSystemResourceAsStrebm(ROWSET_PROPERTIES)
+                                : cl.getResourceAsStrebm(ROWSET_PROPERTIES)) {
+                            if (strebm == null) {
+                                throw new SyncFbctoryException("Resource " + ROWSET_PROPERTIES + " not found");
                             }
-                            properties.load(stream);
+                            properties.lobd(strebm);
                         }
                         return null;
                     });
-                } catch (PrivilegedActionException ex) {
-                    Throwable e = ex.getException();
-                    if (e instanceof SyncFactoryException) {
-                      throw (SyncFactoryException) e;
+                } cbtch (PrivilegedActionException ex) {
+                    Throwbble e = ex.getException();
+                    if (e instbnceof SyncFbctoryException) {
+                      throw (SyncFbctoryException) e;
                     } else {
-                        SyncFactoryException sfe = new SyncFactoryException();
-                        sfe.initCause(ex.getException());
+                        SyncFbctoryException sfe = new SyncFbctoryException();
+                        sfe.initCbuse(ex.getException());
                         throw sfe;
                     }
                 }
 
-                parseProperties(properties);
+                pbrseProperties(properties);
 
-            // removed else, has properties should sum together
+            // removed else, hbs properties should sum together
 
-            } catch (FileNotFoundException e) {
-                throw new SyncFactoryException("Cannot locate properties file: " + e);
-            } catch (IOException e) {
-                throw new SyncFactoryException("IOException: " + e);
+            } cbtch (FileNotFoundException e) {
+                throw new SyncFbctoryException("Cbnnot locbte properties file: " + e);
+            } cbtch (IOException e) {
+                throw new SyncFbctoryException("IOException: " + e);
             }
 
             /*
-             * Now deal with -Drowset.provider.classname
-             * load additional properties from -D command line
+             * Now debl with -Drowset.provider.clbssnbme
+             * lobd bdditionbl properties from -D commbnd line
              */
-            properties.clear();
+            properties.clebr();
             String providerImpls;
             try {
                 providerImpls = AccessController.doPrivileged(new PrivilegedAction<String>() {
                     public String run() {
                         return System.getProperty(ROWSET_SYNC_PROVIDER);
                     }
-                }, null, new PropertyPermission(ROWSET_SYNC_PROVIDER, "read"));
-            } catch (Exception ex) {
+                }, null, new PropertyPermission(ROWSET_SYNC_PROVIDER, "rebd"));
+            } cbtch (Exception ex) {
                 providerImpls = null;
             }
 
@@ -438,426 +438,426 @@ public class SyncFactory {
                 int i = 0;
                 if (providerImpls.indexOf(colon) > 0) {
                     StringTokenizer tokenizer = new StringTokenizer(providerImpls, colon);
-                    while (tokenizer.hasMoreElements()) {
+                    while (tokenizer.hbsMoreElements()) {
                         properties.put(ROWSET_SYNC_PROVIDER + "." + i, tokenizer.nextToken());
                         i++;
                     }
                 } else {
                     properties.put(ROWSET_SYNC_PROVIDER, providerImpls);
                 }
-                parseProperties(properties);
+                pbrseProperties(properties);
             }
         }
     }
 
     /**
-     * The internal debug switch.
+     * The internbl debug switch.
      */
-    private static boolean debug = false;
+    privbte stbtic boolebn debug = fblse;
     /**
-     * Internal registry count for the number of providers contained in the
+     * Internbl registry count for the number of providers contbined in the
      * registry.
      */
-    private static int providerImplIndex = 0;
+    privbte stbtic int providerImplIndex = 0;
 
     /**
-     * Internal handler for all standard property parsing. Parses standard
-     * ROWSET properties and stores lazy references into the the internal registry.
+     * Internbl hbndler for bll stbndbrd property pbrsing. Pbrses stbndbrd
+     * ROWSET properties bnd stores lbzy references into the the internbl registry.
      */
-    private static void parseProperties(Properties p) {
+    privbte stbtic void pbrseProperties(Properties p) {
 
         ProviderImpl impl = null;
         String key = null;
-        String[] propertyNames = null;
+        String[] propertyNbmes = null;
 
-        for (Enumeration<?> e = p.propertyNames(); e.hasMoreElements();) {
+        for (Enumerbtion<?> e = p.propertyNbmes(); e.hbsMoreElements();) {
 
             String str = (String) e.nextElement();
 
             int w = str.length();
 
-            if (str.startsWith(SyncFactory.ROWSET_SYNC_PROVIDER)) {
+            if (str.stbrtsWith(SyncFbctory.ROWSET_SYNC_PROVIDER)) {
 
                 impl = new ProviderImpl();
                 impl.setIndex(providerImplIndex++);
 
-                if (w == (SyncFactory.ROWSET_SYNC_PROVIDER).length()) {
-                    // no property index has been set.
-                    propertyNames = getPropertyNames(false);
+                if (w == (SyncFbctory.ROWSET_SYNC_PROVIDER).length()) {
+                    // no property index hbs been set.
+                    propertyNbmes = getPropertyNbmes(fblse);
                 } else {
-                    // property index has been set.
-                    propertyNames = getPropertyNames(true, str.substring(w - 1));
+                    // property index hbs been set.
+                    propertyNbmes = getPropertyNbmes(true, str.substring(w - 1));
                 }
 
-                key = p.getProperty(propertyNames[0]);
-                impl.setClassname(key);
-                impl.setVendor(p.getProperty(propertyNames[1]));
-                impl.setVersion(p.getProperty(propertyNames[2]));
-                implementations.put(key, impl);
+                key = p.getProperty(propertyNbmes[0]);
+                impl.setClbssnbme(key);
+                impl.setVendor(p.getProperty(propertyNbmes[1]));
+                impl.setVersion(p.getProperty(propertyNbmes[2]));
+                implementbtions.put(key, impl);
             }
         }
     }
 
     /**
-     * Used by the parseProperties methods to disassemble each property tuple.
+     * Used by the pbrseProperties methods to disbssemble ebch property tuple.
      */
-    private static String[] getPropertyNames(boolean append) {
-        return getPropertyNames(append, null);
+    privbte stbtic String[] getPropertyNbmes(boolebn bppend) {
+        return getPropertyNbmes(bppend, null);
     }
 
     /**
-     * Disassembles each property and its associated value. Also handles
-     * overloaded property names that contain indexes.
+     * Disbssembles ebch property bnd its bssocibted vblue. Also hbndles
+     * overlobded property nbmes thbt contbin indexes.
      */
-    private static String[] getPropertyNames(boolean append,
+    privbte stbtic String[] getPropertyNbmes(boolebn bppend,
             String propertyIndex) {
         String dot = ".";
-        String[] propertyNames =
-                new String[]{SyncFactory.ROWSET_SYNC_PROVIDER,
-            SyncFactory.ROWSET_SYNC_VENDOR,
-            SyncFactory.ROWSET_SYNC_PROVIDER_VERSION};
-        if (append) {
-            for (int i = 0; i < propertyNames.length; i++) {
-                propertyNames[i] = propertyNames[i] +
+        String[] propertyNbmes =
+                new String[]{SyncFbctory.ROWSET_SYNC_PROVIDER,
+            SyncFbctory.ROWSET_SYNC_VENDOR,
+            SyncFbctory.ROWSET_SYNC_PROVIDER_VERSION};
+        if (bppend) {
+            for (int i = 0; i < propertyNbmes.length; i++) {
+                propertyNbmes[i] = propertyNbmes[i] +
                         dot +
                         propertyIndex;
             }
-            return propertyNames;
+            return propertyNbmes;
         } else {
-            return propertyNames;
+            return propertyNbmes;
         }
     }
 
     /**
-     * Internal debug method that outputs the registry contents.
+     * Internbl debug method thbt outputs the registry contents.
      */
-    private static void showImpl(ProviderImpl impl) {
-        System.out.println("Provider implementation:");
-        System.out.println("Classname: " + impl.getClassname());
+    privbte stbtic void showImpl(ProviderImpl impl) {
+        System.out.println("Provider implementbtion:");
+        System.out.println("Clbssnbme: " + impl.getClbssnbme());
         System.out.println("Vendor: " + impl.getVendor());
         System.out.println("Version: " + impl.getVersion());
         System.out.println("Impl index: " + impl.getIndex());
     }
 
     /**
-     * Returns the <code>SyncProvider</code> instance identified by <i>providerID</i>.
+     * Returns the <code>SyncProvider</code> instbnce identified by <i>providerID</i>.
      *
-     * @param providerID the unique identifier of the provider
-     * @return a <code>SyncProvider</code> implementation
-     * @throws SyncFactoryException If the SyncProvider cannot be found,
+     * @pbrbm providerID the unique identifier of the provider
+     * @return b <code>SyncProvider</code> implementbtion
+     * @throws SyncFbctoryException If the SyncProvider cbnnot be found,
      * the providerID is {@code null}, or
-     * some error was encountered when trying to invoke this provider.
+     * some error wbs encountered when trying to invoke this provider.
      */
-    public static SyncProvider getInstance(String providerID)
-            throws SyncFactoryException {
+    public stbtic SyncProvider getInstbnce(String providerID)
+            throws SyncFbctoryException {
 
         if(providerID == null) {
-            throw new SyncFactoryException("The providerID cannot be null");
+            throw new SyncFbctoryException("The providerID cbnnot be null");
         }
 
-        initMapIfNecessary(); // populate HashTable
-        initJNDIContext();    // check JNDI context for any additional bindings
+        initMbpIfNecessbry(); // populbte HbshTbble
+        initJNDIContext();    // check JNDI context for bny bdditionbl bindings
 
-        ProviderImpl impl = (ProviderImpl) implementations.get(providerID);
+        ProviderImpl impl = (ProviderImpl) implementbtions.get(providerID);
 
         if (impl == null) {
-            // Requested SyncProvider is unavailable. Return default provider.
+            // Requested SyncProvider is unbvbilbble. Return defbult provider.
             return new com.sun.rowset.providers.RIOptimisticProvider();
         }
 
         try {
-            ReflectUtil.checkPackageAccess(providerID);
-        } catch (java.security.AccessControlException e) {
-            SyncFactoryException sfe = new SyncFactoryException();
-            sfe.initCause(e);
+            ReflectUtil.checkPbckbgeAccess(providerID);
+        } cbtch (jbvb.security.AccessControlException e) {
+            SyncFbctoryException sfe = new SyncFbctoryException();
+            sfe.initCbuse(e);
             throw sfe;
         }
 
-        // Attempt to invoke classname from registered SyncProvider list
-        Class<?> c = null;
+        // Attempt to invoke clbssnbme from registered SyncProvider list
+        Clbss<?> c = null;
         try {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
+            ClbssLobder cl = Threbd.currentThrebd().getContextClbssLobder();
 
             /**
-             * The SyncProvider implementation of the user will be in
-             * the classpath. We need to find the ClassLoader which loads
-             * this SyncFactory and try to load the SyncProvider class from
+             * The SyncProvider implementbtion of the user will be in
+             * the clbsspbth. We need to find the ClbssLobder which lobds
+             * this SyncFbctory bnd try to lobd the SyncProvider clbss from
              * there.
              **/
-            c = Class.forName(providerID, true, cl);
+            c = Clbss.forNbme(providerID, true, cl);
 
             if (c != null) {
-                return (SyncProvider) c.newInstance();
+                return (SyncProvider) c.newInstbnce();
             } else {
                 return new com.sun.rowset.providers.RIOptimisticProvider();
             }
 
-        } catch (IllegalAccessException e) {
-            throw new SyncFactoryException("IllegalAccessException: " + e.getMessage());
-        } catch (InstantiationException e) {
-            throw new SyncFactoryException("InstantiationException: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new SyncFactoryException("ClassNotFoundException: " + e.getMessage());
+        } cbtch (IllegblAccessException e) {
+            throw new SyncFbctoryException("IllegblAccessException: " + e.getMessbge());
+        } cbtch (InstbntibtionException e) {
+            throw new SyncFbctoryException("InstbntibtionException: " + e.getMessbge());
+        } cbtch (ClbssNotFoundException e) {
+            throw new SyncFbctoryException("ClbssNotFoundException: " + e.getMessbge());
         }
     }
 
     /**
-     * Returns an Enumeration of currently registered synchronization
-     * providers.  A <code>RowSet</code> implementation may use any provider in
-     * the enumeration as its <code>SyncProvider</code> object.
+     * Returns bn Enumerbtion of currently registered synchronizbtion
+     * providers.  A <code>RowSet</code> implementbtion mby use bny provider in
+     * the enumerbtion bs its <code>SyncProvider</code> object.
      * <p>
-     * At a minimum, the reference synchronization provider allowing
-     * RowSet content data to be stored using a JDBC driver should be
+     * At b minimum, the reference synchronizbtion provider bllowing
+     * RowSet content dbtb to be stored using b JDBC driver should be
      * possible.
      *
-     * @return Enumeration  A enumeration of available synchronization
-     * providers that are registered with this Factory
-     * @throws SyncFactoryException If an error occurs obtaining the registered
+     * @return Enumerbtion  A enumerbtion of bvbilbble synchronizbtion
+     * providers thbt bre registered with this Fbctory
+     * @throws SyncFbctoryException If bn error occurs obtbining the registered
      * providers
      */
-    public static Enumeration<SyncProvider> getRegisteredProviders()
-            throws SyncFactoryException {
-        initMapIfNecessary();
-        // return a collection of classnames
+    public stbtic Enumerbtion<SyncProvider> getRegisteredProviders()
+            throws SyncFbctoryException {
+        initMbpIfNecessbry();
+        // return b collection of clbssnbmes
         // of type SyncProvider
-        return implementations.elements();
+        return implementbtions.elements();
     }
 
     /**
      * Sets the logging object to be used by the <code>SyncProvider</code>
-     * implementation provided by the <code>SyncFactory</code>. All
-     * <code>SyncProvider</code> implementations can log their events to
-     * this object and the application can retrieve a handle to this
+     * implementbtion provided by the <code>SyncFbctory</code>. All
+     * <code>SyncProvider</code> implementbtions cbn log their events to
+     * this object bnd the bpplicbtion cbn retrieve b hbndle to this
      * object using the <code>getLogger</code> method.
      * <p>
-     * This method checks to see that there is an {@code SQLPermission}
-     * object  which grants the permission {@code setSyncFactory}
-     * before allowing the method to succeed.  If a
-     * {@code SecurityManager} exists and its
-     * {@code checkPermission} method denies calling {@code setLogger},
-     * this method throws a
-     * {@code java.lang.SecurityException}.
+     * This method checks to see thbt there is bn {@code SQLPermission}
+     * object  which grbnts the permission {@code setSyncFbctory}
+     * before bllowing the method to succeed.  If b
+     * {@code SecurityMbnbger} exists bnd its
+     * {@code checkPermission} method denies cblling {@code setLogger},
+     * this method throws b
+     * {@code jbvb.lbng.SecurityException}.
      *
-     * @param logger A Logger object instance
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *   {@code checkPermission} method denies calling {@code setLogger}
+     * @pbrbm logger A Logger object instbnce
+     * @throws jbvb.lbng.SecurityException if b security mbnbger exists bnd its
+     *   {@code checkPermission} method denies cblling {@code setLogger}
      * @throws NullPointerException if the logger is null
-     * @see SecurityManager#checkPermission
+     * @see SecurityMbnbger#checkPermission
      */
-    public static void setLogger(Logger logger) {
+    public stbtic void setLogger(Logger logger) {
 
-        SecurityManager sec = System.getSecurityManager();
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         if (sec != null) {
             sec.checkPermission(SET_SYNCFACTORY_PERMISSION);
         }
 
         if(logger == null){
-            throw new NullPointerException("You must provide a Logger");
+            throw new NullPointerException("You must provide b Logger");
         }
         rsLogger = logger;
     }
 
     /**
-     * Sets the logging object that is used by <code>SyncProvider</code>
-     * implementations provided by the <code>SyncFactory</code> SPI. All
-     * <code>SyncProvider</code> implementations can log their events
-     * to this object and the application can retrieve a handle to this
+     * Sets the logging object thbt is used by <code>SyncProvider</code>
+     * implementbtions provided by the <code>SyncFbctory</code> SPI. All
+     * <code>SyncProvider</code> implementbtions cbn log their events
+     * to this object bnd the bpplicbtion cbn retrieve b hbndle to this
      * object using the <code>getLogger</code> method.
      * <p>
-     * This method checks to see that there is an {@code SQLPermission}
-     * object  which grants the permission {@code setSyncFactory}
-     * before allowing the method to succeed.  If a
-     * {@code SecurityManager} exists and its
-     * {@code checkPermission} method denies calling {@code setLogger},
-     * this method throws a
-     * {@code java.lang.SecurityException}.
+     * This method checks to see thbt there is bn {@code SQLPermission}
+     * object  which grbnts the permission {@code setSyncFbctory}
+     * before bllowing the method to succeed.  If b
+     * {@code SecurityMbnbger} exists bnd its
+     * {@code checkPermission} method denies cblling {@code setLogger},
+     * this method throws b
+     * {@code jbvb.lbng.SecurityException}.
      *
-     * @param logger a Logger object instance
-     * @param level a Level object instance indicating the degree of logging
+     * @pbrbm logger b Logger object instbnce
+     * @pbrbm level b Level object instbnce indicbting the degree of logging
      * required
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *   {@code checkPermission} method denies calling {@code setLogger}
+     * @throws jbvb.lbng.SecurityException if b security mbnbger exists bnd its
+     *   {@code checkPermission} method denies cblling {@code setLogger}
      * @throws NullPointerException if the logger is null
-     * @see SecurityManager#checkPermission
+     * @see SecurityMbnbger#checkPermission
      * @see LoggingPermission
      */
-    public static void setLogger(Logger logger, Level level) {
+    public stbtic void setLogger(Logger logger, Level level) {
         // singleton
-        SecurityManager sec = System.getSecurityManager();
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         if (sec != null) {
             sec.checkPermission(SET_SYNCFACTORY_PERMISSION);
         }
 
         if(logger == null){
-            throw new NullPointerException("You must provide a Logger");
+            throw new NullPointerException("You must provide b Logger");
         }
         logger.setLevel(level);
         rsLogger = logger;
     }
 
     /**
-     * Returns the logging object for applications to retrieve
-     * synchronization events posted by SyncProvider implementations.
-     * @return The {@code Logger} that has been specified for use by
-     * {@code SyncProvider} implementations
-     * @throws SyncFactoryException if no logging object has been set.
+     * Returns the logging object for bpplicbtions to retrieve
+     * synchronizbtion events posted by SyncProvider implementbtions.
+     * @return The {@code Logger} thbt hbs been specified for use by
+     * {@code SyncProvider} implementbtions
+     * @throws SyncFbctoryException if no logging object hbs been set.
      */
-    public static Logger getLogger() throws SyncFactoryException {
+    public stbtic Logger getLogger() throws SyncFbctoryException {
 
         Logger result = rsLogger;
         // only one logger per session
         if (result == null) {
-            throw new SyncFactoryException("(SyncFactory) : No logger has been set");
+            throw new SyncFbctoryException("(SyncFbctory) : No logger hbs been set");
         }
 
         return result;
     }
 
     /**
-     * Sets the initial JNDI context from which SyncProvider implementations
-     * can be retrieved from a JNDI namespace
+     * Sets the initibl JNDI context from which SyncProvider implementbtions
+     * cbn be retrieved from b JNDI nbmespbce
      * <p>
-     *  This method checks to see that there is an {@code SQLPermission}
-     * object  which grants the permission {@code setSyncFactory}
-     * before allowing the method to succeed.  If a
-     * {@code SecurityManager} exists and its
-     * {@code checkPermission} method denies calling {@code setJNDIContext},
-     * this method throws a
-     * {@code java.lang.SecurityException}.
+     *  This method checks to see thbt there is bn {@code SQLPermission}
+     * object  which grbnts the permission {@code setSyncFbctory}
+     * before bllowing the method to succeed.  If b
+     * {@code SecurityMbnbger} exists bnd its
+     * {@code checkPermission} method denies cblling {@code setJNDIContext},
+     * this method throws b
+     * {@code jbvb.lbng.SecurityException}.
      *
-     * @param ctx a valid JNDI context
-     * @throws SyncFactoryException if the supplied JNDI context is null
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *  {@code checkPermission} method denies calling {@code setJNDIContext}
-     * @see SecurityManager#checkPermission
+     * @pbrbm ctx b vblid JNDI context
+     * @throws SyncFbctoryException if the supplied JNDI context is null
+     * @throws jbvb.lbng.SecurityException if b security mbnbger exists bnd its
+     *  {@code checkPermission} method denies cblling {@code setJNDIContext}
+     * @see SecurityMbnbger#checkPermission
      */
-    public static synchronized void setJNDIContext(javax.naming.Context ctx)
-            throws SyncFactoryException {
-        SecurityManager sec = System.getSecurityManager();
+    public stbtic synchronized void setJNDIContext(jbvbx.nbming.Context ctx)
+            throws SyncFbctoryException {
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         if (sec != null) {
             sec.checkPermission(SET_SYNCFACTORY_PERMISSION);
         }
         if (ctx == null) {
-            throw new SyncFactoryException("Invalid JNDI context supplied");
+            throw new SyncFbctoryException("Invblid JNDI context supplied");
         }
         ic = ctx;
     }
 
     /**
-     * Controls JNDI context initialization.
+     * Controls JNDI context initiblizbtion.
      *
-     * @throws SyncFactoryException if an error occurs parsing the JNDI context
+     * @throws SyncFbctoryException if bn error occurs pbrsing the JNDI context
      */
-    private static synchronized void initJNDIContext() throws SyncFactoryException {
+    privbte stbtic synchronized void initJNDIContext() throws SyncFbctoryException {
 
-        if ((ic != null) && (lazyJNDICtxRefresh == false)) {
+        if ((ic != null) && (lbzyJNDICtxRefresh == fblse)) {
             try {
-                parseProperties(parseJNDIContext());
-                lazyJNDICtxRefresh = true; // touch JNDI namespace once.
-            } catch (NamingException e) {
-                e.printStackTrace();
-                throw new SyncFactoryException("SPI: NamingException: " + e.getExplanation());
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new SyncFactoryException("SPI: Exception: " + e.getMessage());
+                pbrseProperties(pbrseJNDIContext());
+                lbzyJNDICtxRefresh = true; // touch JNDI nbmespbce once.
+            } cbtch (NbmingException e) {
+                e.printStbckTrbce();
+                throw new SyncFbctoryException("SPI: NbmingException: " + e.getExplbnbtion());
+            } cbtch (Exception e) {
+                e.printStbckTrbce();
+                throw new SyncFbctoryException("SPI: Exception: " + e.getMessbge());
             }
         }
     }
     /**
-     * Internal switch indicating whether the JNDI namespace should be re-read.
+     * Internbl switch indicbting whether the JNDI nbmespbce should be re-rebd.
      */
-    private static boolean lazyJNDICtxRefresh = false;
+    privbte stbtic boolebn lbzyJNDICtxRefresh = fblse;
 
     /**
-     * Parses the set JNDI Context and passes bindings to the enumerateBindings
+     * Pbrses the set JNDI Context bnd pbsses bindings to the enumerbteBindings
      * method when complete.
      */
-    private static Properties parseJNDIContext() throws NamingException {
+    privbte stbtic Properties pbrseJNDIContext() throws NbmingException {
 
-        NamingEnumeration<?> bindings = ic.listBindings("");
+        NbmingEnumerbtion<?> bindings = ic.listBindings("");
         Properties properties = new Properties();
 
-        // Hunt one level below context for available SyncProvider objects
-        enumerateBindings(bindings, properties);
+        // Hunt one level below context for bvbilbble SyncProvider objects
+        enumerbteBindings(bindings, properties);
 
         return properties;
     }
 
     /**
-     * Scans each binding on JNDI context and determines if any binding is an
-     * instance of SyncProvider, if so, add this to the registry and continue to
-     * scan the current context using a re-entrant call to this method until all
-     * bindings have been enumerated.
+     * Scbns ebch binding on JNDI context bnd determines if bny binding is bn
+     * instbnce of SyncProvider, if so, bdd this to the registry bnd continue to
+     * scbn the current context using b re-entrbnt cbll to this method until bll
+     * bindings hbve been enumerbted.
      */
-    private static void enumerateBindings(NamingEnumeration<?> bindings,
-            Properties properties) throws NamingException {
+    privbte stbtic void enumerbteBindings(NbmingEnumerbtion<?> bindings,
+            Properties properties) throws NbmingException {
 
-        boolean syncProviderObj = false; // move to parameters ?
+        boolebn syncProviderObj = fblse; // move to pbrbmeters ?
 
         try {
             Binding bd = null;
             Object elementObj = null;
             String element = null;
-            while (bindings.hasMore()) {
+            while (bindings.hbsMore()) {
                 bd = (Binding) bindings.next();
-                element = bd.getName();
+                element = bd.getNbme();
                 elementObj = bd.getObject();
 
-                if (!(ic.lookup(element) instanceof Context)) {
+                if (!(ic.lookup(element) instbnceof Context)) {
                     // skip directories/sub-contexts
-                    if (ic.lookup(element) instanceof SyncProvider) {
+                    if (ic.lookup(element) instbnceof SyncProvider) {
                         syncProviderObj = true;
                     }
                 }
 
                 if (syncProviderObj) {
                     SyncProvider sync = (SyncProvider) elementObj;
-                    properties.put(SyncFactory.ROWSET_SYNC_PROVIDER,
+                    properties.put(SyncFbctory.ROWSET_SYNC_PROVIDER,
                             sync.getProviderID());
-                    syncProviderObj = false; // reset
+                    syncProviderObj = fblse; // reset
                 }
 
             }
-        } catch (javax.naming.NotContextException e) {
+        } cbtch (jbvbx.nbming.NotContextException e) {
             bindings.next();
-            // Re-entrant call into method
-            enumerateBindings(bindings, properties);
+            // Re-entrbnt cbll into method
+            enumerbteBindings(bindings, properties);
         }
     }
 
     /**
-     * Lazy initialization Holder class used by {@code getSyncFactory}
+     * Lbzy initiblizbtion Holder clbss used by {@code getSyncFbctory}
      */
-    private static class SyncFactoryHolder {
-        static final SyncFactory factory = new SyncFactory();
+    privbte stbtic clbss SyncFbctoryHolder {
+        stbtic finbl SyncFbctory fbctory = new SyncFbctory();
     }
 }
 
 /**
- * Internal class that defines the lazy reference construct for each registered
- * SyncProvider implementation.
+ * Internbl clbss thbt defines the lbzy reference construct for ebch registered
+ * SyncProvider implementbtion.
  */
-class ProviderImpl extends SyncProvider {
+clbss ProviderImpl extends SyncProvider {
 
-    private String className = null;
-    private String vendorName = null;
-    private String ver = null;
-    private int index;
+    privbte String clbssNbme = null;
+    privbte String vendorNbme = null;
+    privbte String ver = null;
+    privbte int index;
 
-    public void setClassname(String classname) {
-        className = classname;
+    public void setClbssnbme(String clbssnbme) {
+        clbssNbme = clbssnbme;
     }
 
-    public String getClassname() {
-        return className;
+    public String getClbssnbme() {
+        return clbssNbme;
     }
 
     public void setVendor(String vendor) {
-        vendorName = vendor;
+        vendorNbme = vendor;
     }
 
     public String getVendor() {
-        return vendorName;
+        return vendorNbme;
     }
 
     public void setVersion(String providerVer) {
@@ -876,90 +876,90 @@ class ProviderImpl extends SyncProvider {
         return index;
     }
 
-    public int getDataSourceLock() throws SyncProviderException {
+    public int getDbtbSourceLock() throws SyncProviderException {
 
         int dsLock = 0;
         try {
-            dsLock = SyncFactory.getInstance(className).getDataSourceLock();
-        } catch (SyncFactoryException sfEx) {
+            dsLock = SyncFbctory.getInstbnce(clbssNbme).getDbtbSourceLock();
+        } cbtch (SyncFbctoryException sfEx) {
 
-            throw new SyncProviderException(sfEx.getMessage());
+            throw new SyncProviderException(sfEx.getMessbge());
         }
 
         return dsLock;
     }
 
-    public int getProviderGrade() {
+    public int getProviderGrbde() {
 
-        int grade = 0;
+        int grbde = 0;
 
         try {
-            grade = SyncFactory.getInstance(className).getProviderGrade();
-        } catch (SyncFactoryException sfEx) {
+            grbde = SyncFbctory.getInstbnce(clbssNbme).getProviderGrbde();
+        } cbtch (SyncFbctoryException sfEx) {
             //
         }
 
-        return grade;
+        return grbde;
     }
 
     public String getProviderID() {
-        return className;
+        return clbssNbme;
     }
 
     /*
-    public javax.sql.RowSetInternal getRowSetInternal() {
+    public jbvbx.sql.RowSetInternbl getRowSetInternbl() {
     try
     {
-    return SyncFactory.getInstance(className).getRowSetInternal();
-    } catch(SyncFactoryException sfEx) {
+    return SyncFbctory.getInstbnce(clbssNbme).getRowSetInternbl();
+    } cbtch(SyncFbctoryException sfEx) {
     //
     }
     }
      */
-    public javax.sql.RowSetReader getRowSetReader() {
+    public jbvbx.sql.RowSetRebder getRowSetRebder() {
 
-        RowSetReader rsReader = null;
+        RowSetRebder rsRebder = null;
 
         try {
-            rsReader = SyncFactory.getInstance(className).getRowSetReader();
-        } catch (SyncFactoryException sfEx) {
+            rsRebder = SyncFbctory.getInstbnce(clbssNbme).getRowSetRebder();
+        } cbtch (SyncFbctoryException sfEx) {
             //
         }
 
-        return rsReader;
+        return rsRebder;
 
     }
 
-    public javax.sql.RowSetWriter getRowSetWriter() {
+    public jbvbx.sql.RowSetWriter getRowSetWriter() {
 
         RowSetWriter rsWriter = null;
         try {
-            rsWriter = SyncFactory.getInstance(className).getRowSetWriter();
-        } catch (SyncFactoryException sfEx) {
+            rsWriter = SyncFbctory.getInstbnce(clbssNbme).getRowSetWriter();
+        } cbtch (SyncFbctoryException sfEx) {
             //
         }
 
         return rsWriter;
     }
 
-    public void setDataSourceLock(int param)
+    public void setDbtbSourceLock(int pbrbm)
             throws SyncProviderException {
 
         try {
-            SyncFactory.getInstance(className).setDataSourceLock(param);
-        } catch (SyncFactoryException sfEx) {
+            SyncFbctory.getInstbnce(clbssNbme).setDbtbSourceLock(pbrbm);
+        } cbtch (SyncFbctoryException sfEx) {
 
-            throw new SyncProviderException(sfEx.getMessage());
+            throw new SyncProviderException(sfEx.getMessbge());
         }
     }
 
-    public int supportsUpdatableView() {
+    public int supportsUpdbtbbleView() {
 
         int view = 0;
 
         try {
-            view = SyncFactory.getInstance(className).supportsUpdatableView();
-        } catch (SyncFactoryException sfEx) {
+            view = SyncFbctory.getInstbnce(clbssNbme).supportsUpdbtbbleView();
+        } cbtch (SyncFbctoryException sfEx) {
             //
         }
 

@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2012 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,20 +53,20 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
 
-// Allocates an empty multi profile element
-cmsStage* CMSEXPORT _cmsStageAllocPlaceholder(cmsContext ContextID,
-                                cmsStageSignature Type,
-                                cmsUInt32Number InputChannels,
-                                cmsUInt32Number OutputChannels,
-                                _cmsStageEvalFn     EvalPtr,
-                                _cmsStageDupElemFn  DupElemPtr,
-                                _cmsStageFreeElemFn FreePtr,
-                                void*             Data)
+// Allocbtes bn empty multi profile element
+cmsStbge* CMSEXPORT _cmsStbgeAllocPlbceholder(cmsContext ContextID,
+                                cmsStbgeSignbture Type,
+                                cmsUInt32Number InputChbnnels,
+                                cmsUInt32Number OutputChbnnels,
+                                _cmsStbgeEvblFn     EvblPtr,
+                                _cmsStbgeDupElemFn  DupElemPtr,
+                                _cmsStbgeFreeElemFn FreePtr,
+                                void*             Dbtb)
 {
-    cmsStage* ph = (cmsStage*) _cmsMallocZero(ContextID, sizeof(cmsStage));
+    cmsStbge* ph = (cmsStbge*) _cmsMbllocZero(ContextID, sizeof(cmsStbge));
 
     if (ph == NULL) return NULL;
 
@@ -74,185 +74,185 @@ cmsStage* CMSEXPORT _cmsStageAllocPlaceholder(cmsContext ContextID,
     ph ->ContextID = ContextID;
 
     ph ->Type       = Type;
-    ph ->Implements = Type;   // By default, no clue on what is implementing
+    ph ->Implements = Type;   // By defbult, no clue on whbt is implementing
 
-    ph ->InputChannels  = InputChannels;
-    ph ->OutputChannels = OutputChannels;
-    ph ->EvalPtr        = EvalPtr;
+    ph ->InputChbnnels  = InputChbnnels;
+    ph ->OutputChbnnels = OutputChbnnels;
+    ph ->EvblPtr        = EvblPtr;
     ph ->DupElemPtr     = DupElemPtr;
     ph ->FreePtr        = FreePtr;
-    ph ->Data           = Data;
+    ph ->Dbtb           = Dbtb;
 
     return ph;
 }
 
 
-static
-void EvaluateIdentity(const cmsFloat32Number In[],
-                            cmsFloat32Number Out[],
-                      const cmsStage *mpe)
+stbtic
+void EvblubteIdentity(const cmsFlobt32Number In[],
+                            cmsFlobt32Number Out[],
+                      const cmsStbge *mpe)
 {
-    memmove(Out, In, mpe ->InputChannels * sizeof(cmsFloat32Number));
+    memmove(Out, In, mpe ->InputChbnnels * sizeof(cmsFlobt32Number));
 }
 
 
-cmsStage* CMSEXPORT cmsStageAllocIdentity(cmsContext ContextID, cmsUInt32Number nChannels)
+cmsStbge* CMSEXPORT cmsStbgeAllocIdentity(cmsContext ContextID, cmsUInt32Number nChbnnels)
 {
-    return _cmsStageAllocPlaceholder(ContextID,
+    return _cmsStbgeAllocPlbceholder(ContextID,
                                    cmsSigIdentityElemType,
-                                   nChannels, nChannels,
-                                   EvaluateIdentity,
+                                   nChbnnels, nChbnnels,
+                                   EvblubteIdentity,
                                    NULL,
                                    NULL,
                                    NULL);
  }
 
-// Conversion functions. From floating point to 16 bits
-static
-void FromFloatTo16(const cmsFloat32Number In[], cmsUInt16Number Out[], cmsUInt32Number n)
+// Conversion functions. From flobting point to 16 bits
+stbtic
+void FromFlobtTo16(const cmsFlobt32Number In[], cmsUInt16Number Out[], cmsUInt32Number n)
 {
     cmsUInt32Number i;
 
     for (i=0; i < n; i++) {
-        Out[i] = _cmsQuickSaturateWord(In[i] * 65535.0);
+        Out[i] = _cmsQuickSbturbteWord(In[i] * 65535.0);
     }
 }
 
-// From 16 bits to floating point
-static
-void From16ToFloat(const cmsUInt16Number In[], cmsFloat32Number Out[], cmsUInt32Number n)
+// From 16 bits to flobting point
+stbtic
+void From16ToFlobt(const cmsUInt16Number In[], cmsFlobt32Number Out[], cmsUInt32Number n)
 {
     cmsUInt32Number i;
 
     for (i=0; i < n; i++) {
-        Out[i] = (cmsFloat32Number) In[i] / 65535.0F;
+        Out[i] = (cmsFlobt32Number) In[i] / 65535.0F;
     }
 }
 
 
-// This function is quite useful to analyze the structure of a LUT and retrieve the MPE elements
-// that conform the LUT. It should be called with the LUT, the number of expected elements and
-// then a list of expected types followed with a list of cmsFloat64Number pointers to MPE elements. If
-// the function founds a match with current pipeline, it fills the pointers and returns TRUE
-// if not, returns FALSE without touching anything. Setting pointers to NULL does bypass
-// the storage process.
-cmsBool  CMSEXPORT cmsPipelineCheckAndRetreiveStages(const cmsPipeline* Lut, cmsUInt32Number n, ...)
+// This function is quite useful to bnblyze the structure of b LUT bnd retrieve the MPE elements
+// thbt conform the LUT. It should be cblled with the LUT, the number of expected elements bnd
+// then b list of expected types followed with b list of cmsFlobt64Number pointers to MPE elements. If
+// the function founds b mbtch with current pipeline, it fills the pointers bnd returns TRUE
+// if not, returns FALSE without touching bnything. Setting pointers to NULL does bypbss
+// the storbge process.
+cmsBool  CMSEXPORT cmsPipelineCheckAndRetreiveStbges(const cmsPipeline* Lut, cmsUInt32Number n, ...)
 {
-    va_list args;
+    vb_list brgs;
     cmsUInt32Number i;
-    cmsStage* mpe;
-    cmsStageSignature Type;
+    cmsStbge* mpe;
+    cmsStbgeSignbture Type;
     void** ElemPtr;
 
-    // Make sure same number of elements
-    if (cmsPipelineStageCount(Lut) != n) return FALSE;
+    // Mbke sure sbme number of elements
+    if (cmsPipelineStbgeCount(Lut) != n) return FALSE;
 
-    va_start(args, n);
+    vb_stbrt(brgs, n);
 
-    // Iterate across asked types
+    // Iterbte bcross bsked types
     mpe = Lut ->Elements;
     for (i=0; i < n; i++) {
 
-        // Get asked type
-        Type  = (cmsStageSignature)va_arg(args, cmsStageSignature);
+        // Get bsked type
+        Type  = (cmsStbgeSignbture)vb_brg(brgs, cmsStbgeSignbture);
         if (mpe ->Type != Type) {
 
-            va_end(args);       // Mismatch. We are done.
+            vb_end(brgs);       // Mismbtch. We bre done.
             return FALSE;
         }
         mpe = mpe ->Next;
     }
 
-    // Found a combination, fill pointers if not NULL
+    // Found b combinbtion, fill pointers if not NULL
     mpe = Lut ->Elements;
     for (i=0; i < n; i++) {
 
-        ElemPtr = va_arg(args, void**);
+        ElemPtr = vb_brg(brgs, void**);
         if (ElemPtr != NULL)
             *ElemPtr = mpe;
 
         mpe = mpe ->Next;
     }
 
-    va_end(args);
+    vb_end(brgs);
     return TRUE;
 }
 
-// Below there are implementations for several types of elements. Each type may be implemented by a
-// evaluation function, a duplication function, a function to free resources and a constructor.
+// Below there bre implementbtions for severbl types of elements. Ebch type mby be implemented by b
+// evblubtion function, b duplicbtion function, b function to free resources bnd b constructor.
 
 // *************************************************************************************************
 // Type cmsSigCurveSetElemType (curves)
 // *************************************************************************************************
 
-cmsToneCurve** _cmsStageGetPtrToCurveSet(const cmsStage* mpe)
+cmsToneCurve** _cmsStbgeGetPtrToCurveSet(const cmsStbge* mpe)
 {
-    _cmsStageToneCurvesData* Data = (_cmsStageToneCurvesData*) mpe ->Data;
+    _cmsStbgeToneCurvesDbtb* Dbtb = (_cmsStbgeToneCurvesDbtb*) mpe ->Dbtb;
 
-    return Data ->TheCurves;
+    return Dbtb ->TheCurves;
 }
 
-static
-void EvaluateCurves(const cmsFloat32Number In[],
-                    cmsFloat32Number Out[],
-                    const cmsStage *mpe)
+stbtic
+void EvblubteCurves(const cmsFlobt32Number In[],
+                    cmsFlobt32Number Out[],
+                    const cmsStbge *mpe)
 {
-    _cmsStageToneCurvesData* Data;
+    _cmsStbgeToneCurvesDbtb* Dbtb;
     cmsUInt32Number i;
 
     _cmsAssert(mpe != NULL);
 
-    Data = (_cmsStageToneCurvesData*) mpe ->Data;
-    if (Data == NULL) return;
+    Dbtb = (_cmsStbgeToneCurvesDbtb*) mpe ->Dbtb;
+    if (Dbtb == NULL) return;
 
-    if (Data ->TheCurves == NULL) return;
+    if (Dbtb ->TheCurves == NULL) return;
 
-    for (i=0; i < Data ->nCurves; i++) {
-        Out[i] = cmsEvalToneCurveFloat(Data ->TheCurves[i], In[i]);
+    for (i=0; i < Dbtb ->nCurves; i++) {
+        Out[i] = cmsEvblToneCurveFlobt(Dbtb ->TheCurves[i], In[i]);
     }
 }
 
-static
-void CurveSetElemTypeFree(cmsStage* mpe)
+stbtic
+void CurveSetElemTypeFree(cmsStbge* mpe)
 {
-    _cmsStageToneCurvesData* Data;
+    _cmsStbgeToneCurvesDbtb* Dbtb;
     cmsUInt32Number i;
 
     _cmsAssert(mpe != NULL);
 
-    Data = (_cmsStageToneCurvesData*) mpe ->Data;
-    if (Data == NULL) return;
+    Dbtb = (_cmsStbgeToneCurvesDbtb*) mpe ->Dbtb;
+    if (Dbtb == NULL) return;
 
-    if (Data ->TheCurves != NULL) {
-        for (i=0; i < Data ->nCurves; i++) {
-            if (Data ->TheCurves[i] != NULL)
-                cmsFreeToneCurve(Data ->TheCurves[i]);
+    if (Dbtb ->TheCurves != NULL) {
+        for (i=0; i < Dbtb ->nCurves; i++) {
+            if (Dbtb ->TheCurves[i] != NULL)
+                cmsFreeToneCurve(Dbtb ->TheCurves[i]);
         }
     }
-    _cmsFree(mpe ->ContextID, Data ->TheCurves);
-    _cmsFree(mpe ->ContextID, Data);
+    _cmsFree(mpe ->ContextID, Dbtb ->TheCurves);
+    _cmsFree(mpe ->ContextID, Dbtb);
 }
 
 
-static
-void* CurveSetDup(cmsStage* mpe)
+stbtic
+void* CurveSetDup(cmsStbge* mpe)
 {
-    _cmsStageToneCurvesData* Data = (_cmsStageToneCurvesData*) mpe ->Data;
-    _cmsStageToneCurvesData* NewElem;
+    _cmsStbgeToneCurvesDbtb* Dbtb = (_cmsStbgeToneCurvesDbtb*) mpe ->Dbtb;
+    _cmsStbgeToneCurvesDbtb* NewElem;
     cmsUInt32Number i;
 
-    NewElem = (_cmsStageToneCurvesData*) _cmsMallocZero(mpe ->ContextID, sizeof(_cmsStageToneCurvesData));
+    NewElem = (_cmsStbgeToneCurvesDbtb*) _cmsMbllocZero(mpe ->ContextID, sizeof(_cmsStbgeToneCurvesDbtb));
     if (NewElem == NULL) return NULL;
 
-    NewElem ->nCurves   = Data ->nCurves;
-    NewElem ->TheCurves = (cmsToneCurve**) _cmsCalloc(mpe ->ContextID, NewElem ->nCurves, sizeof(cmsToneCurve*));
+    NewElem ->nCurves   = Dbtb ->nCurves;
+    NewElem ->TheCurves = (cmsToneCurve**) _cmsCblloc(mpe ->ContextID, NewElem ->nCurves, sizeof(cmsToneCurve*));
 
     if (NewElem ->TheCurves == NULL) goto Error;
 
     for (i=0; i < NewElem ->nCurves; i++) {
 
-        // Duplicate each curve. It may fail.
-        NewElem ->TheCurves[i] = cmsDupToneCurve(Data ->TheCurves[i]);
+        // Duplicbte ebch curve. It mby fbil.
+        NewElem ->TheCurves[i] = cmsDupToneCurve(Dbtb ->TheCurves[i]);
         if (NewElem ->TheCurves[i] == NULL) goto Error;
 
 
@@ -274,43 +274,43 @@ Error:
 
 
 // Curves == NULL forces identity curves
-cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Number nChannels, cmsToneCurve* const Curves[])
+cmsStbge* CMSEXPORT cmsStbgeAllocToneCurves(cmsContext ContextID, cmsUInt32Number nChbnnels, cmsToneCurve* const Curves[])
 {
     cmsUInt32Number i;
-    _cmsStageToneCurvesData* NewElem;
-    cmsStage* NewMPE;
+    _cmsStbgeToneCurvesDbtb* NewElem;
+    cmsStbge* NewMPE;
 
 
-    NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigCurveSetElemType, nChannels, nChannels,
-                                     EvaluateCurves, CurveSetDup, CurveSetElemTypeFree, NULL );
+    NewMPE = _cmsStbgeAllocPlbceholder(ContextID, cmsSigCurveSetElemType, nChbnnels, nChbnnels,
+                                     EvblubteCurves, CurveSetDup, CurveSetElemTypeFree, NULL );
     if (NewMPE == NULL) return NULL;
 
-    NewElem = (_cmsStageToneCurvesData*) _cmsMallocZero(ContextID, sizeof(_cmsStageToneCurvesData));
+    NewElem = (_cmsStbgeToneCurvesDbtb*) _cmsMbllocZero(ContextID, sizeof(_cmsStbgeToneCurvesDbtb));
     if (NewElem == NULL) {
-        cmsStageFree(NewMPE);
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
-    NewMPE ->Data  = (void*) NewElem;
+    NewMPE ->Dbtb  = (void*) NewElem;
 
-    NewElem ->nCurves   = nChannels;
-    NewElem ->TheCurves = (cmsToneCurve**) _cmsCalloc(ContextID, nChannels, sizeof(cmsToneCurve*));
+    NewElem ->nCurves   = nChbnnels;
+    NewElem ->TheCurves = (cmsToneCurve**) _cmsCblloc(ContextID, nChbnnels, sizeof(cmsToneCurve*));
     if (NewElem ->TheCurves == NULL) {
-        cmsStageFree(NewMPE);
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
-    for (i=0; i < nChannels; i++) {
+    for (i=0; i < nChbnnels; i++) {
 
         if (Curves == NULL) {
-            NewElem ->TheCurves[i] = cmsBuildGamma(ContextID, 1.0);
+            NewElem ->TheCurves[i] = cmsBuildGbmmb(ContextID, 1.0);
         }
         else {
             NewElem ->TheCurves[i] = cmsDupToneCurve(Curves[i]);
         }
 
         if (NewElem ->TheCurves[i] == NULL) {
-            cmsStageFree(NewMPE);
+            cmsStbgeFree(NewMPE);
             return NULL;
         }
 
@@ -320,10 +320,10 @@ cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Numbe
 }
 
 
-// Create a bunch of identity curves
-cmsStage* _cmsStageAllocIdentityCurves(cmsContext ContextID, int nChannels)
+// Crebte b bunch of identity curves
+cmsStbge* _cmsStbgeAllocIdentityCurves(cmsContext ContextID, int nChbnnels)
 {
-    cmsStage* mpe = cmsStageAllocToneCurves(ContextID, nChannels, NULL);
+    cmsStbge* mpe = cmsStbgeAllocToneCurves(ContextID, nChbnnels, NULL);
 
     if (mpe == NULL) return NULL;
     mpe ->Implements = cmsSigIdentityElemType;
@@ -332,85 +332,85 @@ cmsStage* _cmsStageAllocIdentityCurves(cmsContext ContextID, int nChannels)
 
 
 // *************************************************************************************************
-// Type cmsSigMatrixElemType (Matrices)
+// Type cmsSigMbtrixElemType (Mbtrices)
 // *************************************************************************************************
 
 
-// Special care should be taken here because precision loss. A temporary cmsFloat64Number buffer is being used
-static
-void EvaluateMatrix(const cmsFloat32Number In[],
-                    cmsFloat32Number Out[],
-                    const cmsStage *mpe)
+// Specibl cbre should be tbken here becbuse precision loss. A temporbry cmsFlobt64Number buffer is being used
+stbtic
+void EvblubteMbtrix(const cmsFlobt32Number In[],
+                    cmsFlobt32Number Out[],
+                    const cmsStbge *mpe)
 {
     cmsUInt32Number i, j;
-    _cmsStageMatrixData* Data = (_cmsStageMatrixData*) mpe ->Data;
-    cmsFloat64Number Tmp;
+    _cmsStbgeMbtrixDbtb* Dbtb = (_cmsStbgeMbtrixDbtb*) mpe ->Dbtb;
+    cmsFlobt64Number Tmp;
 
-    // Input is already in 0..1.0 notation
-    for (i=0; i < mpe ->OutputChannels; i++) {
+    // Input is blrebdy in 0..1.0 notbtion
+    for (i=0; i < mpe ->OutputChbnnels; i++) {
 
         Tmp = 0;
-        for (j=0; j < mpe->InputChannels; j++) {
-            Tmp += In[j] * Data->Double[i*mpe->InputChannels + j];
+        for (j=0; j < mpe->InputChbnnels; j++) {
+            Tmp += In[j] * Dbtb->Double[i*mpe->InputChbnnels + j];
         }
 
-        if (Data ->Offset != NULL)
-            Tmp += Data->Offset[i];
+        if (Dbtb ->Offset != NULL)
+            Tmp += Dbtb->Offset[i];
 
-        Out[i] = (cmsFloat32Number) Tmp;
+        Out[i] = (cmsFlobt32Number) Tmp;
     }
 
 
-    // Output in 0..1.0 domain
+    // Output in 0..1.0 dombin
 }
 
 
-// Duplicate a yet-existing matrix element
-static
-void* MatrixElemDup(cmsStage* mpe)
+// Duplicbte b yet-existing mbtrix element
+stbtic
+void* MbtrixElemDup(cmsStbge* mpe)
 {
-    _cmsStageMatrixData* Data = (_cmsStageMatrixData*) mpe ->Data;
-    _cmsStageMatrixData* NewElem;
+    _cmsStbgeMbtrixDbtb* Dbtb = (_cmsStbgeMbtrixDbtb*) mpe ->Dbtb;
+    _cmsStbgeMbtrixDbtb* NewElem;
     cmsUInt32Number sz;
 
-    NewElem = (_cmsStageMatrixData*) _cmsMallocZero(mpe ->ContextID, sizeof(_cmsStageMatrixData));
+    NewElem = (_cmsStbgeMbtrixDbtb*) _cmsMbllocZero(mpe ->ContextID, sizeof(_cmsStbgeMbtrixDbtb));
     if (NewElem == NULL) return NULL;
 
-    sz = mpe ->InputChannels * mpe ->OutputChannels;
+    sz = mpe ->InputChbnnels * mpe ->OutputChbnnels;
 
-    NewElem ->Double = (cmsFloat64Number*) _cmsDupMem(mpe ->ContextID, Data ->Double, sz * sizeof(cmsFloat64Number)) ;
+    NewElem ->Double = (cmsFlobt64Number*) _cmsDupMem(mpe ->ContextID, Dbtb ->Double, sz * sizeof(cmsFlobt64Number)) ;
 
-    if (Data ->Offset)
-        NewElem ->Offset = (cmsFloat64Number*) _cmsDupMem(mpe ->ContextID,
-                                                Data ->Offset, mpe -> OutputChannels * sizeof(cmsFloat64Number)) ;
+    if (Dbtb ->Offset)
+        NewElem ->Offset = (cmsFlobt64Number*) _cmsDupMem(mpe ->ContextID,
+                                                Dbtb ->Offset, mpe -> OutputChbnnels * sizeof(cmsFlobt64Number)) ;
 
     return (void*) NewElem;
 }
 
 
-static
-void MatrixElemTypeFree(cmsStage* mpe)
+stbtic
+void MbtrixElemTypeFree(cmsStbge* mpe)
 {
-    _cmsStageMatrixData* Data = (_cmsStageMatrixData*) mpe ->Data;
-    if (Data == NULL)
+    _cmsStbgeMbtrixDbtb* Dbtb = (_cmsStbgeMbtrixDbtb*) mpe ->Dbtb;
+    if (Dbtb == NULL)
         return;
-    if (Data ->Double)
-        _cmsFree(mpe ->ContextID, Data ->Double);
+    if (Dbtb ->Double)
+        _cmsFree(mpe ->ContextID, Dbtb ->Double);
 
-    if (Data ->Offset)
-        _cmsFree(mpe ->ContextID, Data ->Offset);
+    if (Dbtb ->Offset)
+        _cmsFree(mpe ->ContextID, Dbtb ->Offset);
 
-    _cmsFree(mpe ->ContextID, mpe ->Data);
+    _cmsFree(mpe ->ContextID, mpe ->Dbtb);
 }
 
 
 
-cmsStage*  CMSEXPORT cmsStageAllocMatrix(cmsContext ContextID, cmsUInt32Number Rows, cmsUInt32Number Cols,
-                                     const cmsFloat64Number* Matrix, const cmsFloat64Number* Offset)
+cmsStbge*  CMSEXPORT cmsStbgeAllocMbtrix(cmsContext ContextID, cmsUInt32Number Rows, cmsUInt32Number Cols,
+                                     const cmsFlobt64Number* Mbtrix, const cmsFlobt64Number* Offset)
 {
     cmsUInt32Number i, n;
-    _cmsStageMatrixData* NewElem;
-    cmsStage* NewMPE;
+    _cmsStbgeMbtrixDbtb* NewElem;
+    cmsStbge* NewMPE;
 
     n = Rows * Cols;
 
@@ -420,32 +420,32 @@ cmsStage*  CMSEXPORT cmsStageAllocMatrix(cmsContext ContextID, cmsUInt32Number R
     if (n >= UINT_MAX / Rows) return NULL;
     if (n < Rows || n < Cols) return NULL;
 
-    NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigMatrixElemType, Cols, Rows,
-                                     EvaluateMatrix, MatrixElemDup, MatrixElemTypeFree, NULL );
+    NewMPE = _cmsStbgeAllocPlbceholder(ContextID, cmsSigMbtrixElemType, Cols, Rows,
+                                     EvblubteMbtrix, MbtrixElemDup, MbtrixElemTypeFree, NULL );
     if (NewMPE == NULL) return NULL;
 
 
-    NewElem = (_cmsStageMatrixData*) _cmsMallocZero(ContextID, sizeof(_cmsStageMatrixData));
+    NewElem = (_cmsStbgeMbtrixDbtb*) _cmsMbllocZero(ContextID, sizeof(_cmsStbgeMbtrixDbtb));
     if (NewElem == NULL) return NULL;
 
 
-    NewElem ->Double = (cmsFloat64Number*) _cmsCalloc(ContextID, n, sizeof(cmsFloat64Number));
+    NewElem ->Double = (cmsFlobt64Number*) _cmsCblloc(ContextID, n, sizeof(cmsFlobt64Number));
 
     if (NewElem->Double == NULL) {
-        MatrixElemTypeFree(NewMPE);
+        MbtrixElemTypeFree(NewMPE);
         return NULL;
     }
 
     for (i=0; i < n; i++) {
-        NewElem ->Double[i] = Matrix[i];
+        NewElem ->Double[i] = Mbtrix[i];
     }
 
 
     if (Offset != NULL) {
 
-        NewElem ->Offset = (cmsFloat64Number*) _cmsCalloc(ContextID, Cols, sizeof(cmsFloat64Number));
+        NewElem ->Offset = (cmsFlobt64Number*) _cmsCblloc(ContextID, Cols, sizeof(cmsFlobt64Number));
         if (NewElem->Offset == NULL) {
-           MatrixElemTypeFree(NewMPE);
+           MbtrixElemTypeFree(NewMPE);
            return NULL;
         }
 
@@ -455,7 +455,7 @@ cmsStage*  CMSEXPORT cmsStageAllocMatrix(cmsContext ContextID, cmsUInt32Number R
 
     }
 
-    NewMPE ->Data  = (void*) NewElem;
+    NewMPE ->Dbtb  = (void*) NewElem;
     return NewMPE;
 }
 
@@ -465,34 +465,34 @@ cmsStage*  CMSEXPORT cmsStageAllocMatrix(cmsContext ContextID, cmsUInt32Number R
 // *************************************************************************************************
 
 
-// Evaluate in true floating point
-static
-void EvaluateCLUTfloat(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
+// Evblubte in true flobting point
+stbtic
+void EvblubteCLUTflobt(const cmsFlobt32Number In[], cmsFlobt32Number Out[], const cmsStbge *mpe)
 {
-    _cmsStageCLutData* Data = (_cmsStageCLutData*) mpe ->Data;
+    _cmsStbgeCLutDbtb* Dbtb = (_cmsStbgeCLutDbtb*) mpe ->Dbtb;
 
-    Data -> Params ->Interpolation.LerpFloat(In, Out, Data->Params);
+    Dbtb -> Pbrbms ->Interpolbtion.LerpFlobt(In, Out, Dbtb->Pbrbms);
 }
 
 
-// Convert to 16 bits, evaluate, and back to floating point
-static
-void EvaluateCLUTfloatIn16(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
+// Convert to 16 bits, evblubte, bnd bbck to flobting point
+stbtic
+void EvblubteCLUTflobtIn16(const cmsFlobt32Number In[], cmsFlobt32Number Out[], const cmsStbge *mpe)
 {
-    _cmsStageCLutData* Data = (_cmsStageCLutData*) mpe ->Data;
+    _cmsStbgeCLutDbtb* Dbtb = (_cmsStbgeCLutDbtb*) mpe ->Dbtb;
     cmsUInt16Number In16[MAX_STAGE_CHANNELS], Out16[MAX_STAGE_CHANNELS];
 
-    _cmsAssert(mpe ->InputChannels  <= MAX_STAGE_CHANNELS);
-    _cmsAssert(mpe ->OutputChannels <= MAX_STAGE_CHANNELS);
+    _cmsAssert(mpe ->InputChbnnels  <= MAX_STAGE_CHANNELS);
+    _cmsAssert(mpe ->OutputChbnnels <= MAX_STAGE_CHANNELS);
 
-    FromFloatTo16(In, In16, mpe ->InputChannels);
-    Data -> Params ->Interpolation.Lerp16(In16, Out16, Data->Params);
-    From16ToFloat(Out16, Out,  mpe ->OutputChannels);
+    FromFlobtTo16(In, In16, mpe ->InputChbnnels);
+    Dbtb -> Pbrbms ->Interpolbtion.Lerp16(In16, Out16, Dbtb->Pbrbms);
+    From16ToFlobt(Out16, Out,  mpe ->OutputChbnnels);
 }
 
 
-// Given an hypercube of b dimensions, with Dims[] number of nodes by dimension, calculate the total amount of nodes
-static
+// Given bn hypercube of b dimensions, with Dims[] number of nodes by dimension, cblculbte the totbl bmount of nodes
+stbtic
 cmsUInt32Number CubeSize(const cmsUInt32Number Dims[], cmsUInt32Number b)
 {
     cmsUInt32Number rv, dim;
@@ -513,214 +513,214 @@ cmsUInt32Number CubeSize(const cmsUInt32Number Dims[], cmsUInt32Number b)
     return rv;
 }
 
-static
-void* CLUTElemDup(cmsStage* mpe)
+stbtic
+void* CLUTElemDup(cmsStbge* mpe)
 {
-    _cmsStageCLutData* Data = (_cmsStageCLutData*) mpe ->Data;
-    _cmsStageCLutData* NewElem;
+    _cmsStbgeCLutDbtb* Dbtb = (_cmsStbgeCLutDbtb*) mpe ->Dbtb;
+    _cmsStbgeCLutDbtb* NewElem;
 
 
-    NewElem = (_cmsStageCLutData*) _cmsMallocZero(mpe ->ContextID, sizeof(_cmsStageCLutData));
+    NewElem = (_cmsStbgeCLutDbtb*) _cmsMbllocZero(mpe ->ContextID, sizeof(_cmsStbgeCLutDbtb));
     if (NewElem == NULL) return NULL;
 
-    NewElem ->nEntries       = Data ->nEntries;
-    NewElem ->HasFloatValues = Data ->HasFloatValues;
+    NewElem ->nEntries       = Dbtb ->nEntries;
+    NewElem ->HbsFlobtVblues = Dbtb ->HbsFlobtVblues;
 
-    if (Data ->Tab.T) {
+    if (Dbtb ->Tbb.T) {
 
-        if (Data ->HasFloatValues) {
-            NewElem ->Tab.TFloat = (cmsFloat32Number*) _cmsDupMem(mpe ->ContextID, Data ->Tab.TFloat, Data ->nEntries * sizeof (cmsFloat32Number));
-            if (NewElem ->Tab.TFloat == NULL)
+        if (Dbtb ->HbsFlobtVblues) {
+            NewElem ->Tbb.TFlobt = (cmsFlobt32Number*) _cmsDupMem(mpe ->ContextID, Dbtb ->Tbb.TFlobt, Dbtb ->nEntries * sizeof (cmsFlobt32Number));
+            if (NewElem ->Tbb.TFlobt == NULL)
                 goto Error;
         } else {
-            NewElem ->Tab.T = (cmsUInt16Number*) _cmsDupMem(mpe ->ContextID, Data ->Tab.T, Data ->nEntries * sizeof (cmsUInt16Number));
-            if (NewElem ->Tab.TFloat == NULL)
+            NewElem ->Tbb.T = (cmsUInt16Number*) _cmsDupMem(mpe ->ContextID, Dbtb ->Tbb.T, Dbtb ->nEntries * sizeof (cmsUInt16Number));
+            if (NewElem ->Tbb.TFlobt == NULL)
                 goto Error;
         }
     }
 
-    NewElem ->Params   = _cmsComputeInterpParamsEx(mpe ->ContextID,
-                                                   Data ->Params ->nSamples,
-                                                   Data ->Params ->nInputs,
-                                                   Data ->Params ->nOutputs,
-                                                   NewElem ->Tab.T,
-                                                   Data ->Params ->dwFlags);
-    if (NewElem->Params != NULL)
+    NewElem ->Pbrbms   = _cmsComputeInterpPbrbmsEx(mpe ->ContextID,
+                                                   Dbtb ->Pbrbms ->nSbmples,
+                                                   Dbtb ->Pbrbms ->nInputs,
+                                                   Dbtb ->Pbrbms ->nOutputs,
+                                                   NewElem ->Tbb.T,
+                                                   Dbtb ->Pbrbms ->dwFlbgs);
+    if (NewElem->Pbrbms != NULL)
         return (void*) NewElem;
  Error:
-    if (NewElem->Tab.T)
+    if (NewElem->Tbb.T)
         // This works for both types
-        _cmsFree(mpe ->ContextID, NewElem -> Tab.T);
+        _cmsFree(mpe ->ContextID, NewElem -> Tbb.T);
     _cmsFree(mpe ->ContextID, NewElem);
     return NULL;
 }
 
 
-static
-void CLutElemTypeFree(cmsStage* mpe)
+stbtic
+void CLutElemTypeFree(cmsStbge* mpe)
 {
 
-    _cmsStageCLutData* Data = (_cmsStageCLutData*) mpe ->Data;
+    _cmsStbgeCLutDbtb* Dbtb = (_cmsStbgeCLutDbtb*) mpe ->Dbtb;
 
-    // Already empty
-    if (Data == NULL) return;
+    // Alrebdy empty
+    if (Dbtb == NULL) return;
 
     // This works for both types
-    if (Data -> Tab.T)
-        _cmsFree(mpe ->ContextID, Data -> Tab.T);
+    if (Dbtb -> Tbb.T)
+        _cmsFree(mpe ->ContextID, Dbtb -> Tbb.T);
 
-    _cmsFreeInterpParams(Data ->Params);
-    _cmsFree(mpe ->ContextID, mpe ->Data);
+    _cmsFreeInterpPbrbms(Dbtb ->Pbrbms);
+    _cmsFree(mpe ->ContextID, mpe ->Dbtb);
 }
 
 
-// Allocates a 16-bit multidimensional CLUT. This is evaluated at 16-bit precision. Table may have different
-// granularity on each dimension.
-cmsStage* CMSEXPORT cmsStageAllocCLut16bitGranular(cmsContext ContextID,
+// Allocbtes b 16-bit multidimensionbl CLUT. This is evblubted bt 16-bit precision. Tbble mby hbve different
+// grbnulbrity on ebch dimension.
+cmsStbge* CMSEXPORT cmsStbgeAllocCLut16bitGrbnulbr(cmsContext ContextID,
                                          const cmsUInt32Number clutPoints[],
-                                         cmsUInt32Number inputChan,
-                                         cmsUInt32Number outputChan,
-                                         const cmsUInt16Number* Table)
+                                         cmsUInt32Number inputChbn,
+                                         cmsUInt32Number outputChbn,
+                                         const cmsUInt16Number* Tbble)
 {
     cmsUInt32Number i, n;
-    _cmsStageCLutData* NewElem;
-    cmsStage* NewMPE;
+    _cmsStbgeCLutDbtb* NewElem;
+    cmsStbge* NewMPE;
 
     _cmsAssert(clutPoints != NULL);
 
-    if (inputChan > MAX_INPUT_DIMENSIONS) {
-        cmsSignalError(ContextID, cmsERROR_RANGE, "Too many input channels (%d channels, max=%d)", inputChan, MAX_INPUT_DIMENSIONS);
+    if (inputChbn > MAX_INPUT_DIMENSIONS) {
+        cmsSignblError(ContextID, cmsERROR_RANGE, "Too mbny input chbnnels (%d chbnnels, mbx=%d)", inputChbn, MAX_INPUT_DIMENSIONS);
         return NULL;
     }
 
-    NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigCLutElemType, inputChan, outputChan,
-                                     EvaluateCLUTfloatIn16, CLUTElemDup, CLutElemTypeFree, NULL );
+    NewMPE = _cmsStbgeAllocPlbceholder(ContextID, cmsSigCLutElemType, inputChbn, outputChbn,
+                                     EvblubteCLUTflobtIn16, CLUTElemDup, CLutElemTypeFree, NULL );
 
     if (NewMPE == NULL) return NULL;
 
-    NewElem = (_cmsStageCLutData*) _cmsMallocZero(ContextID, sizeof(_cmsStageCLutData));
+    NewElem = (_cmsStbgeCLutDbtb*) _cmsMbllocZero(ContextID, sizeof(_cmsStbgeCLutDbtb));
     if (NewElem == NULL) {
-        cmsStageFree(NewMPE);
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
-    NewMPE ->Data  = (void*) NewElem;
+    NewMPE ->Dbtb  = (void*) NewElem;
 
-    NewElem -> nEntries = n = outputChan * CubeSize(clutPoints, inputChan);
-    NewElem -> HasFloatValues = FALSE;
+    NewElem -> nEntries = n = outputChbn * CubeSize(clutPoints, inputChbn);
+    NewElem -> HbsFlobtVblues = FALSE;
 
     if (n == 0) {
-        cmsStageFree(NewMPE);
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
 
-    NewElem ->Tab.T  = (cmsUInt16Number*) _cmsCalloc(ContextID, n, sizeof(cmsUInt16Number));
-    if (NewElem ->Tab.T == NULL) {
-        cmsStageFree(NewMPE);
+    NewElem ->Tbb.T  = (cmsUInt16Number*) _cmsCblloc(ContextID, n, sizeof(cmsUInt16Number));
+    if (NewElem ->Tbb.T == NULL) {
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
-    if (Table != NULL) {
+    if (Tbble != NULL) {
         for (i=0; i < n; i++) {
-            NewElem ->Tab.T[i] = Table[i];
+            NewElem ->Tbb.T[i] = Tbble[i];
         }
     }
 
-    NewElem ->Params = _cmsComputeInterpParamsEx(ContextID, clutPoints, inputChan, outputChan, NewElem ->Tab.T, CMS_LERP_FLAGS_16BITS);
-    if (NewElem ->Params == NULL) {
-        cmsStageFree(NewMPE);
+    NewElem ->Pbrbms = _cmsComputeInterpPbrbmsEx(ContextID, clutPoints, inputChbn, outputChbn, NewElem ->Tbb.T, CMS_LERP_FLAGS_16BITS);
+    if (NewElem ->Pbrbms == NULL) {
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
     return NewMPE;
 }
 
-cmsStage* CMSEXPORT cmsStageAllocCLut16bit(cmsContext ContextID,
+cmsStbge* CMSEXPORT cmsStbgeAllocCLut16bit(cmsContext ContextID,
                                     cmsUInt32Number nGridPoints,
-                                    cmsUInt32Number inputChan,
-                                    cmsUInt32Number outputChan,
-                                    const cmsUInt16Number* Table)
+                                    cmsUInt32Number inputChbn,
+                                    cmsUInt32Number outputChbn,
+                                    const cmsUInt16Number* Tbble)
 {
     cmsUInt32Number Dimensions[MAX_INPUT_DIMENSIONS];
     int i;
 
-   // Our resulting LUT would be same gridpoints on all dimensions
+   // Our resulting LUT would be sbme gridpoints on bll dimensions
     for (i=0; i < MAX_INPUT_DIMENSIONS; i++)
         Dimensions[i] = nGridPoints;
 
-    return cmsStageAllocCLut16bitGranular(ContextID, Dimensions, inputChan, outputChan, Table);
+    return cmsStbgeAllocCLut16bitGrbnulbr(ContextID, Dimensions, inputChbn, outputChbn, Tbble);
 }
 
 
-cmsStage* CMSEXPORT cmsStageAllocCLutFloat(cmsContext ContextID,
+cmsStbge* CMSEXPORT cmsStbgeAllocCLutFlobt(cmsContext ContextID,
                                        cmsUInt32Number nGridPoints,
-                                       cmsUInt32Number inputChan,
-                                       cmsUInt32Number outputChan,
-                                       const cmsFloat32Number* Table)
+                                       cmsUInt32Number inputChbn,
+                                       cmsUInt32Number outputChbn,
+                                       const cmsFlobt32Number* Tbble)
 {
    cmsUInt32Number Dimensions[MAX_INPUT_DIMENSIONS];
    int i;
 
-    // Our resulting LUT would be same gridpoints on all dimensions
+    // Our resulting LUT would be sbme gridpoints on bll dimensions
     for (i=0; i < MAX_INPUT_DIMENSIONS; i++)
         Dimensions[i] = nGridPoints;
 
-    return cmsStageAllocCLutFloatGranular(ContextID, Dimensions, inputChan, outputChan, Table);
+    return cmsStbgeAllocCLutFlobtGrbnulbr(ContextID, Dimensions, inputChbn, outputChbn, Tbble);
 }
 
 
 
-cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const cmsUInt32Number clutPoints[], cmsUInt32Number inputChan, cmsUInt32Number outputChan, const cmsFloat32Number* Table)
+cmsStbge* CMSEXPORT cmsStbgeAllocCLutFlobtGrbnulbr(cmsContext ContextID, const cmsUInt32Number clutPoints[], cmsUInt32Number inputChbn, cmsUInt32Number outputChbn, const cmsFlobt32Number* Tbble)
 {
     cmsUInt32Number i, n;
-    _cmsStageCLutData* NewElem;
-    cmsStage* NewMPE;
+    _cmsStbgeCLutDbtb* NewElem;
+    cmsStbge* NewMPE;
 
     _cmsAssert(clutPoints != NULL);
 
-    if (inputChan > MAX_INPUT_DIMENSIONS) {
-        cmsSignalError(ContextID, cmsERROR_RANGE, "Too many input channels (%d channels, max=%d)", inputChan, MAX_INPUT_DIMENSIONS);
+    if (inputChbn > MAX_INPUT_DIMENSIONS) {
+        cmsSignblError(ContextID, cmsERROR_RANGE, "Too mbny input chbnnels (%d chbnnels, mbx=%d)", inputChbn, MAX_INPUT_DIMENSIONS);
         return NULL;
     }
 
-    NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigCLutElemType, inputChan, outputChan,
-                                             EvaluateCLUTfloat, CLUTElemDup, CLutElemTypeFree, NULL);
+    NewMPE = _cmsStbgeAllocPlbceholder(ContextID, cmsSigCLutElemType, inputChbn, outputChbn,
+                                             EvblubteCLUTflobt, CLUTElemDup, CLutElemTypeFree, NULL);
     if (NewMPE == NULL) return NULL;
 
 
-    NewElem = (_cmsStageCLutData*) _cmsMallocZero(ContextID, sizeof(_cmsStageCLutData));
+    NewElem = (_cmsStbgeCLutDbtb*) _cmsMbllocZero(ContextID, sizeof(_cmsStbgeCLutDbtb));
     if (NewElem == NULL) {
-        cmsStageFree(NewMPE);
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
-    NewMPE ->Data  = (void*) NewElem;
+    NewMPE ->Dbtb  = (void*) NewElem;
 
-    // There is a potential integer overflow on conputing n and nEntries.
-    NewElem -> nEntries = n = outputChan * CubeSize(clutPoints, inputChan);
-    NewElem -> HasFloatValues = TRUE;
+    // There is b potentibl integer overflow on conputing n bnd nEntries.
+    NewElem -> nEntries = n = outputChbn * CubeSize(clutPoints, inputChbn);
+    NewElem -> HbsFlobtVblues = TRUE;
 
     if (n == 0) {
-        cmsStageFree(NewMPE);
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
-    NewElem ->Tab.TFloat  = (cmsFloat32Number*) _cmsCalloc(ContextID, n, sizeof(cmsFloat32Number));
-    if (NewElem ->Tab.TFloat == NULL) {
-        cmsStageFree(NewMPE);
+    NewElem ->Tbb.TFlobt  = (cmsFlobt32Number*) _cmsCblloc(ContextID, n, sizeof(cmsFlobt32Number));
+    if (NewElem ->Tbb.TFlobt == NULL) {
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
-    if (Table != NULL) {
+    if (Tbble != NULL) {
         for (i=0; i < n; i++) {
-            NewElem ->Tab.TFloat[i] = Table[i];
+            NewElem ->Tbb.TFlobt[i] = Tbble[i];
         }
     }
 
-    NewElem ->Params = _cmsComputeInterpParamsEx(ContextID, clutPoints,  inputChan, outputChan, NewElem ->Tab.TFloat, CMS_LERP_FLAGS_FLOAT);
-    if (NewElem ->Params == NULL) {
-        cmsStageFree(NewMPE);
+    NewElem ->Pbrbms = _cmsComputeInterpPbrbmsEx(ContextID, clutPoints,  inputChbn, outputChbn, NewElem ->Tbb.TFlobt, CMS_LERP_FLAGS_FLOAT);
+    if (NewElem ->Pbrbms == NULL) {
+        cmsStbgeFree(NewMPE);
         return NULL;
     }
 
@@ -728,33 +728,33 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
 }
 
 
-static
-int IdentitySampler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void * Cargo)
+stbtic
+int IdentitySbmpler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void * Cbrgo)
 {
-    int nChan = *(int*) Cargo;
+    int nChbn = *(int*) Cbrgo;
     int i;
 
-    for (i=0; i < nChan; i++)
+    for (i=0; i < nChbn; i++)
         Out[i] = In[i];
 
     return 1;
 }
 
-// Creates an MPE that just copies input to output
-cmsStage* _cmsStageAllocIdentityCLut(cmsContext ContextID, int nChan)
+// Crebtes bn MPE thbt just copies input to output
+cmsStbge* _cmsStbgeAllocIdentityCLut(cmsContext ContextID, int nChbn)
 {
     cmsUInt32Number Dimensions[MAX_INPUT_DIMENSIONS];
-    cmsStage* mpe ;
+    cmsStbge* mpe ;
     int i;
 
     for (i=0; i < MAX_INPUT_DIMENSIONS; i++)
         Dimensions[i] = 2;
 
-    mpe = cmsStageAllocCLut16bitGranular(ContextID, Dimensions, nChan, nChan, NULL);
+    mpe = cmsStbgeAllocCLut16bitGrbnulbr(ContextID, Dimensions, nChbn, nChbn, NULL);
     if (mpe == NULL) return NULL;
 
-    if (!cmsStageSampleCLut16bit(mpe, IdentitySampler, &nChan, 0)) {
-        cmsStageFree(mpe);
+    if (!cmsStbgeSbmpleCLut16bit(mpe, IdentitySbmpler, &nChbn, 0)) {
+        cmsStbgeFree(mpe);
         return NULL;
     }
 
@@ -764,70 +764,70 @@ cmsStage* _cmsStageAllocIdentityCLut(cmsContext ContextID, int nChan)
 
 
 
-// Quantize a value 0 <= i < MaxSamples to 0..0xffff
-cmsUInt16Number _cmsQuantizeVal(cmsFloat64Number i, int MaxSamples)
+// Qubntize b vblue 0 <= i < MbxSbmples to 0..0xffff
+cmsUInt16Number _cmsQubntizeVbl(cmsFlobt64Number i, int MbxSbmples)
 {
-    cmsFloat64Number x;
+    cmsFlobt64Number x;
 
-    x = ((cmsFloat64Number) i * 65535.) / (cmsFloat64Number) (MaxSamples - 1);
-    return _cmsQuickSaturateWord(x);
+    x = ((cmsFlobt64Number) i * 65535.) / (cmsFlobt64Number) (MbxSbmples - 1);
+    return _cmsQuickSbturbteWord(x);
 }
 
 
-// This routine does a sweep on whole input space, and calls its callback
-// function on knots. returns TRUE if all ok, FALSE otherwise.
-cmsBool CMSEXPORT cmsStageSampleCLut16bit(cmsStage* mpe, cmsSAMPLER16 Sampler, void * Cargo, cmsUInt32Number dwFlags)
+// This routine does b sweep on whole input spbce, bnd cblls its cbllbbck
+// function on knots. returns TRUE if bll ok, FALSE otherwise.
+cmsBool CMSEXPORT cmsStbgeSbmpleCLut16bit(cmsStbge* mpe, cmsSAMPLER16 Sbmpler, void * Cbrgo, cmsUInt32Number dwFlbgs)
 {
-    int i, t, nTotalPoints, index, rest;
+    int i, t, nTotblPoints, index, rest;
     int nInputs, nOutputs;
-    cmsUInt32Number* nSamples;
+    cmsUInt32Number* nSbmples;
     cmsUInt16Number In[MAX_INPUT_DIMENSIONS+1], Out[MAX_STAGE_CHANNELS];
-    _cmsStageCLutData* clut;
+    _cmsStbgeCLutDbtb* clut;
 
     if (mpe == NULL) return FALSE;
 
-    clut = (_cmsStageCLutData*) mpe->Data;
+    clut = (_cmsStbgeCLutDbtb*) mpe->Dbtb;
 
     if (clut == NULL) return FALSE;
 
-    nSamples = clut->Params ->nSamples;
-    nInputs  = clut->Params ->nInputs;
-    nOutputs = clut->Params ->nOutputs;
+    nSbmples = clut->Pbrbms ->nSbmples;
+    nInputs  = clut->Pbrbms ->nInputs;
+    nOutputs = clut->Pbrbms ->nOutputs;
 
     if (nInputs <= 0) return FALSE;
     if (nOutputs <= 0) return FALSE;
     if (nInputs > MAX_INPUT_DIMENSIONS) return FALSE;
     if (nOutputs >= MAX_STAGE_CHANNELS) return FALSE;
 
-    nTotalPoints = CubeSize(nSamples, nInputs);
-    if (nTotalPoints == 0) return FALSE;
+    nTotblPoints = CubeSize(nSbmples, nInputs);
+    if (nTotblPoints == 0) return FALSE;
 
     index = 0;
-    for (i = 0; i < nTotalPoints; i++) {
+    for (i = 0; i < nTotblPoints; i++) {
 
         rest = i;
         for (t = nInputs-1; t >=0; --t) {
 
-            cmsUInt32Number  Colorant = rest % nSamples[t];
+            cmsUInt32Number  Colorbnt = rest % nSbmples[t];
 
-            rest /= nSamples[t];
+            rest /= nSbmples[t];
 
-            In[t] = _cmsQuantizeVal(Colorant, nSamples[t]);
+            In[t] = _cmsQubntizeVbl(Colorbnt, nSbmples[t]);
         }
 
-        if (clut ->Tab.T != NULL) {
+        if (clut ->Tbb.T != NULL) {
             for (t=0; t < nOutputs; t++)
-                Out[t] = clut->Tab.T[index + t];
+                Out[t] = clut->Tbb.T[index + t];
         }
 
-        if (!Sampler(In, Out, Cargo))
+        if (!Sbmpler(In, Out, Cbrgo))
             return FALSE;
 
-        if (!(dwFlags & SAMPLER_INSPECT)) {
+        if (!(dwFlbgs & SAMPLER_INSPECT)) {
 
-            if (clut ->Tab.T != NULL) {
+            if (clut ->Tbb.T != NULL) {
                 for (t=0; t < nOutputs; t++)
-                    clut->Tab.T[index + t] = Out[t];
+                    clut->Tbb.T[index + t] = Out[t];
             }
         }
 
@@ -837,53 +837,53 @@ cmsBool CMSEXPORT cmsStageSampleCLut16bit(cmsStage* mpe, cmsSAMPLER16 Sampler, v
     return TRUE;
 }
 
-// Same as anterior, but for floting point
-cmsBool CMSEXPORT cmsStageSampleCLutFloat(cmsStage* mpe, cmsSAMPLERFLOAT Sampler, void * Cargo, cmsUInt32Number dwFlags)
+// Sbme bs bnterior, but for floting point
+cmsBool CMSEXPORT cmsStbgeSbmpleCLutFlobt(cmsStbge* mpe, cmsSAMPLERFLOAT Sbmpler, void * Cbrgo, cmsUInt32Number dwFlbgs)
 {
-    int i, t, nTotalPoints, index, rest;
+    int i, t, nTotblPoints, index, rest;
     int nInputs, nOutputs;
-    cmsUInt32Number* nSamples;
-    cmsFloat32Number In[MAX_INPUT_DIMENSIONS+1], Out[MAX_STAGE_CHANNELS];
-    _cmsStageCLutData* clut = (_cmsStageCLutData*) mpe->Data;
+    cmsUInt32Number* nSbmples;
+    cmsFlobt32Number In[MAX_INPUT_DIMENSIONS+1], Out[MAX_STAGE_CHANNELS];
+    _cmsStbgeCLutDbtb* clut = (_cmsStbgeCLutDbtb*) mpe->Dbtb;
 
-    nSamples = clut->Params ->nSamples;
-    nInputs  = clut->Params ->nInputs;
-    nOutputs = clut->Params ->nOutputs;
+    nSbmples = clut->Pbrbms ->nSbmples;
+    nInputs  = clut->Pbrbms ->nInputs;
+    nOutputs = clut->Pbrbms ->nOutputs;
 
     if (nInputs <= 0) return FALSE;
     if (nOutputs <= 0) return FALSE;
     if (nInputs  > MAX_INPUT_DIMENSIONS) return FALSE;
     if (nOutputs >= MAX_STAGE_CHANNELS) return FALSE;
 
-    nTotalPoints = CubeSize(nSamples, nInputs);
-    if (nTotalPoints == 0) return FALSE;
+    nTotblPoints = CubeSize(nSbmples, nInputs);
+    if (nTotblPoints == 0) return FALSE;
 
     index = 0;
-    for (i = 0; i < nTotalPoints; i++) {
+    for (i = 0; i < nTotblPoints; i++) {
 
         rest = i;
         for (t = nInputs-1; t >=0; --t) {
 
-            cmsUInt32Number  Colorant = rest % nSamples[t];
+            cmsUInt32Number  Colorbnt = rest % nSbmples[t];
 
-            rest /= nSamples[t];
+            rest /= nSbmples[t];
 
-            In[t] =  (cmsFloat32Number) (_cmsQuantizeVal(Colorant, nSamples[t]) / 65535.0);
+            In[t] =  (cmsFlobt32Number) (_cmsQubntizeVbl(Colorbnt, nSbmples[t]) / 65535.0);
         }
 
-        if (clut ->Tab.TFloat != NULL) {
+        if (clut ->Tbb.TFlobt != NULL) {
             for (t=0; t < nOutputs; t++)
-                Out[t] = clut->Tab.TFloat[index + t];
+                Out[t] = clut->Tbb.TFlobt[index + t];
         }
 
-        if (!Sampler(In, Out, Cargo))
+        if (!Sbmpler(In, Out, Cbrgo))
             return FALSE;
 
-        if (!(dwFlags & SAMPLER_INSPECT)) {
+        if (!(dwFlbgs & SAMPLER_INSPECT)) {
 
-            if (clut ->Tab.TFloat != NULL) {
+            if (clut ->Tbb.TFlobt != NULL) {
                 for (t=0; t < nOutputs; t++)
-                    clut->Tab.TFloat[index + t] = Out[t];
+                    clut->Tbb.TFlobt[index + t] = Out[t];
             }
         }
 
@@ -895,62 +895,62 @@ cmsBool CMSEXPORT cmsStageSampleCLutFloat(cmsStage* mpe, cmsSAMPLERFLOAT Sampler
 
 
 
-// This routine does a sweep on whole input space, and calls its callback
-// function on knots. returns TRUE if all ok, FALSE otherwise.
-cmsBool CMSEXPORT cmsSliceSpace16(cmsUInt32Number nInputs, const cmsUInt32Number clutPoints[],
-                                         cmsSAMPLER16 Sampler, void * Cargo)
+// This routine does b sweep on whole input spbce, bnd cblls its cbllbbck
+// function on knots. returns TRUE if bll ok, FALSE otherwise.
+cmsBool CMSEXPORT cmsSliceSpbce16(cmsUInt32Number nInputs, const cmsUInt32Number clutPoints[],
+                                         cmsSAMPLER16 Sbmpler, void * Cbrgo)
 {
-    int i, t, nTotalPoints, rest;
+    int i, t, nTotblPoints, rest;
     cmsUInt16Number In[cmsMAXCHANNELS];
 
     if (nInputs >= cmsMAXCHANNELS) return FALSE;
 
-    nTotalPoints = CubeSize(clutPoints, nInputs);
-    if (nTotalPoints == 0) return FALSE;
+    nTotblPoints = CubeSize(clutPoints, nInputs);
+    if (nTotblPoints == 0) return FALSE;
 
-    for (i = 0; i < nTotalPoints; i++) {
+    for (i = 0; i < nTotblPoints; i++) {
 
         rest = i;
         for (t = nInputs-1; t >=0; --t) {
 
-            cmsUInt32Number  Colorant = rest % clutPoints[t];
+            cmsUInt32Number  Colorbnt = rest % clutPoints[t];
 
             rest /= clutPoints[t];
-            In[t] = _cmsQuantizeVal(Colorant, clutPoints[t]);
+            In[t] = _cmsQubntizeVbl(Colorbnt, clutPoints[t]);
 
         }
 
-        if (!Sampler(In, NULL, Cargo))
+        if (!Sbmpler(In, NULL, Cbrgo))
             return FALSE;
     }
 
     return TRUE;
 }
 
-cmsInt32Number CMSEXPORT cmsSliceSpaceFloat(cmsUInt32Number nInputs, const cmsUInt32Number clutPoints[],
-                                            cmsSAMPLERFLOAT Sampler, void * Cargo)
+cmsInt32Number CMSEXPORT cmsSliceSpbceFlobt(cmsUInt32Number nInputs, const cmsUInt32Number clutPoints[],
+                                            cmsSAMPLERFLOAT Sbmpler, void * Cbrgo)
 {
-    int i, t, nTotalPoints, rest;
-    cmsFloat32Number In[cmsMAXCHANNELS];
+    int i, t, nTotblPoints, rest;
+    cmsFlobt32Number In[cmsMAXCHANNELS];
 
     if (nInputs >= cmsMAXCHANNELS) return FALSE;
 
-    nTotalPoints = CubeSize(clutPoints, nInputs);
-    if (nTotalPoints == 0) return FALSE;
+    nTotblPoints = CubeSize(clutPoints, nInputs);
+    if (nTotblPoints == 0) return FALSE;
 
-    for (i = 0; i < nTotalPoints; i++) {
+    for (i = 0; i < nTotblPoints; i++) {
 
         rest = i;
         for (t = nInputs-1; t >=0; --t) {
 
-            cmsUInt32Number  Colorant = rest % clutPoints[t];
+            cmsUInt32Number  Colorbnt = rest % clutPoints[t];
 
             rest /= clutPoints[t];
-            In[t] =  (cmsFloat32Number) (_cmsQuantizeVal(Colorant, clutPoints[t]) / 65535.0);
+            In[t] =  (cmsFlobt32Number) (_cmsQubntizeVbl(Colorbnt, clutPoints[t]) / 65535.0);
 
         }
 
-        if (!Sampler(In, NULL, Cargo))
+        if (!Sbmpler(In, NULL, Cbrgo))
             return FALSE;
     }
 
@@ -958,258 +958,258 @@ cmsInt32Number CMSEXPORT cmsSliceSpaceFloat(cmsUInt32Number nInputs, const cmsUI
 }
 
 // ********************************************************************************
-// Type cmsSigLab2XYZElemType
+// Type cmsSigLbb2XYZElemType
 // ********************************************************************************
 
 
-static
-void EvaluateLab2XYZ(const cmsFloat32Number In[],
-                     cmsFloat32Number Out[],
-                     const cmsStage *mpe)
+stbtic
+void EvblubteLbb2XYZ(const cmsFlobt32Number In[],
+                     cmsFlobt32Number Out[],
+                     const cmsStbge *mpe)
 {
-    cmsCIELab Lab;
+    cmsCIELbb Lbb;
     cmsCIEXYZ XYZ;
-    const cmsFloat64Number XYZadj = MAX_ENCODEABLE_XYZ;
+    const cmsFlobt64Number XYZbdj = MAX_ENCODEABLE_XYZ;
 
     // V4 rules
-    Lab.L = In[0] * 100.0;
-    Lab.a = In[1] * 255.0 - 128.0;
-    Lab.b = In[2] * 255.0 - 128.0;
+    Lbb.L = In[0] * 100.0;
+    Lbb.b = In[1] * 255.0 - 128.0;
+    Lbb.b = In[2] * 255.0 - 128.0;
 
-    cmsLab2XYZ(NULL, &XYZ, &Lab);
+    cmsLbb2XYZ(NULL, &XYZ, &Lbb);
 
-    // From XYZ, range 0..19997 to 0..1.0, note that 1.99997 comes from 0xffff
-    // encoded as 1.15 fixed point, so 1 + (32767.0 / 32768.0)
+    // From XYZ, rbnge 0..19997 to 0..1.0, note thbt 1.99997 comes from 0xffff
+    // encoded bs 1.15 fixed point, so 1 + (32767.0 / 32768.0)
 
-    Out[0] = (cmsFloat32Number) ((cmsFloat64Number) XYZ.X / XYZadj);
-    Out[1] = (cmsFloat32Number) ((cmsFloat64Number) XYZ.Y / XYZadj);
-    Out[2] = (cmsFloat32Number) ((cmsFloat64Number) XYZ.Z / XYZadj);
+    Out[0] = (cmsFlobt32Number) ((cmsFlobt64Number) XYZ.X / XYZbdj);
+    Out[1] = (cmsFlobt32Number) ((cmsFlobt64Number) XYZ.Y / XYZbdj);
+    Out[2] = (cmsFlobt32Number) ((cmsFlobt64Number) XYZ.Z / XYZbdj);
     return;
 
     cmsUNUSED_PARAMETER(mpe);
 }
 
 
-// No dup or free routines needed, as the structure has no pointers in it.
-cmsStage* _cmsStageAllocLab2XYZ(cmsContext ContextID)
+// No dup or free routines needed, bs the structure hbs no pointers in it.
+cmsStbge* _cmsStbgeAllocLbb2XYZ(cmsContext ContextID)
 {
-    return _cmsStageAllocPlaceholder(ContextID, cmsSigLab2XYZElemType, 3, 3, EvaluateLab2XYZ, NULL, NULL, NULL);
+    return _cmsStbgeAllocPlbceholder(ContextID, cmsSigLbb2XYZElemType, 3, 3, EvblubteLbb2XYZ, NULL, NULL, NULL);
 }
 
 // ********************************************************************************
 
-// v2 L=100 is supposed to be placed on 0xFF00. There is no reasonable
-// number of gridpoints that would make exact match. However, a prelinearization
-// of 258 entries, would map 0xFF00 exactly on entry 257, and this is good to avoid scum dot.
-// Almost all what we need but unfortunately, the rest of entries should be scaled by
-// (255*257/256) and this is not exact.
+// v2 L=100 is supposed to be plbced on 0xFF00. There is no rebsonbble
+// number of gridpoints thbt would mbke exbct mbtch. However, b prelinebrizbtion
+// of 258 entries, would mbp 0xFF00 exbctly on entry 257, bnd this is good to bvoid scum dot.
+// Almost bll whbt we need but unfortunbtely, the rest of entries should be scbled by
+// (255*257/256) bnd this is not exbct.
 
-cmsStage* _cmsStageAllocLabV2ToV4curves(cmsContext ContextID)
+cmsStbge* _cmsStbgeAllocLbbV2ToV4curves(cmsContext ContextID)
 {
-    cmsStage* mpe;
-    cmsToneCurve* LabTable[3];
+    cmsStbge* mpe;
+    cmsToneCurve* LbbTbble[3];
     int i, j;
 
-    LabTable[0] = cmsBuildTabulatedToneCurve16(ContextID, 258, NULL);
-    LabTable[1] = cmsBuildTabulatedToneCurve16(ContextID, 258, NULL);
-    LabTable[2] = cmsBuildTabulatedToneCurve16(ContextID, 258, NULL);
+    LbbTbble[0] = cmsBuildTbbulbtedToneCurve16(ContextID, 258, NULL);
+    LbbTbble[1] = cmsBuildTbbulbtedToneCurve16(ContextID, 258, NULL);
+    LbbTbble[2] = cmsBuildTbbulbtedToneCurve16(ContextID, 258, NULL);
 
     for (j=0; j < 3; j++) {
 
-        if (LabTable[j] == NULL) {
-            cmsFreeToneCurveTriple(LabTable);
+        if (LbbTbble[j] == NULL) {
+            cmsFreeToneCurveTriple(LbbTbble);
             return NULL;
         }
 
-        // We need to map * (0xffff / 0xff00), thats same as (257 / 256)
-        // So we can use 258-entry tables to do the trick (i / 257) * (255 * 257) * (257 / 256);
+        // We need to mbp * (0xffff / 0xff00), thbts sbme bs (257 / 256)
+        // So we cbn use 258-entry tbbles to do the trick (i / 257) * (255 * 257) * (257 / 256);
         for (i=0; i < 257; i++)  {
 
-            LabTable[j]->Table16[i] = (cmsUInt16Number) ((i * 0xffff + 0x80) >> 8);
+            LbbTbble[j]->Tbble16[i] = (cmsUInt16Number) ((i * 0xffff + 0x80) >> 8);
         }
 
-        LabTable[j] ->Table16[257] = 0xffff;
+        LbbTbble[j] ->Tbble16[257] = 0xffff;
     }
 
-    mpe = cmsStageAllocToneCurves(ContextID, 3, LabTable);
-    cmsFreeToneCurveTriple(LabTable);
+    mpe = cmsStbgeAllocToneCurves(ContextID, 3, LbbTbble);
+    cmsFreeToneCurveTriple(LbbTbble);
 
     if (mpe == NULL) return NULL;
-    mpe ->Implements = cmsSigLabV2toV4;
+    mpe ->Implements = cmsSigLbbV2toV4;
     return mpe;
 }
 
 // ********************************************************************************
 
-// Matrix-based conversion, which is more accurate, but slower and cannot properly be saved in devicelink profiles
-cmsStage* _cmsStageAllocLabV2ToV4(cmsContext ContextID)
+// Mbtrix-bbsed conversion, which is more bccurbte, but slower bnd cbnnot properly be sbved in devicelink profiles
+cmsStbge* _cmsStbgeAllocLbbV2ToV4(cmsContext ContextID)
 {
-    static const cmsFloat64Number V2ToV4[] = { 65535.0/65280.0, 0, 0,
+    stbtic const cmsFlobt64Number V2ToV4[] = { 65535.0/65280.0, 0, 0,
                                      0, 65535.0/65280.0, 0,
                                      0, 0, 65535.0/65280.0
                                      };
 
-    cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, V2ToV4, NULL);
+    cmsStbge *mpe = cmsStbgeAllocMbtrix(ContextID, 3, 3, V2ToV4, NULL);
 
     if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigLabV2toV4;
+    mpe ->Implements = cmsSigLbbV2toV4;
     return mpe;
 }
 
 
 // Reverse direction
-cmsStage* _cmsStageAllocLabV4ToV2(cmsContext ContextID)
+cmsStbge* _cmsStbgeAllocLbbV4ToV2(cmsContext ContextID)
 {
-    static const cmsFloat64Number V4ToV2[] = { 65280.0/65535.0, 0, 0,
+    stbtic const cmsFlobt64Number V4ToV2[] = { 65280.0/65535.0, 0, 0,
                                      0, 65280.0/65535.0, 0,
                                      0, 0, 65280.0/65535.0
                                      };
 
-     cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, V4ToV2, NULL);
+     cmsStbge *mpe = cmsStbgeAllocMbtrix(ContextID, 3, 3, V4ToV2, NULL);
 
     if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigLabV4toV2;
+    mpe ->Implements = cmsSigLbbV4toV2;
     return mpe;
 }
 
 
-// To Lab to float. Note that the MPE gives numbers in normal Lab range
-// and we need 0..1.0 range for the formatters
+// To Lbb to flobt. Note thbt the MPE gives numbers in normbl Lbb rbnge
+// bnd we need 0..1.0 rbnge for the formbtters
 // L* : 0...100 => 0...1.0  (L* / 100)
-// ab* : -128..+127 to 0..1  ((ab* + 128) / 255)
+// bb* : -128..+127 to 0..1  ((bb* + 128) / 255)
 
-cmsStage* _cmsStageNormalizeFromLabFloat(cmsContext ContextID)
+cmsStbge* _cmsStbgeNormblizeFromLbbFlobt(cmsContext ContextID)
 {
-    static const cmsFloat64Number a1[] = {
+    stbtic const cmsFlobt64Number b1[] = {
         1.0/100.0, 0, 0,
         0, 1.0/255.0, 0,
         0, 0, 1.0/255.0
     };
 
-    static const cmsFloat64Number o1[] = {
+    stbtic const cmsFlobt64Number o1[] = {
         0,
         128.0/255.0,
         128.0/255.0
     };
 
-    cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
+    cmsStbge *mpe = cmsStbgeAllocMbtrix(ContextID, 3, 3, b1, o1);
 
     if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigLab2FloatPCS;
+    mpe ->Implements = cmsSigLbb2FlobtPCS;
     return mpe;
 }
 
-// Fom XYZ to floating point PCS
-cmsStage* _cmsStageNormalizeFromXyzFloat(cmsContext ContextID)
+// Fom XYZ to flobting point PCS
+cmsStbge* _cmsStbgeNormblizeFromXyzFlobt(cmsContext ContextID)
 {
 #define n (32768.0/65535.0)
-    static const cmsFloat64Number a1[] = {
+    stbtic const cmsFlobt64Number b1[] = {
         n, 0, 0,
         0, n, 0,
         0, 0, n
     };
 #undef n
 
-    cmsStage *mpe =  cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
+    cmsStbge *mpe =  cmsStbgeAllocMbtrix(ContextID, 3, 3, b1, NULL);
 
     if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigXYZ2FloatPCS;
+    mpe ->Implements = cmsSigXYZ2FlobtPCS;
     return mpe;
 }
 
-cmsStage* _cmsStageNormalizeToLabFloat(cmsContext ContextID)
+cmsStbge* _cmsStbgeNormblizeToLbbFlobt(cmsContext ContextID)
 {
-    static const cmsFloat64Number a1[] = {
+    stbtic const cmsFlobt64Number b1[] = {
         100.0, 0, 0,
         0, 255.0, 0,
         0, 0, 255.0
     };
 
-    static const cmsFloat64Number o1[] = {
+    stbtic const cmsFlobt64Number o1[] = {
         0,
         -128.0,
         -128.0
     };
 
-    cmsStage *mpe =  cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
+    cmsStbge *mpe =  cmsStbgeAllocMbtrix(ContextID, 3, 3, b1, o1);
     if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigFloatPCS2Lab;
+    mpe ->Implements = cmsSigFlobtPCS2Lbb;
     return mpe;
 }
 
-cmsStage* _cmsStageNormalizeToXyzFloat(cmsContext ContextID)
+cmsStbge* _cmsStbgeNormblizeToXyzFlobt(cmsContext ContextID)
 {
 #define n (65535.0/32768.0)
 
-    static const cmsFloat64Number a1[] = {
+    stbtic const cmsFlobt64Number b1[] = {
         n, 0, 0,
         0, n, 0,
         0, 0, n
     };
 #undef n
 
-    cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
+    cmsStbge *mpe = cmsStbgeAllocMbtrix(ContextID, 3, 3, b1, NULL);
     if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigFloatPCS2XYZ;
+    mpe ->Implements = cmsSigFlobtPCS2XYZ;
     return mpe;
 }
 
 
 
 // ********************************************************************************
-// Type cmsSigXYZ2LabElemType
+// Type cmsSigXYZ2LbbElemType
 // ********************************************************************************
 
-static
-void EvaluateXYZ2Lab(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
+stbtic
+void EvblubteXYZ2Lbb(const cmsFlobt32Number In[], cmsFlobt32Number Out[], const cmsStbge *mpe)
 {
-    cmsCIELab Lab;
+    cmsCIELbb Lbb;
     cmsCIEXYZ XYZ;
-    const cmsFloat64Number XYZadj = MAX_ENCODEABLE_XYZ;
+    const cmsFlobt64Number XYZbdj = MAX_ENCODEABLE_XYZ;
 
     // From 0..1.0 to XYZ
 
-    XYZ.X = In[0] * XYZadj;
-    XYZ.Y = In[1] * XYZadj;
-    XYZ.Z = In[2] * XYZadj;
+    XYZ.X = In[0] * XYZbdj;
+    XYZ.Y = In[1] * XYZbdj;
+    XYZ.Z = In[2] * XYZbdj;
 
-    cmsXYZ2Lab(NULL, &Lab, &XYZ);
+    cmsXYZ2Lbb(NULL, &Lbb, &XYZ);
 
-    // From V4 Lab to 0..1.0
+    // From V4 Lbb to 0..1.0
 
-    Out[0] = (cmsFloat32Number) (Lab.L / 100.0);
-    Out[1] = (cmsFloat32Number) ((Lab.a + 128.0) / 255.0);
-    Out[2] = (cmsFloat32Number) ((Lab.b + 128.0) / 255.0);
+    Out[0] = (cmsFlobt32Number) (Lbb.L / 100.0);
+    Out[1] = (cmsFlobt32Number) ((Lbb.b + 128.0) / 255.0);
+    Out[2] = (cmsFlobt32Number) ((Lbb.b + 128.0) / 255.0);
     return;
 
     cmsUNUSED_PARAMETER(mpe);
 }
 
-cmsStage* _cmsStageAllocXYZ2Lab(cmsContext ContextID)
+cmsStbge* _cmsStbgeAllocXYZ2Lbb(cmsContext ContextID)
 {
-    return _cmsStageAllocPlaceholder(ContextID, cmsSigXYZ2LabElemType, 3, 3, EvaluateXYZ2Lab, NULL, NULL, NULL);
+    return _cmsStbgeAllocPlbceholder(ContextID, cmsSigXYZ2LbbElemType, 3, 3, EvblubteXYZ2Lbb, NULL, NULL, NULL);
 
 }
 
 // ********************************************************************************
 
-// For v4, S-Shaped curves are placed in a/b axis to increase resolution near gray
+// For v4, S-Shbped curves bre plbced in b/b bxis to increbse resolution nebr grby
 
-cmsStage* _cmsStageAllocLabPrelin(cmsContext ContextID)
+cmsStbge* _cmsStbgeAllocLbbPrelin(cmsContext ContextID)
 {
-    cmsToneCurve* LabTable[3];
-    cmsFloat64Number Params[1] =  {2.4} ;
+    cmsToneCurve* LbbTbble[3];
+    cmsFlobt64Number Pbrbms[1] =  {2.4} ;
 
-    LabTable[0] = cmsBuildGamma(ContextID, 1.0);
-    LabTable[1] = cmsBuildParametricToneCurve(ContextID, 108, Params);
-    LabTable[2] = cmsBuildParametricToneCurve(ContextID, 108, Params);
+    LbbTbble[0] = cmsBuildGbmmb(ContextID, 1.0);
+    LbbTbble[1] = cmsBuildPbrbmetricToneCurve(ContextID, 108, Pbrbms);
+    LbbTbble[2] = cmsBuildPbrbmetricToneCurve(ContextID, 108, Pbrbms);
 
-    return cmsStageAllocToneCurves(ContextID, 3, LabTable);
+    return cmsStbgeAllocToneCurves(ContextID, 3, LbbTbble);
 }
 
 
-// Free a single MPE
-void CMSEXPORT cmsStageFree(cmsStage* mpe)
+// Free b single MPE
+void CMSEXPORT cmsStbgeFree(cmsStbge* mpe)
 {
     if (mpe ->FreePtr)
         mpe ->FreePtr(mpe);
@@ -1218,43 +1218,43 @@ void CMSEXPORT cmsStageFree(cmsStage* mpe)
 }
 
 
-cmsUInt32Number  CMSEXPORT cmsStageInputChannels(const cmsStage* mpe)
+cmsUInt32Number  CMSEXPORT cmsStbgeInputChbnnels(const cmsStbge* mpe)
 {
-    return mpe ->InputChannels;
+    return mpe ->InputChbnnels;
 }
 
-cmsUInt32Number  CMSEXPORT cmsStageOutputChannels(const cmsStage* mpe)
+cmsUInt32Number  CMSEXPORT cmsStbgeOutputChbnnels(const cmsStbge* mpe)
 {
-    return mpe ->OutputChannels;
+    return mpe ->OutputChbnnels;
 }
 
-cmsStageSignature CMSEXPORT cmsStageType(const cmsStage* mpe)
+cmsStbgeSignbture CMSEXPORT cmsStbgeType(const cmsStbge* mpe)
 {
     return mpe -> Type;
 }
 
-void* CMSEXPORT cmsStageData(const cmsStage* mpe)
+void* CMSEXPORT cmsStbgeDbtb(const cmsStbge* mpe)
 {
-    return mpe -> Data;
+    return mpe -> Dbtb;
 }
 
-cmsStage*  CMSEXPORT cmsStageNext(const cmsStage* mpe)
+cmsStbge*  CMSEXPORT cmsStbgeNext(const cmsStbge* mpe)
 {
     return mpe -> Next;
 }
 
 
-// Duplicates an MPE
-cmsStage* CMSEXPORT cmsStageDup(cmsStage* mpe)
+// Duplicbtes bn MPE
+cmsStbge* CMSEXPORT cmsStbgeDup(cmsStbge* mpe)
 {
-    cmsStage* NewMPE;
+    cmsStbge* NewMPE;
 
     if (mpe == NULL) return NULL;
-    NewMPE = _cmsStageAllocPlaceholder(mpe ->ContextID,
+    NewMPE = _cmsStbgeAllocPlbceholder(mpe ->ContextID,
                                      mpe ->Type,
-                                     mpe ->InputChannels,
-                                     mpe ->OutputChannels,
-                                     mpe ->EvalPtr,
+                                     mpe ->InputChbnnels,
+                                     mpe ->OutputChbnnels,
+                                     mpe ->EvblPtr,
                                      mpe ->DupElemPtr,
                                      mpe ->FreePtr,
                                      NULL);
@@ -1264,17 +1264,17 @@ cmsStage* CMSEXPORT cmsStageDup(cmsStage* mpe)
 
     if (mpe ->DupElemPtr) {
 
-        NewMPE ->Data = mpe ->DupElemPtr(mpe);
+        NewMPE ->Dbtb = mpe ->DupElemPtr(mpe);
 
-        if (NewMPE->Data == NULL) {
+        if (NewMPE->Dbtb == NULL) {
 
-            cmsStageFree(NewMPE);
+            cmsStbgeFree(NewMPE);
             return NULL;
         }
 
     } else {
 
-        NewMPE ->Data       = NULL;
+        NewMPE ->Dbtb       = NULL;
     }
 
     return NewMPE;
@@ -1283,98 +1283,98 @@ cmsStage* CMSEXPORT cmsStageDup(cmsStage* mpe)
 
 // ***********************************************************************************************************
 
-// This function sets up the channel count
+// This function sets up the chbnnel count
 
-static
+stbtic
 void BlessLUT(cmsPipeline* lut)
 {
-    // We can set the input/ouput channels only if we have elements.
+    // We cbn set the input/ouput chbnnels only if we hbve elements.
     if (lut ->Elements != NULL) {
 
-        cmsStage *First, *Last;
+        cmsStbge *First, *Lbst;
 
-        First  = cmsPipelineGetPtrToFirstStage(lut);
-        Last   = cmsPipelineGetPtrToLastStage(lut);
+        First  = cmsPipelineGetPtrToFirstStbge(lut);
+        Lbst   = cmsPipelineGetPtrToLbstStbge(lut);
 
-        if (First != NULL)lut ->InputChannels = First ->InputChannels;
-        if (Last != NULL) lut ->OutputChannels = Last ->OutputChannels;
+        if (First != NULL)lut ->InputChbnnels = First ->InputChbnnels;
+        if (Lbst != NULL) lut ->OutputChbnnels = Lbst ->OutputChbnnels;
     }
 }
 
 
-// Default to evaluate the LUT on 16 bit-basis. Precision is retained.
-static
-void _LUTeval16(register const cmsUInt16Number In[], register cmsUInt16Number Out[],  register const void* D)
+// Defbult to evblubte the LUT on 16 bit-bbsis. Precision is retbined.
+stbtic
+void _LUTevbl16(register const cmsUInt16Number In[], register cmsUInt16Number Out[],  register const void* D)
 {
     cmsPipeline* lut = (cmsPipeline*) D;
-    cmsStage *mpe;
-    cmsFloat32Number Storage[2][MAX_STAGE_CHANNELS];
-    int Phase = 0, NextPhase;
+    cmsStbge *mpe;
+    cmsFlobt32Number Storbge[2][MAX_STAGE_CHANNELS];
+    int Phbse = 0, NextPhbse;
 
-    From16ToFloat(In, &Storage[Phase][0], lut ->InputChannels);
+    From16ToFlobt(In, &Storbge[Phbse][0], lut ->InputChbnnels);
 
     for (mpe = lut ->Elements;
          mpe != NULL;
          mpe = mpe ->Next) {
 
-             NextPhase = Phase ^ 1;
-             mpe ->EvalPtr(&Storage[Phase][0], &Storage[NextPhase][0], mpe);
-             Phase = NextPhase;
+             NextPhbse = Phbse ^ 1;
+             mpe ->EvblPtr(&Storbge[Phbse][0], &Storbge[NextPhbse][0], mpe);
+             Phbse = NextPhbse;
     }
 
 
-    FromFloatTo16(&Storage[Phase][0], Out, lut ->OutputChannels);
+    FromFlobtTo16(&Storbge[Phbse][0], Out, lut ->OutputChbnnels);
 }
 
 
 
-// Does evaluate the LUT on cmsFloat32Number-basis.
-static
-void _LUTevalFloat(register const cmsFloat32Number In[], register cmsFloat32Number Out[], const void* D)
+// Does evblubte the LUT on cmsFlobt32Number-bbsis.
+stbtic
+void _LUTevblFlobt(register const cmsFlobt32Number In[], register cmsFlobt32Number Out[], const void* D)
 {
     cmsPipeline* lut = (cmsPipeline*) D;
-    cmsStage *mpe;
-    cmsFloat32Number Storage[2][MAX_STAGE_CHANNELS];
-    int Phase = 0, NextPhase;
+    cmsStbge *mpe;
+    cmsFlobt32Number Storbge[2][MAX_STAGE_CHANNELS];
+    int Phbse = 0, NextPhbse;
 
-    memmove(&Storage[Phase][0], In, lut ->InputChannels  * sizeof(cmsFloat32Number));
+    memmove(&Storbge[Phbse][0], In, lut ->InputChbnnels  * sizeof(cmsFlobt32Number));
 
     for (mpe = lut ->Elements;
          mpe != NULL;
          mpe = mpe ->Next) {
 
-              NextPhase = Phase ^ 1;
-              mpe ->EvalPtr(&Storage[Phase][0], &Storage[NextPhase][0], mpe);
-              Phase = NextPhase;
+              NextPhbse = Phbse ^ 1;
+              mpe ->EvblPtr(&Storbge[Phbse][0], &Storbge[NextPhbse][0], mpe);
+              Phbse = NextPhbse;
     }
 
-    memmove(Out, &Storage[Phase][0], lut ->OutputChannels * sizeof(cmsFloat32Number));
+    memmove(Out, &Storbge[Phbse][0], lut ->OutputChbnnels * sizeof(cmsFlobt32Number));
 }
 
 
 
 
-// LUT Creation & Destruction
+// LUT Crebtion & Destruction
 
-cmsPipeline* CMSEXPORT cmsPipelineAlloc(cmsContext ContextID, cmsUInt32Number InputChannels, cmsUInt32Number OutputChannels)
+cmsPipeline* CMSEXPORT cmsPipelineAlloc(cmsContext ContextID, cmsUInt32Number InputChbnnels, cmsUInt32Number OutputChbnnels)
 {
        cmsPipeline* NewLUT;
 
-       if (InputChannels >= cmsMAXCHANNELS ||
-           OutputChannels >= cmsMAXCHANNELS) return NULL;
+       if (InputChbnnels >= cmsMAXCHANNELS ||
+           OutputChbnnels >= cmsMAXCHANNELS) return NULL;
 
-       NewLUT = (cmsPipeline*) _cmsMallocZero(ContextID, sizeof(cmsPipeline));
+       NewLUT = (cmsPipeline*) _cmsMbllocZero(ContextID, sizeof(cmsPipeline));
        if (NewLUT == NULL) return NULL;
 
 
-       NewLUT -> InputChannels  = InputChannels;
-       NewLUT -> OutputChannels = OutputChannels;
+       NewLUT -> InputChbnnels  = InputChbnnels;
+       NewLUT -> OutputChbnnels = OutputChbnnels;
 
-       NewLUT ->Eval16Fn    = _LUTeval16;
-       NewLUT ->EvalFloatFn = _LUTevalFloat;
-       NewLUT ->DupDataFn   = NULL;
-       NewLUT ->FreeDataFn  = NULL;
-       NewLUT ->Data        = NewLUT;
+       NewLUT ->Evbl16Fn    = _LUTevbl16;
+       NewLUT ->EvblFlobtFn = _LUTevblFlobt;
+       NewLUT ->DupDbtbFn   = NULL;
+       NewLUT ->FreeDbtbFn  = NULL;
+       NewLUT ->Dbtb        = NewLUT;
        NewLUT ->ContextID   = ContextID;
 
        BlessLUT(NewLUT);
@@ -1388,22 +1388,22 @@ cmsContext CMSEXPORT cmsGetPipelineContextID(const cmsPipeline* lut)
     return lut ->ContextID;
 }
 
-cmsUInt32Number CMSEXPORT cmsPipelineInputChannels(const cmsPipeline* lut)
+cmsUInt32Number CMSEXPORT cmsPipelineInputChbnnels(const cmsPipeline* lut)
 {
     _cmsAssert(lut != NULL);
-    return lut ->InputChannels;
+    return lut ->InputChbnnels;
 }
 
-cmsUInt32Number CMSEXPORT cmsPipelineOutputChannels(const cmsPipeline* lut)
+cmsUInt32Number CMSEXPORT cmsPipelineOutputChbnnels(const cmsPipeline* lut)
 {
     _cmsAssert(lut != NULL);
-    return lut ->OutputChannels;
+    return lut ->OutputChbnnels;
 }
 
-// Free a profile elements LUT
+// Free b profile elements LUT
 void CMSEXPORT cmsPipelineFree(cmsPipeline* lut)
 {
-    cmsStage *mpe, *Next;
+    cmsStbge *mpe, *Next;
 
     if (lut == NULL) return;
 
@@ -1412,49 +1412,49 @@ void CMSEXPORT cmsPipelineFree(cmsPipeline* lut)
         mpe = Next) {
 
             Next = mpe ->Next;
-            cmsStageFree(mpe);
+            cmsStbgeFree(mpe);
     }
 
-    if (lut ->FreeDataFn) lut ->FreeDataFn(lut ->ContextID, lut ->Data);
+    if (lut ->FreeDbtbFn) lut ->FreeDbtbFn(lut ->ContextID, lut ->Dbtb);
 
     _cmsFree(lut ->ContextID, lut);
 }
 
 
-// Default to evaluate the LUT on 16 bit-basis.
-void CMSEXPORT cmsPipelineEval16(const cmsUInt16Number In[], cmsUInt16Number Out[],  const cmsPipeline* lut)
+// Defbult to evblubte the LUT on 16 bit-bbsis.
+void CMSEXPORT cmsPipelineEvbl16(const cmsUInt16Number In[], cmsUInt16Number Out[],  const cmsPipeline* lut)
 {
     _cmsAssert(lut != NULL);
-    lut ->Eval16Fn(In, Out, lut->Data);
+    lut ->Evbl16Fn(In, Out, lut->Dbtb);
 }
 
 
-// Does evaluate the LUT on cmsFloat32Number-basis.
-void CMSEXPORT cmsPipelineEvalFloat(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsPipeline* lut)
+// Does evblubte the LUT on cmsFlobt32Number-bbsis.
+void CMSEXPORT cmsPipelineEvblFlobt(const cmsFlobt32Number In[], cmsFlobt32Number Out[], const cmsPipeline* lut)
 {
     _cmsAssert(lut != NULL);
-    lut ->EvalFloatFn(In, Out, lut);
+    lut ->EvblFlobtFn(In, Out, lut);
 }
 
 
 
-// Duplicates a LUT
+// Duplicbtes b LUT
 cmsPipeline* CMSEXPORT cmsPipelineDup(const cmsPipeline* lut)
 {
     cmsPipeline* NewLUT;
-    cmsStage *NewMPE, *Anterior = NULL, *mpe;
+    cmsStbge *NewMPE, *Anterior = NULL, *mpe;
     cmsBool  First = TRUE;
 
     if (lut == NULL) return NULL;
 
-    NewLUT = cmsPipelineAlloc(lut ->ContextID, lut ->InputChannels, lut ->OutputChannels);
+    NewLUT = cmsPipelineAlloc(lut ->ContextID, lut ->InputChbnnels, lut ->OutputChbnnels);
     if (NewLUT == NULL) return NULL;
 
     for (mpe = lut ->Elements;
          mpe != NULL;
          mpe = mpe ->Next) {
 
-             NewMPE = cmsStageDup(mpe);
+             NewMPE = cmsStbgeDup(mpe);
 
              if (NewMPE == NULL) {
                  cmsPipelineFree(NewLUT);
@@ -1472,37 +1472,37 @@ cmsPipeline* CMSEXPORT cmsPipelineDup(const cmsPipeline* lut)
             Anterior = NewMPE;
     }
 
-    NewLUT ->Eval16Fn    = lut ->Eval16Fn;
-    NewLUT ->EvalFloatFn = lut ->EvalFloatFn;
-    NewLUT ->DupDataFn   = lut ->DupDataFn;
-    NewLUT ->FreeDataFn  = lut ->FreeDataFn;
+    NewLUT ->Evbl16Fn    = lut ->Evbl16Fn;
+    NewLUT ->EvblFlobtFn = lut ->EvblFlobtFn;
+    NewLUT ->DupDbtbFn   = lut ->DupDbtbFn;
+    NewLUT ->FreeDbtbFn  = lut ->FreeDbtbFn;
 
-    if (NewLUT ->DupDataFn != NULL)
-        NewLUT ->Data = NewLUT ->DupDataFn(lut ->ContextID, lut->Data);
+    if (NewLUT ->DupDbtbFn != NULL)
+        NewLUT ->Dbtb = NewLUT ->DupDbtbFn(lut ->ContextID, lut->Dbtb);
 
 
-    NewLUT ->SaveAs8Bits    = lut ->SaveAs8Bits;
+    NewLUT ->SbveAs8Bits    = lut ->SbveAs8Bits;
 
     BlessLUT(NewLUT);
     return NewLUT;
 }
 
 
-int CMSEXPORT cmsPipelineInsertStage(cmsPipeline* lut, cmsStageLoc loc, cmsStage* mpe)
+int CMSEXPORT cmsPipelineInsertStbge(cmsPipeline* lut, cmsStbgeLoc loc, cmsStbge* mpe)
 {
-    cmsStage* Anterior = NULL, *pt;
+    cmsStbge* Anterior = NULL, *pt;
 
     if (lut == NULL || mpe == NULL)
         return FALSE;
 
     switch (loc) {
 
-        case cmsAT_BEGIN:
+        cbse cmsAT_BEGIN:
             mpe ->Next = lut ->Elements;
             lut ->Elements = mpe;
-            break;
+            brebk;
 
-        case cmsAT_END:
+        cbse cmsAT_END:
 
             if (lut ->Elements == NULL)
                 lut ->Elements = mpe;
@@ -1515,8 +1515,8 @@ int CMSEXPORT cmsPipelineInsertStage(cmsPipeline* lut, cmsStageLoc loc, cmsStage
                 Anterior ->Next = mpe;
                 mpe ->Next = NULL;
             }
-            break;
-        default:;
+            brebk;
+        defbult:;
             return FALSE;
     }
 
@@ -1524,11 +1524,11 @@ int CMSEXPORT cmsPipelineInsertStage(cmsPipeline* lut, cmsStageLoc loc, cmsStage
     return TRUE;
 }
 
-// Unlink an element and return the pointer to it
-void CMSEXPORT cmsPipelineUnlinkStage(cmsPipeline* lut, cmsStageLoc loc, cmsStage** mpe)
+// Unlink bn element bnd return the pointer to it
+void CMSEXPORT cmsPipelineUnlinkStbge(cmsPipeline* lut, cmsStbgeLoc loc, cmsStbge** mpe)
 {
-    cmsStage *Anterior, *pt, *Last;
-    cmsStage *Unlinked = NULL;
+    cmsStbge *Anterior, *pt, *Lbst;
+    cmsStbge *Unlinked = NULL;
 
 
     // If empty LUT, there is nothing to remove
@@ -1537,68 +1537,68 @@ void CMSEXPORT cmsPipelineUnlinkStage(cmsPipeline* lut, cmsStageLoc loc, cmsStag
         return;
     }
 
-    // On depending on the strategy...
+    // On depending on the strbtegy...
     switch (loc) {
 
-        case cmsAT_BEGIN:
+        cbse cmsAT_BEGIN:
             {
-                cmsStage* elem = lut ->Elements;
+                cmsStbge* elem = lut ->Elements;
 
                 lut ->Elements = elem -> Next;
                 elem ->Next = NULL;
                 Unlinked = elem;
 
             }
-            break;
+            brebk;
 
-        case cmsAT_END:
-            Anterior = Last = NULL;
+        cbse cmsAT_END:
+            Anterior = Lbst = NULL;
             for (pt = lut ->Elements;
                 pt != NULL;
                 pt = pt -> Next) {
-                    Anterior = Last;
-                    Last = pt;
+                    Anterior = Lbst;
+                    Lbst = pt;
             }
 
-            Unlinked = Last;  // Next already points to NULL
+            Unlinked = Lbst;  // Next blrebdy points to NULL
 
-            // Truncate the chain
+            // Truncbte the chbin
             if (Anterior)
                 Anterior ->Next = NULL;
             else
                 lut ->Elements = NULL;
-            break;
-        default:;
+            brebk;
+        defbult:;
     }
 
     if (mpe)
         *mpe = Unlinked;
     else
-        cmsStageFree(Unlinked);
+        cmsStbgeFree(Unlinked);
 
     BlessLUT(lut);
 }
 
 
-// Concatenate two LUT into a new single one
-cmsBool  CMSEXPORT cmsPipelineCat(cmsPipeline* l1, const cmsPipeline* l2)
+// Concbtenbte two LUT into b new single one
+cmsBool  CMSEXPORT cmsPipelineCbt(cmsPipeline* l1, const cmsPipeline* l2)
 {
-    cmsStage* mpe;
+    cmsStbge* mpe;
 
-    // If both LUTS does not have elements, we need to inherit
-    // the number of channels
+    // If both LUTS does not hbve elements, we need to inherit
+    // the number of chbnnels
     if (l1 ->Elements == NULL && l2 ->Elements == NULL) {
-        l1 ->InputChannels  = l2 ->InputChannels;
-        l1 ->OutputChannels = l2 ->OutputChannels;
+        l1 ->InputChbnnels  = l2 ->InputChbnnels;
+        l1 ->OutputChbnnels = l2 ->OutputChbnnels;
     }
 
-    // Cat second
+    // Cbt second
     for (mpe = l2 ->Elements;
          mpe != NULL;
          mpe = mpe ->Next) {
 
-            // We have to dup each element
-            if (!cmsPipelineInsertStage(l1, cmsAT_END, cmsStageDup(mpe)))
+            // We hbve to dup ebch element
+            if (!cmsPipelineInsertStbge(l1, cmsAT_END, cmsStbgeDup(mpe)))
                 return FALSE;
     }
 
@@ -1607,23 +1607,23 @@ cmsBool  CMSEXPORT cmsPipelineCat(cmsPipeline* l1, const cmsPipeline* l2)
 }
 
 
-cmsBool CMSEXPORT cmsPipelineSetSaveAs8bitsFlag(cmsPipeline* lut, cmsBool On)
+cmsBool CMSEXPORT cmsPipelineSetSbveAs8bitsFlbg(cmsPipeline* lut, cmsBool On)
 {
-    cmsBool Anterior = lut ->SaveAs8Bits;
+    cmsBool Anterior = lut ->SbveAs8Bits;
 
-    lut ->SaveAs8Bits = On;
+    lut ->SbveAs8Bits = On;
     return Anterior;
 }
 
 
-cmsStage* CMSEXPORT cmsPipelineGetPtrToFirstStage(const cmsPipeline* lut)
+cmsStbge* CMSEXPORT cmsPipelineGetPtrToFirstStbge(const cmsPipeline* lut)
 {
     return lut ->Elements;
 }
 
-cmsStage* CMSEXPORT cmsPipelineGetPtrToLastStage(const cmsPipeline* lut)
+cmsStbge* CMSEXPORT cmsPipelineGetPtrToLbstStbge(const cmsPipeline* lut)
 {
-    cmsStage *mpe, *Anterior = NULL;
+    cmsStbge *mpe, *Anterior = NULL;
 
     for (mpe = lut ->Elements; mpe != NULL; mpe = mpe ->Next)
         Anterior = mpe;
@@ -1631,9 +1631,9 @@ cmsStage* CMSEXPORT cmsPipelineGetPtrToLastStage(const cmsPipeline* lut)
     return Anterior;
 }
 
-cmsUInt32Number CMSEXPORT cmsPipelineStageCount(const cmsPipeline* lut)
+cmsUInt32Number CMSEXPORT cmsPipelineStbgeCount(const cmsPipeline* lut)
 {
-    cmsStage *mpe;
+    cmsStbge *mpe;
     cmsUInt32Number n;
 
     for (n=0, mpe = lut ->Elements; mpe != NULL; mpe = mpe ->Next)
@@ -1642,71 +1642,71 @@ cmsUInt32Number CMSEXPORT cmsPipelineStageCount(const cmsPipeline* lut)
     return n;
 }
 
-// This function may be used to set the optional evaluator and a block of private data. If private data is being used, an optional
-// duplicator and free functions should also be specified in order to duplicate the LUT construct. Use NULL to inhibit such functionality.
-void CMSEXPORT _cmsPipelineSetOptimizationParameters(cmsPipeline* Lut,
-                                        _cmsOPTeval16Fn Eval16,
-                                        void* PrivateData,
-                                        _cmsFreeUserDataFn FreePrivateDataFn,
-                                        _cmsDupUserDataFn  DupPrivateDataFn)
+// This function mby be used to set the optionbl evblubtor bnd b block of privbte dbtb. If privbte dbtb is being used, bn optionbl
+// duplicbtor bnd free functions should blso be specified in order to duplicbte the LUT construct. Use NULL to inhibit such functionblity.
+void CMSEXPORT _cmsPipelineSetOptimizbtionPbrbmeters(cmsPipeline* Lut,
+                                        _cmsOPTevbl16Fn Evbl16,
+                                        void* PrivbteDbtb,
+                                        _cmsFreeUserDbtbFn FreePrivbteDbtbFn,
+                                        _cmsDupUserDbtbFn  DupPrivbteDbtbFn)
 {
 
-    Lut ->Eval16Fn = Eval16;
-    Lut ->DupDataFn = DupPrivateDataFn;
-    Lut ->FreeDataFn = FreePrivateDataFn;
-    Lut ->Data = PrivateData;
+    Lut ->Evbl16Fn = Evbl16;
+    Lut ->DupDbtbFn = DupPrivbteDbtbFn;
+    Lut ->FreeDbtbFn = FreePrivbteDbtbFn;
+    Lut ->Dbtb = PrivbteDbtb;
 }
 
 
-// ----------------------------------------------------------- Reverse interpolation
-// Here's how it goes. The derivative Df(x) of the function f is the linear
-// transformation that best approximates f near the point x. It can be represented
-// by a matrix A whose entries are the partial derivatives of the components of f
-// with respect to all the coordinates. This is know as the Jacobian
+// ----------------------------------------------------------- Reverse interpolbtion
+// Here's how it goes. The derivbtive Df(x) of the function f is the linebr
+// trbnsformbtion thbt best bpproximbtes f nebr the point x. It cbn be represented
+// by b mbtrix A whose entries bre the pbrtibl derivbtives of the components of f
+// with respect to bll the coordinbtes. This is know bs the Jbcobibn
 //
-// The best linear approximation to f is given by the matrix equation:
+// The best linebr bpproximbtion to f is given by the mbtrix equbtion:
 //
 // y-y0 = A (x-x0)
 //
-// So, if x0 is a good "guess" for the zero of f, then solving for the zero of this
-// linear approximation will give a "better guess" for the zero of f. Thus let y=0,
-// and since y0=f(x0) one can solve the above equation for x. This leads to the
-// Newton's method formula:
+// So, if x0 is b good "guess" for the zero of f, then solving for the zero of this
+// linebr bpproximbtion will give b "better guess" for the zero of f. Thus let y=0,
+// bnd since y0=f(x0) one cbn solve the bbove equbtion for x. This lebds to the
+// Newton's method formulb:
 //
 // xn+1 = xn - A-1 f(xn)
 //
-// where xn+1 denotes the (n+1)-st guess, obtained from the n-th guess xn in the
-// fashion described above. Iterating this will give better and better approximations
-// if you have a "good enough" initial guess.
+// where xn+1 denotes the (n+1)-st guess, obtbined from the n-th guess xn in the
+// fbshion described bbove. Iterbting this will give better bnd better bpproximbtions
+// if you hbve b "good enough" initibl guess.
 
 
 #define JACOBIAN_EPSILON            0.001f
 #define INVERSION_MAX_ITERATIONS    30
 
-// Increment with reflexion on boundary
-static
-void IncDelta(cmsFloat32Number *Val)
+// Increment with reflexion on boundbry
+stbtic
+void IncDeltb(cmsFlobt32Number *Vbl)
 {
-    if (*Val < (1.0 - JACOBIAN_EPSILON))
+    if (*Vbl < (1.0 - JACOBIAN_EPSILON))
 
-        *Val += JACOBIAN_EPSILON;
+        *Vbl += JACOBIAN_EPSILON;
 
     else
-        *Val -= JACOBIAN_EPSILON;
+        *Vbl -= JACOBIAN_EPSILON;
 
 }
 
 
 
-// Euclidean distance between two vectors of n elements each one
-static
-cmsFloat32Number EuclideanDistance(cmsFloat32Number a[], cmsFloat32Number b[], int n)
+// Euclidebn distbnce between two vectors of n elements ebch one
+stbtic
+cmsFlobt32Number EuclidebnDistbnce(cmsFlobt32Number b[], cmsFlobt32Number b[], int n)
 {
-    cmsFloat32Number sum = 0;
+    cmsFlobt32Number sum = 0;
     int i;
 
     for (i=0; i < n; i++) {
-        cmsFloat32Number dif = b[i] - a[i];
+        cmsFlobt32Number dif = b[i] - b[i];
         sum +=  dif * dif;
     }
 
@@ -1714,101 +1714,101 @@ cmsFloat32Number EuclideanDistance(cmsFloat32Number a[], cmsFloat32Number b[], i
 }
 
 
-// Evaluate a LUT in reverse direction. It only searches on 3->3 LUT. Uses Newton method
+// Evblubte b LUT in reverse direction. It only sebrches on 3->3 LUT. Uses Newton method
 //
 // x1 <- x - [J(x)]^-1 * f(x)
 //
-// lut: The LUT on where to do the search
-// Target: LabK, 3 values of Lab plus destination K which is fixed
-// Result: The obtained CMYK
-// Hint:   Location where begin the search
+// lut: The LUT on where to do the sebrch
+// Tbrget: LbbK, 3 vblues of Lbb plus destinbtion K which is fixed
+// Result: The obtbined CMYK
+// Hint:   Locbtion where begin the sebrch
 
-cmsBool CMSEXPORT cmsPipelineEvalReverseFloat(cmsFloat32Number Target[],
-                                              cmsFloat32Number Result[],
-                                              cmsFloat32Number Hint[],
+cmsBool CMSEXPORT cmsPipelineEvblReverseFlobt(cmsFlobt32Number Tbrget[],
+                                              cmsFlobt32Number Result[],
+                                              cmsFlobt32Number Hint[],
                                               const cmsPipeline* lut)
 {
     cmsUInt32Number  i, j;
-    cmsFloat64Number  error, LastError = 1E20;
-    cmsFloat32Number  fx[4], x[4], xd[4], fxd[4];
+    cmsFlobt64Number  error, LbstError = 1E20;
+    cmsFlobt32Number  fx[4], x[4], xd[4], fxd[4];
     cmsVEC3 tmp, tmp2;
-    cmsMAT3 Jacobian;
+    cmsMAT3 Jbcobibn;
 
-    // Only 3->3 and 4->3 are supported
-    if (lut ->InputChannels != 3 && lut ->InputChannels != 4) return FALSE;
-    if (lut ->OutputChannels != 3) return FALSE;
+    // Only 3->3 bnd 4->3 bre supported
+    if (lut ->InputChbnnels != 3 && lut ->InputChbnnels != 4) return FALSE;
+    if (lut ->OutputChbnnels != 3) return FALSE;
 
-    // Take the hint as starting point if specified
+    // Tbke the hint bs stbrting point if specified
     if (Hint == NULL) {
 
-        // Begin at any point, we choose 1/3 of CMY axis
+        // Begin bt bny point, we choose 1/3 of CMY bxis
         x[0] = x[1] = x[2] = 0.3f;
     }
     else {
 
-        // Only copy 3 channels from hint...
+        // Only copy 3 chbnnels from hint...
         for (j=0; j < 3; j++)
             x[j] = Hint[j];
     }
 
-    // If Lut is 4-dimensions, then grab target[3], which is fixed
-    if (lut ->InputChannels == 4) {
-        x[3] = Target[3];
+    // If Lut is 4-dimensions, then grbb tbrget[3], which is fixed
+    if (lut ->InputChbnnels == 4) {
+        x[3] = Tbrget[3];
     }
-    else x[3] = 0; // To keep lint happy
+    else x[3] = 0; // To keep lint hbppy
 
 
-    // Iterate
+    // Iterbte
     for (i = 0; i < INVERSION_MAX_ITERATIONS; i++) {
 
         // Get beginning fx
-        cmsPipelineEvalFloat(x, fx, lut);
+        cmsPipelineEvblFlobt(x, fx, lut);
 
         // Compute error
-        error = EuclideanDistance(fx, Target, 3);
+        error = EuclidebnDistbnce(fx, Tbrget, 3);
 
-        // If not convergent, return last safe value
-        if (error >= LastError)
-            break;
+        // If not convergent, return lbst sbfe vblue
+        if (error >= LbstError)
+            brebk;
 
-        // Keep latest values
-        LastError     = error;
-        for (j=0; j < lut ->InputChannels; j++)
+        // Keep lbtest vblues
+        LbstError     = error;
+        for (j=0; j < lut ->InputChbnnels; j++)
                 Result[j] = x[j];
 
-        // Found an exact match?
+        // Found bn exbct mbtch?
         if (error <= 0)
-            break;
+            brebk;
 
-        // Obtain slope (the Jacobian)
+        // Obtbin slope (the Jbcobibn)
         for (j = 0; j < 3; j++) {
 
             xd[0] = x[0];
             xd[1] = x[1];
             xd[2] = x[2];
-            xd[3] = x[3];  // Keep fixed channel
+            xd[3] = x[3];  // Keep fixed chbnnel
 
-            IncDelta(&xd[j]);
+            IncDeltb(&xd[j]);
 
-            cmsPipelineEvalFloat(xd, fxd, lut);
+            cmsPipelineEvblFlobt(xd, fxd, lut);
 
-            Jacobian.v[0].n[j] = ((fxd[0] - fx[0]) / JACOBIAN_EPSILON);
-            Jacobian.v[1].n[j] = ((fxd[1] - fx[1]) / JACOBIAN_EPSILON);
-            Jacobian.v[2].n[j] = ((fxd[2] - fx[2]) / JACOBIAN_EPSILON);
+            Jbcobibn.v[0].n[j] = ((fxd[0] - fx[0]) / JACOBIAN_EPSILON);
+            Jbcobibn.v[1].n[j] = ((fxd[1] - fx[1]) / JACOBIAN_EPSILON);
+            Jbcobibn.v[2].n[j] = ((fxd[2] - fx[2]) / JACOBIAN_EPSILON);
         }
 
         // Solve system
-        tmp2.n[0] = fx[0] - Target[0];
-        tmp2.n[1] = fx[1] - Target[1];
-        tmp2.n[2] = fx[2] - Target[2];
+        tmp2.n[0] = fx[0] - Tbrget[0];
+        tmp2.n[1] = fx[1] - Tbrget[1];
+        tmp2.n[2] = fx[2] - Tbrget[2];
 
-        if (!_cmsMAT3solve(&tmp, &Jacobian, &tmp2))
+        if (!_cmsMAT3solve(&tmp, &Jbcobibn, &tmp2))
             return FALSE;
 
         // Move our guess
-        x[0] -= (cmsFloat32Number) tmp.n[0];
-        x[1] -= (cmsFloat32Number) tmp.n[1];
-        x[2] -= (cmsFloat32Number) tmp.n[2];
+        x[0] -= (cmsFlobt32Number) tmp.n[0];
+        x[1] -= (cmsFlobt32Number) tmp.n[1];
+        x[2] -= (cmsFlobt32Number) tmp.n[2];
 
         // Some clipping....
         for (j=0; j < 3; j++) {

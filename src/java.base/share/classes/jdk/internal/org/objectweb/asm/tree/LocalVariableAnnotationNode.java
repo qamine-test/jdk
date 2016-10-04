@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,130 +57,130 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm.tree;
+pbckbge jdk.internbl.org.objectweb.bsm.tree;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
-import jdk.internal.org.objectweb.asm.TypeReference;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
+import jdk.internbl.org.objectweb.bsm.TypeReference;
 
 /**
- * A node that represents a type annotation on a local or resource variable.
+ * A node thbt represents b type bnnotbtion on b locbl or resource vbribble.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class LocalVariableAnnotationNode extends TypeAnnotationNode {
+public clbss LocblVbribbleAnnotbtionNode extends TypeAnnotbtionNode {
 
     /**
-     * The fist instructions corresponding to the continuous ranges that make
-     * the scope of this local variable (inclusive). Must not be <tt>null</tt>.
+     * The fist instructions corresponding to the continuous rbnges thbt mbke
+     * the scope of this locbl vbribble (inclusive). Must not be <tt>null</tt>.
      */
-    public List<LabelNode> start;
+    public List<LbbelNode> stbrt;
 
     /**
-     * The last instructions corresponding to the continuous ranges that make
-     * the scope of this local variable (exclusive). This list must have the
-     * same size as the 'start' list. Must not be <tt>null</tt>.
+     * The lbst instructions corresponding to the continuous rbnges thbt mbke
+     * the scope of this locbl vbribble (exclusive). This list must hbve the
+     * sbme size bs the 'stbrt' list. Must not be <tt>null</tt>.
      */
-    public List<LabelNode> end;
+    public List<LbbelNode> end;
 
     /**
-     * The local variable's index in each range. This list must have the same
-     * size as the 'start' list. Must not be <tt>null</tt>.
+     * The locbl vbribble's index in ebch rbnge. This list must hbve the sbme
+     * size bs the 'stbrt' list. Must not be <tt>null</tt>.
      */
     public List<Integer> index;
 
     /**
-     * Constructs a new {@link LocalVariableAnnotationNode}. <i>Subclasses must
-     * not use this constructor</i>. Instead, they must use the
-     * {@link #LocalVariableAnnotationNode(int, TypePath, LabelNode[], LabelNode[], int[], String)}
+     * Constructs b new {@link LocblVbribbleAnnotbtionNode}. <i>Subclbsses must
+     * not use this constructor</i>. Instebd, they must use the
+     * {@link #LocblVbribbleAnnotbtionNode(int, TypePbth, LbbelNode[], LbbelNode[], int[], String)}
      * version.
      *
-     * @param typeRef
-     *            a reference to the annotated type. See {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param start
-     *            the fist instructions corresponding to the continuous ranges
-     *            that make the scope of this local variable (inclusive).
-     * @param end
-     *            the last instructions corresponding to the continuous ranges
-     *            that make the scope of this local variable (exclusive). This
-     *            array must have the same size as the 'start' array.
-     * @param index
-     *            the local variable's index in each range. This array must have
-     *            the same size as the 'start' array.
-     * @param desc
-     *            the class descriptor of the annotation class.
+     * @pbrbm typeRef
+     *            b reference to the bnnotbted type. See {@link TypeReference}.
+     * @pbrbm typePbth
+     *            the pbth to the bnnotbted type brgument, wildcbrd bound, brrby
+     *            element type, or stbtic inner type within 'typeRef'. Mby be
+     *            <tt>null</tt> if the bnnotbtion tbrgets 'typeRef' bs b whole.
+     * @pbrbm stbrt
+     *            the fist instructions corresponding to the continuous rbnges
+     *            thbt mbke the scope of this locbl vbribble (inclusive).
+     * @pbrbm end
+     *            the lbst instructions corresponding to the continuous rbnges
+     *            thbt mbke the scope of this locbl vbribble (exclusive). This
+     *            brrby must hbve the sbme size bs the 'stbrt' brrby.
+     * @pbrbm index
+     *            the locbl vbribble's index in ebch rbnge. This brrby must hbve
+     *            the sbme size bs the 'stbrt' brrby.
+     * @pbrbm desc
+     *            the clbss descriptor of the bnnotbtion clbss.
      */
-    public LocalVariableAnnotationNode(int typeRef, TypePath typePath,
-            LabelNode[] start, LabelNode[] end, int[] index, String desc) {
-        this(Opcodes.ASM5, typeRef, typePath, start, end, index, desc);
+    public LocblVbribbleAnnotbtionNode(int typeRef, TypePbth typePbth,
+            LbbelNode[] stbrt, LbbelNode[] end, int[] index, String desc) {
+        this(Opcodes.ASM5, typeRef, typePbth, stbrt, end, index, desc);
     }
 
     /**
-     * Constructs a new {@link LocalVariableAnnotationNode}.
+     * Constructs b new {@link LocblVbribbleAnnotbtionNode}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param typeRef
-     *            a reference to the annotated type. See {@link TypeReference}.
-     * @param start
-     *            the fist instructions corresponding to the continuous ranges
-     *            that make the scope of this local variable (inclusive).
-     * @param end
-     *            the last instructions corresponding to the continuous ranges
-     *            that make the scope of this local variable (exclusive). This
-     *            array must have the same size as the 'start' array.
-     * @param index
-     *            the local variable's index in each range. This array must have
-     *            the same size as the 'start' array.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param desc
-     *            the class descriptor of the annotation class.
+     * @pbrbm typeRef
+     *            b reference to the bnnotbted type. See {@link TypeReference}.
+     * @pbrbm stbrt
+     *            the fist instructions corresponding to the continuous rbnges
+     *            thbt mbke the scope of this locbl vbribble (inclusive).
+     * @pbrbm end
+     *            the lbst instructions corresponding to the continuous rbnges
+     *            thbt mbke the scope of this locbl vbribble (exclusive). This
+     *            brrby must hbve the sbme size bs the 'stbrt' brrby.
+     * @pbrbm index
+     *            the locbl vbribble's index in ebch rbnge. This brrby must hbve
+     *            the sbme size bs the 'stbrt' brrby.
+     * @pbrbm typePbth
+     *            the pbth to the bnnotbted type brgument, wildcbrd bound, brrby
+     *            element type, or stbtic inner type within 'typeRef'. Mby be
+     *            <tt>null</tt> if the bnnotbtion tbrgets 'typeRef' bs b whole.
+     * @pbrbm desc
+     *            the clbss descriptor of the bnnotbtion clbss.
      */
-    public LocalVariableAnnotationNode(int api, int typeRef, TypePath typePath,
-            LabelNode[] start, LabelNode[] end, int[] index, String desc) {
-        super(api, typeRef, typePath, desc);
-        this.start = new ArrayList<LabelNode>(start.length);
-        this.start.addAll(Arrays.asList(start));
-        this.end = new ArrayList<LabelNode>(end.length);
-        this.end.addAll(Arrays.asList(end));
-        this.index = new ArrayList<Integer>(index.length);
+    public LocblVbribbleAnnotbtionNode(int bpi, int typeRef, TypePbth typePbth,
+            LbbelNode[] stbrt, LbbelNode[] end, int[] index, String desc) {
+        super(bpi, typeRef, typePbth, desc);
+        this.stbrt = new ArrbyList<LbbelNode>(stbrt.length);
+        this.stbrt.bddAll(Arrbys.bsList(stbrt));
+        this.end = new ArrbyList<LbbelNode>(end.length);
+        this.end.bddAll(Arrbys.bsList(end));
+        this.index = new ArrbyList<Integer>(index.length);
         for (int i : index) {
-            this.index.add(i);
+            this.index.bdd(i);
         }
     }
 
     /**
-     * Makes the given visitor visit this type annotation.
+     * Mbkes the given visitor visit this type bnnotbtion.
      *
-     * @param mv
-     *            the visitor that must visit this annotation.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
+     * @pbrbm mv
+     *            the visitor thbt must visit this bnnotbtion.
+     * @pbrbm visible
+     *            <tt>true</tt> if the bnnotbtion is visible bt runtime.
      */
-    public void accept(final MethodVisitor mv, boolean visible) {
-        Label[] start = new Label[this.start.size()];
-        Label[] end = new Label[this.end.size()];
+    public void bccept(finbl MethodVisitor mv, boolebn visible) {
+        Lbbel[] stbrt = new Lbbel[this.stbrt.size()];
+        Lbbel[] end = new Lbbel[this.end.size()];
         int[] index = new int[this.index.size()];
-        for (int i = 0; i < start.length; ++i) {
-            start[i] = this.start.get(i).getLabel();
-            end[i] = this.end.get(i).getLabel();
+        for (int i = 0; i < stbrt.length; ++i) {
+            stbrt[i] = this.stbrt.get(i).getLbbel();
+            end[i] = this.end.get(i).getLbbel();
             index[i] = this.index.get(i);
         }
-        accept(mv.visitLocalVariableAnnotation(typeRef, typePath, start, end,
+        bccept(mv.visitLocblVbribbleAnnotbtion(typeRef, typePbth, stbrt, end,
                 index, desc, true));
     }
 }

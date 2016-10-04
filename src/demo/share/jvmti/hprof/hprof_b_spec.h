@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -32,10 +32,10 @@
 #ifndef HPROF_B_SPEC_H
 #define HPROF_B_SPEC_H
 
-/* Hprof binary format enums and spec. */
+/* Hprof binbry formbt enums bnd spec. */
 
 /* Need to #define or typedef HprofId before including this file.
- *    hprof used ObjectIndex or 4 bytes, but it can be 4 or 8 byte type.
+ *    hprof used ObjectIndex or 4 bytes, but it cbn be 4 or 8 byte type.
  */
 
 /* -------------------------------------------------------------------- */
@@ -43,127 +43,127 @@
 /* -------------------------------------------------------------------- */
 
 /*
- * hprof binary format: (result either written to a file or sent over
+ * hprof binbry formbt: (result either written to b file or sent over
  * the network).
  *
- * WARNING: This format is still under development, and is subject to
- * change without notice.
+ * WARNING: This formbt is still under development, bnd is subject to
+ * chbnge without notice.
  *
- *  header    "JAVA PROFILE 1.0.1" or "JAVA PROFILE 1.0.2" (0-terminated)
- *  u4        size of identifiers. Identifiers are used to represent
- *            UTF8 strings, objects, stack traces, etc. They usually
- *            have the same size as host pointers. For example, on
- *            Solaris and Win32, the size is 4.
+ *  hebder    "JAVA PROFILE 1.0.1" or "JAVA PROFILE 1.0.2" (0-terminbted)
+ *  u4        size of identifiers. Identifiers bre used to represent
+ *            UTF8 strings, objects, stbck trbces, etc. They usublly
+ *            hbve the sbme size bs host pointers. For exbmple, on
+ *            Solbris bnd Win32, the size is 4.
  * u4         high word
  * u4         low word    number of milliseconds since 0:00 GMT, 1/1/70
- * [record]*  a sequence of records.
+ * [record]*  b sequence of records.
  */
 
 /*
- * Record format:
+ * Record formbt:
  *
- * u1         a TAG denoting the type of the record
- * u4         number of *microseconds* since the time stamp in the
- *            header. (wraps around in a little more than an hour)
- * u4         number of bytes *remaining* in the record. Note that
- *            this number excludes the tag and the length field itself.
- * [u1]*      BODY of the record (a sequence of bytes)
+ * u1         b TAG denoting the type of the record
+ * u4         number of *microseconds* since the time stbmp in the
+ *            hebder. (wrbps bround in b little more thbn bn hour)
+ * u4         number of bytes *rembining* in the record. Note thbt
+ *            this number excludes the tbg bnd the length field itself.
+ * [u1]*      BODY of the record (b sequence of bytes)
  */
 
 /*
- * The following TAGs are supported:
+ * The following TAGs bre supported:
  *
  * TAG           BODY       notes
  *----------------------------------------------------------
- * HPROF_UTF8               a UTF8-encoded name
+ * HPROF_UTF8               b UTF8-encoded nbme
  *
- *               id         name ID
- *               [u1]*      UTF8 characters (no trailing zero)
+ *               id         nbme ID
+ *               [u1]*      UTF8 chbrbcters (no trbiling zero)
  *
- * HPROF_LOAD_CLASS         a newly loaded class
+ * HPROF_LOAD_CLASS         b newly lobded clbss
  *
- *                u4        class serial number (> 0)
- *                id        class object ID
- *                u4        stack trace serial number
- *                id        class name ID
+ *                u4        clbss seribl number (> 0)
+ *                id        clbss object ID
+ *                u4        stbck trbce seribl number
+ *                id        clbss nbme ID
  *
- * HPROF_UNLOAD_CLASS       an unloading class
+ * HPROF_UNLOAD_CLASS       bn unlobding clbss
  *
- *                u4        class serial_number
+ *                u4        clbss seribl_number
  *
- * HPROF_FRAME              a Java stack frame
+ * HPROF_FRAME              b Jbvb stbck frbme
  *
- *                id        stack frame ID
- *                id        method name ID
- *                id        method signature ID
- *                id        source file name ID
- *                u4        class serial number
- *                i4        line number. >0: normal
+ *                id        stbck frbme ID
+ *                id        method nbme ID
+ *                id        method signbture ID
+ *                id        source file nbme ID
+ *                u4        clbss seribl number
+ *                i4        line number. >0: normbl
  *                                       -1: unknown
  *                                       -2: compiled method
- *                                       -3: native method
+ *                                       -3: nbtive method
  *
- * HPROF_TRACE              a Java stack trace
+ * HPROF_TRACE              b Jbvb stbck trbce
  *
- *               u4         stack trace serial number
- *               u4         thread serial number
- *               u4         number of frames
- *               [id]*      stack frame IDs
+ *               u4         stbck trbce seribl number
+ *               u4         threbd seribl number
+ *               u4         number of frbmes
+ *               [id]*      stbck frbme IDs
  *
  *
- * HPROF_ALLOC_SITES        a set of heap allocation sites, obtained after GC
+ * HPROF_ALLOC_SITES        b set of hebp bllocbtion sites, obtbined bfter GC
  *
- *               u2         flags 0x0001: incremental vs. complete
- *                                0x0002: sorted by allocation vs. live
- *                                0x0004: whether to force a GC
- *               u4         cutoff ratio
- *               u4         total live bytes
- *               u4         total live instances
- *               u8         total bytes allocated
- *               u8         total instances allocated
- *               u4         number of sites that follow
- *               [u1        is_array: 0:  normal object
- *                                    2:  object array
- *                                    4:  boolean array
- *                                    5:  char array
- *                                    6:  float array
- *                                    7:  double array
- *                                    8:  byte array
- *                                    9:  short array
- *                                    10: int array
- *                                    11: long array
- *                u4        class serial number (may be zero during startup)
- *                u4        stack trace serial number
- *                u4        number of bytes alive
- *                u4        number of instances alive
- *                u4        number of bytes allocated
- *                u4]*      number of instance allocated
+ *               u2         flbgs 0x0001: incrementbl vs. complete
+ *                                0x0002: sorted by bllocbtion vs. live
+ *                                0x0004: whether to force b GC
+ *               u4         cutoff rbtio
+ *               u4         totbl live bytes
+ *               u4         totbl live instbnces
+ *               u8         totbl bytes bllocbted
+ *               u8         totbl instbnces bllocbted
+ *               u4         number of sites thbt follow
+ *               [u1        is_brrby: 0:  normbl object
+ *                                    2:  object brrby
+ *                                    4:  boolebn brrby
+ *                                    5:  chbr brrby
+ *                                    6:  flobt brrby
+ *                                    7:  double brrby
+ *                                    8:  byte brrby
+ *                                    9:  short brrby
+ *                                    10: int brrby
+ *                                    11: long brrby
+ *                u4        clbss seribl number (mby be zero during stbrtup)
+ *                u4        stbck trbce seribl number
+ *                u4        number of bytes blive
+ *                u4        number of instbnces blive
+ *                u4        number of bytes bllocbted
+ *                u4]*      number of instbnce bllocbted
  *
- * HPROF_START_THREAD       a newly started thread.
+ * HPROF_START_THREAD       b newly stbrted threbd.
  *
- *               u4         thread serial number (> 0)
- *               id         thread object ID
- *               u4         stack trace serial number
- *               id         thread name ID
- *               id         thread group name ID
- *               id         thread group parent name ID
+ *               u4         threbd seribl number (> 0)
+ *               id         threbd object ID
+ *               u4         stbck trbce seribl number
+ *               id         threbd nbme ID
+ *               id         threbd group nbme ID
+ *               id         threbd group pbrent nbme ID
  *
- * HPROF_END_THREAD         a terminating thread.
+ * HPROF_END_THREAD         b terminbting threbd.
  *
- *               u4         thread serial number
+ *               u4         threbd seribl number
  *
- * HPROF_HEAP_SUMMARY       heap summary
+ * HPROF_HEAP_SUMMARY       hebp summbry
  *
- *               u4         total live bytes
- *               u4         total live instances
- *               u8         total bytes allocated
- *               u8         total instances allocated
+ *               u4         totbl live bytes
+ *               u4         totbl live instbnces
+ *               u8         totbl bytes bllocbted
+ *               u8         totbl instbnces bllocbted
  *
- * HPROF_HEAP_DUMP or HPROF_HEAP_DUMP_SEGMENT          denote a heap dump
+ * HPROF_HEAP_DUMP or HPROF_HEAP_DUMP_SEGMENT          denote b hebp dump
  *
- *               [heap dump sub-records]*
+ *               [hebp dump sub-records]*
  *
- *                          There are four kinds of heap dump sub-records:
+ *                          There bre four kinds of hebp dump sub-records:
  *
  *               u1         sub-record type
  *
@@ -171,135 +171,135 @@
  *
  *                          id         object ID
  *
- *               HPROF_GC_ROOT_THREAD_OBJ      thread object
+ *               HPROF_GC_ROOT_THREAD_OBJ      threbd object
  *
- *                          id         thread object ID  (may be 0 for a
- *                                     thread newly attached through JNI)
- *                          u4         thread sequence number
- *                          u4         stack trace sequence number
+ *                          id         threbd object ID  (mby be 0 for b
+ *                                     threbd newly bttbched through JNI)
+ *                          u4         threbd sequence number
+ *                          u4         stbck trbce sequence number
  *
- *               HPROF_GC_ROOT_JNI_GLOBAL      JNI global ref root
- *
- *                          id         object ID
- *                          id         JNI global ref ID
- *
- *               HPROF_GC_ROOT_JNI_LOCAL       JNI local ref
+ *               HPROF_GC_ROOT_JNI_GLOBAL      JNI globbl ref root
  *
  *                          id         object ID
- *                          u4         thread serial number
- *                          u4         frame # in stack trace (-1 for empty)
+ *                          id         JNI globbl ref ID
  *
- *               HPROF_GC_ROOT_JAVA_FRAME      Java stack frame
- *
- *                          id         object ID
- *                          u4         thread serial number
- *                          u4         frame # in stack trace (-1 for empty)
- *
- *               HPROF_GC_ROOT_NATIVE_STACK    Native stack
+ *               HPROF_GC_ROOT_JNI_LOCAL       JNI locbl ref
  *
  *                          id         object ID
- *                          u4         thread serial number
+ *                          u4         threbd seribl number
+ *                          u4         frbme # in stbck trbce (-1 for empty)
  *
- *               HPROF_GC_ROOT_STICKY_CLASS    System class
+ *               HPROF_GC_ROOT_JAVA_FRAME      Jbvb stbck frbme
+ *
+ *                          id         object ID
+ *                          u4         threbd seribl number
+ *                          u4         frbme # in stbck trbce (-1 for empty)
+ *
+ *               HPROF_GC_ROOT_NATIVE_STACK    Nbtive stbck
+ *
+ *                          id         object ID
+ *                          u4         threbd seribl number
+ *
+ *               HPROF_GC_ROOT_STICKY_CLASS    System clbss
  *
  *                          id         object ID
  *
- *               HPROF_GC_ROOT_THREAD_BLOCK    Reference from thread block
+ *               HPROF_GC_ROOT_THREAD_BLOCK    Reference from threbd block
  *
  *                          id         object ID
- *                          u4         thread serial number
+ *                          u4         threbd seribl number
  *
  *               HPROF_GC_ROOT_MONITOR_USED    Busy monitor
  *
  *                          id         object ID
  *
- *               HPROF_GC_CLASS_DUMP           dump of a class object
+ *               HPROF_GC_CLASS_DUMP           dump of b clbss object
  *
- *                          id         class object ID
- *                          u4         stack trace serial number
- *                          id         super class object ID
- *                          id         class loader object ID
+ *                          id         clbss object ID
+ *                          u4         stbck trbce seribl number
+ *                          id         super clbss object ID
+ *                          id         clbss lobder object ID
  *                          id         signers object ID
- *                          id         protection domain object ID
+ *                          id         protection dombin object ID
  *                          id         reserved
  *                          id         reserved
  *
- *                          u4         instance size (in bytes)
+ *                          u4         instbnce size (in bytes)
  *
- *                          u2         size of constant pool
- *                          [u2,       constant pool index,
+ *                          u2         size of constbnt pool
+ *                          [u2,       constbnt pool index,
  *                           ty,       type
  *                                     2:  object
- *                                     4:  boolean
- *                                     5:  char
- *                                     6:  float
+ *                                     4:  boolebn
+ *                                     5:  chbr
+ *                                     6:  flobt
  *                                     7:  double
  *                                     8:  byte
  *                                     9:  short
  *                                     10: int
  *                                     11: long
- *                           vl]*      and value
+ *                           vl]*      bnd vblue
  *
- *                          u2         number of static fields
- *                          [id,       static field name,
+ *                          u2         number of stbtic fields
+ *                          [id,       stbtic field nbme,
  *                           ty,       type,
- *                           vl]*      and value
+ *                           vl]*      bnd vblue
  *
  *                          u2         number of inst. fields (not inc. super)
- *                          [id,       instance field name,
+ *                          [id,       instbnce field nbme,
  *                           ty]*      type
  *
- *               HPROF_GC_INSTANCE_DUMP        dump of a normal object
+ *               HPROF_GC_INSTANCE_DUMP        dump of b normbl object
  *
  *                          id         object ID
- *                          u4         stack trace serial number
- *                          id         class object ID
- *                          u4         number of bytes that follow
- *                          [vl]*      instance field values (class, followed
+ *                          u4         stbck trbce seribl number
+ *                          id         clbss object ID
+ *                          u4         number of bytes thbt follow
+ *                          [vl]*      instbnce field vblues (clbss, followed
  *                                     by super, super's super ...)
  *
- *               HPROF_GC_OBJ_ARRAY_DUMP       dump of an object array
+ *               HPROF_GC_OBJ_ARRAY_DUMP       dump of bn object brrby
  *
- *                          id         array object ID
- *                          u4         stack trace serial number
+ *                          id         brrby object ID
+ *                          u4         stbck trbce seribl number
  *                          u4         number of elements
- *                          id         array class ID
+ *                          id         brrby clbss ID
  *                          [id]*      elements
  *
- *               HPROF_GC_PRIM_ARRAY_DUMP      dump of a primitive array
+ *               HPROF_GC_PRIM_ARRAY_DUMP      dump of b primitive brrby
  *
- *                          id         array object ID
- *                          u4         stack trace serial number
+ *                          id         brrby object ID
+ *                          u4         stbck trbce seribl number
  *                          u4         number of elements
  *                          u1         element type
- *                                     4:  boolean array
- *                                     5:  char array
- *                                     6:  float array
- *                                     7:  double array
- *                                     8:  byte array
- *                                     9:  short array
- *                                     10: int array
- *                                     11: long array
+ *                                     4:  boolebn brrby
+ *                                     5:  chbr brrby
+ *                                     6:  flobt brrby
+ *                                     7:  double brrby
+ *                                     8:  byte brrby
+ *                                     9:  short brrby
+ *                                     10: int brrby
+ *                                     11: long brrby
  *                          [u1]*      elements
  *
- * HPROF_HEAP_DUMP_END      terminates series of heap dump segments
+ * HPROF_HEAP_DUMP_END      terminbtes series of hebp dump segments
  *
- * HPROF_CPU_SAMPLES        a set of sample traces of running threads
+ * HPROF_CPU_SAMPLES        b set of sbmple trbces of running threbds
  *
- *                u4        total number of samples
- *                u4        # of traces
- *               [u4        # of samples
- *                u4]*      stack trace serial number
+ *                u4        totbl number of sbmples
+ *                u4        # of trbces
+ *               [u4        # of sbmples
+ *                u4]*      stbck trbce seribl number
  *
  * HPROF_CONTROL_SETTINGS   the settings of on/off switches
  *
- *                u4        0x00000001: alloc traces on/off
- *                          0x00000002: cpu sampling on/off
- *                u2        stack trace depth
+ *                u4        0x00000001: blloc trbces on/off
+ *                          0x00000002: cpu sbmpling on/off
+ *                u2        stbck trbce depth
  *
  */
 
-typedef enum HprofTag {
+typedef enum HprofTbg {
     HPROF_UTF8                    = 0x01,
     HPROF_LOAD_CLASS              = 0x02,
     HPROF_UNLOAD_CLASS            = 0x03,
@@ -314,13 +314,13 @@ typedef enum HprofTag {
     HPROF_HEAP_DUMP_END           = 0x2C, /* 1.0.2 only */
     HPROF_CPU_SAMPLES             = 0x0D,
     HPROF_CONTROL_SETTINGS        = 0x0E
-} HprofTag;
+} HprofTbg;
 
 /*
- * Heap dump constants
+ * Hebp dump constbnts
  */
 
-typedef enum HprofGcTag {
+typedef enum HprofGcTbg {
     HPROF_GC_ROOT_UNKNOWN       = 0xFF,
     HPROF_GC_ROOT_JNI_GLOBAL    = 0x01,
     HPROF_GC_ROOT_JNI_LOCAL     = 0x02,
@@ -334,7 +334,7 @@ typedef enum HprofGcTag {
     HPROF_GC_INSTANCE_DUMP      = 0x21,
     HPROF_GC_OBJ_ARRAY_DUMP     = 0x22,
     HPROF_GC_PRIM_ARRAY_DUMP    = 0x23
-} HprofGcTag;
+} HprofGcTbg;
 
 enum HprofType {
         HPROF_ARRAY_OBJECT      = 1,
@@ -348,17 +348,17 @@ enum HprofType {
         HPROF_INT               = 10,
         HPROF_LONG              = 11
 };
-typedef unsigned char HprofType;
+typedef unsigned chbr HprofType;
 
 #define HPROF_TYPE_SIZES                        \
     {                                           \
         /*Object?*/     sizeof(HprofId),        \
         /*Object?*/     sizeof(HprofId),        \
-        /*Array*/       sizeof(HprofId),        \
+        /*Arrby*/       sizeof(HprofId),        \
         /*Object?*/     sizeof(HprofId),        \
-        /*jboolean*/    1,                      \
-        /*jchar*/       2,                      \
-        /*jfloat*/      4,                      \
+        /*jboolebn*/    1,                      \
+        /*jchbr*/       2,                      \
+        /*jflobt*/      4,                      \
         /*jdouble*/     8,                      \
         /*jbyte*/       1,                      \
         /*jshort*/      2,                      \

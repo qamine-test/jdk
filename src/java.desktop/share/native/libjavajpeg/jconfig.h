@@ -1,5 +1,5 @@
 /* jconfig.cfg --- source file edited by configure script */
-/* see jconfig.doc for explanations */
+/* see jconfig.doc for explbnbtions */
 
 #define HAVE_PROTOTYPES
 #define HAVE_UNSIGNED_CHAR
@@ -13,13 +13,13 @@
 #undef NEED_SYS_TYPES_H
 #undef NEED_FAR_POINTERS
 #define NEED_SHORT_EXTERNAL_NAMES
-/* Define this if you get warnings about undefined structures. */
+/* Define this if you get wbrnings bbout undefined structures. */
 #undef INCOMPLETE_TYPES_BROKEN
 
 #ifdef JPEG_INTERNALS
 
 #undef RIGHT_SHIFT_IS_UNSIGNED
-/* These are for configuring the JPEG memory manager. */
+/* These bre for configuring the JPEG memory mbnbger. */
 #undef DEFAULT_MAX_MEM
 #undef NO_MKTEMP
 
@@ -27,17 +27,17 @@
 
 #ifdef JPEG_CJPEG_DJPEG
 
-#define BMP_SUPPORTED           /* BMP image file format */
-#define GIF_SUPPORTED           /* GIF image file format */
-#define PPM_SUPPORTED           /* PBMPLUS PPM/PGM image file format */
-#undef RLE_SUPPORTED            /* Utah RLE image file format */
-#define TARGA_SUPPORTED         /* Targa image file format */
+#define BMP_SUPPORTED           /* BMP imbge file formbt */
+#define GIF_SUPPORTED           /* GIF imbge file formbt */
+#define PPM_SUPPORTED           /* PBMPLUS PPM/PGM imbge file formbt */
+#undef RLE_SUPPORTED            /* Utbh RLE imbge file formbt */
+#define TARGA_SUPPORTED         /* Tbrgb imbge file formbt */
 
 #undef TWO_FILE_COMMANDLINE
 #undef NEED_SIGNAL_CATCHER
 #undef DONT_USE_B_MODE
 
-/* Define this if you want percent-done progress reports from cjpeg/djpeg. */
+/* Define this if you wbnt percent-done progress reports from cjpeg/djpeg. */
 #undef PROGRESS_REPORT
 
 #endif /* JPEG_CJPEG_DJPEG */

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,62 +30,62 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  */
 
-import java.awt.AWTPermission;
-import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import jbvb.bwt.AWTPermission;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * Font2DTestApplet.java
+ * Font2DTestApplet.jbvb
  *
- * @author Shinsuke Fukuda
- * @author Ankit Patel [Conversion to Swing - 01/07/30]
+ * @buthor Shinsuke Fukudb
+ * @buthor Ankit Pbtel [Conversion to Swing - 01/07/30]
  */
 
-/// Applet version of Font2DTest that wraps the actual demo
+/// Applet version of Font2DTest thbt wrbps the bctubl demo
 
-public final class Font2DTestApplet extends JApplet {
+public finbl clbss Font2DTestApplet extends JApplet {
     public void init() {
-        /// Check if necessary permission is given...
-        SecurityManager security = System.getSecurityManager();
+        /// Check if necessbry permission is given...
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if ( security != null ) {
             try {
-                security.checkPermission( new AWTPermission( "showWindowWithoutWarningBanner" ));
+                security.checkPermission( new AWTPermission( "showWindowWithoutWbrningBbnner" ));
             }
-            catch ( SecurityException e ) {
-                System.out.println( "NOTE: showWindowWithoutWarningBanner AWTPermission not given.\n" +
-                                    "Zoom window will contain warning banner at bottom when shown\n" );
+            cbtch ( SecurityException e ) {
+                System.out.println( "NOTE: showWindowWithoutWbrningBbnner AWTPermission not given.\n" +
+                                    "Zoom window will contbin wbrning bbnner bt bottom when shown\n" );
             }
             try {
                 security.checkPrintJobAccess();
             }
-            catch ( SecurityException e ) {
+            cbtch ( SecurityException e ) {
                 System.out.println( "NOTE: queuePrintJob RuntimePermission not given.\n" +
-                                    "Printing feature will not be available\n" );
+                                    "Printing febture will not be bvbilbble\n" );
             }
         }
 
-        final JFrame f = new JFrame( "Font2DTest" );
-        final Font2DTest f2dt = new Font2DTest( f, true );
-        f.addWindowListener( new WindowAdapter() {
+        finbl JFrbme f = new JFrbme( "Font2DTest" );
+        finbl Font2DTest f2dt = new Font2DTest( f, true );
+        f.bddWindowListener( new WindowAdbpter() {
             public void windowClosing( WindowEvent e ) { f.dispose(); }
         });
 
-        f.getContentPane().add( f2dt );
-        f.pack();
+        f.getContentPbne().bdd( f2dt );
+        f.pbck();
         f.show();
     }
 }

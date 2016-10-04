@@ -1,122 +1,122 @@
 '\" t
-.\"  Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
 .\"     SectDesc: Scripting Tools
 .\"     Title: jrunscript.1
 .\"
 .if n .pl 99999
 .TH jrunscript 1 "21 November 2013" "JDK 8" "Scripting Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jrunscript \- Runs a command-line script shell that supports interactive and batch modes\&. This command is experimental and unsupported\&.
+jrunscript \- Runs b commbnd-line script shell thbt supports interbctive bnd bbtch modes\&. This commbnd is experimentbl bnd unsupported\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjrunscript\fR [\fIoptions\fR] [\fIarguments\fR]
+\fBjrunscript\fR [\fIoptions\fR] [\fIbrguments\fR]
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .TP     
-\fIarguments\fR
-Arguments, when used, follow immediately after options or the command name\&. See Arguments\&.
+\fIbrguments\fR
+Arguments, when used, follow immedibtely bfter options or the commbnd nbme\&. See Arguments\&.
 .SH DESCRIPTION    
-The \f3jrunscript\fR command is a language-independent command-line script shell\&. The \f3jrunscript\fR command supports both an interactive (read-eval-print) mode and a batch (\f3-f\fR option) mode of script execution\&. By default, JavaScript is the language used, but the \f3-l\fR option can be used to specify a different language\&. By using Java to scripting language communication, the \f3jrunscript\fR command supports an exploratory programming style\&.
+The \f3jrunscript\fR commbnd is b lbngubge-independent commbnd-line script shell\&. The \f3jrunscript\fR commbnd supports both bn interbctive (rebd-evbl-print) mode bnd b bbtch (\f3-f\fR option) mode of script execution\&. By defbult, JbvbScript is the lbngubge used, but the \f3-l\fR option cbn be used to specify b different lbngubge\&. By using Jbvb to scripting lbngubge communicbtion, the \f3jrunscript\fR commbnd supports bn explorbtory progrbmming style\&.
 .SH OPTIONS    
 .TP
--classpath \fIpath\fR
+-clbsspbth \fIpbth\fR
 .br
-Indicate where any class files are that the script needs to access\&.
+Indicbte where bny clbss files bre thbt the script needs to bccess\&.
 .TP
--cp \fIpath\fR
+-cp \fIpbth\fR
 .br
-Same as \f3-classpath\fR\f3path\fR\&.
+Sbme bs \f3-clbsspbth\fR\f3pbth\fR\&.
 .TP
--D\fIname\fR=\fIvalue\fR
+-D\fInbme\fR=\fIvblue\fR
 .br
-Sets a Java system property\&.
+Sets b Jbvb system property\&.
 .TP
--J\fIflag\fR
+-J\fIflbg\fR
 .br
-Passes \f3flag\fR directly to the Java Virtual Machine where the \f3jrunscript\fR command is running\&.
+Pbsses \f3flbg\fR directly to the Jbvb Virtubl Mbchine where the \f3jrunscript\fR commbnd is running\&.
 .TP
--I \fIlanguage\fR
+-I \fIlbngubge\fR
 .br
-Uses the specified scripting language\&. By default, JavaScript is used\&. To use other scripting languages, you must specify the corresponding script engine\&'s JAR file with the \f3-cp\fR or \f3-classpath\fR option\&.
+Uses the specified scripting lbngubge\&. By defbult, JbvbScript is used\&. To use other scripting lbngubges, you must specify the corresponding script engine\&'s JAR file with the \f3-cp\fR or \f3-clbsspbth\fR option\&.
 .TP
 -e \fIscript\fR
 .br
-Evaluates the specified script\&. This option can be used to run one-line scripts that are specified completely on the command line\&.
+Evblubtes the specified script\&. This option cbn be used to run one-line scripts thbt bre specified completely on the commbnd line\&.
 .TP
 -encoding \fIencoding\fR
 .br
-Specifies the character encoding used to read script files\&.
+Specifies the chbrbcter encoding used to rebd script files\&.
 .TP
 -f \fIscript-file\fR
 .br
-Evaluates the specified script file (batch mode)\&.
+Evblubtes the specified script file (bbtch mode)\&.
 .TP
 -f -
 .br
-Reads and evaluates a script from standard input (interactive mode)\&.
+Rebds bnd evblubtes b script from stbndbrd input (interbctive mode)\&.
 .TP
 -help
 .br
-Displays a help message and exits\&.
+Displbys b help messbge bnd exits\&.
 .TP
 -?
 .br
-Displays a help message and exits\&.
+Displbys b help messbge bnd exits\&.
 .TP
 -q
 .br
-Lists all script engines available and exits\&.
+Lists bll script engines bvbilbble bnd exits\&.
 .SH ARGUMENTS    
-If arguments are present and if no \f3-e\fR or \f3-f\fR option is used, then the first argument is the script file and the rest of the arguments, if any, are passed to the script\&. If arguments and \f3-e\fR or the \f3-f\fR option are used, then all arguments are passed to the script\&. If arguments, \f3-e\fR and \f3-f\fR are missing, then interactive mode is used\&. Script arguments are available to a script in an engine variable named \f3arguments\fR of type \f3String\fR array\&.
+If brguments bre present bnd if no \f3-e\fR or \f3-f\fR option is used, then the first brgument is the script file bnd the rest of the brguments, if bny, bre pbssed to the script\&. If brguments bnd \f3-e\fR or the \f3-f\fR option bre used, then bll brguments bre pbssed to the script\&. If brguments, \f3-e\fR bnd \f3-f\fR bre missing, then interbctive mode is used\&. Script brguments bre bvbilbble to b script in bn engine vbribble nbmed \f3brguments\fR of type \f3String\fR brrby\&.
 .SH EXAMPLES    
 .SS EXECUTE\ INLINE\ SCRIPTS    
 .sp     
@@ -124,7 +124,7 @@ If arguments are present and if no \f3-e\fR or \f3-f\fR option is used, then the
 \f3jrunscript \-e "print(\&'hello world\&')"\fP
 .fi     
 .nf     
-\f3jrunscript \-e "cat(\&'http://www\&.example\&.com\&')"\fP
+\f3jrunscript \-e "cbt(\&'http://www\&.exbmple\&.com\&')"\fP
 .fi     
 .nf     
 \f3\fP
@@ -157,13 +157,13 @@ If arguments are present and if no \f3-e\fR or \f3-f\fR option is used, then the
 \f389\&.0\fP
 .fi     
 .nf     
-\f3js> t = new java\&.lang\&.Thread(function() { print(\&'Hello World\en\&'); })\fP
+\f3js> t = new jbvb\&.lbng\&.Threbd(function() { print(\&'Hello World\en\&'); })\fP
 .fi     
 .nf     
-\f3Thread[Thread\-0,5,main]\fP
+\f3Threbd[Threbd\-0,5,mbin]\fP
 .fi     
 .nf     
-\f3js> t\&.start()\fP
+\f3js> t\&.stbrt()\fP
 .fi     
 .nf     
 \f3js> Hello World\fP
@@ -179,17 +179,17 @@ If arguments are present and if no \f3-e\fR or \f3-f\fR option is used, then the
 .fi     
 .sp     
 .SS RUN\ SCRIPT\ FILE\ WITH\ SCRIPT\ ARGUMENTS    
-The test\&.js file is the script file\&. The \f3arg1\fR, \f3arg2\fR and \f3arg3\fR arguments are passed to the script\&. The script can access these arguments with an arguments array\&.
+The test\&.js file is the script file\&. The \f3brg1\fR, \f3brg2\fR bnd \f3brg3\fR brguments bre pbssed to the script\&. The script cbn bccess these brguments with bn brguments brrby\&.
 .sp     
 .nf     
-\f3jrunscript test\&.js arg1 arg2 arg3\fP
+\f3jrunscript test\&.js brg1 brg2 brg3\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SH SEE\ ALSO    
-If JavaScript is used, then before it evaluates a user defined script, the \f3jrunscript\fR command initializes certain built-in functions and objects\&. These JavaScript built-ins are documented in JsDoc-Toolkit at http://code\&.google\&.com/p/jsdoc-toolkit/
+If JbvbScript is used, then before it evblubtes b user defined script, the \f3jrunscript\fR commbnd initiblizes certbin built-in functions bnd objects\&. These JbvbScript built-ins bre documented in JsDoc-Toolkit bt http://code\&.google\&.com/p/jsdoc-toolkit/
 .RE
 .br
 'pl 8.5i

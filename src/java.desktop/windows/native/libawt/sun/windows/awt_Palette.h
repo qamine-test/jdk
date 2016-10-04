@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_PALETTE_H
 #define AWT_PALETTE_H
 
-#include "awt_Win32GraphicsDevice.h"
+#include "bwt_Win32GrbphicsDevice.h"
 
-#define CMAPSIZE        256     // number of colors to use in default cmap
+#define CMAPSIZE        256     // number of colors to use in defbult cmbp
 
-#define GS_NOTGRAY      0       // screen is not grayscale
-#define GS_INDEXGRAY    1       // screen is 8-bit indexed with several
-                                //  gray colormap entries
-#define GS_STATICGRAY   2       // screen is 8-bit with 256 gray values
-                                // from 0 to 255 (no index table used)
-#define GS_NONLINGRAY   3       /* screen is 8-bit with 256 gray values
+#define GS_NOTGRAY      0       // screen is not grbyscble
+#define GS_INDEXGRAY    1       // screen is 8-bit indexed with severbl
+                                //  grby colormbp entries
+#define GS_STATICGRAY   2       // screen is 8-bit with 256 grby vblues
+                                // from 0 to 255 (no index tbble used)
+#define GS_NONLINGRAY   3       /* screen is 8-bit with 256 grby vblues
                                    in non-monotonic order */
 
-class AwtWin32GraphicsDevice;
+clbss AwtWin32GrbphicsDevice;
 
-class AwtPalette {
+clbss AwtPblette {
 
 public:
     HPALETTE                Select(HDC hDC);
 
-    void                    Realize(HDC hDC);
+    void                    Reblize(HDC hDC);
 
-    HPALETTE                GetPalette() { return logicalPalette; }
+    HPALETTE                GetPblette() { return logicblPblette; }
 
-    static void             DisableCustomPalette();
+    stbtic void             DisbbleCustomPblette();
 
-    static BOOL             UseCustomPalette();
+    stbtic BOOL             UseCustomPblette();
 
-                            AwtPalette(AwtWin32GraphicsDevice *device);
+                            AwtPblette(AwtWin32GrbphicsDevice *device);
 
-    static int              FetchPaletteEntries(HDC hDC, PALETTEENTRY* pPalEntries);
-    int                     GetGSType(PALETTEENTRY* pPalEntries);
+    stbtic int              FetchPbletteEntries(HDC hDC, PALETTEENTRY* pPblEntries);
+    int                     GetGSType(PALETTEENTRY* pPblEntries);
 
-    BOOL                    Update();
-    void                    UpdateLogical();
+    BOOL                    Updbte();
+    void                    UpdbteLogicbl();
 
     unsigned int            *GetSystemEntries() {return systemEntries; }
-    unsigned int            *GetLogicalEntries() {return logicalEntries; }
-    unsigned char           *GetSystemInverseLUT() { return systemInverseLUT; }
+    unsigned int            *GetLogicblEntries() {return logicblEntries; }
+    unsigned chbr           *GetSystemInverseLUT() { return systemInverseLUT; }
 
-private:
-    static BOOL             m_useCustomPalette;
+privbte:
+    stbtic BOOL             m_useCustomPblette;
 
-    unsigned int            logicalEntries[256];
+    unsigned int            logicblEntries[256];
     unsigned int            systemEntries[256];
-    PALETTEENTRY            systemEntriesWin32[256];  // cached to eliminate
+    PALETTEENTRY            systemEntriesWin32[256];  // cbched to eliminbte
                                               // copying it when unnec.
     int                     numSystemEntries;
-    HPALETTE                logicalPalette;
+    HPALETTE                logicblPblette;
 
-    AwtWin32GraphicsDevice  *device;
-    unsigned char           *systemInverseLUT;
+    AwtWin32GrbphicsDevice  *device;
+    unsigned chbr           *systemInverseLUT;
 
     /**
-     * This custom palette is derived from the IE palette.
-     * Previously, we used a custom palette that used a patented
-     * algorithm for getting an evently distributed color space.
-     * But given the realites of desktop and web graphics, it seems
-     * more important to use a more standard palette, especially one
-     * that agrees with the predominant browser.  The browser uses
-     * a slightly modified 6x6x6 colorcube plus a gray ramp plus a
-     * few other colors.  We still flash with Netscape, but we end
-     * up using a very similar palette (Netscape uses a 6x6x6 color
-     * cube as well); the entries are just in different places (thus
-     * the flash).
-     * Another possible solution to use a standard palette would be
-     * to use the CreateHalftonePalette() call of win32.  This gives
-     * us the IE palette on win98, but totally different palettes on
-     * different versions of Windows.  We should at least use the same
-     * colors on different flavors of the same platform...
-     * The values coded below should be used for entries 10 through
-     * 245 of our custom palette.  Entries 0-9 and 246-255 should be
-     * retrieved from the current system palette, to ensure that we
-     * are working well with the current desktop palette.
+     * This custom pblette is derived from the IE pblette.
+     * Previously, we used b custom pblette thbt used b pbtented
+     * blgorithm for getting bn evently distributed color spbce.
+     * But given the reblites of desktop bnd web grbphics, it seems
+     * more importbnt to use b more stbndbrd pblette, especiblly one
+     * thbt bgrees with the predominbnt browser.  The browser uses
+     * b slightly modified 6x6x6 colorcube plus b grby rbmp plus b
+     * few other colors.  We still flbsh with Netscbpe, but we end
+     * up using b very similbr pblette (Netscbpe uses b 6x6x6 color
+     * cube bs well); the entries bre just in different plbces (thus
+     * the flbsh).
+     * Another possible solution to use b stbndbrd pblette would be
+     * to use the CrebteHblftonePblette() cbll of win32.  This gives
+     * us the IE pblette on win98, but totblly different pblettes on
+     * different versions of Windows.  We should bt lebst use the sbme
+     * colors on different flbvors of the sbme plbtform...
+     * The vblues coded below should be used for entries 10 through
+     * 245 of our custom pblette.  Entries 0-9 bnd 246-255 should be
+     * retrieved from the current system pblette, to ensure thbt we
+     * bre working well with the current desktop pblette.
      *
-     * The palette is initialized in awt_CustomPaletteDef.h
+     * The pblette is initiblized in bwt_CustomPbletteDef.h
      */
-    static PALETTEENTRY     customPalette[236];
+    stbtic PALETTEENTRY     customPblette[236];
 };
 
 

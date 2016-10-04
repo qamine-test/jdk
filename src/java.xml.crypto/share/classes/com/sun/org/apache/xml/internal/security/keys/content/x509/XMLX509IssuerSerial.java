@@ -3,159 +3,159 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.x509;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.content.x509;
 
-import java.math.BigInteger;
-import java.security.cert.X509Certificate;
+import jbvb.mbth.BigInteger;
+import jbvb.security.cert.X509Certificbte;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.RFC2253Parser;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.RFC2253Pbrser;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XMLX509IssuerSerial extends SignatureElementProxy implements XMLX509DataContent {
+public clbss XMLX509IssuerSeribl extends SignbtureElementProxy implements XMLX509DbtbContent {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(XMLX509IssuerSerial.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(XMLX509IssuerSeribl.clbss.getNbme());
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Constructor XMLX509IssuerSeribl
      *
-     * @param element
-     * @param baseURI
+     * @pbrbm element
+     * @pbrbm bbseURI
      * @throws XMLSecurityException
      */
-    public XMLX509IssuerSerial(Element element, String baseURI) throws XMLSecurityException {
-        super(element, baseURI);
+    public XMLX509IssuerSeribl(Element element, String bbseURI) throws XMLSecurityException {
+        super(element, bbseURI);
     }
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Constructor XMLX509IssuerSeribl
      *
-     * @param doc
-     * @param x509IssuerName
-     * @param x509SerialNumber
+     * @pbrbm doc
+     * @pbrbm x509IssuerNbme
+     * @pbrbm x509SeriblNumber
      */
-    public XMLX509IssuerSerial(Document doc, String x509IssuerName, BigInteger x509SerialNumber) {
+    public XMLX509IssuerSeribl(Document doc, String x509IssuerNbme, BigInteger x509SeriblNumber) {
         super(doc);
-        XMLUtils.addReturnToElement(this.constructionElement);
-        addTextElement(x509IssuerName, Constants._TAG_X509ISSUERNAME);
-        addTextElement(x509SerialNumber.toString(), Constants._TAG_X509SERIALNUMBER);
+        XMLUtils.bddReturnToElement(this.constructionElement);
+        bddTextElement(x509IssuerNbme, Constbnts._TAG_X509ISSUERNAME);
+        bddTextElement(x509SeriblNumber.toString(), Constbnts._TAG_X509SERIALNUMBER);
     }
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Constructor XMLX509IssuerSeribl
      *
-     * @param doc
-     * @param x509IssuerName
-     * @param x509SerialNumber
+     * @pbrbm doc
+     * @pbrbm x509IssuerNbme
+     * @pbrbm x509SeriblNumber
      */
-    public XMLX509IssuerSerial(Document doc, String x509IssuerName, String x509SerialNumber) {
-        this(doc, x509IssuerName, new BigInteger(x509SerialNumber));
+    public XMLX509IssuerSeribl(Document doc, String x509IssuerNbme, String x509SeriblNumber) {
+        this(doc, x509IssuerNbme, new BigInteger(x509SeriblNumber));
     }
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Constructor XMLX509IssuerSeribl
      *
-     * @param doc
-     * @param x509IssuerName
-     * @param x509SerialNumber
+     * @pbrbm doc
+     * @pbrbm x509IssuerNbme
+     * @pbrbm x509SeriblNumber
      */
-    public XMLX509IssuerSerial(Document doc, String x509IssuerName, int x509SerialNumber) {
-        this(doc, x509IssuerName, new BigInteger(Integer.toString(x509SerialNumber)));
+    public XMLX509IssuerSeribl(Document doc, String x509IssuerNbme, int x509SeriblNumber) {
+        this(doc, x509IssuerNbme, new BigInteger(Integer.toString(x509SeriblNumber)));
     }
 
     /**
-     * Constructor XMLX509IssuerSerial
+     * Constructor XMLX509IssuerSeribl
      *
-     * @param doc
-     * @param x509certificate
+     * @pbrbm doc
+     * @pbrbm x509certificbte
      */
-    public XMLX509IssuerSerial(Document doc, X509Certificate x509certificate) {
+    public XMLX509IssuerSeribl(Document doc, X509Certificbte x509certificbte) {
         this(
             doc,
-            x509certificate.getIssuerX500Principal().getName(),
-            x509certificate.getSerialNumber()
+            x509certificbte.getIssuerX500Principbl().getNbme(),
+            x509certificbte.getSeriblNumber()
         );
     }
 
     /**
-     * Method getSerialNumber
+     * Method getSeriblNumber
      *
-     * @return the serial number
+     * @return the seribl number
      */
-    public BigInteger getSerialNumber() {
+    public BigInteger getSeriblNumber() {
         String text =
-            this.getTextFromChildElement(Constants._TAG_X509SERIALNUMBER, Constants.SignatureSpecNS);
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "X509SerialNumber text: " + text);
+            this.getTextFromChildElement(Constbnts._TAG_X509SERIALNUMBER, Constbnts.SignbtureSpecNS);
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "X509SeriblNumber text: " + text);
         }
 
         return new BigInteger(text);
     }
 
     /**
-     * Method getSerialNumberInteger
+     * Method getSeriblNumberInteger
      *
-     * @return the serial number as plain int
+     * @return the seribl number bs plbin int
      */
-    public int getSerialNumberInteger() {
-        return this.getSerialNumber().intValue();
+    public int getSeriblNumberInteger() {
+        return this.getSeriblNumber().intVblue();
     }
 
     /**
-     * Method getIssuerName
+     * Method getIssuerNbme
      *
-     * @return the issuer name
+     * @return the issuer nbme
      */
-    public String getIssuerName()  {
-        return RFC2253Parser.normalize(
-            this.getTextFromChildElement(Constants._TAG_X509ISSUERNAME, Constants.SignatureSpecNS)
+    public String getIssuerNbme()  {
+        return RFC2253Pbrser.normblize(
+            this.getTextFromChildElement(Constbnts._TAG_X509ISSUERNAME, Constbnts.SignbtureSpecNS)
         );
     }
 
     /** @inheritDoc */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof XMLX509IssuerSerial)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof XMLX509IssuerSeribl)) {
+            return fblse;
         }
 
-        XMLX509IssuerSerial other = (XMLX509IssuerSerial) obj;
+        XMLX509IssuerSeribl other = (XMLX509IssuerSeribl) obj;
 
-        return this.getSerialNumber().equals(other.getSerialNumber())
-            && this.getIssuerName().equals(other.getIssuerName());
+        return this.getSeriblNumber().equbls(other.getSeriblNumber())
+            && this.getIssuerNbme().equbls(other.getIssuerNbme());
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
-        result = 31 * result + getSerialNumber().hashCode();
-        result = 31 * result + getIssuerName().hashCode();
+        result = 31 * result + getSeriblNumber().hbshCode();
+        result = 31 * result + getIssuerNbme().hbshCode();
         return result;
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509ISSUERSERIAL;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_X509ISSUERSERIAL;
     }
 }

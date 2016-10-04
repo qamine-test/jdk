@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
 /**
- * A resampler that uses first-order (linear) interpolation.
+ * A resbmpler thbt uses first-order (linebr) interpolbtion.
  *
- * This one doesn't perform float to int casting inside the processing loop.
+ * This one doesn't perform flobt to int cbsting inside the processing loop.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftLinearResampler2 extends SoftAbstractResampler {
+public finbl clbss SoftLinebrResbmpler2 extends SoftAbstrbctResbmpler {
 
-    public int getPadding() {
+    public int getPbdding() {
         return 2;
     }
 
-    public void interpolate(float[] in, float[] in_offset, float in_end,
-            float[] startpitch, float pitchstep, float[] out, int[] out_offset,
+    public void interpolbte(flobt[] in, flobt[] in_offset, flobt in_end,
+            flobt[] stbrtpitch, flobt pitchstep, flobt[] out, int[] out_offset,
             int out_end) {
 
-        float pitch = startpitch[0];
-        float ix = in_offset[0];
+        flobt pitch = stbrtpitch[0];
+        flobt ix = in_offset[0];
         int ox = out_offset[0];
-        float ix_end = in_end;
+        flobt ix_end = in_end;
         int ox_end = out_end;
 
-        // Check if we have do anything
+        // Check if we hbve do bnything
         if (!(ix < ix_end && ox < ox_end))
             return;
 
-        // 15 bit shift was choosed because
-        // it resulted in no drift between p_ix and ix.
+        // 15 bit shift wbs choosed becbuse
+        // it resulted in no drift between p_ix bnd ix.
         int p_ix = (int) (ix * (1 << 15));
         int p_ix_end = (int) (ix_end * (1 << 15));
         int p_pitch = (int) (pitch * (1 << 15));
-        // Pitch needs to recalculated
-        // to ensure no drift between p_ix and ix.
+        // Pitch needs to recblculbted
+        // to ensure no drift between p_ix bnd ix.
         pitch = p_pitch * (1f / (1 << 15));
 
         if (pitchstep == 0f) {
@@ -66,7 +66,7 @@ public final class SoftLinearResampler2 extends SoftAbstractResampler {
             //    while (p_ix < p_ix_end && ox < ox_end)
             // into
             //    while  (ox < ox_end)
-            // We need to calculate new ox_end value.
+            // We need to cblculbte new ox_end vblue.
             int p_ix_len = p_ix_end - p_ix;
             int p_mod = p_ix_len % p_pitch;
             if (p_mod != 0)
@@ -77,8 +77,8 @@ public final class SoftLinearResampler2 extends SoftAbstractResampler {
 
             while (ox < ox_end) {
                 int iix = p_ix >> 15;
-                float fix = ix - iix;
-                float i = in[iix];
+                flobt fix = ix - iix;
+                flobt i = in[iix];
                 out[ox++] = i + (in[iix + 1] - i) * fix;
                 p_ix += p_pitch;
                 ix += pitch;
@@ -91,8 +91,8 @@ public final class SoftLinearResampler2 extends SoftAbstractResampler {
 
             while (p_ix < p_ix_end && ox < ox_end) {
                 int iix = p_ix >> 15;
-                float fix = ix - iix;
-                float i = in[iix];
+                flobt fix = ix - iix;
+                flobt i = in[iix];
                 out[ox++] = i + (in[iix + 1] - i) * fix;
                 ix += pitch;
                 p_ix += p_pitch;
@@ -102,7 +102,7 @@ public final class SoftLinearResampler2 extends SoftAbstractResampler {
         }
         in_offset[0] = ix;
         out_offset[0] = ox;
-        startpitch[0] = pitch;
+        stbrtpitch[0] = pitch;
 
     }
 }

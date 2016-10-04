@@ -1,269 +1,269 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea and Martin Buchholz with assistance from members of
- * JCP JSR-166 Expert Group and released to the public domain, as explained
- * at http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb bnd Mbrtin Buchholz with bssistbnce from members of
+ * JCP JSR-166 Expert Group bnd relebsed to the public dombin, bs explbined
+ * bt http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.util.AbstractQueue;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Queue;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
+import jbvb.util.AbstrbctQueue;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Queue;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.Consumer;
 
 /**
- * An unbounded thread-safe {@linkplain Queue queue} based on linked nodes.
+ * An unbounded threbd-sbfe {@linkplbin Queue queue} bbsed on linked nodes.
  * This queue orders elements FIFO (first-in-first-out).
- * The <em>head</em> of the queue is that element that has been on the
+ * The <em>hebd</em> of the queue is thbt element thbt hbs been on the
  * queue the longest time.
- * The <em>tail</em> of the queue is that element that has been on the
+ * The <em>tbil</em> of the queue is thbt element thbt hbs been on the
  * queue the shortest time. New elements
- * are inserted at the tail of the queue, and the queue retrieval
- * operations obtain elements at the head of the queue.
- * A {@code ConcurrentLinkedQueue} is an appropriate choice when
- * many threads will share access to a common collection.
- * Like most other concurrent collection implementations, this class
+ * bre inserted bt the tbil of the queue, bnd the queue retrievbl
+ * operbtions obtbin elements bt the hebd of the queue.
+ * A {@code ConcurrentLinkedQueue} is bn bppropribte choice when
+ * mbny threbds will shbre bccess to b common collection.
+ * Like most other concurrent collection implementbtions, this clbss
  * does not permit the use of {@code null} elements.
  *
- * <p>This implementation employs an efficient <em>non-blocking</em>
- * algorithm based on one described in <a
- * href="http://www.cs.rochester.edu/u/michael/PODC96.html"> Simple,
- * Fast, and Practical Non-Blocking and Blocking Concurrent Queue
- * Algorithms</a> by Maged M. Michael and Michael L. Scott.
+ * <p>This implementbtion employs bn efficient <em>non-blocking</em>
+ * blgorithm bbsed on one described in <b
+ * href="http://www.cs.rochester.edu/u/michbel/PODC96.html"> Simple,
+ * Fbst, bnd Prbcticbl Non-Blocking bnd Blocking Concurrent Queue
+ * Algorithms</b> by Mbged M. Michbel bnd Michbel L. Scott.
  *
- * <p>Iterators are <i>weakly consistent</i>, returning elements
- * reflecting the state of the queue at some point at or since the
- * creation of the iterator.  They do <em>not</em> throw {@link
- * java.util.ConcurrentModificationException}, and may proceed concurrently
- * with other operations.  Elements contained in the queue since the creation
- * of the iterator will be returned exactly once.
+ * <p>Iterbtors bre <i>webkly consistent</i>, returning elements
+ * reflecting the stbte of the queue bt some point bt or since the
+ * crebtion of the iterbtor.  They do <em>not</em> throw {@link
+ * jbvb.util.ConcurrentModificbtionException}, bnd mby proceed concurrently
+ * with other operbtions.  Elements contbined in the queue since the crebtion
+ * of the iterbtor will be returned exbctly once.
  *
- * <p>Beware that, unlike in most collections, the {@code size} method
- * is <em>NOT</em> a constant-time operation. Because of the
- * asynchronous nature of these queues, determining the current number
- * of elements requires a traversal of the elements, and so may report
- * inaccurate results if this collection is modified during traversal.
- * Additionally, the bulk operations {@code addAll},
- * {@code removeAll}, {@code retainAll}, {@code containsAll},
- * {@code equals}, and {@code toArray} are <em>not</em> guaranteed
- * to be performed atomically. For example, an iterator operating
- * concurrently with an {@code addAll} operation might view only some
- * of the added elements.
+ * <p>Bewbre thbt, unlike in most collections, the {@code size} method
+ * is <em>NOT</em> b constbnt-time operbtion. Becbuse of the
+ * bsynchronous nbture of these queues, determining the current number
+ * of elements requires b trbversbl of the elements, bnd so mby report
+ * inbccurbte results if this collection is modified during trbversbl.
+ * Additionblly, the bulk operbtions {@code bddAll},
+ * {@code removeAll}, {@code retbinAll}, {@code contbinsAll},
+ * {@code equbls}, bnd {@code toArrby} bre <em>not</em> gubrbnteed
+ * to be performed btomicblly. For exbmple, bn iterbtor operbting
+ * concurrently with bn {@code bddAll} operbtion might view only some
+ * of the bdded elements.
  *
- * <p>This class and its iterator implement all of the <em>optional</em>
- * methods of the {@link Queue} and {@link Iterator} interfaces.
+ * <p>This clbss bnd its iterbtor implement bll of the <em>optionbl</em>
+ * methods of the {@link Queue} bnd {@link Iterbtor} interfbces.
  *
  * <p>Memory consistency effects: As with other concurrent
- * collections, actions in a thread prior to placing an object into a
+ * collections, bctions in b threbd prior to plbcing bn object into b
  * {@code ConcurrentLinkedQueue}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions subsequent to the access or removal of that element from
- * the {@code ConcurrentLinkedQueue} in another thread.
+ * <b href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
+ * bctions subsequent to the bccess or removbl of thbt element from
+ * the {@code ConcurrentLinkedQueue} in bnother threbd.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @buthor Doug Leb
+ * @pbrbm <E> the type of elements held in this collection
  */
-public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
-        implements Queue<E>, java.io.Serializable {
-    private static final long serialVersionUID = 196745693267521676L;
+public clbss ConcurrentLinkedQueue<E> extends AbstrbctQueue<E>
+        implements Queue<E>, jbvb.io.Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 196745693267521676L;
 
     /*
-     * This is a modification of the Michael & Scott algorithm,
-     * adapted for a garbage-collected environment, with support for
+     * This is b modificbtion of the Michbel & Scott blgorithm,
+     * bdbpted for b gbrbbge-collected environment, with support for
      * interior node deletion (to support remove(Object)).  For
-     * explanation, read the paper.
+     * explbnbtion, rebd the pbper.
      *
-     * Note that like most non-blocking algorithms in this package,
-     * this implementation relies on the fact that in garbage
+     * Note thbt like most non-blocking blgorithms in this pbckbge,
+     * this implementbtion relies on the fbct thbt in gbrbbge
      * collected systems, there is no possibility of ABA problems due
      * to recycled nodes, so there is no need to use "counted
-     * pointers" or related techniques seen in versions used in
+     * pointers" or relbted techniques seen in versions used in
      * non-GC'ed settings.
      *
-     * The fundamental invariants are:
-     * - There is exactly one (last) Node with a null next reference,
-     *   which is CASed when enqueueing.  This last Node can be
-     *   reached in O(1) time from tail, but tail is merely an
-     *   optimization - it can always be reached in O(N) time from
-     *   head as well.
-     * - The elements contained in the queue are the non-null items in
-     *   Nodes that are reachable from head.  CASing the item
-     *   reference of a Node to null atomically removes it from the
-     *   queue.  Reachability of all elements from head must remain
-     *   true even in the case of concurrent modifications that cause
-     *   head to advance.  A dequeued Node may remain in use
-     *   indefinitely due to creation of an Iterator or simply a
-     *   poll() that has lost its time slice.
+     * The fundbmentbl invbribnts bre:
+     * - There is exbctly one (lbst) Node with b null next reference,
+     *   which is CASed when enqueueing.  This lbst Node cbn be
+     *   rebched in O(1) time from tbil, but tbil is merely bn
+     *   optimizbtion - it cbn blwbys be rebched in O(N) time from
+     *   hebd bs well.
+     * - The elements contbined in the queue bre the non-null items in
+     *   Nodes thbt bre rebchbble from hebd.  CASing the item
+     *   reference of b Node to null btomicblly removes it from the
+     *   queue.  Rebchbbility of bll elements from hebd must rembin
+     *   true even in the cbse of concurrent modificbtions thbt cbuse
+     *   hebd to bdvbnce.  A dequeued Node mby rembin in use
+     *   indefinitely due to crebtion of bn Iterbtor or simply b
+     *   poll() thbt hbs lost its time slice.
      *
-     * The above might appear to imply that all Nodes are GC-reachable
-     * from a predecessor dequeued Node.  That would cause two problems:
-     * - allow a rogue Iterator to cause unbounded memory retention
-     * - cause cross-generational linking of old Nodes to new Nodes if
-     *   a Node was tenured while live, which generational GCs have a
-     *   hard time dealing with, causing repeated major collections.
-     * However, only non-deleted Nodes need to be reachable from
-     * dequeued Nodes, and reachability does not necessarily have to
+     * The bbove might bppebr to imply thbt bll Nodes bre GC-rebchbble
+     * from b predecessor dequeued Node.  Thbt would cbuse two problems:
+     * - bllow b rogue Iterbtor to cbuse unbounded memory retention
+     * - cbuse cross-generbtionbl linking of old Nodes to new Nodes if
+     *   b Node wbs tenured while live, which generbtionbl GCs hbve b
+     *   hbrd time debling with, cbusing repebted mbjor collections.
+     * However, only non-deleted Nodes need to be rebchbble from
+     * dequeued Nodes, bnd rebchbbility does not necessbrily hbve to
      * be of the kind understood by the GC.  We use the trick of
-     * linking a Node that has just been dequeued to itself.  Such a
-     * self-link implicitly means to advance to head.
+     * linking b Node thbt hbs just been dequeued to itself.  Such b
+     * self-link implicitly mebns to bdvbnce to hebd.
      *
-     * Both head and tail are permitted to lag.  In fact, failing to
-     * update them every time one could is a significant optimization
-     * (fewer CASes). As with LinkedTransferQueue (see the internal
-     * documentation for that class), we use a slack threshold of two;
-     * that is, we update head/tail when the current pointer appears
-     * to be two or more steps away from the first/last node.
+     * Both hebd bnd tbil bre permitted to lbg.  In fbct, fbiling to
+     * updbte them every time one could is b significbnt optimizbtion
+     * (fewer CASes). As with LinkedTrbnsferQueue (see the internbl
+     * documentbtion for thbt clbss), we use b slbck threshold of two;
+     * thbt is, we updbte hebd/tbil when the current pointer bppebrs
+     * to be two or more steps bwby from the first/lbst node.
      *
-     * Since head and tail are updated concurrently and independently,
-     * it is possible for tail to lag behind head (why not)?
+     * Since hebd bnd tbil bre updbted concurrently bnd independently,
+     * it is possible for tbil to lbg behind hebd (why not)?
      *
-     * CASing a Node's item reference to null atomically removes the
-     * element from the queue.  Iterators skip over Nodes with null
-     * items.  Prior implementations of this class had a race between
-     * poll() and remove(Object) where the same element would appear
-     * to be successfully removed by two concurrent operations.  The
-     * method remove(Object) also lazily unlinks deleted Nodes, but
-     * this is merely an optimization.
+     * CASing b Node's item reference to null btomicblly removes the
+     * element from the queue.  Iterbtors skip over Nodes with null
+     * items.  Prior implementbtions of this clbss hbd b rbce between
+     * poll() bnd remove(Object) where the sbme element would bppebr
+     * to be successfully removed by two concurrent operbtions.  The
+     * method remove(Object) blso lbzily unlinks deleted Nodes, but
+     * this is merely bn optimizbtion.
      *
-     * When constructing a Node (before enqueuing it) we avoid paying
-     * for a volatile write to item by using Unsafe.putObject instead
-     * of a normal write.  This allows the cost of enqueue to be
-     * "one-and-a-half" CASes.
+     * When constructing b Node (before enqueuing it) we bvoid pbying
+     * for b volbtile write to item by using Unsbfe.putObject instebd
+     * of b normbl write.  This bllows the cost of enqueue to be
+     * "one-bnd-b-hblf" CASes.
      *
-     * Both head and tail may or may not point to a Node with a
-     * non-null item.  If the queue is empty, all items must of course
-     * be null.  Upon creation, both head and tail refer to a dummy
-     * Node with null item.  Both head and tail are only updated using
-     * CAS, so they never regress, although again this is merely an
-     * optimization.
+     * Both hebd bnd tbil mby or mby not point to b Node with b
+     * non-null item.  If the queue is empty, bll items must of course
+     * be null.  Upon crebtion, both hebd bnd tbil refer to b dummy
+     * Node with null item.  Both hebd bnd tbil bre only updbted using
+     * CAS, so they never regress, blthough bgbin this is merely bn
+     * optimizbtion.
      */
 
-    private static class Node<E> {
-        volatile E item;
-        volatile Node<E> next;
+    privbte stbtic clbss Node<E> {
+        volbtile E item;
+        volbtile Node<E> next;
 
         /**
-         * Constructs a new node.  Uses relaxed write because item can
-         * only be seen after publication via casNext.
+         * Constructs b new node.  Uses relbxed write becbuse item cbn
+         * only be seen bfter publicbtion vib cbsNext.
          */
         Node(E item) {
             UNSAFE.putObject(this, itemOffset, item);
         }
 
-        boolean casItem(E cmp, E val) {
-            return UNSAFE.compareAndSwapObject(this, itemOffset, cmp, val);
+        boolebn cbsItem(E cmp, E vbl) {
+            return UNSAFE.compbreAndSwbpObject(this, itemOffset, cmp, vbl);
         }
 
-        void lazySetNext(Node<E> val) {
-            UNSAFE.putOrderedObject(this, nextOffset, val);
+        void lbzySetNext(Node<E> vbl) {
+            UNSAFE.putOrderedObject(this, nextOffset, vbl);
         }
 
-        boolean casNext(Node<E> cmp, Node<E> val) {
-            return UNSAFE.compareAndSwapObject(this, nextOffset, cmp, val);
+        boolebn cbsNext(Node<E> cmp, Node<E> vbl) {
+            return UNSAFE.compbreAndSwbpObject(this, nextOffset, cmp, vbl);
         }
 
-        // Unsafe mechanics
+        // Unsbfe mechbnics
 
-        private static final sun.misc.Unsafe UNSAFE;
-        private static final long itemOffset;
-        private static final long nextOffset;
+        privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+        privbte stbtic finbl long itemOffset;
+        privbte stbtic finbl long nextOffset;
 
-        static {
+        stbtic {
             try {
-                UNSAFE = sun.misc.Unsafe.getUnsafe();
-                Class<?> k = Node.class;
+                UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+                Clbss<?> k = Node.clbss;
                 itemOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("item"));
+                    (k.getDeclbredField("item"));
                 nextOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("next"));
-            } catch (Exception e) {
+                    (k.getDeclbredField("next"));
+            } cbtch (Exception e) {
                 throw new Error(e);
             }
         }
     }
 
     /**
-     * A node from which the first live (non-deleted) node (if any)
-     * can be reached in O(1) time.
-     * Invariants:
-     * - all live nodes are reachable from head via succ()
-     * - head != null
-     * - (tmp = head).next != tmp || tmp != head
-     * Non-invariants:
-     * - head.item may or may not be null.
-     * - it is permitted for tail to lag behind head, that is, for tail
-     *   to not be reachable from head!
+     * A node from which the first live (non-deleted) node (if bny)
+     * cbn be rebched in O(1) time.
+     * Invbribnts:
+     * - bll live nodes bre rebchbble from hebd vib succ()
+     * - hebd != null
+     * - (tmp = hebd).next != tmp || tmp != hebd
+     * Non-invbribnts:
+     * - hebd.item mby or mby not be null.
+     * - it is permitted for tbil to lbg behind hebd, thbt is, for tbil
+     *   to not be rebchbble from hebd!
      */
-    private transient volatile Node<E> head;
+    privbte trbnsient volbtile Node<E> hebd;
 
     /**
-     * A node from which the last node on list (that is, the unique
-     * node with node.next == null) can be reached in O(1) time.
-     * Invariants:
-     * - the last node is always reachable from tail via succ()
-     * - tail != null
-     * Non-invariants:
-     * - tail.item may or may not be null.
-     * - it is permitted for tail to lag behind head, that is, for tail
-     *   to not be reachable from head!
-     * - tail.next may or may not be self-pointing to tail.
+     * A node from which the lbst node on list (thbt is, the unique
+     * node with node.next == null) cbn be rebched in O(1) time.
+     * Invbribnts:
+     * - the lbst node is blwbys rebchbble from tbil vib succ()
+     * - tbil != null
+     * Non-invbribnts:
+     * - tbil.item mby or mby not be null.
+     * - it is permitted for tbil to lbg behind hebd, thbt is, for tbil
+     *   to not be rebchbble from hebd!
+     * - tbil.next mby or mby not be self-pointing to tbil.
      */
-    private transient volatile Node<E> tail;
+    privbte trbnsient volbtile Node<E> tbil;
 
     /**
-     * Creates a {@code ConcurrentLinkedQueue} that is initially empty.
+     * Crebtes b {@code ConcurrentLinkedQueue} thbt is initiblly empty.
      */
     public ConcurrentLinkedQueue() {
-        head = tail = new Node<E>(null);
+        hebd = tbil = new Node<E>(null);
     }
 
     /**
-     * Creates a {@code ConcurrentLinkedQueue}
-     * initially containing the elements of the given collection,
-     * added in traversal order of the collection's iterator.
+     * Crebtes b {@code ConcurrentLinkedQueue}
+     * initiblly contbining the elements of the given collection,
+     * bdded in trbversbl order of the collection's iterbtor.
      *
-     * @param c the collection of elements to initially contain
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm c the collection of elements to initiblly contbin
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
      */
     public ConcurrentLinkedQueue(Collection<? extends E> c) {
         Node<E> h = null, t = null;
@@ -273,105 +273,105 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
             if (h == null)
                 h = t = newNode;
             else {
-                t.lazySetNext(newNode);
+                t.lbzySetNext(newNode);
                 t = newNode;
             }
         }
         if (h == null)
             h = t = new Node<E>(null);
-        head = h;
-        tail = t;
+        hebd = h;
+        tbil = t;
     }
 
-    // Have to override just to update the javadoc
+    // Hbve to override just to updbte the jbvbdoc
 
     /**
-     * Inserts the specified element at the tail of this queue.
+     * Inserts the specified element bt the tbil of this queue.
      * As the queue is unbounded, this method will never throw
-     * {@link IllegalStateException} or return {@code false}.
+     * {@link IllegblStbteException} or return {@code fblse}.
      *
-     * @return {@code true} (as specified by {@link Collection#add})
+     * @return {@code true} (bs specified by {@link Collection#bdd})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean add(E e) {
+    public boolebn bdd(E e) {
         return offer(e);
     }
 
     /**
-     * Tries to CAS head to p. If successful, repoint old head to itself
-     * as sentinel for succ(), below.
+     * Tries to CAS hebd to p. If successful, repoint old hebd to itself
+     * bs sentinel for succ(), below.
      */
-    final void updateHead(Node<E> h, Node<E> p) {
-        if (h != p && casHead(h, p))
-            h.lazySetNext(h);
+    finbl void updbteHebd(Node<E> h, Node<E> p) {
+        if (h != p && cbsHebd(h, p))
+            h.lbzySetNext(h);
     }
 
     /**
-     * Returns the successor of p, or the head node if p.next has been
-     * linked to self, which will only be true if traversing with a
-     * stale pointer that is now off the list.
+     * Returns the successor of p, or the hebd node if p.next hbs been
+     * linked to self, which will only be true if trbversing with b
+     * stble pointer thbt is now off the list.
      */
-    final Node<E> succ(Node<E> p) {
+    finbl Node<E> succ(Node<E> p) {
         Node<E> next = p.next;
-        return (p == next) ? head : next;
+        return (p == next) ? hebd : next;
     }
 
     /**
-     * Inserts the specified element at the tail of this queue.
-     * As the queue is unbounded, this method will never return {@code false}.
+     * Inserts the specified element bt the tbil of this queue.
+     * As the queue is unbounded, this method will never return {@code fblse}.
      *
-     * @return {@code true} (as specified by {@link Queue#offer})
+     * @return {@code true} (bs specified by {@link Queue#offer})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offer(E e) {
+    public boolebn offer(E e) {
         checkNotNull(e);
-        final Node<E> newNode = new Node<E>(e);
+        finbl Node<E> newNode = new Node<E>(e);
 
-        for (Node<E> t = tail, p = t;;) {
+        for (Node<E> t = tbil, p = t;;) {
             Node<E> q = p.next;
             if (q == null) {
-                // p is last node
-                if (p.casNext(null, newNode)) {
-                    // Successful CAS is the linearization point
-                    // for e to become an element of this queue,
-                    // and for newNode to become "live".
-                    if (p != t) // hop two nodes at a time
-                        casTail(t, newNode);  // Failure is OK.
+                // p is lbst node
+                if (p.cbsNext(null, newNode)) {
+                    // Successful CAS is the linebrizbtion point
+                    // for e to become bn element of this queue,
+                    // bnd for newNode to become "live".
+                    if (p != t) // hop two nodes bt b time
+                        cbsTbil(t, newNode);  // Fbilure is OK.
                     return true;
                 }
-                // Lost CAS race to another thread; re-read next
+                // Lost CAS rbce to bnother threbd; re-rebd next
             }
             else if (p == q)
-                // We have fallen off list.  If tail is unchanged, it
-                // will also be off-list, in which case we need to
-                // jump to head, from which all live nodes are always
-                // reachable.  Else the new tail is a better bet.
-                p = (t != (t = tail)) ? t : head;
+                // We hbve fbllen off list.  If tbil is unchbnged, it
+                // will blso be off-list, in which cbse we need to
+                // jump to hebd, from which bll live nodes bre blwbys
+                // rebchbble.  Else the new tbil is b better bet.
+                p = (t != (t = tbil)) ? t : hebd;
             else
-                // Check for tail updates after two hops.
-                p = (p != t && t != (t = tail)) ? t : q;
+                // Check for tbil updbtes bfter two hops.
+                p = (p != t && t != (t = tbil)) ? t : q;
         }
     }
 
     public E poll() {
-        restartFromHead:
+        restbrtFromHebd:
         for (;;) {
-            for (Node<E> h = head, p = h, q;;) {
+            for (Node<E> h = hebd, p = h, q;;) {
                 E item = p.item;
 
-                if (item != null && p.casItem(item, null)) {
-                    // Successful CAS is the linearization point
+                if (item != null && p.cbsItem(item, null)) {
+                    // Successful CAS is the linebrizbtion point
                     // for item to be removed from this queue.
-                    if (p != h) // hop two nodes at a time
-                        updateHead(h, ((q = p.next) != null) ? q : p);
+                    if (p != h) // hop two nodes bt b time
+                        updbteHebd(h, ((q = p.next) != null) ? q : p);
                     return item;
                 }
                 else if ((q = p.next) == null) {
-                    updateHead(h, p);
+                    updbteHebd(h, p);
                     return null;
                 }
                 else if (p == q)
-                    continue restartFromHead;
+                    continue restbrtFromHebd;
                 else
                     p = q;
             }
@@ -379,16 +379,16 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
     }
 
     public E peek() {
-        restartFromHead:
+        restbrtFromHebd:
         for (;;) {
-            for (Node<E> h = head, p = h, q;;) {
+            for (Node<E> h = hebd, p = h, q;;) {
                 E item = p.item;
                 if (item != null || (q = p.next) == null) {
-                    updateHead(h, p);
+                    updbteHebd(h, p);
                     return item;
                 }
                 else if (p == q)
-                    continue restartFromHead;
+                    continue restbrtFromHebd;
                 else
                     p = q;
             }
@@ -397,23 +397,23 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
 
     /**
      * Returns the first live (non-deleted) node on list, or null if none.
-     * This is yet another variant of poll/peek; here returning the
-     * first node, not element.  We could make peek() a wrapper around
-     * first(), but that would cost an extra volatile read of item,
-     * and the need to add a retry loop to deal with the possibility
-     * of losing a race to a concurrent poll().
+     * This is yet bnother vbribnt of poll/peek; here returning the
+     * first node, not element.  We could mbke peek() b wrbpper bround
+     * first(), but thbt would cost bn extrb volbtile rebd of item,
+     * bnd the need to bdd b retry loop to debl with the possibility
+     * of losing b rbce to b concurrent poll().
      */
     Node<E> first() {
-        restartFromHead:
+        restbrtFromHebd:
         for (;;) {
-            for (Node<E> h = head, p = h, q;;) {
-                boolean hasItem = (p.item != null);
-                if (hasItem || (q = p.next) == null) {
-                    updateHead(h, p);
-                    return hasItem ? p : null;
+            for (Node<E> h = hebd, p = h, q;;) {
+                boolebn hbsItem = (p.item != null);
+                if (hbsItem || (q = p.next) == null) {
+                    updbteHebd(h, p);
+                    return hbsItem ? p : null;
                 }
                 else if (p == q)
-                    continue restartFromHead;
+                    continue restbrtFromHebd;
                 else
                     p = q;
             }
@@ -421,27 +421,27 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Returns {@code true} if this queue contains no elements.
+     * Returns {@code true} if this queue contbins no elements.
      *
-     * @return {@code true} if this queue contains no elements
+     * @return {@code true} if this queue contbins no elements
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return first() == null;
     }
 
     /**
      * Returns the number of elements in this queue.  If this queue
-     * contains more than {@code Integer.MAX_VALUE} elements, returns
+     * contbins more thbn {@code Integer.MAX_VALUE} elements, returns
      * {@code Integer.MAX_VALUE}.
      *
-     * <p>Beware that, unlike in most collections, this method is
-     * <em>NOT</em> a constant-time operation. Because of the
-     * asynchronous nature of these queues, determining the current
-     * number of elements requires an O(n) traversal.
-     * Additionally, if elements are added or removed during execution
-     * of this method, the returned result may be inaccurate.  Thus,
-     * this method is typically not very useful in concurrent
-     * applications.
+     * <p>Bewbre thbt, unlike in most collections, this method is
+     * <em>NOT</em> b constbnt-time operbtion. Becbuse of the
+     * bsynchronous nbture of these queues, determining the current
+     * number of elements requires bn O(n) trbversbl.
+     * Additionblly, if elements bre bdded or removed during execution
+     * of this method, the returned result mby be inbccurbte.  Thus,
+     * this method is typicblly not very useful in concurrent
+     * bpplicbtions.
      *
      * @return the number of elements in this queue
      */
@@ -449,249 +449,249 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
         int count = 0;
         for (Node<E> p = first(); p != null; p = succ(p))
             if (p.item != null)
-                // Collection.size() spec says to max out
+                // Collection.size() spec sbys to mbx out
                 if (++count == Integer.MAX_VALUE)
-                    break;
+                    brebk;
         return count;
     }
 
     /**
-     * Returns {@code true} if this queue contains the specified element.
-     * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Returns {@code true} if this queue contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this queue contbins
+     * bt lebst one element {@code e} such thbt {@code o.equbls(e)}.
      *
-     * @param o object to be checked for containment in this queue
-     * @return {@code true} if this queue contains the specified element
+     * @pbrbm o object to be checked for contbinment in this queue
+     * @return {@code true} if this queue contbins the specified element
      */
-    public boolean contains(Object o) {
-        if (o == null) return false;
+    public boolebn contbins(Object o) {
+        if (o == null) return fblse;
         for (Node<E> p = first(); p != null; p = succ(p)) {
             E item = p.item;
-            if (item != null && o.equals(item))
+            if (item != null && o.equbls(item))
                 return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Removes a single instance of the specified element from this queue,
-     * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
+     * Removes b single instbnce of the specified element from this queue,
+     * if it is present.  More formblly, removes bn element {@code e} such
+     * thbt {@code o.equbls(e)}, if this queue contbins one or more such
      * elements.
-     * Returns {@code true} if this queue contained the specified element
-     * (or equivalently, if this queue changed as a result of the call).
+     * Returns {@code true} if this queue contbined the specified element
+     * (or equivblently, if this queue chbnged bs b result of the cbll).
      *
-     * @param o element to be removed from this queue, if present
-     * @return {@code true} if this queue changed as a result of the call
+     * @pbrbm o element to be removed from this queue, if present
+     * @return {@code true} if this queue chbnged bs b result of the cbll
      */
-    public boolean remove(Object o) {
-        if (o == null) return false;
+    public boolebn remove(Object o) {
+        if (o == null) return fblse;
         Node<E> pred = null;
         for (Node<E> p = first(); p != null; p = succ(p)) {
             E item = p.item;
             if (item != null &&
-                o.equals(item) &&
-                p.casItem(item, null)) {
+                o.equbls(item) &&
+                p.cbsItem(item, null)) {
                 Node<E> next = succ(p);
                 if (pred != null && next != null)
-                    pred.casNext(p, next);
+                    pred.cbsNext(p, next);
                 return true;
             }
             pred = p;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Appends all of the elements in the specified collection to the end of
-     * this queue, in the order that they are returned by the specified
-     * collection's iterator.  Attempts to {@code addAll} of a queue to
-     * itself result in {@code IllegalArgumentException}.
+     * Appends bll of the elements in the specified collection to the end of
+     * this queue, in the order thbt they bre returned by the specified
+     * collection's iterbtor.  Attempts to {@code bddAll} of b queue to
+     * itself result in {@code IllegblArgumentException}.
      *
-     * @param c the elements to be inserted into this queue
-     * @return {@code true} if this queue changed as a result of the call
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
-     * @throws IllegalArgumentException if the collection is this queue
+     * @pbrbm c the elements to be inserted into this queue
+     * @return {@code true} if this queue chbnged bs b result of the cbll
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
+     * @throws IllegblArgumentException if the collection is this queue
      */
-    public boolean addAll(Collection<? extends E> c) {
+    public boolebn bddAll(Collection<? extends E> c) {
         if (c == this)
-            // As historically specified in AbstractQueue#addAll
-            throw new IllegalArgumentException();
+            // As historicblly specified in AbstrbctQueue#bddAll
+            throw new IllegblArgumentException();
 
-        // Copy c into a private chain of Nodes
-        Node<E> beginningOfTheEnd = null, last = null;
+        // Copy c into b privbte chbin of Nodes
+        Node<E> beginningOfTheEnd = null, lbst = null;
         for (E e : c) {
             checkNotNull(e);
             Node<E> newNode = new Node<E>(e);
             if (beginningOfTheEnd == null)
-                beginningOfTheEnd = last = newNode;
+                beginningOfTheEnd = lbst = newNode;
             else {
-                last.lazySetNext(newNode);
-                last = newNode;
+                lbst.lbzySetNext(newNode);
+                lbst = newNode;
             }
         }
         if (beginningOfTheEnd == null)
-            return false;
+            return fblse;
 
-        // Atomically append the chain at the tail of this collection
-        for (Node<E> t = tail, p = t;;) {
+        // Atomicblly bppend the chbin bt the tbil of this collection
+        for (Node<E> t = tbil, p = t;;) {
             Node<E> q = p.next;
             if (q == null) {
-                // p is last node
-                if (p.casNext(null, beginningOfTheEnd)) {
-                    // Successful CAS is the linearization point
-                    // for all elements to be added to this queue.
-                    if (!casTail(t, last)) {
-                        // Try a little harder to update tail,
-                        // since we may be adding many elements.
-                        t = tail;
-                        if (last.next == null)
-                            casTail(t, last);
+                // p is lbst node
+                if (p.cbsNext(null, beginningOfTheEnd)) {
+                    // Successful CAS is the linebrizbtion point
+                    // for bll elements to be bdded to this queue.
+                    if (!cbsTbil(t, lbst)) {
+                        // Try b little hbrder to updbte tbil,
+                        // since we mby be bdding mbny elements.
+                        t = tbil;
+                        if (lbst.next == null)
+                            cbsTbil(t, lbst);
                     }
                     return true;
                 }
-                // Lost CAS race to another thread; re-read next
+                // Lost CAS rbce to bnother threbd; re-rebd next
             }
             else if (p == q)
-                // We have fallen off list.  If tail is unchanged, it
-                // will also be off-list, in which case we need to
-                // jump to head, from which all live nodes are always
-                // reachable.  Else the new tail is a better bet.
-                p = (t != (t = tail)) ? t : head;
+                // We hbve fbllen off list.  If tbil is unchbnged, it
+                // will blso be off-list, in which cbse we need to
+                // jump to hebd, from which bll live nodes bre blwbys
+                // rebchbble.  Else the new tbil is b better bet.
+                p = (t != (t = tbil)) ? t : hebd;
             else
-                // Check for tail updates after two hops.
-                p = (p != t && t != (t = tail)) ? t : q;
+                // Check for tbil updbtes bfter two hops.
+                p = (p != t && t != (t = tbil)) ? t : q;
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this queue, in
+     * Returns bn brrby contbining bll of the elements in this queue, in
      * proper sequence.
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this queue.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it bre
+     * mbintbined by this queue.  (In other words, this method must bllocbte
+     * b new brrby).  The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all of the elements in this queue
+     * @return bn brrby contbining bll of the elements in this queue
      */
-    public Object[] toArray() {
-        // Use ArrayList to deal with resizing.
-        ArrayList<E> al = new ArrayList<E>();
+    public Object[] toArrby() {
+        // Use ArrbyList to debl with resizing.
+        ArrbyList<E> bl = new ArrbyList<E>();
         for (Node<E> p = first(); p != null; p = succ(p)) {
             E item = p.item;
             if (item != null)
-                al.add(item);
+                bl.bdd(item);
         }
-        return al.toArray();
+        return bl.toArrby();
     }
 
     /**
-     * Returns an array containing all of the elements in this queue, in
-     * proper sequence; the runtime type of the returned array is that of
-     * the specified array.  If the queue fits in the specified array, it
-     * is returned therein.  Otherwise, a new array is allocated with the
-     * runtime type of the specified array and the size of this queue.
+     * Returns bn brrby contbining bll of the elements in this queue, in
+     * proper sequence; the runtime type of the returned brrby is thbt of
+     * the specified brrby.  If the queue fits in the specified brrby, it
+     * is returned therein.  Otherwise, b new brrby is bllocbted with the
+     * runtime type of the specified brrby bnd the size of this queue.
      *
-     * <p>If this queue fits in the specified array with room to spare
-     * (i.e., the array has more elements than this queue), the element in
-     * the array immediately following the end of the queue is set to
+     * <p>If this queue fits in the specified brrby with room to spbre
+     * (i.e., the brrby hbs more elements thbn this queue), the element in
+     * the brrby immedibtely following the end of the queue is set to
      * {@code null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Like the {@link #toArrby()} method, this method bcts bs bridge between
+     * brrby-bbsed bnd collection-bbsed APIs.  Further, this method bllows
+     * precise control over the runtime type of the output brrby, bnd mby,
+     * under certbin circumstbnces, be used to sbve bllocbtion costs.
      *
-     * <p>Suppose {@code x} is a queue known to contain only strings.
-     * The following code can be used to dump the queue into a newly
-     * allocated array of {@code String}:
+     * <p>Suppose {@code x} is b queue known to contbin only strings.
+     * The following code cbn be used to dump the queue into b newly
+     * bllocbted brrby of {@code String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <pre> {@code String[] y = x.toArrby(new String[0]);}</pre>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Note thbt {@code toArrby(new Object[0])} is identicbl in function to
+     * {@code toArrby()}.
      *
-     * @param a the array into which the elements of the queue are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this queue
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
+     * @pbrbm b the brrby into which the elements of the queue bre to
+     *          be stored, if it is big enough; otherwise, b new brrby of the
+     *          sbme runtime type is bllocbted for this purpose
+     * @return bn brrby contbining bll of the elements in this queue
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in
      *         this queue
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        // try to use sent-in array
+    @SuppressWbrnings("unchecked")
+    public <T> T[] toArrby(T[] b) {
+        // try to use sent-in brrby
         int k = 0;
         Node<E> p;
-        for (p = first(); p != null && k < a.length; p = succ(p)) {
+        for (p = first(); p != null && k < b.length; p = succ(p)) {
             E item = p.item;
             if (item != null)
-                a[k++] = (T)item;
+                b[k++] = (T)item;
         }
         if (p == null) {
-            if (k < a.length)
-                a[k] = null;
-            return a;
+            if (k < b.length)
+                b[k] = null;
+            return b;
         }
 
-        // If won't fit, use ArrayList version
-        ArrayList<E> al = new ArrayList<E>();
+        // If won't fit, use ArrbyList version
+        ArrbyList<E> bl = new ArrbyList<E>();
         for (Node<E> q = first(); q != null; q = succ(q)) {
             E item = q.item;
             if (item != null)
-                al.add(item);
+                bl.bdd(item);
         }
-        return al.toArray(a);
+        return bl.toArrby(b);
     }
 
     /**
-     * Returns an iterator over the elements in this queue in proper sequence.
-     * The elements will be returned in order from first (head) to last (tail).
+     * Returns bn iterbtor over the elements in this queue in proper sequence.
+     * The elements will be returned in order from first (hebd) to lbst (tbil).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned iterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * @return an iterator over the elements in this queue in proper sequence
+     * @return bn iterbtor over the elements in this queue in proper sequence
      */
-    public Iterator<E> iterator() {
+    public Iterbtor<E> iterbtor() {
         return new Itr();
     }
 
-    private class Itr implements Iterator<E> {
+    privbte clbss Itr implements Iterbtor<E> {
         /**
          * Next node to return item for.
          */
-        private Node<E> nextNode;
+        privbte Node<E> nextNode;
 
         /**
-         * nextItem holds on to item fields because once we claim
-         * that an element exists in hasNext(), we must return it in
-         * the following next() call even if it was in the process of
-         * being removed when hasNext() was called.
+         * nextItem holds on to item fields becbuse once we clbim
+         * thbt bn element exists in hbsNext(), we must return it in
+         * the following next() cbll even if it wbs in the process of
+         * being removed when hbsNext() wbs cblled.
          */
-        private E nextItem;
+        privbte E nextItem;
 
         /**
-         * Node of the last returned item, to support remove.
+         * Node of the lbst returned item, to support remove.
          */
-        private Node<E> lastRet;
+        privbte Node<E> lbstRet;
 
         Itr() {
-            advance();
+            bdvbnce();
         }
 
         /**
-         * Moves to next valid node and returns item to return for
+         * Moves to next vblid node bnd returns item to return for
          * next(), or null if no such.
          */
-        private E advance() {
-            lastRet = nextNode;
+        privbte E bdvbnce() {
+            lbstRet = nextNode;
             E x = nextItem;
 
             Node<E> pred, p;
@@ -718,146 +718,146 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
                     // skip over nulls
                     Node<E> next = succ(p);
                     if (pred != null && next != null)
-                        pred.casNext(p, next);
+                        pred.cbsNext(p, next);
                     p = next;
                 }
             }
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return nextNode != null;
         }
 
         public E next() {
             if (nextNode == null) throw new NoSuchElementException();
-            return advance();
+            return bdvbnce();
         }
 
         public void remove() {
-            Node<E> l = lastRet;
-            if (l == null) throw new IllegalStateException();
-            // rely on a future traversal to relink.
+            Node<E> l = lbstRet;
+            if (l == null) throw new IllegblStbteException();
+            // rely on b future trbversbl to relink.
             l.item = null;
-            lastRet = null;
+            lbstRet = null;
         }
     }
 
     /**
-     * Saves this queue to a stream (that is, serializes it).
+     * Sbves this queue to b strebm (thbt is, seriblizes it).
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData All of the elements (each an {@code E}) in
-     * the proper order, followed by a null
+     * @pbrbm s the strebm
+     * @throws jbvb.io.IOException if bn I/O error occurs
+     * @seriblDbtb All of the elements (ebch bn {@code E}) in
+     * the proper order, followed by b null
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
 
-        // Write out any hidden stuff
-        s.defaultWriteObject();
+        // Write out bny hidden stuff
+        s.defbultWriteObject();
 
-        // Write out all elements in the proper order.
+        // Write out bll elements in the proper order.
         for (Node<E> p = first(); p != null; p = succ(p)) {
             Object item = p.item;
             if (item != null)
                 s.writeObject(item);
         }
 
-        // Use trailing null as sentinel
+        // Use trbiling null bs sentinel
         s.writeObject(null);
     }
 
     /**
-     * Reconstitutes this queue from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
+     * Reconstitutes this queue from b strebm (thbt is, deseriblizes it).
+     * @pbrbm s the strebm
+     * @throws ClbssNotFoundException if the clbss of b seriblized object
      *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
 
-        // Read in elements until trailing null sentinel found
+        // Rebd in elements until trbiling null sentinel found
         Node<E> h = null, t = null;
         Object item;
-        while ((item = s.readObject()) != null) {
-            @SuppressWarnings("unchecked")
+        while ((item = s.rebdObject()) != null) {
+            @SuppressWbrnings("unchecked")
             Node<E> newNode = new Node<E>((E) item);
             if (h == null)
                 h = t = newNode;
             else {
-                t.lazySetNext(newNode);
+                t.lbzySetNext(newNode);
                 t = newNode;
             }
         }
         if (h == null)
             h = t = new Node<E>(null);
-        head = h;
-        tail = t;
+        hebd = h;
+        tbil = t;
     }
 
-    /** A customized variant of Spliterators.IteratorSpliterator */
-    static final class CLQSpliterator<E> implements Spliterator<E> {
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        final ConcurrentLinkedQueue<E> queue;
-        Node<E> current;    // current node; null until initialized
-        int batch;          // batch size for splits
-        boolean exhausted;  // true when no more nodes
-        CLQSpliterator(ConcurrentLinkedQueue<E> queue) {
+    /** A customized vbribnt of Spliterbtors.IterbtorSpliterbtor */
+    stbtic finbl clbss CLQSpliterbtor<E> implements Spliterbtor<E> {
+        stbtic finbl int MAX_BATCH = 1 << 25;  // mbx bbtch brrby size;
+        finbl ConcurrentLinkedQueue<E> queue;
+        Node<E> current;    // current node; null until initiblized
+        int bbtch;          // bbtch size for splits
+        boolebn exhbusted;  // true when no more nodes
+        CLQSpliterbtor(ConcurrentLinkedQueue<E> queue) {
             this.queue = queue;
         }
 
-        public Spliterator<E> trySplit() {
+        public Spliterbtor<E> trySplit() {
             Node<E> p;
-            final ConcurrentLinkedQueue<E> q = this.queue;
-            int b = batch;
+            finbl ConcurrentLinkedQueue<E> q = this.queue;
+            int b = bbtch;
             int n = (b <= 0) ? 1 : (b >= MAX_BATCH) ? MAX_BATCH : b + 1;
-            if (!exhausted &&
+            if (!exhbusted &&
                 ((p = current) != null || (p = q.first()) != null) &&
                 p.next != null) {
-                Object[] a = new Object[n];
+                Object[] b = new Object[n];
                 int i = 0;
                 do {
-                    if ((a[i] = p.item) != null)
+                    if ((b[i] = p.item) != null)
                         ++i;
                     if (p == (p = p.next))
                         p = q.first();
                 } while (p != null && i < n);
                 if ((current = p) == null)
-                    exhausted = true;
+                    exhbusted = true;
                 if (i > 0) {
-                    batch = i;
-                    return Spliterators.spliterator
-                        (a, 0, i, Spliterator.ORDERED | Spliterator.NONNULL |
-                         Spliterator.CONCURRENT);
+                    bbtch = i;
+                    return Spliterbtors.spliterbtor
+                        (b, 0, i, Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                         Spliterbtor.CONCURRENT);
                 }
             }
             return null;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
+        public void forEbchRembining(Consumer<? super E> bction) {
             Node<E> p;
-            if (action == null) throw new NullPointerException();
-            final ConcurrentLinkedQueue<E> q = this.queue;
-            if (!exhausted &&
+            if (bction == null) throw new NullPointerException();
+            finbl ConcurrentLinkedQueue<E> q = this.queue;
+            if (!exhbusted &&
                 ((p = current) != null || (p = q.first()) != null)) {
-                exhausted = true;
+                exhbusted = true;
                 do {
                     E e = p.item;
                     if (p == (p = p.next))
                         p = q.first();
                     if (e != null)
-                        action.accept(e);
+                        bction.bccept(e);
                 } while (p != null);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
+        public boolebn tryAdvbnce(Consumer<? super E> bction) {
             Node<E> p;
-            if (action == null) throw new NullPointerException();
-            final ConcurrentLinkedQueue<E> q = this.queue;
-            if (!exhausted &&
+            if (bction == null) throw new NullPointerException();
+            finbl ConcurrentLinkedQueue<E> q = this.queue;
+            if (!exhbusted &&
                 ((p = current) != null || (p = q.first()) != null)) {
                 E e;
                 do {
@@ -866,76 +866,76 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
                         p = q.first();
                 } while (e == null && p != null);
                 if ((current = p) == null)
-                    exhausted = true;
+                    exhbusted = true;
                 if (e != null) {
-                    action.accept(e);
+                    bction.bccept(e);
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public long estimateSize() { return Long.MAX_VALUE; }
+        public long estimbteSize() { return Long.MAX_VALUE; }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.NONNULL |
-                Spliterator.CONCURRENT;
+        public int chbrbcteristics() {
+            return Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                Spliterbtor.CONCURRENT;
         }
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this queue.
+     * Returns b {@link Spliterbtor} over the elements in this queue.
      *
-     * <p>The returned spliterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned spliterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#ORDERED}, and {@link Spliterator#NONNULL}.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#ORDERED}, bnd {@link Spliterbtor#NONNULL}.
      *
      * @implNote
-     * The {@code Spliterator} implements {@code trySplit} to permit limited
-     * parallelism.
+     * The {@code Spliterbtor} implements {@code trySplit} to permit limited
+     * pbrbllelism.
      *
-     * @return a {@code Spliterator} over the elements in this queue
+     * @return b {@code Spliterbtor} over the elements in this queue
      * @since 1.8
      */
     @Override
-    public Spliterator<E> spliterator() {
-        return new CLQSpliterator<E>(this);
+    public Spliterbtor<E> spliterbtor() {
+        return new CLQSpliterbtor<E>(this);
     }
 
     /**
-     * Throws NullPointerException if argument is null.
+     * Throws NullPointerException if brgument is null.
      *
-     * @param v the element
+     * @pbrbm v the element
      */
-    private static void checkNotNull(Object v) {
+    privbte stbtic void checkNotNull(Object v) {
         if (v == null)
             throw new NullPointerException();
     }
 
-    private boolean casTail(Node<E> cmp, Node<E> val) {
-        return UNSAFE.compareAndSwapObject(this, tailOffset, cmp, val);
+    privbte boolebn cbsTbil(Node<E> cmp, Node<E> vbl) {
+        return UNSAFE.compbreAndSwbpObject(this, tbilOffset, cmp, vbl);
     }
 
-    private boolean casHead(Node<E> cmp, Node<E> val) {
-        return UNSAFE.compareAndSwapObject(this, headOffset, cmp, val);
+    privbte boolebn cbsHebd(Node<E> cmp, Node<E> vbl) {
+        return UNSAFE.compbreAndSwbpObject(this, hebdOffset, cmp, vbl);
     }
 
-    // Unsafe mechanics
+    // Unsbfe mechbnics
 
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long headOffset;
-    private static final long tailOffset;
-    static {
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    privbte stbtic finbl long hebdOffset;
+    privbte stbtic finbl long tbilOffset;
+    stbtic {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ConcurrentLinkedQueue.class;
-            headOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("head"));
-            tailOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("tail"));
-        } catch (Exception e) {
+            UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> k = ConcurrentLinkedQueue.clbss;
+            hebdOffset = UNSAFE.objectFieldOffset
+                (k.getDeclbredField("hebd"));
+            tbilOffset = UNSAFE.objectFieldOffset
+                (k.getDeclbredField("tbil"));
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

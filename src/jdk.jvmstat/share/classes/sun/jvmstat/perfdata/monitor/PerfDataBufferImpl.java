@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbckbge sun.jvmstbt.perfdbtb.monitor;
 
-import sun.jvmstat.monitor.*;
-import java.util.*;
-import java.nio.*;
-import java.io.*;
-import java.net.*;
-import java.util.regex.*;
+import sun.jvmstbt.monitor.*;
+import jbvb.util.*;
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.util.regex.*;
 
 /**
- * The base classes for the concrete implementations of the HotSpot
- * PerfData instrumentation buffer.
+ * The bbse clbsses for the concrete implementbtions of the HotSpot
+ * PerfDbtb instrumentbtion buffer.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
- * @see AbstractPerfDataBuffer
+ * @see AbstrbctPerfDbtbBuffer
  */
-public abstract class PerfDataBufferImpl {
+public bbstrbct clbss PerfDbtbBufferImpl {
 
     /**
-     * The buffer containing the instrumentation data.
+     * The buffer contbining the instrumentbtion dbtb.
      */
     protected ByteBuffer buffer;
 
     /**
-     * A Map of monitor objects found in the instrumentation buffer.
+     * A Mbp of monitor objects found in the instrumentbtion buffer.
      */
-    protected Map<String, Monitor> monitors;
+    protected Mbp<String, Monitor> monitors;
 
     /**
-     * The Local Java Virtual Machine Identifier for this buffer.
+     * The Locbl Jbvb Virtubl Mbchine Identifier for this buffer.
      */
     protected int lvmid;
 
     /**
-     * A Map of monitor object names to aliases as read in from the alias map
+     * A Mbp of monitor object nbmes to blibses bs rebd in from the blibs mbp
      * file.
      */
-    protected Map<String, ArrayList<String>> aliasMap;
+    protected Mbp<String, ArrbyList<String>> blibsMbp;
 
     /**
-     * A cache of resolved monitor aliases.
+     * A cbche of resolved monitor blibses.
      */
-    protected Map<String, Monitor> aliasCache;
+    protected Mbp<String, Monitor> blibsCbche;
 
 
     /**
      * Constructor.
      *
-     * @param buffer the ByteBuffer containing the instrumentation data.
-     * @param lvmid the Local Java Virtual Machine Identifier for this
-     *              instrumentation buffer.
+     * @pbrbm buffer the ByteBuffer contbining the instrumentbtion dbtb.
+     * @pbrbm lvmid the Locbl Jbvb Virtubl Mbchine Identifier for this
+     *              instrumentbtion buffer.
      */
-    protected PerfDataBufferImpl(ByteBuffer buffer, int lvmid) {
+    protected PerfDbtbBufferImpl(ByteBuffer buffer, int lvmid) {
         this.buffer = buffer;
         this.lvmid = lvmid;
-        this.monitors = new TreeMap<>();
-        this.aliasMap = new HashMap<>();
-        this.aliasCache = new HashMap<>();
+        this.monitors = new TreeMbp<>();
+        this.blibsMbp = new HbshMbp<>();
+        this.blibsCbche = new HbshMbp<>();
     }
 
     /**
-     * Get the Local Java Virtual Machine Identifier, or <em>lvmid</em>
-     * for the target JVM associated with this instrumentation buffer.
+     * Get the Locbl Jbvb Virtubl Mbchine Identifier, or <em>lvmid</em>
+     * for the tbrget JVM bssocibted with this instrumentbtion buffer.
      *
      * @return int - the lvmid
      */
-    public int getLocalVmId() {
+    public int getLocblVmId() {
         return lvmid;
     }
 
     /**
-     * Get a copy of the raw instrumentation data.
-     * This method is used to get a copy of the current bytes in the
-     * instrumentation buffer. It is generally used for transporting
+     * Get b copy of the rbw instrumentbtion dbtb.
+     * This method is used to get b copy of the current bytes in the
+     * instrumentbtion buffer. It is generblly used for trbnsporting
      * those bytes over the network.
      *
-     * @return byte[] - a copy of the bytes in the instrumentation buffer.
+     * @return byte[] - b copy of the bytes in the instrumentbtion buffer.
      */
     public byte[] getBytes() {
         ByteBuffer bb = null;
         synchronized (this) {
             /*
-             * this operation is potentially time consuming, and the result
-             * is unused when the getBytes() interface is used. However, the
-             * call is necessary in order to synchronize this monitoring
-             * client with the target jvm, which assures that the receiver
-             * of the byte[] gets an image that is initialized to a usable
-             * state. Otherwise, they might only  get a snapshot of an
-             * empty instrumentation buffer immediately after it was created.
+             * this operbtion is potentiblly time consuming, bnd the result
+             * is unused when the getBytes() interfbce is used. However, the
+             * cbll is necessbry in order to synchronize this monitoring
+             * client with the tbrget jvm, which bssures thbt the receiver
+             * of the byte[] gets bn imbge thbt is initiblized to b usbble
+             * stbte. Otherwise, they might only  get b snbpshot of bn
+             * empty instrumentbtion buffer immedibtely bfter it wbs crebted.
              */
             try {
                 if (monitors.isEmpty()) {
-                    buildMonitorMap(monitors);
+                    buildMonitorMbp(monitors);
                 }
-            } catch (MonitorException e) {
+            } cbtch (MonitorException e) {
                 /*
-                 * just ignore this here and let the receiver of the
-                 * byte[] detect and handle the problem.
+                 * just ignore this here bnd let the receiver of the
+                 * byte[] detect bnd hbndle the problem.
                  */
             }
-            bb = buffer.duplicate();
+            bb = buffer.duplicbte();
         }
         bb.rewind();
         byte[] bytes = new byte[bb.limit()];
@@ -133,80 +133,80 @@ public abstract class PerfDataBufferImpl {
     }
 
     /**
-     * Get the capacity of the instrumentation buffer.
+     * Get the cbpbcity of the instrumentbtion buffer.
      *
-     * @return int - the capacity, or size, of the instrumentation buffer.
+     * @return int - the cbpbcity, or size, of the instrumentbtion buffer.
      */
-    public int getCapacity() {
-        return buffer.capacity();
+    public int getCbpbcity() {
+        return buffer.cbpbcity();
     }
 
     /**
-     * Get the ByteBuffer containing the instrumentation data.
+     * Get the ByteBuffer contbining the instrumentbtion dbtb.
      *
-     * @return ByteBuffer - a ByteBuffer object that refers to the
-     *                      instrumentation data.
+     * @return ByteBuffer - b ByteBuffer object thbt refers to the
+     *                      instrumentbtion dbtb.
      */
     ByteBuffer getByteBuffer() {
-        // receiver is responsible for assuring that the buffer's state
-        // is that of an initialized target.
+        // receiver is responsible for bssuring thbt the buffer's stbte
+        // is thbt of bn initiblized tbrget.
         return buffer;
     }
 
     /**
-     * Build the alias mapping. Uses the default alias map file unless
-     * the sun.jvmstat.perfdata.aliasmap file indicates some other
-     * file as the source.
+     * Build the blibs mbpping. Uses the defbult blibs mbp file unless
+     * the sun.jvmstbt.perfdbtb.blibsmbp file indicbtes some other
+     * file bs the source.
      */
-    private void buildAliasMap() {
-        assert Thread.holdsLock(this);
+    privbte void buildAlibsMbp() {
+        bssert Threbd.holdsLock(this);
 
-        URL aliasURL = null;
-        String filename = System.getProperty("sun.jvmstat.perfdata.aliasmap");
+        URL blibsURL = null;
+        String filenbme = System.getProperty("sun.jvmstbt.perfdbtb.blibsmbp");
 
-        if (filename != null) {
-            File f = new File(filename);
+        if (filenbme != null) {
+            File f = new File(filenbme);
             try {
-                aliasURL = f.toURL();
+                blibsURL = f.toURL();
 
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException(e);
+            } cbtch (MblformedURLException e) {
+                throw new IllegblArgumentException(e);
             }
         } else {
-            aliasURL = getClass().getResource(
-                "/sun/jvmstat/perfdata/resources/aliasmap");
+            blibsURL = getClbss().getResource(
+                "/sun/jvmstbt/perfdbtb/resources/blibsmbp");
         }
 
-        assert aliasURL != null;
+        bssert blibsURL != null;
 
-        AliasFileParser aliasParser = new AliasFileParser(aliasURL);
+        AlibsFilePbrser blibsPbrser = new AlibsFilePbrser(blibsURL);
 
         try {
-            aliasParser.parse(aliasMap);
+            blibsPbrser.pbrse(blibsMbp);
 
-        } catch (IOException e) {
-            System.err.println("Error processing " + filename + ": "
-                               + e.getMessage());
-        } catch (SyntaxException e) {
-            System.err.println("Syntax error parsing " + filename + ": "
-                               + e.getMessage());
+        } cbtch (IOException e) {
+            System.err.println("Error processing " + filenbme + ": "
+                               + e.getMessbge());
+        } cbtch (SyntbxException e) {
+            System.err.println("Syntbx error pbrsing " + filenbme + ": "
+                               + e.getMessbge());
         }
     }
 
     /**
-     * Find the Monitor object for the named counter by using one of its
-     * aliases.
+     * Find the Monitor object for the nbmed counter by using one of its
+     * blibses.
      */
-    protected Monitor findByAlias(String name) {
-        assert Thread.holdsLock(this);
+    protected Monitor findByAlibs(String nbme) {
+        bssert Threbd.holdsLock(this);
 
-        Monitor  m = aliasCache.get(name);
+        Monitor  m = blibsCbche.get(nbme);
         if (m == null) {
-            ArrayList<String> al = aliasMap.get(name);
-            if (al != null) {
-                for (Iterator<String> i = al.iterator(); i.hasNext() && m == null; ) {
-                    String alias = i.next();
-                    m = monitors.get(alias);
+            ArrbyList<String> bl = blibsMbp.get(nbme);
+            if (bl != null) {
+                for (Iterbtor<String> i = bl.iterbtor(); i.hbsNext() && m == null; ) {
+                    String blibs = i.next();
+                    m = monitors.get(blibs);
                 }
             }
         }
@@ -215,142 +215,142 @@ public abstract class PerfDataBufferImpl {
 
 
     /**
-     * Find a named Instrumentation object.
+     * Find b nbmed Instrumentbtion object.
      *
-     * This method will look for the named instrumentation object in the
-     * instrumentation exported by this Java Virtual Machine. If an
-     * instrumentation object with the given name exists, a Monitor interface
-     * to that object will be return. Otherwise, the method returns
-     * <tt>null</tt>. The method will map requests for instrumention objects
-     * using old names to their current names, if applicable.
+     * This method will look for the nbmed instrumentbtion object in the
+     * instrumentbtion exported by this Jbvb Virtubl Mbchine. If bn
+     * instrumentbtion object with the given nbme exists, b Monitor interfbce
+     * to thbt object will be return. Otherwise, the method returns
+     * <tt>null</tt>. The method will mbp requests for instrumention objects
+     * using old nbmes to their current nbmes, if bpplicbble.
      *
      *
      *
-     * @param name the name of the Instrumentation object to find.
-     * @return Monitor - the {@link Monitor} object that can be used to
-     *                   monitor the the named instrumentation object, or
-     *                   <tt>null</tt> if the named object doesn't exist.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
+     * @pbrbm nbme the nbme of the Instrumentbtion object to find.
+     * @return Monitor - the {@link Monitor} object thbt cbn be used to
+     *                   monitor the the nbmed instrumentbtion object, or
+     *                   <tt>null</tt> if the nbmed object doesn't exist.
+     * @throws MonitorException Thrown if bn error occurs while communicbting
+     *                          with the tbrget Jbvb Virtubl Mbchine.
      */
-    public Monitor findByName(String name) throws MonitorException {
+    public Monitor findByNbme(String nbme) throws MonitorException {
         Monitor m = null;
 
         synchronized (this) {
             if (monitors.isEmpty()) {
-                buildMonitorMap(monitors);
-                buildAliasMap();
+                buildMonitorMbp(monitors);
+                buildAlibsMbp();
             }
 
             // look for the requested monitor
-            m = monitors.get(name);
+            m = monitors.get(nbme);
             if (m == null) {
-                // not found - load any new monitors, and try again.
+                // not found - lobd bny new monitors, bnd try bgbin.
                 getNewMonitors(monitors);
-                m = monitors.get(name);
+                m = monitors.get(nbme);
             }
             if (m == null) {
-                // still not found, look for aliases
-                m = findByAlias(name);
+                // still not found, look for blibses
+                m = findByAlibs(nbme);
             }
         }
         return m;
     }
 
     /**
-     * Find all Instrumentation objects with names matching the given pattern.
+     * Find bll Instrumentbtion objects with nbmes mbtching the given pbttern.
      *
-     * This method returns a {@link List} of Monitor objects such that
-     * the name of each object matches the given pattern.
+     * This method returns b {@link List} of Monitor objects such thbt
+     * the nbme of ebch object mbtches the given pbttern.
      *
-     * @param patternString a string containing a pattern as described in
-     *                      {@link java.util.regex.Pattern}.
-     * @return List<Monitor> - a List of {@link Monitor} objects that can be used to
-     *                monitor the instrumentation objects whose names match
-     *                the given pattern. If no instrumentation objects have`
-     *                names matching the given pattern, then an empty List
+     * @pbrbm pbtternString b string contbining b pbttern bs described in
+     *                      {@link jbvb.util.regex.Pbttern}.
+     * @return List<Monitor> - b List of {@link Monitor} objects thbt cbn be used to
+     *                monitor the instrumentbtion objects whose nbmes mbtch
+     *                the given pbttern. If no instrumentbtion objects hbve`
+     *                nbmes mbtching the given pbttern, then bn empty List
      *                is returned.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
-     * @see java.util.regex.Pattern
+     * @throws MonitorException Thrown if bn error occurs while communicbting
+     *                          with the tbrget Jbvb Virtubl Mbchine.
+     * @see jbvb.util.regex.Pbttern
      */
-    public List<Monitor> findByPattern(String patternString)
-                throws MonitorException, PatternSyntaxException {
+    public List<Monitor> findByPbttern(String pbtternString)
+                throws MonitorException, PbtternSyntbxException {
 
         synchronized(this) {
             if (monitors.isEmpty()) {
-                buildMonitorMap(monitors);
+                buildMonitorMbp(monitors);
             } else {
                 getNewMonitors(monitors);
             }
         }
 
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher("");
-        List<Monitor> matches = new ArrayList<>();
+        Pbttern pbttern = Pbttern.compile(pbtternString);
+        Mbtcher mbtcher = pbttern.mbtcher("");
+        List<Monitor> mbtches = new ArrbyList<>();
 
-        Set<Map.Entry<String,Monitor>> monitorSet = monitors.entrySet();
+        Set<Mbp.Entry<String,Monitor>> monitorSet = monitors.entrySet();
 
-        for (Iterator<Map.Entry<String, Monitor>> i = monitorSet.iterator(); i.hasNext(); /* empty */) {
-            Map.Entry<String, Monitor> me = i.next();
-            String name = me.getKey();
-            Monitor m = me.getValue();
+        for (Iterbtor<Mbp.Entry<String, Monitor>> i = monitorSet.iterbtor(); i.hbsNext(); /* empty */) {
+            Mbp.Entry<String, Monitor> me = i.next();
+            String nbme = me.getKey();
+            Monitor m = me.getVblue();
 
-            // apply pattern to monitor item name
-            matcher.reset(name);
+            // bpply pbttern to monitor item nbme
+            mbtcher.reset(nbme);
 
-            // if the pattern matches, then add monitor to list
-            if (matcher.lookingAt()) {
-                 matches.add(me.getValue());
+            // if the pbttern mbtches, then bdd monitor to list
+            if (mbtcher.lookingAt()) {
+                 mbtches.bdd(me.getVblue());
             }
         }
-        return matches;
+        return mbtches;
     }
 
     /**
-     * Get a list of the inserted and removed monitors since last called.
+     * Get b list of the inserted bnd removed monitors since lbst cblled.
      *
-     * @return MonitorStatus - the status of available Monitors for the
-     *                         target Java Virtual Machine.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @return MonitorStbtus - the stbtus of bvbilbble Monitors for the
+     *                         tbrget Jbvb Virtubl Mbchine.
+     * @throws MonitorException Thrown if communicbtions errors occur
+     *                          while communicbting with the tbrget.
      */
-    public MonitorStatus getMonitorStatus() throws MonitorException {
+    public MonitorStbtus getMonitorStbtus() throws MonitorException {
         synchronized(this) {
             if (monitors.isEmpty()) {
-                buildMonitorMap(monitors);
+                buildMonitorMbp(monitors);
             }
-            return getMonitorStatus(monitors);
+            return getMonitorStbtus(monitors);
         }
     }
 
-    // PerfDataBuffer implementation specific classes
+    // PerfDbtbBuffer implementbtion specific clbsses
 
     /**
-     * get the list of inserted and removed monitors since last called.
+     * get the list of inserted bnd removed monitors since lbst cblled.
      *
-     * @param m the map of Monitors.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @pbrbm m the mbp of Monitors.
+     * @throws MonitorException Thrown if communicbtions errors occur
+     *                          while communicbting with the tbrget.
      */
-    protected abstract MonitorStatus getMonitorStatus(Map<String, Monitor> m)
+    protected bbstrbct MonitorStbtus getMonitorStbtus(Mbp<String, Monitor> m)
                                      throws MonitorException;
 
     /**
-     * build the map of Monitor objects.
+     * build the mbp of Monitor objects.
      *
-     * @param m the map of Monitors.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @pbrbm m the mbp of Monitors.
+     * @throws MonitorException Thrown if communicbtions errors occur
+     *                          while communicbting with the tbrget.
      */
-    protected abstract void buildMonitorMap(Map<String, Monitor> m) throws MonitorException;
+    protected bbstrbct void buildMonitorMbp(Mbp<String, Monitor> m) throws MonitorException;
 
     /**
-     * get the new Monitor objects from the Map of Monitor objects.
+     * get the new Monitor objects from the Mbp of Monitor objects.
      *
-     * @param m the map of Monitors.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @pbrbm m the mbp of Monitors.
+     * @throws MonitorException Thrown if communicbtions errors occur
+     *                          while communicbting with the tbrget.
      */
-    protected abstract void getNewMonitors(Map<String, Monitor> m) throws MonitorException;
+    protected bbstrbct void getNewMonitors(Mbp<String, Monitor> m) throws MonitorException;
 }

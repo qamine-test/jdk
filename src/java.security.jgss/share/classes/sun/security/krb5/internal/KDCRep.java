@@ -1,39 +1,39 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.*;
 import sun.security.util.*;
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
 /**
  * Implements the ASN.1 KDC-REP type.
@@ -42,182 +42,182 @@ import java.math.BigInteger;
  * KDC-REP         ::= SEQUENCE {
  *         pvno            [0] INTEGER (5),
  *         msg-type        [1] INTEGER (11 -- AS -- | 13 -- TGS --),
- *         padata          [2] SEQUENCE OF PA-DATA OPTIONAL
+ *         pbdbtb          [2] SEQUENCE OF PA-DATA OPTIONAL
  *                                   -- NOTE: not empty --,
- *         crealm          [3] Realm,
- *         cname           [4] PrincipalName,
+ *         creblm          [3] Reblm,
+ *         cnbme           [4] PrincipblNbme,
  *         ticket          [5] Ticket,
- *         enc-part        [6] EncryptedData
- *                                   -- EncASRepPart or EncTGSRepPart,
- *                                   -- as appropriate
+ *         enc-pbrt        [6] EncryptedDbtb
+ *                                   -- EncASRepPbrt or EncTGSRepPbrt,
+ *                                   -- bs bppropribte
  * }
  * </xmp>
  *
  * <p>
  * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * specificbtion bvbilbble bt
+ * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+ * http://www.ietf.org/rfc/rfc4120.txt</b>.
  */
-public class KDCRep {
+public clbss KDCRep {
 
-    public PrincipalName cname;
+    public PrincipblNbme cnbme;
     public Ticket ticket;
-    public EncryptedData encPart;
-    public EncKDCRepPart encKDCRepPart; //not part of ASN.1 encoding
-    private int pvno;
-    private int msgType;
-    public PAData[] pAData = null; //optional
-    private boolean DEBUG = Krb5.DEBUG;
+    public EncryptedDbtb encPbrt;
+    public EncKDCRepPbrt encKDCRepPbrt; //not pbrt of ASN.1 encoding
+    privbte int pvno;
+    privbte int msgType;
+    public PADbtb[] pADbtb = null; //optionbl
+    privbte boolebn DEBUG = Krb5.DEBUG;
 
     public KDCRep(
-            PAData[] new_pAData,
-            PrincipalName new_cname,
+            PADbtb[] new_pADbtb,
+            PrincipblNbme new_cnbme,
             Ticket new_ticket,
-            EncryptedData new_encPart,
+            EncryptedDbtb new_encPbrt,
             int req_type) throws IOException {
         pvno = Krb5.PVNO;
         msgType = req_type;
-        if (new_pAData != null) {
-            pAData = new PAData[new_pAData.length];
-            for (int i = 0; i < new_pAData.length; i++) {
-                if (new_pAData[i] == null) {
-                    throw new IOException("Cannot create a KDCRep");
+        if (new_pADbtb != null) {
+            pADbtb = new PADbtb[new_pADbtb.length];
+            for (int i = 0; i < new_pADbtb.length; i++) {
+                if (new_pADbtb[i] == null) {
+                    throw new IOException("Cbnnot crebte b KDCRep");
                 } else {
-                    pAData[i] = (PAData) new_pAData[i].clone();
+                    pADbtb[i] = (PADbtb) new_pADbtb[i].clone();
                 }
             }
         }
-        cname = new_cname;
+        cnbme = new_cnbme;
         ticket = new_ticket;
-        encPart = new_encPart;
+        encPbrt = new_encPbrt;
     }
 
     public KDCRep() {
     }
 
-    public KDCRep(byte[] data, int req_type) throws Asn1Exception,
-            KrbApErrException, RealmException, IOException {
-        init(new DerValue(data), req_type);
+    public KDCRep(byte[] dbtb, int req_type) throws Asn1Exception,
+            KrbApErrException, ReblmException, IOException {
+        init(new DerVblue(dbtb), req_type);
     }
 
-    public KDCRep(DerValue encoding, int req_type) throws Asn1Exception,
-            RealmException, KrbApErrException, IOException {
+    public KDCRep(DerVblue encoding, int req_type) throws Asn1Exception,
+            ReblmException, KrbApErrException, IOException {
         init(encoding, req_type);
     }
 
     /*
-    // Not used? Don't know what keyusage to use here %%%
+    // Not used? Don't know whbt keyusbge to use here %%%
     public void decrypt(EncryptionKey key) throws Asn1Exception,
-            IOException, KrbException, RealmException {
-        encKDCRepPart = new EncKDCRepPart(encPart.decrypt(key), msgType);
+            IOException, KrbException, ReblmException {
+        encKDCRepPbrt = new EncKDCRepPbrt(encPbrt.decrypt(key), msgType);
     }
      */
     /**
-     * Initializes an KDCRep object.
+     * Initiblizes bn KDCRep object.
      *
-     * @param encoding a single DER-encoded value.
-     * @param req_type reply message type.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception RealmException if an error occurs while constructing
-     * a Realm object from DER-encoded data.
-     * @exception KrbApErrException if the value read from the DER-encoded
-     * data stream does not match the pre-defined value.
+     * @pbrbm encoding b single DER-encoded vblue.
+     * @pbrbm req_type reply messbge type.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
+     * @exception ReblmException if bn error occurs while constructing
+     * b Reblm object from DER-encoded dbtb.
+     * @exception KrbApErrException if the vblue rebd from the DER-encoded
+     * dbtb strebm does not mbtch the pre-defined vblue.
      *
      */
-    protected void init(DerValue encoding, int req_type)
-            throws Asn1Exception, RealmException, IOException,
+    protected void init(DerVblue encoding, int req_type)
+            throws Asn1Exception, ReblmException, IOException,
             KrbApErrException {
-        DerValue der, subDer;
-        if ((encoding.getTag() & 0x1F) != req_type) {
+        DerVblue der, subDer;
+        if ((encoding.getTbg() & 0x1F) != req_type) {
             if (DEBUG) {
                 System.out.println(">>> KDCRep: init() " +
-                        "encoding tag is " +
-                        encoding.getTag() +
+                        "encoding tbg is " +
+                        encoding.getTbg() +
                         " req type is " + req_type);
             }
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if (der.getTag() != DerValue.tag_Sequence) {
+        der = encoding.getDbtb().getDerVblue();
+        if (der.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & 0x1F) == 0x00) {
-            pvno = subDer.getData().getBigInteger().intValue();
+        subDer = der.getDbtb().getDerVblue();
+        if ((subDer.getTbg() & 0x1F) == 0x00) {
+            pvno = subDer.getDbtb().getBigInteger().intVblue();
             if (pvno != Krb5.PVNO) {
                 throw new KrbApErrException(Krb5.KRB_AP_ERR_BADVERSION);
             }
         } else {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & 0x1F) == 0x01) {
-            msgType = subDer.getData().getBigInteger().intValue();
+        subDer = der.getDbtb().getDerVblue();
+        if ((subDer.getTbg() & 0x1F) == 0x01) {
+            msgType = subDer.getDbtb().getBigInteger().intVblue();
             if (msgType != req_type) {
                 throw new KrbApErrException(Krb5.KRB_AP_ERR_MSG_TYPE);
             }
         } else {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        if ((der.getData().peekByte() & 0x1F) == 0x02) {
-            subDer = der.getData().getDerValue();
-            DerValue[] padata = subDer.getData().getSequence(1);
-            pAData = new PAData[padata.length];
-            for (int i = 0; i < padata.length; i++) {
-                pAData[i] = new PAData(padata[i]);
+        if ((der.getDbtb().peekByte() & 0x1F) == 0x02) {
+            subDer = der.getDbtb().getDerVblue();
+            DerVblue[] pbdbtb = subDer.getDbtb().getSequence(1);
+            pADbtb = new PADbtb[pbdbtb.length];
+            for (int i = 0; i < pbdbtb.length; i++) {
+                pADbtb[i] = new PADbtb(pbdbtb[i]);
             }
         } else {
-            pAData = null;
+            pADbtb = null;
         }
-        Realm crealm = Realm.parse(der.getData(), (byte) 0x03, false);
-        cname = PrincipalName.parse(der.getData(), (byte) 0x04, false, crealm);
-        ticket = Ticket.parse(der.getData(), (byte) 0x05, false);
-        encPart = EncryptedData.parse(der.getData(), (byte) 0x06, false);
-        if (der.getData().available() > 0) {
+        Reblm creblm = Reblm.pbrse(der.getDbtb(), (byte) 0x03, fblse);
+        cnbme = PrincipblNbme.pbrse(der.getDbtb(), (byte) 0x04, fblse, creblm);
+        ticket = Ticket.pbrse(der.getDbtb(), (byte) 0x05, fblse);
+        encPbrt = EncryptedDbtb.pbrse(der.getDbtb(), (byte) 0x06, fblse);
+        if (der.getDbtb().bvbilbble() > 0) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Encodes this object to a byte array.
-     * @return byte array of encoded APReq object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Encodes this object to b byte brrby.
+     * @return byte brrby of encoded APReq object.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      *
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
 
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(pvno));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
+        temp.putInteger(BigInteger.vblueOf(pvno));
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                 true, (byte) 0x00), temp);
-        temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(msgType));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+        temp = new DerOutputStrebm();
+        temp.putInteger(BigInteger.vblueOf(msgType));
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                 true, (byte) 0x01), temp);
-        if (pAData != null && pAData.length > 0) {
-            DerOutputStream padata_stream = new DerOutputStream();
-            for (int i = 0; i < pAData.length; i++) {
-                padata_stream.write(pAData[i].asn1Encode());
+        if (pADbtb != null && pADbtb.length > 0) {
+            DerOutputStrebm pbdbtb_strebm = new DerOutputStrebm();
+            for (int i = 0; i < pADbtb.length; i++) {
+                pbdbtb_strebm.write(pADbtb[i].bsn1Encode());
             }
-            temp = new DerOutputStream();
-            temp.write(DerValue.tag_SequenceOf, padata_stream);
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+            temp = new DerOutputStrebm();
+            temp.write(DerVblue.tbg_SequenceOf, pbdbtb_strebm);
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                     true, (byte) 0x02), temp);
         }
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x03), cname.getRealm().asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x04), cname.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x05), ticket.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x06), encPart.asn1Encode());
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x03), cnbme.getReblm().bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x04), cnbme.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x05), ticket.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x06), encPbrt.bsn1Encode());
+        temp = new DerOutputStrebm();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        return temp.toByteArrby();
     }
 }

@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.IIOException;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.plugins.jpeg.JPEGQTable;
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
-import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.ImbgeWritePbrbm;
+import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbNode;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbt;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.plugins.jpeg.JPEGQTbble;
+import jbvbx.imbgeio.plugins.jpeg.JPEGHuffmbnTbble;
+import jbvbx.imbgeio.plugins.jpeg.JPEGImbgeWritePbrbm;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.io.IOException;
-import java.awt.color.ICC_Profile;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.Point;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Iterbtor;
+import jbvb.util.ListIterbtor;
+import jbvb.io.IOException;
+import jbvb.bwt.color.ICC_Profile;
+import jbvb.bwt.color.ICC_ColorSpbce;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.Point;
 
 /**
- * Metadata for the JPEG plug-in.
+ * Metbdbtb for the JPEG plug-in.
  */
-public class JPEGMetadata extends IIOMetadata implements Cloneable {
+public clbss JPEGMetbdbtb extends IIOMetbdbtb implements Clonebble {
 
-    //////// Private variables
+    //////// Privbte vbribbles
 
-    private static final boolean debug = false;
-
-    /**
-     * A copy of <code>markerSequence</code>, created the first time the
-     * <code>markerSequence</code> is modified.  This is used by reset
-     * to restore the original state.
-     */
-    private List<MarkerSegment> resetSequence = null;
+    privbte stbtic finbl boolebn debug = fblse;
 
     /**
-     * Set to <code>true</code> when reading a thumbnail stored as
-     * JPEG.  This is used to enforce the prohibition of JFIF thumbnails
-     * containing any JFIF marker segments, and to ensure generation of
-     * a correct native subtree during <code>getAsTree</code>.
+     * A copy of <code>mbrkerSequence</code>, crebted the first time the
+     * <code>mbrkerSequence</code> is modified.  This is used by reset
+     * to restore the originbl stbte.
      */
-    private boolean inThumb = false;
+    privbte List<MbrkerSegment> resetSequence = null;
 
     /**
-     * Set by the chroma node construction method to signal the
-     * presence or absence of an alpha channel to the transparency
-     * node construction method.  Used only when constructing a
-     * standard metadata tree.
+     * Set to <code>true</code> when rebding b thumbnbil stored bs
+     * JPEG.  This is used to enforce the prohibition of JFIF thumbnbils
+     * contbining bny JFIF mbrker segments, bnd to ensure generbtion of
+     * b correct nbtive subtree during <code>getAsTree</code>.
      */
-    private boolean hasAlpha;
-
-    //////// end of private variables
-
-    /////// Package-access variables
+    privbte boolebn inThumb = fblse;
 
     /**
-     * All data is a list of <code>MarkerSegment</code> objects.
-     * When accessing the list, use the tag to identify the particular
-     * subclass.  Any JFIF marker segment must be the first element
-     * of the list if it is present, and any JFXX or APP2ICC marker
-     * segments are subordinate to the JFIF marker segment.  This
-     * list is package visible so that the writer can access it.
-     * @see #MarkerSegment
+     * Set by the chromb node construction method to signbl the
+     * presence or bbsence of bn blphb chbnnel to the trbnspbrency
+     * node construction method.  Used only when constructing b
+     * stbndbrd metbdbtb tree.
      */
-    List<MarkerSegment> markerSequence = new ArrayList<>();
+    privbte boolebn hbsAlphb;
+
+    //////// end of privbte vbribbles
+
+    /////// Pbckbge-bccess vbribbles
 
     /**
-     * Indicates whether this object represents stream or image
-     * metadata.  Package-visible so the writer can see it.
+     * All dbtb is b list of <code>MbrkerSegment</code> objects.
+     * When bccessing the list, use the tbg to identify the pbrticulbr
+     * subclbss.  Any JFIF mbrker segment must be the first element
+     * of the list if it is present, bnd bny JFXX or APP2ICC mbrker
+     * segments bre subordinbte to the JFIF mbrker segment.  This
+     * list is pbckbge visible so thbt the writer cbn bccess it.
+     * @see #MbrkerSegment
      */
-    final boolean isStream;
+    List<MbrkerSegment> mbrkerSequence = new ArrbyList<>();
 
-    /////// End of package-access variables
+    /**
+     * Indicbtes whether this object represents strebm or imbge
+     * metbdbtb.  Pbckbge-visible so the writer cbn see it.
+     */
+    finbl boolebn isStrebm;
+
+    /////// End of pbckbge-bccess vbribbles
 
     /////// Constructors
 
     /**
-     * Constructor containing code shared by other constructors.
+     * Constructor contbining code shbred by other constructors.
      */
-    JPEGMetadata(boolean isStream, boolean inThumb) {
-        super(true,  // Supports standard format
-              JPEG.nativeImageMetadataFormatName,  // and a native format
-              JPEG.nativeImageMetadataFormatClassName,
-              null, null);  // No other formats
+    JPEGMetbdbtb(boolebn isStrebm, boolebn inThumb) {
+        super(true,  // Supports stbndbrd formbt
+              JPEG.nbtiveImbgeMetbdbtbFormbtNbme,  // bnd b nbtive formbt
+              JPEG.nbtiveImbgeMetbdbtbFormbtClbssNbme,
+              null, null);  // No other formbts
         this.inThumb = inThumb;
-        // But if we are stream metadata, adjust the variables
-        this.isStream = isStream;
-        if (isStream) {
-            nativeMetadataFormatName = JPEG.nativeStreamMetadataFormatName;
-            nativeMetadataFormatClassName =
-                JPEG.nativeStreamMetadataFormatClassName;
+        // But if we bre strebm metbdbtb, bdjust the vbribbles
+        this.isStrebm = isStrebm;
+        if (isStrebm) {
+            nbtiveMetbdbtbFormbtNbme = JPEG.nbtiveStrebmMetbdbtbFormbtNbme;
+            nbtiveMetbdbtbFormbtClbssNbme =
+                JPEG.nbtiveStrebmMetbdbtbFormbtClbssNbme;
         }
     }
 
     /*
-     * Constructs a <code>JPEGMetadata</code> object by reading the
-     * contents of an <code>ImageInputStream</code>.  Has package-only
-     * access.
+     * Constructs b <code>JPEGMetbdbtb</code> object by rebding the
+     * contents of bn <code>ImbgeInputStrebm</code>.  Hbs pbckbge-only
+     * bccess.
      *
-     * @param isStream A boolean indicating whether this object will be
-     * stream or image metadata.
-     * @param isThumb A boolean indicating whether this metadata object
-     * is for an image or for a thumbnail stored as JPEG.
-     * @param iis An <code>ImageInputStream</code> from which to read
-     * the metadata.
-     * @param reader The <code>JPEGImageReader</code> calling this
-     * constructor, to which warnings should be sent.
+     * @pbrbm isStrebm A boolebn indicbting whether this object will be
+     * strebm or imbge metbdbtb.
+     * @pbrbm isThumb A boolebn indicbting whether this metbdbtb object
+     * is for bn imbge or for b thumbnbil stored bs JPEG.
+     * @pbrbm iis An <code>ImbgeInputStrebm</code> from which to rebd
+     * the metbdbtb.
+     * @pbrbm rebder The <code>JPEGImbgeRebder</code> cblling this
+     * constructor, to which wbrnings should be sent.
      */
-    JPEGMetadata(boolean isStream,
-                 boolean isThumb,
-                 ImageInputStream iis,
-                 JPEGImageReader reader) throws IOException {
-        this(isStream, isThumb);
+    JPEGMetbdbtb(boolebn isStrebm,
+                 boolebn isThumb,
+                 ImbgeInputStrebm iis,
+                 JPEGImbgeRebder rebder) throws IOException {
+        this(isStrebm, isThumb);
 
         JPEGBuffer buffer = new JPEGBuffer(iis);
 
-        buffer.loadBuf(0);
+        buffer.lobdBuf(0);
 
         // The first three bytes should be FF, SOI, FF
         if (((buffer.buf[0] & 0xff) != 0xff)
             || ((buffer.buf[1] & 0xff) != JPEG.SOI)
             || ((buffer.buf[2] & 0xff) != 0xff)) {
-            throw new IIOException ("Image format error");
+            throw new IIOException ("Imbge formbt error");
         }
 
-        boolean done = false;
-        buffer.bufAvail -=2;  // Next byte should be the ff before a marker
+        boolebn done = fblse;
+        buffer.bufAvbil -=2;  // Next byte should be the ff before b mbrker
         buffer.bufPtr = 2;
-        MarkerSegment newGuy = null;
+        MbrkerSegment newGuy = null;
         while (!done) {
             byte [] buf;
             int ptr;
-            buffer.loadBuf(1);
+            buffer.lobdBuf(1);
             if (debug) {
                 System.out.println("top of loop");
                 buffer.print(10);
             }
-            buffer.scanForFF(reader);
+            buffer.scbnForFF(rebder);
             switch (buffer.buf[buffer.bufPtr] & 0xff) {
-            case 0:
+            cbse 0:
                 if (debug) {
                     System.out.println("Skipping 0");
                 }
-                buffer.bufAvail--;
+                buffer.bufAvbil--;
                 buffer.bufPtr++;
-                break;
-            case JPEG.SOF0:
-            case JPEG.SOF1:
-            case JPEG.SOF2:
-                if (isStream) {
+                brebk;
+            cbse JPEG.SOF0:
+            cbse JPEG.SOF1:
+            cbse JPEG.SOF2:
+                if (isStrebm) {
                     throw new IIOException
-                        ("SOF not permitted in stream metadata");
+                        ("SOF not permitted in strebm metbdbtb");
                 }
-                newGuy = new SOFMarkerSegment(buffer);
-                break;
-            case JPEG.DQT:
-                newGuy = new DQTMarkerSegment(buffer);
-                break;
-            case JPEG.DHT:
-                newGuy = new DHTMarkerSegment(buffer);
-                break;
-            case JPEG.DRI:
-                newGuy = new DRIMarkerSegment(buffer);
-                break;
-            case JPEG.APP0:
+                newGuy = new SOFMbrkerSegment(buffer);
+                brebk;
+            cbse JPEG.DQT:
+                newGuy = new DQTMbrkerSegment(buffer);
+                brebk;
+            cbse JPEG.DHT:
+                newGuy = new DHTMbrkerSegment(buffer);
+                brebk;
+            cbse JPEG.DRI:
+                newGuy = new DRIMbrkerSegment(buffer);
+                brebk;
+            cbse JPEG.APP0:
                 // Either JFIF, JFXX, or unknown APP0
-                buffer.loadBuf(8); // tag, length, id
+                buffer.lobdBuf(8); // tbg, length, id
                 buf = buffer.buf;
                 ptr = buffer.bufPtr;
                 if ((buf[ptr+3] == 'J')
@@ -212,51 +212,51 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
                     && (buf[ptr+6] == 'F')
                     && (buf[ptr+7] == 0)) {
                     if (inThumb) {
-                        reader.warningOccurred
-                            (JPEGImageReader.WARNING_NO_JFIF_IN_THUMB);
-                        // Leave newGuy null
-                        // Read a dummy to skip the segment
-                        JFIFMarkerSegment dummy =
-                            new JFIFMarkerSegment(buffer);
-                    } else if (isStream) {
+                        rebder.wbrningOccurred
+                            (JPEGImbgeRebder.WARNING_NO_JFIF_IN_THUMB);
+                        // Lebve newGuy null
+                        // Rebd b dummy to skip the segment
+                        JFIFMbrkerSegment dummy =
+                            new JFIFMbrkerSegment(buffer);
+                    } else if (isStrebm) {
                         throw new IIOException
-                            ("JFIF not permitted in stream metadata");
-                    } else if (markerSequence.isEmpty() == false) {
+                            ("JFIF not permitted in strebm metbdbtb");
+                    } else if (mbrkerSequence.isEmpty() == fblse) {
                         throw new IIOException
-                            ("JFIF APP0 must be first marker after SOI");
+                            ("JFIF APP0 must be first mbrker bfter SOI");
                     } else {
-                        newGuy = new JFIFMarkerSegment(buffer);
+                        newGuy = new JFIFMbrkerSegment(buffer);
                     }
                 } else if ((buf[ptr+3] == 'J')
                            && (buf[ptr+4] == 'F')
                            && (buf[ptr+5] == 'X')
                            && (buf[ptr+6] == 'X')
                            && (buf[ptr+7] == 0)) {
-                    if (isStream) {
+                    if (isStrebm) {
                         throw new IIOException
-                            ("JFXX not permitted in stream metadata");
+                            ("JFXX not permitted in strebm metbdbtb");
                     }
                     if (inThumb) {
                         throw new IIOException
-                          ("JFXX markers not allowed in JFIF JPEG thumbnail");
+                          ("JFXX mbrkers not bllowed in JFIF JPEG thumbnbil");
                     }
-                    JFIFMarkerSegment jfif =
-                        (JFIFMarkerSegment) findMarkerSegment
-                               (JFIFMarkerSegment.class, true);
+                    JFIFMbrkerSegment jfif =
+                        (JFIFMbrkerSegment) findMbrkerSegment
+                               (JFIFMbrkerSegment.clbss, true);
                     if (jfif == null) {
                         throw new IIOException
                             ("JFXX encountered without prior JFIF!");
                     }
-                    jfif.addJFXX(buffer, reader);
-                    // newGuy remains null
+                    jfif.bddJFXX(buffer, rebder);
+                    // newGuy rembins null
                 } else {
-                    newGuy = new MarkerSegment(buffer);
-                    newGuy.loadData(buffer);
+                    newGuy = new MbrkerSegment(buffer);
+                    newGuy.lobdDbtb(buffer);
                 }
-                break;
-            case JPEG.APP2:
-                // Either an ICC profile or unknown APP2
-                buffer.loadBuf(15); // tag, length, id
+                brebk;
+            cbse JPEG.APP2:
+                // Either bn ICC profile or unknown APP2
+                buffer.lobdBuf(15); // tbg, length, id
                 if ((buffer.buf[buffer.bufPtr+3] == 'I')
                     && (buffer.buf[buffer.bufPtr+4] == 'C')
                     && (buffer.buf[buffer.bufPtr+5] == 'C')
@@ -270,82 +270,82 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
                     && (buffer.buf[buffer.bufPtr+13] == 'E')
                     && (buffer.buf[buffer.bufPtr+14] == 0)
                     ) {
-                    if (isStream) {
+                    if (isStrebm) {
                         throw new IIOException
-                            ("ICC profiles not permitted in stream metadata");
+                            ("ICC profiles not permitted in strebm metbdbtb");
                     }
 
-                    JFIFMarkerSegment jfif =
-                        (JFIFMarkerSegment) findMarkerSegment
-                        (JFIFMarkerSegment.class, true);
+                    JFIFMbrkerSegment jfif =
+                        (JFIFMbrkerSegment) findMbrkerSegment
+                        (JFIFMbrkerSegment.clbss, true);
                     if (jfif == null) {
-                        newGuy = new MarkerSegment(buffer);
-                        newGuy.loadData(buffer);
+                        newGuy = new MbrkerSegment(buffer);
+                        newGuy.lobdDbtb(buffer);
                     } else {
-                        jfif.addICC(buffer);
+                        jfif.bddICC(buffer);
                     }
-                    // newGuy remains null
+                    // newGuy rembins null
                 } else {
-                    newGuy = new MarkerSegment(buffer);
-                    newGuy.loadData(buffer);
+                    newGuy = new MbrkerSegment(buffer);
+                    newGuy.lobdDbtb(buffer);
                 }
-                break;
-            case JPEG.APP14:
+                brebk;
+            cbse JPEG.APP14:
                 // Either Adobe or unknown APP14
-                buffer.loadBuf(8); // tag, length, id
+                buffer.lobdBuf(8); // tbg, length, id
                 if ((buffer.buf[buffer.bufPtr+3] == 'A')
                     && (buffer.buf[buffer.bufPtr+4] == 'd')
                     && (buffer.buf[buffer.bufPtr+5] == 'o')
                     && (buffer.buf[buffer.bufPtr+6] == 'b')
                     && (buffer.buf[buffer.bufPtr+7] == 'e')) {
-                    if (isStream) {
+                    if (isStrebm) {
                         throw new IIOException
-                      ("Adobe APP14 markers not permitted in stream metadata");
+                      ("Adobe APP14 mbrkers not permitted in strebm metbdbtb");
                     }
-                    newGuy = new AdobeMarkerSegment(buffer);
+                    newGuy = new AdobeMbrkerSegment(buffer);
                 } else {
-                    newGuy = new MarkerSegment(buffer);
-                    newGuy.loadData(buffer);
+                    newGuy = new MbrkerSegment(buffer);
+                    newGuy.lobdDbtb(buffer);
                 }
 
-                break;
-            case JPEG.COM:
-                newGuy = new COMMarkerSegment(buffer);
-                break;
-            case JPEG.SOS:
-                if (isStream) {
+                brebk;
+            cbse JPEG.COM:
+                newGuy = new COMMbrkerSegment(buffer);
+                brebk;
+            cbse JPEG.SOS:
+                if (isStrebm) {
                     throw new IIOException
-                        ("SOS not permitted in stream metadata");
+                        ("SOS not permitted in strebm metbdbtb");
                 }
-                newGuy = new SOSMarkerSegment(buffer);
-                break;
-            case JPEG.RST0:
-            case JPEG.RST1:
-            case JPEG.RST2:
-            case JPEG.RST3:
-            case JPEG.RST4:
-            case JPEG.RST5:
-            case JPEG.RST6:
-            case JPEG.RST7:
+                newGuy = new SOSMbrkerSegment(buffer);
+                brebk;
+            cbse JPEG.RST0:
+            cbse JPEG.RST1:
+            cbse JPEG.RST2:
+            cbse JPEG.RST3:
+            cbse JPEG.RST4:
+            cbse JPEG.RST5:
+            cbse JPEG.RST6:
+            cbse JPEG.RST7:
                 if (debug) {
-                    System.out.println("Restart Marker");
+                    System.out.println("Restbrt Mbrker");
                 }
                 buffer.bufPtr++; // Just skip it
-                buffer.bufAvail--;
-                break;
-            case JPEG.EOI:
+                buffer.bufAvbil--;
+                brebk;
+            cbse JPEG.EOI:
                 done = true;
                 buffer.bufPtr++;
-                buffer.bufAvail--;
-                break;
-            default:
-                newGuy = new MarkerSegment(buffer);
-                newGuy.loadData(buffer);
+                buffer.bufAvbil--;
+                brebk;
+            defbult:
+                newGuy = new MbrkerSegment(buffer);
+                newGuy.lobdDbtb(buffer);
                 newGuy.unknown = true;
-                break;
+                brebk;
             }
             if (newGuy != null) {
-                markerSequence.add(newGuy);
+                mbrkerSequence.bdd(newGuy);
                 if (debug) {
                     newGuy.print();
                 }
@@ -353,303 +353,303 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
             }
         }
 
-        // Now that we've read up to the EOI, we need to push back
-        // whatever is left in the buffer, so that the next read
-        // in the native code will work.
+        // Now thbt we've rebd up to the EOI, we need to push bbck
+        // whbtever is left in the buffer, so thbt the next rebd
+        // in the nbtive code will work.
 
-        buffer.pushBack();
+        buffer.pushBbck();
 
         if (!isConsistent()) {
-            throw new IIOException("Inconsistent metadata read from stream");
+            throw new IIOException("Inconsistent metbdbtb rebd from strebm");
         }
     }
 
     /**
-     * Constructs a default stream <code>JPEGMetadata</code> object appropriate
-     * for the given write parameters.
+     * Constructs b defbult strebm <code>JPEGMetbdbtb</code> object bppropribte
+     * for the given write pbrbmeters.
      */
-    JPEGMetadata(ImageWriteParam param, JPEGImageWriter writer) {
-        this(true, false);
+    JPEGMetbdbtb(ImbgeWritePbrbm pbrbm, JPEGImbgeWriter writer) {
+        this(true, fblse);
 
-        JPEGImageWriteParam jparam = null;
+        JPEGImbgeWritePbrbm jpbrbm = null;
 
-        if ((param != null) && (param instanceof JPEGImageWriteParam)) {
-            jparam = (JPEGImageWriteParam) param;
-            if (!jparam.areTablesSet()) {
-                jparam = null;
+        if ((pbrbm != null) && (pbrbm instbnceof JPEGImbgeWritePbrbm)) {
+            jpbrbm = (JPEGImbgeWritePbrbm) pbrbm;
+            if (!jpbrbm.breTbblesSet()) {
+                jpbrbm = null;
             }
         }
-        if (jparam != null) {
-            markerSequence.add(new DQTMarkerSegment(jparam.getQTables()));
-            markerSequence.add
-                (new DHTMarkerSegment(jparam.getDCHuffmanTables(),
-                                      jparam.getACHuffmanTables()));
+        if (jpbrbm != null) {
+            mbrkerSequence.bdd(new DQTMbrkerSegment(jpbrbm.getQTbbles()));
+            mbrkerSequence.bdd
+                (new DHTMbrkerSegment(jpbrbm.getDCHuffmbnTbbles(),
+                                      jpbrbm.getACHuffmbnTbbles()));
         } else {
-            // default tables.
-            markerSequence.add(new DQTMarkerSegment(JPEG.getDefaultQTables()));
-            markerSequence.add(new DHTMarkerSegment(JPEG.getDefaultHuffmanTables(true),
-                                                    JPEG.getDefaultHuffmanTables(false)));
+            // defbult tbbles.
+            mbrkerSequence.bdd(new DQTMbrkerSegment(JPEG.getDefbultQTbbles()));
+            mbrkerSequence.bdd(new DHTMbrkerSegment(JPEG.getDefbultHuffmbnTbbles(true),
+                                                    JPEG.getDefbultHuffmbnTbbles(fblse)));
         }
 
-        // Defensive programming
+        // Defensive progrbmming
         if (!isConsistent()) {
-            throw new InternalError("Default stream metadata is inconsistent");
+            throw new InternblError("Defbult strebm metbdbtb is inconsistent");
         }
     }
 
     /**
-     * Constructs a default image <code>JPEGMetadata</code> object appropriate
-     * for the given image type and write parameters.
+     * Constructs b defbult imbge <code>JPEGMetbdbtb</code> object bppropribte
+     * for the given imbge type bnd write pbrbmeters.
      */
-    JPEGMetadata(ImageTypeSpecifier imageType,
-                 ImageWriteParam param,
-                 JPEGImageWriter writer) {
-        this(false, false);
+    JPEGMetbdbtb(ImbgeTypeSpecifier imbgeType,
+                 ImbgeWritePbrbm pbrbm,
+                 JPEGImbgeWriter writer) {
+        this(fblse, fblse);
 
-        boolean wantJFIF = true;
-        boolean wantAdobe = false;
-        int transform = JPEG.ADOBE_UNKNOWN;
-        boolean willSubsample = true;
-        boolean wantICC = false;
-        boolean wantProg = false;
-        boolean wantOptimized = false;
-        boolean wantExtended = false;
-        boolean wantQTables = true;
-        boolean wantHTables = true;
-        float quality = JPEG.DEFAULT_QUALITY;
+        boolebn wbntJFIF = true;
+        boolebn wbntAdobe = fblse;
+        int trbnsform = JPEG.ADOBE_UNKNOWN;
+        boolebn willSubsbmple = true;
+        boolebn wbntICC = fblse;
+        boolebn wbntProg = fblse;
+        boolebn wbntOptimized = fblse;
+        boolebn wbntExtended = fblse;
+        boolebn wbntQTbbles = true;
+        boolebn wbntHTbbles = true;
+        flobt qublity = JPEG.DEFAULT_QUALITY;
         byte[] componentIDs = { 1, 2, 3, 4};
         int numComponents = 0;
 
-        ImageTypeSpecifier destType = null;
+        ImbgeTypeSpecifier destType = null;
 
-        if (param != null) {
-            destType = param.getDestinationType();
+        if (pbrbm != null) {
+            destType = pbrbm.getDestinbtionType();
             if (destType != null) {
-                if (imageType != null) {
-                    // Ignore the destination type.
-                    writer.warningOccurred
-                        (JPEGImageWriter.WARNING_DEST_IGNORED);
+                if (imbgeType != null) {
+                    // Ignore the destinbtion type.
+                    writer.wbrningOccurred
+                        (JPEGImbgeWriter.WARNING_DEST_IGNORED);
                     destType = null;
                 }
             }
-            // The only progressive mode that makes sense here is MODE_DEFAULT
-            if (param.canWriteProgressive()) {
-                // the param may not be one of ours, so it may return false.
-                // If so, the following would throw an exception
-                if (param.getProgressiveMode() == ImageWriteParam.MODE_DEFAULT) {
-                    wantProg = true;
-                    wantOptimized = true;
-                    wantHTables = false;
+            // The only progressive mode thbt mbkes sense here is MODE_DEFAULT
+            if (pbrbm.cbnWriteProgressive()) {
+                // the pbrbm mby not be one of ours, so it mby return fblse.
+                // If so, the following would throw bn exception
+                if (pbrbm.getProgressiveMode() == ImbgeWritePbrbm.MODE_DEFAULT) {
+                    wbntProg = true;
+                    wbntOptimized = true;
+                    wbntHTbbles = fblse;
                 }
             }
 
-            if (param instanceof JPEGImageWriteParam) {
-                JPEGImageWriteParam jparam = (JPEGImageWriteParam) param;
-                if (jparam.areTablesSet()) {
-                    wantQTables = false;  // If the param has them, metadata shouldn't
-                    wantHTables = false;
-                    if ((jparam.getDCHuffmanTables().length > 2)
-                            || (jparam.getACHuffmanTables().length > 2)) {
-                        wantExtended = true;
+            if (pbrbm instbnceof JPEGImbgeWritePbrbm) {
+                JPEGImbgeWritePbrbm jpbrbm = (JPEGImbgeWritePbrbm) pbrbm;
+                if (jpbrbm.breTbblesSet()) {
+                    wbntQTbbles = fblse;  // If the pbrbm hbs them, metbdbtb shouldn't
+                    wbntHTbbles = fblse;
+                    if ((jpbrbm.getDCHuffmbnTbbles().length > 2)
+                            || (jpbrbm.getACHuffmbnTbbles().length > 2)) {
+                        wbntExtended = true;
                     }
                 }
-                // Progressive forces optimized, regardless of param setting
-                // so consult the param re optimized only if not progressive
-                if (!wantProg) {
-                    wantOptimized = jparam.getOptimizeHuffmanTables();
-                    if (wantOptimized) {
-                        wantHTables = false;
+                // Progressive forces optimized, regbrdless of pbrbm setting
+                // so consult the pbrbm re optimized only if not progressive
+                if (!wbntProg) {
+                    wbntOptimized = jpbrbm.getOptimizeHuffmbnTbbles();
+                    if (wbntOptimized) {
+                        wbntHTbbles = fblse;
                     }
                 }
             }
 
-            // compression quality should determine the q tables.  Note that this
-            // will be ignored if we already decided not to create any.
-            // Again, the param may not be one of ours, so we must check that it
+            // compression qublity should determine the q tbbles.  Note thbt this
+            // will be ignored if we blrebdy decided not to crebte bny.
+            // Agbin, the pbrbm mby not be one of ours, so we must check thbt it
             // supports compression settings
-            if (param.canWriteCompressed()) {
-                if (param.getCompressionMode() == ImageWriteParam.MODE_EXPLICIT) {
-                    quality = param.getCompressionQuality();
+            if (pbrbm.cbnWriteCompressed()) {
+                if (pbrbm.getCompressionMode() == ImbgeWritePbrbm.MODE_EXPLICIT) {
+                    qublity = pbrbm.getCompressionQublity();
                 }
             }
         }
 
-        // We are done with the param, now for the image types
+        // We bre done with the pbrbm, now for the imbge types
 
-        ColorSpace cs = null;
+        ColorSpbce cs = null;
         if (destType != null) {
             ColorModel cm = destType.getColorModel();
             numComponents = cm.getNumComponents();
-            boolean hasExtraComponents = (cm.getNumColorComponents() != numComponents);
-            boolean hasAlpha = cm.hasAlpha();
-            cs = cm.getColorSpace();
+            boolebn hbsExtrbComponents = (cm.getNumColorComponents() != numComponents);
+            boolebn hbsAlphb = cm.hbsAlphb();
+            cs = cm.getColorSpbce();
             int type = cs.getType();
             switch(type) {
-            case ColorSpace.TYPE_GRAY:
-                willSubsample = false;
-                if (hasExtraComponents) {  // e.g. alpha
-                    wantJFIF = false;
+            cbse ColorSpbce.TYPE_GRAY:
+                willSubsbmple = fblse;
+                if (hbsExtrbComponents) {  // e.g. blphb
+                    wbntJFIF = fblse;
                 }
-                break;
-            case ColorSpace.TYPE_3CLR:
+                brebk;
+            cbse ColorSpbce.TYPE_3CLR:
                 if (cs == JPEG.JCS.getYCC()) {
-                    wantJFIF = false;
+                    wbntJFIF = fblse;
                     componentIDs[0] = (byte) 'Y';
                     componentIDs[1] = (byte) 'C';
                     componentIDs[2] = (byte) 'c';
-                    if (hasAlpha) {
+                    if (hbsAlphb) {
                         componentIDs[3] = (byte) 'A';
                     }
                 }
-                break;
-            case ColorSpace.TYPE_YCbCr:
-                if (hasExtraComponents) { // e.g. K or alpha
-                    wantJFIF = false;
-                    if (!hasAlpha) { // Not alpha, so must be K
-                        wantAdobe = true;
-                        transform = JPEG.ADOBE_YCCK;
+                brebk;
+            cbse ColorSpbce.TYPE_YCbCr:
+                if (hbsExtrbComponents) { // e.g. K or blphb
+                    wbntJFIF = fblse;
+                    if (!hbsAlphb) { // Not blphb, so must be K
+                        wbntAdobe = true;
+                        trbnsform = JPEG.ADOBE_YCCK;
                     }
                 }
-                break;
-            case ColorSpace.TYPE_RGB:  // with or without alpha
-                wantJFIF = false;
-                wantAdobe = true;
-                willSubsample = false;
+                brebk;
+            cbse ColorSpbce.TYPE_RGB:  // with or without blphb
+                wbntJFIF = fblse;
+                wbntAdobe = true;
+                willSubsbmple = fblse;
                 componentIDs[0] = (byte) 'R';
                 componentIDs[1] = (byte) 'G';
                 componentIDs[2] = (byte) 'B';
-                if (hasAlpha) {
+                if (hbsAlphb) {
                     componentIDs[3] = (byte) 'A';
                 }
-                break;
-            default:
-                // Everything else is not subsampled, gets no special marker,
-                // and component ids are 1 - N
-                wantJFIF = false;
-                willSubsample = false;
+                brebk;
+            defbult:
+                // Everything else is not subsbmpled, gets no specibl mbrker,
+                // bnd component ids bre 1 - N
+                wbntJFIF = fblse;
+                willSubsbmple = fblse;
             }
-        } else if (imageType != null) {
-            ColorModel cm = imageType.getColorModel();
+        } else if (imbgeType != null) {
+            ColorModel cm = imbgeType.getColorModel();
             numComponents = cm.getNumComponents();
-            boolean hasExtraComponents = (cm.getNumColorComponents() != numComponents);
-            boolean hasAlpha = cm.hasAlpha();
-            cs = cm.getColorSpace();
+            boolebn hbsExtrbComponents = (cm.getNumColorComponents() != numComponents);
+            boolebn hbsAlphb = cm.hbsAlphb();
+            cs = cm.getColorSpbce();
             int type = cs.getType();
             switch(type) {
-            case ColorSpace.TYPE_GRAY:
-                willSubsample = false;
-                if (hasExtraComponents) {  // e.g. alpha
-                    wantJFIF = false;
+            cbse ColorSpbce.TYPE_GRAY:
+                willSubsbmple = fblse;
+                if (hbsExtrbComponents) {  // e.g. blphb
+                    wbntJFIF = fblse;
                 }
-                break;
-            case ColorSpace.TYPE_RGB:  // with or without alpha
-                // without alpha we just accept the JFIF defaults
-                if (hasAlpha) {
-                    wantJFIF = false;
+                brebk;
+            cbse ColorSpbce.TYPE_RGB:  // with or without blphb
+                // without blphb we just bccept the JFIF defbults
+                if (hbsAlphb) {
+                    wbntJFIF = fblse;
                 }
-                break;
-            case ColorSpace.TYPE_3CLR:
-                wantJFIF = false;
-                willSubsample = false;
-                if (cs.equals(ColorSpace.getInstance(ColorSpace.CS_PYCC))) {
-                    willSubsample = true;
-                    wantAdobe = true;
+                brebk;
+            cbse ColorSpbce.TYPE_3CLR:
+                wbntJFIF = fblse;
+                willSubsbmple = fblse;
+                if (cs.equbls(ColorSpbce.getInstbnce(ColorSpbce.CS_PYCC))) {
+                    willSubsbmple = true;
+                    wbntAdobe = true;
                     componentIDs[0] = (byte) 'Y';
                     componentIDs[1] = (byte) 'C';
                     componentIDs[2] = (byte) 'c';
-                    if (hasAlpha) {
+                    if (hbsAlphb) {
                         componentIDs[3] = (byte) 'A';
                     }
                 }
-                break;
-            case ColorSpace.TYPE_YCbCr:
-                if (hasExtraComponents) { // e.g. K or alpha
-                    wantJFIF = false;
-                    if (!hasAlpha) {  // then it must be K
-                        wantAdobe = true;
-                        transform = JPEG.ADOBE_YCCK;
+                brebk;
+            cbse ColorSpbce.TYPE_YCbCr:
+                if (hbsExtrbComponents) { // e.g. K or blphb
+                    wbntJFIF = fblse;
+                    if (!hbsAlphb) {  // then it must be K
+                        wbntAdobe = true;
+                        trbnsform = JPEG.ADOBE_YCCK;
                     }
                 }
-                break;
-            case ColorSpace.TYPE_CMYK:
-                wantJFIF = false;
-                wantAdobe = true;
-                transform = JPEG.ADOBE_YCCK;
-                break;
+                brebk;
+            cbse ColorSpbce.TYPE_CMYK:
+                wbntJFIF = fblse;
+                wbntAdobe = true;
+                trbnsform = JPEG.ADOBE_YCCK;
+                brebk;
 
-            default:
-                // Everything else is not subsampled, gets no special marker,
-                // and component ids are 0 - N
-                wantJFIF = false;
-                willSubsample = false;
+            defbult:
+                // Everything else is not subsbmpled, gets no specibl mbrker,
+                // bnd component ids bre 0 - N
+                wbntJFIF = fblse;
+                willSubsbmple = fblse;
             }
 
         }
 
-        // do we want an ICC profile?
-        if (wantJFIF && JPEG.isNonStandardICC(cs)) {
-            wantICC = true;
+        // do we wbnt bn ICC profile?
+        if (wbntJFIF && JPEG.isNonStbndbrdICC(cs)) {
+            wbntICC = true;
         }
 
-        // Now step through the markers, consulting our variables.
-        if (wantJFIF) {
-            JFIFMarkerSegment jfif = new JFIFMarkerSegment();
-            markerSequence.add(jfif);
-            if (wantICC) {
+        // Now step through the mbrkers, consulting our vbribbles.
+        if (wbntJFIF) {
+            JFIFMbrkerSegment jfif = new JFIFMbrkerSegment();
+            mbrkerSequence.bdd(jfif);
+            if (wbntICC) {
                 try {
-                    jfif.addICC((ICC_ColorSpace)cs);
-                } catch (IOException e) {} // Can't happen here
+                    jfif.bddICC((ICC_ColorSpbce)cs);
+                } cbtch (IOException e) {} // Cbn't hbppen here
             }
         }
         // Adobe
-        if (wantAdobe) {
-            markerSequence.add(new AdobeMarkerSegment(transform));
+        if (wbntAdobe) {
+            mbrkerSequence.bdd(new AdobeMbrkerSegment(trbnsform));
         }
 
         // dqt
-        if (wantQTables) {
-            markerSequence.add(new DQTMarkerSegment(quality, willSubsample));
+        if (wbntQTbbles) {
+            mbrkerSequence.bdd(new DQTMbrkerSegment(qublity, willSubsbmple));
         }
 
         // dht
-        if (wantHTables) {
-            markerSequence.add(new DHTMarkerSegment(willSubsample));
+        if (wbntHTbbles) {
+            mbrkerSequence.bdd(new DHTMbrkerSegment(willSubsbmple));
         }
 
         // sof
-        markerSequence.add(new SOFMarkerSegment(wantProg,
-                                                wantExtended,
-                                                willSubsample,
+        mbrkerSequence.bdd(new SOFMbrkerSegment(wbntProg,
+                                                wbntExtended,
+                                                willSubsbmple,
                                                 componentIDs,
                                                 numComponents));
 
         // sos
-        if (!wantProg) {  // Default progression scans are done in the writer
-            markerSequence.add(new SOSMarkerSegment(willSubsample,
+        if (!wbntProg) {  // Defbult progression scbns bre done in the writer
+            mbrkerSequence.bdd(new SOSMbrkerSegment(willSubsbmple,
                                                     componentIDs,
                                                     numComponents));
         }
 
-        // Defensive programming
+        // Defensive progrbmming
         if (!isConsistent()) {
-            throw new InternalError("Default image metadata is inconsistent");
+            throw new InternblError("Defbult imbge metbdbtb is inconsistent");
         }
     }
 
     ////// End of constructors
 
-    // Utilities for dealing with the marker sequence.
-    // The first ones have package access for access from the writer.
+    // Utilities for debling with the mbrker sequence.
+    // The first ones hbve pbckbge bccess for bccess from the writer.
 
     /**
-     * Returns the first MarkerSegment object in the list
-     * with the given tag, or null if none is found.
+     * Returns the first MbrkerSegment object in the list
+     * with the given tbg, or null if none is found.
      */
-    MarkerSegment findMarkerSegment(int tag) {
-        Iterator<MarkerSegment> iter = markerSequence.iterator();
-        while (iter.hasNext()) {
-            MarkerSegment seg = iter.next();
-            if (seg.tag == tag) {
+    MbrkerSegment findMbrkerSegment(int tbg) {
+        Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+        while (iter.hbsNext()) {
+            MbrkerSegment seg = iter.next();
+            if (seg.tbg == tbg) {
                 return seg;
             }
         }
@@ -657,24 +657,24 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
     }
 
     /**
-     * Returns the first or last MarkerSegment object in the list
-     * of the given class, or null if none is found.
+     * Returns the first or lbst MbrkerSegment object in the list
+     * of the given clbss, or null if none is found.
      */
-    MarkerSegment findMarkerSegment(Class<? extends MarkerSegment> cls, boolean first) {
+    MbrkerSegment findMbrkerSegment(Clbss<? extends MbrkerSegment> cls, boolebn first) {
         if (first) {
-            Iterator<MarkerSegment> iter = markerSequence.iterator();
-            while (iter.hasNext()) {
-                MarkerSegment seg = iter.next();
-                if (cls.isInstance(seg)) {
+            Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+            while (iter.hbsNext()) {
+                MbrkerSegment seg = iter.next();
+                if (cls.isInstbnce(seg)) {
                     return seg;
                 }
             }
         } else {
-            ListIterator<MarkerSegment> iter =
-                markerSequence.listIterator(markerSequence.size());
-            while (iter.hasPrevious()) {
-                MarkerSegment seg = iter.previous();
-                if (cls.isInstance(seg)) {
+            ListIterbtor<MbrkerSegment> iter =
+                mbrkerSequence.listIterbtor(mbrkerSequence.size());
+            while (iter.hbsPrevious()) {
+                MbrkerSegment seg = iter.previous();
+                if (cls.isInstbnce(seg)) {
                     return seg;
                 }
             }
@@ -683,25 +683,25 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
     }
 
     /**
-     * Returns the index of the first or last MarkerSegment in the list
-     * of the given class, or -1 if none is found.
+     * Returns the index of the first or lbst MbrkerSegment in the list
+     * of the given clbss, or -1 if none is found.
      */
-    private int findMarkerSegmentPosition(Class<? extends MarkerSegment> cls,
-                                          boolean first) {
+    privbte int findMbrkerSegmentPosition(Clbss<? extends MbrkerSegment> cls,
+                                          boolebn first) {
         if (first) {
-            ListIterator<MarkerSegment> iter = markerSequence.listIterator();
-            for (int i = 0; iter.hasNext(); i++) {
-                MarkerSegment seg = iter.next();
-                if (cls.isInstance(seg)) {
+            ListIterbtor<MbrkerSegment> iter = mbrkerSequence.listIterbtor();
+            for (int i = 0; iter.hbsNext(); i++) {
+                MbrkerSegment seg = iter.next();
+                if (cls.isInstbnce(seg)) {
                     return i;
                 }
             }
         } else {
-            ListIterator<MarkerSegment> iter =
-                    markerSequence.listIterator(markerSequence.size());
-            for (int i = markerSequence.size()-1; iter.hasPrevious(); i--) {
-                MarkerSegment seg = iter.previous();
-                if (cls.isInstance(seg)) {
+            ListIterbtor<MbrkerSegment> iter =
+                    mbrkerSequence.listIterbtor(mbrkerSequence.size());
+            for (int i = mbrkerSequence.size()-1; iter.hbsPrevious(); i--) {
+                MbrkerSegment seg = iter.previous();
+                if (cls.isInstbnce(seg)) {
                     return i;
                 }
             }
@@ -709,11 +709,11 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
         return -1;
     }
 
-    private int findLastUnknownMarkerSegmentPosition() {
-        ListIterator<MarkerSegment> iter =
-            markerSequence.listIterator(markerSequence.size());
-        for (int i = markerSequence.size()-1; iter.hasPrevious(); i--) {
-            MarkerSegment seg = iter.previous();
+    privbte int findLbstUnknownMbrkerSegmentPosition() {
+        ListIterbtor<MbrkerSegment> iter =
+            mbrkerSequence.listIterbtor(mbrkerSequence.size());
+        for (int i = mbrkerSequence.size()-1; iter.hbsPrevious(); i--) {
+            MbrkerSegment seg = iter.previous();
             if (seg.unknown == true) {
                 return i;
             }
@@ -721,1040 +721,1040 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
         return -1;
     }
 
-    // Implement Cloneable, but restrict access
+    // Implement Clonebble, but restrict bccess
 
     protected Object clone() {
-        JPEGMetadata newGuy = null;
+        JPEGMetbdbtb newGuy = null;
         try {
-            newGuy = (JPEGMetadata) super.clone();
-        } catch (CloneNotSupportedException e) {} // won't happen
-        if (markerSequence != null) {
-            newGuy.markerSequence = cloneSequence();
+            newGuy = (JPEGMetbdbtb) super.clone();
+        } cbtch (CloneNotSupportedException e) {} // won't hbppen
+        if (mbrkerSequence != null) {
+            newGuy.mbrkerSequence = cloneSequence();
         }
         newGuy.resetSequence = null;
         return newGuy;
     }
 
     /**
-     * Returns a deep copy of the current marker sequence.
+     * Returns b deep copy of the current mbrker sequence.
      */
-    private List<MarkerSegment> cloneSequence() {
-        if (markerSequence == null) {
+    privbte List<MbrkerSegment> cloneSequence() {
+        if (mbrkerSequence == null) {
             return null;
         }
-        List<MarkerSegment> retval = new ArrayList<>(markerSequence.size());
-        Iterator<MarkerSegment> iter = markerSequence.iterator();
-        while(iter.hasNext()) {
-            MarkerSegment seg = iter.next();
-            retval.add((MarkerSegment) seg.clone());
+        List<MbrkerSegment> retvbl = new ArrbyList<>(mbrkerSequence.size());
+        Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+        while(iter.hbsNext()) {
+            MbrkerSegment seg = iter.next();
+            retvbl.bdd((MbrkerSegment) seg.clone());
         }
 
-        return retval;
+        return retvbl;
     }
 
 
     // Tree methods
 
-    public Node getAsTree(String formatName) {
-        if (formatName == null) {
-            throw new IllegalArgumentException("null formatName!");
+    public Node getAsTree(String formbtNbme) {
+        if (formbtNbme == null) {
+            throw new IllegblArgumentException("null formbtNbme!");
         }
-        if (isStream) {
-            if (formatName.equals(JPEG.nativeStreamMetadataFormatName)) {
-                return getNativeTree();
+        if (isStrebm) {
+            if (formbtNbme.equbls(JPEG.nbtiveStrebmMetbdbtbFormbtNbme)) {
+                return getNbtiveTree();
             }
         } else {
-            if (formatName.equals(JPEG.nativeImageMetadataFormatName)) {
-                return getNativeTree();
+            if (formbtNbme.equbls(JPEG.nbtiveImbgeMetbdbtbFormbtNbme)) {
+                return getNbtiveTree();
             }
-            if (formatName.equals
-                    (IIOMetadataFormatImpl.standardMetadataFormatName)) {
-                return getStandardTree();
+            if (formbtNbme.equbls
+                    (IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme)) {
+                return getStbndbrdTree();
             }
         }
-        throw  new IllegalArgumentException("Unsupported format name: "
-                                                + formatName);
+        throw  new IllegblArgumentException("Unsupported formbt nbme: "
+                                                + formbtNbme);
     }
 
-    IIOMetadataNode getNativeTree() {
-        IIOMetadataNode root;
-        IIOMetadataNode top;
-        Iterator<MarkerSegment> iter = markerSequence.iterator();
-        if (isStream) {
-            root = new IIOMetadataNode(JPEG.nativeStreamMetadataFormatName);
+    IIOMetbdbtbNode getNbtiveTree() {
+        IIOMetbdbtbNode root;
+        IIOMetbdbtbNode top;
+        Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+        if (isStrebm) {
+            root = new IIOMetbdbtbNode(JPEG.nbtiveStrebmMetbdbtbFormbtNbme);
             top = root;
         } else {
-            IIOMetadataNode sequence = new IIOMetadataNode("markerSequence");
+            IIOMetbdbtbNode sequence = new IIOMetbdbtbNode("mbrkerSequence");
             if (!inThumb) {
-                root = new IIOMetadataNode(JPEG.nativeImageMetadataFormatName);
-                IIOMetadataNode header = new IIOMetadataNode("JPEGvariety");
-                root.appendChild(header);
-                JFIFMarkerSegment jfif = (JFIFMarkerSegment)
-                    findMarkerSegment(JFIFMarkerSegment.class, true);
+                root = new IIOMetbdbtbNode(JPEG.nbtiveImbgeMetbdbtbFormbtNbme);
+                IIOMetbdbtbNode hebder = new IIOMetbdbtbNode("JPEGvbriety");
+                root.bppendChild(hebder);
+                JFIFMbrkerSegment jfif = (JFIFMbrkerSegment)
+                    findMbrkerSegment(JFIFMbrkerSegment.clbss, true);
                 if (jfif != null) {
                     iter.next();  // JFIF must be first, so this skips it
-                    header.appendChild(jfif.getNativeNode());
+                    hebder.bppendChild(jfif.getNbtiveNode());
                 }
-                root.appendChild(sequence);
+                root.bppendChild(sequence);
             } else {
                 root = sequence;
             }
             top = sequence;
         }
-        while(iter.hasNext()) {
-            MarkerSegment seg = iter.next();
-            top.appendChild(seg.getNativeNode());
+        while(iter.hbsNext()) {
+            MbrkerSegment seg = iter.next();
+            top.bppendChild(seg.getNbtiveNode());
         }
         return root;
     }
 
-    // Standard tree node methods
+    // Stbndbrd tree node methods
 
-    protected IIOMetadataNode getStandardChromaNode() {
-        hasAlpha = false;  // Unless we find otherwise
+    protected IIOMetbdbtbNode getStbndbrdChrombNode() {
+        hbsAlphb = fblse;  // Unless we find otherwise
 
-        // Colorspace type - follow the rules in the spec
-        // First get the SOF marker segment, if there is one
-        SOFMarkerSegment sof = (SOFMarkerSegment)
-            findMarkerSegment(SOFMarkerSegment.class, true);
+        // Colorspbce type - follow the rules in the spec
+        // First get the SOF mbrker segment, if there is one
+        SOFMbrkerSegment sof = (SOFMbrkerSegment)
+            findMbrkerSegment(SOFMbrkerSegment.clbss, true);
         if (sof == null) {
-            // No image, so no chroma
+            // No imbge, so no chromb
             return null;
         }
 
-        IIOMetadataNode chroma = new IIOMetadataNode("Chroma");
-        IIOMetadataNode csType = new IIOMetadataNode("ColorSpaceType");
-        chroma.appendChild(csType);
+        IIOMetbdbtbNode chromb = new IIOMetbdbtbNode("Chromb");
+        IIOMetbdbtbNode csType = new IIOMetbdbtbNode("ColorSpbceType");
+        chromb.bppendChild(csType);
 
-        // get the number of channels
-        int numChannels = sof.componentSpecs.length;
+        // get the number of chbnnels
+        int numChbnnels = sof.componentSpecs.length;
 
-        IIOMetadataNode numChanNode = new IIOMetadataNode("NumChannels");
-        chroma.appendChild(numChanNode);
-        numChanNode.setAttribute("value", Integer.toString(numChannels));
+        IIOMetbdbtbNode numChbnNode = new IIOMetbdbtbNode("NumChbnnels");
+        chromb.bppendChild(numChbnNode);
+        numChbnNode.setAttribute("vblue", Integer.toString(numChbnnels));
 
-        // is there a JFIF marker segment?
-        if (findMarkerSegment(JFIFMarkerSegment.class, true) != null) {
-            if (numChannels == 1) {
-                csType.setAttribute("name", "GRAY");
+        // is there b JFIF mbrker segment?
+        if (findMbrkerSegment(JFIFMbrkerSegment.clbss, true) != null) {
+            if (numChbnnels == 1) {
+                csType.setAttribute("nbme", "GRAY");
             } else {
-                csType.setAttribute("name", "YCbCr");
+                csType.setAttribute("nbme", "YCbCr");
             }
-            return chroma;
+            return chromb;
         }
 
-        // How about an Adobe marker segment?
-        AdobeMarkerSegment adobe =
-            (AdobeMarkerSegment) findMarkerSegment(AdobeMarkerSegment.class, true);
-        if (adobe != null){
-            switch (adobe.transform) {
-            case JPEG.ADOBE_YCCK:
-                csType.setAttribute("name", "YCCK");
-                break;
-            case JPEG.ADOBE_YCC:
-                csType.setAttribute("name", "YCbCr");
-                break;
-            case JPEG.ADOBE_UNKNOWN:
-                if (numChannels == 3) {
-                    csType.setAttribute("name", "RGB");
-                } else if (numChannels == 4) {
-                    csType.setAttribute("name", "CMYK");
+        // How bbout bn Adobe mbrker segment?
+        AdobeMbrkerSegment bdobe =
+            (AdobeMbrkerSegment) findMbrkerSegment(AdobeMbrkerSegment.clbss, true);
+        if (bdobe != null){
+            switch (bdobe.trbnsform) {
+            cbse JPEG.ADOBE_YCCK:
+                csType.setAttribute("nbme", "YCCK");
+                brebk;
+            cbse JPEG.ADOBE_YCC:
+                csType.setAttribute("nbme", "YCbCr");
+                brebk;
+            cbse JPEG.ADOBE_UNKNOWN:
+                if (numChbnnels == 3) {
+                    csType.setAttribute("nbme", "RGB");
+                } else if (numChbnnels == 4) {
+                    csType.setAttribute("nbme", "CMYK");
                 }
-                break;
+                brebk;
             }
-            return chroma;
+            return chromb;
         }
 
-        // Neither marker.  Check components
-        if (numChannels < 3) {
-            csType.setAttribute("name", "GRAY");
-            if (numChannels == 2) {
-                hasAlpha = true;
+        // Neither mbrker.  Check components
+        if (numChbnnels < 3) {
+            csType.setAttribute("nbme", "GRAY");
+            if (numChbnnels == 2) {
+                hbsAlphb = true;
             }
-            return chroma;
+            return chromb;
         }
 
-        boolean idsAreJFIF = true;
+        boolebn idsAreJFIF = true;
 
         for (int i = 0; i < sof.componentSpecs.length; i++) {
             int id = sof.componentSpecs[i].componentId;
             if ((id < 1) || (id >= sof.componentSpecs.length)) {
-                idsAreJFIF = false;
+                idsAreJFIF = fblse;
             }
         }
 
         if (idsAreJFIF) {
-            csType.setAttribute("name", "YCbCr");
-            if (numChannels == 4) {
-                hasAlpha = true;
+            csType.setAttribute("nbme", "YCbCr");
+            if (numChbnnels == 4) {
+                hbsAlphb = true;
             }
-            return chroma;
+            return chromb;
         }
 
-        // Check against the letters
+        // Check bgbinst the letters
         if ((sof.componentSpecs[0].componentId == 'R')
             && (sof.componentSpecs[1].componentId == 'G')
             && (sof.componentSpecs[2].componentId == 'B')){
 
-            csType.setAttribute("name", "RGB");
-            if ((numChannels == 4)
+            csType.setAttribute("nbme", "RGB");
+            if ((numChbnnels == 4)
                 && (sof.componentSpecs[3].componentId == 'A')) {
-                hasAlpha = true;
+                hbsAlphb = true;
             }
-            return chroma;
+            return chromb;
         }
 
         if ((sof.componentSpecs[0].componentId == 'Y')
             && (sof.componentSpecs[1].componentId == 'C')
             && (sof.componentSpecs[2].componentId == 'c')){
 
-            csType.setAttribute("name", "PhotoYCC");
-            if ((numChannels == 4)
+            csType.setAttribute("nbme", "PhotoYCC");
+            if ((numChbnnels == 4)
                 && (sof.componentSpecs[3].componentId == 'A')) {
-                hasAlpha = true;
+                hbsAlphb = true;
             }
-            return chroma;
+            return chromb;
         }
 
-        // Finally, 3-channel subsampled are YCbCr, unsubsampled are RGB
-        // 4-channel subsampled are YCbCrA, unsubsampled are CMYK
+        // Finblly, 3-chbnnel subsbmpled bre YCbCr, unsubsbmpled bre RGB
+        // 4-chbnnel subsbmpled bre YCbCrA, unsubsbmpled bre CMYK
 
-        boolean subsampled = false;
+        boolebn subsbmpled = fblse;
 
-        int hfactor = sof.componentSpecs[0].HsamplingFactor;
-        int vfactor = sof.componentSpecs[0].VsamplingFactor;
+        int hfbctor = sof.componentSpecs[0].HsbmplingFbctor;
+        int vfbctor = sof.componentSpecs[0].VsbmplingFbctor;
 
         for (int i = 1; i<sof.componentSpecs.length; i++) {
-            if ((sof.componentSpecs[i].HsamplingFactor != hfactor)
-                || (sof.componentSpecs[i].VsamplingFactor != vfactor)){
-                subsampled = true;
-                break;
+            if ((sof.componentSpecs[i].HsbmplingFbctor != hfbctor)
+                || (sof.componentSpecs[i].VsbmplingFbctor != vfbctor)){
+                subsbmpled = true;
+                brebk;
             }
         }
 
-        if (subsampled) {
-            csType.setAttribute("name", "YCbCr");
-            if (numChannels == 4) {
-                hasAlpha = true;
+        if (subsbmpled) {
+            csType.setAttribute("nbme", "YCbCr");
+            if (numChbnnels == 4) {
+                hbsAlphb = true;
             }
-            return chroma;
+            return chromb;
         }
 
-        // Not subsampled.  numChannels < 3 is taken care of above
-        if (numChannels == 3) {
-            csType.setAttribute("name", "RGB");
+        // Not subsbmpled.  numChbnnels < 3 is tbken cbre of bbove
+        if (numChbnnels == 3) {
+            csType.setAttribute("nbme", "RGB");
         } else {
-            csType.setAttribute("name", "CMYK");
+            csType.setAttribute("nbme", "CMYK");
         }
 
-        return chroma;
+        return chromb;
     }
 
-    protected IIOMetadataNode getStandardCompressionNode() {
+    protected IIOMetbdbtbNode getStbndbrdCompressionNode() {
 
-        IIOMetadataNode compression = new IIOMetadataNode("Compression");
+        IIOMetbdbtbNode compression = new IIOMetbdbtbNode("Compression");
 
-        // CompressionTypeName
-        IIOMetadataNode name = new IIOMetadataNode("CompressionTypeName");
-        name.setAttribute("value", "JPEG");
-        compression.appendChild(name);
+        // CompressionTypeNbme
+        IIOMetbdbtbNode nbme = new IIOMetbdbtbNode("CompressionTypeNbme");
+        nbme.setAttribute("vblue", "JPEG");
+        compression.bppendChild(nbme);
 
-        // Lossless - false
-        IIOMetadataNode lossless = new IIOMetadataNode("Lossless");
-        lossless.setAttribute("value", "FALSE");
-        compression.appendChild(lossless);
+        // Lossless - fblse
+        IIOMetbdbtbNode lossless = new IIOMetbdbtbNode("Lossless");
+        lossless.setAttribute("vblue", "FALSE");
+        compression.bppendChild(lossless);
 
-        // NumProgressiveScans - count sos segments
+        // NumProgressiveScbns - count sos segments
         int sosCount = 0;
-        Iterator<MarkerSegment> iter = markerSequence.iterator();
-        while (iter.hasNext()) {
-            MarkerSegment ms = iter.next();
-            if (ms.tag == JPEG.SOS) {
+        Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+        while (iter.hbsNext()) {
+            MbrkerSegment ms = iter.next();
+            if (ms.tbg == JPEG.SOS) {
                 sosCount++;
             }
         }
         if (sosCount != 0) {
-            IIOMetadataNode prog = new IIOMetadataNode("NumProgressiveScans");
-            prog.setAttribute("value", Integer.toString(sosCount));
-            compression.appendChild(prog);
+            IIOMetbdbtbNode prog = new IIOMetbdbtbNode("NumProgressiveScbns");
+            prog.setAttribute("vblue", Integer.toString(sosCount));
+            compression.bppendChild(prog);
         }
 
         return compression;
     }
 
-    protected IIOMetadataNode getStandardDimensionNode() {
-        // If we have a JFIF marker segment, we know a little
-        // otherwise all we know is the orientation, which is always normal
-        IIOMetadataNode dim = new IIOMetadataNode("Dimension");
-        IIOMetadataNode orient = new IIOMetadataNode("ImageOrientation");
-        orient.setAttribute("value", "normal");
-        dim.appendChild(orient);
+    protected IIOMetbdbtbNode getStbndbrdDimensionNode() {
+        // If we hbve b JFIF mbrker segment, we know b little
+        // otherwise bll we know is the orientbtion, which is blwbys normbl
+        IIOMetbdbtbNode dim = new IIOMetbdbtbNode("Dimension");
+        IIOMetbdbtbNode orient = new IIOMetbdbtbNode("ImbgeOrientbtion");
+        orient.setAttribute("vblue", "normbl");
+        dim.bppendChild(orient);
 
-        JFIFMarkerSegment jfif =
-            (JFIFMarkerSegment) findMarkerSegment(JFIFMarkerSegment.class, true);
+        JFIFMbrkerSegment jfif =
+            (JFIFMbrkerSegment) findMbrkerSegment(JFIFMbrkerSegment.clbss, true);
         if (jfif != null) {
 
-            // Aspect Ratio is width of pixel / height of pixel
-            float aspectRatio;
+            // Aspect Rbtio is width of pixel / height of pixel
+            flobt bspectRbtio;
             if (jfif.resUnits == 0) {
-                // In this case they just encode aspect ratio directly
-                aspectRatio = ((float) jfif.Xdensity)/jfif.Ydensity;
+                // In this cbse they just encode bspect rbtio directly
+                bspectRbtio = ((flobt) jfif.Xdensity)/jfif.Ydensity;
             } else {
-                // They are true densities (e.g. dpi) and must be inverted
-                aspectRatio = ((float) jfif.Ydensity)/jfif.Xdensity;
+                // They bre true densities (e.g. dpi) bnd must be inverted
+                bspectRbtio = ((flobt) jfif.Ydensity)/jfif.Xdensity;
             }
-            IIOMetadataNode aspect = new IIOMetadataNode("PixelAspectRatio");
-            aspect.setAttribute("value", Float.toString(aspectRatio));
-            dim.insertBefore(aspect, orient);
+            IIOMetbdbtbNode bspect = new IIOMetbdbtbNode("PixelAspectRbtio");
+            bspect.setAttribute("vblue", Flobt.toString(bspectRbtio));
+            dim.insertBefore(bspect, orient);
 
             // Pixel size
             if (jfif.resUnits != 0) {
                 // 1 == dpi, 2 == dpc
-                float scale = (jfif.resUnits == 1) ? 25.4F : 10.0F;
+                flobt scble = (jfif.resUnits == 1) ? 25.4F : 10.0F;
 
-                IIOMetadataNode horiz =
-                    new IIOMetadataNode("HorizontalPixelSize");
-                horiz.setAttribute("value",
-                                   Float.toString(scale/jfif.Xdensity));
-                dim.appendChild(horiz);
+                IIOMetbdbtbNode horiz =
+                    new IIOMetbdbtbNode("HorizontblPixelSize");
+                horiz.setAttribute("vblue",
+                                   Flobt.toString(scble/jfif.Xdensity));
+                dim.bppendChild(horiz);
 
-                IIOMetadataNode vert =
-                    new IIOMetadataNode("VerticalPixelSize");
-                vert.setAttribute("value",
-                                  Float.toString(scale/jfif.Ydensity));
-                dim.appendChild(vert);
+                IIOMetbdbtbNode vert =
+                    new IIOMetbdbtbNode("VerticblPixelSize");
+                vert.setAttribute("vblue",
+                                  Flobt.toString(scble/jfif.Ydensity));
+                dim.bppendChild(vert);
             }
         }
         return dim;
     }
 
-    protected IIOMetadataNode getStandardTextNode() {
-        IIOMetadataNode text = null;
-        // Add a text entry for each COM Marker Segment
-        if (findMarkerSegment(JPEG.COM) != null) {
-            text = new IIOMetadataNode("Text");
-            Iterator<MarkerSegment> iter = markerSequence.iterator();
-            while (iter.hasNext()) {
-                MarkerSegment seg = iter.next();
-                if (seg.tag == JPEG.COM) {
-                    COMMarkerSegment com = (COMMarkerSegment) seg;
-                    IIOMetadataNode entry = new IIOMetadataNode("TextEntry");
+    protected IIOMetbdbtbNode getStbndbrdTextNode() {
+        IIOMetbdbtbNode text = null;
+        // Add b text entry for ebch COM Mbrker Segment
+        if (findMbrkerSegment(JPEG.COM) != null) {
+            text = new IIOMetbdbtbNode("Text");
+            Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+            while (iter.hbsNext()) {
+                MbrkerSegment seg = iter.next();
+                if (seg.tbg == JPEG.COM) {
+                    COMMbrkerSegment com = (COMMbrkerSegment) seg;
+                    IIOMetbdbtbNode entry = new IIOMetbdbtbNode("TextEntry");
                     entry.setAttribute("keyword", "comment");
-                    entry.setAttribute("value", com.getComment());
-                text.appendChild(entry);
+                    entry.setAttribute("vblue", com.getComment());
+                text.bppendChild(entry);
                 }
             }
         }
         return text;
     }
 
-    protected IIOMetadataNode getStandardTransparencyNode() {
-        IIOMetadataNode trans = null;
-        if (hasAlpha == true) {
-            trans = new IIOMetadataNode("Transparency");
-            IIOMetadataNode alpha = new IIOMetadataNode("Alpha");
-            alpha.setAttribute("value", "nonpremultiplied"); // Always assume
-            trans.appendChild(alpha);
+    protected IIOMetbdbtbNode getStbndbrdTrbnspbrencyNode() {
+        IIOMetbdbtbNode trbns = null;
+        if (hbsAlphb == true) {
+            trbns = new IIOMetbdbtbNode("Trbnspbrency");
+            IIOMetbdbtbNode blphb = new IIOMetbdbtbNode("Alphb");
+            blphb.setAttribute("vblue", "nonpremultiplied"); // Alwbys bssume
+            trbns.bppendChild(blphb);
         }
-        return trans;
+        return trbns;
     }
 
     // Editing
 
-    public boolean isReadOnly() {
-        return false;
+    public boolebn isRebdOnly() {
+        return fblse;
     }
 
-    public void mergeTree(String formatName, Node root)
-        throws IIOInvalidTreeException {
-        if (formatName == null) {
-            throw new IllegalArgumentException("null formatName!");
+    public void mergeTree(String formbtNbme, Node root)
+        throws IIOInvblidTreeException {
+        if (formbtNbme == null) {
+            throw new IllegblArgumentException("null formbtNbme!");
         }
         if (root == null) {
-            throw new IllegalArgumentException("null root!");
+            throw new IllegblArgumentException("null root!");
         }
-        List<MarkerSegment> copy = null;
+        List<MbrkerSegment> copy = null;
         if (resetSequence == null) {
             resetSequence = cloneSequence();  // Deep copy
             copy = resetSequence;  // Avoid cloning twice
         } else {
             copy = cloneSequence();
         }
-        if (isStream &&
-            (formatName.equals(JPEG.nativeStreamMetadataFormatName))) {
-                mergeNativeTree(root);
-        } else if (!isStream &&
-                   (formatName.equals(JPEG.nativeImageMetadataFormatName))) {
-            mergeNativeTree(root);
-        } else if (!isStream &&
-                   (formatName.equals
-                    (IIOMetadataFormatImpl.standardMetadataFormatName))) {
-            mergeStandardTree(root);
+        if (isStrebm &&
+            (formbtNbme.equbls(JPEG.nbtiveStrebmMetbdbtbFormbtNbme))) {
+                mergeNbtiveTree(root);
+        } else if (!isStrebm &&
+                   (formbtNbme.equbls(JPEG.nbtiveImbgeMetbdbtbFormbtNbme))) {
+            mergeNbtiveTree(root);
+        } else if (!isStrebm &&
+                   (formbtNbme.equbls
+                    (IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme))) {
+            mergeStbndbrdTree(root);
         } else {
-            throw  new IllegalArgumentException("Unsupported format name: "
-                                                + formatName);
+            throw  new IllegblArgumentException("Unsupported formbt nbme: "
+                                                + formbtNbme);
         }
         if (!isConsistent()) {
-            markerSequence = copy;
-            throw new IIOInvalidTreeException
-                ("Merged tree is invalid; original restored", root);
+            mbrkerSequence = copy;
+            throw new IIOInvblidTreeException
+                ("Merged tree is invblid; originbl restored", root);
         }
     }
 
-    private void mergeNativeTree(Node root) throws IIOInvalidTreeException {
-        String name = root.getNodeName();
-        if (name != ((isStream) ? JPEG.nativeStreamMetadataFormatName
-                                : JPEG.nativeImageMetadataFormatName)) {
-            throw new IIOInvalidTreeException("Invalid root node name: " + name,
+    privbte void mergeNbtiveTree(Node root) throws IIOInvblidTreeException {
+        String nbme = root.getNodeNbme();
+        if (nbme != ((isStrebm) ? JPEG.nbtiveStrebmMetbdbtbFormbtNbme
+                                : JPEG.nbtiveImbgeMetbdbtbFormbtNbme)) {
+            throw new IIOInvblidTreeException("Invblid root node nbme: " + nbme,
                                               root);
         }
-        if (root.getChildNodes().getLength() != 2) { // JPEGvariety and markerSequence
-            throw new IIOInvalidTreeException(
-                "JPEGvariety and markerSequence nodes must be present", root);
+        if (root.getChildNodes().getLength() != 2) { // JPEGvbriety bnd mbrkerSequence
+            throw new IIOInvblidTreeException(
+                "JPEGvbriety bnd mbrkerSequence nodes must be present", root);
         }
         mergeJFIFsubtree(root.getFirstChild());
-        mergeSequenceSubtree(root.getLastChild());
+        mergeSequenceSubtree(root.getLbstChild());
     }
 
     /**
-     * Merge a JFIF subtree into the marker sequence, if the subtree
+     * Merge b JFIF subtree into the mbrker sequence, if the subtree
      * is non-empty.
-     * If a JFIF marker exists, update it from the subtree.
-     * If none exists, create one from the subtree and insert it at the
-     * beginning of the marker sequence.
+     * If b JFIF mbrker exists, updbte it from the subtree.
+     * If none exists, crebte one from the subtree bnd insert it bt the
+     * beginning of the mbrker sequence.
      */
-    private void mergeJFIFsubtree(Node JPEGvariety)
-        throws IIOInvalidTreeException {
-        if (JPEGvariety.getChildNodes().getLength() != 0) {
-            Node jfifNode = JPEGvariety.getFirstChild();
-            // is there already a jfif marker segment?
-            JFIFMarkerSegment jfifSeg =
-                (JFIFMarkerSegment) findMarkerSegment(JFIFMarkerSegment.class, true);
+    privbte void mergeJFIFsubtree(Node JPEGvbriety)
+        throws IIOInvblidTreeException {
+        if (JPEGvbriety.getChildNodes().getLength() != 0) {
+            Node jfifNode = JPEGvbriety.getFirstChild();
+            // is there blrebdy b jfif mbrker segment?
+            JFIFMbrkerSegment jfifSeg =
+                (JFIFMbrkerSegment) findMbrkerSegment(JFIFMbrkerSegment.clbss, true);
             if (jfifSeg != null) {
-                jfifSeg.updateFromNativeNode(jfifNode, false);
+                jfifSeg.updbteFromNbtiveNode(jfifNode, fblse);
             } else {
-                // Add it as the first element in the list.
-                markerSequence.add(0, new JFIFMarkerSegment(jfifNode));
+                // Add it bs the first element in the list.
+                mbrkerSequence.bdd(0, new JFIFMbrkerSegment(jfifNode));
             }
         }
     }
 
-    private void mergeSequenceSubtree(Node sequenceTree)
-        throws IIOInvalidTreeException {
+    privbte void mergeSequenceSubtree(Node sequenceTree)
+        throws IIOInvblidTreeException {
         NodeList children = sequenceTree.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node node = children.item(i);
-            String name = node.getNodeName();
-            if (name.equals("dqt")) {
+            String nbme = node.getNodeNbme();
+            if (nbme.equbls("dqt")) {
                 mergeDQTNode(node);
-            } else if (name.equals("dht")) {
+            } else if (nbme.equbls("dht")) {
                 mergeDHTNode(node);
-            } else if (name.equals("dri")) {
+            } else if (nbme.equbls("dri")) {
                 mergeDRINode(node);
-            } else if (name.equals("com")) {
+            } else if (nbme.equbls("com")) {
                 mergeCOMNode(node);
-            } else if (name.equals("app14Adobe")) {
+            } else if (nbme.equbls("bpp14Adobe")) {
                 mergeAdobeNode(node);
-            } else if (name.equals("unknown")) {
+            } else if (nbme.equbls("unknown")) {
                 mergeUnknownNode(node);
-            } else if (name.equals("sof")) {
+            } else if (nbme.equbls("sof")) {
                 mergeSOFNode(node);
-            } else if (name.equals("sos")) {
+            } else if (nbme.equbls("sos")) {
                 mergeSOSNode(node);
             } else {
-                throw new IIOInvalidTreeException("Invalid node: " + name, node);
+                throw new IIOInvblidTreeException("Invblid node: " + nbme, node);
             }
         }
     }
 
     /**
-     * Merge the given DQT node into the marker sequence.  If there already
-     * exist DQT marker segments in the sequence, then each table in the
-     * node replaces the first table, in any DQT segment, with the same
-     * table id.  If none of the existing DQT segments contain a table with
-     * the same id, then the table is added to the last existing DQT segment.
-     * If there are no DQT segments, then a new one is created and added
-     * as follows:
-     * If there are DHT segments, the new DQT segment is inserted before the
+     * Merge the given DQT node into the mbrker sequence.  If there blrebdy
+     * exist DQT mbrker segments in the sequence, then ebch tbble in the
+     * node replbces the first tbble, in bny DQT segment, with the sbme
+     * tbble id.  If none of the existing DQT segments contbin b tbble with
+     * the sbme id, then the tbble is bdded to the lbst existing DQT segment.
+     * If there bre no DQT segments, then b new one is crebted bnd bdded
+     * bs follows:
+     * If there bre DHT segments, the new DQT segment is inserted before the
      * first one.
-     * If there are no DHT segments, the new DQT segment is inserted before
-     * an SOF segment, if there is one.
+     * If there bre no DHT segments, the new DQT segment is inserted before
+     * bn SOF segment, if there is one.
      * If there is no SOF segment, the new DQT segment is inserted before
      * the first SOS segment, if there is one.
-     * If there is no SOS segment, the new DQT segment is added to the end
+     * If there is no SOS segment, the new DQT segment is bdded to the end
      * of the sequence.
      */
-    private void mergeDQTNode(Node node) throws IIOInvalidTreeException {
-        // First collect any existing DQT nodes into a local list
-        ArrayList<DQTMarkerSegment> oldDQTs = new ArrayList<>();
-        Iterator<MarkerSegment> iter = markerSequence.iterator();
-        while (iter.hasNext()) {
-            MarkerSegment seg = iter.next();
-            if (seg instanceof DQTMarkerSegment) {
-                oldDQTs.add((DQTMarkerSegment) seg);
+    privbte void mergeDQTNode(Node node) throws IIOInvblidTreeException {
+        // First collect bny existing DQT nodes into b locbl list
+        ArrbyList<DQTMbrkerSegment> oldDQTs = new ArrbyList<>();
+        Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+        while (iter.hbsNext()) {
+            MbrkerSegment seg = iter.next();
+            if (seg instbnceof DQTMbrkerSegment) {
+                oldDQTs.bdd((DQTMbrkerSegment) seg);
             }
         }
         if (!oldDQTs.isEmpty()) {
             NodeList children = node.getChildNodes();
             for (int i = 0; i < children.getLength(); i++) {
                 Node child = children.item(i);
-                int childID = MarkerSegment.getAttributeValue(child,
+                int childID = MbrkerSegment.getAttributeVblue(child,
                                                               null,
-                                                              "qtableId",
+                                                              "qtbbleId",
                                                               0, 3,
                                                               true);
-                DQTMarkerSegment dqt = null;
-                int tableIndex = -1;
+                DQTMbrkerSegment dqt = null;
+                int tbbleIndex = -1;
                 for (int j = 0; j < oldDQTs.size(); j++) {
-                    DQTMarkerSegment testDQT = oldDQTs.get(j);
-                    for (int k = 0; k < testDQT.tables.size(); k++) {
-                        DQTMarkerSegment.Qtable testTable = testDQT.tables.get(k);
-                        if (childID == testTable.tableID) {
+                    DQTMbrkerSegment testDQT = oldDQTs.get(j);
+                    for (int k = 0; k < testDQT.tbbles.size(); k++) {
+                        DQTMbrkerSegment.Qtbble testTbble = testDQT.tbbles.get(k);
+                        if (childID == testTbble.tbbleID) {
                             dqt = testDQT;
-                            tableIndex = k;
-                            break;
+                            tbbleIndex = k;
+                            brebk;
                         }
                     }
-                    if (dqt != null) break;
+                    if (dqt != null) brebk;
                 }
                 if (dqt != null) {
-                    dqt.tables.set(tableIndex, dqt.getQtableFromNode(child));
+                    dqt.tbbles.set(tbbleIndex, dqt.getQtbbleFromNode(child));
                 } else {
                     dqt = oldDQTs.get(oldDQTs.size()-1);
-                    dqt.tables.add(dqt.getQtableFromNode(child));
+                    dqt.tbbles.bdd(dqt.getQtbbleFromNode(child));
                 }
             }
         } else {
-            DQTMarkerSegment newGuy = new DQTMarkerSegment(node);
-            int firstDHT = findMarkerSegmentPosition(DHTMarkerSegment.class, true);
-            int firstSOF = findMarkerSegmentPosition(SOFMarkerSegment.class, true);
-            int firstSOS = findMarkerSegmentPosition(SOSMarkerSegment.class, true);
+            DQTMbrkerSegment newGuy = new DQTMbrkerSegment(node);
+            int firstDHT = findMbrkerSegmentPosition(DHTMbrkerSegment.clbss, true);
+            int firstSOF = findMbrkerSegmentPosition(SOFMbrkerSegment.clbss, true);
+            int firstSOS = findMbrkerSegmentPosition(SOSMbrkerSegment.clbss, true);
             if (firstDHT != -1) {
-                markerSequence.add(firstDHT, newGuy);
+                mbrkerSequence.bdd(firstDHT, newGuy);
             } else if (firstSOF != -1) {
-                markerSequence.add(firstSOF, newGuy);
+                mbrkerSequence.bdd(firstSOF, newGuy);
             } else if (firstSOS != -1) {
-                markerSequence.add(firstSOS, newGuy);
+                mbrkerSequence.bdd(firstSOS, newGuy);
             } else {
-                markerSequence.add(newGuy);
+                mbrkerSequence.bdd(newGuy);
             }
         }
     }
 
     /**
-     * Merge the given DHT node into the marker sequence.  If there already
-     * exist DHT marker segments in the sequence, then each table in the
-     * node replaces the first table, in any DHT segment, with the same
-     * table class and table id.  If none of the existing DHT segments contain
-     * a table with the same class and id, then the table is added to the last
+     * Merge the given DHT node into the mbrker sequence.  If there blrebdy
+     * exist DHT mbrker segments in the sequence, then ebch tbble in the
+     * node replbces the first tbble, in bny DHT segment, with the sbme
+     * tbble clbss bnd tbble id.  If none of the existing DHT segments contbin
+     * b tbble with the sbme clbss bnd id, then the tbble is bdded to the lbst
      * existing DHT segment.
-     * If there are no DHT segments, then a new one is created and added
-     * as follows:
-     * If there are DQT segments, the new DHT segment is inserted immediately
-     * following the last DQT segment.
-     * If there are no DQT segments, the new DHT segment is inserted before
-     * an SOF segment, if there is one.
+     * If there bre no DHT segments, then b new one is crebted bnd bdded
+     * bs follows:
+     * If there bre DQT segments, the new DHT segment is inserted immedibtely
+     * following the lbst DQT segment.
+     * If there bre no DQT segments, the new DHT segment is inserted before
+     * bn SOF segment, if there is one.
      * If there is no SOF segment, the new DHT segment is inserted before
      * the first SOS segment, if there is one.
-     * If there is no SOS segment, the new DHT segment is added to the end
+     * If there is no SOS segment, the new DHT segment is bdded to the end
      * of the sequence.
      */
-    private void mergeDHTNode(Node node) throws IIOInvalidTreeException {
-        // First collect any existing DQT nodes into a local list
-        ArrayList<DHTMarkerSegment> oldDHTs = new ArrayList<>();
-        Iterator<MarkerSegment> iter = markerSequence.iterator();
-        while (iter.hasNext()) {
-            MarkerSegment seg = iter.next();
-            if (seg instanceof DHTMarkerSegment) {
-                oldDHTs.add((DHTMarkerSegment) seg);
+    privbte void mergeDHTNode(Node node) throws IIOInvblidTreeException {
+        // First collect bny existing DQT nodes into b locbl list
+        ArrbyList<DHTMbrkerSegment> oldDHTs = new ArrbyList<>();
+        Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+        while (iter.hbsNext()) {
+            MbrkerSegment seg = iter.next();
+            if (seg instbnceof DHTMbrkerSegment) {
+                oldDHTs.bdd((DHTMbrkerSegment) seg);
             }
         }
         if (!oldDHTs.isEmpty()) {
             NodeList children = node.getChildNodes();
             for (int i = 0; i < children.getLength(); i++) {
                 Node child = children.item(i);
-                NamedNodeMap attrs = child.getAttributes();
-                int childID = MarkerSegment.getAttributeValue(child,
-                                                              attrs,
-                                                              "htableId",
+                NbmedNodeMbp bttrs = child.getAttributes();
+                int childID = MbrkerSegment.getAttributeVblue(child,
+                                                              bttrs,
+                                                              "htbbleId",
                                                               0, 3,
                                                               true);
-                int childClass = MarkerSegment.getAttributeValue(child,
-                                                                 attrs,
-                                                                 "class",
+                int childClbss = MbrkerSegment.getAttributeVblue(child,
+                                                                 bttrs,
+                                                                 "clbss",
                                                                  0, 1,
                                                                  true);
-                DHTMarkerSegment dht = null;
-                int tableIndex = -1;
+                DHTMbrkerSegment dht = null;
+                int tbbleIndex = -1;
                 for (int j = 0; j < oldDHTs.size(); j++) {
-                    DHTMarkerSegment testDHT = oldDHTs.get(j);
-                    for (int k = 0; k < testDHT.tables.size(); k++) {
-                        DHTMarkerSegment.Htable testTable = testDHT.tables.get(k);
-                        if ((childID == testTable.tableID) &&
-                            (childClass == testTable.tableClass)) {
+                    DHTMbrkerSegment testDHT = oldDHTs.get(j);
+                    for (int k = 0; k < testDHT.tbbles.size(); k++) {
+                        DHTMbrkerSegment.Htbble testTbble = testDHT.tbbles.get(k);
+                        if ((childID == testTbble.tbbleID) &&
+                            (childClbss == testTbble.tbbleClbss)) {
                             dht = testDHT;
-                            tableIndex = k;
-                            break;
+                            tbbleIndex = k;
+                            brebk;
                         }
                     }
-                    if (dht != null) break;
+                    if (dht != null) brebk;
                 }
                 if (dht != null) {
-                    dht.tables.set(tableIndex, dht.getHtableFromNode(child));
+                    dht.tbbles.set(tbbleIndex, dht.getHtbbleFromNode(child));
                 } else {
                     dht = oldDHTs.get(oldDHTs.size()-1);
-                    dht.tables.add(dht.getHtableFromNode(child));
+                    dht.tbbles.bdd(dht.getHtbbleFromNode(child));
                 }
             }
         } else {
-            DHTMarkerSegment newGuy = new DHTMarkerSegment(node);
-            int lastDQT = findMarkerSegmentPosition(DQTMarkerSegment.class, false);
-            int firstSOF = findMarkerSegmentPosition(SOFMarkerSegment.class, true);
-            int firstSOS = findMarkerSegmentPosition(SOSMarkerSegment.class, true);
-            if (lastDQT != -1) {
-                markerSequence.add(lastDQT+1, newGuy);
+            DHTMbrkerSegment newGuy = new DHTMbrkerSegment(node);
+            int lbstDQT = findMbrkerSegmentPosition(DQTMbrkerSegment.clbss, fblse);
+            int firstSOF = findMbrkerSegmentPosition(SOFMbrkerSegment.clbss, true);
+            int firstSOS = findMbrkerSegmentPosition(SOSMbrkerSegment.clbss, true);
+            if (lbstDQT != -1) {
+                mbrkerSequence.bdd(lbstDQT+1, newGuy);
             } else if (firstSOF != -1) {
-                markerSequence.add(firstSOF, newGuy);
+                mbrkerSequence.bdd(firstSOF, newGuy);
             } else if (firstSOS != -1) {
-                markerSequence.add(firstSOS, newGuy);
+                mbrkerSequence.bdd(firstSOS, newGuy);
             } else {
-                markerSequence.add(newGuy);
+                mbrkerSequence.bdd(newGuy);
             }
         }
     }
 
     /**
-     * Merge the given DRI node into the marker sequence.
-     * If there already exists a DRI marker segment, the restart interval
-     * value is updated.
-     * If there is no DRI segment, then a new one is created and added as
+     * Merge the given DRI node into the mbrker sequence.
+     * If there blrebdy exists b DRI mbrker segment, the restbrt intervbl
+     * vblue is updbted.
+     * If there is no DRI segment, then b new one is crebted bnd bdded bs
      * follows:
-     * If there is an SOF segment, the new DRI segment is inserted before
+     * If there is bn SOF segment, the new DRI segment is inserted before
      * it.
      * If there is no SOF segment, the new DRI segment is inserted before
      * the first SOS segment, if there is one.
-     * If there is no SOS segment, the new DRI segment is added to the end
+     * If there is no SOS segment, the new DRI segment is bdded to the end
      * of the sequence.
      */
-    private void mergeDRINode(Node node) throws IIOInvalidTreeException {
-        DRIMarkerSegment dri =
-            (DRIMarkerSegment) findMarkerSegment(DRIMarkerSegment.class, true);
+    privbte void mergeDRINode(Node node) throws IIOInvblidTreeException {
+        DRIMbrkerSegment dri =
+            (DRIMbrkerSegment) findMbrkerSegment(DRIMbrkerSegment.clbss, true);
         if (dri != null) {
-            dri.updateFromNativeNode(node, false);
+            dri.updbteFromNbtiveNode(node, fblse);
         } else {
-            DRIMarkerSegment newGuy = new DRIMarkerSegment(node);
-            int firstSOF = findMarkerSegmentPosition(SOFMarkerSegment.class, true);
-            int firstSOS = findMarkerSegmentPosition(SOSMarkerSegment.class, true);
+            DRIMbrkerSegment newGuy = new DRIMbrkerSegment(node);
+            int firstSOF = findMbrkerSegmentPosition(SOFMbrkerSegment.clbss, true);
+            int firstSOS = findMbrkerSegmentPosition(SOSMbrkerSegment.clbss, true);
             if (firstSOF != -1) {
-                markerSequence.add(firstSOF, newGuy);
+                mbrkerSequence.bdd(firstSOF, newGuy);
             } else if (firstSOS != -1) {
-                markerSequence.add(firstSOS, newGuy);
+                mbrkerSequence.bdd(firstSOS, newGuy);
             } else {
-                markerSequence.add(newGuy);
+                mbrkerSequence.bdd(newGuy);
             }
         }
     }
 
     /**
-     * Merge the given COM node into the marker sequence.
-     * A new COM marker segment is created and added to the sequence
-     * using insertCOMMarkerSegment.
+     * Merge the given COM node into the mbrker sequence.
+     * A new COM mbrker segment is crebted bnd bdded to the sequence
+     * using insertCOMMbrkerSegment.
      */
-    private void mergeCOMNode(Node node) throws IIOInvalidTreeException {
-        COMMarkerSegment newGuy = new COMMarkerSegment(node);
-        insertCOMMarkerSegment(newGuy);
+    privbte void mergeCOMNode(Node node) throws IIOInvblidTreeException {
+        COMMbrkerSegment newGuy = new COMMbrkerSegment(node);
+        insertCOMMbrkerSegment(newGuy);
     }
 
      /**
-      * Insert a new COM marker segment into an appropriate place in the
-      * marker sequence, as follows:
-      * If there already exist COM marker segments, the new one is inserted
-      * after the last one.
-      * If there are no COM segments, the new COM segment is inserted after the
+      * Insert b new COM mbrker segment into bn bppropribte plbce in the
+      * mbrker sequence, bs follows:
+      * If there blrebdy exist COM mbrker segments, the new one is inserted
+      * bfter the lbst one.
+      * If there bre no COM segments, the new COM segment is inserted bfter the
       * JFIF segment, if there is one.
-      * If there is no JFIF segment, the new COM segment is inserted after the
-      * Adobe marker segment, if there is one.
+      * If there is no JFIF segment, the new COM segment is inserted bfter the
+      * Adobe mbrker segment, if there is one.
       * If there is no Adobe segment, the new COM segment is inserted
-      * at the beginning of the sequence.
+      * bt the beginning of the sequence.
       */
-    private void insertCOMMarkerSegment(COMMarkerSegment newGuy) {
-        int lastCOM = findMarkerSegmentPosition(COMMarkerSegment.class, false);
-        boolean hasJFIF = (findMarkerSegment(JFIFMarkerSegment.class, true) != null);
-        int firstAdobe = findMarkerSegmentPosition(AdobeMarkerSegment.class, true);
-        if (lastCOM != -1) {
-            markerSequence.add(lastCOM+1, newGuy);
-        } else if (hasJFIF) {
-            markerSequence.add(1, newGuy);  // JFIF is always 0
+    privbte void insertCOMMbrkerSegment(COMMbrkerSegment newGuy) {
+        int lbstCOM = findMbrkerSegmentPosition(COMMbrkerSegment.clbss, fblse);
+        boolebn hbsJFIF = (findMbrkerSegment(JFIFMbrkerSegment.clbss, true) != null);
+        int firstAdobe = findMbrkerSegmentPosition(AdobeMbrkerSegment.clbss, true);
+        if (lbstCOM != -1) {
+            mbrkerSequence.bdd(lbstCOM+1, newGuy);
+        } else if (hbsJFIF) {
+            mbrkerSequence.bdd(1, newGuy);  // JFIF is blwbys 0
         } else if (firstAdobe != -1) {
-            markerSequence.add(firstAdobe+1, newGuy);
+            mbrkerSequence.bdd(firstAdobe+1, newGuy);
         } else {
-            markerSequence.add(0, newGuy);
+            mbrkerSequence.bdd(0, newGuy);
         }
     }
 
     /**
-     * Merge the given Adobe APP14 node into the marker sequence.
-     * If there already exists an Adobe marker segment, then its attributes
-     * are updated from the node.
-     * If there is no Adobe segment, then a new one is created and added
-     * using insertAdobeMarkerSegment.
+     * Merge the given Adobe APP14 node into the mbrker sequence.
+     * If there blrebdy exists bn Adobe mbrker segment, then its bttributes
+     * bre updbted from the node.
+     * If there is no Adobe segment, then b new one is crebted bnd bdded
+     * using insertAdobeMbrkerSegment.
      */
-    private void mergeAdobeNode(Node node) throws IIOInvalidTreeException {
-        AdobeMarkerSegment adobe =
-            (AdobeMarkerSegment) findMarkerSegment(AdobeMarkerSegment.class, true);
-        if (adobe != null) {
-            adobe.updateFromNativeNode(node, false);
+    privbte void mergeAdobeNode(Node node) throws IIOInvblidTreeException {
+        AdobeMbrkerSegment bdobe =
+            (AdobeMbrkerSegment) findMbrkerSegment(AdobeMbrkerSegment.clbss, true);
+        if (bdobe != null) {
+            bdobe.updbteFromNbtiveNode(node, fblse);
         } else {
-            AdobeMarkerSegment newGuy = new AdobeMarkerSegment(node);
-            insertAdobeMarkerSegment(newGuy);
+            AdobeMbrkerSegment newGuy = new AdobeMbrkerSegment(node);
+            insertAdobeMbrkerSegment(newGuy);
         }
     }
 
     /**
-     * Insert the given AdobeMarkerSegment into the marker sequence, as
-     * follows (we assume there is no Adobe segment yet):
-     * If there is a JFIF segment, then the new Adobe segment is inserted
-     * after it.
-     * If there is no JFIF segment, the new Adobe segment is inserted after the
-     * last Unknown segment, if there are any.
-     * If there are no Unknown segments, the new Adobe segment is inserted
-     * at the beginning of the sequence.
+     * Insert the given AdobeMbrkerSegment into the mbrker sequence, bs
+     * follows (we bssume there is no Adobe segment yet):
+     * If there is b JFIF segment, then the new Adobe segment is inserted
+     * bfter it.
+     * If there is no JFIF segment, the new Adobe segment is inserted bfter the
+     * lbst Unknown segment, if there bre bny.
+     * If there bre no Unknown segments, the new Adobe segment is inserted
+     * bt the beginning of the sequence.
      */
-    private void insertAdobeMarkerSegment(AdobeMarkerSegment newGuy) {
-        boolean hasJFIF =
-            (findMarkerSegment(JFIFMarkerSegment.class, true) != null);
-        int lastUnknown = findLastUnknownMarkerSegmentPosition();
-        if (hasJFIF) {
-            markerSequence.add(1, newGuy);  // JFIF is always 0
-        } else if (lastUnknown != -1) {
-            markerSequence.add(lastUnknown+1, newGuy);
+    privbte void insertAdobeMbrkerSegment(AdobeMbrkerSegment newGuy) {
+        boolebn hbsJFIF =
+            (findMbrkerSegment(JFIFMbrkerSegment.clbss, true) != null);
+        int lbstUnknown = findLbstUnknownMbrkerSegmentPosition();
+        if (hbsJFIF) {
+            mbrkerSequence.bdd(1, newGuy);  // JFIF is blwbys 0
+        } else if (lbstUnknown != -1) {
+            mbrkerSequence.bdd(lbstUnknown+1, newGuy);
         } else {
-            markerSequence.add(0, newGuy);
+            mbrkerSequence.bdd(0, newGuy);
         }
     }
 
     /**
-     * Merge the given Unknown node into the marker sequence.
-     * A new Unknown marker segment is created and added to the sequence as
+     * Merge the given Unknown node into the mbrker sequence.
+     * A new Unknown mbrker segment is crebted bnd bdded to the sequence bs
      * follows:
-     * If there already exist Unknown marker segments, the new one is inserted
-     * after the last one.
-     * If there are no Unknown marker segments, the new Unknown marker segment
-     * is inserted after the JFIF segment, if there is one.
+     * If there blrebdy exist Unknown mbrker segments, the new one is inserted
+     * bfter the lbst one.
+     * If there bre no Unknown mbrker segments, the new Unknown mbrker segment
+     * is inserted bfter the JFIF segment, if there is one.
      * If there is no JFIF segment, the new Unknown segment is inserted before
-     * the Adobe marker segment, if there is one.
+     * the Adobe mbrker segment, if there is one.
      * If there is no Adobe segment, the new Unknown segment is inserted
-     * at the beginning of the sequence.
+     * bt the beginning of the sequence.
      */
-    private void mergeUnknownNode(Node node) throws IIOInvalidTreeException {
-        MarkerSegment newGuy = new MarkerSegment(node);
-        int lastUnknown = findLastUnknownMarkerSegmentPosition();
-        boolean hasJFIF = (findMarkerSegment(JFIFMarkerSegment.class, true) != null);
-        int firstAdobe = findMarkerSegmentPosition(AdobeMarkerSegment.class, true);
-        if (lastUnknown != -1) {
-            markerSequence.add(lastUnknown+1, newGuy);
-        } else if (hasJFIF) {
-            markerSequence.add(1, newGuy);  // JFIF is always 0
+    privbte void mergeUnknownNode(Node node) throws IIOInvblidTreeException {
+        MbrkerSegment newGuy = new MbrkerSegment(node);
+        int lbstUnknown = findLbstUnknownMbrkerSegmentPosition();
+        boolebn hbsJFIF = (findMbrkerSegment(JFIFMbrkerSegment.clbss, true) != null);
+        int firstAdobe = findMbrkerSegmentPosition(AdobeMbrkerSegment.clbss, true);
+        if (lbstUnknown != -1) {
+            mbrkerSequence.bdd(lbstUnknown+1, newGuy);
+        } else if (hbsJFIF) {
+            mbrkerSequence.bdd(1, newGuy);  // JFIF is blwbys 0
         } if (firstAdobe != -1) {
-            markerSequence.add(firstAdobe, newGuy);
+            mbrkerSequence.bdd(firstAdobe, newGuy);
         } else {
-            markerSequence.add(0, newGuy);
+            mbrkerSequence.bdd(0, newGuy);
         }
     }
 
     /**
-     * Merge the given SOF node into the marker sequence.
-     * If there already exists an SOF marker segment in the sequence, then
-     * its values are updated from the node.
-     * If there is no SOF segment, then a new one is created and added as
+     * Merge the given SOF node into the mbrker sequence.
+     * If there blrebdy exists bn SOF mbrker segment in the sequence, then
+     * its vblues bre updbted from the node.
+     * If there is no SOF segment, then b new one is crebted bnd bdded bs
      * follows:
-     * If there are any SOS segments, the new SOF segment is inserted before
+     * If there bre bny SOS segments, the new SOF segment is inserted before
      * the first one.
-     * If there is no SOS segment, the new SOF segment is added to the end
+     * If there is no SOS segment, the new SOF segment is bdded to the end
      * of the sequence.
      *
      */
-    private void mergeSOFNode(Node node) throws IIOInvalidTreeException {
-        SOFMarkerSegment sof =
-            (SOFMarkerSegment) findMarkerSegment(SOFMarkerSegment.class, true);
+    privbte void mergeSOFNode(Node node) throws IIOInvblidTreeException {
+        SOFMbrkerSegment sof =
+            (SOFMbrkerSegment) findMbrkerSegment(SOFMbrkerSegment.clbss, true);
         if (sof != null) {
-            sof.updateFromNativeNode(node, false);
+            sof.updbteFromNbtiveNode(node, fblse);
         } else {
-            SOFMarkerSegment newGuy = new SOFMarkerSegment(node);
-            int firstSOS = findMarkerSegmentPosition(SOSMarkerSegment.class, true);
+            SOFMbrkerSegment newGuy = new SOFMbrkerSegment(node);
+            int firstSOS = findMbrkerSegmentPosition(SOSMbrkerSegment.clbss, true);
             if (firstSOS != -1) {
-                markerSequence.add(firstSOS, newGuy);
+                mbrkerSequence.bdd(firstSOS, newGuy);
             } else {
-                markerSequence.add(newGuy);
+                mbrkerSequence.bdd(newGuy);
             }
         }
     }
 
     /**
-     * Merge the given SOS node into the marker sequence.
-     * If there already exists a single SOS marker segment, then the values
-     * are updated from the node.
-     * If there are more than one existing SOS marker segments, then an
-     * IIOInvalidTreeException is thrown, as SOS segments cannot be merged
-     * into a set of progressive scans.
-     * If there are no SOS marker segments, a new one is created and added
+     * Merge the given SOS node into the mbrker sequence.
+     * If there blrebdy exists b single SOS mbrker segment, then the vblues
+     * bre updbted from the node.
+     * If there bre more thbn one existing SOS mbrker segments, then bn
+     * IIOInvblidTreeException is thrown, bs SOS segments cbnnot be merged
+     * into b set of progressive scbns.
+     * If there bre no SOS mbrker segments, b new one is crebted bnd bdded
      * to the end of the sequence.
      */
-    private void mergeSOSNode(Node node) throws IIOInvalidTreeException {
-        SOSMarkerSegment firstSOS =
-            (SOSMarkerSegment) findMarkerSegment(SOSMarkerSegment.class, true);
-        SOSMarkerSegment lastSOS =
-            (SOSMarkerSegment) findMarkerSegment(SOSMarkerSegment.class, false);
+    privbte void mergeSOSNode(Node node) throws IIOInvblidTreeException {
+        SOSMbrkerSegment firstSOS =
+            (SOSMbrkerSegment) findMbrkerSegment(SOSMbrkerSegment.clbss, true);
+        SOSMbrkerSegment lbstSOS =
+            (SOSMbrkerSegment) findMbrkerSegment(SOSMbrkerSegment.clbss, fblse);
         if (firstSOS != null) {
-            if (firstSOS != lastSOS) {
-                throw new IIOInvalidTreeException
-                    ("Can't merge SOS node into a tree with > 1 SOS node", node);
+            if (firstSOS != lbstSOS) {
+                throw new IIOInvblidTreeException
+                    ("Cbn't merge SOS node into b tree with > 1 SOS node", node);
             }
-            firstSOS.updateFromNativeNode(node, false);
+            firstSOS.updbteFromNbtiveNode(node, fblse);
         } else {
-            markerSequence.add(new SOSMarkerSegment(node));
+            mbrkerSequence.bdd(new SOSMbrkerSegment(node));
         }
     }
 
-    private boolean transparencyDone;
+    privbte boolebn trbnspbrencyDone;
 
-    private void mergeStandardTree(Node root) throws IIOInvalidTreeException {
-        transparencyDone = false;
+    privbte void mergeStbndbrdTree(Node root) throws IIOInvblidTreeException {
+        trbnspbrencyDone = fblse;
         NodeList children = root.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node node = children.item(i);
-            String name = node.getNodeName();
-            if (name.equals("Chroma")) {
-                mergeStandardChromaNode(node, children);
-            } else if (name.equals("Compression")) {
-                mergeStandardCompressionNode(node);
-            } else if (name.equals("Data")) {
-                mergeStandardDataNode(node);
-            } else if (name.equals("Dimension")) {
-                mergeStandardDimensionNode(node);
-            } else if (name.equals("Document")) {
-                mergeStandardDocumentNode(node);
-            } else if (name.equals("Text")) {
-                mergeStandardTextNode(node);
-            } else if (name.equals("Transparency")) {
-                mergeStandardTransparencyNode(node);
+            String nbme = node.getNodeNbme();
+            if (nbme.equbls("Chromb")) {
+                mergeStbndbrdChrombNode(node, children);
+            } else if (nbme.equbls("Compression")) {
+                mergeStbndbrdCompressionNode(node);
+            } else if (nbme.equbls("Dbtb")) {
+                mergeStbndbrdDbtbNode(node);
+            } else if (nbme.equbls("Dimension")) {
+                mergeStbndbrdDimensionNode(node);
+            } else if (nbme.equbls("Document")) {
+                mergeStbndbrdDocumentNode(node);
+            } else if (nbme.equbls("Text")) {
+                mergeStbndbrdTextNode(node);
+            } else if (nbme.equbls("Trbnspbrency")) {
+                mergeStbndbrdTrbnspbrencyNode(node);
             } else {
-                throw new IIOInvalidTreeException("Invalid node: " + name, node);
+                throw new IIOInvblidTreeException("Invblid node: " + nbme, node);
             }
         }
     }
 
     /*
-     * In general, it could be possible to convert all non-pixel data to some
-     * textual form and include it in comments, but then this would create the
-     * expectation that these comment forms be recognized by the reader, thus
-     * creating a defacto extension to JPEG metadata capabilities.  This is
-     * probably best avoided, so the following convert only text nodes to
-     * comments, and lose the keywords as well.
+     * In generbl, it could be possible to convert bll non-pixel dbtb to some
+     * textubl form bnd include it in comments, but then this would crebte the
+     * expectbtion thbt these comment forms be recognized by the rebder, thus
+     * crebting b defbcto extension to JPEG metbdbtb cbpbbilities.  This is
+     * probbbly best bvoided, so the following convert only text nodes to
+     * comments, bnd lose the keywords bs well.
      */
 
-    private void mergeStandardChromaNode(Node node, NodeList siblings)
-        throws IIOInvalidTreeException {
-        // ColorSpaceType can change the target colorspace for compression
-        // This must take any transparency node into account as well, as
-        // that affects the number of channels (if alpha is present).  If
-        // a transparency node is dealt with here, set a flag to indicate
-        // this to the transparency processor below.  If we discover that
-        // the nodes are not in order, throw an exception as the tree is
-        // invalid.
+    privbte void mergeStbndbrdChrombNode(Node node, NodeList siblings)
+        throws IIOInvblidTreeException {
+        // ColorSpbceType cbn chbnge the tbrget colorspbce for compression
+        // This must tbke bny trbnspbrency node into bccount bs well, bs
+        // thbt bffects the number of chbnnels (if blphb is present).  If
+        // b trbnspbrency node is deblt with here, set b flbg to indicbte
+        // this to the trbnspbrency processor below.  If we discover thbt
+        // the nodes bre not in order, throw bn exception bs the tree is
+        // invblid.
 
-        if (transparencyDone) {
-            throw new IIOInvalidTreeException
-                ("Transparency node must follow Chroma node", node);
+        if (trbnspbrencyDone) {
+            throw new IIOInvblidTreeException
+                ("Trbnspbrency node must follow Chromb node", node);
         }
 
         Node csType = node.getFirstChild();
-        if ((csType == null) || !csType.getNodeName().equals("ColorSpaceType")) {
-            // If there is no ColorSpaceType node, we have nothing to do
+        if ((csType == null) || !csType.getNodeNbme().equbls("ColorSpbceType")) {
+            // If there is no ColorSpbceType node, we hbve nothing to do
             return;
         }
 
-        String csName = csType.getAttributes().getNamedItem("name").getNodeValue();
+        String csNbme = csType.getAttributes().getNbmedItem("nbme").getNodeVblue();
 
-        int numChannels = 0;
-        boolean wantJFIF = false;
-        boolean wantAdobe = false;
-        int transform = 0;
-        boolean willSubsample = false;
-        byte [] ids = {1, 2, 3, 4};  // JFIF compatible
-        if (csName.equals("GRAY")) {
-            numChannels = 1;
-            wantJFIF = true;
-        } else if (csName.equals("YCbCr")) {
-            numChannels = 3;
-            wantJFIF = true;
-            willSubsample = true;
-        } else if (csName.equals("PhotoYCC")) {
-            numChannels = 3;
-            wantAdobe = true;
-            transform = JPEG.ADOBE_YCC;
+        int numChbnnels = 0;
+        boolebn wbntJFIF = fblse;
+        boolebn wbntAdobe = fblse;
+        int trbnsform = 0;
+        boolebn willSubsbmple = fblse;
+        byte [] ids = {1, 2, 3, 4};  // JFIF compbtible
+        if (csNbme.equbls("GRAY")) {
+            numChbnnels = 1;
+            wbntJFIF = true;
+        } else if (csNbme.equbls("YCbCr")) {
+            numChbnnels = 3;
+            wbntJFIF = true;
+            willSubsbmple = true;
+        } else if (csNbme.equbls("PhotoYCC")) {
+            numChbnnels = 3;
+            wbntAdobe = true;
+            trbnsform = JPEG.ADOBE_YCC;
             ids[0] = (byte) 'Y';
             ids[1] = (byte) 'C';
             ids[2] = (byte) 'c';
-        } else if (csName.equals("RGB")) {
-            numChannels = 3;
-            wantAdobe = true;
-            transform = JPEG.ADOBE_UNKNOWN;
+        } else if (csNbme.equbls("RGB")) {
+            numChbnnels = 3;
+            wbntAdobe = true;
+            trbnsform = JPEG.ADOBE_UNKNOWN;
             ids[0] = (byte) 'R';
             ids[1] = (byte) 'G';
             ids[2] = (byte) 'B';
-        } else if ((csName.equals("XYZ"))
-                   || (csName.equals("Lab"))
-                   || (csName.equals("Luv"))
-                   || (csName.equals("YxY"))
-                   || (csName.equals("HSV"))
-                   || (csName.equals("HLS"))
-                   || (csName.equals("CMY"))
-                   || (csName.equals("3CLR"))) {
-            numChannels = 3;
-        } else if (csName.equals("YCCK")) {
-            numChannels = 4;
-            wantAdobe = true;
-            transform = JPEG.ADOBE_YCCK;
-            willSubsample = true;
-        } else if (csName.equals("CMYK")) {
-            numChannels = 4;
-            wantAdobe = true;
-            transform = JPEG.ADOBE_UNKNOWN;
-        } else if (csName.equals("4CLR")) {
-            numChannels = 4;
-        } else { // We can't handle them, so don't modify any metadata
+        } else if ((csNbme.equbls("XYZ"))
+                   || (csNbme.equbls("Lbb"))
+                   || (csNbme.equbls("Luv"))
+                   || (csNbme.equbls("YxY"))
+                   || (csNbme.equbls("HSV"))
+                   || (csNbme.equbls("HLS"))
+                   || (csNbme.equbls("CMY"))
+                   || (csNbme.equbls("3CLR"))) {
+            numChbnnels = 3;
+        } else if (csNbme.equbls("YCCK")) {
+            numChbnnels = 4;
+            wbntAdobe = true;
+            trbnsform = JPEG.ADOBE_YCCK;
+            willSubsbmple = true;
+        } else if (csNbme.equbls("CMYK")) {
+            numChbnnels = 4;
+            wbntAdobe = true;
+            trbnsform = JPEG.ADOBE_UNKNOWN;
+        } else if (csNbme.equbls("4CLR")) {
+            numChbnnels = 4;
+        } else { // We cbn't hbndle them, so don't modify bny metbdbtb
             return;
         }
 
-        boolean wantAlpha = false;
+        boolebn wbntAlphb = fblse;
         for (int i = 0; i < siblings.getLength(); i++) {
-            Node trans = siblings.item(i);
-            if (trans.getNodeName().equals("Transparency")) {
-                wantAlpha = wantAlpha(trans);
-                break;  // out of for
+            Node trbns = siblings.item(i);
+            if (trbns.getNodeNbme().equbls("Trbnspbrency")) {
+                wbntAlphb = wbntAlphb(trbns);
+                brebk;  // out of for
             }
         }
 
-        if (wantAlpha) {
-            numChannels++;
-            wantJFIF = false;
+        if (wbntAlphb) {
+            numChbnnels++;
+            wbntJFIF = fblse;
             if (ids[0] == (byte) 'R') {
                 ids[3] = (byte) 'A';
-                wantAdobe = false;
+                wbntAdobe = fblse;
             }
         }
 
-        JFIFMarkerSegment jfif =
-            (JFIFMarkerSegment) findMarkerSegment(JFIFMarkerSegment.class, true);
-        AdobeMarkerSegment adobe =
-            (AdobeMarkerSegment) findMarkerSegment(AdobeMarkerSegment.class, true);
-        SOFMarkerSegment sof =
-            (SOFMarkerSegment) findMarkerSegment(SOFMarkerSegment.class, true);
-        SOSMarkerSegment sos =
-            (SOSMarkerSegment) findMarkerSegment(SOSMarkerSegment.class, true);
+        JFIFMbrkerSegment jfif =
+            (JFIFMbrkerSegment) findMbrkerSegment(JFIFMbrkerSegment.clbss, true);
+        AdobeMbrkerSegment bdobe =
+            (AdobeMbrkerSegment) findMbrkerSegment(AdobeMbrkerSegment.clbss, true);
+        SOFMbrkerSegment sof =
+            (SOFMbrkerSegment) findMbrkerSegment(SOFMbrkerSegment.clbss, true);
+        SOSMbrkerSegment sos =
+            (SOSMbrkerSegment) findMbrkerSegment(SOSMbrkerSegment.clbss, true);
 
-        // If the metadata specifies progressive, then the number of channels
-        // must match, so that we can modify all the existing SOS marker segments.
-        // If they don't match, we don't know what to do with SOS so we can't do
+        // If the metbdbtb specifies progressive, then the number of chbnnels
+        // must mbtch, so thbt we cbn modify bll the existing SOS mbrker segments.
+        // If they don't mbtch, we don't know whbt to do with SOS so we cbn't do
         // the merge.  We then just return silently.
-        // An exception would not be appropriate.  A warning might, but we have
+        // An exception would not be bppropribte.  A wbrning might, but we hbve
         // nowhere to send it to.
-        if ((sof != null) && (sof.tag == JPEG.SOF2)) { // Progressive
-            if ((sof.componentSpecs.length != numChannels) && (sos != null)) {
+        if ((sof != null) && (sof.tbg == JPEG.SOF2)) { // Progressive
+            if ((sof.componentSpecs.length != numChbnnels) && (sos != null)) {
                 return;
             }
         }
 
-        // JFIF header might be removed
-        if (!wantJFIF && (jfif != null)) {
-            markerSequence.remove(jfif);
+        // JFIF hebder might be removed
+        if (!wbntJFIF && (jfif != null)) {
+            mbrkerSequence.remove(jfif);
         }
 
-        // Now add a JFIF if we do want one, but only if it isn't stream metadata
-        if (wantJFIF && !isStream) {
-            markerSequence.add(0, new JFIFMarkerSegment());
+        // Now bdd b JFIF if we do wbnt one, but only if it isn't strebm metbdbtb
+        if (wbntJFIF && !isStrebm) {
+            mbrkerSequence.bdd(0, new JFIFMbrkerSegment());
         }
 
-        // Adobe header might be removed or the transform modified, if it isn't
-        // stream metadata
-        if (wantAdobe) {
-            if ((adobe == null) && !isStream) {
-                adobe = new AdobeMarkerSegment(transform);
-                insertAdobeMarkerSegment(adobe);
+        // Adobe hebder might be removed or the trbnsform modified, if it isn't
+        // strebm metbdbtb
+        if (wbntAdobe) {
+            if ((bdobe == null) && !isStrebm) {
+                bdobe = new AdobeMbrkerSegment(trbnsform);
+                insertAdobeMbrkerSegment(bdobe);
             } else {
-                adobe.transform = transform;
+                bdobe.trbnsform = trbnsform;
             }
-        } else if (adobe != null) {
-            markerSequence.remove(adobe);
+        } else if (bdobe != null) {
+            mbrkerSequence.remove(bdobe);
         }
 
-        boolean updateQtables = false;
-        boolean updateHtables = false;
+        boolebn updbteQtbbles = fblse;
+        boolebn updbteHtbbles = fblse;
 
-        boolean progressive = false;
+        boolebn progressive = fblse;
 
-        int [] subsampledSelectors = {0, 1, 1, 0 } ;
-        int [] nonSubsampledSelectors = { 0, 0, 0, 0};
+        int [] subsbmpledSelectors = {0, 1, 1, 0 } ;
+        int [] nonSubsbmpledSelectors = { 0, 0, 0, 0};
 
-        int [] newTableSelectors = willSubsample
-                                   ? subsampledSelectors
-                                   : nonSubsampledSelectors;
+        int [] newTbbleSelectors = willSubsbmple
+                                   ? subsbmpledSelectors
+                                   : nonSubsbmpledSelectors;
 
-        // Keep the old componentSpecs array
-        SOFMarkerSegment.ComponentSpec [] oldCompSpecs = null;
+        // Keep the old componentSpecs brrby
+        SOFMbrkerSegment.ComponentSpec [] oldCompSpecs = null;
         // SOF might be modified
         if (sof != null) {
             oldCompSpecs = sof.componentSpecs;
-            progressive = (sof.tag == JPEG.SOF2);
-            // Now replace the SOF with a new one; it might be the same, but
-            // this is easier.
-            markerSequence.set(markerSequence.indexOf(sof),
-                               new SOFMarkerSegment(progressive,
-                                                    false, // we never need extended
-                                                    willSubsample,
+            progressive = (sof.tbg == JPEG.SOF2);
+            // Now replbce the SOF with b new one; it might be the sbme, but
+            // this is ebsier.
+            mbrkerSequence.set(mbrkerSequence.indexOf(sof),
+                               new SOFMbrkerSegment(progressive,
+                                                    fblse, // we never need extended
+                                                    willSubsbmple,
                                                     ids,
-                                                    numChannels));
+                                                    numChbnnels));
 
-            // Now suss out if subsampling changed and set the boolean for
-            // updating the q tables
-            // if the old componentSpec q table selectors don't match
-            // the new ones, update the qtables.  The new selectors are already
-            // in place in the new SOF segment above.
+            // Now suss out if subsbmpling chbnged bnd set the boolebn for
+            // updbting the q tbbles
+            // if the old componentSpec q tbble selectors don't mbtch
+            // the new ones, updbte the qtbbles.  The new selectors bre blrebdy
+            // in plbce in the new SOF segment bbove.
             for (int i = 0; i < oldCompSpecs.length; i++) {
-                if (oldCompSpecs[i].QtableSelector != newTableSelectors[i]) {
-                    updateQtables = true;
+                if (oldCompSpecs[i].QtbbleSelector != newTbbleSelectors[i]) {
+                    updbteQtbbles = true;
                 }
             }
 
             if (progressive) {
-                // if the component ids are different, update all the existing scans
-                // ignore Huffman tables
-                boolean idsDiffer = false;
+                // if the component ids bre different, updbte bll the existing scbns
+                // ignore Huffmbn tbbles
+                boolebn idsDiffer = fblse;
                 for (int i = 0; i < oldCompSpecs.length; i++) {
                     if (ids[i] != oldCompSpecs[i].componentId) {
                         idsDiffer = true;
                     }
                 }
                 if (idsDiffer) {
-                    // update the ids in each SOS marker segment
-                    for (Iterator<MarkerSegment> iter = markerSequence.iterator();
-                            iter.hasNext();) {
-                        MarkerSegment seg = iter.next();
-                        if (seg instanceof SOSMarkerSegment) {
-                            SOSMarkerSegment target = (SOSMarkerSegment) seg;
-                            for (int i = 0; i < target.componentSpecs.length; i++) {
+                    // updbte the ids in ebch SOS mbrker segment
+                    for (Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+                            iter.hbsNext();) {
+                        MbrkerSegment seg = iter.next();
+                        if (seg instbnceof SOSMbrkerSegment) {
+                            SOSMbrkerSegment tbrget = (SOSMbrkerSegment) seg;
+                            for (int i = 0; i < tbrget.componentSpecs.length; i++) {
                                 int oldSelector =
-                                    target.componentSpecs[i].componentSelector;
-                                // Find the position in the old componentSpecs array
+                                    tbrget.componentSpecs[i].componentSelector;
+                                // Find the position in the old componentSpecs brrby
                                 // of the old component with the old selector
-                                // and replace the component selector with the
-                                // new id at the same position, as these match
-                                // the new component specs array in the SOF created
-                                // above.
+                                // bnd replbce the component selector with the
+                                // new id bt the sbme position, bs these mbtch
+                                // the new component specs brrby in the SOF crebted
+                                // bbove.
                                 for (int j = 0; j < oldCompSpecs.length; j++) {
                                     if (oldCompSpecs[j].componentId == oldSelector) {
-                                        target.componentSpecs[i].componentSelector =
+                                        tbrget.componentSpecs[i].componentSelector =
                                             ids[j];
                                     }
                                 }
@@ -1764,226 +1764,226 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
                 }
             } else {
                 if (sos != null) {
-                    // htables - if the old htable selectors don't match the new ones,
-                    // update the tables.
+                    // htbbles - if the old htbble selectors don't mbtch the new ones,
+                    // updbte the tbbles.
                     for (int i = 0; i < sos.componentSpecs.length; i++) {
-                        if ((sos.componentSpecs[i].dcHuffTable
-                             != newTableSelectors[i])
-                            || (sos.componentSpecs[i].acHuffTable
-                                != newTableSelectors[i])) {
-                            updateHtables = true;
+                        if ((sos.componentSpecs[i].dcHuffTbble
+                             != newTbbleSelectors[i])
+                            || (sos.componentSpecs[i].bcHuffTbble
+                                != newTbbleSelectors[i])) {
+                            updbteHtbbles = true;
                         }
                     }
 
-                    // Might be the same as the old one, but this is easier.
-                    markerSequence.set(markerSequence.indexOf(sos),
-                               new SOSMarkerSegment(willSubsample,
+                    // Might be the sbme bs the old one, but this is ebsier.
+                    mbrkerSequence.set(mbrkerSequence.indexOf(sos),
+                               new SOSMbrkerSegment(willSubsbmple,
                                                     ids,
-                                                    numChannels));
+                                                    numChbnnels));
                 }
             }
         } else {
-            // should be stream metadata if there isn't an SOF, but check it anyway
-            if (isStream) {
-                // update tables - routines below check if it's really necessary
-                updateQtables = true;
-                updateHtables = true;
+            // should be strebm metbdbtb if there isn't bn SOF, but check it bnywby
+            if (isStrebm) {
+                // updbte tbbles - routines below check if it's reblly necessbry
+                updbteQtbbles = true;
+                updbteHtbbles = true;
             }
         }
 
-        if (updateQtables) {
-            List<DQTMarkerSegment> tableSegments = new ArrayList<>();
-            for (Iterator<MarkerSegment> iter = markerSequence.iterator();
-                    iter.hasNext();) {
-                MarkerSegment seg = iter.next();
-                if (seg instanceof DQTMarkerSegment) {
-                    tableSegments.add((DQTMarkerSegment) seg);
+        if (updbteQtbbles) {
+            List<DQTMbrkerSegment> tbbleSegments = new ArrbyList<>();
+            for (Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+                    iter.hbsNext();) {
+                MbrkerSegment seg = iter.next();
+                if (seg instbnceof DQTMbrkerSegment) {
+                    tbbleSegments.bdd((DQTMbrkerSegment) seg);
                 }
             }
-            // If there are no tables, don't add them, as the metadata encodes an
-            // abbreviated stream.
-            // If we are not subsampling, we just need one, so don't do anything
-            if (!tableSegments.isEmpty() && willSubsample) {
-                // Is it really necessary?  There should be at least 2 tables.
-                // If there is only one, assume it's a scaled "standard"
-                // luminance table, extract the scaling factor, and generate a
-                // scaled "standard" chrominance table.
+            // If there bre no tbbles, don't bdd them, bs the metbdbtb encodes bn
+            // bbbrevibted strebm.
+            // If we bre not subsbmpling, we just need one, so don't do bnything
+            if (!tbbleSegments.isEmpty() && willSubsbmple) {
+                // Is it reblly necessbry?  There should be bt lebst 2 tbbles.
+                // If there is only one, bssume it's b scbled "stbndbrd"
+                // luminbnce tbble, extrbct the scbling fbctor, bnd generbte b
+                // scbled "stbndbrd" chrominbnce tbble.
 
-                // Find the table with selector 1.
-                boolean found = false;
-                for (Iterator<DQTMarkerSegment> iter = tableSegments.iterator();
-                        iter.hasNext();) {
-                    DQTMarkerSegment testdqt = iter.next();
-                    for (Iterator<DQTMarkerSegment.Qtable> tabiter =
-                            testdqt.tables.iterator(); tabiter.hasNext();) {
-                        DQTMarkerSegment.Qtable tab = tabiter.next();
-                        if (tab.tableID == 1) {
+                // Find the tbble with selector 1.
+                boolebn found = fblse;
+                for (Iterbtor<DQTMbrkerSegment> iter = tbbleSegments.iterbtor();
+                        iter.hbsNext();) {
+                    DQTMbrkerSegment testdqt = iter.next();
+                    for (Iterbtor<DQTMbrkerSegment.Qtbble> tbbiter =
+                            testdqt.tbbles.iterbtor(); tbbiter.hbsNext();) {
+                        DQTMbrkerSegment.Qtbble tbb = tbbiter.next();
+                        if (tbb.tbbleID == 1) {
                             found = true;
                         }
                     }
                 }
                 if (!found) {
-                    //    find the table with selector 0.  There should be one.
-                    DQTMarkerSegment.Qtable table0 = null;
-                    for (Iterator<DQTMarkerSegment> iter =
-                            tableSegments.iterator(); iter.hasNext();) {
-                        DQTMarkerSegment testdqt = iter.next();
-                        for (Iterator<DQTMarkerSegment.Qtable> tabiter =
-                                testdqt.tables.iterator(); tabiter.hasNext();) {
-                            DQTMarkerSegment.Qtable tab = tabiter.next();
-                            if (tab.tableID == 0) {
-                                table0 = tab;
+                    //    find the tbble with selector 0.  There should be one.
+                    DQTMbrkerSegment.Qtbble tbble0 = null;
+                    for (Iterbtor<DQTMbrkerSegment> iter =
+                            tbbleSegments.iterbtor(); iter.hbsNext();) {
+                        DQTMbrkerSegment testdqt = iter.next();
+                        for (Iterbtor<DQTMbrkerSegment.Qtbble> tbbiter =
+                                testdqt.tbbles.iterbtor(); tbbiter.hbsNext();) {
+                            DQTMbrkerSegment.Qtbble tbb = tbbiter.next();
+                            if (tbb.tbbleID == 0) {
+                                tbble0 = tbb;
                             }
                         }
                     }
 
-                    // Assuming that the table with id 0 is a luminance table,
-                    // compute a new chrominance table of the same quality and
-                    // add it to the last DQT segment
-                    DQTMarkerSegment dqt = tableSegments.get(tableSegments.size()-1);
-                    dqt.tables.add(dqt.getChromaForLuma(table0));
+                    // Assuming thbt the tbble with id 0 is b luminbnce tbble,
+                    // compute b new chrominbnce tbble of the sbme qublity bnd
+                    // bdd it to the lbst DQT segment
+                    DQTMbrkerSegment dqt = tbbleSegments.get(tbbleSegments.size()-1);
+                    dqt.tbbles.bdd(dqt.getChrombForLumb(tbble0));
                 }
             }
         }
 
-        if (updateHtables) {
-            List<DHTMarkerSegment> tableSegments = new ArrayList<>();
-            for (Iterator<MarkerSegment> iter = markerSequence.iterator();
-                    iter.hasNext();) {
-                MarkerSegment seg = iter.next();
-                if (seg instanceof DHTMarkerSegment) {
-                    tableSegments.add((DHTMarkerSegment) seg);
+        if (updbteHtbbles) {
+            List<DHTMbrkerSegment> tbbleSegments = new ArrbyList<>();
+            for (Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+                    iter.hbsNext();) {
+                MbrkerSegment seg = iter.next();
+                if (seg instbnceof DHTMbrkerSegment) {
+                    tbbleSegments.bdd((DHTMbrkerSegment) seg);
                 }
             }
-            // If there are no tables, don't add them, as the metadata encodes an
-            // abbreviated stream.
-            // If we are not subsampling, we just need one, so don't do anything
-            if (!tableSegments.isEmpty() && willSubsample) {
-                // Is it really necessary?  There should be at least 2 dc and 2 ac
-                // tables.  If there is only one, add a
-                // "standard " chrominance table.
+            // If there bre no tbbles, don't bdd them, bs the metbdbtb encodes bn
+            // bbbrevibted strebm.
+            // If we bre not subsbmpling, we just need one, so don't do bnything
+            if (!tbbleSegments.isEmpty() && willSubsbmple) {
+                // Is it reblly necessbry?  There should be bt lebst 2 dc bnd 2 bc
+                // tbbles.  If there is only one, bdd b
+                // "stbndbrd " chrominbnce tbble.
 
-                // find a table with selector 1. AC/DC is irrelevant
-                boolean found = false;
-                for (Iterator<DHTMarkerSegment> iter = tableSegments.iterator();
-                        iter.hasNext();) {
-                    DHTMarkerSegment testdht = iter.next();
-                    for (Iterator<DHTMarkerSegment.Htable> tabiter =
-                            testdht.tables.iterator(); tabiter.hasNext();) {
-                        DHTMarkerSegment.Htable tab = tabiter.next();
-                        if (tab.tableID == 1) {
+                // find b tbble with selector 1. AC/DC is irrelevbnt
+                boolebn found = fblse;
+                for (Iterbtor<DHTMbrkerSegment> iter = tbbleSegments.iterbtor();
+                        iter.hbsNext();) {
+                    DHTMbrkerSegment testdht = iter.next();
+                    for (Iterbtor<DHTMbrkerSegment.Htbble> tbbiter =
+                            testdht.tbbles.iterbtor(); tbbiter.hbsNext();) {
+                        DHTMbrkerSegment.Htbble tbb = tbbiter.next();
+                        if (tbb.tbbleID == 1) {
                             found = true;
                         }
                     }
                 }
                 if (!found) {
-                    // Create new standard dc and ac chrominance tables and add them
-                    // to the last DHT segment
-                    DHTMarkerSegment lastDHT =
-                        tableSegments.get(tableSegments.size()-1);
-                    lastDHT.addHtable(JPEGHuffmanTable.StdDCLuminance, true, 1);
-                    lastDHT.addHtable(JPEGHuffmanTable.StdACLuminance, true, 1);
+                    // Crebte new stbndbrd dc bnd bc chrominbnce tbbles bnd bdd them
+                    // to the lbst DHT segment
+                    DHTMbrkerSegment lbstDHT =
+                        tbbleSegments.get(tbbleSegments.size()-1);
+                    lbstDHT.bddHtbble(JPEGHuffmbnTbble.StdDCLuminbnce, true, 1);
+                    lbstDHT.bddHtbble(JPEGHuffmbnTbble.StdACLuminbnce, true, 1);
                 }
             }
         }
     }
 
-    private boolean wantAlpha(Node transparency) {
-        boolean returnValue = false;
-        Node alpha = transparency.getFirstChild();  // Alpha must be first if present
-        if (alpha.getNodeName().equals("Alpha")) {
-            if (alpha.hasAttributes()) {
-                String value =
-                    alpha.getAttributes().getNamedItem("value").getNodeValue();
-                if (!value.equals("none")) {
-                    returnValue = true;
+    privbte boolebn wbntAlphb(Node trbnspbrency) {
+        boolebn returnVblue = fblse;
+        Node blphb = trbnspbrency.getFirstChild();  // Alphb must be first if present
+        if (blphb.getNodeNbme().equbls("Alphb")) {
+            if (blphb.hbsAttributes()) {
+                String vblue =
+                    blphb.getAttributes().getNbmedItem("vblue").getNodeVblue();
+                if (!vblue.equbls("none")) {
+                    returnVblue = true;
                 }
             }
         }
-        transparencyDone = true;
-        return returnValue;
+        trbnspbrencyDone = true;
+        return returnVblue;
     }
 
-    private void mergeStandardCompressionNode(Node node)
-        throws IIOInvalidTreeException {
-        // NumProgressiveScans is ignored.  Progression must be enabled on the
-        // ImageWriteParam.
+    privbte void mergeStbndbrdCompressionNode(Node node)
+        throws IIOInvblidTreeException {
+        // NumProgressiveScbns is ignored.  Progression must be enbbled on the
+        // ImbgeWritePbrbm.
         // No-op
     }
 
-    private void mergeStandardDataNode(Node node)
-        throws IIOInvalidTreeException {
+    privbte void mergeStbndbrdDbtbNode(Node node)
+        throws IIOInvblidTreeException {
         // No-op
     }
 
-    private void mergeStandardDimensionNode(Node node)
-        throws IIOInvalidTreeException {
-        // Pixel Aspect Ratio or pixel size can be incorporated if there is,
-        // or can be, a JFIF segment
-        JFIFMarkerSegment jfif =
-            (JFIFMarkerSegment) findMarkerSegment(JFIFMarkerSegment.class, true);
+    privbte void mergeStbndbrdDimensionNode(Node node)
+        throws IIOInvblidTreeException {
+        // Pixel Aspect Rbtio or pixel size cbn be incorporbted if there is,
+        // or cbn be, b JFIF segment
+        JFIFMbrkerSegment jfif =
+            (JFIFMbrkerSegment) findMbrkerSegment(JFIFMbrkerSegment.clbss, true);
         if (jfif == null) {
-            // Can there be one?
-            // Criteria:
-            // SOF must be present with 1 or 3 channels, (stream metadata fails this)
-            //     Component ids must be JFIF compatible.
-            boolean canHaveJFIF = false;
-            SOFMarkerSegment sof =
-                (SOFMarkerSegment) findMarkerSegment(SOFMarkerSegment.class, true);
+            // Cbn there be one?
+            // Criterib:
+            // SOF must be present with 1 or 3 chbnnels, (strebm metbdbtb fbils this)
+            //     Component ids must be JFIF compbtible.
+            boolebn cbnHbveJFIF = fblse;
+            SOFMbrkerSegment sof =
+                (SOFMbrkerSegment) findMbrkerSegment(SOFMbrkerSegment.clbss, true);
             if (sof != null) {
-                int numChannels = sof.componentSpecs.length;
-                if ((numChannels == 1) || (numChannels == 3)) {
-                    canHaveJFIF = true; // remaining tests are negative
+                int numChbnnels = sof.componentSpecs.length;
+                if ((numChbnnels == 1) || (numChbnnels == 3)) {
+                    cbnHbveJFIF = true; // rembining tests bre negbtive
                     for (int i = 0; i < sof.componentSpecs.length; i++) {
                         if (sof.componentSpecs[i].componentId != i+1)
-                            canHaveJFIF = false;
+                            cbnHbveJFIF = fblse;
                     }
-                    // if Adobe present, transform = ADOBE_UNKNOWN for 1-channel,
-                    //     ADOBE_YCC for 3-channel.
-                    AdobeMarkerSegment adobe =
-                        (AdobeMarkerSegment) findMarkerSegment(AdobeMarkerSegment.class,
+                    // if Adobe present, trbnsform = ADOBE_UNKNOWN for 1-chbnnel,
+                    //     ADOBE_YCC for 3-chbnnel.
+                    AdobeMbrkerSegment bdobe =
+                        (AdobeMbrkerSegment) findMbrkerSegment(AdobeMbrkerSegment.clbss,
                                                                true);
-                    if (adobe != null) {
-                        if (adobe.transform != ((numChannels == 1)
+                    if (bdobe != null) {
+                        if (bdobe.trbnsform != ((numChbnnels == 1)
                                                 ? JPEG.ADOBE_UNKNOWN
                                                 : JPEG.ADOBE_YCC)) {
-                            canHaveJFIF = false;
+                            cbnHbveJFIF = fblse;
                         }
                     }
                 }
             }
-            // If so, create one and insert it into the sequence.  Note that
-            // default is just pixel ratio at 1:1
-            if (canHaveJFIF) {
-                jfif = new JFIFMarkerSegment();
-                markerSequence.add(0, jfif);
+            // If so, crebte one bnd insert it into the sequence.  Note thbt
+            // defbult is just pixel rbtio bt 1:1
+            if (cbnHbveJFIF) {
+                jfif = new JFIFMbrkerSegment();
+                mbrkerSequence.bdd(0, jfif);
             }
         }
         if (jfif != null) {
             NodeList children = node.getChildNodes();
             for (int i = 0; i < children.getLength(); i++) {
                 Node child = children.item(i);
-                NamedNodeMap attrs = child.getAttributes();
-                String name = child.getNodeName();
-                if (name.equals("PixelAspectRatio")) {
-                    String valueString = attrs.getNamedItem("value").getNodeValue();
-                    float value = Float.parseFloat(valueString);
-                    Point p = findIntegerRatio(value);
+                NbmedNodeMbp bttrs = child.getAttributes();
+                String nbme = child.getNodeNbme();
+                if (nbme.equbls("PixelAspectRbtio")) {
+                    String vblueString = bttrs.getNbmedItem("vblue").getNodeVblue();
+                    flobt vblue = Flobt.pbrseFlobt(vblueString);
+                    Point p = findIntegerRbtio(vblue);
                     jfif.resUnits = JPEG.DENSITY_UNIT_ASPECT_RATIO;
                     jfif.Xdensity = p.x;
                     jfif.Xdensity = p.y;
-                } else if (name.equals("HorizontalPixelSize")) {
-                    String valueString = attrs.getNamedItem("value").getNodeValue();
-                    float value = Float.parseFloat(valueString);
+                } else if (nbme.equbls("HorizontblPixelSize")) {
+                    String vblueString = bttrs.getNbmedItem("vblue").getNodeVblue();
+                    flobt vblue = Flobt.pbrseFlobt(vblueString);
                     // Convert from mm/dot to dots/cm
-                    int dpcm = (int) Math.round(1.0/(value*10.0));
+                    int dpcm = (int) Mbth.round(1.0/(vblue*10.0));
                     jfif.resUnits = JPEG.DENSITY_UNIT_DOTS_CM;
                     jfif.Xdensity = dpcm;
-                } else if (name.equals("VerticalPixelSize")) {
-                    String valueString = attrs.getNamedItem("value").getNodeValue();
-                    float value = Float.parseFloat(valueString);
+                } else if (nbme.equbls("VerticblPixelSize")) {
+                    String vblueString = bttrs.getNbmedItem("vblue").getNodeVblue();
+                    flobt vblue = Flobt.pbrseFlobt(vblueString);
                     // Convert from mm/dot to dots/cm
-                    int dpcm = (int) Math.round(1.0/(value*10.0));
+                    int dpcm = (int) Mbth.round(1.0/(vblue*10.0));
                     jfif.resUnits = JPEG.DENSITY_UNIT_DOTS_CM;
                     jfif.Ydensity = dpcm;
                 }
@@ -1993,163 +1993,163 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
     }
 
     /*
-     * Return a pair of integers whose ratio (x/y) approximates the given
-     * float value.
+     * Return b pbir of integers whose rbtio (x/y) bpproximbtes the given
+     * flobt vblue.
      */
-    private static Point findIntegerRatio(float value) {
-        float epsilon = 0.005F;
+    privbte stbtic Point findIntegerRbtio(flobt vblue) {
+        flobt epsilon = 0.005F;
 
-        // Normalize
-        value = Math.abs(value);
+        // Normblize
+        vblue = Mbth.bbs(vblue);
 
-        // Deal with min case
-        if (value <= epsilon) {
+        // Debl with min cbse
+        if (vblue <= epsilon) {
             return new Point(1, 255);
         }
 
-        // Deal with max case
-        if (value >= 255) {
+        // Debl with mbx cbse
+        if (vblue >= 255) {
             return new Point(255, 1);
         }
 
         // Remember if we invert
-        boolean inverted = false;
-        if (value < 1.0) {
-            value = 1.0F/value;
+        boolebn inverted = fblse;
+        if (vblue < 1.0) {
+            vblue = 1.0F/vblue;
             inverted = true;
         }
 
-        // First approximation
+        // First bpproximbtion
         int y = 1;
-        int x = Math.round(value);
+        int x = Mbth.round(vblue);
 
-        float ratio = (float) x;
-        float delta = Math.abs(value - ratio);
-        while (delta > epsilon) { // not close enough
-            // Increment y and compute a new x
+        flobt rbtio = (flobt) x;
+        flobt deltb = Mbth.bbs(vblue - rbtio);
+        while (deltb > epsilon) { // not close enough
+            // Increment y bnd compute b new x
             y++;
-            x = Math.round(y*value);
-            ratio = (float)x/(float)y;
-            delta = Math.abs(value - ratio);
+            x = Mbth.round(y*vblue);
+            rbtio = (flobt)x/(flobt)y;
+            deltb = Mbth.bbs(vblue - rbtio);
         }
         return inverted ? new Point(y, x) : new Point(x, y);
     }
 
-    private void mergeStandardDocumentNode(Node node)
-        throws IIOInvalidTreeException {
+    privbte void mergeStbndbrdDocumentNode(Node node)
+        throws IIOInvblidTreeException {
         // No-op
     }
 
-    private void mergeStandardTextNode(Node node)
-        throws IIOInvalidTreeException {
+    privbte void mergeStbndbrdTextNode(Node node)
+        throws IIOInvblidTreeException {
         // Convert to comments.  For the moment ignore the encoding issue.
-        // Ignore keywords, language, and encoding (for the moment).
-        // If compression tag is present, use only entries with "none".
+        // Ignore keywords, lbngubge, bnd encoding (for the moment).
+        // If compression tbg is present, use only entries with "none".
         NodeList children = node.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
-            NamedNodeMap attrs = child.getAttributes();
-            Node comp = attrs.getNamedItem("compression");
-            boolean copyIt = true;
+            NbmedNodeMbp bttrs = child.getAttributes();
+            Node comp = bttrs.getNbmedItem("compression");
+            boolebn copyIt = true;
             if (comp != null) {
-                String compString = comp.getNodeValue();
-                if (!compString.equals("none")) {
-                    copyIt = false;
+                String compString = comp.getNodeVblue();
+                if (!compString.equbls("none")) {
+                    copyIt = fblse;
                 }
             }
             if (copyIt) {
-                String value = attrs.getNamedItem("value").getNodeValue();
-                COMMarkerSegment com = new COMMarkerSegment(value);
-                insertCOMMarkerSegment(com);
+                String vblue = bttrs.getNbmedItem("vblue").getNodeVblue();
+                COMMbrkerSegment com = new COMMbrkerSegment(vblue);
+                insertCOMMbrkerSegment(com);
             }
         }
     }
 
-    private void mergeStandardTransparencyNode(Node node)
-        throws IIOInvalidTreeException {
-        // This might indicate that an alpha channel is being added or removed.
-        // The nodes must appear in order, and a Chroma node will process any
-        // transparency, so process it here only if there was no Chroma node
-        // Do nothing for stream metadata
-        if (!transparencyDone && !isStream) {
-            boolean wantAlpha = wantAlpha(node);
-            // do we have alpha already?  If the number of channels is 2 or 4,
-            // we do, as we don't support CMYK, nor can we add alpha to it
-            // The number of channels can be determined from the SOF
-            JFIFMarkerSegment jfif = (JFIFMarkerSegment) findMarkerSegment
-                (JFIFMarkerSegment.class, true);
-            AdobeMarkerSegment adobe = (AdobeMarkerSegment) findMarkerSegment
-                (AdobeMarkerSegment.class, true);
-            SOFMarkerSegment sof = (SOFMarkerSegment) findMarkerSegment
-                (SOFMarkerSegment.class, true);
-            SOSMarkerSegment sos = (SOSMarkerSegment) findMarkerSegment
-                (SOSMarkerSegment.class, true);
+    privbte void mergeStbndbrdTrbnspbrencyNode(Node node)
+        throws IIOInvblidTreeException {
+        // This might indicbte thbt bn blphb chbnnel is being bdded or removed.
+        // The nodes must bppebr in order, bnd b Chromb node will process bny
+        // trbnspbrency, so process it here only if there wbs no Chromb node
+        // Do nothing for strebm metbdbtb
+        if (!trbnspbrencyDone && !isStrebm) {
+            boolebn wbntAlphb = wbntAlphb(node);
+            // do we hbve blphb blrebdy?  If the number of chbnnels is 2 or 4,
+            // we do, bs we don't support CMYK, nor cbn we bdd blphb to it
+            // The number of chbnnels cbn be determined from the SOF
+            JFIFMbrkerSegment jfif = (JFIFMbrkerSegment) findMbrkerSegment
+                (JFIFMbrkerSegment.clbss, true);
+            AdobeMbrkerSegment bdobe = (AdobeMbrkerSegment) findMbrkerSegment
+                (AdobeMbrkerSegment.clbss, true);
+            SOFMbrkerSegment sof = (SOFMbrkerSegment) findMbrkerSegment
+                (SOFMbrkerSegment.clbss, true);
+            SOSMbrkerSegment sos = (SOSMbrkerSegment) findMbrkerSegment
+                (SOSMbrkerSegment.clbss, true);
 
-            // We can do nothing for progressive, as we don't know how to
-            // modify the scans.
-            if ((sof != null) && (sof.tag == JPEG.SOF2)) { // Progressive
+            // We cbn do nothing for progressive, bs we don't know how to
+            // modify the scbns.
+            if ((sof != null) && (sof.tbg == JPEG.SOF2)) { // Progressive
                 return;
             }
 
-            // Do we already have alpha?  We can tell by the number of channels
-            // We must have an sof, or we can't do anything further
+            // Do we blrebdy hbve blphb?  We cbn tell by the number of chbnnels
+            // We must hbve bn sof, or we cbn't do bnything further
             if (sof != null) {
-                int numChannels = sof.componentSpecs.length;
-                boolean hadAlpha = (numChannels == 2) || (numChannels == 4);
-                // proceed only if the old state and the new state differ
-                if (hadAlpha != wantAlpha) {
-                    if (wantAlpha) {  // Adding alpha
-                        numChannels++;
+                int numChbnnels = sof.componentSpecs.length;
+                boolebn hbdAlphb = (numChbnnels == 2) || (numChbnnels == 4);
+                // proceed only if the old stbte bnd the new stbte differ
+                if (hbdAlphb != wbntAlphb) {
+                    if (wbntAlphb) {  // Adding blphb
+                        numChbnnels++;
                         if (jfif != null) {
-                            markerSequence.remove(jfif);
+                            mbrkerSequence.remove(jfif);
                         }
 
-                        // If an adobe marker is present, transform must be UNKNOWN
-                        if (adobe != null) {
-                            adobe.transform = JPEG.ADOBE_UNKNOWN;
+                        // If bn bdobe mbrker is present, trbnsform must be UNKNOWN
+                        if (bdobe != null) {
+                            bdobe.trbnsform = JPEG.ADOBE_UNKNOWN;
                         }
 
-                        // Add a component spec with appropriate parameters to SOF
-                        SOFMarkerSegment.ComponentSpec [] newSpecs =
-                            new SOFMarkerSegment.ComponentSpec[numChannels];
+                        // Add b component spec with bppropribte pbrbmeters to SOF
+                        SOFMbrkerSegment.ComponentSpec [] newSpecs =
+                            new SOFMbrkerSegment.ComponentSpec[numChbnnels];
                         for (int i = 0; i < sof.componentSpecs.length; i++) {
                             newSpecs[i] = sof.componentSpecs[i];
                         }
                         byte oldFirstID = (byte) sof.componentSpecs[0].componentId;
                         byte newID = (byte) ((oldFirstID > 1) ? 'A' : 4);
-                        newSpecs[numChannels-1] =
+                        newSpecs[numChbnnels-1] =
                             sof.getComponentSpec(newID,
-                                sof.componentSpecs[0].HsamplingFactor,
-                                sof.componentSpecs[0].QtableSelector);
+                                sof.componentSpecs[0].HsbmplingFbctor,
+                                sof.componentSpecs[0].QtbbleSelector);
 
                         sof.componentSpecs = newSpecs;
 
-                        // Add a component spec with appropriate parameters to SOS
-                        SOSMarkerSegment.ScanComponentSpec [] newScanSpecs =
-                            new SOSMarkerSegment.ScanComponentSpec [numChannels];
+                        // Add b component spec with bppropribte pbrbmeters to SOS
+                        SOSMbrkerSegment.ScbnComponentSpec [] newScbnSpecs =
+                            new SOSMbrkerSegment.ScbnComponentSpec [numChbnnels];
                         for (int i = 0; i < sos.componentSpecs.length; i++) {
-                            newScanSpecs[i] = sos.componentSpecs[i];
+                            newScbnSpecs[i] = sos.componentSpecs[i];
                         }
-                        newScanSpecs[numChannels-1] =
-                            sos.getScanComponentSpec (newID, 0);
-                        sos.componentSpecs = newScanSpecs;
-                    } else {  // Removing alpha
-                        numChannels--;
-                        // Remove a component spec from SOF
-                        SOFMarkerSegment.ComponentSpec [] newSpecs =
-                            new SOFMarkerSegment.ComponentSpec[numChannels];
-                        for (int i = 0; i < numChannels; i++) {
+                        newScbnSpecs[numChbnnels-1] =
+                            sos.getScbnComponentSpec (newID, 0);
+                        sos.componentSpecs = newScbnSpecs;
+                    } else {  // Removing blphb
+                        numChbnnels--;
+                        // Remove b component spec from SOF
+                        SOFMbrkerSegment.ComponentSpec [] newSpecs =
+                            new SOFMbrkerSegment.ComponentSpec[numChbnnels];
+                        for (int i = 0; i < numChbnnels; i++) {
                             newSpecs[i] = sof.componentSpecs[i];
                         }
                         sof.componentSpecs = newSpecs;
 
-                        // Remove a component spec from SOS
-                        SOSMarkerSegment.ScanComponentSpec [] newScanSpecs =
-                            new SOSMarkerSegment.ScanComponentSpec [numChannels];
-                        for (int i = 0; i < numChannels; i++) {
-                            newScanSpecs[i] = sos.componentSpecs[i];
+                        // Remove b component spec from SOS
+                        SOSMbrkerSegment.ScbnComponentSpec [] newScbnSpecs =
+                            new SOSMbrkerSegment.ScbnComponentSpec [numChbnnels];
+                        for (int i = 0; i < numChbnnels; i++) {
+                            newScbnSpecs[i] = sos.componentSpecs[i];
                         }
-                        sos.componentSpecs = newScanSpecs;
+                        sos.componentSpecs = newScbnSpecs;
                     }
                 }
             }
@@ -2157,175 +2157,175 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
     }
 
 
-    public void setFromTree(String formatName, Node root)
-        throws IIOInvalidTreeException {
-        if (formatName == null) {
-            throw new IllegalArgumentException("null formatName!");
+    public void setFromTree(String formbtNbme, Node root)
+        throws IIOInvblidTreeException {
+        if (formbtNbme == null) {
+            throw new IllegblArgumentException("null formbtNbme!");
         }
         if (root == null) {
-            throw new IllegalArgumentException("null root!");
+            throw new IllegblArgumentException("null root!");
         }
-        if (isStream &&
-            (formatName.equals(JPEG.nativeStreamMetadataFormatName))) {
-            setFromNativeTree(root);
-        } else if (!isStream &&
-                   (formatName.equals(JPEG.nativeImageMetadataFormatName))) {
-            setFromNativeTree(root);
-        } else if (!isStream &&
-                   (formatName.equals
-                    (IIOMetadataFormatImpl.standardMetadataFormatName))) {
-            // In this case a reset followed by a merge is correct
-            super.setFromTree(formatName, root);
+        if (isStrebm &&
+            (formbtNbme.equbls(JPEG.nbtiveStrebmMetbdbtbFormbtNbme))) {
+            setFromNbtiveTree(root);
+        } else if (!isStrebm &&
+                   (formbtNbme.equbls(JPEG.nbtiveImbgeMetbdbtbFormbtNbme))) {
+            setFromNbtiveTree(root);
+        } else if (!isStrebm &&
+                   (formbtNbme.equbls
+                    (IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme))) {
+            // In this cbse b reset followed by b merge is correct
+            super.setFromTree(formbtNbme, root);
         } else {
-            throw  new IllegalArgumentException("Unsupported format name: "
-                                                + formatName);
+            throw  new IllegblArgumentException("Unsupported formbt nbme: "
+                                                + formbtNbme);
         }
     }
 
-    private void setFromNativeTree(Node root) throws IIOInvalidTreeException {
+    privbte void setFromNbtiveTree(Node root) throws IIOInvblidTreeException {
         if (resetSequence == null) {
-            resetSequence = markerSequence;
+            resetSequence = mbrkerSequence;
         }
-        markerSequence = new ArrayList<>();
+        mbrkerSequence = new ArrbyList<>();
 
-        // Build a whole new marker sequence from the tree
+        // Build b whole new mbrker sequence from the tree
 
-        String name = root.getNodeName();
-        if (name != ((isStream) ? JPEG.nativeStreamMetadataFormatName
-                                : JPEG.nativeImageMetadataFormatName)) {
-            throw new IIOInvalidTreeException("Invalid root node name: " + name,
+        String nbme = root.getNodeNbme();
+        if (nbme != ((isStrebm) ? JPEG.nbtiveStrebmMetbdbtbFormbtNbme
+                                : JPEG.nbtiveImbgeMetbdbtbFormbtNbme)) {
+            throw new IIOInvblidTreeException("Invblid root node nbme: " + nbme,
                                               root);
         }
-        if (!isStream) {
-            if (root.getChildNodes().getLength() != 2) { // JPEGvariety and markerSequence
-                throw new IIOInvalidTreeException(
-                    "JPEGvariety and markerSequence nodes must be present", root);
+        if (!isStrebm) {
+            if (root.getChildNodes().getLength() != 2) { // JPEGvbriety bnd mbrkerSequence
+                throw new IIOInvblidTreeException(
+                    "JPEGvbriety bnd mbrkerSequence nodes must be present", root);
             }
 
-            Node JPEGvariety = root.getFirstChild();
+            Node JPEGvbriety = root.getFirstChild();
 
-            if (JPEGvariety.getChildNodes().getLength() != 0) {
-                markerSequence.add(new JFIFMarkerSegment(JPEGvariety.getFirstChild()));
+            if (JPEGvbriety.getChildNodes().getLength() != 0) {
+                mbrkerSequence.bdd(new JFIFMbrkerSegment(JPEGvbriety.getFirstChild()));
             }
         }
 
-        Node markerSequenceNode = isStream ? root : root.getLastChild();
-        setFromMarkerSequenceNode(markerSequenceNode);
+        Node mbrkerSequenceNode = isStrebm ? root : root.getLbstChild();
+        setFromMbrkerSequenceNode(mbrkerSequenceNode);
 
     }
 
-    void setFromMarkerSequenceNode(Node markerSequenceNode)
-        throws IIOInvalidTreeException{
+    void setFromMbrkerSequenceNode(Node mbrkerSequenceNode)
+        throws IIOInvblidTreeException{
 
-        NodeList children = markerSequenceNode.getChildNodes();
-        // for all the children, add a marker segment
+        NodeList children = mbrkerSequenceNode.getChildNodes();
+        // for bll the children, bdd b mbrker segment
         for (int i = 0; i < children.getLength(); i++) {
             Node node = children.item(i);
-            String childName = node.getNodeName();
-            if (childName.equals("dqt")) {
-                markerSequence.add(new DQTMarkerSegment(node));
-            } else if (childName.equals("dht")) {
-                markerSequence.add(new DHTMarkerSegment(node));
-            } else if (childName.equals("dri")) {
-                markerSequence.add(new DRIMarkerSegment(node));
-            } else if (childName.equals("com")) {
-                markerSequence.add(new COMMarkerSegment(node));
-            } else if (childName.equals("app14Adobe")) {
-                markerSequence.add(new AdobeMarkerSegment(node));
-            } else if (childName.equals("unknown")) {
-                markerSequence.add(new MarkerSegment(node));
-            } else if (childName.equals("sof")) {
-                markerSequence.add(new SOFMarkerSegment(node));
-            } else if (childName.equals("sos")) {
-                markerSequence.add(new SOSMarkerSegment(node));
+            String childNbme = node.getNodeNbme();
+            if (childNbme.equbls("dqt")) {
+                mbrkerSequence.bdd(new DQTMbrkerSegment(node));
+            } else if (childNbme.equbls("dht")) {
+                mbrkerSequence.bdd(new DHTMbrkerSegment(node));
+            } else if (childNbme.equbls("dri")) {
+                mbrkerSequence.bdd(new DRIMbrkerSegment(node));
+            } else if (childNbme.equbls("com")) {
+                mbrkerSequence.bdd(new COMMbrkerSegment(node));
+            } else if (childNbme.equbls("bpp14Adobe")) {
+                mbrkerSequence.bdd(new AdobeMbrkerSegment(node));
+            } else if (childNbme.equbls("unknown")) {
+                mbrkerSequence.bdd(new MbrkerSegment(node));
+            } else if (childNbme.equbls("sof")) {
+                mbrkerSequence.bdd(new SOFMbrkerSegment(node));
+            } else if (childNbme.equbls("sos")) {
+                mbrkerSequence.bdd(new SOSMbrkerSegment(node));
             } else {
-                throw new IIOInvalidTreeException("Invalid "
-                    + (isStream ? "stream " : "image ") + "child: "
-                    + childName, node);
+                throw new IIOInvblidTreeException("Invblid "
+                    + (isStrebm ? "strebm " : "imbge ") + "child: "
+                    + childNbme, node);
             }
         }
     }
 
     /**
-     * Check that this metadata object is in a consistent state and
-     * return <code>true</code> if it is or <code>false</code>
-     * otherwise.  All the constructors and modifiers should call
-     * this method at the end to guarantee that the data is always
-     * consistent, as the writer relies on this.
+     * Check thbt this metbdbtb object is in b consistent stbte bnd
+     * return <code>true</code> if it is or <code>fblse</code>
+     * otherwise.  All the constructors bnd modifiers should cbll
+     * this method bt the end to gubrbntee thbt the dbtb is blwbys
+     * consistent, bs the writer relies on this.
      */
-    private boolean isConsistent() {
-        SOFMarkerSegment sof =
-            (SOFMarkerSegment) findMarkerSegment(SOFMarkerSegment.class,
+    privbte boolebn isConsistent() {
+        SOFMbrkerSegment sof =
+            (SOFMbrkerSegment) findMbrkerSegment(SOFMbrkerSegment.clbss,
                                                  true);
-        JFIFMarkerSegment jfif =
-            (JFIFMarkerSegment) findMarkerSegment(JFIFMarkerSegment.class,
+        JFIFMbrkerSegment jfif =
+            (JFIFMbrkerSegment) findMbrkerSegment(JFIFMbrkerSegment.clbss,
                                                   true);
-        AdobeMarkerSegment adobe =
-            (AdobeMarkerSegment) findMarkerSegment(AdobeMarkerSegment.class,
+        AdobeMbrkerSegment bdobe =
+            (AdobeMbrkerSegment) findMbrkerSegment(AdobeMbrkerSegment.clbss,
                                                    true);
-        boolean retval = true;
-        if (!isStream) {
+        boolebn retvbl = true;
+        if (!isStrebm) {
             if (sof != null) {
-                // SOF numBands = total scan bands
-                int numSOFBands = sof.componentSpecs.length;
-                int numScanBands = countScanBands();
-                if (numScanBands != 0) {  // No SOS is OK
-                    if (numScanBands != numSOFBands) {
-                        retval = false;
+                // SOF numBbnds = totbl scbn bbnds
+                int numSOFBbnds = sof.componentSpecs.length;
+                int numScbnBbnds = countScbnBbnds();
+                if (numScbnBbnds != 0) {  // No SOS is OK
+                    if (numScbnBbnds != numSOFBbnds) {
+                        retvbl = fblse;
                     }
                 }
-                // If JFIF is present, component ids are 1-3, bands are 1 or 3
+                // If JFIF is present, component ids bre 1-3, bbnds bre 1 or 3
                 if (jfif != null) {
-                    if ((numSOFBands != 1) && (numSOFBands != 3)) {
-                        retval = false;
+                    if ((numSOFBbnds != 1) && (numSOFBbnds != 3)) {
+                        retvbl = fblse;
                     }
-                    for (int i = 0; i < numSOFBands; i++) {
+                    for (int i = 0; i < numSOFBbnds; i++) {
                         if (sof.componentSpecs[i].componentId != i+1) {
-                            retval = false;
+                            retvbl = fblse;
                         }
                     }
 
-                    // If both JFIF and Adobe are present,
-                    // Adobe transform == unknown for gray,
-                    // YCC for 3-chan.
-                    if ((adobe != null)
-                        && (((numSOFBands == 1)
-                             && (adobe.transform != JPEG.ADOBE_UNKNOWN))
-                            || ((numSOFBands == 3)
-                                && (adobe.transform != JPEG.ADOBE_YCC)))) {
-                        retval = false;
+                    // If both JFIF bnd Adobe bre present,
+                    // Adobe trbnsform == unknown for grby,
+                    // YCC for 3-chbn.
+                    if ((bdobe != null)
+                        && (((numSOFBbnds == 1)
+                             && (bdobe.trbnsform != JPEG.ADOBE_UNKNOWN))
+                            || ((numSOFBbnds == 3)
+                                && (bdobe.trbnsform != JPEG.ADOBE_YCC)))) {
+                        retvbl = fblse;
                     }
                 }
             } else {
-                // stream can't have jfif, adobe, sof, or sos
-                SOSMarkerSegment sos =
-                    (SOSMarkerSegment) findMarkerSegment(SOSMarkerSegment.class,
+                // strebm cbn't hbve jfif, bdobe, sof, or sos
+                SOSMbrkerSegment sos =
+                    (SOSMbrkerSegment) findMbrkerSegment(SOSMbrkerSegment.clbss,
                                                          true);
-                if ((jfif != null) || (adobe != null)
+                if ((jfif != null) || (bdobe != null)
                     || (sof != null) || (sos != null)) {
-                    retval = false;
+                    retvbl = fblse;
                 }
             }
         }
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Returns the total number of bands referenced in all SOS marker
-     * segments, including 0 if there are no SOS marker segments.
+     * Returns the totbl number of bbnds referenced in bll SOS mbrker
+     * segments, including 0 if there bre no SOS mbrker segments.
      */
-    private int countScanBands() {
-        List<Integer> ids = new ArrayList<>();
-        Iterator<MarkerSegment> iter = markerSequence.iterator();
-        while(iter.hasNext()) {
-            MarkerSegment seg = iter.next();
-            if (seg instanceof SOSMarkerSegment) {
-                SOSMarkerSegment sos = (SOSMarkerSegment) seg;
-                SOSMarkerSegment.ScanComponentSpec [] specs = sos.componentSpecs;
+    privbte int countScbnBbnds() {
+        List<Integer> ids = new ArrbyList<>();
+        Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+        while(iter.hbsNext()) {
+            MbrkerSegment seg = iter.next();
+            if (seg instbnceof SOSMbrkerSegment) {
+                SOSMbrkerSegment sos = (SOSMbrkerSegment) seg;
+                SOSMbrkerSegment.ScbnComponentSpec [] specs = sos.componentSpecs;
                 for (int i = 0; i < specs.length; i++) {
                     Integer id = specs[i].componentSelector;
-                    if (!ids.contains(id)) {
-                        ids.add(id);
+                    if (!ids.contbins(id)) {
+                        ids.bdd(id);
                     }
                 }
             }
@@ -2336,67 +2336,67 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
 
     ///// Writer support
 
-    void writeToStream(ImageOutputStream ios,
-                       boolean ignoreJFIF,
-                       boolean forceJFIF,
-                       List<? extends BufferedImage> thumbnails,
+    void writeToStrebm(ImbgeOutputStrebm ios,
+                       boolebn ignoreJFIF,
+                       boolebn forceJFIF,
+                       List<? extends BufferedImbge> thumbnbils,
                        ICC_Profile iccProfile,
-                       boolean ignoreAdobe,
-                       int newAdobeTransform,
-                       JPEGImageWriter writer)
+                       boolebn ignoreAdobe,
+                       int newAdobeTrbnsform,
+                       JPEGImbgeWriter writer)
         throws IOException {
         if (forceJFIF) {
-            // Write a default JFIF segment, including thumbnails
-            // This won't be duplicated below because forceJFIF will be
-            // set only if there is no JFIF present already.
-            JFIFMarkerSegment.writeDefaultJFIF(ios,
-                                               thumbnails,
+            // Write b defbult JFIF segment, including thumbnbils
+            // This won't be duplicbted below becbuse forceJFIF will be
+            // set only if there is no JFIF present blrebdy.
+            JFIFMbrkerSegment.writeDefbultJFIF(ios,
+                                               thumbnbils,
                                                iccProfile,
                                                writer);
-            if ((ignoreAdobe == false)
-                && (newAdobeTransform != JPEG.ADOBE_IMPOSSIBLE)) {
-                if ((newAdobeTransform != JPEG.ADOBE_UNKNOWN)
-                    && (newAdobeTransform != JPEG.ADOBE_YCC)) {
-                    // Not compatible, so ignore Adobe.
+            if ((ignoreAdobe == fblse)
+                && (newAdobeTrbnsform != JPEG.ADOBE_IMPOSSIBLE)) {
+                if ((newAdobeTrbnsform != JPEG.ADOBE_UNKNOWN)
+                    && (newAdobeTrbnsform != JPEG.ADOBE_YCC)) {
+                    // Not compbtible, so ignore Adobe.
                     ignoreAdobe = true;
-                    writer.warningOccurred
-                        (JPEGImageWriter.WARNING_METADATA_ADJUSTED_FOR_THUMB);
+                    writer.wbrningOccurred
+                        (JPEGImbgeWriter.WARNING_METADATA_ADJUSTED_FOR_THUMB);
                 }
             }
         }
-        // Iterate over each MarkerSegment
-        Iterator<MarkerSegment> iter = markerSequence.iterator();
-        while(iter.hasNext()) {
-            MarkerSegment seg = iter.next();
-            if (seg instanceof JFIFMarkerSegment) {
-                if (ignoreJFIF == false) {
-                    JFIFMarkerSegment jfif = (JFIFMarkerSegment) seg;
-                    jfif.writeWithThumbs(ios, thumbnails, writer);
+        // Iterbte over ebch MbrkerSegment
+        Iterbtor<MbrkerSegment> iter = mbrkerSequence.iterbtor();
+        while(iter.hbsNext()) {
+            MbrkerSegment seg = iter.next();
+            if (seg instbnceof JFIFMbrkerSegment) {
+                if (ignoreJFIF == fblse) {
+                    JFIFMbrkerSegment jfif = (JFIFMbrkerSegment) seg;
+                    jfif.writeWithThumbs(ios, thumbnbils, writer);
                     if (iccProfile != null) {
-                        JFIFMarkerSegment.writeICC(iccProfile, ios);
+                        JFIFMbrkerSegment.writeICC(iccProfile, ios);
                     }
-                } // Otherwise ignore it, as requested
-            } else if (seg instanceof AdobeMarkerSegment) {
-                if (ignoreAdobe == false) {
-                    if (newAdobeTransform != JPEG.ADOBE_IMPOSSIBLE) {
-                        AdobeMarkerSegment newAdobe =
-                            (AdobeMarkerSegment) seg.clone();
-                        newAdobe.transform = newAdobeTransform;
+                } // Otherwise ignore it, bs requested
+            } else if (seg instbnceof AdobeMbrkerSegment) {
+                if (ignoreAdobe == fblse) {
+                    if (newAdobeTrbnsform != JPEG.ADOBE_IMPOSSIBLE) {
+                        AdobeMbrkerSegment newAdobe =
+                            (AdobeMbrkerSegment) seg.clone();
+                        newAdobe.trbnsform = newAdobeTrbnsform;
                         newAdobe.write(ios);
                     } else if (forceJFIF) {
-                        // If adobe isn't JFIF compatible, ignore it
-                        AdobeMarkerSegment adobe = (AdobeMarkerSegment) seg;
-                        if ((adobe.transform == JPEG.ADOBE_UNKNOWN)
-                            || (adobe.transform == JPEG.ADOBE_YCC)) {
-                            adobe.write(ios);
+                        // If bdobe isn't JFIF compbtible, ignore it
+                        AdobeMbrkerSegment bdobe = (AdobeMbrkerSegment) seg;
+                        if ((bdobe.trbnsform == JPEG.ADOBE_UNKNOWN)
+                            || (bdobe.trbnsform == JPEG.ADOBE_YCC)) {
+                            bdobe.write(ios);
                         } else {
-                            writer.warningOccurred
-                         (JPEGImageWriter.WARNING_METADATA_ADJUSTED_FOR_THUMB);
+                            writer.wbrningOccurred
+                         (JPEGImbgeWriter.WARNING_METADATA_ADJUSTED_FOR_THUMB);
                         }
                     } else {
                         seg.write(ios);
                     }
-                } // Otherwise ignore it, as requested
+                } // Otherwise ignore it, bs requested
             } else {
                 seg.write(ios);
             }
@@ -2407,14 +2407,14 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
 
     public void reset() {
         if (resetSequence != null) {  // Otherwise no need to reset
-            markerSequence = resetSequence;
+            mbrkerSequence = resetSequence;
             resetSequence = null;
         }
     }
 
     public void print() {
-        for (int i = 0; i < markerSequence.size(); i++) {
-            MarkerSegment seg = markerSequence.get(i);
+        for (int i = 0; i < mbrkerSequence.size(); i++) {
+            MbrkerSegment seg = mbrkerSequence.get(i);
             seg.print();
         }
     }

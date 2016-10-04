@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.Seriblizbble;
 
-import java.security.AccessController;
-import java.util.Iterator;
+import jbvb.security.AccessController;
+import jbvb.util.Iterbtor;
 
 /**
- * Represents the result of a multiple access to several roles of a relation
- * (either for reading or writing).
+ * Represents the result of b multiple bccess to severbl roles of b relbtion
+ * (either for rebding or writing).
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-6304063118040985512L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>-6304063118040985512L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")
-public class RoleResult implements Serializable {
+@SuppressWbrnings("seribl")
+public clbss RoleResult implements Seriblizbble {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 3786616013762091099L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = 3786616013762091099L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -6304063118040985512L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = -6304063118040985512L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-      new ObjectStreamField("myRoleList", RoleList.class),
-      new ObjectStreamField("myRoleUnresList", RoleUnresolvedList.class)
+      new ObjectStrebmField("myRoleList", RoleList.clbss),
+      new ObjectStrebmField("myRoleUnresList", RoleUnresolvedList.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-      new ObjectStreamField("roleList", RoleList.class),
-      new ObjectStreamField("unresolvedRoleList", RoleUnresolvedList.class)
+      new ObjectStrebmField("roleList", RoleList.clbss),
+      new ObjectStrebmField("unresolvedRoleList", RoleUnresolvedList.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField roleList RoleList List of roles successfully accessed
-     * @serialField unresolvedRoleList RoleUnresolvedList List of roles unsuccessfully accessed
+     * @seriblField roleList RoleList List of roles successfully bccessed
+     * @seriblField unresolvedRoleList RoleUnresolvedList List of roles unsuccessfully bccessed
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK : Too bbd, no compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     //
-    // Private members
+    // Privbte members
     //
 
     /**
-     * @serial List of roles successfully accessed
+     * @seribl List of roles successfully bccessed
      */
-    private RoleList roleList = null;
+    privbte RoleList roleList = null;
 
     /**
-     * @serial List of roles unsuccessfully accessed
+     * @seribl List of roles unsuccessfully bccessed
      */
-    private RoleUnresolvedList unresolvedRoleList = null;
+    privbte RoleUnresolvedList unresolvedRoleList = null;
 
     //
     // Constructor
@@ -122,8 +122,8 @@ public class RoleResult implements Serializable {
     /**
      * Constructor.
      *
-     * @param list  list of roles successfully accessed.
-     * @param unresolvedList  list of roles not accessed (with problem
+     * @pbrbm list  list of roles successfully bccessed.
+     * @pbrbm unresolvedList  list of roles not bccessed (with problem
      * descriptions).
      */
     public RoleResult(RoleList list,
@@ -139,9 +139,9 @@ public class RoleResult implements Serializable {
     //
 
     /**
-     * Retrieves list of roles successfully accessed.
+     * Retrieves list of roles successfully bccessed.
      *
-     * @return a RoleList
+     * @return b RoleList
      *
      * @see #setRoles
      */
@@ -150,9 +150,9 @@ public class RoleResult implements Serializable {
     }
 
     /**
-     * Retrieves list of roles unsuccessfully accessed.
+     * Retrieves list of roles unsuccessfully bccessed.
      *
-     * @return a RoleUnresolvedList.
+     * @return b RoleUnresolvedList.
      *
      * @see #setRolesUnresolved
      */
@@ -161,9 +161,9 @@ public class RoleResult implements Serializable {
     }
 
     /**
-     * Sets list of roles successfully accessed.
+     * Sets list of roles successfully bccessed.
      *
-     * @param list  list of roles successfully accessed
+     * @pbrbm list  list of roles successfully bccessed
      *
      * @see #getRoles
      */
@@ -172,10 +172,10 @@ public class RoleResult implements Serializable {
 
             roleList = new RoleList();
 
-            for (Iterator<?> roleIter = list.iterator();
-                 roleIter.hasNext();) {
+            for (Iterbtor<?> roleIter = list.iterbtor();
+                 roleIter.hbsNext();) {
                 Role currRole = (Role)(roleIter.next());
-                roleList.add((Role)(currRole.clone()));
+                roleList.bdd((Role)(currRole.clone()));
             }
         } else {
             roleList = null;
@@ -184,9 +184,9 @@ public class RoleResult implements Serializable {
     }
 
     /**
-     * Sets list of roles unsuccessfully accessed.
+     * Sets list of roles unsuccessfully bccessed.
      *
-     * @param unresolvedList  list of roles unsuccessfully accessed
+     * @pbrbm unresolvedList  list of roles unsuccessfully bccessed
      *
      * @see #getRolesUnresolved
      */
@@ -195,11 +195,11 @@ public class RoleResult implements Serializable {
 
             unresolvedRoleList = new RoleUnresolvedList();
 
-            for (Iterator<?> roleUnresIter = unresolvedList.iterator();
-                 roleUnresIter.hasNext();) {
+            for (Iterbtor<?> roleUnresIter = unresolvedList.iterbtor();
+                 roleUnresIter.hbsNext();) {
                 RoleUnresolved currRoleUnres =
                     (RoleUnresolved)(roleUnresIter.next());
-                unresolvedRoleList.add((RoleUnresolved)(currRoleUnres.clone()));
+                unresolvedRoleList.bdd((RoleUnresolved)(currRoleUnres.clone()));
             }
         } else {
             unresolvedRoleList = null;
@@ -208,54 +208,54 @@ public class RoleResult implements Serializable {
     }
 
     /**
-     * Deserializes a {@link RoleResult} from an {@link ObjectInputStream}.
+     * Deseriblizes b {@link RoleResult} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+      if (compbt)
       {
-        // Read an object serialized in the old serial form
+        // Rebd bn object seriblized in the old seribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
+        ObjectInputStrebm.GetField fields = in.rebdFields();
         roleList = (RoleList) fields.get("myRoleList", null);
-        if (fields.defaulted("myRoleList"))
+        if (fields.defbulted("myRoleList"))
         {
           throw new NullPointerException("myRoleList");
         }
         unresolvedRoleList = (RoleUnresolvedList) fields.get("myRoleUnresList", null);
-        if (fields.defaulted("myRoleUnresList"))
+        if (fields.defbulted("myRoleUnresList"))
         {
           throw new NullPointerException("myRoleUnresList");
         }
       }
       else
       {
-        // Read an object serialized in the new serial form
+        // Rebd bn object seriblized in the new seribl form
         //
-        in.defaultReadObject();
+        in.defbultRebdObject();
       }
     }
 
 
     /**
-     * Serializes a {@link RoleResult} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link RoleResult} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-      if (compat)
+      if (compbt)
       {
-        // Serializes this instance in the old serial form
+        // Seriblizes this instbnce in the old seribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
+        ObjectOutputStrebm.PutField fields = out.putFields();
         fields.put("myRoleList", roleList);
         fields.put("myRoleUnresList", unresolvedRoleList);
         out.writeFields();
       }
       else
       {
-        // Serializes this instance in the new serial form
+        // Seriblizes this instbnce in the new seribl form
         //
-        out.defaultWriteObject();
+        out.defbultWriteObject();
       }
     }
 }

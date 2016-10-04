@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.FileDescriptor;
 
 import sun.net.ConnectionResetException;
 import sun.net.NetHooks;
-import sun.net.ResourceManager;
+import sun.net.ResourceMbnbger;
 
 /**
- * Default Socket Implementation. This implementation does
- * not implement any security checks.
- * Note this class should <b>NOT</b> be public.
+ * Defbult Socket Implementbtion. This implementbtion does
+ * not implement bny security checks.
+ * Note this clbss should <b>NOT</b> be public.
  *
- * @author  Steven B. Byrne
+ * @buthor  Steven B. Byrne
  */
-abstract class AbstractPlainSocketImpl extends SocketImpl
+bbstrbct clbss AbstrbctPlbinSocketImpl extends SocketImpl
 {
-    /* instance variable for SO_TIMEOUT */
+    /* instbnce vbribble for SO_TIMEOUT */
     int timeout;   // timeout in millisec
-    // traffic class
-    private int trafficClass;
+    // trbffic clbss
+    privbte int trbfficClbss;
 
-    private boolean shut_rd = false;
-    private boolean shut_wr = false;
+    privbte boolebn shut_rd = fblse;
+    privbte boolebn shut_wr = fblse;
 
-    private SocketInputStream socketInputStream = null;
-    private SocketOutputStream socketOutputStream = null;
+    privbte SocketInputStrebm socketInputStrebm = null;
+    privbte SocketOutputStrebm socketOutputStrebm = null;
 
-    /* number of threads using the FileDescriptor */
+    /* number of threbds using the FileDescriptor */
     protected int fdUseCount = 0;
 
     /* lock when increment/decrementing fdUseCount */
-    protected final Object fdLock = new Object();
+    protected finbl Object fdLock = new Object();
 
-    /* indicates a close is pending on the file descriptor */
-    protected boolean closePending = false;
+    /* indicbtes b close is pending on the file descriptor */
+    protected boolebn closePending = fblse;
 
-    /* indicates connection reset state */
-    private int CONNECTION_NOT_RESET = 0;
-    private int CONNECTION_RESET_PENDING = 1;
-    private int CONNECTION_RESET = 2;
-    private int resetState;
-    private final Object resetLock = new Object();
+    /* indicbtes connection reset stbte */
+    privbte int CONNECTION_NOT_RESET = 0;
+    privbte int CONNECTION_RESET_PENDING = 1;
+    privbte int CONNECTION_RESET = 2;
+    privbte int resetStbte;
+    privbte finbl Object resetLock = new Object();
 
-   /* whether this Socket is a stream (TCP) socket or not (UDP)
+   /* whether this Socket is b strebm (TCP) socket or not (UDP)
     */
-    protected boolean stream;
+    protected boolebn strebm;
 
     /**
-     * Load net library into runtime.
+     * Lobd net librbry into runtime.
      */
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("net");
+                    System.lobdLibrbry("net");
                     return null;
                 }
             });
     }
 
     /**
-     * Creates a socket with a boolean that specifies whether this
-     * is a stream socket (true) or an unconnected UDP socket (false).
+     * Crebtes b socket with b boolebn thbt specifies whether this
+     * is b strebm socket (true) or bn unconnected UDP socket (fblse).
      */
-    protected synchronized void create(boolean stream) throws IOException {
-        this.stream = stream;
-        if (!stream) {
-            ResourceManager.beforeUdpCreate();
-            // only create the fd after we know we will be able to create the socket
+    protected synchronized void crebte(boolebn strebm) throws IOException {
+        this.strebm = strebm;
+        if (!strebm) {
+            ResourceMbnbger.beforeUdpCrebte();
+            // only crebte the fd bfter we know we will be bble to crebte the socket
             fd = new FileDescriptor();
             try {
-                socketCreate(false);
-            } catch (IOException ioe) {
-                ResourceManager.afterUdpClose();
+                socketCrebte(fblse);
+            } cbtch (IOException ioe) {
+                ResourceMbnbger.bfterUdpClose();
                 fd = null;
                 throw ioe;
             }
         } else {
             fd = new FileDescriptor();
-            socketCreate(true);
+            socketCrebte(true);
         }
         if (socket != null)
-            socket.setCreated();
+            socket.setCrebted();
         if (serverSocket != null)
-            serverSocket.setCreated();
+            serverSocket.setCrebted();
     }
 
     /**
-     * Creates a socket and connects it to the specified port on
+     * Crebtes b socket bnd connects it to the specified port on
      * the specified host.
-     * @param host the specified host
-     * @param port the specified port
+     * @pbrbm host the specified host
+     * @pbrbm port the specified port
      */
     protected void connect(String host, int port)
         throws UnknownHostException, IOException
     {
-        boolean connected = false;
+        boolebn connected = fblse;
         try {
-            InetAddress address = InetAddress.getByName(host);
+            InetAddress bddress = InetAddress.getByNbme(host);
             this.port = port;
-            this.address = address;
+            this.bddress = bddress;
 
-            connectToAddress(address, port, timeout);
+            connectToAddress(bddress, port, timeout);
             connected = true;
-        } finally {
+        } finblly {
             if (!connected) {
                 try {
                     close();
-                } catch (IOException ioe) {
-                    /* Do nothing. If connect threw an exception then
-                       it will be passed up the call stack */
+                } cbtch (IOException ioe) {
+                    /* Do nothing. If connect threw bn exception then
+                       it will be pbssed up the cbll stbck */
                 }
             }
         }
     }
 
     /**
-     * Creates a socket and connects it to the specified address on
+     * Crebtes b socket bnd connects it to the specified bddress on
      * the specified port.
-     * @param address the address
-     * @param port the specified port
+     * @pbrbm bddress the bddress
+     * @pbrbm port the specified port
      */
-    protected void connect(InetAddress address, int port) throws IOException {
+    protected void connect(InetAddress bddress, int port) throws IOException {
         this.port = port;
-        this.address = address;
+        this.bddress = bddress;
 
         try {
-            connectToAddress(address, port, timeout);
+            connectToAddress(bddress, port, timeout);
             return;
-        } catch (IOException e) {
-            // everything failed
+        } cbtch (IOException e) {
+            // everything fbiled
             close();
             throw e;
         }
     }
 
     /**
-     * Creates a socket and connects it to the specified address on
+     * Crebtes b socket bnd connects it to the specified bddress on
      * the specified port.
-     * @param address the address
-     * @param timeout the timeout value in milliseconds, or zero for no timeout.
-     * @throws IOException if connection fails
-     * @throws  IllegalArgumentException if address is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * @pbrbm bddress the bddress
+     * @pbrbm timeout the timeout vblue in milliseconds, or zero for no timeout.
+     * @throws IOException if connection fbils
+     * @throws  IllegblArgumentException if bddress is null or is b
+     *          SocketAddress subclbss not supported by this socket
      * @since 1.4
      */
-    protected void connect(SocketAddress address, int timeout)
+    protected void connect(SocketAddress bddress, int timeout)
             throws IOException {
-        boolean connected = false;
+        boolebn connected = fblse;
         try {
-            if (address == null || !(address instanceof InetSocketAddress))
-                throw new IllegalArgumentException("unsupported address type");
-            InetSocketAddress addr = (InetSocketAddress) address;
-            if (addr.isUnresolved())
-                throw new UnknownHostException(addr.getHostName());
-            this.port = addr.getPort();
-            this.address = addr.getAddress();
+            if (bddress == null || !(bddress instbnceof InetSocketAddress))
+                throw new IllegblArgumentException("unsupported bddress type");
+            InetSocketAddress bddr = (InetSocketAddress) bddress;
+            if (bddr.isUnresolved())
+                throw new UnknownHostException(bddr.getHostNbme());
+            this.port = bddr.getPort();
+            this.bddress = bddr.getAddress();
 
-            connectToAddress(this.address, port, timeout);
+            connectToAddress(this.bddress, port, timeout);
             connected = true;
-        } finally {
+        } finblly {
             if (!connected) {
                 try {
                     close();
-                } catch (IOException ioe) {
-                    /* Do nothing. If connect threw an exception then
-                       it will be passed up the call stack */
+                } cbtch (IOException ioe) {
+                    /* Do nothing. If connect threw bn exception then
+                       it will be pbssed up the cbll stbck */
                 }
             }
         }
     }
 
-    private void connectToAddress(InetAddress address, int port, int timeout) throws IOException {
-        if (address.isAnyLocalAddress()) {
-            doConnect(InetAddress.getLocalHost(), port, timeout);
+    privbte void connectToAddress(InetAddress bddress, int port, int timeout) throws IOException {
+        if (bddress.isAnyLocblAddress()) {
+            doConnect(InetAddress.getLocblHost(), port, timeout);
         } else {
-            doConnect(address, port, timeout);
+            doConnect(bddress, port, timeout);
         }
     }
 
-    public void setOption(int opt, Object val) throws SocketException {
+    public void setOption(int opt, Object vbl) throws SocketException {
         if (isClosedOrPending()) {
             throw new SocketException("Socket Closed");
         }
-        boolean on = true;
+        boolebn on = true;
         switch (opt) {
-            /* check type safety b4 going native.  These should never
-             * fail, since only java.Socket* has access to
-             * PlainSocketImpl.setOption().
+            /* check type sbfety b4 going nbtive.  These should never
+             * fbil, since only jbvb.Socket* hbs bccess to
+             * PlbinSocketImpl.setOption().
              */
-        case SO_LINGER:
-            if (val == null || (!(val instanceof Integer) && !(val instanceof Boolean)))
-                throw new SocketException("Bad parameter for option");
-            if (val instanceof Boolean) {
-                /* true only if disabling - enabling should be Integer */
-                on = false;
+        cbse SO_LINGER:
+            if (vbl == null || (!(vbl instbnceof Integer) && !(vbl instbnceof Boolebn)))
+                throw new SocketException("Bbd pbrbmeter for option");
+            if (vbl instbnceof Boolebn) {
+                /* true only if disbbling - enbbling should be Integer */
+                on = fblse;
             }
-            break;
-        case SO_TIMEOUT:
-            if (val == null || (!(val instanceof Integer)))
-                throw new SocketException("Bad parameter for SO_TIMEOUT");
-            int tmp = ((Integer) val).intValue();
+            brebk;
+        cbse SO_TIMEOUT:
+            if (vbl == null || (!(vbl instbnceof Integer)))
+                throw new SocketException("Bbd pbrbmeter for SO_TIMEOUT");
+            int tmp = ((Integer) vbl).intVblue();
             if (tmp < 0)
-                throw new IllegalArgumentException("timeout < 0");
+                throw new IllegblArgumentException("timeout < 0");
             timeout = tmp;
-            break;
-        case IP_TOS:
-             if (val == null || !(val instanceof Integer)) {
-                 throw new SocketException("bad argument for IP_TOS");
+            brebk;
+        cbse IP_TOS:
+             if (vbl == null || !(vbl instbnceof Integer)) {
+                 throw new SocketException("bbd brgument for IP_TOS");
              }
-             trafficClass = ((Integer)val).intValue();
-             break;
-        case SO_BINDADDR:
-            throw new SocketException("Cannot re-bind socket");
-        case TCP_NODELAY:
-            if (val == null || !(val instanceof Boolean))
-                throw new SocketException("bad parameter for TCP_NODELAY");
-            on = ((Boolean)val).booleanValue();
-            break;
-        case SO_SNDBUF:
-        case SO_RCVBUF:
-            if (val == null || !(val instanceof Integer) ||
-                !(((Integer)val).intValue() > 0)) {
-                throw new SocketException("bad parameter for SO_SNDBUF " +
+             trbfficClbss = ((Integer)vbl).intVblue();
+             brebk;
+        cbse SO_BINDADDR:
+            throw new SocketException("Cbnnot re-bind socket");
+        cbse TCP_NODELAY:
+            if (vbl == null || !(vbl instbnceof Boolebn))
+                throw new SocketException("bbd pbrbmeter for TCP_NODELAY");
+            on = ((Boolebn)vbl).boolebnVblue();
+            brebk;
+        cbse SO_SNDBUF:
+        cbse SO_RCVBUF:
+            if (vbl == null || !(vbl instbnceof Integer) ||
+                !(((Integer)vbl).intVblue() > 0)) {
+                throw new SocketException("bbd pbrbmeter for SO_SNDBUF " +
                                           "or SO_RCVBUF");
             }
-            break;
-        case SO_KEEPALIVE:
-            if (val == null || !(val instanceof Boolean))
-                throw new SocketException("bad parameter for SO_KEEPALIVE");
-            on = ((Boolean)val).booleanValue();
-            break;
-        case SO_OOBINLINE:
-            if (val == null || !(val instanceof Boolean))
-                throw new SocketException("bad parameter for SO_OOBINLINE");
-            on = ((Boolean)val).booleanValue();
-            break;
-        case SO_REUSEADDR:
-            if (val == null || !(val instanceof Boolean))
-                throw new SocketException("bad parameter for SO_REUSEADDR");
-            on = ((Boolean)val).booleanValue();
-            break;
-        default:
+            brebk;
+        cbse SO_KEEPALIVE:
+            if (vbl == null || !(vbl instbnceof Boolebn))
+                throw new SocketException("bbd pbrbmeter for SO_KEEPALIVE");
+            on = ((Boolebn)vbl).boolebnVblue();
+            brebk;
+        cbse SO_OOBINLINE:
+            if (vbl == null || !(vbl instbnceof Boolebn))
+                throw new SocketException("bbd pbrbmeter for SO_OOBINLINE");
+            on = ((Boolebn)vbl).boolebnVblue();
+            brebk;
+        cbse SO_REUSEADDR:
+            if (vbl == null || !(vbl instbnceof Boolebn))
+                throw new SocketException("bbd pbrbmeter for SO_REUSEADDR");
+            on = ((Boolebn)vbl).boolebnVblue();
+            brebk;
+        defbult:
             throw new SocketException("unrecognized TCP option: " + opt);
         }
-        socketSetOption(opt, on, val);
+        socketSetOption(opt, on, vbl);
     }
     public Object getOption(int opt) throws SocketException {
         if (isClosedOrPending()) {
@@ -283,103 +283,103 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
         }
         int ret = 0;
         /*
-         * The native socketGetOption() knows about 3 options.
-         * The 32 bit value it returns will be interpreted according
-         * to what we're asking.  A return of -1 means it understands
-         * the option but its turned off.  It will raise a SocketException
-         * if "opt" isn't one it understands.
+         * The nbtive socketGetOption() knows bbout 3 options.
+         * The 32 bit vblue it returns will be interpreted bccording
+         * to whbt we're bsking.  A return of -1 mebns it understbnds
+         * the option but its turned off.  It will rbise b SocketException
+         * if "opt" isn't one it understbnds.
          */
 
         switch (opt) {
-        case TCP_NODELAY:
+        cbse TCP_NODELAY:
             ret = socketGetOption(opt, null);
-            return Boolean.valueOf(ret != -1);
-        case SO_OOBINLINE:
+            return Boolebn.vblueOf(ret != -1);
+        cbse SO_OOBINLINE:
             ret = socketGetOption(opt, null);
-            return Boolean.valueOf(ret != -1);
-        case SO_LINGER:
+            return Boolebn.vblueOf(ret != -1);
+        cbse SO_LINGER:
             ret = socketGetOption(opt, null);
-            return (ret == -1) ? Boolean.FALSE: (Object)(ret);
-        case SO_REUSEADDR:
+            return (ret == -1) ? Boolebn.FALSE: (Object)(ret);
+        cbse SO_REUSEADDR:
             ret = socketGetOption(opt, null);
-            return Boolean.valueOf(ret != -1);
-        case SO_BINDADDR:
-            InetAddressContainer in = new InetAddressContainer();
+            return Boolebn.vblueOf(ret != -1);
+        cbse SO_BINDADDR:
+            InetAddressContbiner in = new InetAddressContbiner();
             ret = socketGetOption(opt, in);
-            return in.addr;
-        case SO_SNDBUF:
-        case SO_RCVBUF:
+            return in.bddr;
+        cbse SO_SNDBUF:
+        cbse SO_RCVBUF:
             ret = socketGetOption(opt, null);
             return ret;
-        case IP_TOS:
+        cbse IP_TOS:
             ret = socketGetOption(opt, null);
             if (ret == -1) { // ipv6 tos
-                return trafficClass;
+                return trbfficClbss;
             } else {
                 return ret;
             }
-        case SO_KEEPALIVE:
+        cbse SO_KEEPALIVE:
             ret = socketGetOption(opt, null);
-            return Boolean.valueOf(ret != -1);
+            return Boolebn.vblueOf(ret != -1);
         // should never get here
-        default:
+        defbult:
             return null;
         }
     }
 
     /**
-     * The workhorse of the connection operation.  Tries several times to
-     * establish a connection to the given <host, port>.  If unsuccessful,
-     * throws an IOException indicating what went wrong.
+     * The workhorse of the connection operbtion.  Tries severbl times to
+     * estbblish b connection to the given <host, port>.  If unsuccessful,
+     * throws bn IOException indicbting whbt went wrong.
      */
 
-    synchronized void doConnect(InetAddress address, int port, int timeout) throws IOException {
+    synchronized void doConnect(InetAddress bddress, int port, int timeout) throws IOException {
         synchronized (fdLock) {
             if (!closePending && (socket == null || !socket.isBound())) {
-                NetHooks.beforeTcpConnect(fd, address, port);
+                NetHooks.beforeTcpConnect(fd, bddress, port);
             }
         }
         try {
-            acquireFD();
+            bcquireFD();
             try {
-                socketConnect(address, port, timeout);
-                /* socket may have been closed during poll/select */
+                socketConnect(bddress, port, timeout);
+                /* socket mby hbve been closed during poll/select */
                 synchronized (fdLock) {
                     if (closePending) {
                         throw new SocketException ("Socket closed");
                     }
                 }
-                // If we have a ref. to the Socket, then sets the flags
-                // created, bound & connected to true.
-                // This is normally done in Socket.connect() but some
-                // subclasses of Socket may call impl.connect() directly!
+                // If we hbve b ref. to the Socket, then sets the flbgs
+                // crebted, bound & connected to true.
+                // This is normblly done in Socket.connect() but some
+                // subclbsses of Socket mby cbll impl.connect() directly!
                 if (socket != null) {
                     socket.setBound();
                     socket.setConnected();
                 }
-            } finally {
-                releaseFD();
+            } finblly {
+                relebseFD();
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             close();
             throw e;
         }
     }
 
     /**
-     * Binds the socket to the specified address of the specified local port.
-     * @param address the address
-     * @param lport the port
+     * Binds the socket to the specified bddress of the specified locbl port.
+     * @pbrbm bddress the bddress
+     * @pbrbm lport the port
      */
-    protected synchronized void bind(InetAddress address, int lport)
+    protected synchronized void bind(InetAddress bddress, int lport)
         throws IOException
     {
        synchronized (fdLock) {
             if (!closePending && (socket == null || !socket.isBound())) {
-                NetHooks.beforeTcpBind(fd, address, lport);
+                NetHooks.beforeTcpBind(fd, bddress, lport);
             }
         }
-        socketBind(address, lport);
+        socketBind(bddress, lport);
         if (socket != null)
             socket.setBound();
         if (serverSocket != null)
@@ -387,8 +387,8 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
     }
 
     /**
-     * Listens, for a specified amount of time, for connections.
-     * @param count the amount of time to listen for connections
+     * Listens, for b specified bmount of time, for connections.
+     * @pbrbm count the bmount of time to listen for connections
      */
     protected synchronized void listen(int count) throws IOException {
         socketListen(count);
@@ -396,104 +396,104 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
 
     /**
      * Accepts connections.
-     * @param s the connection
+     * @pbrbm s the connection
      */
-    protected void accept(SocketImpl s) throws IOException {
-        acquireFD();
+    protected void bccept(SocketImpl s) throws IOException {
+        bcquireFD();
         try {
             socketAccept(s);
-        } finally {
-            releaseFD();
+        } finblly {
+            relebseFD();
         }
     }
 
     /**
-     * Gets an InputStream for this socket.
+     * Gets bn InputStrebm for this socket.
      */
-    protected synchronized InputStream getInputStream() throws IOException {
+    protected synchronized InputStrebm getInputStrebm() throws IOException {
         synchronized (fdLock) {
             if (isClosedOrPending())
                 throw new IOException("Socket Closed");
             if (shut_rd)
                 throw new IOException("Socket input is shutdown");
-            if (socketInputStream == null)
-                socketInputStream = new SocketInputStream(this);
+            if (socketInputStrebm == null)
+                socketInputStrebm = new SocketInputStrebm(this);
         }
-        return socketInputStream;
+        return socketInputStrebm;
     }
 
-    void setInputStream(SocketInputStream in) {
-        socketInputStream = in;
+    void setInputStrebm(SocketInputStrebm in) {
+        socketInputStrebm = in;
     }
 
     /**
-     * Gets an OutputStream for this socket.
+     * Gets bn OutputStrebm for this socket.
      */
-    protected synchronized OutputStream getOutputStream() throws IOException {
+    protected synchronized OutputStrebm getOutputStrebm() throws IOException {
         synchronized (fdLock) {
             if (isClosedOrPending())
                 throw new IOException("Socket Closed");
             if (shut_wr)
                 throw new IOException("Socket output is shutdown");
-            if (socketOutputStream == null)
-                socketOutputStream = new SocketOutputStream(this);
+            if (socketOutputStrebm == null)
+                socketOutputStrebm = new SocketOutputStrebm(this);
         }
-        return socketOutputStream;
+        return socketOutputStrebm;
     }
 
     void setFileDescriptor(FileDescriptor fd) {
         this.fd = fd;
     }
 
-    void setAddress(InetAddress address) {
-        this.address = address;
+    void setAddress(InetAddress bddress) {
+        this.bddress = bddress;
     }
 
     void setPort(int port) {
         this.port = port;
     }
 
-    void setLocalPort(int localport) {
-        this.localport = localport;
+    void setLocblPort(int locblport) {
+        this.locblport = locblport;
     }
 
     /**
-     * Returns the number of bytes that can be read without blocking.
+     * Returns the number of bytes thbt cbn be rebd without blocking.
      */
-    protected synchronized int available() throws IOException {
+    protected synchronized int bvbilbble() throws IOException {
         if (isClosedOrPending()) {
-            throw new IOException("Stream closed.");
+            throw new IOException("Strebm closed.");
         }
 
         /*
-         * If connection has been reset or shut down for input, then return 0
-         * to indicate there are no buffered bytes.
+         * If connection hbs been reset or shut down for input, then return 0
+         * to indicbte there bre no buffered bytes.
          */
         if (isConnectionReset() || shut_rd) {
             return 0;
         }
 
         /*
-         * If no bytes available and we were previously notified
-         * of a connection reset then we move to the reset state.
+         * If no bytes bvbilbble bnd we were previously notified
+         * of b connection reset then we move to the reset stbte.
          *
-         * If are notified of a connection reset then check
-         * again if there are bytes buffered on the socket.
+         * If bre notified of b connection reset then check
+         * bgbin if there bre bytes buffered on the socket.
          */
         int n = 0;
         try {
-            n = socketAvailable();
+            n = socketAvbilbble();
             if (n == 0 && isConnectionResetPending()) {
                 setConnectionReset();
             }
-        } catch (ConnectionResetException exc1) {
+        } cbtch (ConnectionResetException exc1) {
             setConnectionResetPending();
             try {
-                n = socketAvailable();
+                n = socketAvbilbble();
                 if (n == 0) {
                     setConnectionReset();
                 }
-            } catch (ConnectionResetException exc2) {
+            } cbtch (ConnectionResetException exc2) {
             }
         }
         return n;
@@ -505,8 +505,8 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
     protected void close() throws IOException {
         synchronized(fdLock) {
             if (fd != null) {
-                if (!stream) {
-                    ResourceManager.afterUdpClose();
+                if (!strebm) {
+                    ResourceMbnbger.bfterUdpClose();
                 }
                 if (fdUseCount == 0) {
                     if (closePending) {
@@ -516,24 +516,24 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
                     /*
                      * We close the FileDescriptor in two-steps - first the
                      * "pre-close" which closes the socket but doesn't
-                     * release the underlying file descriptor. This operation
-                     * may be lengthy due to untransmitted data and a long
-                     * linger interval. Once the pre-close is done we do the
-                     * actual socket to release the fd.
+                     * relebse the underlying file descriptor. This operbtion
+                     * mby be lengthy due to untrbnsmitted dbtb bnd b long
+                     * linger intervbl. Once the pre-close is done we do the
+                     * bctubl socket to relebse the fd.
                      */
                     try {
                         socketPreClose();
-                    } finally {
+                    } finblly {
                         socketClose();
                     }
                     fd = null;
                     return;
                 } else {
                     /*
-                     * If a thread has acquired the fd and a close
-                     * isn't pending then use a deferred close.
-                     * Also decrement fdUseCount to signal the last
-                     * thread that releases the fd to close it.
+                     * If b threbd hbs bcquired the fd bnd b close
+                     * isn't pending then use b deferred close.
+                     * Also decrement fdUseCount to signbl the lbst
+                     * threbd thbt relebses the fd to close it.
                      */
                     if (!closePending) {
                         closePending = true;
@@ -555,20 +555,20 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
 
 
     /**
-     * Shutdown read-half of the socket connection;
+     * Shutdown rebd-hblf of the socket connection;
      */
     protected void shutdownInput() throws IOException {
       if (fd != null) {
           socketShutdown(SHUT_RD);
-          if (socketInputStream != null) {
-              socketInputStream.setEOF(true);
+          if (socketInputStrebm != null) {
+              socketInputStrebm.setEOF(true);
           }
           shut_rd = true;
       }
     }
 
     /**
-     * Shutdown write-half of the socket connection;
+     * Shutdown write-hblf of the socket connection;
      */
     protected void shutdownOutput() throws IOException {
       if (fd != null) {
@@ -577,31 +577,31 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
       }
     }
 
-    protected boolean supportsUrgentData () {
+    protected boolebn supportsUrgentDbtb () {
         return true;
     }
 
-    protected void sendUrgentData (int data) throws IOException {
+    protected void sendUrgentDbtb (int dbtb) throws IOException {
         if (fd == null) {
             throw new IOException("Socket Closed");
         }
-        socketSendUrgentData (data);
+        socketSendUrgentDbtb (dbtb);
     }
 
     /**
-     * Cleans up if the user forgets to close it.
+     * Clebns up if the user forgets to close it.
      */
-    protected void finalize() throws IOException {
+    protected void finblize() throws IOException {
         close();
     }
 
     /*
-     * "Acquires" and returns the FileDescriptor for this impl
+     * "Acquires" bnd returns the FileDescriptor for this impl
      *
-     * A corresponding releaseFD is required to "release" the
+     * A corresponding relebseFD is required to "relebse" the
      * FileDescriptor.
      */
-    FileDescriptor acquireFD() {
+    FileDescriptor bcquireFD() {
         synchronized (fdLock) {
             fdUseCount++;
             return fd;
@@ -609,19 +609,19 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
     }
 
     /*
-     * "Release" the FileDescriptor for this impl.
+     * "Relebse" the FileDescriptor for this impl.
      *
      * If the use count goes to -1 then the socket is closed.
      */
-    void releaseFD() {
+    void relebseFD() {
         synchronized (fdLock) {
             fdUseCount--;
             if (fdUseCount == -1) {
                 if (fd != null) {
                     try {
                         socketClose();
-                    } catch (IOException e) {
-                    } finally {
+                    } cbtch (IOException e) {
+                    } finblly {
                         fd = null;
                     }
                 }
@@ -629,93 +629,93 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
         }
     }
 
-    public boolean isConnectionReset() {
+    public boolebn isConnectionReset() {
         synchronized (resetLock) {
-            return (resetState == CONNECTION_RESET);
+            return (resetStbte == CONNECTION_RESET);
         }
     }
 
-    public boolean isConnectionResetPending() {
+    public boolebn isConnectionResetPending() {
         synchronized (resetLock) {
-            return (resetState == CONNECTION_RESET_PENDING);
+            return (resetStbte == CONNECTION_RESET_PENDING);
         }
     }
 
     public void setConnectionReset() {
         synchronized (resetLock) {
-            resetState = CONNECTION_RESET;
+            resetStbte = CONNECTION_RESET;
         }
     }
 
     public void setConnectionResetPending() {
         synchronized (resetLock) {
-            if (resetState == CONNECTION_NOT_RESET) {
-                resetState = CONNECTION_RESET_PENDING;
+            if (resetStbte == CONNECTION_NOT_RESET) {
+                resetStbte = CONNECTION_RESET_PENDING;
             }
         }
 
     }
 
     /*
-     * Return true if already closed or close is pending
+     * Return true if blrebdy closed or close is pending
      */
-    public boolean isClosedOrPending() {
+    public boolebn isClosedOrPending() {
         /*
-         * Lock on fdLock to ensure that we wait if a
+         * Lock on fdLock to ensure thbt we wbit if b
          * close is in progress.
          */
         synchronized (fdLock) {
             if (closePending || (fd == null)) {
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         }
     }
 
     /*
-     * Return the current value of SO_TIMEOUT
+     * Return the current vblue of SO_TIMEOUT
      */
     public int getTimeout() {
         return timeout;
     }
 
     /*
-     * "Pre-close" a socket by dup'ing the file descriptor - this enables
-     * the socket to be closed without releasing the file descriptor.
+     * "Pre-close" b socket by dup'ing the file descriptor - this enbbles
+     * the socket to be closed without relebsing the file descriptor.
      */
-    private void socketPreClose() throws IOException {
+    privbte void socketPreClose() throws IOException {
         socketClose0(true);
     }
 
     /*
-     * Close the socket (and release the file descriptor).
+     * Close the socket (bnd relebse the file descriptor).
      */
     protected void socketClose() throws IOException {
-        socketClose0(false);
+        socketClose0(fblse);
     }
 
-    abstract void socketCreate(boolean isServer) throws IOException;
-    abstract void socketConnect(InetAddress address, int port, int timeout)
+    bbstrbct void socketCrebte(boolebn isServer) throws IOException;
+    bbstrbct void socketConnect(InetAddress bddress, int port, int timeout)
         throws IOException;
-    abstract void socketBind(InetAddress address, int port)
+    bbstrbct void socketBind(InetAddress bddress, int port)
         throws IOException;
-    abstract void socketListen(int count)
+    bbstrbct void socketListen(int count)
         throws IOException;
-    abstract void socketAccept(SocketImpl s)
+    bbstrbct void socketAccept(SocketImpl s)
         throws IOException;
-    abstract int socketAvailable()
+    bbstrbct int socketAvbilbble()
         throws IOException;
-    abstract void socketClose0(boolean useDeferredClose)
+    bbstrbct void socketClose0(boolebn useDeferredClose)
         throws IOException;
-    abstract void socketShutdown(int howto)
+    bbstrbct void socketShutdown(int howto)
         throws IOException;
-    abstract void socketSetOption(int cmd, boolean on, Object value)
+    bbstrbct void socketSetOption(int cmd, boolebn on, Object vblue)
         throws SocketException;
-    abstract int socketGetOption(int opt, Object iaContainerObj) throws SocketException;
-    abstract void socketSendUrgentData(int data)
+    bbstrbct int socketGetOption(int opt, Object ibContbinerObj) throws SocketException;
+    bbstrbct void socketSendUrgentDbtb(int dbtb)
         throws IOException;
 
-    public final static int SHUT_RD = 0;
-    public final static int SHUT_WR = 1;
+    public finbl stbtic int SHUT_RD = 0;
+    public finbl stbtic int SHUT_WR = 1;
 }

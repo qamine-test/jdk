@@ -1,587 +1,587 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.bmp;
+pbckbge com.sun.imbgeio.plugins.bmp;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DataBufferUShort;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.color.ICC_ColorSpbce;
+import jbvb.bwt.color.ICC_Profile;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.ComponentColorModel;
+import jbvb.bwt.imbge.ComponentSbmpleModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.imbge.DbtbBufferUShort;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.MultiPixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.PixelInterlebvedSbmpleModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.SinglePixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.WritbbleRbster;
 
-import javax.imageio.IIOException;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.event.IIOReadProgressListener;
-import javax.imageio.event.IIOReadUpdateListener;
-import javax.imageio.event.IIOReadWarningListener;
+import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.ImbgeIO;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.ImbgeRebdPbrbm;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.spi.ImbgeRebderSpi;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
+import jbvbx.imbgeio.event.IIORebdProgressListener;
+import jbvbx.imbgeio.event.IIORebdUpdbteListener;
+import jbvbx.imbgeio.event.IIORebdWbrningListener;
 
-import java.io.*;
-import java.nio.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.StringTokenizer;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.StringTokenizer;
 
-import com.sun.imageio.plugins.common.ImageUtil;
-import com.sun.imageio.plugins.common.I18N;
+import com.sun.imbgeio.plugins.common.ImbgeUtil;
+import com.sun.imbgeio.plugins.common.I18N;
 
-/** This class is the Java Image IO plugin reader for BMP images.
- *  It may subsample the image, clip the image, select sub-bands,
- *  and shift the decoded image origin if the proper decoding parameter
- *  are set in the provided <code>ImageReadParam</code>.
+/** This clbss is the Jbvb Imbge IO plugin rebder for BMP imbges.
+ *  It mby subsbmple the imbge, clip the imbge, select sub-bbnds,
+ *  bnd shift the decoded imbge origin if the proper decoding pbrbmeter
+ *  bre set in the provided <code>ImbgeRebdPbrbm</code>.
  *
- *  This class supports Microsoft Windows Bitmap Version 3-5,
- *  as well as OS/2 Bitmap Version 2.x (for single-image BMP file).
+ *  This clbss supports Microsoft Windows Bitmbp Version 3-5,
+ *  bs well bs OS/2 Bitmbp Version 2.x (for single-imbge BMP file).
  */
-public class BMPImageReader extends ImageReader implements BMPConstants {
-    // BMP Image types
-    private static final int VERSION_2_1_BIT = 0;
-    private static final int VERSION_2_4_BIT = 1;
-    private static final int VERSION_2_8_BIT = 2;
-    private static final int VERSION_2_24_BIT = 3;
+public clbss BMPImbgeRebder extends ImbgeRebder implements BMPConstbnts {
+    // BMP Imbge types
+    privbte stbtic finbl int VERSION_2_1_BIT = 0;
+    privbte stbtic finbl int VERSION_2_4_BIT = 1;
+    privbte stbtic finbl int VERSION_2_8_BIT = 2;
+    privbte stbtic finbl int VERSION_2_24_BIT = 3;
 
-    private static final int VERSION_3_1_BIT = 4;
-    private static final int VERSION_3_4_BIT = 5;
-    private static final int VERSION_3_8_BIT = 6;
-    private static final int VERSION_3_24_BIT = 7;
+    privbte stbtic finbl int VERSION_3_1_BIT = 4;
+    privbte stbtic finbl int VERSION_3_4_BIT = 5;
+    privbte stbtic finbl int VERSION_3_8_BIT = 6;
+    privbte stbtic finbl int VERSION_3_24_BIT = 7;
 
-    private static final int VERSION_3_NT_16_BIT = 8;
-    private static final int VERSION_3_NT_32_BIT = 9;
+    privbte stbtic finbl int VERSION_3_NT_16_BIT = 8;
+    privbte stbtic finbl int VERSION_3_NT_32_BIT = 9;
 
-    private static final int VERSION_4_1_BIT = 10;
-    private static final int VERSION_4_4_BIT = 11;
-    private static final int VERSION_4_8_BIT = 12;
-    private static final int VERSION_4_16_BIT = 13;
-    private static final int VERSION_4_24_BIT = 14;
-    private static final int VERSION_4_32_BIT = 15;
+    privbte stbtic finbl int VERSION_4_1_BIT = 10;
+    privbte stbtic finbl int VERSION_4_4_BIT = 11;
+    privbte stbtic finbl int VERSION_4_8_BIT = 12;
+    privbte stbtic finbl int VERSION_4_16_BIT = 13;
+    privbte stbtic finbl int VERSION_4_24_BIT = 14;
+    privbte stbtic finbl int VERSION_4_32_BIT = 15;
 
-    private static final int VERSION_3_XP_EMBEDDED = 16;
-    private static final int VERSION_4_XP_EMBEDDED = 17;
-    private static final int VERSION_5_XP_EMBEDDED = 18;
+    privbte stbtic finbl int VERSION_3_XP_EMBEDDED = 16;
+    privbte stbtic finbl int VERSION_4_XP_EMBEDDED = 17;
+    privbte stbtic finbl int VERSION_5_XP_EMBEDDED = 18;
 
-    // BMP variables
-    private long bitmapFileSize;
-    private long bitmapOffset;
-    private long compression;
-    private long imageSize;
-    private byte palette[];
-    private int imageType;
-    private int numBands;
-    private boolean isBottomUp;
-    private int bitsPerPixel;
-    private int redMask, greenMask, blueMask, alphaMask;
+    // BMP vbribbles
+    privbte long bitmbpFileSize;
+    privbte long bitmbpOffset;
+    privbte long compression;
+    privbte long imbgeSize;
+    privbte byte pblette[];
+    privbte int imbgeType;
+    privbte int numBbnds;
+    privbte boolebn isBottomUp;
+    privbte int bitsPerPixel;
+    privbte int redMbsk, greenMbsk, blueMbsk, blphbMbsk;
 
-    private SampleModel sampleModel, originalSampleModel;
-    private ColorModel colorModel, originalColorModel;
+    privbte SbmpleModel sbmpleModel, originblSbmpleModel;
+    privbte ColorModel colorModel, originblColorModel;
 
-    /** The input stream where reads from */
-    private ImageInputStream iis = null;
+    /** The input strebm where rebds from */
+    privbte ImbgeInputStrebm iis = null;
 
-    /** Indicates whether the header is read. */
-    private boolean gotHeader = false;
+    /** Indicbtes whether the hebder is rebd. */
+    privbte boolebn gotHebder = fblse;
 
-    /** The original image width. */
-    private int width;
+    /** The originbl imbge width. */
+    privbte int width;
 
-    /** The original image height. */
-    private int height;
+    /** The originbl imbge height. */
+    privbte int height;
 
-    /** The destination region. */
-    private Rectangle destinationRegion;
+    /** The destinbtion region. */
+    privbte Rectbngle destinbtionRegion;
 
     /** The source region. */
-    private Rectangle sourceRegion;
+    privbte Rectbngle sourceRegion;
 
-    /** The metadata from the stream. */
-    private BMPMetadata metadata;
+    /** The metbdbtb from the strebm. */
+    privbte BMPMetbdbtb metbdbtb;
 
-    /** The destination image. */
-    private BufferedImage bi;
+    /** The destinbtion imbge. */
+    privbte BufferedImbge bi;
 
-    /** Indicates whether subsampled, subregion is required, and offset is
+    /** Indicbtes whether subsbmpled, subregion is required, bnd offset is
      *  defined
      */
-    private boolean noTransform = true;
+    privbte boolebn noTrbnsform = true;
 
-    /** Indicates whether subband is selected. */
-    private boolean seleBand = false;
+    /** Indicbtes whether subbbnd is selected. */
+    privbte boolebn seleBbnd = fblse;
 
-    /** The scaling factors. */
-    private int scaleX, scaleY;
+    /** The scbling fbctors. */
+    privbte int scbleX, scbleY;
 
-    /** source and destination bands. */
-    private int[] sourceBands, destBands;
+    /** source bnd destinbtion bbnds. */
+    privbte int[] sourceBbnds, destBbnds;
 
-    /** Constructs <code>BMPImageReader</code> from the provided
-     *  <code>ImageReaderSpi</code>.
+    /** Constructs <code>BMPImbgeRebder</code> from the provided
+     *  <code>ImbgeRebderSpi</code>.
      */
-    public BMPImageReader(ImageReaderSpi originator) {
-        super(originator);
+    public BMPImbgeRebder(ImbgeRebderSpi originbtor) {
+        super(originbtor);
     }
 
-    /** Overrides the method defined in the superclass. */
+    /** Overrides the method defined in the superclbss. */
     public void setInput(Object input,
-                         boolean seekForwardOnly,
-                         boolean ignoreMetadata) {
-        super.setInput(input, seekForwardOnly, ignoreMetadata);
-        iis = (ImageInputStream) input; // Always works
+                         boolebn seekForwbrdOnly,
+                         boolebn ignoreMetbdbtb) {
+        super.setInput(input, seekForwbrdOnly, ignoreMetbdbtb);
+        iis = (ImbgeInputStrebm) input; // Alwbys works
         if(iis != null)
             iis.setByteOrder(ByteOrder.LITTLE_ENDIAN);
-        resetHeaderInfo();
+        resetHebderInfo();
     }
 
-    /** Overrides the method defined in the superclass. */
-    public int getNumImages(boolean allowSearch) throws IOException {
+    /** Overrides the method defined in the superclbss. */
+    public int getNumImbges(boolebn bllowSebrch) throws IOException {
         if (iis == null) {
-            throw new IllegalStateException(I18N.getString("GetNumImages0"));
+            throw new IllegblStbteException(I18N.getString("GetNumImbges0"));
         }
-        if (seekForwardOnly && allowSearch) {
-            throw new IllegalStateException(I18N.getString("GetNumImages1"));
+        if (seekForwbrdOnly && bllowSebrch) {
+            throw new IllegblStbteException(I18N.getString("GetNumImbges1"));
         }
         return 1;
     }
 
     @Override
-    public int getWidth(int imageIndex) throws IOException {
-        checkIndex(imageIndex);
+    public int getWidth(int imbgeIndex) throws IOException {
+        checkIndex(imbgeIndex);
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rebdHebder();
+        } cbtch (IllegblArgumentException e) {
+            throw new IIOException(I18N.getString("BMPImbgeRebder6"), e);
         }
         return width;
     }
 
-    public int getHeight(int imageIndex) throws IOException {
-        checkIndex(imageIndex);
+    public int getHeight(int imbgeIndex) throws IOException {
+        checkIndex(imbgeIndex);
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rebdHebder();
+        } cbtch (IllegblArgumentException e) {
+            throw new IIOException(I18N.getString("BMPImbgeRebder6"), e);
         }
         return height;
     }
 
-    private void checkIndex(int imageIndex) {
-        if (imageIndex != 0) {
-            throw new IndexOutOfBoundsException(I18N.getString("BMPImageReader0"));
+    privbte void checkIndex(int imbgeIndex) {
+        if (imbgeIndex != 0) {
+            throw new IndexOutOfBoundsException(I18N.getString("BMPImbgeRebder0"));
         }
     }
 
     /**
-     * Process the image header.
+     * Process the imbge hebder.
      *
-     * @exception IllegalStateException if source stream is not set.
+     * @exception IllegblStbteException if source strebm is not set.
      *
-     * @exception IOException if image stream is corrupted.
+     * @exception IOException if imbge strebm is corrupted.
      *
-     * @exception IllegalArgumentException if the image stream does not contain
-     *             a BMP image, or if a sample model instance to describe the
-     *             image can not be created.
+     * @exception IllegblArgumentException if the imbge strebm does not contbin
+     *             b BMP imbge, or if b sbmple model instbnce to describe the
+     *             imbge cbn not be crebted.
      */
-    protected void readHeader() throws IOException, IllegalArgumentException {
-        if (gotHeader)
+    protected void rebdHebder() throws IOException, IllegblArgumentException {
+        if (gotHebder)
             return;
 
         if (iis == null) {
-            throw new IllegalStateException("Input source not set!");
+            throw new IllegblStbteException("Input source not set!");
         }
-        int profileData = 0, profileSize = 0;
+        int profileDbtb = 0, profileSize = 0;
 
-        this.metadata = new BMPMetadata();
-        iis.mark();
+        this.metbdbtb = new BMPMetbdbtb();
+        iis.mbrk();
 
-        // read and check the magic marker
-        byte[] marker = new byte[2];
-        iis.read(marker);
-        if (marker[0] != 0x42 || marker[1] != 0x4d)
-            throw new IllegalArgumentException(I18N.getString("BMPImageReader1"));
+        // rebd bnd check the mbgic mbrker
+        byte[] mbrker = new byte[2];
+        iis.rebd(mbrker);
+        if (mbrker[0] != 0x42 || mbrker[1] != 0x4d)
+            throw new IllegblArgumentException(I18N.getString("BMPImbgeRebder1"));
 
-        // Read file size
-        bitmapFileSize = iis.readUnsignedInt();
+        // Rebd file size
+        bitmbpFileSize = iis.rebdUnsignedInt();
         // skip the two reserved fields
         iis.skipBytes(4);
 
-        // Offset to the bitmap from the beginning
-        bitmapOffset = iis.readUnsignedInt();
-        // End File Header
+        // Offset to the bitmbp from the beginning
+        bitmbpOffset = iis.rebdUnsignedInt();
+        // End File Hebder
 
-        // Start BitmapCoreHeader
-        long size = iis.readUnsignedInt();
+        // Stbrt BitmbpCoreHebder
+        long size = iis.rebdUnsignedInt();
 
         if (size == 12) {
-            width = iis.readShort();
-            height = iis.readShort();
+            width = iis.rebdShort();
+            height = iis.rebdShort();
         } else {
-            width = iis.readInt();
-            height = iis.readInt();
+            width = iis.rebdInt();
+            height = iis.rebdInt();
         }
 
-        metadata.width = width;
-        metadata.height = height;
+        metbdbtb.width = width;
+        metbdbtb.height = height;
 
-        int planes = iis.readUnsignedShort();
-        bitsPerPixel = iis.readUnsignedShort();
+        int plbnes = iis.rebdUnsignedShort();
+        bitsPerPixel = iis.rebdUnsignedShort();
 
-        //metadata.colorPlane = planes;
-        metadata.bitsPerPixel = (short)bitsPerPixel;
+        //metbdbtb.colorPlbne = plbnes;
+        metbdbtb.bitsPerPixel = (short)bitsPerPixel;
 
-        // As BMP always has 3 rgb bands, except for Version 5,
-        // which is bgra
-        numBands = 3;
+        // As BMP blwbys hbs 3 rgb bbnds, except for Version 5,
+        // which is bgrb
+        numBbnds = 3;
 
         if (size == 12) {
-            // Windows 2.x and OS/2 1.x
-            metadata.bmpVersion = VERSION_2;
+            // Windows 2.x bnd OS/2 1.x
+            metbdbtb.bmpVersion = VERSION_2;
 
-            // Classify the image type
+            // Clbssify the imbge type
             if (bitsPerPixel == 1) {
-                imageType = VERSION_2_1_BIT;
+                imbgeType = VERSION_2_1_BIT;
             } else if (bitsPerPixel == 4) {
-                imageType = VERSION_2_4_BIT;
+                imbgeType = VERSION_2_4_BIT;
             } else if (bitsPerPixel == 8) {
-                imageType = VERSION_2_8_BIT;
+                imbgeType = VERSION_2_8_BIT;
             } else if (bitsPerPixel == 24) {
-                imageType = VERSION_2_24_BIT;
+                imbgeType = VERSION_2_24_BIT;
             }
 
-            // Read in the palette
-            int numberOfEntries = (int)((bitmapOffset - 14 - size) / 3);
-            int sizeOfPalette = numberOfEntries*3;
-            palette = new byte[sizeOfPalette];
-            iis.readFully(palette, 0, sizeOfPalette);
-            metadata.palette = palette;
-            metadata.paletteSize = numberOfEntries;
+            // Rebd in the pblette
+            int numberOfEntries = (int)((bitmbpOffset - 14 - size) / 3);
+            int sizeOfPblette = numberOfEntries*3;
+            pblette = new byte[sizeOfPblette];
+            iis.rebdFully(pblette, 0, sizeOfPblette);
+            metbdbtb.pblette = pblette;
+            metbdbtb.pbletteSize = numberOfEntries;
         } else {
-            compression = iis.readUnsignedInt();
-            imageSize = iis.readUnsignedInt();
-            long xPelsPerMeter = iis.readInt();
-            long yPelsPerMeter = iis.readInt();
-            long colorsUsed = iis.readUnsignedInt();
-            long colorsImportant = iis.readUnsignedInt();
+            compression = iis.rebdUnsignedInt();
+            imbgeSize = iis.rebdUnsignedInt();
+            long xPelsPerMeter = iis.rebdInt();
+            long yPelsPerMeter = iis.rebdInt();
+            long colorsUsed = iis.rebdUnsignedInt();
+            long colorsImportbnt = iis.rebdUnsignedInt();
 
-            metadata.compression = (int)compression;
-            metadata.xPixelsPerMeter = (int)xPelsPerMeter;
-            metadata.yPixelsPerMeter = (int)yPelsPerMeter;
-            metadata.colorsUsed = (int)colorsUsed;
-            metadata.colorsImportant = (int)colorsImportant;
+            metbdbtb.compression = (int)compression;
+            metbdbtb.xPixelsPerMeter = (int)xPelsPerMeter;
+            metbdbtb.yPixelsPerMeter = (int)yPelsPerMeter;
+            metbdbtb.colorsUsed = (int)colorsUsed;
+            metbdbtb.colorsImportbnt = (int)colorsImportbnt;
 
             if (size == 40) {
-                // Windows 3.x and Windows NT
+                // Windows 3.x bnd Windows NT
                 switch((int)compression) {
 
-                case BI_JPEG:
-                case BI_PNG:
-                    metadata.bmpVersion = VERSION_3;
-                    imageType = VERSION_3_XP_EMBEDDED;
-                    break;
+                cbse BI_JPEG:
+                cbse BI_PNG:
+                    metbdbtb.bmpVersion = VERSION_3;
+                    imbgeType = VERSION_3_XP_EMBEDDED;
+                    brebk;
 
-                case BI_RGB:  // No compression
-                case BI_RLE8:  // 8-bit RLE compression
-                case BI_RLE4:  // 4-bit RLE compression
+                cbse BI_RGB:  // No compression
+                cbse BI_RLE8:  // 8-bit RLE compression
+                cbse BI_RLE4:  // 4-bit RLE compression
 
-                    // Read in the palette
-                    if (bitmapOffset < (size + 14)) {
-                        throw new IIOException(I18N.getString("BMPImageReader7"));
+                    // Rebd in the pblette
+                    if (bitmbpOffset < (size + 14)) {
+                        throw new IIOException(I18N.getString("BMPImbgeRebder7"));
                     }
-                    int numberOfEntries = (int)((bitmapOffset-14-size) / 4);
-                    int sizeOfPalette = numberOfEntries * 4;
-                    palette = new byte[sizeOfPalette];
-                    iis.readFully(palette, 0, sizeOfPalette);
+                    int numberOfEntries = (int)((bitmbpOffset-14-size) / 4);
+                    int sizeOfPblette = numberOfEntries * 4;
+                    pblette = new byte[sizeOfPblette];
+                    iis.rebdFully(pblette, 0, sizeOfPblette);
 
-                    metadata.palette = palette;
-                    metadata.paletteSize = numberOfEntries;
+                    metbdbtb.pblette = pblette;
+                    metbdbtb.pbletteSize = numberOfEntries;
 
                     if (bitsPerPixel == 1) {
-                        imageType = VERSION_3_1_BIT;
+                        imbgeType = VERSION_3_1_BIT;
                     } else if (bitsPerPixel == 4) {
-                        imageType = VERSION_3_4_BIT;
+                        imbgeType = VERSION_3_4_BIT;
                     } else if (bitsPerPixel == 8) {
-                        imageType = VERSION_3_8_BIT;
+                        imbgeType = VERSION_3_8_BIT;
                     } else if (bitsPerPixel == 24) {
-                        imageType = VERSION_3_24_BIT;
+                        imbgeType = VERSION_3_24_BIT;
                     } else if (bitsPerPixel == 16) {
-                        imageType = VERSION_3_NT_16_BIT;
+                        imbgeType = VERSION_3_NT_16_BIT;
 
-                        redMask = 0x7C00;
-                        greenMask = 0x3E0;
-                        blueMask =  (1 << 5) - 1;// 0x1F;
-                        metadata.redMask = redMask;
-                        metadata.greenMask = greenMask;
-                        metadata.blueMask = blueMask;
+                        redMbsk = 0x7C00;
+                        greenMbsk = 0x3E0;
+                        blueMbsk =  (1 << 5) - 1;// 0x1F;
+                        metbdbtb.redMbsk = redMbsk;
+                        metbdbtb.greenMbsk = greenMbsk;
+                        metbdbtb.blueMbsk = blueMbsk;
                     } else if (bitsPerPixel == 32) {
-                        imageType = VERSION_3_NT_32_BIT;
-                        redMask   = 0x00FF0000;
-                        greenMask = 0x0000FF00;
-                        blueMask  = 0x000000FF;
-                        metadata.redMask = redMask;
-                        metadata.greenMask = greenMask;
-                        metadata.blueMask = blueMask;
+                        imbgeType = VERSION_3_NT_32_BIT;
+                        redMbsk   = 0x00FF0000;
+                        greenMbsk = 0x0000FF00;
+                        blueMbsk  = 0x000000FF;
+                        metbdbtb.redMbsk = redMbsk;
+                        metbdbtb.greenMbsk = greenMbsk;
+                        metbdbtb.blueMbsk = blueMbsk;
                     }
 
-                    metadata.bmpVersion = VERSION_3;
-                    break;
+                    metbdbtb.bmpVersion = VERSION_3;
+                    brebk;
 
-                case BI_BITFIELDS:
+                cbse BI_BITFIELDS:
 
                     if (bitsPerPixel == 16) {
-                        imageType = VERSION_3_NT_16_BIT;
+                        imbgeType = VERSION_3_NT_16_BIT;
                     } else if (bitsPerPixel == 32) {
-                        imageType = VERSION_3_NT_32_BIT;
+                        imbgeType = VERSION_3_NT_32_BIT;
                     }
 
                     // BitsField encoding
-                    redMask = (int)iis.readUnsignedInt();
-                    greenMask = (int)iis.readUnsignedInt();
-                    blueMask = (int)iis.readUnsignedInt();
-                    metadata.redMask = redMask;
-                    metadata.greenMask = greenMask;
-                    metadata.blueMask = blueMask;
+                    redMbsk = (int)iis.rebdUnsignedInt();
+                    greenMbsk = (int)iis.rebdUnsignedInt();
+                    blueMbsk = (int)iis.rebdUnsignedInt();
+                    metbdbtb.redMbsk = redMbsk;
+                    metbdbtb.greenMbsk = greenMbsk;
+                    metbdbtb.blueMbsk = blueMbsk;
 
                     if (colorsUsed != 0) {
-                        // there is a palette
-                        sizeOfPalette = (int)colorsUsed*4;
-                        palette = new byte[sizeOfPalette];
-                        iis.readFully(palette, 0, sizeOfPalette);
+                        // there is b pblette
+                        sizeOfPblette = (int)colorsUsed*4;
+                        pblette = new byte[sizeOfPblette];
+                        iis.rebdFully(pblette, 0, sizeOfPblette);
 
-                        metadata.palette = palette;
-                        metadata.paletteSize = (int)colorsUsed;
+                        metbdbtb.pblette = pblette;
+                        metbdbtb.pbletteSize = (int)colorsUsed;
                     }
-                    metadata.bmpVersion = VERSION_3_NT;
+                    metbdbtb.bmpVersion = VERSION_3_NT;
 
-                    break;
-                default:
+                    brebk;
+                defbult:
                     throw new
-                        IIOException(I18N.getString("BMPImageReader2"));
+                        IIOException(I18N.getString("BMPImbgeRebder2"));
                 }
             } else if (size == 108 || size == 124) {
                 // Windows 4.x BMP
                 if (size == 108)
-                    metadata.bmpVersion = VERSION_4;
+                    metbdbtb.bmpVersion = VERSION_4;
                 else if (size == 124)
-                    metadata.bmpVersion = VERSION_5;
+                    metbdbtb.bmpVersion = VERSION_5;
 
-                // rgb masks, valid only if comp is BI_BITFIELDS
-                redMask = (int)iis.readUnsignedInt();
-                greenMask = (int)iis.readUnsignedInt();
-                blueMask = (int)iis.readUnsignedInt();
-                // Only supported for 32bpp BI_RGB argb
-                alphaMask = (int)iis.readUnsignedInt();
-                long csType = iis.readUnsignedInt();
-                int redX = iis.readInt();
-                int redY = iis.readInt();
-                int redZ = iis.readInt();
-                int greenX = iis.readInt();
-                int greenY = iis.readInt();
-                int greenZ = iis.readInt();
-                int blueX = iis.readInt();
-                int blueY = iis.readInt();
-                int blueZ = iis.readInt();
-                long gammaRed = iis.readUnsignedInt();
-                long gammaGreen = iis.readUnsignedInt();
-                long gammaBlue = iis.readUnsignedInt();
+                // rgb mbsks, vblid only if comp is BI_BITFIELDS
+                redMbsk = (int)iis.rebdUnsignedInt();
+                greenMbsk = (int)iis.rebdUnsignedInt();
+                blueMbsk = (int)iis.rebdUnsignedInt();
+                // Only supported for 32bpp BI_RGB brgb
+                blphbMbsk = (int)iis.rebdUnsignedInt();
+                long csType = iis.rebdUnsignedInt();
+                int redX = iis.rebdInt();
+                int redY = iis.rebdInt();
+                int redZ = iis.rebdInt();
+                int greenX = iis.rebdInt();
+                int greenY = iis.rebdInt();
+                int greenZ = iis.rebdInt();
+                int blueX = iis.rebdInt();
+                int blueY = iis.rebdInt();
+                int blueZ = iis.rebdInt();
+                long gbmmbRed = iis.rebdUnsignedInt();
+                long gbmmbGreen = iis.rebdUnsignedInt();
+                long gbmmbBlue = iis.rebdUnsignedInt();
 
                 if (size == 124) {
-                    metadata.intent = iis.readInt();
-                    profileData = iis.readInt();
-                    profileSize = iis.readInt();
+                    metbdbtb.intent = iis.rebdInt();
+                    profileDbtb = iis.rebdInt();
+                    profileSize = iis.rebdInt();
                     iis.skipBytes(4);
                 }
 
-                metadata.colorSpace = (int)csType;
+                metbdbtb.colorSpbce = (int)csType;
 
                 if (csType == LCS_CALIBRATED_RGB) {
-                    // All the new fields are valid only for this case
-                    metadata.redX = redX;
-                    metadata.redY = redY;
-                    metadata.redZ = redZ;
-                    metadata.greenX = greenX;
-                    metadata.greenY = greenY;
-                    metadata.greenZ = greenZ;
-                    metadata.blueX = blueX;
-                    metadata.blueY = blueY;
-                    metadata.blueZ = blueZ;
-                    metadata.gammaRed = (int)gammaRed;
-                    metadata.gammaGreen = (int)gammaGreen;
-                    metadata.gammaBlue = (int)gammaBlue;
+                    // All the new fields bre vblid only for this cbse
+                    metbdbtb.redX = redX;
+                    metbdbtb.redY = redY;
+                    metbdbtb.redZ = redZ;
+                    metbdbtb.greenX = greenX;
+                    metbdbtb.greenY = greenY;
+                    metbdbtb.greenZ = greenZ;
+                    metbdbtb.blueX = blueX;
+                    metbdbtb.blueY = blueY;
+                    metbdbtb.blueZ = blueZ;
+                    metbdbtb.gbmmbRed = (int)gbmmbRed;
+                    metbdbtb.gbmmbGreen = (int)gbmmbGreen;
+                    metbdbtb.gbmmbBlue = (int)gbmmbBlue;
                 }
 
-                // Read in the palette
-                int numberOfEntries = (int)((bitmapOffset-14-size) / 4);
-                int sizeOfPalette = numberOfEntries*4;
-                palette = new byte[sizeOfPalette];
-                iis.readFully(palette, 0, sizeOfPalette);
-                metadata.palette = palette;
-                metadata.paletteSize = numberOfEntries;
+                // Rebd in the pblette
+                int numberOfEntries = (int)((bitmbpOffset-14-size) / 4);
+                int sizeOfPblette = numberOfEntries*4;
+                pblette = new byte[sizeOfPblette];
+                iis.rebdFully(pblette, 0, sizeOfPblette);
+                metbdbtb.pblette = pblette;
+                metbdbtb.pbletteSize = numberOfEntries;
 
                 switch ((int)compression) {
-                case BI_JPEG:
-                case BI_PNG:
+                cbse BI_JPEG:
+                cbse BI_PNG:
                     if (size == 108) {
-                        imageType = VERSION_4_XP_EMBEDDED;
+                        imbgeType = VERSION_4_XP_EMBEDDED;
                     } else if (size == 124) {
-                        imageType = VERSION_5_XP_EMBEDDED;
+                        imbgeType = VERSION_5_XP_EMBEDDED;
                     }
-                    break;
-                default:
+                    brebk;
+                defbult:
                     if (bitsPerPixel == 1) {
-                        imageType = VERSION_4_1_BIT;
+                        imbgeType = VERSION_4_1_BIT;
                     } else if (bitsPerPixel == 4) {
-                        imageType = VERSION_4_4_BIT;
+                        imbgeType = VERSION_4_4_BIT;
                     } else if (bitsPerPixel == 8) {
-                        imageType = VERSION_4_8_BIT;
+                        imbgeType = VERSION_4_8_BIT;
                     } else if (bitsPerPixel == 16) {
-                        imageType = VERSION_4_16_BIT;
+                        imbgeType = VERSION_4_16_BIT;
                         if ((int)compression == BI_RGB) {
-                            redMask = 0x7C00;
-                            greenMask = 0x3E0;
-                            blueMask = 0x1F;
+                            redMbsk = 0x7C00;
+                            greenMbsk = 0x3E0;
+                            blueMbsk = 0x1F;
                         }
                     } else if (bitsPerPixel == 24) {
-                        imageType = VERSION_4_24_BIT;
+                        imbgeType = VERSION_4_24_BIT;
                     } else if (bitsPerPixel == 32) {
-                        imageType = VERSION_4_32_BIT;
+                        imbgeType = VERSION_4_32_BIT;
                         if ((int)compression == BI_RGB) {
-                            redMask   = 0x00FF0000;
-                            greenMask = 0x0000FF00;
-                            blueMask  = 0x000000FF;
+                            redMbsk   = 0x00FF0000;
+                            greenMbsk = 0x0000FF00;
+                            blueMbsk  = 0x000000FF;
                         }
                     }
 
-                    metadata.redMask = redMask;
-                    metadata.greenMask = greenMask;
-                    metadata.blueMask = blueMask;
-                    metadata.alphaMask = alphaMask;
+                    metbdbtb.redMbsk = redMbsk;
+                    metbdbtb.greenMbsk = greenMbsk;
+                    metbdbtb.blueMbsk = blueMbsk;
+                    metbdbtb.blphbMbsk = blphbMbsk;
                 }
             } else {
                 throw new
-                    IIOException(I18N.getString("BMPImageReader3"));
+                    IIOException(I18N.getString("BMPImbgeRebder3"));
             }
         }
 
         if (height > 0) {
-            // bottom up image
+            // bottom up imbge
             isBottomUp = true;
         } else {
-            // top down image
-            isBottomUp = false;
-            height = Math.abs(height);
+            // top down imbge
+            isBottomUp = fblse;
+            height = Mbth.bbs(height);
         }
 
-        // Reset Image Layout so there's only one tile.
-        //Define the color space
-        ColorSpace colorSpace = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-        if (metadata.colorSpace == PROFILE_LINKED ||
-            metadata.colorSpace == PROFILE_EMBEDDED) {
+        // Reset Imbge Lbyout so there's only one tile.
+        //Define the color spbce
+        ColorSpbce colorSpbce = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
+        if (metbdbtb.colorSpbce == PROFILE_LINKED ||
+            metbdbtb.colorSpbce == PROFILE_EMBEDDED) {
 
-            iis.mark();
-            iis.skipBytes(profileData - size);
+            iis.mbrk();
+            iis.skipBytes(profileDbtb - size);
             byte[] profile = new byte[profileSize];
-            iis.readFully(profile, 0, profileSize);
+            iis.rebdFully(profile, 0, profileSize);
             iis.reset();
 
             try {
-                if (metadata.colorSpace == PROFILE_LINKED &&
+                if (metbdbtb.colorSpbce == PROFILE_LINKED &&
                     isLinkedProfileAllowed() &&
-                    !isUncOrDevicePath(profile))
+                    !isUncOrDevicePbth(profile))
                 {
-                    String path = new String(profile, "windows-1252");
+                    String pbth = new String(profile, "windows-1252");
 
-                    colorSpace =
-                        new ICC_ColorSpace(ICC_Profile.getInstance(path));
+                    colorSpbce =
+                        new ICC_ColorSpbce(ICC_Profile.getInstbnce(pbth));
                 } else {
-                    colorSpace =
-                        new ICC_ColorSpace(ICC_Profile.getInstance(profile));
+                    colorSpbce =
+                        new ICC_ColorSpbce(ICC_Profile.getInstbnce(profile));
                 }
-            } catch (Exception e) {
-                colorSpace = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+            } cbtch (Exception e) {
+                colorSpbce = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
             }
         }
 
         if (bitsPerPixel == 0 ||
             compression == BI_JPEG || compression == BI_PNG )
         {
-            // the colorModel and sampleModel will be initialzed
-            // by the  reader of embedded image
+            // the colorModel bnd sbmpleModel will be initiblzed
+            // by the  rebder of embedded imbge
             colorModel = null;
-            sampleModel = null;
+            sbmpleModel = null;
         } else if (bitsPerPixel == 1 || bitsPerPixel == 4 || bitsPerPixel == 8) {
             // When number of bitsPerPixel is <= 8, we use IndexColorModel.
-            numBands = 1;
+            numBbnds = 1;
 
             if (bitsPerPixel == 8) {
-                int[] bandOffsets = new int[numBands];
-                for (int i = 0; i < numBands; i++) {
-                    bandOffsets[i] = numBands -1 -i;
+                int[] bbndOffsets = new int[numBbnds];
+                for (int i = 0; i < numBbnds; i++) {
+                    bbndOffsets[i] = numBbnds -1 -i;
                 }
-                sampleModel =
-                    new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE,
+                sbmpleModel =
+                    new PixelInterlebvedSbmpleModel(DbtbBuffer.TYPE_BYTE,
                                                     width, height,
-                                                    numBands,
-                                                    numBands * width,
-                                                    bandOffsets);
+                                                    numBbnds,
+                                                    numBbnds * width,
+                                                    bbndOffsets);
             } else {
-                // 1 and 4 bit pixels can be stored in a packed format.
-                sampleModel =
-                    new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE,
+                // 1 bnd 4 bit pixels cbn be stored in b pbcked formbt.
+                sbmpleModel =
+                    new MultiPixelPbckedSbmpleModel(DbtbBuffer.TYPE_BYTE,
                                                     width, height,
                                                     bitsPerPixel);
             }
 
-            // Create IndexColorModel from the palette.
+            // Crebte IndexColorModel from the pblette.
             byte r[], g[], b[];
-            if (imageType == VERSION_2_1_BIT ||
-                imageType == VERSION_2_4_BIT ||
-                imageType == VERSION_2_8_BIT) {
+            if (imbgeType == VERSION_2_1_BIT ||
+                imbgeType == VERSION_2_4_BIT ||
+                imbgeType == VERSION_2_8_BIT) {
 
 
-                size = palette.length/3;
+                size = pblette.length/3;
 
                 if (size > 256) {
                     size = 256;
@@ -593,12 +593,12 @@ public class BMPImageReader extends ImageReader implements BMPConstants {
                 b = new byte[(int)size];
                 for (int i=0; i<(int)size; i++) {
                     off = 3 * i;
-                    b[i] = palette[off];
-                    g[i] = palette[off+1];
-                    r[i] = palette[off+2];
+                    b[i] = pblette[off];
+                    g[i] = pblette[off+1];
+                    r[i] = pblette[off+2];
                 }
             } else {
-                size = palette.length/4;
+                size = pblette.length/4;
 
                 if (size > 256) {
                     size = 256;
@@ -610,1232 +610,1232 @@ public class BMPImageReader extends ImageReader implements BMPConstants {
                 b = new byte[(int)size];
                 for (int i=0; i<size; i++) {
                     off = 4 * i;
-                    b[i] = palette[off];
-                    g[i] = palette[off+1];
-                    r[i] = palette[off+2];
+                    b[i] = pblette[off];
+                    g[i] = pblette[off+1];
+                    r[i] = pblette[off+2];
                 }
             }
 
-            if (ImageUtil.isIndicesForGrayscale(r, g, b))
+            if (ImbgeUtil.isIndicesForGrbyscble(r, g, b))
                 colorModel =
-                    ImageUtil.createColorModel(null, sampleModel);
+                    ImbgeUtil.crebteColorModel(null, sbmpleModel);
             else
                 colorModel = new IndexColorModel(bitsPerPixel, (int)size, r, g, b);
         } else if (bitsPerPixel == 16) {
-            numBands = 3;
-            sampleModel =
-                new SinglePixelPackedSampleModel(DataBuffer.TYPE_USHORT,
+            numBbnds = 3;
+            sbmpleModel =
+                new SinglePixelPbckedSbmpleModel(DbtbBuffer.TYPE_USHORT,
                                                  width, height,
-                                                 new int[] {redMask, greenMask, blueMask});
+                                                 new int[] {redMbsk, greenMbsk, blueMbsk});
 
             colorModel =
-                new DirectColorModel(colorSpace,
-                                     16, redMask, greenMask, blueMask, 0,
-                                     false, DataBuffer.TYPE_USHORT);
+                new DirectColorModel(colorSpbce,
+                                     16, redMbsk, greenMbsk, blueMbsk, 0,
+                                     fblse, DbtbBuffer.TYPE_USHORT);
 
         } else if (bitsPerPixel == 32) {
-            numBands = alphaMask == 0 ? 3 : 4;
+            numBbnds = blphbMbsk == 0 ? 3 : 4;
 
-            // The number of bands in the SampleModel is determined by
-            // the length of the mask array passed in.
-            int[] bitMasks = numBands == 3 ?
-                new int[] {redMask, greenMask, blueMask} :
-                new int[] {redMask, greenMask, blueMask, alphaMask};
+            // The number of bbnds in the SbmpleModel is determined by
+            // the length of the mbsk brrby pbssed in.
+            int[] bitMbsks = numBbnds == 3 ?
+                new int[] {redMbsk, greenMbsk, blueMbsk} :
+                new int[] {redMbsk, greenMbsk, blueMbsk, blphbMbsk};
 
-                sampleModel =
-                    new SinglePixelPackedSampleModel(DataBuffer.TYPE_INT,
+                sbmpleModel =
+                    new SinglePixelPbckedSbmpleModel(DbtbBuffer.TYPE_INT,
                                                      width, height,
-                                                     bitMasks);
+                                                     bitMbsks);
 
                 colorModel =
-                    new DirectColorModel(colorSpace,
-                                         32, redMask, greenMask, blueMask, alphaMask,
-                                         false, DataBuffer.TYPE_INT);
+                    new DirectColorModel(colorSpbce,
+                                         32, redMbsk, greenMbsk, blueMbsk, blphbMbsk,
+                                         fblse, DbtbBuffer.TYPE_INT);
         } else {
-            numBands = 3;
-            // Create SampleModel
-            int[] bandOffsets = new int[numBands];
-            for (int i = 0; i < numBands; i++) {
-                bandOffsets[i] = numBands -1 -i;
+            numBbnds = 3;
+            // Crebte SbmpleModel
+            int[] bbndOffsets = new int[numBbnds];
+            for (int i = 0; i < numBbnds; i++) {
+                bbndOffsets[i] = numBbnds -1 -i;
             }
 
-            sampleModel =
-                new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE,
+            sbmpleModel =
+                new PixelInterlebvedSbmpleModel(DbtbBuffer.TYPE_BYTE,
                                                 width, height,
-                                                numBands,
-                                                numBands * width,
-                                                bandOffsets);
+                                                numBbnds,
+                                                numBbnds * width,
+                                                bbndOffsets);
 
             colorModel =
-                ImageUtil.createColorModel(colorSpace, sampleModel);
+                ImbgeUtil.crebteColorModel(colorSpbce, sbmpleModel);
         }
 
-        originalSampleModel = sampleModel;
-        originalColorModel = colorModel;
+        originblSbmpleModel = sbmpleModel;
+        originblColorModel = colorModel;
 
-        // Reset to the start of bitmap; then jump to the
-        //start of image data
+        // Reset to the stbrt of bitmbp; then jump to the
+        //stbrt of imbge dbtb
         iis.reset();
-        iis.skipBytes(bitmapOffset);
-        gotHeader = true;
+        iis.skipBytes(bitmbpOffset);
+        gotHebder = true;
     }
 
-    public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex)
+    public Iterbtor<ImbgeTypeSpecifier> getImbgeTypes(int imbgeIndex)
       throws IOException {
-        checkIndex(imageIndex);
+        checkIndex(imbgeIndex);
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rebdHebder();
+        } cbtch (IllegblArgumentException e) {
+            throw new IIOException(I18N.getString("BMPImbgeRebder6"), e);
         }
-        ArrayList<ImageTypeSpecifier> list = new ArrayList<>(1);
-        list.add(new ImageTypeSpecifier(originalColorModel,
-                                        originalSampleModel));
-        return list.iterator();
+        ArrbyList<ImbgeTypeSpecifier> list = new ArrbyList<>(1);
+        list.bdd(new ImbgeTypeSpecifier(originblColorModel,
+                                        originblSbmpleModel));
+        return list.iterbtor();
     }
 
-    public ImageReadParam getDefaultReadParam() {
-        return new ImageReadParam();
+    public ImbgeRebdPbrbm getDefbultRebdPbrbm() {
+        return new ImbgeRebdPbrbm();
     }
 
-    public IIOMetadata getImageMetadata(int imageIndex)
+    public IIOMetbdbtb getImbgeMetbdbtb(int imbgeIndex)
       throws IOException {
-        checkIndex(imageIndex);
-        if (metadata == null) {
+        checkIndex(imbgeIndex);
+        if (metbdbtb == null) {
             try {
-                readHeader();
-            } catch (IllegalArgumentException e) {
-                throw new IIOException(I18N.getString("BMPImageReader6"), e);
+                rebdHebder();
+            } cbtch (IllegblArgumentException e) {
+                throw new IIOException(I18N.getString("BMPImbgeRebder6"), e);
             }
         }
-        return metadata;
+        return metbdbtb;
     }
 
-    public IIOMetadata getStreamMetadata() throws IOException {
+    public IIOMetbdbtb getStrebmMetbdbtb() throws IOException {
         return null;
     }
 
-    public boolean isRandomAccessEasy(int imageIndex) throws IOException {
-        checkIndex(imageIndex);
+    public boolebn isRbndomAccessEbsy(int imbgeIndex) throws IOException {
+        checkIndex(imbgeIndex);
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rebdHebder();
+        } cbtch (IllegblArgumentException e) {
+            throw new IIOException(I18N.getString("BMPImbgeRebder6"), e);
         }
-        return metadata.compression == BI_RGB;
+        return metbdbtb.compression == BI_RGB;
     }
 
-    public BufferedImage read(int imageIndex, ImageReadParam param)
+    public BufferedImbge rebd(int imbgeIndex, ImbgeRebdPbrbm pbrbm)
         throws IOException {
 
         if (iis == null) {
-            throw new IllegalStateException(I18N.getString("BMPImageReader5"));
+            throw new IllegblStbteException(I18N.getString("BMPImbgeRebder5"));
         }
 
-        checkIndex(imageIndex);
-        clearAbortRequest();
-        processImageStarted(imageIndex);
+        checkIndex(imbgeIndex);
+        clebrAbortRequest();
+        processImbgeStbrted(imbgeIndex);
 
-        if (param == null)
-            param = getDefaultReadParam();
+        if (pbrbm == null)
+            pbrbm = getDefbultRebdPbrbm();
 
-        //read header
+        //rebd hebder
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rebdHebder();
+        } cbtch (IllegblArgumentException e) {
+            throw new IIOException(I18N.getString("BMPImbgeRebder6"), e);
         }
 
-        sourceRegion = new Rectangle(0, 0, 0, 0);
-        destinationRegion = new Rectangle(0, 0, 0, 0);
+        sourceRegion = new Rectbngle(0, 0, 0, 0);
+        destinbtionRegion = new Rectbngle(0, 0, 0, 0);
 
-        computeRegions(param, this.width, this.height,
-                       param.getDestination(),
+        computeRegions(pbrbm, this.width, this.height,
+                       pbrbm.getDestinbtion(),
                        sourceRegion,
-                       destinationRegion);
+                       destinbtionRegion);
 
-        scaleX = param.getSourceXSubsampling();
-        scaleY = param.getSourceYSubsampling();
+        scbleX = pbrbm.getSourceXSubsbmpling();
+        scbleY = pbrbm.getSourceYSubsbmpling();
 
-        // If the destination band is set used it
-        sourceBands = param.getSourceBands();
-        destBands = param.getDestinationBands();
+        // If the destinbtion bbnd is set used it
+        sourceBbnds = pbrbm.getSourceBbnds();
+        destBbnds = pbrbm.getDestinbtionBbnds();
 
-        seleBand = (sourceBands != null) && (destBands != null);
-        noTransform =
-            destinationRegion.equals(new Rectangle(0, 0, width, height)) ||
-            seleBand;
+        seleBbnd = (sourceBbnds != null) && (destBbnds != null);
+        noTrbnsform =
+            destinbtionRegion.equbls(new Rectbngle(0, 0, width, height)) ||
+            seleBbnd;
 
-        if (!seleBand) {
-            sourceBands = new int[numBands];
-            destBands = new int[numBands];
-            for (int i = 0; i < numBands; i++)
-                destBands[i] = sourceBands[i] = i;
+        if (!seleBbnd) {
+            sourceBbnds = new int[numBbnds];
+            destBbnds = new int[numBbnds];
+            for (int i = 0; i < numBbnds; i++)
+                destBbnds[i] = sourceBbnds[i] = i;
         }
 
-        // If the destination is provided, then use it.  Otherwise, create new one
-        bi = param.getDestination();
+        // If the destinbtion is provided, then use it.  Otherwise, crebte new one
+        bi = pbrbm.getDestinbtion();
 
-        // Get the image data.
-        WritableRaster raster = null;
+        // Get the imbge dbtb.
+        WritbbleRbster rbster = null;
 
         if (bi == null) {
-            if (sampleModel != null && colorModel != null) {
-                sampleModel =
-                    sampleModel.createCompatibleSampleModel(destinationRegion.x +
-                                                            destinationRegion.width,
-                                                            destinationRegion.y +
-                                                            destinationRegion.height);
-                if (seleBand)
-                    sampleModel = sampleModel.createSubsetSampleModel(sourceBands);
-                raster = Raster.createWritableRaster(sampleModel, new Point());
-                bi = new BufferedImage(colorModel, raster, false, null);
+            if (sbmpleModel != null && colorModel != null) {
+                sbmpleModel =
+                    sbmpleModel.crebteCompbtibleSbmpleModel(destinbtionRegion.x +
+                                                            destinbtionRegion.width,
+                                                            destinbtionRegion.y +
+                                                            destinbtionRegion.height);
+                if (seleBbnd)
+                    sbmpleModel = sbmpleModel.crebteSubsetSbmpleModel(sourceBbnds);
+                rbster = Rbster.crebteWritbbleRbster(sbmpleModel, new Point());
+                bi = new BufferedImbge(colorModel, rbster, fblse, null);
             }
         } else {
-            raster = bi.getWritableTile(0, 0);
-            sampleModel = bi.getSampleModel();
+            rbster = bi.getWritbbleTile(0, 0);
+            sbmpleModel = bi.getSbmpleModel();
             colorModel = bi.getColorModel();
 
-            noTransform &=  destinationRegion.equals(raster.getBounds());
+            noTrbnsform &=  destinbtionRegion.equbls(rbster.getBounds());
         }
 
-        byte bdata[] = null; // buffer for byte data
-        short sdata[] = null; // buffer for short data
-        int idata[] = null; // buffer for int data
+        byte bdbtb[] = null; // buffer for byte dbtb
+        short sdbtb[] = null; // buffer for short dbtb
+        int idbtb[] = null; // buffer for int dbtb
 
-        // the sampleModel can be null in case of embedded image
-        if (sampleModel != null) {
-            if (sampleModel.getDataType() == DataBuffer.TYPE_BYTE)
-                bdata = ((DataBufferByte)raster.getDataBuffer()).getData();
-            else if (sampleModel.getDataType() == DataBuffer.TYPE_USHORT)
-                sdata = ((DataBufferUShort)raster.getDataBuffer()).getData();
-            else if (sampleModel.getDataType() == DataBuffer.TYPE_INT)
-                idata = ((DataBufferInt)raster.getDataBuffer()).getData();
+        // the sbmpleModel cbn be null in cbse of embedded imbge
+        if (sbmpleModel != null) {
+            if (sbmpleModel.getDbtbType() == DbtbBuffer.TYPE_BYTE)
+                bdbtb = ((DbtbBufferByte)rbster.getDbtbBuffer()).getDbtb();
+            else if (sbmpleModel.getDbtbType() == DbtbBuffer.TYPE_USHORT)
+                sdbtb = ((DbtbBufferUShort)rbster.getDbtbBuffer()).getDbtb();
+            else if (sbmpleModel.getDbtbType() == DbtbBuffer.TYPE_INT)
+                idbtb = ((DbtbBufferInt)rbster.getDbtbBuffer()).getDbtb();
         }
 
         // There should only be one tile.
-        switch(imageType) {
+        switch(imbgeType) {
 
-        case VERSION_2_1_BIT:
+        cbse VERSION_2_1_BIT:
             // no compression
-            read1Bit(bdata);
-            break;
+            rebd1Bit(bdbtb);
+            brebk;
 
-        case VERSION_2_4_BIT:
+        cbse VERSION_2_4_BIT:
             // no compression
-            read4Bit(bdata);
-            break;
+            rebd4Bit(bdbtb);
+            brebk;
 
-        case VERSION_2_8_BIT:
+        cbse VERSION_2_8_BIT:
             // no compression
-            read8Bit(bdata);
-            break;
+            rebd8Bit(bdbtb);
+            brebk;
 
-        case VERSION_2_24_BIT:
+        cbse VERSION_2_24_BIT:
             // no compression
-            read24Bit(bdata);
-            break;
+            rebd24Bit(bdbtb);
+            brebk;
 
-        case VERSION_3_1_BIT:
-            // 1-bit images cannot be compressed.
-            read1Bit(bdata);
-            break;
+        cbse VERSION_3_1_BIT:
+            // 1-bit imbges cbnnot be compressed.
+            rebd1Bit(bdbtb);
+            brebk;
 
-        case VERSION_3_4_BIT:
+        cbse VERSION_3_4_BIT:
             switch((int)compression) {
-            case BI_RGB:
-                read4Bit(bdata);
-                break;
+            cbse BI_RGB:
+                rebd4Bit(bdbtb);
+                brebk;
 
-            case BI_RLE4:
-                readRLE4(bdata);
-                break;
+            cbse BI_RLE4:
+                rebdRLE4(bdbtb);
+                brebk;
 
-            default:
+            defbult:
                 throw new
-                    IIOException(I18N.getString("BMPImageReader1"));
+                    IIOException(I18N.getString("BMPImbgeRebder1"));
             }
-            break;
+            brebk;
 
-        case VERSION_3_8_BIT:
+        cbse VERSION_3_8_BIT:
             switch((int)compression) {
-            case BI_RGB:
-                read8Bit(bdata);
-                break;
+            cbse BI_RGB:
+                rebd8Bit(bdbtb);
+                brebk;
 
-            case BI_RLE8:
-                readRLE8(bdata);
-                break;
+            cbse BI_RLE8:
+                rebdRLE8(bdbtb);
+                brebk;
 
-            default:
+            defbult:
                 throw new
-                    IIOException(I18N.getString("BMPImageReader1"));
+                    IIOException(I18N.getString("BMPImbgeRebder1"));
             }
 
-            break;
+            brebk;
 
-        case VERSION_3_24_BIT:
-            // 24-bit images are not compressed
-            read24Bit(bdata);
-            break;
+        cbse VERSION_3_24_BIT:
+            // 24-bit imbges bre not compressed
+            rebd24Bit(bdbtb);
+            brebk;
 
-        case VERSION_3_NT_16_BIT:
-            read16Bit(sdata);
-            break;
+        cbse VERSION_3_NT_16_BIT:
+            rebd16Bit(sdbtb);
+            brebk;
 
-        case VERSION_3_NT_32_BIT:
-            read32Bit(idata);
-            break;
+        cbse VERSION_3_NT_32_BIT:
+            rebd32Bit(idbtb);
+            brebk;
 
-        case VERSION_3_XP_EMBEDDED:
-        case VERSION_4_XP_EMBEDDED:
-        case VERSION_5_XP_EMBEDDED:
-            bi = readEmbedded((int)compression, bi, param);
-            break;
+        cbse VERSION_3_XP_EMBEDDED:
+        cbse VERSION_4_XP_EMBEDDED:
+        cbse VERSION_5_XP_EMBEDDED:
+            bi = rebdEmbedded((int)compression, bi, pbrbm);
+            brebk;
 
-        case VERSION_4_1_BIT:
-            read1Bit(bdata);
-            break;
+        cbse VERSION_4_1_BIT:
+            rebd1Bit(bdbtb);
+            brebk;
 
-        case VERSION_4_4_BIT:
-            switch((int)compression) {
-
-            case BI_RGB:
-                read4Bit(bdata);
-                break;
-
-            case BI_RLE4:
-                readRLE4(bdata);
-                break;
-
-            default:
-                throw new
-                    IIOException(I18N.getString("BMPImageReader1"));
-            }
-            break;
-
-        case VERSION_4_8_BIT:
+        cbse VERSION_4_4_BIT:
             switch((int)compression) {
 
-            case BI_RGB:
-                read8Bit(bdata);
-                break;
+            cbse BI_RGB:
+                rebd4Bit(bdbtb);
+                brebk;
 
-            case BI_RLE8:
-                readRLE8(bdata);
-                break;
+            cbse BI_RLE4:
+                rebdRLE4(bdbtb);
+                brebk;
 
-            default:
+            defbult:
                 throw new
-                    IIOException(I18N.getString("BMPImageReader1"));
+                    IIOException(I18N.getString("BMPImbgeRebder1"));
             }
-            break;
+            brebk;
 
-        case VERSION_4_16_BIT:
-            read16Bit(sdata);
-            break;
+        cbse VERSION_4_8_BIT:
+            switch((int)compression) {
 
-        case VERSION_4_24_BIT:
-            read24Bit(bdata);
-            break;
+            cbse BI_RGB:
+                rebd8Bit(bdbtb);
+                brebk;
 
-        case VERSION_4_32_BIT:
-            read32Bit(idata);
-            break;
+            cbse BI_RLE8:
+                rebdRLE8(bdbtb);
+                brebk;
+
+            defbult:
+                throw new
+                    IIOException(I18N.getString("BMPImbgeRebder1"));
+            }
+            brebk;
+
+        cbse VERSION_4_16_BIT:
+            rebd16Bit(sdbtb);
+            brebk;
+
+        cbse VERSION_4_24_BIT:
+            rebd24Bit(bdbtb);
+            brebk;
+
+        cbse VERSION_4_32_BIT:
+            rebd32Bit(idbtb);
+            brebk;
         }
 
-        if (abortRequested())
-            processReadAborted();
+        if (bbortRequested())
+            processRebdAborted();
         else
-            processImageComplete();
+            processImbgeComplete();
 
         return bi;
     }
 
-    public boolean canReadRaster() {
+    public boolebn cbnRebdRbster() {
         return true;
     }
 
-    public Raster readRaster(int imageIndex,
-                             ImageReadParam param) throws IOException {
-        BufferedImage bi = read(imageIndex, param);
-        return bi.getData();
+    public Rbster rebdRbster(int imbgeIndex,
+                             ImbgeRebdPbrbm pbrbm) throws IOException {
+        BufferedImbge bi = rebd(imbgeIndex, pbrbm);
+        return bi.getDbtb();
     }
 
-    private void resetHeaderInfo() {
-        gotHeader = false;
+    privbte void resetHebderInfo() {
+        gotHebder = fblse;
         bi = null;
-        sampleModel = originalSampleModel = null;
-        colorModel = originalColorModel = null;
+        sbmpleModel = originblSbmpleModel = null;
+        colorModel = originblColorModel = null;
     }
 
     public void reset() {
         super.reset();
         iis = null;
-        resetHeaderInfo();
+        resetHebderInfo();
     }
 
-    // Deal with 1 Bit images using IndexColorModels
-    private void read1Bit(byte[] bdata) throws IOException {
-        int bytesPerScanline = (width + 7) / 8;
-        int padding = bytesPerScanline % 4;
-        if (padding != 0) {
-            padding = 4 - padding;
+    // Debl with 1 Bit imbges using IndexColorModels
+    privbte void rebd1Bit(byte[] bdbtb) throws IOException {
+        int bytesPerScbnline = (width + 7) / 8;
+        int pbdding = bytesPerScbnline % 4;
+        if (pbdding != 0) {
+            pbdding = 4 - pbdding;
         }
 
-        int lineLength = bytesPerScanline + padding;
+        int lineLength = bytesPerScbnline + pbdding;
 
-        if (noTransform) {
-            int j = isBottomUp ? (height -1)*bytesPerScanline : 0;
+        if (noTrbnsform) {
+            int j = isBottomUp ? (height -1)*bytesPerScbnline : 0;
 
             for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+                if (bbortRequested()) {
+                    brebk;
                 }
-                iis.readFully(bdata, j, bytesPerScanline);
-                iis.skipBytes(padding);
-                j += isBottomUp ? -bytesPerScanline : bytesPerScanline;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
+                iis.rebdFully(bdbtb, j, bytesPerScbnline);
+                iis.skipBytes(pbdding);
+                j += isBottomUp ? -bytesPerScbnline : bytesPerScbnline;
+                processImbgeUpdbte(bi, 0, i,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                processImbgeProgress(100.0F * i/destinbtionRegion.height);
             }
         } else {
             byte[] buf = new byte[lineLength];
             int lineStride =
-                ((MultiPixelPackedSampleModel)sampleModel).getScanlineStride();
+                ((MultiPixelPbckedSbmpleModel)sbmpleModel).getScbnlineStride();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine));
+                int lbstLine =
+                    sourceRegion.y + (destinbtionRegion.height - 1) * scbleY;
+                iis.skipBytes(lineLength * (height - 1 - lbstLine));
             } else
                 iis.skipBytes(lineLength * sourceRegion.y);
 
-            int skipLength = lineLength * (scaleY - 1);
+            int skipLength = lineLength * (scbleY - 1);
 
-            // cache the values to avoid duplicated computation
-            int[] srcOff = new int[destinationRegion.width];
-            int[] destOff = new int[destinationRegion.width];
-            int[] srcPos = new int[destinationRegion.width];
-            int[] destPos = new int[destinationRegion.width];
+            // cbche the vblues to bvoid duplicbted computbtion
+            int[] srcOff = new int[destinbtionRegion.width];
+            int[] destOff = new int[destinbtionRegion.width];
+            int[] srcPos = new int[destinbtionRegion.width];
+            int[] destPos = new int[destinbtionRegion.width];
 
-            for (int i = destinationRegion.x, x = sourceRegion.x, j = 0;
-                 i < destinationRegion.x + destinationRegion.width;
-                 i++, j++, x += scaleX) {
+            for (int i = destinbtionRegion.x, x = sourceRegion.x, j = 0;
+                 i < destinbtionRegion.x + destinbtionRegion.width;
+                 i++, j++, x += scbleX) {
                 srcPos[j] = x >> 3;
                 srcOff[j] = 7 - (x & 7);
                 destPos[j] = i >> 3;
                 destOff[j] = 7 - (i & 7);
             }
 
-            int k = destinationRegion.y * lineStride;
+            int k = destinbtionRegion.y * lineStride;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
+                k += (destinbtionRegion.height - 1) * lineStride;
 
             for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+                 j < destinbtionRegion.height; j++, y+=scbleY) {
 
-                if (abortRequested())
-                    break;
-                iis.read(buf, 0, lineLength);
-                for (int i = 0; i < destinationRegion.width; i++) {
-                    //get the bit and assign to the data buffer of the raster
+                if (bbortRequested())
+                    brebk;
+                iis.rebd(buf, 0, lineLength);
+                for (int i = 0; i < destinbtionRegion.width; i++) {
+                    //get the bit bnd bssign to the dbtb buffer of the rbster
                     int v = (buf[srcPos[i]] >> srcOff[i]) & 1;
-                    bdata[k + destPos[i]] |= v << destOff[i];
+                    bdbtb[k + destPos[i]] |= v << destOff[i];
                 }
 
                 k += isBottomUp ? -lineStride : lineStride;
                 iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, j,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                processImbgeProgress(100.0F*j/destinbtionRegion.height);
             }
         }
     }
 
-    // Method to read a 4 bit BMP image data
-    private void read4Bit(byte[] bdata) throws IOException {
+    // Method to rebd b 4 bit BMP imbge dbtb
+    privbte void rebd4Bit(byte[] bdbtb) throws IOException {
 
-        int bytesPerScanline = (width + 1) / 2;
+        int bytesPerScbnline = (width + 1) / 2;
 
-        // Padding bytes at the end of each scanline
-        int padding = bytesPerScanline % 4;
-        if (padding != 0)
-            padding = 4 - padding;
+        // Pbdding bytes bt the end of ebch scbnline
+        int pbdding = bytesPerScbnline % 4;
+        if (pbdding != 0)
+            pbdding = 4 - pbdding;
 
-        int lineLength = bytesPerScanline + padding;
+        int lineLength = bytesPerScbnline + pbdding;
 
-        if (noTransform) {
-            int j = isBottomUp ? (height -1) * bytesPerScanline : 0;
+        if (noTrbnsform) {
+            int j = isBottomUp ? (height -1) * bytesPerScbnline : 0;
 
             for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+                if (bbortRequested()) {
+                    brebk;
                 }
-                iis.readFully(bdata, j, bytesPerScanline);
-                iis.skipBytes(padding);
-                j += isBottomUp ? -bytesPerScanline : bytesPerScanline;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
+                iis.rebdFully(bdbtb, j, bytesPerScbnline);
+                iis.skipBytes(pbdding);
+                j += isBottomUp ? -bytesPerScbnline : bytesPerScbnline;
+                processImbgeUpdbte(bi, 0, i,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                processImbgeProgress(100.0F * i/destinbtionRegion.height);
             }
         } else {
             byte[] buf = new byte[lineLength];
             int lineStride =
-                ((MultiPixelPackedSampleModel)sampleModel).getScanlineStride();
+                ((MultiPixelPbckedSbmpleModel)sbmpleModel).getScbnlineStride();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine));
+                int lbstLine =
+                    sourceRegion.y + (destinbtionRegion.height - 1) * scbleY;
+                iis.skipBytes(lineLength * (height - 1 - lbstLine));
             } else
                 iis.skipBytes(lineLength * sourceRegion.y);
 
-            int skipLength = lineLength * (scaleY - 1);
+            int skipLength = lineLength * (scbleY - 1);
 
-            // cache the values to avoid duplicated computation
-            int[] srcOff = new int[destinationRegion.width];
-            int[] destOff = new int[destinationRegion.width];
-            int[] srcPos = new int[destinationRegion.width];
-            int[] destPos = new int[destinationRegion.width];
+            // cbche the vblues to bvoid duplicbted computbtion
+            int[] srcOff = new int[destinbtionRegion.width];
+            int[] destOff = new int[destinbtionRegion.width];
+            int[] srcPos = new int[destinbtionRegion.width];
+            int[] destPos = new int[destinbtionRegion.width];
 
-            for (int i = destinationRegion.x, x = sourceRegion.x, j = 0;
-                 i < destinationRegion.x + destinationRegion.width;
-                 i++, j++, x += scaleX) {
+            for (int i = destinbtionRegion.x, x = sourceRegion.x, j = 0;
+                 i < destinbtionRegion.x + destinbtionRegion.width;
+                 i++, j++, x += scbleX) {
                 srcPos[j] = x >> 1;
                 srcOff[j] = (1 - (x & 1)) << 2;
                 destPos[j] = i >> 1;
                 destOff[j] = (1 - (i & 1)) << 2;
             }
 
-            int k = destinationRegion.y * lineStride;
+            int k = destinbtionRegion.y * lineStride;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
+                k += (destinbtionRegion.height - 1) * lineStride;
 
             for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+                 j < destinbtionRegion.height; j++, y+=scbleY) {
 
-                if (abortRequested())
-                    break;
-                iis.read(buf, 0, lineLength);
-                for (int i = 0; i < destinationRegion.width; i++) {
-                    //get the bit and assign to the data buffer of the raster
+                if (bbortRequested())
+                    brebk;
+                iis.rebd(buf, 0, lineLength);
+                for (int i = 0; i < destinbtionRegion.width; i++) {
+                    //get the bit bnd bssign to the dbtb buffer of the rbster
                     int v = (buf[srcPos[i]] >> srcOff[i]) & 0x0F;
-                    bdata[k + destPos[i]] |= v << destOff[i];
+                    bdbtb[k + destPos[i]] |= v << destOff[i];
                 }
 
                 k += isBottomUp ? -lineStride : lineStride;
                 iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, j,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                processImbgeProgress(100.0F*j/destinbtionRegion.height);
             }
         }
     }
 
-    // Method to read 8 bit BMP image data
-    private void read8Bit(byte[] bdata) throws IOException {
+    // Method to rebd 8 bit BMP imbge dbtb
+    privbte void rebd8Bit(byte[] bdbtb) throws IOException {
 
-        // Padding bytes at the end of each scanline
-        int padding = width % 4;
-        if (padding != 0) {
-            padding = 4 - padding;
+        // Pbdding bytes bt the end of ebch scbnline
+        int pbdding = width % 4;
+        if (pbdding != 0) {
+            pbdding = 4 - pbdding;
         }
 
-        int lineLength = width + padding;
+        int lineLength = width + pbdding;
 
-        if (noTransform) {
+        if (noTrbnsform) {
             int j = isBottomUp ? (height -1) * width : 0;
 
             for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+                if (bbortRequested()) {
+                    brebk;
                 }
-                iis.readFully(bdata, j, width);
-                iis.skipBytes(padding);
+                iis.rebdFully(bdbtb, j, width);
+                iis.skipBytes(pbdding);
                 j += isBottomUp ? -width : width;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, i,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                processImbgeProgress(100.0F * i/destinbtionRegion.height);
             }
         } else {
             byte[] buf = new byte[lineLength];
             int lineStride =
-                ((ComponentSampleModel)sampleModel).getScanlineStride();
+                ((ComponentSbmpleModel)sbmpleModel).getScbnlineStride();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine));
+                int lbstLine =
+                    sourceRegion.y + (destinbtionRegion.height - 1) * scbleY;
+                iis.skipBytes(lineLength * (height - 1 - lbstLine));
             } else
                 iis.skipBytes(lineLength * sourceRegion.y);
 
-            int skipLength = lineLength * (scaleY - 1);
+            int skipLength = lineLength * (scbleY - 1);
 
-            int k = destinationRegion.y * lineStride;
+            int k = destinbtionRegion.y * lineStride;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
-            k += destinationRegion.x;
+                k += (destinbtionRegion.height - 1) * lineStride;
+            k += destinbtionRegion.x;
 
             for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+                 j < destinbtionRegion.height; j++, y+=scbleY) {
 
-                if (abortRequested())
-                    break;
-                iis.read(buf, 0, lineLength);
+                if (bbortRequested())
+                    brebk;
+                iis.rebd(buf, 0, lineLength);
                 for (int i = 0, m = sourceRegion.x;
-                     i < destinationRegion.width; i++, m += scaleX) {
-                    //get the bit and assign to the data buffer of the raster
-                    bdata[k + i] = buf[m];
+                     i < destinbtionRegion.width; i++, m += scbleX) {
+                    //get the bit bnd bssign to the dbtb buffer of the rbster
+                    bdbtb[k + i] = buf[m];
                 }
 
                 k += isBottomUp ? -lineStride : lineStride;
                 iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, j,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                processImbgeProgress(100.0F*j/destinbtionRegion.height);
             }
         }
     }
 
-    // Method to read 24 bit BMP image data
-    private void read24Bit(byte[] bdata) throws IOException {
-        // Padding bytes at the end of each scanline
+    // Method to rebd 24 bit BMP imbge dbtb
+    privbte void rebd24Bit(byte[] bdbtb) throws IOException {
+        // Pbdding bytes bt the end of ebch scbnline
         // width * bitsPerPixel should be divisible by 32
-        int padding = width * 3 % 4;
-        if ( padding != 0)
-            padding = 4 - padding;
+        int pbdding = width * 3 % 4;
+        if ( pbdding != 0)
+            pbdding = 4 - pbdding;
 
         int lineStride = width * 3;
-        int lineLength = lineStride + padding;
+        int lineLength = lineStride + pbdding;
 
-        if (noTransform) {
+        if (noTrbnsform) {
             int j = isBottomUp ? (height -1) * width * 3 : 0;
 
             for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+                if (bbortRequested()) {
+                    brebk;
                 }
-                iis.readFully(bdata, j, lineStride);
-                iis.skipBytes(padding);
+                iis.rebdFully(bdbtb, j, lineStride);
+                iis.skipBytes(pbdding);
                 j += isBottomUp ? -lineStride : lineStride;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, i,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                processImbgeProgress(100.0F * i/destinbtionRegion.height);
             }
         } else {
             byte[] buf = new byte[lineLength];
             lineStride =
-                ((ComponentSampleModel)sampleModel).getScanlineStride();
+                ((ComponentSbmpleModel)sbmpleModel).getScbnlineStride();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine));
+                int lbstLine =
+                    sourceRegion.y + (destinbtionRegion.height - 1) * scbleY;
+                iis.skipBytes(lineLength * (height - 1 - lbstLine));
             } else
                 iis.skipBytes(lineLength * sourceRegion.y);
 
-            int skipLength = lineLength * (scaleY - 1);
+            int skipLength = lineLength * (scbleY - 1);
 
-            int k = destinationRegion.y * lineStride;
+            int k = destinbtionRegion.y * lineStride;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
-            k += destinationRegion.x * 3;
+                k += (destinbtionRegion.height - 1) * lineStride;
+            k += destinbtionRegion.x * 3;
 
             for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+                 j < destinbtionRegion.height; j++, y+=scbleY) {
 
-                if (abortRequested())
-                    break;
-                iis.read(buf, 0, lineLength);
+                if (bbortRequested())
+                    brebk;
+                iis.rebd(buf, 0, lineLength);
                 for (int i = 0, m = 3 * sourceRegion.x;
-                     i < destinationRegion.width; i++, m += 3 * scaleX) {
-                    //get the bit and assign to the data buffer of the raster
+                     i < destinbtionRegion.width; i++, m += 3 * scbleX) {
+                    //get the bit bnd bssign to the dbtb buffer of the rbster
                     int n = 3 * i + k;
-                    for (int b = 0; b < destBands.length; b++)
-                        bdata[n + destBands[b]] = buf[m + sourceBands[b]];
+                    for (int b = 0; b < destBbnds.length; b++)
+                        bdbtb[n + destBbnds[b]] = buf[m + sourceBbnds[b]];
                 }
 
                 k += isBottomUp ? -lineStride : lineStride;
                 iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, j,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                processImbgeProgress(100.0F*j/destinbtionRegion.height);
             }
         }
     }
 
-    private void read16Bit(short sdata[]) throws IOException {
-        // Padding bytes at the end of each scanline
+    privbte void rebd16Bit(short sdbtb[]) throws IOException {
+        // Pbdding bytes bt the end of ebch scbnline
         // width * bitsPerPixel should be divisible by 32
-        int padding = width * 2 % 4;
+        int pbdding = width * 2 % 4;
 
-        if ( padding != 0)
-            padding = 4 - padding;
+        if ( pbdding != 0)
+            pbdding = 4 - pbdding;
 
-        int lineLength = width + padding / 2;
+        int lineLength = width + pbdding / 2;
 
-        if (noTransform) {
+        if (noTrbnsform) {
             int j = isBottomUp ? (height -1) * width : 0;
             for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+                if (bbortRequested()) {
+                    brebk;
                 }
 
-                iis.readFully(sdata, j, width);
-                iis.skipBytes(padding);
+                iis.rebdFully(sdbtb, j, width);
+                iis.skipBytes(pbdding);
 
                 j += isBottomUp ? -width : width;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, i,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                processImbgeProgress(100.0F * i/destinbtionRegion.height);
             }
         } else {
             short[] buf = new short[lineLength];
             int lineStride =
-                ((SinglePixelPackedSampleModel)sampleModel).getScanlineStride();
+                ((SinglePixelPbckedSbmpleModel)sbmpleModel).getScbnlineStride();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine) << 1);
+                int lbstLine =
+                    sourceRegion.y + (destinbtionRegion.height - 1) * scbleY;
+                iis.skipBytes(lineLength * (height - 1 - lbstLine) << 1);
             } else
                 iis.skipBytes(lineLength * sourceRegion.y << 1);
 
-            int skipLength = lineLength * (scaleY - 1) << 1;
+            int skipLength = lineLength * (scbleY - 1) << 1;
 
-            int k = destinationRegion.y * lineStride;
+            int k = destinbtionRegion.y * lineStride;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
-            k += destinationRegion.x;
+                k += (destinbtionRegion.height - 1) * lineStride;
+            k += destinbtionRegion.x;
 
             for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+                 j < destinbtionRegion.height; j++, y+=scbleY) {
 
-                if (abortRequested())
-                    break;
-                iis.readFully(buf, 0, lineLength);
+                if (bbortRequested())
+                    brebk;
+                iis.rebdFully(buf, 0, lineLength);
                 for (int i = 0, m = sourceRegion.x;
-                     i < destinationRegion.width; i++, m += scaleX) {
-                    //get the bit and assign to the data buffer of the raster
-                    sdata[k + i] = buf[m];
+                     i < destinbtionRegion.width; i++, m += scbleX) {
+                    //get the bit bnd bssign to the dbtb buffer of the rbster
+                    sdbtb[k + i] = buf[m];
                 }
 
                 k += isBottomUp ? -lineStride : lineStride;
                 iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, j,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                processImbgeProgress(100.0F*j/destinbtionRegion.height);
             }
         }
     }
 
-    private void read32Bit(int idata[]) throws IOException {
-        if (noTransform) {
+    privbte void rebd32Bit(int idbtb[]) throws IOException {
+        if (noTrbnsform) {
             int j = isBottomUp ? (height -1) * width : 0;
 
             for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+                if (bbortRequested()) {
+                    brebk;
                 }
-                iis.readFully(idata, j, width);
+                iis.rebdFully(idbtb, j, width);
                 j += isBottomUp ? -width : width;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, i,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                processImbgeProgress(100.0F * i/destinbtionRegion.height);
             }
         } else {
             int[] buf = new int[width];
             int lineStride =
-                ((SinglePixelPackedSampleModel)sampleModel).getScanlineStride();
+                ((SinglePixelPbckedSbmpleModel)sbmpleModel).getScbnlineStride();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(width * (height - 1 - lastLine) << 2);
+                int lbstLine =
+                    sourceRegion.y + (destinbtionRegion.height - 1) * scbleY;
+                iis.skipBytes(width * (height - 1 - lbstLine) << 2);
             } else
                 iis.skipBytes(width * sourceRegion.y << 2);
 
-            int skipLength = width * (scaleY - 1) << 2;
+            int skipLength = width * (scbleY - 1) << 2;
 
-            int k = destinationRegion.y * lineStride;
+            int k = destinbtionRegion.y * lineStride;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
-            k += destinationRegion.x;
+                k += (destinbtionRegion.height - 1) * lineStride;
+            k += destinbtionRegion.x;
 
             for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+                 j < destinbtionRegion.height; j++, y+=scbleY) {
 
-                if (abortRequested())
-                    break;
-                iis.readFully(buf, 0, width);
+                if (bbortRequested())
+                    brebk;
+                iis.rebdFully(buf, 0, width);
                 for (int i = 0, m = sourceRegion.x;
-                     i < destinationRegion.width; i++, m += scaleX) {
-                    //get the bit and assign to the data buffer of the raster
-                    idata[k + i] = buf[m];
+                     i < destinbtionRegion.width; i++, m += scbleX) {
+                    //get the bit bnd bssign to the dbtb buffer of the rbster
+                    idbtb[k + i] = buf[m];
                 }
 
                 k += isBottomUp ? -lineStride : lineStride;
                 iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
+                processImbgeUpdbte(bi, 0, j,
+                                   destinbtionRegion.width, 1, 1, 1,
                                    new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                processImbgeProgress(100.0F*j/destinbtionRegion.height);
             }
         }
     }
 
-    private void readRLE8(byte bdata[]) throws IOException {
-        // If imageSize field is not provided, calculate it.
-        int imSize = (int)imageSize;
+    privbte void rebdRLE8(byte bdbtb[]) throws IOException {
+        // If imbgeSize field is not provided, cblculbte it.
+        int imSize = (int)imbgeSize;
         if (imSize == 0) {
-            imSize = (int)(bitmapFileSize - bitmapOffset);
+            imSize = (int)(bitmbpFileSize - bitmbpOffset);
         }
 
-        int padding = 0;
-        // If width is not 32 bit aligned, then while uncompressing each
-        // scanline will have padding bytes, calculate the amount of padding
-        int remainder = width % 4;
-        if (remainder != 0) {
-            padding = 4 - remainder;
+        int pbdding = 0;
+        // If width is not 32 bit bligned, then while uncompressing ebch
+        // scbnline will hbve pbdding bytes, cblculbte the bmount of pbdding
+        int rembinder = width % 4;
+        if (rembinder != 0) {
+            pbdding = 4 - rembinder;
         }
 
-        // Read till we have the whole image
-        byte values[] = new byte[imSize];
-        int bytesRead = 0;
-        iis.readFully(values, 0, imSize);
+        // Rebd till we hbve the whole imbge
+        byte vblues[] = new byte[imSize];
+        int bytesRebd = 0;
+        iis.rebdFully(vblues, 0, imSize);
 
-        // Since data is compressed, decompress it
-        decodeRLE8(imSize, padding, values, bdata);
+        // Since dbtb is compressed, decompress it
+        decodeRLE8(imSize, pbdding, vblues, bdbtb);
     }
 
-    private void decodeRLE8(int imSize,
-                            int padding,
-                            byte[] values,
-                            byte[] bdata) throws IOException {
+    privbte void decodeRLE8(int imSize,
+                            int pbdding,
+                            byte[] vblues,
+                            byte[] bdbtb) throws IOException {
 
-        byte val[] = new byte[width * height];
+        byte vbl[] = new byte[width * height];
         int count = 0, l = 0;
-        int value;
-        boolean flag = false;
+        int vblue;
+        boolebn flbg = fblse;
         int lineNo = isBottomUp ? height - 1 : 0;
         int lineStride =
-            ((ComponentSampleModel)sampleModel).getScanlineStride();
+            ((ComponentSbmpleModel)sbmpleModel).getScbnlineStride();
         int finished = 0;
 
         while (count != imSize) {
-            value = values[count++] & 0xff;
-            if (value == 0) {
-                switch(values[count++] & 0xff) {
+            vblue = vblues[count++] & 0xff;
+            if (vblue == 0) {
+                switch(vblues[count++] & 0xff) {
 
-                case 0:
-                    // End-of-scanline marker
+                cbse 0:
+                    // End-of-scbnline mbrker
                     if (lineNo >= sourceRegion.y &&
                         lineNo < sourceRegion.y + sourceRegion.height) {
-                        if (noTransform) {
+                        if (noTrbnsform) {
                             int pos = lineNo * width;
                             for(int i = 0; i < width; i++)
-                                bdata[pos++] = val[i];
-                            processImageUpdate(bi, 0, lineNo,
-                                               destinationRegion.width, 1, 1, 1,
+                                bdbtb[pos++] = vbl[i];
+                            processImbgeUpdbte(bi, 0, lineNo,
+                                               destinbtionRegion.width, 1, 1, 1,
                                                new int[]{0});
                             finished++;
-                        } else if ((lineNo - sourceRegion.y) % scaleY == 0) {
-                            int currentLine = (lineNo - sourceRegion.y) / scaleY +
-                                destinationRegion.y;
+                        } else if ((lineNo - sourceRegion.y) % scbleY == 0) {
+                            int currentLine = (lineNo - sourceRegion.y) / scbleY +
+                                destinbtionRegion.y;
                             int pos = currentLine * lineStride;
-                            pos += destinationRegion.x;
+                            pos += destinbtionRegion.x;
                             for (int i = sourceRegion.x;
                                  i < sourceRegion.x + sourceRegion.width;
-                                 i += scaleX)
-                                bdata[pos++] = val[i];
-                            processImageUpdate(bi, 0, currentLine,
-                                               destinationRegion.width, 1, 1, 1,
+                                 i += scbleX)
+                                bdbtb[pos++] = vbl[i];
+                            processImbgeUpdbte(bi, 0, currentLine,
+                                               destinbtionRegion.width, 1, 1, 1,
                                                new int[]{0});
                             finished++;
                         }
                     }
-                    processImageProgress(100.0F * finished / destinationRegion.height);
+                    processImbgeProgress(100.0F * finished / destinbtionRegion.height);
                     lineNo += isBottomUp ? -1 : 1;
                     l = 0;
 
-                    if (abortRequested()) {
-                        flag = true;
+                    if (bbortRequested()) {
+                        flbg = true;
                     }
 
-                    break;
+                    brebk;
 
-                case 1:
-                    // End-of-RLE marker
-                    flag = true;
-                    break;
+                cbse 1:
+                    // End-of-RLE mbrker
+                    flbg = true;
+                    brebk;
 
-                case 2:
-                    // delta or vector marker
-                    int xoff = values[count++] & 0xff;
-                    int yoff = values[count] & 0xff;
+                cbse 2:
+                    // deltb or vector mbrker
+                    int xoff = vblues[count++] & 0xff;
+                    int yoff = vblues[count] & 0xff;
                     // Move to the position xoff, yoff down
                     l += xoff + yoff*width;
-                    break;
+                    brebk;
 
-                default:
-                    int end = values[count-1] & 0xff;
+                defbult:
+                    int end = vblues[count-1] & 0xff;
                     for (int i=0; i<end; i++) {
-                        val[l++] = (byte)(values[count++] & 0xff);
+                        vbl[l++] = (byte)(vblues[count++] & 0xff);
                     }
 
-                    // Whenever end pixels can fit into odd number of bytes,
-                    // an extra padding byte will be present, so skip that.
+                    // Whenever end pixels cbn fit into odd number of bytes,
+                    // bn extrb pbdding byte will be present, so skip thbt.
                     if ((end & 1) == 1) {
                         count++;
                     }
                 }
             } else {
-                for (int i=0; i<value; i++) {
-                    val[l++] = (byte)(values[count] & 0xff);
+                for (int i=0; i<vblue; i++) {
+                    vbl[l++] = (byte)(vblues[count] & 0xff);
                 }
 
                 count++;
             }
 
-            // If End-of-RLE data, then exit the while loop
-            if (flag) {
-                break;
+            // If End-of-RLE dbtb, then exit the while loop
+            if (flbg) {
+                brebk;
             }
         }
     }
 
-    private void readRLE4(byte[] bdata) throws IOException {
+    privbte void rebdRLE4(byte[] bdbtb) throws IOException {
 
-        // If imageSize field is not specified, calculate it.
-        int imSize = (int)imageSize;
+        // If imbgeSize field is not specified, cblculbte it.
+        int imSize = (int)imbgeSize;
         if (imSize == 0) {
-            imSize = (int)(bitmapFileSize - bitmapOffset);
+            imSize = (int)(bitmbpFileSize - bitmbpOffset);
         }
 
-        int padding = 0;
-        // If width is not 32 byte aligned, then while uncompressing each
-        // scanline will have padding bytes, calculate the amount of padding
-        int remainder = width % 4;
-        if (remainder != 0) {
-            padding = 4 - remainder;
+        int pbdding = 0;
+        // If width is not 32 byte bligned, then while uncompressing ebch
+        // scbnline will hbve pbdding bytes, cblculbte the bmount of pbdding
+        int rembinder = width % 4;
+        if (rembinder != 0) {
+            pbdding = 4 - rembinder;
         }
 
-        // Read till we have the whole image
-        byte[] values = new byte[imSize];
-        iis.readFully(values, 0, imSize);
+        // Rebd till we hbve the whole imbge
+        byte[] vblues = new byte[imSize];
+        iis.rebdFully(vblues, 0, imSize);
 
-        // Decompress the RLE4 compressed data.
-        decodeRLE4(imSize, padding, values, bdata);
+        // Decompress the RLE4 compressed dbtb.
+        decodeRLE4(imSize, pbdding, vblues, bdbtb);
     }
 
-    private void decodeRLE4(int imSize,
-                            int padding,
-                            byte[] values,
-                            byte[] bdata) throws IOException {
-        byte[] val = new byte[width];
+    privbte void decodeRLE4(int imSize,
+                            int pbdding,
+                            byte[] vblues,
+                            byte[] bdbtb) throws IOException {
+        byte[] vbl = new byte[width];
         int count = 0, l = 0;
-        int value;
-        boolean flag = false;
+        int vblue;
+        boolebn flbg = fblse;
         int lineNo = isBottomUp ? height - 1 : 0;
         int lineStride =
-            ((MultiPixelPackedSampleModel)sampleModel).getScanlineStride();
+            ((MultiPixelPbckedSbmpleModel)sbmpleModel).getScbnlineStride();
         int finished = 0;
 
         while (count != imSize) {
 
-            value = values[count++] & 0xFF;
-            if (value == 0) {
+            vblue = vblues[count++] & 0xFF;
+            if (vblue == 0) {
 
 
                 // Absolute mode
-                switch(values[count++] & 0xFF) {
+                switch(vblues[count++] & 0xFF) {
 
-                case 0:
-                    // End-of-scanline marker
-                    // End-of-scanline marker
+                cbse 0:
+                    // End-of-scbnline mbrker
+                    // End-of-scbnline mbrker
                     if (lineNo >= sourceRegion.y &&
                         lineNo < sourceRegion.y + sourceRegion.height) {
-                        if (noTransform) {
+                        if (noTrbnsform) {
                             int pos = lineNo * (width + 1 >> 1);
                             for(int i = 0, j = 0; i < width >> 1; i++)
-                                bdata[pos++] =
-                                    (byte)((val[j++] << 4) | val[j++]);
+                                bdbtb[pos++] =
+                                    (byte)((vbl[j++] << 4) | vbl[j++]);
                             if ((width & 1) == 1)
-                                bdata[pos] |= val[width - 1] << 4;
+                                bdbtb[pos] |= vbl[width - 1] << 4;
 
-                            processImageUpdate(bi, 0, lineNo,
-                                               destinationRegion.width, 1, 1, 1,
+                            processImbgeUpdbte(bi, 0, lineNo,
+                                               destinbtionRegion.width, 1, 1, 1,
                                                new int[]{0});
                             finished++;
-                        } else if ((lineNo - sourceRegion.y) % scaleY == 0) {
-                            int currentLine = (lineNo - sourceRegion.y) / scaleY +
-                                destinationRegion.y;
+                        } else if ((lineNo - sourceRegion.y) % scbleY == 0) {
+                            int currentLine = (lineNo - sourceRegion.y) / scbleY +
+                                destinbtionRegion.y;
                             int pos = currentLine * lineStride;
-                            pos += destinationRegion.x >> 1;
-                            int shift = (1 - (destinationRegion.x & 1)) << 2;
+                            pos += destinbtionRegion.x >> 1;
+                            int shift = (1 - (destinbtionRegion.x & 1)) << 2;
                             for (int i = sourceRegion.x;
                                  i < sourceRegion.x + sourceRegion.width;
-                                 i += scaleX) {
-                                bdata[pos] |= val[i] << shift;
+                                 i += scbleX) {
+                                bdbtb[pos] |= vbl[i] << shift;
                                 shift += 4;
                                 if (shift == 4) {
                                     pos++;
                                 }
                                 shift &= 7;
                             }
-                            processImageUpdate(bi, 0, currentLine,
-                                               destinationRegion.width, 1, 1, 1,
+                            processImbgeUpdbte(bi, 0, currentLine,
+                                               destinbtionRegion.width, 1, 1, 1,
                                                new int[]{0});
                             finished++;
                         }
                     }
-                    processImageProgress(100.0F * finished / destinationRegion.height);
+                    processImbgeProgress(100.0F * finished / destinbtionRegion.height);
                     lineNo += isBottomUp ? -1 : 1;
                     l = 0;
 
-                    if (abortRequested()) {
-                        flag = true;
+                    if (bbortRequested()) {
+                        flbg = true;
                     }
 
-                    break;
+                    brebk;
 
-                case 1:
-                    // End-of-RLE marker
-                    flag = true;
-                    break;
+                cbse 1:
+                    // End-of-RLE mbrker
+                    flbg = true;
+                    brebk;
 
-                case 2:
-                    // delta or vector marker
-                    int xoff = values[count++] & 0xFF;
-                    int yoff = values[count] & 0xFF;
+                cbse 2:
+                    // deltb or vector mbrker
+                    int xoff = vblues[count++] & 0xFF;
+                    int yoff = vblues[count] & 0xFF;
                     // Move to the position xoff, yoff down
                     l += xoff + yoff*width;
-                    break;
+                    brebk;
 
-                default:
-                    int end = values[count-1] & 0xFF;
+                defbult:
+                    int end = vblues[count-1] & 0xFF;
                     for (int i=0; i<end; i++) {
-                        val[l++] = (byte)(((i & 1) == 0) ? (values[count] & 0xf0) >> 4
-                                          : (values[count++] & 0x0f));
+                        vbl[l++] = (byte)(((i & 1) == 0) ? (vblues[count] & 0xf0) >> 4
+                                          : (vblues[count++] & 0x0f));
                     }
 
-                    // When end is odd, the above for loop does not
+                    // When end is odd, the bbove for loop does not
                     // increment count, so do it now.
                     if ((end & 1) == 1) {
                         count++;
                     }
 
-                    // Whenever end pixels can fit into odd number of bytes,
-                    // an extra padding byte will be present, so skip that.
-                    if ((((int)Math.ceil(end/2)) & 1) ==1 ) {
+                    // Whenever end pixels cbn fit into odd number of bytes,
+                    // bn extrb pbdding byte will be present, so skip thbt.
+                    if ((((int)Mbth.ceil(end/2)) & 1) ==1 ) {
                         count++;
                     }
-                    break;
+                    brebk;
                 }
             } else {
                 // Encoded mode
-                int alternate[] = { (values[count] & 0xf0) >> 4,
-                                    values[count] & 0x0f };
-                for (int i=0; (i < value) && (l < width); i++) {
-                    val[l++] = (byte)alternate[i & 1];
+                int blternbte[] = { (vblues[count] & 0xf0) >> 4,
+                                    vblues[count] & 0x0f };
+                for (int i=0; (i < vblue) && (l < width); i++) {
+                    vbl[l++] = (byte)blternbte[i & 1];
                 }
 
                 count++;
             }
 
-            // If End-of-RLE data, then exit the while loop
-            if (flag) {
-                break;
+            // If End-of-RLE dbtb, then exit the while loop
+            if (flbg) {
+                brebk;
             }
         }
     }
 
-    /** Decodes the jpeg/png image embedded in the bitmap using any jpeg
-     *  ImageIO-style plugin.
+    /** Decodes the jpeg/png imbge embedded in the bitmbp using bny jpeg
+     *  ImbgeIO-style plugin.
      *
-     * @param bi The destination <code>BufferedImage</code>.
-     * @param bmpParam The <code>ImageReadParam</code> for decoding this
-     *          BMP image.  The parameters for subregion, band selection and
-     *          subsampling are used in decoding the jpeg image.
+     * @pbrbm bi The destinbtion <code>BufferedImbge</code>.
+     * @pbrbm bmpPbrbm The <code>ImbgeRebdPbrbm</code> for decoding this
+     *          BMP imbge.  The pbrbmeters for subregion, bbnd selection bnd
+     *          subsbmpling bre used in decoding the jpeg imbge.
      */
 
-    private BufferedImage readEmbedded(int type,
-                              BufferedImage bi, ImageReadParam bmpParam)
+    privbte BufferedImbge rebdEmbedded(int type,
+                              BufferedImbge bi, ImbgeRebdPbrbm bmpPbrbm)
       throws IOException {
-        String format;
+        String formbt;
         switch(type) {
-          case BI_JPEG:
-              format = "JPEG";
-              break;
-          case BI_PNG:
-              format = "PNG";
-              break;
-          default:
+          cbse BI_JPEG:
+              formbt = "JPEG";
+              brebk;
+          cbse BI_PNG:
+              formbt = "PNG";
+              brebk;
+          defbult:
               throw new
                   IOException("Unexpected compression type: " + type);
         }
-        ImageReader reader =
-            ImageIO.getImageReadersByFormatName(format).next();
-        if (reader == null) {
-            throw new RuntimeException(I18N.getString("BMPImageReader4") +
-                                       " " + format);
+        ImbgeRebder rebder =
+            ImbgeIO.getImbgeRebdersByFormbtNbme(formbt).next();
+        if (rebder == null) {
+            throw new RuntimeException(I18N.getString("BMPImbgeRebder4") +
+                                       " " + formbt);
         }
-        // prepare input
-        byte[] buff = new byte[(int)imageSize];
-        iis.read(buff);
-        reader.setInput(ImageIO.createImageInputStream(new ByteArrayInputStream(buff)));
+        // prepbre input
+        byte[] buff = new byte[(int)imbgeSize];
+        iis.rebd(buff);
+        rebder.setInput(ImbgeIO.crebteImbgeInputStrebm(new ByteArrbyInputStrebm(buff)));
         if (bi == null) {
-            ImageTypeSpecifier embType = reader.getImageTypes(0).next();
-            bi = embType.createBufferedImage(destinationRegion.x +
-                                             destinationRegion.width,
-                                             destinationRegion.y +
-                                             destinationRegion.height);
+            ImbgeTypeSpecifier embType = rebder.getImbgeTypes(0).next();
+            bi = embType.crebteBufferedImbge(destinbtionRegion.x +
+                                             destinbtionRegion.width,
+                                             destinbtionRegion.y +
+                                             destinbtionRegion.height);
         }
 
-        reader.addIIOReadProgressListener(new EmbeddedProgressAdapter() {
-                public void imageProgress(ImageReader source,
-                                          float percentageDone)
+        rebder.bddIIORebdProgressListener(new EmbeddedProgressAdbpter() {
+                public void imbgeProgress(ImbgeRebder source,
+                                          flobt percentbgeDone)
                 {
-                    processImageProgress(percentageDone);
+                    processImbgeProgress(percentbgeDone);
                 }
             });
 
-        reader.addIIOReadUpdateListener(new IIOReadUpdateListener() {
-                public void imageUpdate(ImageReader source,
-                                        BufferedImage theImage,
+        rebder.bddIIORebdUpdbteListener(new IIORebdUpdbteListener() {
+                public void imbgeUpdbte(ImbgeRebder source,
+                                        BufferedImbge theImbge,
                                         int minX, int minY,
                                         int width, int height,
                                         int periodX, int periodY,
-                                        int[] bands)
+                                        int[] bbnds)
                 {
-                    processImageUpdate(theImage, minX, minY,
+                    processImbgeUpdbte(theImbge, minX, minY,
                                        width, height,
-                                       periodX, periodY, bands);
+                                       periodX, periodY, bbnds);
                 }
-                public void passComplete(ImageReader source,
-                                         BufferedImage theImage)
+                public void pbssComplete(ImbgeRebder source,
+                                         BufferedImbge theImbge)
                 {
-                    processPassComplete(theImage);
+                    processPbssComplete(theImbge);
                 }
-                public void passStarted(ImageReader source,
-                                        BufferedImage theImage,
-                                        int pass,
-                                        int minPass, int maxPass,
+                public void pbssStbrted(ImbgeRebder source,
+                                        BufferedImbge theImbge,
+                                        int pbss,
+                                        int minPbss, int mbxPbss,
                                         int minX, int minY,
                                         int periodX, int periodY,
-                                        int[] bands)
+                                        int[] bbnds)
                 {
-                    processPassStarted(theImage, pass, minPass, maxPass,
+                    processPbssStbrted(theImbge, pbss, minPbss, mbxPbss,
                                        minX, minY, periodX, periodY,
-                                       bands);
+                                       bbnds);
                 }
-                public void thumbnailPassComplete(ImageReader source,
-                                                  BufferedImage thumb) {}
-                public void thumbnailPassStarted(ImageReader source,
-                                                 BufferedImage thumb,
-                                                 int pass,
-                                                 int minPass, int maxPass,
+                public void thumbnbilPbssComplete(ImbgeRebder source,
+                                                  BufferedImbge thumb) {}
+                public void thumbnbilPbssStbrted(ImbgeRebder source,
+                                                 BufferedImbge thumb,
+                                                 int pbss,
+                                                 int minPbss, int mbxPbss,
                                                  int minX, int minY,
                                                  int periodX, int periodY,
-                                                 int[] bands) {}
-                public void thumbnailUpdate(ImageReader source,
-                                            BufferedImage theThumbnail,
+                                                 int[] bbnds) {}
+                public void thumbnbilUpdbte(ImbgeRebder source,
+                                            BufferedImbge theThumbnbil,
                                             int minX, int minY,
                                             int width, int height,
                                             int periodX, int periodY,
-                                            int[] bands) {}
+                                            int[] bbnds) {}
             });
 
-        reader.addIIOReadWarningListener(new IIOReadWarningListener() {
-                public void warningOccurred(ImageReader source, String warning)
+        rebder.bddIIORebdWbrningListener(new IIORebdWbrningListener() {
+                public void wbrningOccurred(ImbgeRebder source, String wbrning)
                 {
-                    processWarningOccurred(warning);
+                    processWbrningOccurred(wbrning);
                 }
             });
 
-        ImageReadParam param = reader.getDefaultReadParam();
-        param.setDestination(bi);
-        param.setDestinationBands(bmpParam.getDestinationBands());
-        param.setDestinationOffset(bmpParam.getDestinationOffset());
-        param.setSourceBands(bmpParam.getSourceBands());
-        param.setSourceRegion(bmpParam.getSourceRegion());
-        param.setSourceSubsampling(bmpParam.getSourceXSubsampling(),
-                                   bmpParam.getSourceYSubsampling(),
-                                   bmpParam.getSubsamplingXOffset(),
-                                   bmpParam.getSubsamplingYOffset());
-        reader.read(0, param);
+        ImbgeRebdPbrbm pbrbm = rebder.getDefbultRebdPbrbm();
+        pbrbm.setDestinbtion(bi);
+        pbrbm.setDestinbtionBbnds(bmpPbrbm.getDestinbtionBbnds());
+        pbrbm.setDestinbtionOffset(bmpPbrbm.getDestinbtionOffset());
+        pbrbm.setSourceBbnds(bmpPbrbm.getSourceBbnds());
+        pbrbm.setSourceRegion(bmpPbrbm.getSourceRegion());
+        pbrbm.setSourceSubsbmpling(bmpPbrbm.getSourceXSubsbmpling(),
+                                   bmpPbrbm.getSourceYSubsbmpling(),
+                                   bmpPbrbm.getSubsbmplingXOffset(),
+                                   bmpPbrbm.getSubsbmplingYOffset());
+        rebder.rebd(0, pbrbm);
         return bi;
     }
 
-    private class EmbeddedProgressAdapter implements IIOReadProgressListener {
-        public void imageComplete(ImageReader src) {}
-        public void imageProgress(ImageReader src, float percentageDone) {}
-        public void imageStarted(ImageReader src, int imageIndex) {}
-        public void thumbnailComplete(ImageReader src) {}
-        public void thumbnailProgress(ImageReader src, float percentageDone) {}
-        public void thumbnailStarted(ImageReader src, int iIdx, int tIdx) {}
-        public void sequenceComplete(ImageReader src) {}
-        public void sequenceStarted(ImageReader src, int minIndex) {}
-        public void readAborted(ImageReader src) {}
+    privbte clbss EmbeddedProgressAdbpter implements IIORebdProgressListener {
+        public void imbgeComplete(ImbgeRebder src) {}
+        public void imbgeProgress(ImbgeRebder src, flobt percentbgeDone) {}
+        public void imbgeStbrted(ImbgeRebder src, int imbgeIndex) {}
+        public void thumbnbilComplete(ImbgeRebder src) {}
+        public void thumbnbilProgress(ImbgeRebder src, flobt percentbgeDone) {}
+        public void thumbnbilStbrted(ImbgeRebder src, int iIdx, int tIdx) {}
+        public void sequenceComplete(ImbgeRebder src) {}
+        public void sequenceStbrted(ImbgeRebder src, int minIndex) {}
+        public void rebdAborted(ImbgeRebder src) {}
     }
 
-    private static Boolean isLinkedProfileDisabled = null;
+    privbte stbtic Boolebn isLinkedProfileDisbbled = null;
 
-    private static boolean isLinkedProfileAllowed() {
-        if (isLinkedProfileDisabled == null) {
-            PrivilegedAction<Boolean> a = new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    return Boolean.getBoolean("sun.imageio.plugins.bmp.disableLinkedProfiles");
+    privbte stbtic boolebn isLinkedProfileAllowed() {
+        if (isLinkedProfileDisbbled == null) {
+            PrivilegedAction<Boolebn> b = new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    return Boolebn.getBoolebn("sun.imbgeio.plugins.bmp.disbbleLinkedProfiles");
                 }
             };
-            isLinkedProfileDisabled = AccessController.doPrivileged(a);
+            isLinkedProfileDisbbled = AccessController.doPrivileged(b);
         }
-        return !isLinkedProfileDisabled;
+        return !isLinkedProfileDisbbled;
     }
 
-    private static Boolean isWindowsPlatform = null;
+    privbte stbtic Boolebn isWindowsPlbtform = null;
 
     /**
-     * Verifies whether the byte array contans a unc path.
-     * Non-UNC path examples:
-     *  c:\path\to\file  - simple notation
-     *  \\?\c:\path\to\file - long notation
+     * Verifies whether the byte brrby contbns b unc pbth.
+     * Non-UNC pbth exbmples:
+     *  c:\pbth\to\file  - simple notbtion
+     *  \\?\c:\pbth\to\file - long notbtion
      *
-     * UNC path examples:
-     *  \\server\share - a UNC path in simple notation
-     *  \\?\UNC\server\share - a UNC path in long notation
-     *  \\.\some\device - a path to device.
+     * UNC pbth exbmples:
+     *  \\server\shbre - b UNC pbth in simple notbtion
+     *  \\?\UNC\server\shbre - b UNC pbth in long notbtion
+     *  \\.\some\device - b pbth to device.
      */
-    private static boolean isUncOrDevicePath(byte[] p) {
-        if (isWindowsPlatform == null) {
-            PrivilegedAction<Boolean> a = new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    String osname = System.getProperty("os.name");
-                    return (osname != null &&
-                            osname.toLowerCase().startsWith("win"));
+    privbte stbtic boolebn isUncOrDevicePbth(byte[] p) {
+        if (isWindowsPlbtform == null) {
+            PrivilegedAction<Boolebn> b = new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    String osnbme = System.getProperty("os.nbme");
+                    return (osnbme != null &&
+                            osnbme.toLowerCbse().stbrtsWith("win"));
                 }
             };
-            isWindowsPlatform = AccessController.doPrivileged(a);
+            isWindowsPlbtform = AccessController.doPrivileged(b);
         }
 
-        if (!isWindowsPlatform) {
-            /* no need for the check on platforms except windows */
-            return false;
+        if (!isWindowsPlbtform) {
+            /* no need for the check on plbtforms except windows */
+            return fblse;
         }
 
-        /* normalize prefix of the path */
+        /* normblize prefix of the pbth */
         if (p[0] == '/') p[0] = '\\';
         if (p[1] == '/') p[1] = '\\';
         if (p[3] == '/') p[3] = '\\';
@@ -1843,16 +1843,16 @@ public class BMPImageReader extends ImageReader implements BMPConstants {
 
         if ((p[0] == '\\') && (p[1] == '\\')) {
             if ((p[2] == '?') && (p[3] == '\\')) {
-                // long path: whether unc or local
+                // long pbth: whether unc or locbl
                 return ((p[4] == 'U' || p[4] == 'u') &&
                         (p[5] == 'N' || p[5] == 'n') &&
                         (p[6] == 'C' || p[6] == 'c'));
             } else {
-                // device path or short unc notation
+                // device pbth or short unc notbtion
                 return true;
             }
         } else {
-            return false;
+            return fblse;
         }
     }
 }

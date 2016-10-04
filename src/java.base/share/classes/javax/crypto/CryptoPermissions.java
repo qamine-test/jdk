@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.NoSuchElementException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.io.Serializable;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.ObjectStreamField;
-import java.io.ObjectInputStream;
-import java.io.ObjectInputStream.GetField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream.PutField;
-import java.io.IOException;
+import jbvb.security.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.io.Seriblizbble;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.BufferedRebder;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectInputStrebm.GetField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectOutputStrebm.PutField;
+import jbvb.io.IOException;
 
 /**
- * This class contains CryptoPermission objects, organized into
- * PermissionCollections according to algorithm names.
+ * This clbss contbins CryptoPermission objects, orgbnized into
+ * PermissionCollections bccording to blgorithm nbmes.
  *
- * <p>When the <code>add</code> method is called to add a
+ * <p>When the <code>bdd</code> method is cblled to bdd b
  * CryptoPermission, the CryptoPermission is stored in the
- * appropriate PermissionCollection. If no such
- * collection exists yet, the algorithm name associated with
+ * bppropribte PermissionCollection. If no such
+ * collection exists yet, the blgorithm nbme bssocibted with
  * the CryptoPermission object is
- * determined and the <code>newPermissionCollection</code> method
- * is called on the CryptoPermission or CryptoAllPermission class to
- * create the PermissionCollection and add it to the Permissions object.
+ * determined bnd the <code>newPermissionCollection</code> method
+ * is cblled on the CryptoPermission or CryptoAllPermission clbss to
+ * crebte the PermissionCollection bnd bdd it to the Permissions object.
  *
- * @see javax.crypto.CryptoPermission
- * @see java.security.PermissionCollection
- * @see java.security.Permissions
+ * @see jbvbx.crypto.CryptoPermission
+ * @see jbvb.security.PermissionCollection
+ * @see jbvb.security.Permissions
  *
- * @author Sharon Liu
+ * @buthor Shbron Liu
  * @since 1.4
  */
-final class CryptoPermissions extends PermissionCollection
-implements Serializable {
+finbl clbss CryptoPermissions extends PermissionCollection
+implements Seriblizbble {
 
-    private static final long serialVersionUID = 4946547168093391015L;
+    privbte stbtic finbl long seriblVersionUID = 4946547168093391015L;
 
     /**
-     * @serialField perms java.util.Hashtable
+     * @seriblField perms jbvb.util.Hbshtbble
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("perms", Hashtable.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("perms", Hbshtbble.clbss),
     };
 
-    // Switched from Hashtable to ConcurrentHashMap to improve scalability.
-    // To maintain serialization compatibility, this field is made transient
-    // and custom readObject/writeObject methods are used.
-    private transient ConcurrentHashMap<String,PermissionCollection> perms;
+    // Switched from Hbshtbble to ConcurrentHbshMbp to improve scblbbility.
+    // To mbintbin seriblizbtion compbtibility, this field is mbde trbnsient
+    // bnd custom rebdObject/writeObject methods bre used.
+    privbte trbnsient ConcurrentHbshMbp<String,PermissionCollection> perms;
 
     /**
-     * Creates a new CryptoPermissions object containing
+     * Crebtes b new CryptoPermissions object contbining
      * no CryptoPermissionCollections.
      */
     CryptoPermissions() {
-        perms = new ConcurrentHashMap<>(7);
+        perms = new ConcurrentHbshMbp<>(7);
     }
 
     /**
-     * Populates the crypto policy from the specified
-     * InputStream into this CryptoPermissions object.
+     * Populbtes the crypto policy from the specified
+     * InputStrebm into this CryptoPermissions object.
      *
-     * @param in the InputStream to load from.
+     * @pbrbm in the InputStrebm to lobd from.
      *
-     * @exception SecurityException if cannot load
+     * @exception SecurityException if cbnnot lobd
      * successfully.
      */
-    void load(InputStream in)
-        throws IOException, CryptoPolicyParser.ParsingException {
-        CryptoPolicyParser parser = new CryptoPolicyParser();
-        parser.read(new BufferedReader(new InputStreamReader(in, "UTF-8")));
+    void lobd(InputStrebm in)
+        throws IOException, CryptoPolicyPbrser.PbrsingException {
+        CryptoPolicyPbrser pbrser = new CryptoPolicyPbrser();
+        pbrser.rebd(new BufferedRebder(new InputStrebmRebder(in, "UTF-8")));
 
-        CryptoPermission[] parsingResult = parser.getPermissions();
-        for (int i = 0; i < parsingResult.length; i++) {
-            this.add(parsingResult[i]);
+        CryptoPermission[] pbrsingResult = pbrser.getPermissions();
+        for (int i = 0; i < pbrsingResult.length; i++) {
+            this.bdd(pbrsingResult[i]);
         }
     }
 
     /**
      * Returns true if this CryptoPermissions object doesn't
-     * contain any CryptoPermission objects; otherwise, returns
-     * false.
+     * contbin bny CryptoPermission objects; otherwise, returns
+     * fblse.
      */
-    boolean isEmpty() {
+    boolebn isEmpty() {
         return perms.isEmpty();
     }
 
     /**
-     * Adds a permission object to the PermissionCollection for the
-     * algorithm returned by
+     * Adds b permission object to the PermissionCollection for the
+     * blgorithm returned by
      * <code>(CryptoPermission)permission.getAlgorithm()</code>.
      *
-     * This method creates
-     * a new PermissionCollection object (and adds the permission to it)
-     * if an appropriate collection does not yet exist. <p>
+     * This method crebtes
+     * b new PermissionCollection object (bnd bdds the permission to it)
+     * if bn bppropribte collection does not yet exist. <p>
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
      * @exception SecurityException if this CryptoPermissions object is
-     * marked as readonly.
+     * mbrked bs rebdonly.
      *
-     * @see isReadOnly
+     * @see isRebdOnly
      */
-    public void add(Permission permission) {
+    public void bdd(Permission permission) {
 
-        if (isReadOnly())
-            throw new SecurityException("Attempt to add a Permission " +
-                                        "to a readonly CryptoPermissions " +
+        if (isRebdOnly())
+            throw new SecurityException("Attempt to bdd b Permission " +
+                                        "to b rebdonly CryptoPermissions " +
                                         "object");
 
-        if (!(permission instanceof CryptoPermission))
+        if (!(permission instbnceof CryptoPermission))
             return;
 
         CryptoPermission cryptoPerm = (CryptoPermission)permission;
         PermissionCollection pc =
                         getPermissionCollection(cryptoPerm);
-        pc.add(cryptoPerm);
-        String alg = cryptoPerm.getAlgorithm();
-        perms.putIfAbsent(alg, pc);
+        pc.bdd(cryptoPerm);
+        String blg = cryptoPerm.getAlgorithm();
+        perms.putIfAbsent(blg, pc);
     }
 
     /**
      * Checks if this object's PermissionCollection for permissons
-     * of the specified permission's algorithm implies the specified
+     * of the specified permission's blgorithm implies the specified
      * permission. Returns true if the checking succeeded.
      *
-     * @param permission the Permission object to check.
+     * @pbrbm permission the Permission object to check.
      *
      * @return true if "permission" is implied by the permissions
-     * in the PermissionCollection it belongs to, false if not.
+     * in the PermissionCollection it belongs to, fblse if not.
      *
      */
-    public boolean implies(Permission permission) {
-        if (!(permission instanceof CryptoPermission)) {
-            return false;
+    public boolebn implies(Permission permission) {
+        if (!(permission instbnceof CryptoPermission)) {
+            return fblse;
         }
 
         CryptoPermission cryptoPerm = (CryptoPermission)permission;
@@ -174,109 +174,109 @@ implements Serializable {
     }
 
     /**
-     * Returns an enumeration of all the Permission objects in all the
+     * Returns bn enumerbtion of bll the Permission objects in bll the
      * PermissionCollections in this CryptoPermissions object.
      *
-     * @return an enumeration of all the Permissions.
+     * @return bn enumerbtion of bll the Permissions.
      */
-    public Enumeration<Permission> elements() {
-        // go through each Permissions in the hash table
-        // and call their elements() function.
-        return new PermissionsEnumerator(perms.elements());
+    public Enumerbtion<Permission> elements() {
+        // go through ebch Permissions in the hbsh tbble
+        // bnd cbll their elements() function.
+        return new PermissionsEnumerbtor(perms.elements());
     }
 
     /**
-     * Returns a CryptoPermissions object which
+     * Returns b CryptoPermissions object which
      * represents the minimum of the specified
-     * CryptoPermissions object and this
+     * CryptoPermissions object bnd this
      * CryptoPermissions object.
      *
-     * @param other the CryptoPermission
-     * object to compare with this object.
+     * @pbrbm other the CryptoPermission
+     * object to compbre with this object.
      */
     CryptoPermissions getMinimum(CryptoPermissions other) {
         if (other == null) {
             return null;
         }
 
-        if (this.perms.containsKey(CryptoAllPermission.ALG_NAME)) {
+        if (this.perms.contbinsKey(CryptoAllPermission.ALG_NAME)) {
             return other;
         }
 
-        if (other.perms.containsKey(CryptoAllPermission.ALG_NAME)) {
+        if (other.perms.contbinsKey(CryptoAllPermission.ALG_NAME)) {
             return this;
         }
 
         CryptoPermissions ret = new CryptoPermissions();
 
 
-        PermissionCollection thatWildcard =
+        PermissionCollection thbtWildcbrd =
                 other.perms.get(CryptoPermission.ALG_NAME_WILDCARD);
-        int maxKeySize = 0;
-        if (thatWildcard != null) {
-            maxKeySize = ((CryptoPermission)
-                    thatWildcard.elements().nextElement()).getMaxKeySize();
+        int mbxKeySize = 0;
+        if (thbtWildcbrd != null) {
+            mbxKeySize = ((CryptoPermission)
+                    thbtWildcbrd.elements().nextElement()).getMbxKeySize();
         }
-        // For each algorithm in this CryptoPermissions,
-        // find out if there is anything we should add into
+        // For ebch blgorithm in this CryptoPermissions,
+        // find out if there is bnything we should bdd into
         // ret.
-        Enumeration<String> thisKeys = this.perms.keys();
-        while (thisKeys.hasMoreElements()) {
-            String alg = thisKeys.nextElement();
+        Enumerbtion<String> thisKeys = this.perms.keys();
+        while (thisKeys.hbsMoreElements()) {
+            String blg = thisKeys.nextElement();
 
-            PermissionCollection thisPc = this.perms.get(alg);
-            PermissionCollection thatPc = other.perms.get(alg);
+            PermissionCollection thisPc = this.perms.get(blg);
+            PermissionCollection thbtPc = other.perms.get(blg);
 
-            CryptoPermission[] partialResult;
+            CryptoPermission[] pbrtiblResult;
 
-            if (thatPc == null) {
-                if (thatWildcard == null) {
+            if (thbtPc == null) {
+                if (thbtWildcbrd == null) {
                     // The other CryptoPermissions
-                    // doesn't allow this given
-                    // algorithm at all. Just skip this
-                    // algorithm.
+                    // doesn't bllow this given
+                    // blgorithm bt bll. Just skip this
+                    // blgorithm.
                     continue;
                 }
-                partialResult = getMinimum(maxKeySize, thisPc);
+                pbrtiblResult = getMinimum(mbxKeySize, thisPc);
             } else {
-                partialResult = getMinimum(thisPc, thatPc);
+                pbrtiblResult = getMinimum(thisPc, thbtPc);
             }
 
-            for (int i = 0; i < partialResult.length; i++) {
-                ret.add(partialResult[i]);
+            for (int i = 0; i < pbrtiblResult.length; i++) {
+                ret.bdd(pbrtiblResult[i]);
             }
         }
 
-        PermissionCollection thisWildcard =
+        PermissionCollection thisWildcbrd =
                 this.perms.get(CryptoPermission.ALG_NAME_WILDCARD);
 
         // If this CryptoPermissions doesn't
-        // have a wildcard, we are done.
-        if (thisWildcard == null) {
+        // hbve b wildcbrd, we bre done.
+        if (thisWildcbrd == null) {
             return ret;
         }
 
-        // Deal with the algorithms only appear
+        // Debl with the blgorithms only bppebr
         // in the other CryptoPermissions.
-        maxKeySize =
+        mbxKeySize =
             ((CryptoPermission)
-                    thisWildcard.elements().nextElement()).getMaxKeySize();
-        Enumeration<String> thatKeys = other.perms.keys();
-        while (thatKeys.hasMoreElements()) {
-            String alg = thatKeys.nextElement();
+                    thisWildcbrd.elements().nextElement()).getMbxKeySize();
+        Enumerbtion<String> thbtKeys = other.perms.keys();
+        while (thbtKeys.hbsMoreElements()) {
+            String blg = thbtKeys.nextElement();
 
-            if (this.perms.containsKey(alg)) {
+            if (this.perms.contbinsKey(blg)) {
                 continue;
             }
 
-            PermissionCollection thatPc = other.perms.get(alg);
+            PermissionCollection thbtPc = other.perms.get(blg);
 
-            CryptoPermission[] partialResult;
+            CryptoPermission[] pbrtiblResult;
 
-            partialResult = getMinimum(maxKeySize, thatPc);
+            pbrtiblResult = getMinimum(mbxKeySize, thbtPc);
 
-            for (int i = 0; i < partialResult.length; i++) {
-                ret.add(partialResult[i]);
+            for (int i = 0; i < pbrtiblResult.length; i++) {
+                ret.bdd(pbrtiblResult[i]);
             }
         }
         return ret;
@@ -284,48 +284,48 @@ implements Serializable {
 
     /**
      * Get the minimum of the two given PermissionCollection
-     * <code>thisPc</code> and <code>thatPc</code>.
+     * <code>thisPc</code> bnd <code>thbtPc</code>.
      *
-     * @param thisPc the first given PermissionColloection
+     * @pbrbm thisPc the first given PermissionColloection
      * object.
      *
-     * @param thatPc the second given PermissionCollection
+     * @pbrbm thbtPc the second given PermissionCollection
      * object.
      */
-    private CryptoPermission[] getMinimum(PermissionCollection thisPc,
-                                          PermissionCollection thatPc) {
+    privbte CryptoPermission[] getMinimum(PermissionCollection thisPc,
+                                          PermissionCollection thbtPc) {
         Vector<CryptoPermission> permVector = new Vector<>(2);
 
-        Enumeration<Permission> thisPcPermissions = thisPc.elements();
+        Enumerbtion<Permission> thisPcPermissions = thisPc.elements();
 
-        // For each CryptoPermission in
+        // For ebch CryptoPermission in
         // thisPc object, do the following:
         // 1) if this CryptoPermission is implied
-        //     by thatPc, this CryptoPermission
-        //     should be returned, and we can
+        //     by thbtPc, this CryptoPermission
+        //     should be returned, bnd we cbn
         //     move on to check the next
         //     CryptoPermission in thisPc.
         // 2) otherwise, we should return
-        //     all CryptoPermissions in thatPc
+        //     bll CryptoPermissions in thbtPc
         //     which
-        //     are implied by this CryptoPermission.
-        //     Then we can move on to the
+        //     bre implied by this CryptoPermission.
+        //     Then we cbn move on to the
         //     next CryptoPermission in thisPc.
-        while (thisPcPermissions.hasMoreElements()) {
+        while (thisPcPermissions.hbsMoreElements()) {
             CryptoPermission thisCp =
                 (CryptoPermission)thisPcPermissions.nextElement();
 
-            Enumeration<Permission> thatPcPermissions = thatPc.elements();
-            while (thatPcPermissions.hasMoreElements()) {
-                CryptoPermission thatCp =
-                    (CryptoPermission)thatPcPermissions.nextElement();
+            Enumerbtion<Permission> thbtPcPermissions = thbtPc.elements();
+            while (thbtPcPermissions.hbsMoreElements()) {
+                CryptoPermission thbtCp =
+                    (CryptoPermission)thbtPcPermissions.nextElement();
 
-                if (thatCp.implies(thisCp)) {
-                    permVector.addElement(thisCp);
-                    break;
+                if (thbtCp.implies(thisCp)) {
+                    permVector.bddElement(thisCp);
+                    brebk;
                 }
-                if (thisCp.implies(thatCp)) {
-                    permVector.addElement(thatCp);
+                if (thisCp.implies(thbtCp)) {
+                    permVector.bddElement(thbtCp);
                 }
             }
         }
@@ -336,41 +336,41 @@ implements Serializable {
     }
 
     /**
-     * Returns all the CryptoPermission objects in the given
+     * Returns bll the CryptoPermission objects in the given
      * PermissionCollection object
-     * whose maximum keysize no greater than <code>maxKeySize</code>.
-     * For all CryptoPermission objects with a maximum keysize greater
-     * than <code>maxKeySize</code>, this method constructs a
-     * corresponding CryptoPermission object whose maximum keysize is
-     * set to <code>maxKeySize</code>, and includes that in the result.
+     * whose mbximum keysize no grebter thbn <code>mbxKeySize</code>.
+     * For bll CryptoPermission objects with b mbximum keysize grebter
+     * thbn <code>mbxKeySize</code>, this method constructs b
+     * corresponding CryptoPermission object whose mbximum keysize is
+     * set to <code>mbxKeySize</code>, bnd includes thbt in the result.
      *
-     * @param maxKeySize the given maximum key size.
+     * @pbrbm mbxKeySize the given mbximum key size.
      *
-     * @param pc the given PermissionCollection object.
+     * @pbrbm pc the given PermissionCollection object.
      */
-    private CryptoPermission[] getMinimum(int maxKeySize,
+    privbte CryptoPermission[] getMinimum(int mbxKeySize,
                                           PermissionCollection pc) {
         Vector<CryptoPermission> permVector = new Vector<>(1);
 
-        Enumeration<Permission> enum_ = pc.elements();
+        Enumerbtion<Permission> enum_ = pc.elements();
 
-        while (enum_.hasMoreElements()) {
+        while (enum_.hbsMoreElements()) {
             CryptoPermission cp =
                 (CryptoPermission)enum_.nextElement();
-            if (cp.getMaxKeySize() <= maxKeySize) {
-                permVector.addElement(cp);
+            if (cp.getMbxKeySize() <= mbxKeySize) {
+                permVector.bddElement(cp);
             } else {
-                if (cp.getCheckParam()) {
-                    permVector.addElement(
+                if (cp.getCheckPbrbm()) {
+                    permVector.bddElement(
                            new CryptoPermission(cp.getAlgorithm(),
-                                                maxKeySize,
-                                                cp.getAlgorithmParameterSpec(),
-                                                cp.getExemptionMechanism()));
+                                                mbxKeySize,
+                                                cp.getAlgorithmPbrbmeterSpec(),
+                                                cp.getExemptionMechbnism()));
                 } else {
-                    permVector.addElement(
+                    permVector.bddElement(
                            new CryptoPermission(cp.getAlgorithm(),
-                                                maxKeySize,
-                                                cp.getExemptionMechanism()));
+                                                mbxKeySize,
+                                                cp.getExemptionMechbnism()));
                 }
             }
         }
@@ -382,21 +382,21 @@ implements Serializable {
 
     /**
      * Returns the PermissionCollection for the
-     * specified algorithm. Returns null if there
-     * isn't such a PermissionCollection.
+     * specified blgorithm. Returns null if there
+     * isn't such b PermissionCollection.
      *
-     * @param alg the algorithm name.
+     * @pbrbm blg the blgorithm nbme.
      */
-    PermissionCollection getPermissionCollection(String alg) {
+    PermissionCollection getPermissionCollection(String blg) {
         // If this CryptoPermissions includes CryptoAllPermission,
         // we should return CryptoAllPermission.
         PermissionCollection pc = perms.get(CryptoAllPermission.ALG_NAME);
         if (pc == null) {
-            pc = perms.get(alg);
+            pc = perms.get(blg);
 
-            // If there isn't a PermissionCollection for
-            // the given algorithm,we should return the
-            // PermissionCollection for the wildcard
+            // If there isn't b PermissionCollection for
+            // the given blgorithm,we should return the
+            // PermissionCollection for the wildcbrd
             // if there is one.
             if (pc == null) {
                 pc = perms.get(CryptoPermission.ALG_NAME_WILDCARD);
@@ -406,20 +406,20 @@ implements Serializable {
     }
 
     /**
-     * Returns the PermissionCollection for the algorithm
-     * associated with the specified CryptoPermission
-     * object. Creates such a PermissionCollection
-     * if such a PermissionCollection does not
+     * Returns the PermissionCollection for the blgorithm
+     * bssocibted with the specified CryptoPermission
+     * object. Crebtes such b PermissionCollection
+     * if such b PermissionCollection does not
      * exist yet.
      *
-     * @param cryptoPerm the CryptoPermission object.
+     * @pbrbm cryptoPerm the CryptoPermission object.
      */
-    private PermissionCollection getPermissionCollection(
+    privbte PermissionCollection getPermissionCollection(
                                           CryptoPermission cryptoPerm) {
 
-        String alg = cryptoPerm.getAlgorithm();
+        String blg = cryptoPerm.getAlgorithm();
 
-        PermissionCollection pc = perms.get(alg);
+        PermissionCollection pc = perms.get(blg);
 
         if (pc == null) {
             pc = cryptoPerm.newPermissionCollection();
@@ -427,76 +427,76 @@ implements Serializable {
         return pc;
     }
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField fields = s.readFields();
-        @SuppressWarnings("unchecked")
-        Hashtable<String,PermissionCollection> permTable =
-                (Hashtable<String,PermissionCollection>)
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        ObjectInputStrebm.GetField fields = s.rebdFields();
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<String,PermissionCollection> permTbble =
+                (Hbshtbble<String,PermissionCollection>)
                 (fields.get("perms", null));
-        if (permTable != null) {
-            perms = new ConcurrentHashMap<>(permTable);
+        if (permTbble != null) {
+            perms = new ConcurrentHbshMbp<>(permTbble);
         } else {
-            perms = new ConcurrentHashMap<>();
+            perms = new ConcurrentHbshMbp<>();
         }
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Hashtable<String,PermissionCollection> permTable =
-                new Hashtable<>(perms);
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("perms", permTable);
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        Hbshtbble<String,PermissionCollection> permTbble =
+                new Hbshtbble<>(perms);
+        ObjectOutputStrebm.PutField fields = s.putFields();
+        fields.put("perms", permTbble);
         s.writeFields();
     }
 }
 
-final class PermissionsEnumerator implements Enumeration<Permission> {
+finbl clbss PermissionsEnumerbtor implements Enumerbtion<Permission> {
 
-    // all the perms
-    private Enumeration<PermissionCollection> perms;
+    // bll the perms
+    privbte Enumerbtion<PermissionCollection> perms;
     // the current set
-    private Enumeration<Permission> permset;
+    privbte Enumerbtion<Permission> permset;
 
-    PermissionsEnumerator(Enumeration<PermissionCollection> e) {
+    PermissionsEnumerbtor(Enumerbtion<PermissionCollection> e) {
         perms = e;
         permset = getNextEnumWithMore();
     }
 
-    public synchronized boolean hasMoreElements() {
+    public synchronized boolebn hbsMoreElements() {
         // if we enter with permissionimpl null, we know
-        // there are no more left.
+        // there bre no more left.
 
         if (permset == null)
-            return  false;
+            return  fblse;
 
-        // try to see if there are any left in the current one
+        // try to see if there bre bny left in the current one
 
-        if (permset.hasMoreElements())
+        if (permset.hbsMoreElements())
             return true;
 
-        // get the next one that has something in it...
+        // get the next one thbt hbs something in it...
         permset = getNextEnumWithMore();
 
-        // if it is null, we are done!
+        // if it is null, we bre done!
         return (permset != null);
     }
 
     public synchronized Permission nextElement() {
-        // hasMoreElements will update permset to the next permset
+        // hbsMoreElements will updbte permset to the next permset
         // with something in it...
 
-        if (hasMoreElements()) {
+        if (hbsMoreElements()) {
             return permset.nextElement();
         } else {
-            throw new NoSuchElementException("PermissionsEnumerator");
+            throw new NoSuchElementException("PermissionsEnumerbtor");
         }
     }
 
-    private Enumeration<Permission> getNextEnumWithMore() {
-        while (perms.hasMoreElements()) {
+    privbte Enumerbtion<Permission> getNextEnumWithMore() {
+        while (perms.hbsMoreElements()) {
             PermissionCollection pc = perms.nextElement();
-            Enumeration<Permission> next = pc.elements();
-            if (next.hasMoreElements())
+            Enumerbtion<Permission> next = pc.elements();
+            if (next.hbsMoreElements())
                 return next;
         }
         return null;

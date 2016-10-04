@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,181 +30,181 @@
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "GlyphPositioningTables.h"
-#include "PairPositioningSubtables.h"
-#include "ValueRecords.h"
-#include "GlyphIterator.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "GlyphPositioningTbbles.h"
+#include "PbirPositioningSubtbbles.h"
+#include "VblueRecords.h"
+#include "GlyphIterbtor.h"
 #include "OpenTypeUtilities.h"
-#include "LESwaps.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-le_uint32 PairPositioningSubtable::process(const LEReferenceTo<PairPositioningSubtable> &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+le_uint32 PbirPositioningSubtbble::process(const LEReferenceTo<PbirPositioningSubtbble> &bbse, GlyphIterbtor *glyphIterbtor, const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const
 {
-    switch(SWAPW(subtableFormat))
+    switch(SWAPW(subtbbleFormbt))
     {
-    case 0:
+    cbse 0:
         return 0;
 
-    case 1:
+    cbse 1:
     {
-      const LEReferenceTo<PairPositioningFormat1Subtable> subtable(base, success, (const PairPositioningFormat1Subtable *) this);
+      const LEReferenceTo<PbirPositioningFormbt1Subtbble> subtbble(bbse, success, (const PbirPositioningFormbt1Subtbble *) this);
 
       if(LE_SUCCESS(success))
-      return subtable->process(subtable, glyphIterator, fontInstance, success);
+      return subtbble->process(subtbble, glyphIterbtor, fontInstbnce, success);
       else
         return 0;
     }
 
-    case 2:
+    cbse 2:
     {
-      const LEReferenceTo<PairPositioningFormat2Subtable> subtable(base, success, (const PairPositioningFormat2Subtable *) this);
+      const LEReferenceTo<PbirPositioningFormbt2Subtbble> subtbble(bbse, success, (const PbirPositioningFormbt2Subtbble *) this);
 
       if(LE_SUCCESS(success))
-      return subtable->process(subtable, glyphIterator, fontInstance, success);
+      return subtbble->process(subtbble, glyphIterbtor, fontInstbnce, success);
       else
         return 0;
     }
-    default:
+    defbult:
       return 0;
     }
 }
 
-le_uint32 PairPositioningFormat1Subtable::process(const LEReferenceTo<PairPositioningFormat1Subtable> &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+le_uint32 PbirPositioningFormbt1Subtbble::process(const LEReferenceTo<PbirPositioningFormbt1Subtbble> &bbse, GlyphIterbtor *glyphIterbtor, const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const
 {
-    LEGlyphID firstGlyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(base, firstGlyph, success);
-    GlyphIterator tempIterator(*glyphIterator);
+    LEGlyphID firstGlyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 coverbgeIndex = getGlyphCoverbge(bbse, firstGlyph, success);
+    GlyphIterbtor tempIterbtor(*glyphIterbtor);
 
-    LEReferenceToArrayOf<Offset> pairSetTableOffsetArrayRef(base, success, pairSetTableOffsetArray, SWAPW(pairSetCount));
+    LEReferenceToArrbyOf<Offset> pbirSetTbbleOffsetArrbyRef(bbse, success, pbirSetTbbleOffsetArrby, SWAPW(pbirSetCount));
 
-    if (LE_SUCCESS(success) && coverageIndex >= 0 && glyphIterator->next() && (le_uint32)coverageIndex < pairSetTableOffsetArrayRef.getCount()) {
-        Offset pairSetTableOffset = SWAPW(pairSetTableOffsetArray[coverageIndex]);
-        LEReferenceTo<PairSetTable> pairSetTable(base, success, pairSetTableOffset);
+    if (LE_SUCCESS(success) && coverbgeIndex >= 0 && glyphIterbtor->next() && (le_uint32)coverbgeIndex < pbirSetTbbleOffsetArrbyRef.getCount()) {
+        Offset pbirSetTbbleOffset = SWAPW(pbirSetTbbleOffsetArrby[coverbgeIndex]);
+        LEReferenceTo<PbirSetTbble> pbirSetTbble(bbse, success, pbirSetTbbleOffset);
         if( LE_FAILURE(success) ) return 0;
-        le_uint16 pairValueCount = SWAPW(pairSetTable->pairValueCount);
-        LEReferenceTo<PairValueRecord> pairValueRecordArray(pairSetTable, success, pairSetTable->pairValueRecordArray);
+        le_uint16 pbirVblueCount = SWAPW(pbirSetTbble->pbirVblueCount);
+        LEReferenceTo<PbirVblueRecord> pbirVblueRecordArrby(pbirSetTbble, success, pbirSetTbble->pbirVblueRecordArrby);
         if( LE_FAILURE(success) ) return 0;
-        le_int16 valueRecord1Size = ValueRecord::getSize(SWAPW(valueFormat1));
-        le_int16 valueRecord2Size = ValueRecord::getSize(SWAPW(valueFormat2));
-        le_int16 recordSize = sizeof(PairValueRecord) - sizeof(ValueRecord) + valueRecord1Size + valueRecord2Size;
-        LEGlyphID secondGlyph = glyphIterator->getCurrGlyphID();
-        LEReferenceTo<PairValueRecord> pairValueRecord;
+        le_int16 vblueRecord1Size = VblueRecord::getSize(SWAPW(vblueFormbt1));
+        le_int16 vblueRecord2Size = VblueRecord::getSize(SWAPW(vblueFormbt2));
+        le_int16 recordSize = sizeof(PbirVblueRecord) - sizeof(VblueRecord) + vblueRecord1Size + vblueRecord2Size;
+        LEGlyphID secondGlyph = glyphIterbtor->getCurrGlyphID();
+        LEReferenceTo<PbirVblueRecord> pbirVblueRecord;
 
-        if (pairValueCount != 0) {
-          pairValueRecord = findPairValueRecord((TTGlyphID) LE_GET_GLYPH(secondGlyph), pairValueRecordArray, pairValueCount, recordSize, success);
+        if (pbirVblueCount != 0) {
+          pbirVblueRecord = findPbirVblueRecord((TTGlyphID) LE_GET_GLYPH(secondGlyph), pbirVblueRecordArrby, pbirVblueCount, recordSize, success);
         }
 
-        if (pairValueRecord.isEmpty() || LE_FAILURE(success)) {
+        if (pbirVblueRecord.isEmpty() || LE_FAILURE(success)) {
             return 0;
         }
 
-        if (valueFormat1 != 0) {
-          pairValueRecord->valueRecord1.adjustPosition(SWAPW(valueFormat1), base, tempIterator, fontInstance, success);
+        if (vblueFormbt1 != 0) {
+          pbirVblueRecord->vblueRecord1.bdjustPosition(SWAPW(vblueFormbt1), bbse, tempIterbtor, fontInstbnce, success);
         }
 
-        if (valueFormat2 != 0) {
-          LEReferenceTo<ValueRecord> valueRecord2(base, success, ((char *) &pairValueRecord->valueRecord1 + valueRecord1Size));
+        if (vblueFormbt2 != 0) {
+          LEReferenceTo<VblueRecord> vblueRecord2(bbse, success, ((chbr *) &pbirVblueRecord->vblueRecord1 + vblueRecord1Size));
           if(LE_SUCCESS(success)) {
-            valueRecord2->adjustPosition(SWAPW(valueFormat2), base, *glyphIterator, fontInstance, success);
+            vblueRecord2->bdjustPosition(SWAPW(vblueFormbt2), bbse, *glyphIterbtor, fontInstbnce, success);
           }
         }
 
-        // back up glyphIterator so second glyph can be
-        // first glyph in the next pair
-        glyphIterator->prev();
+        // bbck up glyphIterbtor so second glyph cbn be
+        // first glyph in the next pbir
+        glyphIterbtor->prev();
         return 1;
     }
 
     return 0;
 }
 
-le_uint32 PairPositioningFormat2Subtable::process(const LEReferenceTo<PairPositioningFormat2Subtable> &base, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode &success) const
+le_uint32 PbirPositioningFormbt2Subtbble::process(const LEReferenceTo<PbirPositioningFormbt2Subtbble> &bbse, GlyphIterbtor *glyphIterbtor, const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const
 {
-    LEGlyphID firstGlyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(base, firstGlyph, success);
+    LEGlyphID firstGlyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 coverbgeIndex = getGlyphCoverbge(bbse, firstGlyph, success);
 
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    GlyphIterator tempIterator(*glyphIterator);
+    GlyphIterbtor tempIterbtor(*glyphIterbtor);
 
-    if (coverageIndex >= 0 && glyphIterator->next()) {
-        LEGlyphID secondGlyph = glyphIterator->getCurrGlyphID();
-        const LEReferenceTo<ClassDefinitionTable> classDef1(base, success, SWAPW(classDef1Offset));
-        const LEReferenceTo<ClassDefinitionTable> classDef2(base, success, SWAPW(classDef2Offset));
-        le_int32 class1 = classDef1->getGlyphClass(classDef1, firstGlyph, success);
-        le_int32 class2 = classDef2->getGlyphClass(classDef2, secondGlyph, success);
-        le_int16 valueRecord1Size = ValueRecord::getSize(SWAPW(valueFormat1));
-        le_int16 valueRecord2Size = ValueRecord::getSize(SWAPW(valueFormat2));
-        le_int16 class2RecordSize = valueRecord1Size + valueRecord2Size;
-        le_int16 class1RecordSize = class2RecordSize * SWAPW(class2Count);
-        const LEReferenceTo<Class1Record> class1Record(base, success, (const Class1Record *) ((char *) class1RecordArray + (class1RecordSize * class1)));
-        const LEReferenceTo<Class2Record> class2Record(base, success, (const Class2Record *) ((char *) class1Record->class2RecordArray + (class2RecordSize * class2)));
+    if (coverbgeIndex >= 0 && glyphIterbtor->next()) {
+        LEGlyphID secondGlyph = glyphIterbtor->getCurrGlyphID();
+        const LEReferenceTo<ClbssDefinitionTbble> clbssDef1(bbse, success, SWAPW(clbssDef1Offset));
+        const LEReferenceTo<ClbssDefinitionTbble> clbssDef2(bbse, success, SWAPW(clbssDef2Offset));
+        le_int32 clbss1 = clbssDef1->getGlyphClbss(clbssDef1, firstGlyph, success);
+        le_int32 clbss2 = clbssDef2->getGlyphClbss(clbssDef2, secondGlyph, success);
+        le_int16 vblueRecord1Size = VblueRecord::getSize(SWAPW(vblueFormbt1));
+        le_int16 vblueRecord2Size = VblueRecord::getSize(SWAPW(vblueFormbt2));
+        le_int16 clbss2RecordSize = vblueRecord1Size + vblueRecord2Size;
+        le_int16 clbss1RecordSize = clbss2RecordSize * SWAPW(clbss2Count);
+        const LEReferenceTo<Clbss1Record> clbss1Record(bbse, success, (const Clbss1Record *) ((chbr *) clbss1RecordArrby + (clbss1RecordSize * clbss1)));
+        const LEReferenceTo<Clbss2Record> clbss2Record(bbse, success, (const Clbss2Record *) ((chbr *) clbss1Record->clbss2RecordArrby + (clbss2RecordSize * clbss2)));
 
         if( LE_SUCCESS(success) ) {
-          if (valueFormat1 != 0) {
-            class2Record->valueRecord1.adjustPosition(SWAPW(valueFormat1), base, tempIterator, fontInstance, success);
+          if (vblueFormbt1 != 0) {
+            clbss2Record->vblueRecord1.bdjustPosition(SWAPW(vblueFormbt1), bbse, tempIterbtor, fontInstbnce, success);
           }
-          if (valueFormat2 != 0) {
-            const LEReferenceTo<ValueRecord> valueRecord2(base, success, ((char *) &class2Record->valueRecord1) + valueRecord1Size);
-            LEReferenceTo<PairPositioningFormat2Subtable> thisRef(base, success, this);
+          if (vblueFormbt2 != 0) {
+            const LEReferenceTo<VblueRecord> vblueRecord2(bbse, success, ((chbr *) &clbss2Record->vblueRecord1) + vblueRecord1Size);
+            LEReferenceTo<PbirPositioningFormbt2Subtbble> thisRef(bbse, success, this);
             if(LE_SUCCESS(success)) {
-              valueRecord2->adjustPosition(SWAPW(valueFormat2), thisRef, *glyphIterator, fontInstance, success);
+              vblueRecord2->bdjustPosition(SWAPW(vblueFormbt2), thisRef, *glyphIterbtor, fontInstbnce, success);
             }
           }
         }
 
-        // back up glyphIterator so second glyph can be
-        // first glyph in the next pair
-        glyphIterator->prev();
+        // bbck up glyphIterbtor so second glyph cbn be
+        // first glyph in the next pbir
+        glyphIterbtor->prev();
         return 1;
     }
 
     return 0;
 }
 
-LEReferenceTo<PairValueRecord>
-PairPositioningFormat1Subtable::findPairValueRecord(TTGlyphID glyphID, LEReferenceTo<PairValueRecord>& records,
+LEReferenceTo<PbirVblueRecord>
+PbirPositioningFormbt1Subtbble::findPbirVblueRecord(TTGlyphID glyphID, LEReferenceTo<PbirVblueRecord>& records,
                                                     le_uint16 recordCount,
                                                     le_uint16 recordSize, LEErrorCode &success) const
 {
 #if 1
-        // The OpenType spec. says that the ValueRecord table is
-        // sorted by secondGlyph. Unfortunately, there are fonts
-        // around that have an unsorted ValueRecord table.
-        LEReferenceTo<PairValueRecord> record(records);
+        // The OpenType spec. sbys thbt the VblueRecord tbble is
+        // sorted by secondGlyph. Unfortunbtely, there bre fonts
+        // bround thbt hbve bn unsorted VblueRecord tbble.
+        LEReferenceTo<PbirVblueRecord> record(records);
 
         for(le_int32 r = 0; r < recordCount; r += 1) {
-          if(LE_FAILURE(success)) return LEReferenceTo<PairValueRecord>();
+          if(LE_FAILURE(success)) return LEReferenceTo<PbirVblueRecord>();
           if (SWAPW(record->secondGlyph) == glyphID) {
             return record;
           }
 
-          record.addOffset(recordSize, success);
+          record.bddOffset(recordSize, success);
         }
 #else
-  #error dead code - not updated.
+  #error debd code - not updbted.
     le_uint8 bit = OpenTypeUtilities::highBit(recordCount);
     le_uint16 power = 1 << bit;
-    le_uint16 extra = (recordCount - power) * recordSize;
+    le_uint16 extrb = (recordCount - power) * recordSize;
     le_uint16 probe = power * recordSize;
-    const PairValueRecord *record = records;
-    const PairValueRecord *trial = (const PairValueRecord *) ((char *) record + extra);
+    const PbirVblueRecord *record = records;
+    const PbirVblueRecord *tribl = (const PbirVblueRecord *) ((chbr *) record + extrb);
 
-    if (SWAPW(trial->secondGlyph) <= glyphID) {
-        record = trial;
+    if (SWAPW(tribl->secondGlyph) <= glyphID) {
+        record = tribl;
     }
 
     while (probe > recordSize) {
         probe >>= 1;
-        trial = (const PairValueRecord *) ((char *) record + probe);
+        tribl = (const PbirVblueRecord *) ((chbr *) record + probe);
 
-        if (SWAPW(trial->secondGlyph) <= glyphID) {
-            record = trial;
+        if (SWAPW(tribl->secondGlyph) <= glyphID) {
+            record = tribl;
         }
     }
 
@@ -213,7 +213,7 @@ PairPositioningFormat1Subtable::findPairValueRecord(TTGlyphID glyphID, LEReferen
     }
 #endif
 
-    return LEReferenceTo<PairValueRecord>();
+    return LEReferenceTo<PbirVblueRecord>();
 }
 
 U_NAMESPACE_END

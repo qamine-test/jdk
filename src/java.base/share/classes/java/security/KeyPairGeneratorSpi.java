@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 /**
- * <p> This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code KeyPairGenerator} class, which is used to generate
- * pairs of public and private keys.
+ * <p> This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the {@code KeyPbirGenerbtor} clbss, which is used to generbte
+ * pbirs of public bnd privbte keys.
  *
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a key pair generator for a particular algorithm.
+ * <p> All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b key pbir generbtor for b pbrticulbr blgorithm.
  *
- * <p> In case the client does not explicitly initialize the KeyPairGenerator
- * (via a call to an {@code initialize} method), each provider must
- * supply (and document) a default initialization.
- * For example, the <i>Sun</i> provider uses a default modulus size (keysize)
+ * <p> In cbse the client does not explicitly initiblize the KeyPbirGenerbtor
+ * (vib b cbll to bn {@code initiblize} method), ebch provider must
+ * supply (bnd document) b defbult initiblizbtion.
+ * For exbmple, the <i>Sun</i> provider uses b defbult modulus size (keysize)
  * of 1024 bits.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  *
  *
- * @see KeyPairGenerator
- * @see java.security.spec.AlgorithmParameterSpec
+ * @see KeyPbirGenerbtor
+ * @see jbvb.security.spec.AlgorithmPbrbmeterSpec
  */
 
-public abstract class KeyPairGeneratorSpi {
+public bbstrbct clbss KeyPbirGenerbtorSpi {
 
     /**
-     * Initializes the key pair generator for a certain keysize, using
-     * the default parameter set.
+     * Initiblizes the key pbir generbtor for b certbin keysize, using
+     * the defbult pbrbmeter set.
      *
-     * @param keysize the keysize. This is an
-     * algorithm-specific metric, such as modulus length, specified in
+     * @pbrbm keysize the keysize. This is bn
+     * blgorithm-specific metric, such bs modulus length, specified in
      * number of bits.
      *
-     * @param random the source of randomness for this generator.
+     * @pbrbm rbndom the source of rbndomness for this generbtor.
      *
-     * @exception InvalidParameterException if the {@code keysize} is not
-     * supported by this KeyPairGeneratorSpi object.
+     * @exception InvblidPbrbmeterException if the {@code keysize} is not
+     * supported by this KeyPbirGenerbtorSpi object.
      */
-    public abstract void initialize(int keysize, SecureRandom random);
+    public bbstrbct void initiblize(int keysize, SecureRbndom rbndom);
 
     /**
-     * Initializes the key pair generator using the specified parameter
-     * set and user-provided source of randomness.
+     * Initiblizes the key pbir generbtor using the specified pbrbmeter
+     * set bnd user-provided source of rbndomness.
      *
-     * <p>This concrete method has been added to this previously-defined
-     * abstract class. (For backwards compatibility, it cannot be abstract.)
-     * It may be overridden by a provider to initialize the key pair
-     * generator. Such an override
-     * is expected to throw an InvalidAlgorithmParameterException if
-     * a parameter is inappropriate for this key pair generator.
-     * If this method is not overridden, it always throws an
-     * UnsupportedOperationException.
+     * <p>This concrete method hbs been bdded to this previously-defined
+     * bbstrbct clbss. (For bbckwbrds compbtibility, it cbnnot be bbstrbct.)
+     * It mby be overridden by b provider to initiblize the key pbir
+     * generbtor. Such bn override
+     * is expected to throw bn InvblidAlgorithmPbrbmeterException if
+     * b pbrbmeter is inbppropribte for this key pbir generbtor.
+     * If this method is not overridden, it blwbys throws bn
+     * UnsupportedOperbtionException.
      *
-     * @param params the parameter set used to generate the keys.
+     * @pbrbm pbrbms the pbrbmeter set used to generbte the keys.
      *
-     * @param random the source of randomness for this generator.
+     * @pbrbm rbndom the source of rbndomness for this generbtor.
      *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key pair generator.
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeters
+     * bre inbppropribte for this key pbir generbtor.
      *
      * @since 1.2
      */
-    public void initialize(AlgorithmParameterSpec params,
-                           SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-            throw new UnsupportedOperationException();
+    public void initiblize(AlgorithmPbrbmeterSpec pbrbms,
+                           SecureRbndom rbndom)
+        throws InvblidAlgorithmPbrbmeterException {
+            throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Generates a key pair. Unless an initialization method is called
-     * using a KeyPairGenerator interface, algorithm-specific defaults
-     * will be used. This will generate a new key pair every time it
-     * is called.
+     * Generbtes b key pbir. Unless bn initiblizbtion method is cblled
+     * using b KeyPbirGenerbtor interfbce, blgorithm-specific defbults
+     * will be used. This will generbte b new key pbir every time it
+     * is cblled.
      *
-     * @return the newly generated {@code KeyPair}
+     * @return the newly generbted {@code KeyPbir}
      */
-    public abstract KeyPair generateKeyPair();
+    public bbstrbct KeyPbir generbteKeyPbir();
 }

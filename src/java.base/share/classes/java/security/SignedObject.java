@@ -1,260 +1,260 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * <p> SignedObject is a class for the purpose of creating authentic
- * runtime objects whose integrity cannot be compromised without being
+ * <p> SignedObject is b clbss for the purpose of crebting buthentic
+ * runtime objects whose integrity cbnnot be compromised without being
  * detected.
  *
- * <p> More specifically, a SignedObject contains another Serializable
- * object, the (to-be-)signed object and its signature.
+ * <p> More specificblly, b SignedObject contbins bnother Seriblizbble
+ * object, the (to-be-)signed object bnd its signbture.
  *
- * <p> The signed object is a "deep copy" (in serialized form) of an
- * original object.  Once the copy is made, further manipulation of
- * the original object has no side effect on the copy.
+ * <p> The signed object is b "deep copy" (in seriblized form) of bn
+ * originbl object.  Once the copy is mbde, further mbnipulbtion of
+ * the originbl object hbs no side effect on the copy.
  *
- * <p> The underlying signing algorithm is designated by the Signature
- * object passed to the constructor and the {@code verify} method.
- * A typical usage for signing is the following:
+ * <p> The underlying signing blgorithm is designbted by the Signbture
+ * object pbssed to the constructor bnd the {@code verify} method.
+ * A typicbl usbge for signing is the following:
  *
  * <pre>{@code
- * Signature signingEngine = Signature.getInstance(algorithm,
+ * Signbture signingEngine = Signbture.getInstbnce(blgorithm,
  *                                                 provider);
  * SignedObject so = new SignedObject(myobject, signingKey,
  *                                    signingEngine);
  * }</pre>
  *
- * <p> A typical usage for verification is the following (having
+ * <p> A typicbl usbge for verificbtion is the following (hbving
  * received SignedObject {@code so}):
  *
  * <pre>{@code
- * Signature verificationEngine =
- *     Signature.getInstance(algorithm, provider);
- * if (so.verify(publickey, verificationEngine))
+ * Signbture verificbtionEngine =
+ *     Signbture.getInstbnce(blgorithm, provider);
+ * if (so.verify(publickey, verificbtionEngine))
  *     try {
  *         Object myobj = so.getObject();
- *     } catch (java.lang.ClassNotFoundException e) {};
+ *     } cbtch (jbvb.lbng.ClbssNotFoundException e) {};
  * }</pre>
  *
- * <p> Several points are worth noting.  First, there is no need to
- * initialize the signing or verification engine, as it will be
- * re-initialized inside the constructor and the {@code verify}
- * method. Secondly, for verification to succeed, the specified
- * public key must be the public key corresponding to the private key
- * used to generate the SignedObject.
+ * <p> Severbl points bre worth noting.  First, there is no need to
+ * initiblize the signing or verificbtion engine, bs it will be
+ * re-initiblized inside the constructor bnd the {@code verify}
+ * method. Secondly, for verificbtion to succeed, the specified
+ * public key must be the public key corresponding to the privbte key
+ * used to generbte the SignedObject.
  *
- * <p> More importantly, for flexibility reasons, the
- * constructor and {@code verify} method allow for
- * customized signature engines, which can implement signature
- * algorithms that are not installed formally as part of a crypto
- * provider.  However, it is crucial that the programmer writing the
- * verifier code be aware what {@code Signature} engine is being
- * used, as its own implementation of the {@code verify} method
- * is invoked to verify a signature.  In other words, a malicious
- * {@code Signature} may choose to always return true on
- * verification in an attempt to bypass a security check.
+ * <p> More importbntly, for flexibility rebsons, the
+ * constructor bnd {@code verify} method bllow for
+ * customized signbture engines, which cbn implement signbture
+ * blgorithms thbt bre not instblled formblly bs pbrt of b crypto
+ * provider.  However, it is crucibl thbt the progrbmmer writing the
+ * verifier code be bwbre whbt {@code Signbture} engine is being
+ * used, bs its own implementbtion of the {@code verify} method
+ * is invoked to verify b signbture.  In other words, b mblicious
+ * {@code Signbture} mby choose to blwbys return true on
+ * verificbtion in bn bttempt to bypbss b security check.
  *
- * <p> The signature algorithm can be, among others, the NIST standard
- * DSA, using DSA and SHA-1.  The algorithm is specified using the
- * same convention as that for signatures. The DSA algorithm using the
- * SHA-1 message digest algorithm can be specified, for example, as
- * "SHA/DSA" or "SHA-1/DSA" (they are equivalent).  In the case of
- * RSA, there are multiple choices for the message digest algorithm,
- * so the signing algorithm could be specified as, for example,
- * "MD2/RSA", "MD5/RSA" or "SHA-1/RSA".  The algorithm name must be
- * specified, as there is no default.
+ * <p> The signbture blgorithm cbn be, bmong others, the NIST stbndbrd
+ * DSA, using DSA bnd SHA-1.  The blgorithm is specified using the
+ * sbme convention bs thbt for signbtures. The DSA blgorithm using the
+ * SHA-1 messbge digest blgorithm cbn be specified, for exbmple, bs
+ * "SHA/DSA" or "SHA-1/DSA" (they bre equivblent).  In the cbse of
+ * RSA, there bre multiple choices for the messbge digest blgorithm,
+ * so the signing blgorithm could be specified bs, for exbmple,
+ * "MD2/RSA", "MD5/RSA" or "SHA-1/RSA".  The blgorithm nbme must be
+ * specified, bs there is no defbult.
  *
- * <p> The name of the Cryptography Package Provider is designated
- * also by the Signature parameter to the constructor and the
+ * <p> The nbme of the Cryptogrbphy Pbckbge Provider is designbted
+ * blso by the Signbture pbrbmeter to the constructor bnd the
  * {@code verify} method.  If the provider is not
- * specified, the default provider is used.  Each installation can
- * be configured to use a particular provider as default.
+ * specified, the defbult provider is used.  Ebch instbllbtion cbn
+ * be configured to use b pbrticulbr provider bs defbult.
  *
- * <p> Potential applications of SignedObject include:
+ * <p> Potentibl bpplicbtions of SignedObject include:
  * <ul>
- * <li> It can be used
- * internally to any Java runtime as an unforgeable authorization
- * token -- one that can be passed around without the fear that the
- * token can be maliciously modified without being detected.
+ * <li> It cbn be used
+ * internblly to bny Jbvb runtime bs bn unforgebble buthorizbtion
+ * token -- one thbt cbn be pbssed bround without the febr thbt the
+ * token cbn be mbliciously modified without being detected.
  * <li> It
- * can be used to sign and serialize data/object for storage outside
- * the Java runtime (e.g., storing critical access control data on
+ * cbn be used to sign bnd seriblize dbtb/object for storbge outside
+ * the Jbvb runtime (e.g., storing criticbl bccess control dbtb on
  * disk).
- * <li> Nested SignedObjects can be used to construct a logical
- * sequence of signatures, resembling a chain of authorization and
- * delegation.
+ * <li> Nested SignedObjects cbn be used to construct b logicbl
+ * sequence of signbtures, resembling b chbin of buthorizbtion bnd
+ * delegbtion.
  * </ul>
  *
- * @see Signature
+ * @see Signbture
  *
- * @author Li Gong
+ * @buthor Li Gong
  */
 
-public final class SignedObject implements Serializable {
+public finbl clbss SignedObject implements Seriblizbble {
 
-    private static final long serialVersionUID = 720502720485447167L;
+    privbte stbtic finbl long seriblVersionUID = 720502720485447167L;
 
     /*
-     * The original content is "deep copied" in its serialized format
-     * and stored in a byte array.  The signature field is also in the
-     * form of byte array.
+     * The originbl content is "deep copied" in its seriblized formbt
+     * bnd stored in b byte brrby.  The signbture field is blso in the
+     * form of byte brrby.
      */
 
-    private byte[] content;
-    private byte[] signature;
-    private String thealgorithm;
+    privbte byte[] content;
+    privbte byte[] signbture;
+    privbte String theblgorithm;
 
     /**
-     * Constructs a SignedObject from any Serializable object.
+     * Constructs b SignedObject from bny Seriblizbble object.
      * The given object is signed with the given signing key, using the
-     * designated signature engine.
+     * designbted signbture engine.
      *
-     * @param object the object to be signed.
-     * @param signingKey the private key for signing.
-     * @param signingEngine the signature signing engine.
+     * @pbrbm object the object to be signed.
+     * @pbrbm signingKey the privbte key for signing.
+     * @pbrbm signingEngine the signbture signing engine.
      *
-     * @exception IOException if an error occurs during serialization
-     * @exception InvalidKeyException if the key is invalid.
-     * @exception SignatureException if signing fails.
+     * @exception IOException if bn error occurs during seriblizbtion
+     * @exception InvblidKeyException if the key is invblid.
+     * @exception SignbtureException if signing fbils.
      */
-    public SignedObject(Serializable object, PrivateKey signingKey,
-                        Signature signingEngine)
-        throws IOException, InvalidKeyException, SignatureException {
-            // creating a stream pipe-line, from a to b
-            ByteArrayOutputStream b = new ByteArrayOutputStream();
-            ObjectOutput a = new ObjectOutputStream(b);
+    public SignedObject(Seriblizbble object, PrivbteKey signingKey,
+                        Signbture signingEngine)
+        throws IOException, InvblidKeyException, SignbtureException {
+            // crebting b strebm pipe-line, from b to b
+            ByteArrbyOutputStrebm b = new ByteArrbyOutputStrebm();
+            ObjectOutput b = new ObjectOutputStrebm(b);
 
-            // write and flush the object content to byte array
-            a.writeObject(object);
-            a.flush();
-            a.close();
-            this.content = b.toByteArray();
+            // write bnd flush the object content to byte brrby
+            b.writeObject(object);
+            b.flush();
+            b.close();
+            this.content = b.toByteArrby();
             b.close();
 
-            // now sign the encapsulated object
+            // now sign the encbpsulbted object
             this.sign(signingKey, signingEngine);
     }
 
     /**
-     * Retrieves the encapsulated object.
-     * The encapsulated object is de-serialized before it is returned.
+     * Retrieves the encbpsulbted object.
+     * The encbpsulbted object is de-seriblized before it is returned.
      *
-     * @return the encapsulated object.
+     * @return the encbpsulbted object.
      *
-     * @exception IOException if an error occurs during de-serialization
-     * @exception ClassNotFoundException if an error occurs during
-     * de-serialization
+     * @exception IOException if bn error occurs during de-seriblizbtion
+     * @exception ClbssNotFoundException if bn error occurs during
+     * de-seriblizbtion
      */
     public Object getObject()
-        throws IOException, ClassNotFoundException
+        throws IOException, ClbssNotFoundException
     {
-        // creating a stream pipe-line, from b to a
-        ByteArrayInputStream b = new ByteArrayInputStream(this.content);
-        ObjectInput a = new ObjectInputStream(b);
-        Object obj = a.readObject();
+        // crebting b strebm pipe-line, from b to b
+        ByteArrbyInputStrebm b = new ByteArrbyInputStrebm(this.content);
+        ObjectInput b = new ObjectInputStrebm(b);
+        Object obj = b.rebdObject();
         b.close();
-        a.close();
+        b.close();
         return obj;
     }
 
     /**
-     * Retrieves the signature on the signed object, in the form of a
-     * byte array.
+     * Retrieves the signbture on the signed object, in the form of b
+     * byte brrby.
      *
-     * @return the signature. Returns a new array each time this
-     * method is called.
+     * @return the signbture. Returns b new brrby ebch time this
+     * method is cblled.
      */
-    public byte[] getSignature() {
-        return this.signature.clone();
+    public byte[] getSignbture() {
+        return this.signbture.clone();
     }
 
     /**
-     * Retrieves the name of the signature algorithm.
+     * Retrieves the nbme of the signbture blgorithm.
      *
-     * @return the signature algorithm name.
+     * @return the signbture blgorithm nbme.
      */
     public String getAlgorithm() {
-        return this.thealgorithm;
+        return this.theblgorithm;
     }
 
     /**
-     * Verifies that the signature in this SignedObject is the valid
-     * signature for the object stored inside, with the given
-     * verification key, using the designated verification engine.
+     * Verifies thbt the signbture in this SignedObject is the vblid
+     * signbture for the object stored inside, with the given
+     * verificbtion key, using the designbted verificbtion engine.
      *
-     * @param verificationKey the public key for verification.
-     * @param verificationEngine the signature verification engine.
+     * @pbrbm verificbtionKey the public key for verificbtion.
+     * @pbrbm verificbtionEngine the signbture verificbtion engine.
      *
-     * @exception SignatureException if signature verification failed (an
-     *     exception prevented the signature verification engine from completing
-     *     normally).
-     * @exception InvalidKeyException if the verification key is invalid.
+     * @exception SignbtureException if signbture verificbtion fbiled (bn
+     *     exception prevented the signbture verificbtion engine from completing
+     *     normblly).
+     * @exception InvblidKeyException if the verificbtion key is invblid.
      *
-     * @return {@code true} if the signature
-     * is valid, {@code false} otherwise
+     * @return {@code true} if the signbture
+     * is vblid, {@code fblse} otherwise
      */
-    public boolean verify(PublicKey verificationKey,
-                          Signature verificationEngine)
-         throws InvalidKeyException, SignatureException {
-             verificationEngine.initVerify(verificationKey);
-             verificationEngine.update(this.content.clone());
-             return verificationEngine.verify(this.signature.clone());
+    public boolebn verify(PublicKey verificbtionKey,
+                          Signbture verificbtionEngine)
+         throws InvblidKeyException, SignbtureException {
+             verificbtionEngine.initVerify(verificbtionKey);
+             verificbtionEngine.updbte(this.content.clone());
+             return verificbtionEngine.verify(this.signbture.clone());
     }
 
     /*
-     * Signs the encapsulated object with the given signing key, using the
-     * designated signature engine.
+     * Signs the encbpsulbted object with the given signing key, using the
+     * designbted signbture engine.
      *
-     * @param signingKey the private key for signing.
-     * @param signingEngine the signature signing engine.
+     * @pbrbm signingKey the privbte key for signing.
+     * @pbrbm signingEngine the signbture signing engine.
      *
-     * @exception InvalidKeyException if the key is invalid.
-     * @exception SignatureException if signing fails.
+     * @exception InvblidKeyException if the key is invblid.
+     * @exception SignbtureException if signing fbils.
      */
-    private void sign(PrivateKey signingKey, Signature signingEngine)
-        throws InvalidKeyException, SignatureException {
-            // initialize the signing engine
+    privbte void sign(PrivbteKey signingKey, Signbture signingEngine)
+        throws InvblidKeyException, SignbtureException {
+            // initiblize the signing engine
             signingEngine.initSign(signingKey);
-            signingEngine.update(this.content.clone());
-            this.signature = signingEngine.sign().clone();
-            this.thealgorithm = signingEngine.getAlgorithm();
+            signingEngine.updbte(this.content.clone());
+            this.signbture = signingEngine.sign().clone();
+            this.theblgorithm = signingEngine.getAlgorithm();
     }
 
     /**
-     * readObject is called to restore the state of the SignedObject from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the SignedObject from
+     * b strebm.
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-            java.io.ObjectInputStream.GetField fields = s.readFields();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+            jbvb.io.ObjectInputStrebm.GetField fields = s.rebdFields();
             content = ((byte[])fields.get("content", null)).clone();
-            signature = ((byte[])fields.get("signature", null)).clone();
-            thealgorithm = (String)fields.get("thealgorithm", null);
+            signbture = ((byte[])fields.get("signbture", null)).clone();
+            theblgorithm = (String)fields.get("theblgorithm", null);
     }
 }

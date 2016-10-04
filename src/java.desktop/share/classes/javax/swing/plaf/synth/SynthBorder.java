@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.text.JTextComponent;
-import javax.swing.border.*;
-import javax.swing.plaf.UIResource;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.JTextComponent;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.UIResource;
 
 /**
- * SynthBorder is a border that delegates to a Painter. The Insets
- * are determined at construction time.
+ * SynthBorder is b border thbt delegbtes to b Pbinter. The Insets
+ * bre determined bt construction time.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class SynthBorder extends AbstractBorder implements UIResource {
-    private SynthUI ui;
-    private Insets insets;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss SynthBorder extends AbstrbctBorder implements UIResource {
+    privbte SynthUI ui;
+    privbte Insets insets;
 
     SynthBorder(SynthUI ui, Insets insets) {
         this.ui = ui;
@@ -50,24 +50,24 @@ class SynthBorder extends AbstractBorder implements UIResource {
         this(ui, null);
     }
 
-    public void paintBorder(Component c, Graphics g, int x, int y,
+    public void pbintBorder(Component c, Grbphics g, int x, int y,
                             int width, int height) {
         JComponent jc = (JComponent)c;
         SynthContext context = ui.getContext(jc);
         SynthStyle style = context.getStyle();
         if (style == null) {
-            assert false: "SynthBorder is being used outside after the UI " +
-                          "has been uninstalled";
+            bssert fblse: "SynthBorder is being used outside bfter the UI " +
+                          "hbs been uninstblled";
             return;
         }
-        ui.paintBorder(context, g, x, y, width, height);
+        ui.pbintBorder(context, g, x, y, width, height);
         context.dispose();
     }
 
     /**
-     * Reinitializes the insets parameter with this Border's current Insets.
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
+     * Reinitiblizes the insets pbrbmeter with this Border's current Insets.
+     * @pbrbm c the component for which this border insets vblue bpplies
+     * @pbrbm insets the object to be reinitiblized
      * @return the <code>insets</code> object
      */
     public Insets getBorderInsets(Component c, Insets insets) {
@@ -89,9 +89,9 @@ class SynthBorder extends AbstractBorder implements UIResource {
         else {
             insets.top = insets.bottom = insets.left = insets.right = 0;
         }
-        if (c instanceof JComponent) {
+        if (c instbnceof JComponent) {
             Region region = Region.getRegion((JComponent)c);
-            Insets margin = null;
+            Insets mbrgin = null;
             if ((region == Region.ARROW_BUTTON || region == Region.BUTTON ||
                  region == Region.CHECK_BOX ||
                  region == Region.CHECK_BOX_MENU_ITEM ||
@@ -99,8 +99,8 @@ class SynthBorder extends AbstractBorder implements UIResource {
                  region == Region.RADIO_BUTTON ||
                  region == Region.RADIO_BUTTON_MENU_ITEM ||
                  region == Region.TOGGLE_BUTTON) &&
-                       (c instanceof AbstractButton)) {
-                margin = ((AbstractButton)c).getMargin();
+                       (c instbnceof AbstrbctButton)) {
+                mbrgin = ((AbstrbctButton)c).getMbrgin();
             }
             else if ((region == Region.EDITOR_PANE ||
                       region == Region.FORMATTED_TEXT_FIELD ||
@@ -108,30 +108,30 @@ class SynthBorder extends AbstractBorder implements UIResource {
                       region == Region.TEXT_AREA ||
                       region == Region.TEXT_FIELD ||
                       region == Region.TEXT_PANE) &&
-                        (c instanceof JTextComponent)) {
-                margin = ((JTextComponent)c).getMargin();
+                        (c instbnceof JTextComponent)) {
+                mbrgin = ((JTextComponent)c).getMbrgin();
             }
-            else if (region == Region.TOOL_BAR && (c instanceof JToolBar)) {
-                margin = ((JToolBar)c).getMargin();
+            else if (region == Region.TOOL_BAR && (c instbnceof JToolBbr)) {
+                mbrgin = ((JToolBbr)c).getMbrgin();
             }
-            else if (region == Region.MENU_BAR && (c instanceof JMenuBar)) {
-                margin = ((JMenuBar)c).getMargin();
+            else if (region == Region.MENU_BAR && (c instbnceof JMenuBbr)) {
+                mbrgin = ((JMenuBbr)c).getMbrgin();
             }
-            if (margin != null) {
-                insets.top += margin.top;
-                insets.bottom += margin.bottom;
-                insets.left += margin.left;
-                insets.right += margin.right;
+            if (mbrgin != null) {
+                insets.top += mbrgin.top;
+                insets.bottom += mbrgin.bottom;
+                insets.left += mbrgin.left;
+                insets.right += mbrgin.right;
             }
         }
         return insets;
     }
 
     /**
-     * This default implementation returns false.
-     * @return false
+     * This defbult implementbtion returns fblse.
+     * @return fblse
      */
-    public boolean isBorderOpaque() {
-        return false;
+    public boolebn isBorderOpbque() {
+        return fblse;
     }
 }

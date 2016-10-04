@@ -3,214 +3,214 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbckbge com.sun.org.bpbche.xml.internbl.security.signbture;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Arrays;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.io.StringWriter;
+import jbvb.io.Writer;
+import jbvb.util.Arrbys;
+import jbvb.util.Set;
 
-import com.sun.org.apache.xml.internal.security.c14n.helper.AttrCompare;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.c14n.helper.AttrCompbre;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 
 /**
- * Class XMLSignatureInputDebugger
+ * Clbss XMLSignbtureInputDebugger
  */
-public class XMLSignatureInputDebugger {
+public clbss XMLSignbtureInputDebugger {
 
-    /** Field _xmlSignatureInput */
-    private Set<Node> xpathNodeSet;
+    /** Field _xmlSignbtureInput */
+    privbte Set<Node> xpbthNodeSet;
 
-    private Set<String> inclusiveNamespaces;
+    privbte Set<String> inclusiveNbmespbces;
 
     /** Field doc */
-    private Document doc = null;
+    privbte Document doc = null;
 
     /** Field writer */
-    private Writer writer = null;
+    privbte Writer writer = null;
 
     /** The HTML Prefix* */
-    static final String HTMLPrefix =
-        "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"
+    stbtic finbl String HTMLPrefix =
+        "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Trbnsitionbl//EN\">\n"
         + "<html>\n"
-        + "<head>\n"
-        + "<title>Caninical XML node set</title>\n"
+        + "<hebd>\n"
+        + "<title>Cbninicbl XML node set</title>\n"
         + "<style type=\"text/css\">\n"
         + "<!-- \n"
         + ".INCLUDED { \n"
         + "   color: #000000; \n"
-        + "   background-color: \n"
+        + "   bbckground-color: \n"
         + "   #FFFFFF; \n"
         + "   font-weight: bold; } \n"
         + ".EXCLUDED { \n"
         + "   color: #666666; \n"
-        + "   background-color: \n"
+        + "   bbckground-color: \n"
         + "   #999999; } \n"
         + ".INCLUDEDINCLUSIVENAMESPACE { \n"
         + "   color: #0000FF; \n"
-        + "   background-color: #FFFFFF; \n"
+        + "   bbckground-color: #FFFFFF; \n"
         + "   font-weight: bold; \n"
-        + "   font-style: italic; } \n"
+        + "   font-style: itblic; } \n"
         + ".EXCLUDEDINCLUSIVENAMESPACE { \n"
         + "   color: #0000FF; \n"
-        + "   background-color: #999999; \n"
-        + "   font-style: italic; } \n"
+        + "   bbckground-color: #999999; \n"
+        + "   font-style: itblic; } \n"
         + "--> \n"
         + "</style> \n"
-        + "</head>\n"
+        + "</hebd>\n"
         + "<body bgcolor=\"#999999\">\n"
-        + "<h1>Explanation of the output</h1>\n"
-        + "<p>The following text contains the nodeset of the given Reference before it is canonicalized. There exist four different styles to indicate how a given node is treated.</p>\n"
+        + "<h1>Explbnbtion of the output</h1>\n"
+        + "<p>The following text contbins the nodeset of the given Reference before it is cbnonicblized. There exist four different styles to indicbte how b given node is trebted.</p>\n"
         + "<ul>\n"
-        + "<li class=\"INCLUDED\">A node which is in the node set is labeled using the INCLUDED style.</li>\n"
-        + "<li class=\"EXCLUDED\">A node which is <em>NOT</em> in the node set is labeled EXCLUDED style.</li>\n"
-        + "<li class=\"INCLUDEDINCLUSIVENAMESPACE\">A namespace which is in the node set AND in the InclusiveNamespaces PrefixList is labeled using the INCLUDEDINCLUSIVENAMESPACE style.</li>\n"
-        + "<li class=\"EXCLUDEDINCLUSIVENAMESPACE\">A namespace which is in NOT the node set AND in the InclusiveNamespaces PrefixList is labeled using the INCLUDEDINCLUSIVENAMESPACE style.</li>\n"
+        + "<li clbss=\"INCLUDED\">A node which is in the node set is lbbeled using the INCLUDED style.</li>\n"
+        + "<li clbss=\"EXCLUDED\">A node which is <em>NOT</em> in the node set is lbbeled EXCLUDED style.</li>\n"
+        + "<li clbss=\"INCLUDEDINCLUSIVENAMESPACE\">A nbmespbce which is in the node set AND in the InclusiveNbmespbces PrefixList is lbbeled using the INCLUDEDINCLUSIVENAMESPACE style.</li>\n"
+        + "<li clbss=\"EXCLUDEDINCLUSIVENAMESPACE\">A nbmespbce which is in NOT the node set AND in the InclusiveNbmespbces PrefixList is lbbeled using the INCLUDEDINCLUSIVENAMESPACE style.</li>\n"
         + "</ul>\n" + "<h1>Output</h1>\n" + "<pre>\n";
 
     /** HTML Suffix * */
-    static final String HTMLSuffix = "</pre></body></html>";
+    stbtic finbl String HTMLSuffix = "</pre></body></html>";
 
-    static final String HTMLExcludePrefix = "<span class=\"EXCLUDED\">";
+    stbtic finbl String HTMLExcludePrefix = "<spbn clbss=\"EXCLUDED\">";
 
-    static final String HTMLIncludePrefix = "<span class=\"INCLUDED\">";
+    stbtic finbl String HTMLIncludePrefix = "<spbn clbss=\"INCLUDED\">";
 
-    static final String HTMLIncludeOrExcludeSuffix = "</span>";
+    stbtic finbl String HTMLIncludeOrExcludeSuffix = "</spbn>";
 
-    static final String HTMLIncludedInclusiveNamespacePrefix = "<span class=\"INCLUDEDINCLUSIVENAMESPACE\">";
+    stbtic finbl String HTMLIncludedInclusiveNbmespbcePrefix = "<spbn clbss=\"INCLUDEDINCLUSIVENAMESPACE\">";
 
-    static final String HTMLExcludedInclusiveNamespacePrefix = "<span class=\"EXCLUDEDINCLUSIVENAMESPACE\">";
+    stbtic finbl String HTMLExcludedInclusiveNbmespbcePrefix = "<spbn clbss=\"EXCLUDEDINCLUSIVENAMESPACE\">";
 
-    private static final int NODE_BEFORE_DOCUMENT_ELEMENT = -1;
+    privbte stbtic finbl int NODE_BEFORE_DOCUMENT_ELEMENT = -1;
 
-    private static final int NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT = 0;
+    privbte stbtic finbl int NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT = 0;
 
-    private static final int NODE_AFTER_DOCUMENT_ELEMENT = 1;
+    privbte stbtic finbl int NODE_AFTER_DOCUMENT_ELEMENT = 1;
 
-    static final AttrCompare ATTR_COMPARE = new AttrCompare();
+    stbtic finbl AttrCompbre ATTR_COMPARE = new AttrCompbre();
 
     /**
-     * Constructor XMLSignatureInputDebugger
+     * Constructor XMLSignbtureInputDebugger
      *
-     * @param xmlSignatureInput the signature to pretty print
+     * @pbrbm xmlSignbtureInput the signbture to pretty print
      */
-    public XMLSignatureInputDebugger(XMLSignatureInput xmlSignatureInput) {
-        if (!xmlSignatureInput.isNodeSet()) {
-            this.xpathNodeSet = null;
+    public XMLSignbtureInputDebugger(XMLSignbtureInput xmlSignbtureInput) {
+        if (!xmlSignbtureInput.isNodeSet()) {
+            this.xpbthNodeSet = null;
         } else {
-            this.xpathNodeSet = xmlSignatureInput.getInputNodeSet();
+            this.xpbthNodeSet = xmlSignbtureInput.getInputNodeSet();
         }
     }
 
     /**
-     * Constructor XMLSignatureInputDebugger
+     * Constructor XMLSignbtureInputDebugger
      *
-     * @param xmlSignatureInput the signatur to pretty print
-     * @param inclusiveNamespace
+     * @pbrbm xmlSignbtureInput the signbtur to pretty print
+     * @pbrbm inclusiveNbmespbce
      */
-    public XMLSignatureInputDebugger(
-        XMLSignatureInput xmlSignatureInput,
-        Set<String> inclusiveNamespace
+    public XMLSignbtureInputDebugger(
+        XMLSignbtureInput xmlSignbtureInput,
+        Set<String> inclusiveNbmespbce
     ) {
-        this(xmlSignatureInput);
-        this.inclusiveNamespaces = inclusiveNamespace;
+        this(xmlSignbtureInput);
+        this.inclusiveNbmespbces = inclusiveNbmespbce;
     }
 
     /**
-     * Method getHTMLRepresentation
+     * Method getHTMLRepresentbtion
      *
-     * @return The HTML Representation.
-     * @throws XMLSignatureException
+     * @return The HTML Representbtion.
+     * @throws XMLSignbtureException
      */
-    public String getHTMLRepresentation() throws XMLSignatureException {
-        if ((this.xpathNodeSet == null) || (this.xpathNodeSet.size() == 0)) {
+    public String getHTMLRepresentbtion() throws XMLSignbtureException {
+        if ((this.xpbthNodeSet == null) || (this.xpbthNodeSet.size() == 0)) {
             return HTMLPrefix + "<blink>no node set, sorry</blink>" + HTMLSuffix;
         }
 
-        // get only a single node as anchor to fetch the owner document
-        Node n = this.xpathNodeSet.iterator().next();
+        // get only b single node bs bnchor to fetch the owner document
+        Node n = this.xpbthNodeSet.iterbtor().next();
 
         this.doc = XMLUtils.getOwnerDocument(n);
 
         try {
             this.writer = new StringWriter();
 
-            this.canonicalizeXPathNodeSet(this.doc);
+            this.cbnonicblizeXPbthNodeSet(this.doc);
             this.writer.close();
 
             return this.writer.toString();
-        } catch (IOException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } finally {
-            this.xpathNodeSet = null;
+        } cbtch (IOException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } finblly {
+            this.xpbthNodeSet = null;
             this.doc = null;
             this.writer = null;
         }
     }
 
     /**
-     * Method canonicalizeXPathNodeSet
+     * Method cbnonicblizeXPbthNodeSet
      *
-     * @param currentNode
-     * @throws XMLSignatureException
+     * @pbrbm currentNode
+     * @throws XMLSignbtureException
      * @throws IOException
      */
-    private void canonicalizeXPathNodeSet(Node currentNode)
-        throws XMLSignatureException, IOException {
+    privbte void cbnonicblizeXPbthNodeSet(Node currentNode)
+        throws XMLSignbtureException, IOException {
 
         int currentNodeType = currentNode.getNodeType();
         switch (currentNodeType) {
 
 
-        case Node.ENTITY_NODE:
-        case Node.NOTATION_NODE:
-        case Node.DOCUMENT_FRAGMENT_NODE:
-        case Node.ATTRIBUTE_NODE:
-            throw new XMLSignatureException("empty");
-        case Node.DOCUMENT_NODE:
+        cbse Node.ENTITY_NODE:
+        cbse Node.NOTATION_NODE:
+        cbse Node.DOCUMENT_FRAGMENT_NODE:
+        cbse Node.ATTRIBUTE_NODE:
+            throw new XMLSignbtureException("empty");
+        cbse Node.DOCUMENT_NODE:
             this.writer.write(HTMLPrefix);
 
             for (Node currentChild = currentNode.getFirstChild();
                 currentChild != null; currentChild = currentChild.getNextSibling()) {
-                this.canonicalizeXPathNodeSet(currentChild);
+                this.cbnonicblizeXPbthNodeSet(currentChild);
             }
 
             this.writer.write(HTMLSuffix);
-            break;
+            brebk;
 
-        case Node.COMMENT_NODE:
-            if (this.xpathNodeSet.contains(currentNode)) {
+        cbse Node.COMMENT_NODE:
+            if (this.xpbthNodeSet.contbins(currentNode)) {
                 this.writer.write(HTMLIncludePrefix);
             } else {
                 this.writer.write(HTMLExcludePrefix);
             }
 
-            int position = getPositionRelativeToDocumentElement(currentNode);
+            int position = getPositionRelbtiveToDocumentElement(currentNode);
 
             if (position == NODE_AFTER_DOCUMENT_ELEMENT) {
                 this.writer.write("\n");
@@ -223,16 +223,16 @@ public class XMLSignatureInputDebugger {
             }
 
             this.writer.write(HTMLIncludeOrExcludeSuffix);
-            break;
+            brebk;
 
-        case Node.PROCESSING_INSTRUCTION_NODE:
-            if (this.xpathNodeSet.contains(currentNode)) {
+        cbse Node.PROCESSING_INSTRUCTION_NODE:
+            if (this.xpbthNodeSet.contbins(currentNode)) {
                 this.writer.write(HTMLIncludePrefix);
             } else {
                 this.writer.write(HTMLExcludePrefix);
             }
 
-            position = getPositionRelativeToDocumentElement(currentNode);
+            position = getPositionRelbtiveToDocumentElement(currentNode);
 
             if (position == NODE_AFTER_DOCUMENT_ELEMENT) {
                 this.writer.write("\n");
@@ -245,17 +245,17 @@ public class XMLSignatureInputDebugger {
             }
 
             this.writer.write(HTMLIncludeOrExcludeSuffix);
-            break;
+            brebk;
 
-        case Node.TEXT_NODE:
-        case Node.CDATA_SECTION_NODE:
-            if (this.xpathNodeSet.contains(currentNode)) {
+        cbse Node.TEXT_NODE:
+        cbse Node.CDATA_SECTION_NODE:
+            if (this.xpbthNodeSet.contbins(currentNode)) {
                 this.writer.write(HTMLIncludePrefix);
             } else {
                 this.writer.write(HTMLExcludePrefix);
             }
 
-            outputTextToWriter(currentNode.getNodeValue());
+            outputTextToWriter(currentNode.getNodeVblue());
 
             for (Node nextSibling = currentNode.getNextSibling();
                 (nextSibling != null)
@@ -263,72 +263,72 @@ public class XMLSignatureInputDebugger {
                     || (nextSibling.getNodeType() == Node.CDATA_SECTION_NODE));
                 nextSibling = nextSibling.getNextSibling()) {
                 /*
-                 * The XPath data model allows to select only the first of a
-                 * sequence of mixed text and CDATA nodes. But we must output
-                 * them all, so we must search:
+                 * The XPbth dbtb model bllows to select only the first of b
+                 * sequence of mixed text bnd CDATA nodes. But we must output
+                 * them bll, so we must sebrch:
                  *
-                 * @see http://nagoya.apache.org/bugzilla/show_bug.cgi?id=6329
+                 * @see http://nbgoyb.bpbche.org/bugzillb/show_bug.cgi?id=6329
                  */
-                this.outputTextToWriter(nextSibling.getNodeValue());
+                this.outputTextToWriter(nextSibling.getNodeVblue());
             }
 
             this.writer.write(HTMLIncludeOrExcludeSuffix);
-            break;
+            brebk;
 
-        case Node.ELEMENT_NODE:
+        cbse Node.ELEMENT_NODE:
             Element currentElement = (Element) currentNode;
 
-            if (this.xpathNodeSet.contains(currentNode)) {
+            if (this.xpbthNodeSet.contbins(currentNode)) {
                 this.writer.write(HTMLIncludePrefix);
             } else {
                 this.writer.write(HTMLExcludePrefix);
             }
 
             this.writer.write("&lt;");
-            this.writer.write(currentElement.getTagName());
+            this.writer.write(currentElement.getTbgNbme());
 
             this.writer.write(HTMLIncludeOrExcludeSuffix);
 
-            // we output all Attrs which are available
-            NamedNodeMap attrs = currentElement.getAttributes();
-            int attrsLength = attrs.getLength();
-            Attr attrs2[] = new Attr[attrsLength];
+            // we output bll Attrs which bre bvbilbble
+            NbmedNodeMbp bttrs = currentElement.getAttributes();
+            int bttrsLength = bttrs.getLength();
+            Attr bttrs2[] = new Attr[bttrsLength];
 
-            for (int i = 0; i < attrsLength; i++) {
-                attrs2[i] = (Attr)attrs.item(i);
+            for (int i = 0; i < bttrsLength; i++) {
+                bttrs2[i] = (Attr)bttrs.item(i);
             }
 
-            Arrays.sort(attrs2, ATTR_COMPARE);
-            Object attrs3[] = attrs2;
+            Arrbys.sort(bttrs2, ATTR_COMPARE);
+            Object bttrs3[] = bttrs2;
 
-            for (int i = 0; i < attrsLength; i++) {
-                Attr a = (Attr) attrs3[i];
-                boolean included = this.xpathNodeSet.contains(a);
-                boolean inclusive = this.inclusiveNamespaces.contains(a.getName());
+            for (int i = 0; i < bttrsLength; i++) {
+                Attr b = (Attr) bttrs3[i];
+                boolebn included = this.xpbthNodeSet.contbins(b);
+                boolebn inclusive = this.inclusiveNbmespbces.contbins(b.getNbme());
 
                 if (included) {
                     if (inclusive) {
-                        // included and inclusive
-                        this.writer.write(HTMLIncludedInclusiveNamespacePrefix);
+                        // included bnd inclusive
+                        this.writer.write(HTMLIncludedInclusiveNbmespbcePrefix);
                     } else {
-                        // included and not inclusive
+                        // included bnd not inclusive
                         this.writer.write(HTMLIncludePrefix);
                     }
                 } else {
                     if (inclusive) {
-                        // excluded and inclusive
-                        this.writer.write(HTMLExcludedInclusiveNamespacePrefix);
+                        // excluded bnd inclusive
+                        this.writer.write(HTMLExcludedInclusiveNbmespbcePrefix);
                     } else {
-                        // excluded and not inclusive
+                        // excluded bnd not inclusive
                         this.writer.write(HTMLExcludePrefix);
                     }
                 }
 
-                this.outputAttrToWriter(a.getNodeName(), a.getNodeValue());
+                this.outputAttrToWriter(b.getNodeNbme(), b.getNodeVblue());
                 this.writer.write(HTMLIncludeOrExcludeSuffix);
             }
 
-            if (this.xpathNodeSet.contains(currentNode)) {
+            if (this.xpbthNodeSet.contbins(currentNode)) {
                 this.writer.write(HTMLIncludePrefix);
             } else {
                 this.writer.write(HTMLExcludePrefix);
@@ -338,37 +338,37 @@ public class XMLSignatureInputDebugger {
 
             this.writer.write(HTMLIncludeOrExcludeSuffix);
 
-            // traversal
+            // trbversbl
             for (Node currentChild = currentNode.getFirstChild();
                 currentChild != null;
                 currentChild = currentChild.getNextSibling()) {
-                this.canonicalizeXPathNodeSet(currentChild);
+                this.cbnonicblizeXPbthNodeSet(currentChild);
             }
 
-            if (this.xpathNodeSet.contains(currentNode)) {
+            if (this.xpbthNodeSet.contbins(currentNode)) {
                 this.writer.write(HTMLIncludePrefix);
             } else {
                 this.writer.write(HTMLExcludePrefix);
             }
 
             this.writer.write("&lt;/");
-            this.writer.write(currentElement.getTagName());
+            this.writer.write(currentElement.getTbgNbme());
             this.writer.write("&gt;");
 
             this.writer.write(HTMLIncludeOrExcludeSuffix);
-            break;
+            brebk;
 
-        case Node.DOCUMENT_TYPE_NODE:
-        default:
-            break;
+        cbse Node.DOCUMENT_TYPE_NODE:
+        defbult:
+            brebk;
         }
     }
 
     /**
-     * Checks whether a Comment or ProcessingInstruction is before or after the
-     * document element. This is needed for prepending or appending "\n"s.
+     * Checks whether b Comment or ProcessingInstruction is before or bfter the
+     * document element. This is needed for prepending or bppending "\n"s.
      *
-     * @param currentNode
+     * @pbrbm currentNode
      *            comment or pi to check
      * @return NODE_BEFORE_DOCUMENT_ELEMENT,
      *         NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT or
@@ -377,14 +377,14 @@ public class XMLSignatureInputDebugger {
      * @see #NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT
      * @see #NODE_AFTER_DOCUMENT_ELEMENT
      */
-    private int getPositionRelativeToDocumentElement(Node currentNode) {
+    privbte int getPositionRelbtiveToDocumentElement(Node currentNode) {
         if (currentNode == null) {
             return NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
         }
 
         Document doc = currentNode.getOwnerDocument();
 
-        if (currentNode.getParentNode() != doc) {
+        if (currentNode.getPbrentNode() != doc) {
             return NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
         }
 
@@ -408,62 +408,62 @@ public class XMLSignatureInputDebugger {
     }
 
     /**
-     * Normalizes an {@link Attr}ibute value
+     * Normblizes bn {@link Attr}ibute vblue
      *
-     * The string value of the node is modified by replacing
+     * The string vblue of the node is modified by replbcing
      * <UL>
-     * <LI>all ampersands (&) with <CODE>&amp;amp;</CODE></LI>
-     * <LI>all open angle brackets (<) with <CODE>&amp;lt;</CODE></LI>
-     * <LI>all quotation mark characters with <CODE>&amp;quot;</CODE></LI>
-     * <LI>and the whitespace characters <CODE>#x9</CODE>, #xA, and #xD,
-     * with character references. The character references are written in
-     * uppercase hexadecimal with no leading zeroes (for example, <CODE>#xD</CODE>
-     * is represented by the character reference <CODE>&amp;#xD;</CODE>)</LI>
+     * <LI>bll bmpersbnds (&) with <CODE>&bmp;bmp;</CODE></LI>
+     * <LI>bll open bngle brbckets (<) with <CODE>&bmp;lt;</CODE></LI>
+     * <LI>bll quotbtion mbrk chbrbcters with <CODE>&bmp;quot;</CODE></LI>
+     * <LI>bnd the whitespbce chbrbcters <CODE>#x9</CODE>, #xA, bnd #xD,
+     * with chbrbcter references. The chbrbcter references bre written in
+     * uppercbse hexbdecimbl with no lebding zeroes (for exbmple, <CODE>#xD</CODE>
+     * is represented by the chbrbcter reference <CODE>&bmp;#xD;</CODE>)</LI>
      * </UL>
      *
-     * @param name
-     * @param value
+     * @pbrbm nbme
+     * @pbrbm vblue
      * @throws IOException
      */
-    private void outputAttrToWriter(String name, String value) throws IOException {
+    privbte void outputAttrToWriter(String nbme, String vblue) throws IOException {
         this.writer.write(" ");
-        this.writer.write(name);
+        this.writer.write(nbme);
         this.writer.write("=\"");
 
-        int length = value.length();
+        int length = vblue.length();
 
         for (int i = 0; i < length; i++) {
-            char c = value.charAt(i);
+            chbr c = vblue.chbrAt(i);
 
             switch (c) {
 
-            case '&':
-                this.writer.write("&amp;amp;");
-                break;
+            cbse '&':
+                this.writer.write("&bmp;bmp;");
+                brebk;
 
-            case '<':
-                this.writer.write("&amp;lt;");
-                break;
+            cbse '<':
+                this.writer.write("&bmp;lt;");
+                brebk;
 
-            case '"':
-                this.writer.write("&amp;quot;");
-                break;
+            cbse '"':
+                this.writer.write("&bmp;quot;");
+                brebk;
 
-            case 0x09: // '\t'
-                this.writer.write("&amp;#x9;");
-                break;
+            cbse 0x09: // '\t'
+                this.writer.write("&bmp;#x9;");
+                brebk;
 
-            case 0x0A: // '\n'
-                this.writer.write("&amp;#xA;");
-                break;
+            cbse 0x0A: // '\n'
+                this.writer.write("&bmp;#xA;");
+                brebk;
 
-            case 0x0D: // '\r'
-                this.writer.write("&amp;#xD;");
-                break;
+            cbse 0x0D: // '\r'
+                this.writer.write("&bmp;#xD;");
+                brebk;
 
-            default:
+            defbult:
                 this.writer.write(c);
-                break;
+                brebk;
             }
         }
 
@@ -471,12 +471,12 @@ public class XMLSignatureInputDebugger {
     }
 
     /**
-     * Normalizes a {@link org.w3c.dom.Comment} value
+     * Normblizes b {@link org.w3c.dom.Comment} vblue
      *
-     * @param currentPI
+     * @pbrbm currentPI
      * @throws IOException
      */
-    private void outputPItoWriter(ProcessingInstruction currentPI) throws IOException {
+    privbte void outputPItoWriter(ProcessingInstruction currentPI) throws IOException {
 
         if (currentPI == null) {
             return;
@@ -484,51 +484,51 @@ public class XMLSignatureInputDebugger {
 
         this.writer.write("&lt;?");
 
-        String target = currentPI.getTarget();
-        int length = target.length();
+        String tbrget = currentPI.getTbrget();
+        int length = tbrget.length();
 
         for (int i = 0; i < length; i++) {
-            char c = target.charAt(i);
+            chbr c = tbrget.chbrAt(i);
 
             switch (c) {
 
-            case 0x0D:
-                this.writer.write("&amp;#xD;");
-                break;
+            cbse 0x0D:
+                this.writer.write("&bmp;#xD;");
+                brebk;
 
-            case ' ':
+            cbse ' ':
                 this.writer.write("&middot;");
-                break;
+                brebk;
 
-            case '\n':
-                this.writer.write("&para;\n");
-                break;
+            cbse '\n':
+                this.writer.write("&pbrb;\n");
+                brebk;
 
-            default:
+            defbult:
                 this.writer.write(c);
-                break;
+                brebk;
             }
         }
 
-        String data = currentPI.getData();
+        String dbtb = currentPI.getDbtb();
 
-        length = data.length();
+        length = dbtb.length();
 
         if (length > 0) {
             this.writer.write(" ");
 
             for (int i = 0; i < length; i++) {
-                char c = data.charAt(i);
+                chbr c = dbtb.chbrAt(i);
 
                 switch (c) {
 
-                case 0x0D:
-                    this.writer.write("&amp;#xD;");
-                    break;
+                cbse 0x0D:
+                    this.writer.write("&bmp;#xD;");
+                    brebk;
 
-                default:
+                defbult:
                     this.writer.write(c);
-                    break;
+                    brebk;
                 }
             }
         }
@@ -539,10 +539,10 @@ public class XMLSignatureInputDebugger {
     /**
      * Method outputCommentToWriter
      *
-     * @param currentComment
+     * @pbrbm currentComment
      * @throws IOException
      */
-    private void outputCommentToWriter(Comment currentComment) throws IOException {
+    privbte void outputCommentToWriter(Comment currentComment) throws IOException {
 
         if (currentComment == null) {
             return;
@@ -550,29 +550,29 @@ public class XMLSignatureInputDebugger {
 
         this.writer.write("&lt;!--");
 
-        String data = currentComment.getData();
-        int length = data.length();
+        String dbtb = currentComment.getDbtb();
+        int length = dbtb.length();
 
         for (int i = 0; i < length; i++) {
-            char c = data.charAt(i);
+            chbr c = dbtb.chbrAt(i);
 
             switch (c) {
 
-            case 0x0D:
-                this.writer.write("&amp;#xD;");
-                break;
+            cbse 0x0D:
+                this.writer.write("&bmp;#xD;");
+                brebk;
 
-            case ' ':
+            cbse ' ':
                 this.writer.write("&middot;");
-                break;
+                brebk;
 
-            case '\n':
-                this.writer.write("&para;\n");
-                break;
+            cbse '\n':
+                this.writer.write("&pbrb;\n");
+                brebk;
 
-            default:
+            defbult:
                 this.writer.write(c);
-                break;
+                brebk;
             }
         }
 
@@ -582,10 +582,10 @@ public class XMLSignatureInputDebugger {
     /**
      * Method outputTextToWriter
      *
-     * @param text
+     * @pbrbm text
      * @throws IOException
      */
-    private void outputTextToWriter(String text) throws IOException {
+    privbte void outputTextToWriter(String text) throws IOException {
         if (text == null) {
             return;
         }
@@ -593,37 +593,37 @@ public class XMLSignatureInputDebugger {
         int length = text.length();
 
         for (int i = 0; i < length; i++) {
-            char c = text.charAt(i);
+            chbr c = text.chbrAt(i);
 
             switch (c) {
 
-            case '&':
-                this.writer.write("&amp;amp;");
-                break;
+            cbse '&':
+                this.writer.write("&bmp;bmp;");
+                brebk;
 
-            case '<':
-                this.writer.write("&amp;lt;");
-                break;
+            cbse '<':
+                this.writer.write("&bmp;lt;");
+                brebk;
 
-            case '>':
-                this.writer.write("&amp;gt;");
-                break;
+            cbse '>':
+                this.writer.write("&bmp;gt;");
+                brebk;
 
-            case 0xD:
-                this.writer.write("&amp;#xD;");
-                break;
+            cbse 0xD:
+                this.writer.write("&bmp;#xD;");
+                brebk;
 
-            case ' ':
+            cbse ' ':
                 this.writer.write("&middot;");
-                break;
+                brebk;
 
-            case '\n':
-                this.writer.write("&para;\n");
-                break;
+            cbse '\n':
+                this.writer.write("&pbrb;\n");
+                brebk;
 
-            default:
+            defbult:
                 this.writer.write(c);
-                break;
+                brebk;
             }
         }
     }

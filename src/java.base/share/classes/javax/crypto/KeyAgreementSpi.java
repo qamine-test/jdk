@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>KeyAgreement</code> class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular key agreement algorithm.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the <code>KeyAgreement</code> clbss.
+ * All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b pbrticulbr key bgreement blgorithm.
  *
- * <p> The keys involved in establishing a shared secret are created by one
+ * <p> The keys involved in estbblishing b shbred secret bre crebted by one
  * of the
- * key generators (<code>KeyPairGenerator</code> or
- * <code>KeyGenerator</code>), a <code>KeyFactory</code>, or as a result from
- * an intermediate phase of the key agreement protocol
- * ({@link #engineDoPhase(java.security.Key, boolean) engineDoPhase}).
+ * key generbtors (<code>KeyPbirGenerbtor</code> or
+ * <code>KeyGenerbtor</code>), b <code>KeyFbctory</code>, or bs b result from
+ * bn intermedibte phbse of the key bgreement protocol
+ * ({@link #engineDoPhbse(jbvb.security.Key, boolebn) engineDoPhbse}).
  *
- * <p> For each of the correspondents in the key exchange,
- * <code>engineDoPhase</code>
- * needs to be called. For example, if the key exchange is with one other
- * party, <code>engineDoPhase</code> needs to be called once, with the
- * <code>lastPhase</code> flag set to <code>true</code>.
- * If the key exchange is
- * with two other parties, <code>engineDoPhase</code> needs to be called twice,
- * the first time setting the <code>lastPhase</code> flag to
- * <code>false</code>, and the second time setting it to <code>true</code>.
- * There may be any number of parties involved in a key exchange.
+ * <p> For ebch of the correspondents in the key exchbnge,
+ * <code>engineDoPhbse</code>
+ * needs to be cblled. For exbmple, if the key exchbnge is with one other
+ * pbrty, <code>engineDoPhbse</code> needs to be cblled once, with the
+ * <code>lbstPhbse</code> flbg set to <code>true</code>.
+ * If the key exchbnge is
+ * with two other pbrties, <code>engineDoPhbse</code> needs to be cblled twice,
+ * the first time setting the <code>lbstPhbse</code> flbg to
+ * <code>fblse</code>, bnd the second time setting it to <code>true</code>.
+ * There mby be bny number of pbrties involved in b key exchbnge.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
- * @see KeyGenerator
+ * @see KeyGenerbtor
  * @see SecretKey
  * @since 1.4
  */
 
-public abstract class KeyAgreementSpi {
+public bbstrbct clbss KeyAgreementSpi {
 
     /**
-     * Initializes this key agreement with the given key and source of
-     * randomness. The given key is required to contain all the algorithm
-     * parameters required for this key agreement.
+     * Initiblizes this key bgreement with the given key bnd source of
+     * rbndomness. The given key is required to contbin bll the blgorithm
+     * pbrbmeters required for this key bgreement.
      *
-     * <p> If the key agreement algorithm requires random bytes, it gets them
-     * from the given source of randomness, <code>random</code>.
+     * <p> If the key bgreement blgorithm requires rbndom bytes, it gets them
+     * from the given source of rbndomness, <code>rbndom</code>.
      * However, if the underlying
-     * algorithm implementation does not require any random bytes,
-     * <code>random</code> is ignored.
+     * blgorithm implementbtion does not require bny rbndom bytes,
+     * <code>rbndom</code> is ignored.
      *
-     * @param key the party's private information. For example, in the case
-     * of the Diffie-Hellman key agreement, this would be the party's own
-     * Diffie-Hellman private key.
-     * @param random the source of randomness
+     * @pbrbm key the pbrty's privbte informbtion. For exbmple, in the cbse
+     * of the Diffie-Hellmbn key bgreement, this would be the pbrty's own
+     * Diffie-Hellmbn privbte key.
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is
-     * inappropriate for this key agreement, e.g., is of the wrong type or
-     * has an incompatible algorithm type.
+     * @exception InvblidKeyException if the given key is
+     * inbppropribte for this key bgreement, e.g., is of the wrong type or
+     * hbs bn incompbtible blgorithm type.
      */
-    protected abstract void engineInit(Key key, SecureRandom random)
-        throws InvalidKeyException;
+    protected bbstrbct void engineInit(Key key, SecureRbndom rbndom)
+        throws InvblidKeyException;
 
     /**
-     * Initializes this key agreement with the given key, set of
-     * algorithm parameters, and source of randomness.
+     * Initiblizes this key bgreement with the given key, set of
+     * blgorithm pbrbmeters, bnd source of rbndomness.
      *
-     * @param key the party's private information. For example, in the case
-     * of the Diffie-Hellman key agreement, this would be the party's own
-     * Diffie-Hellman private key.
-     * @param params the key agreement parameters
-     * @param random the source of randomness
+     * @pbrbm key the pbrty's privbte informbtion. For exbmple, in the cbse
+     * of the Diffie-Hellmbn key bgreement, this would be the pbrty's own
+     * Diffie-Hellmbn privbte key.
+     * @pbrbm pbrbms the key bgreement pbrbmeters
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is
-     * inappropriate for this key agreement, e.g., is of the wrong type or
-     * has an incompatible algorithm type.
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key agreement.
+     * @exception InvblidKeyException if the given key is
+     * inbppropribte for this key bgreement, e.g., is of the wrong type or
+     * hbs bn incompbtible blgorithm type.
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeters
+     * bre inbppropribte for this key bgreement.
      */
-    protected abstract void engineInit(Key key, AlgorithmParameterSpec params,
-                                       SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException;
+    protected bbstrbct void engineInit(Key key, AlgorithmPbrbmeterSpec pbrbms,
+                                       SecureRbndom rbndom)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Executes the next phase of this key agreement with the given
-     * key that was received from one of the other parties involved in this key
-     * agreement.
+     * Executes the next phbse of this key bgreement with the given
+     * key thbt wbs received from one of the other pbrties involved in this key
+     * bgreement.
      *
-     * @param key the key for this phase. For example, in the case of
-     * Diffie-Hellman between 2 parties, this would be the other party's
-     * Diffie-Hellman public key.
-     * @param lastPhase flag which indicates whether or not this is the last
-     * phase of this key agreement.
+     * @pbrbm key the key for this phbse. For exbmple, in the cbse of
+     * Diffie-Hellmbn between 2 pbrties, this would be the other pbrty's
+     * Diffie-Hellmbn public key.
+     * @pbrbm lbstPhbse flbg which indicbtes whether or not this is the lbst
+     * phbse of this key bgreement.
      *
-     * @return the (intermediate) key resulting from this phase, or null if
-     * this phase does not yield a key
+     * @return the (intermedibte) key resulting from this phbse, or null if
+     * this phbse does not yield b key
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * this phase.
-     * @exception IllegalStateException if this key agreement has not been
-     * initialized.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * this phbse.
+     * @exception IllegblStbteException if this key bgreement hbs not been
+     * initiblized.
      */
-    protected abstract Key engineDoPhase(Key key, boolean lastPhase)
-        throws InvalidKeyException, IllegalStateException;
+    protected bbstrbct Key engineDoPhbse(Key key, boolebn lbstPhbse)
+        throws InvblidKeyException, IllegblStbteException;
 
     /**
-     * Generates the shared secret and returns it in a new buffer.
+     * Generbtes the shbred secret bnd returns it in b new buffer.
      *
      * <p>This method resets this <code>KeyAgreementSpi</code> object,
-     * so that it
-     * can be reused for further key agreements. Unless this key agreement is
-     * reinitialized with one of the <code>engineInit</code> methods, the same
-     * private information and algorithm parameters will be used for
-     * subsequent key agreements.
+     * so thbt it
+     * cbn be reused for further key bgreements. Unless this key bgreement is
+     * reinitiblized with one of the <code>engineInit</code> methods, the sbme
+     * privbte informbtion bnd blgorithm pbrbmeters will be used for
+     * subsequent key bgreements.
      *
-     * @return the new buffer with the shared secret
+     * @return the new buffer with the shbred secret
      *
-     * @exception IllegalStateException if this key agreement has not been
+     * @exception IllegblStbteException if this key bgreement hbs not been
      * completed yet
      */
-    protected abstract byte[] engineGenerateSecret()
-        throws IllegalStateException;
+    protected bbstrbct byte[] engineGenerbteSecret()
+        throws IllegblStbteException;
 
     /**
-     * Generates the shared secret, and places it into the buffer
-     * <code>sharedSecret</code>, beginning at <code>offset</code> inclusive.
+     * Generbtes the shbred secret, bnd plbces it into the buffer
+     * <code>shbredSecret</code>, beginning bt <code>offset</code> inclusive.
      *
-     * <p>If the <code>sharedSecret</code> buffer is too small to hold the
-     * result, a <code>ShortBufferException</code> is thrown.
-     * In this case, this call should be repeated with a larger output buffer.
+     * <p>If the <code>shbredSecret</code> buffer is too smbll to hold the
+     * result, b <code>ShortBufferException</code> is thrown.
+     * In this cbse, this cbll should be repebted with b lbrger output buffer.
      *
      * <p>This method resets this <code>KeyAgreementSpi</code> object,
-     * so that it
-     * can be reused for further key agreements. Unless this key agreement is
-     * reinitialized with one of the <code>engineInit</code> methods, the same
-     * private information and algorithm parameters will be used for
-     * subsequent key agreements.
+     * so thbt it
+     * cbn be reused for further key bgreements. Unless this key bgreement is
+     * reinitiblized with one of the <code>engineInit</code> methods, the sbme
+     * privbte informbtion bnd blgorithm pbrbmeters will be used for
+     * subsequent key bgreements.
      *
-     * @param sharedSecret the buffer for the shared secret
-     * @param offset the offset in <code>sharedSecret</code> where the
-     * shared secret will be stored
+     * @pbrbm shbredSecret the buffer for the shbred secret
+     * @pbrbm offset the offset in <code>shbredSecret</code> where the
+     * shbred secret will be stored
      *
-     * @return the number of bytes placed into <code>sharedSecret</code>
+     * @return the number of bytes plbced into <code>shbredSecret</code>
      *
-     * @exception IllegalStateException if this key agreement has not been
+     * @exception IllegblStbteException if this key bgreement hbs not been
      * completed yet
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the secret
      */
-    protected abstract int engineGenerateSecret(byte[] sharedSecret,
+    protected bbstrbct int engineGenerbteSecret(byte[] shbredSecret,
                                                 int offset)
-        throws IllegalStateException, ShortBufferException;
+        throws IllegblStbteException, ShortBufferException;
 
     /**
-     * Creates the shared secret and returns it as a secret key object
-     * of the requested algorithm type.
+     * Crebtes the shbred secret bnd returns it bs b secret key object
+     * of the requested blgorithm type.
      *
      * <p>This method resets this <code>KeyAgreementSpi</code> object,
-     * so that it
-     * can be reused for further key agreements. Unless this key agreement is
-     * reinitialized with one of the <code>engineInit</code> methods, the same
-     * private information and algorithm parameters will be used for
-     * subsequent key agreements.
+     * so thbt it
+     * cbn be reused for further key bgreements. Unless this key bgreement is
+     * reinitiblized with one of the <code>engineInit</code> methods, the sbme
+     * privbte informbtion bnd blgorithm pbrbmeters will be used for
+     * subsequent key bgreements.
      *
-     * @param algorithm the requested secret key algorithm
+     * @pbrbm blgorithm the requested secret key blgorithm
      *
-     * @return the shared secret key
+     * @return the shbred secret key
      *
-     * @exception IllegalStateException if this key agreement has not been
+     * @exception IllegblStbteException if this key bgreement hbs not been
      * completed yet
      * @exception NoSuchAlgorithmException if the requested secret key
-     * algorithm is not available
-     * @exception InvalidKeyException if the shared secret key material cannot
-     * be used to generate a secret key of the requested algorithm type (e.g.,
-     * the key material is too short)
+     * blgorithm is not bvbilbble
+     * @exception InvblidKeyException if the shbred secret key mbteribl cbnnot
+     * be used to generbte b secret key of the requested blgorithm type (e.g.,
+     * the key mbteribl is too short)
      */
-    protected abstract SecretKey engineGenerateSecret(String algorithm)
-        throws IllegalStateException, NoSuchAlgorithmException,
-            InvalidKeyException;
+    protected bbstrbct SecretKey engineGenerbteSecret(String blgorithm)
+        throws IllegblStbteException, NoSuchAlgorithmException,
+            InvblidKeyException;
 }

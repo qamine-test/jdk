@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,67 +30,67 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.chbnnels.*;
 
 /**
- * A helper class for properly sizing inbound byte buffers and
- * redirecting I/O calls to the proper SocketChannel call.
+ * A helper clbss for properly sizing inbound byte buffers bnd
+ * redirecting I/O cblls to the proper SocketChbnnel cbll.
  * <P>
- * Many of these calls may seem unnecessary until you consider
- * that they are placeholders for the secure variant, which is much
- * more involved.  See ChannelIOSecure for more information.
+ * Mbny of these cblls mby seem unnecessbry until you consider
+ * thbt they bre plbceholders for the secure vbribnt, which is much
+ * more involved.  See ChbnnelIOSecure for more informbtion.
  *
- * @author Brad R. Wetmore
- * @author Mark Reinhold
+ * @buthor Brbd R. Wetmore
+ * @buthor Mbrk Reinhold
  */
-class ChannelIO {
+clbss ChbnnelIO {
 
-    protected SocketChannel sc;
+    protected SocketChbnnel sc;
 
     /*
-     * All of the inbound request data lives here until we determine
-     * that we've read everything, then we pass that data back to the
-     * caller.
+     * All of the inbound request dbtb lives here until we determine
+     * thbt we've rebd everything, then we pbss thbt dbtb bbck to the
+     * cbller.
      */
     protected ByteBuffer requestBB;
-    static private int requestBBSize = 4096;
+    stbtic privbte int requestBBSize = 4096;
 
-    protected ChannelIO(SocketChannel sc, boolean blocking)
+    protected ChbnnelIO(SocketChbnnel sc, boolebn blocking)
             throws IOException {
         this.sc = sc;
         sc.configureBlocking(blocking);
     }
 
-    static ChannelIO getInstance(SocketChannel sc, boolean blocking)
+    stbtic ChbnnelIO getInstbnce(SocketChbnnel sc, boolebn blocking)
             throws IOException {
-        ChannelIO cio = new ChannelIO(sc, blocking);
-        cio.requestBB = ByteBuffer.allocate(requestBBSize);
+        ChbnnelIO cio = new ChbnnelIO(sc, blocking);
+        cio.requestBB = ByteBuffer.bllocbte(requestBBSize);
 
         return cio;
     }
 
-    SocketChannel getSocketChannel() {
+    SocketChbnnel getSocketChbnnel() {
         return sc;
     }
 
     /*
-     * Return a ByteBuffer with "remaining" space to work.  If you have to
-     * reallocate the ByteBuffer, copy the existing info into the new buffer.
+     * Return b ByteBuffer with "rembining" spbce to work.  If you hbve to
+     * rebllocbte the ByteBuffer, copy the existing info into the new buffer.
      */
-    protected void resizeRequestBB(int remaining) {
-        if (requestBB.remaining() < remaining) {
-            // Expand buffer for large request
-            ByteBuffer bb = ByteBuffer.allocate(requestBB.capacity() * 2);
+    protected void resizeRequestBB(int rembining) {
+        if (requestBB.rembining() < rembining) {
+            // Expbnd buffer for lbrge request
+            ByteBuffer bb = ByteBuffer.bllocbte(requestBB.cbpbcity() * 2);
             requestBB.flip();
             bb.put(requestBB);
             requestBB = bb;
@@ -98,84 +98,84 @@ class ChannelIO {
     }
 
     /*
-     * Perform any handshaking processing.
+     * Perform bny hbndshbking processing.
      * <P>
-     * This variant is for Servers without SelectionKeys (e.g.
+     * This vbribnt is for Servers without SelectionKeys (e.g.
      * blocking).
      * <P>
-     * return true when we're done with handshaking.
+     * return true when we're done with hbndshbking.
      */
-    boolean doHandshake() throws IOException {
+    boolebn doHbndshbke() throws IOException {
         return true;
     }
 
     /*
-     * Perform any handshaking processing.
+     * Perform bny hbndshbking processing.
      * <P>
-     * This variant is for Servers with SelectionKeys, so that
-     * we can register for selectable operations (e.g. selectable
+     * This vbribnt is for Servers with SelectionKeys, so thbt
+     * we cbn register for selectbble operbtions (e.g. selectbble
      * non-blocking).
      * <P>
-     * return true when we're done with handshaking.
+     * return true when we're done with hbndshbking.
      */
-    boolean doHandshake(SelectionKey sk) throws IOException {
+    boolebn doHbndshbke(SelectionKey sk) throws IOException {
         return true;
     }
 
     /*
-     * Resize (if necessary) the inbound data buffer, and then read more
-     * data into the read buffer.
+     * Resize (if necessbry) the inbound dbtb buffer, bnd then rebd more
+     * dbtb into the rebd buffer.
      */
-    int read() throws IOException {
+    int rebd() throws IOException {
         /*
-         * Allocate more space if less than 5% remains
+         * Allocbte more spbce if less thbn 5% rembins
          */
         resizeRequestBB(requestBBSize/20);
-        return sc.read(requestBB);
+        return sc.rebd(requestBB);
     }
 
     /*
-     * All data has been read, pass back the request in one buffer.
+     * All dbtb hbs been rebd, pbss bbck the request in one buffer.
      */
-    ByteBuffer getReadBuf() {
+    ByteBuffer getRebdBuf() {
         return requestBB;
     }
 
     /*
-     * Write the src buffer into the socket channel.
+     * Write the src buffer into the socket chbnnel.
      */
     int write(ByteBuffer src) throws IOException {
         return sc.write(src);
     }
 
     /*
-     * Perform a FileChannel.TransferTo on the socket channel.
+     * Perform b FileChbnnel.TrbnsferTo on the socket chbnnel.
      */
-    long transferTo(FileChannel fc, long pos, long len) throws IOException {
-        return fc.transferTo(pos, len, sc);
+    long trbnsferTo(FileChbnnel fc, long pos, long len) throws IOException {
+        return fc.trbnsferTo(pos, len, sc);
     }
 
     /*
-     * Flush any outstanding data to the network if possible.
+     * Flush bny outstbnding dbtb to the network if possible.
      * <P>
-     * This isn't really necessary for the insecure variant, but needed
-     * for the secure one where intermediate buffering must take place.
+     * This isn't reblly necessbry for the insecure vbribnt, but needed
+     * for the secure one where intermedibte buffering must tbke plbce.
      * <P>
      * Return true if successful.
      */
-    boolean dataFlush() throws IOException {
+    boolebn dbtbFlush() throws IOException {
         return true;
     }
 
     /*
-     * Start any connection shutdown processing.
+     * Stbrt bny connection shutdown processing.
      * <P>
-     * This isn't really necessary for the insecure variant, but needed
-     * for the secure one where intermediate buffering must take place.
+     * This isn't reblly necessbry for the insecure vbribnt, but needed
+     * for the secure one where intermedibte buffering must tbke plbce.
      * <P>
-     * Return true if successful, and the data has been flushed.
+     * Return true if successful, bnd the dbtb hbs been flushed.
      */
-    boolean shutdown() throws IOException {
+    boolebn shutdown() throws IOException {
         return true;
     }
 

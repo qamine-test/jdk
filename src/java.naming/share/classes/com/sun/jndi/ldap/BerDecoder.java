@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.io.UnsupportedEncodingException;
+import jbvb.io.UnsupportedEncodingException;
 
 /**
-  * A BER decoder. Contains methods to parse a BER buffer.
+  * A BER decoder. Contbins methods to pbrse b BER buffer.
   *
-  * @author Jagane Sundar
-  * @author Vincent Ryan
+  * @buthor Jbgbne Sundbr
+  * @buthor Vincent Rybn
   */
-public final class BerDecoder extends Ber {
+public finbl clbss BerDecoder extends Ber {
 
-    private int origOffset;  // The start point in buf to decode
+    privbte int origOffset;  // The stbrt point in buf to decode
 
     /**
-     * Creates a BER decoder that reads bytes from the specified buffer.
+     * Crebtes b BER decoder thbt rebds bytes from the specified buffer.
      */
     public BerDecoder(byte buf[], int offset, int bufsize) {
 
-        this.buf = buf;         // shared buffer, be careful to use this class
+        this.buf = buf;         // shbred buffer, be cbreful to use this clbss
         this.bufsize = bufsize;
         this.origOffset = offset;
 
@@ -50,28 +50,28 @@ public final class BerDecoder extends Ber {
     }
 
     /**
-     * Resets this decode to start parsing from the initial offset
-     * (ie., same state as after calling the constructor).
+     * Resets this decode to stbrt pbrsing from the initibl offset
+     * (ie., sbme stbte bs bfter cblling the constructor).
      */
     public void reset() {
         offset = origOffset;
     }
 
     /**
-      * Returns the current parse position.
-      * It points to the byte that will be parsed next.
-      * Useful for parsing sequences.
+      * Returns the current pbrse position.
+      * It points to the byte thbt will be pbrsed next.
+      * Useful for pbrsing sequences.
       */
-    public int getParsePosition() {
+    public int getPbrsePosition() {
         return offset;
     }
 
     /**
-      * Parses a possibly variable length field.
+      * Pbrses b possibly vbribble length field.
       */
-    public int parseLength() throws DecodeException {
+    public int pbrseLength() throws DecodeException {
 
-        int lengthbyte = parseByte();
+        int lengthbyte = pbrseByte();
 
         if ((lengthbyte & 0x80) == 0x80) {
 
@@ -87,30 +87,30 @@ public final class BerDecoder extends Ber {
             }
 
             if (bufsize - offset < lengthbyte) {
-                throw new DecodeException("Insufficient data");
+                throw new DecodeException("Insufficient dbtb");
             }
 
-            int retval = 0;
+            int retvbl = 0;
 
             for( int i = 0; i < lengthbyte; i++) {
-                retval = (retval << 8) + (buf[offset++] & 0xff);
+                retvbl = (retvbl << 8) + (buf[offset++] & 0xff);
             }
-            return retval;
+            return retvbl;
         } else {
             return lengthbyte;
         }
     }
 
     /**
-     * Parses the next sequence in this BER buffer.
-     * @param rlen An array for returning size of the sequence in bytes. If null,
+     * Pbrses the next sequence in this BER buffer.
+     * @pbrbm rlen An brrby for returning size of the sequence in bytes. If null,
      *          the size is not returned.
-     * @return The sequence's tag.
+     * @return The sequence's tbg.
      */
-    public int parseSeq(int rlen[]) throws DecodeException {
+    public int pbrseSeq(int rlen[]) throws DecodeException {
 
-        int seq = parseByte();
-        int len = parseLength();
+        int seq = pbrseByte();
+        int len = pbrseLength();
         if (rlen != null) {
             rlen[0] = len;
         }
@@ -118,24 +118,24 @@ public final class BerDecoder extends Ber {
     }
 
     /**
-     * Used to skip bytes. Usually used when trying to recover from parse error.
+     * Used to skip bytes. Usublly used when trying to recover from pbrse error.
      * Don't need to be public right now?
-     * @param i The number of bytes to skip
+     * @pbrbm i The number of bytes to skip
      */
     void seek(int i) throws DecodeException {
         if (offset + i > bufsize || offset + i < 0) {
-            throw new DecodeException("array index out of bounds");
+            throw new DecodeException("brrby index out of bounds");
         }
         offset += i;
     }
 
     /**
-     * Parses the next byte in this BER buffer.
-     * @return The byte parsed.
+     * Pbrses the next byte in this BER buffer.
+     * @return The byte pbrsed.
      */
-    public int parseByte() throws DecodeException {
+    public int pbrseByte() throws DecodeException {
         if (bufsize - offset < 1) {
-            throw new DecodeException("Insufficient data");
+            throw new DecodeException("Insufficient dbtb");
         }
         return buf[offset++] & 0xff;
     }
@@ -147,108 +147,108 @@ public final class BerDecoder extends Ber {
      */
     public int peekByte() throws DecodeException {
         if (bufsize - offset < 1) {
-            throw new DecodeException("Insufficient data");
+            throw new DecodeException("Insufficient dbtb");
         }
         return buf[offset] & 0xff;
     }
 
     /**
-     * Parses an ASN_BOOLEAN tagged integer from this BER buffer.
-     * @return true if the tagged integer is 0; false otherwise.
+     * Pbrses bn ASN_BOOLEAN tbgged integer from this BER buffer.
+     * @return true if the tbgged integer is 0; fblse otherwise.
      */
-    public boolean parseBoolean() throws DecodeException {
-        return ((parseIntWithTag(ASN_BOOLEAN) == 0x00) ? false : true);
+    public boolebn pbrseBoolebn() throws DecodeException {
+        return ((pbrseIntWithTbg(ASN_BOOLEAN) == 0x00) ? fblse : true);
     }
 
     /**
-     * Parses an ASN_ENUMERATED tagged integer from this BER buffer.
-     * @return The tag of enumeration.
+     * Pbrses bn ASN_ENUMERATED tbgged integer from this BER buffer.
+     * @return The tbg of enumerbtion.
      */
-    public int parseEnumeration() throws DecodeException {
-        return parseIntWithTag(ASN_ENUMERATED);
+    public int pbrseEnumerbtion() throws DecodeException {
+        return pbrseIntWithTbg(ASN_ENUMERATED);
     }
 
     /**
-     * Parses an ASN_INTEGER tagged integer from this BER buffer.
-     * @return The value of the integer.
+     * Pbrses bn ASN_INTEGER tbgged integer from this BER buffer.
+     * @return The vblue of the integer.
      */
-    public int parseInt() throws DecodeException {
-        return parseIntWithTag(ASN_INTEGER);
+    public int pbrseInt() throws DecodeException {
+        return pbrseIntWithTbg(ASN_INTEGER);
     }
 
     /**
-      * Parses an integer that's preceded by a tag.
+      * Pbrses bn integer thbt's preceded by b tbg.
       *<blockquote><pre>
-      * BER integer ::= tag length byte {byte}*
+      * BER integer ::= tbg length byte {byte}*
       *</pre></blockquote>
       */
-    private int parseIntWithTag(int tag) throws DecodeException {
+    privbte int pbrseIntWithTbg(int tbg) throws DecodeException {
 
 
-        if (parseByte() != tag) {
-            throw new DecodeException("Encountered ASN.1 tag " +
+        if (pbrseByte() != tbg) {
+            throw new DecodeException("Encountered ASN.1 tbg " +
                 Integer.toString(buf[offset - 1] & 0xff) +
-                " (expected tag " + Integer.toString(tag) + ")");
+                " (expected tbg " + Integer.toString(tbg) + ")");
         }
 
-        int len = parseLength();
+        int len = pbrseLength();
 
         if (len > 4) {
             throw new DecodeException("INTEGER too long");
         } else if (len > bufsize - offset) {
-            throw new DecodeException("Insufficient data");
+            throw new DecodeException("Insufficient dbtb");
         }
 
         byte fb = buf[offset++];
-        int value = 0;
+        int vblue = 0;
 
-        value = fb & 0x7F;
-        for( int i = 1 /* first byte already read */ ; i < len; i++) {
-            value <<= 8;
-            value |= (buf[offset++] & 0xff);
+        vblue = fb & 0x7F;
+        for( int i = 1 /* first byte blrebdy rebd */ ; i < len; i++) {
+            vblue <<= 8;
+            vblue |= (buf[offset++] & 0xff);
         }
 
         if ((fb & 0x80) == 0x80) {
-            value = -value;
+            vblue = -vblue;
         }
 
-        return value;
+        return vblue;
     }
 
     /**
-      * Parses a string.
+      * Pbrses b string.
       */
-    public String parseString(boolean decodeUTF8) throws DecodeException {
-        return parseStringWithTag(ASN_SIMPLE_STRING, decodeUTF8, null);
+    public String pbrseString(boolebn decodeUTF8) throws DecodeException {
+        return pbrseStringWithTbg(ASN_SIMPLE_STRING, decodeUTF8, null);
     }
 
     /**
-      * Parses a string of a given tag from this BER buffer.
+      * Pbrses b string of b given tbg from this BER buffer.
       *<blockquote><pre>
-      *BER simple string ::= tag length {byte}*
+      *BER simple string ::= tbg length {byte}*
       *</pre></blockquote>
-      * @param rlen An array for holding the relative parsed offset; if null
+      * @pbrbm rlen An brrby for holding the relbtive pbrsed offset; if null
       *  offset not set.
-      * @param decodeUTF8 If true, use UTF-8 when decoding the string; otherwise
-      * use ISO-Latin-1 (8859_1). Use true for LDAPv3; false for LDAPv2.
-      * @param tag The tag that precedes the string.
-      * @return The non-null parsed string.
+      * @pbrbm decodeUTF8 If true, use UTF-8 when decoding the string; otherwise
+      * use ISO-Lbtin-1 (8859_1). Use true for LDAPv3; fblse for LDAPv2.
+      * @pbrbm tbg The tbg thbt precedes the string.
+      * @return The non-null pbrsed string.
       */
-    public String parseStringWithTag(int tag, boolean decodeUTF8, int rlen[])
+    public String pbrseStringWithTbg(int tbg, boolebn decodeUTF8, int rlen[])
         throws DecodeException {
 
         int st;
         int origOffset = offset;
 
-        if ((st = parseByte()) != tag) {
-            throw new DecodeException("Encountered ASN.1 tag " +
-                Integer.toString((byte)st) + " (expected tag " + tag + ")");
+        if ((st = pbrseByte()) != tbg) {
+            throw new DecodeException("Encountered ASN.1 tbg " +
+                Integer.toString((byte)st) + " (expected tbg " + tbg + ")");
         }
 
-        int len = parseLength();
+        int len = pbrseLength();
 
         if (len > bufsize - offset) {
-            throw new DecodeException("Insufficient data");
+            throw new DecodeException("Insufficient dbtb");
         }
 
         String retstr;
@@ -257,18 +257,18 @@ public final class BerDecoder extends Ber {
         } else {
             byte[] buf2 = new byte[len];
 
-            System.arraycopy(buf, offset, buf2, 0, len);
+            System.brrbycopy(buf, offset, buf2, 0, len);
             if (decodeUTF8) {
                 try {
                     retstr = new String(buf2, "UTF8");
-                } catch (UnsupportedEncodingException e) {
-                    throw new DecodeException("UTF8 not available on platform");
+                } cbtch (UnsupportedEncodingException e) {
+                    throw new DecodeException("UTF8 not bvbilbble on plbtform");
                 }
             } else {
                 try {
                     retstr = new String(buf2, "8859_1");
-                } catch (UnsupportedEncodingException e) {
-                    throw new DecodeException("8859_1 not available on platform");
+                } cbtch (UnsupportedEncodingException e) {
+                    throw new DecodeException("8859_1 not bvbilbble on plbtform");
                 }
             }
             offset += len;
@@ -282,39 +282,39 @@ public final class BerDecoder extends Ber {
     }
 
     /**
-     * Parses an octet string of a given type(tag) from this BER buffer.
+     * Pbrses bn octet string of b given type(tbg) from this BER buffer.
      * <blockquote><pre>
-     * BER Binary Data of type "tag" ::= tag length {byte}*
+     * BER Binbry Dbtb of type "tbg" ::= tbg length {byte}*
      *</pre></blockquote>
      *
-     * @param tag The tag to look for.
-     * @param rlen An array for returning the relative parsed position. If null,
-     *          the relative parsed position is not returned.
-     * @return A non-null array containing the octet string.
+     * @pbrbm tbg The tbg to look for.
+     * @pbrbm rlen An brrby for returning the relbtive pbrsed position. If null,
+     *          the relbtive pbrsed position is not returned.
+     * @return A non-null brrby contbining the octet string.
      * @throws DecodeException If the next byte in the BER buffer is not
-     * <tt>tag</tt>, or if length specified in the BER buffer exceeds the
+     * <tt>tbg</tt>, or if length specified in the BER buffer exceeds the
      * number of bytes left in the buffer.
      */
-    public byte[] parseOctetString(int tag, int rlen[]) throws DecodeException {
+    public byte[] pbrseOctetString(int tbg, int rlen[]) throws DecodeException {
 
         int origOffset = offset;
         int st;
-        if ((st = parseByte()) != tag) {
+        if ((st = pbrseByte()) != tbg) {
 
-            throw new DecodeException("Encountered ASN.1 tag " +
+            throw new DecodeException("Encountered ASN.1 tbg " +
                 Integer.toString(st) +
-                " (expected tag " + Integer.toString(tag) + ")");
+                " (expected tbg " + Integer.toString(tbg) + ")");
         }
 
-        int len = parseLength();
+        int len = pbrseLength();
 
         if (len > bufsize - offset) {
-            throw new DecodeException("Insufficient data");
+            throw new DecodeException("Insufficient dbtb");
         }
 
-        byte retarr[] = new byte[len];
+        byte retbrr[] = new byte[len];
         if (len > 0) {
-            System.arraycopy(buf, offset, retarr, 0, len);
+            System.brrbycopy(buf, offset, retbrr, 0, len);
             offset += len;
         }
 
@@ -322,11 +322,11 @@ public final class BerDecoder extends Ber {
             rlen[0] = offset - origOffset;
         }
 
-        return retarr;
+        return retbrr;
     }
 
     /**
-     * Returns the number of unparsed bytes in this BER buffer.
+     * Returns the number of unpbrsed bytes in this BER buffer.
      */
     public int bytesLeft() {
         return bufsize - offset;

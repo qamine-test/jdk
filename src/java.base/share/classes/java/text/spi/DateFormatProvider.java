@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.text.spi;
+pbckbge jbvb.text.spi;
 
-import java.text.DateFormat;
-import java.util.Locale;
-import java.util.spi.LocaleServiceProvider;
+import jbvb.text.DbteFormbt;
+import jbvb.util.Locble;
+import jbvb.util.spi.LocbleServiceProvider;
 
 /**
- * An abstract class for service providers that
- * provide concrete implementations of the
- * {@link java.text.DateFormat DateFormat} class.
+ * An bbstrbct clbss for service providers thbt
+ * provide concrete implementbtions of the
+ * {@link jbvb.text.DbteFormbt DbteFormbt} clbss.
  *
  * @since        1.6
  */
-public abstract class DateFormatProvider extends LocaleServiceProvider {
+public bbstrbct clbss DbteFormbtProvider extends LocbleServiceProvider {
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected DateFormatProvider() {
+    protected DbteFormbtProvider() {
     }
 
     /**
-     * Returns a new <code>DateFormat</code> instance which formats time
-     * with the given formatting style for the specified locale.
-     * @param style the given formatting style.  Either one of
-     *     {@link java.text.DateFormat#SHORT DateFormat.SHORT},
-     *     {@link java.text.DateFormat#MEDIUM DateFormat.MEDIUM},
-     *     {@link java.text.DateFormat#LONG DateFormat.LONG}, or
-     *     {@link java.text.DateFormat#FULL DateFormat.FULL}.
-     * @param locale the desired locale.
-     * @exception IllegalArgumentException if <code>style</code> is invalid,
-     *     or if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @exception NullPointerException if <code>locale</code> is null
-     * @return a time formatter.
-     * @see java.text.DateFormat#getTimeInstance(int, java.util.Locale)
+     * Returns b new <code>DbteFormbt</code> instbnce which formbts time
+     * with the given formbtting style for the specified locble.
+     * @pbrbm style the given formbtting style.  Either one of
+     *     {@link jbvb.text.DbteFormbt#SHORT DbteFormbt.SHORT},
+     *     {@link jbvb.text.DbteFormbt#MEDIUM DbteFormbt.MEDIUM},
+     *     {@link jbvb.text.DbteFormbt#LONG DbteFormbt.LONG}, or
+     *     {@link jbvb.text.DbteFormbt#FULL DbteFormbt.FULL}.
+     * @pbrbm locble the desired locble.
+     * @exception IllegblArgumentException if <code>style</code> is invblid,
+     *     or if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @exception NullPointerException if <code>locble</code> is null
+     * @return b time formbtter.
+     * @see jbvb.text.DbteFormbt#getTimeInstbnce(int, jbvb.util.Locble)
      */
-    public abstract DateFormat getTimeInstance(int style, Locale locale);
+    public bbstrbct DbteFormbt getTimeInstbnce(int style, Locble locble);
 
     /**
-     * Returns a new <code>DateFormat</code> instance which formats date
-     * with the given formatting style for the specified locale.
-     * @param style the given formatting style.  Either one of
-     *     {@link java.text.DateFormat#SHORT DateFormat.SHORT},
-     *     {@link java.text.DateFormat#MEDIUM DateFormat.MEDIUM},
-     *     {@link java.text.DateFormat#LONG DateFormat.LONG}, or
-     *     {@link java.text.DateFormat#FULL DateFormat.FULL}.
-     * @param locale the desired locale.
-     * @exception IllegalArgumentException if <code>style</code> is invalid,
-     *     or if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @exception NullPointerException if <code>locale</code> is null
-     * @return a date formatter.
-     * @see java.text.DateFormat#getDateInstance(int, java.util.Locale)
+     * Returns b new <code>DbteFormbt</code> instbnce which formbts dbte
+     * with the given formbtting style for the specified locble.
+     * @pbrbm style the given formbtting style.  Either one of
+     *     {@link jbvb.text.DbteFormbt#SHORT DbteFormbt.SHORT},
+     *     {@link jbvb.text.DbteFormbt#MEDIUM DbteFormbt.MEDIUM},
+     *     {@link jbvb.text.DbteFormbt#LONG DbteFormbt.LONG}, or
+     *     {@link jbvb.text.DbteFormbt#FULL DbteFormbt.FULL}.
+     * @pbrbm locble the desired locble.
+     * @exception IllegblArgumentException if <code>style</code> is invblid,
+     *     or if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @exception NullPointerException if <code>locble</code> is null
+     * @return b dbte formbtter.
+     * @see jbvb.text.DbteFormbt#getDbteInstbnce(int, jbvb.util.Locble)
      */
-    public abstract DateFormat getDateInstance(int style, Locale locale);
+    public bbstrbct DbteFormbt getDbteInstbnce(int style, Locble locble);
 
     /**
-     * Returns a new <code>DateFormat</code> instance which formats date and time
-     * with the given formatting style for the specified locale.
-     * @param dateStyle the given date formatting style.  Either one of
-     *     {@link java.text.DateFormat#SHORT DateFormat.SHORT},
-     *     {@link java.text.DateFormat#MEDIUM DateFormat.MEDIUM},
-     *     {@link java.text.DateFormat#LONG DateFormat.LONG}, or
-     *     {@link java.text.DateFormat#FULL DateFormat.FULL}.
-     * @param timeStyle the given time formatting style.  Either one of
-     *     {@link java.text.DateFormat#SHORT DateFormat.SHORT},
-     *     {@link java.text.DateFormat#MEDIUM DateFormat.MEDIUM},
-     *     {@link java.text.DateFormat#LONG DateFormat.LONG}, or
-     *     {@link java.text.DateFormat#FULL DateFormat.FULL}.
-     * @param locale the desired locale.
-     * @exception IllegalArgumentException if <code>dateStyle</code> or
-     *     <code>timeStyle</code> is invalid,
-     *     or if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @exception NullPointerException if <code>locale</code> is null
-     * @return a date/time formatter.
-     * @see java.text.DateFormat#getDateTimeInstance(int, int, java.util.Locale)
+     * Returns b new <code>DbteFormbt</code> instbnce which formbts dbte bnd time
+     * with the given formbtting style for the specified locble.
+     * @pbrbm dbteStyle the given dbte formbtting style.  Either one of
+     *     {@link jbvb.text.DbteFormbt#SHORT DbteFormbt.SHORT},
+     *     {@link jbvb.text.DbteFormbt#MEDIUM DbteFormbt.MEDIUM},
+     *     {@link jbvb.text.DbteFormbt#LONG DbteFormbt.LONG}, or
+     *     {@link jbvb.text.DbteFormbt#FULL DbteFormbt.FULL}.
+     * @pbrbm timeStyle the given time formbtting style.  Either one of
+     *     {@link jbvb.text.DbteFormbt#SHORT DbteFormbt.SHORT},
+     *     {@link jbvb.text.DbteFormbt#MEDIUM DbteFormbt.MEDIUM},
+     *     {@link jbvb.text.DbteFormbt#LONG DbteFormbt.LONG}, or
+     *     {@link jbvb.text.DbteFormbt#FULL DbteFormbt.FULL}.
+     * @pbrbm locble the desired locble.
+     * @exception IllegblArgumentException if <code>dbteStyle</code> or
+     *     <code>timeStyle</code> is invblid,
+     *     or if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @exception NullPointerException if <code>locble</code> is null
+     * @return b dbte/time formbtter.
+     * @see jbvb.text.DbteFormbt#getDbteTimeInstbnce(int, int, jbvb.util.Locble)
      */
-    public abstract DateFormat
-        getDateTimeInstance(int dateStyle, int timeStyle, Locale locale);
+    public bbstrbct DbteFormbt
+        getDbteTimeInstbnce(int dbteStyle, int timeStyle, Locble locble);
 }

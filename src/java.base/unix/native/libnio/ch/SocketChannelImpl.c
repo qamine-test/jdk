@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -40,30 +40,30 @@
 #include "net_util.h"
 #include "jvm.h"
 #include "jlong.h"
-#include "sun_nio_ch_SocketChannelImpl.h"
+#include "sun_nio_ch_SocketChbnnelImpl.h"
 #include "nio_util.h"
 #include "nio.h"
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_SocketChannelImpl_checkConnect(JNIEnv *env, jobject this,
-                                               jobject fdo, jboolean block,
-                                               jboolean ready)
+Jbvb_sun_nio_ch_SocketChbnnelImpl_checkConnect(JNIEnv *env, jobject this,
+                                               jobject fdo, jboolebn block,
+                                               jboolebn rebdy)
 {
     int error = 0;
     socklen_t n = sizeof(int);
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     int result = 0;
     struct pollfd poller;
 
     poller.revents = 1;
-    if (!ready) {
+    if (!rebdy) {
         poller.fd = fd;
         poller.events = POLLOUT;
         poller.revents = 0;
         result = poll(&poller, 1, block ? -1 : 0);
         if (result < 0) {
-            JNU_ThrowIOExceptionWithLastError(env, "Poll failed");
+            JNU_ThrowIOExceptionWithLbstError(env, "Poll fbiled");
             return IOS_THROWN;
         }
         if (!block && (result == 0))
@@ -74,10 +74,10 @@ Java_sun_nio_ch_SocketChannelImpl_checkConnect(JNIEnv *env, jobject this,
         errno = 0;
         result = getsockopt(fd, SOL_SOCKET, SO_ERROR, &error, &n);
         if (result < 0) {
-            handleSocketError(env, errno);
+            hbndleSocketError(env, errno);
             return JNI_FALSE;
         } else if (error) {
-            handleSocketError(env, error);
+            hbndleSocketError(env, error);
             return JNI_FALSE;
         }
         return 1;
@@ -86,9 +86,9 @@ Java_sun_nio_ch_SocketChannelImpl_checkConnect(JNIEnv *env, jobject this,
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_SocketChannelImpl_sendOutOfBandData(JNIEnv* env, jclass this,
+Jbvb_sun_nio_ch_SocketChbnnelImpl_sendOutOfBbndDbtb(JNIEnv* env, jclbss this,
                                                     jobject fdo, jbyte b)
 {
-    int n = send(fdval(env, fdo), (const void*)&b, 1, MSG_OOB);
-    return convertReturnVal(env, n, JNI_FALSE);
+    int n = send(fdvbl(env, fdo), (const void*)&b, 1, MSG_OOB);
+    return convertReturnVbl(env, n, JNI_FALSE);
 }

@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1995, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.peer;
+pbckbge jbvb.bwt.peer;
 
-import java.awt.FileDialog;
-import java.io.FilenameFilter;
+import jbvb.bwt.FileDiblog;
+import jbvb.io.FilenbmeFilter;
 
 /**
- * The peer interface for {@link FileDialog}.
+ * The peer interfbce for {@link FileDiblog}.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * The peer interfbces bre intended only for use in porting
+ * the AWT. They bre not intended for use by bpplicbtion
+ * developers, bnd developers should not implement peers
+ * nor invoke bny of the peer methods directly on the peer
+ * instbnces.
  */
-public interface FileDialogPeer extends DialogPeer {
+public interfbce FileDiblogPeer extends DiblogPeer {
 
     /**
-     * Sets the selected file for this file dialog.
+     * Sets the selected file for this file diblog.
      *
-     * @param file the file to set as selected file, or {@code null} for
+     * @pbrbm file the file to set bs selected file, or {@code null} for
      *        no selected file
      *
-     * @see FileDialog#setFile(String)
+     * @see FileDiblog#setFile(String)
      */
     void setFile(String file);
 
     /**
-     * Sets the current directory for this file dialog.
+     * Sets the current directory for this file diblog.
      *
-     * @param dir the directory to set
+     * @pbrbm dir the directory to set
      *
-     * @see FileDialog#setDirectory(String)
+     * @see FileDiblog#setDirectory(String)
      */
     void setDirectory(String dir);
 
     /**
-     * Sets the filename filter for filtering the displayed files.
+     * Sets the filenbme filter for filtering the displbyed files.
      *
-     * @param filter the filter to set
+     * @pbrbm filter the filter to set
      *
-     * @see FileDialog#setFilenameFilter(FilenameFilter)
+     * @see FileDiblog#setFilenbmeFilter(FilenbmeFilter)
      */
-    void setFilenameFilter(FilenameFilter filter);
+    void setFilenbmeFilter(FilenbmeFilter filter);
 }

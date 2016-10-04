@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 1999, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
-import javax.naming.NamingException;
+import jbvbx.nbming.NbmingException;
 
 /**
-  * This exception is thrown when an attempt is
-  * made to add, or remove, or modify an attribute, its identifier,
-  * or its values that conflicts with the attribute's (schema) definition
-  * or the attribute's state.
+  * This exception is thrown when bn bttempt is
+  * mbde to bdd, or remove, or modify bn bttribute, its identifier,
+  * or its vblues thbt conflicts with the bttribute's (schemb) definition
+  * or the bttribute's stbte.
   * It is thrown in response to DirContext.modifyAttributes().
-  * It contains a list of modifications that have not been performed, in the
-  * order that they were supplied to modifyAttributes().
-  * If the list is null, none of the modifications were performed successfully.
+  * It contbins b list of modificbtions thbt hbve not been performed, in the
+  * order thbt they were supplied to modifyAttributes().
+  * If the list is null, none of the modificbtions were performed successfully.
   *<p>
-  * An AttributeModificationException instance is not synchronized
-  * against concurrent multithreaded access. Multiple threads trying
-  * to access and modify a single AttributeModification instance
+  * An AttributeModificbtionException instbnce is not synchronized
+  * bgbinst concurrent multithrebded bccess. Multiple threbds trying
+  * to bccess bnd modify b single AttributeModificbtion instbnce
   * should lock the object.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
   * @see DirContext#modifyAttributes
   * @since 1.3
@@ -51,90 +51,90 @@ import javax.naming.NamingException;
 
 /*
   *<p>
-  * The serialized form of an AttributeModificationException object
-  * consists of the serialized fields of its NamingException
-  * superclass, followed by an array of ModificationItem objects.
+  * The seriblized form of bn AttributeModificbtionException object
+  * consists of the seriblized fields of its NbmingException
+  * superclbss, followed by bn brrby of ModificbtionItem objects.
   *
 */
 
 
-public class AttributeModificationException extends NamingException {
+public clbss AttributeModificbtionException extends NbmingException {
     /**
-     * Contains the possibly null list of unexecuted modifications.
-     * @serial
+     * Contbins the possibly null list of unexecuted modificbtions.
+     * @seribl
      */
-    private ModificationItem[] unexecs = null;
+    privbte ModificbtionItem[] unexecs = null;
 
     /**
-     * Constructs a new instance of AttributeModificationException using
-     * an explanation. All other fields are set to null.
+     * Constructs b new instbnce of AttributeModificbtionException using
+     * bn explbnbtion. All other fields bre set to null.
      *
-     * @param   explanation     Possibly null additional detail about this exception.
-     * If null, this exception has no detail message.
+     * @pbrbm   explbnbtion     Possibly null bdditionbl detbil bbout this exception.
+     * If null, this exception hbs no detbil messbge.
 
-     * @see java.lang.Throwable#getMessage
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public AttributeModificationException(String explanation) {
-        super(explanation);
+    public AttributeModificbtionException(String explbnbtion) {
+        super(explbnbtion);
     }
 
     /**
-      * Constructs a new instance of AttributeModificationException.
-      * All fields are set to null.
+      * Constructs b new instbnce of AttributeModificbtionException.
+      * All fields bre set to null.
       */
-    public AttributeModificationException() {
+    public AttributeModificbtionException() {
         super();
     }
 
     /**
-      * Sets the unexecuted modification list to be e.
-      * Items in the list must appear in the same order in which they were
-      * originally supplied in DirContext.modifyAttributes().
-      * The first item in the list is the first one that was not executed.
-      * If this list is null, none of the operations originally submitted
+      * Sets the unexecuted modificbtion list to be e.
+      * Items in the list must bppebr in the sbme order in which they were
+      * originblly supplied in DirContext.modifyAttributes().
+      * The first item in the list is the first one thbt wbs not executed.
+      * If this list is null, none of the operbtions originblly submitted
       * to modifyAttributes() were executed.
 
-      * @param e        The possibly null list of unexecuted modifications.
-      * @see #getUnexecutedModifications
+      * @pbrbm e        The possibly null list of unexecuted modificbtions.
+      * @see #getUnexecutedModificbtions
       */
-    public void setUnexecutedModifications(ModificationItem[] e) {
+    public void setUnexecutedModificbtions(ModificbtionItem[] e) {
         unexecs = e;
     }
 
     /**
-      * Retrieves the unexecuted modification list.
-      * Items in the list appear in the same order in which they were
-      * originally supplied in DirContext.modifyAttributes().
-      * The first item in the list is the first one that was not executed.
-      * If this list is null, none of the operations originally submitted
+      * Retrieves the unexecuted modificbtion list.
+      * Items in the list bppebr in the sbme order in which they were
+      * originblly supplied in DirContext.modifyAttributes().
+      * The first item in the list is the first one thbt wbs not executed.
+      * If this list is null, none of the operbtions originblly submitted
       * to modifyAttributes() were executed.
 
-      * @return The possibly null unexecuted modification list.
-      * @see #setUnexecutedModifications
+      * @return The possibly null unexecuted modificbtion list.
+      * @see #setUnexecutedModificbtions
       */
-    public ModificationItem[] getUnexecutedModifications() {
+    public ModificbtionItem[] getUnexecutedModificbtions() {
         return unexecs;
     }
 
     /**
-      * The string representation of this exception consists of
-      * information about where the error occurred, and
-      * the first unexecuted modification.
-      * This string is meant for debugging and not mean to be interpreted
-      * programmatically.
-      * @return The non-null string representation of this exception.
+      * The string representbtion of this exception consists of
+      * informbtion bbout where the error occurred, bnd
+      * the first unexecuted modificbtion.
+      * This string is mebnt for debugging bnd not mebn to be interpreted
+      * progrbmmbticblly.
+      * @return The non-null string representbtion of this exception.
       */
     public String toString() {
         String orig = super.toString();
         if (unexecs != null) {
-            orig += ("First unexecuted modification: " +
+            orig += ("First unexecuted modificbtion: " +
                      unexecs[0].toString());
         }
         return orig;
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 8060676069678710186L;
+    privbte stbtic finbl long seriblVersionUID = 8060676069678710186L;
 }

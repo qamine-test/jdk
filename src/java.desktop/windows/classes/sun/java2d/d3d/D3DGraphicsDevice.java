@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.d3d;
+pbckbge sun.jbvb2d.d3d;
 
-import java.awt.Dialog;
-import java.awt.DisplayMode;
-import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.peer.WindowPeer;
-import java.util.ArrayList;
-import sun.awt.Win32GraphicsDevice;
-import sun.awt.windows.WWindowPeer;
-import sun.java2d.pipe.hw.ContextCapabilities;
-import sun.java2d.windows.WindowsFlags;
-import static sun.java2d.d3d.D3DContext.D3DContextCaps.*;
-import sun.java2d.d3d.D3DContext.D3DContextCaps;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.DisplbyMode;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Window;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.event.WindowListener;
+import jbvb.bwt.peer.WindowPeer;
+import jbvb.util.ArrbyList;
+import sun.bwt.Win32GrbphicsDevice;
+import sun.bwt.windows.WWindowPeer;
+import sun.jbvb2d.pipe.hw.ContextCbpbbilities;
+import sun.jbvb2d.windows.WindowsFlbgs;
+import stbtic sun.jbvb2d.d3d.D3DContext.D3DContextCbps.*;
+import sun.jbvb2d.d3d.D3DContext.D3DContextCbps;
 
 /**
- * This class implements D3D-specific functionality, such as fullscreen
- * exclusive mode and display changes.  It is kept separate from
- * Win32GraphicsDevice to help avoid overburdening the parent class.
+ * This clbss implements D3D-specific functionblity, such bs fullscreen
+ * exclusive mode bnd displby chbnges.  It is kept sepbrbte from
+ * Win32GrbphicsDevice to help bvoid overburdening the pbrent clbss.
  */
-public class D3DGraphicsDevice extends Win32GraphicsDevice {
-    private D3DContext context;
+public clbss D3DGrbphicsDevice extends Win32GrbphicsDevice {
+    privbte D3DContext context;
 
-    private static boolean d3dAvailable;
+    privbte stbtic boolebn d3dAvbilbble;
 
-    private ContextCapabilities d3dCaps;
+    privbte ContextCbpbbilities d3dCbps;
 
-    private static native boolean initD3D();
+    privbte stbtic nbtive boolebn initD3D();
 
-    static {
-        // loading the library doesn't help because we need the
-        // toolkit thread running, so we have to call getDefaultToolkit()
-        Toolkit.getDefaultToolkit();
-        d3dAvailable = initD3D();
-        if (d3dAvailable) {
-            // we don't use pixel formats for the d3d pipeline
-            pfDisabled = true;
-            sun.misc.PerfCounter.getD3DAvailable().set(1);
+    stbtic {
+        // lobding the librbry doesn't help becbuse we need the
+        // toolkit threbd running, so we hbve to cbll getDefbultToolkit()
+        Toolkit.getDefbultToolkit();
+        d3dAvbilbble = initD3D();
+        if (d3dAvbilbble) {
+            // we don't use pixel formbts for the d3d pipeline
+            pfDisbbled = true;
+            sun.misc.PerfCounter.getD3DAvbilbble().set(1);
         } else {
-            sun.misc.PerfCounter.getD3DAvailable().set(0);
+            sun.misc.PerfCounter.getD3DAvbilbble().set(0);
         }
     }
 
     /**
-     * Used to construct a Direct3D-enabled GraphicsDevice.
+     * Used to construct b Direct3D-enbbled GrbphicsDevice.
      *
-     * @return a D3DGraphicsDevice if it could be created
+     * @return b D3DGrbphicsDevice if it could be crebted
      * successfully, null otherwise.
      */
-    public static D3DGraphicsDevice createDevice(int screen) {
-        if (!d3dAvailable) {
+    public stbtic D3DGrbphicsDevice crebteDevice(int screen) {
+        if (!d3dAvbilbble) {
             return null;
         }
 
-        ContextCapabilities d3dCaps = getDeviceCaps(screen);
-        // could not initialize the device successfully
-        if ((d3dCaps.getCaps() & CAPS_DEVICE_OK) == 0) {
-            if (WindowsFlags.isD3DVerbose()) {
-                System.out.println("Could not enable Direct3D pipeline on " +
+        ContextCbpbbilities d3dCbps = getDeviceCbps(screen);
+        // could not initiblize the device successfully
+        if ((d3dCbps.getCbps() & CAPS_DEVICE_OK) == 0) {
+            if (WindowsFlbgs.isD3DVerbose()) {
+                System.out.println("Could not enbble Direct3D pipeline on " +
                                    "screen " + screen);
             }
             return null;
         }
-        if (WindowsFlags.isD3DVerbose()) {
-            System.out.println("Direct3D pipeline enabled on screen " + screen);
+        if (WindowsFlbgs.isD3DVerbose()) {
+            System.out.println("Direct3D pipeline enbbled on screen " + screen);
         }
 
-        D3DGraphicsDevice gd = new D3DGraphicsDevice(screen, d3dCaps);
+        D3DGrbphicsDevice gd = new D3DGrbphicsDevice(screen, d3dCbps);
         return gd;
     }
 
-    private static native int getDeviceCapsNative(int screen);
-    private static native String getDeviceIdNative(int screen);
-    private static ContextCapabilities getDeviceCaps(final int screen) {
-        ContextCapabilities d3dCaps = null;
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+    privbte stbtic nbtive int getDeviceCbpsNbtive(int screen);
+    privbte stbtic nbtive String getDeviceIdNbtive(int screen);
+    privbte stbtic ContextCbpbbilities getDeviceCbps(finbl int screen) {
+        ContextCbpbbilities d3dCbps = null;
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            class Result {
-                int caps;
+            clbss Result {
+                int cbps;
                 String id;
             };
-            final Result res = new Result();
-            rq.flushAndInvokeNow(new Runnable() {
+            finbl Result res = new Result();
+            rq.flushAndInvokeNow(new Runnbble() {
                 public void run() {
-                    res.caps = getDeviceCapsNative(screen);
-                    res.id = getDeviceIdNative(screen);
+                    res.cbps = getDeviceCbpsNbtive(screen);
+                    res.id = getDeviceIdNbtive(screen);
                 }
             });
-            d3dCaps = new D3DContextCaps(res.caps, res.id);
-        } finally {
+            d3dCbps = new D3DContextCbps(res.cbps, res.id);
+        } finblly {
             rq.unlock();
         }
 
-        return d3dCaps != null ? d3dCaps : new D3DContextCaps(CAPS_EMPTY, null);
+        return d3dCbps != null ? d3dCbps : new D3DContextCbps(CAPS_EMPTY, null);
     }
 
-    public final boolean isCapPresent(int cap) {
-        return ((d3dCaps.getCaps() & cap) != 0);
+    public finbl boolebn isCbpPresent(int cbp) {
+        return ((d3dCbps.getCbps() & cbp) != 0);
     }
 
-    private D3DGraphicsDevice(int screennum, ContextCapabilities d3dCaps) {
+    privbte D3DGrbphicsDevice(int screennum, ContextCbpbbilities d3dCbps) {
         super(screennum);
-        descString = "D3DGraphicsDevice[screen="+screennum;
-        this.d3dCaps = d3dCaps;
-        context = new D3DContext(D3DRenderQueue.getInstance(), this);
+        descString = "D3DGrbphicsDevice[screen="+screennum;
+        this.d3dCbps = d3dCbps;
+        context = new D3DContext(D3DRenderQueue.getInstbnce(), this);
     }
 
-    public boolean isD3DEnabledOnDevice() {
-        return isValid() && isCapPresent(CAPS_DEVICE_OK);
+    public boolebn isD3DEnbbledOnDevice() {
+        return isVblid() && isCbpPresent(CAPS_DEVICE_OK);
     }
 
     /**
-     * Returns true if d3d pipeline has been successfully initialized.
-     * @return true if d3d pipeline is initialized, false otherwise
+     * Returns true if d3d pipeline hbs been successfully initiblized.
+     * @return true if d3d pipeline is initiblized, fblse otherwise
      */
-    public static boolean isD3DAvailable() {
-        return d3dAvailable;
+    public stbtic boolebn isD3DAvbilbble() {
+        return d3dAvbilbble;
     }
 
     /**
-     * Return the owning Frame for a given Window.  Used in setFSWindow below
-     * to set the properties of the owning Frame when a Window goes
+     * Return the owning Frbme for b given Window.  Used in setFSWindow below
+     * to set the properties of the owning Frbme when b Window goes
      * into fullscreen mode.
      */
-    private Frame getToplevelOwner(Window w) {
+    privbte Frbme getToplevelOwner(Window w) {
         Window owner = w;
         while (owner != null) {
             owner = owner.getOwner();
-            if (owner instanceof Frame) {
-                return (Frame) owner;
+            if (owner instbnceof Frbme) {
+                return (Frbme) owner;
             }
         }
-        // could get here if passed Window is an owner-less Dialog
+        // could get here if pbssed Window is bn owner-less Diblog
         return null;
     }
 
-    private boolean fsStatus;
-    private Rectangle ownerOrigBounds = null;
-    private boolean ownerWasVisible;
-    private Window realFSWindow;
-    private WindowListener fsWindowListener;
-    private boolean fsWindowWasAlwaysOnTop;
-    private static native boolean enterFullScreenExclusiveNative(int screen,
+    privbte boolebn fsStbtus;
+    privbte Rectbngle ownerOrigBounds = null;
+    privbte boolebn ownerWbsVisible;
+    privbte Window reblFSWindow;
+    privbte WindowListener fsWindowListener;
+    privbte boolebn fsWindowWbsAlwbysOnTop;
+    privbte stbtic nbtive boolebn enterFullScreenExclusiveNbtive(int screen,
                                                                  long hwnd);
 
     @Override
-    protected void enterFullScreenExclusive(final int screen, WindowPeer wp)
+    protected void enterFullScreenExclusive(finbl int screen, WindowPeer wp)
     {
-        final WWindowPeer wpeer = (WWindowPeer)realFSWindow.getPeer();
+        finbl WWindowPeer wpeer = (WWindowPeer)reblFSWindow.getPeer();
 
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            rq.flushAndInvokeNow(new Runnable() {
+            rq.flushAndInvokeNow(new Runnbble() {
                 public void run() {
                     long hwnd = wpeer.getHWnd();
                     if (hwnd == 0l) {
                         // window is disposed
-                        fsStatus = false;
+                        fsStbtus = fblse;
                         return;
                     }
-                    fsStatus = enterFullScreenExclusiveNative(screen, hwnd);
+                    fsStbtus = enterFullScreenExclusiveNbtive(screen, hwnd);
                 }
             });
-        } finally {
+        } finblly {
             rq.unlock();
         }
-        if (!fsStatus) {
+        if (!fsStbtus) {
             super.enterFullScreenExclusive(screen, wp);
         }
     }
 
-    private static native boolean exitFullScreenExclusiveNative(int screen);
+    privbte stbtic nbtive boolebn exitFullScreenExclusiveNbtive(int screen);
     @Override
-    protected void exitFullScreenExclusive(final int screen, WindowPeer w) {
-        if (fsStatus) {
-            D3DRenderQueue rq = D3DRenderQueue.getInstance();
+    protected void exitFullScreenExclusive(finbl int screen, WindowPeer w) {
+        if (fsStbtus) {
+            D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
             rq.lock();
             try {
-                rq.flushAndInvokeNow(new Runnable() {
+                rq.flushAndInvokeNow(new Runnbble() {
                     public void run() {
-                        exitFullScreenExclusiveNative(screen);
+                        exitFullScreenExclusiveNbtive(screen);
                     }
                 });
-            } finally {
+            } finblly {
                 rq.unlock();
             }
         } else {
@@ -223,255 +223,255 @@ public class D3DGraphicsDevice extends Win32GraphicsDevice {
     }
 
     /**
-     * WindowAdapter class for the full-screen frame, responsible for
-     * restoring the devices. This is important to do because unless the device
-     * is restored it will not go back into the FS mode once alt+tabbed out.
-     * This is a problem for windows for which we do not do any d3d-related
-     * operations (like when we disabled on-screen rendering).
+     * WindowAdbpter clbss for the full-screen frbme, responsible for
+     * restoring the devices. This is importbnt to do becbuse unless the device
+     * is restored it will not go bbck into the FS mode once blt+tbbbed out.
+     * This is b problem for windows for which we do not do bny d3d-relbted
+     * operbtions (like when we disbbled on-screen rendering).
      *
-     * REMIND: we create an instance per each full-screen device while a single
-     * instance would suffice (but requires more management).
+     * REMIND: we crebte bn instbnce per ebch full-screen device while b single
+     * instbnce would suffice (but requires more mbnbgement).
      */
-    private static class D3DFSWindowAdapter extends WindowAdapter {
+    privbte stbtic clbss D3DFSWindowAdbpter extends WindowAdbpter {
         @Override
-        @SuppressWarnings("static")
-        public void windowDeactivated(WindowEvent e) {
-            D3DRenderQueue.getInstance().restoreDevices();
+        @SuppressWbrnings("stbtic")
+        public void windowDebctivbted(WindowEvent e) {
+            D3DRenderQueue.getInstbnce().restoreDevices();
         }
         @Override
-        @SuppressWarnings("static")
-        public void windowActivated(WindowEvent e) {
-            D3DRenderQueue.getInstance().restoreDevices();
+        @SuppressWbrnings("stbtic")
+        public void windowActivbted(WindowEvent e) {
+            D3DRenderQueue.getInstbnce().restoreDevices();
         }
     }
 
     @Override
-    protected void addFSWindowListener(Window w) {
-        // if the window is not a toplevel (has an owner) we have to use the
-        // real toplevel to enter the full-screen mode with (4933099).
-        if (!(w instanceof Frame) && !(w instanceof Dialog) &&
-            (realFSWindow = getToplevelOwner(w)) != null)
+    protected void bddFSWindowListener(Window w) {
+        // if the window is not b toplevel (hbs bn owner) we hbve to use the
+        // rebl toplevel to enter the full-screen mode with (4933099).
+        if (!(w instbnceof Frbme) && !(w instbnceof Diblog) &&
+            (reblFSWindow = getToplevelOwner(w)) != null)
         {
-            ownerOrigBounds = realFSWindow.getBounds();
-            WWindowPeer fp = (WWindowPeer)realFSWindow.getPeer();
+            ownerOrigBounds = reblFSWindow.getBounds();
+            WWindowPeer fp = (WWindowPeer)reblFSWindow.getPeer();
 
-            ownerWasVisible = realFSWindow.isVisible();
-            Rectangle r = w.getBounds();
-            // we use operations on peer instead of component because calling
-            // them on component will take the tree lock
-            fp.reshape(r.x, r.y, r.width, r.height);
+            ownerWbsVisible = reblFSWindow.isVisible();
+            Rectbngle r = w.getBounds();
+            // we use operbtions on peer instebd of component becbuse cblling
+            // them on component will tbke the tree lock
+            fp.reshbpe(r.x, r.y, r.width, r.height);
             fp.setVisible(true);
         } else {
-            realFSWindow = w;
+            reblFSWindow = w;
         }
 
-        fsWindowWasAlwaysOnTop = realFSWindow.isAlwaysOnTop();
-        ((WWindowPeer)realFSWindow.getPeer()).setAlwaysOnTop(true);
+        fsWindowWbsAlwbysOnTop = reblFSWindow.isAlwbysOnTop();
+        ((WWindowPeer)reblFSWindow.getPeer()).setAlwbysOnTop(true);
 
-        fsWindowListener = new D3DFSWindowAdapter();
-        realFSWindow.addWindowListener(fsWindowListener);
+        fsWindowListener = new D3DFSWindowAdbpter();
+        reblFSWindow.bddWindowListener(fsWindowListener);
     }
 
     @Override
     protected void removeFSWindowListener(Window w) {
-        realFSWindow.removeWindowListener(fsWindowListener);
+        reblFSWindow.removeWindowListener(fsWindowListener);
         fsWindowListener = null;
 
         /**
-         * Bug 4933099: There is some funny-business to deal with when this
-         * method is called with a Window instead of a Frame.  See 4836744
-         * for more information on this.  One side-effect of our workaround
-         * for the problem is that the owning Frame of a Window may end
+         * Bug 4933099: There is some funny-business to debl with when this
+         * method is cblled with b Window instebd of b Frbme.  See 4836744
+         * for more informbtion on this.  One side-effect of our workbround
+         * for the problem is thbt the owning Frbme of b Window mby end
          * up getting resized during the fullscreen process.  When we
-         * return from fullscreen mode, we should resize the Frame to
-         * its original size (just like the Window is being resized
-         * to its original size in GraphicsDevice).
+         * return from fullscreen mode, we should resize the Frbme to
+         * its originbl size (just like the Window is being resized
+         * to its originbl size in GrbphicsDevice).
          */
-        WWindowPeer wpeer = (WWindowPeer)realFSWindow.getPeer();
+        WWindowPeer wpeer = (WWindowPeer)reblFSWindow.getPeer();
         if (wpeer != null) {
             if (ownerOrigBounds != null) {
-                // if the window went into fs mode before it was realized it
-                // could have (0,0) dimensions
+                // if the window went into fs mode before it wbs reblized it
+                // could hbve (0,0) dimensions
                 if (ownerOrigBounds.width  == 0) ownerOrigBounds.width  = 1;
                 if (ownerOrigBounds.height == 0) ownerOrigBounds.height = 1;
-                wpeer.reshape(ownerOrigBounds.x,     ownerOrigBounds.y,
+                wpeer.reshbpe(ownerOrigBounds.x,     ownerOrigBounds.y,
                               ownerOrigBounds.width, ownerOrigBounds.height);
-                if (!ownerWasVisible) {
-                    wpeer.setVisible(false);
+                if (!ownerWbsVisible) {
+                    wpeer.setVisible(fblse);
                 }
                 ownerOrigBounds = null;
             }
-            if (!fsWindowWasAlwaysOnTop) {
-                wpeer.setAlwaysOnTop(false);
+            if (!fsWindowWbsAlwbysOnTop) {
+                wpeer.setAlwbysOnTop(fblse);
             }
         }
 
-        realFSWindow = null;
+        reblFSWindow = null;
     }
 
-    private static native DisplayMode getCurrentDisplayModeNative(int screen);
+    privbte stbtic nbtive DisplbyMode getCurrentDisplbyModeNbtive(int screen);
     @Override
-    protected DisplayMode getCurrentDisplayMode(final int screen) {
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+    protected DisplbyMode getCurrentDisplbyMode(finbl int screen) {
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            class Result {
-                DisplayMode dm = null;
+            clbss Result {
+                DisplbyMode dm = null;
             };
-            final Result res = new Result();
-            rq.flushAndInvokeNow(new Runnable() {
+            finbl Result res = new Result();
+            rq.flushAndInvokeNow(new Runnbble() {
                 public void run() {
-                    res.dm = getCurrentDisplayModeNative(screen);
+                    res.dm = getCurrentDisplbyModeNbtive(screen);
                 }
             });
             if (res.dm == null) {
-                return super.getCurrentDisplayMode(screen);
+                return super.getCurrentDisplbyMode(screen);
             }
             return res.dm;
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
-    private static native void configDisplayModeNative(int screen, long hwnd,
+    privbte stbtic nbtive void configDisplbyModeNbtive(int screen, long hwnd,
                                                        int width, int height,
                                                        int bitDepth,
-                                                       int refreshRate);
+                                                       int refreshRbte);
     @Override
-    protected void configDisplayMode(final int screen, final WindowPeer w,
-                                     final int width, final int height,
-                                     final int bitDepth, final int refreshRate)
+    protected void configDisplbyMode(finbl int screen, finbl WindowPeer w,
+                                     finbl int width, finbl int height,
+                                     finbl int bitDepth, finbl int refreshRbte)
     {
-        // we entered fs mode via gdi
-        if (!fsStatus) {
-            super.configDisplayMode(screen, w, width, height, bitDepth,
-                                    refreshRate);
+        // we entered fs mode vib gdi
+        if (!fsStbtus) {
+            super.configDisplbyMode(screen, w, width, height, bitDepth,
+                                    refreshRbte);
             return;
         }
 
-        final WWindowPeer wpeer = (WWindowPeer)realFSWindow.getPeer();
+        finbl WWindowPeer wpeer = (WWindowPeer)reblFSWindow.getPeer();
 
-        // REMIND: we do this before we switch the display mode, so
-        // the dimensions may be exceeding the dimensions of the screen,
-        // is this a problem?
+        // REMIND: we do this before we switch the displby mode, so
+        // the dimensions mby be exceeding the dimensions of the screen,
+        // is this b problem?
 
-        // update the bounds of the owner frame
-        if (getFullScreenWindow() != realFSWindow) {
-            Rectangle screenBounds = getDefaultConfiguration().getBounds();
-            wpeer.reshape(screenBounds.x, screenBounds.y, width, height);
+        // updbte the bounds of the owner frbme
+        if (getFullScreenWindow() != reblFSWindow) {
+            Rectbngle screenBounds = getDefbultConfigurbtion().getBounds();
+            wpeer.reshbpe(screenBounds.x, screenBounds.y, width, height);
         }
 
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            rq.flushAndInvokeNow(new Runnable() {
+            rq.flushAndInvokeNow(new Runnbble() {
                 public void run() {
                     long hwnd = wpeer.getHWnd();
                     if (hwnd == 0l) {
                         // window is disposed
                         return;
                     }
-                    // REMIND: do we really need a window here?
-                    // we should probably just use the current one
-                    configDisplayModeNative(screen, hwnd, width, height,
-                                            bitDepth, refreshRate);
+                    // REMIND: do we reblly need b window here?
+                    // we should probbbly just use the current one
+                    configDisplbyModeNbtive(screen, hwnd, width, height,
+                                            bitDepth, refreshRbte);
                 }
             });
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
-    private static native void enumDisplayModesNative(int screen,
-                                                      ArrayList<DisplayMode> modes);
+    privbte stbtic nbtive void enumDisplbyModesNbtive(int screen,
+                                                      ArrbyList<DisplbyMode> modes);
     @Override
-    protected void enumDisplayModes(final int screen, final ArrayList<DisplayMode> modes) {
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+    protected void enumDisplbyModes(finbl int screen, finbl ArrbyList<DisplbyMode> modes) {
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            rq.flushAndInvokeNow(new Runnable() {
+            rq.flushAndInvokeNow(new Runnbble() {
                 public void run() {
-                    enumDisplayModesNative(screen, modes);
+                    enumDisplbyModesNbtive(screen, modes);
                 }
             });
             if (modes.size() == 0) {
-                modes.add(getCurrentDisplayModeNative(screen));
+                modes.bdd(getCurrentDisplbyModeNbtive(screen));
             }
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
-    private static native long getAvailableAcceleratedMemoryNative(int screen);
+    privbte stbtic nbtive long getAvbilbbleAccelerbtedMemoryNbtive(int screen);
     @Override
-    public int getAvailableAcceleratedMemory() {
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+    public int getAvbilbbleAccelerbtedMemory() {
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            class Result {
+            clbss Result {
                 long mem = 0L;
             };
-            final Result res = new Result();
-            rq.flushAndInvokeNow(new Runnable() {
+            finbl Result res = new Result();
+            rq.flushAndInvokeNow(new Runnbble() {
                 public void run() {
-                    res.mem = getAvailableAcceleratedMemoryNative(getScreen());
+                    res.mem = getAvbilbbleAccelerbtedMemoryNbtive(getScreen());
                 }
             });
             return (int)res.mem;
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
     @Override
-    public GraphicsConfiguration[] getConfigurations() {
+    public GrbphicsConfigurbtion[] getConfigurbtions() {
         if (configs == null) {
-            if (isD3DEnabledOnDevice()) {
-                defaultConfig = getDefaultConfiguration();
-                if (defaultConfig != null) {
-                    configs = new GraphicsConfiguration[1];
-                    configs[0] = defaultConfig;
+            if (isD3DEnbbledOnDevice()) {
+                defbultConfig = getDefbultConfigurbtion();
+                if (defbultConfig != null) {
+                    configs = new GrbphicsConfigurbtion[1];
+                    configs[0] = defbultConfig;
                     return configs.clone();
                 }
             }
         }
-        return super.getConfigurations();
+        return super.getConfigurbtions();
     }
 
     @Override
-    public GraphicsConfiguration getDefaultConfiguration() {
-        if (defaultConfig == null) {
-            if (isD3DEnabledOnDevice()) {
-                defaultConfig = new D3DGraphicsConfig(this);
+    public GrbphicsConfigurbtion getDefbultConfigurbtion() {
+        if (defbultConfig == null) {
+            if (isD3DEnbbledOnDevice()) {
+                defbultConfig = new D3DGrbphicsConfig(this);
             } else {
-                defaultConfig = super.getDefaultConfiguration();
+                defbultConfig = super.getDefbultConfigurbtion();
             }
         }
-        return defaultConfig;
+        return defbultConfig;
     }
 
-    private static native boolean isD3DAvailableOnDeviceNative(int screen);
-    // REMIND: this method is not used now, we use caps instead
-    public static boolean isD3DAvailableOnDevice(final int screen) {
-        if (!d3dAvailable) {
-            return false;
+    privbte stbtic nbtive boolebn isD3DAvbilbbleOnDeviceNbtive(int screen);
+    // REMIND: this method is not used now, we use cbps instebd
+    public stbtic boolebn isD3DAvbilbbleOnDevice(finbl int screen) {
+        if (!d3dAvbilbble) {
+            return fblse;
         }
 
-        // REMIND: should we cache the result per device somehow,
-        // and then reset and retry it on display change?
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+        // REMIND: should we cbche the result per device somehow,
+        // bnd then reset bnd retry it on displby chbnge?
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            class Result {
-                boolean avail = false;
+            clbss Result {
+                boolebn bvbil = fblse;
             };
-            final Result res = new Result();
-            rq.flushAndInvokeNow(new Runnable() {
+            finbl Result res = new Result();
+            rq.flushAndInvokeNow(new Runnbble() {
                 public void run() {
-                    res.avail = isD3DAvailableOnDeviceNative(screen);
+                    res.bvbil = isD3DAvbilbbleOnDeviceNbtive(screen);
                 }
             });
-            return res.avail;
-        } finally {
+            return res.bvbil;
+        } finblly {
             rq.unlock();
         }
     }
@@ -480,25 +480,25 @@ public class D3DGraphicsDevice extends Win32GraphicsDevice {
         return context;
     }
 
-    ContextCapabilities getContextCapabilities() {
-        return d3dCaps;
+    ContextCbpbbilities getContextCbpbbilities() {
+        return d3dCbps;
     }
 
     @Override
-    public void displayChanged() {
-        super.displayChanged();
-        // REMIND: make sure this works when the device is lost and we don't
-        // disable d3d too eagerly
-        if (d3dAvailable) {
-            d3dCaps = getDeviceCaps(getScreen());
+    public void displbyChbnged() {
+        super.displbyChbnged();
+        // REMIND: mbke sure this works when the device is lost bnd we don't
+        // disbble d3d too ebgerly
+        if (d3dAvbilbble) {
+            d3dCbps = getDeviceCbps(getScreen());
         }
     }
 
     @Override
-    protected void invalidate(int defaultScreen) {
-        super.invalidate(defaultScreen);
-        // REMIND: this is a bit excessive, isD3DEnabledOnDevice will return
-        // false anyway because the device is invalid
-        d3dCaps = new D3DContextCaps(CAPS_EMPTY, null);
+    protected void invblidbte(int defbultScreen) {
+        super.invblidbte(defbultScreen);
+        // REMIND: this is b bit excessive, isD3DEnbbledOnDevice will return
+        // fblse bnywby becbuse the device is invblid
+        d3dCbps = new D3DContextCbps(CAPS_EMPTY, null);
     }
 }

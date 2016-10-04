@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net;
+pbckbge sun.net;
 
-import java.net.SocketException;
-import java.util.concurrent.atomic.AtomicInteger;
-import sun.security.action.GetPropertyAction;
+import jbvb.net.SocketException;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * Manages count of total number of UDP sockets and ensures
- * that exception is thrown if we try to create more than the
+ * Mbnbges count of totbl number of UDP sockets bnd ensures
+ * thbt exception is thrown if we try to crebte more thbn the
  * configured limit.
  *
- * This functionality could be put in NetHooks some time in future.
+ * This functionblity could be put in NetHooks some time in future.
  */
 
-public class ResourceManager {
+public clbss ResourceMbnbger {
 
-    /* default maximum number of udp sockets per VM
-     * when a security manager is enabled.
-     * The default is 25 which is high enough to be useful
-     * but low enough to be well below the maximum number
-     * of port numbers actually available on all OSes
-     * when multiplied by the maximum feasible number of VM processes
-     * that could practically be spawned.
+    /* defbult mbximum number of udp sockets per VM
+     * when b security mbnbger is enbbled.
+     * The defbult is 25 which is high enough to be useful
+     * but low enough to be well below the mbximum number
+     * of port numbers bctublly bvbilbble on bll OSes
+     * when multiplied by the mbximum febsible number of VM processes
+     * thbt could prbcticblly be spbwned.
      */
 
-    private static final int DEFAULT_MAX_SOCKETS = 25;
-    private static final int maxSockets;
-    private static final AtomicInteger numSockets;
+    privbte stbtic finbl int DEFAULT_MAX_SOCKETS = 25;
+    privbte stbtic finbl int mbxSockets;
+    privbte stbtic finbl AtomicInteger numSockets;
 
-    static {
-        String prop = java.security.AccessController.doPrivileged(
-            new GetPropertyAction("sun.net.maxDatagramSockets")
+    stbtic {
+        String prop = jbvb.security.AccessController.doPrivileged(
+            new GetPropertyAction("sun.net.mbxDbtbgrbmSockets")
         );
-        int defmax = DEFAULT_MAX_SOCKETS;
+        int defmbx = DEFAULT_MAX_SOCKETS;
         try {
             if (prop != null) {
-                defmax = Integer.parseInt(prop);
+                defmbx = Integer.pbrseInt(prop);
             }
-        } catch (NumberFormatException e) {}
-        maxSockets = defmax;
+        } cbtch (NumberFormbtException e) {}
+        mbxSockets = defmbx;
         numSockets = new AtomicInteger(0);
     }
 
-    public static void beforeUdpCreate() throws SocketException {
-        if (System.getSecurityManager() != null) {
-            if (numSockets.incrementAndGet() > maxSockets) {
+    public stbtic void beforeUdpCrebte() throws SocketException {
+        if (System.getSecurityMbnbger() != null) {
+            if (numSockets.incrementAndGet() > mbxSockets) {
                 numSockets.decrementAndGet();
-                throw new SocketException("maximum number of DatagramSockets reached");
+                throw new SocketException("mbximum number of DbtbgrbmSockets rebched");
             }
         }
     }
 
-    public static void afterUdpClose() {
-        if (System.getSecurityManager() != null) {
+    public stbtic void bfterUdpClose() {
+        if (System.getSecurityMbnbger() != null) {
             numSockets.decrementAndGet();
         }
     }

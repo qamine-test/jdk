@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.internal.spec;
+pbckbge sun.security.internbl.spec;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
 /**
- * Parameters for SSL/TLS master secret generation.
- * This class encapsulates the information necessary to calculate a SSL/TLS
- * master secret from the premaster secret and other parameters.
- * It is used to initialize KeyGenerators of the type "TlsMasterSecret".
+ * Pbrbmeters for SSL/TLS mbster secret generbtion.
+ * This clbss encbpsulbtes the informbtion necessbry to cblculbte b SSL/TLS
+ * mbster secret from the prembster secret bnd other pbrbmeters.
+ * It is used to initiblize KeyGenerbtors of the type "TlsMbsterSecret".
  *
- * <p>Instances of this class are immutable.
+ * <p>Instbnces of this clbss bre immutbble.
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @deprecated Sun JDK internal use only --- WILL BE REMOVED in a future
- * release.
+ * @buthor  Andrebs Sterbenz
+ * @deprecbted Sun JDK internbl use only --- WILL BE REMOVED in b future
+ * relebse.
  */
-@Deprecated
-public class TlsMasterSecretParameterSpec implements AlgorithmParameterSpec {
+@Deprecbted
+public clbss TlsMbsterSecretPbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private final SecretKey premasterSecret;
-    private final int majorVersion, minorVersion;
-    private final byte[] clientRandom, serverRandom;
-    private final String prfHashAlg;
-    private final int prfHashLength;
-    private final int prfBlockSize;
+    privbte finbl SecretKey prembsterSecret;
+    privbte finbl int mbjorVersion, minorVersion;
+    privbte finbl byte[] clientRbndom, serverRbndom;
+    privbte finbl String prfHbshAlg;
+    privbte finbl int prfHbshLength;
+    privbte finbl int prfBlockSize;
 
     /**
-     * Constructs a new TlsMasterSecretParameterSpec.
+     * Constructs b new TlsMbsterSecretPbrbmeterSpec.
      *
-     * <p>The <code>getAlgorithm()</code> method of <code>premasterSecret</code>
-     * should return <code>"TlsRsaPremasterSecret"</code> if the key exchange
-     * algorithm was RSA and <code>"TlsPremasterSecret"</code> otherwise.
+     * <p>The <code>getAlgorithm()</code> method of <code>prembsterSecret</code>
+     * should return <code>"TlsRsbPrembsterSecret"</code> if the key exchbnge
+     * blgorithm wbs RSA bnd <code>"TlsPrembsterSecret"</code> otherwise.
      *
-     * @param premasterSecret the premaster secret
-     * @param majorVersion the major number of the protocol version
-     * @param minorVersion the minor number of the protocol version
-     * @param clientRandom the client's random value
-     * @param serverRandom the server's random value
-     * @param prfHashAlg the name of the TLS PRF hash algorithm to use.
-     *        Used only for TLS 1.2+.  TLS1.1 and earlier use a fixed PRF.
-     * @param prfHashLength the output length of the TLS PRF hash algorithm.
+     * @pbrbm prembsterSecret the prembster secret
+     * @pbrbm mbjorVersion the mbjor number of the protocol version
+     * @pbrbm minorVersion the minor number of the protocol version
+     * @pbrbm clientRbndom the client's rbndom vblue
+     * @pbrbm serverRbndom the server's rbndom vblue
+     * @pbrbm prfHbshAlg the nbme of the TLS PRF hbsh blgorithm to use.
+     *        Used only for TLS 1.2+.  TLS1.1 bnd ebrlier use b fixed PRF.
+     * @pbrbm prfHbshLength the output length of the TLS PRF hbsh blgorithm.
      *        Used only for TLS 1.2+.
-     * @param prfBlockSize the input block size of the TLS PRF hash algorithm.
+     * @pbrbm prfBlockSize the input block size of the TLS PRF hbsh blgorithm.
      *        Used only for TLS 1.2+.
      *
-     * @throws NullPointerException if premasterSecret, clientRandom,
-     *   or serverRandom are null
-     * @throws IllegalArgumentException if minorVersion or majorVersion are
-     *   negative or larger than 255
+     * @throws NullPointerException if prembsterSecret, clientRbndom,
+     *   or serverRbndom bre null
+     * @throws IllegblArgumentException if minorVersion or mbjorVersion bre
+     *   negbtive or lbrger thbn 255
      */
-    public TlsMasterSecretParameterSpec(SecretKey premasterSecret,
-            int majorVersion, int minorVersion,
-            byte[] clientRandom, byte[] serverRandom,
-            String prfHashAlg, int prfHashLength, int prfBlockSize) {
-        if (premasterSecret == null) {
-            throw new NullPointerException("premasterSecret must not be null");
+    public TlsMbsterSecretPbrbmeterSpec(SecretKey prembsterSecret,
+            int mbjorVersion, int minorVersion,
+            byte[] clientRbndom, byte[] serverRbndom,
+            String prfHbshAlg, int prfHbshLength, int prfBlockSize) {
+        if (prembsterSecret == null) {
+            throw new NullPointerException("prembsterSecret must not be null");
         }
-        this.premasterSecret = premasterSecret;
-        this.majorVersion = checkVersion(majorVersion);
+        this.prembsterSecret = prembsterSecret;
+        this.mbjorVersion = checkVersion(mbjorVersion);
         this.minorVersion = checkVersion(minorVersion);
-        this.clientRandom = clientRandom.clone();
-        this.serverRandom = serverRandom.clone();
-        this.prfHashAlg = prfHashAlg;
-        this.prfHashLength = prfHashLength;
+        this.clientRbndom = clientRbndom.clone();
+        this.serverRbndom = serverRbndom.clone();
+        this.prfHbshAlg = prfHbshAlg;
+        this.prfHbshLength = prfHbshLength;
         this.prfBlockSize = prfBlockSize;
     }
 
-    static int checkVersion(int version) {
+    stbtic int checkVersion(int version) {
         if ((version < 0) || (version > 255)) {
-            throw new IllegalArgumentException(
-                        "Version must be between 0 and 255");
+            throw new IllegblArgumentException(
+                        "Version must be between 0 bnd 255");
         }
         return version;
     }
 
     /**
-     * Returns the premaster secret.
+     * Returns the prembster secret.
      *
-     * @return the premaster secret.
+     * @return the prembster secret.
      */
-    public SecretKey getPremasterSecret() {
-        return premasterSecret;
+    public SecretKey getPrembsterSecret() {
+        return prembsterSecret;
     }
 
     /**
-     * Returns the major version number.
+     * Returns the mbjor version number.
      *
-     * @return the major version number.
+     * @return the mbjor version number.
      */
-    public int getMajorVersion() {
-        return majorVersion;
+    public int getMbjorVersion() {
+        return mbjorVersion;
     }
 
     /**
@@ -129,45 +129,45 @@ public class TlsMasterSecretParameterSpec implements AlgorithmParameterSpec {
     }
 
     /**
-     * Returns a copy of the client's random value.
+     * Returns b copy of the client's rbndom vblue.
      *
-     * @return a copy of the client's random value.
+     * @return b copy of the client's rbndom vblue.
      */
-    public byte[] getClientRandom() {
-        return clientRandom.clone();
+    public byte[] getClientRbndom() {
+        return clientRbndom.clone();
     }
 
     /**
-     * Returns a copy of the server's random value.
+     * Returns b copy of the server's rbndom vblue.
      *
-     * @return a copy of the server's random value.
+     * @return b copy of the server's rbndom vblue.
      */
-    public byte[] getServerRandom() {
-        return serverRandom.clone();
+    public byte[] getServerRbndom() {
+        return serverRbndom.clone();
     }
 
     /**
-     * Obtains the PRF hash algorithm to use in the PRF calculation.
+     * Obtbins the PRF hbsh blgorithm to use in the PRF cblculbtion.
      *
-     * @return the hash algorithm.
+     * @return the hbsh blgorithm.
      */
-    public String getPRFHashAlg() {
-        return prfHashAlg;
+    public String getPRFHbshAlg() {
+        return prfHbshAlg;
     }
 
     /**
-     * Obtains the length of the PRF hash algorithm.
+     * Obtbins the length of the PRF hbsh blgorithm.
      *
-     * @return the hash algorithm length.
+     * @return the hbsh blgorithm length.
      */
-    public int getPRFHashLength() {
-        return prfHashLength;
+    public int getPRFHbshLength() {
+        return prfHbshLength;
     }
 
     /**
-     * Obtains the block size of the PRF hash algorithm.
+     * Obtbins the block size of the PRF hbsh blgorithm.
      *
-     * @return the hash algorithm block size.
+     * @return the hbsh blgorithm block size.
      */
     public int getPRFBlockSize() {
         return prfBlockSize;

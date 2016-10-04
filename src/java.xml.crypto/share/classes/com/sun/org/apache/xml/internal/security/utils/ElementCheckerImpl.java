@@ -3,86 +3,86 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/**@deprecated*/
-@Deprecated
-public abstract class ElementCheckerImpl implements ElementChecker {
+/**@deprecbted*/
+@Deprecbted
+public bbstrbct clbss ElementCheckerImpl implements ElementChecker {
 
-    public boolean isNamespaceElement(Node el, String type, String ns) {
+    public boolebn isNbmespbceElement(Node el, String type, String ns) {
         if ((el == null) ||
-            ns != el.getNamespaceURI() || !el.getLocalName().equals(type)){
-            return false;
+            ns != el.getNbmespbceURI() || !el.getLocblNbme().equbls(type)){
+            return fblse;
         }
 
         return true;
     }
 
-    /** A checker for DOM that interns NS */
-    public static class InternedNsChecker extends ElementCheckerImpl {
-        public void guaranteeThatElementInCorrectSpace(
-            ElementProxy expected, Element actual
+    /** A checker for DOM thbt interns NS */
+    public stbtic clbss InternedNsChecker extends ElementCheckerImpl {
+        public void gubrbnteeThbtElementInCorrectSpbce(
+            ElementProxy expected, Element bctubl
         ) throws XMLSecurityException {
 
-            String expectedLocalname = expected.getBaseLocalName();
-            String expectedNamespace = expected.getBaseNamespace();
+            String expectedLocblnbme = expected.getBbseLocblNbme();
+            String expectedNbmespbce = expected.getBbseNbmespbce();
 
-            String localnameIS = actual.getLocalName();
-            String namespaceIS = actual.getNamespaceURI();
-            if ((expectedNamespace != namespaceIS) ||
-                !expectedLocalname.equals(localnameIS)) {
-                Object exArgs[] = { namespaceIS + ":" + localnameIS,
-                                    expectedNamespace + ":" + expectedLocalname};
+            String locblnbmeIS = bctubl.getLocblNbme();
+            String nbmespbceIS = bctubl.getNbmespbceURI();
+            if ((expectedNbmespbce != nbmespbceIS) ||
+                !expectedLocblnbme.equbls(locblnbmeIS)) {
+                Object exArgs[] = { nbmespbceIS + ":" + locblnbmeIS,
+                                    expectedNbmespbce + ":" + expectedLocblnbme};
                 throw new XMLSecurityException("xml.WrongElement", exArgs);
             }
         }
     }
 
-    /** A checker for DOM that interns NS */
-    public static class FullChecker extends ElementCheckerImpl {
+    /** A checker for DOM thbt interns NS */
+    public stbtic clbss FullChecker extends ElementCheckerImpl {
 
-        public void guaranteeThatElementInCorrectSpace(
-            ElementProxy expected, Element actual
+        public void gubrbnteeThbtElementInCorrectSpbce(
+            ElementProxy expected, Element bctubl
         ) throws XMLSecurityException {
-            String expectedLocalname = expected.getBaseLocalName();
-            String expectedNamespace = expected.getBaseNamespace();
+            String expectedLocblnbme = expected.getBbseLocblNbme();
+            String expectedNbmespbce = expected.getBbseNbmespbce();
 
-            String localnameIS = actual.getLocalName();
-            String namespaceIS = actual.getNamespaceURI();
-            if ((!expectedNamespace.equals(namespaceIS)) ||
-                !expectedLocalname.equals(localnameIS) ) {
-                Object exArgs[] = { namespaceIS + ":" + localnameIS,
-                                    expectedNamespace + ":" + expectedLocalname};
+            String locblnbmeIS = bctubl.getLocblNbme();
+            String nbmespbceIS = bctubl.getNbmespbceURI();
+            if ((!expectedNbmespbce.equbls(nbmespbceIS)) ||
+                !expectedLocblnbme.equbls(locblnbmeIS) ) {
+                Object exArgs[] = { nbmespbceIS + ":" + locblnbmeIS,
+                                    expectedNbmespbce + ":" + expectedLocblnbme};
                 throw new XMLSecurityException("xml.WrongElement", exArgs);
             }
         }
     }
 
-    /** An empty checker if schema checking is used */
-    public static class EmptyChecker extends ElementCheckerImpl {
-        public void guaranteeThatElementInCorrectSpace(
-            ElementProxy expected, Element actual
+    /** An empty checker if schemb checking is used */
+    public stbtic clbss EmptyChecker extends ElementCheckerImpl {
+        public void gubrbnteeThbtElementInCorrectSpbce(
+            ElementProxy expected, Element bctubl
         ) throws XMLSecurityException {
             // empty
         }

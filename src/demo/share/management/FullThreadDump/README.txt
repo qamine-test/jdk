@@ -1,52 +1,52 @@
-FullThreadDump demonstrates the use of the java.lang.management API 
-to print the full thread dump.  JDK 6 defines a new API to dump
-the information about monitors and java.util.concurrent ownable
+FullThrebdDump demonstrbtes the use of the jbvb.lbng.mbnbgement API 
+to print the full threbd dump.  JDK 6 defines b new API to dump
+the informbtion bbout monitors bnd jbvb.util.concurrent ownbble
 synchronizers.
 
-This demo also illustrates how to monitor JDK 5 and JDK 6 VMs with
+This demo blso illustrbtes how to monitor JDK 5 bnd JDK 6 VMs with
 two versions of APIs.
 
-It contains two parts: 
-a) Local monitoring within the application
-b) Remote monitoring by connecting to a JMX agent with a JMX service URL:
-      service:jmx:rmi:///jndi/rmi://<hostName>:<portNum>/jmxrmi
-   where <hostName> is the hostname and <portNum> is the port number
-   to which the JMX agent will be connected.
+It contbins two pbrts: 
+b) Locbl monitoring within the bpplicbtion
+b) Remote monitoring by connecting to b JMX bgent with b JMX service URL:
+      service:jmx:rmi:///jndi/rmi://<hostNbme>:<portNum>/jmxrmi
+   where <hostNbme> is the hostnbme bnd <portNum> is the port number
+   to which the JMX bgent will be connected.
 
 To run the demo
 ---------------
-a) Local Monitoring
+b) Locbl Monitoring
 
-   java -cp <JDK_HOME>/demo/management/FullThreadDump/FullThreadDump.jar Deadlock
+   jbvb -cp <JDK_HOME>/demo/mbnbgement/FullThrebdDump/FullThrebdDump.jbr Debdlock
 
-   This will dump the stack trace and then detect deadlocks locally
-   within the application.
+   This will dump the stbck trbce bnd then detect debdlocks locblly
+   within the bpplicbtion.
 
 b) Remote Monitoring
 
-  (1) Start the Deadlock application (or any other application) 
-      with the JMX agent as follows:
+  (1) Stbrt the Debdlock bpplicbtion (or bny other bpplicbtion) 
+      with the JMX bgent bs follows:
    
-      java -Dcom.sun.management.jmxremote.port=1090
-           -Dcom.sun.management.jmxremote.ssl=false
-           -Dcom.sun.management.jmxremote.authenticate=false
-           -cp <JDK_HOME>/demo/management/FullThreadDump/FullThreadDump.jar
-           Deadlock
+      jbvb -Dcom.sun.mbnbgement.jmxremote.port=1090
+           -Dcom.sun.mbnbgement.jmxremote.ssl=fblse
+           -Dcom.sun.mbnbgement.jmxremote.buthenticbte=fblse
+           -cp <JDK_HOME>/demo/mbnbgement/FullThrebdDump/FullThrebdDump.jbr
+           Debdlock
 
-      This instruction uses the Sun's built-in support to enable a JMX agent.
-      You can programmatically start a JMX agent with the RMI connector
-      using javax.management.remote API.  See the javadoc and examples for 
-      javax.management.remote API for details.
+      This instruction uses the Sun's built-in support to enbble b JMX bgent.
+      You cbn progrbmmbticblly stbrt b JMX bgent with the RMI connector
+      using jbvbx.mbnbgement.remote API.  See the jbvbdoc bnd exbmples for 
+      jbvbx.mbnbgement.remote API for detbils.
 
-  (2) Run FullThreadDump 
+  (2) Run FullThrebdDump 
 
-      java -jar <JDK_HOME>/demo/management/FullThreadDump/FullThreadDump.jar \
-	  localhost:1090
+      jbvb -jbr <JDK_HOME>/demo/mbnbgement/FullThrebdDump/FullThrebdDump.jbr \
+	  locblhost:1090
 
-      This will dump the stack trace and then print out the deadlocked threads.
+      This will dump the stbck trbce bnd then print out the debdlocked threbds.
       
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SDK.
+These instructions bssume thbt this instbllbtion's version of the jbvb
+commbnd is in your pbth.  If it isn't, then you should either
+specify the complete pbth to the jbvb commbnd or updbte your
+PATH environment vbribble bs described in the instbllbtion
+instructions for the Jbvb(TM) SDK.

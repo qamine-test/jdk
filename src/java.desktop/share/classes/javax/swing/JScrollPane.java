@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvbx.bccessibility.*;
 
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Rectangle;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Point;
+import jbvb.bwt.Component;
+import jbvb.bwt.ComponentOrientbtion;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Insets;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.Point;
 
-import java.io.ObjectOutputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.Transient;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.Trbnsient;
 
 /**
- * Provides a scrollable view of a lightweight component.
- * A <code>JScrollPane</code> manages a viewport, optional
- * vertical and horizontal scroll bars, and optional row and
- * column heading viewports.
- * You can find task-oriented documentation of <code>JScrollPane</code> in
- *  <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/scrollpane.html">How to Use Scroll Panes</a>,
- * a section in <em>The Java Tutorial</em>.  Note that
- * <code>JScrollPane</code> does not support heavyweight components.
+ * Provides b scrollbble view of b lightweight component.
+ * A <code>JScrollPbne</code> mbnbges b viewport, optionbl
+ * verticbl bnd horizontbl scroll bbrs, bnd optionbl row bnd
+ * column hebding viewports.
+ * You cbn find tbsk-oriented documentbtion of <code>JScrollPbne</code> in
+ *  <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/scrollpbne.html">How to Use Scroll Pbnes</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.  Note thbt
+ * <code>JScrollPbne</code> does not support hebvyweight components.
  *
- * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="layout">
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
  *    <TR>
  *    <TD ALIGN="CENTER">
- *      <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="doc-files/JScrollPane-1.gif"
- *      alt="The following text describes this image."
+ *      <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="doc-files/JScrollPbne-1.gif"
+ *      blt="The following text describes this imbge."
  *      WIDTH="256" HEIGHT="248" STYLE="FLOAT:BOTTOM; BORDER:0px">
  *    </TD>
  *    </TR>
  * </TABLE>
- * The <code>JViewport</code> provides a window,
- * or &quot;viewport&quot; onto a data
- * source -- for example, a text file. That data source is the
- * &quot;scrollable client&quot; (aka data model) displayed by the
+ * The <code>JViewport</code> provides b window,
+ * or &quot;viewport&quot; onto b dbtb
+ * source -- for exbmple, b text file. Thbt dbtb source is the
+ * &quot;scrollbble client&quot; (bkb dbtb model) displbyed by the
  * <code>JViewport</code> view.
- * A <code>JScrollPane</code> basically consists of <code>JScrollBar</code>s,
- * a <code>JViewport</code>, and the wiring between them,
- * as shown in the diagram at right.
+ * A <code>JScrollPbne</code> bbsicblly consists of <code>JScrollBbr</code>s,
+ * b <code>JViewport</code>, bnd the wiring between them,
+ * bs shown in the dibgrbm bt right.
  * <p>
- * In addition to the scroll bars and viewport,
- * a <code>JScrollPane</code> can have a
- * column header and a row header. Each of these is a
- * <code>JViewport</code> object that
- * you specify with <code>setRowHeaderView</code>,
- * and <code>setColumnHeaderView</code>.
- * The column header viewport automatically scrolls left and right, tracking
- * the left-right scrolling of the main viewport.
- * (It never scrolls vertically, however.)
- * The row header acts in a similar fashion.
+ * In bddition to the scroll bbrs bnd viewport,
+ * b <code>JScrollPbne</code> cbn hbve b
+ * column hebder bnd b row hebder. Ebch of these is b
+ * <code>JViewport</code> object thbt
+ * you specify with <code>setRowHebderView</code>,
+ * bnd <code>setColumnHebderView</code>.
+ * The column hebder viewport butombticblly scrolls left bnd right, trbcking
+ * the left-right scrolling of the mbin viewport.
+ * (It never scrolls verticblly, however.)
+ * The row hebder bcts in b similbr fbshion.
  * <p>
- * Where two scroll bars meet, the row header meets the column header,
- * or a scroll bar meets one of the headers, both components stop short
- * of the corner, leaving a rectangular space which is, by default, empty.
- * These spaces can potentially exist in any number of the four corners.
- * In the previous diagram, the top right space is present and identified
- * by the label "corner component".
+ * Where two scroll bbrs meet, the row hebder meets the column hebder,
+ * or b scroll bbr meets one of the hebders, both components stop short
+ * of the corner, lebving b rectbngulbr spbce which is, by defbult, empty.
+ * These spbces cbn potentiblly exist in bny number of the four corners.
+ * In the previous dibgrbm, the top right spbce is present bnd identified
+ * by the lbbel "corner component".
  * <p>
- * Any number of these empty spaces can be replaced by using the
- * <code>setCorner</code> method to add a component to a particular corner.
- * (Note: The same component cannot be added to multiple corners.)
+ * Any number of these empty spbces cbn be replbced by using the
+ * <code>setCorner</code> method to bdd b component to b pbrticulbr corner.
+ * (Note: The sbme component cbnnot be bdded to multiple corners.)
  * This is useful if there's
- * some extra decoration or function you'd like to add to the scroll pane.
- * The size of each corner component is entirely determined by the size of the
- * headers and/or scroll bars that surround it.
+ * some extrb decorbtion or function you'd like to bdd to the scroll pbne.
+ * The size of ebch corner component is entirely determined by the size of the
+ * hebders bnd/or scroll bbrs thbt surround it.
  * <p>
- * A corner component will only be visible if there is an empty space in that
- * corner for it to exist in. For example, consider a component set into the
- * top right corner of a scroll pane with a column header. If the scroll pane's
- * vertical scrollbar is not present, perhaps because the view component hasn't
- * grown large enough to require it, then the corner component will not be
- * shown (since there is no empty space in that corner created by the meeting
- * of the header and vertical scroll bar). Forcing the scroll bar to always be
+ * A corner component will only be visible if there is bn empty spbce in thbt
+ * corner for it to exist in. For exbmple, consider b component set into the
+ * top right corner of b scroll pbne with b column hebder. If the scroll pbne's
+ * verticbl scrollbbr is not present, perhbps becbuse the view component hbsn't
+ * grown lbrge enough to require it, then the corner component will not be
+ * shown (since there is no empty spbce in thbt corner crebted by the meeting
+ * of the hebder bnd verticbl scroll bbr). Forcing the scroll bbr to blwbys be
  * shown, using
- * <code>setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS)</code>,
- * will ensure that the space for the corner component always exists.
+ * <code>setVerticblScrollBbrPolicy(VERTICAL_SCROLLBAR_ALWAYS)</code>,
+ * will ensure thbt the spbce for the corner component blwbys exists.
  * <p>
- * To add a border around the main viewport,
- * you can use <code>setViewportBorder</code>.
- * (Of course, you can also add a border around the whole scroll pane using
+ * To bdd b border bround the mbin viewport,
+ * you cbn use <code>setViewportBorder</code>.
+ * (Of course, you cbn blso bdd b border bround the whole scroll pbne using
  * <code>setBorder</code>.)
  * <p>
- * A common operation to want to do is to set the background color that will
- * be used if the main viewport view is smaller than the viewport, or is
- * not opaque. This can be accomplished by setting the background color
- * of the viewport, via <code>scrollPane.getViewport().setBackground()</code>.
- * The reason for setting the color of the viewport and not the scrollpane
- * is that by default <code>JViewport</code> is opaque
- * which, among other things, means it will completely fill
- * in its background using its background color.  Therefore when
- * <code>JScrollPane</code> draws its background the viewport will
- * usually draw over it.
+ * A common operbtion to wbnt to do is to set the bbckground color thbt will
+ * be used if the mbin viewport view is smbller thbn the viewport, or is
+ * not opbque. This cbn be bccomplished by setting the bbckground color
+ * of the viewport, vib <code>scrollPbne.getViewport().setBbckground()</code>.
+ * The rebson for setting the color of the viewport bnd not the scrollpbne
+ * is thbt by defbult <code>JViewport</code> is opbque
+ * which, bmong other things, mebns it will completely fill
+ * in its bbckground using its bbckground color.  Therefore when
+ * <code>JScrollPbne</code> drbws its bbckground the viewport will
+ * usublly drbw over it.
  * <p>
- * By default <code>JScrollPane</code> uses <code>ScrollPaneLayout</code>
- * to handle the layout of its child Components. <code>ScrollPaneLayout</code>
- * determines the size to make the viewport view in one of two ways:
+ * By defbult <code>JScrollPbne</code> uses <code>ScrollPbneLbyout</code>
+ * to hbndle the lbyout of its child Components. <code>ScrollPbneLbyout</code>
+ * determines the size to mbke the viewport view in one of two wbys:
  * <ol>
- *   <li>If the view implements <code>Scrollable</code>
- *       a combination of <code>getPreferredScrollableViewportSize</code>,
- *       <code>getScrollableTracksViewportWidth</code> and
- *       <code>getScrollableTracksViewportHeight</code>is used, otherwise
+ *   <li>If the view implements <code>Scrollbble</code>
+ *       b combinbtion of <code>getPreferredScrollbbleViewportSize</code>,
+ *       <code>getScrollbbleTrbcksViewportWidth</code> bnd
+ *       <code>getScrollbbleTrbcksViewportHeight</code>is used, otherwise
  *   <li><code>getPreferredSize</code> is used.
  * </ol>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JScrollBar
+ * @see JScrollBbr
  * @see JViewport
- * @see ScrollPaneLayout
- * @see Scrollable
+ * @see ScrollPbneLbyout
+ * @see Scrollbble
  * @see Component#getPreferredSize
  * @see #setViewportView
- * @see #setRowHeaderView
- * @see #setColumnHeaderView
+ * @see #setRowHebderView
+ * @see #setColumnHebderView
  * @see #setCorner
  * @see #setViewportBorder
  *
- * @beaninfo
- *     attribute: isContainer true
- *     attribute: containerDelegate getViewport
- *   description: A specialized container that manages a viewport, optional scrollbars and headers
+ * @bebninfo
+ *     bttribute: isContbiner true
+ *     bttribute: contbinerDelegbte getViewport
+ *   description: A speciblized contbiner thbt mbnbges b viewport, optionbl scrollbbrs bnd hebders
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JScrollPane extends JComponent implements ScrollPaneConstants, Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JScrollPbne extends JComponent implements ScrollPbneConstbnts, Accessible
 {
-    private Border viewportBorder;
+    privbte Border viewportBorder;
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "ScrollPaneUI";
+    privbte stbtic finbl String uiClbssID = "ScrollPbneUI";
 
     /**
-     * The display policy for the vertical scrollbar.
-     * The default is
-     * <code>ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED</code>.
-     * @see #setVerticalScrollBarPolicy
+     * The displby policy for the verticbl scrollbbr.
+     * The defbult is
+     * <code>ScrollPbneConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED</code>.
+     * @see #setVerticblScrollBbrPolicy
      */
-    protected int verticalScrollBarPolicy = VERTICAL_SCROLLBAR_AS_NEEDED;
+    protected int verticblScrollBbrPolicy = VERTICAL_SCROLLBAR_AS_NEEDED;
 
 
     /**
-     * The display policy for the horizontal scrollbar.
-     * The default is
-     * <code>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED</code>.
-     * @see #setHorizontalScrollBarPolicy
+     * The displby policy for the horizontbl scrollbbr.
+     * The defbult is
+     * <code>ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED</code>.
+     * @see #setHorizontblScrollBbrPolicy
      */
-    protected int horizontalScrollBarPolicy = HORIZONTAL_SCROLLBAR_AS_NEEDED;
+    protected int horizontblScrollBbrPolicy = HORIZONTAL_SCROLLBAR_AS_NEEDED;
 
 
     /**
-     * The scrollpane's viewport child.  Default is an empty
+     * The scrollpbne's viewport child.  Defbult is bn empty
      * <code>JViewport</code>.
      * @see #setViewport
      */
@@ -207,364 +207,364 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
 
 
     /**
-     * The scrollpane's vertical scrollbar child.
-     * Default is a <code>JScrollBar</code>.
-     * @see #setVerticalScrollBar
+     * The scrollpbne's verticbl scrollbbr child.
+     * Defbult is b <code>JScrollBbr</code>.
+     * @see #setVerticblScrollBbr
      */
-    protected JScrollBar verticalScrollBar;
+    protected JScrollBbr verticblScrollBbr;
 
 
     /**
-     * The scrollpane's horizontal scrollbar child.
-     * Default is a <code>JScrollBar</code>.
-     * @see #setHorizontalScrollBar
+     * The scrollpbne's horizontbl scrollbbr child.
+     * Defbult is b <code>JScrollBbr</code>.
+     * @see #setHorizontblScrollBbr
      */
-    protected JScrollBar horizontalScrollBar;
+    protected JScrollBbr horizontblScrollBbr;
 
 
     /**
-     * The row header child.  Default is <code>null</code>.
-     * @see #setRowHeader
+     * The row hebder child.  Defbult is <code>null</code>.
+     * @see #setRowHebder
      */
-    protected JViewport rowHeader;
+    protected JViewport rowHebder;
 
 
     /**
-     * The column header child.  Default is <code>null</code>.
-     * @see #setColumnHeader
+     * The column hebder child.  Defbult is <code>null</code>.
+     * @see #setColumnHebder
      */
-    protected JViewport columnHeader;
+    protected JViewport columnHebder;
 
 
     /**
-     * The component to display in the lower left corner.
-     * Default is <code>null</code>.
+     * The component to displby in the lower left corner.
+     * Defbult is <code>null</code>.
      * @see #setCorner
      */
     protected Component lowerLeft;
 
 
     /**
-     * The component to display in the lower right corner.
-     * Default is <code>null</code>.
+     * The component to displby in the lower right corner.
+     * Defbult is <code>null</code>.
      * @see #setCorner
      */
     protected Component lowerRight;
 
 
     /**
-     * The component to display in the upper left corner.
-     * Default is <code>null</code>.
+     * The component to displby in the upper left corner.
+     * Defbult is <code>null</code>.
      * @see #setCorner
      */
     protected Component upperLeft;
 
 
     /**
-     * The component to display in the upper right corner.
-     * Default is <code>null</code>.
+     * The component to displby in the upper right corner.
+     * Defbult is <code>null</code>.
      * @see #setCorner
      */
     protected Component upperRight;
 
     /*
-     * State flag for mouse wheel scrolling
+     * Stbte flbg for mouse wheel scrolling
      */
-    private boolean wheelScrollState = true;
+    privbte boolebn wheelScrollStbte = true;
 
     /**
-     * Creates a <code>JScrollPane</code> that displays the view
-     * component in a viewport
-     * whose view position can be controlled with a pair of scrollbars.
-     * The scrollbar policies specify when the scrollbars are displayed,
-     * For example, if <code>vsbPolicy</code> is
+     * Crebtes b <code>JScrollPbne</code> thbt displbys the view
+     * component in b viewport
+     * whose view position cbn be controlled with b pbir of scrollbbrs.
+     * The scrollbbr policies specify when the scrollbbrs bre displbyed,
+     * For exbmple, if <code>vsbPolicy</code> is
      * <code>VERTICAL_SCROLLBAR_AS_NEEDED</code>
-     * then the vertical scrollbar only appears if the view doesn't fit
-     * vertically. The available policy settings are listed at
-     * {@link #setVerticalScrollBarPolicy} and
-     * {@link #setHorizontalScrollBarPolicy}.
+     * then the verticbl scrollbbr only bppebrs if the view doesn't fit
+     * verticblly. The bvbilbble policy settings bre listed bt
+     * {@link #setVerticblScrollBbrPolicy} bnd
+     * {@link #setHorizontblScrollBbrPolicy}.
      *
      * @see #setViewportView
      *
-     * @param view the component to display in the scrollpanes viewport
-     * @param vsbPolicy an integer that specifies the vertical
-     *          scrollbar policy
-     * @param hsbPolicy an integer that specifies the horizontal
-     *          scrollbar policy
+     * @pbrbm view the component to displby in the scrollpbnes viewport
+     * @pbrbm vsbPolicy bn integer thbt specifies the verticbl
+     *          scrollbbr policy
+     * @pbrbm hsbPolicy bn integer thbt specifies the horizontbl
+     *          scrollbbr policy
      */
-    public JScrollPane(Component view, int vsbPolicy, int hsbPolicy)
+    public JScrollPbne(Component view, int vsbPolicy, int hsbPolicy)
     {
-        setLayout(new ScrollPaneLayout.UIResource());
-        setVerticalScrollBarPolicy(vsbPolicy);
-        setHorizontalScrollBarPolicy(hsbPolicy);
-        setViewport(createViewport());
-        setVerticalScrollBar(createVerticalScrollBar());
-        setHorizontalScrollBar(createHorizontalScrollBar());
+        setLbyout(new ScrollPbneLbyout.UIResource());
+        setVerticblScrollBbrPolicy(vsbPolicy);
+        setHorizontblScrollBbrPolicy(hsbPolicy);
+        setViewport(crebteViewport());
+        setVerticblScrollBbr(crebteVerticblScrollBbr());
+        setHorizontblScrollBbr(crebteHorizontblScrollBbr());
         if (view != null) {
             setViewportView(view);
         }
-        setUIProperty("opaque",true);
-        updateUI();
+        setUIProperty("opbque",true);
+        updbteUI();
 
-        if (!this.getComponentOrientation().isLeftToRight()) {
+        if (!this.getComponentOrientbtion().isLeftToRight()) {
             viewport.setViewPosition(new Point(Integer.MAX_VALUE, 0));
         }
     }
 
 
     /**
-     * Creates a <code>JScrollPane</code> that displays the
+     * Crebtes b <code>JScrollPbne</code> thbt displbys the
      * contents of the specified
-     * component, where both horizontal and vertical scrollbars appear
-     * whenever the component's contents are larger than the view.
+     * component, where both horizontbl bnd verticbl scrollbbrs bppebr
+     * whenever the component's contents bre lbrger thbn the view.
      *
      * @see #setViewportView
-     * @param view the component to display in the scrollpane's viewport
+     * @pbrbm view the component to displby in the scrollpbne's viewport
      */
-    public JScrollPane(Component view) {
+    public JScrollPbne(Component view) {
         this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
 
     /**
-     * Creates an empty (no viewport view) <code>JScrollPane</code>
+     * Crebtes bn empty (no viewport view) <code>JScrollPbne</code>
      * with specified
-     * scrollbar policies. The available policy settings are listed at
-     * {@link #setVerticalScrollBarPolicy} and
-     * {@link #setHorizontalScrollBarPolicy}.
+     * scrollbbr policies. The bvbilbble policy settings bre listed bt
+     * {@link #setVerticblScrollBbrPolicy} bnd
+     * {@link #setHorizontblScrollBbrPolicy}.
      *
      * @see #setViewportView
      *
-     * @param vsbPolicy an integer that specifies the vertical
-     *          scrollbar policy
-     * @param hsbPolicy an integer that specifies the horizontal
-     *          scrollbar policy
+     * @pbrbm vsbPolicy bn integer thbt specifies the verticbl
+     *          scrollbbr policy
+     * @pbrbm hsbPolicy bn integer thbt specifies the horizontbl
+     *          scrollbbr policy
      */
-    public JScrollPane(int vsbPolicy, int hsbPolicy) {
+    public JScrollPbne(int vsbPolicy, int hsbPolicy) {
         this(null, vsbPolicy, hsbPolicy);
     }
 
 
     /**
-     * Creates an empty (no viewport view) <code>JScrollPane</code>
-     * where both horizontal and vertical scrollbars appear when needed.
+     * Crebtes bn empty (no viewport view) <code>JScrollPbne</code>
+     * where both horizontbl bnd verticbl scrollbbrs bppebr when needed.
      */
-    public JScrollPane() {
+    public JScrollPbne() {
         this(null, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
 
     /**
-     * Returns the look and feel (L&amp;F) object that renders this component.
+     * Returns the look bnd feel (L&bmp;F) object thbt renders this component.
      *
-     * @return the <code>ScrollPaneUI</code> object that renders this
+     * @return the <code>ScrollPbneUI</code> object thbt renders this
      *                          component
      * @see #setUI
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public ScrollPaneUI getUI() {
-        return (ScrollPaneUI)ui;
+    public ScrollPbneUI getUI() {
+        return (ScrollPbneUI)ui;
     }
 
 
     /**
-     * Sets the <code>ScrollPaneUI</code> object that provides the
-     * look and feel (L&amp;F) for this component.
+     * Sets the <code>ScrollPbneUI</code> object thbt provides the
+     * look bnd feel (L&bmp;F) for this component.
      *
-     * @param ui the <code>ScrollPaneUI</code> L&amp;F object
+     * @pbrbm ui the <code>ScrollPbneUI</code> L&bmp;F object
      * @see #getUI
      */
-    public void setUI(ScrollPaneUI ui) {
+    public void setUI(ScrollPbneUI ui) {
         super.setUI(ui);
     }
 
 
     /**
-     * Replaces the current <code>ScrollPaneUI</code> object with a version
-     * from the current default look and feel.
-     * To be called when the default look and feel changes.
+     * Replbces the current <code>ScrollPbneUI</code> object with b version
+     * from the current defbult look bnd feel.
+     * To be cblled when the defbult look bnd feel chbnges.
      *
-     * @see JComponent#updateUI
-     * @see UIManager#getUI
+     * @see JComponent#updbteUI
+     * @see UIMbnbger#getUI
      */
-    public void updateUI() {
-        setUI((ScrollPaneUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((ScrollPbneUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns the suffix used to construct the name of the L&amp;F class used to
+     * Returns the suffix used to construct the nbme of the L&bmp;F clbss used to
      * render this component.
      *
-     * @return the string "ScrollPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the string "ScrollPbneUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      *
-     * @beaninfo
+     * @bebninfo
      *    hidden: true
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
 
     /**
-     * Sets the layout manager for this <code>JScrollPane</code>.
-     * This method overrides <code>setLayout</code> in
-     * <code>java.awt.Container</code> to ensure that only
-     * <code>LayoutManager</code>s which
-     * are subclasses of <code>ScrollPaneLayout</code> can be used in a
-     * <code>JScrollPane</code>. If <code>layout</code> is non-null, this
-     * will invoke <code>syncWithScrollPane</code> on it.
+     * Sets the lbyout mbnbger for this <code>JScrollPbne</code>.
+     * This method overrides <code>setLbyout</code> in
+     * <code>jbvb.bwt.Contbiner</code> to ensure thbt only
+     * <code>LbyoutMbnbger</code>s which
+     * bre subclbsses of <code>ScrollPbneLbyout</code> cbn be used in b
+     * <code>JScrollPbne</code>. If <code>lbyout</code> is non-null, this
+     * will invoke <code>syncWithScrollPbne</code> on it.
      *
-     * @param layout the specified layout manager
-     * @exception ClassCastException if layout is not a
-     *                  <code>ScrollPaneLayout</code>
-     * @see java.awt.Container#getLayout
-     * @see java.awt.Container#setLayout
+     * @pbrbm lbyout the specified lbyout mbnbger
+     * @exception ClbssCbstException if lbyout is not b
+     *                  <code>ScrollPbneLbyout</code>
+     * @see jbvb.bwt.Contbiner#getLbyout
+     * @see jbvb.bwt.Contbiner#setLbyout
      *
-     * @beaninfo
+     * @bebninfo
      *    hidden: true
      */
-    public void setLayout(LayoutManager layout) {
-        if (layout instanceof ScrollPaneLayout) {
-            super.setLayout(layout);
-            ((ScrollPaneLayout)layout).syncWithScrollPane(this);
+    public void setLbyout(LbyoutMbnbger lbyout) {
+        if (lbyout instbnceof ScrollPbneLbyout) {
+            super.setLbyout(lbyout);
+            ((ScrollPbneLbyout)lbyout).syncWithScrollPbne(this);
         }
-        else if (layout == null) {
-            super.setLayout(layout);
+        else if (lbyout == null) {
+            super.setLbyout(lbyout);
         }
         else {
-            String s = "layout of JScrollPane must be a ScrollPaneLayout";
-            throw new ClassCastException(s);
+            String s = "lbyout of JScrollPbne must be b ScrollPbneLbyout";
+            throw new ClbssCbstException(s);
         }
     }
 
     /**
-     * Overridden to return true so that any calls to <code>revalidate</code>
-     * on any descendants of this <code>JScrollPane</code> will cause the
-     * entire tree beginning with this <code>JScrollPane</code> to be
-     * validated.
+     * Overridden to return true so thbt bny cblls to <code>revblidbte</code>
+     * on bny descendbnts of this <code>JScrollPbne</code> will cbuse the
+     * entire tree beginning with this <code>JScrollPbne</code> to be
+     * vblidbted.
      *
      * @return true
-     * @see java.awt.Container#validate
-     * @see JComponent#revalidate
-     * @see JComponent#isValidateRoot
-     * @see java.awt.Container#isValidateRoot
+     * @see jbvb.bwt.Contbiner#vblidbte
+     * @see JComponent#revblidbte
+     * @see JComponent#isVblidbteRoot
+     * @see jbvb.bwt.Contbiner#isVblidbteRoot
      *
-     * @beaninfo
+     * @bebninfo
      *    hidden: true
      */
     @Override
-    public boolean isValidateRoot() {
+    public boolebn isVblidbteRoot() {
         return true;
     }
 
 
     /**
-     * Returns the vertical scroll bar policy value.
-     * @return the <code>verticalScrollBarPolicy</code> property
-     * @see #setVerticalScrollBarPolicy
+     * Returns the verticbl scroll bbr policy vblue.
+     * @return the <code>verticblScrollBbrPolicy</code> property
+     * @see #setVerticblScrollBbrPolicy
      */
-    public int getVerticalScrollBarPolicy() {
-        return verticalScrollBarPolicy;
+    public int getVerticblScrollBbrPolicy() {
+        return verticblScrollBbrPolicy;
     }
 
 
     /**
-     * Determines when the vertical scrollbar appears in the scrollpane.
-     * Legal values are:
+     * Determines when the verticbl scrollbbr bppebrs in the scrollpbne.
+     * Legbl vblues bre:
      * <ul>
-     * <li><code>ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED</code>
-     * <li><code>ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER</code>
-     * <li><code>ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS</code>
+     * <li><code>ScrollPbneConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED</code>
+     * <li><code>ScrollPbneConstbnts.VERTICAL_SCROLLBAR_NEVER</code>
+     * <li><code>ScrollPbneConstbnts.VERTICAL_SCROLLBAR_ALWAYS</code>
      * </ul>
      *
-     * @param policy one of the three values listed above
-     * @exception IllegalArgumentException if <code>policy</code>
-     *                          is not one of the legal values shown above
-     * @see #getVerticalScrollBarPolicy
+     * @pbrbm policy one of the three vblues listed bbove
+     * @exception IllegblArgumentException if <code>policy</code>
+     *                          is not one of the legbl vblues shown bbove
+     * @see #getVerticblScrollBbrPolicy
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The scrollpane vertical scrollbar policy
-     *        enum: VERTICAL_SCROLLBAR_AS_NEEDED ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
-     *              VERTICAL_SCROLLBAR_NEVER ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER
-     *              VERTICAL_SCROLLBAR_ALWAYS ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS
+     * description: The scrollpbne verticbl scrollbbr policy
+     *        enum: VERTICAL_SCROLLBAR_AS_NEEDED ScrollPbneConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED
+     *              VERTICAL_SCROLLBAR_NEVER ScrollPbneConstbnts.VERTICAL_SCROLLBAR_NEVER
+     *              VERTICAL_SCROLLBAR_ALWAYS ScrollPbneConstbnts.VERTICAL_SCROLLBAR_ALWAYS
      */
-    public void setVerticalScrollBarPolicy(int policy) {
+    public void setVerticblScrollBbrPolicy(int policy) {
         switch (policy) {
-        case VERTICAL_SCROLLBAR_AS_NEEDED:
-        case VERTICAL_SCROLLBAR_NEVER:
-        case VERTICAL_SCROLLBAR_ALWAYS:
-                break;
-        default:
-            throw new IllegalArgumentException("invalid verticalScrollBarPolicy");
+        cbse VERTICAL_SCROLLBAR_AS_NEEDED:
+        cbse VERTICAL_SCROLLBAR_NEVER:
+        cbse VERTICAL_SCROLLBAR_ALWAYS:
+                brebk;
+        defbult:
+            throw new IllegblArgumentException("invblid verticblScrollBbrPolicy");
         }
-        int old = verticalScrollBarPolicy;
-        verticalScrollBarPolicy = policy;
-        firePropertyChange("verticalScrollBarPolicy", old, policy);
-        revalidate();
-        repaint();
+        int old = verticblScrollBbrPolicy;
+        verticblScrollBbrPolicy = policy;
+        firePropertyChbnge("verticblScrollBbrPolicy", old, policy);
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Returns the horizontal scroll bar policy value.
-     * @return the <code>horizontalScrollBarPolicy</code> property
-     * @see #setHorizontalScrollBarPolicy
+     * Returns the horizontbl scroll bbr policy vblue.
+     * @return the <code>horizontblScrollBbrPolicy</code> property
+     * @see #setHorizontblScrollBbrPolicy
      */
-    public int getHorizontalScrollBarPolicy() {
-        return horizontalScrollBarPolicy;
+    public int getHorizontblScrollBbrPolicy() {
+        return horizontblScrollBbrPolicy;
     }
 
 
     /**
-     * Determines when the horizontal scrollbar appears in the scrollpane.
-     * The options are:<ul>
-     * <li><code>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED</code>
-     * <li><code>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER</code>
-     * <li><code>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS</code>
+     * Determines when the horizontbl scrollbbr bppebrs in the scrollpbne.
+     * The options bre:<ul>
+     * <li><code>ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED</code>
+     * <li><code>ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_NEVER</code>
+     * <li><code>ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS</code>
      * </ul>
      *
-     * @param policy one of the three values listed above
-     * @exception IllegalArgumentException if <code>policy</code>
-     *                          is not one of the legal values shown above
-     * @see #getHorizontalScrollBarPolicy
+     * @pbrbm policy one of the three vblues listed bbove
+     * @exception IllegblArgumentException if <code>policy</code>
+     *                          is not one of the legbl vblues shown bbove
+     * @see #getHorizontblScrollBbrPolicy
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The scrollpane scrollbar policy
-     *        enum: HORIZONTAL_SCROLLBAR_AS_NEEDED ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
-     *              HORIZONTAL_SCROLLBAR_NEVER ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
-     *              HORIZONTAL_SCROLLBAR_ALWAYS ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS
+     * description: The scrollpbne scrollbbr policy
+     *        enum: HORIZONTAL_SCROLLBAR_AS_NEEDED ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED
+     *              HORIZONTAL_SCROLLBAR_NEVER ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_NEVER
+     *              HORIZONTAL_SCROLLBAR_ALWAYS ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS
      */
-    public void setHorizontalScrollBarPolicy(int policy) {
+    public void setHorizontblScrollBbrPolicy(int policy) {
         switch (policy) {
-        case HORIZONTAL_SCROLLBAR_AS_NEEDED:
-        case HORIZONTAL_SCROLLBAR_NEVER:
-        case HORIZONTAL_SCROLLBAR_ALWAYS:
-                break;
-        default:
-            throw new IllegalArgumentException("invalid horizontalScrollBarPolicy");
+        cbse HORIZONTAL_SCROLLBAR_AS_NEEDED:
+        cbse HORIZONTAL_SCROLLBAR_NEVER:
+        cbse HORIZONTAL_SCROLLBAR_ALWAYS:
+                brebk;
+        defbult:
+            throw new IllegblArgumentException("invblid horizontblScrollBbrPolicy");
         }
-        int old = horizontalScrollBarPolicy;
-        horizontalScrollBarPolicy = policy;
-        firePropertyChange("horizontalScrollBarPolicy", old, policy);
-        revalidate();
-        repaint();
+        int old = horizontblScrollBbrPolicy;
+        horizontblScrollBbrPolicy = policy;
+        firePropertyChbnge("horizontblScrollBbrPolicy", old, policy);
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Returns the <code>Border</code> object that surrounds the viewport.
+     * Returns the <code>Border</code> object thbt surrounds the viewport.
      *
      * @return the <code>viewportBorder</code> property
      * @see #setViewportBorder
@@ -575,39 +575,39 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
 
 
     /**
-     * Adds a border around the viewport.  Note that the border isn't
+     * Adds b border bround the viewport.  Note thbt the border isn't
      * set on the viewport directly, <code>JViewport</code> doesn't support
      * the <code>JComponent</code> border property.
-     * Similarly setting the <code>JScrollPane</code>s
-     * viewport doesn't affect the <code>viewportBorder</code> property.
+     * Similbrly setting the <code>JScrollPbne</code>s
+     * viewport doesn't bffect the <code>viewportBorder</code> property.
      * <p>
-     * The default value of this property is computed by the look
-     * and feel implementation.
+     * The defbult vblue of this property is computed by the look
+     * bnd feel implementbtion.
      *
-     * @param viewportBorder the border to be added
+     * @pbrbm viewportBorder the border to be bdded
      * @see #getViewportBorder
      * @see #setViewport
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The border around the viewport.
+     * description: The border bround the viewport.
      */
     public void setViewportBorder(Border viewportBorder) {
-        Border oldValue = this.viewportBorder;
+        Border oldVblue = this.viewportBorder;
         this.viewportBorder = viewportBorder;
-        firePropertyChange("viewportBorder", oldValue, viewportBorder);
+        firePropertyChbnge("viewportBorder", oldVblue, viewportBorder);
     }
 
 
     /**
      * Returns the bounds of the viewport's border.
      *
-     * @return a <code>Rectangle</code> object specifying the viewport border
+     * @return b <code>Rectbngle</code> object specifying the viewport border
      */
-    public Rectangle getViewportBorderBounds()
+    public Rectbngle getViewportBorderBounds()
     {
-        Rectangle borderR = new Rectangle(getSize());
+        Rectbngle borderR = new Rectbngle(getSize());
 
         Insets insets = getInsets();
         borderR.x = insets.left;
@@ -615,36 +615,36 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
         borderR.width -= insets.left + insets.right;
         borderR.height -= insets.top + insets.bottom;
 
-        boolean leftToRight = SwingUtilities.isLeftToRight(this);
+        boolebn leftToRight = SwingUtilities.isLeftToRight(this);
 
-        /* If there's a visible column header remove the space it
+        /* If there's b visible column hebder remove the spbce it
          * needs from the top of borderR.
          */
 
-        JViewport colHead = getColumnHeader();
-        if ((colHead != null) && (colHead.isVisible())) {
-            int colHeadHeight = colHead.getHeight();
-            borderR.y += colHeadHeight;
-            borderR.height -= colHeadHeight;
+        JViewport colHebd = getColumnHebder();
+        if ((colHebd != null) && (colHebd.isVisible())) {
+            int colHebdHeight = colHebd.getHeight();
+            borderR.y += colHebdHeight;
+            borderR.height -= colHebdHeight;
         }
 
-        /* If there's a visible row header remove the space it needs
+        /* If there's b visible row hebder remove the spbce it needs
          * from the left of borderR.
          */
 
-        JViewport rowHead = getRowHeader();
-        if ((rowHead != null) && (rowHead.isVisible())) {
-            int rowHeadWidth = rowHead.getWidth();
+        JViewport rowHebd = getRowHebder();
+        if ((rowHebd != null) && (rowHebd.isVisible())) {
+            int rowHebdWidth = rowHebd.getWidth();
             if ( leftToRight ) {
-                borderR.x += rowHeadWidth;
+                borderR.x += rowHebdWidth;
             }
-            borderR.width -= rowHeadWidth;
+            borderR.width -= rowHebdWidth;
         }
 
-        /* If there's a visible vertical scrollbar remove the space it needs
+        /* If there's b visible verticbl scrollbbr remove the spbce it needs
          * from the width of borderR.
          */
-        JScrollBar vsb = getVerticalScrollBar();
+        JScrollBbr vsb = getVerticblScrollBbr();
         if ((vsb != null) && (vsb.isVisible())) {
             int vsbWidth = vsb.getWidth();
             if ( !leftToRight ) {
@@ -653,10 +653,10 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
             borderR.width -= vsbWidth;
         }
 
-        /* If there's a visible horizontal scrollbar remove the space it needs
+        /* If there's b visible horizontbl scrollbbr remove the spbce it needs
          * from the height of borderR.
          */
-        JScrollBar hsb = getHorizontalScrollBar();
+        JScrollBbr hsb = getHorizontblScrollBbr();
         if ((hsb != null) && (hsb.isVisible())) {
             borderR.height -= hsb.getHeight();
         }
@@ -666,92 +666,92 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
 
 
     /**
-     * By default <code>JScrollPane</code> creates scrollbars
-     * that are instances
-     * of this class.  <code>Scrollbar</code> overrides the
-     * <code>getUnitIncrement</code> and <code>getBlockIncrement</code>
-     * methods so that, if the viewport's view is a <code>Scrollable</code>,
-     * the view is asked to compute these values. Unless
-     * the unit/block increment have been explicitly set.
+     * By defbult <code>JScrollPbne</code> crebtes scrollbbrs
+     * thbt bre instbnces
+     * of this clbss.  <code>Scrollbbr</code> overrides the
+     * <code>getUnitIncrement</code> bnd <code>getBlockIncrement</code>
+     * methods so thbt, if the viewport's view is b <code>Scrollbble</code>,
+     * the view is bsked to compute these vblues. Unless
+     * the unit/block increment hbve been explicitly set.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      *
-     * @see Scrollable
-     * @see JScrollPane#createVerticalScrollBar
-     * @see JScrollPane#createHorizontalScrollBar
+     * @see Scrollbble
+     * @see JScrollPbne#crebteVerticblScrollBbr
+     * @see JScrollPbne#crebteHorizontblScrollBbr
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class ScrollBar extends JScrollBar implements UIResource
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss ScrollBbr extends JScrollBbr implements UIResource
     {
         /**
-         * Set to true when the unit increment has been explicitly set.
-         * If this is false the viewport's view is obtained and if it
-         * is an instance of <code>Scrollable</code> the unit increment
+         * Set to true when the unit increment hbs been explicitly set.
+         * If this is fblse the viewport's view is obtbined bnd if it
+         * is bn instbnce of <code>Scrollbble</code> the unit increment
          * from it is used.
          */
-        private boolean unitIncrementSet;
+        privbte boolebn unitIncrementSet;
         /**
-         * Set to true when the block increment has been explicitly set.
-         * If this is false the viewport's view is obtained and if it
-         * is an instance of <code>Scrollable</code> the block increment
+         * Set to true when the block increment hbs been explicitly set.
+         * If this is fblse the viewport's view is obtbined bnd if it
+         * is bn instbnce of <code>Scrollbble</code> the block increment
          * from it is used.
          */
-        private boolean blockIncrementSet;
+        privbte boolebn blockIncrementSet;
 
         /**
-         * Creates a scrollbar with the specified orientation.
-         * The options are:
+         * Crebtes b scrollbbr with the specified orientbtion.
+         * The options bre:
          * <ul>
-         * <li><code>ScrollPaneConstants.VERTICAL</code>
-         * <li><code>ScrollPaneConstants.HORIZONTAL</code>
+         * <li><code>ScrollPbneConstbnts.VERTICAL</code>
+         * <li><code>ScrollPbneConstbnts.HORIZONTAL</code>
          * </ul>
          *
-         * @param orientation  an integer specifying one of the legal
-         *      orientation values shown above
+         * @pbrbm orientbtion  bn integer specifying one of the legbl
+         *      orientbtion vblues shown bbove
          * @since 1.4
          */
-        public ScrollBar(int orientation) {
-            super(orientation);
-            this.putClientProperty("JScrollBar.fastWheelScrolling",
-                                   Boolean.TRUE);
+        public ScrollBbr(int orientbtion) {
+            super(orientbtion);
+            this.putClientProperty("JScrollBbr.fbstWheelScrolling",
+                                   Boolebn.TRUE);
         }
 
         /**
-         * Messages super to set the value, and resets the
-         * <code>unitIncrementSet</code> instance variable to true.
+         * Messbges super to set the vblue, bnd resets the
+         * <code>unitIncrementSet</code> instbnce vbribble to true.
          *
-         * @param unitIncrement the new unit increment value, in pixels
+         * @pbrbm unitIncrement the new unit increment vblue, in pixels
          */
         public void setUnitIncrement(int unitIncrement) {
             unitIncrementSet = true;
-            this.putClientProperty("JScrollBar.fastWheelScrolling", null);
+            this.putClientProperty("JScrollBbr.fbstWheelScrolling", null);
             super.setUnitIncrement(unitIncrement);
         }
 
         /**
          * Computes the unit increment for scrolling if the viewport's
-         * view is a <code>Scrollable</code> object.
+         * view is b <code>Scrollbble</code> object.
          * Otherwise return <code>super.getUnitIncrement</code>.
          *
-         * @param direction less than zero to scroll up/left,
-         *      greater than zero for down/right
-         * @return an integer, in pixels, containing the unit increment
-         * @see Scrollable#getScrollableUnitIncrement
+         * @pbrbm direction less thbn zero to scroll up/left,
+         *      grebter thbn zero for down/right
+         * @return bn integer, in pixels, contbining the unit increment
+         * @see Scrollbble#getScrollbbleUnitIncrement
          */
         public int getUnitIncrement(int direction) {
             JViewport vp = getViewport();
             if (!unitIncrementSet && (vp != null) &&
-                (vp.getView() instanceof Scrollable)) {
-                Scrollable view = (Scrollable)(vp.getView());
-                Rectangle vr = vp.getViewRect();
-                return view.getScrollableUnitIncrement(vr, getOrientation(), direction);
+                (vp.getView() instbnceof Scrollbble)) {
+                Scrollbble view = (Scrollbble)(vp.getView());
+                Rectbngle vr = vp.getViewRect();
+                return view.getScrollbbleUnitIncrement(vr, getOrientbtion(), direction);
             }
             else {
                 return super.getUnitIncrement(direction);
@@ -759,40 +759,40 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
         }
 
         /**
-         * Messages super to set the value, and resets the
-         * <code>blockIncrementSet</code> instance variable to true.
+         * Messbges super to set the vblue, bnd resets the
+         * <code>blockIncrementSet</code> instbnce vbribble to true.
          *
-         * @param blockIncrement the new block increment value, in pixels
+         * @pbrbm blockIncrement the new block increment vblue, in pixels
          */
         public void setBlockIncrement(int blockIncrement) {
             blockIncrementSet = true;
-            this.putClientProperty("JScrollBar.fastWheelScrolling", null);
+            this.putClientProperty("JScrollBbr.fbstWheelScrolling", null);
             super.setBlockIncrement(blockIncrement);
         }
 
         /**
          * Computes the block increment for scrolling if the viewport's
-         * view is a <code>Scrollable</code> object.  Otherwise
-         * the <code>blockIncrement</code> equals the viewport's width
+         * view is b <code>Scrollbble</code> object.  Otherwise
+         * the <code>blockIncrement</code> equbls the viewport's width
          * or height.  If there's no viewport return
          * <code>super.getBlockIncrement</code>.
          *
-         * @param direction less than zero to scroll up/left,
-         *      greater than zero for down/right
-         * @return an integer, in pixels, containing the block increment
-         * @see Scrollable#getScrollableBlockIncrement
+         * @pbrbm direction less thbn zero to scroll up/left,
+         *      grebter thbn zero for down/right
+         * @return bn integer, in pixels, contbining the block increment
+         * @see Scrollbble#getScrollbbleBlockIncrement
          */
         public int getBlockIncrement(int direction) {
             JViewport vp = getViewport();
             if (blockIncrementSet || vp == null) {
                 return super.getBlockIncrement(direction);
             }
-            else if (vp.getView() instanceof Scrollable) {
-                Scrollable view = (Scrollable)(vp.getView());
-                Rectangle vr = vp.getViewRect();
-                return view.getScrollableBlockIncrement(vr, getOrientation(), direction);
+            else if (vp.getView() instbnceof Scrollbble) {
+                Scrollbble view = (Scrollbble)(vp.getView());
+                Rectbngle vr = vp.getViewRect();
+                return view.getScrollbbleBlockIncrement(vr, getOrientbtion(), direction);
             }
-            else if (getOrientation() == VERTICAL) {
+            else if (getOrientbtion() == VERTICAL) {
                 return vp.getExtentSize().height;
             }
             else {
@@ -804,129 +804,129 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
 
 
     /**
-     * Returns a <code>JScrollPane.ScrollBar</code> by default.
-     * Subclasses may override this method to force <code>ScrollPaneUI</code>
-     * implementations to use a <code>JScrollBar</code> subclass.
-     * Used by <code>ScrollPaneUI</code> implementations to
-     * create the horizontal scrollbar.
+     * Returns b <code>JScrollPbne.ScrollBbr</code> by defbult.
+     * Subclbsses mby override this method to force <code>ScrollPbneUI</code>
+     * implementbtions to use b <code>JScrollBbr</code> subclbss.
+     * Used by <code>ScrollPbneUI</code> implementbtions to
+     * crebte the horizontbl scrollbbr.
      *
-     * @return a <code>JScrollBar</code> with a horizontal orientation
-     * @see JScrollBar
+     * @return b <code>JScrollBbr</code> with b horizontbl orientbtion
+     * @see JScrollBbr
      */
-    public JScrollBar createHorizontalScrollBar() {
-        return new ScrollBar(JScrollBar.HORIZONTAL);
+    public JScrollBbr crebteHorizontblScrollBbr() {
+        return new ScrollBbr(JScrollBbr.HORIZONTAL);
     }
 
 
     /**
-     * Returns the horizontal scroll bar that controls the viewport's
-     * horizontal view position.
+     * Returns the horizontbl scroll bbr thbt controls the viewport's
+     * horizontbl view position.
      *
-     * @return the <code>horizontalScrollBar</code> property
-     * @see #setHorizontalScrollBar
+     * @return the <code>horizontblScrollBbr</code> property
+     * @see #setHorizontblScrollBbr
      */
-    @Transient
-    public JScrollBar getHorizontalScrollBar() {
-        return horizontalScrollBar;
+    @Trbnsient
+    public JScrollBbr getHorizontblScrollBbr() {
+        return horizontblScrollBbr;
     }
 
 
     /**
-     * Adds the scrollbar that controls the viewport's horizontal view
-     * position to the scrollpane.
-     * This is usually unnecessary, as <code>JScrollPane</code> creates
-     * horizontal and vertical scrollbars by default.
+     * Adds the scrollbbr thbt controls the viewport's horizontbl view
+     * position to the scrollpbne.
+     * This is usublly unnecessbry, bs <code>JScrollPbne</code> crebtes
+     * horizontbl bnd verticbl scrollbbrs by defbult.
      *
-     * @param horizontalScrollBar the horizontal scrollbar to be added
-     * @see #createHorizontalScrollBar
-     * @see #getHorizontalScrollBar
+     * @pbrbm horizontblScrollBbr the horizontbl scrollbbr to be bdded
+     * @see #crebteHorizontblScrollBbr
+     * @see #getHorizontblScrollBbr
      *
-     * @beaninfo
+     * @bebninfo
      *        expert: true
      *         bound: true
-     *   description: The horizontal scrollbar.
+     *   description: The horizontbl scrollbbr.
      */
-    public void setHorizontalScrollBar(JScrollBar horizontalScrollBar) {
-        JScrollBar old = getHorizontalScrollBar();
-        this.horizontalScrollBar = horizontalScrollBar;
-        if (horizontalScrollBar != null) {
-            add(horizontalScrollBar, HORIZONTAL_SCROLLBAR);
+    public void setHorizontblScrollBbr(JScrollBbr horizontblScrollBbr) {
+        JScrollBbr old = getHorizontblScrollBbr();
+        this.horizontblScrollBbr = horizontblScrollBbr;
+        if (horizontblScrollBbr != null) {
+            bdd(horizontblScrollBbr, HORIZONTAL_SCROLLBAR);
         }
         else if (old != null) {
             remove(old);
         }
-        firePropertyChange("horizontalScrollBar", old, horizontalScrollBar);
+        firePropertyChbnge("horizontblScrollBbr", old, horizontblScrollBbr);
 
-        revalidate();
-        repaint();
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Returns a <code>JScrollPane.ScrollBar</code> by default.  Subclasses
-     * may override this method to force <code>ScrollPaneUI</code>
-     * implementations to use a <code>JScrollBar</code> subclass.
-     * Used by <code>ScrollPaneUI</code> implementations to create the
-     * vertical scrollbar.
+     * Returns b <code>JScrollPbne.ScrollBbr</code> by defbult.  Subclbsses
+     * mby override this method to force <code>ScrollPbneUI</code>
+     * implementbtions to use b <code>JScrollBbr</code> subclbss.
+     * Used by <code>ScrollPbneUI</code> implementbtions to crebte the
+     * verticbl scrollbbr.
      *
-     * @return a <code>JScrollBar</code> with a vertical orientation
-     * @see JScrollBar
+     * @return b <code>JScrollBbr</code> with b verticbl orientbtion
+     * @see JScrollBbr
      */
-    public JScrollBar createVerticalScrollBar() {
-        return new ScrollBar(JScrollBar.VERTICAL);
+    public JScrollBbr crebteVerticblScrollBbr() {
+        return new ScrollBbr(JScrollBbr.VERTICAL);
     }
 
 
     /**
-     * Returns the vertical scroll bar that controls the viewports
-     * vertical view position.
+     * Returns the verticbl scroll bbr thbt controls the viewports
+     * verticbl view position.
      *
-     * @return the <code>verticalScrollBar</code> property
-     * @see #setVerticalScrollBar
+     * @return the <code>verticblScrollBbr</code> property
+     * @see #setVerticblScrollBbr
      */
-    @Transient
-    public JScrollBar getVerticalScrollBar() {
-        return verticalScrollBar;
+    @Trbnsient
+    public JScrollBbr getVerticblScrollBbr() {
+        return verticblScrollBbr;
     }
 
 
     /**
-     * Adds the scrollbar that controls the viewports vertical view position
-     * to the scrollpane.  This is usually unnecessary,
-     * as <code>JScrollPane</code> creates vertical and
-     * horizontal scrollbars by default.
+     * Adds the scrollbbr thbt controls the viewports verticbl view position
+     * to the scrollpbne.  This is usublly unnecessbry,
+     * bs <code>JScrollPbne</code> crebtes verticbl bnd
+     * horizontbl scrollbbrs by defbult.
      *
-     * @param verticalScrollBar the new vertical scrollbar to be added
-     * @see #createVerticalScrollBar
-     * @see #getVerticalScrollBar
+     * @pbrbm verticblScrollBbr the new verticbl scrollbbr to be bdded
+     * @see #crebteVerticblScrollBbr
+     * @see #getVerticblScrollBbr
      *
-     * @beaninfo
+     * @bebninfo
      *        expert: true
      *         bound: true
-     *   description: The vertical scrollbar.
+     *   description: The verticbl scrollbbr.
      */
-    public void setVerticalScrollBar(JScrollBar verticalScrollBar) {
-        JScrollBar old = getVerticalScrollBar();
-        this.verticalScrollBar = verticalScrollBar;
-        add(verticalScrollBar, VERTICAL_SCROLLBAR);
-        firePropertyChange("verticalScrollBar", old, verticalScrollBar);
+    public void setVerticblScrollBbr(JScrollBbr verticblScrollBbr) {
+        JScrollBbr old = getVerticblScrollBbr();
+        this.verticblScrollBbr = verticblScrollBbr;
+        bdd(verticblScrollBbr, VERTICAL_SCROLLBAR);
+        firePropertyChbnge("verticblScrollBbr", old, verticblScrollBbr);
 
-        revalidate();
-        repaint();
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Returns a new <code>JViewport</code> by default.
-     * Used to create the
-     * viewport (as needed) in <code>setViewportView</code>,
-     * <code>setRowHeaderView</code>, and <code>setColumnHeaderView</code>.
-     * Subclasses may override this method to return a subclass of
+     * Returns b new <code>JViewport</code> by defbult.
+     * Used to crebte the
+     * viewport (bs needed) in <code>setViewportView</code>,
+     * <code>setRowHebderView</code>, bnd <code>setColumnHebderView</code>.
+     * Subclbsses mby override this method to return b subclbss of
      * <code>JViewport</code>.
      *
-     * @return a new <code>JViewport</code>
+     * @return b new <code>JViewport</code>
      */
-    protected JViewport createViewport() {
+    protected JViewport crebteViewport() {
         return new JViewport();
     }
 
@@ -944,68 +944,68 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
 
     /**
      * Removes the old viewport (if there is one); forces the
-     * viewPosition of the new viewport to be in the +x,+y quadrant;
-     * syncs up the row and column headers (if there are any) with the
-     * new viewport; and finally syncs the scrollbars and
-     * headers with the new viewport.
+     * viewPosition of the new viewport to be in the +x,+y qubdrbnt;
+     * syncs up the row bnd column hebders (if there bre bny) with the
+     * new viewport; bnd finblly syncs the scrollbbrs bnd
+     * hebders with the new viewport.
      * <p>
-     * Most applications will find it more convenient to use
+     * Most bpplicbtions will find it more convenient to use
      * <code>setViewportView</code>
-     * to add a viewport and a view to the scrollpane.
+     * to bdd b viewport bnd b view to the scrollpbne.
      *
-     * @param viewport the new viewport to be used; if viewport is
+     * @pbrbm viewport the new viewport to be used; if viewport is
      *          <code>null</code>, the old viewport is still removed
-     *          and the new viewport is set to <code>null</code>
-     * @see #createViewport
+     *          bnd the new viewport is set to <code>null</code>
+     * @see #crebteViewport
      * @see #getViewport
      * @see #setViewportView
      *
-     * @beaninfo
+     * @bebninfo
      *       expert: true
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: The viewport child for this scrollpane
+     *    bttribute: visublUpdbte true
+     *  description: The viewport child for this scrollpbne
      *
      */
     public void setViewport(JViewport viewport) {
         JViewport old = getViewport();
         this.viewport = viewport;
         if (viewport != null) {
-            add(viewport, VIEWPORT);
+            bdd(viewport, VIEWPORT);
         }
         else if (old != null) {
             remove(old);
         }
-        firePropertyChange("viewport", old, viewport);
+        firePropertyChbnge("viewport", old, viewport);
 
-        if (accessibleContext != null) {
-            ((AccessibleJScrollPane)accessibleContext).resetViewPort();
+        if (bccessibleContext != null) {
+            ((AccessibleJScrollPbne)bccessibleContext).resetViewPort();
         }
 
-        revalidate();
-        repaint();
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Creates a viewport if necessary and then sets its view.  Applications
-     * that don't provide the view directly to the <code>JScrollPane</code>
+     * Crebtes b viewport if necessbry bnd then sets its view.  Applicbtions
+     * thbt don't provide the view directly to the <code>JScrollPbne</code>
      * constructor
-     * should use this method to specify the scrollable child that's going
-     * to be displayed in the scrollpane. For example:
+     * should use this method to specify the scrollbble child thbt's going
+     * to be displbyed in the scrollpbne. For exbmple:
      * <pre>
-     * JScrollPane scrollpane = new JScrollPane();
-     * scrollpane.setViewportView(myBigComponentToScroll);
+     * JScrollPbne scrollpbne = new JScrollPbne();
+     * scrollpbne.setViewportView(myBigComponentToScroll);
      * </pre>
-     * Applications should not add children directly to the scrollpane.
+     * Applicbtions should not bdd children directly to the scrollpbne.
      *
-     * @param view the component to add to the viewport
+     * @pbrbm view the component to bdd to the viewport
      * @see #setViewport
      * @see JViewport#setView
      */
     public void setViewportView(Component view) {
         if (getViewport() == null) {
-            setViewport(createViewport());
+            setViewport(crebteViewport());
         }
         getViewport().setView(view);
     }
@@ -1013,185 +1013,185 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
 
 
     /**
-     * Returns the row header.
-     * @return the <code>rowHeader</code> property
-     * @see #setRowHeader
+     * Returns the row hebder.
+     * @return the <code>rowHebder</code> property
+     * @see #setRowHebder
      */
-    @Transient
-    public JViewport getRowHeader() {
-        return rowHeader;
+    @Trbnsient
+    public JViewport getRowHebder() {
+        return rowHebder;
     }
 
 
     /**
-     * Removes the old rowHeader, if it exists; if the new rowHeader
-     * isn't <code>null</code>, syncs the y coordinate of its
+     * Removes the old rowHebder, if it exists; if the new rowHebder
+     * isn't <code>null</code>, syncs the y coordinbte of its
      * viewPosition with
-     * the viewport (if there is one) and then adds it to the scroll pane.
+     * the viewport (if there is one) bnd then bdds it to the scroll pbne.
      * <p>
-     * Most applications will find it more convenient to use
-     * <code>setRowHeaderView</code>
-     * to add a row header component and its viewport to the scroll pane.
+     * Most bpplicbtions will find it more convenient to use
+     * <code>setRowHebderView</code>
+     * to bdd b row hebder component bnd its viewport to the scroll pbne.
      *
-     * @param rowHeader the new row header to be used; if <code>null</code>
-     *          the old row header is still removed and the new rowHeader
+     * @pbrbm rowHebder the new row hebder to be used; if <code>null</code>
+     *          the old row hebder is still removed bnd the new rowHebder
      *          is set to <code>null</code>
-     * @see #getRowHeader
-     * @see #setRowHeaderView
+     * @see #getRowHebder
+     * @see #setRowHebderView
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       expert: true
-     *  description: The row header child for this scrollpane
+     *  description: The row hebder child for this scrollpbne
      */
-    public void setRowHeader(JViewport rowHeader) {
-        JViewport old = getRowHeader();
-        this.rowHeader = rowHeader;
-        if (rowHeader != null) {
-            add(rowHeader, ROW_HEADER);
+    public void setRowHebder(JViewport rowHebder) {
+        JViewport old = getRowHebder();
+        this.rowHebder = rowHebder;
+        if (rowHebder != null) {
+            bdd(rowHebder, ROW_HEADER);
         }
         else if (old != null) {
             remove(old);
         }
-        firePropertyChange("rowHeader", old, rowHeader);
-        revalidate();
-        repaint();
+        firePropertyChbnge("rowHebder", old, rowHebder);
+        revblidbte();
+        repbint();
     }
 
 
     /**
-     * Creates a row-header viewport if necessary, sets
-     * its view and then adds the row-header viewport
-     * to the scrollpane.  For example:
+     * Crebtes b row-hebder viewport if necessbry, sets
+     * its view bnd then bdds the row-hebder viewport
+     * to the scrollpbne.  For exbmple:
      * <pre>
-     * JScrollPane scrollpane = new JScrollPane();
-     * scrollpane.setViewportView(myBigComponentToScroll);
-     * scrollpane.setRowHeaderView(myBigComponentsRowHeader);
+     * JScrollPbne scrollpbne = new JScrollPbne();
+     * scrollpbne.setViewportView(myBigComponentToScroll);
+     * scrollpbne.setRowHebderView(myBigComponentsRowHebder);
      * </pre>
      *
-     * @see #setRowHeader
+     * @see #setRowHebder
      * @see JViewport#setView
-     * @param view the component to display as the row header
+     * @pbrbm view the component to displby bs the row hebder
      */
-    public void setRowHeaderView(Component view) {
-        if (getRowHeader() == null) {
-            setRowHeader(createViewport());
+    public void setRowHebderView(Component view) {
+        if (getRowHebder() == null) {
+            setRowHebder(crebteViewport());
         }
-        getRowHeader().setView(view);
+        getRowHebder().setView(view);
     }
 
 
 
     /**
-     * Returns the column header.
-     * @return the <code>columnHeader</code> property
-     * @see #setColumnHeader
+     * Returns the column hebder.
+     * @return the <code>columnHebder</code> property
+     * @see #setColumnHebder
      */
-    @Transient
-    public JViewport getColumnHeader() {
-        return columnHeader;
+    @Trbnsient
+    public JViewport getColumnHebder() {
+        return columnHebder;
     }
 
 
     /**
-     * Removes the old columnHeader, if it exists; if the new columnHeader
-     * isn't <code>null</code>, syncs the x coordinate of its viewPosition
-     * with the viewport (if there is one) and then adds it to the scroll pane.
+     * Removes the old columnHebder, if it exists; if the new columnHebder
+     * isn't <code>null</code>, syncs the x coordinbte of its viewPosition
+     * with the viewport (if there is one) bnd then bdds it to the scroll pbne.
      * <p>
-     * Most applications will find it more convenient to use
-     * <code>setColumnHeaderView</code>
-     * to add a column header component and its viewport to the scroll pane.
+     * Most bpplicbtions will find it more convenient to use
+     * <code>setColumnHebderView</code>
+     * to bdd b column hebder component bnd its viewport to the scroll pbne.
      *
-     * @param columnHeader  a {@code JViewport} which is the new column header
-     * @see #getColumnHeader
-     * @see #setColumnHeaderView
+     * @pbrbm columnHebder  b {@code JViewport} which is the new column hebder
+     * @see #getColumnHebder
+     * @see #setColumnHebderView
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: The column header child for this scrollpane
-     *    attribute: visualUpdate true
+     *  description: The column hebder child for this scrollpbne
+     *    bttribute: visublUpdbte true
      */
-    public void setColumnHeader(JViewport columnHeader) {
-        JViewport old = getColumnHeader();
-        this.columnHeader = columnHeader;
-        if (columnHeader != null) {
-            add(columnHeader, COLUMN_HEADER);
+    public void setColumnHebder(JViewport columnHebder) {
+        JViewport old = getColumnHebder();
+        this.columnHebder = columnHebder;
+        if (columnHebder != null) {
+            bdd(columnHebder, COLUMN_HEADER);
         }
         else if (old != null) {
             remove(old);
         }
-        firePropertyChange("columnHeader", old, columnHeader);
+        firePropertyChbnge("columnHebder", old, columnHebder);
 
-        revalidate();
-        repaint();
+        revblidbte();
+        repbint();
     }
 
 
 
     /**
-     * Creates a column-header viewport if necessary, sets
-     * its view, and then adds the column-header viewport
-     * to the scrollpane.  For example:
+     * Crebtes b column-hebder viewport if necessbry, sets
+     * its view, bnd then bdds the column-hebder viewport
+     * to the scrollpbne.  For exbmple:
      * <pre>
-     * JScrollPane scrollpane = new JScrollPane();
-     * scrollpane.setViewportView(myBigComponentToScroll);
-     * scrollpane.setColumnHeaderView(myBigComponentsColumnHeader);
+     * JScrollPbne scrollpbne = new JScrollPbne();
+     * scrollpbne.setViewportView(myBigComponentToScroll);
+     * scrollpbne.setColumnHebderView(myBigComponentsColumnHebder);
      * </pre>
      *
-     * @see #setColumnHeader
+     * @see #setColumnHebder
      * @see JViewport#setView
      *
-     * @param view the component to display as the column header
+     * @pbrbm view the component to displby bs the column hebder
      */
-    public void setColumnHeaderView(Component view) {
-        if (getColumnHeader() == null) {
-            setColumnHeader(createViewport());
+    public void setColumnHebderView(Component view) {
+        if (getColumnHebder() == null) {
+            setColumnHebder(crebteViewport());
         }
-        getColumnHeader().setView(view);
+        getColumnHebder().setView(view);
     }
 
 
     /**
-     * Returns the component at the specified corner. The
-     * <code>key</code> value specifying the corner is one of:
+     * Returns the component bt the specified corner. The
+     * <code>key</code> vblue specifying the corner is one of:
      * <ul>
-     * <li>ScrollPaneConstants.LOWER_LEFT_CORNER
-     * <li>ScrollPaneConstants.LOWER_RIGHT_CORNER
-     * <li>ScrollPaneConstants.UPPER_LEFT_CORNER
-     * <li>ScrollPaneConstants.UPPER_RIGHT_CORNER
-     * <li>ScrollPaneConstants.LOWER_LEADING_CORNER
-     * <li>ScrollPaneConstants.LOWER_TRAILING_CORNER
-     * <li>ScrollPaneConstants.UPPER_LEADING_CORNER
-     * <li>ScrollPaneConstants.UPPER_TRAILING_CORNER
+     * <li>ScrollPbneConstbnts.LOWER_LEFT_CORNER
+     * <li>ScrollPbneConstbnts.LOWER_RIGHT_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_LEFT_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_RIGHT_CORNER
+     * <li>ScrollPbneConstbnts.LOWER_LEADING_CORNER
+     * <li>ScrollPbneConstbnts.LOWER_TRAILING_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_LEADING_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_TRAILING_CORNER
      * </ul>
      *
-     * @param key one of the values as shown above
-     * @return the corner component (which may be <code>null</code>)
+     * @pbrbm key one of the vblues bs shown bbove
+     * @return the corner component (which mby be <code>null</code>)
      *         identified by the given key, or <code>null</code>
-     *         if the key is invalid
+     *         if the key is invblid
      * @see #setCorner
      */
     public Component getCorner(String key) {
-        boolean isLeftToRight = getComponentOrientation().isLeftToRight();
-        if (key.equals(LOWER_LEADING_CORNER)) {
+        boolebn isLeftToRight = getComponentOrientbtion().isLeftToRight();
+        if (key.equbls(LOWER_LEADING_CORNER)) {
             key = isLeftToRight ? LOWER_LEFT_CORNER : LOWER_RIGHT_CORNER;
-        } else if (key.equals(LOWER_TRAILING_CORNER)) {
+        } else if (key.equbls(LOWER_TRAILING_CORNER)) {
             key = isLeftToRight ? LOWER_RIGHT_CORNER : LOWER_LEFT_CORNER;
-        } else if (key.equals(UPPER_LEADING_CORNER)) {
+        } else if (key.equbls(UPPER_LEADING_CORNER)) {
             key = isLeftToRight ? UPPER_LEFT_CORNER : UPPER_RIGHT_CORNER;
-        } else if (key.equals(UPPER_TRAILING_CORNER)) {
+        } else if (key.equbls(UPPER_TRAILING_CORNER)) {
             key = isLeftToRight ? UPPER_RIGHT_CORNER : UPPER_LEFT_CORNER;
         }
-        if (key.equals(LOWER_LEFT_CORNER)) {
+        if (key.equbls(LOWER_LEFT_CORNER)) {
             return lowerLeft;
         }
-        else if (key.equals(LOWER_RIGHT_CORNER)) {
+        else if (key.equbls(LOWER_RIGHT_CORNER)) {
             return lowerRight;
         }
-        else if (key.equals(UPPER_LEFT_CORNER)) {
+        else if (key.equbls(UPPER_LEFT_CORNER)) {
             return upperLeft;
         }
-        else if (key.equals(UPPER_RIGHT_CORNER)) {
+        else if (key.equbls(UPPER_RIGHT_CORNER)) {
             return upperRight;
         }
         else {
@@ -1201,192 +1201,192 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
 
 
     /**
-     * Adds a child that will appear in one of the scroll panes
-     * corners, if there's room.   For example with both scrollbars
-     * showing (on the right and bottom edges of the scrollpane)
-     * the lower left corner component will be shown in the space
-     * between ends of the two scrollbars. Legal values for
-     * the <b>key</b> are:
+     * Adds b child thbt will bppebr in one of the scroll pbnes
+     * corners, if there's room.   For exbmple with both scrollbbrs
+     * showing (on the right bnd bottom edges of the scrollpbne)
+     * the lower left corner component will be shown in the spbce
+     * between ends of the two scrollbbrs. Legbl vblues for
+     * the <b>key</b> bre:
      * <ul>
-     * <li>ScrollPaneConstants.LOWER_LEFT_CORNER
-     * <li>ScrollPaneConstants.LOWER_RIGHT_CORNER
-     * <li>ScrollPaneConstants.UPPER_LEFT_CORNER
-     * <li>ScrollPaneConstants.UPPER_RIGHT_CORNER
-     * <li>ScrollPaneConstants.LOWER_LEADING_CORNER
-     * <li>ScrollPaneConstants.LOWER_TRAILING_CORNER
-     * <li>ScrollPaneConstants.UPPER_LEADING_CORNER
-     * <li>ScrollPaneConstants.UPPER_TRAILING_CORNER
+     * <li>ScrollPbneConstbnts.LOWER_LEFT_CORNER
+     * <li>ScrollPbneConstbnts.LOWER_RIGHT_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_LEFT_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_RIGHT_CORNER
+     * <li>ScrollPbneConstbnts.LOWER_LEADING_CORNER
+     * <li>ScrollPbneConstbnts.LOWER_TRAILING_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_LEADING_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_TRAILING_CORNER
      * </ul>
      * <p>
-     * Although "corner" doesn't match any beans property
-     * signature, <code>PropertyChange</code> events are generated with the
-     * property name set to the corner key.
+     * Although "corner" doesn't mbtch bny bebns property
+     * signbture, <code>PropertyChbnge</code> events bre generbted with the
+     * property nbme set to the corner key.
      *
-     * @param key identifies which corner the component will appear in
-     * @param corner one of the following components:
+     * @pbrbm key identifies which corner the component will bppebr in
+     * @pbrbm corner one of the following components:
      * <ul>
      * <li>lowerLeft
      * <li>lowerRight
      * <li>upperLeft
      * <li>upperRight
      * </ul>
-     * @exception IllegalArgumentException if corner key is invalid
+     * @exception IllegblArgumentException if corner key is invblid
      */
     public void setCorner(String key, Component corner)
     {
         Component old;
-        boolean isLeftToRight = getComponentOrientation().isLeftToRight();
-        if (key.equals(LOWER_LEADING_CORNER)) {
+        boolebn isLeftToRight = getComponentOrientbtion().isLeftToRight();
+        if (key.equbls(LOWER_LEADING_CORNER)) {
             key = isLeftToRight ? LOWER_LEFT_CORNER : LOWER_RIGHT_CORNER;
-        } else if (key.equals(LOWER_TRAILING_CORNER)) {
+        } else if (key.equbls(LOWER_TRAILING_CORNER)) {
             key = isLeftToRight ? LOWER_RIGHT_CORNER : LOWER_LEFT_CORNER;
-        } else if (key.equals(UPPER_LEADING_CORNER)) {
+        } else if (key.equbls(UPPER_LEADING_CORNER)) {
             key = isLeftToRight ? UPPER_LEFT_CORNER : UPPER_RIGHT_CORNER;
-        } else if (key.equals(UPPER_TRAILING_CORNER)) {
+        } else if (key.equbls(UPPER_TRAILING_CORNER)) {
             key = isLeftToRight ? UPPER_RIGHT_CORNER : UPPER_LEFT_CORNER;
         }
-        if (key.equals(LOWER_LEFT_CORNER)) {
+        if (key.equbls(LOWER_LEFT_CORNER)) {
             old = lowerLeft;
             lowerLeft = corner;
         }
-        else if (key.equals(LOWER_RIGHT_CORNER)) {
+        else if (key.equbls(LOWER_RIGHT_CORNER)) {
             old = lowerRight;
             lowerRight = corner;
         }
-        else if (key.equals(UPPER_LEFT_CORNER)) {
+        else if (key.equbls(UPPER_LEFT_CORNER)) {
             old = upperLeft;
             upperLeft = corner;
         }
-        else if (key.equals(UPPER_RIGHT_CORNER)) {
+        else if (key.equbls(UPPER_RIGHT_CORNER)) {
             old = upperRight;
             upperRight = corner;
         }
         else {
-            throw new IllegalArgumentException("invalid corner key");
+            throw new IllegblArgumentException("invblid corner key");
         }
         if (old != null) {
             remove(old);
         }
         if (corner != null) {
-            add(corner, key);
+            bdd(corner, key);
         }
-        firePropertyChange(key, old, corner);
-        revalidate();
-        repaint();
+        firePropertyChbnge(key, old, corner);
+        revblidbte();
+        repbint();
     }
 
     /**
-     * Sets the orientation for the vertical and horizontal
-     * scrollbars as determined by the
-     * <code>ComponentOrientation</code> argument.
+     * Sets the orientbtion for the verticbl bnd horizontbl
+     * scrollbbrs bs determined by the
+     * <code>ComponentOrientbtion</code> brgument.
      *
-     * @param  co one of the following values:
+     * @pbrbm  co one of the following vblues:
      * <ul>
-     * <li>java.awt.ComponentOrientation.LEFT_TO_RIGHT
-     * <li>java.awt.ComponentOrientation.RIGHT_TO_LEFT
-     * <li>java.awt.ComponentOrientation.UNKNOWN
+     * <li>jbvb.bwt.ComponentOrientbtion.LEFT_TO_RIGHT
+     * <li>jbvb.bwt.ComponentOrientbtion.RIGHT_TO_LEFT
+     * <li>jbvb.bwt.ComponentOrientbtion.UNKNOWN
      * </ul>
-     * @see java.awt.ComponentOrientation
+     * @see jbvb.bwt.ComponentOrientbtion
      */
-    public void setComponentOrientation( ComponentOrientation co ) {
-        super.setComponentOrientation( co );
-        if( verticalScrollBar != null )
-            verticalScrollBar.setComponentOrientation( co );
-        if( horizontalScrollBar != null )
-            horizontalScrollBar.setComponentOrientation( co );
+    public void setComponentOrientbtion( ComponentOrientbtion co ) {
+        super.setComponentOrientbtion( co );
+        if( verticblScrollBbr != null )
+            verticblScrollBbr.setComponentOrientbtion( co );
+        if( horizontblScrollBbr != null )
+            horizontblScrollBbr.setComponentOrientbtion( co );
     }
 
     /**
-     * Indicates whether or not scrolling will take place in response to the
-     * mouse wheel.  Wheel scrolling is enabled by default.
+     * Indicbtes whether or not scrolling will tbke plbce in response to the
+     * mouse wheel.  Wheel scrolling is enbbled by defbult.
      *
-     * @return true if mouse wheel scrolling is enabled, false otherwise
-     * @see #setWheelScrollingEnabled
+     * @return true if mouse wheel scrolling is enbbled, fblse otherwise
+     * @see #setWheelScrollingEnbbled
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     * description: Flag for enabling/disabling mouse wheel scrolling
+     * description: Flbg for enbbling/disbbling mouse wheel scrolling
      */
-    public boolean isWheelScrollingEnabled() {return wheelScrollState;}
+    public boolebn isWheelScrollingEnbbled() {return wheelScrollStbte;}
 
     /**
-     * Enables/disables scrolling in response to movement of the mouse wheel.
-     * Wheel scrolling is enabled by default.
+     * Enbbles/disbbles scrolling in response to movement of the mouse wheel.
+     * Wheel scrolling is enbbled by defbult.
      *
-     * @param handleWheel   <code>true</code> if scrolling should be done
-     *                      automatically for a MouseWheelEvent,
-     *                      <code>false</code> otherwise.
-     * @see #isWheelScrollingEnabled
-     * @see java.awt.event.MouseWheelEvent
-     * @see java.awt.event.MouseWheelListener
+     * @pbrbm hbndleWheel   <code>true</code> if scrolling should be done
+     *                      butombticblly for b MouseWheelEvent,
+     *                      <code>fblse</code> otherwise.
+     * @see #isWheelScrollingEnbbled
+     * @see jbvb.bwt.event.MouseWheelEvent
+     * @see jbvb.bwt.event.MouseWheelListener
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     * description: Flag for enabling/disabling mouse wheel scrolling
+     * description: Flbg for enbbling/disbbling mouse wheel scrolling
      */
-    public void setWheelScrollingEnabled(boolean handleWheel) {
-        boolean old = wheelScrollState;
-        wheelScrollState = handleWheel;
-        firePropertyChange("wheelScrollingEnabled", old, handleWheel);
+    public void setWheelScrollingEnbbled(boolebn hbndleWheel) {
+        boolebn old = wheelScrollStbte;
+        wheelScrollStbte = hbndleWheel;
+        firePropertyChbnge("wheelScrollingEnbbled", old, hbndleWheel);
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JScrollPane</code>.
+     * Returns b string representbtion of this <code>JScrollPbne</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JScrollPane</code>.
+     * @return  b string representbtion of this <code>JScrollPbne</code>.
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String viewportBorderString = (viewportBorder != null ?
                                        viewportBorder.toString() : "");
         String viewportString = (viewport != null ?
                                  viewport.toString() : "");
-        String verticalScrollBarPolicyString;
-        if (verticalScrollBarPolicy == VERTICAL_SCROLLBAR_AS_NEEDED) {
-            verticalScrollBarPolicyString = "VERTICAL_SCROLLBAR_AS_NEEDED";
-        } else if (verticalScrollBarPolicy == VERTICAL_SCROLLBAR_NEVER) {
-            verticalScrollBarPolicyString = "VERTICAL_SCROLLBAR_NEVER";
-        } else if (verticalScrollBarPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
-            verticalScrollBarPolicyString = "VERTICAL_SCROLLBAR_ALWAYS";
-        } else verticalScrollBarPolicyString = "";
-        String horizontalScrollBarPolicyString;
-        if (horizontalScrollBarPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED) {
-            horizontalScrollBarPolicyString = "HORIZONTAL_SCROLLBAR_AS_NEEDED";
-        } else if (horizontalScrollBarPolicy == HORIZONTAL_SCROLLBAR_NEVER) {
-            horizontalScrollBarPolicyString = "HORIZONTAL_SCROLLBAR_NEVER";
-        } else if (horizontalScrollBarPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
-            horizontalScrollBarPolicyString = "HORIZONTAL_SCROLLBAR_ALWAYS";
-        } else horizontalScrollBarPolicyString = "";
-        String horizontalScrollBarString = (horizontalScrollBar != null ?
-                                            horizontalScrollBar.toString()
+        String verticblScrollBbrPolicyString;
+        if (verticblScrollBbrPolicy == VERTICAL_SCROLLBAR_AS_NEEDED) {
+            verticblScrollBbrPolicyString = "VERTICAL_SCROLLBAR_AS_NEEDED";
+        } else if (verticblScrollBbrPolicy == VERTICAL_SCROLLBAR_NEVER) {
+            verticblScrollBbrPolicyString = "VERTICAL_SCROLLBAR_NEVER";
+        } else if (verticblScrollBbrPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
+            verticblScrollBbrPolicyString = "VERTICAL_SCROLLBAR_ALWAYS";
+        } else verticblScrollBbrPolicyString = "";
+        String horizontblScrollBbrPolicyString;
+        if (horizontblScrollBbrPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED) {
+            horizontblScrollBbrPolicyString = "HORIZONTAL_SCROLLBAR_AS_NEEDED";
+        } else if (horizontblScrollBbrPolicy == HORIZONTAL_SCROLLBAR_NEVER) {
+            horizontblScrollBbrPolicyString = "HORIZONTAL_SCROLLBAR_NEVER";
+        } else if (horizontblScrollBbrPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
+            horizontblScrollBbrPolicyString = "HORIZONTAL_SCROLLBAR_ALWAYS";
+        } else horizontblScrollBbrPolicyString = "";
+        String horizontblScrollBbrString = (horizontblScrollBbr != null ?
+                                            horizontblScrollBbr.toString()
                                             : "");
-        String verticalScrollBarString = (verticalScrollBar != null ?
-                                          verticalScrollBar.toString() : "");
-        String columnHeaderString = (columnHeader != null ?
-                                     columnHeader.toString() : "");
-        String rowHeaderString = (rowHeader != null ?
-                                  rowHeader.toString() : "");
+        String verticblScrollBbrString = (verticblScrollBbr != null ?
+                                          verticblScrollBbr.toString() : "");
+        String columnHebderString = (columnHebder != null ?
+                                     columnHebder.toString() : "");
+        String rowHebderString = (rowHebder != null ?
+                                  rowHebder.toString() : "");
         String lowerLeftString = (lowerLeft != null ?
                                   lowerLeft.toString() : "");
         String lowerRightString = (lowerRight != null ?
@@ -1396,17 +1396,17 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
         String upperRightString = (upperRight != null ?
                                   upperRight.toString() : "");
 
-        return super.paramString() +
-        ",columnHeader=" + columnHeaderString +
-        ",horizontalScrollBar=" + horizontalScrollBarString +
-        ",horizontalScrollBarPolicy=" + horizontalScrollBarPolicyString +
+        return super.pbrbmString() +
+        ",columnHebder=" + columnHebderString +
+        ",horizontblScrollBbr=" + horizontblScrollBbrString +
+        ",horizontblScrollBbrPolicy=" + horizontblScrollBbrPolicyString +
         ",lowerLeft=" + lowerLeftString +
         ",lowerRight=" + lowerRightString +
-        ",rowHeader=" + rowHeaderString +
+        ",rowHebder=" + rowHebderString +
         ",upperLeft=" + upperLeftString +
         ",upperRight=" + upperRightString +
-        ",verticalScrollBar=" + verticalScrollBarString +
-        ",verticalScrollBarPolicy=" + verticalScrollBarPolicyString +
+        ",verticblScrollBbr=" + verticblScrollBbrString +
+        ",verticblScrollBbrPolicy=" + verticblScrollBbrPolicyString +
         ",viewport=" + viewportString +
         ",viewportBorder=" + viewportBorderString;
     }
@@ -1416,84 +1416,84 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JScrollPane.
-     * For scroll panes, the AccessibleContext takes the form of an
-     * AccessibleJScrollPane.
-     * A new AccessibleJScrollPane instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JScrollPbne.
+     * For scroll pbnes, the AccessibleContext tbkes the form of bn
+     * AccessibleJScrollPbne.
+     * A new AccessibleJScrollPbne instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJScrollPane that serves as the
-     *         AccessibleContext of this JScrollPane
+     * @return bn AccessibleJScrollPbne thbt serves bs the
+     *         AccessibleContext of this JScrollPbne
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJScrollPane();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJScrollPbne();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JScrollPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to scroll pane user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JScrollPbne</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to scroll pbne user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJScrollPane extends AccessibleJComponent
-        implements ChangeListener, PropertyChangeListener {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJScrollPbne extends AccessibleJComponent
+        implements ChbngeListener, PropertyChbngeListener {
 
         /**
-         * this {@code JScrollPane}'s current {@code JViewport}
+         * this {@code JScrollPbne}'s current {@code JViewport}
          */
         protected JViewport viewPort = null;
 
         /**
-         * Resets the viewport ChangeListener and PropertyChangeListener
+         * Resets the viewport ChbngeListener bnd PropertyChbngeListener
          */
         public void resetViewPort() {
             if (viewPort != null) {
-                viewPort.removeChangeListener(this);
-                viewPort.removePropertyChangeListener(this);
+                viewPort.removeChbngeListener(this);
+                viewPort.removePropertyChbngeListener(this);
             }
-            viewPort = JScrollPane.this.getViewport();
+            viewPort = JScrollPbne.this.getViewport();
             if (viewPort != null) {
-                viewPort.addChangeListener(this);
-                viewPort.addPropertyChangeListener(this);
+                viewPort.bddChbngeListener(this);
+                viewPort.bddPropertyChbngeListener(this);
             }
         }
 
         /**
-         * AccessibleJScrollPane constructor
+         * AccessibleJScrollPbne constructor
          */
-        public AccessibleJScrollPane() {
+        public AccessibleJScrollPbne() {
             super();
 
             resetViewPort();
 
-            // initialize the AccessibleRelationSets for the JScrollPane
-            // and JScrollBar(s)
-            JScrollBar scrollBar = getHorizontalScrollBar();
-            if (scrollBar != null) {
-                setScrollBarRelations(scrollBar);
+            // initiblize the AccessibleRelbtionSets for the JScrollPbne
+            // bnd JScrollBbr(s)
+            JScrollBbr scrollBbr = getHorizontblScrollBbr();
+            if (scrollBbr != null) {
+                setScrollBbrRelbtions(scrollBbr);
             }
-            scrollBar = getVerticalScrollBar();
-            if (scrollBar != null) {
-                setScrollBarRelations(scrollBar);
+            scrollBbr = getVerticblScrollBbr();
+            if (scrollBbr != null) {
+                setScrollBbrRelbtions(scrollBbr);
             }
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -1502,63 +1502,63 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
         }
 
         /**
-         * Invoked when the target of the listener has changed its state.
+         * Invoked when the tbrget of the listener hbs chbnged its stbte.
          *
-         * @param e  a <code>ChangeEvent</code> object. Must not be null.
+         * @pbrbm e  b <code>ChbngeEvent</code> object. Must not be null.
          *
-         * @throws NullPointerException if the parameter is null.
+         * @throws NullPointerException if the pbrbmeter is null.
          */
-        public void stateChanged(ChangeEvent e) {
+        public void stbteChbnged(ChbngeEvent e) {
             if (e == null) {
                 throw new NullPointerException();
             }
-            firePropertyChange(ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                               Boolean.valueOf(false),
-                               Boolean.valueOf(true));
+            firePropertyChbnge(ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                               Boolebn.vblueOf(fblse),
+                               Boolebn.vblueOf(true));
         }
 
         /**
-         * This method gets called when a bound property is changed.
-         * @param e A <code>PropertyChangeEvent</code> object describing
-         * the event source and the property that has changed. Must not be null.
+         * This method gets cblled when b bound property is chbnged.
+         * @pbrbm e A <code>PropertyChbngeEvent</code> object describing
+         * the event source bnd the property thbt hbs chbnged. Must not be null.
          *
-         * @throws NullPointerException if the parameter is null.
+         * @throws NullPointerException if the pbrbmeter is null.
          * @since 1.5
          */
-        public void propertyChange(PropertyChangeEvent e) {
-            String propertyName = e.getPropertyName();
-            if (propertyName == "horizontalScrollBar" ||
-                propertyName == "verticalScrollBar") {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String propertyNbme = e.getPropertyNbme();
+            if (propertyNbme == "horizontblScrollBbr" ||
+                propertyNbme == "verticblScrollBbr") {
 
-                if (e.getNewValue() instanceof JScrollBar) {
-                    setScrollBarRelations((JScrollBar)e.getNewValue());
+                if (e.getNewVblue() instbnceof JScrollBbr) {
+                    setScrollBbrRelbtions((JScrollBbr)e.getNewVblue());
                 }
             }
         }
 
 
         /*
-         * Sets the CONTROLLER_FOR and CONTROLLED_BY AccessibleRelations for
-         * the JScrollPane and JScrollBar. JScrollBar must not be null.
+         * Sets the CONTROLLER_FOR bnd CONTROLLED_BY AccessibleRelbtions for
+         * the JScrollPbne bnd JScrollBbr. JScrollBbr must not be null.
          */
-        void setScrollBarRelations(JScrollBar scrollBar) {
+        void setScrollBbrRelbtions(JScrollBbr scrollBbr) {
             /*
-             * The JScrollBar is a CONTROLLER_FOR the JScrollPane.
-             * The JScrollPane is CONTROLLED_BY the JScrollBar.
+             * The JScrollBbr is b CONTROLLER_FOR the JScrollPbne.
+             * The JScrollPbne is CONTROLLED_BY the JScrollBbr.
              */
-            AccessibleRelation controlledBy =
-                new AccessibleRelation(AccessibleRelation.CONTROLLED_BY,
-                                       scrollBar);
-            AccessibleRelation controllerFor =
-                new AccessibleRelation(AccessibleRelation.CONTROLLER_FOR,
-                                       JScrollPane.this);
+            AccessibleRelbtion controlledBy =
+                new AccessibleRelbtion(AccessibleRelbtion.CONTROLLED_BY,
+                                       scrollBbr);
+            AccessibleRelbtion controllerFor =
+                new AccessibleRelbtion(AccessibleRelbtion.CONTROLLER_FOR,
+                                       JScrollPbne.this);
 
-            // set the relation set for the scroll bar
-            AccessibleContext ac = scrollBar.getAccessibleContext();
-            ac.getAccessibleRelationSet().add(controllerFor);
+            // set the relbtion set for the scroll bbr
+            AccessibleContext bc = scrollBbr.getAccessibleContext();
+            bc.getAccessibleRelbtionSet().bdd(controllerFor);
 
-            // set the relation set for the scroll pane
-            getAccessibleRelationSet().add(controlledBy);
+            // set the relbtion set for the scroll pbne
+            getAccessibleRelbtionSet().bdd(controlledBy);
         }
     }
 }

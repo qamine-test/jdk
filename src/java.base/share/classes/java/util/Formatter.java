@@ -1,2286 +1,2286 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.BufferedWriter;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
-import java.io.Flushable;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
-import java.text.DateFormatSymbols;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import jbvb.io.BufferedWriter;
+import jbvb.io.Closebble;
+import jbvb.io.IOException;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.Flushbble;
+import jbvb.io.OutputStrebm;
+import jbvb.io.OutputStrebmWriter;
+import jbvb.io.PrintStrebm;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.mbth.BigDecimbl;
+import jbvb.mbth.BigInteger;
+import jbvb.mbth.MbthContext;
+import jbvb.mbth.RoundingMode;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.IllegblChbrsetNbmeException;
+import jbvb.nio.chbrset.UnsupportedChbrsetException;
+import jbvb.text.DbteFormbtSymbols;
+import jbvb.text.DecimblFormbt;
+import jbvb.text.DecimblFormbtSymbols;
+import jbvb.text.NumberFormbt;
+import jbvb.util.regex.Mbtcher;
+import jbvb.util.regex.Pbttern;
 
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalQueries;
+import jbvb.time.DbteTimeException;
+import jbvb.time.Instbnt;
+import jbvb.time.ZoneId;
+import jbvb.time.ZoneOffset;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblQueries;
 
 import sun.misc.DoubleConsts;
-import sun.misc.FormattedFloatingDecimal;
+import sun.misc.FormbttedFlobtingDecimbl;
 
 /**
- * An interpreter for printf-style format strings.  This class provides support
- * for layout justification and alignment, common formats for numeric, string,
- * and date/time data, and locale-specific output.  Common Java types such as
- * {@code byte}, {@link java.math.BigDecimal BigDecimal}, and {@link Calendar}
- * are supported.  Limited formatting customization for arbitrary user types is
- * provided through the {@link Formattable} interface.
+ * An interpreter for printf-style formbt strings.  This clbss provides support
+ * for lbyout justificbtion bnd blignment, common formbts for numeric, string,
+ * bnd dbte/time dbtb, bnd locble-specific output.  Common Jbvb types such bs
+ * {@code byte}, {@link jbvb.mbth.BigDecimbl BigDecimbl}, bnd {@link Cblendbr}
+ * bre supported.  Limited formbtting customizbtion for brbitrbry user types is
+ * provided through the {@link Formbttbble} interfbce.
  *
- * <p> Formatters are not necessarily safe for multithreaded access.  Thread
- * safety is optional and is the responsibility of users of methods in this
- * class.
+ * <p> Formbtters bre not necessbrily sbfe for multithrebded bccess.  Threbd
+ * sbfety is optionbl bnd is the responsibility of users of methods in this
+ * clbss.
  *
- * <p> Formatted printing for the Java language is heavily inspired by C's
- * {@code printf}.  Although the format strings are similar to C, some
- * customizations have been made to accommodate the Java language and exploit
- * some of its features.  Also, Java formatting is more strict than C's; for
- * example, if a conversion is incompatible with a flag, an exception will be
- * thrown.  In C inapplicable flags are silently ignored.  The format strings
- * are thus intended to be recognizable to C programmers but not necessarily
- * completely compatible with those in C.
+ * <p> Formbtted printing for the Jbvb lbngubge is hebvily inspired by C's
+ * {@code printf}.  Although the formbt strings bre similbr to C, some
+ * customizbtions hbve been mbde to bccommodbte the Jbvb lbngubge bnd exploit
+ * some of its febtures.  Also, Jbvb formbtting is more strict thbn C's; for
+ * exbmple, if b conversion is incompbtible with b flbg, bn exception will be
+ * thrown.  In C inbpplicbble flbgs bre silently ignored.  The formbt strings
+ * bre thus intended to be recognizbble to C progrbmmers but not necessbrily
+ * completely compbtible with those in C.
  *
- * <p> Examples of expected usage:
+ * <p> Exbmples of expected usbge:
  *
  * <blockquote><pre>
  *   StringBuilder sb = new StringBuilder();
- *   // Send all output to the Appendable object sb
- *   Formatter formatter = new Formatter(sb, Locale.US);
+ *   // Send bll output to the Appendbble object sb
+ *   Formbtter formbtter = new Formbtter(sb, Locble.US);
  *
- *   // Explicit argument indices may be used to re-order output.
- *   formatter.format("%4$2s %3$2s %2$2s %1$2s", "a", "b", "c", "d")
- *   // -&gt; " d  c  b  a"
+ *   // Explicit brgument indices mby be used to re-order output.
+ *   formbtter.formbt("%4$2s %3$2s %2$2s %1$2s", "b", "b", "c", "d")
+ *   // -&gt; " d  c  b  b"
  *
- *   // Optional locale as the first argument can be used to get
- *   // locale-specific formatting of numbers.  The precision and width can be
- *   // given to round and align the value.
- *   formatter.format(Locale.FRANCE, "e = %+10.4f", Math.E);
+ *   // Optionbl locble bs the first brgument cbn be used to get
+ *   // locble-specific formbtting of numbers.  The precision bnd width cbn be
+ *   // given to round bnd blign the vblue.
+ *   formbtter.formbt(Locble.FRANCE, "e = %+10.4f", Mbth.E);
  *   // -&gt; "e =    +2,7183"
  *
- *   // The '(' numeric flag may be used to format negative numbers with
- *   // parentheses rather than a minus sign.  Group separators are
- *   // automatically inserted.
- *   formatter.format("Amount gained or lost since last statement: $ %(,.2f",
- *                    balanceDelta);
- *   // -&gt; "Amount gained or lost since last statement: $ (6,217.58)"
+ *   // The '(' numeric flbg mby be used to formbt negbtive numbers with
+ *   // pbrentheses rbther thbn b minus sign.  Group sepbrbtors bre
+ *   // butombticblly inserted.
+ *   formbtter.formbt("Amount gbined or lost since lbst stbtement: $ %(,.2f",
+ *                    bblbnceDeltb);
+ *   // -&gt; "Amount gbined or lost since lbst stbtement: $ (6,217.58)"
  * </pre></blockquote>
  *
- * <p> Convenience methods for common formatting requests exist as illustrated
- * by the following invocations:
+ * <p> Convenience methods for common formbtting requests exist bs illustrbted
+ * by the following invocbtions:
  *
  * <blockquote><pre>
- *   // Writes a formatted string to System.out.
- *   System.out.format("Local time: %tT", Calendar.getInstance());
- *   // -&gt; "Local time: 13:34:18"
+ *   // Writes b formbtted string to System.out.
+ *   System.out.formbt("Locbl time: %tT", Cblendbr.getInstbnce());
+ *   // -&gt; "Locbl time: 13:34:18"
  *
- *   // Writes formatted output to System.err.
- *   System.err.printf("Unable to open file '%1$s': %2$s",
- *                     fileName, exception.getMessage());
- *   // -&gt; "Unable to open file 'food': No such file or directory"
+ *   // Writes formbtted output to System.err.
+ *   System.err.printf("Unbble to open file '%1$s': %2$s",
+ *                     fileNbme, exception.getMessbge());
+ *   // -&gt; "Unbble to open file 'food': No such file or directory"
  * </pre></blockquote>
  *
- * <p> Like C's {@code sprintf(3)}, Strings may be formatted using the static
- * method {@link String#format(String,Object...) String.format}:
+ * <p> Like C's {@code sprintf(3)}, Strings mby be formbtted using the stbtic
+ * method {@link String#formbt(String,Object...) String.formbt}:
  *
  * <blockquote><pre>
- *   // Format a string containing a date.
- *   import java.util.Calendar;
- *   import java.util.GregorianCalendar;
- *   import static java.util.Calendar.*;
+ *   // Formbt b string contbining b dbte.
+ *   import jbvb.util.Cblendbr;
+ *   import jbvb.util.GregoribnCblendbr;
+ *   import stbtic jbvb.util.Cblendbr.*;
  *
- *   Calendar c = new GregorianCalendar(1995, MAY, 23);
- *   String s = String.format("Duke's Birthday: %1$tb %1$te, %1$tY", c);
- *   // -&gt; s == "Duke's Birthday: May 23, 1995"
+ *   Cblendbr c = new GregoribnCblendbr(1995, MAY, 23);
+ *   String s = String.formbt("Duke's Birthdby: %1$tb %1$te, %1$tY", c);
+ *   // -&gt; s == "Duke's Birthdby: Mby 23, 1995"
  * </pre></blockquote>
  *
- * <h3><a name="org">Organization</a></h3>
+ * <h3><b nbme="org">Orgbnizbtion</b></h3>
  *
- * <p> This specification is divided into two sections.  The first section, <a
- * href="#summary">Summary</a>, covers the basic formatting concepts.  This
- * section is intended for users who want to get started quickly and are
- * familiar with formatted printing in other programming languages.  The second
- * section, <a href="#detail">Details</a>, covers the specific implementation
- * details.  It is intended for users who want more precise specification of
- * formatting behavior.
+ * <p> This specificbtion is divided into two sections.  The first section, <b
+ * href="#summbry">Summbry</b>, covers the bbsic formbtting concepts.  This
+ * section is intended for users who wbnt to get stbrted quickly bnd bre
+ * fbmilibr with formbtted printing in other progrbmming lbngubges.  The second
+ * section, <b href="#detbil">Detbils</b>, covers the specific implementbtion
+ * detbils.  It is intended for users who wbnt more precise specificbtion of
+ * formbtting behbvior.
  *
- * <h3><a name="summary">Summary</a></h3>
+ * <h3><b nbme="summbry">Summbry</b></h3>
  *
- * <p> This section is intended to provide a brief overview of formatting
- * concepts.  For precise behavioral details, refer to the <a
- * href="#detail">Details</a> section.
+ * <p> This section is intended to provide b brief overview of formbtting
+ * concepts.  For precise behbviorbl detbils, refer to the <b
+ * href="#detbil">Detbils</b> section.
  *
- * <h4><a name="syntax">Format String Syntax</a></h4>
+ * <h4><b nbme="syntbx">Formbt String Syntbx</b></h4>
  *
- * <p> Every method which produces formatted output requires a <i>format
- * string</i> and an <i>argument list</i>.  The format string is a {@link
- * String} which may contain fixed text and one or more embedded <i>format
- * specifiers</i>.  Consider the following example:
+ * <p> Every method which produces formbtted output requires b <i>formbt
+ * string</i> bnd bn <i>brgument list</i>.  The formbt string is b {@link
+ * String} which mby contbin fixed text bnd one or more embedded <i>formbt
+ * specifiers</i>.  Consider the following exbmple:
  *
  * <blockquote><pre>
- *   Calendar c = ...;
- *   String s = String.format("Duke's Birthday: %1$tm %1$te,%1$tY", c);
+ *   Cblendbr c = ...;
+ *   String s = String.formbt("Duke's Birthdby: %1$tm %1$te,%1$tY", c);
  * </pre></blockquote>
  *
- * This format string is the first argument to the {@code format} method.  It
- * contains three format specifiers "{@code %1$tm}", "{@code %1$te}", and
- * "{@code %1$tY}" which indicate how the arguments should be processed and
- * where they should be inserted in the text.  The remaining portions of the
- * format string are fixed text including {@code "Dukes Birthday: "} and any
- * other spaces or punctuation.
+ * This formbt string is the first brgument to the {@code formbt} method.  It
+ * contbins three formbt specifiers "{@code %1$tm}", "{@code %1$te}", bnd
+ * "{@code %1$tY}" which indicbte how the brguments should be processed bnd
+ * where they should be inserted in the text.  The rembining portions of the
+ * formbt string bre fixed text including {@code "Dukes Birthdby: "} bnd bny
+ * other spbces or punctubtion.
  *
- * The argument list consists of all arguments passed to the method after the
- * format string.  In the above example, the argument list is of size one and
- * consists of the {@link java.util.Calendar Calendar} object {@code c}.
+ * The brgument list consists of bll brguments pbssed to the method bfter the
+ * formbt string.  In the bbove exbmple, the brgument list is of size one bnd
+ * consists of the {@link jbvb.util.Cblendbr Cblendbr} object {@code c}.
  *
  * <ul>
  *
- * <li> The format specifiers for general, character, and numeric types have
- * the following syntax:
+ * <li> The formbt specifiers for generbl, chbrbcter, bnd numeric types hbve
+ * the following syntbx:
  *
  * <blockquote><pre>
- *   %[argument_index$][flags][width][.precision]conversion
+ *   %[brgument_index$][flbgs][width][.precision]conversion
  * </pre></blockquote>
  *
- * <p> The optional <i>argument_index</i> is a decimal integer indicating the
- * position of the argument in the argument list.  The first argument is
+ * <p> The optionbl <i>brgument_index</i> is b decimbl integer indicbting the
+ * position of the brgument in the brgument list.  The first brgument is
  * referenced by "{@code 1$}", the second by "{@code 2$}", etc.
  *
- * <p> The optional <i>flags</i> is a set of characters that modify the output
- * format.  The set of valid flags depends on the conversion.
+ * <p> The optionbl <i>flbgs</i> is b set of chbrbcters thbt modify the output
+ * formbt.  The set of vblid flbgs depends on the conversion.
  *
- * <p> The optional <i>width</i> is a positive decimal integer indicating
- * the minimum number of characters to be written to the output.
+ * <p> The optionbl <i>width</i> is b positive decimbl integer indicbting
+ * the minimum number of chbrbcters to be written to the output.
  *
- * <p> The optional <i>precision</i> is a non-negative decimal integer usually
- * used to restrict the number of characters.  The specific behavior depends on
+ * <p> The optionbl <i>precision</i> is b non-negbtive decimbl integer usublly
+ * used to restrict the number of chbrbcters.  The specific behbvior depends on
  * the conversion.
  *
- * <p> The required <i>conversion</i> is a character indicating how the
- * argument should be formatted.  The set of valid conversions for a given
- * argument depends on the argument's data type.
+ * <p> The required <i>conversion</i> is b chbrbcter indicbting how the
+ * brgument should be formbtted.  The set of vblid conversions for b given
+ * brgument depends on the brgument's dbtb type.
  *
- * <li> The format specifiers for types which are used to represents dates and
- * times have the following syntax:
+ * <li> The formbt specifiers for types which bre used to represents dbtes bnd
+ * times hbve the following syntbx:
  *
  * <blockquote><pre>
- *   %[argument_index$][flags][width]conversion
+ *   %[brgument_index$][flbgs][width]conversion
  * </pre></blockquote>
  *
- * <p> The optional <i>argument_index</i>, <i>flags</i> and <i>width</i> are
- * defined as above.
+ * <p> The optionbl <i>brgument_index</i>, <i>flbgs</i> bnd <i>width</i> bre
+ * defined bs bbove.
  *
- * <p> The required <i>conversion</i> is a two character sequence.  The first
- * character is {@code 't'} or {@code 'T'}.  The second character indicates
- * the format to be used.  These characters are similar to but not completely
- * identical to those defined by GNU {@code date} and POSIX
+ * <p> The required <i>conversion</i> is b two chbrbcter sequence.  The first
+ * chbrbcter is {@code 't'} or {@code 'T'}.  The second chbrbcter indicbtes
+ * the formbt to be used.  These chbrbcters bre similbr to but not completely
+ * identicbl to those defined by GNU {@code dbte} bnd POSIX
  * {@code strftime(3c)}.
  *
- * <li> The format specifiers which do not correspond to arguments have the
- * following syntax:
+ * <li> The formbt specifiers which do not correspond to brguments hbve the
+ * following syntbx:
  *
  * <blockquote><pre>
- *   %[flags][width]conversion
+ *   %[flbgs][width]conversion
  * </pre></blockquote>
  *
- * <p> The optional <i>flags</i> and <i>width</i> is defined as above.
+ * <p> The optionbl <i>flbgs</i> bnd <i>width</i> is defined bs bbove.
  *
- * <p> The required <i>conversion</i> is a character indicating content to be
+ * <p> The required <i>conversion</i> is b chbrbcter indicbting content to be
  * inserted in the output.
  *
  * </ul>
  *
  * <h4> Conversions </h4>
  *
- * <p> Conversions are divided into the following categories:
+ * <p> Conversions bre divided into the following cbtegories:
  *
  * <ol>
  *
- * <li> <b>General</b> - may be applied to any argument
+ * <li> <b>Generbl</b> - mby be bpplied to bny brgument
  * type
  *
- * <li> <b>Character</b> - may be applied to basic types which represent
- * Unicode characters: {@code char}, {@link Character}, {@code byte}, {@link
- * Byte}, {@code short}, and {@link Short}. This conversion may also be
- * applied to the types {@code int} and {@link Integer} when {@link
- * Character#isValidCodePoint} returns {@code true}
+ * <li> <b>Chbrbcter</b> - mby be bpplied to bbsic types which represent
+ * Unicode chbrbcters: {@code chbr}, {@link Chbrbcter}, {@code byte}, {@link
+ * Byte}, {@code short}, bnd {@link Short}. This conversion mby blso be
+ * bpplied to the types {@code int} bnd {@link Integer} when {@link
+ * Chbrbcter#isVblidCodePoint} returns {@code true}
  *
  * <li> <b>Numeric</b>
  *
  * <ol>
  *
- * <li> <b>Integral</b> - may be applied to Java integral types: {@code byte},
- * {@link Byte}, {@code short}, {@link Short}, {@code int} and {@link
- * Integer}, {@code long}, {@link Long}, and {@link java.math.BigInteger
- * BigInteger} (but not {@code char} or {@link Character})
+ * <li> <b>Integrbl</b> - mby be bpplied to Jbvb integrbl types: {@code byte},
+ * {@link Byte}, {@code short}, {@link Short}, {@code int} bnd {@link
+ * Integer}, {@code long}, {@link Long}, bnd {@link jbvb.mbth.BigInteger
+ * BigInteger} (but not {@code chbr} or {@link Chbrbcter})
  *
- * <li><b>Floating Point</b> - may be applied to Java floating-point types:
- * {@code float}, {@link Float}, {@code double}, {@link Double}, and {@link
- * java.math.BigDecimal BigDecimal}
+ * <li><b>Flobting Point</b> - mby be bpplied to Jbvb flobting-point types:
+ * {@code flobt}, {@link Flobt}, {@code double}, {@link Double}, bnd {@link
+ * jbvb.mbth.BigDecimbl BigDecimbl}
  *
  * </ol>
  *
- * <li> <b>Date/Time</b> - may be applied to Java types which are capable of
- * encoding a date or time: {@code long}, {@link Long}, {@link Calendar},
- * {@link Date} and {@link TemporalAccessor TemporalAccessor}
+ * <li> <b>Dbte/Time</b> - mby be bpplied to Jbvb types which bre cbpbble of
+ * encoding b dbte or time: {@code long}, {@link Long}, {@link Cblendbr},
+ * {@link Dbte} bnd {@link TemporblAccessor TemporblAccessor}
  *
- * <li> <b>Percent</b> - produces a literal {@code '%'}
+ * <li> <b>Percent</b> - produces b literbl {@code '%'}
  * (<tt>'&#92;u0025'</tt>)
  *
- * <li> <b>Line Separator</b> - produces the platform-specific line separator
+ * <li> <b>Line Sepbrbtor</b> - produces the plbtform-specific line sepbrbtor
  *
  * </ol>
  *
- * <p> The following table summarizes the supported conversions.  Conversions
- * denoted by an upper-case character (i.e. {@code 'B'}, {@code 'H'},
+ * <p> The following tbble summbrizes the supported conversions.  Conversions
+ * denoted by bn upper-cbse chbrbcter (i.e. {@code 'B'}, {@code 'H'},
  * {@code 'S'}, {@code 'C'}, {@code 'X'}, {@code 'E'}, {@code 'G'},
- * {@code 'A'}, and {@code 'T'}) are the same as those for the corresponding
- * lower-case conversion characters except that the result is converted to
- * upper case according to the rules of the prevailing {@link java.util.Locale
- * Locale}.  The result is equivalent to the following invocation of {@link
- * String#toUpperCase()}
+ * {@code 'A'}, bnd {@code 'T'}) bre the sbme bs those for the corresponding
+ * lower-cbse conversion chbrbcters except thbt the result is converted to
+ * upper cbse bccording to the rules of the prevbiling {@link jbvb.util.Locble
+ * Locble}.  The result is equivblent to the following invocbtion of {@link
+ * String#toUpperCbse()}
  *
  * <pre>
- *    out.toUpperCase() </pre>
+ *    out.toUpperCbse() </pre>
  *
- * <table cellpadding=5 summary="genConv">
+ * <tbble cellpbdding=5 summbry="genConv">
  *
- * <tr><th valign="bottom"> Conversion
- *     <th valign="bottom"> Argument Category
- *     <th valign="bottom"> Description
+ * <tr><th vblign="bottom"> Conversion
+ *     <th vblign="bottom"> Argument Cbtegory
+ *     <th vblign="bottom"> Description
  *
- * <tr><td valign="top"> {@code 'b'}, {@code 'B'}
- *     <td valign="top"> general
- *     <td> If the argument <i>arg</i> is {@code null}, then the result is
- *     "{@code false}".  If <i>arg</i> is a {@code boolean} or {@link
- *     Boolean}, then the result is the string returned by {@link
- *     String#valueOf(boolean) String.valueOf(arg)}.  Otherwise, the result is
+ * <tr><td vblign="top"> {@code 'b'}, {@code 'B'}
+ *     <td vblign="top"> generbl
+ *     <td> If the brgument <i>brg</i> is {@code null}, then the result is
+ *     "{@code fblse}".  If <i>brg</i> is b {@code boolebn} or {@link
+ *     Boolebn}, then the result is the string returned by {@link
+ *     String#vblueOf(boolebn) String.vblueOf(brg)}.  Otherwise, the result is
  *     "true".
  *
- * <tr><td valign="top"> {@code 'h'}, {@code 'H'}
- *     <td valign="top"> general
- *     <td> If the argument <i>arg</i> is {@code null}, then the result is
- *     "{@code null}".  Otherwise, the result is obtained by invoking
- *     {@code Integer.toHexString(arg.hashCode())}.
+ * <tr><td vblign="top"> {@code 'h'}, {@code 'H'}
+ *     <td vblign="top"> generbl
+ *     <td> If the brgument <i>brg</i> is {@code null}, then the result is
+ *     "{@code null}".  Otherwise, the result is obtbined by invoking
+ *     {@code Integer.toHexString(brg.hbshCode())}.
  *
- * <tr><td valign="top"> {@code 's'}, {@code 'S'}
- *     <td valign="top"> general
- *     <td> If the argument <i>arg</i> is {@code null}, then the result is
- *     "{@code null}".  If <i>arg</i> implements {@link Formattable}, then
- *     {@link Formattable#formatTo arg.formatTo} is invoked. Otherwise, the
- *     result is obtained by invoking {@code arg.toString()}.
+ * <tr><td vblign="top"> {@code 's'}, {@code 'S'}
+ *     <td vblign="top"> generbl
+ *     <td> If the brgument <i>brg</i> is {@code null}, then the result is
+ *     "{@code null}".  If <i>brg</i> implements {@link Formbttbble}, then
+ *     {@link Formbttbble#formbtTo brg.formbtTo} is invoked. Otherwise, the
+ *     result is obtbined by invoking {@code brg.toString()}.
  *
- * <tr><td valign="top">{@code 'c'}, {@code 'C'}
- *     <td valign="top"> character
- *     <td> The result is a Unicode character
+ * <tr><td vblign="top">{@code 'c'}, {@code 'C'}
+ *     <td vblign="top"> chbrbcter
+ *     <td> The result is b Unicode chbrbcter
  *
- * <tr><td valign="top">{@code 'd'}
- *     <td valign="top"> integral
- *     <td> The result is formatted as a decimal integer
+ * <tr><td vblign="top">{@code 'd'}
+ *     <td vblign="top"> integrbl
+ *     <td> The result is formbtted bs b decimbl integer
  *
- * <tr><td valign="top">{@code 'o'}
- *     <td valign="top"> integral
- *     <td> The result is formatted as an octal integer
+ * <tr><td vblign="top">{@code 'o'}
+ *     <td vblign="top"> integrbl
+ *     <td> The result is formbtted bs bn octbl integer
  *
- * <tr><td valign="top">{@code 'x'}, {@code 'X'}
- *     <td valign="top"> integral
- *     <td> The result is formatted as a hexadecimal integer
+ * <tr><td vblign="top">{@code 'x'}, {@code 'X'}
+ *     <td vblign="top"> integrbl
+ *     <td> The result is formbtted bs b hexbdecimbl integer
  *
- * <tr><td valign="top">{@code 'e'}, {@code 'E'}
- *     <td valign="top"> floating point
- *     <td> The result is formatted as a decimal number in computerized
- *     scientific notation
+ * <tr><td vblign="top">{@code 'e'}, {@code 'E'}
+ *     <td vblign="top"> flobting point
+ *     <td> The result is formbtted bs b decimbl number in computerized
+ *     scientific notbtion
  *
- * <tr><td valign="top">{@code 'f'}
- *     <td valign="top"> floating point
- *     <td> The result is formatted as a decimal number
+ * <tr><td vblign="top">{@code 'f'}
+ *     <td vblign="top"> flobting point
+ *     <td> The result is formbtted bs b decimbl number
  *
- * <tr><td valign="top">{@code 'g'}, {@code 'G'}
- *     <td valign="top"> floating point
- *     <td> The result is formatted using computerized scientific notation or
- *     decimal format, depending on the precision and the value after rounding.
+ * <tr><td vblign="top">{@code 'g'}, {@code 'G'}
+ *     <td vblign="top"> flobting point
+ *     <td> The result is formbtted using computerized scientific notbtion or
+ *     decimbl formbt, depending on the precision bnd the vblue bfter rounding.
  *
- * <tr><td valign="top">{@code 'a'}, {@code 'A'}
- *     <td valign="top"> floating point
- *     <td> The result is formatted as a hexadecimal floating-point number with
- *     a significand and an exponent. This conversion is <b>not</b> supported
- *     for the {@code BigDecimal} type despite the latter's being in the
- *     <i>floating point</i> argument category.
+ * <tr><td vblign="top">{@code 'b'}, {@code 'A'}
+ *     <td vblign="top"> flobting point
+ *     <td> The result is formbtted bs b hexbdecimbl flobting-point number with
+ *     b significbnd bnd bn exponent. This conversion is <b>not</b> supported
+ *     for the {@code BigDecimbl} type despite the lbtter's being in the
+ *     <i>flobting point</i> brgument cbtegory.
  *
- * <tr><td valign="top">{@code 't'}, {@code 'T'}
- *     <td valign="top"> date/time
- *     <td> Prefix for date and time conversion characters.  See <a
- *     href="#dt">Date/Time Conversions</a>.
+ * <tr><td vblign="top">{@code 't'}, {@code 'T'}
+ *     <td vblign="top"> dbte/time
+ *     <td> Prefix for dbte bnd time conversion chbrbcters.  See <b
+ *     href="#dt">Dbte/Time Conversions</b>.
  *
- * <tr><td valign="top">{@code '%'}
- *     <td valign="top"> percent
- *     <td> The result is a literal {@code '%'} (<tt>'&#92;u0025'</tt>)
+ * <tr><td vblign="top">{@code '%'}
+ *     <td vblign="top"> percent
+ *     <td> The result is b literbl {@code '%'} (<tt>'&#92;u0025'</tt>)
  *
- * <tr><td valign="top">{@code 'n'}
- *     <td valign="top"> line separator
- *     <td> The result is the platform-specific line separator
+ * <tr><td vblign="top">{@code 'n'}
+ *     <td vblign="top"> line sepbrbtor
+ *     <td> The result is the plbtform-specific line sepbrbtor
  *
- * </table>
+ * </tbble>
  *
- * <p> Any characters not explicitly defined as conversions are illegal and are
+ * <p> Any chbrbcters not explicitly defined bs conversions bre illegbl bnd bre
  * reserved for future extensions.
  *
- * <h4><a name="dt">Date/Time Conversions</a></h4>
+ * <h4><b nbme="dt">Dbte/Time Conversions</b></h4>
  *
- * <p> The following date and time conversion suffix characters are defined for
- * the {@code 't'} and {@code 'T'} conversions.  The types are similar to but
- * not completely identical to those defined by GNU {@code date} and POSIX
- * {@code strftime(3c)}.  Additional conversion types are provided to access
- * Java-specific functionality (e.g. {@code 'L'} for milliseconds within the
+ * <p> The following dbte bnd time conversion suffix chbrbcters bre defined for
+ * the {@code 't'} bnd {@code 'T'} conversions.  The types bre similbr to but
+ * not completely identicbl to those defined by GNU {@code dbte} bnd POSIX
+ * {@code strftime(3c)}.  Additionbl conversion types bre provided to bccess
+ * Jbvb-specific functionblity (e.g. {@code 'L'} for milliseconds within the
  * second).
  *
- * <p> The following conversion characters are used for formatting times:
+ * <p> The following conversion chbrbcters bre used for formbtting times:
  *
- * <table cellpadding=5 summary="time">
+ * <tbble cellpbdding=5 summbry="time">
  *
- * <tr><td valign="top"> {@code 'H'}
- *     <td> Hour of the day for the 24-hour clock, formatted as two digits with
- *     a leading zero as necessary i.e. {@code 00 - 23}.
+ * <tr><td vblign="top"> {@code 'H'}
+ *     <td> Hour of the dby for the 24-hour clock, formbtted bs two digits with
+ *     b lebding zero bs necessbry i.e. {@code 00 - 23}.
  *
- * <tr><td valign="top">{@code 'I'}
- *     <td> Hour for the 12-hour clock, formatted as two digits with a leading
- *     zero as necessary, i.e.  {@code 01 - 12}.
+ * <tr><td vblign="top">{@code 'I'}
+ *     <td> Hour for the 12-hour clock, formbtted bs two digits with b lebding
+ *     zero bs necessbry, i.e.  {@code 01 - 12}.
  *
- * <tr><td valign="top">{@code 'k'}
- *     <td> Hour of the day for the 24-hour clock, i.e. {@code 0 - 23}.
+ * <tr><td vblign="top">{@code 'k'}
+ *     <td> Hour of the dby for the 24-hour clock, i.e. {@code 0 - 23}.
  *
- * <tr><td valign="top">{@code 'l'}
+ * <tr><td vblign="top">{@code 'l'}
  *     <td> Hour for the 12-hour clock, i.e. {@code 1 - 12}.
  *
- * <tr><td valign="top">{@code 'M'}
- *     <td> Minute within the hour formatted as two digits with a leading zero
- *     as necessary, i.e.  {@code 00 - 59}.
+ * <tr><td vblign="top">{@code 'M'}
+ *     <td> Minute within the hour formbtted bs two digits with b lebding zero
+ *     bs necessbry, i.e.  {@code 00 - 59}.
  *
- * <tr><td valign="top">{@code 'S'}
- *     <td> Seconds within the minute, formatted as two digits with a leading
- *     zero as necessary, i.e. {@code 00 - 60} ("{@code 60}" is a special
- *     value required to support leap seconds).
+ * <tr><td vblign="top">{@code 'S'}
+ *     <td> Seconds within the minute, formbtted bs two digits with b lebding
+ *     zero bs necessbry, i.e. {@code 00 - 60} ("{@code 60}" is b specibl
+ *     vblue required to support lebp seconds).
  *
- * <tr><td valign="top">{@code 'L'}
- *     <td> Millisecond within the second formatted as three digits with
- *     leading zeros as necessary, i.e. {@code 000 - 999}.
+ * <tr><td vblign="top">{@code 'L'}
+ *     <td> Millisecond within the second formbtted bs three digits with
+ *     lebding zeros bs necessbry, i.e. {@code 000 - 999}.
  *
- * <tr><td valign="top">{@code 'N'}
- *     <td> Nanosecond within the second, formatted as nine digits with leading
- *     zeros as necessary, i.e. {@code 000000000 - 999999999}.
+ * <tr><td vblign="top">{@code 'N'}
+ *     <td> Nbnosecond within the second, formbtted bs nine digits with lebding
+ *     zeros bs necessbry, i.e. {@code 000000000 - 999999999}.
  *
- * <tr><td valign="top">{@code 'p'}
- *     <td> Locale-specific {@linkplain
- *     java.text.DateFormatSymbols#getAmPmStrings morning or afternoon} marker
- *     in lower case, e.g."{@code am}" or "{@code pm}". Use of the conversion
- *     prefix {@code 'T'} forces this output to upper case.
+ * <tr><td vblign="top">{@code 'p'}
+ *     <td> Locble-specific {@linkplbin
+ *     jbvb.text.DbteFormbtSymbols#getAmPmStrings morning or bfternoon} mbrker
+ *     in lower cbse, e.g."{@code bm}" or "{@code pm}". Use of the conversion
+ *     prefix {@code 'T'} forces this output to upper cbse.
  *
- * <tr><td valign="top">{@code 'z'}
- *     <td> <a href="http://www.ietf.org/rfc/rfc0822.txt">RFC&nbsp;822</a>
+ * <tr><td vblign="top">{@code 'z'}
+ *     <td> <b href="http://www.ietf.org/rfc/rfc0822.txt">RFC&nbsp;822</b>
  *     style numeric time zone offset from GMT, e.g. {@code -0800}.  This
- *     value will be adjusted as necessary for Daylight Saving Time.  For
- *     {@code long}, {@link Long}, and {@link Date} the time zone used is
- *     the {@linkplain TimeZone#getDefault() default time zone} for this
- *     instance of the Java virtual machine.
+ *     vblue will be bdjusted bs necessbry for Dbylight Sbving Time.  For
+ *     {@code long}, {@link Long}, bnd {@link Dbte} the time zone used is
+ *     the {@linkplbin TimeZone#getDefbult() defbult time zone} for this
+ *     instbnce of the Jbvb virtubl mbchine.
  *
- * <tr><td valign="top">{@code 'Z'}
- *     <td> A string representing the abbreviation for the time zone.  This
- *     value will be adjusted as necessary for Daylight Saving Time.  For
- *     {@code long}, {@link Long}, and {@link Date} the  time zone used is
- *     the {@linkplain TimeZone#getDefault() default time zone} for this
- *     instance of the Java virtual machine.  The Formatter's locale will
- *     supersede the locale of the argument (if any).
+ * <tr><td vblign="top">{@code 'Z'}
+ *     <td> A string representing the bbbrevibtion for the time zone.  This
+ *     vblue will be bdjusted bs necessbry for Dbylight Sbving Time.  For
+ *     {@code long}, {@link Long}, bnd {@link Dbte} the  time zone used is
+ *     the {@linkplbin TimeZone#getDefbult() defbult time zone} for this
+ *     instbnce of the Jbvb virtubl mbchine.  The Formbtter's locble will
+ *     supersede the locble of the brgument (if bny).
  *
- * <tr><td valign="top">{@code 's'}
- *     <td> Seconds since the beginning of the epoch starting at 1 January 1970
+ * <tr><td vblign="top">{@code 's'}
+ *     <td> Seconds since the beginning of the epoch stbrting bt 1 Jbnubry 1970
  *     {@code 00:00:00} UTC, i.e. {@code Long.MIN_VALUE/1000} to
  *     {@code Long.MAX_VALUE/1000}.
  *
- * <tr><td valign="top">{@code 'Q'}
- *     <td> Milliseconds since the beginning of the epoch starting at 1 January
+ * <tr><td vblign="top">{@code 'Q'}
+ *     <td> Milliseconds since the beginning of the epoch stbrting bt 1 Jbnubry
  *     1970 {@code 00:00:00} UTC, i.e. {@code Long.MIN_VALUE} to
  *     {@code Long.MAX_VALUE}.
  *
- * </table>
+ * </tbble>
  *
- * <p> The following conversion characters are used for formatting dates:
+ * <p> The following conversion chbrbcters bre used for formbtting dbtes:
  *
- * <table cellpadding=5 summary="date">
+ * <tbble cellpbdding=5 summbry="dbte">
  *
- * <tr><td valign="top">{@code 'B'}
- *     <td> Locale-specific {@linkplain java.text.DateFormatSymbols#getMonths
- *     full month name}, e.g. {@code "January"}, {@code "February"}.
+ * <tr><td vblign="top">{@code 'B'}
+ *     <td> Locble-specific {@linkplbin jbvb.text.DbteFormbtSymbols#getMonths
+ *     full month nbme}, e.g. {@code "Jbnubry"}, {@code "Februbry"}.
  *
- * <tr><td valign="top">{@code 'b'}
- *     <td> Locale-specific {@linkplain
- *     java.text.DateFormatSymbols#getShortMonths abbreviated month name},
- *     e.g. {@code "Jan"}, {@code "Feb"}.
+ * <tr><td vblign="top">{@code 'b'}
+ *     <td> Locble-specific {@linkplbin
+ *     jbvb.text.DbteFormbtSymbols#getShortMonths bbbrevibted month nbme},
+ *     e.g. {@code "Jbn"}, {@code "Feb"}.
  *
- * <tr><td valign="top">{@code 'h'}
- *     <td> Same as {@code 'b'}.
+ * <tr><td vblign="top">{@code 'h'}
+ *     <td> Sbme bs {@code 'b'}.
  *
- * <tr><td valign="top">{@code 'A'}
- *     <td> Locale-specific full name of the {@linkplain
- *     java.text.DateFormatSymbols#getWeekdays day of the week},
- *     e.g. {@code "Sunday"}, {@code "Monday"}
+ * <tr><td vblign="top">{@code 'A'}
+ *     <td> Locble-specific full nbme of the {@linkplbin
+ *     jbvb.text.DbteFormbtSymbols#getWeekdbys dby of the week},
+ *     e.g. {@code "Sundby"}, {@code "Mondby"}
  *
- * <tr><td valign="top">{@code 'a'}
- *     <td> Locale-specific short name of the {@linkplain
- *     java.text.DateFormatSymbols#getShortWeekdays day of the week},
+ * <tr><td vblign="top">{@code 'b'}
+ *     <td> Locble-specific short nbme of the {@linkplbin
+ *     jbvb.text.DbteFormbtSymbols#getShortWeekdbys dby of the week},
  *     e.g. {@code "Sun"}, {@code "Mon"}
  *
- * <tr><td valign="top">{@code 'C'}
- *     <td> Four-digit year divided by {@code 100}, formatted as two digits
- *     with leading zero as necessary, i.e. {@code 00 - 99}
+ * <tr><td vblign="top">{@code 'C'}
+ *     <td> Four-digit yebr divided by {@code 100}, formbtted bs two digits
+ *     with lebding zero bs necessbry, i.e. {@code 00 - 99}
  *
- * <tr><td valign="top">{@code 'Y'}
- *     <td> Year, formatted as at least four digits with leading zeros as
- *     necessary, e.g. {@code 0092} equals {@code 92} CE for the Gregorian
- *     calendar.
+ * <tr><td vblign="top">{@code 'Y'}
+ *     <td> Yebr, formbtted bs bt lebst four digits with lebding zeros bs
+ *     necessbry, e.g. {@code 0092} equbls {@code 92} CE for the Gregoribn
+ *     cblendbr.
  *
- * <tr><td valign="top">{@code 'y'}
- *     <td> Last two digits of the year, formatted with leading zeros as
- *     necessary, i.e. {@code 00 - 99}.
+ * <tr><td vblign="top">{@code 'y'}
+ *     <td> Lbst two digits of the yebr, formbtted with lebding zeros bs
+ *     necessbry, i.e. {@code 00 - 99}.
  *
- * <tr><td valign="top">{@code 'j'}
- *     <td> Day of year, formatted as three digits with leading zeros as
- *     necessary, e.g. {@code 001 - 366} for the Gregorian calendar.
+ * <tr><td vblign="top">{@code 'j'}
+ *     <td> Dby of yebr, formbtted bs three digits with lebding zeros bs
+ *     necessbry, e.g. {@code 001 - 366} for the Gregoribn cblendbr.
  *
- * <tr><td valign="top">{@code 'm'}
- *     <td> Month, formatted as two digits with leading zeros as necessary,
+ * <tr><td vblign="top">{@code 'm'}
+ *     <td> Month, formbtted bs two digits with lebding zeros bs necessbry,
  *     i.e. {@code 01 - 13}.
  *
- * <tr><td valign="top">{@code 'd'}
- *     <td> Day of month, formatted as two digits with leading zeros as
- *     necessary, i.e. {@code 01 - 31}
+ * <tr><td vblign="top">{@code 'd'}
+ *     <td> Dby of month, formbtted bs two digits with lebding zeros bs
+ *     necessbry, i.e. {@code 01 - 31}
  *
- * <tr><td valign="top">{@code 'e'}
- *     <td> Day of month, formatted as two digits, i.e. {@code 1 - 31}.
+ * <tr><td vblign="top">{@code 'e'}
+ *     <td> Dby of month, formbtted bs two digits, i.e. {@code 1 - 31}.
  *
- * </table>
+ * </tbble>
  *
- * <p> The following conversion characters are used for formatting common
- * date/time compositions.
+ * <p> The following conversion chbrbcters bre used for formbtting common
+ * dbte/time compositions.
  *
- * <table cellpadding=5 summary="composites">
+ * <tbble cellpbdding=5 summbry="composites">
  *
- * <tr><td valign="top">{@code 'R'}
- *     <td> Time formatted for the 24-hour clock as {@code "%tH:%tM"}
+ * <tr><td vblign="top">{@code 'R'}
+ *     <td> Time formbtted for the 24-hour clock bs {@code "%tH:%tM"}
  *
- * <tr><td valign="top">{@code 'T'}
- *     <td> Time formatted for the 24-hour clock as {@code "%tH:%tM:%tS"}.
+ * <tr><td vblign="top">{@code 'T'}
+ *     <td> Time formbtted for the 24-hour clock bs {@code "%tH:%tM:%tS"}.
  *
- * <tr><td valign="top">{@code 'r'}
- *     <td> Time formatted for the 12-hour clock as {@code "%tI:%tM:%tS %Tp"}.
- *     The location of the morning or afternoon marker ({@code '%Tp'}) may be
- *     locale-dependent.
+ * <tr><td vblign="top">{@code 'r'}
+ *     <td> Time formbtted for the 12-hour clock bs {@code "%tI:%tM:%tS %Tp"}.
+ *     The locbtion of the morning or bfternoon mbrker ({@code '%Tp'}) mby be
+ *     locble-dependent.
  *
- * <tr><td valign="top">{@code 'D'}
- *     <td> Date formatted as {@code "%tm/%td/%ty"}.
+ * <tr><td vblign="top">{@code 'D'}
+ *     <td> Dbte formbtted bs {@code "%tm/%td/%ty"}.
  *
- * <tr><td valign="top">{@code 'F'}
- *     <td> <a href="http://www.w3.org/TR/NOTE-datetime">ISO&nbsp;8601</a>
- *     complete date formatted as {@code "%tY-%tm-%td"}.
+ * <tr><td vblign="top">{@code 'F'}
+ *     <td> <b href="http://www.w3.org/TR/NOTE-dbtetime">ISO&nbsp;8601</b>
+ *     complete dbte formbtted bs {@code "%tY-%tm-%td"}.
  *
- * <tr><td valign="top">{@code 'c'}
- *     <td> Date and time formatted as {@code "%ta %tb %td %tT %tZ %tY"},
+ * <tr><td vblign="top">{@code 'c'}
+ *     <td> Dbte bnd time formbtted bs {@code "%tb %tb %td %tT %tZ %tY"},
  *     e.g. {@code "Sun Jul 20 16:17:00 EDT 1969"}.
  *
- * </table>
+ * </tbble>
  *
- * <p> Any characters not explicitly defined as date/time conversion suffixes
- * are illegal and are reserved for future extensions.
+ * <p> Any chbrbcters not explicitly defined bs dbte/time conversion suffixes
+ * bre illegbl bnd bre reserved for future extensions.
  *
- * <h4> Flags </h4>
+ * <h4> Flbgs </h4>
  *
- * <p> The following table summarizes the supported flags.  <i>y</i> means the
- * flag is supported for the indicated argument types.
+ * <p> The following tbble summbrizes the supported flbgs.  <i>y</i> mebns the
+ * flbg is supported for the indicbted brgument types.
  *
- * <table cellpadding=5 summary="genConv">
+ * <tbble cellpbdding=5 summbry="genConv">
  *
- * <tr><th valign="bottom"> Flag <th valign="bottom"> General
- *     <th valign="bottom"> Character <th valign="bottom"> Integral
- *     <th valign="bottom"> Floating Point
- *     <th valign="bottom"> Date/Time
- *     <th valign="bottom"> Description
+ * <tr><th vblign="bottom"> Flbg <th vblign="bottom"> Generbl
+ *     <th vblign="bottom"> Chbrbcter <th vblign="bottom"> Integrbl
+ *     <th vblign="bottom"> Flobting Point
+ *     <th vblign="bottom"> Dbte/Time
+ *     <th vblign="bottom"> Description
  *
- * <tr><td> '-' <td align="center" valign="top"> y
- *     <td align="center" valign="top"> y
- *     <td align="center" valign="top"> y
- *     <td align="center" valign="top"> y
- *     <td align="center" valign="top"> y
+ * <tr><td> '-' <td blign="center" vblign="top"> y
+ *     <td blign="center" vblign="top"> y
+ *     <td blign="center" vblign="top"> y
+ *     <td blign="center" vblign="top"> y
+ *     <td blign="center" vblign="top"> y
  *     <td> The result will be left-justified.
  *
- * <tr><td> '#' <td align="center" valign="top"> y<sup>1</sup>
- *     <td align="center" valign="top"> -
- *     <td align="center" valign="top"> y<sup>3</sup>
- *     <td align="center" valign="top"> y
- *     <td align="center" valign="top"> -
- *     <td> The result should use a conversion-dependent alternate form
+ * <tr><td> '#' <td blign="center" vblign="top"> y<sup>1</sup>
+ *     <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> y<sup>3</sup>
+ *     <td blign="center" vblign="top"> y
+ *     <td blign="center" vblign="top"> -
+ *     <td> The result should use b conversion-dependent blternbte form
  *
- * <tr><td> '+' <td align="center" valign="top"> -
- *     <td align="center" valign="top"> -
- *     <td align="center" valign="top"> y<sup>4</sup>
- *     <td align="center" valign="top"> y
- *     <td align="center" valign="top"> -
- *     <td> The result will always include a sign
+ * <tr><td> '+' <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> y<sup>4</sup>
+ *     <td blign="center" vblign="top"> y
+ *     <td blign="center" vblign="top"> -
+ *     <td> The result will blwbys include b sign
  *
- * <tr><td> '&nbsp;&nbsp;' <td align="center" valign="top"> -
- *     <td align="center" valign="top"> -
- *     <td align="center" valign="top"> y<sup>4</sup>
- *     <td align="center" valign="top"> y
- *     <td align="center" valign="top"> -
- *     <td> The result will include a leading space for positive values
+ * <tr><td> '&nbsp;&nbsp;' <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> y<sup>4</sup>
+ *     <td blign="center" vblign="top"> y
+ *     <td blign="center" vblign="top"> -
+ *     <td> The result will include b lebding spbce for positive vblues
  *
- * <tr><td> '0' <td align="center" valign="top"> -
- *     <td align="center" valign="top"> -
- *     <td align="center" valign="top"> y
- *     <td align="center" valign="top"> y
- *     <td align="center" valign="top"> -
- *     <td> The result will be zero-padded
+ * <tr><td> '0' <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> y
+ *     <td blign="center" vblign="top"> y
+ *     <td blign="center" vblign="top"> -
+ *     <td> The result will be zero-pbdded
  *
- * <tr><td> ',' <td align="center" valign="top"> -
- *     <td align="center" valign="top"> -
- *     <td align="center" valign="top"> y<sup>2</sup>
- *     <td align="center" valign="top"> y<sup>5</sup>
- *     <td align="center" valign="top"> -
- *     <td> The result will include locale-specific {@linkplain
- *     java.text.DecimalFormatSymbols#getGroupingSeparator grouping separators}
+ * <tr><td> ',' <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> y<sup>2</sup>
+ *     <td blign="center" vblign="top"> y<sup>5</sup>
+ *     <td blign="center" vblign="top"> -
+ *     <td> The result will include locble-specific {@linkplbin
+ *     jbvb.text.DecimblFormbtSymbols#getGroupingSepbrbtor grouping sepbrbtors}
  *
- * <tr><td> '(' <td align="center" valign="top"> -
- *     <td align="center" valign="top"> -
- *     <td align="center" valign="top"> y<sup>4</sup>
- *     <td align="center" valign="top"> y<sup>5</sup>
- *     <td align="center"> -
- *     <td> The result will enclose negative numbers in parentheses
+ * <tr><td> '(' <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> -
+ *     <td blign="center" vblign="top"> y<sup>4</sup>
+ *     <td blign="center" vblign="top"> y<sup>5</sup>
+ *     <td blign="center"> -
+ *     <td> The result will enclose negbtive numbers in pbrentheses
  *
- * </table>
+ * </tbble>
  *
- * <p> <sup>1</sup> Depends on the definition of {@link Formattable}.
+ * <p> <sup>1</sup> Depends on the definition of {@link Formbttbble}.
  *
  * <p> <sup>2</sup> For {@code 'd'} conversion only.
  *
- * <p> <sup>3</sup> For {@code 'o'}, {@code 'x'}, and {@code 'X'}
+ * <p> <sup>3</sup> For {@code 'o'}, {@code 'x'}, bnd {@code 'X'}
  * conversions only.
  *
- * <p> <sup>4</sup> For {@code 'd'}, {@code 'o'}, {@code 'x'}, and
- * {@code 'X'} conversions applied to {@link java.math.BigInteger BigInteger}
- * or {@code 'd'} applied to {@code byte}, {@link Byte}, {@code short}, {@link
- * Short}, {@code int} and {@link Integer}, {@code long}, and {@link Long}.
+ * <p> <sup>4</sup> For {@code 'd'}, {@code 'o'}, {@code 'x'}, bnd
+ * {@code 'X'} conversions bpplied to {@link jbvb.mbth.BigInteger BigInteger}
+ * or {@code 'd'} bpplied to {@code byte}, {@link Byte}, {@code short}, {@link
+ * Short}, {@code int} bnd {@link Integer}, {@code long}, bnd {@link Long}.
  *
  * <p> <sup>5</sup> For {@code 'e'}, {@code 'E'}, {@code 'f'},
- * {@code 'g'}, and {@code 'G'} conversions only.
+ * {@code 'g'}, bnd {@code 'G'} conversions only.
  *
- * <p> Any characters not explicitly defined as flags are illegal and are
+ * <p> Any chbrbcters not explicitly defined bs flbgs bre illegbl bnd bre
  * reserved for future extensions.
  *
  * <h4> Width </h4>
  *
- * <p> The width is the minimum number of characters to be written to the
- * output.  For the line separator conversion, width is not applicable; if it
- * is provided, an exception will be thrown.
+ * <p> The width is the minimum number of chbrbcters to be written to the
+ * output.  For the line sepbrbtor conversion, width is not bpplicbble; if it
+ * is provided, bn exception will be thrown.
  *
  * <h4> Precision </h4>
  *
- * <p> For general argument types, the precision is the maximum number of
- * characters to be written to the output.
+ * <p> For generbl brgument types, the precision is the mbximum number of
+ * chbrbcters to be written to the output.
  *
- * <p> For the floating-point conversions {@code 'a'}, {@code 'A'}, {@code 'e'},
- * {@code 'E'}, and {@code 'f'} the precision is the number of digits after the
- * radix point.  If the conversion is {@code 'g'} or {@code 'G'}, then the
- * precision is the total number of digits in the resulting magnitude after
+ * <p> For the flobting-point conversions {@code 'b'}, {@code 'A'}, {@code 'e'},
+ * {@code 'E'}, bnd {@code 'f'} the precision is the number of digits bfter the
+ * rbdix point.  If the conversion is {@code 'g'} or {@code 'G'}, then the
+ * precision is the totbl number of digits in the resulting mbgnitude bfter
  * rounding.
  *
- * <p> For character, integral, and date/time argument types and the percent
- * and line separator conversions, the precision is not applicable; if a
- * precision is provided, an exception will be thrown.
+ * <p> For chbrbcter, integrbl, bnd dbte/time brgument types bnd the percent
+ * bnd line sepbrbtor conversions, the precision is not bpplicbble; if b
+ * precision is provided, bn exception will be thrown.
  *
  * <h4> Argument Index </h4>
  *
- * <p> The argument index is a decimal integer indicating the position of the
- * argument in the argument list.  The first argument is referenced by
+ * <p> The brgument index is b decimbl integer indicbting the position of the
+ * brgument in the brgument list.  The first brgument is referenced by
  * "{@code 1$}", the second by "{@code 2$}", etc.
  *
- * <p> Another way to reference arguments by position is to use the
- * {@code '<'} (<tt>'&#92;u003c'</tt>) flag, which causes the argument for
- * the previous format specifier to be re-used.  For example, the following two
- * statements would produce identical strings:
+ * <p> Another wby to reference brguments by position is to use the
+ * {@code '<'} (<tt>'&#92;u003c'</tt>) flbg, which cbuses the brgument for
+ * the previous formbt specifier to be re-used.  For exbmple, the following two
+ * stbtements would produce identicbl strings:
  *
  * <blockquote><pre>
- *   Calendar c = ...;
- *   String s1 = String.format("Duke's Birthday: %1$tm %1$te,%1$tY", c);
+ *   Cblendbr c = ...;
+ *   String s1 = String.formbt("Duke's Birthdby: %1$tm %1$te,%1$tY", c);
  *
- *   String s2 = String.format("Duke's Birthday: %1$tm %&lt;te,%&lt;tY", c);
+ *   String s2 = String.formbt("Duke's Birthdby: %1$tm %&lt;te,%&lt;tY", c);
  * </pre></blockquote>
  *
  * <hr>
- * <h3><a name="detail">Details</a></h3>
+ * <h3><b nbme="detbil">Detbils</b></h3>
  *
- * <p> This section is intended to provide behavioral details for formatting,
- * including conditions and exceptions, supported data types, localization, and
- * interactions between flags, conversions, and data types.  For an overview of
- * formatting concepts, refer to the <a href="#summary">Summary</a>
+ * <p> This section is intended to provide behbviorbl detbils for formbtting,
+ * including conditions bnd exceptions, supported dbtb types, locblizbtion, bnd
+ * interbctions between flbgs, conversions, bnd dbtb types.  For bn overview of
+ * formbtting concepts, refer to the <b href="#summbry">Summbry</b>
  *
- * <p> Any characters not explicitly defined as conversions, date/time
- * conversion suffixes, or flags are illegal and are reserved for
- * future extensions.  Use of such a character in a format string will
- * cause an {@link UnknownFormatConversionException} or {@link
- * UnknownFormatFlagsException} to be thrown.
+ * <p> Any chbrbcters not explicitly defined bs conversions, dbte/time
+ * conversion suffixes, or flbgs bre illegbl bnd bre reserved for
+ * future extensions.  Use of such b chbrbcter in b formbt string will
+ * cbuse bn {@link UnknownFormbtConversionException} or {@link
+ * UnknownFormbtFlbgsException} to be thrown.
  *
- * <p> If the format specifier contains a width or precision with an invalid
- * value or which is otherwise unsupported, then a {@link
- * IllegalFormatWidthException} or {@link IllegalFormatPrecisionException}
+ * <p> If the formbt specifier contbins b width or precision with bn invblid
+ * vblue or which is otherwise unsupported, then b {@link
+ * IllegblFormbtWidthException} or {@link IllegblFormbtPrecisionException}
  * respectively will be thrown.
  *
- * <p> If a format specifier contains a conversion character that is not
- * applicable to the corresponding argument, then an {@link
- * IllegalFormatConversionException} will be thrown.
+ * <p> If b formbt specifier contbins b conversion chbrbcter thbt is not
+ * bpplicbble to the corresponding brgument, then bn {@link
+ * IllegblFormbtConversionException} will be thrown.
  *
- * <p> All specified exceptions may be thrown by any of the {@code format}
- * methods of {@code Formatter} as well as by any {@code format} convenience
- * methods such as {@link String#format(String,Object...) String.format} and
- * {@link java.io.PrintStream#printf(String,Object...) PrintStream.printf}.
+ * <p> All specified exceptions mby be thrown by bny of the {@code formbt}
+ * methods of {@code Formbtter} bs well bs by bny {@code formbt} convenience
+ * methods such bs {@link String#formbt(String,Object...) String.formbt} bnd
+ * {@link jbvb.io.PrintStrebm#printf(String,Object...) PrintStrebm.printf}.
  *
- * <p> Conversions denoted by an upper-case character (i.e. {@code 'B'},
+ * <p> Conversions denoted by bn upper-cbse chbrbcter (i.e. {@code 'B'},
  * {@code 'H'}, {@code 'S'}, {@code 'C'}, {@code 'X'}, {@code 'E'},
- * {@code 'G'}, {@code 'A'}, and {@code 'T'}) are the same as those for the
- * corresponding lower-case conversion characters except that the result is
- * converted to upper case according to the rules of the prevailing {@link
- * java.util.Locale Locale}.  The result is equivalent to the following
- * invocation of {@link String#toUpperCase()}
+ * {@code 'G'}, {@code 'A'}, bnd {@code 'T'}) bre the sbme bs those for the
+ * corresponding lower-cbse conversion chbrbcters except thbt the result is
+ * converted to upper cbse bccording to the rules of the prevbiling {@link
+ * jbvb.util.Locble Locble}.  The result is equivblent to the following
+ * invocbtion of {@link String#toUpperCbse()}
  *
  * <pre>
- *    out.toUpperCase() </pre>
+ *    out.toUpperCbse() </pre>
  *
- * <h4><a name="dgen">General</a></h4>
+ * <h4><b nbme="dgen">Generbl</b></h4>
  *
- * <p> The following general conversions may be applied to any argument type:
+ * <p> The following generbl conversions mby be bpplied to bny brgument type:
  *
- * <table cellpadding=5 summary="dgConv">
+ * <tbble cellpbdding=5 summbry="dgConv">
  *
- * <tr><td valign="top"> {@code 'b'}
- *     <td valign="top"> <tt>'&#92;u0062'</tt>
- *     <td> Produces either "{@code true}" or "{@code false}" as returned by
- *     {@link Boolean#toString(boolean)}.
+ * <tr><td vblign="top"> {@code 'b'}
+ *     <td vblign="top"> <tt>'&#92;u0062'</tt>
+ *     <td> Produces either "{@code true}" or "{@code fblse}" bs returned by
+ *     {@link Boolebn#toString(boolebn)}.
  *
- *     <p> If the argument is {@code null}, then the result is
- *     "{@code false}".  If the argument is a {@code boolean} or {@link
- *     Boolean}, then the result is the string returned by {@link
- *     String#valueOf(boolean) String.valueOf()}.  Otherwise, the result is
+ *     <p> If the brgument is {@code null}, then the result is
+ *     "{@code fblse}".  If the brgument is b {@code boolebn} or {@link
+ *     Boolebn}, then the result is the string returned by {@link
+ *     String#vblueOf(boolebn) String.vblueOf()}.  Otherwise, the result is
  *     "{@code true}".
  *
- *     <p> If the {@code '#'} flag is given, then a {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code '#'} flbg is given, then b {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'B'}
- *     <td valign="top"> <tt>'&#92;u0042'</tt>
- *     <td> The upper-case variant of {@code 'b'}.
+ * <tr><td vblign="top"> {@code 'B'}
+ *     <td vblign="top"> <tt>'&#92;u0042'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'b'}.
  *
- * <tr><td valign="top"> {@code 'h'}
- *     <td valign="top"> <tt>'&#92;u0068'</tt>
- *     <td> Produces a string representing the hash code value of the object.
+ * <tr><td vblign="top"> {@code 'h'}
+ *     <td vblign="top"> <tt>'&#92;u0068'</tt>
+ *     <td> Produces b string representing the hbsh code vblue of the object.
  *
- *     <p> If the argument, <i>arg</i> is {@code null}, then the
- *     result is "{@code null}".  Otherwise, the result is obtained
- *     by invoking {@code Integer.toHexString(arg.hashCode())}.
+ *     <p> If the brgument, <i>brg</i> is {@code null}, then the
+ *     result is "{@code null}".  Otherwise, the result is obtbined
+ *     by invoking {@code Integer.toHexString(brg.hbshCode())}.
  *
- *     <p> If the {@code '#'} flag is given, then a {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code '#'} flbg is given, then b {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'H'}
- *     <td valign="top"> <tt>'&#92;u0048'</tt>
- *     <td> The upper-case variant of {@code 'h'}.
+ * <tr><td vblign="top"> {@code 'H'}
+ *     <td vblign="top"> <tt>'&#92;u0048'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'h'}.
  *
- * <tr><td valign="top"> {@code 's'}
- *     <td valign="top"> <tt>'&#92;u0073'</tt>
- *     <td> Produces a string.
+ * <tr><td vblign="top"> {@code 's'}
+ *     <td vblign="top"> <tt>'&#92;u0073'</tt>
+ *     <td> Produces b string.
  *
- *     <p> If the argument is {@code null}, then the result is
- *     "{@code null}".  If the argument implements {@link Formattable}, then
- *     its {@link Formattable#formatTo formatTo} method is invoked.
- *     Otherwise, the result is obtained by invoking the argument's
+ *     <p> If the brgument is {@code null}, then the result is
+ *     "{@code null}".  If the brgument implements {@link Formbttbble}, then
+ *     its {@link Formbttbble#formbtTo formbtTo} method is invoked.
+ *     Otherwise, the result is obtbined by invoking the brgument's
  *     {@code toString()} method.
  *
- *     <p> If the {@code '#'} flag is given and the argument is not a {@link
- *     Formattable} , then a {@link FormatFlagsConversionMismatchException}
+ *     <p> If the {@code '#'} flbg is given bnd the brgument is not b {@link
+ *     Formbttbble} , then b {@link FormbtFlbgsConversionMismbtchException}
  *     will be thrown.
  *
- * <tr><td valign="top"> {@code 'S'}
- *     <td valign="top"> <tt>'&#92;u0053'</tt>
- *     <td> The upper-case variant of {@code 's'}.
+ * <tr><td vblign="top"> {@code 'S'}
+ *     <td vblign="top"> <tt>'&#92;u0053'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 's'}.
  *
- * </table>
+ * </tbble>
  *
- * <p> The following <a name="dFlags">flags</a> apply to general conversions:
+ * <p> The following <b nbme="dFlbgs">flbgs</b> bpply to generbl conversions:
  *
- * <table cellpadding=5 summary="dFlags">
+ * <tbble cellpbdding=5 summbry="dFlbgs">
  *
- * <tr><td valign="top"> {@code '-'}
- *     <td valign="top"> <tt>'&#92;u002d'</tt>
- *     <td> Left justifies the output.  Spaces (<tt>'&#92;u0020'</tt>) will be
- *     added at the end of the converted value as required to fill the minimum
- *     width of the field.  If the width is not provided, then a {@link
- *     MissingFormatWidthException} will be thrown.  If this flag is not given
+ * <tr><td vblign="top"> {@code '-'}
+ *     <td vblign="top"> <tt>'&#92;u002d'</tt>
+ *     <td> Left justifies the output.  Spbces (<tt>'&#92;u0020'</tt>) will be
+ *     bdded bt the end of the converted vblue bs required to fill the minimum
+ *     width of the field.  If the width is not provided, then b {@link
+ *     MissingFormbtWidthException} will be thrown.  If this flbg is not given
  *     then the output will be right-justified.
  *
- * <tr><td valign="top"> {@code '#'}
- *     <td valign="top"> <tt>'&#92;u0023'</tt>
- *     <td> Requires the output use an alternate form.  The definition of the
+ * <tr><td vblign="top"> {@code '#'}
+ *     <td vblign="top"> <tt>'&#92;u0023'</tt>
+ *     <td> Requires the output use bn blternbte form.  The definition of the
  *     form is specified by the conversion.
  *
- * </table>
+ * </tbble>
  *
- * <p> The <a name="genWidth">width</a> is the minimum number of characters to
+ * <p> The <b nbme="genWidth">width</b> is the minimum number of chbrbcters to
  * be written to the
- * output.  If the length of the converted value is less than the width then
- * the output will be padded by <tt>'&nbsp;&nbsp;'</tt> (<tt>'&#92;u0020'</tt>)
- * until the total number of characters equals the width.  The padding is on
- * the left by default.  If the {@code '-'} flag is given, then the padding
+ * output.  If the length of the converted vblue is less thbn the width then
+ * the output will be pbdded by <tt>'&nbsp;&nbsp;'</tt> (<tt>'&#92;u0020'</tt>)
+ * until the totbl number of chbrbcters equbls the width.  The pbdding is on
+ * the left by defbult.  If the {@code '-'} flbg is given, then the pbdding
  * will be on the right.  If the width is not specified then there is no
  * minimum.
  *
- * <p> The precision is the maximum number of characters to be written to the
- * output.  The precision is applied before the width, thus the output will be
- * truncated to {@code precision} characters even if the width is greater than
+ * <p> The precision is the mbximum number of chbrbcters to be written to the
+ * output.  The precision is bpplied before the width, thus the output will be
+ * truncbted to {@code precision} chbrbcters even if the width is grebter thbn
  * the precision.  If the precision is not specified then there is no explicit
- * limit on the number of characters.
+ * limit on the number of chbrbcters.
  *
- * <h4><a name="dchar">Character</a></h4>
+ * <h4><b nbme="dchbr">Chbrbcter</b></h4>
  *
- * This conversion may be applied to {@code char} and {@link Character}.  It
- * may also be applied to the types {@code byte}, {@link Byte},
- * {@code short}, and {@link Short}, {@code int} and {@link Integer} when
- * {@link Character#isValidCodePoint} returns {@code true}.  If it returns
- * {@code false} then an {@link IllegalFormatCodePointException} will be
+ * This conversion mby be bpplied to {@code chbr} bnd {@link Chbrbcter}.  It
+ * mby blso be bpplied to the types {@code byte}, {@link Byte},
+ * {@code short}, bnd {@link Short}, {@code int} bnd {@link Integer} when
+ * {@link Chbrbcter#isVblidCodePoint} returns {@code true}.  If it returns
+ * {@code fblse} then bn {@link IllegblFormbtCodePointException} will be
  * thrown.
  *
- * <table cellpadding=5 summary="charConv">
+ * <tbble cellpbdding=5 summbry="chbrConv">
  *
- * <tr><td valign="top"> {@code 'c'}
- *     <td valign="top"> <tt>'&#92;u0063'</tt>
- *     <td> Formats the argument as a Unicode character as described in <a
- *     href="../lang/Character.html#unicode">Unicode Character
- *     Representation</a>.  This may be more than one 16-bit {@code char} in
- *     the case where the argument represents a supplementary character.
+ * <tr><td vblign="top"> {@code 'c'}
+ *     <td vblign="top"> <tt>'&#92;u0063'</tt>
+ *     <td> Formbts the brgument bs b Unicode chbrbcter bs described in <b
+ *     href="../lbng/Chbrbcter.html#unicode">Unicode Chbrbcter
+ *     Representbtion</b>.  This mby be more thbn one 16-bit {@code chbr} in
+ *     the cbse where the brgument represents b supplementbry chbrbcter.
  *
- *     <p> If the {@code '#'} flag is given, then a {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code '#'} flbg is given, then b {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'C'}
- *     <td valign="top"> <tt>'&#92;u0043'</tt>
- *     <td> The upper-case variant of {@code 'c'}.
+ * <tr><td vblign="top"> {@code 'C'}
+ *     <td vblign="top"> <tt>'&#92;u0043'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'c'}.
  *
- * </table>
+ * </tbble>
  *
- * <p> The {@code '-'} flag defined for <a href="#dFlags">General
- * conversions</a> applies.  If the {@code '#'} flag is given, then a {@link
- * FormatFlagsConversionMismatchException} will be thrown.
+ * <p> The {@code '-'} flbg defined for <b href="#dFlbgs">Generbl
+ * conversions</b> bpplies.  If the {@code '#'} flbg is given, then b {@link
+ * FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <p> The width is defined as for <a href="#genWidth">General conversions</a>.
+ * <p> The width is defined bs for <b href="#genWidth">Generbl conversions</b>.
  *
- * <p> The precision is not applicable.  If the precision is specified then an
- * {@link IllegalFormatPrecisionException} will be thrown.
+ * <p> The precision is not bpplicbble.  If the precision is specified then bn
+ * {@link IllegblFormbtPrecisionException} will be thrown.
  *
- * <h4><a name="dnum">Numeric</a></h4>
+ * <h4><b nbme="dnum">Numeric</b></h4>
  *
- * <p> Numeric conversions are divided into the following categories:
+ * <p> Numeric conversions bre divided into the following cbtegories:
  *
  * <ol>
  *
- * <li> <a href="#dnint"><b>Byte, Short, Integer, and Long</b></a>
+ * <li> <b href="#dnint"><b>Byte, Short, Integer, bnd Long</b></b>
  *
- * <li> <a href="#dnbint"><b>BigInteger</b></a>
+ * <li> <b href="#dnbint"><b>BigInteger</b></b>
  *
- * <li> <a href="#dndec"><b>Float and Double</b></a>
+ * <li> <b href="#dndec"><b>Flobt bnd Double</b></b>
  *
- * <li> <a href="#dnbdec"><b>BigDecimal</b></a>
+ * <li> <b href="#dnbdec"><b>BigDecimbl</b></b>
  *
  * </ol>
  *
- * <p> Numeric types will be formatted according to the following algorithm:
+ * <p> Numeric types will be formbtted bccording to the following blgorithm:
  *
- * <p><b><a name="L10nAlgorithm"> Number Localization Algorithm</a></b>
+ * <p><b><b nbme="L10nAlgorithm"> Number Locblizbtion Algorithm</b></b>
  *
- * <p> After digits are obtained for the integer part, fractional part, and
- * exponent (as appropriate for the data type), the following transformation
- * is applied:
+ * <p> After digits bre obtbined for the integer pbrt, frbctionbl pbrt, bnd
+ * exponent (bs bppropribte for the dbtb type), the following trbnsformbtion
+ * is bpplied:
  *
  * <ol>
  *
- * <li> Each digit character <i>d</i> in the string is replaced by a
- * locale-specific digit computed relative to the current locale's
- * {@linkplain java.text.DecimalFormatSymbols#getZeroDigit() zero digit}
- * <i>z</i>; that is <i>d&nbsp;-&nbsp;</i> {@code '0'}
+ * <li> Ebch digit chbrbcter <i>d</i> in the string is replbced by b
+ * locble-specific digit computed relbtive to the current locble's
+ * {@linkplbin jbvb.text.DecimblFormbtSymbols#getZeroDigit() zero digit}
+ * <i>z</i>; thbt is <i>d&nbsp;-&nbsp;</i> {@code '0'}
  * <i>&nbsp;+&nbsp;z</i>.
  *
- * <li> If a decimal separator is present, a locale-specific {@linkplain
- * java.text.DecimalFormatSymbols#getDecimalSeparator decimal separator} is
+ * <li> If b decimbl sepbrbtor is present, b locble-specific {@linkplbin
+ * jbvb.text.DecimblFormbtSymbols#getDecimblSepbrbtor decimbl sepbrbtor} is
  * substituted.
  *
  * <li> If the {@code ','} (<tt>'&#92;u002c'</tt>)
- * <a name="L10nGroup">flag</a> is given, then the locale-specific {@linkplain
- * java.text.DecimalFormatSymbols#getGroupingSeparator grouping separator} is
- * inserted by scanning the integer part of the string from least significant
- * to most significant digits and inserting a separator at intervals defined by
- * the locale's {@linkplain java.text.DecimalFormat#getGroupingSize() grouping
+ * <b nbme="L10nGroup">flbg</b> is given, then the locble-specific {@linkplbin
+ * jbvb.text.DecimblFormbtSymbols#getGroupingSepbrbtor grouping sepbrbtor} is
+ * inserted by scbnning the integer pbrt of the string from lebst significbnt
+ * to most significbnt digits bnd inserting b sepbrbtor bt intervbls defined by
+ * the locble's {@linkplbin jbvb.text.DecimblFormbt#getGroupingSize() grouping
  * size}.
  *
- * <li> If the {@code '0'} flag is given, then the locale-specific {@linkplain
- * java.text.DecimalFormatSymbols#getZeroDigit() zero digits} are inserted
- * after the sign character, if any, and before the first non-zero digit, until
- * the length of the string is equal to the requested field width.
+ * <li> If the {@code '0'} flbg is given, then the locble-specific {@linkplbin
+ * jbvb.text.DecimblFormbtSymbols#getZeroDigit() zero digits} bre inserted
+ * bfter the sign chbrbcter, if bny, bnd before the first non-zero digit, until
+ * the length of the string is equbl to the requested field width.
  *
- * <li> If the value is negative and the {@code '('} flag is given, then a
- * {@code '('} (<tt>'&#92;u0028'</tt>) is prepended and a {@code ')'}
- * (<tt>'&#92;u0029'</tt>) is appended.
+ * <li> If the vblue is negbtive bnd the {@code '('} flbg is given, then b
+ * {@code '('} (<tt>'&#92;u0028'</tt>) is prepended bnd b {@code ')'}
+ * (<tt>'&#92;u0029'</tt>) is bppended.
  *
- * <li> If the value is negative (or floating-point negative zero) and
- * {@code '('} flag is not given, then a {@code '-'} (<tt>'&#92;u002d'</tt>)
+ * <li> If the vblue is negbtive (or flobting-point negbtive zero) bnd
+ * {@code '('} flbg is not given, then b {@code '-'} (<tt>'&#92;u002d'</tt>)
  * is prepended.
  *
- * <li> If the {@code '+'} flag is given and the value is positive or zero (or
- * floating-point positive zero), then a {@code '+'} (<tt>'&#92;u002b'</tt>)
+ * <li> If the {@code '+'} flbg is given bnd the vblue is positive or zero (or
+ * flobting-point positive zero), then b {@code '+'} (<tt>'&#92;u002b'</tt>)
  * will be prepended.
  *
  * </ol>
  *
- * <p> If the value is NaN or positive infinity the literal strings "NaN" or
- * "Infinity" respectively, will be output.  If the value is negative infinity,
- * then the output will be "(Infinity)" if the {@code '('} flag is given
- * otherwise the output will be "-Infinity".  These values are not localized.
+ * <p> If the vblue is NbN or positive infinity the literbl strings "NbN" or
+ * "Infinity" respectively, will be output.  If the vblue is negbtive infinity,
+ * then the output will be "(Infinity)" if the {@code '('} flbg is given
+ * otherwise the output will be "-Infinity".  These vblues bre not locblized.
  *
- * <p><a name="dnint"><b> Byte, Short, Integer, and Long </b></a>
+ * <p><b nbme="dnint"><b> Byte, Short, Integer, bnd Long </b></b>
  *
- * <p> The following conversions may be applied to {@code byte}, {@link Byte},
- * {@code short}, {@link Short}, {@code int} and {@link Integer},
- * {@code long}, and {@link Long}.
+ * <p> The following conversions mby be bpplied to {@code byte}, {@link Byte},
+ * {@code short}, {@link Short}, {@code int} bnd {@link Integer},
+ * {@code long}, bnd {@link Long}.
  *
- * <table cellpadding=5 summary="IntConv">
+ * <tbble cellpbdding=5 summbry="IntConv">
  *
- * <tr><td valign="top"> {@code 'd'}
- *     <td valign="top"> <tt>'&#92;u0064'</tt>
- *     <td> Formats the argument as a decimal integer. The <a
- *     href="#L10nAlgorithm">localization algorithm</a> is applied.
+ * <tr><td vblign="top"> {@code 'd'}
+ *     <td vblign="top"> <tt>'&#92;u0064'</tt>
+ *     <td> Formbts the brgument bs b decimbl integer. The <b
+ *     href="#L10nAlgorithm">locblizbtion blgorithm</b> is bpplied.
  *
- *     <p> If the {@code '0'} flag is given and the value is negative, then
- *     the zero padding will occur after the sign.
+ *     <p> If the {@code '0'} flbg is given bnd the vblue is negbtive, then
+ *     the zero pbdding will occur bfter the sign.
  *
- *     <p> If the {@code '#'} flag is given then a {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code '#'} flbg is given then b {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'o'}
- *     <td valign="top"> <tt>'&#92;u006f'</tt>
- *     <td> Formats the argument as an integer in base eight.  No localization
- *     is applied.
+ * <tr><td vblign="top"> {@code 'o'}
+ *     <td vblign="top"> <tt>'&#92;u006f'</tt>
+ *     <td> Formbts the brgument bs bn integer in bbse eight.  No locblizbtion
+ *     is bpplied.
  *
- *     <p> If <i>x</i> is negative then the result will be an unsigned value
- *     generated by adding 2<sup>n</sup> to the value where {@code n} is the
- *     number of bits in the type as returned by the static {@code SIZE} field
- *     in the {@linkplain Byte#SIZE Byte}, {@linkplain Short#SIZE Short},
- *     {@linkplain Integer#SIZE Integer}, or {@linkplain Long#SIZE Long}
- *     classes as appropriate.
+ *     <p> If <i>x</i> is negbtive then the result will be bn unsigned vblue
+ *     generbted by bdding 2<sup>n</sup> to the vblue where {@code n} is the
+ *     number of bits in the type bs returned by the stbtic {@code SIZE} field
+ *     in the {@linkplbin Byte#SIZE Byte}, {@linkplbin Short#SIZE Short},
+ *     {@linkplbin Integer#SIZE Integer}, or {@linkplbin Long#SIZE Long}
+ *     clbsses bs bppropribte.
  *
- *     <p> If the {@code '#'} flag is given then the output will always begin
- *     with the radix indicator {@code '0'}.
+ *     <p> If the {@code '#'} flbg is given then the output will blwbys begin
+ *     with the rbdix indicbtor {@code '0'}.
  *
- *     <p> If the {@code '0'} flag is given then the output will be padded
- *     with leading zeros to the field width following any indication of sign.
+ *     <p> If the {@code '0'} flbg is given then the output will be pbdded
+ *     with lebding zeros to the field width following bny indicbtion of sign.
  *
- *     <p> If {@code '('}, {@code '+'}, '&nbsp;&nbsp;', or {@code ','} flags
- *     are given then a {@link FormatFlagsConversionMismatchException} will be
+ *     <p> If {@code '('}, {@code '+'}, '&nbsp;&nbsp;', or {@code ','} flbgs
+ *     bre given then b {@link FormbtFlbgsConversionMismbtchException} will be
  *     thrown.
  *
- * <tr><td valign="top"> {@code 'x'}
- *     <td valign="top"> <tt>'&#92;u0078'</tt>
- *     <td> Formats the argument as an integer in base sixteen. No
- *     localization is applied.
+ * <tr><td vblign="top"> {@code 'x'}
+ *     <td vblign="top"> <tt>'&#92;u0078'</tt>
+ *     <td> Formbts the brgument bs bn integer in bbse sixteen. No
+ *     locblizbtion is bpplied.
  *
- *     <p> If <i>x</i> is negative then the result will be an unsigned value
- *     generated by adding 2<sup>n</sup> to the value where {@code n} is the
- *     number of bits in the type as returned by the static {@code SIZE} field
- *     in the {@linkplain Byte#SIZE Byte}, {@linkplain Short#SIZE Short},
- *     {@linkplain Integer#SIZE Integer}, or {@linkplain Long#SIZE Long}
- *     classes as appropriate.
+ *     <p> If <i>x</i> is negbtive then the result will be bn unsigned vblue
+ *     generbted by bdding 2<sup>n</sup> to the vblue where {@code n} is the
+ *     number of bits in the type bs returned by the stbtic {@code SIZE} field
+ *     in the {@linkplbin Byte#SIZE Byte}, {@linkplbin Short#SIZE Short},
+ *     {@linkplbin Integer#SIZE Integer}, or {@linkplbin Long#SIZE Long}
+ *     clbsses bs bppropribte.
  *
- *     <p> If the {@code '#'} flag is given then the output will always begin
- *     with the radix indicator {@code "0x"}.
+ *     <p> If the {@code '#'} flbg is given then the output will blwbys begin
+ *     with the rbdix indicbtor {@code "0x"}.
  *
- *     <p> If the {@code '0'} flag is given then the output will be padded to
- *     the field width with leading zeros after the radix indicator or sign (if
+ *     <p> If the {@code '0'} flbg is given then the output will be pbdded to
+ *     the field width with lebding zeros bfter the rbdix indicbtor or sign (if
  *     present).
  *
  *     <p> If {@code '('}, <tt>'&nbsp;&nbsp;'</tt>, {@code '+'}, or
- *     {@code ','} flags are given then a {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     {@code ','} flbgs bre given then b {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'X'}
- *     <td valign="top"> <tt>'&#92;u0058'</tt>
- *     <td> The upper-case variant of {@code 'x'}.  The entire string
- *     representing the number will be converted to {@linkplain
- *     String#toUpperCase upper case} including the {@code 'x'} (if any) and
- *     all hexadecimal digits {@code 'a'} - {@code 'f'}
+ * <tr><td vblign="top"> {@code 'X'}
+ *     <td vblign="top"> <tt>'&#92;u0058'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'x'}.  The entire string
+ *     representing the number will be converted to {@linkplbin
+ *     String#toUpperCbse upper cbse} including the {@code 'x'} (if bny) bnd
+ *     bll hexbdecimbl digits {@code 'b'} - {@code 'f'}
  *     (<tt>'&#92;u0061'</tt> -  <tt>'&#92;u0066'</tt>).
  *
- * </table>
+ * </tbble>
  *
- * <p> If the conversion is {@code 'o'}, {@code 'x'}, or {@code 'X'} and
- * both the {@code '#'} and the {@code '0'} flags are given, then result will
- * contain the radix indicator ({@code '0'} for octal and {@code "0x"} or
- * {@code "0X"} for hexadecimal), some number of zeros (based on the width),
- * and the value.
+ * <p> If the conversion is {@code 'o'}, {@code 'x'}, or {@code 'X'} bnd
+ * both the {@code '#'} bnd the {@code '0'} flbgs bre given, then result will
+ * contbin the rbdix indicbtor ({@code '0'} for octbl bnd {@code "0x"} or
+ * {@code "0X"} for hexbdecimbl), some number of zeros (bbsed on the width),
+ * bnd the vblue.
  *
- * <p> If the {@code '-'} flag is not given, then the space padding will occur
+ * <p> If the {@code '-'} flbg is not given, then the spbce pbdding will occur
  * before the sign.
  *
- * <p> The following <a name="intFlags">flags</a> apply to numeric integral
+ * <p> The following <b nbme="intFlbgs">flbgs</b> bpply to numeric integrbl
  * conversions:
  *
- * <table cellpadding=5 summary="intFlags">
+ * <tbble cellpbdding=5 summbry="intFlbgs">
  *
- * <tr><td valign="top"> {@code '+'}
- *     <td valign="top"> <tt>'&#92;u002b'</tt>
- *     <td> Requires the output to include a positive sign for all positive
- *     numbers.  If this flag is not given then only negative values will
- *     include a sign.
+ * <tr><td vblign="top"> {@code '+'}
+ *     <td vblign="top"> <tt>'&#92;u002b'</tt>
+ *     <td> Requires the output to include b positive sign for bll positive
+ *     numbers.  If this flbg is not given then only negbtive vblues will
+ *     include b sign.
  *
- *     <p> If both the {@code '+'} and <tt>'&nbsp;&nbsp;'</tt> flags are given
- *     then an {@link IllegalFormatFlagsException} will be thrown.
+ *     <p> If both the {@code '+'} bnd <tt>'&nbsp;&nbsp;'</tt> flbgs bre given
+ *     then bn {@link IllegblFormbtFlbgsException} will be thrown.
  *
- * <tr><td valign="top"> <tt>'&nbsp;&nbsp;'</tt>
- *     <td valign="top"> <tt>'&#92;u0020'</tt>
- *     <td> Requires the output to include a single extra space
- *     (<tt>'&#92;u0020'</tt>) for non-negative values.
+ * <tr><td vblign="top"> <tt>'&nbsp;&nbsp;'</tt>
+ *     <td vblign="top"> <tt>'&#92;u0020'</tt>
+ *     <td> Requires the output to include b single extrb spbce
+ *     (<tt>'&#92;u0020'</tt>) for non-negbtive vblues.
  *
- *     <p> If both the {@code '+'} and <tt>'&nbsp;&nbsp;'</tt> flags are given
- *     then an {@link IllegalFormatFlagsException} will be thrown.
+ *     <p> If both the {@code '+'} bnd <tt>'&nbsp;&nbsp;'</tt> flbgs bre given
+ *     then bn {@link IllegblFormbtFlbgsException} will be thrown.
  *
- * <tr><td valign="top"> {@code '0'}
- *     <td valign="top"> <tt>'&#92;u0030'</tt>
- *     <td> Requires the output to be padded with leading {@linkplain
- *     java.text.DecimalFormatSymbols#getZeroDigit zeros} to the minimum field
- *     width following any sign or radix indicator except when converting NaN
- *     or infinity.  If the width is not provided, then a {@link
- *     MissingFormatWidthException} will be thrown.
+ * <tr><td vblign="top"> {@code '0'}
+ *     <td vblign="top"> <tt>'&#92;u0030'</tt>
+ *     <td> Requires the output to be pbdded with lebding {@linkplbin
+ *     jbvb.text.DecimblFormbtSymbols#getZeroDigit zeros} to the minimum field
+ *     width following bny sign or rbdix indicbtor except when converting NbN
+ *     or infinity.  If the width is not provided, then b {@link
+ *     MissingFormbtWidthException} will be thrown.
  *
- *     <p> If both the {@code '-'} and {@code '0'} flags are given then an
- *     {@link IllegalFormatFlagsException} will be thrown.
+ *     <p> If both the {@code '-'} bnd {@code '0'} flbgs bre given then bn
+ *     {@link IllegblFormbtFlbgsException} will be thrown.
  *
- * <tr><td valign="top"> {@code ','}
- *     <td valign="top"> <tt>'&#92;u002c'</tt>
- *     <td> Requires the output to include the locale-specific {@linkplain
- *     java.text.DecimalFormatSymbols#getGroupingSeparator group separators} as
- *     described in the <a href="#L10nGroup">"group" section</a> of the
- *     localization algorithm.
+ * <tr><td vblign="top"> {@code ','}
+ *     <td vblign="top"> <tt>'&#92;u002c'</tt>
+ *     <td> Requires the output to include the locble-specific {@linkplbin
+ *     jbvb.text.DecimblFormbtSymbols#getGroupingSepbrbtor group sepbrbtors} bs
+ *     described in the <b href="#L10nGroup">"group" section</b> of the
+ *     locblizbtion blgorithm.
  *
- * <tr><td valign="top"> {@code '('}
- *     <td valign="top"> <tt>'&#92;u0028'</tt>
- *     <td> Requires the output to prepend a {@code '('}
- *     (<tt>'&#92;u0028'</tt>) and append a {@code ')'}
- *     (<tt>'&#92;u0029'</tt>) to negative values.
+ * <tr><td vblign="top"> {@code '('}
+ *     <td vblign="top"> <tt>'&#92;u0028'</tt>
+ *     <td> Requires the output to prepend b {@code '('}
+ *     (<tt>'&#92;u0028'</tt>) bnd bppend b {@code ')'}
+ *     (<tt>'&#92;u0029'</tt>) to negbtive vblues.
  *
- * </table>
+ * </tbble>
  *
- * <p> If no <a name="intdFlags">flags</a> are given the default formatting is
- * as follows:
+ * <p> If no <b nbme="intdFlbgs">flbgs</b> bre given the defbult formbtting is
+ * bs follows:
  *
  * <ul>
  *
  * <li> The output is right-justified within the {@code width}
  *
- * <li> Negative numbers begin with a {@code '-'} (<tt>'&#92;u002d'</tt>)
+ * <li> Negbtive numbers begin with b {@code '-'} (<tt>'&#92;u002d'</tt>)
  *
- * <li> Positive numbers and zero do not include a sign or extra leading
- * space
+ * <li> Positive numbers bnd zero do not include b sign or extrb lebding
+ * spbce
  *
- * <li> No grouping separators are included
+ * <li> No grouping sepbrbtors bre included
  *
  * </ul>
  *
- * <p> The <a name="intWidth">width</a> is the minimum number of characters to
- * be written to the output.  This includes any signs, digits, grouping
- * separators, radix indicator, and parentheses.  If the length of the
- * converted value is less than the width then the output will be padded by
- * spaces (<tt>'&#92;u0020'</tt>) until the total number of characters equals
- * width.  The padding is on the left by default.  If {@code '-'} flag is
- * given then the padding will be on the right.  If width is not specified then
+ * <p> The <b nbme="intWidth">width</b> is the minimum number of chbrbcters to
+ * be written to the output.  This includes bny signs, digits, grouping
+ * sepbrbtors, rbdix indicbtor, bnd pbrentheses.  If the length of the
+ * converted vblue is less thbn the width then the output will be pbdded by
+ * spbces (<tt>'&#92;u0020'</tt>) until the totbl number of chbrbcters equbls
+ * width.  The pbdding is on the left by defbult.  If {@code '-'} flbg is
+ * given then the pbdding will be on the right.  If width is not specified then
  * there is no minimum.
  *
- * <p> The precision is not applicable.  If precision is specified then an
- * {@link IllegalFormatPrecisionException} will be thrown.
+ * <p> The precision is not bpplicbble.  If precision is specified then bn
+ * {@link IllegblFormbtPrecisionException} will be thrown.
  *
- * <p><a name="dnbint"><b> BigInteger </b></a>
+ * <p><b nbme="dnbint"><b> BigInteger </b></b>
  *
- * <p> The following conversions may be applied to {@link
- * java.math.BigInteger}.
+ * <p> The following conversions mby be bpplied to {@link
+ * jbvb.mbth.BigInteger}.
  *
- * <table cellpadding=5 summary="BIntConv">
+ * <tbble cellpbdding=5 summbry="BIntConv">
  *
- * <tr><td valign="top"> {@code 'd'}
- *     <td valign="top"> <tt>'&#92;u0064'</tt>
- *     <td> Requires the output to be formatted as a decimal integer. The <a
- *     href="#L10nAlgorithm">localization algorithm</a> is applied.
+ * <tr><td vblign="top"> {@code 'd'}
+ *     <td vblign="top"> <tt>'&#92;u0064'</tt>
+ *     <td> Requires the output to be formbtted bs b decimbl integer. The <b
+ *     href="#L10nAlgorithm">locblizbtion blgorithm</b> is bpplied.
  *
- *     <p> If the {@code '#'} flag is given {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code '#'} flbg is given {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'o'}
- *     <td valign="top"> <tt>'&#92;u006f'</tt>
- *     <td> Requires the output to be formatted as an integer in base eight.
- *     No localization is applied.
+ * <tr><td vblign="top"> {@code 'o'}
+ *     <td vblign="top"> <tt>'&#92;u006f'</tt>
+ *     <td> Requires the output to be formbtted bs bn integer in bbse eight.
+ *     No locblizbtion is bpplied.
  *
- *     <p> If <i>x</i> is negative then the result will be a signed value
+ *     <p> If <i>x</i> is negbtive then the result will be b signed vblue
  *     beginning with {@code '-'} (<tt>'&#92;u002d'</tt>).  Signed output is
- *     allowed for this type because unlike the primitive types it is not
- *     possible to create an unsigned equivalent without assuming an explicit
- *     data-type size.
+ *     bllowed for this type becbuse unlike the primitive types it is not
+ *     possible to crebte bn unsigned equivblent without bssuming bn explicit
+ *     dbtb-type size.
  *
- *     <p> If <i>x</i> is positive or zero and the {@code '+'} flag is given
+ *     <p> If <i>x</i> is positive or zero bnd the {@code '+'} flbg is given
  *     then the result will begin with {@code '+'} (<tt>'&#92;u002b'</tt>).
  *
- *     <p> If the {@code '#'} flag is given then the output will always begin
+ *     <p> If the {@code '#'} flbg is given then the output will blwbys begin
  *     with {@code '0'} prefix.
  *
- *     <p> If the {@code '0'} flag is given then the output will be padded
- *     with leading zeros to the field width following any indication of sign.
+ *     <p> If the {@code '0'} flbg is given then the output will be pbdded
+ *     with lebding zeros to the field width following bny indicbtion of sign.
  *
- *     <p> If the {@code ','} flag is given then a {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code ','} flbg is given then b {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'x'}
- *     <td valign="top"> <tt>'&#92;u0078'</tt>
- *     <td> Requires the output to be formatted as an integer in base
- *     sixteen.  No localization is applied.
+ * <tr><td vblign="top"> {@code 'x'}
+ *     <td vblign="top"> <tt>'&#92;u0078'</tt>
+ *     <td> Requires the output to be formbtted bs bn integer in bbse
+ *     sixteen.  No locblizbtion is bpplied.
  *
- *     <p> If <i>x</i> is negative then the result will be a signed value
+ *     <p> If <i>x</i> is negbtive then the result will be b signed vblue
  *     beginning with {@code '-'} (<tt>'&#92;u002d'</tt>).  Signed output is
- *     allowed for this type because unlike the primitive types it is not
- *     possible to create an unsigned equivalent without assuming an explicit
- *     data-type size.
+ *     bllowed for this type becbuse unlike the primitive types it is not
+ *     possible to crebte bn unsigned equivblent without bssuming bn explicit
+ *     dbtb-type size.
  *
- *     <p> If <i>x</i> is positive or zero and the {@code '+'} flag is given
+ *     <p> If <i>x</i> is positive or zero bnd the {@code '+'} flbg is given
  *     then the result will begin with {@code '+'} (<tt>'&#92;u002b'</tt>).
  *
- *     <p> If the {@code '#'} flag is given then the output will always begin
- *     with the radix indicator {@code "0x"}.
+ *     <p> If the {@code '#'} flbg is given then the output will blwbys begin
+ *     with the rbdix indicbtor {@code "0x"}.
  *
- *     <p> If the {@code '0'} flag is given then the output will be padded to
- *     the field width with leading zeros after the radix indicator or sign (if
+ *     <p> If the {@code '0'} flbg is given then the output will be pbdded to
+ *     the field width with lebding zeros bfter the rbdix indicbtor or sign (if
  *     present).
  *
- *     <p> If the {@code ','} flag is given then a {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code ','} flbg is given then b {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'X'}
- *     <td valign="top"> <tt>'&#92;u0058'</tt>
- *     <td> The upper-case variant of {@code 'x'}.  The entire string
- *     representing the number will be converted to {@linkplain
- *     String#toUpperCase upper case} including the {@code 'x'} (if any) and
- *     all hexadecimal digits {@code 'a'} - {@code 'f'}
+ * <tr><td vblign="top"> {@code 'X'}
+ *     <td vblign="top"> <tt>'&#92;u0058'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'x'}.  The entire string
+ *     representing the number will be converted to {@linkplbin
+ *     String#toUpperCbse upper cbse} including the {@code 'x'} (if bny) bnd
+ *     bll hexbdecimbl digits {@code 'b'} - {@code 'f'}
  *     (<tt>'&#92;u0061'</tt> - <tt>'&#92;u0066'</tt>).
  *
- * </table>
+ * </tbble>
  *
- * <p> If the conversion is {@code 'o'}, {@code 'x'}, or {@code 'X'} and
- * both the {@code '#'} and the {@code '0'} flags are given, then result will
- * contain the base indicator ({@code '0'} for octal and {@code "0x"} or
- * {@code "0X"} for hexadecimal), some number of zeros (based on the width),
- * and the value.
+ * <p> If the conversion is {@code 'o'}, {@code 'x'}, or {@code 'X'} bnd
+ * both the {@code '#'} bnd the {@code '0'} flbgs bre given, then result will
+ * contbin the bbse indicbtor ({@code '0'} for octbl bnd {@code "0x"} or
+ * {@code "0X"} for hexbdecimbl), some number of zeros (bbsed on the width),
+ * bnd the vblue.
  *
- * <p> If the {@code '0'} flag is given and the value is negative, then the
- * zero padding will occur after the sign.
+ * <p> If the {@code '0'} flbg is given bnd the vblue is negbtive, then the
+ * zero pbdding will occur bfter the sign.
  *
- * <p> If the {@code '-'} flag is not given, then the space padding will occur
+ * <p> If the {@code '-'} flbg is not given, then the spbce pbdding will occur
  * before the sign.
  *
- * <p> All <a href="#intFlags">flags</a> defined for Byte, Short, Integer, and
- * Long apply.  The <a href="#intdFlags">default behavior</a> when no flags are
- * given is the same as for Byte, Short, Integer, and Long.
+ * <p> All <b href="#intFlbgs">flbgs</b> defined for Byte, Short, Integer, bnd
+ * Long bpply.  The <b href="#intdFlbgs">defbult behbvior</b> when no flbgs bre
+ * given is the sbme bs for Byte, Short, Integer, bnd Long.
  *
- * <p> The specification of <a href="#intWidth">width</a> is the same as
- * defined for Byte, Short, Integer, and Long.
+ * <p> The specificbtion of <b href="#intWidth">width</b> is the sbme bs
+ * defined for Byte, Short, Integer, bnd Long.
  *
- * <p> The precision is not applicable.  If precision is specified then an
- * {@link IllegalFormatPrecisionException} will be thrown.
+ * <p> The precision is not bpplicbble.  If precision is specified then bn
+ * {@link IllegblFormbtPrecisionException} will be thrown.
  *
- * <p><a name="dndec"><b> Float and Double</b></a>
+ * <p><b nbme="dndec"><b> Flobt bnd Double</b></b>
  *
- * <p> The following conversions may be applied to {@code float}, {@link
- * Float}, {@code double} and {@link Double}.
+ * <p> The following conversions mby be bpplied to {@code flobt}, {@link
+ * Flobt}, {@code double} bnd {@link Double}.
  *
- * <table cellpadding=5 summary="floatConv">
+ * <tbble cellpbdding=5 summbry="flobtConv">
  *
- * <tr><td valign="top"> {@code 'e'}
- *     <td valign="top"> <tt>'&#92;u0065'</tt>
- *     <td> Requires the output to be formatted using <a
- *     name="scientific">computerized scientific notation</a>.  The <a
- *     href="#L10nAlgorithm">localization algorithm</a> is applied.
+ * <tr><td vblign="top"> {@code 'e'}
+ *     <td vblign="top"> <tt>'&#92;u0065'</tt>
+ *     <td> Requires the output to be formbtted using <b
+ *     nbme="scientific">computerized scientific notbtion</b>.  The <b
+ *     href="#L10nAlgorithm">locblizbtion blgorithm</b> is bpplied.
  *
- *     <p> The formatting of the magnitude <i>m</i> depends upon its value.
+ *     <p> The formbtting of the mbgnitude <i>m</i> depends upon its vblue.
  *
- *     <p> If <i>m</i> is NaN or infinite, the literal strings "NaN" or
- *     "Infinity", respectively, will be output.  These values are not
- *     localized.
+ *     <p> If <i>m</i> is NbN or infinite, the literbl strings "NbN" or
+ *     "Infinity", respectively, will be output.  These vblues bre not
+ *     locblized.
  *
- *     <p> If <i>m</i> is positive-zero or negative-zero, then the exponent
+ *     <p> If <i>m</i> is positive-zero or negbtive-zero, then the exponent
  *     will be {@code "+00"}.
  *
- *     <p> Otherwise, the result is a string that represents the sign and
- *     magnitude (absolute value) of the argument.  The formatting of the sign
- *     is described in the <a href="#L10nAlgorithm">localization
- *     algorithm</a>. The formatting of the magnitude <i>m</i> depends upon its
- *     value.
+ *     <p> Otherwise, the result is b string thbt represents the sign bnd
+ *     mbgnitude (bbsolute vblue) of the brgument.  The formbtting of the sign
+ *     is described in the <b href="#L10nAlgorithm">locblizbtion
+ *     blgorithm</b>. The formbtting of the mbgnitude <i>m</i> depends upon its
+ *     vblue.
  *
- *     <p> Let <i>n</i> be the unique integer such that 10<sup><i>n</i></sup>
- *     &lt;= <i>m</i> &lt; 10<sup><i>n</i>+1</sup>; then let <i>a</i> be the
- *     mathematically exact quotient of <i>m</i> and 10<sup><i>n</i></sup> so
- *     that 1 &lt;= <i>a</i> &lt; 10. The magnitude is then represented as the
- *     integer part of <i>a</i>, as a single decimal digit, followed by the
- *     decimal separator followed by decimal digits representing the fractional
- *     part of <i>a</i>, followed by the exponent symbol {@code 'e'}
+ *     <p> Let <i>n</i> be the unique integer such thbt 10<sup><i>n</i></sup>
+ *     &lt;= <i>m</i> &lt; 10<sup><i>n</i>+1</sup>; then let <i>b</i> be the
+ *     mbthembticblly exbct quotient of <i>m</i> bnd 10<sup><i>n</i></sup> so
+ *     thbt 1 &lt;= <i>b</i> &lt; 10. The mbgnitude is then represented bs the
+ *     integer pbrt of <i>b</i>, bs b single decimbl digit, followed by the
+ *     decimbl sepbrbtor followed by decimbl digits representing the frbctionbl
+ *     pbrt of <i>b</i>, followed by the exponent symbol {@code 'e'}
  *     (<tt>'&#92;u0065'</tt>), followed by the sign of the exponent, followed
- *     by a representation of <i>n</i> as a decimal integer, as produced by the
- *     method {@link Long#toString(long, int)}, and zero-padded to include at
- *     least two digits.
+ *     by b representbtion of <i>n</i> bs b decimbl integer, bs produced by the
+ *     method {@link Long#toString(long, int)}, bnd zero-pbdded to include bt
+ *     lebst two digits.
  *
- *     <p> The number of digits in the result for the fractional part of
- *     <i>m</i> or <i>a</i> is equal to the precision.  If the precision is not
- *     specified then the default value is {@code 6}. If the precision is less
- *     than the number of digits which would appear after the decimal point in
- *     the string returned by {@link Float#toString(float)} or {@link
- *     Double#toString(double)} respectively, then the value will be rounded
- *     using the {@linkplain java.math.BigDecimal#ROUND_HALF_UP round half up
- *     algorithm}.  Otherwise, zeros may be appended to reach the precision.
- *     For a canonical representation of the value, use {@link
- *     Float#toString(float)} or {@link Double#toString(double)} as
- *     appropriate.
+ *     <p> The number of digits in the result for the frbctionbl pbrt of
+ *     <i>m</i> or <i>b</i> is equbl to the precision.  If the precision is not
+ *     specified then the defbult vblue is {@code 6}. If the precision is less
+ *     thbn the number of digits which would bppebr bfter the decimbl point in
+ *     the string returned by {@link Flobt#toString(flobt)} or {@link
+ *     Double#toString(double)} respectively, then the vblue will be rounded
+ *     using the {@linkplbin jbvb.mbth.BigDecimbl#ROUND_HALF_UP round hblf up
+ *     blgorithm}.  Otherwise, zeros mby be bppended to rebch the precision.
+ *     For b cbnonicbl representbtion of the vblue, use {@link
+ *     Flobt#toString(flobt)} or {@link Double#toString(double)} bs
+ *     bppropribte.
  *
- *     <p>If the {@code ','} flag is given, then an {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p>If the {@code ','} flbg is given, then bn {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'E'}
- *     <td valign="top"> <tt>'&#92;u0045'</tt>
- *     <td> The upper-case variant of {@code 'e'}.  The exponent symbol
+ * <tr><td vblign="top"> {@code 'E'}
+ *     <td vblign="top"> <tt>'&#92;u0045'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'e'}.  The exponent symbol
  *     will be {@code 'E'} (<tt>'&#92;u0045'</tt>).
  *
- * <tr><td valign="top"> {@code 'g'}
- *     <td valign="top"> <tt>'&#92;u0067'</tt>
- *     <td> Requires the output to be formatted in general scientific notation
- *     as described below. The <a href="#L10nAlgorithm">localization
- *     algorithm</a> is applied.
+ * <tr><td vblign="top"> {@code 'g'}
+ *     <td vblign="top"> <tt>'&#92;u0067'</tt>
+ *     <td> Requires the output to be formbtted in generbl scientific notbtion
+ *     bs described below. The <b href="#L10nAlgorithm">locblizbtion
+ *     blgorithm</b> is bpplied.
  *
- *     <p> After rounding for the precision, the formatting of the resulting
- *     magnitude <i>m</i> depends on its value.
+ *     <p> After rounding for the precision, the formbtting of the resulting
+ *     mbgnitude <i>m</i> depends on its vblue.
  *
- *     <p> If <i>m</i> is greater than or equal to 10<sup>-4</sup> but less
- *     than 10<sup>precision</sup> then it is represented in <i><a
- *     href="#decimal">decimal format</a></i>.
+ *     <p> If <i>m</i> is grebter thbn or equbl to 10<sup>-4</sup> but less
+ *     thbn 10<sup>precision</sup> then it is represented in <i><b
+ *     href="#decimbl">decimbl formbt</b></i>.
  *
- *     <p> If <i>m</i> is less than 10<sup>-4</sup> or greater than or equal to
- *     10<sup>precision</sup>, then it is represented in <i><a
- *     href="#scientific">computerized scientific notation</a></i>.
+ *     <p> If <i>m</i> is less thbn 10<sup>-4</sup> or grebter thbn or equbl to
+ *     10<sup>precision</sup>, then it is represented in <i><b
+ *     href="#scientific">computerized scientific notbtion</b></i>.
  *
- *     <p> The total number of significant digits in <i>m</i> is equal to the
- *     precision.  If the precision is not specified, then the default value is
- *     {@code 6}.  If the precision is {@code 0}, then it is taken to be
+ *     <p> The totbl number of significbnt digits in <i>m</i> is equbl to the
+ *     precision.  If the precision is not specified, then the defbult vblue is
+ *     {@code 6}.  If the precision is {@code 0}, then it is tbken to be
  *     {@code 1}.
  *
- *     <p> If the {@code '#'} flag is given then an {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code '#'} flbg is given then bn {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'G'}
- *     <td valign="top"> <tt>'&#92;u0047'</tt>
- *     <td> The upper-case variant of {@code 'g'}.
+ * <tr><td vblign="top"> {@code 'G'}
+ *     <td vblign="top"> <tt>'&#92;u0047'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'g'}.
  *
- * <tr><td valign="top"> {@code 'f'}
- *     <td valign="top"> <tt>'&#92;u0066'</tt>
- *     <td> Requires the output to be formatted using <a name="decimal">decimal
- *     format</a>.  The <a href="#L10nAlgorithm">localization algorithm</a> is
- *     applied.
+ * <tr><td vblign="top"> {@code 'f'}
+ *     <td vblign="top"> <tt>'&#92;u0066'</tt>
+ *     <td> Requires the output to be formbtted using <b nbme="decimbl">decimbl
+ *     formbt</b>.  The <b href="#L10nAlgorithm">locblizbtion blgorithm</b> is
+ *     bpplied.
  *
- *     <p> The result is a string that represents the sign and magnitude
- *     (absolute value) of the argument.  The formatting of the sign is
- *     described in the <a href="#L10nAlgorithm">localization
- *     algorithm</a>. The formatting of the magnitude <i>m</i> depends upon its
- *     value.
+ *     <p> The result is b string thbt represents the sign bnd mbgnitude
+ *     (bbsolute vblue) of the brgument.  The formbtting of the sign is
+ *     described in the <b href="#L10nAlgorithm">locblizbtion
+ *     blgorithm</b>. The formbtting of the mbgnitude <i>m</i> depends upon its
+ *     vblue.
  *
- *     <p> If <i>m</i> NaN or infinite, the literal strings "NaN" or
- *     "Infinity", respectively, will be output.  These values are not
- *     localized.
+ *     <p> If <i>m</i> NbN or infinite, the literbl strings "NbN" or
+ *     "Infinity", respectively, will be output.  These vblues bre not
+ *     locblized.
  *
- *     <p> The magnitude is formatted as the integer part of <i>m</i>, with no
- *     leading zeroes, followed by the decimal separator followed by one or
- *     more decimal digits representing the fractional part of <i>m</i>.
+ *     <p> The mbgnitude is formbtted bs the integer pbrt of <i>m</i>, with no
+ *     lebding zeroes, followed by the decimbl sepbrbtor followed by one or
+ *     more decimbl digits representing the frbctionbl pbrt of <i>m</i>.
  *
- *     <p> The number of digits in the result for the fractional part of
- *     <i>m</i> or <i>a</i> is equal to the precision.  If the precision is not
- *     specified then the default value is {@code 6}. If the precision is less
- *     than the number of digits which would appear after the decimal point in
- *     the string returned by {@link Float#toString(float)} or {@link
- *     Double#toString(double)} respectively, then the value will be rounded
- *     using the {@linkplain java.math.BigDecimal#ROUND_HALF_UP round half up
- *     algorithm}.  Otherwise, zeros may be appended to reach the precision.
- *     For a canonical representation of the value, use {@link
- *     Float#toString(float)} or {@link Double#toString(double)} as
- *     appropriate.
+ *     <p> The number of digits in the result for the frbctionbl pbrt of
+ *     <i>m</i> or <i>b</i> is equbl to the precision.  If the precision is not
+ *     specified then the defbult vblue is {@code 6}. If the precision is less
+ *     thbn the number of digits which would bppebr bfter the decimbl point in
+ *     the string returned by {@link Flobt#toString(flobt)} or {@link
+ *     Double#toString(double)} respectively, then the vblue will be rounded
+ *     using the {@linkplbin jbvb.mbth.BigDecimbl#ROUND_HALF_UP round hblf up
+ *     blgorithm}.  Otherwise, zeros mby be bppended to rebch the precision.
+ *     For b cbnonicbl representbtion of the vblue, use {@link
+ *     Flobt#toString(flobt)} or {@link Double#toString(double)} bs
+ *     bppropribte.
  *
- * <tr><td valign="top"> {@code 'a'}
- *     <td valign="top"> <tt>'&#92;u0061'</tt>
- *     <td> Requires the output to be formatted in hexadecimal exponential
- *     form.  No localization is applied.
+ * <tr><td vblign="top"> {@code 'b'}
+ *     <td vblign="top"> <tt>'&#92;u0061'</tt>
+ *     <td> Requires the output to be formbtted in hexbdecimbl exponentibl
+ *     form.  No locblizbtion is bpplied.
  *
- *     <p> The result is a string that represents the sign and magnitude
- *     (absolute value) of the argument <i>x</i>.
+ *     <p> The result is b string thbt represents the sign bnd mbgnitude
+ *     (bbsolute vblue) of the brgument <i>x</i>.
  *
- *     <p> If <i>x</i> is negative or a negative-zero value then the result
+ *     <p> If <i>x</i> is negbtive or b negbtive-zero vblue then the result
  *     will begin with {@code '-'} (<tt>'&#92;u002d'</tt>).
  *
- *     <p> If <i>x</i> is positive or a positive-zero value and the
- *     {@code '+'} flag is given then the result will begin with {@code '+'}
+ *     <p> If <i>x</i> is positive or b positive-zero vblue bnd the
+ *     {@code '+'} flbg is given then the result will begin with {@code '+'}
  *     (<tt>'&#92;u002b'</tt>).
  *
- *     <p> The formatting of the magnitude <i>m</i> depends upon its value.
+ *     <p> The formbtting of the mbgnitude <i>m</i> depends upon its vblue.
  *
  *     <ul>
  *
- *     <li> If the value is NaN or infinite, the literal strings "NaN" or
+ *     <li> If the vblue is NbN or infinite, the literbl strings "NbN" or
  *     "Infinity", respectively, will be output.
  *
  *     <li> If <i>m</i> is zero then it is represented by the string
  *     {@code "0x0.0p0"}.
  *
- *     <li> If <i>m</i> is a {@code double} value with a normalized
- *     representation then substrings are used to represent the significand and
- *     exponent fields.  The significand is represented by the characters
- *     {@code "0x1."} followed by the hexadecimal representation of the rest
- *     of the significand as a fraction.  The exponent is represented by
- *     {@code 'p'} (<tt>'&#92;u0070'</tt>) followed by a decimal string of the
- *     unbiased exponent as if produced by invoking {@link
- *     Integer#toString(int) Integer.toString} on the exponent value.  If the
- *     precision is specified, the value is rounded to the given number of
- *     hexadecimal digits.
+ *     <li> If <i>m</i> is b {@code double} vblue with b normblized
+ *     representbtion then substrings bre used to represent the significbnd bnd
+ *     exponent fields.  The significbnd is represented by the chbrbcters
+ *     {@code "0x1."} followed by the hexbdecimbl representbtion of the rest
+ *     of the significbnd bs b frbction.  The exponent is represented by
+ *     {@code 'p'} (<tt>'&#92;u0070'</tt>) followed by b decimbl string of the
+ *     unbibsed exponent bs if produced by invoking {@link
+ *     Integer#toString(int) Integer.toString} on the exponent vblue.  If the
+ *     precision is specified, the vblue is rounded to the given number of
+ *     hexbdecimbl digits.
  *
- *     <li> If <i>m</i> is a {@code double} value with a subnormal
- *     representation then, unless the precision is specified to be in the range
- *     1 through 12, inclusive, the significand is represented by the characters
- *     {@code '0x0.'} followed by the hexadecimal representation of the rest of
- *     the significand as a fraction, and the exponent represented by
- *     {@code 'p-1022'}.  If the precision is in the interval
- *     [1,&nbsp;12], the subnormal value is normalized such that it
- *     begins with the characters {@code '0x1.'}, rounded to the number of
- *     hexadecimal digits of precision, and the exponent adjusted
- *     accordingly.  Note that there must be at least one nonzero digit in a
- *     subnormal significand.
+ *     <li> If <i>m</i> is b {@code double} vblue with b subnormbl
+ *     representbtion then, unless the precision is specified to be in the rbnge
+ *     1 through 12, inclusive, the significbnd is represented by the chbrbcters
+ *     {@code '0x0.'} followed by the hexbdecimbl representbtion of the rest of
+ *     the significbnd bs b frbction, bnd the exponent represented by
+ *     {@code 'p-1022'}.  If the precision is in the intervbl
+ *     [1,&nbsp;12], the subnormbl vblue is normblized such thbt it
+ *     begins with the chbrbcters {@code '0x1.'}, rounded to the number of
+ *     hexbdecimbl digits of precision, bnd the exponent bdjusted
+ *     bccordingly.  Note thbt there must be bt lebst one nonzero digit in b
+ *     subnormbl significbnd.
  *
  *     </ul>
  *
- *     <p> If the {@code '('} or {@code ','} flags are given, then a {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code '('} or {@code ','} flbgs bre given, then b {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'A'}
- *     <td valign="top"> <tt>'&#92;u0041'</tt>
- *     <td> The upper-case variant of {@code 'a'}.  The entire string
- *     representing the number will be converted to upper case including the
- *     {@code 'x'} (<tt>'&#92;u0078'</tt>) and {@code 'p'}
- *     (<tt>'&#92;u0070'</tt> and all hexadecimal digits {@code 'a'} -
+ * <tr><td vblign="top"> {@code 'A'}
+ *     <td vblign="top"> <tt>'&#92;u0041'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'b'}.  The entire string
+ *     representing the number will be converted to upper cbse including the
+ *     {@code 'x'} (<tt>'&#92;u0078'</tt>) bnd {@code 'p'}
+ *     (<tt>'&#92;u0070'</tt> bnd bll hexbdecimbl digits {@code 'b'} -
  *     {@code 'f'} (<tt>'&#92;u0061'</tt> - <tt>'&#92;u0066'</tt>).
  *
- * </table>
+ * </tbble>
  *
- * <p> All <a href="#intFlags">flags</a> defined for Byte, Short, Integer, and
- * Long apply.
+ * <p> All <b href="#intFlbgs">flbgs</b> defined for Byte, Short, Integer, bnd
+ * Long bpply.
  *
- * <p> If the {@code '#'} flag is given, then the decimal separator will
- * always be present.
+ * <p> If the {@code '#'} flbg is given, then the decimbl sepbrbtor will
+ * blwbys be present.
  *
- * <p> If no <a name="floatdFlags">flags</a> are given the default formatting
- * is as follows:
+ * <p> If no <b nbme="flobtdFlbgs">flbgs</b> bre given the defbult formbtting
+ * is bs follows:
  *
  * <ul>
  *
  * <li> The output is right-justified within the {@code width}
  *
- * <li> Negative numbers begin with a {@code '-'}
+ * <li> Negbtive numbers begin with b {@code '-'}
  *
- * <li> Positive numbers and positive zero do not include a sign or extra
- * leading space
+ * <li> Positive numbers bnd positive zero do not include b sign or extrb
+ * lebding spbce
  *
- * <li> No grouping separators are included
+ * <li> No grouping sepbrbtors bre included
  *
- * <li> The decimal separator will only appear if a digit follows it
+ * <li> The decimbl sepbrbtor will only bppebr if b digit follows it
  *
  * </ul>
  *
- * <p> The <a name="floatDWidth">width</a> is the minimum number of characters
- * to be written to the output.  This includes any signs, digits, grouping
- * separators, decimal separators, exponential symbol, radix indicator,
- * parentheses, and strings representing infinity and NaN as applicable.  If
- * the length of the converted value is less than the width then the output
- * will be padded by spaces (<tt>'&#92;u0020'</tt>) until the total number of
- * characters equals width.  The padding is on the left by default.  If the
- * {@code '-'} flag is given then the padding will be on the right.  If width
+ * <p> The <b nbme="flobtDWidth">width</b> is the minimum number of chbrbcters
+ * to be written to the output.  This includes bny signs, digits, grouping
+ * sepbrbtors, decimbl sepbrbtors, exponentibl symbol, rbdix indicbtor,
+ * pbrentheses, bnd strings representing infinity bnd NbN bs bpplicbble.  If
+ * the length of the converted vblue is less thbn the width then the output
+ * will be pbdded by spbces (<tt>'&#92;u0020'</tt>) until the totbl number of
+ * chbrbcters equbls width.  The pbdding is on the left by defbult.  If the
+ * {@code '-'} flbg is given then the pbdding will be on the right.  If width
  * is not specified then there is no minimum.
  *
- * <p> If the <a name="floatDPrec">conversion</a> is {@code 'e'},
+ * <p> If the <b nbme="flobtDPrec">conversion</b> is {@code 'e'},
  * {@code 'E'} or {@code 'f'}, then the precision is the number of digits
- * after the decimal separator.  If the precision is not specified, then it is
- * assumed to be {@code 6}.
+ * bfter the decimbl sepbrbtor.  If the precision is not specified, then it is
+ * bssumed to be {@code 6}.
  *
  * <p> If the conversion is {@code 'g'} or {@code 'G'}, then the precision is
- * the total number of significant digits in the resulting magnitude after
- * rounding.  If the precision is not specified, then the default value is
- * {@code 6}.  If the precision is {@code 0}, then it is taken to be
+ * the totbl number of significbnt digits in the resulting mbgnitude bfter
+ * rounding.  If the precision is not specified, then the defbult vblue is
+ * {@code 6}.  If the precision is {@code 0}, then it is tbken to be
  * {@code 1}.
  *
- * <p> If the conversion is {@code 'a'} or {@code 'A'}, then the precision
- * is the number of hexadecimal digits after the radix point.  If the
- * precision is not provided, then all of the digits as returned by {@link
+ * <p> If the conversion is {@code 'b'} or {@code 'A'}, then the precision
+ * is the number of hexbdecimbl digits bfter the rbdix point.  If the
+ * precision is not provided, then bll of the digits bs returned by {@link
  * Double#toHexString(double)} will be output.
  *
- * <p><a name="dnbdec"><b> BigDecimal </b></a>
+ * <p><b nbme="dnbdec"><b> BigDecimbl </b></b>
  *
- * <p> The following conversions may be applied {@link java.math.BigDecimal
- * BigDecimal}.
+ * <p> The following conversions mby be bpplied {@link jbvb.mbth.BigDecimbl
+ * BigDecimbl}.
  *
- * <table cellpadding=5 summary="floatConv">
+ * <tbble cellpbdding=5 summbry="flobtConv">
  *
- * <tr><td valign="top"> {@code 'e'}
- *     <td valign="top"> <tt>'&#92;u0065'</tt>
- *     <td> Requires the output to be formatted using <a
- *     name="bscientific">computerized scientific notation</a>.  The <a
- *     href="#L10nAlgorithm">localization algorithm</a> is applied.
+ * <tr><td vblign="top"> {@code 'e'}
+ *     <td vblign="top"> <tt>'&#92;u0065'</tt>
+ *     <td> Requires the output to be formbtted using <b
+ *     nbme="bscientific">computerized scientific notbtion</b>.  The <b
+ *     href="#L10nAlgorithm">locblizbtion blgorithm</b> is bpplied.
  *
- *     <p> The formatting of the magnitude <i>m</i> depends upon its value.
+ *     <p> The formbtting of the mbgnitude <i>m</i> depends upon its vblue.
  *
- *     <p> If <i>m</i> is positive-zero or negative-zero, then the exponent
+ *     <p> If <i>m</i> is positive-zero or negbtive-zero, then the exponent
  *     will be {@code "+00"}.
  *
- *     <p> Otherwise, the result is a string that represents the sign and
- *     magnitude (absolute value) of the argument.  The formatting of the sign
- *     is described in the <a href="#L10nAlgorithm">localization
- *     algorithm</a>. The formatting of the magnitude <i>m</i> depends upon its
- *     value.
+ *     <p> Otherwise, the result is b string thbt represents the sign bnd
+ *     mbgnitude (bbsolute vblue) of the brgument.  The formbtting of the sign
+ *     is described in the <b href="#L10nAlgorithm">locblizbtion
+ *     blgorithm</b>. The formbtting of the mbgnitude <i>m</i> depends upon its
+ *     vblue.
  *
- *     <p> Let <i>n</i> be the unique integer such that 10<sup><i>n</i></sup>
- *     &lt;= <i>m</i> &lt; 10<sup><i>n</i>+1</sup>; then let <i>a</i> be the
- *     mathematically exact quotient of <i>m</i> and 10<sup><i>n</i></sup> so
- *     that 1 &lt;= <i>a</i> &lt; 10. The magnitude is then represented as the
- *     integer part of <i>a</i>, as a single decimal digit, followed by the
- *     decimal separator followed by decimal digits representing the fractional
- *     part of <i>a</i>, followed by the exponent symbol {@code 'e'}
+ *     <p> Let <i>n</i> be the unique integer such thbt 10<sup><i>n</i></sup>
+ *     &lt;= <i>m</i> &lt; 10<sup><i>n</i>+1</sup>; then let <i>b</i> be the
+ *     mbthembticblly exbct quotient of <i>m</i> bnd 10<sup><i>n</i></sup> so
+ *     thbt 1 &lt;= <i>b</i> &lt; 10. The mbgnitude is then represented bs the
+ *     integer pbrt of <i>b</i>, bs b single decimbl digit, followed by the
+ *     decimbl sepbrbtor followed by decimbl digits representing the frbctionbl
+ *     pbrt of <i>b</i>, followed by the exponent symbol {@code 'e'}
  *     (<tt>'&#92;u0065'</tt>), followed by the sign of the exponent, followed
- *     by a representation of <i>n</i> as a decimal integer, as produced by the
- *     method {@link Long#toString(long, int)}, and zero-padded to include at
- *     least two digits.
+ *     by b representbtion of <i>n</i> bs b decimbl integer, bs produced by the
+ *     method {@link Long#toString(long, int)}, bnd zero-pbdded to include bt
+ *     lebst two digits.
  *
- *     <p> The number of digits in the result for the fractional part of
- *     <i>m</i> or <i>a</i> is equal to the precision.  If the precision is not
- *     specified then the default value is {@code 6}.  If the precision is
- *     less than the number of digits to the right of the decimal point then
- *     the value will be rounded using the
- *     {@linkplain java.math.BigDecimal#ROUND_HALF_UP round half up
- *     algorithm}.  Otherwise, zeros may be appended to reach the precision.
- *     For a canonical representation of the value, use {@link
- *     BigDecimal#toString()}.
+ *     <p> The number of digits in the result for the frbctionbl pbrt of
+ *     <i>m</i> or <i>b</i> is equbl to the precision.  If the precision is not
+ *     specified then the defbult vblue is {@code 6}.  If the precision is
+ *     less thbn the number of digits to the right of the decimbl point then
+ *     the vblue will be rounded using the
+ *     {@linkplbin jbvb.mbth.BigDecimbl#ROUND_HALF_UP round hblf up
+ *     blgorithm}.  Otherwise, zeros mby be bppended to rebch the precision.
+ *     For b cbnonicbl representbtion of the vblue, use {@link
+ *     BigDecimbl#toString()}.
  *
- *     <p> If the {@code ','} flag is given, then an {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code ','} flbg is given, then bn {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'E'}
- *     <td valign="top"> <tt>'&#92;u0045'</tt>
- *     <td> The upper-case variant of {@code 'e'}.  The exponent symbol
+ * <tr><td vblign="top"> {@code 'E'}
+ *     <td vblign="top"> <tt>'&#92;u0045'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'e'}.  The exponent symbol
  *     will be {@code 'E'} (<tt>'&#92;u0045'</tt>).
  *
- * <tr><td valign="top"> {@code 'g'}
- *     <td valign="top"> <tt>'&#92;u0067'</tt>
- *     <td> Requires the output to be formatted in general scientific notation
- *     as described below. The <a href="#L10nAlgorithm">localization
- *     algorithm</a> is applied.
+ * <tr><td vblign="top"> {@code 'g'}
+ *     <td vblign="top"> <tt>'&#92;u0067'</tt>
+ *     <td> Requires the output to be formbtted in generbl scientific notbtion
+ *     bs described below. The <b href="#L10nAlgorithm">locblizbtion
+ *     blgorithm</b> is bpplied.
  *
- *     <p> After rounding for the precision, the formatting of the resulting
- *     magnitude <i>m</i> depends on its value.
+ *     <p> After rounding for the precision, the formbtting of the resulting
+ *     mbgnitude <i>m</i> depends on its vblue.
  *
- *     <p> If <i>m</i> is greater than or equal to 10<sup>-4</sup> but less
- *     than 10<sup>precision</sup> then it is represented in <i><a
- *     href="#bdecimal">decimal format</a></i>.
+ *     <p> If <i>m</i> is grebter thbn or equbl to 10<sup>-4</sup> but less
+ *     thbn 10<sup>precision</sup> then it is represented in <i><b
+ *     href="#bdecimbl">decimbl formbt</b></i>.
  *
- *     <p> If <i>m</i> is less than 10<sup>-4</sup> or greater than or equal to
- *     10<sup>precision</sup>, then it is represented in <i><a
- *     href="#bscientific">computerized scientific notation</a></i>.
+ *     <p> If <i>m</i> is less thbn 10<sup>-4</sup> or grebter thbn or equbl to
+ *     10<sup>precision</sup>, then it is represented in <i><b
+ *     href="#bscientific">computerized scientific notbtion</b></i>.
  *
- *     <p> The total number of significant digits in <i>m</i> is equal to the
- *     precision.  If the precision is not specified, then the default value is
- *     {@code 6}.  If the precision is {@code 0}, then it is taken to be
+ *     <p> The totbl number of significbnt digits in <i>m</i> is equbl to the
+ *     precision.  If the precision is not specified, then the defbult vblue is
+ *     {@code 6}.  If the precision is {@code 0}, then it is tbken to be
  *     {@code 1}.
  *
- *     <p> If the {@code '#'} flag is given then an {@link
- *     FormatFlagsConversionMismatchException} will be thrown.
+ *     <p> If the {@code '#'} flbg is given then bn {@link
+ *     FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <tr><td valign="top"> {@code 'G'}
- *     <td valign="top"> <tt>'&#92;u0047'</tt>
- *     <td> The upper-case variant of {@code 'g'}.
+ * <tr><td vblign="top"> {@code 'G'}
+ *     <td vblign="top"> <tt>'&#92;u0047'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 'g'}.
  *
- * <tr><td valign="top"> {@code 'f'}
- *     <td valign="top"> <tt>'&#92;u0066'</tt>
- *     <td> Requires the output to be formatted using <a name="bdecimal">decimal
- *     format</a>.  The <a href="#L10nAlgorithm">localization algorithm</a> is
- *     applied.
+ * <tr><td vblign="top"> {@code 'f'}
+ *     <td vblign="top"> <tt>'&#92;u0066'</tt>
+ *     <td> Requires the output to be formbtted using <b nbme="bdecimbl">decimbl
+ *     formbt</b>.  The <b href="#L10nAlgorithm">locblizbtion blgorithm</b> is
+ *     bpplied.
  *
- *     <p> The result is a string that represents the sign and magnitude
- *     (absolute value) of the argument.  The formatting of the sign is
- *     described in the <a href="#L10nAlgorithm">localization
- *     algorithm</a>. The formatting of the magnitude <i>m</i> depends upon its
- *     value.
+ *     <p> The result is b string thbt represents the sign bnd mbgnitude
+ *     (bbsolute vblue) of the brgument.  The formbtting of the sign is
+ *     described in the <b href="#L10nAlgorithm">locblizbtion
+ *     blgorithm</b>. The formbtting of the mbgnitude <i>m</i> depends upon its
+ *     vblue.
  *
- *     <p> The magnitude is formatted as the integer part of <i>m</i>, with no
- *     leading zeroes, followed by the decimal separator followed by one or
- *     more decimal digits representing the fractional part of <i>m</i>.
+ *     <p> The mbgnitude is formbtted bs the integer pbrt of <i>m</i>, with no
+ *     lebding zeroes, followed by the decimbl sepbrbtor followed by one or
+ *     more decimbl digits representing the frbctionbl pbrt of <i>m</i>.
  *
- *     <p> The number of digits in the result for the fractional part of
- *     <i>m</i> or <i>a</i> is equal to the precision. If the precision is not
- *     specified then the default value is {@code 6}.  If the precision is
- *     less than the number of digits to the right of the decimal point
- *     then the value will be rounded using the
- *     {@linkplain java.math.BigDecimal#ROUND_HALF_UP round half up
- *     algorithm}.  Otherwise, zeros may be appended to reach the precision.
- *     For a canonical representation of the value, use {@link
- *     BigDecimal#toString()}.
+ *     <p> The number of digits in the result for the frbctionbl pbrt of
+ *     <i>m</i> or <i>b</i> is equbl to the precision. If the precision is not
+ *     specified then the defbult vblue is {@code 6}.  If the precision is
+ *     less thbn the number of digits to the right of the decimbl point
+ *     then the vblue will be rounded using the
+ *     {@linkplbin jbvb.mbth.BigDecimbl#ROUND_HALF_UP round hblf up
+ *     blgorithm}.  Otherwise, zeros mby be bppended to rebch the precision.
+ *     For b cbnonicbl representbtion of the vblue, use {@link
+ *     BigDecimbl#toString()}.
  *
- * </table>
+ * </tbble>
  *
- * <p> All <a href="#intFlags">flags</a> defined for Byte, Short, Integer, and
- * Long apply.
+ * <p> All <b href="#intFlbgs">flbgs</b> defined for Byte, Short, Integer, bnd
+ * Long bpply.
  *
- * <p> If the {@code '#'} flag is given, then the decimal separator will
- * always be present.
+ * <p> If the {@code '#'} flbg is given, then the decimbl sepbrbtor will
+ * blwbys be present.
  *
- * <p> The <a href="#floatdFlags">default behavior</a> when no flags are
- * given is the same as for Float and Double.
+ * <p> The <b href="#flobtdFlbgs">defbult behbvior</b> when no flbgs bre
+ * given is the sbme bs for Flobt bnd Double.
  *
- * <p> The specification of <a href="#floatDWidth">width</a> and <a
- * href="#floatDPrec">precision</a> is the same as defined for Float and
+ * <p> The specificbtion of <b href="#flobtDWidth">width</b> bnd <b
+ * href="#flobtDPrec">precision</b> is the sbme bs defined for Flobt bnd
  * Double.
  *
- * <h4><a name="ddt">Date/Time</a></h4>
+ * <h4><b nbme="ddt">Dbte/Time</b></h4>
  *
- * <p> This conversion may be applied to {@code long}, {@link Long}, {@link
- * Calendar}, {@link Date} and {@link TemporalAccessor TemporalAccessor}
+ * <p> This conversion mby be bpplied to {@code long}, {@link Long}, {@link
+ * Cblendbr}, {@link Dbte} bnd {@link TemporblAccessor TemporblAccessor}
  *
- * <table cellpadding=5 summary="DTConv">
+ * <tbble cellpbdding=5 summbry="DTConv">
  *
- * <tr><td valign="top"> {@code 't'}
- *     <td valign="top"> <tt>'&#92;u0074'</tt>
- *     <td> Prefix for date and time conversion characters.
- * <tr><td valign="top"> {@code 'T'}
- *     <td valign="top"> <tt>'&#92;u0054'</tt>
- *     <td> The upper-case variant of {@code 't'}.
+ * <tr><td vblign="top"> {@code 't'}
+ *     <td vblign="top"> <tt>'&#92;u0074'</tt>
+ *     <td> Prefix for dbte bnd time conversion chbrbcters.
+ * <tr><td vblign="top"> {@code 'T'}
+ *     <td vblign="top"> <tt>'&#92;u0054'</tt>
+ *     <td> The upper-cbse vbribnt of {@code 't'}.
  *
- * </table>
+ * </tbble>
  *
- * <p> The following date and time conversion character suffixes are defined
- * for the {@code 't'} and {@code 'T'} conversions.  The types are similar to
- * but not completely identical to those defined by GNU {@code date} and
- * POSIX {@code strftime(3c)}.  Additional conversion types are provided to
- * access Java-specific functionality (e.g. {@code 'L'} for milliseconds
+ * <p> The following dbte bnd time conversion chbrbcter suffixes bre defined
+ * for the {@code 't'} bnd {@code 'T'} conversions.  The types bre similbr to
+ * but not completely identicbl to those defined by GNU {@code dbte} bnd
+ * POSIX {@code strftime(3c)}.  Additionbl conversion types bre provided to
+ * bccess Jbvb-specific functionblity (e.g. {@code 'L'} for milliseconds
  * within the second).
  *
- * <p> The following conversion characters are used for formatting times:
+ * <p> The following conversion chbrbcters bre used for formbtting times:
  *
- * <table cellpadding=5 summary="time">
+ * <tbble cellpbdding=5 summbry="time">
  *
- * <tr><td valign="top"> {@code 'H'}
- *     <td valign="top"> <tt>'&#92;u0048'</tt>
- *     <td> Hour of the day for the 24-hour clock, formatted as two digits with
- *     a leading zero as necessary i.e. {@code 00 - 23}. {@code 00}
+ * <tr><td vblign="top"> {@code 'H'}
+ *     <td vblign="top"> <tt>'&#92;u0048'</tt>
+ *     <td> Hour of the dby for the 24-hour clock, formbtted bs two digits with
+ *     b lebding zero bs necessbry i.e. {@code 00 - 23}. {@code 00}
  *     corresponds to midnight.
  *
- * <tr><td valign="top">{@code 'I'}
- *     <td valign="top"> <tt>'&#92;u0049'</tt>
- *     <td> Hour for the 12-hour clock, formatted as two digits with a leading
- *     zero as necessary, i.e.  {@code 01 - 12}.  {@code 01} corresponds to
- *     one o'clock (either morning or afternoon).
+ * <tr><td vblign="top">{@code 'I'}
+ *     <td vblign="top"> <tt>'&#92;u0049'</tt>
+ *     <td> Hour for the 12-hour clock, formbtted bs two digits with b lebding
+ *     zero bs necessbry, i.e.  {@code 01 - 12}.  {@code 01} corresponds to
+ *     one o'clock (either morning or bfternoon).
  *
- * <tr><td valign="top">{@code 'k'}
- *     <td valign="top"> <tt>'&#92;u006b'</tt>
- *     <td> Hour of the day for the 24-hour clock, i.e. {@code 0 - 23}.
+ * <tr><td vblign="top">{@code 'k'}
+ *     <td vblign="top"> <tt>'&#92;u006b'</tt>
+ *     <td> Hour of the dby for the 24-hour clock, i.e. {@code 0 - 23}.
  *     {@code 0} corresponds to midnight.
  *
- * <tr><td valign="top">{@code 'l'}
- *     <td valign="top"> <tt>'&#92;u006c'</tt>
+ * <tr><td vblign="top">{@code 'l'}
+ *     <td vblign="top"> <tt>'&#92;u006c'</tt>
  *     <td> Hour for the 12-hour clock, i.e. {@code 1 - 12}.  {@code 1}
- *     corresponds to one o'clock (either morning or afternoon).
+ *     corresponds to one o'clock (either morning or bfternoon).
  *
- * <tr><td valign="top">{@code 'M'}
- *     <td valign="top"> <tt>'&#92;u004d'</tt>
- *     <td> Minute within the hour formatted as two digits with a leading zero
- *     as necessary, i.e.  {@code 00 - 59}.
+ * <tr><td vblign="top">{@code 'M'}
+ *     <td vblign="top"> <tt>'&#92;u004d'</tt>
+ *     <td> Minute within the hour formbtted bs two digits with b lebding zero
+ *     bs necessbry, i.e.  {@code 00 - 59}.
  *
- * <tr><td valign="top">{@code 'S'}
- *     <td valign="top"> <tt>'&#92;u0053'</tt>
- *     <td> Seconds within the minute, formatted as two digits with a leading
- *     zero as necessary, i.e. {@code 00 - 60} ("{@code 60}" is a special
- *     value required to support leap seconds).
+ * <tr><td vblign="top">{@code 'S'}
+ *     <td vblign="top"> <tt>'&#92;u0053'</tt>
+ *     <td> Seconds within the minute, formbtted bs two digits with b lebding
+ *     zero bs necessbry, i.e. {@code 00 - 60} ("{@code 60}" is b specibl
+ *     vblue required to support lebp seconds).
  *
- * <tr><td valign="top">{@code 'L'}
- *     <td valign="top"> <tt>'&#92;u004c'</tt>
- *     <td> Millisecond within the second formatted as three digits with
- *     leading zeros as necessary, i.e. {@code 000 - 999}.
+ * <tr><td vblign="top">{@code 'L'}
+ *     <td vblign="top"> <tt>'&#92;u004c'</tt>
+ *     <td> Millisecond within the second formbtted bs three digits with
+ *     lebding zeros bs necessbry, i.e. {@code 000 - 999}.
  *
- * <tr><td valign="top">{@code 'N'}
- *     <td valign="top"> <tt>'&#92;u004e'</tt>
- *     <td> Nanosecond within the second, formatted as nine digits with leading
- *     zeros as necessary, i.e. {@code 000000000 - 999999999}.  The precision
- *     of this value is limited by the resolution of the underlying operating
- *     system or hardware.
+ * <tr><td vblign="top">{@code 'N'}
+ *     <td vblign="top"> <tt>'&#92;u004e'</tt>
+ *     <td> Nbnosecond within the second, formbtted bs nine digits with lebding
+ *     zeros bs necessbry, i.e. {@code 000000000 - 999999999}.  The precision
+ *     of this vblue is limited by the resolution of the underlying operbting
+ *     system or hbrdwbre.
  *
- * <tr><td valign="top">{@code 'p'}
- *     <td valign="top"> <tt>'&#92;u0070'</tt>
- *     <td> Locale-specific {@linkplain
- *     java.text.DateFormatSymbols#getAmPmStrings morning or afternoon} marker
- *     in lower case, e.g."{@code am}" or "{@code pm}".  Use of the
- *     conversion prefix {@code 'T'} forces this output to upper case.  (Note
- *     that {@code 'p'} produces lower-case output.  This is different from
- *     GNU {@code date} and POSIX {@code strftime(3c)} which produce
- *     upper-case output.)
+ * <tr><td vblign="top">{@code 'p'}
+ *     <td vblign="top"> <tt>'&#92;u0070'</tt>
+ *     <td> Locble-specific {@linkplbin
+ *     jbvb.text.DbteFormbtSymbols#getAmPmStrings morning or bfternoon} mbrker
+ *     in lower cbse, e.g."{@code bm}" or "{@code pm}".  Use of the
+ *     conversion prefix {@code 'T'} forces this output to upper cbse.  (Note
+ *     thbt {@code 'p'} produces lower-cbse output.  This is different from
+ *     GNU {@code dbte} bnd POSIX {@code strftime(3c)} which produce
+ *     upper-cbse output.)
  *
- * <tr><td valign="top">{@code 'z'}
- *     <td valign="top"> <tt>'&#92;u007a'</tt>
- *     <td> <a href="http://www.ietf.org/rfc/rfc0822.txt">RFC&nbsp;822</a>
+ * <tr><td vblign="top">{@code 'z'}
+ *     <td vblign="top"> <tt>'&#92;u007b'</tt>
+ *     <td> <b href="http://www.ietf.org/rfc/rfc0822.txt">RFC&nbsp;822</b>
  *     style numeric time zone offset from GMT, e.g. {@code -0800}.  This
- *     value will be adjusted as necessary for Daylight Saving Time.  For
- *     {@code long}, {@link Long}, and {@link Date} the time zone used is
- *     the {@linkplain TimeZone#getDefault() default time zone} for this
- *     instance of the Java virtual machine.
+ *     vblue will be bdjusted bs necessbry for Dbylight Sbving Time.  For
+ *     {@code long}, {@link Long}, bnd {@link Dbte} the time zone used is
+ *     the {@linkplbin TimeZone#getDefbult() defbult time zone} for this
+ *     instbnce of the Jbvb virtubl mbchine.
  *
- * <tr><td valign="top">{@code 'Z'}
- *     <td valign="top"> <tt>'&#92;u005a'</tt>
- *     <td> A string representing the abbreviation for the time zone.  This
- *     value will be adjusted as necessary for Daylight Saving Time.  For
- *     {@code long}, {@link Long}, and {@link Date} the time zone used is
- *     the {@linkplain TimeZone#getDefault() default time zone} for this
- *     instance of the Java virtual machine.  The Formatter's locale will
- *     supersede the locale of the argument (if any).
+ * <tr><td vblign="top">{@code 'Z'}
+ *     <td vblign="top"> <tt>'&#92;u005b'</tt>
+ *     <td> A string representing the bbbrevibtion for the time zone.  This
+ *     vblue will be bdjusted bs necessbry for Dbylight Sbving Time.  For
+ *     {@code long}, {@link Long}, bnd {@link Dbte} the time zone used is
+ *     the {@linkplbin TimeZone#getDefbult() defbult time zone} for this
+ *     instbnce of the Jbvb virtubl mbchine.  The Formbtter's locble will
+ *     supersede the locble of the brgument (if bny).
  *
- * <tr><td valign="top">{@code 's'}
- *     <td valign="top"> <tt>'&#92;u0073'</tt>
- *     <td> Seconds since the beginning of the epoch starting at 1 January 1970
+ * <tr><td vblign="top">{@code 's'}
+ *     <td vblign="top"> <tt>'&#92;u0073'</tt>
+ *     <td> Seconds since the beginning of the epoch stbrting bt 1 Jbnubry 1970
  *     {@code 00:00:00} UTC, i.e. {@code Long.MIN_VALUE/1000} to
  *     {@code Long.MAX_VALUE/1000}.
  *
- * <tr><td valign="top">{@code 'Q'}
- *     <td valign="top"> <tt>'&#92;u004f'</tt>
- *     <td> Milliseconds since the beginning of the epoch starting at 1 January
+ * <tr><td vblign="top">{@code 'Q'}
+ *     <td vblign="top"> <tt>'&#92;u004f'</tt>
+ *     <td> Milliseconds since the beginning of the epoch stbrting bt 1 Jbnubry
  *     1970 {@code 00:00:00} UTC, i.e. {@code Long.MIN_VALUE} to
- *     {@code Long.MAX_VALUE}. The precision of this value is limited by
- *     the resolution of the underlying operating system or hardware.
+ *     {@code Long.MAX_VALUE}. The precision of this vblue is limited by
+ *     the resolution of the underlying operbting system or hbrdwbre.
  *
- * </table>
+ * </tbble>
  *
- * <p> The following conversion characters are used for formatting dates:
+ * <p> The following conversion chbrbcters bre used for formbtting dbtes:
  *
- * <table cellpadding=5 summary="date">
+ * <tbble cellpbdding=5 summbry="dbte">
  *
- * <tr><td valign="top">{@code 'B'}
- *     <td valign="top"> <tt>'&#92;u0042'</tt>
- *     <td> Locale-specific {@linkplain java.text.DateFormatSymbols#getMonths
- *     full month name}, e.g. {@code "January"}, {@code "February"}.
+ * <tr><td vblign="top">{@code 'B'}
+ *     <td vblign="top"> <tt>'&#92;u0042'</tt>
+ *     <td> Locble-specific {@linkplbin jbvb.text.DbteFormbtSymbols#getMonths
+ *     full month nbme}, e.g. {@code "Jbnubry"}, {@code "Februbry"}.
  *
- * <tr><td valign="top">{@code 'b'}
- *     <td valign="top"> <tt>'&#92;u0062'</tt>
- *     <td> Locale-specific {@linkplain
- *     java.text.DateFormatSymbols#getShortMonths abbreviated month name},
- *     e.g. {@code "Jan"}, {@code "Feb"}.
+ * <tr><td vblign="top">{@code 'b'}
+ *     <td vblign="top"> <tt>'&#92;u0062'</tt>
+ *     <td> Locble-specific {@linkplbin
+ *     jbvb.text.DbteFormbtSymbols#getShortMonths bbbrevibted month nbme},
+ *     e.g. {@code "Jbn"}, {@code "Feb"}.
  *
- * <tr><td valign="top">{@code 'h'}
- *     <td valign="top"> <tt>'&#92;u0068'</tt>
- *     <td> Same as {@code 'b'}.
+ * <tr><td vblign="top">{@code 'h'}
+ *     <td vblign="top"> <tt>'&#92;u0068'</tt>
+ *     <td> Sbme bs {@code 'b'}.
  *
- * <tr><td valign="top">{@code 'A'}
- *     <td valign="top"> <tt>'&#92;u0041'</tt>
- *     <td> Locale-specific full name of the {@linkplain
- *     java.text.DateFormatSymbols#getWeekdays day of the week},
- *     e.g. {@code "Sunday"}, {@code "Monday"}
+ * <tr><td vblign="top">{@code 'A'}
+ *     <td vblign="top"> <tt>'&#92;u0041'</tt>
+ *     <td> Locble-specific full nbme of the {@linkplbin
+ *     jbvb.text.DbteFormbtSymbols#getWeekdbys dby of the week},
+ *     e.g. {@code "Sundby"}, {@code "Mondby"}
  *
- * <tr><td valign="top">{@code 'a'}
- *     <td valign="top"> <tt>'&#92;u0061'</tt>
- *     <td> Locale-specific short name of the {@linkplain
- *     java.text.DateFormatSymbols#getShortWeekdays day of the week},
+ * <tr><td vblign="top">{@code 'b'}
+ *     <td vblign="top"> <tt>'&#92;u0061'</tt>
+ *     <td> Locble-specific short nbme of the {@linkplbin
+ *     jbvb.text.DbteFormbtSymbols#getShortWeekdbys dby of the week},
  *     e.g. {@code "Sun"}, {@code "Mon"}
  *
- * <tr><td valign="top">{@code 'C'}
- *     <td valign="top"> <tt>'&#92;u0043'</tt>
- *     <td> Four-digit year divided by {@code 100}, formatted as two digits
- *     with leading zero as necessary, i.e. {@code 00 - 99}
+ * <tr><td vblign="top">{@code 'C'}
+ *     <td vblign="top"> <tt>'&#92;u0043'</tt>
+ *     <td> Four-digit yebr divided by {@code 100}, formbtted bs two digits
+ *     with lebding zero bs necessbry, i.e. {@code 00 - 99}
  *
- * <tr><td valign="top">{@code 'Y'}
- *     <td valign="top"> <tt>'&#92;u0059'</tt> <td> Year, formatted to at least
- *     four digits with leading zeros as necessary, e.g. {@code 0092} equals
- *     {@code 92} CE for the Gregorian calendar.
+ * <tr><td vblign="top">{@code 'Y'}
+ *     <td vblign="top"> <tt>'&#92;u0059'</tt> <td> Yebr, formbtted to bt lebst
+ *     four digits with lebding zeros bs necessbry, e.g. {@code 0092} equbls
+ *     {@code 92} CE for the Gregoribn cblendbr.
  *
- * <tr><td valign="top">{@code 'y'}
- *     <td valign="top"> <tt>'&#92;u0079'</tt>
- *     <td> Last two digits of the year, formatted with leading zeros as
- *     necessary, i.e. {@code 00 - 99}.
+ * <tr><td vblign="top">{@code 'y'}
+ *     <td vblign="top"> <tt>'&#92;u0079'</tt>
+ *     <td> Lbst two digits of the yebr, formbtted with lebding zeros bs
+ *     necessbry, i.e. {@code 00 - 99}.
  *
- * <tr><td valign="top">{@code 'j'}
- *     <td valign="top"> <tt>'&#92;u006a'</tt>
- *     <td> Day of year, formatted as three digits with leading zeros as
- *     necessary, e.g. {@code 001 - 366} for the Gregorian calendar.
- *     {@code 001} corresponds to the first day of the year.
+ * <tr><td vblign="top">{@code 'j'}
+ *     <td vblign="top"> <tt>'&#92;u006b'</tt>
+ *     <td> Dby of yebr, formbtted bs three digits with lebding zeros bs
+ *     necessbry, e.g. {@code 001 - 366} for the Gregoribn cblendbr.
+ *     {@code 001} corresponds to the first dby of the yebr.
  *
- * <tr><td valign="top">{@code 'm'}
- *     <td valign="top"> <tt>'&#92;u006d'</tt>
- *     <td> Month, formatted as two digits with leading zeros as necessary,
+ * <tr><td vblign="top">{@code 'm'}
+ *     <td vblign="top"> <tt>'&#92;u006d'</tt>
+ *     <td> Month, formbtted bs two digits with lebding zeros bs necessbry,
  *     i.e. {@code 01 - 13}, where "{@code 01}" is the first month of the
- *     year and ("{@code 13}" is a special value required to support lunar
- *     calendars).
+ *     yebr bnd ("{@code 13}" is b specibl vblue required to support lunbr
+ *     cblendbrs).
  *
- * <tr><td valign="top">{@code 'd'}
- *     <td valign="top"> <tt>'&#92;u0064'</tt>
- *     <td> Day of month, formatted as two digits with leading zeros as
- *     necessary, i.e. {@code 01 - 31}, where "{@code 01}" is the first day
+ * <tr><td vblign="top">{@code 'd'}
+ *     <td vblign="top"> <tt>'&#92;u0064'</tt>
+ *     <td> Dby of month, formbtted bs two digits with lebding zeros bs
+ *     necessbry, i.e. {@code 01 - 31}, where "{@code 01}" is the first dby
  *     of the month.
  *
- * <tr><td valign="top">{@code 'e'}
- *     <td valign="top"> <tt>'&#92;u0065'</tt>
- *     <td> Day of month, formatted as two digits, i.e. {@code 1 - 31} where
- *     "{@code 1}" is the first day of the month.
+ * <tr><td vblign="top">{@code 'e'}
+ *     <td vblign="top"> <tt>'&#92;u0065'</tt>
+ *     <td> Dby of month, formbtted bs two digits, i.e. {@code 1 - 31} where
+ *     "{@code 1}" is the first dby of the month.
  *
- * </table>
+ * </tbble>
  *
- * <p> The following conversion characters are used for formatting common
- * date/time compositions.
+ * <p> The following conversion chbrbcters bre used for formbtting common
+ * dbte/time compositions.
  *
- * <table cellpadding=5 summary="composites">
+ * <tbble cellpbdding=5 summbry="composites">
  *
- * <tr><td valign="top">{@code 'R'}
- *     <td valign="top"> <tt>'&#92;u0052'</tt>
- *     <td> Time formatted for the 24-hour clock as {@code "%tH:%tM"}
+ * <tr><td vblign="top">{@code 'R'}
+ *     <td vblign="top"> <tt>'&#92;u0052'</tt>
+ *     <td> Time formbtted for the 24-hour clock bs {@code "%tH:%tM"}
  *
- * <tr><td valign="top">{@code 'T'}
- *     <td valign="top"> <tt>'&#92;u0054'</tt>
- *     <td> Time formatted for the 24-hour clock as {@code "%tH:%tM:%tS"}.
+ * <tr><td vblign="top">{@code 'T'}
+ *     <td vblign="top"> <tt>'&#92;u0054'</tt>
+ *     <td> Time formbtted for the 24-hour clock bs {@code "%tH:%tM:%tS"}.
  *
- * <tr><td valign="top">{@code 'r'}
- *     <td valign="top"> <tt>'&#92;u0072'</tt>
- *     <td> Time formatted for the 12-hour clock as {@code "%tI:%tM:%tS
- *     %Tp"}.  The location of the morning or afternoon marker
- *     ({@code '%Tp'}) may be locale-dependent.
+ * <tr><td vblign="top">{@code 'r'}
+ *     <td vblign="top"> <tt>'&#92;u0072'</tt>
+ *     <td> Time formbtted for the 12-hour clock bs {@code "%tI:%tM:%tS
+ *     %Tp"}.  The locbtion of the morning or bfternoon mbrker
+ *     ({@code '%Tp'}) mby be locble-dependent.
  *
- * <tr><td valign="top">{@code 'D'}
- *     <td valign="top"> <tt>'&#92;u0044'</tt>
- *     <td> Date formatted as {@code "%tm/%td/%ty"}.
+ * <tr><td vblign="top">{@code 'D'}
+ *     <td vblign="top"> <tt>'&#92;u0044'</tt>
+ *     <td> Dbte formbtted bs {@code "%tm/%td/%ty"}.
  *
- * <tr><td valign="top">{@code 'F'}
- *     <td valign="top"> <tt>'&#92;u0046'</tt>
- *     <td> <a href="http://www.w3.org/TR/NOTE-datetime">ISO&nbsp;8601</a>
- *     complete date formatted as {@code "%tY-%tm-%td"}.
+ * <tr><td vblign="top">{@code 'F'}
+ *     <td vblign="top"> <tt>'&#92;u0046'</tt>
+ *     <td> <b href="http://www.w3.org/TR/NOTE-dbtetime">ISO&nbsp;8601</b>
+ *     complete dbte formbtted bs {@code "%tY-%tm-%td"}.
  *
- * <tr><td valign="top">{@code 'c'}
- *     <td valign="top"> <tt>'&#92;u0063'</tt>
- *     <td> Date and time formatted as {@code "%ta %tb %td %tT %tZ %tY"},
+ * <tr><td vblign="top">{@code 'c'}
+ *     <td vblign="top"> <tt>'&#92;u0063'</tt>
+ *     <td> Dbte bnd time formbtted bs {@code "%tb %tb %td %tT %tZ %tY"},
  *     e.g. {@code "Sun Jul 20 16:17:00 EDT 1969"}.
  *
- * </table>
+ * </tbble>
  *
- * <p> The {@code '-'} flag defined for <a href="#dFlags">General
- * conversions</a> applies.  If the {@code '#'} flag is given, then a {@link
- * FormatFlagsConversionMismatchException} will be thrown.
+ * <p> The {@code '-'} flbg defined for <b href="#dFlbgs">Generbl
+ * conversions</b> bpplies.  If the {@code '#'} flbg is given, then b {@link
+ * FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <p> The width is the minimum number of characters to
- * be written to the output.  If the length of the converted value is less than
- * the {@code width} then the output will be padded by spaces
- * (<tt>'&#92;u0020'</tt>) until the total number of characters equals width.
- * The padding is on the left by default.  If the {@code '-'} flag is given
- * then the padding will be on the right.  If width is not specified then there
+ * <p> The width is the minimum number of chbrbcters to
+ * be written to the output.  If the length of the converted vblue is less thbn
+ * the {@code width} then the output will be pbdded by spbces
+ * (<tt>'&#92;u0020'</tt>) until the totbl number of chbrbcters equbls width.
+ * The pbdding is on the left by defbult.  If the {@code '-'} flbg is given
+ * then the pbdding will be on the right.  If width is not specified then there
  * is no minimum.
  *
- * <p> The precision is not applicable.  If the precision is specified then an
- * {@link IllegalFormatPrecisionException} will be thrown.
+ * <p> The precision is not bpplicbble.  If the precision is specified then bn
+ * {@link IllegblFormbtPrecisionException} will be thrown.
  *
- * <h4><a name="dper">Percent</a></h4>
+ * <h4><b nbme="dper">Percent</b></h4>
  *
- * <p> The conversion does not correspond to any argument.
+ * <p> The conversion does not correspond to bny brgument.
  *
- * <table cellpadding=5 summary="DTConv">
+ * <tbble cellpbdding=5 summbry="DTConv">
  *
- * <tr><td valign="top">{@code '%'}
- *     <td> The result is a literal {@code '%'} (<tt>'&#92;u0025'</tt>)
+ * <tr><td vblign="top">{@code '%'}
+ *     <td> The result is b literbl {@code '%'} (<tt>'&#92;u0025'</tt>)
  *
- * <p> The width is the minimum number of characters to
+ * <p> The width is the minimum number of chbrbcters to
  * be written to the output including the {@code '%'}.  If the length of the
- * converted value is less than the {@code width} then the output will be
- * padded by spaces (<tt>'&#92;u0020'</tt>) until the total number of
- * characters equals width.  The padding is on the left.  If width is not
+ * converted vblue is less thbn the {@code width} then the output will be
+ * pbdded by spbces (<tt>'&#92;u0020'</tt>) until the totbl number of
+ * chbrbcters equbls width.  The pbdding is on the left.  If width is not
  * specified then just the {@code '%'} is output.
  *
- * <p> The {@code '-'} flag defined for <a href="#dFlags">General
- * conversions</a> applies.  If any other flags are provided, then a
- * {@link FormatFlagsConversionMismatchException} will be thrown.
+ * <p> The {@code '-'} flbg defined for <b href="#dFlbgs">Generbl
+ * conversions</b> bpplies.  If bny other flbgs bre provided, then b
+ * {@link FormbtFlbgsConversionMismbtchException} will be thrown.
  *
- * <p> The precision is not applicable.  If the precision is specified an
- * {@link IllegalFormatPrecisionException} will be thrown.
+ * <p> The precision is not bpplicbble.  If the precision is specified bn
+ * {@link IllegblFormbtPrecisionException} will be thrown.
  *
- * </table>
+ * </tbble>
  *
- * <h4><a name="dls">Line Separator</a></h4>
+ * <h4><b nbme="dls">Line Sepbrbtor</b></h4>
  *
- * <p> The conversion does not correspond to any argument.
+ * <p> The conversion does not correspond to bny brgument.
  *
- * <table cellpadding=5 summary="DTConv">
+ * <tbble cellpbdding=5 summbry="DTConv">
  *
- * <tr><td valign="top">{@code 'n'}
- *     <td> the platform-specific line separator as returned by {@link
- *     System#getProperty System.getProperty("line.separator")}.
+ * <tr><td vblign="top">{@code 'n'}
+ *     <td> the plbtform-specific line sepbrbtor bs returned by {@link
+ *     System#getProperty System.getProperty("line.sepbrbtor")}.
  *
- * </table>
+ * </tbble>
  *
- * <p> Flags, width, and precision are not applicable.  If any are provided an
- * {@link IllegalFormatFlagsException}, {@link IllegalFormatWidthException},
- * and {@link IllegalFormatPrecisionException}, respectively will be thrown.
+ * <p> Flbgs, width, bnd precision bre not bpplicbble.  If bny bre provided bn
+ * {@link IllegblFormbtFlbgsException}, {@link IllegblFormbtWidthException},
+ * bnd {@link IllegblFormbtPrecisionException}, respectively will be thrown.
  *
- * <h4><a name="dpos">Argument Index</a></h4>
+ * <h4><b nbme="dpos">Argument Index</b></h4>
  *
- * <p> Format specifiers can reference arguments in three ways:
+ * <p> Formbt specifiers cbn reference brguments in three wbys:
  *
  * <ul>
  *
- * <li> <i>Explicit indexing</i> is used when the format specifier contains an
- * argument index.  The argument index is a decimal integer indicating the
- * position of the argument in the argument list.  The first argument is
- * referenced by "{@code 1$}", the second by "{@code 2$}", etc.  An argument
- * may be referenced more than once.
+ * <li> <i>Explicit indexing</i> is used when the formbt specifier contbins bn
+ * brgument index.  The brgument index is b decimbl integer indicbting the
+ * position of the brgument in the brgument list.  The first brgument is
+ * referenced by "{@code 1$}", the second by "{@code 2$}", etc.  An brgument
+ * mby be referenced more thbn once.
  *
- * <p> For example:
+ * <p> For exbmple:
  *
  * <blockquote><pre>
- *   formatter.format("%4$s %3$s %2$s %1$s %4$s %3$s %2$s %1$s",
- *                    "a", "b", "c", "d")
- *   // -&gt; "d c b a d c b a"
+ *   formbtter.formbt("%4$s %3$s %2$s %1$s %4$s %3$s %2$s %1$s",
+ *                    "b", "b", "c", "d")
+ *   // -&gt; "d c b b d c b b"
  * </pre></blockquote>
  *
- * <li> <i>Relative indexing</i> is used when the format specifier contains a
- * {@code '<'} (<tt>'&#92;u003c'</tt>) flag which causes the argument for
- * the previous format specifier to be re-used.  If there is no previous
- * argument, then a {@link MissingFormatArgumentException} is thrown.
+ * <li> <i>Relbtive indexing</i> is used when the formbt specifier contbins b
+ * {@code '<'} (<tt>'&#92;u003c'</tt>) flbg which cbuses the brgument for
+ * the previous formbt specifier to be re-used.  If there is no previous
+ * brgument, then b {@link MissingFormbtArgumentException} is thrown.
  *
  * <blockquote><pre>
- *    formatter.format("%s %s %&lt;s %&lt;s", "a", "b", "c", "d")
- *    // -&gt; "a b b b"
- *    // "c" and "d" are ignored because they are not referenced
+ *    formbtter.formbt("%s %s %&lt;s %&lt;s", "b", "b", "c", "d")
+ *    // -&gt; "b b b b"
+ *    // "c" bnd "d" bre ignored becbuse they bre not referenced
  * </pre></blockquote>
  *
- * <li> <i>Ordinary indexing</i> is used when the format specifier contains
- * neither an argument index nor a {@code '<'} flag.  Each format specifier
- * which uses ordinary indexing is assigned a sequential implicit index into
- * argument list which is independent of the indices used by explicit or
- * relative indexing.
+ * <li> <i>Ordinbry indexing</i> is used when the formbt specifier contbins
+ * neither bn brgument index nor b {@code '<'} flbg.  Ebch formbt specifier
+ * which uses ordinbry indexing is bssigned b sequentibl implicit index into
+ * brgument list which is independent of the indices used by explicit or
+ * relbtive indexing.
  *
  * <blockquote><pre>
- *   formatter.format("%s %s %s %s", "a", "b", "c", "d")
- *   // -&gt; "a b c d"
+ *   formbtter.formbt("%s %s %s %s", "b", "b", "c", "d")
+ *   // -&gt; "b b c d"
  * </pre></blockquote>
  *
  * </ul>
  *
- * <p> It is possible to have a format string which uses all forms of indexing,
- * for example:
+ * <p> It is possible to hbve b formbt string which uses bll forms of indexing,
+ * for exbmple:
  *
  * <blockquote><pre>
- *   formatter.format("%2$s %s %&lt;s %s", "a", "b", "c", "d")
- *   // -&gt; "b a a b"
- *   // "c" and "d" are ignored because they are not referenced
+ *   formbtter.formbt("%2$s %s %&lt;s %s", "b", "b", "c", "d")
+ *   // -&gt; "b b b b"
+ *   // "c" bnd "d" bre ignored becbuse they bre not referenced
  * </pre></blockquote>
  *
- * <p> The maximum number of arguments is limited by the maximum dimension of a
- * Java array as defined by
- * <cite>The Java&trade; Virtual Machine Specification</cite>.
- * If the argument index is does not correspond to an
- * available argument, then a {@link MissingFormatArgumentException} is thrown.
+ * <p> The mbximum number of brguments is limited by the mbximum dimension of b
+ * Jbvb brrby bs defined by
+ * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
+ * If the brgument index is does not correspond to bn
+ * bvbilbble brgument, then b {@link MissingFormbtArgumentException} is thrown.
  *
- * <p> If there are more arguments than format specifiers, the extra arguments
- * are ignored.
+ * <p> If there bre more brguments thbn formbt specifiers, the extrb brguments
+ * bre ignored.
  *
- * <p> Unless otherwise specified, passing a {@code null} argument to any
- * method or constructor in this class will cause a {@link
+ * <p> Unless otherwise specified, pbssing b {@code null} brgument to bny
+ * method or constructor in this clbss will cbuse b {@link
  * NullPointerException} to be thrown.
  *
- * @author  Iris Clark
+ * @buthor  Iris Clbrk
  * @since 1.5
  */
-public final class Formatter implements Closeable, Flushable {
-    private Appendable a;
-    private final Locale l;
+public finbl clbss Formbtter implements Closebble, Flushbble {
+    privbte Appendbble b;
+    privbte finbl Locble l;
 
-    private IOException lastException;
+    privbte IOException lbstException;
 
-    private final char zero;
-    private static double scaleUp;
+    privbte finbl chbr zero;
+    privbte stbtic double scbleUp;
 
-    // 1 (sign) + 19 (max # sig digits) + 1 ('.') + 1 ('e') + 1 (sign)
-    // + 3 (max # exp digits) + 4 (error) = 30
-    private static final int MAX_FD_CHARS = 30;
+    // 1 (sign) + 19 (mbx # sig digits) + 1 ('.') + 1 ('e') + 1 (sign)
+    // + 3 (mbx # exp digits) + 4 (error) = 30
+    privbte stbtic finbl int MAX_FD_CHARS = 30;
 
     /**
-     * Returns a charset object for the given charset name.
+     * Returns b chbrset object for the given chbrset nbme.
      * @throws NullPointerException          is csn is null
-     * @throws UnsupportedEncodingException  if the charset is not supported
+     * @throws UnsupportedEncodingException  if the chbrset is not supported
      */
-    private static Charset toCharset(String csn)
+    privbte stbtic Chbrset toChbrset(String csn)
         throws UnsupportedEncodingException
     {
-        Objects.requireNonNull(csn, "charsetName");
+        Objects.requireNonNull(csn, "chbrsetNbme");
         try {
-            return Charset.forName(csn);
-        } catch (IllegalCharsetNameException|UnsupportedCharsetException unused) {
+            return Chbrset.forNbme(csn);
+        } cbtch (IllegblChbrsetNbmeException|UnsupportedChbrsetException unused) {
             // UnsupportedEncodingException should be thrown
             throw new UnsupportedEncodingException(csn);
         }
     }
 
-    private static final Appendable nonNullAppendable(Appendable a) {
-        if (a == null)
+    privbte stbtic finbl Appendbble nonNullAppendbble(Appendbble b) {
+        if (b == null)
             return new StringBuilder();
 
-        return a;
+        return b;
     }
 
-    /* Private constructors */
-    private Formatter(Locale l, Appendable a) {
-        this.a = a;
+    /* Privbte constructors */
+    privbte Formbtter(Locble l, Appendbble b) {
+        this.b = b;
         this.l = l;
         this.zero = getZero(l);
     }
 
-    private Formatter(Charset charset, Locale l, File file)
+    privbte Formbtter(Chbrset chbrset, Locble l, File file)
         throws FileNotFoundException
     {
         this(l,
-             new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset)));
+             new BufferedWriter(new OutputStrebmWriter(new FileOutputStrebm(file), chbrset)));
     }
 
     /**
-     * Constructs a new formatter.
+     * Constructs b new formbtter.
      *
-     * <p> The destination of the formatted output is a {@link StringBuilder}
-     * which may be retrieved by invoking {@link #out out()} and whose
-     * current content may be converted into a string by invoking {@link
-     * #toString toString()}.  The locale used is the {@linkplain
-     * Locale#getDefault(Locale.Category) default locale} for
-     * {@linkplain Locale.Category#FORMAT formatting} for this instance of the Java
-     * virtual machine.
+     * <p> The destinbtion of the formbtted output is b {@link StringBuilder}
+     * which mby be retrieved by invoking {@link #out out()} bnd whose
+     * current content mby be converted into b string by invoking {@link
+     * #toString toString()}.  The locble used is the {@linkplbin
+     * Locble#getDefbult(Locble.Cbtegory) defbult locble} for
+     * {@linkplbin Locble.Cbtegory#FORMAT formbtting} for this instbnce of the Jbvb
+     * virtubl mbchine.
      */
-    public Formatter() {
-        this(Locale.getDefault(Locale.Category.FORMAT), new StringBuilder());
+    public Formbtter() {
+        this(Locble.getDefbult(Locble.Cbtegory.FORMAT), new StringBuilder());
     }
 
     /**
-     * Constructs a new formatter with the specified destination.
+     * Constructs b new formbtter with the specified destinbtion.
      *
-     * <p> The locale used is the {@linkplain
-     * Locale#getDefault(Locale.Category) default locale} for
-     * {@linkplain Locale.Category#FORMAT formatting} for this instance of the Java
-     * virtual machine.
+     * <p> The locble used is the {@linkplbin
+     * Locble#getDefbult(Locble.Cbtegory) defbult locble} for
+     * {@linkplbin Locble.Cbtegory#FORMAT formbtting} for this instbnce of the Jbvb
+     * virtubl mbchine.
      *
-     * @param  a
-     *         Destination for the formatted output.  If {@code a} is
-     *         {@code null} then a {@link StringBuilder} will be created.
+     * @pbrbm  b
+     *         Destinbtion for the formbtted output.  If {@code b} is
+     *         {@code null} then b {@link StringBuilder} will be crebted.
      */
-    public Formatter(Appendable a) {
-        this(Locale.getDefault(Locale.Category.FORMAT), nonNullAppendable(a));
+    public Formbtter(Appendbble b) {
+        this(Locble.getDefbult(Locble.Cbtegory.FORMAT), nonNullAppendbble(b));
     }
 
     /**
-     * Constructs a new formatter with the specified locale.
+     * Constructs b new formbtter with the specified locble.
      *
-     * <p> The destination of the formatted output is a {@link StringBuilder}
-     * which may be retrieved by invoking {@link #out out()} and whose current
-     * content may be converted into a string by invoking {@link #toString
+     * <p> The destinbtion of the formbtted output is b {@link StringBuilder}
+     * which mby be retrieved by invoking {@link #out out()} bnd whose current
+     * content mby be converted into b string by invoking {@link #toString
      * toString()}.
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If {@code l} is {@code null} then no localization
-     *         is applied.
+     * @pbrbm  l
+     *         The {@linkplbin jbvb.util.Locble locble} to bpply during
+     *         formbtting.  If {@code l} is {@code null} then no locblizbtion
+     *         is bpplied.
      */
-    public Formatter(Locale l) {
+    public Formbtter(Locble l) {
         this(l, new StringBuilder());
     }
 
     /**
-     * Constructs a new formatter with the specified destination and locale.
+     * Constructs b new formbtter with the specified destinbtion bnd locble.
      *
-     * @param  a
-     *         Destination for the formatted output.  If {@code a} is
-     *         {@code null} then a {@link StringBuilder} will be created.
+     * @pbrbm  b
+     *         Destinbtion for the formbtted output.  If {@code b} is
+     *         {@code null} then b {@link StringBuilder} will be crebted.
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If {@code l} is {@code null} then no localization
-     *         is applied.
+     * @pbrbm  l
+     *         The {@linkplbin jbvb.util.Locble locble} to bpply during
+     *         formbtting.  If {@code l} is {@code null} then no locblizbtion
+     *         is bpplied.
      */
-    public Formatter(Appendable a, Locale l) {
-        this(l, nonNullAppendable(a));
+    public Formbtter(Appendbble b, Locble l) {
+        this(l, nonNullAppendbble(b));
     }
 
     /**
-     * Constructs a new formatter with the specified file name.
+     * Constructs b new formbtter with the specified file nbme.
      *
-     * <p> The charset used is the {@linkplain
-     * java.nio.charset.Charset#defaultCharset() default charset} for this
-     * instance of the Java virtual machine.
+     * <p> The chbrset used is the {@linkplbin
+     * jbvb.nio.chbrset.Chbrset#defbultChbrset() defbult chbrset} for this
+     * instbnce of the Jbvb virtubl mbchine.
      *
-     * <p> The locale used is the {@linkplain
-     * Locale#getDefault(Locale.Category) default locale} for
-     * {@linkplain Locale.Category#FORMAT formatting} for this instance of the Java
-     * virtual machine.
+     * <p> The locble used is the {@linkplbin
+     * Locble#getDefbult(Locble.Cbtegory) defbult locble} for
+     * {@linkplbin Locble.Cbtegory#FORMAT formbtting} for this instbnce of the Jbvb
+     * virtubl mbchine.
      *
-     * @param  fileName
-     *         The name of the file to use as the destination of this
-     *         formatter.  If the file exists then it will be truncated to
-     *         zero size; otherwise, a new file will be created.  The output
-     *         will be written to the file and is buffered.
+     * @pbrbm  fileNbme
+     *         The nbme of the file to use bs the destinbtion of this
+     *         formbtter.  If the file exists then it will be truncbted to
+     *         zero size; otherwise, b new file will be crebted.  The output
+     *         will be written to the file bnd is buffered.
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(fileName)} denies write
-     *          access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(fileNbme)} denies write
+     *          bccess to the file
      *
      * @throws  FileNotFoundException
-     *          If the given file name does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file nbme does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      */
-    public Formatter(String fileName) throws FileNotFoundException {
-        this(Locale.getDefault(Locale.Category.FORMAT),
-             new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName))));
+    public Formbtter(String fileNbme) throws FileNotFoundException {
+        this(Locble.getDefbult(Locble.Cbtegory.FORMAT),
+             new BufferedWriter(new OutputStrebmWriter(new FileOutputStrebm(fileNbme))));
     }
 
     /**
-     * Constructs a new formatter with the specified file name and charset.
+     * Constructs b new formbtter with the specified file nbme bnd chbrset.
      *
-     * <p> The locale used is the {@linkplain
-     * Locale#getDefault(Locale.Category) default locale} for
-     * {@linkplain Locale.Category#FORMAT formatting} for this instance of the Java
-     * virtual machine.
+     * <p> The locble used is the {@linkplbin
+     * Locble#getDefbult(Locble.Cbtegory) defbult locble} for
+     * {@linkplbin Locble.Cbtegory#FORMAT formbtting} for this instbnce of the Jbvb
+     * virtubl mbchine.
      *
-     * @param  fileName
-     *         The name of the file to use as the destination of this
-     *         formatter.  If the file exists then it will be truncated to
-     *         zero size; otherwise, a new file will be created.  The output
-     *         will be written to the file and is buffered.
+     * @pbrbm  fileNbme
+     *         The nbme of the file to use bs the destinbtion of this
+     *         formbtter.  If the file exists then it will be truncbted to
+     *         zero size; otherwise, b new file will be crebted.  The output
+     *         will be written to the file bnd is buffered.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  csn
+     *         The nbme of b supported {@linkplbin jbvb.nio.chbrset.Chbrset
+     *         chbrset}
      *
      * @throws  FileNotFoundException
-     *          If the given file name does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file nbme does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(fileName)} denies write
-     *          access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(fileNbme)} denies write
+     *          bccess to the file
      *
      * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     *          If the nbmed chbrset is not supported
      */
-    public Formatter(String fileName, String csn)
+    public Formbtter(String fileNbme, String csn)
         throws FileNotFoundException, UnsupportedEncodingException
     {
-        this(fileName, csn, Locale.getDefault(Locale.Category.FORMAT));
+        this(fileNbme, csn, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Constructs a new formatter with the specified file name, charset, and
-     * locale.
+     * Constructs b new formbtter with the specified file nbme, chbrset, bnd
+     * locble.
      *
-     * @param  fileName
-     *         The name of the file to use as the destination of this
-     *         formatter.  If the file exists then it will be truncated to
-     *         zero size; otherwise, a new file will be created.  The output
-     *         will be written to the file and is buffered.
+     * @pbrbm  fileNbme
+     *         The nbme of the file to use bs the destinbtion of this
+     *         formbtter.  If the file exists then it will be truncbted to
+     *         zero size; otherwise, b new file will be crebted.  The output
+     *         will be written to the file bnd is buffered.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  csn
+     *         The nbme of b supported {@linkplbin jbvb.nio.chbrset.Chbrset
+     *         chbrset}
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If {@code l} is {@code null} then no localization
-     *         is applied.
+     * @pbrbm  l
+     *         The {@linkplbin jbvb.util.Locble locble} to bpply during
+     *         formbtting.  If {@code l} is {@code null} then no locblizbtion
+     *         is bpplied.
      *
      * @throws  FileNotFoundException
-     *          If the given file name does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file nbme does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(fileName)} denies write
-     *          access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(fileNbme)} denies write
+     *          bccess to the file
      *
      * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     *          If the nbmed chbrset is not supported
      */
-    public Formatter(String fileName, String csn, Locale l)
+    public Formbtter(String fileNbme, String csn, Locble l)
         throws FileNotFoundException, UnsupportedEncodingException
     {
-        this(toCharset(csn), l, new File(fileName));
+        this(toChbrset(csn), l, new File(fileNbme));
     }
 
     /**
-     * Constructs a new formatter with the specified file.
+     * Constructs b new formbtter with the specified file.
      *
-     * <p> The charset used is the {@linkplain
-     * java.nio.charset.Charset#defaultCharset() default charset} for this
-     * instance of the Java virtual machine.
+     * <p> The chbrset used is the {@linkplbin
+     * jbvb.nio.chbrset.Chbrset#defbultChbrset() defbult chbrset} for this
+     * instbnce of the Jbvb virtubl mbchine.
      *
-     * <p> The locale used is the {@linkplain
-     * Locale#getDefault(Locale.Category) default locale} for
-     * {@linkplain Locale.Category#FORMAT formatting} for this instance of the Java
-     * virtual machine.
+     * <p> The locble used is the {@linkplbin
+     * Locble#getDefbult(Locble.Cbtegory) defbult locble} for
+     * {@linkplbin Locble.Cbtegory#FORMAT formbtting} for this instbnce of the Jbvb
+     * virtubl mbchine.
      *
-     * @param  file
-     *         The file to use as the destination of this formatter.  If the
-     *         file exists then it will be truncated to zero size; otherwise,
-     *         a new file will be created.  The output will be written to the
-     *         file and is buffered.
+     * @pbrbm  file
+     *         The file to use bs the destinbtion of this formbtter.  If the
+     *         file exists then it will be truncbted to zero size; otherwise,
+     *         b new file will be crebted.  The output will be written to the
+     *         file bnd is buffered.
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(file.getPath())} denies
-     *          write access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(file.getPbth())} denies
+     *          write bccess to the file
      *
      * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file object does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      */
-    public Formatter(File file) throws FileNotFoundException {
-        this(Locale.getDefault(Locale.Category.FORMAT),
-             new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file))));
+    public Formbtter(File file) throws FileNotFoundException {
+        this(Locble.getDefbult(Locble.Cbtegory.FORMAT),
+             new BufferedWriter(new OutputStrebmWriter(new FileOutputStrebm(file))));
     }
 
     /**
-     * Constructs a new formatter with the specified file and charset.
+     * Constructs b new formbtter with the specified file bnd chbrset.
      *
-     * <p> The locale used is the {@linkplain
-     * Locale#getDefault(Locale.Category) default locale} for
-     * {@linkplain Locale.Category#FORMAT formatting} for this instance of the Java
-     * virtual machine.
+     * <p> The locble used is the {@linkplbin
+     * Locble#getDefbult(Locble.Cbtegory) defbult locble} for
+     * {@linkplbin Locble.Cbtegory#FORMAT formbtting} for this instbnce of the Jbvb
+     * virtubl mbchine.
      *
-     * @param  file
-     *         The file to use as the destination of this formatter.  If the
-     *         file exists then it will be truncated to zero size; otherwise,
-     *         a new file will be created.  The output will be written to the
-     *         file and is buffered.
+     * @pbrbm  file
+     *         The file to use bs the destinbtion of this formbtter.  If the
+     *         file exists then it will be truncbted to zero size; otherwise,
+     *         b new file will be crebted.  The output will be written to the
+     *         file bnd is buffered.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  csn
+     *         The nbme of b supported {@linkplbin jbvb.nio.chbrset.Chbrset
+     *         chbrset}
      *
      * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file object does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(file.getPath())} denies
-     *          write access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(file.getPbth())} denies
+     *          write bccess to the file
      *
      * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     *          If the nbmed chbrset is not supported
      */
-    public Formatter(File file, String csn)
+    public Formbtter(File file, String csn)
         throws FileNotFoundException, UnsupportedEncodingException
     {
-        this(file, csn, Locale.getDefault(Locale.Category.FORMAT));
+        this(file, csn, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Constructs a new formatter with the specified file, charset, and
-     * locale.
+     * Constructs b new formbtter with the specified file, chbrset, bnd
+     * locble.
      *
-     * @param  file
-     *         The file to use as the destination of this formatter.  If the
-     *         file exists then it will be truncated to zero size; otherwise,
-     *         a new file will be created.  The output will be written to the
-     *         file and is buffered.
+     * @pbrbm  file
+     *         The file to use bs the destinbtion of this formbtter.  If the
+     *         file exists then it will be truncbted to zero size; otherwise,
+     *         b new file will be crebted.  The output will be written to the
+     *         file bnd is buffered.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  csn
+     *         The nbme of b supported {@linkplbin jbvb.nio.chbrset.Chbrset
+     *         chbrset}
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If {@code l} is {@code null} then no localization
-     *         is applied.
+     * @pbrbm  l
+     *         The {@linkplbin jbvb.util.Locble locble} to bpply during
+     *         formbtting.  If {@code l} is {@code null} then no locblizbtion
+     *         is bpplied.
      *
      * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file object does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(file.getPath())} denies
-     *          write access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(file.getPbth())} denies
+     *          write bccess to the file
      *
      * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     *          If the nbmed chbrset is not supported
      */
-    public Formatter(File file, String csn, Locale l)
+    public Formbtter(File file, String csn, Locble l)
         throws FileNotFoundException, UnsupportedEncodingException
     {
-        this(toCharset(csn), l, file);
+        this(toChbrset(csn), l, file);
     }
 
     /**
-     * Constructs a new formatter with the specified print stream.
+     * Constructs b new formbtter with the specified print strebm.
      *
-     * <p> The locale used is the {@linkplain
-     * Locale#getDefault(Locale.Category) default locale} for
-     * {@linkplain Locale.Category#FORMAT formatting} for this instance of the Java
-     * virtual machine.
+     * <p> The locble used is the {@linkplbin
+     * Locble#getDefbult(Locble.Cbtegory) defbult locble} for
+     * {@linkplbin Locble.Cbtegory#FORMAT formbtting} for this instbnce of the Jbvb
+     * virtubl mbchine.
      *
-     * <p> Characters are written to the given {@link java.io.PrintStream
-     * PrintStream} object and are therefore encoded using that object's
-     * charset.
+     * <p> Chbrbcters bre written to the given {@link jbvb.io.PrintStrebm
+     * PrintStrebm} object bnd bre therefore encoded using thbt object's
+     * chbrset.
      *
-     * @param  ps
-     *         The stream to use as the destination of this formatter.
+     * @pbrbm  ps
+     *         The strebm to use bs the destinbtion of this formbtter.
      */
-    public Formatter(PrintStream ps) {
-        this(Locale.getDefault(Locale.Category.FORMAT),
-             (Appendable)Objects.requireNonNull(ps));
+    public Formbtter(PrintStrebm ps) {
+        this(Locble.getDefbult(Locble.Cbtegory.FORMAT),
+             (Appendbble)Objects.requireNonNull(ps));
     }
 
     /**
-     * Constructs a new formatter with the specified output stream.
+     * Constructs b new formbtter with the specified output strebm.
      *
-     * <p> The charset used is the {@linkplain
-     * java.nio.charset.Charset#defaultCharset() default charset} for this
-     * instance of the Java virtual machine.
+     * <p> The chbrset used is the {@linkplbin
+     * jbvb.nio.chbrset.Chbrset#defbultChbrset() defbult chbrset} for this
+     * instbnce of the Jbvb virtubl mbchine.
      *
-     * <p> The locale used is the {@linkplain
-     * Locale#getDefault(Locale.Category) default locale} for
-     * {@linkplain Locale.Category#FORMAT formatting} for this instance of the Java
-     * virtual machine.
+     * <p> The locble used is the {@linkplbin
+     * Locble#getDefbult(Locble.Cbtegory) defbult locble} for
+     * {@linkplbin Locble.Cbtegory#FORMAT formbtting} for this instbnce of the Jbvb
+     * virtubl mbchine.
      *
-     * @param  os
-     *         The output stream to use as the destination of this formatter.
+     * @pbrbm  os
+     *         The output strebm to use bs the destinbtion of this formbtter.
      *         The output will be buffered.
      */
-    public Formatter(OutputStream os) {
-        this(Locale.getDefault(Locale.Category.FORMAT),
-             new BufferedWriter(new OutputStreamWriter(os)));
+    public Formbtter(OutputStrebm os) {
+        this(Locble.getDefbult(Locble.Cbtegory.FORMAT),
+             new BufferedWriter(new OutputStrebmWriter(os)));
     }
 
     /**
-     * Constructs a new formatter with the specified output stream and
-     * charset.
+     * Constructs b new formbtter with the specified output strebm bnd
+     * chbrset.
      *
-     * <p> The locale used is the {@linkplain
-     * Locale#getDefault(Locale.Category) default locale} for
-     * {@linkplain Locale.Category#FORMAT formatting} for this instance of the Java
-     * virtual machine.
+     * <p> The locble used is the {@linkplbin
+     * Locble#getDefbult(Locble.Cbtegory) defbult locble} for
+     * {@linkplbin Locble.Cbtegory#FORMAT formbtting} for this instbnce of the Jbvb
+     * virtubl mbchine.
      *
-     * @param  os
-     *         The output stream to use as the destination of this formatter.
+     * @pbrbm  os
+     *         The output strebm to use bs the destinbtion of this formbtter.
      *         The output will be buffered.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  csn
+     *         The nbme of b supported {@linkplbin jbvb.nio.chbrset.Chbrset
+     *         chbrset}
      *
      * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     *          If the nbmed chbrset is not supported
      */
-    public Formatter(OutputStream os, String csn)
+    public Formbtter(OutputStrebm os, String csn)
         throws UnsupportedEncodingException
     {
-        this(os, csn, Locale.getDefault(Locale.Category.FORMAT));
+        this(os, csn, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Constructs a new formatter with the specified output stream, charset,
-     * and locale.
+     * Constructs b new formbtter with the specified output strebm, chbrset,
+     * bnd locble.
      *
-     * @param  os
-     *         The output stream to use as the destination of this formatter.
+     * @pbrbm  os
+     *         The output strebm to use bs the destinbtion of this formbtter.
      *         The output will be buffered.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  csn
+     *         The nbme of b supported {@linkplbin jbvb.nio.chbrset.Chbrset
+     *         chbrset}
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If {@code l} is {@code null} then no localization
-     *         is applied.
+     * @pbrbm  l
+     *         The {@linkplbin jbvb.util.Locble locble} to bpply during
+     *         formbtting.  If {@code l} is {@code null} then no locblizbtion
+     *         is bpplied.
      *
      * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     *          If the nbmed chbrset is not supported
      */
-    public Formatter(OutputStream os, String csn, Locale l)
+    public Formbtter(OutputStrebm os, String csn, Locble l)
         throws UnsupportedEncodingException
     {
-        this(l, new BufferedWriter(new OutputStreamWriter(os, csn)));
+        this(l, new BufferedWriter(new OutputStrebmWriter(os, csn)));
     }
 
-    private static char getZero(Locale l) {
-        if ((l != null) && !l.equals(Locale.US)) {
-            DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(l);
+    privbte stbtic chbr getZero(Locble l) {
+        if ((l != null) && !l.equbls(Locble.US)) {
+            DecimblFormbtSymbols dfs = DecimblFormbtSymbols.getInstbnce(l);
             return dfs.getZeroDigit();
         } else {
             return '0';
@@ -2288,342 +2288,342 @@ public final class Formatter implements Closeable, Flushable {
     }
 
     /**
-     * Returns the locale set by the construction of this formatter.
+     * Returns the locble set by the construction of this formbtter.
      *
-     * <p> The {@link #format(java.util.Locale,String,Object...) format} method
-     * for this object which has a locale argument does not change this value.
+     * <p> The {@link #formbt(jbvb.util.Locble,String,Object...) formbt} method
+     * for this object which hbs b locble brgument does not chbnge this vblue.
      *
-     * @return  {@code null} if no localization is applied, otherwise a
-     *          locale
+     * @return  {@code null} if no locblizbtion is bpplied, otherwise b
+     *          locble
      *
-     * @throws  FormatterClosedException
-     *          If this formatter has been closed by invoking its {@link
+     * @throws  FormbtterClosedException
+     *          If this formbtter hbs been closed by invoking its {@link
      *          #close()} method
      */
-    public Locale locale() {
+    public Locble locble() {
         ensureOpen();
         return l;
     }
 
     /**
-     * Returns the destination for the output.
+     * Returns the destinbtion for the output.
      *
-     * @return  The destination for the output
+     * @return  The destinbtion for the output
      *
-     * @throws  FormatterClosedException
-     *          If this formatter has been closed by invoking its {@link
+     * @throws  FormbtterClosedException
+     *          If this formbtter hbs been closed by invoking its {@link
      *          #close()} method
      */
-    public Appendable out() {
+    public Appendbble out() {
         ensureOpen();
-        return a;
+        return b;
     }
 
     /**
-     * Returns the result of invoking {@code toString()} on the destination
-     * for the output.  For example, the following code formats text into a
-     * {@link StringBuilder} then retrieves the resultant string:
+     * Returns the result of invoking {@code toString()} on the destinbtion
+     * for the output.  For exbmple, the following code formbts text into b
+     * {@link StringBuilder} then retrieves the resultbnt string:
      *
      * <blockquote><pre>
-     *   Formatter f = new Formatter();
-     *   f.format("Last reboot at %tc", lastRebootDate);
+     *   Formbtter f = new Formbtter();
+     *   f.formbt("Lbst reboot bt %tc", lbstRebootDbte);
      *   String s = f.toString();
-     *   // -&gt; s == "Last reboot at Sat Jan 01 00:00:00 PST 2000"
+     *   // -&gt; s == "Lbst reboot bt Sbt Jbn 01 00:00:00 PST 2000"
      * </pre></blockquote>
      *
-     * <p> An invocation of this method behaves in exactly the same way as the
-     * invocation
+     * <p> An invocbtion of this method behbves in exbctly the sbme wby bs the
+     * invocbtion
      *
      * <pre>
      *     out().toString() </pre>
      *
-     * <p> Depending on the specification of {@code toString} for the {@link
-     * Appendable}, the returned string may or may not contain the characters
-     * written to the destination.  For instance, buffers typically return
-     * their contents in {@code toString()}, but streams cannot since the
-     * data is discarded.
+     * <p> Depending on the specificbtion of {@code toString} for the {@link
+     * Appendbble}, the returned string mby or mby not contbin the chbrbcters
+     * written to the destinbtion.  For instbnce, buffers typicblly return
+     * their contents in {@code toString()}, but strebms cbnnot since the
+     * dbtb is discbrded.
      *
-     * @return  The result of invoking {@code toString()} on the destination
+     * @return  The result of invoking {@code toString()} on the destinbtion
      *          for the output
      *
-     * @throws  FormatterClosedException
-     *          If this formatter has been closed by invoking its {@link
+     * @throws  FormbtterClosedException
+     *          If this formbtter hbs been closed by invoking its {@link
      *          #close()} method
      */
     public String toString() {
         ensureOpen();
-        return a.toString();
+        return b.toString();
     }
 
     /**
-     * Flushes this formatter.  If the destination implements the {@link
-     * java.io.Flushable} interface, its {@code flush} method will be invoked.
+     * Flushes this formbtter.  If the destinbtion implements the {@link
+     * jbvb.io.Flushbble} interfbce, its {@code flush} method will be invoked.
      *
-     * <p> Flushing a formatter writes any buffered output in the destination
-     * to the underlying stream.
+     * <p> Flushing b formbtter writes bny buffered output in the destinbtion
+     * to the underlying strebm.
      *
-     * @throws  FormatterClosedException
-     *          If this formatter has been closed by invoking its {@link
+     * @throws  FormbtterClosedException
+     *          If this formbtter hbs been closed by invoking its {@link
      *          #close()} method
      */
     public void flush() {
         ensureOpen();
-        if (a instanceof Flushable) {
+        if (b instbnceof Flushbble) {
             try {
-                ((Flushable)a).flush();
-            } catch (IOException ioe) {
-                lastException = ioe;
+                ((Flushbble)b).flush();
+            } cbtch (IOException ioe) {
+                lbstException = ioe;
             }
         }
     }
 
     /**
-     * Closes this formatter.  If the destination implements the {@link
-     * java.io.Closeable} interface, its {@code close} method will be invoked.
+     * Closes this formbtter.  If the destinbtion implements the {@link
+     * jbvb.io.Closebble} interfbce, its {@code close} method will be invoked.
      *
-     * <p> Closing a formatter allows it to release resources it may be holding
-     * (such as open files).  If the formatter is already closed, then invoking
-     * this method has no effect.
+     * <p> Closing b formbtter bllows it to relebse resources it mby be holding
+     * (such bs open files).  If the formbtter is blrebdy closed, then invoking
+     * this method hbs no effect.
      *
-     * <p> Attempting to invoke any methods except {@link #ioException()} in
-     * this formatter after it has been closed will result in a {@link
-     * FormatterClosedException}.
+     * <p> Attempting to invoke bny methods except {@link #ioException()} in
+     * this formbtter bfter it hbs been closed will result in b {@link
+     * FormbtterClosedException}.
      */
     public void close() {
-        if (a == null)
+        if (b == null)
             return;
         try {
-            if (a instanceof Closeable)
-                ((Closeable)a).close();
-        } catch (IOException ioe) {
-            lastException = ioe;
-        } finally {
-            a = null;
+            if (b instbnceof Closebble)
+                ((Closebble)b).close();
+        } cbtch (IOException ioe) {
+            lbstException = ioe;
+        } finblly {
+            b = null;
         }
     }
 
-    private void ensureOpen() {
-        if (a == null)
-            throw new FormatterClosedException();
+    privbte void ensureOpen() {
+        if (b == null)
+            throw new FormbtterClosedException();
     }
 
     /**
-     * Returns the {@code IOException} last thrown by this formatter's {@link
-     * Appendable}.
+     * Returns the {@code IOException} lbst thrown by this formbtter's {@link
+     * Appendbble}.
      *
-     * <p> If the destination's {@code append()} method never throws
-     * {@code IOException}, then this method will always return {@code null}.
+     * <p> If the destinbtion's {@code bppend()} method never throws
+     * {@code IOException}, then this method will blwbys return {@code null}.
      *
-     * @return  The last exception thrown by the Appendable or {@code null} if
+     * @return  The lbst exception thrown by the Appendbble or {@code null} if
      *          no such exception exists.
      */
     public IOException ioException() {
-        return lastException;
+        return lbstException;
     }
 
     /**
-     * Writes a formatted string to this object's destination using the
-     * specified format string and arguments.  The locale used is the one
-     * defined during the construction of this formatter.
+     * Writes b formbtted string to this object's destinbtion using the
+     * specified formbt string bnd brguments.  The locble used is the one
+     * defined during the construction of this formbtter.
      *
-     * @param  format
-     *         A format string as described in <a href="#syntax">Format string
-     *         syntax</a>.
+     * @pbrbm  formbt
+     *         A formbt string bs described in <b href="#syntbx">Formbt string
+     *         syntbx</b>.
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @pbrbm  brgs
+     *         Arguments referenced by the formbt specifiers in the formbt
+     *         string.  If there bre more brguments thbn formbt specifiers, the
+     *         extrb brguments bre ignored.  The mbximum number of brguments is
+     *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      *
-     * @throws  IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a href="#detail">Details</a>
-     *          section of the formatter class specification.
+     * @throws  IllegblFormbtException
+     *          If b formbt string contbins bn illegbl syntbx, b formbt
+     *          specifier thbt is incompbtible with the given brguments,
+     *          insufficient brguments given the formbt string, or other
+     *          illegbl conditions.  For specificbtion of bll possible
+     *          formbtting errors, see the <b href="#detbil">Detbils</b>
+     *          section of the formbtter clbss specificbtion.
      *
-     * @throws  FormatterClosedException
-     *          If this formatter has been closed by invoking its {@link
+     * @throws  FormbtterClosedException
+     *          If this formbtter hbs been closed by invoking its {@link
      *          #close()} method
      *
-     * @return  This formatter
+     * @return  This formbtter
      */
-    public Formatter format(String format, Object ... args) {
-        return format(l, format, args);
+    public Formbtter formbt(String formbt, Object ... brgs) {
+        return formbt(l, formbt, brgs);
     }
 
     /**
-     * Writes a formatted string to this object's destination using the
-     * specified locale, format string, and arguments.
+     * Writes b formbtted string to this object's destinbtion using the
+     * specified locble, formbt string, bnd brguments.
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If {@code l} is {@code null} then no localization
-     *         is applied.  This does not change this object's locale that was
+     * @pbrbm  l
+     *         The {@linkplbin jbvb.util.Locble locble} to bpply during
+     *         formbtting.  If {@code l} is {@code null} then no locblizbtion
+     *         is bpplied.  This does not chbnge this object's locble thbt wbs
      *         set during construction.
      *
-     * @param  format
-     *         A format string as described in <a href="#syntax">Format string
-     *         syntax</a>
+     * @pbrbm  formbt
+     *         A formbt string bs described in <b href="#syntbx">Formbt string
+     *         syntbx</b>
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @pbrbm  brgs
+     *         Arguments referenced by the formbt specifiers in the formbt
+     *         string.  If there bre more brguments thbn formbt specifiers, the
+     *         extrb brguments bre ignored.  The mbximum number of brguments is
+     *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      *
-     * @throws  IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a href="#detail">Details</a>
-     *          section of the formatter class specification.
+     * @throws  IllegblFormbtException
+     *          If b formbt string contbins bn illegbl syntbx, b formbt
+     *          specifier thbt is incompbtible with the given brguments,
+     *          insufficient brguments given the formbt string, or other
+     *          illegbl conditions.  For specificbtion of bll possible
+     *          formbtting errors, see the <b href="#detbil">Detbils</b>
+     *          section of the formbtter clbss specificbtion.
      *
-     * @throws  FormatterClosedException
-     *          If this formatter has been closed by invoking its {@link
+     * @throws  FormbtterClosedException
+     *          If this formbtter hbs been closed by invoking its {@link
      *          #close()} method
      *
-     * @return  This formatter
+     * @return  This formbtter
      */
-    public Formatter format(Locale l, String format, Object ... args) {
+    public Formbtter formbt(Locble l, String formbt, Object ... brgs) {
         ensureOpen();
 
-        // index of last argument referenced
-        int last = -1;
-        // last ordinary index
-        int lasto = -1;
+        // index of lbst brgument referenced
+        int lbst = -1;
+        // lbst ordinbry index
+        int lbsto = -1;
 
-        FormatString[] fsa = parse(format);
-        for (FormatString fs : fsa) {
+        FormbtString[] fsb = pbrse(formbt);
+        for (FormbtString fs : fsb) {
             int index = fs.index();
             try {
                 switch (index) {
-                case -2:  // fixed string, "%n", or "%%"
+                cbse -2:  // fixed string, "%n", or "%%"
                     fs.print(null, l);
-                    break;
-                case -1:  // relative index
-                    if (last < 0 || (args != null && last > args.length - 1))
-                        throw new MissingFormatArgumentException(fs.toString());
-                    fs.print((args == null ? null : args[last]), l);
-                    break;
-                case 0:  // ordinary index
-                    lasto++;
-                    last = lasto;
-                    if (args != null && lasto > args.length - 1)
-                        throw new MissingFormatArgumentException(fs.toString());
-                    fs.print((args == null ? null : args[lasto]), l);
-                    break;
-                default:  // explicit index
-                    last = index - 1;
-                    if (args != null && last > args.length - 1)
-                        throw new MissingFormatArgumentException(fs.toString());
-                    fs.print((args == null ? null : args[last]), l);
-                    break;
+                    brebk;
+                cbse -1:  // relbtive index
+                    if (lbst < 0 || (brgs != null && lbst > brgs.length - 1))
+                        throw new MissingFormbtArgumentException(fs.toString());
+                    fs.print((brgs == null ? null : brgs[lbst]), l);
+                    brebk;
+                cbse 0:  // ordinbry index
+                    lbsto++;
+                    lbst = lbsto;
+                    if (brgs != null && lbsto > brgs.length - 1)
+                        throw new MissingFormbtArgumentException(fs.toString());
+                    fs.print((brgs == null ? null : brgs[lbsto]), l);
+                    brebk;
+                defbult:  // explicit index
+                    lbst = index - 1;
+                    if (brgs != null && lbst > brgs.length - 1)
+                        throw new MissingFormbtArgumentException(fs.toString());
+                    fs.print((brgs == null ? null : brgs[lbst]), l);
+                    brebk;
                 }
-            } catch (IOException x) {
-                lastException = x;
+            } cbtch (IOException x) {
+                lbstException = x;
             }
         }
         return this;
     }
 
-    // %[argument_index$][flags][width][.precision][t]conversion
-    private static final String formatSpecifier
-        = "%(\\d+\\$)?([-#+ 0,(\\<]*)?(\\d+)?(\\.\\d+)?([tT])?([a-zA-Z%])";
+    // %[brgument_index$][flbgs][width][.precision][t]conversion
+    privbte stbtic finbl String formbtSpecifier
+        = "%(\\d+\\$)?([-#+ 0,(\\<]*)?(\\d+)?(\\.\\d+)?([tT])?([b-zA-Z%])";
 
-    private static Pattern fsPattern = Pattern.compile(formatSpecifier);
+    privbte stbtic Pbttern fsPbttern = Pbttern.compile(formbtSpecifier);
 
     /**
-     * Finds format specifiers in the format string.
+     * Finds formbt specifiers in the formbt string.
      */
-    private FormatString[] parse(String s) {
-        ArrayList<FormatString> al = new ArrayList<>();
-        Matcher m = fsPattern.matcher(s);
+    privbte FormbtString[] pbrse(String s) {
+        ArrbyList<FormbtString> bl = new ArrbyList<>();
+        Mbtcher m = fsPbttern.mbtcher(s);
         for (int i = 0, len = s.length(); i < len; ) {
             if (m.find(i)) {
-                // Anything between the start of the string and the beginning
-                // of the format specifier is either fixed text or contains
-                // an invalid format string.
-                if (m.start() != i) {
-                    // Make sure we didn't miss any invalid format specifiers
-                    checkText(s, i, m.start());
-                    // Assume previous characters were fixed text
-                    al.add(new FixedString(s.substring(i, m.start())));
+                // Anything between the stbrt of the string bnd the beginning
+                // of the formbt specifier is either fixed text or contbins
+                // bn invblid formbt string.
+                if (m.stbrt() != i) {
+                    // Mbke sure we didn't miss bny invblid formbt specifiers
+                    checkText(s, i, m.stbrt());
+                    // Assume previous chbrbcters were fixed text
+                    bl.bdd(new FixedString(s.substring(i, m.stbrt())));
                 }
 
-                al.add(new FormatSpecifier(m));
+                bl.bdd(new FormbtSpecifier(m));
                 i = m.end();
             } else {
-                // No more valid format specifiers.  Check for possible invalid
-                // format specifiers.
+                // No more vblid formbt specifiers.  Check for possible invblid
+                // formbt specifiers.
                 checkText(s, i, len);
                 // The rest of the string is fixed text
-                al.add(new FixedString(s.substring(i)));
-                break;
+                bl.bdd(new FixedString(s.substring(i)));
+                brebk;
             }
         }
-        return al.toArray(new FormatString[al.size()]);
+        return bl.toArrby(new FormbtString[bl.size()]);
     }
 
-    private static void checkText(String s, int start, int end) {
-        for (int i = start; i < end; i++) {
-            // Any '%' found in the region starts an invalid format specifier.
-            if (s.charAt(i) == '%') {
-                char c = (i == end - 1) ? '%' : s.charAt(i + 1);
-                throw new UnknownFormatConversionException(String.valueOf(c));
+    privbte stbtic void checkText(String s, int stbrt, int end) {
+        for (int i = stbrt; i < end; i++) {
+            // Any '%' found in the region stbrts bn invblid formbt specifier.
+            if (s.chbrAt(i) == '%') {
+                chbr c = (i == end - 1) ? '%' : s.chbrAt(i + 1);
+                throw new UnknownFormbtConversionException(String.vblueOf(c));
             }
         }
     }
 
-    private interface FormatString {
+    privbte interfbce FormbtString {
         int index();
-        void print(Object arg, Locale l) throws IOException;
+        void print(Object brg, Locble l) throws IOException;
         String toString();
     }
 
-    private class FixedString implements FormatString {
-        private String s;
+    privbte clbss FixedString implements FormbtString {
+        privbte String s;
         FixedString(String s) { this.s = s; }
         public int index() { return -2; }
-        public void print(Object arg, Locale l)
-            throws IOException { a.append(s); }
+        public void print(Object brg, Locble l)
+            throws IOException { b.bppend(s); }
         public String toString() { return s; }
     }
 
     /**
-     * Enum for {@code BigDecimal} formatting.
+     * Enum for {@code BigDecimbl} formbtting.
      */
-    public enum BigDecimalLayoutForm {
+    public enum BigDecimblLbyoutForm {
         /**
-         * Format the {@code BigDecimal} in computerized scientific notation.
+         * Formbt the {@code BigDecimbl} in computerized scientific notbtion.
          */
         SCIENTIFIC,
 
         /**
-         * Format the {@code BigDecimal} as a decimal number.
+         * Formbt the {@code BigDecimbl} bs b decimbl number.
          */
         DECIMAL_FLOAT
     };
 
-    private class FormatSpecifier implements FormatString {
-        private int index = -1;
-        private Flags f = Flags.NONE;
-        private int width;
-        private int precision;
-        private boolean dt = false;
-        private char c;
+    privbte clbss FormbtSpecifier implements FormbtString {
+        privbte int index = -1;
+        privbte Flbgs f = Flbgs.NONE;
+        privbte int width;
+        privbte int precision;
+        privbte boolebn dt = fblse;
+        privbte chbr c;
 
-        private int index(String s) {
+        privbte int index(String s) {
             if (s != null) {
                 try {
-                    index = Integer.parseInt(s.substring(0, s.length() - 1));
-                } catch (NumberFormatException x) {
-                    assert(false);
+                    index = Integer.pbrseInt(s.substring(0, s.length() - 1));
+                } cbtch (NumberFormbtException x) {
+                    bssert(fblse);
                 }
             } else {
                 index = 0;
@@ -2635,26 +2635,26 @@ public final class Formatter implements Closeable, Flushable {
             return index;
         }
 
-        private Flags flags(String s) {
-            f = Flags.parse(s);
-            if (f.contains(Flags.PREVIOUS))
+        privbte Flbgs flbgs(String s) {
+            f = Flbgs.pbrse(s);
+            if (f.contbins(Flbgs.PREVIOUS))
                 index = -1;
             return f;
         }
 
-        Flags flags() {
+        Flbgs flbgs() {
             return f;
         }
 
-        private int width(String s) {
+        privbte int width(String s) {
             width = -1;
             if (s != null) {
                 try {
-                    width  = Integer.parseInt(s);
+                    width  = Integer.pbrseInt(s);
                     if (width < 0)
-                        throw new IllegalFormatWidthException(width);
-                } catch (NumberFormatException x) {
-                    assert(false);
+                        throw new IllegblFormbtWidthException(width);
+                } cbtch (NumberFormbtException x) {
+                    bssert(fblse);
                 }
             }
             return width;
@@ -2664,16 +2664,16 @@ public final class Formatter implements Closeable, Flushable {
             return width;
         }
 
-        private int precision(String s) {
+        privbte int precision(String s) {
             precision = -1;
             if (s != null) {
                 try {
                     // remove the '.'
-                    precision = Integer.parseInt(s.substring(1));
+                    precision = Integer.pbrseInt(s.substring(1));
                     if (precision < 0)
-                        throw new IllegalFormatPrecisionException(precision);
-                } catch (NumberFormatException x) {
-                    assert(false);
+                        throw new IllegblFormbtPrecisionException(precision);
+                } cbtch (NumberFormbtException x) {
+                    bssert(fblse);
                 }
             }
             return precision;
@@ -2683,631 +2683,631 @@ public final class Formatter implements Closeable, Flushable {
             return precision;
         }
 
-        private char conversion(String s) {
-            c = s.charAt(0);
+        privbte chbr conversion(String s) {
+            c = s.chbrAt(0);
             if (!dt) {
-                if (!Conversion.isValid(c))
-                    throw new UnknownFormatConversionException(String.valueOf(c));
-                if (Character.isUpperCase(c))
-                    f.add(Flags.UPPERCASE);
-                c = Character.toLowerCase(c);
+                if (!Conversion.isVblid(c))
+                    throw new UnknownFormbtConversionException(String.vblueOf(c));
+                if (Chbrbcter.isUpperCbse(c))
+                    f.bdd(Flbgs.UPPERCASE);
+                c = Chbrbcter.toLowerCbse(c);
                 if (Conversion.isText(c))
                     index = -2;
             }
             return c;
         }
 
-        private char conversion() {
+        privbte chbr conversion() {
             return c;
         }
 
-        FormatSpecifier(Matcher m) {
+        FormbtSpecifier(Mbtcher m) {
             int idx = 1;
 
             index(m.group(idx++));
-            flags(m.group(idx++));
+            flbgs(m.group(idx++));
             width(m.group(idx++));
             precision(m.group(idx++));
 
             String tT = m.group(idx++);
             if (tT != null) {
                 dt = true;
-                if (tT.equals("T"))
-                    f.add(Flags.UPPERCASE);
+                if (tT.equbls("T"))
+                    f.bdd(Flbgs.UPPERCASE);
             }
 
             conversion(m.group(idx));
 
             if (dt)
-                checkDateTime();
-            else if (Conversion.isGeneral(c))
-                checkGeneral();
-            else if (Conversion.isCharacter(c))
-                checkCharacter();
+                checkDbteTime();
+            else if (Conversion.isGenerbl(c))
+                checkGenerbl();
+            else if (Conversion.isChbrbcter(c))
+                checkChbrbcter();
             else if (Conversion.isInteger(c))
                 checkInteger();
-            else if (Conversion.isFloat(c))
-                checkFloat();
+            else if (Conversion.isFlobt(c))
+                checkFlobt();
             else if (Conversion.isText(c))
                 checkText();
             else
-                throw new UnknownFormatConversionException(String.valueOf(c));
+                throw new UnknownFormbtConversionException(String.vblueOf(c));
         }
 
-        public void print(Object arg, Locale l) throws IOException {
+        public void print(Object brg, Locble l) throws IOException {
             if (dt) {
-                printDateTime(arg, l);
+                printDbteTime(brg, l);
                 return;
             }
             switch(c) {
-            case Conversion.DECIMAL_INTEGER:
-            case Conversion.OCTAL_INTEGER:
-            case Conversion.HEXADECIMAL_INTEGER:
-                printInteger(arg, l);
-                break;
-            case Conversion.SCIENTIFIC:
-            case Conversion.GENERAL:
-            case Conversion.DECIMAL_FLOAT:
-            case Conversion.HEXADECIMAL_FLOAT:
-                printFloat(arg, l);
-                break;
-            case Conversion.CHARACTER:
-            case Conversion.CHARACTER_UPPER:
-                printCharacter(arg);
-                break;
-            case Conversion.BOOLEAN:
-                printBoolean(arg);
-                break;
-            case Conversion.STRING:
-                printString(arg, l);
-                break;
-            case Conversion.HASHCODE:
-                printHashCode(arg);
-                break;
-            case Conversion.LINE_SEPARATOR:
-                a.append(System.lineSeparator());
-                break;
-            case Conversion.PERCENT_SIGN:
-                a.append('%');
-                break;
-            default:
-                assert false;
+            cbse Conversion.DECIMAL_INTEGER:
+            cbse Conversion.OCTAL_INTEGER:
+            cbse Conversion.HEXADECIMAL_INTEGER:
+                printInteger(brg, l);
+                brebk;
+            cbse Conversion.SCIENTIFIC:
+            cbse Conversion.GENERAL:
+            cbse Conversion.DECIMAL_FLOAT:
+            cbse Conversion.HEXADECIMAL_FLOAT:
+                printFlobt(brg, l);
+                brebk;
+            cbse Conversion.CHARACTER:
+            cbse Conversion.CHARACTER_UPPER:
+                printChbrbcter(brg);
+                brebk;
+            cbse Conversion.BOOLEAN:
+                printBoolebn(brg);
+                brebk;
+            cbse Conversion.STRING:
+                printString(brg, l);
+                brebk;
+            cbse Conversion.HASHCODE:
+                printHbshCode(brg);
+                brebk;
+            cbse Conversion.LINE_SEPARATOR:
+                b.bppend(System.lineSepbrbtor());
+                brebk;
+            cbse Conversion.PERCENT_SIGN:
+                b.bppend('%');
+                brebk;
+            defbult:
+                bssert fblse;
             }
         }
 
-        private void printInteger(Object arg, Locale l) throws IOException {
-            if (arg == null)
+        privbte void printInteger(Object brg, Locble l) throws IOException {
+            if (brg == null)
                 print("null");
-            else if (arg instanceof Byte)
-                print(((Byte)arg).byteValue(), l);
-            else if (arg instanceof Short)
-                print(((Short)arg).shortValue(), l);
-            else if (arg instanceof Integer)
-                print(((Integer)arg).intValue(), l);
-            else if (arg instanceof Long)
-                print(((Long)arg).longValue(), l);
-            else if (arg instanceof BigInteger)
-                print(((BigInteger)arg), l);
+            else if (brg instbnceof Byte)
+                print(((Byte)brg).byteVblue(), l);
+            else if (brg instbnceof Short)
+                print(((Short)brg).shortVblue(), l);
+            else if (brg instbnceof Integer)
+                print(((Integer)brg).intVblue(), l);
+            else if (brg instbnceof Long)
+                print(((Long)brg).longVblue(), l);
+            else if (brg instbnceof BigInteger)
+                print(((BigInteger)brg), l);
             else
-                failConversion(c, arg);
+                fbilConversion(c, brg);
         }
 
-        private void printFloat(Object arg, Locale l) throws IOException {
-            if (arg == null)
+        privbte void printFlobt(Object brg, Locble l) throws IOException {
+            if (brg == null)
                 print("null");
-            else if (arg instanceof Float)
-                print(((Float)arg).floatValue(), l);
-            else if (arg instanceof Double)
-                print(((Double)arg).doubleValue(), l);
-            else if (arg instanceof BigDecimal)
-                print(((BigDecimal)arg), l);
+            else if (brg instbnceof Flobt)
+                print(((Flobt)brg).flobtVblue(), l);
+            else if (brg instbnceof Double)
+                print(((Double)brg).doubleVblue(), l);
+            else if (brg instbnceof BigDecimbl)
+                print(((BigDecimbl)brg), l);
             else
-                failConversion(c, arg);
+                fbilConversion(c, brg);
         }
 
-        private void printDateTime(Object arg, Locale l) throws IOException {
-            if (arg == null) {
+        privbte void printDbteTime(Object brg, Locble l) throws IOException {
+            if (brg == null) {
                 print("null");
                 return;
             }
-            Calendar cal = null;
+            Cblendbr cbl = null;
 
-            // Instead of Calendar.setLenient(true), perhaps we should
-            // wrap the IllegalArgumentException that might be thrown?
-            if (arg instanceof Long) {
-                // Note that the following method uses an instance of the
-                // default time zone (TimeZone.getDefaultRef().
-                cal = Calendar.getInstance(l == null ? Locale.US : l);
-                cal.setTimeInMillis((Long)arg);
-            } else if (arg instanceof Date) {
-                // Note that the following method uses an instance of the
-                // default time zone (TimeZone.getDefaultRef().
-                cal = Calendar.getInstance(l == null ? Locale.US : l);
-                cal.setTime((Date)arg);
-            } else if (arg instanceof Calendar) {
-                cal = (Calendar) ((Calendar) arg).clone();
-                cal.setLenient(true);
-            } else if (arg instanceof TemporalAccessor) {
-                print((TemporalAccessor) arg, c, l);
+            // Instebd of Cblendbr.setLenient(true), perhbps we should
+            // wrbp the IllegblArgumentException thbt might be thrown?
+            if (brg instbnceof Long) {
+                // Note thbt the following method uses bn instbnce of the
+                // defbult time zone (TimeZone.getDefbultRef().
+                cbl = Cblendbr.getInstbnce(l == null ? Locble.US : l);
+                cbl.setTimeInMillis((Long)brg);
+            } else if (brg instbnceof Dbte) {
+                // Note thbt the following method uses bn instbnce of the
+                // defbult time zone (TimeZone.getDefbultRef().
+                cbl = Cblendbr.getInstbnce(l == null ? Locble.US : l);
+                cbl.setTime((Dbte)brg);
+            } else if (brg instbnceof Cblendbr) {
+                cbl = (Cblendbr) ((Cblendbr) brg).clone();
+                cbl.setLenient(true);
+            } else if (brg instbnceof TemporblAccessor) {
+                print((TemporblAccessor) brg, c, l);
                 return;
             } else {
-                failConversion(c, arg);
+                fbilConversion(c, brg);
             }
-            // Use the provided locale so that invocations of
-            // localizedMagnitude() use optimizations for null.
-            print(cal, c, l);
+            // Use the provided locble so thbt invocbtions of
+            // locblizedMbgnitude() use optimizbtions for null.
+            print(cbl, c, l);
         }
 
-        private void printCharacter(Object arg) throws IOException {
-            if (arg == null) {
+        privbte void printChbrbcter(Object brg) throws IOException {
+            if (brg == null) {
                 print("null");
                 return;
             }
             String s = null;
-            if (arg instanceof Character) {
-                s = ((Character)arg).toString();
-            } else if (arg instanceof Byte) {
-                byte i = ((Byte)arg).byteValue();
-                if (Character.isValidCodePoint(i))
-                    s = new String(Character.toChars(i));
+            if (brg instbnceof Chbrbcter) {
+                s = ((Chbrbcter)brg).toString();
+            } else if (brg instbnceof Byte) {
+                byte i = ((Byte)brg).byteVblue();
+                if (Chbrbcter.isVblidCodePoint(i))
+                    s = new String(Chbrbcter.toChbrs(i));
                 else
-                    throw new IllegalFormatCodePointException(i);
-            } else if (arg instanceof Short) {
-                short i = ((Short)arg).shortValue();
-                if (Character.isValidCodePoint(i))
-                    s = new String(Character.toChars(i));
+                    throw new IllegblFormbtCodePointException(i);
+            } else if (brg instbnceof Short) {
+                short i = ((Short)brg).shortVblue();
+                if (Chbrbcter.isVblidCodePoint(i))
+                    s = new String(Chbrbcter.toChbrs(i));
                 else
-                    throw new IllegalFormatCodePointException(i);
-            } else if (arg instanceof Integer) {
-                int i = ((Integer)arg).intValue();
-                if (Character.isValidCodePoint(i))
-                    s = new String(Character.toChars(i));
+                    throw new IllegblFormbtCodePointException(i);
+            } else if (brg instbnceof Integer) {
+                int i = ((Integer)brg).intVblue();
+                if (Chbrbcter.isVblidCodePoint(i))
+                    s = new String(Chbrbcter.toChbrs(i));
                 else
-                    throw new IllegalFormatCodePointException(i);
+                    throw new IllegblFormbtCodePointException(i);
             } else {
-                failConversion(c, arg);
+                fbilConversion(c, brg);
             }
             print(s);
         }
 
-        private void printString(Object arg, Locale l) throws IOException {
-            if (arg instanceof Formattable) {
-                Formatter fmt = Formatter.this;
-                if (fmt.locale() != l)
-                    fmt = new Formatter(fmt.out(), l);
-                ((Formattable)arg).formatTo(fmt, f.valueOf(), width, precision);
+        privbte void printString(Object brg, Locble l) throws IOException {
+            if (brg instbnceof Formbttbble) {
+                Formbtter fmt = Formbtter.this;
+                if (fmt.locble() != l)
+                    fmt = new Formbtter(fmt.out(), l);
+                ((Formbttbble)brg).formbtTo(fmt, f.vblueOf(), width, precision);
             } else {
-                if (f.contains(Flags.ALTERNATE))
-                    failMismatch(Flags.ALTERNATE, 's');
-                if (arg == null)
+                if (f.contbins(Flbgs.ALTERNATE))
+                    fbilMismbtch(Flbgs.ALTERNATE, 's');
+                if (brg == null)
                     print("null");
                 else
-                    print(arg.toString());
+                    print(brg.toString());
             }
         }
 
-        private void printBoolean(Object arg) throws IOException {
+        privbte void printBoolebn(Object brg) throws IOException {
             String s;
-            if (arg != null)
-                s = ((arg instanceof Boolean)
-                     ? ((Boolean)arg).toString()
-                     : Boolean.toString(true));
+            if (brg != null)
+                s = ((brg instbnceof Boolebn)
+                     ? ((Boolebn)brg).toString()
+                     : Boolebn.toString(true));
             else
-                s = Boolean.toString(false);
+                s = Boolebn.toString(fblse);
             print(s);
         }
 
-        private void printHashCode(Object arg) throws IOException {
-            String s = (arg == null
+        privbte void printHbshCode(Object brg) throws IOException {
+            String s = (brg == null
                         ? "null"
-                        : Integer.toHexString(arg.hashCode()));
+                        : Integer.toHexString(brg.hbshCode()));
             print(s);
         }
 
-        private void print(String s) throws IOException {
+        privbte void print(String s) throws IOException {
             if (precision != -1 && precision < s.length())
                 s = s.substring(0, precision);
-            if (f.contains(Flags.UPPERCASE))
-                s = s.toUpperCase();
-            a.append(justify(s));
+            if (f.contbins(Flbgs.UPPERCASE))
+                s = s.toUpperCbse();
+            b.bppend(justify(s));
         }
 
-        private String justify(String s) {
+        privbte String justify(String s) {
             if (width == -1)
                 return s;
             StringBuilder sb = new StringBuilder();
-            boolean pad = f.contains(Flags.LEFT_JUSTIFY);
+            boolebn pbd = f.contbins(Flbgs.LEFT_JUSTIFY);
             int sp = width - s.length();
-            if (!pad)
-                for (int i = 0; i < sp; i++) sb.append(' ');
-            sb.append(s);
-            if (pad)
-                for (int i = 0; i < sp; i++) sb.append(' ');
+            if (!pbd)
+                for (int i = 0; i < sp; i++) sb.bppend(' ');
+            sb.bppend(s);
+            if (pbd)
+                for (int i = 0; i < sp; i++) sb.bppend(' ');
             return sb.toString();
         }
 
         public String toString() {
             StringBuilder sb = new StringBuilder("%");
-            // Flags.UPPERCASE is set internally for legal conversions.
-            Flags dupf = f.dup().remove(Flags.UPPERCASE);
-            sb.append(dupf.toString());
+            // Flbgs.UPPERCASE is set internblly for legbl conversions.
+            Flbgs dupf = f.dup().remove(Flbgs.UPPERCASE);
+            sb.bppend(dupf.toString());
             if (index > 0)
-                sb.append(index).append('$');
+                sb.bppend(index).bppend('$');
             if (width != -1)
-                sb.append(width);
+                sb.bppend(width);
             if (precision != -1)
-                sb.append('.').append(precision);
+                sb.bppend('.').bppend(precision);
             if (dt)
-                sb.append(f.contains(Flags.UPPERCASE) ? 'T' : 't');
-            sb.append(f.contains(Flags.UPPERCASE)
-                      ? Character.toUpperCase(c) : c);
+                sb.bppend(f.contbins(Flbgs.UPPERCASE) ? 'T' : 't');
+            sb.bppend(f.contbins(Flbgs.UPPERCASE)
+                      ? Chbrbcter.toUpperCbse(c) : c);
             return sb.toString();
         }
 
-        private void checkGeneral() {
+        privbte void checkGenerbl() {
             if ((c == Conversion.BOOLEAN || c == Conversion.HASHCODE)
-                && f.contains(Flags.ALTERNATE))
-                failMismatch(Flags.ALTERNATE, c);
-            // '-' requires a width
-            if (width == -1 && f.contains(Flags.LEFT_JUSTIFY))
-                throw new MissingFormatWidthException(toString());
-            checkBadFlags(Flags.PLUS, Flags.LEADING_SPACE, Flags.ZERO_PAD,
-                          Flags.GROUP, Flags.PARENTHESES);
+                && f.contbins(Flbgs.ALTERNATE))
+                fbilMismbtch(Flbgs.ALTERNATE, c);
+            // '-' requires b width
+            if (width == -1 && f.contbins(Flbgs.LEFT_JUSTIFY))
+                throw new MissingFormbtWidthException(toString());
+            checkBbdFlbgs(Flbgs.PLUS, Flbgs.LEADING_SPACE, Flbgs.ZERO_PAD,
+                          Flbgs.GROUP, Flbgs.PARENTHESES);
         }
 
-        private void checkDateTime() {
+        privbte void checkDbteTime() {
             if (precision != -1)
-                throw new IllegalFormatPrecisionException(precision);
-            if (!DateTime.isValid(c))
-                throw new UnknownFormatConversionException("t" + c);
-            checkBadFlags(Flags.ALTERNATE, Flags.PLUS, Flags.LEADING_SPACE,
-                          Flags.ZERO_PAD, Flags.GROUP, Flags.PARENTHESES);
-            // '-' requires a width
-            if (width == -1 && f.contains(Flags.LEFT_JUSTIFY))
-                throw new MissingFormatWidthException(toString());
+                throw new IllegblFormbtPrecisionException(precision);
+            if (!DbteTime.isVblid(c))
+                throw new UnknownFormbtConversionException("t" + c);
+            checkBbdFlbgs(Flbgs.ALTERNATE, Flbgs.PLUS, Flbgs.LEADING_SPACE,
+                          Flbgs.ZERO_PAD, Flbgs.GROUP, Flbgs.PARENTHESES);
+            // '-' requires b width
+            if (width == -1 && f.contbins(Flbgs.LEFT_JUSTIFY))
+                throw new MissingFormbtWidthException(toString());
         }
 
-        private void checkCharacter() {
+        privbte void checkChbrbcter() {
             if (precision != -1)
-                throw new IllegalFormatPrecisionException(precision);
-            checkBadFlags(Flags.ALTERNATE, Flags.PLUS, Flags.LEADING_SPACE,
-                          Flags.ZERO_PAD, Flags.GROUP, Flags.PARENTHESES);
-            // '-' requires a width
-            if (width == -1 && f.contains(Flags.LEFT_JUSTIFY))
-                throw new MissingFormatWidthException(toString());
+                throw new IllegblFormbtPrecisionException(precision);
+            checkBbdFlbgs(Flbgs.ALTERNATE, Flbgs.PLUS, Flbgs.LEADING_SPACE,
+                          Flbgs.ZERO_PAD, Flbgs.GROUP, Flbgs.PARENTHESES);
+            // '-' requires b width
+            if (width == -1 && f.contbins(Flbgs.LEFT_JUSTIFY))
+                throw new MissingFormbtWidthException(toString());
         }
 
-        private void checkInteger() {
+        privbte void checkInteger() {
             checkNumeric();
             if (precision != -1)
-                throw new IllegalFormatPrecisionException(precision);
+                throw new IllegblFormbtPrecisionException(precision);
 
             if (c == Conversion.DECIMAL_INTEGER)
-                checkBadFlags(Flags.ALTERNATE);
+                checkBbdFlbgs(Flbgs.ALTERNATE);
             else if (c == Conversion.OCTAL_INTEGER)
-                checkBadFlags(Flags.GROUP);
+                checkBbdFlbgs(Flbgs.GROUP);
             else
-                checkBadFlags(Flags.GROUP);
+                checkBbdFlbgs(Flbgs.GROUP);
         }
 
-        private void checkBadFlags(Flags ... badFlags) {
-            for (Flags badFlag : badFlags)
-                if (f.contains(badFlag))
-                    failMismatch(badFlag, c);
+        privbte void checkBbdFlbgs(Flbgs ... bbdFlbgs) {
+            for (Flbgs bbdFlbg : bbdFlbgs)
+                if (f.contbins(bbdFlbg))
+                    fbilMismbtch(bbdFlbg, c);
         }
 
-        private void checkFloat() {
+        privbte void checkFlobt() {
             checkNumeric();
             if (c == Conversion.DECIMAL_FLOAT) {
             } else if (c == Conversion.HEXADECIMAL_FLOAT) {
-                checkBadFlags(Flags.PARENTHESES, Flags.GROUP);
+                checkBbdFlbgs(Flbgs.PARENTHESES, Flbgs.GROUP);
             } else if (c == Conversion.SCIENTIFIC) {
-                checkBadFlags(Flags.GROUP);
+                checkBbdFlbgs(Flbgs.GROUP);
             } else if (c == Conversion.GENERAL) {
-                checkBadFlags(Flags.ALTERNATE);
+                checkBbdFlbgs(Flbgs.ALTERNATE);
             }
         }
 
-        private void checkNumeric() {
+        privbte void checkNumeric() {
             if (width != -1 && width < 0)
-                throw new IllegalFormatWidthException(width);
+                throw new IllegblFormbtWidthException(width);
 
             if (precision != -1 && precision < 0)
-                throw new IllegalFormatPrecisionException(precision);
+                throw new IllegblFormbtPrecisionException(precision);
 
-            // '-' and '0' require a width
+            // '-' bnd '0' require b width
             if (width == -1
-                && (f.contains(Flags.LEFT_JUSTIFY) || f.contains(Flags.ZERO_PAD)))
-                throw new MissingFormatWidthException(toString());
+                && (f.contbins(Flbgs.LEFT_JUSTIFY) || f.contbins(Flbgs.ZERO_PAD)))
+                throw new MissingFormbtWidthException(toString());
 
-            // bad combination
-            if ((f.contains(Flags.PLUS) && f.contains(Flags.LEADING_SPACE))
-                || (f.contains(Flags.LEFT_JUSTIFY) && f.contains(Flags.ZERO_PAD)))
-                throw new IllegalFormatFlagsException(f.toString());
+            // bbd combinbtion
+            if ((f.contbins(Flbgs.PLUS) && f.contbins(Flbgs.LEADING_SPACE))
+                || (f.contbins(Flbgs.LEFT_JUSTIFY) && f.contbins(Flbgs.ZERO_PAD)))
+                throw new IllegblFormbtFlbgsException(f.toString());
         }
 
-        private void checkText() {
+        privbte void checkText() {
             if (precision != -1)
-                throw new IllegalFormatPrecisionException(precision);
+                throw new IllegblFormbtPrecisionException(precision);
             switch (c) {
-            case Conversion.PERCENT_SIGN:
-                if (f.valueOf() != Flags.LEFT_JUSTIFY.valueOf()
-                    && f.valueOf() != Flags.NONE.valueOf())
-                    throw new IllegalFormatFlagsException(f.toString());
-                // '-' requires a width
-                if (width == -1 && f.contains(Flags.LEFT_JUSTIFY))
-                    throw new MissingFormatWidthException(toString());
-                break;
-            case Conversion.LINE_SEPARATOR:
+            cbse Conversion.PERCENT_SIGN:
+                if (f.vblueOf() != Flbgs.LEFT_JUSTIFY.vblueOf()
+                    && f.vblueOf() != Flbgs.NONE.vblueOf())
+                    throw new IllegblFormbtFlbgsException(f.toString());
+                // '-' requires b width
+                if (width == -1 && f.contbins(Flbgs.LEFT_JUSTIFY))
+                    throw new MissingFormbtWidthException(toString());
+                brebk;
+            cbse Conversion.LINE_SEPARATOR:
                 if (width != -1)
-                    throw new IllegalFormatWidthException(width);
-                if (f.valueOf() != Flags.NONE.valueOf())
-                    throw new IllegalFormatFlagsException(f.toString());
-                break;
-            default:
-                assert false;
+                    throw new IllegblFormbtWidthException(width);
+                if (f.vblueOf() != Flbgs.NONE.vblueOf())
+                    throw new IllegblFormbtFlbgsException(f.toString());
+                brebk;
+            defbult:
+                bssert fblse;
             }
         }
 
-        private void print(byte value, Locale l) throws IOException {
-            long v = value;
-            if (value < 0
+        privbte void print(byte vblue, Locble l) throws IOException {
+            long v = vblue;
+            if (vblue < 0
                 && (c == Conversion.OCTAL_INTEGER
                     || c == Conversion.HEXADECIMAL_INTEGER)) {
                 v += (1L << 8);
-                assert v >= 0 : v;
+                bssert v >= 0 : v;
             }
             print(v, l);
         }
 
-        private void print(short value, Locale l) throws IOException {
-            long v = value;
-            if (value < 0
+        privbte void print(short vblue, Locble l) throws IOException {
+            long v = vblue;
+            if (vblue < 0
                 && (c == Conversion.OCTAL_INTEGER
                     || c == Conversion.HEXADECIMAL_INTEGER)) {
                 v += (1L << 16);
-                assert v >= 0 : v;
+                bssert v >= 0 : v;
             }
             print(v, l);
         }
 
-        private void print(int value, Locale l) throws IOException {
-            long v = value;
-            if (value < 0
+        privbte void print(int vblue, Locble l) throws IOException {
+            long v = vblue;
+            if (vblue < 0
                 && (c == Conversion.OCTAL_INTEGER
                     || c == Conversion.HEXADECIMAL_INTEGER)) {
                 v += (1L << 32);
-                assert v >= 0 : v;
+                bssert v >= 0 : v;
             }
             print(v, l);
         }
 
-        private void print(long value, Locale l) throws IOException {
+        privbte void print(long vblue, Locble l) throws IOException {
 
             StringBuilder sb = new StringBuilder();
 
             if (c == Conversion.DECIMAL_INTEGER) {
-                boolean neg = value < 0;
-                char[] va;
-                if (value < 0)
-                    va = Long.toString(value, 10).substring(1).toCharArray();
+                boolebn neg = vblue < 0;
+                chbr[] vb;
+                if (vblue < 0)
+                    vb = Long.toString(vblue, 10).substring(1).toChbrArrby();
                 else
-                    va = Long.toString(value, 10).toCharArray();
+                    vb = Long.toString(vblue, 10).toChbrArrby();
 
-                // leading sign indicator
-                leadingSign(sb, neg);
+                // lebding sign indicbtor
+                lebdingSign(sb, neg);
 
-                // the value
-                localizedMagnitude(sb, va, f, adjustWidth(width, f, neg), l);
+                // the vblue
+                locblizedMbgnitude(sb, vb, f, bdjustWidth(width, f, neg), l);
 
-                // trailing sign indicator
-                trailingSign(sb, neg);
+                // trbiling sign indicbtor
+                trbilingSign(sb, neg);
             } else if (c == Conversion.OCTAL_INTEGER) {
-                checkBadFlags(Flags.PARENTHESES, Flags.LEADING_SPACE,
-                              Flags.PLUS);
-                String s = Long.toOctalString(value);
-                int len = (f.contains(Flags.ALTERNATE)
+                checkBbdFlbgs(Flbgs.PARENTHESES, Flbgs.LEADING_SPACE,
+                              Flbgs.PLUS);
+                String s = Long.toOctblString(vblue);
+                int len = (f.contbins(Flbgs.ALTERNATE)
                            ? s.length() + 1
                            : s.length());
 
-                // apply ALTERNATE (radix indicator for octal) before ZERO_PAD
-                if (f.contains(Flags.ALTERNATE))
-                    sb.append('0');
-                if (f.contains(Flags.ZERO_PAD))
-                    for (int i = 0; i < width - len; i++) sb.append('0');
-                sb.append(s);
+                // bpply ALTERNATE (rbdix indicbtor for octbl) before ZERO_PAD
+                if (f.contbins(Flbgs.ALTERNATE))
+                    sb.bppend('0');
+                if (f.contbins(Flbgs.ZERO_PAD))
+                    for (int i = 0; i < width - len; i++) sb.bppend('0');
+                sb.bppend(s);
             } else if (c == Conversion.HEXADECIMAL_INTEGER) {
-                checkBadFlags(Flags.PARENTHESES, Flags.LEADING_SPACE,
-                              Flags.PLUS);
-                String s = Long.toHexString(value);
-                int len = (f.contains(Flags.ALTERNATE)
+                checkBbdFlbgs(Flbgs.PARENTHESES, Flbgs.LEADING_SPACE,
+                              Flbgs.PLUS);
+                String s = Long.toHexString(vblue);
+                int len = (f.contbins(Flbgs.ALTERNATE)
                            ? s.length() + 2
                            : s.length());
 
-                // apply ALTERNATE (radix indicator for hex) before ZERO_PAD
-                if (f.contains(Flags.ALTERNATE))
-                    sb.append(f.contains(Flags.UPPERCASE) ? "0X" : "0x");
-                if (f.contains(Flags.ZERO_PAD))
-                    for (int i = 0; i < width - len; i++) sb.append('0');
-                if (f.contains(Flags.UPPERCASE))
-                    s = s.toUpperCase();
-                sb.append(s);
+                // bpply ALTERNATE (rbdix indicbtor for hex) before ZERO_PAD
+                if (f.contbins(Flbgs.ALTERNATE))
+                    sb.bppend(f.contbins(Flbgs.UPPERCASE) ? "0X" : "0x");
+                if (f.contbins(Flbgs.ZERO_PAD))
+                    for (int i = 0; i < width - len; i++) sb.bppend('0');
+                if (f.contbins(Flbgs.UPPERCASE))
+                    s = s.toUpperCbse();
+                sb.bppend(s);
             }
 
-            // justify based on width
-            a.append(justify(sb.toString()));
+            // justify bbsed on width
+            b.bppend(justify(sb.toString()));
         }
 
-        // neg := val < 0
-        private StringBuilder leadingSign(StringBuilder sb, boolean neg) {
+        // neg := vbl < 0
+        privbte StringBuilder lebdingSign(StringBuilder sb, boolebn neg) {
             if (!neg) {
-                if (f.contains(Flags.PLUS)) {
-                    sb.append('+');
-                } else if (f.contains(Flags.LEADING_SPACE)) {
-                    sb.append(' ');
+                if (f.contbins(Flbgs.PLUS)) {
+                    sb.bppend('+');
+                } else if (f.contbins(Flbgs.LEADING_SPACE)) {
+                    sb.bppend(' ');
                 }
             } else {
-                if (f.contains(Flags.PARENTHESES))
-                    sb.append('(');
+                if (f.contbins(Flbgs.PARENTHESES))
+                    sb.bppend('(');
                 else
-                    sb.append('-');
+                    sb.bppend('-');
             }
             return sb;
         }
 
-        // neg := val < 0
-        private StringBuilder trailingSign(StringBuilder sb, boolean neg) {
-            if (neg && f.contains(Flags.PARENTHESES))
-                sb.append(')');
+        // neg := vbl < 0
+        privbte StringBuilder trbilingSign(StringBuilder sb, boolebn neg) {
+            if (neg && f.contbins(Flbgs.PARENTHESES))
+                sb.bppend(')');
             return sb;
         }
 
-        private void print(BigInteger value, Locale l) throws IOException {
+        privbte void print(BigInteger vblue, Locble l) throws IOException {
             StringBuilder sb = new StringBuilder();
-            boolean neg = value.signum() == -1;
-            BigInteger v = value.abs();
+            boolebn neg = vblue.signum() == -1;
+            BigInteger v = vblue.bbs();
 
-            // leading sign indicator
-            leadingSign(sb, neg);
+            // lebding sign indicbtor
+            lebdingSign(sb, neg);
 
-            // the value
+            // the vblue
             if (c == Conversion.DECIMAL_INTEGER) {
-                char[] va = v.toString().toCharArray();
-                localizedMagnitude(sb, va, f, adjustWidth(width, f, neg), l);
+                chbr[] vb = v.toString().toChbrArrby();
+                locblizedMbgnitude(sb, vb, f, bdjustWidth(width, f, neg), l);
             } else if (c == Conversion.OCTAL_INTEGER) {
                 String s = v.toString(8);
 
                 int len = s.length() + sb.length();
-                if (neg && f.contains(Flags.PARENTHESES))
+                if (neg && f.contbins(Flbgs.PARENTHESES))
                     len++;
 
-                // apply ALTERNATE (radix indicator for octal) before ZERO_PAD
-                if (f.contains(Flags.ALTERNATE)) {
+                // bpply ALTERNATE (rbdix indicbtor for octbl) before ZERO_PAD
+                if (f.contbins(Flbgs.ALTERNATE)) {
                     len++;
-                    sb.append('0');
+                    sb.bppend('0');
                 }
-                if (f.contains(Flags.ZERO_PAD)) {
+                if (f.contbins(Flbgs.ZERO_PAD)) {
                     for (int i = 0; i < width - len; i++)
-                        sb.append('0');
+                        sb.bppend('0');
                 }
-                sb.append(s);
+                sb.bppend(s);
             } else if (c == Conversion.HEXADECIMAL_INTEGER) {
                 String s = v.toString(16);
 
                 int len = s.length() + sb.length();
-                if (neg && f.contains(Flags.PARENTHESES))
+                if (neg && f.contbins(Flbgs.PARENTHESES))
                     len++;
 
-                // apply ALTERNATE (radix indicator for hex) before ZERO_PAD
-                if (f.contains(Flags.ALTERNATE)) {
+                // bpply ALTERNATE (rbdix indicbtor for hex) before ZERO_PAD
+                if (f.contbins(Flbgs.ALTERNATE)) {
                     len += 2;
-                    sb.append(f.contains(Flags.UPPERCASE) ? "0X" : "0x");
+                    sb.bppend(f.contbins(Flbgs.UPPERCASE) ? "0X" : "0x");
                 }
-                if (f.contains(Flags.ZERO_PAD))
+                if (f.contbins(Flbgs.ZERO_PAD))
                     for (int i = 0; i < width - len; i++)
-                        sb.append('0');
-                if (f.contains(Flags.UPPERCASE))
-                    s = s.toUpperCase();
-                sb.append(s);
+                        sb.bppend('0');
+                if (f.contbins(Flbgs.UPPERCASE))
+                    s = s.toUpperCbse();
+                sb.bppend(s);
             }
 
-            // trailing sign indicator
-            trailingSign(sb, (value.signum() == -1));
+            // trbiling sign indicbtor
+            trbilingSign(sb, (vblue.signum() == -1));
 
-            // justify based on width
-            a.append(justify(sb.toString()));
+            // justify bbsed on width
+            b.bppend(justify(sb.toString()));
         }
 
-        private void print(float value, Locale l) throws IOException {
-            print((double) value, l);
+        privbte void print(flobt vblue, Locble l) throws IOException {
+            print((double) vblue, l);
         }
 
-        private void print(double value, Locale l) throws IOException {
+        privbte void print(double vblue, Locble l) throws IOException {
             StringBuilder sb = new StringBuilder();
-            boolean neg = Double.compare(value, 0.0) == -1;
+            boolebn neg = Double.compbre(vblue, 0.0) == -1;
 
-            if (!Double.isNaN(value)) {
-                double v = Math.abs(value);
+            if (!Double.isNbN(vblue)) {
+                double v = Mbth.bbs(vblue);
 
-                // leading sign indicator
-                leadingSign(sb, neg);
+                // lebding sign indicbtor
+                lebdingSign(sb, neg);
 
-                // the value
+                // the vblue
                 if (!Double.isInfinite(v))
                     print(sb, v, l, f, c, precision, neg);
                 else
-                    sb.append(f.contains(Flags.UPPERCASE)
+                    sb.bppend(f.contbins(Flbgs.UPPERCASE)
                               ? "INFINITY" : "Infinity");
 
-                // trailing sign indicator
-                trailingSign(sb, neg);
+                // trbiling sign indicbtor
+                trbilingSign(sb, neg);
             } else {
-                sb.append(f.contains(Flags.UPPERCASE) ? "NAN" : "NaN");
+                sb.bppend(f.contbins(Flbgs.UPPERCASE) ? "NAN" : "NbN");
             }
 
-            // justify based on width
-            a.append(justify(sb.toString()));
+            // justify bbsed on width
+            b.bppend(justify(sb.toString()));
         }
 
-        // !Double.isInfinite(value) && !Double.isNaN(value)
-        private void print(StringBuilder sb, double value, Locale l,
-                           Flags f, char c, int precision, boolean neg)
+        // !Double.isInfinite(vblue) && !Double.isNbN(vblue)
+        privbte void print(StringBuilder sb, double vblue, Locble l,
+                           Flbgs f, chbr c, int precision, boolebn neg)
             throws IOException
         {
             if (c == Conversion.SCIENTIFIC) {
-                // Create a new FormattedFloatingDecimal with the desired
+                // Crebte b new FormbttedFlobtingDecimbl with the desired
                 // precision.
                 int prec = (precision == -1 ? 6 : precision);
 
-                FormattedFloatingDecimal fd
-                        = FormattedFloatingDecimal.valueOf(value, prec,
-                          FormattedFloatingDecimal.Form.SCIENTIFIC);
+                FormbttedFlobtingDecimbl fd
+                        = FormbttedFlobtingDecimbl.vblueOf(vblue, prec,
+                          FormbttedFlobtingDecimbl.Form.SCIENTIFIC);
 
-                char[] mant = addZeros(fd.getMantissa(), prec);
+                chbr[] mbnt = bddZeros(fd.getMbntissb(), prec);
 
-                // If the precision is zero and the '#' flag is set, add the
-                // requested decimal point.
-                if (f.contains(Flags.ALTERNATE) && (prec == 0))
-                    mant = addDot(mant);
+                // If the precision is zero bnd the '#' flbg is set, bdd the
+                // requested decimbl point.
+                if (f.contbins(Flbgs.ALTERNATE) && (prec == 0))
+                    mbnt = bddDot(mbnt);
 
-                char[] exp = (value == 0.0)
-                    ? new char[] {'+','0','0'} : fd.getExponent();
+                chbr[] exp = (vblue == 0.0)
+                    ? new chbr[] {'+','0','0'} : fd.getExponent();
 
                 int newW = width;
                 if (width != -1)
-                    newW = adjustWidth(width - exp.length - 1, f, neg);
-                localizedMagnitude(sb, mant, f, newW, l);
+                    newW = bdjustWidth(width - exp.length - 1, f, neg);
+                locblizedMbgnitude(sb, mbnt, f, newW, l);
 
-                sb.append(f.contains(Flags.UPPERCASE) ? 'E' : 'e');
+                sb.bppend(f.contbins(Flbgs.UPPERCASE) ? 'E' : 'e');
 
-                Flags flags = f.dup().remove(Flags.GROUP);
-                char sign = exp[0];
-                assert(sign == '+' || sign == '-');
-                sb.append(sign);
+                Flbgs flbgs = f.dup().remove(Flbgs.GROUP);
+                chbr sign = exp[0];
+                bssert(sign == '+' || sign == '-');
+                sb.bppend(sign);
 
-                char[] tmp = new char[exp.length - 1];
-                System.arraycopy(exp, 1, tmp, 0, exp.length - 1);
-                sb.append(localizedMagnitude(null, tmp, flags, -1, l));
+                chbr[] tmp = new chbr[exp.length - 1];
+                System.brrbycopy(exp, 1, tmp, 0, exp.length - 1);
+                sb.bppend(locblizedMbgnitude(null, tmp, flbgs, -1, l));
             } else if (c == Conversion.DECIMAL_FLOAT) {
-                // Create a new FormattedFloatingDecimal with the desired
+                // Crebte b new FormbttedFlobtingDecimbl with the desired
                 // precision.
                 int prec = (precision == -1 ? 6 : precision);
 
-                FormattedFloatingDecimal fd
-                        = FormattedFloatingDecimal.valueOf(value, prec,
-                          FormattedFloatingDecimal.Form.DECIMAL_FLOAT);
+                FormbttedFlobtingDecimbl fd
+                        = FormbttedFlobtingDecimbl.vblueOf(vblue, prec,
+                          FormbttedFlobtingDecimbl.Form.DECIMAL_FLOAT);
 
-                char[] mant = addZeros(fd.getMantissa(), prec);
+                chbr[] mbnt = bddZeros(fd.getMbntissb(), prec);
 
-                // If the precision is zero and the '#' flag is set, add the
-                // requested decimal point.
-                if (f.contains(Flags.ALTERNATE) && (prec == 0))
-                    mant = addDot(mant);
+                // If the precision is zero bnd the '#' flbg is set, bdd the
+                // requested decimbl point.
+                if (f.contbins(Flbgs.ALTERNATE) && (prec == 0))
+                    mbnt = bddDot(mbnt);
 
                 int newW = width;
                 if (width != -1)
-                    newW = adjustWidth(width, f, neg);
-                localizedMagnitude(sb, mant, f, newW, l);
+                    newW = bdjustWidth(width, f, neg);
+                locblizedMbgnitude(sb, mbnt, f, newW, l);
             } else if (c == Conversion.GENERAL) {
                 int prec = precision;
                 if (precision == -1)
@@ -3315,19 +3315,19 @@ public final class Formatter implements Closeable, Flushable {
                 else if (precision == 0)
                     prec = 1;
 
-                char[] exp;
-                char[] mant;
+                chbr[] exp;
+                chbr[] mbnt;
                 int expRounded;
-                if (value == 0.0) {
+                if (vblue == 0.0) {
                     exp = null;
-                    mant = new char[] {'0'};
+                    mbnt = new chbr[] {'0'};
                     expRounded = 0;
                 } else {
-                    FormattedFloatingDecimal fd
-                        = FormattedFloatingDecimal.valueOf(value, prec,
-                          FormattedFloatingDecimal.Form.GENERAL);
+                    FormbttedFlobtingDecimbl fd
+                        = FormbttedFlobtingDecimbl.vblueOf(vblue, prec,
+                          FormbttedFlobtingDecimbl.Form.GENERAL);
                     exp = fd.getExponent();
-                    mant = fd.getMantissa();
+                    mbnt = fd.getMbntissb();
                     expRounded = fd.getExponentRounded();
                 }
 
@@ -3337,179 +3337,179 @@ public final class Formatter implements Closeable, Flushable {
                     prec -= expRounded + 1;
                 }
 
-                mant = addZeros(mant, prec);
-                // If the precision is zero and the '#' flag is set, add the
-                // requested decimal point.
-                if (f.contains(Flags.ALTERNATE) && (prec == 0))
-                    mant = addDot(mant);
+                mbnt = bddZeros(mbnt, prec);
+                // If the precision is zero bnd the '#' flbg is set, bdd the
+                // requested decimbl point.
+                if (f.contbins(Flbgs.ALTERNATE) && (prec == 0))
+                    mbnt = bddDot(mbnt);
 
                 int newW = width;
                 if (width != -1) {
                     if (exp != null)
-                        newW = adjustWidth(width - exp.length - 1, f, neg);
+                        newW = bdjustWidth(width - exp.length - 1, f, neg);
                     else
-                        newW = adjustWidth(width, f, neg);
+                        newW = bdjustWidth(width, f, neg);
                 }
-                localizedMagnitude(sb, mant, f, newW, l);
+                locblizedMbgnitude(sb, mbnt, f, newW, l);
 
                 if (exp != null) {
-                    sb.append(f.contains(Flags.UPPERCASE) ? 'E' : 'e');
+                    sb.bppend(f.contbins(Flbgs.UPPERCASE) ? 'E' : 'e');
 
-                    Flags flags = f.dup().remove(Flags.GROUP);
-                    char sign = exp[0];
-                    assert(sign == '+' || sign == '-');
-                    sb.append(sign);
+                    Flbgs flbgs = f.dup().remove(Flbgs.GROUP);
+                    chbr sign = exp[0];
+                    bssert(sign == '+' || sign == '-');
+                    sb.bppend(sign);
 
-                    char[] tmp = new char[exp.length - 1];
-                    System.arraycopy(exp, 1, tmp, 0, exp.length - 1);
-                    sb.append(localizedMagnitude(null, tmp, flags, -1, l));
+                    chbr[] tmp = new chbr[exp.length - 1];
+                    System.brrbycopy(exp, 1, tmp, 0, exp.length - 1);
+                    sb.bppend(locblizedMbgnitude(null, tmp, flbgs, -1, l));
                 }
             } else if (c == Conversion.HEXADECIMAL_FLOAT) {
                 int prec = precision;
                 if (precision == -1)
-                    // assume that we want all of the digits
+                    // bssume thbt we wbnt bll of the digits
                     prec = 0;
                 else if (precision == 0)
                     prec = 1;
 
-                String s = hexDouble(value, prec);
+                String s = hexDouble(vblue, prec);
 
-                char[] va;
-                boolean upper = f.contains(Flags.UPPERCASE);
-                sb.append(upper ? "0X" : "0x");
+                chbr[] vb;
+                boolebn upper = f.contbins(Flbgs.UPPERCASE);
+                sb.bppend(upper ? "0X" : "0x");
 
-                if (f.contains(Flags.ZERO_PAD))
+                if (f.contbins(Flbgs.ZERO_PAD))
                     for (int i = 0; i < width - s.length() - 2; i++)
-                        sb.append('0');
+                        sb.bppend('0');
 
                 int idx = s.indexOf('p');
-                va = s.substring(0, idx).toCharArray();
+                vb = s.substring(0, idx).toChbrArrby();
                 if (upper) {
-                    String tmp = new String(va);
-                    // don't localize hex
-                    tmp = tmp.toUpperCase(Locale.US);
-                    va = tmp.toCharArray();
+                    String tmp = new String(vb);
+                    // don't locblize hex
+                    tmp = tmp.toUpperCbse(Locble.US);
+                    vb = tmp.toChbrArrby();
                 }
-                sb.append(prec != 0 ? addZeros(va, prec) : va);
-                sb.append(upper ? 'P' : 'p');
-                sb.append(s.substring(idx+1));
+                sb.bppend(prec != 0 ? bddZeros(vb, prec) : vb);
+                sb.bppend(upper ? 'P' : 'p');
+                sb.bppend(s.substring(idx+1));
             }
         }
 
         // Add zeros to the requested precision.
-        private char[] addZeros(char[] v, int prec) {
-            // Look for the dot.  If we don't find one, the we'll need to add
-            // it before we add the zeros.
+        privbte chbr[] bddZeros(chbr[] v, int prec) {
+            // Look for the dot.  If we don't find one, the we'll need to bdd
+            // it before we bdd the zeros.
             int i;
             for (i = 0; i < v.length; i++) {
                 if (v[i] == '.')
-                    break;
+                    brebk;
             }
-            boolean needDot = false;
+            boolebn needDot = fblse;
             if (i == v.length) {
                 needDot = true;
             }
 
             // Determine existing precision.
             int outPrec = v.length - i - (needDot ? 0 : 1);
-            assert (outPrec <= prec);
+            bssert (outPrec <= prec);
             if (outPrec == prec)
                 return v;
 
-            // Create new array with existing contents.
-            char[] tmp
-                = new char[v.length + prec - outPrec + (needDot ? 1 : 0)];
-            System.arraycopy(v, 0, tmp, 0, v.length);
+            // Crebte new brrby with existing contents.
+            chbr[] tmp
+                = new chbr[v.length + prec - outPrec + (needDot ? 1 : 0)];
+            System.brrbycopy(v, 0, tmp, 0, v.length);
 
-            // Add dot if previously determined to be necessary.
-            int start = v.length;
+            // Add dot if previously determined to be necessbry.
+            int stbrt = v.length;
             if (needDot) {
                 tmp[v.length] = '.';
-                start++;
+                stbrt++;
             }
 
             // Add zeros.
-            for (int j = start; j < tmp.length; j++)
+            for (int j = stbrt; j < tmp.length; j++)
                 tmp[j] = '0';
 
             return tmp;
         }
 
-        // Method assumes that d > 0.
-        private String hexDouble(double d, int prec) {
-            // Let Double.toHexString handle simple cases
+        // Method bssumes thbt d > 0.
+        privbte String hexDouble(double d, int prec) {
+            // Let Double.toHexString hbndle simple cbses
             if(!Double.isFinite(d) || d == 0.0 || prec == 0 || prec >= 13)
                 // remove "0x"
                 return Double.toHexString(d).substring(2);
             else {
-                assert(prec >= 1 && prec <= 12);
+                bssert(prec >= 1 && prec <= 12);
 
-                int exponent  = Math.getExponent(d);
-                boolean subnormal
+                int exponent  = Mbth.getExponent(d);
+                boolebn subnormbl
                     = (exponent == DoubleConsts.MIN_EXPONENT - 1);
 
-                // If this is subnormal input so normalize (could be faster to
-                // do as integer operation).
-                if (subnormal) {
-                    scaleUp = Math.scalb(1.0, 54);
-                    d *= scaleUp;
-                    // Calculate the exponent.  This is not just exponent + 54
-                    // since the former is not the normalized exponent.
-                    exponent = Math.getExponent(d);
-                    assert exponent >= DoubleConsts.MIN_EXPONENT &&
+                // If this is subnormbl input so normblize (could be fbster to
+                // do bs integer operbtion).
+                if (subnormbl) {
+                    scbleUp = Mbth.scblb(1.0, 54);
+                    d *= scbleUp;
+                    // Cblculbte the exponent.  This is not just exponent + 54
+                    // since the former is not the normblized exponent.
+                    exponent = Mbth.getExponent(d);
+                    bssert exponent >= DoubleConsts.MIN_EXPONENT &&
                         exponent <= DoubleConsts.MAX_EXPONENT: exponent;
                 }
 
                 int precision = 1 + prec*4;
-                int shiftDistance
+                int shiftDistbnce
                     =  DoubleConsts.SIGNIFICAND_WIDTH - precision;
-                assert(shiftDistance >= 1 && shiftDistance < DoubleConsts.SIGNIFICAND_WIDTH);
+                bssert(shiftDistbnce >= 1 && shiftDistbnce < DoubleConsts.SIGNIFICAND_WIDTH);
 
                 long doppel = Double.doubleToLongBits(d);
                 // Deterime the number of bits to keep.
                 long newSignif
                     = (doppel & (DoubleConsts.EXP_BIT_MASK
                                  | DoubleConsts.SIGNIF_BIT_MASK))
-                                     >> shiftDistance;
-                // Bits to round away.
-                long roundingBits = doppel & ~(~0L << shiftDistance);
+                                     >> shiftDistbnce;
+                // Bits to round bwby.
+                long roundingBits = doppel & ~(~0L << shiftDistbnce);
 
-                // To decide how to round, look at the low-order bit of the
-                // working significand, the highest order discarded bit (the
-                // round bit) and whether any of the lower order discarded bits
-                // are nonzero (the sticky bit).
+                // To decide how to round, look bt the low-order bit of the
+                // working significbnd, the highest order discbrded bit (the
+                // round bit) bnd whether bny of the lower order discbrded bits
+                // bre nonzero (the sticky bit).
 
-                boolean leastZero = (newSignif & 0x1L) == 0L;
-                boolean round
-                    = ((1L << (shiftDistance - 1) ) & roundingBits) != 0L;
-                boolean sticky  = shiftDistance > 1 &&
-                    (~(1L<< (shiftDistance - 1)) & roundingBits) != 0;
-                if((leastZero && round && sticky) || (!leastZero && round)) {
+                boolebn lebstZero = (newSignif & 0x1L) == 0L;
+                boolebn round
+                    = ((1L << (shiftDistbnce - 1) ) & roundingBits) != 0L;
+                boolebn sticky  = shiftDistbnce > 1 &&
+                    (~(1L<< (shiftDistbnce - 1)) & roundingBits) != 0;
+                if((lebstZero && round && sticky) || (!lebstZero && round)) {
                     newSignif++;
                 }
 
                 long signBit = doppel & DoubleConsts.SIGN_BIT_MASK;
-                newSignif = signBit | (newSignif << shiftDistance);
+                newSignif = signBit | (newSignif << shiftDistbnce);
                 double result = Double.longBitsToDouble(newSignif);
 
                 if (Double.isInfinite(result) ) {
-                    // Infinite result generated by rounding
+                    // Infinite result generbted by rounding
                     return "1.0p1024";
                 } else {
                     String res = Double.toHexString(result).substring(2);
-                    if (!subnormal)
+                    if (!subnormbl)
                         return res;
                     else {
-                        // Create a normalized subnormal string.
+                        // Crebte b normblized subnormbl string.
                         int idx = res.indexOf('p');
                         if (idx == -1) {
-                            // No 'p' character in hex string.
-                            assert false;
+                            // No 'p' chbrbcter in hex string.
+                            bssert fblse;
                             return null;
                         } else {
-                            // Get exponent and append at the end.
+                            // Get exponent bnd bppend bt the end.
                             String exp = res.substring(idx + 1);
-                            int iexp = Integer.parseInt(exp) -54;
+                            int iexp = Integer.pbrseInt(exp) -54;
                             return res.substring(0, idx) + "p"
                                 + Integer.toString(iexp);
                         }
@@ -3518,35 +3518,35 @@ public final class Formatter implements Closeable, Flushable {
             }
         }
 
-        private void print(BigDecimal value, Locale l) throws IOException {
+        privbte void print(BigDecimbl vblue, Locble l) throws IOException {
             if (c == Conversion.HEXADECIMAL_FLOAT)
-                failConversion(c, value);
+                fbilConversion(c, vblue);
             StringBuilder sb = new StringBuilder();
-            boolean neg = value.signum() == -1;
-            BigDecimal v = value.abs();
-            // leading sign indicator
-            leadingSign(sb, neg);
+            boolebn neg = vblue.signum() == -1;
+            BigDecimbl v = vblue.bbs();
+            // lebding sign indicbtor
+            lebdingSign(sb, neg);
 
-            // the value
+            // the vblue
             print(sb, v, l, f, c, precision, neg);
 
-            // trailing sign indicator
-            trailingSign(sb, neg);
+            // trbiling sign indicbtor
+            trbilingSign(sb, neg);
 
-            // justify based on width
-            a.append(justify(sb.toString()));
+            // justify bbsed on width
+            b.bppend(justify(sb.toString()));
         }
 
-        // value > 0
-        private void print(StringBuilder sb, BigDecimal value, Locale l,
-                           Flags f, char c, int precision, boolean neg)
+        // vblue > 0
+        privbte void print(StringBuilder sb, BigDecimbl vblue, Locble l,
+                           Flbgs f, chbr c, int precision, boolebn neg)
             throws IOException
         {
             if (c == Conversion.SCIENTIFIC) {
-                // Create a new BigDecimal with the desired precision.
+                // Crebte b new BigDecimbl with the desired precision.
                 int prec = (precision == -1 ? 6 : precision);
-                int scale = value.scale();
-                int origPrec = value.precision();
+                int scble = vblue.scble();
+                int origPrec = vblue.precision();
                 int nzeros = 0;
                 int compPrec;
 
@@ -3557,84 +3557,84 @@ public final class Formatter implements Closeable, Flushable {
                     compPrec = prec + 1;
                 }
 
-                MathContext mc = new MathContext(compPrec);
-                BigDecimal v
-                    = new BigDecimal(value.unscaledValue(), scale, mc);
+                MbthContext mc = new MbthContext(compPrec);
+                BigDecimbl v
+                    = new BigDecimbl(vblue.unscbledVblue(), scble, mc);
 
-                BigDecimalLayout bdl
-                    = new BigDecimalLayout(v.unscaledValue(), v.scale(),
-                                           BigDecimalLayoutForm.SCIENTIFIC);
+                BigDecimblLbyout bdl
+                    = new BigDecimblLbyout(v.unscbledVblue(), v.scble(),
+                                           BigDecimblLbyoutForm.SCIENTIFIC);
 
-                char[] mant = bdl.mantissa();
+                chbr[] mbnt = bdl.mbntissb();
 
-                // Add a decimal point if necessary.  The mantissa may not
-                // contain a decimal point if the scale is zero (the internal
-                // representation has no fractional part) or the original
-                // precision is one. Append a decimal point if '#' is set or if
-                // we require zero padding to get to the requested precision.
-                if ((origPrec == 1 || !bdl.hasDot())
-                    && (nzeros > 0 || (f.contains(Flags.ALTERNATE))))
-                    mant = addDot(mant);
+                // Add b decimbl point if necessbry.  The mbntissb mby not
+                // contbin b decimbl point if the scble is zero (the internbl
+                // representbtion hbs no frbctionbl pbrt) or the originbl
+                // precision is one. Append b decimbl point if '#' is set or if
+                // we require zero pbdding to get to the requested precision.
+                if ((origPrec == 1 || !bdl.hbsDot())
+                    && (nzeros > 0 || (f.contbins(Flbgs.ALTERNATE))))
+                    mbnt = bddDot(mbnt);
 
-                // Add trailing zeros in the case precision is greater than
-                // the number of available digits after the decimal separator.
-                mant = trailingZeros(mant, nzeros);
+                // Add trbiling zeros in the cbse precision is grebter thbn
+                // the number of bvbilbble digits bfter the decimbl sepbrbtor.
+                mbnt = trbilingZeros(mbnt, nzeros);
 
-                char[] exp = bdl.exponent();
+                chbr[] exp = bdl.exponent();
                 int newW = width;
                 if (width != -1)
-                    newW = adjustWidth(width - exp.length - 1, f, neg);
-                localizedMagnitude(sb, mant, f, newW, l);
+                    newW = bdjustWidth(width - exp.length - 1, f, neg);
+                locblizedMbgnitude(sb, mbnt, f, newW, l);
 
-                sb.append(f.contains(Flags.UPPERCASE) ? 'E' : 'e');
+                sb.bppend(f.contbins(Flbgs.UPPERCASE) ? 'E' : 'e');
 
-                Flags flags = f.dup().remove(Flags.GROUP);
-                char sign = exp[0];
-                assert(sign == '+' || sign == '-');
-                sb.append(exp[0]);
+                Flbgs flbgs = f.dup().remove(Flbgs.GROUP);
+                chbr sign = exp[0];
+                bssert(sign == '+' || sign == '-');
+                sb.bppend(exp[0]);
 
-                char[] tmp = new char[exp.length - 1];
-                System.arraycopy(exp, 1, tmp, 0, exp.length - 1);
-                sb.append(localizedMagnitude(null, tmp, flags, -1, l));
+                chbr[] tmp = new chbr[exp.length - 1];
+                System.brrbycopy(exp, 1, tmp, 0, exp.length - 1);
+                sb.bppend(locblizedMbgnitude(null, tmp, flbgs, -1, l));
             } else if (c == Conversion.DECIMAL_FLOAT) {
-                // Create a new BigDecimal with the desired precision.
+                // Crebte b new BigDecimbl with the desired precision.
                 int prec = (precision == -1 ? 6 : precision);
-                int scale = value.scale();
+                int scble = vblue.scble();
 
-                if (scale > prec) {
-                    // more "scale" digits than the requested "precision"
-                    int compPrec = value.precision();
-                    if (compPrec <= scale) {
-                        // case of 0.xxxxxx
-                        value = value.setScale(prec, RoundingMode.HALF_UP);
+                if (scble > prec) {
+                    // more "scble" digits thbn the requested "precision"
+                    int compPrec = vblue.precision();
+                    if (compPrec <= scble) {
+                        // cbse of 0.xxxxxx
+                        vblue = vblue.setScble(prec, RoundingMode.HALF_UP);
                     } else {
-                        compPrec -= (scale - prec);
-                        value = new BigDecimal(value.unscaledValue(),
-                                               scale,
-                                               new MathContext(compPrec));
+                        compPrec -= (scble - prec);
+                        vblue = new BigDecimbl(vblue.unscbledVblue(),
+                                               scble,
+                                               new MbthContext(compPrec));
                     }
                 }
-                BigDecimalLayout bdl = new BigDecimalLayout(
-                                           value.unscaledValue(),
-                                           value.scale(),
-                                           BigDecimalLayoutForm.DECIMAL_FLOAT);
+                BigDecimblLbyout bdl = new BigDecimblLbyout(
+                                           vblue.unscbledVblue(),
+                                           vblue.scble(),
+                                           BigDecimblLbyoutForm.DECIMAL_FLOAT);
 
-                char mant[] = bdl.mantissa();
-                int nzeros = (bdl.scale() < prec ? prec - bdl.scale() : 0);
+                chbr mbnt[] = bdl.mbntissb();
+                int nzeros = (bdl.scble() < prec ? prec - bdl.scble() : 0);
 
-                // Add a decimal point if necessary.  The mantissa may not
-                // contain a decimal point if the scale is zero (the internal
-                // representation has no fractional part).  Append a decimal
-                // point if '#' is set or we require zero padding to get to the
+                // Add b decimbl point if necessbry.  The mbntissb mby not
+                // contbin b decimbl point if the scble is zero (the internbl
+                // representbtion hbs no frbctionbl pbrt).  Append b decimbl
+                // point if '#' is set or we require zero pbdding to get to the
                 // requested precision.
-                if (bdl.scale() == 0 && (f.contains(Flags.ALTERNATE) || nzeros > 0))
-                    mant = addDot(bdl.mantissa());
+                if (bdl.scble() == 0 && (f.contbins(Flbgs.ALTERNATE) || nzeros > 0))
+                    mbnt = bddDot(bdl.mbntissb());
 
-                // Add trailing zeros if the precision is greater than the
-                // number of available digits after the decimal separator.
-                mant = trailingZeros(mant, nzeros);
+                // Add trbiling zeros if the precision is grebter thbn the
+                // number of bvbilbble digits bfter the decimbl sepbrbtor.
+                mbnt = trbilingZeros(mbnt, nzeros);
 
-                localizedMagnitude(sb, mant, f, adjustWidth(width, f, neg), l);
+                locblizedMbgnitude(sb, mbnt, f, bdjustWidth(width, f, neg), l);
             } else if (c == Conversion.GENERAL) {
                 int prec = precision;
                 if (precision == -1)
@@ -3642,14 +3642,14 @@ public final class Formatter implements Closeable, Flushable {
                 else if (precision == 0)
                     prec = 1;
 
-                BigDecimal tenToTheNegFour = BigDecimal.valueOf(1, 4);
-                BigDecimal tenToThePrec = BigDecimal.valueOf(1, -prec);
-                if ((value.equals(BigDecimal.ZERO))
-                    || ((value.compareTo(tenToTheNegFour) != -1)
-                        && (value.compareTo(tenToThePrec) == -1))) {
+                BigDecimbl tenToTheNegFour = BigDecimbl.vblueOf(1, 4);
+                BigDecimbl tenToThePrec = BigDecimbl.vblueOf(1, -prec);
+                if ((vblue.equbls(BigDecimbl.ZERO))
+                    || ((vblue.compbreTo(tenToTheNegFour) != -1)
+                        && (vblue.compbreTo(tenToThePrec) == -1))) {
 
-                    int e = - value.scale()
-                        + (value.unscaledValue().toString().length() - 1);
+                    int e = - vblue.scble()
+                        + (vblue.unscbledVblue().toString().length() - 1);
 
                     // xxx.yyy
                     //   g precision (# sig digits) = #x + #y
@@ -3658,728 +3658,728 @@ public final class Formatter implements Closeable, Flushable {
                     // => f precision = g precision - exponent - 1
                     // 0.000zzz
                     //   g precision (# sig digits) = #z
-                    //   f precision = #0 (after '.') + #z
-                    //   exponent = - #0 (after '.') - 1
+                    //   f precision = #0 (bfter '.') + #z
+                    //   exponent = - #0 (bfter '.') - 1
                     // => f precision = g precision - exponent - 1
                     prec = prec - e - 1;
 
-                    print(sb, value, l, f, Conversion.DECIMAL_FLOAT, prec,
+                    print(sb, vblue, l, f, Conversion.DECIMAL_FLOAT, prec,
                           neg);
                 } else {
-                    print(sb, value, l, f, Conversion.SCIENTIFIC, prec - 1, neg);
+                    print(sb, vblue, l, f, Conversion.SCIENTIFIC, prec - 1, neg);
                 }
             } else if (c == Conversion.HEXADECIMAL_FLOAT) {
                 // This conversion isn't supported.  The error should be
-                // reported earlier.
-                assert false;
+                // reported ebrlier.
+                bssert fblse;
             }
         }
 
-        private class BigDecimalLayout {
-            private StringBuilder mant;
-            private StringBuilder exp;
-            private boolean dot = false;
-            private int scale;
+        privbte clbss BigDecimblLbyout {
+            privbte StringBuilder mbnt;
+            privbte StringBuilder exp;
+            privbte boolebn dot = fblse;
+            privbte int scble;
 
-            public BigDecimalLayout(BigInteger intVal, int scale, BigDecimalLayoutForm form) {
-                layout(intVal, scale, form);
+            public BigDecimblLbyout(BigInteger intVbl, int scble, BigDecimblLbyoutForm form) {
+                lbyout(intVbl, scble, form);
             }
 
-            public boolean hasDot() {
+            public boolebn hbsDot() {
                 return dot;
             }
 
-            public int scale() {
-                return scale;
+            public int scble() {
+                return scble;
             }
 
-            // char[] with canonical string representation
-            public char[] layoutChars() {
-                StringBuilder sb = new StringBuilder(mant);
+            // chbr[] with cbnonicbl string representbtion
+            public chbr[] lbyoutChbrs() {
+                StringBuilder sb = new StringBuilder(mbnt);
                 if (exp != null) {
-                    sb.append('E');
-                    sb.append(exp);
+                    sb.bppend('E');
+                    sb.bppend(exp);
                 }
-                return toCharArray(sb);
+                return toChbrArrby(sb);
             }
 
-            public char[] mantissa() {
-                return toCharArray(mant);
+            public chbr[] mbntissb() {
+                return toChbrArrby(mbnt);
             }
 
-            // The exponent will be formatted as a sign ('+' or '-') followed
-            // by the exponent zero-padded to include at least two digits.
-            public char[] exponent() {
-                return toCharArray(exp);
+            // The exponent will be formbtted bs b sign ('+' or '-') followed
+            // by the exponent zero-pbdded to include bt lebst two digits.
+            public chbr[] exponent() {
+                return toChbrArrby(exp);
             }
 
-            private char[] toCharArray(StringBuilder sb) {
+            privbte chbr[] toChbrArrby(StringBuilder sb) {
                 if (sb == null)
                     return null;
-                char[] result = new char[sb.length()];
-                sb.getChars(0, result.length, result, 0);
+                chbr[] result = new chbr[sb.length()];
+                sb.getChbrs(0, result.length, result, 0);
                 return result;
             }
 
-            private void layout(BigInteger intVal, int scale, BigDecimalLayoutForm form) {
-                char coeff[] = intVal.toString().toCharArray();
-                this.scale = scale;
+            privbte void lbyout(BigInteger intVbl, int scble, BigDecimblLbyoutForm form) {
+                chbr coeff[] = intVbl.toString().toChbrArrby();
+                this.scble = scble;
 
-                // Construct a buffer, with sufficient capacity for all cases.
-                // If E-notation is needed, length will be: +1 if negative, +1
-                // if '.' needed, +2 for "E+", + up to 10 for adjusted
-                // exponent.  Otherwise it could have +1 if negative, plus
-                // leading "0.00000"
-                mant = new StringBuilder(coeff.length + 14);
+                // Construct b buffer, with sufficient cbpbcity for bll cbses.
+                // If E-notbtion is needed, length will be: +1 if negbtive, +1
+                // if '.' needed, +2 for "E+", + up to 10 for bdjusted
+                // exponent.  Otherwise it could hbve +1 if negbtive, plus
+                // lebding "0.00000"
+                mbnt = new StringBuilder(coeff.length + 14);
 
-                if (scale == 0) {
+                if (scble == 0) {
                     int len = coeff.length;
                     if (len > 1) {
-                        mant.append(coeff[0]);
-                        if (form == BigDecimalLayoutForm.SCIENTIFIC) {
-                            mant.append('.');
+                        mbnt.bppend(coeff[0]);
+                        if (form == BigDecimblLbyoutForm.SCIENTIFIC) {
+                            mbnt.bppend('.');
                             dot = true;
-                            mant.append(coeff, 1, len - 1);
+                            mbnt.bppend(coeff, 1, len - 1);
                             exp = new StringBuilder("+");
                             if (len < 10)
-                                exp.append("0").append(len - 1);
+                                exp.bppend("0").bppend(len - 1);
                             else
-                                exp.append(len - 1);
+                                exp.bppend(len - 1);
                         } else {
-                            mant.append(coeff, 1, len - 1);
+                            mbnt.bppend(coeff, 1, len - 1);
                         }
                     } else {
-                        mant.append(coeff);
-                        if (form == BigDecimalLayoutForm.SCIENTIFIC)
+                        mbnt.bppend(coeff);
+                        if (form == BigDecimblLbyoutForm.SCIENTIFIC)
                             exp = new StringBuilder("+00");
                     }
                     return;
                 }
-                long adjusted = -(long) scale + (coeff.length - 1);
-                if (form == BigDecimalLayoutForm.DECIMAL_FLOAT) {
-                    // count of padding zeros
-                    int pad = scale - coeff.length;
-                    if (pad >= 0) {
+                long bdjusted = -(long) scble + (coeff.length - 1);
+                if (form == BigDecimblLbyoutForm.DECIMAL_FLOAT) {
+                    // count of pbdding zeros
+                    int pbd = scble - coeff.length;
+                    if (pbd >= 0) {
                         // 0.xxx form
-                        mant.append("0.");
+                        mbnt.bppend("0.");
                         dot = true;
-                        for (; pad > 0 ; pad--) mant.append('0');
-                        mant.append(coeff);
+                        for (; pbd > 0 ; pbd--) mbnt.bppend('0');
+                        mbnt.bppend(coeff);
                     } else {
-                        if (-pad < coeff.length) {
+                        if (-pbd < coeff.length) {
                             // xx.xx form
-                            mant.append(coeff, 0, -pad);
-                            mant.append('.');
+                            mbnt.bppend(coeff, 0, -pbd);
+                            mbnt.bppend('.');
                             dot = true;
-                            mant.append(coeff, -pad, scale);
+                            mbnt.bppend(coeff, -pbd, scble);
                         } else {
                             // xx form
-                            mant.append(coeff, 0, coeff.length);
-                            for (int i = 0; i < -scale; i++)
-                                mant.append('0');
-                            this.scale = 0;
+                            mbnt.bppend(coeff, 0, coeff.length);
+                            for (int i = 0; i < -scble; i++)
+                                mbnt.bppend('0');
+                            this.scble = 0;
                         }
                     }
                 } else {
                     // x.xxx form
-                    mant.append(coeff[0]);
+                    mbnt.bppend(coeff[0]);
                     if (coeff.length > 1) {
-                        mant.append('.');
+                        mbnt.bppend('.');
                         dot = true;
-                        mant.append(coeff, 1, coeff.length-1);
+                        mbnt.bppend(coeff, 1, coeff.length-1);
                     }
                     exp = new StringBuilder();
-                    if (adjusted != 0) {
-                        long abs = Math.abs(adjusted);
+                    if (bdjusted != 0) {
+                        long bbs = Mbth.bbs(bdjusted);
                         // require sign
-                        exp.append(adjusted < 0 ? '-' : '+');
-                        if (abs < 10)
-                            exp.append('0');
-                        exp.append(abs);
+                        exp.bppend(bdjusted < 0 ? '-' : '+');
+                        if (bbs < 10)
+                            exp.bppend('0');
+                        exp.bppend(bbs);
                     } else {
-                        exp.append("+00");
+                        exp.bppend("+00");
                     }
                 }
             }
         }
 
-        private int adjustWidth(int width, Flags f, boolean neg) {
+        privbte int bdjustWidth(int width, Flbgs f, boolebn neg) {
             int newW = width;
-            if (newW != -1 && neg && f.contains(Flags.PARENTHESES))
+            if (newW != -1 && neg && f.contbins(Flbgs.PARENTHESES))
                 newW--;
             return newW;
         }
 
-        // Add a '.' to th mantissa if required
-        private char[] addDot(char[] mant) {
-            char[] tmp = mant;
-            tmp = new char[mant.length + 1];
-            System.arraycopy(mant, 0, tmp, 0, mant.length);
+        // Add b '.' to th mbntissb if required
+        privbte chbr[] bddDot(chbr[] mbnt) {
+            chbr[] tmp = mbnt;
+            tmp = new chbr[mbnt.length + 1];
+            System.brrbycopy(mbnt, 0, tmp, 0, mbnt.length);
             tmp[tmp.length - 1] = '.';
             return tmp;
         }
 
-        // Add trailing zeros in the case precision is greater than the number
-        // of available digits after the decimal separator.
-        private char[] trailingZeros(char[] mant, int nzeros) {
-            char[] tmp = mant;
+        // Add trbiling zeros in the cbse precision is grebter thbn the number
+        // of bvbilbble digits bfter the decimbl sepbrbtor.
+        privbte chbr[] trbilingZeros(chbr[] mbnt, int nzeros) {
+            chbr[] tmp = mbnt;
             if (nzeros > 0) {
-                tmp = new char[mant.length + nzeros];
-                System.arraycopy(mant, 0, tmp, 0, mant.length);
-                for (int i = mant.length; i < tmp.length; i++)
+                tmp = new chbr[mbnt.length + nzeros];
+                System.brrbycopy(mbnt, 0, tmp, 0, mbnt.length);
+                for (int i = mbnt.length; i < tmp.length; i++)
                     tmp[i] = '0';
             }
             return tmp;
         }
 
-        private void print(Calendar t, char c, Locale l)  throws IOException
+        privbte void print(Cblendbr t, chbr c, Locble l)  throws IOException
         {
             StringBuilder sb = new StringBuilder();
             print(sb, t, c, l);
 
-            // justify based on width
+            // justify bbsed on width
             String s = justify(sb.toString());
-            if (f.contains(Flags.UPPERCASE))
-                s = s.toUpperCase();
+            if (f.contbins(Flbgs.UPPERCASE))
+                s = s.toUpperCbse();
 
-            a.append(s);
+            b.bppend(s);
         }
 
-        private Appendable print(StringBuilder sb, Calendar t, char c,
-                                 Locale l)
+        privbte Appendbble print(StringBuilder sb, Cblendbr t, chbr c,
+                                 Locble l)
             throws IOException
         {
             if (sb == null)
                 sb = new StringBuilder();
             switch (c) {
-            case DateTime.HOUR_OF_DAY_0: // 'H' (00 - 23)
-            case DateTime.HOUR_0:        // 'I' (01 - 12)
-            case DateTime.HOUR_OF_DAY:   // 'k' (0 - 23) -- like H
-            case DateTime.HOUR:        { // 'l' (1 - 12) -- like I
-                int i = t.get(Calendar.HOUR_OF_DAY);
-                if (c == DateTime.HOUR_0 || c == DateTime.HOUR)
+            cbse DbteTime.HOUR_OF_DAY_0: // 'H' (00 - 23)
+            cbse DbteTime.HOUR_0:        // 'I' (01 - 12)
+            cbse DbteTime.HOUR_OF_DAY:   // 'k' (0 - 23) -- like H
+            cbse DbteTime.HOUR:        { // 'l' (1 - 12) -- like I
+                int i = t.get(Cblendbr.HOUR_OF_DAY);
+                if (c == DbteTime.HOUR_0 || c == DbteTime.HOUR)
                     i = (i == 0 || i == 12 ? 12 : i % 12);
-                Flags flags = (c == DateTime.HOUR_OF_DAY_0
-                               || c == DateTime.HOUR_0
-                               ? Flags.ZERO_PAD
-                               : Flags.NONE);
-                sb.append(localizedMagnitude(null, i, flags, 2, l));
-                break;
+                Flbgs flbgs = (c == DbteTime.HOUR_OF_DAY_0
+                               || c == DbteTime.HOUR_0
+                               ? Flbgs.ZERO_PAD
+                               : Flbgs.NONE);
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, 2, l));
+                brebk;
             }
-            case DateTime.MINUTE:      { // 'M' (00 - 59)
-                int i = t.get(Calendar.MINUTE);
-                Flags flags = Flags.ZERO_PAD;
-                sb.append(localizedMagnitude(null, i, flags, 2, l));
-                break;
+            cbse DbteTime.MINUTE:      { // 'M' (00 - 59)
+                int i = t.get(Cblendbr.MINUTE);
+                Flbgs flbgs = Flbgs.ZERO_PAD;
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, 2, l));
+                brebk;
             }
-            case DateTime.NANOSECOND:  { // 'N' (000000000 - 999999999)
-                int i = t.get(Calendar.MILLISECOND) * 1000000;
-                Flags flags = Flags.ZERO_PAD;
-                sb.append(localizedMagnitude(null, i, flags, 9, l));
-                break;
+            cbse DbteTime.NANOSECOND:  { // 'N' (000000000 - 999999999)
+                int i = t.get(Cblendbr.MILLISECOND) * 1000000;
+                Flbgs flbgs = Flbgs.ZERO_PAD;
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, 9, l));
+                brebk;
             }
-            case DateTime.MILLISECOND: { // 'L' (000 - 999)
-                int i = t.get(Calendar.MILLISECOND);
-                Flags flags = Flags.ZERO_PAD;
-                sb.append(localizedMagnitude(null, i, flags, 3, l));
-                break;
+            cbse DbteTime.MILLISECOND: { // 'L' (000 - 999)
+                int i = t.get(Cblendbr.MILLISECOND);
+                Flbgs flbgs = Flbgs.ZERO_PAD;
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, 3, l));
+                brebk;
             }
-            case DateTime.MILLISECOND_SINCE_EPOCH: { // 'Q' (0 - 99...?)
+            cbse DbteTime.MILLISECOND_SINCE_EPOCH: { // 'Q' (0 - 99...?)
                 long i = t.getTimeInMillis();
-                Flags flags = Flags.NONE;
-                sb.append(localizedMagnitude(null, i, flags, width, l));
-                break;
+                Flbgs flbgs = Flbgs.NONE;
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, width, l));
+                brebk;
             }
-            case DateTime.AM_PM:       { // 'p' (am or pm)
-                // Calendar.AM = 0, Calendar.PM = 1, LocaleElements defines upper
-                String[] ampm = { "AM", "PM" };
-                if (l != null && l != Locale.US) {
-                    DateFormatSymbols dfs = DateFormatSymbols.getInstance(l);
-                    ampm = dfs.getAmPmStrings();
+            cbse DbteTime.AM_PM:       { // 'p' (bm or pm)
+                // Cblendbr.AM = 0, Cblendbr.PM = 1, LocbleElements defines upper
+                String[] bmpm = { "AM", "PM" };
+                if (l != null && l != Locble.US) {
+                    DbteFormbtSymbols dfs = DbteFormbtSymbols.getInstbnce(l);
+                    bmpm = dfs.getAmPmStrings();
                 }
-                String s = ampm[t.get(Calendar.AM_PM)];
-                sb.append(s.toLowerCase(l != null ? l : Locale.US));
-                break;
+                String s = bmpm[t.get(Cblendbr.AM_PM)];
+                sb.bppend(s.toLowerCbse(l != null ? l : Locble.US));
+                brebk;
             }
-            case DateTime.SECONDS_SINCE_EPOCH: { // 's' (0 - 99...?)
+            cbse DbteTime.SECONDS_SINCE_EPOCH: { // 's' (0 - 99...?)
                 long i = t.getTimeInMillis() / 1000;
-                Flags flags = Flags.NONE;
-                sb.append(localizedMagnitude(null, i, flags, width, l));
-                break;
+                Flbgs flbgs = Flbgs.NONE;
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, width, l));
+                brebk;
             }
-            case DateTime.SECOND:      { // 'S' (00 - 60 - leap second)
-                int i = t.get(Calendar.SECOND);
-                Flags flags = Flags.ZERO_PAD;
-                sb.append(localizedMagnitude(null, i, flags, 2, l));
-                break;
+            cbse DbteTime.SECOND:      { // 'S' (00 - 60 - lebp second)
+                int i = t.get(Cblendbr.SECOND);
+                Flbgs flbgs = Flbgs.ZERO_PAD;
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, 2, l));
+                brebk;
             }
-            case DateTime.ZONE_NUMERIC: { // 'z' ({-|+}####) - ls minus?
-                int i = t.get(Calendar.ZONE_OFFSET) + t.get(Calendar.DST_OFFSET);
-                boolean neg = i < 0;
-                sb.append(neg ? '-' : '+');
+            cbse DbteTime.ZONE_NUMERIC: { // 'z' ({-|+}####) - ls minus?
+                int i = t.get(Cblendbr.ZONE_OFFSET) + t.get(Cblendbr.DST_OFFSET);
+                boolebn neg = i < 0;
+                sb.bppend(neg ? '-' : '+');
                 if (neg)
                     i = -i;
                 int min = i / 60000;
-                // combine minute and hour into a single integer
+                // combine minute bnd hour into b single integer
                 int offset = (min / 60) * 100 + (min % 60);
-                Flags flags = Flags.ZERO_PAD;
+                Flbgs flbgs = Flbgs.ZERO_PAD;
 
-                sb.append(localizedMagnitude(null, offset, flags, 4, l));
-                break;
+                sb.bppend(locblizedMbgnitude(null, offset, flbgs, 4, l));
+                brebk;
             }
-            case DateTime.ZONE:        { // 'Z' (symbol)
+            cbse DbteTime.ZONE:        { // 'Z' (symbol)
                 TimeZone tz = t.getTimeZone();
-                sb.append(tz.getDisplayName((t.get(Calendar.DST_OFFSET) != 0),
+                sb.bppend(tz.getDisplbyNbme((t.get(Cblendbr.DST_OFFSET) != 0),
                                            TimeZone.SHORT,
-                                            (l == null) ? Locale.US : l));
-                break;
+                                            (l == null) ? Locble.US : l));
+                brebk;
             }
 
-            // Date
-            case DateTime.NAME_OF_DAY_ABBREV:     // 'a'
-            case DateTime.NAME_OF_DAY:          { // 'A'
-                int i = t.get(Calendar.DAY_OF_WEEK);
-                Locale lt = ((l == null) ? Locale.US : l);
-                DateFormatSymbols dfs = DateFormatSymbols.getInstance(lt);
-                if (c == DateTime.NAME_OF_DAY)
-                    sb.append(dfs.getWeekdays()[i]);
+            // Dbte
+            cbse DbteTime.NAME_OF_DAY_ABBREV:     // 'b'
+            cbse DbteTime.NAME_OF_DAY:          { // 'A'
+                int i = t.get(Cblendbr.DAY_OF_WEEK);
+                Locble lt = ((l == null) ? Locble.US : l);
+                DbteFormbtSymbols dfs = DbteFormbtSymbols.getInstbnce(lt);
+                if (c == DbteTime.NAME_OF_DAY)
+                    sb.bppend(dfs.getWeekdbys()[i]);
                 else
-                    sb.append(dfs.getShortWeekdays()[i]);
-                break;
+                    sb.bppend(dfs.getShortWeekdbys()[i]);
+                brebk;
             }
-            case DateTime.NAME_OF_MONTH_ABBREV:   // 'b'
-            case DateTime.NAME_OF_MONTH_ABBREV_X: // 'h' -- same b
-            case DateTime.NAME_OF_MONTH:        { // 'B'
-                int i = t.get(Calendar.MONTH);
-                Locale lt = ((l == null) ? Locale.US : l);
-                DateFormatSymbols dfs = DateFormatSymbols.getInstance(lt);
-                if (c == DateTime.NAME_OF_MONTH)
-                    sb.append(dfs.getMonths()[i]);
+            cbse DbteTime.NAME_OF_MONTH_ABBREV:   // 'b'
+            cbse DbteTime.NAME_OF_MONTH_ABBREV_X: // 'h' -- sbme b
+            cbse DbteTime.NAME_OF_MONTH:        { // 'B'
+                int i = t.get(Cblendbr.MONTH);
+                Locble lt = ((l == null) ? Locble.US : l);
+                DbteFormbtSymbols dfs = DbteFormbtSymbols.getInstbnce(lt);
+                if (c == DbteTime.NAME_OF_MONTH)
+                    sb.bppend(dfs.getMonths()[i]);
                 else
-                    sb.append(dfs.getShortMonths()[i]);
-                break;
+                    sb.bppend(dfs.getShortMonths()[i]);
+                brebk;
             }
-            case DateTime.CENTURY:                // 'C' (00 - 99)
-            case DateTime.YEAR_2:                 // 'y' (00 - 99)
-            case DateTime.YEAR_4:               { // 'Y' (0000 - 9999)
-                int i = t.get(Calendar.YEAR);
+            cbse DbteTime.CENTURY:                // 'C' (00 - 99)
+            cbse DbteTime.YEAR_2:                 // 'y' (00 - 99)
+            cbse DbteTime.YEAR_4:               { // 'Y' (0000 - 9999)
+                int i = t.get(Cblendbr.YEAR);
                 int size = 2;
                 switch (c) {
-                case DateTime.CENTURY:
+                cbse DbteTime.CENTURY:
                     i /= 100;
-                    break;
-                case DateTime.YEAR_2:
+                    brebk;
+                cbse DbteTime.YEAR_2:
                     i %= 100;
-                    break;
-                case DateTime.YEAR_4:
+                    brebk;
+                cbse DbteTime.YEAR_4:
                     size = 4;
-                    break;
+                    brebk;
                 }
-                Flags flags = Flags.ZERO_PAD;
-                sb.append(localizedMagnitude(null, i, flags, size, l));
-                break;
+                Flbgs flbgs = Flbgs.ZERO_PAD;
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, size, l));
+                brebk;
             }
-            case DateTime.DAY_OF_MONTH_0:         // 'd' (01 - 31)
-            case DateTime.DAY_OF_MONTH:         { // 'e' (1 - 31) -- like d
-                int i = t.get(Calendar.DATE);
-                Flags flags = (c == DateTime.DAY_OF_MONTH_0
-                               ? Flags.ZERO_PAD
-                               : Flags.NONE);
-                sb.append(localizedMagnitude(null, i, flags, 2, l));
-                break;
+            cbse DbteTime.DAY_OF_MONTH_0:         // 'd' (01 - 31)
+            cbse DbteTime.DAY_OF_MONTH:         { // 'e' (1 - 31) -- like d
+                int i = t.get(Cblendbr.DATE);
+                Flbgs flbgs = (c == DbteTime.DAY_OF_MONTH_0
+                               ? Flbgs.ZERO_PAD
+                               : Flbgs.NONE);
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, 2, l));
+                brebk;
             }
-            case DateTime.DAY_OF_YEAR:          { // 'j' (001 - 366)
-                int i = t.get(Calendar.DAY_OF_YEAR);
-                Flags flags = Flags.ZERO_PAD;
-                sb.append(localizedMagnitude(null, i, flags, 3, l));
-                break;
+            cbse DbteTime.DAY_OF_YEAR:          { // 'j' (001 - 366)
+                int i = t.get(Cblendbr.DAY_OF_YEAR);
+                Flbgs flbgs = Flbgs.ZERO_PAD;
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, 3, l));
+                brebk;
             }
-            case DateTime.MONTH:                { // 'm' (01 - 12)
-                int i = t.get(Calendar.MONTH) + 1;
-                Flags flags = Flags.ZERO_PAD;
-                sb.append(localizedMagnitude(null, i, flags, 2, l));
-                break;
+            cbse DbteTime.MONTH:                { // 'm' (01 - 12)
+                int i = t.get(Cblendbr.MONTH) + 1;
+                Flbgs flbgs = Flbgs.ZERO_PAD;
+                sb.bppend(locblizedMbgnitude(null, i, flbgs, 2, l));
+                brebk;
             }
 
             // Composites
-            case DateTime.TIME:         // 'T' (24 hour hh:mm:ss - %tH:%tM:%tS)
-            case DateTime.TIME_24_HOUR:    { // 'R' (hh:mm same as %H:%M)
-                char sep = ':';
-                print(sb, t, DateTime.HOUR_OF_DAY_0, l).append(sep);
-                print(sb, t, DateTime.MINUTE, l);
-                if (c == DateTime.TIME) {
-                    sb.append(sep);
-                    print(sb, t, DateTime.SECOND, l);
+            cbse DbteTime.TIME:         // 'T' (24 hour hh:mm:ss - %tH:%tM:%tS)
+            cbse DbteTime.TIME_24_HOUR:    { // 'R' (hh:mm sbme bs %H:%M)
+                chbr sep = ':';
+                print(sb, t, DbteTime.HOUR_OF_DAY_0, l).bppend(sep);
+                print(sb, t, DbteTime.MINUTE, l);
+                if (c == DbteTime.TIME) {
+                    sb.bppend(sep);
+                    print(sb, t, DbteTime.SECOND, l);
                 }
-                break;
+                brebk;
             }
-            case DateTime.TIME_12_HOUR:    { // 'r' (hh:mm:ss [AP]M)
-                char sep = ':';
-                print(sb, t, DateTime.HOUR_0, l).append(sep);
-                print(sb, t, DateTime.MINUTE, l).append(sep);
-                print(sb, t, DateTime.SECOND, l).append(' ');
-                // this may be in wrong place for some locales
+            cbse DbteTime.TIME_12_HOUR:    { // 'r' (hh:mm:ss [AP]M)
+                chbr sep = ':';
+                print(sb, t, DbteTime.HOUR_0, l).bppend(sep);
+                print(sb, t, DbteTime.MINUTE, l).bppend(sep);
+                print(sb, t, DbteTime.SECOND, l).bppend(' ');
+                // this mby be in wrong plbce for some locbles
                 StringBuilder tsb = new StringBuilder();
-                print(tsb, t, DateTime.AM_PM, l);
-                sb.append(tsb.toString().toUpperCase(l != null ? l : Locale.US));
-                break;
+                print(tsb, t, DbteTime.AM_PM, l);
+                sb.bppend(tsb.toString().toUpperCbse(l != null ? l : Locble.US));
+                brebk;
             }
-            case DateTime.DATE_TIME:    { // 'c' (Sat Nov 04 12:02:33 EST 1999)
-                char sep = ' ';
-                print(sb, t, DateTime.NAME_OF_DAY_ABBREV, l).append(sep);
-                print(sb, t, DateTime.NAME_OF_MONTH_ABBREV, l).append(sep);
-                print(sb, t, DateTime.DAY_OF_MONTH_0, l).append(sep);
-                print(sb, t, DateTime.TIME, l).append(sep);
-                print(sb, t, DateTime.ZONE, l).append(sep);
-                print(sb, t, DateTime.YEAR_4, l);
-                break;
+            cbse DbteTime.DATE_TIME:    { // 'c' (Sbt Nov 04 12:02:33 EST 1999)
+                chbr sep = ' ';
+                print(sb, t, DbteTime.NAME_OF_DAY_ABBREV, l).bppend(sep);
+                print(sb, t, DbteTime.NAME_OF_MONTH_ABBREV, l).bppend(sep);
+                print(sb, t, DbteTime.DAY_OF_MONTH_0, l).bppend(sep);
+                print(sb, t, DbteTime.TIME, l).bppend(sep);
+                print(sb, t, DbteTime.ZONE, l).bppend(sep);
+                print(sb, t, DbteTime.YEAR_4, l);
+                brebk;
             }
-            case DateTime.DATE:            { // 'D' (mm/dd/yy)
-                char sep = '/';
-                print(sb, t, DateTime.MONTH, l).append(sep);
-                print(sb, t, DateTime.DAY_OF_MONTH_0, l).append(sep);
-                print(sb, t, DateTime.YEAR_2, l);
-                break;
+            cbse DbteTime.DATE:            { // 'D' (mm/dd/yy)
+                chbr sep = '/';
+                print(sb, t, DbteTime.MONTH, l).bppend(sep);
+                print(sb, t, DbteTime.DAY_OF_MONTH_0, l).bppend(sep);
+                print(sb, t, DbteTime.YEAR_2, l);
+                brebk;
             }
-            case DateTime.ISO_STANDARD_DATE: { // 'F' (%Y-%m-%d)
-                char sep = '-';
-                print(sb, t, DateTime.YEAR_4, l).append(sep);
-                print(sb, t, DateTime.MONTH, l).append(sep);
-                print(sb, t, DateTime.DAY_OF_MONTH_0, l);
-                break;
+            cbse DbteTime.ISO_STANDARD_DATE: { // 'F' (%Y-%m-%d)
+                chbr sep = '-';
+                print(sb, t, DbteTime.YEAR_4, l).bppend(sep);
+                print(sb, t, DbteTime.MONTH, l).bppend(sep);
+                print(sb, t, DbteTime.DAY_OF_MONTH_0, l);
+                brebk;
             }
-            default:
-                assert false;
+            defbult:
+                bssert fblse;
             }
             return sb;
         }
 
-        private void print(TemporalAccessor t, char c, Locale l)  throws IOException {
+        privbte void print(TemporblAccessor t, chbr c, Locble l)  throws IOException {
             StringBuilder sb = new StringBuilder();
             print(sb, t, c, l);
-            // justify based on width
+            // justify bbsed on width
             String s = justify(sb.toString());
-            if (f.contains(Flags.UPPERCASE))
-                s = s.toUpperCase();
-            a.append(s);
+            if (f.contbins(Flbgs.UPPERCASE))
+                s = s.toUpperCbse();
+            b.bppend(s);
         }
 
-        private Appendable print(StringBuilder sb, TemporalAccessor t, char c,
-                                 Locale l) throws IOException {
+        privbte Appendbble print(StringBuilder sb, TemporblAccessor t, chbr c,
+                                 Locble l) throws IOException {
             if (sb == null)
                 sb = new StringBuilder();
             try {
                 switch (c) {
-                case DateTime.HOUR_OF_DAY_0: {  // 'H' (00 - 23)
+                cbse DbteTime.HOUR_OF_DAY_0: {  // 'H' (00 - 23)
                     int i = t.get(ChronoField.HOUR_OF_DAY);
-                    sb.append(localizedMagnitude(null, i, Flags.ZERO_PAD, 2, l));
-                    break;
+                    sb.bppend(locblizedMbgnitude(null, i, Flbgs.ZERO_PAD, 2, l));
+                    brebk;
                 }
-                case DateTime.HOUR_OF_DAY: {   // 'k' (0 - 23) -- like H
+                cbse DbteTime.HOUR_OF_DAY: {   // 'k' (0 - 23) -- like H
                     int i = t.get(ChronoField.HOUR_OF_DAY);
-                    sb.append(localizedMagnitude(null, i, Flags.NONE, 2, l));
-                    break;
+                    sb.bppend(locblizedMbgnitude(null, i, Flbgs.NONE, 2, l));
+                    brebk;
                 }
-                case DateTime.HOUR_0:      {  // 'I' (01 - 12)
+                cbse DbteTime.HOUR_0:      {  // 'I' (01 - 12)
                     int i = t.get(ChronoField.CLOCK_HOUR_OF_AMPM);
-                    sb.append(localizedMagnitude(null, i, Flags.ZERO_PAD, 2, l));
-                    break;
+                    sb.bppend(locblizedMbgnitude(null, i, Flbgs.ZERO_PAD, 2, l));
+                    brebk;
                 }
-                case DateTime.HOUR:        { // 'l' (1 - 12) -- like I
+                cbse DbteTime.HOUR:        { // 'l' (1 - 12) -- like I
                     int i = t.get(ChronoField.CLOCK_HOUR_OF_AMPM);
-                    sb.append(localizedMagnitude(null, i, Flags.NONE, 2, l));
-                    break;
+                    sb.bppend(locblizedMbgnitude(null, i, Flbgs.NONE, 2, l));
+                    brebk;
                 }
-                case DateTime.MINUTE:      { // 'M' (00 - 59)
+                cbse DbteTime.MINUTE:      { // 'M' (00 - 59)
                     int i = t.get(ChronoField.MINUTE_OF_HOUR);
-                    Flags flags = Flags.ZERO_PAD;
-                    sb.append(localizedMagnitude(null, i, flags, 2, l));
-                    break;
+                    Flbgs flbgs = Flbgs.ZERO_PAD;
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, 2, l));
+                    brebk;
                 }
-                case DateTime.NANOSECOND:  { // 'N' (000000000 - 999999999)
+                cbse DbteTime.NANOSECOND:  { // 'N' (000000000 - 999999999)
                     int i = t.get(ChronoField.MILLI_OF_SECOND) * 1000000;
-                    Flags flags = Flags.ZERO_PAD;
-                    sb.append(localizedMagnitude(null, i, flags, 9, l));
-                    break;
+                    Flbgs flbgs = Flbgs.ZERO_PAD;
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, 9, l));
+                    brebk;
                 }
-                case DateTime.MILLISECOND: { // 'L' (000 - 999)
+                cbse DbteTime.MILLISECOND: { // 'L' (000 - 999)
                     int i = t.get(ChronoField.MILLI_OF_SECOND);
-                    Flags flags = Flags.ZERO_PAD;
-                    sb.append(localizedMagnitude(null, i, flags, 3, l));
-                    break;
+                    Flbgs flbgs = Flbgs.ZERO_PAD;
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, 3, l));
+                    brebk;
                 }
-                case DateTime.MILLISECOND_SINCE_EPOCH: { // 'Q' (0 - 99...?)
+                cbse DbteTime.MILLISECOND_SINCE_EPOCH: { // 'Q' (0 - 99...?)
                     long i = t.getLong(ChronoField.INSTANT_SECONDS) * 1000L +
                              t.getLong(ChronoField.MILLI_OF_SECOND);
-                    Flags flags = Flags.NONE;
-                    sb.append(localizedMagnitude(null, i, flags, width, l));
-                    break;
+                    Flbgs flbgs = Flbgs.NONE;
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, width, l));
+                    brebk;
                 }
-                case DateTime.AM_PM:       { // 'p' (am or pm)
-                    // Calendar.AM = 0, Calendar.PM = 1, LocaleElements defines upper
-                    String[] ampm = { "AM", "PM" };
-                    if (l != null && l != Locale.US) {
-                        DateFormatSymbols dfs = DateFormatSymbols.getInstance(l);
-                        ampm = dfs.getAmPmStrings();
+                cbse DbteTime.AM_PM:       { // 'p' (bm or pm)
+                    // Cblendbr.AM = 0, Cblendbr.PM = 1, LocbleElements defines upper
+                    String[] bmpm = { "AM", "PM" };
+                    if (l != null && l != Locble.US) {
+                        DbteFormbtSymbols dfs = DbteFormbtSymbols.getInstbnce(l);
+                        bmpm = dfs.getAmPmStrings();
                     }
-                    String s = ampm[t.get(ChronoField.AMPM_OF_DAY)];
-                    sb.append(s.toLowerCase(l != null ? l : Locale.US));
-                    break;
+                    String s = bmpm[t.get(ChronoField.AMPM_OF_DAY)];
+                    sb.bppend(s.toLowerCbse(l != null ? l : Locble.US));
+                    brebk;
                 }
-                case DateTime.SECONDS_SINCE_EPOCH: { // 's' (0 - 99...?)
+                cbse DbteTime.SECONDS_SINCE_EPOCH: { // 's' (0 - 99...?)
                     long i = t.getLong(ChronoField.INSTANT_SECONDS);
-                    Flags flags = Flags.NONE;
-                    sb.append(localizedMagnitude(null, i, flags, width, l));
-                    break;
+                    Flbgs flbgs = Flbgs.NONE;
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, width, l));
+                    brebk;
                 }
-                case DateTime.SECOND:      { // 'S' (00 - 60 - leap second)
+                cbse DbteTime.SECOND:      { // 'S' (00 - 60 - lebp second)
                     int i = t.get(ChronoField.SECOND_OF_MINUTE);
-                    Flags flags = Flags.ZERO_PAD;
-                    sb.append(localizedMagnitude(null, i, flags, 2, l));
-                    break;
+                    Flbgs flbgs = Flbgs.ZERO_PAD;
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, 2, l));
+                    brebk;
                 }
-                case DateTime.ZONE_NUMERIC: { // 'z' ({-|+}####) - ls minus?
+                cbse DbteTime.ZONE_NUMERIC: { // 'z' ({-|+}####) - ls minus?
                     int i = t.get(ChronoField.OFFSET_SECONDS);
-                    boolean neg = i < 0;
-                    sb.append(neg ? '-' : '+');
+                    boolebn neg = i < 0;
+                    sb.bppend(neg ? '-' : '+');
                     if (neg)
                         i = -i;
                     int min = i / 60;
-                    // combine minute and hour into a single integer
+                    // combine minute bnd hour into b single integer
                     int offset = (min / 60) * 100 + (min % 60);
-                    Flags flags = Flags.ZERO_PAD;
-                    sb.append(localizedMagnitude(null, offset, flags, 4, l));
-                    break;
+                    Flbgs flbgs = Flbgs.ZERO_PAD;
+                    sb.bppend(locblizedMbgnitude(null, offset, flbgs, 4, l));
+                    brebk;
                 }
-                case DateTime.ZONE:        { // 'Z' (symbol)
-                    ZoneId zid = t.query(TemporalQueries.zone());
+                cbse DbteTime.ZONE:        { // 'Z' (symbol)
+                    ZoneId zid = t.query(TemporblQueries.zone());
                     if (zid == null) {
-                        throw new IllegalFormatConversionException(c, t.getClass());
+                        throw new IllegblFormbtConversionException(c, t.getClbss());
                     }
-                    if (!(zid instanceof ZoneOffset) &&
+                    if (!(zid instbnceof ZoneOffset) &&
                         t.isSupported(ChronoField.INSTANT_SECONDS)) {
-                        Instant instant = Instant.from(t);
-                        sb.append(TimeZone.getTimeZone(zid.getId())
-                                          .getDisplayName(zid.getRules().isDaylightSavings(instant),
+                        Instbnt instbnt = Instbnt.from(t);
+                        sb.bppend(TimeZone.getTimeZone(zid.getId())
+                                          .getDisplbyNbme(zid.getRules().isDbylightSbvings(instbnt),
                                                           TimeZone.SHORT,
-                                                          (l == null) ? Locale.US : l));
-                        break;
+                                                          (l == null) ? Locble.US : l));
+                        brebk;
                     }
-                    sb.append(zid.getId());
-                    break;
+                    sb.bppend(zid.getId());
+                    brebk;
                 }
-                // Date
-                case DateTime.NAME_OF_DAY_ABBREV:     // 'a'
-                case DateTime.NAME_OF_DAY:          { // 'A'
+                // Dbte
+                cbse DbteTime.NAME_OF_DAY_ABBREV:     // 'b'
+                cbse DbteTime.NAME_OF_DAY:          { // 'A'
                     int i = t.get(ChronoField.DAY_OF_WEEK) % 7 + 1;
-                    Locale lt = ((l == null) ? Locale.US : l);
-                    DateFormatSymbols dfs = DateFormatSymbols.getInstance(lt);
-                    if (c == DateTime.NAME_OF_DAY)
-                        sb.append(dfs.getWeekdays()[i]);
+                    Locble lt = ((l == null) ? Locble.US : l);
+                    DbteFormbtSymbols dfs = DbteFormbtSymbols.getInstbnce(lt);
+                    if (c == DbteTime.NAME_OF_DAY)
+                        sb.bppend(dfs.getWeekdbys()[i]);
                     else
-                        sb.append(dfs.getShortWeekdays()[i]);
-                    break;
+                        sb.bppend(dfs.getShortWeekdbys()[i]);
+                    brebk;
                 }
-                case DateTime.NAME_OF_MONTH_ABBREV:   // 'b'
-                case DateTime.NAME_OF_MONTH_ABBREV_X: // 'h' -- same b
-                case DateTime.NAME_OF_MONTH:        { // 'B'
+                cbse DbteTime.NAME_OF_MONTH_ABBREV:   // 'b'
+                cbse DbteTime.NAME_OF_MONTH_ABBREV_X: // 'h' -- sbme b
+                cbse DbteTime.NAME_OF_MONTH:        { // 'B'
                     int i = t.get(ChronoField.MONTH_OF_YEAR) - 1;
-                    Locale lt = ((l == null) ? Locale.US : l);
-                    DateFormatSymbols dfs = DateFormatSymbols.getInstance(lt);
-                    if (c == DateTime.NAME_OF_MONTH)
-                        sb.append(dfs.getMonths()[i]);
+                    Locble lt = ((l == null) ? Locble.US : l);
+                    DbteFormbtSymbols dfs = DbteFormbtSymbols.getInstbnce(lt);
+                    if (c == DbteTime.NAME_OF_MONTH)
+                        sb.bppend(dfs.getMonths()[i]);
                     else
-                        sb.append(dfs.getShortMonths()[i]);
-                    break;
+                        sb.bppend(dfs.getShortMonths()[i]);
+                    brebk;
                 }
-                case DateTime.CENTURY:                // 'C' (00 - 99)
-                case DateTime.YEAR_2:                 // 'y' (00 - 99)
-                case DateTime.YEAR_4:               { // 'Y' (0000 - 9999)
+                cbse DbteTime.CENTURY:                // 'C' (00 - 99)
+                cbse DbteTime.YEAR_2:                 // 'y' (00 - 99)
+                cbse DbteTime.YEAR_4:               { // 'Y' (0000 - 9999)
                     int i = t.get(ChronoField.YEAR_OF_ERA);
                     int size = 2;
                     switch (c) {
-                    case DateTime.CENTURY:
+                    cbse DbteTime.CENTURY:
                         i /= 100;
-                        break;
-                    case DateTime.YEAR_2:
+                        brebk;
+                    cbse DbteTime.YEAR_2:
                         i %= 100;
-                        break;
-                    case DateTime.YEAR_4:
+                        brebk;
+                    cbse DbteTime.YEAR_4:
                         size = 4;
-                        break;
+                        brebk;
                     }
-                    Flags flags = Flags.ZERO_PAD;
-                    sb.append(localizedMagnitude(null, i, flags, size, l));
-                    break;
+                    Flbgs flbgs = Flbgs.ZERO_PAD;
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, size, l));
+                    brebk;
                 }
-                case DateTime.DAY_OF_MONTH_0:         // 'd' (01 - 31)
-                case DateTime.DAY_OF_MONTH:         { // 'e' (1 - 31) -- like d
+                cbse DbteTime.DAY_OF_MONTH_0:         // 'd' (01 - 31)
+                cbse DbteTime.DAY_OF_MONTH:         { // 'e' (1 - 31) -- like d
                     int i = t.get(ChronoField.DAY_OF_MONTH);
-                    Flags flags = (c == DateTime.DAY_OF_MONTH_0
-                                   ? Flags.ZERO_PAD
-                                   : Flags.NONE);
-                    sb.append(localizedMagnitude(null, i, flags, 2, l));
-                    break;
+                    Flbgs flbgs = (c == DbteTime.DAY_OF_MONTH_0
+                                   ? Flbgs.ZERO_PAD
+                                   : Flbgs.NONE);
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, 2, l));
+                    brebk;
                 }
-                case DateTime.DAY_OF_YEAR:          { // 'j' (001 - 366)
+                cbse DbteTime.DAY_OF_YEAR:          { // 'j' (001 - 366)
                     int i = t.get(ChronoField.DAY_OF_YEAR);
-                    Flags flags = Flags.ZERO_PAD;
-                    sb.append(localizedMagnitude(null, i, flags, 3, l));
-                    break;
+                    Flbgs flbgs = Flbgs.ZERO_PAD;
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, 3, l));
+                    brebk;
                 }
-                case DateTime.MONTH:                { // 'm' (01 - 12)
+                cbse DbteTime.MONTH:                { // 'm' (01 - 12)
                     int i = t.get(ChronoField.MONTH_OF_YEAR);
-                    Flags flags = Flags.ZERO_PAD;
-                    sb.append(localizedMagnitude(null, i, flags, 2, l));
-                    break;
+                    Flbgs flbgs = Flbgs.ZERO_PAD;
+                    sb.bppend(locblizedMbgnitude(null, i, flbgs, 2, l));
+                    brebk;
                 }
 
                 // Composites
-                case DateTime.TIME:         // 'T' (24 hour hh:mm:ss - %tH:%tM:%tS)
-                case DateTime.TIME_24_HOUR:    { // 'R' (hh:mm same as %H:%M)
-                    char sep = ':';
-                    print(sb, t, DateTime.HOUR_OF_DAY_0, l).append(sep);
-                    print(sb, t, DateTime.MINUTE, l);
-                    if (c == DateTime.TIME) {
-                        sb.append(sep);
-                        print(sb, t, DateTime.SECOND, l);
+                cbse DbteTime.TIME:         // 'T' (24 hour hh:mm:ss - %tH:%tM:%tS)
+                cbse DbteTime.TIME_24_HOUR:    { // 'R' (hh:mm sbme bs %H:%M)
+                    chbr sep = ':';
+                    print(sb, t, DbteTime.HOUR_OF_DAY_0, l).bppend(sep);
+                    print(sb, t, DbteTime.MINUTE, l);
+                    if (c == DbteTime.TIME) {
+                        sb.bppend(sep);
+                        print(sb, t, DbteTime.SECOND, l);
                     }
-                    break;
+                    brebk;
                 }
-                case DateTime.TIME_12_HOUR:    { // 'r' (hh:mm:ss [AP]M)
-                    char sep = ':';
-                    print(sb, t, DateTime.HOUR_0, l).append(sep);
-                    print(sb, t, DateTime.MINUTE, l).append(sep);
-                    print(sb, t, DateTime.SECOND, l).append(' ');
-                    // this may be in wrong place for some locales
+                cbse DbteTime.TIME_12_HOUR:    { // 'r' (hh:mm:ss [AP]M)
+                    chbr sep = ':';
+                    print(sb, t, DbteTime.HOUR_0, l).bppend(sep);
+                    print(sb, t, DbteTime.MINUTE, l).bppend(sep);
+                    print(sb, t, DbteTime.SECOND, l).bppend(' ');
+                    // this mby be in wrong plbce for some locbles
                     StringBuilder tsb = new StringBuilder();
-                    print(tsb, t, DateTime.AM_PM, l);
-                    sb.append(tsb.toString().toUpperCase(l != null ? l : Locale.US));
-                    break;
+                    print(tsb, t, DbteTime.AM_PM, l);
+                    sb.bppend(tsb.toString().toUpperCbse(l != null ? l : Locble.US));
+                    brebk;
                 }
-                case DateTime.DATE_TIME:    { // 'c' (Sat Nov 04 12:02:33 EST 1999)
-                    char sep = ' ';
-                    print(sb, t, DateTime.NAME_OF_DAY_ABBREV, l).append(sep);
-                    print(sb, t, DateTime.NAME_OF_MONTH_ABBREV, l).append(sep);
-                    print(sb, t, DateTime.DAY_OF_MONTH_0, l).append(sep);
-                    print(sb, t, DateTime.TIME, l).append(sep);
-                    print(sb, t, DateTime.ZONE, l).append(sep);
-                    print(sb, t, DateTime.YEAR_4, l);
-                    break;
+                cbse DbteTime.DATE_TIME:    { // 'c' (Sbt Nov 04 12:02:33 EST 1999)
+                    chbr sep = ' ';
+                    print(sb, t, DbteTime.NAME_OF_DAY_ABBREV, l).bppend(sep);
+                    print(sb, t, DbteTime.NAME_OF_MONTH_ABBREV, l).bppend(sep);
+                    print(sb, t, DbteTime.DAY_OF_MONTH_0, l).bppend(sep);
+                    print(sb, t, DbteTime.TIME, l).bppend(sep);
+                    print(sb, t, DbteTime.ZONE, l).bppend(sep);
+                    print(sb, t, DbteTime.YEAR_4, l);
+                    brebk;
                 }
-                case DateTime.DATE:            { // 'D' (mm/dd/yy)
-                    char sep = '/';
-                    print(sb, t, DateTime.MONTH, l).append(sep);
-                    print(sb, t, DateTime.DAY_OF_MONTH_0, l).append(sep);
-                    print(sb, t, DateTime.YEAR_2, l);
-                    break;
+                cbse DbteTime.DATE:            { // 'D' (mm/dd/yy)
+                    chbr sep = '/';
+                    print(sb, t, DbteTime.MONTH, l).bppend(sep);
+                    print(sb, t, DbteTime.DAY_OF_MONTH_0, l).bppend(sep);
+                    print(sb, t, DbteTime.YEAR_2, l);
+                    brebk;
                 }
-                case DateTime.ISO_STANDARD_DATE: { // 'F' (%Y-%m-%d)
-                    char sep = '-';
-                    print(sb, t, DateTime.YEAR_4, l).append(sep);
-                    print(sb, t, DateTime.MONTH, l).append(sep);
-                    print(sb, t, DateTime.DAY_OF_MONTH_0, l);
-                    break;
+                cbse DbteTime.ISO_STANDARD_DATE: { // 'F' (%Y-%m-%d)
+                    chbr sep = '-';
+                    print(sb, t, DbteTime.YEAR_4, l).bppend(sep);
+                    print(sb, t, DbteTime.MONTH, l).bppend(sep);
+                    print(sb, t, DbteTime.DAY_OF_MONTH_0, l);
+                    brebk;
                 }
-                default:
-                    assert false;
+                defbult:
+                    bssert fblse;
                 }
-            } catch (DateTimeException x) {
-                throw new IllegalFormatConversionException(c, t.getClass());
+            } cbtch (DbteTimeException x) {
+                throw new IllegblFormbtConversionException(c, t.getClbss());
             }
             return sb;
         }
 
         // -- Methods to support throwing exceptions --
 
-        private void failMismatch(Flags f, char c) {
+        privbte void fbilMismbtch(Flbgs f, chbr c) {
             String fs = f.toString();
-            throw new FormatFlagsConversionMismatchException(fs, c);
+            throw new FormbtFlbgsConversionMismbtchException(fs, c);
         }
 
-        private void failConversion(char c, Object arg) {
-            throw new IllegalFormatConversionException(c, arg.getClass());
+        privbte void fbilConversion(chbr c, Object brg) {
+            throw new IllegblFormbtConversionException(c, brg.getClbss());
         }
 
-        private char getZero(Locale l) {
-            if ((l != null) &&  !l.equals(locale())) {
-                DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(l);
+        privbte chbr getZero(Locble l) {
+            if ((l != null) &&  !l.equbls(locble())) {
+                DecimblFormbtSymbols dfs = DecimblFormbtSymbols.getInstbnce(l);
                 return dfs.getZeroDigit();
             }
             return zero;
         }
 
-        private StringBuilder
-            localizedMagnitude(StringBuilder sb, long value, Flags f,
-                               int width, Locale l)
+        privbte StringBuilder
+            locblizedMbgnitude(StringBuilder sb, long vblue, Flbgs f,
+                               int width, Locble l)
         {
-            char[] va = Long.toString(value, 10).toCharArray();
-            return localizedMagnitude(sb, va, f, width, l);
+            chbr[] vb = Long.toString(vblue, 10).toChbrArrby();
+            return locblizedMbgnitude(sb, vb, f, width, l);
         }
 
-        private StringBuilder
-            localizedMagnitude(StringBuilder sb, char[] value, Flags f,
-                               int width, Locale l)
+        privbte StringBuilder
+            locblizedMbgnitude(StringBuilder sb, chbr[] vblue, Flbgs f,
+                               int width, Locble l)
         {
             if (sb == null)
                 sb = new StringBuilder();
             int begin = sb.length();
 
-            char zero = getZero(l);
+            chbr zero = getZero(l);
 
-            // determine localized grouping separator and size
-            char grpSep = '\0';
+            // determine locblized grouping sepbrbtor bnd size
+            chbr grpSep = '\0';
             int  grpSize = -1;
-            char decSep = '\0';
+            chbr decSep = '\0';
 
-            int len = value.length;
+            int len = vblue.length;
             int dot = len;
             for (int j = 0; j < len; j++) {
-                if (value[j] == '.') {
+                if (vblue[j] == '.') {
                     dot = j;
-                    break;
+                    brebk;
                 }
             }
 
             if (dot < len) {
-                if (l == null || l.equals(Locale.US)) {
+                if (l == null || l.equbls(Locble.US)) {
                     decSep  = '.';
                 } else {
-                    DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(l);
-                    decSep  = dfs.getDecimalSeparator();
+                    DecimblFormbtSymbols dfs = DecimblFormbtSymbols.getInstbnce(l);
+                    decSep  = dfs.getDecimblSepbrbtor();
                 }
             }
 
-            if (f.contains(Flags.GROUP)) {
-                if (l == null || l.equals(Locale.US)) {
+            if (f.contbins(Flbgs.GROUP)) {
+                if (l == null || l.equbls(Locble.US)) {
                     grpSep = ',';
                     grpSize = 3;
                 } else {
-                    DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(l);
-                    grpSep = dfs.getGroupingSeparator();
-                    DecimalFormat df = (DecimalFormat) NumberFormat.getIntegerInstance(l);
+                    DecimblFormbtSymbols dfs = DecimblFormbtSymbols.getInstbnce(l);
+                    grpSep = dfs.getGroupingSepbrbtor();
+                    DecimblFormbt df = (DecimblFormbt) NumberFormbt.getIntegerInstbnce(l);
                     grpSize = df.getGroupingSize();
                 }
             }
 
-            // localize the digits inserting group separators as necessary
+            // locblize the digits inserting group sepbrbtors bs necessbry
             for (int j = 0; j < len; j++) {
                 if (j == dot) {
-                    sb.append(decSep);
-                    // no more group separators after the decimal separator
+                    sb.bppend(decSep);
+                    // no more group sepbrbtors bfter the decimbl sepbrbtor
                     grpSep = '\0';
                     continue;
                 }
 
-                char c = value[j];
-                sb.append((char) ((c - '0') + zero));
+                chbr c = vblue[j];
+                sb.bppend((chbr) ((c - '0') + zero));
                 if (grpSep != '\0' && j != dot - 1 && ((dot - j) % grpSize == 1))
-                    sb.append(grpSep);
+                    sb.bppend(grpSep);
             }
 
-            // apply zero padding
+            // bpply zero pbdding
             len = sb.length();
-            if (width != -1 && f.contains(Flags.ZERO_PAD))
+            if (width != -1 && f.contbins(Flbgs.ZERO_PAD))
                 for (int k = 0; k < width - len; k++)
                     sb.insert(begin, zero);
 
@@ -4387,310 +4387,310 @@ public final class Formatter implements Closeable, Flushable {
         }
     }
 
-    private static class Flags {
-        private int flags;
+    privbte stbtic clbss Flbgs {
+        privbte int flbgs;
 
-        static final Flags NONE          = new Flags(0);      // ''
+        stbtic finbl Flbgs NONE          = new Flbgs(0);      // ''
 
-        // duplicate declarations from Formattable.java
-        static final Flags LEFT_JUSTIFY  = new Flags(1<<0);   // '-'
-        static final Flags UPPERCASE     = new Flags(1<<1);   // '^'
-        static final Flags ALTERNATE     = new Flags(1<<2);   // '#'
+        // duplicbte declbrbtions from Formbttbble.jbvb
+        stbtic finbl Flbgs LEFT_JUSTIFY  = new Flbgs(1<<0);   // '-'
+        stbtic finbl Flbgs UPPERCASE     = new Flbgs(1<<1);   // '^'
+        stbtic finbl Flbgs ALTERNATE     = new Flbgs(1<<2);   // '#'
 
         // numerics
-        static final Flags PLUS          = new Flags(1<<3);   // '+'
-        static final Flags LEADING_SPACE = new Flags(1<<4);   // ' '
-        static final Flags ZERO_PAD      = new Flags(1<<5);   // '0'
-        static final Flags GROUP         = new Flags(1<<6);   // ','
-        static final Flags PARENTHESES   = new Flags(1<<7);   // '('
+        stbtic finbl Flbgs PLUS          = new Flbgs(1<<3);   // '+'
+        stbtic finbl Flbgs LEADING_SPACE = new Flbgs(1<<4);   // ' '
+        stbtic finbl Flbgs ZERO_PAD      = new Flbgs(1<<5);   // '0'
+        stbtic finbl Flbgs GROUP         = new Flbgs(1<<6);   // ','
+        stbtic finbl Flbgs PARENTHESES   = new Flbgs(1<<7);   // '('
 
         // indexing
-        static final Flags PREVIOUS      = new Flags(1<<8);   // '<'
+        stbtic finbl Flbgs PREVIOUS      = new Flbgs(1<<8);   // '<'
 
-        private Flags(int f) {
-            flags = f;
+        privbte Flbgs(int f) {
+            flbgs = f;
         }
 
-        public int valueOf() {
-            return flags;
+        public int vblueOf() {
+            return flbgs;
         }
 
-        public boolean contains(Flags f) {
-            return (flags & f.valueOf()) == f.valueOf();
+        public boolebn contbins(Flbgs f) {
+            return (flbgs & f.vblueOf()) == f.vblueOf();
         }
 
-        public Flags dup() {
-            return new Flags(flags);
+        public Flbgs dup() {
+            return new Flbgs(flbgs);
         }
 
-        private Flags add(Flags f) {
-            flags |= f.valueOf();
+        privbte Flbgs bdd(Flbgs f) {
+            flbgs |= f.vblueOf();
             return this;
         }
 
-        public Flags remove(Flags f) {
-            flags &= ~f.valueOf();
+        public Flbgs remove(Flbgs f) {
+            flbgs &= ~f.vblueOf();
             return this;
         }
 
-        public static Flags parse(String s) {
-            char[] ca = s.toCharArray();
-            Flags f = new Flags(0);
-            for (char c : ca) {
-                Flags v = parse(c);
-                if (f.contains(v))
-                    throw new DuplicateFormatFlagsException(v.toString());
-                f.add(v);
+        public stbtic Flbgs pbrse(String s) {
+            chbr[] cb = s.toChbrArrby();
+            Flbgs f = new Flbgs(0);
+            for (chbr c : cb) {
+                Flbgs v = pbrse(c);
+                if (f.contbins(v))
+                    throw new DuplicbteFormbtFlbgsException(v.toString());
+                f.bdd(v);
             }
             return f;
         }
 
-        // parse those flags which may be provided by users
-        private static Flags parse(char c) {
+        // pbrse those flbgs which mby be provided by users
+        privbte stbtic Flbgs pbrse(chbr c) {
             switch (c) {
-            case '-': return LEFT_JUSTIFY;
-            case '#': return ALTERNATE;
-            case '+': return PLUS;
-            case ' ': return LEADING_SPACE;
-            case '0': return ZERO_PAD;
-            case ',': return GROUP;
-            case '(': return PARENTHESES;
-            case '<': return PREVIOUS;
-            default:
-                throw new UnknownFormatFlagsException(String.valueOf(c));
+            cbse '-': return LEFT_JUSTIFY;
+            cbse '#': return ALTERNATE;
+            cbse '+': return PLUS;
+            cbse ' ': return LEADING_SPACE;
+            cbse '0': return ZERO_PAD;
+            cbse ',': return GROUP;
+            cbse '(': return PARENTHESES;
+            cbse '<': return PREVIOUS;
+            defbult:
+                throw new UnknownFormbtFlbgsException(String.vblueOf(c));
             }
         }
 
-        // Returns a string representation of the current {@code Flags}.
-        public static String toString(Flags f) {
+        // Returns b string representbtion of the current {@code Flbgs}.
+        public stbtic String toString(Flbgs f) {
             return f.toString();
         }
 
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            if (contains(LEFT_JUSTIFY))  sb.append('-');
-            if (contains(UPPERCASE))     sb.append('^');
-            if (contains(ALTERNATE))     sb.append('#');
-            if (contains(PLUS))          sb.append('+');
-            if (contains(LEADING_SPACE)) sb.append(' ');
-            if (contains(ZERO_PAD))      sb.append('0');
-            if (contains(GROUP))         sb.append(',');
-            if (contains(PARENTHESES))   sb.append('(');
-            if (contains(PREVIOUS))      sb.append('<');
+            if (contbins(LEFT_JUSTIFY))  sb.bppend('-');
+            if (contbins(UPPERCASE))     sb.bppend('^');
+            if (contbins(ALTERNATE))     sb.bppend('#');
+            if (contbins(PLUS))          sb.bppend('+');
+            if (contbins(LEADING_SPACE)) sb.bppend(' ');
+            if (contbins(ZERO_PAD))      sb.bppend('0');
+            if (contbins(GROUP))         sb.bppend(',');
+            if (contbins(PARENTHESES))   sb.bppend('(');
+            if (contbins(PREVIOUS))      sb.bppend('<');
             return sb.toString();
         }
     }
 
-    private static class Conversion {
+    privbte stbtic clbss Conversion {
         // Byte, Short, Integer, Long, BigInteger
-        // (and associated primitives due to autoboxing)
-        static final char DECIMAL_INTEGER     = 'd';
-        static final char OCTAL_INTEGER       = 'o';
-        static final char HEXADECIMAL_INTEGER = 'x';
-        static final char HEXADECIMAL_INTEGER_UPPER = 'X';
+        // (bnd bssocibted primitives due to butoboxing)
+        stbtic finbl chbr DECIMAL_INTEGER     = 'd';
+        stbtic finbl chbr OCTAL_INTEGER       = 'o';
+        stbtic finbl chbr HEXADECIMAL_INTEGER = 'x';
+        stbtic finbl chbr HEXADECIMAL_INTEGER_UPPER = 'X';
 
-        // Float, Double, BigDecimal
-        // (and associated primitives due to autoboxing)
-        static final char SCIENTIFIC          = 'e';
-        static final char SCIENTIFIC_UPPER    = 'E';
-        static final char GENERAL             = 'g';
-        static final char GENERAL_UPPER       = 'G';
-        static final char DECIMAL_FLOAT       = 'f';
-        static final char HEXADECIMAL_FLOAT   = 'a';
-        static final char HEXADECIMAL_FLOAT_UPPER = 'A';
+        // Flobt, Double, BigDecimbl
+        // (bnd bssocibted primitives due to butoboxing)
+        stbtic finbl chbr SCIENTIFIC          = 'e';
+        stbtic finbl chbr SCIENTIFIC_UPPER    = 'E';
+        stbtic finbl chbr GENERAL             = 'g';
+        stbtic finbl chbr GENERAL_UPPER       = 'G';
+        stbtic finbl chbr DECIMAL_FLOAT       = 'f';
+        stbtic finbl chbr HEXADECIMAL_FLOAT   = 'b';
+        stbtic finbl chbr HEXADECIMAL_FLOAT_UPPER = 'A';
 
-        // Character, Byte, Short, Integer
-        // (and associated primitives due to autoboxing)
-        static final char CHARACTER           = 'c';
-        static final char CHARACTER_UPPER     = 'C';
+        // Chbrbcter, Byte, Short, Integer
+        // (bnd bssocibted primitives due to butoboxing)
+        stbtic finbl chbr CHARACTER           = 'c';
+        stbtic finbl chbr CHARACTER_UPPER     = 'C';
 
-        // java.util.Date, java.util.Calendar, long
-        static final char DATE_TIME           = 't';
-        static final char DATE_TIME_UPPER     = 'T';
+        // jbvb.util.Dbte, jbvb.util.Cblendbr, long
+        stbtic finbl chbr DATE_TIME           = 't';
+        stbtic finbl chbr DATE_TIME_UPPER     = 'T';
 
-        // if (arg.TYPE != boolean) return boolean
-        // if (arg != null) return true; else return false;
-        static final char BOOLEAN             = 'b';
-        static final char BOOLEAN_UPPER       = 'B';
-        // if (arg instanceof Formattable) arg.formatTo()
-        // else arg.toString();
-        static final char STRING              = 's';
-        static final char STRING_UPPER        = 'S';
-        // arg.hashCode()
-        static final char HASHCODE            = 'h';
-        static final char HASHCODE_UPPER      = 'H';
+        // if (brg.TYPE != boolebn) return boolebn
+        // if (brg != null) return true; else return fblse;
+        stbtic finbl chbr BOOLEAN             = 'b';
+        stbtic finbl chbr BOOLEAN_UPPER       = 'B';
+        // if (brg instbnceof Formbttbble) brg.formbtTo()
+        // else brg.toString();
+        stbtic finbl chbr STRING              = 's';
+        stbtic finbl chbr STRING_UPPER        = 'S';
+        // brg.hbshCode()
+        stbtic finbl chbr HASHCODE            = 'h';
+        stbtic finbl chbr HASHCODE_UPPER      = 'H';
 
-        static final char LINE_SEPARATOR      = 'n';
-        static final char PERCENT_SIGN        = '%';
+        stbtic finbl chbr LINE_SEPARATOR      = 'n';
+        stbtic finbl chbr PERCENT_SIGN        = '%';
 
-        static boolean isValid(char c) {
-            return (isGeneral(c) || isInteger(c) || isFloat(c) || isText(c)
-                    || c == 't' || isCharacter(c));
+        stbtic boolebn isVblid(chbr c) {
+            return (isGenerbl(c) || isInteger(c) || isFlobt(c) || isText(c)
+                    || c == 't' || isChbrbcter(c));
         }
 
-        // Returns true iff the Conversion is applicable to all objects.
-        static boolean isGeneral(char c) {
+        // Returns true iff the Conversion is bpplicbble to bll objects.
+        stbtic boolebn isGenerbl(chbr c) {
             switch (c) {
-            case BOOLEAN:
-            case BOOLEAN_UPPER:
-            case STRING:
-            case STRING_UPPER:
-            case HASHCODE:
-            case HASHCODE_UPPER:
+            cbse BOOLEAN:
+            cbse BOOLEAN_UPPER:
+            cbse STRING:
+            cbse STRING_UPPER:
+            cbse HASHCODE:
+            cbse HASHCODE_UPPER:
                 return true;
-            default:
-                return false;
+            defbult:
+                return fblse;
             }
         }
 
-        // Returns true iff the Conversion is applicable to character.
-        static boolean isCharacter(char c) {
+        // Returns true iff the Conversion is bpplicbble to chbrbcter.
+        stbtic boolebn isChbrbcter(chbr c) {
             switch (c) {
-            case CHARACTER:
-            case CHARACTER_UPPER:
+            cbse CHARACTER:
+            cbse CHARACTER_UPPER:
                 return true;
-            default:
-                return false;
+            defbult:
+                return fblse;
             }
         }
 
-        // Returns true iff the Conversion is an integer type.
-        static boolean isInteger(char c) {
+        // Returns true iff the Conversion is bn integer type.
+        stbtic boolebn isInteger(chbr c) {
             switch (c) {
-            case DECIMAL_INTEGER:
-            case OCTAL_INTEGER:
-            case HEXADECIMAL_INTEGER:
-            case HEXADECIMAL_INTEGER_UPPER:
+            cbse DECIMAL_INTEGER:
+            cbse OCTAL_INTEGER:
+            cbse HEXADECIMAL_INTEGER:
+            cbse HEXADECIMAL_INTEGER_UPPER:
                 return true;
-            default:
-                return false;
+            defbult:
+                return fblse;
             }
         }
 
-        // Returns true iff the Conversion is a floating-point type.
-        static boolean isFloat(char c) {
+        // Returns true iff the Conversion is b flobting-point type.
+        stbtic boolebn isFlobt(chbr c) {
             switch (c) {
-            case SCIENTIFIC:
-            case SCIENTIFIC_UPPER:
-            case GENERAL:
-            case GENERAL_UPPER:
-            case DECIMAL_FLOAT:
-            case HEXADECIMAL_FLOAT:
-            case HEXADECIMAL_FLOAT_UPPER:
+            cbse SCIENTIFIC:
+            cbse SCIENTIFIC_UPPER:
+            cbse GENERAL:
+            cbse GENERAL_UPPER:
+            cbse DECIMAL_FLOAT:
+            cbse HEXADECIMAL_FLOAT:
+            cbse HEXADECIMAL_FLOAT_UPPER:
                 return true;
-            default:
-                return false;
+            defbult:
+                return fblse;
             }
         }
 
-        // Returns true iff the Conversion does not require an argument
-        static boolean isText(char c) {
+        // Returns true iff the Conversion does not require bn brgument
+        stbtic boolebn isText(chbr c) {
             switch (c) {
-            case LINE_SEPARATOR:
-            case PERCENT_SIGN:
+            cbse LINE_SEPARATOR:
+            cbse PERCENT_SIGN:
                 return true;
-            default:
-                return false;
+            defbult:
+                return fblse;
             }
         }
     }
 
-    private static class DateTime {
-        static final char HOUR_OF_DAY_0 = 'H'; // (00 - 23)
-        static final char HOUR_0        = 'I'; // (01 - 12)
-        static final char HOUR_OF_DAY   = 'k'; // (0 - 23) -- like H
-        static final char HOUR          = 'l'; // (1 - 12) -- like I
-        static final char MINUTE        = 'M'; // (00 - 59)
-        static final char NANOSECOND    = 'N'; // (000000000 - 999999999)
-        static final char MILLISECOND   = 'L'; // jdk, not in gnu (000 - 999)
-        static final char MILLISECOND_SINCE_EPOCH = 'Q'; // (0 - 99...?)
-        static final char AM_PM         = 'p'; // (am or pm)
-        static final char SECONDS_SINCE_EPOCH = 's'; // (0 - 99...?)
-        static final char SECOND        = 'S'; // (00 - 60 - leap second)
-        static final char TIME          = 'T'; // (24 hour hh:mm:ss)
-        static final char ZONE_NUMERIC  = 'z'; // (-1200 - +1200) - ls minus?
-        static final char ZONE          = 'Z'; // (symbol)
+    privbte stbtic clbss DbteTime {
+        stbtic finbl chbr HOUR_OF_DAY_0 = 'H'; // (00 - 23)
+        stbtic finbl chbr HOUR_0        = 'I'; // (01 - 12)
+        stbtic finbl chbr HOUR_OF_DAY   = 'k'; // (0 - 23) -- like H
+        stbtic finbl chbr HOUR          = 'l'; // (1 - 12) -- like I
+        stbtic finbl chbr MINUTE        = 'M'; // (00 - 59)
+        stbtic finbl chbr NANOSECOND    = 'N'; // (000000000 - 999999999)
+        stbtic finbl chbr MILLISECOND   = 'L'; // jdk, not in gnu (000 - 999)
+        stbtic finbl chbr MILLISECOND_SINCE_EPOCH = 'Q'; // (0 - 99...?)
+        stbtic finbl chbr AM_PM         = 'p'; // (bm or pm)
+        stbtic finbl chbr SECONDS_SINCE_EPOCH = 's'; // (0 - 99...?)
+        stbtic finbl chbr SECOND        = 'S'; // (00 - 60 - lebp second)
+        stbtic finbl chbr TIME          = 'T'; // (24 hour hh:mm:ss)
+        stbtic finbl chbr ZONE_NUMERIC  = 'z'; // (-1200 - +1200) - ls minus?
+        stbtic finbl chbr ZONE          = 'Z'; // (symbol)
 
-        // Date
-        static final char NAME_OF_DAY_ABBREV    = 'a'; // 'a'
-        static final char NAME_OF_DAY           = 'A'; // 'A'
-        static final char NAME_OF_MONTH_ABBREV  = 'b'; // 'b'
-        static final char NAME_OF_MONTH         = 'B'; // 'B'
-        static final char CENTURY               = 'C'; // (00 - 99)
-        static final char DAY_OF_MONTH_0        = 'd'; // (01 - 31)
-        static final char DAY_OF_MONTH          = 'e'; // (1 - 31) -- like d
-// *    static final char ISO_WEEK_OF_YEAR_2    = 'g'; // cross %y %V
-// *    static final char ISO_WEEK_OF_YEAR_4    = 'G'; // cross %Y %V
-        static final char NAME_OF_MONTH_ABBREV_X  = 'h'; // -- same b
-        static final char DAY_OF_YEAR           = 'j'; // (001 - 366)
-        static final char MONTH                 = 'm'; // (01 - 12)
-// *    static final char DAY_OF_WEEK_1         = 'u'; // (1 - 7) Monday
-// *    static final char WEEK_OF_YEAR_SUNDAY   = 'U'; // (0 - 53) Sunday+
-// *    static final char WEEK_OF_YEAR_MONDAY_01 = 'V'; // (01 - 53) Monday+
-// *    static final char DAY_OF_WEEK_0         = 'w'; // (0 - 6) Sunday
-// *    static final char WEEK_OF_YEAR_MONDAY   = 'W'; // (00 - 53) Monday
-        static final char YEAR_2                = 'y'; // (00 - 99)
-        static final char YEAR_4                = 'Y'; // (0000 - 9999)
+        // Dbte
+        stbtic finbl chbr NAME_OF_DAY_ABBREV    = 'b'; // 'b'
+        stbtic finbl chbr NAME_OF_DAY           = 'A'; // 'A'
+        stbtic finbl chbr NAME_OF_MONTH_ABBREV  = 'b'; // 'b'
+        stbtic finbl chbr NAME_OF_MONTH         = 'B'; // 'B'
+        stbtic finbl chbr CENTURY               = 'C'; // (00 - 99)
+        stbtic finbl chbr DAY_OF_MONTH_0        = 'd'; // (01 - 31)
+        stbtic finbl chbr DAY_OF_MONTH          = 'e'; // (1 - 31) -- like d
+// *    stbtic finbl chbr ISO_WEEK_OF_YEAR_2    = 'g'; // cross %y %V
+// *    stbtic finbl chbr ISO_WEEK_OF_YEAR_4    = 'G'; // cross %Y %V
+        stbtic finbl chbr NAME_OF_MONTH_ABBREV_X  = 'h'; // -- sbme b
+        stbtic finbl chbr DAY_OF_YEAR           = 'j'; // (001 - 366)
+        stbtic finbl chbr MONTH                 = 'm'; // (01 - 12)
+// *    stbtic finbl chbr DAY_OF_WEEK_1         = 'u'; // (1 - 7) Mondby
+// *    stbtic finbl chbr WEEK_OF_YEAR_SUNDAY   = 'U'; // (0 - 53) Sundby+
+// *    stbtic finbl chbr WEEK_OF_YEAR_MONDAY_01 = 'V'; // (01 - 53) Mondby+
+// *    stbtic finbl chbr DAY_OF_WEEK_0         = 'w'; // (0 - 6) Sundby
+// *    stbtic finbl chbr WEEK_OF_YEAR_MONDAY   = 'W'; // (00 - 53) Mondby
+        stbtic finbl chbr YEAR_2                = 'y'; // (00 - 99)
+        stbtic finbl chbr YEAR_4                = 'Y'; // (0000 - 9999)
 
         // Composites
-        static final char TIME_12_HOUR  = 'r'; // (hh:mm:ss [AP]M)
-        static final char TIME_24_HOUR  = 'R'; // (hh:mm same as %H:%M)
-// *    static final char LOCALE_TIME   = 'X'; // (%H:%M:%S) - parse format?
-        static final char DATE_TIME             = 'c';
-                                            // (Sat Nov 04 12:02:33 EST 1999)
-        static final char DATE                  = 'D'; // (mm/dd/yy)
-        static final char ISO_STANDARD_DATE     = 'F'; // (%Y-%m-%d)
-// *    static final char LOCALE_DATE           = 'x'; // (mm/dd/yy)
+        stbtic finbl chbr TIME_12_HOUR  = 'r'; // (hh:mm:ss [AP]M)
+        stbtic finbl chbr TIME_24_HOUR  = 'R'; // (hh:mm sbme bs %H:%M)
+// *    stbtic finbl chbr LOCALE_TIME   = 'X'; // (%H:%M:%S) - pbrse formbt?
+        stbtic finbl chbr DATE_TIME             = 'c';
+                                            // (Sbt Nov 04 12:02:33 EST 1999)
+        stbtic finbl chbr DATE                  = 'D'; // (mm/dd/yy)
+        stbtic finbl chbr ISO_STANDARD_DATE     = 'F'; // (%Y-%m-%d)
+// *    stbtic finbl chbr LOCALE_DATE           = 'x'; // (mm/dd/yy)
 
-        static boolean isValid(char c) {
+        stbtic boolebn isVblid(chbr c) {
             switch (c) {
-            case HOUR_OF_DAY_0:
-            case HOUR_0:
-            case HOUR_OF_DAY:
-            case HOUR:
-            case MINUTE:
-            case NANOSECOND:
-            case MILLISECOND:
-            case MILLISECOND_SINCE_EPOCH:
-            case AM_PM:
-            case SECONDS_SINCE_EPOCH:
-            case SECOND:
-            case TIME:
-            case ZONE_NUMERIC:
-            case ZONE:
+            cbse HOUR_OF_DAY_0:
+            cbse HOUR_0:
+            cbse HOUR_OF_DAY:
+            cbse HOUR:
+            cbse MINUTE:
+            cbse NANOSECOND:
+            cbse MILLISECOND:
+            cbse MILLISECOND_SINCE_EPOCH:
+            cbse AM_PM:
+            cbse SECONDS_SINCE_EPOCH:
+            cbse SECOND:
+            cbse TIME:
+            cbse ZONE_NUMERIC:
+            cbse ZONE:
 
-            // Date
-            case NAME_OF_DAY_ABBREV:
-            case NAME_OF_DAY:
-            case NAME_OF_MONTH_ABBREV:
-            case NAME_OF_MONTH:
-            case CENTURY:
-            case DAY_OF_MONTH_0:
-            case DAY_OF_MONTH:
-// *        case ISO_WEEK_OF_YEAR_2:
-// *        case ISO_WEEK_OF_YEAR_4:
-            case NAME_OF_MONTH_ABBREV_X:
-            case DAY_OF_YEAR:
-            case MONTH:
-// *        case DAY_OF_WEEK_1:
-// *        case WEEK_OF_YEAR_SUNDAY:
-// *        case WEEK_OF_YEAR_MONDAY_01:
-// *        case DAY_OF_WEEK_0:
-// *        case WEEK_OF_YEAR_MONDAY:
-            case YEAR_2:
-            case YEAR_4:
+            // Dbte
+            cbse NAME_OF_DAY_ABBREV:
+            cbse NAME_OF_DAY:
+            cbse NAME_OF_MONTH_ABBREV:
+            cbse NAME_OF_MONTH:
+            cbse CENTURY:
+            cbse DAY_OF_MONTH_0:
+            cbse DAY_OF_MONTH:
+// *        cbse ISO_WEEK_OF_YEAR_2:
+// *        cbse ISO_WEEK_OF_YEAR_4:
+            cbse NAME_OF_MONTH_ABBREV_X:
+            cbse DAY_OF_YEAR:
+            cbse MONTH:
+// *        cbse DAY_OF_WEEK_1:
+// *        cbse WEEK_OF_YEAR_SUNDAY:
+// *        cbse WEEK_OF_YEAR_MONDAY_01:
+// *        cbse DAY_OF_WEEK_0:
+// *        cbse WEEK_OF_YEAR_MONDAY:
+            cbse YEAR_2:
+            cbse YEAR_4:
 
             // Composites
-            case TIME_12_HOUR:
-            case TIME_24_HOUR:
-// *        case LOCALE_TIME:
-            case DATE_TIME:
-            case DATE:
-            case ISO_STANDARD_DATE:
-// *        case LOCALE_DATE:
+            cbse TIME_12_HOUR:
+            cbse TIME_24_HOUR:
+// *        cbse LOCALE_TIME:
+            cbse DATE_TIME:
+            cbse DATE:
+            cbse ISO_STANDARD_DATE:
+// *        cbse LOCALE_DATE:
                 return true;
-            default:
-                return false;
+            defbult:
+                return fblse;
             }
         }
     }

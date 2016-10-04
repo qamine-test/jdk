@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <vis_proto.h>
-#include "java2d_Mlib.h"
+#include "jbvb2d_Mlib.h"
 
-/*#define USE_TWO_BC_TABLES*/ /* a little more precise, but slow on Ultra-III */
+/*#define USE_TWO_BC_TABLES*/ /* b little more precise, but slow on Ultrb-III */
 
 /***************************************************************/
 
 #define MUL_16x16(src1, src2)                   \
-  vis_fpadd16(vis_fmul8sux16((src1), (src2)),   \
+  vis_fpbdd16(vis_fmul8sux16((src1), (src2)),   \
               vis_fmul8ulx16((src1), (src2)))
 
 #define BILINEAR                                                \
-  xf = vis_fand(xf, mask7fff);                                  \
-  yf = vis_fand(yf, mask7fff);                                  \
-  xr = vis_fpsub32(mask7fff, xf);                               \
-  yf0 = vis_fmul8x16au(mask80, vis_read_hi(yf));                \
-  yf1 = vis_fmul8x16au(mask80, vis_read_lo(yf));                \
+  xf = vis_fbnd(xf, mbsk7fff);                                  \
+  yf = vis_fbnd(yf, mbsk7fff);                                  \
+  xr = vis_fpsub32(mbsk7fff, xf);                               \
+  yf0 = vis_fmul8x16bu(mbsk80, vis_rebd_hi(yf));                \
+  yf1 = vis_fmul8x16bu(mbsk80, vis_rebd_lo(yf));                \
                                                                 \
-  a0 = vis_fmul8x16au(vis_read_hi(a01), vis_read_hi(xr));       \
-  a1 = vis_fmul8x16au(vis_read_lo(a01), vis_read_hi(xf));       \
-  a2 = vis_fmul8x16au(vis_read_hi(a23), vis_read_hi(xr));       \
-  a3 = vis_fmul8x16au(vis_read_lo(a23), vis_read_hi(xf));       \
-  a0 = vis_fpadd16(a0, a1);                                     \
-  a2 = vis_fpadd16(a2, a3);                                     \
-  a2 = vis_fpsub16(a2, a0);                                     \
-  a2 = MUL_16x16(a2, yf0);                                      \
-  a0 = vis_fmul8x16(mask40, a0);                                \
-  a0 = vis_fpadd16(a0, a2);                                     \
-  a0 = vis_fpadd16(a0, d_rnd);                                  \
+  b0 = vis_fmul8x16bu(vis_rebd_hi(b01), vis_rebd_hi(xr));       \
+  b1 = vis_fmul8x16bu(vis_rebd_lo(b01), vis_rebd_hi(xf));       \
+  b2 = vis_fmul8x16bu(vis_rebd_hi(b23), vis_rebd_hi(xr));       \
+  b3 = vis_fmul8x16bu(vis_rebd_lo(b23), vis_rebd_hi(xf));       \
+  b0 = vis_fpbdd16(b0, b1);                                     \
+  b2 = vis_fpbdd16(b2, b3);                                     \
+  b2 = vis_fpsub16(b2, b0);                                     \
+  b2 = MUL_16x16(b2, yf0);                                      \
+  b0 = vis_fmul8x16(mbsk40, b0);                                \
+  b0 = vis_fpbdd16(b0, b2);                                     \
+  b0 = vis_fpbdd16(b0, d_rnd);                                  \
                                                                 \
-  b0 = vis_fmul8x16au(vis_read_hi(b01), vis_read_lo(xr));       \
-  b1 = vis_fmul8x16au(vis_read_lo(b01), vis_read_lo(xf));       \
-  b2 = vis_fmul8x16au(vis_read_hi(b23), vis_read_lo(xr));       \
-  b3 = vis_fmul8x16au(vis_read_lo(b23), vis_read_lo(xf));       \
-  b0 = vis_fpadd16(b0, b1);                                     \
-  b2 = vis_fpadd16(b2, b3);                                     \
+  b0 = vis_fmul8x16bu(vis_rebd_hi(b01), vis_rebd_lo(xr));       \
+  b1 = vis_fmul8x16bu(vis_rebd_lo(b01), vis_rebd_lo(xf));       \
+  b2 = vis_fmul8x16bu(vis_rebd_hi(b23), vis_rebd_lo(xr));       \
+  b3 = vis_fmul8x16bu(vis_rebd_lo(b23), vis_rebd_lo(xf));       \
+  b0 = vis_fpbdd16(b0, b1);                                     \
+  b2 = vis_fpbdd16(b2, b3);                                     \
   b2 = vis_fpsub16(b2, b0);                                     \
   b2 = MUL_16x16(b2, yf1);                                      \
-  b0 = vis_fmul8x16(mask40, b0);                                \
-  b0 = vis_fpadd16(b0, b2);                                     \
-  b0 = vis_fpadd16(b0, d_rnd);                                  \
+  b0 = vis_fmul8x16(mbsk40, b0);                                \
+  b0 = vis_fpbdd16(b0, b2);                                     \
+  b0 = vis_fpbdd16(b0, d_rnd);                                  \
                                                                 \
-  xf = vis_fpadd32(xf, dx);                                     \
-  yf = vis_fpadd32(yf, dy)
+  xf = vis_fpbdd32(xf, dx);                                     \
+  yf = vis_fpbdd32(yf, dy)
 
 void
-vis_BilinearBlend(jint *pRGB, jint numpix,
-                  jint xfract, jint dxfract,
-                  jint yfract, jint dyfract)
+vis_BilinebrBlend(jint *pRGB, jint numpix,
+                  jint xfrbct, jint dxfrbct,
+                  jint yfrbct, jint dyfrbct)
 {
   mlib_d64 *p_src = (void*)pRGB;
   mlib_f32 *p_dst = (void*)pRGB;
-  mlib_d64 a01, a23, a0, a1, a2, a3;
+  mlib_d64 b01, b23, b0, b1, b2, b3;
   mlib_d64 b01, b23, b0, b1, b2, b3;
   mlib_d64 xf, xr, dx, yf, yf0, yf1, dy;
-  mlib_d64 mask7fff, d_rnd;
-  mlib_f32 mask80, mask40;
+  mlib_d64 mbsk7fff, d_rnd;
+  mlib_f32 mbsk80, mbsk40;
   mlib_s32 i;
 
   vis_write_gsr(2 << 3);
 
-  xf = vis_to_double(xfract >> 1, (xfract + dxfract) >> 1);
-  yf = vis_to_double(yfract >> 1, (yfract + dyfract) >> 1);
-  dx = vis_to_double_dup(dxfract);
-  dy = vis_to_double_dup(dyfract);
+  xf = vis_to_double(xfrbct >> 1, (xfrbct + dxfrbct) >> 1);
+  yf = vis_to_double(yfrbct >> 1, (yfrbct + dyfrbct) >> 1);
+  dx = vis_to_double_dup(dxfrbct);
+  dy = vis_to_double_dup(dyfrbct);
 
-  mask7fff = vis_to_double_dup(0x7fffffff);
+  mbsk7fff = vis_to_double_dup(0x7fffffff);
   d_rnd = vis_to_double_dup(0x00100010);
-  mask80 = vis_to_float(0x80808080);
-  mask40 = vis_to_float(0x40404040);
+  mbsk80 = vis_to_flobt(0x80808080);
+  mbsk40 = vis_to_flobt(0x40404040);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
   for (i = 0; i < numpix/2; i++) {
-    a01 = p_src[0];
-    a23 = p_src[1];
+    b01 = p_src[0];
+    b23 = p_src[1];
     b01 = p_src[2];
     b23 = p_src[3];
     p_src += 4;
 
     BILINEAR;
 
-    ((mlib_d64*)p_dst)[0] = vis_fpack16_pair(a0, b0);
+    ((mlib_d64*)p_dst)[0] = vis_fpbck16_pbir(b0, b0);
     p_dst += 2;
   }
 
   if (numpix & 1) {
-    a01 = p_src[0];
-    a23 = p_src[1];
+    b01 = p_src[0];
+    b23 = p_src[1];
 
     BILINEAR;
 
-    p_dst[0] = vis_fpack16(a0);
+    p_dst[0] = vis_fpbck16(b0);
   }
 }
 
 /***************************************************************/
 
-static jboolean vis_bicubic_table_inited = 0;
-static mlib_d64 vis_bicubic_coeff[256 + 1];
+stbtic jboolebn vis_bicubic_tbble_inited = 0;
+stbtic mlib_d64 vis_bicubic_coeff[256 + 1];
 #ifdef USE_TWO_BC_TABLES
-static mlib_d64 vis_bicubic_coeff2[512 + 1];
+stbtic mlib_d64 vis_bicubic_coeff2[512 + 1];
 #endif
 
 /*
- * REMIND: The following formulas are designed to give smooth
+ * REMIND: The following formulbs bre designed to give smooth
  * results when 'A' is -0.5 or -1.0.
  */
 
-static void
-init_vis_bicubic_table(jdouble A)
+stbtic void
+init_vis_bicubic_tbble(jdouble A)
 {
   mlib_s16 *p_tbl = (void*)vis_bicubic_coeff;
 #ifdef USE_TWO_BC_TABLES
@@ -167,39 +167,39 @@ init_vis_bicubic_table(jdouble A)
     p_tbl2[4*i + 1026] = p_tbl2[4*i + 1027] = (mlib_s16)y;
 #endif
   }
-  vis_bicubic_table_inited = 1;
+  vis_bicubic_tbble_inited = 1;
 }
 
 /***************************************************************/
 
 #define MUL_BC_COEFF(x0, x1, coeff)                                     \
-  vis_fpadd16(vis_fmul8x16au(x0, coeff), vis_fmul8x16al(x1, coeff))
+  vis_fpbdd16(vis_fmul8x16bu(x0, coeff), vis_fmul8x16bl(x1, coeff))
 
-#define SAT(val, max) \
+#define SAT(vbl, mbx) \
     do { \
-        val -= max;           /* only overflows are now positive */ \
-        val &= (val >> 31);   /* positives become 0 */ \
-        val += max;           /* range is now [0 -> max] */ \
+        vbl -= mbx;           /* only overflows bre now positive */ \
+        vbl &= (vbl >> 31);   /* positives become 0 */ \
+        vbl += mbx;           /* rbnge is now [0 -> mbx] */ \
     } while (0)
 
 void
 vis_BicubicBlend(jint *pRGB, jint numpix,
-                 jint xfract, jint dxfract,
-                 jint yfract, jint dyfract)
+                 jint xfrbct, jint dxfrbct,
+                 jint yfrbct, jint dyfrbct)
 {
   mlib_d64 *p_src = (void*)pRGB;
   union {
       jint     theInt;
       mlib_f32 theF32;
   } p_dst;
-  mlib_d64 a0, a1, a2, a3, a4, a5, a6, a7;
+  mlib_d64 b0, b1, b2, b3, b4, b5, b6, b7;
   mlib_d64 xf, yf, yf0, yf1, yf2, yf3;
   mlib_d64 d_rnd;
-  mlib_f32 mask80;
+  mlib_f32 mbsk80;
   mlib_s32 i;
 
-  if (!vis_bicubic_table_inited) {
-    init_vis_bicubic_table(-0.5);
+  if (!vis_bicubic_tbble_inited) {
+    init_vis_bicubic_tbble(-0.5);
   }
 
 #ifdef USE_TWO_BC_TABLES
@@ -210,75 +210,75 @@ vis_BicubicBlend(jint *pRGB, jint numpix,
   d_rnd = vis_to_double_dup(0x00030003);
 #endif
 
-  mask80 = vis_to_float(0x80808080);
+  mbsk80 = vis_to_flobt(0x80808080);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
   for (i = 0; i < numpix; i++) {
-    jint xfactor, yfactor;
+    jint xfbctor, yfbctor;
 
-    xfactor = URShift(xfract, 32-8);
-    xfract += dxfract;
-    xf = vis_bicubic_coeff[xfactor];
+    xfbctor = URShift(xfrbct, 32-8);
+    xfrbct += dxfrbct;
+    xf = vis_bicubic_coeff[xfbctor];
 
-    a0 = p_src[0];
-    a1 = p_src[1];
-    a2 = p_src[2];
-    a3 = p_src[3];
-    a4 = p_src[4];
-    a5 = p_src[5];
-    a6 = p_src[6];
-    a7 = p_src[7];
+    b0 = p_src[0];
+    b1 = p_src[1];
+    b2 = p_src[2];
+    b3 = p_src[3];
+    b4 = p_src[4];
+    b5 = p_src[5];
+    b6 = p_src[6];
+    b7 = p_src[7];
     p_src += 8;
 
-    a0 = MUL_BC_COEFF(vis_read_hi(a0), vis_read_lo(a0), vis_read_hi(xf));
-    a1 = MUL_BC_COEFF(vis_read_hi(a1), vis_read_lo(a1), vis_read_lo(xf));
-    a2 = MUL_BC_COEFF(vis_read_hi(a2), vis_read_lo(a2), vis_read_hi(xf));
-    a3 = MUL_BC_COEFF(vis_read_hi(a3), vis_read_lo(a3), vis_read_lo(xf));
-    a4 = MUL_BC_COEFF(vis_read_hi(a4), vis_read_lo(a4), vis_read_hi(xf));
-    a5 = MUL_BC_COEFF(vis_read_hi(a5), vis_read_lo(a5), vis_read_lo(xf));
-    a6 = MUL_BC_COEFF(vis_read_hi(a6), vis_read_lo(a6), vis_read_hi(xf));
-    a7 = MUL_BC_COEFF(vis_read_hi(a7), vis_read_lo(a7), vis_read_lo(xf));
+    b0 = MUL_BC_COEFF(vis_rebd_hi(b0), vis_rebd_lo(b0), vis_rebd_hi(xf));
+    b1 = MUL_BC_COEFF(vis_rebd_hi(b1), vis_rebd_lo(b1), vis_rebd_lo(xf));
+    b2 = MUL_BC_COEFF(vis_rebd_hi(b2), vis_rebd_lo(b2), vis_rebd_hi(xf));
+    b3 = MUL_BC_COEFF(vis_rebd_hi(b3), vis_rebd_lo(b3), vis_rebd_lo(xf));
+    b4 = MUL_BC_COEFF(vis_rebd_hi(b4), vis_rebd_lo(b4), vis_rebd_hi(xf));
+    b5 = MUL_BC_COEFF(vis_rebd_hi(b5), vis_rebd_lo(b5), vis_rebd_lo(xf));
+    b6 = MUL_BC_COEFF(vis_rebd_hi(b6), vis_rebd_lo(b6), vis_rebd_hi(xf));
+    b7 = MUL_BC_COEFF(vis_rebd_hi(b7), vis_rebd_lo(b7), vis_rebd_lo(xf));
 
-    a0 = vis_fpadd16(a0, a1);
-    a1 = vis_fpadd16(a2, a3);
-    a2 = vis_fpadd16(a4, a5);
-    a3 = vis_fpadd16(a6, a7);
+    b0 = vis_fpbdd16(b0, b1);
+    b1 = vis_fpbdd16(b2, b3);
+    b2 = vis_fpbdd16(b4, b5);
+    b3 = vis_fpbdd16(b6, b7);
 
-    yfactor = URShift(yfract, 32-8);
-    yfract += dyfract;
+    yfbctor = URShift(yfrbct, 32-8);
+    yfrbct += dyfrbct;
 #ifdef USE_TWO_BC_TABLES
-    yf0 = vis_bicubic_coeff2[256 + yfactor];
-    yf1 = vis_bicubic_coeff2[yfactor];
-    yf2 = vis_bicubic_coeff2[256 - yfactor];
-    yf3 = vis_bicubic_coeff2[512 - yfactor];
+    yf0 = vis_bicubic_coeff2[256 + yfbctor];
+    yf1 = vis_bicubic_coeff2[yfbctor];
+    yf2 = vis_bicubic_coeff2[256 - yfbctor];
+    yf3 = vis_bicubic_coeff2[512 - yfbctor];
 #else
-    yf = vis_bicubic_coeff[yfactor];
-    yf0 = vis_fmul8x16au(mask80, vis_read_hi(yf));
-    yf1 = vis_fmul8x16al(mask80, vis_read_hi(yf));
-    yf2 = vis_fmul8x16au(mask80, vis_read_lo(yf));
-    yf3 = vis_fmul8x16al(mask80, vis_read_lo(yf));
+    yf = vis_bicubic_coeff[yfbctor];
+    yf0 = vis_fmul8x16bu(mbsk80, vis_rebd_hi(yf));
+    yf1 = vis_fmul8x16bl(mbsk80, vis_rebd_hi(yf));
+    yf2 = vis_fmul8x16bu(mbsk80, vis_rebd_lo(yf));
+    yf3 = vis_fmul8x16bl(mbsk80, vis_rebd_lo(yf));
 #endif
 
-    a0 = MUL_16x16(a0, yf0);
-    a1 = MUL_16x16(a1, yf1);
-    a2 = MUL_16x16(a2, yf2);
-    a3 = MUL_16x16(a3, yf3);
-    a0 = vis_fpadd16(a0, d_rnd);
+    b0 = MUL_16x16(b0, yf0);
+    b1 = MUL_16x16(b1, yf1);
+    b2 = MUL_16x16(b2, yf2);
+    b3 = MUL_16x16(b3, yf3);
+    b0 = vis_fpbdd16(b0, d_rnd);
 
-    a0 = vis_fpadd16(vis_fpadd16(a0, a1), vis_fpadd16(a2, a3));
+    b0 = vis_fpbdd16(vis_fpbdd16(b0, b1), vis_fpbdd16(b2, b3));
 
-    p_dst.theF32 = vis_fpack16(a0);
+    p_dst.theF32 = vis_fpbck16(b0);
     {
-        int a, r, g, b;
+        int b, r, g, b;
         b = p_dst.theInt;
-        a = (b >> 24) & 0xff;
+        b = (b >> 24) & 0xff;
         r = (b >> 16) & 0xff;
         g = (b >>  8) & 0xff;
         b = (b      ) & 0xff;
-        SAT(r, a);
-        SAT(g, a);
-        SAT(b, a);
-        *pRGB++ = ((a << 24) | (r << 16) | (g << 8) | (b));
+        SAT(r, b);
+        SAT(g, b);
+        SAT(b, b);
+        *pRGB++ = ((b << 24) | (r << 16) | (g << 8) | (b));
     }
   }
 }

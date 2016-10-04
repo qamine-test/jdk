@@ -1,279 +1,279 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.Provider.Service;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.Provider.Service;
+import jbvb.security.spec.*;
 
 import sun.security.util.Debug;
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.security.jcb.*;
+import sun.security.jcb.GetInstbnce.Instbnce;
 
 /**
- * This class provides the functionality of a key agreement (or key
- * exchange) protocol.
+ * This clbss provides the functionblity of b key bgreement (or key
+ * exchbnge) protocol.
  * <p>
- * The keys involved in establishing a shared secret are created by one of the
- * key generators (<code>KeyPairGenerator</code> or
- * <code>KeyGenerator</code>), a <code>KeyFactory</code>, or as a result from
- * an intermediate phase of the key agreement protocol.
+ * The keys involved in estbblishing b shbred secret bre crebted by one of the
+ * key generbtors (<code>KeyPbirGenerbtor</code> or
+ * <code>KeyGenerbtor</code>), b <code>KeyFbctory</code>, or bs b result from
+ * bn intermedibte phbse of the key bgreement protocol.
  *
- * <p> For each of the correspondents in the key exchange, <code>doPhase</code>
- * needs to be called. For example, if this key exchange is with one other
- * party, <code>doPhase</code> needs to be called once, with the
- * <code>lastPhase</code> flag set to <code>true</code>.
- * If this key exchange is
- * with two other parties, <code>doPhase</code> needs to be called twice,
- * the first time setting the <code>lastPhase</code> flag to
- * <code>false</code>, and the second time setting it to <code>true</code>.
- * There may be any number of parties involved in a key exchange.
+ * <p> For ebch of the correspondents in the key exchbnge, <code>doPhbse</code>
+ * needs to be cblled. For exbmple, if this key exchbnge is with one other
+ * pbrty, <code>doPhbse</code> needs to be cblled once, with the
+ * <code>lbstPhbse</code> flbg set to <code>true</code>.
+ * If this key exchbnge is
+ * with two other pbrties, <code>doPhbse</code> needs to be cblled twice,
+ * the first time setting the <code>lbstPhbse</code> flbg to
+ * <code>fblse</code>, bnd the second time setting it to <code>true</code>.
+ * There mby be bny number of pbrties involved in b key exchbnge.
  *
- * <p> Every implementation of the Java platform is required to support the
- * following standard <code>KeyAgreement</code> algorithm:
+ * <p> Every implementbtion of the Jbvb plbtform is required to support the
+ * following stbndbrd <code>KeyAgreement</code> blgorithm:
  * <ul>
- * <li><tt>DiffieHellman</tt></li>
+ * <li><tt>DiffieHellmbn</tt></li>
  * </ul>
- * This algorithm is described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyAgreement">
- * KeyAgreement section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * This blgorithm is described in the <b href=
+ * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#KeyAgreement">
+ * KeyAgreement section</b> of the
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion.
+ * Consult the relebse documentbtion for your implementbtion to see if bny
+ * other blgorithms bre supported.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
- * @see KeyGenerator
+ * @see KeyGenerbtor
  * @see SecretKey
  * @since 1.4
  */
 
-public class KeyAgreement {
+public clbss KeyAgreement {
 
-    private static final Debug debug =
-                        Debug.getInstance("jca", "KeyAgreement");
+    privbte stbtic finbl Debug debug =
+                        Debug.getInstbnce("jcb", "KeyAgreement");
 
     // The provider
-    private Provider provider;
+    privbte Provider provider;
 
-    // The provider implementation (delegate)
-    private KeyAgreementSpi spi;
+    // The provider implementbtion (delegbte)
+    privbte KeyAgreementSpi spi;
 
-    // The name of the key agreement algorithm.
-    private final String algorithm;
+    // The nbme of the key bgreement blgorithm.
+    privbte finbl String blgorithm;
 
     // next service to try in provider selection
     // null once provider is selected
-    private Service firstService;
+    privbte Service firstService;
 
-    // remaining services to try in provider selection
+    // rembining services to try in provider selection
     // null once provider is selected
-    private Iterator<Service> serviceIterator;
+    privbte Iterbtor<Service> serviceIterbtor;
 
-    private final Object lock;
+    privbte finbl Object lock;
 
     /**
-     * Creates a KeyAgreement object.
+     * Crebtes b KeyAgreement object.
      *
-     * @param keyAgreeSpi the delegate
-     * @param provider the provider
-     * @param algorithm the algorithm
+     * @pbrbm keyAgreeSpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm blgorithm the blgorithm
      */
     protected KeyAgreement(KeyAgreementSpi keyAgreeSpi, Provider provider,
-                           String algorithm) {
+                           String blgorithm) {
         this.spi = keyAgreeSpi;
         this.provider = provider;
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
         lock = null;
     }
 
-    private KeyAgreement(Service s, Iterator<Service> t, String algorithm) {
+    privbte KeyAgreement(Service s, Iterbtor<Service> t, String blgorithm) {
         firstService = s;
-        serviceIterator = t;
-        this.algorithm = algorithm;
+        serviceIterbtor = t;
+        this.blgorithm = blgorithm;
         lock = new Object();
     }
 
     /**
-     * Returns the algorithm name of this <code>KeyAgreement</code> object.
+     * Returns the blgorithm nbme of this <code>KeyAgreement</code> object.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this
+     * <p>This is the sbme nbme thbt wbs specified in one of the
+     * <code>getInstbnce</code> cblls thbt crebted this
      * <code>KeyAgreement</code> object.
      *
-     * @return the algorithm name of this <code>KeyAgreement</code> object.
+     * @return the blgorithm nbme of this <code>KeyAgreement</code> object.
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    public finbl String getAlgorithm() {
+        return this.blgorithm;
     }
 
     /**
-     * Returns a <code>KeyAgreement</code> object that implements the
-     * specified key agreement algorithm.
+     * Returns b <code>KeyAgreement</code> object thbt implements the
+     * specified key bgreement blgorithm.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new KeyAgreement object encapsulating the
-     * KeyAgreementSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new KeyAgreement object encbpsulbting the
+     * KeyAgreementSpi implementbtion from the first
+     * Provider thbt supports the specified blgorithm is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the standard name of the requested key agreement
-     * algorithm.
-     * See the KeyAgreement section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyAgreement">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested key bgreement
+     * blgorithm.
+     * See the KeyAgreement section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#KeyAgreement">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
      * @return the new <code>KeyAgreement</code> object.
      *
-     * @exception NullPointerException if the specified algorithm
+     * @exception NullPointerException if the specified blgorithm
      *          is null.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          KeyAgreementSpi implementation for the
-     *          specified algorithm.
+     * @exception NoSuchAlgorithmException if no Provider supports b
+     *          KeyAgreementSpi implementbtion for the
+     *          specified blgorithm.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final KeyAgreement getInstance(String algorithm)
+    public stbtic finbl KeyAgreement getInstbnce(String blgorithm)
             throws NoSuchAlgorithmException {
         List<Service> services =
-                GetInstance.getServices("KeyAgreement", algorithm);
-        // make sure there is at least one service from a signed provider
-        Iterator<Service> t = services.iterator();
-        while (t.hasNext()) {
+                GetInstbnce.getServices("KeyAgreement", blgorithm);
+        // mbke sure there is bt lebst one service from b signed provider
+        Iterbtor<Service> t = services.iterbtor();
+        while (t.hbsNext()) {
             Service s = t.next();
-            if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+            if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                 continue;
             }
-            return new KeyAgreement(s, t, algorithm);
+            return new KeyAgreement(s, t, blgorithm);
         }
         throw new NoSuchAlgorithmException
-                                ("Algorithm " + algorithm + " not available");
+                                ("Algorithm " + blgorithm + " not bvbilbble");
     }
 
     /**
-     * Returns a <code>KeyAgreement</code> object that implements the
-     * specified key agreement algorithm.
+     * Returns b <code>KeyAgreement</code> object thbt implements the
+     * specified key bgreement blgorithm.
      *
-     * <p> A new KeyAgreement object encapsulating the
-     * KeyAgreementSpi implementation from the specified provider
+     * <p> A new KeyAgreement object encbpsulbting the
+     * KeyAgreementSpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the standard name of the requested key agreement
-     * algorithm.
-     * See the KeyAgreement section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyAgreement">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested key bgreement
+     * blgorithm.
+     * See the KeyAgreement section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#KeyAgreement">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the name of the provider.
+     * @pbrbm provider the nbme of the provider.
      *
      * @return the new <code>KeyAgreement</code> object.
      *
-     * @exception NullPointerException if the specified algorithm
+     * @exception NullPointerException if the specified blgorithm
      *          is null.
      *
-     * @exception NoSuchAlgorithmException if a KeyAgreementSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @exception NoSuchAlgorithmException if b KeyAgreementSpi
+     *          implementbtion for the specified blgorithm is not
+     *          bvbilbble from the specified provider.
      *
      * @exception NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
+     * @exception IllegblArgumentException if the <code>provider</code>
      *          is null or empty.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final KeyAgreement getInstance(String algorithm,
+    public stbtic finbl KeyAgreement getInstbnce(String blgorithm,
             String provider) throws NoSuchAlgorithmException,
             NoSuchProviderException {
-        Instance instance = JceSecurity.getInstance
-                ("KeyAgreement", KeyAgreementSpi.class, algorithm, provider);
-        return new KeyAgreement((KeyAgreementSpi)instance.impl,
-                instance.provider, algorithm);
+        Instbnce instbnce = JceSecurity.getInstbnce
+                ("KeyAgreement", KeyAgreementSpi.clbss, blgorithm, provider);
+        return new KeyAgreement((KeyAgreementSpi)instbnce.impl,
+                instbnce.provider, blgorithm);
     }
 
     /**
-     * Returns a <code>KeyAgreement</code> object that implements the
-     * specified key agreement algorithm.
+     * Returns b <code>KeyAgreement</code> object thbt implements the
+     * specified key bgreement blgorithm.
      *
-     * <p> A new KeyAgreement object encapsulating the
-     * KeyAgreementSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new KeyAgreement object encbpsulbting the
+     * KeyAgreementSpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param algorithm the standard name of the requested key agreement
-     * algorithm.
-     * See the KeyAgreement section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyAgreement">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested key bgreement
+     * blgorithm.
+     * See the KeyAgreement section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#KeyAgreement">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the provider.
+     * @pbrbm provider the provider.
      *
      * @return the new <code>KeyAgreement</code> object.
      *
-     * @exception NullPointerException if the specified algorithm
+     * @exception NullPointerException if the specified blgorithm
      *          is null.
      *
-     * @exception NoSuchAlgorithmException if a KeyAgreementSpi
-     *          implementation for the specified algorithm is not available
+     * @exception NoSuchAlgorithmException if b KeyAgreementSpi
+     *          implementbtion for the specified blgorithm is not bvbilbble
      *          from the specified Provider object.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
+     * @exception IllegblArgumentException if the <code>provider</code>
      *          is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final KeyAgreement getInstance(String algorithm,
+    public stbtic finbl KeyAgreement getInstbnce(String blgorithm,
             Provider provider) throws NoSuchAlgorithmException {
-        Instance instance = JceSecurity.getInstance
-                ("KeyAgreement", KeyAgreementSpi.class, algorithm, provider);
-        return new KeyAgreement((KeyAgreementSpi)instance.impl,
-                instance.provider, algorithm);
+        Instbnce instbnce = JceSecurity.getInstbnce
+                ("KeyAgreement", KeyAgreementSpi.clbss, blgorithm, provider);
+        return new KeyAgreement((KeyAgreementSpi)instbnce.impl,
+                instbnce.provider, blgorithm);
     }
 
-    // max number of debug warnings to print from chooseFirstProvider()
-    private static int warnCount = 10;
+    // mbx number of debug wbrnings to print from chooseFirstProvider()
+    privbte stbtic int wbrnCount = 10;
 
     /**
-     * Choose the Spi from the first provider available. Used if
-     * delayed provider selection is not possible because init()
-     * is not the first method called.
+     * Choose the Spi from the first provider bvbilbble. Used if
+     * delbyed provider selection is not possible becbuse init()
+     * is not the first method cblled.
      */
     void chooseFirstProvider() {
         if (spi != null) {
@@ -284,121 +284,121 @@ public class KeyAgreement {
                 return;
             }
             if (debug != null) {
-                int w = --warnCount;
+                int w = --wbrnCount;
                 if (w >= 0) {
                     debug.println("KeyAgreement.init() not first method "
-                        + "called, disabling delayed provider selection");
+                        + "cblled, disbbling delbyed provider selection");
                     if (w == 0) {
-                        debug.println("Further warnings of this type will "
+                        debug.println("Further wbrnings of this type will "
                             + "be suppressed");
                     }
-                    new Exception("Call trace").printStackTrace();
+                    new Exception("Cbll trbce").printStbckTrbce();
                 }
             }
-            Exception lastException = null;
-            while ((firstService != null) || serviceIterator.hasNext()) {
+            Exception lbstException = null;
+            while ((firstService != null) || serviceIterbtor.hbsNext()) {
                 Service s;
                 if (firstService != null) {
                     s = firstService;
                     firstService = null;
                 } else {
-                    s = serviceIterator.next();
+                    s = serviceIterbtor.next();
                 }
-                if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+                if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                     continue;
                 }
                 try {
-                    Object obj = s.newInstance(null);
-                    if (obj instanceof KeyAgreementSpi == false) {
+                    Object obj = s.newInstbnce(null);
+                    if (obj instbnceof KeyAgreementSpi == fblse) {
                         continue;
                     }
                     spi = (KeyAgreementSpi)obj;
                     provider = s.getProvider();
-                    // not needed any more
+                    // not needed bny more
                     firstService = null;
-                    serviceIterator = null;
+                    serviceIterbtor = null;
                     return;
-                } catch (Exception e) {
-                    lastException = e;
+                } cbtch (Exception e) {
+                    lbstException = e;
                 }
             }
             ProviderException e = new ProviderException
-                    ("Could not construct KeyAgreementSpi instance");
-            if (lastException != null) {
-                e.initCause(lastException);
+                    ("Could not construct KeyAgreementSpi instbnce");
+            if (lbstException != null) {
+                e.initCbuse(lbstException);
             }
             throw e;
         }
     }
 
-    private final static int I_NO_PARAMS = 1;
-    private final static int I_PARAMS    = 2;
+    privbte finbl stbtic int I_NO_PARAMS = 1;
+    privbte finbl stbtic int I_PARAMS    = 2;
 
-    private void implInit(KeyAgreementSpi spi, int type, Key key,
-            AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
+    privbte void implInit(KeyAgreementSpi spi, int type, Key key,
+            AlgorithmPbrbmeterSpec pbrbms, SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
         if (type == I_NO_PARAMS) {
-            spi.engineInit(key, random);
+            spi.engineInit(key, rbndom);
         } else { // I_PARAMS
-            spi.engineInit(key, params, random);
+            spi.engineInit(key, pbrbms, rbndom);
         }
     }
 
-    private void chooseProvider(int initType, Key key,
-            AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
+    privbte void chooseProvider(int initType, Key key,
+            AlgorithmPbrbmeterSpec pbrbms, SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
         synchronized (lock) {
             if (spi != null) {
-                implInit(spi, initType, key, params, random);
+                implInit(spi, initType, key, pbrbms, rbndom);
                 return;
             }
-            Exception lastException = null;
-            while ((firstService != null) || serviceIterator.hasNext()) {
+            Exception lbstException = null;
+            while ((firstService != null) || serviceIterbtor.hbsNext()) {
                 Service s;
                 if (firstService != null) {
                     s = firstService;
                     firstService = null;
                 } else {
-                    s = serviceIterator.next();
+                    s = serviceIterbtor.next();
                 }
-                // if provider says it does not support this key, ignore it
-                if (s.supportsParameter(key) == false) {
+                // if provider sbys it does not support this key, ignore it
+                if (s.supportsPbrbmeter(key) == fblse) {
                     continue;
                 }
-                if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+                if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                     continue;
                 }
                 try {
-                    KeyAgreementSpi spi = (KeyAgreementSpi)s.newInstance(null);
-                    implInit(spi, initType, key, params, random);
+                    KeyAgreementSpi spi = (KeyAgreementSpi)s.newInstbnce(null);
+                    implInit(spi, initType, key, pbrbms, rbndom);
                     provider = s.getProvider();
                     this.spi = spi;
                     firstService = null;
-                    serviceIterator = null;
+                    serviceIterbtor = null;
                     return;
-                } catch (Exception e) {
-                    // NoSuchAlgorithmException from newInstance()
-                    // InvalidKeyException from init()
+                } cbtch (Exception e) {
+                    // NoSuchAlgorithmException from newInstbnce()
+                    // InvblidKeyException from init()
                     // RuntimeException (ProviderException) from init()
-                    if (lastException == null) {
-                        lastException = e;
+                    if (lbstException == null) {
+                        lbstException = e;
                     }
                 }
             }
-            // no working provider found, fail
-            if (lastException instanceof InvalidKeyException) {
-                throw (InvalidKeyException)lastException;
+            // no working provider found, fbil
+            if (lbstException instbnceof InvblidKeyException) {
+                throw (InvblidKeyException)lbstException;
             }
-            if (lastException instanceof InvalidAlgorithmParameterException) {
-                throw (InvalidAlgorithmParameterException)lastException;
+            if (lbstException instbnceof InvblidAlgorithmPbrbmeterException) {
+                throw (InvblidAlgorithmPbrbmeterException)lbstException;
             }
-            if (lastException instanceof RuntimeException) {
-                throw (RuntimeException)lastException;
+            if (lbstException instbnceof RuntimeException) {
+                throw (RuntimeException)lbstException;
             }
-            String kName = (key != null) ? key.getClass().getName() : "(null)";
-            throw new InvalidKeyException
-                ("No installed provider supports this key: "
-                + kName, lastException);
+            String kNbme = (key != null) ? key.getClbss().getNbme() : "(null)";
+            throw new InvblidKeyException
+                ("No instblled provider supports this key: "
+                + kNbme, lbstException);
         }
     }
 
@@ -407,229 +407,229 @@ public class KeyAgreement {
      *
      * @return the provider of this <code>KeyAgreement</code> object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         chooseFirstProvider();
         return this.provider;
     }
 
     /**
-     * Initializes this key agreement with the given key, which is required to
-     * contain all the algorithm parameters required for this key agreement.
+     * Initiblizes this key bgreement with the given key, which is required to
+     * contbin bll the blgorithm pbrbmeters required for this key bgreement.
      *
-     * <p> If this key agreement requires any random bytes, it will get
+     * <p> If this key bgreement requires bny rbndom bytes, it will get
      * them using the
-     * {@link java.security.SecureRandom}
-     * implementation of the highest-priority
-     * installed provider as the source of randomness.
-     * (If none of the installed providers supply an implementation of
-     * SecureRandom, a system-provided source of randomness will be used.)
+     * {@link jbvb.security.SecureRbndom}
+     * implementbtion of the highest-priority
+     * instblled provider bs the source of rbndomness.
+     * (If none of the instblled providers supply bn implementbtion of
+     * SecureRbndom, b system-provided source of rbndomness will be used.)
      *
-     * @param key the party's private information. For example, in the case
-     * of the Diffie-Hellman key agreement, this would be the party's own
-     * Diffie-Hellman private key.
+     * @pbrbm key the pbrty's privbte informbtion. For exbmple, in the cbse
+     * of the Diffie-Hellmbn key bgreement, this would be the pbrty's own
+     * Diffie-Hellmbn privbte key.
      *
-     * @exception InvalidKeyException if the given key is
-     * inappropriate for this key agreement, e.g., is of the wrong type or
-     * has an incompatible algorithm type.
+     * @exception InvblidKeyException if the given key is
+     * inbppropribte for this key bgreement, e.g., is of the wrong type or
+     * hbs bn incompbtible blgorithm type.
      */
-    public final void init(Key key) throws InvalidKeyException {
+    public finbl void init(Key key) throws InvblidKeyException {
         init(key, JceSecurity.RANDOM);
     }
 
     /**
-     * Initializes this key agreement with the given key and source of
-     * randomness. The given key is required to contain all the algorithm
-     * parameters required for this key agreement.
+     * Initiblizes this key bgreement with the given key bnd source of
+     * rbndomness. The given key is required to contbin bll the blgorithm
+     * pbrbmeters required for this key bgreement.
      *
-     * <p> If the key agreement algorithm requires random bytes, it gets them
-     * from the given source of randomness, <code>random</code>.
+     * <p> If the key bgreement blgorithm requires rbndom bytes, it gets them
+     * from the given source of rbndomness, <code>rbndom</code>.
      * However, if the underlying
-     * algorithm implementation does not require any random bytes,
-     * <code>random</code> is ignored.
+     * blgorithm implementbtion does not require bny rbndom bytes,
+     * <code>rbndom</code> is ignored.
      *
-     * @param key the party's private information. For example, in the case
-     * of the Diffie-Hellman key agreement, this would be the party's own
-     * Diffie-Hellman private key.
-     * @param random the source of randomness
+     * @pbrbm key the pbrty's privbte informbtion. For exbmple, in the cbse
+     * of the Diffie-Hellmbn key bgreement, this would be the pbrty's own
+     * Diffie-Hellmbn privbte key.
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is
-     * inappropriate for this key agreement, e.g., is of the wrong type or
-     * has an incompatible algorithm type.
+     * @exception InvblidKeyException if the given key is
+     * inbppropribte for this key bgreement, e.g., is of the wrong type or
+     * hbs bn incompbtible blgorithm type.
      */
-    public final void init(Key key, SecureRandom random)
-            throws InvalidKeyException {
+    public finbl void init(Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
         if (spi != null) {
-            spi.engineInit(key, random);
+            spi.engineInit(key, rbndom);
         } else {
             try {
-                chooseProvider(I_NO_PARAMS, key, null, random);
-            } catch (InvalidAlgorithmParameterException e) {
+                chooseProvider(I_NO_PARAMS, key, null, rbndom);
+            } cbtch (InvblidAlgorithmPbrbmeterException e) {
                 // should never occur
-                throw new InvalidKeyException(e);
+                throw new InvblidKeyException(e);
             }
         }
     }
 
     /**
-     * Initializes this key agreement with the given key and set of
-     * algorithm parameters.
+     * Initiblizes this key bgreement with the given key bnd set of
+     * blgorithm pbrbmeters.
      *
-     * <p> If this key agreement requires any random bytes, it will get
+     * <p> If this key bgreement requires bny rbndom bytes, it will get
      * them using the
-     * {@link java.security.SecureRandom}
-     * implementation of the highest-priority
-     * installed provider as the source of randomness.
-     * (If none of the installed providers supply an implementation of
-     * SecureRandom, a system-provided source of randomness will be used.)
+     * {@link jbvb.security.SecureRbndom}
+     * implementbtion of the highest-priority
+     * instblled provider bs the source of rbndomness.
+     * (If none of the instblled providers supply bn implementbtion of
+     * SecureRbndom, b system-provided source of rbndomness will be used.)
      *
-     * @param key the party's private information. For example, in the case
-     * of the Diffie-Hellman key agreement, this would be the party's own
-     * Diffie-Hellman private key.
-     * @param params the key agreement parameters
+     * @pbrbm key the pbrty's privbte informbtion. For exbmple, in the cbse
+     * of the Diffie-Hellmbn key bgreement, this would be the pbrty's own
+     * Diffie-Hellmbn privbte key.
+     * @pbrbm pbrbms the key bgreement pbrbmeters
      *
-     * @exception InvalidKeyException if the given key is
-     * inappropriate for this key agreement, e.g., is of the wrong type or
-     * has an incompatible algorithm type.
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key agreement.
+     * @exception InvblidKeyException if the given key is
+     * inbppropribte for this key bgreement, e.g., is of the wrong type or
+     * hbs bn incompbtible blgorithm type.
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeters
+     * bre inbppropribte for this key bgreement.
      */
-    public final void init(Key key, AlgorithmParameterSpec params)
-        throws InvalidKeyException, InvalidAlgorithmParameterException
+    public finbl void init(Key key, AlgorithmPbrbmeterSpec pbrbms)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException
     {
-        init(key, params, JceSecurity.RANDOM);
+        init(key, pbrbms, JceSecurity.RANDOM);
     }
 
     /**
-     * Initializes this key agreement with the given key, set of
-     * algorithm parameters, and source of randomness.
+     * Initiblizes this key bgreement with the given key, set of
+     * blgorithm pbrbmeters, bnd source of rbndomness.
      *
-     * @param key the party's private information. For example, in the case
-     * of the Diffie-Hellman key agreement, this would be the party's own
-     * Diffie-Hellman private key.
-     * @param params the key agreement parameters
-     * @param random the source of randomness
+     * @pbrbm key the pbrty's privbte informbtion. For exbmple, in the cbse
+     * of the Diffie-Hellmbn key bgreement, this would be the pbrty's own
+     * Diffie-Hellmbn privbte key.
+     * @pbrbm pbrbms the key bgreement pbrbmeters
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is
-     * inappropriate for this key agreement, e.g., is of the wrong type or
-     * has an incompatible algorithm type.
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key agreement.
+     * @exception InvblidKeyException if the given key is
+     * inbppropribte for this key bgreement, e.g., is of the wrong type or
+     * hbs bn incompbtible blgorithm type.
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeters
+     * bre inbppropribte for this key bgreement.
      */
-    public final void init(Key key, AlgorithmParameterSpec params,
-                           SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException
+    public finbl void init(Key key, AlgorithmPbrbmeterSpec pbrbms,
+                           SecureRbndom rbndom)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException
     {
         if (spi != null) {
-            spi.engineInit(key, params, random);
+            spi.engineInit(key, pbrbms, rbndom);
         } else {
-            chooseProvider(I_PARAMS, key, params, random);
+            chooseProvider(I_PARAMS, key, pbrbms, rbndom);
         }
     }
 
     /**
-     * Executes the next phase of this key agreement with the given
-     * key that was received from one of the other parties involved in this key
-     * agreement.
+     * Executes the next phbse of this key bgreement with the given
+     * key thbt wbs received from one of the other pbrties involved in this key
+     * bgreement.
      *
-     * @param key the key for this phase. For example, in the case of
-     * Diffie-Hellman between 2 parties, this would be the other party's
-     * Diffie-Hellman public key.
-     * @param lastPhase flag which indicates whether or not this is the last
-     * phase of this key agreement.
+     * @pbrbm key the key for this phbse. For exbmple, in the cbse of
+     * Diffie-Hellmbn between 2 pbrties, this would be the other pbrty's
+     * Diffie-Hellmbn public key.
+     * @pbrbm lbstPhbse flbg which indicbtes whether or not this is the lbst
+     * phbse of this key bgreement.
      *
-     * @return the (intermediate) key resulting from this phase, or null
-     * if this phase does not yield a key
+     * @return the (intermedibte) key resulting from this phbse, or null
+     * if this phbse does not yield b key
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * this phase.
-     * @exception IllegalStateException if this key agreement has not been
-     * initialized.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * this phbse.
+     * @exception IllegblStbteException if this key bgreement hbs not been
+     * initiblized.
      */
-    public final Key doPhase(Key key, boolean lastPhase)
-        throws InvalidKeyException, IllegalStateException
+    public finbl Key doPhbse(Key key, boolebn lbstPhbse)
+        throws InvblidKeyException, IllegblStbteException
     {
         chooseFirstProvider();
-        return spi.engineDoPhase(key, lastPhase);
+        return spi.engineDoPhbse(key, lbstPhbse);
     }
 
     /**
-     * Generates the shared secret and returns it in a new buffer.
+     * Generbtes the shbred secret bnd returns it in b new buffer.
      *
-     * <p>This method resets this <code>KeyAgreement</code> object, so that it
-     * can be reused for further key agreements. Unless this key agreement is
-     * reinitialized with one of the <code>init</code> methods, the same
-     * private information and algorithm parameters will be used for
-     * subsequent key agreements.
+     * <p>This method resets this <code>KeyAgreement</code> object, so thbt it
+     * cbn be reused for further key bgreements. Unless this key bgreement is
+     * reinitiblized with one of the <code>init</code> methods, the sbme
+     * privbte informbtion bnd blgorithm pbrbmeters will be used for
+     * subsequent key bgreements.
      *
-     * @return the new buffer with the shared secret
+     * @return the new buffer with the shbred secret
      *
-     * @exception IllegalStateException if this key agreement has not been
+     * @exception IllegblStbteException if this key bgreement hbs not been
      * completed yet
      */
-    public final byte[] generateSecret() throws IllegalStateException {
+    public finbl byte[] generbteSecret() throws IllegblStbteException {
         chooseFirstProvider();
-        return spi.engineGenerateSecret();
+        return spi.engineGenerbteSecret();
     }
 
     /**
-     * Generates the shared secret, and places it into the buffer
-     * <code>sharedSecret</code>, beginning at <code>offset</code> inclusive.
+     * Generbtes the shbred secret, bnd plbces it into the buffer
+     * <code>shbredSecret</code>, beginning bt <code>offset</code> inclusive.
      *
-     * <p>If the <code>sharedSecret</code> buffer is too small to hold the
-     * result, a <code>ShortBufferException</code> is thrown.
-     * In this case, this call should be repeated with a larger output buffer.
+     * <p>If the <code>shbredSecret</code> buffer is too smbll to hold the
+     * result, b <code>ShortBufferException</code> is thrown.
+     * In this cbse, this cbll should be repebted with b lbrger output buffer.
      *
-     * <p>This method resets this <code>KeyAgreement</code> object, so that it
-     * can be reused for further key agreements. Unless this key agreement is
-     * reinitialized with one of the <code>init</code> methods, the same
-     * private information and algorithm parameters will be used for
-     * subsequent key agreements.
+     * <p>This method resets this <code>KeyAgreement</code> object, so thbt it
+     * cbn be reused for further key bgreements. Unless this key bgreement is
+     * reinitiblized with one of the <code>init</code> methods, the sbme
+     * privbte informbtion bnd blgorithm pbrbmeters will be used for
+     * subsequent key bgreements.
      *
-     * @param sharedSecret the buffer for the shared secret
-     * @param offset the offset in <code>sharedSecret</code> where the
-     * shared secret will be stored
+     * @pbrbm shbredSecret the buffer for the shbred secret
+     * @pbrbm offset the offset in <code>shbredSecret</code> where the
+     * shbred secret will be stored
      *
-     * @return the number of bytes placed into <code>sharedSecret</code>
+     * @return the number of bytes plbced into <code>shbredSecret</code>
      *
-     * @exception IllegalStateException if this key agreement has not been
+     * @exception IllegblStbteException if this key bgreement hbs not been
      * completed yet
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the secret
      */
-    public final int generateSecret(byte[] sharedSecret, int offset)
-        throws IllegalStateException, ShortBufferException
+    public finbl int generbteSecret(byte[] shbredSecret, int offset)
+        throws IllegblStbteException, ShortBufferException
     {
         chooseFirstProvider();
-        return spi.engineGenerateSecret(sharedSecret, offset);
+        return spi.engineGenerbteSecret(shbredSecret, offset);
     }
 
     /**
-     * Creates the shared secret and returns it as a <code>SecretKey</code>
-     * object of the specified algorithm.
+     * Crebtes the shbred secret bnd returns it bs b <code>SecretKey</code>
+     * object of the specified blgorithm.
      *
-     * <p>This method resets this <code>KeyAgreement</code> object, so that it
-     * can be reused for further key agreements. Unless this key agreement is
-     * reinitialized with one of the <code>init</code> methods, the same
-     * private information and algorithm parameters will be used for
-     * subsequent key agreements.
+     * <p>This method resets this <code>KeyAgreement</code> object, so thbt it
+     * cbn be reused for further key bgreements. Unless this key bgreement is
+     * reinitiblized with one of the <code>init</code> methods, the sbme
+     * privbte informbtion bnd blgorithm pbrbmeters will be used for
+     * subsequent key bgreements.
      *
-     * @param algorithm the requested secret-key algorithm
+     * @pbrbm blgorithm the requested secret-key blgorithm
      *
-     * @return the shared secret key
+     * @return the shbred secret key
      *
-     * @exception IllegalStateException if this key agreement has not been
+     * @exception IllegblStbteException if this key bgreement hbs not been
      * completed yet
      * @exception NoSuchAlgorithmException if the specified secret-key
-     * algorithm is not available
-     * @exception InvalidKeyException if the shared secret-key material cannot
-     * be used to generate a secret key of the specified algorithm (e.g.,
-     * the key material is too short)
+     * blgorithm is not bvbilbble
+     * @exception InvblidKeyException if the shbred secret-key mbteribl cbnnot
+     * be used to generbte b secret key of the specified blgorithm (e.g.,
+     * the key mbteribl is too short)
      */
-    public final SecretKey generateSecret(String algorithm)
-        throws IllegalStateException, NoSuchAlgorithmException,
-            InvalidKeyException
+    public finbl SecretKey generbteSecret(String blgorithm)
+        throws IllegblStbteException, NoSuchAlgorithmException,
+            InvblidKeyException
     {
         chooseFirstProvider();
-        return spi.engineGenerateSecret(algorithm);
+        return spi.engineGenerbteSecret(blgorithm);
     }
 }

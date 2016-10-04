@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * The listener interface for receiving drag gesture events.
- * This interface is intended for a drag gesture recognition
- * implementation. See a specification for {@code DragGestureRecognizer}
- * for details on how to register the listener interface.
- * Upon recognition of a drag gesture the {@code
- * DragGestureRecognizer} calls this interface's
- * {@link #dragGestureRecognized dragGestureRecognized()}
- * method and passes a {@code DragGestureEvent}.
+ * The listener interfbce for receiving drbg gesture events.
+ * This interfbce is intended for b drbg gesture recognition
+ * implementbtion. See b specificbtion for {@code DrbgGestureRecognizer}
+ * for detbils on how to register the listener interfbce.
+ * Upon recognition of b drbg gesture the {@code
+ * DrbgGestureRecognizer} cblls this interfbce's
+ * {@link #drbgGestureRecognized drbgGestureRecognized()}
+ * method bnd pbsses b {@code DrbgGestureEvent}.
 
  *
- * @see java.awt.dnd.DragGestureRecognizer
- * @see java.awt.dnd.DragGestureEvent
- * @see java.awt.dnd.DragSource
+ * @see jbvb.bwt.dnd.DrbgGestureRecognizer
+ * @see jbvb.bwt.dnd.DrbgGestureEvent
+ * @see jbvb.bwt.dnd.DrbgSource
  */
 
- public interface DragGestureListener extends EventListener {
+ public interfbce DrbgGestureListener extends EventListener {
 
     /**
-     * This method is invoked by the {@code DragGestureRecognizer}
-     * when the {@code DragGestureRecognizer} detects a platform-dependent
-     * drag initiating gesture. To initiate the drag and drop operation,
-     * if appropriate, {@link DragGestureEvent#startDrag startDrag()} method on
-     * the {@code DragGestureEvent} has to be invoked.
+     * This method is invoked by the {@code DrbgGestureRecognizer}
+     * when the {@code DrbgGestureRecognizer} detects b plbtform-dependent
+     * drbg initibting gesture. To initibte the drbg bnd drop operbtion,
+     * if bppropribte, {@link DrbgGestureEvent#stbrtDrbg stbrtDrbg()} method on
+     * the {@code DrbgGestureEvent} hbs to be invoked.
      *
-     * @see java.awt.dnd.DragGestureRecognizer
-     * @see java.awt.dnd.DragGestureEvent
-     * @param dge the <code>DragGestureEvent</code> describing
-     * the gesture that has just occurred
+     * @see jbvb.bwt.dnd.DrbgGestureRecognizer
+     * @see jbvb.bwt.dnd.DrbgGestureEvent
+     * @pbrbm dge the <code>DrbgGestureEvent</code> describing
+     * the gesture thbt hbs just occurred
      */
 
-     void dragGestureRecognized(DragGestureEvent dge);
+     void drbgGestureRecognized(DrbgGestureEvent dge);
 }

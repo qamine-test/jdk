@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.dns;
+pbckbge com.sun.jndi.dns;
 
-import javax.naming.CommunicationException;
-import javax.naming.InvalidNameException;
+import jbvbx.nbming.CommunicbtionException;
+import jbvbx.nbming.InvblidNbmeException;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import java.nio.charset.StandardCharsets;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
 
 
 /**
- * The ResourceRecord class represents a DNS resource record.
- * The string format is based on the master file representation in
+ * The ResourceRecord clbss represents b DNS resource record.
+ * The string formbt is bbsed on the mbster file representbtion in
  * RFC 1035.
  *
- * @author Scott Seligman
+ * @buthor Scott Seligmbn
  */
 
 
-public class ResourceRecord {
+public clbss ResourceRecord {
 
     /*
      * Resource record type codes
      */
-    static final int TYPE_A     =  1;
-    static final int TYPE_NS    =  2;
-    static final int TYPE_CNAME =  5;
-    static final int TYPE_SOA   =  6;
-    static final int TYPE_PTR   = 12;
-    static final int TYPE_HINFO = 13;
-    static final int TYPE_MX    = 15;
-    static final int TYPE_TXT   = 16;
-    static final int TYPE_AAAA  = 28;
-    static final int TYPE_SRV   = 33;
-    static final int TYPE_NAPTR = 35;
-    static final int QTYPE_AXFR = 252;          // zone transfer
-    static final int QTYPE_STAR = 255;          // query type "*"
+    stbtic finbl int TYPE_A     =  1;
+    stbtic finbl int TYPE_NS    =  2;
+    stbtic finbl int TYPE_CNAME =  5;
+    stbtic finbl int TYPE_SOA   =  6;
+    stbtic finbl int TYPE_PTR   = 12;
+    stbtic finbl int TYPE_HINFO = 13;
+    stbtic finbl int TYPE_MX    = 15;
+    stbtic finbl int TYPE_TXT   = 16;
+    stbtic finbl int TYPE_AAAA  = 28;
+    stbtic finbl int TYPE_SRV   = 33;
+    stbtic finbl int TYPE_NAPTR = 35;
+    stbtic finbl int QTYPE_AXFR = 252;          // zone trbnsfer
+    stbtic finbl int QTYPE_STAR = 255;          // query type "*"
 
     /*
-     * Mapping from resource record type codes to type name strings.
+     * Mbpping from resource record type codes to type nbme strings.
      */
-    static final String rrTypeNames[] = {
+    stbtic finbl String rrTypeNbmes[] = {
         null, "A", "NS", null, null,
         "CNAME", "SOA", null, null, null,
         null, null, "PTR", "HINFO", null,
@@ -76,78 +76,78 @@ public class ResourceRecord {
     };
 
     /*
-     * Resource record class codes
+     * Resource record clbss codes
      */
-    static final int CLASS_INTERNET = 1;
-    static final int CLASS_HESIOD   = 2;
-    static final int QCLASS_STAR    = 255;      // query class "*"
+    stbtic finbl int CLASS_INTERNET = 1;
+    stbtic finbl int CLASS_HESIOD   = 2;
+    stbtic finbl int QCLASS_STAR    = 255;      // query clbss "*"
 
     /*
-     * Mapping from resource record type codes to class name strings.
+     * Mbpping from resource record type codes to clbss nbme strings.
      */
-    static final String rrClassNames[] = {
+    stbtic finbl String rrClbssNbmes[] = {
         null, "IN", null, null, "HS"
     };
 
     /*
-     * Maximum number of compression references in labels.
+     * Mbximum number of compression references in lbbels.
      * Used to detect compression loops.
      */
-    private static final int MAXIMUM_COMPRESSION_REFERENCES = 16;
+    privbte stbtic finbl int MAXIMUM_COMPRESSION_REFERENCES = 16;
 
-    byte[] msg;                 // DNS message
+    byte[] msg;                 // DNS messbge
     int msgLen;                 // msg size (in octets)
-    boolean qSection;           // true if this RR is part of question section
-                                // and therefore has no ttl or rdata
+    boolebn qSection;           // true if this RR is pbrt of question section
+                                // bnd therefore hbs no ttl or rdbtb
     int offset;                 // offset of RR w/in msg
     int rrlen;                  // number of octets in encoded RR
-    DnsName name;               // name field of RR, including root label
+    DnsNbme nbme;               // nbme field of RR, including root lbbel
     int rrtype;                 // type field of RR
-    String rrtypeName;          // name of of rrtype
-    int rrclass;                // class field of RR
-    String rrclassName;         // name of rrclass
+    String rrtypeNbme;          // nbme of of rrtype
+    int rrclbss;                // clbss field of RR
+    String rrclbssNbme;         // nbme of rrclbss
     int ttl = 0;                // ttl field of RR
-    int rdlen = 0;              // number of octets of rdata
-    Object rdata = null;        // rdata -- most are String, unknown are byte[]
+    int rdlen = 0;              // number of octets of rdbtb
+    Object rdbtb = null;        // rdbtb -- most bre String, unknown bre byte[]
 
 
     /*
-     * Constructs a new ResourceRecord.  The encoded data of the DNS
-     * message is contained in msg; data for this RR begins at msg[offset].
-     * If qSection is true this RR is part of a question section.  It's
-     * not a true resource record in that case, but is treated as if it
-     * were a shortened one (with no ttl or rdata).  If decodeRdata is
-     * false, the rdata is not decoded (and getRdata() will return null)
-     * unless this is an SOA record.
+     * Constructs b new ResourceRecord.  The encoded dbtb of the DNS
+     * messbge is contbined in msg; dbtb for this RR begins bt msg[offset].
+     * If qSection is true this RR is pbrt of b question section.  It's
+     * not b true resource record in thbt cbse, but is trebted bs if it
+     * were b shortened one (with no ttl or rdbtb).  If decodeRdbtb is
+     * fblse, the rdbtb is not decoded (bnd getRdbtb() will return null)
+     * unless this is bn SOA record.
      *
-     * @throws CommunicationException if a decoded domain name isn't valid.
-     * @throws ArrayIndexOutOfBoundsException given certain other corrupt data.
+     * @throws CommunicbtionException if b decoded dombin nbme isn't vblid.
+     * @throws ArrbyIndexOutOfBoundsException given certbin other corrupt dbtb.
      */
     ResourceRecord(byte[] msg, int msgLen, int offset,
-                   boolean qSection, boolean decodeRdata)
-            throws CommunicationException {
+                   boolebn qSection, boolebn decodeRdbtb)
+            throws CommunicbtionException {
 
         this.msg = msg;
         this.msgLen = msgLen;
         this.offset = offset;
         this.qSection = qSection;
-        decode(decodeRdata);
+        decode(decodeRdbtb);
     }
 
     public String toString() {
-        String text = name + " " + rrclassName + " " + rrtypeName;
+        String text = nbme + " " + rrclbssNbme + " " + rrtypeNbme;
         if (!qSection) {
             text += " " + ttl + " " +
-                ((rdata != null) ? rdata : "[n/a]");
+                ((rdbtb != null) ? rdbtb : "[n/b]");
         }
         return text;
     }
 
     /*
-     * Returns the name field of this RR, including the root label.
+     * Returns the nbme field of this RR, including the root lbbel.
      */
-    public DnsName getName() {
-        return name;
+    public DnsNbme getNbme() {
+        return nbme;
     }
 
     /*
@@ -161,74 +161,74 @@ public class ResourceRecord {
         return rrtype;
     }
 
-    public int getRrclass() {
-        return rrclass;
+    public int getRrclbss() {
+        return rrclbss;
     }
 
-    public Object getRdata() {
-        return rdata;
+    public Object getRdbtb() {
+        return rdbtb;
     }
 
 
-    public static String getTypeName(int rrtype) {
-        return valueToName(rrtype, rrTypeNames);
+    public stbtic String getTypeNbme(int rrtype) {
+        return vblueToNbme(rrtype, rrTypeNbmes);
     }
 
-    public static int getType(String typeName) {
-        return nameToValue(typeName, rrTypeNames);
+    public stbtic int getType(String typeNbme) {
+        return nbmeToVblue(typeNbme, rrTypeNbmes);
     }
 
-    public static String getRrclassName(int rrclass) {
-        return valueToName(rrclass, rrClassNames);
+    public stbtic String getRrclbssNbme(int rrclbss) {
+        return vblueToNbme(rrclbss, rrClbssNbmes);
     }
 
-    public static int getRrclass(String className) {
-        return nameToValue(className, rrClassNames);
+    public stbtic int getRrclbss(String clbssNbme) {
+        return nbmeToVblue(clbssNbme, rrClbssNbmes);
     }
 
-    private static String valueToName(int val, String[] names) {
-        String name = null;
-        if ((val > 0) && (val < names.length)) {
-            name = names[val];
-        } else if (val == QTYPE_STAR) {         // QTYPE_STAR == QCLASS_STAR
-            name = "*";
+    privbte stbtic String vblueToNbme(int vbl, String[] nbmes) {
+        String nbme = null;
+        if ((vbl > 0) && (vbl < nbmes.length)) {
+            nbme = nbmes[vbl];
+        } else if (vbl == QTYPE_STAR) {         // QTYPE_STAR == QCLASS_STAR
+            nbme = "*";
         }
-        if (name == null) {
-            name = Integer.toString(val);
+        if (nbme == null) {
+            nbme = Integer.toString(vbl);
         }
-        return name;
+        return nbme;
     }
 
-    private static int nameToValue(String name, String[] names) {
-        if (name.equals("")) {
-            return -1;                          // invalid name
-        } else if (name.equals("*")) {
+    privbte stbtic int nbmeToVblue(String nbme, String[] nbmes) {
+        if (nbme.equbls("")) {
+            return -1;                          // invblid nbme
+        } else if (nbme.equbls("*")) {
             return QTYPE_STAR;                  // QTYPE_STAR == QCLASS_STAR
         }
-        if (Character.isDigit(name.charAt(0))) {
+        if (Chbrbcter.isDigit(nbme.chbrAt(0))) {
             try {
-                return Integer.parseInt(name);
-            } catch (NumberFormatException e) {
+                return Integer.pbrseInt(nbme);
+            } cbtch (NumberFormbtException e) {
             }
         }
-        for (int i = 1; i < names.length; i++) {
-            if ((names[i] != null) &&
-                    name.equalsIgnoreCase(names[i])) {
+        for (int i = 1; i < nbmes.length; i++) {
+            if ((nbmes[i] != null) &&
+                    nbme.equblsIgnoreCbse(nbmes[i])) {
                 return i;
             }
         }
-        return -1;                              // unknown name
+        return -1;                              // unknown nbme
     }
 
     /*
-     * Compares two SOA record serial numbers using 32-bit serial number
-     * arithmetic as defined in RFC 1982.  Serial numbers are unsigned
-     * 32-bit quantities.  Returns a negative, zero, or positive value
-     * as the first serial number is less than, equal to, or greater
-     * than the second.  If the serial numbers are not comparable the
-     * result is undefined.  Note that the relation is not transitive.
+     * Compbres two SOA record seribl numbers using 32-bit seribl number
+     * brithmetic bs defined in RFC 1982.  Seribl numbers bre unsigned
+     * 32-bit qubntities.  Returns b negbtive, zero, or positive vblue
+     * bs the first seribl number is less thbn, equbl to, or grebter
+     * thbn the second.  If the seribl numbers bre not compbrbble the
+     * result is undefined.  Note thbt the relbtion is not trbnsitive.
      */
-    public static int compareSerialNumbers(long s1, long s2) {
+    public stbtic int compbreSeriblNumbers(long s1, long s2) {
         long diff = s2 - s1;
         if (diff == 0) {
             return 0;
@@ -242,30 +242,30 @@ public class ResourceRecord {
 
 
     /*
-     * Decodes the binary format of the RR.
-     * May throw ArrayIndexOutOfBoundsException given corrupt data.
+     * Decodes the binbry formbt of the RR.
+     * Mby throw ArrbyIndexOutOfBoundsException given corrupt dbtb.
      */
-    private void decode(boolean decodeRdata) throws CommunicationException {
-        int pos = offset;       // index of next unread octet
+    privbte void decode(boolebn decodeRdbtb) throws CommunicbtionException {
+        int pos = offset;       // index of next unrebd octet
 
-        name = new DnsName();                           // NAME
-        pos = decodeName(pos, name);
+        nbme = new DnsNbme();                           // NAME
+        pos = decodeNbme(pos, nbme);
 
         rrtype = getUShort(pos);                        // TYPE
-        rrtypeName = (rrtype < rrTypeNames.length)
-            ? rrTypeNames[rrtype]
+        rrtypeNbme = (rrtype < rrTypeNbmes.length)
+            ? rrTypeNbmes[rrtype]
             : null;
-        if (rrtypeName == null) {
-            rrtypeName = Integer.toString(rrtype);
+        if (rrtypeNbme == null) {
+            rrtypeNbme = Integer.toString(rrtype);
         }
         pos += 2;
 
-        rrclass = getUShort(pos);                       // CLASS
-        rrclassName = (rrclass < rrClassNames.length)
-            ? rrClassNames[rrclass]
+        rrclbss = getUShort(pos);                       // CLASS
+        rrclbssNbme = (rrclbss < rrClbssNbmes.length)
+            ? rrClbssNbmes[rrclbss]
             : null;
-        if (rrclassName == null) {
-            rrclassName = Integer.toString(rrclass);
+        if (rrclbssNbme == null) {
+            rrclbssNbme = Integer.toString(rrclbss);
         }
         pos += 2;
 
@@ -276,12 +276,12 @@ public class ResourceRecord {
             rdlen = getUShort(pos);                     // RDLENGTH
             pos += 2;
 
-            rdata = (decodeRdata ||                     // RDATA
+            rdbtb = (decodeRdbtb ||                     // RDATA
                      (rrtype == TYPE_SOA))
-                ? decodeRdata(pos)
+                ? decodeRdbtb(pos)
                 : null;
-            if (rdata instanceof DnsName) {
-                rdata = rdata.toString();
+            if (rdbtb instbnceof DnsNbme) {
+                rdbtb = rdbtb.toString();
             }
             pos += rdlen;
         }
@@ -292,78 +292,78 @@ public class ResourceRecord {
     }
 
     /*
-     * Returns the 1-byte unsigned value at msg[pos].
+     * Returns the 1-byte unsigned vblue bt msg[pos].
      */
-    private int getUByte(int pos) {
+    privbte int getUByte(int pos) {
         return (msg[pos] & 0xFF);
     }
 
     /*
-     * Returns the 2-byte unsigned value at msg[pos].  The high
+     * Returns the 2-byte unsigned vblue bt msg[pos].  The high
      * order byte comes first.
      */
-    private int getUShort(int pos) {
+    privbte int getUShort(int pos) {
         return (((msg[pos] & 0xFF) << 8) |
                 (msg[pos + 1] & 0xFF));
     }
 
     /*
-     * Returns the 4-byte signed value at msg[pos].  The high
+     * Returns the 4-byte signed vblue bt msg[pos].  The high
      * order byte comes first.
      */
-    private int getInt(int pos) {
+    privbte int getInt(int pos) {
         return ((getUShort(pos) << 16) | getUShort(pos + 2));
     }
 
     /*
-     * Returns the 4-byte unsigned value at msg[pos].  The high
+     * Returns the 4-byte unsigned vblue bt msg[pos].  The high
      * order byte comes first.
      */
-    private long getUInt(int pos) {
+    privbte long getUInt(int pos) {
         return (getInt(pos) & 0xffffffffL);
     }
 
     /*
-     * Returns the name encoded at msg[pos], including the root label.
+     * Returns the nbme encoded bt msg[pos], including the root lbbel.
      */
-    private DnsName decodeName(int pos) throws CommunicationException {
-        DnsName n = new DnsName();
-        decodeName(pos, n);
+    privbte DnsNbme decodeNbme(int pos) throws CommunicbtionException {
+        DnsNbme n = new DnsNbme();
+        decodeNbme(pos, n);
         return n;
     }
 
     /*
-     * Prepends to "n" the domain name encoded at msg[pos], including the root
-     * label.  Returns the index into "msg" following the name.
+     * Prepends to "n" the dombin nbme encoded bt msg[pos], including the root
+     * lbbel.  Returns the index into "msg" following the nbme.
      */
-    private int decodeName(int pos, DnsName n) throws CommunicationException {
+    privbte int decodeNbme(int pos, DnsNbme n) throws CommunicbtionException {
         int endPos = -1;
         int level = 0;
         try {
             while (true) {
                 if (level > MAXIMUM_COMPRESSION_REFERENCES)
-                    throw new IOException("Too many compression references");
+                    throw new IOException("Too mbny compression references");
                 int typeAndLen = msg[pos] & 0xFF;
-                if (typeAndLen == 0) {                  // end of name
+                if (typeAndLen == 0) {                  // end of nbme
                     ++pos;
-                    n.add(0, "");
-                    break;
-                } else if (typeAndLen <= 63) {          // regular label
+                    n.bdd(0, "");
+                    brebk;
+                } else if (typeAndLen <= 63) {          // regulbr lbbel
                     ++pos;
-                    n.add(0, new String(msg, pos, typeAndLen,
-                        StandardCharsets.ISO_8859_1));
+                    n.bdd(0, new String(msg, pos, typeAndLen,
+                        StbndbrdChbrsets.ISO_8859_1));
                     pos += typeAndLen;
-                } else if ((typeAndLen & 0xC0) == 0xC0) { // name compression
+                } else if ((typeAndLen & 0xC0) == 0xC0) { // nbme compression
                     ++level;
                     endPos = pos + 2;
                     pos = getUShort(pos) & 0x3FFF;
                 } else
-                    throw new IOException("Invalid label type: " + typeAndLen);
+                    throw new IOException("Invblid lbbel type: " + typeAndLen);
             }
-        } catch (IOException | InvalidNameException e) {
-            CommunicationException ce =new CommunicationException(
-                "DNS error: malformed packet");
-            ce.initCause(e);
+        } cbtch (IOException | InvblidNbmeException e) {
+            CommunicbtionException ce =new CommunicbtionException(
+                "DNS error: mblformed pbcket");
+            ce.initCbuse(e);
             throw ce;
         }
         if (endPos == -1)
@@ -372,64 +372,64 @@ public class ResourceRecord {
     }
 
     /*
-     * Returns the rdata encoded at msg[pos].  The format is dependent
-     * on the rrtype and rrclass values, which have already been set.
-     * The length of the encoded data is rdlen, which has already been
+     * Returns the rdbtb encoded bt msg[pos].  The formbt is dependent
+     * on the rrtype bnd rrclbss vblues, which hbve blrebdy been set.
+     * The length of the encoded dbtb is rdlen, which hbs blrebdy been
      * set.
-     * The rdata of records with unknown type/class combinations is
-     * returned in a newly-allocated byte array.
+     * The rdbtb of records with unknown type/clbss combinbtions is
+     * returned in b newly-bllocbted byte brrby.
      */
-    private Object decodeRdata(int pos) throws CommunicationException {
-        if (rrclass == CLASS_INTERNET) {
+    privbte Object decodeRdbtb(int pos) throws CommunicbtionException {
+        if (rrclbss == CLASS_INTERNET) {
             switch (rrtype) {
-            case TYPE_A:
+            cbse TYPE_A:
                 return decodeA(pos);
-            case TYPE_AAAA:
+            cbse TYPE_AAAA:
                 return decodeAAAA(pos);
-            case TYPE_CNAME:
-            case TYPE_NS:
-            case TYPE_PTR:
-                return decodeName(pos);
-            case TYPE_MX:
+            cbse TYPE_CNAME:
+            cbse TYPE_NS:
+            cbse TYPE_PTR:
+                return decodeNbme(pos);
+            cbse TYPE_MX:
                 return decodeMx(pos);
-            case TYPE_SOA:
-                return decodeSoa(pos);
-            case TYPE_SRV:
+            cbse TYPE_SOA:
+                return decodeSob(pos);
+            cbse TYPE_SRV:
                 return decodeSrv(pos);
-            case TYPE_NAPTR:
-                return decodeNaptr(pos);
-            case TYPE_TXT:
+            cbse TYPE_NAPTR:
+                return decodeNbptr(pos);
+            cbse TYPE_TXT:
                 return decodeTxt(pos);
-            case TYPE_HINFO:
+            cbse TYPE_HINFO:
                 return decodeHinfo(pos);
             }
         }
-        // Unknown RR type/class
+        // Unknown RR type/clbss
         byte[] rd = new byte[rdlen];
-        System.arraycopy(msg, pos, rd, 0, rdlen);
+        System.brrbycopy(msg, pos, rd, 0, rdlen);
         return rd;
     }
 
     /*
-     * Returns the rdata of an MX record that is encoded at msg[pos].
+     * Returns the rdbtb of bn MX record thbt is encoded bt msg[pos].
      */
-    private String decodeMx(int pos) throws CommunicationException {
+    privbte String decodeMx(int pos) throws CommunicbtionException {
         int preference = getUShort(pos);
         pos += 2;
-        DnsName name = decodeName(pos);
-        return (preference + " " + name);
+        DnsNbme nbme = decodeNbme(pos);
+        return (preference + " " + nbme);
     }
 
     /*
-     * Returns the rdata of an SOA record that is encoded at msg[pos].
+     * Returns the rdbtb of bn SOA record thbt is encoded bt msg[pos].
      */
-    private String decodeSoa(int pos) throws CommunicationException {
-        DnsName mname = new DnsName();
-        pos = decodeName(pos, mname);
-        DnsName rname = new DnsName();
-        pos = decodeName(pos, rname);
+    privbte String decodeSob(int pos) throws CommunicbtionException {
+        DnsNbme mnbme = new DnsNbme();
+        pos = decodeNbme(pos, mnbme);
+        DnsNbme rnbme = new DnsNbme();
+        pos = decodeNbme(pos, rnbme);
 
-        long serial = getUInt(pos);
+        long seribl = getUInt(pos);
         pos += 4;
         long refresh = getUInt(pos);
         pos += 4;
@@ -437,110 +437,110 @@ public class ResourceRecord {
         pos += 4;
         long expire = getUInt(pos);
         pos += 4;
-        long minimum = getUInt(pos);    // now used as negative TTL
+        long minimum = getUInt(pos);    // now used bs negbtive TTL
         pos += 4;
 
-        return (mname + " " + rname + " " + serial + " " +
+        return (mnbme + " " + rnbme + " " + seribl + " " +
                 refresh + " " + retry + " " + expire + " " + minimum);
     }
 
     /*
-     * Returns the rdata of an SRV record that is encoded at msg[pos].
+     * Returns the rdbtb of bn SRV record thbt is encoded bt msg[pos].
      * See RFC 2782.
      */
-    private String decodeSrv(int pos) throws CommunicationException {
+    privbte String decodeSrv(int pos) throws CommunicbtionException {
         int priority = getUShort(pos);
         pos += 2;
         int weight =   getUShort(pos);
         pos += 2;
         int port =     getUShort(pos);
         pos += 2;
-        DnsName target = decodeName(pos);
-        return (priority + " " + weight + " " + port + " " + target);
+        DnsNbme tbrget = decodeNbme(pos);
+        return (priority + " " + weight + " " + port + " " + tbrget);
     }
 
     /*
-     * Returns the rdata of an NAPTR record that is encoded at msg[pos].
+     * Returns the rdbtb of bn NAPTR record thbt is encoded bt msg[pos].
      * See RFC 2915.
      */
-    private String decodeNaptr(int pos) throws CommunicationException {
+    privbte String decodeNbptr(int pos) throws CommunicbtionException {
         int order = getUShort(pos);
         pos += 2;
         int preference = getUShort(pos);
         pos += 2;
-        StringBuffer flags = new StringBuffer();
-        pos += decodeCharString(pos, flags);
+        StringBuffer flbgs = new StringBuffer();
+        pos += decodeChbrString(pos, flbgs);
         StringBuffer services = new StringBuffer();
-        pos += decodeCharString(pos, services);
+        pos += decodeChbrString(pos, services);
         StringBuffer regexp = new StringBuffer(rdlen);
-        pos += decodeCharString(pos, regexp);
-        DnsName replacement = decodeName(pos);
+        pos += decodeChbrString(pos, regexp);
+        DnsNbme replbcement = decodeNbme(pos);
 
-        return (order + " " + preference + " " + flags + " " +
-                services + " " + regexp + " " + replacement);
+        return (order + " " + preference + " " + flbgs + " " +
+                services + " " + regexp + " " + replbcement);
     }
 
     /*
-     * Returns the rdata of a TXT record that is encoded at msg[pos].
-     * The rdata consists of one or more <character-string>s.
+     * Returns the rdbtb of b TXT record thbt is encoded bt msg[pos].
+     * The rdbtb consists of one or more <chbrbcter-string>s.
      */
-    private String decodeTxt(int pos) {
+    privbte String decodeTxt(int pos) {
         StringBuffer buf = new StringBuffer(rdlen);
         int end = pos + rdlen;
         while (pos < end) {
-            pos += decodeCharString(pos, buf);
+            pos += decodeChbrString(pos, buf);
             if (pos < end) {
-                buf.append(' ');
+                buf.bppend(' ');
             }
         }
         return buf.toString();
     }
 
     /*
-     * Returns the rdata of an HINFO record that is encoded at msg[pos].
-     * The rdata consists of two <character-string>s.
+     * Returns the rdbtb of bn HINFO record thbt is encoded bt msg[pos].
+     * The rdbtb consists of two <chbrbcter-string>s.
      */
-    private String decodeHinfo(int pos) {
+    privbte String decodeHinfo(int pos) {
         StringBuffer buf = new StringBuffer(rdlen);
-        pos += decodeCharString(pos, buf);
-        buf.append(' ');
-        pos += decodeCharString(pos, buf);
+        pos += decodeChbrString(pos, buf);
+        buf.bppend(' ');
+        pos += decodeChbrString(pos, buf);
         return buf.toString();
     }
 
     /*
-     * Decodes the <character-string> at msg[pos] and adds it to buf.
-     * If the string contains one of the meta-characters ' ', '\\', or
-     * '"', then the result is quoted and any embedded '\\' or '"'
-     * chars are escaped with '\\'.  Empty strings are also quoted.
-     * Returns the size of the encoded string, including the initial
+     * Decodes the <chbrbcter-string> bt msg[pos] bnd bdds it to buf.
+     * If the string contbins one of the metb-chbrbcters ' ', '\\', or
+     * '"', then the result is quoted bnd bny embedded '\\' or '"'
+     * chbrs bre escbped with '\\'.  Empty strings bre blso quoted.
+     * Returns the size of the encoded string, including the initibl
      * length octet.
      */
-    private int decodeCharString(int pos, StringBuffer buf) {
-        int start = buf.length();       // starting index of this string
+    privbte int decodeChbrString(int pos, StringBuffer buf) {
+        int stbrt = buf.length();       // stbrting index of this string
         int len = getUByte(pos++);      // encoded string length
-        boolean quoted = (len == 0);    // quote string if empty
+        boolebn quoted = (len == 0);    // quote string if empty
         for (int i = 0; i < len; i++) {
             int c = getUByte(pos++);
             quoted |= (c == ' ');
             if ((c == '\\') || (c == '"')) {
                 quoted = true;
-                buf.append('\\');
+                buf.bppend('\\');
             }
-            buf.append((char) c);
+            buf.bppend((chbr) c);
         }
         if (quoted) {
-            buf.insert(start, '"');
-            buf.append('"');
+            buf.insert(stbrt, '"');
+            buf.bppend('"');
         }
-        return (len + 1);       // size includes initial octet
+        return (len + 1);       // size includes initibl octet
     }
 
     /*
-     * Returns the rdata of an A record, in dotted-decimal format,
-     * that is encoded at msg[pos].
+     * Returns the rdbtb of bn A record, in dotted-decimbl formbt,
+     * thbt is encoded bt msg[pos].
      */
-    private String decodeA(int pos) {
+    privbte String decodeA(int pos) {
         return ((msg[pos] & 0xff) + "." +
                 (msg[pos + 1] & 0xff) + "." +
                 (msg[pos + 2] & 0xff) + "." +
@@ -548,66 +548,66 @@ public class ResourceRecord {
     }
 
     /*
-     * Returns the rdata of an AAAA record, in colon-separated format,
-     * that is encoded at msg[pos].  For example:  4321:0:1:2:3:4:567:89ab.
-     * See RFCs 1886 and 2373.
+     * Returns the rdbtb of bn AAAA record, in colon-sepbrbted formbt,
+     * thbt is encoded bt msg[pos].  For exbmple:  4321:0:1:2:3:4:567:89bb.
+     * See RFCs 1886 bnd 2373.
      */
-    private String decodeAAAA(int pos) {
-        int[] addr6 = new int[8];  // the unsigned 16-bit words of the address
+    privbte String decodeAAAA(int pos) {
+        int[] bddr6 = new int[8];  // the unsigned 16-bit words of the bddress
         for (int i = 0; i < 8; i++) {
-            addr6[i] = getUShort(pos);
+            bddr6[i] = getUShort(pos);
             pos += 2;
         }
 
         // Find longest sequence of two or more zeros, to compress them.
-        int curBase = -1;
+        int curBbse = -1;
         int curLen = 0;
-        int bestBase = -1;
+        int bestBbse = -1;
         int bestLen = 0;
         for (int i = 0; i < 8; i++) {
-            if (addr6[i] == 0) {
-                if (curBase == -1) {    // new sequence
-                    curBase = i;
+            if (bddr6[i] == 0) {
+                if (curBbse == -1) {    // new sequence
+                    curBbse = i;
                     curLen = 1;
                 } else {                // extend sequence
                     ++curLen;
                     if ((curLen >= 2) && (curLen > bestLen)) {
-                        bestBase = curBase;
+                        bestBbse = curBbse;
                         bestLen = curLen;
                     }
                 }
             } else {                    // not in sequence
-                curBase = -1;
+                curBbse = -1;
             }
         }
 
-        // If addr begins with at least 6 zeros and is not :: or ::1,
-        // or with 5 zeros followed by 0xffff, use the text format for
-        // IPv4-compatible or IPv4-mapped addresses.
-        if (bestBase == 0) {
+        // If bddr begins with bt lebst 6 zeros bnd is not :: or ::1,
+        // or with 5 zeros followed by 0xffff, use the text formbt for
+        // IPv4-compbtible or IPv4-mbpped bddresses.
+        if (bestBbse == 0) {
             if ((bestLen == 6) ||
-                    ((bestLen == 7) && (addr6[7] > 1))) {
+                    ((bestLen == 7) && (bddr6[7] > 1))) {
                 return ("::" + decodeA(pos - 4));
-            } else if ((bestLen == 5) && (addr6[5] == 0xffff)) {
+            } else if ((bestLen == 5) && (bddr6[5] == 0xffff)) {
                 return ("::ffff:" + decodeA(pos - 4));
             }
         }
 
-        // If bestBase != -1, compress zeros in [bestBase, bestBase+bestLen)
-        boolean compress = (bestBase != -1);
+        // If bestBbse != -1, compress zeros in [bestBbse, bestBbse+bestLen)
+        boolebn compress = (bestBbse != -1);
 
         StringBuilder sb = new StringBuilder(40);
-        if (bestBase == 0) {
-            sb.append(':');
+        if (bestBbse == 0) {
+            sb.bppend(':');
         }
         for (int i = 0; i < 8; i++) {
-            if (!compress || (i < bestBase) || (i >= bestBase + bestLen)) {
-                sb.append(Integer.toHexString(addr6[i]));
+            if (!compress || (i < bestBbse) || (i >= bestBbse + bestLen)) {
+                sb.bppend(Integer.toHexString(bddr6[i]));
                 if (i < 7) {
-                    sb.append(':');
+                    sb.bppend(':');
                 }
-            } else if (compress && (i == bestBase)) {  // first compressed zero
-                sb.append(':');
+            } else if (compress && (i == bestBbse)) {  // first compressed zero
+                sb.bppend(':');
             }
         }
 

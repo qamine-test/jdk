@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,136 +30,136 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import java.io.IOException;
-import javax.management.InstanceNotFoundException;
+import com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte;
+import com.sun.jmx.exbmples.scbndir.config.DirectoryScbnnerConfig;
+import jbvb.io.IOException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
 
 /**
- * A <code>DirectoryScannerMXBean</code> is an MBean that
- * scans a file system starting at a given root directory,
- * and then looks for files that match a given criteria.
+ * A <code>DirectoryScbnnerMXBebn</code> is bn MBebn thbt
+ * scbns b file system stbrting bt b given root directory,
+ * bnd then looks for files thbt mbtch b given criterib.
  * <p>
- * When such a file is found, the <code>DirectoryScannerMXBean</code> takes
- * the actions for which it was configured: see {@link #scan scan()}.
+ * When such b file is found, the <code>DirectoryScbnnerMXBebn</code> tbkes
+ * the bctions for which it wbs configured: see {@link #scbn scbn()}.
  * <p>
- * <code>DirectoryScannerMXBeans</code> are created, initialized, and
- * registered by the {@link ScanManagerMXBean}.
- * The {@link ScanManagerMXBean} will also schedule and run them in
- * background by calling their {@link #scan} method.
+ * <code>DirectoryScbnnerMXBebns</code> bre crebted, initiblized, bnd
+ * registered by the {@link ScbnMbnbgerMXBebn}.
+ * The {@link ScbnMbnbgerMXBebn} will blso schedule bnd run them in
+ * bbckground by cblling their {@link #scbn} method.
  * </p>
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public interface DirectoryScannerMXBean {
+public interfbce DirectoryScbnnerMXBebn {
     /**
-     * Get The {@link DirectoryScanner} state.
-     * @return the current state of the <code>DirectoryScanner</code>.
-     * @throws IOException A connection problem occurred when accessing
+     * Get The {@link DirectoryScbnner} stbte.
+     * @return the current stbte of the <code>DirectoryScbnner</code>.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public ScanState getState()
-        throws IOException, InstanceNotFoundException;
+    public ScbnStbte getStbte()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Stops the current scan if {@link ScanState#RUNNING running}.
-     * After this method completes the state of the application will
-     * be {@link ScanState#STOPPED STOPPED}.
-     * @throws IOException A connection problem occurred when accessing
+     * Stops the current scbn if {@link ScbnStbte#RUNNING running}.
+     * After this method completes the stbte of the bpplicbtion will
+     * be {@link ScbnStbte#STOPPED STOPPED}.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
     public void stop()
-        throws IOException, InstanceNotFoundException;
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Scans the file system starting at the specified {@link #getRootDirectory
+     * Scbns the file system stbrting bt the specified {@link #getRootDirectory
      * root directory}.
-     * <p>If a file that matches this <code>DirectoryScannerMXBean</code>
-     * {@link #getConfiguration} criteria is found,
-     * the <code>DirectoryScannerMXBean</code> takes the {@link
-     * DirectoryScannerConfig#getActions() actions} for which
-     * it was {@link #getConfiguration configured}: emit a notification,
-     * <i>and or</i> log a {@link
-     * com.sun.jmx.examples.scandir.config.ResultRecord} for this file,
-     * <i>and or</i> delete that file.
+     * <p>If b file thbt mbtches this <code>DirectoryScbnnerMXBebn</code>
+     * {@link #getConfigurbtion} criterib is found,
+     * the <code>DirectoryScbnnerMXBebn</code> tbkes the {@link
+     * DirectoryScbnnerConfig#getActions() bctions} for which
+     * it wbs {@link #getConfigurbtion configured}: emit b notificbtion,
+     * <i>bnd or</i> log b {@link
+     * com.sun.jmx.exbmples.scbndir.config.ResultRecord} for this file,
+     * <i>bnd or</i> delete thbt file.
      * </p>
      * <p>
-     * The code that would actually delete the file is commented out - so that
-     * nothing valuable is lost if this example is run by mistake on the wrong
+     * The code thbt would bctublly delete the file is commented out - so thbt
+     * nothing vblubble is lost if this exbmple is run by mistbke on the wrong
      * set of directories.
      * </p>
-     * <p>This method returns only when the directory scan is completed, or
-     *    if it was {@link #stop stopped} by another thread.
+     * <p>This method returns only when the directory scbn is completed, or
+     *    if it wbs {@link #stop stopped} by bnother threbd.
      * </p>
-     * @throws IllegalStateException if already {@link ScanState#RUNNING}
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IllegblStbteException if blrebdy {@link ScbnStbte#RUNNING}
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public void scan()
-        throws IOException, InstanceNotFoundException;
+    public void scbn()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets the root directory at which this <code>DirectoryScannerMXBean</code>
-     * will start scanning the file system.
+     * Gets the root directory bt which this <code>DirectoryScbnnerMXBebn</code>
+     * will stbrt scbnning the file system.
      * <p>
-     * This is a shortcut to {@link #getConfiguration
-     * getConfiguration()}.{@link
-     * DirectoryScannerConfig#getRootDirectory
+     * This is b shortcut to {@link #getConfigurbtion
+     * getConfigurbtion()}.{@link
+     * DirectoryScbnnerConfig#getRootDirectory
      * getRootDirectory()}.
      * </p>
-     * @return This <code>DirectoryScannerMXBean</code> root directory.
-     * @throws IOException A connection problem occurred when accessing
+     * @return This <code>DirectoryScbnnerMXBebn</code> root directory.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
     public String getRootDirectory()
-        throws IOException, InstanceNotFoundException;
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * The configuration data from which this {@link DirectoryScanner} was
-     * created.
+     * The configurbtion dbtb from which this {@link DirectoryScbnner} wbs
+     * crebted.
      * <p>
-     * You cannot change this configuration here. You can however
-     * {@link ScanDirConfigMXBean#setConfiguration modify} the
-     * {@link ScanDirConfigMXBean} configuration, and ask the
-     * {@link ScanManagerMXBean} to {@link ScanManagerMXBean#applyConfiguration
-     * apply} it. This will get all <code>DirectoryScannerMXBean</code>
-     * replaced by new MBeans created from the modified configuration.
+     * You cbnnot chbnge this configurbtion here. You cbn however
+     * {@link ScbnDirConfigMXBebn#setConfigurbtion modify} the
+     * {@link ScbnDirConfigMXBebn} configurbtion, bnd bsk the
+     * {@link ScbnMbnbgerMXBebn} to {@link ScbnMbnbgerMXBebn#bpplyConfigurbtion
+     * bpply} it. This will get bll <code>DirectoryScbnnerMXBebn</code>
+     * replbced by new MBebns crebted from the modified configurbtion.
      * </p>
      *
-     * @return This <code>DirectoryScannerMXBean</code> configuration data.
-     * @throws IOException A connection problem occurred when accessing
+     * @return This <code>DirectoryScbnnerMXBebn</code> configurbtion dbtb.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public DirectoryScannerConfig getConfiguration()
-        throws IOException, InstanceNotFoundException;
+    public DirectoryScbnnerConfig getConfigurbtion()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * A short string describing what's happening in current/latest scan.
-     * @return a short info string.
-     * @throws IOException A connection problem occurred when accessing
+     * A short string describing whbt's hbppening in current/lbtest scbn.
+     * @return b short info string.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public String getCurrentScanInfo()
-        throws IOException, InstanceNotFoundException;
+    public String getCurrentScbnInfo()
+        throws IOException, InstbnceNotFoundException;
 }

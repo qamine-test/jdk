@@ -1,383 +1,383 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.regex.*;
-import sun.jvmstat.monitor.Monitor;
-import sun.jvmstat.monitor.VmIdentifier;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.util.*;
+import jbvb.util.regex.*;
+import sun.jvmstbt.monitor.Monitor;
+import sun.jvmstbt.monitor.VmIdentifier;
 
 /**
- * Class for processing command line arguments and providing method
- * level access to arguments.
+ * Clbss for processing commbnd line brguments bnd providing method
+ * level bccess to brguments.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class Arguments {
+public clbss Arguments {
 
-    private static final boolean debug = Boolean.getBoolean("jstat.debug");
-    private static final boolean showUnsupported =
-            Boolean.getBoolean("jstat.showUnsupported");
+    privbte stbtic finbl boolebn debug = Boolebn.getBoolebn("jstbt.debug");
+    privbte stbtic finbl boolebn showUnsupported =
+            Boolebn.getBoolebn("jstbt.showUnsupported");
 
-    private static final String JVMSTAT_USERDIR = ".jvmstat";
-    private static final String OPTIONS_FILENAME = "jstat_options";
-    private static final String UNSUPPORTED_OPTIONS_FILENAME = "jstat_unsupported_options";
-    private static final String ALL_NAMES = "\\w*";
+    privbte stbtic finbl String JVMSTAT_USERDIR = ".jvmstbt";
+    privbte stbtic finbl String OPTIONS_FILENAME = "jstbt_options";
+    privbte stbtic finbl String UNSUPPORTED_OPTIONS_FILENAME = "jstbt_unsupported_options";
+    privbte stbtic finbl String ALL_NAMES = "\\w*";
 
-    private Comparator<Monitor> comparator;
-    private int headerRate;
-    private boolean help;
-    private boolean list;
-    private boolean options;
-    private boolean constants;
-    private boolean constantsOnly;
-    private boolean strings;
-    private boolean timestamp;
-    private boolean snap;
-    private boolean verbose;
-    private String specialOption;
-    private String names;
+    privbte Compbrbtor<Monitor> compbrbtor;
+    privbte int hebderRbte;
+    privbte boolebn help;
+    privbte boolebn list;
+    privbte boolebn options;
+    privbte boolebn constbnts;
+    privbte boolebn constbntsOnly;
+    privbte boolebn strings;
+    privbte boolebn timestbmp;
+    privbte boolebn snbp;
+    privbte boolebn verbose;
+    privbte String speciblOption;
+    privbte String nbmes;
 
-    private OptionFormat optionFormat;
+    privbte OptionFormbt optionFormbt;
 
-    private int count = -1;
-    private int interval = -1;
-    private String vmIdString;
+    privbte int count = -1;
+    privbte int intervbl = -1;
+    privbte String vmIdString;
 
-    private VmIdentifier vmId;
+    privbte VmIdentifier vmId;
 
-    public static void printUsage(PrintStream ps) {
-        ps.println("Usage: jstat -help|-options");
-        ps.println("       jstat -<option> [-t] [-h<lines>] <vmid> [<interval> [<count>]]");
+    public stbtic void printUsbge(PrintStrebm ps) {
+        ps.println("Usbge: jstbt -help|-options");
+        ps.println("       jstbt -<option> [-t] [-h<lines>] <vmid> [<intervbl> [<count>]]");
         ps.println();
         ps.println("Definitions:");
         ps.println("  <option>      An option reported by the -options option");
-        ps.println("  <vmid>        Virtual Machine Identifier. A vmid takes the following form:");
-        ps.println("                     <lvmid>[@<hostname>[:<port>]]");
-        ps.println("                Where <lvmid> is the local vm identifier for the target");
-        ps.println("                Java virtual machine, typically a process id; <hostname> is");
-        ps.println("                the name of the host running the target Java virtual machine;");
-        ps.println("                and <port> is the port number for the rmiregistry on the");
-        ps.println("                target host. See the jvmstat documentation for a more complete");
-        ps.println("                description of the Virtual Machine Identifier.");
-        ps.println("  <lines>       Number of samples between header lines.");
-        ps.println("  <interval>    Sampling interval. The following forms are allowed:");
+        ps.println("  <vmid>        Virtubl Mbchine Identifier. A vmid tbkes the following form:");
+        ps.println("                     <lvmid>[@<hostnbme>[:<port>]]");
+        ps.println("                Where <lvmid> is the locbl vm identifier for the tbrget");
+        ps.println("                Jbvb virtubl mbchine, typicblly b process id; <hostnbme> is");
+        ps.println("                the nbme of the host running the tbrget Jbvb virtubl mbchine;");
+        ps.println("                bnd <port> is the port number for the rmiregistry on the");
+        ps.println("                tbrget host. See the jvmstbt documentbtion for b more complete");
+        ps.println("                description of the Virtubl Mbchine Identifier.");
+        ps.println("  <lines>       Number of sbmples between hebder lines.");
+        ps.println("  <intervbl>    Sbmpling intervbl. The following forms bre bllowed:");
         ps.println("                    <n>[\"ms\"|\"s\"]");
-        ps.println("                Where <n> is an integer and the suffix specifies the units as ");
-        ps.println("                milliseconds(\"ms\") or seconds(\"s\"). The default units are \"ms\".");
-        ps.println("  <count>       Number of samples to take before terminating.");
-        ps.println("  -J<flag>      Pass <flag> directly to the runtime system.");
+        ps.println("                Where <n> is bn integer bnd the suffix specifies the units bs ");
+        ps.println("                milliseconds(\"ms\") or seconds(\"s\"). The defbult units bre \"ms\".");
+        ps.println("  <count>       Number of sbmples to tbke before terminbting.");
+        ps.println("  -J<flbg>      Pbss <flbg> directly to the runtime system.");
 
         // undocumented options:
-        //   -list [<vmid>]  - list counter names
-        //   -snap <vmid>    - snapshot counter values as name=value pairs
-        //   -name <pattern> - output counters matching given pattern
-        //   -a              - sort in ascending order (default)
+        //   -list [<vmid>]  - list counter nbmes
+        //   -snbp <vmid>    - snbpshot counter vblues bs nbme=vblue pbirs
+        //   -nbme <pbttern> - output counters mbtching given pbttern
+        //   -b              - sort in bscending order (defbult)
         //   -d              - sort in descending order
-        //   -v              - verbose output  (-snap)
-        //   -constants      - output constants with -name output
-        //   -strings        - output strings with -name output
+        //   -v              - verbose output  (-snbp)
+        //   -constbnts      - output constbnts with -nbme output
+        //   -strings        - output strings with -nbme output
     }
 
-    private static int toMillis(String s) throws IllegalArgumentException {
+    privbte stbtic int toMillis(String s) throws IllegblArgumentException {
 
         String[] unitStrings = { "ms", "s" }; // ordered from most specific to
-                                              // least specific
+                                              // lebst specific
         String unitString = null;
-        String valueString = s;
+        String vblueString = s;
 
         for (int i = 0; i < unitStrings.length; i++) {
             int index = s.indexOf(unitStrings[i]);
             if (index > 0) {
                 unitString = s.substring(index);
-                valueString = s.substring(0, index);
-                break;
+                vblueString = s.substring(0, index);
+                brebk;
             }
         }
 
         try {
-            int value = Integer.parseInt(valueString);
+            int vblue = Integer.pbrseInt(vblueString);
 
-            if (unitString == null || unitString.compareTo("ms") == 0) {
-                return value;
-            } else if (unitString.compareTo("s") == 0) {
-                return value * 1000;
+            if (unitString == null || unitString.compbreTo("ms") == 0) {
+                return vblue;
+            } else if (unitString.compbreTo("s") == 0) {
+                return vblue * 1000;
             } else {
-                throw new IllegalArgumentException(
+                throw new IllegblArgumentException(
                         "Unknow time unit: " + unitString);
             }
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                    "Could not convert interval: " + s);
+        } cbtch (NumberFormbtException e) {
+            throw new IllegblArgumentException(
+                    "Could not convert intervbl: " + s);
         }
     }
 
-    public Arguments(String[] args) throws IllegalArgumentException {
-        int argc = 0;
+    public Arguments(String[] brgs) throws IllegblArgumentException {
+        int brgc = 0;
 
-        if (args.length < 1) {
-            throw new IllegalArgumentException("invalid argument count");
+        if (brgs.length < 1) {
+            throw new IllegblArgumentException("invblid brgument count");
         }
 
-        if ((args[0].compareTo("-?") == 0)
-                || (args[0].compareTo("-help") == 0)) {
+        if ((brgs[0].compbreTo("-?") == 0)
+                || (brgs[0].compbreTo("-help") == 0)) {
             help = true;
             return;
-        } else if (args[0].compareTo("-options") == 0) {
+        } else if (brgs[0].compbreTo("-options") == 0) {
             options = true;
             return;
-        } else if (args[0].compareTo("-list") == 0) {
+        } else if (brgs[0].compbreTo("-list") == 0) {
             list = true;
-            if (args.length > 2) {
-              throw new IllegalArgumentException("invalid argument count");
+            if (brgs.length > 2) {
+              throw new IllegblArgumentException("invblid brgument count");
             }
-            // list can take one arg - a vmid - fall through for arg processing
-            argc++;
+            // list cbn tbke one brg - b vmid - fbll through for brg processing
+            brgc++;
         }
 
-        for ( ; (argc < args.length) && (args[argc].startsWith("-")); argc++) {
-            String arg = args[argc];
+        for ( ; (brgc < brgs.length) && (brgs[brgc].stbrtsWith("-")); brgc++) {
+            String brg = brgs[brgc];
 
-            if (arg.compareTo("-a") == 0) {
-                comparator = new AscendingMonitorComparator();
-            } else if (arg.compareTo("-d") == 0) {
-                comparator =  new DescendingMonitorComparator();
-            } else if (arg.compareTo("-t") == 0) {
-                timestamp = true;
-            } else if (arg.compareTo("-v") == 0) {
+            if (brg.compbreTo("-b") == 0) {
+                compbrbtor = new AscendingMonitorCompbrbtor();
+            } else if (brg.compbreTo("-d") == 0) {
+                compbrbtor =  new DescendingMonitorCompbrbtor();
+            } else if (brg.compbreTo("-t") == 0) {
+                timestbmp = true;
+            } else if (brg.compbreTo("-v") == 0) {
                 verbose = true;
-            } else if ((arg.compareTo("-constants") == 0)
-                       || (arg.compareTo("-c") == 0)) {
-                constants = true;
-            } else if ((arg.compareTo("-strings") == 0)
-                       || (arg.compareTo("-s") == 0)) {
+            } else if ((brg.compbreTo("-constbnts") == 0)
+                       || (brg.compbreTo("-c") == 0)) {
+                constbnts = true;
+            } else if ((brg.compbreTo("-strings") == 0)
+                       || (brg.compbreTo("-s") == 0)) {
                 strings = true;
-            } else if (arg.startsWith("-h")) {
-                String value;
-                if (arg.compareTo("-h") != 0) {
-                    value = arg.substring(2);
+            } else if (brg.stbrtsWith("-h")) {
+                String vblue;
+                if (brg.compbreTo("-h") != 0) {
+                    vblue = brg.substring(2);
                 } else {
-                    argc++;
-                    if (argc >= args.length) {
-                        throw new IllegalArgumentException(
-                                "-h requires an integer argument");
+                    brgc++;
+                    if (brgc >= brgs.length) {
+                        throw new IllegblArgumentException(
+                                "-h requires bn integer brgument");
                     }
-                    value = args[argc];
+                    vblue = brgs[brgc];
                 }
                 try {
-                    headerRate = Integer.parseInt(value);
-                } catch (NumberFormatException e) {
-                    headerRate = -1;
+                    hebderRbte = Integer.pbrseInt(vblue);
+                } cbtch (NumberFormbtException e) {
+                    hebderRbte = -1;
                 }
-                if (headerRate < 0) {
-                    throw new IllegalArgumentException(
-                            "illegal -h argument: " + value);
+                if (hebderRbte < 0) {
+                    throw new IllegblArgumentException(
+                            "illegbl -h brgument: " + vblue);
                 }
-            } else if (arg.startsWith("-name")) {
-                if (arg.startsWith("-name=")) {
-                    names = arg.substring(7);
+            } else if (brg.stbrtsWith("-nbme")) {
+                if (brg.stbrtsWith("-nbme=")) {
+                    nbmes = brg.substring(7);
                 } else {
-                    argc++;
-                    if (argc >= args.length) {
-                        throw new IllegalArgumentException(
-                                "option argument expected");
+                    brgc++;
+                    if (brgc >= brgs.length) {
+                        throw new IllegblArgumentException(
+                                "option brgument expected");
                     }
-                    names = args[argc];
+                    nbmes = brgs[brgc];
                 }
             } else {
                 /*
-                 * there are scenarios here: special jstat_options file option
-                 * or the rare case of a negative lvmid. The negative lvmid
-                 * can occur in some operating environments (such as Windows
-                 * 95/98/ME), so we provide for this case here by checking if
-                 * the argument has any numerical characters. This assumes that
-                 * there are no special jstat_options that contain numerical
-                 * characters in their name.
+                 * there bre scenbrios here: specibl jstbt_options file option
+                 * or the rbre cbse of b negbtive lvmid. The negbtive lvmid
+                 * cbn occur in some operbting environments (such bs Windows
+                 * 95/98/ME), so we provide for this cbse here by checking if
+                 * the brgument hbs bny numericbl chbrbcters. This bssumes thbt
+                 * there bre no specibl jstbt_options thbt contbin numericbl
+                 * chbrbcters in their nbme.
                  */
 
-                // extract the lvmid part of possible lvmid@host.domain:port
+                // extrbct the lvmid pbrt of possible lvmid@host.dombin:port
                 String lvmidStr = null;
-                int at_index = args[argc].indexOf('@');
-                if (at_index < 0) {
-                    lvmidStr = args[argc];
+                int bt_index = brgs[brgc].indexOf('@');
+                if (bt_index < 0) {
+                    lvmidStr = brgs[brgc];
                 } else {
-                    lvmidStr = args[argc].substring(0, at_index);
+                    lvmidStr = brgs[brgc].substring(0, bt_index);
                 }
 
-                // try to parse the lvmid part as an integer
+                // try to pbrse the lvmid pbrt bs bn integer
                 try {
-                    int vmid = Integer.parseInt(lvmidStr);
-                    // it parsed, assume a negative lvmid and continue
-                    break;
-                } catch (NumberFormatException nfe) {
-                    // it didn't parse. check for the -snap or jstat_options
+                    int vmid = Integer.pbrseInt(lvmidStr);
+                    // it pbrsed, bssume b negbtive lvmid bnd continue
+                    brebk;
+                } cbtch (NumberFormbtException nfe) {
+                    // it didn't pbrse. check for the -snbp or jstbt_options
                     // file options.
-                    if ((argc == 0) && (args[argc].compareTo("-snap") == 0)) {
-                        snap = true;
-                    } else if (argc == 0) {
-                        specialOption = args[argc].substring(1);
+                    if ((brgc == 0) && (brgs[brgc].compbreTo("-snbp") == 0)) {
+                        snbp = true;
+                    } else if (brgc == 0) {
+                        speciblOption = brgs[brgc].substring(1);
                     } else {
-                        throw new IllegalArgumentException(
-                                "illegal argument: " + args[argc]);
+                        throw new IllegblArgumentException(
+                                "illegbl brgument: " + brgs[brgc]);
                     }
                 }
             }
         }
 
-        // prevent 'jstat <pid>' from being accepted as a valid argument
-        if (!(specialOption != null || list || snap || names != null)) {
-            throw new IllegalArgumentException("-<option> required");
+        // prevent 'jstbt <pid>' from being bccepted bs b vblid brgument
+        if (!(speciblOption != null || list || snbp || nbmes != null)) {
+            throw new IllegblArgumentException("-<option> required");
         }
 
-        switch (args.length - argc) {
-        case 3:
-            if (snap) {
-                throw new IllegalArgumentException("invalid argument count");
+        switch (brgs.length - brgc) {
+        cbse 3:
+            if (snbp) {
+                throw new IllegblArgumentException("invblid brgument count");
             }
             try {
-                count = Integer.parseInt(args[args.length-1]);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("illegal count value: "
-                                                   + args[args.length-1]);
+                count = Integer.pbrseInt(brgs[brgs.length-1]);
+            } cbtch (NumberFormbtException e) {
+                throw new IllegblArgumentException("illegbl count vblue: "
+                                                   + brgs[brgs.length-1]);
             }
-            interval = toMillis(args[args.length-2]);
-            vmIdString = args[args.length-3];
-            break;
-        case 2:
-            if (snap) {
-                throw new IllegalArgumentException("invalid argument count");
+            intervbl = toMillis(brgs[brgs.length-2]);
+            vmIdString = brgs[brgs.length-3];
+            brebk;
+        cbse 2:
+            if (snbp) {
+                throw new IllegblArgumentException("invblid brgument count");
             }
-            interval = toMillis(args[args.length-1]);
-            vmIdString = args[args.length-2];
-            break;
-        case 1:
-            vmIdString = args[args.length-1];
-            break;
-        case 0:
+            intervbl = toMillis(brgs[brgs.length-1]);
+            vmIdString = brgs[brgs.length-2];
+            brebk;
+        cbse 1:
+            vmIdString = brgs[brgs.length-1];
+            brebk;
+        cbse 0:
             if (!list) {
-                throw new IllegalArgumentException("invalid argument count");
+                throw new IllegblArgumentException("invblid brgument count");
             }
-            break;
-        default:
-            throw new IllegalArgumentException("invalid argument count");
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("invblid brgument count");
         }
 
-        // set count and interval to their default values if not set above.
-        if (count == -1 && interval == -1) {
-            // default is for a single sample
+        // set count bnd intervbl to their defbult vblues if not set bbove.
+        if (count == -1 && intervbl == -1) {
+            // defbult is for b single sbmple
             count = 1;
-            interval = 0;
+            intervbl = 0;
         }
 
-        // validate arguments
-        if (comparator == null) {
-            comparator = new AscendingMonitorComparator();
+        // vblidbte brguments
+        if (compbrbtor == null) {
+            compbrbtor = new AscendingMonitorCompbrbtor();
         }
 
-        // allow ',' characters to separate names, convert to '|' chars
-        names = (names == null) ? ALL_NAMES : names.replace(',', '|');
+        // bllow ',' chbrbcters to sepbrbte nbmes, convert to '|' chbrs
+        nbmes = (nbmes == null) ? ALL_NAMES : nbmes.replbce(',', '|');
 
-        // verify that the given pattern parses without errors
+        // verify thbt the given pbttern pbrses without errors
         try {
-            Pattern pattern = Pattern.compile(names);
-        } catch (PatternSyntaxException e) {
-            throw new IllegalArgumentException("Bad name pattern: "
-                                               + e.getMessage());
+            Pbttern pbttern = Pbttern.compile(nbmes);
+        } cbtch (PbtternSyntbxException e) {
+            throw new IllegblArgumentException("Bbd nbme pbttern: "
+                                               + e.getMessbge());
         }
 
-        // verify that the special option is valid and get it's formatter
-        if (specialOption != null) {
+        // verify thbt the specibl option is vblid bnd get it's formbtter
+        if (speciblOption != null) {
             OptionFinder finder = new OptionFinder(optionsSources());
-            optionFormat = finder.getOptionFormat(specialOption, timestamp);
-            if (optionFormat == null) {
-                throw new IllegalArgumentException("Unknown option: -"
-                                                   + specialOption);
+            optionFormbt = finder.getOptionFormbt(speciblOption, timestbmp);
+            if (optionFormbt == null) {
+                throw new IllegblArgumentException("Unknown option: -"
+                                                   + speciblOption);
             }
         }
 
-        // verify that the vm identifier is valied
+        // verify thbt the vm identifier is vblied
         try {
             vmId = new VmIdentifier(vmIdString);
-        } catch (URISyntaxException e) {
-            IllegalArgumentException iae = new IllegalArgumentException(
-                    "Malformed VM Identifier: " + vmIdString);
-            iae.initCause(e);
-            throw iae;
+        } cbtch (URISyntbxException e) {
+            IllegblArgumentException ibe = new IllegblArgumentException(
+                    "Mblformed VM Identifier: " + vmIdString);
+            ibe.initCbuse(e);
+            throw ibe;
         }
     }
 
-    public Comparator<Monitor> comparator() {
-        return comparator;
+    public Compbrbtor<Monitor> compbrbtor() {
+        return compbrbtor;
     }
 
-    public boolean isHelp() {
+    public boolebn isHelp() {
         return help;
     }
 
-    public boolean isList() {
+    public boolebn isList() {
         return list;
     }
 
-    public boolean isSnap() {
-        return snap;
+    public boolebn isSnbp() {
+        return snbp;
     }
 
-    public boolean isOptions() {
+    public boolebn isOptions() {
         return options;
     }
 
-    public boolean isVerbose() {
+    public boolebn isVerbose() {
         return verbose;
     }
 
-    public boolean printConstants() {
-        return constants;
+    public boolebn printConstbnts() {
+        return constbnts;
     }
 
-    public boolean isConstantsOnly() {
-        return constantsOnly;
+    public boolebn isConstbntsOnly() {
+        return constbntsOnly;
     }
 
-    public boolean printStrings() {
+    public boolebn printStrings() {
         return strings;
     }
 
-    public boolean showUnsupported() {
+    public boolebn showUnsupported() {
         return showUnsupported;
     }
 
-    public int headerRate() {
-        return headerRate;
+    public int hebderRbte() {
+        return hebderRbte;
     }
 
-    public String counterNames() {
-        return names;
+    public String counterNbmes() {
+        return nbmes;
     }
 
     public VmIdentifier vmId() {
@@ -388,57 +388,57 @@ public class Arguments {
         return vmIdString;
     }
 
-    public int sampleInterval() {
-        return interval;
+    public int sbmpleIntervbl() {
+        return intervbl;
     }
 
-    public int sampleCount() {
+    public int sbmpleCount() {
         return count;
     }
 
-    public boolean isTimestamp() {
-        return timestamp;
+    public boolebn isTimestbmp() {
+        return timestbmp;
     }
 
-    public boolean isSpecialOption() {
-        return specialOption != null;
+    public boolebn isSpeciblOption() {
+        return speciblOption != null;
     }
 
-    public String specialOption() {
-        return specialOption;
+    public String speciblOption() {
+        return speciblOption;
     }
 
-    public OptionFormat optionFormat() {
-        return optionFormat;
+    public OptionFormbt optionFormbt() {
+        return optionFormbt;
     }
 
     public List<URL> optionsSources() {
-        List<URL> sources = new ArrayList<URL>();
+        List<URL> sources = new ArrbyList<URL>();
         int i = 0;
 
-        String filename = OPTIONS_FILENAME;
+        String filenbme = OPTIONS_FILENAME;
 
         try {
             String userHome = System.getProperty("user.home");
             String userDir = userHome + "/" + JVMSTAT_USERDIR;
-            File home = new File(userDir + "/" + filename);
-            sources.add(home.toURI().toURL());
-        } catch (Exception e) {
+            File home = new File(userDir + "/" + filenbme);
+            sources.bdd(home.toURI().toURL());
+        } cbtch (Exception e) {
             if (debug) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
+                System.err.println(e.getMessbge());
+                e.printStbckTrbce();
             }
-            throw new IllegalArgumentException("Internal Error: Bad URL: "
-                                               + e.getMessage());
+            throw new IllegblArgumentException("Internbl Error: Bbd URL: "
+                                               + e.getMessbge());
         }
-        URL u = this.getClass().getResource("resources/" + filename);
-        assert u != null;
-        sources.add(u);
+        URL u = this.getClbss().getResource("resources/" + filenbme);
+        bssert u != null;
+        sources.bdd(u);
 
         if (showUnsupported) {
-            u = this.getClass().getResource("resources/" +  UNSUPPORTED_OPTIONS_FILENAME);
-            assert u != null;
-            sources.add(u);
+            u = this.getClbss().getResource("resources/" +  UNSUPPORTED_OPTIONS_FILENAME);
+            bssert u != null;
+            sources.bdd(u);
         }
         return sources;
     }

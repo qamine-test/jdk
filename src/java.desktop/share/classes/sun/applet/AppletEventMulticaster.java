@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.applet;
+pbckbge sun.bpplet;
 
-import java.util.EventListener;
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
+import jbvb.util.EventListener;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
 
 /**
- * AppletEventMulticaster class.  This class manages an immutable
- * structure consisting of a chain of AppletListeners and is
- * responsible for dispatching events to them.
+ * AppletEventMulticbster clbss.  This clbss mbnbges bn immutbble
+ * structure consisting of b chbin of AppletListeners bnd is
+ * responsible for dispbtching events to them.
  *
- * @author  Sunita Mani
+ * @buthor  Sunitb Mbni
  */
-public class AppletEventMulticaster implements AppletListener {
+public clbss AppletEventMulticbster implements AppletListener {
 
-    private final AppletListener a, b;
+    privbte finbl AppletListener b, b;
 
-    public AppletEventMulticaster(AppletListener a, AppletListener b) {
-        this.a = a; this.b = b;
+    public AppletEventMulticbster(AppletListener b, AppletListener b) {
+        this.b = b; this.b = b;
     }
 
-    public void appletStateChanged(AppletEvent e) {
-        a.appletStateChanged(e);
-        b.appletStateChanged(e);
+    public void bppletStbteChbnged(AppletEvent e) {
+        b.bppletStbteChbnged(e);
+        b.bppletStbteChbnged(e);
     }
 
     /**
-     * Adds Applet-listener-a with Applet-listener-b and
-     * returns the resulting multicast listener.
-     * @param a Applet-listener-a
-     * @param b Applet-listener-b
+     * Adds Applet-listener-b with Applet-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b Applet-listener-b
+     * @pbrbm b Applet-listener-b
      */
-    public static AppletListener add(AppletListener a, AppletListener b) {
-        return addInternal(a, b);
+    public stbtic AppletListener bdd(AppletListener b, AppletListener b) {
+        return bddInternbl(b, b);
     }
 
     /**
-     * Removes the old Applet-listener from Applet-listener-l and
-     * returns the resulting multicast listener.
-     * @param l Applet-listener-l
-     * @param oldl the Applet-listener being removed
+     * Removes the old Applet-listener from Applet-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l Applet-listener-l
+     * @pbrbm oldl the Applet-listener being removed
      */
-    public static AppletListener remove(AppletListener l, AppletListener oldl) {
-        return removeInternal(l, oldl);
+    public stbtic AppletListener remove(AppletListener l, AppletListener oldl) {
+        return removeInternbl(l, oldl);
     }
 
     /**
-     * Returns the resulting multicast listener from adding listener-a
-     * and listener-b together.
-     * If listener-a is null, it returns listener-b;
-     * If listener-b is null, it returns listener-a
-     * If neither are null, then it creates and returns
-     * a new AppletEventMulticaster instance which chains a with b.
-     * @param a event listener-a
-     * @param b event listener-b
+     * Returns the resulting multicbst listener from bdding listener-b
+     * bnd listener-b together.
+     * If listener-b is null, it returns listener-b;
+     * If listener-b is null, it returns listener-b
+     * If neither bre null, then it crebtes bnd returns
+     * b new AppletEventMulticbster instbnce which chbins b with b.
+     * @pbrbm b event listener-b
+     * @pbrbm b event listener-b
      */
-    private static AppletListener addInternal(AppletListener a, AppletListener b) {
-        if (a == null)  return b;
-        if (b == null)  return a;
-        return new AppletEventMulticaster(a, b);
+    privbte stbtic AppletListener bddInternbl(AppletListener b, AppletListener b) {
+        if (b == null)  return b;
+        if (b == null)  return b;
+        return new AppletEventMulticbster(b, b);
     }
 
 
     /**
-     * Removes a listener from this multicaster and returns the
-     * resulting multicast listener.
-     * @param oldl the listener to be removed
+     * Removes b listener from this multicbster bnd returns the
+     * resulting multicbst listener.
+     * @pbrbm oldl the listener to be removed
      */
     protected AppletListener remove(AppletListener oldl) {
-        if (oldl == a)  return b;
-        if (oldl == b)  return a;
-        AppletListener a2 = removeInternal(a, oldl);
-        AppletListener b2 = removeInternal(b, oldl);
-        if (a2 == a && b2 == b) {
+        if (oldl == b)  return b;
+        if (oldl == b)  return b;
+        AppletListener b2 = removeInternbl(b, oldl);
+        AppletListener b2 = removeInternbl(b, oldl);
+        if (b2 == b && b2 == b) {
             return this;        // it's not here
         }
-        return addInternal(a2, b2);
+        return bddInternbl(b2, b2);
     }
 
 
     /**
-     * Returns the resulting multicast listener after removing the
+     * Returns the resulting multicbst listener bfter removing the
      * old listener from listener-l.
-     * If listener-l equals the old listener OR listener-l is null,
+     * If listener-l equbls the old listener OR listener-l is null,
      * returns null.
-     * Else if listener-l is an instance of AppletEventMulticaster
+     * Else if listener-l is bn instbnce of AppletEventMulticbster
      * then it removes the old listener from it.
      * Else, returns listener l.
-     * @param l the listener being removed from
-     * @param oldl the listener being removed
+     * @pbrbm l the listener being removed from
+     * @pbrbm oldl the listener being removed
      */
-    private static AppletListener removeInternal(AppletListener l, AppletListener oldl) {
+    privbte stbtic AppletListener removeInternbl(AppletListener l, AppletListener oldl) {
         if (l == oldl || l == null) {
             return null;
-        } else if (l instanceof AppletEventMulticaster) {
-            return ((AppletEventMulticaster)l).remove(oldl);
+        } else if (l instbnceof AppletEventMulticbster) {
+            return ((AppletEventMulticbster)l).remove(oldl);
         } else {
             return l;           // it's not here
         }

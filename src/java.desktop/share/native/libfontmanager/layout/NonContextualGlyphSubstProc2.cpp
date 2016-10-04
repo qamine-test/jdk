@@ -1,86 +1,86 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp.  and others 1998-2013 - All Rights Reserved
+ * (C) Copyright IBM Corp.  bnd others 1998-2013 - All Rights Reserved
  *
  */
 
 #include "LETypes.h"
-#include "MorphTables.h"
-#include "SubtableProcessor2.h"
-#include "NonContextualGlyphSubst.h"
-#include "NonContextualGlyphSubstProc2.h"
-#include "SimpleArrayProcessor2.h"
+#include "MorphTbbles.h"
+#include "SubtbbleProcessor2.h"
+#include "NonContextublGlyphSubst.h"
+#include "NonContextublGlyphSubstProc2.h"
+#include "SimpleArrbyProcessor2.h"
 #include "SegmentSingleProcessor2.h"
-#include "SegmentArrayProcessor2.h"
-#include "SingleTableProcessor2.h"
-#include "TrimmedArrayProcessor2.h"
-#include "LESwaps.h"
+#include "SegmentArrbyProcessor2.h"
+#include "SingleTbbleProcessor2.h"
+#include "TrimmedArrbyProcessor2.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-NonContextualGlyphSubstitutionProcessor2::NonContextualGlyphSubstitutionProcessor2()
+NonContextublGlyphSubstitutionProcessor2::NonContextublGlyphSubstitutionProcessor2()
 {
 }
 
-NonContextualGlyphSubstitutionProcessor2::NonContextualGlyphSubstitutionProcessor2(
-     const LEReferenceTo<MorphSubtableHeader2> &morphSubtableHeader, LEErrorCode &success)
-  : SubtableProcessor2(morphSubtableHeader, success)
+NonContextublGlyphSubstitutionProcessor2::NonContextublGlyphSubstitutionProcessor2(
+     const LEReferenceTo<MorphSubtbbleHebder2> &morphSubtbbleHebder, LEErrorCode &success)
+  : SubtbbleProcessor2(morphSubtbbleHebder, success)
 {
 }
 
-NonContextualGlyphSubstitutionProcessor2::~NonContextualGlyphSubstitutionProcessor2()
+NonContextublGlyphSubstitutionProcessor2::~NonContextublGlyphSubstitutionProcessor2()
 {
 }
 
-SubtableProcessor2 *NonContextualGlyphSubstitutionProcessor2::createInstance(
-      const LEReferenceTo<MorphSubtableHeader2> &morphSubtableHeader, LEErrorCode &success)
+SubtbbleProcessor2 *NonContextublGlyphSubstitutionProcessor2::crebteInstbnce(
+      const LEReferenceTo<MorphSubtbbleHebder2> &morphSubtbbleHebder, LEErrorCode &success)
 {
-    const LEReferenceTo<NonContextualGlyphSubstitutionHeader2> header(morphSubtableHeader, success);
+    const LEReferenceTo<NonContextublGlyphSubstitutionHebder2> hebder(morphSubtbbleHebder, success);
     if(LE_FAILURE(success)) return NULL;
 
-    switch (SWAPW(header->table.format))
+    switch (SWAPW(hebder->tbble.formbt))
     {
-    case ltfSimpleArray:
-      return new SimpleArrayProcessor2(morphSubtableHeader, success);
+    cbse ltfSimpleArrby:
+      return new SimpleArrbyProcessor2(morphSubtbbleHebder, success);
 
-    case ltfSegmentSingle:
-      return new SegmentSingleProcessor2(morphSubtableHeader, success);
+    cbse ltfSegmentSingle:
+      return new SegmentSingleProcessor2(morphSubtbbleHebder, success);
 
-    case ltfSegmentArray:
-      return new SegmentArrayProcessor2(morphSubtableHeader, success);
+    cbse ltfSegmentArrby:
+      return new SegmentArrbyProcessor2(morphSubtbbleHebder, success);
 
-    case ltfSingleTable:
-      return new SingleTableProcessor2(morphSubtableHeader, success);
+    cbse ltfSingleTbble:
+      return new SingleTbbleProcessor2(morphSubtbbleHebder, success);
 
-    case ltfTrimmedArray:
-      return new TrimmedArrayProcessor2(morphSubtableHeader, success);
+    cbse ltfTrimmedArrby:
+      return new TrimmedArrbyProcessor2(morphSubtbbleHebder, success);
 
-    default:
+    defbult:
         return NULL;
     }
 }

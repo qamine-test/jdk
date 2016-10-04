@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
-import java.util.Date;
+import jbvb.util.Dbte;
 
 /**
- * Class DateTimeSyntax is an abstract base class providing the common
- * implementation of all attributes whose value is a date and time.
+ * Clbss DbteTimeSyntbx is bn bbstrbct bbse clbss providing the common
+ * implementbtion of bll bttributes whose vblue is b dbte bnd time.
  * <P>
- * Under the hood, a date-time attribute is stored as a value of class <code>
- * java.util.Date</code>. You can get a date-time attribute's Date value by
- * calling {@link #getValue() getValue()}. A date-time attribute's
- * Date value is established when it is constructed (see {@link
- * #DateTimeSyntax(Date) DateTimeSyntax(Date)}). Once
- * constructed, a date-time attribute's value is immutable.
+ * Under the hood, b dbte-time bttribute is stored bs b vblue of clbss <code>
+ * jbvb.util.Dbte</code>. You cbn get b dbte-time bttribute's Dbte vblue by
+ * cblling {@link #getVblue() getVblue()}. A dbte-time bttribute's
+ * Dbte vblue is estbblished when it is constructed (see {@link
+ * #DbteTimeSyntbx(Dbte) DbteTimeSyntbx(Dbte)}). Once
+ * constructed, b dbte-time bttribute's vblue is immutbble.
  * <P>
- * To construct a date-time attribute from separate values of the year, month,
- * day, hour, minute, and so on, use a <code>java.util.Calendar</code>
- * object to construct a <code>java.util.Date</code> object, then use the
- * <code>java.util.Date</code> object to construct the date-time attribute.
+ * To construct b dbte-time bttribute from sepbrbte vblues of the yebr, month,
+ * dby, hour, minute, bnd so on, use b <code>jbvb.util.Cblendbr</code>
+ * object to construct b <code>jbvb.util.Dbte</code> object, then use the
+ * <code>jbvb.util.Dbte</code> object to construct the dbte-time bttribute.
  * To convert
- * a date-time attribute to separate values of the year, month, day, hour,
- * minute, and so on, create a <code>java.util.Calendar</code> object and
- * set it to the <code>java.util.Date</code> from the date-time attribute. Class
- * DateTimeSyntax stores its value in the form of a <code>java.util.Date
+ * b dbte-time bttribute to sepbrbte vblues of the yebr, month, dby, hour,
+ * minute, bnd so on, crebte b <code>jbvb.util.Cblendbr</code> object bnd
+ * set it to the <code>jbvb.util.Dbte</code> from the dbte-time bttribute. Clbss
+ * DbteTimeSyntbx stores its vblue in the form of b <code>jbvb.util.Dbte
  * </code>
- * rather than a <code>java.util.Calendar</code> because it typically takes
- * less memory to store and less time to compare a <code>java.util.Date</code>
- * than a <code>java.util.Calendar</code>.
+ * rbther thbn b <code>jbvb.util.Cblendbr</code> becbuse it typicblly tbkes
+ * less memory to store bnd less time to compbre b <code>jbvb.util.Dbte</code>
+ * thbn b <code>jbvb.util.Cblendbr</code>.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public abstract class DateTimeSyntax implements Serializable, Cloneable {
+public bbstrbct clbss DbteTimeSyntbx implements Seriblizbble, Clonebble {
 
-    private static final long serialVersionUID = -1400819079791208582L;
+    privbte stbtic finbl long seriblVersionUID = -1400819079791208582L;
 
-    // Hidden data members.
+    // Hidden dbtb members.
 
     /**
-     * This date-time attribute's<code>java.util.Date</code> value.
-     * @serial
+     * This dbte-time bttribute's<code>jbvb.util.Dbte</code> vblue.
+     * @seribl
      */
-    private Date value;
+    privbte Dbte vblue;
 
     // Hidden constructors.
 
     /**
-     * Construct a new date-time attribute with the given
-     * <code>java.util.Date </code> value.
+     * Construct b new dbte-time bttribute with the given
+     * <code>jbvb.util.Dbte </code> vblue.
      *
-     * @param  value   <code>java.util.Date</code> value.
+     * @pbrbm  vblue   <code>jbvb.util.Dbte</code> vblue.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>theValue</CODE> is null.
+     *     (unchecked exception) Thrown if <CODE>theVblue</CODE> is null.
      */
-    protected DateTimeSyntax(Date value) {
-        if (value == null) {
-            throw new NullPointerException("value is null");
+    protected DbteTimeSyntbx(Dbte vblue) {
+        if (vblue == null) {
+            throw new NullPointerException("vblue is null");
         }
-        this.value = value;
+        this.vblue = vblue;
     }
 
-    // Exported operations.
+    // Exported operbtions.
 
     /**
-     * Returns this date-time attribute's <code>java.util.Date</code>
-     * value.
-     * @return the Date.
+     * Returns this dbte-time bttribute's <code>jbvb.util.Dbte</code>
+     * vblue.
+     * @return the Dbte.
      */
-    public Date getValue() {
-        return new Date (value.getTime());
+    public Dbte getVblue() {
+        return new Dbte (vblue.getTime());
     }
 
-    // Exported operations inherited and overridden from class Object.
+    // Exported operbtions inherited bnd overridden from clbss Object.
 
     /**
-     * Returns whether this date-time attribute is equivalent to the passed in
-     * object. To be equivalent, all of the following conditions must be true:
+     * Returns whether this dbte-time bttribute is equivblent to the pbssed in
+     * object. To be equivblent, bll of the following conditions must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class DateTimeSyntax.
+     * <CODE>object</CODE> is bn instbnce of clbss DbteTimeSyntbx.
      * <LI>
-     * This date-time attribute's <code>java.util.Date</code> value and
-     * <CODE>object</CODE>'s <code>java.util.Date</code> value are
-     * equal. </OL>
+     * This dbte-time bttribute's <code>jbvb.util.Dbte</code> vblue bnd
+     * <CODE>object</CODE>'s <code>jbvb.util.Dbte</code> vblue bre
+     * equbl. </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this date-time
-     *          attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this dbte-time
+     *          bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
+    public boolebn equbls(Object object) {
         return (object != null &&
-                object instanceof DateTimeSyntax &&
-                value.equals(((DateTimeSyntax) object).value));
+                object instbnceof DbteTimeSyntbx &&
+                vblue.equbls(((DbteTimeSyntbx) object).vblue));
     }
 
     /**
-     * Returns a hash code value for this date-time attribute. The hashcode is
-     * that of this attribute's <code>java.util.Date</code> value.
+     * Returns b hbsh code vblue for this dbte-time bttribute. The hbshcode is
+     * thbt of this bttribute's <code>jbvb.util.Dbte</code> vblue.
      */
-    public int hashCode() {
-        return value.hashCode();
+    public int hbshCode() {
+        return vblue.hbshCode();
     }
 
     /**
-     * Returns a string value corresponding to this date-time attribute.
-     * The string value is just this attribute's
-     * <code>java.util.Date</code>  value
-     * converted to a string.
+     * Returns b string vblue corresponding to this dbte-time bttribute.
+     * The string vblue is just this bttribute's
+     * <code>jbvb.util.Dbte</code>  vblue
+     * converted to b string.
      */
     public String toString() {
-        return "" + value;
+        return "" + vblue;
     }
 
 }

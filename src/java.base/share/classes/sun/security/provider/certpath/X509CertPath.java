@@ -1,397 +1,397 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertPath;
-import java.security.cert.X509Certificate;
-import java.util.*;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.security.cert.CertificbteEncodingException;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.cert.CertPbth;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.*;
 
 import sun.security.pkcs.ContentInfo;
 import sun.security.pkcs.PKCS7;
 import sun.security.pkcs.SignerInfo;
 import sun.security.x509.AlgorithmId;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerInputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerOutputStrebm;
+import sun.security.util.DerInputStrebm;
 
 /**
- * A {@link java.security.cert.CertPath CertPath} (certification path)
+ * A {@link jbvb.security.cert.CertPbth CertPbth} (certificbtion pbth)
  * consisting exclusively of
- * {@link java.security.cert.X509Certificate X509Certificate}s.
+ * {@link jbvb.security.cert.X509Certificbte X509Certificbte}s.
  * <p>
- * By convention, X.509 <code>CertPath</code>s are stored from target
- * to trust anchor.
- * That is, the issuer of one certificate is the subject of the following
- * one. However, unvalidated X.509 <code>CertPath</code>s may not follow
- * this convention. PKIX <code>CertPathValidator</code>s will detect any
- * departure from this convention and throw a
- * <code>CertPathValidatorException</code>.
+ * By convention, X.509 <code>CertPbth</code>s bre stored from tbrget
+ * to trust bnchor.
+ * Thbt is, the issuer of one certificbte is the subject of the following
+ * one. However, unvblidbted X.509 <code>CertPbth</code>s mby not follow
+ * this convention. PKIX <code>CertPbthVblidbtor</code>s will detect bny
+ * depbrture from this convention bnd throw b
+ * <code>CertPbthVblidbtorException</code>.
  *
- * @author      Yassir Elley
+ * @buthor      Ybssir Elley
  * @since       1.4
  */
-public class X509CertPath extends CertPath {
+public clbss X509CertPbth extends CertPbth {
 
-    private static final long serialVersionUID = 4989800333263052980L;
-
-    /**
-     * List of certificates in this chain
-     */
-    private List<X509Certificate> certs;
+    privbte stbtic finbl long seriblVersionUID = 4989800333263052980L;
 
     /**
-     * The names of our encodings.  PkiPath is the default.
+     * List of certificbtes in this chbin
      */
-    private static final String COUNT_ENCODING = "count";
-    private static final String PKCS7_ENCODING = "PKCS7";
-    private static final String PKIPATH_ENCODING = "PkiPath";
+    privbte List<X509Certificbte> certs;
+
+    /**
+     * The nbmes of our encodings.  PkiPbth is the defbult.
+     */
+    privbte stbtic finbl String COUNT_ENCODING = "count";
+    privbte stbtic finbl String PKCS7_ENCODING = "PKCS7";
+    privbte stbtic finbl String PKIPATH_ENCODING = "PkiPbth";
 
     /**
      * List of supported encodings
      */
-    private static final Collection<String> encodingList;
+    privbte stbtic finbl Collection<String> encodingList;
 
-    static {
-        List<String> list = new ArrayList<>(2);
-        list.add(PKIPATH_ENCODING);
-        list.add(PKCS7_ENCODING);
-        encodingList = Collections.unmodifiableCollection(list);
+    stbtic {
+        List<String> list = new ArrbyList<>(2);
+        list.bdd(PKIPATH_ENCODING);
+        list.bdd(PKCS7_ENCODING);
+        encodingList = Collections.unmodifibbleCollection(list);
     }
 
     /**
-     * Creates an <code>X509CertPath</code> from a <code>List</code> of
-     * <code>X509Certificate</code>s.
+     * Crebtes bn <code>X509CertPbth</code> from b <code>List</code> of
+     * <code>X509Certificbte</code>s.
      * <p>
-     * The certificates are copied out of the supplied <code>List</code>
+     * The certificbtes bre copied out of the supplied <code>List</code>
      * object.
      *
-     * @param certs a <code>List</code> of <code>X509Certificate</code>s
-     * @exception CertificateException if <code>certs</code> contains an element
-     *                      that is not an <code>X509Certificate</code>
+     * @pbrbm certs b <code>List</code> of <code>X509Certificbte</code>s
+     * @exception CertificbteException if <code>certs</code> contbins bn element
+     *                      thbt is not bn <code>X509Certificbte</code>
      */
-    @SuppressWarnings("unchecked")
-    public X509CertPath(List<? extends Certificate> certs) throws CertificateException {
+    @SuppressWbrnings("unchecked")
+    public X509CertPbth(List<? extends Certificbte> certs) throws CertificbteException {
         super("X.509");
 
-        // Ensure that the List contains only X509Certificates
+        // Ensure thbt the List contbins only X509Certificbtes
         //
-        // Note; The certs parameter is not necessarily to be of Certificate
-        // for some old code. For compatibility, to make sure the exception
-        // is CertificateException, rather than ClassCastException, please
+        // Note; The certs pbrbmeter is not necessbrily to be of Certificbte
+        // for some old code. For compbtibility, to mbke sure the exception
+        // is CertificbteException, rbther thbn ClbssCbstException, plebse
         // don't use
-        //     for (Certificate obj : certs)
+        //     for (Certificbte obj : certs)
         for (Object obj : certs) {
-            if (obj instanceof X509Certificate == false) {
-                throw new CertificateException
-                    ("List is not all X509Certificates: "
-                    + obj.getClass().getName());
+            if (obj instbnceof X509Certificbte == fblse) {
+                throw new CertificbteException
+                    ("List is not bll X509Certificbtes: "
+                    + obj.getClbss().getNbme());
             }
         }
 
-        // Assumes that the resulting List is thread-safe. This is true
-        // because we ensure that it cannot be modified after construction
-        // and the methods in the Sun JDK 1.4 implementation of ArrayList that
-        // allow read-only access are thread-safe.
-        this.certs = Collections.unmodifiableList(
-                new ArrayList<X509Certificate>((List<X509Certificate>)certs));
+        // Assumes thbt the resulting List is threbd-sbfe. This is true
+        // becbuse we ensure thbt it cbnnot be modified bfter construction
+        // bnd the methods in the Sun JDK 1.4 implementbtion of ArrbyList thbt
+        // bllow rebd-only bccess bre threbd-sbfe.
+        this.certs = Collections.unmodifibbleList(
+                new ArrbyList<X509Certificbte>((List<X509Certificbte>)certs));
     }
 
     /**
-     * Creates an <code>X509CertPath</code>, reading the encoded form
-     * from an <code>InputStream</code>. The data is assumed to be in
-     * the default encoding.
+     * Crebtes bn <code>X509CertPbth</code>, rebding the encoded form
+     * from bn <code>InputStrebm</code>. The dbtb is bssumed to be in
+     * the defbult encoding.
      *
-     * @param is the <code>InputStream</code> to read the data from
-     * @exception CertificateException if an exception occurs while decoding
+     * @pbrbm is the <code>InputStrebm</code> to rebd the dbtb from
+     * @exception CertificbteException if bn exception occurs while decoding
      */
-    public X509CertPath(InputStream is) throws CertificateException {
+    public X509CertPbth(InputStrebm is) throws CertificbteException {
         this(is, PKIPATH_ENCODING);
     }
 
     /**
-     * Creates an <code>X509CertPath</code>, reading the encoded form
-     * from an InputStream. The data is assumed to be in the specified
+     * Crebtes bn <code>X509CertPbth</code>, rebding the encoded form
+     * from bn InputStrebm. The dbtb is bssumed to be in the specified
      * encoding.
      *
-     * @param is the <code>InputStream</code> to read the data from
-     * @param encoding the encoding used
-     * @exception CertificateException if an exception occurs while decoding or
+     * @pbrbm is the <code>InputStrebm</code> to rebd the dbtb from
+     * @pbrbm encoding the encoding used
+     * @exception CertificbteException if bn exception occurs while decoding or
      *   the encoding requested is not supported
      */
-    public X509CertPath(InputStream is, String encoding)
-            throws CertificateException {
+    public X509CertPbth(InputStrebm is, String encoding)
+            throws CertificbteException {
         super("X.509");
 
         switch (encoding) {
-            case PKIPATH_ENCODING:
-                certs = parsePKIPATH(is);
-                break;
-            case PKCS7_ENCODING:
-                certs = parsePKCS7(is);
-                break;
-            default:
-                throw new CertificateException("unsupported encoding");
+            cbse PKIPATH_ENCODING:
+                certs = pbrsePKIPATH(is);
+                brebk;
+            cbse PKCS7_ENCODING:
+                certs = pbrsePKCS7(is);
+                brebk;
+            defbult:
+                throw new CertificbteException("unsupported encoding");
         }
     }
 
     /**
-     * Parse a PKIPATH format CertPath from an InputStream. Return an
-     * unmodifiable List of the certificates.
+     * Pbrse b PKIPATH formbt CertPbth from bn InputStrebm. Return bn
+     * unmodifibble List of the certificbtes.
      *
-     * @param is the <code>InputStream</code> to read the data from
-     * @return an unmodifiable List of the certificates
-     * @exception CertificateException if an exception occurs
+     * @pbrbm is the <code>InputStrebm</code> to rebd the dbtb from
+     * @return bn unmodifibble List of the certificbtes
+     * @exception CertificbteException if bn exception occurs
      */
-    private static List<X509Certificate> parsePKIPATH(InputStream is)
-            throws CertificateException {
-        List<X509Certificate> certList = null;
-        CertificateFactory certFac = null;
+    privbte stbtic List<X509Certificbte> pbrsePKIPATH(InputStrebm is)
+            throws CertificbteException {
+        List<X509Certificbte> certList = null;
+        CertificbteFbctory certFbc = null;
 
         if (is == null) {
-            throw new CertificateException("input stream is null");
+            throw new CertificbteException("input strebm is null");
         }
 
         try {
-            DerInputStream dis = new DerInputStream(readAllBytes(is));
-            DerValue[] seq = dis.getSequence(3);
+            DerInputStrebm dis = new DerInputStrebm(rebdAllBytes(is));
+            DerVblue[] seq = dis.getSequence(3);
             if (seq.length == 0) {
-                return Collections.<X509Certificate>emptyList();
+                return Collections.<X509Certificbte>emptyList();
             }
 
-            certFac = CertificateFactory.getInstance("X.509");
-            certList = new ArrayList<X509Certificate>(seq.length);
+            certFbc = CertificbteFbctory.getInstbnce("X.509");
+            certList = new ArrbyList<X509Certificbte>(seq.length);
 
-            // append certs in reverse order (target to trust anchor)
+            // bppend certs in reverse order (tbrget to trust bnchor)
             for (int i = seq.length-1; i >= 0; i--) {
-                certList.add((X509Certificate)certFac.generateCertificate
-                    (new ByteArrayInputStream(seq[i].toByteArray())));
+                certList.bdd((X509Certificbte)certFbc.generbteCertificbte
+                    (new ByteArrbyInputStrebm(seq[i].toByteArrby())));
             }
 
-            return Collections.unmodifiableList(certList);
+            return Collections.unmodifibbleList(certList);
 
-        } catch (IOException ioe) {
-            throw new CertificateException("IOException parsing PkiPath data: "
+        } cbtch (IOException ioe) {
+            throw new CertificbteException("IOException pbrsing PkiPbth dbtb: "
                     + ioe, ioe);
         }
     }
 
     /**
-     * Parse a PKCS#7 format CertPath from an InputStream. Return an
-     * unmodifiable List of the certificates.
+     * Pbrse b PKCS#7 formbt CertPbth from bn InputStrebm. Return bn
+     * unmodifibble List of the certificbtes.
      *
-     * @param is the <code>InputStream</code> to read the data from
-     * @return an unmodifiable List of the certificates
-     * @exception CertificateException if an exception occurs
+     * @pbrbm is the <code>InputStrebm</code> to rebd the dbtb from
+     * @return bn unmodifibble List of the certificbtes
+     * @exception CertificbteException if bn exception occurs
      */
-    private static List<X509Certificate> parsePKCS7(InputStream is)
-            throws CertificateException {
-        List<X509Certificate> certList;
+    privbte stbtic List<X509Certificbte> pbrsePKCS7(InputStrebm is)
+            throws CertificbteException {
+        List<X509Certificbte> certList;
 
         if (is == null) {
-            throw new CertificateException("input stream is null");
+            throw new CertificbteException("input strebm is null");
         }
 
         try {
-            if (is.markSupported() == false) {
-                // Copy the entire input stream into an InputStream that does
-                // support mark
-                is = new ByteArrayInputStream(readAllBytes(is));
+            if (is.mbrkSupported() == fblse) {
+                // Copy the entire input strebm into bn InputStrebm thbt does
+                // support mbrk
+                is = new ByteArrbyInputStrebm(rebdAllBytes(is));
             }
             PKCS7 pkcs7 = new PKCS7(is);
 
-            X509Certificate[] certArray = pkcs7.getCertificates();
-            // certs are optional in PKCS #7
-            if (certArray != null) {
-                certList = Arrays.asList(certArray);
+            X509Certificbte[] certArrby = pkcs7.getCertificbtes();
+            // certs bre optionbl in PKCS #7
+            if (certArrby != null) {
+                certList = Arrbys.bsList(certArrby);
             } else {
                 // no certs provided
-                certList = new ArrayList<X509Certificate>(0);
+                certList = new ArrbyList<X509Certificbte>(0);
             }
-        } catch (IOException ioe) {
-            throw new CertificateException("IOException parsing PKCS7 data: " +
+        } cbtch (IOException ioe) {
+            throw new CertificbteException("IOException pbrsing PKCS7 dbtb: " +
                                         ioe);
         }
-        // Assumes that the resulting List is thread-safe. This is true
-        // because we ensure that it cannot be modified after construction
-        // and the methods in the Sun JDK 1.4 implementation of ArrayList that
-        // allow read-only access are thread-safe.
-        return Collections.unmodifiableList(certList);
+        // Assumes thbt the resulting List is threbd-sbfe. This is true
+        // becbuse we ensure thbt it cbnnot be modified bfter construction
+        // bnd the methods in the Sun JDK 1.4 implementbtion of ArrbyList thbt
+        // bllow rebd-only bccess bre threbd-sbfe.
+        return Collections.unmodifibbleList(certList);
     }
 
     /*
-     * Reads the entire contents of an InputStream into a byte array.
+     * Rebds the entire contents of bn InputStrebm into b byte brrby.
      *
-     * @param is the InputStream to read from
-     * @return the bytes read from the InputStream
+     * @pbrbm is the InputStrebm to rebd from
+     * @return the bytes rebd from the InputStrebm
      */
-    private static byte[] readAllBytes(InputStream is) throws IOException {
+    privbte stbtic byte[] rebdAllBytes(InputStrebm is) throws IOException {
         byte[] buffer = new byte[8192];
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm(2048);
         int n;
-        while ((n = is.read(buffer)) != -1) {
-            baos.write(buffer, 0, n);
+        while ((n = is.rebd(buffer)) != -1) {
+            bbos.write(buffer, 0, n);
         }
-        return baos.toByteArray();
+        return bbos.toByteArrby();
     }
 
     /**
-     * Returns the encoded form of this certification path, using the
-     * default encoding.
+     * Returns the encoded form of this certificbtion pbth, using the
+     * defbult encoding.
      *
      * @return the encoded bytes
-     * @exception CertificateEncodingException if an encoding error occurs
+     * @exception CertificbteEncodingException if bn encoding error occurs
      */
     @Override
-    public byte[] getEncoded() throws CertificateEncodingException {
-        // @@@ Should cache the encoded form
+    public byte[] getEncoded() throws CertificbteEncodingException {
+        // @@@ Should cbche the encoded form
         return encodePKIPATH();
     }
 
     /**
-     * Encode the CertPath using PKIPATH format.
+     * Encode the CertPbth using PKIPATH formbt.
      *
-     * @return a byte array containing the binary encoding of the PkiPath object
-     * @exception CertificateEncodingException if an exception occurs
+     * @return b byte brrby contbining the binbry encoding of the PkiPbth object
+     * @exception CertificbteEncodingException if bn exception occurs
      */
-    private byte[] encodePKIPATH() throws CertificateEncodingException {
+    privbte byte[] encodePKIPATH() throws CertificbteEncodingException {
 
-        ListIterator<X509Certificate> li = certs.listIterator(certs.size());
+        ListIterbtor<X509Certificbte> li = certs.listIterbtor(certs.size());
         try {
-            DerOutputStream bytes = new DerOutputStream();
-            // encode certs in reverse order (trust anchor to target)
-            // according to PkiPath format
-            while (li.hasPrevious()) {
-                X509Certificate cert = li.previous();
-                // check for duplicate cert
-                if (certs.lastIndexOf(cert) != certs.indexOf(cert)) {
-                    throw new CertificateEncodingException
-                        ("Duplicate Certificate");
+            DerOutputStrebm bytes = new DerOutputStrebm();
+            // encode certs in reverse order (trust bnchor to tbrget)
+            // bccording to PkiPbth formbt
+            while (li.hbsPrevious()) {
+                X509Certificbte cert = li.previous();
+                // check for duplicbte cert
+                if (certs.lbstIndexOf(cert) != certs.indexOf(cert)) {
+                    throw new CertificbteEncodingException
+                        ("Duplicbte Certificbte");
                 }
-                // get encoded certificates
+                // get encoded certificbtes
                 byte[] encoded = cert.getEncoded();
                 bytes.write(encoded);
             }
 
-            // Wrap the data in a SEQUENCE
-            DerOutputStream derout = new DerOutputStream();
-            derout.write(DerValue.tag_SequenceOf, bytes);
-            return derout.toByteArray();
+            // Wrbp the dbtb in b SEQUENCE
+            DerOutputStrebm derout = new DerOutputStrebm();
+            derout.write(DerVblue.tbg_SequenceOf, bytes);
+            return derout.toByteArrby();
 
-        } catch (IOException ioe) {
-           throw new CertificateEncodingException("IOException encoding " +
-                   "PkiPath data: " + ioe, ioe);
+        } cbtch (IOException ioe) {
+           throw new CertificbteEncodingException("IOException encoding " +
+                   "PkiPbth dbtb: " + ioe, ioe);
         }
     }
 
     /**
-     * Encode the CertPath using PKCS#7 format.
+     * Encode the CertPbth using PKCS#7 formbt.
      *
-     * @return a byte array containing the binary encoding of the PKCS#7 object
-     * @exception CertificateEncodingException if an exception occurs
+     * @return b byte brrby contbining the binbry encoding of the PKCS#7 object
+     * @exception CertificbteEncodingException if bn exception occurs
      */
-    private byte[] encodePKCS7() throws CertificateEncodingException {
+    privbte byte[] encodePKCS7() throws CertificbteEncodingException {
         PKCS7 p7 = new PKCS7(new AlgorithmId[0],
                              new ContentInfo(ContentInfo.DATA_OID, null),
-                             certs.toArray(new X509Certificate[certs.size()]),
+                             certs.toArrby(new X509Certificbte[certs.size()]),
                              new SignerInfo[0]);
-        DerOutputStream derout = new DerOutputStream();
+        DerOutputStrebm derout = new DerOutputStrebm();
         try {
-            p7.encodeSignedData(derout);
-        } catch (IOException ioe) {
-            throw new CertificateEncodingException(ioe.getMessage());
+            p7.encodeSignedDbtb(derout);
+        } cbtch (IOException ioe) {
+            throw new CertificbteEncodingException(ioe.getMessbge());
         }
-        return derout.toByteArray();
+        return derout.toByteArrby();
     }
 
     /**
-     * Returns the encoded form of this certification path, using the
+     * Returns the encoded form of this certificbtion pbth, using the
      * specified encoding.
      *
-     * @param encoding the name of the encoding to use
+     * @pbrbm encoding the nbme of the encoding to use
      * @return the encoded bytes
-     * @exception CertificateEncodingException if an encoding error occurs or
+     * @exception CertificbteEncodingException if bn encoding error occurs or
      *   the encoding requested is not supported
      */
     @Override
     public byte[] getEncoded(String encoding)
-            throws CertificateEncodingException {
+            throws CertificbteEncodingException {
         switch (encoding) {
-            case PKIPATH_ENCODING:
+            cbse PKIPATH_ENCODING:
                 return encodePKIPATH();
-            case PKCS7_ENCODING:
+            cbse PKCS7_ENCODING:
                 return encodePKCS7();
-            default:
-                throw new CertificateEncodingException("unsupported encoding");
+            defbult:
+                throw new CertificbteEncodingException("unsupported encoding");
         }
     }
 
     /**
-     * Returns the encodings supported by this certification path, with the
-     * default encoding first.
+     * Returns the encodings supported by this certificbtion pbth, with the
+     * defbult encoding first.
      *
-     * @return an <code>Iterator</code> over the names of the supported
-     *         encodings (as Strings)
+     * @return bn <code>Iterbtor</code> over the nbmes of the supported
+     *         encodings (bs Strings)
      */
-    public static Iterator<String> getEncodingsStatic() {
-        return encodingList.iterator();
+    public stbtic Iterbtor<String> getEncodingsStbtic() {
+        return encodingList.iterbtor();
     }
 
     /**
-     * Returns an iteration of the encodings supported by this certification
-     * path, with the default encoding first.
+     * Returns bn iterbtion of the encodings supported by this certificbtion
+     * pbth, with the defbult encoding first.
      * <p>
-     * Attempts to modify the returned <code>Iterator</code> via its
-     * <code>remove</code> method result in an
-     * <code>UnsupportedOperationException</code>.
+     * Attempts to modify the returned <code>Iterbtor</code> vib its
+     * <code>remove</code> method result in bn
+     * <code>UnsupportedOperbtionException</code>.
      *
-     * @return an <code>Iterator</code> over the names of the supported
-     *         encodings (as Strings)
+     * @return bn <code>Iterbtor</code> over the nbmes of the supported
+     *         encodings (bs Strings)
      */
     @Override
-    public Iterator<String> getEncodings() {
-        return getEncodingsStatic();
+    public Iterbtor<String> getEncodings() {
+        return getEncodingsStbtic();
     }
 
     /**
-     * Returns the list of certificates in this certification path.
-     * The <code>List</code> returned must be immutable and thread-safe.
+     * Returns the list of certificbtes in this certificbtion pbth.
+     * The <code>List</code> returned must be immutbble bnd threbd-sbfe.
      *
-     * @return an immutable <code>List</code> of <code>X509Certificate</code>s
-     *         (may be empty, but not null)
+     * @return bn immutbble <code>List</code> of <code>X509Certificbte</code>s
+     *         (mby be empty, but not null)
      */
     @Override
-    public List<X509Certificate> getCertificates() {
+    public List<X509Certificbte> getCertificbtes() {
         return certs;
     }
 }

@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.applet;
+pbckbge sun.bpplet;
 
-import java.util.*;
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.print.*;
-import javax.print.attribute.*;
-import java.applet.*;
-import java.net.URL;
-import java.net.SocketPermission;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.awt.SunToolkit;
-import sun.awt.AppContext;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.print.*;
+import jbvbx.print.bttribute.*;
+import jbvb.bpplet.*;
+import jbvb.net.URL;
+import jbvb.net.SocketPermission;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.bwt.SunToolkit;
+import sun.bwt.AppContext;
 
 /**
- * A frame to show the applet tag in.
+ * A frbme to show the bpplet tbg in.
  */
-@SuppressWarnings("serial") // JDK-implementation class
-final class TextFrame extends Frame {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+finbl clbss TextFrbme extends Frbme {
 
     /**
-     * Create the tag frame.
+     * Crebte the tbg frbme.
      */
-    TextFrame(int x, int y, String title, String text) {
+    TextFrbme(int x, int y, String title, String text) {
         setTitle(title);
-        TextArea txt = new TextArea(20, 60);
+        TextAreb txt = new TextAreb(20, 60);
         txt.setText(text);
-        txt.setEditable(false);
+        txt.setEditbble(fblse);
 
-        add("Center", txt);
+        bdd("Center", txt);
 
-        Panel p = new Panel();
-        add("South", p);
-        Button b = new Button(amh.getMessage("button.dismiss", "Dismiss"));
-        p.add(b);
+        Pbnel p = new Pbnel();
+        bdd("South", p);
+        Button b = new Button(bmh.getMessbge("button.dismiss", "Dismiss"));
+        p.bdd(b);
 
-        class ActionEventListener implements ActionListener {
+        clbss ActionEventListener implements ActionListener {
             @Override
-            public void actionPerformed(ActionEvent evt) {
+            public void bctionPerformed(ActionEvent evt) {
                 dispose();
             }
         }
-        b.addActionListener(new ActionEventListener());
+        b.bddActionListener(new ActionEventListener());
 
-        pack();
+        pbck();
         move(x, y);
         setVisible(true);
 
-        WindowListener windowEventListener = new WindowAdapter() {
+        WindowListener windowEventListener = new WindowAdbpter() {
 
             @Override
             public void windowClosing(WindowEvent evt) {
@@ -81,369 +81,369 @@ final class TextFrame extends Frame {
             }
         };
 
-        addWindowListener(windowEventListener);
+        bddWindowListener(windowEventListener);
     }
-    private static AppletMessageHandler amh = new AppletMessageHandler("textframe");
+    privbte stbtic AppletMessbgeHbndler bmh = new AppletMessbgeHbndler("textfrbme");
 
 }
 
 /**
- * Lets us construct one using unix-style one shot behaviors.
+ * Lets us construct one using unix-style one shot behbviors.
  */
-final class StdAppletViewerFactory implements AppletViewerFactory {
+finbl clbss StdAppletViewerFbctory implements AppletViewerFbctory {
 
     @Override
-    public AppletViewer createAppletViewer(int x, int y,
-                                           URL doc, Hashtable<String, String> atts) {
-        return new AppletViewer(x, y, doc, atts, System.out, this);
+    public AppletViewer crebteAppletViewer(int x, int y,
+                                           URL doc, Hbshtbble<String, String> btts) {
+        return new AppletViewer(x, y, doc, btts, System.out, this);
     }
 
     @Override
-    public MenuBar getBaseMenuBar() {
-        return new MenuBar();
+    public MenuBbr getBbseMenuBbr() {
+        return new MenuBbr();
     }
 
     @Override
-    public boolean isStandalone() {
+    public boolebn isStbndblone() {
         return true;
     }
 }
 
 /**
- * The applet viewer makes it possible to run a Java applet without using a browser.
- * For details on the syntax that <B>appletviewer</B> supports, see
- * <a href="../../../docs/tooldocs/appletviewertags.html">AppletViewer Tags</a>.
- * (The document named appletviewertags.html in the JDK's docs/tooldocs directory,
- *  once the JDK docs have been installed.)
+ * The bpplet viewer mbkes it possible to run b Jbvb bpplet without using b browser.
+ * For detbils on the syntbx thbt <B>bppletviewer</B> supports, see
+ * <b href="../../../docs/tooldocs/bppletviewertbgs.html">AppletViewer Tbgs</b>.
+ * (The document nbmed bppletviewertbgs.html in the JDK's docs/tooldocs directory,
+ *  once the JDK docs hbve been instblled.)
  */
-@SuppressWarnings("serial") // JDK implementation class
-public class AppletViewer extends Frame implements AppletContext, Printable {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public clbss AppletViewer extends Frbme implements AppletContext, Printbble {
 
     /**
-     * Some constants...
+     * Some constbnts...
      */
-    private static String defaultSaveFile = "Applet.ser";
+    privbte stbtic String defbultSbveFile = "Applet.ser";
 
     /**
-     * The panel in which the applet is being displayed.
+     * The pbnel in which the bpplet is being displbyed.
      */
-    AppletViewerPanel panel;
+    AppletViewerPbnel pbnel;
 
     /**
-     * The status line.
+     * The stbtus line.
      */
-    Label label;
+    Lbbel lbbel;
 
     /**
-     * output status messages to this stream
+     * output stbtus messbges to this strebm
      */
 
-    PrintStream statusMsgStream;
+    PrintStrebm stbtusMsgStrebm;
 
     /**
      * For cloning
      */
-    AppletViewerFactory factory;
+    AppletViewerFbctory fbctory;
 
 
-    private final class UserActionListener implements ActionListener {
+    privbte finbl clbss UserActionListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent evt) {
+        public void bctionPerformed(ActionEvent evt) {
             processUserAction(evt);
         }
     }
 
     /**
-     * Create the applet viewer.
+     * Crebte the bpplet viewer.
      */
-    public AppletViewer(int x, int y, URL doc, Hashtable<String, String> atts,
-                        PrintStream statusMsgStream, AppletViewerFactory factory) {
-        this.factory = factory;
-        this.statusMsgStream = statusMsgStream;
-        setTitle(amh.getMessage("tool.title", atts.get("code")));
+    public AppletViewer(int x, int y, URL doc, Hbshtbble<String, String> btts,
+                        PrintStrebm stbtusMsgStrebm, AppletViewerFbctory fbctory) {
+        this.fbctory = fbctory;
+        this.stbtusMsgStrebm = stbtusMsgStrebm;
+        setTitle(bmh.getMessbge("tool.title", btts.get("code")));
 
-        MenuBar mb = factory.getBaseMenuBar();
+        MenuBbr mb = fbctory.getBbseMenuBbr();
 
-        Menu m = new Menu(amh.getMessage("menu.applet"));
+        Menu m = new Menu(bmh.getMessbge("menu.bpplet"));
 
-        addMenuItem(m, "menuitem.restart");
-        addMenuItem(m, "menuitem.reload");
-        addMenuItem(m, "menuitem.stop");
-        addMenuItem(m, "menuitem.save");
-        addMenuItem(m, "menuitem.start");
-        addMenuItem(m, "menuitem.clone");
-        m.add(new MenuItem("-"));
-        addMenuItem(m, "menuitem.tag");
-        addMenuItem(m, "menuitem.info");
-        addMenuItem(m, "menuitem.edit").disable();
-        addMenuItem(m, "menuitem.encoding");
-        m.add(new MenuItem("-"));
-        addMenuItem(m, "menuitem.print");
-        m.add(new MenuItem("-"));
-        addMenuItem(m, "menuitem.props");
-        m.add(new MenuItem("-"));
-        addMenuItem(m, "menuitem.close");
-        if (factory.isStandalone()) {
-            addMenuItem(m, "menuitem.quit");
+        bddMenuItem(m, "menuitem.restbrt");
+        bddMenuItem(m, "menuitem.relobd");
+        bddMenuItem(m, "menuitem.stop");
+        bddMenuItem(m, "menuitem.sbve");
+        bddMenuItem(m, "menuitem.stbrt");
+        bddMenuItem(m, "menuitem.clone");
+        m.bdd(new MenuItem("-"));
+        bddMenuItem(m, "menuitem.tbg");
+        bddMenuItem(m, "menuitem.info");
+        bddMenuItem(m, "menuitem.edit").disbble();
+        bddMenuItem(m, "menuitem.encoding");
+        m.bdd(new MenuItem("-"));
+        bddMenuItem(m, "menuitem.print");
+        m.bdd(new MenuItem("-"));
+        bddMenuItem(m, "menuitem.props");
+        m.bdd(new MenuItem("-"));
+        bddMenuItem(m, "menuitem.close");
+        if (fbctory.isStbndblone()) {
+            bddMenuItem(m, "menuitem.quit");
         }
 
-        mb.add(m);
+        mb.bdd(m);
 
-        setMenuBar(mb);
+        setMenuBbr(mb);
 
-        add("Center", panel = new AppletViewerPanel(doc, atts));
-        add("South", label = new Label(amh.getMessage("label.hello")));
-        panel.init();
-        appletPanels.addElement(panel);
+        bdd("Center", pbnel = new AppletViewerPbnel(doc, btts));
+        bdd("South", lbbel = new Lbbel(bmh.getMessbge("lbbel.hello")));
+        pbnel.init();
+        bppletPbnels.bddElement(pbnel);
 
-        pack();
+        pbck();
         move(x, y);
         setVisible(true);
 
-        WindowListener windowEventListener = new WindowAdapter() {
+        WindowListener windowEventListener = new WindowAdbpter() {
 
             @Override
             public void windowClosing(WindowEvent evt) {
-                appletClose();
+                bppletClose();
             }
 
             @Override
             public void windowIconified(WindowEvent evt) {
-                appletStop();
+                bppletStop();
             }
 
             @Override
             public void windowDeiconified(WindowEvent evt) {
-                appletStart();
+                bppletStbrt();
             }
         };
 
-        class AppletEventListener implements AppletListener
+        clbss AppletEventListener implements AppletListener
         {
-            final Frame frame;
+            finbl Frbme frbme;
 
-            public AppletEventListener(Frame frame)
+            public AppletEventListener(Frbme frbme)
             {
-                this.frame = frame;
+                this.frbme = frbme;
             }
 
             @Override
-            public void appletStateChanged(AppletEvent evt)
+            public void bppletStbteChbnged(AppletEvent evt)
             {
-                AppletPanel src = (AppletPanel)evt.getSource();
+                AppletPbnel src = (AppletPbnel)evt.getSource();
 
                 switch (evt.getID()) {
-                    case AppletPanel.APPLET_RESIZE: {
+                    cbse AppletPbnel.APPLET_RESIZE: {
                         if(src != null) {
                             resize(preferredSize());
-                            validate();
+                            vblidbte();
                         }
-                        break;
+                        brebk;
                     }
-                    case AppletPanel.APPLET_LOADING_COMPLETED: {
-                        Applet a = src.getApplet(); // sun.applet.AppletPanel
+                    cbse AppletPbnel.APPLET_LOADING_COMPLETED: {
+                        Applet b = src.getApplet(); // sun.bpplet.AppletPbnel
 
-                        // Fixed #4754451: Applet can have methods running on main
-                        // thread event queue.
+                        // Fixed #4754451: Applet cbn hbve methods running on mbin
+                        // threbd event queue.
                         //
-                        // The cause of this bug is that the frame of the applet
-                        // is created in main thread group. Thus, when certain
-                        // AWT/Swing events are generated, the events will be
-                        // dispatched through the wrong event dispatch thread.
+                        // The cbuse of this bug is thbt the frbme of the bpplet
+                        // is crebted in mbin threbd group. Thus, when certbin
+                        // AWT/Swing events bre generbted, the events will be
+                        // dispbtched through the wrong event dispbtch threbd.
                         //
-                        // To fix this, we rearrange the AppContext with the frame,
+                        // To fix this, we rebrrbnge the AppContext with the frbme,
                         // so the proper event queue will be looked up.
                         //
-                        // Swing also maintains a Frame list for the AppContext,
-                        // so we will have to rearrange it as well.
+                        // Swing blso mbintbins b Frbme list for the AppContext,
+                        // so we will hbve to rebrrbnge it bs well.
                         //
-                        if (a != null)
-                            AppletPanel.changeFrameAppContext(frame, SunToolkit.targetToAppContext(a));
+                        if (b != null)
+                            AppletPbnel.chbngeFrbmeAppContext(frbme, SunToolkit.tbrgetToAppContext(b));
                         else
-                            AppletPanel.changeFrameAppContext(frame, AppContext.getAppContext());
+                            AppletPbnel.chbngeFrbmeAppContext(frbme, AppContext.getAppContext());
 
-                        break;
+                        brebk;
                     }
                 }
             }
         };
 
-        addWindowListener(windowEventListener);
-        panel.addAppletListener(new AppletEventListener(this));
+        bddWindowListener(windowEventListener);
+        pbnel.bddAppletListener(new AppletEventListener(this));
 
-        // Start the applet
-        showStatus(amh.getMessage("status.start"));
+        // Stbrt the bpplet
+        showStbtus(bmh.getMessbge("stbtus.stbrt"));
         initEventQueue();
     }
 
-    // XXX 99/9/10 probably should be "private"
-    public MenuItem addMenuItem(Menu m, String s) {
-        MenuItem mItem = new MenuItem(amh.getMessage(s));
-        mItem.addActionListener(new UserActionListener());
-        return m.add(mItem);
+    // XXX 99/9/10 probbbly should be "privbte"
+    public MenuItem bddMenuItem(Menu m, String s) {
+        MenuItem mItem = new MenuItem(bmh.getMessbge(s));
+        mItem.bddActionListener(new UserActionListener());
+        return m.bdd(mItem);
     }
 
     /**
-     * Send the initial set of events to the appletviewer event queue.
-     * On start-up the current behaviour is to load the applet and call
-     * Applet.init() and Applet.start().
+     * Send the initibl set of events to the bppletviewer event queue.
+     * On stbrt-up the current behbviour is to lobd the bpplet bnd cbll
+     * Applet.init() bnd Applet.stbrt().
      */
-    private void initEventQueue() {
-        // appletviewer.send.event is an undocumented and unsupported system
+    privbte void initEventQueue() {
+        // bppletviewer.send.event is bn undocumented bnd unsupported system
         // property which is used exclusively for testing purposes.
-        String eventList = System.getProperty("appletviewer.send.event");
+        String eventList = System.getProperty("bppletviewer.send.event");
 
         if (eventList == null) {
-            // Add the standard events onto the event queue.
-            panel.sendEvent(AppletPanel.APPLET_LOAD);
-            panel.sendEvent(AppletPanel.APPLET_INIT);
-            panel.sendEvent(AppletPanel.APPLET_START);
+            // Add the stbndbrd events onto the event queue.
+            pbnel.sendEvent(AppletPbnel.APPLET_LOAD);
+            pbnel.sendEvent(AppletPbnel.APPLET_INIT);
+            pbnel.sendEvent(AppletPbnel.APPLET_START);
         } else {
             // We're testing AppletViewer.  Force the specified set of events
-            // onto the event queue, wait for the events to be processed, and
+            // onto the event queue, wbit for the events to be processed, bnd
             // exit.
 
-            // The list of events that will be executed is provided as a
-            // ","-separated list.  No error-checking will be done on the list.
-            String [] events = splitSeparator(",", eventList);
+            // The list of events thbt will be executed is provided bs b
+            // ","-sepbrbted list.  No error-checking will be done on the list.
+            String [] events = splitSepbrbtor(",", eventList);
 
             for (int i = 0; i < events.length; i++) {
                 System.out.println("Adding event to queue: " + events[i]);
-                if (events[i].equals("dispose"))
-                    panel.sendEvent(AppletPanel.APPLET_DISPOSE);
-                else if (events[i].equals("load"))
-                    panel.sendEvent(AppletPanel.APPLET_LOAD);
-                else if (events[i].equals("init"))
-                    panel.sendEvent(AppletPanel.APPLET_INIT);
-                else if (events[i].equals("start"))
-                    panel.sendEvent(AppletPanel.APPLET_START);
-                else if (events[i].equals("stop"))
-                    panel.sendEvent(AppletPanel.APPLET_STOP);
-                else if (events[i].equals("destroy"))
-                    panel.sendEvent(AppletPanel.APPLET_DESTROY);
-                else if (events[i].equals("quit"))
-                    panel.sendEvent(AppletPanel.APPLET_QUIT);
-                else if (events[i].equals("error"))
-                    panel.sendEvent(AppletPanel.APPLET_ERROR);
+                if (events[i].equbls("dispose"))
+                    pbnel.sendEvent(AppletPbnel.APPLET_DISPOSE);
+                else if (events[i].equbls("lobd"))
+                    pbnel.sendEvent(AppletPbnel.APPLET_LOAD);
+                else if (events[i].equbls("init"))
+                    pbnel.sendEvent(AppletPbnel.APPLET_INIT);
+                else if (events[i].equbls("stbrt"))
+                    pbnel.sendEvent(AppletPbnel.APPLET_START);
+                else if (events[i].equbls("stop"))
+                    pbnel.sendEvent(AppletPbnel.APPLET_STOP);
+                else if (events[i].equbls("destroy"))
+                    pbnel.sendEvent(AppletPbnel.APPLET_DESTROY);
+                else if (events[i].equbls("quit"))
+                    pbnel.sendEvent(AppletPbnel.APPLET_QUIT);
+                else if (events[i].equbls("error"))
+                    pbnel.sendEvent(AppletPbnel.APPLET_ERROR);
                 else
-                    // non-fatal error if we get an unrecognized event
-                    System.out.println("Unrecognized event name: " + events[i]);
+                    // non-fbtbl error if we get bn unrecognized event
+                    System.out.println("Unrecognized event nbme: " + events[i]);
             }
 
-            while (!panel.emptyEventQueue()) ;
-            appletSystemExit();
+            while (!pbnel.emptyEventQueue()) ;
+            bppletSystemExit();
         }
     }
 
     /**
-     * Split a string based on the presence of a specified separator.  Returns
-     * an array of arbitrary length.  The end of each element in the array is
-     * indicated by the separator of the end of the string.  If there is a
-     * separator immediately before the end of the string, the final element
-     * will be empty.  None of the strings will contain the separator.  Useful
-     * when separating strings such as "foo/bar/bas" using separator "/".
+     * Split b string bbsed on the presence of b specified sepbrbtor.  Returns
+     * bn brrby of brbitrbry length.  The end of ebch element in the brrby is
+     * indicbted by the sepbrbtor of the end of the string.  If there is b
+     * sepbrbtor immedibtely before the end of the string, the finbl element
+     * will be empty.  None of the strings will contbin the sepbrbtor.  Useful
+     * when sepbrbting strings such bs "foo/bbr/bbs" using sepbrbtor "/".
      *
-     * @param sep  The separator.
-     * @param s    The string to split.
-     * @return     An array of strings.  Each string in the array is determined
-     *             by the location of the provided sep in the original string,
-     *             s.  Whitespace not stripped.
+     * @pbrbm sep  The sepbrbtor.
+     * @pbrbm s    The string to split.
+     * @return     An brrby of strings.  Ebch string in the brrby is determined
+     *             by the locbtion of the provided sep in the originbl string,
+     *             s.  Whitespbce not stripped.
      */
-    private String [] splitSeparator(String sep, String s) {
+    privbte String [] splitSepbrbtor(String sep, String s) {
         Vector<String> v = new Vector<>();
-        int tokenStart = 0;
+        int tokenStbrt = 0;
         int tokenEnd   = 0;
 
-        while ((tokenEnd = s.indexOf(sep, tokenStart)) != -1) {
-            v.addElement(s.substring(tokenStart, tokenEnd));
-            tokenStart = tokenEnd+1;
+        while ((tokenEnd = s.indexOf(sep, tokenStbrt)) != -1) {
+            v.bddElement(s.substring(tokenStbrt, tokenEnd));
+            tokenStbrt = tokenEnd+1;
         }
-        // Add the final element.
-        v.addElement(s.substring(tokenStart));
+        // Add the finbl element.
+        v.bddElement(s.substring(tokenStbrt));
 
-        String [] retVal = new String[v.size()];
-        v.copyInto(retVal);
-        return retVal;
+        String [] retVbl = new String[v.size()];
+        v.copyInto(retVbl);
+        return retVbl;
     }
 
     /*
-     * Methods for java.applet.AppletContext
+     * Methods for jbvb.bpplet.AppletContext
      */
 
-    private static Map<URL, AudioClip> audioClips = new HashMap<>();
+    privbte stbtic Mbp<URL, AudioClip> budioClips = new HbshMbp<>();
 
     /**
-     * Get an audio clip.
+     * Get bn budio clip.
      */
     @Override
     public AudioClip getAudioClip(URL url) {
         checkConnect(url);
-        synchronized (audioClips) {
-            AudioClip clip = audioClips.get(url);
+        synchronized (budioClips) {
+            AudioClip clip = budioClips.get(url);
             if (clip == null) {
-                audioClips.put(url, clip = new AppletAudioClip(url));
+                budioClips.put(url, clip = new AppletAudioClip(url));
             }
             return clip;
         }
     }
 
-    private static Map<URL, AppletImageRef> imageRefs = new HashMap<>();
+    privbte stbtic Mbp<URL, AppletImbgeRef> imbgeRefs = new HbshMbp<>();
 
     /**
-     * Get an image.
+     * Get bn imbge.
      */
     @Override
-    public Image getImage(URL url) {
-        return getCachedImage(url);
+    public Imbge getImbge(URL url) {
+        return getCbchedImbge(url);
     }
 
     /**
-     * Get an image.
+     * Get bn imbge.
      */
-    static Image getCachedImage(URL url) {
-        // System.getSecurityManager().checkConnection(url.getHost(), url.getPort());
-        synchronized (imageRefs) {
-            AppletImageRef ref = imageRefs.get(url);
+    stbtic Imbge getCbchedImbge(URL url) {
+        // System.getSecurityMbnbger().checkConnection(url.getHost(), url.getPort());
+        synchronized (imbgeRefs) {
+            AppletImbgeRef ref = imbgeRefs.get(url);
             if (ref == null) {
-                ref = new AppletImageRef(url);
-                imageRefs.put(url, ref);
+                ref = new AppletImbgeRef(url);
+                imbgeRefs.put(url, ref);
             }
             return ref.get();
         }
     }
 
     /**
-     * Flush the image cache.
+     * Flush the imbge cbche.
      */
-    static void flushImageCache() {
-        imageRefs.clear();
+    stbtic void flushImbgeCbche() {
+        imbgeRefs.clebr();
     }
 
-    static Vector<AppletPanel> appletPanels = new Vector<>();
+    stbtic Vector<AppletPbnel> bppletPbnels = new Vector<>();
 
     /**
-     * Get an applet by name.
+     * Get bn bpplet by nbme.
      */
     @Override
-    public Applet getApplet(String name) {
-        AppletSecurity security = (AppletSecurity)System.getSecurityManager();
-        name = name.toLowerCase();
-        SocketPermission panelSp =
-            new SocketPermission(panel.getCodeBase().getHost(), "connect");
-        for (Enumeration<AppletPanel> e = appletPanels.elements() ; e.hasMoreElements() ;) {
-            AppletPanel p = e.nextElement();
-            String param = p.getParameter("name");
-            if (param != null) {
-                param = param.toLowerCase();
+    public Applet getApplet(String nbme) {
+        AppletSecurity security = (AppletSecurity)System.getSecurityMbnbger();
+        nbme = nbme.toLowerCbse();
+        SocketPermission pbnelSp =
+            new SocketPermission(pbnel.getCodeBbse().getHost(), "connect");
+        for (Enumerbtion<AppletPbnel> e = bppletPbnels.elements() ; e.hbsMoreElements() ;) {
+            AppletPbnel p = e.nextElement();
+            String pbrbm = p.getPbrbmeter("nbme");
+            if (pbrbm != null) {
+                pbrbm = pbrbm.toLowerCbse();
             }
-            if (name.equals(param) &&
-                p.getDocumentBase().equals(panel.getDocumentBase())) {
+            if (nbme.equbls(pbrbm) &&
+                p.getDocumentBbse().equbls(pbnel.getDocumentBbse())) {
 
                 SocketPermission sp =
-                    new SocketPermission(p.getCodeBase().getHost(), "connect");
+                    new SocketPermission(p.getCodeBbse().getHost(), "connect");
 
-                if (panelSp.implies(sp)) {
-                    return p.applet;
+                if (pbnelSp.implies(sp)) {
+                    return p.bpplet;
                 }
             }
         }
@@ -451,24 +451,24 @@ public class AppletViewer extends Frame implements AppletContext, Printable {
     }
 
     /**
-     * Return an enumeration of all the accessible
-     * applets on this page.
+     * Return bn enumerbtion of bll the bccessible
+     * bpplets on this pbge.
      */
     @Override
-    public Enumeration<Applet> getApplets() {
-        AppletSecurity security = (AppletSecurity)System.getSecurityManager();
+    public Enumerbtion<Applet> getApplets() {
+        AppletSecurity security = (AppletSecurity)System.getSecurityMbnbger();
         Vector<Applet> v = new Vector<>();
-        SocketPermission panelSp =
-            new SocketPermission(panel.getCodeBase().getHost(), "connect");
+        SocketPermission pbnelSp =
+            new SocketPermission(pbnel.getCodeBbse().getHost(), "connect");
 
-        for (Enumeration<AppletPanel> e = appletPanels.elements() ; e.hasMoreElements() ;) {
-            AppletPanel p = e.nextElement();
-            if (p.getDocumentBase().equals(panel.getDocumentBase())) {
+        for (Enumerbtion<AppletPbnel> e = bppletPbnels.elements() ; e.hbsMoreElements() ;) {
+            AppletPbnel p = e.nextElement();
+            if (p.getDocumentBbse().equbls(pbnel.getDocumentBbse())) {
 
                 SocketPermission sp =
-                    new SocketPermission(p.getCodeBase().getHost(), "connect");
-                if (panelSp.implies(sp)) {
-                    v.addElement(p.applet);
+                    new SocketPermission(p.getCodeBbse().getHost(), "connect");
+                if (pbnelSp.implies(sp)) {
+                    v.bddElement(p.bpplet);
                 }
             }
         }
@@ -486,210 +486,210 @@ public class AppletViewer extends Frame implements AppletContext, Printable {
      * Ignore.
      */
     @Override
-    public void showDocument(URL url, String target) {
+    public void showDocument(URL url, String tbrget) {
     }
 
     /**
-     * Show status.
+     * Show stbtus.
      */
     @Override
-    public void showStatus(String status) {
-        label.setText(status);
+    public void showStbtus(String stbtus) {
+        lbbel.setText(stbtus);
     }
 
     @Override
-    public void setStream(String key, InputStream stream)throws IOException{
+    public void setStrebm(String key, InputStrebm strebm)throws IOException{
         // We do nothing.
     }
 
     @Override
-    public InputStream getStream(String key){
-        // We do nothing.
-        return null;
-    }
-
-    @Override
-    public Iterator<String> getStreamKeys(){
+    public InputStrebm getStrebm(String key){
         // We do nothing.
         return null;
     }
 
-    /**
-     * System parameters.
-     */
-    static Hashtable<String, String> systemParam = new Hashtable<>();
-
-    static {
-        systemParam.put("codebase", "codebase");
-        systemParam.put("code", "code");
-        systemParam.put("alt", "alt");
-        systemParam.put("width", "width");
-        systemParam.put("height", "height");
-        systemParam.put("align", "align");
-        systemParam.put("vspace", "vspace");
-        systemParam.put("hspace", "hspace");
+    @Override
+    public Iterbtor<String> getStrebmKeys(){
+        // We do nothing.
+        return null;
     }
 
     /**
-     * Print the HTML tag.
+     * System pbrbmeters.
      */
-    public static void printTag(PrintStream out, Hashtable<String, String> atts) {
-        out.print("<applet");
+    stbtic Hbshtbble<String, String> systemPbrbm = new Hbshtbble<>();
 
-        String v = atts.get("codebase");
+    stbtic {
+        systemPbrbm.put("codebbse", "codebbse");
+        systemPbrbm.put("code", "code");
+        systemPbrbm.put("blt", "blt");
+        systemPbrbm.put("width", "width");
+        systemPbrbm.put("height", "height");
+        systemPbrbm.put("blign", "blign");
+        systemPbrbm.put("vspbce", "vspbce");
+        systemPbrbm.put("hspbce", "hspbce");
+    }
+
+    /**
+     * Print the HTML tbg.
+     */
+    public stbtic void printTbg(PrintStrebm out, Hbshtbble<String, String> btts) {
+        out.print("<bpplet");
+
+        String v = btts.get("codebbse");
         if (v != null) {
-            out.print(" codebase=\"" + v + "\"");
+            out.print(" codebbse=\"" + v + "\"");
         }
 
-        v = atts.get("code");
+        v = btts.get("code");
         if (v == null) {
-            v = "applet.class";
+            v = "bpplet.clbss";
         }
         out.print(" code=\"" + v + "\"");
-        v = atts.get("width");
+        v = btts.get("width");
         if (v == null) {
             v = "150";
         }
         out.print(" width=" + v);
 
-        v = atts.get("height");
+        v = btts.get("height");
         if (v == null) {
             v = "100";
         }
         out.print(" height=" + v);
 
-        v = atts.get("name");
+        v = btts.get("nbme");
         if (v != null) {
-            out.print(" name=\"" + v + "\"");
+            out.print(" nbme=\"" + v + "\"");
         }
         out.println(">");
 
-        // A very slow sorting algorithm
-        int len = atts.size();
-        String params[] = new String[len];
+        // A very slow sorting blgorithm
+        int len = btts.size();
+        String pbrbms[] = new String[len];
         len = 0;
-        for (Enumeration<String> e = atts.keys() ; e.hasMoreElements() ;) {
-            String param = e.nextElement();
+        for (Enumerbtion<String> e = btts.keys() ; e.hbsMoreElements() ;) {
+            String pbrbm = e.nextElement();
             int i = 0;
             for (; i < len ; i++) {
-                if (params[i].compareTo(param) >= 0) {
-                    break;
+                if (pbrbms[i].compbreTo(pbrbm) >= 0) {
+                    brebk;
                 }
             }
-            System.arraycopy(params, i, params, i + 1, len - i);
-            params[i] = param;
+            System.brrbycopy(pbrbms, i, pbrbms, i + 1, len - i);
+            pbrbms[i] = pbrbm;
             len++;
         }
 
         for (int i = 0 ; i < len ; i++) {
-            String param = params[i];
-            if (systemParam.get(param) == null) {
-                out.println("<param name=" + param +
-                            " value=\"" + atts.get(param) + "\">");
+            String pbrbm = pbrbms[i];
+            if (systemPbrbm.get(pbrbm) == null) {
+                out.println("<pbrbm nbme=" + pbrbm +
+                            " vblue=\"" + btts.get(pbrbm) + "\">");
             }
         }
-        out.println("</applet>");
+        out.println("</bpplet>");
     }
 
     /**
-     * Make sure the atrributes are uptodate.
+     * Mbke sure the btrributes bre uptodbte.
      */
-    public void updateAtts() {
-        Dimension d = panel.size();
-        Insets in = panel.insets();
-        panel.atts.put("width",
+    public void updbteAtts() {
+        Dimension d = pbnel.size();
+        Insets in = pbnel.insets();
+        pbnel.btts.put("width",
                        Integer.toString(d.width - (in.left + in.right)));
-        panel.atts.put("height",
+        pbnel.btts.put("height",
                        Integer.toString(d.height - (in.top + in.bottom)));
     }
 
     /**
-     * Restart the applet.
+     * Restbrt the bpplet.
      */
-    void appletRestart() {
-        panel.sendEvent(AppletPanel.APPLET_STOP);
-        panel.sendEvent(AppletPanel.APPLET_DESTROY);
-        panel.sendEvent(AppletPanel.APPLET_INIT);
-        panel.sendEvent(AppletPanel.APPLET_START);
+    void bppletRestbrt() {
+        pbnel.sendEvent(AppletPbnel.APPLET_STOP);
+        pbnel.sendEvent(AppletPbnel.APPLET_DESTROY);
+        pbnel.sendEvent(AppletPbnel.APPLET_INIT);
+        pbnel.sendEvent(AppletPbnel.APPLET_START);
     }
 
     /**
-     * Reload the applet.
+     * Relobd the bpplet.
      */
-    void appletReload() {
-        panel.sendEvent(AppletPanel.APPLET_STOP);
-        panel.sendEvent(AppletPanel.APPLET_DESTROY);
-        panel.sendEvent(AppletPanel.APPLET_DISPOSE);
+    void bppletRelobd() {
+        pbnel.sendEvent(AppletPbnel.APPLET_STOP);
+        pbnel.sendEvent(AppletPbnel.APPLET_DESTROY);
+        pbnel.sendEvent(AppletPbnel.APPLET_DISPOSE);
 
         /**
-         * Fixed #4501142: Classloader sharing policy doesn't
-         * take "archive" into account. This will be overridden
-         * by Java Plug-in.                     [stanleyh]
+         * Fixed #4501142: Clbsslobder shbring policy doesn't
+         * tbke "brchive" into bccount. This will be overridden
+         * by Jbvb Plug-in.                     [stbnleyh]
          */
-        AppletPanel.flushClassLoader(panel.getClassLoaderCacheKey());
+        AppletPbnel.flushClbssLobder(pbnel.getClbssLobderCbcheKey());
 
         /*
-         * Make sure we don't have two threads running through the event queue
-         * at the same time.
+         * Mbke sure we don't hbve two threbds running through the event queue
+         * bt the sbme time.
          */
         try {
-            panel.joinAppletThread();
-            panel.release();
-        } catch (InterruptedException e) {
-            return;   // abort the reload
+            pbnel.joinAppletThrebd();
+            pbnel.relebse();
+        } cbtch (InterruptedException e) {
+            return;   // bbort the relobd
         }
 
-        panel.createAppletThread();
-        panel.sendEvent(AppletPanel.APPLET_LOAD);
-        panel.sendEvent(AppletPanel.APPLET_INIT);
-        panel.sendEvent(AppletPanel.APPLET_START);
+        pbnel.crebteAppletThrebd();
+        pbnel.sendEvent(AppletPbnel.APPLET_LOAD);
+        pbnel.sendEvent(AppletPbnel.APPLET_INIT);
+        pbnel.sendEvent(AppletPbnel.APPLET_START);
     }
 
     /**
-     * Save the applet to a well known file (for now) as a serialized object
+     * Sbve the bpplet to b well known file (for now) bs b seriblized object
      */
-    void appletSave() {
+    void bppletSbve() {
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
 
             @Override
             public Object run() {
-                // XXX: this privileged block should be made smaller
-                // by initializing a private static variable with "user.dir"
+                // XXX: this privileged block should be mbde smbller
+                // by initiblizing b privbte stbtic vbribble with "user.dir"
 
-                // Applet needs to be stopped for serialization to succeed.
-                // Since panel.sendEvent only queues the event, there is a
-                // chance that the event will not be processed before
-                // serialization begins.  However, by sending the event before
-                // FileDialog is created, enough time is given such that this
-                // situation is unlikely to ever occur.
+                // Applet needs to be stopped for seriblizbtion to succeed.
+                // Since pbnel.sendEvent only queues the event, there is b
+                // chbnce thbt the event will not be processed before
+                // seriblizbtion begins.  However, by sending the event before
+                // FileDiblog is crebted, enough time is given such thbt this
+                // situbtion is unlikely to ever occur.
 
-                panel.sendEvent(AppletPanel.APPLET_STOP);
-                FileDialog fd = new FileDialog(AppletViewer.this,
-                                               amh.getMessage("appletsave.filedialogtitle"),
-                                               FileDialog.SAVE);
-                // needed for a bug under Solaris...
+                pbnel.sendEvent(AppletPbnel.APPLET_STOP);
+                FileDiblog fd = new FileDiblog(AppletViewer.this,
+                                               bmh.getMessbge("bppletsbve.filediblogtitle"),
+                                               FileDiblog.SAVE);
+                // needed for b bug under Solbris...
                 fd.setDirectory(System.getProperty("user.dir"));
-                fd.setFile(defaultSaveFile);
+                fd.setFile(defbultSbveFile);
                 fd.show();
-                String fname = fd.getFile();
-                if (fname == null) {
-                    // Restart applet if Save is cancelled.
-                    panel.sendEvent(AppletPanel.APPLET_START);
-                    return null;                // cancelled
+                String fnbme = fd.getFile();
+                if (fnbme == null) {
+                    // Restbrt bpplet if Sbve is cbncelled.
+                    pbnel.sendEvent(AppletPbnel.APPLET_START);
+                    return null;                // cbncelled
                 }
-                String dname = fd.getDirectory();
-                File file = new File(dname, fname);
+                String dnbme = fd.getDirectory();
+                File file = new File(dnbme, fnbme);
 
-                try (FileOutputStream fos = new FileOutputStream(file);
-                     BufferedOutputStream bos = new BufferedOutputStream(fos);
-                     ObjectOutputStream os = new ObjectOutputStream(bos)) {
+                try (FileOutputStrebm fos = new FileOutputStrebm(file);
+                     BufferedOutputStrebm bos = new BufferedOutputStrebm(fos);
+                     ObjectOutputStrebm os = new ObjectOutputStrebm(bos)) {
 
-                    showStatus(amh.getMessage("appletsave.err1", panel.applet.toString(), file.toString()));
-                    os.writeObject(panel.applet);
-                } catch (IOException ex) {
-                    System.err.println(amh.getMessage("appletsave.err2", ex));
-                } finally {
-                    panel.sendEvent(AppletPanel.APPLET_START);
+                    showStbtus(bmh.getMessbge("bppletsbve.err1", pbnel.bpplet.toString(), file.toString()));
+                    os.writeObject(pbnel.bpplet);
+                } cbtch (IOException ex) {
+                    System.err.println(bmh.getMessbge("bppletsbve.err2", ex));
+                } finblly {
+                    pbnel.sendEvent(AppletPbnel.APPLET_START);
                 }
                 return null;
             }
@@ -697,318 +697,318 @@ public class AppletViewer extends Frame implements AppletContext, Printable {
     }
 
     /**
-     * Clone the viewer and the applet.
+     * Clone the viewer bnd the bpplet.
      */
-    void appletClone() {
-        Point p = location();
-        updateAtts();
-        @SuppressWarnings("unchecked")
-        Hashtable<String, String> tmp = (Hashtable<String, String>) panel.atts.clone();
-        factory.createAppletViewer(p.x + XDELTA, p.y + YDELTA,
-                                   panel.documentURL, tmp);
+    void bppletClone() {
+        Point p = locbtion();
+        updbteAtts();
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<String, String> tmp = (Hbshtbble<String, String>) pbnel.btts.clone();
+        fbctory.crebteAppletViewer(p.x + XDELTA, p.y + YDELTA,
+                                   pbnel.documentURL, tmp);
     }
 
     /**
-     * Show the applet tag.
+     * Show the bpplet tbg.
      */
-    void appletTag() {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        updateAtts();
-        printTag(new PrintStream(out), panel.atts);
-        showStatus(amh.getMessage("applettag"));
+    void bppletTbg() {
+        ByteArrbyOutputStrebm out = new ByteArrbyOutputStrebm();
+        updbteAtts();
+        printTbg(new PrintStrebm(out), pbnel.btts);
+        showStbtus(bmh.getMessbge("bpplettbg"));
 
-        Point p = location();
-        new TextFrame(p.x + XDELTA, p.y + YDELTA, amh.getMessage("applettag.textframe"), out.toString());
+        Point p = locbtion();
+        new TextFrbme(p.x + XDELTA, p.y + YDELTA, bmh.getMessbge("bpplettbg.textfrbme"), out.toString());
     }
 
     /**
-     * Show the applet info.
+     * Show the bpplet info.
      */
-    void appletInfo() {
-        String str = panel.applet.getAppletInfo();
+    void bppletInfo() {
+        String str = pbnel.bpplet.getAppletInfo();
         if (str == null) {
-            str = amh.getMessage("appletinfo.applet");
+            str = bmh.getMessbge("bppletinfo.bpplet");
         }
         str += "\n\n";
 
-        String atts[][] = panel.applet.getParameterInfo();
-        if (atts != null) {
-            for (int i = 0 ; i < atts.length ; i++) {
-                str += atts[i][0] + " -- " + atts[i][1] + " -- " + atts[i][2] + "\n";
+        String btts[][] = pbnel.bpplet.getPbrbmeterInfo();
+        if (btts != null) {
+            for (int i = 0 ; i < btts.length ; i++) {
+                str += btts[i][0] + " -- " + btts[i][1] + " -- " + btts[i][2] + "\n";
             }
         } else {
-            str += amh.getMessage("appletinfo.param");
+            str += bmh.getMessbge("bppletinfo.pbrbm");
         }
 
-        Point p = location();
-        new TextFrame(p.x + XDELTA, p.y + YDELTA, amh.getMessage("appletinfo.textframe"), str);
+        Point p = locbtion();
+        new TextFrbme(p.x + XDELTA, p.y + YDELTA, bmh.getMessbge("bppletinfo.textfrbme"), str);
 
     }
 
     /**
-     * Show character encoding type
+     * Show chbrbcter encoding type
      */
-    void appletCharacterEncoding() {
-        showStatus(amh.getMessage("appletencoding", encoding));
+    void bppletChbrbcterEncoding() {
+        showStbtus(bmh.getMessbge("bppletencoding", encoding));
     }
 
     /**
-     * Edit the applet.
+     * Edit the bpplet.
      */
-    void appletEdit() {
+    void bppletEdit() {
     }
 
     /**
-     * Print the applet.
+     * Print the bpplet.
      */
-    void appletPrint() {
+    void bppletPrint() {
         PrinterJob pj = PrinterJob.getPrinterJob();
 
         if (pj != null) {
-            PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-            if (pj.printDialog(aset)) {
-                pj.setPrintable(this);
+            PrintRequestAttributeSet bset = new HbshPrintRequestAttributeSet();
+            if (pj.printDiblog(bset)) {
+                pj.setPrintbble(this);
                 try {
-                    pj.print(aset);
-                    statusMsgStream.println(amh.getMessage("appletprint.finish"));
-                } catch (PrinterException e) {
-                   statusMsgStream.println(amh.getMessage("appletprint.fail"));
+                    pj.print(bset);
+                    stbtusMsgStrebm.println(bmh.getMessbge("bppletprint.finish"));
+                } cbtch (PrinterException e) {
+                   stbtusMsgStrebm.println(bmh.getMessbge("bppletprint.fbil"));
                 }
             } else {
-                statusMsgStream.println(amh.getMessage("appletprint.cancel"));
+                stbtusMsgStrebm.println(bmh.getMessbge("bppletprint.cbncel"));
             }
         } else {
-            statusMsgStream.println(amh.getMessage("appletprint.fail"));
+            stbtusMsgStrebm.println(bmh.getMessbge("bppletprint.fbil"));
         }
     }
 
     @Override
-    public int print(Graphics graphics, PageFormat pf, int pageIndex) {
-        if (pageIndex > 0) {
-            return Printable.NO_SUCH_PAGE;
+    public int print(Grbphics grbphics, PbgeFormbt pf, int pbgeIndex) {
+        if (pbgeIndex > 0) {
+            return Printbble.NO_SUCH_PAGE;
         } else {
-            Graphics2D g2d = (Graphics2D)graphics;
-            g2d.translate(pf.getImageableX(), pf.getImageableY());
-            panel.applet.printAll(graphics);
-            return Printable.PAGE_EXISTS;
+            Grbphics2D g2d = (Grbphics2D)grbphics;
+            g2d.trbnslbte(pf.getImbgebbleX(), pf.getImbgebbleY());
+            pbnel.bpplet.printAll(grbphics);
+            return Printbble.PAGE_EXISTS;
         }
     }
 
     /**
      * Properties.
      */
-    static AppletProps props;
-    public static synchronized void networkProperties() {
+    stbtic AppletProps props;
+    public stbtic synchronized void networkProperties() {
         if (props == null) {
             props = new AppletProps();
         }
-        props.addNotify();
+        props.bddNotify();
         props.setVisible(true);
     }
 
     /**
-     * Start the applet.
+     * Stbrt the bpplet.
      */
-    void appletStart() {
-        panel.sendEvent(AppletPanel.APPLET_START);
+    void bppletStbrt() {
+        pbnel.sendEvent(AppletPbnel.APPLET_START);
     }
 
     /**
-     * Stop the applet.
+     * Stop the bpplet.
      */
-    void appletStop() {
-        panel.sendEvent(AppletPanel.APPLET_STOP);
+    void bppletStop() {
+        pbnel.sendEvent(AppletPbnel.APPLET_STOP);
     }
 
     /**
-     * Shutdown a viewer.
-     * Stop, Destroy, Dispose and Quit a viewer
+     * Shutdown b viewer.
+     * Stop, Destroy, Dispose bnd Quit b viewer
      */
-    private void appletShutdown(AppletPanel p) {
-        p.sendEvent(AppletPanel.APPLET_STOP);
-        p.sendEvent(AppletPanel.APPLET_DESTROY);
-        p.sendEvent(AppletPanel.APPLET_DISPOSE);
-        p.sendEvent(AppletPanel.APPLET_QUIT);
+    privbte void bppletShutdown(AppletPbnel p) {
+        p.sendEvent(AppletPbnel.APPLET_STOP);
+        p.sendEvent(AppletPbnel.APPLET_DESTROY);
+        p.sendEvent(AppletPbnel.APPLET_DISPOSE);
+        p.sendEvent(AppletPbnel.APPLET_QUIT);
     }
 
     /**
      * Close this viewer.
-     * Stop, Destroy, Dispose and Quit an AppletView, then
-     * reclaim resources and exit the program if this is
-     * the last applet.
+     * Stop, Destroy, Dispose bnd Quit bn AppletView, then
+     * reclbim resources bnd exit the progrbm if this is
+     * the lbst bpplet.
      */
-    void appletClose() {
+    void bppletClose() {
 
-        // The caller thread is event dispatch thread, so
-        // spawn a new thread to avoid blocking the event queue
-        // when calling appletShutdown.
+        // The cbller threbd is event dispbtch threbd, so
+        // spbwn b new threbd to bvoid blocking the event queue
+        // when cblling bppletShutdown.
         //
-        final AppletPanel p = panel;
+        finbl AppletPbnel p = pbnel;
 
-        new Thread(new Runnable()
+        new Threbd(new Runnbble()
         {
             @Override
             public void run()
             {
-                appletShutdown(p);
-                appletPanels.removeElement(p);
+                bppletShutdown(p);
+                bppletPbnels.removeElement(p);
                 dispose();
 
                 if (countApplets() == 0) {
-                    appletSystemExit();
+                    bppletSystemExit();
                 }
             }
-        }).start();
+        }).stbrt();
     }
 
     /**
-     * Exit the program.
-     * Exit from the program (if not stand alone) - do no clean-up
+     * Exit the progrbm.
+     * Exit from the progrbm (if not stbnd blone) - do no clebn-up
      */
-    private void appletSystemExit() {
-        if (factory.isStandalone())
+    privbte void bppletSystemExit() {
+        if (fbctory.isStbndblone())
             System.exit(0);
     }
 
     /**
-     * Quit all viewers.
-     * Shutdown all viewers properly then
-     * exit from the program (if not stand alone)
+     * Quit bll viewers.
+     * Shutdown bll viewers properly then
+     * exit from the progrbm (if not stbnd blone)
      */
-    protected void appletQuit()
+    protected void bppletQuit()
     {
-        // The caller thread is event dispatch thread, so
-        // spawn a new thread to avoid blocking the event queue
-        // when calling appletShutdown.
+        // The cbller threbd is event dispbtch threbd, so
+        // spbwn b new threbd to bvoid blocking the event queue
+        // when cblling bppletShutdown.
         //
-        new Thread(new Runnable()
+        new Threbd(new Runnbble()
         {
             @Override
             public void run()
             {
-                for (Enumeration<AppletPanel> e = appletPanels.elements() ; e.hasMoreElements() ;) {
-                    AppletPanel p = e.nextElement();
-                    appletShutdown(p);
+                for (Enumerbtion<AppletPbnel> e = bppletPbnels.elements() ; e.hbsMoreElements() ;) {
+                    AppletPbnel p = e.nextElement();
+                    bppletShutdown(p);
                 }
-                appletSystemExit();
+                bppletSystemExit();
             }
-        }).start();
+        }).stbrt();
     }
 
     /**
-     * Handle events.
+     * Hbndle events.
      */
     public void processUserAction(ActionEvent evt) {
 
-        String label = ((MenuItem)evt.getSource()).getLabel();
+        String lbbel = ((MenuItem)evt.getSource()).getLbbel();
 
-        if (amh.getMessage("menuitem.restart").equals(label)) {
-            appletRestart();
+        if (bmh.getMessbge("menuitem.restbrt").equbls(lbbel)) {
+            bppletRestbrt();
             return;
         }
 
-        if (amh.getMessage("menuitem.reload").equals(label)) {
-            appletReload();
+        if (bmh.getMessbge("menuitem.relobd").equbls(lbbel)) {
+            bppletRelobd();
             return;
         }
 
-        if (amh.getMessage("menuitem.clone").equals(label)) {
-            appletClone();
+        if (bmh.getMessbge("menuitem.clone").equbls(lbbel)) {
+            bppletClone();
             return;
         }
 
-        if (amh.getMessage("menuitem.stop").equals(label)) {
-            appletStop();
+        if (bmh.getMessbge("menuitem.stop").equbls(lbbel)) {
+            bppletStop();
             return;
         }
 
-        if (amh.getMessage("menuitem.save").equals(label)) {
-            appletSave();
+        if (bmh.getMessbge("menuitem.sbve").equbls(lbbel)) {
+            bppletSbve();
             return;
         }
 
-        if (amh.getMessage("menuitem.start").equals(label)) {
-            appletStart();
+        if (bmh.getMessbge("menuitem.stbrt").equbls(lbbel)) {
+            bppletStbrt();
             return;
         }
 
-        if (amh.getMessage("menuitem.tag").equals(label)) {
-            appletTag();
+        if (bmh.getMessbge("menuitem.tbg").equbls(lbbel)) {
+            bppletTbg();
             return;
         }
 
-        if (amh.getMessage("menuitem.info").equals(label)) {
-            appletInfo();
+        if (bmh.getMessbge("menuitem.info").equbls(lbbel)) {
+            bppletInfo();
             return;
         }
 
-        if (amh.getMessage("menuitem.encoding").equals(label)) {
-            appletCharacterEncoding();
+        if (bmh.getMessbge("menuitem.encoding").equbls(lbbel)) {
+            bppletChbrbcterEncoding();
             return;
         }
 
-        if (amh.getMessage("menuitem.edit").equals(label)) {
-            appletEdit();
+        if (bmh.getMessbge("menuitem.edit").equbls(lbbel)) {
+            bppletEdit();
             return;
         }
 
-        if (amh.getMessage("menuitem.print").equals(label)) {
-            appletPrint();
+        if (bmh.getMessbge("menuitem.print").equbls(lbbel)) {
+            bppletPrint();
             return;
         }
 
-        if (amh.getMessage("menuitem.props").equals(label)) {
+        if (bmh.getMessbge("menuitem.props").equbls(lbbel)) {
             networkProperties();
             return;
         }
 
-        if (amh.getMessage("menuitem.close").equals(label)) {
-            appletClose();
+        if (bmh.getMessbge("menuitem.close").equbls(lbbel)) {
+            bppletClose();
             return;
         }
 
-        if (factory.isStandalone() && amh.getMessage("menuitem.quit").equals(label)) {
-            appletQuit();
+        if (fbctory.isStbndblone() && bmh.getMessbge("menuitem.quit").equbls(lbbel)) {
+            bppletQuit();
             return;
         }
-        //statusMsgStream.println("evt = " + evt);
+        //stbtusMsgStrebm.println("evt = " + evt);
     }
 
     /**
-     * How many applets are running?
+     * How mbny bpplets bre running?
      */
 
-    public static int countApplets() {
-        return appletPanels.size();
+    public stbtic int countApplets() {
+        return bppletPbnels.size();
     }
 
 
     /**
-     * The current character.
+     * The current chbrbcter.
      */
-    static int c;
+    stbtic int c;
 
     /**
-     * Scan spaces.
+     * Scbn spbces.
      */
-    public static void skipSpace(Reader in) throws IOException {
+    public stbtic void skipSpbce(Rebder in) throws IOException {
         while ((c >= 0) &&
                ((c == ' ') || (c == '\t') || (c == '\n') || (c == '\r'))) {
-            c = in.read();
+            c = in.rebd();
         }
     }
 
     /**
-     * Scan identifier
+     * Scbn identifier
      */
-    public static String scanIdentifier(Reader in) throws IOException {
+    public stbtic String scbnIdentifier(Rebder in) throws IOException {
         StringBuilder sb = new StringBuilder();
         while (true) {
-            if (((c >= 'a') && (c <= 'z')) ||
+            if (((c >= 'b') && (c <= 'z')) ||
                 ((c >= 'A') && (c <= 'Z')) ||
                 ((c >= '0') && (c <= '9')) || (c == '_')) {
-                sb.append((char) c);
-                c = in.read();
+                sb.bppend((chbr) c);
+                c = in.rebd();
             } else {
                 return sb.toString();
             }
@@ -1016,246 +1016,246 @@ public class AppletViewer extends Frame implements AppletContext, Printable {
     }
 
     /**
-     * Scan tag
+     * Scbn tbg
      */
-    public static Hashtable<String, String> scanTag(Reader in) throws IOException {
-        Hashtable<String, String> atts = new Hashtable<>();
-        skipSpace(in);
+    public stbtic Hbshtbble<String, String> scbnTbg(Rebder in) throws IOException {
+        Hbshtbble<String, String> btts = new Hbshtbble<>();
+        skipSpbce(in);
         while (c >= 0 && c != '>') {
-            String att = scanIdentifier(in);
-            String val = "";
-            skipSpace(in);
+            String btt = scbnIdentifier(in);
+            String vbl = "";
+            skipSpbce(in);
             if (c == '=') {
                 int quote = -1;
-                c = in.read();
-                skipSpace(in);
+                c = in.rebd();
+                skipSpbce(in);
                 if ((c == '\'') || (c == '\"')) {
                     quote = c;
-                    c = in.read();
+                    c = in.rebd();
                 }
                 StringBuilder sb = new StringBuilder();
                 while ((c > 0) &&
                        (((quote < 0) && (c != ' ') && (c != '\t') &&
                          (c != '\n') && (c != '\r') && (c != '>'))
                         || ((quote >= 0) && (c != quote)))) {
-                    sb.append((char) c);
-                    c = in.read();
+                    sb.bppend((chbr) c);
+                    c = in.rebd();
                 }
                 if (c == quote) {
-                    c = in.read();
+                    c = in.rebd();
                 }
-                skipSpace(in);
-                val = sb.toString();
+                skipSpbce(in);
+                vbl = sb.toString();
             }
-            //statusMsgStream.println("PUT " + att + " = '" + val + "'");
-            if (! val.equals("")) {
-                atts.put(att.toLowerCase(java.util.Locale.ENGLISH), val);
+            //stbtusMsgStrebm.println("PUT " + btt + " = '" + vbl + "'");
+            if (! vbl.equbls("")) {
+                btts.put(btt.toLowerCbse(jbvb.util.Locble.ENGLISH), vbl);
             }
             while (true) {
                 if ((c == '>') || (c < 0) ||
-                    ((c >= 'a') && (c <= 'z')) ||
+                    ((c >= 'b') && (c <= 'z')) ||
                     ((c >= 'A') && (c <= 'Z')) ||
                     ((c >= '0') && (c <= '9')) || (c == '_'))
-                    break;
-                c = in.read();
+                    brebk;
+                c = in.rebd();
             }
-            //skipSpace(in);
+            //skipSpbce(in);
         }
-        return atts;
+        return btts;
     }
 
-    /* values used for placement of AppletViewer's frames */
-    private static int x = 0;
-    private static int y = 0;
-    private static final int XDELTA = 30;
-    private static final int YDELTA = XDELTA;
+    /* vblues used for plbcement of AppletViewer's frbmes */
+    privbte stbtic int x = 0;
+    privbte stbtic int y = 0;
+    privbte stbtic finbl int XDELTA = 30;
+    privbte stbtic finbl int YDELTA = XDELTA;
 
-    static String encoding = null;
+    stbtic String encoding = null;
 
-    static private Reader makeReader(InputStream is) {
+    stbtic privbte Rebder mbkeRebder(InputStrebm is) {
         if (encoding != null) {
             try {
-                return new BufferedReader(new InputStreamReader(is, encoding));
-            } catch (IOException x) { }
+                return new BufferedRebder(new InputStrebmRebder(is, encoding));
+            } cbtch (IOException x) { }
         }
-        InputStreamReader r = new InputStreamReader(is);
+        InputStrebmRebder r = new InputStrebmRebder(is);
         encoding = r.getEncoding();
-        return new BufferedReader(r);
+        return new BufferedRebder(r);
     }
 
     /**
-     * Scan an html file for <applet> tags
+     * Scbn bn html file for <bpplet> tbgs
      */
-    public static void parse(URL url, String enc) throws IOException {
+    public stbtic void pbrse(URL url, String enc) throws IOException {
         encoding = enc;
-        parse(url, System.out, new StdAppletViewerFactory());
+        pbrse(url, System.out, new StdAppletViewerFbctory());
     }
 
-    public static void parse(URL url) throws IOException {
-        parse(url, System.out, new StdAppletViewerFactory());
+    public stbtic void pbrse(URL url) throws IOException {
+        pbrse(url, System.out, new StdAppletViewerFbctory());
     }
 
-    public static void parse(URL url, PrintStream statusMsgStream,
-                             AppletViewerFactory factory) throws IOException {
-        // <OBJECT> <EMBED> tag flags
-        boolean isAppletTag = false;
-        boolean isObjectTag = false;
-        boolean isEmbedTag = false;
+    public stbtic void pbrse(URL url, PrintStrebm stbtusMsgStrebm,
+                             AppletViewerFbctory fbctory) throws IOException {
+        // <OBJECT> <EMBED> tbg flbgs
+        boolebn isAppletTbg = fblse;
+        boolebn isObjectTbg = fblse;
+        boolebn isEmbedTbg = fblse;
 
-        // warning messages
-        String requiresNameWarning = amh.getMessage("parse.warning.requiresname");
-        String paramOutsideWarning = amh.getMessage("parse.warning.paramoutside");
-        String appletRequiresCodeWarning = amh.getMessage("parse.warning.applet.requirescode");
-        String appletRequiresHeightWarning = amh.getMessage("parse.warning.applet.requiresheight");
-        String appletRequiresWidthWarning = amh.getMessage("parse.warning.applet.requireswidth");
-        String objectRequiresCodeWarning = amh.getMessage("parse.warning.object.requirescode");
-        String objectRequiresHeightWarning = amh.getMessage("parse.warning.object.requiresheight");
-        String objectRequiresWidthWarning = amh.getMessage("parse.warning.object.requireswidth");
-        String embedRequiresCodeWarning = amh.getMessage("parse.warning.embed.requirescode");
-        String embedRequiresHeightWarning = amh.getMessage("parse.warning.embed.requiresheight");
-        String embedRequiresWidthWarning = amh.getMessage("parse.warning.embed.requireswidth");
-        String appNotLongerSupportedWarning = amh.getMessage("parse.warning.appnotLongersupported");
+        // wbrning messbges
+        String requiresNbmeWbrning = bmh.getMessbge("pbrse.wbrning.requiresnbme");
+        String pbrbmOutsideWbrning = bmh.getMessbge("pbrse.wbrning.pbrbmoutside");
+        String bppletRequiresCodeWbrning = bmh.getMessbge("pbrse.wbrning.bpplet.requirescode");
+        String bppletRequiresHeightWbrning = bmh.getMessbge("pbrse.wbrning.bpplet.requiresheight");
+        String bppletRequiresWidthWbrning = bmh.getMessbge("pbrse.wbrning.bpplet.requireswidth");
+        String objectRequiresCodeWbrning = bmh.getMessbge("pbrse.wbrning.object.requirescode");
+        String objectRequiresHeightWbrning = bmh.getMessbge("pbrse.wbrning.object.requiresheight");
+        String objectRequiresWidthWbrning = bmh.getMessbge("pbrse.wbrning.object.requireswidth");
+        String embedRequiresCodeWbrning = bmh.getMessbge("pbrse.wbrning.embed.requirescode");
+        String embedRequiresHeightWbrning = bmh.getMessbge("pbrse.wbrning.embed.requiresheight");
+        String embedRequiresWidthWbrning = bmh.getMessbge("pbrse.wbrning.embed.requireswidth");
+        String bppNotLongerSupportedWbrning = bmh.getMessbge("pbrse.wbrning.bppnotLongersupported");
 
-        java.net.URLConnection conn = url.openConnection();
-        Reader in = makeReader(conn.getInputStream());
-        /* The original URL may have been redirected - this
-         * sets it to whatever URL/codebase we ended up getting
+        jbvb.net.URLConnection conn = url.openConnection();
+        Rebder in = mbkeRebder(conn.getInputStrebm());
+        /* The originbl URL mby hbve been redirected - this
+         * sets it to whbtever URL/codebbse we ended up getting
          */
         url = conn.getURL();
 
         int ydisp = 1;
-        Hashtable<String, String> atts = null;
+        Hbshtbble<String, String> btts = null;
 
         while(true) {
-            c = in.read();
+            c = in.rebd();
             if (c == -1)
-                break;
+                brebk;
 
             if (c == '<') {
-                c = in.read();
+                c = in.rebd();
                 if (c == '/') {
-                    c = in.read();
-                    String nm = scanIdentifier(in);
-                    if (nm.equalsIgnoreCase("applet") ||
-                        nm.equalsIgnoreCase("object") ||
-                        nm.equalsIgnoreCase("embed")) {
+                    c = in.rebd();
+                    String nm = scbnIdentifier(in);
+                    if (nm.equblsIgnoreCbse("bpplet") ||
+                        nm.equblsIgnoreCbse("object") ||
+                        nm.equblsIgnoreCbse("embed")) {
 
-                        // We can't test for a code tag until </OBJECT>
-                        // because it is a parameter, not an attribute.
-                        if(isObjectTag) {
-                            if (atts.get("code") == null && atts.get("object") == null) {
-                                statusMsgStream.println(objectRequiresCodeWarning);
-                                atts = null;
+                        // We cbn't test for b code tbg until </OBJECT>
+                        // becbuse it is b pbrbmeter, not bn bttribute.
+                        if(isObjectTbg) {
+                            if (btts.get("code") == null && btts.get("object") == null) {
+                                stbtusMsgStrebm.println(objectRequiresCodeWbrning);
+                                btts = null;
                             }
                         }
 
-                        if (atts != null) {
-                            // XXX 5/18 In general this code just simply
-                            // shouldn't be part of parsing.  It's presence
-                            // causes things to be a little too much of a
-                            // hack.
-                            factory.createAppletViewer(x, y, url, atts);
+                        if (btts != null) {
+                            // XXX 5/18 In generbl this code just simply
+                            // shouldn't be pbrt of pbrsing.  It's presence
+                            // cbuses things to be b little too much of b
+                            // hbck.
+                            fbctory.crebteAppletViewer(x, y, url, btts);
                             x += XDELTA;
                             y += YDELTA;
-                            // make sure we don't go too far!
-                            Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+                            // mbke sure we don't go too fbr!
+                            Dimension d = Toolkit.getDefbultToolkit().getScreenSize();
                             if ((x > d.width - 300) || (y > d.height - 300)) {
                                 x = 0;
                                 y = 2 * ydisp * YDELTA;
                                 ydisp++;
                             }
                         }
-                        atts = null;
-                        isAppletTag = false;
-                        isObjectTag = false;
-                        isEmbedTag = false;
+                        btts = null;
+                        isAppletTbg = fblse;
+                        isObjectTbg = fblse;
+                        isEmbedTbg = fblse;
                     }
                 }
                 else {
-                    String nm = scanIdentifier(in);
-                    if (nm.equalsIgnoreCase("param")) {
-                        Hashtable<String, String> t = scanTag(in);
-                        String att = t.get("name");
-                        if (att == null) {
-                            statusMsgStream.println(requiresNameWarning);
+                    String nm = scbnIdentifier(in);
+                    if (nm.equblsIgnoreCbse("pbrbm")) {
+                        Hbshtbble<String, String> t = scbnTbg(in);
+                        String btt = t.get("nbme");
+                        if (btt == null) {
+                            stbtusMsgStrebm.println(requiresNbmeWbrning);
                         } else {
-                            String val = t.get("value");
-                            if (val == null) {
-                                statusMsgStream.println(requiresNameWarning);
-                            } else if (atts != null) {
-                                atts.put(att.toLowerCase(), val);
+                            String vbl = t.get("vblue");
+                            if (vbl == null) {
+                                stbtusMsgStrebm.println(requiresNbmeWbrning);
+                            } else if (btts != null) {
+                                btts.put(btt.toLowerCbse(), vbl);
                             } else {
-                                statusMsgStream.println(paramOutsideWarning);
+                                stbtusMsgStrebm.println(pbrbmOutsideWbrning);
                             }
                         }
                     }
-                    else if (nm.equalsIgnoreCase("applet")) {
-                        isAppletTag = true;
-                        atts = scanTag(in);
-                        if (atts.get("code") == null && atts.get("object") == null) {
-                            statusMsgStream.println(appletRequiresCodeWarning);
-                            atts = null;
-                        } else if (atts.get("width") == null) {
-                            statusMsgStream.println(appletRequiresWidthWarning);
-                            atts = null;
-                        } else if (atts.get("height") == null) {
-                            statusMsgStream.println(appletRequiresHeightWarning);
-                            atts = null;
+                    else if (nm.equblsIgnoreCbse("bpplet")) {
+                        isAppletTbg = true;
+                        btts = scbnTbg(in);
+                        if (btts.get("code") == null && btts.get("object") == null) {
+                            stbtusMsgStrebm.println(bppletRequiresCodeWbrning);
+                            btts = null;
+                        } else if (btts.get("width") == null) {
+                            stbtusMsgStrebm.println(bppletRequiresWidthWbrning);
+                            btts = null;
+                        } else if (btts.get("height") == null) {
+                            stbtusMsgStrebm.println(bppletRequiresHeightWbrning);
+                            btts = null;
                         }
                     }
-                    else if (nm.equalsIgnoreCase("object")) {
-                        isObjectTag = true;
-                        atts = scanTag(in);
-                        // The <OBJECT> attribute codebase isn't what
-                        // we want. If its defined, remove it.
-                        if(atts.get("codebase") != null) {
-                            atts.remove("codebase");
+                    else if (nm.equblsIgnoreCbse("object")) {
+                        isObjectTbg = true;
+                        btts = scbnTbg(in);
+                        // The <OBJECT> bttribute codebbse isn't whbt
+                        // we wbnt. If its defined, remove it.
+                        if(btts.get("codebbse") != null) {
+                            btts.remove("codebbse");
                         }
 
-                        if (atts.get("width") == null) {
-                            statusMsgStream.println(objectRequiresWidthWarning);
-                            atts = null;
-                        } else if (atts.get("height") == null) {
-                            statusMsgStream.println(objectRequiresHeightWarning);
-                            atts = null;
+                        if (btts.get("width") == null) {
+                            stbtusMsgStrebm.println(objectRequiresWidthWbrning);
+                            btts = null;
+                        } else if (btts.get("height") == null) {
+                            stbtusMsgStrebm.println(objectRequiresHeightWbrning);
+                            btts = null;
                         }
                     }
-                    else if (nm.equalsIgnoreCase("embed")) {
-                        isEmbedTag = true;
-                        atts = scanTag(in);
+                    else if (nm.equblsIgnoreCbse("embed")) {
+                        isEmbedTbg = true;
+                        btts = scbnTbg(in);
 
-                        if (atts.get("code") == null && atts.get("object") == null) {
-                            statusMsgStream.println(embedRequiresCodeWarning);
-                            atts = null;
-                        } else if (atts.get("width") == null) {
-                            statusMsgStream.println(embedRequiresWidthWarning);
-                            atts = null;
-                        } else if (atts.get("height") == null) {
-                            statusMsgStream.println(embedRequiresHeightWarning);
-                            atts = null;
+                        if (btts.get("code") == null && btts.get("object") == null) {
+                            stbtusMsgStrebm.println(embedRequiresCodeWbrning);
+                            btts = null;
+                        } else if (btts.get("width") == null) {
+                            stbtusMsgStrebm.println(embedRequiresWidthWbrning);
+                            btts = null;
+                        } else if (btts.get("height") == null) {
+                            stbtusMsgStrebm.println(embedRequiresHeightWbrning);
+                            btts = null;
                         }
                     }
-                    else if (nm.equalsIgnoreCase("app")) {
-                        statusMsgStream.println(appNotLongerSupportedWarning);
-                        Hashtable<String, String> atts2 = scanTag(in);
-                        nm = atts2.get("class");
+                    else if (nm.equblsIgnoreCbse("bpp")) {
+                        stbtusMsgStrebm.println(bppNotLongerSupportedWbrning);
+                        Hbshtbble<String, String> btts2 = scbnTbg(in);
+                        nm = btts2.get("clbss");
                         if (nm != null) {
-                            atts2.remove("class");
-                            atts2.put("code", nm + ".class");
+                            btts2.remove("clbss");
+                            btts2.put("code", nm + ".clbss");
                         }
-                        nm = atts2.get("src");
+                        nm = btts2.get("src");
                         if (nm != null) {
-                            atts2.remove("src");
-                            atts2.put("codebase", nm);
+                            btts2.remove("src");
+                            btts2.put("codebbse", nm);
                         }
-                        if (atts2.get("width") == null) {
-                            atts2.put("width", "100");
+                        if (btts2.get("width") == null) {
+                            btts2.put("width", "100");
                         }
-                        if (atts2.get("height") == null) {
-                            atts2.put("height", "100");
+                        if (btts2.get("height") == null) {
+                            btts2.put("height", "100");
                         }
-                        printTag(statusMsgStream, atts2);
-                        statusMsgStream.println();
+                        printTbg(stbtusMsgStrebm, btts2);
+                        stbtusMsgStrebm.println();
                     }
                 }
             }
@@ -1264,30 +1264,30 @@ public class AppletViewer extends Frame implements AppletContext, Printable {
     }
 
     /**
-     * Old main entry point.
+     * Old mbin entry point.
      *
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    public static void main(String argv[]) {
-        // re-route everything to the new main entry point
-        Main.main(argv);
+    @Deprecbted
+    public stbtic void mbin(String brgv[]) {
+        // re-route everything to the new mbin entry point
+        Mbin.mbin(brgv);
     }
 
-    private static AppletMessageHandler amh = new AppletMessageHandler("appletviewer");
+    privbte stbtic AppletMessbgeHbndler bmh = new AppletMessbgeHbndler("bppletviewer");
 
-    private static void checkConnect(URL url)
+    privbte stbtic void checkConnect(URL url)
     {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             try {
-                java.security.Permission perm =
+                jbvb.security.Permission perm =
                     url.openConnection().getPermission();
                 if (perm != null)
                     security.checkPermission(perm);
                 else
                     security.checkConnect(url.getHost(), url.getPort());
-            } catch (java.io.IOException ioe) {
+            } cbtch (jbvb.io.IOException ioe) {
                     security.checkConnect(url.getHost(), url.getPort());
             }
         }

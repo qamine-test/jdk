@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,118 +57,118 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * Information about a class being parsed in a {@link ClassReader}.
+ * Informbtion bbout b clbss being pbrsed in b {@link ClbssRebder}.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-class Context {
+clbss Context {
 
     /**
-     * Prototypes of the attributes that must be parsed for this class.
+     * Prototypes of the bttributes thbt must be pbrsed for this clbss.
      */
-    Attribute[] attrs;
+    Attribute[] bttrs;
 
     /**
-     * The {@link ClassReader} option flags for the parsing of this class.
+     * The {@link ClbssRebder} option flbgs for the pbrsing of this clbss.
      */
-    int flags;
+    int flbgs;
 
     /**
-     * The buffer used to read strings.
+     * The buffer used to rebd strings.
      */
-    char[] buffer;
+    chbr[] buffer;
 
     /**
-     * The start index of each bootstrap method.
+     * The stbrt index of ebch bootstrbp method.
      */
-    int[] bootstrapMethods;
+    int[] bootstrbpMethods;
 
     /**
-     * The access flags of the method currently being parsed.
+     * The bccess flbgs of the method currently being pbrsed.
      */
-    int access;
+    int bccess;
 
     /**
-     * The name of the method currently being parsed.
+     * The nbme of the method currently being pbrsed.
      */
-    String name;
+    String nbme;
 
     /**
-     * The descriptor of the method currently being parsed.
+     * The descriptor of the method currently being pbrsed.
      */
     String desc;
 
     /**
-     * The label objects, indexed by bytecode offset, of the method currently
-     * being parsed (only bytecode offsets for which a label is needed have a
-     * non null associated Label object).
+     * The lbbel objects, indexed by bytecode offset, of the method currently
+     * being pbrsed (only bytecode offsets for which b lbbel is needed hbve b
+     * non null bssocibted Lbbel object).
      */
-    Label[] labels;
+    Lbbel[] lbbels;
 
     /**
-     * The target of the type annotation currently being parsed.
+     * The tbrget of the type bnnotbtion currently being pbrsed.
      */
     int typeRef;
 
     /**
-     * The path of the type annotation currently being parsed.
+     * The pbth of the type bnnotbtion currently being pbrsed.
      */
-    TypePath typePath;
+    TypePbth typePbth;
 
     /**
-     * The offset of the latest stack map frame that has been parsed.
+     * The offset of the lbtest stbck mbp frbme thbt hbs been pbrsed.
      */
     int offset;
 
     /**
-     * The labels corresponding to the start of the local variable ranges in the
-     * local variable type annotation currently being parsed.
+     * The lbbels corresponding to the stbrt of the locbl vbribble rbnges in the
+     * locbl vbribble type bnnotbtion currently being pbrsed.
      */
-    Label[] start;
+    Lbbel[] stbrt;
 
     /**
-     * The labels corresponding to the end of the local variable ranges in the
-     * local variable type annotation currently being parsed.
+     * The lbbels corresponding to the end of the locbl vbribble rbnges in the
+     * locbl vbribble type bnnotbtion currently being pbrsed.
      */
-    Label[] end;
+    Lbbel[] end;
 
     /**
-     * The local variable indices for each local variable range in the local
-     * variable type annotation currently being parsed.
+     * The locbl vbribble indices for ebch locbl vbribble rbnge in the locbl
+     * vbribble type bnnotbtion currently being pbrsed.
      */
     int[] index;
 
     /**
-     * The encoding of the latest stack map frame that has been parsed.
+     * The encoding of the lbtest stbck mbp frbme thbt hbs been pbrsed.
      */
     int mode;
 
     /**
-     * The number of locals in the latest stack map frame that has been parsed.
+     * The number of locbls in the lbtest stbck mbp frbme thbt hbs been pbrsed.
      */
-    int localCount;
+    int locblCount;
 
     /**
-     * The number locals in the latest stack map frame that has been parsed,
-     * minus the number of locals in the previous frame.
+     * The number locbls in the lbtest stbck mbp frbme thbt hbs been pbrsed,
+     * minus the number of locbls in the previous frbme.
      */
-    int localDiff;
+    int locblDiff;
 
     /**
-     * The local values of the latest stack map frame that has been parsed.
+     * The locbl vblues of the lbtest stbck mbp frbme thbt hbs been pbrsed.
      */
-    Object[] local;
+    Object[] locbl;
 
     /**
-     * The stack size of the latest stack map frame that has been parsed.
+     * The stbck size of the lbtest stbck mbp frbme thbt hbs been pbrsed.
      */
-    int stackCount;
+    int stbckCount;
 
     /**
-     * The stack values of the latest stack map frame that has been parsed.
+     * The stbck vblues of the lbtest stbck mbp frbme thbt hbs been pbrsed.
      */
-    Object[] stack;
+    Object[] stbck;
 }

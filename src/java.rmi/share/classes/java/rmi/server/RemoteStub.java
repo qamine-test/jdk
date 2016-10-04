@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.rmi.server;
+pbckbge jbvb.rmi.server;
 
 /**
- * The {@code RemoteStub} class is the common superclass of
- * statically generated client
- * stubs and provides the framework to support a wide range of remote
- * reference semantics.  Stub objects are surrogates that support
- * exactly the same set of remote interfaces defined by the actual
- * implementation of the remote object.
+ * The {@code RemoteStub} clbss is the common superclbss of
+ * stbticblly generbted client
+ * stubs bnd provides the frbmework to support b wide rbnge of remote
+ * reference sembntics.  Stub objects bre surrogbtes thbt support
+ * exbctly the sbme set of remote interfbces defined by the bctubl
+ * implementbtion of the remote object.
  *
- * @author  Ann Wollrath
+ * @buthor  Ann Wollrbth
  * @since   1.1
  *
- * @deprecated Statically generated stubs are deprecated, since
- * stubs are generated dynamically. See {@link UnicastRemoteObject}
- * for information about dynamic stub generation.
+ * @deprecbted Stbticblly generbted stubs bre deprecbted, since
+ * stubs bre generbted dynbmicblly. See {@link UnicbstRemoteObject}
+ * for informbtion bbout dynbmic stub generbtion.
  */
-@Deprecated
-abstract public class RemoteStub extends RemoteObject {
+@Deprecbted
+bbstrbct public clbss RemoteStub extends RemoteObject {
 
-    /** indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = -1585587260594494182L;
+    /** indicbte compbtibility with JDK 1.1.x version of clbss */
+    privbte stbtic finbl long seriblVersionUID = -1585587260594494182L;
 
     /**
-     * Constructs a {@code RemoteStub}.
+     * Constructs b {@code RemoteStub}.
      */
     protected RemoteStub() {
         super();
     }
 
     /**
-     * Constructs a {@code RemoteStub} with the specified remote
+     * Constructs b {@code RemoteStub} with the specified remote
      * reference.
      *
-     * @param ref the remote reference
+     * @pbrbm ref the remote reference
      * @since 1.1
      */
     protected RemoteStub(RemoteRef ref) {
@@ -64,20 +64,20 @@ abstract public class RemoteStub extends RemoteObject {
     }
 
     /**
-     * Throws {@link UnsupportedOperationException}.
+     * Throws {@link UnsupportedOperbtionException}.
      *
-     * @param stub the remote stub
-     * @param ref the remote reference
-     * @throws UnsupportedOperationException always
+     * @pbrbm stub the remote stub
+     * @pbrbm ref the remote reference
+     * @throws UnsupportedOperbtionException blwbys
      * @since 1.1
-     * @deprecated No replacement.  The {@code setRef} method
-     * was intended for setting the remote reference of a remote
-     * stub. This is unnecessary, since {@code RemoteStub}s can be created
-     * and initialized with a remote reference through use of
+     * @deprecbted No replbcement.  The {@code setRef} method
+     * wbs intended for setting the remote reference of b remote
+     * stub. This is unnecessbry, since {@code RemoteStub}s cbn be crebted
+     * bnd initiblized with b remote reference through use of
      * the {@link #RemoteStub(RemoteRef)} constructor.
      */
-    @Deprecated
-    protected static void setRef(RemoteStub stub, RemoteRef ref) {
-        throw new UnsupportedOperationException();
+    @Deprecbted
+    protected stbtic void setRef(RemoteStub stub, RemoteRef ref) {
+        throw new UnsupportedOperbtionException();
     }
 }

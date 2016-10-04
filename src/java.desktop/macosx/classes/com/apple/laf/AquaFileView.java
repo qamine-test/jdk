@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.io.*;
-import java.util.*;
-import java.util.Map.Entry;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.Mbp.Entry;
 
-import javax.swing.Icon;
-import javax.swing.filechooser.FileView;
+import jbvbx.swing.Icon;
+import jbvbx.swing.filechooser.FileView;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
 
-@SuppressWarnings("serial") // JDK implementation class
-class AquaFileView extends FileView {
-    private static final boolean DEBUG = false;
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+clbss AqubFileView extends FileView {
+    privbte stbtic finbl boolebn DEBUG = fblse;
 
-    private static final int UNINITALIZED_LS_INFO = -1;
+    privbte stbtic finbl int UNINITALIZED_LS_INFO = -1;
 
-    // Constants from LaunchServices.h
-    static final int kLSItemInfoIsPlainFile        = 0x00000001; /* Not a directory, volume, or symlink*/
-    static final int kLSItemInfoIsPackage          = 0x00000002; /* Packaged directory*/
-    static final int kLSItemInfoIsApplication      = 0x00000004; /* Single-file or packaged application*/
-    static final int kLSItemInfoIsContainer        = 0x00000008; /* Directory (includes packages) or volume*/
-    static final int kLSItemInfoIsAliasFile        = 0x00000010; /* Alias file (includes sym links)*/
-    static final int kLSItemInfoIsSymlink          = 0x00000020; /* UNIX sym link*/
-    static final int kLSItemInfoIsInvisible        = 0x00000040; /* Invisible by any known mechanism*/
-    static final int kLSItemInfoIsNativeApp        = 0x00000080; /* Carbon or Cocoa native app*/
-    static final int kLSItemInfoIsClassicApp       = 0x00000100; /* CFM/68K Classic app*/
-    static final int kLSItemInfoAppPrefersNative   = 0x00000200; /* Carbon app that prefers to be launched natively*/
-    static final int kLSItemInfoAppPrefersClassic  = 0x00000400; /* Carbon app that prefers to be launched in Classic*/
-    static final int kLSItemInfoAppIsScriptable    = 0x00000800; /* App can be scripted*/
-    static final int kLSItemInfoIsVolume           = 0x00001000; /* Item is a volume*/
-    static final int kLSItemInfoExtensionIsHidden  = 0x00100000; /* Item has a hidden extension*/
+    // Constbnts from LbunchServices.h
+    stbtic finbl int kLSItemInfoIsPlbinFile        = 0x00000001; /* Not b directory, volume, or symlink*/
+    stbtic finbl int kLSItemInfoIsPbckbge          = 0x00000002; /* Pbckbged directory*/
+    stbtic finbl int kLSItemInfoIsApplicbtion      = 0x00000004; /* Single-file or pbckbged bpplicbtion*/
+    stbtic finbl int kLSItemInfoIsContbiner        = 0x00000008; /* Directory (includes pbckbges) or volume*/
+    stbtic finbl int kLSItemInfoIsAlibsFile        = 0x00000010; /* Alibs file (includes sym links)*/
+    stbtic finbl int kLSItemInfoIsSymlink          = 0x00000020; /* UNIX sym link*/
+    stbtic finbl int kLSItemInfoIsInvisible        = 0x00000040; /* Invisible by bny known mechbnism*/
+    stbtic finbl int kLSItemInfoIsNbtiveApp        = 0x00000080; /* Cbrbon or Cocob nbtive bpp*/
+    stbtic finbl int kLSItemInfoIsClbssicApp       = 0x00000100; /* CFM/68K Clbssic bpp*/
+    stbtic finbl int kLSItemInfoAppPrefersNbtive   = 0x00000200; /* Cbrbon bpp thbt prefers to be lbunched nbtively*/
+    stbtic finbl int kLSItemInfoAppPrefersClbssic  = 0x00000400; /* Cbrbon bpp thbt prefers to be lbunched in Clbssic*/
+    stbtic finbl int kLSItemInfoAppIsScriptbble    = 0x00000800; /* App cbn be scripted*/
+    stbtic finbl int kLSItemInfoIsVolume           = 0x00001000; /* Item is b volume*/
+    stbtic finbl int kLSItemInfoExtensionIsHidden  = 0x00100000; /* Item hbs b hidden extension*/
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("osxui");
+                    System.lobdLibrbry("osxui");
                     return null;
                 }
             });
     }
 
-    // TODO: Un-comment this out when the native version exists
-    //private static native String getNativePathToRunningJDKBundle();
-    private static native String getNativePathToSharedJDKBundle();
+    // TODO: Un-comment this out when the nbtive version exists
+    //privbte stbtic nbtive String getNbtivePbthToRunningJDKBundle();
+    privbte stbtic nbtive String getNbtivePbthToShbredJDKBundle();
 
-    private static native String getNativeMachineName();
-    private static native String getNativeDisplayName(final byte[] pathBytes, final boolean isDirectory);
-    private static native int getNativeLSInfo(final byte[] pathBytes, final boolean isDirectory);
-    private static native String getNativePathForResolvedAlias(final byte[] absolutePath, final boolean isDirectory);
+    privbte stbtic nbtive String getNbtiveMbchineNbme();
+    privbte stbtic nbtive String getNbtiveDisplbyNbme(finbl byte[] pbthBytes, finbl boolebn isDirectory);
+    privbte stbtic nbtive int getNbtiveLSInfo(finbl byte[] pbthBytes, finbl boolebn isDirectory);
+    privbte stbtic nbtive String getNbtivePbthForResolvedAlibs(finbl byte[] bbsolutePbth, finbl boolebn isDirectory);
 
-    static final RecyclableSingleton<String> machineName = new RecyclableSingleton<String>() {
+    stbtic finbl RecyclbbleSingleton<String> mbchineNbme = new RecyclbbleSingleton<String>() {
         @Override
-        protected String getInstance() {
-            return getNativeMachineName();
+        protected String getInstbnce() {
+            return getNbtiveMbchineNbme();
         }
     };
-    private static String getMachineName() {
-        return machineName.get();
+    privbte stbtic String getMbchineNbme() {
+        return mbchineNbme.get();
     }
 
-    protected static String getPathToRunningJDKBundle() {
+    protected stbtic String getPbthToRunningJDKBundle() {
         // TODO: Return empty string for now
-        return "";//getNativePathToRunningJDKBundle();
+        return "";//getNbtivePbthToRunningJDKBundle();
     }
 
-    protected static String getPathToSharedJDKBundle() {
-        return getNativePathToSharedJDKBundle();
+    protected stbtic String getPbthToShbredJDKBundle() {
+        return getNbtivePbthToShbredJDKBundle();
     }
 
-    static class FileInfo {
-        final boolean isDirectory;
-        final String absolutePath;
-        byte[] pathBytes;
+    stbtic clbss FileInfo {
+        finbl boolebn isDirectory;
+        finbl String bbsolutePbth;
+        byte[] pbthBytes;
 
-        String displayName;
+        String displbyNbme;
         Icon icon;
-        int launchServicesInfo = UNINITALIZED_LS_INFO;
+        int lbunchServicesInfo = UNINITALIZED_LS_INFO;
 
-        FileInfo(final File file){
+        FileInfo(finbl File file){
             isDirectory = file.isDirectory();
-            absolutePath = file.getAbsolutePath();
+            bbsolutePbth = file.getAbsolutePbth();
             try {
-                pathBytes = absolutePath.getBytes("UTF-8");
-            } catch (final UnsupportedEncodingException e) {
-                pathBytes = new byte[0];
+                pbthBytes = bbsolutePbth.getBytes("UTF-8");
+            } cbtch (finbl UnsupportedEncodingException e) {
+                pbthBytes = new byte[0];
             }
         }
     }
 
-    final int MAX_CACHED_ENTRIES = 256;
-    protected final Map<File, FileInfo> cache = new LinkedHashMap<File, FileInfo>(){
-        protected boolean removeEldestEntry(final Entry<File, FileInfo> eldest) {
+    finbl int MAX_CACHED_ENTRIES = 256;
+    protected finbl Mbp<File, FileInfo> cbche = new LinkedHbshMbp<File, FileInfo>(){
+        protected boolebn removeEldestEntry(finbl Entry<File, FileInfo> eldest) {
             return size() > MAX_CACHED_ENTRIES;
         }
     };
 
-    FileInfo getFileInfoFor(final File file) {
-        final FileInfo info = cache.get(file);
+    FileInfo getFileInfoFor(finbl File file) {
+        finbl FileInfo info = cbche.get(file);
         if (info != null) return info;
-        final FileInfo newInfo = new FileInfo(file);
-        cache.put(file, newInfo);
+        finbl FileInfo newInfo = new FileInfo(file);
+        cbche.put(file, newInfo);
         return newInfo;
     }
 
 
-    final AquaFileChooserUI fFileChooserUI;
-    public AquaFileView(final AquaFileChooserUI fileChooserUI) {
+    finbl AqubFileChooserUI fFileChooserUI;
+    public AqubFileView(finbl AqubFileChooserUI fileChooserUI) {
         fFileChooserUI = fileChooserUI;
     }
 
@@ -143,66 +143,66 @@ class AquaFileView extends FileView {
         return fFileChooserUI.fileDescriptionText;
     }
 
-    boolean _packageIsTraversable() {
-        return fFileChooserUI.fPackageIsTraversable == AquaFileChooserUI.kOpenAlways;
+    boolebn _pbckbgeIsTrbversbble() {
+        return fFileChooserUI.fPbckbgeIsTrbversbble == AqubFileChooserUI.kOpenAlwbys;
     }
 
-    boolean _applicationIsTraversable() {
-        return fFileChooserUI.fApplicationIsTraversable == AquaFileChooserUI.kOpenAlways;
+    boolebn _bpplicbtionIsTrbversbble() {
+        return fFileChooserUI.fApplicbtionIsTrbversbble == AqubFileChooserUI.kOpenAlwbys;
     }
 
-    public String getName(final File f) {
-        final FileInfo info = getFileInfoFor(f);
-        if (info.displayName != null) return info.displayName;
+    public String getNbme(finbl File f) {
+        finbl FileInfo info = getFileInfoFor(f);
+        if (info.displbyNbme != null) return info.displbyNbme;
 
-        final String nativeDisplayName = getNativeDisplayName(info.pathBytes, info.isDirectory);
-        if (nativeDisplayName != null) {
-            info.displayName = nativeDisplayName;
-            return nativeDisplayName;
+        finbl String nbtiveDisplbyNbme = getNbtiveDisplbyNbme(info.pbthBytes, info.isDirectory);
+        if (nbtiveDisplbyNbme != null) {
+            info.displbyNbme = nbtiveDisplbyNbme;
+            return nbtiveDisplbyNbme;
         }
 
-        final String displayName = f.getName();
+        finbl String displbyNbme = f.getNbme();
         if (f.isDirectory() && fFileChooserUI.getFileChooser().getFileSystemView().isRoot(f)) {
-            final String localMachineName = getMachineName();
-            info.displayName = localMachineName;
-            return localMachineName;
+            finbl String locblMbchineNbme = getMbchineNbme();
+            info.displbyNbme = locblMbchineNbme;
+            return locblMbchineNbme;
         }
 
-        info.displayName = displayName;
-        return displayName;
+        info.displbyNbme = displbyNbme;
+        return displbyNbme;
     }
 
-    public String getDescription(final File f) {
-        return f.getName();
+    public String getDescription(finbl File f) {
+        return f.getNbme();
     }
 
-    public String getTypeDescription(final File f) {
+    public String getTypeDescription(finbl File f) {
         if (f.isDirectory()) return _directoryDescriptionText();
         return _fileDescriptionText();
     }
 
-    public Icon getIcon(final File f) {
-        final FileInfo info = getFileInfoFor(f);
+    public Icon getIcon(finbl File f) {
+        finbl FileInfo info = getFileInfoFor(f);
         if (info.icon != null) return info.icon;
 
         if (f == null) {
-            info.icon = AquaIcon.SystemIcon.getDocumentIconUIResource();
+            info.icon = AqubIcon.SystemIcon.getDocumentIconUIResource();
         } else {
             // Look for the document's icon
-            final AquaIcon.FileIcon fileIcon = new AquaIcon.FileIcon(f);
+            finbl AqubIcon.FileIcon fileIcon = new AqubIcon.FileIcon(f);
             info.icon = fileIcon;
-            if (!fileIcon.hasIconRef()) {
-                // Fall back on the default icons
+            if (!fileIcon.hbsIconRef()) {
+                // Fbll bbck on the defbult icons
                 if (f.isDirectory()) {
                     if (fFileChooserUI.getFileChooser().getFileSystemView().isRoot(f)) {
-                        info.icon = AquaIcon.SystemIcon.getComputerIconUIResource();
-                    } else if (f.getParent() == null || f.getParent().equals("/")) {
-                        info.icon = AquaIcon.SystemIcon.getHardDriveIconUIResource();
+                        info.icon = AqubIcon.SystemIcon.getComputerIconUIResource();
+                    } else if (f.getPbrent() == null || f.getPbrent().equbls("/")) {
+                        info.icon = AqubIcon.SystemIcon.getHbrdDriveIconUIResource();
                     } else {
-                        info.icon = AquaIcon.SystemIcon.getFolderIconUIResource();
+                        info.icon = AqubIcon.SystemIcon.getFolderIconUIResource();
                     }
                 } else {
-                    info.icon = AquaIcon.SystemIcon.getDocumentIconUIResource();
+                    info.icon = AqubIcon.SystemIcon.getDocumentIconUIResource();
                 }
             }
         }
@@ -210,115 +210,115 @@ class AquaFileView extends FileView {
         return info.icon;
     }
 
-    // aliases are traversable though they aren't directories
-    public Boolean isTraversable(final File f) {
+    // blibses bre trbversbble though they bren't directories
+    public Boolebn isTrbversbble(finbl File f) {
         if (f.isDirectory()) {
-            // Doesn't matter if it's a package or app, because they're traversable
-            if (_packageIsTraversable() && _applicationIsTraversable()) {
-                return Boolean.TRUE;
-            } else if (!_packageIsTraversable() && !_applicationIsTraversable()) {
-                if (isPackage(f) || isApplication(f)) return Boolean.FALSE;
-            } else if (!_applicationIsTraversable()) {
-                if (isApplication(f)) return Boolean.FALSE;
-            } else if (!_packageIsTraversable()) {
-                // [3101730] All applications are packages, but not all packages are applications.
-                if (isPackage(f) && !isApplication(f)) return Boolean.FALSE;
+            // Doesn't mbtter if it's b pbckbge or bpp, becbuse they're trbversbble
+            if (_pbckbgeIsTrbversbble() && _bpplicbtionIsTrbversbble()) {
+                return Boolebn.TRUE;
+            } else if (!_pbckbgeIsTrbversbble() && !_bpplicbtionIsTrbversbble()) {
+                if (isPbckbge(f) || isApplicbtion(f)) return Boolebn.FALSE;
+            } else if (!_bpplicbtionIsTrbversbble()) {
+                if (isApplicbtion(f)) return Boolebn.FALSE;
+            } else if (!_pbckbgeIsTrbversbble()) {
+                // [3101730] All bpplicbtions bre pbckbges, but not bll pbckbges bre bpplicbtions.
+                if (isPbckbge(f) && !isApplicbtion(f)) return Boolebn.FALSE;
             }
 
-            // We're allowed to traverse it
-            return Boolean.TRUE;
+            // We're bllowed to trbverse it
+            return Boolebn.TRUE;
         }
 
-        if (isAlias(f)) {
-            final File realFile = resolveAlias(f);
-            return realFile.isDirectory() ? Boolean.TRUE : Boolean.FALSE;
+        if (isAlibs(f)) {
+            finbl File reblFile = resolveAlibs(f);
+            return reblFile.isDirectory() ? Boolebn.TRUE : Boolebn.FALSE;
         }
 
-        return Boolean.FALSE;
+        return Boolebn.FALSE;
     }
 
-    int getLSInfoFor(final File f) {
-        final FileInfo info = getFileInfoFor(f);
+    int getLSInfoFor(finbl File f) {
+        finbl FileInfo info = getFileInfoFor(f);
 
-        if (info.launchServicesInfo == UNINITALIZED_LS_INFO) {
-            info.launchServicesInfo = getNativeLSInfo(info.pathBytes, info.isDirectory);
+        if (info.lbunchServicesInfo == UNINITALIZED_LS_INFO) {
+            info.lbunchServicesInfo = getNbtiveLSInfo(info.pbthBytes, info.isDirectory);
         }
 
-        return info.launchServicesInfo;
+        return info.lbunchServicesInfo;
     }
 
-    boolean isAlias(final File f) {
-        final int lsInfo = getLSInfoFor(f);
-        return ((lsInfo & kLSItemInfoIsAliasFile) != 0) && ((lsInfo & kLSItemInfoIsSymlink) == 0);
+    boolebn isAlibs(finbl File f) {
+        finbl int lsInfo = getLSInfoFor(f);
+        return ((lsInfo & kLSItemInfoIsAlibsFile) != 0) && ((lsInfo & kLSItemInfoIsSymlink) == 0);
     }
 
-    boolean isApplication(final File f) {
-        return (getLSInfoFor(f) & kLSItemInfoIsApplication) != 0;
+    boolebn isApplicbtion(finbl File f) {
+        return (getLSInfoFor(f) & kLSItemInfoIsApplicbtion) != 0;
     }
 
-    boolean isPackage(final File f) {
-        return (getLSInfoFor(f) & kLSItemInfoIsPackage) != 0;
+    boolebn isPbckbge(finbl File f) {
+        return (getLSInfoFor(f) & kLSItemInfoIsPbckbge) != 0;
     }
 
     /**
-     * Things that need to be handled:
-     * -Change getFSRef to use CFURLRef instead of FSPathMakeRef
-     * -Use the HFS-style path from CFURLRef in resolveAlias() to avoid
-     *      path length limitations
-     * -In resolveAlias(), simply resolve immediately if this is an alias
+     * Things thbt need to be hbndled:
+     * -Chbnge getFSRef to use CFURLRef instebd of FSPbthMbkeRef
+     * -Use the HFS-style pbth from CFURLRef in resolveAlibs() to bvoid
+     *      pbth length limitbtions
+     * -In resolveAlibs(), simply resolve immedibtely if this is bn blibs
      */
 
     /**
-     * Returns the actual file represented by this object.  This will
-     * resolve any aliases in the path, including this file if it is an
-     * alias.  No alias resolution requiring user interaction (e.g.
-     * mounting servers) will occur.  Note that aliases to servers may
-     * take a significant amount of time to resolve.  This method
-     * currently does not have any provisions for a more fine-grained
-     * timeout for alias resolution beyond that used by the system.
+     * Returns the bctubl file represented by this object.  This will
+     * resolve bny blibses in the pbth, including this file if it is bn
+     * blibs.  No blibs resolution requiring user interbction (e.g.
+     * mounting servers) will occur.  Note thbt blibses to servers mby
+     * tbke b significbnt bmount of time to resolve.  This method
+     * currently does not hbve bny provisions for b more fine-grbined
+     * timeout for blibs resolution beyond thbt used by the system.
      *
-     * In the event of a path that does not contain any aliases, or if the file
-     *  does not exist, this method will return the file that was passed in.
-     *    @return    The canonical path to the file
-     *    @throws    IOException    If an I/O error occurs while attempting to
-     *                            construct the path
+     * In the event of b pbth thbt does not contbin bny blibses, or if the file
+     *  does not exist, this method will return the file thbt wbs pbssed in.
+     *    @return    The cbnonicbl pbth to the file
+     *    @throws    IOException    If bn I/O error occurs while bttempting to
+     *                            construct the pbth
      */
-    File resolveAlias(final File mFile) {
-        // If the file exists and is not an alias, there aren't
-        // any aliases along its path, so the standard version
-        // of getCanonicalPath() will work.
-        if (mFile.exists() && !isAlias(mFile)) {
-            if (DEBUG) System.out.println("not an alias");
+    File resolveAlibs(finbl File mFile) {
+        // If the file exists bnd is not bn blibs, there bren't
+        // bny blibses blong its pbth, so the stbndbrd version
+        // of getCbnonicblPbth() will work.
+        if (mFile.exists() && !isAlibs(mFile)) {
+            if (DEBUG) System.out.println("not bn blibs");
             return mFile;
         }
 
-        // If it doesn't exist, either there's an alias in the
-        // path or this is an alias.  Traverse the path and
-        // resolve all aliases in it.
-        final LinkedList<String> components = getPathComponents(mFile);
+        // If it doesn't exist, either there's bn blibs in the
+        // pbth or this is bn blibs.  Trbverse the pbth bnd
+        // resolve bll blibses in it.
+        finbl LinkedList<String> components = getPbthComponents(mFile);
         if (components == null) {
-            if (DEBUG) System.out.println("getPathComponents is null ");
+            if (DEBUG) System.out.println("getPbthComponents is null ");
             return mFile;
         }
 
         File file = new File("/");
-        for (final String nextComponent : components) {
+        for (finbl String nextComponent : components) {
             file = new File(file, nextComponent);
-            final FileInfo info = getFileInfoFor(file);
+            finbl FileInfo info = getFileInfoFor(file);
 
-            // If any point along the way doesn't exist,
+            // If bny point blong the wby doesn't exist,
             // just return the file.
             if (!file.exists()) { return mFile; }
 
-            if (isAlias(file)) {
+            if (isAlibs(file)) {
                 // Resolve it!
-                final String path = getNativePathForResolvedAlias(info.pathBytes, info.isDirectory);
+                finbl String pbth = getNbtivePbthForResolvedAlibs(info.pbthBytes, info.isDirectory);
 
-                // <rdar://problem/3582601> If the alias doesn't resolve (on a non-existent volume, for example)
+                // <rdbr://problem/3582601> If the blibs doesn't resolve (on b non-existent volume, for exbmple)
                 // just return the file.
-                if (path == null) return mFile;
+                if (pbth == null) return mFile;
 
-                file = new File(path);
+                file = new File(pbth);
             }
         }
 
@@ -326,21 +326,21 @@ class AquaFileView extends FileView {
     }
 
     /**
-     * Returns a linked list of Strings consisting of the components of
-     * the path of this file, in order, including the filename as the
-     * last element.  The first element in the list will be the first
-     * directory in the path, or "".
-     *    @return A linked list of the components of this file's path
+     * Returns b linked list of Strings consisting of the components of
+     * the pbth of this file, in order, including the filenbme bs the
+     * lbst element.  The first element in the list will be the first
+     * directory in the pbth, or "".
+     *    @return A linked list of the components of this file's pbth
      */
-    private static LinkedList<String> getPathComponents(final File mFile) {
-        final LinkedList<String> componentList = new LinkedList<String>();
-        String parent;
+    privbte stbtic LinkedList<String> getPbthComponents(finbl File mFile) {
+        finbl LinkedList<String> componentList = new LinkedList<String>();
+        String pbrent;
 
-        File file = new File(mFile.getAbsolutePath());
-        componentList.add(0, file.getName());
-        while ((parent = file.getParent()) != null) {
-            file = new File(parent);
-            componentList.add(0, file.getName());
+        File file = new File(mFile.getAbsolutePbth());
+        componentList.bdd(0, file.getNbme());
+        while ((pbrent = file.getPbrent()) != null) {
+            file = new File(pbrent);
+            componentList.bdd(0, file.getNbme());
         }
         return componentList;
     }

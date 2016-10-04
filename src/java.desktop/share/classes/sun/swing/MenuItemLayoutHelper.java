@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.swing;
+pbckbge sun.swing;
 
-import static sun.swing.SwingUtilities2.BASICMENUITEMUI_MAX_TEXT_OFFSET;
+import stbtic sun.swing.SwingUtilities2.BASICMENUITEMUI_MAX_TEXT_OFFSET;
 
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.Map;
-import java.util.HashMap;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsic.BbsicHTML;
+import jbvbx.swing.text.View;
+import jbvb.bwt.*;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
 
 /**
- * Calculates preferred size and layouts menu items.
+ * Cblculbtes preferred size bnd lbyouts menu items.
  */
-public class MenuItemLayoutHelper {
+public clbss MenuItemLbyoutHelper {
 
-    /* Client Property keys for calculation of maximal widths */
-    public static final StringUIClientPropertyKey MAX_ARROW_WIDTH =
-                        new StringUIClientPropertyKey("maxArrowWidth");
-    public static final StringUIClientPropertyKey MAX_CHECK_WIDTH =
-                        new StringUIClientPropertyKey("maxCheckWidth");
-    public static final StringUIClientPropertyKey MAX_ICON_WIDTH =
-                        new StringUIClientPropertyKey("maxIconWidth");
-    public static final StringUIClientPropertyKey MAX_TEXT_WIDTH =
-                        new StringUIClientPropertyKey("maxTextWidth");
-    public static final StringUIClientPropertyKey MAX_ACC_WIDTH =
-                        new StringUIClientPropertyKey("maxAccWidth");
-    public static final StringUIClientPropertyKey MAX_LABEL_WIDTH =
-                        new StringUIClientPropertyKey("maxLabelWidth");
+    /* Client Property keys for cblculbtion of mbximbl widths */
+    public stbtic finbl StringUIClientPropertyKey MAX_ARROW_WIDTH =
+                        new StringUIClientPropertyKey("mbxArrowWidth");
+    public stbtic finbl StringUIClientPropertyKey MAX_CHECK_WIDTH =
+                        new StringUIClientPropertyKey("mbxCheckWidth");
+    public stbtic finbl StringUIClientPropertyKey MAX_ICON_WIDTH =
+                        new StringUIClientPropertyKey("mbxIconWidth");
+    public stbtic finbl StringUIClientPropertyKey MAX_TEXT_WIDTH =
+                        new StringUIClientPropertyKey("mbxTextWidth");
+    public stbtic finbl StringUIClientPropertyKey MAX_ACC_WIDTH =
+                        new StringUIClientPropertyKey("mbxAccWidth");
+    public stbtic finbl StringUIClientPropertyKey MAX_LABEL_WIDTH =
+                        new StringUIClientPropertyKey("mbxLbbelWidth");
 
-    private JMenuItem mi;
-    private JComponent miParent;
+    privbte JMenuItem mi;
+    privbte JComponent miPbrent;
 
-    private Font font;
-    private Font accFont;
-    private FontMetrics fm;
-    private FontMetrics accFm;
+    privbte Font font;
+    privbte Font bccFont;
+    privbte FontMetrics fm;
+    privbte FontMetrics bccFm;
 
-    private Icon icon;
-    private Icon checkIcon;
-    private Icon arrowIcon;
-    private String text;
-    private String accText;
+    privbte Icon icon;
+    privbte Icon checkIcon;
+    privbte Icon brrowIcon;
+    privbte String text;
+    privbte String bccText;
 
-    private boolean isColumnLayout;
-    private boolean useCheckAndArrow;
-    private boolean isLeftToRight;
-    private boolean isTopLevelMenu;
-    private View htmlView;
+    privbte boolebn isColumnLbyout;
+    privbte boolebn useCheckAndArrow;
+    privbte boolebn isLeftToRight;
+    privbte boolebn isTopLevelMenu;
+    privbte View htmlView;
 
-    private int verticalAlignment;
-    private int horizontalAlignment;
-    private int verticalTextPosition;
-    private int horizontalTextPosition;
-    private int gap;
-    private int leadingGap;
-    private int afterCheckIconGap;
-    private int minTextOffset;
+    privbte int verticblAlignment;
+    privbte int horizontblAlignment;
+    privbte int verticblTextPosition;
+    privbte int horizontblTextPosition;
+    privbte int gbp;
+    privbte int lebdingGbp;
+    privbte int bfterCheckIconGbp;
+    privbte int minTextOffset;
 
-    private int leftTextExtraWidth;
+    privbte int leftTextExtrbWidth;
 
-    private Rectangle viewRect;
+    privbte Rectbngle viewRect;
 
-    private RectSize iconSize;
-    private RectSize textSize;
-    private RectSize accSize;
-    private RectSize checkSize;
-    private RectSize arrowSize;
-    private RectSize labelSize;
+    privbte RectSize iconSize;
+    privbte RectSize textSize;
+    privbte RectSize bccSize;
+    privbte RectSize checkSize;
+    privbte RectSize brrowSize;
+    privbte RectSize lbbelSize;
 
     /**
-     * The empty protected constructor is necessary for derived classes.
+     * The empty protected constructor is necessbry for derived clbsses.
      */
-    protected MenuItemLayoutHelper() {
+    protected MenuItemLbyoutHelper() {
     }
 
-    public MenuItemLayoutHelper(JMenuItem mi, Icon checkIcon, Icon arrowIcon,
-                      Rectangle viewRect, int gap, String accDelimiter,
-                      boolean isLeftToRight, Font font, Font accFont,
-                      boolean useCheckAndArrow, String propertyPrefix) {
-        reset(mi, checkIcon, arrowIcon, viewRect, gap, accDelimiter,
-              isLeftToRight, font, accFont, useCheckAndArrow, propertyPrefix);
+    public MenuItemLbyoutHelper(JMenuItem mi, Icon checkIcon, Icon brrowIcon,
+                      Rectbngle viewRect, int gbp, String bccDelimiter,
+                      boolebn isLeftToRight, Font font, Font bccFont,
+                      boolebn useCheckAndArrow, String propertyPrefix) {
+        reset(mi, checkIcon, brrowIcon, viewRect, gbp, bccDelimiter,
+              isLeftToRight, font, bccFont, useCheckAndArrow, propertyPrefix);
     }
 
-    protected void reset(JMenuItem mi, Icon checkIcon, Icon arrowIcon,
-                      Rectangle viewRect, int gap, String accDelimiter,
-                      boolean isLeftToRight, Font font, Font accFont,
-                      boolean useCheckAndArrow, String propertyPrefix) {
+    protected void reset(JMenuItem mi, Icon checkIcon, Icon brrowIcon,
+                      Rectbngle viewRect, int gbp, String bccDelimiter,
+                      boolebn isLeftToRight, Font font, Font bccFont,
+                      boolebn useCheckAndArrow, String propertyPrefix) {
         this.mi = mi;
-        this.miParent = getMenuItemParent(mi);
-        this.accText = getAccText(accDelimiter);
-        this.verticalAlignment = mi.getVerticalAlignment();
-        this.horizontalAlignment = mi.getHorizontalAlignment();
-        this.verticalTextPosition = mi.getVerticalTextPosition();
-        this.horizontalTextPosition = mi.getHorizontalTextPosition();
+        this.miPbrent = getMenuItemPbrent(mi);
+        this.bccText = getAccText(bccDelimiter);
+        this.verticblAlignment = mi.getVerticblAlignment();
+        this.horizontblAlignment = mi.getHorizontblAlignment();
+        this.verticblTextPosition = mi.getVerticblTextPosition();
+        this.horizontblTextPosition = mi.getHorizontblTextPosition();
         this.useCheckAndArrow = useCheckAndArrow;
         this.font = font;
-        this.accFont = accFont;
+        this.bccFont = bccFont;
         this.fm = mi.getFontMetrics(font);
-        this.accFm = mi.getFontMetrics(accFont);
+        this.bccFm = mi.getFontMetrics(bccFont);
         this.isLeftToRight = isLeftToRight;
-        this.isColumnLayout = isColumnLayout(isLeftToRight,
-                horizontalAlignment, horizontalTextPosition,
-                verticalTextPosition);
-        this.isTopLevelMenu = (this.miParent == null) ? true : false;
+        this.isColumnLbyout = isColumnLbyout(isLeftToRight,
+                horizontblAlignment, horizontblTextPosition,
+                verticblTextPosition);
+        this.isTopLevelMenu = (this.miPbrent == null) ? true : fblse;
         this.checkIcon = checkIcon;
         this.icon = getIcon(propertyPrefix);
-        this.arrowIcon = arrowIcon;
+        this.brrowIcon = brrowIcon;
         this.text = mi.getText();
-        this.gap = gap;
-        this.afterCheckIconGap = getAfterCheckIconGap(propertyPrefix);
+        this.gbp = gbp;
+        this.bfterCheckIconGbp = getAfterCheckIconGbp(propertyPrefix);
         this.minTextOffset = getMinTextOffset(propertyPrefix);
-        this.htmlView = (View) mi.getClientProperty(BasicHTML.propertyKey);
+        this.htmlView = (View) mi.getClientProperty(BbsicHTML.propertyKey);
         this.viewRect = viewRect;
 
         this.iconSize = new RectSize();
         this.textSize = new RectSize();
-        this.accSize = new RectSize();
+        this.bccSize = new RectSize();
         this.checkSize = new RectSize();
-        this.arrowSize = new RectSize();
-        this.labelSize = new RectSize();
-        calcExtraWidths();
-        calcWidthsAndHeights();
-        setOriginalWidths();
-        calcMaxWidths();
+        this.brrowSize = new RectSize();
+        this.lbbelSize = new RectSize();
+        cblcExtrbWidths();
+        cblcWidthsAndHeights();
+        setOriginblWidths();
+        cblcMbxWidths();
 
-        this.leadingGap = getLeadingGap(propertyPrefix);
-        calcMaxTextOffset(viewRect);
+        this.lebdingGbp = getLebdingGbp(propertyPrefix);
+        cblcMbxTextOffset(viewRect);
     }
 
-    private void calcExtraWidths() {
-        leftTextExtraWidth = getLeftExtraWidth(text);
+    privbte void cblcExtrbWidths() {
+        leftTextExtrbWidth = getLeftExtrbWidth(text);
     }
 
-    private int getLeftExtraWidth(String str) {
-        int lsb = SwingUtilities2.getLeftSideBearing(mi, fm, str);
+    privbte int getLeftExtrbWidth(String str) {
+        int lsb = SwingUtilities2.getLeftSideBebring(mi, fm, str);
         if (lsb < 0) {
             return -lsb;
         } else {
@@ -167,109 +167,109 @@ public class MenuItemLayoutHelper {
         }
     }
 
-    private void setOriginalWidths() {
+    privbte void setOriginblWidths() {
         iconSize.origWidth = iconSize.width;
         textSize.origWidth = textSize.width;
-        accSize.origWidth = accSize.width;
+        bccSize.origWidth = bccSize.width;
         checkSize.origWidth = checkSize.width;
-        arrowSize.origWidth = arrowSize.width;
+        brrowSize.origWidth = brrowSize.width;
     }
 
-    private String getAccText(String acceleratorDelimiter) {
-        String accText = "";
-        KeyStroke accelerator = mi.getAccelerator();
-        if (accelerator != null) {
-            int modifiers = accelerator.getModifiers();
+    privbte String getAccText(String bccelerbtorDelimiter) {
+        String bccText = "";
+        KeyStroke bccelerbtor = mi.getAccelerbtor();
+        if (bccelerbtor != null) {
+            int modifiers = bccelerbtor.getModifiers();
             if (modifiers > 0) {
-                accText = KeyEvent.getKeyModifiersText(modifiers);
-                accText += acceleratorDelimiter;
+                bccText = KeyEvent.getKeyModifiersText(modifiers);
+                bccText += bccelerbtorDelimiter;
             }
-            int keyCode = accelerator.getKeyCode();
+            int keyCode = bccelerbtor.getKeyCode();
             if (keyCode != 0) {
-                accText += KeyEvent.getKeyText(keyCode);
+                bccText += KeyEvent.getKeyText(keyCode);
             } else {
-                accText += accelerator.getKeyChar();
+                bccText += bccelerbtor.getKeyChbr();
             }
         }
-        return accText;
+        return bccText;
     }
 
-    private Icon getIcon(String propertyPrefix) {
-        // In case of column layout, .checkIconFactory is defined for this UI,
-        // the icon is compatible with it and useCheckAndArrow() is true,
-        // then the icon is handled by the checkIcon.
+    privbte Icon getIcon(String propertyPrefix) {
+        // In cbse of column lbyout, .checkIconFbctory is defined for this UI,
+        // the icon is compbtible with it bnd useCheckAndArrow() is true,
+        // then the icon is hbndled by the checkIcon.
         Icon icon = null;
-        MenuItemCheckIconFactory iconFactory =
-                (MenuItemCheckIconFactory) UIManager.get(propertyPrefix
-                        + ".checkIconFactory");
-        if (!isColumnLayout || !useCheckAndArrow || iconFactory == null
-                || !iconFactory.isCompatible(checkIcon, propertyPrefix)) {
+        MenuItemCheckIconFbctory iconFbctory =
+                (MenuItemCheckIconFbctory) UIMbnbger.get(propertyPrefix
+                        + ".checkIconFbctory");
+        if (!isColumnLbyout || !useCheckAndArrow || iconFbctory == null
+                || !iconFbctory.isCompbtible(checkIcon, propertyPrefix)) {
             icon = mi.getIcon();
         }
         return icon;
     }
 
-    private int getMinTextOffset(String propertyPrefix) {
+    privbte int getMinTextOffset(String propertyPrefix) {
         int minimumTextOffset = 0;
         Object minimumTextOffsetObject =
-                UIManager.get(propertyPrefix + ".minimumTextOffset");
-        if (minimumTextOffsetObject instanceof Integer) {
+                UIMbnbger.get(propertyPrefix + ".minimumTextOffset");
+        if (minimumTextOffsetObject instbnceof Integer) {
             minimumTextOffset = (Integer) minimumTextOffsetObject;
         }
         return minimumTextOffset;
     }
 
-    private int getAfterCheckIconGap(String propertyPrefix) {
-        int afterCheckIconGap = gap;
-        Object afterCheckIconGapObject =
-                UIManager.get(propertyPrefix + ".afterCheckIconGap");
-        if (afterCheckIconGapObject instanceof Integer) {
-            afterCheckIconGap = (Integer) afterCheckIconGapObject;
+    privbte int getAfterCheckIconGbp(String propertyPrefix) {
+        int bfterCheckIconGbp = gbp;
+        Object bfterCheckIconGbpObject =
+                UIMbnbger.get(propertyPrefix + ".bfterCheckIconGbp");
+        if (bfterCheckIconGbpObject instbnceof Integer) {
+            bfterCheckIconGbp = (Integer) bfterCheckIconGbpObject;
         }
-        return afterCheckIconGap;
+        return bfterCheckIconGbp;
     }
 
-    private int getLeadingGap(String propertyPrefix) {
-        if (checkSize.getMaxWidth() > 0) {
+    privbte int getLebdingGbp(String propertyPrefix) {
+        if (checkSize.getMbxWidth() > 0) {
             return getCheckOffset(propertyPrefix);
         } else {
-            return gap; // There is no any check icon
+            return gbp; // There is no bny check icon
         }
     }
 
-    private int getCheckOffset(String propertyPrefix) {
-        int checkIconOffset = gap;
+    privbte int getCheckOffset(String propertyPrefix) {
+        int checkIconOffset = gbp;
         Object checkIconOffsetObject =
-                UIManager.get(propertyPrefix + ".checkIconOffset");
-        if (checkIconOffsetObject instanceof Integer) {
+                UIMbnbger.get(propertyPrefix + ".checkIconOffset");
+        if (checkIconOffsetObject instbnceof Integer) {
             checkIconOffset = (Integer) checkIconOffsetObject;
         }
         return checkIconOffset;
     }
 
-    protected void calcWidthsAndHeights() {
+    protected void cblcWidthsAndHeights() {
         // iconRect
         if (icon != null) {
             iconSize.width = icon.getIconWidth();
             iconSize.height = icon.getIconHeight();
         }
 
-        // accRect
-        if (!accText.equals("")) {
-            accSize.width = SwingUtilities2.stringWidth(mi, accFm, accText);
-            accSize.height = accFm.getHeight();
+        // bccRect
+        if (!bccText.equbls("")) {
+            bccSize.width = SwingUtilities2.stringWidth(mi, bccFm, bccText);
+            bccSize.height = bccFm.getHeight();
         }
 
         // textRect
         if (text == null) {
             text = "";
-        } else if (!text.equals("")) {
+        } else if (!text.equbls("")) {
             if (htmlView != null) {
                 // Text is HTML
                 textSize.width =
-                        (int) htmlView.getPreferredSpan(View.X_AXIS);
+                        (int) htmlView.getPreferredSpbn(View.X_AXIS);
                 textSize.height =
-                        (int) htmlView.getPreferredSpan(View.Y_AXIS);
+                        (int) htmlView.getPreferredSpbn(View.Y_AXIS);
             } else {
                 // Text isn't HTML
                 textSize.width = SwingUtilities2.stringWidth(mi, fm, text);
@@ -283,225 +283,225 @@ public class MenuItemLayoutHelper {
                 checkSize.width = checkIcon.getIconWidth();
                 checkSize.height = checkIcon.getIconHeight();
             }
-            // arrowRect
-            if (arrowIcon != null) {
-                arrowSize.width = arrowIcon.getIconWidth();
-                arrowSize.height = arrowIcon.getIconHeight();
+            // brrowRect
+            if (brrowIcon != null) {
+                brrowSize.width = brrowIcon.getIconWidth();
+                brrowSize.height = brrowIcon.getIconHeight();
             }
         }
 
-        // labelRect
-        if (isColumnLayout) {
-            labelSize.width = iconSize.width + textSize.width + gap;
-            labelSize.height = max(checkSize.height, iconSize.height,
-                    textSize.height, accSize.height, arrowSize.height);
+        // lbbelRect
+        if (isColumnLbyout) {
+            lbbelSize.width = iconSize.width + textSize.width + gbp;
+            lbbelSize.height = mbx(checkSize.height, iconSize.height,
+                    textSize.height, bccSize.height, brrowSize.height);
         } else {
-            Rectangle textRect = new Rectangle();
-            Rectangle iconRect = new Rectangle();
-            SwingUtilities.layoutCompoundLabel(mi, fm, text, icon,
-                    verticalAlignment, horizontalAlignment,
-                    verticalTextPosition, horizontalTextPosition,
-                    viewRect, iconRect, textRect, gap);
-            textRect.width += leftTextExtraWidth;
-            Rectangle labelRect = iconRect.union(textRect);
-            labelSize.height = labelRect.height;
-            labelSize.width = labelRect.width;
+            Rectbngle textRect = new Rectbngle();
+            Rectbngle iconRect = new Rectbngle();
+            SwingUtilities.lbyoutCompoundLbbel(mi, fm, text, icon,
+                    verticblAlignment, horizontblAlignment,
+                    verticblTextPosition, horizontblTextPosition,
+                    viewRect, iconRect, textRect, gbp);
+            textRect.width += leftTextExtrbWidth;
+            Rectbngle lbbelRect = iconRect.union(textRect);
+            lbbelSize.height = lbbelRect.height;
+            lbbelSize.width = lbbelRect.width;
         }
     }
 
-    protected void calcMaxWidths() {
-        calcMaxWidth(checkSize, MAX_CHECK_WIDTH);
-        calcMaxWidth(arrowSize, MAX_ARROW_WIDTH);
-        calcMaxWidth(accSize, MAX_ACC_WIDTH);
+    protected void cblcMbxWidths() {
+        cblcMbxWidth(checkSize, MAX_CHECK_WIDTH);
+        cblcMbxWidth(brrowSize, MAX_ARROW_WIDTH);
+        cblcMbxWidth(bccSize, MAX_ACC_WIDTH);
 
-        if (isColumnLayout) {
-            calcMaxWidth(iconSize, MAX_ICON_WIDTH);
-            calcMaxWidth(textSize, MAX_TEXT_WIDTH);
-            int curGap = gap;
-            if ((iconSize.getMaxWidth() == 0)
-                    || (textSize.getMaxWidth() == 0)) {
-                curGap = 0;
+        if (isColumnLbyout) {
+            cblcMbxWidth(iconSize, MAX_ICON_WIDTH);
+            cblcMbxWidth(textSize, MAX_TEXT_WIDTH);
+            int curGbp = gbp;
+            if ((iconSize.getMbxWidth() == 0)
+                    || (textSize.getMbxWidth() == 0)) {
+                curGbp = 0;
             }
-            labelSize.maxWidth =
-                    calcMaxValue(MAX_LABEL_WIDTH, iconSize.maxWidth
-                            + textSize.maxWidth + curGap);
+            lbbelSize.mbxWidth =
+                    cblcMbxVblue(MAX_LABEL_WIDTH, iconSize.mbxWidth
+                            + textSize.mbxWidth + curGbp);
         } else {
-            // We shouldn't use current icon and text widths
-            // in maximal widths calculation for complex layout.
-            iconSize.maxWidth = getParentIntProperty(MAX_ICON_WIDTH);
-            calcMaxWidth(labelSize, MAX_LABEL_WIDTH);
-            // If maxLabelWidth is wider
-            // than the widest icon + the widest text + gap,
-            // we should update the maximal text witdh
-            int candidateTextWidth = labelSize.maxWidth - iconSize.maxWidth;
-            if (iconSize.maxWidth > 0) {
-                candidateTextWidth -= gap;
+            // We shouldn't use current icon bnd text widths
+            // in mbximbl widths cblculbtion for complex lbyout.
+            iconSize.mbxWidth = getPbrentIntProperty(MAX_ICON_WIDTH);
+            cblcMbxWidth(lbbelSize, MAX_LABEL_WIDTH);
+            // If mbxLbbelWidth is wider
+            // thbn the widest icon + the widest text + gbp,
+            // we should updbte the mbximbl text witdh
+            int cbndidbteTextWidth = lbbelSize.mbxWidth - iconSize.mbxWidth;
+            if (iconSize.mbxWidth > 0) {
+                cbndidbteTextWidth -= gbp;
             }
-            textSize.maxWidth = calcMaxValue(MAX_TEXT_WIDTH, candidateTextWidth);
+            textSize.mbxWidth = cblcMbxVblue(MAX_TEXT_WIDTH, cbndidbteTextWidth);
         }
     }
 
-    protected void calcMaxWidth(RectSize rs, Object key) {
-        rs.maxWidth = calcMaxValue(key, rs.width);
+    protected void cblcMbxWidth(RectSize rs, Object key) {
+        rs.mbxWidth = cblcMbxVblue(key, rs.width);
     }
 
     /**
-     * Calculates and returns maximal value through specified parent component
+     * Cblculbtes bnd returns mbximbl vblue through specified pbrent component
      * client property.
      *
-     * @param propertyName name of the property, which stores the maximal value.
-     * @param value a value which pretends to be maximal
-     * @return maximal value among the parent property and the value.
+     * @pbrbm propertyNbme nbme of the property, which stores the mbximbl vblue.
+     * @pbrbm vblue b vblue which pretends to be mbximbl
+     * @return mbximbl vblue bmong the pbrent property bnd the vblue.
      */
-    protected int calcMaxValue(Object propertyName, int value) {
-        // Get maximal value from parent client property
-        int maxValue = getParentIntProperty(propertyName);
-        // Store new maximal width in parent client property
-        if (value > maxValue) {
-            if (miParent != null) {
-                miParent.putClientProperty(propertyName, value);
+    protected int cblcMbxVblue(Object propertyNbme, int vblue) {
+        // Get mbximbl vblue from pbrent client property
+        int mbxVblue = getPbrentIntProperty(propertyNbme);
+        // Store new mbximbl width in pbrent client property
+        if (vblue > mbxVblue) {
+            if (miPbrent != null) {
+                miPbrent.putClientProperty(propertyNbme, vblue);
             }
-            return value;
+            return vblue;
         } else {
-            return maxValue;
+            return mbxVblue;
         }
     }
 
     /**
-     * Returns parent client property as int.
-     * @param propertyName name of the parent property.
-     * @return value of the property as int.
+     * Returns pbrent client property bs int.
+     * @pbrbm propertyNbme nbme of the pbrent property.
+     * @return vblue of the property bs int.
      */
-    protected int getParentIntProperty(Object propertyName) {
-        Object value = null;
-        if (miParent != null) {
-            value = miParent.getClientProperty(propertyName);
+    protected int getPbrentIntProperty(Object propertyNbme) {
+        Object vblue = null;
+        if (miPbrent != null) {
+            vblue = miPbrent.getClientProperty(propertyNbme);
         }
-        if ((value == null) || !(value instanceof Integer)) {
-            value = 0;
+        if ((vblue == null) || !(vblue instbnceof Integer)) {
+            vblue = 0;
         }
-        return (Integer) value;
+        return (Integer) vblue;
     }
 
-    public static boolean isColumnLayout(boolean isLeftToRight,
+    public stbtic boolebn isColumnLbyout(boolebn isLeftToRight,
                                          JMenuItem mi) {
-        assert(mi != null);
-        return isColumnLayout(isLeftToRight, mi.getHorizontalAlignment(),
-                mi.getHorizontalTextPosition(), mi.getVerticalTextPosition());
+        bssert(mi != null);
+        return isColumnLbyout(isLeftToRight, mi.getHorizontblAlignment(),
+                mi.getHorizontblTextPosition(), mi.getVerticblTextPosition());
     }
 
     /**
-     * Answers should we do column layout for a menu item or not.
-     * We do it when a user doesn't set any alignments
-     * and text positions manually, except the vertical alignment.
+     * Answers should we do column lbyout for b menu item or not.
+     * We do it when b user doesn't set bny blignments
+     * bnd text positions mbnublly, except the verticbl blignment.
      */
-    public static boolean isColumnLayout(boolean isLeftToRight,
-                                         int horizontalAlignment,
-                                         int horizontalTextPosition,
-                                         int verticalTextPosition) {
-        if (verticalTextPosition != SwingConstants.CENTER) {
-            return false;
+    public stbtic boolebn isColumnLbyout(boolebn isLeftToRight,
+                                         int horizontblAlignment,
+                                         int horizontblTextPosition,
+                                         int verticblTextPosition) {
+        if (verticblTextPosition != SwingConstbnts.CENTER) {
+            return fblse;
         }
         if (isLeftToRight) {
-            if (horizontalAlignment != SwingConstants.LEADING
-                    && horizontalAlignment != SwingConstants.LEFT) {
-                return false;
+            if (horizontblAlignment != SwingConstbnts.LEADING
+                    && horizontblAlignment != SwingConstbnts.LEFT) {
+                return fblse;
             }
-            if (horizontalTextPosition != SwingConstants.TRAILING
-                    && horizontalTextPosition != SwingConstants.RIGHT) {
-                return false;
+            if (horizontblTextPosition != SwingConstbnts.TRAILING
+                    && horizontblTextPosition != SwingConstbnts.RIGHT) {
+                return fblse;
             }
         } else {
-            if (horizontalAlignment != SwingConstants.LEADING
-                    && horizontalAlignment != SwingConstants.RIGHT) {
-                return false;
+            if (horizontblAlignment != SwingConstbnts.LEADING
+                    && horizontblAlignment != SwingConstbnts.RIGHT) {
+                return fblse;
             }
-            if (horizontalTextPosition != SwingConstants.TRAILING
-                    && horizontalTextPosition != SwingConstants.LEFT) {
-                return false;
+            if (horizontblTextPosition != SwingConstbnts.TRAILING
+                    && horizontblTextPosition != SwingConstbnts.LEFT) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Calculates maximal text offset.
-     * It is required for some L&Fs (ex: Vista L&F).
-     * The offset is meaningful only for L2R column layout.
+     * Cblculbtes mbximbl text offset.
+     * It is required for some L&Fs (ex: Vistb L&F).
+     * The offset is mebningful only for L2R column lbyout.
      *
-     * @param viewRect the rectangle, the maximal text offset
-     * will be calculated for.
+     * @pbrbm viewRect the rectbngle, the mbximbl text offset
+     * will be cblculbted for.
      */
-    private void calcMaxTextOffset(Rectangle viewRect) {
-        if (!isColumnLayout || !isLeftToRight) {
+    privbte void cblcMbxTextOffset(Rectbngle viewRect) {
+        if (!isColumnLbyout || !isLeftToRight) {
             return;
         }
 
-        // Calculate the current text offset
-        int offset = viewRect.x + leadingGap + checkSize.maxWidth
-                + afterCheckIconGap + iconSize.maxWidth + gap;
-        if (checkSize.maxWidth == 0) {
-            offset -= afterCheckIconGap;
+        // Cblculbte the current text offset
+        int offset = viewRect.x + lebdingGbp + checkSize.mbxWidth
+                + bfterCheckIconGbp + iconSize.mbxWidth + gbp;
+        if (checkSize.mbxWidth == 0) {
+            offset -= bfterCheckIconGbp;
         }
-        if (iconSize.maxWidth == 0) {
-            offset -= gap;
+        if (iconSize.mbxWidth == 0) {
+            offset -= gbp;
         }
 
-        // maximal text offset shouldn't be less than minimal text offset;
+        // mbximbl text offset shouldn't be less thbn minimbl text offset;
         if (offset < minTextOffset) {
             offset = minTextOffset;
         }
 
-        // Calculate and store the maximal text offset
-        calcMaxValue(SwingUtilities2.BASICMENUITEMUI_MAX_TEXT_OFFSET, offset);
+        // Cblculbte bnd store the mbximbl text offset
+        cblcMbxVblue(SwingUtilities2.BASICMENUITEMUI_MAX_TEXT_OFFSET, offset);
     }
 
     /**
-     * Layout icon, text, check icon, accelerator text and arrow icon
-     * in the viewRect and return their positions.
+     * Lbyout icon, text, check icon, bccelerbtor text bnd brrow icon
+     * in the viewRect bnd return their positions.
      *
-     * If horizontalAlignment, verticalTextPosition and horizontalTextPosition
-     * are default (user doesn't set any manually) the layouting algorithm is:
-     * Elements are layouted in the five columns:
-     * check icon + icon + text + accelerator text + arrow icon
+     * If horizontblAlignment, verticblTextPosition bnd horizontblTextPosition
+     * bre defbult (user doesn't set bny mbnublly) the lbyouting blgorithm is:
+     * Elements bre lbyouted in the five columns:
+     * check icon + icon + text + bccelerbtor text + brrow icon
      *
-     * In the other case elements are layouted in the four columns:
-     * check icon + label + accelerator text + arrow icon
-     * Label is union of icon and text.
+     * In the other cbse elements bre lbyouted in the four columns:
+     * check icon + lbbel + bccelerbtor text + brrow icon
+     * Lbbel is union of icon bnd text.
      *
-     * The order of columns can be reversed.
-     * It depends on the menu item orientation.
+     * The order of columns cbn be reversed.
+     * It depends on the menu item orientbtion.
      */
-    public LayoutResult layoutMenuItem() {
-        LayoutResult lr = createLayoutResult();
-        prepareForLayout(lr);
+    public LbyoutResult lbyoutMenuItem() {
+        LbyoutResult lr = crebteLbyoutResult();
+        prepbreForLbyout(lr);
 
-        if (isColumnLayout()) {
+        if (isColumnLbyout()) {
             if (isLeftToRight()) {
-                doLTRColumnLayout(lr, getLTRColumnAlignment());
+                doLTRColumnLbyout(lr, getLTRColumnAlignment());
             } else {
-                doRTLColumnLayout(lr, getRTLColumnAlignment());
+                doRTLColumnLbyout(lr, getRTLColumnAlignment());
             }
         } else {
             if (isLeftToRight()) {
-                doLTRComplexLayout(lr, getLTRColumnAlignment());
+                doLTRComplexLbyout(lr, getLTRColumnAlignment());
             } else {
-                doRTLComplexLayout(lr, getRTLColumnAlignment());
+                doRTLComplexLbyout(lr, getRTLColumnAlignment());
             }
         }
 
-        alignAccCheckAndArrowVertically(lr);
+        blignAccCheckAndArrowVerticblly(lr);
         return lr;
     }
 
-    private LayoutResult createLayoutResult() {
-        return new LayoutResult(
-                new Rectangle(iconSize.width, iconSize.height),
-                new Rectangle(textSize.width, textSize.height),
-                new Rectangle(accSize.width,  accSize.height),
-                new Rectangle(checkSize.width, checkSize.height),
-                new Rectangle(arrowSize.width, arrowSize.height),
-                new Rectangle(labelSize.width, labelSize.height)
+    privbte LbyoutResult crebteLbyoutResult() {
+        return new LbyoutResult(
+                new Rectbngle(iconSize.width, iconSize.height),
+                new Rectbngle(textSize.width, textSize.height),
+                new Rectbngle(bccSize.width,  bccSize.height),
+                new Rectbngle(checkSize.width, checkSize.height),
+                new Rectbngle(brrowSize.width, brrowSize.height),
+                new Rectbngle(lbbelSize.width, lbbelSize.height)
         );
     }
 
@@ -513,309 +513,309 @@ public class MenuItemLayoutHelper {
         return ColumnAlignment.RIGHT_ALIGNMENT;
     }
 
-    protected void prepareForLayout(LayoutResult lr) {
-        lr.checkRect.width = checkSize.maxWidth;
-        lr.accRect.width = accSize.maxWidth;
-        lr.arrowRect.width = arrowSize.maxWidth;
+    protected void prepbreForLbyout(LbyoutResult lr) {
+        lr.checkRect.width = checkSize.mbxWidth;
+        lr.bccRect.width = bccSize.mbxWidth;
+        lr.brrowRect.width = brrowSize.mbxWidth;
     }
 
     /**
-     * Aligns the accelertor text and the check and arrow icons vertically
-     * with the center of the label rect.
+     * Aligns the bccelertor text bnd the check bnd brrow icons verticblly
+     * with the center of the lbbel rect.
      */
-    private void alignAccCheckAndArrowVertically(LayoutResult lr) {
-        lr.accRect.y = (int)(lr.labelRect.y
-                + (float)lr.labelRect.height/2
-                - (float)lr.accRect.height/2);
-        fixVerticalAlignment(lr, lr.accRect);
+    privbte void blignAccCheckAndArrowVerticblly(LbyoutResult lr) {
+        lr.bccRect.y = (int)(lr.lbbelRect.y
+                + (flobt)lr.lbbelRect.height/2
+                - (flobt)lr.bccRect.height/2);
+        fixVerticblAlignment(lr, lr.bccRect);
         if (useCheckAndArrow) {
-            lr.arrowRect.y = (int)(lr.labelRect.y
-                    + (float)lr.labelRect.height/2
-                    - (float)lr.arrowRect.height/2);
-            lr.checkRect.y = (int)(lr.labelRect.y
-                    + (float)lr.labelRect.height/2
-                    - (float)lr.checkRect.height/2);
-            fixVerticalAlignment(lr, lr.arrowRect);
-            fixVerticalAlignment(lr, lr.checkRect);
+            lr.brrowRect.y = (int)(lr.lbbelRect.y
+                    + (flobt)lr.lbbelRect.height/2
+                    - (flobt)lr.brrowRect.height/2);
+            lr.checkRect.y = (int)(lr.lbbelRect.y
+                    + (flobt)lr.lbbelRect.height/2
+                    - (flobt)lr.checkRect.height/2);
+            fixVerticblAlignment(lr, lr.brrowRect);
+            fixVerticblAlignment(lr, lr.checkRect);
         }
     }
 
     /**
-     * Fixes vertical alignment of all menu item elements if rect.y
+     * Fixes verticbl blignment of bll menu item elements if rect.y
      * or (rect.y + rect.height) is out of viewRect bounds
      */
-    private void fixVerticalAlignment(LayoutResult lr, Rectangle r) {
-        int delta = 0;
+    privbte void fixVerticblAlignment(LbyoutResult lr, Rectbngle r) {
+        int deltb = 0;
         if (r.y < viewRect.y) {
-            delta = viewRect.y - r.y;
+            deltb = viewRect.y - r.y;
         } else if (r.y + r.height > viewRect.y + viewRect.height) {
-            delta = viewRect.y + viewRect.height - r.y - r.height;
+            deltb = viewRect.y + viewRect.height - r.y - r.height;
         }
-        if (delta != 0) {
-            lr.checkRect.y += delta;
-            lr.iconRect.y += delta;
-            lr.textRect.y += delta;
-            lr.accRect.y += delta;
-            lr.arrowRect.y += delta;
-            lr.labelRect.y += delta;
+        if (deltb != 0) {
+            lr.checkRect.y += deltb;
+            lr.iconRect.y += deltb;
+            lr.textRect.y += deltb;
+            lr.bccRect.y += deltb;
+            lr.brrowRect.y += deltb;
+            lr.lbbelRect.y += deltb;
         }
     }
 
-    private void doLTRColumnLayout(LayoutResult lr, ColumnAlignment alignment) {
-        // Set maximal width for all the five basic rects
-        // (three other ones are already maximal)
-        lr.iconRect.width = iconSize.maxWidth;
-        lr.textRect.width = textSize.maxWidth;
+    privbte void doLTRColumnLbyout(LbyoutResult lr, ColumnAlignment blignment) {
+        // Set mbximbl width for bll the five bbsic rects
+        // (three other ones bre blrebdy mbximbl)
+        lr.iconRect.width = iconSize.mbxWidth;
+        lr.textRect.width = textSize.mbxWidth;
 
-        // Set X coordinates
-        // All rects will be aligned at the left side
-        calcXPositionsLTR(viewRect.x, leadingGap, gap, lr.checkRect,
+        // Set X coordinbtes
+        // All rects will be bligned bt the left side
+        cblcXPositionsLTR(viewRect.x, lebdingGbp, gbp, lr.checkRect,
                 lr.iconRect, lr.textRect);
 
-        // Tune afterCheckIconGap
-        if (lr.checkRect.width > 0) { // there is the afterCheckIconGap
-            lr.iconRect.x += afterCheckIconGap - gap;
-            lr.textRect.x += afterCheckIconGap - gap;
+        // Tune bfterCheckIconGbp
+        if (lr.checkRect.width > 0) { // there is the bfterCheckIconGbp
+            lr.iconRect.x += bfterCheckIconGbp - gbp;
+            lr.textRect.x += bfterCheckIconGbp - gbp;
         }
 
-        calcXPositionsRTL(viewRect.x + viewRect.width, leadingGap, gap,
-                lr.arrowRect, lr.accRect);
+        cblcXPositionsRTL(viewRect.x + viewRect.width, lebdingGbp, gbp,
+                lr.brrowRect, lr.bccRect);
 
-        // Take into account minimal text offset
+        // Tbke into bccount minimbl text offset
         int textOffset = lr.textRect.x - viewRect.x;
         if (!isTopLevelMenu && (textOffset < minTextOffset)) {
             lr.textRect.x += minTextOffset - textOffset;
         }
 
-        alignRects(lr, alignment);
+        blignRects(lr, blignment);
 
-        // Set Y coordinate for text and icon.
-        // Y coordinates for other rects
-        // will be calculated later in layoutMenuItem.
-        calcTextAndIconYPositions(lr);
+        // Set Y coordinbte for text bnd icon.
+        // Y coordinbtes for other rects
+        // will be cblculbted lbter in lbyoutMenuItem.
+        cblcTextAndIconYPositions(lr);
 
-        // Calculate valid X and Y coordinates for labelRect
-        lr.setLabelRect(lr.textRect.union(lr.iconRect));
+        // Cblculbte vblid X bnd Y coordinbtes for lbbelRect
+        lr.setLbbelRect(lr.textRect.union(lr.iconRect));
     }
 
-    private void doLTRComplexLayout(LayoutResult lr, ColumnAlignment alignment) {
-        lr.labelRect.width = labelSize.maxWidth;
+    privbte void doLTRComplexLbyout(LbyoutResult lr, ColumnAlignment blignment) {
+        lr.lbbelRect.width = lbbelSize.mbxWidth;
 
-        // Set X coordinates
-        calcXPositionsLTR(viewRect.x, leadingGap, gap, lr.checkRect,
-                lr.labelRect);
+        // Set X coordinbtes
+        cblcXPositionsLTR(viewRect.x, lebdingGbp, gbp, lr.checkRect,
+                lr.lbbelRect);
 
-        // Tune afterCheckIconGap
-        if (lr.checkRect.width > 0) { // there is the afterCheckIconGap
-            lr.labelRect.x += afterCheckIconGap - gap;
+        // Tune bfterCheckIconGbp
+        if (lr.checkRect.width > 0) { // there is the bfterCheckIconGbp
+            lr.lbbelRect.x += bfterCheckIconGbp - gbp;
         }
 
-        calcXPositionsRTL(viewRect.x + viewRect.width,
-                leadingGap, gap, lr.arrowRect, lr.accRect);
+        cblcXPositionsRTL(viewRect.x + viewRect.width,
+                lebdingGbp, gbp, lr.brrowRect, lr.bccRect);
 
-        // Take into account minimal text offset
-        int labelOffset = lr.labelRect.x - viewRect.x;
-        if (!isTopLevelMenu && (labelOffset < minTextOffset)) {
-            lr.labelRect.x += minTextOffset - labelOffset;
+        // Tbke into bccount minimbl text offset
+        int lbbelOffset = lr.lbbelRect.x - viewRect.x;
+        if (!isTopLevelMenu && (lbbelOffset < minTextOffset)) {
+            lr.lbbelRect.x += minTextOffset - lbbelOffset;
         }
 
-        alignRects(lr, alignment);
+        blignRects(lr, blignment);
 
-        // Center labelRect vertically
-        calcLabelYPosition(lr);
+        // Center lbbelRect verticblly
+        cblcLbbelYPosition(lr);
 
-        layoutIconAndTextInLabelRect(lr);
+        lbyoutIconAndTextInLbbelRect(lr);
     }
 
-    private void doRTLColumnLayout(LayoutResult lr, ColumnAlignment alignment) {
-        // Set maximal width for all the five basic rects
-        // (three other ones are already maximal)
-        lr.iconRect.width = iconSize.maxWidth;
-        lr.textRect.width = textSize.maxWidth;
+    privbte void doRTLColumnLbyout(LbyoutResult lr, ColumnAlignment blignment) {
+        // Set mbximbl width for bll the five bbsic rects
+        // (three other ones bre blrebdy mbximbl)
+        lr.iconRect.width = iconSize.mbxWidth;
+        lr.textRect.width = textSize.mbxWidth;
 
-        // Set X coordinates
-        calcXPositionsRTL(viewRect.x + viewRect.width, leadingGap, gap,
+        // Set X coordinbtes
+        cblcXPositionsRTL(viewRect.x + viewRect.width, lebdingGbp, gbp,
                 lr.checkRect, lr.iconRect, lr.textRect);
 
-        // Tune the gap after check icon
-        if (lr.checkRect.width > 0) { // there is the gap after check icon
-            lr.iconRect.x -= afterCheckIconGap - gap;
-            lr.textRect.x -= afterCheckIconGap - gap;
+        // Tune the gbp bfter check icon
+        if (lr.checkRect.width > 0) { // there is the gbp bfter check icon
+            lr.iconRect.x -= bfterCheckIconGbp - gbp;
+            lr.textRect.x -= bfterCheckIconGbp - gbp;
         }
 
-        calcXPositionsLTR(viewRect.x, leadingGap, gap, lr.arrowRect,
-                lr.accRect);
+        cblcXPositionsLTR(viewRect.x, lebdingGbp, gbp, lr.brrowRect,
+                lr.bccRect);
 
-        // Take into account minimal text offset
+        // Tbke into bccount minimbl text offset
         int textOffset = (viewRect.x + viewRect.width)
                        - (lr.textRect.x + lr.textRect.width);
         if (!isTopLevelMenu && (textOffset < minTextOffset)) {
             lr.textRect.x -= minTextOffset - textOffset;
         }
 
-        alignRects(lr, alignment);
+        blignRects(lr, blignment);
 
-        // Set Y coordinates for text and icon.
-        // Y coordinates for other rects
-        // will be calculated later in layoutMenuItem.
-        calcTextAndIconYPositions(lr);
+        // Set Y coordinbtes for text bnd icon.
+        // Y coordinbtes for other rects
+        // will be cblculbted lbter in lbyoutMenuItem.
+        cblcTextAndIconYPositions(lr);
 
-        // Calculate valid X and Y coordinate for labelRect
-        lr.setLabelRect(lr.textRect.union(lr.iconRect));
+        // Cblculbte vblid X bnd Y coordinbte for lbbelRect
+        lr.setLbbelRect(lr.textRect.union(lr.iconRect));
     }
 
-    private void doRTLComplexLayout(LayoutResult lr, ColumnAlignment alignment) {
-        lr.labelRect.width = labelSize.maxWidth;
+    privbte void doRTLComplexLbyout(LbyoutResult lr, ColumnAlignment blignment) {
+        lr.lbbelRect.width = lbbelSize.mbxWidth;
 
-        // Set X coordinates
-        calcXPositionsRTL(viewRect.x + viewRect.width, leadingGap, gap,
-                lr.checkRect, lr.labelRect);
+        // Set X coordinbtes
+        cblcXPositionsRTL(viewRect.x + viewRect.width, lebdingGbp, gbp,
+                lr.checkRect, lr.lbbelRect);
 
-        // Tune the gap after check icon
-        if (lr.checkRect.width > 0) { // there is the gap after check icon
-            lr.labelRect.x -= afterCheckIconGap - gap;
+        // Tune the gbp bfter check icon
+        if (lr.checkRect.width > 0) { // there is the gbp bfter check icon
+            lr.lbbelRect.x -= bfterCheckIconGbp - gbp;
         }
 
-        calcXPositionsLTR(viewRect.x, leadingGap, gap, lr.arrowRect, lr.accRect);
+        cblcXPositionsLTR(viewRect.x, lebdingGbp, gbp, lr.brrowRect, lr.bccRect);
 
-        // Take into account minimal text offset
-        int labelOffset = (viewRect.x + viewRect.width)
-                        - (lr.labelRect.x + lr.labelRect.width);
-        if (!isTopLevelMenu && (labelOffset < minTextOffset)) {
-            lr.labelRect.x -= minTextOffset - labelOffset;
+        // Tbke into bccount minimbl text offset
+        int lbbelOffset = (viewRect.x + viewRect.width)
+                        - (lr.lbbelRect.x + lr.lbbelRect.width);
+        if (!isTopLevelMenu && (lbbelOffset < minTextOffset)) {
+            lr.lbbelRect.x -= minTextOffset - lbbelOffset;
         }
 
-        alignRects(lr, alignment);
+        blignRects(lr, blignment);
 
-        // Center labelRect vertically
-        calcLabelYPosition(lr);
+        // Center lbbelRect verticblly
+        cblcLbbelYPosition(lr);
 
-        layoutIconAndTextInLabelRect(lr);
+        lbyoutIconAndTextInLbbelRect(lr);
     }
 
-    private void alignRects(LayoutResult lr, ColumnAlignment alignment) {
-        alignRect(lr.checkRect, alignment.getCheckAlignment(),
+    privbte void blignRects(LbyoutResult lr, ColumnAlignment blignment) {
+        blignRect(lr.checkRect, blignment.getCheckAlignment(),
                   checkSize.getOrigWidth());
-        alignRect(lr.iconRect, alignment.getIconAlignment(),
+        blignRect(lr.iconRect, blignment.getIconAlignment(),
                   iconSize.getOrigWidth());
-        alignRect(lr.textRect, alignment.getTextAlignment(),
+        blignRect(lr.textRect, blignment.getTextAlignment(),
                   textSize.getOrigWidth());
-        alignRect(lr.accRect, alignment.getAccAlignment(),
-                  accSize.getOrigWidth());
-        alignRect(lr.arrowRect, alignment.getArrowAlignment(),
-                  arrowSize.getOrigWidth());
+        blignRect(lr.bccRect, blignment.getAccAlignment(),
+                  bccSize.getOrigWidth());
+        blignRect(lr.brrowRect, blignment.getArrowAlignment(),
+                  brrowSize.getOrigWidth());
     }
 
-    private void alignRect(Rectangle rect, int alignment, int origWidth) {
-        if (alignment == SwingConstants.RIGHT) {
+    privbte void blignRect(Rectbngle rect, int blignment, int origWidth) {
+        if (blignment == SwingConstbnts.RIGHT) {
             rect.x = rect.x + rect.width - origWidth;
         }
         rect.width = origWidth;
     }
 
-    protected void layoutIconAndTextInLabelRect(LayoutResult lr) {
-        lr.setTextRect(new Rectangle());
-        lr.setIconRect(new Rectangle());
-        SwingUtilities.layoutCompoundLabel(
-                mi, fm, text,icon, verticalAlignment, horizontalAlignment,
-                verticalTextPosition, horizontalTextPosition, lr.labelRect,
-                lr.iconRect, lr.textRect, gap);
+    protected void lbyoutIconAndTextInLbbelRect(LbyoutResult lr) {
+        lr.setTextRect(new Rectbngle());
+        lr.setIconRect(new Rectbngle());
+        SwingUtilities.lbyoutCompoundLbbel(
+                mi, fm, text,icon, verticblAlignment, horizontblAlignment,
+                verticblTextPosition, horizontblTextPosition, lr.lbbelRect,
+                lr.iconRect, lr.textRect, gbp);
     }
 
-    private void calcXPositionsLTR(int startXPos, int leadingGap,
-                                   int gap, Rectangle... rects) {
-        int curXPos = startXPos + leadingGap;
-        for (Rectangle rect : rects) {
+    privbte void cblcXPositionsLTR(int stbrtXPos, int lebdingGbp,
+                                   int gbp, Rectbngle... rects) {
+        int curXPos = stbrtXPos + lebdingGbp;
+        for (Rectbngle rect : rects) {
             rect.x = curXPos;
             if (rect.width > 0) {
-                curXPos += rect.width + gap;
+                curXPos += rect.width + gbp;
             }
         }
     }
 
-    private void calcXPositionsRTL(int startXPos, int leadingGap,
-                                   int gap, Rectangle... rects) {
-        int curXPos = startXPos - leadingGap;
-        for (Rectangle rect : rects) {
+    privbte void cblcXPositionsRTL(int stbrtXPos, int lebdingGbp,
+                                   int gbp, Rectbngle... rects) {
+        int curXPos = stbrtXPos - lebdingGbp;
+        for (Rectbngle rect : rects) {
             rect.x = curXPos - rect.width;
             if (rect.width > 0) {
-                curXPos -= rect.width + gap;
+                curXPos -= rect.width + gbp;
             }
         }
     }
 
    /**
-     * Sets Y coordinates of text and icon
-     * taking into account the vertical alignment
+     * Sets Y coordinbtes of text bnd icon
+     * tbking into bccount the verticbl blignment
      */
-    private void calcTextAndIconYPositions(LayoutResult lr) {
-        if (verticalAlignment == SwingUtilities.TOP) {
+    privbte void cblcTextAndIconYPositions(LbyoutResult lr) {
+        if (verticblAlignment == SwingUtilities.TOP) {
             lr.textRect.y  = (int)(viewRect.y
-                    + (float)lr.labelRect.height/2
-                    - (float)lr.textRect.height/2);
+                    + (flobt)lr.lbbelRect.height/2
+                    - (flobt)lr.textRect.height/2);
             lr.iconRect.y  = (int)(viewRect.y
-                    + (float)lr.labelRect.height/2
-                    - (float)lr.iconRect.height/2);
-        } else if (verticalAlignment == SwingUtilities.CENTER) {
+                    + (flobt)lr.lbbelRect.height/2
+                    - (flobt)lr.iconRect.height/2);
+        } else if (verticblAlignment == SwingUtilities.CENTER) {
             lr.textRect.y = (int)(viewRect.y
-                    + (float)viewRect.height/2
-                    - (float)lr.textRect.height/2);
+                    + (flobt)viewRect.height/2
+                    - (flobt)lr.textRect.height/2);
             lr.iconRect.y = (int)(viewRect.y
-                    + (float)viewRect.height/2
-                    - (float)lr.iconRect.height/2);
+                    + (flobt)viewRect.height/2
+                    - (flobt)lr.iconRect.height/2);
         }
-        else if (verticalAlignment == SwingUtilities.BOTTOM) {
+        else if (verticblAlignment == SwingUtilities.BOTTOM) {
             lr.textRect.y = (int)(viewRect.y
                     + viewRect.height
-                    - (float)lr.labelRect.height/2
-                    - (float)lr.textRect.height/2);
+                    - (flobt)lr.lbbelRect.height/2
+                    - (flobt)lr.textRect.height/2);
             lr.iconRect.y = (int)(viewRect.y
                     + viewRect.height
-                    - (float)lr.labelRect.height/2
-                    - (float)lr.iconRect.height/2);
+                    - (flobt)lr.lbbelRect.height/2
+                    - (flobt)lr.iconRect.height/2);
         }
     }
 
     /**
-     * Sets labelRect Y coordinate
-     * taking into account the vertical alignment
+     * Sets lbbelRect Y coordinbte
+     * tbking into bccount the verticbl blignment
      */
-    private void calcLabelYPosition(LayoutResult lr) {
-        if (verticalAlignment == SwingUtilities.TOP) {
-            lr.labelRect.y  = viewRect.y;
-        } else if (verticalAlignment == SwingUtilities.CENTER) {
-            lr.labelRect.y = (int)(viewRect.y
-                    + (float)viewRect.height/2
-                    - (float)lr.labelRect.height/2);
-        } else if (verticalAlignment == SwingUtilities.BOTTOM) {
-            lr.labelRect.y  = viewRect.y + viewRect.height
-                    - lr.labelRect.height;
+    privbte void cblcLbbelYPosition(LbyoutResult lr) {
+        if (verticblAlignment == SwingUtilities.TOP) {
+            lr.lbbelRect.y  = viewRect.y;
+        } else if (verticblAlignment == SwingUtilities.CENTER) {
+            lr.lbbelRect.y = (int)(viewRect.y
+                    + (flobt)viewRect.height/2
+                    - (flobt)lr.lbbelRect.height/2);
+        } else if (verticblAlignment == SwingUtilities.BOTTOM) {
+            lr.lbbelRect.y  = viewRect.y + viewRect.height
+                    - lr.lbbelRect.height;
         }
     }
 
     /**
-     * Returns parent of this component if it is not a top-level menu
+     * Returns pbrent of this component if it is not b top-level menu
      * Otherwise returns null.
-     * @param menuItem the menu item whose parent will be returned.
-     * @return parent of this component if it is not a top-level menu
+     * @pbrbm menuItem the menu item whose pbrent will be returned.
+     * @return pbrent of this component if it is not b top-level menu
      * Otherwise returns null.
      */
-    public static JComponent getMenuItemParent(JMenuItem menuItem) {
-        Container parent = menuItem.getParent();
-        if ((parent instanceof JComponent) &&
-             (!(menuItem instanceof JMenu) ||
+    public stbtic JComponent getMenuItemPbrent(JMenuItem menuItem) {
+        Contbiner pbrent = menuItem.getPbrent();
+        if ((pbrent instbnceof JComponent) &&
+             (!(menuItem instbnceof JMenu) ||
                !((JMenu)menuItem).isTopLevelMenu())) {
-            return (JComponent) parent;
+            return (JComponent) pbrent;
         } else {
             return null;
         }
     }
 
-    public static void clearUsedParentClientProperties(JMenuItem menuItem) {
-        clearUsedClientProperties(getMenuItemParent(menuItem));
+    public stbtic void clebrUsedPbrentClientProperties(JMenuItem menuItem) {
+        clebrUsedClientProperties(getMenuItemPbrent(menuItem));
     }
 
-    public static void clearUsedClientProperties(JComponent c) {
+    public stbtic void clebrUsedClientProperties(JComponent c) {
         if (c != null) {
             c.putClientProperty(MAX_ARROW_WIDTH, null);
             c.putClientProperty(MAX_CHECK_WIDTH, null);
@@ -828,33 +828,33 @@ public class MenuItemLayoutHelper {
     }
 
     /**
-     * Finds and returns maximal integer value in the given array.
-     * @param values array where the search will be performed.
-     * @return maximal vaule.
+     * Finds bnd returns mbximbl integer vblue in the given brrby.
+     * @pbrbm vblues brrby where the sebrch will be performed.
+     * @return mbximbl vbule.
      */
-    public static int max(int... values) {
-        int maxValue = Integer.MIN_VALUE;
-        for (int i : values) {
-            if (i > maxValue) {
-                maxValue = i;
+    public stbtic int mbx(int... vblues) {
+        int mbxVblue = Integer.MIN_VALUE;
+        for (int i : vblues) {
+            if (i > mbxVblue) {
+                mbxVblue = i;
             }
         }
-        return maxValue;
+        return mbxVblue;
     }
 
-    public static Rectangle createMaxRect() {
-        return new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
+    public stbtic Rectbngle crebteMbxRect() {
+        return new Rectbngle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    public static void addMaxWidth(RectSize size, int gap, Dimension result) {
-        if (size.maxWidth > 0) {
-            result.width += size.maxWidth + gap;
+    public stbtic void bddMbxWidth(RectSize size, int gbp, Dimension result) {
+        if (size.mbxWidth > 0) {
+            result.width += size.mbxWidth + gbp;
         }
     }
 
-    public static void addWidth(int width, int gap, Dimension result) {
+    public stbtic void bddWidth(int width, int gbp, Dimension result) {
         if (width > 0) {
-            result.width += width + gap;
+            result.width += width + gbp;
         }
     }
 
@@ -862,8 +862,8 @@ public class MenuItemLayoutHelper {
         return mi;
     }
 
-    public JComponent getMenuItemParent() {
-        return miParent;
+    public JComponent getMenuItemPbrent() {
+        return miPbrent;
     }
 
     public Font getFont() {
@@ -871,7 +871,7 @@ public class MenuItemLayoutHelper {
     }
 
     public Font getAccFont() {
-        return accFont;
+        return bccFont;
     }
 
     public FontMetrics getFontMetrics() {
@@ -879,7 +879,7 @@ public class MenuItemLayoutHelper {
     }
 
     public FontMetrics getAccFontMetrics() {
-        return accFm;
+        return bccFm;
     }
 
     public Icon getIcon() {
@@ -891,7 +891,7 @@ public class MenuItemLayoutHelper {
     }
 
     public Icon getArrowIcon() {
-        return arrowIcon;
+        return brrowIcon;
     }
 
     public String getText() {
@@ -899,22 +899,22 @@ public class MenuItemLayoutHelper {
     }
 
     public String getAccText() {
-        return accText;
+        return bccText;
     }
 
-    public boolean isColumnLayout() {
-        return isColumnLayout;
+    public boolebn isColumnLbyout() {
+        return isColumnLbyout;
     }
 
-    public boolean useCheckAndArrow() {
+    public boolebn useCheckAndArrow() {
         return useCheckAndArrow;
     }
 
-    public boolean isLeftToRight() {
+    public boolebn isLeftToRight() {
         return isLeftToRight;
     }
 
-    public boolean isTopLevelMenu() {
+    public boolebn isTopLevelMenu() {
         return isTopLevelMenu;
     }
 
@@ -922,39 +922,39 @@ public class MenuItemLayoutHelper {
         return htmlView;
     }
 
-    public int getVerticalAlignment() {
-        return verticalAlignment;
+    public int getVerticblAlignment() {
+        return verticblAlignment;
     }
 
-    public int getHorizontalAlignment() {
-        return horizontalAlignment;
+    public int getHorizontblAlignment() {
+        return horizontblAlignment;
     }
 
-    public int getVerticalTextPosition() {
-        return verticalTextPosition;
+    public int getVerticblTextPosition() {
+        return verticblTextPosition;
     }
 
-    public int getHorizontalTextPosition() {
-        return horizontalTextPosition;
+    public int getHorizontblTextPosition() {
+        return horizontblTextPosition;
     }
 
-    public int getGap() {
-        return gap;
+    public int getGbp() {
+        return gbp;
     }
 
-    public int getLeadingGap() {
-        return leadingGap;
+    public int getLebdingGbp() {
+        return lebdingGbp;
     }
 
-    public int getAfterCheckIconGap() {
-        return afterCheckIconGap;
+    public int getAfterCheckIconGbp() {
+        return bfterCheckIconGbp;
     }
 
     public int getMinTextOffset() {
         return minTextOffset;
     }
 
-    public Rectangle getViewRect() {
+    public Rectbngle getViewRect() {
         return viewRect;
     }
 
@@ -967,7 +967,7 @@ public class MenuItemLayoutHelper {
     }
 
     public RectSize getAccSize() {
-        return accSize;
+        return bccSize;
     }
 
     public RectSize getCheckSize() {
@@ -975,35 +975,35 @@ public class MenuItemLayoutHelper {
     }
 
     public RectSize getArrowSize() {
-        return arrowSize;
+        return brrowSize;
     }
 
-    public RectSize getLabelSize() {
-        return labelSize;
+    public RectSize getLbbelSize() {
+        return lbbelSize;
     }
 
     protected void setMenuItem(JMenuItem mi) {
         this.mi = mi;
     }
 
-    protected void setMenuItemParent(JComponent miParent) {
-        this.miParent = miParent;
+    protected void setMenuItemPbrent(JComponent miPbrent) {
+        this.miPbrent = miPbrent;
     }
 
     protected void setFont(Font font) {
         this.font = font;
     }
 
-    protected void setAccFont(Font accFont) {
-        this.accFont = accFont;
+    protected void setAccFont(Font bccFont) {
+        this.bccFont = bccFont;
     }
 
     protected void setFontMetrics(FontMetrics fm) {
         this.fm = fm;
     }
 
-    protected void setAccFontMetrics(FontMetrics accFm) {
-        this.accFm = accFm;
+    protected void setAccFontMetrics(FontMetrics bccFm) {
+        this.bccFm = bccFm;
     }
 
     protected void setIcon(Icon icon) {
@@ -1014,31 +1014,31 @@ public class MenuItemLayoutHelper {
         this.checkIcon = checkIcon;
     }
 
-    protected void setArrowIcon(Icon arrowIcon) {
-        this.arrowIcon = arrowIcon;
+    protected void setArrowIcon(Icon brrowIcon) {
+        this.brrowIcon = brrowIcon;
     }
 
     protected void setText(String text) {
         this.text = text;
     }
 
-    protected void setAccText(String accText) {
-        this.accText = accText;
+    protected void setAccText(String bccText) {
+        this.bccText = bccText;
     }
 
-    protected void setColumnLayout(boolean columnLayout) {
-        isColumnLayout = columnLayout;
+    protected void setColumnLbyout(boolebn columnLbyout) {
+        isColumnLbyout = columnLbyout;
     }
 
-    protected void setUseCheckAndArrow(boolean useCheckAndArrow) {
+    protected void setUseCheckAndArrow(boolebn useCheckAndArrow) {
         this.useCheckAndArrow = useCheckAndArrow;
     }
 
-    protected void setLeftToRight(boolean leftToRight) {
+    protected void setLeftToRight(boolebn leftToRight) {
         isLeftToRight = leftToRight;
     }
 
-    protected void setTopLevelMenu(boolean topLevelMenu) {
+    protected void setTopLevelMenu(boolebn topLevelMenu) {
         isTopLevelMenu = topLevelMenu;
     }
 
@@ -1046,39 +1046,39 @@ public class MenuItemLayoutHelper {
         this.htmlView = htmlView;
     }
 
-    protected void setVerticalAlignment(int verticalAlignment) {
-        this.verticalAlignment = verticalAlignment;
+    protected void setVerticblAlignment(int verticblAlignment) {
+        this.verticblAlignment = verticblAlignment;
     }
 
-    protected void setHorizontalAlignment(int horizontalAlignment) {
-        this.horizontalAlignment = horizontalAlignment;
+    protected void setHorizontblAlignment(int horizontblAlignment) {
+        this.horizontblAlignment = horizontblAlignment;
     }
 
-    protected void setVerticalTextPosition(int verticalTextPosition) {
-        this.verticalTextPosition = verticalTextPosition;
+    protected void setVerticblTextPosition(int verticblTextPosition) {
+        this.verticblTextPosition = verticblTextPosition;
     }
 
-    protected void setHorizontalTextPosition(int horizontalTextPosition) {
-        this.horizontalTextPosition = horizontalTextPosition;
+    protected void setHorizontblTextPosition(int horizontblTextPosition) {
+        this.horizontblTextPosition = horizontblTextPosition;
     }
 
-    protected void setGap(int gap) {
-        this.gap = gap;
+    protected void setGbp(int gbp) {
+        this.gbp = gbp;
     }
 
-    protected void setLeadingGap(int leadingGap) {
-        this.leadingGap = leadingGap;
+    protected void setLebdingGbp(int lebdingGbp) {
+        this.lebdingGbp = lebdingGbp;
     }
 
-    protected void setAfterCheckIconGap(int afterCheckIconGap) {
-        this.afterCheckIconGap = afterCheckIconGap;
+    protected void setAfterCheckIconGbp(int bfterCheckIconGbp) {
+        this.bfterCheckIconGbp = bfterCheckIconGbp;
     }
 
     protected void setMinTextOffset(int minTextOffset) {
         this.minTextOffset = minTextOffset;
     }
 
-    protected void setViewRect(Rectangle viewRect) {
+    protected void setViewRect(Rectbngle viewRect) {
         this.viewRect = viewRect;
     }
 
@@ -1090,160 +1090,160 @@ public class MenuItemLayoutHelper {
         this.textSize = textSize;
     }
 
-    protected void setAccSize(RectSize accSize) {
-        this.accSize = accSize;
+    protected void setAccSize(RectSize bccSize) {
+        this.bccSize = bccSize;
     }
 
     protected void setCheckSize(RectSize checkSize) {
         this.checkSize = checkSize;
     }
 
-    protected void setArrowSize(RectSize arrowSize) {
-        this.arrowSize = arrowSize;
+    protected void setArrowSize(RectSize brrowSize) {
+        this.brrowSize = brrowSize;
     }
 
-    protected void setLabelSize(RectSize labelSize) {
-        this.labelSize = labelSize;
+    protected void setLbbelSize(RectSize lbbelSize) {
+        this.lbbelSize = lbbelSize;
     }
 
-    public int getLeftTextExtraWidth() {
-        return leftTextExtraWidth;
+    public int getLeftTextExtrbWidth() {
+        return leftTextExtrbWidth;
     }
 
     /**
-     * Returns false if the component is a JMenu and it is a top
-     * level menu (on the menubar).
+     * Returns fblse if the component is b JMenu bnd it is b top
+     * level menu (on the menubbr).
      */
-    public static boolean useCheckAndArrow(JMenuItem menuItem) {
-        boolean b = true;
-        if ((menuItem instanceof JMenu) &&
+    public stbtic boolebn useCheckAndArrow(JMenuItem menuItem) {
+        boolebn b = true;
+        if ((menuItem instbnceof JMenu) &&
                 (((JMenu) menuItem).isTopLevelMenu())) {
-            b = false;
+            b = fblse;
         }
         return b;
     }
 
-    public static class LayoutResult {
-        private Rectangle iconRect;
-        private Rectangle textRect;
-        private Rectangle accRect;
-        private Rectangle checkRect;
-        private Rectangle arrowRect;
-        private Rectangle labelRect;
+    public stbtic clbss LbyoutResult {
+        privbte Rectbngle iconRect;
+        privbte Rectbngle textRect;
+        privbte Rectbngle bccRect;
+        privbte Rectbngle checkRect;
+        privbte Rectbngle brrowRect;
+        privbte Rectbngle lbbelRect;
 
-        public LayoutResult() {
-            iconRect = new Rectangle();
-            textRect = new Rectangle();
-            accRect = new Rectangle();
-            checkRect = new Rectangle();
-            arrowRect = new Rectangle();
-            labelRect = new Rectangle();
+        public LbyoutResult() {
+            iconRect = new Rectbngle();
+            textRect = new Rectbngle();
+            bccRect = new Rectbngle();
+            checkRect = new Rectbngle();
+            brrowRect = new Rectbngle();
+            lbbelRect = new Rectbngle();
         }
 
-        public LayoutResult(Rectangle iconRect, Rectangle textRect,
-                            Rectangle accRect, Rectangle checkRect,
-                            Rectangle arrowRect, Rectangle labelRect) {
+        public LbyoutResult(Rectbngle iconRect, Rectbngle textRect,
+                            Rectbngle bccRect, Rectbngle checkRect,
+                            Rectbngle brrowRect, Rectbngle lbbelRect) {
             this.iconRect = iconRect;
             this.textRect = textRect;
-            this.accRect = accRect;
+            this.bccRect = bccRect;
             this.checkRect = checkRect;
-            this.arrowRect = arrowRect;
-            this.labelRect = labelRect;
+            this.brrowRect = brrowRect;
+            this.lbbelRect = lbbelRect;
         }
 
-        public Rectangle getIconRect() {
+        public Rectbngle getIconRect() {
             return iconRect;
         }
 
-        public void setIconRect(Rectangle iconRect) {
+        public void setIconRect(Rectbngle iconRect) {
             this.iconRect = iconRect;
         }
 
-        public Rectangle getTextRect() {
+        public Rectbngle getTextRect() {
             return textRect;
         }
 
-        public void setTextRect(Rectangle textRect) {
+        public void setTextRect(Rectbngle textRect) {
             this.textRect = textRect;
         }
 
-        public Rectangle getAccRect() {
-            return accRect;
+        public Rectbngle getAccRect() {
+            return bccRect;
         }
 
-        public void setAccRect(Rectangle accRect) {
-            this.accRect = accRect;
+        public void setAccRect(Rectbngle bccRect) {
+            this.bccRect = bccRect;
         }
 
-        public Rectangle getCheckRect() {
+        public Rectbngle getCheckRect() {
             return checkRect;
         }
 
-        public void setCheckRect(Rectangle checkRect) {
+        public void setCheckRect(Rectbngle checkRect) {
             this.checkRect = checkRect;
         }
 
-        public Rectangle getArrowRect() {
-            return arrowRect;
+        public Rectbngle getArrowRect() {
+            return brrowRect;
         }
 
-        public void setArrowRect(Rectangle arrowRect) {
-            this.arrowRect = arrowRect;
+        public void setArrowRect(Rectbngle brrowRect) {
+            this.brrowRect = brrowRect;
         }
 
-        public Rectangle getLabelRect() {
-            return labelRect;
+        public Rectbngle getLbbelRect() {
+            return lbbelRect;
         }
 
-        public void setLabelRect(Rectangle labelRect) {
-            this.labelRect = labelRect;
+        public void setLbbelRect(Rectbngle lbbelRect) {
+            this.lbbelRect = lbbelRect;
         }
 
-        public Map<String, Rectangle> getAllRects() {
-            Map<String, Rectangle> result = new HashMap<String, Rectangle>();
+        public Mbp<String, Rectbngle> getAllRects() {
+            Mbp<String, Rectbngle> result = new HbshMbp<String, Rectbngle>();
             result.put("checkRect", checkRect);
             result.put("iconRect", iconRect);
             result.put("textRect", textRect);
-            result.put("accRect", accRect);
-            result.put("arrowRect", arrowRect);
-            result.put("labelRect", labelRect);
+            result.put("bccRect", bccRect);
+            result.put("brrowRect", brrowRect);
+            result.put("lbbelRect", lbbelRect);
             return result;
         }
     }
 
-    public static class ColumnAlignment {
-        private int checkAlignment;
-        private int iconAlignment;
-        private int textAlignment;
-        private int accAlignment;
-        private int arrowAlignment;
+    public stbtic clbss ColumnAlignment {
+        privbte int checkAlignment;
+        privbte int iconAlignment;
+        privbte int textAlignment;
+        privbte int bccAlignment;
+        privbte int brrowAlignment;
 
-        public static final ColumnAlignment LEFT_ALIGNMENT =
+        public stbtic finbl ColumnAlignment LEFT_ALIGNMENT =
                 new ColumnAlignment(
-                        SwingConstants.LEFT,
-                        SwingConstants.LEFT,
-                        SwingConstants.LEFT,
-                        SwingConstants.LEFT,
-                        SwingConstants.LEFT
+                        SwingConstbnts.LEFT,
+                        SwingConstbnts.LEFT,
+                        SwingConstbnts.LEFT,
+                        SwingConstbnts.LEFT,
+                        SwingConstbnts.LEFT
                 );
 
-        public static final ColumnAlignment RIGHT_ALIGNMENT =
+        public stbtic finbl ColumnAlignment RIGHT_ALIGNMENT =
                 new ColumnAlignment(
-                        SwingConstants.RIGHT,
-                        SwingConstants.RIGHT,
-                        SwingConstants.RIGHT,
-                        SwingConstants.RIGHT,
-                        SwingConstants.RIGHT
+                        SwingConstbnts.RIGHT,
+                        SwingConstbnts.RIGHT,
+                        SwingConstbnts.RIGHT,
+                        SwingConstbnts.RIGHT,
+                        SwingConstbnts.RIGHT
                 );
 
         public ColumnAlignment(int checkAlignment, int iconAlignment,
-                               int textAlignment, int accAlignment,
-                               int arrowAlignment) {
+                               int textAlignment, int bccAlignment,
+                               int brrowAlignment) {
             this.checkAlignment = checkAlignment;
             this.iconAlignment = iconAlignment;
             this.textAlignment = textAlignment;
-            this.accAlignment = accAlignment;
-            this.arrowAlignment = arrowAlignment;
+            this.bccAlignment = bccAlignment;
+            this.brrowAlignment = brrowAlignment;
         }
 
         public int getCheckAlignment() {
@@ -1259,28 +1259,28 @@ public class MenuItemLayoutHelper {
         }
 
         public int getAccAlignment() {
-            return accAlignment;
+            return bccAlignment;
         }
 
         public int getArrowAlignment() {
-            return arrowAlignment;
+            return brrowAlignment;
         }
     }
 
-    public static class RectSize {
-        private int width;
-        private int height;
-        private int origWidth;
-        private int maxWidth;
+    public stbtic clbss RectSize {
+        privbte int width;
+        privbte int height;
+        privbte int origWidth;
+        privbte int mbxWidth;
 
         public RectSize() {
         }
 
-        public RectSize(int width, int height, int origWidth, int maxWidth) {
+        public RectSize(int width, int height, int origWidth, int mbxWidth) {
             this.width = width;
             this.height = height;
             this.origWidth = origWidth;
-            this.maxWidth = maxWidth;
+            this.mbxWidth = mbxWidth;
         }
 
         public int getWidth() {
@@ -1295,8 +1295,8 @@ public class MenuItemLayoutHelper {
             return origWidth;
         }
 
-        public int getMaxWidth() {
-            return maxWidth;
+        public int getMbxWidth() {
+            return mbxWidth;
         }
 
         public void setWidth(int width) {
@@ -1311,13 +1311,13 @@ public class MenuItemLayoutHelper {
             this.origWidth = origWidth;
         }
 
-        public void setMaxWidth(int maxWidth) {
-            this.maxWidth = maxWidth;
+        public void setMbxWidth(int mbxWidth) {
+            this.mbxWidth = mbxWidth;
         }
 
         public String toString() {
             return "[w=" + width + ",h=" + height + ",ow="
-                    + origWidth + ",mw=" + maxWidth + "]";
+                    + origWidth + ",mw=" + mbxWidth + "]";
         }
     }
 }

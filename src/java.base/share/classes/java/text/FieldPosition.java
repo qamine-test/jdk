@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
 /**
- * <code>FieldPosition</code> is a simple class used by <code>Format</code>
- * and its subclasses to identify fields in formatted output. Fields can
- * be identified in two ways:
+ * <code>FieldPosition</code> is b simple clbss used by <code>Formbt</code>
+ * bnd its subclbsses to identify fields in formbtted output. Fields cbn
+ * be identified in two wbys:
  * <ul>
- *  <li>By an integer constant, whose names typically end with
- *      <code>_FIELD</code>. The constants are defined in the various
- *      subclasses of <code>Format</code>.
- *  <li>By a <code>Format.Field</code> constant, see <code>ERA_FIELD</code>
- *      and its friends in <code>DateFormat</code> for an example.
+ *  <li>By bn integer constbnt, whose nbmes typicblly end with
+ *      <code>_FIELD</code>. The constbnts bre defined in the vbrious
+ *      subclbsses of <code>Formbt</code>.
+ *  <li>By b <code>Formbt.Field</code> constbnt, see <code>ERA_FIELD</code>
+ *      bnd its friends in <code>DbteFormbt</code> for bn exbmple.
  * </ul>
  * <p>
- * <code>FieldPosition</code> keeps track of the position of the
- * field within the formatted output with two indices: the index
- * of the first character of the field and the index of the last
- * character of the field.
+ * <code>FieldPosition</code> keeps trbck of the position of the
+ * field within the formbtted output with two indices: the index
+ * of the first chbrbcter of the field bnd the index of the lbst
+ * chbrbcter of the field.
  *
  * <p>
- * One version of the <code>format</code> method in the various
- * <code>Format</code> classes requires a <code>FieldPosition</code>
- * object as an argument. You use this <code>format</code> method
- * to perform partial formatting or to get information about the
- * formatted output (such as the position of a field).
+ * One version of the <code>formbt</code> method in the vbrious
+ * <code>Formbt</code> clbsses requires b <code>FieldPosition</code>
+ * object bs bn brgument. You use this <code>formbt</code> method
+ * to perform pbrtibl formbtting or to get informbtion bbout the
+ * formbtted output (such bs the position of b field).
  *
  * <p>
- * If you are interested in the positions of all attributes in the
- * formatted string use the <code>Format</code> method
- * <code>formatToCharacterIterator</code>.
+ * If you bre interested in the positions of bll bttributes in the
+ * formbtted string use the <code>Formbt</code> method
+ * <code>formbtToChbrbcterIterbtor</code>.
  *
- * @author      Mark Davis
- * @see         java.text.Format
+ * @buthor      Mbrk Dbvis
+ * @see         jbvb.text.Formbt
  */
-public class FieldPosition {
+public clbss FieldPosition {
 
     /**
-     * Input: Desired field to determine start and end offsets for.
-     * The meaning depends on the subclass of Format.
+     * Input: Desired field to determine stbrt bnd end offsets for.
+     * The mebning depends on the subclbss of Formbt.
      */
     int field = 0;
 
@@ -85,7 +85,7 @@ public class FieldPosition {
     int endIndex = 0;
 
     /**
-     * Output: Start offset of field in text.
+     * Output: Stbrt offset of field in text.
      * If the field does not occur in the text, 0 is returned.
      */
     int beginIndex = 0;
@@ -93,67 +93,67 @@ public class FieldPosition {
     /**
      * Desired field this FieldPosition is for.
      */
-    private Format.Field attribute;
+    privbte Formbt.Field bttribute;
 
     /**
-     * Creates a FieldPosition object for the given field.  Fields are
-     * identified by constants, whose names typically end with _FIELD,
-     * in the various subclasses of Format.
+     * Crebtes b FieldPosition object for the given field.  Fields bre
+     * identified by constbnts, whose nbmes typicblly end with _FIELD,
+     * in the vbrious subclbsses of Formbt.
      *
-     * @param field the field identifier
-     * @see java.text.NumberFormat#INTEGER_FIELD
-     * @see java.text.NumberFormat#FRACTION_FIELD
-     * @see java.text.DateFormat#YEAR_FIELD
-     * @see java.text.DateFormat#MONTH_FIELD
+     * @pbrbm field the field identifier
+     * @see jbvb.text.NumberFormbt#INTEGER_FIELD
+     * @see jbvb.text.NumberFormbt#FRACTION_FIELD
+     * @see jbvb.text.DbteFormbt#YEAR_FIELD
+     * @see jbvb.text.DbteFormbt#MONTH_FIELD
      */
     public FieldPosition(int field) {
         this.field = field;
     }
 
     /**
-     * Creates a FieldPosition object for the given field constant. Fields are
-     * identified by constants defined in the various <code>Format</code>
-     * subclasses. This is equivalent to calling
-     * <code>new FieldPosition(attribute, -1)</code>.
+     * Crebtes b FieldPosition object for the given field constbnt. Fields bre
+     * identified by constbnts defined in the vbrious <code>Formbt</code>
+     * subclbsses. This is equivblent to cblling
+     * <code>new FieldPosition(bttribute, -1)</code>.
      *
-     * @param attribute Format.Field constant identifying a field
+     * @pbrbm bttribute Formbt.Field constbnt identifying b field
      * @since 1.4
      */
-    public FieldPosition(Format.Field attribute) {
-        this(attribute, -1);
+    public FieldPosition(Formbt.Field bttribute) {
+        this(bttribute, -1);
     }
 
     /**
-     * Creates a <code>FieldPosition</code> object for the given field.
-     * The field is identified by an attribute constant from one of the
-     * <code>Field</code> subclasses as well as an integer field ID
-     * defined by the <code>Format</code> subclasses. <code>Format</code>
-     * subclasses that are aware of <code>Field</code> should give precedence
-     * to <code>attribute</code> and ignore <code>fieldID</code> if
-     * <code>attribute</code> is not null. However, older <code>Format</code>
-     * subclasses may not be aware of <code>Field</code> and rely on
-     * <code>fieldID</code>. If the field has no corresponding integer
-     * constant, <code>fieldID</code> should be -1.
+     * Crebtes b <code>FieldPosition</code> object for the given field.
+     * The field is identified by bn bttribute constbnt from one of the
+     * <code>Field</code> subclbsses bs well bs bn integer field ID
+     * defined by the <code>Formbt</code> subclbsses. <code>Formbt</code>
+     * subclbsses thbt bre bwbre of <code>Field</code> should give precedence
+     * to <code>bttribute</code> bnd ignore <code>fieldID</code> if
+     * <code>bttribute</code> is not null. However, older <code>Formbt</code>
+     * subclbsses mby not be bwbre of <code>Field</code> bnd rely on
+     * <code>fieldID</code>. If the field hbs no corresponding integer
+     * constbnt, <code>fieldID</code> should be -1.
      *
-     * @param attribute Format.Field constant identifying a field
-     * @param fieldID integer constant identifying a field
+     * @pbrbm bttribute Formbt.Field constbnt identifying b field
+     * @pbrbm fieldID integer constbnt identifying b field
      * @since 1.4
      */
-    public FieldPosition(Format.Field attribute, int fieldID) {
-        this.attribute = attribute;
+    public FieldPosition(Formbt.Field bttribute, int fieldID) {
+        this.bttribute = bttribute;
         this.field = fieldID;
     }
 
     /**
-     * Returns the field identifier as an attribute constant
-     * from one of the <code>Field</code> subclasses. May return null if
-     * the field is specified only by an integer field ID.
+     * Returns the field identifier bs bn bttribute constbnt
+     * from one of the <code>Field</code> subclbsses. Mby return null if
+     * the field is specified only by bn integer field ID.
      *
      * @return Identifier for the field
      * @since 1.4
      */
-    public Format.Field getFieldAttribute() {
-        return attribute;
+    public Formbt.Field getFieldAttribute() {
+        return bttribute;
     }
 
     /**
@@ -166,7 +166,7 @@ public class FieldPosition {
     }
 
     /**
-     * Retrieves the index of the first character in the requested field.
+     * Retrieves the index of the first chbrbcter in the requested field.
      *
      * @return the begin index
      */
@@ -175,7 +175,7 @@ public class FieldPosition {
     }
 
     /**
-     * Retrieves the index of the character following the last character in the
+     * Retrieves the index of the chbrbcter following the lbst chbrbcter in the
      * requested field.
      *
      * @return the end index
@@ -185,9 +185,9 @@ public class FieldPosition {
     }
 
     /**
-     * Sets the begin index.  For use by subclasses of Format.
+     * Sets the begin index.  For use by subclbsses of Formbt.
      *
-     * @param bi the begin index
+     * @pbrbm bi the begin index
      * @since 1.2
      */
     public void setBeginIndex(int bi) {
@@ -195,9 +195,9 @@ public class FieldPosition {
     }
 
     /**
-     * Sets the end index.  For use by subclasses of Format.
+     * Sets the end index.  For use by subclbsses of Formbt.
      *
-     * @param ei the end index
+     * @pbrbm ei the end index
      * @since 1.2
      */
     public void setEndIndex(int ei) {
@@ -205,31 +205,31 @@ public class FieldPosition {
     }
 
     /**
-     * Returns a <code>Format.FieldDelegate</code> instance that is associated
-     * with the FieldPosition. When the delegate is notified of the same
-     * field the FieldPosition is associated with, the begin/end will be
-     * adjusted.
+     * Returns b <code>Formbt.FieldDelegbte</code> instbnce thbt is bssocibted
+     * with the FieldPosition. When the delegbte is notified of the sbme
+     * field the FieldPosition is bssocibted with, the begin/end will be
+     * bdjusted.
      */
-    Format.FieldDelegate getFieldDelegate() {
-        return new Delegate();
+    Formbt.FieldDelegbte getFieldDelegbte() {
+        return new Delegbte();
     }
 
     /**
-     * Overrides equals
+     * Overrides equbls
      */
-    public boolean equals(Object obj)
+    public boolebn equbls(Object obj)
     {
-        if (obj == null) return false;
-        if (!(obj instanceof FieldPosition))
-            return false;
+        if (obj == null) return fblse;
+        if (!(obj instbnceof FieldPosition))
+            return fblse;
         FieldPosition other = (FieldPosition) obj;
-        if (attribute == null) {
-            if (other.attribute != null) {
-                return false;
+        if (bttribute == null) {
+            if (other.bttribute != null) {
+                return fblse;
             }
         }
-        else if (!attribute.equals(other.attribute)) {
-            return false;
+        else if (!bttribute.equbls(other.bttribute)) {
+            return fblse;
         }
         return (beginIndex == other.beginIndex
             && endIndex == other.endIndex
@@ -237,77 +237,77 @@ public class FieldPosition {
     }
 
     /**
-     * Returns a hash code for this FieldPosition.
-     * @return a hash code value for this object
+     * Returns b hbsh code for this FieldPosition.
+     * @return b hbsh code vblue for this object
      */
-    public int hashCode() {
+    public int hbshCode() {
         return (field << 24) | (beginIndex << 16) | endIndex;
     }
 
     /**
-     * Return a string representation of this FieldPosition.
-     * @return  a string representation of this object
+     * Return b string representbtion of this FieldPosition.
+     * @return  b string representbtion of this object
      */
     public String toString() {
-        return getClass().getName() +
-            "[field=" + field + ",attribute=" + attribute +
+        return getClbss().getNbme() +
+            "[field=" + field + ",bttribute=" + bttribute +
             ",beginIndex=" + beginIndex +
             ",endIndex=" + endIndex + ']';
     }
 
 
     /**
-     * Return true if the receiver wants a <code>Format.Field</code> value and
-     * <code>attribute</code> is equal to it.
+     * Return true if the receiver wbnts b <code>Formbt.Field</code> vblue bnd
+     * <code>bttribute</code> is equbl to it.
      */
-    private boolean matchesField(Format.Field attribute) {
-        if (this.attribute != null) {
-            return this.attribute.equals(attribute);
+    privbte boolebn mbtchesField(Formbt.Field bttribute) {
+        if (this.bttribute != null) {
+            return this.bttribute.equbls(bttribute);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Return true if the receiver wants a <code>Format.Field</code> value and
-     * <code>attribute</code> is equal to it, or true if the receiver
-     * represents an inteter constant and <code>field</code> equals it.
+     * Return true if the receiver wbnts b <code>Formbt.Field</code> vblue bnd
+     * <code>bttribute</code> is equbl to it, or true if the receiver
+     * represents bn inteter constbnt bnd <code>field</code> equbls it.
      */
-    private boolean matchesField(Format.Field attribute, int field) {
-        if (this.attribute != null) {
-            return this.attribute.equals(attribute);
+    privbte boolebn mbtchesField(Formbt.Field bttribute, int field) {
+        if (this.bttribute != null) {
+            return this.bttribute.equbls(bttribute);
         }
         return (field == this.field);
     }
 
 
     /**
-     * An implementation of FieldDelegate that will adjust the begin/end
-     * of the FieldPosition if the arguments match the field of
+     * An implementbtion of FieldDelegbte thbt will bdjust the begin/end
+     * of the FieldPosition if the brguments mbtch the field of
      * the FieldPosition.
      */
-    private class Delegate implements Format.FieldDelegate {
+    privbte clbss Delegbte implements Formbt.FieldDelegbte {
         /**
-         * Indicates whether the field has been  encountered before. If this
-         * is true, and <code>formatted</code> is invoked, the begin/end
-         * are not updated.
+         * Indicbtes whether the field hbs been  encountered before. If this
+         * is true, bnd <code>formbtted</code> is invoked, the begin/end
+         * bre not updbted.
          */
-        private boolean encounteredField;
+        privbte boolebn encounteredField;
 
-        public void formatted(Format.Field attr, Object value, int start,
+        public void formbtted(Formbt.Field bttr, Object vblue, int stbrt,
                               int end, StringBuffer buffer) {
-            if (!encounteredField && matchesField(attr)) {
-                setBeginIndex(start);
+            if (!encounteredField && mbtchesField(bttr)) {
+                setBeginIndex(stbrt);
                 setEndIndex(end);
-                encounteredField = (start != end);
+                encounteredField = (stbrt != end);
             }
         }
 
-        public void formatted(int fieldID, Format.Field attr, Object value,
-                              int start, int end, StringBuffer buffer) {
-            if (!encounteredField && matchesField(attr, fieldID)) {
-                setBeginIndex(start);
+        public void formbtted(int fieldID, Formbt.Field bttr, Object vblue,
+                              int stbrt, int end, StringBuffer buffer) {
+            if (!encounteredField && mbtchesField(bttr, fieldID)) {
+                setBeginIndex(stbrt);
                 setEndIndex(end);
-                encounteredField = (start != end);
+                encounteredField = (stbrt != end);
             }
         }
     }

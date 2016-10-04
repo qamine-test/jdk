@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.event;
+pbckbge jbvbx.imbgeio.event;
 
-import java.util.EventListener;
-import javax.imageio.ImageWriter;
+import jbvb.util.EventListener;
+import jbvbx.imbgeio.ImbgeWriter;
 
 /**
- * An interface used by <code>ImageWriter</code> implementations to
- * notify callers of their image and thumbnail reading methods of
- * warnings (non-fatal errors).  Fatal errors cause the relevant
- * read method to throw an <code>IIOException</code>.
+ * An interfbce used by <code>ImbgeWriter</code> implementbtions to
+ * notify cbllers of their imbge bnd thumbnbil rebding methods of
+ * wbrnings (non-fbtbl errors).  Fbtbl errors cbuse the relevbnt
+ * rebd method to throw bn <code>IIOException</code>.
  *
- * <p> Localization is handled by associating a <code>Locale</code>
- * with each <code>IIOWriteWarningListener</code> as it is registered
- * with an <code>ImageWriter</code>.  It is up to the
- * <code>ImageWriter</code> to provide localized messages.
+ * <p> Locblizbtion is hbndled by bssocibting b <code>Locble</code>
+ * with ebch <code>IIOWriteWbrningListener</code> bs it is registered
+ * with bn <code>ImbgeWriter</code>.  It is up to the
+ * <code>ImbgeWriter</code> to provide locblized messbges.
  *
- * @see javax.imageio.ImageWriter#addIIOWriteWarningListener
- * @see javax.imageio.ImageWriter#removeIIOWriteWarningListener
+ * @see jbvbx.imbgeio.ImbgeWriter#bddIIOWriteWbrningListener
+ * @see jbvbx.imbgeio.ImbgeWriter#removeIIOWriteWbrningListener
  *
  */
-public interface IIOWriteWarningListener extends EventListener {
+public interfbce IIOWriteWbrningListener extends EventListener {
 
     /**
-     * Reports the occurrence of a non-fatal error in encoding.  Encoding
-     * will continue following the call to this method.  The application
-     * may choose to display a dialog, print the warning to the console,
-     * ignore the warning, or take any other action it chooses.
+     * Reports the occurrence of b non-fbtbl error in encoding.  Encoding
+     * will continue following the cbll to this method.  The bpplicbtion
+     * mby choose to displby b diblog, print the wbrning to the console,
+     * ignore the wbrning, or tbke bny other bction it chooses.
      *
-     * @param source the <code>ImageWriter</code> object calling this method.
-     * @param imageIndex the index, starting with 0, of the image
-     * generating the warning.
-     * @param warning a <code>String</code> containing the warning.
+     * @pbrbm source the <code>ImbgeWriter</code> object cblling this method.
+     * @pbrbm imbgeIndex the index, stbrting with 0, of the imbge
+     * generbting the wbrning.
+     * @pbrbm wbrning b <code>String</code> contbining the wbrning.
      */
-    void warningOccurred(ImageWriter source,
-                         int imageIndex,
-                         String warning);
+    void wbrningOccurred(ImbgeWriter source,
+                         int imbgeIndex,
+                         String wbrning);
 }

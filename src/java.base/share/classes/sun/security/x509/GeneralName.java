@@ -1,249 +1,249 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 import sun.security.util.*;
 
 /**
- * This class implements the ASN.1 GeneralName object class.
+ * This clbss implements the ASN.1 GenerblNbme object clbss.
  * <p>
- * The ASN.1 syntax for this is:
+ * The ASN.1 syntbx for this is:
  * <pre>
- * GeneralName ::= CHOICE {
- *    otherName                       [0]     OtherName,
- *    rfc822Name                      [1]     IA5String,
- *    dNSName                         [2]     IA5String,
+ * GenerblNbme ::= CHOICE {
+ *    otherNbme                       [0]     OtherNbme,
+ *    rfc822Nbme                      [1]     IA5String,
+ *    dNSNbme                         [2]     IA5String,
  *    x400Address                     [3]     ORAddress,
- *    directoryName                   [4]     Name,
- *    ediPartyName                    [5]     EDIPartyName,
+ *    directoryNbme                   [4]     Nbme,
+ *    ediPbrtyNbme                    [5]     EDIPbrtyNbme,
  *    uniformResourceIdentifier       [6]     IA5String,
  *    iPAddress                       [7]     OCTET STRING,
  *    registeredID                    [8]     OBJECT IDENTIFIER
  * }
  * </pre>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class GeneralName {
+public clbss GenerblNbme {
 
-    // Private data members
-    private GeneralNameInterface name = null;
+    // Privbte dbtb members
+    privbte GenerblNbmeInterfbce nbme = null;
 
     /**
-     * Default constructor for the class.
+     * Defbult constructor for the clbss.
      *
-     * @param name the selected CHOICE from the list.
-     * @throws NullPointerException if name is null
+     * @pbrbm nbme the selected CHOICE from the list.
+     * @throws NullPointerException if nbme is null
      */
-    public GeneralName(GeneralNameInterface name) {
-        if (name == null) {
-            throw new NullPointerException("GeneralName must not be null");
+    public GenerblNbme(GenerblNbmeInterfbce nbme) {
+        if (nbme == null) {
+            throw new NullPointerException("GenerblNbme must not be null");
         }
-        this.name = name;
+        this.nbme = nbme;
     }
 
     /**
-     * Create the object from its DER encoded value.
+     * Crebte the object from its DER encoded vblue.
      *
-     * @param encName the DER encoded GeneralName.
+     * @pbrbm encNbme the DER encoded GenerblNbme.
      */
-    public GeneralName(DerValue encName) throws IOException {
-        this(encName, false);
+    public GenerblNbme(DerVblue encNbme) throws IOException {
+        this(encNbme, fblse);
     }
 
     /**
-     * Create the object from its DER encoded value.
+     * Crebte the object from its DER encoded vblue.
      *
-     * @param encName the DER encoded GeneralName.
-     * @param nameConstraint true if general name is a name constraint
+     * @pbrbm encNbme the DER encoded GenerblNbme.
+     * @pbrbm nbmeConstrbint true if generbl nbme is b nbme constrbint
      */
-    public GeneralName(DerValue encName, boolean nameConstraint)
+    public GenerblNbme(DerVblue encNbme, boolebn nbmeConstrbint)
         throws IOException {
-        short tag = (byte)(encName.tag & 0x1f);
+        short tbg = (byte)(encNbme.tbg & 0x1f);
 
-        // All names except for NAME_DIRECTORY should be encoded with the
-        // IMPLICIT tag.
-        switch (tag) {
-        case GeneralNameInterface.NAME_ANY:
-            if (encName.isContextSpecific() && encName.isConstructed()) {
-                encName.resetTag(DerValue.tag_Sequence);
-                name = new OtherName(encName);
+        // All nbmes except for NAME_DIRECTORY should be encoded with the
+        // IMPLICIT tbg.
+        switch (tbg) {
+        cbse GenerblNbmeInterfbce.NAME_ANY:
+            if (encNbme.isContextSpecific() && encNbme.isConstructed()) {
+                encNbme.resetTbg(DerVblue.tbg_Sequence);
+                nbme = new OtherNbme(encNbme);
             } else {
-                throw new IOException("Invalid encoding of Other-Name");
+                throw new IOException("Invblid encoding of Other-Nbme");
             }
-            break;
+            brebk;
 
-        case GeneralNameInterface.NAME_RFC822:
-            if (encName.isContextSpecific() && !encName.isConstructed()) {
-                encName.resetTag(DerValue.tag_IA5String);
-                name = new RFC822Name(encName);
+        cbse GenerblNbmeInterfbce.NAME_RFC822:
+            if (encNbme.isContextSpecific() && !encNbme.isConstructed()) {
+                encNbme.resetTbg(DerVblue.tbg_IA5String);
+                nbme = new RFC822Nbme(encNbme);
             } else {
-                throw new IOException("Invalid encoding of RFC822 name");
+                throw new IOException("Invblid encoding of RFC822 nbme");
             }
-            break;
+            brebk;
 
-        case GeneralNameInterface.NAME_DNS:
-            if (encName.isContextSpecific() && !encName.isConstructed()) {
-                encName.resetTag(DerValue.tag_IA5String);
-                name = new DNSName(encName);
+        cbse GenerblNbmeInterfbce.NAME_DNS:
+            if (encNbme.isContextSpecific() && !encNbme.isConstructed()) {
+                encNbme.resetTbg(DerVblue.tbg_IA5String);
+                nbme = new DNSNbme(encNbme);
             } else {
-                throw new IOException("Invalid encoding of DNS name");
+                throw new IOException("Invblid encoding of DNS nbme");
             }
-            break;
+            brebk;
 
-        case GeneralNameInterface.NAME_URI:
-            if (encName.isContextSpecific() && !encName.isConstructed()) {
-                encName.resetTag(DerValue.tag_IA5String);
-                name = (nameConstraint ? URIName.nameConstraint(encName) :
-                        new URIName(encName));
+        cbse GenerblNbmeInterfbce.NAME_URI:
+            if (encNbme.isContextSpecific() && !encNbme.isConstructed()) {
+                encNbme.resetTbg(DerVblue.tbg_IA5String);
+                nbme = (nbmeConstrbint ? URINbme.nbmeConstrbint(encNbme) :
+                        new URINbme(encNbme));
             } else {
-                throw new IOException("Invalid encoding of URI");
+                throw new IOException("Invblid encoding of URI");
             }
-            break;
+            brebk;
 
-        case GeneralNameInterface.NAME_IP:
-            if (encName.isContextSpecific() && !encName.isConstructed()) {
-                encName.resetTag(DerValue.tag_OctetString);
-                name = new IPAddressName(encName);
+        cbse GenerblNbmeInterfbce.NAME_IP:
+            if (encNbme.isContextSpecific() && !encNbme.isConstructed()) {
+                encNbme.resetTbg(DerVblue.tbg_OctetString);
+                nbme = new IPAddressNbme(encNbme);
             } else {
-                throw new IOException("Invalid encoding of IP address");
+                throw new IOException("Invblid encoding of IP bddress");
             }
-            break;
+            brebk;
 
-        case GeneralNameInterface.NAME_OID:
-            if (encName.isContextSpecific() && !encName.isConstructed()) {
-                encName.resetTag(DerValue.tag_ObjectId);
-                name = new OIDName(encName);
+        cbse GenerblNbmeInterfbce.NAME_OID:
+            if (encNbme.isContextSpecific() && !encNbme.isConstructed()) {
+                encNbme.resetTbg(DerVblue.tbg_ObjectId);
+                nbme = new OIDNbme(encNbme);
             } else {
-                throw new IOException("Invalid encoding of OID name");
+                throw new IOException("Invblid encoding of OID nbme");
             }
-            break;
+            brebk;
 
-        case GeneralNameInterface.NAME_DIRECTORY:
-            if (encName.isContextSpecific() && encName.isConstructed()) {
-                name = new X500Name(encName.getData());
+        cbse GenerblNbmeInterfbce.NAME_DIRECTORY:
+            if (encNbme.isContextSpecific() && encNbme.isConstructed()) {
+                nbme = new X500Nbme(encNbme.getDbtb());
             } else {
-                throw new IOException("Invalid encoding of Directory name");
+                throw new IOException("Invblid encoding of Directory nbme");
             }
-            break;
+            brebk;
 
-        case GeneralNameInterface.NAME_EDI:
-            if (encName.isContextSpecific() && encName.isConstructed()) {
-                encName.resetTag(DerValue.tag_Sequence);
-                name = new EDIPartyName(encName);
+        cbse GenerblNbmeInterfbce.NAME_EDI:
+            if (encNbme.isContextSpecific() && encNbme.isConstructed()) {
+                encNbme.resetTbg(DerVblue.tbg_Sequence);
+                nbme = new EDIPbrtyNbme(encNbme);
             } else {
-                throw new IOException("Invalid encoding of EDI name");
+                throw new IOException("Invblid encoding of EDI nbme");
             }
-            break;
+            brebk;
 
-        default:
-            throw new IOException("Unrecognized GeneralName tag, ("
-                                  + tag +")");
+        defbult:
+            throw new IOException("Unrecognized GenerblNbme tbg, ("
+                                  + tbg +")");
         }
     }
 
     /**
-     * Return the type of the general name.
+     * Return the type of the generbl nbme.
      */
     public int getType() {
-        return name.getType();
+        return nbme.getType();
     }
 
     /**
-     * Return the GeneralNameInterface name.
+     * Return the GenerblNbmeInterfbce nbme.
      */
-    public GeneralNameInterface getName() {
-        //XXXX May want to consider cloning this
-        return name;
+    public GenerblNbmeInterfbce getNbme() {
+        //XXXX Mby wbnt to consider cloning this
+        return nbme;
     }
 
     /**
-     * Return the name as user readable string
+     * Return the nbme bs user rebdbble string
      */
     public String toString() {
-        return name.toString();
+        return nbme.toString();
     }
 
     /**
-     * Compare this GeneralName with another
+     * Compbre this GenerblNbme with bnother
      *
-     * @param other GeneralName to compare to this
-     * @returns true if match
+     * @pbrbm other GenerblNbme to compbre to this
+     * @returns true if mbtch
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof GeneralName))
-            return false;
-        GeneralNameInterface otherGNI = ((GeneralName)other).name;
+        if (!(other instbnceof GenerblNbme))
+            return fblse;
+        GenerblNbmeInterfbce otherGNI = ((GenerblNbme)other).nbme;
         try {
-            return name.constrains(otherGNI) == GeneralNameInterface.NAME_MATCH;
-        } catch (UnsupportedOperationException ioe) {
-            return false;
+            return nbme.constrbins(otherGNI) == GenerblNbmeInterfbce.NAME_MATCH;
+        } cbtch (UnsupportedOperbtionException ioe) {
+            return fblse;
         }
     }
 
     /**
-     * Returns the hash code for this GeneralName.
+     * Returns the hbsh code for this GenerblNbme.
      *
-     * @return a hash code value.
+     * @return b hbsh code vblue.
      */
-    public int hashCode() {
-        return name.hashCode();
+    public int hbshCode() {
+        return nbme.hbshCode();
     }
 
     /**
-     * Encode the name to the specified DerOutputStream.
+     * Encode the nbme to the specified DerOutputStrebm.
      *
-     * @param out the DerOutputStream to encode the the GeneralName to.
+     * @pbrbm out the DerOutputStrebm to encode the the GenerblNbme to.
      * @exception IOException on encoding errors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        name.encode(tmp);
-        int nameType = name.getType();
-        if (nameType == GeneralNameInterface.NAME_ANY ||
-            nameType == GeneralNameInterface.NAME_X400 ||
-            nameType == GeneralNameInterface.NAME_EDI) {
+    public void encode(DerOutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        nbme.encode(tmp);
+        int nbmeType = nbme.getType();
+        if (nbmeType == GenerblNbmeInterfbce.NAME_ANY ||
+            nbmeType == GenerblNbmeInterfbce.NAME_X400 ||
+            nbmeType == GenerblNbmeInterfbce.NAME_EDI) {
 
             // implicit, constructed form
-            out.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                              true, (byte)nameType), tmp);
-        } else if (nameType == GeneralNameInterface.NAME_DIRECTORY) {
-            // explicit, constructed form since underlying tag is CHOICE
-            // (see X.680 section 30.6, part c)
-            out.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                         true, (byte)nameType), tmp);
+            out.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                              true, (byte)nbmeType), tmp);
+        } else if (nbmeType == GenerblNbmeInterfbce.NAME_DIRECTORY) {
+            // explicit, constructed form since underlying tbg is CHOICE
+            // (see X.680 section 30.6, pbrt c)
+            out.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                         true, (byte)nbmeType), tmp);
         } else {
             // implicit, primitive form
-            out.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                              false, (byte)nameType), tmp);
+            out.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                              fblse, (byte)nbmeType), tmp);
         }
     }
 }

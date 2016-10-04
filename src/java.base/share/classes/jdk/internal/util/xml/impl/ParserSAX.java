@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.internal.util.xml.impl;
+pbckbge jdk.internbl.util.xml.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import jdk.internal.org.xml.sax.ContentHandler;
-import jdk.internal.org.xml.sax.DTDHandler;
-import jdk.internal.org.xml.sax.EntityResolver;
-import jdk.internal.org.xml.sax.ErrorHandler;
-import jdk.internal.org.xml.sax.InputSource;
-import jdk.internal.org.xml.sax.Locator;
-import jdk.internal.org.xml.sax.SAXException;
-import jdk.internal.org.xml.sax.SAXParseException;
-import jdk.internal.org.xml.sax.XMLReader;
-import jdk.internal.org.xml.sax.helpers.DefaultHandler;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jdk.internbl.org.xml.sbx.ContentHbndler;
+import jdk.internbl.org.xml.sbx.DTDHbndler;
+import jdk.internbl.org.xml.sbx.EntityResolver;
+import jdk.internbl.org.xml.sbx.ErrorHbndler;
+import jdk.internbl.org.xml.sbx.InputSource;
+import jdk.internbl.org.xml.sbx.Locbtor;
+import jdk.internbl.org.xml.sbx.SAXException;
+import jdk.internbl.org.xml.sbx.SAXPbrseException;
+import jdk.internbl.org.xml.sbx.XMLRebder;
+import jdk.internbl.org.xml.sbx.helpers.DefbultHbndler;
 
 /**
- * XML non-validating push parser.
+ * XML non-vblidbting push pbrser.
  *
- * This non-validating parser conforms to <a href="http://www.w3.org/TR/REC-xml"
- * >Extensible Markup Language (XML) 1.0</a> and <a
- * href="http://www.w3.org/TR/REC-xml-names" >"Namespaces in XML"</a>
- * specifications. The API supported by the parser are <a
- * href="http://java.sun.com/aboutJava/communityprocess/final/jsr030/index.html">CLDC
- * 1.0</a> and <a href="http://www.jcp.org/en/jsr/detail?id=280">JSR-280</a>, a
- * JavaME subset of <a href="http://java.sun.com/xml/jaxp/index.html">JAXP</a>
- * and <a href="http://www.saxproject.org/">SAX2</a>.
+ * This non-vblidbting pbrser conforms to <b href="http://www.w3.org/TR/REC-xml"
+ * >Extensible Mbrkup Lbngubge (XML) 1.0</b> bnd <b
+ * href="http://www.w3.org/TR/REC-xml-nbmes" >"Nbmespbces in XML"</b>
+ * specificbtions. The API supported by the pbrser bre <b
+ * href="http://jbvb.sun.com/bboutJbvb/communityprocess/finbl/jsr030/index.html">CLDC
+ * 1.0</b> bnd <b href="http://www.jcp.org/en/jsr/detbil?id=280">JSR-280</b>, b
+ * JbvbME subset of <b href="http://jbvb.sun.com/xml/jbxp/index.html">JAXP</b>
+ * bnd <b href="http://www.sbxproject.org/">SAX2</b>.
  *
- * @see org.xml.sax.XMLReader
+ * @see org.xml.sbx.XMLRebder
  */
 
-final class ParserSAX
-    extends Parser implements XMLReader, Locator
+finbl clbss PbrserSAX
+    extends Pbrser implements XMLRebder, Locbtor
 {
-    public final static String FEATURE_NS =
-            "http://xml.org/sax/features/namespaces";
-    public final static String FEATURE_PREF =
-            "http://xml.org/sax/features/namespace-prefixes";
-    //          SAX feature flags
-    private boolean mFNamespaces;
-    private boolean mFPrefixes;
-    //          SAX handlers
-    private DefaultHandler mHand;      // the default handler
-    private ContentHandler mHandCont;  // the content handler
-    private DTDHandler mHandDtd;   // the DTD handler
-    private ErrorHandler mHandErr;   // the error handler
-    private EntityResolver mHandEnt;   // the entity resolver
+    public finbl stbtic String FEATURE_NS =
+            "http://xml.org/sbx/febtures/nbmespbces";
+    public finbl stbtic String FEATURE_PREF =
+            "http://xml.org/sbx/febtures/nbmespbce-prefixes";
+    //          SAX febture flbgs
+    privbte boolebn mFNbmespbces;
+    privbte boolebn mFPrefixes;
+    //          SAX hbndlers
+    privbte DefbultHbndler mHbnd;      // the defbult hbndler
+    privbte ContentHbndler mHbndCont;  // the content hbndler
+    privbte DTDHbndler mHbndDtd;   // the DTD hbndler
+    privbte ErrorHbndler mHbndErr;   // the error hbndler
+    privbte EntityResolver mHbndEnt;   // the entity resolver
 
     /**
      * Constructor.
      */
-    public ParserSAX() {
+    public PbrserSAX() {
         super();
 
-        //              SAX feature defaut values
-        mFNamespaces = true;
-        mFPrefixes = false;
+        //              SAX febture defbut vblues
+        mFNbmespbces = true;
+        mFPrefixes = fblse;
 
-        //              Default handler which will be used in case the application
-        //              do not set one of handlers.
-        mHand = new DefaultHandler();
-        mHandCont = mHand;
-        mHandDtd = mHand;
-        mHandErr = mHand;
-        mHandEnt = mHand;
+        //              Defbult hbndler which will be used in cbse the bpplicbtion
+        //              do not set one of hbndlers.
+        mHbnd = new DefbultHbndler();
+        mHbndCont = mHbnd;
+        mHbndDtd = mHbnd;
+        mHbndErr = mHbnd;
+        mHbndEnt = mHbnd;
     }
 
     /**
-     * Return the current content handler.
+     * Return the current content hbndler.
      *
-     * @return The current content handler, or null if none has been registered.
-     * @see #setContentHandler
+     * @return The current content hbndler, or null if none hbs been registered.
+     * @see #setContentHbndler
      */
-    public ContentHandler getContentHandler() {
-        return (mHandCont != mHand) ? mHandCont : null;
+    public ContentHbndler getContentHbndler() {
+        return (mHbndCont != mHbnd) ? mHbndCont : null;
     }
 
     /**
-     * Allow an application to register a content event handler.
+     * Allow bn bpplicbtion to register b content event hbndler.
      *
-     * <p>If the application does not register a content handler, all content
-     * events reported by the SAX parser will be silently ignored.</p>
+     * <p>If the bpplicbtion does not register b content hbndler, bll content
+     * events reported by the SAX pbrser will be silently ignored.</p>
      *
-     * <p>Applications may register a new or different handler in the middle of
-     * a parse, and the SAX parser must begin using the new handler
-     * immediately.</p>
+     * <p>Applicbtions mby register b new or different hbndler in the middle of
+     * b pbrse, bnd the SAX pbrser must begin using the new hbndler
+     * immedibtely.</p>
      *
-     * @param handler The content handler.
-     * @exception java.lang.NullPointerException If the handler argument is
+     * @pbrbm hbndler The content hbndler.
+     * @exception jbvb.lbng.NullPointerException If the hbndler brgument is
      * null.
-     * @see #getContentHandler
+     * @see #getContentHbndler
      */
-    public void setContentHandler(ContentHandler handler) {
-        if (handler == null) {
+    public void setContentHbndler(ContentHbndler hbndler) {
+        if (hbndler == null) {
             throw new NullPointerException();
         }
-        mHandCont = handler;
+        mHbndCont = hbndler;
     }
 
     /**
-     * Return the current DTD handler.
+     * Return the current DTD hbndler.
      *
-     * @return The current DTD handler, or null if none has been registered.
-     * @see #setDTDHandler
+     * @return The current DTD hbndler, or null if none hbs been registered.
+     * @see #setDTDHbndler
      */
-    public DTDHandler getDTDHandler() {
-        return (mHandDtd != mHand) ? mHandDtd : null;
+    public DTDHbndler getDTDHbndler() {
+        return (mHbndDtd != mHbnd) ? mHbndDtd : null;
     }
 
     /**
-     * Allow an application to register a DTD event handler.
+     * Allow bn bpplicbtion to register b DTD event hbndler.
      *
-     * <p>If the application does not register a DTD handler, all DTD events
-     * reported by the SAX parser will be silently ignored.</p>
+     * <p>If the bpplicbtion does not register b DTD hbndler, bll DTD events
+     * reported by the SAX pbrser will be silently ignored.</p>
      *
-     * <p>Applications may register a new or different handler in the middle of
-     * a parse, and the SAX parser must begin using the new handler
-     * immediately.</p>
+     * <p>Applicbtions mby register b new or different hbndler in the middle of
+     * b pbrse, bnd the SAX pbrser must begin using the new hbndler
+     * immedibtely.</p>
      *
-     * @param handler The DTD handler.
-     * @exception java.lang.NullPointerException If the handler argument is
+     * @pbrbm hbndler The DTD hbndler.
+     * @exception jbvb.lbng.NullPointerException If the hbndler brgument is
      * null.
-     * @see #getDTDHandler
+     * @see #getDTDHbndler
      */
-    public void setDTDHandler(DTDHandler handler) {
-        if (handler == null) {
+    public void setDTDHbndler(DTDHbndler hbndler) {
+        if (hbndler == null) {
             throw new NullPointerException();
         }
-        mHandDtd = handler;
+        mHbndDtd = hbndler;
     }
 
     /**
-     * Return the current error handler.
+     * Return the current error hbndler.
      *
-     * @return The current error handler, or null if none has been registered.
-     * @see #setErrorHandler
+     * @return The current error hbndler, or null if none hbs been registered.
+     * @see #setErrorHbndler
      */
-    public ErrorHandler getErrorHandler() {
-        return (mHandErr != mHand) ? mHandErr : null;
+    public ErrorHbndler getErrorHbndler() {
+        return (mHbndErr != mHbnd) ? mHbndErr : null;
     }
 
     /**
-     * Allow an application to register an error event handler.
+     * Allow bn bpplicbtion to register bn error event hbndler.
      *
-     * <p>If the application does not register an error handler, all error
-     * events reported by the SAX parser will be silently ignored; however,
-     * normal processing may not continue. It is highly recommended that all SAX
-     * applications implement an error handler to avoid unexpected bugs.</p>
+     * <p>If the bpplicbtion does not register bn error hbndler, bll error
+     * events reported by the SAX pbrser will be silently ignored; however,
+     * normbl processing mby not continue. It is highly recommended thbt bll SAX
+     * bpplicbtions implement bn error hbndler to bvoid unexpected bugs.</p>
      *
-     * <p>Applications may register a new or different handler in the middle of
-     * a parse, and the SAX parser must begin using the new handler
-     * immediately.</p>
+     * <p>Applicbtions mby register b new or different hbndler in the middle of
+     * b pbrse, bnd the SAX pbrser must begin using the new hbndler
+     * immedibtely.</p>
      *
-     * @param handler The error handler.
-     * @exception java.lang.NullPointerException If the handler argument is
+     * @pbrbm hbndler The error hbndler.
+     * @exception jbvb.lbng.NullPointerException If the hbndler brgument is
      * null.
-     * @see #getErrorHandler
+     * @see #getErrorHbndler
      */
-    public void setErrorHandler(ErrorHandler handler) {
-        if (handler == null) {
+    public void setErrorHbndler(ErrorHbndler hbndler) {
+        if (hbndler == null) {
             throw new NullPointerException();
         }
-        mHandErr = handler;
+        mHbndErr = hbndler;
     }
 
     /**
      * Return the current entity resolver.
      *
-     * @return The current entity resolver, or null if none has been registered.
+     * @return The current entity resolver, or null if none hbs been registered.
      * @see #setEntityResolver
      */
     public EntityResolver getEntityResolver() {
-        return (mHandEnt != mHand) ? mHandEnt : null;
+        return (mHbndEnt != mHbnd) ? mHbndEnt : null;
     }
 
     /**
-     * Allow an application to register an entity resolver.
+     * Allow bn bpplicbtion to register bn entity resolver.
      *
-     * <p>If the application does not register an entity resolver, the XMLReader
-     * will perform its own default resolution.</p>
+     * <p>If the bpplicbtion does not register bn entity resolver, the XMLRebder
+     * will perform its own defbult resolution.</p>
      *
-     * <p>Applications may register a new or different resolver in the middle of
-     * a parse, and the SAX parser must begin using the new resolver
-     * immediately.</p>
+     * <p>Applicbtions mby register b new or different resolver in the middle of
+     * b pbrse, bnd the SAX pbrser must begin using the new resolver
+     * immedibtely.</p>
      *
-     * @param resolver The entity resolver.
-     * @exception java.lang.NullPointerException If the resolver argument is
+     * @pbrbm resolver The entity resolver.
+     * @exception jbvb.lbng.NullPointerException If the resolver brgument is
      * null.
      * @see #getEntityResolver
      */
@@ -216,18 +216,18 @@ final class ParserSAX
         if (resolver == null) {
             throw new NullPointerException();
         }
-        mHandEnt = resolver;
+        mHbndEnt = resolver;
     }
 
     /**
      * Return the public identifier for the current document event.
      *
-     * <p>The return value is the public identifier of the document entity or of
-     * the external parsed entity in which the markup triggering the event
-     * appears.</p>
+     * <p>The return vblue is the public identifier of the document entity or of
+     * the externbl pbrsed entity in which the mbrkup triggering the event
+     * bppebrs.</p>
      *
-     * @return A string containing the public identifier, or null if none is
-     * available.
+     * @return A string contbining the public identifier, or null if none is
+     * bvbilbble.
      *
      * @see #getSystemId
      */
@@ -238,15 +238,15 @@ final class ParserSAX
     /**
      * Return the system identifier for the current document event.
      *
-     * <p>The return value is the system identifier of the document entity or of
-     * the external parsed entity in which the markup triggering the event
-     * appears.</p>
+     * <p>The return vblue is the system identifier of the document entity or of
+     * the externbl pbrsed entity in which the mbrkup triggering the event
+     * bppebrs.</p>
      *
-     * <p>If the system identifier is a URL, the parser must resolve it fully
-     * before passing it to the application.</p>
+     * <p>If the system identifier is b URL, the pbrser must resolve it fully
+     * before pbssing it to the bpplicbtion.</p>
      *
-     * @return A string containing the system identifier, or null if none is
-     * available.
+     * @return A string contbining the system identifier, or null if none is
+     * bvbilbble.
      *
      * @see #getPublicId
      */
@@ -257,7 +257,7 @@ final class ParserSAX
     /**
      * Return the line number where the current document event ends.
      *
-     * @return Always returns -1 indicating the line number is not available.
+     * @return Alwbys returns -1 indicbting the line number is not bvbilbble.
      *
      * @see #getColumnNumber
      */
@@ -268,7 +268,7 @@ final class ParserSAX
     /**
      * Return the column number where the current document event ends.
      *
-     * @return Always returns -1 indicating the column number is not available.
+     * @return Alwbys returns -1 indicbting the column number is not bvbilbble.
      *
      * @see #getLineNumber
      */
@@ -277,154 +277,154 @@ final class ParserSAX
     }
 
     /**
-     * Parse an XML document from a system identifier (URI).
+     * Pbrse bn XML document from b system identifier (URI).
      *
-     * <p>This method is a shortcut for the common case of reading a document
-     * from a system identifier. It is the exact equivalent of the
+     * <p>This method is b shortcut for the common cbse of rebding b document
+     * from b system identifier. It is the exbct equivblent of the
      * following:</p>
      *
      * <pre>
-     * parse(new InputSource(systemId));
+     * pbrse(new InputSource(systemId));
      * </pre>
      *
-     * <p>If the system identifier is a URL, it must be fully resolved by the
-     * application before it is passed to the parser.</p>
+     * <p>If the system identifier is b URL, it must be fully resolved by the
+     * bpplicbtion before it is pbssed to the pbrser.</p>
      *
-     * @param systemId The system identifier (URI).
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping
-     * another exception.
-     * @exception java.io.IOException An IO exception from the parser, possibly
-     * from a byte stream or character stream supplied by the application.
-     * @see #parse(org.xml.sax.InputSource)
+     * @pbrbm systemId The system identifier (URI).
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly wrbpping
+     * bnother exception.
+     * @exception jbvb.io.IOException An IO exception from the pbrser, possibly
+     * from b byte strebm or chbrbcter strebm supplied by the bpplicbtion.
+     * @see #pbrse(org.xml.sbx.InputSource)
      */
-    public void parse(String systemId) throws IOException, SAXException {
-        parse(new InputSource(systemId));
+    public void pbrse(String systemId) throws IOException, SAXException {
+        pbrse(new InputSource(systemId));
     }
 
     /**
-     * Parse an XML document.
+     * Pbrse bn XML document.
      *
-     * <p>The application can use this method to instruct the XML reader to
-     * begin parsing an XML document from any valid input source (a character
-     * stream, a byte stream, or a URI).</p>
+     * <p>The bpplicbtion cbn use this method to instruct the XML rebder to
+     * begin pbrsing bn XML document from bny vblid input source (b chbrbcter
+     * strebm, b byte strebm, or b URI).</p>
      *
-     * <p>Applications may not invoke this method while a parse is in progress
-     * (they should create a new XMLReader instead for each nested XML
-     * document). Once a parse is complete, an application may reuse the same
-     * XMLReader object, possibly with a different input source.</p>
+     * <p>Applicbtions mby not invoke this method while b pbrse is in progress
+     * (they should crebte b new XMLRebder instebd for ebch nested XML
+     * document). Once b pbrse is complete, bn bpplicbtion mby reuse the sbme
+     * XMLRebder object, possibly with b different input source.</p>
      *
-     * <p>During the parse, the XMLReader will provide information about the XML
-     * document through the registered event handlers.</p>
+     * <p>During the pbrse, the XMLRebder will provide informbtion bbout the XML
+     * document through the registered event hbndlers.</p>
      *
-     * <p>This method is synchronous: it will not return until parsing has
-     * ended. If a client application wants to terminate parsing early, it
-     * should throw an exception.</p>
+     * <p>This method is synchronous: it will not return until pbrsing hbs
+     * ended. If b client bpplicbtion wbnts to terminbte pbrsing ebrly, it
+     * should throw bn exception.</p>
      *
-     * @param is The input source for the top-level of the XML document.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly wrapping
-     * another exception.
-     * @exception java.io.IOException An IO exception from the parser, possibly
-     * from a byte stream or character stream supplied by the application.
-     * @see org.xml.sax.InputSource
-     * @see #parse(java.lang.String)
+     * @pbrbm is The input source for the top-level of the XML document.
+     * @exception org.xml.sbx.SAXException Any SAX exception, possibly wrbpping
+     * bnother exception.
+     * @exception jbvb.io.IOException An IO exception from the pbrser, possibly
+     * from b byte strebm or chbrbcter strebm supplied by the bpplicbtion.
+     * @see org.xml.sbx.InputSource
+     * @see #pbrse(jbvb.lbng.String)
      * @see #setEntityResolver
-     * @see #setDTDHandler
-     * @see #setContentHandler
-     * @see #setErrorHandler
+     * @see #setDTDHbndler
+     * @see #setContentHbndler
+     * @see #setErrorHbndler
      */
-    public void parse(InputSource is) throws IOException, SAXException {
+    public void pbrse(InputSource is) throws IOException, SAXException {
         if (is == null) {
-            throw new IllegalArgumentException("");
+            throw new IllegblArgumentException("");
         }
         //              Set up the document
         mInp = new Input(BUFFSIZE_READER);
-        mPh = PH_BEFORE_DOC;  // before parsing
+        mPh = PH_BEFORE_DOC;  // before pbrsing
         try {
             setinp(is);
-        } catch (SAXException saxe) {
-            throw saxe;
-        } catch (IOException ioe) {
+        } cbtch (SAXException sbxe) {
+            throw sbxe;
+        } cbtch (IOException ioe) {
             throw ioe;
-        } catch (RuntimeException rte) {
+        } cbtch (RuntimeException rte) {
             throw rte;
-        } catch (Exception e) {
-            panic(e.toString());
+        } cbtch (Exception e) {
+            pbnic(e.toString());
         }
-        parse();
+        pbrse();
     }
 
     /**
-     * Parse the content of the given {@link java.io.InputStream} instance as
-     * XML using the specified {@link org.xml.sax.helpers.DefaultHandler}.
+     * Pbrse the content of the given {@link jbvb.io.InputStrebm} instbnce bs
+     * XML using the specified {@link org.xml.sbx.helpers.DefbultHbndler}.
      *
-     * @param src InputStream containing the content to be parsed.
-     * @param handler The SAX DefaultHandler to use.
-     * @exception IOException If any IO errors occur.
-     * @exception IllegalArgumentException If the given InputStream or handler
+     * @pbrbm src InputStrebm contbining the content to be pbrsed.
+     * @pbrbm hbndler The SAX DefbultHbndler to use.
+     * @exception IOException If bny IO errors occur.
+     * @exception IllegblArgumentException If the given InputStrebm or hbndler
      * is null.
-     * @exception SAXException If the underlying parser throws a SAXException
-     * while parsing.
-     * @see org.xml.sax.helpers.DefaultHandler
+     * @exception SAXException If the underlying pbrser throws b SAXException
+     * while pbrsing.
+     * @see org.xml.sbx.helpers.DefbultHbndler
      */
-    public void parse(InputStream src, DefaultHandler handler)
+    public void pbrse(InputStrebm src, DefbultHbndler hbndler)
             throws SAXException, IOException {
-        if ((src == null) || (handler == null)) {
-            throw new IllegalArgumentException("");
+        if ((src == null) || (hbndler == null)) {
+            throw new IllegblArgumentException("");
         }
-        parse(new InputSource(src), handler);
+        pbrse(new InputSource(src), hbndler);
     }
 
     /**
-     * Parse the content given {@link org.xml.sax.InputSource} as XML using the
-     * specified {@link org.xml.sax.helpers.DefaultHandler}.
+     * Pbrse the content given {@link org.xml.sbx.InputSource} bs XML using the
+     * specified {@link org.xml.sbx.helpers.DefbultHbndler}.
      *
-     * @param is The InputSource containing the content to be parsed.
-     * @param handler The SAX DefaultHandler to use.
-     * @exception IOException If any IO errors occur.
-     * @exception IllegalArgumentException If the InputSource or handler is
+     * @pbrbm is The InputSource contbining the content to be pbrsed.
+     * @pbrbm hbndler The SAX DefbultHbndler to use.
+     * @exception IOException If bny IO errors occur.
+     * @exception IllegblArgumentException If the InputSource or hbndler is
      * null.
-     * @exception SAXException If the underlying parser throws a SAXException
-     * while parsing.
-     * @see org.xml.sax.helpers.DefaultHandler
+     * @exception SAXException If the underlying pbrser throws b SAXException
+     * while pbrsing.
+     * @see org.xml.sbx.helpers.DefbultHbndler
      */
-    public void parse(InputSource is, DefaultHandler handler)
+    public void pbrse(InputSource is, DefbultHbndler hbndler)
         throws SAXException, IOException
     {
-        if ((is == null) || (handler == null)) {
-            throw new IllegalArgumentException("");
+        if ((is == null) || (hbndler == null)) {
+            throw new IllegblArgumentException("");
         }
-        //              Set up the handler
-        mHandCont = handler;
-        mHandDtd = handler;
-        mHandErr = handler;
-        mHandEnt = handler;
+        //              Set up the hbndler
+        mHbndCont = hbndler;
+        mHbndDtd = hbndler;
+        mHbndErr = hbndler;
+        mHbndEnt = hbndler;
         //              Set up the document
         mInp = new Input(BUFFSIZE_READER);
-        mPh = PH_BEFORE_DOC;  // before parsing
+        mPh = PH_BEFORE_DOC;  // before pbrsing
         try {
             setinp(is);
-        } catch (SAXException | IOException | RuntimeException saxe) {
-            throw saxe;
-        } catch (Exception e) {
-            panic(e.toString());
+        } cbtch (SAXException | IOException | RuntimeException sbxe) {
+            throw sbxe;
+        } cbtch (Exception e) {
+            pbnic(e.toString());
         }
-        parse();
+        pbrse();
     }
 
     /**
-     * Parse the XML document content using specified handlers and an input
+     * Pbrse the XML document content using specified hbndlers bnd bn input
      * source.
      *
-     * @exception IOException If any IO errors occur.
-     * @exception SAXException If the underlying parser throws a SAXException
-     * while parsing.
+     * @exception IOException If bny IO errors occur.
+     * @exception SAXException If the underlying pbrser throws b SAXException
+     * while pbrsing.
      */
-    @SuppressWarnings("fallthrough")
-    private void parse() throws SAXException, IOException {
+    @SuppressWbrnings("fbllthrough")
+    privbte void pbrse() throws SAXException, IOException {
         init();
         try {
-            mHandCont.setDocumentLocator(this);
-            mHandCont.startDocument();
+            mHbndCont.setDocumentLocbtor(this);
+            mHbndCont.stbrtDocument();
 
             if (mPh != PH_MISC_DTD) {
                 mPh = PH_MISC_DTD;  // misc before DTD
@@ -434,262 +434,262 @@ final class ParserSAX
             do {
                 wsskip();
                 switch (evt = step()) {
-                    case EV_ELM:
-                    case EV_ELMS:
+                    cbse EV_ELM:
+                    cbse EV_ELMS:
                         mPh = PH_DOCELM;
-                        break;
+                        brebk;
 
-                    case EV_COMM:
-                    case EV_PI:
-                        break;
+                    cbse EV_COMM:
+                    cbse EV_PI:
+                        brebk;
 
-                    case EV_DTD:
+                    cbse EV_DTD:
                         if (mPh >= PH_DTD_MISC) {
-                            panic(FAULT);
+                            pbnic(FAULT);
                         }
-                        mPh = PH_DTD_MISC;  // misc after DTD
-                        break;
+                        mPh = PH_DTD_MISC;  // misc bfter DTD
+                        brebk;
 
-                    default:
-                        panic(FAULT);
+                    defbult:
+                        pbnic(FAULT);
                 }
             } while (mPh < PH_DOCELM);  // misc before DTD
-            //          XML document starting with document's element
+            //          XML document stbrting with document's element
             do {
                 switch (evt) {
-                    case EV_ELM:
-                    case EV_ELMS:
+                    cbse EV_ELM:
+                    cbse EV_ELMS:
                         //              Report the element
-                        if (mIsNSAware == true) {
-                            mHandCont.startElement(
-                                    mElm.value,
-                                    mElm.name,
+                        if (mIsNSAwbre == true) {
+                            mHbndCont.stbrtElement(
+                                    mElm.vblue,
+                                    mElm.nbme,
                                     "",
                                     mAttrs);
                         } else {
-                            mHandCont.startElement(
+                            mHbndCont.stbrtElement(
                                     "",
                                     "",
-                                    mElm.name,
+                                    mElm.nbme,
                                     mAttrs);
                         }
                         if (evt == EV_ELMS) {
                             evt = step();
-                            break;
+                            brebk;
                         }
 
-                    case EV_ELME:
+                    cbse EV_ELME:
                         //              Report the end of element
-                        if (mIsNSAware == true) {
-                            mHandCont.endElement(mElm.value, mElm.name, "");
+                        if (mIsNSAwbre == true) {
+                            mHbndCont.endElement(mElm.vblue, mElm.nbme, "");
                         } else {
-                            mHandCont.endElement("", "", mElm.name);
+                            mHbndCont.endElement("", "", mElm.nbme);
                         }
-                        //              Restore the top of the prefix stack
+                        //              Restore the top of the prefix stbck
                         while (mPref.list == mElm) {
-                            mHandCont.endPrefixMapping(mPref.name);
+                            mHbndCont.endPrefixMbpping(mPref.nbme);
                             mPref = del(mPref);
                         }
-                        //              Remove the top element tag
+                        //              Remove the top element tbg
                         mElm = del(mElm);
                         if (mElm == null) {
                             mPh = PH_DOCELM_MISC;
                         } else {
                             evt = step();
                         }
-                        break;
+                        brebk;
 
-                    case EV_TEXT:
-                    case EV_WSPC:
-                    case EV_CDAT:
-                    case EV_COMM:
-                    case EV_PI:
-                    case EV_ENT:
+                    cbse EV_TEXT:
+                    cbse EV_WSPC:
+                    cbse EV_CDAT:
+                    cbse EV_COMM:
+                    cbse EV_PI:
+                    cbse EV_ENT:
                         evt = step();
-                        break;
+                        brebk;
 
-                    default:
-                        panic(FAULT);
+                    defbult:
+                        pbnic(FAULT);
                 }
             } while (mPh == PH_DOCELM);
-            //          Misc after document's element
+            //          Misc bfter document's element
             do {
                 if (wsskip() == EOS) {
-                    break;
+                    brebk;
                 }
 
                 switch (step()) {
-                    case EV_COMM:
-                    case EV_PI:
-                        break;
+                    cbse EV_COMM:
+                    cbse EV_PI:
+                        brebk;
 
-                    default:
-                        panic(FAULT);
+                    defbult:
+                        pbnic(FAULT);
                 }
             } while (mPh == PH_DOCELM_MISC);
-            mPh = PH_AFTER_DOC;  // parsing is completed
+            mPh = PH_AFTER_DOC;  // pbrsing is completed
 
-        } catch (SAXException saxe) {
-            throw saxe;
-        } catch (IOException ioe) {
+        } cbtch (SAXException sbxe) {
+            throw sbxe;
+        } cbtch (IOException ioe) {
             throw ioe;
-        } catch (RuntimeException rte) {
+        } cbtch (RuntimeException rte) {
             throw rte;
-        } catch (Exception e) {
-            panic(e.toString());
-        } finally {
-            mHandCont.endDocument();
-            cleanup();
+        } cbtch (Exception e) {
+            pbnic(e.toString());
+        } finblly {
+            mHbndCont.endDocument();
+            clebnup();
         }
     }
 
     /**
      * Reports document type.
      *
-     * @param name The name of the entity.
-     * @param pubid The public identifier of the entity or <code>null</code>.
-     * @param sysid The system identifier of the entity or <code>null</code>.
+     * @pbrbm nbme The nbme of the entity.
+     * @pbrbm pubid The public identifier of the entity or <code>null</code>.
+     * @pbrbm sysid The system identifier of the entity or <code>null</code>.
      */
-    protected void docType(String name, String pubid, String sysid) throws SAXException {
-        mHandDtd.notationDecl(name, pubid, sysid);
+    protected void docType(String nbme, String pubid, String sysid) throws SAXException {
+        mHbndDtd.notbtionDecl(nbme, pubid, sysid);
     }
 
     /**
-     * Reports a comment.
+     * Reports b comment.
      *
-     * @param text The comment text starting from first charcater.
-     * @param length The number of characters in comment.
+     * @pbrbm text The comment text stbrting from first chbrcbter.
+     * @pbrbm length The number of chbrbcters in comment.
      */
-    protected void comm(char[] text, int length) {
+    protected void comm(chbr[] text, int length) {
     }
 
     /**
-     * Reports a processing instruction.
+     * Reports b processing instruction.
      *
-     * @param target The processing instruction target name.
-     * @param body The processing instruction body text.
+     * @pbrbm tbrget The processing instruction tbrget nbme.
+     * @pbrbm body The processing instruction body text.
      */
-    protected void pi(String target, String body) throws SAXException {
-        mHandCont.processingInstruction(target, body);
+    protected void pi(String tbrget, String body) throws SAXException {
+        mHbndCont.processingInstruction(tbrget, body);
     }
 
     /**
-     * Reports new namespace prefix. The Namespace prefix (
-     * <code>mPref.name</code>) being declared and the Namespace URI (
-     * <code>mPref.value</code>) the prefix is mapped to. An empty string is
-     * used for the default element namespace, which has no prefix.
+     * Reports new nbmespbce prefix. The Nbmespbce prefix (
+     * <code>mPref.nbme</code>) being declbred bnd the Nbmespbce URI (
+     * <code>mPref.vblue</code>) the prefix is mbpped to. An empty string is
+     * used for the defbult element nbmespbce, which hbs no prefix.
      */
     protected void newPrefix() throws SAXException {
-        mHandCont.startPrefixMapping(mPref.name, mPref.value);
+        mHbndCont.stbrtPrefixMbpping(mPref.nbme, mPref.vblue);
     }
 
     /**
-     * Reports skipped entity name.
+     * Reports skipped entity nbme.
      *
-     * @param name The entity name.
+     * @pbrbm nbme The entity nbme.
      */
-    protected void skippedEnt(String name) throws SAXException {
-        mHandCont.skippedEntity(name);
+    protected void skippedEnt(String nbme) throws SAXException {
+        mHbndCont.skippedEntity(nbme);
     }
 
     /**
-     * Returns an
+     * Returns bn
      * <code>InputSource</code> for specified entity or
      * <code>null</code>.
      *
-     * @param name The name of the entity.
-     * @param pubid The public identifier of the entity.
-     * @param sysid The system identifier of the entity.
+     * @pbrbm nbme The nbme of the entity.
+     * @pbrbm pubid The public identifier of the entity.
+     * @pbrbm sysid The system identifier of the entity.
      */
-    protected InputSource resolveEnt(String name, String pubid, String sysid)
+    protected InputSource resolveEnt(String nbme, String pubid, String sysid)
         throws SAXException, IOException
     {
-        return mHandEnt.resolveEntity(pubid, sysid);
+        return mHbndEnt.resolveEntity(pubid, sysid);
     }
 
     /**
-     * Reports notation declaration.
+     * Reports notbtion declbrbtion.
      *
-     * @param name The notation's name.
-     * @param pubid The notation's public identifier, or null if none was given.
-     * @param sysid The notation's system identifier, or null if none was given.
+     * @pbrbm nbme The notbtion's nbme.
+     * @pbrbm pubid The notbtion's public identifier, or null if none wbs given.
+     * @pbrbm sysid The notbtion's system identifier, or null if none wbs given.
      */
-    protected void notDecl(String name, String pubid, String sysid)
+    protected void notDecl(String nbme, String pubid, String sysid)
         throws SAXException
     {
-        mHandDtd.notationDecl(name, pubid, sysid);
+        mHbndDtd.notbtionDecl(nbme, pubid, sysid);
     }
 
     /**
-     * Reports unparsed entity name.
+     * Reports unpbrsed entity nbme.
      *
-     * @param name The unparsed entity's name.
-     * @param pubid The entity's public identifier, or null if none was given.
-     * @param sysid The entity's system identifier.
-     * @param notation The name of the associated notation.
+     * @pbrbm nbme The unpbrsed entity's nbme.
+     * @pbrbm pubid The entity's public identifier, or null if none wbs given.
+     * @pbrbm sysid The entity's system identifier.
+     * @pbrbm notbtion The nbme of the bssocibted notbtion.
      */
-    protected void unparsedEntDecl(String name, String pubid, String sysid, String notation)
+    protected void unpbrsedEntDecl(String nbme, String pubid, String sysid, String notbtion)
         throws SAXException
     {
-        mHandDtd.unparsedEntityDecl(name, pubid, sysid, notation);
+        mHbndDtd.unpbrsedEntityDecl(nbme, pubid, sysid, notbtion);
     }
 
     /**
-     * Notifies the handler about fatal parsing error.
+     * Notifies the hbndler bbout fbtbl pbrsing error.
      *
-     * @param msg The problem description message.
+     * @pbrbm msg The problem description messbge.
      */
-    protected void panic(String msg) throws SAXException {
-        SAXParseException spe = new SAXParseException(msg, this);
-        mHandErr.fatalError(spe);
-        throw spe;  // [#1.2] fatal error definition
+    protected void pbnic(String msg) throws SAXException {
+        SAXPbrseException spe = new SAXPbrseException(msg, this);
+        mHbndErr.fbtblError(spe);
+        throw spe;  // [#1.2] fbtbl error definition
     }
 
     /**
-     * Reports characters and empties the parser's buffer. This method is called
-     * only if parser is going to return control to the main loop. This means
-     * that this method may use parser buffer to report white space without
-     * copeing characters to temporary buffer.
+     * Reports chbrbcters bnd empties the pbrser's buffer. This method is cblled
+     * only if pbrser is going to return control to the mbin loop. This mebns
+     * thbt this method mby use pbrser buffer to report white spbce without
+     * copeing chbrbcters to temporbry buffer.
      */
-    protected void bflash() throws SAXException {
+    protected void bflbsh() throws SAXException {
         if (mBuffIdx >= 0) {
-            //          Textual data has been read
-            mHandCont.characters(mBuff, 0, (mBuffIdx + 1));
+            //          Textubl dbtb hbs been rebd
+            mHbndCont.chbrbcters(mBuff, 0, (mBuffIdx + 1));
             mBuffIdx = -1;
         }
     }
 
     /**
-     * Reports white space characters and empties the parser's buffer. This
-     * method is called only if parser is going to return control to the main
-     * loop. This means that this method may use parser buffer to report white
-     * space without copeing characters to temporary buffer.
+     * Reports white spbce chbrbcters bnd empties the pbrser's buffer. This
+     * method is cblled only if pbrser is going to return control to the mbin
+     * loop. This mebns thbt this method mby use pbrser buffer to report white
+     * spbce without copeing chbrbcters to temporbry buffer.
      */
-    protected void bflash_ws() throws SAXException {
+    protected void bflbsh_ws() throws SAXException {
         if (mBuffIdx >= 0) {
-            // BUG: With additional info from DTD and xml:space attr [#2.10]
-            // the following call can be supported:
-            // mHandCont.ignorableWhitespace(mBuff, 0, (mBuffIdx + 1));
+            // BUG: With bdditionbl info from DTD bnd xml:spbce bttr [#2.10]
+            // the following cbll cbn be supported:
+            // mHbndCont.ignorbbleWhitespbce(mBuff, 0, (mBuffIdx + 1));
 
-            //          Textual data has been read
-            mHandCont.characters(mBuff, 0, (mBuffIdx + 1));
+            //          Textubl dbtb hbs been rebd
+            mHbndCont.chbrbcters(mBuff, 0, (mBuffIdx + 1));
             mBuffIdx = -1;
         }
     }
 
-    public boolean getFeature(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolebn getFebture(String nbme) {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public void setFeature(String name, boolean value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setFebture(String nbme, boolebn vblue) {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public Object getProperty(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object getProperty(String nbme) {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
-    public void setProperty(String name, Object value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setProperty(String nbme, Object vblue) {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 }

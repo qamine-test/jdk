@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* __ieee754_sqrt(x)
  * Return correctly rounded sqrt.
  *           ------------------------------------------
- *           |  Use the hardware sqrt if you have one |
+ *           |  Use the hbrdwbre sqrt if you hbve one |
  *           ------------------------------------------
  * Method:
- *   Bit by bit method using integer arithmetic. (Slow, but portable)
- *   1. Normalization
- *      Scale x to y in [1,4) with even powers of 2:
- *      find an integer k such that  1 <= (y=x*2^(2k)) < 4, then
+ *   Bit by bit method using integer brithmetic. (Slow, but portbble)
+ *   1. Normblizbtion
+ *      Scble x to y in [1,4) with even powers of 2:
+ *      find bn integer k such thbt  1 <= (y=x*2^(2k)) < 4, then
  *              sqrt(x) = 2^k * sqrt(y)
- *   2. Bit by bit computation
- *      Let q  = sqrt(y) truncated to i bit after binary point (q = 1),
+ *   2. Bit by bit computbtion
+ *      Let q  = sqrt(y) truncbted to i bit bfter binbry point (q = 1),
  *           i                                                   0
  *                                     i+1         2
- *          s  = 2*q , and      y  =  2   * ( y - q  ).         (1)
+ *          s  = 2*q , bnd      y  =  2   * ( y - q  ).         (1)
  *           i      i            i                 i
  *
  *      To compute q    from q , one checks whether
@@ -48,19 +48,19 @@
  *                      (q + 2      ) <= y.                     (2)
  *                        i
  *                                                            -(i+1)
- *      If (2) is false, then q   = q ; otherwise q   = q  + 2      .
+ *      If (2) is fblse, then q   = q ; otherwise q   = q  + 2      .
  *                             i+1   i             i+1   i
  *
- *      With some algebric manipulation, it is not difficult to see
- *      that (2) is equivalent to
+ *      With some blgebric mbnipulbtion, it is not difficult to see
+ *      thbt (2) is equivblent to
  *                             -(i+1)
  *                      s  +  2       <= y                      (3)
  *                       i                i
  *
- *      The advantage of (3) is that s  and y  can be computed by
+ *      The bdvbntbge of (3) is thbt s  bnd y  cbn be computed by
  *                                    i      i
- *      the following recurrence formula:
- *          if (3) is false
+ *      the following recurrence formulb:
+ *          if (3) is fblse
  *
  *          s     =  s  ,       y    = y   ;                    (4)
  *           i+1      i          i+1    i
@@ -70,35 +70,35 @@
  *          s     =  s  + 2  ,  y    = y  -  s  - 2             (5)
  *           i+1      i          i+1    i     i
  *
- *      One may easily use induction to prove (4) and (5).
- *      Note. Since the left hand side of (3) contain only i+2 bits,
- *            it does not necessary to do a full (53-bit) comparison
+ *      One mby ebsily use induction to prove (4) bnd (5).
+ *      Note. Since the left hbnd side of (3) contbin only i+2 bits,
+ *            it does not necessbry to do b full (53-bit) compbrison
  *            in (3).
- *   3. Final rounding
- *      After generating the 53 bits result, we compute one more bit.
- *      Together with the remainder, we can decide whether the
- *      result is exact, bigger than 1/2ulp, or less than 1/2ulp
- *      (it will never equal to 1/2ulp).
- *      The rounding mode can be detected by checking whether
- *      huge + tiny is equal to huge, and whether huge - tiny is
- *      equal to huge for some floating point number "huge" and "tiny".
+ *   3. Finbl rounding
+ *      After generbting the 53 bits result, we compute one more bit.
+ *      Together with the rembinder, we cbn decide whether the
+ *      result is exbct, bigger thbn 1/2ulp, or less thbn 1/2ulp
+ *      (it will never equbl to 1/2ulp).
+ *      The rounding mode cbn be detected by checking whether
+ *      huge + tiny is equbl to huge, bnd whether huge - tiny is
+ *      equbl to huge for some flobting point number "huge" bnd "tiny".
  *
- * Special cases:
- *      sqrt(+-0) = +-0         ... exact
+ * Specibl cbses:
+ *      sqrt(+-0) = +-0         ... exbct
  *      sqrt(inf) = inf
- *      sqrt(-ve) = NaN         ... with invalid signal
- *      sqrt(NaN) = NaN         ... with invalid signal for signaling NaN
+ *      sqrt(-ve) = NbN         ... with invblid signbl
+ *      sqrt(NbN) = NbN         ... with invblid signbl for signbling NbN
  *
- * Other methods : see the appended file at the end of the program below.
+ * Other methods : see the bppended file bt the end of the progrbm below.
  *---------------
  */
 
 #include "fdlibm.h"
 
 #ifdef __STDC__
-static  const double    one     = 1.0, tiny=1.0e-300;
+stbtic  const double    one     = 1.0, tiny=1.0e-300;
 #else
-static  double  one     = 1.0, tiny=1.0e-300;
+stbtic  double  one     = 1.0, tiny=1.0e-300;
 #endif
 
 #ifdef __STDC__
@@ -116,20 +116,20 @@ static  double  one     = 1.0, tiny=1.0e-300;
         ix0 = __HI(x);                  /* high word of x */
         ix1 = __LO(x);          /* low word of x */
 
-    /* take care of Inf and NaN */
+    /* tbke cbre of Inf bnd NbN */
         if((ix0&0x7ff00000)==0x7ff00000) {
-            return x*x+x;               /* sqrt(NaN)=NaN, sqrt(+inf)=+inf
-                                           sqrt(-inf)=sNaN */
+            return x*x+x;               /* sqrt(NbN)=NbN, sqrt(+inf)=+inf
+                                           sqrt(-inf)=sNbN */
         }
-    /* take care of zero */
+    /* tbke cbre of zero */
         if(ix0<=0) {
             if(((ix0&(~sign))|ix1)==0) return x;/* sqrt(+-0) = +-0 */
             else if(ix0<0)
-                return (x-x)/(x-x);             /* sqrt(-ve) = sNaN */
+                return (x-x)/(x-x);             /* sqrt(-ve) = sNbN */
         }
-    /* normalize x */
+    /* normblize x */
         m = (ix0>>20);
-        if(m==0) {                              /* subnormal x */
+        if(m==0) {                              /* subnormbl x */
             while(ix0==0) {
                 m -= 21;
                 ix0 |= (ix1>>11); ix1 <<= 21;
@@ -139,15 +139,15 @@ static  double  one     = 1.0, tiny=1.0e-300;
             ix0 |= (ix1>>(32-i));
             ix1 <<= i;
         }
-        m -= 1023;      /* unbias exponent */
+        m -= 1023;      /* unbibs exponent */
         ix0 = (ix0&0x000fffff)|0x00100000;
-        if(m&1){        /* odd m, double x to make it even */
+        if(m&1){        /* odd m, double x to mbke it even */
             ix0 += ix0 + ((ix1&sign)>>31);
             ix1 += ix1;
         }
         m >>= 1;        /* m = [m/2] */
 
-    /* generate sqrt(x) bit by bit */
+    /* generbte sqrt(x) bit by bit */
         ix0 += ix0 + ((ix1&sign)>>31);
         ix1 += ix1;
         q = q1 = s0 = s1 = 0;   /* [q,q1] = sqrt(x) */
@@ -182,9 +182,9 @@ static  double  one     = 1.0, tiny=1.0e-300;
             r>>=1;
         }
 
-    /* use floating add to find out rounding direction */
+    /* use flobting bdd to find out rounding direction */
         if((ix0|ix1)!=0) {
-            z = one-tiny; /* trigger inexact flag */
+            z = one-tiny; /* trigger inexbct flbg */
             if (z>=one) {
                 z = one+tiny;
                 if (q1==(unsigned)0xffffffff) { q1=0; q += 1;}
@@ -205,30 +205,30 @@ static  double  one     = 1.0, tiny=1.0e-300;
 }
 
 /*
-Other methods  (use floating-point arithmetic)
+Other methods  (use flobting-point brithmetic)
 -------------
-(This is a copy of a drafted paper by Prof W. Kahan
-and K.C. Ng, written in May, 1986)
+(This is b copy of b drbfted pbper by Prof W. Kbhbn
+bnd K.C. Ng, written in Mby, 1986)
 
-        Two algorithms are given here to implement sqrt(x)
-        (IEEE double precision arithmetic) in software.
-        Both supply sqrt(x) correctly rounded. The first algorithm (in
-        Section A) uses newton iterations and involves four divisions.
-        The second one uses reciproot iterations to avoid division, but
-        requires more multiplications. Both algorithms need the ability
-        to chop results of arithmetic operations instead of round them,
-        and the INEXACT flag to indicate when an arithmetic operation
-        is executed exactly with no roundoff error, all part of the
-        standard (IEEE 754-1985). The ability to perform shift, add,
-        subtract and logical AND operations upon 32-bit words is needed
-        too, though not part of the standard.
+        Two blgorithms bre given here to implement sqrt(x)
+        (IEEE double precision brithmetic) in softwbre.
+        Both supply sqrt(x) correctly rounded. The first blgorithm (in
+        Section A) uses newton iterbtions bnd involves four divisions.
+        The second one uses reciproot iterbtions to bvoid division, but
+        requires more multiplicbtions. Both blgorithms need the bbility
+        to chop results of brithmetic operbtions instebd of round them,
+        bnd the INEXACT flbg to indicbte when bn brithmetic operbtion
+        is executed exbctly with no roundoff error, bll pbrt of the
+        stbndbrd (IEEE 754-1985). The bbility to perform shift, bdd,
+        subtrbct bnd logicbl AND operbtions upon 32-bit words is needed
+        too, though not pbrt of the stbndbrd.
 
-A.  sqrt(x) by Newton Iteration
+A.  sqrt(x) by Newton Iterbtion
 
-   (1)  Initial approximation
+   (1)  Initibl bpproximbtion
 
-        Let x0 and x1 be the leading and the trailing 32-bit words of
-        a floating point number x (in IEEE double format) respectively
+        Let x0 bnd x1 be the lebding bnd the trbiling 32-bit words of
+        b flobting point number x (in IEEE double formbt) respectively
 
             1    11                  52                           ...widths
            ------------------------------------------------------
@@ -241,39 +241,39 @@ A.  sqrt(x) by Newton Iteration
         x0:  |s|   e    |    f1     |    x1: |          f2           |
              ------------------------        ------------------------
 
-        By performing shifts and subtracts on x0 and x1 (both regarded
-        as integers), we obtain an 8-bit approximation of sqrt(x) as
+        By performing shifts bnd subtrbcts on x0 bnd x1 (both regbrded
+        bs integers), we obtbin bn 8-bit bpproximbtion of sqrt(x) bs
         follows.
 
                 k  := (x0>>1) + 0x1ff80000;
                 y0 := k - T1[31&(k>>15)].       ... y ~ sqrt(x) to 8 bits
-        Here k is a 32-bit integer and T1[] is an integer array containing
-        correction terms. Now magically the floating value of y (y's
-        leading 32-bit word is y0, the value of its trailing word is 0)
-        approximates sqrt(x) to almost 8-bit.
+        Here k is b 32-bit integer bnd T1[] is bn integer brrby contbining
+        correction terms. Now mbgicblly the flobting vblue of y (y's
+        lebding 32-bit word is y0, the vblue of its trbiling word is 0)
+        bpproximbtes sqrt(x) to blmost 8-bit.
 
-        Value of T1:
-        static int T1[32]= {
+        Vblue of T1:
+        stbtic int T1[32]= {
         0,      1024,   3062,   5746,   9193,   13348,  18162,  23592,
         29598,  36145,  43202,  50740,  58733,  67158,  75992,  85215,
         83599,  71378,  60428,  50647,  41945,  34246,  27478,  21581,
         16499,  12183,  8588,   5674,   3403,   1742,   661,    130,};
 
-    (2) Iterative refinement
+    (2) Iterbtive refinement
 
-        Apply Heron's rule three times to y, we have y approximates
-        sqrt(x) to within 1 ulp (Unit in the Last Place):
+        Apply Heron's rule three times to y, we hbve y bpproximbtes
+        sqrt(x) to within 1 ulp (Unit in the Lbst Plbce):
 
-                y := (y+x/y)/2          ... almost 17 sig. bits
-                y := (y+x/y)/2          ... almost 35 sig. bits
+                y := (y+x/y)/2          ... blmost 17 sig. bits
+                y := (y+x/y)/2          ... blmost 35 sig. bits
                 y := y-(y-x/y)/2        ... within 1 ulp
 
 
-        Remark 1.
-            Another way to improve y to within 1 ulp is:
+        Rembrk 1.
+            Another wby to improve y to within 1 ulp is:
 
-                y := (y+x/y)            ... almost 17 sig. bits to 2*sqrt(x)
-                y := y - 0x00100006     ... almost 18 sig. bits to sqrt(x)
+                y := (y+x/y)            ... blmost 17 sig. bits to 2*sqrt(x)
+                y := y - 0x00100006     ... blmost 18 sig. bits to sqrt(x)
 
                                 2
                             (x-y )*y
@@ -282,161 +282,161 @@ A.  sqrt(x) by Newton Iteration
                              3y  + x
 
 
-        This formula has one division fewer than the one above; however,
-        it requires more multiplications and additions. Also x must be
-        scaled in advance to avoid spurious overflow in evaluating the
+        This formulb hbs one division fewer thbn the one bbove; however,
+        it requires more multiplicbtions bnd bdditions. Also x must be
+        scbled in bdvbnce to bvoid spurious overflow in evblubting the
         expression 3y*y+x. Hence it is not recommended uless division
         is slow. If division is very slow, then one should use the
-        reciproot algorithm given in section B.
+        reciproot blgorithm given in section B.
 
-    (3) Final adjustment
+    (3) Finbl bdjustment
 
-        By twiddling y's last bit it is possible to force y to be
-        correctly rounded according to the prevailing rounding mode
-        as follows. Let r and i be copies of the rounding mode and
-        inexact flag before entering the square root program. Also we
-        use the expression y+-ulp for the next representable floating
-        numbers (up and down) of y. Note that y+-ulp = either fixed
-        point y+-1, or multiply y by nextafter(1,+-inf) in chopped
+        By twiddling y's lbst bit it is possible to force y to be
+        correctly rounded bccording to the prevbiling rounding mode
+        bs follows. Let r bnd i be copies of the rounding mode bnd
+        inexbct flbg before entering the squbre root progrbm. Also we
+        use the expression y+-ulp for the next representbble flobting
+        numbers (up bnd down) of y. Note thbt y+-ulp = either fixed
+        point y+-1, or multiply y by nextbfter(1,+-inf) in chopped
         mode.
 
-                I := FALSE;     ... reset INEXACT flag I
-                R := RZ;        ... set rounding mode to round-toward-zero
-                z := x/y;       ... chopped quotient, possibly inexact
-                If(not I) then {        ... if the quotient is exact
+                I := FALSE;     ... reset INEXACT flbg I
+                R := RZ;        ... set rounding mode to round-towbrd-zero
+                z := x/y;       ... chopped quotient, possibly inexbct
+                If(not I) then {        ... if the quotient is exbct
                     if(z=y) {
-                        I := i;  ... restore inexact flag
+                        I := i;  ... restore inexbct flbg
                         R := r;  ... restore rounded mode
                         return sqrt(x):=y.
                     } else {
-                        z := z - ulp;   ... special rounding
+                        z := z - ulp;   ... specibl rounding
                     }
                 }
-                i := TRUE;              ... sqrt(x) is inexact
-                If (r=RN) then z=z+ulp  ... rounded-to-nearest
-                If (r=RP) then {        ... round-toward-+inf
+                i := TRUE;              ... sqrt(x) is inexbct
+                If (r=RN) then z=z+ulp  ... rounded-to-nebrest
+                If (r=RP) then {        ... round-towbrd-+inf
                     y = y+ulp; z=z+ulp;
                 }
                 y := y+z;               ... chopped sum
                 y0:=y0-0x00100000;      ... y := y/2 is correctly rounded.
-                I := i;                 ... restore inexact flag
+                I := i;                 ... restore inexbct flbg
                 R := r;                 ... restore rounded mode
                 return sqrt(x):=y.
 
-    (4) Special cases
+    (4) Specibl cbses
 
-        Square root of +inf, +-0, or NaN is itself;
-        Square root of a negative number is NaN with invalid signal.
+        Squbre root of +inf, +-0, or NbN is itself;
+        Squbre root of b negbtive number is NbN with invblid signbl.
 
 
-B.  sqrt(x) by Reciproot Iteration
+B.  sqrt(x) by Reciproot Iterbtion
 
-   (1)  Initial approximation
+   (1)  Initibl bpproximbtion
 
-        Let x0 and x1 be the leading and the trailing 32-bit words of
-        a floating point number x (in IEEE double format) respectively
-        (see section A). By performing shifs and subtracts on x0 and y0,
-        we obtain a 7.8-bit approximation of 1/sqrt(x) as follows.
+        Let x0 bnd x1 be the lebding bnd the trbiling 32-bit words of
+        b flobting point number x (in IEEE double formbt) respectively
+        (see section A). By performing shifs bnd subtrbcts on x0 bnd y0,
+        we obtbin b 7.8-bit bpproximbtion of 1/sqrt(x) bs follows.
 
             k := 0x5fe80000 - (x0>>1);
             y0:= k - T2[63&(k>>14)].    ... y ~ 1/sqrt(x) to 7.8 bits
 
-        Here k is a 32-bit integer and T2[] is an integer array
-        containing correction terms. Now magically the floating
-        value of y (y's leading 32-bit word is y0, the value of
-        its trailing word y1 is set to zero) approximates 1/sqrt(x)
-        to almost 7.8-bit.
+        Here k is b 32-bit integer bnd T2[] is bn integer brrby
+        contbining correction terms. Now mbgicblly the flobting
+        vblue of y (y's lebding 32-bit word is y0, the vblue of
+        its trbiling word y1 is set to zero) bpproximbtes 1/sqrt(x)
+        to blmost 7.8-bit.
 
-        Value of T2:
-        static int T2[64]= {
-        0x1500, 0x2ef8, 0x4d67, 0x6b02, 0x87be, 0xa395, 0xbe7a, 0xd866,
-        0xf14a, 0x1091b,0x11fcd,0x13552,0x14999,0x15c98,0x16e34,0x17e5f,
-        0x18d03,0x19a01,0x1a545,0x1ae8a,0x1b5c4,0x1bb01,0x1bfde,0x1c28d,
-        0x1c2de,0x1c0db,0x1ba73,0x1b11c,0x1a4b5,0x1953d,0x18266,0x16be0,
-        0x1683e,0x179d8,0x18a4d,0x19992,0x1a789,0x1b445,0x1bf61,0x1c989,
-        0x1d16d,0x1d77b,0x1dddf,0x1e2ad,0x1e5bf,0x1e6e8,0x1e654,0x1e3cd,
-        0x1df2a,0x1d635,0x1cb16,0x1be2c,0x1ae4e,0x19bde,0x1868e,0x16e2e,
-        0x1527f,0x1334a,0x11051,0xe951, 0xbe01, 0x8e0d, 0x5924, 0x1edd,};
+        Vblue of T2:
+        stbtic int T2[64]= {
+        0x1500, 0x2ef8, 0x4d67, 0x6b02, 0x87be, 0xb395, 0xbe7b, 0xd866,
+        0xf14b, 0x1091b,0x11fcd,0x13552,0x14999,0x15c98,0x16e34,0x17e5f,
+        0x18d03,0x19b01,0x1b545,0x1be8b,0x1b5c4,0x1bb01,0x1bfde,0x1c28d,
+        0x1c2de,0x1c0db,0x1bb73,0x1b11c,0x1b4b5,0x1953d,0x18266,0x16be0,
+        0x1683e,0x179d8,0x18b4d,0x19992,0x1b789,0x1b445,0x1bf61,0x1c989,
+        0x1d16d,0x1d77b,0x1dddf,0x1e2bd,0x1e5bf,0x1e6e8,0x1e654,0x1e3cd,
+        0x1df2b,0x1d635,0x1cb16,0x1be2c,0x1be4e,0x19bde,0x1868e,0x16e2e,
+        0x1527f,0x1334b,0x11051,0xe951, 0xbe01, 0x8e0d, 0x5924, 0x1edd,};
 
-    (2) Iterative refinement
+    (2) Iterbtive refinement
 
-        Apply Reciproot iteration three times to y and multiply the
-        result by x to get an approximation z that matches sqrt(x)
-        to about 1 ulp. To be exact, we will have
+        Apply Reciproot iterbtion three times to y bnd multiply the
+        result by x to get bn bpproximbtion z thbt mbtches sqrt(x)
+        to bbout 1 ulp. To be exbct, we will hbve
                 -1ulp < sqrt(x)-z<1.0625ulp.
 
-        ... set rounding mode to Round-to-nearest
-           y := y*(1.5-0.5*x*y*y)       ... almost 15 sig. bits to 1/sqrt(x)
-           y := y*((1.5-2^-30)+0.5*x*y*y)... about 29 sig. bits to 1/sqrt(x)
-        ... special arrangement for better accuracy
+        ... set rounding mode to Round-to-nebrest
+           y := y*(1.5-0.5*x*y*y)       ... blmost 15 sig. bits to 1/sqrt(x)
+           y := y*((1.5-2^-30)+0.5*x*y*y)... bbout 29 sig. bits to 1/sqrt(x)
+        ... specibl brrbngement for better bccurbcy
            z := x*y                     ... 29 bits to sqrt(x), with z*y<1
-           z := z + 0.5*z*(1-z*y)       ... about 1 ulp to sqrt(x)
+           z := z + 0.5*z*(1-z*y)       ... bbout 1 ulp to sqrt(x)
 
-        Remark 2. The constant 1.5-2^-30 is chosen to bias the error so that
-        (a) the term z*y in the final iteration is always less than 1;
-        (b) the error in the final result is biased upward so that
+        Rembrk 2. The constbnt 1.5-2^-30 is chosen to bibs the error so thbt
+        (b) the term z*y in the finbl iterbtion is blwbys less thbn 1;
+        (b) the error in the finbl result is bibsed upwbrd so thbt
                 -1 ulp < sqrt(x) - z < 1.0625 ulp
-            instead of |sqrt(x)-z|<1.03125ulp.
+            instebd of |sqrt(x)-z|<1.03125ulp.
 
-    (3) Final adjustment
+    (3) Finbl bdjustment
 
-        By twiddling y's last bit it is possible to force y to be
-        correctly rounded according to the prevailing rounding mode
-        as follows. Let r and i be copies of the rounding mode and
-        inexact flag before entering the square root program. Also we
-        use the expression y+-ulp for the next representable floating
-        numbers (up and down) of y. Note that y+-ulp = either fixed
-        point y+-1, or multiply y by nextafter(1,+-inf) in chopped
+        By twiddling y's lbst bit it is possible to force y to be
+        correctly rounded bccording to the prevbiling rounding mode
+        bs follows. Let r bnd i be copies of the rounding mode bnd
+        inexbct flbg before entering the squbre root progrbm. Also we
+        use the expression y+-ulp for the next representbble flobting
+        numbers (up bnd down) of y. Note thbt y+-ulp = either fixed
+        point y+-1, or multiply y by nextbfter(1,+-inf) in chopped
         mode.
 
-        R := RZ;                ... set rounding mode to round-toward-zero
+        R := RZ;                ... set rounding mode to round-towbrd-zero
         switch(r) {
-            case RN:            ... round-to-nearest
+            cbse RN:            ... round-to-nebrest
                if(x<= z*(z-ulp)...chopped) z = z - ulp; else
                if(x<= z*(z+ulp)...chopped) z = z; else z = z+ulp;
-               break;
-            case RZ:case RM:    ... round-to-zero or round-to--inf
+               brebk;
+            cbse RZ:cbse RM:    ... round-to-zero or round-to--inf
                R:=RP;           ... reset rounding mod to round-to-+inf
                if(x<z*z ... rounded up) z = z - ulp; else
                if(x>=(z+ulp)*(z+ulp) ...rounded up) z = z+ulp;
-               break;
-            case RP:            ... round-to-+inf
+               brebk;
+            cbse RP:            ... round-to-+inf
                if(x>(z+ulp)*(z+ulp)...chopped) z = z+2*ulp; else
                if(x>z*z ...chopped) z = z+ulp;
-               break;
+               brebk;
         }
 
-        Remark 3. The above comparisons can be done in fixed point. For
-        example, to compare x and w=z*z chopped, it suffices to compare
-        x1 and w1 (the trailing parts of x and w), regarding them as
+        Rembrk 3. The bbove compbrisons cbn be done in fixed point. For
+        exbmple, to compbre x bnd w=z*z chopped, it suffices to compbre
+        x1 bnd w1 (the trbiling pbrts of x bnd w), regbrding them bs
         two's complement integers.
 
-        ...Is z an exact square root?
-        To determine whether z is an exact square root of x, let z1 be the
-        trailing part of z, and also let x0 and x1 be the leading and
-        trailing parts of x.
+        ...Is z bn exbct squbre root?
+        To determine whether z is bn exbct squbre root of x, let z1 be the
+        trbiling pbrt of z, bnd blso let x0 bnd x1 be the lebding bnd
+        trbiling pbrts of x.
 
-        If ((z1&0x03ffffff)!=0) ... not exact if trailing 26 bits of z!=0
-            I := 1;             ... Raise Inexact flag: z is not exact
+        If ((z1&0x03ffffff)!=0) ... not exbct if trbiling 26 bits of z!=0
+            I := 1;             ... Rbise Inexbct flbg: z is not exbct
         else {
             j := 1 - [(x0>>20)&1]       ... j = logb(x) mod 2
-            k := z1 >> 26;              ... get z's 25-th and 26-th
-                                            fraction bits
+            k := z1 >> 26;              ... get z's 25-th bnd 26-th
+                                            frbction bits
             I := i or (k&j) or ((k&(j+j+1))!=(x1&3));
         }
         R:= r           ... restore rounded mode
         return sqrt(x):=z.
 
-        If multiplication is cheaper then the foregoing red tape, the
-        Inexact flag can be evaluated by
+        If multiplicbtion is chebper then the foregoing red tbpe, the
+        Inexbct flbg cbn be evblubted by
 
             I := i;
             I := (z*z!=x) or I.
 
-        Note that z*z can overwrite I; this value must be sensed if it is
+        Note thbt z*z cbn overwrite I; this vblue must be sensed if it is
         True.
 
-        Remark 4. If z*z = x exactly, then bit 25 to bit 0 of z1 must be
+        Rembrk 4. If z*z = x exbctly, then bit 25 to bit 0 of z1 must be
         zero.
 
                     --------------------
@@ -444,19 +444,19 @@ B.  sqrt(x) by Reciproot Iteration
                     --------------------
                 bit 31             bit 0
 
-        Further more, bit 27 and 26 of z1, bit 0 and 1 of x1, and the odd
-        or even of logb(x) have the following relations:
+        Further more, bit 27 bnd 26 of z1, bit 0 bnd 1 of x1, bnd the odd
+        or even of logb(x) hbve the following relbtions:
 
         -------------------------------------------------
         bit 27,26 of z1         bit 1,0 of x1   logb(x)
         -------------------------------------------------
-        00                      00              odd and even
+        00                      00              odd bnd even
         01                      01              even
         10                      10              odd
         10                      00              even
         11                      01              even
         -------------------------------------------------
 
-    (4) Special cases (see (4) of Section A).
+    (4) Specibl cbses (see (4) of Section A).
 
  */

@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\" Title: xjc
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Java Webサービス・ツール
-.\" Software: JDK 8
+.\" Lbngubge: English
+.\" Dbte: 2013年11月21日
+.\" SectDesc: Jbvb Webサービス・ツール
+.\" Softwbre: JDK 8
 .\" Arch: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "xjc" "1" "2013年11月21日" "JDK 8" "Java Webサービス・ツール"
+.TH "xjc" "1" "2013年11月21日" "JDK 8" "Jbvb Webサービス・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-xjc \- XMLスキーマ・ファイルを完全注釈付きのJavaクラスにコンパイルします。
+xjc \- XMLスキーマ・ファイルを完全注釈付きのJbvbクラスにコンパイルします。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIxjc\fR [ \fIoptions\fR ] \fIschema\fR \fIfile/URL/dir/jar\fR \&.\&.\&. [\fI\-b\fR \fIbindinfo\fR ] \&.\&.\&.
+\fIxjc\fR [ \fIoptions\fR ] \fIschemb\fR \fIfile/URL/dir/jbr\fR \&.\&.\&. [\fI\-b\fR \fIbindinfo\fR ] \&.\&.\&.
 .fi
 .if n \{\
 .RE
@@ -67,9 +67,9 @@ xjc \- XMLスキーマ・ファイルを完全注釈付きのJavaクラスにコンパイルします。
 コマンドライン・オプション。オプションを参照してください。
 .RE
 .PP
-schema \fIfile/URL/dir/jar \&.\&.\&.\fR
+schemb \fIfile/URL/dir/jbr \&.\&.\&.\fR
 .RS 4
-XMLスキーマ・ファイルの場所。\fIdir\fRが指定されている場合は、すべてのスキーマ・ファイルがコンパイルされます。\fIjar\fRが指定されている場合は、\fI/META\-INF/sun\-jaxb\&.episode\fRバインディング・ファイルがコンパイルされます。
+XMLスキーマ・ファイルの場所。\fIdir\fRが指定されている場合は、すべてのスキーマ・ファイルがコンパイルされます。\fIjbr\fRが指定されている場合は、\fI/META\-INF/sun\-jbxb\&.episode\fRバインディング・ファイルがコンパイルされます。
 .RE
 .PP
 \-b \fIbindinfo\fR
@@ -78,7 +78,7 @@ XMLスキーマ・ファイルの場所。\fIdir\fRが指定されている場合は、すべてのスキーマ・
 .RE
 .SH "説明"
 .PP
-プラットフォームのbinディレクトリにある適切な\fIxjc\fRシェル・スクリプトを使用して、バインディング・コンパイラを起動します。バインディング・コンパイラを実行するAntタスクもあります。http://jaxb\&.java\&.net/nonav/2\&.1\&.3/docs/xjcTask\&.htmlの
+プラットフォームのbinディレクトリにある適切な\fIxjc\fRシェル・スクリプトを使用して、バインディング・コンパイラを起動します。バインディング・コンパイラを実行するAntタスクもあります。http://jbxb\&.jbvb\&.net/nonbv/2\&.1\&.3/docs/xjcTbsk\&.htmlの
 Using the XJC with Antを参照してください
 .SH "オプション"
 .sp
@@ -111,18 +111,18 @@ Using the XJC with Antを参照してください
 .PP
 \-extension
 .RS 4
-デフォルトでは、XJCバインディング・コンパイラは、JAXB仕様のCompatibilityの章で説明されているルールを厳密に強制します。付録E\&.2には、JAXB v1\&.0で完全にはサポートされていない一連のW3C XMLスキーマ機能が定義されています。場合によっては、このスイッチで有効になる\fI\-extension\fRモードでそれらの機能が使用できる場合があります。また、デフォルトの厳密なモードでは、仕様に定義されているバインディング・カスタマイズのみが使用できます。\fI\-extension\fRスイッチを指定すれば、JAXB Vendor Extensionを使用できます。
+デフォルトでは、XJCバインディング・コンパイラは、JAXB仕様のCompbtibilityの章で説明されているルールを厳密に強制します。付録E\&.2には、JAXB v1\&.0で完全にはサポートされていない一連のW3C XMLスキーマ機能が定義されています。場合によっては、このスイッチで有効になる\fI\-extension\fRモードでそれらの機能が使用できる場合があります。また、デフォルトの厳密なモードでは、仕様に定義されているバインディング・カスタマイズのみが使用できます。\fI\-extension\fRスイッチを指定すれば、JAXB Vendor Extensionを使用できます。
 .RE
 .PP
 \-b \fIfile\fR
 .RS 4
-処理する外部バインディング・ファイルを1つまたは複数指定します。バインディング・ファイルごとに\fI\-b\fRスイッチを指定する必要があります。外部バインディング・ファイルの構文は柔軟です。複数のスキーマのカスタマイズが含まれる1つのバインディング・ファイルを使用したり、それらのカスタマイズを複数のバインディング・ファイルに分割したりできます。次に例を示します。\fIxjc schema1\&.xsd schema2\&.xsd schema3\&.xsd \-b bindings123\&.xjb\fR
-\fIxjc schema1\&.xsd schema2\&.xsd schema3\&.xsd \-b bindings1\&.xjb \-b bindings2\&.xjb \-b bindings3\&.xjb\fRまた、コマンドラインにスキーマ・ファイルとバインディング・ファイルを指定する順番は任意です。
+処理する外部バインディング・ファイルを1つまたは複数指定します。バインディング・ファイルごとに\fI\-b\fRスイッチを指定する必要があります。外部バインディング・ファイルの構文は柔軟です。複数のスキーマのカスタマイズが含まれる1つのバインディング・ファイルを使用したり、それらのカスタマイズを複数のバインディング・ファイルに分割したりできます。次に例を示します。\fIxjc schemb1\&.xsd schemb2\&.xsd schemb3\&.xsd \-b bindings123\&.xjb\fR
+\fIxjc schemb1\&.xsd schemb2\&.xsd schemb3\&.xsd \-b bindings1\&.xjb \-b bindings2\&.xjb \-b bindings3\&.xjb\fRまた、コマンドラインにスキーマ・ファイルとバインディング・ファイルを指定する順番は任意です。
 .RE
 .PP
 \-d \fIdir\fR
 .RS 4
-デフォルトでは、XJCバインディング・コンパイラは、Javaコンテンツ・クラスを現在のディレクトリに生成します。このオプションを使用すると、代替出力ディレクトリを指定できます。出力ディレクトリはすでに存在している必要があります。XJCバインディング・コンパイラでは作成されません。
+デフォルトでは、XJCバインディング・コンパイラは、Jbvbコンテンツ・クラスを現在のディレクトリに生成します。このオプションを使用すると、代替出力ディレクトリを指定できます。出力ディレクトリはすでに存在している必要があります。XJCバインディング・コンパイラでは作成されません。
 .RE
 .PP
 \-p \fIpkg\fR
@@ -132,7 +132,7 @@ Using the XJC with Antを参照してください
 .PP
 \-httpproxy \fIproxy\fR
 .RS 4
-\fI[user[:password]@]proxyHost[:proxyPort]\fR形式でHTTPまたはHTTPSプロキシを指定します。古い\fI\-host\fRおよび\fI\-port\fRオプションは、下位互換性のために引き続きRIでサポートされますが、非推奨となりました。このオプションで指定されたパスワードは、topコマンドを使用する他のユーザーが表示できる引数です。セキュリティを高めるには、\fI\-httpproxyfile\fRを使用してください。
+\fI[user[:pbssword]@]proxyHost[:proxyPort]\fR形式でHTTPまたはHTTPSプロキシを指定します。古い\fI\-host\fRおよび\fI\-port\fRオプションは、下位互換性のために引き続きRIでサポートされますが、非推奨となりました。このオプションで指定されたパスワードは、topコマンドを使用する他のユーザーが表示できる引数です。セキュリティを高めるには、\fI\-httpproxyfile\fRを使用してください。
 .RE
 .PP
 \-httpproxyfile file
@@ -140,48 +140,48 @@ Using the XJC with Antを参照してください
 ファイルを使用して、HTTPまたはHTTPSプロキシを指定します。形式は\fI\-httpproxy\fRオプションと同じですが、このファイル内に指定されたパスワードを他のユーザーが表示することはできません。
 .RE
 .PP
-\-classpath arg
+\-clbsspbth brg
 .RS 4
-\fIjxb:javaType\fRおよびxjc:\fIsuperClass\fRカスタマイズが使用するクライアント・アプリケーションのクラス・ファイルの検索場所を指定します。
+\fIjxb:jbvbType\fRおよびxjc:\fIsuperClbss\fRカスタマイズが使用するクライアント・アプリケーションのクラス・ファイルの検索場所を指定します。
 .RE
 .PP
-\-catalog file
+\-cbtblog file
 .RS 4
-外部エンティティ参照を解決するカタログ・ファイルを指定します。TR9401、XCatalogおよびOASIS XML Catalogの各形式がサポートされます。http://xerces\&.apache\&.org/xml\-commons/components/resolver/resolver\-article\&.htmlの
-XML Entity and URI Resolversを参照してください
+外部エンティティ参照を解決するカタログ・ファイルを指定します。TR9401、XCbtblogおよびOASIS XML Cbtblogの各形式がサポートされます。http://xerces\&.bpbche\&.org/xml\-commons/components/resolver/resolver\-brticle\&.htmlの
+XML Entity bnd URI Resolversを参照してください
 .RE
 .PP
-\-readOnly
+\-rebdOnly
 .RS 4
-デフォルトでは、XJCバインディング・コンパイラは、生成するJavaソース・ファイルを書込みから保護しません。このオプションを使用すると、XJCバインディング・コンパイラは生成されるJavaソースを強制的に読取り専用にします。
+デフォルトでは、XJCバインディング・コンパイラは、生成するJbvbソース・ファイルを書込みから保護しません。このオプションを使用すると、XJCバインディング・コンパイラは生成されるJbvbソースを強制的に読取り専用にします。
 .RE
 .PP
-\-npa
+\-npb
 .RS 4
-\fI**/package\-info\&.java\fRへのパッケージ・レベルの注釈の生成を抑制します。このスイッチを使用して生成するコードでは、これらの注釈が他の生成済クラスに内部化されます。
+\fI**/pbckbge\-info\&.jbvb\fRへのパッケージ・レベルの注釈の生成を抑制します。このスイッチを使用して生成するコードでは、これらの注釈が他の生成済クラスに内部化されます。
 .RE
 .PP
-\-no\-header
+\-no\-hebder
 .RS 4
 多少のメモとタイムスタンプを含むファイル・ヘッダー・コメントの生成を抑制します。これを使用すると、生成されたコードと\fIdiff\fRコマンドとの互換性がより強くなります。
 .RE
 .PP
-\-target 2\&.0
+\-tbrget 2\&.0
 .RS 4
-JAXB 2\&.1機能に依存するコードを生成しないようにします。これにより、生成されたコードをJAXB 2\&.0ランタイム環境(Java SE 6など)で実行できるようになります。
+JAXB 2\&.1機能に依存するコードを生成しないようにします。これにより、生成されたコードをJAXB 2\&.0ランタイム環境(Jbvb SE 6など)で実行できるようになります。
 .RE
 .PP
-\-xmlschema
+\-xmlschemb
 .RS 4
 入力スキーマをW3C XMLスキーマとして扱います(デフォルト)。このスイッチを指定しない場合、入力スキーマはW3C XMLスキーマと同じように扱われます。
 .RE
 .PP
-\-relaxing
+\-relbxing
 .RS 4
 入力スキーマをRELAX NGとして扱います(試験的および未サポート)。RELAX NGスキーマのサポートはJAXB Vendor Extensionとして提供されています。
 .RE
 .PP
-\-relaxing\-compact
+\-relbxing\-compbct
 .RS 4
 入力スキーマをRELAX NG圧縮構文として処理します(試験的および未サポート)。RELAX NGスキーマのサポートはJAXB Vendor Extensionとして提供されています。
 .RE
@@ -216,15 +216,15 @@ JAXB 2\&.1機能に依存するコードを生成しないようにします。これにより、生成されたコ
 コンパイラのバージョン情報を表示します。
 .RE
 .PP
-\fIschema file/URL/dir\fR
+\fIschemb file/URL/dir\fR
 .RS 4
 コンパイル対象となる1つまたは複数のスキーマ・ファイルを指定します。ディレクトリを指定する場合、\fIxjc\fRコマンドはすべてのスキーマ・ファイルをスキャンしてコンパイルします。
 .RE
 .SS "非標準オプション"
 .PP
-\-XLocator
+\-XLocbtor
 .RS 4
-生成されたコードでは、非整列化の後にJava Beanインスタンスに含まれるソースXMLに関するSAX Locator情報が公開されます。
+生成されたコードでは、非整列化の後にJbvb Bebnインスタンスに含まれるソースXMLに関するSAX Locbtor情報が公開されます。
 .RE
 .PP
 \-Xsync\-methods
@@ -232,9 +232,9 @@ JAXB 2\&.1機能に依存するコードを生成しないようにします。これにより、生成されたコ
 生成されたすべてのメソッド・シグニチャに\fIsynchronized\fRキーワードが含められます。
 .RE
 .PP
-\-mark\-generated
+\-mbrk\-generbted
 .RS 4
-生成されたコードに注釈\fI@javax\&.annotation\&.Generated\fRを付けます。
+生成されたコードに注釈\fI@jbvbx\&.bnnotbtion\&.Generbted\fRを付けます。
 .RE
 .PP
 \-episode file
@@ -255,13 +255,13 @@ JAXB 2\&.0仕様では、移植性のあるランタイム環境が定義されたため、JAXB RIが\fI**/i
 .PP
 \-source
 .RS 4
-\fI\-source\fR互換性スイッチは、JAXB 2\&.0の最初のEarly Access版で導入されました。このスイッチはJAXB 2\&.0の今後のリリースから削除されます。1\&.0\&.xコードを生成する必要がある場合は、1\&.0\&.xコード・ベースのインストールを使用してください。
+\fI\-source\fR互換性スイッチは、JAXB 2\&.0の最初のEbrly Access版で導入されました。このスイッチはJAXB 2\&.0の今後のリリースから削除されます。1\&.0\&.xコードを生成する必要がある場合は、1\&.0\&.xコード・ベースのインストールを使用してください。
 .RE
 .SH "コンパイラの制限"
 .PP
 通常は、関連するすべてのスキーマを、同じバインディング・コンパイラ・スイッチを指定して1つの単位としてコンパイルするのが最も安全です。\fIxjc\fRコマンドの実行時には、次の制限リストに留意してください。これらの問題のほとんどは、\fIxjc\fRコマンドを何度か呼び出して複数のスキーマをコンパイルする場合にのみ当てはまります。
 .PP
-複数のスキーマを同時にコンパイルする場合は、ターゲットのJavaパッケージ名に次の優先順位のルールが適用されることに注意してください。
+複数のスキーマを同時にコンパイルする場合は、ターゲットのJbvbパッケージ名に次の優先順位のルールが適用されることに注意してください。
 .sp
 .RS 4
 .ie n \{\
@@ -282,7 +282,7 @@ JAXB 2\&.0仕様では、移植性のあるランタイム環境が定義されたため、JAXB RIが\fI**/i
 .sp -1
 .IP "  2." 4.2
 .\}
-\fIjaxb:package\fRのカスタマイズ。
+\fIjbxb:pbckbge\fRのカスタマイズ。
 .RE
 .sp
 .RS 4
@@ -293,7 +293,7 @@ JAXB 2\&.0仕様では、移植性のあるランタイム環境が定義されたため、JAXB RIが\fI**/i
 .sp -1
 .IP "  3." 4.2
 .\}
-\fItargetNamespace\fRが宣言されている場合は、\fIt\fR\fIargetNamespace\fRを仕様で定義されているJavaパッケージ名のアルゴリズムに適用します。
+\fItbrgetNbmespbce\fRが宣言されている場合は、\fIt\fR\fIbrgetNbmespbce\fRを仕様で定義されているJbvbパッケージ名のアルゴリズムに適用します。
 .RE
 .sp
 .RS 4
@@ -304,12 +304,12 @@ JAXB 2\&.0仕様では、移植性のあるランタイム環境が定義されたため、JAXB RIが\fI**/i
 .sp -1
 .IP "  4." 4.2
 .\}
-\fItargetNamespace\fRが宣言されていない場合は、\fIgenerated\fRという名前のハードコードされたパッケージを使用します。
+\fItbrgetNbmespbce\fRが宣言されていない場合は、\fIgenerbted\fRという名前のハードコードされたパッケージを使用します。
 .RE
 .PP
-1つのネームスペースが複数の\fIjaxb:schemaBindings\fRを持つことはできないため、異なるJavaパッケージにコンパイラされる同一ターゲット・ネームスペースが2つのスキーマを持つことはできません。
+1つのネームスペースが複数の\fIjbxb:schembBindings\fRを持つことはできないため、異なるJbvbパッケージにコンパイラされる同一ターゲット・ネームスペースが2つのスキーマを持つことはできません。
 .PP
-同じJavaパッケージにコンパイラされるスキーマはすべて、同時にXJCバインディング・コンパイラに送信される必要があります。別々にコンパイルすると、予想どおりに機能しません。
+同じJbvbパッケージにコンパイラされるスキーマはすべて、同時にXJCバインディング・コンパイラに送信される必要があります。別々にコンパイルすると、予想どおりに機能しません。
 .PP
 複数のスキーマ・ファイルにまたがる要素置換グループは、同時にコンパイルする必要があります。
 .SH "関連項目"
@@ -322,7 +322,7 @@ JAXB 2\&.0仕様では、移植性のあるランタイム環境が定義されたため、JAXB RIが\fI**/i
 .sp -1
 .IP \(bu 2.3
 .\}
-http://jaxb\&.java\&.net/nonav/2\&.2\&.3u1/docs/xjc\&.htmlの
+http://jbxb\&.jbvb\&.net/nonbv/2\&.2\&.3u1/docs/xjc\&.htmlの
 Binding Compiler (xjc)
 .RE
 .sp
@@ -334,8 +334,8 @@ Binding Compiler (xjc)
 .sp -1
 .IP \(bu 2.3
 .\}
-http://www\&.oracle\&.com/technetwork/articles/javase/index\-140168\&.htmlの
-Java Architecture for XML Binding (JAXB)
+http://www\&.orbcle\&.com/technetwork/brticles/jbvbse/index\-140168\&.htmlの
+Jbvb Architecture for XML Binding (JAXB)
 .RE
 .br
 'pl 8.5i

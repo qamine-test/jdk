@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,11 +30,11 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
@@ -47,147 +47,147 @@
 extern "C" {
 #endif
 
-/* This callback is used to notify the caller of a fatal error. */
+/* This cbllbbck is used to notify the cbller of b fbtbl error. */
 
-typedef void (*FatalErrorHandler)(const char*message, const char*file, int line);
+typedef void (*FbtblErrorHbndler)(const chbr*messbge, const chbr*file, int line);
 
-/* This callback is used to return the method information for a class.
- *   Since the information was already read here, it was useful to
- *   return it here, with no JVMTI phase restrictions.
- *   If the class file does represent a "class" and it has methods, then
- *   this callback will be called with the class number and pointers to
- *   the array of names, array of signatures, and the count of methods.
+/* This cbllbbck is used to return the method informbtion for b clbss.
+ *   Since the informbtion wbs blrebdy rebd here, it wbs useful to
+ *   return it here, with no JVMTI phbse restrictions.
+ *   If the clbss file does represent b "clbss" bnd it hbs methods, then
+ *   this cbllbbck will be cblled with the clbss number bnd pointers to
+ *   the brrby of nbmes, brrby of signbtures, bnd the count of methods.
  */
 
-typedef void (*MethodNumberRegister)(unsigned, const char**, const char**, int);
+typedef void (*MethodNumberRegister)(unsigned, const chbr**, const chbr**, int);
 
-/* Class file reader/writer interface. Basic input is a classfile image
- *     and details about what to inject. The output is a new classfile image
- *     that was allocated with malloc(), and should be freed by the caller.
+/* Clbss file rebder/writer interfbce. Bbsic input is b clbssfile imbge
+ *     bnd detbils bbout whbt to inject. The output is b new clbssfile imbge
+ *     thbt wbs bllocbted with mblloc(), bnd should be freed by the cbller.
  */
 
-/* Names of external symbols to look for. These are the names that we
- *   try and lookup in the shared library. On Windows 2000, the naming
- *   convention is to prefix a "_" and suffix a "@N" where N is 4 times
- *   the number or arguments supplied.It has 19 args, so 76 = 19*4.
- *   On Windows 2003, Linux, and Solaris, the first name will be
- *   found, on Windows 2000 a second try should find the second name.
+/* Nbmes of externbl symbols to look for. These bre the nbmes thbt we
+ *   try bnd lookup in the shbred librbry. On Windows 2000, the nbming
+ *   convention is to prefix b "_" bnd suffix b "@N" where N is 4 times
+ *   the number or brguments supplied.It hbs 19 brgs, so 76 = 19*4.
+ *   On Windows 2003, Linux, bnd Solbris, the first nbme will be
+ *   found, on Windows 2000 b second try should find the second nbme.
  *
- *   WARNING: If You change the JavaCrwDemo typedef, you MUST change
- *            multiple things in this file, including this name.
+ *   WARNING: If You chbnge the JbvbCrwDemo typedef, you MUST chbnge
+ *            multiple things in this file, including this nbme.
  */
 
-#define JAVA_CRW_DEMO_SYMBOLS { "java_crw_demo", "_java_crw_demo@76" }
+#define JAVA_CRW_DEMO_SYMBOLS { "jbvb_crw_demo", "_jbvb_crw_demo@76" }
 
-/* Typedef needed for type casting in dynamic access situations. */
+/* Typedef needed for type cbsting in dynbmic bccess situbtions. */
 
-typedef void (JNICALL *JavaCrwDemo)(
-         unsigned class_number,
-         const char *name,
-         const unsigned char *file_image,
+typedef void (JNICALL *JbvbCrwDemo)(
+         unsigned clbss_number,
+         const chbr *nbme,
+         const unsigned chbr *file_imbge,
          long file_len,
-         int system_class,
-         char* tclass_name,
-         char* tclass_sig,
-         char* call_name,
-         char* call_sig,
-         char* return_name,
-         char* return_sig,
-         char* obj_init_name,
-         char* obj_init_sig,
-         char* newarray_name,
-         char* newarray_sig,
-         unsigned char **pnew_file_image,
+         int system_clbss,
+         chbr* tclbss_nbme,
+         chbr* tclbss_sig,
+         chbr* cbll_nbme,
+         chbr* cbll_sig,
+         chbr* return_nbme,
+         chbr* return_sig,
+         chbr* obj_init_nbme,
+         chbr* obj_init_sig,
+         chbr* newbrrby_nbme,
+         chbr* newbrrby_sig,
+         unsigned chbr **pnew_file_imbge,
          long *pnew_file_len,
-         FatalErrorHandler fatal_error_handler,
-         MethodNumberRegister mnum_callback
+         FbtblErrorHbndler fbtbl_error_hbndler,
+         MethodNumberRegister mnum_cbllbbck
 );
 
-/* Function export (should match typedef above) */
+/* Function export (should mbtch typedef bbove) */
 
-JNIEXPORT void JNICALL java_crw_demo(
+JNIEXPORT void JNICALL jbvb_crw_demo(
 
-         unsigned class_number, /* Caller assigned class number for class */
+         unsigned clbss_number, /* Cbller bssigned clbss number for clbss */
 
-         const char *name,      /* Internal class name, e.g. java/lang/Object */
-                                /*   (Do not use "java.lang.Object" format) */
+         const chbr *nbme,      /* Internbl clbss nbme, e.g. jbvb/lbng/Object */
+                                /*   (Do not use "jbvb.lbng.Object" formbt) */
 
-         const unsigned char
-           *file_image,         /* Pointer to classfile image for this class */
+         const unsigned chbr
+           *file_imbge,         /* Pointer to clbssfile imbge for this clbss */
 
-         long file_len,         /* Length of the classfile in bytes */
+         long file_len,         /* Length of the clbssfile in bytes */
 
-         int system_class,      /* Set to 1 if this is a system class */
+         int system_clbss,      /* Set to 1 if this is b system clbss */
                                 /*   (prevents injections into empty */
-                                /*   <clinit>, finalize, and <init> methods) */
+                                /*   <clinit>, finblize, bnd <init> methods) */
 
-         char* tclass_name,     /* Class that has methods we will call at */
-                                /*   the injection sites (tclass) */
+         chbr* tclbss_nbme,     /* Clbss thbt hbs methods we will cbll bt */
+                                /*   the injection sites (tclbss) */
 
-         char* tclass_sig,      /* Signature of tclass */
-                                /*  (Must be "L" + tclass_name + ";") */
+         chbr* tclbss_sig,      /* Signbture of tclbss */
+                                /*  (Must be "L" + tclbss_nbme + ";") */
 
-         char* call_name,       /* Method name in tclass to call at offset 0 */
+         chbr* cbll_nbme,       /* Method nbme in tclbss to cbll bt offset 0 */
                                 /*   for every method */
 
-         char* call_sig,        /* Signature of this call_name method */
+         chbr* cbll_sig,        /* Signbture of this cbll_nbme method */
                                 /*  (Must be "(II)V") */
 
-         char* return_name,     /* Method name in tclass to call at all */
+         chbr* return_nbme,     /* Method nbme in tclbss to cbll bt bll */
                                 /*  return opcodes in every method */
 
-         char* return_sig,      /* Signature of this return_name method */
+         chbr* return_sig,      /* Signbture of this return_nbme method */
                                 /*  (Must be "(II)V") */
 
-         char* obj_init_name,   /* Method name in tclass to call first thing */
-                                /*   when injecting java.lang.Object.<init> */
+         chbr* obj_init_nbme,   /* Method nbme in tclbss to cbll first thing */
+                                /*   when injecting jbvb.lbng.Object.<init> */
 
-         char* obj_init_sig,    /* Signature of this obj_init_name method */
-                                /*  (Must be "(Ljava/lang/Object;)V") */
+         chbr* obj_init_sig,    /* Signbture of this obj_init_nbme method */
+                                /*  (Must be "(Ljbvb/lbng/Object;)V") */
 
-         char* newarray_name,   /* Method name in tclass to call after every */
-                                /*   newarray opcode in every method */
+         chbr* newbrrby_nbme,   /* Method nbme in tclbss to cbll bfter every */
+                                /*   newbrrby opcode in every method */
 
-         char* newarray_sig,    /* Signature of this method */
-                                /*  (Must be "(Ljava/lang/Object;II)V") */
+         chbr* newbrrby_sig,    /* Signbture of this method */
+                                /*  (Must be "(Ljbvb/lbng/Object;II)V") */
 
-         unsigned char
-           **pnew_file_image,   /* Returns a pointer to new classfile image */
+         unsigned chbr
+           **pnew_file_imbge,   /* Returns b pointer to new clbssfile imbge */
 
-         long *pnew_file_len,   /* Returns the length of the new image */
+         long *pnew_file_len,   /* Returns the length of the new imbge */
 
-         FatalErrorHandler
-           fatal_error_handler, /* Pointer to function to call on any */
-                                /*  fatal error. NULL sends error to stderr */
+         FbtblErrorHbndler
+           fbtbl_error_hbndler, /* Pointer to function to cbll on bny */
+                                /*  fbtbl error. NULL sends error to stderr */
 
          MethodNumberRegister
-           mnum_callback        /* Pointer to function that gets called */
-                                /*   with all details on methods in this */
-                                /*   class. NULL means skip this call. */
+           mnum_cbllbbck        /* Pointer to function thbt gets cblled */
+                                /*   with bll detbils on methods in this */
+                                /*   clbss. NULL mebns skip this cbll. */
 
            );
 
 
-/* External to read the class name out of a class file .
+/* Externbl to rebd the clbss nbme out of b clbss file .
  *
- *   WARNING: If You change the typedef, you MUST change
- *            multiple things in this file, including this name.
+ *   WARNING: If You chbnge the typedef, you MUST chbnge
+ *            multiple things in this file, including this nbme.
  */
 
 #define JAVA_CRW_DEMO_CLASSNAME_SYMBOLS \
-         { "java_crw_demo_classname", "_java_crw_demo_classname@12" }
+         { "jbvb_crw_demo_clbssnbme", "_jbvb_crw_demo_clbssnbme@12" }
 
-/* Typedef needed for type casting in dynamic access situations. */
+/* Typedef needed for type cbsting in dynbmic bccess situbtions. */
 
-typedef char * (JNICALL *JavaCrwDemoClassname)(
-         const unsigned char *file_image,
+typedef chbr * (JNICALL *JbvbCrwDemoClbssnbme)(
+         const unsigned chbr *file_imbge,
          long file_len,
-         FatalErrorHandler fatal_error_handler);
+         FbtblErrorHbndler fbtbl_error_hbndler);
 
-JNIEXPORT char * JNICALL java_crw_demo_classname(
-         const unsigned char *file_image,
+JNIEXPORT chbr * JNICALL jbvb_crw_demo_clbssnbme(
+         const unsigned chbr *file_imbge,
          long file_len,
-         FatalErrorHandler fatal_error_handler);
+         FbtblErrorHbndler fbtbl_error_hbndler);
 
 #ifdef __cplusplus
 } /* extern "C" */

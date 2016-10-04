@@ -1,537 +1,537 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.rmic.newrmic;
+pbckbge sun.rmi.rmic.newrmic;
 
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.RootDoc;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import sun.rmi.rmic.newrmic.jrmp.JrmpGenerator;
-import sun.tools.util.CommandLine;
+import com.sun.jbvbdoc.ClbssDoc;
+import com.sun.jbvbdoc.RootDoc;
+import jbvb.io.File;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.io.PrintWriter;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import sun.rmi.rmic.newrmic.jrmp.JrmpGenerbtor;
+import sun.tools.util.CommbndLine;
 
 /**
- * The rmic front end.  This class contains the "main" method for rmic
- * command line invocation.
+ * The rmic front end.  This clbss contbins the "mbin" method for rmic
+ * commbnd line invocbtion.
  *
- * A Main instance contains the stream to output error messages and
- * other diagnostics to.
+ * A Mbin instbnce contbins the strebm to output error messbges bnd
+ * other dibgnostics to.
  *
- * An rmic compilation batch (for example, one rmic command line
- * invocation) is executed by invoking the "compile" method of a Main
- * instance.
+ * An rmic compilbtion bbtch (for exbmple, one rmic commbnd line
+ * invocbtion) is executed by invoking the "compile" method of b Mbin
+ * instbnce.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * NOTE: If and when there is a J2SE API for invoking SDK tools, this
- * class should be updated to support that API.
+ * NOTE: If bnd when there is b J2SE API for invoking SDK tools, this
+ * clbss should be updbted to support thbt API.
  *
- * NOTE: This class is the front end for a "new" rmic implementation,
- * which uses javadoc and the doclet API for reading class files and
- * javac for compiling generated source files.  This implementation is
- * incomplete: it lacks any CORBA-based back end implementations, and
- * thus the command line options "-idl", "-iiop", and their related
- * options are not yet supported.  The front end for the "old",
- * oldjavac-based rmic implementation is sun.rmi.rmic.Main.
+ * NOTE: This clbss is the front end for b "new" rmic implementbtion,
+ * which uses jbvbdoc bnd the doclet API for rebding clbss files bnd
+ * jbvbc for compiling generbted source files.  This implementbtion is
+ * incomplete: it lbcks bny CORBA-bbsed bbck end implementbtions, bnd
+ * thus the commbnd line options "-idl", "-iiop", bnd their relbted
+ * options bre not yet supported.  The front end for the "old",
+ * oldjbvbc-bbsed rmic implementbtion is sun.rmi.rmic.Mbin.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  **/
-public class Main {
+public clbss Mbin {
 
     /*
-     * Implementation note:
+     * Implementbtion note:
      *
-     * In order to use the doclet API to read class files, much of
-     * this implementation of rmic executes as a doclet within an
-     * invocation of javadoc.  This class is used as the doclet class
-     * for such javadoc invocations, via its static "start" and
-     * "optionLength" methods.  There is one javadoc invocation per
-     * rmic compilation batch.
+     * In order to use the doclet API to rebd clbss files, much of
+     * this implementbtion of rmic executes bs b doclet within bn
+     * invocbtion of jbvbdoc.  This clbss is used bs the doclet clbss
+     * for such jbvbdoc invocbtions, vib its stbtic "stbrt" bnd
+     * "optionLength" methods.  There is one jbvbdoc invocbtion per
+     * rmic compilbtion bbtch.
      *
-     * The only guaranteed way to pass data to a doclet through a
-     * javadoc invocation is through doclet-specific options on the
-     * javadoc "command line".  Rather than passing numerous pieces of
-     * individual data in string form as javadoc options, we use a
-     * single doclet-specific option ("-batchID") to pass a numeric
-     * identifier that uniquely identifies the rmic compilation batch
-     * that the javadoc invocation is for, and that identifier can
-     * then be used as a key in a global table to retrieve an object
-     * containing all of batch-specific data (rmic command line
-     * arguments, etc.).
+     * The only gubrbnteed wby to pbss dbtb to b doclet through b
+     * jbvbdoc invocbtion is through doclet-specific options on the
+     * jbvbdoc "commbnd line".  Rbther thbn pbssing numerous pieces of
+     * individubl dbtb in string form bs jbvbdoc options, we use b
+     * single doclet-specific option ("-bbtchID") to pbss b numeric
+     * identifier thbt uniquely identifies the rmic compilbtion bbtch
+     * thbt the jbvbdoc invocbtion is for, bnd thbt identifier cbn
+     * then be used bs b key in b globbl tbble to retrieve bn object
+     * contbining bll of bbtch-specific dbtb (rmic commbnd line
+     * brguments, etc.).
      */
 
-    /** guards "batchCount" */
-    private static final Object batchCountLock = new Object();
+    /** gubrds "bbtchCount" */
+    privbte stbtic finbl Object bbtchCountLock = new Object();
 
-    /** number of batches run; used to generated batch IDs */
-    private static long batchCount = 0;
+    /** number of bbtches run; used to generbted bbtch IDs */
+    privbte stbtic long bbtchCount = 0;
 
-    /** maps batch ID to batch data */
-    private static final Map<Long,Batch> batchTable =
-        Collections.synchronizedMap(new HashMap<Long,Batch>());
+    /** mbps bbtch ID to bbtch dbtb */
+    privbte stbtic finbl Mbp<Long,Bbtch> bbtchTbble =
+        Collections.synchronizedMbp(new HbshMbp<Long,Bbtch>());
 
-    /** stream to output error messages and other diagnostics to */
-    private final PrintStream out;
+    /** strebm to output error messbges bnd other dibgnostics to */
+    privbte finbl PrintStrebm out;
 
-    /** name of this program, to use in error messages */
-    private final String program;
+    /** nbme of this progrbm, to use in error messbges */
+    privbte finbl String progrbm;
 
     /**
-     * Command line entry point.
+     * Commbnd line entry point.
      **/
-    public static void main(String[] args) {
-        Main rmic = new Main(System.err, "rmic");
-        System.exit(rmic.compile(args) ? 0 : 1);
+    public stbtic void mbin(String[] brgs) {
+        Mbin rmic = new Mbin(System.err, "rmic");
+        System.exit(rmic.compile(brgs) ? 0 : 1);
     }
 
     /**
-     * Creates a Main instance that writes output to the specified
-     * stream.  The specified program name is used in error messages.
+     * Crebtes b Mbin instbnce thbt writes output to the specified
+     * strebm.  The specified progrbm nbme is used in error messbges.
      **/
-    public Main(OutputStream out, String program) {
-        this.out = out instanceof PrintStream ?
-            (PrintStream) out : new PrintStream(out);
-        this.program = program;
+    public Mbin(OutputStrebm out, String progrbm) {
+        this.out = out instbnceof PrintStrebm ?
+            (PrintStrebm) out : new PrintStrebm(out);
+        this.progrbm = progrbm;
     }
 
     /**
-     * Compiles a batch of input classes, as given by the specified
-     * command line arguments.  Protocol-specific generators are
-     * determined by the choice options on the command line.  Returns
-     * true if successful, or false if an error occurred.
+     * Compiles b bbtch of input clbsses, bs given by the specified
+     * commbnd line brguments.  Protocol-specific generbtors bre
+     * determined by the choice options on the commbnd line.  Returns
+     * true if successful, or fblse if bn error occurred.
      *
-     * NOTE: This method is retained for transitional consistency with
-     * previous implementations.
+     * NOTE: This method is retbined for trbnsitionbl consistency with
+     * previous implementbtions.
      **/
-    public boolean compile(String[] args) {
-        long startTime = System.currentTimeMillis();
+    public boolebn compile(String[] brgs) {
+        long stbrtTime = System.currentTimeMillis();
 
-        long batchID;
-        synchronized (batchCountLock) {
-            batchID = batchCount++;     // assign batch ID
+        long bbtchID;
+        synchronized (bbtchCountLock) {
+            bbtchID = bbtchCount++;     // bssign bbtch ID
         }
 
-        // process command line
-        Batch batch = parseArgs(args);
-        if (batch == null) {
-            return false;               // terminate if error occurred
+        // process commbnd line
+        Bbtch bbtch = pbrseArgs(brgs);
+        if (bbtch == null) {
+            return fblse;               // terminbte if error occurred
         }
 
         /*
-         * With the batch data retrievable in the global table, run
-         * javadoc to continue the rest of the batch's compliation as
-         * a doclet.
+         * With the bbtch dbtb retrievbble in the globbl tbble, run
+         * jbvbdoc to continue the rest of the bbtch's complibtion bs
+         * b doclet.
          */
-        boolean status;
+        boolebn stbtus;
         try {
-            batchTable.put(batchID, batch);
-            status = invokeJavadoc(batch, batchID);
-        } finally {
-            batchTable.remove(batchID);
+            bbtchTbble.put(bbtchID, bbtch);
+            stbtus = invokeJbvbdoc(bbtch, bbtchID);
+        } finblly {
+            bbtchTbble.remove(bbtchID);
         }
 
-        if (batch.verbose) {
-            long deltaTime = System.currentTimeMillis() - startTime;
+        if (bbtch.verbose) {
+            long deltbTime = System.currentTimeMillis() - stbrtTime;
             output(Resources.getText("rmic.done_in",
-                                     Long.toString(deltaTime)));
+                                     Long.toString(deltbTime)));
         }
 
-        return status;
+        return stbtus;
     }
 
     /**
-     * Prints the specified string to the output stream of this Main
-     * instance.
+     * Prints the specified string to the output strebm of this Mbin
+     * instbnce.
      **/
     public void output(String msg) {
         out.println(msg);
     }
 
     /**
-     * Prints an error message to the output stream of this Main
-     * instance.  The first argument is used as a key in rmic's
-     * resource bundle, and the rest of the arguments are used as
-     * arguments in the formatting of the resource string.
+     * Prints bn error messbge to the output strebm of this Mbin
+     * instbnce.  The first brgument is used bs b key in rmic's
+     * resource bundle, bnd the rest of the brguments bre used bs
+     * brguments in the formbtting of the resource string.
      **/
-    public void error(String msg, String... args) {
-        output(Resources.getText(msg, args));
+    public void error(String msg, String... brgs) {
+        output(Resources.getText(msg, brgs));
     }
 
     /**
-     * Prints rmic's usage message to the output stream of this Main
-     * instance.
+     * Prints rmic's usbge messbge to the output strebm of this Mbin
+     * instbnce.
      *
-     * This method is public so that it can be used by the "parseArgs"
-     * methods of Generator implementations.
+     * This method is public so thbt it cbn be used by the "pbrseArgs"
+     * methods of Generbtor implementbtions.
      **/
-    public void usage() {
-        error("rmic.usage", program);
+    public void usbge() {
+        error("rmic.usbge", progrbm);
     }
 
     /**
-     * Processes rmic command line arguments.  Returns a Batch object
-     * representing the command line arguments if successful, or null
-     * if an error occurred.  Processed elements of the args array are
+     * Processes rmic commbnd line brguments.  Returns b Bbtch object
+     * representing the commbnd line brguments if successful, or null
+     * if bn error occurred.  Processed elements of the brgs brrby bre
      * set to null.
      **/
-    private Batch parseArgs(String[] args) {
-        Batch batch = new Batch();
+    privbte Bbtch pbrseArgs(String[] brgs) {
+        Bbtch bbtch = new Bbtch();
 
         /*
-         * Pre-process command line for @file arguments.
+         * Pre-process commbnd line for @file brguments.
          */
         try {
-            args = CommandLine.parse(args);
-        } catch (FileNotFoundException e) {
-            error("rmic.cant.read", e.getMessage());
+            brgs = CommbndLine.pbrse(brgs);
+        } cbtch (FileNotFoundException e) {
+            error("rmic.cbnt.rebd", e.getMessbge());
             return null;
-        } catch (IOException e) {
-            e.printStackTrace(out);
+        } cbtch (IOException e) {
+            e.printStbckTrbce(out);
             return null;
         }
 
-        for (int i = 0; i < args.length; i++) {
+        for (int i = 0; i < brgs.length; i++) {
 
-            if (args[i] == null) {
-                // already processed by a generator
+            if (brgs[i] == null) {
+                // blrebdy processed by b generbtor
                 continue;
 
-            } else if (args[i].equals("-Xnew")) {
-                // we're already using the "new" implementation
-                args[i] = null;
+            } else if (brgs[i].equbls("-Xnew")) {
+                // we're blrebdy using the "new" implementbtion
+                brgs[i] = null;
 
-            } else if (args[i].equals("-show")) {
-                // obselete: fail
-                error("rmic.option.unsupported", args[i]);
-                usage();
+            } else if (brgs[i].equbls("-show")) {
+                // obselete: fbil
+                error("rmic.option.unsupported", brgs[i]);
+                usbge();
                 return null;
 
-            } else if (args[i].equals("-O")) {
-                // obselete: warn but tolerate
-                error("rmic.option.unsupported", args[i]);
-                args[i] = null;
+            } else if (brgs[i].equbls("-O")) {
+                // obselete: wbrn but tolerbte
+                error("rmic.option.unsupported", brgs[i]);
+                brgs[i] = null;
 
-            } else if (args[i].equals("-debug")) {
-                // obselete: warn but tolerate
-                error("rmic.option.unsupported", args[i]);
-                args[i] = null;
+            } else if (brgs[i].equbls("-debug")) {
+                // obselete: wbrn but tolerbte
+                error("rmic.option.unsupported", brgs[i]);
+                brgs[i] = null;
 
-            } else if (args[i].equals("-depend")) {
-                // obselete: warn but tolerate
-                // REMIND: should this fail instead?
-                error("rmic.option.unsupported", args[i]);
-                args[i] = null;
+            } else if (brgs[i].equbls("-depend")) {
+                // obselete: wbrn but tolerbte
+                // REMIND: should this fbil instebd?
+                error("rmic.option.unsupported", brgs[i]);
+                brgs[i] = null;
 
-            } else if (args[i].equals("-keep") ||
-                       args[i].equals("-keepgenerated"))
+            } else if (brgs[i].equbls("-keep") ||
+                       brgs[i].equbls("-keepgenerbted"))
             {
-                batch.keepGenerated = true;
-                args[i] = null;
+                bbtch.keepGenerbted = true;
+                brgs[i] = null;
 
-            } else if (args[i].equals("-g")) {
-                batch.debug = true;
-                args[i] = null;
+            } else if (brgs[i].equbls("-g")) {
+                bbtch.debug = true;
+                brgs[i] = null;
 
-            } else if (args[i].equals("-nowarn")) {
-                batch.noWarn = true;
-                args[i] = null;
+            } else if (brgs[i].equbls("-nowbrn")) {
+                bbtch.noWbrn = true;
+                brgs[i] = null;
 
-            } else if (args[i].equals("-nowrite")) {
-                batch.noWrite = true;
-                args[i] = null;
+            } else if (brgs[i].equbls("-nowrite")) {
+                bbtch.noWrite = true;
+                brgs[i] = null;
 
-            } else if (args[i].equals("-verbose")) {
-                batch.verbose = true;
-                args[i] = null;
+            } else if (brgs[i].equbls("-verbose")) {
+                bbtch.verbose = true;
+                brgs[i] = null;
 
-            } else if (args[i].equals("-Xnocompile")) {
-                batch.noCompile = true;
-                batch.keepGenerated = true;
-                args[i] = null;
+            } else if (brgs[i].equbls("-Xnocompile")) {
+                bbtch.noCompile = true;
+                bbtch.keepGenerbted = true;
+                brgs[i] = null;
 
-            } else if (args[i].equals("-bootclasspath")) {
-                if ((i + 1) >= args.length) {
-                    error("rmic.option.requires.argument", args[i]);
-                    usage();
+            } else if (brgs[i].equbls("-bootclbsspbth")) {
+                if ((i + 1) >= brgs.length) {
+                    error("rmic.option.requires.brgument", brgs[i]);
+                    usbge();
                     return null;
                 }
-                if (batch.bootClassPath != null) {
-                    error("rmic.option.already.seen", args[i]);
-                    usage();
+                if (bbtch.bootClbssPbth != null) {
+                    error("rmic.option.blrebdy.seen", brgs[i]);
+                    usbge();
                     return null;
                 }
-                args[i] = null;
-                batch.bootClassPath = args[++i];
-                assert batch.bootClassPath != null;
-                args[i] = null;
+                brgs[i] = null;
+                bbtch.bootClbssPbth = brgs[++i];
+                bssert bbtch.bootClbssPbth != null;
+                brgs[i] = null;
 
-            } else if (args[i].equals("-extdirs")) {
-                if ((i + 1) >= args.length) {
-                    error("rmic.option.requires.argument", args[i]);
-                    usage();
+            } else if (brgs[i].equbls("-extdirs")) {
+                if ((i + 1) >= brgs.length) {
+                    error("rmic.option.requires.brgument", brgs[i]);
+                    usbge();
                     return null;
                 }
-                if (batch.extDirs != null) {
-                    error("rmic.option.already.seen", args[i]);
-                    usage();
+                if (bbtch.extDirs != null) {
+                    error("rmic.option.blrebdy.seen", brgs[i]);
+                    usbge();
                     return null;
                 }
-                args[i] = null;
-                batch.extDirs = args[++i];
-                assert batch.extDirs != null;
-                args[i] = null;
+                brgs[i] = null;
+                bbtch.extDirs = brgs[++i];
+                bssert bbtch.extDirs != null;
+                brgs[i] = null;
 
-            } else if (args[i].equals("-classpath")) {
-                if ((i + 1) >= args.length) {
-                    error("rmic.option.requires.argument", args[i]);
-                    usage();
+            } else if (brgs[i].equbls("-clbsspbth")) {
+                if ((i + 1) >= brgs.length) {
+                    error("rmic.option.requires.brgument", brgs[i]);
+                    usbge();
                     return null;
                 }
-                if (batch.classPath != null) {
-                    error("rmic.option.already.seen", args[i]);
-                    usage();
+                if (bbtch.clbssPbth != null) {
+                    error("rmic.option.blrebdy.seen", brgs[i]);
+                    usbge();
                     return null;
                 }
-                args[i] = null;
-                batch.classPath = args[++i];
-                assert batch.classPath != null;
-                args[i] = null;
+                brgs[i] = null;
+                bbtch.clbssPbth = brgs[++i];
+                bssert bbtch.clbssPbth != null;
+                brgs[i] = null;
 
-            } else if (args[i].equals("-d")) {
-                if ((i + 1) >= args.length) {
-                    error("rmic.option.requires.argument", args[i]);
-                    usage();
+            } else if (brgs[i].equbls("-d")) {
+                if ((i + 1) >= brgs.length) {
+                    error("rmic.option.requires.brgument", brgs[i]);
+                    usbge();
                     return null;
                 }
-                if (batch.destDir != null) {
-                    error("rmic.option.already.seen", args[i]);
-                    usage();
+                if (bbtch.destDir != null) {
+                    error("rmic.option.blrebdy.seen", brgs[i]);
+                    usbge();
                     return null;
                 }
-                args[i] = null;
-                batch.destDir = new File(args[++i]);
-                assert batch.destDir != null;
-                args[i] = null;
-                if (!batch.destDir.exists()) {
-                    error("rmic.no.such.directory", batch.destDir.getPath());
-                    usage();
+                brgs[i] = null;
+                bbtch.destDir = new File(brgs[++i]);
+                bssert bbtch.destDir != null;
+                brgs[i] = null;
+                if (!bbtch.destDir.exists()) {
+                    error("rmic.no.such.directory", bbtch.destDir.getPbth());
+                    usbge();
                     return null;
                 }
 
-            } else if (args[i].equals("-v1.1") ||
-                       args[i].equals("-vcompat") ||
-                       args[i].equals("-v1.2"))
+            } else if (brgs[i].equbls("-v1.1") ||
+                       brgs[i].equbls("-vcompbt") ||
+                       brgs[i].equbls("-v1.2"))
             {
-                Generator gen = new JrmpGenerator();
-                batch.generators.add(gen);
-                // JrmpGenerator only requires base BatchEnvironment class
-                if (!gen.parseArgs(args, this)) {
+                Generbtor gen = new JrmpGenerbtor();
+                bbtch.generbtors.bdd(gen);
+                // JrmpGenerbtor only requires bbse BbtchEnvironment clbss
+                if (!gen.pbrseArgs(brgs, this)) {
                     return null;
                 }
 
-            } else if (args[i].equalsIgnoreCase("-iiop")) {
-                error("rmic.option.unimplemented", args[i]);
+            } else if (brgs[i].equblsIgnoreCbse("-iiop")) {
+                error("rmic.option.unimplemented", brgs[i]);
                 return null;
 
-                // Generator gen = new IiopGenerator();
-                // batch.generators.add(gen);
-                // if (!batch.envClass.isAssignableFrom(gen.envClass())) {
-                //   error("rmic.cannot.use.both",
-                //         batch.envClass.getName(), gen.envClass().getName());
+                // Generbtor gen = new IiopGenerbtor();
+                // bbtch.generbtors.bdd(gen);
+                // if (!bbtch.envClbss.isAssignbbleFrom(gen.envClbss())) {
+                //   error("rmic.cbnnot.use.both",
+                //         bbtch.envClbss.getNbme(), gen.envClbss().getNbme());
                 //   return null;
                 // }
-                // batch.envClass = gen.envClass();
-                // if (!gen.parseArgs(args, this)) {
+                // bbtch.envClbss = gen.envClbss();
+                // if (!gen.pbrseArgs(brgs, this)) {
                 //   return null;
                 // }
 
-            } else if (args[i].equalsIgnoreCase("-idl")) {
-                error("rmic.option.unimplemented", args[i]);
+            } else if (brgs[i].equblsIgnoreCbse("-idl")) {
+                error("rmic.option.unimplemented", brgs[i]);
                 return null;
 
-                // see implementation sketch above
+                // see implementbtion sketch bbove
 
-            } else if (args[i].equalsIgnoreCase("-xprint")) {
-                error("rmic.option.unimplemented", args[i]);
+            } else if (brgs[i].equblsIgnoreCbse("-xprint")) {
+                error("rmic.option.unimplemented", brgs[i]);
                 return null;
 
-                // see implementation sketch above
+                // see implementbtion sketch bbove
             }
         }
 
         /*
-         * At this point, all that remains non-null in the args
-         * array are input class names or illegal options.
+         * At this point, bll thbt rembins non-null in the brgs
+         * brrby bre input clbss nbmes or illegbl options.
          */
-        for (int i = 0; i < args.length; i++) {
-            if (args[i] != null) {
-                if (args[i].startsWith("-")) {
-                    error("rmic.no.such.option", args[i]);
-                    usage();
+        for (int i = 0; i < brgs.length; i++) {
+            if (brgs[i] != null) {
+                if (brgs[i].stbrtsWith("-")) {
+                    error("rmic.no.such.option", brgs[i]);
+                    usbge();
                     return null;
                 } else {
-                    batch.classes.add(args[i]);
+                    bbtch.clbsses.bdd(brgs[i]);
                 }
             }
         }
-        if (batch.classes.isEmpty()) {
-            usage();
+        if (bbtch.clbsses.isEmpty()) {
+            usbge();
             return null;
         }
 
         /*
-         * If options did not specify at least one protocol-specific
-         * generator, then JRMP is the default.
+         * If options did not specify bt lebst one protocol-specific
+         * generbtor, then JRMP is the defbult.
          */
-        if (batch.generators.isEmpty()) {
-            batch.generators.add(new JrmpGenerator());
+        if (bbtch.generbtors.isEmpty()) {
+            bbtch.generbtors.bdd(new JrmpGenerbtor());
         }
-        return batch;
+        return bbtch;
     }
 
     /**
-     * Doclet class entry point.
+     * Doclet clbss entry point.
      **/
-    public static boolean start(RootDoc rootDoc) {
+    public stbtic boolebn stbrt(RootDoc rootDoc) {
 
         /*
-         * Find batch ID among javadoc options, and retrieve
-         * corresponding batch data from global table.
+         * Find bbtch ID bmong jbvbdoc options, bnd retrieve
+         * corresponding bbtch dbtb from globbl tbble.
          */
-        long batchID = -1;
+        long bbtchID = -1;
         for (String[] option : rootDoc.options()) {
-            if (option[0].equals("-batchID")) {
+            if (option[0].equbls("-bbtchID")) {
                 try {
-                    batchID = Long.parseLong(option[1]);
-                } catch (NumberFormatException e) {
+                    bbtchID = Long.pbrseLong(option[1]);
+                } cbtch (NumberFormbtException e) {
                     throw new AssertionError(e);
                 }
             }
         }
-        Batch batch = batchTable.get(batchID);
-        assert batch != null;
+        Bbtch bbtch = bbtchTbble.get(bbtchID);
+        bssert bbtch != null;
 
         /*
-         * Construct batch environment using class agreed upon by
-         * generator implementations.
+         * Construct bbtch environment using clbss bgreed upon by
+         * generbtor implementbtions.
          */
-        BatchEnvironment env;
+        BbtchEnvironment env;
         try {
-            Constructor<? extends BatchEnvironment> cons =
-                batch.envClass.getConstructor(new Class<?>[] { RootDoc.class });
-            env = cons.newInstance(rootDoc);
-        } catch (NoSuchMethodException e) {
+            Constructor<? extends BbtchEnvironment> cons =
+                bbtch.envClbss.getConstructor(new Clbss<?>[] { RootDoc.clbss });
+            env = cons.newInstbnce(rootDoc);
+        } cbtch (NoSuchMethodException e) {
             throw new AssertionError(e);
-        } catch (IllegalAccessException e) {
+        } cbtch (IllegblAccessException e) {
             throw new AssertionError(e);
-        } catch (InstantiationException e) {
+        } cbtch (InstbntibtionException e) {
             throw new AssertionError(e);
-        } catch (InvocationTargetException e) {
+        } cbtch (InvocbtionTbrgetException e) {
             throw new AssertionError(e);
         }
 
-        env.setVerbose(batch.verbose);
+        env.setVerbose(bbtch.verbose);
 
         /*
-         * Determine the destination directory (the top of the package
-         * hierarchy) for the output of this batch; if no destination
-         * directory was specified on the command line, then the
-         * default is the current working directory.
+         * Determine the destinbtion directory (the top of the pbckbge
+         * hierbrchy) for the output of this bbtch; if no destinbtion
+         * directory wbs specified on the commbnd line, then the
+         * defbult is the current working directory.
          */
-        File destDir = batch.destDir;
+        File destDir = bbtch.destDir;
         if (destDir == null) {
             destDir = new File(System.getProperty("user.dir"));
         }
 
         /*
-         * Run each input class through each generator.
+         * Run ebch input clbss through ebch generbtor.
          */
-        for (String inputClassName : batch.classes) {
-            ClassDoc inputClass = rootDoc.classNamed(inputClassName);
+        for (String inputClbssNbme : bbtch.clbsses) {
+            ClbssDoc inputClbss = rootDoc.clbssNbmed(inputClbssNbme);
             try {
-                for (Generator gen : batch.generators) {
-                    gen.generate(env, inputClass, destDir);
+                for (Generbtor gen : bbtch.generbtors) {
+                    gen.generbte(env, inputClbss, destDir);
                 }
-            } catch (NullPointerException e) {
+            } cbtch (NullPointerException e) {
                 /*
-                 * We assume that this means that some class that was
-                 * needed (perhaps even a bootstrap class) was not
-                 * found, and that javadoc has already reported this
-                 * as an error.  There is nothing for us to do here
-                 * but try to continue with the next input class.
+                 * We bssume thbt this mebns thbt some clbss thbt wbs
+                 * needed (perhbps even b bootstrbp clbss) wbs not
+                 * found, bnd thbt jbvbdoc hbs blrebdy reported this
+                 * bs bn error.  There is nothing for us to do here
+                 * but try to continue with the next input clbss.
                  *
                  * REMIND: More explicit error checking throughout
-                 * would be preferable, however.
+                 * would be preferbble, however.
                  */
             }
         }
 
         /*
-         * Compile any generated source files, if configured to do so.
+         * Compile bny generbted source files, if configured to do so.
          */
-        boolean status = true;
-        List<File> generatedFiles = env.generatedFiles();
-        if (!batch.noCompile && !batch.noWrite && !generatedFiles.isEmpty()) {
-            status = batch.enclosingMain().invokeJavac(batch, generatedFiles);
+        boolebn stbtus = true;
+        List<File> generbtedFiles = env.generbtedFiles();
+        if (!bbtch.noCompile && !bbtch.noWrite && !generbtedFiles.isEmpty()) {
+            stbtus = bbtch.enclosingMbin().invokeJbvbc(bbtch, generbtedFiles);
         }
 
         /*
-         * Delete any generated source files, if configured to do so.
+         * Delete bny generbted source files, if configured to do so.
          */
-        if (!batch.keepGenerated) {
-            for (File file : generatedFiles) {
+        if (!bbtch.keepGenerbted) {
+            for (File file : generbtedFiles) {
                 file.delete();
             }
         }
 
-        return status;
+        return stbtus;
     }
 
     /**
-     * Doclet class method that indicates that this doclet class
-     * recognizes (only) the "-batchID" option on the javadoc command
-     * line, and that the "-batchID" option comprises two arguments on
-     * the javadoc command line.
+     * Doclet clbss method thbt indicbtes thbt this doclet clbss
+     * recognizes (only) the "-bbtchID" option on the jbvbdoc commbnd
+     * line, bnd thbt the "-bbtchID" option comprises two brguments on
+     * the jbvbdoc commbnd line.
      **/
-    public static int optionLength(String option) {
-        if (option.equals("-batchID")) {
+    public stbtic int optionLength(String option) {
+        if (option.equbls("-bbtchID")) {
             return 2;
         } else {
             return 0;
@@ -539,151 +539,151 @@ public class Main {
     }
 
     /**
-     * Runs the javadoc tool to invoke this class as a doclet, passing
-     * command line options derived from the specified batch data and
-     * indicating the specified batch ID.
+     * Runs the jbvbdoc tool to invoke this clbss bs b doclet, pbssing
+     * commbnd line options derived from the specified bbtch dbtb bnd
+     * indicbting the specified bbtch ID.
      *
-     * NOTE: This method currently uses a J2SE-internal API to run
-     * javadoc.  If and when there is a J2SE API for invoking SDK
-     * tools, this method should be updated to use that API instead.
+     * NOTE: This method currently uses b J2SE-internbl API to run
+     * jbvbdoc.  If bnd when there is b J2SE API for invoking SDK
+     * tools, this method should be updbted to use thbt API instebd.
      **/
-    private boolean invokeJavadoc(Batch batch, long batchID) {
-        List<String> javadocArgs = new ArrayList<String>();
+    privbte boolebn invokeJbvbdoc(Bbtch bbtch, long bbtchID) {
+        List<String> jbvbdocArgs = new ArrbyList<String>();
 
-        // include all types, regardless of language-level access
-        javadocArgs.add("-private");
+        // include bll types, regbrdless of lbngubge-level bccess
+        jbvbdocArgs.bdd("-privbte");
 
-        // inputs are class names, not source files
-        javadocArgs.add("-Xclasses");
+        // inputs bre clbss nbmes, not source files
+        jbvbdocArgs.bdd("-Xclbsses");
 
-        // reproduce relevant options from rmic invocation
-        if (batch.verbose) {
-            javadocArgs.add("-verbose");
+        // reproduce relevbnt options from rmic invocbtion
+        if (bbtch.verbose) {
+            jbvbdocArgs.bdd("-verbose");
         }
-        if (batch.bootClassPath != null) {
-            javadocArgs.add("-bootclasspath");
-            javadocArgs.add(batch.bootClassPath);
+        if (bbtch.bootClbssPbth != null) {
+            jbvbdocArgs.bdd("-bootclbsspbth");
+            jbvbdocArgs.bdd(bbtch.bootClbssPbth);
         }
-        if (batch.extDirs != null) {
-            javadocArgs.add("-extdirs");
-            javadocArgs.add(batch.extDirs);
+        if (bbtch.extDirs != null) {
+            jbvbdocArgs.bdd("-extdirs");
+            jbvbdocArgs.bdd(bbtch.extDirs);
         }
-        if (batch.classPath != null) {
-            javadocArgs.add("-classpath");
-            javadocArgs.add(batch.classPath);
+        if (bbtch.clbssPbth != null) {
+            jbvbdocArgs.bdd("-clbsspbth");
+            jbvbdocArgs.bdd(bbtch.clbssPbth);
         }
 
-        // specify batch ID
-        javadocArgs.add("-batchID");
-        javadocArgs.add(Long.toString(batchID));
+        // specify bbtch ID
+        jbvbdocArgs.bdd("-bbtchID");
+        jbvbdocArgs.bdd(Long.toString(bbtchID));
 
         /*
-         * Run javadoc on union of rmic input classes and all
-         * generators' bootstrap classes, so that they will all be
-         * available to the doclet code.
+         * Run jbvbdoc on union of rmic input clbsses bnd bll
+         * generbtors' bootstrbp clbsses, so thbt they will bll be
+         * bvbilbble to the doclet code.
          */
-        Set<String> classNames = new HashSet<String>();
-        for (Generator gen : batch.generators) {
-            classNames.addAll(gen.bootstrapClassNames());
+        Set<String> clbssNbmes = new HbshSet<String>();
+        for (Generbtor gen : bbtch.generbtors) {
+            clbssNbmes.bddAll(gen.bootstrbpClbssNbmes());
         }
-        classNames.addAll(batch.classes);
-        for (String s : classNames) {
-            javadocArgs.add(s);
+        clbssNbmes.bddAll(bbtch.clbsses);
+        for (String s : clbssNbmes) {
+            jbvbdocArgs.bdd(s);
         }
 
-        // run javadoc with our program name and output stream
-        int status = com.sun.tools.javadoc.Main.execute(
-            program,
+        // run jbvbdoc with our progrbm nbme bnd output strebm
+        int stbtus = com.sun.tools.jbvbdoc.Mbin.execute(
+            progrbm,
             new PrintWriter(out, true),
             new PrintWriter(out, true),
             new PrintWriter(out, true),
-            this.getClass().getName(),          // doclet class is this class
-            javadocArgs.toArray(new String[javadocArgs.size()]));
-        return status == 0;
+            this.getClbss().getNbme(),          // doclet clbss is this clbss
+            jbvbdocArgs.toArrby(new String[jbvbdocArgs.size()]));
+        return stbtus == 0;
     }
 
     /**
-     * Runs the javac tool to compile the specified source files,
-     * passing command line options derived from the specified batch
-     * data.
+     * Runs the jbvbc tool to compile the specified source files,
+     * pbssing commbnd line options derived from the specified bbtch
+     * dbtb.
      *
-     * NOTE: This method currently uses a J2SE-internal API to run
-     * javac.  If and when there is a J2SE API for invoking SDK tools,
-     * this method should be updated to use that API instead.
+     * NOTE: This method currently uses b J2SE-internbl API to run
+     * jbvbc.  If bnd when there is b J2SE API for invoking SDK tools,
+     * this method should be updbted to use thbt API instebd.
      **/
-    private boolean invokeJavac(Batch batch, List<File> files) {
-        List<String> javacArgs = new ArrayList<String>();
+    privbte boolebn invokeJbvbc(Bbtch bbtch, List<File> files) {
+        List<String> jbvbcArgs = new ArrbyList<String>();
 
-        // rmic never wants to display javac warnings
-        javacArgs.add("-nowarn");
+        // rmic never wbnts to displby jbvbc wbrnings
+        jbvbcArgs.bdd("-nowbrn");
 
-        // reproduce relevant options from rmic invocation
-        if (batch.debug) {
-            javacArgs.add("-g");
+        // reproduce relevbnt options from rmic invocbtion
+        if (bbtch.debug) {
+            jbvbcArgs.bdd("-g");
         }
-        if (batch.verbose) {
-            javacArgs.add("-verbose");
+        if (bbtch.verbose) {
+            jbvbcArgs.bdd("-verbose");
         }
-        if (batch.bootClassPath != null) {
-            javacArgs.add("-bootclasspath");
-            javacArgs.add(batch.bootClassPath);
+        if (bbtch.bootClbssPbth != null) {
+            jbvbcArgs.bdd("-bootclbsspbth");
+            jbvbcArgs.bdd(bbtch.bootClbssPbth);
         }
-        if (batch.extDirs != null) {
-            javacArgs.add("-extdirs");
-            javacArgs.add(batch.extDirs);
+        if (bbtch.extDirs != null) {
+            jbvbcArgs.bdd("-extdirs");
+            jbvbcArgs.bdd(bbtch.extDirs);
         }
-        if (batch.classPath != null) {
-            javacArgs.add("-classpath");
-            javacArgs.add(batch.classPath);
+        if (bbtch.clbssPbth != null) {
+            jbvbcArgs.bdd("-clbsspbth");
+            jbvbcArgs.bdd(bbtch.clbssPbth);
         }
 
         /*
-         * For now, rmic still always produces class files that have a
-         * class file format version compatible with JDK 1.1.
+         * For now, rmic still blwbys produces clbss files thbt hbve b
+         * clbss file formbt version compbtible with JDK 1.1.
          */
-        javacArgs.add("-source");
-        javacArgs.add("1.3");
-        javacArgs.add("-target");
-        javacArgs.add("1.1");
+        jbvbcArgs.bdd("-source");
+        jbvbcArgs.bdd("1.3");
+        jbvbcArgs.bdd("-tbrget");
+        jbvbcArgs.bdd("1.1");
 
-        // add source files to compile
+        // bdd source files to compile
         for (File file : files) {
-            javacArgs.add(file.getPath());
+            jbvbcArgs.bdd(file.getPbth());
         }
 
-        // run javac with our output stream
-        int status = com.sun.tools.javac.Main.compile(
-            javacArgs.toArray(new String[javacArgs.size()]),
+        // run jbvbc with our output strebm
+        int stbtus = com.sun.tools.jbvbc.Mbin.compile(
+            jbvbcArgs.toArrby(new String[jbvbcArgs.size()]),
             new PrintWriter(out, true));
-        return status == 0;
+        return stbtus == 0;
     }
 
     /**
-     * The data for an rmic compliation batch: the processed command
-     * line arguments.
+     * The dbtb for bn rmic complibtion bbtch: the processed commbnd
+     * line brguments.
      **/
-    private class Batch {
-        boolean keepGenerated = false;  // -keep or -keepgenerated
-        boolean debug = false;          // -g
-        boolean noWarn = false;         // -nowarn
-        boolean noWrite = false;        // -nowrite
-        boolean verbose = false;        // -verbose
-        boolean noCompile = false;      // -Xnocompile
-        String bootClassPath = null;    // -bootclasspath
+    privbte clbss Bbtch {
+        boolebn keepGenerbted = fblse;  // -keep or -keepgenerbted
+        boolebn debug = fblse;          // -g
+        boolebn noWbrn = fblse;         // -nowbrn
+        boolebn noWrite = fblse;        // -nowrite
+        boolebn verbose = fblse;        // -verbose
+        boolebn noCompile = fblse;      // -Xnocompile
+        String bootClbssPbth = null;    // -bootclbsspbth
         String extDirs = null;          // -extdirs
-        String classPath = null;        // -classpath
+        String clbssPbth = null;        // -clbsspbth
         File destDir = null;            // -d
-        List<Generator> generators = new ArrayList<Generator>();
-        Class<? extends BatchEnvironment> envClass = BatchEnvironment.class;
-        List<String> classes = new ArrayList<String>();
+        List<Generbtor> generbtors = new ArrbyList<Generbtor>();
+        Clbss<? extends BbtchEnvironment> envClbss = BbtchEnvironment.clbss;
+        List<String> clbsses = new ArrbyList<String>();
 
-        Batch() { }
+        Bbtch() { }
 
         /**
-         * Returns the Main instance for this batch.
+         * Returns the Mbin instbnce for this bbtch.
          **/
-        Main enclosingMain() {
-            return Main.this;
+        Mbin enclosingMbin() {
+            return Mbin.this;
         }
     }
 }

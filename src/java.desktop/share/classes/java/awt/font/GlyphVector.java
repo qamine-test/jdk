@@ -1,419 +1,419 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @buthor Chbrlton Innovbtions, Inc.
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.Graphics2D;
-import java.awt.Font;
-import java.awt.Polygon;        // remind - need a floating point version
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
-import java.awt.Shape;
-import java.awt.font.GlyphMetrics;
-import java.awt.font.GlyphJustificationInfo;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Font;
+import jbvb.bwt.Polygon;        // remind - need b flobting point version
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.font.GlyphMetrics;
+import jbvb.bwt.font.GlyphJustificbtionInfo;
 
 /**
- * A <code>GlyphVector</code> object is a collection of glyphs
- * containing geometric information for the placement of each glyph
- * in a transformed coordinate space which corresponds to the
- * device on which the <code>GlyphVector</code> is ultimately
- * displayed.
+ * A <code>GlyphVector</code> object is b collection of glyphs
+ * contbining geometric informbtion for the plbcement of ebch glyph
+ * in b trbnsformed coordinbte spbce which corresponds to the
+ * device on which the <code>GlyphVector</code> is ultimbtely
+ * displbyed.
  * <p>
- * The <code>GlyphVector</code> does not attempt any interpretation of
- * the sequence of glyphs it contains.  Relationships between adjacent
- * glyphs in sequence are solely used to determine the placement of
- * the glyphs in the visual coordinate space.
+ * The <code>GlyphVector</code> does not bttempt bny interpretbtion of
+ * the sequence of glyphs it contbins.  Relbtionships between bdjbcent
+ * glyphs in sequence bre solely used to determine the plbcement of
+ * the glyphs in the visubl coordinbte spbce.
  * <p>
- * Instances of <code>GlyphVector</code> are created by a {@link Font}.
+ * Instbnces of <code>GlyphVector</code> bre crebted by b {@link Font}.
  * <p>
- * In a text processing application that can cache intermediate
- * representations of text, creation and subsequent caching of a
- * <code>GlyphVector</code> for use during rendering is the fastest
- * method to present the visual representation of characters to a user.
+ * In b text processing bpplicbtion thbt cbn cbche intermedibte
+ * representbtions of text, crebtion bnd subsequent cbching of b
+ * <code>GlyphVector</code> for use during rendering is the fbstest
+ * method to present the visubl representbtion of chbrbcters to b user.
  * <p>
- * A <code>GlyphVector</code> is associated with exactly one
- * <code>Font</code>, and can provide data useful only in relation to
- * this <code>Font</code>.  In addition, metrics obtained from a
- * <code>GlyphVector</code> are not generally geometrically scaleable
- * since the pixelization and spacing are dependent on grid-fitting
- * algorithms within a <code>Font</code>.  To facilitate accurate
- * measurement of a <code>GlyphVector</code> and its component
- * glyphs, you must specify a scaling transform, anti-alias mode, and
- * fractional metrics mode when creating the <code>GlyphVector</code>.
- * These characteristics can be derived from the destination device.
+ * A <code>GlyphVector</code> is bssocibted with exbctly one
+ * <code>Font</code>, bnd cbn provide dbtb useful only in relbtion to
+ * this <code>Font</code>.  In bddition, metrics obtbined from b
+ * <code>GlyphVector</code> bre not generblly geometricblly scblebble
+ * since the pixelizbtion bnd spbcing bre dependent on grid-fitting
+ * blgorithms within b <code>Font</code>.  To fbcilitbte bccurbte
+ * mebsurement of b <code>GlyphVector</code> bnd its component
+ * glyphs, you must specify b scbling trbnsform, bnti-blibs mode, bnd
+ * frbctionbl metrics mode when crebting the <code>GlyphVector</code>.
+ * These chbrbcteristics cbn be derived from the destinbtion device.
  * <p>
- * For each glyph in the <code>GlyphVector</code>, you can obtain:
+ * For ebch glyph in the <code>GlyphVector</code>, you cbn obtbin:
  * <ul>
  * <li>the position of the glyph
- * <li>the transform associated with the glyph
+ * <li>the trbnsform bssocibted with the glyph
  * <li>the metrics of the glyph in the context of the
- *   <code>GlyphVector</code>.  The metrics of the glyph may be
- *   different under different transforms, application specified
- *   rendering hints, and the specific instance of the glyph within
+ *   <code>GlyphVector</code>.  The metrics of the glyph mby be
+ *   different under different trbnsforms, bpplicbtion specified
+ *   rendering hints, bnd the specific instbnce of the glyph within
  *   the <code>GlyphVector</code>.
  * </ul>
  * <p>
- * Altering the data used to create the <code>GlyphVector</code> does not
- * alter the state of the <code>GlyphVector</code>.
+ * Altering the dbtb used to crebte the <code>GlyphVector</code> does not
+ * blter the stbte of the <code>GlyphVector</code>.
  * <p>
- * Methods are provided to adjust the positions of the glyphs
- * within the <code>GlyphVector</code>.  These methods are most
- * appropriate for applications that are performing justification
- * operations for the presentation of the glyphs.
+ * Methods bre provided to bdjust the positions of the glyphs
+ * within the <code>GlyphVector</code>.  These methods bre most
+ * bppropribte for bpplicbtions thbt bre performing justificbtion
+ * operbtions for the presentbtion of the glyphs.
  * <p>
- * Methods are provided to transform individual glyphs within the
- * <code>GlyphVector</code>.  These methods are primarily useful for
- * special effects.
+ * Methods bre provided to trbnsform individubl glyphs within the
+ * <code>GlyphVector</code>.  These methods bre primbrily useful for
+ * specibl effects.
  * <p>
- * Methods are provided to return both the visual, logical, and pixel bounds
- * of the entire <code>GlyphVector</code> or of individual glyphs within
+ * Methods bre provided to return both the visubl, logicbl, bnd pixel bounds
+ * of the entire <code>GlyphVector</code> or of individubl glyphs within
  * the <code>GlyphVector</code>.
  * <p>
- * Methods are provided to return a {@link Shape} for the
- * <code>GlyphVector</code>, and for individual glyphs within the
+ * Methods bre provided to return b {@link Shbpe} for the
+ * <code>GlyphVector</code>, bnd for individubl glyphs within the
  * <code>GlyphVector</code>.
  * @see Font
  * @see GlyphMetrics
- * @see TextLayout
- * @author Charlton Innovations, Inc.
+ * @see TextLbyout
+ * @buthor Chbrlton Innovbtions, Inc.
  */
 
-public abstract class GlyphVector implements Cloneable {
+public bbstrbct clbss GlyphVector implements Clonebble {
 
     //
-    // methods associated with creation-time state
+    // methods bssocibted with crebtion-time stbte
     //
 
     /**
-     * Returns the <code>Font</code> associated with this
+     * Returns the <code>Font</code> bssocibted with this
      * <code>GlyphVector</code>.
-     * @return <code>Font</code> used to create this
+     * @return <code>Font</code> used to crebte this
      * <code>GlyphVector</code>.
      * @see Font
      */
-    public abstract Font getFont();
+    public bbstrbct Font getFont();
 
     /**
-     * Returns the {@link FontRenderContext} associated with this
+     * Returns the {@link FontRenderContext} bssocibted with this
      * <code>GlyphVector</code>.
-     * @return <code>FontRenderContext</code> used to create this
+     * @return <code>FontRenderContext</code> used to crebte this
      * <code>GlyphVector</code>.
      * @see FontRenderContext
      * @see Font
      */
-    public abstract FontRenderContext getFontRenderContext();
+    public bbstrbct FontRenderContext getFontRenderContext();
 
     //
-    // methods associated with the GlyphVector as a whole
+    // methods bssocibted with the GlyphVector bs b whole
     //
 
     /**
-     * Assigns default positions to each glyph in this
-     * <code>GlyphVector</code>. This can destroy information
-     * generated during initial layout of this <code>GlyphVector</code>.
+     * Assigns defbult positions to ebch glyph in this
+     * <code>GlyphVector</code>. This cbn destroy informbtion
+     * generbted during initibl lbyout of this <code>GlyphVector</code>.
      */
-    public abstract void performDefaultLayout();
+    public bbstrbct void performDefbultLbyout();
 
     /**
      * Returns the number of glyphs in this <code>GlyphVector</code>.
      * @return number of glyphs in this <code>GlyphVector</code>.
      */
-    public abstract int getNumGlyphs();
+    public bbstrbct int getNumGlyphs();
 
     /**
      * Returns the glyphcode of the specified glyph.
-     * This return value is meaningless to anything other
-     * than the <code>Font</code> object that created this
+     * This return vblue is mebningless to bnything other
+     * thbn the <code>Font</code> object thbt crebted this
      * <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * that corresponds to the glyph from which to retrieve the
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     * thbt corresponds to the glyph from which to retrieve the
      * glyphcode.
-     * @return the glyphcode of the glyph at the specified
+     * @return the glyphcode of the glyph bt the specified
      * <code>glyphIndex</code>.
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     * is less than 0 or greater than or equal to the
+     * is less thbn 0 or grebter thbn or equbl to the
      * number of glyphs in this <code>GlyphVector</code>
      */
-    public abstract int getGlyphCode(int glyphIndex);
+    public bbstrbct int getGlyphCode(int glyphIndex);
 
     /**
-     * Returns an array of glyphcodes for the specified glyphs.
-     * The contents of this return value are meaningless to anything other
-     * than the <code>Font</code> used to create this
+     * Returns bn brrby of glyphcodes for the specified glyphs.
+     * The contents of this return vblue bre mebningless to bnything other
+     * thbn the <code>Font</code> used to crebte this
      * <code>GlyphVector</code>.  This method is used
-     * for convenience and performance when processing glyphcodes.
-     * If no array is passed in, a new array is created.
-     * @param beginGlyphIndex the index into this
-     *   <code>GlyphVector</code> at which to start retrieving glyphcodes
-     * @param numEntries the number of glyphcodes to retrieve
-     * @param codeReturn the array that receives the glyphcodes and is
+     * for convenience bnd performbnce when processing glyphcodes.
+     * If no brrby is pbssed in, b new brrby is crebted.
+     * @pbrbm beginGlyphIndex the index into this
+     *   <code>GlyphVector</code> bt which to stbrt retrieving glyphcodes
+     * @pbrbm numEntries the number of glyphcodes to retrieve
+     * @pbrbm codeReturn the brrby thbt receives the glyphcodes bnd is
      *   then returned
-     * @return an array of glyphcodes for the specified glyphs.
-     * @throws IllegalArgumentException if <code>numEntries</code> is
-     *   less than 0
+     * @return bn brrby of glyphcodes for the specified glyphs.
+     * @throws IllegblArgumentException if <code>numEntries</code> is
+     *   less thbn 0
      * @throws IndexOutOfBoundsException if <code>beginGlyphIndex</code>
-     *   is less than 0
+     *   is less thbn 0
      * @throws IndexOutOfBoundsException if the sum of
-     *   <code>beginGlyphIndex</code> and <code>numEntries</code> is
-     *   greater than the number of glyphs in this
+     *   <code>beginGlyphIndex</code> bnd <code>numEntries</code> is
+     *   grebter thbn the number of glyphs in this
      *   <code>GlyphVector</code>
      */
-    public abstract int[] getGlyphCodes(int beginGlyphIndex, int numEntries,
+    public bbstrbct int[] getGlyphCodes(int beginGlyphIndex, int numEntries,
                                         int[] codeReturn);
 
     /**
-     * Returns the character index of the specified glyph.
-     * The character index is the index of the first logical
-     * character represented by the glyph.  The default
-     * implementation assumes a one-to-one, left-to-right mapping
-     * of glyphs to characters.
-     * @param glyphIndex the index of the glyph
-     * @return the index of the first character represented by the glyph
+     * Returns the chbrbcter index of the specified glyph.
+     * The chbrbcter index is the index of the first logicbl
+     * chbrbcter represented by the glyph.  The defbult
+     * implementbtion bssumes b one-to-one, left-to-right mbpping
+     * of glyphs to chbrbcters.
+     * @pbrbm glyphIndex the index of the glyph
+     * @return the index of the first chbrbcter represented by the glyph
      * @since 1.4
      */
-    public int getGlyphCharIndex(int glyphIndex) {
+    public int getGlyphChbrIndex(int glyphIndex) {
         return glyphIndex;
     }
 
     /**
-     * Returns the character indices of the specified glyphs.
-     * The character index is the index of the first logical
-     * character represented by the glyph.  Indices are returned
-     * in glyph order.  The default implementation invokes
-     * getGlyphCharIndex for each glyph, and subclassers will probably
-     * want to override this implementation for performance reasons.
-     * Use this method for convenience and performance
-     * in processing of glyphcodes. If no array is passed in,
-     * a new array is created.
-     * @param beginGlyphIndex the index of the first glyph
-     * @param numEntries the number of glyph indices
-     * @param codeReturn the array into which to return the character indices
-     * @return an array of character indices, one per glyph.
+     * Returns the chbrbcter indices of the specified glyphs.
+     * The chbrbcter index is the index of the first logicbl
+     * chbrbcter represented by the glyph.  Indices bre returned
+     * in glyph order.  The defbult implementbtion invokes
+     * getGlyphChbrIndex for ebch glyph, bnd subclbssers will probbbly
+     * wbnt to override this implementbtion for performbnce rebsons.
+     * Use this method for convenience bnd performbnce
+     * in processing of glyphcodes. If no brrby is pbssed in,
+     * b new brrby is crebted.
+     * @pbrbm beginGlyphIndex the index of the first glyph
+     * @pbrbm numEntries the number of glyph indices
+     * @pbrbm codeReturn the brrby into which to return the chbrbcter indices
+     * @return bn brrby of chbrbcter indices, one per glyph.
      * @since 1.4
      */
-    public int[] getGlyphCharIndices(int beginGlyphIndex, int numEntries,
+    public int[] getGlyphChbrIndices(int beginGlyphIndex, int numEntries,
                                      int[] codeReturn) {
         if (codeReturn == null) {
             codeReturn = new int[numEntries];
         }
         for (int i = 0, j = beginGlyphIndex; i < numEntries; ++i, ++j) {
-            codeReturn[i] = getGlyphCharIndex(j);
+            codeReturn[i] = getGlyphChbrIndex(j);
         }
         return codeReturn;
      }
 
     /**
-     * Returns the logical bounds of this <code>GlyphVector</code>.
+     * Returns the logicbl bounds of this <code>GlyphVector</code>.
      * This method is used when positioning this <code>GlyphVector</code>
-     * in relation to visually adjacent <code>GlyphVector</code> objects.
-     * @return a {@link Rectangle2D} that is the logical bounds of this
+     * in relbtion to visublly bdjbcent <code>GlyphVector</code> objects.
+     * @return b {@link Rectbngle2D} thbt is the logicbl bounds of this
      * <code>GlyphVector</code>.
      */
-    public abstract Rectangle2D getLogicalBounds();
+    public bbstrbct Rectbngle2D getLogicblBounds();
 
     /**
-     * Returns the visual bounds of this <code>GlyphVector</code>
-     * The visual bounds is the bounding box of the outline of this
-     * <code>GlyphVector</code>.  Because of rasterization and
-     * alignment of pixels, it is possible that this box does not
-     * enclose all pixels affected by rendering this <code>GlyphVector</code>.
-     * @return a <code>Rectangle2D</code> that is the bounding box
+     * Returns the visubl bounds of this <code>GlyphVector</code>
+     * The visubl bounds is the bounding box of the outline of this
+     * <code>GlyphVector</code>.  Becbuse of rbsterizbtion bnd
+     * blignment of pixels, it is possible thbt this box does not
+     * enclose bll pixels bffected by rendering this <code>GlyphVector</code>.
+     * @return b <code>Rectbngle2D</code> thbt is the bounding box
      * of this <code>GlyphVector</code>.
      */
-    public abstract Rectangle2D getVisualBounds();
+    public bbstrbct Rectbngle2D getVisublBounds();
 
     /**
      * Returns the pixel bounds of this <code>GlyphVector</code> when
-     * rendered in a graphics with the given
-     * <code>FontRenderContext</code> at the given location.  The
-     * renderFRC need not be the same as the
+     * rendered in b grbphics with the given
+     * <code>FontRenderContext</code> bt the given locbtion.  The
+     * renderFRC need not be the sbme bs the
      * <code>FontRenderContext</code> of this
-     * <code>GlyphVector</code>, and can be null.  If it is null, the
+     * <code>GlyphVector</code>, bnd cbn be null.  If it is null, the
      * <code>FontRenderContext</code> of this <code>GlyphVector</code>
-     * is used.  The default implementation returns the visual bounds,
-     * offset to x, y and rounded out to the next integer value (i.e. returns an
-     * integer rectangle which encloses the visual bounds) and
-     * ignores the FRC.  Subclassers should override this method.
-     * @param renderFRC the <code>FontRenderContext</code> of the <code>Graphics</code>.
-     * @param x the x-coordinate at which to render this <code>GlyphVector</code>.
-     * @param y the y-coordinate at which to render this <code>GlyphVector</code>.
-     * @return a <code>Rectangle</code> bounding the pixels that would be affected.
+     * is used.  The defbult implementbtion returns the visubl bounds,
+     * offset to x, y bnd rounded out to the next integer vblue (i.e. returns bn
+     * integer rectbngle which encloses the visubl bounds) bnd
+     * ignores the FRC.  Subclbssers should override this method.
+     * @pbrbm renderFRC the <code>FontRenderContext</code> of the <code>Grbphics</code>.
+     * @pbrbm x the x-coordinbte bt which to render this <code>GlyphVector</code>.
+     * @pbrbm y the y-coordinbte bt which to render this <code>GlyphVector</code>.
+     * @return b <code>Rectbngle</code> bounding the pixels thbt would be bffected.
      * @since 1.4
      */
-    public Rectangle getPixelBounds(FontRenderContext renderFRC, float x, float y) {
-                Rectangle2D rect = getVisualBounds();
-                int l = (int)Math.floor(rect.getX() + x);
-                int t = (int)Math.floor(rect.getY() + y);
-                int r = (int)Math.ceil(rect.getMaxX() + x);
-                int b = (int)Math.ceil(rect.getMaxY() + y);
-                return new Rectangle(l, t, r - l, b - t);
+    public Rectbngle getPixelBounds(FontRenderContext renderFRC, flobt x, flobt y) {
+                Rectbngle2D rect = getVisublBounds();
+                int l = (int)Mbth.floor(rect.getX() + x);
+                int t = (int)Mbth.floor(rect.getY() + y);
+                int r = (int)Mbth.ceil(rect.getMbxX() + x);
+                int b = (int)Mbth.ceil(rect.getMbxY() + y);
+                return new Rectbngle(l, t, r - l, b - t);
         }
 
 
     /**
-     * Returns a <code>Shape</code> whose interior corresponds to the
-     * visual representation of this <code>GlyphVector</code>.
-     * @return a <code>Shape</code> that is the outline of this
+     * Returns b <code>Shbpe</code> whose interior corresponds to the
+     * visubl representbtion of this <code>GlyphVector</code>.
+     * @return b <code>Shbpe</code> thbt is the outline of this
      * <code>GlyphVector</code>.
      */
-    public abstract Shape getOutline();
+    public bbstrbct Shbpe getOutline();
 
     /**
-     * Returns a <code>Shape</code> whose interior corresponds to the
-     * visual representation of this <code>GlyphVector</code> when
-     * rendered at x,&nbsp;y.
-     * @param x the X coordinate of this <code>GlyphVector</code>.
-     * @param y the Y coordinate of this <code>GlyphVector</code>.
-     * @return a <code>Shape</code> that is the outline of this
-     *   <code>GlyphVector</code> when rendered at the specified
-     *   coordinates.
+     * Returns b <code>Shbpe</code> whose interior corresponds to the
+     * visubl representbtion of this <code>GlyphVector</code> when
+     * rendered bt x,&nbsp;y.
+     * @pbrbm x the X coordinbte of this <code>GlyphVector</code>.
+     * @pbrbm y the Y coordinbte of this <code>GlyphVector</code>.
+     * @return b <code>Shbpe</code> thbt is the outline of this
+     *   <code>GlyphVector</code> when rendered bt the specified
+     *   coordinbtes.
      */
-    public abstract Shape getOutline(float x, float y);
+    public bbstrbct Shbpe getOutline(flobt x, flobt y);
 
     /**
-     * Returns a <code>Shape</code> whose interior corresponds to the
-     * visual representation of the specified glyph
+     * Returns b <code>Shbpe</code> whose interior corresponds to the
+     * visubl representbtion of the specified glyph
      * within this <code>GlyphVector</code>.
-     * The outline returned by this method is positioned around the
-     * origin of each individual glyph.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @return a <code>Shape</code> that is the outline of the glyph
-     *   at the specified <code>glyphIndex</code> of this
+     * The outline returned by this method is positioned bround the
+     * origin of ebch individubl glyph.
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     * @return b <code>Shbpe</code> thbt is the outline of the glyph
+     *   bt the specified <code>glyphIndex</code> of this
      *   <code>GlyphVector</code>.
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
+     *   is less thbn 0 or grebter thbn or equbl to the number
      *   of glyphs in this <code>GlyphVector</code>
      */
-    public abstract Shape getGlyphOutline(int glyphIndex);
+    public bbstrbct Shbpe getGlyphOutline(int glyphIndex);
 
     /**
-     * Returns a <code>Shape</code> whose interior corresponds to the
-     * visual representation of the specified glyph
+     * Returns b <code>Shbpe</code> whose interior corresponds to the
+     * visubl representbtion of the specified glyph
      * within this <code>GlyphVector</code>, offset to x,&nbsp;y.
-     * The outline returned by this method is positioned around the
-     * origin of each individual glyph.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @param x the X coordinate of the location of this {@code GlyphVector}
-     * @param y the Y coordinate of the location of this {@code GlyphVector}
-     * @return a <code>Shape</code> that is the outline of the glyph
-     *   at the specified <code>glyphIndex</code> of this
-     *   <code>GlyphVector</code> when rendered at the specified
-     *   coordinates.
+     * The outline returned by this method is positioned bround the
+     * origin of ebch individubl glyph.
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     * @pbrbm x the X coordinbte of the locbtion of this {@code GlyphVector}
+     * @pbrbm y the Y coordinbte of the locbtion of this {@code GlyphVector}
+     * @return b <code>Shbpe</code> thbt is the outline of the glyph
+     *   bt the specified <code>glyphIndex</code> of this
+     *   <code>GlyphVector</code> when rendered bt the specified
+     *   coordinbtes.
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
+     *   is less thbn 0 or grebter thbn or equbl to the number
      *   of glyphs in this <code>GlyphVector</code>
      * @since 1.4
      */
-    public Shape getGlyphOutline(int glyphIndex, float x, float y) {
-        Shape s = getGlyphOutline(glyphIndex);
-        AffineTransform at = AffineTransform.getTranslateInstance(x,y);
-        return at.createTransformedShape(s);
+    public Shbpe getGlyphOutline(int glyphIndex, flobt x, flobt y) {
+        Shbpe s = getGlyphOutline(glyphIndex);
+        AffineTrbnsform bt = AffineTrbnsform.getTrbnslbteInstbnce(x,y);
+        return bt.crebteTrbnsformedShbpe(s);
         }
 
     /**
-     * Returns the position of the specified glyph relative to the
+     * Returns the position of the specified glyph relbtive to the
      * origin of this <code>GlyphVector</code>.
-     * If <code>glyphIndex</code> equals the number of of glyphs in
-     * this <code>GlyphVector</code>, this method returns the position after
-     * the last glyph. This position is used to define the advance of
+     * If <code>glyphIndex</code> equbls the number of of glyphs in
+     * this <code>GlyphVector</code>, this method returns the position bfter
+     * the lbst glyph. This position is used to define the bdvbnce of
      * the entire <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @return a {@link Point2D} object that is the position of the glyph
-     *   at the specified <code>glyphIndex</code>.
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     * @return b {@link Point2D} object thbt is the position of the glyph
+     *   bt the specified <code>glyphIndex</code>.
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than the number of glyphs
+     *   is less thbn 0 or grebter thbn the number of glyphs
      *   in this <code>GlyphVector</code>
      * @see #setGlyphPosition
      */
-    public abstract Point2D getGlyphPosition(int glyphIndex);
+    public bbstrbct Point2D getGlyphPosition(int glyphIndex);
 
     /**
      * Sets the position of the specified glyph within this
      * <code>GlyphVector</code>.
-     * If <code>glyphIndex</code> equals the number of of glyphs in
-     * this <code>GlyphVector</code>, this method sets the position after
-     * the last glyph. This position is used to define the advance of
+     * If <code>glyphIndex</code> equbls the number of of glyphs in
+     * this <code>GlyphVector</code>, this method sets the position bfter
+     * the lbst glyph. This position is used to define the bdvbnce of
      * the entire <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @param newPos the <code>Point2D</code> at which to position the
-     *   glyph at the specified <code>glyphIndex</code>
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     * @pbrbm newPos the <code>Point2D</code> bt which to position the
+     *   glyph bt the specified <code>glyphIndex</code>
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than the number of glyphs
+     *   is less thbn 0 or grebter thbn the number of glyphs
      *   in this <code>GlyphVector</code>
      * @see #getGlyphPosition
      */
-    public abstract void setGlyphPosition(int glyphIndex, Point2D newPos);
+    public bbstrbct void setGlyphPosition(int glyphIndex, Point2D newPos);
 
     /**
-     * Returns the transform of the specified glyph within this
-     * <code>GlyphVector</code>.  The transform is relative to the
-     * glyph position.  If no special transform has been applied,
-     * <code>null</code> can be returned.  A null return indicates
-     * an identity transform.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @return an {@link AffineTransform} that is the transform of
-     *   the glyph at the specified <code>glyphIndex</code>.
+     * Returns the trbnsform of the specified glyph within this
+     * <code>GlyphVector</code>.  The trbnsform is relbtive to the
+     * glyph position.  If no specibl trbnsform hbs been bpplied,
+     * <code>null</code> cbn be returned.  A null return indicbtes
+     * bn identity trbnsform.
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     * @return bn {@link AffineTrbnsform} thbt is the trbnsform of
+     *   the glyph bt the specified <code>glyphIndex</code>.
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
+     *   is less thbn 0 or grebter thbn or equbl to the number
      *   of glyphs in this <code>GlyphVector</code>
-     * @see #setGlyphTransform
+     * @see #setGlyphTrbnsform
      */
-    public abstract AffineTransform getGlyphTransform(int glyphIndex);
+    public bbstrbct AffineTrbnsform getGlyphTrbnsform(int glyphIndex);
 
     /**
-     * Sets the transform of the specified glyph within this
-     * <code>GlyphVector</code>.  The transform is relative to the glyph
-     * position.  A <code>null</code> argument for <code>newTX</code>
-     * indicates that no special transform is applied for the specified
+     * Sets the trbnsform of the specified glyph within this
+     * <code>GlyphVector</code>.  The trbnsform is relbtive to the glyph
+     * position.  A <code>null</code> brgument for <code>newTX</code>
+     * indicbtes thbt no specibl trbnsform is bpplied for the specified
      * glyph.
-     * This method can be used to rotate, mirror, translate and scale the
-     * glyph.  Adding a transform can result in significant performance changes.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     * @param newTX the new transform of the glyph at <code>glyphIndex</code>
+     * This method cbn be used to rotbte, mirror, trbnslbte bnd scble the
+     * glyph.  Adding b trbnsform cbn result in significbnt performbnce chbnges.
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     * @pbrbm newTX the new trbnsform of the glyph bt <code>glyphIndex</code>
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
+     *   is less thbn 0 or grebter thbn or equbl to the number
      *   of glyphs in this <code>GlyphVector</code>
-     * @see #getGlyphTransform
+     * @see #getGlyphTrbnsform
      */
-    public abstract void setGlyphTransform(int glyphIndex, AffineTransform newTX);
+    public bbstrbct void setGlyphTrbnsform(int glyphIndex, AffineTrbnsform newTX);
 
     /**
-     * Returns flags describing the global state of the GlyphVector.
-     * Flags not described below are reserved.  The default
-     * implementation returns 0 (meaning false) for the position adjustments,
-     * transforms, rtl, and complex flags.
-     * Subclassers should override this method, and make sure
-     * it correctly describes the GlyphVector and corresponds
-     * to the results of related calls.
-     * @return an int containing the flags describing the state
+     * Returns flbgs describing the globbl stbte of the GlyphVector.
+     * Flbgs not described below bre reserved.  The defbult
+     * implementbtion returns 0 (mebning fblse) for the position bdjustments,
+     * trbnsforms, rtl, bnd complex flbgs.
+     * Subclbssers should override this method, bnd mbke sure
+     * it correctly describes the GlyphVector bnd corresponds
+     * to the results of relbted cblls.
+     * @return bn int contbining the flbgs describing the stbte
      * @see #FLAG_HAS_POSITION_ADJUSTMENTS
      * @see #FLAG_HAS_TRANSFORMS
      * @see #FLAG_RUN_RTL
@@ -421,191 +421,191 @@ public abstract class GlyphVector implements Cloneable {
      * @see #FLAG_MASK
      * @since 1.4
      */
-    public int getLayoutFlags() {
+    public int getLbyoutFlbgs() {
                 return 0;
         }
 
     /**
-     * A flag used with getLayoutFlags that indicates that this <code>GlyphVector</code> has
-     * per-glyph transforms.
+     * A flbg used with getLbyoutFlbgs thbt indicbtes thbt this <code>GlyphVector</code> hbs
+     * per-glyph trbnsforms.
      * @since 1.4
      */
-    public static final int FLAG_HAS_TRANSFORMS = 1;
+    public stbtic finbl int FLAG_HAS_TRANSFORMS = 1;
 
     /**
-     * A flag used with getLayoutFlags that indicates that this <code>GlyphVector</code> has
-     * position adjustments.  When this is true, the glyph positions don't match the
-     * accumulated default advances of the glyphs (for example, if kerning has been done).
+     * A flbg used with getLbyoutFlbgs thbt indicbtes thbt this <code>GlyphVector</code> hbs
+     * position bdjustments.  When this is true, the glyph positions don't mbtch the
+     * bccumulbted defbult bdvbnces of the glyphs (for exbmple, if kerning hbs been done).
      * @since 1.4
      */
-    public static final int FLAG_HAS_POSITION_ADJUSTMENTS = 2;
+    public stbtic finbl int FLAG_HAS_POSITION_ADJUSTMENTS = 2;
 
     /**
-     * A flag used with getLayoutFlags that indicates that this <code>GlyphVector</code> has
-     * a right-to-left run direction.  This refers to the glyph-to-char mapping and does
-     * not imply that the visual locations of the glyphs are necessarily in this order,
-     * although generally they will be.
+     * A flbg used with getLbyoutFlbgs thbt indicbtes thbt this <code>GlyphVector</code> hbs
+     * b right-to-left run direction.  This refers to the glyph-to-chbr mbpping bnd does
+     * not imply thbt the visubl locbtions of the glyphs bre necessbrily in this order,
+     * blthough generblly they will be.
      * @since 1.4
      */
-    public static final int FLAG_RUN_RTL = 4;
+    public stbtic finbl int FLAG_RUN_RTL = 4;
 
     /**
-     * A flag used with getLayoutFlags that indicates that this <code>GlyphVector</code> has
-     * a complex glyph-to-char mapping (one that does not map glyphs to chars one-to-one in
-     * strictly ascending or descending order matching the run direction).
+     * A flbg used with getLbyoutFlbgs thbt indicbtes thbt this <code>GlyphVector</code> hbs
+     * b complex glyph-to-chbr mbpping (one thbt does not mbp glyphs to chbrs one-to-one in
+     * strictly bscending or descending order mbtching the run direction).
      * @since 1.4
      */
-    public static final int FLAG_COMPLEX_GLYPHS = 8;
+    public stbtic finbl int FLAG_COMPLEX_GLYPHS = 8;
 
     /**
-     * A mask for supported flags from getLayoutFlags.  Only bits covered by the mask
+     * A mbsk for supported flbgs from getLbyoutFlbgs.  Only bits covered by the mbsk
      * should be tested.
      * @since 1.4
      */
-    public static final int FLAG_MASK =
+    public stbtic finbl int FLAG_MASK =
         FLAG_HAS_TRANSFORMS |
         FLAG_HAS_POSITION_ADJUSTMENTS |
         FLAG_RUN_RTL |
         FLAG_COMPLEX_GLYPHS;
 
     /**
-     * Returns an array of glyph positions for the specified glyphs.
-     * This method is used for convenience and performance when
+     * Returns bn brrby of glyph positions for the specified glyphs.
+     * This method is used for convenience bnd performbnce when
      * processing glyph positions.
-     * If no array is passed in, a new array is created.
-     * Even numbered array entries beginning with position zero are the X
-     * coordinates of the glyph numbered <code>beginGlyphIndex + position/2</code>.
-     * Odd numbered array entries beginning with position one are the Y
-     * coordinates of the glyph numbered <code>beginGlyphIndex + (position-1)/2</code>.
-     * If <code>beginGlyphIndex</code> equals the number of of glyphs in
-     * this <code>GlyphVector</code>, this method gets the position after
-     * the last glyph and this position is used to define the advance of
+     * If no brrby is pbssed in, b new brrby is crebted.
+     * Even numbered brrby entries beginning with position zero bre the X
+     * coordinbtes of the glyph numbered <code>beginGlyphIndex + position/2</code>.
+     * Odd numbered brrby entries beginning with position one bre the Y
+     * coordinbtes of the glyph numbered <code>beginGlyphIndex + (position-1)/2</code>.
+     * If <code>beginGlyphIndex</code> equbls the number of of glyphs in
+     * this <code>GlyphVector</code>, this method gets the position bfter
+     * the lbst glyph bnd this position is used to define the bdvbnce of
      * the entire <code>GlyphVector</code>.
-     * @param beginGlyphIndex the index at which to begin retrieving
+     * @pbrbm beginGlyphIndex the index bt which to begin retrieving
      *   glyph positions
-     * @param numEntries the number of glyphs to retrieve
-     * @param positionReturn the array that receives the glyph positions
-     *   and is then returned.
-     * @return an array of glyph positions specified by
-     *  <code>beginGlyphIndex</code> and <code>numEntries</code>.
-     * @throws IllegalArgumentException if <code>numEntries</code> is
-     *   less than 0
+     * @pbrbm numEntries the number of glyphs to retrieve
+     * @pbrbm positionReturn the brrby thbt receives the glyph positions
+     *   bnd is then returned.
+     * @return bn brrby of glyph positions specified by
+     *  <code>beginGlyphIndex</code> bnd <code>numEntries</code>.
+     * @throws IllegblArgumentException if <code>numEntries</code> is
+     *   less thbn 0
      * @throws IndexOutOfBoundsException if <code>beginGlyphIndex</code>
-     *   is less than 0
+     *   is less thbn 0
      * @throws IndexOutOfBoundsException if the sum of
-     *   <code>beginGlyphIndex</code> and <code>numEntries</code>
-     *   is greater than the number of glyphs in this
+     *   <code>beginGlyphIndex</code> bnd <code>numEntries</code>
+     *   is grebter thbn the number of glyphs in this
      *   <code>GlyphVector</code> plus one
      */
-    public abstract float[] getGlyphPositions(int beginGlyphIndex, int numEntries,
-                                              float[] positionReturn);
+    public bbstrbct flobt[] getGlyphPositions(int beginGlyphIndex, int numEntries,
+                                              flobt[] positionReturn);
 
     /**
-     * Returns the logical bounds of the specified glyph within this
+     * Returns the logicbl bounds of the specified glyph within this
      * <code>GlyphVector</code>.
-     * These logical bounds have a total of four edges, with two edges
-     * parallel to the baseline under the glyph's transform and the other two
-     * edges are shared with adjacent glyphs if they are present.  This
+     * These logicbl bounds hbve b totbl of four edges, with two edges
+     * pbrbllel to the bbseline under the glyph's trbnsform bnd the other two
+     * edges bre shbred with bdjbcent glyphs if they bre present.  This
      * method is useful for hit-testing of the specified glyph,
-     * positioning of a caret at the leading or trailing edge of a glyph,
-     * and for drawing a highlight region around the specified glyph.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     *   that corresponds to the glyph from which to retrieve its logical
+     * positioning of b cbret bt the lebding or trbiling edge of b glyph,
+     * bnd for drbwing b highlight region bround the specified glyph.
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     *   thbt corresponds to the glyph from which to retrieve its logicbl
      *   bounds
-     * @return  a <code>Shape</code> that is the logical bounds of the
-     *   glyph at the specified <code>glyphIndex</code>.
+     * @return  b <code>Shbpe</code> thbt is the logicbl bounds of the
+     *   glyph bt the specified <code>glyphIndex</code>.
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
+     *   is less thbn 0 or grebter thbn or equbl to the number
      *   of glyphs in this <code>GlyphVector</code>
-     * @see #getGlyphVisualBounds
+     * @see #getGlyphVisublBounds
      */
-    public abstract Shape getGlyphLogicalBounds(int glyphIndex);
+    public bbstrbct Shbpe getGlyphLogicblBounds(int glyphIndex);
 
     /**
-     * Returns the visual bounds of the specified glyph within the
+     * Returns the visubl bounds of the specified glyph within the
      * <code>GlyphVector</code>.
-     * The bounds returned by this method is positioned around the
-     * origin of each individual glyph.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     *   that corresponds to the glyph from which to retrieve its visual
+     * The bounds returned by this method is positioned bround the
+     * origin of ebch individubl glyph.
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     *   thbt corresponds to the glyph from which to retrieve its visubl
      *   bounds
-     * @return a <code>Shape</code> that is the visual bounds of the
-     *   glyph at the specified <code>glyphIndex</code>.
+     * @return b <code>Shbpe</code> thbt is the visubl bounds of the
+     *   glyph bt the specified <code>glyphIndex</code>.
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
+     *   is less thbn 0 or grebter thbn or equbl to the number
      *   of glyphs in this <code>GlyphVector</code>
-     * @see #getGlyphLogicalBounds
+     * @see #getGlyphLogicblBounds
      */
-    public abstract Shape getGlyphVisualBounds(int glyphIndex);
+    public bbstrbct Shbpe getGlyphVisublBounds(int glyphIndex);
 
     /**
-     * Returns the pixel bounds of the glyph at index when this
-     * <code>GlyphVector</code> is rendered in a <code>Graphics</code> with the
-     * given <code>FontRenderContext</code> at the given location. The
-     * renderFRC need not be the same as the
+     * Returns the pixel bounds of the glyph bt index when this
+     * <code>GlyphVector</code> is rendered in b <code>Grbphics</code> with the
+     * given <code>FontRenderContext</code> bt the given locbtion. The
+     * renderFRC need not be the sbme bs the
      * <code>FontRenderContext</code> of this
-     * <code>GlyphVector</code>, and can be null.  If it is null, the
+     * <code>GlyphVector</code>, bnd cbn be null.  If it is null, the
      * <code>FontRenderContext</code> of this <code>GlyphVector</code>
-     * is used.  The default implementation returns the visual bounds of the glyph,
-     * offset to x, y and rounded out to the next integer value, and
-     * ignores the FRC.  Subclassers should override this method.
-     * @param index the index of the glyph.
-     * @param renderFRC the <code>FontRenderContext</code> of the <code>Graphics</code>.
-     * @param x the X position at which to render this <code>GlyphVector</code>.
-     * @param y the Y position at which to render this <code>GlyphVector</code>.
-     * @return a <code>Rectangle</code> bounding the pixels that would be affected.
+     * is used.  The defbult implementbtion returns the visubl bounds of the glyph,
+     * offset to x, y bnd rounded out to the next integer vblue, bnd
+     * ignores the FRC.  Subclbssers should override this method.
+     * @pbrbm index the index of the glyph.
+     * @pbrbm renderFRC the <code>FontRenderContext</code> of the <code>Grbphics</code>.
+     * @pbrbm x the X position bt which to render this <code>GlyphVector</code>.
+     * @pbrbm y the Y position bt which to render this <code>GlyphVector</code>.
+     * @return b <code>Rectbngle</code> bounding the pixels thbt would be bffected.
      * @since 1.4
      */
-    public Rectangle getGlyphPixelBounds(int index, FontRenderContext renderFRC, float x, float y) {
-                Rectangle2D rect = getGlyphVisualBounds(index).getBounds2D();
-                int l = (int)Math.floor(rect.getX() + x);
-                int t = (int)Math.floor(rect.getY() + y);
-                int r = (int)Math.ceil(rect.getMaxX() + x);
-                int b = (int)Math.ceil(rect.getMaxY() + y);
-                return new Rectangle(l, t, r - l, b - t);
+    public Rectbngle getGlyphPixelBounds(int index, FontRenderContext renderFRC, flobt x, flobt y) {
+                Rectbngle2D rect = getGlyphVisublBounds(index).getBounds2D();
+                int l = (int)Mbth.floor(rect.getX() + x);
+                int t = (int)Mbth.floor(rect.getY() + y);
+                int r = (int)Mbth.ceil(rect.getMbxX() + x);
+                int b = (int)Mbth.ceil(rect.getMbxY() + y);
+                return new Rectbngle(l, t, r - l, b - t);
         }
 
     /**
-     * Returns the metrics of the glyph at the specified index into
+     * Returns the metrics of the glyph bt the specified index into
      * this <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     *   that corresponds to the glyph from which to retrieve its metrics
-     * @return a {@link GlyphMetrics} object that represents the
-     *   metrics of the glyph at the specified <code>glyphIndex</code>
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     *   thbt corresponds to the glyph from which to retrieve its metrics
+     * @return b {@link GlyphMetrics} object thbt represents the
+     *   metrics of the glyph bt the specified <code>glyphIndex</code>
      *   into this <code>GlyphVector</code>.
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
+     *   is less thbn 0 or grebter thbn or equbl to the number
      *   of glyphs in this <code>GlyphVector</code>
      */
-    public abstract GlyphMetrics getGlyphMetrics(int glyphIndex);
+    public bbstrbct GlyphMetrics getGlyphMetrics(int glyphIndex);
 
     /**
-     * Returns the justification information for the glyph at
+     * Returns the justificbtion informbtion for the glyph bt
      * the specified index into this <code>GlyphVector</code>.
-     * @param glyphIndex the index into this <code>GlyphVector</code>
-     *   that corresponds to the glyph from which to retrieve its
-     *   justification properties
-     * @return a {@link GlyphJustificationInfo} object that
-     *   represents the justification properties of the glyph at the
+     * @pbrbm glyphIndex the index into this <code>GlyphVector</code>
+     *   thbt corresponds to the glyph from which to retrieve its
+     *   justificbtion properties
+     * @return b {@link GlyphJustificbtionInfo} object thbt
+     *   represents the justificbtion properties of the glyph bt the
      *   specified <code>glyphIndex</code> into this
      *   <code>GlyphVector</code>.
      * @throws IndexOutOfBoundsException if <code>glyphIndex</code>
-     *   is less than 0 or greater than or equal to the number
+     *   is less thbn 0 or grebter thbn or equbl to the number
      *   of glyphs in this <code>GlyphVector</code>
      */
-    public abstract GlyphJustificationInfo getGlyphJustificationInfo(int glyphIndex);
+    public bbstrbct GlyphJustificbtionInfo getGlyphJustificbtionInfo(int glyphIndex);
 
     //
-    // general utility methods
+    // generbl utility methods
     //
 
     /**
-     * Tests if the specified <code>GlyphVector</code> exactly
-     * equals this <code>GlyphVector</code>.
-     * @param set the specified <code>GlyphVector</code> to test
+     * Tests if the specified <code>GlyphVector</code> exbctly
+     * equbls this <code>GlyphVector</code>.
+     * @pbrbm set the specified <code>GlyphVector</code> to test
      * @return <code>true</code> if the specified
-     *   <code>GlyphVector</code> equals this <code>GlyphVector</code>;
-     *   <code>false</code> otherwise.
+     *   <code>GlyphVector</code> equbls this <code>GlyphVector</code>;
+     *   <code>fblse</code> otherwise.
      */
-    public abstract boolean equals(GlyphVector set);
+    public bbstrbct boolebn equbls(GlyphVector set);
 }

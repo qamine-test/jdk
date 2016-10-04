@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <sys/types.h>
@@ -27,12 +27,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdarg.h>
+#include <stdbrg.h>
 
 
 #include <limits.h>
 
-#include <com_sun_java_util_jar_pack_NativeUnpack.h>
+#include <com_sun_jbvb_util_jbr_pbck_NbtiveUnpbck.h>
 
 #include "jni_util.h"
 
@@ -40,47 +40,47 @@
 #include "bytes.h"
 #include "utils.h"
 #include "coding.h"
-#include "bands.h"
-#include "constants.h"
+#include "bbnds.h"
+#include "constbnts.h"
 #include "zip.h"
-#include "unpack.h"
+#include "unpbck.h"
 
 
-static jfieldID  unpackerPtrFID;
-static jmethodID currentInstMID;
-static jmethodID readInputMID;
-static jclass    NIclazz;
-static jmethodID getUnpackerPtrMID;
+stbtic jfieldID  unpbckerPtrFID;
+stbtic jmethodID currentInstMID;
+stbtic jmethodID rebdInputMID;
+stbtic jclbss    NIclbzz;
+stbtic jmethodID getUnpbckerPtrMID;
 
-static char* dbg = null;
+stbtic chbr* dbg = null;
 
 #define THROW_IOE(x) JNU_ThrowIOException(env,x)
 
-#define CHECK_EXCEPTION_RETURN_VOID_THROW_IOE(CERVTI_exception, CERVTI_message) \
+#define CHECK_EXCEPTION_RETURN_VOID_THROW_IOE(CERVTI_exception, CERVTI_messbge) \
     do { \
         if ((env)->ExceptionOccurred()) { \
-            THROW_IOE(CERVTI_message); \
+            THROW_IOE(CERVTI_messbge); \
             return; \
         } \
         if ((CERVTI_exception) == NULL) { \
-                THROW_IOE(CERVTI_message); \
+                THROW_IOE(CERVTI_messbge); \
                 return; \
         } \
     } while (JNI_FALSE)
 
 
-#define CHECK_EXCEPTION_RETURN_VALUE(CERL_exception, CERL_return_value) \
+#define CHECK_EXCEPTION_RETURN_VALUE(CERL_exception, CERL_return_vblue) \
     do { \
         if ((env)->ExceptionOccurred()) { \
-            return CERL_return_value; \
+            return CERL_return_vblue; \
         } \
         if ((CERL_exception) == NULL) { \
-            return CERL_return_value; \
+            return CERL_return_vblue; \
         } \
     } while (JNI_FALSE)
 
 
-// If these useful macros aren't defined in jni_util.h then define them here
+// If these useful mbcros bren't defined in jni_util.h then define them here
 #ifndef CHECK_NULL_RETURN
 #define CHECK_NULL_RETURN(x, y) \
     do { \
@@ -95,251 +95,251 @@ static char* dbg = null;
     } while (JNI_FALSE)
 #endif
 
-static jlong read_input_via_jni(unpacker* self,
-                                void* buf, jlong minlen, jlong maxlen);
+stbtic jlong rebd_input_vib_jni(unpbcker* self,
+                                void* buf, jlong minlen, jlong mbxlen);
 
-static unpacker* get_unpacker(JNIEnv *env, jobject pObj, bool noCreate=false) {
-  unpacker* uPtr;
-  jlong p = env->CallLongMethod(pObj, getUnpackerPtrMID);
-  uPtr = (unpacker*)jlong2ptr(p);
+stbtic unpbcker* get_unpbcker(JNIEnv *env, jobject pObj, bool noCrebte=fblse) {
+  unpbcker* uPtr;
+  jlong p = env->CbllLongMethod(pObj, getUnpbckerPtrMID);
+  uPtr = (unpbcker*)jlong2ptr(p);
   if (uPtr == null) {
-    if (noCreate)  return null;
-    uPtr = new unpacker();
+    if (noCrebte)  return null;
+    uPtr = new unpbcker();
     if (uPtr == null) {
       THROW_IOE(ERROR_ENOMEM);
       return null;
     }
-    //fprintf(stderr, "get_unpacker(%p) uPtr=%p initializing\n", pObj, uPtr);
-    uPtr->init(read_input_via_jni);
-    uPtr->jniobj = (void*) env->NewGlobalRef(pObj);
-    env->SetLongField(pObj, unpackerPtrFID, ptr2jlong(uPtr));
+    //fprintf(stderr, "get_unpbcker(%p) uPtr=%p initiblizing\n", pObj, uPtr);
+    uPtr->init(rebd_input_vib_jni);
+    uPtr->jniobj = (void*) env->NewGlobblRef(pObj);
+    env->SetLongField(pObj, unpbckerPtrFID, ptr2jlong(uPtr));
   }
-  uPtr->jnienv = env;  // keep refreshing this in case of MT access
+  uPtr->jnienv = env;  // keep refreshing this in cbse of MT bccess
   return uPtr;
 }
 
-// This is the harder trick:  Pull the current state out of mid-air.
-static unpacker* get_unpacker() {
-  //fprintf(stderr, "get_unpacker()\n");
-  JavaVM* vm = null;
+// This is the hbrder trick:  Pull the current stbte out of mid-bir.
+stbtic unpbcker* get_unpbcker() {
+  //fprintf(stderr, "get_unpbcker()\n");
+  JbvbVM* vm = null;
   jsize nVM = 0;
-  jint retval = JNI_GetCreatedJavaVMs(&vm, 1, &nVM);
-  // other VM implements may differ, thus for correctness, we need these checks
-  if (retval != JNI_OK || nVM != 1)
+  jint retvbl = JNI_GetCrebtedJbvbVMs(&vm, 1, &nVM);
+  // other VM implements mby differ, thus for correctness, we need these checks
+  if (retvbl != JNI_OK || nVM != 1)
     return null;
-  void* envRaw = null;
-  vm->GetEnv(&envRaw, JNI_VERSION_1_1);
-  JNIEnv* env = (JNIEnv*) envRaw;
-  //fprintf(stderr, "get_unpacker() env=%p\n", env);
+  void* envRbw = null;
+  vm->GetEnv(&envRbw, JNI_VERSION_1_1);
+  JNIEnv* env = (JNIEnv*) envRbw;
+  //fprintf(stderr, "get_unpbcker() env=%p\n", env);
   CHECK_NULL_RETURN(env, NULL);
-  jobject pObj = env->CallStaticObjectMethod(NIclazz, currentInstMID);
-  // We should check upon the known non-null variable because here we want to check
-  // only for pending exceptions. If pObj is null we'll deal with it later.
+  jobject pObj = env->CbllStbticObjectMethod(NIclbzz, currentInstMID);
+  // We should check upon the known non-null vbribble becbuse here we wbnt to check
+  // only for pending exceptions. If pObj is null we'll debl with it lbter.
   CHECK_EXCEPTION_RETURN_VALUE(env, NULL);
-  //fprintf(stderr, "get_unpacker0() pObj=%p\n", pObj);
+  //fprintf(stderr, "get_unpbcker0() pObj=%p\n", pObj);
   if (pObj != null) {
-    // Got pObj and env; now do it the easy way.
-    return get_unpacker(env, pObj);
+    // Got pObj bnd env; now do it the ebsy wby.
+    return get_unpbcker(env, pObj);
   }
-  // this should really not happen, if it does something is seriously
-  // wrong throw an exception
+  // this should reblly not hbppen, if it does something is seriously
+  // wrong throw bn exception
   THROW_IOE(ERROR_INTERNAL);
   return null;
 }
 
-static void free_unpacker(JNIEnv *env, jobject pObj, unpacker* uPtr) {
+stbtic void free_unpbcker(JNIEnv *env, jobject pObj, unpbcker* uPtr) {
   if (uPtr != null) {
-    //fprintf(stderr, "free_unpacker(%p) uPtr=%p\n", pObj, uPtr);
-    env->DeleteGlobalRef((jobject) uPtr->jniobj);
+    //fprintf(stderr, "free_unpbcker(%p) uPtr=%p\n", pObj, uPtr);
+    env->DeleteGlobblRef((jobject) uPtr->jniobj);
     uPtr->jniobj = null;
     uPtr->free();
     delete uPtr;
-    env->SetLongField(pObj, unpackerPtrFID, (jlong)null);
+    env->SetLongField(pObj, unpbckerPtrFID, (jlong)null);
    }
 }
 
-unpacker* unpacker::current() {
-  return get_unpacker();
+unpbcker* unpbcker::current() {
+  return get_unpbcker();
 }
 
-// Callback for fetching data, Java style.  Calls NativeUnpack.readInputFn().
-static jlong read_input_via_jni(unpacker* self,
-                                void* buf, jlong minlen, jlong maxlen) {
+// Cbllbbck for fetching dbtb, Jbvb style.  Cblls NbtiveUnpbck.rebdInputFn().
+stbtic jlong rebd_input_vib_jni(unpbcker* self,
+                                void* buf, jlong minlen, jlong mbxlen) {
   JNIEnv* env = (JNIEnv*) self->jnienv;
-  jobject pbuf = env->NewDirectByteBuffer(buf, maxlen);
-  return env->CallLongMethod((jobject) self->jniobj, readInputMID,
+  jobject pbuf = env->NewDirectByteBuffer(buf, mbxlen);
+  return env->CbllLongMethod((jobject) self->jniobj, rebdInputMID,
                              pbuf, minlen);
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_java_util_jar_pack_NativeUnpack_initIDs(JNIEnv *env, jclass clazz) {
+Jbvb_com_sun_jbvb_util_jbr_pbck_NbtiveUnpbck_initIDs(JNIEnv *env, jclbss clbzz) {
 #ifndef PRODUCT
   dbg = getenv("DEBUG_ATTACH");
   while( dbg != null) { sleep(10); }
 #endif
-  NIclazz = (jclass) env->NewGlobalRef(clazz);
+  NIclbzz = (jclbss) env->NewGlobblRef(clbzz);
 
-  unpackerPtrFID = env->GetFieldID(clazz, "unpackerPtr", "J");
-  CHECK_EXCEPTION_RETURN_VOID_THROW_IOE(unpackerPtrFID, ERROR_INIT);
+  unpbckerPtrFID = env->GetFieldID(clbzz, "unpbckerPtr", "J");
+  CHECK_EXCEPTION_RETURN_VOID_THROW_IOE(unpbckerPtrFID, ERROR_INIT);
 
-  currentInstMID = env->GetStaticMethodID(clazz, "currentInstance",
-                                          "()Ljava/lang/Object;");
+  currentInstMID = env->GetStbticMethodID(clbzz, "currentInstbnce",
+                                          "()Ljbvb/lbng/Object;");
   CHECK_EXCEPTION_RETURN_VOID_THROW_IOE(currentInstMID, ERROR_INIT);
 
-  readInputMID = env->GetMethodID(clazz, "readInputFn",
-                                  "(Ljava/nio/ByteBuffer;J)J");
-  CHECK_EXCEPTION_RETURN_VOID_THROW_IOE(readInputMID, ERROR_INIT);
+  rebdInputMID = env->GetMethodID(clbzz, "rebdInputFn",
+                                  "(Ljbvb/nio/ByteBuffer;J)J");
+  CHECK_EXCEPTION_RETURN_VOID_THROW_IOE(rebdInputMID, ERROR_INIT);
 
-  getUnpackerPtrMID = env->GetMethodID(clazz, "getUnpackerPtr", "()J");
-  CHECK_EXCEPTION_RETURN_VOID_THROW_IOE(getUnpackerPtrMID, ERROR_INIT);
+  getUnpbckerPtrMID = env->GetMethodID(clbzz, "getUnpbckerPtr", "()J");
+  CHECK_EXCEPTION_RETURN_VOID_THROW_IOE(getUnpbckerPtrMID, ERROR_INIT);
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_sun_java_util_jar_pack_NativeUnpack_start(JNIEnv *env, jobject pObj,
+Jbvb_com_sun_jbvb_util_jbr_pbck_NbtiveUnpbck_stbrt(JNIEnv *env, jobject pObj,
                                    jobject pBuf, jlong offset) {
-  // try to get the unpacker pointer the hard way first, we do this to ensure
-  // valid object pointers and env is intact, if not now is good time to bail.
-  unpacker* uPtr = get_unpacker();
-  //fprintf(stderr, "start(%p) uPtr=%p initializing\n", pObj, uPtr);
+  // try to get the unpbcker pointer the hbrd wby first, we do this to ensure
+  // vblid object pointers bnd env is intbct, if not now is good time to bbil.
+  unpbcker* uPtr = get_unpbcker();
+  //fprintf(stderr, "stbrt(%p) uPtr=%p initiblizing\n", pObj, uPtr);
   CHECK_EXCEPTION_RETURN_VALUE(uPtr, -1);
-  // redirect our io to the default log file or whatever.
+  // redirect our io to the defbult log file or whbtever.
   uPtr->redirect_stdio();
 
   void*  buf    = null;
   size_t buflen = 0;
   if (pBuf != null) {
     buf    = env->GetDirectBufferAddress(pBuf);
-    buflen = (size_t)env->GetDirectBufferCapacity(pBuf);
+    buflen = (size_t)env->GetDirectBufferCbpbcity(pBuf);
     if (buflen == 0)  buf = null;
     if (buf == null) { THROW_IOE(ERROR_INTERNAL); return 0; }
     if ((size_t)offset >= buflen)
       { buf = null; buflen = 0; }
     else
-      { buf = (char*)buf + (size_t)offset; buflen -= (size_t)offset; }
+      { buf = (chbr*)buf + (size_t)offset; buflen -= (size_t)offset; }
   }
-  // before we start off we make sure there is no other error by the time we
+  // before we stbrt off we mbke sure there is no other error by the time we
   // get here
-  if (uPtr->aborting()) {
-    THROW_IOE(uPtr->get_abort_message());
+  if (uPtr->bborting()) {
+    THROW_IOE(uPtr->get_bbort_messbge());
     return 0;
   }
-  uPtr->start(buf, buflen);
-  if (uPtr->aborting()) {
-    THROW_IOE(uPtr->get_abort_message());
+  uPtr->stbrt(buf, buflen);
+  if (uPtr->bborting()) {
+    THROW_IOE(uPtr->get_bbort_messbge());
     return 0;
   }
 
   return ((jlong)
-          uPtr->get_segments_remaining() << 32)
-    + uPtr->get_files_remaining();
+          uPtr->get_segments_rembining() << 32)
+    + uPtr->get_files_rembining();
 }
 
-JNIEXPORT jboolean JNICALL
-Java_com_sun_java_util_jar_pack_NativeUnpack_getNextFile(JNIEnv *env, jobject pObj,
-                                         jobjectArray pParts) {
+JNIEXPORT jboolebn JNICALL
+Jbvb_com_sun_jbvb_util_jbr_pbck_NbtiveUnpbck_getNextFile(JNIEnv *env, jobject pObj,
+                                         jobjectArrby pPbrts) {
 
-  unpacker* uPtr = get_unpacker(env, pObj);
-  CHECK_EXCEPTION_RETURN_VALUE(uPtr, false);
-  unpacker::file* filep = uPtr->get_next_file();
+  unpbcker* uPtr = get_unpbcker(env, pObj);
+  CHECK_EXCEPTION_RETURN_VALUE(uPtr, fblse);
+  unpbcker::file* filep = uPtr->get_next_file();
 
-  if (uPtr->aborting()) {
-    THROW_IOE(uPtr->get_abort_message());
-    return false;
+  if (uPtr->bborting()) {
+    THROW_IOE(uPtr->get_bbort_messbge());
+    return fblse;
   }
 
-  CHECK_NULL_RETURN(filep, false);
-  assert(filep == &uPtr->cur_file);
+  CHECK_NULL_RETURN(filep, fblse);
+  bssert(filep == &uPtr->cur_file);
 
   int pidx = 0, iidx = 0;
-  jintArray pIntParts = (jintArray) env->GetObjectArrayElement(pParts, pidx++);
-  CHECK_EXCEPTION_RETURN_VALUE(pIntParts, false);
-  jint*     intParts  = env->GetIntArrayElements(pIntParts, null);
-  intParts[iidx++] = (jint)( (julong)filep->size >> 32 );
-  intParts[iidx++] = (jint)( (julong)filep->size >>  0 );
-  intParts[iidx++] = filep->modtime;
-  intParts[iidx++] = filep->deflate_hint() ? 1 : 0;
-  env->ReleaseIntArrayElements(pIntParts, intParts, JNI_COMMIT);
-  jstring filename = env->NewStringUTF(filep->name);
-  CHECK_EXCEPTION_RETURN_VALUE(filename, false);
-  env->SetObjectArrayElement(pParts, pidx++, filename);
-  CHECK_EXCEPTION_RETURN_VALUE(uPtr, false);
-  jobject pDataBuf = null;
-  if (filep->data[0].len > 0) {
-    pDataBuf = env->NewDirectByteBuffer(filep->data[0].ptr,
-                                        filep->data[0].len);
-    CHECK_EXCEPTION_RETURN_VALUE(pDataBuf, false);
+  jintArrby pIntPbrts = (jintArrby) env->GetObjectArrbyElement(pPbrts, pidx++);
+  CHECK_EXCEPTION_RETURN_VALUE(pIntPbrts, fblse);
+  jint*     intPbrts  = env->GetIntArrbyElements(pIntPbrts, null);
+  intPbrts[iidx++] = (jint)( (julong)filep->size >> 32 );
+  intPbrts[iidx++] = (jint)( (julong)filep->size >>  0 );
+  intPbrts[iidx++] = filep->modtime;
+  intPbrts[iidx++] = filep->deflbte_hint() ? 1 : 0;
+  env->RelebseIntArrbyElements(pIntPbrts, intPbrts, JNI_COMMIT);
+  jstring filenbme = env->NewStringUTF(filep->nbme);
+  CHECK_EXCEPTION_RETURN_VALUE(filenbme, fblse);
+  env->SetObjectArrbyElement(pPbrts, pidx++, filenbme);
+  CHECK_EXCEPTION_RETURN_VALUE(uPtr, fblse);
+  jobject pDbtbBuf = null;
+  if (filep->dbtb[0].len > 0) {
+    pDbtbBuf = env->NewDirectByteBuffer(filep->dbtb[0].ptr,
+                                        filep->dbtb[0].len);
+    CHECK_EXCEPTION_RETURN_VALUE(pDbtbBuf, fblse);
   }
-  env->SetObjectArrayElement(pParts, pidx++, pDataBuf);
-  CHECK_EXCEPTION_RETURN_VALUE(uPtr, false);
-  pDataBuf = null;
-  if (filep->data[1].len > 0) {
-    pDataBuf = env->NewDirectByteBuffer(filep->data[1].ptr,
-                                        filep->data[1].len);
-    CHECK_EXCEPTION_RETURN_VALUE(pDataBuf, false);
+  env->SetObjectArrbyElement(pPbrts, pidx++, pDbtbBuf);
+  CHECK_EXCEPTION_RETURN_VALUE(uPtr, fblse);
+  pDbtbBuf = null;
+  if (filep->dbtb[1].len > 0) {
+    pDbtbBuf = env->NewDirectByteBuffer(filep->dbtb[1].ptr,
+                                        filep->dbtb[1].len);
+    CHECK_EXCEPTION_RETURN_VALUE(pDbtbBuf, fblse);
   }
-  env->SetObjectArrayElement(pParts, pidx++, pDataBuf);
-  CHECK_EXCEPTION_RETURN_VALUE(uPtr, false);
+  env->SetObjectArrbyElement(pPbrts, pidx++, pDbtbBuf);
+  CHECK_EXCEPTION_RETURN_VALUE(uPtr, fblse);
 
   return true;
 }
 
 
 JNIEXPORT jobject JNICALL
-Java_com_sun_java_util_jar_pack_NativeUnpack_getUnusedInput(JNIEnv *env, jobject pObj) {
-  unpacker* uPtr = get_unpacker(env, pObj);
+Jbvb_com_sun_jbvb_util_jbr_pbck_NbtiveUnpbck_getUnusedInput(JNIEnv *env, jobject pObj) {
+  unpbcker* uPtr = get_unpbcker(env, pObj);
   CHECK_EXCEPTION_RETURN_VALUE(uPtr, NULL);
-  unpacker::file* filep = &uPtr->cur_file;
+  unpbcker::file* filep = &uPtr->cur_file;
 
-  if (uPtr->aborting()) {
-    THROW_IOE(uPtr->get_abort_message());
-    return false;
+  if (uPtr->bborting()) {
+    THROW_IOE(uPtr->get_bbort_messbge());
+    return fblse;
   }
 
-  // We have fetched all the files.
-  // Now swallow up any remaining input.
-  if (uPtr->input_remaining() == 0) {
+  // We hbve fetched bll the files.
+  // Now swbllow up bny rembining input.
+  if (uPtr->input_rembining() == 0) {
     return null;
   } else {
-    bytes remaining_bytes;
-    remaining_bytes.malloc(uPtr->input_remaining());
-    remaining_bytes.copyFrom(uPtr->input_scan(), uPtr->input_remaining());
-    return env->NewDirectByteBuffer(remaining_bytes.ptr, remaining_bytes.len);
+    bytes rembining_bytes;
+    rembining_bytes.mblloc(uPtr->input_rembining());
+    rembining_bytes.copyFrom(uPtr->input_scbn(), uPtr->input_rembining());
+    return env->NewDirectByteBuffer(rembining_bytes.ptr, rembining_bytes.len);
   }
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_sun_java_util_jar_pack_NativeUnpack_finish(JNIEnv *env, jobject pObj) {
-  unpacker* uPtr = get_unpacker(env, pObj, false);
+Jbvb_com_sun_jbvb_util_jbr_pbck_NbtiveUnpbck_finish(JNIEnv *env, jobject pObj) {
+  unpbcker* uPtr = get_unpbcker(env, pObj, fblse);
   CHECK_EXCEPTION_RETURN_VALUE(uPtr, NULL);
   size_t consumed = uPtr->input_consumed();
-  free_unpacker(env, pObj, uPtr);
+  free_unpbcker(env, pObj, uPtr);
   return consumed;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_com_sun_java_util_jar_pack_NativeUnpack_setOption(JNIEnv *env, jobject pObj,
-                                       jstring pProp, jstring pValue) {
-  unpacker*   uPtr  = get_unpacker(env, pObj);
-  const char* prop  = env->GetStringUTFChars(pProp, JNI_FALSE);
-  CHECK_EXCEPTION_RETURN_VALUE(prop, false);
-  const char* value = env->GetStringUTFChars(pValue, JNI_FALSE);
-  CHECK_EXCEPTION_RETURN_VALUE(value, false);
-  jboolean   retval = uPtr->set_option(prop, value);
-  env->ReleaseStringUTFChars(pProp,  prop);
-  env->ReleaseStringUTFChars(pValue, value);
-  return retval;
+JNIEXPORT jboolebn JNICALL
+Jbvb_com_sun_jbvb_util_jbr_pbck_NbtiveUnpbck_setOption(JNIEnv *env, jobject pObj,
+                                       jstring pProp, jstring pVblue) {
+  unpbcker*   uPtr  = get_unpbcker(env, pObj);
+  const chbr* prop  = env->GetStringUTFChbrs(pProp, JNI_FALSE);
+  CHECK_EXCEPTION_RETURN_VALUE(prop, fblse);
+  const chbr* vblue = env->GetStringUTFChbrs(pVblue, JNI_FALSE);
+  CHECK_EXCEPTION_RETURN_VALUE(vblue, fblse);
+  jboolebn   retvbl = uPtr->set_option(prop, vblue);
+  env->RelebseStringUTFChbrs(pProp,  prop);
+  env->RelebseStringUTFChbrs(pVblue, vblue);
+  return retvbl;
 }
 
 JNIEXPORT jstring JNICALL
-Java_com_sun_java_util_jar_pack_NativeUnpack_getOption(JNIEnv *env, jobject pObj,
+Jbvb_com_sun_jbvb_util_jbr_pbck_NbtiveUnpbck_getOption(JNIEnv *env, jobject pObj,
                                        jstring pProp) {
 
-  unpacker*   uPtr  = get_unpacker(env, pObj);
+  unpbcker*   uPtr  = get_unpbcker(env, pObj);
   CHECK_EXCEPTION_RETURN_VALUE(uPtr, NULL);
-  const char* prop  = env->GetStringUTFChars(pProp, JNI_FALSE);
+  const chbr* prop  = env->GetStringUTFChbrs(pProp, JNI_FALSE);
   CHECK_EXCEPTION_RETURN_VALUE(prop, NULL);
-  const char* value = uPtr->get_option(prop);
-  CHECK_EXCEPTION_RETURN_VALUE(value, NULL);
-  env->ReleaseStringUTFChars(pProp, prop);
-  return env->NewStringUTF(value);
+  const chbr* vblue = uPtr->get_option(prop);
+  CHECK_EXCEPTION_RETURN_VALUE(vblue, NULL);
+  env->RelebseStringUTFChbrs(pProp, prop);
+  return env->NewStringUTF(vblue);
 }

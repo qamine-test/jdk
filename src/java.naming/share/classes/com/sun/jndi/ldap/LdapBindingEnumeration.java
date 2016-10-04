@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Vector;
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.ldap.Control;
-import javax.naming.spi.*;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.Vector;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.ldbp.Control;
+import jbvbx.nbming.spi.*;
 
-import com.sun.jndi.toolkit.ctx.Continuation;
+import com.sun.jndi.toolkit.ctx.Continubtion;
 
-final class LdapBindingEnumeration
-        extends AbstractLdapNamingEnumeration<Binding> {
+finbl clbss LdbpBindingEnumerbtion
+        extends AbstrbctLdbpNbmingEnumerbtion<Binding> {
 
-    private final AccessControlContext acc = AccessController.getContext();
+    privbte finbl AccessControlContext bcc = AccessController.getContext();
 
-    LdapBindingEnumeration(LdapCtx homeCtx, LdapResult answer, Name remain,
-        Continuation cont) throws NamingException
+    LdbpBindingEnumerbtion(LdbpCtx homeCtx, LdbpResult bnswer, Nbme rembin,
+        Continubtion cont) throws NbmingException
     {
-        super(homeCtx, answer, remain, cont);
+        super(homeCtx, bnswer, rembin, cont);
     }
 
     @Override
     protected Binding
-      createItem(String dn, Attributes attrs, Vector<Control> respCtls)
-        throws NamingException {
+      crebteItem(String dn, Attributes bttrs, Vector<Control> respCtls)
+        throws NbmingException {
 
         Object obj = null;
-        String atom = getAtom(dn);
+        String btom = getAtom(dn);
 
-        if (attrs.get(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME]) != null) {
-            // serialized object or object reference
+        if (bttrs.get(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME]) != null) {
+            // seriblized object or object reference
             try {
                 obj = AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
                     @Override
-                    public Object run() throws NamingException {
-                        return Obj.decodeObject(attrs);
+                    public Object run() throws NbmingException {
+                        return Obj.decodeObject(bttrs);
                     }
-                }, acc);
-            } catch (PrivilegedActionException e) {
-                throw (NamingException)e.getException();
+                }, bcc);
+            } cbtch (PrivilegedActionException e) {
+                throw (NbmingException)e.getException();
             }
         }
         if (obj == null) {
             // DirContext object
-            obj = new LdapCtx(homeCtx, dn);
+            obj = new LdbpCtx(homeCtx, dn);
         }
 
-        CompositeName cn = new CompositeName();
-        cn.add(atom);
+        CompositeNbme cn = new CompositeNbme();
+        cn.bdd(btom);
 
         try {
-            obj = DirectoryManager.getObjectInstance(obj, cn, homeCtx,
-                homeCtx.envprops, attrs);
+            obj = DirectoryMbnbger.getObjectInstbnce(obj, cn, homeCtx,
+                homeCtx.envprops, bttrs);
 
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw e;
 
-        } catch (Exception e) {
-            NamingException ne =
-                new NamingException(
-                        "problem generating object using object factory");
-            ne.setRootCause(e);
+        } cbtch (Exception e) {
+            NbmingException ne =
+                new NbmingException(
+                        "problem generbting object using object fbctory");
+            ne.setRootCbuse(e);
             throw ne;
         }
 
@@ -99,14 +99,14 @@ final class LdapBindingEnumeration
         } else {
             binding = new Binding(cn.toString(), obj);
         }
-        binding.setNameInNamespace(dn);
+        binding.setNbmeInNbmespbce(dn);
         return binding;
     }
 
     @Override
-    protected LdapBindingEnumeration getReferredResults(
-            LdapReferralContext refCtx) throws NamingException{
-        // repeat the original operation at the new context
-        return (LdapBindingEnumeration)refCtx.listBindings(listArg);
+    protected LdbpBindingEnumerbtion getReferredResults(
+            LdbpReferrblContext refCtx) throws NbmingException{
+        // repebt the originbl operbtion bt the new context
+        return (LdbpBindingEnumerbtion)refCtx.listBindings(listArg);
     }
 }

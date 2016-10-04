@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * Serializability of a class is enabled by the class implementing the
- * java.io.Serializable interface. Classes that do not implement this
- * interface will not have any of their state serialized or
- * deserialized.  All subtypes of a serializable class are themselves
- * serializable.  The serialization interface has no methods or fields
- * and serves only to identify the semantics of being serializable. <p>
+ * Seriblizbbility of b clbss is enbbled by the clbss implementing the
+ * jbvb.io.Seriblizbble interfbce. Clbsses thbt do not implement this
+ * interfbce will not hbve bny of their stbte seriblized or
+ * deseriblized.  All subtypes of b seriblizbble clbss bre themselves
+ * seriblizbble.  The seriblizbtion interfbce hbs no methods or fields
+ * bnd serves only to identify the sembntics of being seriblizbble. <p>
  *
- * To allow subtypes of non-serializable classes to be serialized, the
- * subtype may assume responsibility for saving and restoring the
- * state of the supertype's public, protected, and (if accessible)
- * package fields.  The subtype may assume this responsibility only if
- * the class it extends has an accessible no-arg constructor to
- * initialize the class's state.  It is an error to declare a class
- * Serializable if this is not the case.  The error will be detected at
+ * To bllow subtypes of non-seriblizbble clbsses to be seriblized, the
+ * subtype mby bssume responsibility for sbving bnd restoring the
+ * stbte of the supertype's public, protected, bnd (if bccessible)
+ * pbckbge fields.  The subtype mby bssume this responsibility only if
+ * the clbss it extends hbs bn bccessible no-brg constructor to
+ * initiblize the clbss's stbte.  It is bn error to declbre b clbss
+ * Seriblizbble if this is not the cbse.  The error will be detected bt
  * runtime. <p>
  *
- * During deserialization, the fields of non-serializable classes will
- * be initialized using the public or protected no-arg constructor of
- * the class.  A no-arg constructor must be accessible to the subclass
- * that is serializable.  The fields of serializable subclasses will
- * be restored from the stream. <p>
+ * During deseriblizbtion, the fields of non-seriblizbble clbsses will
+ * be initiblized using the public or protected no-brg constructor of
+ * the clbss.  A no-brg constructor must be bccessible to the subclbss
+ * thbt is seriblizbble.  The fields of seriblizbble subclbsses will
+ * be restored from the strebm. <p>
  *
- * When traversing a graph, an object may be encountered that does not
- * support the Serializable interface. In this case the
- * NotSerializableException will be thrown and will identify the class
- * of the non-serializable object. <p>
+ * When trbversing b grbph, bn object mby be encountered thbt does not
+ * support the Seriblizbble interfbce. In this cbse the
+ * NotSeriblizbbleException will be thrown bnd will identify the clbss
+ * of the non-seriblizbble object. <p>
  *
- * Classes that require special handling during the serialization and
- * deserialization process must implement special methods with these exact
- * signatures:
+ * Clbsses thbt require specibl hbndling during the seriblizbtion bnd
+ * deseriblizbtion process must implement specibl methods with these exbct
+ * signbtures:
  *
  * <PRE>
- * private void writeObject(java.io.ObjectOutputStream out)
+ * privbte void writeObject(jbvb.io.ObjectOutputStrebm out)
  *     throws IOException
- * private void readObject(java.io.ObjectInputStream in)
- *     throws IOException, ClassNotFoundException;
- * private void readObjectNoData()
- *     throws ObjectStreamException;
+ * privbte void rebdObject(jbvb.io.ObjectInputStrebm in)
+ *     throws IOException, ClbssNotFoundException;
+ * privbte void rebdObjectNoDbtb()
+ *     throws ObjectStrebmException;
  * </PRE>
  *
- * <p>The writeObject method is responsible for writing the state of the
- * object for its particular class so that the corresponding
- * readObject method can restore it.  The default mechanism for saving
- * the Object's fields can be invoked by calling
- * out.defaultWriteObject. The method does not need to concern
- * itself with the state belonging to its superclasses or subclasses.
- * State is saved by writing the individual fields to the
- * ObjectOutputStream using the writeObject method or by using the
- * methods for primitive data types supported by DataOutput.
+ * <p>The writeObject method is responsible for writing the stbte of the
+ * object for its pbrticulbr clbss so thbt the corresponding
+ * rebdObject method cbn restore it.  The defbult mechbnism for sbving
+ * the Object's fields cbn be invoked by cblling
+ * out.defbultWriteObject. The method does not need to concern
+ * itself with the stbte belonging to its superclbsses or subclbsses.
+ * Stbte is sbved by writing the individubl fields to the
+ * ObjectOutputStrebm using the writeObject method or by using the
+ * methods for primitive dbtb types supported by DbtbOutput.
  *
- * <p>The readObject method is responsible for reading from the stream and
- * restoring the classes fields. It may call in.defaultReadObject to invoke
- * the default mechanism for restoring the object's non-static and
- * non-transient fields.  The defaultReadObject method uses information in
- * the stream to assign the fields of the object saved in the stream with the
- * correspondingly named fields in the current object.  This handles the case
- * when the class has evolved to add new fields. The method does not need to
- * concern itself with the state belonging to its superclasses or subclasses.
- * State is saved by writing the individual fields to the
- * ObjectOutputStream using the writeObject method or by using the
- * methods for primitive data types supported by DataOutput.
+ * <p>The rebdObject method is responsible for rebding from the strebm bnd
+ * restoring the clbsses fields. It mby cbll in.defbultRebdObject to invoke
+ * the defbult mechbnism for restoring the object's non-stbtic bnd
+ * non-trbnsient fields.  The defbultRebdObject method uses informbtion in
+ * the strebm to bssign the fields of the object sbved in the strebm with the
+ * correspondingly nbmed fields in the current object.  This hbndles the cbse
+ * when the clbss hbs evolved to bdd new fields. The method does not need to
+ * concern itself with the stbte belonging to its superclbsses or subclbsses.
+ * Stbte is sbved by writing the individubl fields to the
+ * ObjectOutputStrebm using the writeObject method or by using the
+ * methods for primitive dbtb types supported by DbtbOutput.
  *
- * <p>The readObjectNoData method is responsible for initializing the state of
- * the object for its particular class in the event that the serialization
- * stream does not list the given class as a superclass of the object being
- * deserialized.  This may occur in cases where the receiving party uses a
- * different version of the deserialized instance's class than the sending
- * party, and the receiver's version extends classes that are not extended by
- * the sender's version.  This may also occur if the serialization stream has
- * been tampered; hence, readObjectNoData is useful for initializing
- * deserialized objects properly despite a "hostile" or incomplete source
- * stream.
+ * <p>The rebdObjectNoDbtb method is responsible for initiblizing the stbte of
+ * the object for its pbrticulbr clbss in the event thbt the seriblizbtion
+ * strebm does not list the given clbss bs b superclbss of the object being
+ * deseriblized.  This mby occur in cbses where the receiving pbrty uses b
+ * different version of the deseriblized instbnce's clbss thbn the sending
+ * pbrty, bnd the receiver's version extends clbsses thbt bre not extended by
+ * the sender's version.  This mby blso occur if the seriblizbtion strebm hbs
+ * been tbmpered; hence, rebdObjectNoDbtb is useful for initiblizing
+ * deseriblized objects properly despite b "hostile" or incomplete source
+ * strebm.
  *
- * <p>Serializable classes that need to designate an alternative object to be
- * used when writing an object to the stream should implement this
- * special method with the exact signature:
+ * <p>Seriblizbble clbsses thbt need to designbte bn blternbtive object to be
+ * used when writing bn object to the strebm should implement this
+ * specibl method with the exbct signbture:
  *
  * <PRE>
- * ANY-ACCESS-MODIFIER Object writeReplace() throws ObjectStreamException;
+ * ANY-ACCESS-MODIFIER Object writeReplbce() throws ObjectStrebmException;
  * </PRE><p>
  *
- * This writeReplace method is invoked by serialization if the method
- * exists and it would be accessible from a method defined within the
- * class of the object being serialized. Thus, the method can have private,
- * protected and package-private access. Subclass access to this method
- * follows java accessibility rules. <p>
+ * This writeReplbce method is invoked by seriblizbtion if the method
+ * exists bnd it would be bccessible from b method defined within the
+ * clbss of the object being seriblized. Thus, the method cbn hbve privbte,
+ * protected bnd pbckbge-privbte bccess. Subclbss bccess to this method
+ * follows jbvb bccessibility rules. <p>
  *
- * Classes that need to designate a replacement when an instance of it
- * is read from the stream should implement this special method with the
- * exact signature.
+ * Clbsses thbt need to designbte b replbcement when bn instbnce of it
+ * is rebd from the strebm should implement this specibl method with the
+ * exbct signbture.
  *
  * <PRE>
- * ANY-ACCESS-MODIFIER Object readResolve() throws ObjectStreamException;
+ * ANY-ACCESS-MODIFIER Object rebdResolve() throws ObjectStrebmException;
  * </PRE><p>
  *
- * This readResolve method follows the same invocation rules and
- * accessibility rules as writeReplace.<p>
+ * This rebdResolve method follows the sbme invocbtion rules bnd
+ * bccessibility rules bs writeReplbce.<p>
  *
- * The serialization runtime associates with each serializable class a version
- * number, called a serialVersionUID, which is used during deserialization to
- * verify that the sender and receiver of a serialized object have loaded
- * classes for that object that are compatible with respect to serialization.
- * If the receiver has loaded a class for the object that has a different
- * serialVersionUID than that of the corresponding sender's class, then
- * deserialization will result in an {@link InvalidClassException}.  A
- * serializable class can declare its own serialVersionUID explicitly by
- * declaring a field named <code>"serialVersionUID"</code> that must be static,
- * final, and of type <code>long</code>:
+ * The seriblizbtion runtime bssocibtes with ebch seriblizbble clbss b version
+ * number, cblled b seriblVersionUID, which is used during deseriblizbtion to
+ * verify thbt the sender bnd receiver of b seriblized object hbve lobded
+ * clbsses for thbt object thbt bre compbtible with respect to seriblizbtion.
+ * If the receiver hbs lobded b clbss for the object thbt hbs b different
+ * seriblVersionUID thbn thbt of the corresponding sender's clbss, then
+ * deseriblizbtion will result in bn {@link InvblidClbssException}.  A
+ * seriblizbble clbss cbn declbre its own seriblVersionUID explicitly by
+ * declbring b field nbmed <code>"seriblVersionUID"</code> thbt must be stbtic,
+ * finbl, bnd of type <code>long</code>:
  *
  * <PRE>
- * ANY-ACCESS-MODIFIER static final long serialVersionUID = 42L;
+ * ANY-ACCESS-MODIFIER stbtic finbl long seriblVersionUID = 42L;
  * </PRE>
  *
- * If a serializable class does not explicitly declare a serialVersionUID, then
- * the serialization runtime will calculate a default serialVersionUID value
- * for that class based on various aspects of the class, as described in the
- * Java(TM) Object Serialization Specification.  However, it is <em>strongly
- * recommended</em> that all serializable classes explicitly declare
- * serialVersionUID values, since the default serialVersionUID computation is
- * highly sensitive to class details that may vary depending on compiler
- * implementations, and can thus result in unexpected
- * <code>InvalidClassException</code>s during deserialization.  Therefore, to
- * guarantee a consistent serialVersionUID value across different java compiler
- * implementations, a serializable class must declare an explicit
- * serialVersionUID value.  It is also strongly advised that explicit
- * serialVersionUID declarations use the <code>private</code> modifier where
- * possible, since such declarations apply only to the immediately declaring
- * class--serialVersionUID fields are not useful as inherited members. Array
- * classes cannot declare an explicit serialVersionUID, so they always have
- * the default computed value, but the requirement for matching
- * serialVersionUID values is waived for array classes.
+ * If b seriblizbble clbss does not explicitly declbre b seriblVersionUID, then
+ * the seriblizbtion runtime will cblculbte b defbult seriblVersionUID vblue
+ * for thbt clbss bbsed on vbrious bspects of the clbss, bs described in the
+ * Jbvb(TM) Object Seriblizbtion Specificbtion.  However, it is <em>strongly
+ * recommended</em> thbt bll seriblizbble clbsses explicitly declbre
+ * seriblVersionUID vblues, since the defbult seriblVersionUID computbtion is
+ * highly sensitive to clbss detbils thbt mby vbry depending on compiler
+ * implementbtions, bnd cbn thus result in unexpected
+ * <code>InvblidClbssException</code>s during deseriblizbtion.  Therefore, to
+ * gubrbntee b consistent seriblVersionUID vblue bcross different jbvb compiler
+ * implementbtions, b seriblizbble clbss must declbre bn explicit
+ * seriblVersionUID vblue.  It is blso strongly bdvised thbt explicit
+ * seriblVersionUID declbrbtions use the <code>privbte</code> modifier where
+ * possible, since such declbrbtions bpply only to the immedibtely declbring
+ * clbss--seriblVersionUID fields bre not useful bs inherited members. Arrby
+ * clbsses cbnnot declbre bn explicit seriblVersionUID, so they blwbys hbve
+ * the defbult computed vblue, but the requirement for mbtching
+ * seriblVersionUID vblues is wbived for brrby clbsses.
  *
- * @author  unascribed
- * @see java.io.ObjectOutputStream
- * @see java.io.ObjectInputStream
- * @see java.io.ObjectOutput
- * @see java.io.ObjectInput
- * @see java.io.Externalizable
+ * @buthor  unbscribed
+ * @see jbvb.io.ObjectOutputStrebm
+ * @see jbvb.io.ObjectInputStrebm
+ * @see jbvb.io.ObjectOutput
+ * @see jbvb.io.ObjectInput
+ * @see jbvb.io.Externblizbble
  * @since   1.1
  */
-public interface Serializable {
+public interfbce Seriblizbble {
 }

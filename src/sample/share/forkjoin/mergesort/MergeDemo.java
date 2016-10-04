@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,267 +30,267 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.util.Arrays;
-import java.util.Random;
+import jbvb.util.Arrbys;
+import jbvb.util.Rbndom;
 
-import static java.lang.Integer.parseInt;
+import stbtic jbvb.lbng.Integer.pbrseInt;
 
 /**
- * MergeExample is a class that runs a demo benchmark of the {@code ForkJoin} framework
- * by benchmarking a {@link MergeSort} algorithm that is implemented using
- * {@link java.util.concurrent.RecursiveAction}.
- * The {@code ForkJoin} framework is setup with different parallelism levels
- * and the sort is executed with arrays of different sizes to see the
- * trade offs by using multiple threads for different sizes of the array.
+ * MergeExbmple is b clbss thbt runs b demo benchmbrk of the {@code ForkJoin} frbmework
+ * by benchmbrking b {@link MergeSort} blgorithm thbt is implemented using
+ * {@link jbvb.util.concurrent.RecursiveAction}.
+ * The {@code ForkJoin} frbmework is setup with different pbrbllelism levels
+ * bnd the sort is executed with brrbys of different sizes to see the
+ * trbde offs by using multiple threbds for different sizes of the brrby.
  */
-public class MergeDemo {
-    // Use a fixed seed to always get the same random values back
-    private final Random random = new Random(759123751834L);
-    private static final int ITERATIONS = 10;
+public clbss MergeDemo {
+    // Use b fixed seed to blwbys get the sbme rbndom vblues bbck
+    privbte finbl Rbndom rbndom = new Rbndom(759123751834L);
+    privbte stbtic finbl int ITERATIONS = 10;
 
     /**
-     * Represents the formula {@code f(n) = start + (step * n)} for n = 0 & n < iterations
+     * Represents the formulb {@code f(n) = stbrt + (step * n)} for n = 0 & n < iterbtions
      */
-    private static class Range {
-        private final int start;
-        private final int step;
-        private final int iterations;
+    privbte stbtic clbss Rbnge {
+        privbte finbl int stbrt;
+        privbte finbl int step;
+        privbte finbl int iterbtions;
 
-        private Range(int start, int step, int iterations) {
-            this.start = start;
+        privbte Rbnge(int stbrt, int step, int iterbtions) {
+            this.stbrt = stbrt;
             this.step = step;
-            this.iterations = iterations;
+            this.iterbtions = iterbtions;
         }
 
         /**
-         * Parses start, step and iterations from args
-         * @param args the string array containing the arguments
-         * @param start which element to start the start argument from
-         * @return the constructed range
+         * Pbrses stbrt, step bnd iterbtions from brgs
+         * @pbrbm brgs the string brrby contbining the brguments
+         * @pbrbm stbrt which element to stbrt the stbrt brgument from
+         * @return the constructed rbnge
          */
-        public static Range parse(String[] args, int start) {
-            if (args.length < start + 3) {
-                throw new IllegalArgumentException("Too few elements in array");
+        public stbtic Rbnge pbrse(String[] brgs, int stbrt) {
+            if (brgs.length < stbrt + 3) {
+                throw new IllegblArgumentException("Too few elements in brrby");
             }
-            return new Range(parseInt(args[start]), parseInt(args[start + 1]), parseInt(args[start + 2]));
+            return new Rbnge(pbrseInt(brgs[stbrt]), pbrseInt(brgs[stbrt + 1]), pbrseInt(brgs[stbrt + 2]));
         }
 
-        public int get(int iteration) {
-            return start + (step * iteration);
+        public int get(int iterbtion) {
+            return stbrt + (step * iterbtion);
         }
 
-        public int getIterations() {
-            return iterations;
+        public int getIterbtions() {
+            return iterbtions;
         }
 
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
-            builder.append(start).append(" ").append(step).append(" ").append(iterations);
+            builder.bppend(stbrt).bppend(" ").bppend(step).bppend(" ").bppend(iterbtions);
             return builder.toString();
         }
     }
 
     /**
-     * Wraps the different parameters that is used when running the MergeExample.
-     * {@code sizes} represents the different array sizes
-     * {@code parallelism} represents the different parallelism levels
+     * Wrbps the different pbrbmeters thbt is used when running the MergeExbmple.
+     * {@code sizes} represents the different brrby sizes
+     * {@code pbrbllelism} represents the different pbrbllelism levels
      */
-    private static class Configuration {
-        private final Range sizes;
-        private final Range parallelism;
+    privbte stbtic clbss Configurbtion {
+        privbte finbl Rbnge sizes;
+        privbte finbl Rbnge pbrbllelism;
 
-        private final static Configuration defaultConfig = new Configuration(new Range(20000, 20000, 10),
-                new Range(2, 2, 10));
+        privbte finbl stbtic Configurbtion defbultConfig = new Configurbtion(new Rbnge(20000, 20000, 10),
+                new Rbnge(2, 2, 10));
 
-        private Configuration(Range sizes, Range parallelism) {
+        privbte Configurbtion(Rbnge sizes, Rbnge pbrbllelism) {
             this.sizes = sizes;
-            this.parallelism = parallelism;
+            this.pbrbllelism = pbrbllelism;
         }
 
         /**
-         * Parses the arguments and attempts to create a configuration containing the
-         * parameters for creating the array sizes and parallelism sizes
-         * @param args the input arguments
-         * @return the configuration
+         * Pbrses the brguments bnd bttempts to crebte b configurbtion contbining the
+         * pbrbmeters for crebting the brrby sizes bnd pbrbllelism sizes
+         * @pbrbm brgs the input brguments
+         * @return the configurbtion
          */
-        public static Configuration parse(String[] args) {
-            if (args.length == 0) {
-                return defaultConfig;
+        public stbtic Configurbtion pbrse(String[] brgs) {
+            if (brgs.length == 0) {
+                return defbultConfig;
             } else {
                 try {
-                    if (args.length == 6) {
-                        return new Configuration(Range.parse(args, 0), Range.parse(args, 3));
+                    if (brgs.length == 6) {
+                        return new Configurbtion(Rbnge.pbrse(brgs, 0), Rbnge.pbrse(brgs, 3));
                     }
-                } catch (NumberFormatException e) {
-                    System.err.println("MergeExample: error: Argument was not a number.");
+                } cbtch (NumberFormbtException e) {
+                    System.err.println("MergeExbmple: error: Argument wbs not b number.");
                 }
-                System.err.println("MergeExample <size start> <size step> <size steps> <parallel start> <parallel step>" +
-                        " <parallel steps>");
-                System.err.println("example: MergeExample 20000 10000 3 1 1 4");
-                System.err.println("example: will run with arrays of sizes 20000, 30000, 40000" +
-                        " and parallelism: 1, 2, 3, 4");
+                System.err.println("MergeExbmple <size stbrt> <size step> <size steps> <pbrbllel stbrt> <pbrbllel step>" +
+                        " <pbrbllel steps>");
+                System.err.println("exbmple: MergeExbmple 20000 10000 3 1 1 4");
+                System.err.println("exbmple: will run with brrbys of sizes 20000, 30000, 40000" +
+                        " bnd pbrbllelism: 1, 2, 3, 4");
                 return null;
             }
         }
 
         /**
-         * Creates an array for reporting the test result time in
-         * @return an array containing {@code sizes.iterations * parallelism.iterations} elements
+         * Crebtes bn brrby for reporting the test result time in
+         * @return bn brrby contbining {@code sizes.iterbtions * pbrbllelism.iterbtions} elements
          */
-        private long[][] createTimesArray() {
-            return new long[sizes.getIterations()][parallelism.getIterations()];
+        privbte long[][] crebteTimesArrby() {
+            return new long[sizes.getIterbtions()][pbrbllelism.getIterbtions()];
         }
 
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder("");
-            if (this == defaultConfig) {
-                builder.append("Default configuration. ");
+            if (this == defbultConfig) {
+                builder.bppend("Defbult configurbtion. ");
             }
-            builder.append("Running with parameters: ");
-            builder.append(sizes);
-            builder.append(" ");
-            builder.append(parallelism);
+            builder.bppend("Running with pbrbmeters: ");
+            builder.bppend(sizes);
+            builder.bppend(" ");
+            builder.bppend(pbrbllelism);
             return builder.toString();
         }
     }
 
     /**
-     * Generates an array of {@code elements} random elements
-     * @param elements the number of elements requested in the array
-     * @return an array of {@code elements} random elements
+     * Generbtes bn brrby of {@code elements} rbndom elements
+     * @pbrbm elements the number of elements requested in the brrby
+     * @return bn brrby of {@code elements} rbndom elements
      */
-    private int[] generateArray(int elements) {
-        int[] array = new int[elements];
+    privbte int[] generbteArrby(int elements) {
+        int[] brrby = new int[elements];
         for (int i = 0; i < elements; ++i) {
-            array[i] = random.nextInt();
+            brrby[i] = rbndom.nextInt();
         }
-        return array;
+        return brrby;
     }
 
     /**
      * Runs the test
-     * @param config contains the settings for the test
+     * @pbrbm config contbins the settings for the test
      */
-    private void run(Configuration config) {
-        Range sizes = config.sizes;
-        Range parallelism = config.parallelism;
+    privbte void run(Configurbtion config) {
+        Rbnge sizes = config.sizes;
+        Rbnge pbrbllelism = config.pbrbllelism;
 
-        // Run a couple of sorts to make the JIT compile / optimize the code
-        // which should produce somewhat more fair times
-        warmup();
+        // Run b couple of sorts to mbke the JIT compile / optimize the code
+        // which should produce somewhbt more fbir times
+        wbrmup();
 
-        long[][] times = config.createTimesArray();
+        long[][] times = config.crebteTimesArrby();
 
-        for (int size = 0; size < sizes.getIterations(); size++) {
-            runForSize(parallelism, sizes.get(size), times, size);
+        for (int size = 0; size < sizes.getIterbtions(); size++) {
+            runForSize(pbrbllelism, sizes.get(size), times, size);
         }
 
-        printResults(sizes, parallelism, times);
+        printResults(sizes, pbrbllelism, times);
     }
 
     /**
-     * Prints the results as a table
-     * @param sizes the different sizes of the arrays
-     * @param parallelism the different parallelism levels used
-     * @param times the median times for the different sizes / parallelism
+     * Prints the results bs b tbble
+     * @pbrbm sizes the different sizes of the brrbys
+     * @pbrbm pbrbllelism the different pbrbllelism levels used
+     * @pbrbm times the medibn times for the different sizes / pbrbllelism
      */
-    private void printResults(Range sizes, Range parallelism, long[][] times) {
-        System.out.println("Time in milliseconds. Y-axis: number of elements. X-axis parallelism used.");
+    privbte void printResults(Rbnge sizes, Rbnge pbrbllelism, long[][] times) {
+        System.out.println("Time in milliseconds. Y-bxis: number of elements. X-bxis pbrbllelism used.");
         long[] sums = new long[times[0].length];
-        System.out.format("%8s  ", "");
+        System.out.formbt("%8s  ", "");
         for (int i = 0; i < times[0].length; i++) {
-            System.out.format("%4d ", parallelism.get(i));
+            System.out.formbt("%4d ", pbrbllelism.get(i));
         }
         System.out.println("");
-        for (int size = 0; size < sizes.getIterations(); size++) {
-            System.out.format("%8d: ", sizes.get(size));
+        for (int size = 0; size < sizes.getIterbtions(); size++) {
+            System.out.formbt("%8d: ", sizes.get(size));
             for (int i = 0; i < times[size].length; i++) {
                 sums[i] += times[size][i];
-                System.out.format("%4d ", times[size][i]);
+                System.out.formbt("%4d ", times[size][i]);
             }
             System.out.println("");
         }
-        System.out.format("%8s: ", "Total");
+        System.out.formbt("%8s: ", "Totbl");
         for (long sum : sums) {
-            System.out.format("%4d ", sum);
+            System.out.formbt("%4d ", sum);
         }
         System.out.println("");
     }
 
-    private void runForSize(Range parallelism, int elements, long[][] times, int size) {
-        for (int step = 0; step < parallelism.getIterations(); step++) {
-            long time = runForParallelism(ITERATIONS, elements, parallelism.get(step));
+    privbte void runForSize(Rbnge pbrbllelism, int elements, long[][] times, int size) {
+        for (int step = 0; step < pbrbllelism.getIterbtions(); step++) {
+            long time = runForPbrbllelism(ITERATIONS, elements, pbrbllelism.get(step));
             times[size][step] = time;
         }
     }
 
     /**
-     * Runs <i>iterations</i> number of test sorts of a random array of <i>element</i> length
-     * @param iterations number of iterations
-     * @param elements number of elements in the random array
-     * @param parallelism parallelism for the ForkJoin framework
-     * @return the median time of runs
+     * Runs <i>iterbtions</i> number of test sorts of b rbndom brrby of <i>element</i> length
+     * @pbrbm iterbtions number of iterbtions
+     * @pbrbm elements number of elements in the rbndom brrby
+     * @pbrbm pbrbllelism pbrbllelism for the ForkJoin frbmework
+     * @return the medibn time of runs
      */
-    private long runForParallelism(int iterations, int elements, int parallelism) {
-        MergeSort mergeSort = new MergeSort(parallelism);
-        long[] times = new long[iterations];
+    privbte long runForPbrbllelism(int iterbtions, int elements, int pbrbllelism) {
+        MergeSort mergeSort = new MergeSort(pbrbllelism);
+        long[] times = new long[iterbtions];
 
-        for (int i = 0; i < iterations; i++) {
-            // Suggest the VM to run a garbage collection to reduce the risk of getting one
+        for (int i = 0; i < iterbtions; i++) {
+            // Suggest the VM to run b gbrbbge collection to reduce the risk of getting one
             // while running the test run
             System.gc();
-            long start = System.currentTimeMillis();
-            mergeSort.sort(generateArray(elements));
-            times[i] = System.currentTimeMillis() - start;
+            long stbrt = System.currentTimeMillis();
+            mergeSort.sort(generbteArrby(elements));
+            times[i] = System.currentTimeMillis() - stbrt;
         }
 
-        return medianValue(times);
+        return medibnVblue(times);
     }
 
     /**
-     * Calculates the median value of the array
-     * @param times array of times
-     * @return the median value
+     * Cblculbtes the medibn vblue of the brrby
+     * @pbrbm times brrby of times
+     * @return the medibn vblue
      */
-    private long medianValue(long[] times) {
+    privbte long medibnVblue(long[] times) {
         if (times.length == 0) {
-            throw new IllegalArgumentException("Empty array");
+            throw new IllegblArgumentException("Empty brrby");
         }
-        // Make a copy of times to avoid having side effects on the parameter value
-        Arrays.sort(times.clone());
-        long median = times[times.length / 2];
+        // Mbke b copy of times to bvoid hbving side effects on the pbrbmeter vblue
+        Arrbys.sort(times.clone());
+        long medibn = times[times.length / 2];
         if (times.length > 1 && times.length % 2 != 0) {
-            median = (median + times[times.length / 2 + 1]) / 2;
+            medibn = (medibn + times[times.length / 2 + 1]) / 2;
         }
-        return median;
+        return medibn;
     }
 
     /**
-     * Generates 1000 arrays of 1000 elements and sorts them as a warmup
+     * Generbtes 1000 brrbys of 1000 elements bnd sorts them bs b wbrmup
      */
-    private void warmup() {
-        MergeSort mergeSort = new MergeSort(Runtime.getRuntime().availableProcessors());
+    privbte void wbrmup() {
+        MergeSort mergeSort = new MergeSort(Runtime.getRuntime().bvbilbbleProcessors());
         for (int i = 0; i < 1000; i++) {
-            mergeSort.sort(generateArray(1000));
+            mergeSort.sort(generbteArrby(1000));
         }
     }
 
-    public static void main(String[] args) {
-        Configuration configuration = Configuration.parse(args);
-        if (configuration == null) {
+    public stbtic void mbin(String[] brgs) {
+        Configurbtion configurbtion = Configurbtion.pbrse(brgs);
+        if (configurbtion == null) {
             System.exit(1);
         }
-        System.out.println(configuration);
-        new MergeDemo().run(configuration);
+        System.out.println(configurbtion);
+        new MergeDemo().run(configurbtion);
     }
 }

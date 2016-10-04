@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 /**
- * Specifies the set of parameters required by a {@link
- * javax.crypto.Cipher} using the Galois/Counter Mode (GCM) mode.
+ * Specifies the set of pbrbmeters required by b {@link
+ * jbvbx.crypto.Cipher} using the Gblois/Counter Mode (GCM) mode.
  * <p>
- * Simple block cipher modes (such as CBC) generally require only an
- * initialization vector (such as {@code IvParameterSpec}),
- * but GCM needs these parameters:
+ * Simple block cipher modes (such bs CBC) generblly require only bn
+ * initiblizbtion vector (such bs {@code IvPbrbmeterSpec}),
+ * but GCM needs these pbrbmeters:
  * <ul>
- * <li>{@code IV}: Initialization Vector (IV) </li>
- * <li>{@code tLen}: length (in bits) of authentication tag T</li>
+ * <li>{@code IV}: Initiblizbtion Vector (IV) </li>
+ * <li>{@code tLen}: length (in bits) of buthenticbtion tbg T</li>
  * </ul>
  * <p>
- * In addition to the parameters described here, other GCM inputs/output
- * (Additional Authenticated Data (AAD), Keys, block ciphers,
- * plain/ciphertext and authentication tags) are handled in the {@code
- * Cipher} class.
+ * In bddition to the pbrbmeters described here, other GCM inputs/output
+ * (Additionbl Authenticbted Dbtb (AAD), Keys, block ciphers,
+ * plbin/ciphertext bnd buthenticbtion tbgs) bre hbndled in the {@code
+ * Cipher} clbss.
  * <p>
- * Please see <a href="http://www.ietf.org/rfc/rfc5116.txt"> RFC 5116
- * </a> for more information on the Authenticated Encryption with
- * Associated Data (AEAD) algorithm, and <a href=
- * "http://csrc.nist.gov/publications/nistpubs/800-38D/SP-800-38D.pdf">
- * NIST Special Publication 800-38D</a>, "NIST Recommendation for Block
- * Cipher Modes of Operation:  Galois/Counter Mode (GCM) and GMAC."
+ * Plebse see <b href="http://www.ietf.org/rfc/rfc5116.txt"> RFC 5116
+ * </b> for more informbtion on the Authenticbted Encryption with
+ * Associbted Dbtb (AEAD) blgorithm, bnd <b href=
+ * "http://csrc.nist.gov/publicbtions/nistpubs/800-38D/SP-800-38D.pdf">
+ * NIST Specibl Publicbtion 800-38D</b>, "NIST Recommendbtion for Block
+ * Cipher Modes of Operbtion:  Gblois/Counter Mode (GCM) bnd GMAC."
  * <p>
- * The GCM specification states that {@code tLen} may only have the
- * values {128, 120, 112, 104, 96}, or {64, 32} for certain
- * applications.  Other values can be specified for this class, but not
- * all CSP implementations will support them.
+ * The GCM specificbtion stbtes thbt {@code tLen} mby only hbve the
+ * vblues {128, 120, 112, 104, 96}, or {64, 32} for certbin
+ * bpplicbtions.  Other vblues cbn be specified for this clbss, but not
+ * bll CSP implementbtions will support them.
  *
- * @see javax.crypto.Cipher
+ * @see jbvbx.crypto.Cipher
  *
  * @since 1.7
  */
-public class GCMParameterSpec implements AlgorithmParameterSpec {
+public clbss GCMPbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    // Initialization Vector.  Could use IvParameterSpec, but that
-    // would add extra copies.
-    private byte[] iv;
+    // Initiblizbtion Vector.  Could use IvPbrbmeterSpec, but thbt
+    // would bdd extrb copies.
+    privbte byte[] iv;
 
-    // Required Tag length (in bits).
-    private int tLen;
+    // Required Tbg length (in bits).
+    privbte int tLen;
 
     /**
-     * Constructs a GCMParameterSpec using the specified authentication
-     * tag bit-length and IV buffer.
+     * Constructs b GCMPbrbmeterSpec using the specified buthenticbtion
+     * tbg bit-length bnd IV buffer.
      *
-     * @param tLen the authentication tag length (in bits)
-     * @param src the IV source buffer.  The contents of the buffer are
-     * copied to protect against subsequent modification.
+     * @pbrbm tLen the buthenticbtion tbg length (in bits)
+     * @pbrbm src the IV source buffer.  The contents of the buffer bre
+     * copied to protect bgbinst subsequent modificbtion.
      *
-     * @throws IllegalArgumentException if {@code tLen} is negative,
+     * @throws IllegblArgumentException if {@code tLen} is negbtive,
      * or {@code src} is null.
      */
-    public GCMParameterSpec(int tLen, byte[] src) {
+    public GCMPbrbmeterSpec(int tLen, byte[] src) {
         if (src == null) {
-            throw new IllegalArgumentException("src array is null");
+            throw new IllegblArgumentException("src brrby is null");
         }
 
         init(tLen, src, 0, src.length);
     }
 
     /**
-     * Constructs a GCMParameterSpec object using the specified
-     * authentication tag bit-length and a subset of the specified
-     * buffer as the IV.
+     * Constructs b GCMPbrbmeterSpec object using the specified
+     * buthenticbtion tbg bit-length bnd b subset of the specified
+     * buffer bs the IV.
      *
-     * @param tLen the authentication tag length (in bits)
-     * @param src the IV source buffer.  The contents of the
-     * buffer are copied to protect against subsequent modification.
-     * @param offset the offset in {@code src} where the IV starts
-     * @param len the number of IV bytes
+     * @pbrbm tLen the buthenticbtion tbg length (in bits)
+     * @pbrbm src the IV source buffer.  The contents of the
+     * buffer bre copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm offset the offset in {@code src} where the IV stbrts
+     * @pbrbm len the number of IV bytes
      *
-     * @throws IllegalArgumentException if {@code tLen} is negative,
-     * {@code src} is null, {@code len} or {@code offset} is negative,
-     * or the sum of {@code offset} and {@code len} is greater than the
-     * length of the {@code src} byte array.
+     * @throws IllegblArgumentException if {@code tLen} is negbtive,
+     * {@code src} is null, {@code len} or {@code offset} is negbtive,
+     * or the sum of {@code offset} bnd {@code len} is grebter thbn the
+     * length of the {@code src} byte brrby.
      */
-    public GCMParameterSpec(int tLen, byte[] src, int offset, int len) {
+    public GCMPbrbmeterSpec(int tLen, byte[] src, int offset, int len) {
         init(tLen, src, offset, len);
     }
 
     /*
-     * Check input parameters.
+     * Check input pbrbmeters.
      */
-    private void init(int tLen, byte[] src, int offset, int len) {
+    privbte void init(int tLen, byte[] src, int offset, int len) {
         if (tLen < 0) {
-            throw new IllegalArgumentException(
-                "Length argument is negative");
+            throw new IllegblArgumentException(
+                "Length brgument is negbtive");
         }
         this.tLen = tLen;
 
-        // Input sanity check
+        // Input sbnity check
         if ((src == null) ||(len < 0) || (offset < 0)
                 || ((len + offset) > src.length)) {
-            throw new IllegalArgumentException("Invalid buffer arguments");
+            throw new IllegblArgumentException("Invblid buffer brguments");
         }
 
         iv = new byte[len];
-        System.arraycopy(src, offset, iv, 0, len);
+        System.brrbycopy(src, offset, iv, 0, len);
     }
 
     /**
-     * Returns the authentication tag length.
+     * Returns the buthenticbtion tbg length.
      *
-     * @return the authentication tag length (in bits)
+     * @return the buthenticbtion tbg length (in bits)
      */
     public int getTLen() {
         return tLen;
     }
 
     /**
-     * Returns the Initialization Vector (IV).
+     * Returns the Initiblizbtion Vector (IV).
      *
-     * @return the IV.  Creates a new array each time this method
-     * is called.
+     * @return the IV.  Crebtes b new brrby ebch time this method
+     * is cblled.
      */
     public byte[] getIV() {
         return iv.clone();

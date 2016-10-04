@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * DesktopProperty that only uses font height in configuring font. This
+ * DesktopProperty thbt only uses font height in configuring font. This
  * is only used on Windows.
  *
  */
-class MetalFontDesktopProperty extends com.sun.java.swing.plaf.windows.DesktopProperty {
+clbss MetblFontDesktopProperty extends com.sun.jbvb.swing.plbf.windows.DesktopProperty {
     /**
-     * Maps from metal font theme type as defined in MetalTheme
-     * to the corresponding desktop property name.
+     * Mbps from metbl font theme type bs defined in MetblTheme
+     * to the corresponding desktop property nbme.
      */
-    private static final String[] propertyMapping = {
-        "win.ansiVar.font.height",
+    privbte stbtic finbl String[] propertyMbpping = {
+        "win.bnsiVbr.font.height",
         "win.tooltip.font.height",
-        "win.ansiVar.font.height",
+        "win.bnsiVbr.font.height",
         "win.menu.font.height",
-        "win.frame.captionFont.height",
+        "win.frbme.cbptionFont.height",
         "win.menu.font.height"
     };
 
     /**
-     * Corresponds to a MetalTheme font type.
+     * Corresponds to b MetblTheme font type.
      */
-    private int type;
+    privbte int type;
 
 
     /**
-     * Creates a MetalFontDesktopProperty. The key used to lookup the
+     * Crebtes b MetblFontDesktopProperty. The key used to lookup the
      * desktop property is determined from the type of font.
      *
-     * @param type MetalTheme font type.
+     * @pbrbm type MetblTheme font type.
      */
-    MetalFontDesktopProperty(int type) {
-        this(propertyMapping[type], type);
+    MetblFontDesktopProperty(int type) {
+        this(propertyMbpping[type], type);
     }
 
     /**
-     * Creates a MetalFontDesktopProperty.
+     * Crebtes b MetblFontDesktopProperty.
      *
-     * @param key Key used in looking up desktop value.
-     * @param toolkit Toolkit used to fetch property from, can be null
-     *        in which default will be used.
-     * @param type Type of font being used, corresponds to MetalTheme font
+     * @pbrbm key Key used in looking up desktop vblue.
+     * @pbrbm toolkit Toolkit used to fetch property from, cbn be null
+     *        in which defbult will be used.
+     * @pbrbm type Type of font being used, corresponds to MetblTheme font
      *        type.
      */
-    MetalFontDesktopProperty(String key, int type) {
+    MetblFontDesktopProperty(String key, int type) {
         super(key, null);
         this.type = type;
     }
 
     /**
-     * Overriden to create a Font with the size coming from the desktop
-     * and the style and name coming from DefaultMetalTheme.
+     * Overriden to crebte b Font with the size coming from the desktop
+     * bnd the style bnd nbme coming from DefbultMetblTheme.
      */
-    protected Object configureValue(Object value) {
-        if (value instanceof Integer) {
-            value = new Font(DefaultMetalTheme.getDefaultFontName(type),
-                             DefaultMetalTheme.getDefaultFontStyle(type),
-                             ((Integer)value).intValue());
+    protected Object configureVblue(Object vblue) {
+        if (vblue instbnceof Integer) {
+            vblue = new Font(DefbultMetblTheme.getDefbultFontNbme(type),
+                             DefbultMetblTheme.getDefbultFontStyle(type),
+                             ((Integer)vblue).intVblue());
         }
-        return super.configureValue(value);
+        return super.configureVblue(vblue);
     }
 
     /**
-     * Returns the default font.
+     * Returns the defbult font.
      */
-    protected Object getDefaultValue() {
-        return new Font(DefaultMetalTheme.getDefaultFontName(type),
-                        DefaultMetalTheme.getDefaultFontStyle(type),
-                        DefaultMetalTheme.getDefaultFontSize(type));
+    protected Object getDefbultVblue() {
+        return new Font(DefbultMetblTheme.getDefbultFontNbme(type),
+                        DefbultMetblTheme.getDefbultFontStyle(type),
+                        DefbultMetblTheme.getDefbultFontSize(type));
     }
 }

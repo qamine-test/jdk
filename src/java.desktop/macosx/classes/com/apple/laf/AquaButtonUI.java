@@ -1,375 +1,375 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.text.View;
 
 import sun.swing.SwingUtilities2;
 
-import apple.laf.JRSUIConstants.Size;
+import bpple.lbf.JRSUIConstbnts.Size;
 
-import com.apple.laf.AquaButtonExtendedTypes.TypeSpecifier;
-import com.apple.laf.AquaUtilControlSize.Sizeable;
-import com.apple.laf.AquaUtils.*;
+import com.bpple.lbf.AqubButtonExtendedTypes.TypeSpecifier;
+import com.bpple.lbf.AqubUtilControlSize.Sizebble;
+import com.bpple.lbf.AqubUtils.*;
 
-public class AquaButtonUI extends BasicButtonUI implements Sizeable {
-    private static final String BUTTON_TYPE = "JButton.buttonType";
-    private static final String SEGMENTED_BUTTON_POSITION = "JButton.segmentPosition";
+public clbss AqubButtonUI extends BbsicButtonUI implements Sizebble {
+    privbte stbtic finbl String BUTTON_TYPE = "JButton.buttonType";
+    privbte stbtic finbl String SEGMENTED_BUTTON_POSITION = "JButton.segmentPosition";
 
-    protected static final RecyclableSingleton<AquaButtonUI> buttonUI = new RecyclableSingletonFromDefaultConstructor<AquaButtonUI>(AquaButtonUI.class);
-    public static ComponentUI createUI(final JComponent c) {
+    protected stbtic finbl RecyclbbleSingleton<AqubButtonUI> buttonUI = new RecyclbbleSingletonFromDefbultConstructor<AqubButtonUI>(AqubButtonUI.clbss);
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
         return buttonUI.get();
     }
 
-    // Has the shared instance defaults been initialized?
-    private boolean defaults_initialized = false;
-    private Color defaultDisabledTextColor = null;
+    // Hbs the shbred instbnce defbults been initiblized?
+    privbte boolebn defbults_initiblized = fblse;
+    privbte Color defbultDisbbledTextColor = null;
 
-    protected void installDefaults(final AbstractButton b) {
-        // load shared instance defaults
-        final String pp = getPropertyPrefix();
+    protected void instbllDefbults(finbl AbstrbctButton b) {
+        // lobd shbred instbnce defbults
+        finbl String pp = getPropertyPrefix();
 
-        if (!defaults_initialized) {
-            defaultDisabledTextColor = UIManager.getColor(pp + "disabledText");
-            defaults_initialized = true;
+        if (!defbults_initiblized) {
+            defbultDisbbledTextColor = UIMbnbger.getColor(pp + "disbbledText");
+            defbults_initiblized = true;
         }
 
-        setButtonMarginIfNeeded(b, UIManager.getInsets(pp + "margin"));
+        setButtonMbrginIfNeeded(b, UIMbnbger.getInsets(pp + "mbrgin"));
 
-        LookAndFeel.installColorsAndFont(b, pp + "background", pp + "foreground", pp + "font");
-        LookAndFeel.installProperty(b, "opaque", UIManager.getBoolean(pp + "opaque"));
+        LookAndFeel.instbllColorsAndFont(b, pp + "bbckground", pp + "foreground", pp + "font");
+        LookAndFeel.instbllProperty(b, "opbque", UIMbnbger.getBoolebn(pp + "opbque"));
 
-        final Object borderProp = b.getClientProperty(BUTTON_TYPE);
-        boolean hasBorder = false;
+        finbl Object borderProp = b.getClientProperty(BUTTON_TYPE);
+        boolebn hbsBorder = fblse;
 
         if (borderProp != null) {
-            hasBorder = setButtonType(b, borderProp);
+            hbsBorder = setButtonType(b, borderProp);
         }
-        if (!hasBorder) setThemeBorder(b);
+        if (!hbsBorder) setThemeBorder(b);
 
-        final Object segmentProp = b.getClientProperty(SEGMENTED_BUTTON_POSITION);
+        finbl Object segmentProp = b.getClientProperty(SEGMENTED_BUTTON_POSITION);
         if (segmentProp != null) {
-            final Border border = b.getBorder();
-            if (!(border instanceof AquaBorder)) return;
+            finbl Border border = b.getBorder();
+            if (!(border instbnceof AqubBorder)) return;
 
-            b.setBorder(AquaButtonExtendedTypes.getBorderForPosition(b, b.getClientProperty(BUTTON_TYPE), segmentProp));
+            b.setBorder(AqubButtonExtendedTypes.getBorderForPosition(b, b.getClientProperty(BUTTON_TYPE), segmentProp));
         }
     }
 
-    public void applySizeFor(final JComponent c, final Size size) {
-        // this space intentionally left blank
-        // (subclasses need to do work here)
+    public void bpplySizeFor(finbl JComponent c, finbl Size size) {
+        // this spbce intentionblly left blbnk
+        // (subclbsses need to do work here)
      }
 
-    protected void setThemeBorder(final AbstractButton b) {
+    protected void setThemeBorder(finbl AbstrbctButton b) {
         // Set the correct border
-        final ButtonUI genericUI = b.getUI();
-        if (!(genericUI instanceof AquaButtonUI)) return;
-        final AquaButtonUI ui = (AquaButtonUI)genericUI;
+        finbl ButtonUI genericUI = b.getUI();
+        if (!(genericUI instbnceof AqubButtonUI)) return;
+        finbl AqubButtonUI ui = (AqubButtonUI)genericUI;
 
         Border border = b.getBorder();
-        if (!ui.isBorderFromProperty(b) && (border == null || border instanceof UIResource || border instanceof AquaButtonBorder)) {
-            // See BasicGraphicsUtils.getPreferredButtonSize - it returns null for preferred size,
-            // causing it to use the subcomponent's size, which doesn't allow space for Aqua pushbuttons
-            boolean iconFont = true;
-            if (isOnToolbar(b)) {
-                if (b instanceof JToggleButton) {
-                    border = AquaButtonBorder.getToolBarButtonBorder();
+        if (!ui.isBorderFromProperty(b) && (border == null || border instbnceof UIResource || border instbnceof AqubButtonBorder)) {
+            // See BbsicGrbphicsUtils.getPreferredButtonSize - it returns null for preferred size,
+            // cbusing it to use the subcomponent's size, which doesn't bllow spbce for Aqub pushbuttons
+            boolebn iconFont = true;
+            if (isOnToolbbr(b)) {
+                if (b instbnceof JToggleButton) {
+                    border = AqubButtonBorder.getToolBbrButtonBorder();
                 } else {
-                    border = AquaButtonBorder.getBevelButtonBorder();
+                    border = AqubButtonBorder.getBevelButtonBorder();
                 }
             } else if (b.getIcon() != null || b.getComponentCount() > 0) {
-                // radar 3308129 && (b.getText() == null || b.getText().equals("")))
-                // we used to only do this for buttons that had images and no text
-                // now we do it for all buttons that have any images - they cannot
-                // be a default button.
-                border = AquaButtonBorder.getToggleButtonBorder();
+                // rbdbr 3308129 && (b.getText() == null || b.getText().equbls("")))
+                // we used to only do this for buttons thbt hbd imbges bnd no text
+                // now we do it for bll buttons thbt hbve bny imbges - they cbnnot
+                // be b defbult button.
+                border = AqubButtonBorder.getToggleButtonBorder();
             } else {
-                border = UIManager.getBorder(getPropertyPrefix() + "border");
-                iconFont = false;
+                border = UIMbnbger.getBorder(getPropertyPrefix() + "border");
+                iconFont = fblse;
             }
 
             b.setBorder(border);
 
-            final Font currentFont = b.getFont();
-            if (iconFont && (currentFont == null || currentFont instanceof UIResource)) {
-                b.setFont(UIManager.getFont("IconButton.font"));
+            finbl Font currentFont = b.getFont();
+            if (iconFont && (currentFont == null || currentFont instbnceof UIResource)) {
+                b.setFont(UIMbnbger.getFont("IconButton.font"));
             }
         }
     }
 
-    protected static boolean isOnToolbar(final AbstractButton b) {
-        Component parent = b.getParent();
-        while (parent != null) {
-            if (parent instanceof JToolBar) return true;
-            parent = parent.getParent();
+    protected stbtic boolebn isOnToolbbr(finbl AbstrbctButton b) {
+        Component pbrent = b.getPbrent();
+        while (pbrent != null) {
+            if (pbrent instbnceof JToolBbr) return true;
+            pbrent = pbrent.getPbrent();
         }
-        return false;
+        return fblse;
     }
 
-    // A state that affects border has changed.  Make sure we have the right one
-    protected static void updateBorder(final AbstractButton b) {
-        // See if the button has overridden the automatic button type
-        final Object prop = b.getClientProperty(BUTTON_TYPE);
+    // A stbte thbt bffects border hbs chbnged.  Mbke sure we hbve the right one
+    protected stbtic void updbteBorder(finbl AbstrbctButton b) {
+        // See if the button hbs overridden the butombtic button type
+        finbl Object prop = b.getClientProperty(BUTTON_TYPE);
         if (prop != null) return;
 
-        final ButtonUI ui = b.getUI();
-        if (!(ui instanceof AquaButtonUI)) return;
-        if (b.getBorder() != null) ((AquaButtonUI)ui).setThemeBorder(b);
+        finbl ButtonUI ui = b.getUI();
+        if (!(ui instbnceof AqubButtonUI)) return;
+        if (b.getBorder() != null) ((AqubButtonUI)ui).setThemeBorder(b);
     }
 
-    protected void setButtonMarginIfNeeded(final AbstractButton b, final Insets insets) {
-        final Insets margin = b.getMargin();
-        if (margin == null || (margin instanceof UIResource)) {
-            b.setMargin(insets);
+    protected void setButtonMbrginIfNeeded(finbl AbstrbctButton b, finbl Insets insets) {
+        finbl Insets mbrgin = b.getMbrgin();
+        if (mbrgin == null || (mbrgin instbnceof UIResource)) {
+            b.setMbrgin(insets);
         }
     }
 
-    public boolean isBorderFromProperty(final AbstractButton button) {
+    public boolebn isBorderFromProperty(finbl AbstrbctButton button) {
         return button.getClientProperty(BUTTON_TYPE) != null;
     }
 
-    protected boolean setButtonType(final AbstractButton b, final Object prop) {
-        if (!(prop instanceof String)) {
-            b.putClientProperty(BUTTON_TYPE, null); // so we know to use the automatic button type
-            return false;
+    protected boolebn setButtonType(finbl AbstrbctButton b, finbl Object prop) {
+        if (!(prop instbnceof String)) {
+            b.putClientProperty(BUTTON_TYPE, null); // so we know to use the butombtic button type
+            return fblse;
         }
 
-        final String buttonType = (String)prop;
-        boolean iconFont = true;
+        finbl String buttonType = (String)prop;
+        boolebn iconFont = true;
 
-        final TypeSpecifier specifier = AquaButtonExtendedTypes.getSpecifierByName(buttonType);
+        finbl TypeSpecifier specifier = AqubButtonExtendedTypes.getSpecifierByNbme(buttonType);
         if (specifier != null) {
             b.setBorder(specifier.getBorder());
             iconFont = specifier.setIconFont;
         }
 
-        final Font currentFont = b.getFont();
-        if (currentFont == null || currentFont instanceof UIResource) {
-            b.setFont(UIManager.getFont(iconFont ? "IconButton.font" : "Button.font"));
+        finbl Font currentFont = b.getFont();
+        if (currentFont == null || currentFont instbnceof UIResource) {
+            b.setFont(UIMbnbger.getFont(iconFont ? "IconButton.font" : "Button.font"));
         }
 
         return true;
     }
 
-    protected void installListeners(final AbstractButton b) {
-        final AquaButtonListener listener = createButtonListener(b);
+    protected void instbllListeners(finbl AbstrbctButton b) {
+        finbl AqubButtonListener listener = crebteButtonListener(b);
         if (listener != null) {
-            // put the listener in the button's client properties so that
-            // we can get at it later
+            // put the listener in the button's client properties so thbt
+            // we cbn get bt it lbter
             b.putClientProperty(this, listener);
 
-            b.addMouseListener(listener);
-            b.addMouseMotionListener(listener);
-            b.addFocusListener(listener);
-            b.addPropertyChangeListener(listener);
-            b.addChangeListener(listener);
-            b.addAncestorListener(listener);
+            b.bddMouseListener(listener);
+            b.bddMouseMotionListener(listener);
+            b.bddFocusListener(listener);
+            b.bddPropertyChbngeListener(listener);
+            b.bddChbngeListener(listener);
+            b.bddAncestorListener(listener);
         }
-        installHierListener(b);
-        AquaUtilControlSize.addSizePropertyListener(b);
+        instbllHierListener(b);
+        AqubUtilControlSize.bddSizePropertyListener(b);
     }
 
-    protected void installKeyboardActions(final AbstractButton b) {
-        final BasicButtonListener listener = (BasicButtonListener)b.getClientProperty(this);
-        if (listener != null) listener.installKeyboardActions(b);
+    protected void instbllKeybobrdActions(finbl AbstrbctButton b) {
+        finbl BbsicButtonListener listener = (BbsicButtonListener)b.getClientProperty(this);
+        if (listener != null) listener.instbllKeybobrdActions(b);
     }
 
-    // Uninstall PLAF
-    public void uninstallUI(final JComponent c) {
-        uninstallKeyboardActions((AbstractButton)c);
-        uninstallListeners((AbstractButton)c);
-        uninstallDefaults((AbstractButton)c);
-        //BasicHTML.updateRenderer(c, "");
+    // Uninstbll PLAF
+    public void uninstbllUI(finbl JComponent c) {
+        uninstbllKeybobrdActions((AbstrbctButton)c);
+        uninstbllListeners((AbstrbctButton)c);
+        uninstbllDefbults((AbstrbctButton)c);
+        //BbsicHTML.updbteRenderer(c, "");
     }
 
-    protected void uninstallKeyboardActions(final AbstractButton b) {
-        final BasicButtonListener listener = (BasicButtonListener)b.getClientProperty(this);
-        if (listener != null) listener.uninstallKeyboardActions(b);
+    protected void uninstbllKeybobrdActions(finbl AbstrbctButton b) {
+        finbl BbsicButtonListener listener = (BbsicButtonListener)b.getClientProperty(this);
+        if (listener != null) listener.uninstbllKeybobrdActions(b);
     }
 
-    protected void uninstallListeners(final AbstractButton b) {
-        final AquaButtonListener listener = (AquaButtonListener)b.getClientProperty(this);
+    protected void uninstbllListeners(finbl AbstrbctButton b) {
+        finbl AqubButtonListener listener = (AqubButtonListener)b.getClientProperty(this);
         b.putClientProperty(this, null);
         if (listener != null) {
             b.removeMouseListener(listener);
             b.removeMouseListener(listener);
             b.removeMouseMotionListener(listener);
             b.removeFocusListener(listener);
-            b.removeChangeListener(listener);
-            b.removePropertyChangeListener(listener);
+            b.removeChbngeListener(listener);
+            b.removePropertyChbngeListener(listener);
             b.removeAncestorListener(listener);
         }
-        uninstallHierListener(b);
-        AquaUtilControlSize.addSizePropertyListener(b);
+        uninstbllHierListener(b);
+        AqubUtilControlSize.bddSizePropertyListener(b);
     }
 
-    protected void uninstallDefaults(final AbstractButton b) {
-        LookAndFeel.uninstallBorder(b);
-        defaults_initialized = false;
+    protected void uninstbllDefbults(finbl AbstrbctButton b) {
+        LookAndFeel.uninstbllBorder(b);
+        defbults_initiblized = fblse;
     }
 
-    // Create Listeners
-    protected AquaButtonListener createButtonListener(final AbstractButton b) {
-        return new AquaButtonListener(b);
+    // Crebte Listeners
+    protected AqubButtonListener crebteButtonListener(finbl AbstrbctButton b) {
+        return new AqubButtonListener(b);
     }
 
-    // Paint Methods
-    public void paint(final Graphics g, final JComponent c) {
-        final AbstractButton b = (AbstractButton)c;
-        final ButtonModel model = b.getModel();
+    // Pbint Methods
+    public void pbint(finbl Grbphics g, finbl JComponent c) {
+        finbl AbstrbctButton b = (AbstrbctButton)c;
+        finbl ButtonModel model = b.getModel();
 
-        final Insets i = c.getInsets();
+        finbl Insets i = c.getInsets();
 
-        Rectangle viewRect = new Rectangle(b.getWidth(), b.getHeight());
-        Rectangle iconRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
+        Rectbngle viewRect = new Rectbngle(b.getWidth(), b.getHeight());
+        Rectbngle iconRect = new Rectbngle();
+        Rectbngle textRect = new Rectbngle();
 
-        // we are overdrawing here with translucent colors so we get
-        // a darkening effect. How can we avoid it. Try clear rect?
-        if (b.isOpaque()) {
-            g.setColor(c.getBackground());
+        // we bre overdrbwing here with trbnslucent colors so we get
+        // b dbrkening effect. How cbn we bvoid it. Try clebr rect?
+        if (b.isOpbque()) {
+            g.setColor(c.getBbckground());
             g.fillRect(viewRect.x, viewRect.y, viewRect.width, viewRect.height);
         }
 
-        AquaButtonBorder aquaBorder = null;
-        if (((AbstractButton)c).isBorderPainted()) {
-            final Border border = c.getBorder();
+        AqubButtonBorder bqubBorder = null;
+        if (((AbstrbctButton)c).isBorderPbinted()) {
+            finbl Border border = c.getBorder();
 
-            if (border instanceof AquaButtonBorder) {
-                // only do this if borders are on!
-                // this also takes care of focus painting.
-                aquaBorder = (AquaButtonBorder)border;
-                aquaBorder.paintButton(c, g, viewRect.x, viewRect.y, viewRect.width, viewRect.height);
+            if (border instbnceof AqubButtonBorder) {
+                // only do this if borders bre on!
+                // this blso tbkes cbre of focus pbinting.
+                bqubBorder = (AqubButtonBorder)border;
+                bqubBorder.pbintButton(c, g, viewRect.x, viewRect.y, viewRect.width, viewRect.height);
             }
         } else {
-            if (b.isOpaque()) {
+            if (b.isOpbque()) {
                 viewRect.x = i.left - 2;
                 viewRect.y = i.top - 2;
                 viewRect.width = b.getWidth() - (i.right + viewRect.x) + 4;
                 viewRect.height = b.getHeight() - (i.bottom + viewRect.y) + 4;
-                if (b.isContentAreaFilled() || model.isSelected()) {
+                if (b.isContentArebFilled() || model.isSelected()) {
                     if (model.isSelected()) // Toggle buttons
-                    g.setColor(c.getBackground().darker());
-                    else g.setColor(c.getBackground());
+                    g.setColor(c.getBbckground().dbrker());
+                    else g.setColor(c.getBbckground());
                     g.fillRect(viewRect.x, viewRect.y, viewRect.width, viewRect.height);
                 }
             }
 
-            // needs focus to be painted
-            // for now we don't know exactly what to do...we'll see!
-            if (b.isFocusPainted() && b.hasFocus()) {
-                // paint UI specific focus
-                paintFocus(g, b, viewRect, textRect, iconRect);
+            // needs focus to be pbinted
+            // for now we don't know exbctly whbt to do...we'll see!
+            if (b.isFocusPbinted() && b.hbsFocus()) {
+                // pbint UI specific focus
+                pbintFocus(g, b, viewRect, textRect, iconRect);
             }
         }
 
-        // performs icon and text rect calculations
-        final String text = layoutAndGetText(g, b, aquaBorder, i, viewRect, iconRect, textRect);
+        // performs icon bnd text rect cblculbtions
+        finbl String text = lbyoutAndGetText(g, b, bqubBorder, i, viewRect, iconRect, textRect);
 
-        // Paint the Icon
+        // Pbint the Icon
         if (b.getIcon() != null) {
-            paintIcon(g, b, iconRect);
+            pbintIcon(g, b, iconRect);
         }
 
         if (textRect.width == 0) {
             textRect.width = 50;
         }
 
-        if (text != null && !text.equals("")) {
-            final View v = (View)c.getClientProperty(BasicHTML.propertyKey);
+        if (text != null && !text.equbls("")) {
+            finbl View v = (View)c.getClientProperty(BbsicHTML.propertyKey);
             if (v != null) {
-                v.paint(g, textRect);
+                v.pbint(g, textRect);
             } else {
-                paintText(g, b, textRect, text);
+                pbintText(g, b, textRect, text);
             }
         }
     }
 
-    protected String layoutAndGetText(final Graphics g, final AbstractButton b, final AquaButtonBorder aquaBorder, final Insets i, Rectangle viewRect, Rectangle iconRect, Rectangle textRect) {
-        // re-initialize the view rect to the selected insets
+    protected String lbyoutAndGetText(finbl Grbphics g, finbl AbstrbctButton b, finbl AqubButtonBorder bqubBorder, finbl Insets i, Rectbngle viewRect, Rectbngle iconRect, Rectbngle textRect) {
+        // re-initiblize the view rect to the selected insets
         viewRect.x = i.left;
         viewRect.y = i.top;
         viewRect.width = b.getWidth() - (i.right + viewRect.x);
         viewRect.height = b.getHeight() - (i.bottom + viewRect.y);
 
-        // reset the text and icon rects
+        // reset the text bnd icon rects
         textRect.x = textRect.y = textRect.width = textRect.height = 0;
         iconRect.x = iconRect.y = iconRect.width = iconRect.height = 0;
 
         // setup the font
         g.setFont(b.getFont());
-        final FontMetrics fm = g.getFontMetrics();
+        finbl FontMetrics fm = g.getFontMetrics();
 
-        // layout the text and icon
-        final String originalText = b.getText();
-        final String text = SwingUtilities.layoutCompoundLabel(b, fm, originalText, b.getIcon(), b.getVerticalAlignment(), b.getHorizontalAlignment(), b.getVerticalTextPosition(), b.getHorizontalTextPosition(), viewRect, iconRect, textRect, originalText == null ? 0 : b.getIconTextGap());
-        if (text == originalText || aquaBorder == null) return text; // everything fits
+        // lbyout the text bnd icon
+        finbl String originblText = b.getText();
+        finbl String text = SwingUtilities.lbyoutCompoundLbbel(b, fm, originblText, b.getIcon(), b.getVerticblAlignment(), b.getHorizontblAlignment(), b.getVerticblTextPosition(), b.getHorizontblTextPosition(), viewRect, iconRect, textRect, originblText == null ? 0 : b.getIconTextGbp());
+        if (text == originblText || bqubBorder == null) return text; // everything fits
 
-        // if the text didn't fit - check if the aqua border has alternate Insets that are more adhering
-        final Insets alternateContentInsets = aquaBorder.getContentInsets(b, b.getWidth(), b.getHeight());
-        if (alternateContentInsets != null) {
-            // recursively call and don't pass AquaBorder
-            return layoutAndGetText(g, b, null, alternateContentInsets, viewRect, iconRect, textRect);
+        // if the text didn't fit - check if the bqub border hbs blternbte Insets thbt bre more bdhering
+        finbl Insets blternbteContentInsets = bqubBorder.getContentInsets(b, b.getWidth(), b.getHeight());
+        if (blternbteContentInsets != null) {
+            // recursively cbll bnd don't pbss AqubBorder
+            return lbyoutAndGetText(g, b, null, blternbteContentInsets, viewRect, iconRect, textRect);
         }
 
-        // there is no Aqua border, go with what we've got
+        // there is no Aqub border, go with whbt we've got
         return text;
     }
 
-    protected void paintIcon(final Graphics g, final AbstractButton b, final Rectangle localIconRect) {
-        final ButtonModel model = b.getModel();
+    protected void pbintIcon(finbl Grbphics g, finbl AbstrbctButton b, finbl Rectbngle locblIconRect) {
+        finbl ButtonModel model = b.getModel();
         Icon icon = b.getIcon();
         Icon tmpIcon = null;
 
         if (icon == null) return;
 
-        if (!model.isEnabled()) {
+        if (!model.isEnbbled()) {
             if (model.isSelected()) {
-                tmpIcon = b.getDisabledSelectedIcon();
+                tmpIcon = b.getDisbbledSelectedIcon();
             } else {
-                tmpIcon = b.getDisabledIcon();
+                tmpIcon = b.getDisbbledIcon();
             }
         } else if (model.isPressed() && model.isArmed()) {
             tmpIcon = b.getPressedIcon();
             if (tmpIcon == null) {
-                if (icon instanceof ImageIcon) {
-                    tmpIcon = new ImageIcon(AquaUtils.generateSelectedDarkImage(((ImageIcon)icon).getImage()));
+                if (icon instbnceof ImbgeIcon) {
+                    tmpIcon = new ImbgeIcon(AqubUtils.generbteSelectedDbrkImbge(((ImbgeIcon)icon).getImbge()));
                 }
             }
-        } else if (b.isRolloverEnabled() && model.isRollover()) {
+        } else if (b.isRolloverEnbbled() && model.isRollover()) {
             if (model.isSelected()) {
                 tmpIcon = b.getRolloverSelectedIcon();
             } else {
@@ -379,11 +379,11 @@ public class AquaButtonUI extends BasicButtonUI implements Sizeable {
             tmpIcon = b.getSelectedIcon();
         }
 
-        if (model.isEnabled() && b.isFocusOwner() && b.getBorder() instanceof AquaButtonBorder.Toolbar) {
+        if (model.isEnbbled() && b.isFocusOwner() && b.getBorder() instbnceof AqubButtonBorder.Toolbbr) {
             if (tmpIcon == null) tmpIcon = icon;
-            if (tmpIcon instanceof ImageIcon) {
-                tmpIcon = AquaFocus.createFocusedIcon(tmpIcon, b, 3);
-                tmpIcon.paintIcon(b, g, localIconRect.x - 3, localIconRect.y - 3);
+            if (tmpIcon instbnceof ImbgeIcon) {
+                tmpIcon = AqubFocus.crebteFocusedIcon(tmpIcon, b, 3);
+                tmpIcon.pbintIcon(b, g, locblIconRect.x - 3, locblIconRect.y - 3);
                 return;
             }
         }
@@ -392,160 +392,160 @@ public class AquaButtonUI extends BasicButtonUI implements Sizeable {
             icon = tmpIcon;
         }
 
-        icon.paintIcon(b, g, localIconRect.x, localIconRect.y);
+        icon.pbintIcon(b, g, locblIconRect.x, locblIconRect.y);
     }
 
     /**
-     * As of Java 2 platform v 1.4 this method should not be used or overriden.
-     * Use the paintText method which takes the AbstractButton argument.
+     * As of Jbvb 2 plbtform v 1.4 this method should not be used or overriden.
+     * Use the pbintText method which tbkes the AbstrbctButton brgument.
      */
-    protected void paintText(final Graphics g, final JComponent c, final Rectangle localTextRect, final String text) {
-        final Graphics2D g2d = g instanceof Graphics2D ? (Graphics2D)g : null;
+    protected void pbintText(finbl Grbphics g, finbl JComponent c, finbl Rectbngle locblTextRect, finbl String text) {
+        finbl Grbphics2D g2d = g instbnceof Grbphics2D ? (Grbphics2D)g : null;
 
-        final AbstractButton b = (AbstractButton)c;
-        final ButtonModel model = b.getModel();
-        final FontMetrics fm = g.getFontMetrics();
-        final int mnemonicIndex = AquaMnemonicHandler.isMnemonicHidden() ? -1 : b.getDisplayedMnemonicIndex();
+        finbl AbstrbctButton b = (AbstrbctButton)c;
+        finbl ButtonModel model = b.getModel();
+        finbl FontMetrics fm = g.getFontMetrics();
+        finbl int mnemonicIndex = AqubMnemonicHbndler.isMnemonicHidden() ? -1 : b.getDisplbyedMnemonicIndex();
 
-        /* Draw the Text */
-        if (model.isEnabled()) {
-            /*** paint the text normally */
+        /* Drbw the Text */
+        if (model.isEnbbled()) {
+            /*** pbint the text normblly */
             g.setColor(b.getForeground());
         } else {
-            /*** paint the text disabled ***/
-            g.setColor(defaultDisabledTextColor);
+            /*** pbint the text disbbled ***/
+            g.setColor(defbultDisbbledTextColor);
         }
-        SwingUtilities2.drawStringUnderlineCharAt(c, g, text, mnemonicIndex, localTextRect.x, localTextRect.y + fm.getAscent());
+        SwingUtilities2.drbwStringUnderlineChbrAt(c, g, text, mnemonicIndex, locblTextRect.x, locblTextRect.y + fm.getAscent());
     }
 
-    protected void paintText(final Graphics g, final AbstractButton b, final Rectangle localTextRect, final String text) {
-        paintText(g, (JComponent)b, localTextRect, text);
+    protected void pbintText(finbl Grbphics g, finbl AbstrbctButton b, finbl Rectbngle locblTextRect, finbl String text) {
+        pbintText(g, (JComponent)b, locblTextRect, text);
     }
 
-    protected void paintButtonPressed(final Graphics g, final AbstractButton b) {
-        paint(g, b);
+    protected void pbintButtonPressed(finbl Grbphics g, finbl AbstrbctButton b) {
+        pbint(g, b);
     }
 
-    // Layout Methods
-    public Dimension getMinimumSize(final JComponent c) {
-        final Dimension d = getPreferredSize(c);
-        final View v = (View)c.getClientProperty(BasicHTML.propertyKey);
+    // Lbyout Methods
+    public Dimension getMinimumSize(finbl JComponent c) {
+        finbl Dimension d = getPreferredSize(c);
+        finbl View v = (View)c.getClientProperty(BbsicHTML.propertyKey);
         if (v != null) {
-            d.width -= v.getPreferredSpan(View.X_AXIS) - v.getMinimumSpan(View.X_AXIS);
+            d.width -= v.getPreferredSpbn(View.X_AXIS) - v.getMinimumSpbn(View.X_AXIS);
         }
         return d;
     }
 
-    public Dimension getPreferredSize(final JComponent c) {
-        final AbstractButton b = (AbstractButton)c;
+    public Dimension getPreferredSize(finbl JComponent c) {
+        finbl AbstrbctButton b = (AbstrbctButton)c;
 
-        // fix for Radar #3134273
-        final Dimension d = BasicGraphicsUtils.getPreferredButtonSize(b, b.getIconTextGap());
+        // fix for Rbdbr #3134273
+        finbl Dimension d = BbsicGrbphicsUtils.getPreferredButtonSize(b, b.getIconTextGbp());
         if (d == null) return null;
 
-        final Border border = b.getBorder();
-        if (border instanceof AquaButtonBorder) {
-            ((AquaButtonBorder)border).alterPreferredSize(d);
+        finbl Border border = b.getBorder();
+        if (border instbnceof AqubButtonBorder) {
+            ((AqubButtonBorder)border).blterPreferredSize(d);
         }
 
         return d;
     }
 
-    public Dimension getMaximumSize(final JComponent c) {
-        final Dimension d = getPreferredSize(c);
+    public Dimension getMbximumSize(finbl JComponent c) {
+        finbl Dimension d = getPreferredSize(c);
 
-        final View v = (View)c.getClientProperty(BasicHTML.propertyKey);
+        finbl View v = (View)c.getClientProperty(BbsicHTML.propertyKey);
         if (v != null) {
-            d.width += v.getMaximumSpan(View.X_AXIS) - v.getPreferredSpan(View.X_AXIS);
+            d.width += v.getMbximumSpbn(View.X_AXIS) - v.getPreferredSpbn(View.X_AXIS);
         }
 
         return d;
     }
 
-    final static RecyclableSingleton<AquaHierarchyButtonListener> fHierListener = new RecyclableSingletonFromDefaultConstructor<AquaHierarchyButtonListener>(AquaHierarchyButtonListener.class);
-    static AquaHierarchyButtonListener getAquaHierarchyButtonListener() {
+    finbl stbtic RecyclbbleSingleton<AqubHierbrchyButtonListener> fHierListener = new RecyclbbleSingletonFromDefbultConstructor<AqubHierbrchyButtonListener>(AqubHierbrchyButtonListener.clbss);
+    stbtic AqubHierbrchyButtonListener getAqubHierbrchyButtonListener() {
         return fHierListener.get();
     }
 
-    // We need to know when ordinary JButtons are put on JToolbars, but not JComboBoxButtons
-    // JToggleButtons always have the same border
+    // We need to know when ordinbry JButtons bre put on JToolbbrs, but not JComboBoxButtons
+    // JToggleButtons blwbys hbve the sbme border
 
-    private boolean shouldInstallHierListener(final AbstractButton b) {
-        return  (b instanceof JButton || b instanceof JToggleButton && !(b instanceof AquaComboBoxButton) && !(b instanceof JCheckBox) && !(b instanceof JRadioButton));
+    privbte boolebn shouldInstbllHierListener(finbl AbstrbctButton b) {
+        return  (b instbnceof JButton || b instbnceof JToggleButton && !(b instbnceof AqubComboBoxButton) && !(b instbnceof JCheckBox) && !(b instbnceof JRbdioButton));
     }
 
-    protected void installHierListener(final AbstractButton b) {
-        if (shouldInstallHierListener(b)) {
+    protected void instbllHierListener(finbl AbstrbctButton b) {
+        if (shouldInstbllHierListener(b)) {
             // super put the listener in the button's client properties
-            b.addHierarchyListener(getAquaHierarchyButtonListener());
+            b.bddHierbrchyListener(getAqubHierbrchyButtonListener());
         }
     }
 
-    protected void uninstallHierListener(final AbstractButton b) {
-        if (shouldInstallHierListener(b)) {
-            b.removeHierarchyListener(getAquaHierarchyButtonListener());
+    protected void uninstbllHierListener(finbl AbstrbctButton b) {
+        if (shouldInstbllHierListener(b)) {
+            b.removeHierbrchyListener(getAqubHierbrchyButtonListener());
         }
     }
 
-    static class AquaHierarchyButtonListener implements HierarchyListener {
-        // Everytime a hierarchy is change we need to check if the button if moved on or from
-        // a toolbar. If that is the case, we need to re-set the border of the button.
-        public void hierarchyChanged(final HierarchyEvent e) {
-            if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED) == 0) return;
+    stbtic clbss AqubHierbrchyButtonListener implements HierbrchyListener {
+        // Everytime b hierbrchy is chbnge we need to check if the button if moved on or from
+        // b toolbbr. If thbt is the cbse, we need to re-set the border of the button.
+        public void hierbrchyChbnged(finbl HierbrchyEvent e) {
+            if ((e.getChbngeFlbgs() & HierbrchyEvent.PARENT_CHANGED) == 0) return;
 
-            final Object o = e.getSource();
-            if (!(o instanceof AbstractButton)) return;
+            finbl Object o = e.getSource();
+            if (!(o instbnceof AbstrbctButton)) return;
 
-            final AbstractButton b = (AbstractButton)o;
-            final ButtonUI ui = b.getUI();
-            if (!(ui instanceof AquaButtonUI)) return;
+            finbl AbstrbctButton b = (AbstrbctButton)o;
+            finbl ButtonUI ui = b.getUI();
+            if (!(ui instbnceof AqubButtonUI)) return;
 
-            if (!(b.getBorder() instanceof UIResource)) return; // if the border is not one of ours, or null
-            ((AquaButtonUI)ui).setThemeBorder(b);
+            if (!(b.getBorder() instbnceof UIResource)) return; // if the border is not one of ours, or null
+            ((AqubButtonUI)ui).setThemeBorder(b);
         }
     }
 
-    class AquaButtonListener extends BasicButtonListener implements AncestorListener {
-        protected final AbstractButton b;
+    clbss AqubButtonListener extends BbsicButtonListener implements AncestorListener {
+        protected finbl AbstrbctButton b;
 
-        public AquaButtonListener(final AbstractButton b) {
+        public AqubButtonListener(finbl AbstrbctButton b) {
             super(b);
             this.b = b;
         }
 
-        public void focusGained(final FocusEvent e) {
-            ((Component)e.getSource()).repaint();
+        public void focusGbined(finbl FocusEvent e) {
+            ((Component)e.getSource()).repbint();
         }
 
-        public void focusLost(final FocusEvent e) {
-            // 10-06-03 VL: [Radar 3187049]
-            // If focusLost arrives while the button has been left-clicked this would disarm the button,
-            // causing actionPerformed not to fire on mouse release!
-            //b.getModel().setArmed(false);
-            ((Component)e.getSource()).repaint();
+        public void focusLost(finbl FocusEvent e) {
+            // 10-06-03 VL: [Rbdbr 3187049]
+            // If focusLost brrives while the button hbs been left-clicked this would disbrm the button,
+            // cbusing bctionPerformed not to fire on mouse relebse!
+            //b.getModel().setArmed(fblse);
+            ((Component)e.getSource()).repbint();
         }
 
-        public void propertyChange(final PropertyChangeEvent e) {
-            super.propertyChange(e);
+        public void propertyChbnge(finbl PropertyChbngeEvent e) {
+            super.propertyChbnge(e);
 
-            final String propertyName = e.getPropertyName();
+            finbl String propertyNbme = e.getPropertyNbme();
 
-            // Repaint the button, since its border needs to handle the new state.
-            if (AquaFocusHandler.FRAME_ACTIVE_PROPERTY.equals(propertyName)) {
-                b.repaint();
+            // Repbint the button, since its border needs to hbndle the new stbte.
+            if (AqubFocusHbndler.FRAME_ACTIVE_PROPERTY.equbls(propertyNbme)) {
+                b.repbint();
                 return;
             }
 
-            if ("icon".equals(propertyName) || "text".equals(propertyName)) {
+            if ("icon".equbls(propertyNbme) || "text".equbls(propertyNbme)) {
                 setThemeBorder(b);
                 return;
             }
 
-            if (BUTTON_TYPE.equals(propertyName)) {
+            if (BUTTON_TYPE.equbls(propertyNbme)) {
                 // Forced border types
-                final String value = (String)e.getNewValue();
+                finbl String vblue = (String)e.getNewVblue();
 
-                final Border border = AquaButtonExtendedTypes.getBorderForPosition(b, value, b.getClientProperty(SEGMENTED_BUTTON_POSITION));
+                finbl Border border = AqubButtonExtendedTypes.getBorderForPosition(b, vblue, b.getClientProperty(SEGMENTED_BUTTON_POSITION));
                 if (border != null) {
                     b.setBorder(border);
                 }
@@ -553,45 +553,45 @@ public class AquaButtonUI extends BasicButtonUI implements Sizeable {
                 return;
             }
 
-            if (SEGMENTED_BUTTON_POSITION.equals(propertyName)) {
-                final Border border = b.getBorder();
-                if (!(border instanceof AquaBorder)) return;
+            if (SEGMENTED_BUTTON_POSITION.equbls(propertyNbme)) {
+                finbl Border border = b.getBorder();
+                if (!(border instbnceof AqubBorder)) return;
 
-                b.setBorder(AquaButtonExtendedTypes.getBorderForPosition(b, b.getClientProperty(BUTTON_TYPE), e.getNewValue()));
+                b.setBorder(AqubButtonExtendedTypes.getBorderForPosition(b, b.getClientProperty(BUTTON_TYPE), e.getNewVblue()));
             }
 
-            if ("componentOrientation".equals(propertyName)) {
-                final Border border = b.getBorder();
-                if (!(border instanceof AquaBorder)) return;
+            if ("componentOrientbtion".equbls(propertyNbme)) {
+                finbl Border border = b.getBorder();
+                if (!(border instbnceof AqubBorder)) return;
 
                 Object buttonType = b.getClientProperty(BUTTON_TYPE);
                 Object buttonPosition = b.getClientProperty(SEGMENTED_BUTTON_POSITION);
                 if (buttonType != null && buttonPosition != null) {
-                    b.setBorder(AquaButtonExtendedTypes.getBorderForPosition(b, buttonType, buttonPosition));
+                    b.setBorder(AqubButtonExtendedTypes.getBorderForPosition(b, buttonType, buttonPosition));
                 }
             }
         }
 
-        public void ancestorMoved(final AncestorEvent e) {}
+        public void bncestorMoved(finbl AncestorEvent e) {}
 
-        public void ancestorAdded(final AncestorEvent e) {
-            updateDefaultButton();
+        public void bncestorAdded(finbl AncestorEvent e) {
+            updbteDefbultButton();
         }
 
-        public void ancestorRemoved(final AncestorEvent e) {
-            updateDefaultButton();
+        public void bncestorRemoved(finbl AncestorEvent e) {
+            updbteDefbultButton();
         }
 
-        protected void updateDefaultButton() {
-            if (!(b instanceof JButton)) return;
-            if (!((JButton)b).isDefaultButton()) return;
+        protected void updbteDefbultButton() {
+            if (!(b instbnceof JButton)) return;
+            if (!((JButton)b).isDefbultButton()) return;
 
-            final JRootPane rootPane = b.getRootPane();
-            if (rootPane == null) return;
+            finbl JRootPbne rootPbne = b.getRootPbne();
+            if (rootPbne == null) return;
 
-            final RootPaneUI ui = rootPane.getUI();
-            if (!(ui instanceof AquaRootPaneUI)) return;
-            ((AquaRootPaneUI)ui).updateDefaultButton(rootPane);
+            finbl RootPbneUI ui = rootPbne.getUI();
+            if (!(ui instbnceof AqubRootPbneUI)) return;
+            ((AqubRootPbneUI)ui).updbteDefbultButton(rootPbne);
         }
     }
 }

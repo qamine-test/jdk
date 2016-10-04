@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.text;
+pbckbge sun.text;
 
-import sun.text.normalizer.NormalizerBase;
-import sun.text.normalizer.NormalizerImpl;
+import sun.text.normblizer.NormblizerBbse;
+import sun.text.normblizer.NormblizerImpl;
 
 /**
- * This Normalizer is for Unicode 3.2 support for IDNA only.
- * Developers should not use this class.
+ * This Normblizer is for Unicode 3.2 support for IDNA only.
+ * Developers should not use this clbss.
  *
  * @ since 1.6
  */
-public final class Normalizer {
+public finbl clbss Normblizer {
 
-    private Normalizer() {};
+    privbte Normblizer() {};
 
     /**
      * Option to select Unicode 3.2 (without corrigendum 4 corrections) for
-     * normalization.
+     * normblizbtion.
      */
-    public static final int UNICODE_3_2 = NormalizerBase.UNICODE_3_2_0_ORIGINAL;
+    public stbtic finbl int UNICODE_3_2 = NormblizerBbse.UNICODE_3_2_0_ORIGINAL;
 
     /**
-     * Normalize a sequence of char values.
-     * The sequence will be normalized according to the specified normalization
+     * Normblize b sequence of chbr vblues.
+     * The sequence will be normblized bccording to the specified normblizbtion
      * from.
-     * @param src        The sequence of char values to normalize.
-     * @param form       The normalization form; one of
-     *                   {@link java.text.Normalizer.Form#NFC},
-     *                   {@link java.text.Normalizer.Form#NFD},
-     *                   {@link java.text.Normalizer.Form#NFKC},
-     *                   {@link java.text.Normalizer.Form#NFKD}
-     * @param option     The normalization option;
-     *                   {@link sun.text.Normalizer#UNICODE_3_2}
-     * @return The normalized String
+     * @pbrbm src        The sequence of chbr vblues to normblize.
+     * @pbrbm form       The normblizbtion form; one of
+     *                   {@link jbvb.text.Normblizer.Form#NFC},
+     *                   {@link jbvb.text.Normblizer.Form#NFD},
+     *                   {@link jbvb.text.Normblizer.Form#NFKC},
+     *                   {@link jbvb.text.Normblizer.Form#NFKD}
+     * @pbrbm option     The normblizbtion option;
+     *                   {@link sun.text.Normblizer#UNICODE_3_2}
+     * @return The normblized String
      * @throws NullPointerException If <code>src</code> or <code>form</code>
      * is null.
      */
-    public static String normalize(CharSequence src,
-                                   java.text.Normalizer.Form form,
+    public stbtic String normblize(ChbrSequence src,
+                                   jbvb.text.Normblizer.Form form,
                                    int option) {
-        return NormalizerBase.normalize(src.toString(), form, option);
+        return NormblizerBbse.normblize(src.toString(), form, option);
     };
 
     /**
-     * Determines if the given sequence of char values is normalized.
-     * @param src        The sequence of char values to be checked.
-     * @param form       The normalization form; one of
-     *                   {@link java.text.Normalizer.Form#NFC},
-     *                   {@link java.text.Normalizer.Form#NFD},
-     *                   {@link java.text.Normalizer.Form#NFKC},
-     *                   {@link java.text.Normalizer.Form#NFKD}
-     * @param option     The normalization option;
-     *                   {@link sun.text.Normalizer#UNICODE_3_2}
-     * @return true if the sequence of char values is normalized;
-     * false otherwise.
+     * Determines if the given sequence of chbr vblues is normblized.
+     * @pbrbm src        The sequence of chbr vblues to be checked.
+     * @pbrbm form       The normblizbtion form; one of
+     *                   {@link jbvb.text.Normblizer.Form#NFC},
+     *                   {@link jbvb.text.Normblizer.Form#NFD},
+     *                   {@link jbvb.text.Normblizer.Form#NFKC},
+     *                   {@link jbvb.text.Normblizer.Form#NFKD}
+     * @pbrbm option     The normblizbtion option;
+     *                   {@link sun.text.Normblizer#UNICODE_3_2}
+     * @return true if the sequence of chbr vblues is normblized;
+     * fblse otherwise.
      * @throws NullPointerException If <code>src</code> or <code>form</code>
      * is null.
      */
-    public static boolean isNormalized(CharSequence src,
-                                       java.text.Normalizer.Form form,
+    public stbtic boolebn isNormblized(ChbrSequence src,
+                                       jbvb.text.Normblizer.Form form,
                                        int option) {
-        return NormalizerBase.isNormalized(src.toString(), form, option);
+        return NormblizerBbse.isNormblized(src.toString(), form, option);
     }
 
     /**
-     * Returns the combining class of the given character
-     * @param ch character to retrieve combining class of
-     * @return combining class of the given character
+     * Returns the combining clbss of the given chbrbcter
+     * @pbrbm ch chbrbcter to retrieve combining clbss of
+     * @return combining clbss of the given chbrbcter
      */
-    public static final int getCombiningClass(int ch) {
-        return NormalizerImpl.getCombiningClass(ch);
+    public stbtic finbl int getCombiningClbss(int ch) {
+        return NormblizerImpl.getCombiningClbss(ch);
     }
 }

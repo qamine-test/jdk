@@ -1,471 +1,471 @@
 <!--
- Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 
 <html>
 
-<head>
+<hebd>
 
-    <title>The AWT Modality</title>
+    <title>The AWT Modblity</title>
 
-</head>
+</hebd>
 
 <body bgcolor="white">
 
-    <h1 align="center">The AWT Modality</h1>
+    <h1 blign="center">The AWT Modblity</h1>
 
     <p>
-      This document, together with the API documentation for modality-related
-      classes (such as <code>java.awt.Dialog</code>), briefly describes the new
-      modality features and how to use them. It contains the following sections:
+      This document, together with the API documentbtion for modblity-relbted
+      clbsses (such bs <code>jbvb.bwt.Diblog</code>), briefly describes the new
+      modblity febtures bnd how to use them. It contbins the following sections:
     </p><ul>
-      <li><a href="#Definitions">Definitions</a></li>
-      <li><a href="#ModalityTypes">Modality types</a></li>
-      <li><a href="#ShowHideBlocking">Show/hide blocking</a></li>
-      <li><a href="#ModalExclusion">Modal exclusion</a></li>
-      <li><a href="#Related">Related AWT features</a></li>
-      <li><a href="#Security">Security</a></li>
-      <li><a href="#PlatformSupport">Platform support</a></li>
-      <li><a href="#Compatibility">Compatibility</a></li>
-      <li><a href="#Examples">Examples</a></li>
+      <li><b href="#Definitions">Definitions</b></li>
+      <li><b href="#ModblityTypes">Modblity types</b></li>
+      <li><b href="#ShowHideBlocking">Show/hide blocking</b></li>
+      <li><b href="#ModblExclusion">Modbl exclusion</b></li>
+      <li><b href="#Relbted">Relbted AWT febtures</b></li>
+      <li><b href="#Security">Security</b></li>
+      <li><b href="#PlbtformSupport">Plbtform support</b></li>
+      <li><b href="#Compbtibility">Compbtibility</b></li>
+      <li><b href="#Exbmples">Exbmples</b></li>
     </ul>
 
-    <a name="Definitions"></a>
+    <b nbme="Definitions"></b>
     <h3>Definitions</h3>
 
     <p>
-      <u>Document</u> - a window without an owner that, together with
-      all its child hierarchy, may be operated on as a single self-contained
+      <u>Document</u> - b window without bn owner thbt, together with
+      bll its child hierbrchy, mby be operbted on bs b single self-contbined
       document.
-      Every window belongs to some document &mdash; its root can be found as
-      the closest ancestor window without an owner.
+      Every window belongs to some document &mdbsh; its root cbn be found bs
+      the closest bncestor window without bn owner.
     </p><p>
-      <a name="ModalBlocked"></a>
-      <u>Modal blocked window</u> - a window, that:
+      <b nbme="ModblBlocked"></b>
+      <u>Modbl blocked window</u> - b window, thbt:
       </p><ul>
-        <li>doesn't receive any user input events
+        <li>doesn't receive bny user input events
         </li><li>doesn't receive input focus
-        </li><li>keeps its Z-order below the modal dialog that blocks it
+        </li><li>keeps its Z-order below the modbl diblog thbt blocks it
       </li></ul>
       <blockquote>
         <hr>
-          <b>Warning!</b> Some window managers allow users to change the window
-          Z-order in an arbitrary way &mdash; in that case the last requirement 
-          may not be met.
+          <b>Wbrning!</b> Some window mbnbgers bllow users to chbnge the window
+          Z-order in bn brbitrbry wby &mdbsh; in thbt cbse the lbst requirement 
+          mby not be met.
         <hr>
       </blockquote>
     <p>
-      <u>Modal dialog</u> - a dialog that blocks some windows while it is
-      visible. The blocked windows are determined according to the dialog's
+      <u>Modbl diblog</u> - b diblog thbt blocks some windows while it is
+      visible. The blocked windows bre determined bccording to the diblog's
       scope of blocking.
     </p><p>
-      <u>Modal excluded window</u> - a window that stays unblocked
-      while the modal dialog is visible. If a window is modal excluded
-      then all its owned windows and child components are also excluded.
+      <u>Modbl excluded window</u> - b window thbt stbys unblocked
+      while the modbl diblog is visible. If b window is modbl excluded
+      then bll its owned windows bnd child components bre blso excluded.
     </p><p>
-      <u>Scope of blocking (SB)</u> - the set of windows (instances of
-      <code>java.awt.Window</code> and all derived classes) that are blocked by 
-      the modal dialog while it is visible.
+      <u>Scope of blocking (SB)</u> - the set of windows (instbnces of
+      <code>jbvb.bwt.Window</code> bnd bll derived clbsses) thbt bre blocked by 
+      the modbl diblog while it is visible.
     </p><p>
      <blockquote><hr>
-      <b>Note</b>: Everywhere in this document the notion of "window" is equal
-      to a top-level window in the Java programming language &mdash; in other words
-      an instance of <code>java.awt.Window</code> or any descendant class.
+      <b>Note</b>: Everywhere in this document the notion of "window" is equbl
+      to b top-level window in the Jbvb progrbmming lbngubge &mdbsh; in other words
+      bn instbnce of <code>jbvb.bwt.Window</code> or bny descendbnt clbss.
       <hr></blockquote>
 
-    <a name="ModalityTypes"></a>
-    <h3>Modality types</h3>
+    <b nbme="ModblityTypes"></b>
+    <h3>Modblity types</h3>
 
     <p>
-      There are four supported modality types :
+      There bre four supported modblity types :
       </p><ul>
         <li>toolkit
-        </li><li>application
+        </li><li>bpplicbtion
         </li><li>document
         </li><li>modeless
       </li></ul>
-      A dialog is, by default, modeless.  A modal dialog is, by default,
-      application-modal.
+      A diblog is, by defbult, modeless.  A modbl diblog is, by defbult,
+      bpplicbtion-modbl.
     <p>
     </p><ol>
-      <li><u>Modeless dialogs</u><br>
-        A modeless dialog doesn't block any windows while visible.
-      </li><li><u>Document-modal dialogs</u><br>
-        A document-modal dialog blocks all windows from the same
-        document except those from its child hierarchy. The document root
-        is determined as the closest ancestor window without an
+      <li><u>Modeless diblogs</u><br>
+        A modeless diblog doesn't block bny windows while visible.
+      </li><li><u>Document-modbl diblogs</u><br>
+        A document-modbl diblog blocks bll windows from the sbme
+        document except those from its child hierbrchy. The document root
+        is determined bs the closest bncestor window without bn
         owner.
-      </li><li><u>Application-modal dialogs</u><br>
-        An application-modal dialog blocks all windows from the same
-        application except for those from its child hierarchy.
-        If there are several applets launched in a browser, they can be
-        treated either as separate applications or a single application.
-	This behavior is implementation-dependent.
-      </li><li><u>Toolkit-modal dialogs</u><br>
-        A toolkit-modal dialog blocks all windows that run in the same
-        toolkit except those from its child hierarchy. If there
-        are several applets launched all of them run with the same toolkit,
-        so a toolkit-modal dialog shown from an applet may affect other
-        applets and all windows of the browser instance which embeds the
-        Java runtime environment for this toolkit.
+      </li><li><u>Applicbtion-modbl diblogs</u><br>
+        An bpplicbtion-modbl diblog blocks bll windows from the sbme
+        bpplicbtion except for those from its child hierbrchy.
+        If there bre severbl bpplets lbunched in b browser, they cbn be
+        trebted either bs sepbrbte bpplicbtions or b single bpplicbtion.
+	This behbvior is implementbtion-dependent.
+      </li><li><u>Toolkit-modbl diblogs</u><br>
+        A toolkit-modbl diblog blocks bll windows thbt run in the sbme
+        toolkit except those from its child hierbrchy. If there
+        bre severbl bpplets lbunched bll of them run with the sbme toolkit,
+        so b toolkit-modbl diblog shown from bn bpplet mby bffect other
+        bpplets bnd bll windows of the browser instbnce which embeds the
+        Jbvb runtime environment for this toolkit.
         See the security section below.
     </li></ol>
     <p>
-      Modality priority is arranged by the strength of blocking: modeless,
-      document-modal, application-modal and toolkit-modal. This arrangement
-      is used when determining what dialog should remain unblocked if two
-      are visible and block each other. It naturally reflects the nesting
-      of a dialog's scope of blocking (SB): a modeless dialog has an empty SB,
-      a document-modal dialog's SB is complete in some applications,
-      and all the applications are run in one toolkit.  </p><p>
-      Notes about owners:
+      Modblity priority is brrbnged by the strength of blocking: modeless,
+      document-modbl, bpplicbtion-modbl bnd toolkit-modbl. This brrbngement
+      is used when determining whbt diblog should rembin unblocked if two
+      bre visible bnd block ebch other. It nbturblly reflects the nesting
+      of b diblog's scope of blocking (SB): b modeless diblog hbs bn empty SB,
+      b document-modbl diblog's SB is complete in some bpplicbtions,
+      bnd bll the bpplicbtions bre run in one toolkit.  </p><p>
+      Notes bbout owners:
       </p><ul>
-        <li>Creating a document-modal dialog without an owner:<br>
-          Since <code>Dialog</code> is a class derived from
-	  <code>Window</code>, a <code>Dialog</code> instance automatically
-          becomes the root of the document if it has no owner. Thus, if
-          such a dialog is document-modal, its scope of blocking is empty
-          and it behaves the same way as a modeless dialog.
-        </li><li>Creating an application-modal or toolkit-modal dialog with an
+        <li>Crebting b document-modbl diblog without bn owner:<br>
+          Since <code>Diblog</code> is b clbss derived from
+	  <code>Window</code>, b <code>Diblog</code> instbnce butombticblly
+          becomes the root of the document if it hbs no owner. Thus, if
+          such b diblog is document-modbl, its scope of blocking is empty
+          bnd it behbves the sbme wby bs b modeless diblog.
+        </li><li>Crebting bn bpplicbtion-modbl or toolkit-modbl diblog with bn
 	  owner:<br>
-          The scope of blocking for an application- or toolkit-modal
-          dialog, as opposed to a document-modal dialog, doesn't depend on
-          its owner. Thus, in this case the only thing that the owner
-          affects is the Z-order: the dialog always stays on top of its owner.
+          The scope of blocking for bn bpplicbtion- or toolkit-modbl
+          diblog, bs opposed to b document-modbl diblog, doesn't depend on
+          its owner. Thus, in this cbse the only thing thbt the owner
+          bffects is the Z-order: the diblog blwbys stbys on top of its owner.
       </li></ul>
     <p>
     <blockquote><hr>
-      <b>Implementation note</b>: Changing the modality type for a visible
-      dialog may have no effect until it is hidden and then shown again.
+      <b>Implementbtion note</b>: Chbnging the modblity type for b visible
+      diblog mby hbve no effect until it is hidden bnd then shown bgbin.
       <hr></blockquote>
 
-    <a name="ShowHideBlocking"></a>
+    <b nbme="ShowHideBlocking"></b>
     <h3>Show/hide blocking</h3>
 
     <p>
-      <u>Showing the window or modeless dialog: "F"</u><br>
-      All the visible modal dialogs are looked through &mdash; if F is from the SB
-      of one of them, it becomes blocked by it. If there are several such
-      dialogs, the first shown is used. If no such dialogs exist, F remains
+      <u>Showing the window or modeless diblog: "F"</u><br>
+      All the visible modbl diblogs bre looked through &mdbsh; if F is from the SB
+      of one of them, it becomes blocked by it. If there bre severbl such
+      diblogs, the first shown is used. If no such diblogs exist, F rembins
       unblocked.
     </p><p>
-      <u>Showing the modal dialog: "M"</u><br>
-      When modal dialog M is shown, all the visible windows fall into one of
+      <u>Showing the modbl diblog: "M"</u><br>
+      When modbl diblog M is shown, bll the visible windows fbll into one of
       three distinct groups: 
       <ul>
-      <li>Blockers of M (modal dialogs that block M and
-      either are in M's child hierarchy, or are not blocked by M, or have
-      a greater mode of modality, or block some other blocker of M)
-      <li>Blocked by M (windows from M's SB that are not blockers and are
-      not in child hierarchy of any blocker)
+      <li>Blockers of M (modbl diblogs thbt block M bnd
+      either bre in M's child hierbrchy, or bre not blocked by M, or hbve
+      b grebter mode of modblity, or block some other blocker of M)
+      <li>Blocked by M (windows from M's SB thbt bre not blockers bnd bre
+      not in child hierbrchy of bny blocker)
       <li>All other windows (windows or modeless
-      dialogs outside M's SB and modal dialogs outside M's SB that do not
+      diblogs outside M's SB bnd modbl diblogs outside M's SB thbt do not
       block M).
       </ul>
       <p>
-      After the modal dialog M is shown, it becomes blocked by the first shown
-      dialog from the first group (if there are any), all the windows from the
-      second one become blocked by M, and all the windows from the third group
-      remain untouched.
+      After the modbl diblog M is shown, it becomes blocked by the first shown
+      diblog from the first group (if there bre bny), bll the windows from the
+      second one become blocked by M, bnd bll the windows from the third group
+      rembin untouched.
     </p><p>
-      <u>In typical cases</u>, when no child dialogs are shown before their owners,
-      this rule can be simplified. (The following, simplified case, may
-      leave out some details).
+      <u>In typicbl cbses</u>, when no child diblogs bre shown before their owners,
+      this rule cbn be simplified. (The following, simplified cbse, mby
+      lebve out some detbils).
       </p><p>
-      <u>Showing the document-modal dialog: "M"</u><br>
-      All the visible application- and toolkit-modal dialogs are looked
-      through &mdash; if M is from the SB of one of them,
-      it becomes blocked by it. If there are several such dialogs,
-      the first shown is used. If no such dialogs exist, M remains unblocked.
+      <u>Showing the document-modbl diblog: "M"</u><br>
+      All the visible bpplicbtion- bnd toolkit-modbl diblogs bre looked
+      through &mdbsh; if M is from the SB of one of them,
+      it becomes blocked by it. If there bre severbl such diblogs,
+      the first shown is used. If no such diblogs exist, M rembins unblocked.
       </p><p>
-      <u>Showing the application-modal dialog: "M"</u><br>
-      All the visible toolkit-modal dialogs are looked through &mdash;
+      <u>Showing the bpplicbtion-modbl diblog: "M"</u><br>
+      All the visible toolkit-modbl diblogs bre looked through &mdbsh;
       if M is from the SB of one of them, it becomes blocked by it.
-      If there are several such dialogs, the first shown is used.
-      If no such dialogs exist, M remains unblocked.
+      If there bre severbl such diblogs, the first shown is used.
+      If no such diblogs exist, M rembins unblocked.
       </p><p>
-      <u>Showing the toolkit-modal dialog: "M"</u><br>
-      M remains unblocked.
+      <u>Showing the toolkit-modbl diblog: "M"</u><br>
+      M rembins unblocked.
       </p><p>
 <!--        <center> -->
           </p>
-          <table border="1">
-	  <caption>The Standard Blocking Matrix</caption>
-            <tbody><tr align="center">
-              <td align="center">current/shown</td>
-              <td align="center">frame &amp; modeless</td>
-              <td align="center">document</td>
-              <td align="center">application</td>
-              <td align="center">toolkit</td>
+          <tbble border="1">
+	  <cbption>The Stbndbrd Blocking Mbtrix</cbption>
+            <tbody><tr blign="center">
+              <td blign="center">current/shown</td>
+              <td blign="center">frbme &bmp; modeless</td>
+              <td blign="center">document</td>
+              <td blign="center">bpplicbtion</td>
+              <td blign="center">toolkit</td>
             </tr>
-            <tr align="center">
-              <td align="center">-</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
+            <tr blign="center">
+              <td blign="center">-</td>
+              <td blign="center">-</td>
+              <td blign="center">-</td>
+              <td blign="center">-</td>
+              <td blign="center">-</td>
             </tr>
-            <tr align="center">
-              <td align="center">document</td>
-              <td align="center">blocked</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
+            <tr blign="center">
+              <td blign="center">document</td>
+              <td blign="center">blocked</td>
+              <td blign="center">-</td>
+              <td blign="center">-</td>
+              <td blign="center">-</td>
             </tr>
-            <tr align="center">
-              <td align="center">application</td>
-              <td align="center">blocked</td>
-              <td align="center">blocked</td>
-              <td align="center">-</td>
-              <td align="center">-</td>
+            <tr blign="center">
+              <td blign="center">bpplicbtion</td>
+              <td blign="center">blocked</td>
+              <td blign="center">blocked</td>
+              <td blign="center">-</td>
+              <td blign="center">-</td>
             </tr>
-            <tr align="center">
-              <td align="center">toolkit</td>
-              <td align="center">blocked</td>
-              <td align="center">blocked</td>
-              <td align="center">blocked</td>
-              <td align="center">-</td>
+            <tr blign="center">
+              <td blign="center">toolkit</td>
+              <td blign="center">blocked</td>
+              <td blign="center">blocked</td>
+              <td blign="center">blocked</td>
+              <td blign="center">-</td>
             </tr>
-          </tbody></table>
+          </tbody></tbble>
 <!--        </center> -->
       <p>
-      After the modal dialog is shown, all the windows from its SB are blocked,
-      except those that block this modal dialog.
+      After the modbl diblog is shown, bll the windows from its SB bre blocked,
+      except those thbt block this modbl diblog.
     </p><p>
-      <u>Hiding the window or modeless dialog: "F"</u><br>
-      If F was blocked by any modal dialog M, it becomes unblocked and is
+      <u>Hiding the window or modeless diblog: "F"</u><br>
+      If F wbs blocked by bny modbl diblog M, it becomes unblocked bnd is
       removed from M's blocked windows list.
     </p><p>
-      <u>Hiding the modal dialog: "M"</u><br>
-      If M was blocked by any other modal dialog, for example, "N",
-      it becomes unblocked and
-      is removed from N's blocked windows list. Then, all the windows and dialogs
-      blocked by M become unblocked, and after that the same checks 
-      (as in Showing the modal dialog: "M")
-      are performed for each of them in the order they were initially shown.
+      <u>Hiding the modbl diblog: "M"</u><br>
+      If M wbs blocked by bny other modbl diblog, for exbmple, "N",
+      it becomes unblocked bnd
+      is removed from N's blocked windows list. Then, bll the windows bnd diblogs
+      blocked by M become unblocked, bnd bfter thbt the sbme checks 
+      (bs in Showing the modbl diblog: "M")
+      bre performed for ebch of them in the order they were initiblly shown.
 
-    <a name="ModalExclusion"></a>
-    </p><h3>Modal exclusion</h3>
+    <b nbme="ModblExclusion"></b>
+    </p><h3>Modbl exclusion</h3>
 
     <p>
-      There are two modal exclusion types introduced as of JDK 6
+      There bre two modbl exclusion types introduced bs of JDK 6
       </p><ul>
-        <li>Exclusion from blocking of toolkit-modal dialogs
-        </li><li>Exclusion from blocking of application-modal dialogs
+        <li>Exclusion from blocking of toolkit-modbl diblogs
+        </li><li>Exclusion from blocking of bpplicbtion-modbl diblogs
       </li></ul>
-      By default, a window's modal exclusion property is turned off.
+      By defbult, b window's modbl exclusion property is turned off.
     <p>
       </p><ol>
-        <li><u>Application-modal exclusion</u><br>
-          If a window is application-modal excluded, it is not blocked by any
-          application-modal dialogs. Also, it is not blocked by document-modal
-          dialogs from outside of its child hierarchy.
-        </li><li><u>Toolkit-modal exclusion</u><br>
-          If a window is toolkit-modal excluded, it is not blocked
-          by any application- or toolkit-modal dialogs. Also, it is not
-          blocked by document-modal dialogs from outside of their child hierarchy.
+        <li><u>Applicbtion-modbl exclusion</u><br>
+          If b window is bpplicbtion-modbl excluded, it is not blocked by bny
+          bpplicbtion-modbl diblogs. Also, it is not blocked by document-modbl
+          diblogs from outside of its child hierbrchy.
+        </li><li><u>Toolkit-modbl exclusion</u><br>
+          If b window is toolkit-modbl excluded, it is not blocked
+          by bny bpplicbtion- or toolkit-modbl diblogs. Also, it is not
+          blocked by document-modbl diblogs from outside of their child hierbrchy.
       </li></ol>
     <p>
     <blockquote>
       <hr>
-        <b>Implementation note</b>: Changing the modal exclusion type for a visible window
-        may have no effect until it is hidden and then shown again.
+        <b>Implementbtion note</b>: Chbnging the modbl exclusion type for b visible window
+        mby hbve no effect until it is hidden bnd then shown bgbin.
     </blockquote>
 
-    <a name="Related"></a>
-    <h3>Related AWT features</h3>
+    <b nbme="Relbted"></b>
+    <h3>Relbted AWT febtures</h3>
 
     <p>
-      <u>Always-On-Top</u><br>
-      When a modal dialog that is not always-on-top blocks an always-on-top window,
-      their relative Z-order is unspecified and platform-dependent.
+      <u>Alwbys-On-Top</u><br>
+      When b modbl diblog thbt is not blwbys-on-top blocks bn blwbys-on-top window,
+      their relbtive Z-order is unspecified bnd plbtform-dependent.
     </p>
     <p>
-      <u>The <code>toFront()</code> and <code>toBack()</code> methods</u><br>
-      A modal dialog should always be above all its blocked windows. Thus, if a blocked
-      window is brought to the front, its blocking dialog, if any, is also brought to the
-      front and remains above the blocked window. Likewise, if a modal dialog is sent to
-      the back, all of its blocked windows are sent to the back to keep them below the
-      blocking dialog.
+      <u>The <code>toFront()</code> bnd <code>toBbck()</code> methods</u><br>
+      A modbl diblog should blwbys be bbove bll its blocked windows. Thus, if b blocked
+      window is brought to the front, its blocking diblog, if bny, is blso brought to the
+      front bnd rembins bbove the blocked window. Likewise, if b modbl diblog is sent to
+      the bbck, bll of its blocked windows bre sent to the bbck to keep them below the
+      blocking diblog.
     </p>
     <p>
-      <u>Minimizing, maximizing and closing blocked windows</u><br>
-      When a modal dialog blocks a window, the user may not be able to maximize or
-      minimize the blocked window&mdash; however, the actual behavior is unspecified
-      and platform-dependent. In any case, the user can't close the blocked window
-      interactively&mdash; but it can be closed programmatically by calling the
-      <code>setVisible(false)</code> or <code>dispose()</code> methods on the blocked
+      <u>Minimizing, mbximizing bnd closing blocked windows</u><br>
+      When b modbl diblog blocks b window, the user mby not be bble to mbximize or
+      minimize the blocked window&mdbsh; however, the bctubl behbvior is unspecified
+      bnd plbtform-dependent. In bny cbse, the user cbn't close the blocked window
+      interbctively&mdbsh; but it cbn be closed progrbmmbticblly by cblling the
+      <code>setVisible(fblse)</code> or <code>dispose()</code> methods on the blocked
       window.
     </p>
     <p>
-      <u>Blocked windows activations</u><br>
-      When the user selects a blocked window, it may be brought to the front, along
-      with the blocking modal dialog which would then become the active window&mdash;
-      however, the actual behavior is unspecified and platform-dependent.
+      <u>Blocked windows bctivbtions</u><br>
+      When the user selects b blocked window, it mby be brought to the front, blong
+      with the blocking modbl diblog which would then become the bctive window&mdbsh;
+      however, the bctubl behbvior is unspecified bnd plbtform-dependent.
     </p>
     <p>
-      <u>Hiding a modal dialog</u><br>
-      When the modal dialog that currently has focus is hidden, it is unspecified
-      and platform-dependent, which other window will become the active window.
-      Any of the following may become the active window:
+      <u>Hiding b modbl diblog</u><br>
+      When the modbl diblog thbt currently hbs focus is hidden, it is unspecified
+      bnd plbtform-dependent, which other window will become the bctive window.
+      Any of the following mby become the bctive window:
       <ol>
-        <li>The owner of the modal dialog - if the owner is unblocked.
-        </li><li>The <code>Window</code>, which was active before this modal dialog gained
-        focus - if the owner of the modal dialog is absent or is blocked.
+        <li>The owner of the modbl diblog - if the owner is unblocked.
+        </li><li>The <code>Window</code>, which wbs bctive before this modbl diblog gbined
+        focus - if the owner of the modbl diblog is bbsent or is blocked.
       </li></ol>
-      If the modal dialog to be hidden does not have focus, the active window remains
-      unchanged.
+      If the modbl diblog to be hidden does not hbve focus, the bctive window rembins
+      unchbnged.
     
-    <a name="Security"></a>
+    <b nbme="Security"></b>
     <h3>Security</h3>
 
     <p>
-      A special <code>AWTPermission</code>, <code>"toolkitModality"</code>,
-      is required to show toolkit-modal
-      dialogs. This would prevent, for example, blocking a browser or 
-      Java Web Start (JWS) by modal dialogs shown from applets.
+      A specibl <code>AWTPermission</code>, <code>"toolkitModblity"</code>,
+      is required to show toolkit-modbl
+      diblogs. This would prevent, for exbmple, blocking b browser or 
+      Jbvb Web Stbrt (JWS) by modbl diblogs shown from bpplets.
     </p><p>
-      The same permission is required to exclude a window from toolkit modality.
-      This would prevent, for example, a dialog shown from an applet not to be
-      blocked by a browser's or JWS's modal dialog.
+      The sbme permission is required to exclude b window from toolkit modblity.
+      This would prevent, for exbmple, b diblog shown from bn bpplet not to be
+      blocked by b browser's or JWS's modbl diblog.
 
-    <a name="PlatformSupport"></a>
-    </p><h3>Platform support</h3>
+    <b nbme="PlbtformSupport"></b>
+    </p><h3>Plbtform support</h3>
 
     <p>
-      Two <code>java.awt.Toolkit</code> methods allow you to check whether
-      the current platform supports specific modality features:
+      Two <code>jbvb.bwt.Toolkit</code> methods bllow you to check whether
+      the current plbtform supports specific modblity febtures:
       </p><ul>
-        <li><code>isModalityTypeSupported(modalityType)</code><br>
-          Returns whether the specified modality type is supported on
-	  the current platform.
-          If mode "M" is not supported and a dialog is set to M-modal,
-          it behaves as modeless.
+        <li><code>isModblityTypeSupported(modblityType)</code><br>
+          Returns whether the specified modblity type is supported on
+	  the current plbtform.
+          If mode "M" is not supported bnd b diblog is set to M-modbl,
+          it behbves bs modeless.
         </li>
-	<li><code>isModalExclusionTypeSupported(modalExclusionType)</code><br>
-          Returns whether the given modal exclusion type is supported on
-	  the current platform. If exclusion type "E" is not supported
-	  and a window is marked as E-excluded, this has no effect.
+	<li><code>isModblExclusionTypeSupported(modblExclusionType)</code><br>
+          Returns whether the given modbl exclusion type is supported on
+	  the current plbtform. If exclusion type "E" is not supported
+	  bnd b window is mbrked bs E-excluded, this hbs no effect.
       </li></ul>
 
-    <a name="Compatibility"></a>
-    <h3>Compatibility</h3>
+    <b nbme="Compbtibility"></b>
+    <h3>Compbtibility</h3>
 
     <p>
-      The default modality type is application-modal. It is used by the API
-      calls: <code>Dialog.setModal(true)</code>, 
-      <code>Dialog(owner, true)</code>, etc. Prior to JDK 6
-      the default type was toolkit-modal,
-      but the only distinction between application- and toolkit-modality is for
-      applets and applications launched from Java Web Start.
+      The defbult modblity type is bpplicbtion-modbl. It is used by the API
+      cblls: <code>Diblog.setModbl(true)</code>, 
+      <code>Diblog(owner, true)</code>, etc. Prior to JDK 6
+      the defbult type wbs toolkit-modbl,
+      but the only distinction between bpplicbtion- bnd toolkit-modblity is for
+      bpplets bnd bpplicbtions lbunched from Jbvb Web Stbrt.
 
-    <a name="Examples"></a>
-    </p><h3>Examples</h3>
+    <b nbme="Exbmples"></b>
+    </p><h3>Exbmples</h3>
 
-    <table border="0">
+    <tbble border="0">
       <tbody><tr>
-        <td align="left" >
+        <td blign="left" >
 	<ol>
-          <li>Frame "F" is shown<br>
-          <li>Document-modal dialog "D<sub>i</sub>" is shown<br>
-          <li>F becomes blocked by D<sub>i</sub> &mdash; it's in the same document<br>
-          <li>Document-modal dialog "D<sub>ii</sub>" is shown<br>
-          <li>D<sub>i</sub> becomes blocked by D<sub>ii</sub> &mdash; it's in the
-	      same document<br>
+          <li>Frbme "F" is shown<br>
+          <li>Document-modbl diblog "D<sub>i</sub>" is shown<br>
+          <li>F becomes blocked by D<sub>i</sub> &mdbsh; it's in the sbme document<br>
+          <li>Document-modbl diblog "D<sub>ii</sub>" is shown<br>
+          <li>D<sub>i</sub> becomes blocked by D<sub>ii</sub> &mdbsh; it's in the
+	      sbme document<br>
 	  </ol>
           <br>
         </td>
-        <td align="center">
-          <img src="modal-example1.gif">
+        <td blign="center">
+          <img src="modbl-exbmple1.gif">
           <br>
         </td>
       </tr>
       <tr>
-        <td align="left">
+        <td blign="left">
 	<ol>
-         <li>Frame "F" is shown<br>
-         <li>Document-modal dialog "D<sub>i</sub>" is shown<br>
-         <li>F becomes blocked by D<sub>i</sub> &mdash; it's in the same document<br>
-         <li>Document-modal dialog "D<sub>ii</sub>" is shown<br>
-         <li>D<sub>i</sub> becomes blocked by D<sub>ii</sub> &mdash;
-	     it's in the same document<br>
+         <li>Frbme "F" is shown<br>
+         <li>Document-modbl diblog "D<sub>i</sub>" is shown<br>
+         <li>F becomes blocked by D<sub>i</sub> &mdbsh; it's in the sbme document<br>
+         <li>Document-modbl diblog "D<sub>ii</sub>" is shown<br>
+         <li>D<sub>i</sub> becomes blocked by D<sub>ii</sub> &mdbsh;
+	     it's in the sbme document<br>
          <li>D<sub>i</sub> is hidden<br>
-         <li>F becomes blocked by D<sub>ii</sub> &mdash; it's in the same document<br>
+         <li>F becomes blocked by D<sub>ii</sub> &mdbsh; it's in the sbme document<br>
          </ol>
 	 <br>
         </td>
-        <td align="center">
-          <img src="modal-example2.gif">
+        <td blign="center">
+          <img src="modbl-exbmple2.gif">
           <br>
         </td>
       </tr>
       <tr>
-        <td align="left">
+        <td blign="left">
 	<ol>
-          <li>Frame "F" is shown<br>
-          <li>Toolkit-modal dialog "D<sub>i</sub>" is created, but not shown<br>
-          <li>Document-modal dialog "D<sub>ii</sub>" is shown<br>
-          <li>F becomes blocked by D<sub>ii</sub> &mdash; it's in the same document<br>
-          <li>Application-modal dialog "D<sub>iii</sub>" is shown<br>
-          <li>D<sub>ii</sub> becomes blocked by D<sub>iii</sub> &mdash;
-	      it's in the same application<br>
+          <li>Frbme "F" is shown<br>
+          <li>Toolkit-modbl diblog "D<sub>i</sub>" is crebted, but not shown<br>
+          <li>Document-modbl diblog "D<sub>ii</sub>" is shown<br>
+          <li>F becomes blocked by D<sub>ii</sub> &mdbsh; it's in the sbme document<br>
+          <li>Applicbtion-modbl diblog "D<sub>iii</sub>" is shown<br>
+          <li>D<sub>ii</sub> becomes blocked by D<sub>iii</sub> &mdbsh;
+	      it's in the sbme bpplicbtion<br>
           <li>D<sub>i</sub> is shown<br>
-          <li>D<sub>i</sub> becomes blocked by D<sub>ii</sub> &mdash; it's its owner<br>
-          <li>D<sub>iii</sub> remains unblocked &mdash; it blocks D<sub>ii</sub> and 
+          <li>D<sub>i</sub> becomes blocked by D<sub>ii</sub> &mdbsh; it's its owner<br>
+          <li>D<sub>iii</sub> rembins unblocked &mdbsh; it blocks D<sub>ii</sub> bnd 
 	      D<sub>ii</sub> blocks D<sub>i</sub><br>
 	  </ol>
           <br>
         </td>
-        <td align="center">
-          <img src="modal-example3.gif">
+        <td blign="center">
+          <img src="modbl-exbmple3.gif">
           <br>
         </td>
       </tr>
       <tr>
-        <td align="left">
+        <td blign="left">
 	<ol>
-          <li>Frame "F" is shown<br>
-          <li>Toolkit-modal dialog "D<sub>i</sub>" is created, but not shown<br>
-          <li>Document-modal dialog "D<sub>ii</sub>" is shown<br>
-          <li>F becomes blocked by D<sub>ii</sub> &mdash; it's in the same document<br>
-          <li>Application-modal dialog "D<sub>iii</sub>" is shown<br>
-          <li>D<sub>ii</sub> becomes blocked by D<sub>iii</sub> &mdash; it's in the
-	      same application<br>
+          <li>Frbme "F" is shown<br>
+          <li>Toolkit-modbl diblog "D<sub>i</sub>" is crebted, but not shown<br>
+          <li>Document-modbl diblog "D<sub>ii</sub>" is shown<br>
+          <li>F becomes blocked by D<sub>ii</sub> &mdbsh; it's in the sbme document<br>
+          <li>Applicbtion-modbl diblog "D<sub>iii</sub>" is shown<br>
+          <li>D<sub>ii</sub> becomes blocked by D<sub>iii</sub> &mdbsh; it's in the
+	      sbme bpplicbtion<br>
           <li>D<sub>i</sub> is shown<br>
-          <li>D<sub>iii</sub> becomes blocked by D<sub>i</sub> &mdash; D<sub>i</sub>
+          <li>D<sub>iii</sub> becomes blocked by D<sub>i</sub> &mdbsh; D<sub>i</sub>
 	      is not blocked<br>
-          <li>D<sub>i</sub> remains unblocked<br>
+          <li>D<sub>i</sub> rembins unblocked<br>
 	  </ol>
           <br>
         </td>
-        <td align="center">
-          <img src="modal-example4.gif">
+        <td blign="center">
+          <img src="modbl-exbmple4.gif">
           <br>
         </td>
       </tr>
-    </tbody></table>
+    </tbody></tbble>
 
 </body></html>

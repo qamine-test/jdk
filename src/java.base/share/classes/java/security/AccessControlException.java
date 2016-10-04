@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
 /**
- * <p> This exception is thrown by the AccessController to indicate
- * that a requested access (to a critical system resource such as the
+ * <p> This exception is thrown by the AccessController to indicbte
+ * thbt b requested bccess (to b criticbl system resource such bs the
  * file system or the network) is denied.
  *
- * <p> The reason to deny access can vary.  For example, the requested
- * permission might be of an incorrect type,  contain an invalid
- * value, or request access that is not allowed according to the
- * security policy.  Such information should be given whenever
- * possible at the time the exception is thrown.
+ * <p> The rebson to deny bccess cbn vbry.  For exbmple, the requested
+ * permission might be of bn incorrect type,  contbin bn invblid
+ * vblue, or request bccess thbt is not bllowed bccording to the
+ * security policy.  Such informbtion should be given whenever
+ * possible bt the time the exception is thrown.
  *
- * @author Li Gong
- * @author Roland Schemers
+ * @buthor Li Gong
+ * @buthor Rolbnd Schemers
  */
 
-public class AccessControlException extends SecurityException {
+public clbss AccessControlException extends SecurityException {
 
-    private static final long serialVersionUID = 5138225684096988535L;
+    privbte stbtic finbl long seriblVersionUID = 5138225684096988535L;
 
-    // the permission that caused the exception to be thrown.
-    private Permission perm;
+    // the permission thbt cbused the exception to be thrown.
+    privbte Permission perm;
 
     /**
-     * Constructs an {@code AccessControlException} with the
-     * specified, detailed message.
+     * Constructs bn {@code AccessControlException} with the
+     * specified, detbiled messbge.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   the detbil messbge.
      */
     public AccessControlException(String s) {
         super(s);
     }
 
     /**
-     * Constructs an {@code AccessControlException} with the
-     * specified, detailed message, and the requested permission that caused
+     * Constructs bn {@code AccessControlException} with the
+     * specified, detbiled messbge, bnd the requested permission thbt cbused
      * the exception.
      *
-     * @param   s   the detail message.
-     * @param   p   the permission that caused the exception.
+     * @pbrbm   s   the detbil messbge.
+     * @pbrbm   p   the permission thbt cbused the exception.
      */
     public AccessControlException(String s, Permission p) {
         super(s);
@@ -71,8 +71,8 @@ public class AccessControlException extends SecurityException {
     }
 
     /**
-     * Gets the Permission object associated with this exception, or
-     * null if there was no corresponding Permission object.
+     * Gets the Permission object bssocibted with this exception, or
+     * null if there wbs no corresponding Permission object.
      *
      * @return the Permission object.
      */

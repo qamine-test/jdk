@@ -3,108 +3,108 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="bem"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="bem"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">Ichi Akan</language>
-			<language type="am">Ichi Amhari</language>
-			<language type="ar">Ichi Arab</language>
-			<language type="be">Ichi Belarus</language>
-			<language type="bem">Ichibemba</language>
-			<language type="bg">Ichi Bulgariani</language>
-			<language type="bn">Ichi Bengali</language>
-			<language type="cs">Ichi Cheki</language>
-			<language type="de">Ichi Jemani</language>
-			<language type="el">Ichi Griki</language>
-			<language type="en">Ichi Sungu</language>
-			<language type="es">Ichi Spanishi</language>
-			<language type="fa">Ichi Pesia</language>
-			<language type="fr">Ichi Frenchi</language>
-			<language type="ha">Ichi Hausa</language>
-			<language type="hi">Ichi Hindu</language>
-			<language type="hu">Ichi Hangarian</language>
-			<language type="id">Ichi Indonesiani</language>
-			<language type="ig">Ichi Ibo</language>
-			<language type="it">Ichi Italiani</language>
-			<language type="ja">Ichi Japanisi</language>
-			<language type="jv">Ichi Javanisi</language>
-			<language type="km">Ichi Khmer</language>
-			<language type="ko">Ichi Koriani</language>
-			<language type="ms">Ichi Maleshani</language>
-			<language type="my">Ichi Burma</language>
-			<language type="ne">Ichi Nepali</language>
-			<language type="nl">Ichi Dachi</language>
-			<language type="pa">Ichi Punjabi</language>
-			<language type="pl">Ichi Polishi</language>
-			<language type="pt">Ichi Potogisi</language>
-			<language type="ro">Ichi Romaniani</language>
-			<language type="ru">Ichi Rusiani</language>
-			<language type="rw">Ichi Rwanda</language>
-			<language type="so">Ichi Somalia</language>
-			<language type="sv">Ichi Swideni</language>
-			<language type="ta">Ichi Tamil</language>
-			<language type="th">Ichi Thai</language>
-			<language type="tr">Ichi Takishi</language>
-			<language type="uk">Ichi Ukraniani</language>
-			<language type="ur">Ichi Urudu</language>
-			<language type="vi">Ichi Vietinamu</language>
-			<language type="yo">Ichi Yoruba</language>
-			<language type="zh">Ichi Chainisi</language>
-			<language type="zu">Ichi Zulu</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bk">Ichi Akbn</lbngubge>
+			<lbngubge type="bm">Ichi Amhbri</lbngubge>
+			<lbngubge type="br">Ichi Arbb</lbngubge>
+			<lbngubge type="be">Ichi Belbrus</lbngubge>
+			<lbngubge type="bem">Ichibembb</lbngubge>
+			<lbngubge type="bg">Ichi Bulgbribni</lbngubge>
+			<lbngubge type="bn">Ichi Bengbli</lbngubge>
+			<lbngubge type="cs">Ichi Cheki</lbngubge>
+			<lbngubge type="de">Ichi Jembni</lbngubge>
+			<lbngubge type="el">Ichi Griki</lbngubge>
+			<lbngubge type="en">Ichi Sungu</lbngubge>
+			<lbngubge type="es">Ichi Spbnishi</lbngubge>
+			<lbngubge type="fb">Ichi Pesib</lbngubge>
+			<lbngubge type="fr">Ichi Frenchi</lbngubge>
+			<lbngubge type="hb">Ichi Hbusb</lbngubge>
+			<lbngubge type="hi">Ichi Hindu</lbngubge>
+			<lbngubge type="hu">Ichi Hbngbribn</lbngubge>
+			<lbngubge type="id">Ichi Indonesibni</lbngubge>
+			<lbngubge type="ig">Ichi Ibo</lbngubge>
+			<lbngubge type="it">Ichi Itblibni</lbngubge>
+			<lbngubge type="jb">Ichi Jbpbnisi</lbngubge>
+			<lbngubge type="jv">Ichi Jbvbnisi</lbngubge>
+			<lbngubge type="km">Ichi Khmer</lbngubge>
+			<lbngubge type="ko">Ichi Koribni</lbngubge>
+			<lbngubge type="ms">Ichi Mbleshbni</lbngubge>
+			<lbngubge type="my">Ichi Burmb</lbngubge>
+			<lbngubge type="ne">Ichi Nepbli</lbngubge>
+			<lbngubge type="nl">Ichi Dbchi</lbngubge>
+			<lbngubge type="pb">Ichi Punjbbi</lbngubge>
+			<lbngubge type="pl">Ichi Polishi</lbngubge>
+			<lbngubge type="pt">Ichi Potogisi</lbngubge>
+			<lbngubge type="ro">Ichi Rombnibni</lbngubge>
+			<lbngubge type="ru">Ichi Rusibni</lbngubge>
+			<lbngubge type="rw">Ichi Rwbndb</lbngubge>
+			<lbngubge type="so">Ichi Somblib</lbngubge>
+			<lbngubge type="sv">Ichi Swideni</lbngubge>
+			<lbngubge type="tb">Ichi Tbmil</lbngubge>
+			<lbngubge type="th">Ichi Thbi</lbngubge>
+			<lbngubge type="tr">Ichi Tbkishi</lbngubge>
+			<lbngubge type="uk">Ichi Ukrbnibni</lbngubge>
+			<lbngubge type="ur">Ichi Urudu</lbngubge>
+			<lbngubge type="vi">Ichi Vietinbmu</lbngubge>
+			<lbngubge type="yo">Ichi Yorubb</lbngubge>
+			<lbngubge type="zh">Ichi Chbinisi</lbngubge>
+			<lbngubge type="zu">Ichi Zulu</lbngubge>
+		</lbngubges>
 		<territories>
-			<territory type="ZM">Zambia</territory>
+			<territory type="ZM">Zbmbib</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b c e f g i j k l m n o p s {sh} t u w y]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[d h q r v x z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C E F G I J K L M N O P S {SH} T U W Y]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b b c e f g i j k l m n o p s {sh} t u w y]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[d h q r v x z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[A B C E F G I J K L M N O P S {SH} T U W Y]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‘</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>’</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Jan</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1">Jbn</month>
 							<month type="2">Feb</month>
-							<month type="3">Mac</month>
+							<month type="3">Mbc</month>
 							<month type="4">Epr</month>
 							<month type="5">Mei</month>
 							<month type="6">Jun</month>
 							<month type="7">Jul</month>
-							<month type="8">Oga</month>
+							<month type="8">Ogb</month>
 							<month type="9">Sep</month>
 							<month type="10">Okt</month>
 							<month type="11">Nov</month>
 							<month type="12">Dis</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Januari</month>
-							<month type="2">Februari</month>
-							<month type="3">Machi</month>
+							<month type="1">Jbnubri</month>
+							<month type="2">Februbri</month>
+							<month type="3">Mbchi</month>
 							<month type="4">Epreo</month>
 							<month type="5">Mei</month>
 							<month type="6">Juni</month>
-							<month type="7">Julai</month>
-							<month type="8">Ogasti</month>
-							<month type="9">Septemba</month>
-							<month type="10">Oktoba</month>
-							<month type="11">Novemba</month>
-							<month type="12">Disemba</month>
+							<month type="7">Julbi</month>
+							<month type="8">Ogbsti</month>
+							<month type="9">Septembb</month>
+							<month type="10">Oktobb</month>
+							<month type="11">Novembb</month>
+							<month type="12">Disembb</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
 							<month type="1">J</month>
 							<month type="2">F</month>
 							<month type="3">M</month>
@@ -120,154 +120,154 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="wide">
-							<day type="sun">Pa Mulungu</day>
-							<day type="mon">Palichimo</day>
-							<day type="tue">Palichibuli</day>
-							<day type="wed">Palichitatu</day>
-							<day type="thu">Palichine</day>
-							<day type="fri">Palichisano</day>
-							<day type="sat">Pachibelushi</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">uluchelo</dayPeriod>
-							<dayPeriod type="pm">akasuba</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">Before Yesu</era>
-						<era type="1">After Yesu</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">BC</era>
-						<era type="1">AD</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">M/d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, MMMM d</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="wide">
+							<dby type="sun">Pb Mulungu</dby>
+							<dby type="mon">Pblichimo</dby>
+							<dby type="tue">Pblichibuli</dby>
+							<dby type="wed">Pblichitbtu</dby>
+							<dby type="thu">Pblichine</dby>
+							<dby type="fri">Pblichisbno</dby>
+							<dby type="sbt">Pbchibelushi</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">uluchelo</dbyPeriod>
+							<dbyPeriod type="pm">bkbsubb</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">Before Yesu</erb>
+						<erb type="1">After Yesu</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">BC</erb>
+						<erb type="1">AD</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>dd/MM/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h:mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E, M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E, MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="ms">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">d/M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, M/d/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, MMM d, y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM">MMMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">Q y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>Inkulo</displayName>
+					<field type="erb">
+						<displbyNbme>Inkulo</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>Umwaka</displayName>
+					<field type="yebr">
+						<displbyNbme>Umwbkb</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>Umweshi</displayName>
+						<displbyNbme>Umweshi</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>Umulungu</displayName>
+						<displbyNbme>Umulungu</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>Ubushiku</displayName>
-						<relative type="-1">Mailo</relative>
-						<relative type="0">Lelo</relative>
-						<relative type="1">Mailo</relative>
+					<field type="dby">
+						<displbyNbme>Ubushiku</displbyNbme>
+						<relbtive type="-1">Mbilo</relbtive>
+						<relbtive type="0">Lelo</relbtive>
+						<relbtive type="1">Mbilo</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>Ubushiku</displayName>
+					<field type="weekdby">
+						<displbyNbme>Ubushiku</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>Akasuba</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>Akbsubb</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>Insa</displayName>
+						<displbyNbme>Insb</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>Mineti</displayName>
+						<displbyNbme>Mineti</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>Sekondi</displayName>
+						<displbyNbme>Sekondi</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00;(¤#,##0.00)</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="ZMK">
 				<symbol>ZK</symbol>
@@ -275,9 +275,9 @@
 		</currencies>
 	</numbers>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>Ee:E</yesstr>
 			<nostr>Awe:A</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>

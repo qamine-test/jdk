@@ -1,29 +1,29 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-struct unpacker;
+struct unpbcker;
 
 #define INT_MAX_VALUE ((int)0x7FFFFFFF)
 #define INT_MIN_VALUE ((int)0x80000000)
@@ -37,64 +37,64 @@ struct unpacker;
 #define CODING_INIT(B, H, S, D) \
   { CODING_SPEC(B, H, S, D) , 0, 0, 0, 0, 0, 0, 0, 0}
 
-// For debugging purposes, some compilers do not like this and will complain.
+// For debugging purposes, some compilers do not like this bnd will complbin.
 //    #define long do_not_use_C_long_types_use_jlong_or_int
-// Use of the type "long" is problematic, do not use it.
+// Use of the type "long" is problembtic, do not use it.
 
 struct coding {
   int  spec;  // B,H,S,D
 
-  // Handy values derived from the spec:
+  // Hbndy vblues derived from the spec:
   int B() { return CODING_B(spec); }
   int H() { return CODING_H(spec); }
   int S() { return CODING_S(spec); }
   int D() { return CODING_D(spec); }
   int L() { return 256-CODING_H(spec); }
-  int  min, max;
-  int  umin, umax;
-  char isSigned, isSubrange, isFullRange, isMalloc;
+  int  min, mbx;
+  int  umin, umbx;
+  chbr isSigned, isSubrbnge, isFullRbnge, isMblloc;
 
   coding* init();  // returns self or null if error
   coding* initFrom(int spec_) {
-    assert(this->spec == 0);
+    bssert(this->spec == 0);
     this->spec = spec_;
     return init();
   }
 
-  static coding* findBySpec(int spec);
-  static coding* findBySpec(int B, int H, int S=0, int D=0);
-  static coding* findByIndex(int irregularCodingIndex);
+  stbtic coding* findBySpec(int spec);
+  stbtic coding* findBySpec(int B, int H, int S=0, int D=0);
+  stbtic coding* findByIndex(int irregulbrCodingIndex);
 
-  static uint parse(byte* &rp, int B, int H);
-  static uint parse_lgH(byte* &rp, int B, int H, int lgH);
-  static void parseMultiple(byte* &rp, int N, byte* limit, int B, int H);
+  stbtic uint pbrse(byte* &rp, int B, int H);
+  stbtic uint pbrse_lgH(byte* &rp, int B, int H, int lgH);
+  stbtic void pbrseMultiple(byte* &rp, int N, byte* limit, int B, int H);
 
-  uint parse(byte* &rp) {
-    return parse(rp, CODING_B(spec), CODING_H(spec));
+  uint pbrse(byte* &rp) {
+    return pbrse(rp, CODING_B(spec), CODING_H(spec));
   }
-  void parseMultiple(byte* &rp, int N, byte* limit) {
-    parseMultiple(rp, N, limit, CODING_B(spec), CODING_H(spec));
+  void pbrseMultiple(byte* &rp, int N, byte* limit) {
+    pbrseMultiple(rp, N, limit, CODING_B(spec), CODING_H(spec));
   }
 
-  bool canRepresent(int x)         { return (x >= min  && x <= max);  }
-  bool canRepresentUnsigned(int x) { return (x >= umin && x <= umax); }
+  bool cbnRepresent(int x)         { return (x >= min  && x <= mbx);  }
+  bool cbnRepresentUnsigned(int x) { return (x >= umin && x <= umbx); }
 
-  int sumInUnsignedRange(int x, int y);
+  int sumInUnsignedRbnge(int x, int y);
 
-  int readFrom(byte* &rpVar, int* dbase);
-  void readArrayFrom(byte* &rpVar, int* dbase, int length, int* values);
-  void skipArrayFrom(byte* &rpVar, int length) {
-    readArrayFrom(rpVar, (int*)NULL, length, (int*)NULL);
+  int rebdFrom(byte* &rpVbr, int* dbbse);
+  void rebdArrbyFrom(byte* &rpVbr, int* dbbse, int length, int* vblues);
+  void skipArrbyFrom(byte* &rpVbr, int length) {
+    rebdArrbyFrom(rpVbr, (int*)NULL, length, (int*)NULL);
   }
 
 #ifndef PRODUCT
-  const char* string();
+  const chbr* string();
 #endif
 
-  void free();  // free self if isMalloc
+  void free();  // free self if isMblloc
 
-  // error handling
-  static void abort(const char* msg = null) { unpack_abort(msg); }
+  // error hbndling
+  stbtic void bbort(const chbr* msg = null) { unpbck_bbort(msg); }
 };
 
 enum coding_method_kind {
@@ -103,10 +103,10 @@ enum coding_method_kind {
   cmk_BHS0,
   cmk_BHS1,
   cmk_BHSD1,
-  cmk_BHS1D1full,  // isFullRange
-  cmk_BHS1D1sub,   // isSubRange
+  cmk_BHS1D1full,  // isFullRbnge
+  cmk_BHS1D1sub,   // isSubRbnge
 
-  // special cases hand-optimized (~50% of all decoded values)
+  // specibl cbses hbnd-optimized (~50% of bll decoded vblues)
   cmk_BYTE1,         //(1,256)      6%
   cmk_CHAR3,         //(3,128)      7%
   cmk_UNSIGNED5,     //(5,64)      13%
@@ -147,80 +147,80 @@ enum {
 
 struct coding_method;
 
-// iterator under the control of a meta-coding
-struct value_stream {
-  // current coding of values or values
+// iterbtor under the control of b metb-coding
+struct vblue_strebm {
+  // current coding of vblues or vblues
   coding c;               // B,H,S,D,etc.
   coding_method_kind cmk; // type of decoding needed
-  byte* rp;               // read pointer
-  byte* rplimit;          // final value of read pointer
-  int sum;                // partial sum of all values so far (D=1 only)
-  coding_method* cm;      // coding method that defines this stream
+  byte* rp;               // rebd pointer
+  byte* rplimit;          // finbl vblue of rebd pointer
+  int sum;                // pbrtibl sum of bll vblues so fbr (D=1 only)
+  coding_method* cm;      // coding method thbt defines this strebm
 
-  void init(byte* band_rp, byte* band_limit, coding* defc);
-  void init(byte* band_rp, byte* band_limit, int spec)
-    { init(band_rp, band_limit, coding::findBySpec(spec)); }
+  void init(byte* bbnd_rp, byte* bbnd_limit, coding* defc);
+  void init(byte* bbnd_rp, byte* bbnd_limit, int spec)
+    { init(bbnd_rp, bbnd_limit, coding::findBySpec(spec)); }
 
   void setCoding(coding* c);
   void setCoding(int spec) { setCoding(coding::findBySpec(spec)); }
 
-  // Parse and decode a single value.
+  // Pbrse bnd decode b single vblue.
   int getInt();
 
-  // Parse and decode a single byte, with no error checks.
+  // Pbrse bnd decode b single byte, with no error checks.
   int getByte() {
-    assert(cmk == cmk_BYTE1);
-    assert(rp < rplimit);
+    bssert(cmk == cmk_BYTE1);
+    bssert(rp < rplimit);
     return *rp++ & 0xFF;
   }
 
-  // Used only for asserts.
-  bool hasValue();
+  // Used only for bsserts.
+  bool hbsVblue();
 
-  void done() { assert(!hasValue()); }
+  void done() { bssert(!hbsVblue()); }
 
-  // Sometimes a value stream has an auxiliary (but there are never two).
-  value_stream* helper() {
-    assert(hasHelper());
+  // Sometimes b vblue strebm hbs bn buxilibry (but there bre never two).
+  vblue_strebm* helper() {
+    bssert(hbsHelper());
     return this+1;
   }
-  bool hasHelper();
+  bool hbsHelper();
 
-  // error handling
-  //  inline void abort(const char* msg);
-  //  inline void aborting();
+  // error hbndling
+  //  inline void bbort(const chbr* msg);
+  //  inline void bborting();
 };
 
 struct coding_method {
-  value_stream vs0;       // initial state snapshot (vs.meta==this)
+  vblue_strebm vs0;       // initibl stbte snbpshot (vs.metb==this)
 
-  coding_method* next;    // what to do when we run out of bytes
+  coding_method* next;    // whbt to do when we run out of bytes
 
-  // these fields are used for pop codes only:
-  int* fValues;           // favored value array
-  int  fVlength;          // maximum favored value token
-  coding_method* uValues; // unfavored value stream
+  // these fields bre used for pop codes only:
+  int* fVblues;           // fbvored vblue brrby
+  int  fVlength;          // mbximum fbvored vblue token
+  coding_method* uVblues; // unfbvored vblue strebm
 
-  // pointer to outer unpacker, for error checks etc.
-  unpacker* u;
+  // pointer to outer unpbcker, for error checks etc.
+  unpbcker* u;
 
-  // Initialize a value stream.
-  void reset(value_stream* state);
+  // Initiblize b vblue strebm.
+  void reset(vblue_strebm* stbte);
 
-  // Parse a band header, size a band, and initialize for further action.
-  // band_rp advances (but not past band_limit), and meta_rp advances.
-  // The mode gives context, such as "inside a pop".
-  // The defc and N are the incoming parameters to a meta-coding.
-  // The value sink is used to collect output values, when desired.
-  void init(byte* &band_rp, byte* band_limit,
-            byte* &meta_rp, int mode,
+  // Pbrse b bbnd hebder, size b bbnd, bnd initiblize for further bction.
+  // bbnd_rp bdvbnces (but not pbst bbnd_limit), bnd metb_rp bdvbnces.
+  // The mode gives context, such bs "inside b pop".
+  // The defc bnd N bre the incoming pbrbmeters to b metb-coding.
+  // The vblue sink is used to collect output vblues, when desired.
+  void init(byte* &bbnd_rp, byte* bbnd_limit,
+            byte* &metb_rp, int mode,
             coding* defc, int N,
-            intlist* valueSink);
+            intlist* vblueSink);
 
-  // error handling
-  void abort(const char* msg) { unpack_abort(msg, u); }
-  bool aborting()             { return unpack_aborting(u); }
+  // error hbndling
+  void bbort(const chbr* msg) { unpbck_bbort(msg, u); }
+  bool bborting()             { return unpbck_bborting(u); }
 };
 
-//inline void value_stream::abort(const char* msg) { cm->abort(msg); }
-//inline void value_stream::aborting()             { cm->aborting(); }
+//inline void vblue_strebm::bbort(const chbr* msg) { cm->bbort(msg); }
+//inline void vblue_strebm::bborting()             { cm->bborting(); }

@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
 /**
- * A {@code EnumControl} provides control over a set of discrete possible values
- * , each represented by an object. In a graphical user interface, such a
- * control might be represented by a set of buttons, each of which chooses one
- * value or setting. For example, a reverb control might provide several preset
- * reverberation settings, instead of providing continuously adjustable
- * parameters of the sort that would be represented by {@link FloatControl}
+ * A {@code EnumControl} provides control over b set of discrete possible vblues
+ * , ebch represented by bn object. In b grbphicbl user interfbce, such b
+ * control might be represented by b set of buttons, ebch of which chooses one
+ * vblue or setting. For exbmple, b reverb control might provide severbl preset
+ * reverberbtion settings, instebd of providing continuously bdjustbble
+ * pbrbmeters of the sort thbt would be represented by {@link FlobtControl}
  * objects.
  * <p>
- * Controls that provide a choice between only two settings can often be
- * implemented instead as a {@link BooleanControl}, and controls that provide a
- * set of values along some quantifiable dimension might be implemented instead
- * as a {@code FloatControl} with a coarse resolution. However, a key feature of
- * {@code EnumControl} is that the returned values are arbitrary objects, rather
- * than numerical or boolean values. This means that each returned object can
- * provide further information. As an example, the settings of a
- * {@link EnumControl.Type#REVERB REVERB} control are instances of
- * {@link ReverbType} that can be queried for the parameter values used for each
+ * Controls thbt provide b choice between only two settings cbn often be
+ * implemented instebd bs b {@link BoolebnControl}, bnd controls thbt provide b
+ * set of vblues blong some qubntifibble dimension might be implemented instebd
+ * bs b {@code FlobtControl} with b cobrse resolution. However, b key febture of
+ * {@code EnumControl} is thbt the returned vblues bre brbitrbry objects, rbther
+ * thbn numericbl or boolebn vblues. This mebns thbt ebch returned object cbn
+ * provide further informbtion. As bn exbmple, the settings of b
+ * {@link EnumControl.Type#REVERB REVERB} control bre instbnces of
+ * {@link ReverbType} thbt cbn be queried for the pbrbmeter vblues used for ebch
  * setting.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @since 1.3
  */
-public abstract class EnumControl extends Control {
+public bbstrbct clbss EnumControl extends Control {
 
     /**
-     * The set of possible values.
+     * The set of possible vblues.
      */
-    private Object[] values;
+    privbte Object[] vblues;
 
     /**
-     * The current value.
+     * The current vblue.
      */
-    private Object value;
+    privbte Object vblue;
 
     /**
-     * Constructs a new enumerated control object with the given parameters.
+     * Constructs b new enumerbted control object with the given pbrbmeters.
      *
-     * @param  type the type of control represented this enumerated control
+     * @pbrbm  type the type of control represented this enumerbted control
      *         object
-     * @param  values the set of possible values for the control
-     * @param  value the initial control value
+     * @pbrbm  vblues the set of possible vblues for the control
+     * @pbrbm  vblue the initibl control vblue
      */
-    protected EnumControl(Type type, Object[] values, Object value) {
+    protected EnumControl(Type type, Object[] vblues, Object vblue) {
         super(type);
-        this.values = values;
-        this.value = value;
+        this.vblues = vblues;
+        this.vblue = vblue;
     }
 
     /**
-     * Sets the current value for the control. The default implementation simply
-     * sets the value as indicated. If the value indicated is not supported, an
-     * {@code IllegalArgumentException} is thrown. Some controls require that
-     * their line be open before they can be affected by setting a value.
+     * Sets the current vblue for the control. The defbult implementbtion simply
+     * sets the vblue bs indicbted. If the vblue indicbted is not supported, bn
+     * {@code IllegblArgumentException} is thrown. Some controls require thbt
+     * their line be open before they cbn be bffected by setting b vblue.
      *
-     * @param  value the desired new value
-     * @throws IllegalArgumentException if the value indicated does not fall
-     *         within the allowable range
+     * @pbrbm  vblue the desired new vblue
+     * @throws IllegblArgumentException if the vblue indicbted does not fbll
+     *         within the bllowbble rbnge
      */
-    public void setValue(Object value) {
-        if (!isValueSupported(value)) {
-            throw new IllegalArgumentException("Requested value " + value + " is not supported.");
+    public void setVblue(Object vblue) {
+        if (!isVblueSupported(vblue)) {
+            throw new IllegblArgumentException("Requested vblue " + vblue + " is not supported.");
         }
 
-        this.value = value;
+        this.vblue = vblue;
     }
 
     /**
-     * Obtains this control's current value.
+     * Obtbins this control's current vblue.
      *
-     * @return the current value
+     * @return the current vblue
      */
-    public Object getValue() {
-        return value;
+    public Object getVblue() {
+        return vblue;
     }
 
     /**
-     * Returns the set of possible values for this control.
+     * Returns the set of possible vblues for this control.
      *
-     * @return the set of possible values
+     * @return the set of possible vblues
      */
-    public Object[] getValues() {
+    public Object[] getVblues() {
 
-        Object[] localArray = new Object[values.length];
+        Object[] locblArrby = new Object[vblues.length];
 
-        for (int i = 0; i < values.length; i++) {
-            localArray[i] = values[i];
+        for (int i = 0; i < vblues.length; i++) {
+            locblArrby[i] = vblues[i];
         }
 
-        return localArray;
+        return locblArrby;
     }
 
     /**
-     * Indicates whether the value specified is supported.
+     * Indicbtes whether the vblue specified is supported.
      *
-     * @param  value the value for which support is queried
-     * @return {@code true} if the value is supported, otherwise {@code false}
+     * @pbrbm  vblue the vblue for which support is queried
+     * @return {@code true} if the vblue is supported, otherwise {@code fblse}
      */
-    private boolean isValueSupported(Object value) {
+    privbte boolebn isVblueSupported(Object vblue) {
 
-        for (int i = 0; i < values.length; i++) {
-            //$$fb 2001-07-20: Fix for bug 4400392: setValue() in ReverbControl always throws Exception
-            //if (values.equals(values[i])) {
-            if (value.equals(values[i])) {
+        for (int i = 0; i < vblues.length; i++) {
+            //$$fb 2001-07-20: Fix for bug 4400392: setVblue() in ReverbControl blwbys throws Exception
+            //if (vblues.equbls(vblues[i])) {
+            if (vblue.equbls(vblues[i])) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Provides a string representation of the control.
+     * Provides b string representbtion of the control.
      *
-     * @return a string description
+     * @return b string description
      */
     @Override
     public String toString() {
-        return new String(getType() + " with current value: " + getValue());
+        return new String(getType() + " with current vblue: " + getVblue());
     }
 
     /**
-     * An instance of the {@code EnumControl.Type} inner class identifies one
-     * kind of enumerated control. Static instances are provided for the common
+     * An instbnce of the {@code EnumControl.Type} inner clbss identifies one
+     * kind of enumerbted control. Stbtic instbnces bre provided for the common
      * types.
      *
-     * @author Kara Kytle
+     * @buthor Kbrb Kytle
      * @see EnumControl
      * @since 1.3
      */
-    public static class Type extends Control.Type {
+    public stbtic clbss Type extends Control.Type {
 
         /**
-         * Represents a control over a set of possible reverberation settings.
-         * Each reverberation setting is described by an instance of the
-         * {@link ReverbType} class. (To access these settings, invoke
-         * {@link EnumControl#getValues} on an enumerated control of type
+         * Represents b control over b set of possible reverberbtion settings.
+         * Ebch reverberbtion setting is described by bn instbnce of the
+         * {@link ReverbType} clbss. (To bccess these settings, invoke
+         * {@link EnumControl#getVblues} on bn enumerbted control of type
          * {@code REVERB}.)
          */
-        public static final Type REVERB         = new Type("Reverb");
+        public stbtic finbl Type REVERB         = new Type("Reverb");
 
         /**
-         * Constructs a new enumerated control type.
+         * Constructs b new enumerbted control type.
          *
-         * @param  name the name of the new enumerated control type
+         * @pbrbm  nbme the nbme of the new enumerbted control type
          */
-        protected Type(final String name) {
-            super(name);
+        protected Type(finbl String nbme) {
+            super(nbme);
         }
     }
 }

@@ -1,294 +1,294 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * Represent the Key Usage Extension.
+ * Represent the Key Usbge Extension.
  *
  * <p>This extension, if present, defines the purpose (e.g., encipherment,
- * signature, certificate signing) of the key contained in the certificate.
- * The usage restriction might be employed when a multipurpose key is to be
- * restricted (e.g., when an RSA key should be used only for signing or only
+ * signbture, certificbte signing) of the key contbined in the certificbte.
+ * The usbge restriction might be employed when b multipurpose key is to be
+ * restricted (e.g., when bn RSA key should be used only for signing or only
  * for key encipherment).
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see Extension
  * @see CertAttrSet
  */
-public class KeyUsageExtension extends Extension
+public clbss KeyUsbgeExtension extends Extension
 implements CertAttrSet<String> {
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.extensions.KeyUsage";
+    public stbtic finbl String IDENT = "x509.info.extensions.KeyUsbge";
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "KeyUsage";
-    public static final String DIGITAL_SIGNATURE = "digital_signature";
-    public static final String NON_REPUDIATION = "non_repudiation";
-    public static final String KEY_ENCIPHERMENT = "key_encipherment";
-    public static final String DATA_ENCIPHERMENT = "data_encipherment";
-    public static final String KEY_AGREEMENT = "key_agreement";
-    public static final String KEY_CERTSIGN = "key_certsign";
-    public static final String CRL_SIGN = "crl_sign";
-    public static final String ENCIPHER_ONLY = "encipher_only";
-    public static final String DECIPHER_ONLY = "decipher_only";
+    public stbtic finbl String NAME = "KeyUsbge";
+    public stbtic finbl String DIGITAL_SIGNATURE = "digitbl_signbture";
+    public stbtic finbl String NON_REPUDIATION = "non_repudibtion";
+    public stbtic finbl String KEY_ENCIPHERMENT = "key_encipherment";
+    public stbtic finbl String DATA_ENCIPHERMENT = "dbtb_encipherment";
+    public stbtic finbl String KEY_AGREEMENT = "key_bgreement";
+    public stbtic finbl String KEY_CERTSIGN = "key_certsign";
+    public stbtic finbl String CRL_SIGN = "crl_sign";
+    public stbtic finbl String ENCIPHER_ONLY = "encipher_only";
+    public stbtic finbl String DECIPHER_ONLY = "decipher_only";
 
-    // Private data members
-    private boolean[] bitString;
+    // Privbte dbtb members
+    privbte boolebn[] bitString;
 
-    // Encode this extension value
-    private void encodeThis() throws IOException {
-        DerOutputStream os = new DerOutputStream();
-        os.putTruncatedUnalignedBitString(new BitArray(this.bitString));
-        this.extensionValue = os.toByteArray();
+    // Encode this extension vblue
+    privbte void encodeThis() throws IOException {
+        DerOutputStrebm os = new DerOutputStrebm();
+        os.putTruncbtedUnblignedBitString(new BitArrby(this.bitString));
+        this.extensionVblue = os.toByteArrby();
     }
 
     /**
      * Check if bit is set.
      *
-     * @param position the position in the bit string to check.
+     * @pbrbm position the position in the bit string to check.
      */
-    private boolean isSet(int position) {
+    privbte boolebn isSet(int position) {
         return bitString[position];
     }
 
     /**
-     * Set the bit at the specified position.
+     * Set the bit bt the specified position.
      */
-    private void set(int position, boolean val) {
-        // enlarge bitString if necessary
+    privbte void set(int position, boolebn vbl) {
+        // enlbrge bitString if necessbry
         if (position >= bitString.length) {
-            boolean[] tmp = new boolean[position+1];
-            System.arraycopy(bitString, 0, tmp, 0, bitString.length);
+            boolebn[] tmp = new boolebn[position+1];
+            System.brrbycopy(bitString, 0, tmp, 0, bitString.length);
             bitString = tmp;
         }
-        bitString[position] = val;
+        bitString[position] = vbl;
     }
 
     /**
-     * Create a KeyUsageExtension with the passed bit settings. The criticality
+     * Crebte b KeyUsbgeExtension with the pbssed bit settings. The criticblity
      * is set to true.
      *
-     * @param bitString the bits to be set for the extension.
+     * @pbrbm bitString the bits to be set for the extension.
      */
-    public KeyUsageExtension(byte[] bitString) throws IOException {
+    public KeyUsbgeExtension(byte[] bitString) throws IOException {
         this.bitString =
-            new BitArray(bitString.length*8,bitString).toBooleanArray();
-        this.extensionId = PKIXExtensions.KeyUsage_Id;
-        this.critical = true;
+            new BitArrby(bitString.length*8,bitString).toBoolebnArrby();
+        this.extensionId = PKIXExtensions.KeyUsbge_Id;
+        this.criticbl = true;
         encodeThis();
     }
 
     /**
-     * Create a KeyUsageExtension with the passed bit settings. The criticality
+     * Crebte b KeyUsbgeExtension with the pbssed bit settings. The criticblity
      * is set to true.
      *
-     * @param bitString the bits to be set for the extension.
+     * @pbrbm bitString the bits to be set for the extension.
      */
-    public KeyUsageExtension(boolean[] bitString) throws IOException {
+    public KeyUsbgeExtension(boolebn[] bitString) throws IOException {
         this.bitString = bitString;
-        this.extensionId = PKIXExtensions.KeyUsage_Id;
-        this.critical = true;
+        this.extensionId = PKIXExtensions.KeyUsbge_Id;
+        this.criticbl = true;
         encodeThis();
     }
 
     /**
-     * Create a KeyUsageExtension with the passed bit settings. The criticality
+     * Crebte b KeyUsbgeExtension with the pbssed bit settings. The criticblity
      * is set to true.
      *
-     * @param bitString the bits to be set for the extension.
+     * @pbrbm bitString the bits to be set for the extension.
      */
-    public KeyUsageExtension(BitArray bitString) throws IOException {
-        this.bitString = bitString.toBooleanArray();
-        this.extensionId = PKIXExtensions.KeyUsage_Id;
-        this.critical = true;
+    public KeyUsbgeExtension(BitArrby bitString) throws IOException {
+        this.bitString = bitString.toBoolebnArrby();
+        this.extensionId = PKIXExtensions.KeyUsbge_Id;
+        this.criticbl = true;
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
-     * The DER encoded value may be wrapped in an OCTET STRING.
+     * Crebte the extension from the pbssed DER encoded vblue of the sbme.
+     * The DER encoded vblue mby be wrbpped in bn OCTET STRING.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value (possibly
-     * wrapped in an OCTET STRING).
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue (possibly
+     * wrbpped in bn OCTET STRING).
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public KeyUsageExtension(Boolean critical, Object value)
+    public KeyUsbgeExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        this.extensionId = PKIXExtensions.KeyUsage_Id;
-        this.critical = critical.booleanValue();
+        this.extensionId = PKIXExtensions.KeyUsbge_Id;
+        this.criticbl = criticbl.boolebnVblue();
         /*
-         * The following check should be activated again after
-         * the PKIX profiling work becomes standard and the check
-         * is not a barrier to interoperability !
-         * if (!this.critical) {
-         *   throw new IOException("KeyUsageExtension not marked critical,"
-         *                         + " invalid profile.");
+         * The following check should be bctivbted bgbin bfter
+         * the PKIX profiling work becomes stbndbrd bnd the check
+         * is not b bbrrier to interoperbbility !
+         * if (!this.criticbl) {
+         *   throw new IOException("KeyUsbgeExtension not mbrked criticbl,"
+         *                         + " invblid profile.");
          * }
          */
-        byte[] extValue = (byte[]) value;
-        if (extValue[0] == DerValue.tag_OctetString) {
-            this.extensionValue = new DerValue(extValue).getOctetString();
+        byte[] extVblue = (byte[]) vblue;
+        if (extVblue[0] == DerVblue.tbg_OctetString) {
+            this.extensionVblue = new DerVblue(extVblue).getOctetString();
         } else {
-            this.extensionValue = extValue;
+            this.extensionVblue = extVblue;
         }
-        DerValue val = new DerValue(this.extensionValue);
-        this.bitString = val.getUnalignedBitString().toBooleanArray();
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        this.bitString = vbl.getUnblignedBitString().toBoolebnArrby();
     }
 
     /**
-     * Create a default key usage.
+     * Crebte b defbult key usbge.
      */
-    public KeyUsageExtension() {
-        extensionId = PKIXExtensions.KeyUsage_Id;
-        critical = true;
-        bitString = new boolean[0];
+    public KeyUsbgeExtension() {
+        extensionId = PKIXExtensions.KeyUsbge_Id;
+        criticbl = true;
+        bitString = new boolebn[0];
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Boolean)) {
-            throw new IOException("Attribute must be of type Boolean.");
+    public void set(String nbme, Object obj) throws IOException {
+        if (!(obj instbnceof Boolebn)) {
+            throw new IOException("Attribute must be of type Boolebn.");
         }
-        boolean val = ((Boolean)obj).booleanValue();
-        if (name.equalsIgnoreCase(DIGITAL_SIGNATURE)) {
-            set(0,val);
-        } else if (name.equalsIgnoreCase(NON_REPUDIATION)) {
-            set(1,val);
-        } else if (name.equalsIgnoreCase(KEY_ENCIPHERMENT)) {
-            set(2,val);
-        } else if (name.equalsIgnoreCase(DATA_ENCIPHERMENT)) {
-            set(3,val);
-        } else if (name.equalsIgnoreCase(KEY_AGREEMENT)) {
-            set(4,val);
-        } else if (name.equalsIgnoreCase(KEY_CERTSIGN)) {
-            set(5,val);
-        } else if (name.equalsIgnoreCase(CRL_SIGN)) {
-            set(6,val);
-        } else if (name.equalsIgnoreCase(ENCIPHER_ONLY)) {
-            set(7,val);
-        } else if (name.equalsIgnoreCase(DECIPHER_ONLY)) {
-            set(8,val);
+        boolebn vbl = ((Boolebn)obj).boolebnVblue();
+        if (nbme.equblsIgnoreCbse(DIGITAL_SIGNATURE)) {
+            set(0,vbl);
+        } else if (nbme.equblsIgnoreCbse(NON_REPUDIATION)) {
+            set(1,vbl);
+        } else if (nbme.equblsIgnoreCbse(KEY_ENCIPHERMENT)) {
+            set(2,vbl);
+        } else if (nbme.equblsIgnoreCbse(DATA_ENCIPHERMENT)) {
+            set(3,vbl);
+        } else if (nbme.equblsIgnoreCbse(KEY_AGREEMENT)) {
+            set(4,vbl);
+        } else if (nbme.equblsIgnoreCbse(KEY_CERTSIGN)) {
+            set(5,vbl);
+        } else if (nbme.equblsIgnoreCbse(CRL_SIGN)) {
+            set(6,vbl);
+        } else if (nbme.equblsIgnoreCbse(ENCIPHER_ONLY)) {
+            set(7,vbl);
+        } else if (nbme.equblsIgnoreCbse(DECIPHER_ONLY)) {
+            set(8,vbl);
         } else {
-          throw new IOException("Attribute name not recognized by"
-                                + " CertAttrSet:KeyUsage.");
+          throw new IOException("Attribute nbme not recognized by"
+                                + " CertAttrSet:KeyUsbge.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Boolean get(String name) throws IOException {
-        if (name.equalsIgnoreCase(DIGITAL_SIGNATURE)) {
-            return Boolean.valueOf(isSet(0));
-        } else if (name.equalsIgnoreCase(NON_REPUDIATION)) {
-            return Boolean.valueOf(isSet(1));
-        } else if (name.equalsIgnoreCase(KEY_ENCIPHERMENT)) {
-            return Boolean.valueOf(isSet(2));
-        } else if (name.equalsIgnoreCase(DATA_ENCIPHERMENT)) {
-            return Boolean.valueOf(isSet(3));
-        } else if (name.equalsIgnoreCase(KEY_AGREEMENT)) {
-            return Boolean.valueOf(isSet(4));
-        } else if (name.equalsIgnoreCase(KEY_CERTSIGN)) {
-            return Boolean.valueOf(isSet(5));
-        } else if (name.equalsIgnoreCase(CRL_SIGN)) {
-            return Boolean.valueOf(isSet(6));
-        } else if (name.equalsIgnoreCase(ENCIPHER_ONLY)) {
-            return Boolean.valueOf(isSet(7));
-        } else if (name.equalsIgnoreCase(DECIPHER_ONLY)) {
-            return Boolean.valueOf(isSet(8));
+    public Boolebn get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(DIGITAL_SIGNATURE)) {
+            return Boolebn.vblueOf(isSet(0));
+        } else if (nbme.equblsIgnoreCbse(NON_REPUDIATION)) {
+            return Boolebn.vblueOf(isSet(1));
+        } else if (nbme.equblsIgnoreCbse(KEY_ENCIPHERMENT)) {
+            return Boolebn.vblueOf(isSet(2));
+        } else if (nbme.equblsIgnoreCbse(DATA_ENCIPHERMENT)) {
+            return Boolebn.vblueOf(isSet(3));
+        } else if (nbme.equblsIgnoreCbse(KEY_AGREEMENT)) {
+            return Boolebn.vblueOf(isSet(4));
+        } else if (nbme.equblsIgnoreCbse(KEY_CERTSIGN)) {
+            return Boolebn.vblueOf(isSet(5));
+        } else if (nbme.equblsIgnoreCbse(CRL_SIGN)) {
+            return Boolebn.vblueOf(isSet(6));
+        } else if (nbme.equblsIgnoreCbse(ENCIPHER_ONLY)) {
+            return Boolebn.vblueOf(isSet(7));
+        } else if (nbme.equblsIgnoreCbse(DECIPHER_ONLY)) {
+            return Boolebn.vblueOf(isSet(8));
         } else {
-          throw new IOException("Attribute name not recognized by"
-                                + " CertAttrSet:KeyUsage.");
+          throw new IOException("Attribute nbme not recognized by"
+                                + " CertAttrSet:KeyUsbge.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(DIGITAL_SIGNATURE)) {
-            set(0,false);
-        } else if (name.equalsIgnoreCase(NON_REPUDIATION)) {
-            set(1,false);
-        } else if (name.equalsIgnoreCase(KEY_ENCIPHERMENT)) {
-            set(2,false);
-        } else if (name.equalsIgnoreCase(DATA_ENCIPHERMENT)) {
-            set(3,false);
-        } else if (name.equalsIgnoreCase(KEY_AGREEMENT)) {
-            set(4,false);
-        } else if (name.equalsIgnoreCase(KEY_CERTSIGN)) {
-            set(5,false);
-        } else if (name.equalsIgnoreCase(CRL_SIGN)) {
-            set(6,false);
-        } else if (name.equalsIgnoreCase(ENCIPHER_ONLY)) {
-            set(7,false);
-        } else if (name.equalsIgnoreCase(DECIPHER_ONLY)) {
-            set(8,false);
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(DIGITAL_SIGNATURE)) {
+            set(0,fblse);
+        } else if (nbme.equblsIgnoreCbse(NON_REPUDIATION)) {
+            set(1,fblse);
+        } else if (nbme.equblsIgnoreCbse(KEY_ENCIPHERMENT)) {
+            set(2,fblse);
+        } else if (nbme.equblsIgnoreCbse(DATA_ENCIPHERMENT)) {
+            set(3,fblse);
+        } else if (nbme.equblsIgnoreCbse(KEY_AGREEMENT)) {
+            set(4,fblse);
+        } else if (nbme.equblsIgnoreCbse(KEY_CERTSIGN)) {
+            set(5,fblse);
+        } else if (nbme.equblsIgnoreCbse(CRL_SIGN)) {
+            set(6,fblse);
+        } else if (nbme.equblsIgnoreCbse(ENCIPHER_ONLY)) {
+            set(7,fblse);
+        } else if (nbme.equblsIgnoreCbse(DECIPHER_ONLY)) {
+            set(8,fblse);
         } else {
-          throw new IOException("Attribute name not recognized by"
-                                + " CertAttrSet:KeyUsage.");
+          throw new IOException("Attribute nbme not recognized by"
+                                + " CertAttrSet:KeyUsbge.");
         }
         encodeThis();
     }
 
     /**
-     * Returns a printable representation of the KeyUsage.
+     * Returns b printbble representbtion of the KeyUsbge.
      */
     public String toString() {
-        String s = super.toString() + "KeyUsage [\n";
+        String s = super.toString() + "KeyUsbge [\n";
 
         try {
             if (isSet(0)) {
-                s += "  DigitalSignature\n";
+                s += "  DigitblSignbture\n";
             }
             if (isSet(1)) {
-                s += "  Non_repudiation\n";
+                s += "  Non_repudibtion\n";
             }
             if (isSet(2)) {
                 s += "  Key_Encipherment\n";
             }
             if (isSet(3)) {
-                s += "  Data_Encipherment\n";
+                s += "  Dbtb_Encipherment\n";
             }
             if (isSet(4)) {
                 s += "  Key_Agreement\n";
@@ -305,7 +305,7 @@ implements CertAttrSet<String> {
             if (isSet(8)) {
                 s += "  Decipher_Only\n";
             }
-        } catch (ArrayIndexOutOfBoundsException ex) {}
+        } cbtch (ArrbyIndexOutOfBoundsException ex) {}
 
         s += "]\n";
 
@@ -313,51 +313,51 @@ implements CertAttrSet<String> {
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-       DerOutputStream  tmp = new DerOutputStream();
+    public void encode(OutputStrebm out) throws IOException {
+       DerOutputStrebm  tmp = new DerOutputStrebm();
 
-       if (this.extensionValue == null) {
-           this.extensionId = PKIXExtensions.KeyUsage_Id;
-           this.critical = true;
+       if (this.extensionVblue == null) {
+           this.extensionId = PKIXExtensions.KeyUsbge_Id;
+           this.criticbl = true;
            encodeThis();
        }
        super.encode(tmp);
-       out.write(tmp.toByteArray());
+       out.write(tmp.toByteArrby());
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(DIGITAL_SIGNATURE);
-        elements.addElement(NON_REPUDIATION);
-        elements.addElement(KEY_ENCIPHERMENT);
-        elements.addElement(DATA_ENCIPHERMENT);
-        elements.addElement(KEY_AGREEMENT);
-        elements.addElement(KEY_CERTSIGN);
-        elements.addElement(CRL_SIGN);
-        elements.addElement(ENCIPHER_ONLY);
-        elements.addElement(DECIPHER_ONLY);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(DIGITAL_SIGNATURE);
+        elements.bddElement(NON_REPUDIATION);
+        elements.bddElement(KEY_ENCIPHERMENT);
+        elements.bddElement(DATA_ENCIPHERMENT);
+        elements.bddElement(KEY_AGREEMENT);
+        elements.bddElement(KEY_CERTSIGN);
+        elements.bddElement(CRL_SIGN);
+        elements.bddElement(ENCIPHER_ONLY);
+        elements.bddElement(DECIPHER_ONLY);
 
         return (elements.elements());
     }
 
 
-    public boolean[] getBits() {
+    public boolebn[] getBits() {
         return bitString.clone();
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 }

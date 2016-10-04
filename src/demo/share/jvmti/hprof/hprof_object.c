@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,94 +30,94 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Object table. */
+/* Object tbble. */
 
 /*
- * An Object is unique by it's allocation site (SiteIndex), it's size,
- *   it's kind, and it's serial number. Normally only the serial number
- *   would have been necessary for heap=dump, and these other items
- *   could have been moved to the ObjectInfo. An optimization left
- *   to the reader. Lookups are not normally done on ObjectIndex's
- *   anyway because we typically know when to create them.
- *   Objects that have been tagged, are tagged with an ObjectIndex,
- *   Objects that are not tagged need a ObjectIndex, a lookup when
- *     heap=sites, and a new one when heap=dump.
- *   Objects that are freed, need the tag converted to an ObjectIndex,
- *     so they can be freed, but only when heap=dump.
- *   The thread serial number is for the thread associated with this
- *     object. If the object is a Thread object, it should be the serial
- *     number for that thread. The ThreadStart event is responsible
- *     for making sure the thread serial number is correct, but between the
- *     initial allocation of a Thread object and it's ThreadStart event
- *     the thread serial number could be for the thread that allocated
- *     the Thread object.
+ * An Object is unique by it's bllocbtion site (SiteIndex), it's size,
+ *   it's kind, bnd it's seribl number. Normblly only the seribl number
+ *   would hbve been necessbry for hebp=dump, bnd these other items
+ *   could hbve been moved to the ObjectInfo. An optimizbtion left
+ *   to the rebder. Lookups bre not normblly done on ObjectIndex's
+ *   bnywby becbuse we typicblly know when to crebte them.
+ *   Objects thbt hbve been tbgged, bre tbgged with bn ObjectIndex,
+ *   Objects thbt bre not tbgged need b ObjectIndex, b lookup when
+ *     hebp=sites, bnd b new one when hebp=dump.
+ *   Objects thbt bre freed, need the tbg converted to bn ObjectIndex,
+ *     so they cbn be freed, but only when hebp=dump.
+ *   The threbd seribl number is for the threbd bssocibted with this
+ *     object. If the object is b Threbd object, it should be the seribl
+ *     number for thbt threbd. The ThrebdStbrt event is responsible
+ *     for mbking sure the threbd seribl number is correct, but between the
+ *     initibl bllocbtion of b Threbd object bnd it's ThrebdStbrt event
+ *     the threbd seribl number could be for the threbd thbt bllocbted
+ *     the Threbd object.
  *
- * This will likely be the largest table when using heap=dump, when
- *   there is one table entry per object.
+ * This will likely be the lbrgest tbble when using hebp=dump, when
+ *   there is one tbble entry per object.
  *
- * ObjectIndex entries differ between heap=dump and heap=sites.
- *   With heap=sites, each ObjectIndex represents a unique site, size,
- *   and kind of object, so many jobject's will map to a single ObjectIndex.
- *   With heap=dump, every ObjectIndex maps to a unique jobject.
+ * ObjectIndex entries differ between hebp=dump bnd hebp=sites.
+ *   With hebp=sites, ebch ObjectIndex represents b unique site, size,
+ *   bnd kind of object, so mbny jobject's will mbp to b single ObjectIndex.
+ *   With hebp=dump, every ObjectIndex mbps to b unique jobject.
  *
- * During processing of a heap dump, the references for the object
- *   this ObjectIndex represents is assigned to the references field
- *   of the ObjectInfo as a linked list. (see hprof_references.c).
- *   Once all the refernces are attached, they are processed into the
- *   appropriate hprof dump information.
+ * During processing of b hebp dump, the references for the object
+ *   this ObjectIndex represents is bssigned to the references field
+ *   of the ObjectInfo bs b linked list. (see hprof_references.c).
+ *   Once bll the refernces bre bttbched, they bre processed into the
+ *   bppropribte hprof dump informbtion.
  *
- * The references field is set and cleared as many times as the heap
- *   is dumped, as is the reference table.
+ * The references field is set bnd clebred bs mbny times bs the hebp
+ *   is dumped, bs is the reference tbble.
  *
  */
 
 #include "hprof.h"
 
 typedef struct ObjectKey {
-    SiteIndex    site_index;    /* Site of allocation */
-    jint         size;          /* Size of object as reported by VM */
-    ObjectKind   kind;          /* Kind of object, most are OBJECT_NORMAL */
-    SerialNumber serial_num;    /* For heap=dump, a unique number. */
+    SiteIndex    site_index;    /* Site of bllocbtion */
+    jint         size;          /* Size of object bs reported by VM */
+    ObjectKind   kind;          /* Kind of object, most bre OBJECT_NORMAL */
+    SeriblNumber seribl_num;    /* For hebp=dump, b unique number. */
 } ObjectKey;
 
 typedef struct ObjectInfo {
     RefIndex     references;        /* Linked list of refs in this object */
-    SerialNumber thread_serial_num; /* Thread serial number for allocation */
+    SeriblNumber threbd_seribl_num; /* Threbd seribl number for bllocbtion */
 } ObjectInfo;
 
-/* Private internal functions. */
+/* Privbte internbl functions. */
 
-static ObjectKey*
+stbtic ObjectKey*
 get_pkey(ObjectIndex index)
 {
     void *key_ptr;
     int   key_len;
 
-    table_get_key(gdata->object_table, index, (void*)&key_ptr, &key_len);
+    tbble_get_key(gdbtb->object_tbble, index, (void*)&key_ptr, &key_len);
     HPROF_ASSERT(key_len==(int)sizeof(ObjectKey));
     HPROF_ASSERT(key_ptr!=NULL);
     return (ObjectKey*)key_ptr;
 }
 
-static ObjectInfo *
+stbtic ObjectInfo *
 get_info(ObjectIndex index)
 {
     ObjectInfo *info;
 
-    info = (ObjectInfo*)table_get_info(gdata->object_table, index);
+    info = (ObjectInfo*)tbble_get_info(gdbtb->object_tbble, index);
     return info;
 }
 
-static void
-list_item(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+list_item(TbbleIndex i, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
     ObjectKey  *pkey;
     ObjectInfo *info;
@@ -129,14 +129,14 @@ list_item(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
     info = (ObjectInfo*)info_ptr;
 
     pkey = (ObjectKey*)key_ptr;
-    debug_message( "Object 0x%08x: site=0x%08x, SN=%u, "
-                          " size=%d, kind=%d, refs=0x%x, threadSN=%u\n",
-         i, pkey->site_index, pkey->serial_num, pkey->size, pkey->kind,
-         info->references, info->thread_serial_num);
+    debug_messbge( "Object 0x%08x: site=0x%08x, SN=%u, "
+                          " size=%d, kind=%d, refs=0x%x, threbdSN=%u\n",
+         i, pkey->site_index, pkey->seribl_num, pkey->size, pkey->kind,
+         info->references, info->threbd_seribl_num);
 }
 
-static void
-clear_references(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+clebr_references(TbbleIndex i, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
     ObjectInfo *info;
 
@@ -145,55 +145,55 @@ clear_references(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void 
     info->references = 0;
 }
 
-static void
-dump_class_references(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+dump_clbss_references(TbbleIndex i, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
     ObjectInfo *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
     info = (ObjectInfo *)info_ptr;
-    reference_dump_class((JNIEnv*)arg, i, info->references);
+    reference_dump_clbss((JNIEnv*)brg, i, info->references);
 }
 
-static void
-dump_instance_references(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+dump_instbnce_references(TbbleIndex i, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
     ObjectInfo *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
     info = (ObjectInfo *)info_ptr;
-    reference_dump_instance((JNIEnv*)arg, i, info->references);
+    reference_dump_instbnce((JNIEnv*)brg, i, info->references);
 }
 
-/* External interfaces. */
+/* Externbl interfbces. */
 
 ObjectIndex
-object_new(SiteIndex site_index, jint size, ObjectKind kind, SerialNumber thread_serial_num)
+object_new(SiteIndex site_index, jint size, ObjectKind kind, SeriblNumber threbd_seribl_num)
 {
     ObjectIndex index;
     ObjectKey   key;
-    static ObjectKey empty_key;
+    stbtic ObjectKey empty_key;
 
     key            = empty_key;
     key.site_index = site_index;
     key.size       = size;
     key.kind       = kind;
-    if ( gdata->heap_dump ) {
-        static ObjectInfo empty_info;
+    if ( gdbtb->hebp_dump ) {
+        stbtic ObjectInfo empty_info;
         ObjectInfo i;
 
         i = empty_info;
-        i.thread_serial_num = thread_serial_num;
-        key.serial_num = gdata->object_serial_number_counter++;
-        index = table_create_entry(gdata->object_table,
+        i.threbd_seribl_num = threbd_seribl_num;
+        key.seribl_num = gdbtb->object_seribl_number_counter++;
+        index = tbble_crebte_entry(gdbtb->object_tbble,
                             &key, (int)sizeof(ObjectKey), &i);
     } else {
-        key.serial_num =
-             class_get_serial_number(site_get_class_index(site_index));
-        index = table_find_or_create_entry(gdata->object_table,
+        key.seribl_num =
+             clbss_get_seribl_number(site_get_clbss_index(site_index));
+        index = tbble_find_or_crebte_entry(gdbtb->object_tbble,
                             &key, (int)sizeof(ObjectKey), NULL, NULL);
     }
-    site_update_stats(site_index, size, 1);
+    site_updbte_stbts(site_index, size, 1);
     return index;
 }
 
@@ -203,11 +203,11 @@ object_init(void)
     jint bucket_count;
 
     bucket_count = 511;
-    if ( gdata->heap_dump ) {
+    if ( gdbtb->hebp_dump ) {
         bucket_count = 0;
     }
-    HPROF_ASSERT(gdata->object_table==NULL);
-    gdata->object_table = table_initialize("Object", 4096,
+    HPROF_ASSERT(gdbtb->object_tbble==NULL);
+    gdbtb->object_tbble = tbble_initiblize("Object", 4096,
                         4096, bucket_count, (int)sizeof(ObjectInfo));
 }
 
@@ -247,11 +247,11 @@ object_free(ObjectIndex index)
     pkey = get_pkey(index);
     kind = pkey->kind;
 
-    /* Decrement allocations at this site. */
-    site_update_stats(pkey->site_index, -(pkey->size), -1);
+    /* Decrement bllocbtions bt this site. */
+    site_updbte_stbts(pkey->site_index, -(pkey->size), -1);
 
-    if ( gdata->heap_dump ) {
-        table_free_entry(gdata->object_table, index);
+    if ( gdbtb->hebp_dump ) {
+        tbble_free_entry(gdbtb->object_tbble, index);
     }
     return kind;
 }
@@ -259,37 +259,37 @@ object_free(ObjectIndex index)
 void
 object_list(void)
 {
-    debug_message(
-        "--------------------- Object Table ------------------------\n");
-    table_walk_items(gdata->object_table, &list_item, NULL);
-    debug_message(
+    debug_messbge(
+        "--------------------- Object Tbble ------------------------\n");
+    tbble_wblk_items(gdbtb->object_tbble, &list_item, NULL);
+    debug_messbge(
         "----------------------------------------------------------\n");
 }
 
 void
-object_cleanup(void)
+object_clebnup(void)
 {
-    table_cleanup(gdata->object_table, NULL, NULL);
-    gdata->object_table = NULL;
+    tbble_clebnup(gdbtb->object_tbble, NULL, NULL);
+    gdbtb->object_tbble = NULL;
 }
 
 void
-object_set_thread_serial_number(ObjectIndex index,
-                                SerialNumber thread_serial_num)
+object_set_threbd_seribl_number(ObjectIndex index,
+                                SeriblNumber threbd_seribl_num)
 {
     ObjectInfo *info;
 
     info = get_info(index);
-    info->thread_serial_num = thread_serial_num;
+    info->threbd_seribl_num = threbd_seribl_num;
 }
 
-SerialNumber
-object_get_thread_serial_number(ObjectIndex index)
+SeriblNumber
+object_get_threbd_seribl_number(ObjectIndex index)
 {
     ObjectInfo *info;
 
     info = get_info(index);
-    return info->thread_serial_num;
+    return info->threbd_seribl_num;
 }
 
 RefIndex
@@ -311,14 +311,14 @@ object_set_references(ObjectIndex index, RefIndex ref_index)
 }
 
 void
-object_clear_references(void)
+object_clebr_references(void)
 {
-    table_walk_items(gdata->object_table, &clear_references, NULL);
+    tbble_wblk_items(gdbtb->object_tbble, &clebr_references, NULL);
 }
 
 void
 object_reference_dump(JNIEnv *env)
 {
-    table_walk_items(gdata->object_table, &dump_instance_references, (void*)env);
-    table_walk_items(gdata->object_table, &dump_class_references, (void*)env);
+    tbble_wblk_items(gdbtb->object_tbble, &dump_instbnce_references, (void*)env);
+    tbble_wblk_items(gdbtb->object_tbble, &dump_clbss_references, (void*)env);
 }

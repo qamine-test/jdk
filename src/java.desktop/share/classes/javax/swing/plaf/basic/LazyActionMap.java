@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.lang.reflect.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvb.lbng.reflect.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * An ActionMap that populates its contents as necessary. The
- * contents are populated by invoking the <code>loadActionMap</code>
- * method on the passed in Object.
+ * An ActionMbp thbt populbtes its contents bs necessbry. The
+ * contents bre populbted by invoking the <code>lobdActionMbp</code>
+ * method on the pbssed in Object.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class LazyActionMap extends ActionMapUIResource {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+clbss LbzyActionMbp extends ActionMbpUIResource {
     /**
-     * Object to invoke <code>loadActionMap</code> on. This may be
-     * a Class object.
+     * Object to invoke <code>lobdActionMbp</code> on. This mby be
+     * b Clbss object.
      */
-    private transient Object _loader;
+    privbte trbnsient Object _lobder;
 
     /**
-     * Installs an ActionMap that will be populated by invoking the
-     * <code>loadActionMap</code> method on the specified Class
-     * when necessary.
+     * Instblls bn ActionMbp thbt will be populbted by invoking the
+     * <code>lobdActionMbp</code> method on the specified Clbss
+     * when necessbry.
      * <p>
-     * This should be used if the ActionMap can be shared.
+     * This should be used if the ActionMbp cbn be shbred.
      *
-     * @param c JComponent to install the ActionMap on.
-     * @param loaderClass Class object that gets loadActionMap invoked
+     * @pbrbm c JComponent to instbll the ActionMbp on.
+     * @pbrbm lobderClbss Clbss object thbt gets lobdActionMbp invoked
      *                    on.
-     * @param defaultsKey Key to use to defaults table to check for
-     *        existing map and what resulting Map will be registered on.
+     * @pbrbm defbultsKey Key to use to defbults tbble to check for
+     *        existing mbp bnd whbt resulting Mbp will be registered on.
      */
-    static void installLazyActionMap(JComponent c, Class<?> loaderClass,
-                                     String defaultsKey) {
-        ActionMap map = (ActionMap)UIManager.get(defaultsKey);
-        if (map == null) {
-            map = new LazyActionMap(loaderClass);
-            UIManager.getLookAndFeelDefaults().put(defaultsKey, map);
+    stbtic void instbllLbzyActionMbp(JComponent c, Clbss<?> lobderClbss,
+                                     String defbultsKey) {
+        ActionMbp mbp = (ActionMbp)UIMbnbger.get(defbultsKey);
+        if (mbp == null) {
+            mbp = new LbzyActionMbp(lobderClbss);
+            UIMbnbger.getLookAndFeelDefbults().put(defbultsKey, mbp);
         }
-        SwingUtilities.replaceUIActionMap(c, map);
+        SwingUtilities.replbceUIActionMbp(c, mbp);
     }
 
     /**
-     * Returns an ActionMap that will be populated by invoking the
-     * <code>loadActionMap</code> method on the specified Class
-     * when necessary.
+     * Returns bn ActionMbp thbt will be populbted by invoking the
+     * <code>lobdActionMbp</code> method on the specified Clbss
+     * when necessbry.
      * <p>
-     * This should be used if the ActionMap can be shared.
+     * This should be used if the ActionMbp cbn be shbred.
      *
-     * @param c JComponent to install the ActionMap on.
-     * @param loaderClass Class object that gets loadActionMap invoked
+     * @pbrbm c JComponent to instbll the ActionMbp on.
+     * @pbrbm lobderClbss Clbss object thbt gets lobdActionMbp invoked
      *                    on.
-     * @param defaultsKey Key to use to defaults table to check for
-     *        existing map and what resulting Map will be registered on.
+     * @pbrbm defbultsKey Key to use to defbults tbble to check for
+     *        existing mbp bnd whbt resulting Mbp will be registered on.
      */
-    static ActionMap getActionMap(Class<?> loaderClass,
-                                  String defaultsKey) {
-        ActionMap map = (ActionMap)UIManager.get(defaultsKey);
-        if (map == null) {
-            map = new LazyActionMap(loaderClass);
-            UIManager.getLookAndFeelDefaults().put(defaultsKey, map);
+    stbtic ActionMbp getActionMbp(Clbss<?> lobderClbss,
+                                  String defbultsKey) {
+        ActionMbp mbp = (ActionMbp)UIMbnbger.get(defbultsKey);
+        if (mbp == null) {
+            mbp = new LbzyActionMbp(lobderClbss);
+            UIMbnbger.getLookAndFeelDefbults().put(defbultsKey, mbp);
         }
-        return map;
+        return mbp;
     }
 
 
-    private LazyActionMap(Class<?> loader) {
-        _loader = loader;
+    privbte LbzyActionMbp(Clbss<?> lobder) {
+        _lobder = lobder;
     }
 
-    public void put(Action action) {
-        put(action.getValue(Action.NAME), action);
+    public void put(Action bction) {
+        put(bction.getVblue(Action.NAME), bction);
     }
 
-    public void put(Object key, Action action) {
-        loadIfNecessary();
-        super.put(key, action);
+    public void put(Object key, Action bction) {
+        lobdIfNecessbry();
+        super.put(key, bction);
     }
 
     public Action get(Object key) {
-        loadIfNecessary();
+        lobdIfNecessbry();
         return super.get(key);
     }
 
     public void remove(Object key) {
-        loadIfNecessary();
+        lobdIfNecessbry();
         super.remove(key);
     }
 
-    public void clear() {
-        loadIfNecessary();
-        super.clear();
+    public void clebr() {
+        lobdIfNecessbry();
+        super.clebr();
     }
 
     public Object[] keys() {
-        loadIfNecessary();
+        lobdIfNecessbry();
         return super.keys();
     }
 
     public int size() {
-        loadIfNecessary();
+        lobdIfNecessbry();
         return super.size();
     }
 
-    public Object[] allKeys() {
-        loadIfNecessary();
-        return super.allKeys();
+    public Object[] bllKeys() {
+        lobdIfNecessbry();
+        return super.bllKeys();
     }
 
-    public void setParent(ActionMap map) {
-        loadIfNecessary();
-        super.setParent(map);
+    public void setPbrent(ActionMbp mbp) {
+        lobdIfNecessbry();
+        super.setPbrent(mbp);
     }
 
-    private void loadIfNecessary() {
-        if (_loader != null) {
-            Object loader = _loader;
+    privbte void lobdIfNecessbry() {
+        if (_lobder != null) {
+            Object lobder = _lobder;
 
-            _loader = null;
-            Class<?> klass = (Class<?>)loader;
+            _lobder = null;
+            Clbss<?> klbss = (Clbss<?>)lobder;
             try {
-                Method method = klass.getDeclaredMethod("loadActionMap",
-                                      new Class<?>[] { LazyActionMap.class });
-                method.invoke(klass, new Object[] { this });
-            } catch (NoSuchMethodException nsme) {
-                assert false : "LazyActionMap unable to load actions " +
-                        klass;
-            } catch (IllegalAccessException iae) {
-                assert false : "LazyActionMap unable to load actions " +
-                        iae;
-            } catch (InvocationTargetException ite) {
-                assert false : "LazyActionMap unable to load actions " +
+                Method method = klbss.getDeclbredMethod("lobdActionMbp",
+                                      new Clbss<?>[] { LbzyActionMbp.clbss });
+                method.invoke(klbss, new Object[] { this });
+            } cbtch (NoSuchMethodException nsme) {
+                bssert fblse : "LbzyActionMbp unbble to lobd bctions " +
+                        klbss;
+            } cbtch (IllegblAccessException ibe) {
+                bssert fblse : "LbzyActionMbp unbble to lobd bctions " +
+                        ibe;
+            } cbtch (InvocbtionTbrgetException ite) {
+                bssert fblse : "LbzyActionMbp unbble to lobd bctions " +
                         ite;
-            } catch (IllegalArgumentException iae) {
-                assert false : "LazyActionMap unable to load actions " +
-                        iae;
+            } cbtch (IllegblArgumentException ibe) {
+                bssert fblse : "LbzyActionMbp unbble to lobd bctions " +
+                        ibe;
             }
         }
     }

@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import sun.awt.ModalExclude;
-import sun.awt.SunToolkit;
+import sun.bwt.ModblExclude;
+import sun.bwt.SunToolkit;
 
 /**
- * Popups are used to display a <code>Component</code> to the user, typically
- * on top of all the other <code>Component</code>s in a particular containment
- * hierarchy. <code>Popup</code>s have a very small life cycle. Once you
- * have obtained a <code>Popup</code>, and hidden it (invoked the
+ * Popups bre used to displby b <code>Component</code> to the user, typicblly
+ * on top of bll the other <code>Component</code>s in b pbrticulbr contbinment
+ * hierbrchy. <code>Popup</code>s hbve b very smbll life cycle. Once you
+ * hbve obtbined b <code>Popup</code>, bnd hidden it (invoked the
  * <code>hide</code> method), you should no longer
- * invoke any methods on it. This allows the <code>PopupFactory</code> to cache
- * <code>Popup</code>s for later use.
+ * invoke bny methods on it. This bllows the <code>PopupFbctory</code> to cbche
+ * <code>Popup</code>s for lbter use.
  * <p>
- * The general contract is that if you need to change the size of the
- * <code>Component</code>, or location of the <code>Popup</code>, you should
- * obtain a new <code>Popup</code>.
+ * The generbl contrbct is thbt if you need to chbnge the size of the
+ * <code>Component</code>, or locbtion of the <code>Popup</code>, you should
+ * obtbin b new <code>Popup</code>.
  * <p>
- * <code>Popup</code> does not descend from <code>Component</code>, rather
- * implementations of <code>Popup</code> are responsible for creating
- * and maintaining their own <code>Component</code>s to render the
+ * <code>Popup</code> does not descend from <code>Component</code>, rbther
+ * implementbtions of <code>Popup</code> bre responsible for crebting
+ * bnd mbintbining their own <code>Component</code>s to render the
  * requested <code>Component</code> to the user.
  * <p>
- * You typically do not explicitly create an instance of <code>Popup</code>,
- * instead obtain one from a <code>PopupFactory</code>.
+ * You typicblly do not explicitly crebte bn instbnce of <code>Popup</code>,
+ * instebd obtbin one from b <code>PopupFbctory</code>.
  *
- * @see PopupFactory
+ * @see PopupFbctory
  *
  * @since 1.4
  */
-public class Popup {
+public clbss Popup {
     /**
      * The Component representing the Popup.
      */
-    private Component component;
+    privbte Component component;
 
     /**
-     * Creates a <code>Popup</code> for the Component <code>owner</code>
-     * containing the Component <code>contents</code>. <code>owner</code>
+     * Crebtes b <code>Popup</code> for the Component <code>owner</code>
+     * contbining the Component <code>contents</code>. <code>owner</code>
      * is used to determine which <code>Window</code> the new
-     * <code>Popup</code> will parent the <code>Component</code> the
-     * <code>Popup</code> creates to.
-     * A null <code>owner</code> implies there is no valid parent.
-     * <code>x</code> and
-     * <code>y</code> specify the preferred initial location to place
-     * the <code>Popup</code> at. Based on screen size, or other paramaters,
-     * the <code>Popup</code> may not display at <code>x</code> and
+     * <code>Popup</code> will pbrent the <code>Component</code> the
+     * <code>Popup</code> crebtes to.
+     * A null <code>owner</code> implies there is no vblid pbrent.
+     * <code>x</code> bnd
+     * <code>y</code> specify the preferred initibl locbtion to plbce
+     * the <code>Popup</code> bt. Bbsed on screen size, or other pbrbmbters,
+     * the <code>Popup</code> mby not displby bt <code>x</code> bnd
      * <code>y</code>.
      *
-     * @param owner    Component mouse coordinates are relative to, may be null
-     * @param contents Contents of the Popup
-     * @param x        Initial x screen coordinate
-     * @param y        Initial y screen coordinate
-     * @exception IllegalArgumentException if contents is null
+     * @pbrbm owner    Component mouse coordinbtes bre relbtive to, mby be null
+     * @pbrbm contents Contents of the Popup
+     * @pbrbm x        Initibl x screen coordinbte
+     * @pbrbm y        Initibl y screen coordinbte
+     * @exception IllegblArgumentException if contents is null
      */
     protected Popup(Component owner, Component contents, int x, int y) {
         this();
         if (contents == null) {
-            throw new IllegalArgumentException("Contents must be non-null");
+            throw new IllegblArgumentException("Contents must be non-null");
         }
         reset(owner, contents, x, y);
     }
 
     /**
-     * Creates a <code>Popup</code>. This is provided for subclasses.
+     * Crebtes b <code>Popup</code>. This is provided for subclbsses.
      */
     protected Popup() {
     }
 
     /**
-     * Makes the <code>Popup</code> visible. If the <code>Popup</code> is
-     * currently visible, this has no effect.
+     * Mbkes the <code>Popup</code> visible. If the <code>Popup</code> is
+     * currently visible, this hbs no effect.
      */
 
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public void show() {
         Component component = getComponent();
 
@@ -109,116 +109,116 @@ public class Popup {
     }
 
     /**
-     * Hides and disposes of the <code>Popup</code>. Once a <code>Popup</code>
-     * has been disposed you should no longer invoke methods on it. A
-     * <code>dispose</code>d <code>Popup</code> may be reclaimed and later used
-     * based on the <code>PopupFactory</code>. As such, if you invoke methods
-     * on a <code>disposed</code> <code>Popup</code>, indeterminate
-     * behavior will result.
+     * Hides bnd disposes of the <code>Popup</code>. Once b <code>Popup</code>
+     * hbs been disposed you should no longer invoke methods on it. A
+     * <code>dispose</code>d <code>Popup</code> mby be reclbimed bnd lbter used
+     * bbsed on the <code>PopupFbctory</code>. As such, if you invoke methods
+     * on b <code>disposed</code> <code>Popup</code>, indeterminbte
+     * behbvior will result.
      */
 
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public void hide() {
         Component component = getComponent();
 
-        if (component instanceof JWindow) {
+        if (component instbnceof JWindow) {
             component.hide();
-            ((JWindow)component).getContentPane().removeAll();
+            ((JWindow)component).getContentPbne().removeAll();
         }
         dispose();
     }
 
     /**
-     * Frees any resources the <code>Popup</code> may be holding onto.
+     * Frees bny resources the <code>Popup</code> mby be holding onto.
      */
     void dispose() {
         Component component = getComponent();
         Window window = SwingUtilities.getWindowAncestor(component);
 
-        if (component instanceof JWindow) {
+        if (component instbnceof JWindow) {
             ((Window)component).dispose();
             component = null;
         }
-        // If our parent is a DefaultFrame, we need to dispose it, too.
-        if (window instanceof DefaultFrame) {
+        // If our pbrent is b DefbultFrbme, we need to dispose it, too.
+        if (window instbnceof DefbultFrbme) {
             window.dispose();
         }
     }
 
     /**
-     * Resets the <code>Popup</code> to an initial state.
+     * Resets the <code>Popup</code> to bn initibl stbte.
      */
     void reset(Component owner, Component contents, int ownerX, int ownerY) {
         if (getComponent() == null) {
-            component = createComponent(owner);
+            component = crebteComponent(owner);
         }
 
         Component c = getComponent();
 
-        if (c instanceof JWindow) {
+        if (c instbnceof JWindow) {
             JWindow component = (JWindow)getComponent();
 
-            component.setLocation(ownerX, ownerY);
-            component.getContentPane().add(contents, BorderLayout.CENTER);
-            component.invalidate();
-            component.validate();
+            component.setLocbtion(ownerX, ownerY);
+            component.getContentPbne().bdd(contents, BorderLbyout.CENTER);
+            component.invblidbte();
+            component.vblidbte();
             if(component.isVisible()) {
-                // Do not call pack() if window is not visible to
-                // avoid early native peer creation
-                pack();
+                // Do not cbll pbck() if window is not visible to
+                // bvoid ebrly nbtive peer crebtion
+                pbck();
             }
         }
     }
 
 
     /**
-     * Causes the <code>Popup</code> to be sized to fit the preferred size
-     * of the <code>Component</code> it contains.
+     * Cbuses the <code>Popup</code> to be sized to fit the preferred size
+     * of the <code>Component</code> it contbins.
      */
-    void pack() {
+    void pbck() {
         Component component = getComponent();
 
-        if (component instanceof Window) {
-            ((Window)component).pack();
+        if (component instbnceof Window) {
+            ((Window)component).pbck();
         }
     }
 
     /**
-     * Returns the <code>Window</code> to use as the parent of the
-     * <code>Window</code> created for the <code>Popup</code>. This creates
-     * a new <code>DefaultFrame</code>, if necessary.
+     * Returns the <code>Window</code> to use bs the pbrent of the
+     * <code>Window</code> crebted for the <code>Popup</code>. This crebtes
+     * b new <code>DefbultFrbme</code>, if necessbry.
      */
-    private Window getParentWindow(Component owner) {
+    privbte Window getPbrentWindow(Component owner) {
         Window window = null;
 
-        if (owner instanceof Window) {
+        if (owner instbnceof Window) {
             window = (Window)owner;
         }
         else if (owner != null) {
             window = SwingUtilities.getWindowAncestor(owner);
         }
         if (window == null) {
-            window = new DefaultFrame();
+            window = new DefbultFrbme();
         }
         return window;
     }
 
     /**
-     * Creates the Component to use as the parent of the <code>Popup</code>.
-     * The default implementation creates a <code>Window</code>, subclasses
+     * Crebtes the Component to use bs the pbrent of the <code>Popup</code>.
+     * The defbult implementbtion crebtes b <code>Window</code>, subclbsses
      * should override.
      */
-    Component createComponent(Component owner) {
-        if (GraphicsEnvironment.isHeadless()) {
-            // Generally not useful, bail.
+    Component crebteComponent(Component owner) {
+        if (GrbphicsEnvironment.isHebdless()) {
+            // Generblly not useful, bbil.
             return null;
         }
-        return new HeavyWeightWindow(getParentWindow(owner));
+        return new HebvyWeightWindow(getPbrentWindow(owner));
     }
 
     /**
      * Returns the <code>Component</code> returned from
-     * <code>createComponent</code> that will hold the <code>Popup</code>.
+     * <code>crebteComponent</code> thbt will hold the <code>Popup</code>.
      */
     Component getComponent() {
         return component;
@@ -228,33 +228,33 @@ public class Popup {
     /**
      * Component used to house window.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class HeavyWeightWindow extends JWindow implements ModalExclude {
-        HeavyWeightWindow(Window parent) {
-            super(parent);
-            setFocusableWindowState(false);
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss HebvyWeightWindow extends JWindow implements ModblExclude {
+        HebvyWeightWindow(Window pbrent) {
+            super(pbrent);
+            setFocusbbleWindowStbte(fblse);
             setType(Window.Type.POPUP);
 
-            // Popups are typically transient and most likely won't benefit
+            // Popups bre typicblly trbnsient bnd most likely won't benefit
             // from true double buffering.  Turn it off here.
-            getRootPane().setUseTrueDoubleBuffering(false);
-            // Try to set "always-on-top" for the popup window.
-            // Applets usually don't have sufficient permissions to do it.
-            // In this case simply ignore the exception.
+            getRootPbne().setUseTrueDoubleBuffering(fblse);
+            // Try to set "blwbys-on-top" for the popup window.
+            // Applets usublly don't hbve sufficient permissions to do it.
+            // In this cbse simply ignore the exception.
             try {
-                setAlwaysOnTop(true);
-            } catch (SecurityException se) {
-                // setAlwaysOnTop is restricted,
+                setAlwbysOnTop(true);
+            } cbtch (SecurityException se) {
+                // setAlwbysOnTop is restricted,
                 // the exception is ignored
             }
         }
 
-        public void update(Graphics g) {
-            paint(g);
+        public void updbte(Grbphics g) {
+            pbint(g);
         }
 
         public void show() {
-            this.pack();
+            this.pbck();
             if (getWidth() > 0 && getHeight() > 0) {
                 super.show();
             }
@@ -263,12 +263,12 @@ public class Popup {
 
 
     /**
-     * Used if no valid Window ancestor of the supplied owner is found.
+     * Used if no vblid Window bncestor of the supplied owner is found.
      * <p>
-     * PopupFactory uses this as a way to know when the Popup shouldn't
-     * be cached based on the Window.
+     * PopupFbctory uses this bs b wby to know when the Popup shouldn't
+     * be cbched bbsed on the Window.
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class DefaultFrame extends Frame {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    stbtic clbss DefbultFrbme extends Frbme {
     }
 }

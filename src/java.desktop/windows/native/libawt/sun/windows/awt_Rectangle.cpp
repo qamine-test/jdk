@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_Rectangle.h"
-#include "awt.h"
+#include "bwt_Rectbngle.h"
+#include "bwt.h"
 
 /************************************************************************
- * AwtRectangle fields
+ * AwtRectbngle fields
  */
 
-jfieldID AwtRectangle::xID;
-jfieldID AwtRectangle::yID;
-jfieldID AwtRectangle::widthID;
-jfieldID AwtRectangle::heightID;
+jfieldID AwtRectbngle::xID;
+jfieldID AwtRectbngle::yID;
+jfieldID AwtRectbngle::widthID;
+jfieldID AwtRectbngle::heightID;
 
 /************************************************************************
- * AwtRectangle native methods
+ * AwtRectbngle nbtive methods
  */
 
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_Rectangle_initIDs(JNIEnv *env, jclass cls) {
+Jbvb_jbvb_bwt_Rectbngle_initIDs(JNIEnv *env, jclbss cls) {
     TRY;
 
-    AwtRectangle::xID = env->GetFieldID(cls, "x", "I");
-    DASSERT(AwtRectangle::xID != NULL);
-    CHECK_NULL(AwtRectangle::xID);
+    AwtRectbngle::xID = env->GetFieldID(cls, "x", "I");
+    DASSERT(AwtRectbngle::xID != NULL);
+    CHECK_NULL(AwtRectbngle::xID);
 
-    AwtRectangle::yID = env->GetFieldID(cls, "y", "I");
-    DASSERT(AwtRectangle::yID != NULL);
-    CHECK_NULL(AwtRectangle::yID);
+    AwtRectbngle::yID = env->GetFieldID(cls, "y", "I");
+    DASSERT(AwtRectbngle::yID != NULL);
+    CHECK_NULL(AwtRectbngle::yID);
 
-    AwtRectangle::widthID = env->GetFieldID(cls, "width", "I");
-    DASSERT(AwtRectangle::widthID != NULL);
-    CHECK_NULL(AwtRectangle::widthID);
+    AwtRectbngle::widthID = env->GetFieldID(cls, "width", "I");
+    DASSERT(AwtRectbngle::widthID != NULL);
+    CHECK_NULL(AwtRectbngle::widthID);
 
-    AwtRectangle::heightID = env->GetFieldID(cls, "height", "I");
-    DASSERT(AwtRectangle::heightID != NULL);
-    CHECK_NULL(AwtRectangle::heightID);
+    AwtRectbngle::heightID = env->GetFieldID(cls, "height", "I");
+    DASSERT(AwtRectbngle::heightID != NULL);
+    CHECK_NULL(AwtRectbngle::heightID);
 
     CATCH_BAD_ALLOC;
 }

@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,136 +59,136 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoField.EPOCH_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.EPOCH_DAY;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.Serializable;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutput;
+import jbvb.io.Seriblizbble;
+import jbvb.time.LocblTime;
+import jbvb.time.ZoneId;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Objects;
 
 /**
- * A date-time without a time-zone for the calendar neutral API.
+ * A dbte-time without b time-zone for the cblendbr neutrbl API.
  * <p>
- * {@code ChronoLocalDateTime} is an immutable date-time object that represents a date-time, often
- * viewed as year-month-day-hour-minute-second. This object can also access other
- * fields such as day-of-year, day-of-week and week-of-year.
+ * {@code ChronoLocblDbteTime} is bn immutbble dbte-time object thbt represents b dbte-time, often
+ * viewed bs yebr-month-dby-hour-minute-second. This object cbn blso bccess other
+ * fields such bs dby-of-yebr, dby-of-week bnd week-of-yebr.
  * <p>
- * This class stores all date and time fields, to a precision of nanoseconds.
- * It does not store or represent a time-zone. For example, the value
- * "2nd October 2007 at 13:45.30.123456789" can be stored in an {@code ChronoLocalDateTime}.
+ * This clbss stores bll dbte bnd time fields, to b precision of nbnoseconds.
+ * It does not store or represent b time-zone. For exbmple, the vblue
+ * "2nd October 2007 bt 13:45.30.123456789" cbn be stored in bn {@code ChronoLocblDbteTime}.
  *
  * @implSpec
- * This class is immutable and thread-safe.
- * @serial
- * @param <D> the concrete type for the date of this date-time
+ * This clbss is immutbble bnd threbd-sbfe.
+ * @seribl
+ * @pbrbm <D> the concrete type for the dbte of this dbte-time
  * @since 1.8
  */
-final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
-        implements  ChronoLocalDateTime<D>, Temporal, TemporalAdjuster, Serializable {
+finbl clbss ChronoLocblDbteTimeImpl<D extends ChronoLocblDbte>
+        implements  ChronoLocblDbteTime<D>, Temporbl, TemporblAdjuster, Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 4556003607393004514L;
+    privbte stbtic finbl long seriblVersionUID = 4556003607393004514L;
     /**
-     * Hours per day.
+     * Hours per dby.
      */
-    static final int HOURS_PER_DAY = 24;
+    stbtic finbl int HOURS_PER_DAY = 24;
     /**
      * Minutes per hour.
      */
-    static final int MINUTES_PER_HOUR = 60;
+    stbtic finbl int MINUTES_PER_HOUR = 60;
     /**
-     * Minutes per day.
+     * Minutes per dby.
      */
-    static final int MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY;
+    stbtic finbl int MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY;
     /**
      * Seconds per minute.
      */
-    static final int SECONDS_PER_MINUTE = 60;
+    stbtic finbl int SECONDS_PER_MINUTE = 60;
     /**
      * Seconds per hour.
      */
-    static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
+    stbtic finbl int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
     /**
-     * Seconds per day.
+     * Seconds per dby.
      */
-    static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY;
+    stbtic finbl int SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY;
     /**
-     * Milliseconds per day.
+     * Milliseconds per dby.
      */
-    static final long MILLIS_PER_DAY = SECONDS_PER_DAY * 1000L;
+    stbtic finbl long MILLIS_PER_DAY = SECONDS_PER_DAY * 1000L;
     /**
-     * Microseconds per day.
+     * Microseconds per dby.
      */
-    static final long MICROS_PER_DAY = SECONDS_PER_DAY * 1000_000L;
+    stbtic finbl long MICROS_PER_DAY = SECONDS_PER_DAY * 1000_000L;
     /**
-     * Nanos per second.
+     * Nbnos per second.
      */
-    static final long NANOS_PER_SECOND = 1000_000_000L;
+    stbtic finbl long NANOS_PER_SECOND = 1000_000_000L;
     /**
-     * Nanos per minute.
+     * Nbnos per minute.
      */
-    static final long NANOS_PER_MINUTE = NANOS_PER_SECOND * SECONDS_PER_MINUTE;
+    stbtic finbl long NANOS_PER_MINUTE = NANOS_PER_SECOND * SECONDS_PER_MINUTE;
     /**
-     * Nanos per hour.
+     * Nbnos per hour.
      */
-    static final long NANOS_PER_HOUR = NANOS_PER_MINUTE * MINUTES_PER_HOUR;
+    stbtic finbl long NANOS_PER_HOUR = NANOS_PER_MINUTE * MINUTES_PER_HOUR;
     /**
-     * Nanos per day.
+     * Nbnos per dby.
      */
-    static final long NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
+    stbtic finbl long NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
 
     /**
-     * The date part.
+     * The dbte pbrt.
      */
-    private final transient D date;
+    privbte finbl trbnsient D dbte;
     /**
-     * The time part.
+     * The time pbrt.
      */
-    private final transient LocalTime time;
+    privbte finbl trbnsient LocblTime time;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ChronoLocalDateTime} from a date and time.
+     * Obtbins bn instbnce of {@code ChronoLocblDbteTime} from b dbte bnd time.
      *
-     * @param date  the local date, not null
-     * @param time  the local time, not null
-     * @return the local date-time, not null
+     * @pbrbm dbte  the locbl dbte, not null
+     * @pbrbm time  the locbl time, not null
+     * @return the locbl dbte-time, not null
      */
-    static <R extends ChronoLocalDate> ChronoLocalDateTimeImpl<R> of(R date, LocalTime time) {
-        return new ChronoLocalDateTimeImpl<>(date, time);
+    stbtic <R extends ChronoLocblDbte> ChronoLocblDbteTimeImpl<R> of(R dbte, LocblTime time) {
+        return new ChronoLocblDbteTimeImpl<>(dbte, time);
     }
 
     /**
-     * Casts the {@code Temporal} to {@code ChronoLocalDateTime} ensuring it bas the specified chronology.
+     * Cbsts the {@code Temporbl} to {@code ChronoLocblDbteTime} ensuring it bbs the specified chronology.
      *
-     * @param chrono  the chronology to check for, not null
-     * @param temporal   a date-time to cast, not null
-     * @return the date-time checked and cast to {@code ChronoLocalDateTime}, not null
-     * @throws ClassCastException if the date-time cannot be cast to ChronoLocalDateTimeImpl
-     *  or the chronology is not equal this Chronology
+     * @pbrbm chrono  the chronology to check for, not null
+     * @pbrbm temporbl   b dbte-time to cbst, not null
+     * @return the dbte-time checked bnd cbst to {@code ChronoLocblDbteTime}, not null
+     * @throws ClbssCbstException if the dbte-time cbnnot be cbst to ChronoLocblDbteTimeImpl
+     *  or the chronology is not equbl this Chronology
      */
-    static <R extends ChronoLocalDate> ChronoLocalDateTimeImpl<R> ensureValid(Chronology chrono, Temporal temporal) {
-        @SuppressWarnings("unchecked")
-        ChronoLocalDateTimeImpl<R> other = (ChronoLocalDateTimeImpl<R>) temporal;
-        if (chrono.equals(other.getChronology()) == false) {
-            throw new ClassCastException("Chronology mismatch, required: " + chrono.getId()
-                    + ", actual: " + other.getChronology().getId());
+    stbtic <R extends ChronoLocblDbte> ChronoLocblDbteTimeImpl<R> ensureVblid(Chronology chrono, Temporbl temporbl) {
+        @SuppressWbrnings("unchecked")
+        ChronoLocblDbteTimeImpl<R> other = (ChronoLocblDbteTimeImpl<R>) temporbl;
+        if (chrono.equbls(other.getChronology()) == fblse) {
+            throw new ClbssCbstException("Chronology mismbtch, required: " + chrono.getId()
+                    + ", bctubl: " + other.getChronology().getId());
         }
         return other;
     }
@@ -196,201 +196,201 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
     /**
      * Constructor.
      *
-     * @param date  the date part of the date-time, not null
-     * @param time  the time part of the date-time, not null
+     * @pbrbm dbte  the dbte pbrt of the dbte-time, not null
+     * @pbrbm time  the time pbrt of the dbte-time, not null
      */
-    private ChronoLocalDateTimeImpl(D date, LocalTime time) {
-        Objects.requireNonNull(date, "date");
+    privbte ChronoLocblDbteTimeImpl(D dbte, LocblTime time) {
+        Objects.requireNonNull(dbte, "dbte");
         Objects.requireNonNull(time, "time");
-        this.date = date;
+        this.dbte = dbte;
         this.time = time;
     }
 
     /**
-     * Returns a copy of this date-time with the new date and time, checking
-     * to see if a new object is in fact required.
+     * Returns b copy of this dbte-time with the new dbte bnd time, checking
+     * to see if b new object is in fbct required.
      *
-     * @param newDate  the date of the new date-time, not null
-     * @param newTime  the time of the new date-time, not null
-     * @return the date-time, not null
+     * @pbrbm newDbte  the dbte of the new dbte-time, not null
+     * @pbrbm newTime  the time of the new dbte-time, not null
+     * @return the dbte-time, not null
      */
-    private ChronoLocalDateTimeImpl<D> with(Temporal newDate, LocalTime newTime) {
-        if (date == newDate && time == newTime) {
+    privbte ChronoLocblDbteTimeImpl<D> with(Temporbl newDbte, LocblTime newTime) {
+        if (dbte == newDbte && time == newTime) {
             return this;
         }
-        // Validate that the new Temporal is a ChronoLocalDate (and not something else)
-        D cd = ChronoLocalDateImpl.ensureValid(date.getChronology(), newDate);
-        return new ChronoLocalDateTimeImpl<>(cd, newTime);
+        // Vblidbte thbt the new Temporbl is b ChronoLocblDbte (bnd not something else)
+        D cd = ChronoLocblDbteImpl.ensureVblid(dbte.getChronology(), newDbte);
+        return new ChronoLocblDbteTimeImpl<>(cd, newTime);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public D toLocalDate() {
-        return date;
+    public D toLocblDbte() {
+        return dbte;
     }
 
     @Override
-    public LocalTime toLocalTime() {
+    public LocblTime toLocblTime() {
         return time;
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public boolebn isSupported(TemporblField field) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            return f.isDateBased() || f.isTimeBased();
+            return f.isDbteBbsed() || f.isTimeBbsed();
         }
         return field != null && field.isSupportedBy(this);
     }
 
     @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public VblueRbnge rbnge(TemporblField field) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            return (f.isTimeBased() ? time.range(field) : date.range(field));
+            return (f.isTimeBbsed() ? time.rbnge(field) : dbte.rbnge(field));
         }
-        return field.rangeRefinedBy(this);
+        return field.rbngeRefinedBy(this);
     }
 
     @Override
-    public int get(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public int get(TemporblField field) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            return (f.isTimeBased() ? time.get(field) : date.get(field));
+            return (f.isTimeBbsed() ? time.get(field) : dbte.get(field));
         }
-        return range(field).checkValidIntValue(getLong(field), field);
+        return rbnge(field).checkVblidIntVblue(getLong(field), field);
     }
 
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            return (f.isTimeBased() ? time.getLong(field) : date.getLong(field));
+            return (f.isTimeBbsed() ? time.getLong(field) : dbte.getLong(field));
         }
         return field.getFrom(this);
     }
 
     //-----------------------------------------------------------------------
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public ChronoLocalDateTimeImpl<D> with(TemporalAdjuster adjuster) {
-        if (adjuster instanceof ChronoLocalDate) {
-            // The Chronology is checked in with(date,time)
-            return with((ChronoLocalDate) adjuster, time);
-        } else if (adjuster instanceof LocalTime) {
-            return with(date, (LocalTime) adjuster);
-        } else if (adjuster instanceof ChronoLocalDateTimeImpl) {
-            return ChronoLocalDateTimeImpl.ensureValid(date.getChronology(), (ChronoLocalDateTimeImpl<?>) adjuster);
+    public ChronoLocblDbteTimeImpl<D> with(TemporblAdjuster bdjuster) {
+        if (bdjuster instbnceof ChronoLocblDbte) {
+            // The Chronology is checked in with(dbte,time)
+            return with((ChronoLocblDbte) bdjuster, time);
+        } else if (bdjuster instbnceof LocblTime) {
+            return with(dbte, (LocblTime) bdjuster);
+        } else if (bdjuster instbnceof ChronoLocblDbteTimeImpl) {
+            return ChronoLocblDbteTimeImpl.ensureVblid(dbte.getChronology(), (ChronoLocblDbteTimeImpl<?>) bdjuster);
         }
-        return ChronoLocalDateTimeImpl.ensureValid(date.getChronology(), (ChronoLocalDateTimeImpl<?>) adjuster.adjustInto(this));
+        return ChronoLocblDbteTimeImpl.ensureVblid(dbte.getChronology(), (ChronoLocblDbteTimeImpl<?>) bdjuster.bdjustInto(this));
     }
 
     @Override
-    public ChronoLocalDateTimeImpl<D> with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public ChronoLocblDbteTimeImpl<D> with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            if (f.isTimeBased()) {
-                return with(date, time.with(field, newValue));
+            if (f.isTimeBbsed()) {
+                return with(dbte, time.with(field, newVblue));
             } else {
-                return with(date.with(field, newValue), time);
+                return with(dbte.with(field, newVblue), time);
             }
         }
-        return ChronoLocalDateTimeImpl.ensureValid(date.getChronology(), field.adjustInto(this, newValue));
+        return ChronoLocblDbteTimeImpl.ensureVblid(dbte.getChronology(), field.bdjustInto(this, newVblue));
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ChronoLocalDateTimeImpl<D> plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
+    public ChronoLocblDbteTimeImpl<D> plus(long bmountToAdd, TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
             ChronoUnit f = (ChronoUnit) unit;
             switch (f) {
-                case NANOS: return plusNanos(amountToAdd);
-                case MICROS: return plusDays(amountToAdd / MICROS_PER_DAY).plusNanos((amountToAdd % MICROS_PER_DAY) * 1000);
-                case MILLIS: return plusDays(amountToAdd / MILLIS_PER_DAY).plusNanos((amountToAdd % MILLIS_PER_DAY) * 1000000);
-                case SECONDS: return plusSeconds(amountToAdd);
-                case MINUTES: return plusMinutes(amountToAdd);
-                case HOURS: return plusHours(amountToAdd);
-                case HALF_DAYS: return plusDays(amountToAdd / 256).plusHours((amountToAdd % 256) * 12);  // no overflow (256 is multiple of 2)
+                cbse NANOS: return plusNbnos(bmountToAdd);
+                cbse MICROS: return plusDbys(bmountToAdd / MICROS_PER_DAY).plusNbnos((bmountToAdd % MICROS_PER_DAY) * 1000);
+                cbse MILLIS: return plusDbys(bmountToAdd / MILLIS_PER_DAY).plusNbnos((bmountToAdd % MILLIS_PER_DAY) * 1000000);
+                cbse SECONDS: return plusSeconds(bmountToAdd);
+                cbse MINUTES: return plusMinutes(bmountToAdd);
+                cbse HOURS: return plusHours(bmountToAdd);
+                cbse HALF_DAYS: return plusDbys(bmountToAdd / 256).plusHours((bmountToAdd % 256) * 12);  // no overflow (256 is multiple of 2)
             }
-            return with(date.plus(amountToAdd, unit), time);
+            return with(dbte.plus(bmountToAdd, unit), time);
         }
-        return ChronoLocalDateTimeImpl.ensureValid(date.getChronology(), unit.addTo(this, amountToAdd));
+        return ChronoLocblDbteTimeImpl.ensureVblid(dbte.getChronology(), unit.bddTo(this, bmountToAdd));
     }
 
-    private ChronoLocalDateTimeImpl<D> plusDays(long days) {
-        return with(date.plus(days, ChronoUnit.DAYS), time);
+    privbte ChronoLocblDbteTimeImpl<D> plusDbys(long dbys) {
+        return with(dbte.plus(dbys, ChronoUnit.DAYS), time);
     }
 
-    private ChronoLocalDateTimeImpl<D> plusHours(long hours) {
-        return plusWithOverflow(date, hours, 0, 0, 0);
+    privbte ChronoLocblDbteTimeImpl<D> plusHours(long hours) {
+        return plusWithOverflow(dbte, hours, 0, 0, 0);
     }
 
-    private ChronoLocalDateTimeImpl<D> plusMinutes(long minutes) {
-        return plusWithOverflow(date, 0, minutes, 0, 0);
+    privbte ChronoLocblDbteTimeImpl<D> plusMinutes(long minutes) {
+        return plusWithOverflow(dbte, 0, minutes, 0, 0);
     }
 
-    ChronoLocalDateTimeImpl<D> plusSeconds(long seconds) {
-        return plusWithOverflow(date, 0, 0, seconds, 0);
+    ChronoLocblDbteTimeImpl<D> plusSeconds(long seconds) {
+        return plusWithOverflow(dbte, 0, 0, seconds, 0);
     }
 
-    private ChronoLocalDateTimeImpl<D> plusNanos(long nanos) {
-        return plusWithOverflow(date, 0, 0, 0, nanos);
+    privbte ChronoLocblDbteTimeImpl<D> plusNbnos(long nbnos) {
+        return plusWithOverflow(dbte, 0, 0, 0, nbnos);
     }
 
     //-----------------------------------------------------------------------
-    private ChronoLocalDateTimeImpl<D> plusWithOverflow(D newDate, long hours, long minutes, long seconds, long nanos) {
+    privbte ChronoLocblDbteTimeImpl<D> plusWithOverflow(D newDbte, long hours, long minutes, long seconds, long nbnos) {
         // 9223372036854775808 long, 2147483648 int
-        if ((hours | minutes | seconds | nanos) == 0) {
-            return with(newDate, time);
+        if ((hours | minutes | seconds | nbnos) == 0) {
+            return with(newDbte, time);
         }
-        long totDays = nanos / NANOS_PER_DAY +             //   max/24*60*60*1B
-                seconds / SECONDS_PER_DAY +                //   max/24*60*60
-                minutes / MINUTES_PER_DAY +                //   max/24*60
-                hours / HOURS_PER_DAY;                     //   max/24
-        long totNanos = nanos % NANOS_PER_DAY +                    //   max  86400000000000
-                (seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND +   //   max  86400000000000
-                (minutes % MINUTES_PER_DAY) * NANOS_PER_MINUTE +   //   max  86400000000000
-                (hours % HOURS_PER_DAY) * NANOS_PER_HOUR;          //   max  86400000000000
-        long curNoD = time.toNanoOfDay();                          //   max  86400000000000
-        totNanos = totNanos + curNoD;                              // total 432000000000000
-        totDays += Math.floorDiv(totNanos, NANOS_PER_DAY);
-        long newNoD = Math.floorMod(totNanos, NANOS_PER_DAY);
-        LocalTime newTime = (newNoD == curNoD ? time : LocalTime.ofNanoOfDay(newNoD));
-        return with(newDate.plus(totDays, ChronoUnit.DAYS), newTime);
+        long totDbys = nbnos / NANOS_PER_DAY +             //   mbx/24*60*60*1B
+                seconds / SECONDS_PER_DAY +                //   mbx/24*60*60
+                minutes / MINUTES_PER_DAY +                //   mbx/24*60
+                hours / HOURS_PER_DAY;                     //   mbx/24
+        long totNbnos = nbnos % NANOS_PER_DAY +                    //   mbx  86400000000000
+                (seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND +   //   mbx  86400000000000
+                (minutes % MINUTES_PER_DAY) * NANOS_PER_MINUTE +   //   mbx  86400000000000
+                (hours % HOURS_PER_DAY) * NANOS_PER_HOUR;          //   mbx  86400000000000
+        long curNoD = time.toNbnoOfDby();                          //   mbx  86400000000000
+        totNbnos = totNbnos + curNoD;                              // totbl 432000000000000
+        totDbys += Mbth.floorDiv(totNbnos, NANOS_PER_DAY);
+        long newNoD = Mbth.floorMod(totNbnos, NANOS_PER_DAY);
+        LocblTime newTime = (newNoD == curNoD ? time : LocblTime.ofNbnoOfDby(newNoD));
+        return with(newDbte.plus(totDbys, ChronoUnit.DAYS), newTime);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ChronoZonedDateTime<D> atZone(ZoneId zone) {
-        return ChronoZonedDateTimeImpl.ofBest(this, zone, null);
+    public ChronoZonedDbteTime<D> btZone(ZoneId zone) {
+        return ChronoZonedDbteTimeImpl.ofBest(this, zone, null);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
+    public long until(Temporbl endExclusive, TemporblUnit unit) {
         Objects.requireNonNull(endExclusive, "endExclusive");
-        @SuppressWarnings("unchecked")
-        ChronoLocalDateTime<D> end = (ChronoLocalDateTime<D>) getChronology().localDateTime(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            if (unit.isTimeBased()) {
-                long amount = end.getLong(EPOCH_DAY) - date.getLong(EPOCH_DAY);
+        @SuppressWbrnings("unchecked")
+        ChronoLocblDbteTime<D> end = (ChronoLocblDbteTime<D>) getChronology().locblDbteTime(endExclusive);
+        if (unit instbnceof ChronoUnit) {
+            if (unit.isTimeBbsed()) {
+                long bmount = end.getLong(EPOCH_DAY) - dbte.getLong(EPOCH_DAY);
                 switch ((ChronoUnit) unit) {
-                    case NANOS: amount = Math.multiplyExact(amount, NANOS_PER_DAY); break;
-                    case MICROS: amount = Math.multiplyExact(amount, MICROS_PER_DAY); break;
-                    case MILLIS: amount = Math.multiplyExact(amount, MILLIS_PER_DAY); break;
-                    case SECONDS: amount = Math.multiplyExact(amount, SECONDS_PER_DAY); break;
-                    case MINUTES: amount = Math.multiplyExact(amount, MINUTES_PER_DAY); break;
-                    case HOURS: amount = Math.multiplyExact(amount, HOURS_PER_DAY); break;
-                    case HALF_DAYS: amount = Math.multiplyExact(amount, 2); break;
+                    cbse NANOS: bmount = Mbth.multiplyExbct(bmount, NANOS_PER_DAY); brebk;
+                    cbse MICROS: bmount = Mbth.multiplyExbct(bmount, MICROS_PER_DAY); brebk;
+                    cbse MILLIS: bmount = Mbth.multiplyExbct(bmount, MILLIS_PER_DAY); brebk;
+                    cbse SECONDS: bmount = Mbth.multiplyExbct(bmount, SECONDS_PER_DAY); brebk;
+                    cbse MINUTES: bmount = Mbth.multiplyExbct(bmount, MINUTES_PER_DAY); brebk;
+                    cbse HOURS: bmount = Mbth.multiplyExbct(bmount, HOURS_PER_DAY); brebk;
+                    cbse HALF_DAYS: bmount = Mbth.multiplyExbct(bmount, 2); brebk;
                 }
-                return Math.addExact(amount, time.until(end.toLocalTime(), unit));
+                return Mbth.bddExbct(bmount, time.until(end.toLocblTime(), unit));
             }
-            ChronoLocalDate endDate = end.toLocalDate();
-            if (end.toLocalTime().isBefore(time)) {
-                endDate = endDate.minus(1, ChronoUnit.DAYS);
+            ChronoLocblDbte endDbte = end.toLocblDbte();
+            if (end.toLocblTime().isBefore(time)) {
+                endDbte = endDbte.minus(1, ChronoUnit.DAYS);
             }
-            return date.until(endDate, unit);
+            return dbte.until(endDbte, unit);
         }
         Objects.requireNonNull(unit, "unit");
         return unit.between(this, end);
@@ -398,62 +398,62 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the ChronoLocalDateTime using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the ChronoLocblDbteTime using b
+     * <b href="../../../seriblized-form.html#jbvb.time.chrono.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(2);              // identifies a ChronoLocalDateTime
-     *  out.writeObject(toLocalDate());
-     *  out.witeObject(toLocalTime());
+     *  out.writeByte(2);              // identifies b ChronoLocblDbteTime
+     *  out.writeObject(toLocblDbte());
+     *  out.witeObject(toLocblTime());
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.CHRONO_LOCAL_DATE_TIME_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(ObjectOutput out) throws IOException {
-        out.writeObject(date);
+    void writeExternbl(ObjectOutput out) throws IOException {
+        out.writeObject(dbte);
         out.writeObject(time);
     }
 
-    static ChronoLocalDateTime<?> readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        ChronoLocalDate date = (ChronoLocalDate) in.readObject();
-        LocalTime time = (LocalTime) in.readObject();
-        return date.atTime(time);
+    stbtic ChronoLocblDbteTime<?> rebdExternbl(ObjectInput in) throws IOException, ClbssNotFoundException {
+        ChronoLocblDbte dbte = (ChronoLocblDbte) in.rebdObject();
+        LocblTime time = (LocblTime) in.rebdObject();
+        return dbte.btTime(time);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ChronoLocalDateTime) {
-            return compareTo((ChronoLocalDateTime<?>) obj) == 0;
+        if (obj instbnceof ChronoLocblDbteTime) {
+            return compbreTo((ChronoLocblDbteTime<?>) obj) == 0;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public int hashCode() {
-        return toLocalDate().hashCode() ^ toLocalTime().hashCode();
+    public int hbshCode() {
+        return toLocblDbte().hbshCode() ^ toLocblTime().hbshCode();
     }
 
     @Override
     public String toString() {
-        return toLocalDate().toString() + 'T' + toLocalTime().toString();
+        return toLocblDbte().toString() + 'T' + toLocblTime().toString();
     }
 
 }

@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @buthor Chbrlton Innovbtions, Inc.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.util.Comparator;
-import java.util.Arrays;
-import sun.java2d.SunGraphics2D;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import sun.jbvb2d.SunGrbphics2D;
 
 /**
- *   GraphicsComponentMgr provides services to
- *   1. register primitives for later use
- *   2. locate an instance of a primitve based on characteristics
+ *   GrbphicsComponentMgr provides services to
+ *   1. register primitives for lbter use
+ *   2. locbte bn instbnce of b primitve bbsed on chbrbcteristics
  */
-public final class GraphicsPrimitiveMgr {
+public finbl clbss GrbphicsPrimitiveMgr {
 
-    private static final boolean debugTrace = false;
-    private static GraphicsPrimitive primitives[];
-    private static GraphicsPrimitive generalPrimitives[];
-    private static boolean needssort = true;
+    privbte stbtic finbl boolebn debugTrbce = fblse;
+    privbte stbtic GrbphicsPrimitive primitives[];
+    privbte stbtic GrbphicsPrimitive generblPrimitives[];
+    privbte stbtic boolebn needssort = true;
 
-    private static native void initIDs(Class<?> GP, Class<?> ST, Class<?> CT,
-                                       Class<?> SG2D, Class<?> Color, Class<?> AT,
-                                       Class<?> XORComp, Class<?> AlphaComp,
-                                       Class<?> Path2D, Class<?> Path2DFloat,
-                                       Class<?> SHints);
-    private static native void registerNativeLoops();
+    privbte stbtic nbtive void initIDs(Clbss<?> GP, Clbss<?> ST, Clbss<?> CT,
+                                       Clbss<?> SG2D, Clbss<?> Color, Clbss<?> AT,
+                                       Clbss<?> XORComp, Clbss<?> AlphbComp,
+                                       Clbss<?> Pbth2D, Clbss<?> Pbth2DFlobt,
+                                       Clbss<?> SHints);
+    privbte stbtic nbtive void registerNbtiveLoops();
 
-    static {
-        initIDs(GraphicsPrimitive.class,
-                SurfaceType.class,
-                CompositeType.class,
-                SunGraphics2D.class,
-                java.awt.Color.class,
-                java.awt.geom.AffineTransform.class,
-                XORComposite.class,
-                java.awt.AlphaComposite.class,
-                java.awt.geom.Path2D.class,
-                java.awt.geom.Path2D.Float.class,
-                sun.awt.SunHints.class);
+    stbtic {
+        initIDs(GrbphicsPrimitive.clbss,
+                SurfbceType.clbss,
+                CompositeType.clbss,
+                SunGrbphics2D.clbss,
+                jbvb.bwt.Color.clbss,
+                jbvb.bwt.geom.AffineTrbnsform.clbss,
+                XORComposite.clbss,
+                jbvb.bwt.AlphbComposite.clbss,
+                jbvb.bwt.geom.Pbth2D.clbss,
+                jbvb.bwt.geom.Pbth2D.Flobt.clbss,
+                sun.bwt.SunHints.clbss);
         CustomComponent.register();
-        GeneralRenderer.register();
-        registerNativeLoops();
+        GenerblRenderer.register();
+        registerNbtiveLoops();
     }
 
-    private static class PrimitiveSpec {
+    privbte stbtic clbss PrimitiveSpec {
         public int uniqueID;
     }
 
-    private static Comparator<GraphicsPrimitive> primSorter =
-            new Comparator<GraphicsPrimitive>() {
-        public int compare(GraphicsPrimitive o1, GraphicsPrimitive o2) {
+    privbte stbtic Compbrbtor<GrbphicsPrimitive> primSorter =
+            new Compbrbtor<GrbphicsPrimitive>() {
+        public int compbre(GrbphicsPrimitive o1, GrbphicsPrimitive o2) {
             int id1 = o1.getUniqueID();
             int id2 = o2.getUniqueID();
 
@@ -83,9 +83,9 @@ public final class GraphicsPrimitiveMgr {
         }
     };
 
-    private static Comparator<Object> primFinder = new Comparator<Object>() {
-        public int compare(Object o1, Object o2) {
-            int id1 = ((GraphicsPrimitive) o1).getUniqueID();
+    privbte stbtic Compbrbtor<Object> primFinder = new Compbrbtor<Object>() {
+        public int compbre(Object o1, Object o2) {
+            int id1 = ((GrbphicsPrimitive) o1).getUniqueID();
             int id2 = ((PrimitiveSpec) o2).uniqueID;
 
             return (id1 == id2 ? 0 : (id1 < id2 ? -1 : 1));
@@ -93,17 +93,17 @@ public final class GraphicsPrimitiveMgr {
     };
 
     /**
-     * Ensure that noone can instantiate this class.
+     * Ensure thbt noone cbn instbntibte this clbss.
      */
-    private GraphicsPrimitiveMgr() {
+    privbte GrbphicsPrimitiveMgr() {
     }
 
-    public synchronized static void register(GraphicsPrimitive[] newPrimitives)
+    public synchronized stbtic void register(GrbphicsPrimitive[] newPrimitives)
     {
-        GraphicsPrimitive[] devCollection = primitives;
+        GrbphicsPrimitive[] devCollection = primitives;
         int oldSize = 0;
         int newSize = newPrimitives.length;
-        if (debugTrace) {
+        if (debugTrbce) {
             writeLog("Registering " + newSize + " primitives");
             for (int i = 0; i < newSize; i++) {
                 writeLog(newPrimitives[i].toString());
@@ -112,80 +112,80 @@ public final class GraphicsPrimitiveMgr {
         if (devCollection != null) {
             oldSize = devCollection.length;
         }
-        GraphicsPrimitive[] temp = new GraphicsPrimitive[oldSize + newSize];
+        GrbphicsPrimitive[] temp = new GrbphicsPrimitive[oldSize + newSize];
         if (devCollection != null) {
-            System.arraycopy(devCollection, 0, temp, 0, oldSize);
+            System.brrbycopy(devCollection, 0, temp, 0, oldSize);
         }
-        System.arraycopy(newPrimitives, 0, temp, oldSize, newSize);
+        System.brrbycopy(newPrimitives, 0, temp, oldSize, newSize);
         needssort = true;
         primitives = temp;
     }
 
-    public synchronized static void registerGeneral(GraphicsPrimitive gen) {
-        if (generalPrimitives == null) {
-            generalPrimitives = new GraphicsPrimitive[] {gen};
+    public synchronized stbtic void registerGenerbl(GrbphicsPrimitive gen) {
+        if (generblPrimitives == null) {
+            generblPrimitives = new GrbphicsPrimitive[] {gen};
             return;
         }
-        int len = generalPrimitives.length;
-        GraphicsPrimitive[] newGen = new GraphicsPrimitive[len + 1];
-        System.arraycopy(generalPrimitives, 0, newGen, 0, len);
+        int len = generblPrimitives.length;
+        GrbphicsPrimitive[] newGen = new GrbphicsPrimitive[len + 1];
+        System.brrbycopy(generblPrimitives, 0, newGen, 0, len);
         newGen[len] = gen;
-        generalPrimitives = newGen;
+        generblPrimitives = newGen;
     }
 
-    public synchronized static GraphicsPrimitive locate(int primTypeID,
-                                                        SurfaceType dsttype)
+    public synchronized stbtic GrbphicsPrimitive locbte(int primTypeID,
+                                                        SurfbceType dsttype)
     {
-        return locate(primTypeID,
-                      SurfaceType.OpaqueColor,
+        return locbte(primTypeID,
+                      SurfbceType.OpbqueColor,
                       CompositeType.Src,
                       dsttype);
     }
 
-    public synchronized static GraphicsPrimitive locate(int primTypeID,
-                                                        SurfaceType srctype,
+    public synchronized stbtic GrbphicsPrimitive locbte(int primTypeID,
+                                                        SurfbceType srctype,
                                                         CompositeType comptype,
-                                                        SurfaceType dsttype)
+                                                        SurfbceType dsttype)
     {
         /*
           System.out.println("Looking for:");
-          System.out.println("    method: "+signature);
+          System.out.println("    method: "+signbture);
           System.out.println("    from:   "+srctype);
           System.out.println("    by:     "+comptype);
           System.out.println("    to:     "+dsttype);
         */
-        GraphicsPrimitive prim = locatePrim(primTypeID,
+        GrbphicsPrimitive prim = locbtePrim(primTypeID,
                                             srctype, comptype, dsttype);
 
         if (prim == null) {
-            //System.out.println("Trying general loop");
-            prim = locateGeneral(primTypeID);
+            //System.out.println("Trying generbl loop");
+            prim = locbteGenerbl(primTypeID);
             if (prim != null) {
-                prim = prim.makePrimitive(srctype, comptype, dsttype);
-                if (prim != null && GraphicsPrimitive.traceflags != 0) {
-                    prim = prim.traceWrap();
+                prim = prim.mbkePrimitive(srctype, comptype, dsttype);
+                if (prim != null && GrbphicsPrimitive.trbceflbgs != 0) {
+                    prim = prim.trbceWrbp();
                 }
             }
         }
         return prim;
     }
 
-    public synchronized static GraphicsPrimitive
-        locatePrim(int primTypeID,
-                   SurfaceType srctype,
+    public synchronized stbtic GrbphicsPrimitive
+        locbtePrim(int primTypeID,
+                   SurfbceType srctype,
                    CompositeType comptype,
-                   SurfaceType dsttype)
+                   SurfbceType dsttype)
     {
         /*
           System.out.println("Looking for:");
-          System.out.println("    method: "+signature);
+          System.out.println("    method: "+signbture);
           System.out.println("    from:   "+srctype);
           System.out.println("    by:     "+comptype);
           System.out.println("    to:     "+dsttype);
         */
-        SurfaceType src, dst;
+        SurfbceType src, dst;
         CompositeType cmp;
-        GraphicsPrimitive prim;
+        GrbphicsPrimitive prim;
         PrimitiveSpec spec = new PrimitiveSpec();
 
         for (dst = dsttype; dst != null; dst = dst.getSuperType()) {
@@ -193,15 +193,15 @@ public final class GraphicsPrimitiveMgr {
                 for (cmp = comptype; cmp != null; cmp = cmp.getSuperType()) {
                     /*
                       System.out.println("Trying:");
-                      System.out.println("    method: "+spec.methodSignature);
+                      System.out.println("    method: "+spec.methodSignbture);
                       System.out.println("    from:   "+spec.sourceType);
                       System.out.println("    by:     "+spec.compType);
                       System.out.println("    to:     "+spec.destType);
                     */
 
                     spec.uniqueID =
-                        GraphicsPrimitive.makeUniqueID(primTypeID, src, cmp, dst);
-                    prim = locate(spec);
+                        GrbphicsPrimitive.mbkeUniqueID(primTypeID, src, cmp, dst);
+                    prim = locbte(spec);
                     if (prim != null) {
                         //System.out.println("<GPMgr> Found: " + prim + " in " + i + " steps");
                         return prim;
@@ -212,94 +212,94 @@ public final class GraphicsPrimitiveMgr {
         return null;
     }
 
-    private static GraphicsPrimitive locateGeneral(int primTypeID) {
-        if (generalPrimitives == null) {
+    privbte stbtic GrbphicsPrimitive locbteGenerbl(int primTypeID) {
+        if (generblPrimitives == null) {
             return null;
         }
-        for (int i = 0; i < generalPrimitives.length; i++) {
-            GraphicsPrimitive prim = generalPrimitives[i];
+        for (int i = 0; i < generblPrimitives.length; i++) {
+            GrbphicsPrimitive prim = generblPrimitives[i];
             if (prim.getPrimTypeID() == primTypeID) {
                 return prim;
             }
         }
         return null;
-        //throw new InternalError("No general handler registered for"+signature);
+        //throw new InternblError("No generbl hbndler registered for"+signbture);
     }
 
-    private static GraphicsPrimitive locate(PrimitiveSpec spec) {
+    privbte stbtic GrbphicsPrimitive locbte(PrimitiveSpec spec) {
         if (needssort) {
-            if (GraphicsPrimitive.traceflags != 0) {
+            if (GrbphicsPrimitive.trbceflbgs != 0) {
                 for (int i = 0; i < primitives.length; i++) {
-                    primitives[i] = primitives[i].traceWrap();
+                    primitives[i] = primitives[i].trbceWrbp();
                 }
             }
-            Arrays.sort(primitives, primSorter);
-            needssort = false;
+            Arrbys.sort(primitives, primSorter);
+            needssort = fblse;
         }
-        GraphicsPrimitive[] devCollection = primitives;
+        GrbphicsPrimitive[] devCollection = primitives;
         if (devCollection == null) {
             return null;
         }
-        int index = Arrays.binarySearch(devCollection, spec, primFinder);
+        int index = Arrbys.binbrySebrch(devCollection, spec, primFinder);
         if (index >= 0) {
-            GraphicsPrimitive prim = devCollection[index];
-            if (prim instanceof GraphicsPrimitiveProxy) {
-                prim = ((GraphicsPrimitiveProxy) prim).instantiate();
+            GrbphicsPrimitive prim = devCollection[index];
+            if (prim instbnceof GrbphicsPrimitiveProxy) {
+                prim = ((GrbphicsPrimitiveProxy) prim).instbntibte();
                 devCollection[index] = prim;
-                if (debugTrace) {
-                    writeLog("Instantiated graphics primitive " + prim);
+                if (debugTrbce) {
+                    writeLog("Instbntibted grbphics primitive " + prim);
                 }
             }
-            if (debugTrace) {
+            if (debugTrbce) {
                 writeLog("Lookup found[" + index + "]["+ prim + "]");
             }
             return prim;
         }
-        if (debugTrace) {
+        if (debugTrbce) {
             writeLog("Lookup found nothing for:");
             writeLog(" " + spec.uniqueID);
         }
         return null;
     }
 
-    private static void writeLog(String str) {
-        if (debugTrace) {
+    privbte stbtic void writeLog(String str) {
+        if (debugTrbce) {
             System.err.println(str);
         }
     }
 
     /**
-     * Test that all of the GraphicsPrimitiveProxy objects actually
-     * resolve to something.  Throws a RuntimeException if anything
-     * is wrong, an has no effect if all is well.
+     * Test thbt bll of the GrbphicsPrimitiveProxy objects bctublly
+     * resolve to something.  Throws b RuntimeException if bnything
+     * is wrong, bn hbs no effect if bll is well.
      */
-    // This is only really meant to be called from GraphicsPrimitiveProxyTest
-    // in the regression tests directory, but it has to be here because
-    // it needs access to a private data structure.  It is not very
+    // This is only reblly mebnt to be cblled from GrbphicsPrimitiveProxyTest
+    // in the regression tests directory, but it hbs to be here becbuse
+    // it needs bccess to b privbte dbtb structure.  It is not very
     // big, though.
-    public static void testPrimitiveInstantiation() {
-        testPrimitiveInstantiation(false);
+    public stbtic void testPrimitiveInstbntibtion() {
+        testPrimitiveInstbntibtion(fblse);
     }
 
-    public static void testPrimitiveInstantiation(boolean verbose) {
+    public stbtic void testPrimitiveInstbntibtion(boolebn verbose) {
         int resolved = 0;
         int unresolved = 0;
-        GraphicsPrimitive[] prims = primitives;
+        GrbphicsPrimitive[] prims = primitives;
         for (int j = 0; j < prims.length; j++) {
-            GraphicsPrimitive p = prims[j];
-            if (p instanceof GraphicsPrimitiveProxy) {
-                GraphicsPrimitive r = ((GraphicsPrimitiveProxy) p).instantiate();
-                if (!r.getSignature().equals(p.getSignature()) ||
+            GrbphicsPrimitive p = prims[j];
+            if (p instbnceof GrbphicsPrimitiveProxy) {
+                GrbphicsPrimitive r = ((GrbphicsPrimitiveProxy) p).instbntibte();
+                if (!r.getSignbture().equbls(p.getSignbture()) ||
                     r.getUniqueID() != p.getUniqueID()) {
-                    System.out.println("r.getSignature == "+r.getSignature());
+                    System.out.println("r.getSignbture == "+r.getSignbture());
                     System.out.println("r.getUniqueID == " + r.getUniqueID());
-                    System.out.println("p.getSignature == "+p.getSignature());
+                    System.out.println("p.getSignbture == "+p.getSignbture());
                     System.out.println("p.getUniqueID == " + p.getUniqueID());
                     throw new RuntimeException("Primitive " + p
-                                               + " returns wrong signature for "
-                                               + r.getClass());
+                                               + " returns wrong signbture for "
+                                               + r.getClbss());
                 }
-                // instantiate checks that p.satisfiesSameAs(r)
+                // instbntibte checks thbt p.sbtisfiesSbmeAs(r)
                 unresolved++;
                 p = r;
                 if (verbose) {
@@ -313,19 +313,19 @@ public final class GraphicsPrimitiveMgr {
             }
         }
         System.out.println(resolved+
-                           " graphics primitives were not proxied.");
+                           " grbphics primitives were not proxied.");
         System.out.println(unresolved+
-                           " proxied graphics primitives resolved correctly.");
+                           " proxied grbphics primitives resolved correctly.");
         System.out.println(resolved+unresolved+
-                           " total graphics primitives");
+                           " totbl grbphics primitives");
     }
 
-    public static void main(String argv[]) {
-        // REMIND: Should trigger loading of platform primitives somehow...
+    public stbtic void mbin(String brgv[]) {
+        // REMIND: Should trigger lobding of plbtform primitives somehow...
         if (needssort) {
-            Arrays.sort(primitives, primSorter);
-            needssort = false;
+            Arrbys.sort(primitives, primSorter);
+            needssort = fblse;
         }
-        testPrimitiveInstantiation(argv.length > 0);
+        testPrimitiveInstbntibtion(brgv.length > 0);
     }
 }

@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.util.Vector;
-import sun.awt.AppContext;
+import jbvb.util.Vector;
+import sun.bwt.AppContext;
 
 /**
-  * An ImageFetcher is a thread used to fetch ImageFetchable objects.
-  * Once an ImageFetchable object has been fetched, the ImageFetcher
-  * thread may also be used to animate it if necessary, via the
-  * startingAnimation() / stoppingAnimation() methods.
+  * An ImbgeFetcher is b threbd used to fetch ImbgeFetchbble objects.
+  * Once bn ImbgeFetchbble object hbs been fetched, the ImbgeFetcher
+  * threbd mby blso be used to bnimbte it if necessbry, vib the
+  * stbrtingAnimbtion() / stoppingAnimbtion() methods.
   *
-  * There can be up to FetcherInfo.MAX_NUM_FETCHERS_PER_APPCONTEXT
-  * ImageFetcher threads for each AppContext.  A per-AppContext queue
-  * of ImageFetchables is used to track objects to fetch.
+  * There cbn be up to FetcherInfo.MAX_NUM_FETCHERS_PER_APPCONTEXT
+  * ImbgeFetcher threbds for ebch AppContext.  A per-AppContext queue
+  * of ImbgeFetchbbles is used to trbck objects to fetch.
   *
-  * @author Jim Graham
-  * @author Fred Ecks
+  * @buthor Jim Grbhbm
+  * @buthor Fred Ecks
   */
-class ImageFetcher extends Thread {
-    static final int HIGH_PRIORITY = 8;
-    static final int LOW_PRIORITY = 3;
-    static final int ANIM_PRIORITY = 2;
+clbss ImbgeFetcher extends Threbd {
+    stbtic finbl int HIGH_PRIORITY = 8;
+    stbtic finbl int LOW_PRIORITY = 3;
+    stbtic finbl int ANIM_PRIORITY = 2;
 
-    static final int TIMEOUT = 5000; // Time in milliseconds to wait for an
-                                     // ImageFetchable to be added to the
-                                     // queue before an ImageFetcher dies
+    stbtic finbl int TIMEOUT = 5000; // Time in milliseconds to wbit for bn
+                                     // ImbgeFetchbble to be bdded to the
+                                     // queue before bn ImbgeFetcher dies
 
     /**
-      * Constructor for ImageFetcher -- only called by add() below.
+      * Constructor for ImbgeFetcher -- only cblled by bdd() below.
       */
-    private ImageFetcher(ThreadGroup threadGroup, int index) {
-        super(threadGroup, "Image Fetcher " + index);
-        setDaemon(true);
+    privbte ImbgeFetcher(ThrebdGroup threbdGroup, int index) {
+        super(threbdGroup, "Imbge Fetcher " + index);
+        setDbemon(true);
     }
 
     /**
-      * Adds an ImageFetchable to the queue of items to fetch.  Instantiates
-      * a new ImageFetcher if it's reasonable to do so.
-      * If there is no available fetcher to process an ImageFetchable, then
-      * reports failure to caller.
+      * Adds bn ImbgeFetchbble to the queue of items to fetch.  Instbntibtes
+      * b new ImbgeFetcher if it's rebsonbble to do so.
+      * If there is no bvbilbble fetcher to process bn ImbgeFetchbble, then
+      * reports fbilure to cbller.
       */
-    public static boolean add(ImageFetchable src) {
-        final FetcherInfo info = FetcherInfo.getFetcherInfo();
-        synchronized(info.waitList) {
-            if (!info.waitList.contains(src)) {
-                info.waitList.addElement(src);
-                if (info.numWaiting == 0 &&
+    public stbtic boolebn bdd(ImbgeFetchbble src) {
+        finbl FetcherInfo info = FetcherInfo.getFetcherInfo();
+        synchronized(info.wbitList) {
+            if (!info.wbitList.contbins(src)) {
+                info.wbitList.bddElement(src);
+                if (info.numWbiting == 0 &&
                             info.numFetchers < info.fetchers.length) {
-                    createFetchers(info);
+                    crebteFetchers(info);
                 }
-                /* Creation of new fetcher may fail due to high vm load
-                 * or some other reason.
-                 * If there is already exist, but busy, fetcher, we leave
-                 * the src in queue (it will be handled by existing
-                 * fetcher later).
-                 * Otherwise, we report failure: there is no fetcher
-                 * to handle the src.
+                /* Crebtion of new fetcher mby fbil due to high vm lobd
+                 * or some other rebson.
+                 * If there is blrebdy exist, but busy, fetcher, we lebve
+                 * the src in queue (it will be hbndled by existing
+                 * fetcher lbter).
+                 * Otherwise, we report fbilure: there is no fetcher
+                 * to hbndle the src.
                  */
                 if (info.numFetchers > 0) {
-                    info.waitList.notify();
+                    info.wbitList.notify();
                 } else {
-                    info.waitList.removeElement(src);
-                    return false;
+                    info.wbitList.removeElement(src);
+                    return fblse;
                 }
             }
         }
@@ -93,85 +93,85 @@ class ImageFetcher extends Thread {
     }
 
     /**
-      * Removes an ImageFetchable from the queue of items to fetch.
+      * Removes bn ImbgeFetchbble from the queue of items to fetch.
       */
-    public static void remove(ImageFetchable src) {
-        final FetcherInfo info = FetcherInfo.getFetcherInfo();
-        synchronized(info.waitList) {
-            if (info.waitList.contains(src)) {
-                info.waitList.removeElement(src);
+    public stbtic void remove(ImbgeFetchbble src) {
+        finbl FetcherInfo info = FetcherInfo.getFetcherInfo();
+        synchronized(info.wbitList) {
+            if (info.wbitList.contbins(src)) {
+                info.wbitList.removeElement(src);
             }
         }
     }
 
     /**
-      * Checks to see if the given thread is one of the ImageFetchers.
+      * Checks to see if the given threbd is one of the ImbgeFetchers.
       */
-    public static boolean isFetcher(Thread t) {
-        final FetcherInfo info = FetcherInfo.getFetcherInfo();
-        synchronized(info.waitList) {
+    public stbtic boolebn isFetcher(Threbd t) {
+        finbl FetcherInfo info = FetcherInfo.getFetcherInfo();
+        synchronized(info.wbitList) {
             for (int i = 0; i < info.fetchers.length; i++) {
                 if (info.fetchers[i] == t) {
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-      * Checks to see if the current thread is one of the ImageFetchers.
+      * Checks to see if the current threbd is one of the ImbgeFetchers.
       */
-    public static boolean amFetcher() {
-        return isFetcher(Thread.currentThread());
+    public stbtic boolebn bmFetcher() {
+        return isFetcher(Threbd.currentThrebd());
     }
 
     /**
-      * Returns the next ImageFetchable to be processed.  If TIMEOUT
-      * elapses in the mean time, or if the ImageFetcher is interrupted,
+      * Returns the next ImbgeFetchbble to be processed.  If TIMEOUT
+      * elbpses in the mebn time, or if the ImbgeFetcher is interrupted,
       * null is returned.
       */
-    private static ImageFetchable nextImage() {
-        final FetcherInfo info = FetcherInfo.getFetcherInfo();
-        synchronized(info.waitList) {
-            ImageFetchable src = null;
+    privbte stbtic ImbgeFetchbble nextImbge() {
+        finbl FetcherInfo info = FetcherInfo.getFetcherInfo();
+        synchronized(info.wbitList) {
+            ImbgeFetchbble src = null;
             long end = System.currentTimeMillis() + TIMEOUT;
             while (src == null) {
-                while (info.waitList.size() == 0) {
+                while (info.wbitList.size() == 0) {
                     long now = System.currentTimeMillis();
                     if (now >= end) {
                         return null;
                     }
                     try {
-                        info.numWaiting++;
-                        info.waitList.wait(end - now);
-                    } catch (InterruptedException e) {
-                        // A normal occurrence as an AppContext is disposed
+                        info.numWbiting++;
+                        info.wbitList.wbit(end - now);
+                    } cbtch (InterruptedException e) {
+                        // A normbl occurrence bs bn AppContext is disposed
                         return null;
-                    } finally {
-                        info.numWaiting--;
+                    } finblly {
+                        info.numWbiting--;
                     }
                 }
-                src = info.waitList.elementAt(0);
-                info.waitList.removeElement(src);
+                src = info.wbitList.elementAt(0);
+                info.wbitList.removeElement(src);
             }
             return src;
         }
     }
 
     /**
-      * The main run() method of an ImageFetcher Thread.  Calls fetchloop()
-      * to do the work, then removes itself from the array of ImageFetchers.
+      * The mbin run() method of bn ImbgeFetcher Threbd.  Cblls fetchloop()
+      * to do the work, then removes itself from the brrby of ImbgeFetchers.
       */
     public void run() {
-        final FetcherInfo info = FetcherInfo.getFetcherInfo();
+        finbl FetcherInfo info = FetcherInfo.getFetcherInfo();
         try {
             fetchloop();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            synchronized(info.waitList) {
-                Thread me = Thread.currentThread();
+        } cbtch (Exception e) {
+            e.printStbckTrbce();
+        } finblly {
+            synchronized(info.wbitList) {
+                Threbd me = Threbd.currentThrebd();
                 for (int i = 0; i < info.fetchers.length; i++) {
                     if (info.fetchers[i] == me) {
                         info.fetchers[i] = null;
@@ -183,71 +183,71 @@ class ImageFetcher extends Thread {
     }
 
     /**
-      * The main ImageFetcher loop.  Repeatedly calls nextImage(), and
-      * fetches the returned ImageFetchable objects until nextImage()
+      * The mbin ImbgeFetcher loop.  Repebtedly cblls nextImbge(), bnd
+      * fetches the returned ImbgeFetchbble objects until nextImbge()
       * returns null.
       */
-    private void fetchloop() {
-        Thread me = Thread.currentThread();
+    privbte void fetchloop() {
+        Threbd me = Threbd.currentThrebd();
         while (isFetcher(me)) {
-            // we're ignoring the return value and just clearing
-            // the interrupted flag, instead of bailing out if
-            // the fetcher was interrupted, as we used to,
-            // because there may be other images waiting
+            // we're ignoring the return vblue bnd just clebring
+            // the interrupted flbg, instebd of bbiling out if
+            // the fetcher wbs interrupted, bs we used to,
+            // becbuse there mby be other imbges wbiting
             // to be fetched (see 4789067)
-            Thread.interrupted();
+            Threbd.interrupted();
             me.setPriority(HIGH_PRIORITY);
-            ImageFetchable src = nextImage();
+            ImbgeFetchbble src = nextImbge();
             if (src == null) {
                 return;
             }
             try {
                 src.doFetch();
-            } catch (Exception e) {
-                System.err.println("Uncaught error fetching image:");
-                e.printStackTrace();
+            } cbtch (Exception e) {
+                System.err.println("Uncbught error fetching imbge:");
+                e.printStbckTrbce();
             }
-            stoppingAnimation(me);
+            stoppingAnimbtion(me);
         }
     }
 
 
     /**
-      * Recycles this ImageFetcher thread as an image animator thread.
-      * Removes this ImageFetcher from the array of ImageFetchers, and
-      * resets the thread name to "ImageAnimator".
+      * Recycles this ImbgeFetcher threbd bs bn imbge bnimbtor threbd.
+      * Removes this ImbgeFetcher from the brrby of ImbgeFetchers, bnd
+      * resets the threbd nbme to "ImbgeAnimbtor".
       */
-    static void startingAnimation() {
-        final FetcherInfo info = FetcherInfo.getFetcherInfo();
-        Thread me = Thread.currentThread();
-        synchronized(info.waitList) {
+    stbtic void stbrtingAnimbtion() {
+        finbl FetcherInfo info = FetcherInfo.getFetcherInfo();
+        Threbd me = Threbd.currentThrebd();
+        synchronized(info.wbitList) {
             for (int i = 0; i < info.fetchers.length; i++) {
                 if (info.fetchers[i] == me) {
                     info.fetchers[i] = null;
                     info.numFetchers--;
-                    me.setName("Image Animator " + i);
-                    if(info.waitList.size() > info.numWaiting) {
-                       createFetchers(info);
+                    me.setNbme("Imbge Animbtor " + i);
+                    if(info.wbitList.size() > info.numWbiting) {
+                       crebteFetchers(info);
                     }
                     return;
                 }
             }
         }
         me.setPriority(ANIM_PRIORITY);
-        me.setName("Image Animator");
+        me.setNbme("Imbge Animbtor");
     }
 
     /**
-      * Returns this image animator thread back to service as an ImageFetcher
-      * if possible.  Puts it back into the array of ImageFetchers and sets
-      * the thread name back to "Image Fetcher".  If there are already the
-      * maximum number of ImageFetchers, this method simply returns, and
-      * fetchloop() will drop out when it sees that this thread isn't one of
-      * the ImageFetchers, and this thread will die.
+      * Returns this imbge bnimbtor threbd bbck to service bs bn ImbgeFetcher
+      * if possible.  Puts it bbck into the brrby of ImbgeFetchers bnd sets
+      * the threbd nbme bbck to "Imbge Fetcher".  If there bre blrebdy the
+      * mbximum number of ImbgeFetchers, this method simply returns, bnd
+      * fetchloop() will drop out when it sees thbt this threbd isn't one of
+      * the ImbgeFetchers, bnd this threbd will die.
       */
-    private static void stoppingAnimation(Thread me) {
-        final FetcherInfo info = FetcherInfo.getFetcherInfo();
-        synchronized(info.waitList) {
+    privbte stbtic void stoppingAnimbtion(Threbd me) {
+        finbl FetcherInfo info = FetcherInfo.getFetcherInfo();
+        synchronized(info.wbitList) {
             int index = -1;
             for (int i = 0; i < info.fetchers.length; i++) {
                 if (info.fetchers[i] == me) {
@@ -260,60 +260,60 @@ class ImageFetcher extends Thread {
             if (index >= 0) {
                 info.fetchers[index] = me;
                 info.numFetchers++;
-                me.setName("Image Fetcher " + index);
+                me.setNbme("Imbge Fetcher " + index);
                 return;
             }
         }
     }
 
     /**
-      * Create and start ImageFetcher threads in the appropriate ThreadGroup.
+      * Crebte bnd stbrt ImbgeFetcher threbds in the bppropribte ThrebdGroup.
       */
-    private static void createFetchers(final FetcherInfo info) {
-       // We need to instantiate a new ImageFetcher thread.
-       // First, figure out which ThreadGroup we'll put the
-       // new ImageFetcher into
-       final AppContext appContext = AppContext.getAppContext();
-       ThreadGroup threadGroup = appContext.getThreadGroup();
-       ThreadGroup fetcherThreadGroup;
+    privbte stbtic void crebteFetchers(finbl FetcherInfo info) {
+       // We need to instbntibte b new ImbgeFetcher threbd.
+       // First, figure out which ThrebdGroup we'll put the
+       // new ImbgeFetcher into
+       finbl AppContext bppContext = AppContext.getAppContext();
+       ThrebdGroup threbdGroup = bppContext.getThrebdGroup();
+       ThrebdGroup fetcherThrebdGroup;
        try {
-          if (threadGroup.getParent() != null) {
-             // threadGroup is not the root, so we proceed
-             fetcherThreadGroup = threadGroup;
+          if (threbdGroup.getPbrent() != null) {
+             // threbdGroup is not the root, so we proceed
+             fetcherThrebdGroup = threbdGroup;
           } else {
-             // threadGroup is the root ("system") ThreadGroup.
-             // We instead want to use its child: the "main"
-             // ThreadGroup.  Thus, we start with the current
-             // ThreadGroup, and go up the tree until
-             // threadGroup.getParent().getParent() == null.
-             threadGroup = Thread.currentThread().getThreadGroup();
-             ThreadGroup parent = threadGroup.getParent();
-             while ((parent != null)
-                  && (parent.getParent() != null)) {
-                  threadGroup = parent;
-                  parent = threadGroup.getParent();
+             // threbdGroup is the root ("system") ThrebdGroup.
+             // We instebd wbnt to use its child: the "mbin"
+             // ThrebdGroup.  Thus, we stbrt with the current
+             // ThrebdGroup, bnd go up the tree until
+             // threbdGroup.getPbrent().getPbrent() == null.
+             threbdGroup = Threbd.currentThrebd().getThrebdGroup();
+             ThrebdGroup pbrent = threbdGroup.getPbrent();
+             while ((pbrent != null)
+                  && (pbrent.getPbrent() != null)) {
+                  threbdGroup = pbrent;
+                  pbrent = threbdGroup.getPbrent();
              }
-             fetcherThreadGroup = threadGroup;
+             fetcherThrebdGroup = threbdGroup;
          }
-       } catch (SecurityException e) {
-         // Not allowed access to parent ThreadGroup -- just use
-         // the AppContext's ThreadGroup
-         fetcherThreadGroup = appContext.getThreadGroup();
+       } cbtch (SecurityException e) {
+         // Not bllowed bccess to pbrent ThrebdGroup -- just use
+         // the AppContext's ThrebdGroup
+         fetcherThrebdGroup = bppContext.getThrebdGroup();
        }
-       final ThreadGroup fetcherGroup = fetcherThreadGroup;
+       finbl ThrebdGroup fetcherGroup = fetcherThrebdGroup;
 
-       java.security.AccessController.doPrivileged(
-           new java.security.PrivilegedAction<Object>() {
+       jbvb.security.AccessController.doPrivileged(
+           new jbvb.security.PrivilegedAction<Object>() {
                public Object run() {
                    for (int i = 0; i < info.fetchers.length; i++) {
                        if (info.fetchers[i] == null) {
-                           ImageFetcher f = new ImageFetcher(fetcherGroup, i);
+                           ImbgeFetcher f = new ImbgeFetcher(fetcherGroup, i);
                        try {
-                           f.start();
+                           f.stbrt();
                            info.fetchers[i] = f;
                            info.numFetchers++;
-                           break;
-                       } catch (Error e) {
+                           brebk;
+                       } cbtch (Error e) {
                        }
                    }
                  }
@@ -326,36 +326,36 @@ class ImageFetcher extends Thread {
 }
 
 /**
-  * The FetcherInfo class encapsulates the per-AppContext ImageFetcher
-  * information.  This includes the array of ImageFetchers, as well as
-  * the queue of ImageFetchable objects.
+  * The FetcherInfo clbss encbpsulbtes the per-AppContext ImbgeFetcher
+  * informbtion.  This includes the brrby of ImbgeFetchers, bs well bs
+  * the queue of ImbgeFetchbble objects.
   */
-class FetcherInfo {
-    static final int MAX_NUM_FETCHERS_PER_APPCONTEXT = 4;
+clbss FetcherInfo {
+    stbtic finbl int MAX_NUM_FETCHERS_PER_APPCONTEXT = 4;
 
-    Thread[] fetchers;
+    Threbd[] fetchers;
     int numFetchers;
-    int numWaiting;
-    Vector<ImageFetchable> waitList;
+    int numWbiting;
+    Vector<ImbgeFetchbble> wbitList;
 
-    private FetcherInfo() {
-        fetchers = new Thread[MAX_NUM_FETCHERS_PER_APPCONTEXT];
+    privbte FetcherInfo() {
+        fetchers = new Threbd[MAX_NUM_FETCHERS_PER_APPCONTEXT];
         numFetchers = 0;
-        numWaiting = 0;
-        waitList = new Vector<>();
+        numWbiting = 0;
+        wbitList = new Vector<>();
     }
 
     /* The key to put()/get() the FetcherInfo into/from the AppContext. */
-    private static final Object FETCHER_INFO_KEY =
+    privbte stbtic finbl Object FETCHER_INFO_KEY =
                                         new StringBuffer("FetcherInfo");
 
-    static FetcherInfo getFetcherInfo() {
-        AppContext appContext = AppContext.getAppContext();
-        synchronized(appContext) {
-            FetcherInfo info = (FetcherInfo)appContext.get(FETCHER_INFO_KEY);
+    stbtic FetcherInfo getFetcherInfo() {
+        AppContext bppContext = AppContext.getAppContext();
+        synchronized(bppContext) {
+            FetcherInfo info = (FetcherInfo)bppContext.get(FETCHER_INFO_KEY);
             if (info == null) {
                 info = new FetcherInfo();
-                appContext.put(FETCHER_INFO_KEY, info);
+                bppContext.put(FETCHER_INFO_KEY, info);
             }
             return info;
         }

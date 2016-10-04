@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,163 +27,163 @@
  *******************************************************************************
  * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.io.InputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import jbvb.io.InputStrebm;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Arrbys;
 
-public final class ICUBinary
+public finbl clbss ICUBinbry
 {
-    // public inner interface ------------------------------------------------
+    // public inner interfbce ------------------------------------------------
 
     /**
-     * Special interface for data authentication
+     * Specibl interfbce for dbtb buthenticbtion
      */
-    public static interface Authenticate
+    public stbtic interfbce Authenticbte
     {
         /**
-         * Method used in ICUBinary.readHeader() to provide data format
-         * authentication.
-         * @param version version of the current data
-         * @return true if dataformat is an acceptable version, false otherwise
+         * Method used in ICUBinbry.rebdHebder() to provide dbtb formbt
+         * buthenticbtion.
+         * @pbrbm version version of the current dbtb
+         * @return true if dbtbformbt is bn bcceptbble version, fblse otherwise
          */
-        public boolean isDataVersionAcceptable(byte version[]);
+        public boolebn isDbtbVersionAcceptbble(byte version[]);
     }
 
     // public methods --------------------------------------------------------
 
     /**
-    * <p>ICU data header reader method.
-    * Takes a ICU generated big-endian input stream, parse the ICU standard
-    * file header and authenticates them.</p>
-    * <p>Header format:
+    * <p>ICU dbtb hebder rebder method.
+    * Tbkes b ICU generbted big-endibn input strebm, pbrse the ICU stbndbrd
+    * file hebder bnd buthenticbtes them.</p>
+    * <p>Hebder formbt:
     * <ul>
-    *     <li> Header size (char)
-    *     <li> Magic number 1 (byte)
-    *     <li> Magic number 2 (byte)
-    *     <li> Rest of the header size (char)
-    *     <li> Reserved word (char)
-    *     <li> Big endian indicator (byte)
-    *     <li> Character set family indicator (byte)
-    *     <li> Size of a char (byte) for c++ and c use
+    *     <li> Hebder size (chbr)
+    *     <li> Mbgic number 1 (byte)
+    *     <li> Mbgic number 2 (byte)
+    *     <li> Rest of the hebder size (chbr)
+    *     <li> Reserved word (chbr)
+    *     <li> Big endibn indicbtor (byte)
+    *     <li> Chbrbcter set fbmily indicbtor (byte)
+    *     <li> Size of b chbr (byte) for c++ bnd c use
     *     <li> Reserved byte (byte)
-    *     <li> Data format identifier (4 bytes), each ICU data has its own
-    *          identifier to distinguish them. [0] major [1] minor
+    *     <li> Dbtb formbt identifier (4 bytes), ebch ICU dbtb hbs its own
+    *          identifier to distinguish them. [0] mbjor [1] minor
     *                                          [2] milli [3] micro
-    *     <li> Data version (4 bytes), the change version of the ICU data
-    *                             [0] major [1] minor [2] milli [3] micro
-    *     <li> Unicode version (4 bytes) this ICU is based on.
+    *     <li> Dbtb version (4 bytes), the chbnge version of the ICU dbtb
+    *                             [0] mbjor [1] minor [2] milli [3] micro
+    *     <li> Unicode version (4 bytes) this ICU is bbsed on.
     * </ul>
     * </p>
     * <p>
-    * Example of use:<br>
+    * Exbmple of use:<br>
     * <pre>
     * try {
-    *    FileInputStream input = new FileInputStream(filename);
-    *    If (Utility.readICUDataHeader(input, dataformat, dataversion,
+    *    FileInputStrebm input = new FileInputStrebm(filenbme);
+    *    If (Utility.rebdICUDbtbHebder(input, dbtbformbt, dbtbversion,
     *                                  unicode) {
-    *        System.out.println("Verified file header, this is a ICU data file");
+    *        System.out.println("Verified file hebder, this is b ICU dbtb file");
     *    }
-    * } catch (IOException e) {
-    *    System.out.println("This is not a ICU data file");
+    * } cbtch (IOException e) {
+    *    System.out.println("This is not b ICU dbtb file");
     * }
     * </pre>
     * </p>
-    * @param inputStream input stream that contains the ICU data header
-    * @param dataFormatIDExpected Data format expected. An array of 4 bytes
-    *                     information about the data format.
-    *                     E.g. data format ID 1.2.3.4. will became an array of
+    * @pbrbm inputStrebm input strebm thbt contbins the ICU dbtb hebder
+    * @pbrbm dbtbFormbtIDExpected Dbtb formbt expected. An brrby of 4 bytes
+    *                     informbtion bbout the dbtb formbt.
+    *                     E.g. dbtb formbt ID 1.2.3.4. will becbme bn brrby of
     *                     {1, 2, 3, 4}
-    * @param authenticate user defined extra data authentication. This value
-    *                     can be null, if no extra authentication is needed.
-    * @exception IOException thrown if there is a read error or
-    *            when header authentication fails.
-    * @draft 2.1
+    * @pbrbm buthenticbte user defined extrb dbtb buthenticbtion. This vblue
+    *                     cbn be null, if no extrb buthenticbtion is needed.
+    * @exception IOException thrown if there is b rebd error or
+    *            when hebder buthenticbtion fbils.
+    * @drbft 2.1
     */
-    public static final byte[] readHeader(InputStream inputStream,
-                                        byte dataFormatIDExpected[],
-                                        Authenticate authenticate)
+    public stbtic finbl byte[] rebdHebder(InputStrebm inputStrebm,
+                                        byte dbtbFormbtIDExpected[],
+                                        Authenticbte buthenticbte)
                                                           throws IOException
     {
-        DataInputStream input = new DataInputStream(inputStream);
-        char headersize = input.readChar();
-        int readcount = 2;
-        //reading the header format
-        byte magic1 = input.readByte();
-        readcount ++;
-        byte magic2 = input.readByte();
-        readcount ++;
-        if (magic1 != MAGIC1 || magic2 != MAGIC2) {
+        DbtbInputStrebm input = new DbtbInputStrebm(inputStrebm);
+        chbr hebdersize = input.rebdChbr();
+        int rebdcount = 2;
+        //rebding the hebder formbt
+        byte mbgic1 = input.rebdByte();
+        rebdcount ++;
+        byte mbgic2 = input.rebdByte();
+        rebdcount ++;
+        if (mbgic1 != MAGIC1 || mbgic2 != MAGIC2) {
             throw new IOException(MAGIC_NUMBER_AUTHENTICATION_FAILED_);
         }
 
-        input.readChar(); // reading size
-        readcount += 2;
-        input.readChar(); // reading reserved word
-        readcount += 2;
-        byte bigendian    = input.readByte();
-        readcount ++;
-        byte charset      = input.readByte();
-        readcount ++;
-        byte charsize     = input.readByte();
-        readcount ++;
-        input.readByte(); // reading reserved byte
-        readcount ++;
+        input.rebdChbr(); // rebding size
+        rebdcount += 2;
+        input.rebdChbr(); // rebding reserved word
+        rebdcount += 2;
+        byte bigendibn    = input.rebdByte();
+        rebdcount ++;
+        byte chbrset      = input.rebdByte();
+        rebdcount ++;
+        byte chbrsize     = input.rebdByte();
+        rebdcount ++;
+        input.rebdByte(); // rebding reserved byte
+        rebdcount ++;
 
-        byte dataFormatID[] = new byte[4];
-        input.readFully(dataFormatID);
-        readcount += 4;
-        byte dataVersion[] = new byte[4];
-        input.readFully(dataVersion);
-        readcount += 4;
+        byte dbtbFormbtID[] = new byte[4];
+        input.rebdFully(dbtbFormbtID);
+        rebdcount += 4;
+        byte dbtbVersion[] = new byte[4];
+        input.rebdFully(dbtbVersion);
+        rebdcount += 4;
         byte unicodeVersion[] = new byte[4];
-        input.readFully(unicodeVersion);
-        readcount += 4;
-        if (headersize < readcount) {
-            throw new IOException("Internal Error: Header size error");
+        input.rebdFully(unicodeVersion);
+        rebdcount += 4;
+        if (hebdersize < rebdcount) {
+            throw new IOException("Internbl Error: Hebder size error");
         }
-        input.skipBytes(headersize - readcount);
+        input.skipBytes(hebdersize - rebdcount);
 
-        if (bigendian != BIG_ENDIAN_ || charset != CHAR_SET_
-            || charsize != CHAR_SIZE_
-            || !Arrays.equals(dataFormatIDExpected, dataFormatID)
-            || (authenticate != null
-                && !authenticate.isDataVersionAcceptable(dataVersion))) {
+        if (bigendibn != BIG_ENDIAN_ || chbrset != CHAR_SET_
+            || chbrsize != CHAR_SIZE_
+            || !Arrbys.equbls(dbtbFormbtIDExpected, dbtbFormbtID)
+            || (buthenticbte != null
+                && !buthenticbte.isDbtbVersionAcceptbble(dbtbVersion))) {
             throw new IOException(HEADER_AUTHENTICATION_FAILED_);
         }
         return unicodeVersion;
     }
 
-    // private variables -------------------------------------------------
+    // privbte vbribbles -------------------------------------------------
 
     /**
-    * Magic numbers to authenticate the data file
+    * Mbgic numbers to buthenticbte the dbtb file
     */
-    private static final byte MAGIC1 = (byte)0xda;
-    private static final byte MAGIC2 = (byte)0x27;
+    privbte stbtic finbl byte MAGIC1 = (byte)0xdb;
+    privbte stbtic finbl byte MAGIC2 = (byte)0x27;
 
     /**
-    * File format authentication values
+    * File formbt buthenticbtion vblues
     */
-    private static final byte BIG_ENDIAN_ = 1;
-    private static final byte CHAR_SET_ = 0;
-    private static final byte CHAR_SIZE_ = 2;
+    privbte stbtic finbl byte BIG_ENDIAN_ = 1;
+    privbte stbtic finbl byte CHAR_SET_ = 0;
+    privbte stbtic finbl byte CHAR_SIZE_ = 2;
 
     /**
-    * Error messages
+    * Error messbges
     */
-    private static final String MAGIC_NUMBER_AUTHENTICATION_FAILED_ =
-                       "ICU data file error: Not an ICU data file";
-    private static final String HEADER_AUTHENTICATION_FAILED_ =
-        "ICU data file error: Header authentication failed, please check if you have a valid ICU data file";
+    privbte stbtic finbl String MAGIC_NUMBER_AUTHENTICATION_FAILED_ =
+                       "ICU dbtb file error: Not bn ICU dbtb file";
+    privbte stbtic finbl String HEADER_AUTHENTICATION_FAILED_ =
+        "ICU dbtb file error: Hebder buthenticbtion fbiled, plebse check if you hbve b vblid ICU dbtb file";
 }

@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.*;
+import sun.util.logging.PlbtformLogger;
 
-class XScrollbarPeer extends XComponentPeer implements ScrollbarPeer, XScrollbarClient {
-    private final static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XScrollbarPeer");
+clbss XScrollbbrPeer extends XComponentPeer implements ScrollbbrPeer, XScrollbbrClient {
+    privbte finbl stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XScrollbbrPeer");
 
-    private static final int DEFAULT_LENGTH = 50;
-    private static final int DEFAULT_WIDTH_SOLARIS = 19;
-    private static final int DEFAULT_WIDTH_LINUX;
+    privbte stbtic finbl int DEFAULT_LENGTH = 50;
+    privbte stbtic finbl int DEFAULT_WIDTH_SOLARIS = 19;
+    privbte stbtic finbl int DEFAULT_WIDTH_LINUX;
 
-    XScrollbar tsb;
+    XScrollbbr tsb;
 
-    static {
-        DEFAULT_WIDTH_LINUX = XToolkit.getUIDefaults().getInt("ScrollBar.defaultWidth");
+    stbtic {
+        DEFAULT_WIDTH_LINUX = XToolkit.getUIDefbults().getInt("ScrollBbr.defbultWidth");
     }
 
-    public void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        Scrollbar target = (Scrollbar) this.target;
-        if (target.getOrientation() == Scrollbar.VERTICAL) {
-            tsb = new XVerticalScrollbar(this);
+    public void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
+        Scrollbbr tbrget = (Scrollbbr) this.tbrget;
+        if (tbrget.getOrientbtion() == Scrollbbr.VERTICAL) {
+            tsb = new XVerticblScrollbbr(this);
         } else {
-            tsb = new XHorizontalScrollbar(this);
+            tsb = new XHorizontblScrollbbr(this);
         }
-        int min = target.getMinimum();
-        int max = target.getMaximum();
-        int vis = target.getVisibleAmount();
-        int val = target.getValue();
-        int line = target.getLineIncrement();
-        int page = target.getPageIncrement();
-        tsb.setValues(val, vis, min, max, line, page);
+        int min = tbrget.getMinimum();
+        int mbx = tbrget.getMbximum();
+        int vis = tbrget.getVisibleAmount();
+        int vbl = tbrget.getVblue();
+        int line = tbrget.getLineIncrement();
+        int pbge = tbrget.getPbgeIncrement();
+        tsb.setVblues(vbl, vis, min, mbx, line, pbge);
     }
 
     /**
-     * Create a scrollbar.
+     * Crebte b scrollbbr.
      */
-    XScrollbarPeer(Scrollbar target) {
-        super(target);
-        this.target = target;
+    XScrollbbrPeer(Scrollbbr tbrget) {
+        super(tbrget);
+        this.tbrget = tbrget;
         xSetVisible(true);
     }
 
     /**
-     * Returns default size of scrollbar on the platform
-     * Currently uses hardcoded values
+     * Returns defbult size of scrollbbr on the plbtform
+     * Currently uses hbrdcoded vblues
      */
-    private int getDefaultDimension() {
-        if (System.getProperty("os.name").equals("Linux")) {
+    privbte int getDefbultDimension() {
+        if (System.getProperty("os.nbme").equbls("Linux")) {
             return DEFAULT_WIDTH_LINUX;
         } else {
             return DEFAULT_WIDTH_SOLARIS;
@@ -82,41 +82,41 @@ class XScrollbarPeer extends XComponentPeer implements ScrollbarPeer, XScrollbar
     }
 
     /**
-     * Compute the minimum size for the scrollbar.
+     * Compute the minimum size for the scrollbbr.
      */
     public Dimension getMinimumSize() {
-        Scrollbar sb = (Scrollbar)target;
-        return (sb.getOrientation() == Scrollbar.VERTICAL)
-            ? new Dimension(getDefaultDimension(), DEFAULT_LENGTH)
-                : new Dimension(DEFAULT_LENGTH, getDefaultDimension());
+        Scrollbbr sb = (Scrollbbr)tbrget;
+        return (sb.getOrientbtion() == Scrollbbr.VERTICAL)
+            ? new Dimension(getDefbultDimension(), DEFAULT_LENGTH)
+                : new Dimension(DEFAULT_LENGTH, getDefbultDimension());
     }
     /**
-     * Paint the scrollbar.
+     * Pbint the scrollbbr.
      */
     @Override
-    void paintPeer(final Graphics g) {
-        final Color[] colors = getGUIcolors();
+    void pbintPeer(finbl Grbphics g) {
+        finbl Color[] colors = getGUIcolors();
         g.setColor(colors[BACKGROUND_COLOR]);
-        tsb.paint(g, colors, true);
-        // paint the whole scrollbar
+        tsb.pbint(g, colors, true);
+        // pbint the whole scrollbbr
     }
 
-    public void repaintScrollbarRequest(XScrollbar sb) {
-     repaint();
+    public void repbintScrollbbrRequest(XScrollbbr sb) {
+     repbint();
     }
 
     /**
-     * The value has changed.
+     * The vblue hbs chbnged.
      */
-    public void notifyValue(XScrollbar obj, int type, int value, boolean isAdjusting) {
-        Scrollbar sb = (Scrollbar)target;
-        sb.setValue(value);
-        postEvent( new AdjustmentEvent(sb, AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED, type, value, isAdjusting));
+    public void notifyVblue(XScrollbbr obj, int type, int vblue, boolebn isAdjusting) {
+        Scrollbbr sb = (Scrollbbr)tbrget;
+        sb.setVblue(vblue);
+        postEvent( new AdjustmentEvent(sb, AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED, type, vblue, isAdjusting));
     }
 
     /**
      *
-     * @see java.awt.event.MouseEvent
+     * @see jbvb.bwt.event.MouseEvent
      * MouseEvent.MOUSE_CLICKED
      * MouseEvent.MOUSE_PRESSED
      * MouseEvent.MOUSE_RELEASED
@@ -125,8 +125,8 @@ class XScrollbarPeer extends XComponentPeer implements ScrollbarPeer, XScrollbar
      * MouseEvent.MOUSE_EXITED
      * MouseEvent.MOUSE_DRAGGED
      */
-    public void handleJavaMouseEvent( MouseEvent mouseEvent ) {
-        super.handleJavaMouseEvent(mouseEvent);
+    public void hbndleJbvbMouseEvent( MouseEvent mouseEvent ) {
+        super.hbndleJbvbMouseEvent(mouseEvent);
 
         int x = mouseEvent.getX();
         int y = mouseEvent.getY();
@@ -139,85 +139,85 @@ class XScrollbarPeer extends XComponentPeer implements ScrollbarPeer, XScrollbar
         }
 
         switch (mouseEvent.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-              target.requestFocus();
-              tsb.handleMouseEvent(id, modifiers,x,y);
-              break;
+          cbse MouseEvent.MOUSE_PRESSED:
+              tbrget.requestFocus();
+              tsb.hbndleMouseEvent(id, modifiers,x,y);
+              brebk;
 
-          case MouseEvent.MOUSE_RELEASED:
-              tsb.handleMouseEvent(id, modifiers,x,y);
-              break;
+          cbse MouseEvent.MOUSE_RELEASED:
+              tsb.hbndleMouseEvent(id, modifiers,x,y);
+              brebk;
 
-          case MouseEvent.MOUSE_DRAGGED:
-              tsb.handleMouseEvent(id, modifiers,x,y);
-              break;
+          cbse MouseEvent.MOUSE_DRAGGED:
+              tsb.hbndleMouseEvent(id, modifiers,x,y);
+              brebk;
         }
     }
 
-    public void handleJavaKeyEvent(KeyEvent event) {
-        super.handleJavaKeyEvent(event);
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("KeyEvent on scrollbar: " + event);
+    public void hbndleJbvbKeyEvent(KeyEvent event) {
+        super.hbndleJbvbKeyEvent(event);
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("KeyEvent on scrollbbr: " + event);
         }
         if (!(event.isConsumed()) && event.getID() == KeyEvent.KEY_RELEASED) {
             switch(event.getKeyCode()) {
-            case KeyEvent.VK_UP:
+            cbse KeyEvent.VK_UP:
                 log.finer("Scrolling up");
-                tsb.notifyValue(tsb.getValue() - tsb.getUnitIncrement());
-                break;
-            case KeyEvent.VK_DOWN:
+                tsb.notifyVblue(tsb.getVblue() - tsb.getUnitIncrement());
+                brebk;
+            cbse KeyEvent.VK_DOWN:
                 log.finer("Scrolling down");
-                tsb.notifyValue(tsb.getValue() + tsb.getUnitIncrement());
-                break;
-            case KeyEvent.VK_LEFT:
+                tsb.notifyVblue(tsb.getVblue() + tsb.getUnitIncrement());
+                brebk;
+            cbse KeyEvent.VK_LEFT:
                 log.finer("Scrolling up");
-                tsb.notifyValue(tsb.getValue() - tsb.getUnitIncrement());
-                break;
-            case KeyEvent.VK_RIGHT:
+                tsb.notifyVblue(tsb.getVblue() - tsb.getUnitIncrement());
+                brebk;
+            cbse KeyEvent.VK_RIGHT:
                 log.finer("Scrolling down");
-                tsb.notifyValue(tsb.getValue() + tsb.getUnitIncrement());
-                break;
-            case KeyEvent.VK_PAGE_UP:
-                log.finer("Scrolling page up");
-                tsb.notifyValue(tsb.getValue() - tsb.getBlockIncrement());
-                break;
-            case KeyEvent.VK_PAGE_DOWN:
-                log.finer("Scrolling page down");
-                tsb.notifyValue(tsb.getValue() + tsb.getBlockIncrement());
-                break;
-            case KeyEvent.VK_HOME:
+                tsb.notifyVblue(tsb.getVblue() + tsb.getUnitIncrement());
+                brebk;
+            cbse KeyEvent.VK_PAGE_UP:
+                log.finer("Scrolling pbge up");
+                tsb.notifyVblue(tsb.getVblue() - tsb.getBlockIncrement());
+                brebk;
+            cbse KeyEvent.VK_PAGE_DOWN:
+                log.finer("Scrolling pbge down");
+                tsb.notifyVblue(tsb.getVblue() + tsb.getBlockIncrement());
+                brebk;
+            cbse KeyEvent.VK_HOME:
                 log.finer("Scrolling to home");
-                tsb.notifyValue(0);
-                break;
-            case KeyEvent.VK_END:
+                tsb.notifyVblue(0);
+                brebk;
+            cbse KeyEvent.VK_END:
                 log.finer("Scrolling to end");
-                tsb.notifyValue(tsb.getMaximum());
-                break;
+                tsb.notifyVblue(tsb.getMbximum());
+                brebk;
             }
         }
     }
 
-    public void setValue(int value) {
-        tsb.setValue(value);
-        repaint();
+    public void setVblue(int vblue) {
+        tsb.setVblue(vblue);
+        repbint();
     }
 
-    public void setValues(int value, int visible, int minimum, int maximum) {
+    public void setVblues(int vblue, int visible, int minimum, int mbximum) {
 
-        tsb.setValues(value, visible, minimum, maximum);
-        repaint();
+        tsb.setVblues(vblue, visible, minimum, mbximum);
+        repbint();
     }
 
     public void setLineIncrement(int l) {
         tsb.setUnitIncrement(l);
     }
 
-    public void setPageIncrement(int p) {
+    public void setPbgeIncrement(int p) {
         tsb.setBlockIncrement(p);
     }
 
-    public void layout() {
-        super.layout();
+    public void lbyout() {
+        super.lbyout();
         tsb.setSize(width, height);
     }
 }

@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvbx.swing.event.*;
 
 /**
- * A <code>LabelView</code> is a styled chunk of text
- * that represents a view mapped over an element in the
- * text model.  It caches the character level attributes
+ * A <code>LbbelView</code> is b styled chunk of text
+ * thbt represents b view mbpped over bn element in the
+ * text model.  It cbches the chbrbcter level bttributes
  * used for rendering.
  *
- * @author Timothy Prinzing
+ * @buthor Timothy Prinzing
  */
-public class LabelView extends GlyphView implements TabableView {
+public clbss LbbelView extends GlyphView implements TbbbbleView {
 
     /**
-     * Constructs a new view wrapped on an element.
+     * Constructs b new view wrbpped on bn element.
      *
-     * @param elem the element
+     * @pbrbm elem the element
      */
-    public LabelView(Element elem) {
+    public LbbelView(Element elem) {
         super(elem);
     }
 
     /**
-     * Synchronize the view's cached values with the model.
-     * This causes the font, metrics, color, etc to be
-     * re-cached if the cache has been invalidated.
+     * Synchronize the view's cbched vblues with the model.
+     * This cbuses the font, metrics, color, etc to be
+     * re-cbched if the cbche hbs been invblidbted.
      */
-    final void sync() {
+    finbl void sync() {
         if (font == null) {
             setPropertiesFromAttributes();
         }
@@ -59,138 +59,138 @@ public class LabelView extends GlyphView implements TabableView {
 
     /**
      * Sets whether or not the view is underlined.
-     * Note that this setter is protected and is really
-     * only meant if you need to update some additional
-     * state when set.
+     * Note thbt this setter is protected bnd is reblly
+     * only mebnt if you need to updbte some bdditionbl
+     * stbte when set.
      *
-     * @param u true if the view is underlined, otherwise
-     *          false
+     * @pbrbm u true if the view is underlined, otherwise
+     *          fblse
      * @see #isUnderline
      */
-    protected void setUnderline(boolean u) {
+    protected void setUnderline(boolebn u) {
         underline = u;
     }
 
     /**
-     * Sets whether or not the view has a strike/line
+     * Sets whether or not the view hbs b strike/line
      * through it.
-     * Note that this setter is protected and is really
-     * only meant if you need to update some additional
-     * state when set.
+     * Note thbt this setter is protected bnd is reblly
+     * only mebnt if you need to updbte some bdditionbl
+     * stbte when set.
      *
-     * @param s true if the view has a strike/line
-     *          through it, otherwise false
+     * @pbrbm s true if the view hbs b strike/line
+     *          through it, otherwise fblse
      * @see #isStrikeThrough
      */
-    protected void setStrikeThrough(boolean s) {
+    protected void setStrikeThrough(boolebn s) {
         strike = s;
     }
 
 
     /**
-     * Sets whether or not the view represents a
+     * Sets whether or not the view represents b
      * superscript.
-     * Note that this setter is protected and is really
-     * only meant if you need to update some additional
-     * state when set.
+     * Note thbt this setter is protected bnd is reblly
+     * only mebnt if you need to updbte some bdditionbl
+     * stbte when set.
      *
-     * @param s true if the view represents a
-     *          superscript, otherwise false
+     * @pbrbm s true if the view represents b
+     *          superscript, otherwise fblse
      * @see #isSuperscript
      */
-    protected void setSuperscript(boolean s) {
+    protected void setSuperscript(boolebn s) {
         superscript = s;
     }
 
     /**
-     * Sets whether or not the view represents a
+     * Sets whether or not the view represents b
      * subscript.
-     * Note that this setter is protected and is really
-     * only meant if you need to update some additional
-     * state when set.
+     * Note thbt this setter is protected bnd is reblly
+     * only mebnt if you need to updbte some bdditionbl
+     * stbte when set.
      *
-     * @param s true if the view represents a
-     *          subscript, otherwise false
+     * @pbrbm s true if the view represents b
+     *          subscript, otherwise fblse
      * @see #isSubscript
      */
-    protected void setSubscript(boolean s) {
+    protected void setSubscript(boolebn s) {
         subscript = s;
     }
 
     /**
-     * Sets the background color for the view. This method is typically
-     * invoked as part of configuring this <code>View</code>. If you need
-     * to customize the background color you should override
-     * <code>setPropertiesFromAttributes</code> and invoke this method. A
-     * value of null indicates no background should be rendered, so that the
-     * background of the parent <code>View</code> will show through.
+     * Sets the bbckground color for the view. This method is typicblly
+     * invoked bs pbrt of configuring this <code>View</code>. If you need
+     * to customize the bbckground color you should override
+     * <code>setPropertiesFromAttributes</code> bnd invoke this method. A
+     * vblue of null indicbtes no bbckground should be rendered, so thbt the
+     * bbckground of the pbrent <code>View</code> will show through.
      *
-     * @param bg background color, or null
+     * @pbrbm bg bbckground color, or null
      * @see #setPropertiesFromAttributes
      * @since 1.5
      */
-    protected void setBackground(Color bg) {
+    protected void setBbckground(Color bg) {
         this.bg = bg;
     }
 
     /**
-     * Sets the cached properties from the attributes.
+     * Sets the cbched properties from the bttributes.
      */
     protected void setPropertiesFromAttributes() {
-        AttributeSet attr = getAttributes();
-        if (attr != null) {
+        AttributeSet bttr = getAttributes();
+        if (bttr != null) {
             Document d = getDocument();
-            if (d instanceof StyledDocument) {
+            if (d instbnceof StyledDocument) {
                 StyledDocument doc = (StyledDocument) d;
-                font = doc.getFont(attr);
-                fg = doc.getForeground(attr);
-                if (attr.isDefined(StyleConstants.Background)) {
-                    bg = doc.getBackground(attr);
+                font = doc.getFont(bttr);
+                fg = doc.getForeground(bttr);
+                if (bttr.isDefined(StyleConstbnts.Bbckground)) {
+                    bg = doc.getBbckground(bttr);
                 } else {
                     bg = null;
                 }
-                setUnderline(StyleConstants.isUnderline(attr));
-                setStrikeThrough(StyleConstants.isStrikeThrough(attr));
-                setSuperscript(StyleConstants.isSuperscript(attr));
-                setSubscript(StyleConstants.isSubscript(attr));
+                setUnderline(StyleConstbnts.isUnderline(bttr));
+                setStrikeThrough(StyleConstbnts.isStrikeThrough(bttr));
+                setSuperscript(StyleConstbnts.isSuperscript(bttr));
+                setSubscript(StyleConstbnts.isSubscript(bttr));
             } else {
-                throw new StateInvariantError("LabelView needs StyledDocument");
+                throw new StbteInvbribntError("LbbelView needs StyledDocument");
             }
         }
      }
 
     /**
      * Fetches the <code>FontMetrics</code> used for this view.
-     * @deprecated FontMetrics are not used for glyph rendering
+     * @deprecbted FontMetrics bre not used for glyph rendering
      *  when running in the JDK.
      */
-    @Deprecated
+    @Deprecbted
     protected FontMetrics getFontMetrics() {
         sync();
-        Container c = getContainer();
+        Contbiner c = getContbiner();
         return (c != null) ? c.getFontMetrics(font) :
-            Toolkit.getDefaultToolkit().getFontMetrics(font);
+            Toolkit.getDefbultToolkit().getFontMetrics(font);
     }
 
     /**
-     * Fetches the background color to use to render the glyphs.
-     * This is implemented to return a cached background color,
-     * which defaults to <code>null</code>.
+     * Fetches the bbckground color to use to render the glyphs.
+     * This is implemented to return b cbched bbckground color,
+     * which defbults to <code>null</code>.
      *
-     * @return the cached background color
+     * @return the cbched bbckground color
      * @since 1.3
      */
-    public Color getBackground() {
+    public Color getBbckground() {
         sync();
         return bg;
     }
 
     /**
      * Fetches the foreground color to use to render the glyphs.
-     * This is implemented to return a cached foreground color,
-     * which defaults to <code>null</code>.
+     * This is implemented to return b cbched foreground color,
+     * which defbults to <code>null</code>.
      *
-     * @return the cached foreground color
+     * @return the cbched foreground color
      * @since 1.3
      */
     public Color getForeground() {
@@ -199,10 +199,10 @@ public class LabelView extends GlyphView implements TabableView {
     }
 
     /**
-     * Fetches the font that the glyphs should be based upon.
-     * This is implemented to return a cached font.
+     * Fetches the font thbt the glyphs should be bbsed upon.
+     * This is implemented to return b cbched font.
      *
-     * @return the cached font
+     * @return the cbched font
      */
      public Font getFont() {
         sync();
@@ -211,78 +211,78 @@ public class LabelView extends GlyphView implements TabableView {
 
     /**
      * Determines if the glyphs should be underlined.  If true,
-     * an underline should be drawn through the baseline.  This
-     * is implemented to return the cached underline property.
+     * bn underline should be drbwn through the bbseline.  This
+     * is implemented to return the cbched underline property.
      *
-     * <p>When you request this property, <code>LabelView</code>
-     * re-syncs its state with the properties of the
+     * <p>When you request this property, <code>LbbelView</code>
+     * re-syncs its stbte with the properties of the
      * <code>Element</code>'s <code>AttributeSet</code>.
      * If <code>Element</code>'s <code>AttributeSet</code>
-     * does not have this property set, it will revert to false.
+     * does not hbve this property set, it will revert to fblse.
      *
-     * @return the value of the cached
+     * @return the vblue of the cbched
      *     <code>underline</code> property
      * @since 1.3
      */
-    public boolean isUnderline() {
+    public boolebn isUnderline() {
         sync();
         return underline;
     }
 
     /**
-     * Determines if the glyphs should have a strikethrough
-     * line.  If true, a line should be drawn through the center
+     * Determines if the glyphs should hbve b strikethrough
+     * line.  If true, b line should be drbwn through the center
      * of the glyphs.  This is implemented to return the
-     * cached <code>strikeThrough</code> property.
+     * cbched <code>strikeThrough</code> property.
      *
-     * <p>When you request this property, <code>LabelView</code>
-     * re-syncs its state with the properties of the
+     * <p>When you request this property, <code>LbbelView</code>
+     * re-syncs its stbte with the properties of the
      * <code>Element</code>'s <code>AttributeSet</code>.
      * If <code>Element</code>'s <code>AttributeSet</code>
-     * does not have this property set, it will revert to false.
+     * does not hbve this property set, it will revert to fblse.
      *
-     * @return the value of the cached
+     * @return the vblue of the cbched
      *     <code>strikeThrough</code> property
      * @since 1.3
      */
-    public boolean isStrikeThrough() {
+    public boolebn isStrikeThrough() {
         sync();
         return strike;
     }
 
     /**
-     * Determines if the glyphs should be rendered as superscript.
-     * @return the value of the cached subscript property
+     * Determines if the glyphs should be rendered bs superscript.
+     * @return the vblue of the cbched subscript property
      *
-     * <p>When you request this property, <code>LabelView</code>
-     * re-syncs its state with the properties of the
+     * <p>When you request this property, <code>LbbelView</code>
+     * re-syncs its stbte with the properties of the
      * <code>Element</code>'s <code>AttributeSet</code>.
      * If <code>Element</code>'s <code>AttributeSet</code>
-     * does not have this property set, it will revert to false.
+     * does not hbve this property set, it will revert to fblse.
      *
-     * @return the value of the cached
+     * @return the vblue of the cbched
      *     <code>subscript</code> property
      * @since 1.3
      */
-    public boolean isSubscript() {
+    public boolebn isSubscript() {
         sync();
         return subscript;
     }
 
     /**
-     * Determines if the glyphs should be rendered as subscript.
+     * Determines if the glyphs should be rendered bs subscript.
      *
-     * <p>When you request this property, <code>LabelView</code>
-     * re-syncs its state with the properties of the
+     * <p>When you request this property, <code>LbbelView</code>
+     * re-syncs its stbte with the properties of the
      * <code>Element</code>'s <code>AttributeSet</code>.
      * If <code>Element</code>'s <code>AttributeSet</code>
-     * does not have this property set, it will revert to false.
+     * does not hbve this property set, it will revert to fblse.
      *
-     * @return the value of the cached
+     * @return the vblue of the cbched
      *     <code>superscript</code> property
      * @since 1.3
      */
-    public boolean isSuperscript() {
+    public boolebn isSuperscript() {
         sync();
         return superscript;
     }
@@ -290,27 +290,27 @@ public class LabelView extends GlyphView implements TabableView {
     // --- View methods ---------------------------------------------
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
+     * Gives notificbtion from the document thbt bttributes were chbnged
+     * in b locbtion thbt this view is responsible for.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#chbngedUpdbte
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+    public void chbngedUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
         font = null;
-        super.changedUpdate(e, a, f);
+        super.chbngedUpdbte(e, b, f);
     }
 
-    // --- variables ------------------------------------------------
+    // --- vbribbles ------------------------------------------------
 
-    private Font font;
-    private Color fg;
-    private Color bg;
-    private boolean underline;
-    private boolean strike;
-    private boolean superscript;
-    private boolean subscript;
+    privbte Font font;
+    privbte Color fg;
+    privbte Color bg;
+    privbte boolebn underline;
+    privbte boolebn strike;
+    privbte boolebn superscript;
+    privbte boolebn subscript;
 
 }

@@ -1,224 +1,224 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.decoder;
+pbckbge com.sun.bebns.decoder;
 
 /**
- * The base class for element handlers.
+ * The bbse clbss for element hbndlers.
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  *
- * @see DocumentHandler
+ * @see DocumentHbndler
  */
-public abstract class ElementHandler {
-    private DocumentHandler owner;
-    private ElementHandler parent;
+public bbstrbct clbss ElementHbndler {
+    privbte DocumentHbndler owner;
+    privbte ElementHbndler pbrent;
 
-    private String id;
+    privbte String id;
 
     /**
-     * Returns the document handler that creates this element handler.
+     * Returns the document hbndler thbt crebtes this element hbndler.
      *
-     * @return the owner document handler
+     * @return the owner document hbndler
      */
-    public final DocumentHandler getOwner() {
+    public finbl DocumentHbndler getOwner() {
         return this.owner;
     }
 
     /**
-     * Sets the document handler that creates this element handler.
-     * The owner document handler should be set after instantiation.
-     * Such approach is used to simplify the extensibility.
+     * Sets the document hbndler thbt crebtes this element hbndler.
+     * The owner document hbndler should be set bfter instbntibtion.
+     * Such bpprobch is used to simplify the extensibility.
      *
-     * @param owner  the owner document handler
-     * @see DocumentHandler#startElement
+     * @pbrbm owner  the owner document hbndler
+     * @see DocumentHbndler#stbrtElement
      */
-    final void setOwner(DocumentHandler owner) {
+    finbl void setOwner(DocumentHbndler owner) {
         if (owner == null) {
-            throw new IllegalArgumentException("Every element should have owner");
+            throw new IllegblArgumentException("Every element should hbve owner");
         }
         this.owner = owner;
     }
 
     /**
-     * Returns the element handler that contains this one.
+     * Returns the element hbndler thbt contbins this one.
      *
-     * @return the parent element handler
+     * @return the pbrent element hbndler
      */
-    public final ElementHandler getParent() {
-        return this.parent;
+    public finbl ElementHbndler getPbrent() {
+        return this.pbrent;
     }
 
     /**
-     * Sets the element handler that contains this one.
-     * The parent element handler should be set after instantiation.
-     * Such approach is used to simplify the extensibility.
+     * Sets the element hbndler thbt contbins this one.
+     * The pbrent element hbndler should be set bfter instbntibtion.
+     * Such bpprobch is used to simplify the extensibility.
      *
-     * @param parent  the parent element handler
-     * @see DocumentHandler#startElement
+     * @pbrbm pbrent  the pbrent element hbndler
+     * @see DocumentHbndler#stbrtElement
      */
-    final void setParent(ElementHandler parent) {
-        this.parent = parent;
+    finbl void setPbrent(ElementHbndler pbrent) {
+        this.pbrent = pbrent;
     }
 
     /**
-     * Returns the value of the variable with specified identifier.
+     * Returns the vblue of the vbribble with specified identifier.
      *
-     * @param id  the identifier
-     * @return the value of the variable
+     * @pbrbm id  the identifier
+     * @return the vblue of the vbribble
      */
-    protected final Object getVariable(String id) {
-        if (id.equals(this.id)) {
-            ValueObject value = getValueObject();
-            if (value.isVoid()) {
-                throw new IllegalStateException("The element does not return value");
+    protected finbl Object getVbribble(String id) {
+        if (id.equbls(this.id)) {
+            VblueObject vblue = getVblueObject();
+            if (vblue.isVoid()) {
+                throw new IllegblStbteException("The element does not return vblue");
             }
-            return value.getValue();
+            return vblue.getVblue();
         }
-        return (this.parent != null)
-                ? this.parent.getVariable(id)
-                : this.owner.getVariable(id);
+        return (this.pbrent != null)
+                ? this.pbrent.getVbribble(id)
+                : this.owner.getVbribble(id);
     }
 
     /**
-     * Returns the value of the parent element.
+     * Returns the vblue of the pbrent element.
      *
-     * @return the value of the parent element
+     * @return the vblue of the pbrent element
      */
-    protected Object getContextBean() {
-        if (this.parent != null) {
-            ValueObject value = this.parent.getValueObject();
-            if (!value.isVoid()) {
-                return value.getValue();
+    protected Object getContextBebn() {
+        if (this.pbrent != null) {
+            VblueObject vblue = this.pbrent.getVblueObject();
+            if (!vblue.isVoid()) {
+                return vblue.getVblue();
             }
-            throw new IllegalStateException("The outer element does not return value");
+            throw new IllegblStbteException("The outer element does not return vblue");
         } else {
-            Object value = this.owner.getOwner();
-            if (value != null) {
-                return value;
+            Object vblue = this.owner.getOwner();
+            if (vblue != null) {
+                return vblue;
             }
-            throw new IllegalStateException("The topmost element does not have context");
+            throw new IllegblStbteException("The topmost element does not hbve context");
         }
     }
 
     /**
-     * Parses attributes of the element.
-     * By default, the following attribute is supported:
+     * Pbrses bttributes of the element.
+     * By defbult, the following bttribute is supported:
      * <dl>
      * <dt>id
-     * <dd>the identifier of the variable that is intended to store the result
+     * <dd>the identifier of the vbribble thbt is intended to store the result
      * </dl>
      *
-     * @param name   the attribute name
-     * @param value  the attribute value
+     * @pbrbm nbme   the bttribute nbme
+     * @pbrbm vblue  the bttribute vblue
      */
-    public void addAttribute(String name, String value) {
-        if (name.equals("id")) { // NON-NLS: the attribute name
-            this.id = value;
+    public void bddAttribute(String nbme, String vblue) {
+        if (nbme.equbls("id")) { // NON-NLS: the bttribute nbme
+            this.id = vblue;
         } else {
-            throw new IllegalArgumentException("Unsupported attribute: " + name);
+            throw new IllegblArgumentException("Unsupported bttribute: " + nbme);
         }
     }
 
     /**
-     * This method is called before parsing of the element's body.
-     * All attributes are parsed at this point.
-     * By default, do nothing.
+     * This method is cblled before pbrsing of the element's body.
+     * All bttributes bre pbrsed bt this point.
+     * By defbult, do nothing.
      */
-    public void startElement() {
+    public void stbrtElement() {
     }
 
     /**
-     * This method is called after parsing of the element's body.
-     * By default, it calculates the value of this element.
-     * The following tasks are executing for any non-void value:
+     * This method is cblled bfter pbrsing of the element's body.
+     * By defbult, it cblculbtes the vblue of this element.
+     * The following tbsks bre executing for bny non-void vblue:
      * <ol>
-     * <li>If the {@code id} attribute is set
-     * the value of the variable with the specified identifier
-     * is set to the value of this element.</li>
-     * <li>This element is used as an argument of parent element if it is possible.</li>
+     * <li>If the {@code id} bttribute is set
+     * the vblue of the vbribble with the specified identifier
+     * is set to the vblue of this element.</li>
+     * <li>This element is used bs bn brgument of pbrent element if it is possible.</li>
      * </ol>
      *
      * @see #isArgument
      */
     public void endElement() {
-        // do nothing if no value returned
-        ValueObject value = getValueObject();
-        if (!value.isVoid()) {
+        // do nothing if no vblue returned
+        VblueObject vblue = getVblueObject();
+        if (!vblue.isVoid()) {
             if (this.id != null) {
-                this.owner.setVariable(this.id, value.getValue());
+                this.owner.setVbribble(this.id, vblue.getVblue());
             }
             if (isArgument()) {
-                if (this.parent != null) {
-                    this.parent.addArgument(value.getValue());
+                if (this.pbrent != null) {
+                    this.pbrent.bddArgument(vblue.getVblue());
                 } else {
-                    this.owner.addObject(value.getValue());
+                    this.owner.bddObject(vblue.getVblue());
                 }
             }
         }
     }
 
     /**
-     * Adds the character that contained in this element.
-     * By default, only whitespaces are acceptable.
+     * Adds the chbrbcter thbt contbined in this element.
+     * By defbult, only whitespbces bre bcceptbble.
      *
-     * @param ch  the character
+     * @pbrbm ch  the chbrbcter
      */
-    public void addCharacter(char ch) {
+    public void bddChbrbcter(chbr ch) {
         if ((ch != ' ') && (ch != '\n') && (ch != '\t') && (ch != '\r')) {
-            throw new IllegalStateException("Illegal character with code " + (int) ch);
+            throw new IllegblStbteException("Illegbl chbrbcter with code " + (int) ch);
         }
     }
 
     /**
-     * Adds the argument that is used to calculate the value of this element.
-     * By default, no arguments are acceptable.
+     * Adds the brgument thbt is used to cblculbte the vblue of this element.
+     * By defbult, no brguments bre bcceptbble.
      *
-     * @param argument  the value of the element that contained in this one
+     * @pbrbm brgument  the vblue of the element thbt contbined in this one
      */
-    protected void addArgument(Object argument) {
-        throw new IllegalStateException("Could not add argument to simple element");
+    protected void bddArgument(Object brgument) {
+        throw new IllegblStbteException("Could not bdd brgument to simple element");
     }
 
     /**
-     * Tests whether the value of this element can be used
-     * as an argument of the element that contained in this one.
+     * Tests whether the vblue of this element cbn be used
+     * bs bn brgument of the element thbt contbined in this one.
      *
-     * @return {@code true} if the value of this element can be used
-     *         as an argument of the element that contained in this one,
-     *         {@code false} otherwise
+     * @return {@code true} if the vblue of this element cbn be used
+     *         bs bn brgument of the element thbt contbined in this one,
+     *         {@code fblse} otherwise
      */
-    protected boolean isArgument() {
+    protected boolebn isArgument() {
         return this.id == null;
     }
 
     /**
-     * Returns the value of this element.
+     * Returns the vblue of this element.
      *
-     * @return the value of this element
+     * @return the vblue of this element
      */
-    protected abstract ValueObject getValueObject();
+    protected bbstrbct VblueObject getVblueObject();
 }

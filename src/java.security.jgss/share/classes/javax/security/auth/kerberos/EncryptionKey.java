@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.kerberos;
+pbckbge jbvbx.security.buth.kerberos;
 
-import java.util.Arrays;
-import java.util.Objects;
-import javax.crypto.SecretKey;
-import javax.security.auth.DestroyFailedException;
+import jbvb.util.Arrbys;
+import jbvb.util.Objects;
+import jbvbx.crypto.SecretKey;
+import jbvbx.security.buth.DestroyFbiledException;
 
 /**
- * This class encapsulates an EncryptionKey used in Kerberos.<p>
+ * This clbss encbpsulbtes bn EncryptionKey used in Kerberos.<p>
  *
  * An EncryptionKey is defined in Section 4.2.9 of the Kerberos Protocol
- * Specification (<a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>) as:
+ * Specificbtion (<b href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</b>) bs:
  * <pre>
  *     EncryptionKey   ::= SEQUENCE {
- *             keytype         [0] Int32 -- actually encryption type --,
- *             keyvalue        [1] OCTET STRING
+ *             keytype         [0] Int32 -- bctublly encryption type --,
+ *             keyvblue        [1] OCTET STRING
  *     }
  * </pre>
- * The key material of an {@code EncryptionKey} is defined as the value
- * of the {@code keyValue} above.<p>
+ * The key mbteribl of bn {@code EncryptionKey} is defined bs the vblue
+ * of the {@code keyVblue} bbove.<p>
  *
  * @since 1.9
  */
-public final class EncryptionKey implements SecretKey {
+public finbl clbss EncryptionKey implements SecretKey {
 
-    private static final long serialVersionUID = 9L;
+    privbte stbtic finbl long seriblVersionUID = 9L;
 
    /**
-    * {@code KeyImpl} is serialized by writing out the ASN.1 encoded bytes
+    * {@code KeyImpl} is seriblized by writing out the ASN.1 encoded bytes
     * of the encryption key.
     *
-    * @serial
+    * @seribl
     */
-    final private KeyImpl key;
+    finbl privbte KeyImpl key;
 
-    private transient boolean destroyed = false;
+    privbte trbnsient boolebn destroyed = fblse;
 
     /**
-     * Constructs a {@code EncryptionKey} from the given bytes and
+     * Constructs b {@code EncryptionKey} from the given bytes bnd
      * the key type.
      * <p>
-     * The contents of the byte array are copied; subsequent modification of
-     * the byte array does not affect the newly created key.
+     * The contents of the byte brrby bre copied; subsequent modificbtion of
+     * the byte brrby does not bffect the newly crebted key.
      *
-     * @param keyBytes the key material for the key
-     * @param keyType the key type for the key as defined by the
-     *                Kerberos protocol specification.
+     * @pbrbm keyBytes the key mbteribl for the key
+     * @pbrbm keyType the key type for the key bs defined by the
+     *                Kerberos protocol specificbtion.
      * @throws NullPointerException if keyBytes is null
      */
     public EncryptionKey(byte[] keyBytes, int keyType) {
@@ -80,72 +80,72 @@ public final class EncryptionKey implements SecretKey {
      * Returns the key type for this key.
      *
      * @return the key type.
-     * @throws IllegalStateException if the key is destroyed
+     * @throws IllegblStbteException if the key is destroyed
      */
     public int getKeyType() {
-        // KeyImpl already checked if destroyed
+        // KeyImpl blrebdy checked if destroyed
         return key.getKeyType();
     }
 
     /*
-     * Methods from java.security.Key
+     * Methods from jbvb.security.Key
      */
 
     /**
-     * Returns the standard algorithm name for this key. The algorithm names
-     * are the encryption type string defined on the IANA
-     * <a href="https://www.iana.org/assignments/kerberos-parameters/kerberos-parameters.xhtml#kerberos-parameters-1">Kerberos Encryption Type Numbers</a>
-     * page.
+     * Returns the stbndbrd blgorithm nbme for this key. The blgorithm nbmes
+     * bre the encryption type string defined on the IANA
+     * <b href="https://www.ibnb.org/bssignments/kerberos-pbrbmeters/kerberos-pbrbmeters.xhtml#kerberos-pbrbmeters-1">Kerberos Encryption Type Numbers</b>
+     * pbge.
      * <p>
-     * This method can return the following value not defined on the IANA page:
+     * This method cbn return the following vblue not defined on the IANA pbge:
      * <ol>
-     *     <li>none: for etype equal to 0</li>
-     *     <li>unknown: for etype greater than 0 but unsupported by
-     *         the implementation</li>
-     *     <li>private: for etype smaller than 0</li>
+     *     <li>none: for etype equbl to 0</li>
+     *     <li>unknown: for etype grebter thbn 0 but unsupported by
+     *         the implementbtion</li>
+     *     <li>privbte: for etype smbller thbn 0</li>
      * </ol>
      *
-     * @return the name of the algorithm associated with this key.
-     * @throws IllegalStateException if the key is destroyed
+     * @return the nbme of the blgorithm bssocibted with this key.
+     * @throws IllegblStbteException if the key is destroyed
      */
     @Override
     public String getAlgorithm() {
-        // KeyImpl already checked if destroyed
+        // KeyImpl blrebdy checked if destroyed
         return key.getAlgorithm();
     }
 
     /**
-     * Returns the name of the encoding format for this key.
+     * Returns the nbme of the encoding formbt for this key.
      *
      * @return the String "RAW"
-     * @throws IllegalStateException if the key is destroyed
+     * @throws IllegblStbteException if the key is destroyed
      */
     @Override
-    public String getFormat() {
-        // KeyImpl already checked if destroyed
-        return key.getFormat();
+    public String getFormbt() {
+        // KeyImpl blrebdy checked if destroyed
+        return key.getFormbt();
     }
 
     /**
-     * Returns the key material of this key.
+     * Returns the key mbteribl of this key.
      *
-     * @return a newly allocated byte array that contains the key material
-     * @throws IllegalStateException if the key is destroyed
+     * @return b newly bllocbted byte brrby thbt contbins the key mbteribl
+     * @throws IllegblStbteException if the key is destroyed
      */
     @Override
     public byte[] getEncoded() {
-        // KeyImpl already checked if destroyed
+        // KeyImpl blrebdy checked if destroyed
         return key.getEncoded();
     }
 
     /**
-     * Destroys this key by clearing out the key material of this key.
+     * Destroys this key by clebring out the key mbteribl of this key.
      *
-     * @throws DestroyFailedException if some error occurs while destorying
+     * @throws DestroyFbiledException if some error occurs while destorying
      * this key.
      */
     @Override
-    public void destroy() throws DestroyFailedException {
+    public void destroy() throws DestroyFbiledException {
         if (!destroyed) {
             key.destroy();
             destroyed = true;
@@ -154,7 +154,7 @@ public final class EncryptionKey implements SecretKey {
 
 
     @Override
-    public boolean isDestroyed() {
+    public boolebn isDestroyed() {
         return destroyed;
     }
 
@@ -167,42 +167,42 @@ public final class EncryptionKey implements SecretKey {
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if (isDestroyed()) {
             return result;
         }
-        result = 37 * result + Arrays.hashCode(getEncoded());
+        result = 37 * result + Arrbys.hbshCode(getEncoded());
         return 37 * result + getKeyType();
     }
 
     /**
-     * Compares the specified Object with this key for equality.
-     * Returns true if the given object is also a
-     * {@code EncryptionKey} and the two
-     * {@code EncryptionKey} instances are equivalent.
+     * Compbres the specified Object with this key for equblity.
+     * Returns true if the given object is blso b
+     * {@code EncryptionKey} bnd the two
+     * {@code EncryptionKey} instbnces bre equivblent.
      *
-     * @param other the Object to compare to
-     * @return true if the specified object is equal to this EncryptionKey,
-     * false otherwise. NOTE: Returns false if either of the EncryptionKey
-     * objects has been destroyed.
+     * @pbrbm other the Object to compbre to
+     * @return true if the specified object is equbl to this EncryptionKey,
+     * fblse otherwise. NOTE: Returns fblse if either of the EncryptionKey
+     * objects hbs been destroyed.
      */
     @Override
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
 
         if (other == this)
             return true;
 
-        if (! (other instanceof EncryptionKey)) {
-            return false;
+        if (! (other instbnceof EncryptionKey)) {
+            return fblse;
         }
 
         EncryptionKey otherKey = ((EncryptionKey) other);
         if (isDestroyed() || otherKey.isDestroyed()) {
-            return false;
+            return fblse;
         }
 
         return getKeyType() == otherKey.getKeyType()
-                && Arrays.equals(getEncoded(), otherKey.getEncoded());
+                && Arrbys.equbls(getEncoded(), otherKey.getEncoded());
     }
 }

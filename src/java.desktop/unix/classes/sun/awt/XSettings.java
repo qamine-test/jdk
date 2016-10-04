@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.Color;
+import jbvb.bwt.Color;
 
-import java.io.UnsupportedEncodingException;
+import jbvb.io.UnsupportedEncodingException;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
 
 /**
  * Per-screen XSETTINGS.
  */
-public class XSettings {
+public clbss XSettings {
 
     /**
      */
-    private long serial = -1;
+    privbte long seribl = -1;
 
 
     /**
-     * Update these settings with <code>data</code> obtained from
-     * XSETTINGS manager.
+     * Updbte these settings with <code>dbtb</code> obtbined from
+     * XSETTINGS mbnbger.
      *
-     * @param data settings data obtained from
+     * @pbrbm dbtb settings dbtb obtbined from
      *     <code>_XSETTINGS_SETTINGS</code> window property of the
-     *     settings manager.
-     * @return a <code>Map</code> of changed settings.
+     *     settings mbnbger.
+     * @return b <code>Mbp</code> of chbnged settings.
      */
-    public Map<String, Object> update(byte[] data) {
-        return (new Update(data)).update();
+    public Mbp<String, Object> updbte(byte[] dbtb) {
+        return (new Updbte(dbtb)).updbte();
     }
 
 
     /**
      * TBS ...
      */
-    class Update {
+    clbss Updbte {
 
-        /* byte order mark */
-        private static final int LITTLE_ENDIAN = 0;
-        private static final int BIG_ENDIAN    = 1;
+        /* byte order mbrk */
+        privbte stbtic finbl int LITTLE_ENDIAN = 0;
+        privbte stbtic finbl int BIG_ENDIAN    = 1;
 
         /* setting type */
-        private static final int TYPE_INTEGER = 0;
-        private static final int TYPE_STRING  = 1;
-        private static final int TYPE_COLOR   = 2;
+        privbte stbtic finbl int TYPE_INTEGER = 0;
+        privbte stbtic finbl int TYPE_STRING  = 1;
+        privbte stbtic finbl int TYPE_COLOR   = 2;
 
-        private byte[] data;
-        private int dlen;
-        private int idx;
-        private boolean isLittle;
-        private long serial = -1;
-        private int nsettings = 0;
-        private boolean isValid;
+        privbte byte[] dbtb;
+        privbte int dlen;
+        privbte int idx;
+        privbte boolebn isLittle;
+        privbte long seribl = -1;
+        privbte int nsettings = 0;
+        privbte boolebn isVblid;
 
-        private HashMap<String, Object> updatedSettings;
+        privbte HbshMbp<String, Object> updbtedSettings;
 
 
         /**
-         * Construct an Update object for the data read from
+         * Construct bn Updbte object for the dbtb rebd from
          * <code>_XSETTINGS_SETTINGS</code> property of the XSETTINGS
          * selection owner.
          *
-         * @param data <code>_XSETTINGS_SETTINGS</code> contents.
+         * @pbrbm dbtb <code>_XSETTINGS_SETTINGS</code> contents.
          */
-        Update(byte[] data) {
-            this.data = data;
+        Updbte(byte[] dbtb) {
+            this.dbtb = dbtb;
 
-            dlen = data.length;
+            dlen = dbtb.length;
             if (dlen < 12) {
-                // XXX: debug trace?
+                // XXX: debug trbce?
                 return;
             }
 
-            // first byte gives endianness of the data
-            // next 3 bytes are unused (pad to 32 bit)
+            // first byte gives endibnness of the dbtb
+            // next 3 bytes bre unused (pbd to 32 bit)
             idx = 0;
             isLittle = (getCARD8() == LITTLE_ENDIAN);
 
             idx = 4;
-            serial = getCARD32();
+            seribl = getCARD32();
 
-            // N_SETTINGS is actually CARD32 (i.e. unsigned), but
-            // since java doesn't have an unsigned int type, and
-            // N_SETTINGS cannot realistically exceed 2^31 (so we
-            // gonna use int anyway), just read it as INT32.
+            // N_SETTINGS is bctublly CARD32 (i.e. unsigned), but
+            // since jbvb doesn't hbve bn unsigned int type, bnd
+            // N_SETTINGS cbnnot reblisticblly exceed 2^31 (so we
+            // gonnb use int bnywby), just rebd it bs INT32.
             idx = 8;
             nsettings = getINT32();
 
-            updatedSettings = new HashMap<>();
+            updbtedSettings = new HbshMbp<>();
 
-            isValid = true;
+            isVblid = true;
         }
 
 
-        private void needBytes(int n)
+        privbte void needBytes(int n)
             throws IndexOutOfBoundsException
         {
             if (idx + n <= dlen) {
                 return;
             }
 
-            throw new IndexOutOfBoundsException("at " + idx
+            throw new IndexOutOfBoundsException("bt " + idx
                                                 + " need " + n
                                                 + " length " + dlen);
         }
 
 
-        private int getCARD8()
+        privbte int getCARD8()
             throws IndexOutOfBoundsException
         {
             needBytes(1);
 
-            int val = data[idx] & 0xff;
+            int vbl = dbtb[idx] & 0xff;
 
             ++idx;
-            return val;
+            return vbl;
         }
 
 
-        private int getCARD16()
+        privbte int getCARD16()
             throws IndexOutOfBoundsException
         {
             needBytes(2);
 
-            int val;
+            int vbl;
             if (isLittle) {
-                val = ((data[idx + 0] & 0xff)      )
-                    | ((data[idx + 1] & 0xff) <<  8);
+                vbl = ((dbtb[idx + 0] & 0xff)      )
+                    | ((dbtb[idx + 1] & 0xff) <<  8);
             } else {
-                val = ((data[idx + 0] & 0xff) <<  8)
-                    | ((data[idx + 1] & 0xff)      );
+                vbl = ((dbtb[idx + 0] & 0xff) <<  8)
+                    | ((dbtb[idx + 1] & 0xff)      );
             }
 
             idx += 2;
-            return val;
+            return vbl;
         }
 
 
-        private int getINT32()
+        privbte int getINT32()
             throws IndexOutOfBoundsException
         {
             needBytes(4);
 
-            int val;
+            int vbl;
             if (isLittle) {
-                val = ((data[idx + 0] & 0xff)      )
-                    | ((data[idx + 1] & 0xff) <<  8)
-                    | ((data[idx + 2] & 0xff) << 16)
-                    | ((data[idx + 3] & 0xff) << 24);
+                vbl = ((dbtb[idx + 0] & 0xff)      )
+                    | ((dbtb[idx + 1] & 0xff) <<  8)
+                    | ((dbtb[idx + 2] & 0xff) << 16)
+                    | ((dbtb[idx + 3] & 0xff) << 24);
             } else {
-                val = ((data[idx + 0] & 0xff) << 24)
-                    | ((data[idx + 1] & 0xff) << 16)
-                    | ((data[idx + 2] & 0xff) <<  8)
-                    | ((data[idx + 3] & 0xff) <<  0);
+                vbl = ((dbtb[idx + 0] & 0xff) << 24)
+                    | ((dbtb[idx + 1] & 0xff) << 16)
+                    | ((dbtb[idx + 2] & 0xff) <<  8)
+                    | ((dbtb[idx + 3] & 0xff) <<  0);
             }
 
             idx += 4;
-            return val;
+            return vbl;
         }
 
 
-        private long getCARD32()
+        privbte long getCARD32()
             throws IndexOutOfBoundsException
         {
             return getINT32() & 0x00000000ffffffffL;
         }
 
 
-        private String getString(int len)
+        privbte String getString(int len)
             throws IndexOutOfBoundsException
         {
             needBytes(len);
 
             String str = null;
             try {
-                str = new String(data, idx, len, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                // XXX: cannot happen, "UTF-8" is always supported
+                str = new String(dbtb, idx, len, "UTF-8");
+            } cbtch (UnsupportedEncodingException e) {
+                // XXX: cbnnot hbppen, "UTF-8" is blwbys supported
             }
 
             idx = (idx + len + 3) & ~0x3;
@@ -211,55 +211,55 @@ public class XSettings {
 
 
         /**
-         * Update settings.
+         * Updbte settings.
          */
-        public Map<String, Object> update() {
-            if (!isValid) {
+        public Mbp<String, Object> updbte() {
+            if (!isVblid) {
                 return null;
             }
 
             synchronized (XSettings.this) {
-                long currentSerial = XSettings.this.serial;
+                long currentSeribl = XSettings.this.seribl;
 
-                if (this.serial <= currentSerial) {
+                if (this.seribl <= currentSeribl) {
                     return null;
                 }
 
                 for (int i = 0; i < nsettings && idx < dlen; ++i) {
-                    updateOne(currentSerial);
+                    updbteOne(currentSeribl);
                 }
 
-                XSettings.this.serial = this.serial;
+                XSettings.this.seribl = this.seribl;
             }
 
-            return updatedSettings;
+            return updbtedSettings;
         }
 
 
         /**
-         * Parses a particular x setting.
+         * Pbrses b pbrticulbr x setting.
          *
          * @exception IndexOutOfBoundsException if there isn't enough
-         *     data for a setting.
+         *     dbtb for b setting.
          */
-        private void updateOne(long currentSerial)
+        privbte void updbteOne(long currentSeribl)
             throws IndexOutOfBoundsException,
-                   IllegalArgumentException
+                   IllegblArgumentException
         {
             int type = getCARD8();
-            ++idx;              // pad to next CARD16
+            ++idx;              // pbd to next CARD16
 
-            // save position of the property name, skip to serial
-            int nameLen = getCARD16();
-            int nameIdx = idx;
+            // sbve position of the property nbme, skip to seribl
+            int nbmeLen = getCARD16();
+            int nbmeIdx = idx;
 
             // check if we should bother
-            idx = (idx + nameLen + 3) & ~0x3; // pad to 32 bit
-            long lastChanged = getCARD32();
+            idx = (idx + nbmeLen + 3) & ~0x3; // pbd to 32 bit
+            long lbstChbnged = getCARD32();
 
-            // Avoid constructing garbage for properties that has not
-            // changed, skip the data for this property.
-            if (lastChanged <= currentSerial) { // skip
+            // Avoid constructing gbrbbge for properties thbt hbs not
+            // chbnged, skip the dbtb for this property.
+            if (lbstChbnged <= currentSeribl) { // skip
                 if (type == TYPE_INTEGER) {
                     idx += 4;
                 } else if (type == TYPE_STRING) {
@@ -268,46 +268,46 @@ public class XSettings {
                 } else if (type == TYPE_COLOR) {
                     idx += 8;   // 4 CARD16
                 } else {
-                    throw new IllegalArgumentException("Unknown type: "
+                    throw new IllegblArgumentException("Unknown type: "
                                                        + type);
                 }
 
                 return;
             }
 
-            idx = nameIdx;
-            String name = getString(nameLen);
-            idx += 4;           // skip serial, parsed above
+            idx = nbmeIdx;
+            String nbme = getString(nbmeLen);
+            idx += 4;           // skip seribl, pbrsed bbove
 
-            Object value = null;
+            Object vblue = null;
             if (type == TYPE_INTEGER) {
-                value = Integer.valueOf(getINT32());
+                vblue = Integer.vblueOf(getINT32());
             }
             else if (type == TYPE_STRING) {
-                value = getString(getINT32());
+                vblue = getString(getINT32());
             }
             else if (type == TYPE_COLOR) {
                 int r = getCARD16();
                 int g = getCARD16();
                 int b = getCARD16();
-                int a = getCARD16();
+                int b = getCARD16();
 
-                value = new Color(r / 65535.0f,
+                vblue = new Color(r / 65535.0f,
                                   g / 65535.0f,
                                   b / 65535.0f,
-                                  a / 65535.0f);
+                                  b / 65535.0f);
             }
             else {
-                throw new IllegalArgumentException("Unknown type: " + type);
+                throw new IllegblArgumentException("Unknown type: " + type);
             }
 
-            if (name == null) {
-                // dtrace???
+            if (nbme == null) {
+                // dtrbce???
                 return;
             }
 
-            updatedSettings.put(name, value);
+            updbtedSettings.put(nbme, vblue);
         }
 
-    } // class XSettings.Update
+    } // clbss XSettings.Updbte
 }

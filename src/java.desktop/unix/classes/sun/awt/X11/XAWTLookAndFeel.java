@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.SystemColor;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.SystemColor;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.text.DefaultEditorKit;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.text.DefbultEditorKit;
 
-import javax.swing.plaf.basic.BasicBorders;
-import com.sun.java.swing.plaf.motif.*;
-import sun.awt.X11.XComponentPeer;
+import jbvbx.swing.plbf.bbsic.BbsicBorders;
+import com.sun.jbvb.swing.plbf.motif.*;
+import sun.bwt.X11.XComponentPeer;
 
-@SuppressWarnings("serial") // JDK-implementation class
-class XAWTLookAndFeel extends MotifLookAndFeel {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+clbss XAWTLookAndFeel extends MotifLookAndFeel {
 
     /**
-     * Load the SystemColors into the defaults table.  The keys
-     * for SystemColor defaults are the same as the names of
-     * the public fields in SystemColor.  If the table is being
-     * created on a native Motif platform we use the SystemColor
-     * values, otherwise we create color objects whose values match
-     * the default CDE/Motif colors.
+     * Lobd the SystemColors into the defbults tbble.  The keys
+     * for SystemColor defbults bre the sbme bs the nbmes of
+     * the public fields in SystemColor.  If the tbble is being
+     * crebted on b nbtive Motif plbtform we use the SystemColor
+     * vblues, otherwise we crebte color objects whose vblues mbtch
+     * the defbult CDE/Motif colors.
      */
-    protected void initSystemColorDefaults(UIDefaults table) {
-        String[] defaultSystemColors = {
-            "desktop", "#005C5C", /* Color of the desktop background */
-            "activeCaption", "#000080", /* Color for captions (title bars) when they are active. */
-            "activeCaptionText", "#FFFFFF", /* Text color for text in captions (title bars). */
-            "activeCaptionBorder", "#B24D7A", /* Border color for caption (title bar) window borders. */
-            "inactiveCaption", "#AEB2C3", /* Color for captions (title bars) when not active. */
-            "inactiveCaptionText", "#000000", /* Text color for text in inactive captions (title bars). */
-            "inactiveCaptionBorder", "#AEB2C3", /* Border color for inactive caption (title bar) window borders. */
-            "window", "#AEB2C3", /* Default color for the interior of windows */
+    protected void initSystemColorDefbults(UIDefbults tbble) {
+        String[] defbultSystemColors = {
+            "desktop", "#005C5C", /* Color of the desktop bbckground */
+            "bctiveCbption", "#000080", /* Color for cbptions (title bbrs) when they bre bctive. */
+            "bctiveCbptionText", "#FFFFFF", /* Text color for text in cbptions (title bbrs). */
+            "bctiveCbptionBorder", "#B24D7A", /* Border color for cbption (title bbr) window borders. */
+            "inbctiveCbption", "#AEB2C3", /* Color for cbptions (title bbrs) when not bctive. */
+            "inbctiveCbptionText", "#000000", /* Text color for text in inbctive cbptions (title bbrs). */
+            "inbctiveCbptionBorder", "#AEB2C3", /* Border color for inbctive cbption (title bbr) window borders. */
+            "window", "#AEB2C3", /* Defbult color for the interior of windows */
             "windowBorder", "#AEB2C3", /* ??? */
             "windowText", "#000000", /* ??? */
             "menu", "#AEB2C3", /* ??? */
             "menuText", "#000000", /* ??? */
-            "text", "#FFF7E9", /* Text background color */
+            "text", "#FFF7E9", /* Text bbckground color */
             "textText", "#000000", /* Text foreground color */
-            "textHighlight", "#000000", /* Text background color when selected */
+            "textHighlight", "#000000", /* Text bbckground color when selected */
             "textHighlightText", "#FFF7E9", /* Text color when selected */
-            "textInactiveText", "#808080", /* Text color when disabled */
-            "control", "#AEB2C3", /* Default color for controls (buttons, sliders, etc) */
-            "controlText", "#000000", /* Default color for text in controls */
+            "textInbctiveText", "#808080", /* Text color when disbbled */
+            "control", "#AEB2C3", /* Defbult color for controls (buttons, sliders, etc) */
+            "controlText", "#000000", /* Defbult color for text in controls */
             "controlHighlight", "#DCDEE5", /* Highlight color for controls */
             "controlLtHighlight", "#DCDEE5", /* Light highlight color for controls */
-            "controlShadow", "#63656F", /* Shadow color for controls */
-            "controlLightShadow", "#9397A5", /* Shadow color for controls */
-            "controlDkShadow", "#000000", /* Dark shadow color for controls */
-            "scrollbar", "#AEB2C3", /* Scrollbar ??? color. PENDING(jeff) foreground? background? ?*/
+            "controlShbdow", "#63656F", /* Shbdow color for controls */
+            "controlLightShbdow", "#9397A5", /* Shbdow color for controls */
+            "controlDkShbdow", "#000000", /* Dbrk shbdow color for controls */
+            "scrollbbr", "#AEB2C3", /* Scrollbbr ??? color. PENDING(jeff) foreground? bbckground? ?*/
             "info", "#FFF7E9", /* ??? */
             "infoText", "#000000"  /* ??? */
         };
 
-        loadSystemColors(table, defaultSystemColors, true);
+        lobdSystemColors(tbble, defbultSystemColors, true);
     }
 
-    protected void initComponentDefaults(UIDefaults table) {
-        super.initComponentDefaults(table);
+    protected void initComponentDefbults(UIDefbults tbble) {
+        super.initComponentDefbults(tbble);
 
-        FontUIResource dialogPlain12 = new FontUIResource(Font.DIALOG,
+        FontUIResource diblogPlbin12 = new FontUIResource(Font.DIALOG,
                                                           Font.PLAIN, 12);
-        FontUIResource sansSerifPlain12 = new FontUIResource(Font.SANS_SERIF,
+        FontUIResource sbnsSerifPlbin12 = new FontUIResource(Font.SANS_SERIF,
                                                              Font.PLAIN, 12);
-        FontUIResource monospacedPlain12 = new FontUIResource(Font.MONOSPACED,
+        FontUIResource monospbcedPlbin12 = new FontUIResource(Font.MONOSPACED,
                                                               Font.PLAIN, 12);
         ColorUIResource red = new ColorUIResource(Color.red);
-        ColorUIResource black = new ColorUIResource(Color.black);
+        ColorUIResource blbck = new ColorUIResource(Color.blbck);
         ColorUIResource white = new ColorUIResource(Color.white);
-        ColorUIResource lightGray = new ColorUIResource(Color.lightGray);
-        ColorUIResource controlDarker =  new ColorUIResource(SystemColor.controlDkShadow);
+        ColorUIResource lightGrby = new ColorUIResource(Color.lightGrby);
+        ColorUIResource controlDbrker =  new ColorUIResource(SystemColor.controlDkShbdow);
 
-        Color back = table.getColor("control");
+        Color bbck = tbble.getColor("control");
         Color colors [] = XComponentPeer.getSystemColors();
-        Color scrollBarBackground = colors[XComponentPeer.BACKGROUND_COLOR];
-        Color trackColor = new Color(MotifColorUtilities.calculateSelectFromBackground(scrollBarBackground.getRed(), scrollBarBackground.getGreen(), scrollBarBackground.getBlue()));
-        Border loweredBevelBorder = new MotifBorders.BevelBorder(false,
-                                                                 table.getColor("controlShadow"),
-                                                                 table.getColor("controlLtHighlight"));
+        Color scrollBbrBbckground = colors[XComponentPeer.BACKGROUND_COLOR];
+        Color trbckColor = new Color(MotifColorUtilities.cblculbteSelectFromBbckground(scrollBbrBbckground.getRed(), scrollBbrBbckground.getGreen(), scrollBbrBbckground.getBlue()));
+        Border loweredBevelBorder = new MotifBorders.BevelBorder(fblse,
+                                                                 tbble.getColor("controlShbdow"),
+                                                                 tbble.getColor("controlLtHighlight"));
 
-        Border raisedBevelBorder = new MotifBorders.BevelBorder(true,
-                                                                table.getColor("controlShadow"),
-                                                                table.getColor("controlLtHighlight"));
+        Border rbisedBevelBorder = new MotifBorders.BevelBorder(true,
+                                                                tbble.getColor("controlShbdow"),
+                                                                tbble.getColor("controlLtHighlight"));
 
-        Border marginBorder = new BasicBorders.MarginBorder();
+        Border mbrginBorder = new BbsicBorders.MbrginBorder();
 
         Border focusBorder = new MotifBorders.FocusBorder(
-            table.getColor("control"),
-            table.getColor("activeCaptionBorder"));
+            tbble.getColor("control"),
+            tbble.getColor("bctiveCbptionBorder"));
 
 
         Border focusBevelBorder = new BorderUIResource.CompoundBorderUIResource(
@@ -123,180 +123,180 @@ class XAWTLookAndFeel extends MotifLookAndFeel {
 
         Border textFieldBorder = new BorderUIResource.CompoundBorderUIResource(
             focusBevelBorder,
-            marginBorder);
+            mbrginBorder);
 
         // *** Text
 
-        Object fieldInputMap = new UIDefaults.LazyInputMap(new Object[] {
-            "COPY", DefaultEditorKit.copyAction,
-            "PASTE", DefaultEditorKit.pasteAction,
-            "CUT", DefaultEditorKit.cutAction,
-            "control C", DefaultEditorKit.copyAction,
-            "control V", DefaultEditorKit.pasteAction,
-            "control X", DefaultEditorKit.cutAction,
-            "control INSERT", DefaultEditorKit.copyAction,
-            "shift INSERT", DefaultEditorKit.pasteAction,
-            "shift DELETE", DefaultEditorKit.cutAction,
-            "control F", DefaultEditorKit.forwardAction,
-            "control B", DefaultEditorKit.backwardAction,
-            "control D", DefaultEditorKit.deleteNextCharAction,
-            "typed \010", DefaultEditorKit.deletePrevCharAction,
-            "DELETE", DefaultEditorKit.deleteNextCharAction,
-            "RIGHT", DefaultEditorKit.forwardAction,
-            "LEFT", DefaultEditorKit.backwardAction,
-            "KP_RIGHT", DefaultEditorKit.forwardAction,
-            "KP_LEFT", DefaultEditorKit.backwardAction,
-            "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-            "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-            "control LEFT", DefaultEditorKit.previousWordAction,
-            "control RIGHT", DefaultEditorKit.nextWordAction,
-            "control shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-            "control shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-            "control SLASH", DefaultEditorKit.selectAllAction,
-            "HOME", DefaultEditorKit.beginLineAction,
-            "END", DefaultEditorKit.endLineAction,
-            "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-            "shift END", DefaultEditorKit.selectionEndLineAction,
+        Object fieldInputMbp = new UIDefbults.LbzyInputMbp(new Object[] {
+            "COPY", DefbultEditorKit.copyAction,
+            "PASTE", DefbultEditorKit.pbsteAction,
+            "CUT", DefbultEditorKit.cutAction,
+            "control C", DefbultEditorKit.copyAction,
+            "control V", DefbultEditorKit.pbsteAction,
+            "control X", DefbultEditorKit.cutAction,
+            "control INSERT", DefbultEditorKit.copyAction,
+            "shift INSERT", DefbultEditorKit.pbsteAction,
+            "shift DELETE", DefbultEditorKit.cutAction,
+            "control F", DefbultEditorKit.forwbrdAction,
+            "control B", DefbultEditorKit.bbckwbrdAction,
+            "control D", DefbultEditorKit.deleteNextChbrAction,
+            "typed \010", DefbultEditorKit.deletePrevChbrAction,
+            "DELETE", DefbultEditorKit.deleteNextChbrAction,
+            "RIGHT", DefbultEditorKit.forwbrdAction,
+            "LEFT", DefbultEditorKit.bbckwbrdAction,
+            "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+            "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
+            "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+            "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+            "control LEFT", DefbultEditorKit.previousWordAction,
+            "control RIGHT", DefbultEditorKit.nextWordAction,
+            "control shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+            "control shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+            "control SLASH", DefbultEditorKit.selectAllAction,
+            "HOME", DefbultEditorKit.beginLineAction,
+            "END", DefbultEditorKit.endLineAction,
+            "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+            "shift END", DefbultEditorKit.selectionEndLineAction,
             "control BACK_SLASH", "unselect",
             "ENTER", JTextField.notifyAction,
-            "control shift O", "toggle-componentOrientation"
+            "control shift O", "toggle-componentOrientbtion"
         });
 
-        Object passwordInputMap = new UIDefaults.LazyInputMap(new Object[] {
-            "COPY", DefaultEditorKit.copyAction,
-            "PASTE", DefaultEditorKit.pasteAction,
-            "CUT", DefaultEditorKit.cutAction,
-            "control C", DefaultEditorKit.copyAction,
-            "control V", DefaultEditorKit.pasteAction,
-            "control X", DefaultEditorKit.cutAction,
-            "control INSERT", DefaultEditorKit.copyAction,
-            "shift INSERT", DefaultEditorKit.pasteAction,
-            "shift DELETE", DefaultEditorKit.cutAction,
-            "control F", DefaultEditorKit.forwardAction,
-            "control B", DefaultEditorKit.backwardAction,
-            "control D", DefaultEditorKit.deleteNextCharAction,
-            "typed \010", DefaultEditorKit.deletePrevCharAction,
-            "DELETE", DefaultEditorKit.deleteNextCharAction,
-            "RIGHT", DefaultEditorKit.forwardAction,
-            "LEFT", DefaultEditorKit.backwardAction,
-            "KP_RIGHT", DefaultEditorKit.forwardAction,
-            "KP_LEFT", DefaultEditorKit.backwardAction,
-            "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-            "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-            "control LEFT", DefaultEditorKit.beginLineAction,
-            "control RIGHT", DefaultEditorKit.endLineAction,
-            "control shift LEFT", DefaultEditorKit.selectionBeginLineAction,
-            "control shift RIGHT", DefaultEditorKit.selectionEndLineAction,
-            "control SLASH", DefaultEditorKit.selectAllAction,
-            "HOME", DefaultEditorKit.beginLineAction,
-            "END", DefaultEditorKit.endLineAction,
-            "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-            "shift END", DefaultEditorKit.selectionEndLineAction,
+        Object pbsswordInputMbp = new UIDefbults.LbzyInputMbp(new Object[] {
+            "COPY", DefbultEditorKit.copyAction,
+            "PASTE", DefbultEditorKit.pbsteAction,
+            "CUT", DefbultEditorKit.cutAction,
+            "control C", DefbultEditorKit.copyAction,
+            "control V", DefbultEditorKit.pbsteAction,
+            "control X", DefbultEditorKit.cutAction,
+            "control INSERT", DefbultEditorKit.copyAction,
+            "shift INSERT", DefbultEditorKit.pbsteAction,
+            "shift DELETE", DefbultEditorKit.cutAction,
+            "control F", DefbultEditorKit.forwbrdAction,
+            "control B", DefbultEditorKit.bbckwbrdAction,
+            "control D", DefbultEditorKit.deleteNextChbrAction,
+            "typed \010", DefbultEditorKit.deletePrevChbrAction,
+            "DELETE", DefbultEditorKit.deleteNextChbrAction,
+            "RIGHT", DefbultEditorKit.forwbrdAction,
+            "LEFT", DefbultEditorKit.bbckwbrdAction,
+            "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+            "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
+            "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+            "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+            "control LEFT", DefbultEditorKit.beginLineAction,
+            "control RIGHT", DefbultEditorKit.endLineAction,
+            "control shift LEFT", DefbultEditorKit.selectionBeginLineAction,
+            "control shift RIGHT", DefbultEditorKit.selectionEndLineAction,
+            "control SLASH", DefbultEditorKit.selectAllAction,
+            "HOME", DefbultEditorKit.beginLineAction,
+            "END", DefbultEditorKit.endLineAction,
+            "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+            "shift END", DefbultEditorKit.selectionEndLineAction,
             "control BACK_SLASH", "unselect",
             "ENTER", JTextField.notifyAction,
-            "control shift O", "toggle-componentOrientation"
+            "control shift O", "toggle-componentOrientbtion"
         });
 
-        Object multilineInputMap = new UIDefaults.LazyInputMap(new Object[] {
-            "COPY", DefaultEditorKit.copyAction,
-            "PASTE", DefaultEditorKit.pasteAction,
-            "CUT", DefaultEditorKit.cutAction,
-            "control C", DefaultEditorKit.copyAction,
-            "control V", DefaultEditorKit.pasteAction,
-            "control X", DefaultEditorKit.cutAction,
-            "control INSERT", DefaultEditorKit.copyAction,
-            "shift INSERT", DefaultEditorKit.pasteAction,
-            "shift DELETE", DefaultEditorKit.cutAction,
-            "control F", DefaultEditorKit.forwardAction,
-            "control B", DefaultEditorKit.backwardAction,
-            "control D", DefaultEditorKit.deleteNextCharAction,
-            "typed \010", DefaultEditorKit.deletePrevCharAction,
-            "DELETE", DefaultEditorKit.deleteNextCharAction,
-            "RIGHT", DefaultEditorKit.forwardAction,
-            "LEFT", DefaultEditorKit.backwardAction,
-            "KP_RIGHT", DefaultEditorKit.forwardAction,
-            "KP_LEFT", DefaultEditorKit.backwardAction,
-            "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-            "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-            "control LEFT", DefaultEditorKit.previousWordAction,
-            "control RIGHT", DefaultEditorKit.nextWordAction,
-            "control shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-            "control shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-            "control SLASH", DefaultEditorKit.selectAllAction,
-            "HOME", DefaultEditorKit.beginLineAction,
-            "END", DefaultEditorKit.endLineAction,
-            "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-            "shift END", DefaultEditorKit.selectionEndLineAction,
+        Object multilineInputMbp = new UIDefbults.LbzyInputMbp(new Object[] {
+            "COPY", DefbultEditorKit.copyAction,
+            "PASTE", DefbultEditorKit.pbsteAction,
+            "CUT", DefbultEditorKit.cutAction,
+            "control C", DefbultEditorKit.copyAction,
+            "control V", DefbultEditorKit.pbsteAction,
+            "control X", DefbultEditorKit.cutAction,
+            "control INSERT", DefbultEditorKit.copyAction,
+            "shift INSERT", DefbultEditorKit.pbsteAction,
+            "shift DELETE", DefbultEditorKit.cutAction,
+            "control F", DefbultEditorKit.forwbrdAction,
+            "control B", DefbultEditorKit.bbckwbrdAction,
+            "control D", DefbultEditorKit.deleteNextChbrAction,
+            "typed \010", DefbultEditorKit.deletePrevChbrAction,
+            "DELETE", DefbultEditorKit.deleteNextChbrAction,
+            "RIGHT", DefbultEditorKit.forwbrdAction,
+            "LEFT", DefbultEditorKit.bbckwbrdAction,
+            "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+            "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
+            "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+            "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+            "control LEFT", DefbultEditorKit.previousWordAction,
+            "control RIGHT", DefbultEditorKit.nextWordAction,
+            "control shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+            "control shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+            "control SLASH", DefbultEditorKit.selectAllAction,
+            "HOME", DefbultEditorKit.beginLineAction,
+            "END", DefbultEditorKit.endLineAction,
+            "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+            "shift END", DefbultEditorKit.selectionEndLineAction,
 
-            "control N", DefaultEditorKit.downAction,
-            "control P", DefaultEditorKit.upAction,
-            "UP", DefaultEditorKit.upAction,
-            "DOWN", DefaultEditorKit.downAction,
-            "KP_UP", DefaultEditorKit.upAction,
-            "KP_DOWN", DefaultEditorKit.downAction,
-            "PAGE_UP", DefaultEditorKit.pageUpAction,
-            "PAGE_DOWN", DefaultEditorKit.pageDownAction,
-            "shift PAGE_UP", "selection-page-up",
-            "shift PAGE_DOWN", "selection-page-down",
-            "ctrl shift PAGE_UP", "selection-page-left",
-            "ctrl shift PAGE_DOWN", "selection-page-right",
-            "shift UP", DefaultEditorKit.selectionUpAction,
-            "shift DOWN", DefaultEditorKit.selectionDownAction,
-            "shift KP_UP", DefaultEditorKit.selectionUpAction,
-            "shift KP_DOWN", DefaultEditorKit.selectionDownAction,
-            "ENTER", DefaultEditorKit.insertBreakAction,
-            "TAB", DefaultEditorKit.insertTabAction,
+            "control N", DefbultEditorKit.downAction,
+            "control P", DefbultEditorKit.upAction,
+            "UP", DefbultEditorKit.upAction,
+            "DOWN", DefbultEditorKit.downAction,
+            "KP_UP", DefbultEditorKit.upAction,
+            "KP_DOWN", DefbultEditorKit.downAction,
+            "PAGE_UP", DefbultEditorKit.pbgeUpAction,
+            "PAGE_DOWN", DefbultEditorKit.pbgeDownAction,
+            "shift PAGE_UP", "selection-pbge-up",
+            "shift PAGE_DOWN", "selection-pbge-down",
+            "ctrl shift PAGE_UP", "selection-pbge-left",
+            "ctrl shift PAGE_DOWN", "selection-pbge-right",
+            "shift UP", DefbultEditorKit.selectionUpAction,
+            "shift DOWN", DefbultEditorKit.selectionDownAction,
+            "shift KP_UP", DefbultEditorKit.selectionUpAction,
+            "shift KP_DOWN", DefbultEditorKit.selectionDownAction,
+            "ENTER", DefbultEditorKit.insertBrebkAction,
+            "TAB", DefbultEditorKit.insertTbbAction,
             "control BACK_SLASH", "unselect",
-            "control HOME", DefaultEditorKit.beginAction,
-            "control END", DefaultEditorKit.endAction,
-            "control shift HOME", DefaultEditorKit.selectionBeginAction,
-            "control shift END", DefaultEditorKit.selectionEndAction,
-            "control T", "next-link-action",
-            "control shift T", "previous-link-action",
-            "control SPACE", "activate-link-action",
-            "control shift O", "toggle-componentOrientation"
+            "control HOME", DefbultEditorKit.beginAction,
+            "control END", DefbultEditorKit.endAction,
+            "control shift HOME", DefbultEditorKit.selectionBeginAction,
+            "control shift END", DefbultEditorKit.selectionEndAction,
+            "control T", "next-link-bction",
+            "control shift T", "previous-link-bction",
+            "control SPACE", "bctivbte-link-bction",
+            "control shift O", "toggle-componentOrientbtion"
         });
 
         Object sliderFocusInsets = new InsetsUIResource( 0, 0, 0, 0 );
 
-        Object[] defaults = {
+        Object[] defbults = {
 
-            "ScrollBar.background", scrollBarBackground,
-            "ScrollBar.foreground", table.get("control"),
-            "ScrollBar.track", trackColor,
-            "ScrollBar.trackHighlight", trackColor,
-            "ScrollBar.thumb", scrollBarBackground,
-            "ScrollBar.thumbHighlight", table.get("controlHighlight") ,
-            "ScrollBar.thumbDarkShadow", table.get("controlDkShadow"),
-            "ScrollBar.thumbShadow", table.get("controlShadow"),
-            "ScrollBar.border", loweredBevelBorder,
-            "ScrollBar.allowsAbsolutePositioning", Boolean.TRUE,
-            "ScrollBar.defaultWidth", Integer.valueOf(17),
-            "ScrollBar.focusInputMap",
-            new UIDefaults.LazyInputMap(new Object[] {
+            "ScrollBbr.bbckground", scrollBbrBbckground,
+            "ScrollBbr.foreground", tbble.get("control"),
+            "ScrollBbr.trbck", trbckColor,
+            "ScrollBbr.trbckHighlight", trbckColor,
+            "ScrollBbr.thumb", scrollBbrBbckground,
+            "ScrollBbr.thumbHighlight", tbble.get("controlHighlight") ,
+            "ScrollBbr.thumbDbrkShbdow", tbble.get("controlDkShbdow"),
+            "ScrollBbr.thumbShbdow", tbble.get("controlShbdow"),
+            "ScrollBbr.border", loweredBevelBorder,
+            "ScrollBbr.bllowsAbsolutePositioning", Boolebn.TRUE,
+            "ScrollBbr.defbultWidth", Integer.vblueOf(17),
+            "ScrollBbr.focusInputMbp",
+            new UIDefbults.LbzyInputMbp(new Object[] {
                 "RIGHT", "positiveUnitIncrement",
                 "KP_RIGHT", "positiveUnitIncrement",
                 "DOWN", "positiveUnitIncrement",
                 "KP_DOWN", "positiveUnitIncrement",
                 "PAGE_DOWN", "positiveBlockIncrement",
                 "ctrl PAGE_DOWN", "positiveBlockIncrement",
-                "LEFT", "negativeUnitIncrement",
-                "KP_LEFT", "negativeUnitIncrement",
-                "UP", "negativeUnitIncrement",
-                "KP_UP", "negativeUnitIncrement",
-                "PAGE_UP", "negativeBlockIncrement",
-                "ctrl PAGE_UP", "negativeBlockIncrement",
+                "LEFT", "negbtiveUnitIncrement",
+                "KP_LEFT", "negbtiveUnitIncrement",
+                "UP", "negbtiveUnitIncrement",
+                "KP_UP", "negbtiveUnitIncrement",
+                "PAGE_UP", "negbtiveBlockIncrement",
+                "ctrl PAGE_UP", "negbtiveBlockIncrement",
                 "HOME", "minScroll",
-                "END", "maxScroll"
+                "END", "mbxScroll"
             }),
 
-            "ScrollPane.font", dialogPlain12,
-            "ScrollPane.background", scrollBarBackground,
-            "ScrollPane.foreground", table.get("controlText"),
-            "ScrollPane.border", null,
-            "ScrollPane.viewportBorder", loweredBevelBorder,
-            "ScrollPane.ancestorInputMap",
-            new UIDefaults.LazyInputMap(new Object[] {
+            "ScrollPbne.font", diblogPlbin12,
+            "ScrollPbne.bbckground", scrollBbrBbckground,
+            "ScrollPbne.foreground", tbble.get("controlText"),
+            "ScrollPbne.border", null,
+            "ScrollPbne.viewportBorder", loweredBevelBorder,
+            "ScrollPbne.bncestorInputMbp",
+            new UIDefbults.LbzyInputMbp(new Object[] {
                 "RIGHT", "unitScrollRight",
                 "KP_RIGHT", "unitScrollRight",
                 "DOWN", "unitScrollDown",
@@ -313,40 +313,40 @@ class XAWTLookAndFeel extends MotifLookAndFeel {
                 "ctrl END", "scrollEnd"
             }),
 
-            "FormattedTextField.focusInputMap",
-            new UIDefaults.LazyInputMap(new Object[] {
-                "ctrl C", DefaultEditorKit.copyAction,
-                "ctrl V", DefaultEditorKit.pasteAction,
-                "ctrl X", DefaultEditorKit.cutAction,
-                "COPY", DefaultEditorKit.copyAction,
-                "PASTE", DefaultEditorKit.pasteAction,
-                "CUT", DefaultEditorKit.cutAction,
-                "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-                "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-                "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-                "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-                "ctrl LEFT", DefaultEditorKit.previousWordAction,
-                "ctrl KP_LEFT", DefaultEditorKit.previousWordAction,
-                "ctrl RIGHT", DefaultEditorKit.nextWordAction,
-                "ctrl KP_RIGHT", DefaultEditorKit.nextWordAction,
-                "ctrl shift LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                "ctrl shift KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-                "ctrl shift RIGHT", DefaultEditorKit.selectionNextWordAction,
-                "ctrl shift KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
-                "ctrl A", DefaultEditorKit.selectAllAction,
-                "HOME", DefaultEditorKit.beginLineAction,
-                "END", DefaultEditorKit.endLineAction,
-                "shift HOME", DefaultEditorKit.selectionBeginLineAction,
-                "shift END", DefaultEditorKit.selectionEndLineAction,
-                "typed \010", DefaultEditorKit.deletePrevCharAction,
-                "DELETE", DefaultEditorKit.deleteNextCharAction,
-                "RIGHT", DefaultEditorKit.forwardAction,
-                "LEFT", DefaultEditorKit.backwardAction,
-                "KP_RIGHT", DefaultEditorKit.forwardAction,
-                "KP_LEFT", DefaultEditorKit.backwardAction,
+            "FormbttedTextField.focusInputMbp",
+            new UIDefbults.LbzyInputMbp(new Object[] {
+                "ctrl C", DefbultEditorKit.copyAction,
+                "ctrl V", DefbultEditorKit.pbsteAction,
+                "ctrl X", DefbultEditorKit.cutAction,
+                "COPY", DefbultEditorKit.copyAction,
+                "PASTE", DefbultEditorKit.pbsteAction,
+                "CUT", DefbultEditorKit.cutAction,
+                "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+                "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+                "ctrl LEFT", DefbultEditorKit.previousWordAction,
+                "ctrl KP_LEFT", DefbultEditorKit.previousWordAction,
+                "ctrl RIGHT", DefbultEditorKit.nextWordAction,
+                "ctrl KP_RIGHT", DefbultEditorKit.nextWordAction,
+                "ctrl shift LEFT", DefbultEditorKit.selectionPreviousWordAction,
+                "ctrl shift KP_LEFT", DefbultEditorKit.selectionPreviousWordAction,
+                "ctrl shift RIGHT", DefbultEditorKit.selectionNextWordAction,
+                "ctrl shift KP_RIGHT", DefbultEditorKit.selectionNextWordAction,
+                "ctrl A", DefbultEditorKit.selectAllAction,
+                "HOME", DefbultEditorKit.beginLineAction,
+                "END", DefbultEditorKit.endLineAction,
+                "shift HOME", DefbultEditorKit.selectionBeginLineAction,
+                "shift END", DefbultEditorKit.selectionEndLineAction,
+                "typed \010", DefbultEditorKit.deletePrevChbrAction,
+                "DELETE", DefbultEditorKit.deleteNextChbrAction,
+                "RIGHT", DefbultEditorKit.forwbrdAction,
+                "LEFT", DefbultEditorKit.bbckwbrdAction,
+                "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+                "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
                 "ENTER", JTextField.notifyAction,
                 "ctrl BACK_SLASH", "unselect",
-                "control shift O", "toggle-componentOrientation",
+                "control shift O", "toggle-componentOrientbtion",
                 "ESCAPE", "reset-field-edit",
                 "UP", "increment",
                 "KP_UP", "increment",
@@ -354,40 +354,40 @@ class XAWTLookAndFeel extends MotifLookAndFeel {
                 "KP_DOWN", "decrement",
             }),
 
-            "TextField.caretForeground", black,
-            "TextField.caretBlinkRate", Integer.valueOf(500),
-            "TextField.inactiveForeground", table.get("textInactiveText"),
-            "TextField.selectionBackground", table.get("textHighlight"),
-            "TextField.selectionForeground", table.get("textHighlightText"),
-            "TextField.background", table.get("window"),
-            "TextField.foreground", table.get("textText"),
-            "TextField.font", sansSerifPlain12,
+            "TextField.cbretForeground", blbck,
+            "TextField.cbretBlinkRbte", Integer.vblueOf(500),
+            "TextField.inbctiveForeground", tbble.get("textInbctiveText"),
+            "TextField.selectionBbckground", tbble.get("textHighlight"),
+            "TextField.selectionForeground", tbble.get("textHighlightText"),
+            "TextField.bbckground", tbble.get("window"),
+            "TextField.foreground", tbble.get("textText"),
+            "TextField.font", sbnsSerifPlbin12,
             "TextField.border", textFieldBorder,
-            "TextField.focusInputMap", fieldInputMap,
+            "TextField.focusInputMbp", fieldInputMbp,
 
-            "PasswordField.caretForeground", black,
-            "PasswordField.caretBlinkRate", Integer.valueOf(500),
-            "PasswordField.inactiveForeground", table.get("textInactiveText"),
-            "PasswordField.selectionBackground", table.get("textHighlight"),
-            "PasswordField.selectionForeground", table.get("textHighlightText"),
-            "PasswordField.background", table.get("window"),
-            "PasswordField.foreground", table.get("textText"),
-            "PasswordField.font", sansSerifPlain12,
-            "PasswordField.border", textFieldBorder,
-            "PasswordField.focusInputMap", passwordInputMap,
+            "PbsswordField.cbretForeground", blbck,
+            "PbsswordField.cbretBlinkRbte", Integer.vblueOf(500),
+            "PbsswordField.inbctiveForeground", tbble.get("textInbctiveText"),
+            "PbsswordField.selectionBbckground", tbble.get("textHighlight"),
+            "PbsswordField.selectionForeground", tbble.get("textHighlightText"),
+            "PbsswordField.bbckground", tbble.get("window"),
+            "PbsswordField.foreground", tbble.get("textText"),
+            "PbsswordField.font", sbnsSerifPlbin12,
+            "PbsswordField.border", textFieldBorder,
+            "PbsswordField.focusInputMbp", pbsswordInputMbp,
 
-            "TextArea.caretForeground", black,
-            "TextArea.caretBlinkRate", Integer.valueOf(500),
-            "TextArea.inactiveForeground", table.get("textInactiveText"),
-            "TextArea.selectionBackground", table.get("textHighlight"),
-            "TextArea.selectionForeground", table.get("textHighlightText"),
-            "TextArea.background", table.get("window"),
-            "TextArea.foreground", table.get("textText"),
-            "TextArea.font", monospacedPlain12,
-            "TextArea.border", marginBorder,
-            "TextArea.focusInputMap", multilineInputMap
+            "TextAreb.cbretForeground", blbck,
+            "TextAreb.cbretBlinkRbte", Integer.vblueOf(500),
+            "TextAreb.inbctiveForeground", tbble.get("textInbctiveText"),
+            "TextAreb.selectionBbckground", tbble.get("textHighlight"),
+            "TextAreb.selectionForeground", tbble.get("textHighlightText"),
+            "TextAreb.bbckground", tbble.get("window"),
+            "TextAreb.foreground", tbble.get("textText"),
+            "TextAreb.font", monospbcedPlbin12,
+            "TextAreb.border", mbrginBorder,
+            "TextAreb.focusInputMbp", multilineInputMbp
         };
 
-        table.putDefaults(defaults);
+        tbble.putDefbults(defbults);
     }
 }

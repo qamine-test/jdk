@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,33 +30,33 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-/** A fairly conventional 3D matrix object that can transform sets of
-3D points and perform a variety of manipulations on the transform */
-class Matrix3D {
+/** A fbirly conventionbl 3D mbtrix object thbt cbn trbnsform sets of
+3D points bnd perform b vbriety of mbnipulbtions on the trbnsform */
+clbss Mbtrix3D {
 
-    float xx, xy, xz, xo;
-    float yx, yy, yz, yo;
-    float zx, zy, zz, zo;
-    static final double pi = 3.14159265;
+    flobt xx, xy, xz, xo;
+    flobt yx, yy, yz, yo;
+    flobt zx, zy, zz, zo;
+    stbtic finbl double pi = 3.14159265;
 
-    /** Create a new unit matrix */
-    Matrix3D() {
+    /** Crebte b new unit mbtrix */
+    Mbtrix3D() {
         xx = 1.0f;
         yy = 1.0f;
         zz = 1.0f;
     }
 
-    /** Scale by f in all dimensions */
-    void scale(float f) {
+    /** Scble by f in bll dimensions */
+    void scble(flobt f) {
         xx *= f;
         xy *= f;
         xz *= f;
@@ -71,8 +71,8 @@ class Matrix3D {
         zo *= f;
     }
 
-    /** Scale along each axis independently */
-    void scale(float xf, float yf, float zf) {
+    /** Scble blong ebch bxis independently */
+    void scble(flobt xf, flobt yf, flobt zf) {
         xx *= xf;
         xy *= xf;
         xz *= xf;
@@ -87,28 +87,28 @@ class Matrix3D {
         zo *= zf;
     }
 
-    /** Translate the origin */
-    void translate(float x, float y, float z) {
+    /** Trbnslbte the origin */
+    void trbnslbte(flobt x, flobt y, flobt z) {
         xo += x;
         yo += y;
         zo += z;
     }
 
-    /** rotate theta degrees about the y axis */
-    void yrot(double theta) {
-        theta *= (pi / 180);
-        double ct = Math.cos(theta);
-        double st = Math.sin(theta);
+    /** rotbte thetb degrees bbout the y bxis */
+    void yrot(double thetb) {
+        thetb *= (pi / 180);
+        double ct = Mbth.cos(thetb);
+        double st = Mbth.sin(thetb);
 
-        float Nxx = (float) (xx * ct + zx * st);
-        float Nxy = (float) (xy * ct + zy * st);
-        float Nxz = (float) (xz * ct + zz * st);
-        float Nxo = (float) (xo * ct + zo * st);
+        flobt Nxx = (flobt) (xx * ct + zx * st);
+        flobt Nxy = (flobt) (xy * ct + zy * st);
+        flobt Nxz = (flobt) (xz * ct + zz * st);
+        flobt Nxo = (flobt) (xo * ct + zo * st);
 
-        float Nzx = (float) (zx * ct - xx * st);
-        float Nzy = (float) (zy * ct - xy * st);
-        float Nzz = (float) (zz * ct - xz * st);
-        float Nzo = (float) (zo * ct - xo * st);
+        flobt Nzx = (flobt) (zx * ct - xx * st);
+        flobt Nzy = (flobt) (zy * ct - xy * st);
+        flobt Nzz = (flobt) (zz * ct - xz * st);
+        flobt Nzo = (flobt) (zo * ct - xo * st);
 
         xo = Nxo;
         xx = Nxx;
@@ -120,21 +120,21 @@ class Matrix3D {
         zz = Nzz;
     }
 
-    /** rotate theta degrees about the x axis */
-    void xrot(double theta) {
-        theta *= (pi / 180);
-        double ct = Math.cos(theta);
-        double st = Math.sin(theta);
+    /** rotbte thetb degrees bbout the x bxis */
+    void xrot(double thetb) {
+        thetb *= (pi / 180);
+        double ct = Mbth.cos(thetb);
+        double st = Mbth.sin(thetb);
 
-        float Nyx = (float) (yx * ct + zx * st);
-        float Nyy = (float) (yy * ct + zy * st);
-        float Nyz = (float) (yz * ct + zz * st);
-        float Nyo = (float) (yo * ct + zo * st);
+        flobt Nyx = (flobt) (yx * ct + zx * st);
+        flobt Nyy = (flobt) (yy * ct + zy * st);
+        flobt Nyz = (flobt) (yz * ct + zz * st);
+        flobt Nyo = (flobt) (yo * ct + zo * st);
 
-        float Nzx = (float) (zx * ct - yx * st);
-        float Nzy = (float) (zy * ct - yy * st);
-        float Nzz = (float) (zz * ct - yz * st);
-        float Nzo = (float) (zo * ct - yo * st);
+        flobt Nzx = (flobt) (zx * ct - yx * st);
+        flobt Nzy = (flobt) (zy * ct - yy * st);
+        flobt Nzz = (flobt) (zz * ct - yz * st);
+        flobt Nzo = (flobt) (zo * ct - yo * st);
 
         yo = Nyo;
         yx = Nyx;
@@ -146,21 +146,21 @@ class Matrix3D {
         zz = Nzz;
     }
 
-    /** rotate theta degrees about the z axis */
-    void zrot(double theta) {
-        theta *= (pi / 180);
-        double ct = Math.cos(theta);
-        double st = Math.sin(theta);
+    /** rotbte thetb degrees bbout the z bxis */
+    void zrot(double thetb) {
+        thetb *= (pi / 180);
+        double ct = Mbth.cos(thetb);
+        double st = Mbth.sin(thetb);
 
-        float Nyx = (float) (yx * ct + xx * st);
-        float Nyy = (float) (yy * ct + xy * st);
-        float Nyz = (float) (yz * ct + xz * st);
-        float Nyo = (float) (yo * ct + xo * st);
+        flobt Nyx = (flobt) (yx * ct + xx * st);
+        flobt Nyy = (flobt) (yy * ct + xy * st);
+        flobt Nyz = (flobt) (yz * ct + xz * st);
+        flobt Nyo = (flobt) (yo * ct + xo * st);
 
-        float Nxx = (float) (xx * ct - yx * st);
-        float Nxy = (float) (xy * ct - yy * st);
-        float Nxz = (float) (xz * ct - yz * st);
-        float Nxo = (float) (xo * ct - yo * st);
+        flobt Nxx = (flobt) (xx * ct - yx * st);
+        flobt Nxy = (flobt) (xy * ct - yy * st);
+        flobt Nxz = (flobt) (xz * ct - yz * st);
+        flobt Nxo = (flobt) (xo * ct - yo * st);
 
         yo = Nyo;
         yx = Nyx;
@@ -172,22 +172,22 @@ class Matrix3D {
         xz = Nxz;
     }
 
-    /** Multiply this matrix by a second: M = M*R */
-    void mult(Matrix3D rhs) {
-        float lxx = xx * rhs.xx + yx * rhs.xy + zx * rhs.xz;
-        float lxy = xy * rhs.xx + yy * rhs.xy + zy * rhs.xz;
-        float lxz = xz * rhs.xx + yz * rhs.xy + zz * rhs.xz;
-        float lxo = xo * rhs.xx + yo * rhs.xy + zo * rhs.xz + rhs.xo;
+    /** Multiply this mbtrix by b second: M = M*R */
+    void mult(Mbtrix3D rhs) {
+        flobt lxx = xx * rhs.xx + yx * rhs.xy + zx * rhs.xz;
+        flobt lxy = xy * rhs.xx + yy * rhs.xy + zy * rhs.xz;
+        flobt lxz = xz * rhs.xx + yz * rhs.xy + zz * rhs.xz;
+        flobt lxo = xo * rhs.xx + yo * rhs.xy + zo * rhs.xz + rhs.xo;
 
-        float lyx = xx * rhs.yx + yx * rhs.yy + zx * rhs.yz;
-        float lyy = xy * rhs.yx + yy * rhs.yy + zy * rhs.yz;
-        float lyz = xz * rhs.yx + yz * rhs.yy + zz * rhs.yz;
-        float lyo = xo * rhs.yx + yo * rhs.yy + zo * rhs.yz + rhs.yo;
+        flobt lyx = xx * rhs.yx + yx * rhs.yy + zx * rhs.yz;
+        flobt lyy = xy * rhs.yx + yy * rhs.yy + zy * rhs.yz;
+        flobt lyz = xz * rhs.yx + yz * rhs.yy + zz * rhs.yz;
+        flobt lyo = xo * rhs.yx + yo * rhs.yy + zo * rhs.yz + rhs.yo;
 
-        float lzx = xx * rhs.zx + yx * rhs.zy + zx * rhs.zz;
-        float lzy = xy * rhs.zx + yy * rhs.zy + zy * rhs.zz;
-        float lzz = xz * rhs.zx + yz * rhs.zy + zz * rhs.zz;
-        float lzo = xo * rhs.zx + yo * rhs.zy + zo * rhs.zz + rhs.zo;
+        flobt lzx = xx * rhs.zx + yx * rhs.zy + zx * rhs.zz;
+        flobt lzy = xy * rhs.zx + yy * rhs.zy + zy * rhs.zz;
+        flobt lzz = xz * rhs.zx + yz * rhs.zy + zz * rhs.zz;
+        flobt lzo = xo * rhs.zx + yo * rhs.zy + zo * rhs.zz + rhs.zo;
 
         xx = lxx;
         xy = lxy;
@@ -205,7 +205,7 @@ class Matrix3D {
         zo = lzo;
     }
 
-    /** Reinitialize to the unit matrix */
+    /** Reinitiblize to the unit mbtrix */
     void unit() {
         xo = 0;
         xx = 1;
@@ -221,18 +221,18 @@ class Matrix3D {
         zz = 1;
     }
 
-    /** Transform nvert points from v into tv.  v contains the input
-    coordinates in floating point.  Three successive entries in
-    the array constitute a point.  tv ends up holding the transformed
-    points as integers; three successive entries per point */
-    void transform(float v[], int tv[], int nvert) {
-        float lxx = xx, lxy = xy, lxz = xz, lxo = xo;
-        float lyx = yx, lyy = yy, lyz = yz, lyo = yo;
-        float lzx = zx, lzy = zy, lzz = zz, lzo = zo;
+    /** Trbnsform nvert points from v into tv.  v contbins the input
+    coordinbtes in flobting point.  Three successive entries in
+    the brrby constitute b point.  tv ends up holding the trbnsformed
+    points bs integers; three successive entries per point */
+    void trbnsform(flobt v[], int tv[], int nvert) {
+        flobt lxx = xx, lxy = xy, lxz = xz, lxo = xo;
+        flobt lyx = yx, lyy = yy, lyz = yz, lyo = yo;
+        flobt lzx = zx, lzy = zy, lzz = zz, lzo = zo;
         for (int i = nvert * 3; (i -= 3) >= 0;) {
-            float x = v[i];
-            float y = v[i + 1];
-            float z = v[i + 2];
+            flobt x = v[i];
+            flobt y = v[i + 1];
+            flobt z = v[i + 2];
             tv[i] = (int) (x * lxx + y * lxy + z * lxz + lxo);
             tv[i + 1] = (int) (x * lyx + y * lyy + z * lyz + lyo);
             tv[i + 2] = (int) (x * lzx + y * lzy + z * lzz + lzo);

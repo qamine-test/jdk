@@ -1,337 +1,337 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * <p>Represents a list of values for attributes of an MBean.  See the
- * {@link MBeanServerConnection#getAttributes getAttributes} and
- * {@link MBeanServerConnection#setAttributes setAttributes} methods of
- * {@link MBeanServer} and {@link MBeanServerConnection}.</p>
+ * <p>Represents b list of vblues for bttributes of bn MBebn.  See the
+ * {@link MBebnServerConnection#getAttributes getAttributes} bnd
+ * {@link MBebnServerConnection#setAttributes setAttributes} methods of
+ * {@link MBebnServer} bnd {@link MBebnServerConnection}.</p>
  *
- * <p id="type-safe">For compatibility reasons, it is possible, though
- * highly discouraged, to add objects to an {@code AttributeList} that are
- * not instances of {@code Attribute}.  However, an {@code AttributeList}
- * can be made <em>type-safe</em>, which means that an attempt to add
- * an object that is not an {@code Attribute} will produce an {@code
- * IllegalArgumentException}.  An {@code AttributeList} becomes type-safe
- * when the method {@link #asList()} is called on it.</p>
+ * <p id="type-sbfe">For compbtibility rebsons, it is possible, though
+ * highly discourbged, to bdd objects to bn {@code AttributeList} thbt bre
+ * not instbnces of {@code Attribute}.  However, bn {@code AttributeList}
+ * cbn be mbde <em>type-sbfe</em>, which mebns thbt bn bttempt to bdd
+ * bn object thbt is not bn {@code Attribute} will produce bn {@code
+ * IllegblArgumentException}.  An {@code AttributeList} becomes type-sbfe
+ * when the method {@link #bsList()} is cblled on it.</p>
  *
  * @since 1.5
  */
-/* We cannot extend ArrayList<Attribute> because our legacy
-   add(Attribute) method would then override add(E) in ArrayList<E>,
-   and our return value is void whereas ArrayList.add(E)'s is boolean.
-   Likewise for set(int,Attribute).  Grrr.  We cannot use covariance
-   to override the most important methods and have them return
-   Attribute, either, because that would break subclasses that
-   override those methods in turn (using the original return type
-   of Object).  Finally, we cannot implement Iterable<Attribute>
+/* We cbnnot extend ArrbyList<Attribute> becbuse our legbcy
+   bdd(Attribute) method would then override bdd(E) in ArrbyList<E>,
+   bnd our return vblue is void wherebs ArrbyList.bdd(E)'s is boolebn.
+   Likewise for set(int,Attribute).  Grrr.  We cbnnot use covbribnce
+   to override the most importbnt methods bnd hbve them return
+   Attribute, either, becbuse thbt would brebk subclbsses thbt
+   override those methods in turn (using the originbl return type
+   of Object).  Finblly, we cbnnot implement Iterbble<Attribute>
    so you could write
-       for (Attribute a : attributeList)
-   because ArrayList<> implements Iterable<> and the same class cannot
-   implement two versions of a generic interface.  Instead we provide
-   the asList() method so you can write
-       for (Attribute a : attributeList.asList())
+       for (Attribute b : bttributeList)
+   becbuse ArrbyList<> implements Iterbble<> bnd the sbme clbss cbnnot
+   implement two versions of b generic interfbce.  Instebd we provide
+   the bsList() method so you cbn write
+       for (Attribute b : bttributeList.bsList())
 */
-public class AttributeList extends ArrayList<Object> {
+public clbss AttributeList extends ArrbyList<Object> {
 
-    private transient volatile boolean typeSafe;
-    private transient volatile boolean tainted;
+    privbte trbnsient volbtile boolebn typeSbfe;
+    privbte trbnsient volbtile boolebn tbinted;
 
-    /* Serial version */
-    private static final long serialVersionUID = -4077085769279709076L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -4077085769279709076L;
 
     /**
-     * Constructs an empty <CODE>AttributeList</CODE>.
+     * Constructs bn empty <CODE>AttributeList</CODE>.
      */
     public AttributeList() {
         super();
     }
 
     /**
-     * Constructs an empty <CODE>AttributeList</CODE> with
-     * the initial capacity specified.
+     * Constructs bn empty <CODE>AttributeList</CODE> with
+     * the initibl cbpbcity specified.
      *
-     * @param initialCapacity the initial capacity of the
-     * <code>AttributeList</code>, as specified by {@link
-     * ArrayList#ArrayList(int)}.
+     * @pbrbm initiblCbpbcity the initibl cbpbcity of the
+     * <code>AttributeList</code>, bs specified by {@link
+     * ArrbyList#ArrbyList(int)}.
      */
-    public AttributeList(int initialCapacity) {
-        super(initialCapacity);
+    public AttributeList(int initiblCbpbcity) {
+        super(initiblCbpbcity);
     }
 
     /**
-     * Constructs an <CODE>AttributeList</CODE> containing the
+     * Constructs bn <CODE>AttributeList</CODE> contbining the
      * elements of the <CODE>AttributeList</CODE> specified, in the
-     * order in which they are returned by the
-     * <CODE>AttributeList</CODE>'s iterator.  The
-     * <CODE>AttributeList</CODE> instance has an initial capacity of
+     * order in which they bre returned by the
+     * <CODE>AttributeList</CODE>'s iterbtor.  The
+     * <CODE>AttributeList</CODE> instbnce hbs bn initibl cbpbcity of
      * 110% of the size of the <CODE>AttributeList</CODE> specified.
      *
-     * @param list the <code>AttributeList</code> that defines the initial
+     * @pbrbm list the <code>AttributeList</code> thbt defines the initibl
      * contents of the new <code>AttributeList</code>.
      *
-     * @see ArrayList#ArrayList(java.util.Collection)
+     * @see ArrbyList#ArrbyList(jbvb.util.Collection)
      */
     public AttributeList(AttributeList list) {
         super(list);
     }
 
     /**
-     * Constructs an {@code AttributeList} containing the elements of the
-     * {@code List} specified, in the order in which they are returned by
-     * the {@code List}'s iterator.
+     * Constructs bn {@code AttributeList} contbining the elements of the
+     * {@code List} specified, in the order in which they bre returned by
+     * the {@code List}'s iterbtor.
      *
-     * @param list the {@code List} that defines the initial contents of
+     * @pbrbm list the {@code List} thbt defines the initibl contents of
      * the new {@code AttributeList}.
      *
-     * @exception IllegalArgumentException if the {@code list} parameter
-     * is {@code null} or if the {@code list} parameter contains any
+     * @exception IllegblArgumentException if the {@code list} pbrbmeter
+     * is {@code null} or if the {@code list} pbrbmeter contbins bny
      * non-Attribute objects.
      *
-     * @see ArrayList#ArrayList(java.util.Collection)
+     * @see ArrbyList#ArrbyList(jbvb.util.Collection)
      *
      * @since 1.6
      */
     public AttributeList(List<Attribute> list) {
-        // Check for null parameter
+        // Check for null pbrbmeter
         //
         if (list == null)
-            throw new IllegalArgumentException("Null parameter");
+            throw new IllegblArgumentException("Null pbrbmeter");
 
         // Check for non-Attribute objects
         //
-        adding(list);
+        bdding(list);
 
         // Build the List<Attribute>
         //
-        super.addAll(list);
+        super.bddAll(list);
     }
 
     /**
-     * Return a view of this list as a {@code List<Attribute>}.
-     * Changes to the returned value are reflected by changes
-     * to the original {@code AttributeList} and vice versa.
+     * Return b view of this list bs b {@code List<Attribute>}.
+     * Chbnges to the returned vblue bre reflected by chbnges
+     * to the originbl {@code AttributeList} bnd vice versb.
      *
-     * @return a {@code List<Attribute>} whose contents
+     * @return b {@code List<Attribute>} whose contents
      * reflect the contents of this {@code AttributeList}.
      *
-     * <p>If this method has ever been called on a given
-     * {@code AttributeList} instance, a subsequent attempt to add
-     * an object to that instance which is not an {@code Attribute}
-     * will fail with a {@code IllegalArgumentException}. For compatibility
-     * reasons, an {@code AttributeList} on which this method has never
-     * been called does allow objects other than {@code Attribute}s to
-     * be added.</p>
+     * <p>If this method hbs ever been cblled on b given
+     * {@code AttributeList} instbnce, b subsequent bttempt to bdd
+     * bn object to thbt instbnce which is not bn {@code Attribute}
+     * will fbil with b {@code IllegblArgumentException}. For compbtibility
+     * rebsons, bn {@code AttributeList} on which this method hbs never
+     * been cblled does bllow objects other thbn {@code Attribute}s to
+     * be bdded.</p>
      *
-     * @throws IllegalArgumentException if this {@code AttributeList} contains
-     * an element that is not an {@code Attribute}.
+     * @throws IllegblArgumentException if this {@code AttributeList} contbins
+     * bn element thbt is not bn {@code Attribute}.
      *
      * @since 1.6
      */
-    @SuppressWarnings("unchecked")
-    public List<Attribute> asList() {
-        typeSafe = true;
-        if (tainted)
-            adding((Collection<?>) this);  // will throw IllegalArgumentException
+    @SuppressWbrnings("unchecked")
+    public List<Attribute> bsList() {
+        typeSbfe = true;
+        if (tbinted)
+            bdding((Collection<?>) this);  // will throw IllegblArgumentException
         return (List<Attribute>) (List<?>) this;
     }
 
     /**
-     * Adds the {@code Attribute} specified as the last element of the list.
+     * Adds the {@code Attribute} specified bs the lbst element of the list.
      *
-     * @param object  The attribute to be added.
+     * @pbrbm object  The bttribute to be bdded.
      */
-    public void add(Attribute object)  {
-        super.add(object);
+    public void bdd(Attribute object)  {
+        super.bdd(object);
     }
 
     /**
-     * Inserts the attribute specified as an element at the position specified.
-     * Elements with an index greater than or equal to the current position are
-     * shifted up. If the index is out of range {@literal (index < 0 || index >
-     * size())} a RuntimeOperationsException should be raised, wrapping the
-     * java.lang.IndexOutOfBoundsException thrown.
+     * Inserts the bttribute specified bs bn element bt the position specified.
+     * Elements with bn index grebter thbn or equbl to the current position bre
+     * shifted up. If the index is out of rbnge {@literbl (index < 0 || index >
+     * size())} b RuntimeOperbtionsException should be rbised, wrbpping the
+     * jbvb.lbng.IndexOutOfBoundsException thrown.
      *
-     * @param object  The <CODE>Attribute</CODE> object to be inserted.
-     * @param index The position in the list where the new {@code Attribute}
+     * @pbrbm object  The <CODE>Attribute</CODE> object to be inserted.
+     * @pbrbm index The position in the list where the new {@code Attribute}
      * object is to be inserted.
      */
-    public void add(int index, Attribute object)  {
+    public void bdd(int index, Attribute object)  {
         try {
-            super.add(index, object);
+            super.bdd(index, object);
         }
-        catch (IndexOutOfBoundsException e) {
-            throw new RuntimeOperationsException(e,
-                "The specified index is out of range");
+        cbtch (IndexOutOfBoundsException e) {
+            throw new RuntimeOperbtionsException(e,
+                "The specified index is out of rbnge");
         }
     }
 
     /**
-     * Sets the element at the position specified to be the attribute specified.
-     * The previous element at that position is discarded. If the index is
-     * out of range {@literal (index < 0 || index > size())} a RuntimeOperationsException
-     * should be raised, wrapping the java.lang.IndexOutOfBoundsException thrown.
+     * Sets the element bt the position specified to be the bttribute specified.
+     * The previous element bt thbt position is discbrded. If the index is
+     * out of rbnge {@literbl (index < 0 || index > size())} b RuntimeOperbtionsException
+     * should be rbised, wrbpping the jbvb.lbng.IndexOutOfBoundsException thrown.
      *
-     * @param object  The value to which the attribute element should be set.
-     * @param index  The position specified.
+     * @pbrbm object  The vblue to which the bttribute element should be set.
+     * @pbrbm index  The position specified.
      */
     public void set(int index, Attribute object)  {
         try {
             super.set(index, object);
         }
-        catch (IndexOutOfBoundsException e) {
-            throw new RuntimeOperationsException(e,
-                "The specified index is out of range");
+        cbtch (IndexOutOfBoundsException e) {
+            throw new RuntimeOperbtionsException(e,
+                "The specified index is out of rbnge");
         }
     }
 
     /**
-     * Appends all the elements in the <CODE>AttributeList</CODE> specified to
-     * the end of the list, in the order in which they are returned by the
-     * Iterator of the <CODE>AttributeList</CODE> specified.
+     * Appends bll the elements in the <CODE>AttributeList</CODE> specified to
+     * the end of the list, in the order in which they bre returned by the
+     * Iterbtor of the <CODE>AttributeList</CODE> specified.
      *
-     * @param list  Elements to be inserted into the list.
+     * @pbrbm list  Elements to be inserted into the list.
      *
-     * @return true if this list changed as a result of the call.
+     * @return true if this list chbnged bs b result of the cbll.
      *
-     * @see ArrayList#addAll(java.util.Collection)
+     * @see ArrbyList#bddAll(jbvb.util.Collection)
      */
-    public boolean addAll(AttributeList list)  {
-        return (super.addAll(list));
+    public boolebn bddAll(AttributeList list)  {
+        return (super.bddAll(list));
     }
 
     /**
-     * Inserts all of the elements in the <CODE>AttributeList</CODE> specified
-     * into this list, starting at the specified position, in the order in which
-     * they are returned by the Iterator of the {@code AttributeList} specified.
-     * If the index is out of range {@literal (index < 0 || index > size())} a
-     * RuntimeOperationsException should be raised, wrapping the
-     * java.lang.IndexOutOfBoundsException thrown.
+     * Inserts bll of the elements in the <CODE>AttributeList</CODE> specified
+     * into this list, stbrting bt the specified position, in the order in which
+     * they bre returned by the Iterbtor of the {@code AttributeList} specified.
+     * If the index is out of rbnge {@literbl (index < 0 || index > size())} b
+     * RuntimeOperbtionsException should be rbised, wrbpping the
+     * jbvb.lbng.IndexOutOfBoundsException thrown.
      *
-     * @param list  Elements to be inserted into the list.
-     * @param index  Position at which to insert the first element from the
+     * @pbrbm list  Elements to be inserted into the list.
+     * @pbrbm index  Position bt which to insert the first element from the
      * <CODE>AttributeList</CODE> specified.
      *
-     * @return true if this list changed as a result of the call.
+     * @return true if this list chbnged bs b result of the cbll.
      *
-     * @see ArrayList#addAll(int, java.util.Collection)
+     * @see ArrbyList#bddAll(int, jbvb.util.Collection)
      */
-    public boolean addAll(int index, AttributeList list)  {
+    public boolebn bddAll(int index, AttributeList list)  {
         try {
-            return super.addAll(index, list);
-        } catch (IndexOutOfBoundsException e) {
-            throw new RuntimeOperationsException(e,
-                "The specified index is out of range");
+            return super.bddAll(index, list);
+        } cbtch (IndexOutOfBoundsException e) {
+            throw new RuntimeOperbtionsException(e,
+                "The specified index is out of rbnge");
         }
     }
 
     /*
-     * Override all of the methods from ArrayList<Object> that might add
-     * a non-Attribute to the List, and disallow that if asList has ever
-     * been called on this instance.
+     * Override bll of the methods from ArrbyList<Object> thbt might bdd
+     * b non-Attribute to the List, bnd disbllow thbt if bsList hbs ever
+     * been cblled on this instbnce.
      */
 
     /**
      * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code element} is not an
+     * @throws IllegblArgumentException if this {@code AttributeList} is
+     * <b href="#type-sbfe">type-sbfe</b> bnd {@code element} is not bn
      * {@code Attribute}.
      */
     @Override
-    public boolean add(Object element) {
-        adding(element);
-        return super.add(element);
+    public boolebn bdd(Object element) {
+        bdding(element);
+        return super.bdd(element);
     }
 
     /**
      * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code element} is not an
+     * @throws IllegblArgumentException if this {@code AttributeList} is
+     * <b href="#type-sbfe">type-sbfe</b> bnd {@code element} is not bn
      * {@code Attribute}.
      */
     @Override
-    public void add(int index, Object element) {
-        adding(element);
-        super.add(index, element);
+    public void bdd(int index, Object element) {
+        bdding(element);
+        super.bdd(index, element);
     }
 
     /**
      * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code c} contains an
-     * element that is not an {@code Attribute}.
+     * @throws IllegblArgumentException if this {@code AttributeList} is
+     * <b href="#type-sbfe">type-sbfe</b> bnd {@code c} contbins bn
+     * element thbt is not bn {@code Attribute}.
      */
     @Override
-    public boolean addAll(Collection<?> c) {
-        adding(c);
-        return super.addAll(c);
+    public boolebn bddAll(Collection<?> c) {
+        bdding(c);
+        return super.bddAll(c);
     }
 
     /**
      * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code c} contains an
-     * element that is not an {@code Attribute}.
+     * @throws IllegblArgumentException if this {@code AttributeList} is
+     * <b href="#type-sbfe">type-sbfe</b> bnd {@code c} contbins bn
+     * element thbt is not bn {@code Attribute}.
      */
     @Override
-    public boolean addAll(int index, Collection<?> c) {
-        adding(c);
-        return super.addAll(index, c);
+    public boolebn bddAll(int index, Collection<?> c) {
+        bdding(c);
+        return super.bddAll(index, c);
     }
 
     /**
      * {@inheritDoc}
-     * @throws IllegalArgumentException if this {@code AttributeList} is
-     * <a href="#type-safe">type-safe</a> and {@code element} is not an
+     * @throws IllegblArgumentException if this {@code AttributeList} is
+     * <b href="#type-sbfe">type-sbfe</b> bnd {@code element} is not bn
      * {@code Attribute}.
      */
     @Override
     public Object set(int index, Object element) {
-        adding(element);
+        bdding(element);
         return super.set(index, element);
     }
 
-    private void adding(Object x) {
-        if (x == null || x instanceof Attribute)
+    privbte void bdding(Object x) {
+        if (x == null || x instbnceof Attribute)
             return;
-        if (typeSafe)
-            throw new IllegalArgumentException("Not an Attribute: " + x);
+        if (typeSbfe)
+            throw new IllegblArgumentException("Not bn Attribute: " + x);
         else
-            tainted = true;
+            tbinted = true;
     }
 
-    private void adding(Collection<?> c) {
+    privbte void bdding(Collection<?> c) {
         for (Object x : c)
-            adding(x);
+            bdding(x);
     }
 }

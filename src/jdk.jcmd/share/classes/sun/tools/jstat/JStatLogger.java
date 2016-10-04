@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.util.*;
-import java.io.*;
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import java.util.regex.PatternSyntaxException;
+import jbvb.util.*;
+import jbvb.io.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.event.*;
+import jbvb.util.regex.PbtternSyntbxException;
 
 /**
- * Class to sample and output various jvmstat statistics for a target Java
- * a target Java Virtual Machine.
+ * Clbss to sbmple bnd output vbrious jvmstbt stbtistics for b tbrget Jbvb
+ * b tbrget Jbvb Virtubl Mbchine.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class JStatLogger {
+public clbss JStbtLogger {
 
-    private MonitoredVm monitoredVm;
-    private volatile boolean active = true;
+    privbte MonitoredVm monitoredVm;
+    privbte volbtile boolebn bctive = true;
 
-    public JStatLogger(MonitoredVm monitoredVm) {
+    public JStbtLogger(MonitoredVm monitoredVm) {
         this.monitoredVm = monitoredVm;
     }
 
     /**
-     * print the monitors that match the given monitor name pattern string.
+     * print the monitors thbt mbtch the given monitor nbme pbttern string.
      */
-    public void printNames(String names, Comparator<Monitor> comparator,
-                           boolean showUnsupported, PrintStream out)
-                throws MonitorException, PatternSyntaxException {
+    public void printNbmes(String nbmes, Compbrbtor<Monitor> compbrbtor,
+                           boolebn showUnsupported, PrintStrebm out)
+                throws MonitorException, PbtternSyntbxException {
 
-        // get the set of all monitors
-        List<Monitor> items = monitoredVm.findByPattern(names);
-        Collections.sort(items, comparator);
+        // get the set of bll monitors
+        List<Monitor> items = monitoredVm.findByPbttern(nbmes);
+        Collections.sort(items, compbrbtor);
 
         for (Monitor m: items) {
             if (!(m.isSupported() || showUnsupported)) {
                 continue;
             }
-            out.println(m.getName());
+            out.println(m.getNbme());
         }
     }
 
     /**
-     * print name=value pairs for the given list of monitors.
+     * print nbme=vblue pbirs for the given list of monitors.
      */
-    public void printSnapShot(String names, Comparator<Monitor> comparator,
-                              boolean verbose, boolean showUnsupported,
-                              PrintStream out)
-                throws MonitorException, PatternSyntaxException {
+    public void printSnbpShot(String nbmes, Compbrbtor<Monitor> compbrbtor,
+                              boolebn verbose, boolebn showUnsupported,
+                              PrintStrebm out)
+                throws MonitorException, PbtternSyntbxException {
 
-        // get the set of all monitors
-        List<Monitor> items = monitoredVm.findByPattern(names);
-        Collections.sort(items, comparator);
+        // get the set of bll monitors
+        List<Monitor> items = monitoredVm.findByPbttern(nbmes);
+        Collections.sort(items, compbrbtor);
 
         printList(items, verbose, showUnsupported, out);
     }
 
     /**
-     * print name=value pairs for the given list of monitors.
+     * print nbme=vblue pbirs for the given list of monitors.
      */
-    public void printList(List<Monitor> list, boolean verbose, boolean showUnsupported,
-                          PrintStream out)
+    public void printList(List<Monitor> list, boolebn verbose, boolebn showUnsupported,
+                          PrintStrebm out)
                 throws MonitorException {
 
-        // print out the name of each available counter
+        // print out the nbme of ebch bvbilbble counter
         for (Monitor m: list ) {
 
             if (!(m.isSupported() || showUnsupported)) {
@@ -96,18 +96,18 @@ public class JStatLogger {
             }
 
             StringBuilder buffer = new StringBuilder();
-            buffer.append(m.getName()).append("=");
+            buffer.bppend(m.getNbme()).bppend("=");
 
-            if (m instanceof StringMonitor) {
-                buffer.append("\"").append(m.getValue()).append("\"");
+            if (m instbnceof StringMonitor) {
+                buffer.bppend("\"").bppend(m.getVblue()).bppend("\"");
             } else {
-                buffer.append(m.getValue());
+                buffer.bppend(m.getVblue());
             }
 
             if (verbose) {
-                buffer.append(" ").append(m.getUnits());
-                buffer.append(" ").append(m.getVariability());
-                buffer.append(" ").append(m.isSupported() ? "Supported"
+                buffer.bppend(" ").bppend(m.getUnits());
+                buffer.bppend(" ").bppend(m.getVbribbility());
+                buffer.bppend(" ").bppend(m.isSupported() ? "Supported"
                                                           : "Unsupported");
             }
             out.println(buffer);
@@ -115,45 +115,45 @@ public class JStatLogger {
     }
 
     /**
-     * method to for asynchronous termination of sampling loops
+     * method to for bsynchronous terminbtion of sbmpling loops
      */
     public void stopLogging() {
-        active = false;
+        bctive = fblse;
     }
 
     /**
-     * print samples according to the given format.
+     * print sbmples bccording to the given formbt.
      */
-    public void logSamples(OutputFormatter formatter, int headerRate,
-                           int sampleInterval, int sampleCount, PrintStream out)
+    public void logSbmples(OutputFormbtter formbtter, int hebderRbte,
+                           int sbmpleIntervbl, int sbmpleCount, PrintStrebm out)
                 throws MonitorException {
 
-        long iterationCount = 0;
-        int printHeaderCount = 0;
+        long iterbtionCount = 0;
+        int printHebderCount = 0;
 
-        // if printHeader == 0, then only an initial column header is desired.
-        int printHeader = headerRate;
-        if (printHeader == 0) {
-            // print the column header once, disable future printing
-            out.println(formatter.getHeader());
-            printHeader = -1;
+        // if printHebder == 0, then only bn initibl column hebder is desired.
+        int printHebder = hebderRbte;
+        if (printHebder == 0) {
+            // print the column hebder once, disbble future printing
+            out.println(formbtter.getHebder());
+            printHebder = -1;
         }
 
-        while (active) {
-          // check if it's time to print another column header
-          if (printHeader > 0 && --printHeaderCount <= 0) {
-              printHeaderCount = printHeader;
-              out.println(formatter.getHeader());
+        while (bctive) {
+          // check if it's time to print bnother column hebder
+          if (printHebder > 0 && --printHebderCount <= 0) {
+              printHebderCount = printHebder;
+              out.println(formbtter.getHebder());
           }
 
-          out.println(formatter.getRow());
+          out.println(formbtter.getRow());
 
-          // check if we've hit the specified sample count
-          if (sampleCount > 0 && ++iterationCount >= sampleCount) {
-              break;
+          // check if we've hit the specified sbmple count
+          if (sbmpleCount > 0 && ++iterbtionCount >= sbmpleCount) {
+              brebk;
           }
 
-          try { Thread.sleep(sampleInterval); } catch (Exception e) { };
+          try { Threbd.sleep(sbmpleIntervbl); } cbtch (Exception e) { };
         }
     }
 }

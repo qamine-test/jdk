@@ -2,34 +2,34 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,19 +45,19 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 /**
- * This is the superclass of all runtime exception used by this library.
- * For instance, Runtime exceptions occur, if an internal error in the native
- * part of the wrapper occurs.
+ * This is the superclbss of bll runtime exception used by this librbry.
+ * For instbnce, Runtime exceptions occur, if bn internbl error in the nbtive
+ * pbrt of the wrbpper occurs.
  *
- * @author <a href="mailto:Karl.Scheibelhofer@iaik.at"> Karl Scheibelhofer </a>
- * @invariants
+ * @buthor <b href="mbilto:Kbrl.Scheibelhofer@ibik.bt"> Kbrl Scheibelhofer </b>
+ * @invbribnts
  */
-public class PKCS11RuntimeException extends RuntimeException {
-    private static final long serialVersionUID = 7889842162743590564L;
+public clbss PKCS11RuntimeException extends RuntimeException {
+    privbte stbtic finbl long seriblVersionUID = 7889842162743590564L;
 
     /**
      * Empty constructor.
@@ -70,40 +70,40 @@ public class PKCS11RuntimeException extends RuntimeException {
     }
 
     /**
-     * Constructor taking a string that describes the reason of the exception
-     * in more detail.
+     * Constructor tbking b string thbt describes the rebson of the exception
+     * in more detbil.
      *
-     * @param message A descrption of the reason for this exception.
+     * @pbrbm messbge A descrption of the rebson for this exception.
      * @preconditions
      * @postconditions
      */
-    public PKCS11RuntimeException(String message) {
-        super(message);
+    public PKCS11RuntimeException(String messbge) {
+        super(messbge);
     }
 
     /**
-     * Constructor taking an other exception to wrap.
+     * Constructor tbking bn other exception to wrbp.
      *
-     * @param encapsulatedException The other exception the wrap into this.
+     * @pbrbm encbpsulbtedException The other exception the wrbp into this.
      * @preconditions
      * @postconditions
      */
-    public PKCS11RuntimeException(Exception encapsulatedException) {
-        super(encapsulatedException);
+    public PKCS11RuntimeException(Exception encbpsulbtedException) {
+        super(encbpsulbtedException);
     }
 
     /**
-     * Constructor taking a message for this exception and an other exception to
-     * wrap.
+     * Constructor tbking b messbge for this exception bnd bn other exception to
+     * wrbp.
      *
-     * @param message The message giving details about the exception to ease
+     * @pbrbm messbge The messbge giving detbils bbout the exception to ebse
      *                debugging.
-     * @param encapsulatedException The other exception the wrap into this.
+     * @pbrbm encbpsulbtedException The other exception the wrbp into this.
      * @preconditions
      * @postconditions
      */
-    public PKCS11RuntimeException(String message, Exception encapsulatedException) {
-        super(message, encapsulatedException);
+    public PKCS11RuntimeException(String messbge, Exception encbpsulbtedException) {
+        super(messbge, encbpsulbtedException);
     }
 
 }

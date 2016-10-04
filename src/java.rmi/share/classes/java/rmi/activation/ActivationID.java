@@ -1,292 +1,292 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.activation;
+pbckbge jbvb.rmi.bctivbtion;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
-import java.rmi.MarshalledObject;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.UnmarshalException;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.RemoteObjectInvocationHandler;
-import java.rmi.server.RemoteRef;
-import java.rmi.server.UID;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.reflect.InvocbtionHbndler;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.rmi.MbrshblledObject;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.UnmbrshblException;
+import jbvb.rmi.server.RemoteObject;
+import jbvb.rmi.server.RemoteObjectInvocbtionHbndler;
+import jbvb.rmi.server.RemoteRef;
+import jbvb.rmi.server.UID;
 
 /**
- * Activation makes use of special identifiers to denote remote
- * objects that can be activated over time. An activation identifier
- * (an instance of the class <code>ActivationID</code>) contains several
- * pieces of information needed for activating an object:
+ * Activbtion mbkes use of specibl identifiers to denote remote
+ * objects thbt cbn be bctivbted over time. An bctivbtion identifier
+ * (bn instbnce of the clbss <code>ActivbtionID</code>) contbins severbl
+ * pieces of informbtion needed for bctivbting bn object:
  * <ul>
- * <li> a remote reference to the object's activator (a {@link
- * java.rmi.server.RemoteRef RemoteRef}
- * instance), and
- * <li> a unique identifier (a {@link java.rmi.server.UID UID}
- * instance) for the object. </ul> <p>
+ * <li> b remote reference to the object's bctivbtor (b {@link
+ * jbvb.rmi.server.RemoteRef RemoteRef}
+ * instbnce), bnd
+ * <li> b unique identifier (b {@link jbvb.rmi.server.UID UID}
+ * instbnce) for the object. </ul> <p>
  *
- * An activation identifier for an object can be obtained by registering
- * an object with the activation system. Registration is accomplished
- * in a few ways: <ul>
- * <li>via the <code>Activatable.register</code> method
- * <li>via the first <code>Activatable</code> constructor (that takes
- * three arguments and both registers and exports the object, and
- * <li>via the first <code>Activatable.exportObject</code> method
- * that takes the activation descriptor, object and port as arguments;
- * this method both registers and exports the object. </ul>
+ * An bctivbtion identifier for bn object cbn be obtbined by registering
+ * bn object with the bctivbtion system. Registrbtion is bccomplished
+ * in b few wbys: <ul>
+ * <li>vib the <code>Activbtbble.register</code> method
+ * <li>vib the first <code>Activbtbble</code> constructor (thbt tbkes
+ * three brguments bnd both registers bnd exports the object, bnd
+ * <li>vib the first <code>Activbtbble.exportObject</code> method
+ * thbt tbkes the bctivbtion descriptor, object bnd port bs brguments;
+ * this method both registers bnd exports the object. </ul>
  *
- * @author      Ann Wollrath
- * @see         Activatable
+ * @buthor      Ann Wollrbth
+ * @see         Activbtbble
  * @since       1.2
  */
-public class ActivationID implements Serializable {
+public clbss ActivbtionID implements Seriblizbble {
     /**
-     * the object's activator
+     * the object's bctivbtor
      */
-    private transient Activator activator;
+    privbte trbnsient Activbtor bctivbtor;
 
     /**
      * the object's unique id
      */
-    private transient UID uid = new UID();
+    privbte trbnsient UID uid = new UID();
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
-    private static final long serialVersionUID = -4608673054848209235L;
+    /** indicbte compbtibility with the Jbvb 2 SDK v1.2 version of clbss */
+    privbte stbtic finbl long seriblVersionUID = -4608673054848209235L;
 
     /**
-     * The constructor for <code>ActivationID</code> takes a single
-     * argument, activator, that specifies a remote reference to the
-     * activator responsible for activating the object associated with
-     * this identifier. An instance of <code>ActivationID</code> is globally
+     * The constructor for <code>ActivbtionID</code> tbkes b single
+     * brgument, bctivbtor, thbt specifies b remote reference to the
+     * bctivbtor responsible for bctivbting the object bssocibted with
+     * this identifier. An instbnce of <code>ActivbtionID</code> is globblly
      * unique.
      *
-     * @param activator reference to the activator responsible for
-     * activating the object
-     * @throws UnsupportedOperationException if and only if activation is
-     *         not supported by this implementation
+     * @pbrbm bctivbtor reference to the bctivbtor responsible for
+     * bctivbting the object
+     * @throws UnsupportedOperbtionException if bnd only if bctivbtion is
+     *         not supported by this implementbtion
      * @since 1.2
      */
-    public ActivationID(Activator activator) {
-        this.activator = activator;
+    public ActivbtionID(Activbtor bctivbtor) {
+        this.bctivbtor = bctivbtor;
     }
 
     /**
-     * Activate the object for this id.
+     * Activbte the object for this id.
      *
-     * @param force if true, forces the activator to contact the group
-     * when activating the object (instead of returning a cached reference);
-     * if false, returning a cached value is acceptable.
-     * @return the reference to the active remote object
-     * @exception ActivationException if activation fails
+     * @pbrbm force if true, forces the bctivbtor to contbct the group
+     * when bctivbting the object (instebd of returning b cbched reference);
+     * if fblse, returning b cbched vblue is bcceptbble.
+     * @return the reference to the bctive remote object
+     * @exception ActivbtionException if bctivbtion fbils
      * @exception UnknownObjectException if the object is unknown
-     * @exception RemoteException if remote call fails
+     * @exception RemoteException if remote cbll fbils
      * @since 1.2
      */
-    public Remote activate(boolean force)
-        throws ActivationException, UnknownObjectException, RemoteException
+    public Remote bctivbte(boolebn force)
+        throws ActivbtionException, UnknownObjectException, RemoteException
     {
         try {
-            MarshalledObject<? extends Remote> mobj =
-                activator.activate(this, force);
+            MbrshblledObject<? extends Remote> mobj =
+                bctivbtor.bctivbte(this, force);
             return mobj.get();
-        } catch (RemoteException e) {
+        } cbtch (RemoteException e) {
             throw e;
-        } catch (IOException e) {
-            throw new UnmarshalException("activation failed", e);
-        } catch (ClassNotFoundException e) {
-            throw new UnmarshalException("activation failed", e);
+        } cbtch (IOException e) {
+            throw new UnmbrshblException("bctivbtion fbiled", e);
+        } cbtch (ClbssNotFoundException e) {
+            throw new UnmbrshblException("bctivbtion fbiled", e);
         }
 
     }
 
     /**
-     * Returns a hashcode for the activation id.  Two identifiers that
-     * refer to the same remote object will have the same hash code.
+     * Returns b hbshcode for the bctivbtion id.  Two identifiers thbt
+     * refer to the sbme remote object will hbve the sbme hbsh code.
      *
-     * @see java.util.Hashtable
+     * @see jbvb.util.Hbshtbble
      * @since 1.2
      */
-    public int hashCode() {
-        return uid.hashCode();
+    public int hbshCode() {
+        return uid.hbshCode();
     }
 
     /**
-     * Compares two activation ids for content equality.
-     * Returns true if both of the following conditions are true:
-     * 1) the unique identifiers equivalent (by content), and
-     * 2) the activator specified in each identifier
-     *    refers to the same remote object.
+     * Compbres two bctivbtion ids for content equblity.
+     * Returns true if both of the following conditions bre true:
+     * 1) the unique identifiers equivblent (by content), bnd
+     * 2) the bctivbtor specified in ebch identifier
+     *    refers to the sbme remote object.
      *
-     * @param   obj     the Object to compare with
-     * @return  true if these Objects are equal; false otherwise.
-     * @see             java.util.Hashtable
+     * @pbrbm   obj     the Object to compbre with
+     * @return  true if these Objects bre equbl; fblse otherwise.
+     * @see             jbvb.util.Hbshtbble
      * @since 1.2
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof ActivationID) {
-            ActivationID id = (ActivationID) obj;
-            return (uid.equals(id.uid) && activator.equals(id.activator));
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof ActivbtionID) {
+            ActivbtionID id = (ActivbtionID) obj;
+            return (uid.equbls(id.uid) && bctivbtor.equbls(id.bctivbtor));
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * <code>writeObject</code> for custom serialization.
+     * <code>writeObject</code> for custom seriblizbtion.
      *
-     * <p>This method writes this object's serialized form for
-     * this class as follows:
+     * <p>This method writes this object's seriblized form for
+     * this clbss bs follows:
      *
      * <p>The <code>writeObject</code> method is invoked on
-     * <code>out</code> passing this object's unique identifier
-     * (a {@link java.rmi.server.UID UID} instance) as the argument.
+     * <code>out</code> pbssing this object's unique identifier
+     * (b {@link jbvb.rmi.server.UID UID} instbnce) bs the brgument.
      *
      * <p>Next, the {@link
-     * java.rmi.server.RemoteRef#getRefClass(java.io.ObjectOutput)
-     * getRefClass} method is invoked on the activator's
-     * <code>RemoteRef</code> instance to obtain its external ref
-     * type name.  Next, the <code>writeUTF</code> method is
-     * invoked on <code>out</code> with the value returned by
-     * <code>getRefClass</code>, and then the
-     * <code>writeExternal</code> method is invoked on the
-     * <code>RemoteRef</code> instance passing <code>out</code>
-     * as the argument.
+     * jbvb.rmi.server.RemoteRef#getRefClbss(jbvb.io.ObjectOutput)
+     * getRefClbss} method is invoked on the bctivbtor's
+     * <code>RemoteRef</code> instbnce to obtbin its externbl ref
+     * type nbme.  Next, the <code>writeUTF</code> method is
+     * invoked on <code>out</code> with the vblue returned by
+     * <code>getRefClbss</code>, bnd then the
+     * <code>writeExternbl</code> method is invoked on the
+     * <code>RemoteRef</code> instbnce pbssing <code>out</code>
+     * bs the brgument.
      *
-     * @serialData The serialized data for this class comprises a
-     * <code>java.rmi.server.UID</code> (written with
+     * @seriblDbtb The seriblized dbtb for this clbss comprises b
+     * <code>jbvb.rmi.server.UID</code> (written with
      * <code>ObjectOutput.writeObject</code>) followed by the
-     * external ref type name of the activator's
-     * <code>RemoteRef</code> instance (a string written with
+     * externbl ref type nbme of the bctivbtor's
+     * <code>RemoteRef</code> instbnce (b string written with
      * <code>ObjectOutput.writeUTF</code>), followed by the
-     * external form of the <code>RemoteRef</code> instance as
-     * written by its <code>writeExternal</code> method.
+     * externbl form of the <code>RemoteRef</code> instbnce bs
+     * written by its <code>writeExternbl</code> method.
      *
-     * <p>The external ref type name of the
-     * <code>RemoteRef</Code> instance is
-     * determined using the definitions of external ref type
-     * names specified in the {@link java.rmi.server.RemoteObject
+     * <p>The externbl ref type nbme of the
+     * <code>RemoteRef</Code> instbnce is
+     * determined using the definitions of externbl ref type
+     * nbmes specified in the {@link jbvb.rmi.server.RemoteObject
      * RemoteObject} <code>writeObject</code> method
-     * <b>serialData</b> specification.  Similarly, the data
-     * written by the <code>writeExternal</code> method and read
-     * by the <code>readExternal</code> method of
-     * <code>RemoteRef</code> implementation classes
-     * corresponding to each of the defined external ref type
-     * names is specified in the {@link
-     * java.rmi.server.RemoteObject RemoteObject}
-     * <code>writeObject</code> method <b>serialData</b>
-     * specification.
+     * <b>seriblDbtb</b> specificbtion.  Similbrly, the dbtb
+     * written by the <code>writeExternbl</code> method bnd rebd
+     * by the <code>rebdExternbl</code> method of
+     * <code>RemoteRef</code> implementbtion clbsses
+     * corresponding to ebch of the defined externbl ref type
+     * nbmes is specified in the {@link
+     * jbvb.rmi.server.RemoteObject RemoteObject}
+     * <code>writeObject</code> method <b>seriblDbtb</b>
+     * specificbtion.
      **/
-    private void writeObject(ObjectOutputStream out)
-        throws IOException, ClassNotFoundException
+    privbte void writeObject(ObjectOutputStrebm out)
+        throws IOException, ClbssNotFoundException
     {
         out.writeObject(uid);
 
         RemoteRef ref;
-        if (activator instanceof RemoteObject) {
-            ref = ((RemoteObject) activator).getRef();
-        } else if (Proxy.isProxyClass(activator.getClass())) {
-            InvocationHandler handler = Proxy.getInvocationHandler(activator);
-            if (!(handler instanceof RemoteObjectInvocationHandler)) {
-                throw new InvalidObjectException(
-                    "unexpected invocation handler");
+        if (bctivbtor instbnceof RemoteObject) {
+            ref = ((RemoteObject) bctivbtor).getRef();
+        } else if (Proxy.isProxyClbss(bctivbtor.getClbss())) {
+            InvocbtionHbndler hbndler = Proxy.getInvocbtionHbndler(bctivbtor);
+            if (!(hbndler instbnceof RemoteObjectInvocbtionHbndler)) {
+                throw new InvblidObjectException(
+                    "unexpected invocbtion hbndler");
             }
-            ref = ((RemoteObjectInvocationHandler) handler).getRef();
+            ref = ((RemoteObjectInvocbtionHbndler) hbndler).getRef();
 
         } else {
-            throw new InvalidObjectException("unexpected activator type");
+            throw new InvblidObjectException("unexpected bctivbtor type");
         }
-        out.writeUTF(ref.getRefClass(out));
-        ref.writeExternal(out);
+        out.writeUTF(ref.getRefClbss(out));
+        ref.writeExternbl(out);
     }
 
     /**
-     * <code>readObject</code> for custom serialization.
+     * <code>rebdObject</code> for custom seriblizbtion.
      *
-     * <p>This method reads this object's serialized form for this
-     * class as follows:
+     * <p>This method rebds this object's seriblized form for this
+     * clbss bs follows:
      *
-     * <p>The <code>readObject</code> method is invoked on
-     * <code>in</code> to read this object's unique identifier
-     * (a {@link java.rmi.server.UID UID} instance).
+     * <p>The <code>rebdObject</code> method is invoked on
+     * <code>in</code> to rebd this object's unique identifier
+     * (b {@link jbvb.rmi.server.UID UID} instbnce).
      *
-     * <p>Next, the <code>readUTF</code> method is invoked on
-     * <code>in</code> to read the external ref type name of the
-     * <code>RemoteRef</code> instance for this object's
-     * activator.  Next, the <code>RemoteRef</code>
-     * instance is created of an implementation-specific class
-     * corresponding to the external ref type name (returned by
-     * <code>readUTF</code>), and the <code>readExternal</code>
-     * method is invoked on that <code>RemoteRef</code> instance
-     * to read the external form corresponding to the external
-     * ref type name.
+     * <p>Next, the <code>rebdUTF</code> method is invoked on
+     * <code>in</code> to rebd the externbl ref type nbme of the
+     * <code>RemoteRef</code> instbnce for this object's
+     * bctivbtor.  Next, the <code>RemoteRef</code>
+     * instbnce is crebted of bn implementbtion-specific clbss
+     * corresponding to the externbl ref type nbme (returned by
+     * <code>rebdUTF</code>), bnd the <code>rebdExternbl</code>
+     * method is invoked on thbt <code>RemoteRef</code> instbnce
+     * to rebd the externbl form corresponding to the externbl
+     * ref type nbme.
      *
-     * <p>Note: If the external ref type name is
-     * <code>"UnicastRef"</code>, <code>"UnicastServerRef"</code>,
-     * <code>"UnicastRef2"</code>, <code>"UnicastServerRef2"</code>,
-     * or <code>"ActivatableRef"</code>, a corresponding
-     * implementation-specific class must be found, and its
-     * <code>readExternal</code> method must read the serial data
-     * for that external ref type name as specified to be written
-     * in the <b>serialData</b> documentation for this class.
-     * If the external ref type name is any other string (of non-zero
-     * length), a <code>ClassNotFoundException</code> will be thrown,
-     * unless the implementation provides an implementation-specific
-     * class corresponding to that external ref type name, in which
-     * case the <code>RemoteRef</code> will be an instance of
-     * that implementation-specific class.
+     * <p>Note: If the externbl ref type nbme is
+     * <code>"UnicbstRef"</code>, <code>"UnicbstServerRef"</code>,
+     * <code>"UnicbstRef2"</code>, <code>"UnicbstServerRef2"</code>,
+     * or <code>"ActivbtbbleRef"</code>, b corresponding
+     * implementbtion-specific clbss must be found, bnd its
+     * <code>rebdExternbl</code> method must rebd the seribl dbtb
+     * for thbt externbl ref type nbme bs specified to be written
+     * in the <b>seriblDbtb</b> documentbtion for this clbss.
+     * If the externbl ref type nbme is bny other string (of non-zero
+     * length), b <code>ClbssNotFoundException</code> will be thrown,
+     * unless the implementbtion provides bn implementbtion-specific
+     * clbss corresponding to thbt externbl ref type nbme, in which
+     * cbse the <code>RemoteRef</code> will be bn instbnce of
+     * thbt implementbtion-specific clbss.
      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        uid = (UID)in.readObject();
+        uid = (UID)in.rebdObject();
 
         try {
-            Class<? extends RemoteRef> refClass =
-                Class.forName(RemoteRef.packagePrefix + "." + in.readUTF())
-                .asSubclass(RemoteRef.class);
-            RemoteRef ref = refClass.newInstance();
-            ref.readExternal(in);
-            activator = (Activator)
-                Proxy.newProxyInstance(null,
-                                       new Class<?>[] { Activator.class },
-                                       new RemoteObjectInvocationHandler(ref));
+            Clbss<? extends RemoteRef> refClbss =
+                Clbss.forNbme(RemoteRef.pbckbgePrefix + "." + in.rebdUTF())
+                .bsSubclbss(RemoteRef.clbss);
+            RemoteRef ref = refClbss.newInstbnce();
+            ref.rebdExternbl(in);
+            bctivbtor = (Activbtor)
+                Proxy.newProxyInstbnce(null,
+                                       new Clbss<?>[] { Activbtor.clbss },
+                                       new RemoteObjectInvocbtionHbndler(ref));
 
-        } catch (InstantiationException e) {
+        } cbtch (InstbntibtionException e) {
             throw (IOException)
-                new InvalidObjectException(
-                    "Unable to create remote reference").initCause(e);
-        } catch (IllegalAccessException e) {
+                new InvblidObjectException(
+                    "Unbble to crebte remote reference").initCbuse(e);
+        } cbtch (IllegblAccessException e) {
             throw (IOException)
-                new InvalidObjectException(
-                    "Unable to create remote reference").initCause(e);
+                new InvblidObjectException(
+                    "Unbble to crebte remote reference").initCbuse(e);
         }
     }
 }

@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import java.util.Hashtable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.CharArrayReader;
-import java.net.URL;
+import jbvb.util.Hbshtbble;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.Rebder;
+import jbvb.io.ChbrArrbyRebder;
+import jbvb.net.URL;
 
 /**
- * An entity is described in a DTD using the ENTITY construct.
- * It defines the type and value of the the entity.
+ * An entity is described in b DTD using the ENTITY construct.
+ * It defines the type bnd vblue of the the entity.
  *
  * @see DTD
- * @author Arthur van Hoff
+ * @buthor Arthur vbn Hoff
  */
-public final
-class Entity implements DTDConstants {
+public finbl
+clbss Entity implements DTDConstbnts {
     /**
-     * The name of the entity.
+     * The nbme of the entity.
      */
-    public String name;
+    public String nbme;
 
     /**
      * The type of the entity.
@@ -53,28 +53,28 @@ class Entity implements DTDConstants {
     public int type;
 
     /**
-     * The char array of data.
+     * The chbr brrby of dbtb.
      */
-    public char data[];
+    public chbr dbtb[];
 
     /**
-     * Creates an entity.
-     * @param name the name of the entity
-     * @param type the type of the entity
-     * @param data the char array of data
+     * Crebtes bn entity.
+     * @pbrbm nbme the nbme of the entity
+     * @pbrbm type the type of the entity
+     * @pbrbm dbtb the chbr brrby of dbtb
      */
-    public Entity(String name, int type, char data[]) {
-        this.name = name;
+    public Entity(String nbme, int type, chbr dbtb[]) {
+        this.nbme = nbme;
         this.type = type;
-        this.data = data;
+        this.dbtb = dbtb;
     }
 
     /**
-     * Gets the name of the entity.
-     * @return the name of the entity, as a <code>String</code>
+     * Gets the nbme of the entity.
+     * @return the nbme of the entity, bs b <code>String</code>
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
@@ -86,65 +86,65 @@ class Entity implements DTDConstants {
     }
 
     /**
-     * Returns <code>true</code> if it is a parameter entity.
-     * @return <code>true</code> if it is a parameter entity
+     * Returns <code>true</code> if it is b pbrbmeter entity.
+     * @return <code>true</code> if it is b pbrbmeter entity
      */
-    public boolean isParameter() {
+    public boolebn isPbrbmeter() {
         return (type & PARAMETER) != 0;
     }
 
     /**
-     * Returns <code>true</code> if it is a general entity.
-     * @return <code>true</code> if it is a general entity
+     * Returns <code>true</code> if it is b generbl entity.
+     * @return <code>true</code> if it is b generbl entity
      */
-    public boolean isGeneral() {
+    public boolebn isGenerbl() {
         return (type & GENERAL) != 0;
     }
 
     /**
-     * Returns the <code>data</code>.
-     * @return the <code>data</code>
+     * Returns the <code>dbtb</code>.
+     * @return the <code>dbtb</code>
      */
-    public char getData()[] {
-        return data;
+    public chbr getDbtb()[] {
+        return dbtb;
     }
 
     /**
-     * Returns the data as a <code>String</code>.
-     * @return the data as a <code>String</code>
+     * Returns the dbtb bs b <code>String</code>.
+     * @return the dbtb bs b <code>String</code>
      */
     public String getString() {
-        return new String(data, 0, data.length);
+        return new String(dbtb, 0, dbtb.length);
     }
 
 
-    static Hashtable<String, Integer> entityTypes = new Hashtable<String, Integer>();
+    stbtic Hbshtbble<String, Integer> entityTypes = new Hbshtbble<String, Integer>();
 
-    static {
-        entityTypes.put("PUBLIC", Integer.valueOf(PUBLIC));
-        entityTypes.put("CDATA", Integer.valueOf(CDATA));
-        entityTypes.put("SDATA", Integer.valueOf(SDATA));
-        entityTypes.put("PI", Integer.valueOf(PI));
-        entityTypes.put("STARTTAG", Integer.valueOf(STARTTAG));
-        entityTypes.put("ENDTAG", Integer.valueOf(ENDTAG));
-        entityTypes.put("MS", Integer.valueOf(MS));
-        entityTypes.put("MD", Integer.valueOf(MD));
-        entityTypes.put("SYSTEM", Integer.valueOf(SYSTEM));
+    stbtic {
+        entityTypes.put("PUBLIC", Integer.vblueOf(PUBLIC));
+        entityTypes.put("CDATA", Integer.vblueOf(CDATA));
+        entityTypes.put("SDATA", Integer.vblueOf(SDATA));
+        entityTypes.put("PI", Integer.vblueOf(PI));
+        entityTypes.put("STARTTAG", Integer.vblueOf(STARTTAG));
+        entityTypes.put("ENDTAG", Integer.vblueOf(ENDTAG));
+        entityTypes.put("MS", Integer.vblueOf(MS));
+        entityTypes.put("MD", Integer.vblueOf(MD));
+        entityTypes.put("SYSTEM", Integer.vblueOf(SYSTEM));
     }
 
     /**
      * Converts <code>nm</code> string to the corresponding
-     * entity type.  If the string does not have a corresponding
+     * entity type.  If the string does not hbve b corresponding
      * entity type, returns the type corresponding to "CDATA".
-     * Valid entity types are: "PUBLIC", "CDATA", "SDATA", "PI",
+     * Vblid entity types bre: "PUBLIC", "CDATA", "SDATA", "PI",
      * "STARTTAG", "ENDTAG", "MS", "MD", "SYSTEM".
      *
-     * @param nm the string to be converted
+     * @pbrbm nm the string to be converted
      * @return the corresponding entity type, or the type corresponding
      *   to "CDATA", if none exists
      */
-    public static int name2type(String nm) {
+    public stbtic int nbme2type(String nm) {
         Integer i = entityTypes.get(nm);
-        return (i == null) ? CDATA : i.intValue();
+        return (i == null) ? CDATA : i.intVblue();
     }
 }

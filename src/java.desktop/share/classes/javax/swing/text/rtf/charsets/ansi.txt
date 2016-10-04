@@ -1,8 +1,8 @@
-# The character set used to read documents with the \ansi control
-# word. The default "ansi" character set doesn't seem to be defined
-# anywhere; this table is derived from the behavior of MSWord97
-# and some guesswork. For the most part it corresponds to
-# ISO 8859 Latin-1.
+# The chbrbcter set used to rebd documents with the \bnsi control
+# word. The defbult "bnsi" chbrbcter set doesn't seem to be defined
+# bnywhere; this tbble is derived from the behbvior of MSWord97
+# bnd some guesswork. For the most pbrt it corresponds to
+# ISO 8859 Lbtin-1.
 0	1	2	3	4	5	6	7	
 8	9	10	11	12	13	14	15	
 16	17	18	19	20	21	22	23	

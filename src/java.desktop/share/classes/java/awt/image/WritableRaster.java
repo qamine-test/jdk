@@ -1,435 +1,435 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* ****************************************************************
  ******************************************************************
  ******************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997
- *** As  an unpublished  work pursuant to Title 17 of the United
- *** States Code.  All rights reserved.
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublished  work pursubnt to Title 17 of the United
+ *** Stbtes Code.  All rights reserved.
  ******************************************************************
  ******************************************************************
  ******************************************************************/
 
-package java.awt.image;
-import java.awt.Rectangle;
-import java.awt.Point;
+pbckbge jbvb.bwt.imbge;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Point;
 
 /**
- * This class extends Raster to provide pixel writing capabilities.
- * Refer to the class comment for Raster for descriptions of how
- * a Raster stores pixels.
+ * This clbss extends Rbster to provide pixel writing cbpbbilities.
+ * Refer to the clbss comment for Rbster for descriptions of how
+ * b Rbster stores pixels.
  *
- * <p> The constructors of this class are protected.  To instantiate
- * a WritableRaster, use one of the createWritableRaster factory methods
- * in the Raster class.
+ * <p> The constructors of this clbss bre protected.  To instbntibte
+ * b WritbbleRbster, use one of the crebteWritbbleRbster fbctory methods
+ * in the Rbster clbss.
  */
-public class WritableRaster extends Raster {
+public clbss WritbbleRbster extends Rbster {
 
     /**
-     *  Constructs a WritableRaster with the given SampleModel.  The
-     *  WritableRaster's upper left corner is origin and it is the
-     *  same size as the  SampleModel.  A DataBuffer large enough to
-     *  describe the WritableRaster is automatically created.
-     *  @param sampleModel     The SampleModel that specifies the layout.
-     *  @param origin          The Point that specifies the origin.
-     *  @throws RasterFormatException if computing either
-     *          <code>origin.x + sampleModel.getWidth()</code> or
-     *          <code>origin.y + sampleModel.getHeight()</code> results
+     *  Constructs b WritbbleRbster with the given SbmpleModel.  The
+     *  WritbbleRbster's upper left corner is origin bnd it is the
+     *  sbme size bs the  SbmpleModel.  A DbtbBuffer lbrge enough to
+     *  describe the WritbbleRbster is butombticblly crebted.
+     *  @pbrbm sbmpleModel     The SbmpleModel thbt specifies the lbyout.
+     *  @pbrbm origin          The Point thbt specifies the origin.
+     *  @throws RbsterFormbtException if computing either
+     *          <code>origin.x + sbmpleModel.getWidth()</code> or
+     *          <code>origin.y + sbmpleModel.getHeight()</code> results
      *          in integer overflow
      */
-    protected WritableRaster(SampleModel sampleModel,
+    protected WritbbleRbster(SbmpleModel sbmpleModel,
                              Point origin) {
-        this(sampleModel,
-             sampleModel.createDataBuffer(),
-             new Rectangle(origin.x,
+        this(sbmpleModel,
+             sbmpleModel.crebteDbtbBuffer(),
+             new Rectbngle(origin.x,
                            origin.y,
-                           sampleModel.getWidth(),
-                           sampleModel.getHeight()),
+                           sbmpleModel.getWidth(),
+                           sbmpleModel.getHeight()),
              origin,
              null);
     }
 
     /**
-     *  Constructs a WritableRaster with the given SampleModel and DataBuffer.
-     *  The WritableRaster's upper left corner is origin and it is the same
-     *  size as the SampleModel.  The DataBuffer is not initialized and must
-     *  be compatible with SampleModel.
-     *  @param sampleModel     The SampleModel that specifies the layout.
-     *  @param dataBuffer      The DataBuffer that contains the image data.
-     *  @param origin          The Point that specifies the origin.
-     *  @throws RasterFormatException if computing either
-     *          <code>origin.x + sampleModel.getWidth()</code> or
-     *          <code>origin.y + sampleModel.getHeight()</code> results
+     *  Constructs b WritbbleRbster with the given SbmpleModel bnd DbtbBuffer.
+     *  The WritbbleRbster's upper left corner is origin bnd it is the sbme
+     *  size bs the SbmpleModel.  The DbtbBuffer is not initiblized bnd must
+     *  be compbtible with SbmpleModel.
+     *  @pbrbm sbmpleModel     The SbmpleModel thbt specifies the lbyout.
+     *  @pbrbm dbtbBuffer      The DbtbBuffer thbt contbins the imbge dbtb.
+     *  @pbrbm origin          The Point thbt specifies the origin.
+     *  @throws RbsterFormbtException if computing either
+     *          <code>origin.x + sbmpleModel.getWidth()</code> or
+     *          <code>origin.y + sbmpleModel.getHeight()</code> results
      *          in integer overflow
      */
-    protected WritableRaster(SampleModel sampleModel,
-                             DataBuffer dataBuffer,
+    protected WritbbleRbster(SbmpleModel sbmpleModel,
+                             DbtbBuffer dbtbBuffer,
                              Point origin) {
-        this(sampleModel,
-             dataBuffer,
-             new Rectangle(origin.x,
+        this(sbmpleModel,
+             dbtbBuffer,
+             new Rectbngle(origin.x,
                            origin.y,
-                           sampleModel.getWidth(),
-                           sampleModel.getHeight()),
+                           sbmpleModel.getWidth(),
+                           sbmpleModel.getHeight()),
              origin,
              null);
     }
 
     /**
-     * Constructs a WritableRaster with the given SampleModel, DataBuffer,
-     * and parent.  aRegion specifies the bounding rectangle of the new
-     * Raster.  When translated into the base Raster's coordinate
-     * system, aRegion must be contained by the base Raster.
-     * (The base Raster is the Raster's ancestor which has no parent.)
-     * sampleModelTranslate specifies the sampleModelTranslateX and
-     * sampleModelTranslateY values of the new Raster.
+     * Constructs b WritbbleRbster with the given SbmpleModel, DbtbBuffer,
+     * bnd pbrent.  bRegion specifies the bounding rectbngle of the new
+     * Rbster.  When trbnslbted into the bbse Rbster's coordinbte
+     * system, bRegion must be contbined by the bbse Rbster.
+     * (The bbse Rbster is the Rbster's bncestor which hbs no pbrent.)
+     * sbmpleModelTrbnslbte specifies the sbmpleModelTrbnslbteX bnd
+     * sbmpleModelTrbnslbteY vblues of the new Rbster.
      *
-     * Note that this constructor should generally be called by other
-     * constructors or create methods, it should not be used directly.
-     * @param sampleModel     The SampleModel that specifies the layout.
-     * @param dataBuffer      The DataBuffer that contains the image data.
-     * @param aRegion         The Rectangle that specifies the image area.
-     * @param sampleModelTranslate  The Point that specifies the translation
-     *                        from SampleModel to Raster coordinates.
-     * @param parent          The parent (if any) of this raster.
-     * @throws RasterFormatException if <code>aRegion</code> has width
-     *         or height less than or equal to zero, or computing either
-     *         <code>aRegion.x + aRegion.width</code> or
-     *         <code>aRegion.y + aRegion.height</code> results in integer
+     * Note thbt this constructor should generblly be cblled by other
+     * constructors or crebte methods, it should not be used directly.
+     * @pbrbm sbmpleModel     The SbmpleModel thbt specifies the lbyout.
+     * @pbrbm dbtbBuffer      The DbtbBuffer thbt contbins the imbge dbtb.
+     * @pbrbm bRegion         The Rectbngle thbt specifies the imbge breb.
+     * @pbrbm sbmpleModelTrbnslbte  The Point thbt specifies the trbnslbtion
+     *                        from SbmpleModel to Rbster coordinbtes.
+     * @pbrbm pbrent          The pbrent (if bny) of this rbster.
+     * @throws RbsterFormbtException if <code>bRegion</code> hbs width
+     *         or height less thbn or equbl to zero, or computing either
+     *         <code>bRegion.x + bRegion.width</code> or
+     *         <code>bRegion.y + bRegion.height</code> results in integer
      *         overflow
      */
-    protected WritableRaster(SampleModel sampleModel,
-                             DataBuffer dataBuffer,
-                             Rectangle aRegion,
-                             Point sampleModelTranslate,
-                             WritableRaster parent){
-        super(sampleModel,dataBuffer,aRegion,sampleModelTranslate,parent);
+    protected WritbbleRbster(SbmpleModel sbmpleModel,
+                             DbtbBuffer dbtbBuffer,
+                             Rectbngle bRegion,
+                             Point sbmpleModelTrbnslbte,
+                             WritbbleRbster pbrent){
+        super(sbmpleModel,dbtbBuffer,bRegion,sbmpleModelTrbnslbte,pbrent);
     }
 
-    /** Returns the parent WritableRaster (if any) of this WritableRaster,
+    /** Returns the pbrent WritbbleRbster (if bny) of this WritbbleRbster,
      *  or else null.
-     *  @return the parent of this <code>WritableRaster</code>, or
+     *  @return the pbrent of this <code>WritbbleRbster</code>, or
      *          <code>null</code>.
      */
-    public WritableRaster getWritableParent() {
-        return (WritableRaster)parent;
+    public WritbbleRbster getWritbblePbrent() {
+        return (WritbbleRbster)pbrent;
     }
 
     /**
-     * Create a WritableRaster with the same size, SampleModel and DataBuffer
-     * as this one, but with a different location.  The new WritableRaster
-     * will possess a reference to the current WritableRaster, accessible
-     * through its getParent() and getWritableParent() methods.
+     * Crebte b WritbbleRbster with the sbme size, SbmpleModel bnd DbtbBuffer
+     * bs this one, but with b different locbtion.  The new WritbbleRbster
+     * will possess b reference to the current WritbbleRbster, bccessible
+     * through its getPbrent() bnd getWritbblePbrent() methods.
      *
-     * @param childMinX X coord of the upper left corner of the new Raster.
-     * @param childMinY Y coord of the upper left corner of the new Raster.
-     * @return a <code>WritableRaster</code> the same as this one except
-     *         for the specified location.
-     * @throws RasterFormatException if  computing either
+     * @pbrbm childMinX X coord of the upper left corner of the new Rbster.
+     * @pbrbm childMinY Y coord of the upper left corner of the new Rbster.
+     * @return b <code>WritbbleRbster</code> the sbme bs this one except
+     *         for the specified locbtion.
+     * @throws RbsterFormbtException if  computing either
      *         <code>childMinX + this.getWidth()</code> or
      *         <code>childMinY + this.getHeight()</code> results in integer
      *         overflow
      */
-    public WritableRaster createWritableTranslatedChild(int childMinX,
+    public WritbbleRbster crebteWritbbleTrbnslbtedChild(int childMinX,
                                                         int childMinY) {
-        return createWritableChild(minX,minY,width,height,
+        return crebteWritbbleChild(minX,minY,width,height,
                                    childMinX,childMinY,null);
     }
 
     /**
-     * Returns a new WritableRaster which shares all or part of this
-     * WritableRaster's DataBuffer.  The new WritableRaster will
-     * possess a reference to the current WritableRaster, accessible
-     * through its getParent() and getWritableParent() methods.
+     * Returns b new WritbbleRbster which shbres bll or pbrt of this
+     * WritbbleRbster's DbtbBuffer.  The new WritbbleRbster will
+     * possess b reference to the current WritbbleRbster, bccessible
+     * through its getPbrent() bnd getWritbblePbrent() methods.
      *
-     * <p> The parentX, parentY, width and height parameters form a
-     * Rectangle in this WritableRaster's coordinate space, indicating
-     * the area of pixels to be shared.  An error will be thrown if
-     * this Rectangle is not contained with the bounds of the current
-     * WritableRaster.
+     * <p> The pbrentX, pbrentY, width bnd height pbrbmeters form b
+     * Rectbngle in this WritbbleRbster's coordinbte spbce, indicbting
+     * the breb of pixels to be shbred.  An error will be thrown if
+     * this Rectbngle is not contbined with the bounds of the current
+     * WritbbleRbster.
      *
-     * <p> The new WritableRaster may additionally be translated to a
-     * different coordinate system for the plane than that used by the current
-     * WritableRaster.  The childMinX and childMinY parameters give
-     * the new (x, y) coordinate of the upper-left pixel of the
-     * returned WritableRaster; the coordinate (childMinX, childMinY)
-     * in the new WritableRaster will map to the same pixel as the
-     * coordinate (parentX, parentY) in the current WritableRaster.
+     * <p> The new WritbbleRbster mby bdditionblly be trbnslbted to b
+     * different coordinbte system for the plbne thbn thbt used by the current
+     * WritbbleRbster.  The childMinX bnd childMinY pbrbmeters give
+     * the new (x, y) coordinbte of the upper-left pixel of the
+     * returned WritbbleRbster; the coordinbte (childMinX, childMinY)
+     * in the new WritbbleRbster will mbp to the sbme pixel bs the
+     * coordinbte (pbrentX, pbrentY) in the current WritbbleRbster.
      *
-     * <p> The new WritableRaster may be defined to contain only a
-     * subset of the bands of the current WritableRaster, possibly
-     * reordered, by means of the bandList parameter.  If bandList is
-     * null, it is taken to include all of the bands of the current
-     * WritableRaster in their current order.
+     * <p> The new WritbbleRbster mby be defined to contbin only b
+     * subset of the bbnds of the current WritbbleRbster, possibly
+     * reordered, by mebns of the bbndList pbrbmeter.  If bbndList is
+     * null, it is tbken to include bll of the bbnds of the current
+     * WritbbleRbster in their current order.
      *
-     * <p> To create a new WritableRaster that contains a subregion of
-     * the current WritableRaster, but shares its coordinate system
-     * and bands, this method should be called with childMinX equal to
-     * parentX, childMinY equal to parentY, and bandList equal to
+     * <p> To crebte b new WritbbleRbster thbt contbins b subregion of
+     * the current WritbbleRbster, but shbres its coordinbte system
+     * bnd bbnds, this method should be cblled with childMinX equbl to
+     * pbrentX, childMinY equbl to pbrentY, bnd bbndList equbl to
      * null.
      *
-     * @param parentX    X coordinate of the upper left corner in this
-     *                   WritableRaster's coordinates.
-     * @param parentY    Y coordinate of the upper left corner in this
-     *                   WritableRaster's coordinates.
-     * @param w          Width of the region starting at (parentX, parentY).
-     * @param h          Height of the region starting at (parentX, parentY).
-     * @param childMinX  X coordinate of the upper left corner of
-     *                   the returned WritableRaster.
-     * @param childMinY  Y coordinate of the upper left corner of
-     *                   the returned WritableRaster.
-     * @param bandList   Array of band indices, or null to use all bands.
-     * @return a <code>WritableRaster</code> sharing all or part of the
-     *         <code>DataBuffer</code> of this <code>WritableRaster</code>.
-     * @exception RasterFormatException if the subregion is outside of the
-     *                               raster bounds.
-     * @throws RasterFormatException if <code>w</code> or
+     * @pbrbm pbrentX    X coordinbte of the upper left corner in this
+     *                   WritbbleRbster's coordinbtes.
+     * @pbrbm pbrentY    Y coordinbte of the upper left corner in this
+     *                   WritbbleRbster's coordinbtes.
+     * @pbrbm w          Width of the region stbrting bt (pbrentX, pbrentY).
+     * @pbrbm h          Height of the region stbrting bt (pbrentX, pbrentY).
+     * @pbrbm childMinX  X coordinbte of the upper left corner of
+     *                   the returned WritbbleRbster.
+     * @pbrbm childMinY  Y coordinbte of the upper left corner of
+     *                   the returned WritbbleRbster.
+     * @pbrbm bbndList   Arrby of bbnd indices, or null to use bll bbnds.
+     * @return b <code>WritbbleRbster</code> shbring bll or pbrt of the
+     *         <code>DbtbBuffer</code> of this <code>WritbbleRbster</code>.
+     * @exception RbsterFormbtException if the subregion is outside of the
+     *                               rbster bounds.
+     * @throws RbsterFormbtException if <code>w</code> or
      *         <code>h</code>
-     *         is less than or equal to zero, or computing any of
-     *         <code>parentX + w</code>, <code>parentY + h</code>,
+     *         is less thbn or equbl to zero, or computing bny of
+     *         <code>pbrentX + w</code>, <code>pbrentY + h</code>,
      *         <code>childMinX + w</code>, or
      *         <code>childMinY + h</code> results in integer
      *         overflow
      */
-    public WritableRaster createWritableChild(int parentX, int parentY,
+    public WritbbleRbster crebteWritbbleChild(int pbrentX, int pbrentY,
                                               int w, int h,
                                               int childMinX, int childMinY,
-                                              int bandList[]) {
-        if (parentX < this.minX) {
-            throw new RasterFormatException("parentX lies outside raster");
+                                              int bbndList[]) {
+        if (pbrentX < this.minX) {
+            throw new RbsterFormbtException("pbrentX lies outside rbster");
         }
-        if (parentY < this.minY) {
-            throw new RasterFormatException("parentY lies outside raster");
+        if (pbrentY < this.minY) {
+            throw new RbsterFormbtException("pbrentY lies outside rbster");
         }
-        if ((parentX+w < parentX) || (parentX+w > this.width + this.minX)) {
-            throw new RasterFormatException("(parentX + width) is outside raster");
+        if ((pbrentX+w < pbrentX) || (pbrentX+w > this.width + this.minX)) {
+            throw new RbsterFormbtException("(pbrentX + width) is outside rbster");
         }
-        if ((parentY+h < parentY) || (parentY+h > this.height + this.minY)) {
-            throw new RasterFormatException("(parentY + height) is outside raster");
+        if ((pbrentY+h < pbrentY) || (pbrentY+h > this.height + this.minY)) {
+            throw new RbsterFormbtException("(pbrentY + height) is outside rbster");
         }
 
-        SampleModel sm;
-        // Note: the SampleModel for the child Raster should have the same
-        // width and height as that for the parent, since it represents
-        // the physical layout of the pixel data.  The child Raster's width
-        // and height represent a "virtual" view of the pixel data, so
-        // they may be different than those of the SampleModel.
-        if (bandList != null) {
-            sm = sampleModel.createSubsetSampleModel(bandList);
+        SbmpleModel sm;
+        // Note: the SbmpleModel for the child Rbster should hbve the sbme
+        // width bnd height bs thbt for the pbrent, since it represents
+        // the physicbl lbyout of the pixel dbtb.  The child Rbster's width
+        // bnd height represent b "virtubl" view of the pixel dbtb, so
+        // they mby be different thbn those of the SbmpleModel.
+        if (bbndList != null) {
+            sm = sbmpleModel.crebteSubsetSbmpleModel(bbndList);
         }
         else {
-            sm = sampleModel;
+            sm = sbmpleModel;
         }
 
-        int deltaX = childMinX - parentX;
-        int deltaY = childMinY - parentY;
+        int deltbX = childMinX - pbrentX;
+        int deltbY = childMinY - pbrentY;
 
-        return new WritableRaster(sm,
-                                  getDataBuffer(),
-                                  new Rectangle(childMinX,childMinY,
+        return new WritbbleRbster(sm,
+                                  getDbtbBuffer(),
+                                  new Rectbngle(childMinX,childMinY,
                                                 w, h),
-                                  new Point(sampleModelTranslateX+deltaX,
-                                            sampleModelTranslateY+deltaY),
+                                  new Point(sbmpleModelTrbnslbteX+deltbX,
+                                            sbmpleModelTrbnslbteY+deltbY),
                                   this);
     }
 
     /**
-     * Sets the data for a single pixel from a
-     * primitive array of type TransferType.  For image data supported by
-     * the Java 2D(tm) API, this will be one of DataBuffer.TYPE_BYTE,
-     * DataBuffer.TYPE_USHORT, DataBuffer.TYPE_INT, DataBuffer.TYPE_SHORT,
-     * DataBuffer.TYPE_FLOAT, or DataBuffer.TYPE_DOUBLE.  Data in the array
-     * may be in a packed format, thus increasing efficiency for data
-     * transfers.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if inData is not large enough to hold the pixel data.
-     * However, explicit bounds checking is not guaranteed.
-     * A ClassCastException will be thrown if the input object is not null
-     * and references anything other than an array of TransferType.
-     * @see java.awt.image.SampleModel#setDataElements(int, int, Object, DataBuffer)
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param inData   An object reference to an array of type defined by
-     *                 getTransferType() and length getNumDataElements()
-     *                 containing the pixel data to place at x,y.
+     * Sets the dbtb for b single pixel from b
+     * primitive brrby of type TrbnsferType.  For imbge dbtb supported by
+     * the Jbvb 2D(tm) API, this will be one of DbtbBuffer.TYPE_BYTE,
+     * DbtbBuffer.TYPE_USHORT, DbtbBuffer.TYPE_INT, DbtbBuffer.TYPE_SHORT,
+     * DbtbBuffer.TYPE_FLOAT, or DbtbBuffer.TYPE_DOUBLE.  Dbtb in the brrby
+     * mby be in b pbcked formbt, thus increbsing efficiency for dbtb
+     * trbnsfers.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
+     * not in bounds, or if inDbtb is not lbrge enough to hold the pixel dbtb.
+     * However, explicit bounds checking is not gubrbnteed.
+     * A ClbssCbstException will be thrown if the input object is not null
+     * bnd references bnything other thbn bn brrby of TrbnsferType.
+     * @see jbvb.bwt.imbge.SbmpleModel#setDbtbElements(int, int, Object, DbtbBuffer)
+     * @pbrbm x        The X coordinbte of the pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the pixel locbtion.
+     * @pbrbm inDbtb   An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length getNumDbtbElements()
+     *                 contbining the pixel dbtb to plbce bt x,y.
      *
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are not
-     * in bounds, or if inData is too small to hold the input.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre not
+     * in bounds, or if inDbtb is too smbll to hold the input.
      */
-    public void setDataElements(int x, int y, Object inData) {
-        sampleModel.setDataElements(x-sampleModelTranslateX,
-                                    y-sampleModelTranslateY,
-                                    inData, dataBuffer);
+    public void setDbtbElements(int x, int y, Object inDbtb) {
+        sbmpleModel.setDbtbElements(x-sbmpleModelTrbnslbteX,
+                                    y-sbmpleModelTrbnslbteY,
+                                    inDbtb, dbtbBuffer);
     }
 
     /**
-     * Sets the data for a rectangle of pixels from an input Raster.
-     * The input Raster must be compatible with this WritableRaster
-     * in that they must have the same number of bands, corresponding bands
-     * must have the same number of bits per sample, the TransferTypes
-     * and NumDataElements must be the same, and the packing used by
-     * the getDataElements/setDataElements must be identical.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets the dbtb for b rectbngle of pixels from bn input Rbster.
+     * The input Rbster must be compbtible with this WritbbleRbster
+     * in thbt they must hbve the sbme number of bbnds, corresponding bbnds
+     * must hbve the sbme number of bits per sbmple, the TrbnsferTypes
+     * bnd NumDbtbElements must be the sbme, bnd the pbcking used by
+     * the getDbtbElements/setDbtbElements must be identicbl.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param inRaster Raster containing data to place at x,y.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the pixel locbtion.
+     * @pbrbm inRbster Rbster contbining dbtb to plbce bt x,y.
      *
-     * @throws NullPointerException if inRaster is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are not
+     * @throws NullPointerException if inRbster is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre not
      * in bounds.
      */
-    public void setDataElements(int x, int y, Raster inRaster) {
-        int dstOffX = x+inRaster.getMinX();
-        int dstOffY = y+inRaster.getMinY();
-        int width  = inRaster.getWidth();
-        int height = inRaster.getHeight();
+    public void setDbtbElements(int x, int y, Rbster inRbster) {
+        int dstOffX = x+inRbster.getMinX();
+        int dstOffY = y+inRbster.getMinY();
+        int width  = inRbster.getWidth();
+        int height = inRbster.getHeight();
         if ((dstOffX < this.minX) || (dstOffY < this.minY) ||
             (dstOffX + width > this.minX + this.width) ||
             (dstOffY + height > this.minY + this.height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
 
-        int srcOffX = inRaster.getMinX();
-        int srcOffY = inRaster.getMinY();
-        Object tdata = null;
+        int srcOffX = inRbster.getMinX();
+        int srcOffY = inRbster.getMinY();
+        Object tdbtb = null;
 
-        for (int startY=0; startY < height; startY++) {
-            tdata = inRaster.getDataElements(srcOffX, srcOffY+startY,
-                                             width, 1, tdata);
-            setDataElements(dstOffX, dstOffY+startY,
-                            width, 1, tdata);
+        for (int stbrtY=0; stbrtY < height; stbrtY++) {
+            tdbtb = inRbster.getDbtbElements(srcOffX, srcOffY+stbrtY,
+                                             width, 1, tdbtb);
+            setDbtbElements(dstOffX, dstOffY+stbrtY,
+                            width, 1, tdbtb);
         }
     }
 
     /**
-     * Sets the data for a rectangle of pixels from a
-     * primitive array of type TransferType.  For image data supported by
-     * the Java 2D API, this will be one of DataBuffer.TYPE_BYTE,
-     * DataBuffer.TYPE_USHORT, DataBuffer.TYPE_INT, DataBuffer.TYPE_SHORT,
-     * DataBuffer.TYPE_FLOAT, or DataBuffer.TYPE_DOUBLE.  Data in the array
-     * may be in a packed format, thus increasing efficiency for data
-     * transfers.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if inData is not large enough to hold the pixel data.
-     * However, explicit bounds checking is not guaranteed.
-     * A ClassCastException will be thrown if the input object is not null
-     * and references anything other than an array of TransferType.
-     * @see java.awt.image.SampleModel#setDataElements(int, int, int, int, Object, DataBuffer)
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param inData   An object reference to an array of type defined by
-     *                 getTransferType() and length w*h*getNumDataElements()
-     *                 containing the pixel data to place between x,y and
+     * Sets the dbtb for b rectbngle of pixels from b
+     * primitive brrby of type TrbnsferType.  For imbge dbtb supported by
+     * the Jbvb 2D API, this will be one of DbtbBuffer.TYPE_BYTE,
+     * DbtbBuffer.TYPE_USHORT, DbtbBuffer.TYPE_INT, DbtbBuffer.TYPE_SHORT,
+     * DbtbBuffer.TYPE_FLOAT, or DbtbBuffer.TYPE_DOUBLE.  Dbtb in the brrby
+     * mby be in b pbcked formbt, thus increbsing efficiency for dbtb
+     * trbnsfers.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
+     * not in bounds, or if inDbtb is not lbrge enough to hold the pixel dbtb.
+     * However, explicit bounds checking is not gubrbnteed.
+     * A ClbssCbstException will be thrown if the input object is not null
+     * bnd references bnything other thbn bn brrby of TrbnsferType.
+     * @see jbvb.bwt.imbge.SbmpleModel#setDbtbElements(int, int, int, int, Object, DbtbBuffer)
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm inDbtb   An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length w*h*getNumDbtbElements()
+     *                 contbining the pixel dbtb to plbce between x,y bnd
      *                 x+w-1, y+h-1.
      *
-     * @throws NullPointerException if inData is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are not
-     * in bounds, or if inData is too small to hold the input.
+     * @throws NullPointerException if inDbtb is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre not
+     * in bounds, or if inDbtb is too smbll to hold the input.
      */
-    public void setDataElements(int x, int y, int w, int h, Object inData) {
-        sampleModel.setDataElements(x-sampleModelTranslateX,
-                                    y-sampleModelTranslateY,
-                                    w,h,inData,dataBuffer);
+    public void setDbtbElements(int x, int y, int w, int h, Object inDbtb) {
+        sbmpleModel.setDbtbElements(x-sbmpleModelTrbnslbteX,
+                                    y-sbmpleModelTrbnslbteY,
+                                    w,h,inDbtb,dbtbBuffer);
     }
 
     /**
-     * Copies pixels from Raster srcRaster to this WritableRaster.  Each pixel
-     * in srcRaster is copied to the same x,y address in this raster, unless
-     * the address falls outside the bounds of this raster.  srcRaster
-     * must have the same number of bands as this WritableRaster.  The
-     * copy is a simple copy of source samples to the corresponding destination
-     * samples.
+     * Copies pixels from Rbster srcRbster to this WritbbleRbster.  Ebch pixel
+     * in srcRbster is copied to the sbme x,y bddress in this rbster, unless
+     * the bddress fblls outside the bounds of this rbster.  srcRbster
+     * must hbve the sbme number of bbnds bs this WritbbleRbster.  The
+     * copy is b simple copy of source sbmples to the corresponding destinbtion
+     * sbmples.
      * <p>
-     * If all samples of both source and destination Rasters are of
-     * integral type and less than or equal to 32 bits in size, then calling
-     * this method is equivalent to executing the following code for all
-     * <code>x,y</code> addresses valid in both Rasters.
+     * If bll sbmples of both source bnd destinbtion Rbsters bre of
+     * integrbl type bnd less thbn or equbl to 32 bits in size, then cblling
+     * this method is equivblent to executing the following code for bll
+     * <code>x,y</code> bddresses vblid in both Rbsters.
      * <pre>{@code
-     *       Raster srcRaster;
-     *       WritableRaster dstRaster;
-     *       for (int b = 0; b < srcRaster.getNumBands(); b++) {
-     *           dstRaster.setSample(x, y, b, srcRaster.getSample(x, y, b));
+     *       Rbster srcRbster;
+     *       WritbbleRbster dstRbster;
+     *       for (int b = 0; b < srcRbster.getNumBbnds(); b++) {
+     *           dstRbster.setSbmple(x, y, b, srcRbster.getSbmple(x, y, b));
      *       }
      * }</pre>
-     * Thus, when copying an integral type source to an integral type
-     * destination, if the source sample size is greater than the destination
-     * sample size for a particular band, the high order bits of the source
-     * sample are truncated.  If the source sample size is less than the
-     * destination size for a particular band, the high order bits of the
-     * destination are zero-extended or sign-extended depending on whether
-     * srcRaster's SampleModel treats the sample as a signed or unsigned
-     * quantity.
+     * Thus, when copying bn integrbl type source to bn integrbl type
+     * destinbtion, if the source sbmple size is grebter thbn the destinbtion
+     * sbmple size for b pbrticulbr bbnd, the high order bits of the source
+     * sbmple bre truncbted.  If the source sbmple size is less thbn the
+     * destinbtion size for b pbrticulbr bbnd, the high order bits of the
+     * destinbtion bre zero-extended or sign-extended depending on whether
+     * srcRbster's SbmpleModel trebts the sbmple bs b signed or unsigned
+     * qubntity.
      * <p>
-     * When copying a float or double source to an integral type destination,
-     * each source sample is cast to the destination type.  When copying an
-     * integral type source to a float or double destination, the source
-     * is first converted to a 32-bit int (if necessary), using the above
-     * rules for integral types, and then the int is cast to float or
+     * When copying b flobt or double source to bn integrbl type destinbtion,
+     * ebch source sbmple is cbst to the destinbtion type.  When copying bn
+     * integrbl type source to b flobt or double destinbtion, the source
+     * is first converted to b 32-bit int (if necessbry), using the bbove
+     * rules for integrbl types, bnd then the int is cbst to flobt or
      * double.
      *
-     * @param srcRaster  The  Raster from which to copy pixels.
+     * @pbrbm srcRbster  The  Rbster from which to copy pixels.
      *
-     * @throws NullPointerException if srcRaster is null.
+     * @throws NullPointerException if srcRbster is null.
      */
-    public void setRect(Raster srcRaster) {
-        setRect(0,0,srcRaster);
+    public void setRect(Rbster srcRbster) {
+        setRect(0,0,srcRbster);
     }
 
     /**
-     * Copies pixels from Raster srcRaster to this WritableRaster.
-     * For each (x, y) address in srcRaster, the corresponding pixel
-     * is copied to address (x+dx, y+dy) in this WritableRaster,
-     * unless (x+dx, y+dy) falls outside the bounds of this raster.
-     * srcRaster must have the same number of bands as this WritableRaster.
-     * The copy is a simple copy of source samples to the corresponding
-     * destination samples.  For details, see
-     * {@link WritableRaster#setRect(Raster)}.
+     * Copies pixels from Rbster srcRbster to this WritbbleRbster.
+     * For ebch (x, y) bddress in srcRbster, the corresponding pixel
+     * is copied to bddress (x+dx, y+dy) in this WritbbleRbster,
+     * unless (x+dx, y+dy) fblls outside the bounds of this rbster.
+     * srcRbster must hbve the sbme number of bbnds bs this WritbbleRbster.
+     * The copy is b simple copy of source sbmples to the corresponding
+     * destinbtion sbmples.  For detbils, see
+     * {@link WritbbleRbster#setRect(Rbster)}.
      *
-     * @param dx        The X translation factor from src space to dst space
+     * @pbrbm dx        The X trbnslbtion fbctor from src spbce to dst spbce
      *                  of the copy.
-     * @param dy        The Y translation factor from src space to dst space
+     * @pbrbm dy        The Y trbnslbtion fbctor from src spbce to dst spbce
      *                  of the copy.
-     * @param srcRaster The Raster from which to copy pixels.
+     * @pbrbm srcRbster The Rbster from which to copy pixels.
      *
-     * @throws NullPointerException if srcRaster is null.
+     * @throws NullPointerException if srcRbster is null.
      */
-    public void setRect(int dx, int dy, Raster srcRaster) {
-        int width  = srcRaster.getWidth();
-        int height = srcRaster.getHeight();
-        int srcOffX = srcRaster.getMinX();
-        int srcOffY = srcRaster.getMinY();
+    public void setRect(int dx, int dy, Rbster srcRbster) {
+        int width  = srcRbster.getWidth();
+        int height = srcRbster.getHeight();
+        int srcOffX = srcRbster.getMinX();
+        int srcOffY = srcRbster.getMinY();
         int dstOffX = dx+srcOffX;
         int dstOffY = dy+srcOffY;
 
-        // Clip to this raster
+        // Clip to this rbster
         if (dstOffX < this.minX) {
             int skipX = this.minX - dstOffX;
             width -= skipX;
@@ -453,289 +453,289 @@ public class WritableRaster extends Raster {
             return;
         }
 
-        switch (srcRaster.getSampleModel().getDataType()) {
-        case DataBuffer.TYPE_BYTE:
-        case DataBuffer.TYPE_SHORT:
-        case DataBuffer.TYPE_USHORT:
-        case DataBuffer.TYPE_INT:
-            int[] iData = null;
-            for (int startY=0; startY < height; startY++) {
-                // Grab one scanline at a time
-                iData =
-                    srcRaster.getPixels(srcOffX, srcOffY+startY, width, 1,
-                                        iData);
-                setPixels(dstOffX, dstOffY+startY, width, 1, iData);
+        switch (srcRbster.getSbmpleModel().getDbtbType()) {
+        cbse DbtbBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_SHORT:
+        cbse DbtbBuffer.TYPE_USHORT:
+        cbse DbtbBuffer.TYPE_INT:
+            int[] iDbtb = null;
+            for (int stbrtY=0; stbrtY < height; stbrtY++) {
+                // Grbb one scbnline bt b time
+                iDbtb =
+                    srcRbster.getPixels(srcOffX, srcOffY+stbrtY, width, 1,
+                                        iDbtb);
+                setPixels(dstOffX, dstOffY+stbrtY, width, 1, iDbtb);
             }
-            break;
+            brebk;
 
-        case DataBuffer.TYPE_FLOAT:
-            float[] fData = null;
-            for (int startY=0; startY < height; startY++) {
-                fData =
-                    srcRaster.getPixels(srcOffX, srcOffY+startY, width, 1,
-                                        fData);
-                setPixels(dstOffX, dstOffY+startY, width, 1, fData);
+        cbse DbtbBuffer.TYPE_FLOAT:
+            flobt[] fDbtb = null;
+            for (int stbrtY=0; stbrtY < height; stbrtY++) {
+                fDbtb =
+                    srcRbster.getPixels(srcOffX, srcOffY+stbrtY, width, 1,
+                                        fDbtb);
+                setPixels(dstOffX, dstOffY+stbrtY, width, 1, fDbtb);
             }
-            break;
+            brebk;
 
-        case DataBuffer.TYPE_DOUBLE:
-            double[] dData = null;
-            for (int startY=0; startY < height; startY++) {
-                // Grab one scanline at a time
-                dData =
-                    srcRaster.getPixels(srcOffX, srcOffY+startY, width, 1,
-                                        dData);
-                setPixels(dstOffX, dstOffY+startY, width, 1, dData);
+        cbse DbtbBuffer.TYPE_DOUBLE:
+            double[] dDbtb = null;
+            for (int stbrtY=0; stbrtY < height; stbrtY++) {
+                // Grbb one scbnline bt b time
+                dDbtb =
+                    srcRbster.getPixels(srcOffX, srcOffY+stbrtY, width, 1,
+                                        dDbtb);
+                setPixels(dstOffX, dstOffY+stbrtY, width, 1, dDbtb);
             }
-            break;
+            brebk;
         }
     }
 
     /**
-     * Sets a pixel in the DataBuffer using an int array of samples for input.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b pixel in the DbtbBuffer using bn int brrby of sbmples for input.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x      The X coordinate of the pixel location.
-     * @param y      The Y coordinate of the pixel location.
-     * @param iArray The input samples in a int array.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x      The X coordinbte of the pixel locbtion.
+     * @pbrbm y      The Y coordinbte of the pixel locbtion.
+     * @pbrbm iArrby The input sbmples in b int brrby.
      *
-     * @throws NullPointerException if iArray is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are not
-     * in bounds, or if iArray is too small to hold the input.
+     * @throws NullPointerException if iArrby is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre not
+     * in bounds, or if iArrby is too smbll to hold the input.
      */
-    public void setPixel(int x, int y, int iArray[]) {
-        sampleModel.setPixel(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                             iArray,dataBuffer);
+    public void setPixel(int x, int y, int iArrby[]) {
+        sbmpleModel.setPixel(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                             iArrby,dbtbBuffer);
     }
 
     /**
-     * Sets a pixel in the DataBuffer using a float array of samples for input.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b pixel in the DbtbBuffer using b flobt brrby of sbmples for input.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x      The X coordinate of the pixel location.
-     * @param y      The Y coordinate of the pixel location.
-     * @param fArray The input samples in a float array.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x      The X coordinbte of the pixel locbtion.
+     * @pbrbm y      The Y coordinbte of the pixel locbtion.
+     * @pbrbm fArrby The input sbmples in b flobt brrby.
      *
-     * @throws NullPointerException if fArray is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are not
-     * in bounds, or if fArray is too small to hold the input.
+     * @throws NullPointerException if fArrby is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre not
+     * in bounds, or if fArrby is too smbll to hold the input.
      */
-    public void setPixel(int x, int y, float fArray[]) {
-        sampleModel.setPixel(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                             fArray,dataBuffer);
+    public void setPixel(int x, int y, flobt fArrby[]) {
+        sbmpleModel.setPixel(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                             fArrby,dbtbBuffer);
     }
 
     /**
-     * Sets a pixel in the DataBuffer using a double array of samples for input.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b pixel in the DbtbBuffer using b double brrby of sbmples for input.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x      The X coordinate of the pixel location.
-     * @param y      The Y coordinate of the pixel location.
-     * @param dArray The input samples in a double array.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x      The X coordinbte of the pixel locbtion.
+     * @pbrbm y      The Y coordinbte of the pixel locbtion.
+     * @pbrbm dArrby The input sbmples in b double brrby.
      *
-     * @throws NullPointerException if dArray is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are not
-     * in bounds, or if dArray is too small to hold the input.
+     * @throws NullPointerException if dArrby is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre not
+     * in bounds, or if dArrby is too smbll to hold the input.
      */
-    public void setPixel(int x, int y, double dArray[]) {
-        sampleModel.setPixel(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                             dArray,dataBuffer);
+    public void setPixel(int x, int y, double dArrby[]) {
+        sbmpleModel.setPixel(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                             dArrby,dbtbBuffer);
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from an int array containing
-     * one sample per array element.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets bll sbmples for b rectbngle of pixels from bn int brrby contbining
+     * one sbmple per brrby element.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param iArray   The input int pixel array.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm iArrby   The input int pixel brrby.
      *
-     * @throws NullPointerException if iArray is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are not
-     * in bounds, or if iArray is too small to hold the input.
+     * @throws NullPointerException if iArrby is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre not
+     * in bounds, or if iArrby is too smbll to hold the input.
      */
-    public void setPixels(int x, int y, int w, int h, int iArray[]) {
-        sampleModel.setPixels(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                              w,h,iArray,dataBuffer);
+    public void setPixels(int x, int y, int w, int h, int iArrby[]) {
+        sbmpleModel.setPixels(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                              w,h,iArrby,dbtbBuffer);
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from a float array containing
-     * one sample per array element.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets bll sbmples for b rectbngle of pixels from b flobt brrby contbining
+     * one sbmple per brrby element.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param fArray   The input float pixel array.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm fArrby   The input flobt pixel brrby.
      *
-     * @throws NullPointerException if fArray is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are not
-     * in bounds, or if fArray is too small to hold the input.
+     * @throws NullPointerException if fArrby is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre not
+     * in bounds, or if fArrby is too smbll to hold the input.
      */
-    public void setPixels(int x, int y, int w, int h, float fArray[]) {
-        sampleModel.setPixels(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                              w,h,fArray,dataBuffer);
+    public void setPixels(int x, int y, int w, int h, flobt fArrby[]) {
+        sbmpleModel.setPixels(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                              w,h,fArrby,dbtbBuffer);
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from a double array containing
-     * one sample per array element.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets bll sbmples for b rectbngle of pixels from b double brrby contbining
+     * one sbmple per brrby element.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param dArray   The input double pixel array.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm dArrby   The input double pixel brrby.
      *
-     * @throws NullPointerException if dArray is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates are not
-     * in bounds, or if dArray is too small to hold the input.
+     * @throws NullPointerException if dArrby is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes bre not
+     * in bounds, or if dArrby is too smbll to hold the input.
      */
-    public void setPixels(int x, int y, int w, int h, double dArray[]) {
-        sampleModel.setPixels(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                              w,h,dArray,dataBuffer);
+    public void setPixels(int x, int y, int w, int h, double dArrby[]) {
+        sbmpleModel.setPixels(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                              w,h,dArrby,dbtbBuffer);
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the DataBuffer using an int for input.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the DbtbBuffer using bn int for input.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param b        The band to set.
-     * @param s        The input sample.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the pixel locbtion.
+     * @pbrbm b        The bbnd to set.
+     * @pbrbm s        The input sbmple.
      *
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds.
      */
-    public void setSample(int x, int y, int b, int s) {
-        sampleModel.setSample(x-sampleModelTranslateX,
-                              y-sampleModelTranslateY, b, s,
-                              dataBuffer);
+    public void setSbmple(int x, int y, int b, int s) {
+        sbmpleModel.setSbmple(x-sbmpleModelTrbnslbteX,
+                              y-sbmpleModelTrbnslbteY, b, s,
+                              dbtbBuffer);
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the DataBuffer using a float for input.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the DbtbBuffer using b flobt for input.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param b        The band to set.
-     * @param s        The input sample as a float.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the pixel locbtion.
+     * @pbrbm b        The bbnd to set.
+     * @pbrbm s        The input sbmple bs b flobt.
      *
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds.
      */
-    public void setSample(int x, int y, int b, float s){
-        sampleModel.setSample(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                              b,s,dataBuffer);
+    public void setSbmple(int x, int y, int b, flobt s){
+        sbmpleModel.setSbmple(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                              b,s,dbtbBuffer);
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the DataBuffer using a double for input.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets b sbmple in the specified bbnd for the pixel locbted bt (x,y)
+     * in the DbtbBuffer using b double for input.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param b        The band to set.
-     * @param s        The input sample as a double.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the pixel locbtion.
+     * @pbrbm b        The bbnd to set.
+     * @pbrbm s        The input sbmple bs b double.
      *
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds.
      */
-    public void setSample(int x, int y, int b, double s){
-        sampleModel.setSample(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                                    b,s,dataBuffer);
+    public void setSbmple(int x, int y, int b, double s){
+        sbmpleModel.setSbmple(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                                    b,s,dbtbBuffer);
     }
 
     /**
-     * Sets the samples in the specified band for the specified rectangle
-     * of pixels from an int array containing one sample per array element.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets the sbmples in the specified bbnd for the specified rectbngle
+     * of pixels from bn int brrby contbining one sbmple per brrby element.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param b        The band to set.
-     * @param iArray   The input int sample array.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm b        The bbnd to set.
+     * @pbrbm iArrby   The input int sbmple brrby.
      *
-     * @throws NullPointerException if iArray is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds, or if iArray is too small to
+     * @throws NullPointerException if iArrby is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds, or if iArrby is too smbll to
      * hold the input.
      */
-    public void setSamples(int x, int y, int w, int h, int b,
-                           int iArray[]) {
-        sampleModel.setSamples(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                               w,h,b,iArray,dataBuffer);
+    public void setSbmples(int x, int y, int w, int h, int b,
+                           int iArrby[]) {
+        sbmpleModel.setSbmples(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                               w,h,b,iArrby,dbtbBuffer);
     }
 
     /**
-     * Sets the samples in the specified band for the specified rectangle
-     * of pixels from a float array containing one sample per array element.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets the sbmples in the specified bbnd for the specified rectbngle
+     * of pixels from b flobt brrby contbining one sbmple per brrby element.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param b        The band to set.
-     * @param fArray   The input float sample array.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm b        The bbnd to set.
+     * @pbrbm fArrby   The input flobt sbmple brrby.
      *
-     * @throws NullPointerException if fArray is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds, or if fArray is too small to
+     * @throws NullPointerException if fArrby is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds, or if fArrby is too smbll to
      * hold the input.
      */
-    public void setSamples(int x, int y, int w, int h, int b,
-                           float fArray[]) {
-        sampleModel.setSamples(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                               w,h,b,fArray,dataBuffer);
+    public void setSbmples(int x, int y, int w, int h, int b,
+                           flobt fArrby[]) {
+        sbmpleModel.setSbmples(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                               w,h,b,fArrby,dbtbBuffer);
     }
 
     /**
-     * Sets the samples in the specified band for the specified rectangle
-     * of pixels from a double array containing one sample per array element.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets the sbmples in the specified bbnd for the specified rectbngle
+     * of pixels from b double brrby contbining one sbmple per brrby element.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * However, explicit bounds checking is not guaranteed.
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param b        The band to set.
-     * @param dArray   The input double sample array.
+     * However, explicit bounds checking is not gubrbnteed.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm b        The bbnd to set.
+     * @pbrbm dArrby   The input double sbmple brrby.
      *
-     * @throws NullPointerException if dArray is null.
-     * @throws ArrayIndexOutOfBoundsException if the coordinates or
-     * the band index are not in bounds, or if dArray is too small to
+     * @throws NullPointerException if dArrby is null.
+     * @throws ArrbyIndexOutOfBoundsException if the coordinbtes or
+     * the bbnd index bre not in bounds, or if dArrby is too smbll to
      * hold the input.
      */
-    public void setSamples(int x, int y, int w, int h, int b,
-                           double dArray[]) {
-        sampleModel.setSamples(x-sampleModelTranslateX,y-sampleModelTranslateY,
-                              w,h,b,dArray,dataBuffer);
+    public void setSbmples(int x, int y, int w, int h, int b,
+                           double dArrby[]) {
+        sbmpleModel.setSbmples(x-sbmpleModelTrbnslbteX,y-sbmpleModelTrbnslbteY,
+                              w,h,b,dArrby,dbtbBuffer);
     }
 
 }

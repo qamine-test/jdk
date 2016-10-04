@@ -3,21 +3,21 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jdapimin.c
+ * jdbpimin.c
  *
- * Copyright (C) 1994-1998, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1994-1998, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains application interface code for the decompression half
- * of the JPEG library.  These are the "minimum" API routines that may be
- * needed in either the normal full-decompression case or the
- * transcoding-only case.
+ * This file contbins bpplicbtion interfbce code for the decompression hblf
+ * of the JPEG librbry.  These bre the "minimum" API routines thbt mby be
+ * needed in either the normbl full-decompression cbse or the
+ * trbnscoding-only cbse.
  *
- * Most of the routines intended to be called directly by an application
- * are in this file or in jdapistd.c.  But also see jcomapi.c for routines
- * shared by compression and decompression, and jdtrans.c for the transcoding
- * case.
+ * Most of the routines intended to be cblled directly by bn bpplicbtion
+ * bre in this file or in jdbpistd.c.  But blso see jcombpi.c for routines
+ * shbred by compression bnd decompression, bnd jdtrbns.c for the trbnscoding
+ * cbse.
  */
 
 #define JPEG_INTERNALS
@@ -26,69 +26,69 @@
 
 
 /*
- * Initialization of a JPEG decompression object.
- * The error manager must already be set up (in case memory manager fails).
+ * Initiblizbtion of b JPEG decompression object.
+ * The error mbnbger must blrebdy be set up (in cbse memory mbnbger fbils).
  */
 
 GLOBAL(void)
-jpeg_CreateDecompress (j_decompress_ptr cinfo, int version, size_t structsize)
+jpeg_CrebteDecompress (j_decompress_ptr cinfo, int version, size_t structsize)
 {
   int i;
 
-  /* Guard against version mismatches between library and caller. */
-  cinfo->mem = NULL;            /* so jpeg_destroy knows mem mgr not called */
+  /* Gubrd bgbinst version mismbtches between librbry bnd cbller. */
+  cinfo->mem = NULL;            /* so jpeg_destroy knows mem mgr not cblled */
   if (version != JPEG_LIB_VERSION)
     ERREXIT2(cinfo, JERR_BAD_LIB_VERSION, JPEG_LIB_VERSION, version);
   if (structsize != SIZEOF(struct jpeg_decompress_struct))
     ERREXIT2(cinfo, JERR_BAD_STRUCT_SIZE,
              (int) SIZEOF(struct jpeg_decompress_struct), (int) structsize);
 
-  /* For debugging purposes, we zero the whole master structure.
-   * But the application has already set the err pointer, and may have set
-   * client_data, so we have to save and restore those fields.
-   * Note: if application hasn't set client_data, tools like Purify may
-   * complain here.
+  /* For debugging purposes, we zero the whole mbster structure.
+   * But the bpplicbtion hbs blrebdy set the err pointer, bnd mby hbve set
+   * client_dbtb, so we hbve to sbve bnd restore those fields.
+   * Note: if bpplicbtion hbsn't set client_dbtb, tools like Purify mby
+   * complbin here.
    */
   {
     struct jpeg_error_mgr * err = cinfo->err;
-    void * client_data = cinfo->client_data; /* ignore Purify complaint here */
+    void * client_dbtb = cinfo->client_dbtb; /* ignore Purify complbint here */
     MEMZERO(cinfo, SIZEOF(struct jpeg_decompress_struct));
     cinfo->err = err;
-    cinfo->client_data = client_data;
+    cinfo->client_dbtb = client_dbtb;
   }
   cinfo->is_decompressor = TRUE;
 
-  /* Initialize a memory manager instance for this object */
+  /* Initiblize b memory mbnbger instbnce for this object */
   jinit_memory_mgr((j_common_ptr) cinfo);
 
-  /* Zero out pointers to permanent structures. */
+  /* Zero out pointers to permbnent structures. */
   cinfo->progress = NULL;
   cinfo->src = NULL;
 
   for (i = 0; i < NUM_QUANT_TBLS; i++)
-    cinfo->quant_tbl_ptrs[i] = NULL;
+    cinfo->qubnt_tbl_ptrs[i] = NULL;
 
   for (i = 0; i < NUM_HUFF_TBLS; i++) {
     cinfo->dc_huff_tbl_ptrs[i] = NULL;
-    cinfo->ac_huff_tbl_ptrs[i] = NULL;
+    cinfo->bc_huff_tbl_ptrs[i] = NULL;
   }
 
-  /* Initialize marker processor so application can override methods
-   * for COM, APPn markers before calling jpeg_read_header.
+  /* Initiblize mbrker processor so bpplicbtion cbn override methods
+   * for COM, APPn mbrkers before cblling jpeg_rebd_hebder.
    */
-  cinfo->marker_list = NULL;
-  jinit_marker_reader(cinfo);
+  cinfo->mbrker_list = NULL;
+  jinit_mbrker_rebder(cinfo);
 
-  /* And initialize the overall input controller. */
+  /* And initiblize the overbll input controller. */
   jinit_input_controller(cinfo);
 
-  /* OK, I'm ready */
-  cinfo->global_state = DSTATE_START;
+  /* OK, I'm rebdy */
+  cinfo->globbl_stbte = DSTATE_START;
 }
 
 
 /*
- * Destruction of a JPEG decompression object
+ * Destruction of b JPEG decompression object
  */
 
 GLOBAL(void)
@@ -99,176 +99,176 @@ jpeg_destroy_decompress (j_decompress_ptr cinfo)
 
 
 /*
- * Abort processing of a JPEG decompression operation,
+ * Abort processing of b JPEG decompression operbtion,
  * but don't destroy the object itself.
  */
 
 GLOBAL(void)
-jpeg_abort_decompress (j_decompress_ptr cinfo)
+jpeg_bbort_decompress (j_decompress_ptr cinfo)
 {
-  jpeg_abort((j_common_ptr) cinfo); /* use common routine */
+  jpeg_bbort((j_common_ptr) cinfo); /* use common routine */
 }
 
 
 /*
- * Set default decompression parameters.
+ * Set defbult decompression pbrbmeters.
  */
 
 LOCAL(void)
-default_decompress_parms (j_decompress_ptr cinfo)
+defbult_decompress_pbrms (j_decompress_ptr cinfo)
 {
-  /* Guess the input colorspace, and set output colorspace accordingly. */
-  /* (Wish JPEG committee had provided a real way to specify this...) */
-  /* Note application may override our guesses. */
+  /* Guess the input colorspbce, bnd set output colorspbce bccordingly. */
+  /* (Wish JPEG committee hbd provided b rebl wby to specify this...) */
+  /* Note bpplicbtion mby override our guesses. */
   switch (cinfo->num_components) {
-  case 1:
-    cinfo->jpeg_color_space = JCS_GRAYSCALE;
-    cinfo->out_color_space = JCS_GRAYSCALE;
-    break;
+  cbse 1:
+    cinfo->jpeg_color_spbce = JCS_GRAYSCALE;
+    cinfo->out_color_spbce = JCS_GRAYSCALE;
+    brebk;
 
-  case 3:
-    if (cinfo->saw_JFIF_marker) {
-      cinfo->jpeg_color_space = JCS_YCbCr; /* JFIF implies YCbCr */
-    } else if (cinfo->saw_Adobe_marker) {
-      switch (cinfo->Adobe_transform) {
-      case 0:
-        cinfo->jpeg_color_space = JCS_RGB;
-        break;
-      case 1:
-        cinfo->jpeg_color_space = JCS_YCbCr;
-        break;
-      default:
-        WARNMS1(cinfo, JWRN_ADOBE_XFORM, cinfo->Adobe_transform);
-        cinfo->jpeg_color_space = JCS_YCbCr; /* assume it's YCbCr */
-        break;
+  cbse 3:
+    if (cinfo->sbw_JFIF_mbrker) {
+      cinfo->jpeg_color_spbce = JCS_YCbCr; /* JFIF implies YCbCr */
+    } else if (cinfo->sbw_Adobe_mbrker) {
+      switch (cinfo->Adobe_trbnsform) {
+      cbse 0:
+        cinfo->jpeg_color_spbce = JCS_RGB;
+        brebk;
+      cbse 1:
+        cinfo->jpeg_color_spbce = JCS_YCbCr;
+        brebk;
+      defbult:
+        WARNMS1(cinfo, JWRN_ADOBE_XFORM, cinfo->Adobe_trbnsform);
+        cinfo->jpeg_color_spbce = JCS_YCbCr; /* bssume it's YCbCr */
+        brebk;
       }
     } else {
-      /* Saw no special markers, try to guess from the component IDs */
+      /* Sbw no specibl mbrkers, try to guess from the component IDs */
       int cid0 = cinfo->comp_info[0].component_id;
       int cid1 = cinfo->comp_info[1].component_id;
       int cid2 = cinfo->comp_info[2].component_id;
 
       if (cid0 == 1 && cid1 == 2 && cid2 == 3)
-        cinfo->jpeg_color_space = JCS_YCbCr; /* assume JFIF w/out marker */
+        cinfo->jpeg_color_spbce = JCS_YCbCr; /* bssume JFIF w/out mbrker */
       else if (cid0 == 82 && cid1 == 71 && cid2 == 66)
-        cinfo->jpeg_color_space = JCS_RGB; /* ASCII 'R', 'G', 'B' */
+        cinfo->jpeg_color_spbce = JCS_RGB; /* ASCII 'R', 'G', 'B' */
       else {
         TRACEMS3(cinfo, 1, JTRC_UNKNOWN_IDS, cid0, cid1, cid2);
-        cinfo->jpeg_color_space = JCS_YCbCr; /* assume it's YCbCr */
+        cinfo->jpeg_color_spbce = JCS_YCbCr; /* bssume it's YCbCr */
       }
     }
-    /* Always guess RGB is proper output colorspace. */
-    cinfo->out_color_space = JCS_RGB;
-    break;
+    /* Alwbys guess RGB is proper output colorspbce. */
+    cinfo->out_color_spbce = JCS_RGB;
+    brebk;
 
-  case 4:
-    if (cinfo->saw_Adobe_marker) {
-      switch (cinfo->Adobe_transform) {
-      case 0:
-        cinfo->jpeg_color_space = JCS_CMYK;
-        break;
-      case 2:
-        cinfo->jpeg_color_space = JCS_YCCK;
-        break;
-      default:
-        WARNMS1(cinfo, JWRN_ADOBE_XFORM, cinfo->Adobe_transform);
-        cinfo->jpeg_color_space = JCS_YCCK; /* assume it's YCCK */
-        break;
+  cbse 4:
+    if (cinfo->sbw_Adobe_mbrker) {
+      switch (cinfo->Adobe_trbnsform) {
+      cbse 0:
+        cinfo->jpeg_color_spbce = JCS_CMYK;
+        brebk;
+      cbse 2:
+        cinfo->jpeg_color_spbce = JCS_YCCK;
+        brebk;
+      defbult:
+        WARNMS1(cinfo, JWRN_ADOBE_XFORM, cinfo->Adobe_trbnsform);
+        cinfo->jpeg_color_spbce = JCS_YCCK; /* bssume it's YCCK */
+        brebk;
       }
     } else {
-      /* No special markers, assume straight CMYK. */
-      cinfo->jpeg_color_space = JCS_CMYK;
+      /* No specibl mbrkers, bssume strbight CMYK. */
+      cinfo->jpeg_color_spbce = JCS_CMYK;
     }
-    cinfo->out_color_space = JCS_CMYK;
-    break;
+    cinfo->out_color_spbce = JCS_CMYK;
+    brebk;
 
-  default:
-    cinfo->jpeg_color_space = JCS_UNKNOWN;
-    cinfo->out_color_space = JCS_UNKNOWN;
-    break;
+  defbult:
+    cinfo->jpeg_color_spbce = JCS_UNKNOWN;
+    cinfo->out_color_spbce = JCS_UNKNOWN;
+    brebk;
   }
 
-  /* Set defaults for other decompression parameters. */
-  cinfo->scale_num = 1;         /* 1:1 scaling */
-  cinfo->scale_denom = 1;
-  cinfo->output_gamma = 1.0;
-  cinfo->buffered_image = FALSE;
-  cinfo->raw_data_out = FALSE;
+  /* Set defbults for other decompression pbrbmeters. */
+  cinfo->scble_num = 1;         /* 1:1 scbling */
+  cinfo->scble_denom = 1;
+  cinfo->output_gbmmb = 1.0;
+  cinfo->buffered_imbge = FALSE;
+  cinfo->rbw_dbtb_out = FALSE;
   cinfo->dct_method = JDCT_DEFAULT;
-  cinfo->do_fancy_upsampling = TRUE;
+  cinfo->do_fbncy_upsbmpling = TRUE;
   cinfo->do_block_smoothing = TRUE;
-  cinfo->quantize_colors = FALSE;
-  /* We set these in case application only sets quantize_colors. */
+  cinfo->qubntize_colors = FALSE;
+  /* We set these in cbse bpplicbtion only sets qubntize_colors. */
   cinfo->dither_mode = JDITHER_FS;
 #ifdef QUANT_2PASS_SUPPORTED
-  cinfo->two_pass_quantize = TRUE;
+  cinfo->two_pbss_qubntize = TRUE;
 #else
-  cinfo->two_pass_quantize = FALSE;
+  cinfo->two_pbss_qubntize = FALSE;
 #endif
   cinfo->desired_number_of_colors = 256;
-  cinfo->colormap = NULL;
-  /* Initialize for no mode change in buffered-image mode. */
-  cinfo->enable_1pass_quant = FALSE;
-  cinfo->enable_external_quant = FALSE;
-  cinfo->enable_2pass_quant = FALSE;
+  cinfo->colormbp = NULL;
+  /* Initiblize for no mode chbnge in buffered-imbge mode. */
+  cinfo->enbble_1pbss_qubnt = FALSE;
+  cinfo->enbble_externbl_qubnt = FALSE;
+  cinfo->enbble_2pbss_qubnt = FALSE;
 }
 
 
 /*
- * Decompression startup: read start of JPEG datastream to see what's there.
- * Need only initialize JPEG object and supply a data source before calling.
+ * Decompression stbrtup: rebd stbrt of JPEG dbtbstrebm to see whbt's there.
+ * Need only initiblize JPEG object bnd supply b dbtb source before cblling.
  *
- * This routine will read as far as the first SOS marker (ie, actual start of
- * compressed data), and will save all tables and parameters in the JPEG
- * object.  It will also initialize the decompression parameters to default
- * values, and finally return JPEG_HEADER_OK.  On return, the application may
- * adjust the decompression parameters and then call jpeg_start_decompress.
- * (Or, if the application only wanted to determine the image parameters,
- * the data need not be decompressed.  In that case, call jpeg_abort or
- * jpeg_destroy to release any temporary space.)
- * If an abbreviated (tables only) datastream is presented, the routine will
- * return JPEG_HEADER_TABLES_ONLY upon reaching EOI.  The application may then
- * re-use the JPEG object to read the abbreviated image datastream(s).
- * It is unnecessary (but OK) to call jpeg_abort in this case.
- * The JPEG_SUSPENDED return code only occurs if the data source module
- * requests suspension of the decompressor.  In this case the application
- * should load more source data and then re-call jpeg_read_header to resume
+ * This routine will rebd bs fbr bs the first SOS mbrker (ie, bctubl stbrt of
+ * compressed dbtb), bnd will sbve bll tbbles bnd pbrbmeters in the JPEG
+ * object.  It will blso initiblize the decompression pbrbmeters to defbult
+ * vblues, bnd finblly return JPEG_HEADER_OK.  On return, the bpplicbtion mby
+ * bdjust the decompression pbrbmeters bnd then cbll jpeg_stbrt_decompress.
+ * (Or, if the bpplicbtion only wbnted to determine the imbge pbrbmeters,
+ * the dbtb need not be decompressed.  In thbt cbse, cbll jpeg_bbort or
+ * jpeg_destroy to relebse bny temporbry spbce.)
+ * If bn bbbrevibted (tbbles only) dbtbstrebm is presented, the routine will
+ * return JPEG_HEADER_TABLES_ONLY upon rebching EOI.  The bpplicbtion mby then
+ * re-use the JPEG object to rebd the bbbrevibted imbge dbtbstrebm(s).
+ * It is unnecessbry (but OK) to cbll jpeg_bbort in this cbse.
+ * The JPEG_SUSPENDED return code only occurs if the dbtb source module
+ * requests suspension of the decompressor.  In this cbse the bpplicbtion
+ * should lobd more source dbtb bnd then re-cbll jpeg_rebd_hebder to resume
  * processing.
- * If a non-suspending data source is used and require_image is TRUE, then the
+ * If b non-suspending dbtb source is used bnd require_imbge is TRUE, then the
  * return code need not be inspected since only JPEG_HEADER_OK is possible.
  *
- * This routine is now just a front end to jpeg_consume_input, with some
- * extra error checking.
+ * This routine is now just b front end to jpeg_consume_input, with some
+ * extrb error checking.
  */
 
 GLOBAL(int)
-jpeg_read_header (j_decompress_ptr cinfo, boolean require_image)
+jpeg_rebd_hebder (j_decompress_ptr cinfo, boolebn require_imbge)
 {
   int retcode;
 
-  if (cinfo->global_state != DSTATE_START &&
-      cinfo->global_state != DSTATE_INHEADER)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  if (cinfo->globbl_stbte != DSTATE_START &&
+      cinfo->globbl_stbte != DSTATE_INHEADER)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
 
   retcode = jpeg_consume_input(cinfo);
 
   switch (retcode) {
-  case JPEG_REACHED_SOS:
+  cbse JPEG_REACHED_SOS:
     retcode = JPEG_HEADER_OK;
-    break;
-  case JPEG_REACHED_EOI:
-    if (require_image)          /* Complain if application wanted an image */
+    brebk;
+  cbse JPEG_REACHED_EOI:
+    if (require_imbge)          /* Complbin if bpplicbtion wbnted bn imbge */
       ERREXIT(cinfo, JERR_NO_IMAGE);
-    /* Reset to start state; it would be safer to require the application to
-     * call jpeg_abort, but we can't change it now for compatibility reasons.
-     * A side effect is to free any temporary memory (there shouldn't be any).
+    /* Reset to stbrt stbte; it would be sbfer to require the bpplicbtion to
+     * cbll jpeg_bbort, but we cbn't chbnge it now for compbtibility rebsons.
+     * A side effect is to free bny temporbry memory (there shouldn't be bny).
      */
-    jpeg_abort((j_common_ptr) cinfo); /* sets state = DSTATE_START */
+    jpeg_bbort((j_common_ptr) cinfo); /* sets stbte = DSTATE_START */
     retcode = JPEG_HEADER_TABLES_ONLY;
-    break;
-  case JPEG_SUSPENDED:
+    brebk;
+  cbse JPEG_SUSPENDED:
     /* no work */
-    break;
+    brebk;
   }
 
   return retcode;
@@ -276,14 +276,14 @@ jpeg_read_header (j_decompress_ptr cinfo, boolean require_image)
 
 
 /*
- * Consume data in advance of what the decompressor requires.
- * This can be called at any time once the decompressor object has
- * been created and a data source has been set up.
+ * Consume dbtb in bdvbnce of whbt the decompressor requires.
+ * This cbn be cblled bt bny time once the decompressor object hbs
+ * been crebted bnd b dbtb source hbs been set up.
  *
- * This routine is essentially a state machine that handles a couple
- * of critical state-transition actions, namely initial setup and
- * transition from header scanning to ready-for-start_decompress.
- * All the actual input is done via the input controller's consume_input
+ * This routine is essentiblly b stbte mbchine thbt hbndles b couple
+ * of criticbl stbte-trbnsition bctions, nbmely initibl setup bnd
+ * trbnsition from hebder scbnning to rebdy-for-stbrt_decompress.
+ * All the bctubl input is done vib the input controller's consume_input
  * method.
  */
 
@@ -292,108 +292,108 @@ jpeg_consume_input (j_decompress_ptr cinfo)
 {
   int retcode = JPEG_SUSPENDED;
 
-  /* NB: every possible DSTATE value should be listed in this switch */
-  switch (cinfo->global_state) {
-  case DSTATE_START:
-    /* Start-of-datastream actions: reset appropriate modules */
+  /* NB: every possible DSTATE vblue should be listed in this switch */
+  switch (cinfo->globbl_stbte) {
+  cbse DSTATE_START:
+    /* Stbrt-of-dbtbstrebm bctions: reset bppropribte modules */
     (*cinfo->inputctl->reset_input_controller) (cinfo);
-    /* Initialize application's data source module */
+    /* Initiblize bpplicbtion's dbtb source module */
     (*cinfo->src->init_source) (cinfo);
-    cinfo->global_state = DSTATE_INHEADER;
+    cinfo->globbl_stbte = DSTATE_INHEADER;
     /*FALLTHROUGH*/
-  case DSTATE_INHEADER:
+  cbse DSTATE_INHEADER:
     retcode = (*cinfo->inputctl->consume_input) (cinfo);
-    if (retcode == JPEG_REACHED_SOS) { /* Found SOS, prepare to decompress */
-      /* Set up default parameters based on header data */
-      default_decompress_parms(cinfo);
-      /* Set global state: ready for start_decompress */
-      cinfo->global_state = DSTATE_READY;
+    if (retcode == JPEG_REACHED_SOS) { /* Found SOS, prepbre to decompress */
+      /* Set up defbult pbrbmeters bbsed on hebder dbtb */
+      defbult_decompress_pbrms(cinfo);
+      /* Set globbl stbte: rebdy for stbrt_decompress */
+      cinfo->globbl_stbte = DSTATE_READY;
     }
-    break;
-  case DSTATE_READY:
-    /* Can't advance past first SOS until start_decompress is called */
+    brebk;
+  cbse DSTATE_READY:
+    /* Cbn't bdvbnce pbst first SOS until stbrt_decompress is cblled */
     retcode = JPEG_REACHED_SOS;
-    break;
-  case DSTATE_PRELOAD:
-  case DSTATE_PRESCAN:
-  case DSTATE_SCANNING:
-  case DSTATE_RAW_OK:
-  case DSTATE_BUFIMAGE:
-  case DSTATE_BUFPOST:
-  case DSTATE_STOPPING:
+    brebk;
+  cbse DSTATE_PRELOAD:
+  cbse DSTATE_PRESCAN:
+  cbse DSTATE_SCANNING:
+  cbse DSTATE_RAW_OK:
+  cbse DSTATE_BUFIMAGE:
+  cbse DSTATE_BUFPOST:
+  cbse DSTATE_STOPPING:
     retcode = (*cinfo->inputctl->consume_input) (cinfo);
-    break;
-  default:
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+    brebk;
+  defbult:
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
   }
   return retcode;
 }
 
 
 /*
- * Have we finished reading the input file?
+ * Hbve we finished rebding the input file?
  */
 
-GLOBAL(boolean)
+GLOBAL(boolebn)
 jpeg_input_complete (j_decompress_ptr cinfo)
 {
-  /* Check for valid jpeg object */
-  if (cinfo->global_state < DSTATE_START ||
-      cinfo->global_state > DSTATE_STOPPING)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  return cinfo->inputctl->eoi_reached;
+  /* Check for vblid jpeg object */
+  if (cinfo->globbl_stbte < DSTATE_START ||
+      cinfo->globbl_stbte > DSTATE_STOPPING)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
+  return cinfo->inputctl->eoi_rebched;
 }
 
 
 /*
- * Is there more than one scan?
+ * Is there more thbn one scbn?
  */
 
-GLOBAL(boolean)
-jpeg_has_multiple_scans (j_decompress_ptr cinfo)
+GLOBAL(boolebn)
+jpeg_hbs_multiple_scbns (j_decompress_ptr cinfo)
 {
-  /* Only valid after jpeg_read_header completes */
-  if (cinfo->global_state < DSTATE_READY ||
-      cinfo->global_state > DSTATE_STOPPING)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  return cinfo->inputctl->has_multiple_scans;
+  /* Only vblid bfter jpeg_rebd_hebder completes */
+  if (cinfo->globbl_stbte < DSTATE_READY ||
+      cinfo->globbl_stbte > DSTATE_STOPPING)
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
+  return cinfo->inputctl->hbs_multiple_scbns;
 }
 
 
 /*
  * Finish JPEG decompression.
  *
- * This will normally just verify the file trailer and release temp storage.
+ * This will normblly just verify the file trbiler bnd relebse temp storbge.
  *
- * Returns FALSE if suspended.  The return value need be inspected only if
- * a suspending data source is used.
+ * Returns FALSE if suspended.  The return vblue need be inspected only if
+ * b suspending dbtb source is used.
  */
 
-GLOBAL(boolean)
+GLOBAL(boolebn)
 jpeg_finish_decompress (j_decompress_ptr cinfo)
 {
-  if ((cinfo->global_state == DSTATE_SCANNING ||
-       cinfo->global_state == DSTATE_RAW_OK) && ! cinfo->buffered_image) {
-    /* Terminate final pass of non-buffered mode */
-    if (cinfo->output_scanline < cinfo->output_height)
+  if ((cinfo->globbl_stbte == DSTATE_SCANNING ||
+       cinfo->globbl_stbte == DSTATE_RAW_OK) && ! cinfo->buffered_imbge) {
+    /* Terminbte finbl pbss of non-buffered mode */
+    if (cinfo->output_scbnline < cinfo->output_height)
       ERREXIT(cinfo, JERR_TOO_LITTLE_DATA);
-    (*cinfo->master->finish_output_pass) (cinfo);
-    cinfo->global_state = DSTATE_STOPPING;
-  } else if (cinfo->global_state == DSTATE_BUFIMAGE) {
-    /* Finishing after a buffered-image operation */
-    cinfo->global_state = DSTATE_STOPPING;
-  } else if (cinfo->global_state != DSTATE_STOPPING) {
-    /* STOPPING = repeat call after a suspension, anything else is error */
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+    (*cinfo->mbster->finish_output_pbss) (cinfo);
+    cinfo->globbl_stbte = DSTATE_STOPPING;
+  } else if (cinfo->globbl_stbte == DSTATE_BUFIMAGE) {
+    /* Finishing bfter b buffered-imbge operbtion */
+    cinfo->globbl_stbte = DSTATE_STOPPING;
+  } else if (cinfo->globbl_stbte != DSTATE_STOPPING) {
+    /* STOPPING = repebt cbll bfter b suspension, bnything else is error */
+    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
   }
-  /* Read until EOI */
-  while (! cinfo->inputctl->eoi_reached) {
+  /* Rebd until EOI */
+  while (! cinfo->inputctl->eoi_rebched) {
     if ((*cinfo->inputctl->consume_input) (cinfo) == JPEG_SUSPENDED)
-      return FALSE;             /* Suspend, come back later */
+      return FALSE;             /* Suspend, come bbck lbter */
   }
-  /* Do final cleanup */
+  /* Do finbl clebnup */
   (*cinfo->src->term_source) (cinfo);
-  /* We can use jpeg_abort to release memory and reset global_state */
-  jpeg_abort((j_common_ptr) cinfo);
+  /* We cbn use jpeg_bbort to relebse memory bnd reset globbl_stbte */
+  jpeg_bbort((j_common_ptr) cinfo);
   return TRUE;
 }

@@ -1,1472 +1,1472 @@
 
-                ChangeLog file for zlib
+                ChbngeLog file for zlib
 
-Changes in 1.2.8 (28 Apr 2013)
-- Update contrib/minizip/iowin32.c for Windows RT [Vollant]
+Chbnges in 1.2.8 (28 Apr 2013)
+- Updbte contrib/minizip/iowin32.c for Windows RT [Vollbnt]
 - Do not force Z_CONST for C++
-- Clean up contrib/vstudio [Ro§]
+- Clebn up contrib/vstudio [Ro§]
 - Correct spelling error in zlib.h
 - Fix mixed line endings in contrib/vstudio
 
-Changes in 1.2.7.3 (13 Apr 2013)
-- Fix version numbers and DLL names in contrib/vstudio/*/zlib.rc
+Chbnges in 1.2.7.3 (13 Apr 2013)
+- Fix version numbers bnd DLL nbmes in contrib/vstudio/*/zlib.rc
 
-Changes in 1.2.7.2 (13 Apr 2013)
-- Change check for a four-byte type back to hexadecimal
-- Fix typo in win32/Makefile.msc
-- Add casts in gzwrite.c for pointer differences
+Chbnges in 1.2.7.2 (13 Apr 2013)
+- Chbnge check for b four-byte type bbck to hexbdecimbl
+- Fix typo in win32/Mbkefile.msc
+- Add cbsts in gzwrite.c for pointer differences
 
-Changes in 1.2.7.1 (24 Mar 2013)
-- Replace use of unsafe string functions with snprintf if available
+Chbnges in 1.2.7.1 (24 Mbr 2013)
+- Replbce use of unsbfe string functions with snprintf if bvbilbble
 - Avoid including stddef.h on Windows for Z_SOLO compile [Niessink]
 - Fix gzgetc undefine when Z_PREFIX set [Turk]
-- Eliminate use of mktemp in Makefile (not always available)
+- Eliminbte use of mktemp in Mbkefile (not blwbys bvbilbble)
 - Fix bug in 'F' mode for gzopen()
-- Add inflateGetDictionary() function
-- Correct comment in deflate.h
+- Add inflbteGetDictionbry() function
+- Correct comment in deflbte.h
 - Use _snprintf for snprintf in Microsoft C
-- On Darwin, only use /usr/bin/libtool if libtool is not Apple
-- Delete "--version" file if created by "ar --version" [Richard G.]
-- Fix configure check for veracity of compiler error return codes
-- Fix CMake compilation of static lib for MSVC2010 x64
-- Remove unused variable in infback9.c
-- Fix argument checks in gzlog_compress() and gzlog_write()
-- Clean up the usage of z_const and respect const usage within zlib
-- Clean up examples/gzlog.[ch] comparisons of different types
-- Avoid shift equal to bits in type (caused endless loop)
-- Fix unintialized value bug in gzputc() introduced by const patches
-- Fix memory allocation error in examples/zran.c [Nor]
-- Fix bug where gzopen(), gzclose() would write an empty file
+- On Dbrwin, only use /usr/bin/libtool if libtool is not Apple
+- Delete "--version" file if crebted by "br --version" [Richbrd G.]
+- Fix configure check for verbcity of compiler error return codes
+- Fix CMbke compilbtion of stbtic lib for MSVC2010 x64
+- Remove unused vbribble in infbbck9.c
+- Fix brgument checks in gzlog_compress() bnd gzlog_write()
+- Clebn up the usbge of z_const bnd respect const usbge within zlib
+- Clebn up exbmples/gzlog.[ch] compbrisons of different types
+- Avoid shift equbl to bits in type (cbused endless loop)
+- Fix unintiblized vblue bug in gzputc() introduced by const pbtches
+- Fix memory bllocbtion error in exbmples/zrbn.c [Nor]
+- Fix bug where gzopen(), gzclose() would write bn empty file
 - Fix bug in gzclose() when gzwrite() runs out of memory
-- Check for input buffer malloc failure in examples/gzappend.c
-- Add note to contrib/blast to use binary mode in stdio
-- Fix comparisons of differently signed integers in contrib/blast
-- Check for invalid code length codes in contrib/puff
-- Fix serious but very rare decompression bug in inftrees.c
-- Update inflateBack() comments, since inflate() can be faster
-- Use underscored I/O function names for WINAPI_FAMILY
-- Add _tr_flush_bits to the external symbols prefixed by --zprefix
-- Add contrib/vstudio/vc10 pre-build step for static only
-- Quote --version-script argument in CMakeLists.txt
-- Don't specify --version-script on Apple platforms in CMakeLists.txt
-- Fix casting error in contrib/testzlib/testzlib.c
-- Fix types in contrib/minizip to match result of get_crc_table()
+- Check for input buffer mblloc fbilure in exbmples/gzbppend.c
+- Add note to contrib/blbst to use binbry mode in stdio
+- Fix compbrisons of differently signed integers in contrib/blbst
+- Check for invblid code length codes in contrib/puff
+- Fix serious but very rbre decompression bug in inftrees.c
+- Updbte inflbteBbck() comments, since inflbte() cbn be fbster
+- Use underscored I/O function nbmes for WINAPI_FAMILY
+- Add _tr_flush_bits to the externbl symbols prefixed by --zprefix
+- Add contrib/vstudio/vc10 pre-build step for stbtic only
+- Quote --version-script brgument in CMbkeLists.txt
+- Don't specify --version-script on Apple plbtforms in CMbkeLists.txt
+- Fix cbsting error in contrib/testzlib/testzlib.c
+- Fix types in contrib/minizip to mbtch result of get_crc_tbble()
 - Simplify contrib/vstudio/vc10 with 'd' suffix
-- Add TOP support to win32/Makefile.msc
-- Suport i686 and amd64 assembler builds in CMakeLists.txt
+- Add TOP support to win32/Mbkefile.msc
+- Suport i686 bnd bmd64 bssembler builds in CMbkeLists.txt
 - Fix typos in the use of _LARGEFILE64_SOURCE in zconf.h
-- Add vc11 and vc12 build files to contrib/vstudio
-- Add gzvprintf() as an undocumented function in zlib
+- Add vc11 bnd vc12 build files to contrib/vstudio
+- Add gzvprintf() bs bn undocumented function in zlib
 - Fix configure for Sun shell
 - Remove runtime check in configure for four-byte integer type
-- Add casts and consts to ease user conversion to C++
-- Add man pages for minizip and miniunzip
-- In Makefile uninstall, don't rm if preceding cd fails
-- Do not return Z_BUF_ERROR if deflateParam() has nothing to write
+- Add cbsts bnd consts to ebse user conversion to C++
+- Add mbn pbges for minizip bnd miniunzip
+- In Mbkefile uninstbll, don't rm if preceding cd fbils
+- Do not return Z_BUF_ERROR if deflbtePbrbm() hbs nothing to write
 
-Changes in 1.2.7 (2 May 2012)
-- Replace use of memmove() with a simple copy for portability
+Chbnges in 1.2.7 (2 Mby 2012)
+- Replbce use of memmove() with b simple copy for portbbility
 - Test for existence of strerror
-- Restore gzgetc_ for backward compatibility with 1.2.6
-- Fix build with non-GNU make on Solaris
-- Require gcc 4.0 or later on Mac OS X to use the hidden attribute
-- Include unistd.h for Watcom C
-- Use __WATCOMC__ instead of __WATCOM__
-- Do not use the visibility attribute if NO_VIZ defined
-- Improve the detection of no hidden visibility attribute
-- Avoid using __int64 for gcc or solo compilation
-- Cast to char * in gzprintf to avoid warnings [Zinser]
-- Fix make_vms.com for VAX [Zinser]
-- Don't use library or built-in byte swaps
-- Simplify test and use of gcc hidden attribute
-- Fix bug in gzclose_w() when gzwrite() fails to allocate memory
-- Add "x" (O_EXCL) and "e" (O_CLOEXEC) modes support to gzopen()
+- Restore gzgetc_ for bbckwbrd compbtibility with 1.2.6
+- Fix build with non-GNU mbke on Solbris
+- Require gcc 4.0 or lbter on Mbc OS X to use the hidden bttribute
+- Include unistd.h for Wbtcom C
+- Use __WATCOMC__ instebd of __WATCOM__
+- Do not use the visibility bttribute if NO_VIZ defined
+- Improve the detection of no hidden visibility bttribute
+- Avoid using __int64 for gcc or solo compilbtion
+- Cbst to chbr * in gzprintf to bvoid wbrnings [Zinser]
+- Fix mbke_vms.com for VAX [Zinser]
+- Don't use librbry or built-in byte swbps
+- Simplify test bnd use of gcc hidden bttribute
+- Fix bug in gzclose_w() when gzwrite() fbils to bllocbte memory
+- Add "x" (O_EXCL) bnd "e" (O_CLOEXEC) modes support to gzopen()
 - Fix bug in test/minigzip.c for configure --solo
-- Fix contrib/vstudio project link errors [Mohanathas]
-- Add ability to choose the builder in make_vms.com [Schweda]
-- Add DESTDIR support to mingw32 win32/Makefile.gcc
-- Fix comments in win32/Makefile.gcc for proper usage
-- Allow overriding the default install locations for cmake
-- Generate and install the pkg-config file with cmake
-- Build both a static and a shared version of zlib with cmake
-- Include version symbols for cmake builds
-- If using cmake with MSVC, add the source directory to the includes
-- Remove unneeded EXTRA_CFLAGS from win32/Makefile.gcc [Truta]
-- Move obsolete emx makefile to old [Truta]
+- Fix contrib/vstudio project link errors [Mohbnbthbs]
+- Add bbility to choose the builder in mbke_vms.com [Schwedb]
+- Add DESTDIR support to mingw32 win32/Mbkefile.gcc
+- Fix comments in win32/Mbkefile.gcc for proper usbge
+- Allow overriding the defbult instbll locbtions for cmbke
+- Generbte bnd instbll the pkg-config file with cmbke
+- Build both b stbtic bnd b shbred version of zlib with cmbke
+- Include version symbols for cmbke builds
+- If using cmbke with MSVC, bdd the source directory to the includes
+- Remove unneeded EXTRA_CFLAGS from win32/Mbkefile.gcc [Trutb]
+- Move obsolete emx mbkefile to old [Trutb]
 - Allow the use of -Wundef when compiling or using zlib
 - Avoid the use of the -u option with mktemp
-- Improve inflate() documentation on the use of Z_FINISH
-- Recognize clang as gcc
-- Add gzopen_w() in Windows for wide character path names
-- Rename zconf.h in CMakeLists.txt to move it out of the way
-- Add source directory in CMakeLists.txt for building examples
-- Look in build directory for zlib.pc in CMakeLists.txt
-- Remove gzflags from zlibvc.def in vc9 and vc10
-- Fix contrib/minizip compilation in the MinGW environment
-- Update ./configure for Solaris, support --64 [Mooney]
-- Remove -R. from Solaris shared build (possible security issue)
-- Avoid race condition for parallel make (-j) running example
-- Fix type mismatch between get_crc_table() and crc_table
-- Fix parsing of version with "-" in CMakeLists.txt [Snider, Ziegler]
-- Fix the path to zlib.map in CMakeLists.txt
-- Force the native libtool in Mac OS X to avoid GNU libtool [Beebe]
-- Add instructions to win32/Makefile.gcc for shared install [Torri]
+- Improve inflbte() documentbtion on the use of Z_FINISH
+- Recognize clbng bs gcc
+- Add gzopen_w() in Windows for wide chbrbcter pbth nbmes
+- Renbme zconf.h in CMbkeLists.txt to move it out of the wby
+- Add source directory in CMbkeLists.txt for building exbmples
+- Look in build directory for zlib.pc in CMbkeLists.txt
+- Remove gzflbgs from zlibvc.def in vc9 bnd vc10
+- Fix contrib/minizip compilbtion in the MinGW environment
+- Updbte ./configure for Solbris, support --64 [Mooney]
+- Remove -R. from Solbris shbred build (possible security issue)
+- Avoid rbce condition for pbrbllel mbke (-j) running exbmple
+- Fix type mismbtch between get_crc_tbble() bnd crc_tbble
+- Fix pbrsing of version with "-" in CMbkeLists.txt [Snider, Ziegler]
+- Fix the pbth to zlib.mbp in CMbkeLists.txt
+- Force the nbtive libtool in Mbc OS X to bvoid GNU libtool [Beebe]
+- Add instructions to win32/Mbkefile.gcc for shbred instbll [Torri]
 
-Changes in 1.2.6.1 (12 Feb 2012)
-- Avoid the use of the Objective-C reserved name "id"
+Chbnges in 1.2.6.1 (12 Feb 2012)
+- Avoid the use of the Objective-C reserved nbme "id"
 - Include io.h in gzguts.h for Microsoft compilers
-- Fix problem with ./configure --prefix and gzgetc macro
-- Include gz_header definition when compiling zlib solo
-- Put gzflags() functionality back in zutil.c
-- Avoid library header include in crc32.c for Z_SOLO
-- Use name in GCC_CLASSIC as C compiler for coverage testing, if set
-- Minor cleanup in contrib/minizip/zip.c [Vollant]
-- Update make_vms.com [Zinser]
-- Remove unnecessary gzgetc_ function
-- Use optimized byte swap operations for Microsoft and GNU [Snyder]
+- Fix problem with ./configure --prefix bnd gzgetc mbcro
+- Include gz_hebder definition when compiling zlib solo
+- Put gzflbgs() functionblity bbck in zutil.c
+- Avoid librbry hebder include in crc32.c for Z_SOLO
+- Use nbme in GCC_CLASSIC bs C compiler for coverbge testing, if set
+- Minor clebnup in contrib/minizip/zip.c [Vollbnt]
+- Updbte mbke_vms.com [Zinser]
+- Remove unnecessbry gzgetc_ function
+- Use optimized byte swbp operbtions for Microsoft bnd GNU [Snyder]
 - Fix minor typo in zlib.h comments [Rzesniowiecki]
 
-Changes in 1.2.6 (29 Jan 2012)
-- Update the Pascal interface in contrib/pascal
+Chbnges in 1.2.6 (29 Jbn 2012)
+- Updbte the Pbscbl interfbce in contrib/pbscbl
 - Fix function numbers for gzgetc_ in zlibvc.def files
-- Fix configure.ac for contrib/minizip [Schiffer]
-- Fix large-entry detection in minizip on 64-bit systems [Schiffer]
-- Have ./configure use the compiler return code for error indication
-- Fix CMakeLists.txt for cross compilation [McClure]
-- Fix contrib/minizip/zip.c for 64-bit architectures [Dalsnes]
-- Fix compilation of contrib/minizip on FreeBSD [Marquez]
-- Correct suggested usages in win32/Makefile.msc [Shachar, Horvath]
-- Include io.h for Turbo C / Borland C on all platforms [Truta]
-- Make version explicit in contrib/minizip/configure.ac [Bosmans]
-- Avoid warning for no encryption in contrib/minizip/zip.c [Vollant]
-- Minor cleanup up contrib/minizip/unzip.c [Vollant]
-- Fix bug when compiling minizip with C++ [Vollant]
-- Protect for long name and extra fields in contrib/minizip [Vollant]
-- Avoid some warnings in contrib/minizip [Vollant]
-- Add -I../.. -L../.. to CFLAGS for minizip and miniunzip
-- Add missing libs to minizip linker command
+- Fix configure.bc for contrib/minizip [Schiffer]
+- Fix lbrge-entry detection in minizip on 64-bit systems [Schiffer]
+- Hbve ./configure use the compiler return code for error indicbtion
+- Fix CMbkeLists.txt for cross compilbtion [McClure]
+- Fix contrib/minizip/zip.c for 64-bit brchitectures [Dblsnes]
+- Fix compilbtion of contrib/minizip on FreeBSD [Mbrquez]
+- Correct suggested usbges in win32/Mbkefile.msc [Shbchbr, Horvbth]
+- Include io.h for Turbo C / Borlbnd C on bll plbtforms [Trutb]
+- Mbke version explicit in contrib/minizip/configure.bc [Bosmbns]
+- Avoid wbrning for no encryption in contrib/minizip/zip.c [Vollbnt]
+- Minor clebnup up contrib/minizip/unzip.c [Vollbnt]
+- Fix bug when compiling minizip with C++ [Vollbnt]
+- Protect for long nbme bnd extrb fields in contrib/minizip [Vollbnt]
+- Avoid some wbrnings in contrib/minizip [Vollbnt]
+- Add -I../.. -L../.. to CFLAGS for minizip bnd miniunzip
+- Add missing libs to minizip linker commbnd
 - Add support for VPATH builds in contrib/minizip
-- Add an --enable-demos option to contrib/minizip/configure
-- Add the generation of configure.log by ./configure
-- Exit when required parameters not provided to win32/Makefile.gcc
-- Have gzputc return the character written instead of the argument
-- Use the -m option on ldconfig for BSD systems [Tobias]
-- Correct in zlib.map when deflateResetKeep was added
+- Add bn --enbble-demos option to contrib/minizip/configure
+- Add the generbtion of configure.log by ./configure
+- Exit when required pbrbmeters not provided to win32/Mbkefile.gcc
+- Hbve gzputc return the chbrbcter written instebd of the brgument
+- Use the -m option on ldconfig for BSD systems [Tobibs]
+- Correct in zlib.mbp when deflbteResetKeep wbs bdded
 
-Changes in 1.2.5.3 (15 Jan 2012)
-- Restore gzgetc function for binary compatibility
-- Do not use _lseeki64 under Borland C++ [Truta]
-- Update win32/Makefile.msc to build test/*.c [Truta]
-- Remove old/visualc6 given CMakefile and other alternatives
-- Update AS400 build files and documentation [Monnerat]
-- Update win32/Makefile.gcc to build test/*.c [Truta]
-- Permit stronger flushes after Z_BLOCK flushes
-- Avoid extraneous empty blocks when doing empty flushes
-- Permit Z_NULL arguments to deflatePending
-- Allow deflatePrime() to insert bits in the middle of a stream
-- Remove second empty static block for Z_PARTIAL_FLUSH
-- Write out all of the available bits when using Z_BLOCK
-- Insert the first two strings in the hash table after a flush
+Chbnges in 1.2.5.3 (15 Jbn 2012)
+- Restore gzgetc function for binbry compbtibility
+- Do not use _lseeki64 under Borlbnd C++ [Trutb]
+- Updbte win32/Mbkefile.msc to build test/*.c [Trutb]
+- Remove old/visublc6 given CMbkefile bnd other blternbtives
+- Updbte AS400 build files bnd documentbtion [Monnerbt]
+- Updbte win32/Mbkefile.gcc to build test/*.c [Trutb]
+- Permit stronger flushes bfter Z_BLOCK flushes
+- Avoid extrbneous empty blocks when doing empty flushes
+- Permit Z_NULL brguments to deflbtePending
+- Allow deflbtePrime() to insert bits in the middle of b strebm
+- Remove second empty stbtic block for Z_PARTIAL_FLUSH
+- Write out bll of the bvbilbble bits when using Z_BLOCK
+- Insert the first two strings in the hbsh tbble bfter b flush
 
-Changes in 1.2.5.2 (17 Dec 2011)
-- fix ld error: unable to find version dependency 'ZLIB_1.2.5'
-- use relative symlinks for shared libs
-- Avoid searching past window for Z_RLE strategy
-- Assure that high-water mark initialization is always applied in deflate
-- Add assertions to fill_window() in deflate.c to match comments
-- Update python link in README
-- Correct spelling error in gzread.c
-- Fix bug in gzgets() for a concatenated empty gzip stream
-- Correct error in comment for gz_make()
-- Change gzread() and related to ignore junk after gzip streams
-- Allow gzread() and related to continue after gzclearerr()
-- Allow gzrewind() and gzseek() after a premature end-of-file
-- Simplify gzseek() now that raw after gzip is ignored
-- Change gzgetc() to a macro for speed (~40% speedup in testing)
-- Fix gzclose() to return the actual error last encountered
-- Always add large file support for windows
-- Include zconf.h for windows large file support
-- Include zconf.h.cmakein for windows large file support
-- Update zconf.h.cmakein on make distclean
-- Merge vestigial vsnprintf determination from zutil.h to gzguts.h
-- Clarify how gzopen() appends in zlib.h comments
-- Correct documentation of gzdirect() since junk at end now ignored
-- Add a transparent write mode to gzopen() when 'T' is in the mode
-- Update python link in zlib man page
-- Get inffixed.h and MAKEFIXED result to match
-- Add a ./config --solo option to make zlib subset with no libary use
-- Add undocumented inflateResetKeep() function for CAB file decoding
-- Add --cover option to ./configure for gcc coverage testing
-- Add #define ZLIB_CONST option to use const in the z_stream interface
+Chbnges in 1.2.5.2 (17 Dec 2011)
+- fix ld error: unbble to find version dependency 'ZLIB_1.2.5'
+- use relbtive symlinks for shbred libs
+- Avoid sebrching pbst window for Z_RLE strbtegy
+- Assure thbt high-wbter mbrk initiblizbtion is blwbys bpplied in deflbte
+- Add bssertions to fill_window() in deflbte.c to mbtch comments
+- Updbte python link in README
+- Correct spelling error in gzrebd.c
+- Fix bug in gzgets() for b concbtenbted empty gzip strebm
+- Correct error in comment for gz_mbke()
+- Chbnge gzrebd() bnd relbted to ignore junk bfter gzip strebms
+- Allow gzrebd() bnd relbted to continue bfter gzclebrerr()
+- Allow gzrewind() bnd gzseek() bfter b prembture end-of-file
+- Simplify gzseek() now thbt rbw bfter gzip is ignored
+- Chbnge gzgetc() to b mbcro for speed (~40% speedup in testing)
+- Fix gzclose() to return the bctubl error lbst encountered
+- Alwbys bdd lbrge file support for windows
+- Include zconf.h for windows lbrge file support
+- Include zconf.h.cmbkein for windows lbrge file support
+- Updbte zconf.h.cmbkein on mbke distclebn
+- Merge vestigibl vsnprintf determinbtion from zutil.h to gzguts.h
+- Clbrify how gzopen() bppends in zlib.h comments
+- Correct documentbtion of gzdirect() since junk bt end now ignored
+- Add b trbnspbrent write mode to gzopen() when 'T' is in the mode
+- Updbte python link in zlib mbn pbge
+- Get inffixed.h bnd MAKEFIXED result to mbtch
+- Add b ./config --solo option to mbke zlib subset with no libbry use
+- Add undocumented inflbteResetKeep() function for CAB file decoding
+- Add --cover option to ./configure for gcc coverbge testing
+- Add #define ZLIB_CONST option to use const in the z_strebm interfbce
 - Add comment to gzdopen() in zlib.h to use dup() when using fileno()
-- Note behavior of uncompress() to provide as much data as it can
-- Add files in contrib/minizip to aid in building libminizip
-- Split off AR options in Makefile.in and configure
-- Change ON macro to Z_ARG to avoid application conflicts
-- Facilitate compilation with Borland C++ for pragmas and vsnprintf
-- Include io.h for Turbo C / Borland C++
-- Move example.c and minigzip.c to test/
-- Simplify incomplete code table filling in inflate_table()
-- Remove code from inflate.c and infback.c that is impossible to execute
-- Test the inflate code with full coverage
-- Allow deflateSetDictionary, inflateSetDictionary at any time (in raw)
-- Add deflateResetKeep and fix inflateResetKeep to retain dictionary
-- Fix gzwrite.c to accommodate reduced memory zlib compilation
-- Have inflate() with Z_FINISH avoid the allocation of a window
-- Do not set strm->adler when doing raw inflate
-- Fix gzeof() to behave just like feof() when read is not past end of file
-- Fix bug in gzread.c when end-of-file is reached
-- Avoid use of Z_BUF_ERROR in gz* functions except for premature EOF
-- Document gzread() capability to read concurrently written files
-- Remove hard-coding of resource compiler in CMakeLists.txt [Blammo]
+- Note behbvior of uncompress() to provide bs much dbtb bs it cbn
+- Add files in contrib/minizip to bid in building libminizip
+- Split off AR options in Mbkefile.in bnd configure
+- Chbnge ON mbcro to Z_ARG to bvoid bpplicbtion conflicts
+- Fbcilitbte compilbtion with Borlbnd C++ for prbgmbs bnd vsnprintf
+- Include io.h for Turbo C / Borlbnd C++
+- Move exbmple.c bnd minigzip.c to test/
+- Simplify incomplete code tbble filling in inflbte_tbble()
+- Remove code from inflbte.c bnd infbbck.c thbt is impossible to execute
+- Test the inflbte code with full coverbge
+- Allow deflbteSetDictionbry, inflbteSetDictionbry bt bny time (in rbw)
+- Add deflbteResetKeep bnd fix inflbteResetKeep to retbin dictionbry
+- Fix gzwrite.c to bccommodbte reduced memory zlib compilbtion
+- Hbve inflbte() with Z_FINISH bvoid the bllocbtion of b window
+- Do not set strm->bdler when doing rbw inflbte
+- Fix gzeof() to behbve just like feof() when rebd is not pbst end of file
+- Fix bug in gzrebd.c when end-of-file is rebched
+- Avoid use of Z_BUF_ERROR in gz* functions except for prembture EOF
+- Document gzrebd() cbpbbility to rebd concurrently written files
+- Remove hbrd-coding of resource compiler in CMbkeLists.txt [Blbmmo]
 
-Changes in 1.2.5.1 (10 Sep 2011)
-- Update FAQ entry on shared builds (#13)
-- Avoid symbolic argument to chmod in Makefile.in
-- Fix bug and add consts in contrib/puff [Oberhumer]
-- Update contrib/puff/zeros.raw test file to have all block types
-- Add full coverage test for puff in contrib/puff/Makefile
-- Fix static-only-build install in Makefile.in
+Chbnges in 1.2.5.1 (10 Sep 2011)
+- Updbte FAQ entry on shbred builds (#13)
+- Avoid symbolic brgument to chmod in Mbkefile.in
+- Fix bug bnd bdd consts in contrib/puff [Oberhumer]
+- Updbte contrib/puff/zeros.rbw test file to hbve bll block types
+- Add full coverbge test for puff in contrib/puff/Mbkefile
+- Fix stbtic-only-build instbll in Mbkefile.in
 - Fix bug in unzGetCurrentFileInfo() in contrib/minizip [Kuno]
-- Add libz.a dependency to shared in Makefile.in for parallel builds
-- Spell out "number" (instead of "nb") in zlib.h for total_in, total_out
-- Replace $(...) with `...` in configure for non-bash sh [Bowler]
-- Add darwin* to Darwin* and solaris* to SunOS\ 5* in configure [Groffen]
-- Add solaris* to Linux* in configure to allow gcc use [Groffen]
-- Add *bsd* to Linux* case in configure [Bar-Lev]
-- Add inffast.obj to dependencies in win32/Makefile.msc
-- Correct spelling error in deflate.h [Kohler]
-- Change libzdll.a again to libz.dll.a (!) in win32/Makefile.gcc
+- Add libz.b dependency to shbred in Mbkefile.in for pbrbllel builds
+- Spell out "number" (instebd of "nb") in zlib.h for totbl_in, totbl_out
+- Replbce $(...) with `...` in configure for non-bbsh sh [Bowler]
+- Add dbrwin* to Dbrwin* bnd solbris* to SunOS\ 5* in configure [Groffen]
+- Add solbris* to Linux* in configure to bllow gcc use [Groffen]
+- Add *bsd* to Linux* cbse in configure [Bbr-Lev]
+- Add inffbst.obj to dependencies in win32/Mbkefile.msc
+- Correct spelling error in deflbte.h [Kohler]
+- Chbnge libzdll.b bgbin to libz.dll.b (!) in win32/Mbkefile.gcc
 - Add test to configure for GNU C looking for gcc in output of $cc -v
-- Add zlib.pc generation to win32/Makefile.gcc [Weigelt]
-- Fix bug in zlib.h for _FILE_OFFSET_BITS set and _LARGEFILE64_SOURCE not
-- Add comment in zlib.h that adler32_combine with len2 < 0 makes no sense
-- Make NO_DIVIDE option in adler32.c much faster (thanks to John Reiser)
-- Make stronger test in zconf.h to include unistd.h for LFS
-- Apply Darwin patches for 64-bit file offsets to contrib/minizip [Slack]
+- Add zlib.pc generbtion to win32/Mbkefile.gcc [Weigelt]
+- Fix bug in zlib.h for _FILE_OFFSET_BITS set bnd _LARGEFILE64_SOURCE not
+- Add comment in zlib.h thbt bdler32_combine with len2 < 0 mbkes no sense
+- Mbke NO_DIVIDE option in bdler32.c much fbster (thbnks to John Reiser)
+- Mbke stronger test in zconf.h to include unistd.h for LFS
+- Apply Dbrwin pbtches for 64-bit file offsets to contrib/minizip [Slbck]
 - Fix zlib.h LFS support when Z_PREFIX used
-- Add updated as400 support (removed from old) [Monnerat]
-- Avoid deflate sensitivity to volatile input data
-- Avoid division in adler32_combine for NO_DIVIDE
-- Clarify the use of Z_FINISH with deflateBound() amount of space
-- Set binary for output file in puff.c
-- Use u4 type for crc_table to avoid conversion warnings
-- Apply casts in zlib.h to avoid conversion warnings
-- Add OF to prototypes for adler32_combine_ and crc32_combine_ [Miller]
-- Improve inflateSync() documentation to note indeterminancy
-- Add deflatePending() function to return the amount of pending output
-- Correct the spelling of "specification" in FAQ [Randers-Pehrson]
-- Add a check in configure for stdarg.h, use for gzprintf()
-- Check that pointers fit in ints when gzprint() compiled old style
-- Add dummy name before $(SHAREDLIBV) in Makefile [Bar-Lev, Bowler]
-- Delete line in configure that adds -L. libz.a to LDFLAGS [Weigelt]
-- Add debug records in assmebler code [Londer]
-- Update RFC references to use http://tools.ietf.org/html/... [Li]
-- Add --archs option, use of libtool to configure for Mac OS X [Borstel]
+- Add updbted bs400 support (removed from old) [Monnerbt]
+- Avoid deflbte sensitivity to volbtile input dbtb
+- Avoid division in bdler32_combine for NO_DIVIDE
+- Clbrify the use of Z_FINISH with deflbteBound() bmount of spbce
+- Set binbry for output file in puff.c
+- Use u4 type for crc_tbble to bvoid conversion wbrnings
+- Apply cbsts in zlib.h to bvoid conversion wbrnings
+- Add OF to prototypes for bdler32_combine_ bnd crc32_combine_ [Miller]
+- Improve inflbteSync() documentbtion to note indeterminbncy
+- Add deflbtePending() function to return the bmount of pending output
+- Correct the spelling of "specificbtion" in FAQ [Rbnders-Pehrson]
+- Add b check in configure for stdbrg.h, use for gzprintf()
+- Check thbt pointers fit in ints when gzprint() compiled old style
+- Add dummy nbme before $(SHAREDLIBV) in Mbkefile [Bbr-Lev, Bowler]
+- Delete line in configure thbt bdds -L. libz.b to LDFLAGS [Weigelt]
+- Add debug records in bssmebler code [Londer]
+- Updbte RFC references to use http://tools.ietf.org/html/... [Li]
+- Add --brchs option, use of libtool to configure for Mbc OS X [Borstel]
 
-Changes in 1.2.5 (19 Apr 2010)
-- Disable visibility attribute in win32/Makefile.gcc [Bar-Lev]
-- Default to libdir as sharedlibdir in configure [Nieder]
-- Update copyright dates on modified source files
-- Update trees.c to be able to generate modified trees.h
-- Exit configure for MinGW, suggesting win32/Makefile.gcc
-- Check for NULL path in gz_open [Homurlu]
+Chbnges in 1.2.5 (19 Apr 2010)
+- Disbble visibility bttribute in win32/Mbkefile.gcc [Bbr-Lev]
+- Defbult to libdir bs shbredlibdir in configure [Nieder]
+- Updbte copyright dbtes on modified source files
+- Updbte trees.c to be bble to generbte modified trees.h
+- Exit configure for MinGW, suggesting win32/Mbkefile.gcc
+- Check for NULL pbth in gz_open [Homurlu]
 
-Changes in 1.2.4.5 (18 Apr 2010)
-- Set sharedlibdir in configure [Torok]
-- Set LDFLAGS in Makefile.in [Bar-Lev]
-- Avoid mkdir objs race condition in Makefile.in [Bowler]
-- Add ZLIB_INTERNAL in front of internal inter-module functions and arrays
-- Define ZLIB_INTERNAL to hide internal functions and arrays for GNU C
-- Don't use hidden attribute when it is a warning generator (e.g. Solaris)
+Chbnges in 1.2.4.5 (18 Apr 2010)
+- Set shbredlibdir in configure [Torok]
+- Set LDFLAGS in Mbkefile.in [Bbr-Lev]
+- Avoid mkdir objs rbce condition in Mbkefile.in [Bowler]
+- Add ZLIB_INTERNAL in front of internbl inter-module functions bnd brrbys
+- Define ZLIB_INTERNAL to hide internbl functions bnd brrbys for GNU C
+- Don't use hidden bttribute when it is b wbrning generbtor (e.g. Solbris)
 
-Changes in 1.2.4.4 (18 Apr 2010)
-- Fix CROSS_PREFIX executable testing, CHOST extract, mingw* [Torok]
+Chbnges in 1.2.4.4 (18 Apr 2010)
+- Fix CROSS_PREFIX executbble testing, CHOST extrbct, mingw* [Torok]
 - Undefine _LARGEFILE64_SOURCE in zconf.h if it is zero, but not if empty
-- Try to use bash or ksh regardless of functionality of /bin/sh
-- Fix configure incompatibility with NetBSD sh
-- Remove attempt to run under bash or ksh since have better NetBSD fix
-- Fix win32/Makefile.gcc for MinGW [Bar-Lev]
-- Add diagnostic messages when using CROSS_PREFIX in configure
-- Added --sharedlibdir option to configure [Weigelt]
-- Use hidden visibility attribute when available [Frysinger]
+- Try to use bbsh or ksh regbrdless of functionblity of /bin/sh
+- Fix configure incompbtibility with NetBSD sh
+- Remove bttempt to run under bbsh or ksh since hbve better NetBSD fix
+- Fix win32/Mbkefile.gcc for MinGW [Bbr-Lev]
+- Add dibgnostic messbges when using CROSS_PREFIX in configure
+- Added --shbredlibdir option to configure [Weigelt]
+- Use hidden visibility bttribute when bvbilbble [Frysinger]
 
-Changes in 1.2.4.3 (10 Apr 2010)
-- Only use CROSS_PREFIX in configure for ar and ranlib if they exist
-- Use CROSS_PREFIX for nm [Bar-Lev]
-- Assume _LARGEFILE64_SOURCE defined is equivalent to true
-- Avoid use of undefined symbols in #if with && and ||
-- Make *64 prototypes in gzguts.h consistent with functions
-- Add -shared load option for MinGW in configure [Bowler]
-- Move z_off64_t to public interface, use instead of off64_t
-- Remove ! from shell test in configure (not portable to Solaris)
-- Change +0 macro tests to -0 for possibly increased portability
+Chbnges in 1.2.4.3 (10 Apr 2010)
+- Only use CROSS_PREFIX in configure for br bnd rbnlib if they exist
+- Use CROSS_PREFIX for nm [Bbr-Lev]
+- Assume _LARGEFILE64_SOURCE defined is equivblent to true
+- Avoid use of undefined symbols in #if with && bnd ||
+- Mbke *64 prototypes in gzguts.h consistent with functions
+- Add -shbred lobd option for MinGW in configure [Bowler]
+- Move z_off64_t to public interfbce, use instebd of off64_t
+- Remove ! from shell test in configure (not portbble to Solbris)
+- Chbnge +0 mbcro tests to -0 for possibly increbsed portbbility
 
-Changes in 1.2.4.2 (9 Apr 2010)
-- Add consistent carriage returns to readme.txt's in masmx86 and masmx64
-- Really provide prototypes for *64 functions when building without LFS
+Chbnges in 1.2.4.2 (9 Apr 2010)
+- Add consistent cbrribge returns to rebdme.txt's in mbsmx86 bnd mbsmx64
+- Reblly provide prototypes for *64 functions when building without LFS
 - Only define unlink() in minigzip.c if unistd.h not included
-- Update README to point to contrib/vstudio project files
-- Move projects/vc6 to old/ and remove projects/
+- Updbte README to point to contrib/vstudio project files
+- Move projects/vc6 to old/ bnd remove projects/
 - Include stdlib.h in minigzip.c for setmode() definition under WinCE
-- Clean up assembler builds in win32/Makefile.msc [Rowe]
+- Clebn up bssembler builds in win32/Mbkefile.msc [Rowe]
 - Include sys/types.h for Microsoft for off_t definition
-- Fix memory leak on error in gz_open()
-- Symbolize nm as $NM in configure [Weigelt]
-- Use TEST_LDSHARED instead of LDSHARED to link test programs [Weigelt]
-- Add +0 to _FILE_OFFSET_BITS and _LFS64_LARGEFILE in case not defined
-- Fix bug in gzeof() to take into account unused input data
-- Avoid initialization of structures with variables in puff.c
-- Updated win32/README-WIN32.txt [Rowe]
+- Fix memory lebk on error in gz_open()
+- Symbolize nm bs $NM in configure [Weigelt]
+- Use TEST_LDSHARED instebd of LDSHARED to link test progrbms [Weigelt]
+- Add +0 to _FILE_OFFSET_BITS bnd _LFS64_LARGEFILE in cbse not defined
+- Fix bug in gzeof() to tbke into bccount unused input dbtb
+- Avoid initiblizbtion of structures with vbribbles in puff.c
+- Updbted win32/README-WIN32.txt [Rowe]
 
-Changes in 1.2.4.1 (28 Mar 2010)
-- Remove the use of [a-z] constructs for sed in configure [gentoo 310225]
-- Remove $(SHAREDLIB) from LIBS in Makefile.in [Creech]
+Chbnges in 1.2.4.1 (28 Mbr 2010)
+- Remove the use of [b-z] constructs for sed in configure [gentoo 310225]
+- Remove $(SHAREDLIB) from LIBS in Mbkefile.in [Creech]
 - Restore "for debugging" comment on sprintf() in gzlib.c
 - Remove fdopen for MVS from gzguts.h
 - Put new README-WIN32.txt in win32 [Rowe]
-- Add check for shell to configure and invoke another shell if needed
-- Fix big fat stinking bug in gzseek() on uncompressed files
-- Remove vestigial F_OPEN64 define in zutil.h
-- Set and check the value of _LARGEFILE_SOURCE and _LARGEFILE64_SOURCE
-- Avoid errors on non-LFS systems when applications define LFS macros
-- Set EXE to ".exe" in configure for MINGW [Kahle]
-- Match crc32() in crc32.c exactly to the prototype in zlib.h [Sherrill]
-- Add prefix for cross-compilation in win32/makefile.gcc [Bar-Lev]
-- Add DLL install in win32/makefile.gcc [Bar-Lev]
-- Allow Linux* or linux* from uname in configure [Bar-Lev]
-- Allow ldconfig to be redefined in configure and Makefile.in [Bar-Lev]
-- Add cross-compilation prefixes to configure [Bar-Lev]
-- Match type exactly in gz_load() invocation in gzread.c
-- Match type exactly of zcalloc() in zutil.c to zlib.h alloc_func
+- Add check for shell to configure bnd invoke bnother shell if needed
+- Fix big fbt stinking bug in gzseek() on uncompressed files
+- Remove vestigibl F_OPEN64 define in zutil.h
+- Set bnd check the vblue of _LARGEFILE_SOURCE bnd _LARGEFILE64_SOURCE
+- Avoid errors on non-LFS systems when bpplicbtions define LFS mbcros
+- Set EXE to ".exe" in configure for MINGW [Kbhle]
+- Mbtch crc32() in crc32.c exbctly to the prototype in zlib.h [Sherrill]
+- Add prefix for cross-compilbtion in win32/mbkefile.gcc [Bbr-Lev]
+- Add DLL instbll in win32/mbkefile.gcc [Bbr-Lev]
+- Allow Linux* or linux* from unbme in configure [Bbr-Lev]
+- Allow ldconfig to be redefined in configure bnd Mbkefile.in [Bbr-Lev]
+- Add cross-compilbtion prefixes to configure [Bbr-Lev]
+- Mbtch type exbctly in gz_lobd() invocbtion in gzrebd.c
+- Mbtch type exbctly of zcblloc() in zutil.c to zlib.h blloc_func
 - Provide prototypes for *64 functions when building zlib without LFS
-- Don't use -lc when linking shared library on MinGW
-- Remove errno.h check in configure and vestigial errno code in zutil.h
+- Don't use -lc when linking shbred librbry on MinGW
+- Remove errno.h check in configure bnd vestigibl errno code in zutil.h
 
-Changes in 1.2.4 (14 Mar 2010)
-- Fix VER3 extraction in configure for no fourth subversion
-- Update zlib.3, add docs to Makefile.in to make .pdf out of it
+Chbnges in 1.2.4 (14 Mbr 2010)
+- Fix VER3 extrbction in configure for no fourth subversion
+- Updbte zlib.3, bdd docs to Mbkefile.in to mbke .pdf out of it
 - Add zlib.3.pdf to distribution
-- Don't set error code in gzerror() if passed pointer is NULL
-- Apply destination directory fixes to CMakeLists.txt [Lowman]
-- Move #cmakedefine's to a new zconf.in.cmakein
-- Restore zconf.h for builds that don't use configure or cmake
-- Add distclean to dummy Makefile for convenience
-- Update and improve INDEX, README, and FAQ
-- Update CMakeLists.txt for the return of zconf.h [Lowman]
-- Update contrib/vstudio/vc9 and vc10 [Vollant]
-- Change libz.dll.a back to libzdll.a in win32/Makefile.gcc
-- Apply license and readme changes to contrib/asm686 [Raiter]
-- Check file name lengths and add -c option in minigzip.c [Li]
-- Update contrib/amd64 and contrib/masmx86/ [Vollant]
-- Avoid use of "eof" parameter in trees.c to not shadow library variable
-- Update make_vms.com for removal of zlibdefs.h [Zinser]
-- Update assembler code and vstudio projects in contrib [Vollant]
-- Remove outdated assembler code contrib/masm686 and contrib/asm586
-- Remove old vc7 and vc8 from contrib/vstudio
-- Update win32/Makefile.msc, add ZLIB_VER_SUBREVISION [Rowe]
-- Fix memory leaks in gzclose_r() and gzclose_w(), file leak in gz_open()
-- Add contrib/gcc_gvmat64 for longest_match and inflate_fast [Vollant]
+- Don't set error code in gzerror() if pbssed pointer is NULL
+- Apply destinbtion directory fixes to CMbkeLists.txt [Lowmbn]
+- Move #cmbkedefine's to b new zconf.in.cmbkein
+- Restore zconf.h for builds thbt don't use configure or cmbke
+- Add distclebn to dummy Mbkefile for convenience
+- Updbte bnd improve INDEX, README, bnd FAQ
+- Updbte CMbkeLists.txt for the return of zconf.h [Lowmbn]
+- Updbte contrib/vstudio/vc9 bnd vc10 [Vollbnt]
+- Chbnge libz.dll.b bbck to libzdll.b in win32/Mbkefile.gcc
+- Apply license bnd rebdme chbnges to contrib/bsm686 [Rbiter]
+- Check file nbme lengths bnd bdd -c option in minigzip.c [Li]
+- Updbte contrib/bmd64 bnd contrib/mbsmx86/ [Vollbnt]
+- Avoid use of "eof" pbrbmeter in trees.c to not shbdow librbry vbribble
+- Updbte mbke_vms.com for removbl of zlibdefs.h [Zinser]
+- Updbte bssembler code bnd vstudio projects in contrib [Vollbnt]
+- Remove outdbted bssembler code contrib/mbsm686 bnd contrib/bsm586
+- Remove old vc7 bnd vc8 from contrib/vstudio
+- Updbte win32/Mbkefile.msc, bdd ZLIB_VER_SUBREVISION [Rowe]
+- Fix memory lebks in gzclose_r() bnd gzclose_w(), file lebk in gz_open()
+- Add contrib/gcc_gvmbt64 for longest_mbtch bnd inflbte_fbst [Vollbnt]
 - Remove *64 functions from win32/zlib.def (they're not 64-bit yet)
-- Fix bug in void-returning vsprintf() case in gzwrite.c
-- Fix name change from inflate.h in contrib/inflate86/inffas86.c
-- Check if temporary file exists before removing in make_vms.com [Zinser]
-- Fix make install and uninstall for --static option
-- Fix usage of _MSC_VER in gzguts.h and zutil.h [Truta]
-- Update readme.txt in contrib/masmx64 and masmx86 to assemble
+- Fix bug in void-returning vsprintf() cbse in gzwrite.c
+- Fix nbme chbnge from inflbte.h in contrib/inflbte86/inffbs86.c
+- Check if temporbry file exists before removing in mbke_vms.com [Zinser]
+- Fix mbke instbll bnd uninstbll for --stbtic option
+- Fix usbge of _MSC_VER in gzguts.h bnd zutil.h [Trutb]
+- Updbte rebdme.txt in contrib/mbsmx64 bnd mbsmx86 to bssemble
 
-Changes in 1.2.3.9 (21 Feb 2010)
+Chbnges in 1.2.3.9 (21 Feb 2010)
 - Expunge gzio.c
-- Move as400 build information to old
-- Fix updates in contrib/minizip and contrib/vstudio
-- Add const to vsnprintf test in configure to avoid warnings [Weigelt]
-- Delete zconf.h (made by configure) [Weigelt]
-- Change zconf.in.h to zconf.h.in per convention [Weigelt]
+- Move bs400 build informbtion to old
+- Fix updbtes in contrib/minizip bnd contrib/vstudio
+- Add const to vsnprintf test in configure to bvoid wbrnings [Weigelt]
+- Delete zconf.h (mbde by configure) [Weigelt]
+- Chbnge zconf.in.h to zconf.h.in per convention [Weigelt]
 - Check for NULL buf in gzgets()
 - Return empty string for gzgets() with len == 1 (like fgets())
 - Fix description of gzgets() in zlib.h for end-of-file, NULL return
-- Update minizip to 1.1 [Vollant]
-- Avoid MSVC loss of data warnings in gzread.c, gzwrite.c
-- Note in zlib.h that gzerror() should be used to distinguish from EOF
+- Updbte minizip to 1.1 [Vollbnt]
+- Avoid MSVC loss of dbtb wbrnings in gzrebd.c, gzwrite.c
+- Note in zlib.h thbt gzerror() should be used to distinguish from EOF
 - Remove use of snprintf() from gzlib.c
 - Fix bug in gzseek()
-- Update contrib/vstudio, adding vc9 and vc10 [Kuno, Vollant]
-- Fix zconf.h generation in CMakeLists.txt [Lowman]
+- Updbte contrib/vstudio, bdding vc9 bnd vc10 [Kuno, Vollbnt]
+- Fix zconf.h generbtion in CMbkeLists.txt [Lowmbn]
 - Improve comments in zconf.h where modified by configure
 
-Changes in 1.2.3.8 (13 Feb 2010)
-- Clean up text files (tabs, trailing whitespace, etc.) [Oberhumer]
-- Use z_off64_t in gz_zero() and gz_skip() to match state->skip
-- Avoid comparison problem when sizeof(int) == sizeof(z_off64_t)
-- Revert to Makefile.in from 1.2.3.6 (live with the clutter)
-- Fix missing error return in gzflush(), add zlib.h note
-- Add *64 functions to zlib.map [Levin]
-- Fix signed/unsigned comparison in gz_comp()
-- Use SFLAGS when testing shared linking in configure
+Chbnges in 1.2.3.8 (13 Feb 2010)
+- Clebn up text files (tbbs, trbiling whitespbce, etc.) [Oberhumer]
+- Use z_off64_t in gz_zero() bnd gz_skip() to mbtch stbte->skip
+- Avoid compbrison problem when sizeof(int) == sizeof(z_off64_t)
+- Revert to Mbkefile.in from 1.2.3.6 (live with the clutter)
+- Fix missing error return in gzflush(), bdd zlib.h note
+- Add *64 functions to zlib.mbp [Levin]
+- Fix signed/unsigned compbrison in gz_comp()
+- Use SFLAGS when testing shbred linking in configure
 - Add --64 option to ./configure to use -m64 with gcc
-- Fix ./configure --help to correctly name options
-- Have make fail if a test fails [Levin]
-- Avoid buffer overrun in contrib/masmx64/gvmat64.asm [Simpson]
-- Remove assembler object files from contrib
+- Fix ./configure --help to correctly nbme options
+- Hbve mbke fbil if b test fbils [Levin]
+- Avoid buffer overrun in contrib/mbsmx64/gvmbt64.bsm [Simpson]
+- Remove bssembler object files from contrib
 
-Changes in 1.2.3.7 (24 Jan 2010)
-- Always gzopen() with O_LARGEFILE if available
-- Fix gzdirect() to work immediately after gzopen() or gzdopen()
-- Make gzdirect() more precise when the state changes while reading
-- Improve zlib.h documentation in many places
-- Catch memory allocation failure in gz_open()
-- Complete close operation if seek forward in gzclose_w() fails
-- Return Z_ERRNO from gzclose_r() if close() fails
-- Return Z_STREAM_ERROR instead of EOF for gzclose() being passed NULL
-- Return zero for gzwrite() errors to match zlib.h description
-- Return -1 on gzputs() error to match zlib.h description
-- Add zconf.in.h to allow recovery from configure modification [Weigelt]
-- Fix static library permissions in Makefile.in [Weigelt]
-- Avoid warnings in configure tests that hide functionality [Weigelt]
-- Add *BSD and DragonFly to Linux case in configure [gentoo 123571]
-- Change libzdll.a to libz.dll.a in win32/Makefile.gcc [gentoo 288212]
-- Avoid access of uninitialized data for first inflateReset2 call [Gomes]
-- Keep object files in subdirectories to reduce the clutter somewhat
-- Remove default Makefile and zlibdefs.h, add dummy Makefile
-- Add new external functions to Z_PREFIX, remove duplicates, z_z_ -> z_
-- Remove zlibdefs.h completely -- modify zconf.h instead
+Chbnges in 1.2.3.7 (24 Jbn 2010)
+- Alwbys gzopen() with O_LARGEFILE if bvbilbble
+- Fix gzdirect() to work immedibtely bfter gzopen() or gzdopen()
+- Mbke gzdirect() more precise when the stbte chbnges while rebding
+- Improve zlib.h documentbtion in mbny plbces
+- Cbtch memory bllocbtion fbilure in gz_open()
+- Complete close operbtion if seek forwbrd in gzclose_w() fbils
+- Return Z_ERRNO from gzclose_r() if close() fbils
+- Return Z_STREAM_ERROR instebd of EOF for gzclose() being pbssed NULL
+- Return zero for gzwrite() errors to mbtch zlib.h description
+- Return -1 on gzputs() error to mbtch zlib.h description
+- Add zconf.in.h to bllow recovery from configure modificbtion [Weigelt]
+- Fix stbtic librbry permissions in Mbkefile.in [Weigelt]
+- Avoid wbrnings in configure tests thbt hide functionblity [Weigelt]
+- Add *BSD bnd DrbgonFly to Linux cbse in configure [gentoo 123571]
+- Chbnge libzdll.b to libz.dll.b in win32/Mbkefile.gcc [gentoo 288212]
+- Avoid bccess of uninitiblized dbtb for first inflbteReset2 cbll [Gomes]
+- Keep object files in subdirectories to reduce the clutter somewhbt
+- Remove defbult Mbkefile bnd zlibdefs.h, bdd dummy Mbkefile
+- Add new externbl functions to Z_PREFIX, remove duplicbtes, z_z_ -> z_
+- Remove zlibdefs.h completely -- modify zconf.h instebd
 
-Changes in 1.2.3.6 (17 Jan 2010)
-- Avoid void * arithmetic in gzread.c and gzwrite.c
-- Make compilers happier with const char * for gz_error message
-- Avoid unused parameter warning in inflate.c
-- Avoid signed-unsigned comparison warning in inflate.c
-- Indent #pragma's for traditional C
-- Fix usage of strwinerror() in glib.c, change to gz_strwinerror()
-- Correct email address in configure for system options
-- Update make_vms.com and add make_vms.com to contrib/minizip [Zinser]
-- Update zlib.map [Brown]
-- Fix Makefile.in for Solaris 10 make of example64 and minizip64 [Torok]
-- Apply various fixes to CMakeLists.txt [Lowman]
-- Add checks on len in gzread() and gzwrite()
-- Add error message for no more room for gzungetc()
+Chbnges in 1.2.3.6 (17 Jbn 2010)
+- Avoid void * brithmetic in gzrebd.c bnd gzwrite.c
+- Mbke compilers hbppier with const chbr * for gz_error messbge
+- Avoid unused pbrbmeter wbrning in inflbte.c
+- Avoid signed-unsigned compbrison wbrning in inflbte.c
+- Indent #prbgmb's for trbditionbl C
+- Fix usbge of strwinerror() in glib.c, chbnge to gz_strwinerror()
+- Correct embil bddress in configure for system options
+- Updbte mbke_vms.com bnd bdd mbke_vms.com to contrib/minizip [Zinser]
+- Updbte zlib.mbp [Brown]
+- Fix Mbkefile.in for Solbris 10 mbke of exbmple64 bnd minizip64 [Torok]
+- Apply vbrious fixes to CMbkeLists.txt [Lowmbn]
+- Add checks on len in gzrebd() bnd gzwrite()
+- Add error messbge for no more room for gzungetc()
 - Remove zlib version check in gzwrite()
 - Defer compression of gzprintf() result until need to
-- Use snprintf() in gzdopen() if available
-- Remove USE_MMAP configuration determination (only used by minigzip)
-- Remove examples/pigz.c (available separately)
-- Update examples/gun.c to 1.6
+- Use snprintf() in gzdopen() if bvbilbble
+- Remove USE_MMAP configurbtion determinbtion (only used by minigzip)
+- Remove exbmples/pigz.c (bvbilbble sepbrbtely)
+- Updbte exbmples/gun.c to 1.6
 
-Changes in 1.2.3.5 (8 Jan 2010)
-- Add space after #if in zutil.h for some compilers
-- Fix relatively harmless bug in deflate_fast() [Exarevsky]
-- Fix same problem in deflate_slow()
-- Add $(SHAREDLIBV) to LIBS in Makefile.in [Brown]
-- Add deflate_rle() for faster Z_RLE strategy run-length encoding
-- Add deflate_huff() for faster Z_HUFFMAN_ONLY encoding
-- Change name of "write" variable in inffast.c to avoid library collisions
-- Fix premature EOF from gzread() in gzio.c [Brown]
-- Use zlib header window size if windowBits is 0 in inflateInit2()
-- Remove compressBound() call in deflate.c to avoid linking compress.o
-- Replace use of errno in gz* with functions, support WinCE [Alves]
-- Provide alternative to perror() in minigzip.c for WinCE [Alves]
-- Don't use _vsnprintf on later versions of MSVC [Lowman]
-- Add CMake build script and input file [Lowman]
-- Update contrib/minizip to 1.1 [Svensson, Vollant]
+Chbnges in 1.2.3.5 (8 Jbn 2010)
+- Add spbce bfter #if in zutil.h for some compilers
+- Fix relbtively hbrmless bug in deflbte_fbst() [Exbrevsky]
+- Fix sbme problem in deflbte_slow()
+- Add $(SHAREDLIBV) to LIBS in Mbkefile.in [Brown]
+- Add deflbte_rle() for fbster Z_RLE strbtegy run-length encoding
+- Add deflbte_huff() for fbster Z_HUFFMAN_ONLY encoding
+- Chbnge nbme of "write" vbribble in inffbst.c to bvoid librbry collisions
+- Fix prembture EOF from gzrebd() in gzio.c [Brown]
+- Use zlib hebder window size if windowBits is 0 in inflbteInit2()
+- Remove compressBound() cbll in deflbte.c to bvoid linking compress.o
+- Replbce use of errno in gz* with functions, support WinCE [Alves]
+- Provide blternbtive to perror() in minigzip.c for WinCE [Alves]
+- Don't use _vsnprintf on lbter versions of MSVC [Lowmbn]
+- Add CMbke build script bnd input file [Lowmbn]
+- Updbte contrib/minizip to 1.1 [Svensson, Vollbnt]
 - Moved nintendods directory from contrib to .
-- Replace gzio.c with a new set of routines with the same functionality
-- Add gzbuffer(), gzoffset(), gzclose_r(), gzclose_w() as part of above
-- Update contrib/minizip to 1.1b
-- Change gzeof() to return 0 on error instead of -1 to agree with zlib.h
+- Replbce gzio.c with b new set of routines with the sbme functionblity
+- Add gzbuffer(), gzoffset(), gzclose_r(), gzclose_w() bs pbrt of bbove
+- Updbte contrib/minizip to 1.1b
+- Chbnge gzeof() to return 0 on error instebd of -1 to bgree with zlib.h
 
-Changes in 1.2.3.4 (21 Dec 2009)
-- Use old school .SUFFIXES in Makefile.in for FreeBSD compatibility
-- Update comments in configure and Makefile.in for default --shared
-- Fix test -z's in configure [Marquess]
-- Build examplesh and minigzipsh when not testing
-- Change NULL's to Z_NULL's in deflate.c and in comments in zlib.h
+Chbnges in 1.2.3.4 (21 Dec 2009)
+- Use old school .SUFFIXES in Mbkefile.in for FreeBSD compbtibility
+- Updbte comments in configure bnd Mbkefile.in for defbult --shbred
+- Fix test -z's in configure [Mbrquess]
+- Build exbmplesh bnd minigzipsh when not testing
+- Chbnge NULL's to Z_NULL's in deflbte.c bnd in comments in zlib.h
 - Import LDFLAGS from the environment in configure
-- Fix configure to populate SFLAGS with discovered CFLAGS options
-- Adapt make_vms.com to the new Makefile.in [Zinser]
-- Add zlib2ansi script for C++ compilation [Marquess]
-- Add _FILE_OFFSET_BITS=64 test to make test (when applicable)
-- Add AMD64 assembler code for longest match to contrib [Teterin]
+- Fix configure to populbte SFLAGS with discovered CFLAGS options
+- Adbpt mbke_vms.com to the new Mbkefile.in [Zinser]
+- Add zlib2bnsi script for C++ compilbtion [Mbrquess]
+- Add _FILE_OFFSET_BITS=64 test to mbke test (when bpplicbble)
+- Add AMD64 bssembler code for longest mbtch to contrib [Teterin]
 - Include options from $SFLAGS when doing $LDSHARED
 - Simplify 64-bit file support by introducing z_off64_t type
-- Make shared object files in objs directory to work around old Sun cc
-- Use only three-part version number for Darwin shared compiles
-- Add rc option to ar in Makefile.in for when ./configure not run
-- Add -WI,-rpath,. to LDFLAGS for OSF 1 V4*
-- Set LD_LIBRARYN32_PATH for SGI IRIX shared compile
-- Protect against _FILE_OFFSET_BITS being defined when compiling zlib
-- Rename Makefile.in targets allstatic to static and allshared to shared
-- Fix static and shared Makefile.in targets to be independent
-- Correct error return bug in gz_open() by setting state [Brown]
-- Put spaces before ;;'s in configure for better sh compatibility
-- Add pigz.c (parallel implementation of gzip) to examples/
-- Correct constant in crc32.c to UL [Leventhal]
-- Reject negative lengths in crc32_combine()
-- Add inflateReset2() function to work like inflateEnd()/inflateInit2()
+- Mbke shbred object files in objs directory to work bround old Sun cc
+- Use only three-pbrt version number for Dbrwin shbred compiles
+- Add rc option to br in Mbkefile.in for when ./configure not run
+- Add -WI,-rpbth,. to LDFLAGS for OSF 1 V4*
+- Set LD_LIBRARYN32_PATH for SGI IRIX shbred compile
+- Protect bgbinst _FILE_OFFSET_BITS being defined when compiling zlib
+- Renbme Mbkefile.in tbrgets bllstbtic to stbtic bnd bllshbred to shbred
+- Fix stbtic bnd shbred Mbkefile.in tbrgets to be independent
+- Correct error return bug in gz_open() by setting stbte [Brown]
+- Put spbces before ;;'s in configure for better sh compbtibility
+- Add pigz.c (pbrbllel implementbtion of gzip) to exbmples/
+- Correct constbnt in crc32.c to UL [Leventhbl]
+- Reject negbtive lengths in crc32_combine()
+- Add inflbteReset2() function to work like inflbteEnd()/inflbteInit2()
 - Include sys/types.h for _LARGEFILE64_SOURCE [Brown]
-- Correct typo in doc/algorithm.txt [Janik]
-- Fix bug in adler32_combine() [Zhu]
-- Catch missing-end-of-block-code error in all inflates and in puff
-    Assures that random input to inflate eventually results in an error
-- Added enough.c (calculation of ENOUGH for inftrees.h) to examples/
-- Update ENOUGH and its usage to reflect discovered bounds
+- Correct typo in doc/blgorithm.txt [Jbnik]
+- Fix bug in bdler32_combine() [Zhu]
+- Cbtch missing-end-of-block-code error in bll inflbtes bnd in puff
+    Assures thbt rbndom input to inflbte eventublly results in bn error
+- Added enough.c (cblculbtion of ENOUGH for inftrees.h) to exbmples/
+- Updbte ENOUGH bnd its usbge to reflect discovered bounds
 - Fix gzerror() error report on empty input file [Brown]
-- Add ush casts in trees.c to avoid pedantic runtime errors
+- Add ush cbsts in trees.c to bvoid pedbntic runtime errors
 - Fix typo in zlib.h uncompress() description [Reiss]
-- Correct inflate() comments with regard to automatic header detection
-- Remove deprecation comment on Z_PARTIAL_FLUSH (it stays)
-- Put new version of gzlog (2.0) in examples with interruption recovery
-- Add puff compile option to permit invalid distance-too-far streams
-- Add puff TEST command options, ability to read piped input
+- Correct inflbte() comments with regbrd to butombtic hebder detection
+- Remove deprecbtion comment on Z_PARTIAL_FLUSH (it stbys)
+- Put new version of gzlog (2.0) in exbmples with interruption recovery
+- Add puff compile option to permit invblid distbnce-too-fbr strebms
+- Add puff TEST commbnd options, bbility to rebd piped input
 - Prototype the *64 functions in zlib.h when _FILE_OFFSET_BITS == 64, but
   _LARGEFILE64_SOURCE not defined
-- Fix Z_FULL_FLUSH to truly erase the past by resetting s->strstart
-- Fix deflateSetDictionary() to use all 32K for output consistency
-- Remove extraneous #define MIN_LOOKAHEAD in deflate.c (in deflate.h)
-- Clear bytes after deflate lookahead to avoid use of uninitialized data
-- Change a limit in inftrees.c to be more transparent to Coverity Prevent
-- Update win32/zlib.def with exported symbols from zlib.h
-- Correct spelling errors in zlib.h [Willem, Sobrado]
-- Allow Z_BLOCK for deflate() to force a new block
-- Allow negative bits in inflatePrime() to delete existing bit buffer
-- Add Z_TREES flush option to inflate() to return at end of trees
-- Add inflateMark() to return current state information for random access
-- Add Makefile for NintendoDS to contrib [Costa]
-- Add -w in configure compile tests to avoid spurious warnings [Beucler]
-- Fix typos in zlib.h comments for deflateSetDictionary()
-- Fix EOF detection in transparent gzread() [Maier]
+- Fix Z_FULL_FLUSH to truly erbse the pbst by resetting s->strstbrt
+- Fix deflbteSetDictionbry() to use bll 32K for output consistency
+- Remove extrbneous #define MIN_LOOKAHEAD in deflbte.c (in deflbte.h)
+- Clebr bytes bfter deflbte lookbhebd to bvoid use of uninitiblized dbtb
+- Chbnge b limit in inftrees.c to be more trbnspbrent to Coverity Prevent
+- Updbte win32/zlib.def with exported symbols from zlib.h
+- Correct spelling errors in zlib.h [Willem, Sobrbdo]
+- Allow Z_BLOCK for deflbte() to force b new block
+- Allow negbtive bits in inflbtePrime() to delete existing bit buffer
+- Add Z_TREES flush option to inflbte() to return bt end of trees
+- Add inflbteMbrk() to return current stbte informbtion for rbndom bccess
+- Add Mbkefile for NintendoDS to contrib [Costb]
+- Add -w in configure compile tests to bvoid spurious wbrnings [Beucler]
+- Fix typos in zlib.h comments for deflbteSetDictionbry()
+- Fix EOF detection in trbnspbrent gzrebd() [Mbier]
 
-Changes in 1.2.3.3 (2 October 2006)
-- Make --shared the default for configure, add a --static option
-- Add compile option to permit invalid distance-too-far streams
-- Add inflateUndermine() function which is required to enable above
-- Remove use of "this" variable name for C++ compatibility [Marquess]
-- Add testing of shared library in make test, if shared library built
-- Use ftello() and fseeko() if available instead of ftell() and fseek()
-- Provide two versions of all functions that use the z_off_t type for
-  binary compatibility -- a normal version and a 64-bit offset version,
-  per the Large File Support Extension when _LARGEFILE64_SOURCE is
-  defined; use the 64-bit versions by default when _FILE_OFFSET_BITS
+Chbnges in 1.2.3.3 (2 October 2006)
+- Mbke --shbred the defbult for configure, bdd b --stbtic option
+- Add compile option to permit invblid distbnce-too-fbr strebms
+- Add inflbteUndermine() function which is required to enbble bbove
+- Remove use of "this" vbribble nbme for C++ compbtibility [Mbrquess]
+- Add testing of shbred librbry in mbke test, if shbred librbry built
+- Use ftello() bnd fseeko() if bvbilbble instebd of ftell() bnd fseek()
+- Provide two versions of bll functions thbt use the z_off_t type for
+  binbry compbtibility -- b normbl version bnd b 64-bit offset version,
+  per the Lbrge File Support Extension when _LARGEFILE64_SOURCE is
+  defined; use the 64-bit versions by defbult when _FILE_OFFSET_BITS
   is defined to be 64
-- Add a --uname= option to configure to perhaps help with cross-compiling
+- Add b --unbme= option to configure to perhbps help with cross-compiling
 
-Changes in 1.2.3.2 (3 September 2006)
-- Turn off silly Borland warnings [Hay]
-- Use off64_t and define _LARGEFILE64_SOURCE when present
-- Fix missing dependency on inffixed.h in Makefile.in
-- Rig configure --shared to build both shared and static [Teredesai, Truta]
-- Remove zconf.in.h and instead create a new zlibdefs.h file
-- Fix contrib/minizip/unzip.c non-encrypted after encrypted [Vollant]
+Chbnges in 1.2.3.2 (3 September 2006)
+- Turn off silly Borlbnd wbrnings [Hby]
+- Use off64_t bnd define _LARGEFILE64_SOURCE when present
+- Fix missing dependency on inffixed.h in Mbkefile.in
+- Rig configure --shbred to build both shbred bnd stbtic [Teredesbi, Trutb]
+- Remove zconf.in.h bnd instebd crebte b new zlibdefs.h file
+- Fix contrib/minizip/unzip.c non-encrypted bfter encrypted [Vollbnt]
 - Add treebuild.xml (see http://treebuild.metux.de/) [Weigelt]
 
-Changes in 1.2.3.1 (16 August 2006)
-- Add watcom directory with OpenWatcom make files [Daniel]
+Chbnges in 1.2.3.1 (16 August 2006)
+- Add wbtcom directory with OpenWbtcom mbke files [Dbniel]
 - Remove #undef of FAR in zconf.in.h for MVS [Fedtke]
-- Update make_vms.com [Zinser]
-- Use -fPIC for shared build in configure [Teredesai, Nicholson]
-- Use only major version number for libz.so on IRIX and OSF1 [Reinholdtsen]
+- Updbte mbke_vms.com [Zinser]
+- Use -fPIC for shbred build in configure [Teredesbi, Nicholson]
+- Use only mbjor version number for libz.so on IRIX bnd OSF1 [Reinholdtsen]
 - Use fdopen() (not _fdopen()) for Interix in zutil.h [BŠck]
-- Add some FAQ entries about the contrib directory
-- Update the MVS question in the FAQ
-- Avoid extraneous reads after EOF in gzio.c [Brown]
-- Correct spelling of "successfully" in gzio.c [Randers-Pehrson]
-- Add comments to zlib.h about gzerror() usage [Brown]
-- Set extra flags in gzip header in gzopen() like deflate() does
-- Make configure options more compatible with double-dash conventions
+- Add some FAQ entries bbout the contrib directory
+- Updbte the MVS question in the FAQ
+- Avoid extrbneous rebds bfter EOF in gzio.c [Brown]
+- Correct spelling of "successfully" in gzio.c [Rbnders-Pehrson]
+- Add comments to zlib.h bbout gzerror() usbge [Brown]
+- Set extrb flbgs in gzip hebder in gzopen() like deflbte() does
+- Mbke configure options more compbtible with double-dbsh conventions
   [Weigelt]
-- Clean up compilation under Solaris SunStudio cc [Rowe, Reinholdtsen]
-- Fix uninstall target in Makefile.in [Truta]
+- Clebn up compilbtion under Solbris SunStudio cc [Rowe, Reinholdtsen]
+- Fix uninstbll tbrget in Mbkefile.in [Trutb]
 - Add pkgconfig support [Weigelt]
-- Use $(DESTDIR) macro in Makefile.in [Reinholdtsen, Weigelt]
-- Replace set_data_type() with a more accurate detect_data_type() in
-  trees.c, according to the txtvsbin.txt document [Truta]
-- Swap the order of #include <stdio.h> and #include "zlib.h" in
-  gzio.c, example.c and minigzip.c [Truta]
-- Shut up annoying VS2005 warnings about standard C deprecation [Rowe,
-  Truta] (where?)
-- Fix target "clean" from win32/Makefile.bor [Truta]
-- Create .pdb and .manifest files in win32/makefile.msc [Ziegler, Rowe]
-- Update zlib www home address in win32/DLL_FAQ.txt [Truta]
-- Update contrib/masmx86/inffas32.asm for VS2005 [Vollant, Van Wassenhove]
-- Enable browse info in the "Debug" and "ASM Debug" configurations in
-  the Visual C++ 6 project, and set (non-ASM) "Debug" as default [Truta]
+- Use $(DESTDIR) mbcro in Mbkefile.in [Reinholdtsen, Weigelt]
+- Replbce set_dbtb_type() with b more bccurbte detect_dbtb_type() in
+  trees.c, bccording to the txtvsbin.txt document [Trutb]
+- Swbp the order of #include <stdio.h> bnd #include "zlib.h" in
+  gzio.c, exbmple.c bnd minigzip.c [Trutb]
+- Shut up bnnoying VS2005 wbrnings bbout stbndbrd C deprecbtion [Rowe,
+  Trutb] (where?)
+- Fix tbrget "clebn" from win32/Mbkefile.bor [Trutb]
+- Crebte .pdb bnd .mbnifest files in win32/mbkefile.msc [Ziegler, Rowe]
+- Updbte zlib www home bddress in win32/DLL_FAQ.txt [Trutb]
+- Updbte contrib/mbsmx86/inffbs32.bsm for VS2005 [Vollbnt, Vbn Wbssenhove]
+- Enbble browse info in the "Debug" bnd "ASM Debug" configurbtions in
+  the Visubl C++ 6 project, bnd set (non-ASM) "Debug" bs defbult [Trutb]
 - Add pkgconfig support [Weigelt]
-- Add ZLIB_VER_MAJOR, ZLIB_VER_MINOR and ZLIB_VER_REVISION in zlib.h,
-  for use in win32/zlib1.rc [Polushin, Rowe, Truta]
-- Add a document that explains the new text detection scheme to
-  doc/txtvsbin.txt [Truta]
-- Add rfc1950.txt, rfc1951.txt and rfc1952.txt to doc/ [Truta]
-- Move algorithm.txt into doc/ [Truta]
+- Add ZLIB_VER_MAJOR, ZLIB_VER_MINOR bnd ZLIB_VER_REVISION in zlib.h,
+  for use in win32/zlib1.rc [Polushin, Rowe, Trutb]
+- Add b document thbt explbins the new text detection scheme to
+  doc/txtvsbin.txt [Trutb]
+- Add rfc1950.txt, rfc1951.txt bnd rfc1952.txt to doc/ [Trutb]
+- Move blgorithm.txt into doc/ [Trutb]
 - Synchronize FAQ with website
-- Fix compressBound(), was low for some pathological cases [Fearnley]
-- Take into account wrapper variations in deflateBound()
-- Set examples/zpipe.c input and output to binary mode for Windows
-- Update examples/zlib_how.html with new zpipe.c (also web site)
-- Fix some warnings in examples/gzlog.c and examples/zran.c (it seems
-  that gcc became pickier in 4.0)
-- Add zlib.map for Linux: "All symbols from zlib-1.1.4 remain
-  un-versioned, the patch adds versioning only for symbols introduced in
-  zlib-1.2.0 or later.  It also declares as local those symbols which are
+- Fix compressBound(), wbs low for some pbthologicbl cbses [Febrnley]
+- Tbke into bccount wrbpper vbribtions in deflbteBound()
+- Set exbmples/zpipe.c input bnd output to binbry mode for Windows
+- Updbte exbmples/zlib_how.html with new zpipe.c (blso web site)
+- Fix some wbrnings in exbmples/gzlog.c bnd exbmples/zrbn.c (it seems
+  thbt gcc becbme pickier in 4.0)
+- Add zlib.mbp for Linux: "All symbols from zlib-1.1.4 rembin
+  un-versioned, the pbtch bdds versioning only for symbols introduced in
+  zlib-1.2.0 or lbter.  It blso declbres bs locbl those symbols which bre
   not designed to be exported." [Levin]
-- Update Z_PREFIX list in zconf.in.h, add --zprefix option to configure
-- Do not initialize global static by default in trees.c, add a response
-  NO_INIT_GLOBAL_POINTERS to initialize them if needed [Marquess]
-- Don't use strerror() in gzio.c under WinCE [Yakimov]
-- Don't use errno.h in zutil.h under WinCE [Yakimov]
-- Move arguments for AR to its usage to allow replacing ar [Marot]
-- Add HAVE_VISIBILITY_PRAGMA in zconf.in.h for Mozilla [Randers-Pehrson]
-- Improve inflateInit() and inflateInit2() documentation
-- Fix structure size comment in inflate.h
-- Change configure help option from --h* to --help [Santos]
+- Updbte Z_PREFIX list in zconf.in.h, bdd --zprefix option to configure
+- Do not initiblize globbl stbtic by defbult in trees.c, bdd b response
+  NO_INIT_GLOBAL_POINTERS to initiblize them if needed [Mbrquess]
+- Don't use strerror() in gzio.c under WinCE [Ybkimov]
+- Don't use errno.h in zutil.h under WinCE [Ybkimov]
+- Move brguments for AR to its usbge to bllow replbcing br [Mbrot]
+- Add HAVE_VISIBILITY_PRAGMA in zconf.in.h for Mozillb [Rbnders-Pehrson]
+- Improve inflbteInit() bnd inflbteInit2() documentbtion
+- Fix structure size comment in inflbte.h
+- Chbnge configure help option from --h* to --help [Sbntos]
 
-Changes in 1.2.3 (18 July 2005)
-- Apply security vulnerability fixes to contrib/infback9 as well
-- Clean up some text files (carriage returns, trailing space)
-- Update testzlib, vstudio, masmx64, and masmx86 in contrib [Vollant]
+Chbnges in 1.2.3 (18 July 2005)
+- Apply security vulnerbbility fixes to contrib/infbbck9 bs well
+- Clebn up some text files (cbrribge returns, trbiling spbce)
+- Updbte testzlib, vstudio, mbsmx64, bnd mbsmx86 in contrib [Vollbnt]
 
-Changes in 1.2.2.4 (11 July 2005)
-- Add inflatePrime() function for starting inflation at bit boundary
-- Avoid some Visual C warnings in deflate.c
-- Avoid more silly Visual C warnings in inflate.c and inftrees.c for 64-bit
+Chbnges in 1.2.2.4 (11 July 2005)
+- Add inflbtePrime() function for stbrting inflbtion bt bit boundbry
+- Avoid some Visubl C wbrnings in deflbte.c
+- Avoid more silly Visubl C wbrnings in inflbte.c bnd inftrees.c for 64-bit
   compile
 - Fix some spelling errors in comments [Betts]
-- Correct inflateInit2() error return documentation in zlib.h
-- Add zran.c example of compressed data random access to examples
-  directory, shows use of inflatePrime()
-- Fix cast for assignments to strm->state in inflate.c and infback.c
-- Fix zlibCompileFlags() in zutil.c to use 1L for long shifts [Oberhumer]
-- Move declarations of gf2 functions to right place in crc32.c [Oberhumer]
-- Add cast in trees.c t avoid a warning [Oberhumer]
-- Avoid some warnings in fitblk.c, gun.c, gzjoin.c in examples [Oberhumer]
-- Update make_vms.com [Zinser]
-- Initialize state->write in inflateReset() since copied in inflate_fast()
-- Be more strict on incomplete code sets in inflate_table() and increase
-  ENOUGH and MAXD -- this repairs a possible security vulnerability for
-  invalid inflate input.  Thanks to Tavis Ormandy and Markus Oberhumer for
-  discovering the vulnerability and providing test cases.
-- Add ia64 support to configure for HP-UX [Smith]
-- Add error return to gzread() for format or i/o error [Levin]
-- Use malloc.h for OS/2 [Necasek]
+- Correct inflbteInit2() error return documentbtion in zlib.h
+- Add zrbn.c exbmple of compressed dbtb rbndom bccess to exbmples
+  directory, shows use of inflbtePrime()
+- Fix cbst for bssignments to strm->stbte in inflbte.c bnd infbbck.c
+- Fix zlibCompileFlbgs() in zutil.c to use 1L for long shifts [Oberhumer]
+- Move declbrbtions of gf2 functions to right plbce in crc32.c [Oberhumer]
+- Add cbst in trees.c t bvoid b wbrning [Oberhumer]
+- Avoid some wbrnings in fitblk.c, gun.c, gzjoin.c in exbmples [Oberhumer]
+- Updbte mbke_vms.com [Zinser]
+- Initiblize stbte->write in inflbteReset() since copied in inflbte_fbst()
+- Be more strict on incomplete code sets in inflbte_tbble() bnd increbse
+  ENOUGH bnd MAXD -- this repbirs b possible security vulnerbbility for
+  invblid inflbte input.  Thbnks to Tbvis Ormbndy bnd Mbrkus Oberhumer for
+  discovering the vulnerbbility bnd providing test cbses.
+- Add ib64 support to configure for HP-UX [Smith]
+- Add error return to gzrebd() for formbt or i/o error [Levin]
+- Use mblloc.h for OS/2 [Necbsek]
 
-Changes in 1.2.2.3 (27 May 2005)
-- Replace 1U constants in inflate.c and inftrees.c for 64-bit compile
-- Typecast fread() return values in gzio.c [Vollant]
-- Remove trailing space in minigzip.c outmode (VC++ can't deal with it)
-- Fix crc check bug in gzread() after gzungetc() [Heiner]
-- Add the deflateTune() function to adjust internal compression parameters
-- Add a fast gzip decompressor, gun.c, to examples (use of inflateBack)
-- Remove an incorrect assertion in examples/zpipe.c
-- Add C++ wrapper in infback9.h [Donais]
-- Fix bug in inflateCopy() when decoding fixed codes
-- Note in zlib.h how much deflateSetDictionary() actually uses
-- Remove USE_DICT_HEAD in deflate.c (would mess up inflate if used)
+Chbnges in 1.2.2.3 (27 Mby 2005)
+- Replbce 1U constbnts in inflbte.c bnd inftrees.c for 64-bit compile
+- Typecbst frebd() return vblues in gzio.c [Vollbnt]
+- Remove trbiling spbce in minigzip.c outmode (VC++ cbn't debl with it)
+- Fix crc check bug in gzrebd() bfter gzungetc() [Heiner]
+- Add the deflbteTune() function to bdjust internbl compression pbrbmeters
+- Add b fbst gzip decompressor, gun.c, to exbmples (use of inflbteBbck)
+- Remove bn incorrect bssertion in exbmples/zpipe.c
+- Add C++ wrbpper in infbbck9.h [Donbis]
+- Fix bug in inflbteCopy() when decoding fixed codes
+- Note in zlib.h how much deflbteSetDictionbry() bctublly uses
+- Remove USE_DICT_HEAD in deflbte.c (would mess up inflbte if used)
 - Add _WIN32_WCE to define WIN32 in zconf.in.h [Spencer]
 - Don't include stderr.h or errno.h for _WIN32_WCE in zutil.h [Spencer]
-- Add gzdirect() function to indicate transparent reads
-- Update contrib/minizip [Vollant]
-- Fix compilation of deflate.c when both ASMV and FASTEST [Oberhumer]
-- Add casts in crc32.c to avoid warnings [Oberhumer]
-- Add contrib/masmx64 [Vollant]
-- Update contrib/asm586, asm686, masmx86, testzlib, vstudio [Vollant]
+- Add gzdirect() function to indicbte trbnspbrent rebds
+- Updbte contrib/minizip [Vollbnt]
+- Fix compilbtion of deflbte.c when both ASMV bnd FASTEST [Oberhumer]
+- Add cbsts in crc32.c to bvoid wbrnings [Oberhumer]
+- Add contrib/mbsmx64 [Vollbnt]
+- Updbte contrib/bsm586, bsm686, mbsmx86, testzlib, vstudio [Vollbnt]
 
-Changes in 1.2.2.2 (30 December 2004)
-- Replace structure assignments in deflate.c and inflate.c with zmemcpy to
-  avoid implicit memcpy calls (portability for no-library compilation)
-- Increase sprintf() buffer size in gzdopen() to allow for large numbers
-- Add INFLATE_STRICT to check distances against zlib header
-- Improve WinCE errno handling and comments [Chang]
-- Remove comment about no gzip header processing in FAQ
-- Add Z_FIXED strategy option to deflateInit2() to force fixed trees
-- Add updated make_vms.com [Coghlan], update README
-- Create a new "examples" directory, move gzappend.c there, add zpipe.c,
-  fitblk.c, gzlog.[ch], gzjoin.c, and zlib_how.html.
-- Add FAQ entry and comments in deflate.c on uninitialized memory access
-- Add Solaris 9 make options in configure [Gilbert]
-- Allow strerror() usage in gzio.c for STDC
-- Fix DecompressBuf in contrib/delphi/ZLib.pas [ManChesTer]
-- Update contrib/masmx86/inffas32.asm and gvmat32.asm [Vollant]
-- Use z_off_t for adler32_combine() and crc32_combine() lengths
-- Make adler32() much faster for small len
-- Use OS_CODE in deflate() default gzip header
+Chbnges in 1.2.2.2 (30 December 2004)
+- Replbce structure bssignments in deflbte.c bnd inflbte.c with zmemcpy to
+  bvoid implicit memcpy cblls (portbbility for no-librbry compilbtion)
+- Increbse sprintf() buffer size in gzdopen() to bllow for lbrge numbers
+- Add INFLATE_STRICT to check distbnces bgbinst zlib hebder
+- Improve WinCE errno hbndling bnd comments [Chbng]
+- Remove comment bbout no gzip hebder processing in FAQ
+- Add Z_FIXED strbtegy option to deflbteInit2() to force fixed trees
+- Add updbted mbke_vms.com [Coghlbn], updbte README
+- Crebte b new "exbmples" directory, move gzbppend.c there, bdd zpipe.c,
+  fitblk.c, gzlog.[ch], gzjoin.c, bnd zlib_how.html.
+- Add FAQ entry bnd comments in deflbte.c on uninitiblized memory bccess
+- Add Solbris 9 mbke options in configure [Gilbert]
+- Allow strerror() usbge in gzio.c for STDC
+- Fix DecompressBuf in contrib/delphi/ZLib.pbs [MbnChesTer]
+- Updbte contrib/mbsmx86/inffbs32.bsm bnd gvmbt32.bsm [Vollbnt]
+- Use z_off_t for bdler32_combine() bnd crc32_combine() lengths
+- Mbke bdler32() much fbster for smbll len
+- Use OS_CODE in deflbte() defbult gzip hebder
 
-Changes in 1.2.2.1 (31 October 2004)
-- Allow inflateSetDictionary() call for raw inflate
-- Fix inflate header crc check bug for file names and comments
-- Add deflateSetHeader() and gz_header structure for custom gzip headers
-- Add inflateGetheader() to retrieve gzip headers
-- Add crc32_combine() and adler32_combine() functions
-- Add alloc_func, free_func, in_func, out_func to Z_PREFIX list
-- Use zstreamp consistently in zlib.h (inflate_back functions)
-- Remove GUNZIP condition from definition of inflate_mode in inflate.h
-  and in contrib/inflate86/inffast.S [Truta, Anderson]
-- Add support for AMD64 in contrib/inflate86/inffas86.c [Anderson]
-- Update projects/README.projects and projects/visualc6 [Truta]
-- Update win32/DLL_FAQ.txt [Truta]
-- Avoid warning under NO_GZCOMPRESS in gzio.c; fix typo [Truta]
-- Deprecate Z_ASCII; use Z_TEXT instead [Truta]
-- Use a new algorithm for setting strm->data_type in trees.c [Truta]
-- Do not define an exit() prototype in zutil.c unless DEBUG defined
-- Remove prototype of exit() from zutil.c, example.c, minigzip.c [Truta]
-- Add comment in zlib.h for Z_NO_FLUSH parameter to deflate()
-- Fix Darwin build version identification [Peterson]
+Chbnges in 1.2.2.1 (31 October 2004)
+- Allow inflbteSetDictionbry() cbll for rbw inflbte
+- Fix inflbte hebder crc check bug for file nbmes bnd comments
+- Add deflbteSetHebder() bnd gz_hebder structure for custom gzip hebders
+- Add inflbteGethebder() to retrieve gzip hebders
+- Add crc32_combine() bnd bdler32_combine() functions
+- Add blloc_func, free_func, in_func, out_func to Z_PREFIX list
+- Use zstrebmp consistently in zlib.h (inflbte_bbck functions)
+- Remove GUNZIP condition from definition of inflbte_mode in inflbte.h
+  bnd in contrib/inflbte86/inffbst.S [Trutb, Anderson]
+- Add support for AMD64 in contrib/inflbte86/inffbs86.c [Anderson]
+- Updbte projects/README.projects bnd projects/visublc6 [Trutb]
+- Updbte win32/DLL_FAQ.txt [Trutb]
+- Avoid wbrning under NO_GZCOMPRESS in gzio.c; fix typo [Trutb]
+- Deprecbte Z_ASCII; use Z_TEXT instebd [Trutb]
+- Use b new blgorithm for setting strm->dbtb_type in trees.c [Trutb]
+- Do not define bn exit() prototype in zutil.c unless DEBUG defined
+- Remove prototype of exit() from zutil.c, exbmple.c, minigzip.c [Trutb]
+- Add comment in zlib.h for Z_NO_FLUSH pbrbmeter to deflbte()
+- Fix Dbrwin build version identificbtion [Peterson]
 
-Changes in 1.2.2 (3 October 2004)
-- Update zlib.h comments on gzip in-memory processing
-- Set adler to 1 in inflateReset() to support Java test suite [Walles]
-- Add contrib/dotzlib [Ravn]
-- Update win32/DLL_FAQ.txt [Truta]
-- Update contrib/minizip [Vollant]
-- Move contrib/visual-basic.txt to old/ [Truta]
-- Fix assembler builds in projects/visualc6/ [Truta]
+Chbnges in 1.2.2 (3 October 2004)
+- Updbte zlib.h comments on gzip in-memory processing
+- Set bdler to 1 in inflbteReset() to support Jbvb test suite [Wblles]
+- Add contrib/dotzlib [Rbvn]
+- Updbte win32/DLL_FAQ.txt [Trutb]
+- Updbte contrib/minizip [Vollbnt]
+- Move contrib/visubl-bbsic.txt to old/ [Trutb]
+- Fix bssembler builds in projects/visublc6/ [Trutb]
 
-Changes in 1.2.1.2 (9 September 2004)
-- Update INDEX file
-- Fix trees.c to update strm->data_type (no one ever noticed!)
-- Fix bug in error case in inflate.c, infback.c, and infback9.c [Brown]
-- Add "volatile" to crc table flag declaration (for DYNAMIC_CRC_TABLE)
-- Add limited multitasking protection to DYNAMIC_CRC_TABLE
-- Add NO_vsnprintf for VMS in zutil.h [Mozilla]
-- Don't declare strerror() under VMS [Mozilla]
-- Add comment to DYNAMIC_CRC_TABLE to use get_crc_table() to initialize
-- Update contrib/ada [Anisimkov]
-- Update contrib/minizip [Vollant]
-- Fix configure to not hardcode directories for Darwin [Peterson]
+Chbnges in 1.2.1.2 (9 September 2004)
+- Updbte INDEX file
+- Fix trees.c to updbte strm->dbtb_type (no one ever noticed!)
+- Fix bug in error cbse in inflbte.c, infbbck.c, bnd infbbck9.c [Brown]
+- Add "volbtile" to crc tbble flbg declbrbtion (for DYNAMIC_CRC_TABLE)
+- Add limited multitbsking protection to DYNAMIC_CRC_TABLE
+- Add NO_vsnprintf for VMS in zutil.h [Mozillb]
+- Don't declbre strerror() under VMS [Mozillb]
+- Add comment to DYNAMIC_CRC_TABLE to use get_crc_tbble() to initiblize
+- Updbte contrib/bdb [Anisimkov]
+- Updbte contrib/minizip [Vollbnt]
+- Fix configure to not hbrdcode directories for Dbrwin [Peterson]
 - Fix gzio.c to not return error on empty files [Brown]
-- Fix indentation; update version in contrib/delphi/ZLib.pas and
-  contrib/pascal/zlibpas.pas [Truta]
-- Update mkasm.bat in contrib/masmx86 [Truta]
-- Update contrib/untgz [Truta]
-- Add projects/README.projects [Truta]
-- Add project for MS Visual C++ 6.0 in projects/visualc6 [Cadieux, Truta]
-- Update win32/DLL_FAQ.txt [Truta]
-- Update list of Z_PREFIX symbols in zconf.h [Randers-Pehrson, Truta]
-- Remove an unnecessary assignment to curr in inftrees.c [Truta]
-- Add OS/2 to exe builds in configure [Poltorak]
-- Remove err dummy parameter in zlib.h [Kientzle]
+- Fix indentbtion; updbte version in contrib/delphi/ZLib.pbs bnd
+  contrib/pbscbl/zlibpbs.pbs [Trutb]
+- Updbte mkbsm.bbt in contrib/mbsmx86 [Trutb]
+- Updbte contrib/untgz [Trutb]
+- Add projects/README.projects [Trutb]
+- Add project for MS Visubl C++ 6.0 in projects/visublc6 [Cbdieux, Trutb]
+- Updbte win32/DLL_FAQ.txt [Trutb]
+- Updbte list of Z_PREFIX symbols in zconf.h [Rbnders-Pehrson, Trutb]
+- Remove bn unnecessbry bssignment to curr in inftrees.c [Trutb]
+- Add OS/2 to exe builds in configure [Poltorbk]
+- Remove err dummy pbrbmeter in zlib.h [Kientzle]
 
-Changes in 1.2.1.1 (9 January 2004)
-- Update email address in README
-- Several FAQ updates
-- Fix a big fat bug in inftrees.c that prevented decoding valid
-  dynamic blocks with only literals and no distance codes --
-  Thanks to "Hot Emu" for the bug report and sample file
-- Add a note to puff.c on no distance codes case.
+Chbnges in 1.2.1.1 (9 Jbnubry 2004)
+- Updbte embil bddress in README
+- Severbl FAQ updbtes
+- Fix b big fbt bug in inftrees.c thbt prevented decoding vblid
+  dynbmic blocks with only literbls bnd no distbnce codes --
+  Thbnks to "Hot Emu" for the bug report bnd sbmple file
+- Add b note to puff.c on no distbnce codes cbse.
 
-Changes in 1.2.1 (17 November 2003)
-- Remove a tab in contrib/gzappend/gzappend.c
-- Update some interfaces in contrib for new zlib functions
-- Update zlib version number in some contrib entries
-- Add Windows CE definition for ptrdiff_t in zutil.h [Mai, Truta]
-- Support shared libraries on Hurd and KFreeBSD [Brown]
-- Fix error in NO_DIVIDE option of adler32.c
+Chbnges in 1.2.1 (17 November 2003)
+- Remove b tbb in contrib/gzbppend/gzbppend.c
+- Updbte some interfbces in contrib for new zlib functions
+- Updbte zlib version number in some contrib entries
+- Add Windows CE definition for ptrdiff_t in zutil.h [Mbi, Trutb]
+- Support shbred librbries on Hurd bnd KFreeBSD [Brown]
+- Fix error in NO_DIVIDE option of bdler32.c
 
-Changes in 1.2.0.8 (4 November 2003)
-- Update version in contrib/delphi/ZLib.pas and contrib/pascal/zlibpas.pas
-- Add experimental NO_DIVIDE #define in adler32.c
-    - Possibly faster on some processors (let me know if it is)
-- Correct Z_BLOCK to not return on first inflate call if no wrap
-- Fix strm->data_type on inflate() return to correctly indicate EOB
-- Add deflatePrime() function for appending in the middle of a byte
-- Add contrib/gzappend for an example of appending to a stream
-- Update win32/DLL_FAQ.txt [Truta]
-- Delete Turbo C comment in README [Truta]
-- Improve some indentation in zconf.h [Truta]
-- Fix infinite loop on bad input in configure script [Church]
-- Fix gzeof() for concatenated gzip files [Johnson]
-- Add example to contrib/visual-basic.txt [Michael B.]
-- Add -p to mkdir's in Makefile.in [vda]
-- Fix configure to properly detect presence or lack of printf functions
-- Add AS400 support [Monnerat]
-- Add a little Cygwin support [Wilson]
+Chbnges in 1.2.0.8 (4 November 2003)
+- Updbte version in contrib/delphi/ZLib.pbs bnd contrib/pbscbl/zlibpbs.pbs
+- Add experimentbl NO_DIVIDE #define in bdler32.c
+    - Possibly fbster on some processors (let me know if it is)
+- Correct Z_BLOCK to not return on first inflbte cbll if no wrbp
+- Fix strm->dbtb_type on inflbte() return to correctly indicbte EOB
+- Add deflbtePrime() function for bppending in the middle of b byte
+- Add contrib/gzbppend for bn exbmple of bppending to b strebm
+- Updbte win32/DLL_FAQ.txt [Trutb]
+- Delete Turbo C comment in README [Trutb]
+- Improve some indentbtion in zconf.h [Trutb]
+- Fix infinite loop on bbd input in configure script [Church]
+- Fix gzeof() for concbtenbted gzip files [Johnson]
+- Add exbmple to contrib/visubl-bbsic.txt [Michbel B.]
+- Add -p to mkdir's in Mbkefile.in [vdb]
+- Fix configure to properly detect presence or lbck of printf functions
+- Add AS400 support [Monnerbt]
+- Add b little Cygwin support [Wilson]
 
-Changes in 1.2.0.7 (21 September 2003)
-- Correct some debug formats in contrib/infback9
-- Cast a type in a debug statement in trees.c
-- Change search and replace delimiter in configure from % to # [Beebe]
-- Update contrib/untgz to 0.2 with various fixes [Truta]
-- Add build support for Amiga [Nikl]
-- Remove some directories in old that have been updated to 1.2
-- Add dylib building for Mac OS X in configure and Makefile.in
-- Remove old distribution stuff from Makefile
-- Update README to point to DLL_FAQ.txt, and add comment on Mac OS X
-- Update links in README
+Chbnges in 1.2.0.7 (21 September 2003)
+- Correct some debug formbts in contrib/infbbck9
+- Cbst b type in b debug stbtement in trees.c
+- Chbnge sebrch bnd replbce delimiter in configure from % to # [Beebe]
+- Updbte contrib/untgz to 0.2 with vbrious fixes [Trutb]
+- Add build support for Amigb [Nikl]
+- Remove some directories in old thbt hbve been updbted to 1.2
+- Add dylib building for Mbc OS X in configure bnd Mbkefile.in
+- Remove old distribution stuff from Mbkefile
+- Updbte README to point to DLL_FAQ.txt, bnd bdd comment on Mbc OS X
+- Updbte links in README
 
-Changes in 1.2.0.6 (13 September 2003)
-- Minor FAQ updates
-- Update contrib/minizip to 1.00 [Vollant]
-- Remove test of gz functions in example.c when GZ_COMPRESS defined [Truta]
-- Update POSTINC comment for 68060 [Nikl]
-- Add contrib/infback9 with deflate64 decoding (unsupported)
-- For MVS define NO_vsnprintf and undefine FAR [van Burik]
-- Add pragma for fdopen on MVS [van Burik]
+Chbnges in 1.2.0.6 (13 September 2003)
+- Minor FAQ updbtes
+- Updbte contrib/minizip to 1.00 [Vollbnt]
+- Remove test of gz functions in exbmple.c when GZ_COMPRESS defined [Trutb]
+- Updbte POSTINC comment for 68060 [Nikl]
+- Add contrib/infbbck9 with deflbte64 decoding (unsupported)
+- For MVS define NO_vsnprintf bnd undefine FAR [vbn Burik]
+- Add prbgmb for fdopen on MVS [vbn Burik]
 
-Changes in 1.2.0.5 (8 September 2003)
-- Add OF to inflateBackEnd() declaration in zlib.h
-- Remember start when using gzdopen in the middle of a file
-- Use internal off_t counters in gz* functions to properly handle seeks
-- Perform more rigorous check for distance-too-far in inffast.c
-- Add Z_BLOCK flush option to return from inflate at block boundary
-- Set strm->data_type on return from inflate
-    - Indicate bits unused, if at block boundary, and if in last block
-- Replace size_t with ptrdiff_t in crc32.c, and check for correct size
-- Add condition so old NO_DEFLATE define still works for compatibility
-- FAQ update regarding the Windows DLL [Truta]
-- INDEX update: add qnx entry, remove aix entry [Truta]
-- Install zlib.3 into mandir [Wilson]
-- Move contrib/zlib_dll_FAQ.txt to win32/DLL_FAQ.txt; update [Truta]
-- Adapt the zlib interface to the new DLL convention guidelines [Truta]
-- Introduce ZLIB_WINAPI macro to allow the export of functions using
-  the WINAPI calling convention, for Visual Basic [Vollant, Truta]
-- Update msdos and win32 scripts and makefiles [Truta]
-- Export symbols by name, not by ordinal, in win32/zlib.def [Truta]
-- Add contrib/ada [Anisimkov]
-- Move asm files from contrib/vstudio/vc70_32 to contrib/asm386 [Truta]
-- Rename contrib/asm386 to contrib/masmx86 [Truta, Vollant]
-- Add contrib/masm686 [Truta]
-- Fix offsets in contrib/inflate86 and contrib/masmx86/inffas32.asm
-  [Truta, Vollant]
-- Update contrib/delphi; rename to contrib/pascal; add example [Truta]
-- Remove contrib/delphi2; add a new contrib/delphi [Truta]
-- Avoid inclusion of the nonstandard <memory.h> in contrib/iostream,
-  and fix some method prototypes [Truta]
-- Fix the ZCR_SEED2 constant to avoid warnings in contrib/minizip
-  [Truta]
-- Avoid the use of backslash (\) in contrib/minizip [Vollant]
-- Fix file time handling in contrib/untgz; update makefiles [Truta]
-- Update contrib/vstudio/vc70_32 to comply with the new DLL guidelines
-  [Vollant]
-- Remove contrib/vstudio/vc15_16 [Vollant]
-- Rename contrib/vstudio/vc70_32 to contrib/vstudio/vc7 [Truta]
-- Update README.contrib [Truta]
-- Invert the assignment order of match_head and s->prev[...] in
-  INSERT_STRING [Truta]
-- Compare TOO_FAR with 32767 instead of 32768, to avoid 16-bit warnings
-  [Truta]
-- Compare function pointers with 0, not with NULL or Z_NULL [Truta]
-- Fix prototype of syncsearch in inflate.c [Truta]
-- Introduce ASMINF macro to be enabled when using an ASM implementation
-  of inflate_fast [Truta]
-- Change NO_DEFLATE to NO_GZCOMPRESS [Truta]
-- Modify test_gzio in example.c to take a single file name as a
-  parameter [Truta]
-- Exit the example.c program if gzopen fails [Truta]
-- Add type casts around strlen in example.c [Truta]
-- Remove casting to sizeof in minigzip.c; give a proper type
-  to the variable compared with SUFFIX_LEN [Truta]
-- Update definitions of STDC and STDC99 in zconf.h [Truta]
-- Synchronize zconf.h with the new Windows DLL interface [Truta]
-- Use SYS16BIT instead of __32BIT__ to distinguish between
-  16- and 32-bit platforms [Truta]
-- Use far memory allocators in small 16-bit memory models for
-  Turbo C [Truta]
-- Add info about the use of ASMV, ASMINF and ZLIB_WINAPI in
-  zlibCompileFlags [Truta]
-- Cygwin has vsnprintf [Wilson]
-- In Windows16, OS_CODE is 0, as in MSDOS [Truta]
+Chbnges in 1.2.0.5 (8 September 2003)
+- Add OF to inflbteBbckEnd() declbrbtion in zlib.h
+- Remember stbrt when using gzdopen in the middle of b file
+- Use internbl off_t counters in gz* functions to properly hbndle seeks
+- Perform more rigorous check for distbnce-too-fbr in inffbst.c
+- Add Z_BLOCK flush option to return from inflbte bt block boundbry
+- Set strm->dbtb_type on return from inflbte
+    - Indicbte bits unused, if bt block boundbry, bnd if in lbst block
+- Replbce size_t with ptrdiff_t in crc32.c, bnd check for correct size
+- Add condition so old NO_DEFLATE define still works for compbtibility
+- FAQ updbte regbrding the Windows DLL [Trutb]
+- INDEX updbte: bdd qnx entry, remove bix entry [Trutb]
+- Instbll zlib.3 into mbndir [Wilson]
+- Move contrib/zlib_dll_FAQ.txt to win32/DLL_FAQ.txt; updbte [Trutb]
+- Adbpt the zlib interfbce to the new DLL convention guidelines [Trutb]
+- Introduce ZLIB_WINAPI mbcro to bllow the export of functions using
+  the WINAPI cblling convention, for Visubl Bbsic [Vollbnt, Trutb]
+- Updbte msdos bnd win32 scripts bnd mbkefiles [Trutb]
+- Export symbols by nbme, not by ordinbl, in win32/zlib.def [Trutb]
+- Add contrib/bdb [Anisimkov]
+- Move bsm files from contrib/vstudio/vc70_32 to contrib/bsm386 [Trutb]
+- Renbme contrib/bsm386 to contrib/mbsmx86 [Trutb, Vollbnt]
+- Add contrib/mbsm686 [Trutb]
+- Fix offsets in contrib/inflbte86 bnd contrib/mbsmx86/inffbs32.bsm
+  [Trutb, Vollbnt]
+- Updbte contrib/delphi; renbme to contrib/pbscbl; bdd exbmple [Trutb]
+- Remove contrib/delphi2; bdd b new contrib/delphi [Trutb]
+- Avoid inclusion of the nonstbndbrd <memory.h> in contrib/iostrebm,
+  bnd fix some method prototypes [Trutb]
+- Fix the ZCR_SEED2 constbnt to bvoid wbrnings in contrib/minizip
+  [Trutb]
+- Avoid the use of bbckslbsh (\) in contrib/minizip [Vollbnt]
+- Fix file time hbndling in contrib/untgz; updbte mbkefiles [Trutb]
+- Updbte contrib/vstudio/vc70_32 to comply with the new DLL guidelines
+  [Vollbnt]
+- Remove contrib/vstudio/vc15_16 [Vollbnt]
+- Renbme contrib/vstudio/vc70_32 to contrib/vstudio/vc7 [Trutb]
+- Updbte README.contrib [Trutb]
+- Invert the bssignment order of mbtch_hebd bnd s->prev[...] in
+  INSERT_STRING [Trutb]
+- Compbre TOO_FAR with 32767 instebd of 32768, to bvoid 16-bit wbrnings
+  [Trutb]
+- Compbre function pointers with 0, not with NULL or Z_NULL [Trutb]
+- Fix prototype of syncsebrch in inflbte.c [Trutb]
+- Introduce ASMINF mbcro to be enbbled when using bn ASM implementbtion
+  of inflbte_fbst [Trutb]
+- Chbnge NO_DEFLATE to NO_GZCOMPRESS [Trutb]
+- Modify test_gzio in exbmple.c to tbke b single file nbme bs b
+  pbrbmeter [Trutb]
+- Exit the exbmple.c progrbm if gzopen fbils [Trutb]
+- Add type cbsts bround strlen in exbmple.c [Trutb]
+- Remove cbsting to sizeof in minigzip.c; give b proper type
+  to the vbribble compbred with SUFFIX_LEN [Trutb]
+- Updbte definitions of STDC bnd STDC99 in zconf.h [Trutb]
+- Synchronize zconf.h with the new Windows DLL interfbce [Trutb]
+- Use SYS16BIT instebd of __32BIT__ to distinguish between
+  16- bnd 32-bit plbtforms [Trutb]
+- Use fbr memory bllocbtors in smbll 16-bit memory models for
+  Turbo C [Trutb]
+- Add info bbout the use of ASMV, ASMINF bnd ZLIB_WINAPI in
+  zlibCompileFlbgs [Trutb]
+- Cygwin hbs vsnprintf [Wilson]
+- In Windows16, OS_CODE is 0, bs in MSDOS [Trutb]
 - In Cygwin, OS_CODE is 3 (Unix), not 11 (Windows32) [Wilson]
 
-Changes in 1.2.0.4 (10 August 2003)
-- Minor FAQ updates
-- Be more strict when checking inflateInit2's windowBits parameter
-- Change NO_GUNZIP compile option to NO_GZIP to cover deflate as well
-- Add gzip wrapper option to deflateInit2 using windowBits
-- Add updated QNX rule in configure and qnx directory [Bonnefoy]
-- Make inflate distance-too-far checks more rigorous
-- Clean up FAR usage in inflate
-- Add casting to sizeof() in gzio.c and minigzip.c
+Chbnges in 1.2.0.4 (10 August 2003)
+- Minor FAQ updbtes
+- Be more strict when checking inflbteInit2's windowBits pbrbmeter
+- Chbnge NO_GUNZIP compile option to NO_GZIP to cover deflbte bs well
+- Add gzip wrbpper option to deflbteInit2 using windowBits
+- Add updbted QNX rule in configure bnd qnx directory [Bonnefoy]
+- Mbke inflbte distbnce-too-fbr checks more rigorous
+- Clebn up FAR usbge in inflbte
+- Add cbsting to sizeof() in gzio.c bnd minigzip.c
 
-Changes in 1.2.0.3 (19 July 2003)
-- Fix silly error in gzungetc() implementation [Vollant]
-- Update contrib/minizip and contrib/vstudio [Vollant]
-- Fix printf format in example.c
+Chbnges in 1.2.0.3 (19 July 2003)
+- Fix silly error in gzungetc() implementbtion [Vollbnt]
+- Updbte contrib/minizip bnd contrib/vstudio [Vollbnt]
+- Fix printf formbt in exbmple.c
 - Correct cdecl support in zconf.in.h [Anisimkov]
-- Minor FAQ updates
+- Minor FAQ updbtes
 
-Changes in 1.2.0.2 (13 July 2003)
-- Add ZLIB_VERNUM in zlib.h for numerical preprocessor comparisons
-- Attempt to avoid warnings in crc32.c for pointer-int conversion
-- Add AIX to configure, remove aix directory [Bakker]
-- Add some casts to minigzip.c
-- Improve checking after insecure sprintf() or vsprintf() calls
+Chbnges in 1.2.0.2 (13 July 2003)
+- Add ZLIB_VERNUM in zlib.h for numericbl preprocessor compbrisons
+- Attempt to bvoid wbrnings in crc32.c for pointer-int conversion
+- Add AIX to configure, remove bix directory [Bbkker]
+- Add some cbsts to minigzip.c
+- Improve checking bfter insecure sprintf() or vsprintf() cblls
 - Remove #elif's from crc32.c
-- Change leave label to inf_leave in inflate.c and infback.c to avoid
-  library conflicts
-- Remove inflate gzip decoding by default--only enable gzip decoding by
-  special request for stricter backward compatibility
-- Add zlibCompileFlags() function to return compilation information
-- More typecasting in deflate.c to avoid warnings
-- Remove leading underscore from _Capital #defines [Truta]
-- Fix configure to link shared library when testing
-- Add some Windows CE target adjustments [Mai]
-- Remove #define ZLIB_DLL in zconf.h [Vollant]
+- Chbnge lebve lbbel to inf_lebve in inflbte.c bnd infbbck.c to bvoid
+  librbry conflicts
+- Remove inflbte gzip decoding by defbult--only enbble gzip decoding by
+  specibl request for stricter bbckwbrd compbtibility
+- Add zlibCompileFlbgs() function to return compilbtion informbtion
+- More typecbsting in deflbte.c to bvoid wbrnings
+- Remove lebding underscore from _Cbpitbl #defines [Trutb]
+- Fix configure to link shbred librbry when testing
+- Add some Windows CE tbrget bdjustments [Mbi]
+- Remove #define ZLIB_DLL in zconf.h [Vollbnt]
 - Add zlib.3 [Rodgers]
-- Update RFC URL in deflate.c and algorithm.txt [Mai]
-- Add zlib_dll_FAQ.txt to contrib [Truta]
-- Add UL to some constants [Truta]
-- Update minizip and vstudio [Vollant]
-- Remove vestigial NEED_DUMMY_RETURN from zconf.in.h
-- Expand use of NO_DUMMY_DECL to avoid all dummy structures
-- Added iostream3 to contrib [Schwardt]
-- Replace rewind() with fseek() for WinCE [Truta]
-- Improve setting of zlib format compression level flags
-    - Report 0 for huffman and rle strategies and for level == 0 or 1
+- Updbte RFC URL in deflbte.c bnd blgorithm.txt [Mbi]
+- Add zlib_dll_FAQ.txt to contrib [Trutb]
+- Add UL to some constbnts [Trutb]
+- Updbte minizip bnd vstudio [Vollbnt]
+- Remove vestigibl NEED_DUMMY_RETURN from zconf.in.h
+- Expbnd use of NO_DUMMY_DECL to bvoid bll dummy structures
+- Added iostrebm3 to contrib [Schwbrdt]
+- Replbce rewind() with fseek() for WinCE [Trutb]
+- Improve setting of zlib formbt compression level flbgs
+    - Report 0 for huffmbn bnd rle strbtegies bnd for level == 0 or 1
     - Report 2 only for level == 6
-- Only deal with 64K limit when necessary at compile time [Truta]
-- Allow TOO_FAR check to be turned off at compile time [Truta]
-- Add gzclearerr() function [Souza]
+- Only debl with 64K limit when necessbry bt compile time [Trutb]
+- Allow TOO_FAR check to be turned off bt compile time [Trutb]
+- Add gzclebrerr() function [Souzb]
 - Add gzungetc() function
 
-Changes in 1.2.0.1 (17 March 2003)
-- Add Z_RLE strategy for run-length encoding [Truta]
-    - When Z_RLE requested, restrict matches to distance one
-    - Update zlib.h, minigzip.c, gzopen(), gzdopen() for Z_RLE
-- Correct FASTEST compilation to allow level == 0
-- Clean up what gets compiled for FASTEST
-- Incorporate changes to zconf.in.h [Vollant]
+Chbnges in 1.2.0.1 (17 Mbrch 2003)
+- Add Z_RLE strbtegy for run-length encoding [Trutb]
+    - When Z_RLE requested, restrict mbtches to distbnce one
+    - Updbte zlib.h, minigzip.c, gzopen(), gzdopen() for Z_RLE
+- Correct FASTEST compilbtion to bllow level == 0
+- Clebn up whbt gets compiled for FASTEST
+- Incorporbte chbnges to zconf.in.h [Vollbnt]
     - Refine detection of Turbo C need for dummy returns
-    - Refine ZLIB_DLL compilation
-    - Include additional header file on VMS for off_t typedef
-- Try to use _vsnprintf where it supplants vsprintf [Vollant]
-- Add some casts in inffast.c
-- Enchance comments in zlib.h on what happens if gzprintf() tries to
-  write more than 4095 bytes before compression
-- Remove unused state from inflateBackEnd()
-- Remove exit(0) from minigzip.c, example.c
-- Get rid of all those darn tabs
-- Add "check" target to Makefile.in that does the same thing as "test"
-- Add "mostlyclean" and "maintainer-clean" targets to Makefile.in
-- Update contrib/inflate86 [Anderson]
-- Update contrib/testzlib, contrib/vstudio, contrib/minizip [Vollant]
-- Add msdos and win32 directories with makefiles [Truta]
-- More additions and improvements to the FAQ
+    - Refine ZLIB_DLL compilbtion
+    - Include bdditionbl hebder file on VMS for off_t typedef
+- Try to use _vsnprintf where it supplbnts vsprintf [Vollbnt]
+- Add some cbsts in inffbst.c
+- Enchbnce comments in zlib.h on whbt hbppens if gzprintf() tries to
+  write more thbn 4095 bytes before compression
+- Remove unused stbte from inflbteBbckEnd()
+- Remove exit(0) from minigzip.c, exbmple.c
+- Get rid of bll those dbrn tbbs
+- Add "check" tbrget to Mbkefile.in thbt does the sbme thing bs "test"
+- Add "mostlyclebn" bnd "mbintbiner-clebn" tbrgets to Mbkefile.in
+- Updbte contrib/inflbte86 [Anderson]
+- Updbte contrib/testzlib, contrib/vstudio, contrib/minizip [Vollbnt]
+- Add msdos bnd win32 directories with mbkefiles [Trutb]
+- More bdditions bnd improvements to the FAQ
 
-Changes in 1.2.0 (9 March 2003)
-- New and improved inflate code
-    - About 20% faster
-    - Does not allocate 32K window unless and until needed
-    - Automatically detects and decompresses gzip streams
-    - Raw inflate no longer needs an extra dummy byte at end
-    - Added inflateBack functions using a callback interface--even faster
-      than inflate, useful for file utilities (gzip, zip)
-    - Added inflateCopy() function to record state for random access on
-      externally generated deflate streams (e.g. in gzip files)
-    - More readable code (I hope)
-- New and improved crc32()
-    - About 50% faster, thanks to suggestions from Rodney Brown
-- Add deflateBound() and compressBound() functions
-- Fix memory leak in deflateInit2()
-- Permit setting dictionary for raw deflate (for parallel deflate)
-- Fix const declaration for gzwrite()
-- Check for some malloc() failures in gzio.c
+Chbnges in 1.2.0 (9 Mbrch 2003)
+- New bnd improved inflbte code
+    - About 20% fbster
+    - Does not bllocbte 32K window unless bnd until needed
+    - Autombticblly detects bnd decompresses gzip strebms
+    - Rbw inflbte no longer needs bn extrb dummy byte bt end
+    - Added inflbteBbck functions using b cbllbbck interfbce--even fbster
+      thbn inflbte, useful for file utilities (gzip, zip)
+    - Added inflbteCopy() function to record stbte for rbndom bccess on
+      externblly generbted deflbte strebms (e.g. in gzip files)
+    - More rebdbble code (I hope)
+- New bnd improved crc32()
+    - About 50% fbster, thbnks to suggestions from Rodney Brown
+- Add deflbteBound() bnd compressBound() functions
+- Fix memory lebk in deflbteInit2()
+- Permit setting dictionbry for rbw deflbte (for pbrbllel deflbte)
+- Fix const declbrbtion for gzwrite()
+- Check for some mblloc() fbilures in gzio.c
 - Fix bug in gzopen() on single-byte file 0x1f
-- Fix bug in gzread() on concatenated file with 0x1f at end of buffer
-  and next buffer doesn't start with 0x8b
-- Fix uncompress() to return Z_DATA_ERROR on truncated input
-- Free memory at end of example.c
-- Remove MAX #define in trees.c (conflicted with some libraries)
-- Fix static const's in deflate.c, gzio.c, and zutil.[ch]
-- Declare malloc() and free() in gzio.c if STDC not defined
-- Use malloc() instead of calloc() in zutil.c if int big enough
+- Fix bug in gzrebd() on concbtenbted file with 0x1f bt end of buffer
+  bnd next buffer doesn't stbrt with 0x8b
+- Fix uncompress() to return Z_DATA_ERROR on truncbted input
+- Free memory bt end of exbmple.c
+- Remove MAX #define in trees.c (conflicted with some librbries)
+- Fix stbtic const's in deflbte.c, gzio.c, bnd zutil.[ch]
+- Declbre mblloc() bnd free() in gzio.c if STDC not defined
+- Use mblloc() instebd of cblloc() in zutil.c if int big enough
 - Define STDC for AIX
-- Add aix/ with approach for compiling shared library on AIX
-- Add HP-UX support for shared libraries in configure
-- Add OpenUNIX support for shared libraries in configure
-- Use $cc instead of gcc to build shared library
-- Make prefix directory if needed when installing
-- Correct Macintosh avoidance of typedef Byte in zconf.h
-- Correct Turbo C memory allocation when under Linux
-- Use libz.a instead of -lz in Makefile (assure use of compiled library)
-- Update configure to check for snprintf or vsnprintf functions and their
-  return value, warn during make if using an insecure function
-- Fix configure problem with compile-time knowledge of HAVE_UNISTD_H that
-  is lost when library is used--resolution is to build new zconf.h
-- Documentation improvements (in zlib.h):
-    - Document raw deflate and inflate
-    - Update RFCs URL
-    - Point out that zlib and gzip formats are different
-    - Note that Z_BUF_ERROR is not fatal
-    - Document string limit for gzprintf() and possible buffer overflow
-    - Note requirement on avail_out when flushing
-    - Note permitted values of flush parameter of inflate()
-- Add some FAQs (and even answers) to the FAQ
-- Add contrib/inflate86/ for x86 faster inflate
-- Add contrib/blast/ for PKWare Data Compression Library decompression
-- Add contrib/puff/ simple inflate for deflate format description
+- Add bix/ with bpprobch for compiling shbred librbry on AIX
+- Add HP-UX support for shbred librbries in configure
+- Add OpenUNIX support for shbred librbries in configure
+- Use $cc instebd of gcc to build shbred librbry
+- Mbke prefix directory if needed when instblling
+- Correct Mbcintosh bvoidbnce of typedef Byte in zconf.h
+- Correct Turbo C memory bllocbtion when under Linux
+- Use libz.b instebd of -lz in Mbkefile (bssure use of compiled librbry)
+- Updbte configure to check for snprintf or vsnprintf functions bnd their
+  return vblue, wbrn during mbke if using bn insecure function
+- Fix configure problem with compile-time knowledge of HAVE_UNISTD_H thbt
+  is lost when librbry is used--resolution is to build new zconf.h
+- Documentbtion improvements (in zlib.h):
+    - Document rbw deflbte bnd inflbte
+    - Updbte RFCs URL
+    - Point out thbt zlib bnd gzip formbts bre different
+    - Note thbt Z_BUF_ERROR is not fbtbl
+    - Document string limit for gzprintf() bnd possible buffer overflow
+    - Note requirement on bvbil_out when flushing
+    - Note permitted vblues of flush pbrbmeter of inflbte()
+- Add some FAQs (bnd even bnswers) to the FAQ
+- Add contrib/inflbte86/ for x86 fbster inflbte
+- Add contrib/blbst/ for PKWbre Dbtb Compression Librbry decompression
+- Add contrib/puff/ simple inflbte for deflbte formbt description
 
-Changes in 1.1.4 (11 March 2002)
-- ZFREE was repeated on same allocation on some error conditions.
-  This creates a security problem described in
-  http://www.zlib.org/advisory-2002-03-11.txt
-- Returned incorrect error (Z_MEM_ERROR) on some invalid data
-- Avoid accesses before window for invalid distances with inflate window
-  less than 32K.
-- force windowBits > 8 to avoid a bug in the encoder for a window size
-  of 256 bytes. (A complete fix will be available in 1.1.5).
+Chbnges in 1.1.4 (11 Mbrch 2002)
+- ZFREE wbs repebted on sbme bllocbtion on some error conditions.
+  This crebtes b security problem described in
+  http://www.zlib.org/bdvisory-2002-03-11.txt
+- Returned incorrect error (Z_MEM_ERROR) on some invblid dbtb
+- Avoid bccesses before window for invblid distbnces with inflbte window
+  less thbn 32K.
+- force windowBits > 8 to bvoid b bug in the encoder for b window size
+  of 256 bytes. (A complete fix will be bvbilbble in 1.1.5).
 
-Changes in 1.1.3 (9 July 1998)
-- fix "an inflate input buffer bug that shows up on rare but persistent
-  occasions" (Mark)
-- fix gzread and gztell for concatenated .gz files (Didier Le Botlan)
+Chbnges in 1.1.3 (9 July 1998)
+- fix "bn inflbte input buffer bug thbt shows up on rbre but persistent
+  occbsions" (Mbrk)
+- fix gzrebd bnd gztell for concbtenbted .gz files (Didier Le Botlbn)
 - fix gzseek(..., SEEK_SET) in write mode
-- fix crc check after a gzeek (Frank Faubert)
-- fix miniunzip when the last entry in a zip file is itself a zip file
+- fix crc check bfter b gzeek (Frbnk Fbubert)
+- fix miniunzip when the lbst entry in b zip file is itself b zip file
   (J Lillge)
-- add contrib/asm586 and contrib/asm686 (Brian Raiter)
-  See http://www.muppetlabs.com/~breadbox/software/assembly.html
-- add support for Delphi 3 in contrib/delphi (Bob Dellaca)
-- add support for C++Builder 3 and Delphi 3 in contrib/delphi2 (Davide Moretti)
-- do not exit prematurely in untgz if 0 at start of block (Magnus Holmgren)
-- use macro EXTERN instead of extern to support DLL for BeOS (Sander Stoks)
-- added a FAQ file
+- bdd contrib/bsm586 bnd contrib/bsm686 (Bribn Rbiter)
+  See http://www.muppetlbbs.com/~brebdbox/softwbre/bssembly.html
+- bdd support for Delphi 3 in contrib/delphi (Bob Dellbcb)
+- bdd support for C++Builder 3 bnd Delphi 3 in contrib/delphi2 (Dbvide Moretti)
+- do not exit prembturely in untgz if 0 bt stbrt of block (Mbgnus Holmgren)
+- use mbcro EXTERN instebd of extern to support DLL for BeOS (Sbnder Stoks)
+- bdded b FAQ file
 
-- Support gzdopen on Mac with Metrowerks (Jason Linhart)
-- Do not redefine Byte on Mac (Brad Pettit & Jason Linhart)
+- Support gzdopen on Mbc with Metrowerks (Jbson Linhbrt)
+- Do not redefine Byte on Mbc (Brbd Pettit & Jbson Linhbrt)
 - define SEEK_END too if SEEK_SET is not defined (Albert Chin-A-Young)
-- avoid some warnings with Borland C (Tom Tanner)
-- fix a problem in contrib/minizip/zip.c for 16-bit MSDOS (Gilles Vollant)
-- emulate utime() for WIN32 in contrib/untgz  (Gilles Vollant)
-- allow several arguments to configure (Tim Mooney, Frodo Looijaard)
-- use libdir and includedir in Makefile.in (Tim Mooney)
-- support shared libraries on OSF1 V4 (Tim Mooney)
-- remove so_locations in "make clean"  (Tim Mooney)
-- fix maketree.c compilation error (Glenn, Mark)
-- Python interface to zlib now in Python 1.5 (Jeremy Hylton)
-- new Makefile.riscos (Rich Walker)
-- initialize static descriptors in trees.c for embedded targets (Nick Smith)
-- use "foo-gz" in example.c for RISCOS and VMS (Nick Smith)
-- add the OS/2 files in Makefile.in too (Andrew Zabolotny)
-- fix fdopen and halloc macros for Microsoft C 6.0 (Tom Lane)
-- fix maketree.c to allow clean compilation of inffixed.h (Mark)
-- fix parameter check in deflateCopy (Gunther Nikl)
-- cleanup trees.c, use compressed_len only in debug mode (Christian Spieler)
-- Many portability patches by Christian Spieler:
-  . zutil.c, zutil.h: added "const" for zmem*
-  . Make_vms.com: fixed some typos
-  . Make_vms.com: msdos/Makefile.*: removed zutil.h from some dependency lists
-  . msdos/Makefile.msc: remove "default rtl link library" info from obj files
-  . msdos/Makefile.*: use model-dependent name for the built zlib library
-  . msdos/Makefile.emx, nt/Makefile.emx, nt/Makefile.gcc:
-     new makefiles, for emx (DOS/OS2), emx&rsxnt and mingw32 (Windows 9x / NT)
-- use define instead of typedef for Bytef also for MSC small/medium (Tom Lane)
-- replace __far with _far for better portability (Christian Spieler, Tom Lane)
-- fix test for errno.h in configure (Tim Newsham)
+- bvoid some wbrnings with Borlbnd C (Tom Tbnner)
+- fix b problem in contrib/minizip/zip.c for 16-bit MSDOS (Gilles Vollbnt)
+- emulbte utime() for WIN32 in contrib/untgz  (Gilles Vollbnt)
+- bllow severbl brguments to configure (Tim Mooney, Frodo Looijbbrd)
+- use libdir bnd includedir in Mbkefile.in (Tim Mooney)
+- support shbred librbries on OSF1 V4 (Tim Mooney)
+- remove so_locbtions in "mbke clebn"  (Tim Mooney)
+- fix mbketree.c compilbtion error (Glenn, Mbrk)
+- Python interfbce to zlib now in Python 1.5 (Jeremy Hylton)
+- new Mbkefile.riscos (Rich Wblker)
+- initiblize stbtic descriptors in trees.c for embedded tbrgets (Nick Smith)
+- use "foo-gz" in exbmple.c for RISCOS bnd VMS (Nick Smith)
+- bdd the OS/2 files in Mbkefile.in too (Andrew Zbbolotny)
+- fix fdopen bnd hblloc mbcros for Microsoft C 6.0 (Tom Lbne)
+- fix mbketree.c to bllow clebn compilbtion of inffixed.h (Mbrk)
+- fix pbrbmeter check in deflbteCopy (Gunther Nikl)
+- clebnup trees.c, use compressed_len only in debug mode (Christibn Spieler)
+- Mbny portbbility pbtches by Christibn Spieler:
+  . zutil.c, zutil.h: bdded "const" for zmem*
+  . Mbke_vms.com: fixed some typos
+  . Mbke_vms.com: msdos/Mbkefile.*: removed zutil.h from some dependency lists
+  . msdos/Mbkefile.msc: remove "defbult rtl link librbry" info from obj files
+  . msdos/Mbkefile.*: use model-dependent nbme for the built zlib librbry
+  . msdos/Mbkefile.emx, nt/Mbkefile.emx, nt/Mbkefile.gcc:
+     new mbkefiles, for emx (DOS/OS2), emx&rsxnt bnd mingw32 (Windows 9x / NT)
+- use define instebd of typedef for Bytef blso for MSC smbll/medium (Tom Lbne)
+- replbce __fbr with _fbr for better portbbility (Christibn Spieler, Tom Lbne)
+- fix test for errno.h in configure (Tim Newshbm)
 
-Changes in 1.1.2 (19 March 98)
-- added contrib/minzip, mini zip and unzip based on zlib (Gilles Vollant)
-  See http://www.winimage.com/zLibDll/unzip.html
-- preinitialize the inflate tables for fixed codes, to make the code
-  completely thread safe (Mark)
-- some simplifications and slight speed-up to the inflate code (Mark)
-- fix gzeof on non-compressed files (Allan Schrum)
-- add -std1 option in configure for OSF1 to fix gzprintf (Martin Mokrejs)
-- use default value of 4K for Z_BUFSIZE for 16-bit MSDOS (Tim Wegner + Glenn)
-- added os2/Makefile.def and os2/zlib.def (Andrew Zabolotny)
-- add shared lib support for UNIX_SV4.2MP (MATSUURA Takanori)
-- do not wrap extern "C" around system includes (Tom Lane)
-- mention zlib binding for TCL in README (Andreas Kupries)
-- added amiga/Makefile.pup for Amiga powerUP SAS/C PPC (Andreas Kleinert)
-- allow "make install prefix=..." even after configure (Glenn Randers-Pehrson)
-- allow "configure --prefix $HOME" (Tim Mooney)
-- remove warnings in example.c and gzio.c (Glenn Randers-Pehrson)
-- move Makefile.sas to amiga/Makefile.sas
+Chbnges in 1.1.2 (19 Mbrch 98)
+- bdded contrib/minzip, mini zip bnd unzip bbsed on zlib (Gilles Vollbnt)
+  See http://www.winimbge.com/zLibDll/unzip.html
+- preinitiblize the inflbte tbbles for fixed codes, to mbke the code
+  completely threbd sbfe (Mbrk)
+- some simplificbtions bnd slight speed-up to the inflbte code (Mbrk)
+- fix gzeof on non-compressed files (Allbn Schrum)
+- bdd -std1 option in configure for OSF1 to fix gzprintf (Mbrtin Mokrejs)
+- use defbult vblue of 4K for Z_BUFSIZE for 16-bit MSDOS (Tim Wegner + Glenn)
+- bdded os2/Mbkefile.def bnd os2/zlib.def (Andrew Zbbolotny)
+- bdd shbred lib support for UNIX_SV4.2MP (MATSUURA Tbkbnori)
+- do not wrbp extern "C" bround system includes (Tom Lbne)
+- mention zlib binding for TCL in README (Andrebs Kupries)
+- bdded bmigb/Mbkefile.pup for Amigb powerUP SAS/C PPC (Andrebs Kleinert)
+- bllow "mbke instbll prefix=..." even bfter configure (Glenn Rbnders-Pehrson)
+- bllow "configure --prefix $HOME" (Tim Mooney)
+- remove wbrnings in exbmple.c bnd gzio.c (Glenn Rbnders-Pehrson)
+- move Mbkefile.sbs to bmigb/Mbkefile.sbs
 
-Changes in 1.1.1 (27 Feb 98)
-- fix macros _tr_tally_* in deflate.h for debug mode  (Glenn Randers-Pehrson)
-- remove block truncation heuristic which had very marginal effect for zlib
-  (smaller lit_bufsize than in gzip 1.2.4) and degraded a little the
-  compression ratio on some files. This also allows inlining _tr_tally for
-  matches in deflate_slow.
-- added msdos/Makefile.w32 for WIN32 Microsoft Visual C++ (Bob Frazier)
+Chbnges in 1.1.1 (27 Feb 98)
+- fix mbcros _tr_tblly_* in deflbte.h for debug mode  (Glenn Rbnders-Pehrson)
+- remove block truncbtion heuristic which hbd very mbrginbl effect for zlib
+  (smbller lit_bufsize thbn in gzip 1.2.4) bnd degrbded b little the
+  compression rbtio on some files. This blso bllows inlining _tr_tblly for
+  mbtches in deflbte_slow.
+- bdded msdos/Mbkefile.w32 for WIN32 Microsoft Visubl C++ (Bob Frbzier)
 
-Changes in 1.1.0 (24 Feb 98)
-- do not return STREAM_END prematurely in inflate (John Bowler)
-- revert to the zlib 1.0.8 inflate to avoid the gcc 2.8.0 bug (Jeremy Buhler)
+Chbnges in 1.1.0 (24 Feb 98)
+- do not return STREAM_END prembturely in inflbte (John Bowler)
+- revert to the zlib 1.0.8 inflbte to bvoid the gcc 2.8.0 bug (Jeremy Buhler)
 - compile with -DFASTEST to get compression code optimized for speed only
-- in minigzip, try mmap'ing the input file first (Miguel Albrecht)
-- increase size of I/O buffers in minigzip.c and gzio.c (not a big gain
-  on Sun but significant on HP)
+- in minigzip, try mmbp'ing the input file first (Miguel Albrecht)
+- increbse size of I/O buffers in minigzip.c bnd gzio.c (not b big gbin
+  on Sun but significbnt on HP)
 
-- add a pointer to experimental unzip library in README (Gilles Vollant)
-- initialize variable gcc in configure (Chris Herborth)
+- bdd b pointer to experimentbl unzip librbry in README (Gilles Vollbnt)
+- initiblize vbribble gcc in configure (Chris Herborth)
 
-Changes in 1.0.9 (17 Feb 1998)
-- added gzputs and gzgets functions
-- do not clear eof flag in gzseek (Mark Diekhans)
-- fix gzseek for files in transparent mode (Mark Diekhans)
-- do not assume that vsprintf returns the number of bytes written (Jens Krinke)
-- replace EXPORT with ZEXPORT to avoid conflict with other programs
-- added compress2 in zconf.h, zlib.def, zlib.dnt
-- new asm code from Gilles Vollant in contrib/asm386
-- simplify the inflate code (Mark):
- . Replace ZALLOC's in huft_build() with single ZALLOC in inflate_blocks_new()
- . ZALLOC the length list in inflate_trees_fixed() instead of using stack
- . ZALLOC the value area for huft_build() instead of using stack
- . Simplify Z_FINISH check in inflate()
+Chbnges in 1.0.9 (17 Feb 1998)
+- bdded gzputs bnd gzgets functions
+- do not clebr eof flbg in gzseek (Mbrk Diekhbns)
+- fix gzseek for files in trbnspbrent mode (Mbrk Diekhbns)
+- do not bssume thbt vsprintf returns the number of bytes written (Jens Krinke)
+- replbce EXPORT with ZEXPORT to bvoid conflict with other progrbms
+- bdded compress2 in zconf.h, zlib.def, zlib.dnt
+- new bsm code from Gilles Vollbnt in contrib/bsm386
+- simplify the inflbte code (Mbrk):
+ . Replbce ZALLOC's in huft_build() with single ZALLOC in inflbte_blocks_new()
+ . ZALLOC the length list in inflbte_trees_fixed() instebd of using stbck
+ . ZALLOC the vblue breb for huft_build() instebd of using stbck
+ . Simplify Z_FINISH check in inflbte()
 
-- Avoid gcc 2.8.0 comparison bug a little differently than zlib 1.0.8
-- in inftrees.c, avoid cc -O bug on HP (Farshid Elahi)
-- in zconf.h move the ZLIB_DLL stuff earlier to avoid problems with
-  the declaration of FAR (Gilles VOllant)
-- install libz.so* with mode 755 (executable) instead of 644 (Marc Lehmann)
-- read_buf buf parameter of type Bytef* instead of charf*
-- zmemcpy parameters are of type Bytef*, not charf* (Joseph Strout)
-- do not redeclare unlink in minigzip.c for WIN32 (John Bowler)
-- fix check for presence of directories in "make install" (Ian Willis)
+- Avoid gcc 2.8.0 compbrison bug b little differently thbn zlib 1.0.8
+- in inftrees.c, bvoid cc -O bug on HP (Fbrshid Elbhi)
+- in zconf.h move the ZLIB_DLL stuff ebrlier to bvoid problems with
+  the declbrbtion of FAR (Gilles VOllbnt)
+- instbll libz.so* with mode 755 (executbble) instebd of 644 (Mbrc Lehmbnn)
+- rebd_buf buf pbrbmeter of type Bytef* instebd of chbrf*
+- zmemcpy pbrbmeters bre of type Bytef*, not chbrf* (Joseph Strout)
+- do not redeclbre unlink in minigzip.c for WIN32 (John Bowler)
+- fix check for presence of directories in "mbke instbll" (Ibn Willis)
 
-Changes in 1.0.8 (27 Jan 1998)
-- fixed offsets in contrib/asm386/gvmat32.asm (Gilles Vollant)
-- fix gzgetc and gzputc for big endian systems (Markus Oberhumer)
-- added compress2() to allow setting the compression level
-- include sys/types.h to get off_t on some systems (Marc Lehmann & QingLong)
-- use constant arrays for the static trees in trees.c instead of computing
-  them at run time (thanks to Ken Raeburn for this suggestion). To create
-  trees.h, compile with GEN_TREES_H and run "make test".
-- check return code of example in "make test" and display result
-- pass minigzip command line options to file_compress
-- simplifying code of inflateSync to avoid gcc 2.8 bug
+Chbnges in 1.0.8 (27 Jbn 1998)
+- fixed offsets in contrib/bsm386/gvmbt32.bsm (Gilles Vollbnt)
+- fix gzgetc bnd gzputc for big endibn systems (Mbrkus Oberhumer)
+- bdded compress2() to bllow setting the compression level
+- include sys/types.h to get off_t on some systems (Mbrc Lehmbnn & QingLong)
+- use constbnt brrbys for the stbtic trees in trees.c instebd of computing
+  them bt run time (thbnks to Ken Rbeburn for this suggestion). To crebte
+  trees.h, compile with GEN_TREES_H bnd run "mbke test".
+- check return code of exbmple in "mbke test" bnd displby result
+- pbss minigzip commbnd line options to file_compress
+- simplifying code of inflbteSync to bvoid gcc 2.8 bug
 
-- support CC="gcc -Wall" in configure -s (QingLong)
-- avoid a flush caused by ftell in gzopen for write mode (Ken Raeburn)
-- fix test for shared library support to avoid compiler warnings
-- zlib.lib -> zlib.dll in msdos/zlib.rc (Gilles Vollant)
-- check for TARGET_OS_MAC in addition to MACOS (Brad Pettit)
-- do not use fdopen for Metrowerks on Mac (Brad Pettit))
-- add checks for gzputc and gzputc in example.c
-- avoid warnings in gzio.c and deflate.c (Andreas Kleinert)
-- use const for the CRC table (Ken Raeburn)
-- fixed "make uninstall" for shared libraries
-- use Tracev instead of Trace in infblock.c
-- in example.c use correct compressed length for test_sync
-- suppress +vnocompatwarnings in configure for HPUX (not always supported)
+- support CC="gcc -Wbll" in configure -s (QingLong)
+- bvoid b flush cbused by ftell in gzopen for write mode (Ken Rbeburn)
+- fix test for shbred librbry support to bvoid compiler wbrnings
+- zlib.lib -> zlib.dll in msdos/zlib.rc (Gilles Vollbnt)
+- check for TARGET_OS_MAC in bddition to MACOS (Brbd Pettit)
+- do not use fdopen for Metrowerks on Mbc (Brbd Pettit))
+- bdd checks for gzputc bnd gzputc in exbmple.c
+- bvoid wbrnings in gzio.c bnd deflbte.c (Andrebs Kleinert)
+- use const for the CRC tbble (Ken Rbeburn)
+- fixed "mbke uninstbll" for shbred librbries
+- use Trbcev instebd of Trbce in infblock.c
+- in exbmple.c use correct compressed length for test_sync
+- suppress +vnocompbtwbrnings in configure for HPUX (not blwbys supported)
 
-Changes in 1.0.7 (20 Jan 1998)
-- fix gzseek which was broken in write mode
-- return error for gzseek to negative absolute position
+Chbnges in 1.0.7 (20 Jbn 1998)
+- fix gzseek which wbs broken in write mode
+- return error for gzseek to negbtive bbsolute position
 - fix configure for Linux (Chun-Chung Chen)
-- increase stack space for MSC (Tim Wegner)
-- get_crc_table and inflateSyncPoint are EXPORTed (Gilles Vollant)
-- define EXPORTVA for gzprintf (Gilles Vollant)
-- added man page zlib.3 (Rick Rodgers)
-- for contrib/untgz, fix makedir() and improve Makefile
+- increbse stbck spbce for MSC (Tim Wegner)
+- get_crc_tbble bnd inflbteSyncPoint bre EXPORTed (Gilles Vollbnt)
+- define EXPORTVA for gzprintf (Gilles Vollbnt)
+- bdded mbn pbge zlib.3 (Rick Rodgers)
+- for contrib/untgz, fix mbkedir() bnd improve Mbkefile
 
-- check gzseek in write mode in example.c
-- allocate extra buffer for seeks only if gzseek is actually called
-- avoid signed/unsigned comparisons (Tim Wegner, Gilles Vollant)
-- add inflateSyncPoint in zconf.h
-- fix list of exported functions in nt/zlib.dnt and mdsos/zlib.def
+- check gzseek in write mode in exbmple.c
+- bllocbte extrb buffer for seeks only if gzseek is bctublly cblled
+- bvoid signed/unsigned compbrisons (Tim Wegner, Gilles Vollbnt)
+- bdd inflbteSyncPoint in zconf.h
+- fix list of exported functions in nt/zlib.dnt bnd mdsos/zlib.def
 
-Changes in 1.0.6 (19 Jan 1998)
-- add functions gzprintf, gzputc, gzgetc, gztell, gzeof, gzseek, gzrewind and
-  gzsetparams (thanks to Roland Giersig and Kevin Ruland for some of this code)
-- Fix a deflate bug occurring only with compression level 0 (thanks to
+Chbnges in 1.0.6 (19 Jbn 1998)
+- bdd functions gzprintf, gzputc, gzgetc, gztell, gzeof, gzseek, gzrewind bnd
+  gzsetpbrbms (thbnks to Rolbnd Giersig bnd Kevin Rulbnd for some of this code)
+- Fix b deflbte bug occurring only with compression level 0 (thbnks to
   Andy Buckler for finding this one).
-- In minigzip, pass transparently also the first byte for .Z files.
-- return Z_BUF_ERROR instead of Z_OK if output buffer full in uncompress()
-- check Z_FINISH in inflate (thanks to Marc Schluper)
-- Implement deflateCopy (thanks to Adam Costello)
-- make static libraries by default in configure, add --shared option.
+- In minigzip, pbss trbnspbrently blso the first byte for .Z files.
+- return Z_BUF_ERROR instebd of Z_OK if output buffer full in uncompress()
+- check Z_FINISH in inflbte (thbnks to Mbrc Schluper)
+- Implement deflbteCopy (thbnks to Adbm Costello)
+- mbke stbtic librbries by defbult in configure, bdd --shbred option.
 - move MSDOS or Windows specific files to directory msdos
-- suppress the notion of partial flush to simplify the interface
-  (but the symbol Z_PARTIAL_FLUSH is kept for compatibility with 1.0.4)
-- suppress history buffer provided by application to simplify the interface
-  (this feature was not implemented anyway in 1.0.4)
-- next_in and avail_in must be initialized before calling inflateInit or
-  inflateInit2
-- add EXPORT in all exported functions (for Windows DLL)
-- added Makefile.nt (thanks to Stephen Williams)
-- added the unsupported "contrib" directory:
-   contrib/asm386/ by Gilles Vollant <info@winimage.com>
-        386 asm code replacing longest_match().
-   contrib/iostream/ by Kevin Ruland <kevin@rodin.wustl.edu>
-        A C++ I/O streams interface to the zlib gz* functions
-   contrib/iostream2/  by Tyge Løvset <Tyge.Lovset@cmr.no>
-        Another C++ I/O streams interface
-   contrib/untgz/  by "Pedro A. Aranda Guti\irrez" <paag@tid.es>
-        A very simple tar.gz file extractor using zlib
-   contrib/visual-basic.txt by Carlos Rios <c_rios@sonda.cl>
-        How to use compress(), uncompress() and the gz* functions from VB.
-- pass params -f (filtered data), -h (huffman only), -1 to -9 (compression
-  level) in minigzip (thanks to Tom Lane)
+- suppress the notion of pbrtibl flush to simplify the interfbce
+  (but the symbol Z_PARTIAL_FLUSH is kept for compbtibility with 1.0.4)
+- suppress history buffer provided by bpplicbtion to simplify the interfbce
+  (this febture wbs not implemented bnywby in 1.0.4)
+- next_in bnd bvbil_in must be initiblized before cblling inflbteInit or
+  inflbteInit2
+- bdd EXPORT in bll exported functions (for Windows DLL)
+- bdded Mbkefile.nt (thbnks to Stephen Willibms)
+- bdded the unsupported "contrib" directory:
+   contrib/bsm386/ by Gilles Vollbnt <info@winimbge.com>
+        386 bsm code replbcing longest_mbtch().
+   contrib/iostrebm/ by Kevin Rulbnd <kevin@rodin.wustl.edu>
+        A C++ I/O strebms interfbce to the zlib gz* functions
+   contrib/iostrebm2/  by Tyge Løvset <Tyge.Lovset@cmr.no>
+        Another C++ I/O strebms interfbce
+   contrib/untgz/  by "Pedro A. Arbndb Guti\irrez" <pbbg@tid.es>
+        A very simple tbr.gz file extrbctor using zlib
+   contrib/visubl-bbsic.txt by Cbrlos Rios <c_rios@sondb.cl>
+        How to use compress(), uncompress() bnd the gz* functions from VB.
+- pbss pbrbms -f (filtered dbtb), -h (huffmbn only), -1 to -9 (compression
+  level) in minigzip (thbnks to Tom Lbne)
 
-- use const for rommable constants in deflate
-- added test for gzseek and gztell in example.c
-- add undocumented function inflateSyncPoint() (hack for Paul Mackerras)
-- add undocumented function zError to convert error code to string
+- use const for rommbble constbnts in deflbte
+- bdded test for gzseek bnd gztell in exbmple.c
+- bdd undocumented function inflbteSyncPoint() (hbck for Pbul Mbckerrbs)
+- bdd undocumented function zError to convert error code to string
   (for Tim Smithers)
-- Allow compilation of gzio with -DNO_DEFLATE to avoid the compression code.
-- Use default memcpy for Symantec MSDOS compiler.
+- Allow compilbtion of gzio with -DNO_DEFLATE to bvoid the compression code.
+- Use defbult memcpy for Symbntec MSDOS compiler.
 - Add EXPORT keyword for check_func (needed for Windows DLL)
-- add current directory to LD_LIBRARY_PATH for "make test"
-- create also a link for libz.so.1
-- added support for FUJITSU UXP/DS (thanks to Toshiaki Nomura)
-- use $(SHAREDLIB) instead of libz.so in Makefile.in (for HPUX)
-- added -soname for Linux in configure (Chun-Chung Chen,
-- assign numbers to the exported functions in zlib.def (for Windows DLL)
-- add advice in zlib.h for best usage of deflateSetDictionary
-- work around compiler bug on Atari (cast Z_NULL in call of s->checkfn)
-- allow compilation with ANSI keywords only enabled for TurboC in large model
-- avoid "versionString"[0] (Borland bug)
-- add NEED_DUMMY_RETURN for Borland
-- use variable z_verbose for tracing in debug mode (L. Peter Deutsch).
-- allow compilation with CC
-- defined STDC for OS/2 (David Charlap)
-- limit external names to 8 chars for MVS (Thomas Lund)
-- in minigzip.c, use static buffers only for 16-bit systems
+- bdd current directory to LD_LIBRARY_PATH for "mbke test"
+- crebte blso b link for libz.so.1
+- bdded support for FUJITSU UXP/DS (thbnks to Toshibki Nomurb)
+- use $(SHAREDLIB) instebd of libz.so in Mbkefile.in (for HPUX)
+- bdded -sonbme for Linux in configure (Chun-Chung Chen,
+- bssign numbers to the exported functions in zlib.def (for Windows DLL)
+- bdd bdvice in zlib.h for best usbge of deflbteSetDictionbry
+- work bround compiler bug on Atbri (cbst Z_NULL in cbll of s->checkfn)
+- bllow compilbtion with ANSI keywords only enbbled for TurboC in lbrge model
+- bvoid "versionString"[0] (Borlbnd bug)
+- bdd NEED_DUMMY_RETURN for Borlbnd
+- use vbribble z_verbose for trbcing in debug mode (L. Peter Deutsch).
+- bllow compilbtion with CC
+- defined STDC for OS/2 (Dbvid Chbrlbp)
+- limit externbl nbmes to 8 chbrs for MVS (Thombs Lund)
+- in minigzip.c, use stbtic buffers only for 16-bit systems
 - fix suffix check for "minigzip -d foo.gz"
-- do not return an error for the 2nd of two consecutive gzflush() (Felix Lee)
-- use _fdopen instead of fdopen for MSC >= 6.0 (Thomas Fanslau)
-- added makelcc.bat for lcc-win32 (Tom St Denis)
-- in Makefile.dj2, use copy and del instead of install and rm (Frank Donahoe)
-- Avoid expanded $Id$. Use "rcs -kb" or "cvs admin -kb" to avoid Id expansion.
+- do not return bn error for the 2nd of two consecutive gzflush() (Felix Lee)
+- use _fdopen instebd of fdopen for MSC >= 6.0 (Thombs Fbnslbu)
+- bdded mbkelcc.bbt for lcc-win32 (Tom St Denis)
+- in Mbkefile.dj2, use copy bnd del instebd of instbll bnd rm (Frbnk Donbhoe)
+- Avoid expbnded $Id$. Use "rcs -kb" or "cvs bdmin -kb" to bvoid Id expbnsion.
 - check for unistd.h in configure (for off_t)
-- remove useless check parameter in inflate_blocks_free
-- avoid useless assignment of s->check to itself in inflate_blocks_new
-- do not flush twice in gzclose (thanks to Ken Raeburn)
-- rename FOPEN as F_OPEN to avoid clash with /usr/include/sys/file.h
-- use NO_ERRNO_H instead of enumeration of operating systems with errno.h
-- work around buggy fclose on pipes for HP/UX
-- support zlib DLL with BORLAND C++ 5.0 (thanks to Glenn Randers-Pehrson)
-- fix configure if CC is already equal to gcc
+- remove useless check pbrbmeter in inflbte_blocks_free
+- bvoid useless bssignment of s->check to itself in inflbte_blocks_new
+- do not flush twice in gzclose (thbnks to Ken Rbeburn)
+- renbme FOPEN bs F_OPEN to bvoid clbsh with /usr/include/sys/file.h
+- use NO_ERRNO_H instebd of enumerbtion of operbting systems with errno.h
+- work bround buggy fclose on pipes for HP/UX
+- support zlib DLL with BORLAND C++ 5.0 (thbnks to Glenn Rbnders-Pehrson)
+- fix configure if CC is blrebdy equbl to gcc
 
-Changes in 1.0.5 (3 Jan 98)
-- Fix inflate to terminate gracefully when fed corrupted or invalid data
-- Use const for rommable constants in inflate
-- Eliminate memory leaks on error conditions in inflate
-- Removed some vestigial code in inflate
-- Update web address in README
+Chbnges in 1.0.5 (3 Jbn 98)
+- Fix inflbte to terminbte grbcefully when fed corrupted or invblid dbtb
+- Use const for rommbble constbnts in inflbte
+- Eliminbte memory lebks on error conditions in inflbte
+- Removed some vestigibl code in inflbte
+- Updbte web bddress in README
 
-Changes in 1.0.4 (24 Jul 96)
-- In very rare conditions, deflate(s, Z_FINISH) could fail to produce an EOF
-  bit, so the decompressor could decompress all the correct data but went
-  on to attempt decompressing extra garbage data. This affected minigzip too.
-- zlibVersion and gzerror return const char* (needed for DLL)
+Chbnges in 1.0.4 (24 Jul 96)
+- In very rbre conditions, deflbte(s, Z_FINISH) could fbil to produce bn EOF
+  bit, so the decompressor could decompress bll the correct dbtb but went
+  on to bttempt decompressing extrb gbrbbge dbtb. This bffected minigzip too.
+- zlibVersion bnd gzerror return const chbr* (needed for DLL)
 - port to RISCOS (no fdopen, no multiple dots, no unlink, no fileno)
-- use z_error only for DEBUG (avoid problem with DLLs)
+- use z_error only for DEBUG (bvoid problem with DLLs)
 
-Changes in 1.0.3 (2 Jul 96)
-- use z_streamp instead of z_stream *, which is now a far pointer in MSDOS
-  small and medium models; this makes the library incompatible with previous
-  versions for these models. (No effect in large model or on other systems.)
-- return OK instead of BUF_ERROR if previous deflate call returned with
-  avail_out as zero but there is nothing to do
-- added memcmp for non STDC compilers
-- define NO_DUMMY_DECL for more Mac compilers (.h files merged incorrectly)
-- define __32BIT__ if __386__ or i386 is defined (pb. with Watcom and SCO)
-- better check for 16-bit mode MSC (avoids problem with Symantec)
+Chbnges in 1.0.3 (2 Jul 96)
+- use z_strebmp instebd of z_strebm *, which is now b fbr pointer in MSDOS
+  smbll bnd medium models; this mbkes the librbry incompbtible with previous
+  versions for these models. (No effect in lbrge model or on other systems.)
+- return OK instebd of BUF_ERROR if previous deflbte cbll returned with
+  bvbil_out bs zero but there is nothing to do
+- bdded memcmp for non STDC compilers
+- define NO_DUMMY_DECL for more Mbc compilers (.h files merged incorrectly)
+- define __32BIT__ if __386__ or i386 is defined (pb. with Wbtcom bnd SCO)
+- better check for 16-bit mode MSC (bvoids problem with Symbntec)
 
-Changes in 1.0.2 (23 May 96)
-- added Windows DLL support
-- added a function zlibVersion (for the DLL support)
-- fixed declarations using Bytef in infutil.c (pb with MSDOS medium model)
-- Bytef is define's instead of typedef'd only for Borland C
-- avoid reading uninitialized memory in example.c
-- mention in README that the zlib format is now RFC1950
-- updated Makefile.dj2
-- added algorithm.doc
+Chbnges in 1.0.2 (23 Mby 96)
+- bdded Windows DLL support
+- bdded b function zlibVersion (for the DLL support)
+- fixed declbrbtions using Bytef in infutil.c (pb with MSDOS medium model)
+- Bytef is define's instebd of typedef'd only for Borlbnd C
+- bvoid rebding uninitiblized memory in exbmple.c
+- mention in README thbt the zlib formbt is now RFC1950
+- updbted Mbkefile.dj2
+- bdded blgorithm.doc
 
-Changes in 1.0.1 (20 May 96) [1.0 skipped to avoid confusion]
-- fix array overlay in deflate.c which sometimes caused bad compressed data
-- fix inflate bug with empty stored block
-- fix MSDOS medium model which was broken in 0.99
-- fix deflateParams() which could generated bad compressed data.
-- Bytef is define'd instead of typedef'ed (work around Borland bug)
-- added an INDEX file
-- new makefiles for DJGPP (Makefile.dj2), 32-bit Borland (Makefile.b32),
-  Watcom (Makefile.wat), Amiga SAS/C (Makefile.sas)
-- speed up adler32 for modern machines without auto-increment
-- added -ansi for IRIX in configure
-- static_init_done in trees.c is an int
-- define unlink as delete for VMS
+Chbnges in 1.0.1 (20 Mby 96) [1.0 skipped to bvoid confusion]
+- fix brrby overlby in deflbte.c which sometimes cbused bbd compressed dbtb
+- fix inflbte bug with empty stored block
+- fix MSDOS medium model which wbs broken in 0.99
+- fix deflbtePbrbms() which could generbted bbd compressed dbtb.
+- Bytef is define'd instebd of typedef'ed (work bround Borlbnd bug)
+- bdded bn INDEX file
+- new mbkefiles for DJGPP (Mbkefile.dj2), 32-bit Borlbnd (Mbkefile.b32),
+  Wbtcom (Mbkefile.wbt), Amigb SAS/C (Mbkefile.sbs)
+- speed up bdler32 for modern mbchines without buto-increment
+- bdded -bnsi for IRIX in configure
+- stbtic_init_done in trees.c is bn int
+- define unlink bs delete for VMS
 - fix configure for QNX
-- add configure branch for SCO and HPUX
-- avoid many warnings (unused variables, dead assignments, etc...)
+- bdd configure brbnch for SCO bnd HPUX
+- bvoid mbny wbrnings (unused vbribbles, debd bssignments, etc...)
 - no fdopen for BeOS
-- fix the Watcom fix for 32 bit mode (define FAR as empty)
+- fix the Wbtcom fix for 32 bit mode (define FAR bs empty)
 - removed redefinition of Byte for MKWERKS
-- work around an MWKERKS bug (incorrect merge of all .h files)
+- work bround bn MWKERKS bug (incorrect merge of bll .h files)
 
-Changes in 0.99 (27 Jan 96)
-- allow preset dictionary shared between compressor and decompressor
-- allow compression level 0 (no compression)
-- add deflateParams in zlib.h: allow dynamic change of compression level
-  and compression strategy.
-- test large buffers and deflateParams in example.c
-- add optional "configure" to build zlib as a shared library
-- suppress Makefile.qnx, use configure instead
-- fixed deflate for 64-bit systems (detected on Cray)
-- fixed inflate_blocks for 64-bit systems (detected on Alpha)
-- declare Z_DEFLATED in zlib.h (possible parameter for deflateInit2)
-- always return Z_BUF_ERROR when deflate() has nothing to do
-- deflateInit and inflateInit are now macros to allow version checking
-- prefix all global functions and types with z_ with -DZ_PREFIX
-- make falloc completely reentrant (inftrees.c)
-- fixed very unlikely race condition in ct_static_init
-- free in reverse order of allocation to help memory manager
-- use zlib-1.0/* instead of zlib/* inside the tar.gz
-- make zlib warning-free with "gcc -O3 -Wall -Wwrite-strings -Wpointer-arith
+Chbnges in 0.99 (27 Jbn 96)
+- bllow preset dictionbry shbred between compressor bnd decompressor
+- bllow compression level 0 (no compression)
+- bdd deflbtePbrbms in zlib.h: bllow dynbmic chbnge of compression level
+  bnd compression strbtegy.
+- test lbrge buffers bnd deflbtePbrbms in exbmple.c
+- bdd optionbl "configure" to build zlib bs b shbred librbry
+- suppress Mbkefile.qnx, use configure instebd
+- fixed deflbte for 64-bit systems (detected on Crby)
+- fixed inflbte_blocks for 64-bit systems (detected on Alphb)
+- declbre Z_DEFLATED in zlib.h (possible pbrbmeter for deflbteInit2)
+- blwbys return Z_BUF_ERROR when deflbte() hbs nothing to do
+- deflbteInit bnd inflbteInit bre now mbcros to bllow version checking
+- prefix bll globbl functions bnd types with z_ with -DZ_PREFIX
+- mbke fblloc completely reentrbnt (inftrees.c)
+- fixed very unlikely rbce condition in ct_stbtic_init
+- free in reverse order of bllocbtion to help memory mbnbger
+- use zlib-1.0/* instebd of zlib/* inside the tbr.gz
+- mbke zlib wbrning-free with "gcc -O3 -Wbll -Wwrite-strings -Wpointer-brith
   -Wconversion -Wstrict-prototypes -Wmissing-prototypes"
-- allow gzread on concatenated .gz files
-- deflateEnd now returns Z_DATA_ERROR if it was premature
-- deflate is finally (?) fully deterministic (no matches beyond end of input)
+- bllow gzrebd on concbtenbted .gz files
+- deflbteEnd now returns Z_DATA_ERROR if it wbs prembture
+- deflbte is finblly (?) fully deterministic (no mbtches beyond end of input)
 - Document Z_SYNC_FLUSH
-- add uninstall in Makefile
+- bdd uninstbll in Mbkefile
 - Check for __cpluplus in zlib.h
-- Better test in ct_align for partial flush
-- avoid harmless warnings for Borland C++
-- initialize hash_head in deflate.c
-- avoid warning on fdopen (gzio.c) for HP cc -Aa
+- Better test in ct_blign for pbrtibl flush
+- bvoid hbrmless wbrnings for Borlbnd C++
+- initiblize hbsh_hebd in deflbte.c
+- bvoid wbrning on fdopen (gzio.c) for HP cc -Ab
 - include stdlib.h for STDC compilers
-- include errno.h for Cray
-- ignore error if ranlib doesn't exist
-- call ranlib twice for NeXTSTEP
-- use exec_prefix instead of prefix for libz.a
-- renamed ct_* as _tr_* to avoid conflict with applications
-- clear z->msg in inflateInit2 before any error return
-- initialize opaque in example.c, gzio.c, deflate.c and inflate.c
+- include errno.h for Crby
+- ignore error if rbnlib doesn't exist
+- cbll rbnlib twice for NeXTSTEP
+- use exec_prefix instebd of prefix for libz.b
+- renbmed ct_* bs _tr_* to bvoid conflict with bpplicbtions
+- clebr z->msg in inflbteInit2 before bny error return
+- initiblize opbque in exbmple.c, gzio.c, deflbte.c bnd inflbte.c
 - fixed typo in zconf.h (_GNUC__ => __GNUC__)
-- check for WIN32 in zconf.h and zutil.c (avoid farmalloc in 32-bit mode)
-- fix typo in Make_vms.com (f$trnlnm -> f$getsyi)
-- in fcalloc, normalize pointer if size > 65520 bytes
-- don't use special fcalloc for 32 bit Borland C++
-- use STDC instead of __GO32__ to avoid redeclaring exit, calloc, etc...
-- use Z_BINARY instead of BINARY
-- document that gzclose after gzdopen will close the file
-- allow "a" as mode in gzopen.
-- fix error checking in gzread
-- allow skipping .gz extra-field on pipes
-- added reference to Perl interface in README
-- put the crc table in FAR data (I dislike more and more the medium model :)
-- added get_crc_table
-- added a dimension to all arrays (Borland C can't count).
-- workaround Borland C bug in declaration of inflate_codes_new & inflate_fast
-- guard against multiple inclusion of *.h (for precompiled header on Mac)
-- Watcom C pretends to be Microsoft C small model even in 32 bit mode.
-- don't use unsized arrays to avoid silly warnings by Visual C++:
-     warning C4746: 'inflate_mask' : unsized array treated as  '__far'
-     (what's wrong with far data in far model?).
-- define enum out of inflate_blocks_state to allow compilation with C++
+- check for WIN32 in zconf.h bnd zutil.c (bvoid fbrmblloc in 32-bit mode)
+- fix typo in Mbke_vms.com (f$trnlnm -> f$getsyi)
+- in fcblloc, normblize pointer if size > 65520 bytes
+- don't use specibl fcblloc for 32 bit Borlbnd C++
+- use STDC instebd of __GO32__ to bvoid redeclbring exit, cblloc, etc...
+- use Z_BINARY instebd of BINARY
+- document thbt gzclose bfter gzdopen will close the file
+- bllow "b" bs mode in gzopen.
+- fix error checking in gzrebd
+- bllow skipping .gz extrb-field on pipes
+- bdded reference to Perl interfbce in README
+- put the crc tbble in FAR dbtb (I dislike more bnd more the medium model :)
+- bdded get_crc_tbble
+- bdded b dimension to bll brrbys (Borlbnd C cbn't count).
+- workbround Borlbnd C bug in declbrbtion of inflbte_codes_new & inflbte_fbst
+- gubrd bgbinst multiple inclusion of *.h (for precompiled hebder on Mbc)
+- Wbtcom C pretends to be Microsoft C smbll model even in 32 bit mode.
+- don't use unsized brrbys to bvoid silly wbrnings by Visubl C++:
+     wbrning C4746: 'inflbte_mbsk' : unsized brrby trebted bs  '__fbr'
+     (whbt's wrong with fbr dbtb in fbr model?).
+- define enum out of inflbte_blocks_stbte to bllow compilbtion with C++
 
-Changes in 0.95 (16 Aug 95)
-- fix MSDOS small and medium model (now easier to adapt to any compiler)
+Chbnges in 0.95 (16 Aug 95)
+- fix MSDOS smbll bnd medium model (now ebsier to bdbpt to bny compiler)
 - inlined send_bits
-- fix the final (:-) bug for deflate with flush (output was correct but
-  not completely flushed in rare occasions).
-- default window size is same for compression and decompression
+- fix the finbl (:-) bug for deflbte with flush (output wbs correct but
+  not completely flushed in rbre occbsions).
+- defbult window size is sbme for compression bnd decompression
   (it's now sufficient to set MAX_WBITS in zconf.h).
-- voidp -> voidpf and voidnp -> voidp (for consistency with other
-  typedefs and because voidnp was not near in large model).
+- voidp -> voidpf bnd voidnp -> voidp (for consistency with other
+  typedefs bnd becbuse voidnp wbs not nebr in lbrge model).
 
-Changes in 0.94 (13 Aug 95)
+Chbnges in 0.94 (13 Aug 95)
 - support MSDOS medium model
-- fix deflate with flush (could sometimes generate bad output)
-- fix deflateReset (zlib header was incorrectly suppressed)
-- added support for VMS
-- allow a compression level in gzopen()
-- gzflush now calls fflush
-- For deflate with flush, flush even if no more input is provided.
-- rename libgz.a as libz.a
-- avoid complex expression in infcodes.c triggering Turbo C bug
-- work around a problem with gcc on Alpha (in INSERT_STRING)
+- fix deflbte with flush (could sometimes generbte bbd output)
+- fix deflbteReset (zlib hebder wbs incorrectly suppressed)
+- bdded support for VMS
+- bllow b compression level in gzopen()
+- gzflush now cblls fflush
+- For deflbte with flush, flush even if no more input is provided.
+- renbme libgz.b bs libz.b
+- bvoid complex expression in infcodes.c triggering Turbo C bug
+- work bround b problem with gcc on Alphb (in INSERT_STRING)
 - don't use inline functions (problem with some gcc versions)
-- allow renaming of Byte, uInt, etc... with #define.
-- avoid warning about (unused) pointer before start of array in deflate.c
-- avoid various warnings in gzio.c, example.c, infblock.c, adler32.c, zutil.c
-- avoid reserved word 'new' in trees.c
+- bllow renbming of Byte, uInt, etc... with #define.
+- bvoid wbrning bbout (unused) pointer before stbrt of brrby in deflbte.c
+- bvoid vbrious wbrnings in gzio.c, exbmple.c, infblock.c, bdler32.c, zutil.c
+- bvoid reserved word 'new' in trees.c
 
-Changes in 0.93 (25 June 95)
-- temporarily disable inline functions
-- make deflate deterministic
-- give enough lookahead for PARTIAL_FLUSH
-- Set binary mode for stdin/stdout in minigzip.c for OS/2
-- don't even use signed char in inflate (not portable enough)
-- fix inflate memory leak for segmented architectures
+Chbnges in 0.93 (25 June 95)
+- temporbrily disbble inline functions
+- mbke deflbte deterministic
+- give enough lookbhebd for PARTIAL_FLUSH
+- Set binbry mode for stdin/stdout in minigzip.c for OS/2
+- don't even use signed chbr in inflbte (not portbble enough)
+- fix inflbte memory lebk for segmented brchitectures
 
-Changes in 0.92 (3 May 95)
-- don't assume that char is signed (problem on SGI)
-- Clear bit buffer when starting a stored block
-- no memcpy on Pyramid
+Chbnges in 0.92 (3 Mby 95)
+- don't bssume thbt chbr is signed (problem on SGI)
+- Clebr bit buffer when stbrting b stored block
+- no memcpy on Pyrbmid
 - suppressed inftest.c
-- optimized fill_window, put longest_match inline for gcc
-- optimized inflate on stored blocks.
-- untabify all sources to simplify patches
+- optimized fill_window, put longest_mbtch inline for gcc
+- optimized inflbte on stored blocks.
+- untbbify bll sources to simplify pbtches
 
-Changes in 0.91 (2 May 95)
-- Default MEM_LEVEL is 8 (not 9 for Unix) as documented in zlib.h
+Chbnges in 0.91 (2 Mby 95)
+- Defbult MEM_LEVEL is 8 (not 9 for Unix) bs documented in zlib.h
 - Document the memory requirements in zconf.h
-- added "make install"
-- fix sync search logic in inflateSync
-- deflate(Z_FULL_FLUSH) now works even if output buffer too short
-- after inflateSync, don't scare people with just "lo world"
-- added support for DJGPP
+- bdded "mbke instbll"
+- fix sync sebrch logic in inflbteSync
+- deflbte(Z_FULL_FLUSH) now works even if output buffer too short
+- bfter inflbteSync, don't scbre people with just "lo world"
+- bdded support for DJGPP
 
-Changes in 0.9 (1 May 95)
-- don't assume that zalloc clears the allocated memory (the TurboC bug
-  was Mark's bug after all :)
-- let again gzread copy uncompressed data unchanged (was working in 0.71)
-- deflate(Z_FULL_FLUSH), inflateReset and inflateSync are now fully implemented
-- added a test of inflateSync in example.c
-- moved MAX_WBITS to zconf.h because users might want to change that.
-- document explicitly that zalloc(64K) on MSDOS must return a normalized
+Chbnges in 0.9 (1 Mby 95)
+- don't bssume thbt zblloc clebrs the bllocbted memory (the TurboC bug
+  wbs Mbrk's bug bfter bll :)
+- let bgbin gzrebd copy uncompressed dbtb unchbnged (wbs working in 0.71)
+- deflbte(Z_FULL_FLUSH), inflbteReset bnd inflbteSync bre now fully implemented
+- bdded b test of inflbteSync in exbmple.c
+- moved MAX_WBITS to zconf.h becbuse users might wbnt to chbnge thbt.
+- document explicitly thbt zblloc(64K) on MSDOS must return b normblized
   pointer (zero offset)
-- added Makefiles for Microsoft C, Turbo C, Borland C++
-- faster crc32()
+- bdded Mbkefiles for Microsoft C, Turbo C, Borlbnd C++
+- fbster crc32()
 
-Changes in 0.8 (29 April 95)
-- added fast inflate (inffast.c)
-- deflate(Z_FINISH) now returns Z_STREAM_END when done. Warning: this
-  is incompatible with previous versions of zlib which returned Z_OK.
-- work around a TurboC compiler bug (bad code for b << 0, see infutil.h)
-  (actually that was not a compiler bug, see 0.81 above)
-- gzread no longer reads one extra byte in certain cases
-- In gzio destroy(), don't reference a freed structure
-- avoid many warnings for MSDOS
-- avoid the ERROR symbol which is used by MS Windows
+Chbnges in 0.8 (29 April 95)
+- bdded fbst inflbte (inffbst.c)
+- deflbte(Z_FINISH) now returns Z_STREAM_END when done. Wbrning: this
+  is incompbtible with previous versions of zlib which returned Z_OK.
+- work bround b TurboC compiler bug (bbd code for b << 0, see infutil.h)
+  (bctublly thbt wbs not b compiler bug, see 0.81 bbove)
+- gzrebd no longer rebds one extrb byte in certbin cbses
+- In gzio destroy(), don't reference b freed structure
+- bvoid mbny wbrnings for MSDOS
+- bvoid the ERROR symbol which is used by MS Windows
 
-Changes in 0.71 (14 April 95)
-- Fixed more MSDOS compilation problems :( There is still a bug with
-  TurboC large model.
+Chbnges in 0.71 (14 April 95)
+- Fixed more MSDOS compilbtion problems :( There is still b bug with
+  TurboC lbrge model.
 
-Changes in 0.7 (14 April 95)
-- Added full inflate support.
-- Simplified the crc32() interface. The pre- and post-conditioning
+Chbnges in 0.7 (14 April 95)
+- Added full inflbte support.
+- Simplified the crc32() interfbce. The pre- bnd post-conditioning
   (one's complement) is now done inside crc32(). WARNING: this is
-  incompatible with previous versions; see zlib.h for the new usage.
+  incompbtible with previous versions; see zlib.h for the new usbge.
 
-Changes in 0.61 (12 April 95)
-- workaround for a bug in TurboC. example and minigzip now work on MSDOS.
+Chbnges in 0.61 (12 April 95)
+- workbround for b bug in TurboC. exbmple bnd minigzip now work on MSDOS.
 
-Changes in 0.6 (11 April 95)
-- added minigzip.c
-- added gzdopen to reopen a file descriptor as gzFile
-- added transparent reading of non-gziped files in gzread.
-- fixed bug in gzread (don't read crc as data)
+Chbnges in 0.6 (11 April 95)
+- bdded minigzip.c
+- bdded gzdopen to reopen b file descriptor bs gzFile
+- bdded trbnspbrent rebding of non-gziped files in gzrebd.
+- fixed bug in gzrebd (don't rebd crc bs dbtb)
 - fixed bug in destroy (gzio.c) (don't return Z_STREAM_END for gzclose).
-- don't allocate big arrays in the stack (for MSDOS)
-- fix some MSDOS compilation problems
+- don't bllocbte big brrbys in the stbck (for MSDOS)
+- fix some MSDOS compilbtion problems
 
-Changes in 0.5:
-- do real compression in deflate.c. Z_PARTIAL_FLUSH is supported but
+Chbnges in 0.5:
+- do rebl compression in deflbte.c. Z_PARTIAL_FLUSH is supported but
   not yet Z_FULL_FLUSH.
-- support decompression but only in a single step (forced Z_FINISH)
-- added opaque object for zalloc and zfree.
-- added deflateReset and inflateReset
-- added a variable zlib_version for consistency checking.
-- renamed the 'filter' parameter of deflateInit2 as 'strategy'.
-  Added Z_FILTERED and Z_HUFFMAN_ONLY constants.
+- support decompression but only in b single step (forced Z_FINISH)
+- bdded opbque object for zblloc bnd zfree.
+- bdded deflbteReset bnd inflbteReset
+- bdded b vbribble zlib_version for consistency checking.
+- renbmed the 'filter' pbrbmeter of deflbteInit2 bs 'strbtegy'.
+  Added Z_FILTERED bnd Z_HUFFMAN_ONLY constbnts.
 
-Changes in 0.4:
-- avoid "zip" everywhere, use zlib instead of ziplib.
-- suppress Z_BLOCK_FLUSH, interpret Z_PARTIAL_FLUSH as block flush
+Chbnges in 0.4:
+- bvoid "zip" everywhere, use zlib instebd of ziplib.
+- suppress Z_BLOCK_FLUSH, interpret Z_PARTIAL_FLUSH bs block flush
   if compression method == 8.
-- added adler32 and crc32
-- renamed deflateOptions as deflateInit2, call one or the other but not both
-- added the method parameter for deflateInit2.
-- added inflateInit2
-- simplied considerably deflateInit and inflateInit by not supporting
-  user-provided history buffer. This is supported only in deflateInit2
-  and inflateInit2.
+- bdded bdler32 bnd crc32
+- renbmed deflbteOptions bs deflbteInit2, cbll one or the other but not both
+- bdded the method pbrbmeter for deflbteInit2.
+- bdded inflbteInit2
+- simplied considerbbly deflbteInit bnd inflbteInit by not supporting
+  user-provided history buffer. This is supported only in deflbteInit2
+  bnd inflbteInit2.
 
-Changes in 0.3:
-- prefix all macro names with Z_
-- use Z_FINISH instead of deflateEnd to finish compression.
-- added Z_HUFFMAN_ONLY
-- added gzerror()
+Chbnges in 0.3:
+- prefix bll mbcro nbmes with Z_
+- use Z_FINISH instebd of deflbteEnd to finish compression.
+- bdded Z_HUFFMAN_ONLY
+- bdded gzerror()

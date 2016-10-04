@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
 import sun.swing.SwingUtilities2;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
 
 /**
- * Factory object that can vend Icons appropriate for the basic L & F.
+ * Fbctory object thbt cbn vend Icons bppropribte for the bbsic L & F.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Amy Fowler
+ * @buthor Amy Fowler
  */
-public class MotifBorders {
+public clbss MotifBorders {
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class BevelBorder extends AbstractBorder implements UIResource {
-        private Color darkShadow = UIManager.getColor("controlShadow");
-        private Color lightShadow = UIManager.getColor("controlLtHighlight");
-        private boolean isRaised;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss BevelBorder extends AbstrbctBorder implements UIResource {
+        privbte Color dbrkShbdow = UIMbnbger.getColor("controlShbdow");
+        privbte Color lightShbdow = UIMbnbger.getColor("controlLtHighlight");
+        privbte boolebn isRbised;
 
-        public BevelBorder(boolean isRaised, Color darkShadow, Color lightShadow) {
-            this.isRaised = isRaised;
-            this.darkShadow = darkShadow;
-            this.lightShadow = lightShadow;
+        public BevelBorder(boolebn isRbised, Color dbrkShbdow, Color lightShbdow) {
+            this.isRbised = isRbised;
+            this.dbrkShbdow = dbrkShbdow;
+            this.lightShbdow = lightShbdow;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            g.setColor((isRaised) ? lightShadow : darkShadow);
-            g.drawLine(x, y, x+w-1, y);           // top
-            g.drawLine(x, y+h-1, x, y+1);         // left
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int w, int h) {
+            g.setColor((isRbised) ? lightShbdow : dbrkShbdow);
+            g.drbwLine(x, y, x+w-1, y);           // top
+            g.drbwLine(x, y+h-1, x, y+1);         // left
 
-            g.setColor((isRaised) ? darkShadow : lightShadow);
-            g.drawLine(x+1, y+h-1, x+w-1, y+h-1); // bottom
-            g.drawLine(x+w-1, y+h-1, x+w-1, y+1); // right
+            g.setColor((isRbised) ? dbrkShbdow : lightShbdow);
+            g.drbwLine(x+1, y+h-1, x+w-1, y+h-1); // bottom
+            g.drbwLine(x+w-1, y+h-1, x+w-1, y+1); // right
         }
 
         public Insets getBorderInsets(Component c, Insets insets) {
@@ -81,30 +81,30 @@ public class MotifBorders {
             return insets;
         }
 
-        public boolean isOpaque(Component c) {
+        public boolebn isOpbque(Component c) {
             return true;
         }
 
     }
 
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class FocusBorder extends AbstractBorder implements UIResource {
-        private Color focus;
-        private Color control;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss FocusBorder extends AbstrbctBorder implements UIResource {
+        privbte Color focus;
+        privbte Color control;
 
         public FocusBorder(Color control, Color focus) {
             this.control = control;
             this.focus = focus;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            if (c.hasFocus()) {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int w, int h) {
+            if (c.hbsFocus()) {
                 g.setColor(focus);
-                g.drawRect(x, y, w-1, h-1);
+                g.drbwRect(x, y, w-1, h-1);
             } else {
                 g.setColor(control);
-                g.drawRect(x, y, w-1, h-1);
+                g.drbwRect(x, y, w-1, h-1);
             }
         }
 
@@ -115,36 +115,36 @@ public class MotifBorders {
     }
 
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class ButtonBorder extends AbstractBorder implements UIResource {
-        protected Color focus = UIManager.getColor("activeCaptionBorder");
-        protected Color shadow = UIManager.getColor("Button.shadow");
-        protected Color highlight = UIManager.getColor("Button.light");
-        protected Color darkShadow;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss ButtonBorder extends AbstrbctBorder implements UIResource {
+        protected Color focus = UIMbnbger.getColor("bctiveCbptionBorder");
+        protected Color shbdow = UIMbnbger.getColor("Button.shbdow");
+        protected Color highlight = UIMbnbger.getColor("Button.light");
+        protected Color dbrkShbdow;
 
-        public ButtonBorder(Color shadow, Color highlight, Color darkShadow, Color focus) {
-            this.shadow = shadow;
+        public ButtonBorder(Color shbdow, Color highlight, Color dbrkShbdow, Color focus) {
+            this.shbdow = shbdow;
             this.highlight = highlight;
-            this.darkShadow = darkShadow;
+            this.dbrkShbdow = dbrkShbdow;
             this.focus = focus;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            boolean isPressed = false;
-            boolean hasFocus = false;
-            boolean canBeDefault = false;
-            boolean isDefault = false;
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int w, int h) {
+            boolebn isPressed = fblse;
+            boolebn hbsFocus = fblse;
+            boolebn cbnBeDefbult = fblse;
+            boolebn isDefbult = fblse;
 
-            if (c instanceof AbstractButton) {
-                AbstractButton b = (AbstractButton)c;
+            if (c instbnceof AbstrbctButton) {
+                AbstrbctButton b = (AbstrbctButton)c;
                 ButtonModel model = b.getModel();
 
                 isPressed = (model.isArmed() && model.isPressed());
-                hasFocus = (model.isArmed() && isPressed) ||
-                           (b.isFocusPainted() && b.hasFocus());
-                if (b instanceof JButton) {
-                    canBeDefault = ((JButton)b).isDefaultCapable();
-                    isDefault = ((JButton)b).isDefaultButton();
+                hbsFocus = (model.isArmed() && isPressed) ||
+                           (b.isFocusPbinted() && b.hbsFocus());
+                if (b instbnceof JButton) {
+                    cbnBeDefbult = ((JButton)b).isDefbultCbpbble();
+                    isDefbult = ((JButton)b).isDefbultButton();
                 }
             }
             int bx1 = x+1;
@@ -152,15 +152,15 @@ public class MotifBorders {
             int bx2 = x+w-2;
             int by2 = y+h-2;
 
-            if (canBeDefault) {
-                if (isDefault) {
-                    g.setColor(shadow);
-                    g.drawLine(x+3, y+3, x+3, y+h-4);
-                    g.drawLine(x+3, y+3, x+w-4, y+3);
+            if (cbnBeDefbult) {
+                if (isDefbult) {
+                    g.setColor(shbdow);
+                    g.drbwLine(x+3, y+3, x+3, y+h-4);
+                    g.drbwLine(x+3, y+3, x+w-4, y+3);
 
                     g.setColor(highlight);
-                    g.drawLine(x+4, y+h-4, x+w-4, y+h-4);
-                    g.drawLine(x+w-4, y+3, x+w-4, y+h-4);
+                    g.drbwLine(x+4, y+h-4, x+w-4, y+h-4);
+                    g.drbwLine(x+w-4, y+3, x+w-4, y+h-4);
                 }
                 bx1 +=6;
                 by1 += 6;
@@ -168,57 +168,57 @@ public class MotifBorders {
                 by2 -= 6;
             }
 
-            if (hasFocus) {
+            if (hbsFocus) {
                 g.setColor(focus);
-                if (isDefault) {
-                    g.drawRect(x, y, w-1, h-1);
+                if (isDefbult) {
+                    g.drbwRect(x, y, w-1, h-1);
                 } else {
-                    g.drawRect(bx1-1, by1-1, bx2-bx1+2, by2-by1+2);
+                    g.drbwRect(bx1-1, by1-1, bx2-bx1+2, by2-by1+2);
                 }
             }
 
-            g.setColor(isPressed? shadow : highlight);
-            g.drawLine(bx1, by1, bx2, by1);
-            g.drawLine(bx1, by1, bx1, by2);
+            g.setColor(isPressed? shbdow : highlight);
+            g.drbwLine(bx1, by1, bx2, by1);
+            g.drbwLine(bx1, by1, bx1, by2);
 
-            g.setColor(isPressed? highlight : shadow);
-            g.drawLine(bx2, by1+1, bx2, by2);
-            g.drawLine(bx1+1, by2, bx2, by2);
+            g.setColor(isPressed? highlight : shbdow);
+            g.drbwLine(bx2, by1+1, bx2, by2);
+            g.drbwLine(bx1+1, by2, bx2, by2);
         }
 
         public Insets getBorderInsets(Component c, Insets insets) {
-            int thickness = (c instanceof JButton && ((JButton)c).isDefaultCapable())? 8 : 2;
+            int thickness = (c instbnceof JButton && ((JButton)c).isDefbultCbpbble())? 8 : 2;
             insets.set(thickness, thickness, thickness, thickness);
             return insets;
         }
 
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class ToggleButtonBorder extends ButtonBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss ToggleButtonBorder extends ButtonBorder {
 
-        public ToggleButtonBorder(Color shadow, Color highlight, Color darkShadow, Color focus) {
-             super(shadow, highlight, darkShadow, focus);
+        public ToggleButtonBorder(Color shbdow, Color highlight, Color dbrkShbdow, Color focus) {
+             super(shbdow, highlight, dbrkShbdow, focus);
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                             int width, int height) {
-            if (c instanceof AbstractButton) {
-                AbstractButton b = (AbstractButton)c;
+            if (c instbnceof AbstrbctButton) {
+                AbstrbctButton b = (AbstrbctButton)c;
                 ButtonModel model = b.getModel();
 
                 if (model.isArmed() && model.isPressed() || model.isSelected()) {
-                    drawBezel(g, x, y, width, height,
+                    drbwBezel(g, x, y, width, height,
                               (model.isPressed() || model.isSelected()),
-                              b.isFocusPainted() && b.hasFocus(), shadow, highlight, darkShadow, focus);
+                              b.isFocusPbinted() && b.hbsFocus(), shbdow, highlight, dbrkShbdow, focus);
                 } else {
-                    drawBezel(g, x, y, width, height,
-                              false, b.isFocusPainted() && b.hasFocus(),
-                              shadow, highlight, darkShadow, focus);
+                    drbwBezel(g, x, y, width, height,
+                              fblse, b.isFocusPbinted() && b.hbsFocus(),
+                              shbdow, highlight, dbrkShbdow, focus);
                 }
             } else {
-                drawBezel(g, x, y, width, height, false, false,
-                          shadow, highlight, darkShadow, focus);
+                drbwBezel(g, x, y, width, height, fblse, fblse,
+                          shbdow, highlight, dbrkShbdow, focus);
             }
         }
 
@@ -228,23 +228,23 @@ public class MotifBorders {
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class MenuBarBorder extends ButtonBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss MenuBbrBorder extends ButtonBorder {
 
-        public MenuBarBorder(Color shadow, Color highlight, Color darkShadow, Color focus) {
-            super(shadow, highlight, darkShadow, focus);
+        public MenuBbrBorder(Color shbdow, Color highlight, Color dbrkShbdow, Color focus) {
+            super(shbdow, highlight, dbrkShbdow, focus);
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            if (!(c instanceof JMenuBar)) {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height) {
+            if (!(c instbnceof JMenuBbr)) {
                 return;
             }
-            JMenuBar menuBar = (JMenuBar)c;
-            if (menuBar.isBorderPainted() == true) {
-                // this draws the MenuBar border
-                Dimension size = menuBar.getSize();
-                drawBezel(g,x,y,size.width,size.height,false,false,
-                          shadow, highlight, darkShadow, focus);
+            JMenuBbr menuBbr = (JMenuBbr)c;
+            if (menuBbr.isBorderPbinted() == true) {
+                // this drbws the MenuBbr border
+                Dimension size = menuBbr.getSize();
+                drbwBezel(g,x,y,size.width,size.height,fblse,fblse,
+                          shbdow, highlight, dbrkShbdow, focus);
             }
         }
 
@@ -254,46 +254,46 @@ public class MotifBorders {
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class FrameBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss FrbmeBorder extends AbstrbctBorder implements UIResource {
 
         JComponent jcomp;
-        Color frameHighlight;
-        Color frameColor;
-        Color frameShadow;
+        Color frbmeHighlight;
+        Color frbmeColor;
+        Color frbmeShbdow;
 
         // The width of the border
-        public final static int BORDER_SIZE = 5;
+        public finbl stbtic int BORDER_SIZE = 5;
 
-        /** Constructs an FrameBorder for the JComponent <b>comp</b>.
+        /** Constructs bn FrbmeBorder for the JComponent <b>comp</b>.
         */
-        public FrameBorder(JComponent comp) {
+        public FrbmeBorder(JComponent comp) {
             jcomp = comp;
         }
 
-        /** Sets the FrameBorder's JComponent.
+        /** Sets the FrbmeBorder's JComponent.
       */
         public void setComponent(JComponent comp) {
             jcomp = comp;
         }
 
-        /** Returns the FrameBorder's JComponent.
+        /** Returns the FrbmeBorder's JComponent.
           * @see #setComponent
           */
         public JComponent component() {
             return jcomp;
         }
 
-        protected Color getFrameHighlight() {
-            return frameHighlight;
+        protected Color getFrbmeHighlight() {
+            return frbmeHighlight;
         }
 
-        protected Color getFrameColor() {
-            return frameColor;
+        protected Color getFrbmeColor() {
+            return frbmeColor;
         }
 
-        protected Color getFrameShadow() {
-            return frameShadow;
+        protected Color getFrbmeShbdow() {
+            return frbmeShbdow;
         }
 
         public Insets getBorderInsets(Component c, Insets newInsets) {
@@ -301,373 +301,373 @@ public class MotifBorders {
             return newInsets;
         }
 
-       /** Draws the FrameBorder's top border.
+       /** Drbws the FrbmeBorder's top border.
          */
-        protected boolean drawTopBorder(Component c, Graphics g,
+        protected boolebn drbwTopBorder(Component c, Grbphics g,
                                     int x, int y, int width, int height) {
-            Rectangle titleBarRect = new Rectangle(x, y, width, BORDER_SIZE);
-            if (!g.getClipBounds().intersects(titleBarRect)) {
-                return false;
+            Rectbngle titleBbrRect = new Rectbngle(x, y, width, BORDER_SIZE);
+            if (!g.getClipBounds().intersects(titleBbrRect)) {
+                return fblse;
             }
 
-            int maxX = width - 1;
-            int maxY = BORDER_SIZE - 1;
+            int mbxX = width - 1;
+            int mbxY = BORDER_SIZE - 1;
 
-            // Draw frame
-            g.setColor(frameColor);
-            g.drawLine(x, y + 2, maxX - 2, y + 2);
-            g.drawLine(x, y + 3, maxX - 2, y + 3);
-            g.drawLine(x, y + 4, maxX - 2, y + 4);
+            // Drbw frbme
+            g.setColor(frbmeColor);
+            g.drbwLine(x, y + 2, mbxX - 2, y + 2);
+            g.drbwLine(x, y + 3, mbxX - 2, y + 3);
+            g.drbwLine(x, y + 4, mbxX - 2, y + 4);
 
-            // Draw highlights
-            g.setColor(frameHighlight);
-            g.drawLine(x, y, maxX, y);
-            g.drawLine(x, y + 1, maxX, y + 1);
-            g.drawLine(x, y + 2, x, y + 4);
-            g.drawLine(x + 1, y + 2, x + 1, y + 4);
+            // Drbw highlights
+            g.setColor(frbmeHighlight);
+            g.drbwLine(x, y, mbxX, y);
+            g.drbwLine(x, y + 1, mbxX, y + 1);
+            g.drbwLine(x, y + 2, x, y + 4);
+            g.drbwLine(x + 1, y + 2, x + 1, y + 4);
 
-            // Draw shadows
-            g.setColor(frameShadow);
-            g.drawLine(x + 4, y + 4, maxX - 4, y + 4);
-            g.drawLine(maxX, y + 1, maxX, maxY);
-            g.drawLine(maxX - 1, y + 2, maxX - 1, maxY);
+            // Drbw shbdows
+            g.setColor(frbmeShbdow);
+            g.drbwLine(x + 4, y + 4, mbxX - 4, y + 4);
+            g.drbwLine(mbxX, y + 1, mbxX, mbxY);
+            g.drbwLine(mbxX - 1, y + 2, mbxX - 1, mbxY);
 
             return true;
         }
 
-        /** Draws the FrameBorder's left border.
+        /** Drbws the FrbmeBorder's left border.
           */
-        protected boolean drawLeftBorder(Component c, Graphics g, int x, int y,
+        protected boolebn drbwLeftBorder(Component c, Grbphics g, int x, int y,
                                int width, int height) {
-            Rectangle borderRect =
-                new Rectangle(0, 0, getBorderInsets(c).left, height);
+            Rectbngle borderRect =
+                new Rectbngle(0, 0, getBorderInsets(c).left, height);
             if (!g.getClipBounds().intersects(borderRect)) {
-                return false;
+                return fblse;
             }
 
-            int startY = BORDER_SIZE;
+            int stbrtY = BORDER_SIZE;
 
-            g.setColor(frameHighlight);
-            g.drawLine(x, startY, x, height - 1);
-            g.drawLine(x + 1, startY, x + 1, height - 2);
+            g.setColor(frbmeHighlight);
+            g.drbwLine(x, stbrtY, x, height - 1);
+            g.drbwLine(x + 1, stbrtY, x + 1, height - 2);
 
-            g.setColor(frameColor);
-            g.fillRect(x + 2, startY, x + 2, height - 3);
+            g.setColor(frbmeColor);
+            g.fillRect(x + 2, stbrtY, x + 2, height - 3);
 
-            g.setColor(frameShadow);
-            g.drawLine(x + 4, startY, x + 4, height - 5);
+            g.setColor(frbmeShbdow);
+            g.drbwLine(x + 4, stbrtY, x + 4, height - 5);
 
             return true;
         }
 
-        /** Draws the FrameBorder's right border.
+        /** Drbws the FrbmeBorder's right border.
           */
-        protected boolean drawRightBorder(Component c, Graphics g, int x, int y,
+        protected boolebn drbwRightBorder(Component c, Grbphics g, int x, int y,
                                 int width, int height) {
-            Rectangle borderRect = new Rectangle(
+            Rectbngle borderRect = new Rectbngle(
                 width - getBorderInsets(c).right, 0,
                 getBorderInsets(c).right, height);
             if (!g.getClipBounds().intersects(borderRect)) {
-                return false;
+                return fblse;
             }
 
-            int startX = width - getBorderInsets(c).right;
-            int startY = BORDER_SIZE;
+            int stbrtX = width - getBorderInsets(c).right;
+            int stbrtY = BORDER_SIZE;
 
-            g.setColor(frameColor);
-            g.fillRect(startX + 1, startY, 2, height - 1);
+            g.setColor(frbmeColor);
+            g.fillRect(stbrtX + 1, stbrtY, 2, height - 1);
 
-            g.setColor(frameShadow);
-            g.fillRect(startX + 3, startY, 2, height - 1);
+            g.setColor(frbmeShbdow);
+            g.fillRect(stbrtX + 3, stbrtY, 2, height - 1);
 
-            g.setColor(frameHighlight);
-            g.drawLine(startX, startY, startX, height - 1);
+            g.setColor(frbmeHighlight);
+            g.drbwLine(stbrtX, stbrtY, stbrtX, height - 1);
 
             return true;
         }
 
-        /** Draws the FrameBorder's bottom border.
+        /** Drbws the FrbmeBorder's bottom border.
           */
-        protected boolean drawBottomBorder(Component c, Graphics g, int x, int y,
+        protected boolebn drbwBottomBorder(Component c, Grbphics g, int x, int y,
                                  int width, int height) {
-            Rectangle    borderRect;
-            int     marginHeight, startY;
+            Rectbngle    borderRect;
+            int     mbrginHeight, stbrtY;
 
-            borderRect = new Rectangle(0, height - getBorderInsets(c).bottom,
+            borderRect = new Rectbngle(0, height - getBorderInsets(c).bottom,
                                   width, getBorderInsets(c).bottom);
             if (!g.getClipBounds().intersects(borderRect)) {
-                return false;
+                return fblse;
             }
 
-            startY = height - getBorderInsets(c).bottom;
+            stbrtY = height - getBorderInsets(c).bottom;
 
-            g.setColor(frameShadow);
-            g.drawLine(x + 1, height - 1, width - 1, height - 1);
-            g.drawLine(x + 2, height - 2, width - 2, height - 2);
+            g.setColor(frbmeShbdow);
+            g.drbwLine(x + 1, height - 1, width - 1, height - 1);
+            g.drbwLine(x + 2, height - 2, width - 2, height - 2);
 
-            g.setColor(frameColor);
-            g.fillRect(x + 2, startY + 1, width - 4, 2);
+            g.setColor(frbmeColor);
+            g.fillRect(x + 2, stbrtY + 1, width - 4, 2);
 
-            g.setColor(frameHighlight);
-            g.drawLine(x + 5, startY, width - 5, startY);
+            g.setColor(frbmeHighlight);
+            g.drbwLine(x + 5, stbrtY, width - 5, stbrtY);
 
             return true;
         }
 
-        // Returns true if the associated component has focus.
-        protected boolean isActiveFrame() {
-            return jcomp.hasFocus();
+        // Returns true if the bssocibted component hbs focus.
+        protected boolebn isActiveFrbme() {
+            return jcomp.hbsFocus();
         }
 
-        /** Draws the FrameBorder in the given Rect.  Calls
-          * <b>drawTitleBar</b>, <b>drawLeftBorder</b>, <b>drawRightBorder</b> and
-          * <b>drawBottomBorder</b>.
+        /** Drbws the FrbmeBorder in the given Rect.  Cblls
+          * <b>drbwTitleBbr</b>, <b>drbwLeftBorder</b>, <b>drbwRightBorder</b> bnd
+          * <b>drbwBottomBorder</b>.
           */
-        public void paintBorder(Component c, Graphics g,
+        public void pbintBorder(Component c, Grbphics g,
                             int x, int y, int width, int height) {
-            if (isActiveFrame()) {
-                frameColor = UIManager.getColor("activeCaptionBorder");
+            if (isActiveFrbme()) {
+                frbmeColor = UIMbnbger.getColor("bctiveCbptionBorder");
             } else {
-                frameColor = UIManager.getColor("inactiveCaptionBorder");
+                frbmeColor = UIMbnbger.getColor("inbctiveCbptionBorder");
             }
-            frameHighlight = frameColor.brighter();
-            frameShadow = frameColor.darker().darker();
+            frbmeHighlight = frbmeColor.brighter();
+            frbmeShbdow = frbmeColor.dbrker().dbrker();
 
-            drawTopBorder(c, g, x, y, width, height);
-            drawLeftBorder(c, g, x, y, width, height);
-            drawRightBorder(c, g, x, y, width, height);
-            drawBottomBorder(c, g, x, y, width, height);
+            drbwTopBorder(c, g, x, y, width, height);
+            drbwLeftBorder(c, g, x, y, width, height);
+            drbwRightBorder(c, g, x, y, width, height);
+            drbwBottomBorder(c, g, x, y, width, height);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class InternalFrameBorder extends FrameBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss InternblFrbmeBorder extends FrbmeBorder {
 
-        JInternalFrame frame;
+        JInternblFrbme frbme;
 
-        // The size of the bounding box for Motif frame corners.
-        public final static int CORNER_SIZE = 24;
+        // The size of the bounding box for Motif frbme corners.
+        public finbl stbtic int CORNER_SIZE = 24;
 
-        /** Constructs an InternalFrameBorder for the InternalFrame
-          * <b>aFrame</b>.
+        /** Constructs bn InternblFrbmeBorder for the InternblFrbme
+          * <b>bFrbme</b>.
           */
-        public InternalFrameBorder(JInternalFrame aFrame) {
-            super(aFrame);
-            frame = aFrame;
+        public InternblFrbmeBorder(JInternblFrbme bFrbme) {
+            super(bFrbme);
+            frbme = bFrbme;
         }
 
-        /** Sets the InternalFrameBorder's InternalFrame.
+        /** Sets the InternblFrbmeBorder's InternblFrbme.
           */
-        public void setFrame(JInternalFrame aFrame) {
-            frame = aFrame;
+        public void setFrbme(JInternblFrbme bFrbme) {
+            frbme = bFrbme;
         }
 
-        /** Returns the InternalFrameBorder's InternalFrame.
-          * @see #setFrame
+        /** Returns the InternblFrbmeBorder's InternblFrbme.
+          * @see #setFrbme
           */
-        public JInternalFrame frame() {
-            return frame;
+        public JInternblFrbme frbme() {
+            return frbme;
         }
 
-        /** Returns the width of the InternalFrameBorder's resize controls,
-          * appearing along the InternalFrameBorder's bottom border.  Clicking
-          * and dragging within these controls lets the user change both the
-          * InternalFrame's width and height, while dragging between the controls
-          * constrains resizing to just the vertical dimension.  Override this
-          * method if you implement your own bottom border painting and use a
-          * resize control with a different size.
+        /** Returns the width of the InternblFrbmeBorder's resize controls,
+          * bppebring blong the InternblFrbmeBorder's bottom border.  Clicking
+          * bnd drbgging within these controls lets the user chbnge both the
+          * InternblFrbme's width bnd height, while drbgging between the controls
+          * constrbins resizing to just the verticbl dimension.  Override this
+          * method if you implement your own bottom border pbinting bnd use b
+          * resize control with b different size.
           */
-        public int resizePartWidth() {
-            if (!frame.isResizable()) {
+        public int resizePbrtWidth() {
+            if (!frbme.isResizbble()) {
                 return 0;
             }
-            return FrameBorder.BORDER_SIZE;
+            return FrbmeBorder.BORDER_SIZE;
         }
 
-        /** Draws the InternalFrameBorder's top border.
+        /** Drbws the InternblFrbmeBorder's top border.
          */
-        protected boolean drawTopBorder(Component c, Graphics g,
+        protected boolebn drbwTopBorder(Component c, Grbphics g,
                                     int x, int y, int width, int height) {
-            if (super.drawTopBorder(c, g, x, y, width, height) &&
-                frame.isResizable()) {
-                g.setColor(getFrameShadow());
-                g.drawLine(CORNER_SIZE - 1, y + 1, CORNER_SIZE - 1, y + 4);
-                g.drawLine(width - CORNER_SIZE - 1, y + 1,
+            if (super.drbwTopBorder(c, g, x, y, width, height) &&
+                frbme.isResizbble()) {
+                g.setColor(getFrbmeShbdow());
+                g.drbwLine(CORNER_SIZE - 1, y + 1, CORNER_SIZE - 1, y + 4);
+                g.drbwLine(width - CORNER_SIZE - 1, y + 1,
                        width - CORNER_SIZE - 1, y + 4);
 
-                g.setColor(getFrameHighlight());
-                g.drawLine(CORNER_SIZE, y, CORNER_SIZE, y + 4);
-                g.drawLine(width - CORNER_SIZE, y, width - CORNER_SIZE, y + 4);
+                g.setColor(getFrbmeHighlight());
+                g.drbwLine(CORNER_SIZE, y, CORNER_SIZE, y + 4);
+                g.drbwLine(width - CORNER_SIZE, y, width - CORNER_SIZE, y + 4);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        /** Draws the InternalFrameBorder's left border.
+        /** Drbws the InternblFrbmeBorder's left border.
           */
-        protected boolean drawLeftBorder(Component c, Graphics g, int x, int y,
+        protected boolebn drbwLeftBorder(Component c, Grbphics g, int x, int y,
                                      int width, int height) {
-            if (super.drawLeftBorder(c, g, x, y, width, height) &&
-                frame.isResizable()) {
-                g.setColor(getFrameHighlight());
+            if (super.drbwLeftBorder(c, g, x, y, width, height) &&
+                frbme.isResizbble()) {
+                g.setColor(getFrbmeHighlight());
                 int topY = y + CORNER_SIZE;
-                g.drawLine(x, topY, x + 4, topY);
+                g.drbwLine(x, topY, x + 4, topY);
                 int bottomY = height - CORNER_SIZE;
-                g.drawLine(x + 1, bottomY, x + 5, bottomY);
-                g.setColor(getFrameShadow());
-                g.drawLine(x + 1, topY - 1, x + 5, topY - 1);
-                g.drawLine(x + 1, bottomY - 1, x + 5, bottomY - 1);
+                g.drbwLine(x + 1, bottomY, x + 5, bottomY);
+                g.setColor(getFrbmeShbdow());
+                g.drbwLine(x + 1, topY - 1, x + 5, topY - 1);
+                g.drbwLine(x + 1, bottomY - 1, x + 5, bottomY - 1);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        /** Draws the InternalFrameBorder's right border.
+        /** Drbws the InternblFrbmeBorder's right border.
           */
-        protected boolean drawRightBorder(Component c, Graphics g, int x, int y,
+        protected boolebn drbwRightBorder(Component c, Grbphics g, int x, int y,
                                       int width, int height) {
-            if (super.drawRightBorder(c, g, x, y, width, height) &&
-                frame.isResizable()) {
-                int startX = width - getBorderInsets(c).right;
-                g.setColor(getFrameHighlight());
+            if (super.drbwRightBorder(c, g, x, y, width, height) &&
+                frbme.isResizbble()) {
+                int stbrtX = width - getBorderInsets(c).right;
+                g.setColor(getFrbmeHighlight());
                 int topY = y + CORNER_SIZE;
-                g.drawLine(startX, topY, width - 2, topY);
+                g.drbwLine(stbrtX, topY, width - 2, topY);
                 int bottomY = height - CORNER_SIZE;
-                g.drawLine(startX + 1, bottomY, startX + 3, bottomY);
-                g.setColor(getFrameShadow());
-                g.drawLine(startX + 1, topY - 1, width - 2, topY - 1);
-                g.drawLine(startX + 1, bottomY - 1, startX + 3, bottomY - 1);
+                g.drbwLine(stbrtX + 1, bottomY, stbrtX + 3, bottomY);
+                g.setColor(getFrbmeShbdow());
+                g.drbwLine(stbrtX + 1, topY - 1, width - 2, topY - 1);
+                g.drbwLine(stbrtX + 1, bottomY - 1, stbrtX + 3, bottomY - 1);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        /** Draws the InternalFrameBorder's bottom border.
+        /** Drbws the InternblFrbmeBorder's bottom border.
           */
-        protected boolean drawBottomBorder(Component c, Graphics g, int x, int y,
+        protected boolebn drbwBottomBorder(Component c, Grbphics g, int x, int y,
                                        int width, int height) {
-            if (super.drawBottomBorder(c, g, x, y, width, height) &&
-                frame.isResizable()) {
-                int startY = height - getBorderInsets(c).bottom;
+            if (super.drbwBottomBorder(c, g, x, y, width, height) &&
+                frbme.isResizbble()) {
+                int stbrtY = height - getBorderInsets(c).bottom;
 
-                g.setColor(getFrameShadow());
-                g.drawLine(CORNER_SIZE - 1, startY + 1,
+                g.setColor(getFrbmeShbdow());
+                g.drbwLine(CORNER_SIZE - 1, stbrtY + 1,
                        CORNER_SIZE - 1, height - 1);
-                g.drawLine(width - CORNER_SIZE, startY + 1,
+                g.drbwLine(width - CORNER_SIZE, stbrtY + 1,
                        width - CORNER_SIZE, height - 1);
 
-                g.setColor(getFrameHighlight());
-                g.drawLine(CORNER_SIZE, startY, CORNER_SIZE, height - 2);
-                g.drawLine(width - CORNER_SIZE + 1, startY,
+                g.setColor(getFrbmeHighlight());
+                g.drbwLine(CORNER_SIZE, stbrtY, CORNER_SIZE, height - 2);
+                g.drbwLine(width - CORNER_SIZE + 1, stbrtY,
                        width - CORNER_SIZE + 1, height - 2);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        // Returns true if the associated internal frame has focus.
-        protected boolean isActiveFrame() {
-            return frame.isSelected();
+        // Returns true if the bssocibted internbl frbme hbs focus.
+        protected boolebn isActiveFrbme() {
+            return frbme.isSelected();
         }
     }
 
-    public static void drawBezel(Graphics g, int x, int y, int w, int h,
-                               boolean isPressed, boolean hasFocus,
-                               Color shadow, Color highlight,
-                               Color darkShadow, Color focus)  {
+    public stbtic void drbwBezel(Grbphics g, int x, int y, int w, int h,
+                               boolebn isPressed, boolebn hbsFocus,
+                               Color shbdow, Color highlight,
+                               Color dbrkShbdow, Color focus)  {
 
         Color oldColor = g.getColor();
-        g.translate(x, y);
+        g.trbnslbte(x, y);
 
         if (isPressed) {
-            if (hasFocus){
+            if (hbsFocus){
                 g.setColor(focus);
-                g.drawRect(0, 0, w-1, h-1);
+                g.drbwRect(0, 0, w-1, h-1);
             }
-            g.setColor(shadow);         // inner border
-            g.drawRect(1, 1, w-3, h-3);
+            g.setColor(shbdow);         // inner border
+            g.drbwRect(1, 1, w-3, h-3);
 
             g.setColor(highlight);    // inner 3D border
-            g.drawLine(2, h-3, w-3, h-3);
-            g.drawLine(w-3, 2, w-3, h-4);
+            g.drbwLine(2, h-3, w-3, h-3);
+            g.drbwLine(w-3, 2, w-3, h-4);
 
         } else {
-            if (hasFocus) {
+            if (hbsFocus) {
                 g.setColor(focus);
-                g.drawRect(0, 0, w-1, h-1);
+                g.drbwRect(0, 0, w-1, h-1);
 
                 g.setColor(highlight);   // inner 3D border
-                g.drawLine(1, 1, 1, h-3);
-                g.drawLine(2, 1, w-4, 1);
+                g.drbwLine(1, 1, 1, h-3);
+                g.drbwLine(2, 1, w-4, 1);
 
-                g.setColor(shadow);
-                g.drawLine(2, h-3, w-3, h-3);
-                g.drawLine(w-3, 1, w-3, h-4);
+                g.setColor(shbdow);
+                g.drbwLine(2, h-3, w-3, h-3);
+                g.drbwLine(w-3, 1, w-3, h-4);
 
-                g.setColor(darkShadow);        // black drop shadow  __|
-                g.drawLine(1, h-2, w-2, h-2);
-                g.drawLine(w-2, h-2, w-2, 1);
+                g.setColor(dbrkShbdow);        // blbck drop shbdow  __|
+                g.drbwLine(1, h-2, w-2, h-2);
+                g.drbwLine(w-2, h-2, w-2, 1);
             } else {
                 g.setColor(highlight);    // inner 3D border
-                g.drawLine(1,1,1,h-3);
-                g.drawLine(2,1,w-4,1);
-                g.setColor(shadow);
-                g.drawLine(2,h-3,w-3,h-3);
-                g.drawLine(w-3,1,w-3,h-4);
+                g.drbwLine(1,1,1,h-3);
+                g.drbwLine(2,1,w-4,1);
+                g.setColor(shbdow);
+                g.drbwLine(2,h-3,w-3,h-3);
+                g.drbwLine(w-3,1,w-3,h-4);
 
-                g.setColor(darkShadow);         // black drop shadow  __|
-                g.drawLine(1,h-2,w-2,h-2);
-                g.drawLine(w-2,h-2,w-2,0);
+                g.setColor(dbrkShbdow);         // blbck drop shbdow  __|
+                g.drbwLine(1,h-2,w-2,h-2);
+                g.drbwLine(w-2,h-2,w-2,0);
 
             }
-            g.translate(-x, -y);
+            g.trbnslbte(-x, -y);
         }
         g.setColor(oldColor);
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class MotifPopupMenuBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss MotifPopupMenuBorder extends AbstrbctBorder implements UIResource {
         protected Font   font;
-        protected Color  background;
+        protected Color  bbckground;
         protected Color  foreground;
-        protected Color  shadowColor;
+        protected Color  shbdowColor;
         protected Color  highlightColor;
 
-        // Space between the border and text
-        static protected final int TEXT_SPACING = 2;
+        // Spbce between the border bnd text
+        stbtic protected finbl int TEXT_SPACING = 2;
 
-        // Space for the separator under the title
-        static protected final int GROOVE_HEIGHT = 2;
+        // Spbce for the sepbrbtor under the title
+        stbtic protected finbl int GROOVE_HEIGHT = 2;
 
         /**
-         * Creates a MotifPopupMenuBorder instance
+         * Crebtes b MotifPopupMenuBorder instbnce
          *
          */
         public MotifPopupMenuBorder(
                                     Font titleFont,
                                     Color bgColor,
                                     Color fgColor,
-                                    Color shadow,
+                                    Color shbdow,
                                     Color highlight)       {
             this.font = titleFont;
-            this.background = bgColor;
+            this.bbckground = bgColor;
             this.foreground = fgColor;
-            this.shadowColor = shadow;
+            this.shbdowColor = shbdow;
             this.highlightColor = highlight;
         }
 
         /**
-         * Paints the border for the specified component with the
-         * specified position and size.
-         * @param c the component for which this border is being painted
-         * @param g the paint graphics
-         * @param x the x position of the painted border
-         * @param y the y position of the painted border
-         * @param width the width of the painted border
-         * @param height the height of the painted border
+         * Pbints the border for the specified component with the
+         * specified position bnd size.
+         * @pbrbm c the component for which this border is being pbinted
+         * @pbrbm g the pbint grbphics
+         * @pbrbm x the x position of the pbinted border
+         * @pbrbm y the y position of the pbinted border
+         * @pbrbm width the width of the pbinted border
+         * @pbrbm height the height of the pbinted border
          */
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            if (!(c instanceof JPopupMenu)) {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height) {
+            if (!(c instbnceof JPopupMenu)) {
                 return;
             }
 
@@ -675,7 +675,7 @@ public class MotifBorders {
             Color origColor = g.getColor();
             JPopupMenu popup = (JPopupMenu)c;
 
-            String title = popup.getLabel();
+            String title = popup.getLbbel();
             if (title == null) {
                 return;
             }
@@ -685,42 +685,42 @@ public class MotifBorders {
             FontMetrics fm = SwingUtilities2.getFontMetrics(popup, g, font);
             int         fontHeight = fm.getHeight();
             int         descent = fm.getDescent();
-            int         ascent = fm.getAscent();
+            int         bscent = fm.getAscent();
             Point       textLoc = new Point();
             int         stringWidth = SwingUtilities2.stringWidth(popup, fm,
                                                                   title);
 
-            textLoc.y = y + ascent + TEXT_SPACING;
+            textLoc.y = y + bscent + TEXT_SPACING;
             textLoc.x = x + ((width - stringWidth) / 2);
 
-            g.setColor(background);
+            g.setColor(bbckground);
             g.fillRect(textLoc.x - TEXT_SPACING, textLoc.y - (fontHeight-descent),
                        stringWidth + (2 * TEXT_SPACING), fontHeight - descent);
             g.setColor(foreground);
-            SwingUtilities2.drawString(popup, g, title, textLoc.x, textLoc.y);
+            SwingUtilities2.drbwString(popup, g, title, textLoc.x, textLoc.y);
 
-            MotifGraphicsUtils.drawGroove(g, x, textLoc.y + TEXT_SPACING,
+            MotifGrbphicsUtils.drbwGroove(g, x, textLoc.y + TEXT_SPACING,
                                           width, GROOVE_HEIGHT,
-                                          shadowColor, highlightColor);
+                                          shbdowColor, highlightColor);
 
             g.setFont(origFont);
             g.setColor(origColor);
         }
 
         /**
-         * Reinitialize the insets parameter with this Border's current Insets.
-         * @param c the component for which this border insets value applies
-         * @param insets the object to be reinitialized
+         * Reinitiblize the insets pbrbmeter with this Border's current Insets.
+         * @pbrbm c the component for which this border insets vblue bpplies
+         * @pbrbm insets the object to be reinitiblized
          */
         public Insets getBorderInsets(Component c, Insets insets) {
-            if (!(c instanceof JPopupMenu)) {
+            if (!(c instbnceof JPopupMenu)) {
                 return insets;
             }
             FontMetrics fm;
             int         descent = 0;
-            int         ascent = 16;
+            int         bscent = 16;
 
-            String title = ((JPopupMenu)c).getLabel();
+            String title = ((JPopupMenu)c).getLbbel();
             if (title == null) {
                 insets.left = insets.top = insets.right = insets.bottom = 0;
                 return insets;
@@ -730,10 +730,10 @@ public class MotifBorders {
 
             if(fm != null) {
                 descent = fm.getDescent();
-                ascent = fm.getAscent();
+                bscent = fm.getAscent();
             }
 
-            insets.top += ascent + descent + TEXT_SPACING + GROOVE_HEIGHT;
+            insets.top += bscent + descent + TEXT_SPACING + GROOVE_HEIGHT;
             return insets;
         }
 

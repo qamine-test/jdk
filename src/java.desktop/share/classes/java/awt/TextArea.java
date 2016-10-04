@@ -1,312 +1,312 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.peer.TextAreaPeer;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import javax.accessibility.*;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.peer.TextArebPeer;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
+import jbvbx.bccessibility.*;
 
 /**
- * A <code>TextArea</code> object is a multi-line region
- * that displays text. It can be set to allow editing or
- * to be read-only.
+ * A <code>TextAreb</code> object is b multi-line region
+ * thbt displbys text. It cbn be set to bllow editing or
+ * to be rebd-only.
  * <p>
- * The following image shows the appearance of a text area:
+ * The following imbge shows the bppebrbnce of b text breb:
  * <p>
- * <img src="doc-files/TextArea-1.gif" alt="A TextArea showing the word 'Hello!'"
- * style="float:center; margin: 7px 10px;">
+ * <img src="doc-files/TextAreb-1.gif" blt="A TextAreb showing the word 'Hello!'"
+ * style="flobt:center; mbrgin: 7px 10px;">
  * <p>
- * This text area could be created by the following line of code:
+ * This text breb could be crebted by the following line of code:
  *
  * <hr><blockquote><pre>
- * new TextArea("Hello", 5, 40);
+ * new TextAreb("Hello", 5, 40);
  * </pre></blockquote><hr>
  *
- * @author      Sami Shaio
+ * @buthor      Sbmi Shbio
  * @since       1.0
  */
-public class TextArea extends TextComponent {
+public clbss TextAreb extends TextComponent {
 
     /**
-     * The number of rows in the <code>TextArea</code>.
-     * This parameter will determine the text area's height.
-     * Guaranteed to be non-negative.
+     * The number of rows in the <code>TextAreb</code>.
+     * This pbrbmeter will determine the text breb's height.
+     * Gubrbnteed to be non-negbtive.
      *
-     * @serial
+     * @seribl
      * @see #getRows()
      * @see #setRows(int)
      */
     int rows;
 
     /**
-     * The number of columns in the <code>TextArea</code>.
-     * A column is an approximate average character
-     * width that is platform-dependent.
-     * This parameter will determine the text area's width.
-     * Guaranteed to be non-negative.
+     * The number of columns in the <code>TextAreb</code>.
+     * A column is bn bpproximbte bverbge chbrbcter
+     * width thbt is plbtform-dependent.
+     * This pbrbmeter will determine the text breb's width.
+     * Gubrbnteed to be non-negbtive.
      *
-     * @serial
+     * @seribl
      * @see  #setColumns(int)
      * @see  #getColumns()
      */
     int columns;
 
-    private static final String base = "text";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "text";
+    privbte stbtic int nbmeCounter = 0;
 
     /**
-     * Create and display both vertical and horizontal scrollbars.
+     * Crebte bnd displby both verticbl bnd horizontbl scrollbbrs.
      * @since 1.1
      */
-    public static final int SCROLLBARS_BOTH = 0;
+    public stbtic finbl int SCROLLBARS_BOTH = 0;
 
     /**
-     * Create and display vertical scrollbar only.
+     * Crebte bnd displby verticbl scrollbbr only.
      * @since 1.1
      */
-    public static final int SCROLLBARS_VERTICAL_ONLY = 1;
+    public stbtic finbl int SCROLLBARS_VERTICAL_ONLY = 1;
 
     /**
-     * Create and display horizontal scrollbar only.
+     * Crebte bnd displby horizontbl scrollbbr only.
      * @since 1.1
      */
-    public static final int SCROLLBARS_HORIZONTAL_ONLY = 2;
+    public stbtic finbl int SCROLLBARS_HORIZONTAL_ONLY = 2;
 
     /**
-     * Do not create or display any scrollbars for the text area.
+     * Do not crebte or displby bny scrollbbrs for the text breb.
      * @since 1.1
      */
-    public static final int SCROLLBARS_NONE = 3;
+    public stbtic finbl int SCROLLBARS_NONE = 3;
 
     /**
-     * Determines which scrollbars are created for the
-     * text area. It can be one of four values :
-     * <code>SCROLLBARS_BOTH</code> = both scrollbars.<BR>
-     * <code>SCROLLBARS_HORIZONTAL_ONLY</code> = Horizontal bar only.<BR>
-     * <code>SCROLLBARS_VERTICAL_ONLY</code> = Vertical bar only.<BR>
-     * <code>SCROLLBARS_NONE</code> = No scrollbars.<BR>
+     * Determines which scrollbbrs bre crebted for the
+     * text breb. It cbn be one of four vblues :
+     * <code>SCROLLBARS_BOTH</code> = both scrollbbrs.<BR>
+     * <code>SCROLLBARS_HORIZONTAL_ONLY</code> = Horizontbl bbr only.<BR>
+     * <code>SCROLLBARS_VERTICAL_ONLY</code> = Verticbl bbr only.<BR>
+     * <code>SCROLLBARS_NONE</code> = No scrollbbrs.<BR>
      *
-     * @serial
-     * @see #getScrollbarVisibility()
+     * @seribl
+     * @see #getScrollbbrVisibility()
      */
-    private int scrollbarVisibility;
+    privbte int scrollbbrVisibility;
 
     /**
-     * Cache the Sets of forward and backward traversal keys so we need not
-     * look them up each time.
+     * Cbche the Sets of forwbrd bnd bbckwbrd trbversbl keys so we need not
+     * look them up ebch time.
      */
-    private static Set<AWTKeyStroke> forwardTraversalKeys, backwardTraversalKeys;
+    privbte stbtic Set<AWTKeyStroke> forwbrdTrbversblKeys, bbckwbrdTrbversblKeys;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = 3692302836626095722L;
+     privbte stbtic finbl long seriblVersionUID = 3692302836626095722L;
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblize JNI field bnd method ids
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
-        forwardTraversalKeys = KeyboardFocusManager.initFocusTraversalKeysSet(
+        forwbrdTrbversblKeys = KeybobrdFocusMbnbger.initFocusTrbversblKeysSet(
             "ctrl TAB",
-            new HashSet<AWTKeyStroke>());
-        backwardTraversalKeys = KeyboardFocusManager.initFocusTraversalKeysSet(
+            new HbshSet<AWTKeyStroke>());
+        bbckwbrdTrbversblKeys = KeybobrdFocusMbnbger.initFocusTrbversblKeysSet(
             "ctrl shift TAB",
-            new HashSet<AWTKeyStroke>());
+            new HbshSet<AWTKeyStroke>());
     }
 
     /**
-     * Constructs a new text area with the empty string as text.
-     * This text area is created with scrollbar visibility equal to
-     * {@link #SCROLLBARS_BOTH}, so both vertical and horizontal
-     * scrollbars will be visible for this text area.
-     * @exception HeadlessException if
-     *    <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * Constructs b new text breb with the empty string bs text.
+     * This text breb is crebted with scrollbbr visibility equbl to
+     * {@link #SCROLLBARS_BOTH}, so both verticbl bnd horizontbl
+     * scrollbbrs will be visible for this text breb.
+     * @exception HebdlessException if
+     *    <code>GrbphicsEnvironment.isHebdless</code> returns true
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
      */
-    public TextArea() throws HeadlessException {
+    public TextAreb() throws HebdlessException {
         this("", 0, 0, SCROLLBARS_BOTH);
     }
 
     /**
-     * Constructs a new text area with the specified text.
-     * This text area is created with scrollbar visibility equal to
-     * {@link #SCROLLBARS_BOTH}, so both vertical and horizontal
-     * scrollbars will be visible for this text area.
-     * @param      text       the text to be displayed; if
+     * Constructs b new text breb with the specified text.
+     * This text breb is crebted with scrollbbr visibility equbl to
+     * {@link #SCROLLBARS_BOTH}, so both verticbl bnd horizontbl
+     * scrollbbrs will be visible for this text breb.
+     * @pbrbm      text       the text to be displbyed; if
      *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed
-     * @exception HeadlessException if
-     *        <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     *             string <code>""</code> will be displbyed
+     * @exception HebdlessException if
+     *        <code>GrbphicsEnvironment.isHebdless</code> returns true
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
      */
-    public TextArea(String text) throws HeadlessException {
+    public TextAreb(String text) throws HebdlessException {
         this(text, 0, 0, SCROLLBARS_BOTH);
     }
 
     /**
-     * Constructs a new text area with the specified number of
-     * rows and columns and the empty string as text.
-     * A column is an approximate average character
-     * width that is platform-dependent.  The text area is created with
-     * scrollbar visibility equal to {@link #SCROLLBARS_BOTH}, so both
-     * vertical and horizontal scrollbars will be visible for this
-     * text area.
-     * @param rows the number of rows
-     * @param columns the number of columns
-     * @exception HeadlessException if
-     *     <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * Constructs b new text breb with the specified number of
+     * rows bnd columns bnd the empty string bs text.
+     * A column is bn bpproximbte bverbge chbrbcter
+     * width thbt is plbtform-dependent.  The text breb is crebted with
+     * scrollbbr visibility equbl to {@link #SCROLLBARS_BOTH}, so both
+     * verticbl bnd horizontbl scrollbbrs will be visible for this
+     * text breb.
+     * @pbrbm rows the number of rows
+     * @pbrbm columns the number of columns
+     * @exception HebdlessException if
+     *     <code>GrbphicsEnvironment.isHebdless</code> returns true
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
      */
-    public TextArea(int rows, int columns) throws HeadlessException {
+    public TextAreb(int rows, int columns) throws HebdlessException {
         this("", rows, columns, SCROLLBARS_BOTH);
     }
 
     /**
-     * Constructs a new text area with the specified text,
-     * and with the specified number of rows and columns.
-     * A column is an approximate average character
-     * width that is platform-dependent.  The text area is created with
-     * scrollbar visibility equal to {@link #SCROLLBARS_BOTH}, so both
-     * vertical and horizontal scrollbars will be visible for this
-     * text area.
-     * @param      text       the text to be displayed; if
+     * Constructs b new text breb with the specified text,
+     * bnd with the specified number of rows bnd columns.
+     * A column is bn bpproximbte bverbge chbrbcter
+     * width thbt is plbtform-dependent.  The text breb is crebted with
+     * scrollbbr visibility equbl to {@link #SCROLLBARS_BOTH}, so both
+     * verticbl bnd horizontbl scrollbbrs will be visible for this
+     * text breb.
+     * @pbrbm      text       the text to be displbyed; if
      *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed
-     * @param     rows      the number of rows
-     * @param     columns   the number of columns
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     *             string <code>""</code> will be displbyed
+     * @pbrbm     rows      the number of rows
+     * @pbrbm     columns   the number of columns
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns true
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
      */
-    public TextArea(String text, int rows, int columns)
-        throws HeadlessException {
+    public TextAreb(String text, int rows, int columns)
+        throws HebdlessException {
         this(text, rows, columns, SCROLLBARS_BOTH);
     }
 
     /**
-     * Constructs a new text area with the specified text,
-     * and with the rows, columns, and scroll bar visibility
-     * as specified.  All <code>TextArea</code> constructors defer to
+     * Constructs b new text breb with the specified text,
+     * bnd with the rows, columns, bnd scroll bbr visibility
+     * bs specified.  All <code>TextAreb</code> constructors defer to
      * this one.
      * <p>
-     * The <code>TextArea</code> class defines several constants
-     * that can be supplied as values for the
-     * <code>scrollbars</code> argument:
+     * The <code>TextAreb</code> clbss defines severbl constbnts
+     * thbt cbn be supplied bs vblues for the
+     * <code>scrollbbrs</code> brgument:
      * <ul>
      * <li><code>SCROLLBARS_BOTH</code>,
      * <li><code>SCROLLBARS_VERTICAL_ONLY</code>,
      * <li><code>SCROLLBARS_HORIZONTAL_ONLY</code>,
      * <li><code>SCROLLBARS_NONE</code>.
      * </ul>
-     * Any other value for the
-     * <code>scrollbars</code> argument is invalid and will result in
-     * this text area being created with scrollbar visibility equal to
-     * the default value of {@link #SCROLLBARS_BOTH}.
-     * @param      text       the text to be displayed; if
+     * Any other vblue for the
+     * <code>scrollbbrs</code> brgument is invblid bnd will result in
+     * this text breb being crebted with scrollbbr visibility equbl to
+     * the defbult vblue of {@link #SCROLLBARS_BOTH}.
+     * @pbrbm      text       the text to be displbyed; if
      *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed
-     * @param      rows       the number of rows; if
-     *             <code>rows</code> is less than <code>0</code>,
+     *             string <code>""</code> will be displbyed
+     * @pbrbm      rows       the number of rows; if
+     *             <code>rows</code> is less thbn <code>0</code>,
      *             <code>rows</code> is set to <code>0</code>
-     * @param      columns    the number of columns; if
-     *             <code>columns</code> is less than <code>0</code>,
+     * @pbrbm      columns    the number of columns; if
+     *             <code>columns</code> is less thbn <code>0</code>,
      *             <code>columns</code> is set to <code>0</code>
-     * @param      scrollbars  a constant that determines what
-     *             scrollbars are created to view the text area
+     * @pbrbm      scrollbbrs  b constbnt thbt determines whbt
+     *             scrollbbrs bre crebted to view the text breb
      * @since      1.1
-     * @exception HeadlessException if
-     *    <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * @exception HebdlessException if
+     *    <code>GrbphicsEnvironment.isHebdless</code> returns true
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
      */
-    public TextArea(String text, int rows, int columns, int scrollbars)
-        throws HeadlessException {
+    public TextAreb(String text, int rows, int columns, int scrollbbrs)
+        throws HebdlessException {
         super(text);
 
         this.rows = (rows >= 0) ? rows : 0;
         this.columns = (columns >= 0) ? columns : 0;
 
-        if (scrollbars >= SCROLLBARS_BOTH && scrollbars <= SCROLLBARS_NONE) {
-            this.scrollbarVisibility = scrollbars;
+        if (scrollbbrs >= SCROLLBARS_BOTH && scrollbbrs <= SCROLLBARS_NONE) {
+            this.scrollbbrVisibility = scrollbbrs;
         } else {
-            this.scrollbarVisibility = SCROLLBARS_BOTH;
+            this.scrollbbrVisibility = SCROLLBARS_BOTH;
         }
 
-        setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-                              forwardTraversalKeys);
-        setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-                              backwardTraversalKeys);
+        setFocusTrbversblKeys(KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+                              forwbrdTrbversblKeys);
+        setFocusTrbversblKeys(KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+                              bbckwbrdTrbversblKeys);
     }
 
     /**
-     * Construct a name for this component.  Called by <code>getName</code>
-     * when the name is <code>null</code>.
+     * Construct b nbme for this component.  Cblled by <code>getNbme</code>
+     * when the nbme is <code>null</code>.
      */
-    String constructComponentName() {
-        synchronized (TextArea.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (TextAreb.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the <code>TextArea</code>'s peer.  The peer allows us to modify
-     * the appearance of the <code>TextArea</code> without changing any of its
-     * functionality.
+     * Crebtes the <code>TextAreb</code>'s peer.  The peer bllows us to modify
+     * the bppebrbnce of the <code>TextAreb</code> without chbnging bny of its
+     * functionblity.
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = getToolkit().createTextArea(this);
-            super.addNotify();
+                peer = getToolkit().crebteTextAreb(this);
+            super.bddNotify();
         }
     }
 
     /**
-     * Inserts the specified text at the specified position
-     * in this text area.
-     * <p>Note that passing <code>null</code> or inconsistent
-     * parameters is invalid and will result in unspecified
-     * behavior.
+     * Inserts the specified text bt the specified position
+     * in this text breb.
+     * <p>Note thbt pbssing <code>null</code> or inconsistent
+     * pbrbmeters is invblid bnd will result in unspecified
+     * behbvior.
      *
-     * @param      str the non-<code>null</code> text to insert
-     * @param      pos the position at which to insert
-     * @see        java.awt.TextComponent#setText
-     * @see        java.awt.TextArea#replaceRange
-     * @see        java.awt.TextArea#append
+     * @pbrbm      str the non-<code>null</code> text to insert
+     * @pbrbm      pos the position bt which to insert
+     * @see        jbvb.bwt.TextComponent#setText
+     * @see        jbvb.bwt.TextAreb#replbceRbnge
+     * @see        jbvb.bwt.TextAreb#bppend
      * @since      1.1
      */
     public void insert(String str, int pos) {
@@ -314,17 +314,17 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Inserts the specified text at the specified position
-     * in this text area.
+     * Inserts the specified text bt the specified position
+     * in this text breb.
      *
-     * @param  str the non-{@code null} text to insert
-     * @param  pos the position at which to insert
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>insert(String, int)</code>.
+     * @pbrbm  str the non-{@code null} text to insert
+     * @pbrbm  pos the position bt which to insert
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>insert(String, int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public synchronized void insertText(String str, int pos) {
-        TextAreaPeer peer = (TextAreaPeer)this.peer;
+        TextArebPeer peer = (TextArebPeer)this.peer;
         if (peer != null) {
             peer.insert(str, pos);
         } else {
@@ -333,28 +333,28 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Appends the given text to the text area's current text.
-     * <p>Note that passing <code>null</code> or inconsistent
-     * parameters is invalid and will result in unspecified
-     * behavior.
+     * Appends the given text to the text breb's current text.
+     * <p>Note thbt pbssing <code>null</code> or inconsistent
+     * pbrbmeters is invblid bnd will result in unspecified
+     * behbvior.
      *
-     * @param     str the non-<code>null</code> text to append
-     * @see       java.awt.TextArea#insert
+     * @pbrbm     str the non-<code>null</code> text to bppend
+     * @see       jbvb.bwt.TextAreb#insert
      * @since     1.1
      */
-    public void append(String str) {
-        appendText(str);
+    public void bppend(String str) {
+        bppendText(str);
     }
 
     /**
-     * Appends the given text to the text area's current text.
+     * Appends the given text to the text breb's current text.
      *
-     * @param  str the text to append
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>append(String)</code>.
+     * @pbrbm  str the text to bppend
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>bppend(String)</code>.
      */
-    @Deprecated
-    public synchronized void appendText(String str) {
+    @Deprecbted
+    public synchronized void bppendText(String str) {
         if (peer != null) {
             insertText(str, getText().length());
         } else {
@@ -363,54 +363,54 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Replaces text between the indicated start and end positions
-     * with the specified replacement text.  The text at the end
-     * position will not be replaced.  The text at the start
-     * position will be replaced (unless the start position is the
-     * same as the end position).
-     * The text position is zero-based.  The inserted substring may be
-     * of a different length than the text it replaces.
-     * <p>Note that passing <code>null</code> or inconsistent
-     * parameters is invalid and will result in unspecified
-     * behavior.
+     * Replbces text between the indicbted stbrt bnd end positions
+     * with the specified replbcement text.  The text bt the end
+     * position will not be replbced.  The text bt the stbrt
+     * position will be replbced (unless the stbrt position is the
+     * sbme bs the end position).
+     * The text position is zero-bbsed.  The inserted substring mby be
+     * of b different length thbn the text it replbces.
+     * <p>Note thbt pbssing <code>null</code> or inconsistent
+     * pbrbmeters is invblid bnd will result in unspecified
+     * behbvior.
      *
-     * @param     str      the non-<code>null</code> text to use as
-     *                     the replacement
-     * @param     start    the start position
-     * @param     end      the end position
-     * @see       java.awt.TextArea#insert
+     * @pbrbm     str      the non-<code>null</code> text to use bs
+     *                     the replbcement
+     * @pbrbm     stbrt    the stbrt position
+     * @pbrbm     end      the end position
+     * @see       jbvb.bwt.TextAreb#insert
      * @since     1.1
      */
-    public void replaceRange(String str, int start, int end) {
-        replaceText(str, start, end);
+    public void replbceRbnge(String str, int stbrt, int end) {
+        replbceText(str, stbrt, end);
     }
 
     /**
-     * Replaces a range of characters between
-     * the indicated start and end positions
-     * with the specified replacement text (the text at the end
-     * position will not be replaced).
+     * Replbces b rbnge of chbrbcters between
+     * the indicbted stbrt bnd end positions
+     * with the specified replbcement text (the text bt the end
+     * position will not be replbced).
      *
-     * @param  str the non-{@code null} text to use as
-     *         the replacement
-     * @param  start the start position
-     * @param  end the end position
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>replaceRange(String, int, int)</code>.
+     * @pbrbm  str the non-{@code null} text to use bs
+     *         the replbcement
+     * @pbrbm  stbrt the stbrt position
+     * @pbrbm  end the end position
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>replbceRbnge(String, int, int)</code>.
      */
-    @Deprecated
-    public synchronized void replaceText(String str, int start, int end) {
-        TextAreaPeer peer = (TextAreaPeer)this.peer;
+    @Deprecbted
+    public synchronized void replbceText(String str, int stbrt, int end) {
+        TextArebPeer peer = (TextArebPeer)this.peer;
         if (peer != null) {
-            peer.replaceRange(str, start, end);
+            peer.replbceRbnge(str, stbrt, end);
         } else {
-            text = text.substring(0, start) + str + text.substring(end);
+            text = text.substring(0, stbrt) + str + text.substring(end);
         }
     }
 
     /**
-     * Returns the number of rows in the text area.
-     * @return    the number of rows in the text area
+     * Returns the number of rows in the text breb.
+     * @return    the number of rows in the text breb
      * @see       #setRows(int)
      * @see       #getColumns()
      * @since     1.0
@@ -420,29 +420,29 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Sets the number of rows for this text area.
-     * @param       rows   the number of rows
+     * Sets the number of rows for this text breb.
+     * @pbrbm       rows   the number of rows
      * @see         #getRows()
      * @see         #setColumns(int)
-     * @exception   IllegalArgumentException   if the value
+     * @exception   IllegblArgumentException   if the vblue
      *                 supplied for <code>rows</code>
-     *                 is less than <code>0</code>
+     *                 is less thbn <code>0</code>
      * @since       1.1
      */
     public void setRows(int rows) {
-        int oldVal = this.rows;
+        int oldVbl = this.rows;
         if (rows < 0) {
-            throw new IllegalArgumentException("rows less than zero.");
+            throw new IllegblArgumentException("rows less thbn zero.");
         }
-        if (rows != oldVal) {
+        if (rows != oldVbl) {
             this.rows = rows;
-            invalidate();
+            invblidbte();
         }
     }
 
     /**
-     * Returns the number of columns in this text area.
-     * @return    the number of columns in the text area
+     * Returns the number of columns in this text breb.
+     * @return    the number of columns in the text breb
      * @see       #setColumns(int)
      * @see       #getRows()
      */
@@ -451,57 +451,57 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Sets the number of columns for this text area.
-     * @param       columns   the number of columns
+     * Sets the number of columns for this text breb.
+     * @pbrbm       columns   the number of columns
      * @see         #getColumns()
      * @see         #setRows(int)
-     * @exception   IllegalArgumentException   if the value
+     * @exception   IllegblArgumentException   if the vblue
      *                 supplied for <code>columns</code>
-     *                 is less than <code>0</code>
+     *                 is less thbn <code>0</code>
      * @since       1.1
      */
     public void setColumns(int columns) {
-        int oldVal = this.columns;
+        int oldVbl = this.columns;
         if (columns < 0) {
-            throw new IllegalArgumentException("columns less than zero.");
+            throw new IllegblArgumentException("columns less thbn zero.");
         }
-        if (columns != oldVal) {
+        if (columns != oldVbl) {
             this.columns = columns;
-            invalidate();
+            invblidbte();
         }
     }
 
     /**
-     * Returns an enumerated value that indicates which scroll bars
-     * the text area uses.
+     * Returns bn enumerbted vblue thbt indicbtes which scroll bbrs
+     * the text breb uses.
      * <p>
-     * The <code>TextArea</code> class defines four integer constants
-     * that are used to specify which scroll bars are available.
-     * <code>TextArea</code> has one constructor that gives the
-     * application discretion over scroll bars.
+     * The <code>TextAreb</code> clbss defines four integer constbnts
+     * thbt bre used to specify which scroll bbrs bre bvbilbble.
+     * <code>TextAreb</code> hbs one constructor thbt gives the
+     * bpplicbtion discretion over scroll bbrs.
      *
-     * @return     an integer that indicates which scroll bars are used
-     * @see        java.awt.TextArea#SCROLLBARS_BOTH
-     * @see        java.awt.TextArea#SCROLLBARS_VERTICAL_ONLY
-     * @see        java.awt.TextArea#SCROLLBARS_HORIZONTAL_ONLY
-     * @see        java.awt.TextArea#SCROLLBARS_NONE
-     * @see        java.awt.TextArea#TextArea(java.lang.String, int, int, int)
+     * @return     bn integer thbt indicbtes which scroll bbrs bre used
+     * @see        jbvb.bwt.TextAreb#SCROLLBARS_BOTH
+     * @see        jbvb.bwt.TextAreb#SCROLLBARS_VERTICAL_ONLY
+     * @see        jbvb.bwt.TextAreb#SCROLLBARS_HORIZONTAL_ONLY
+     * @see        jbvb.bwt.TextAreb#SCROLLBARS_NONE
+     * @see        jbvb.bwt.TextAreb#TextAreb(jbvb.lbng.String, int, int, int)
      * @since      1.1
      */
-    public int getScrollbarVisibility() {
-        return scrollbarVisibility;
+    public int getScrollbbrVisibility() {
+        return scrollbbrVisibility;
     }
 
 
     /**
-     * Determines the preferred size of a text area with the specified
-     * number of rows and columns.
-     * @param     rows   the number of rows
-     * @param     columns   the number of columns
-     * @return    the preferred dimensions required to display
-     *                       the text area with the specified
-     *                       number of rows and columns
-     * @see       java.awt.Component#getPreferredSize
+     * Determines the preferred size of b text breb with the specified
+     * number of rows bnd columns.
+     * @pbrbm     rows   the number of rows
+     * @pbrbm     columns   the number of columns
+     * @return    the preferred dimensions required to displby
+     *                       the text breb with the specified
+     *                       number of rows bnd columns
+     * @see       jbvb.bwt.Component#getPreferredSize
      * @since     1.1
      */
     public Dimension getPreferredSize(int rows, int columns) {
@@ -509,19 +509,19 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Determines the preferred size of the text area with the specified
-     * number of rows and columns.
+     * Determines the preferred size of the text breb with the specified
+     * number of rows bnd columns.
      *
-     * @param  rows the number of rows
-     * @param  columns the number of columns
-     * @return the preferred dimensions needed for the text area
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getPreferredSize(int, int)</code>.
+     * @pbrbm  rows the number of rows
+     * @pbrbm  columns the number of columns
+     * @return the preferred dimensions needed for the text breb
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getPreferredSize(int, int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension preferredSize(int rows, int columns) {
         synchronized (getTreeLock()) {
-            TextAreaPeer peer = (TextAreaPeer)this.peer;
+            TextArebPeer peer = (TextArebPeer)this.peer;
             return (peer != null) ?
                        peer.getPreferredSize(rows, columns) :
                        super.preferredSize();
@@ -529,9 +529,9 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Determines the preferred size of this text area.
-     * @return    the preferred dimensions needed for this text area
-     * @see       java.awt.Component#getPreferredSize
+     * Determines the preferred size of this text breb.
+     * @return    the preferred dimensions needed for this text breb
+     * @see       jbvb.bwt.Component#getPreferredSize
      * @since     1.1
      */
     public Dimension getPreferredSize() {
@@ -539,10 +539,10 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getPreferredSize()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getPreferredSize()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension preferredSize() {
         synchronized (getTreeLock()) {
             return ((rows > 0) && (columns > 0)) ?
@@ -552,14 +552,14 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Determines the minimum size of a text area with the specified
-     * number of rows and columns.
-     * @param     rows   the number of rows
-     * @param     columns   the number of columns
-     * @return    the minimum dimensions required to display
-     *                       the text area with the specified
-     *                       number of rows and columns
-     * @see       java.awt.Component#getMinimumSize
+     * Determines the minimum size of b text breb with the specified
+     * number of rows bnd columns.
+     * @pbrbm     rows   the number of rows
+     * @pbrbm     columns   the number of columns
+     * @return    the minimum dimensions required to displby
+     *                       the text breb with the specified
+     *                       number of rows bnd columns
+     * @see       jbvb.bwt.Component#getMinimumSize
      * @since     1.1
      */
     public Dimension getMinimumSize(int rows, int columns) {
@@ -567,19 +567,19 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Determines the minimum size of the text area with the specified
-     * number of rows and columns.
+     * Determines the minimum size of the text breb with the specified
+     * number of rows bnd columns.
      *
-     * @param  rows the number of rows
-     * @param  columns the number of columns
-     * @return the minimum size for the text area
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getMinimumSize(int, int)</code>.
+     * @pbrbm  rows the number of rows
+     * @pbrbm  columns the number of columns
+     * @return the minimum size for the text breb
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getMinimumSize(int, int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension minimumSize(int rows, int columns) {
         synchronized (getTreeLock()) {
-            TextAreaPeer peer = (TextAreaPeer)this.peer;
+            TextArebPeer peer = (TextArebPeer)this.peer;
             return (peer != null) ?
                        peer.getMinimumSize(rows, columns) :
                        super.minimumSize();
@@ -587,9 +587,9 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Determines the minimum size of this text area.
-     * @return    the preferred dimensions needed for this text area
-     * @see       java.awt.Component#getPreferredSize
+     * Determines the minimum size of this text breb.
+     * @return    the preferred dimensions needed for this text breb
+     * @see       jbvb.bwt.Component#getPreferredSize
      * @since     1.1
      */
     public Dimension getMinimumSize() {
@@ -597,10 +597,10 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getMinimumSize()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getMinimumSize()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension minimumSize() {
         synchronized (getTreeLock()) {
             return ((rows > 0) && (columns > 0)) ?
@@ -610,64 +610,64 @@ public class TextArea extends TextComponent {
     }
 
     /**
-     * Returns a string representing the state of this <code>TextArea</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this <code>TextAreb</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return      the parameter string of this text area
+     * @return      the pbrbmeter string of this text breb
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String sbVisStr;
-        switch (scrollbarVisibility) {
-            case SCROLLBARS_BOTH:
+        switch (scrollbbrVisibility) {
+            cbse SCROLLBARS_BOTH:
                 sbVisStr = "both";
-                break;
-            case SCROLLBARS_VERTICAL_ONLY:
-                sbVisStr = "vertical-only";
-                break;
-            case SCROLLBARS_HORIZONTAL_ONLY:
-                sbVisStr = "horizontal-only";
-                break;
-            case SCROLLBARS_NONE:
+                brebk;
+            cbse SCROLLBARS_VERTICAL_ONLY:
+                sbVisStr = "verticbl-only";
+                brebk;
+            cbse SCROLLBARS_HORIZONTAL_ONLY:
+                sbVisStr = "horizontbl-only";
+                brebk;
+            cbse SCROLLBARS_NONE:
                 sbVisStr = "none";
-                break;
-            default:
-                sbVisStr = "invalid display policy";
+                brebk;
+            defbult:
+                sbVisStr = "invblid displby policy";
         }
 
-        return super.paramString() + ",rows=" + rows +
+        return super.pbrbmString() + ",rows=" + rows +
             ",columns=" + columns +
-          ",scrollbarVisibility=" + sbVisStr;
+          ",scrollbbrVisibility=" + sbVisStr;
     }
 
 
     /*
-     * Serialization support.
+     * Seriblizbtion support.
      */
     /**
-     * The textArea Serialized Data Version.
+     * The textAreb Seriblized Dbtb Version.
      *
-     * @serial
+     * @seribl
      */
-    private int textAreaSerializedDataVersion = 2;
+    privbte int textArebSeriblizedDbtbVersion = 2;
 
     /**
-     * Read the ObjectInputStream.
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns
+     * Rebd the ObjectInputStrebm.
+     * @exception HebdlessException if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns
      * <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException, HebdlessException
     {
-        // HeadlessException will be thrown by TextComponent's readObject
-        s.defaultReadObject();
+        // HebdlessException will be thrown by TextComponent's rebdObject
+        s.defbultRebdObject();
 
-        // Make sure the state we just read in for columns, rows,
-        // and scrollbarVisibility has legal values
+        // Mbke sure the stbte we just rebd in for columns, rows,
+        // bnd scrollbbrVisibility hbs legbl vblues
         if (columns < 0) {
             columns = 0;
         }
@@ -675,16 +675,16 @@ public class TextArea extends TextComponent {
             rows = 0;
         }
 
-        if ((scrollbarVisibility < SCROLLBARS_BOTH) ||
-            (scrollbarVisibility > SCROLLBARS_NONE)) {
-            this.scrollbarVisibility = SCROLLBARS_BOTH;
+        if ((scrollbbrVisibility < SCROLLBARS_BOTH) ||
+            (scrollbbrVisibility > SCROLLBARS_NONE)) {
+            this.scrollbbrVisibility = SCROLLBARS_BOTH;
         }
 
-        if (textAreaSerializedDataVersion < 2) {
-            setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-                                  forwardTraversalKeys);
-            setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-                                  backwardTraversalKeys);
+        if (textArebSeriblizedDbtbVersion < 2) {
+            setFocusTrbversblKeys(KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+                                  forwbrdTrbversblKeys);
+            setFocusTrbversblKeys(KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+                                  bbckwbrdTrbversblKeys);
         }
     }
 
@@ -695,47 +695,47 @@ public class TextArea extends TextComponent {
 
 
     /**
-     * Returns the <code>AccessibleContext</code> associated with
-     * this <code>TextArea</code>. For text areas, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleAWTTextArea</code>.
-     * A new <code>AccessibleAWTTextArea</code> instance is created if necessary.
+     * Returns the <code>AccessibleContext</code> bssocibted with
+     * this <code>TextAreb</code>. For text brebs, the
+     * <code>AccessibleContext</code> tbkes the form of bn
+     * <code>AccessibleAWTTextAreb</code>.
+     * A new <code>AccessibleAWTTextAreb</code> instbnce is crebted if necessbry.
      *
-     * @return an <code>AccessibleAWTTextArea</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>TextArea</code>
+     * @return bn <code>AccessibleAWTTextAreb</code> thbt serves bs the
+     *         <code>AccessibleContext</code> of this <code>TextAreb</code>
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTTextArea();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTTextAreb();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>TextArea</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to text area user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>TextAreb</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to text breb user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTTextArea extends AccessibleAWTTextComponent
+    protected clbss AccessibleAWTTextAreb extends AccessibleAWTTextComponent
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 3472827823632144419L;
+        privbte stbtic finbl long seriblVersionUID = 3472827823632144419L;
 
         /**
-         * Gets the state set of this object.
+         * Gets the stbte set of this object.
          *
-         * @return an instance of AccessibleStateSet describing the states
+         * @return bn instbnce of AccessibleStbteSet describing the stbtes
          * of the object
-         * @see AccessibleStateSet
+         * @see AccessibleStbteSet
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            states.add(AccessibleState.MULTI_LINE);
-            return states;
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            stbtes.bdd(AccessibleStbte.MULTI_LINE);
+            return stbtes;
         }
     }
 

@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * Represent the CRL Reason Flags.
+ * Represent the CRL Rebson Flbgs.
  *
  * <p>This extension, if present, defines the identifies
- * the reason for the certificate revocation.
- * <p>The ASN.1 syntax for this is:
+ * the rebson for the certificbte revocbtion.
+ * <p>The ASN.1 syntbx for this is:
  * <pre>
- * ReasonFlags ::= BIT STRING {
+ * RebsonFlbgs ::= BIT STRING {
  *    unused                  (0),
  *    keyCompromise           (1),
  *    cACompromise            (2),
- *    affiliationChanged      (3),
+ *    bffilibtionChbnged      (3),
  *    superseded              (4),
- *    cessationOfOperation    (5),
- *    certificateHold         (6),
- *    privilegeWithdrawn      (7),
- *    aACompromise            (8) }
+ *    cessbtionOfOperbtion    (5),
+ *    certificbteHold         (6),
+ *    privilegeWithdrbwn      (7),
+ *    bACompromise            (8) }
  * </pre>
  *
- * @author Hemma Prafullchandra
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class ReasonFlags {
+public clbss RebsonFlbgs {
 
     /**
-     * Reasons
+     * Rebsons
      */
-    public static final String UNUSED = "unused";
-    public static final String KEY_COMPROMISE = "key_compromise";
-    public static final String CA_COMPROMISE = "ca_compromise";
-    public static final String AFFILIATION_CHANGED = "affiliation_changed";
-    public static final String SUPERSEDED = "superseded";
-    public static final String CESSATION_OF_OPERATION
-                                   = "cessation_of_operation";
-    public static final String CERTIFICATE_HOLD = "certificate_hold";
-    public static final String PRIVILEGE_WITHDRAWN = "privilege_withdrawn";
-    public static final String AA_COMPROMISE = "aa_compromise";
+    public stbtic finbl String UNUSED = "unused";
+    public stbtic finbl String KEY_COMPROMISE = "key_compromise";
+    public stbtic finbl String CA_COMPROMISE = "cb_compromise";
+    public stbtic finbl String AFFILIATION_CHANGED = "bffilibtion_chbnged";
+    public stbtic finbl String SUPERSEDED = "superseded";
+    public stbtic finbl String CESSATION_OF_OPERATION
+                                   = "cessbtion_of_operbtion";
+    public stbtic finbl String CERTIFICATE_HOLD = "certificbte_hold";
+    public stbtic finbl String PRIVILEGE_WITHDRAWN = "privilege_withdrbwn";
+    public stbtic finbl String AA_COMPROMISE = "bb_compromise";
 
-    private final static String[] NAMES = {
+    privbte finbl stbtic String[] NAMES = {
         UNUSED,
         KEY_COMPROMISE,
         CA_COMPROMISE,
@@ -81,137 +81,137 @@ public class ReasonFlags {
         AA_COMPROMISE,
     };
 
-    private static int name2Index(String name) throws IOException {
+    privbte stbtic int nbme2Index(String nbme) throws IOException {
         for( int i=0; i<NAMES.length; i++ ) {
-            if( NAMES[i].equalsIgnoreCase(name) ) {
+            if( NAMES[i].equblsIgnoreCbse(nbme) ) {
                 return i;
             }
         }
-        throw new IOException("Name not recognized by ReasonFlags");
+        throw new IOException("Nbme not recognized by RebsonFlbgs");
     }
 
-    // Private data members
-    private boolean[] bitString;
+    // Privbte dbtb members
+    privbte boolebn[] bitString;
 
     /**
      * Check if bit is set.
      *
-     * @param position the position in the bit string to check.
+     * @pbrbm position the position in the bit string to check.
      */
-    private boolean isSet(int position) {
+    privbte boolebn isSet(int position) {
         return bitString[position];
     }
 
     /**
-     * Set the bit at the specified position.
+     * Set the bit bt the specified position.
      */
-    private void set(int position, boolean val) {
-        // enlarge bitString if necessary
+    privbte void set(int position, boolebn vbl) {
+        // enlbrge bitString if necessbry
         if (position >= bitString.length) {
-            boolean[] tmp = new boolean[position+1];
-            System.arraycopy(bitString, 0, tmp, 0, bitString.length);
+            boolebn[] tmp = new boolebn[position+1];
+            System.brrbycopy(bitString, 0, tmp, 0, bitString.length);
             bitString = tmp;
         }
-        bitString[position] = val;
+        bitString[position] = vbl;
     }
 
     /**
-     * Create a ReasonFlags with the passed bit settings.
+     * Crebte b RebsonFlbgs with the pbssed bit settings.
      *
-     * @param reasons the bits to be set for the ReasonFlags.
+     * @pbrbm rebsons the bits to be set for the RebsonFlbgs.
      */
-    public ReasonFlags(byte[] reasons) {
-        bitString = new BitArray(reasons.length*8, reasons).toBooleanArray();
+    public RebsonFlbgs(byte[] rebsons) {
+        bitString = new BitArrby(rebsons.length*8, rebsons).toBoolebnArrby();
     }
 
     /**
-     * Create a ReasonFlags with the passed bit settings.
+     * Crebte b RebsonFlbgs with the pbssed bit settings.
      *
-     * @param reasons the bits to be set for the ReasonFlags.
+     * @pbrbm rebsons the bits to be set for the RebsonFlbgs.
      */
-    public ReasonFlags(boolean[] reasons) {
-        this.bitString = reasons;
+    public RebsonFlbgs(boolebn[] rebsons) {
+        this.bitString = rebsons;
     }
 
     /**
-     * Create a ReasonFlags with the passed bit settings.
+     * Crebte b RebsonFlbgs with the pbssed bit settings.
      *
-     * @param reasons the bits to be set for the ReasonFlags.
+     * @pbrbm rebsons the bits to be set for the RebsonFlbgs.
      */
-    public ReasonFlags(BitArray reasons) {
-        this.bitString = reasons.toBooleanArray();
+    public RebsonFlbgs(BitArrby rebsons) {
+        this.bitString = rebsons.toBoolebnArrby();
     }
 
     /**
-     * Create the object from the passed DER encoded value.
+     * Crebte the object from the pbssed DER encoded vblue.
      *
-     * @param in the DerInputStream to read the ReasonFlags from.
+     * @pbrbm in the DerInputStrebm to rebd the RebsonFlbgs from.
      * @exception IOException on decoding errors.
      */
-    public ReasonFlags(DerInputStream in) throws IOException {
-        DerValue derVal = in.getDerValue();
-        this.bitString = derVal.getUnalignedBitString(true).toBooleanArray();
+    public RebsonFlbgs(DerInputStrebm in) throws IOException {
+        DerVblue derVbl = in.getDerVblue();
+        this.bitString = derVbl.getUnblignedBitString(true).toBoolebnArrby();
     }
 
     /**
-     * Create the object from the passed DER encoded value.
+     * Crebte the object from the pbssed DER encoded vblue.
      *
-     * @param derVal the DerValue decoded from the stream.
+     * @pbrbm derVbl the DerVblue decoded from the strebm.
      * @exception IOException on decoding errors.
      */
-    public ReasonFlags(DerValue derVal) throws IOException {
-        this.bitString = derVal.getUnalignedBitString(true).toBooleanArray();
+    public RebsonFlbgs(DerVblue derVbl) throws IOException {
+        this.bitString = derVbl.getUnblignedBitString(true).toBoolebnArrby();
     }
 
     /**
-     * Returns the reason flags as a boolean array.
+     * Returns the rebson flbgs bs b boolebn brrby.
      */
-    public boolean[] getFlags() {
+    public boolebn[] getFlbgs() {
         return bitString;
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Boolean)) {
-            throw new IOException("Attribute must be of type Boolean.");
+    public void set(String nbme, Object obj) throws IOException {
+        if (!(obj instbnceof Boolebn)) {
+            throw new IOException("Attribute must be of type Boolebn.");
         }
-        boolean val = ((Boolean)obj).booleanValue();
-        set(name2Index(name), val);
+        boolebn vbl = ((Boolebn)obj).boolebnVblue();
+        set(nbme2Index(nbme), vbl);
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Object get(String name) throws IOException {
-        return Boolean.valueOf(isSet(name2Index(name)));
+    public Object get(String nbme) throws IOException {
+        return Boolebn.vblueOf(isSet(nbme2Index(nbme)));
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        set(name, Boolean.FALSE);
+    public void delete(String nbme) throws IOException {
+        set(nbme, Boolebn.FALSE);
     }
 
     /**
-     * Returns a printable representation of the ReasonFlags.
+     * Returns b printbble representbtion of the RebsonFlbgs.
      */
     public String toString() {
-        String s = "Reason Flags [\n";
+        String s = "Rebson Flbgs [\n";
 
         try {
             if (isSet(0)) s += "  Unused\n";
             if (isSet(1)) s += "  Key Compromise\n";
             if (isSet(2)) s += "  CA Compromise\n";
-            if (isSet(3)) s += "  Affiliation_Changed\n";
+            if (isSet(3)) s += "  Affilibtion_Chbnged\n";
             if (isSet(4)) s += "  Superseded\n";
-            if (isSet(5)) s += "  Cessation Of Operation\n";
-            if (isSet(6)) s += "  Certificate Hold\n";
-            if (isSet(7)) s += "  Privilege Withdrawn\n";
+            if (isSet(5)) s += "  Cessbtion Of Operbtion\n";
+            if (isSet(6)) s += "  Certificbte Hold\n";
+            if (isSet(7)) s += "  Privilege Withdrbwn\n";
             if (isSet(8)) s += "  AA Compromise\n";
-        } catch (ArrayIndexOutOfBoundsException ex) {}
+        } cbtch (ArrbyIndexOutOfBoundsException ex) {}
 
         s += "]\n";
 
@@ -219,23 +219,23 @@ public class ReasonFlags {
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        out.putTruncatedUnalignedBitString(new BitArray(this.bitString));
+    public void encode(DerOutputStrebm out) throws IOException {
+        out.putTruncbtedUnblignedBitString(new BitArrby(this.bitString));
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements () {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
+    public Enumerbtion<String> getElements () {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
         for( int i=0; i<NAMES.length; i++ ) {
-            elements.addElement(NAMES[i]);
+            elements.bddElement(NAMES[i]);
         }
         return (elements.elements());
     }

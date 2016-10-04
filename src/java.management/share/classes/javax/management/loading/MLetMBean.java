@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.loading;
+pbckbge jbvbx.mbnbgement.lobding;
 
-import java.net.URL;
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Set;
-import java.util.Enumeration;
+import jbvb.net.URL;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Set;
+import jbvb.util.Enumerbtion;
 
-import javax.management.*;
+import jbvbx.mbnbgement.*;
 
 
 
 /**
- * Exposes the remote management interface of the MLet
- * MBean.
+ * Exposes the remote mbnbgement interfbce of the MLet
+ * MBebn.
  *
  * @since 1.5
  */
-public interface MLetMBean   {
+public interfbce MLetMBebn   {
 
 
     /**
-     * Loads a text file containing MLET tags that define the MBeans
-     * to be added to the MBean server. The location of the text file is
-     * specified by a URL. The text file is read using the UTF-8
-     * encoding. The MBeans specified in the MLET file will be
-     * instantiated and registered in the MBean server.
+     * Lobds b text file contbining MLET tbgs thbt define the MBebns
+     * to be bdded to the MBebn server. The locbtion of the text file is
+     * specified by b URL. The text file is rebd using the UTF-8
+     * encoding. The MBebns specified in the MLET file will be
+     * instbntibted bnd registered in the MBebn server.
      *
-     * @param url The URL of the text file to be loaded as String object.
+     * @pbrbm url The URL of the text file to be lobded bs String object.
      *
-     * @return A set containing one entry per MLET tag in the m-let
-     * text file loaded.  Each entry specifies either the
-     * ObjectInstance for the created MBean, or a throwable object
-     * (that is, an error or an exception) if the MBean could not be
-     * created.
+     * @return A set contbining one entry per MLET tbg in the m-let
+     * text file lobded.  Ebch entry specifies either the
+     * ObjectInstbnce for the crebted MBebn, or b throwbble object
+     * (thbt is, bn error or bn exception) if the MBebn could not be
+     * crebted.
      *
      * @exception ServiceNotFoundException One of the following errors
-     * has occurred: The m-let text file does not contain an MLET tag,
-     * the m-let text file is not found, a mandatory attribute of the
-     * MLET tag is not specified, the value of url is malformed.
+     * hbs occurred: The m-let text file does not contbin bn MLET tbg,
+     * the m-let text file is not found, b mbndbtory bttribute of the
+     * MLET tbg is not specified, the vblue of url is mblformed.
      */
-    public Set<Object> getMBeansFromURL(String url)
+    public Set<Object> getMBebnsFromURL(String url)
             throws ServiceNotFoundException;
 
     /**
-     * Loads a text file containing MLET tags that define the MBeans
-     * to be added to the MBean server. The location of the text file is
-     * specified by a URL. The text file is read using the UTF-8
-     * encoding. The MBeans specified in the MLET file will be
-     * instantiated and registered in the MBean server.
+     * Lobds b text file contbining MLET tbgs thbt define the MBebns
+     * to be bdded to the MBebn server. The locbtion of the text file is
+     * specified by b URL. The text file is rebd using the UTF-8
+     * encoding. The MBebns specified in the MLET file will be
+     * instbntibted bnd registered in the MBebn server.
      *
-     * @param url The URL of the text file to be loaded as URL object.
+     * @pbrbm url The URL of the text file to be lobded bs URL object.
      *
-     * @return A set containing one entry per MLET tag in the m-let
-     * text file loaded.  Each entry specifies either the
-     * ObjectInstance for the created MBean, or a throwable object
-     * (that is, an error or an exception) if the MBean could not be
-     * created.
+     * @return A set contbining one entry per MLET tbg in the m-let
+     * text file lobded.  Ebch entry specifies either the
+     * ObjectInstbnce for the crebted MBebn, or b throwbble object
+     * (thbt is, bn error or bn exception) if the MBebn could not be
+     * crebted.
      *
      * @exception ServiceNotFoundException One of the following errors
-     * has occurred: The m-let text file does not contain an MLET tag,
-     * the m-let text file is not found, a mandatory attribute of the
-     * MLET tag is not specified, the value of url is null.
+     * hbs occurred: The m-let text file does not contbin bn MLET tbg,
+     * the m-let text file is not found, b mbndbtory bttribute of the
+     * MLET tbg is not specified, the vblue of url is null.
      */
-    public Set<Object> getMBeansFromURL(URL url)
+    public Set<Object> getMBebnsFromURL(URL url)
             throws ServiceNotFoundException;
 
     /**
-     * Appends the specified URL to the list of URLs to search for classes and
+     * Appends the specified URL to the list of URLs to sebrch for clbsses bnd
      * resources.
      *
-     * @param url the URL to add.
+     * @pbrbm url the URL to bdd.
      */
-    public void addURL(URL url) ;
+    public void bddURL(URL url) ;
 
     /**
-     * Appends the specified URL to the list of URLs to search for classes and
+     * Appends the specified URL to the list of URLs to sebrch for clbsses bnd
      * resources.
      *
-     * @param url the URL to add.
+     * @pbrbm url the URL to bdd.
      *
-     * @exception ServiceNotFoundException The specified URL is malformed.
+     * @exception ServiceNotFoundException The specified URL is mblformed.
      */
-    public void addURL(String url) throws ServiceNotFoundException;
+    public void bddURL(String url) throws ServiceNotFoundException;
 
     /**
-     * Returns the search path of URLs for loading classes and resources.
-     * This includes the original list of URLs specified to the constructor,
-     * along with any URLs subsequently appended by the addURL() method.
+     * Returns the sebrch pbth of URLs for lobding clbsses bnd resources.
+     * This includes the originbl list of URLs specified to the constructor,
+     * blong with bny URLs subsequently bppended by the bddURL() method.
      *
      * @return the list of URLs.
      */
     public URL[] getURLs();
 
-    /** Finds the resource with the given name.
-     * A resource is some data (images, audio, text, etc) that can be accessed by class code in a way that is
-     *   independent of the location of the code.
-     *   The name of a resource is a "/"-separated path name that identifies the resource.
+    /** Finds the resource with the given nbme.
+     * A resource is some dbtb (imbges, budio, text, etc) thbt cbn be bccessed by clbss code in b wby thbt is
+     *   independent of the locbtion of the code.
+     *   The nbme of b resource is b "/"-sepbrbted pbth nbme thbt identifies the resource.
      *
-     * @param name The resource name
+     * @pbrbm nbme The resource nbme
      *
-     * @return  An URL for reading the resource, or null if the resource could not be found or the caller doesn't have adequate privileges to get the
+     * @return  An URL for rebding the resource, or null if the resource could not be found or the cbller doesn't hbve bdequbte privileges to get the
      * resource.
      */
-    public URL getResource(String name);
+    public URL getResource(String nbme);
 
-    /** Returns an input stream for reading the specified resource. The search order is described in the documentation for
+    /** Returns bn input strebm for rebding the specified resource. The sebrch order is described in the documentbtion for
      *  getResource(String).
      *
-     * @param name  The resource name
+     * @pbrbm nbme  The resource nbme
      *
-     * @return An input stream for reading the resource, or null if the resource could not be found
+     * @return An input strebm for rebding the resource, or null if the resource could not be found
      *
      */
-    public InputStream getResourceAsStream(String name);
+    public InputStrebm getResourceAsStrebm(String nbme);
 
     /**
-     * Finds all the resources with the given name. A resource is some
-     * data (images, audio, text, etc) that can be accessed by class
-     * code in a way that is independent of the location of the code.
-     * The name of a resource is a "/"-separated path name that
+     * Finds bll the resources with the given nbme. A resource is some
+     * dbtb (imbges, budio, text, etc) thbt cbn be bccessed by clbss
+     * code in b wby thbt is independent of the locbtion of the code.
+     * The nbme of b resource is b "/"-sepbrbted pbth nbme thbt
      * identifies the resource.
      *
-     * @param name The  resource name.
+     * @pbrbm nbme The  resource nbme.
      *
-     * @return An enumeration of URL to the resource. If no resources
-     * could be found, the enumeration will be empty. Resources that
-     * cannot be accessed will not be in the enumeration.
+     * @return An enumerbtion of URL to the resource. If no resources
+     * could be found, the enumerbtion will be empty. Resources thbt
+     * cbnnot be bccessed will not be in the enumerbtion.
      *
-     * @exception IOException if an I/O exception occurs when
-     * searching for resources.
+     * @exception IOException if bn I/O exception occurs when
+     * sebrching for resources.
      */
-    public Enumeration<URL> getResources(String name) throws IOException;
+    public Enumerbtion<URL> getResources(String nbme) throws IOException;
 
     /**
-     * Gets the current directory used by the library loader for
-     * storing native libraries before they are loaded into memory.
+     * Gets the current directory used by the librbry lobder for
+     * storing nbtive librbries before they bre lobded into memory.
      *
-     * @return The current directory used by the library loader.
+     * @return The current directory used by the librbry lobder.
      *
-     * @see #setLibraryDirectory
+     * @see #setLibrbryDirectory
      *
-     * @throws UnsupportedOperationException if this implementation
-     * does not support storing native libraries in this way.
+     * @throws UnsupportedOperbtionException if this implementbtion
+     * does not support storing nbtive librbries in this wby.
      */
-    public String getLibraryDirectory();
+    public String getLibrbryDirectory();
 
     /**
-     * Sets the directory used by the library loader for storing
-     * native libraries before they are loaded into memory.
+     * Sets the directory used by the librbry lobder for storing
+     * nbtive librbries before they bre lobded into memory.
      *
-     * @param libdir The directory used by the library loader.
+     * @pbrbm libdir The directory used by the librbry lobder.
      *
-     * @see #getLibraryDirectory
+     * @see #getLibrbryDirectory
      *
-     * @throws UnsupportedOperationException if this implementation
-     * does not support storing native libraries in this way.
+     * @throws UnsupportedOperbtionException if this implementbtion
+     * does not support storing nbtive librbries in this wby.
      */
-    public void setLibraryDirectory(String libdir);
+    public void setLibrbryDirectory(String libdir);
 
  }

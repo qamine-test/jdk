@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.io.OutputStream;
+import jbvb.io.OutputStrebm;
 
-import javax.print.DocFlavor;
-import javax.print.StreamPrintService;
-import javax.print.StreamPrintServiceFactory;
+import jbvbx.print.DocFlbvor;
+import jbvbx.print.StrebmPrintService;
+import jbvbx.print.StrebmPrintServiceFbctory;
 
-public class PSStreamPrinterFactory extends StreamPrintServiceFactory {
+public clbss PSStrebmPrinterFbctory extends StrebmPrintServiceFbctory {
 
-    static final String psMimeType = "application/postscript";
+    stbtic finbl String psMimeType = "bpplicbtion/postscript";
 
-    static final DocFlavor[] supportedDocFlavors = {
-         DocFlavor.SERVICE_FORMATTED.PAGEABLE,
-         DocFlavor.SERVICE_FORMATTED.PRINTABLE,
-         DocFlavor.BYTE_ARRAY.GIF,
-         DocFlavor.INPUT_STREAM.GIF,
-         DocFlavor.URL.GIF,
-         DocFlavor.BYTE_ARRAY.JPEG,
-         DocFlavor.INPUT_STREAM.JPEG,
-         DocFlavor.URL.JPEG,
-         DocFlavor.BYTE_ARRAY.PNG,
-         DocFlavor.INPUT_STREAM.PNG,
-         DocFlavor.URL.PNG,
+    stbtic finbl DocFlbvor[] supportedDocFlbvors = {
+         DocFlbvor.SERVICE_FORMATTED.PAGEABLE,
+         DocFlbvor.SERVICE_FORMATTED.PRINTABLE,
+         DocFlbvor.BYTE_ARRAY.GIF,
+         DocFlbvor.INPUT_STREAM.GIF,
+         DocFlbvor.URL.GIF,
+         DocFlbvor.BYTE_ARRAY.JPEG,
+         DocFlbvor.INPUT_STREAM.JPEG,
+         DocFlbvor.URL.JPEG,
+         DocFlbvor.BYTE_ARRAY.PNG,
+         DocFlbvor.INPUT_STREAM.PNG,
+         DocFlbvor.URL.PNG,
     };
 
-    public  String getOutputFormat() {
+    public  String getOutputFormbt() {
         return psMimeType;
     }
 
-    public DocFlavor[] getSupportedDocFlavors() {
-        return getFlavors();
+    public DocFlbvor[] getSupportedDocFlbvors() {
+        return getFlbvors();
     }
 
-    static DocFlavor[] getFlavors() {
-        DocFlavor[] flavors = new DocFlavor[supportedDocFlavors.length];
-        System.arraycopy(supportedDocFlavors, 0, flavors, 0, flavors.length);
-        return flavors;
+    stbtic DocFlbvor[] getFlbvors() {
+        DocFlbvor[] flbvors = new DocFlbvor[supportedDocFlbvors.length];
+        System.brrbycopy(supportedDocFlbvors, 0, flbvors, 0, flbvors.length);
+        return flbvors;
     }
 
-    public StreamPrintService getPrintService(OutputStream out) {
-        return new PSStreamPrintService(out);
+    public StrebmPrintService getPrintService(OutputStrebm out) {
+        return new PSStrebmPrintService(out);
     }
 
 }

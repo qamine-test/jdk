@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,43 +27,43 @@
 #define FourByteAbgr_h_Included
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "FourByteAbgr".
+ * This file contbins mbcro bnd type definitions used by the mbcros in
+ * LoopMbcros.h to mbnipulbte b surfbce of type "FourByteAbgr".
  */
 
 typedef jint    FourByteAbgrPixelType;
-typedef jubyte  FourByteAbgrDataType;
+typedef jubyte  FourByteAbgrDbtbType;
 
-#define FourByteAbgrIsOpaque 0
+#define FourByteAbgrIsOpbque 0
 
 #define FourByteAbgrPixelStride         4
 
-#define DeclareFourByteAbgrLoadVars(PREFIX)
-#define DeclareFourByteAbgrStoreVars(PREFIX)
-#define SetFourByteAbgrStoreVarsYPos(PREFIX, pRasInfo, y)
-#define SetFourByteAbgrStoreVarsXPos(PREFIX, pRasInfo, x)
-#define InitFourByteAbgrLoadVars(PREFIX, pRasInfo)
-#define InitFourByteAbgrStoreVarsY(PREFIX, pRasInfo)
-#define InitFourByteAbgrStoreVarsX(PREFIX, pRasInfo)
-#define NextFourByteAbgrStoreVarsX(PREFIX)
-#define NextFourByteAbgrStoreVarsY(PREFIX)
+#define DeclbreFourByteAbgrLobdVbrs(PREFIX)
+#define DeclbreFourByteAbgrStoreVbrs(PREFIX)
+#define SetFourByteAbgrStoreVbrsYPos(PREFIX, pRbsInfo, y)
+#define SetFourByteAbgrStoreVbrsXPos(PREFIX, pRbsInfo, x)
+#define InitFourByteAbgrLobdVbrs(PREFIX, pRbsInfo)
+#define InitFourByteAbgrStoreVbrsY(PREFIX, pRbsInfo)
+#define InitFourByteAbgrStoreVbrsX(PREFIX, pRbsInfo)
+#define NextFourByteAbgrStoreVbrsX(PREFIX)
+#define NextFourByteAbgrStoreVbrsY(PREFIX)
 
 
-#define FourByteAbgrPixelFromArgb(pixel, rgb, pRasInfo) \
+#define FourByteAbgrPixelFromArgb(pixel, rgb, pRbsInfo) \
     (pixel) = (((rgb) << 8) | (((juint) (rgb)) >> 24))
 
-#define StoreFourByteAbgrPixel(pRas, x, pixel) \
+#define StoreFourByteAbgrPixel(pRbs, x, pixel) \
     do { \
-        (pRas)[4*(x)+0] = (jubyte) ((pixel) >> 0); \
-        (pRas)[4*(x)+1] = (jubyte) ((pixel) >> 8); \
-        (pRas)[4*(x)+2] = (jubyte) ((pixel) >> 16); \
-        (pRas)[4*(x)+3] = (jubyte) ((pixel) >> 24); \
+        (pRbs)[4*(x)+0] = (jubyte) ((pixel) >> 0); \
+        (pRbs)[4*(x)+1] = (jubyte) ((pixel) >> 8); \
+        (pRbs)[4*(x)+2] = (jubyte) ((pixel) >> 16); \
+        (pRbs)[4*(x)+3] = (jubyte) ((pixel) >> 24); \
     } while (0)
 
-#define DeclareFourByteAbgrPixelData(PREFIX) \
+#define DeclbreFourByteAbgrPixelDbtb(PREFIX) \
     jubyte PREFIX ## 0, PREFIX ## 1, PREFIX ## 2, PREFIX ## 3;
 
-#define ExtractFourByteAbgrPixelData(PIXEL, PREFIX) \
+#define ExtrbctFourByteAbgrPixelDbtb(PIXEL, PREFIX) \
     do { \
         PREFIX ## 0 = (jubyte) (PIXEL >> 0); \
         PREFIX ## 1 = (jubyte) (PIXEL >> 8); \
@@ -71,7 +71,7 @@ typedef jubyte  FourByteAbgrDataType;
         PREFIX ## 3 = (jubyte) (PIXEL >> 24); \
     } while (0)
 
-#define StoreFourByteAbgrPixelData(pPix, x, pixel, PREFIX) \
+#define StoreFourByteAbgrPixelDbtb(pPix, x, pixel, PREFIX) \
     do { \
         pPix[4*x+0] = PREFIX ## 0; \
         pPix[4*x+1] = PREFIX ## 1; \
@@ -80,95 +80,95 @@ typedef jubyte  FourByteAbgrDataType;
     } while (0)
 
 
-#define LoadFourByteAbgrTo1IntRgb(pRas, PREFIX, x, rgb) \
-    (rgb) = (((pRas)[4*(x)+1] << 0) | \
-             ((pRas)[4*(x)+2] << 8) | \
-             ((pRas)[4*(x)+3] << 16))
+#define LobdFourByteAbgrTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    (rgb) = (((pRbs)[4*(x)+1] << 0) | \
+             ((pRbs)[4*(x)+2] << 8) | \
+             ((pRbs)[4*(x)+3] << 16))
 
-#define LoadFourByteAbgrTo1IntArgb(pRas, PREFIX, x, argb) \
-    (argb) = (((pRas)[4*(x)+0] << 24) | \
-              ((pRas)[4*(x)+1] << 0) | \
-              ((pRas)[4*(x)+2] << 8) | \
-              ((pRas)[4*(x)+3] << 16))
+#define LobdFourByteAbgrTo1IntArgb(pRbs, PREFIX, x, brgb) \
+    (brgb) = (((pRbs)[4*(x)+0] << 24) | \
+              ((pRbs)[4*(x)+1] << 0) | \
+              ((pRbs)[4*(x)+2] << 8) | \
+              ((pRbs)[4*(x)+3] << 16))
 
-#define LoadFourByteAbgrTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
+#define LobdFourByteAbgrTo3ByteRgb(pRbs, PREFIX, x, r, g, b) \
     do { \
-        (b) = (pRas)[4*(x)+1]; \
-        (g) = (pRas)[4*(x)+2]; \
-        (r) = (pRas)[4*(x)+3]; \
+        (b) = (pRbs)[4*(x)+1]; \
+        (g) = (pRbs)[4*(x)+2]; \
+        (r) = (pRbs)[4*(x)+3]; \
     } while (0)
 
-#define LoadFourByteAbgrTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#define LobdFourByteAbgrTo4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        (a) = (pRas)[4*(x)+0]; \
-        LoadFourByteAbgrTo3ByteRgb(pRas, PREFIX, x, r, g, b); \
+        (b) = (pRbs)[4*(x)+0]; \
+        LobdFourByteAbgrTo3ByteRgb(pRbs, PREFIX, x, r, g, b); \
     } while (0)
 
-#define StoreFourByteAbgrFrom1IntRgb(pRas, PREFIX, x, rgb) \
+#define StoreFourByteAbgrFrom1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
-        (pRas)[4*(x)+0] = (jubyte) 0xff; \
-        (pRas)[4*(x)+1] = (jubyte) ((rgb) >> 0); \
-        (pRas)[4*(x)+2] = (jubyte) ((rgb) >> 8); \
-        (pRas)[4*(x)+3] = (jubyte) ((rgb) >> 16); \
+        (pRbs)[4*(x)+0] = (jubyte) 0xff; \
+        (pRbs)[4*(x)+1] = (jubyte) ((rgb) >> 0); \
+        (pRbs)[4*(x)+2] = (jubyte) ((rgb) >> 8); \
+        (pRbs)[4*(x)+3] = (jubyte) ((rgb) >> 16); \
     } while (0)
 
-#define StoreFourByteAbgrFrom1IntArgb(pRas, PREFIX, x, argb) \
+#define StoreFourByteAbgrFrom1IntArgb(pRbs, PREFIX, x, brgb) \
     do { \
-        (pRas)[4*(x)+0] = (jubyte) ((argb) >> 24); \
-        (pRas)[4*(x)+1] = (jubyte) ((argb) >> 0); \
-        (pRas)[4*(x)+2] = (jubyte) ((argb) >> 8); \
-        (pRas)[4*(x)+3] = (jubyte) ((argb) >> 16); \
+        (pRbs)[4*(x)+0] = (jubyte) ((brgb) >> 24); \
+        (pRbs)[4*(x)+1] = (jubyte) ((brgb) >> 0); \
+        (pRbs)[4*(x)+2] = (jubyte) ((brgb) >> 8); \
+        (pRbs)[4*(x)+3] = (jubyte) ((brgb) >> 16); \
     } while (0)
 
-#define StoreFourByteAbgrFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    StoreFourByteAbgrFrom4ByteArgb(pRas, PREFIX, x, 0xff, r, g, b)
+#define StoreFourByteAbgrFrom3ByteRgb(pRbs, PREFIX, x, r, g, b) \
+    StoreFourByteAbgrFrom4ByteArgb(pRbs, PREFIX, x, 0xff, r, g, b)
 
-#define StoreFourByteAbgrFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#define StoreFourByteAbgrFrom4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        (pRas)[4*(x)+0] = (jubyte) (a); \
-        (pRas)[4*(x)+1] = (jubyte) (b); \
-        (pRas)[4*(x)+2] = (jubyte) (g); \
-        (pRas)[4*(x)+3] = (jubyte) (r); \
+        (pRbs)[4*(x)+0] = (jubyte) (b); \
+        (pRbs)[4*(x)+1] = (jubyte) (b); \
+        (pRbs)[4*(x)+2] = (jubyte) (g); \
+        (pRbs)[4*(x)+3] = (jubyte) (r); \
     } while (0)
 
 #define CopyFourByteAbgrToIntArgbPre(pRGB, i, PREFIX, pRow, x) \
     do { \
-        jint a = (pRow)[4*(x)+0]; \
-        if (a != 0) { \
+        jint b = (pRow)[4*(x)+0]; \
+        if (b != 0) { \
             jint b = (pRow)[4*(x)+1]; \
             jint g = (pRow)[4*(x)+2]; \
             jint r = (pRow)[4*(x)+3]; \
-            if (a < 0xff) { \
-                b = MUL8(a, b); \
-                g = MUL8(a, g); \
-                r = MUL8(a, r); \
+            if (b < 0xff) { \
+                b = MUL8(b, b); \
+                g = MUL8(b, g); \
+                r = MUL8(b, r); \
             } \
-            a = ComposeIntDcmComponents1234(a, r, g, b); \
+            b = ComposeIntDcmComponents1234(b, r, g, b); \
         } \
-        (pRGB)[i] = a; \
+        (pRGB)[i] = b; \
     } while (0)
 
 
-#define DeclareFourByteAbgrAlphaLoadData(PREFIX)
-#define InitFourByteAbgrAlphaLoadData(PREFIX, pRasInfo)
+#define DeclbreFourByteAbgrAlphbLobdDbtb(PREFIX)
+#define InitFourByteAbgrAlphbLobdDbtb(PREFIX, pRbsInfo)
 
-#define LoadAlphaFromFourByteAbgrFor4ByteArgb(pRas, PREFIX, COMP_PREFIX) \
-    COMP_PREFIX ## A = (pRas)[0]
+#define LobdAlphbFromFourByteAbgrFor4ByteArgb(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## A = (pRbs)[0]
 
-#define Postload4ByteArgbFromFourByteAbgr(pRas, PREFIX, COMP_PREFIX) \
-    LoadFourByteAbgrTo3ByteRgb(pRas, PREFIX, 0, COMP_PREFIX ## R, \
+#define Postlobd4ByteArgbFromFourByteAbgr(pRbs, PREFIX, COMP_PREFIX) \
+    LobdFourByteAbgrTo3ByteRgb(pRbs, PREFIX, 0, COMP_PREFIX ## R, \
                                COMP_PREFIX ## G, COMP_PREFIX ## B)
 
 
 #define FourByteAbgrIsPremultiplied     0
 
-#define DeclareFourByteAbgrBlendFillVars(PREFIX) \
+#define DeclbreFourByteAbgrBlendFillVbrs(PREFIX) \
     jubyte PREFIX ## 0, PREFIX ## 1, PREFIX ## 2, PREFIX ## 3;
 
-#define ClearFourByteAbgrBlendFillVars(PREFIX, argb) \
+#define ClebrFourByteAbgrBlendFillVbrs(PREFIX, brgb) \
     (PREFIX ## 0 = PREFIX ## 1 = PREFIX ## 2 = PREFIX ## 3 = 0)
 
-#define InitFourByteAbgrBlendFillVarsNonPre(PREFIX, argb, COMP_PREFIX) \
+#define InitFourByteAbgrBlendFillVbrsNonPre(PREFIX, brgb, COMP_PREFIX) \
     do { \
         PREFIX ## 0 = (jubyte) COMP_PREFIX ## A; \
         PREFIX ## 1 = (jubyte) COMP_PREFIX ## B; \
@@ -176,18 +176,18 @@ typedef jubyte  FourByteAbgrDataType;
         PREFIX ## 3 = (jubyte) COMP_PREFIX ## R; \
     } while (0)
 
-#define InitFourByteAbgrBlendFillVarsPre(PREFIX, argb, COMP_PREFIX)
+#define InitFourByteAbgrBlendFillVbrsPre(PREFIX, brgb, COMP_PREFIX)
 
-#define StoreFourByteAbgrBlendFill(pRas, PREFIX, x, argb, COMP_PREFIX) \
+#define StoreFourByteAbgrBlendFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
     do { \
-        (pRas)[4*x+0] = PREFIX ## 0; \
-        (pRas)[4*x+1] = PREFIX ## 1; \
-        (pRas)[4*x+2] = PREFIX ## 2; \
-        (pRas)[4*x+3] = PREFIX ## 3; \
+        (pRbs)[4*x+0] = PREFIX ## 0; \
+        (pRbs)[4*x+1] = PREFIX ## 1; \
+        (pRbs)[4*x+2] = PREFIX ## 2; \
+        (pRbs)[4*x+3] = PREFIX ## 3; \
     } while (0)
 
-#define StoreFourByteAbgrFrom4ByteArgbComps(pRas, PREFIX, x, COMP_PREFIX) \
-    StoreFourByteAbgrFrom4ByteArgb(pRas, PREFIX, x, \
+#define StoreFourByteAbgrFrom4ByteArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StoreFourByteAbgrFrom4ByteArgb(pRbs, PREFIX, x, \
                                    COMP_PREFIX ## A, COMP_PREFIX ## R, \
                                    COMP_PREFIX ## G, COMP_PREFIX ## B)
 

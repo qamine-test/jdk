@@ -3,224 +3,224 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.c14n;
+pbckbge com.sun.org.bpbche.xml.internbl.security.c14n;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsers.DocumentBuilder;
+import jbvbx.xml.pbrsers.DocumentBuilderFbctory;
 
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer11_OmitComments;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer11_WithComments;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer20010315ExclOmitComments;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer20010315ExclWithComments;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer20010315OmitComments;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer20010315WithComments;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.CanonicalizerPhysical;
-import com.sun.org.apache.xml.internal.security.exceptions.AlgorithmAlreadyRegisteredException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.Cbnonicblizer11_OmitComments;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.Cbnonicblizer11_WithComments;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.Cbnonicblizer20010315ExclOmitComments;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.Cbnonicblizer20010315ExclWithComments;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.Cbnonicblizer20010315OmitComments;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.Cbnonicblizer20010315WithComments;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.CbnonicblizerPhysicbl;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.AlgorithmAlrebdyRegisteredException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+import org.xml.sbx.InputSource;
 
 /**
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class Canonicalizer {
+public clbss Cbnonicblizer {
 
-    /** The output encoding of canonicalized data */
-    public static final String ENCODING = "UTF8";
+    /** The output encoding of cbnonicblized dbtb */
+    public stbtic finbl String ENCODING = "UTF8";
 
     /**
-     * XPath Expression for selecting every node and continuous comments joined
+     * XPbth Expression for selecting every node bnd continuous comments joined
      * in only one node
      */
-    public static final String XPATH_C14N_WITH_COMMENTS_SINGLE_NODE =
-        "(.//. | .//@* | .//namespace::*)";
+    public stbtic finbl String XPATH_C14N_WITH_COMMENTS_SINGLE_NODE =
+        "(.//. | .//@* | .//nbmespbce::*)";
 
     /**
      * The URL defined in XML-SEC Rec for inclusive c14n <b>without</b> comments.
      */
-    public static final String ALGO_ID_C14N_OMIT_COMMENTS =
+    public stbtic finbl String ALGO_ID_C14N_OMIT_COMMENTS =
         "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
     /**
      * The URL defined in XML-SEC Rec for inclusive c14n <b>with</b> comments.
      */
-    public static final String ALGO_ID_C14N_WITH_COMMENTS =
+    public stbtic finbl String ALGO_ID_C14N_WITH_COMMENTS =
         ALGO_ID_C14N_OMIT_COMMENTS + "#WithComments";
     /**
      * The URL defined in XML-SEC Rec for exclusive c14n <b>without</b> comments.
      */
-    public static final String ALGO_ID_C14N_EXCL_OMIT_COMMENTS =
+    public stbtic finbl String ALGO_ID_C14N_EXCL_OMIT_COMMENTS =
         "http://www.w3.org/2001/10/xml-exc-c14n#";
     /**
      * The URL defined in XML-SEC Rec for exclusive c14n <b>with</b> comments.
      */
-    public static final String ALGO_ID_C14N_EXCL_WITH_COMMENTS =
+    public stbtic finbl String ALGO_ID_C14N_EXCL_WITH_COMMENTS =
         ALGO_ID_C14N_EXCL_OMIT_COMMENTS + "WithComments";
     /**
      * The URI for inclusive c14n 1.1 <b>without</b> comments.
      */
-    public static final String ALGO_ID_C14N11_OMIT_COMMENTS =
+    public stbtic finbl String ALGO_ID_C14N11_OMIT_COMMENTS =
         "http://www.w3.org/2006/12/xml-c14n11";
     /**
      * The URI for inclusive c14n 1.1 <b>with</b> comments.
      */
-    public static final String ALGO_ID_C14N11_WITH_COMMENTS =
+    public stbtic finbl String ALGO_ID_C14N11_WITH_COMMENTS =
         ALGO_ID_C14N11_OMIT_COMMENTS + "#WithComments";
     /**
-     * Non-standard algorithm to serialize the physical representation for XML Encryption
+     * Non-stbndbrd blgorithm to seriblize the physicbl representbtion for XML Encryption
      */
-    public static final String ALGO_ID_C14N_PHYSICAL =
-        "http://santuario.apache.org/c14n/physical";
+    public stbtic finbl String ALGO_ID_C14N_PHYSICAL =
+        "http://sbntubrio.bpbche.org/c14n/physicbl";
 
-    private static Map<String, Class<? extends CanonicalizerSpi>> canonicalizerHash =
-        new ConcurrentHashMap<String, Class<? extends CanonicalizerSpi>>();
+    privbte stbtic Mbp<String, Clbss<? extends CbnonicblizerSpi>> cbnonicblizerHbsh =
+        new ConcurrentHbshMbp<String, Clbss<? extends CbnonicblizerSpi>>();
 
-    private final CanonicalizerSpi canonicalizerSpi;
+    privbte finbl CbnonicblizerSpi cbnonicblizerSpi;
 
     /**
-     * Constructor Canonicalizer
+     * Constructor Cbnonicblizer
      *
-     * @param algorithmURI
-     * @throws InvalidCanonicalizerException
+     * @pbrbm blgorithmURI
+     * @throws InvblidCbnonicblizerException
      */
-    private Canonicalizer(String algorithmURI) throws InvalidCanonicalizerException {
+    privbte Cbnonicblizer(String blgorithmURI) throws InvblidCbnonicblizerException {
         try {
-            Class<? extends CanonicalizerSpi> implementingClass =
-                canonicalizerHash.get(algorithmURI);
+            Clbss<? extends CbnonicblizerSpi> implementingClbss =
+                cbnonicblizerHbsh.get(blgorithmURI);
 
-            canonicalizerSpi = implementingClass.newInstance();
-            canonicalizerSpi.reset = true;
-        } catch (Exception e) {
-            Object exArgs[] = { algorithmURI };
-            throw new InvalidCanonicalizerException(
-                "signature.Canonicalizer.UnknownCanonicalizer", exArgs, e
+            cbnonicblizerSpi = implementingClbss.newInstbnce();
+            cbnonicblizerSpi.reset = true;
+        } cbtch (Exception e) {
+            Object exArgs[] = { blgorithmURI };
+            throw new InvblidCbnonicblizerException(
+                "signbture.Cbnonicblizer.UnknownCbnonicblizer", exArgs, e
             );
         }
     }
 
     /**
-     * Method getInstance
+     * Method getInstbnce
      *
-     * @param algorithmURI
-     * @return a Canonicalizer instance ready for the job
-     * @throws InvalidCanonicalizerException
+     * @pbrbm blgorithmURI
+     * @return b Cbnonicblizer instbnce rebdy for the job
+     * @throws InvblidCbnonicblizerException
      */
-    public static final Canonicalizer getInstance(String algorithmURI)
-        throws InvalidCanonicalizerException {
-        return new Canonicalizer(algorithmURI);
+    public stbtic finbl Cbnonicblizer getInstbnce(String blgorithmURI)
+        throws InvblidCbnonicblizerException {
+        return new Cbnonicblizer(blgorithmURI);
     }
 
     /**
      * Method register
      *
-     * @param algorithmURI
-     * @param implementingClass
-     * @throws AlgorithmAlreadyRegisteredException
+     * @pbrbm blgorithmURI
+     * @pbrbm implementingClbss
+     * @throws AlgorithmAlrebdyRegisteredException
      */
-    @SuppressWarnings("unchecked")
-    public static void register(String algorithmURI, String implementingClass)
-        throws AlgorithmAlreadyRegisteredException, ClassNotFoundException {
-        // check whether URI is already registered
-        Class<? extends CanonicalizerSpi> registeredClass =
-            canonicalizerHash.get(algorithmURI);
+    @SuppressWbrnings("unchecked")
+    public stbtic void register(String blgorithmURI, String implementingClbss)
+        throws AlgorithmAlrebdyRegisteredException, ClbssNotFoundException {
+        // check whether URI is blrebdy registered
+        Clbss<? extends CbnonicblizerSpi> registeredClbss =
+            cbnonicblizerHbsh.get(blgorithmURI);
 
-        if (registeredClass != null)  {
-            Object exArgs[] = { algorithmURI, registeredClass };
-            throw new AlgorithmAlreadyRegisteredException("algorithm.alreadyRegistered", exArgs);
+        if (registeredClbss != null)  {
+            Object exArgs[] = { blgorithmURI, registeredClbss };
+            throw new AlgorithmAlrebdyRegisteredException("blgorithm.blrebdyRegistered", exArgs);
         }
 
-        canonicalizerHash.put(
-            algorithmURI, (Class<? extends CanonicalizerSpi>)Class.forName(implementingClass)
+        cbnonicblizerHbsh.put(
+            blgorithmURI, (Clbss<? extends CbnonicblizerSpi>)Clbss.forNbme(implementingClbss)
         );
     }
 
     /**
      * Method register
      *
-     * @param algorithmURI
-     * @param implementingClass
-     * @throws AlgorithmAlreadyRegisteredException
+     * @pbrbm blgorithmURI
+     * @pbrbm implementingClbss
+     * @throws AlgorithmAlrebdyRegisteredException
      */
-    public static void register(String algorithmURI, Class<CanonicalizerSpi> implementingClass)
-        throws AlgorithmAlreadyRegisteredException, ClassNotFoundException {
-        // check whether URI is already registered
-        Class<? extends CanonicalizerSpi> registeredClass = canonicalizerHash.get(algorithmURI);
+    public stbtic void register(String blgorithmURI, Clbss<CbnonicblizerSpi> implementingClbss)
+        throws AlgorithmAlrebdyRegisteredException, ClbssNotFoundException {
+        // check whether URI is blrebdy registered
+        Clbss<? extends CbnonicblizerSpi> registeredClbss = cbnonicblizerHbsh.get(blgorithmURI);
 
-        if (registeredClass != null)  {
-            Object exArgs[] = { algorithmURI, registeredClass };
-            throw new AlgorithmAlreadyRegisteredException("algorithm.alreadyRegistered", exArgs);
+        if (registeredClbss != null)  {
+            Object exArgs[] = { blgorithmURI, registeredClbss };
+            throw new AlgorithmAlrebdyRegisteredException("blgorithm.blrebdyRegistered", exArgs);
         }
 
-        canonicalizerHash.put(algorithmURI, implementingClass);
+        cbnonicblizerHbsh.put(blgorithmURI, implementingClbss);
     }
 
     /**
-     * This method registers the default algorithms.
+     * This method registers the defbult blgorithms.
      */
-    public static void registerDefaultAlgorithms() {
-        canonicalizerHash.put(
-            Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS,
-            Canonicalizer20010315OmitComments.class
+    public stbtic void registerDefbultAlgorithms() {
+        cbnonicblizerHbsh.put(
+            Cbnonicblizer.ALGO_ID_C14N_OMIT_COMMENTS,
+            Cbnonicblizer20010315OmitComments.clbss
         );
-        canonicalizerHash.put(
-            Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS,
-            Canonicalizer20010315WithComments.class
+        cbnonicblizerHbsh.put(
+            Cbnonicblizer.ALGO_ID_C14N_WITH_COMMENTS,
+            Cbnonicblizer20010315WithComments.clbss
         );
-        canonicalizerHash.put(
-            Canonicalizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS,
-            Canonicalizer20010315ExclOmitComments.class
+        cbnonicblizerHbsh.put(
+            Cbnonicblizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS,
+            Cbnonicblizer20010315ExclOmitComments.clbss
         );
-        canonicalizerHash.put(
-            Canonicalizer.ALGO_ID_C14N_EXCL_WITH_COMMENTS,
-            Canonicalizer20010315ExclWithComments.class
+        cbnonicblizerHbsh.put(
+            Cbnonicblizer.ALGO_ID_C14N_EXCL_WITH_COMMENTS,
+            Cbnonicblizer20010315ExclWithComments.clbss
         );
-        canonicalizerHash.put(
-            Canonicalizer.ALGO_ID_C14N11_OMIT_COMMENTS,
-            Canonicalizer11_OmitComments.class
+        cbnonicblizerHbsh.put(
+            Cbnonicblizer.ALGO_ID_C14N11_OMIT_COMMENTS,
+            Cbnonicblizer11_OmitComments.clbss
         );
-        canonicalizerHash.put(
-            Canonicalizer.ALGO_ID_C14N11_WITH_COMMENTS,
-            Canonicalizer11_WithComments.class
+        cbnonicblizerHbsh.put(
+            Cbnonicblizer.ALGO_ID_C14N11_WITH_COMMENTS,
+            Cbnonicblizer11_WithComments.clbss
         );
-        canonicalizerHash.put(
-            Canonicalizer.ALGO_ID_C14N_PHYSICAL,
-            CanonicalizerPhysical.class
+        cbnonicblizerHbsh.put(
+            Cbnonicblizer.ALGO_ID_C14N_PHYSICAL,
+            CbnonicblizerPhysicbl.clbss
         );
     }
 
     /**
      * Method getURI
      *
-     * @return the URI defined for this c14n instance.
+     * @return the URI defined for this c14n instbnce.
      */
-    public final String getURI() {
-        return canonicalizerSpi.engineGetURI();
+    public finbl String getURI() {
+        return cbnonicblizerSpi.engineGetURI();
     }
 
     /**
@@ -228,168 +228,168 @@ public class Canonicalizer {
      *
      * @return true if the c14n respect the comments.
      */
-    public boolean getIncludeComments() {
-        return canonicalizerSpi.engineGetIncludeComments();
+    public boolebn getIncludeComments() {
+        return cbnonicblizerSpi.engineGetIncludeComments();
     }
 
     /**
-     * This method tries to canonicalize the given bytes. It's possible to even
-     * canonicalize non-wellformed sequences if they are well-formed after being
-     * wrapped with a <CODE>&gt;a&lt;...&gt;/a&lt;</CODE>.
+     * This method tries to cbnonicblize the given bytes. It's possible to even
+     * cbnonicblize non-wellformed sequences if they bre well-formed bfter being
+     * wrbpped with b <CODE>&gt;b&lt;...&gt;/b&lt;</CODE>.
      *
-     * @param inputBytes
-     * @return the result of the canonicalization.
-     * @throws CanonicalizationException
-     * @throws java.io.IOException
-     * @throws javax.xml.parsers.ParserConfigurationException
-     * @throws org.xml.sax.SAXException
+     * @pbrbm inputBytes
+     * @return the result of the cbnonicblizbtion.
+     * @throws CbnonicblizbtionException
+     * @throws jbvb.io.IOException
+     * @throws jbvbx.xml.pbrsers.PbrserConfigurbtionException
+     * @throws org.xml.sbx.SAXException
      */
-    public byte[] canonicalize(byte[] inputBytes)
-        throws javax.xml.parsers.ParserConfigurationException,
-        java.io.IOException, org.xml.sax.SAXException, CanonicalizationException {
-        InputStream bais = new ByteArrayInputStream(inputBytes);
-        InputSource in = new InputSource(bais);
-        DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
-        dfactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+    public byte[] cbnonicblize(byte[] inputBytes)
+        throws jbvbx.xml.pbrsers.PbrserConfigurbtionException,
+        jbvb.io.IOException, org.xml.sbx.SAXException, CbnonicblizbtionException {
+        InputStrebm bbis = new ByteArrbyInputStrebm(inputBytes);
+        InputSource in = new InputSource(bbis);
+        DocumentBuilderFbctory dfbctory = DocumentBuilderFbctory.newInstbnce();
+        dfbctory.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
 
-        dfactory.setNamespaceAware(true);
+        dfbctory.setNbmespbceAwbre(true);
 
-        // needs to validate for ID attribute normalization
-        dfactory.setValidating(true);
+        // needs to vblidbte for ID bttribute normblizbtion
+        dfbctory.setVblidbting(true);
 
-        DocumentBuilder db = dfactory.newDocumentBuilder();
+        DocumentBuilder db = dfbctory.newDocumentBuilder();
 
         /*
-         * for some of the test vectors from the specification,
-         * there has to be a validating parser for ID attributes, default
-         * attribute values, NMTOKENS, etc.
-         * Unfortunately, the test vectors do use different DTDs or
-         * even no DTD. So Xerces 1.3.1 fires many warnings about using
-         * ErrorHandlers.
+         * for some of the test vectors from the specificbtion,
+         * there hbs to be b vblidbting pbrser for ID bttributes, defbult
+         * bttribute vblues, NMTOKENS, etc.
+         * Unfortunbtely, the test vectors do use different DTDs or
+         * even no DTD. So Xerces 1.3.1 fires mbny wbrnings bbout using
+         * ErrorHbndlers.
          *
          * Text from the spec:
          *
-         * The input octet stream MUST contain a well-formed XML document,
-         * but the input need not be validated. However, the attribute
-         * value normalization and entity reference resolution MUST be
-         * performed in accordance with the behaviors of a validating
-         * XML processor. As well, nodes for default attributes (declared
-         * in the ATTLIST with an AttValue but not specified) are created
-         * in each element. Thus, the declarations in the document type
-         * declaration are used to help create the canonical form, even
-         * though the document type declaration is not retained in the
-         * canonical form.
+         * The input octet strebm MUST contbin b well-formed XML document,
+         * but the input need not be vblidbted. However, the bttribute
+         * vblue normblizbtion bnd entity reference resolution MUST be
+         * performed in bccordbnce with the behbviors of b vblidbting
+         * XML processor. As well, nodes for defbult bttributes (declbred
+         * in the ATTLIST with bn AttVblue but not specified) bre crebted
+         * in ebch element. Thus, the declbrbtions in the document type
+         * declbrbtion bre used to help crebte the cbnonicbl form, even
+         * though the document type declbrbtion is not retbined in the
+         * cbnonicbl form.
          */
-        db.setErrorHandler(new com.sun.org.apache.xml.internal.security.utils.IgnoreAllErrorHandler());
+        db.setErrorHbndler(new com.sun.org.bpbche.xml.internbl.security.utils.IgnoreAllErrorHbndler());
 
-        Document document = db.parse(in);
-        return this.canonicalizeSubtree(document);
+        Document document = db.pbrse(in);
+        return this.cbnonicblizeSubtree(document);
     }
 
     /**
-     * Canonicalizes the subtree rooted by <CODE>node</CODE>.
+     * Cbnonicblizes the subtree rooted by <CODE>node</CODE>.
      *
-     * @param node The node to canonicalize
+     * @pbrbm node The node to cbnonicblize
      * @return the result of the c14n.
      *
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] canonicalizeSubtree(Node node) throws CanonicalizationException {
-        return canonicalizerSpi.engineCanonicalizeSubTree(node);
+    public byte[] cbnonicblizeSubtree(Node node) throws CbnonicblizbtionException {
+        return cbnonicblizerSpi.engineCbnonicblizeSubTree(node);
     }
 
     /**
-     * Canonicalizes the subtree rooted by <CODE>node</CODE>.
+     * Cbnonicblizes the subtree rooted by <CODE>node</CODE>.
      *
-     * @param node
-     * @param inclusiveNamespaces
+     * @pbrbm node
+     * @pbrbm inclusiveNbmespbces
      * @return the result of the c14n.
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] canonicalizeSubtree(Node node, String inclusiveNamespaces)
-        throws CanonicalizationException {
-        return canonicalizerSpi.engineCanonicalizeSubTree(node, inclusiveNamespaces);
+    public byte[] cbnonicblizeSubtree(Node node, String inclusiveNbmespbces)
+        throws CbnonicblizbtionException {
+        return cbnonicblizerSpi.engineCbnonicblizeSubTree(node, inclusiveNbmespbces);
     }
 
     /**
-     * Canonicalizes an XPath node set. The <CODE>xpathNodeSet</CODE> is treated
-     * as a list of XPath nodes, not as a list of subtrees.
+     * Cbnonicblizes bn XPbth node set. The <CODE>xpbthNodeSet</CODE> is trebted
+     * bs b list of XPbth nodes, not bs b list of subtrees.
      *
-     * @param xpathNodeSet
+     * @pbrbm xpbthNodeSet
      * @return the result of the c14n.
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] canonicalizeXPathNodeSet(NodeList xpathNodeSet)
-        throws CanonicalizationException {
-        return canonicalizerSpi.engineCanonicalizeXPathNodeSet(xpathNodeSet);
+    public byte[] cbnonicblizeXPbthNodeSet(NodeList xpbthNodeSet)
+        throws CbnonicblizbtionException {
+        return cbnonicblizerSpi.engineCbnonicblizeXPbthNodeSet(xpbthNodeSet);
     }
 
     /**
-     * Canonicalizes an XPath node set. The <CODE>xpathNodeSet</CODE> is treated
-     * as a list of XPath nodes, not as a list of subtrees.
+     * Cbnonicblizes bn XPbth node set. The <CODE>xpbthNodeSet</CODE> is trebted
+     * bs b list of XPbth nodes, not bs b list of subtrees.
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
+     * @pbrbm xpbthNodeSet
+     * @pbrbm inclusiveNbmespbces
      * @return the result of the c14n.
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] canonicalizeXPathNodeSet(
-        NodeList xpathNodeSet, String inclusiveNamespaces
-    ) throws CanonicalizationException {
+    public byte[] cbnonicblizeXPbthNodeSet(
+        NodeList xpbthNodeSet, String inclusiveNbmespbces
+    ) throws CbnonicblizbtionException {
         return
-            canonicalizerSpi.engineCanonicalizeXPathNodeSet(xpathNodeSet, inclusiveNamespaces);
+            cbnonicblizerSpi.engineCbnonicblizeXPbthNodeSet(xpbthNodeSet, inclusiveNbmespbces);
     }
 
     /**
-     * Canonicalizes an XPath node set.
+     * Cbnonicblizes bn XPbth node set.
      *
-     * @param xpathNodeSet
+     * @pbrbm xpbthNodeSet
      * @return the result of the c14n.
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] canonicalizeXPathNodeSet(Set<Node> xpathNodeSet)
-        throws CanonicalizationException {
-        return canonicalizerSpi.engineCanonicalizeXPathNodeSet(xpathNodeSet);
+    public byte[] cbnonicblizeXPbthNodeSet(Set<Node> xpbthNodeSet)
+        throws CbnonicblizbtionException {
+        return cbnonicblizerSpi.engineCbnonicblizeXPbthNodeSet(xpbthNodeSet);
     }
 
     /**
-     * Canonicalizes an XPath node set.
+     * Cbnonicblizes bn XPbth node set.
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
+     * @pbrbm xpbthNodeSet
+     * @pbrbm inclusiveNbmespbces
      * @return the result of the c14n.
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public byte[] canonicalizeXPathNodeSet(
-        Set<Node> xpathNodeSet, String inclusiveNamespaces
-    ) throws CanonicalizationException {
+    public byte[] cbnonicblizeXPbthNodeSet(
+        Set<Node> xpbthNodeSet, String inclusiveNbmespbces
+    ) throws CbnonicblizbtionException {
         return
-            canonicalizerSpi.engineCanonicalizeXPathNodeSet(xpathNodeSet, inclusiveNamespaces);
+            cbnonicblizerSpi.engineCbnonicblizeXPbthNodeSet(xpbthNodeSet, inclusiveNbmespbces);
     }
 
     /**
-     * Sets the writer where the canonicalization ends.  ByteArrayOutputStream
+     * Sets the writer where the cbnonicblizbtion ends.  ByteArrbyOutputStrebm
      * if none is set.
-     * @param os
+     * @pbrbm os
      */
-    public void setWriter(OutputStream os) {
-        canonicalizerSpi.setWriter(os);
+    public void setWriter(OutputStrebm os) {
+        cbnonicblizerSpi.setWriter(os);
     }
 
     /**
-     * Returns the name of the implementing {@link CanonicalizerSpi} class
+     * Returns the nbme of the implementing {@link CbnonicblizerSpi} clbss
      *
-     * @return the name of the implementing {@link CanonicalizerSpi} class
+     * @return the nbme of the implementing {@link CbnonicblizerSpi} clbss
      */
-    public String getImplementingCanonicalizerClass() {
-        return canonicalizerSpi.getClass().getName();
+    public String getImplementingCbnonicblizerClbss() {
+        return cbnonicblizerSpi.getClbss().getNbme();
     }
 
     /**
-     * Set the canonicalizer behaviour to not reset.
+     * Set the cbnonicblizer behbviour to not reset.
      */
     public void notReset() {
-        canonicalizerSpi.reset = false;
+        cbnonicblizerSpi.reset = fblse;
     }
 
 }

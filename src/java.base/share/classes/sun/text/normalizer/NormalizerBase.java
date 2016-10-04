@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.text.CharacterIterator;
-import java.text.Normalizer;
+import jbvb.text.ChbrbcterIterbtor;
+import jbvb.text.Normblizer;
 
 /**
- * Unicode Normalization
+ * Unicode Normblizbtion
  *
- * <h2>Unicode normalization API</h2>
+ * <h2>Unicode normblizbtion API</h2>
  *
- * <code>normalize</code> transforms Unicode text into an equivalent composed or
- * decomposed form, allowing for easier sorting and searching of text.
- * <code>normalize</code> supports the standard normalization forms described in
- * <a href="http://www.unicode.org/unicode/reports/tr15/" target="unicode">
- * Unicode Standard Annex #15 &mdash; Unicode Normalization Forms</a>.
+ * <code>normblize</code> trbnsforms Unicode text into bn equivblent composed or
+ * decomposed form, bllowing for ebsier sorting bnd sebrching of text.
+ * <code>normblize</code> supports the stbndbrd normblizbtion forms described in
+ * <b href="http://www.unicode.org/unicode/reports/tr15/" tbrget="unicode">
+ * Unicode Stbndbrd Annex #15 &mdbsh; Unicode Normblizbtion Forms</b>.
  *
- * Characters with accents or other adornments can be encoded in
- * several different ways in Unicode.  For example, take the character A-acute.
- * In Unicode, this can be encoded as a single character (the
+ * Chbrbcters with bccents or other bdornments cbn be encoded in
+ * severbl different wbys in Unicode.  For exbmple, tbke the chbrbcter A-bcute.
+ * In Unicode, this cbn be encoded bs b single chbrbcter (the
  * "composed" form):
  *
  * <p>
  *      00C1    LATIN CAPITAL LETTER A WITH ACUTE
  * </p>
  *
- * or as two separate characters (the "decomposed" form):
+ * or bs two sepbrbte chbrbcters (the "decomposed" form):
  *
  * <p>
  *      0041    LATIN CAPITAL LETTER A
  *      0301    COMBINING ACUTE ACCENT
  * </p>
  *
- * To a user of your program, however, both of these sequences should be
- * treated as the same "user-level" character "A with acute accent".  When you
- * are searching or comparing text, you must ensure that these two sequences are
- * treated equivalently.  In addition, you must handle characters with more than
- * one accent.  Sometimes the order of a character's combining accents is
- * significant, while in other cases accent sequences in different orders are
- * really equivalent.
+ * To b user of your progrbm, however, both of these sequences should be
+ * trebted bs the sbme "user-level" chbrbcter "A with bcute bccent".  When you
+ * bre sebrching or compbring text, you must ensure thbt these two sequences bre
+ * trebted equivblently.  In bddition, you must hbndle chbrbcters with more thbn
+ * one bccent.  Sometimes the order of b chbrbcter's combining bccents is
+ * significbnt, while in other cbses bccent sequences in different orders bre
+ * reblly equivblent.
  *
- * Similarly, the string "ffi" can be encoded as three separate letters:
+ * Similbrly, the string "ffi" cbn be encoded bs three sepbrbte letters:
  *
  * <p>
  *      0066    LATIN SMALL LETTER F
@@ -82,704 +82,704 @@ import java.text.Normalizer;
  *      0069    LATIN SMALL LETTER I
  * </p>
  *
- * or as the single character
+ * or bs the single chbrbcter
  *
  * <p>
  *      FB03    LATIN SMALL LIGATURE FFI
  * </p>
  *
- * The ffi ligature is not a distinct semantic character, and strictly speaking
- * it shouldn't be in Unicode at all, but it was included for compatibility
- * with existing character sets that already provided it.  The Unicode standard
- * identifies such characters by giving them "compatibility" decompositions
- * into the corresponding semantic characters.  When sorting and searching, you
- * will often want to use these mappings.
+ * The ffi ligbture is not b distinct sembntic chbrbcter, bnd strictly spebking
+ * it shouldn't be in Unicode bt bll, but it wbs included for compbtibility
+ * with existing chbrbcter sets thbt blrebdy provided it.  The Unicode stbndbrd
+ * identifies such chbrbcters by giving them "compbtibility" decompositions
+ * into the corresponding sembntic chbrbcters.  When sorting bnd sebrching, you
+ * will often wbnt to use these mbppings.
  *
- * <code>normalize</code> helps solve these problems by transforming text into
- * the canonical composed and decomposed forms as shown in the first example
- * above. In addition, you can have it perform compatibility decompositions so
- * that you can treat compatibility characters the same as their equivalents.
- * Finally, <code>normalize</code> rearranges accents into the proper canonical
- * order, so that you do not have to worry about accent rearrangement on your
+ * <code>normblize</code> helps solve these problems by trbnsforming text into
+ * the cbnonicbl composed bnd decomposed forms bs shown in the first exbmple
+ * bbove. In bddition, you cbn hbve it perform compbtibility decompositions so
+ * thbt you cbn trebt compbtibility chbrbcters the sbme bs their equivblents.
+ * Finblly, <code>normblize</code> rebrrbnges bccents into the proper cbnonicbl
+ * order, so thbt you do not hbve to worry bbout bccent rebrrbngement on your
  * own.
  *
- * Form FCD, "Fast C or D", is also designed for collation.
- * It allows to work on strings that are not necessarily normalized
- * with an algorithm (like in collation) that works under "canonical closure",
- * i.e., it treats precomposed characters and their decomposed equivalents the
- * same.
+ * Form FCD, "Fbst C or D", is blso designed for collbtion.
+ * It bllows to work on strings thbt bre not necessbrily normblized
+ * with bn blgorithm (like in collbtion) thbt works under "cbnonicbl closure",
+ * i.e., it trebts precomposed chbrbcters bnd their decomposed equivblents the
+ * sbme.
  *
- * It is not a normalization form because it does not provide for uniqueness of
- * representation. Multiple strings may be canonically equivalent (their NFDs
- * are identical) and may all conform to FCD without being identical themselves.
+ * It is not b normblizbtion form becbuse it does not provide for uniqueness of
+ * representbtion. Multiple strings mby be cbnonicblly equivblent (their NFDs
+ * bre identicbl) bnd mby bll conform to FCD without being identicbl themselves.
  *
- * The form is defined such that the "raw decomposition", the recursive
- * canonical decomposition of each character, results in a string that is
- * canonically ordered. This means that precomposed characters are allowed for
- * as long as their decompositions do not need canonical reordering.
+ * The form is defined such thbt the "rbw decomposition", the recursive
+ * cbnonicbl decomposition of ebch chbrbcter, results in b string thbt is
+ * cbnonicblly ordered. This mebns thbt precomposed chbrbcters bre bllowed for
+ * bs long bs their decompositions do not need cbnonicbl reordering.
  *
- * Its advantage for a process like collation is that all NFD and most NFC texts
- * - and many unnormalized texts - already conform to FCD and do not need to be
- * normalized (NFD) for such a process. The FCD quick check will return YES for
- * most strings in practice.
+ * Its bdvbntbge for b process like collbtion is thbt bll NFD bnd most NFC texts
+ * - bnd mbny unnormblized texts - blrebdy conform to FCD bnd do not need to be
+ * normblized (NFD) for such b process. The FCD quick check will return YES for
+ * most strings in prbctice.
  *
- * normalize(FCD) may be implemented with NFD.
+ * normblize(FCD) mby be implemented with NFD.
  *
- * For more details on FCD see the collation design document:
- * http://source.icu-project.org/repos/icu/icuhtml/trunk/design/collation/ICU_collation_design.htm
+ * For more detbils on FCD see the collbtion design document:
+ * http://source.icu-project.org/repos/icu/icuhtml/trunk/design/collbtion/ICU_collbtion_design.htm
  *
- * ICU collation performs either NFD or FCD normalization automatically if
- * normalization is turned on for the collator object. Beyond collation and
- * string search, normalized strings may be useful for string equivalence
- * comparisons, transliteration/transcription, unique representations, etc.
+ * ICU collbtion performs either NFD or FCD normblizbtion butombticblly if
+ * normblizbtion is turned on for the collbtor object. Beyond collbtion bnd
+ * string sebrch, normblized strings mby be useful for string equivblence
+ * compbrisons, trbnsliterbtion/trbnscription, unique representbtions, etc.
  *
- * The W3C generally recommends to exchange texts in NFC.
- * Note also that most legacy character encodings use only precomposed forms and
- * often do not encode any combining marks by themselves. For conversion to such
- * character encodings the Unicode text needs to be normalized to NFC.
- * For more usage examples, see the Unicode Standard Annex.
- * @stable ICU 2.8
+ * The W3C generblly recommends to exchbnge texts in NFC.
+ * Note blso thbt most legbcy chbrbcter encodings use only precomposed forms bnd
+ * often do not encode bny combining mbrks by themselves. For conversion to such
+ * chbrbcter encodings the Unicode text needs to be normblized to NFC.
+ * For more usbge exbmples, see the Unicode Stbndbrd Annex.
+ * @stbble ICU 2.8
  */
 
-public final class NormalizerBase implements Cloneable {
+public finbl clbss NormblizerBbse implements Clonebble {
 
     //-------------------------------------------------------------------------
-    // Private data
+    // Privbte dbtb
     //-------------------------------------------------------------------------
-    private char[] buffer = new char[100];
-    private int bufferStart = 0;
-    private int bufferPos   = 0;
-    private int bufferLimit = 0;
+    privbte chbr[] buffer = new chbr[100];
+    privbte int bufferStbrt = 0;
+    privbte int bufferPos   = 0;
+    privbte int bufferLimit = 0;
 
-    // The input text and our position in it
-    private UCharacterIterator  text;
-    private Mode                mode = NFC;
-    private int                 options = 0;
-    private int                 currentIndex;
-    private int                 nextIndex;
-
-    /**
-     * Options bit set value to select Unicode 3.2 normalization
-     * (except NormalizationCorrections).
-     * At most one Unicode version can be selected at a time.
-     * @stable ICU 2.6
-     */
-    public static final int UNICODE_3_2=0x20;
+    // The input text bnd our position in it
+    privbte UChbrbcterIterbtor  text;
+    privbte Mode                mode = NFC;
+    privbte int                 options = 0;
+    privbte int                 currentIndex;
+    privbte int                 nextIndex;
 
     /**
-     * Constant indicating that the end of the iteration has been reached.
-     * This is guaranteed to have the same value as {@link UCharacterIterator#DONE}.
-     * @stable ICU 2.8
+     * Options bit set vblue to select Unicode 3.2 normblizbtion
+     * (except NormblizbtionCorrections).
+     * At most one Unicode version cbn be selected bt b time.
+     * @stbble ICU 2.6
      */
-    public static final int DONE = UCharacterIterator.DONE;
+    public stbtic finbl int UNICODE_3_2=0x20;
 
     /**
-     * Constants for normalization modes.
-     * @stable ICU 2.8
+     * Constbnt indicbting thbt the end of the iterbtion hbs been rebched.
+     * This is gubrbnteed to hbve the sbme vblue bs {@link UChbrbcterIterbtor#DONE}.
+     * @stbble ICU 2.8
      */
-    public static class Mode {
-        private int modeValue;
-        private Mode(int value) {
-            modeValue = value;
+    public stbtic finbl int DONE = UChbrbcterIterbtor.DONE;
+
+    /**
+     * Constbnts for normblizbtion modes.
+     * @stbble ICU 2.8
+     */
+    public stbtic clbss Mode {
+        privbte int modeVblue;
+        privbte Mode(int vblue) {
+            modeVblue = vblue;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.6
+         * This method is used for method dispbtch
+         * @stbble ICU 2.6
          */
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
+        protected int normblize(chbr[] src, int srcStbrt, int srcLimit,
+                                chbr[] dest,int destStbrt,int destLimit,
                                 UnicodeSet nx) {
-            int srcLen = (srcLimit - srcStart);
-            int destLen = (destLimit - destStart);
+            int srcLen = (srcLimit - srcStbrt);
+            int destLen = (destLimit - destStbrt);
             if( srcLen > destLen ) {
                 return srcLen;
             }
-            System.arraycopy(src,srcStart,dest,destStart,srcLen);
+            System.brrbycopy(src,srcStbrt,dest,destStbrt,srcLen);
             return srcLen;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.6
+         * This method is used for method dispbtch
+         * @stbble ICU 2.6
          */
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
+        protected int normblize(chbr[] src, int srcStbrt, int srcLimit,
+                                chbr[] dest,int destStbrt,int destLimit,
                                 int options) {
-            return normalize(   src, srcStart, srcLimit,
-                                dest,destStart,destLimit,
-                                NormalizerImpl.getNX(options)
+            return normblize(   src, srcStbrt, srcLimit,
+                                dest,destStbrt,destLimit,
+                                NormblizerImpl.getNX(options)
                                 );
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.6
+         * This method is used for method dispbtch
+         * @stbble ICU 2.6
          */
-        protected String normalize(String src, int options) {
+        protected String normblize(String src, int options) {
             return src;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * This method is used for method dispbtch
+         * @stbble ICU 2.8
          */
         protected int getMinC() {
             return -1;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * This method is used for method dispbtch
+         * @stbble ICU 2.8
          */
-        protected int getMask() {
+        protected int getMbsk() {
             return -1;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * This method is used for method dispbtch
+         * @stbble ICU 2.8
          */
-        protected IsPrevBoundary getPrevBoundary() {
+        protected IsPrevBoundbry getPrevBoundbry() {
             return null;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * This method is used for method dispbtch
+         * @stbble ICU 2.8
          */
-        protected IsNextBoundary getNextBoundary() {
+        protected IsNextBoundbry getNextBoundbry() {
             return null;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.6
+         * This method is used for method dispbtch
+         * @stbble ICU 2.6
          */
-        protected QuickCheckResult quickCheck(char[] src,int start, int limit,
-                                              boolean allowMaybe,UnicodeSet nx) {
-            if(allowMaybe) {
+        protected QuickCheckResult quickCheck(chbr[] src,int stbrt, int limit,
+                                              boolebn bllowMbybe,UnicodeSet nx) {
+            if(bllowMbybe) {
                 return MAYBE;
             }
             return NO;
         }
 
         /**
-         * This method is used for method dispatch
-         * @stable ICU 2.8
+         * This method is used for method dispbtch
+         * @stbble ICU 2.8
          */
-        protected boolean isNFSkippable(int c) {
+        protected boolebn isNFSkippbble(int c) {
             return true;
         }
     }
 
     /**
      * No decomposition/composition.
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    public static final Mode NONE = new Mode(1);
+    public stbtic finbl Mode NONE = new Mode(1);
 
     /**
-     * Canonical decomposition.
-     * @stable ICU 2.8
+     * Cbnonicbl decomposition.
+     * @stbble ICU 2.8
      */
-    public static final Mode NFD = new NFDMode(2);
+    public stbtic finbl Mode NFD = new NFDMode(2);
 
-    private static final class NFDMode extends Mode {
-        private NFDMode(int value) {
-            super(value);
+    privbte stbtic finbl clbss NFDMode extends Mode {
+        privbte NFDMode(int vblue) {
+            super(vblue);
         }
 
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
+        protected int normblize(chbr[] src, int srcStbrt, int srcLimit,
+                                chbr[] dest,int destStbrt,int destLimit,
                                 UnicodeSet nx) {
-            int[] trailCC = new int[1];
-            return NormalizerImpl.decompose(src,  srcStart,srcLimit,
-                                            dest, destStart,destLimit,
-                                            false, trailCC,nx);
+            int[] trbilCC = new int[1];
+            return NormblizerImpl.decompose(src,  srcStbrt,srcLimit,
+                                            dest, destStbrt,destLimit,
+                                            fblse, trbilCC,nx);
         }
 
-        protected String normalize( String src, int options) {
-            return decompose(src,false,options);
+        protected String normblize( String src, int options) {
+            return decompose(src,fblse,options);
         }
 
         protected int getMinC() {
-            return NormalizerImpl.MIN_WITH_LEAD_CC;
+            return NormblizerImpl.MIN_WITH_LEAD_CC;
         }
 
-        protected IsPrevBoundary getPrevBoundary() {
-            return new IsPrevNFDSafe();
+        protected IsPrevBoundbry getPrevBoundbry() {
+            return new IsPrevNFDSbfe();
         }
 
-        protected IsNextBoundary getNextBoundary() {
-            return new IsNextNFDSafe();
+        protected IsNextBoundbry getNextBoundbry() {
+            return new IsNextNFDSbfe();
         }
 
-        protected int getMask() {
-            return (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFD);
+        protected int getMbsk() {
+            return (NormblizerImpl.CC_MASK|NormblizerImpl.QC_NFD);
         }
 
-        protected QuickCheckResult quickCheck(char[] src,int start,
-                                              int limit,boolean allowMaybe,
+        protected QuickCheckResult quickCheck(chbr[] src,int stbrt,
+                                              int limit,boolebn bllowMbybe,
                                               UnicodeSet nx) {
-            return NormalizerImpl.quickCheck(
-                                             src, start,limit,
-                                             NormalizerImpl.getFromIndexesArr(
-                                                                              NormalizerImpl.INDEX_MIN_NFD_NO_MAYBE
+            return NormblizerImpl.quickCheck(
+                                             src, stbrt,limit,
+                                             NormblizerImpl.getFromIndexesArr(
+                                                                              NormblizerImpl.INDEX_MIN_NFD_NO_MAYBE
                                                                               ),
-                                             NormalizerImpl.QC_NFD,
+                                             NormblizerImpl.QC_NFD,
                                              0,
-                                             allowMaybe,
+                                             bllowMbybe,
                                              nx
                                              );
         }
 
-        protected boolean isNFSkippable(int c) {
-            return NormalizerImpl.isNFSkippable(c,this,
-                                                (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFD)
+        protected boolebn isNFSkippbble(int c) {
+            return NormblizerImpl.isNFSkippbble(c,this,
+                                                (NormblizerImpl.CC_MASK|NormblizerImpl.QC_NFD)
                                                 );
         }
     }
 
     /**
-     * Compatibility decomposition.
-     * @stable ICU 2.8
+     * Compbtibility decomposition.
+     * @stbble ICU 2.8
      */
-    public static final Mode NFKD = new NFKDMode(3);
+    public stbtic finbl Mode NFKD = new NFKDMode(3);
 
-    private static final class NFKDMode extends Mode {
-        private NFKDMode(int value) {
-            super(value);
+    privbte stbtic finbl clbss NFKDMode extends Mode {
+        privbte NFKDMode(int vblue) {
+            super(vblue);
         }
 
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
+        protected int normblize(chbr[] src, int srcStbrt, int srcLimit,
+                                chbr[] dest,int destStbrt,int destLimit,
                                 UnicodeSet nx) {
-            int[] trailCC = new int[1];
-            return NormalizerImpl.decompose(src,  srcStart,srcLimit,
-                                            dest, destStart,destLimit,
-                                            true, trailCC, nx);
+            int[] trbilCC = new int[1];
+            return NormblizerImpl.decompose(src,  srcStbrt,srcLimit,
+                                            dest, destStbrt,destLimit,
+                                            true, trbilCC, nx);
         }
 
-        protected String normalize( String src, int options) {
+        protected String normblize( String src, int options) {
             return decompose(src,true,options);
         }
 
         protected int getMinC() {
-            return NormalizerImpl.MIN_WITH_LEAD_CC;
+            return NormblizerImpl.MIN_WITH_LEAD_CC;
         }
 
-        protected IsPrevBoundary getPrevBoundary() {
-            return new IsPrevNFDSafe();
+        protected IsPrevBoundbry getPrevBoundbry() {
+            return new IsPrevNFDSbfe();
         }
 
-        protected IsNextBoundary getNextBoundary() {
-            return new IsNextNFDSafe();
+        protected IsNextBoundbry getNextBoundbry() {
+            return new IsNextNFDSbfe();
         }
 
-        protected int getMask() {
-            return (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFKD);
+        protected int getMbsk() {
+            return (NormblizerImpl.CC_MASK|NormblizerImpl.QC_NFKD);
         }
 
-        protected QuickCheckResult quickCheck(char[] src,int start,
-                                              int limit,boolean allowMaybe,
+        protected QuickCheckResult quickCheck(chbr[] src,int stbrt,
+                                              int limit,boolebn bllowMbybe,
                                               UnicodeSet nx) {
-            return NormalizerImpl.quickCheck(
-                                             src,start,limit,
-                                             NormalizerImpl.getFromIndexesArr(
-                                                                              NormalizerImpl.INDEX_MIN_NFKD_NO_MAYBE
+            return NormblizerImpl.quickCheck(
+                                             src,stbrt,limit,
+                                             NormblizerImpl.getFromIndexesArr(
+                                                                              NormblizerImpl.INDEX_MIN_NFKD_NO_MAYBE
                                                                               ),
-                                             NormalizerImpl.QC_NFKD,
-                                             NormalizerImpl.OPTIONS_COMPAT,
-                                             allowMaybe,
+                                             NormblizerImpl.QC_NFKD,
+                                             NormblizerImpl.OPTIONS_COMPAT,
+                                             bllowMbybe,
                                              nx
                                              );
         }
 
-        protected boolean isNFSkippable(int c) {
-            return NormalizerImpl.isNFSkippable(c, this,
-                                                (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFKD)
+        protected boolebn isNFSkippbble(int c) {
+            return NormblizerImpl.isNFSkippbble(c, this,
+                                                (NormblizerImpl.CC_MASK|NormblizerImpl.QC_NFKD)
                                                 );
         }
     }
 
     /**
-     * Canonical decomposition followed by canonical composition.
-     * @stable ICU 2.8
+     * Cbnonicbl decomposition followed by cbnonicbl composition.
+     * @stbble ICU 2.8
      */
-    public static final Mode NFC = new NFCMode(4);
+    public stbtic finbl Mode NFC = new NFCMode(4);
 
-    private static final class NFCMode extends Mode{
-        private NFCMode(int value) {
-            super(value);
+    privbte stbtic finbl clbss NFCMode extends Mode{
+        privbte NFCMode(int vblue) {
+            super(vblue);
         }
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
+        protected int normblize(chbr[] src, int srcStbrt, int srcLimit,
+                                chbr[] dest,int destStbrt,int destLimit,
                                 UnicodeSet nx) {
-            return NormalizerImpl.compose( src, srcStart, srcLimit,
-                                           dest,destStart,destLimit,
+            return NormblizerImpl.compose( src, srcStbrt, srcLimit,
+                                           dest,destStbrt,destLimit,
                                            0, nx);
         }
 
-        protected String normalize( String src, int options) {
-            return compose(src, false, options);
+        protected String normblize( String src, int options) {
+            return compose(src, fblse, options);
         }
 
         protected int getMinC() {
-            return NormalizerImpl.getFromIndexesArr(
-                                                    NormalizerImpl.INDEX_MIN_NFC_NO_MAYBE
+            return NormblizerImpl.getFromIndexesArr(
+                                                    NormblizerImpl.INDEX_MIN_NFC_NO_MAYBE
                                                     );
         }
-        protected IsPrevBoundary getPrevBoundary() {
-            return new IsPrevTrueStarter();
+        protected IsPrevBoundbry getPrevBoundbry() {
+            return new IsPrevTrueStbrter();
         }
-        protected IsNextBoundary getNextBoundary() {
-            return new IsNextTrueStarter();
+        protected IsNextBoundbry getNextBoundbry() {
+            return new IsNextTrueStbrter();
         }
-        protected int getMask() {
-            return (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFC);
+        protected int getMbsk() {
+            return (NormblizerImpl.CC_MASK|NormblizerImpl.QC_NFC);
         }
-        protected QuickCheckResult quickCheck(char[] src,int start,
-                                              int limit,boolean allowMaybe,
+        protected QuickCheckResult quickCheck(chbr[] src,int stbrt,
+                                              int limit,boolebn bllowMbybe,
                                               UnicodeSet nx) {
-            return NormalizerImpl.quickCheck(
-                                             src,start,limit,
-                                             NormalizerImpl.getFromIndexesArr(
-                                                                              NormalizerImpl.INDEX_MIN_NFC_NO_MAYBE
+            return NormblizerImpl.quickCheck(
+                                             src,stbrt,limit,
+                                             NormblizerImpl.getFromIndexesArr(
+                                                                              NormblizerImpl.INDEX_MIN_NFC_NO_MAYBE
                                                                               ),
-                                             NormalizerImpl.QC_NFC,
+                                             NormblizerImpl.QC_NFC,
                                              0,
-                                             allowMaybe,
+                                             bllowMbybe,
                                              nx
                                              );
         }
-        protected boolean isNFSkippable(int c) {
-            return NormalizerImpl.isNFSkippable(c,this,
-                                                ( NormalizerImpl.CC_MASK|NormalizerImpl.COMBINES_ANY|
-                                                  (NormalizerImpl.QC_NFC & NormalizerImpl.QC_ANY_NO)
+        protected boolebn isNFSkippbble(int c) {
+            return NormblizerImpl.isNFSkippbble(c,this,
+                                                ( NormblizerImpl.CC_MASK|NormblizerImpl.COMBINES_ANY|
+                                                  (NormblizerImpl.QC_NFC & NormblizerImpl.QC_ANY_NO)
                                                   )
                                                 );
         }
     };
 
     /**
-     * Compatibility decomposition followed by canonical composition.
-     * @stable ICU 2.8
+     * Compbtibility decomposition followed by cbnonicbl composition.
+     * @stbble ICU 2.8
      */
-    public static final Mode NFKC =new NFKCMode(5);
+    public stbtic finbl Mode NFKC =new NFKCMode(5);
 
-    private static final class NFKCMode extends Mode{
-        private NFKCMode(int value) {
-            super(value);
+    privbte stbtic finbl clbss NFKCMode extends Mode{
+        privbte NFKCMode(int vblue) {
+            super(vblue);
         }
-        protected int normalize(char[] src, int srcStart, int srcLimit,
-                                char[] dest,int destStart,int destLimit,
+        protected int normblize(chbr[] src, int srcStbrt, int srcLimit,
+                                chbr[] dest,int destStbrt,int destLimit,
                                 UnicodeSet nx) {
-            return NormalizerImpl.compose(src,  srcStart,srcLimit,
-                                          dest, destStart,destLimit,
-                                          NormalizerImpl.OPTIONS_COMPAT, nx);
+            return NormblizerImpl.compose(src,  srcStbrt,srcLimit,
+                                          dest, destStbrt,destLimit,
+                                          NormblizerImpl.OPTIONS_COMPAT, nx);
         }
 
-        protected String normalize( String src, int options) {
+        protected String normblize( String src, int options) {
             return compose(src, true, options);
         }
         protected int getMinC() {
-            return NormalizerImpl.getFromIndexesArr(
-                                                    NormalizerImpl.INDEX_MIN_NFKC_NO_MAYBE
+            return NormblizerImpl.getFromIndexesArr(
+                                                    NormblizerImpl.INDEX_MIN_NFKC_NO_MAYBE
                                                     );
         }
-        protected IsPrevBoundary getPrevBoundary() {
-            return new IsPrevTrueStarter();
+        protected IsPrevBoundbry getPrevBoundbry() {
+            return new IsPrevTrueStbrter();
         }
-        protected IsNextBoundary getNextBoundary() {
-            return new IsNextTrueStarter();
+        protected IsNextBoundbry getNextBoundbry() {
+            return new IsNextTrueStbrter();
         }
-        protected int getMask() {
-            return (NormalizerImpl.CC_MASK|NormalizerImpl.QC_NFKC);
+        protected int getMbsk() {
+            return (NormblizerImpl.CC_MASK|NormblizerImpl.QC_NFKC);
         }
-        protected QuickCheckResult quickCheck(char[] src,int start,
-                                              int limit,boolean allowMaybe,
+        protected QuickCheckResult quickCheck(chbr[] src,int stbrt,
+                                              int limit,boolebn bllowMbybe,
                                               UnicodeSet nx) {
-            return NormalizerImpl.quickCheck(
-                                             src,start,limit,
-                                             NormalizerImpl.getFromIndexesArr(
-                                                                              NormalizerImpl.INDEX_MIN_NFKC_NO_MAYBE
+            return NormblizerImpl.quickCheck(
+                                             src,stbrt,limit,
+                                             NormblizerImpl.getFromIndexesArr(
+                                                                              NormblizerImpl.INDEX_MIN_NFKC_NO_MAYBE
                                                                               ),
-                                             NormalizerImpl.QC_NFKC,
-                                             NormalizerImpl.OPTIONS_COMPAT,
-                                             allowMaybe,
+                                             NormblizerImpl.QC_NFKC,
+                                             NormblizerImpl.OPTIONS_COMPAT,
+                                             bllowMbybe,
                                              nx
                                              );
         }
-        protected boolean isNFSkippable(int c) {
-            return NormalizerImpl.isNFSkippable(c, this,
-                                                ( NormalizerImpl.CC_MASK|NormalizerImpl.COMBINES_ANY|
-                                                  (NormalizerImpl.QC_NFKC & NormalizerImpl.QC_ANY_NO)
+        protected boolebn isNFSkippbble(int c) {
+            return NormblizerImpl.isNFSkippbble(c, this,
+                                                ( NormblizerImpl.CC_MASK|NormblizerImpl.COMBINES_ANY|
+                                                  (NormblizerImpl.QC_NFKC & NormblizerImpl.QC_ANY_NO)
                                                   )
                                                 );
         }
     };
 
     /**
-     * Result values for quickCheck().
-     * For details see Unicode Technical Report 15.
-     * @stable ICU 2.8
+     * Result vblues for quickCheck().
+     * For detbils see Unicode Technicbl Report 15.
+     * @stbble ICU 2.8
      */
-    public static final class QuickCheckResult{
-        private int resultValue;
-        private QuickCheckResult(int value) {
-            resultValue=value;
+    public stbtic finbl clbss QuickCheckResult{
+        privbte int resultVblue;
+        privbte QuickCheckResult(int vblue) {
+            resultVblue=vblue;
         }
     }
     /**
-     * Indicates that string is not in the normalized format
-     * @stable ICU 2.8
+     * Indicbtes thbt string is not in the normblized formbt
+     * @stbble ICU 2.8
      */
-    public static final QuickCheckResult NO = new QuickCheckResult(0);
+    public stbtic finbl QuickCheckResult NO = new QuickCheckResult(0);
 
     /**
-     * Indicates that string is in the normalized format
-     * @stable ICU 2.8
+     * Indicbtes thbt string is in the normblized formbt
+     * @stbble ICU 2.8
      */
-    public static final QuickCheckResult YES = new QuickCheckResult(1);
+    public stbtic finbl QuickCheckResult YES = new QuickCheckResult(1);
 
     /**
-     * Indicates it cannot be determined if string is in the normalized
-     * format without further thorough checks.
-     * @stable ICU 2.8
+     * Indicbtes it cbnnot be determined if string is in the normblized
+     * formbt without further thorough checks.
+     * @stbble ICU 2.8
      */
-    public static final QuickCheckResult MAYBE = new QuickCheckResult(2);
+    public stbtic finbl QuickCheckResult MAYBE = new QuickCheckResult(2);
 
     //-------------------------------------------------------------------------
     // Constructors
     //-------------------------------------------------------------------------
 
     /**
-     * Creates a new <tt>Normalizer</tt> object for iterating over the
-     * normalized form of a given string.
+     * Crebtes b new <tt>Normblizer</tt> object for iterbting over the
+     * normblized form of b given string.
      * <p>
-     * The <tt>options</tt> parameter specifies which optional
-     * <tt>Normalizer</tt> features are to be enabled for this object.
+     * The <tt>options</tt> pbrbmeter specifies which optionbl
+     * <tt>Normblizer</tt> febtures bre to be enbbled for this object.
      * <p>
-     * @param str  The string to be normalized.  The normalization
-     *              will start at the beginning of the string.
+     * @pbrbm str  The string to be normblized.  The normblizbtion
+     *              will stbrt bt the beginning of the string.
      *
-     * @param mode The normalization mode.
+     * @pbrbm mode The normblizbtion mode.
      *
-     * @param opt Any optional features to be enabled.
-     *            Currently the only available option is {@link #UNICODE_3_2}.
-     *            If you want the default behavior corresponding to one of the
-     *            standard Unicode Normalization Forms, use 0 for this argument.
-     * @stable ICU 2.6
+     * @pbrbm opt Any optionbl febtures to be enbbled.
+     *            Currently the only bvbilbble option is {@link #UNICODE_3_2}.
+     *            If you wbnt the defbult behbvior corresponding to one of the
+     *            stbndbrd Unicode Normblizbtion Forms, use 0 for this brgument.
+     * @stbble ICU 2.6
      */
-    public NormalizerBase(String str, Mode mode, int opt) {
-        this.text = UCharacterIterator.getInstance(str);
+    public NormblizerBbse(String str, Mode mode, int opt) {
+        this.text = UChbrbcterIterbtor.getInstbnce(str);
         this.mode = mode;
         this.options=opt;
     }
 
     /**
-     * Creates a new <tt>Normalizer</tt> object for iterating over the
-     * normalized form of the given text.
+     * Crebtes b new <tt>Normblizer</tt> object for iterbting over the
+     * normblized form of the given text.
      * <p>
-     * @param iter  The input text to be normalized.  The normalization
-     *              will start at the beginning of the string.
+     * @pbrbm iter  The input text to be normblized.  The normblizbtion
+     *              will stbrt bt the beginning of the string.
      *
-     * @param mode  The normalization mode.
+     * @pbrbm mode  The normblizbtion mode.
      */
-    public NormalizerBase(CharacterIterator iter, Mode mode) {
+    public NormblizerBbse(ChbrbcterIterbtor iter, Mode mode) {
           this(iter, mode, UNICODE_LATEST);
     }
 
     /**
-     * Creates a new <tt>Normalizer</tt> object for iterating over the
-     * normalized form of the given text.
+     * Crebtes b new <tt>Normblizer</tt> object for iterbting over the
+     * normblized form of the given text.
      * <p>
-     * @param iter  The input text to be normalized.  The normalization
-     *              will start at the beginning of the string.
+     * @pbrbm iter  The input text to be normblized.  The normblizbtion
+     *              will stbrt bt the beginning of the string.
      *
-     * @param mode  The normalization mode.
+     * @pbrbm mode  The normblizbtion mode.
      *
-     * @param opt Any optional features to be enabled.
-     *            Currently the only available option is {@link #UNICODE_3_2}.
-     *            If you want the default behavior corresponding to one of the
-     *            standard Unicode Normalization Forms, use 0 for this argument.
-     * @stable ICU 2.6
+     * @pbrbm opt Any optionbl febtures to be enbbled.
+     *            Currently the only bvbilbble option is {@link #UNICODE_3_2}.
+     *            If you wbnt the defbult behbvior corresponding to one of the
+     *            stbndbrd Unicode Normblizbtion Forms, use 0 for this brgument.
+     * @stbble ICU 2.6
      */
-    public NormalizerBase(CharacterIterator iter, Mode mode, int opt) {
-        this.text = UCharacterIterator.getInstance(
-                                                   (CharacterIterator)iter.clone()
+    public NormblizerBbse(ChbrbcterIterbtor iter, Mode mode, int opt) {
+        this.text = UChbrbcterIterbtor.getInstbnce(
+                                                   (ChbrbcterIterbtor)iter.clone()
                                                    );
         this.mode = mode;
         this.options = opt;
     }
 
     /**
-     * Clones this <tt>Normalizer</tt> object.  All properties of this
-     * object are duplicated in the new object, including the cloning of any
-     * {@link CharacterIterator} that was passed in to the constructor
-     * or to {@link #setText(CharacterIterator) setText}.
-     * However, the text storage underlying
-     * the <tt>CharacterIterator</tt> is not duplicated unless the
-     * iterator's <tt>clone</tt> method does so.
-     * @stable ICU 2.8
+     * Clones this <tt>Normblizer</tt> object.  All properties of this
+     * object bre duplicbted in the new object, including the cloning of bny
+     * {@link ChbrbcterIterbtor} thbt wbs pbssed in to the constructor
+     * or to {@link #setText(ChbrbcterIterbtor) setText}.
+     * However, the text storbge underlying
+     * the <tt>ChbrbcterIterbtor</tt> is not duplicbted unless the
+     * iterbtor's <tt>clone</tt> method does so.
+     * @stbble ICU 2.8
      */
     public Object clone() {
         try {
-            NormalizerBase copy = (NormalizerBase) super.clone();
-            copy.text = (UCharacterIterator) text.clone();
-            //clone the internal buffer
+            NormblizerBbse copy = (NormblizerBbse) super.clone();
+            copy.text = (UChbrbcterIterbtor) text.clone();
+            //clone the internbl buffer
             if (buffer != null) {
-                copy.buffer = new char[buffer.length];
-                System.arraycopy(buffer,0,copy.buffer,0,buffer.length);
+                copy.buffer = new chbr[buffer.length];
+                System.brrbycopy(buffer,0,copy.buffer,0,buffer.length);
             }
             return copy;
         }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError(e.toString(), e);
+        cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e.toString(), e);
         }
     }
 
     //--------------------------------------------------------------------------
-    // Static Utility methods
+    // Stbtic Utility methods
     //--------------------------------------------------------------------------
 
     /**
-     * Compose a string.
-     * The string will be composed to according the the specified mode.
-     * @param str        The string to compose.
-     * @param compat     If true the string will be composed accoding to
-     *                    NFKC rules and if false will be composed according to
+     * Compose b string.
+     * The string will be composed to bccording the the specified mode.
+     * @pbrbm str        The string to compose.
+     * @pbrbm compbt     If true the string will be composed bccoding to
+     *                    NFKC rules bnd if fblse will be composed bccording to
      *                    NFC rules.
-     * @param options    The only recognized option is UNICODE_3_2
+     * @pbrbm options    The only recognized option is UNICODE_3_2
      * @return String    The composed string
-     * @stable ICU 2.6
+     * @stbble ICU 2.6
      */
-    public static String compose(String str, boolean compat, int options) {
+    public stbtic String compose(String str, boolebn compbt, int options) {
 
-        char[] dest, src;
+        chbr[] dest, src;
         if (options == UNICODE_3_2_0_ORIGINAL) {
-            String mappedStr = NormalizerImpl.convert(str);
-            dest = new char[mappedStr.length()*MAX_BUF_SIZE_COMPOSE];
-            src = mappedStr.toCharArray();
+            String mbppedStr = NormblizerImpl.convert(str);
+            dest = new chbr[mbppedStr.length()*MAX_BUF_SIZE_COMPOSE];
+            src = mbppedStr.toChbrArrby();
         } else {
-            dest = new char[str.length()*MAX_BUF_SIZE_COMPOSE];
-            src = str.toCharArray();
+            dest = new chbr[str.length()*MAX_BUF_SIZE_COMPOSE];
+            src = str.toChbrArrby();
         }
         int destSize=0;
 
-        UnicodeSet nx = NormalizerImpl.getNX(options);
+        UnicodeSet nx = NormblizerImpl.getNX(options);
 
-        /* reset options bits that should only be set here or inside compose() */
-        options&=~(NormalizerImpl.OPTIONS_SETS_MASK|NormalizerImpl.OPTIONS_COMPAT|NormalizerImpl.OPTIONS_COMPOSE_CONTIGUOUS);
+        /* reset options bits thbt should only be set here or inside compose() */
+        options&=~(NormblizerImpl.OPTIONS_SETS_MASK|NormblizerImpl.OPTIONS_COMPAT|NormblizerImpl.OPTIONS_COMPOSE_CONTIGUOUS);
 
-        if(compat) {
-            options|=NormalizerImpl.OPTIONS_COMPAT;
+        if(compbt) {
+            options|=NormblizerImpl.OPTIONS_COMPAT;
         }
 
         for(;;) {
-            destSize=NormalizerImpl.compose(src,0,src.length,
+            destSize=NormblizerImpl.compose(src,0,src.length,
                                             dest,0,dest.length,options,
                                             nx);
             if(destSize<=dest.length) {
                 return new String(dest,0,destSize);
             } else {
-                dest = new char[destSize];
+                dest = new chbr[destSize];
             }
         }
     }
 
-    private static final int MAX_BUF_SIZE_COMPOSE = 2;
-    private static final int MAX_BUF_SIZE_DECOMPOSE = 3;
+    privbte stbtic finbl int MAX_BUF_SIZE_COMPOSE = 2;
+    privbte stbtic finbl int MAX_BUF_SIZE_DECOMPOSE = 3;
 
     /**
-     * Decompose a string.
-     * The string will be decomposed to according the the specified mode.
-     * @param str       The string to decompose.
-     * @param compat    If true the string will be decomposed accoding to NFKD
-     *                   rules and if false will be decomposed according to NFD
+     * Decompose b string.
+     * The string will be decomposed to bccording the the specified mode.
+     * @pbrbm str       The string to decompose.
+     * @pbrbm compbt    If true the string will be decomposed bccoding to NFKD
+     *                   rules bnd if fblse will be decomposed bccording to NFD
      *                   rules.
      * @return String   The decomposed string
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    public static String decompose(String str, boolean compat) {
-        return decompose(str,compat,UNICODE_LATEST);
+    public stbtic String decompose(String str, boolebn compbt) {
+        return decompose(str,compbt,UNICODE_LATEST);
     }
 
     /**
-     * Decompose a string.
-     * The string will be decomposed to according the the specified mode.
-     * @param str     The string to decompose.
-     * @param compat  If true the string will be decomposed accoding to NFKD
-     *                 rules and if false will be decomposed according to NFD
+     * Decompose b string.
+     * The string will be decomposed to bccording the the specified mode.
+     * @pbrbm str     The string to decompose.
+     * @pbrbm compbt  If true the string will be decomposed bccoding to NFKD
+     *                 rules bnd if fblse will be decomposed bccording to NFD
      *                 rules.
-     * @param options The normalization options, ORed together (0 for no options).
+     * @pbrbm options The normblizbtion options, ORed together (0 for no options).
      * @return String The decomposed string
-     * @stable ICU 2.6
+     * @stbble ICU 2.6
      */
-    public static String decompose(String str, boolean compat, int options) {
+    public stbtic String decompose(String str, boolebn compbt, int options) {
 
-        int[] trailCC = new int[1];
+        int[] trbilCC = new int[1];
         int destSize=0;
-        UnicodeSet nx = NormalizerImpl.getNX(options);
-        char[] dest;
+        UnicodeSet nx = NormblizerImpl.getNX(options);
+        chbr[] dest;
 
         if (options == UNICODE_3_2_0_ORIGINAL) {
-            String mappedStr = NormalizerImpl.convert(str);
-            dest = new char[mappedStr.length()*MAX_BUF_SIZE_DECOMPOSE];
+            String mbppedStr = NormblizerImpl.convert(str);
+            dest = new chbr[mbppedStr.length()*MAX_BUF_SIZE_DECOMPOSE];
 
             for(;;) {
-                destSize=NormalizerImpl.decompose(mappedStr.toCharArray(),0,mappedStr.length(),
+                destSize=NormblizerImpl.decompose(mbppedStr.toChbrArrby(),0,mbppedStr.length(),
                                                   dest,0,dest.length,
-                                                  compat,trailCC, nx);
+                                                  compbt,trbilCC, nx);
                 if(destSize<=dest.length) {
                     return new String(dest,0,destSize);
                 } else {
-                    dest = new char[destSize];
+                    dest = new chbr[destSize];
                 }
             }
         } else {
-            dest = new char[str.length()*MAX_BUF_SIZE_DECOMPOSE];
+            dest = new chbr[str.length()*MAX_BUF_SIZE_DECOMPOSE];
 
             for(;;) {
-                destSize=NormalizerImpl.decompose(str.toCharArray(),0,str.length(),
+                destSize=NormblizerImpl.decompose(str.toChbrArrby(),0,str.length(),
                                                   dest,0,dest.length,
-                                                  compat,trailCC, nx);
+                                                  compbt,trbilCC, nx);
                 if(destSize<=dest.length) {
                     return new String(dest,0,destSize);
                 } else {
-                    dest = new char[destSize];
+                    dest = new chbr[destSize];
                 }
             }
         }
     }
 
     /**
-     * Normalize a string.
-     * The string will be normalized according the the specified normalization
-     * mode and options.
-     * @param src       The char array to compose.
-     * @param srcStart  Start index of the source
-     * @param srcLimit  Limit index of the source
-     * @param dest      The char buffer to fill in
-     * @param destStart Start index of the destination buffer
-     * @param destLimit End index of the destination buffer
-     * @param mode      The normalization mode; one of Normalizer.NONE,
-     *                   Normalizer.NFD, Normalizer.NFC, Normalizer.NFKC,
-     *                   Normalizer.NFKD, Normalizer.DEFAULT
-     * @param options The normalization options, ORed together (0 for no options).
-     * @return int      The total buffer size needed;if greater than length of
-     *                   result, the output was truncated.
-     * @exception       IndexOutOfBoundsException if the target capacity is
-     *                   less than the required length
-     * @stable ICU 2.6
+     * Normblize b string.
+     * The string will be normblized bccording the the specified normblizbtion
+     * mode bnd options.
+     * @pbrbm src       The chbr brrby to compose.
+     * @pbrbm srcStbrt  Stbrt index of the source
+     * @pbrbm srcLimit  Limit index of the source
+     * @pbrbm dest      The chbr buffer to fill in
+     * @pbrbm destStbrt Stbrt index of the destinbtion buffer
+     * @pbrbm destLimit End index of the destinbtion buffer
+     * @pbrbm mode      The normblizbtion mode; one of Normblizer.NONE,
+     *                   Normblizer.NFD, Normblizer.NFC, Normblizer.NFKC,
+     *                   Normblizer.NFKD, Normblizer.DEFAULT
+     * @pbrbm options The normblizbtion options, ORed together (0 for no options).
+     * @return int      The totbl buffer size needed;if grebter thbn length of
+     *                   result, the output wbs truncbted.
+     * @exception       IndexOutOfBoundsException if the tbrget cbpbcity is
+     *                   less thbn the required length
+     * @stbble ICU 2.6
      */
-    public static int normalize(char[] src,int srcStart, int srcLimit,
-                                char[] dest,int destStart, int destLimit,
+    public stbtic int normblize(chbr[] src,int srcStbrt, int srcLimit,
+                                chbr[] dest,int destStbrt, int destLimit,
                                 Mode  mode, int options) {
-        int length = mode.normalize(src,srcStart,srcLimit,dest,destStart,destLimit, options);
+        int length = mode.normblize(src,srcStbrt,srcLimit,dest,destStbrt,destLimit, options);
 
-        if(length<=(destLimit-destStart)) {
+        if(length<=(destLimit-destStbrt)) {
             return length;
         } else {
             throw new IndexOutOfBoundsException(Integer.toString(length));
@@ -787,16 +787,16 @@ public final class NormalizerBase implements Cloneable {
     }
 
     //-------------------------------------------------------------------------
-    // Iteration API
+    // Iterbtion API
     //-------------------------------------------------------------------------
 
     /**
-     * Return the current character in the normalized text->
-     * @return The codepoint as an int
-     * @stable ICU 2.8
+     * Return the current chbrbcter in the normblized text->
+     * @return The codepoint bs bn int
+     * @stbble ICU 2.8
      */
     public int current() {
-        if(bufferPos<bufferLimit || nextNormalize()) {
+        if(bufferPos<bufferLimit || nextNormblize()) {
             return getCodePointAt(bufferPos);
         } else {
             return DONE;
@@ -804,14 +804,14 @@ public final class NormalizerBase implements Cloneable {
     }
 
     /**
-     * Return the next character in the normalized text and advance
-     * the iteration position by one.  If the end
-     * of the text has already been reached, {@link #DONE} is returned.
-     * @return The codepoint as an int
-     * @stable ICU 2.8
+     * Return the next chbrbcter in the normblized text bnd bdvbnce
+     * the iterbtion position by one.  If the end
+     * of the text hbs blrebdy been rebched, {@link #DONE} is returned.
+     * @return The codepoint bs bn int
+     * @stbble ICU 2.8
      */
     public int next() {
-        if(bufferPos<bufferLimit ||  nextNormalize()) {
+        if(bufferPos<bufferLimit ||  nextNormblize()) {
             int c=getCodePointAt(bufferPos);
             bufferPos+=(c>0xFFFF) ? 2 : 1;
             return c;
@@ -822,14 +822,14 @@ public final class NormalizerBase implements Cloneable {
 
 
     /**
-     * Return the previous character in the normalized text and decrement
-     * the iteration position by one.  If the beginning
-     * of the text has already been reached, {@link #DONE} is returned.
-     * @return The codepoint as an int
-     * @stable ICU 2.8
+     * Return the previous chbrbcter in the normblized text bnd decrement
+     * the iterbtion position by one.  If the beginning
+     * of the text hbs blrebdy been rebched, {@link #DONE} is returned.
+     * @return The codepoint bs bn int
+     * @stbble ICU 2.8
      */
     public int previous() {
-        if(bufferPos>0 || previousNormalize()) {
+        if(bufferPos>0 || previousNormblize()) {
             int c=getCodePointAt(bufferPos-1);
             bufferPos-=(c>0xFFFF) ? 2 : 1;
             return c;
@@ -840,98 +840,98 @@ public final class NormalizerBase implements Cloneable {
 
     /**
      * Reset the index to the beginning of the text.
-     * This is equivalent to setIndexOnly(startIndex)).
-     * @stable ICU 2.8
+     * This is equivblent to setIndexOnly(stbrtIndex)).
+     * @stbble ICU 2.8
      */
     public void reset() {
         text.setIndex(0);
         currentIndex=nextIndex=0;
-        clearBuffer();
+        clebrBuffer();
     }
 
     /**
-     * Set the iteration position in the input text that is being normalized,
-     * without any immediate normalization.
-     * After setIndexOnly(), getIndex() will return the same index that is
+     * Set the iterbtion position in the input text thbt is being normblized,
+     * without bny immedibte normblizbtion.
+     * After setIndexOnly(), getIndex() will return the sbme index thbt is
      * specified here.
      *
-     * @param index the desired index in the input text.
-     * @stable ICU 2.8
+     * @pbrbm index the desired index in the input text.
+     * @stbble ICU 2.8
      */
     public void setIndexOnly(int index) {
         text.setIndex(index);
-        currentIndex=nextIndex=index; // validates index
-        clearBuffer();
+        currentIndex=nextIndex=index; // vblidbtes index
+        clebrBuffer();
     }
 
     /**
-     * Set the iteration position in the input text that is being normalized
-     * and return the first normalized character at that position.
+     * Set the iterbtion position in the input text thbt is being normblized
+     * bnd return the first normblized chbrbcter bt thbt position.
      * <p>
      * <b>Note:</b> This method sets the position in the <em>input</em> text,
-     * while {@link #next} and {@link #previous} iterate through characters
-     * in the normalized <em>output</em>.  This means that there is not
-     * necessarily a one-to-one correspondence between characters returned
-     * by <tt>next</tt> and <tt>previous</tt> and the indices passed to and
-     * returned from <tt>setIndex</tt> and {@link #getIndex}.
+     * while {@link #next} bnd {@link #previous} iterbte through chbrbcters
+     * in the normblized <em>output</em>.  This mebns thbt there is not
+     * necessbrily b one-to-one correspondence between chbrbcters returned
+     * by <tt>next</tt> bnd <tt>previous</tt> bnd the indices pbssed to bnd
+     * returned from <tt>setIndex</tt> bnd {@link #getIndex}.
      * <p>
-     * @param index the desired index in the input text->
+     * @pbrbm index the desired index in the input text->
      *
-     * @return   the first normalized character that is the result of iterating
-     *            forward starting at the given index.
+     * @return   the first normblized chbrbcter thbt is the result of iterbting
+     *            forwbrd stbrting bt the given index.
      *
-     * @throws IllegalArgumentException if the given index is less than
-     *          {@link #getBeginIndex} or greater than {@link #getEndIndex}.
-     * @return The codepoint as an int
-     * @deprecated ICU 3.2
+     * @throws IllegblArgumentException if the given index is less thbn
+     *          {@link #getBeginIndex} or grebter thbn {@link #getEndIndex}.
+     * @return The codepoint bs bn int
+     * @deprecbted ICU 3.2
      * @obsolete ICU 3.2
      */
-     @Deprecated
+     @Deprecbted
      public int setIndex(int index) {
          setIndexOnly(index);
          return current();
      }
 
     /**
-     * Retrieve the index of the start of the input text. This is the begin
-     * index of the <tt>CharacterIterator</tt> or the start (i.e. 0) of the
-     * <tt>String</tt> over which this <tt>Normalizer</tt> is iterating
-     * @deprecated ICU 2.2. Use startIndex() instead.
-     * @return The codepoint as an int
-     * @see #startIndex
+     * Retrieve the index of the stbrt of the input text. This is the begin
+     * index of the <tt>ChbrbcterIterbtor</tt> or the stbrt (i.e. 0) of the
+     * <tt>String</tt> over which this <tt>Normblizer</tt> is iterbting
+     * @deprecbted ICU 2.2. Use stbrtIndex() instebd.
+     * @return The codepoint bs bn int
+     * @see #stbrtIndex
      */
-    @Deprecated
+    @Deprecbted
     public int getBeginIndex() {
         return 0;
     }
 
     /**
      * Retrieve the index of the end of the input text.  This is the end index
-     * of the <tt>CharacterIterator</tt> or the length of the <tt>String</tt>
-     * over which this <tt>Normalizer</tt> is iterating
-     * @deprecated ICU 2.2. Use endIndex() instead.
-     * @return The codepoint as an int
+     * of the <tt>ChbrbcterIterbtor</tt> or the length of the <tt>String</tt>
+     * over which this <tt>Normblizer</tt> is iterbting
+     * @deprecbted ICU 2.2. Use endIndex() instebd.
+     * @return The codepoint bs bn int
      * @see #endIndex
      */
-    @Deprecated
+    @Deprecbted
     public int getEndIndex() {
         return endIndex();
     }
 
     /**
-     * Retrieve the current iteration position in the input text that is
-     * being normalized.  This method is useful in applications such as
-     * searching, where you need to be able to determine the position in
-     * the input text that corresponds to a given normalized output character.
+     * Retrieve the current iterbtion position in the input text thbt is
+     * being normblized.  This method is useful in bpplicbtions such bs
+     * sebrching, where you need to be bble to determine the position in
+     * the input text thbt corresponds to b given normblized output chbrbcter.
      * <p>
      * <b>Note:</b> This method sets the position in the <em>input</em>, while
-     * {@link #next} and {@link #previous} iterate through characters in the
-     * <em>output</em>.  This means that there is not necessarily a one-to-one
-     * correspondence between characters returned by <tt>next</tt> and
-     * <tt>previous</tt> and the indices passed to and returned from
-     * <tt>setIndex</tt> and {@link #getIndex}.
-     * @return The current iteration position
-     * @stable ICU 2.8
+     * {@link #next} bnd {@link #previous} iterbte through chbrbcters in the
+     * <em>output</em>.  This mebns thbt there is not necessbrily b one-to-one
+     * correspondence between chbrbcters returned by <tt>next</tt> bnd
+     * <tt>previous</tt> bnd the indices pbssed to bnd returned from
+     * <tt>setIndex</tt> bnd {@link #getIndex}.
+     * @return The current iterbtion position
+     * @stbble ICU 2.8
      */
     public int getIndex() {
         if(bufferPos<bufferLimit) {
@@ -943,273 +943,273 @@ public final class NormalizerBase implements Cloneable {
 
     /**
      * Retrieve the index of the end of the input text->  This is the end index
-     * of the <tt>CharacterIterator</tt> or the length of the <tt>String</tt>
-     * over which this <tt>Normalizer</tt> is iterating
-     * @return The current iteration position
-     * @stable ICU 2.8
+     * of the <tt>ChbrbcterIterbtor</tt> or the length of the <tt>String</tt>
+     * over which this <tt>Normblizer</tt> is iterbting
+     * @return The current iterbtion position
+     * @stbble ICU 2.8
      */
     public int endIndex() {
         return text.getLength();
     }
 
     //-------------------------------------------------------------------------
-    // Property access methods
+    // Property bccess methods
     //-------------------------------------------------------------------------
     /**
-     * Set the normalization mode for this object.
+     * Set the normblizbtion mode for this object.
      * <p>
-     * <b>Note:</b>If the normalization mode is changed while iterating
-     * over a string, calls to {@link #next} and {@link #previous} may
-     * return previously buffers characters in the old normalization mode
-     * until the iteration is able to re-sync at the next base character.
-     * It is safest to call {@link #setText setText()}, {@link #first},
-     * {@link #last}, etc. after calling <tt>setMode</tt>.
+     * <b>Note:</b>If the normblizbtion mode is chbnged while iterbting
+     * over b string, cblls to {@link #next} bnd {@link #previous} mby
+     * return previously buffers chbrbcters in the old normblizbtion mode
+     * until the iterbtion is bble to re-sync bt the next bbse chbrbcter.
+     * It is sbfest to cbll {@link #setText setText()}, {@link #first},
+     * {@link #lbst}, etc. bfter cblling <tt>setMode</tt>.
      * <p>
-     * @param newMode the new mode for this <tt>Normalizer</tt>.
-     * The supported modes are:
+     * @pbrbm newMode the new mode for this <tt>Normblizer</tt>.
+     * The supported modes bre:
      * <ul>
-     *  <li>{@link #COMPOSE}        - Unicode canonical decompositiion
-     *                                  followed by canonical composition.
-     *  <li>{@link #COMPOSE_COMPAT} - Unicode compatibility decompositiion
-     *                                  follwed by canonical composition.
-     *  <li>{@link #DECOMP}         - Unicode canonical decomposition
-     *  <li>{@link #DECOMP_COMPAT}  - Unicode compatibility decomposition.
-     *  <li>{@link #NO_OP}          - Do nothing but return characters
+     *  <li>{@link #COMPOSE}        - Unicode cbnonicbl decompositiion
+     *                                  followed by cbnonicbl composition.
+     *  <li>{@link #COMPOSE_COMPAT} - Unicode compbtibility decompositiion
+     *                                  follwed by cbnonicbl composition.
+     *  <li>{@link #DECOMP}         - Unicode cbnonicbl decomposition
+     *  <li>{@link #DECOMP_COMPAT}  - Unicode compbtibility decomposition.
+     *  <li>{@link #NO_OP}          - Do nothing but return chbrbcters
      *                                  from the underlying input text.
      * </ul>
      *
      * @see #getMode
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
     public void setMode(Mode newMode) {
         mode = newMode;
     }
     /**
-     * Return the basic operation performed by this <tt>Normalizer</tt>
+     * Return the bbsic operbtion performed by this <tt>Normblizer</tt>
      *
      * @see #setMode
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
     public Mode getMode() {
         return mode;
     }
 
     /**
-     * Set the input text over which this <tt>Normalizer</tt> will iterate.
-     * The iteration position is set to the beginning of the input text->
-     * @param newText   The new string to be normalized.
-     * @stable ICU 2.8
+     * Set the input text over which this <tt>Normblizer</tt> will iterbte.
+     * The iterbtion position is set to the beginning of the input text->
+     * @pbrbm newText   The new string to be normblized.
+     * @stbble ICU 2.8
      */
     public void setText(String newText) {
 
-        UCharacterIterator newIter = UCharacterIterator.getInstance(newText);
+        UChbrbcterIterbtor newIter = UChbrbcterIterbtor.getInstbnce(newText);
         if (newIter == null) {
-            throw new InternalError("Could not create a new UCharacterIterator");
+            throw new InternblError("Could not crebte b new UChbrbcterIterbtor");
         }
         text = newIter;
         reset();
     }
 
     /**
-     * Set the input text over which this <tt>Normalizer</tt> will iterate.
-     * The iteration position is set to the beginning of the input text->
-     * @param newText   The new string to be normalized.
-     * @stable ICU 2.8
+     * Set the input text over which this <tt>Normblizer</tt> will iterbte.
+     * The iterbtion position is set to the beginning of the input text->
+     * @pbrbm newText   The new string to be normblized.
+     * @stbble ICU 2.8
      */
-    public void setText(CharacterIterator newText) {
+    public void setText(ChbrbcterIterbtor newText) {
 
-        UCharacterIterator newIter = UCharacterIterator.getInstance(newText);
+        UChbrbcterIterbtor newIter = UChbrbcterIterbtor.getInstbnce(newText);
         if (newIter == null) {
-            throw new InternalError("Could not create a new UCharacterIterator");
+            throw new InternblError("Could not crebte b new UChbrbcterIterbtor");
         }
         text = newIter;
         currentIndex=nextIndex=0;
-        clearBuffer();
+        clebrBuffer();
     }
 
     //-------------------------------------------------------------------------
-    // Private utility methods
+    // Privbte utility methods
     //-------------------------------------------------------------------------
 
 
-    /* backward iteration --------------------------------------------------- */
+    /* bbckwbrd iterbtion --------------------------------------------------- */
 
     /*
-     * read backwards and get norm32
-     * return 0 if the character is <minC
-     * if c2!=0 then (c2, c) is a surrogate pair (reversed - c2 is first
-     * surrogate but read second!)
+     * rebd bbckwbrds bnd get norm32
+     * return 0 if the chbrbcter is <minC
+     * if c2!=0 then (c2, c) is b surrogbte pbir (reversed - c2 is first
+     * surrogbte but rebd second!)
      */
 
-    private static  long getPrevNorm32(UCharacterIterator src,
+    privbte stbtic  long getPrevNorm32(UChbrbcterIterbtor src,
                                        int/*unsigned*/ minC,
-                                       int/*unsigned*/ mask,
-                                       char[] chars) {
+                                       int/*unsigned*/ mbsk,
+                                       chbr[] chbrs) {
         long norm32;
         int ch=0;
-        /* need src.hasPrevious() */
-        if((ch=src.previous()) == UCharacterIterator.DONE) {
+        /* need src.hbsPrevious() */
+        if((ch=src.previous()) == UChbrbcterIterbtor.DONE) {
             return 0;
         }
-        chars[0]=(char)ch;
-        chars[1]=0;
+        chbrs[0]=(chbr)ch;
+        chbrs[1]=0;
 
-        /* check for a surrogate before getting norm32 to see if we need to
+        /* check for b surrogbte before getting norm32 to see if we need to
          * predecrement further */
-        if(chars[0]<minC) {
+        if(chbrs[0]<minC) {
             return 0;
-        } else if(!UTF16.isSurrogate(chars[0])) {
-            return NormalizerImpl.getNorm32(chars[0]);
-        } else if(UTF16.isLeadSurrogate(chars[0]) || (src.getIndex()==0)) {
-            /* unpaired surrogate */
-            chars[1]=(char)src.current();
+        } else if(!UTF16.isSurrogbte(chbrs[0])) {
+            return NormblizerImpl.getNorm32(chbrs[0]);
+        } else if(UTF16.isLebdSurrogbte(chbrs[0]) || (src.getIndex()==0)) {
+            /* unpbired surrogbte */
+            chbrs[1]=(chbr)src.current();
             return 0;
-        } else if(UTF16.isLeadSurrogate(chars[1]=(char)src.previous())) {
-            norm32=NormalizerImpl.getNorm32(chars[1]);
-            if((norm32&mask)==0) {
-                /* all surrogate pairs with this lead surrogate have irrelevant
-                 * data */
+        } else if(UTF16.isLebdSurrogbte(chbrs[1]=(chbr)src.previous())) {
+            norm32=NormblizerImpl.getNorm32(chbrs[1]);
+            if((norm32&mbsk)==0) {
+                /* bll surrogbte pbirs with this lebd surrogbte hbve irrelevbnt
+                 * dbtb */
                 return 0;
             } else {
-                /* norm32 must be a surrogate special */
-                return NormalizerImpl.getNorm32FromSurrogatePair(norm32,chars[0]);
+                /* norm32 must be b surrogbte specibl */
+                return NormblizerImpl.getNorm32FromSurrogbtePbir(norm32,chbrs[0]);
             }
         } else {
-            /* unpaired second surrogate, undo the c2=src.previous() movement */
+            /* unpbired second surrogbte, undo the c2=src.previous() movement */
             src.moveIndex( 1);
             return 0;
         }
     }
 
-    private interface IsPrevBoundary{
-        public boolean isPrevBoundary(UCharacterIterator src,
+    privbte interfbce IsPrevBoundbry{
+        public boolebn isPrevBoundbry(UChbrbcterIterbtor src,
                                       int/*unsigned*/ minC,
-                                      int/*unsigned*/ mask,
-                                      char[] chars);
+                                      int/*unsigned*/ mbsk,
+                                      chbr[] chbrs);
     }
-    private static final class IsPrevNFDSafe implements IsPrevBoundary{
+    privbte stbtic finbl clbss IsPrevNFDSbfe implements IsPrevBoundbry{
         /*
          * for NF*D:
-         * read backwards and check if the lead combining class is 0
-         * if c2!=0 then (c2, c) is a surrogate pair (reversed - c2 is first
-         * surrogate but read second!)
+         * rebd bbckwbrds bnd check if the lebd combining clbss is 0
+         * if c2!=0 then (c2, c) is b surrogbte pbir (reversed - c2 is first
+         * surrogbte but rebd second!)
          */
-        public boolean isPrevBoundary(UCharacterIterator src,
+        public boolebn isPrevBoundbry(UChbrbcterIterbtor src,
                                       int/*unsigned*/ minC,
-                                      int/*unsigned*/ ccOrQCMask,
-                                      char[] chars) {
+                                      int/*unsigned*/ ccOrQCMbsk,
+                                      chbr[] chbrs) {
 
-            return NormalizerImpl.isNFDSafe(getPrevNorm32(src, minC,
-                                                          ccOrQCMask, chars),
-                                            ccOrQCMask,
-                                            ccOrQCMask& NormalizerImpl.QC_MASK);
+            return NormblizerImpl.isNFDSbfe(getPrevNorm32(src, minC,
+                                                          ccOrQCMbsk, chbrs),
+                                            ccOrQCMbsk,
+                                            ccOrQCMbsk& NormblizerImpl.QC_MASK);
         }
     }
 
-    private static final class IsPrevTrueStarter implements IsPrevBoundary{
+    privbte stbtic finbl clbss IsPrevTrueStbrter implements IsPrevBoundbry{
         /*
-         * read backwards and check if the character is (or its decomposition
-         * begins with) a "true starter" (cc==0 and NF*C_YES)
-         * if c2!=0 then (c2, c) is a surrogate pair (reversed - c2 is first
-         * surrogate but read second!)
+         * rebd bbckwbrds bnd check if the chbrbcter is (or its decomposition
+         * begins with) b "true stbrter" (cc==0 bnd NF*C_YES)
+         * if c2!=0 then (c2, c) is b surrogbte pbir (reversed - c2 is first
+         * surrogbte but rebd second!)
          */
-        public boolean isPrevBoundary(UCharacterIterator src,
+        public boolebn isPrevBoundbry(UChbrbcterIterbtor src,
                                       int/*unsigned*/ minC,
-                                      int/*unsigned*/ ccOrQCMask,
-                                      char[] chars) {
+                                      int/*unsigned*/ ccOrQCMbsk,
+                                      chbr[] chbrs) {
             long norm32;
-            int/*unsigned*/ decompQCMask;
+            int/*unsigned*/ decompQCMbsk;
 
-            decompQCMask=(ccOrQCMask<<2)&0xf; /*decomposition quick check mask*/
-            norm32=getPrevNorm32(src, minC, ccOrQCMask|decompQCMask, chars);
-            return NormalizerImpl.isTrueStarter(norm32,ccOrQCMask,decompQCMask);
+            decompQCMbsk=(ccOrQCMbsk<<2)&0xf; /*decomposition quick check mbsk*/
+            norm32=getPrevNorm32(src, minC, ccOrQCMbsk|decompQCMbsk, chbrs);
+            return NormblizerImpl.isTrueStbrter(norm32,ccOrQCMbsk,decompQCMbsk);
         }
     }
 
-    private static int findPreviousIterationBoundary(UCharacterIterator src,
-                                                     IsPrevBoundary obj,
+    privbte stbtic int findPreviousIterbtionBoundbry(UChbrbcterIterbtor src,
+                                                     IsPrevBoundbry obj,
                                                      int/*unsigned*/ minC,
-                                                     int/*mask*/ mask,
-                                                     char[] buffer,
-                                                     int[] startIndex) {
-        char[] chars=new char[2];
-        boolean isBoundary;
+                                                     int/*mbsk*/ mbsk,
+                                                     chbr[] buffer,
+                                                     int[] stbrtIndex) {
+        chbr[] chbrs=new chbr[2];
+        boolebn isBoundbry;
 
-        /* fill the buffer from the end backwards */
-        startIndex[0] = buffer.length;
-        chars[0]=0;
-        while(src.getIndex()>0 && chars[0]!=UCharacterIterator.DONE) {
-            isBoundary=obj.isPrevBoundary(src, minC, mask, chars);
+        /* fill the buffer from the end bbckwbrds */
+        stbrtIndex[0] = buffer.length;
+        chbrs[0]=0;
+        while(src.getIndex()>0 && chbrs[0]!=UChbrbcterIterbtor.DONE) {
+            isBoundbry=obj.isPrevBoundbry(src, minC, mbsk, chbrs);
 
-            /* always write this character to the front of the buffer */
-            /* make sure there is enough space in the buffer */
-            if(startIndex[0] < (chars[1]==0 ? 1 : 2)) {
+            /* blwbys write this chbrbcter to the front of the buffer */
+            /* mbke sure there is enough spbce in the buffer */
+            if(stbrtIndex[0] < (chbrs[1]==0 ? 1 : 2)) {
 
                 // grow the buffer
-                char[] newBuf = new char[buffer.length*2];
+                chbr[] newBuf = new chbr[buffer.length*2];
                 /* move the current buffer contents up */
-                System.arraycopy(buffer,startIndex[0],newBuf,
-                                 newBuf.length-(buffer.length-startIndex[0]),
-                                 buffer.length-startIndex[0]);
-                //adjust the startIndex
-                startIndex[0]+=newBuf.length-buffer.length;
+                System.brrbycopy(buffer,stbrtIndex[0],newBuf,
+                                 newBuf.length-(buffer.length-stbrtIndex[0]),
+                                 buffer.length-stbrtIndex[0]);
+                //bdjust the stbrtIndex
+                stbrtIndex[0]+=newBuf.length-buffer.length;
 
                 buffer=newBuf;
                 newBuf=null;
 
             }
 
-            buffer[--startIndex[0]]=chars[0];
-            if(chars[1]!=0) {
-                buffer[--startIndex[0]]=chars[1];
+            buffer[--stbrtIndex[0]]=chbrs[0];
+            if(chbrs[1]!=0) {
+                buffer[--stbrtIndex[0]]=chbrs[1];
             }
 
-            /* stop if this just-copied character is a boundary */
-            if(isBoundary) {
-                break;
+            /* stop if this just-copied chbrbcter is b boundbry */
+            if(isBoundbry) {
+                brebk;
             }
         }
 
         /* return the length of the buffer contents */
-        return buffer.length-startIndex[0];
+        return buffer.length-stbrtIndex[0];
     }
 
-    private static int previous(UCharacterIterator src,
-                                char[] dest, int destStart, int destLimit,
+    privbte stbtic int previous(UChbrbcterIterbtor src,
+                                chbr[] dest, int destStbrt, int destLimit,
                                 Mode mode,
-                                boolean doNormalize,
-                                boolean[] pNeededToNormalize,
+                                boolebn doNormblize,
+                                boolebn[] pNeededToNormblize,
                                 int options) {
 
-        IsPrevBoundary isPreviousBoundary;
+        IsPrevBoundbry isPreviousBoundbry;
         int destLength, bufferLength;
-        int/*unsigned*/ mask;
+        int/*unsigned*/ mbsk;
         int c,c2;
 
-        char minC;
-        int destCapacity = destLimit-destStart;
+        chbr minC;
+        int destCbpbcity = destLimit-destStbrt;
         destLength=0;
 
-        if(pNeededToNormalize!=null) {
-            pNeededToNormalize[0]=false;
+        if(pNeededToNormblize!=null) {
+            pNeededToNormblize[0]=fblse;
         }
-        minC = (char)mode.getMinC();
-        mask = mode.getMask();
-        isPreviousBoundary = mode.getPrevBoundary();
+        minC = (chbr)mode.getMinC();
+        mbsk = mode.getMbsk();
+        isPreviousBoundbry = mode.getPrevBoundbry();
 
-        if(isPreviousBoundary==null) {
+        if(isPreviousBoundbry==null) {
             destLength=0;
             if((c=src.previous())>=0) {
                 destLength=1;
-                if(UTF16.isTrailSurrogate((char)c)) {
+                if(UTF16.isTrbilSurrogbte((chbr)c)) {
                     c2= src.previous();
-                    if(c2!= UCharacterIterator.DONE) {
-                        if(UTF16.isLeadSurrogate((char)c2)) {
-                            if(destCapacity>=2) {
-                                dest[1]=(char)c; // trail surrogate
+                    if(c2!= UChbrbcterIterbtor.DONE) {
+                        if(UTF16.isLebdSurrogbte((chbr)c2)) {
+                            if(destCbpbcity>=2) {
+                                dest[1]=(chbr)c; // trbil surrogbte
                                 destLength=2;
                             }
-                            // lead surrogate to be written below
+                            // lebd surrogbte to be written below
                             c=c2;
                         } else {
                             src.moveIndex(1);
@@ -1217,39 +1217,39 @@ public final class NormalizerBase implements Cloneable {
                     }
                 }
 
-                if(destCapacity>0) {
-                    dest[0]=(char)c;
+                if(destCbpbcity>0) {
+                    dest[0]=(chbr)c;
                 }
             }
             return destLength;
         }
 
-        char[] buffer = new char[100];
-        int[] startIndex= new int[1];
-        bufferLength=findPreviousIterationBoundary(src,
-                                                   isPreviousBoundary,
-                                                   minC, mask,buffer,
-                                                   startIndex);
+        chbr[] buffer = new chbr[100];
+        int[] stbrtIndex= new int[1];
+        bufferLength=findPreviousIterbtionBoundbry(src,
+                                                   isPreviousBoundbry,
+                                                   minC, mbsk,buffer,
+                                                   stbrtIndex);
         if(bufferLength>0) {
-            if(doNormalize) {
-                destLength=NormalizerBase.normalize(buffer,startIndex[0],
-                                                startIndex[0]+bufferLength,
-                                                dest, destStart,destLimit,
+            if(doNormblize) {
+                destLength=NormblizerBbse.normblize(buffer,stbrtIndex[0],
+                                                stbrtIndex[0]+bufferLength,
+                                                dest, destStbrt,destLimit,
                                                 mode, options);
 
-                if(pNeededToNormalize!=null) {
-                    pNeededToNormalize[0]=destLength!=bufferLength ||
-                                          Utility.arrayRegionMatches(
+                if(pNeededToNormblize!=null) {
+                    pNeededToNormblize[0]=destLength!=bufferLength ||
+                                          Utility.brrbyRegionMbtches(
                                             buffer,0,dest,
-                                            destStart,destLimit
+                                            destStbrt,destLimit
                                           );
                 }
             } else {
-                /* just copy the source characters */
-                if(destCapacity>0) {
-                    System.arraycopy(buffer,startIndex[0],dest,0,
-                                     (bufferLength<destCapacity) ?
-                                     bufferLength : destCapacity
+                /* just copy the source chbrbcters */
+                if(destCbpbcity>0) {
+                    System.brrbycopy(buffer,stbrtIndex[0],dest,0,
+                                     (bufferLength<destCbpbcity) ?
+                                     bufferLength : destCbpbcity
                                      );
                 }
             }
@@ -1261,51 +1261,51 @@ public final class NormalizerBase implements Cloneable {
 
 
 
-    /* forward iteration ---------------------------------------------------- */
+    /* forwbrd iterbtion ---------------------------------------------------- */
     /*
-     * read forward and check if the character is a next-iteration boundary
-     * if c2!=0 then (c, c2) is a surrogate pair
+     * rebd forwbrd bnd check if the chbrbcter is b next-iterbtion boundbry
+     * if c2!=0 then (c, c2) is b surrogbte pbir
      */
-    private interface IsNextBoundary{
-        boolean isNextBoundary(UCharacterIterator src,
+    privbte interfbce IsNextBoundbry{
+        boolebn isNextBoundbry(UChbrbcterIterbtor src,
                                int/*unsigned*/ minC,
-                               int/*unsigned*/ mask,
-                               int[] chars);
+                               int/*unsigned*/ mbsk,
+                               int[] chbrs);
     }
     /*
-     * read forward and get norm32
-     * return 0 if the character is <minC
-     * if c2!=0 then (c2, c) is a surrogate pair
-     * always reads complete characters
+     * rebd forwbrd bnd get norm32
+     * return 0 if the chbrbcter is <minC
+     * if c2!=0 then (c2, c) is b surrogbte pbir
+     * blwbys rebds complete chbrbcters
      */
-    private static long /*unsigned*/ getNextNorm32(UCharacterIterator src,
+    privbte stbtic long /*unsigned*/ getNextNorm32(UChbrbcterIterbtor src,
                                                    int/*unsigned*/ minC,
-                                                   int/*unsigned*/ mask,
-                                                   int[] chars) {
+                                                   int/*unsigned*/ mbsk,
+                                                   int[] chbrs) {
         long norm32;
 
-        /* need src.hasNext() to be true */
-        chars[0]=src.next();
-        chars[1]=0;
+        /* need src.hbsNext() to be true */
+        chbrs[0]=src.next();
+        chbrs[1]=0;
 
-        if(chars[0]<minC) {
+        if(chbrs[0]<minC) {
             return 0;
         }
 
-        norm32=NormalizerImpl.getNorm32((char)chars[0]);
-        if(UTF16.isLeadSurrogate((char)chars[0])) {
-            if(src.current()!=UCharacterIterator.DONE &&
-               UTF16.isTrailSurrogate((char)(chars[1]=src.current()))) {
-                src.moveIndex(1); /* skip the c2 surrogate */
-                if((norm32&mask)==0) {
-                    /* irrelevant data */
+        norm32=NormblizerImpl.getNorm32((chbr)chbrs[0]);
+        if(UTF16.isLebdSurrogbte((chbr)chbrs[0])) {
+            if(src.current()!=UChbrbcterIterbtor.DONE &&
+               UTF16.isTrbilSurrogbte((chbr)(chbrs[1]=src.current()))) {
+                src.moveIndex(1); /* skip the c2 surrogbte */
+                if((norm32&mbsk)==0) {
+                    /* irrelevbnt dbtb */
                     return 0;
                 } else {
-                    /* norm32 must be a surrogate special */
-                    return NormalizerImpl.getNorm32FromSurrogatePair(norm32,(char)chars[1]);
+                    /* norm32 must be b surrogbte specibl */
+                    return NormblizerImpl.getNorm32FromSurrogbtePbir(norm32,(chbr)chbrs[1]);
                 }
             } else {
-                /* unmatched surrogate */
+                /* unmbtched surrogbte */
                 return 0;
             }
         }
@@ -1315,84 +1315,84 @@ public final class NormalizerBase implements Cloneable {
 
     /*
      * for NF*D:
-     * read forward and check if the lead combining class is 0
-     * if c2!=0 then (c, c2) is a surrogate pair
+     * rebd forwbrd bnd check if the lebd combining clbss is 0
+     * if c2!=0 then (c, c2) is b surrogbte pbir
      */
-    private static final class IsNextNFDSafe implements IsNextBoundary{
-        public boolean isNextBoundary(UCharacterIterator src,
+    privbte stbtic finbl clbss IsNextNFDSbfe implements IsNextBoundbry{
+        public boolebn isNextBoundbry(UChbrbcterIterbtor src,
                                       int/*unsigned*/ minC,
-                                      int/*unsigned*/ ccOrQCMask,
-                                      int[] chars) {
-            return NormalizerImpl.isNFDSafe(getNextNorm32(src,minC,ccOrQCMask,chars),
-                                            ccOrQCMask, ccOrQCMask&NormalizerImpl.QC_MASK);
+                                      int/*unsigned*/ ccOrQCMbsk,
+                                      int[] chbrs) {
+            return NormblizerImpl.isNFDSbfe(getNextNorm32(src,minC,ccOrQCMbsk,chbrs),
+                                            ccOrQCMbsk, ccOrQCMbsk&NormblizerImpl.QC_MASK);
         }
     }
 
     /*
      * for NF*C:
-     * read forward and check if the character is (or its decomposition begins
-     * with) a "true starter" (cc==0 and NF*C_YES)
-     * if c2!=0 then (c, c2) is a surrogate pair
+     * rebd forwbrd bnd check if the chbrbcter is (or its decomposition begins
+     * with) b "true stbrter" (cc==0 bnd NF*C_YES)
+     * if c2!=0 then (c, c2) is b surrogbte pbir
      */
-    private static final class IsNextTrueStarter implements IsNextBoundary{
-        public boolean isNextBoundary(UCharacterIterator src,
+    privbte stbtic finbl clbss IsNextTrueStbrter implements IsNextBoundbry{
+        public boolebn isNextBoundbry(UChbrbcterIterbtor src,
                                       int/*unsigned*/ minC,
-                                      int/*unsigned*/ ccOrQCMask,
-                                      int[] chars) {
+                                      int/*unsigned*/ ccOrQCMbsk,
+                                      int[] chbrs) {
             long norm32;
-            int/*unsigned*/ decompQCMask;
+            int/*unsigned*/ decompQCMbsk;
 
-            decompQCMask=(ccOrQCMask<<2)&0xf; /*decomposition quick check mask*/
-            norm32=getNextNorm32(src, minC, ccOrQCMask|decompQCMask, chars);
-            return NormalizerImpl.isTrueStarter(norm32, ccOrQCMask, decompQCMask);
+            decompQCMbsk=(ccOrQCMbsk<<2)&0xf; /*decomposition quick check mbsk*/
+            norm32=getNextNorm32(src, minC, ccOrQCMbsk|decompQCMbsk, chbrs);
+            return NormblizerImpl.isTrueStbrter(norm32, ccOrQCMbsk, decompQCMbsk);
         }
     }
 
-    private static int findNextIterationBoundary(UCharacterIterator src,
-                                                 IsNextBoundary obj,
+    privbte stbtic int findNextIterbtionBoundbry(UChbrbcterIterbtor src,
+                                                 IsNextBoundbry obj,
                                                  int/*unsigned*/ minC,
-                                                 int/*unsigned*/ mask,
-                                                 char[] buffer) {
-        if(src.current()==UCharacterIterator.DONE) {
+                                                 int/*unsigned*/ mbsk,
+                                                 chbr[] buffer) {
+        if(src.current()==UChbrbcterIterbtor.DONE) {
             return 0;
         }
 
-        /* get one character and ignore its properties */
-        int[] chars = new int[2];
-        chars[0]=src.next();
-        buffer[0]=(char)chars[0];
+        /* get one chbrbcter bnd ignore its properties */
+        int[] chbrs = new int[2];
+        chbrs[0]=src.next();
+        buffer[0]=(chbr)chbrs[0];
         int bufferIndex = 1;
 
-        if(UTF16.isLeadSurrogate((char)chars[0])&&
-           src.current()!=UCharacterIterator.DONE) {
-            if(UTF16.isTrailSurrogate((char)(chars[1]=src.next()))) {
-                buffer[bufferIndex++]=(char)chars[1];
+        if(UTF16.isLebdSurrogbte((chbr)chbrs[0])&&
+           src.current()!=UChbrbcterIterbtor.DONE) {
+            if(UTF16.isTrbilSurrogbte((chbr)(chbrs[1]=src.next()))) {
+                buffer[bufferIndex++]=(chbr)chbrs[1];
             } else {
-                src.moveIndex(-1); /* back out the non-trail-surrogate */
+                src.moveIndex(-1); /* bbck out the non-trbil-surrogbte */
             }
         }
 
-        /* get all following characters until we see a boundary */
-        /* checking hasNext() instead of c!=DONE on the off-chance that U+ffff
-         * is part of the string */
-        while( src.current()!=UCharacterIterator.DONE) {
-            if(obj.isNextBoundary(src, minC, mask, chars)) {
-                /* back out the latest movement to stop at the boundary */
-                src.moveIndex(chars[1]==0 ? -1 : -2);
-                break;
+        /* get bll following chbrbcters until we see b boundbry */
+        /* checking hbsNext() instebd of c!=DONE on the off-chbnce thbt U+ffff
+         * is pbrt of the string */
+        while( src.current()!=UChbrbcterIterbtor.DONE) {
+            if(obj.isNextBoundbry(src, minC, mbsk, chbrs)) {
+                /* bbck out the lbtest movement to stop bt the boundbry */
+                src.moveIndex(chbrs[1]==0 ? -1 : -2);
+                brebk;
             } else {
-                if(bufferIndex+(chars[1]==0 ? 1 : 2)<=buffer.length) {
-                    buffer[bufferIndex++]=(char)chars[0];
-                    if(chars[1]!=0) {
-                        buffer[bufferIndex++]=(char)chars[1];
+                if(bufferIndex+(chbrs[1]==0 ? 1 : 2)<=buffer.length) {
+                    buffer[bufferIndex++]=(chbr)chbrs[0];
+                    if(chbrs[1]!=0) {
+                        buffer[bufferIndex++]=(chbr)chbrs[1];
                     }
                 } else {
-                    char[] newBuf = new char[buffer.length*2];
-                    System.arraycopy(buffer,0,newBuf,0,bufferIndex);
+                    chbr[] newBuf = new chbr[buffer.length*2];
+                    System.brrbycopy(buffer,0,newBuf,0,bufferIndex);
                     buffer = newBuf;
-                    buffer[bufferIndex++]=(char)chars[0];
-                    if(chars[1]!=0) {
-                        buffer[bufferIndex++]=(char)chars[1];
+                    buffer[bufferIndex++]=(chbr)chbrs[0];
+                    if(chbrs[1]!=0) {
+                        buffer[bufferIndex++]=(chbr)chbrs[1];
                     }
                 }
             }
@@ -1402,75 +1402,75 @@ public final class NormalizerBase implements Cloneable {
         return bufferIndex;
     }
 
-    private static int next(UCharacterIterator src,
-                            char[] dest, int destStart, int destLimit,
-                            NormalizerBase.Mode mode,
-                            boolean doNormalize,
-                            boolean[] pNeededToNormalize,
+    privbte stbtic int next(UChbrbcterIterbtor src,
+                            chbr[] dest, int destStbrt, int destLimit,
+                            NormblizerBbse.Mode mode,
+                            boolebn doNormblize,
+                            boolebn[] pNeededToNormblize,
                             int options) {
 
-        IsNextBoundary isNextBoundary;
-        int /*unsigned*/ mask;
+        IsNextBoundbry isNextBoundbry;
+        int /*unsigned*/ mbsk;
         int /*unsigned*/ bufferLength;
         int c,c2;
-        char minC;
-        int destCapacity = destLimit - destStart;
+        chbr minC;
+        int destCbpbcity = destLimit - destStbrt;
         int destLength = 0;
-        if(pNeededToNormalize!=null) {
-            pNeededToNormalize[0]=false;
+        if(pNeededToNormblize!=null) {
+            pNeededToNormblize[0]=fblse;
         }
 
-        minC = (char)mode.getMinC();
-        mask = mode.getMask();
-        isNextBoundary = mode.getNextBoundary();
+        minC = (chbr)mode.getMinC();
+        mbsk = mode.getMbsk();
+        isNextBoundbry = mode.getNextBoundbry();
 
-        if(isNextBoundary==null) {
+        if(isNextBoundbry==null) {
             destLength=0;
             c=src.next();
-            if(c!=UCharacterIterator.DONE) {
+            if(c!=UChbrbcterIterbtor.DONE) {
                 destLength=1;
-                if(UTF16.isLeadSurrogate((char)c)) {
+                if(UTF16.isLebdSurrogbte((chbr)c)) {
                     c2= src.next();
-                    if(c2!= UCharacterIterator.DONE) {
-                        if(UTF16.isTrailSurrogate((char)c2)) {
-                            if(destCapacity>=2) {
-                                dest[1]=(char)c2; // trail surrogate
+                    if(c2!= UChbrbcterIterbtor.DONE) {
+                        if(UTF16.isTrbilSurrogbte((chbr)c2)) {
+                            if(destCbpbcity>=2) {
+                                dest[1]=(chbr)c2; // trbil surrogbte
                                 destLength=2;
                             }
-                            // lead surrogate to be written below
+                            // lebd surrogbte to be written below
                         } else {
                             src.moveIndex(-1);
                         }
                     }
                 }
 
-                if(destCapacity>0) {
-                    dest[0]=(char)c;
+                if(destCbpbcity>0) {
+                    dest[0]=(chbr)c;
                 }
             }
             return destLength;
         }
 
-        char[] buffer=new char[100];
-        int[] startIndex = new int[1];
-        bufferLength=findNextIterationBoundary(src,isNextBoundary, minC, mask,
+        chbr[] buffer=new chbr[100];
+        int[] stbrtIndex = new int[1];
+        bufferLength=findNextIterbtionBoundbry(src,isNextBoundbry, minC, mbsk,
                                                buffer);
         if(bufferLength>0) {
-            if(doNormalize) {
-                destLength=mode.normalize(buffer,startIndex[0],bufferLength,
-                                          dest,destStart,destLimit, options);
+            if(doNormblize) {
+                destLength=mode.normblize(buffer,stbrtIndex[0],bufferLength,
+                                          dest,destStbrt,destLimit, options);
 
-                if(pNeededToNormalize!=null) {
-                    pNeededToNormalize[0]=destLength!=bufferLength ||
-                                          Utility.arrayRegionMatches(buffer,startIndex[0],
-                                            dest,destStart,
+                if(pNeededToNormblize!=null) {
+                    pNeededToNormblize[0]=destLength!=bufferLength ||
+                                          Utility.brrbyRegionMbtches(buffer,stbrtIndex[0],
+                                            dest,destStbrt,
                                             destLength);
                 }
             } else {
-                /* just copy the source characters */
-                if(destCapacity>0) {
-                    System.arraycopy(buffer,0,dest,destStart,
-                                     Math.min(bufferLength,destCapacity)
+                /* just copy the source chbrbcters */
+                if(destCbpbcity>0) {
+                    System.brrbycopy(buffer,0,dest,destStbrt,
+                                     Mbth.min(bufferLength,destCbpbcity)
                                      );
                 }
 
@@ -1480,47 +1480,47 @@ public final class NormalizerBase implements Cloneable {
         return destLength;
     }
 
-    private void clearBuffer() {
-        bufferLimit=bufferStart=bufferPos=0;
+    privbte void clebrBuffer() {
+        bufferLimit=bufferStbrt=bufferPos=0;
     }
 
-    private boolean nextNormalize() {
+    privbte boolebn nextNormblize() {
 
-        clearBuffer();
+        clebrBuffer();
         currentIndex=nextIndex;
         text.setIndex(nextIndex);
 
-        bufferLimit=next(text,buffer,bufferStart,buffer.length,mode,true,null,options);
+        bufferLimit=next(text,buffer,bufferStbrt,buffer.length,mode,true,null,options);
 
         nextIndex=text.getIndex();
         return (bufferLimit>0);
     }
 
-    private boolean previousNormalize() {
+    privbte boolebn previousNormblize() {
 
-        clearBuffer();
+        clebrBuffer();
         nextIndex=currentIndex;
         text.setIndex(currentIndex);
-        bufferLimit=previous(text,buffer,bufferStart,buffer.length,mode,true,null,options);
+        bufferLimit=previous(text,buffer,bufferStbrt,buffer.length,mode,true,null,options);
 
         currentIndex=text.getIndex();
         bufferPos = bufferLimit;
         return bufferLimit>0;
     }
 
-    private int getCodePointAt(int index) {
-        if( UTF16.isSurrogate(buffer[index])) {
-            if(UTF16.isLeadSurrogate(buffer[index])) {
+    privbte int getCodePointAt(int index) {
+        if( UTF16.isSurrogbte(buffer[index])) {
+            if(UTF16.isLebdSurrogbte(buffer[index])) {
                 if((index+1)<bufferLimit &&
-                   UTF16.isTrailSurrogate(buffer[index+1])) {
-                    return UCharacterProperty.getRawSupplementary(
+                   UTF16.isTrbilSurrogbte(buffer[index+1])) {
+                    return UChbrbcterProperty.getRbwSupplementbry(
                                                                   buffer[index],
                                                                   buffer[index+1]
                                                                   );
                 }
-            }else if(UTF16.isTrailSurrogate(buffer[index])) {
-                if(index>0 && UTF16.isLeadSurrogate(buffer[index-1])) {
-                    return UCharacterProperty.getRawSupplementary(
+            }else if(UTF16.isTrbilSurrogbte(buffer[index])) {
+                if(index>0 && UTF16.isLebdSurrogbte(buffer[index-1])) {
+                    return UChbrbcterProperty.getRbwSupplementbry(
                                                                   buffer[index-1],
                                                                   buffer[index]
                                                                   );
@@ -1532,11 +1532,11 @@ public final class NormalizerBase implements Cloneable {
     }
 
     /**
-     * Internal API
-     * @internal
+     * Internbl API
+     * @internbl
      */
-    public static boolean isNFSkippable(int c, Mode mode) {
-        return mode.isNFSkippable(c);
+    public stbtic boolebn isNFSkippbble(int c, Mode mode) {
+        return mode.isNFSkippbble(c);
     }
 
     //
@@ -1544,140 +1544,140 @@ public final class NormalizerBase implements Cloneable {
     //
 
     /*
-     * Default option for Unicode 3.2.0 normalization.
-     * Corrigendum 4 was fixed in Unicode 3.2.0 but isn't supported in
+     * Defbult option for Unicode 3.2.0 normblizbtion.
+     * Corrigendum 4 wbs fixed in Unicode 3.2.0 but isn't supported in
      * IDNA/StringPrep.
-     * The public review issue #29 was fixed in Unicode 4.1.0. Corrigendum 5
-     * allowed Unicode 3.2 to 4.0.1 to apply the fix for PRI #29, but it isn't
-     * supported by IDNA/StringPrep as well as Corrigendum 4.
+     * The public review issue #29 wbs fixed in Unicode 4.1.0. Corrigendum 5
+     * bllowed Unicode 3.2 to 4.0.1 to bpply the fix for PRI #29, but it isn't
+     * supported by IDNA/StringPrep bs well bs Corrigendum 4.
      */
-    public static final int UNICODE_3_2_0_ORIGINAL =
+    public stbtic finbl int UNICODE_3_2_0_ORIGINAL =
                                UNICODE_3_2 |
-                               NormalizerImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
-                               NormalizerImpl.BEFORE_PRI_29;
+                               NormblizerImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
+                               NormblizerImpl.BEFORE_PRI_29;
 
     /*
-     * Default option for the latest Unicode normalization. This option is
-     * provided mainly for testing.
-     * The value zero means that normalization is done with the fixes for
-     *   - Corrigendum 4 (Five CJK Canonical Mapping Errors)
-     *   - Corrigendum 5 (Normalization Idempotency)
+     * Defbult option for the lbtest Unicode normblizbtion. This option is
+     * provided mbinly for testing.
+     * The vblue zero mebns thbt normblizbtion is done with the fixes for
+     *   - Corrigendum 4 (Five CJK Cbnonicbl Mbpping Errors)
+     *   - Corrigendum 5 (Normblizbtion Idempotency)
      */
-    public static final int UNICODE_LATEST = 0x00;
+    public stbtic finbl int UNICODE_LATEST = 0x00;
 
     //
-    // public constructor and methods for java.text.Normalizer and
-    // sun.text.Normalizer
+    // public constructor bnd methods for jbvb.text.Normblizer bnd
+    // sun.text.Normblizer
     //
 
     /**
-     * Creates a new <tt>Normalizer</tt> object for iterating over the
-     * normalized form of a given string.
+     * Crebtes b new <tt>Normblizer</tt> object for iterbting over the
+     * normblized form of b given string.
      *
-     * @param str  The string to be normalized.  The normalization
-     *              will start at the beginning of the string.
+     * @pbrbm str  The string to be normblized.  The normblizbtion
+     *              will stbrt bt the beginning of the string.
      *
-     * @param mode The normalization mode.
+     * @pbrbm mode The normblizbtion mode.
      */
-    public NormalizerBase(String str, Mode mode) {
+    public NormblizerBbse(String str, Mode mode) {
           this(str, mode, UNICODE_LATEST);
     }
 
     /**
-     * Normalizes a <code>String</code> using the given normalization form.
+     * Normblizes b <code>String</code> using the given normblizbtion form.
      *
-     * @param str      the input string to be normalized.
-     * @param form     the normalization form
+     * @pbrbm str      the input string to be normblized.
+     * @pbrbm form     the normblizbtion form
      */
-    public static String normalize(String str, Normalizer.Form form) {
-        return normalize(str, form, UNICODE_LATEST);
+    public stbtic String normblize(String str, Normblizer.Form form) {
+        return normblize(str, form, UNICODE_LATEST);
     }
 
     /**
-     * Normalizes a <code>String</code> using the given normalization form.
+     * Normblizes b <code>String</code> using the given normblizbtion form.
      *
-     * @param str      the input string to be normalized.
-     * @param form     the normalization form
-     * @param options   the optional features to be enabled.
+     * @pbrbm str      the input string to be normblized.
+     * @pbrbm form     the normblizbtion form
+     * @pbrbm options   the optionbl febtures to be enbbled.
      */
-    public static String normalize(String str, Normalizer.Form form, int options) {
+    public stbtic String normblize(String str, Normblizer.Form form, int options) {
         int len = str.length();
-        boolean asciiOnly = true;
+        boolebn bsciiOnly = true;
         if (len < 80) {
             for (int i = 0; i < len; i++) {
-                if (str.charAt(i) > 127) {
-                    asciiOnly = false;
-                    break;
+                if (str.chbrAt(i) > 127) {
+                    bsciiOnly = fblse;
+                    brebk;
                 }
             }
         } else {
-            char[] a = str.toCharArray();
+            chbr[] b = str.toChbrArrby();
             for (int i = 0; i < len; i++) {
-                if (a[i] > 127) {
-                    asciiOnly = false;
-                    break;
+                if (b[i] > 127) {
+                    bsciiOnly = fblse;
+                    brebk;
                 }
             }
         }
 
         switch (form) {
-        case NFC :
-            return asciiOnly ? str : NFC.normalize(str, options);
-        case NFD :
-            return asciiOnly ? str : NFD.normalize(str, options);
-        case NFKC :
-            return asciiOnly ? str : NFKC.normalize(str, options);
-        case NFKD :
-            return asciiOnly ? str : NFKD.normalize(str, options);
+        cbse NFC :
+            return bsciiOnly ? str : NFC.normblize(str, options);
+        cbse NFD :
+            return bsciiOnly ? str : NFD.normblize(str, options);
+        cbse NFKC :
+            return bsciiOnly ? str : NFKC.normblize(str, options);
+        cbse NFKD :
+            return bsciiOnly ? str : NFKD.normblize(str, options);
         }
 
-        throw new IllegalArgumentException("Unexpected normalization form: " +
+        throw new IllegblArgumentException("Unexpected normblizbtion form: " +
                                            form);
     }
 
     /**
-     * Test if a string is in a given normalization form.
-     * This is semantically equivalent to source.equals(normalize(source, mode)).
+     * Test if b string is in b given normblizbtion form.
+     * This is sembnticblly equivblent to source.equbls(normblize(source, mode)).
      *
-     * Unlike quickCheck(), this function returns a definitive result,
-     * never a "maybe".
-     * For NFD, NFKD, and FCD, both functions work exactly the same.
-     * For NFC and NFKC where quickCheck may return "maybe", this function will
-     * perform further tests to arrive at a true/false result.
-     * @param str       the input string to be checked to see if it is normalized
-     * @param form      the normalization form
-     * @param options   the optional features to be enabled.
+     * Unlike quickCheck(), this function returns b definitive result,
+     * never b "mbybe".
+     * For NFD, NFKD, bnd FCD, both functions work exbctly the sbme.
+     * For NFC bnd NFKC where quickCheck mby return "mbybe", this function will
+     * perform further tests to brrive bt b true/fblse result.
+     * @pbrbm str       the input string to be checked to see if it is normblized
+     * @pbrbm form      the normblizbtion form
+     * @pbrbm options   the optionbl febtures to be enbbled.
      */
-    public static boolean isNormalized(String str, Normalizer.Form form) {
-        return isNormalized(str, form, UNICODE_LATEST);
+    public stbtic boolebn isNormblized(String str, Normblizer.Form form) {
+        return isNormblized(str, form, UNICODE_LATEST);
     }
 
     /**
-     * Test if a string is in a given normalization form.
-     * This is semantically equivalent to source.equals(normalize(source, mode)).
+     * Test if b string is in b given normblizbtion form.
+     * This is sembnticblly equivblent to source.equbls(normblize(source, mode)).
      *
-     * Unlike quickCheck(), this function returns a definitive result,
-     * never a "maybe".
-     * For NFD, NFKD, and FCD, both functions work exactly the same.
-     * For NFC and NFKC where quickCheck may return "maybe", this function will
-     * perform further tests to arrive at a true/false result.
-     * @param str       the input string to be checked to see if it is normalized
-     * @param form      the normalization form
-     * @param options   the optional features to be enabled.
+     * Unlike quickCheck(), this function returns b definitive result,
+     * never b "mbybe".
+     * For NFD, NFKD, bnd FCD, both functions work exbctly the sbme.
+     * For NFC bnd NFKC where quickCheck mby return "mbybe", this function will
+     * perform further tests to brrive bt b true/fblse result.
+     * @pbrbm str       the input string to be checked to see if it is normblized
+     * @pbrbm form      the normblizbtion form
+     * @pbrbm options   the optionbl febtures to be enbbled.
      */
-    public static boolean isNormalized(String str, Normalizer.Form form, int options) {
+    public stbtic boolebn isNormblized(String str, Normblizer.Form form, int options) {
         switch (form) {
-        case NFC:
-            return (NFC.quickCheck(str.toCharArray(),0,str.length(),false,NormalizerImpl.getNX(options))==YES);
-        case NFD:
-            return (NFD.quickCheck(str.toCharArray(),0,str.length(),false,NormalizerImpl.getNX(options))==YES);
-        case NFKC:
-            return (NFKC.quickCheck(str.toCharArray(),0,str.length(),false,NormalizerImpl.getNX(options))==YES);
-        case NFKD:
-            return (NFKD.quickCheck(str.toCharArray(),0,str.length(),false,NormalizerImpl.getNX(options))==YES);
+        cbse NFC:
+            return (NFC.quickCheck(str.toChbrArrby(),0,str.length(),fblse,NormblizerImpl.getNX(options))==YES);
+        cbse NFD:
+            return (NFD.quickCheck(str.toChbrArrby(),0,str.length(),fblse,NormblizerImpl.getNX(options))==YES);
+        cbse NFKC:
+            return (NFKC.quickCheck(str.toChbrArrby(),0,str.length(),fblse,NormblizerImpl.getNX(options))==YES);
+        cbse NFKD:
+            return (NFKD.quickCheck(str.toChbrArrby(),0,str.length(),fblse,NormblizerImpl.getNX(options))==YES);
         }
 
-        throw new IllegalArgumentException("Unexpected normalization form: " +
+        throw new IllegblArgumentException("Unexpected normblizbtion form: " +
                                            form);
     }
 }

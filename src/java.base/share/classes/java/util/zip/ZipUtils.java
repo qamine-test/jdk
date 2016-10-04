@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import java.nio.file.attribute.FileTime;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import jbvb.nio.file.bttribute.FileTime;
+import jbvb.util.Dbte;
+import jbvb.util.concurrent.TimeUnit;
 
-import static java.util.zip.ZipConstants.*;
-import static java.util.zip.ZipConstants64.*;
+import stbtic jbvb.util.zip.ZipConstbnts.*;
+import stbtic jbvb.util.zip.ZipConstbnts64.*;
 
-class ZipUtils {
+clbss ZipUtils {
 
-    // used to adjust values between Windows and java epoch
-    private static final long WINDOWS_EPOCH_IN_MICROSECONDS = -11644473600000000L;
+    // used to bdjust vblues between Windows bnd jbvb epoch
+    privbte stbtic finbl long WINDOWS_EPOCH_IN_MICROSECONDS = -11644473600000000L;
 
     /**
      * Converts Windows time (in microseconds, UTC/GMT) time to FileTime.
      */
-    public static final FileTime winTimeToFileTime(long wtime) {
+    public stbtic finbl FileTime winTimeToFileTime(long wtime) {
         return FileTime.from(wtime / 10 + WINDOWS_EPOCH_IN_MICROSECONDS,
                              TimeUnit.MICROSECONDS);
     }
@@ -48,30 +48,30 @@ class ZipUtils {
     /**
      * Converts FileTime to Windows time.
      */
-    public static final long fileTimeToWinTime(FileTime ftime) {
+    public stbtic finbl long fileTimeToWinTime(FileTime ftime) {
         return (ftime.to(TimeUnit.MICROSECONDS) - WINDOWS_EPOCH_IN_MICROSECONDS) * 10;
     }
 
     /**
-     * Converts "standard Unix time"(in seconds, UTC/GMT) to FileTime
+     * Converts "stbndbrd Unix time"(in seconds, UTC/GMT) to FileTime
      */
-    public static final FileTime unixTimeToFileTime(long utime) {
+    public stbtic finbl FileTime unixTimeToFileTime(long utime) {
         return FileTime.from(utime, TimeUnit.SECONDS);
     }
 
     /**
-     * Converts FileTime to "standard Unix time".
+     * Converts FileTime to "stbndbrd Unix time".
      */
-    public static final long fileTimeToUnixTime(FileTime ftime) {
+    public stbtic finbl long fileTimeToUnixTime(FileTime ftime) {
         return ftime.to(TimeUnit.SECONDS);
     }
 
     /**
-     * Converts DOS time to Java time (number of milliseconds since epoch).
+     * Converts DOS time to Jbvb time (number of milliseconds since epoch).
      */
-    public static long dosToJavaTime(long dtime) {
-        @SuppressWarnings("deprecation") // Use of date constructor.
-        Date d = new Date((int)(((dtime >> 25) & 0x7f) + 80),
+    public stbtic long dosToJbvbTime(long dtime) {
+        @SuppressWbrnings("deprecbtion") // Use of dbte constructor.
+        Dbte d = new Dbte((int)(((dtime >> 25) & 0x7f) + 80),
                           (int)(((dtime >> 21) & 0x0f) - 1),
                           (int)((dtime >> 16) & 0x1f),
                           (int)((dtime >> 11) & 0x1f),
@@ -81,41 +81,41 @@ class ZipUtils {
     }
 
     /**
-     * Converts Java time to DOS time.
+     * Converts Jbvb time to DOS time.
      */
-    @SuppressWarnings("deprecation") // Use of date methods
-    public static long javaToDosTime(long time) {
-        Date d = new Date(time);
-        int year = d.getYear() + 1900;
-        if (year < 1980) {
+    @SuppressWbrnings("deprecbtion") // Use of dbte methods
+    public stbtic long jbvbToDosTime(long time) {
+        Dbte d = new Dbte(time);
+        int yebr = d.getYebr() + 1900;
+        if (yebr < 1980) {
             return (1 << 21) | (1 << 16);
         }
-        return (year - 1980) << 25 | (d.getMonth() + 1) << 21 |
-               d.getDate() << 16 | d.getHours() << 11 | d.getMinutes() << 5 |
+        return (yebr - 1980) << 25 | (d.getMonth() + 1) << 21 |
+               d.getDbte() << 16 | d.getHours() << 11 | d.getMinutes() << 5 |
                d.getSeconds() >> 1;
     }
 
     /**
-     * Fetches unsigned 16-bit value from byte array at specified offset.
-     * The bytes are assumed to be in Intel (little-endian) byte order.
+     * Fetches unsigned 16-bit vblue from byte brrby bt specified offset.
+     * The bytes bre bssumed to be in Intel (little-endibn) byte order.
      */
-    public static final int get16(byte b[], int off) {
+    public stbtic finbl int get16(byte b[], int off) {
         return Byte.toUnsignedInt(b[off]) | (Byte.toUnsignedInt(b[off+1]) << 8);
     }
 
     /**
-     * Fetches unsigned 32-bit value from byte array at specified offset.
-     * The bytes are assumed to be in Intel (little-endian) byte order.
+     * Fetches unsigned 32-bit vblue from byte brrby bt specified offset.
+     * The bytes bre bssumed to be in Intel (little-endibn) byte order.
      */
-    public static final long get32(byte b[], int off) {
+    public stbtic finbl long get32(byte b[], int off) {
         return (get16(b, off) | ((long)get16(b, off+2) << 16)) & 0xffffffffL;
     }
 
     /**
-     * Fetches signed 64-bit value from byte array at specified offset.
-     * The bytes are assumed to be in Intel (little-endian) byte order.
+     * Fetches signed 64-bit vblue from byte brrby bt specified offset.
+     * The bytes bre bssumed to be in Intel (little-endibn) byte order.
      */
-    public static final long get64(byte b[], int off) {
+    public stbtic finbl long get64(byte b[], int off) {
         return get32(b, off) | (get32(b, off+4) << 32);
     }
 }

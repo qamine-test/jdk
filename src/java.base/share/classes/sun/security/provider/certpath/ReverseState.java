@@ -1,406 +1,406 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.PKIXRevocationChecker;
-import java.security.cert.TrustAnchor;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOException;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertPbthVblidbtorException;
+import jbvb.security.cert.PKIXCertPbthChecker;
+import jbvb.security.cert.PKIXRevocbtionChecker;
+import jbvb.security.cert.TrustAnchor;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.ListIterbtor;
+import jbvb.util.Set;
+import jbvbx.security.buth.x500.X500Principbl;
 
-import sun.security.provider.certpath.PKIX.BuilderParams;
+import sun.security.provider.certpbth.PKIX.BuilderPbrbms;
 import sun.security.util.Debug;
-import sun.security.x509.NameConstraintsExtension;
+import sun.security.x509.NbmeConstrbintsExtension;
 import sun.security.x509.SubjectKeyIdentifierExtension;
 import sun.security.x509.X509CertImpl;
 
 /**
- * A specification of a reverse PKIX validation state
- * which is initialized by each build and updated each time a
- * certificate is added to the current path.
+ * A specificbtion of b reverse PKIX vblidbtion stbte
+ * which is initiblized by ebch build bnd updbted ebch time b
+ * certificbte is bdded to the current pbth.
  * @since       1.4
- * @author      Sean Mullan
- * @author      Yassir Elley
+ * @buthor      Sebn Mullbn
+ * @buthor      Ybssir Elley
  */
 
-class ReverseState implements State {
+clbss ReverseStbte implements Stbte {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
 
-    /* The subject DN of the last cert in the path */
-    X500Principal subjectDN;
+    /* The subject DN of the lbst cert in the pbth */
+    X500Principbl subjectDN;
 
-    /* The subject public key of the last cert */
+    /* The subject public key of the lbst cert */
     PublicKey pubKey;
 
-    /* The subject key identifier extension (if any) of the last cert */
+    /* The subject key identifier extension (if bny) of the lbst cert */
     SubjectKeyIdentifierExtension subjKeyId;
 
-    /* The PKIX constrained/excluded subtrees state variable */
-    NameConstraintsExtension nc;
+    /* The PKIX constrbined/excluded subtrees stbte vbribble */
+    NbmeConstrbintsExtension nc;
 
-    /* The PKIX explicit policy, policy mapping, and inhibit_any-policy
-       state variables */
+    /* The PKIX explicit policy, policy mbpping, bnd inhibit_bny-policy
+       stbte vbribbles */
     int explicitPolicy;
-    int policyMapping;
+    int policyMbpping;
     int inhibitAnyPolicy;
     int certIndex;
     PolicyNodeImpl rootNode;
 
-    /* The number of remaining CA certs which may follow in the path.
-     * -1: previous cert was an EE cert
-     * 0: only EE certs may follow.
-     * >0 and <Integer.MAX_VALUE:no more than this number of CA certs may follow
+    /* The number of rembining CA certs which mby follow in the pbth.
+     * -1: previous cert wbs bn EE cert
+     * 0: only EE certs mby follow.
+     * >0 bnd <Integer.MAX_VALUE:no more thbn this number of CA certs mby follow
      * Integer.MAX_VALUE: unlimited
      */
-    int remainingCACerts;
+    int rembiningCACerts;
 
-    /* The list of user-defined checkers retrieved from the PKIXParameters
-     * instance */
-    ArrayList<PKIXCertPathChecker> userCheckers;
+    /* The list of user-defined checkers retrieved from the PKIXPbrbmeters
+     * instbnce */
+    ArrbyList<PKIXCertPbthChecker> userCheckers;
 
-    /* Flag indicating if state is initial (path is just starting) */
-    private boolean init = true;
+    /* Flbg indicbting if stbte is initibl (pbth is just stbrting) */
+    privbte boolebn init = true;
 
-    /* the checker used for revocation status */
-    RevocationChecker revChecker;
+    /* the checker used for revocbtion stbtus */
+    RevocbtionChecker revChecker;
 
-    /* the algorithm checker */
-    AlgorithmChecker algorithmChecker;
+    /* the blgorithm checker */
+    AlgorithmChecker blgorithmChecker;
 
-    /* the untrusted certificates checker */
+    /* the untrusted certificbtes checker */
     UntrustedChecker untrustedChecker;
 
-    /* the trust anchor used to validate the path */
+    /* the trust bnchor used to vblidbte the pbth */
     TrustAnchor trustAnchor;
 
-    /* Flag indicating if current cert can vouch for the CRL for
+    /* Flbg indicbting if current cert cbn vouch for the CRL for
      * the next cert
      */
-    boolean crlSign = true;
+    boolebn crlSign = true;
 
     /**
-     * Returns a boolean flag indicating if the state is initial
-     * (just starting)
+     * Returns b boolebn flbg indicbting if the stbte is initibl
+     * (just stbrting)
      *
-     * @return boolean flag indicating if the state is initial (just starting)
+     * @return boolebn flbg indicbting if the stbte is initibl (just stbrting)
      */
     @Override
-    public boolean isInitial() {
+    public boolebn isInitibl() {
         return init;
     }
 
     /**
-     * Display state for debugging purposes
+     * Displby stbte for debugging purposes
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("State [");
-        sb.append("\n  subjectDN of last cert: ").append(subjectDN);
-        sb.append("\n  subjectKeyIdentifier: ").append
-                 (String.valueOf(subjKeyId));
-        sb.append("\n  nameConstraints: ").append(String.valueOf(nc));
-        sb.append("\n  certIndex: ").append(certIndex);
-        sb.append("\n  explicitPolicy: ").append(explicitPolicy);
-        sb.append("\n  policyMapping:  ").append(policyMapping);
-        sb.append("\n  inhibitAnyPolicy:  ").append(inhibitAnyPolicy);
-        sb.append("\n  rootNode: ").append(rootNode);
-        sb.append("\n  remainingCACerts: ").append(remainingCACerts);
-        sb.append("\n  crlSign: ").append(crlSign);
-        sb.append("\n  init: ").append(init);
-        sb.append("\n]\n");
+        sb.bppend("Stbte [");
+        sb.bppend("\n  subjectDN of lbst cert: ").bppend(subjectDN);
+        sb.bppend("\n  subjectKeyIdentifier: ").bppend
+                 (String.vblueOf(subjKeyId));
+        sb.bppend("\n  nbmeConstrbints: ").bppend(String.vblueOf(nc));
+        sb.bppend("\n  certIndex: ").bppend(certIndex);
+        sb.bppend("\n  explicitPolicy: ").bppend(explicitPolicy);
+        sb.bppend("\n  policyMbpping:  ").bppend(policyMbpping);
+        sb.bppend("\n  inhibitAnyPolicy:  ").bppend(inhibitAnyPolicy);
+        sb.bppend("\n  rootNode: ").bppend(rootNode);
+        sb.bppend("\n  rembiningCACerts: ").bppend(rembiningCACerts);
+        sb.bppend("\n  crlSign: ").bppend(crlSign);
+        sb.bppend("\n  init: ").bppend(init);
+        sb.bppend("\n]\n");
         return sb.toString();
     }
 
     /**
-     * Initialize the state.
+     * Initiblize the stbte.
      *
-     * @param buildParams builder parameters
+     * @pbrbm buildPbrbms builder pbrbmeters
      */
-    public void initState(BuilderParams buildParams)
-        throws CertPathValidatorException
+    public void initStbte(BuilderPbrbms buildPbrbms)
+        throws CertPbthVblidbtorException
     {
         /*
-         * Initialize number of remainingCACerts.
-         * Note that -1 maxPathLen implies unlimited.
-         * 0 implies only an EE cert is acceptable.
+         * Initiblize number of rembiningCACerts.
+         * Note thbt -1 mbxPbthLen implies unlimited.
+         * 0 implies only bn EE cert is bcceptbble.
          */
-        int maxPathLen = buildParams.maxPathLength();
-        remainingCACerts = (maxPathLen == -1) ? Integer.MAX_VALUE
-                                              : maxPathLen;
+        int mbxPbthLen = buildPbrbms.mbxPbthLength();
+        rembiningCACerts = (mbxPbthLen == -1) ? Integer.MAX_VALUE
+                                              : mbxPbthLen;
 
-        /* Initialize explicit policy state variable */
-        if (buildParams.explicitPolicyRequired()) {
+        /* Initiblize explicit policy stbte vbribble */
+        if (buildPbrbms.explicitPolicyRequired()) {
             explicitPolicy = 0;
         } else {
-            // unconstrained if maxPathLen is -1,
-            // otherwise, we want to initialize this to the value of the
-            // longest possible path + 1 (i.e. maxpathlen + finalcert + 1)
-            explicitPolicy = (maxPathLen == -1) ? maxPathLen : maxPathLen + 2;
+            // unconstrbined if mbxPbthLen is -1,
+            // otherwise, we wbnt to initiblize this to the vblue of the
+            // longest possible pbth + 1 (i.e. mbxpbthlen + finblcert + 1)
+            explicitPolicy = (mbxPbthLen == -1) ? mbxPbthLen : mbxPbthLen + 2;
         }
 
-        /* Initialize policy mapping state variable */
-        if (buildParams.policyMappingInhibited()) {
-            policyMapping = 0;
+        /* Initiblize policy mbpping stbte vbribble */
+        if (buildPbrbms.policyMbppingInhibited()) {
+            policyMbpping = 0;
         } else {
-            policyMapping = (maxPathLen == -1) ? maxPathLen : maxPathLen + 2;
+            policyMbpping = (mbxPbthLen == -1) ? mbxPbthLen : mbxPbthLen + 2;
         }
 
-        /* Initialize inhibit any policy state variable */
-        if (buildParams.anyPolicyInhibited()) {
+        /* Initiblize inhibit bny policy stbte vbribble */
+        if (buildPbrbms.bnyPolicyInhibited()) {
             inhibitAnyPolicy = 0;
         } else {
-            inhibitAnyPolicy = (maxPathLen == -1) ? maxPathLen : maxPathLen + 2;
+            inhibitAnyPolicy = (mbxPbthLen == -1) ? mbxPbthLen : mbxPbthLen + 2;
         }
 
-        /* Initialize certIndex */
+        /* Initiblize certIndex */
         certIndex = 1;
 
-        /* Initialize policy tree */
-        Set<String> initExpPolSet = new HashSet<>(1);
-        initExpPolSet.add(PolicyChecker.ANY_POLICY);
+        /* Initiblize policy tree */
+        Set<String> initExpPolSet = new HbshSet<>(1);
+        initExpPolSet.bdd(PolicyChecker.ANY_POLICY);
 
         rootNode = new PolicyNodeImpl(null, PolicyChecker.ANY_POLICY, null,
-                                      false, initExpPolSet, false);
+                                      fblse, initExpPolSet, fblse);
 
         /*
-         * Initialize each user-defined checker
-         * Shallow copy the checkers
+         * Initiblize ebch user-defined checker
+         * Shbllow copy the checkers
          */
-        userCheckers = new ArrayList<>(buildParams.certPathCheckers());
-        /* initialize each checker (just in case) */
-        for (PKIXCertPathChecker checker : userCheckers) {
-            checker.init(false);
+        userCheckers = new ArrbyList<>(buildPbrbms.certPbthCheckers());
+        /* initiblize ebch checker (just in cbse) */
+        for (PKIXCertPbthChecker checker : userCheckers) {
+            checker.init(fblse);
         }
 
-        /* Start by trusting the cert to sign CRLs */
+        /* Stbrt by trusting the cert to sign CRLs */
         crlSign = true;
 
         init = true;
     }
 
     /**
-     * Update the state with the specified trust anchor.
+     * Updbte the stbte with the specified trust bnchor.
      *
-     * @param anchor the most-trusted CA
-     * @param buildParams builder parameters
+     * @pbrbm bnchor the most-trusted CA
+     * @pbrbm buildPbrbms builder pbrbmeters
      */
-    public void updateState(TrustAnchor anchor, BuilderParams buildParams)
-        throws CertificateException, IOException, CertPathValidatorException
+    public void updbteStbte(TrustAnchor bnchor, BuilderPbrbms buildPbrbms)
+        throws CertificbteException, IOException, CertPbthVblidbtorException
     {
-        trustAnchor = anchor;
-        X509Certificate trustedCert = anchor.getTrustedCert();
+        trustAnchor = bnchor;
+        X509Certificbte trustedCert = bnchor.getTrustedCert();
         if (trustedCert != null) {
-            updateState(trustedCert);
+            updbteStbte(trustedCert);
         } else {
-            X500Principal caName = anchor.getCA();
-            updateState(anchor.getCAPublicKey(), caName);
+            X500Principbl cbNbme = bnchor.getCA();
+            updbteStbte(bnchor.getCAPublicKey(), cbNbme);
         }
 
-        // The user specified AlgorithmChecker and RevocationChecker may not be
-        // able to set the trust anchor until now.
-        boolean revCheckerAdded = false;
-        for (PKIXCertPathChecker checker : userCheckers) {
-            if (checker instanceof AlgorithmChecker) {
-                ((AlgorithmChecker)checker).trySetTrustAnchor(anchor);
-            } else if (checker instanceof PKIXRevocationChecker) {
+        // The user specified AlgorithmChecker bnd RevocbtionChecker mby not be
+        // bble to set the trust bnchor until now.
+        boolebn revCheckerAdded = fblse;
+        for (PKIXCertPbthChecker checker : userCheckers) {
+            if (checker instbnceof AlgorithmChecker) {
+                ((AlgorithmChecker)checker).trySetTrustAnchor(bnchor);
+            } else if (checker instbnceof PKIXRevocbtionChecker) {
                 if (revCheckerAdded) {
-                    throw new CertPathValidatorException(
-                        "Only one PKIXRevocationChecker can be specified");
+                    throw new CertPbthVblidbtorException(
+                        "Only one PKIXRevocbtionChecker cbn be specified");
                 }
-                // if it's our own, initialize it
-                if (checker instanceof RevocationChecker) {
-                    ((RevocationChecker)checker).init(anchor, buildParams);
+                // if it's our own, initiblize it
+                if (checker instbnceof RevocbtionChecker) {
+                    ((RevocbtionChecker)checker).init(bnchor, buildPbrbms);
                 }
-                ((PKIXRevocationChecker)checker).init(false);
+                ((PKIXRevocbtionChecker)checker).init(fblse);
                 revCheckerAdded = true;
             }
         }
 
-        // only create a RevocationChecker if revocation is enabled and
-        // a PKIXRevocationChecker has not already been added
-        if (buildParams.revocationEnabled() && !revCheckerAdded) {
-            revChecker = new RevocationChecker(anchor, buildParams);
-            revChecker.init(false);
+        // only crebte b RevocbtionChecker if revocbtion is enbbled bnd
+        // b PKIXRevocbtionChecker hbs not blrebdy been bdded
+        if (buildPbrbms.revocbtionEnbbled() && !revCheckerAdded) {
+            revChecker = new RevocbtionChecker(bnchor, buildPbrbms);
+            revChecker.init(fblse);
         }
 
-        init = false;
+        init = fblse;
     }
 
     /**
-     * Update the state. This method is used when the most-trusted CA is
-     * a trusted public-key and caName, instead of a trusted cert.
+     * Updbte the stbte. This method is used when the most-trusted CA is
+     * b trusted public-key bnd cbNbme, instebd of b trusted cert.
      *
-     * @param pubKey the public key of the trusted CA
-     * @param subjectDN the subject distinguished name of the trusted CA
+     * @pbrbm pubKey the public key of the trusted CA
+     * @pbrbm subjectDN the subject distinguished nbme of the trusted CA
      */
-    private void updateState(PublicKey pubKey, X500Principal subjectDN) {
+    privbte void updbteStbte(PublicKey pubKey, X500Principbl subjectDN) {
 
-        /* update subject DN */
+        /* updbte subject DN */
         this.subjectDN = subjectDN;
 
-        /* update subject public key */
+        /* updbte subject public key */
         this.pubKey = pubKey;
     }
 
     /**
-     * Update the state with the next certificate added to the path.
+     * Updbte the stbte with the next certificbte bdded to the pbth.
      *
-     * @param cert the certificate which is used to update the state
+     * @pbrbm cert the certificbte which is used to updbte the stbte
      */
-    public void updateState(X509Certificate cert)
-        throws CertificateException, IOException, CertPathValidatorException {
+    public void updbteStbte(X509Certificbte cert)
+        throws CertificbteException, IOException, CertPbthVblidbtorException {
 
         if (cert == null) {
             return;
         }
 
-        /* update subject DN */
-        subjectDN = cert.getSubjectX500Principal();
+        /* updbte subject DN */
+        subjectDN = cert.getSubjectX500Principbl();
 
-        /* check for key needing to inherit alg parameters */
+        /* check for key needing to inherit blg pbrbmeters */
         X509CertImpl icert = X509CertImpl.toImpl(cert);
         PublicKey newKey = cert.getPublicKey();
-        if (PKIX.isDSAPublicKeyWithoutParams(newKey)) {
-            newKey = BasicChecker.makeInheritedParamsKey(newKey, pubKey);
+        if (PKIX.isDSAPublicKeyWithoutPbrbms(newKey)) {
+            newKey = BbsicChecker.mbkeInheritedPbrbmsKey(newKey, pubKey);
         }
 
-        /* update subject public key */
+        /* updbte subject public key */
         pubKey = newKey;
 
         /*
-         * if this is a trusted cert (init == true), then we
-         * don't update any of the remaining fields
+         * if this is b trusted cert (init == true), then we
+         * don't updbte bny of the rembining fields
          */
         if (init) {
-            init = false;
+            init = fblse;
             return;
         }
 
-        /* update subject key identifier */
+        /* updbte subject key identifier */
         subjKeyId = icert.getSubjectKeyIdentifierExtension();
 
-        /* update crlSign */
-        crlSign = RevocationChecker.certCanSignCrl(cert);
+        /* updbte crlSign */
+        crlSign = RevocbtionChecker.certCbnSignCrl(cert);
 
-        /* update current name constraints */
+        /* updbte current nbme constrbints */
         if (nc != null) {
-            nc.merge(icert.getNameConstraintsExtension());
+            nc.merge(icert.getNbmeConstrbintsExtension());
         } else {
-            nc = icert.getNameConstraintsExtension();
+            nc = icert.getNbmeConstrbintsExtension();
             if (nc != null) {
-                // Make sure we do a clone here, because we're probably
-                // going to modify this object later and we don't want to
-                // be sharing it with a Certificate object!
-                nc = (NameConstraintsExtension) nc.clone();
+                // Mbke sure we do b clone here, becbuse we're probbbly
+                // going to modify this object lbter bnd we don't wbnt to
+                // be shbring it with b Certificbte object!
+                nc = (NbmeConstrbintsExtension) nc.clone();
             }
         }
 
-        /* update policy state variables */
+        /* updbte policy stbte vbribbles */
         explicitPolicy =
-            PolicyChecker.mergeExplicitPolicy(explicitPolicy, icert, false);
-        policyMapping =
-            PolicyChecker.mergePolicyMapping(policyMapping, icert);
+            PolicyChecker.mergeExplicitPolicy(explicitPolicy, icert, fblse);
+        policyMbpping =
+            PolicyChecker.mergePolicyMbpping(policyMbpping, icert);
         inhibitAnyPolicy =
             PolicyChecker.mergeInhibitAnyPolicy(inhibitAnyPolicy, icert);
         certIndex++;
 
         /*
-         * Update remaining CA certs
+         * Updbte rembining CA certs
          */
-        remainingCACerts =
-            ConstraintsChecker.mergeBasicConstraints(cert, remainingCACerts);
+        rembiningCACerts =
+            ConstrbintsChecker.mergeBbsicConstrbints(cert, rembiningCACerts);
 
-        init = false;
+        init = fblse;
     }
 
     /**
-     * Returns a boolean flag indicating if a key lacking necessary key
-     * algorithm parameters has been encountered.
+     * Returns b boolebn flbg indicbting if b key lbcking necessbry key
+     * blgorithm pbrbmeters hbs been encountered.
      *
-     * @return boolean flag indicating if key lacking parameters encountered.
+     * @return boolebn flbg indicbting if key lbcking pbrbmeters encountered.
      */
     @Override
-    public boolean keyParamsNeeded() {
-        /* when building in reverse, we immediately get parameters needed
-         * or else throw an exception
+    public boolebn keyPbrbmsNeeded() {
+        /* when building in reverse, we immedibtely get pbrbmeters needed
+         * or else throw bn exception
          */
-        return false;
+        return fblse;
     }
 
     /*
-     * Clone current state. The state is cloned as each cert is
-     * added to the path. This is necessary if backtracking occurs,
-     * and a prior state needs to be restored.
+     * Clone current stbte. The stbte is cloned bs ebch cert is
+     * bdded to the pbth. This is necessbry if bbcktrbcking occurs,
+     * bnd b prior stbte needs to be restored.
      *
-     * Note that this is a SMART clone. Not all fields are fully copied,
-     * because some of them (e.g., subjKeyId) will
-     * not have their contents modified by subsequent calls to updateState.
+     * Note thbt this is b SMART clone. Not bll fields bre fully copied,
+     * becbuse some of them (e.g., subjKeyId) will
+     * not hbve their contents modified by subsequent cblls to updbteStbte.
      */
     @Override
-    @SuppressWarnings("unchecked") // Safe casts assuming clone() works correctly
+    @SuppressWbrnings("unchecked") // Sbfe cbsts bssuming clone() works correctly
     public Object clone() {
         try {
-            ReverseState clonedState = (ReverseState) super.clone();
+            ReverseStbte clonedStbte = (ReverseStbte) super.clone();
 
-            /* clone checkers, if cloneable */
-            clonedState.userCheckers =
-                        (ArrayList<PKIXCertPathChecker>)userCheckers.clone();
-            ListIterator<PKIXCertPathChecker> li =
-                        clonedState.userCheckers.listIterator();
-            while (li.hasNext()) {
-                PKIXCertPathChecker checker = li.next();
-                if (checker instanceof Cloneable) {
-                    li.set((PKIXCertPathChecker)checker.clone());
+            /* clone checkers, if clonebble */
+            clonedStbte.userCheckers =
+                        (ArrbyList<PKIXCertPbthChecker>)userCheckers.clone();
+            ListIterbtor<PKIXCertPbthChecker> li =
+                        clonedStbte.userCheckers.listIterbtor();
+            while (li.hbsNext()) {
+                PKIXCertPbthChecker checker = li.next();
+                if (checker instbnceof Clonebble) {
+                    li.set((PKIXCertPbthChecker)checker.clone());
                 }
             }
 
-            /* make copy of name constraints */
+            /* mbke copy of nbme constrbints */
             if (nc != null) {
-                clonedState.nc = (NameConstraintsExtension) nc.clone();
+                clonedStbte.nc = (NbmeConstrbintsExtension) nc.clone();
             }
 
-            /* make copy of policy tree */
+            /* mbke copy of policy tree */
             if (rootNode != null) {
-                clonedState.rootNode = rootNode.copyTree();
+                clonedStbte.rootNode = rootNode.copyTree();
             }
 
-            return clonedState;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e.toString(), e);
+            return clonedStbte;
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e.toString(), e);
         }
     }
 }

@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.security.AccessControlContext;
-import java.security.ProtectionDomain;
+import jbvb.security.AccessControlContext;
+import jbvb.security.ProtectionDombin;
 
 /**
- * A thread that has no permissions, is not a member of any user-defined
- * ThreadGroup and supports the ability to erase ThreadLocals.
+ * A threbd thbt hbs no permissions, is not b member of bny user-defined
+ * ThrebdGroup bnd supports the bbility to erbse ThrebdLocbls.
  *
- * @implNote Based on the implementation of InnocuousForkJoinWorkerThread.
+ * @implNote Bbsed on the implementbtion of InnocuousForkJoinWorkerThrebd.
  */
-public final class InnocuousThread extends Thread {
-    private static final Unsafe UNSAFE;
-    private static final ThreadGroup THREADGROUP;
-    private static final AccessControlContext ACC;
-    private static final long THREADLOCALS;
-    private static final long INHERITABLETHREADLOCALS;
-    private static final long INHERITEDACCESSCONTROLCONTEXT;
+public finbl clbss InnocuousThrebd extends Threbd {
+    privbte stbtic finbl Unsbfe UNSAFE;
+    privbte stbtic finbl ThrebdGroup THREADGROUP;
+    privbte stbtic finbl AccessControlContext ACC;
+    privbte stbtic finbl long THREADLOCALS;
+    privbte stbtic finbl long INHERITABLETHREADLOCALS;
+    privbte stbtic finbl long INHERITEDACCESSCONTROLCONTEXT;
 
-    public InnocuousThread(Runnable target) {
-        super(THREADGROUP, target, "anInnocuousThread");
+    public InnocuousThrebd(Runnbble tbrget) {
+        super(THREADGROUP, tbrget, "bnInnocuousThrebd");
         UNSAFE.putOrderedObject(this, INHERITEDACCESSCONTROLCONTEXT, ACC);
-        eraseThreadLocals();
+        erbseThrebdLocbls();
     }
 
     @Override
-    public ClassLoader getContextClassLoader() {
-        // always report system class loader
-        return ClassLoader.getSystemClassLoader();
+    public ClbssLobder getContextClbssLobder() {
+        // blwbys report system clbss lobder
+        return ClbssLobder.getSystemClbssLobder();
     }
 
     @Override
-    public void setUncaughtExceptionHandler(UncaughtExceptionHandler x) {
-        // silently fail
+    public void setUncbughtExceptionHbndler(UncbughtExceptionHbndler x) {
+        // silently fbil
     }
 
     @Override
-    public void setContextClassLoader(ClassLoader cl) {
-        throw new SecurityException("setContextClassLoader");
+    public void setContextClbssLobder(ClbssLobder cl) {
+        throw new SecurityException("setContextClbssLobder");
     }
 
     // ensure run method is run only once
-    private volatile boolean hasRun;
+    privbte volbtile boolebn hbsRun;
 
     @Override
     public void run() {
-        if (Thread.currentThread() == this && !hasRun) {
-            hasRun = true;
+        if (Threbd.currentThrebd() == this && !hbsRun) {
+            hbsRun = true;
             super.run();
         }
     }
 
     /**
-     * Drops all thread locals (and inherited thread locals).
+     * Drops bll threbd locbls (bnd inherited threbd locbls).
      */
-    public void eraseThreadLocals() {
+    public void erbseThrebdLocbls() {
         UNSAFE.putObject(this, THREADLOCALS, null);
         UNSAFE.putObject(this, INHERITABLETHREADLOCALS, null);
     }
 
-    // Use Unsafe to access Thread group and ThreadGroup parent fields
-    static {
+    // Use Unsbfe to bccess Threbd group bnd ThrebdGroup pbrent fields
+    stbtic {
         try {
-            ACC = new AccessControlContext(new ProtectionDomain[] {
-                new ProtectionDomain(null, null)
+            ACC = new AccessControlContext(new ProtectionDombin[] {
+                new ProtectionDombin(null, null)
             });
 
-            // Find and use topmost ThreadGroup as parent of new group
-            UNSAFE = Unsafe.getUnsafe();
-            Class<?> tk = Thread.class;
-            Class<?> gk = ThreadGroup.class;
+            // Find bnd use topmost ThrebdGroup bs pbrent of new group
+            UNSAFE = Unsbfe.getUnsbfe();
+            Clbss<?> tk = Threbd.clbss;
+            Clbss<?> gk = ThrebdGroup.clbss;
 
             THREADLOCALS = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocals"));
+                (tk.getDeclbredField("threbdLocbls"));
             INHERITABLETHREADLOCALS = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("inheritableThreadLocals"));
+                (tk.getDeclbredField("inheritbbleThrebdLocbls"));
             INHERITEDACCESSCONTROLCONTEXT = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("inheritedAccessControlContext"));
+                (tk.getDeclbredField("inheritedAccessControlContext"));
 
-            long tg = UNSAFE.objectFieldOffset(tk.getDeclaredField("group"));
-            long gp = UNSAFE.objectFieldOffset(gk.getDeclaredField("parent"));
-            ThreadGroup group = (ThreadGroup)
-                UNSAFE.getObject(Thread.currentThread(), tg);
+            long tg = UNSAFE.objectFieldOffset(tk.getDeclbredField("group"));
+            long gp = UNSAFE.objectFieldOffset(gk.getDeclbredField("pbrent"));
+            ThrebdGroup group = (ThrebdGroup)
+                UNSAFE.getObject(Threbd.currentThrebd(), tg);
 
             while (group != null) {
-                ThreadGroup parent = (ThreadGroup)UNSAFE.getObject(group, gp);
-                if (parent == null)
-                    break;
-                group = parent;
+                ThrebdGroup pbrent = (ThrebdGroup)UNSAFE.getObject(group, gp);
+                if (pbrent == null)
+                    brebk;
+                group = pbrent;
             }
-            THREADGROUP = new ThreadGroup(group, "InnocuousThreadGroup");
-        } catch (Exception e) {
+            THREADGROUP = new ThrebdGroup(group, "InnocuousThrebdGroup");
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

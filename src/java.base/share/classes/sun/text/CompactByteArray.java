@@ -1,352 +1,352 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.text;
+pbckbge sun.text;
 
 
 /**
- * class CompactATypeArray : use only on primitive data types
- * Provides a compact way to store information that is indexed by Unicode
- * values, such as character properties, types, keyboard values, etc.This
- * is very useful when you have a block of Unicode data that contains
- * significant values while the rest of the Unicode data is unused in the
- * application or when you have a lot of redundance, such as where all 21,000
- * Han ideographs have the same value.  However, lookup is much faster than a
- * hash table.
- * A compact array of any primitive data type serves two purposes:
+ * clbss CompbctATypeArrby : use only on primitive dbtb types
+ * Provides b compbct wby to store informbtion thbt is indexed by Unicode
+ * vblues, such bs chbrbcter properties, types, keybobrd vblues, etc.This
+ * is very useful when you hbve b block of Unicode dbtb thbt contbins
+ * significbnt vblues while the rest of the Unicode dbtb is unused in the
+ * bpplicbtion or when you hbve b lot of redundbnce, such bs where bll 21,000
+ * Hbn ideogrbphs hbve the sbme vblue.  However, lookup is much fbster thbn b
+ * hbsh tbble.
+ * A compbct brrby of bny primitive dbtb type serves two purposes:
  * <UL type = round>
- *     <LI>Fast access of the indexed values.
- *     <LI>Smaller memory footprint.
+ *     <LI>Fbst bccess of the indexed vblues.
+ *     <LI>Smbller memory footprint.
  * </UL>
- * A compact array is composed of a index array and value array.  The index
- * array contains the indicies of Unicode characters to the value array.
+ * A compbct brrby is composed of b index brrby bnd vblue brrby.  The index
+ * brrby contbins the indicies of Unicode chbrbcters to the vblue brrby.
  *
- * @see                CompactIntArray
- * @see                CompactShortArray
- * @author             Helena Shih
+ * @see                CompbctIntArrby
+ * @see                CompbctShortArrby
+ * @buthor             Helenb Shih
  */
-public final class CompactByteArray implements Cloneable {
+public finbl clbss CompbctByteArrby implements Clonebble {
 
     /**
-     * The total number of Unicode characters.
+     * The totbl number of Unicode chbrbcters.
      */
-    public static  final int UNICODECOUNT =65536;
+    public stbtic  finbl int UNICODECOUNT =65536;
 
     /**
-     * Constructor for CompactByteArray.
-     * @param defaultValue the default value of the compact array.
+     * Constructor for CompbctByteArrby.
+     * @pbrbm defbultVblue the defbult vblue of the compbct brrby.
      */
-    public CompactByteArray(byte defaultValue)
+    public CompbctByteArrby(byte defbultVblue)
     {
         int i;
-        values = new byte[UNICODECOUNT];
+        vblues = new byte[UNICODECOUNT];
         indices = new short[INDEXCOUNT];
-        hashes = new int[INDEXCOUNT];
+        hbshes = new int[INDEXCOUNT];
         for (i = 0; i < UNICODECOUNT; ++i) {
-            values[i] = defaultValue;
+            vblues[i] = defbultVblue;
         }
         for (i = 0; i < INDEXCOUNT; ++i) {
             indices[i] = (short)(i<<BLOCKSHIFT);
-            hashes[i] = 0;
+            hbshes[i] = 0;
         }
-        isCompact = false;
+        isCompbct = fblse;
     }
 
     /**
-     * Constructor for CompactByteArray.
-     * @param indexArray the indicies of the compact array.
-     * @param newValues the values of the compact array.
-     * @exception IllegalArgumentException If index is out of range.
+     * Constructor for CompbctByteArrby.
+     * @pbrbm indexArrby the indicies of the compbct brrby.
+     * @pbrbm newVblues the vblues of the compbct brrby.
+     * @exception IllegblArgumentException If index is out of rbnge.
      */
-     public CompactByteArray(short indexArray[],
-                            byte newValues[])
+     public CompbctByteArrby(short indexArrby[],
+                            byte newVblues[])
     {
         int i;
-        if (indexArray.length != INDEXCOUNT)
-            throw new IllegalArgumentException("Index out of bounds!");
+        if (indexArrby.length != INDEXCOUNT)
+            throw new IllegblArgumentException("Index out of bounds!");
         for (i = 0; i < INDEXCOUNT; ++i) {
-            short index = indexArray[i];
-            if ((index < 0) || (index >= newValues.length+BLOCKCOUNT))
-                throw new IllegalArgumentException("Index out of bounds!");
+            short index = indexArrby[i];
+            if ((index < 0) || (index >= newVblues.length+BLOCKCOUNT))
+                throw new IllegblArgumentException("Index out of bounds!");
         }
-        indices = indexArray;
-        values = newValues;
-        isCompact = true;
+        indices = indexArrby;
+        vblues = newVblues;
+        isCompbct = true;
     }
 
     /**
-     * Get the mapped value of a Unicode character.
-     * @param index the character to get the mapped value with
-     * @return the mapped value of the given character
+     * Get the mbpped vblue of b Unicode chbrbcter.
+     * @pbrbm index the chbrbcter to get the mbpped vblue with
+     * @return the mbpped vblue of the given chbrbcter
      */
-    public byte elementAt(char index)
+    public byte elementAt(chbr index)
     {
-        return (values[(indices[index >> BLOCKSHIFT] & 0xFFFF)
+        return (vblues[(indices[index >> BLOCKSHIFT] & 0xFFFF)
                        + (index & BLOCKMASK)]);
     }
     /**
-     * Set a new value for a Unicode character.
-     * Set automatically expands the array if it is compacted.
-     * @param index the character to set the mapped value with
-     * @param value the new mapped value
+     * Set b new vblue for b Unicode chbrbcter.
+     * Set butombticblly expbnds the brrby if it is compbcted.
+     * @pbrbm index the chbrbcter to set the mbpped vblue with
+     * @pbrbm vblue the new mbpped vblue
      */
-    public void setElementAt(char index, byte value)
+    public void setElementAt(chbr index, byte vblue)
     {
-        if (isCompact)
-            expand();
-        values[(int)index] = value;
-        touchBlock(index >> BLOCKSHIFT, value);
+        if (isCompbct)
+            expbnd();
+        vblues[(int)index] = vblue;
+        touchBlock(index >> BLOCKSHIFT, vblue);
     }
 
     /**
-     * Set new values for a range of Unicode character.
-     * @param start the starting offset o of the range
-     * @param end the ending offset of the range
-     * @param value the new mapped value
+     * Set new vblues for b rbnge of Unicode chbrbcter.
+     * @pbrbm stbrt the stbrting offset o of the rbnge
+     * @pbrbm end the ending offset of the rbnge
+     * @pbrbm vblue the new mbpped vblue
      */
-    public void setElementAt(char start, char end, byte value)
+    public void setElementAt(chbr stbrt, chbr end, byte vblue)
     {
         int i;
-        if (isCompact) {
-            expand();
+        if (isCompbct) {
+            expbnd();
         }
-        for (i = start; i <= end; ++i) {
-            values[i] = value;
-            touchBlock(i >> BLOCKSHIFT, value);
+        for (i = stbrt; i <= end; ++i) {
+            vblues[i] = vblue;
+            touchBlock(i >> BLOCKSHIFT, vblue);
         }
     }
 
     /**
-      *Compact the array.
+      *Compbct the brrby.
       */
-    public void compact()
+    public void compbct()
     {
-        if (!isCompact) {
-            int limitCompacted = 0;
-            int iBlockStart = 0;
+        if (!isCompbct) {
+            int limitCompbcted = 0;
+            int iBlockStbrt = 0;
             short iUntouched = -1;
 
-            for (int i = 0; i < indices.length; ++i, iBlockStart += BLOCKCOUNT) {
+            for (int i = 0; i < indices.length; ++i, iBlockStbrt += BLOCKCOUNT) {
                 indices[i] = -1;
-                boolean touched = blockTouched(i);
+                boolebn touched = blockTouched(i);
                 if (!touched && iUntouched != -1) {
-                    // If no values in this block were set, we can just set its
-                    // index to be the same as some other block with no values
-                    // set, assuming we've seen one yet.
+                    // If no vblues in this block were set, we cbn just set its
+                    // index to be the sbme bs some other block with no vblues
+                    // set, bssuming we've seen one yet.
                     indices[i] = iUntouched;
                 } else {
-                    int jBlockStart = 0;
+                    int jBlockStbrt = 0;
                     int j = 0;
-                    for (j = 0; j < limitCompacted;
-                            ++j, jBlockStart += BLOCKCOUNT) {
-                        if (hashes[i] == hashes[j] &&
-                                arrayRegionMatches(values, iBlockStart,
-                                values, jBlockStart, BLOCKCOUNT)) {
-                            indices[i] = (short)jBlockStart;
-                            break;
+                    for (j = 0; j < limitCompbcted;
+                            ++j, jBlockStbrt += BLOCKCOUNT) {
+                        if (hbshes[i] == hbshes[j] &&
+                                brrbyRegionMbtches(vblues, iBlockStbrt,
+                                vblues, jBlockStbrt, BLOCKCOUNT)) {
+                            indices[i] = (short)jBlockStbrt;
+                            brebk;
                         }
                     }
                     if (indices[i] == -1) {
-                        // we didn't match, so copy & update
-                        System.arraycopy(values, iBlockStart,
-                            values, jBlockStart, BLOCKCOUNT);
-                        indices[i] = (short)jBlockStart;
-                        hashes[j] = hashes[i];
-                        ++limitCompacted;
+                        // we didn't mbtch, so copy & updbte
+                        System.brrbycopy(vblues, iBlockStbrt,
+                            vblues, jBlockStbrt, BLOCKCOUNT);
+                        indices[i] = (short)jBlockStbrt;
+                        hbshes[j] = hbshes[i];
+                        ++limitCompbcted;
 
                         if (!touched) {
                             // If this is the first untouched block we've seen,
                             // remember its index.
-                            iUntouched = (short)jBlockStart;
+                            iUntouched = (short)jBlockStbrt;
                         }
                     }
                 }
             }
-            // we are done compacting, so now make the array shorter
-            int newSize = limitCompacted*BLOCKCOUNT;
+            // we bre done compbcting, so now mbke the brrby shorter
+            int newSize = limitCompbcted*BLOCKCOUNT;
             byte[] result = new byte[newSize];
-            System.arraycopy(values, 0, result, 0, newSize);
-            values = result;
-            isCompact = true;
-            hashes = null;
+            System.brrbycopy(vblues, 0, result, 0, newSize);
+            vblues = result;
+            isCompbct = true;
+            hbshes = null;
         }
     }
 
     /**
-     * Convenience utility to compare two arrays of doubles.
-     * @param len the length to compare.
-     * The start indices and start+len must be valid.
+     * Convenience utility to compbre two brrbys of doubles.
+     * @pbrbm len the length to compbre.
+     * The stbrt indices bnd stbrt+len must be vblid.
      */
-    final static boolean arrayRegionMatches(byte[] source, int sourceStart,
-                                            byte[] target, int targetStart,
+    finbl stbtic boolebn brrbyRegionMbtches(byte[] source, int sourceStbrt,
+                                            byte[] tbrget, int tbrgetStbrt,
                                             int len)
     {
-        int sourceEnd = sourceStart + len;
-        int delta = targetStart - sourceStart;
-        for (int i = sourceStart; i < sourceEnd; i++) {
-            if (source[i] != target[i + delta])
-            return false;
+        int sourceEnd = sourceStbrt + len;
+        int deltb = tbrgetStbrt - sourceStbrt;
+        for (int i = sourceStbrt; i < sourceEnd; i++) {
+            if (source[i] != tbrget[i + deltb])
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Remember that a specified block was "touched", i.e. had a value set.
-     * Untouched blocks can be skipped when compacting the array
+     * Remember thbt b specified block wbs "touched", i.e. hbd b vblue set.
+     * Untouched blocks cbn be skipped when compbcting the brrby
      */
-    private final void touchBlock(int i, int value) {
-        hashes[i] = (hashes[i] + (value<<1)) | 1;
+    privbte finbl void touchBlock(int i, int vblue) {
+        hbshes[i] = (hbshes[i] + (vblue<<1)) | 1;
     }
 
     /**
-     * Query whether a specified block was "touched", i.e. had a value set.
-     * Untouched blocks can be skipped when compacting the array
+     * Query whether b specified block wbs "touched", i.e. hbd b vblue set.
+     * Untouched blocks cbn be skipped when compbcting the brrby
      */
-    private final boolean blockTouched(int i) {
-        return hashes[i] != 0;
+    privbte finbl boolebn blockTouched(int i) {
+        return hbshes[i] != 0;
     }
 
-    /** For internal use only.  Do not modify the result, the behavior of
-      * modified results are undefined.
+    /** For internbl use only.  Do not modify the result, the behbvior of
+      * modified results bre undefined.
       */
-    public short getIndexArray()[]
+    public short getIndexArrby()[]
     {
         return indices;
     }
 
-    /** For internal use only.  Do not modify the result, the behavior of
-      * modified results are undefined.
+    /** For internbl use only.  Do not modify the result, the behbvior of
+      * modified results bre undefined.
       */
-    public byte getStringArray()[]
+    public byte getStringArrby()[]
     {
-        return values;
+        return vblues;
     }
 
     /**
-     * Overrides Cloneable
+     * Overrides Clonebble
      */
     public Object clone()
     {
         try {
-            CompactByteArray other = (CompactByteArray) super.clone();
-            other.values = values.clone();
+            CompbctByteArrby other = (CompbctByteArrby) super.clone();
+            other.vblues = vblues.clone();
             other.indices = indices.clone();
-            if (hashes != null) other.hashes = hashes.clone();
+            if (hbshes != null) other.hbshes = hbshes.clone();
             return other;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 
     /**
-     * Compares the equality of two compact array objects.
-     * @param obj the compact array object to be compared with this.
-     * @return true if the current compact array object is the same
-     * as the compact array object obj; false otherwise.
+     * Compbres the equblity of two compbct brrby objects.
+     * @pbrbm obj the compbct brrby object to be compbred with this.
+     * @return true if the current compbct brrby object is the sbme
+     * bs the compbct brrby object obj; fblse otherwise.
      */
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
+    public boolebn equbls(Object obj) {
+        if (obj == null) return fblse;
         if (this == obj)                      // quick check
             return true;
-        if (getClass() != obj.getClass())         // same class?
-            return false;
-        CompactByteArray other = (CompactByteArray) obj;
+        if (getClbss() != obj.getClbss())         // sbme clbss?
+            return fblse;
+        CompbctByteArrby other = (CompbctByteArrby) obj;
         for (int i = 0; i < UNICODECOUNT; i++) {
-            // could be sped up later
-            if (elementAt((char)i) != other.elementAt((char)i))
-                return false;
+            // could be sped up lbter
+            if (elementAt((chbr)i) != other.elementAt((chbr)i))
+                return fblse;
         }
-        return true; // we made it through the guantlet.
+        return true; // we mbde it through the gubntlet.
     }
 
     /**
-     * Generates the hash code for the compact array object
+     * Generbtes the hbsh code for the compbct brrby object
      */
 
-    public int hashCode() {
+    public int hbshCode() {
         int result = 0;
-        int increment = Math.min(3, values.length/16);
-        for (int i = 0; i < values.length; i+= increment) {
-            result = result * 37 + values[i];
+        int increment = Mbth.min(3, vblues.length/16);
+        for (int i = 0; i < vblues.length; i+= increment) {
+            result = result * 37 + vblues[i];
         }
         return result;
     }
 
     // --------------------------------------------------------------
-    // package private
+    // pbckbge privbte
     // --------------------------------------------------------------
     /**
-      * Expanding takes the array back to a 65536 element array.
+      * Expbnding tbkes the brrby bbck to b 65536 element brrby.
       */
-    private void expand()
+    privbte void expbnd()
     {
         int i;
-        if (isCompact) {
-            byte[]  tempArray;
-            hashes = new int[INDEXCOUNT];
-            tempArray = new byte[UNICODECOUNT];
+        if (isCompbct) {
+            byte[]  tempArrby;
+            hbshes = new int[INDEXCOUNT];
+            tempArrby = new byte[UNICODECOUNT];
             for (i = 0; i < UNICODECOUNT; ++i) {
-                byte value = elementAt((char)i);
-                tempArray[i] = value;
-                touchBlock(i >> BLOCKSHIFT, value);
+                byte vblue = elementAt((chbr)i);
+                tempArrby[i] = vblue;
+                touchBlock(i >> BLOCKSHIFT, vblue);
             }
             for (i = 0; i < INDEXCOUNT; ++i) {
                 indices[i] = (short)(i<<BLOCKSHIFT);
             }
-            values = null;
-            values = tempArray;
-            isCompact = false;
+            vblues = null;
+            vblues = tempArrby;
+            isCompbct = fblse;
         }
     }
 
-    private byte[] getArray()
+    privbte byte[] getArrby()
     {
-        return values;
+        return vblues;
     }
 
-    private static  final int BLOCKSHIFT =7;
-    private static  final int BLOCKCOUNT =(1<<BLOCKSHIFT);
-    private static  final int INDEXSHIFT =(16-BLOCKSHIFT);
-    private static  final int INDEXCOUNT =(1<<INDEXSHIFT);
-    private static  final int BLOCKMASK = BLOCKCOUNT - 1;
+    privbte stbtic  finbl int BLOCKSHIFT =7;
+    privbte stbtic  finbl int BLOCKCOUNT =(1<<BLOCKSHIFT);
+    privbte stbtic  finbl int INDEXSHIFT =(16-BLOCKSHIFT);
+    privbte stbtic  finbl int INDEXCOUNT =(1<<INDEXSHIFT);
+    privbte stbtic  finbl int BLOCKMASK = BLOCKCOUNT - 1;
 
-    private byte[] values;  // char -> short (char parameterized short)
-    private short indices[];
-    private boolean isCompact;
-    private int[] hashes;
+    privbte byte[] vblues;  // chbr -> short (chbr pbrbmeterized short)
+    privbte short indices[];
+    privbte boolebn isCompbct;
+    privbte int[] hbshes;
 };

@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
 
 /**
- * A <code>Patch</code> object represents a location, on a MIDI
- * synthesizer, into which a single instrument is stored (loaded).
- * Every <code>Instrument</code> object has its own <code>Patch</code>
- * object that specifies the memory location
- * into which that instrument should be loaded. The
- * location is specified abstractly by a bank index and a program number (not by
- * any scheme that directly refers to a specific address or offset in RAM).
- * This is a hierarchical indexing scheme: MIDI provides for up to 16384 banks,
- * each of which contains up to 128 program locations.  For example, a
- * minimal sort of synthesizer might have only one bank of instruments, and
- * only 32 instruments (programs) in that bank.
+ * A <code>Pbtch</code> object represents b locbtion, on b MIDI
+ * synthesizer, into which b single instrument is stored (lobded).
+ * Every <code>Instrument</code> object hbs its own <code>Pbtch</code>
+ * object thbt specifies the memory locbtion
+ * into which thbt instrument should be lobded. The
+ * locbtion is specified bbstrbctly by b bbnk index bnd b progrbm number (not by
+ * bny scheme thbt directly refers to b specific bddress or offset in RAM).
+ * This is b hierbrchicbl indexing scheme: MIDI provides for up to 16384 bbnks,
+ * ebch of which contbins up to 128 progrbm locbtions.  For exbmple, b
+ * minimbl sort of synthesizer might hbve only one bbnk of instruments, bnd
+ * only 32 instruments (progrbms) in thbt bbnk.
  * <p>
- * To select what instrument should play the notes on a particular MIDI
- * channel, two kinds of MIDI message are used that specify a patch location:
- * a bank-select command, and a program-change channel command.  The Java Sound
- * equivalent is the
- * {@link MidiChannel#programChange(int, int) programChange(int, int)}
- * method of <code>MidiChannel</code>.
+ * To select whbt instrument should plby the notes on b pbrticulbr MIDI
+ * chbnnel, two kinds of MIDI messbge bre used thbt specify b pbtch locbtion:
+ * b bbnk-select commbnd, bnd b progrbm-chbnge chbnnel commbnd.  The Jbvb Sound
+ * equivblent is the
+ * {@link MidiChbnnel#progrbmChbnge(int, int) progrbmChbnge(int, int)}
+ * method of <code>MidiChbnnel</code>.
  *
  * @see Instrument
- * @see Instrument#getPatch()
- * @see MidiChannel#programChange(int, int)
- * @see Synthesizer#loadInstruments(Soundbank, Patch[])
- * @see Soundbank
- * @see Sequence#getPatchList()
+ * @see Instrument#getPbtch()
+ * @see MidiChbnnel#progrbmChbnge(int, int)
+ * @see Synthesizer#lobdInstruments(Soundbbnk, Pbtch[])
+ * @see Soundbbnk
+ * @see Sequence#getPbtchList()
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
 
-public class Patch {
+public clbss Pbtch {
 
 
     /**
-     * Bank index
+     * Bbnk index
      */
-    private final int bank;
+    privbte finbl int bbnk;
 
 
     /**
-     * Program change number
+     * Progrbm chbnge number
      */
-    private final int program;
+    privbte finbl int progrbm;
 
 
     /**
-     * Constructs a new patch object from the specified bank and program
+     * Constructs b new pbtch object from the specified bbnk bnd progrbm
      * numbers.
-     * @param bank the bank index (in the range from 0 to 16383)
-     * @param program the program index (in the range from 0 to 127)
+     * @pbrbm bbnk the bbnk index (in the rbnge from 0 to 16383)
+     * @pbrbm progrbm the progrbm index (in the rbnge from 0 to 127)
      */
-    public Patch(int bank, int program) {
+    public Pbtch(int bbnk, int progrbm) {
 
-        this.bank = bank;
-        this.program = program;
+        this.bbnk = bbnk;
+        this.progrbm = progrbm;
     }
 
 
     /**
-     * Returns the number of the bank that contains the instrument
-     * whose location this <code>Patch</code> specifies.
-     * @return the bank number, whose range is from 0 to 16383
-     * @see MidiChannel#programChange(int, int)
+     * Returns the number of the bbnk thbt contbins the instrument
+     * whose locbtion this <code>Pbtch</code> specifies.
+     * @return the bbnk number, whose rbnge is from 0 to 16383
+     * @see MidiChbnnel#progrbmChbnge(int, int)
      */
-    public int getBank() {
+    public int getBbnk() {
 
-        return bank;
+        return bbnk;
     }
 
 
     /**
      * Returns the index, within
-     * a bank, of the instrument whose location this <code>Patch</code> specifies.
-     * @return the instrument's program number, whose range is from 0 to 127
+     * b bbnk, of the instrument whose locbtion this <code>Pbtch</code> specifies.
+     * @return the instrument's progrbm number, whose rbnge is from 0 to 127
      *
-     * @see MidiChannel#getProgram
-     * @see MidiChannel#programChange(int)
-     * @see MidiChannel#programChange(int, int)
+     * @see MidiChbnnel#getProgrbm
+     * @see MidiChbnnel#progrbmChbnge(int)
+     * @see MidiChbnnel#progrbmChbnge(int, int)
      */
-    public int getProgram() {
+    public int getProgrbm() {
 
-        return program;
+        return progrbm;
     }
 }

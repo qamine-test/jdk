@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.ProviderMismatchException;
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
+import jbvb.nio.file.ProviderMismbtchException;
+import jbvb.nio.file.bttribute.*;
+import jbvb.util.*;
+import jbvb.io.IOException;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Windows implementation of AclFileAttributeView.
+ * Windows implementbtion of AclFileAttributeView.
  */
 
-class WindowsAclFileAttributeView
-    extends AbstractAclFileAttributeView
+clbss WindowsAclFileAttributeView
+    extends AbstrbctAclFileAttributeView
 {
     /**
      * typedef struct _SECURITY_DESCRIPTOR {
@@ -47,89 +47,89 @@ class WindowsAclFileAttributeView
      *     SECURITY_DESCRIPTOR_CONTROL Control;
      *     PSID Owner;
      *     PSID Group;
-     *     PACL Sacl;
-     *     PACL Dacl;
+     *     PACL Sbcl;
+     *     PACL Dbcl;
      * } SECURITY_DESCRIPTOR;
      */
-    private static final short SIZEOF_SECURITY_DESCRIPTOR   = 20;
+    privbte stbtic finbl short SIZEOF_SECURITY_DESCRIPTOR   = 20;
 
-    private final WindowsPath file;
-    private final boolean followLinks;
+    privbte finbl WindowsPbth file;
+    privbte finbl boolebn followLinks;
 
-    WindowsAclFileAttributeView(WindowsPath file, boolean followLinks) {
+    WindowsAclFileAttributeView(WindowsPbth file, boolebn followLinks) {
         this.file = file;
         this.followLinks = followLinks;
     }
 
     // permission check
-    private void checkAccess(WindowsPath file,
-                             boolean checkRead,
-                             boolean checkWrite)
+    privbte void checkAccess(WindowsPbth file,
+                             boolebn checkRebd,
+                             boolebn checkWrite)
     {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            if (checkRead)
-                sm.checkRead(file.getPathForPermissionCheck());
+            if (checkRebd)
+                sm.checkRebd(file.getPbthForPermissionCheck());
             if (checkWrite)
-                sm.checkWrite(file.getPathForPermissionCheck());
-            sm.checkPermission(new RuntimePermission("accessUserInformation"));
+                sm.checkWrite(file.getPbthForPermissionCheck());
+            sm.checkPermission(new RuntimePermission("bccessUserInformbtion"));
         }
     }
 
-    // invokes GetFileSecurity to get requested security information
-    static NativeBuffer getFileSecurity(String path, int request)
+    // invokes GetFileSecurity to get requested security informbtion
+    stbtic NbtiveBuffer getFileSecurity(String pbth, int request)
         throws IOException
     {
         // invoke get to buffer size
         int size = 0;
         try {
-            size = GetFileSecurity(path, request, 0L, 0);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(path);
+            size = GetFileSecurity(pbth, request, 0L, 0);
+        } cbtch (WindowsException x) {
+            x.rethrowAsIOException(pbth);
         }
-        assert size > 0;
+        bssert size > 0;
 
-        // allocate buffer and re-invoke to get security information
-        NativeBuffer buffer = NativeBuffers.getNativeBuffer(size);
+        // bllocbte buffer bnd re-invoke to get security informbtion
+        NbtiveBuffer buffer = NbtiveBuffers.getNbtiveBuffer(size);
         try {
             for (;;) {
-                int newSize = GetFileSecurity(path, request, buffer.address(), size);
+                int newSize = GetFileSecurity(pbth, request, buffer.bddress(), size);
                 if (newSize <= size)
                     return buffer;
 
-                // buffer was insufficient
-                buffer.release();
-                buffer = NativeBuffers.getNativeBuffer(newSize);
+                // buffer wbs insufficient
+                buffer.relebse();
+                buffer = NbtiveBuffers.getNbtiveBuffer(newSize);
                 size = newSize;
             }
-        } catch (WindowsException x) {
-            buffer.release();
-            x.rethrowAsIOException(path);
+        } cbtch (WindowsException x) {
+            buffer.relebse();
+            x.rethrowAsIOException(pbth);
             return null;
         }
     }
 
     @Override
-    public UserPrincipal getOwner()
+    public UserPrincipbl getOwner()
         throws IOException
     {
-        checkAccess(file, true, false);
+        checkAccess(file, true, fblse);
 
         // GetFileSecurity does not follow links so when following links we
-        // need the final target
-        String path = WindowsLinkSupport.getFinalPath(file, followLinks);
-        NativeBuffer buffer = getFileSecurity(path, OWNER_SECURITY_INFORMATION);
+        // need the finbl tbrget
+        String pbth = WindowsLinkSupport.getFinblPbth(file, followLinks);
+        NbtiveBuffer buffer = getFileSecurity(pbth, OWNER_SECURITY_INFORMATION);
         try {
-            // get the address of the SID
-            long sidAddress = GetSecurityDescriptorOwner(buffer.address());
+            // get the bddress of the SID
+            long sidAddress = GetSecurityDescriptorOwner(buffer.bddress());
             if (sidAddress == 0L)
                 throw new IOException("no owner");
-            return WindowsUserPrincipals.fromSid(sidAddress);
-        } catch (WindowsException x) {
+            return WindowsUserPrincipbls.fromSid(sidAddress);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(file);
             return null;
-        } finally {
-            buffer.release();
+        } finblly {
+            buffer.relebse();
         }
     }
 
@@ -137,90 +137,90 @@ class WindowsAclFileAttributeView
     public List<AclEntry> getAcl()
         throws IOException
     {
-        checkAccess(file, true, false);
+        checkAccess(file, true, fblse);
 
         // GetFileSecurity does not follow links so when following links we
-        // need the final target
-        String path = WindowsLinkSupport.getFinalPath(file, followLinks);
+        // need the finbl tbrget
+        String pbth = WindowsLinkSupport.getFinblPbth(file, followLinks);
 
-        // ALLOW and DENY entries in DACL;
-        // AUDIT entries in SACL (ignore for now as it requires privileges)
-        NativeBuffer buffer = getFileSecurity(path, DACL_SECURITY_INFORMATION);
+        // ALLOW bnd DENY entries in DACL;
+        // AUDIT entries in SACL (ignore for now bs it requires privileges)
+        NbtiveBuffer buffer = getFileSecurity(pbth, DACL_SECURITY_INFORMATION);
         try {
-            return WindowsSecurityDescriptor.getAcl(buffer.address());
-        } finally {
-            buffer.release();
+            return WindowsSecurityDescriptor.getAcl(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
 
     @Override
-    public void setOwner(UserPrincipal obj)
+    public void setOwner(UserPrincipbl obj)
         throws IOException
     {
         if (obj == null)
             throw new NullPointerException("'owner' is null");
-        if (!(obj instanceof WindowsUserPrincipals.User))
-            throw new ProviderMismatchException();
-        WindowsUserPrincipals.User owner = (WindowsUserPrincipals.User)obj;
+        if (!(obj instbnceof WindowsUserPrincipbls.User))
+            throw new ProviderMismbtchException();
+        WindowsUserPrincipbls.User owner = (WindowsUserPrincipbls.User)obj;
 
         // permission check
-        checkAccess(file, false, true);
+        checkAccess(file, fblse, true);
 
         // SetFileSecurity does not follow links so when following links we
-        // need the final target
-        String path = WindowsLinkSupport.getFinalPath(file, followLinks);
+        // need the finbl tbrget
+        String pbth = WindowsLinkSupport.getFinblPbth(file, followLinks);
 
-        // ConvertStringSidToSid allocates memory for SID so must invoke
-        // LocalFree to free it when we are done
+        // ConvertStringSidToSid bllocbtes memory for SID so must invoke
+        // LocblFree to free it when we bre done
         long pOwner = 0L;
         try {
             pOwner = ConvertStringSidToSid(owner.sidString());
-        } catch (WindowsException x) {
-            throw new IOException("Failed to get SID for " + owner.getName()
+        } cbtch (WindowsException x) {
+            throw new IOException("Fbiled to get SID for " + owner.getNbme()
                 + ": " + x.errorString());
         }
 
-        // Allocate buffer for security descriptor, initialize it, set
-        // owner information and update the file.
+        // Allocbte buffer for security descriptor, initiblize it, set
+        // owner informbtion bnd updbte the file.
         try {
-            NativeBuffer buffer = NativeBuffers.getNativeBuffer(SIZEOF_SECURITY_DESCRIPTOR);
+            NbtiveBuffer buffer = NbtiveBuffers.getNbtiveBuffer(SIZEOF_SECURITY_DESCRIPTOR);
             try {
-                InitializeSecurityDescriptor(buffer.address());
-                SetSecurityDescriptorOwner(buffer.address(), pOwner);
-                // may need SeRestorePrivilege to set the owner
+                InitiblizeSecurityDescriptor(buffer.bddress());
+                SetSecurityDescriptorOwner(buffer.bddress(), pOwner);
+                // mby need SeRestorePrivilege to set the owner
                 WindowsSecurity.Privilege priv =
-                    WindowsSecurity.enablePrivilege("SeRestorePrivilege");
+                    WindowsSecurity.enbblePrivilege("SeRestorePrivilege");
                 try {
-                    SetFileSecurity(path,
+                    SetFileSecurity(pbth,
                                     OWNER_SECURITY_INFORMATION,
-                                    buffer.address());
-                } finally {
+                                    buffer.bddress());
+                } finblly {
                     priv.drop();
                 }
-            } catch (WindowsException x) {
+            } cbtch (WindowsException x) {
                 x.rethrowAsIOException(file);
-            } finally {
-                buffer.release();
+            } finblly {
+                buffer.relebse();
             }
-        } finally {
-            LocalFree(pOwner);
+        } finblly {
+            LocblFree(pOwner);
         }
     }
 
     @Override
-    public void setAcl(List<AclEntry> acl) throws IOException {
-        checkAccess(file, false, true);
+    public void setAcl(List<AclEntry> bcl) throws IOException {
+        checkAccess(file, fblse, true);
 
         // SetFileSecurity does not follow links so when following links we
-        // need the final target
-        String path = WindowsLinkSupport.getFinalPath(file, followLinks);
-        WindowsSecurityDescriptor sd = WindowsSecurityDescriptor.create(acl);
+        // need the finbl tbrget
+        String pbth = WindowsLinkSupport.getFinblPbth(file, followLinks);
+        WindowsSecurityDescriptor sd = WindowsSecurityDescriptor.crebte(bcl);
         try {
-            SetFileSecurity(path, DACL_SECURITY_INFORMATION, sd.address());
-        } catch (WindowsException x) {
+            SetFileSecurity(pbth, DACL_SECURITY_INFORMATION, sd.bddress());
+        } cbtch (WindowsException x) {
              x.rethrowAsIOException(file);
-        } finally {
-            sd.release();
+        } finblly {
+            sd.relebse();
         }
     }
 }

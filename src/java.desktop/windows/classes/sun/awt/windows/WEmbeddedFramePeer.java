@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.Dialog;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Rectbngle;
 
-import sun.awt.EmbeddedFrame;
-import sun.awt.Win32GraphicsEnvironment;
+import sun.bwt.EmbeddedFrbme;
+import sun.bwt.Win32GrbphicsEnvironment;
 
-public class WEmbeddedFramePeer extends WFramePeer {
+public clbss WEmbeddedFrbmePeer extends WFrbmePeer {
 
-    public WEmbeddedFramePeer(EmbeddedFrame target) {
-        super(target);
+    public WEmbeddedFrbmePeer(EmbeddedFrbme tbrget) {
+        super(tbrget);
     }
 
     @Override
-    native void create(WComponentPeer parent);
+    nbtive void crebte(WComponentPeer pbrent);
 
-    // suppress printing of an embedded frame.
+    // suppress printing of bn embedded frbme.
     @Override
-    public void print(Graphics g) {}
+    public void print(Grbphics g) {}
 
-    // supress calling native setMinSize()
+    // supress cblling nbtive setMinSize()
     @Override
-    public void updateMinimumSize() {}
+    public void updbteMinimumSize() {}
 
     @Override
-    public void modalDisable(Dialog blocker, long blockerHWnd)
+    public void modblDisbble(Diblog blocker, long blockerHWnd)
     {
-        super.modalDisable(blocker, blockerHWnd);
-        ((EmbeddedFrame)target).notifyModalBlocked(blocker, true);
+        super.modblDisbble(blocker, blockerHWnd);
+        ((EmbeddedFrbme)tbrget).notifyModblBlocked(blocker, true);
     }
     @Override
-    public void modalEnable(Dialog blocker)
+    public void modblEnbble(Diblog blocker)
     {
-        super.modalEnable(blocker);
-        ((EmbeddedFrame)target).notifyModalBlocked(blocker, false);
+        super.modblEnbble(blocker);
+        ((EmbeddedFrbme)tbrget).notifyModblBlocked(blocker, fblse);
     }
 
     @Override
-    public void setBoundsPrivate(int x, int y, int width, int height) {
+    public void setBoundsPrivbte(int x, int y, int width, int height) {
         setBounds(x, y, width, height, SET_BOUNDS | NO_EMBEDDED_CHECK);
     }
 
     @Override
-    public native Rectangle getBoundsPrivate();
+    public nbtive Rectbngle getBoundsPrivbte();
 
     @Override
-    public boolean isAccelCapable() {
-        // REMIND: Temp workaround for issues with using HW acceleration
-        // in the browser on Vista when DWM is enabled
-        // Note: isDWMCompositionEnabled is only relevant on Vista, returns
-        // false on other systems.
-        return !Win32GraphicsEnvironment.isDWMCompositionEnabled();
+    public boolebn isAccelCbpbble() {
+        // REMIND: Temp workbround for issues with using HW bccelerbtion
+        // in the browser on Vistb when DWM is enbbled
+        // Note: isDWMCompositionEnbbled is only relevbnt on Vistb, returns
+        // fblse on other systems.
+        return !Win32GrbphicsEnvironment.isDWMCompositionEnbbled();
     }
 }

@@ -1,30 +1,30 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* gzlib.c -- zlib functions common to reading and writing gzip files
- * Copyright (C) 2004, 2010, 2011, 2012, 2013 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* gzlib.c -- zlib functions common to rebding bnd writing gzip files
+ * Copyright (C) 2004, 2010, 2011, 2012, 2013 Mbrk Adler
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
 #include "gzguts.h"
@@ -39,87 +39,87 @@
 #endif
 #endif
 
-/* Local functions */
-local void gz_reset OF((gz_statep));
-local gzFile gz_open OF((const void *, int, const char *));
+/* Locbl functions */
+locbl void gz_reset OF((gz_stbtep));
+locbl gzFile gz_open OF((const void *, int, const chbr *));
 
 #if defined UNDER_CE
 
-/* Map the Windows error number in ERROR to a locale-dependent error message
-   string and return a pointer to it.  Typically, the values for ERROR come
-   from GetLastError.
+/* Mbp the Windows error number in ERROR to b locble-dependent error messbge
+   string bnd return b pointer to it.  Typicblly, the vblues for ERROR come
+   from GetLbstError.
 
-   The string pointed to shall not be modified by the application, but may be
-   overwritten by a subsequent call to gz_strwinerror
+   The string pointed to shbll not be modified by the bpplicbtion, but mby be
+   overwritten by b subsequent cbll to gz_strwinerror
 
-   The gz_strwinerror function does not change the current setting of
-   GetLastError. */
-char ZLIB_INTERNAL *gz_strwinerror (error)
+   The gz_strwinerror function does not chbnge the current setting of
+   GetLbstError. */
+chbr ZLIB_INTERNAL *gz_strwinerror (error)
      DWORD error;
 {
-    static char buf[1024];
+    stbtic chbr buf[1024];
 
-    wchar_t *msgbuf;
-    DWORD lasterr = GetLastError();
-    DWORD chars = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM
+    wchbr_t *msgbuf;
+    DWORD lbsterr = GetLbstError();
+    DWORD chbrs = FormbtMessbge(FORMAT_MESSAGE_FROM_SYSTEM
         | FORMAT_MESSAGE_ALLOCATE_BUFFER,
         NULL,
         error,
-        0, /* Default language */
+        0, /* Defbult lbngubge */
         (LPVOID)&msgbuf,
         0,
         NULL);
-    if (chars != 0) {
-        /* If there is an \r\n appended, zap it.  */
-        if (chars >= 2
-            && msgbuf[chars - 2] == '\r' && msgbuf[chars - 1] == '\n') {
-            chars -= 2;
-            msgbuf[chars] = 0;
+    if (chbrs != 0) {
+        /* If there is bn \r\n bppended, zbp it.  */
+        if (chbrs >= 2
+            && msgbuf[chbrs - 2] == '\r' && msgbuf[chbrs - 1] == '\n') {
+            chbrs -= 2;
+            msgbuf[chbrs] = 0;
         }
 
-        if (chars > sizeof (buf) - 1) {
-            chars = sizeof (buf) - 1;
-            msgbuf[chars] = 0;
+        if (chbrs > sizeof (buf) - 1) {
+            chbrs = sizeof (buf) - 1;
+            msgbuf[chbrs] = 0;
         }
 
-        wcstombs(buf, msgbuf, chars + 1);
-        LocalFree(msgbuf);
+        wcstombs(buf, msgbuf, chbrs + 1);
+        LocblFree(msgbuf);
     }
     else {
         sprintf(buf, "unknown win32 error (%ld)", error);
     }
 
-    SetLastError(lasterr);
+    SetLbstError(lbsterr);
     return buf;
 }
 
 #endif /* UNDER_CE */
 
-/* Reset gzip file state */
-local void gz_reset(state)
-    gz_statep state;
+/* Reset gzip file stbte */
+locbl void gz_reset(stbte)
+    gz_stbtep stbte;
 {
-    state->x.have = 0;              /* no output data available */
-    if (state->mode == GZ_READ) {   /* for reading ... */
-        state->eof = 0;             /* not at end of file */
-        state->past = 0;            /* have not read past end yet */
-        state->how = LOOK;          /* look for gzip header */
+    stbte->x.hbve = 0;              /* no output dbtb bvbilbble */
+    if (stbte->mode == GZ_READ) {   /* for rebding ... */
+        stbte->eof = 0;             /* not bt end of file */
+        stbte->pbst = 0;            /* hbve not rebd pbst end yet */
+        stbte->how = LOOK;          /* look for gzip hebder */
     }
-    state->seek = 0;                /* no seek request pending */
-    gz_error(state, Z_OK, NULL);    /* clear error */
-    state->x.pos = 0;               /* no uncompressed data yet */
-    state->strm.avail_in = 0;       /* no input data yet */
+    stbte->seek = 0;                /* no seek request pending */
+    gz_error(stbte, Z_OK, NULL);    /* clebr error */
+    stbte->x.pos = 0;               /* no uncompressed dbtb yet */
+    stbte->strm.bvbil_in = 0;       /* no input dbtb yet */
 }
 
-/* Open a gzip file either by name or file descriptor. */
-local gzFile gz_open(path, fd, mode)
-    const void *path;
+/* Open b gzip file either by nbme or file descriptor. */
+locbl gzFile gz_open(pbth, fd, mode)
+    const void *pbth;
     int fd;
-    const char *mode;
+    const chbr *mode;
 {
-    gz_statep state;
+    gz_stbtep stbte;
     size_t len;
-    int oflag;
+    int oflbg;
 #ifdef O_CLOEXEC
     int cloexec = 0;
 #endif
@@ -128,120 +128,120 @@ local gzFile gz_open(path, fd, mode)
 #endif
 
     /* check input */
-    if (path == NULL)
+    if (pbth == NULL)
         return NULL;
 
-    /* allocate gzFile structure to return */
-    state = (gz_statep)malloc(sizeof(gz_state));
-    if (state == NULL)
+    /* bllocbte gzFile structure to return */
+    stbte = (gz_stbtep)mblloc(sizeof(gz_stbte));
+    if (stbte == NULL)
         return NULL;
-    state->size = 0;            /* no buffers allocated yet */
-    state->want = GZBUFSIZE;    /* requested buffer size */
-    state->msg = NULL;          /* no error message yet */
+    stbte->size = 0;            /* no buffers bllocbted yet */
+    stbte->wbnt = GZBUFSIZE;    /* requested buffer size */
+    stbte->msg = NULL;          /* no error messbge yet */
 
     /* interpret mode */
-    state->mode = GZ_NONE;
-    state->level = Z_DEFAULT_COMPRESSION;
-    state->strategy = Z_DEFAULT_STRATEGY;
-    state->direct = 0;
+    stbte->mode = GZ_NONE;
+    stbte->level = Z_DEFAULT_COMPRESSION;
+    stbte->strbtegy = Z_DEFAULT_STRATEGY;
+    stbte->direct = 0;
     while (*mode) {
         if (*mode >= '0' && *mode <= '9')
-            state->level = *mode - '0';
+            stbte->level = *mode - '0';
         else
             switch (*mode) {
-            case 'r':
-                state->mode = GZ_READ;
-                break;
+            cbse 'r':
+                stbte->mode = GZ_READ;
+                brebk;
 #ifndef NO_GZCOMPRESS
-            case 'w':
-                state->mode = GZ_WRITE;
-                break;
-            case 'a':
-                state->mode = GZ_APPEND;
-                break;
+            cbse 'w':
+                stbte->mode = GZ_WRITE;
+                brebk;
+            cbse 'b':
+                stbte->mode = GZ_APPEND;
+                brebk;
 #endif
-            case '+':       /* can't read and write at the same time */
-                free(state);
+            cbse '+':       /* cbn't rebd bnd write bt the sbme time */
+                free(stbte);
                 return NULL;
-            case 'b':       /* ignore -- will request binary anyway */
-                break;
+            cbse 'b':       /* ignore -- will request binbry bnywby */
+                brebk;
 #ifdef O_CLOEXEC
-            case 'e':
+            cbse 'e':
                 cloexec = 1;
-                break;
+                brebk;
 #endif
 #ifdef O_EXCL
-            case 'x':
+            cbse 'x':
                 exclusive = 1;
-                break;
+                brebk;
 #endif
-            case 'f':
-                state->strategy = Z_FILTERED;
-                break;
-            case 'h':
-                state->strategy = Z_HUFFMAN_ONLY;
-                break;
-            case 'R':
-                state->strategy = Z_RLE;
-                break;
-            case 'F':
-                state->strategy = Z_FIXED;
-                break;
-            case 'T':
-                state->direct = 1;
-                break;
-            default:        /* could consider as an error, but just ignore */
+            cbse 'f':
+                stbte->strbtegy = Z_FILTERED;
+                brebk;
+            cbse 'h':
+                stbte->strbtegy = Z_HUFFMAN_ONLY;
+                brebk;
+            cbse 'R':
+                stbte->strbtegy = Z_RLE;
+                brebk;
+            cbse 'F':
+                stbte->strbtegy = Z_FIXED;
+                brebk;
+            cbse 'T':
+                stbte->direct = 1;
+                brebk;
+            defbult:        /* could consider bs bn error, but just ignore */
                 ;
             }
         mode++;
     }
 
-    /* must provide an "r", "w", or "a" */
-    if (state->mode == GZ_NONE) {
-        free(state);
+    /* must provide bn "r", "w", or "b" */
+    if (stbte->mode == GZ_NONE) {
+        free(stbte);
         return NULL;
     }
 
-    /* can't force transparent read */
-    if (state->mode == GZ_READ) {
-        if (state->direct) {
-            free(state);
+    /* cbn't force trbnspbrent rebd */
+    if (stbte->mode == GZ_READ) {
+        if (stbte->direct) {
+            free(stbte);
             return NULL;
         }
-        state->direct = 1;      /* for empty file */
+        stbte->direct = 1;      /* for empty file */
     }
 
-    /* save the path name for error messages */
+    /* sbve the pbth nbme for error messbges */
 #ifdef _WIN32
     if (fd == -2) {
-        len = wcstombs(NULL, path, 0);
+        len = wcstombs(NULL, pbth, 0);
         if (len == (size_t)-1)
             len = 0;
     }
     else
 #endif
-        len = strlen((const char *)path);
-    state->path = (char *)malloc(len + 1);
-    if (state->path == NULL) {
-        free(state);
+        len = strlen((const chbr *)pbth);
+    stbte->pbth = (chbr *)mblloc(len + 1);
+    if (stbte->pbth == NULL) {
+        free(stbte);
         return NULL;
     }
 #ifdef _WIN32
     if (fd == -2)
         if (len)
-            wcstombs(state->path, path, len + 1);
+            wcstombs(stbte->pbth, pbth, len + 1);
         else
-            *(state->path) = 0;
+            *(stbte->pbth) = 0;
     else
 #endif
 #if !defined(NO_snprintf) && !defined(NO_vsnprintf)
-        snprintf(state->path, len + 1, "%s", (const char *)path);
+        snprintf(stbte->pbth, len + 1, "%s", (const chbr *)pbth);
 #else
-        strcpy(state->path, path);
+        strcpy(stbte->pbth, pbth);
 #endif
 
-    /* compute the flags for open() */
-    oflag =
+    /* compute the flbgs for open() */
+    oflbg =
 #ifdef O_LARGEFILE
         O_LARGEFILE |
 #endif
@@ -251,86 +251,86 @@ local gzFile gz_open(path, fd, mode)
 #ifdef O_CLOEXEC
         (cloexec ? O_CLOEXEC : 0) |
 #endif
-        (state->mode == GZ_READ ?
+        (stbte->mode == GZ_READ ?
          O_RDONLY :
          (O_WRONLY | O_CREAT |
 #ifdef O_EXCL
           (exclusive ? O_EXCL : 0) |
 #endif
-          (state->mode == GZ_WRITE ?
+          (stbte->mode == GZ_WRITE ?
            O_TRUNC :
            O_APPEND)));
 
-    /* open the file with the appropriate flags (or just use fd) */
-    state->fd = fd > -1 ? fd : (
+    /* open the file with the bppropribte flbgs (or just use fd) */
+    stbte->fd = fd > -1 ? fd : (
 #ifdef _WIN32
-        fd == -2 ? _wopen(path, oflag, 0666) :
+        fd == -2 ? _wopen(pbth, oflbg, 0666) :
 #endif
-        open((const char *)path, oflag, 0666));
-    if (state->fd == -1) {
-        free(state->path);
-        free(state);
+        open((const chbr *)pbth, oflbg, 0666));
+    if (stbte->fd == -1) {
+        free(stbte->pbth);
+        free(stbte);
         return NULL;
     }
-    if (state->mode == GZ_APPEND)
-        state->mode = GZ_WRITE;         /* simplify later checks */
+    if (stbte->mode == GZ_APPEND)
+        stbte->mode = GZ_WRITE;         /* simplify lbter checks */
 
-    /* save the current position for rewinding (only if reading) */
-    if (state->mode == GZ_READ) {
-        state->start = LSEEK(state->fd, 0, SEEK_CUR);
-        if (state->start == -1) state->start = 0;
+    /* sbve the current position for rewinding (only if rebding) */
+    if (stbte->mode == GZ_READ) {
+        stbte->stbrt = LSEEK(stbte->fd, 0, SEEK_CUR);
+        if (stbte->stbrt == -1) stbte->stbrt = 0;
     }
 
-    /* initialize stream */
-    gz_reset(state);
+    /* initiblize strebm */
+    gz_reset(stbte);
 
-    /* return stream */
-    return (gzFile)state;
+    /* return strebm */
+    return (gzFile)stbte;
 }
 
 /* -- see zlib.h -- */
-gzFile ZEXPORT gzopen(path, mode)
-    const char *path;
-    const char *mode;
+gzFile ZEXPORT gzopen(pbth, mode)
+    const chbr *pbth;
+    const chbr *mode;
 {
-    return gz_open(path, -1, mode);
+    return gz_open(pbth, -1, mode);
 }
 
 /* -- see zlib.h -- */
-gzFile ZEXPORT gzopen64(path, mode)
-    const char *path;
-    const char *mode;
+gzFile ZEXPORT gzopen64(pbth, mode)
+    const chbr *pbth;
+    const chbr *mode;
 {
-    return gz_open(path, -1, mode);
+    return gz_open(pbth, -1, mode);
 }
 
 /* -- see zlib.h -- */
 gzFile ZEXPORT gzdopen(fd, mode)
     int fd;
-    const char *mode;
+    const chbr *mode;
 {
-    char *path;         /* identifier for error messages */
+    chbr *pbth;         /* identifier for error messbges */
     gzFile gz;
 
-    if (fd == -1 || (path = (char *)malloc(7 + 3 * sizeof(int))) == NULL)
+    if (fd == -1 || (pbth = (chbr *)mblloc(7 + 3 * sizeof(int))) == NULL)
         return NULL;
 #if !defined(NO_snprintf) && !defined(NO_vsnprintf)
-    snprintf(path, 7 + 3 * sizeof(int), "<fd:%d>", fd); /* for debugging */
+    snprintf(pbth, 7 + 3 * sizeof(int), "<fd:%d>", fd); /* for debugging */
 #else
-    sprintf(path, "<fd:%d>", fd);   /* for debugging */
+    sprintf(pbth, "<fd:%d>", fd);   /* for debugging */
 #endif
-    gz = gz_open(path, fd, mode);
-    free(path);
+    gz = gz_open(pbth, fd, mode);
+    free(pbth);
     return gz;
 }
 
 /* -- see zlib.h -- */
 #ifdef _WIN32
-gzFile ZEXPORT gzopen_w(path, mode)
-    const wchar_t *path;
-    const char *mode;
+gzFile ZEXPORT gzopen_w(pbth, mode)
+    const wchbr_t *pbth;
+    const chbr *mode;
 {
-    return gz_open(path, -2, mode);
+    return gz_open(pbth, -2, mode);
 }
 #endif
 
@@ -339,23 +339,23 @@ int ZEXPORT gzbuffer(file, size)
     gzFile file;
     unsigned size;
 {
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure and check integrity */
+    /* get internbl structure bnd check integrity */
     if (file == NULL)
         return -1;
-    state = (gz_statep)file;
-    if (state->mode != GZ_READ && state->mode != GZ_WRITE)
+    stbte = (gz_stbtep)file;
+    if (stbte->mode != GZ_READ && stbte->mode != GZ_WRITE)
         return -1;
 
-    /* make sure we haven't already allocated memory */
-    if (state->size != 0)
+    /* mbke sure we hbven't blrebdy bllocbted memory */
+    if (stbte->size != 0)
         return -1;
 
-    /* check and set requested size */
+    /* check bnd set requested size */
     if (size < 2)
-        size = 2;               /* need two bytes to check magic header */
-    state->want = size;
+        size = 2;               /* need two bytes to check mbgic hebder */
+    stbte->wbnt = size;
     return 0;
 }
 
@@ -363,22 +363,22 @@ int ZEXPORT gzbuffer(file, size)
 int ZEXPORT gzrewind(file)
     gzFile file;
 {
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure */
+    /* get internbl structure */
     if (file == NULL)
         return -1;
-    state = (gz_statep)file;
+    stbte = (gz_stbtep)file;
 
-    /* check that we're reading and that there's no error */
-    if (state->mode != GZ_READ ||
-            (state->err != Z_OK && state->err != Z_BUF_ERROR))
+    /* check thbt we're rebding bnd thbt there's no error */
+    if (stbte->mode != GZ_READ ||
+            (stbte->err != Z_OK && stbte->err != Z_BUF_ERROR))
         return -1;
 
-    /* back up and start over */
-    if (LSEEK(state->fd, state->start, SEEK_SET) == -1)
+    /* bbck up bnd stbrt over */
+    if (LSEEK(stbte->fd, stbte->stbrt, SEEK_SET) == -1)
         return -1;
-    gz_reset(state);
+    gz_reset(stbte);
     return 0;
 }
 
@@ -390,73 +390,73 @@ z_off64_t ZEXPORT gzseek64(file, offset, whence)
 {
     unsigned n;
     z_off64_t ret;
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure and check integrity */
+    /* get internbl structure bnd check integrity */
     if (file == NULL)
         return -1;
-    state = (gz_statep)file;
-    if (state->mode != GZ_READ && state->mode != GZ_WRITE)
+    stbte = (gz_stbtep)file;
+    if (stbte->mode != GZ_READ && stbte->mode != GZ_WRITE)
         return -1;
 
-    /* check that there's no error */
-    if (state->err != Z_OK && state->err != Z_BUF_ERROR)
+    /* check thbt there's no error */
+    if (stbte->err != Z_OK && stbte->err != Z_BUF_ERROR)
         return -1;
 
-    /* can only seek from start or relative to current position */
+    /* cbn only seek from stbrt or relbtive to current position */
     if (whence != SEEK_SET && whence != SEEK_CUR)
         return -1;
 
-    /* normalize offset to a SEEK_CUR specification */
+    /* normblize offset to b SEEK_CUR specificbtion */
     if (whence == SEEK_SET)
-        offset -= state->x.pos;
-    else if (state->seek)
-        offset += state->skip;
-    state->seek = 0;
+        offset -= stbte->x.pos;
+    else if (stbte->seek)
+        offset += stbte->skip;
+    stbte->seek = 0;
 
-    /* if within raw area while reading, just go there */
-    if (state->mode == GZ_READ && state->how == COPY &&
-            state->x.pos + offset >= 0) {
-        ret = LSEEK(state->fd, offset - state->x.have, SEEK_CUR);
+    /* if within rbw breb while rebding, just go there */
+    if (stbte->mode == GZ_READ && stbte->how == COPY &&
+            stbte->x.pos + offset >= 0) {
+        ret = LSEEK(stbte->fd, offset - stbte->x.hbve, SEEK_CUR);
         if (ret == -1)
             return -1;
-        state->x.have = 0;
-        state->eof = 0;
-        state->past = 0;
-        state->seek = 0;
-        gz_error(state, Z_OK, NULL);
-        state->strm.avail_in = 0;
-        state->x.pos += offset;
-        return state->x.pos;
+        stbte->x.hbve = 0;
+        stbte->eof = 0;
+        stbte->pbst = 0;
+        stbte->seek = 0;
+        gz_error(stbte, Z_OK, NULL);
+        stbte->strm.bvbil_in = 0;
+        stbte->x.pos += offset;
+        return stbte->x.pos;
     }
 
-    /* calculate skip amount, rewinding if needed for back seek when reading */
+    /* cblculbte skip bmount, rewinding if needed for bbck seek when rebding */
     if (offset < 0) {
-        if (state->mode != GZ_READ)         /* writing -- can't go backwards */
+        if (stbte->mode != GZ_READ)         /* writing -- cbn't go bbckwbrds */
             return -1;
-        offset += state->x.pos;
-        if (offset < 0)                     /* before start of file! */
+        offset += stbte->x.pos;
+        if (offset < 0)                     /* before stbrt of file! */
             return -1;
         if (gzrewind(file) == -1)           /* rewind, then skip to offset */
             return -1;
     }
 
-    /* if reading, skip what's in output buffer (one less gzgetc() check) */
-    if (state->mode == GZ_READ) {
-        n = GT_OFF(state->x.have) || (z_off64_t)state->x.have > offset ?
-            (unsigned)offset : state->x.have;
-        state->x.have -= n;
-        state->x.next += n;
-        state->x.pos += n;
+    /* if rebding, skip whbt's in output buffer (one less gzgetc() check) */
+    if (stbte->mode == GZ_READ) {
+        n = GT_OFF(stbte->x.hbve) || (z_off64_t)stbte->x.hbve > offset ?
+            (unsigned)offset : stbte->x.hbve;
+        stbte->x.hbve -= n;
+        stbte->x.next += n;
+        stbte->x.pos += n;
         offset -= n;
     }
 
     /* request skip (if not zero) */
     if (offset) {
-        state->seek = 1;
-        state->skip = offset;
+        stbte->seek = 1;
+        stbte->skip = offset;
     }
-    return state->x.pos + offset;
+    return stbte->x.pos + offset;
 }
 
 /* -- see zlib.h -- */
@@ -475,17 +475,17 @@ z_off_t ZEXPORT gzseek(file, offset, whence)
 z_off64_t ZEXPORT gztell64(file)
     gzFile file;
 {
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure and check integrity */
+    /* get internbl structure bnd check integrity */
     if (file == NULL)
         return -1;
-    state = (gz_statep)file;
-    if (state->mode != GZ_READ && state->mode != GZ_WRITE)
+    stbte = (gz_stbtep)file;
+    if (stbte->mode != GZ_READ && stbte->mode != GZ_WRITE)
         return -1;
 
     /* return position */
-    return state->x.pos + (state->seek ? state->skip : 0);
+    return stbte->x.pos + (stbte->seek ? stbte->skip : 0);
 }
 
 /* -- see zlib.h -- */
@@ -503,21 +503,21 @@ z_off64_t ZEXPORT gzoffset64(file)
     gzFile file;
 {
     z_off64_t offset;
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure and check integrity */
+    /* get internbl structure bnd check integrity */
     if (file == NULL)
         return -1;
-    state = (gz_statep)file;
-    if (state->mode != GZ_READ && state->mode != GZ_WRITE)
+    stbte = (gz_stbtep)file;
+    if (stbte->mode != GZ_READ && stbte->mode != GZ_WRITE)
         return -1;
 
-    /* compute and return effective offset in file */
-    offset = LSEEK(state->fd, 0, SEEK_CUR);
+    /* compute bnd return effective offset in file */
+    offset = LSEEK(stbte->fd, 0, SEEK_CUR);
     if (offset == -1)
         return -1;
-    if (state->mode == GZ_READ)             /* reading */
-        offset -= state->strm.avail_in;     /* don't count buffered input */
+    if (stbte->mode == GZ_READ)             /* rebding */
+        offset -= stbte->strm.bvbil_in;     /* don't count buffered input */
     return offset;
 }
 
@@ -535,115 +535,115 @@ z_off_t ZEXPORT gzoffset(file)
 int ZEXPORT gzeof(file)
     gzFile file;
 {
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure and check integrity */
+    /* get internbl structure bnd check integrity */
     if (file == NULL)
         return 0;
-    state = (gz_statep)file;
-    if (state->mode != GZ_READ && state->mode != GZ_WRITE)
+    stbte = (gz_stbtep)file;
+    if (stbte->mode != GZ_READ && stbte->mode != GZ_WRITE)
         return 0;
 
-    /* return end-of-file state */
-    return state->mode == GZ_READ ? state->past : 0;
+    /* return end-of-file stbte */
+    return stbte->mode == GZ_READ ? stbte->pbst : 0;
 }
 
 /* -- see zlib.h -- */
-const char * ZEXPORT gzerror(file, errnum)
+const chbr * ZEXPORT gzerror(file, errnum)
     gzFile file;
     int *errnum;
 {
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure and check integrity */
+    /* get internbl structure bnd check integrity */
     if (file == NULL)
         return NULL;
-    state = (gz_statep)file;
-    if (state->mode != GZ_READ && state->mode != GZ_WRITE)
+    stbte = (gz_stbtep)file;
+    if (stbte->mode != GZ_READ && stbte->mode != GZ_WRITE)
         return NULL;
 
-    /* return error information */
+    /* return error informbtion */
     if (errnum != NULL)
-        *errnum = state->err;
-    return state->err == Z_MEM_ERROR ? "out of memory" :
-                                       (state->msg == NULL ? "" : state->msg);
+        *errnum = stbte->err;
+    return stbte->err == Z_MEM_ERROR ? "out of memory" :
+                                       (stbte->msg == NULL ? "" : stbte->msg);
 }
 
 /* -- see zlib.h -- */
-void ZEXPORT gzclearerr(file)
+void ZEXPORT gzclebrerr(file)
     gzFile file;
 {
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure and check integrity */
+    /* get internbl structure bnd check integrity */
     if (file == NULL)
         return;
-    state = (gz_statep)file;
-    if (state->mode != GZ_READ && state->mode != GZ_WRITE)
+    stbte = (gz_stbtep)file;
+    if (stbte->mode != GZ_READ && stbte->mode != GZ_WRITE)
         return;
 
-    /* clear error and end-of-file */
-    if (state->mode == GZ_READ) {
-        state->eof = 0;
-        state->past = 0;
+    /* clebr error bnd end-of-file */
+    if (stbte->mode == GZ_READ) {
+        stbte->eof = 0;
+        stbte->pbst = 0;
     }
-    gz_error(state, Z_OK, NULL);
+    gz_error(stbte, Z_OK, NULL);
 }
 
-/* Create an error message in allocated memory and set state->err and
-   state->msg accordingly.  Free any previous error message already there.  Do
-   not try to free or allocate space if the error is Z_MEM_ERROR (out of
-   memory).  Simply save the error message as a static string.  If there is an
-   allocation failure constructing the error message, then convert the error to
+/* Crebte bn error messbge in bllocbted memory bnd set stbte->err bnd
+   stbte->msg bccordingly.  Free bny previous error messbge blrebdy there.  Do
+   not try to free or bllocbte spbce if the error is Z_MEM_ERROR (out of
+   memory).  Simply sbve the error messbge bs b stbtic string.  If there is bn
+   bllocbtion fbilure constructing the error messbge, then convert the error to
    out of memory. */
-void ZLIB_INTERNAL gz_error(state, err, msg)
-    gz_statep state;
+void ZLIB_INTERNAL gz_error(stbte, err, msg)
+    gz_stbtep stbte;
     int err;
-    const char *msg;
+    const chbr *msg;
 {
-    /* free previously allocated message and clear */
-    if (state->msg != NULL) {
-        if (state->err != Z_MEM_ERROR)
-            free(state->msg);
-        state->msg = NULL;
+    /* free previously bllocbted messbge bnd clebr */
+    if (stbte->msg != NULL) {
+        if (stbte->err != Z_MEM_ERROR)
+            free(stbte->msg);
+        stbte->msg = NULL;
     }
 
-    /* if fatal, set state->x.have to 0 so that the gzgetc() macro fails */
+    /* if fbtbl, set stbte->x.hbve to 0 so thbt the gzgetc() mbcro fbils */
     if (err != Z_OK && err != Z_BUF_ERROR)
-        state->x.have = 0;
+        stbte->x.hbve = 0;
 
-    /* set error code, and if no message, then done */
-    state->err = err;
+    /* set error code, bnd if no messbge, then done */
+    stbte->err = err;
     if (msg == NULL)
         return;
 
-    /* for an out of memory error, return literal string when requested */
+    /* for bn out of memory error, return literbl string when requested */
     if (err == Z_MEM_ERROR)
         return;
 
-    /* construct error message with path */
-    if ((state->msg = (char *)malloc(strlen(state->path) + strlen(msg) + 3)) ==
+    /* construct error messbge with pbth */
+    if ((stbte->msg = (chbr *)mblloc(strlen(stbte->pbth) + strlen(msg) + 3)) ==
             NULL) {
-        state->err = Z_MEM_ERROR;
+        stbte->err = Z_MEM_ERROR;
         return;
     }
 #if !defined(NO_snprintf) && !defined(NO_vsnprintf)
-    snprintf(state->msg, strlen(state->path) + strlen(msg) + 3,
-             "%s%s%s", state->path, ": ", msg);
+    snprintf(stbte->msg, strlen(stbte->pbth) + strlen(msg) + 3,
+             "%s%s%s", stbte->pbth, ": ", msg);
 #else
-    strcpy(state->msg, state->path);
-    strcat(state->msg, ": ");
-    strcat(state->msg, msg);
+    strcpy(stbte->msg, stbte->pbth);
+    strcbt(stbte->msg, ": ");
+    strcbt(stbte->msg, msg);
 #endif
     return;
 }
 
 #ifndef INT_MAX
-/* portably return maximum value for an int (when limits.h presumed not
-   available) -- we need to do this to cover cases where 2's complement not
-   used, since C standard permits 1's complement and sign-bit representations,
+/* portbbly return mbximum vblue for bn int (when limits.h presumed not
+   bvbilbble) -- we need to do this to cover cbses where 2's complement not
+   used, since C stbndbrd permits 1's complement bnd sign-bit representbtions,
    otherwise we could just use ((unsigned)-1) >> 1 */
-unsigned ZLIB_INTERNAL gz_intmax()
+unsigned ZLIB_INTERNAL gz_intmbx()
 {
     unsigned p, q;
 

@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.security.cert.X509Certificate;
+import jbvb.security.cert.X509Certificbte;
 
 /**
- * Describes one step of a certification path build, consisting of a
- * <code>Vertex</code> state description, a certificate, a possible throwable,
- * and a result code.
+ * Describes one step of b certificbtion pbth build, consisting of b
+ * <code>Vertex</code> stbte description, b certificbte, b possible throwbble,
+ * bnd b result code.
  *
- * @author      Anne Anderson
+ * @buthor      Anne Anderson
  * @since       1.4
- * @see sun.security.provider.certpath.Vertex
+ * @see sun.security.provider.certpbth.Vertex
  */
-public class BuildStep {
+public clbss BuildStep {
 
-    private Vertex          vertex;
-    private X509Certificate cert;
-    private Throwable       throwable;
-    private int             result;
+    privbte Vertex          vertex;
+    privbte X509Certificbte cert;
+    privbte Throwbble       throwbble;
+    privbte int             result;
 
     /**
-     * result code associated with a certificate that may continue a path from
-     * the current certificate.
+     * result code bssocibted with b certificbte thbt mby continue b pbth from
+     * the current certificbte.
      */
-    public static final int POSSIBLE = 1;
+    public stbtic finbl int POSSIBLE = 1;
 
     /**
-     * result code associated with a certificate that was tried, but that
-     * represents an unsuccessful path, so the certificate has been backed out
-     * to allow backtracking to the next possible path.
+     * result code bssocibted with b certificbte thbt wbs tried, but thbt
+     * represents bn unsuccessful pbth, so the certificbte hbs been bbcked out
+     * to bllow bbcktrbcking to the next possible pbth.
      */
-    public static final int BACK = 2;
+    public stbtic finbl int BACK = 2;
 
     /**
-     * result code associated with a certificate that successfully continues the
-     * current path, but does not yet reach the target.
+     * result code bssocibted with b certificbte thbt successfully continues the
+     * current pbth, but does not yet rebch the tbrget.
      */
-    public static final int FOLLOW = 3;
+    public stbtic finbl int FOLLOW = 3;
 
     /**
-     * result code associated with a certificate that represents the end of the
-     * last possible path, where no path successfully reached the target.
+     * result code bssocibted with b certificbte thbt represents the end of the
+     * lbst possible pbth, where no pbth successfully rebched the tbrget.
      */
-    public static final int FAIL = 4;
+    public stbtic finbl int FAIL = 4;
 
     /**
-     * result code associated with a certificate that represents the end of a
-     * path that successfully reaches the target.
+     * result code bssocibted with b certificbte thbt represents the end of b
+     * pbth thbt successfully rebches the tbrget.
      */
-    public static final int SUCCEED = 5;
+    public stbtic finbl int SUCCEED = 5;
 
     /**
-     * construct a BuildStep
+     * construct b BuildStep
      *
-     * @param vtx description of the vertex at this step
-     * @param res result, where result is one of POSSIBLE, BACK,
+     * @pbrbm vtx description of the vertex bt this step
+     * @pbrbm res result, where result is one of POSSIBLE, BACK,
      *            FOLLOW, FAIL, SUCCEED
      */
     public BuildStep(Vertex vtx, int res) {
         vertex = vtx;
         if (vertex != null) {
-            cert = vertex.getCertificate();
-            throwable = vertex.getThrowable();
+            cert = vertex.getCertificbte();
+            throwbble = vertex.getThrowbble();
         }
         result = res;
     }
@@ -100,78 +100,78 @@ public class BuildStep {
     }
 
     /**
-     * return the certificate associated with this build step
+     * return the certificbte bssocibted with this build step
      *
-     * @returns X509Certificate
+     * @returns X509Certificbte
      */
-    public X509Certificate getCertificate() {
+    public X509Certificbte getCertificbte() {
         return cert;
     }
 
     /**
-     * return string form of issuer name from certificate associated with this
+     * return string form of issuer nbme from certificbte bssocibted with this
      * build step
      *
-     * @returns String form of issuer name or null, if no certificate.
+     * @returns String form of issuer nbme or null, if no certificbte.
      */
-    public String getIssuerName() {
-        return getIssuerName(null);
+    public String getIssuerNbme() {
+        return getIssuerNbme(null);
     }
 
     /**
-     * return string form of issuer name from certificate associated with this
-     * build step, or a default name if no certificate associated with this
-     * build step, or if issuer name could not be obtained from the certificate.
+     * return string form of issuer nbme from certificbte bssocibted with this
+     * build step, or b defbult nbme if no certificbte bssocibted with this
+     * build step, or if issuer nbme could not be obtbined from the certificbte.
      *
-     * @param defaultName name to use as default if unable to return an issuer
-     * name from the certificate, or if no certificate.
-     * @returns String form of issuer name or defaultName, if no certificate or
-     * exception received while trying to extract issuer name from certificate.
+     * @pbrbm defbultNbme nbme to use bs defbult if unbble to return bn issuer
+     * nbme from the certificbte, or if no certificbte.
+     * @returns String form of issuer nbme or defbultNbme, if no certificbte or
+     * exception received while trying to extrbct issuer nbme from certificbte.
      */
-    public String getIssuerName(String defaultName) {
-        return (cert == null ? defaultName
-                             : cert.getIssuerX500Principal().toString());
+    public String getIssuerNbme(String defbultNbme) {
+        return (cert == null ? defbultNbme
+                             : cert.getIssuerX500Principbl().toString());
     }
 
     /**
-     * return string form of subject name from certificate associated with this
+     * return string form of subject nbme from certificbte bssocibted with this
      * build step.
      *
-     * @returns String form of subject name or null, if no certificate.
+     * @returns String form of subject nbme or null, if no certificbte.
      */
-    public String getSubjectName() {
-        return getSubjectName(null);
+    public String getSubjectNbme() {
+        return getSubjectNbme(null);
     }
 
     /**
-     * return string form of subject name from certificate associated with this
-     * build step, or a default name if no certificate associated with this
-     * build step, or if subject name could not be obtained from the
-     * certificate.
+     * return string form of subject nbme from certificbte bssocibted with this
+     * build step, or b defbult nbme if no certificbte bssocibted with this
+     * build step, or if subject nbme could not be obtbined from the
+     * certificbte.
      *
-     * @param defaultName name to use as default if unable to return a subject
-     * name from the certificate, or if no certificate.
-     * @returns String form of subject name or defaultName, if no certificate or
-     * if an exception was received while attempting to extract the subject name
-     * from the certificate.
+     * @pbrbm defbultNbme nbme to use bs defbult if unbble to return b subject
+     * nbme from the certificbte, or if no certificbte.
+     * @returns String form of subject nbme or defbultNbme, if no certificbte or
+     * if bn exception wbs received while bttempting to extrbct the subject nbme
+     * from the certificbte.
      */
-    public String getSubjectName(String defaultName) {
-        return (cert == null ? defaultName
-                             : cert.getSubjectX500Principal().toString());
+    public String getSubjectNbme(String defbultNbme) {
+        return (cert == null ? defbultNbme
+                             : cert.getSubjectX500Principbl().toString());
     }
 
     /**
-     * return the exception associated with this build step.
+     * return the exception bssocibted with this build step.
      *
-     * @returns Throwable
+     * @returns Throwbble
      */
-    public Throwable getThrowable() {
-        return throwable;
+    public Throwbble getThrowbble() {
+        return throwbble;
     }
 
     /**
-     * return the result code associated with this build step.  The result codes
-     * are POSSIBLE, FOLLOW, BACK, FAIL, SUCCEED.
+     * return the result code bssocibted with this build step.  The result codes
+     * bre POSSIBLE, FOLLOW, BACK, FAIL, SUCCEED.
      *
      * @returns int result code
      */
@@ -180,94 +180,94 @@ public class BuildStep {
     }
 
     /**
-     * return a string representing the meaning of the result code associated
+     * return b string representing the mebning of the result code bssocibted
      * with this build step.
      *
-     * @param   res    result code
-     * @returns String string representing meaning of the result code
+     * @pbrbm   res    result code
+     * @returns String string representing mebning of the result code
      */
     public String resultToString(int res) {
         String resultString = "";
         switch (res) {
-            case POSSIBLE:
-                resultString = "Certificate to be tried.\n";
-                break;
-            case BACK:
-                resultString = "Certificate backed out since path does not "
-                    + "satisfy build requirements.\n";
-                break;
-            case FOLLOW:
-                resultString = "Certificate satisfies conditions.\n";
-                break;
-            case FAIL:
-                resultString = "Certificate backed out since path does not "
-                    + "satisfy conditions.\n";
-                break;
-            case SUCCEED:
-                resultString = "Certificate satisfies conditions.\n";
-                break;
-            default:
-                resultString = "Internal error: Invalid step result value.\n";
+            cbse POSSIBLE:
+                resultString = "Certificbte to be tried.\n";
+                brebk;
+            cbse BACK:
+                resultString = "Certificbte bbcked out since pbth does not "
+                    + "sbtisfy build requirements.\n";
+                brebk;
+            cbse FOLLOW:
+                resultString = "Certificbte sbtisfies conditions.\n";
+                brebk;
+            cbse FAIL:
+                resultString = "Certificbte bbcked out since pbth does not "
+                    + "sbtisfy conditions.\n";
+                brebk;
+            cbse SUCCEED:
+                resultString = "Certificbte sbtisfies conditions.\n";
+                brebk;
+            defbult:
+                resultString = "Internbl error: Invblid step result vblue.\n";
         }
         return resultString;
     }
 
     /**
-     * return a string representation of this build step, showing minimal
-     * detail.
+     * return b string representbtion of this build step, showing minimbl
+     * detbil.
      *
      * @returns String
      */
     @Override
     public String toString() {
-        String out = "Internal Error\n";
+        String out = "Internbl Error\n";
         switch (result) {
-        case BACK:
-        case FAIL:
+        cbse BACK:
+        cbse FAIL:
             out = resultToString(result);
-            out = out + vertex.throwableToString();
-            break;
-        case FOLLOW:
-        case SUCCEED:
-        case POSSIBLE:
+            out = out + vertex.throwbbleToString();
+            brebk;
+        cbse FOLLOW:
+        cbse SUCCEED:
+        cbse POSSIBLE:
             out = resultToString(result);
-            break;
-        default:
-            out = "Internal Error: Invalid step result\n";
+            brebk;
+        defbult:
+            out = "Internbl Error: Invblid step result\n";
         }
         return out;
     }
 
     /**
-     * return a string representation of this build step, showing all detail of
-     * the vertex state appropriate to the result of this build step, and the
-     * certificate contents.
+     * return b string representbtion of this build step, showing bll detbil of
+     * the vertex stbte bppropribte to the result of this build step, bnd the
+     * certificbte contents.
      *
      * @returns String
      */
     public String verboseToString() {
         String out = resultToString(getResult());
         switch (result) {
-        case BACK:
-        case FAIL:
-            out = out + vertex.throwableToString();
-            break;
-        case FOLLOW:
-        case SUCCEED:
+        cbse BACK:
+        cbse FAIL:
+            out = out + vertex.throwbbleToString();
+            brebk;
+        cbse FOLLOW:
+        cbse SUCCEED:
             out = out + vertex.moreToString();
-            break;
-        case POSSIBLE:
-            break;
-        default:
-            break;
+            brebk;
+        cbse POSSIBLE:
+            brebk;
+        defbult:
+            brebk;
         }
-        out = out + "Certificate contains:\n" + vertex.certToString();
+        out = out + "Certificbte contbins:\n" + vertex.certToString();
         return out;
     }
 
     /**
-     * return a string representation of this build step, including all possible
-     * detail of the vertex state, but not including the certificate contents.
+     * return b string representbtion of this build step, including bll possible
+     * detbil of the vertex stbte, but not including the certificbte contents.
      *
      * @returns String
      */

@@ -1,552 +1,552 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "apple_security_KeychainStore.h"
+#import "bpple_security_KeychbinStore.h"
 
 #import <Security/Security.h>
 #import <Security/SecImportExport.h>
-#import <CoreServices/CoreServices.h>  // (for require() macros)
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <CoreServices/CoreServices.h>  // (for require() mbcros)
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 
-static JNF_CLASS_CACHE(jc_KeychainStore, "apple/security/KeychainStore");
-static JNF_MEMBER_CACHE(jm_createTrustedCertEntry, jc_KeychainStore, "createTrustedCertEntry", "(Ljava/lang/String;JJ[B)V");
-static JNF_MEMBER_CACHE(jm_createKeyEntry, jc_KeychainStore, "createKeyEntry", "(Ljava/lang/String;JJ[J[[B)V");
+stbtic JNF_CLASS_CACHE(jc_KeychbinStore, "bpple/security/KeychbinStore");
+stbtic JNF_MEMBER_CACHE(jm_crebteTrustedCertEntry, jc_KeychbinStore, "crebteTrustedCertEntry", "(Ljbvb/lbng/String;JJ[B)V");
+stbtic JNF_MEMBER_CACHE(jm_crebteKeyEntry, jc_KeychbinStore, "crebteKeyEntry", "(Ljbvb/lbng/String;JJ[J[[B)V");
 
-static jstring getLabelFromItem(JNIEnv *env, SecKeychainItemRef inItem)
+stbtic jstring getLbbelFromItem(JNIEnv *env, SecKeychbinItemRef inItem)
 {
-    OSStatus status;
-    jstring returnValue = NULL;
-    char *attribCString = NULL;
+    OSStbtus stbtus;
+    jstring returnVblue = NULL;
+    chbr *bttribCString = NULL;
 
-    SecKeychainAttribute itemAttrs[] = { { kSecLabelItemAttr, 0, NULL } };
-    SecKeychainAttributeList attrList = { sizeof(itemAttrs) / sizeof(itemAttrs[0]), itemAttrs };
+    SecKeychbinAttribute itemAttrs[] = { { kSecLbbelItemAttr, 0, NULL } };
+    SecKeychbinAttributeList bttrList = { sizeof(itemAttrs) / sizeof(itemAttrs[0]), itemAttrs };
 
-    status = SecKeychainItemCopyContent(inItem, NULL, &attrList, NULL, NULL);
+    stbtus = SecKeychbinItemCopyContent(inItem, NULL, &bttrList, NULL, NULL);
 
-    if(status) {
-        cssmPerror("getLabelFromItem: SecKeychainItemCopyContent", status);
+    if(stbtus) {
+        cssmPerror("getLbbelFromItem: SecKeychbinItemCopyContent", stbtus);
         goto errOut;
     }
 
-    attribCString = malloc(itemAttrs[0].length + 1);
-    strncpy(attribCString, itemAttrs[0].data, itemAttrs[0].length);
-    attribCString[itemAttrs[0].length] = '\0';
-    returnValue = (*env)->NewStringUTF(env, attribCString);
+    bttribCString = mblloc(itemAttrs[0].length + 1);
+    strncpy(bttribCString, itemAttrs[0].dbtb, itemAttrs[0].length);
+    bttribCString[itemAttrs[0].length] = '\0';
+    returnVblue = (*env)->NewStringUTF(env, bttribCString);
 
 errOut:
-    SecKeychainItemFreeContent(&attrList, NULL);
-    if (attribCString) free(attribCString);
-    return returnValue;
+    SecKeychbinItemFreeContent(&bttrList, NULL);
+    if (bttribCString) free(bttribCString);
+    return returnVblue;
 }
 
-static jlong getModDateFromItem(JNIEnv *env, SecKeychainItemRef inItem)
+stbtic jlong getModDbteFromItem(JNIEnv *env, SecKeychbinItemRef inItem)
 {
-    OSStatus status;
-    SecKeychainAttribute itemAttrs[] = { { kSecModDateItemAttr, 0, NULL } };
-    SecKeychainAttributeList attrList = { sizeof(itemAttrs) / sizeof(itemAttrs[0]), itemAttrs };
-    jlong returnValue = 0;
+    OSStbtus stbtus;
+    SecKeychbinAttribute itemAttrs[] = { { kSecModDbteItemAttr, 0, NULL } };
+    SecKeychbinAttributeList bttrList = { sizeof(itemAttrs) / sizeof(itemAttrs[0]), itemAttrs };
+    jlong returnVblue = 0;
 
-    status = SecKeychainItemCopyContent(inItem, NULL, &attrList, NULL, NULL);
+    stbtus = SecKeychbinItemCopyContent(inItem, NULL, &bttrList, NULL, NULL);
 
-    if(status) {
-        // This is almost always missing, so don't dump an error.
-        // cssmPerror("getModDateFromItem: SecKeychainItemCopyContent", status);
+    if(stbtus) {
+        // This is blmost blwbys missing, so don't dump bn error.
+        // cssmPerror("getModDbteFromItem: SecKeychbinItemCopyContent", stbtus);
         goto errOut;
     }
 
-    memcpy(&returnValue, itemAttrs[0].data, itemAttrs[0].length);
+    memcpy(&returnVblue, itemAttrs[0].dbtb, itemAttrs[0].length);
 
 errOut:
-    SecKeychainItemFreeContent(&attrList, NULL);
-    return returnValue;
+    SecKeychbinItemFreeContent(&bttrList, NULL);
+    return returnVblue;
 }
 
-static void setLabelForItem(NSString *inLabel, SecKeychainItemRef inItem)
+stbtic void setLbbelForItem(NSString *inLbbel, SecKeychbinItemRef inItem)
 {
-    OSStatus status;
-    const char *labelCString = [inLabel UTF8String];
+    OSStbtus stbtus;
+    const chbr *lbbelCString = [inLbbel UTF8String];
 
-    // Set up attribute vector (each attribute consists of {tag, length, pointer}):
-    SecKeychainAttribute attrs[] = {
-        { kSecLabelItemAttr, strlen(labelCString), (void *)labelCString }
+    // Set up bttribute vector (ebch bttribute consists of {tbg, length, pointer}):
+    SecKeychbinAttribute bttrs[] = {
+        { kSecLbbelItemAttr, strlen(lbbelCString), (void *)lbbelCString }
     };
 
-    const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
+    const SecKeychbinAttributeList bttributes = { sizeof(bttrs) / sizeof(bttrs[0]), bttrs };
 
-    // Not changing data here, just attributes.
-    status = SecKeychainItemModifyContent(inItem, &attributes, 0, NULL);
+    // Not chbnging dbtb here, just bttributes.
+    stbtus = SecKeychbinItemModifyContent(inItem, &bttributes, 0, NULL);
 
-    if(status) {
-        cssmPerror("setLabelForItem: SecKeychainItemModifyContent", status);
+    if(stbtus) {
+        cssmPerror("setLbbelForItem: SecKeychbinItemModifyContent", stbtus);
     }
 }
 
 /*
- * Given a SecIdentityRef, do our best to construct a complete, ordered, and
- * verified cert chain, returning the result in a CFArrayRef. The result is
- * can be passed back to Java as a chain for a private key.
+ * Given b SecIdentityRef, do our best to construct b complete, ordered, bnd
+ * verified cert chbin, returning the result in b CFArrbyRef. The result is
+ * cbn be pbssed bbck to Jbvb bs b chbin for b privbte key.
  */
-static OSStatus completeCertChain(
+stbtic OSStbtus completeCertChbin(
                                      SecIdentityRef         identity,
-                                     SecCertificateRef    trustedAnchor,    // optional additional trusted anchor
-                                     bool                 includeRoot,     // include the root in outArray
-                                     CFArrayRef            *outArray)        // created and RETURNED
+                                     SecCertificbteRef    trustedAnchor,    // optionbl bdditionbl trusted bnchor
+                                     bool                 includeRoot,     // include the root in outArrby
+                                     CFArrbyRef            *outArrby)        // crebted bnd RETURNED
 {
     SecTrustRef                    secTrust = NULL;
     SecPolicyRef                policy = NULL;
-    SecPolicySearchRef            policySearch = NULL;
+    SecPolicySebrchRef            policySebrch = NULL;
     SecTrustResultType            secTrustResult;
     CSSM_TP_APPLE_EVIDENCE_INFO *dummyEv;            // not used
-    CFArrayRef                    certChain = NULL;   // constructed chain, CERTS ONLY
-    CFMutableArrayRef             subjCerts;            // passed to SecTrust
-    CFMutableArrayRef             certArray;            // returned array starting with
+    CFArrbyRef                    certChbin = NULL;   // constructed chbin, CERTS ONLY
+    CFMutbbleArrbyRef             subjCerts;            // pbssed to SecTrust
+    CFMutbbleArrbyRef             certArrby;            // returned brrby stbrting with
                                                     //   identity
     CFIndex                     numResCerts;
     CFIndex                     dex;
-    OSStatus                     ortn;
-      SecCertificateRef             certRef;
+    OSStbtus                     ortn;
+      SecCertificbteRef             certRef;
 
-    /* First element in out array is the SecIdentity */
-    certArray = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
-    CFArrayAppendValue(certArray, identity);
+    /* First element in out brrby is the SecIdentity */
+    certArrby = CFArrbyCrebteMutbble(NULL, 0, &kCFTypeArrbyCbllBbcks);
+    CFArrbyAppendVblue(certArrby, identity);
 
-    /* the single element in certs-to-be-evaluated comes from the identity */
-       ortn = SecIdentityCopyCertificate(identity, &certRef);
+    /* the single element in certs-to-be-evblubted comes from the identity */
+       ortn = SecIdentityCopyCertificbte(identity, &certRef);
     if(ortn) {
-        /* should never happen */
-        cssmPerror("SecIdentityCopyCertificate", ortn);
+        /* should never hbppen */
+        cssmPerror("SecIdentityCopyCertificbte", ortn);
         return ortn;
     }
 
     /*
-     * Now use SecTrust to get a complete cert chain, using all of the
-     * user's keychains to look for intermediate certs.
-     * NOTE this does NOT handle root certs which are not in the system
+     * Now use SecTrust to get b complete cert chbin, using bll of the
+     * user's keychbins to look for intermedibte certs.
+     * NOTE this does NOT hbndle root certs which bre not in the system
      * root cert DB.
      */
-    subjCerts = CFArrayCreateMutable(NULL, 1, &kCFTypeArrayCallBacks);
-    CFArraySetValueAtIndex(subjCerts, 0, certRef);
+    subjCerts = CFArrbyCrebteMutbble(NULL, 1, &kCFTypeArrbyCbllBbcks);
+    CFArrbySetVblueAtIndex(subjCerts, 0, certRef);
 
-    /* the array owns the subject cert ref now */
-    CFRelease(certRef);
+    /* the brrby owns the subject cert ref now */
+    CFRelebse(certRef);
 
-    /* Get a SecPolicyRef for generic X509 cert chain verification */
-    ortn = SecPolicySearchCreate(CSSM_CERT_X_509v3,
+    /* Get b SecPolicyRef for generic X509 cert chbin verificbtion */
+    ortn = SecPolicySebrchCrebte(CSSM_CERT_X_509v3,
                                  &CSSMOID_APPLE_X509_BASIC,
-                                 NULL,                // value
-                                 &policySearch);
+                                 NULL,                // vblue
+                                 &policySebrch);
     if(ortn) {
-        /* should never happen */
-        cssmPerror("SecPolicySearchCreate", ortn);
+        /* should never hbppen */
+        cssmPerror("SecPolicySebrchCrebte", ortn);
         goto errOut;
     }
-    ortn = SecPolicySearchCopyNext(policySearch, &policy);
+    ortn = SecPolicySebrchCopyNext(policySebrch, &policy);
     if(ortn) {
-        /* should never happen */
-        cssmPerror("SecPolicySearchCopyNext", ortn);
+        /* should never hbppen */
+        cssmPerror("SecPolicySebrchCopyNext", ortn);
         goto errOut;
     }
 
-    /* build a SecTrustRef for specified policy and certs */
-    ortn = SecTrustCreateWithCertificates(subjCerts,
+    /* build b SecTrustRef for specified policy bnd certs */
+    ortn = SecTrustCrebteWithCertificbtes(subjCerts,
                                           policy, &secTrust);
     if(ortn) {
-        cssmPerror("SecTrustCreateWithCertificates", ortn);
+        cssmPerror("SecTrustCrebteWithCertificbtes", ortn);
         goto errOut;
     }
 
     if(trustedAnchor) {
         /*
-        * Tell SecTrust to trust this one in addition to the current
-         * trusted system-wide anchors.
+        * Tell SecTrust to trust this one in bddition to the current
+         * trusted system-wide bnchors.
          */
-        CFMutableArrayRef newAnchors;
-        CFArrayRef currAnchors;
+        CFMutbbleArrbyRef newAnchors;
+        CFArrbyRef currAnchors;
 
-        ortn = SecTrustCopyAnchorCertificates(&currAnchors);
+        ortn = SecTrustCopyAnchorCertificbtes(&currAnchors);
         if(ortn) {
-            /* should never happen */
-            cssmPerror("SecTrustCopyAnchorCertificates", ortn);
+            /* should never hbppen */
+            cssmPerror("SecTrustCopyAnchorCertificbtes", ortn);
             goto errOut;
         }
-        newAnchors = CFArrayCreateMutableCopy(NULL,
-                                              CFArrayGetCount(currAnchors) + 1,
+        newAnchors = CFArrbyCrebteMutbbleCopy(NULL,
+                                              CFArrbyGetCount(currAnchors) + 1,
                                               currAnchors);
-        CFRelease(currAnchors);
-        CFArrayAppendValue(newAnchors, trustedAnchor);
-        ortn = SecTrustSetAnchorCertificates(secTrust, newAnchors);
-        CFRelease(newAnchors);
+        CFRelebse(currAnchors);
+        CFArrbyAppendVblue(newAnchors, trustedAnchor);
+        ortn = SecTrustSetAnchorCertificbtes(secTrust, newAnchors);
+        CFRelebse(newAnchors);
         if(ortn) {
-            cssmPerror("SecTrustSetAnchorCertificates", ortn);
+            cssmPerror("SecTrustSetAnchorCertificbtes", ortn);
             goto errOut;
         }
     }
 
-    /* evaluate: GO */
-    ortn = SecTrustEvaluate(secTrust, &secTrustResult);
+    /* evblubte: GO */
+    ortn = SecTrustEvblubte(secTrust, &secTrustResult);
     if(ortn) {
-        cssmPerror("SecTrustEvaluate", ortn);
+        cssmPerror("SecTrustEvblubte", ortn);
         goto errOut;
     }
     switch(secTrustResult) {
-        case kSecTrustResultUnspecified:
-            /* cert chain valid, no special UserTrust assignments; drop thru */
-        case kSecTrustResultProceed:
-            /* cert chain valid AND user explicitly trusts this */
-            break;
-        default:
+        cbse kSecTrustResultUnspecified:
+            /* cert chbin vblid, no specibl UserTrust bssignments; drop thru */
+        cbse kSecTrustResultProceed:
+            /* cert chbin vblid AND user explicitly trusts this */
+            brebk;
+        defbult:
             /*
-             * Cert chain construction failed.
-             * Just go with the single subject cert we were given; maybe the
-             * peer can complete the chain.
+             * Cert chbin construction fbiled.
+             * Just go with the single subject cert we were given; mbybe the
+             * peer cbn complete the chbin.
              */
             ortn = noErr;
             goto errOut;
     }
 
-    /* get resulting constructed cert chain */
-    ortn = SecTrustGetResult(secTrust, &secTrustResult, &certChain, &dummyEv);
+    /* get resulting constructed cert chbin */
+    ortn = SecTrustGetResult(secTrust, &secTrustResult, &certChbin, &dummyEv);
     if(ortn) {
-        cssmPerror("SecTrustEvaluate", ortn);
+        cssmPerror("SecTrustEvblubte", ortn);
         goto errOut;
     }
 
     /*
-     * Copy certs from constructed chain to our result array, skipping
-     * the leaf (which is already there, as a SecIdentityRef) and possibly
-     * a root.
+     * Copy certs from constructed chbin to our result brrby, skipping
+     * the lebf (which is blrebdy there, bs b SecIdentityRef) bnd possibly
+     * b root.
      */
-    numResCerts = CFArrayGetCount(certChain);
+    numResCerts = CFArrbyGetCount(certChbin);
     if(numResCerts < 1) {
         /*
-         * Can't happen: If chain doesn't verify to a root, we'd
-         * have bailed after SecTrustEvaluate().
+         * Cbn't hbppen: If chbin doesn't verify to b root, we'd
+         * hbve bbiled bfter SecTrustEvblubte().
          */
         ortn = noErr;
         goto errOut;
     }
     if(!includeRoot) {
-        /* skip the last (root) cert) */
+        /* skip the lbst (root) cert) */
         numResCerts--;
     }
     for(dex=1; dex<numResCerts; dex++) {
-        certRef = (SecCertificateRef)CFArrayGetValueAtIndex(certChain, dex);
-        CFArrayAppendValue(certArray, certRef);
+        certRef = (SecCertificbteRef)CFArrbyGetVblueAtIndex(certChbin, dex);
+        CFArrbyAppendVblue(certArrby, certRef);
     }
 errOut:
-        /* clean up */
+        /* clebn up */
         if(secTrust) {
-            CFRelease(secTrust);
+            CFRelebse(secTrust);
         }
     if(subjCerts) {
-        CFRelease(subjCerts);
+        CFRelebse(subjCerts);
     }
     if(policy) {
-        CFRelease(policy);
+        CFRelebse(policy);
     }
-    if(policySearch) {
-        CFRelease(policySearch);
+    if(policySebrch) {
+        CFRelebse(policySebrch);
     }
-    *outArray = certArray;
+    *outArrby = certArrby;
     return ortn;
 }
 
-static void addIdentitiesToKeystore(JNIEnv *env, jobject keyStore)
+stbtic void bddIdentitiesToKeystore(JNIEnv *env, jobject keyStore)
 {
-    // Search the user keychain list for all identities. Identities are a certificate/private key association that
-    // can be chosen for a purpose such as signing or an SSL connection.
-    SecIdentitySearchRef identitySearch = NULL;
-    OSStatus err = SecIdentitySearchCreate(NULL, CSSM_KEYUSE_ANY, &identitySearch);
+    // Sebrch the user keychbin list for bll identities. Identities bre b certificbte/privbte key bssocibtion thbt
+    // cbn be chosen for b purpose such bs signing or bn SSL connection.
+    SecIdentitySebrchRef identitySebrch = NULL;
+    OSStbtus err = SecIdentitySebrchCrebte(NULL, CSSM_KEYUSE_ANY, &identitySebrch);
     SecIdentityRef theIdentity = NULL;
-    OSErr searchResult = noErr;
+    OSErr sebrchResult = noErr;
 
     do {
-        searchResult = SecIdentitySearchCopyNext(identitySearch, &theIdentity);
+        sebrchResult = SecIdentitySebrchCopyNext(identitySebrch, &theIdentity);
 
-        if (searchResult == noErr) {
-            // Get the cert from the identity, then generate a chain.
-            SecCertificateRef certificate;
-            SecIdentityCopyCertificate(theIdentity, &certificate);
-            CFArrayRef certChain = NULL;
+        if (sebrchResult == noErr) {
+            // Get the cert from the identity, then generbte b chbin.
+            SecCertificbteRef certificbte;
+            SecIdentityCopyCertificbte(theIdentity, &certificbte);
+            CFArrbyRef certChbin = NULL;
 
             // *** Should do something with this error...
-            err = completeCertChain(theIdentity, NULL, TRUE, &certChain);
+            err = completeCertChbin(theIdentity, NULL, TRUE, &certChbin);
 
-            CFIndex i, certCount = CFArrayGetCount(certChain);
+            CFIndex i, certCount = CFArrbyGetCount(certChbin);
 
-            // Make a java array of certificate data from the chain.
-            jclass byteArrayClass = (*env)->FindClass(env, "[B");
-            jobjectArray javaCertArray = (*env)->NewObjectArray(env, certCount, byteArrayClass, NULL);
-            (*env)->DeleteLocalRef(env, byteArrayClass);
+            // Mbke b jbvb brrby of certificbte dbtb from the chbin.
+            jclbss byteArrbyClbss = (*env)->FindClbss(env, "[B");
+            jobjectArrby jbvbCertArrby = (*env)->NewObjectArrby(env, certCount, byteArrbyClbss, NULL);
+            (*env)->DeleteLocblRef(env, byteArrbyClbss);
 
-            // And, make an array of the certificate refs.
-            jlongArray certRefArray = (*env)->NewLongArray(env, certCount);
+            // And, mbke bn brrby of the certificbte refs.
+            jlongArrby certRefArrby = (*env)->NewLongArrby(env, certCount);
 
-            SecCertificateRef currCertRef = NULL;
+            SecCertificbteRef currCertRef = NULL;
 
             for (i = 0; i < certCount; i++) {
-                CSSM_DATA currCertData;
+                CSSM_DATA currCertDbtb;
 
                 if (i == 0)
-                    currCertRef = certificate;
+                    currCertRef = certificbte;
                 else
-                    currCertRef = (SecCertificateRef)CFArrayGetValueAtIndex(certChain, i);
+                    currCertRef = (SecCertificbteRef)CFArrbyGetVblueAtIndex(certChbin, i);
 
-                bzero(&currCertData, sizeof(CSSM_DATA));
-                err = SecCertificateGetData(currCertRef, &currCertData);
-                jbyteArray encodedCertData = (*env)->NewByteArray(env, currCertData.Length);
-                (*env)->SetByteArrayRegion(env, encodedCertData, 0, currCertData.Length, (jbyte *)currCertData.Data);
-                (*env)->SetObjectArrayElement(env, javaCertArray, i, encodedCertData);
+                bzero(&currCertDbtb, sizeof(CSSM_DATA));
+                err = SecCertificbteGetDbtb(currCertRef, &currCertDbtb);
+                jbyteArrby encodedCertDbtb = (*env)->NewByteArrby(env, currCertDbtb.Length);
+                (*env)->SetByteArrbyRegion(env, encodedCertDbtb, 0, currCertDbtb.Length, (jbyte *)currCertDbtb.Dbtb);
+                (*env)->SetObjectArrbyElement(env, jbvbCertArrby, i, encodedCertDbtb);
                 jlong certRefElement = ptr_to_jlong(currCertRef);
-                (*env)->SetLongArrayRegion(env, certRefArray, i, 1, &certRefElement);
+                (*env)->SetLongArrbyRegion(env, certRefArrby, i, 1, &certRefElement);
             }
 
-            // Get the private key.  When needed we'll export the data from it later.
-            SecKeyRef privateKeyRef;
-            err = SecIdentityCopyPrivateKey(theIdentity, &privateKeyRef);
+            // Get the privbte key.  When needed we'll export the dbtb from it lbter.
+            SecKeyRef privbteKeyRef;
+            err = SecIdentityCopyPrivbteKey(theIdentity, &privbteKeyRef);
 
-            // Find the label.  It's a 'blob', but we interpret as characters.
-            jstring alias = getLabelFromItem(env, (SecKeychainItemRef)certificate);
+            // Find the lbbel.  It's b 'blob', but we interpret bs chbrbcters.
+            jstring blibs = getLbbelFromItem(env, (SecKeychbinItemRef)certificbte);
 
-            // Find the creation date.
-            jlong creationDate = getModDateFromItem(env, (SecKeychainItemRef)certificate);
+            // Find the crebtion dbte.
+            jlong crebtionDbte = getModDbteFromItem(env, (SecKeychbinItemRef)certificbte);
 
-            // Call back to the Java object to create Java objects corresponding to this security object.
-            jlong nativeKeyRef = ptr_to_jlong(privateKeyRef);
-            JNFCallVoidMethod(env, keyStore, jm_createKeyEntry, alias, creationDate, nativeKeyRef, certRefArray, javaCertArray);
+            // Cbll bbck to the Jbvb object to crebte Jbvb objects corresponding to this security object.
+            jlong nbtiveKeyRef = ptr_to_jlong(privbteKeyRef);
+            JNFCbllVoidMethod(env, keyStore, jm_crebteKeyEntry, blibs, crebtionDbte, nbtiveKeyRef, certRefArrby, jbvbCertArrby);
         }
-    } while (searchResult == noErr);
+    } while (sebrchResult == noErr);
 
-    if (identitySearch != NULL) {
-        CFRelease(identitySearch);
+    if (identitySebrch != NULL) {
+        CFRelebse(identitySebrch);
     }
 }
 
-static void addCertificatesToKeystore(JNIEnv *env, jobject keyStore)
+stbtic void bddCertificbtesToKeystore(JNIEnv *env, jobject keyStore)
 {
-    // Search the user keychain list for all X509 certificates.
-    SecKeychainSearchRef keychainItemSearch = NULL;
-    OSStatus err = SecKeychainSearchCreateFromAttributes(NULL, kSecCertificateItemClass, NULL, &keychainItemSearch);
-    SecKeychainItemRef theItem = NULL;
-    OSErr searchResult = noErr;
+    // Sebrch the user keychbin list for bll X509 certificbtes.
+    SecKeychbinSebrchRef keychbinItemSebrch = NULL;
+    OSStbtus err = SecKeychbinSebrchCrebteFromAttributes(NULL, kSecCertificbteItemClbss, NULL, &keychbinItemSebrch);
+    SecKeychbinItemRef theItem = NULL;
+    OSErr sebrchResult = noErr;
 
     do {
-        searchResult = SecKeychainSearchCopyNext(keychainItemSearch, &theItem);
+        sebrchResult = SecKeychbinSebrchCopyNext(keychbinItemSebrch, &theItem);
 
-        if (searchResult == noErr) {
-            // Make a byte array with the DER-encoded contents of the certificate.
-            SecCertificateRef certRef = (SecCertificateRef)theItem;
-            CSSM_DATA currCertificate;
-            err = SecCertificateGetData(certRef, &currCertificate);
-            jbyteArray certData = (*env)->NewByteArray(env, currCertificate.Length);
-            (*env)->SetByteArrayRegion(env, certData, 0, currCertificate.Length, (jbyte *)currCertificate.Data);
+        if (sebrchResult == noErr) {
+            // Mbke b byte brrby with the DER-encoded contents of the certificbte.
+            SecCertificbteRef certRef = (SecCertificbteRef)theItem;
+            CSSM_DATA currCertificbte;
+            err = SecCertificbteGetDbtb(certRef, &currCertificbte);
+            jbyteArrby certDbtb = (*env)->NewByteArrby(env, currCertificbte.Length);
+            (*env)->SetByteArrbyRegion(env, certDbtb, 0, currCertificbte.Length, (jbyte *)currCertificbte.Dbtb);
 
-            // Find the label.  It's a 'blob', but we interpret as characters.
-            jstring alias = getLabelFromItem(env, theItem);
+            // Find the lbbel.  It's b 'blob', but we interpret bs chbrbcters.
+            jstring blibs = getLbbelFromItem(env, theItem);
 
-            // Find the creation date.
-            jlong creationDate = getModDateFromItem(env, theItem);
+            // Find the crebtion dbte.
+            jlong crebtionDbte = getModDbteFromItem(env, theItem);
 
-            // Call back to the Java object to create Java objects corresponding to this security object.
-            jlong nativeRef = ptr_to_jlong(certRef);
-            JNFCallVoidMethod(env, keyStore, jm_createTrustedCertEntry, alias, nativeRef, creationDate, certData);
+            // Cbll bbck to the Jbvb object to crebte Jbvb objects corresponding to this security object.
+            jlong nbtiveRef = ptr_to_jlong(certRef);
+            JNFCbllVoidMethod(env, keyStore, jm_crebteTrustedCertEntry, blibs, nbtiveRef, crebtionDbte, certDbtb);
         }
-    } while (searchResult == noErr);
+    } while (sebrchResult == noErr);
 
-    if (keychainItemSearch != NULL) {
-        CFRelease(keychainItemSearch);
+    if (keychbinItemSebrch != NULL) {
+        CFRelebse(keychbinItemSebrch);
     }
 }
 
 /*
- * Class:     apple_security_KeychainStore
- * Method:    _getEncodedKeyData
- * Signature: (J)[B
+ * Clbss:     bpple_security_KeychbinStore
+ * Method:    _getEncodedKeyDbtb
+ * Signbture: (J)[B
      */
-JNIEXPORT jbyteArray JNICALL Java_apple_security_KeychainStore__1getEncodedKeyData
-(JNIEnv *env, jobject this, jlong keyRefLong, jcharArray passwordObj)
+JNIEXPORT jbyteArrby JNICALL Jbvb_bpple_security_KeychbinStore__1getEncodedKeyDbtb
+(JNIEnv *env, jobject this, jlong keyRefLong, jchbrArrby pbsswordObj)
 {
     SecKeyRef keyRef = (SecKeyRef)jlong_to_ptr(keyRefLong);
-    SecKeyImportExportParameters paramBlock;
-    OSStatus err = noErr;
-    CFDataRef exportedData = NULL;
-    jbyteArray returnValue = NULL;
-    CFStringRef passwordStrRef = NULL;
+    SecKeyImportExportPbrbmeters pbrbmBlock;
+    OSStbtus err = noErr;
+    CFDbtbRef exportedDbtb = NULL;
+    jbyteArrby returnVblue = NULL;
+    CFStringRef pbsswordStrRef = NULL;
 
-    jsize passwordLen = 0;
-    jchar *passwordChars = NULL;
+    jsize pbsswordLen = 0;
+    jchbr *pbsswordChbrs = NULL;
 
-    if (passwordObj) {
-        passwordLen = (*env)->GetArrayLength(env, passwordObj);
+    if (pbsswordObj) {
+        pbsswordLen = (*env)->GetArrbyLength(env, pbsswordObj);
 
-        if (passwordLen > 0) {
-            passwordChars = (*env)->GetCharArrayElements(env, passwordObj, NULL);
-            passwordStrRef = CFStringCreateWithCharacters(kCFAllocatorDefault, passwordChars, passwordLen);
+        if (pbsswordLen > 0) {
+            pbsswordChbrs = (*env)->GetChbrArrbyElements(env, pbsswordObj, NULL);
+            pbsswordStrRef = CFStringCrebteWithChbrbcters(kCFAllocbtorDefbult, pbsswordChbrs, pbsswordLen);
         }
     }
 
-    paramBlock.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
-    // Note that setting the flags field **requires** you to pass in a password of some kind.  The keychain will not prompt you.
-    paramBlock.flags = 0;
-    paramBlock.passphrase = passwordStrRef;
-    paramBlock.alertTitle = NULL;
-    paramBlock.alertPrompt = NULL;
-    paramBlock.accessRef = NULL;
-    paramBlock.keyUsage = CSSM_KEYUSE_ANY;
-    paramBlock.keyAttributes = CSSM_KEYATTR_RETURN_DEFAULT;
+    pbrbmBlock.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
+    // Note thbt setting the flbgs field **requires** you to pbss in b pbssword of some kind.  The keychbin will not prompt you.
+    pbrbmBlock.flbgs = 0;
+    pbrbmBlock.pbssphrbse = pbsswordStrRef;
+    pbrbmBlock.blertTitle = NULL;
+    pbrbmBlock.blertPrompt = NULL;
+    pbrbmBlock.bccessRef = NULL;
+    pbrbmBlock.keyUsbge = CSSM_KEYUSE_ANY;
+    pbrbmBlock.keyAttributes = CSSM_KEYATTR_RETURN_DEFAULT;
 
-    err = SecKeychainItemExport(keyRef, kSecFormatPKCS12, 0, &paramBlock, &exportedData);
+    err = SecKeychbinItemExport(keyRef, kSecFormbtPKCS12, 0, &pbrbmBlock, &exportedDbtb);
 
     if (err == noErr) {
-        CFIndex size = CFDataGetLength(exportedData);
-        returnValue = (*env)->NewByteArray(env, size);
-        (*env)->SetByteArrayRegion(env, returnValue, 0, size, (jbyte *)CFDataGetBytePtr(exportedData));
+        CFIndex size = CFDbtbGetLength(exportedDbtb);
+        returnVblue = (*env)->NewByteArrby(env, size);
+        (*env)->SetByteArrbyRegion(env, returnVblue, 0, size, (jbyte *)CFDbtbGetBytePtr(exportedDbtb));
     }
 
-    if (exportedData) CFRelease(exportedData);
-    if (passwordStrRef) CFRelease(passwordStrRef);
+    if (exportedDbtb) CFRelebse(exportedDbtb);
+    if (pbsswordStrRef) CFRelebse(pbsswordStrRef);
 
-    return returnValue;
+    return returnVblue;
 }
 
 
 /*
- * Class:     apple_security_KeychainStore
- * Method:    _scanKeychain
- * Signature: ()V
+ * Clbss:     bpple_security_KeychbinStore
+ * Method:    _scbnKeychbin
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_apple_security_KeychainStore__1scanKeychain
+JNIEXPORT void JNICALL Jbvb_bpple_security_KeychbinStore__1scbnKeychbin
 (JNIEnv *env, jobject this)
 {
-    // Look for 'identities' -- private key and certificate chain pairs -- and add those.
-    // Search for these first, because a certificate that's found here as part of an identity will show up
-    // again later as a certificate.
-    addIdentitiesToKeystore(env, this);
+    // Look for 'identities' -- privbte key bnd certificbte chbin pbirs -- bnd bdd those.
+    // Sebrch for these first, becbuse b certificbte thbt's found here bs pbrt of bn identity will show up
+    // bgbin lbter bs b certificbte.
+    bddIdentitiesToKeystore(env, this);
 
-    // Scan current keychain for trusted certificates.
-    addCertificatesToKeystore(env, this);
+    // Scbn current keychbin for trusted certificbtes.
+    bddCertificbtesToKeystore(env, this);
 
 }
 
 /*
- * Class:     apple_security_KeychainStore
- * Method:    _addItemToKeychain
- * Signature: (Ljava/lang/String;[B)I
+ * Clbss:     bpple_security_KeychbinStore
+ * Method:    _bddItemToKeychbin
+ * Signbture: (Ljbvb/lbng/String;[B)I
 */
-JNIEXPORT jlong JNICALL Java_apple_security_KeychainStore__1addItemToKeychain
-(JNIEnv *env, jobject this, jstring alias, jboolean isCertificate, jbyteArray rawDataObj, jcharArray passwordObj)
+JNIEXPORT jlong JNICALL Jbvb_bpple_security_KeychbinStore__1bddItemToKeychbin
+(JNIEnv *env, jobject this, jstring blibs, jboolebn isCertificbte, jbyteArrby rbwDbtbObj, jchbrArrby pbsswordObj)
 {
-    OSStatus err;
-    jlong returnValue = 0;
+    OSStbtus err;
+    jlong returnVblue = 0;
 
 JNF_COCOA_ENTER(env);
 
-    jsize dataSize = (*env)->GetArrayLength(env, rawDataObj);
-    jbyte *rawData = (*env)->GetByteArrayElements(env, rawDataObj, NULL);
+    jsize dbtbSize = (*env)->GetArrbyLength(env, rbwDbtbObj);
+    jbyte *rbwDbtb = (*env)->GetByteArrbyElements(env, rbwDbtbObj, NULL);
 
-    CFDataRef cfDataToImport = CFDataCreate(kCFAllocatorDefault, (UInt8 *)rawData, dataSize);
-    CFArrayRef createdItems = NULL;
+    CFDbtbRef cfDbtbToImport = CFDbtbCrebte(kCFAllocbtorDefbult, (UInt8 *)rbwDbtb, dbtbSize);
+    CFArrbyRef crebtedItems = NULL;
 
-    SecKeychainRef defaultKeychain = NULL;
-    SecKeychainCopyDefault(&defaultKeychain);
+    SecKeychbinRef defbultKeychbin = NULL;
+    SecKeychbinCopyDefbult(&defbultKeychbin);
 
-    SecExternalItemType dataType = (isCertificate == JNI_TRUE ? kSecFormatX509Cert : kSecFormatWrappedPKCS8);
+    SecExternblItemType dbtbType = (isCertificbte == JNI_TRUE ? kSecFormbtX509Cert : kSecFormbtWrbppedPKCS8);
 
-    // Convert the password obj into a CFStringRef that the keychain importer can use for encryption.
-    SecKeyImportExportParameters paramBlock;
-    CFStringRef passwordStrRef = NULL;
+    // Convert the pbssword obj into b CFStringRef thbt the keychbin importer cbn use for encryption.
+    SecKeyImportExportPbrbmeters pbrbmBlock;
+    CFStringRef pbsswordStrRef = NULL;
 
-    jsize passwordLen = 0;
-    jchar *passwordChars = NULL;
+    jsize pbsswordLen = 0;
+    jchbr *pbsswordChbrs = NULL;
 
-    if (passwordObj) {
-        passwordLen = (*env)->GetArrayLength(env, passwordObj);
-        passwordChars = (*env)->GetCharArrayElements(env, passwordObj, NULL);
-        passwordStrRef = CFStringCreateWithCharacters(kCFAllocatorDefault, passwordChars, passwordLen);
+    if (pbsswordObj) {
+        pbsswordLen = (*env)->GetArrbyLength(env, pbsswordObj);
+        pbsswordChbrs = (*env)->GetChbrArrbyElements(env, pbsswordObj, NULL);
+        pbsswordStrRef = CFStringCrebteWithChbrbcters(kCFAllocbtorDefbult, pbsswordChbrs, pbsswordLen);
     }
 
-    paramBlock.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
-    // Note that setting the flags field **requires** you to pass in a password of some kind.  The keychain will not prompt you.
-    paramBlock.flags = 0;
-    paramBlock.passphrase = passwordStrRef;
-    paramBlock.alertTitle = NULL;
-    paramBlock.alertPrompt = NULL;
-    paramBlock.accessRef = NULL;
-    paramBlock.keyUsage = CSSM_KEYUSE_ANY;
-    paramBlock.keyAttributes = CSSM_KEYATTR_RETURN_DEFAULT;
+    pbrbmBlock.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
+    // Note thbt setting the flbgs field **requires** you to pbss in b pbssword of some kind.  The keychbin will not prompt you.
+    pbrbmBlock.flbgs = 0;
+    pbrbmBlock.pbssphrbse = pbsswordStrRef;
+    pbrbmBlock.blertTitle = NULL;
+    pbrbmBlock.blertPrompt = NULL;
+    pbrbmBlock.bccessRef = NULL;
+    pbrbmBlock.keyUsbge = CSSM_KEYUSE_ANY;
+    pbrbmBlock.keyAttributes = CSSM_KEYATTR_RETURN_DEFAULT;
 
-    err = SecKeychainItemImport(cfDataToImport, NULL, &dataType, NULL,
-                                0, &paramBlock, defaultKeychain, &createdItems);
+    err = SecKeychbinItemImport(cfDbtbToImport, NULL, &dbtbType, NULL,
+                                0, &pbrbmBlock, defbultKeychbin, &crebtedItems);
 
     if (err == noErr) {
-        SecKeychainItemRef anItem = (SecKeychainItemRef)CFArrayGetValueAtIndex(createdItems, 0);
+        SecKeychbinItemRef bnItem = (SecKeychbinItemRef)CFArrbyGetVblueAtIndex(crebtedItems, 0);
 
-        // Don't bother labeling keys. They become part of an identity, and are not an accessible part of the keychain.
-        if (CFGetTypeID(anItem) == SecCertificateGetTypeID()) {
-            setLabelForItem(JNFJavaToNSString(env, alias), anItem);
+        // Don't bother lbbeling keys. They become pbrt of bn identity, bnd bre not bn bccessible pbrt of the keychbin.
+        if (CFGetTypeID(bnItem) == SecCertificbteGetTypeID()) {
+            setLbbelForItem(JNFJbvbToNSString(env, blibs), bnItem);
         }
 
-        // Retain the item, since it will be released once when the array holding it gets released.
-        CFRetain(anItem);
-        returnValue = ptr_to_jlong(anItem);
+        // Retbin the item, since it will be relebsed once when the brrby holding it gets relebsed.
+        CFRetbin(bnItem);
+        returnVblue = ptr_to_jlong(bnItem);
     } else {
-        cssmPerror("_addItemToKeychain: SecKeychainItemImport", err);
+        cssmPerror("_bddItemToKeychbin: SecKeychbinItemImport", err);
     }
 
-    (*env)->ReleaseByteArrayElements(env, rawDataObj, rawData, JNI_ABORT);
+    (*env)->RelebseByteArrbyElements(env, rbwDbtbObj, rbwDbtb, JNI_ABORT);
 
-    if (createdItems != NULL) {
-        CFRelease(createdItems);
+    if (crebtedItems != NULL) {
+        CFRelebse(crebtedItems);
     }
 
 JNF_COCOA_EXIT(env);
 
-    return returnValue;
+    return returnVblue;
 }
 
 /*
- * Class:     apple_security_KeychainStore
- * Method:    _removeItemFromKeychain
- * Signature: (J)I
+ * Clbss:     bpple_security_KeychbinStore
+ * Method:    _removeItemFromKeychbin
+ * Signbture: (J)I
 */
-JNIEXPORT jint JNICALL Java_apple_security_KeychainStore__1removeItemFromKeychain
-(JNIEnv *env, jobject this, jlong keychainItem)
+JNIEXPORT jint JNICALL Jbvb_bpple_security_KeychbinStore__1removeItemFromKeychbin
+(JNIEnv *env, jobject this, jlong keychbinItem)
 {
-    SecKeychainItemRef itemToRemove = jlong_to_ptr(keychainItem);
-    return SecKeychainItemDelete(itemToRemove);
+    SecKeychbinItemRef itemToRemove = jlong_to_ptr(keychbinItem);
+    return SecKeychbinItemDelete(itemToRemove);
 }
 
 /*
- * Class:     apple_security_KeychainStore
- * Method:    _releaseKeychainItemRef
- * Signature: (J)V
+ * Clbss:     bpple_security_KeychbinStore
+ * Method:    _relebseKeychbinItemRef
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_apple_security_KeychainStore__1releaseKeychainItemRef
-(JNIEnv *env, jobject this, jlong keychainItem)
+JNIEXPORT void JNICALL Jbvb_bpple_security_KeychbinStore__1relebseKeychbinItemRef
+(JNIEnv *env, jobject this, jlong keychbinItem)
 {
-    SecKeychainItemRef itemToFree = jlong_to_ptr(keychainItem);
-    CFRelease(itemToFree);
+    SecKeychbinItemRef itemToFree = jlong_to_ptr(keychbinItem);
+    CFRelebse(itemToFree);
 }

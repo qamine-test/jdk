@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.FontFormatException;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.io.FileInputStream;
-import java.lang.ref.WeakReference;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
+import jbvb.bwt.FontFormbtException;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.io.FileInputStrebm;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.FileChbnnel;
 
-public abstract class PhysicalFont extends Font2D {
+public bbstrbct clbss PhysicblFont extends Font2D {
 
-    protected String platName;
-    // nativeNames is a String or a (possibly null) String[].
-    protected Object nativeNames;
+    protected String plbtNbme;
+    // nbtiveNbmes is b String or b (possibly null) String[].
+    protected Object nbtiveNbmes;
 
-    public boolean equals(Object o) {
-        return (o != null && o.getClass() == this.getClass() &&
-                ((Font2D)o).fullName.equals(this.fullName));
+    public boolebn equbls(Object o) {
+        return (o != null && o.getClbss() == this.getClbss() &&
+                ((Font2D)o).fullNbme.equbls(this.fullNbme));
     }
 
-    public int hashCode() {
-        return fullName.hashCode();
+    public int hbshCode() {
+        return fullNbme.hbshCode();
     }
 
     /**
-     * Opens the file (temporarily) and does basic verification.
-     * Initializes the CMAP
-     * @throws FontFormatException - if the font can't be opened
-     * or fails verification,  or there's no usable cmap
+     * Opens the file (temporbrily) bnd does bbsic verificbtion.
+     * Initiblizes the CMAP
+     * @throws FontFormbtException - if the font cbn't be opened
+     * or fbils verificbtion,  or there's no usbble cmbp
      */
-    PhysicalFont(String platname, Object nativeNames)
-        throws FontFormatException {
+    PhysicblFont(String plbtnbme, Object nbtiveNbmes)
+        throws FontFormbtException {
 
-        handle = new Font2DHandle(this);
-        this.platName = platname;
-        this.nativeNames = nativeNames;
+        hbndle = new Font2DHbndle(this);
+        this.plbtNbme = plbtnbme;
+        this.nbtiveNbmes = nbtiveNbmes;
     }
 
-    protected PhysicalFont() {
-        handle = new Font2DHandle(this);
+    protected PhysicblFont() {
+        hbndle = new Font2DHbndle(this);
     }
 
-    /* The following methods are delegated to the font by the strike
-     * for physical fonts as the PhysicalFont holds a shared reference
-     * to the native resource, so all invocations need to be directed
-     * through a synchronization point. Implementations of these methods
-     * will typically be "synchronized native"
+    /* The following methods bre delegbted to the font by the strike
+     * for physicbl fonts bs the PhysicblFont holds b shbred reference
+     * to the nbtive resource, so bll invocbtions need to be directed
+     * through b synchronizbtion point. Implementbtions of these methods
+     * will typicblly be "synchronized nbtive"
      */
 
-    Point2D.Float getGlyphPoint(long pScalerContext,
+    Point2D.Flobt getGlyphPoint(long pScblerContext,
                              int glyphCode, int ptNumber) {
-        return new Point2D.Float();
+        return new Point2D.Flobt();
     }
 
     /* These 3 metrics methods should be implemented to return
-     * values in user space.
+     * vblues in user spbce.
      */
-    abstract StrikeMetrics getFontMetrics(long pScalerContext);
+    bbstrbct StrikeMetrics getFontMetrics(long pScblerContext);
 
-    abstract float getGlyphAdvance(long pScalerContext, int glyphCode);
+    bbstrbct flobt getGlyphAdvbnce(long pScblerContext, int glyphCode);
 
-    abstract void getGlyphMetrics(long pScalerContext, int glyphCode,
-                                  Point2D.Float metrics);
+    bbstrbct void getGlyphMetrics(long pScblerContext, int glyphCode,
+                                  Point2D.Flobt metrics);
 
-    abstract long getGlyphImage(long pScalerContext, int glyphCode);
+    bbstrbct long getGlyphImbge(long pScblerContext, int glyphCode);
 
     /* These 3 outline methods should be implemented to return
-     * values in device space. Callers need to be aware of this
-     * as typically Java client code will need to have them in user space.
+     * vblues in device spbce. Cbllers need to be bwbre of this
+     * bs typicblly Jbvb client code will need to hbve them in user spbce.
      */
-    abstract Rectangle2D.Float getGlyphOutlineBounds(long pScalerContext,
+    bbstrbct Rectbngle2D.Flobt getGlyphOutlineBounds(long pScblerContext,
                                                      int glyphCode);
 
-    abstract GeneralPath getGlyphOutline(long pScalerContext, int glyphCode,
-                                         float x, float y);
+    bbstrbct GenerblPbth getGlyphOutline(long pScblerContext, int glyphCode,
+                                         flobt x, flobt y);
 
-    abstract GeneralPath getGlyphVectorOutline(long pScalerContext,
+    bbstrbct GenerblPbth getGlyphVectorOutline(long pScblerContext,
                                                int[] glyphs, int numGlyphs,
-                                               float x, float y);
+                                               flobt x, flobt y);
 }

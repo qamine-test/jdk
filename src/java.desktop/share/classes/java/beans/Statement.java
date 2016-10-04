@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvb.lbng.reflect.AccessibleObject;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
 
-import com.sun.beans.finder.ClassFinder;
-import com.sun.beans.finder.ConstructorFinder;
-import com.sun.beans.finder.MethodFinder;
+import com.sun.bebns.finder.ClbssFinder;
+import com.sun.bebns.finder.ConstructorFinder;
+import com.sun.bebns.finder.MethodFinder;
 import sun.reflect.misc.MethodUtil;
 
 /**
- * A <code>Statement</code> object represents a primitive statement
- * in which a single method is applied to a target and
- * a set of arguments - as in <code>"a.setFoo(b)"</code>.
- * Note that where this example uses names
- * to denote the target and its argument, a statement
- * object does not require a name space and is constructed with
- * the values themselves.
- * The statement object associates the named method
- * with its environment as a simple set of values:
- * the target and an array of argument values.
+ * A <code>Stbtement</code> object represents b primitive stbtement
+ * in which b single method is bpplied to b tbrget bnd
+ * b set of brguments - bs in <code>"b.setFoo(b)"</code>.
+ * Note thbt where this exbmple uses nbmes
+ * to denote the tbrget bnd its brgument, b stbtement
+ * object does not require b nbme spbce bnd is constructed with
+ * the vblues themselves.
+ * The stbtement object bssocibtes the nbmed method
+ * with its environment bs b simple set of vblues:
+ * the tbrget bnd bn brrby of brgument vblues.
  *
  * @since 1.4
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
-public class Statement {
+public clbss Stbtement {
 
-    private static Object[] emptyArray = new Object[]{};
+    privbte stbtic Object[] emptyArrby = new Object[]{};
 
-    static ExceptionListener defaultExceptionListener = new ExceptionListener() {
+    stbtic ExceptionListener defbultExceptionListener = new ExceptionListener() {
         public void exceptionThrown(Exception e) {
             System.err.println(e);
-            // e.printStackTrace();
+            // e.printStbckTrbce();
             System.err.println("Continuing ...");
         }
     };
 
-    private final AccessControlContext acc = AccessController.getContext();
-    private final Object target;
-    private final String methodName;
-    private final Object[] arguments;
-    ClassLoader loader;
+    privbte finbl AccessControlContext bcc = AccessController.getContext();
+    privbte finbl Object tbrget;
+    privbte finbl String methodNbme;
+    privbte finbl Object[] brguments;
+    ClbssLobder lobder;
 
     /**
-     * Creates a new {@link Statement} object
-     * for the specified target object to invoke the method
-     * specified by the name and by the array of arguments.
+     * Crebtes b new {@link Stbtement} object
+     * for the specified tbrget object to invoke the method
+     * specified by the nbme bnd by the brrby of brguments.
      * <p>
-     * The {@code target} and the {@code methodName} values should not be {@code null}.
-     * Otherwise an attempt to execute this {@code Expression}
-     * will result in a {@code NullPointerException}.
-     * If the {@code arguments} value is {@code null},
-     * an empty array is used as the value of the {@code arguments} property.
+     * The {@code tbrget} bnd the {@code methodNbme} vblues should not be {@code null}.
+     * Otherwise bn bttempt to execute this {@code Expression}
+     * will result in b {@code NullPointerException}.
+     * If the {@code brguments} vblue is {@code null},
+     * bn empty brrby is used bs the vblue of the {@code brguments} property.
      *
-     * @param target  the target object of this statement
-     * @param methodName  the name of the method to invoke on the specified target
-     * @param arguments  the array of arguments to invoke the specified method
+     * @pbrbm tbrget  the tbrget object of this stbtement
+     * @pbrbm methodNbme  the nbme of the method to invoke on the specified tbrget
+     * @pbrbm brguments  the brrby of brguments to invoke the specified method
      */
-    @ConstructorProperties({"target", "methodName", "arguments"})
-    public Statement(Object target, String methodName, Object[] arguments) {
-        this.target = target;
-        this.methodName = methodName;
-        this.arguments = (arguments == null) ? emptyArray : arguments.clone();
+    @ConstructorProperties({"tbrget", "methodNbme", "brguments"})
+    public Stbtement(Object tbrget, String methodNbme, Object[] brguments) {
+        this.tbrget = tbrget;
+        this.methodNbme = methodNbme;
+        this.brguments = (brguments == null) ? emptyArrby : brguments.clone();
     }
 
     /**
-     * Returns the target object of this statement.
+     * Returns the tbrget object of this stbtement.
      * If this method returns {@code null},
      * the {@link #execute} method
-     * throws a {@code NullPointerException}.
+     * throws b {@code NullPointerException}.
      *
-     * @return the target object of this statement
+     * @return the tbrget object of this stbtement
      */
-    public Object getTarget() {
-        return target;
+    public Object getTbrget() {
+        return tbrget;
     }
 
     /**
-     * Returns the name of the method to invoke.
+     * Returns the nbme of the method to invoke.
      * If this method returns {@code null},
      * the {@link #execute} method
-     * throws a {@code NullPointerException}.
+     * throws b {@code NullPointerException}.
      *
-     * @return the name of the method
+     * @return the nbme of the method
      */
-    public String getMethodName() {
-        return methodName;
+    public String getMethodNbme() {
+        return methodNbme;
     }
 
     /**
-     * Returns the arguments for the method to invoke.
-     * The number of arguments and their types
-     * must match the method being  called.
-     * {@code null} can be used as a synonym of an empty array.
+     * Returns the brguments for the method to invoke.
+     * The number of brguments bnd their types
+     * must mbtch the method being  cblled.
+     * {@code null} cbn be used bs b synonym of bn empty brrby.
      *
-     * @return the array of arguments
+     * @return the brrby of brguments
      */
     public Object[] getArguments() {
-        return this.arguments.clone();
+        return this.brguments.clone();
     }
 
     /**
-     * The {@code execute} method finds a method whose name is the same
-     * as the {@code methodName} property, and invokes the method on
-     * the target.
+     * The {@code execute} method finds b method whose nbme is the sbme
+     * bs the {@code methodNbme} property, bnd invokes the method on
+     * the tbrget.
      *
-     * When the target's class defines many methods with the given name
-     * the implementation should choose the most specific method using
-     * the algorithm specified in the Java Language Specification
-     * (15.11). The dynamic class of the target and arguments are used
-     * in place of the compile-time type information and, like the
-     * {@link java.lang.reflect.Method} class itself, conversion between
-     * primitive values and their associated wrapper classes is handled
-     * internally.
+     * When the tbrget's clbss defines mbny methods with the given nbme
+     * the implementbtion should choose the most specific method using
+     * the blgorithm specified in the Jbvb Lbngubge Specificbtion
+     * (15.11). The dynbmic clbss of the tbrget bnd brguments bre used
+     * in plbce of the compile-time type informbtion bnd, like the
+     * {@link jbvb.lbng.reflect.Method} clbss itself, conversion between
+     * primitive vblues bnd their bssocibted wrbpper clbsses is hbndled
+     * internblly.
      * <p>
-     * The following method types are handled as special cases:
+     * The following method types bre hbndled bs specibl cbses:
      * <ul>
      * <li>
-     * Static methods may be called by using a class object as the target.
+     * Stbtic methods mby be cblled by using b clbss object bs the tbrget.
      * <li>
-     * The reserved method name "new" may be used to call a class's constructor
-     * as if all classes defined static "new" methods. Constructor invocations
-     * are typically considered {@code Expression}s rather than {@code Statement}s
-     * as they return a value.
+     * The reserved method nbme "new" mby be used to cbll b clbss's constructor
+     * bs if bll clbsses defined stbtic "new" methods. Constructor invocbtions
+     * bre typicblly considered {@code Expression}s rbther thbn {@code Stbtement}s
+     * bs they return b vblue.
      * <li>
-     * The method names "get" and "set" defined in the {@link java.util.List}
-     * interface may also be applied to array instances, mapping to
-     * the static methods of the same name in the {@code Array} class.
+     * The method nbmes "get" bnd "set" defined in the {@link jbvb.util.List}
+     * interfbce mby blso be bpplied to brrby instbnces, mbpping to
+     * the stbtic methods of the sbme nbme in the {@code Arrby} clbss.
      * </ul>
      *
-     * @throws NullPointerException if the value of the {@code target} or
-     *                              {@code methodName} property is {@code null}
-     * @throws NoSuchMethodException if a matching method is not found
-     * @throws SecurityException if a security manager exists and
-     *                           it denies the method invocation
-     * @throws Exception that is thrown by the invoked method
+     * @throws NullPointerException if the vblue of the {@code tbrget} or
+     *                              {@code methodNbme} property is {@code null}
+     * @throws NoSuchMethodException if b mbtching method is not found
+     * @throws SecurityException if b security mbnbger exists bnd
+     *                           it denies the method invocbtion
+     * @throws Exception thbt is thrown by the invoked method
      *
-     * @see java.lang.reflect.Method
+     * @see jbvb.lbng.reflect.Method
      */
     public void execute() throws Exception {
         invoke();
     }
 
     Object invoke() throws Exception {
-        AccessControlContext acc = this.acc;
-        if ((acc == null) && (System.getSecurityManager() != null)) {
+        AccessControlContext bcc = this.bcc;
+        if ((bcc == null) && (System.getSecurityMbnbger() != null)) {
             throw new SecurityException("AccessControlContext is not set");
         }
         try {
             return AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Object>() {
                         public Object run() throws Exception {
-                            return invokeInternal();
+                            return invokeInternbl();
                         }
                     },
-                    acc
+                    bcc
             );
         }
-        catch (PrivilegedActionException exception) {
+        cbtch (PrivilegedActionException exception) {
             throw exception.getException();
         }
     }
 
-    private Object invokeInternal() throws Exception {
-        Object target = getTarget();
-        String methodName = getMethodName();
+    privbte Object invokeInternbl() throws Exception {
+        Object tbrget = getTbrget();
+        String methodNbme = getMethodNbme();
 
-        if (target == null || methodName == null) {
-            throw new NullPointerException((target == null ? "target" :
-                                            "methodName") + " should not be null");
+        if (tbrget == null || methodNbme == null) {
+            throw new NullPointerException((tbrget == null ? "tbrget" :
+                                            "methodNbme") + " should not be null");
         }
 
-        Object[] arguments = getArguments();
-        if (arguments == null) {
-            arguments = emptyArray;
+        Object[] brguments = getArguments();
+        if (brguments == null) {
+            brguments = emptyArrby;
         }
-        // Class.forName() won't load classes outside
-        // of core from a class inside core. Special
-        // case this method.
-        if (target == Class.class && methodName.equals("forName")) {
-            return ClassFinder.resolveClass((String)arguments[0], this.loader);
+        // Clbss.forNbme() won't lobd clbsses outside
+        // of core from b clbss inside core. Specibl
+        // cbse this method.
+        if (tbrget == Clbss.clbss && methodNbme.equbls("forNbme")) {
+            return ClbssFinder.resolveClbss((String)brguments[0], this.lobder);
         }
-        Class<?>[] argClasses = new Class<?>[arguments.length];
-        for(int i = 0; i < arguments.length; i++) {
-            argClasses[i] = (arguments[i] == null) ? null : arguments[i].getClass();
+        Clbss<?>[] brgClbsses = new Clbss<?>[brguments.length];
+        for(int i = 0; i < brguments.length; i++) {
+            brgClbsses[i] = (brguments[i] == null) ? null : brguments[i].getClbss();
         }
 
         AccessibleObject m = null;
-        if (target instanceof Class) {
+        if (tbrget instbnceof Clbss) {
             /*
-            For class methods, simluate the effect of a meta class
-            by taking the union of the static methods of the
-            actual class, with the instance methods of "Class.class"
-            and the overloaded "newInstance" methods defined by the
+            For clbss methods, simlubte the effect of b metb clbss
+            by tbking the union of the stbtic methods of the
+            bctubl clbss, with the instbnce methods of "Clbss.clbss"
+            bnd the overlobded "newInstbnce" methods defined by the
             constructors.
-            This way "System.class", for example, will perform both
-            the static method getProperties() and the instance method
-            getSuperclass() defined in "Class.class".
+            This wby "System.clbss", for exbmple, will perform both
+            the stbtic method getProperties() bnd the instbnce method
+            getSuperclbss() defined in "Clbss.clbss".
             */
-            if (methodName.equals("new")) {
-                methodName = "newInstance";
+            if (methodNbme.equbls("new")) {
+                methodNbme = "newInstbnce";
             }
-            // Provide a short form for array instantiation by faking an nary-constructor.
-            if (methodName.equals("newInstance") && ((Class)target).isArray()) {
-                Object result = Array.newInstance(((Class)target).getComponentType(), arguments.length);
-                for(int i = 0; i < arguments.length; i++) {
-                    Array.set(result, i, arguments[i]);
+            // Provide b short form for brrby instbntibtion by fbking bn nbry-constructor.
+            if (methodNbme.equbls("newInstbnce") && ((Clbss)tbrget).isArrby()) {
+                Object result = Arrby.newInstbnce(((Clbss)tbrget).getComponentType(), brguments.length);
+                for(int i = 0; i < brguments.length; i++) {
+                    Arrby.set(result, i, brguments[i]);
                 }
                 return result;
             }
-            if (methodName.equals("newInstance") && arguments.length != 0) {
-                // The Character class, as of 1.4, does not have a constructor
-                // which takes a String. All of the other "wrapper" classes
-                // for Java's primitive types have a String constructor so we
-                // fake such a constructor here so that this special case can be
+            if (methodNbme.equbls("newInstbnce") && brguments.length != 0) {
+                // The Chbrbcter clbss, bs of 1.4, does not hbve b constructor
+                // which tbkes b String. All of the other "wrbpper" clbsses
+                // for Jbvb's primitive types hbve b String constructor so we
+                // fbke such b constructor here so thbt this specibl cbse cbn be
                 // ignored elsewhere.
-                if (target == Character.class && arguments.length == 1 &&
-                    argClasses[0] == String.class) {
-                    return ((String)arguments[0]).charAt(0);
+                if (tbrget == Chbrbcter.clbss && brguments.length == 1 &&
+                    brgClbsses[0] == String.clbss) {
+                    return ((String)brguments[0]).chbrAt(0);
                 }
                 try {
-                    m = ConstructorFinder.findConstructor((Class)target, argClasses);
+                    m = ConstructorFinder.findConstructor((Clbss)tbrget, brgClbsses);
                 }
-                catch (NoSuchMethodException exception) {
+                cbtch (NoSuchMethodException exception) {
                     m = null;
                 }
             }
-            if (m == null && target != Class.class) {
-                m = getMethod((Class)target, methodName, argClasses);
+            if (m == null && tbrget != Clbss.clbss) {
+                m = getMethod((Clbss)tbrget, methodNbme, brgClbsses);
             }
             if (m == null) {
-                m = getMethod(Class.class, methodName, argClasses);
+                m = getMethod(Clbss.clbss, methodNbme, brgClbsses);
             }
         }
         else {
             /*
-            This special casing of arrays is not necessary, but makes files
-            involving arrays much shorter and simplifies the archiving infrastrcure.
-            The Array.set() method introduces an unusual idea - that of a static method
-            changing the state of an instance. Normally statements with side
-            effects on objects are instance methods of the objects themselves
-            and we reinstate this rule (perhaps temporarily) by special-casing arrays.
+            This specibl cbsing of brrbys is not necessbry, but mbkes files
+            involving brrbys much shorter bnd simplifies the brchiving infrbstrcure.
+            The Arrby.set() method introduces bn unusubl ideb - thbt of b stbtic method
+            chbnging the stbte of bn instbnce. Normblly stbtements with side
+            effects on objects bre instbnce methods of the objects themselves
+            bnd we reinstbte this rule (perhbps temporbrily) by specibl-cbsing brrbys.
             */
-            if (target.getClass().isArray() &&
-                (methodName.equals("set") || methodName.equals("get"))) {
-                int index = ((Integer)arguments[0]).intValue();
-                if (methodName.equals("get")) {
-                    return Array.get(target, index);
+            if (tbrget.getClbss().isArrby() &&
+                (methodNbme.equbls("set") || methodNbme.equbls("get"))) {
+                int index = ((Integer)brguments[0]).intVblue();
+                if (methodNbme.equbls("get")) {
+                    return Arrby.get(tbrget, index);
                 }
                 else {
-                    Array.set(target, index, arguments[1]);
+                    Arrby.set(tbrget, index, brguments[1]);
                     return null;
                 }
             }
-            m = getMethod(target.getClass(), methodName, argClasses);
+            m = getMethod(tbrget.getClbss(), methodNbme, brgClbsses);
         }
         if (m != null) {
             try {
-                if (m instanceof Method) {
-                    return MethodUtil.invoke((Method)m, target, arguments);
+                if (m instbnceof Method) {
+                    return MethodUtil.invoke((Method)m, tbrget, brguments);
                 }
                 else {
-                    return ((Constructor)m).newInstance(arguments);
+                    return ((Constructor)m).newInstbnce(brguments);
                 }
             }
-            catch (IllegalAccessException iae) {
-                throw new Exception("Statement cannot invoke: " +
-                                    methodName + " on " + target.getClass(),
-                                    iae);
+            cbtch (IllegblAccessException ibe) {
+                throw new Exception("Stbtement cbnnot invoke: " +
+                                    methodNbme + " on " + tbrget.getClbss(),
+                                    ibe);
             }
-            catch (InvocationTargetException ite) {
-                Throwable te = ite.getTargetException();
-                if (te instanceof Exception) {
+            cbtch (InvocbtionTbrgetException ite) {
+                Throwbble te = ite.getTbrgetException();
+                if (te instbnceof Exception) {
                     throw (Exception)te;
                 }
                 else {
@@ -313,50 +313,50 @@ public class Statement {
         throw new NoSuchMethodException(toString());
     }
 
-    String instanceName(Object instance) {
-        if (instance == null) {
+    String instbnceNbme(Object instbnce) {
+        if (instbnce == null) {
             return "null";
-        } else if (instance.getClass() == String.class) {
-            return "\""+(String)instance + "\"";
+        } else if (instbnce.getClbss() == String.clbss) {
+            return "\""+(String)instbnce + "\"";
         } else {
-            // Note: there is a minor problem with using the non-caching
-            // NameGenerator method. The return value will not have
-            // specific information about the inner class name. For example,
-            // In 1.4.2 an inner class would be represented as JList$1 now
-            // would be named Class.
+            // Note: there is b minor problem with using the non-cbching
+            // NbmeGenerbtor method. The return vblue will not hbve
+            // specific informbtion bbout the inner clbss nbme. For exbmple,
+            // In 1.4.2 bn inner clbss would be represented bs JList$1 now
+            // would be nbmed Clbss.
 
-            return NameGenerator.unqualifiedClassName(instance.getClass());
+            return NbmeGenerbtor.unqublifiedClbssNbme(instbnce.getClbss());
         }
     }
 
     /**
-     * Prints the value of this statement using a Java-style syntax.
+     * Prints the vblue of this stbtement using b Jbvb-style syntbx.
      */
     public String toString() {
-        // Respect a subclass's implementation here.
-        Object target = getTarget();
-        String methodName = getMethodName();
-        Object[] arguments = getArguments();
-        if (arguments == null) {
-            arguments = emptyArray;
+        // Respect b subclbss's implementbtion here.
+        Object tbrget = getTbrget();
+        String methodNbme = getMethodNbme();
+        Object[] brguments = getArguments();
+        if (brguments == null) {
+            brguments = emptyArrby;
         }
-        StringBuilder result = new StringBuilder(instanceName(target) + "." + methodName + "(");
-        int n = arguments.length;
+        StringBuilder result = new StringBuilder(instbnceNbme(tbrget) + "." + methodNbme + "(");
+        int n = brguments.length;
         for(int i = 0; i < n; i++) {
-            result.append(instanceName(arguments[i]));
+            result.bppend(instbnceNbme(brguments[i]));
             if (i != n -1) {
-                result.append(", ");
+                result.bppend(", ");
             }
         }
-        result.append(");");
+        result.bppend(");");
         return result.toString();
     }
 
-    static Method getMethod(Class<?> type, String name, Class<?>... args) {
+    stbtic Method getMethod(Clbss<?> type, String nbme, Clbss<?>... brgs) {
         try {
-            return MethodFinder.findMethod(type, name, args);
+            return MethodFinder.findMethod(type, nbme, brgs);
         }
-        catch (NoSuchMethodException exception) {
+        cbtch (NoSuchMethodException exception) {
             return null;
         }
     }

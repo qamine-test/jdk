@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -46,26 +46,26 @@
  */
 
 /*
- * pkcs11wrapper.h
+ * pkcs11wrbpper.h
  * 18.05.2001
  *
- * declaration of all functions used by pkcs11wrapper.c
+ * declbrbtion of bll functions used by pkcs11wrbpper.c
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
 
 #ifndef _PKCS11WRAPPER_H
 #define _PKCS11WRAPPER_H 1
 
-/* disable asserts in product mode */
+/* disbble bsserts in product mode */
 #ifndef DEBUG
   #ifndef NDEBUG
     #define NDEBUG
   #endif
 #endif
 
-/* extra PKCS#11 constants not in the standard include files */
+/* extrb PKCS#11 constbnts not in the stbndbrd include files */
 
 #define CKA_NETSCAPE_BASE                       (0x80000000 + 0x4E534350)
 #define CKA_NETSCAPE_TRUST_BASE                 (CKA_NETSCAPE_BASE + 0x2000)
@@ -77,10 +77,10 @@
 
 /*
 
- Define the PKCS#11 functions to include and exclude. Reduces the size
- of the binary somewhat.
+ Define the PKCS#11 functions to include bnd exclude. Reduces the size
+ of the binbry somewhbt.
 
- This list needs to be kept in sync with the mapfile and PKCS11.java
+ This list needs to be kept in sync with the mbpfile bnd PKCS11.jbvb
 
 */
 
@@ -152,11 +152,11 @@
 #undef  P11_ENABLE_C_CANCELFUNCTION
 #undef  P11_ENABLE_C_WAITFORSLOTEVENT
 
-/* include the platform dependent part of the header */
+/* include the plbtform dependent pbrt of the hebder */
 #include "p11_md.h"
 
 #include "pkcs11.h"
-#include "pkcs-11v2-20a3.h"
+#include "pkcs-11v2-20b3.h"
 #include <jni.h>
 #include <jni_util.h>
 
@@ -166,11 +166,11 @@
 #define MAX_DIGEST_LEN (64)
 
 #ifndef min
-#define min(a, b)       (((a) < (b)) ? (a) : (b))
+#define min(b, b)       (((b) < (b)) ? (b) : (b))
 #endif
 
-#define ckBBoolToJBoolean(x) ((x == TRUE) ? JNI_TRUE : JNI_FALSE);
-#define jBooleanToCKBBool(x) ((x == JNI_TRUE) ? TRUE : FALSE);
+#define ckBBoolToJBoolebn(x) ((x == TRUE) ? JNI_TRUE : JNI_FALSE);
+#define jBoolebnToCKBBool(x) ((x == JNI_TRUE) ? TRUE : FALSE);
 
 #define ckByteToJByte(x) ((jbyte) x)
 #define jByteToCKByte(x) ((CK_BYTE) x)
@@ -181,17 +181,17 @@
 #define ckULongToJLong(x) ((jlong) x)
 #define jLongToCKULong(x) ((CK_ULONG) x)
 
-// For CK_UNAVAILABLE_INFORMATION, always return -1 to avoid 32/64 bit problems.
-#define ckULongSpecialToJLong(x) (((x) == CK_UNAVAILABLE_INFORMATION) \
+// For CK_UNAVAILABLE_INFORMATION, blwbys return -1 to bvoid 32/64 bit problems.
+#define ckULongSpeciblToJLong(x) (((x) == CK_UNAVAILABLE_INFORMATION) \
     ? (jlong)-1 : ((jlong) x))
 
-#define ckCharToJChar(x) ((jchar) x)
-#define jCharToCKChar(x) ((CK_CHAR) x)
+#define ckChbrToJChbr(x) ((jchbr) x)
+#define jChbrToCKChbr(x) ((CK_CHAR) x)
 
-#define ckUTF8CharToJChar(x) ((jchar) x)
-#define jCharToCKUTF8Char(x) ((CK_UTF8CHAR) x)
+#define ckUTF8ChbrToJChbr(x) ((jchbr) x)
+#define jChbrToCKUTF8Chbr(x) ((CK_UTF8CHAR) x)
 
-#define ckFlageToJLong(x) ((jlong) x)
+#define ckFlbgeToJLong(x) ((jlong) x)
 
 #define ckVoidPtrToJObject(x) ((jobject) x)
 #define jObjectToCKVoidPtr(x) ((CK_VOID_PTR) x)
@@ -219,206 +219,206 @@
 
 #define CK_ASSERT_OK 0L
 
-#define CLASS_INFO "sun/security/pkcs11/wrapper/CK_INFO"
-#define CLASS_VERSION "sun/security/pkcs11/wrapper/CK_VERSION"
-#define CLASS_SLOT_INFO "sun/security/pkcs11/wrapper/CK_SLOT_INFO"
-#define CLASS_TOKEN_INFO "sun/security/pkcs11/wrapper/CK_TOKEN_INFO"
-#define CLASS_MECHANISM "sun/security/pkcs11/wrapper/CK_MECHANISM"
-#define CLASS_MECHANISM_INFO "sun/security/pkcs11/wrapper/CK_MECHANISM_INFO"
-#define CLASS_SESSION_INFO "sun/security/pkcs11/wrapper/CK_SESSION_INFO"
-#define CLASS_ATTRIBUTE "sun/security/pkcs11/wrapper/CK_ATTRIBUTE"
-#define CLASS_DATE "sun/security/pkcs11/wrapper/CK_DATE"
-#define CLASS_PKCS11EXCEPTION "sun/security/pkcs11/wrapper/PKCS11Exception"
-#define CLASS_PKCS11RUNTIMEEXCEPTION "sun/security/pkcs11/wrapper/PKCS11RuntimeException"
-#define CLASS_FILE_NOT_FOUND_EXCEPTION "java/io/FileNotFoundException"
-#define CLASS_C_INITIALIZE_ARGS "sun/security/pkcs11/wrapper/CK_C_INITIALIZE_ARGS"
-#define CLASS_CREATEMUTEX "sun/security/pkcs11/wrapper/CK_CREATEMUTEX"
-#define CLASS_DESTROYMUTEX "sun/security/pkcs11/wrapper/CK_DESTROYMUTEX"
-#define CLASS_LOCKMUTEX "sun/security/pkcs11/wrapper/CK_LOCKMUTEX"
-#define CLASS_UNLOCKMUTEX "sun/security/pkcs11/wrapper/CK_UNLOCKMUTEX"
-#define CLASS_NOTIFY "sun/security/pkcs11/wrapper/CK_NOTIFY"
+#define CLASS_INFO "sun/security/pkcs11/wrbpper/CK_INFO"
+#define CLASS_VERSION "sun/security/pkcs11/wrbpper/CK_VERSION"
+#define CLASS_SLOT_INFO "sun/security/pkcs11/wrbpper/CK_SLOT_INFO"
+#define CLASS_TOKEN_INFO "sun/security/pkcs11/wrbpper/CK_TOKEN_INFO"
+#define CLASS_MECHANISM "sun/security/pkcs11/wrbpper/CK_MECHANISM"
+#define CLASS_MECHANISM_INFO "sun/security/pkcs11/wrbpper/CK_MECHANISM_INFO"
+#define CLASS_SESSION_INFO "sun/security/pkcs11/wrbpper/CK_SESSION_INFO"
+#define CLASS_ATTRIBUTE "sun/security/pkcs11/wrbpper/CK_ATTRIBUTE"
+#define CLASS_DATE "sun/security/pkcs11/wrbpper/CK_DATE"
+#define CLASS_PKCS11EXCEPTION "sun/security/pkcs11/wrbpper/PKCS11Exception"
+#define CLASS_PKCS11RUNTIMEEXCEPTION "sun/security/pkcs11/wrbpper/PKCS11RuntimeException"
+#define CLASS_FILE_NOT_FOUND_EXCEPTION "jbvb/io/FileNotFoundException"
+#define CLASS_C_INITIALIZE_ARGS "sun/security/pkcs11/wrbpper/CK_C_INITIALIZE_ARGS"
+#define CLASS_CREATEMUTEX "sun/security/pkcs11/wrbpper/CK_CREATEMUTEX"
+#define CLASS_DESTROYMUTEX "sun/security/pkcs11/wrbpper/CK_DESTROYMUTEX"
+#define CLASS_LOCKMUTEX "sun/security/pkcs11/wrbpper/CK_LOCKMUTEX"
+#define CLASS_UNLOCKMUTEX "sun/security/pkcs11/wrbpper/CK_UNLOCKMUTEX"
+#define CLASS_NOTIFY "sun/security/pkcs11/wrbpper/CK_NOTIFY"
 
 
-/* mechanism parameter classes */
+/* mechbnism pbrbmeter clbsses */
 
-#define CLASS_RSA_PKCS_OAEP_PARAMS "sun/security/pkcs11/wrapper/CK_RSA_PKCS_OAEP_PARAMS"
-#define CLASS_MAC_GENERAL_PARAMS "sun/security/pkcs11/wrapper/CK_MAC_GENERAL_PARAMS"
-#define CLASS_PBE_PARAMS "sun/security/pkcs11/wrapper/CK_PBE_PARAMS"
+#define CLASS_RSA_PKCS_OAEP_PARAMS "sun/security/pkcs11/wrbpper/CK_RSA_PKCS_OAEP_PARAMS"
+#define CLASS_MAC_GENERAL_PARAMS "sun/security/pkcs11/wrbpper/CK_MAC_GENERAL_PARAMS"
+#define CLASS_PBE_PARAMS "sun/security/pkcs11/wrbpper/CK_PBE_PARAMS"
 #define PBE_INIT_VECTOR_SIZE 8
-#define CLASS_PKCS5_PBKD2_PARAMS "sun/security/pkcs11/wrapper/CK_PKCS5_PBKD2_PARAMS"
-#define CLASS_EXTRACT_PARAMS "sun/security/pkcs11/wrapper/CK_EXTRACT_PARAMS"
+#define CLASS_PKCS5_PBKD2_PARAMS "sun/security/pkcs11/wrbpper/CK_PKCS5_PBKD2_PARAMS"
+#define CLASS_EXTRACT_PARAMS "sun/security/pkcs11/wrbpper/CK_EXTRACT_PARAMS"
 
-#define CLASS_RSA_PKCS_PSS_PARAMS "sun/security/pkcs11/wrapper/CK_RSA_PKCS_PSS_PARAMS"
-#define CLASS_ECDH1_DERIVE_PARAMS "sun/security/pkcs11/wrapper/CK_ECDH1_DERIVE_PARAMS"
-#define CLASS_ECDH2_DERIVE_PARAMS "sun/security/pkcs11/wrapper/CK_ECDH2_DERIVE_PARAMS"
-#define CLASS_X9_42_DH1_DERIVE_PARAMS "sun/security/pkcs11/wrapper/CK_X9_42_DH1_DERIVE_PARAMS"
-#define CLASS_X9_42_DH2_DERIVE_PARAMS "sun/security/pkcs11/wrapper/CK_X9_42_DH2_DERIVE_PARAMS"
+#define CLASS_RSA_PKCS_PSS_PARAMS "sun/security/pkcs11/wrbpper/CK_RSA_PKCS_PSS_PARAMS"
+#define CLASS_ECDH1_DERIVE_PARAMS "sun/security/pkcs11/wrbpper/CK_ECDH1_DERIVE_PARAMS"
+#define CLASS_ECDH2_DERIVE_PARAMS "sun/security/pkcs11/wrbpper/CK_ECDH2_DERIVE_PARAMS"
+#define CLASS_X9_42_DH1_DERIVE_PARAMS "sun/security/pkcs11/wrbpper/CK_X9_42_DH1_DERIVE_PARAMS"
+#define CLASS_X9_42_DH2_DERIVE_PARAMS "sun/security/pkcs11/wrbpper/CK_X9_42_DH2_DERIVE_PARAMS"
 
 /*
-#define CLASS_KEA_DERIVE_PARAMS "sun/security/pkcs11/wrapper/CK_KEA_DERIVE_PARAMS"
-#define CLASS_RC2_PARAMS "sun/security/pkcs11/wrapper/CK_RC2_PARAMS"
-#define CLASS_RC2_CBC_PARAMS "sun/security/pkcs11/wrapper/CK_RC2_CBC_PARAMS"
-#define CLASS_RC2_MAC_GENERAL_PARAMS "sun/security/pkcs11/wrapper/CK_RC2_MAC_GENERAL_PARAMS"
-#define CLASS_RC5_PARAMS "sun/security/pkcs11/wrapper/CK_RC5_PARAMS"
-#define CLASS_RC5_CBC_PARAMS "sun/security/pkcs11/wrapper/CK_RC5_CBC_PARAMS"
-#define CLASS_RC5_MAC_GENERAL_PARAMS "sun/security/pkcs11/wrapper/CK_RC5_MAC_GENERAL_PARAMS"
-#define CLASS_SKIPJACK_PRIVATE_WRAP_PARAMS "sun/security/pkcs11/wrapper/CK_SKIPJACK_PRIVATE_WRAP_PARAMS"
-#define CLASS_SKIPJACK_RELAYX_PARAMS "sun/security/pkcs11/wrapper/CK_SKIPJACK_RELAYX_PARAMS"
-#define CLASS_KEY_WRAP_SET_OAEP_PARAMS "sun/security/pkcs11/wrapper/CK_KEY_WRAP_SET_OAEP_PARAMS"
-#define CLASS_KEY_DERIVATION_STRING_DATA "sun/security/pkcs11/wrapper/CK_KEY_DERIVATION_STRING_DATA"
+#define CLASS_KEA_DERIVE_PARAMS "sun/security/pkcs11/wrbpper/CK_KEA_DERIVE_PARAMS"
+#define CLASS_RC2_PARAMS "sun/security/pkcs11/wrbpper/CK_RC2_PARAMS"
+#define CLASS_RC2_CBC_PARAMS "sun/security/pkcs11/wrbpper/CK_RC2_CBC_PARAMS"
+#define CLASS_RC2_MAC_GENERAL_PARAMS "sun/security/pkcs11/wrbpper/CK_RC2_MAC_GENERAL_PARAMS"
+#define CLASS_RC5_PARAMS "sun/security/pkcs11/wrbpper/CK_RC5_PARAMS"
+#define CLASS_RC5_CBC_PARAMS "sun/security/pkcs11/wrbpper/CK_RC5_CBC_PARAMS"
+#define CLASS_RC5_MAC_GENERAL_PARAMS "sun/security/pkcs11/wrbpper/CK_RC5_MAC_GENERAL_PARAMS"
+#define CLASS_SKIPJACK_PRIVATE_WRAP_PARAMS "sun/security/pkcs11/wrbpper/CK_SKIPJACK_PRIVATE_WRAP_PARAMS"
+#define CLASS_SKIPJACK_RELAYX_PARAMS "sun/security/pkcs11/wrbpper/CK_SKIPJACK_RELAYX_PARAMS"
+#define CLASS_KEY_WRAP_SET_OAEP_PARAMS "sun/security/pkcs11/wrbpper/CK_KEY_WRAP_SET_OAEP_PARAMS"
+#define CLASS_KEY_DERIVATION_STRING_DATA "sun/security/pkcs11/wrbpper/CK_KEY_DERIVATION_STRING_DATA"
 */
 
-#define CLASS_SSL3_RANDOM_DATA "sun/security/pkcs11/wrapper/CK_SSL3_RANDOM_DATA"
+#define CLASS_SSL3_RANDOM_DATA "sun/security/pkcs11/wrbpper/CK_SSL3_RANDOM_DATA"
 // CLASS_SSL3_RANDOM_DATA is used by CLASS_SSL3_MASTER_KEY_DERIVE_PARAMS
-#define CLASS_SSL3_KEY_MAT_OUT "sun/security/pkcs11/wrapper/CK_SSL3_KEY_MAT_OUT"
+#define CLASS_SSL3_KEY_MAT_OUT "sun/security/pkcs11/wrbpper/CK_SSL3_KEY_MAT_OUT"
 // CLASS_SSL3_KEY_MAT_OUT is used by CLASS_SSL3_KEY_MAT_PARAMS
-#define CLASS_SSL3_MASTER_KEY_DERIVE_PARAMS "sun/security/pkcs11/wrapper/CK_SSL3_MASTER_KEY_DERIVE_PARAMS"
-#define CLASS_SSL3_KEY_MAT_PARAMS "sun/security/pkcs11/wrapper/CK_SSL3_KEY_MAT_PARAMS"
-#define CLASS_TLS_PRF_PARAMS "sun/security/pkcs11/wrapper/CK_TLS_PRF_PARAMS"
-#define CLASS_AES_CTR_PARAMS "sun/security/pkcs11/wrapper/CK_AES_CTR_PARAMS"
+#define CLASS_SSL3_MASTER_KEY_DERIVE_PARAMS "sun/security/pkcs11/wrbpper/CK_SSL3_MASTER_KEY_DERIVE_PARAMS"
+#define CLASS_SSL3_KEY_MAT_PARAMS "sun/security/pkcs11/wrbpper/CK_SSL3_KEY_MAT_PARAMS"
+#define CLASS_TLS_PRF_PARAMS "sun/security/pkcs11/wrbpper/CK_TLS_PRF_PARAMS"
+#define CLASS_AES_CTR_PARAMS "sun/security/pkcs11/wrbpper/CK_AES_CTR_PARAMS"
 
-/* function to convert a PKCS#11 return value other than CK_OK into a Java Exception
- * or to throw a PKCS11RuntimeException
+/* function to convert b PKCS#11 return vblue other thbn CK_OK into b Jbvb Exception
+ * or to throw b PKCS11RuntimeException
  */
 
-jlong ckAssertReturnValueOK(JNIEnv *env, CK_RV returnValue);
-void throwOutOfMemoryError(JNIEnv *env, const char *message);
-void throwNullPointerException(JNIEnv *env, const char *message);
-void throwIOException(JNIEnv *env, const char *message);
-void throwPKCS11RuntimeException(JNIEnv *env, const char *message);
+jlong ckAssertReturnVblueOK(JNIEnv *env, CK_RV returnVblue);
+void throwOutOfMemoryError(JNIEnv *env, const chbr *messbge);
+void throwNullPointerException(JNIEnv *env, const chbr *messbge);
+void throwIOException(JNIEnv *env, const chbr *messbge);
+void throwPKCS11RuntimeException(JNIEnv *env, const chbr *messbge);
 void throwDisconnectedRuntimeException(JNIEnv *env);
 
-/* function to free CK_ATTRIBUTE array
+/* function to free CK_ATTRIBUTE brrby
  */
-void freeCKAttributeArray(CK_ATTRIBUTE_PTR attrPtr, int len);
+void freeCKAttributeArrby(CK_ATTRIBUTE_PTR bttrPtr, int len);
 
-/* funktions to convert Java arrays to a CK-type array and the array length */
+/* funktions to convert Jbvb brrbys to b CK-type brrby bnd the brrby length */
 
-void jBooleanArrayToCKBBoolArray(JNIEnv *env, const jbooleanArray jArray, CK_BBOOL **ckpArray, CK_ULONG_PTR ckLength);
-void jByteArrayToCKByteArray(JNIEnv *env, const jbyteArray jArray, CK_BYTE_PTR *ckpArray, CK_ULONG_PTR ckLength);
-void jLongArrayToCKULongArray(JNIEnv *env, const jlongArray jArray, CK_ULONG_PTR *ckpArray, CK_ULONG_PTR ckLength);
-void jCharArrayToCKCharArray(JNIEnv *env, const jcharArray jArray, CK_CHAR_PTR *ckpArray, CK_ULONG_PTR ckLength);
-void jCharArrayToCKUTF8CharArray(JNIEnv *env, const jcharArray jArray, CK_UTF8CHAR_PTR *ckpArray, CK_ULONG_PTR ckLength);
-void jStringToCKUTF8CharArray(JNIEnv *env, const jstring jArray, CK_UTF8CHAR_PTR *ckpArray, CK_ULONG_PTR ckpLength);
-void jAttributeArrayToCKAttributeArray(JNIEnv *env, jobjectArray jAArray, CK_ATTRIBUTE_PTR *ckpArray, CK_ULONG_PTR ckpLength);
-/*void jObjectArrayToCKVoidPtrArray(JNIEnv *env, const jobjectArray jArray, CK_VOID_PTR_PTR ckpArray, CK_ULONG_PTR ckpLength); */
-
-
-/* funktions to convert a CK-type array and the array length to a Java array */
-
-jbyteArray ckByteArrayToJByteArray(JNIEnv *env, const CK_BYTE_PTR ckpArray, CK_ULONG ckLength);
-jlongArray ckULongArrayToJLongArray(JNIEnv *env, const CK_ULONG_PTR ckpArray, CK_ULONG ckLength);
-jcharArray ckCharArrayToJCharArray(JNIEnv *env, const CK_CHAR_PTR ckpArray, CK_ULONG length);
-jcharArray ckUTF8CharArrayToJCharArray(JNIEnv *env, const CK_UTF8CHAR_PTR ckpArray, CK_ULONG ckLength);
+void jBoolebnArrbyToCKBBoolArrby(JNIEnv *env, const jboolebnArrby jArrby, CK_BBOOL **ckpArrby, CK_ULONG_PTR ckLength);
+void jByteArrbyToCKByteArrby(JNIEnv *env, const jbyteArrby jArrby, CK_BYTE_PTR *ckpArrby, CK_ULONG_PTR ckLength);
+void jLongArrbyToCKULongArrby(JNIEnv *env, const jlongArrby jArrby, CK_ULONG_PTR *ckpArrby, CK_ULONG_PTR ckLength);
+void jChbrArrbyToCKChbrArrby(JNIEnv *env, const jchbrArrby jArrby, CK_CHAR_PTR *ckpArrby, CK_ULONG_PTR ckLength);
+void jChbrArrbyToCKUTF8ChbrArrby(JNIEnv *env, const jchbrArrby jArrby, CK_UTF8CHAR_PTR *ckpArrby, CK_ULONG_PTR ckLength);
+void jStringToCKUTF8ChbrArrby(JNIEnv *env, const jstring jArrby, CK_UTF8CHAR_PTR *ckpArrby, CK_ULONG_PTR ckpLength);
+void jAttributeArrbyToCKAttributeArrby(JNIEnv *env, jobjectArrby jAArrby, CK_ATTRIBUTE_PTR *ckpArrby, CK_ULONG_PTR ckpLength);
+/*void jObjectArrbyToCKVoidPtrArrby(JNIEnv *env, const jobjectArrby jArrby, CK_VOID_PTR_PTR ckpArrby, CK_ULONG_PTR ckpLength); */
 
 
-/* funktions to convert a CK-type structure or a pointer to a CK-value to a Java object */
+/* funktions to convert b CK-type brrby bnd the brrby length to b Jbvb brrby */
 
-jobject ckBBoolPtrToJBooleanObject(JNIEnv *env, const CK_BBOOL* ckpValue);
-jobject ckULongPtrToJLongObject(JNIEnv *env, const CK_ULONG_PTR ckpValue);
-jobject ckDatePtrToJDateObject(JNIEnv *env, const CK_DATE *ckpValue);
+jbyteArrby ckByteArrbyToJByteArrby(JNIEnv *env, const CK_BYTE_PTR ckpArrby, CK_ULONG ckLength);
+jlongArrby ckULongArrbyToJLongArrby(JNIEnv *env, const CK_ULONG_PTR ckpArrby, CK_ULONG ckLength);
+jchbrArrby ckChbrArrbyToJChbrArrby(JNIEnv *env, const CK_CHAR_PTR ckpArrby, CK_ULONG length);
+jchbrArrby ckUTF8ChbrArrbyToJChbrArrby(JNIEnv *env, const CK_UTF8CHAR_PTR ckpArrby, CK_ULONG ckLength);
+
+
+/* funktions to convert b CK-type structure or b pointer to b CK-vblue to b Jbvb object */
+
+jobject ckBBoolPtrToJBoolebnObject(JNIEnv *env, const CK_BBOOL* ckpVblue);
+jobject ckULongPtrToJLongObject(JNIEnv *env, const CK_ULONG_PTR ckpVblue);
+jobject ckDbtePtrToJDbteObject(JNIEnv *env, const CK_DATE *ckpVblue);
 jobject ckVersionPtrToJVersion(JNIEnv *env, const CK_VERSION_PTR ckpVersion);
 jobject ckSessionInfoPtrToJSessionInfo(JNIEnv *env, const CK_SESSION_INFO_PTR ckpSessionInfo);
 jobject ckAttributePtrToJAttribute(JNIEnv *env, const CK_ATTRIBUTE_PTR ckpAttribute);
 
 
-/* funktion to convert the CK-value used by the CK_ATTRIBUTE structure to a Java object */
+/* funktion to convert the CK-vblue used by the CK_ATTRIBUTE structure to b Jbvb object */
 
-jobject ckAttributeValueToJObject(JNIEnv *env, const CK_ATTRIBUTE_PTR ckpAttribute);
+jobject ckAttributeVblueToJObject(JNIEnv *env, const CK_ATTRIBUTE_PTR ckpAttribute);
 
 
-/* funktions to convert a Java object to a CK-type structure or a pointer to a CK-value */
+/* funktions to convert b Jbvb object to b CK-type structure or b pointer to b CK-vblue */
 
-CK_BBOOL* jBooleanObjectToCKBBoolPtr(JNIEnv *env, jobject jObject);
+CK_BBOOL* jBoolebnObjectToCKBBoolPtr(JNIEnv *env, jobject jObject);
 CK_BYTE_PTR jByteObjectToCKBytePtr(JNIEnv *env, jobject jObject);
 CK_ULONG* jIntegerObjectToCKULongPtr(JNIEnv *env, jobject jObject);
 CK_ULONG* jLongObjectToCKULongPtr(JNIEnv *env, jobject jObject);
-CK_CHAR_PTR jCharObjectToCKCharPtr(JNIEnv *env, jobject jObject);
+CK_CHAR_PTR jChbrObjectToCKChbrPtr(JNIEnv *env, jobject jObject);
 CK_VERSION_PTR jVersionToCKVersionPtr(JNIEnv *env, jobject jVersion);
-CK_DATE * jDateObjectPtrToCKDatePtr(JNIEnv *env, jobject jDate);
+CK_DATE * jDbteObjectPtrToCKDbtePtr(JNIEnv *env, jobject jDbte);
 CK_ATTRIBUTE jAttributeToCKAttribute(JNIEnv *env, jobject jAttribute);
-/*CK_MECHANISM jMechanismToCKMechanism(JNIEnv *env, jobject jMechanism);*/
-void jMechanismToCKMechanism(JNIEnv *env, jobject jMechanism, CK_MECHANISM_PTR ckMechanismPtr);
+/*CK_MECHANISM jMechbnismToCKMechbnism(JNIEnv *env, jobject jMechbnism);*/
+void jMechbnismToCKMechbnism(JNIEnv *env, jobject jMechbnism, CK_MECHANISM_PTR ckMechbnismPtr);
 
 
-/* funktions to convert Java objects used by the Mechanism and Attribute class to a CK-type structure */
+/* funktions to convert Jbvb objects used by the Mechbnism bnd Attribute clbss to b CK-type structure */
 
 void jObjectToPrimitiveCKObjectPtrPtr(JNIEnv *env, jobject jObject, CK_VOID_PTR *ckpObjectPtr, CK_ULONG *pLength);
-void jMechanismParameterToCKMechanismParameter(JNIEnv *env, jobject jParam, CK_VOID_PTR *ckpParamPtr, CK_ULONG *ckpLength);
+void jMechbnismPbrbmeterToCKMechbnismPbrbmeter(JNIEnv *env, jobject jPbrbm, CK_VOID_PTR *ckpPbrbmPtr, CK_ULONG *ckpLength);
 
 
-/* functions to convert a specific Java mechanism parameter object to a CK-mechanism parameter structure */
+/* functions to convert b specific Jbvb mechbnism pbrbmeter object to b CK-mechbnism pbrbmeter structure */
 
-CK_RSA_PKCS_OAEP_PARAMS jRsaPkcsOaepParamToCKRsaPkcsOaepParam(JNIEnv *env, jobject jParam);
-CK_KEA_DERIVE_PARAMS jKeaDeriveParamToCKKeaDeriveParam(JNIEnv *env, jobject jParam);
-CK_RC2_CBC_PARAMS jRc2CbcParamToCKRc2CbcParam(JNIEnv *env, jobject jParam);
-CK_RC2_MAC_GENERAL_PARAMS jRc2MacGeneralParamToCKRc2MacGeneralParam(JNIEnv *env, jobject jParam);
-CK_RC5_PARAMS jRc5ParamToCKRc5Param(JNIEnv *env, jobject jParam);
-CK_RC5_CBC_PARAMS jRc5CbcParamToCKRc5CbcParam(JNIEnv *env, jobject jParam);
-CK_RC5_MAC_GENERAL_PARAMS jRc5MacGeneralParamToCKRc5MacGeneralParam(JNIEnv *env, jobject jParam);
-CK_SKIPJACK_PRIVATE_WRAP_PARAMS jSkipjackPrivateWrapParamToCKSkipjackPrivateWrapParam(JNIEnv *env, jobject jParam);
-CK_SKIPJACK_RELAYX_PARAMS jSkipjackRelayxParamToCKSkipjackRelayxParam(JNIEnv *env, jobject jParam);
-CK_PBE_PARAMS jPbeParamToCKPbeParam(JNIEnv *env, jobject jParam);
-void copyBackPBEInitializationVector(JNIEnv *env, CK_MECHANISM *ckMechanism, jobject jMechanism);
-CK_PKCS5_PBKD2_PARAMS jPkcs5Pbkd2ParamToCKPkcs5Pbkd2Param(JNIEnv *env, jobject jParam);
-CK_KEY_WRAP_SET_OAEP_PARAMS jKeyWrapSetOaepParamToCKKeyWrapSetOaepParam(JNIEnv *env, jobject jParam);
-void copyBackSetUnwrappedKey(JNIEnv *env, CK_MECHANISM *ckMechanism, jobject jMechanism);
-CK_SSL3_MASTER_KEY_DERIVE_PARAMS jSsl3MasterKeyDeriveParamToCKSsl3MasterKeyDeriveParam(JNIEnv *env, jobject jParam);
-void copyBackClientVersion(JNIEnv *env, CK_MECHANISM *ckMechanism, jobject jMechanism);
-CK_SSL3_KEY_MAT_PARAMS jSsl3KeyMatParamToCKSsl3KeyMatParam(JNIEnv *env, jobject jParam);
-void copyBackSSLKeyMatParams(JNIEnv *env, CK_MECHANISM *ckMechanism, jobject jMechanism);
-CK_KEY_DERIVATION_STRING_DATA jKeyDerivationStringDataToCKKeyDerivationStringData(JNIEnv *env, jobject jParam);
-CK_RSA_PKCS_PSS_PARAMS jRsaPkcsPssParamToCKRsaPkcsPssParam(JNIEnv *env, jobject jParam);
-CK_ECDH1_DERIVE_PARAMS jEcdh1DeriveParamToCKEcdh1DeriveParam(JNIEnv *env, jobject jParam);
-CK_ECDH2_DERIVE_PARAMS jEcdh2DeriveParamToCKEcdh2DeriveParam(JNIEnv *env, jobject jParam);
-CK_X9_42_DH1_DERIVE_PARAMS jX942Dh1DeriveParamToCKX942Dh1DeriveParam(JNIEnv *env, jobject jParam);
-CK_X9_42_DH2_DERIVE_PARAMS jX942Dh2DeriveParamToCKX942Dh2DeriveParam(JNIEnv *env, jobject jParam);
+CK_RSA_PKCS_OAEP_PARAMS jRsbPkcsObepPbrbmToCKRsbPkcsObepPbrbm(JNIEnv *env, jobject jPbrbm);
+CK_KEA_DERIVE_PARAMS jKebDerivePbrbmToCKKebDerivePbrbm(JNIEnv *env, jobject jPbrbm);
+CK_RC2_CBC_PARAMS jRc2CbcPbrbmToCKRc2CbcPbrbm(JNIEnv *env, jobject jPbrbm);
+CK_RC2_MAC_GENERAL_PARAMS jRc2MbcGenerblPbrbmToCKRc2MbcGenerblPbrbm(JNIEnv *env, jobject jPbrbm);
+CK_RC5_PARAMS jRc5PbrbmToCKRc5Pbrbm(JNIEnv *env, jobject jPbrbm);
+CK_RC5_CBC_PARAMS jRc5CbcPbrbmToCKRc5CbcPbrbm(JNIEnv *env, jobject jPbrbm);
+CK_RC5_MAC_GENERAL_PARAMS jRc5MbcGenerblPbrbmToCKRc5MbcGenerblPbrbm(JNIEnv *env, jobject jPbrbm);
+CK_SKIPJACK_PRIVATE_WRAP_PARAMS jSkipjbckPrivbteWrbpPbrbmToCKSkipjbckPrivbteWrbpPbrbm(JNIEnv *env, jobject jPbrbm);
+CK_SKIPJACK_RELAYX_PARAMS jSkipjbckRelbyxPbrbmToCKSkipjbckRelbyxPbrbm(JNIEnv *env, jobject jPbrbm);
+CK_PBE_PARAMS jPbePbrbmToCKPbePbrbm(JNIEnv *env, jobject jPbrbm);
+void copyBbckPBEInitiblizbtionVector(JNIEnv *env, CK_MECHANISM *ckMechbnism, jobject jMechbnism);
+CK_PKCS5_PBKD2_PARAMS jPkcs5Pbkd2PbrbmToCKPkcs5Pbkd2Pbrbm(JNIEnv *env, jobject jPbrbm);
+CK_KEY_WRAP_SET_OAEP_PARAMS jKeyWrbpSetObepPbrbmToCKKeyWrbpSetObepPbrbm(JNIEnv *env, jobject jPbrbm);
+void copyBbckSetUnwrbppedKey(JNIEnv *env, CK_MECHANISM *ckMechbnism, jobject jMechbnism);
+CK_SSL3_MASTER_KEY_DERIVE_PARAMS jSsl3MbsterKeyDerivePbrbmToCKSsl3MbsterKeyDerivePbrbm(JNIEnv *env, jobject jPbrbm);
+void copyBbckClientVersion(JNIEnv *env, CK_MECHANISM *ckMechbnism, jobject jMechbnism);
+CK_SSL3_KEY_MAT_PARAMS jSsl3KeyMbtPbrbmToCKSsl3KeyMbtPbrbm(JNIEnv *env, jobject jPbrbm);
+void copyBbckSSLKeyMbtPbrbms(JNIEnv *env, CK_MECHANISM *ckMechbnism, jobject jMechbnism);
+CK_KEY_DERIVATION_STRING_DATA jKeyDerivbtionStringDbtbToCKKeyDerivbtionStringDbtb(JNIEnv *env, jobject jPbrbm);
+CK_RSA_PKCS_PSS_PARAMS jRsbPkcsPssPbrbmToCKRsbPkcsPssPbrbm(JNIEnv *env, jobject jPbrbm);
+CK_ECDH1_DERIVE_PARAMS jEcdh1DerivePbrbmToCKEcdh1DerivePbrbm(JNIEnv *env, jobject jPbrbm);
+CK_ECDH2_DERIVE_PARAMS jEcdh2DerivePbrbmToCKEcdh2DerivePbrbm(JNIEnv *env, jobject jPbrbm);
+CK_X9_42_DH1_DERIVE_PARAMS jX942Dh1DerivePbrbmToCKX942Dh1DerivePbrbm(JNIEnv *env, jobject jPbrbm);
+CK_X9_42_DH2_DERIVE_PARAMS jX942Dh2DerivePbrbmToCKX942Dh2DerivePbrbm(JNIEnv *env, jobject jPbrbm);
 
 
-/* functions to convert the InitArgs object for calling the right Java mutex functions */
+/* functions to convert the InitArgs object for cblling the right Jbvb mutex functions */
 
-CK_C_INITIALIZE_ARGS_PTR makeCKInitArgsAdapter(JNIEnv *env, jobject pInitArgs);
+CK_C_INITIALIZE_ARGS_PTR mbkeCKInitArgsAdbpter(JNIEnv *env, jobject pInitArgs);
 
-#ifndef NO_CALLBACKS /* if the library should not make callbacks; e.g. no javai.lib or jvm.lib available */
-CK_RV callJCreateMutex(CK_VOID_PTR_PTR ppMutex);
-CK_RV callJDestroyMutex(CK_VOID_PTR pMutex);
-CK_RV callJLockMutex(CK_VOID_PTR pMutex);
-CK_RV callJUnlockMutex(CK_VOID_PTR pMutex);
+#ifndef NO_CALLBACKS /* if the librbry should not mbke cbllbbcks; e.g. no jbvbi.lib or jvm.lib bvbilbble */
+CK_RV cbllJCrebteMutex(CK_VOID_PTR_PTR ppMutex);
+CK_RV cbllJDestroyMutex(CK_VOID_PTR pMutex);
+CK_RV cbllJLockMutex(CK_VOID_PTR pMutex);
+CK_RV cbllJUnlockMutex(CK_VOID_PTR pMutex);
 #endif /* NO_CALLBACKS */
 
-void putModuleEntry(JNIEnv *env, jobject pkcs11Implementation, ModuleData *moduleData);
-ModuleData * removeModuleEntry(JNIEnv *env, jobject pkcs11Implementation);
-CK_FUNCTION_LIST_PTR getFunctionList(JNIEnv *env, jobject pkcs11Implementation);
+void putModuleEntry(JNIEnv *env, jobject pkcs11Implementbtion, ModuleDbtb *moduleDbtb);
+ModuleDbtb * removeModuleEntry(JNIEnv *env, jobject pkcs11Implementbtion);
+CK_FUNCTION_LIST_PTR getFunctionList(JNIEnv *env, jobject pkcs11Implementbtion);
 
-/* A structure to encapsulate the required data for a Notify callback */
-struct NotifyEncapsulation {
+/* A structure to encbpsulbte the required dbtb for b Notify cbllbbck */
+struct NotifyEncbpsulbtion {
 
-    /* The object that implements the CK_NOTIFY interface and which should be
+    /* The object thbt implements the CK_NOTIFY interfbce bnd which should be
      * notified.
      */
     jobject jNotifyObject;
 
-    /* The data object to pass back to the Notify object upon callback. */
-    jobject jApplicationData;
+    /* The dbtb object to pbss bbck to the Notify object upon cbllbbck. */
+    jobject jApplicbtionDbtb;
 };
-typedef struct NotifyEncapsulation NotifyEncapsulation;
+typedef struct NotifyEncbpsulbtion NotifyEncbpsulbtion;
 
-/* The function for handling notify callbacks. */
-CK_RV notifyCallback(
-    CK_SESSION_HANDLE hSession,     /* the session's handle */
+/* The function for hbndling notify cbllbbcks. */
+CK_RV notifyCbllbbck(
+    CK_SESSION_HANDLE hSession,     /* the session's hbndle */
     CK_NOTIFICATION   event,
-    CK_VOID_PTR       pApplication  /* passed to C_OpenSession */
+    CK_VOID_PTR       pApplicbtion  /* pbssed to C_OpenSession */
 );
 
 
-/* A node of the list of notify callbacks. To be able to free the resources after use. */
+/* A node of the list of notify cbllbbcks. To be bble to free the resources bfter use. */
 struct NotifyListNode {
 
-    /* The handle of the session this notify object is attached to*/
+    /* The hbndle of the session this notify object is bttbched to*/
     CK_SESSION_HANDLE hSession;
 
-    /* Reference to the Notify encapsulation object that was passed to C_OpenSession. */
-    NotifyEncapsulation *notifyEncapsulation;
+    /* Reference to the Notify encbpsulbtion object thbt wbs pbssed to C_OpenSession. */
+    NotifyEncbpsulbtion *notifyEncbpsulbtion;
 
     /* Pointer to the next node in the list. */
     struct NotifyListNode *next;
@@ -426,41 +426,41 @@ struct NotifyListNode {
 };
 typedef struct NotifyListNode NotifyListNode;
 
-void putNotifyEntry(JNIEnv *env, CK_SESSION_HANDLE hSession, NotifyEncapsulation *notifyEncapsulation);
-NotifyEncapsulation * removeNotifyEntry(JNIEnv *env, CK_SESSION_HANDLE hSession);
-NotifyEncapsulation * removeFirstNotifyEntry(JNIEnv *env);
+void putNotifyEntry(JNIEnv *env, CK_SESSION_HANDLE hSession, NotifyEncbpsulbtion *notifyEncbpsulbtion);
+NotifyEncbpsulbtion * removeNotifyEntry(JNIEnv *env, CK_SESSION_HANDLE hSession);
+NotifyEncbpsulbtion * removeFirstNotifyEntry(JNIEnv *env);
 
-jobject createLockObject(JNIEnv *env);
+jobject crebteLockObject(JNIEnv *env);
 void destroyLockObject(JNIEnv *env, jobject jLockObject);
 
-extern jfieldID pNativeDataID;
-extern jfieldID mech_mechanismID;
-extern jfieldID mech_pParameterID;
+extern jfieldID pNbtiveDbtbID;
+extern jfieldID mech_mechbnismID;
+extern jfieldID mech_pPbrbmeterID;
 
-extern jclass jByteArrayClass;
-extern jclass jLongClass;
+extern jclbss jByteArrbyClbss;
+extern jclbss jLongClbss;
 
 #ifndef NO_CALLBACKS
-extern NotifyListNode *notifyListHead;
+extern NotifyListNode *notifyListHebd;
 extern jobject notifyListLock;
 
 extern jobject jInitArgsObject;
-extern CK_C_INITIALIZE_ARGS_PTR ckpGlobalInitArgs;
+extern CK_C_INITIALIZE_ARGS_PTR ckpGlobblInitArgs;
 #endif /* NO_CALLBACKS */
 
 #ifdef P11_MEMORYDEBUG
 #include <stdlib.h>
 
-/* Simple malloc/free dumper */
-void *p11malloc(size_t c, char *file, int line);
-void p11free(void *p, char *file, int line);
+/* Simple mblloc/free dumper */
+void *p11mblloc(size_t c, chbr *file, int line);
+void p11free(void *p, chbr *file, int line);
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
-#define malloc(c)       (p11malloc((c), THIS_FILE, __LINE__))
+#define mblloc(c)       (p11mblloc((c), THIS_FILE, __LINE__))
 #define free(c)         (p11free((c), THIS_FILE, __LINE__))
 
 #endif

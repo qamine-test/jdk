@@ -1,310 +1,310 @@
 /*
- * Copyright (c) 1997, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * This class represents the Authority Key Identifier Extension.
+ * This clbss represents the Authority Key Identifier Extension.
  *
- * <p>The authority key identifier extension provides a means of
- * identifying the particular public key used to sign a certificate.
- * This extension would be used where an issuer has multiple signing
- * keys (either due to multiple concurrent key pairs or due to
- * changeover).
+ * <p>The buthority key identifier extension provides b mebns of
+ * identifying the pbrticulbr public key used to sign b certificbte.
+ * This extension would be used where bn issuer hbs multiple signing
+ * keys (either due to multiple concurrent key pbirs or due to
+ * chbngeover).
  * <p>
- * The ASN.1 syntax for this is:
+ * The ASN.1 syntbx for this is:
  * <pre>
  * AuthorityKeyIdentifier ::= SEQUENCE {
  *    keyIdentifier             [0] KeyIdentifier           OPTIONAL,
- *    authorityCertIssuer       [1] GeneralNames            OPTIONAL,
- *    authorityCertSerialNumber [2] CertificateSerialNumber OPTIONAL
+ *    buthorityCertIssuer       [1] GenerblNbmes            OPTIONAL,
+ *    buthorityCertSeriblNumber [2] CertificbteSeriblNumber OPTIONAL
  * }
  * KeyIdentifier ::= OCTET STRING
  * </pre>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see Extension
  * @see CertAttrSet
  */
-public class AuthorityKeyIdentifierExtension extends Extension
+public clbss AuthorityKeyIdentifierExtension extends Extension
 implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT =
+    public stbtic finbl String IDENT =
                          "x509.info.extensions.AuthorityKeyIdentifier";
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "AuthorityKeyIdentifier";
-    public static final String KEY_ID = "key_id";
-    public static final String AUTH_NAME = "auth_name";
-    public static final String SERIAL_NUMBER = "serial_number";
+    public stbtic finbl String NAME = "AuthorityKeyIdentifier";
+    public stbtic finbl String KEY_ID = "key_id";
+    public stbtic finbl String AUTH_NAME = "buth_nbme";
+    public stbtic finbl String SERIAL_NUMBER = "seribl_number";
 
-    // Private data members
-    private static final byte TAG_ID = 0;
-    private static final byte TAG_NAMES = 1;
-    private static final byte TAG_SERIAL_NUM = 2;
+    // Privbte dbtb members
+    privbte stbtic finbl byte TAG_ID = 0;
+    privbte stbtic finbl byte TAG_NAMES = 1;
+    privbte stbtic finbl byte TAG_SERIAL_NUM = 2;
 
-    private KeyIdentifier       id = null;
-    private GeneralNames        names = null;
-    private SerialNumber        serialNum = null;
+    privbte KeyIdentifier       id = null;
+    privbte GenerblNbmes        nbmes = null;
+    privbte SeriblNumber        seriblNum = null;
 
-    // Encode only the extension value
-    private void encodeThis() throws IOException {
-        if (id == null && names == null && serialNum == null) {
-            this.extensionValue = null;
+    // Encode only the extension vblue
+    privbte void encodeThis() throws IOException {
+        if (id == null && nbmes == null && seriblNum == null) {
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream seq = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+        DerOutputStrebm seq = new DerOutputStrebm();
+        DerOutputStrebm tmp = new DerOutputStrebm();
         if (id != null) {
-            DerOutputStream tmp1 = new DerOutputStream();
+            DerOutputStrebm tmp1 = new DerOutputStrebm();
             id.encode(tmp1);
-            tmp.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                              false, TAG_ID), tmp1);
+            tmp.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                              fblse, TAG_ID), tmp1);
         }
         try {
-            if (names != null) {
-                DerOutputStream tmp1 = new DerOutputStream();
-                names.encode(tmp1);
-                tmp.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
+            if (nbmes != null) {
+                DerOutputStrebm tmp1 = new DerOutputStrebm();
+                nbmes.encode(tmp1);
+                tmp.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                                   true, TAG_NAMES), tmp1);
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new IOException(e.toString());
         }
-        if (serialNum != null) {
-            DerOutputStream tmp1 = new DerOutputStream();
-            serialNum.encode(tmp1);
-            tmp.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                              false, TAG_SERIAL_NUM), tmp1);
+        if (seriblNum != null) {
+            DerOutputStrebm tmp1 = new DerOutputStrebm();
+            seriblNum.encode(tmp1);
+            tmp.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                              fblse, TAG_SERIAL_NUM), tmp1);
         }
-        seq.write(DerValue.tag_Sequence, tmp);
-        this.extensionValue = seq.toByteArray();
+        seq.write(DerVblue.tbg_Sequence, tmp);
+        this.extensionVblue = seq.toByteArrby();
     }
 
     /**
-     * The default constructor for this extension.  Null parameters make
-     * the element optional (not present).
+     * The defbult constructor for this extension.  Null pbrbmeters mbke
+     * the element optionbl (not present).
      *
-     * @param id the KeyIdentifier associated with this extension.
-     * @param names the GeneralNames associated with this extension
-     * @param serialNum the CertificateSerialNumber associated with
+     * @pbrbm id the KeyIdentifier bssocibted with this extension.
+     * @pbrbm nbmes the GenerblNbmes bssocibted with this extension
+     * @pbrbm seriblNum the CertificbteSeriblNumber bssocibted with
      *         this extension.
      * @exception IOException on error.
      */
-    public AuthorityKeyIdentifierExtension(KeyIdentifier kid, GeneralNames name,
-                                           SerialNumber sn)
+    public AuthorityKeyIdentifierExtension(KeyIdentifier kid, GenerblNbmes nbme,
+                                           SeriblNumber sn)
     throws IOException {
         this.id = kid;
-        this.names = name;
-        this.serialNum = sn;
+        this.nbmes = nbme;
+        this.seriblNum = sn;
 
         this.extensionId = PKIXExtensions.AuthorityKey_Id;
-        this.critical = false;
+        this.criticbl = fblse;
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crebte the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public AuthorityKeyIdentifierExtension(Boolean critical, Object value)
+    public AuthorityKeyIdentifierExtension(Boolebn criticbl, Object vblue)
     throws IOException {
         this.extensionId = PKIXExtensions.AuthorityKey_Id;
-        this.critical = critical.booleanValue();
+        this.criticbl = criticbl.boolebnVblue();
 
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for " +
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoding for " +
                                   "AuthorityKeyIdentifierExtension.");
         }
 
-        // Note that all the fields in AuthorityKeyIdentifier are defined as
-        // being OPTIONAL, i.e., there could be an empty SEQUENCE, resulting
-        // in val.data being null.
-        while ((val.data != null) && (val.data.available() != 0)) {
-            DerValue opt = val.data.getDerValue();
+        // Note thbt bll the fields in AuthorityKeyIdentifier bre defined bs
+        // being OPTIONAL, i.e., there could be bn empty SEQUENCE, resulting
+        // in vbl.dbtb being null.
+        while ((vbl.dbtb != null) && (vbl.dbtb.bvbilbble() != 0)) {
+            DerVblue opt = vbl.dbtb.getDerVblue();
 
-            // NB. this is always encoded with the IMPLICIT tag
-            // The checks only make sense if we assume implicit tagging,
-            // with explicit tagging the form is always constructed.
+            // NB. this is blwbys encoded with the IMPLICIT tbg
+            // The checks only mbke sense if we bssume implicit tbgging,
+            // with explicit tbgging the form is blwbys constructed.
             if (opt.isContextSpecific(TAG_ID) && !opt.isConstructed()) {
                 if (id != null)
-                    throw new IOException("Duplicate KeyIdentifier in " +
+                    throw new IOException("Duplicbte KeyIdentifier in " +
                                           "AuthorityKeyIdentifier.");
-                opt.resetTag(DerValue.tag_OctetString);
+                opt.resetTbg(DerVblue.tbg_OctetString);
                 id = new KeyIdentifier(opt);
 
             } else if (opt.isContextSpecific(TAG_NAMES) &&
                        opt.isConstructed()) {
-                if (names != null)
-                    throw new IOException("Duplicate GeneralNames in " +
+                if (nbmes != null)
+                    throw new IOException("Duplicbte GenerblNbmes in " +
                                           "AuthorityKeyIdentifier.");
-                opt.resetTag(DerValue.tag_Sequence);
-                names = new GeneralNames(opt);
+                opt.resetTbg(DerVblue.tbg_Sequence);
+                nbmes = new GenerblNbmes(opt);
 
             } else if (opt.isContextSpecific(TAG_SERIAL_NUM) &&
                        !opt.isConstructed()) {
-                if (serialNum != null)
-                    throw new IOException("Duplicate SerialNumber in " +
+                if (seriblNum != null)
+                    throw new IOException("Duplicbte SeriblNumber in " +
                                           "AuthorityKeyIdentifier.");
-                opt.resetTag(DerValue.tag_Integer);
-                serialNum = new SerialNumber(opt);
+                opt.resetTbg(DerVblue.tbg_Integer);
+                seriblNum = new SeriblNumber(opt);
             } else
-                throw new IOException("Invalid encoding of " +
+                throw new IOException("Invblid encoding of " +
                                       "AuthorityKeyIdentifierExtension.");
         }
     }
 
     /**
-     * Return the object as a string.
+     * Return the object bs b string.
      */
     public String toString() {
         String s = super.toString() + "AuthorityKeyIdentifier [\n";
         if (id != null) {
-            s += id.toString();     // id already has a newline
+            s += id.toString();     // id blrebdy hbs b newline
         }
-        if (names != null) {
-            s += names.toString() + "\n";
+        if (nbmes != null) {
+            s += nbmes.toString() + "\n";
         }
-        if (serialNum != null) {
-            s += serialNum.toString() + "\n";
+        if (seriblNum != null) {
+            s += seriblNum.toString() + "\n";
         }
         return (s + "]\n");
     }
 
     /**
-     * Write the extension to the OutputStream.
+     * Write the extension to the OutputStrebm.
      *
-     * @param out the OutputStream to write the extension to.
+     * @pbrbm out the OutputStrebm to write the extension to.
      * @exception IOException on error.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (this.extensionValue == null) {
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (this.extensionVblue == null) {
             extensionId = PKIXExtensions.AuthorityKey_Id;
-            critical = false;
+            criticbl = fblse;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(KEY_ID)) {
-            if (!(obj instanceof KeyIdentifier)) {
-              throw new IOException("Attribute value should be of " +
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(KEY_ID)) {
+            if (!(obj instbnceof KeyIdentifier)) {
+              throw new IOException("Attribute vblue should be of " +
                                     "type KeyIdentifier.");
             }
             id = (KeyIdentifier)obj;
-        } else if (name.equalsIgnoreCase(AUTH_NAME)) {
-            if (!(obj instanceof GeneralNames)) {
-              throw new IOException("Attribute value should be of " +
-                                    "type GeneralNames.");
+        } else if (nbme.equblsIgnoreCbse(AUTH_NAME)) {
+            if (!(obj instbnceof GenerblNbmes)) {
+              throw new IOException("Attribute vblue should be of " +
+                                    "type GenerblNbmes.");
             }
-            names = (GeneralNames)obj;
-        } else if (name.equalsIgnoreCase(SERIAL_NUMBER)) {
-            if (!(obj instanceof SerialNumber)) {
-              throw new IOException("Attribute value should be of " +
-                                    "type SerialNumber.");
+            nbmes = (GenerblNbmes)obj;
+        } else if (nbme.equblsIgnoreCbse(SERIAL_NUMBER)) {
+            if (!(obj instbnceof SeriblNumber)) {
+              throw new IOException("Attribute vblue should be of " +
+                                    "type SeriblNumber.");
             }
-            serialNum = (SerialNumber)obj;
+            seriblNum = (SeriblNumber)obj;
         } else {
-          throw new IOException("Attribute name not recognized by " +
+          throw new IOException("Attribute nbme not recognized by " +
                         "CertAttrSet:AuthorityKeyIdentifier.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Object get(String name) throws IOException {
-        if (name.equalsIgnoreCase(KEY_ID)) {
+    public Object get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(KEY_ID)) {
             return (id);
-        } else if (name.equalsIgnoreCase(AUTH_NAME)) {
-            return (names);
-        } else if (name.equalsIgnoreCase(SERIAL_NUMBER)) {
-            return (serialNum);
+        } else if (nbme.equblsIgnoreCbse(AUTH_NAME)) {
+            return (nbmes);
+        } else if (nbme.equblsIgnoreCbse(SERIAL_NUMBER)) {
+            return (seriblNum);
         } else {
-          throw new IOException("Attribute name not recognized by " +
+          throw new IOException("Attribute nbme not recognized by " +
                         "CertAttrSet:AuthorityKeyIdentifier.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(KEY_ID)) {
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(KEY_ID)) {
             id = null;
-        } else if (name.equalsIgnoreCase(AUTH_NAME)) {
-            names = null;
-        } else if (name.equalsIgnoreCase(SERIAL_NUMBER)) {
-            serialNum = null;
+        } else if (nbme.equblsIgnoreCbse(AUTH_NAME)) {
+            nbmes = null;
+        } else if (nbme.equblsIgnoreCbse(SERIAL_NUMBER)) {
+            seriblNum = null;
         } else {
-          throw new IOException("Attribute name not recognized by " +
+          throw new IOException("Attribute nbme not recognized by " +
                         "CertAttrSet:AuthorityKeyIdentifier.");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(KEY_ID);
-        elements.addElement(AUTH_NAME);
-        elements.addElement(SERIAL_NUMBER);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(KEY_ID);
+        elements.bddElement(AUTH_NAME);
+        elements.bddElement(SERIAL_NUMBER);
 
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 }

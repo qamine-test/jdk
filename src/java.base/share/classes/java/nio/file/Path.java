@@ -1,801 +1,801 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.Iterator;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.net.URI;
+import jbvb.util.Iterbtor;
 
 /**
- * An object that may be used to locate a file in a file system. It will
- * typically represent a system dependent file path.
+ * An object thbt mby be used to locbte b file in b file system. It will
+ * typicblly represent b system dependent file pbth.
  *
- * <p> A {@code Path} represents a path that is hierarchical and composed of a
- * sequence of directory and file name elements separated by a special separator
- * or delimiter. A <em>root component</em>, that identifies a file system
- * hierarchy, may also be present. The name element that is <em>farthest</em>
- * from the root of the directory hierarchy is the name of a file or directory.
- * The other name elements are directory names. A {@code Path} can represent a
- * root, a root and a sequence of names, or simply one or more name elements.
- * A {@code Path} is considered to be an <i>empty path</i> if it consists
- * solely of one name element that is empty. Accessing a file using an
- * <i>empty path</i> is equivalent to accessing the default directory of the
- * file system. {@code Path} defines the {@link #getFileName() getFileName},
- * {@link #getParent getParent}, {@link #getRoot getRoot}, and {@link #subpath
- * subpath} methods to access the path components or a subsequence of its name
+ * <p> A {@code Pbth} represents b pbth thbt is hierbrchicbl bnd composed of b
+ * sequence of directory bnd file nbme elements sepbrbted by b specibl sepbrbtor
+ * or delimiter. A <em>root component</em>, thbt identifies b file system
+ * hierbrchy, mby blso be present. The nbme element thbt is <em>fbrthest</em>
+ * from the root of the directory hierbrchy is the nbme of b file or directory.
+ * The other nbme elements bre directory nbmes. A {@code Pbth} cbn represent b
+ * root, b root bnd b sequence of nbmes, or simply one or more nbme elements.
+ * A {@code Pbth} is considered to be bn <i>empty pbth</i> if it consists
+ * solely of one nbme element thbt is empty. Accessing b file using bn
+ * <i>empty pbth</i> is equivblent to bccessing the defbult directory of the
+ * file system. {@code Pbth} defines the {@link #getFileNbme() getFileNbme},
+ * {@link #getPbrent getPbrent}, {@link #getRoot getRoot}, bnd {@link #subpbth
+ * subpbth} methods to bccess the pbth components or b subsequence of its nbme
  * elements.
  *
- * <p> In addition to accessing the components of a path, a {@code Path} also
- * defines the {@link #resolve(Path) resolve} and {@link #resolveSibling(Path)
- * resolveSibling} methods to combine paths. The {@link #relativize relativize}
- * method that can be used to construct a relative path between two paths.
- * Paths can be {@link #compareTo compared}, and tested against each other using
- * the {@link #startsWith startsWith} and {@link #endsWith endsWith} methods.
+ * <p> In bddition to bccessing the components of b pbth, b {@code Pbth} blso
+ * defines the {@link #resolve(Pbth) resolve} bnd {@link #resolveSibling(Pbth)
+ * resolveSibling} methods to combine pbths. The {@link #relbtivize relbtivize}
+ * method thbt cbn be used to construct b relbtive pbth between two pbths.
+ * Pbths cbn be {@link #compbreTo compbred}, bnd tested bgbinst ebch other using
+ * the {@link #stbrtsWith stbrtsWith} bnd {@link #endsWith endsWith} methods.
  *
- * <p> This interface extends {@link Watchable} interface so that a directory
- * located by a path can be {@link #register registered} with a {@link
- * WatchService} and entries in the directory watched. </p>
+ * <p> This interfbce extends {@link Wbtchbble} interfbce so thbt b directory
+ * locbted by b pbth cbn be {@link #register registered} with b {@link
+ * WbtchService} bnd entries in the directory wbtched. </p>
  *
- * <p> <b>WARNING:</b> This interface is only intended to be implemented by
- * those developing custom file system implementations. Methods may be added to
- * this interface in future releases. </p>
+ * <p> <b>WARNING:</b> This interfbce is only intended to be implemented by
+ * those developing custom file system implementbtions. Methods mby be bdded to
+ * this interfbce in future relebses. </p>
  *
  * <h2>Accessing Files</h2>
- * <p> Paths may be used with the {@link Files} class to operate on files,
- * directories, and other types of files. For example, suppose we want a {@link
- * java.io.BufferedReader} to read text from a file "{@code access.log}". The
- * file is located in a directory "{@code logs}" relative to the current working
- * directory and is UTF-8 encoded.
+ * <p> Pbths mby be used with the {@link Files} clbss to operbte on files,
+ * directories, bnd other types of files. For exbmple, suppose we wbnt b {@link
+ * jbvb.io.BufferedRebder} to rebd text from b file "{@code bccess.log}". The
+ * file is locbted in b directory "{@code logs}" relbtive to the current working
+ * directory bnd is UTF-8 encoded.
  * <pre>
- *     Path path = FileSystems.getDefault().getPath("logs", "access.log");
- *     BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+ *     Pbth pbth = FileSystems.getDefbult().getPbth("logs", "bccess.log");
+ *     BufferedRebder rebder = Files.newBufferedRebder(pbth, StbndbrdChbrsets.UTF_8);
  * </pre>
  *
- * <a name="interop"></a><h2>Interoperability</h2>
- * <p> Paths associated with the default {@link
- * java.nio.file.spi.FileSystemProvider provider} are generally interoperable
- * with the {@link java.io.File java.io.File} class. Paths created by other
- * providers are unlikely to be interoperable with the abstract path names
- * represented by {@code java.io.File}. The {@link java.io.File#toPath toPath}
- * method may be used to obtain a {@code Path} from the abstract path name
- * represented by a {@code java.io.File} object. The resulting {@code Path} can
- * be used to operate on the same file as the {@code java.io.File} object. In
- * addition, the {@link #toFile toFile} method is useful to construct a {@code
- * File} from the {@code String} representation of a {@code Path}.
+ * <b nbme="interop"></b><h2>Interoperbbility</h2>
+ * <p> Pbths bssocibted with the defbult {@link
+ * jbvb.nio.file.spi.FileSystemProvider provider} bre generblly interoperbble
+ * with the {@link jbvb.io.File jbvb.io.File} clbss. Pbths crebted by other
+ * providers bre unlikely to be interoperbble with the bbstrbct pbth nbmes
+ * represented by {@code jbvb.io.File}. The {@link jbvb.io.File#toPbth toPbth}
+ * method mby be used to obtbin b {@code Pbth} from the bbstrbct pbth nbme
+ * represented by b {@code jbvb.io.File} object. The resulting {@code Pbth} cbn
+ * be used to operbte on the sbme file bs the {@code jbvb.io.File} object. In
+ * bddition, the {@link #toFile toFile} method is useful to construct b {@code
+ * File} from the {@code String} representbtion of b {@code Pbth}.
  *
  * <h2>Concurrency</h2>
- * <p> Implementations of this interface are immutable and safe for use by
- * multiple concurrent threads.
+ * <p> Implementbtions of this interfbce bre immutbble bnd sbfe for use by
+ * multiple concurrent threbds.
  *
  * @since 1.7
- * @see Paths
+ * @see Pbths
  */
 
-public interface Path
-    extends Comparable<Path>, Iterable<Path>, Watchable
+public interfbce Pbth
+    extends Compbrbble<Pbth>, Iterbble<Pbth>, Wbtchbble
 {
     /**
-     * Returns the file system that created this object.
+     * Returns the file system thbt crebted this object.
      *
-     * @return  the file system that created this object
+     * @return  the file system thbt crebted this object
      */
     FileSystem getFileSystem();
 
     /**
-     * Tells whether or not this path is absolute.
+     * Tells whether or not this pbth is bbsolute.
      *
-     * <p> An absolute path is complete in that it doesn't need to be combined
-     * with other path information in order to locate a file.
+     * <p> An bbsolute pbth is complete in thbt it doesn't need to be combined
+     * with other pbth informbtion in order to locbte b file.
      *
-     * @return  {@code true} if, and only if, this path is absolute
+     * @return  {@code true} if, bnd only if, this pbth is bbsolute
      */
-    boolean isAbsolute();
+    boolebn isAbsolute();
 
     /**
-     * Returns the root component of this path as a {@code Path} object,
-     * or {@code null} if this path does not have a root component.
+     * Returns the root component of this pbth bs b {@code Pbth} object,
+     * or {@code null} if this pbth does not hbve b root component.
      *
-     * @return  a path representing the root component of this path,
+     * @return  b pbth representing the root component of this pbth,
      *          or {@code null}
      */
-    Path getRoot();
+    Pbth getRoot();
 
     /**
-     * Returns the name of the file or directory denoted by this path as a
-     * {@code Path} object. The file name is the <em>farthest</em> element from
-     * the root in the directory hierarchy.
+     * Returns the nbme of the file or directory denoted by this pbth bs b
+     * {@code Pbth} object. The file nbme is the <em>fbrthest</em> element from
+     * the root in the directory hierbrchy.
      *
-     * @return  a path representing the name of the file or directory, or
-     *          {@code null} if this path has zero elements
+     * @return  b pbth representing the nbme of the file or directory, or
+     *          {@code null} if this pbth hbs zero elements
      */
-    Path getFileName();
+    Pbth getFileNbme();
 
     /**
-     * Returns the <em>parent path</em>, or {@code null} if this path does not
-     * have a parent.
+     * Returns the <em>pbrent pbth</em>, or {@code null} if this pbth does not
+     * hbve b pbrent.
      *
-     * <p> The parent of this path object consists of this path's root
-     * component, if any, and each element in the path except for the
-     * <em>farthest</em> from the root in the directory hierarchy. This method
-     * does not access the file system; the path or its parent may not exist.
-     * Furthermore, this method does not eliminate special names such as "."
-     * and ".." that may be used in some implementations. On UNIX for example,
-     * the parent of "{@code /a/b/c}" is "{@code /a/b}", and the parent of
-     * {@code "x/y/.}" is "{@code x/y}". This method may be used with the {@link
-     * #normalize normalize} method, to eliminate redundant names, for cases where
-     * <em>shell-like</em> navigation is required.
+     * <p> The pbrent of this pbth object consists of this pbth's root
+     * component, if bny, bnd ebch element in the pbth except for the
+     * <em>fbrthest</em> from the root in the directory hierbrchy. This method
+     * does not bccess the file system; the pbth or its pbrent mby not exist.
+     * Furthermore, this method does not eliminbte specibl nbmes such bs "."
+     * bnd ".." thbt mby be used in some implementbtions. On UNIX for exbmple,
+     * the pbrent of "{@code /b/b/c}" is "{@code /b/b}", bnd the pbrent of
+     * {@code "x/y/.}" is "{@code x/y}". This method mby be used with the {@link
+     * #normblize normblize} method, to eliminbte redundbnt nbmes, for cbses where
+     * <em>shell-like</em> nbvigbtion is required.
      *
-     * <p> If this path has one or more elements, and no root component, then
-     * this method is equivalent to evaluating the expression:
+     * <p> If this pbth hbs one or more elements, bnd no root component, then
+     * this method is equivblent to evblubting the expression:
      * <blockquote><pre>
-     * subpath(0,&nbsp;getNameCount()-1);
+     * subpbth(0,&nbsp;getNbmeCount()-1);
      * </pre></blockquote>
      *
-     * @return  a path representing the path's parent
+     * @return  b pbth representing the pbth's pbrent
      */
-    Path getParent();
+    Pbth getPbrent();
 
     /**
-     * Returns the number of name elements in the path.
+     * Returns the number of nbme elements in the pbth.
      *
-     * @return  the number of elements in the path, or {@code 0} if this path
-     *          only represents a root component
+     * @return  the number of elements in the pbth, or {@code 0} if this pbth
+     *          only represents b root component
      */
-    int getNameCount();
+    int getNbmeCount();
 
     /**
-     * Returns a name element of this path as a {@code Path} object.
+     * Returns b nbme element of this pbth bs b {@code Pbth} object.
      *
-     * <p> The {@code index} parameter is the index of the name element to return.
-     * The element that is <em>closest</em> to the root in the directory hierarchy
-     * has index {@code 0}. The element that is <em>farthest</em> from the root
-     * has index {@link #getNameCount count}{@code -1}.
+     * <p> The {@code index} pbrbmeter is the index of the nbme element to return.
+     * The element thbt is <em>closest</em> to the root in the directory hierbrchy
+     * hbs index {@code 0}. The element thbt is <em>fbrthest</em> from the root
+     * hbs index {@link #getNbmeCount count}{@code -1}.
      *
-     * @param   index
+     * @pbrbm   index
      *          the index of the element
      *
-     * @return  the name element
+     * @return  the nbme element
      *
-     * @throws  IllegalArgumentException
-     *          if {@code index} is negative, {@code index} is greater than or
-     *          equal to the number of elements, or this path has zero name
+     * @throws  IllegblArgumentException
+     *          if {@code index} is negbtive, {@code index} is grebter thbn or
+     *          equbl to the number of elements, or this pbth hbs zero nbme
      *          elements
      */
-    Path getName(int index);
+    Pbth getNbme(int index);
 
     /**
-     * Returns a relative {@code Path} that is a subsequence of the name
-     * elements of this path.
+     * Returns b relbtive {@code Pbth} thbt is b subsequence of the nbme
+     * elements of this pbth.
      *
-     * <p> The {@code beginIndex} and {@code endIndex} parameters specify the
-     * subsequence of name elements. The name that is <em>closest</em> to the root
-     * in the directory hierarchy has index {@code 0}. The name that is
-     * <em>farthest</em> from the root has index {@link #getNameCount
-     * count}{@code -1}. The returned {@code Path} object has the name elements
-     * that begin at {@code beginIndex} and extend to the element at index {@code
+     * <p> The {@code beginIndex} bnd {@code endIndex} pbrbmeters specify the
+     * subsequence of nbme elements. The nbme thbt is <em>closest</em> to the root
+     * in the directory hierbrchy hbs index {@code 0}. The nbme thbt is
+     * <em>fbrthest</em> from the root hbs index {@link #getNbmeCount
+     * count}{@code -1}. The returned {@code Pbth} object hbs the nbme elements
+     * thbt begin bt {@code beginIndex} bnd extend to the element bt index {@code
      * endIndex-1}.
      *
-     * @param   beginIndex
+     * @pbrbm   beginIndex
      *          the index of the first element, inclusive
-     * @param   endIndex
-     *          the index of the last element, exclusive
+     * @pbrbm   endIndex
+     *          the index of the lbst element, exclusive
      *
-     * @return  a new {@code Path} object that is a subsequence of the name
-     *          elements in this {@code Path}
+     * @return  b new {@code Pbth} object thbt is b subsequence of the nbme
+     *          elements in this {@code Pbth}
      *
-     * @throws  IllegalArgumentException
-     *          if {@code beginIndex} is negative, or greater than or equal to
-     *          the number of elements. If {@code endIndex} is less than or
-     *          equal to {@code beginIndex}, or larger than the number of elements.
+     * @throws  IllegblArgumentException
+     *          if {@code beginIndex} is negbtive, or grebter thbn or equbl to
+     *          the number of elements. If {@code endIndex} is less thbn or
+     *          equbl to {@code beginIndex}, or lbrger thbn the number of elements.
      */
-    Path subpath(int beginIndex, int endIndex);
+    Pbth subpbth(int beginIndex, int endIndex);
 
     /**
-     * Tests if this path starts with the given path.
+     * Tests if this pbth stbrts with the given pbth.
      *
-     * <p> This path <em>starts</em> with the given path if this path's root
-     * component <em>starts</em> with the root component of the given path,
-     * and this path starts with the same name elements as the given path.
-     * If the given path has more name elements than this path then {@code false}
+     * <p> This pbth <em>stbrts</em> with the given pbth if this pbth's root
+     * component <em>stbrts</em> with the root component of the given pbth,
+     * bnd this pbth stbrts with the sbme nbme elements bs the given pbth.
+     * If the given pbth hbs more nbme elements thbn this pbth then {@code fblse}
      * is returned.
      *
-     * <p> Whether or not the root component of this path starts with the root
-     * component of the given path is file system specific. If this path does
-     * not have a root component and the given path has a root component then
-     * this path does not start with the given path.
+     * <p> Whether or not the root component of this pbth stbrts with the root
+     * component of the given pbth is file system specific. If this pbth does
+     * not hbve b root component bnd the given pbth hbs b root component then
+     * this pbth does not stbrt with the given pbth.
      *
-     * <p> If the given path is associated with a different {@code FileSystem}
-     * to this path then {@code false} is returned.
+     * <p> If the given pbth is bssocibted with b different {@code FileSystem}
+     * to this pbth then {@code fblse} is returned.
      *
-     * @param   other
-     *          the given path
+     * @pbrbm   other
+     *          the given pbth
      *
-     * @return  {@code true} if this path starts with the given path; otherwise
-     *          {@code false}
+     * @return  {@code true} if this pbth stbrts with the given pbth; otherwise
+     *          {@code fblse}
      */
-    boolean startsWith(Path other);
+    boolebn stbrtsWith(Pbth other);
 
     /**
-     * Tests if this path starts with a {@code Path}, constructed by converting
-     * the given path string, in exactly the manner specified by the {@link
-     * #startsWith(Path) startsWith(Path)} method. On UNIX for example, the path
-     * "{@code foo/bar}" starts with "{@code foo}" and "{@code foo/bar}". It
-     * does not start with "{@code f}" or "{@code fo}".
+     * Tests if this pbth stbrts with b {@code Pbth}, constructed by converting
+     * the given pbth string, in exbctly the mbnner specified by the {@link
+     * #stbrtsWith(Pbth) stbrtsWith(Pbth)} method. On UNIX for exbmple, the pbth
+     * "{@code foo/bbr}" stbrts with "{@code foo}" bnd "{@code foo/bbr}". It
+     * does not stbrt with "{@code f}" or "{@code fo}".
      *
-     * @param   other
-     *          the given path string
+     * @pbrbm   other
+     *          the given pbth string
      *
-     * @return  {@code true} if this path starts with the given path; otherwise
-     *          {@code false}
+     * @return  {@code true} if this pbth stbrts with the given pbth; otherwise
+     *          {@code fblse}
      *
-     * @throws  InvalidPathException
-     *          If the path string cannot be converted to a Path.
+     * @throws  InvblidPbthException
+     *          If the pbth string cbnnot be converted to b Pbth.
      */
-    boolean startsWith(String other);
+    boolebn stbrtsWith(String other);
 
     /**
-     * Tests if this path ends with the given path.
+     * Tests if this pbth ends with the given pbth.
      *
-     * <p> If the given path has <em>N</em> elements, and no root component,
-     * and this path has <em>N</em> or more elements, then this path ends with
-     * the given path if the last <em>N</em> elements of each path, starting at
-     * the element farthest from the root, are equal.
+     * <p> If the given pbth hbs <em>N</em> elements, bnd no root component,
+     * bnd this pbth hbs <em>N</em> or more elements, then this pbth ends with
+     * the given pbth if the lbst <em>N</em> elements of ebch pbth, stbrting bt
+     * the element fbrthest from the root, bre equbl.
      *
-     * <p> If the given path has a root component then this path ends with the
-     * given path if the root component of this path <em>ends with</em> the root
-     * component of the given path, and the corresponding elements of both paths
-     * are equal. Whether or not the root component of this path ends with the
-     * root component of the given path is file system specific. If this path
-     * does not have a root component and the given path has a root component
-     * then this path does not end with the given path.
+     * <p> If the given pbth hbs b root component then this pbth ends with the
+     * given pbth if the root component of this pbth <em>ends with</em> the root
+     * component of the given pbth, bnd the corresponding elements of both pbths
+     * bre equbl. Whether or not the root component of this pbth ends with the
+     * root component of the given pbth is file system specific. If this pbth
+     * does not hbve b root component bnd the given pbth hbs b root component
+     * then this pbth does not end with the given pbth.
      *
-     * <p> If the given path is associated with a different {@code FileSystem}
-     * to this path then {@code false} is returned.
+     * <p> If the given pbth is bssocibted with b different {@code FileSystem}
+     * to this pbth then {@code fblse} is returned.
      *
-     * @param   other
-     *          the given path
+     * @pbrbm   other
+     *          the given pbth
      *
-     * @return  {@code true} if this path ends with the given path; otherwise
-     *          {@code false}
+     * @return  {@code true} if this pbth ends with the given pbth; otherwise
+     *          {@code fblse}
      */
-    boolean endsWith(Path other);
+    boolebn endsWith(Pbth other);
 
     /**
-     * Tests if this path ends with a {@code Path}, constructed by converting
-     * the given path string, in exactly the manner specified by the {@link
-     * #endsWith(Path) endsWith(Path)} method. On UNIX for example, the path
-     * "{@code foo/bar}" ends with "{@code foo/bar}" and "{@code bar}". It does
-     * not end with "{@code r}" or "{@code /bar}". Note that trailing separators
-     * are not taken into account, and so invoking this method on the {@code
-     * Path}"{@code foo/bar}" with the {@code String} "{@code bar/}" returns
+     * Tests if this pbth ends with b {@code Pbth}, constructed by converting
+     * the given pbth string, in exbctly the mbnner specified by the {@link
+     * #endsWith(Pbth) endsWith(Pbth)} method. On UNIX for exbmple, the pbth
+     * "{@code foo/bbr}" ends with "{@code foo/bbr}" bnd "{@code bbr}". It does
+     * not end with "{@code r}" or "{@code /bbr}". Note thbt trbiling sepbrbtors
+     * bre not tbken into bccount, bnd so invoking this method on the {@code
+     * Pbth}"{@code foo/bbr}" with the {@code String} "{@code bbr/}" returns
      * {@code true}.
      *
-     * @param   other
-     *          the given path string
+     * @pbrbm   other
+     *          the given pbth string
      *
-     * @return  {@code true} if this path ends with the given path; otherwise
-     *          {@code false}
+     * @return  {@code true} if this pbth ends with the given pbth; otherwise
+     *          {@code fblse}
      *
-     * @throws  InvalidPathException
-     *          If the path string cannot be converted to a Path.
+     * @throws  InvblidPbthException
+     *          If the pbth string cbnnot be converted to b Pbth.
      */
-    boolean endsWith(String other);
+    boolebn endsWith(String other);
 
     /**
-     * Returns a path that is this path with redundant name elements eliminated.
+     * Returns b pbth thbt is this pbth with redundbnt nbme elements eliminbted.
      *
-     * <p> The precise definition of this method is implementation dependent but
-     * in general it derives from this path, a path that does not contain
-     * <em>redundant</em> name elements. In many file systems, the "{@code .}"
-     * and "{@code ..}" are special names used to indicate the current directory
-     * and parent directory. In such file systems all occurrences of "{@code .}"
-     * are considered redundant. If a "{@code ..}" is preceded by a
-     * non-"{@code ..}" name then both names are considered redundant (the
-     * process to identify such names is repeated until it is no longer
-     * applicable).
+     * <p> The precise definition of this method is implementbtion dependent but
+     * in generbl it derives from this pbth, b pbth thbt does not contbin
+     * <em>redundbnt</em> nbme elements. In mbny file systems, the "{@code .}"
+     * bnd "{@code ..}" bre specibl nbmes used to indicbte the current directory
+     * bnd pbrent directory. In such file systems bll occurrences of "{@code .}"
+     * bre considered redundbnt. If b "{@code ..}" is preceded by b
+     * non-"{@code ..}" nbme then both nbmes bre considered redundbnt (the
+     * process to identify such nbmes is repebted until it is no longer
+     * bpplicbble).
      *
-     * <p> This method does not access the file system; the path may not locate
-     * a file that exists. Eliminating "{@code ..}" and a preceding name from a
-     * path may result in the path that locates a different file than the original
-     * path. This can arise when the preceding name is a symbolic link.
+     * <p> This method does not bccess the file system; the pbth mby not locbte
+     * b file thbt exists. Eliminbting "{@code ..}" bnd b preceding nbme from b
+     * pbth mby result in the pbth thbt locbtes b different file thbn the originbl
+     * pbth. This cbn brise when the preceding nbme is b symbolic link.
      *
-     * @return  the resulting path or this path if it does not contain
-     *          redundant name elements; an empty path is returned if this path
-     *          does have a root component and all name elements are redundant
+     * @return  the resulting pbth or this pbth if it does not contbin
+     *          redundbnt nbme elements; bn empty pbth is returned if this pbth
+     *          does hbve b root component bnd bll nbme elements bre redundbnt
      *
-     * @see #getParent
-     * @see #toRealPath
+     * @see #getPbrent
+     * @see #toReblPbth
      */
-    Path normalize();
+    Pbth normblize();
 
-    // -- resolution and relativization --
+    // -- resolution bnd relbtivizbtion --
 
     /**
-     * Resolve the given path against this path.
+     * Resolve the given pbth bgbinst this pbth.
      *
-     * <p> If the {@code other} parameter is an {@link #isAbsolute() absolute}
-     * path then this method trivially returns {@code other}. If {@code other}
-     * is an <i>empty path</i> then this method trivially returns this path.
-     * Otherwise this method considers this path to be a directory and resolves
-     * the given path against this path. In the simplest case, the given path
-     * does not have a {@link #getRoot root} component, in which case this method
-     * <em>joins</em> the given path to this path and returns a resulting path
-     * that {@link #endsWith ends} with the given path. Where the given path has
-     * a root component then resolution is highly implementation dependent and
+     * <p> If the {@code other} pbrbmeter is bn {@link #isAbsolute() bbsolute}
+     * pbth then this method triviblly returns {@code other}. If {@code other}
+     * is bn <i>empty pbth</i> then this method triviblly returns this pbth.
+     * Otherwise this method considers this pbth to be b directory bnd resolves
+     * the given pbth bgbinst this pbth. In the simplest cbse, the given pbth
+     * does not hbve b {@link #getRoot root} component, in which cbse this method
+     * <em>joins</em> the given pbth to this pbth bnd returns b resulting pbth
+     * thbt {@link #endsWith ends} with the given pbth. Where the given pbth hbs
+     * b root component then resolution is highly implementbtion dependent bnd
      * therefore unspecified.
      *
-     * @param   other
-     *          the path to resolve against this path
+     * @pbrbm   other
+     *          the pbth to resolve bgbinst this pbth
      *
-     * @return  the resulting path
+     * @return  the resulting pbth
      *
-     * @see #relativize
+     * @see #relbtivize
      */
-    Path resolve(Path other);
+    Pbth resolve(Pbth other);
 
     /**
-     * Converts a given path string to a {@code Path} and resolves it against
-     * this {@code Path} in exactly the manner specified by the {@link
-     * #resolve(Path) resolve} method. For example, suppose that the name
-     * separator is "{@code /}" and a path represents "{@code foo/bar}", then
-     * invoking this method with the path string "{@code gus}" will result in
-     * the {@code Path} "{@code foo/bar/gus}".
+     * Converts b given pbth string to b {@code Pbth} bnd resolves it bgbinst
+     * this {@code Pbth} in exbctly the mbnner specified by the {@link
+     * #resolve(Pbth) resolve} method. For exbmple, suppose thbt the nbme
+     * sepbrbtor is "{@code /}" bnd b pbth represents "{@code foo/bbr}", then
+     * invoking this method with the pbth string "{@code gus}" will result in
+     * the {@code Pbth} "{@code foo/bbr/gus}".
      *
-     * @param   other
-     *          the path string to resolve against this path
+     * @pbrbm   other
+     *          the pbth string to resolve bgbinst this pbth
      *
-     * @return  the resulting path
+     * @return  the resulting pbth
      *
-     * @throws  InvalidPathException
-     *          if the path string cannot be converted to a Path.
+     * @throws  InvblidPbthException
+     *          if the pbth string cbnnot be converted to b Pbth.
      *
-     * @see FileSystem#getPath
+     * @see FileSystem#getPbth
      */
-    Path resolve(String other);
+    Pbth resolve(String other);
 
     /**
-     * Resolves the given path against this path's {@link #getParent parent}
-     * path. This is useful where a file name needs to be <i>replaced</i> with
-     * another file name. For example, suppose that the name separator is
-     * "{@code /}" and a path represents "{@code dir1/dir2/foo}", then invoking
-     * this method with the {@code Path} "{@code bar}" will result in the {@code
-     * Path} "{@code dir1/dir2/bar}". If this path does not have a parent path,
-     * or {@code other} is {@link #isAbsolute() absolute}, then this method
-     * returns {@code other}. If {@code other} is an empty path then this method
-     * returns this path's parent, or where this path doesn't have a parent, the
-     * empty path.
+     * Resolves the given pbth bgbinst this pbth's {@link #getPbrent pbrent}
+     * pbth. This is useful where b file nbme needs to be <i>replbced</i> with
+     * bnother file nbme. For exbmple, suppose thbt the nbme sepbrbtor is
+     * "{@code /}" bnd b pbth represents "{@code dir1/dir2/foo}", then invoking
+     * this method with the {@code Pbth} "{@code bbr}" will result in the {@code
+     * Pbth} "{@code dir1/dir2/bbr}". If this pbth does not hbve b pbrent pbth,
+     * or {@code other} is {@link #isAbsolute() bbsolute}, then this method
+     * returns {@code other}. If {@code other} is bn empty pbth then this method
+     * returns this pbth's pbrent, or where this pbth doesn't hbve b pbrent, the
+     * empty pbth.
      *
-     * @param   other
-     *          the path to resolve against this path's parent
+     * @pbrbm   other
+     *          the pbth to resolve bgbinst this pbth's pbrent
      *
-     * @return  the resulting path
+     * @return  the resulting pbth
      *
-     * @see #resolve(Path)
+     * @see #resolve(Pbth)
      */
-    Path resolveSibling(Path other);
+    Pbth resolveSibling(Pbth other);
 
     /**
-     * Converts a given path string to a {@code Path} and resolves it against
-     * this path's {@link #getParent parent} path in exactly the manner
-     * specified by the {@link #resolveSibling(Path) resolveSibling} method.
+     * Converts b given pbth string to b {@code Pbth} bnd resolves it bgbinst
+     * this pbth's {@link #getPbrent pbrent} pbth in exbctly the mbnner
+     * specified by the {@link #resolveSibling(Pbth) resolveSibling} method.
      *
-     * @param   other
-     *          the path string to resolve against this path's parent
+     * @pbrbm   other
+     *          the pbth string to resolve bgbinst this pbth's pbrent
      *
-     * @return  the resulting path
+     * @return  the resulting pbth
      *
-     * @throws  InvalidPathException
-     *          if the path string cannot be converted to a Path.
+     * @throws  InvblidPbthException
+     *          if the pbth string cbnnot be converted to b Pbth.
      *
-     * @see FileSystem#getPath
+     * @see FileSystem#getPbth
      */
-    Path resolveSibling(String other);
+    Pbth resolveSibling(String other);
 
     /**
-     * Constructs a relative path between this path and a given path.
+     * Constructs b relbtive pbth between this pbth bnd b given pbth.
      *
-     * <p> Relativization is the inverse of {@link #resolve(Path) resolution}.
-     * This method attempts to construct a {@link #isAbsolute relative} path
-     * that when {@link #resolve(Path) resolved} against this path, yields a
-     * path that locates the same file as the given path. For example, on UNIX,
-     * if this path is {@code "/a/b"} and the given path is {@code "/a/b/c/d"}
-     * then the resulting relative path would be {@code "c/d"}. Where this
-     * path and the given path do not have a {@link #getRoot root} component,
-     * then a relative path can be constructed. A relative path cannot be
-     * constructed if only one of the paths have a root component. Where both
-     * paths have a root component then it is implementation dependent if a
-     * relative path can be constructed. If this path and the given path are
-     * {@link #equals equal} then an <i>empty path</i> is returned.
+     * <p> Relbtivizbtion is the inverse of {@link #resolve(Pbth) resolution}.
+     * This method bttempts to construct b {@link #isAbsolute relbtive} pbth
+     * thbt when {@link #resolve(Pbth) resolved} bgbinst this pbth, yields b
+     * pbth thbt locbtes the sbme file bs the given pbth. For exbmple, on UNIX,
+     * if this pbth is {@code "/b/b"} bnd the given pbth is {@code "/b/b/c/d"}
+     * then the resulting relbtive pbth would be {@code "c/d"}. Where this
+     * pbth bnd the given pbth do not hbve b {@link #getRoot root} component,
+     * then b relbtive pbth cbn be constructed. A relbtive pbth cbnnot be
+     * constructed if only one of the pbths hbve b root component. Where both
+     * pbths hbve b root component then it is implementbtion dependent if b
+     * relbtive pbth cbn be constructed. If this pbth bnd the given pbth bre
+     * {@link #equbls equbl} then bn <i>empty pbth</i> is returned.
      *
-     * <p> For any two {@link #normalize normalized} paths <i>p</i> and
-     * <i>q</i>, where <i>q</i> does not have a root component,
+     * <p> For bny two {@link #normblize normblized} pbths <i>p</i> bnd
+     * <i>q</i>, where <i>q</i> does not hbve b root component,
      * <blockquote>
-     *   <i>p</i><tt>.relativize(</tt><i>p</i><tt>.resolve(</tt><i>q</i><tt>)).equals(</tt><i>q</i><tt>)</tt>
+     *   <i>p</i><tt>.relbtivize(</tt><i>p</i><tt>.resolve(</tt><i>q</i><tt>)).equbls(</tt><i>q</i><tt>)</tt>
      * </blockquote>
      *
-     * <p> When symbolic links are supported, then whether the resulting path,
-     * when resolved against this path, yields a path that can be used to locate
-     * the {@link Files#isSameFile same} file as {@code other} is implementation
-     * dependent. For example, if this path is  {@code "/a/b"} and the given
-     * path is {@code "/a/x"} then the resulting relative path may be {@code
-     * "../x"}. If {@code "b"} is a symbolic link then is implementation
-     * dependent if {@code "a/b/../x"} would locate the same file as {@code "/a/x"}.
+     * <p> When symbolic links bre supported, then whether the resulting pbth,
+     * when resolved bgbinst this pbth, yields b pbth thbt cbn be used to locbte
+     * the {@link Files#isSbmeFile sbme} file bs {@code other} is implementbtion
+     * dependent. For exbmple, if this pbth is  {@code "/b/b"} bnd the given
+     * pbth is {@code "/b/x"} then the resulting relbtive pbth mby be {@code
+     * "../x"}. If {@code "b"} is b symbolic link then is implementbtion
+     * dependent if {@code "b/b/../x"} would locbte the sbme file bs {@code "/b/x"}.
      *
-     * @param   other
-     *          the path to relativize against this path
+     * @pbrbm   other
+     *          the pbth to relbtivize bgbinst this pbth
      *
-     * @return  the resulting relative path, or an empty path if both paths are
-     *          equal
+     * @return  the resulting relbtive pbth, or bn empty pbth if both pbths bre
+     *          equbl
      *
-     * @throws  IllegalArgumentException
-     *          if {@code other} is not a {@code Path} that can be relativized
-     *          against this path
+     * @throws  IllegblArgumentException
+     *          if {@code other} is not b {@code Pbth} thbt cbn be relbtivized
+     *          bgbinst this pbth
      */
-    Path relativize(Path other);
+    Pbth relbtivize(Pbth other);
 
     /**
-     * Returns a URI to represent this path.
+     * Returns b URI to represent this pbth.
      *
-     * <p> This method constructs an absolute {@link URI} with a {@link
-     * URI#getScheme() scheme} equal to the URI scheme that identifies the
-     * provider. The exact form of the scheme specific part is highly provider
+     * <p> This method constructs bn bbsolute {@link URI} with b {@link
+     * URI#getScheme() scheme} equbl to the URI scheme thbt identifies the
+     * provider. The exbct form of the scheme specific pbrt is highly provider
      * dependent.
      *
-     * <p> In the case of the default provider, the URI is hierarchical with
-     * a {@link URI#getPath() path} component that is absolute. The query and
-     * fragment components are undefined. Whether the authority component is
-     * defined or not is implementation dependent. There is no guarantee that
-     * the {@code URI} may be used to construct a {@link java.io.File java.io.File}.
-     * In particular, if this path represents a Universal Naming Convention (UNC)
-     * path, then the UNC server name may be encoded in the authority component
-     * of the resulting URI. In the case of the default provider, and the file
-     * exists, and it can be determined that the file is a directory, then the
-     * resulting {@code URI} will end with a slash.
+     * <p> In the cbse of the defbult provider, the URI is hierbrchicbl with
+     * b {@link URI#getPbth() pbth} component thbt is bbsolute. The query bnd
+     * frbgment components bre undefined. Whether the buthority component is
+     * defined or not is implementbtion dependent. There is no gubrbntee thbt
+     * the {@code URI} mby be used to construct b {@link jbvb.io.File jbvb.io.File}.
+     * In pbrticulbr, if this pbth represents b Universbl Nbming Convention (UNC)
+     * pbth, then the UNC server nbme mby be encoded in the buthority component
+     * of the resulting URI. In the cbse of the defbult provider, bnd the file
+     * exists, bnd it cbn be determined thbt the file is b directory, then the
+     * resulting {@code URI} will end with b slbsh.
      *
-     * <p> The default provider provides a similar <em>round-trip</em> guarantee
-     * to the {@link java.io.File} class. For a given {@code Path} <i>p</i> it
-     * is guaranteed that
+     * <p> The defbult provider provides b similbr <em>round-trip</em> gubrbntee
+     * to the {@link jbvb.io.File} clbss. For b given {@code Pbth} <i>p</i> it
+     * is gubrbnteed thbt
      * <blockquote><tt>
-     * {@link Paths#get(URI) Paths.get}(</tt><i>p</i><tt>.toUri()).equals(</tt><i>p</i>
-     * <tt>.{@link #toAbsolutePath() toAbsolutePath}())</tt>
+     * {@link Pbths#get(URI) Pbths.get}(</tt><i>p</i><tt>.toUri()).equbls(</tt><i>p</i>
+     * <tt>.{@link #toAbsolutePbth() toAbsolutePbth}())</tt>
      * </blockquote>
-     * so long as the original {@code Path}, the {@code URI}, and the new {@code
-     * Path} are all created in (possibly different invocations of) the same
-     * Java virtual machine. Whether other providers make any guarantees is
-     * provider specific and therefore unspecified.
+     * so long bs the originbl {@code Pbth}, the {@code URI}, bnd the new {@code
+     * Pbth} bre bll crebted in (possibly different invocbtions of) the sbme
+     * Jbvb virtubl mbchine. Whether other providers mbke bny gubrbntees is
+     * provider specific bnd therefore unspecified.
      *
-     * <p> When a file system is constructed to access the contents of a file
-     * as a file system then it is highly implementation specific if the returned
-     * URI represents the given path in the file system or it represents a
-     * <em>compound</em> URI that encodes the URI of the enclosing file system.
-     * A format for compound URIs is not defined in this release; such a scheme
-     * may be added in a future release.
+     * <p> When b file system is constructed to bccess the contents of b file
+     * bs b file system then it is highly implementbtion specific if the returned
+     * URI represents the given pbth in the file system or it represents b
+     * <em>compound</em> URI thbt encodes the URI of the enclosing file system.
+     * A formbt for compound URIs is not defined in this relebse; such b scheme
+     * mby be bdded in b future relebse.
      *
-     * @return  the URI representing this path
+     * @return  the URI representing this pbth
      *
-     * @throws  java.io.IOError
-     *          if an I/O error occurs obtaining the absolute path, or where a
-     *          file system is constructed to access the contents of a file as
-     *          a file system, and the URI of the enclosing file system cannot be
-     *          obtained
+     * @throws  jbvb.io.IOError
+     *          if bn I/O error occurs obtbining the bbsolute pbth, or where b
+     *          file system is constructed to bccess the contents of b file bs
+     *          b file system, bnd the URI of the enclosing file system cbnnot be
+     *          obtbined
      *
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager
-     *          is installed, the {@link #toAbsolutePath toAbsolutePath} method
-     *          throws a security exception.
+     *          In the cbse of the defbult provider, bnd b security mbnbger
+     *          is instblled, the {@link #toAbsolutePbth toAbsolutePbth} method
+     *          throws b security exception.
      */
     URI toUri();
 
     /**
-     * Returns a {@code Path} object representing the absolute path of this
-     * path.
+     * Returns b {@code Pbth} object representing the bbsolute pbth of this
+     * pbth.
      *
-     * <p> If this path is already {@link Path#isAbsolute absolute} then this
-     * method simply returns this path. Otherwise, this method resolves the path
-     * in an implementation dependent manner, typically by resolving the path
-     * against a file system default directory. Depending on the implementation,
-     * this method may throw an I/O error if the file system is not accessible.
+     * <p> If this pbth is blrebdy {@link Pbth#isAbsolute bbsolute} then this
+     * method simply returns this pbth. Otherwise, this method resolves the pbth
+     * in bn implementbtion dependent mbnner, typicblly by resolving the pbth
+     * bgbinst b file system defbult directory. Depending on the implementbtion,
+     * this method mby throw bn I/O error if the file system is not bccessible.
      *
-     * @return  a {@code Path} object representing the absolute path
+     * @return  b {@code Pbth} object representing the bbsolute pbth
      *
-     * @throws  java.io.IOError
-     *          if an I/O error occurs
+     * @throws  jbvb.io.IOError
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, a security manager
-     *          is installed, and this path is not absolute, then the security
-     *          manager's {@link SecurityManager#checkPropertyAccess(String)
-     *          checkPropertyAccess} method is invoked to check access to the
+     *          In the cbse of the defbult provider, b security mbnbger
+     *          is instblled, bnd this pbth is not bbsolute, then the security
+     *          mbnbger's {@link SecurityMbnbger#checkPropertyAccess(String)
+     *          checkPropertyAccess} method is invoked to check bccess to the
      *          system property {@code user.dir}
      */
-    Path toAbsolutePath();
+    Pbth toAbsolutePbth();
 
     /**
-     * Returns the <em>real</em> path of an existing file.
+     * Returns the <em>rebl</em> pbth of bn existing file.
      *
-     * <p> The precise definition of this method is implementation dependent but
-     * in general it derives from this path, an {@link #isAbsolute absolute}
-     * path that locates the {@link Files#isSameFile same} file as this path, but
-     * with name elements that represent the actual name of the directories
-     * and the file. For example, where filename comparisons on a file system
-     * are case insensitive then the name elements represent the names in their
-     * actual case. Additionally, the resulting path has redundant name
+     * <p> The precise definition of this method is implementbtion dependent but
+     * in generbl it derives from this pbth, bn {@link #isAbsolute bbsolute}
+     * pbth thbt locbtes the {@link Files#isSbmeFile sbme} file bs this pbth, but
+     * with nbme elements thbt represent the bctubl nbme of the directories
+     * bnd the file. For exbmple, where filenbme compbrisons on b file system
+     * bre cbse insensitive then the nbme elements represent the nbmes in their
+     * bctubl cbse. Additionblly, the resulting pbth hbs redundbnt nbme
      * elements removed.
      *
-     * <p> If this path is relative then its absolute path is first obtained,
-     * as if by invoking the {@link #toAbsolutePath toAbsolutePath} method.
+     * <p> If this pbth is relbtive then its bbsolute pbth is first obtbined,
+     * bs if by invoking the {@link #toAbsolutePbth toAbsolutePbth} method.
      *
-     * <p> The {@code options} array may be used to indicate how symbolic links
-     * are handled. By default, symbolic links are resolved to their final
-     * target. If the option {@link LinkOption#NOFOLLOW_LINKS NOFOLLOW_LINKS} is
+     * <p> The {@code options} brrby mby be used to indicbte how symbolic links
+     * bre hbndled. By defbult, symbolic links bre resolved to their finbl
+     * tbrget. If the option {@link LinkOption#NOFOLLOW_LINKS NOFOLLOW_LINKS} is
      * present then this method does not resolve symbolic links.
      *
-     * Some implementations allow special names such as "{@code ..}" to refer to
-     * the parent directory. When deriving the <em>real path</em>, and a
-     * "{@code ..}" (or equivalent) is preceded by a non-"{@code ..}" name then
-     * an implementation will typically cause both names to be removed. When
-     * not resolving symbolic links and the preceding name is a symbolic link
-     * then the names are only removed if it guaranteed that the resulting path
-     * will locate the same file as this path.
+     * Some implementbtions bllow specibl nbmes such bs "{@code ..}" to refer to
+     * the pbrent directory. When deriving the <em>rebl pbth</em>, bnd b
+     * "{@code ..}" (or equivblent) is preceded by b non-"{@code ..}" nbme then
+     * bn implementbtion will typicblly cbuse both nbmes to be removed. When
+     * not resolving symbolic links bnd the preceding nbme is b symbolic link
+     * then the nbmes bre only removed if it gubrbnteed thbt the resulting pbth
+     * will locbte the sbme file bs this pbth.
      *
-     * @param   options
-     *          options indicating how symbolic links are handled
+     * @pbrbm   options
+     *          options indicbting how symbolic links bre hbndled
      *
-     * @return  an absolute path represent the <em>real</em> path of the file
-     *          located by this object
+     * @return  bn bbsolute pbth represent the <em>rebl</em> pbth of the file
+     *          locbted by this object
      *
      * @throws  IOException
-     *          if the file does not exist or an I/O error occurs
+     *          if the file does not exist or bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager
-     *          is installed, its {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the file, and where
-     *          this path is not absolute, its {@link SecurityManager#checkPropertyAccess(String)
-     *          checkPropertyAccess} method is invoked to check access to the
+     *          In the cbse of the defbult provider, bnd b security mbnbger
+     *          is instblled, its {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the file, bnd where
+     *          this pbth is not bbsolute, its {@link SecurityMbnbger#checkPropertyAccess(String)
+     *          checkPropertyAccess} method is invoked to check bccess to the
      *          system property {@code user.dir}
      */
-    Path toRealPath(LinkOption... options) throws IOException;
+    Pbth toReblPbth(LinkOption... options) throws IOException;
 
     /**
-     * Returns a {@link File} object representing this path. Where this {@code
-     * Path} is associated with the default provider, then this method is
-     * equivalent to returning a {@code File} object constructed with the
-     * {@code String} representation of this path.
+     * Returns b {@link File} object representing this pbth. Where this {@code
+     * Pbth} is bssocibted with the defbult provider, then this method is
+     * equivblent to returning b {@code File} object constructed with the
+     * {@code String} representbtion of this pbth.
      *
-     * <p> If this path was created by invoking the {@code File} {@link
-     * File#toPath toPath} method then there is no guarantee that the {@code
-     * File} object returned by this method is {@link #equals equal} to the
-     * original {@code File}.
+     * <p> If this pbth wbs crebted by invoking the {@code File} {@link
+     * File#toPbth toPbth} method then there is no gubrbntee thbt the {@code
+     * File} object returned by this method is {@link #equbls equbl} to the
+     * originbl {@code File}.
      *
-     * @return  a {@code File} object representing this path
+     * @return  b {@code File} object representing this pbth
      *
-     * @throws  UnsupportedOperationException
-     *          if this {@code Path} is not associated with the default provider
+     * @throws  UnsupportedOperbtionException
+     *          if this {@code Pbth} is not bssocibted with the defbult provider
      */
     File toFile();
 
-    // -- watchable --
+    // -- wbtchbble --
 
     /**
-     * Registers the file located by this path with a watch service.
+     * Registers the file locbted by this pbth with b wbtch service.
      *
-     * <p> In this release, this path locates a directory that exists. The
-     * directory is registered with the watch service so that entries in the
-     * directory can be watched. The {@code events} parameter is the events to
-     * register and may contain the following events:
+     * <p> In this relebse, this pbth locbtes b directory thbt exists. The
+     * directory is registered with the wbtch service so thbt entries in the
+     * directory cbn be wbtched. The {@code events} pbrbmeter is the events to
+     * register bnd mby contbin the following events:
      * <ul>
-     *   <li>{@link StandardWatchEventKinds#ENTRY_CREATE ENTRY_CREATE} -
-     *       entry created or moved into the directory</li>
-     *   <li>{@link StandardWatchEventKinds#ENTRY_DELETE ENTRY_DELETE} -
+     *   <li>{@link StbndbrdWbtchEventKinds#ENTRY_CREATE ENTRY_CREATE} -
+     *       entry crebted or moved into the directory</li>
+     *   <li>{@link StbndbrdWbtchEventKinds#ENTRY_DELETE ENTRY_DELETE} -
      *        entry deleted or moved out of the directory</li>
-     *   <li>{@link StandardWatchEventKinds#ENTRY_MODIFY ENTRY_MODIFY} -
-     *        entry in directory was modified</li>
+     *   <li>{@link StbndbrdWbtchEventKinds#ENTRY_MODIFY ENTRY_MODIFY} -
+     *        entry in directory wbs modified</li>
      * </ul>
      *
-     * <p> The {@link WatchEvent#context context} for these events is the
-     * relative path between the directory located by this path, and the path
-     * that locates the directory entry that is created, deleted, or modified.
+     * <p> The {@link WbtchEvent#context context} for these events is the
+     * relbtive pbth between the directory locbted by this pbth, bnd the pbth
+     * thbt locbtes the directory entry thbt is crebted, deleted, or modified.
      *
-     * <p> The set of events may include additional implementation specific
-     * event that are not defined by the enum {@link StandardWatchEventKinds}
+     * <p> The set of events mby include bdditionbl implementbtion specific
+     * event thbt bre not defined by the enum {@link StbndbrdWbtchEventKinds}
      *
-     * <p> The {@code modifiers} parameter specifies <em>modifiers</em> that
-     * qualify how the directory is registered. This release does not define any
-     * <em>standard</em> modifiers. It may contain implementation specific
+     * <p> The {@code modifiers} pbrbmeter specifies <em>modifiers</em> thbt
+     * qublify how the directory is registered. This relebse does not define bny
+     * <em>stbndbrd</em> modifiers. It mby contbin implementbtion specific
      * modifiers.
      *
-     * <p> Where a file is registered with a watch service by means of a symbolic
-     * link then it is implementation specific if the watch continues to depend
-     * on the existence of the symbolic link after it is registered.
+     * <p> Where b file is registered with b wbtch service by mebns of b symbolic
+     * link then it is implementbtion specific if the wbtch continues to depend
+     * on the existence of the symbolic link bfter it is registered.
      *
-     * @param   watcher
-     *          the watch service to which this object is to be registered
-     * @param   events
+     * @pbrbm   wbtcher
+     *          the wbtch service to which this object is to be registered
+     * @pbrbm   events
      *          the events for which this object should be registered
-     * @param   modifiers
-     *          the modifiers, if any, that modify how the object is registered
+     * @pbrbm   modifiers
+     *          the modifiers, if bny, thbt modify how the object is registered
      *
-     * @return  a key representing the registration of this object with the
-     *          given watch service
+     * @return  b key representing the registrbtion of this object with the
+     *          given wbtch service
      *
-     * @throws  UnsupportedOperationException
-     *          if unsupported events or modifiers are specified
-     * @throws  IllegalArgumentException
-     *          if an invalid combination of events or modifiers is specified
-     * @throws  ClosedWatchServiceException
-     *          if the watch service is closed
+     * @throws  UnsupportedOperbtionException
+     *          if unsupported events or modifiers bre specified
+     * @throws  IllegblArgumentException
+     *          if bn invblid combinbtion of events or modifiers is specified
+     * @throws  ClosedWbtchServiceException
+     *          if the wbtch service is closed
      * @throws  NotDirectoryException
-     *          if the file is registered to watch the entries in a directory
-     *          and the file is not a directory  <i>(optional specific exception)</i>
+     *          if the file is registered to wbtch the entries in b directory
+     *          bnd the file is not b directory  <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the file.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the file.
      */
     @Override
-    WatchKey register(WatchService watcher,
-                      WatchEvent.Kind<?>[] events,
-                      WatchEvent.Modifier... modifiers)
+    WbtchKey register(WbtchService wbtcher,
+                      WbtchEvent.Kind<?>[] events,
+                      WbtchEvent.Modifier... modifiers)
         throws IOException;
 
     /**
-     * Registers the file located by this path with a watch service.
+     * Registers the file locbted by this pbth with b wbtch service.
      *
-     * <p> An invocation of this method behaves in exactly the same way as the
-     * invocation
+     * <p> An invocbtion of this method behbves in exbctly the sbme wby bs the
+     * invocbtion
      * <pre>
-     *     watchable.{@link #register(WatchService,WatchEvent.Kind[],WatchEvent.Modifier[]) register}(watcher, events, new WatchEvent.Modifier[0]);
+     *     wbtchbble.{@link #register(WbtchService,WbtchEvent.Kind[],WbtchEvent.Modifier[]) register}(wbtcher, events, new WbtchEvent.Modifier[0]);
      * </pre>
      *
-     * <p> <b>Usage Example:</b>
-     * Suppose we wish to register a directory for entry create, delete, and modify
+     * <p> <b>Usbge Exbmple:</b>
+     * Suppose we wish to register b directory for entry crebte, delete, bnd modify
      * events:
      * <pre>
-     *     Path dir = ...
-     *     WatchService watcher = ...
+     *     Pbth dir = ...
+     *     WbtchService wbtcher = ...
      *
-     *     WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+     *     WbtchKey key = dir.register(wbtcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
      * </pre>
-     * @param   watcher
-     *          The watch service to which this object is to be registered
-     * @param   events
+     * @pbrbm   wbtcher
+     *          The wbtch service to which this object is to be registered
+     * @pbrbm   events
      *          The events for which this object should be registered
      *
-     * @return  A key representing the registration of this object with the
-     *          given watch service
+     * @return  A key representing the registrbtion of this object with the
+     *          given wbtch service
      *
-     * @throws  UnsupportedOperationException
-     *          If unsupported events are specified
-     * @throws  IllegalArgumentException
-     *          If an invalid combination of events is specified
-     * @throws  ClosedWatchServiceException
-     *          If the watch service is closed
+     * @throws  UnsupportedOperbtionException
+     *          If unsupported events bre specified
+     * @throws  IllegblArgumentException
+     *          If bn invblid combinbtion of events is specified
+     * @throws  ClosedWbtchServiceException
+     *          If the wbtch service is closed
      * @throws  NotDirectoryException
-     *          If the file is registered to watch the entries in a directory
-     *          and the file is not a directory  <i>(optional specific exception)</i>
+     *          If the file is registered to wbtch the entries in b directory
+     *          bnd the file is not b directory  <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the file.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the file.
      */
     @Override
-    WatchKey register(WatchService watcher,
-                      WatchEvent.Kind<?>... events)
+    WbtchKey register(WbtchService wbtcher,
+                      WbtchEvent.Kind<?>... events)
         throws IOException;
 
-    // -- Iterable --
+    // -- Iterbble --
 
     /**
-     * Returns an iterator over the name elements of this path.
+     * Returns bn iterbtor over the nbme elements of this pbth.
      *
-     * <p> The first element returned by the iterator represents the name
-     * element that is closest to the root in the directory hierarchy, the
-     * second element is the next closest, and so on. The last element returned
-     * is the name of the file or directory denoted by this path. The {@link
-     * #getRoot root} component, if present, is not returned by the iterator.
+     * <p> The first element returned by the iterbtor represents the nbme
+     * element thbt is closest to the root in the directory hierbrchy, the
+     * second element is the next closest, bnd so on. The lbst element returned
+     * is the nbme of the file or directory denoted by this pbth. The {@link
+     * #getRoot root} component, if present, is not returned by the iterbtor.
      *
-     * @return  an iterator over the name elements of this path.
+     * @return  bn iterbtor over the nbme elements of this pbth.
      */
     @Override
-    Iterator<Path> iterator();
+    Iterbtor<Pbth> iterbtor();
 
-    // -- compareTo/equals/hashCode --
+    // -- compbreTo/equbls/hbshCode --
 
     /**
-     * Compares two abstract paths lexicographically. The ordering defined by
-     * this method is provider specific, and in the case of the default
-     * provider, platform specific. This method does not access the file system
-     * and neither file is required to exist.
+     * Compbres two bbstrbct pbths lexicogrbphicblly. The ordering defined by
+     * this method is provider specific, bnd in the cbse of the defbult
+     * provider, plbtform specific. This method does not bccess the file system
+     * bnd neither file is required to exist.
      *
-     * <p> This method may not be used to compare paths that are associated
+     * <p> This method mby not be used to compbre pbths thbt bre bssocibted
      * with different file system providers.
      *
-     * @param   other  the path compared to this path.
+     * @pbrbm   other  the pbth compbred to this pbth.
      *
-     * @return  zero if the argument is {@link #equals equal} to this path, a
-     *          value less than zero if this path is lexicographically less than
-     *          the argument, or a value greater than zero if this path is
-     *          lexicographically greater than the argument
+     * @return  zero if the brgument is {@link #equbls equbl} to this pbth, b
+     *          vblue less thbn zero if this pbth is lexicogrbphicblly less thbn
+     *          the brgument, or b vblue grebter thbn zero if this pbth is
+     *          lexicogrbphicblly grebter thbn the brgument
      *
-     * @throws  ClassCastException
-     *          if the paths are associated with different providers
+     * @throws  ClbssCbstException
+     *          if the pbths bre bssocibted with different providers
      */
     @Override
-    int compareTo(Path other);
+    int compbreTo(Pbth other);
 
     /**
-     * Tests this path for equality with the given object.
+     * Tests this pbth for equblity with the given object.
      *
-     * <p> If the given object is not a Path, or is a Path associated with a
-     * different {@code FileSystem}, then this method returns {@code false}.
+     * <p> If the given object is not b Pbth, or is b Pbth bssocibted with b
+     * different {@code FileSystem}, then this method returns {@code fblse}.
      *
-     * <p> Whether or not two path are equal depends on the file system
-     * implementation. In some cases the paths are compared without regard
-     * to case, and others are case sensitive. This method does not access the
-     * file system and the file is not required to exist. Where required, the
-     * {@link Files#isSameFile isSameFile} method may be used to check if two
-     * paths locate the same file.
+     * <p> Whether or not two pbth bre equbl depends on the file system
+     * implementbtion. In some cbses the pbths bre compbred without regbrd
+     * to cbse, bnd others bre cbse sensitive. This method does not bccess the
+     * file system bnd the file is not required to exist. Where required, the
+     * {@link Files#isSbmeFile isSbmeFile} method mby be used to check if two
+     * pbths locbte the sbme file.
      *
-     * <p> This method satisfies the general contract of the {@link
-     * java.lang.Object#equals(Object) Object.equals} method. </p>
+     * <p> This method sbtisfies the generbl contrbct of the {@link
+     * jbvb.lbng.Object#equbls(Object) Object.equbls} method. </p>
      *
-     * @param   other
-     *          the object to which this object is to be compared
+     * @pbrbm   other
+     *          the object to which this object is to be compbred
      *
-     * @return  {@code true} if, and only if, the given object is a {@code Path}
-     *          that is identical to this {@code Path}
+     * @return  {@code true} if, bnd only if, the given object is b {@code Pbth}
+     *          thbt is identicbl to this {@code Pbth}
      */
-    boolean equals(Object other);
+    boolebn equbls(Object other);
 
     /**
-     * Computes a hash code for this path.
+     * Computes b hbsh code for this pbth.
      *
-     * <p> The hash code is based upon the components of the path, and
-     * satisfies the general contract of the {@link Object#hashCode
-     * Object.hashCode} method.
+     * <p> The hbsh code is bbsed upon the components of the pbth, bnd
+     * sbtisfies the generbl contrbct of the {@link Object#hbshCode
+     * Object.hbshCode} method.
      *
-     * @return  the hash-code value for this path
+     * @return  the hbsh-code vblue for this pbth
      */
-    int hashCode();
+    int hbshCode();
 
     /**
-     * Returns the string representation of this path.
+     * Returns the string representbtion of this pbth.
      *
-     * <p> If this path was created by converting a path string using the
-     * {@link FileSystem#getPath getPath} method then the path string returned
-     * by this method may differ from the original String used to create the path.
+     * <p> If this pbth wbs crebted by converting b pbth string using the
+     * {@link FileSystem#getPbth getPbth} method then the pbth string returned
+     * by this method mby differ from the originbl String used to crebte the pbth.
      *
-     * <p> The returned path string uses the default name {@link
-     * FileSystem#getSeparator separator} to separate names in the path.
+     * <p> The returned pbth string uses the defbult nbme {@link
+     * FileSystem#getSepbrbtor sepbrbtor} to sepbrbte nbmes in the pbth.
      *
-     * @return  the string representation of this path
+     * @return  the string representbtion of this pbth
      */
     String toString();
 }

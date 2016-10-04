@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 2006, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.security.*;
-import java.security.interfaces.ECPublicKey;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.*;
+import jbvb.security.interfbces.ECPublicKey;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import javax.crypto.*;
+import jbvbx.crypto.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * KeyAgreement implementation for ECDH.
+ * KeyAgreement implementbtion for ECDH.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.6
  */
-final class P11ECDHKeyAgreement extends KeyAgreementSpi {
+finbl clbss P11ECDHKeyAgreement extends KeyAgreementSpi {
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // algorithm name
-    private final String algorithm;
+    // blgorithm nbme
+    privbte finbl String blgorithm;
 
-    // mechanism id
-    private final long mechanism;
+    // mechbnism id
+    privbte finbl long mechbnism;
 
-    // private key, if initialized
-    private P11Key privateKey;
+    // privbte key, if initiblized
+    privbte P11Key privbteKey;
 
-    // encoded public point, non-null between doPhase() and generateSecret() only
-    private byte[] publicValue;
+    // encoded public point, non-null between doPhbse() bnd generbteSecret() only
+    privbte byte[] publicVblue;
 
     // length of the secret to be derived
-    private int secretLen;
+    privbte int secretLen;
 
-    P11ECDHKeyAgreement(Token token, String algorithm, long mechanism) {
+    P11ECDHKeyAgreement(Token token, String blgorithm, long mechbnism) {
         super();
         this.token = token;
-        this.algorithm = algorithm;
-        this.mechanism = mechanism;
+        this.blgorithm = blgorithm;
+        this.mechbnism = mechbnism;
     }
 
     // see JCE spec
-    protected void engineInit(Key key, SecureRandom random)
-            throws InvalidKeyException {
-        if (key instanceof PrivateKey == false) {
-            throw new InvalidKeyException
-                        ("Key must be instance of PrivateKey");
+    protected void engineInit(Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
+        if (key instbnceof PrivbteKey == fblse) {
+            throw new InvblidKeyException
+                        ("Key must be instbnce of PrivbteKey");
         }
-        privateKey = P11KeyFactory.convertKey(token, key, "EC");
-        publicValue = null;
+        privbteKey = P11KeyFbctory.convertKey(token, key, "EC");
+        publicVblue = null;
     }
 
     // see JCE spec
-    protected void engineInit(Key key, AlgorithmParameterSpec params,
-            SecureRandom random) throws InvalidKeyException,
-            InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException
-                        ("Parameters not supported");
+    protected void engineInit(Key key, AlgorithmPbrbmeterSpec pbrbms,
+            SecureRbndom rbndom) throws InvblidKeyException,
+            InvblidAlgorithmPbrbmeterException {
+        if (pbrbms != null) {
+            throw new InvblidAlgorithmPbrbmeterException
+                        ("Pbrbmeters not supported");
         }
-        engineInit(key, random);
+        engineInit(key, rbndom);
     }
 
     // see JCE spec
-    protected Key engineDoPhase(Key key, boolean lastPhase)
-            throws InvalidKeyException, IllegalStateException {
-        if (privateKey == null) {
-            throw new IllegalStateException("Not initialized");
+    protected Key engineDoPhbse(Key key, boolebn lbstPhbse)
+            throws InvblidKeyException, IllegblStbteException {
+        if (privbteKey == null) {
+            throw new IllegblStbteException("Not initiblized");
         }
-        if (publicValue != null) {
-            throw new IllegalStateException("Phase already executed");
+        if (publicVblue != null) {
+            throw new IllegblStbteException("Phbse blrebdy executed");
         }
-        if (lastPhase == false) {
-            throw new IllegalStateException
-                ("Only two party agreement supported, lastPhase must be true");
+        if (lbstPhbse == fblse) {
+            throw new IllegblStbteException
+                ("Only two pbrty bgreement supported, lbstPhbse must be true");
         }
-        if (key instanceof ECPublicKey == false) {
-            throw new InvalidKeyException
-                ("Key must be a PublicKey with algorithm EC");
+        if (key instbnceof ECPublicKey == fblse) {
+            throw new InvblidKeyException
+                ("Key must be b PublicKey with blgorithm EC");
         }
         ECPublicKey ecKey = (ECPublicKey)key;
-        int keyLenBits = ecKey.getParams().getCurve().getField().getFieldSize();
+        int keyLenBits = ecKey.getPbrbms().getCurve().getField().getFieldSize();
         secretLen = (keyLenBits + 7) >> 3;
-        publicValue = P11ECKeyFactory.getEncodedPublicValue(ecKey);
+        publicVblue = P11ECKeyFbctory.getEncodedPublicVblue(ecKey);
         return null;
     }
 
     // see JCE spec
-    protected byte[] engineGenerateSecret() throws IllegalStateException {
-        if ((privateKey == null) || (publicValue == null)) {
-            throw new IllegalStateException("Not initialized correctly");
+    protected byte[] engineGenerbteSecret() throws IllegblStbteException {
+        if ((privbteKey == null) || (publicVblue == null)) {
+            throw new IllegblStbteException("Not initiblized correctly");
         }
         Session session = null;
         try {
             session = token.getOpSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
                 new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_GENERIC_SECRET),
             };
-            CK_ECDH1_DERIVE_PARAMS ckParams =
-                    new CK_ECDH1_DERIVE_PARAMS(CKD_NULL, null, publicValue);
-            attributes = token.getAttributes
-                (O_GENERATE, CKO_SECRET_KEY, CKK_GENERIC_SECRET, attributes);
+            CK_ECDH1_DERIVE_PARAMS ckPbrbms =
+                    new CK_ECDH1_DERIVE_PARAMS(CKD_NULL, null, publicVblue);
+            bttributes = token.getAttributes
+                (O_GENERATE, CKO_SECRET_KEY, CKK_GENERIC_SECRET, bttributes);
             long keyID = token.p11.C_DeriveKey(session.id(),
-                new CK_MECHANISM(mechanism, ckParams), privateKey.keyID,
-                attributes);
-            attributes = new CK_ATTRIBUTE[] {
+                new CK_MECHANISM(mechbnism, ckPbrbms), privbteKey.keyID,
+                bttributes);
+            bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_VALUE)
             };
-            token.p11.C_GetAttributeValue(session.id(), keyID, attributes);
-            byte[] secret = attributes[0].getByteArray();
+            token.p11.C_GetAttributeVblue(session.id(), keyID, bttributes);
+            byte[] secret = bttributes[0].getByteArrby();
             token.p11.C_DestroyObject(session.id(), keyID);
             return secret;
-        } catch (PKCS11Exception e) {
+        } cbtch (PKCS11Exception e) {
             throw new ProviderException("Could not derive key", e);
-        } finally {
-            publicValue = null;
-            token.releaseSession(session);
+        } finblly {
+            publicVblue = null;
+            token.relebseSession(session);
         }
     }
 
     // see JCE spec
-    protected int engineGenerateSecret(byte[] sharedSecret, int
-            offset) throws IllegalStateException, ShortBufferException {
-        if (offset + secretLen > sharedSecret.length) {
+    protected int engineGenerbteSecret(byte[] shbredSecret, int
+            offset) throws IllegblStbteException, ShortBufferException {
+        if (offset + secretLen > shbredSecret.length) {
             throw new ShortBufferException("Need " + secretLen
-                + " bytes, only " + (sharedSecret.length - offset) + " available");
+                + " bytes, only " + (shbredSecret.length - offset) + " bvbilbble");
         }
-        byte[] secret = engineGenerateSecret();
-        System.arraycopy(secret, 0, sharedSecret, offset, secret.length);
+        byte[] secret = engineGenerbteSecret();
+        System.brrbycopy(secret, 0, shbredSecret, offset, secret.length);
         return secret.length;
     }
 
     // see JCE spec
-    protected SecretKey engineGenerateSecret(String algorithm)
-            throws IllegalStateException, NoSuchAlgorithmException,
-            InvalidKeyException {
-        if (algorithm == null) {
+    protected SecretKey engineGenerbteSecret(String blgorithm)
+            throws IllegblStbteException, NoSuchAlgorithmException,
+            InvblidKeyException {
+        if (blgorithm == null) {
             throw new NoSuchAlgorithmException("Algorithm must not be null");
         }
-        if (algorithm.equals("TlsPremasterSecret") == false) {
+        if (blgorithm.equbls("TlsPrembsterSecret") == fblse) {
             throw new NoSuchAlgorithmException
-                ("Only supported for algorithm TlsPremasterSecret");
+                ("Only supported for blgorithm TlsPrembsterSecret");
         }
-        return nativeGenerateSecret(algorithm);
+        return nbtiveGenerbteSecret(blgorithm);
     }
 
-    private SecretKey nativeGenerateSecret(String algorithm)
-            throws IllegalStateException, NoSuchAlgorithmException,
-            InvalidKeyException {
-        if ((privateKey == null) || (publicValue == null)) {
-            throw new IllegalStateException("Not initialized correctly");
+    privbte SecretKey nbtiveGenerbteSecret(String blgorithm)
+            throws IllegblStbteException, NoSuchAlgorithmException,
+            InvblidKeyException {
+        if ((privbteKey == null) || (publicVblue == null)) {
+            throw new IllegblStbteException("Not initiblized correctly");
         }
         long keyType = CKK_GENERIC_SECRET;
         Session session = null;
         try {
             session = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
                 new CK_ATTRIBUTE(CKA_KEY_TYPE, keyType),
             };
-            CK_ECDH1_DERIVE_PARAMS ckParams =
-                    new CK_ECDH1_DERIVE_PARAMS(CKD_NULL, null, publicValue);
-            attributes = token.getAttributes
-                (O_GENERATE, CKO_SECRET_KEY, keyType, attributes);
+            CK_ECDH1_DERIVE_PARAMS ckPbrbms =
+                    new CK_ECDH1_DERIVE_PARAMS(CKD_NULL, null, publicVblue);
+            bttributes = token.getAttributes
+                (O_GENERATE, CKO_SECRET_KEY, keyType, bttributes);
             long keyID = token.p11.C_DeriveKey(session.id(),
-                new CK_MECHANISM(mechanism, ckParams), privateKey.keyID,
-                attributes);
+                new CK_MECHANISM(mechbnism, ckPbrbms), privbteKey.keyID,
+                bttributes);
             CK_ATTRIBUTE[] lenAttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_VALUE_LEN),
             };
-            token.p11.C_GetAttributeValue(session.id(), keyID, lenAttributes);
+            token.p11.C_GetAttributeVblue(session.id(), keyID, lenAttributes);
             int keyLen = (int)lenAttributes[0].getLong();
             SecretKey key = P11Key.secretKey
-                        (session, keyID, algorithm, keyLen << 3, attributes);
+                        (session, keyID, blgorithm, keyLen << 3, bttributes);
             return key;
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not derive key", e);
-        } finally {
-            publicValue = null;
-            token.releaseSession(session);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("Could not derive key", e);
+        } finblly {
+            publicVblue = null;
+            token.relebseSession(session);
         }
     }
 

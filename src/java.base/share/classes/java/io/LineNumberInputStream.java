@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * This class is an input stream filter that provides the added
- * functionality of keeping track of the current line number.
+ * This clbss is bn input strebm filter thbt provides the bdded
+ * functionblity of keeping trbck of the current line number.
  * <p>
- * A line is a sequence of bytes ending with a carriage return
- * character ({@code '\u005Cr'}), a newline character
- * ({@code '\u005Cn'}), or a carriage return character followed
- * immediately by a linefeed character. In all three cases, the line
- * terminating character(s) are returned as a single newline character.
+ * A line is b sequence of bytes ending with b cbrribge return
+ * chbrbcter ({@code '\u005Cr'}), b newline chbrbcter
+ * ({@code '\u005Cn'}), or b cbrribge return chbrbcter followed
+ * immedibtely by b linefeed chbrbcter. In bll three cbses, the line
+ * terminbting chbrbcter(s) bre returned bs b single newline chbrbcter.
  * <p>
- * The line number begins at {@code 0}, and is incremented by
- * {@code 1} when a {@code read} returns a newline character.
+ * The line number begins bt {@code 0}, bnd is incremented by
+ * {@code 1} when b {@code rebd} returns b newline chbrbcter.
  *
- * @author     Arthur van Hoff
- * @see        java.io.LineNumberReader
+ * @buthor     Arthur vbn Hoff
+ * @see        jbvb.io.LineNumberRebder
  * @since      1.0
- * @deprecated This class incorrectly assumes that bytes adequately represent
- *             characters.  As of JDK&nbsp;1.1, the preferred way to operate on
- *             character streams is via the new character-stream classes, which
- *             include a class for counting line numbers.
+ * @deprecbted This clbss incorrectly bssumes thbt bytes bdequbtely represent
+ *             chbrbcters.  As of JDK&nbsp;1.1, the preferred wby to operbte on
+ *             chbrbcter strebms is vib the new chbrbcter-strebm clbsses, which
+ *             include b clbss for counting line numbers.
  */
-@Deprecated
+@Deprecbted
 public
-class LineNumberInputStream extends FilterInputStream {
-    int pushBack = -1;
+clbss LineNumberInputStrebm extends FilterInputStrebm {
+    int pushBbck = -1;
     int lineNumber;
-    int markLineNumber;
-    int markPushBack = -1;
+    int mbrkLineNumber;
+    int mbrkPushBbck = -1;
 
     /**
-     * Constructs a newline number input stream that reads its input
-     * from the specified input stream.
+     * Constructs b newline number input strebm thbt rebds its input
+     * from the specified input strebm.
      *
-     * @param      in   the underlying input stream.
+     * @pbrbm      in   the underlying input strebm.
      */
-    public LineNumberInputStream(InputStream in) {
+    public LineNumberInputStrebm(InputStrebm in) {
         super(in);
     }
 
     /**
-     * Reads the next byte of data from this input stream. The value
-     * byte is returned as an {@code int} in the range
-     * {@code 0} to {@code 255}. If no byte is available
-     * because the end of the stream has been reached, the value
-     * {@code -1} is returned. This method blocks until input data
-     * is available, the end of the stream is detected, or an exception
+     * Rebds the next byte of dbtb from this input strebm. The vblue
+     * byte is returned bs bn {@code int} in the rbnge
+     * {@code 0} to {@code 255}. If no byte is bvbilbble
+     * becbuse the end of the strebm hbs been rebched, the vblue
+     * {@code -1} is returned. This method blocks until input dbtb
+     * is bvbilbble, the end of the strebm is detected, or bn exception
      * is thrown.
      * <p>
-     * The {@code read} method of
-     * {@code LineNumberInputStream} calls the {@code read}
-     * method of the underlying input stream. It checks for carriage
-     * returns and newline characters in the input, and modifies the
-     * current line number as appropriate. A carriage-return character or
-     * a carriage return followed by a newline character are both
-     * converted into a single newline character.
+     * The {@code rebd} method of
+     * {@code LineNumberInputStrebm} cblls the {@code rebd}
+     * method of the underlying input strebm. It checks for cbrribge
+     * returns bnd newline chbrbcters in the input, bnd modifies the
+     * current line number bs bppropribte. A cbrribge-return chbrbcter or
+     * b cbrribge return followed by b newline chbrbcter bre both
+     * converted into b single newline chbrbcter.
      *
-     * @return     the next byte of data, or {@code -1} if the end of this
-     *             stream is reached.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.LineNumberInputStream#getLineNumber()
+     * @return     the next byte of dbtb, or {@code -1} if the end of this
+     *             strebm is rebched.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
+     * @see        jbvb.io.LineNumberInputStrebm#getLineNumber()
      */
-    @SuppressWarnings("fallthrough")
-    public int read() throws IOException {
-        int c = pushBack;
+    @SuppressWbrnings("fbllthrough")
+    public int rebd() throws IOException {
+        int c = pushBbck;
 
         if (c != -1) {
-            pushBack = -1;
+            pushBbck = -1;
         } else {
-            c = in.read();
+            c = in.rebd();
         }
 
         switch (c) {
-          case '\r':
-            pushBack = in.read();
-            if (pushBack == '\n') {
-                pushBack = -1;
+          cbse '\r':
+            pushBbck = in.rebd();
+            if (pushBbck == '\n') {
+                pushBbck = -1;
             }
-          case '\n':
+          cbse '\n':
             lineNumber++;
             return '\n';
         }
@@ -111,23 +111,23 @@ class LineNumberInputStream extends FilterInputStream {
     }
 
     /**
-     * Reads up to {@code len} bytes of data from this input stream
-     * into an array of bytes. This method blocks until some input is available.
+     * Rebds up to {@code len} bytes of dbtb from this input strebm
+     * into bn brrby of bytes. This method blocks until some input is bvbilbble.
      * <p>
-     * The {@code read} method of
-     * {@code LineNumberInputStream} repeatedly calls the
-     * {@code read} method of zero arguments to fill in the byte array.
+     * The {@code rebd} method of
+     * {@code LineNumberInputStrebm} repebtedly cblls the
+     * {@code rebd} method of zero brguments to fill in the byte brrby.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset of the data.
-     * @param      len   the maximum number of bytes read.
-     * @return     the total number of bytes read into the buffer, or
-     *             {@code -1} if there is no more data because the end of
-     *             this stream has been reached.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.LineNumberInputStream#read()
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm      off   the stbrt offset of the dbtb.
+     * @pbrbm      len   the mbximum number of bytes rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             {@code -1} if there is no more dbtb becbuse the end of
+     *             this strebm hbs been rebched.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.LineNumberInputStrebm#rebd()
      */
-    public int read(byte b[], int off, int len) throws IOException {
+    public int rebd(byte b[], int off, int len) throws IOException {
         if (b == null) {
             throw new NullPointerException();
         } else if ((off < 0) || (off > b.length) || (len < 0) ||
@@ -137,7 +137,7 @@ class LineNumberInputStream extends FilterInputStream {
             return 0;
         }
 
-        int c = read();
+        int c = rebd();
         if (c == -1) {
             return -1;
         }
@@ -146,62 +146,62 @@ class LineNumberInputStream extends FilterInputStream {
         int i = 1;
         try {
             for (; i < len ; i++) {
-                c = read();
+                c = rebd();
                 if (c == -1) {
-                    break;
+                    brebk;
                 }
                 if (b != null) {
                     b[off + i] = (byte)c;
                 }
             }
-        } catch (IOException ee) {
+        } cbtch (IOException ee) {
         }
         return i;
     }
 
     /**
-     * Skips over and discards {@code n} bytes of data from this
-     * input stream. The {@code skip} method may, for a variety of
-     * reasons, end up skipping over some smaller number of bytes,
-     * possibly {@code 0}. The actual number of bytes skipped is
-     * returned.  If {@code n} is negative, no bytes are skipped.
+     * Skips over bnd discbrds {@code n} bytes of dbtb from this
+     * input strebm. The {@code skip} method mby, for b vbriety of
+     * rebsons, end up skipping over some smbller number of bytes,
+     * possibly {@code 0}. The bctubl number of bytes skipped is
+     * returned.  If {@code n} is negbtive, no bytes bre skipped.
      * <p>
-     * The {@code skip} method of {@code LineNumberInputStream} creates
-     * a byte array and then repeatedly reads into it until
-     * {@code n} bytes have been read or the end of the stream has
-     * been reached.
+     * The {@code skip} method of {@code LineNumberInputStrebm} crebtes
+     * b byte brrby bnd then repebtedly rebds into it until
+     * {@code n} bytes hbve been rebd or the end of the strebm hbs
+     * been rebched.
      *
-     * @param      n   the number of bytes to be skipped.
-     * @return     the actual number of bytes skipped.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @pbrbm      n   the number of bytes to be skipped.
+     * @return     the bctubl number of bytes skipped.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
     public long skip(long n) throws IOException {
         int chunk = 2048;
-        long remaining = n;
-        byte data[];
+        long rembining = n;
+        byte dbtb[];
         int nr;
 
         if (n <= 0) {
             return 0;
         }
 
-        data = new byte[chunk];
-        while (remaining > 0) {
-            nr = read(data, 0, (int) Math.min(chunk, remaining));
+        dbtb = new byte[chunk];
+        while (rembining > 0) {
+            nr = rebd(dbtb, 0, (int) Mbth.min(chunk, rembining));
             if (nr < 0) {
-                break;
+                brebk;
             }
-            remaining -= nr;
+            rembining -= nr;
         }
 
-        return n - remaining;
+        return n - rembining;
     }
 
     /**
-     * Sets the line number to the specified argument.
+     * Sets the line number to the specified brgument.
      *
-     * @param      lineNumber   the new line number.
+     * @pbrbm      lineNumber   the new line number.
      * @see #getLineNumber
      */
     public void setLineNumber(int lineNumber) {
@@ -220,74 +220,74 @@ class LineNumberInputStream extends FilterInputStream {
 
 
     /**
-     * Returns the number of bytes that can be read from this input
-     * stream without blocking.
+     * Returns the number of bytes thbt cbn be rebd from this input
+     * strebm without blocking.
      * <p>
-     * Note that if the underlying input stream is able to supply
-     * <i>k</i> input characters without blocking, the
-     * {@code LineNumberInputStream} can guarantee only to provide
-     * <i>k</i>/2 characters without blocking, because the
-     * <i>k</i> characters from the underlying input stream might
-     * consist of <i>k</i>/2 pairs of {@code '\u005Cr'} and
-     * {@code '\u005Cn'}, which are converted to just
-     * <i>k</i>/2 {@code '\u005Cn'} characters.
+     * Note thbt if the underlying input strebm is bble to supply
+     * <i>k</i> input chbrbcters without blocking, the
+     * {@code LineNumberInputStrebm} cbn gubrbntee only to provide
+     * <i>k</i>/2 chbrbcters without blocking, becbuse the
+     * <i>k</i> chbrbcters from the underlying input strebm might
+     * consist of <i>k</i>/2 pbirs of {@code '\u005Cr'} bnd
+     * {@code '\u005Cn'}, which bre converted to just
+     * <i>k</i>/2 {@code '\u005Cn'} chbrbcters.
      *
-     * @return     the number of bytes that can be read from this input stream
+     * @return     the number of bytes thbt cbn be rebd from this input strebm
      *             without blocking.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public int available() throws IOException {
-        return (pushBack == -1) ? super.available()/2 : super.available()/2 + 1;
+    public int bvbilbble() throws IOException {
+        return (pushBbck == -1) ? super.bvbilbble()/2 : super.bvbilbble()/2 + 1;
     }
 
     /**
-     * Marks the current position in this input stream. A subsequent
-     * call to the {@code reset} method repositions this stream at
-     * the last marked position so that subsequent reads re-read the same bytes.
+     * Mbrks the current position in this input strebm. A subsequent
+     * cbll to the {@code reset} method repositions this strebm bt
+     * the lbst mbrked position so thbt subsequent rebds re-rebd the sbme bytes.
      * <p>
-     * The {@code mark} method of
-     * {@code LineNumberInputStream} remembers the current line
-     * number in a private variable, and then calls the {@code mark}
-     * method of the underlying input stream.
+     * The {@code mbrk} method of
+     * {@code LineNumberInputStrebm} remembers the current line
+     * number in b privbte vbribble, bnd then cblls the {@code mbrk}
+     * method of the underlying input strebm.
      *
-     * @param   readlimit   the maximum limit of bytes that can be read before
-     *                      the mark position becomes invalid.
-     * @see     java.io.FilterInputStream#in
-     * @see     java.io.LineNumberInputStream#reset()
+     * @pbrbm   rebdlimit   the mbximum limit of bytes thbt cbn be rebd before
+     *                      the mbrk position becomes invblid.
+     * @see     jbvb.io.FilterInputStrebm#in
+     * @see     jbvb.io.LineNumberInputStrebm#reset()
      */
-    public void mark(int readlimit) {
-        markLineNumber = lineNumber;
-        markPushBack   = pushBack;
-        in.mark(readlimit);
+    public void mbrk(int rebdlimit) {
+        mbrkLineNumber = lineNumber;
+        mbrkPushBbck   = pushBbck;
+        in.mbrk(rebdlimit);
     }
 
     /**
-     * Repositions this stream to the position at the time the
-     * {@code mark} method was last called on this input stream.
+     * Repositions this strebm to the position bt the time the
+     * {@code mbrk} method wbs lbst cblled on this input strebm.
      * <p>
      * The {@code reset} method of
-     * {@code LineNumberInputStream} resets the line number to be
-     * the line number at the time the {@code mark} method was
-     * called, and then calls the {@code reset} method of the
-     * underlying input stream.
+     * {@code LineNumberInputStrebm} resets the line number to be
+     * the line number bt the time the {@code mbrk} method wbs
+     * cblled, bnd then cblls the {@code reset} method of the
+     * underlying input strebm.
      * <p>
-     * Stream marks are intended to be used in
-     * situations where you need to read ahead a little to see what's in
-     * the stream. Often this is most easily done by invoking some
-     * general parser. If the stream is of the type handled by the
-     * parser, it just chugs along happily. If the stream is not of
-     * that type, the parser should toss an exception when it fails,
-     * which, if it happens within readlimit bytes, allows the outer
-     * code to reset the stream and try another parser.
+     * Strebm mbrks bre intended to be used in
+     * situbtions where you need to rebd bhebd b little to see whbt's in
+     * the strebm. Often this is most ebsily done by invoking some
+     * generbl pbrser. If the strebm is of the type hbndled by the
+     * pbrser, it just chugs blong hbppily. If the strebm is not of
+     * thbt type, the pbrser should toss bn exception when it fbils,
+     * which, if it hbppens within rebdlimit bytes, bllows the outer
+     * code to reset the strebm bnd try bnother pbrser.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.LineNumberInputStream#mark(int)
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
+     * @see        jbvb.io.LineNumberInputStrebm#mbrk(int)
      */
     public void reset() throws IOException {
-        lineNumber = markLineNumber;
-        pushBack   = markPushBack;
+        lineNumber = mbrkLineNumber;
+        pushBbck   = mbrkPushBbck;
         in.reset();
     }
 }

@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.spi;
+pbckbge jbvbx.sql.rowset.spi;
 
-import java.sql.SQLException;
-import javax.sql.rowset.*;
+import jbvb.sql.SQLException;
+import jbvbx.sql.rowset.*;
 
 /**
- * Indicates an error with the <code>SyncProvider</code> mechanism. This exception
- * is created by a <code>SyncProvider</code> abstract class extension if it
- * encounters violations in reading from or writing to the originating data source.
+ * Indicbtes bn error with the <code>SyncProvider</code> mechbnism. This exception
+ * is crebted by b <code>SyncProvider</code> bbstrbct clbss extension if it
+ * encounters violbtions in rebding from or writing to the originbting dbtb source.
  * <P>
- * If it is implemented to do so, the <code>SyncProvider</code> object may also create a
- * <code>SyncResolver</code> object and either initialize the <code>SyncProviderException</code>
- * object with it at construction time or set it with the <code>SyncProvider</code> object at
- * a later time.
+ * If it is implemented to do so, the <code>SyncProvider</code> object mby blso crebte b
+ * <code>SyncResolver</code> object bnd either initiblize the <code>SyncProviderException</code>
+ * object with it bt construction time or set it with the <code>SyncProvider</code> object bt
+ * b lbter time.
  * <P>
- * The method <code>acceptChanges</code> will throw this exception after the writer
- * has finished checking for conflicts and has found one or more conflicts. An
- * application may catch a <code>SyncProviderException</code> object and call its
+ * The method <code>bcceptChbnges</code> will throw this exception bfter the writer
+ * hbs finished checking for conflicts bnd hbs found one or more conflicts. An
+ * bpplicbtion mby cbtch b <code>SyncProviderException</code> object bnd cbll its
  * <code>getSyncResolver</code> method to get its <code>SyncResolver</code> object.
- * See the code fragment in the interface comment for
- * <a href="SyncResolver.html"><code>SyncResolver</code></a> for an example.
+ * See the code frbgment in the interfbce comment for
+ * <b href="SyncResolver.html"><code>SyncResolver</code></b> for bn exbmple.
  * This <code>SyncResolver</code> object will mirror the <code>RowSet</code>
- * object that generated the exception, except that it will contain only the values
- * from the data source that are in conflict.  All other values in the <code>SyncResolver</code>
+ * object thbt generbted the exception, except thbt it will contbin only the vblues
+ * from the dbtb source thbt bre in conflict.  All other vblues in the <code>SyncResolver</code>
  * object will be <code>null</code>.
  * <P>
- * The <code>SyncResolver</code> object may be used to examine and resolve
- * each conflict in a row and then go to the next row with a conflict to
- * repeat the procedure.
+ * The <code>SyncResolver</code> object mby be used to exbmine bnd resolve
+ * ebch conflict in b row bnd then go to the next row with b conflict to
+ * repebt the procedure.
  * <P>
- * A <code>SyncProviderException</code> object may or may not contain a description of the
- * condition causing the exception.  The inherited method <code>getMessage</code> may be
- * called to retrieve the description if there is one.
+ * A <code>SyncProviderException</code> object mby or mby not contbin b description of the
+ * condition cbusing the exception.  The inherited method <code>getMessbge</code> mby be
+ * cblled to retrieve the description if there is one.
  *
- * @author Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncFactory
- * @see javax.sql.rowset.spi.SyncResolver
- * @see javax.sql.rowset.spi.SyncFactoryException
+ * @buthor Jonbthbn Bruce
+ * @see jbvbx.sql.rowset.spi.SyncFbctory
+ * @see jbvbx.sql.rowset.spi.SyncResolver
+ * @see jbvbx.sql.rowset.spi.SyncFbctoryException
  * @since 1.5
  */
-public class SyncProviderException extends java.sql.SQLException {
+public clbss SyncProviderException extends jbvb.sql.SQLException {
 
     /**
-     * The instance of <code>javax.sql.rowset.spi.SyncResolver</code> that
+     * The instbnce of <code>jbvbx.sql.rowset.spi.SyncResolver</code> thbt
      * this <code>SyncProviderException</code> object will return when its
-     * <code>getSyncResolver</code> method is called.
+     * <code>getSyncResolver</code> method is cblled.
      */
-     private SyncResolver syncResolver = null;
+     privbte SyncResolver syncResolver = null;
 
     /**
-     * Creates a new <code>SyncProviderException</code> object without a detail message.
+     * Crebtes b new <code>SyncProviderException</code> object without b detbil messbge.
      */
     public SyncProviderException() {
         super();
     }
 
     /**
-     * Constructs a <code>SyncProviderException</code> object with the specified
-     * detail message.
+     * Constructs b <code>SyncProviderException</code> object with the specified
+     * detbil messbge.
      *
-     * @param msg the detail message
+     * @pbrbm msg the detbil messbge
      */
     public SyncProviderException(String msg)  {
         super(msg);
     }
 
     /**
-     * Constructs a <code>SyncProviderException</code> object with the specified
-     * <code>SyncResolver</code> instance.
+     * Constructs b <code>SyncProviderException</code> object with the specified
+     * <code>SyncResolver</code> instbnce.
      *
-     * @param syncResolver the <code>SyncResolver</code> instance used to
-     *     to process the synchronization conflicts
-     * @throws IllegalArgumentException if the <code>SyncResolver</code> object
+     * @pbrbm syncResolver the <code>SyncResolver</code> instbnce used to
+     *     to process the synchronizbtion conflicts
+     * @throws IllegblArgumentException if the <code>SyncResolver</code> object
      *     is <code>null</code>.
      */
     public SyncProviderException(SyncResolver syncResolver)  {
         if (syncResolver == null) {
-            throw new IllegalArgumentException("Cannot instantiate a SyncProviderException " +
-                "with a null SyncResolver object");
+            throw new IllegblArgumentException("Cbnnot instbntibte b SyncProviderException " +
+                "with b null SyncResolver object");
         } else {
             this.syncResolver = syncResolver;
         }
     }
 
     /**
-     * Retrieves the <code>SyncResolver</code> object that has been set for
+     * Retrieves the <code>SyncResolver</code> object thbt hbs been set for
      * this <code>SyncProviderException</code> object, or
-     * if none has been set, an instance of the default <code>SyncResolver</code>
-     * implementation included in the reference implementation.
+     * if none hbs been set, bn instbnce of the defbult <code>SyncResolver</code>
+     * implementbtion included in the reference implementbtion.
      * <P>
-     * If a <code>SyncProviderException</code> object is thrown, an application
-     * may use this method to generate a <code>SyncResolver</code> object
-     * with which to resolve the conflict or conflicts that caused the
+     * If b <code>SyncProviderException</code> object is thrown, bn bpplicbtion
+     * mby use this method to generbte b <code>SyncResolver</code> object
+     * with which to resolve the conflict or conflicts thbt cbused the
      * exception to be thrown.
      *
      * @return the <code>SyncResolver</code> object set for this
-     *     <code>SyncProviderException</code> object or, if none has
-     *     been set, an instance of the default <code>SyncResolver</code>
-     *     implementation. In addition, the default <code>SyncResolver</code>
-     *     implementation is also returned if the <code>SyncResolver()</code> or
-     *     <code>SyncResolver(String)</code> constructors are used to instantiate
-     *     the <code>SyncResolver</code> instance.
+     *     <code>SyncProviderException</code> object or, if none hbs
+     *     been set, bn instbnce of the defbult <code>SyncResolver</code>
+     *     implementbtion. In bddition, the defbult <code>SyncResolver</code>
+     *     implementbtion is blso returned if the <code>SyncResolver()</code> or
+     *     <code>SyncResolver(String)</code> constructors bre used to instbntibte
+     *     the <code>SyncResolver</code> instbnce.
      */
     public SyncResolver getSyncResolver() {
         if (syncResolver != null) {
             return syncResolver;
         } else {
             try {
-              syncResolver = new com.sun.rowset.internal.SyncResolverImpl();
-            } catch (SQLException sqle) {
+              syncResolver = new com.sun.rowset.internbl.SyncResolverImpl();
+            } cbtch (SQLException sqle) {
             }
             return syncResolver;
         }
@@ -141,25 +141,25 @@ public class SyncProviderException extends java.sql.SQLException {
     /**
      * Sets the <code>SyncResolver</code> object for this
      * <code>SyncProviderException</code> object to the one supplied.
-     * If the argument supplied is <code>null</code>, a call to the method
-     * <code>getSyncResolver</code> will return the default reference
-     * implementation of the <code>SyncResolver</code> interface.
+     * If the brgument supplied is <code>null</code>, b cbll to the method
+     * <code>getSyncResolver</code> will return the defbult reference
+     * implementbtion of the <code>SyncResolver</code> interfbce.
      *
-     * @param syncResolver the <code>SyncResolver</code> object to be set;
-     *     cannot be <code>null</code>
-     * @throws IllegalArgumentException if the <code>SyncResolver</code> object
+     * @pbrbm syncResolver the <code>SyncResolver</code> object to be set;
+     *     cbnnot be <code>null</code>
+     * @throws IllegblArgumentException if the <code>SyncResolver</code> object
      *     is <code>null</code>.
      * @see #getSyncResolver
      */
     public void setSyncResolver(SyncResolver syncResolver) {
         if (syncResolver == null) {
-            throw new IllegalArgumentException("Cannot set a null SyncResolver " +
+            throw new IllegblArgumentException("Cbnnot set b null SyncResolver " +
                 "object");
         } else {
             this.syncResolver = syncResolver;
         }
     }
 
-    static final long serialVersionUID = -939908523620640692L;
+    stbtic finbl long seriblVersionUID = -939908523620640692L;
 
 }

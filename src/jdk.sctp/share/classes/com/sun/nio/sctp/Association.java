@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.nio.sctp;
+pbckbge com.sun.nio.sctp;
 
 /**
- * A class that represents an SCTP association.
+ * A clbss thbt represents bn SCTP bssocibtion.
  *
- * <P> An association exists between two SCTP endpoints. Each endpoint is
- * represented by a list of transport addresses through which that endpoint can
- * be reached and from which it will originate SCTP messages. The association
- * spans over all of the possible source/destination combinations which may be
- * generated from each endpoint's lists of addresses.
+ * <P> An bssocibtion exists between two SCTP endpoints. Ebch endpoint is
+ * represented by b list of trbnsport bddresses through which thbt endpoint cbn
+ * be rebched bnd from which it will originbte SCTP messbges. The bssocibtion
+ * spbns over bll of the possible source/destinbtion combinbtions which mby be
+ * generbted from ebch endpoint's lists of bddresses.
  *
- * <P> Associations are identified by their Association ID.
- * Association ID's are guaranteed to be unique for the lifetime of the
- * association. An association ID may be reused after the association has been
- * shutdown. An association ID is not unique across multiple SCTP channels.
- * An Association's local and remote addresses may change if the SCTP
- * implementation supports <I>Dynamic Address Reconfiguration</I> as defined by
+ * <P> Associbtions bre identified by their Associbtion ID.
+ * Associbtion ID's bre gubrbnteed to be unique for the lifetime of the
+ * bssocibtion. An bssocibtion ID mby be reused bfter the bssocibtion hbs been
+ * shutdown. An bssocibtion ID is not unique bcross multiple SCTP chbnnels.
+ * An Associbtion's locbl bnd remote bddresses mby chbnge if the SCTP
+ * implementbtion supports <I>Dynbmic Address Reconfigurbtion</I> bs defined by
  * <A HREF="http://tools.ietf.org/html/rfc5061">RFC5061</A>, see the
- * {@code bindAddress} and {@code unbindAddress} methods of {@link SctpChannel},
- * {@link SctpServerChannel}, and {@link SctpMultiChannel}.
+ * {@code bindAddress} bnd {@code unbindAddress} methods of {@link SctpChbnnel},
+ * {@link SctpServerChbnnel}, bnd {@link SctpMultiChbnnel}.
  *
- * <P> An {@code Association} is returned from an {@link
- * SctpChannel#association SctpChannel} or an {@link
- * SctpMultiChannel#associations SctpMultiChannel}, as well
- * as being given as a parameter to {@link NotificationHandler
- * NotificationHandler} methods.
+ * <P> An {@code Associbtion} is returned from bn {@link
+ * SctpChbnnel#bssocibtion SctpChbnnel} or bn {@link
+ * SctpMultiChbnnel#bssocibtions SctpMultiChbnnel}, bs well
+ * bs being given bs b pbrbmeter to {@link NotificbtionHbndler
+ * NotificbtionHbndler} methods.
  *
  * @since 1.7
  */
 @jdk.Exported
-public class Association {
-    private final int associationID;
-    private final int maxInStreams;
-    private final int maxOutStreams;
+public clbss Associbtion {
+    privbte finbl int bssocibtionID;
+    privbte finbl int mbxInStrebms;
+    privbte finbl int mbxOutStrebms;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * @param  associationID
-     *         The association ID
-     * @param  maxInStreams
-     *         The maximum number of inbound streams
-     * @param  maxOutStreams
-     *         The maximum number of outbound streams
+     * @pbrbm  bssocibtionID
+     *         The bssocibtion ID
+     * @pbrbm  mbxInStrebms
+     *         The mbximum number of inbound strebms
+     * @pbrbm  mbxOutStrebms
+     *         The mbximum number of outbound strebms
      */
-    protected Association(int associationID,
-                          int maxInStreams,
-                          int maxOutStreams) {
-        this.associationID = associationID;
-        this.maxInStreams = maxInStreams;
-        this.maxOutStreams = maxOutStreams;
+    protected Associbtion(int bssocibtionID,
+                          int mbxInStrebms,
+                          int mbxOutStrebms) {
+        this.bssocibtionID = bssocibtionID;
+        this.mbxInStrebms = mbxInStrebms;
+        this.mbxOutStrebms = mbxOutStrebms;
     }
 
     /**
-     * Returns the associationID.
+     * Returns the bssocibtionID.
      *
-     * @return  The association ID
+     * @return  The bssocibtion ID
      */
-    public final int associationID() {
-        return associationID;
+    public finbl int bssocibtionID() {
+        return bssocibtionID;
     };
 
     /**
-     * Returns the maximum number of inbound streams that this association
+     * Returns the mbximum number of inbound strebms thbt this bssocibtion
      * supports.
      *
-     * <P> Data received on this association will be on stream number
-     * {@code s}, where {@code 0 <= s < maxInboundStreams()}.
+     * <P> Dbtb received on this bssocibtion will be on strebm number
+     * {@code s}, where {@code 0 <= s < mbxInboundStrebms()}.
      *
-     * @return  The maximum number of inbound streams
+     * @return  The mbximum number of inbound strebms
      */
-    public final int maxInboundStreams() {
-        return maxInStreams;
+    public finbl int mbxInboundStrebms() {
+        return mbxInStrebms;
     };
 
     /**
-     * Returns the maximum number of outbound streams that this association
+     * Returns the mbximum number of outbound strebms thbt this bssocibtion
      * supports.
      *
-     * <P> Data sent on this association must be on stream number
-     * {@code s}, where {@code 0 <= s < maxOutboundStreams()}.
+     * <P> Dbtb sent on this bssocibtion must be on strebm number
+     * {@code s}, where {@code 0 <= s < mbxOutboundStrebms()}.
      *
-     * @return  The maximum number of outbound streams
+     * @return  The mbximum number of outbound strebms
      */
-    public final int maxOutboundStreams() {
-        return maxOutStreams;
+    public finbl int mbxOutboundStrebms() {
+        return mbxOutStrebms;
     };
 }

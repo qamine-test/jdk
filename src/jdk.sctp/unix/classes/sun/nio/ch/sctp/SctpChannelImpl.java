@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.nio.ch.sctp;
+pbckbge sun.nio.ch.sctp;
 
-import java.net.InetAddress;
-import java.net.SocketAddress;
-import java.net.SocketException;
-import java.net.InetSocketAddress;
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Set;
-import java.util.HashSet;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.ConnectionPendingException;
-import java.nio.channels.NoConnectionPendingException;
-import java.nio.channels.AlreadyConnectedException;
-import java.nio.channels.NotYetBoundException;
-import java.nio.channels.NotYetConnectedException;
-import java.nio.channels.spi.SelectorProvider;
-import com.sun.nio.sctp.AbstractNotificationHandler;
-import com.sun.nio.sctp.Association;
-import com.sun.nio.sctp.AssociationChangeNotification;
-import com.sun.nio.sctp.HandlerResult;
-import com.sun.nio.sctp.IllegalReceiveException;
-import com.sun.nio.sctp.InvalidStreamException;
-import com.sun.nio.sctp.IllegalUnbindException;
-import com.sun.nio.sctp.MessageInfo;
-import com.sun.nio.sctp.NotificationHandler;
-import com.sun.nio.sctp.SctpChannel;
+import jbvb.net.InetAddress;
+import jbvb.net.SocketAddress;
+import jbvb.net.SocketException;
+import jbvb.net.InetSocketAddress;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.util.Collections;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.SelectionKey;
+import jbvb.nio.chbnnels.ClosedChbnnelException;
+import jbvb.nio.chbnnels.ConnectionPendingException;
+import jbvb.nio.chbnnels.NoConnectionPendingException;
+import jbvb.nio.chbnnels.AlrebdyConnectedException;
+import jbvb.nio.chbnnels.NotYetBoundException;
+import jbvb.nio.chbnnels.NotYetConnectedException;
+import jbvb.nio.chbnnels.spi.SelectorProvider;
+import com.sun.nio.sctp.AbstrbctNotificbtionHbndler;
+import com.sun.nio.sctp.Associbtion;
+import com.sun.nio.sctp.AssocibtionChbngeNotificbtion;
+import com.sun.nio.sctp.HbndlerResult;
+import com.sun.nio.sctp.IllegblReceiveException;
+import com.sun.nio.sctp.InvblidStrebmException;
+import com.sun.nio.sctp.IllegblUnbindException;
+import com.sun.nio.sctp.MessbgeInfo;
+import com.sun.nio.sctp.NotificbtionHbndler;
+import com.sun.nio.sctp.SctpChbnnel;
 import com.sun.nio.sctp.SctpSocketOption;
 import sun.nio.ch.DirectBuffer;
-import sun.nio.ch.IOStatus;
+import sun.nio.ch.IOStbtus;
 import sun.nio.ch.IOUtil;
-import sun.nio.ch.NativeThread;
+import sun.nio.ch.NbtiveThrebd;
 import sun.nio.ch.Net;
-import sun.nio.ch.PollArrayWrapper;
+import sun.nio.ch.PollArrbyWrbpper;
 import sun.nio.ch.SelChImpl;
 import sun.nio.ch.SelectionKeyImpl;
 import sun.nio.ch.Util;
-import static com.sun.nio.sctp.SctpStandardSocketOptions.*;
-import static sun.nio.ch.sctp.ResultContainer.SEND_FAILED;
-import static sun.nio.ch.sctp.ResultContainer.ASSOCIATION_CHANGED;
-import static sun.nio.ch.sctp.ResultContainer.PEER_ADDRESS_CHANGED;
-import static sun.nio.ch.sctp.ResultContainer.SHUTDOWN;
+import stbtic com.sun.nio.sctp.SctpStbndbrdSocketOptions.*;
+import stbtic sun.nio.ch.sctp.ResultContbiner.SEND_FAILED;
+import stbtic sun.nio.ch.sctp.ResultContbiner.ASSOCIATION_CHANGED;
+import stbtic sun.nio.ch.sctp.ResultContbiner.PEER_ADDRESS_CHANGED;
+import stbtic sun.nio.ch.sctp.ResultContbiner.SHUTDOWN;
 
 /**
- * An implementation of an SctpChannel
+ * An implementbtion of bn SctpChbnnel
  */
-public class SctpChannelImpl extends SctpChannel
+public clbss SctpChbnnelImpl extends SctpChbnnel
     implements SelChImpl
 {
-    private final FileDescriptor fd;
+    privbte finbl FileDescriptor fd;
 
-    private final int fdVal;
+    privbte finbl int fdVbl;
 
-    /* IDs of native threads doing send and receivess, for signalling */
-    private volatile long receiverThread = 0;
-    private volatile long senderThread = 0;
+    /* IDs of nbtive threbds doing send bnd receivess, for signblling */
+    privbte volbtile long receiverThrebd = 0;
+    privbte volbtile long senderThrebd = 0;
 
-    /* Lock held by current receiving or connecting thread */
-    private final Object receiveLock = new Object();
+    /* Lock held by current receiving or connecting threbd */
+    privbte finbl Object receiveLock = new Object();
 
-    /* Lock held by current sending or connecting thread */
-    private final Object sendLock = new Object();
+    /* Lock held by current sending or connecting threbd */
+    privbte finbl Object sendLock = new Object();
 
-    private final ThreadLocal<Boolean> receiveInvoked =
-        new ThreadLocal<Boolean>() {
-             @Override protected Boolean initialValue() {
-                 return Boolean.FALSE;
+    privbte finbl ThrebdLocbl<Boolebn> receiveInvoked =
+        new ThrebdLocbl<Boolebn>() {
+             @Override protected Boolebn initiblVblue() {
+                 return Boolebn.FALSE;
             }
     };
 
-    /* Lock held by any thread that modifies the state fields declared below
-       DO NOT invoke a blocking I/O operation while holding this lock! */
-    private final Object stateLock = new Object();
+    /* Lock held by bny threbd thbt modifies the stbte fields declbred below
+       DO NOT invoke b blocking I/O operbtion while holding this lock! */
+    privbte finbl Object stbteLock = new Object();
 
-    private enum ChannelState {
+    privbte enum ChbnnelStbte {
         UNINITIALIZED,
         UNCONNECTED,
         PENDING,
@@ -107,96 +107,96 @@ public class SctpChannelImpl extends SctpChannel
         KILLPENDING,
         KILLED,
     }
-    /* -- The following fields are protected by stateLock -- */
-    private ChannelState state = ChannelState.UNINITIALIZED;
+    /* -- The following fields bre protected by stbteLock -- */
+    privbte ChbnnelStbte stbte = ChbnnelStbte.UNINITIALIZED;
 
-    /* Binding; Once bound the port will remain constant. */
+    /* Binding; Once bound the port will rembin constbnt. */
     int port = -1;
-    private HashSet<InetSocketAddress> localAddresses = new HashSet<InetSocketAddress>();
-    /* Has the channel been bound to the wildcard address */
-    private boolean wildcard; /* false */
-    //private InetSocketAddress remoteAddress = null;
+    privbte HbshSet<InetSocketAddress> locblAddresses = new HbshSet<InetSocketAddress>();
+    /* Hbs the chbnnel been bound to the wildcbrd bddress */
+    privbte boolebn wildcbrd; /* fblse */
+    //privbte InetSocketAddress remoteAddress = null;
 
     /* Input/Output open */
-    private boolean readyToConnect;
+    privbte boolebn rebdyToConnect;
 
     /* Shutdown */
-    private boolean isShutdown;
+    privbte boolebn isShutdown;
 
-    private Association association;
+    privbte Associbtion bssocibtion;
 
-    private Set<SocketAddress> remoteAddresses = Collections.emptySet();
+    privbte Set<SocketAddress> remoteAddresses = Collections.emptySet();
 
-    /* -- End of fields protected by stateLock -- */
+    /* -- End of fields protected by stbteLock -- */
 
     /**
-     * Constructor for normal connecting sockets
+     * Constructor for normbl connecting sockets
      */
-    public SctpChannelImpl(SelectorProvider provider) throws IOException {
-        //TODO: update provider remove public modifier
+    public SctpChbnnelImpl(SelectorProvider provider) throws IOException {
+        //TODO: updbte provider remove public modifier
         super(provider);
         this.fd = SctpNet.socket(true);
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ChannelState.UNCONNECTED;
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbte = ChbnnelStbte.UNCONNECTED;
     }
 
     /**
-     * Constructor for sockets obtained from server sockets
+     * Constructor for sockets obtbined from server sockets
      */
-    public SctpChannelImpl(SelectorProvider provider, FileDescriptor fd)
+    public SctpChbnnelImpl(SelectorProvider provider, FileDescriptor fd)
          throws IOException {
         this(provider, fd, null);
     }
 
     /**
-     * Constructor for sockets obtained from branching
+     * Constructor for sockets obtbined from brbnching
      */
-    public SctpChannelImpl(SelectorProvider provider,
+    public SctpChbnnelImpl(SelectorProvider provider,
                            FileDescriptor fd,
-                           Association association)
+                           Associbtion bssocibtion)
             throws IOException {
         super(provider);
         this.fd = fd;
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ChannelState.CONNECTED;
-        port = (Net.localAddress(fd)).getPort();
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbte = ChbnnelStbte.CONNECTED;
+        port = (Net.locblAddress(fd)).getPort();
 
-        if (association != null) { /* branched */
-            this.association = association;
-        } else { /* obtained from server channel */
+        if (bssocibtion != null) { /* brbnched */
+            this.bssocibtion = bssocibtion;
+        } else { /* obtbined from server chbnnel */
             /* Receive COMM_UP */
-            ByteBuffer buf = Util.getTemporaryDirectBuffer(50);
+            ByteBuffer buf = Util.getTemporbryDirectBuffer(50);
             try {
                 receive(buf, null, null, true);
-            } finally {
-                Util.releaseTemporaryDirectBuffer(buf);
+            } finblly {
+                Util.relebseTemporbryDirectBuffer(buf);
             }
         }
     }
 
     /**
-     * Binds the channel's socket to a local address.
+     * Binds the chbnnel's socket to b locbl bddress.
      */
     @Override
-    public SctpChannel bind(SocketAddress local) throws IOException {
+    public SctpChbnnel bind(SocketAddress locbl) throws IOException {
         synchronized (receiveLock) {
             synchronized (sendLock) {
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     ensureOpenAndUnconnected();
                     if (isBound())
-                        SctpNet.throwAlreadyBoundException();
-                    InetSocketAddress isa = (local == null) ?
-                        new InetSocketAddress(0) : Net.checkAddress(local);
-                    SecurityManager sm = System.getSecurityManager();
+                        SctpNet.throwAlrebdyBoundException();
+                    InetSocketAddress isb = (locbl == null) ?
+                        new InetSocketAddress(0) : Net.checkAddress(locbl);
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     if (sm != null) {
-                        sm.checkListen(isa.getPort());
+                        sm.checkListen(isb.getPort());
                     }
-                    Net.bind(fd, isa.getAddress(), isa.getPort());
-                    InetSocketAddress boundIsa = Net.localAddress(fd);
-                    port = boundIsa.getPort();
-                    localAddresses.add(isa);
-                    if (isa.getAddress().isAnyLocalAddress())
-                        wildcard = true;
+                    Net.bind(fd, isb.getAddress(), isb.getPort());
+                    InetSocketAddress boundIsb = Net.locblAddress(fd);
+                    port = boundIsb.getPort();
+                    locblAddresses.bdd(isb);
+                    if (isb.getAddress().isAnyLocblAddress())
+                        wildcbrd = true;
                 }
             }
         }
@@ -204,71 +204,71 @@ public class SctpChannelImpl extends SctpChannel
     }
 
     @Override
-    public SctpChannel bindAddress(InetAddress address)
+    public SctpChbnnel bindAddress(InetAddress bddress)
             throws IOException {
-        bindUnbindAddress(address, true);
-        localAddresses.add(new InetSocketAddress(address, port));
+        bindUnbindAddress(bddress, true);
+        locblAddresses.bdd(new InetSocketAddress(bddress, port));
         return this;
     }
 
     @Override
-    public SctpChannel unbindAddress(InetAddress address)
+    public SctpChbnnel unbindAddress(InetAddress bddress)
             throws IOException {
-        bindUnbindAddress(address, false);
-        localAddresses.remove(new InetSocketAddress(address, port));
+        bindUnbindAddress(bddress, fblse);
+        locblAddresses.remove(new InetSocketAddress(bddress, port));
         return this;
     }
 
-    private SctpChannel bindUnbindAddress(InetAddress address, boolean add)
+    privbte SctpChbnnel bindUnbindAddress(InetAddress bddress, boolebn bdd)
             throws IOException {
-        if (address == null)
-            throw new IllegalArgumentException();
+        if (bddress == null)
+            throw new IllegblArgumentException();
 
         synchronized (receiveLock) {
             synchronized (sendLock) {
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
-                        throw new ClosedChannelException();
+                        throw new ClosedChbnnelException();
                     if (!isBound())
                         throw new NotYetBoundException();
-                    if (wildcard)
-                        throw new IllegalStateException(
-                                "Cannot add or remove addresses from a channel that is bound to the wildcard address");
-                    if (address.isAnyLocalAddress())
-                        throw new IllegalArgumentException(
-                                "Cannot add or remove the wildcard address");
-                    if (add) {
-                        for (InetSocketAddress addr : localAddresses) {
-                            if (addr.getAddress().equals(address)) {
-                                SctpNet.throwAlreadyBoundException();
+                    if (wildcbrd)
+                        throw new IllegblStbteException(
+                                "Cbnnot bdd or remove bddresses from b chbnnel thbt is bound to the wildcbrd bddress");
+                    if (bddress.isAnyLocblAddress())
+                        throw new IllegblArgumentException(
+                                "Cbnnot bdd or remove the wildcbrd bddress");
+                    if (bdd) {
+                        for (InetSocketAddress bddr : locblAddresses) {
+                            if (bddr.getAddress().equbls(bddress)) {
+                                SctpNet.throwAlrebdyBoundException();
                             }
                         }
                     } else { /*removing */
-                        /* Verify that there is more than one address
-                         * and that address is already bound */
-                        if (localAddresses.size() <= 1)
-                            throw new IllegalUnbindException("Cannot remove address from a channel with only one address bound");
-                        boolean foundAddress = false;
-                        for (InetSocketAddress addr : localAddresses) {
-                            if (addr.getAddress().equals(address)) {
+                        /* Verify thbt there is more thbn one bddress
+                         * bnd thbt bddress is blrebdy bound */
+                        if (locblAddresses.size() <= 1)
+                            throw new IllegblUnbindException("Cbnnot remove bddress from b chbnnel with only one bddress bound");
+                        boolebn foundAddress = fblse;
+                        for (InetSocketAddress bddr : locblAddresses) {
+                            if (bddr.getAddress().equbls(bddress)) {
                                 foundAddress = true;
-                                break;
+                                brebk;
                             }
                         }
                         if (!foundAddress )
-                            throw new IllegalUnbindException("Cannot remove address from a channel that is not bound to that address");
+                            throw new IllegblUnbindException("Cbnnot remove bddress from b chbnnel thbt is not bound to thbt bddress");
                     }
 
-                    SctpNet.bindx(fdVal, new InetAddress[]{address}, port, add);
+                    SctpNet.bindx(fdVbl, new InetAddress[]{bddress}, port, bdd);
 
-                    /* Update our internal Set to reflect the addition/removal */
-                    if (add)
-                        localAddresses.add(new InetSocketAddress(address, port));
+                    /* Updbte our internbl Set to reflect the bddition/removbl */
+                    if (bdd)
+                        locblAddresses.bdd(new InetSocketAddress(bddress, port));
                     else {
-                        for (InetSocketAddress addr : localAddresses) {
-                            if (addr.getAddress().equals(address)) {
-                                localAddresses.remove(addr);
-                                break;
+                        for (InetSocketAddress bddr : locblAddresses) {
+                            if (bddr.getAddress().equbls(bddress)) {
+                                locblAddresses.remove(bddr);
+                                brebk;
                             }
                         }
                     }
@@ -278,33 +278,33 @@ public class SctpChannelImpl extends SctpChannel
         return this;
     }
 
-    private boolean isBound() {
-        synchronized (stateLock) {
-            return port == -1 ? false : true;
+    privbte boolebn isBound() {
+        synchronized (stbteLock) {
+            return port == -1 ? fblse : true;
         }
     }
 
-    private boolean isConnected() {
-        synchronized (stateLock) {
-            return (state == ChannelState.CONNECTED);
+    privbte boolebn isConnected() {
+        synchronized (stbteLock) {
+            return (stbte == ChbnnelStbte.CONNECTED);
         }
     }
 
-    private void ensureOpenAndUnconnected() throws IOException {
-        synchronized (stateLock) {
+    privbte void ensureOpenAndUnconnected() throws IOException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (isConnected())
-                throw new AlreadyConnectedException();
-            if (state == ChannelState.PENDING)
+                throw new AlrebdyConnectedException();
+            if (stbte == ChbnnelStbte.PENDING)
                 throw new ConnectionPendingException();
         }
     }
 
-    private boolean ensureReceiveOpen() throws ClosedChannelException {
-        synchronized (stateLock) {
+    privbte boolebn ensureReceiveOpen() throws ClosedChbnnelException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isConnected())
                 throw new NotYetConnectedException();
             else
@@ -312,158 +312,158 @@ public class SctpChannelImpl extends SctpChannel
         }
     }
 
-    private void ensureSendOpen() throws ClosedChannelException {
-        synchronized (stateLock) {
+    privbte void ensureSendOpen() throws ClosedChbnnelException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (isShutdown)
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isConnected())
                 throw new NotYetConnectedException();
         }
     }
 
-    private void receiverCleanup() throws IOException {
-        synchronized (stateLock) {
-            receiverThread = 0;
-            if (state == ChannelState.KILLPENDING)
+    privbte void receiverClebnup() throws IOException {
+        synchronized (stbteLock) {
+            receiverThrebd = 0;
+            if (stbte == ChbnnelStbte.KILLPENDING)
                 kill();
         }
     }
 
-    private void senderCleanup() throws IOException {
-        synchronized (stateLock) {
-            senderThread = 0;
-            if (state == ChannelState.KILLPENDING)
+    privbte void senderClebnup() throws IOException {
+        synchronized (stbteLock) {
+            senderThrebd = 0;
+            if (stbte == ChbnnelStbte.KILLPENDING)
                 kill();
         }
     }
 
     @Override
-    public Association association() throws ClosedChannelException {
-        synchronized (stateLock) {
+    public Associbtion bssocibtion() throws ClosedChbnnelException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isConnected())
                 return null;
 
-            return association;
+            return bssocibtion;
         }
     }
 
     @Override
-    public boolean connect(SocketAddress endpoint) throws IOException {
+    public boolebn connect(SocketAddress endpoint) throws IOException {
         synchronized (receiveLock) {
             synchronized (sendLock) {
                 ensureOpenAndUnconnected();
-                InetSocketAddress isa = Net.checkAddress(endpoint);
-                SecurityManager sm = System.getSecurityManager();
+                InetSocketAddress isb = Net.checkAddress(endpoint);
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null)
-                    sm.checkConnect(isa.getAddress().getHostAddress(),
-                                    isa.getPort());
+                    sm.checkConnect(isb.getAddress().getHostAddress(),
+                                    isb.getPort());
                 synchronized (blockingLock()) {
                     int n = 0;
                     try {
                         try {
                             begin();
-                            synchronized (stateLock) {
+                            synchronized (stbteLock) {
                                 if (!isOpen()) {
-                                    return false;
+                                    return fblse;
                                 }
-                                receiverThread = NativeThread.current();
+                                receiverThrebd = NbtiveThrebd.current();
                             }
                             for (;;) {
-                                InetAddress ia = isa.getAddress();
-                                if (ia.isAnyLocalAddress())
-                                    ia = InetAddress.getLocalHost();
-                                n = SctpNet.connect(fdVal, ia, isa.getPort());
-                                if (  (n == IOStatus.INTERRUPTED)
+                                InetAddress ib = isb.getAddress();
+                                if (ib.isAnyLocblAddress())
+                                    ib = InetAddress.getLocblHost();
+                                n = SctpNet.connect(fdVbl, ib, isb.getPort());
+                                if (  (n == IOStbtus.INTERRUPTED)
                                       && isOpen())
                                     continue;
-                                break;
+                                brebk;
                             }
-                        } finally {
-                            receiverCleanup();
-                            end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                            assert IOStatus.check(n);
+                        } finblly {
+                            receiverClebnup();
+                            end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                            bssert IOStbtus.check(n);
                         }
-                    } catch (IOException x) {
-                        /* If an exception was thrown, close the channel after
-                         * invoking end() so as to avoid bogus
+                    } cbtch (IOException x) {
+                        /* If bn exception wbs thrown, close the chbnnel bfter
+                         * invoking end() so bs to bvoid bogus
                          * AsynchronousCloseExceptions */
                         close();
                         throw x;
                     }
 
                     if (n > 0) {
-                        synchronized (stateLock) {
+                        synchronized (stbteLock) {
                             /* Connection succeeded */
-                            state = ChannelState.CONNECTED;
+                            stbte = ChbnnelStbte.CONNECTED;
                             if (!isBound()) {
-                                InetSocketAddress boundIsa =
-                                        Net.localAddress(fd);
-                                port = boundIsa.getPort();
+                                InetSocketAddress boundIsb =
+                                        Net.locblAddress(fd);
+                                port = boundIsb.getPort();
                             }
 
                             /* Receive COMM_UP */
-                            ByteBuffer buf = Util.getTemporaryDirectBuffer(50);
+                            ByteBuffer buf = Util.getTemporbryDirectBuffer(50);
                             try {
                                 receive(buf, null, null, true);
-                            } finally {
-                                Util.releaseTemporaryDirectBuffer(buf);
+                            } finblly {
+                                Util.relebseTemporbryDirectBuffer(buf);
                             }
 
-                            /* cache remote addresses */
+                            /* cbche remote bddresses */
                             try {
                                 remoteAddresses = getRemoteAddresses();
-                            } catch (IOException unused) { /* swallow exception */ }
+                            } cbtch (IOException unused) { /* swbllow exception */ }
 
                             return true;
                         }
                     } else  {
-                        synchronized (stateLock) {
-                            /* If nonblocking and no exception then connection
-                             * pending; disallow another invocation */
+                        synchronized (stbteLock) {
+                            /* If nonblocking bnd no exception then connection
+                             * pending; disbllow bnother invocbtion */
                             if (!isBlocking())
-                                state = ChannelState.PENDING;
+                                stbte = ChbnnelStbte.PENDING;
                             else
-                                assert false;
+                                bssert fblse;
                         }
                     }
                 }
-                return false;
+                return fblse;
             }
         }
     }
 
     @Override
-    public boolean connect(SocketAddress endpoint,
-                           int maxOutStreams,
-                           int maxInStreams)
+    public boolebn connect(SocketAddress endpoint,
+                           int mbxOutStrebms,
+                           int mbxInStrebms)
             throws IOException {
         ensureOpenAndUnconnected();
-        return setOption(SCTP_INIT_MAXSTREAMS, InitMaxStreams.
-                create(maxInStreams, maxOutStreams)).connect(endpoint);
+        return setOption(SCTP_INIT_MAXSTREAMS, InitMbxStrebms.
+                crebte(mbxInStrebms, mbxOutStrebms)).connect(endpoint);
 
     }
 
     @Override
-    public boolean isConnectionPending() {
-        synchronized (stateLock) {
-            return (state == ChannelState.PENDING);
+    public boolebn isConnectionPending() {
+        synchronized (stbteLock) {
+            return (stbte == ChbnnelStbte.PENDING);
         }
     }
 
     @Override
-    public boolean finishConnect() throws IOException {
+    public boolebn finishConnect() throws IOException {
         synchronized (receiveLock) {
             synchronized (sendLock) {
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
-                        throw new ClosedChannelException();
+                        throw new ClosedChbnnelException();
                     if (isConnected())
                         return true;
-                    if (state != ChannelState.PENDING)
+                    if (stbte != ChbnnelStbte.PENDING)
                         throw new NoConnectionPendingException();
                 }
                 int n = 0;
@@ -471,104 +471,104 @@ public class SctpChannelImpl extends SctpChannel
                     try {
                         begin();
                         synchronized (blockingLock()) {
-                            synchronized (stateLock) {
+                            synchronized (stbteLock) {
                                 if (!isOpen()) {
-                                    return false;
+                                    return fblse;
                                 }
-                                receiverThread = NativeThread.current();
+                                receiverThrebd = NbtiveThrebd.current();
                             }
                             if (!isBlocking()) {
                                 for (;;) {
-                                    n = checkConnect(fd, false, readyToConnect);
-                                    if (  (n == IOStatus.INTERRUPTED)
+                                    n = checkConnect(fd, fblse, rebdyToConnect);
+                                    if (  (n == IOStbtus.INTERRUPTED)
                                           && isOpen())
                                         continue;
-                                    break;
+                                    brebk;
                                 }
                             } else {
                                 for (;;) {
-                                    n = checkConnect(fd, true, readyToConnect);
+                                    n = checkConnect(fd, true, rebdyToConnect);
                                     if (n == 0) {
-                                        // Loop in case of
-                                        // spurious notifications
+                                        // Loop in cbse of
+                                        // spurious notificbtions
                                         continue;
                                     }
-                                    if (  (n == IOStatus.INTERRUPTED)
+                                    if (  (n == IOStbtus.INTERRUPTED)
                                           && isOpen())
                                         continue;
-                                    break;
+                                    brebk;
                                 }
                             }
                         }
-                    } finally {
-                        synchronized (stateLock) {
-                            receiverThread = 0;
-                            if (state == ChannelState.KILLPENDING) {
+                    } finblly {
+                        synchronized (stbteLock) {
+                            receiverThrebd = 0;
+                            if (stbte == ChbnnelStbte.KILLPENDING) {
                                 kill();
                                 /* poll()/getsockopt() does not report
                                  * error (throws exception, with n = 0)
-                                 * on Linux platform after dup2 and
-                                 * signal-wakeup. Force n to 0 so the
-                                 * end() can throw appropriate exception */
+                                 * on Linux plbtform bfter dup2 bnd
+                                 * signbl-wbkeup. Force n to 0 so the
+                                 * end() cbn throw bppropribte exception */
                                 n = 0;
                             }
                         }
-                        end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                        assert IOStatus.check(n);
+                        end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                        bssert IOStbtus.check(n);
                     }
-                } catch (IOException x) {
-                    /* If an exception was thrown, close the channel after
-                     * invoking end() so as to avoid bogus
+                } cbtch (IOException x) {
+                    /* If bn exception wbs thrown, close the chbnnel bfter
+                     * invoking end() so bs to bvoid bogus
                      * AsynchronousCloseExceptions */
                     close();
                     throw x;
                 }
 
                 if (n > 0) {
-                    synchronized (stateLock) {
-                        state = ChannelState.CONNECTED;
+                    synchronized (stbteLock) {
+                        stbte = ChbnnelStbte.CONNECTED;
                         if (!isBound()) {
-                            InetSocketAddress boundIsa =
-                                    Net.localAddress(fd);
-                            port = boundIsa.getPort();
+                            InetSocketAddress boundIsb =
+                                    Net.locblAddress(fd);
+                            port = boundIsb.getPort();
                         }
 
                         /* Receive COMM_UP */
-                        ByteBuffer buf = Util.getTemporaryDirectBuffer(50);
+                        ByteBuffer buf = Util.getTemporbryDirectBuffer(50);
                         try {
                             receive(buf, null, null, true);
-                        } finally {
-                            Util.releaseTemporaryDirectBuffer(buf);
+                        } finblly {
+                            Util.relebseTemporbryDirectBuffer(buf);
                         }
 
-                        /* cache remote addresses */
+                        /* cbche remote bddresses */
                         try {
                             remoteAddresses = getRemoteAddresses();
-                        } catch (IOException unused) { /* swallow exception */ }
+                        } cbtch (IOException unused) { /* swbllow exception */ }
 
                         return true;
                     }
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    protected void implConfigureBlocking(boolean block) throws IOException {
+    protected void implConfigureBlocking(boolebn block) throws IOException {
         IOUtil.configureBlocking(fd, block);
     }
 
     @Override
-    public void implCloseSelectableChannel() throws IOException {
-        synchronized (stateLock) {
-            SctpNet.preClose(fdVal);
+    public void implCloseSelectbbleChbnnel() throws IOException {
+        synchronized (stbteLock) {
+            SctpNet.preClose(fdVbl);
 
-            if (receiverThread != 0)
-                NativeThread.signal(receiverThread);
+            if (receiverThrebd != 0)
+                NbtiveThrebd.signbl(receiverThrebd);
 
-            if (senderThread != 0)
-                NativeThread.signal(senderThread);
+            if (senderThrebd != 0)
+                NbtiveThrebd.signbl(senderThrebd);
 
             if (!isRegistered())
                 kill();
@@ -581,31 +581,31 @@ public class SctpChannelImpl extends SctpChannel
     }
 
     @Override
-    public int getFDVal() {
-        return fdVal;
+    public int getFDVbl() {
+        return fdVbl;
     }
 
     /**
-     * Translates native poll revent ops into a ready operation ops
+     * Trbnslbtes nbtive poll revent ops into b rebdy operbtion ops
      */
-    private boolean translateReadyOps(int ops, int initialOps, SelectionKeyImpl sk) {
+    privbte boolebn trbnslbteRebdyOps(int ops, int initiblOps, SelectionKeyImpl sk) {
         int intOps = sk.nioInterestOps();
-        int oldOps = sk.nioReadyOps();
-        int newOps = initialOps;
+        int oldOps = sk.nioRebdyOps();
+        int newOps = initiblOps;
 
         if ((ops & Net.POLLNVAL) != 0) {
-            /* This should only happen if this channel is pre-closed while a
-             * selection operation is in progress
-             * ## Throw an error if this channel has not been pre-closed */
-            return false;
+            /* This should only hbppen if this chbnnel is pre-closed while b
+             * selection operbtion is in progress
+             * ## Throw bn error if this chbnnel hbs not been pre-closed */
+            return fblse;
         }
 
         if ((ops & (Net.POLLERR | Net.POLLHUP)) != 0) {
             newOps = intOps;
-            sk.nioReadyOps(newOps);
-            /* No need to poll again in checkConnect,
+            sk.nioRebdyOps(newOps);
+            /* No need to poll bgbin in checkConnect,
              * the error will be detected there */
-            readyToConnect = true;
+            rebdyToConnect = true;
             return (newOps & ~oldOps) != 0;
         }
 
@@ -616,9 +616,9 @@ public class SctpChannelImpl extends SctpChannel
 
         if (((ops & Net.POLLCONN) != 0) &&
             ((intOps & SelectionKey.OP_CONNECT) != 0) &&
-            ((state == ChannelState.UNCONNECTED) || (state == ChannelState.PENDING))) {
+            ((stbte == ChbnnelStbte.UNCONNECTED) || (stbte == ChbnnelStbte.PENDING))) {
             newOps |= SelectionKey.OP_CONNECT;
-            readyToConnect = true;
+            rebdyToConnect = true;
         }
 
         if (((ops & Net.POLLOUT) != 0) &&
@@ -626,23 +626,23 @@ public class SctpChannelImpl extends SctpChannel
             isConnected())
             newOps |= SelectionKey.OP_WRITE;
 
-        sk.nioReadyOps(newOps);
+        sk.nioRebdyOps(newOps);
         return (newOps & ~oldOps) != 0;
     }
 
     @Override
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, sk.nioReadyOps(), sk);
+    public boolebn trbnslbteAndUpdbteRebdyOps(int ops, SelectionKeyImpl sk) {
+        return trbnslbteRebdyOps(ops, sk.nioRebdyOps(), sk);
     }
 
     @Override
-    @SuppressWarnings("all")
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, 0, sk);
+    @SuppressWbrnings("bll")
+    public boolebn trbnslbteAndSetRebdyOps(int ops, SelectionKeyImpl sk) {
+        return trbnslbteRebdyOps(ops, 0, sk);
     }
 
     @Override
-    public void translateAndSetInterestOps(int ops, SelectionKeyImpl sk) {
+    public void trbnslbteAndSetInterestOps(int ops, SelectionKeyImpl sk) {
         int newOps = 0;
         if ((ops & SelectionKey.OP_READ) != 0)
             newOps |= Net.POLLIN;
@@ -655,111 +655,111 @@ public class SctpChannelImpl extends SctpChannel
 
     @Override
     public void kill() throws IOException {
-        synchronized (stateLock) {
-            if (state == ChannelState.KILLED)
+        synchronized (stbteLock) {
+            if (stbte == ChbnnelStbte.KILLED)
                 return;
-            if (state == ChannelState.UNINITIALIZED) {
-                state = ChannelState.KILLED;
+            if (stbte == ChbnnelStbte.UNINITIALIZED) {
+                stbte = ChbnnelStbte.KILLED;
                 return;
             }
-            assert !isOpen() && !isRegistered();
+            bssert !isOpen() && !isRegistered();
 
-            /* Postpone the kill if there is a waiting reader
-             * or writer thread. */
-            if (receiverThread == 0 && senderThread == 0) {
-                SctpNet.close(fdVal);
-                state = ChannelState.KILLED;
+            /* Postpone the kill if there is b wbiting rebder
+             * or writer threbd. */
+            if (receiverThrebd == 0 && senderThrebd == 0) {
+                SctpNet.close(fdVbl);
+                stbte = ChbnnelStbte.KILLED;
             } else {
-                state = ChannelState.KILLPENDING;
+                stbte = ChbnnelStbte.KILLPENDING;
             }
         }
     }
 
     @Override
-    public <T> SctpChannel setOption(SctpSocketOption<T> name, T value)
+    public <T> SctpChbnnel setOption(SctpSocketOption<T> nbme, T vblue)
             throws IOException {
-        if (name == null)
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
 
-            SctpNet.setSocketOption(fdVal, name, value, 0 /*oneToOne*/);
+            SctpNet.setSocketOption(fdVbl, nbme, vblue, 0 /*oneToOne*/);
         }
         return this;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getOption(SctpSocketOption<T> name) throws IOException {
-        if (name == null)
+    @SuppressWbrnings("unchecked")
+    public <T> T getOption(SctpSocketOption<T> nbme) throws IOException {
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
 
-            return (T)SctpNet.getSocketOption(fdVal, name, 0 /*oneToOne*/);
+            return (T)SctpNet.getSocketOption(fdVbl, nbme, 0 /*oneToOne*/);
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SctpSocketOption<?>> defaultOptions = defaultOptions();
+    privbte stbtic clbss DefbultOptionsHolder {
+        stbtic finbl Set<SctpSocketOption<?>> defbultOptions = defbultOptions();
 
-        private static Set<SctpSocketOption<?>> defaultOptions() {
-            HashSet<SctpSocketOption<?>> set = new HashSet<SctpSocketOption<?>>(10);
-            set.add(SCTP_DISABLE_FRAGMENTS);
-            set.add(SCTP_EXPLICIT_COMPLETE);
-            set.add(SCTP_FRAGMENT_INTERLEAVE);
-            set.add(SCTP_INIT_MAXSTREAMS);
-            set.add(SCTP_NODELAY);
-            set.add(SCTP_PRIMARY_ADDR);
-            set.add(SCTP_SET_PEER_PRIMARY_ADDR);
-            set.add(SO_SNDBUF);
-            set.add(SO_RCVBUF);
-            set.add(SO_LINGER);
-            return Collections.unmodifiableSet(set);
+        privbte stbtic Set<SctpSocketOption<?>> defbultOptions() {
+            HbshSet<SctpSocketOption<?>> set = new HbshSet<SctpSocketOption<?>>(10);
+            set.bdd(SCTP_DISABLE_FRAGMENTS);
+            set.bdd(SCTP_EXPLICIT_COMPLETE);
+            set.bdd(SCTP_FRAGMENT_INTERLEAVE);
+            set.bdd(SCTP_INIT_MAXSTREAMS);
+            set.bdd(SCTP_NODELAY);
+            set.bdd(SCTP_PRIMARY_ADDR);
+            set.bdd(SCTP_SET_PEER_PRIMARY_ADDR);
+            set.bdd(SO_SNDBUF);
+            set.bdd(SO_RCVBUF);
+            set.bdd(SO_LINGER);
+            return Collections.unmodifibbleSet(set);
         }
     }
 
     @Override
-    public final Set<SctpSocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
+    public finbl Set<SctpSocketOption<?>> supportedOptions() {
+        return DefbultOptionsHolder.defbultOptions;
     }
 
     @Override
-    public <T> MessageInfo receive(ByteBuffer buffer,
-                                   T attachment,
-                                   NotificationHandler<T> handler)
+    public <T> MessbgeInfo receive(ByteBuffer buffer,
+                                   T bttbchment,
+                                   NotificbtionHbndler<T> hbndler)
             throws IOException {
-        return receive(buffer, attachment, handler, false);
+        return receive(buffer, bttbchment, hbndler, fblse);
     }
 
-    private <T> MessageInfo receive(ByteBuffer buffer,
-                                    T attachment,
-                                    NotificationHandler<T> handler,
-                                    boolean fromConnect)
+    privbte <T> MessbgeInfo receive(ByteBuffer buffer,
+                                    T bttbchment,
+                                    NotificbtionHbndler<T> hbndler,
+                                    boolebn fromConnect)
             throws IOException {
         if (buffer == null)
-            throw new IllegalArgumentException("buffer cannot be null");
+            throw new IllegblArgumentException("buffer cbnnot be null");
 
-        if (buffer.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
+        if (buffer.isRebdOnly())
+            throw new IllegblArgumentException("Rebd-only buffer");
 
         if (receiveInvoked.get())
-            throw new IllegalReceiveException(
-                    "cannot invoke receive from handler");
-        receiveInvoked.set(Boolean.TRUE);
+            throw new IllegblReceiveException(
+                    "cbnnot invoke receive from hbndler");
+        receiveInvoked.set(Boolebn.TRUE);
 
         try {
-            ResultContainer resultContainer = new ResultContainer();
+            ResultContbiner resultContbiner = new ResultContbiner();
             do {
-                resultContainer.clear();
+                resultContbiner.clebr();
                 synchronized (receiveLock) {
                     if (!ensureReceiveOpen())
                         return null;
@@ -768,197 +768,197 @@ public class SctpChannelImpl extends SctpChannel
                     try {
                         begin();
 
-                        synchronized (stateLock) {
+                        synchronized (stbteLock) {
                             if(!isOpen())
                                 return null;
-                            receiverThread = NativeThread.current();
+                            receiverThrebd = NbtiveThrebd.current();
                         }
 
                         do {
-                            n = receive(fdVal, buffer, resultContainer, fromConnect);
-                        } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                    } finally {
-                        receiverCleanup();
-                        end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                        assert IOStatus.check(n);
+                            n = receive(fdVbl, buffer, resultContbiner, fromConnect);
+                        } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+                    } finblly {
+                        receiverClebnup();
+                        end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                        bssert IOStbtus.check(n);
                     }
 
-                    if (!resultContainer.isNotification()) {
-                        /* message or nothing */
-                        if (resultContainer.hasSomething()) {
-                            /* Set the association before returning */
-                            MessageInfoImpl info =
-                                    resultContainer.getMessageInfo();
-                            synchronized (stateLock) {
-                                assert association != null;
-                                info.setAssociation(association);
+                    if (!resultContbiner.isNotificbtion()) {
+                        /* messbge or nothing */
+                        if (resultContbiner.hbsSomething()) {
+                            /* Set the bssocibtion before returning */
+                            MessbgeInfoImpl info =
+                                    resultContbiner.getMessbgeInfo();
+                            synchronized (stbteLock) {
+                                bssert bssocibtion != null;
+                                info.setAssocibtion(bssocibtion);
                             }
                             return info;
                         } else
-                            /* Non-blocking may return null if nothing available*/
+                            /* Non-blocking mby return null if nothing bvbilbble*/
                             return null;
-                    } else { /* notification */
-                        synchronized (stateLock) {
-                            handleNotificationInternal(
-                                    resultContainer);
+                    } else { /* notificbtion */
+                        synchronized (stbteLock) {
+                            hbndleNotificbtionInternbl(
+                                    resultContbiner);
                         }
                     }
 
                     if (fromConnect)  {
-                        /* If we reach here, then it was connect that invoked
-                         * receive and received the COMM_UP. We have already
-                         * handled the COMM_UP with the internal notification
-                         * handler. Simply return. */
+                        /* If we rebch here, then it wbs connect thbt invoked
+                         * receive bnd received the COMM_UP. We hbve blrebdy
+                         * hbndled the COMM_UP with the internbl notificbtion
+                         * hbndler. Simply return. */
                         return null;
                     }
                 }  /* receiveLock */
-            } while (handler == null ? true :
-                (invokeNotificationHandler(resultContainer, handler, attachment)
-                 == HandlerResult.CONTINUE));
+            } while (hbndler == null ? true :
+                (invokeNotificbtionHbndler(resultContbiner, hbndler, bttbchment)
+                 == HbndlerResult.CONTINUE));
 
             return null;
-        } finally {
-            receiveInvoked.set(Boolean.FALSE);
+        } finblly {
+            receiveInvoked.set(Boolebn.FALSE);
         }
     }
 
-    private int receive(int fd,
+    privbte int receive(int fd,
                         ByteBuffer dst,
-                        ResultContainer resultContainer,
-                        boolean peek)
+                        ResultContbiner resultContbiner,
+                        boolebn peek)
             throws IOException {
         int pos = dst.position();
         int lim = dst.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
-        if (dst instanceof DirectBuffer && rem > 0)
-            return receiveIntoNativeBuffer(fd, resultContainer, dst, rem, pos, peek);
+        if (dst instbnceof DirectBuffer && rem > 0)
+            return receiveIntoNbtiveBuffer(fd, resultContbiner, dst, rem, pos, peek);
 
-        /* Substitute a native buffer */
-        int newSize = Math.max(rem, 1);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(newSize);
+        /* Substitute b nbtive buffer */
+        int newSize = Mbth.mbx(rem, 1);
+        ByteBuffer bb = Util.getTemporbryDirectBuffer(newSize);
         try {
-            int n = receiveIntoNativeBuffer(fd, resultContainer, bb, newSize, 0, peek);
+            int n = receiveIntoNbtiveBuffer(fd, resultContbiner, bb, newSize, 0, peek);
             bb.flip();
             if (n > 0 && rem > 0)
                 dst.put(bb);
             return n;
-        } finally {
-            Util.releaseTemporaryDirectBuffer(bb);
+        } finblly {
+            Util.relebseTemporbryDirectBuffer(bb);
         }
     }
 
-    private int receiveIntoNativeBuffer(int fd,
-                                        ResultContainer resultContainer,
+    privbte int receiveIntoNbtiveBuffer(int fd,
+                                        ResultContbiner resultContbiner,
                                         ByteBuffer bb,
                                         int rem,
                                         int pos,
-                                        boolean peek)
+                                        boolebn peek)
         throws IOException
     {
-        int n = receive0(fd, resultContainer, ((DirectBuffer)bb).address() + pos, rem, peek);
+        int n = receive0(fd, resultContbiner, ((DirectBuffer)bb).bddress() + pos, rem, peek);
 
         if (n > 0)
             bb.position(pos + n);
         return n;
     }
 
-    private InternalNotificationHandler internalNotificationHandler =
-            new InternalNotificationHandler();
+    privbte InternblNotificbtionHbndler internblNotificbtionHbndler =
+            new InternblNotificbtionHbndler();
 
-    private void handleNotificationInternal(ResultContainer resultContainer)
+    privbte void hbndleNotificbtionInternbl(ResultContbiner resultContbiner)
     {
-        invokeNotificationHandler(resultContainer,
-                internalNotificationHandler, null);
+        invokeNotificbtionHbndler(resultContbiner,
+                internblNotificbtionHbndler, null);
     }
 
-    private class InternalNotificationHandler
-            extends AbstractNotificationHandler<Object>
+    privbte clbss InternblNotificbtionHbndler
+            extends AbstrbctNotificbtionHbndler<Object>
     {
         @Override
-        public HandlerResult handleNotification(
-                AssociationChangeNotification not, Object unused) {
-            if (not.event().equals(
-                    AssociationChangeNotification.AssocChangeEvent.COMM_UP) &&
-                    association == null) {
-                AssociationChange sac = (AssociationChange) not;
-                association = new AssociationImpl
-                       (sac.assocId(), sac.maxInStreams(), sac.maxOutStreams());
+        public HbndlerResult hbndleNotificbtion(
+                AssocibtionChbngeNotificbtion not, Object unused) {
+            if (not.event().equbls(
+                    AssocibtionChbngeNotificbtion.AssocChbngeEvent.COMM_UP) &&
+                    bssocibtion == null) {
+                AssocibtionChbnge sbc = (AssocibtionChbnge) not;
+                bssocibtion = new AssocibtionImpl
+                       (sbc.bssocId(), sbc.mbxInStrebms(), sbc.mbxOutStrebms());
             }
-            return HandlerResult.CONTINUE;
+            return HbndlerResult.CONTINUE;
         }
     }
 
-    private <T> HandlerResult invokeNotificationHandler
-                                 (ResultContainer resultContainer,
-                                  NotificationHandler<T> handler,
-                                  T attachment) {
-        SctpNotification notification = resultContainer.notification();
-        synchronized (stateLock) {
-            notification.setAssociation(association);
+    privbte <T> HbndlerResult invokeNotificbtionHbndler
+                                 (ResultContbiner resultContbiner,
+                                  NotificbtionHbndler<T> hbndler,
+                                  T bttbchment) {
+        SctpNotificbtion notificbtion = resultContbiner.notificbtion();
+        synchronized (stbteLock) {
+            notificbtion.setAssocibtion(bssocibtion);
         }
 
-        if (!(handler instanceof AbstractNotificationHandler)) {
-            return handler.handleNotification(notification, attachment);
+        if (!(hbndler instbnceof AbstrbctNotificbtionHbndler)) {
+            return hbndler.hbndleNotificbtion(notificbtion, bttbchment);
         }
 
-        /* AbstractNotificationHandler */
-        AbstractNotificationHandler<T> absHandler =
-                (AbstractNotificationHandler<T>)handler;
-        switch(resultContainer.type()) {
-            case ASSOCIATION_CHANGED :
-                return absHandler.handleNotification(
-                        resultContainer.getAssociationChanged(), attachment);
-            case PEER_ADDRESS_CHANGED :
-                return absHandler.handleNotification(
-                        resultContainer.getPeerAddressChanged(), attachment);
-            case SEND_FAILED :
-                return absHandler.handleNotification(
-                        resultContainer.getSendFailed(), attachment);
-            case SHUTDOWN :
-                return absHandler.handleNotification(
-                        resultContainer.getShutdown(), attachment);
-            default :
-                /* implementation specific handlers */
-                return absHandler.handleNotification(
-                        resultContainer.notification(), attachment);
-        }
-    }
-
-    private void checkAssociation(Association sendAssociation) {
-        synchronized (stateLock) {
-            if (sendAssociation != null && !sendAssociation.equals(association)) {
-                throw new IllegalArgumentException(
-                        "Cannot send to another association");
-            }
+        /* AbstrbctNotificbtionHbndler */
+        AbstrbctNotificbtionHbndler<T> bbsHbndler =
+                (AbstrbctNotificbtionHbndler<T>)hbndler;
+        switch(resultContbiner.type()) {
+            cbse ASSOCIATION_CHANGED :
+                return bbsHbndler.hbndleNotificbtion(
+                        resultContbiner.getAssocibtionChbnged(), bttbchment);
+            cbse PEER_ADDRESS_CHANGED :
+                return bbsHbndler.hbndleNotificbtion(
+                        resultContbiner.getPeerAddressChbnged(), bttbchment);
+            cbse SEND_FAILED :
+                return bbsHbndler.hbndleNotificbtion(
+                        resultContbiner.getSendFbiled(), bttbchment);
+            cbse SHUTDOWN :
+                return bbsHbndler.hbndleNotificbtion(
+                        resultContbiner.getShutdown(), bttbchment);
+            defbult :
+                /* implementbtion specific hbndlers */
+                return bbsHbndler.hbndleNotificbtion(
+                        resultContbiner.notificbtion(), bttbchment);
         }
     }
 
-    private void checkStreamNumber(int streamNumber) {
-        synchronized (stateLock) {
-            if (association != null) {
-                if (streamNumber < 0 ||
-                      streamNumber >= association.maxOutboundStreams())
-                    throw new InvalidStreamException();
+    privbte void checkAssocibtion(Associbtion sendAssocibtion) {
+        synchronized (stbteLock) {
+            if (sendAssocibtion != null && !sendAssocibtion.equbls(bssocibtion)) {
+                throw new IllegblArgumentException(
+                        "Cbnnot send to bnother bssocibtion");
             }
         }
     }
 
-    /* TODO: Add support for ttl and isComplete to both 121 12M
-     *       SCTP_EOR not yet supported on reference platforms
+    privbte void checkStrebmNumber(int strebmNumber) {
+        synchronized (stbteLock) {
+            if (bssocibtion != null) {
+                if (strebmNumber < 0 ||
+                      strebmNumber >= bssocibtion.mbxOutboundStrebms())
+                    throw new InvblidStrebmException();
+            }
+        }
+    }
+
+    /* TODO: Add support for ttl bnd isComplete to both 121 12M
+     *       SCTP_EOR not yet supported on reference plbtforms
      *       TTL support limited...
      */
     @Override
-    public int send(ByteBuffer buffer, MessageInfo messageInfo)
+    public int send(ByteBuffer buffer, MessbgeInfo messbgeInfo)
             throws IOException {
         if (buffer == null)
-            throw new IllegalArgumentException("buffer cannot be null");
+            throw new IllegblArgumentException("buffer cbnnot be null");
 
-        if (messageInfo == null)
-            throw new IllegalArgumentException("messageInfo cannot be null");
+        if (messbgeInfo == null)
+            throw new IllegblArgumentException("messbgeInfo cbnnot be null");
 
-        checkAssociation(messageInfo.association());
-        checkStreamNumber(messageInfo.streamNumber());
+        checkAssocibtion(messbgeInfo.bssocibtion());
+        checkStrebmNumber(messbgeInfo.strebmNumber());
 
         synchronized (sendLock) {
             ensureSendOpen();
@@ -967,153 +967,153 @@ public class SctpChannelImpl extends SctpChannel
             try {
                 begin();
 
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if(!isOpen())
                         return 0;
-                    senderThread = NativeThread.current();
+                    senderThrebd = NbtiveThrebd.current();
                 }
 
                 do {
-                    n = send(fdVal, buffer, messageInfo);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                    n = send(fdVbl, buffer, messbgeInfo);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
 
-                return IOStatus.normalize(n);
-            } finally {
-                senderCleanup();
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                return IOStbtus.normblize(n);
+            } finblly {
+                senderClebnup();
+                end((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssert IOStbtus.check(n);
             }
         }
     }
 
-    private int send(int fd, ByteBuffer src, MessageInfo messageInfo)
+    privbte int send(int fd, ByteBuffer src, MessbgeInfo messbgeInfo)
             throws IOException {
-        int streamNumber = messageInfo.streamNumber();
-        SocketAddress target = messageInfo.address();
-        boolean unordered = messageInfo.isUnordered();
-        int ppid = messageInfo.payloadProtocolID();
+        int strebmNumber = messbgeInfo.strebmNumber();
+        SocketAddress tbrget = messbgeInfo.bddress();
+        boolebn unordered = messbgeInfo.isUnordered();
+        int ppid = messbgeInfo.pbylobdProtocolID();
 
-        if (src instanceof DirectBuffer)
-            return sendFromNativeBuffer(fd, src, target, streamNumber,
+        if (src instbnceof DirectBuffer)
+            return sendFromNbtiveBuffer(fd, src, tbrget, strebmNumber,
                     unordered, ppid);
 
-        /* Substitute a native buffer */
+        /* Substitute b nbtive buffer */
         int pos = src.position();
         int lim = src.limit();
-        assert (pos <= lim && streamNumber >= 0);
+        bssert (pos <= lim && strebmNumber >= 0);
 
         int rem = (pos <= lim ? lim - pos : 0);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
+        ByteBuffer bb = Util.getTemporbryDirectBuffer(rem);
         try {
             bb.put(src);
             bb.flip();
-            /* Do not update src until we see how many bytes were written */
+            /* Do not updbte src until we see how mbny bytes were written */
             src.position(pos);
 
-            int n = sendFromNativeBuffer(fd, bb, target, streamNumber,
+            int n = sendFromNbtiveBuffer(fd, bb, tbrget, strebmNumber,
                     unordered, ppid);
             if (n > 0) {
-                /* now update src */
+                /* now updbte src */
                 src.position(pos + n);
             }
             return n;
-        } finally {
-            Util.releaseTemporaryDirectBuffer(bb);
+        } finblly {
+            Util.relebseTemporbryDirectBuffer(bb);
         }
     }
 
-    private int sendFromNativeBuffer(int fd,
+    privbte int sendFromNbtiveBuffer(int fd,
                                      ByteBuffer bb,
-                                     SocketAddress target,
-                                     int streamNumber,
-                                     boolean unordered,
+                                     SocketAddress tbrget,
+                                     int strebmNumber,
+                                     boolebn unordered,
                                      int ppid)
             throws IOException {
-        InetAddress addr = null;     // no preferred address
+        InetAddress bddr = null;     // no preferred bddress
         int port = 0;
-        if (target != null) {
-            InetSocketAddress isa = Net.checkAddress(target);
-            addr = isa.getAddress();
-            port = isa.getPort();
+        if (tbrget != null) {
+            InetSocketAddress isb = Net.checkAddress(tbrget);
+            bddr = isb.getAddress();
+            port = isb.getPort();
         }
 
         int pos = bb.position();
         int lim = bb.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
-        int written = send0(fd, ((DirectBuffer)bb).address() + pos, rem, addr,
-                            port, -1 /*121*/, streamNumber, unordered, ppid);
+        int written = send0(fd, ((DirectBuffer)bb).bddress() + pos, rem, bddr,
+                            port, -1 /*121*/, strebmNumber, unordered, ppid);
         if (written > 0)
             bb.position(pos + written);
         return written;
     }
 
     @Override
-    public SctpChannel shutdown() throws IOException {
-        synchronized(stateLock) {
+    public SctpChbnnel shutdown() throws IOException {
+        synchronized(stbteLock) {
             if (isShutdown)
                 return this;
 
             ensureSendOpen();
-            SctpNet.shutdown(fdVal, -1);
-            if (senderThread != 0)
-                NativeThread.signal(senderThread);
+            SctpNet.shutdown(fdVbl, -1);
+            if (senderThrebd != 0)
+                NbtiveThrebd.signbl(senderThrebd);
             isShutdown = true;
         }
         return this;
     }
 
     @Override
-    public Set<SocketAddress> getAllLocalAddresses()
+    public Set<SocketAddress> getAllLocblAddresses()
             throws IOException {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isBound())
                 return Collections.emptySet();
 
-            return SctpNet.getLocalAddresses(fdVal);
+            return SctpNet.getLocblAddresses(fdVbl);
         }
     }
 
     @Override
     public Set<SocketAddress> getRemoteAddresses()
             throws IOException {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isConnected() || isShutdown)
                 return Collections.emptySet();
 
             try {
-                return SctpNet.getRemoteAddresses(fdVal, 0/*unused*/);
-            } catch (SocketException unused) {
-                /* an open connected channel should always have remote addresses */
+                return SctpNet.getRemoteAddresses(fdVbl, 0/*unused*/);
+            } cbtch (SocketException unused) {
+                /* bn open connected chbnnel should blwbys hbve remote bddresses */
                 return remoteAddresses;
             }
         }
     }
 
-    /* Native */
-    private static native void initIDs();
+    /* Nbtive */
+    privbte stbtic nbtive void initIDs();
 
-    static native int receive0(int fd, ResultContainer resultContainer,
-            long address, int length, boolean peek) throws IOException;
+    stbtic nbtive int receive0(int fd, ResultContbiner resultContbiner,
+            long bddress, int length, boolebn peek) throws IOException;
 
-    static native int send0(int fd, long address, int length,
-            InetAddress addr, int port, int assocId, int streamNumber,
-            boolean unordered, int ppid) throws IOException;
+    stbtic nbtive int send0(int fd, long bddress, int length,
+            InetAddress bddr, int port, int bssocId, int strebmNumber,
+            boolebn unordered, int ppid) throws IOException;
 
-    private static native int checkConnect(FileDescriptor fd, boolean block,
-            boolean ready) throws IOException;
+    privbte stbtic nbtive int checkConnect(FileDescriptor fd, boolebn block,
+            boolebn rebdy) throws IOException;
 
-    static {
-        IOUtil.load();   /* loads nio & net native libraries */
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        IOUtil.lobd();   /* lobds nio & net nbtive librbries */
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("sctp");
+                    System.lobdLibrbry("sctp");
                     return null;
                 }
             });
